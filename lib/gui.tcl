@@ -91,13 +91,13 @@ namespace eval gui {
     # Create tab popup
     set widgets(menu) [menu .nb.popupMenu -tearoff 0]
     $widgets(menu) add command -label "Close Tab" -command {
-      close_current
+      gui::close_current
     }
     $widgets(menu) add command -label "Close Other Tab(s)" -command {
-      close_others
+      gui::close_others
     }
     $widgets(menu) add command -label "Close All Tabs" -command {
-      close_all
+      gui::close_all
     }
     
     # Pack the notebook
@@ -133,10 +133,10 @@ namespace eval gui {
     variable widgets
     variable filenames
   
+    # Add the tab to the editor frame
+    set w [insert_tab $index [file tail $fname]]
+      
     if {![catch "open $fname r" rc]} {
-    
-      # Add the tab to the editor frame
-      set w [insert_tab $index [file tail $fname]]
     
       # Read the file contents and insert them
       $w.tf.txt insert end [read $rc]
@@ -144,24 +144,20 @@ namespace eval gui {
       # Close the file
       close $rc
       
-      # Insert the filenames
-      set filenames [linsert $filenames [$widgets(nb) index $w] $fname]
-      
       # Highlight the text
       $w.tf.txt highlight 1.0 end
       
-      # Change the tab text
-      $widgets(nb) tab [$widgets(nb) index $w] -text [file tail [lindex $filenames $index]]
-    
       # Change the text to unmodified
       $w.tf.txt edit modified false
       
-    } else {
-    
-      tk_messageBox -title Error -icon error -parent . -message "Unable to read $fname" -detail $rc
-      
     }
-  
+      
+    # Insert the filenames
+    set filenames [linsert $filenames [$widgets(nb) index $w] $fname]
+      
+    # Change the tab text
+    $widgets(nb) tab [$widgets(nb) index $w] -text [file tail [lindex $filenames $index]]
+
   }
   
   ######################################################################
@@ -256,9 +252,17 @@ namespace eval gui {
       }
     }
     
+    # Remove bindings
+    indent::remove_bindings [current_txt]
+    
+    # Add a new file if we have no more tabs
+    if {[llength [$widgets(nb) tabs]] == 1} {
+      add_new_file end
+    }
+    
     # Remove the tab
     $widgets(nb) forget current
-  
+    
   }
   
   ######################################################################
@@ -400,6 +404,9 @@ namespace eval gui {
     pack $tab_frame.tf -fill both -expand yes
     pack $tab_frame.if -fill x
     
+    # Add the text bindings
+    indent::add_bindings $tab_frame.tf.txt
+    
     # Add the new tab to the notebook
     $widgets(nb) insert $index $tab_frame -text $title
     
@@ -451,6 +458,7 @@ namespace eval gui {
     ctext::addHighlightClassForRegexp         $w paths          "lightblue"         {\.[a-zA-Z0-9\_\-]+}
     ctext::addHighlightClassForRegexp         $w strings        "pink"              {\"[^\"]*\"}
     ctext::addHighlightClassForRegexp         $w comments       "grey"              {#[^\n\r]*}
+    ctext::addHighlightClassForRegexp         $w fixme          "yellow"            {FIXME}
   
     return $w
   

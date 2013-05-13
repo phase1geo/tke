@@ -17,6 +17,7 @@ package require tablelist
 
 source [file join $tke_dir utils.tcl]
 source [file join $tke_dir gui.tcl]
+source [file join $tke_dir indent.tcl]
 source [file join $tke_dir menus.tcl]
 source [file join $tke_dir launcher.tcl]
 source [file join $tke_dir plugins.tcl]

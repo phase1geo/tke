@@ -8,6 +8,7 @@ namespace eval launcher {
   variable launcher_file  [file join $::tke_home launcher.dat]
   variable closed         0
   variable match_commands {}
+  variable last_calc      ""
   
   array set read_commands {}
   array set commands      {}
@@ -72,7 +73,7 @@ namespace eval launcher {
       wm overrideredirect $widgets(win) 1
       wm transient        $widgets(win) .
 
-      set widgets(entry) [ttk::entry $widgets(win).entry -width 50 -validate key -validatecommand "launcher::lookup %P" -invalidcommand {bell} -font $options(-entryfont)]
+      set widgets(entry) [ttk::entry $widgets(win).entry -width 50 -validate key -validatecommand "launcher::lookup %P" -invalidcommand {bell}]
       set widgets(lb)    [listbox    $widgets(win).lb    -exportselection 0 -bg white -height 0 -listvariable launcher::match_commands]
 
       pack $widgets(entry) -fill x
@@ -164,7 +165,7 @@ namespace eval launcher {
   
   ######################################################################
   # Adds a new command that is registered for use by the widget.
-  proc register {name command {validate_cmd "launcher::okay"}} {
+  proc register {name command {validate_cmd "launcher::okay"} {auto_register 0}} {
 
     variable commands
     variable read_commands
@@ -179,7 +180,7 @@ namespace eval launcher {
     # Create default values
     set count        0
     set search_str   ""
-    set command_name [get_command_name $top $validate_cmd $name]
+    set command_name [get_command_name $name $validate_cmd]
 
     # Update the commands array
     if {[llength [array names commands $command_name]] == 0} {
@@ -267,6 +268,8 @@ namespace eval launcher {
     variable commands
     variable matches
     variable options
+    variable match_commands
+    variable command_names
 
     if {$value ne ""} {
 
@@ -283,12 +286,12 @@ namespace eval launcher {
         if {$match_num > $options(-results)} {
           set match_num $options(-results)
         }
-        $widgets(lb) configure -height [expr ($match_num * 2) + 2]
+        $widgets(lb) configure -height $match_num
 
         # Update the table
         set match_commands [list]
         for {set i 0} {$i < $match_num} {incr i} {
-          lappend match_commands $value
+          lappend match_commands [lindex $matches $i $command_names(name)]
         }
 
         # Bind up/down and return keys
@@ -299,7 +302,7 @@ namespace eval launcher {
         # Set tablelist selection to the first entry
         select $widgets(lb) 0
 
-        # Pack the tablelist, if it isn't already
+        # Pack the listbox, if it isn't already
         if {[catch "pack info $widgets(lb)"]} {    
           pack $widgets(lb) -fill both -expand yes
         }
@@ -501,7 +504,7 @@ namespace eval launcher {
     variable commands
     variable last_calc
 
-    set last_command_name [get_command_name launcher::calc_okay $last_calc]
+    set last_command_name [get_command_name $last_calc launcher::calc_okay]
 
     # Check to see if the string is a valid Tcl expression
     if {![catch "expr $str" rc]} {
