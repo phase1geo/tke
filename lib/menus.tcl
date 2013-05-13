@@ -45,6 +45,9 @@ namespace eval menus {
     $mb add command -label "Close"      -underline 0 -command "menus::close_command"
     $mb add separator
     $mb add command -label "Quit tke"   -underline 0 -command "menus::exit_command"
+
+    # Apply the menu settings for the current menu
+    bindings::apply $mb
   
   }
   
@@ -60,8 +63,10 @@ namespace eval menus {
   # Opens a new file and adds a new tab for the file.
   proc open_command {} {
   
-    if {[set ofile [tk_getOpenFile -parent . -initialdir [pwd] -defaultextension .tcl]] ne ""} {
-      gui::add_file end $ofile
+    if {[set ofiles [tk_getOpenFile -parent . -initialdir [pwd] -defaultextension .tcl -multiple 1]] ne ""} {
+      foreach ofile $ofiles {
+        gui::add_file end $ofile
+      }
     }
   
   }
@@ -122,7 +127,11 @@ namespace eval menus {
     $mb add command -label "Cut"   -underline 0 -command "gui::cut"
     $mb add command -label "Copy"  -underline 1 -command "gui::copy"
     $mb add command -label "Paste" -underline 0 -command "gui::paste"
+
+    # Apply the menu settings for the edit menu
+    bindings::apply $mb
   
   }
   
 }
+

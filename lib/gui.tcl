@@ -165,6 +165,37 @@ namespace eval gui {
   }
   
   ######################################################################
+  # Add a list of files to the editor panel and raise the window to
+  # make it visible.
+  proc add_files_and_raise {index args} {
+  
+    # Add the list of files to the editor panel.
+    foreach fname [lreverse $args] {
+      add_file $index $fname
+    }
+    
+    # Raise ourselves
+    raise_window
+  
+  }
+  
+  ######################################################################
+  # Raise ourself to the top.
+  proc raise_window {} {
+  
+    variable widgets
+    
+    # If the notebook widget doesn't exist this will cause an error to occur.
+    if {$widgets(nb) ne ""} {
+  
+      wm withdraw  .
+      wm deiconify .
+      
+    }
+  
+  }
+  
+  ######################################################################
   # Returns the filename of the current tab.
   proc current_filename {} {
   
