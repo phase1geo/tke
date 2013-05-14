@@ -1,14 +1,17 @@
 # Name:    gui.tcl
 # Author:  Trevor Williams  (phase1geo@gmail.com)
 # Date:    5/11/2013
-# Brief:   Contains all of the main GUI elements for the editor
+# Brief:   Contains all of the main GUI elements for the editor and
+#          their behavior.
 
 namespace eval gui {
 
-  variable curr_id    0
-  variable filenames  {}
-  variable nb_index   0
-  variable nb_current ""
+  variable curr_id       0
+  variable filenames     {}
+  variable nb_index      0
+  variable nb_current    ""
+  variable geometry_file [file join $::tke_home geometry.dat]
+  variable search_counts {}
 
   array set widgets {}
   
@@ -21,6 +24,9 @@ namespace eval gui {
   proc create {} {
   
     variable widgets
+    
+    # Load the geometry information
+    load_geometry
     
     wm title . "tke"
     # FIXME: wm iconphoto FOOBAR
@@ -51,32 +57,9 @@ namespace eval gui {
     # Create editor notebook
     $widgets(pw) add [set widgets(nb) [ttk::notebook .nb]]
 
-    bind $widgets(nb) <ButtonPress-1> {
-      if {[set tabid [%W index @%x,%y]] ne ""} {
-        set gui::nb_current $tabid
-        set gui::last_x     %x
-      } else {
-        set gui::nb_current ""
-      }
-    }
-    bind $widgets(nb) <B1-Motion> {
-      if {[set tabid [%W index @%x,%y]] ne ""} {
-        if {($gui::nb_current ne "") && \
-            ((($gui::nb_current > $tabid) && (%x < $gui::last_x)) || \
-             (($gui::nb_current < $tabid) && (%x > $gui::last_x)))} {
-          set tab   [lindex [%W tabs] $gui::nb_current]
-          set title [%W tab $gui::nb_current -text]
-          %W forget $gui::nb_current
-          %W insert $tabid $tab -text $title
-          %W select $tabid
-          set gui::nb_current $tabid
-        }
-        set gui::last_x %x
-      }
-    }
-    bind $widgets(nb) <ButtonRelease-1> {
-      set gui::nb_current ""
-    }
+    bind $widgets(nb) <ButtonPress-1>   { gui::tab_move_start %W %x %y }
+    bind $widgets(nb) <B1-Motion>       { gui::tab_move_motion %W %x %y }
+    bind $widgets(nb) <ButtonRelease-1> { gui::tab_move_end %W %x %y }
     bind $widgets(nb) <Button-3> {
       if {[%W index @%x,%y] eq [%W index current]} {
         if {[llength [%W tabs]] > 1} {
@@ -115,6 +98,86 @@ namespace eval gui {
   }
   
   ######################################################################
+  # Handles a tab move start event.
+  proc tab_move_start {W x y} {
+  
+    variable nb_current
+    variable last_x
+  
+    if {[set tabid [$W index @$x,$y]] ne ""} {
+      set nb_current $tabid
+      set last_x     $x
+    } else {
+      set nb_current ""
+    }
+  
+  }
+  
+  ######################################################################
+  # Handles a tab move motion.
+  proc tab_move_motion {W x y} {
+    
+    variable nb_current
+    variable last_x
+    variable filenames
+    
+    if {[set tabid [$W index @$x,$y]] ne ""} {
+      if {($nb_current ne "") && \
+          ((($nb_current > $tabid) && ($x < $last_x)) || \
+           (($nb_current < $tabid) && ($x > $last_x)))} {
+        set tab       [lindex [$W tabs] $nb_current]
+        set title     [$W tab $nb_current -text]
+        set fname     [lindex $filenames $nb_current]
+        set filenames [lreplace $filenames $nb_current $nb_current]
+        $W forget $nb_current
+        $W insert [expr {($tabid == [$W index end]) ? "end" : $tabid}] $tab -text $title
+        $W select $tabid
+        set filenames  [linsert $filenames $tabid $fname]
+        set nb_current $tabid
+      }
+      set last_x $x
+    }
+    
+  }
+  
+  ######################################################################
+  # Handles the end of a tab move.
+  proc tab_move_end {W x y} {
+
+    variable nb_current
+
+    set nb_current ""
+
+  }
+
+  ######################################################################
+  # Save the window geometry to the geometry.dat file.
+  proc save_geometry {} {
+    
+    variable geometry_file
+    
+    if {![catch "open $geometry_file w" rc]} {
+      puts $rc [wm geometry .]
+      close $rc
+    }
+    
+  }
+  
+  ######################################################################
+  # Loads the geometry information (if it exists) and changes the current
+  # window geometry to match the read value.
+  proc load_geometry {} {
+    
+    variable geometry_file
+    
+    if {![catch "open $geometry_file r" rc]} {
+      wm geometry . [string trim [read $rc]]
+      close $rc
+    }
+    
+  }
+  
+  ######################################################################
   # Adds a new file to the editor pane.
   proc add_new_file {index} {
   
@@ -132,31 +195,44 @@ namespace eval gui {
   
     variable widgets
     variable filenames
-  
-    # Add the tab to the editor frame
-    set w [insert_tab $index [file tail $fname]]
-      
-    if {![catch "open $fname r" rc]} {
     
-      # Read the file contents and insert them
-      $w.tf.txt insert end [read $rc]
+    # If the file is already loaded, display the tab
+    if {[set file_index [lsearch $filenames $fname]] != -1} {
       
-      # Close the file
-      close $rc
+      $widgets(nb) select $file_index
       
-      # Highlight the text
-      $w.tf.txt highlight 1.0 end
+    # Otherwise, load the file in a new tab
+    } else {
+  
+      # Add the tab to the editor frame
+      set w [insert_tab $index [file tail $fname]]
       
-      # Change the text to unmodified
-      $w.tf.txt edit modified false
+      if {![catch "open $fname r" rc]} {
+    
+        # Read the file contents and insert them
+        $w.tf.txt insert end [string range [read $rc] 0 end-1]
+      
+        # Close the file
+        close $rc
+      
+        # Highlight the text
+        $w.tf.txt highlight 1.0 end
+      
+        # Change the text to unmodified
+        $w.tf.txt edit modified false
+        
+        # Set the insertion mark to the first position
+        $w.tf.txt mark set insert 1.0
+      
+      }
+      
+      # Insert the filenames
+      set filenames [linsert $filenames [$widgets(nb) index $w] $fname]
+      
+      # Change the tab text
+      $widgets(nb) tab [$widgets(nb) index $w] -text [file tail [lindex $filenames $index]]
       
     }
-      
-    # Insert the filenames
-    set filenames [linsert $filenames [$widgets(nb) index $w] $fname]
-      
-    # Change the tab text
-    $widgets(nb) tab [$widgets(nb) index $w] -text [file tail [lindex $filenames $index]]
 
   }
   
@@ -167,7 +243,7 @@ namespace eval gui {
   
     # Add the list of files to the editor panel.
     foreach fname [lreverse $args] {
-      add_file $index $fname
+      add_file $index [file normalize $fname]
     }
     
     # Raise ourselves
@@ -244,6 +320,7 @@ namespace eval gui {
   proc close_current {} {
   
     variable widgets
+    variable filenames
     
     # If the file needs to be saved, do it now
     if {[[current_txt] edit modified]} {
@@ -252,8 +329,14 @@ namespace eval gui {
       }
     }
     
+    # Get the index of the current tab
+    set tab_index [$widgets(nb) index current]
+    
     # Remove bindings
     indent::remove_bindings [current_txt]
+    
+    # Delete the file from filenames
+    set filenames [lreplace $filenames $tab_index $tab_index]
     
     # Add a new file if we have no more tabs
     if {[llength [$widgets(nb) tabs]] == 1} {
@@ -361,6 +444,155 @@ namespace eval gui {
  
   }
   
+  ######################################################################
+  # Displays the search bar.
+  proc search {} {
+    
+    variable widgets
+    
+    # Get the current text frame
+    set tab_frame [$widgets(nb) select]
+    
+    # Display the search bar and separator
+    grid $tab_frame.sf
+    grid $tab_frame.sep
+    
+    # Clear the search entry
+    $tab_frame.sf.e delete 0 end
+    
+    # Place the focus on the search bar
+    focus $tab_frame.sf.e
+   
+  }
+  
+  ######################################################################
+  # Closes the search widget.
+  proc close_search {} {
+    
+    variable widgets
+    
+    # Get the current text frame
+    set tab_frame [$widgets(nb) select]
+    
+    # Hide the search frame
+    grid remove $tab_frame.sf
+    grid remove $tab_frame.sep
+    
+    # Put the focus on the text widget
+    focus $tab_frame.tf.txt.t
+     
+  }
+  
+  ######################################################################
+  # Displays the search and replace bar.
+  proc search_and_replace {} {
+    
+  }
+  
+  ######################################################################
+  # Searches for the next occurrence of the search item.
+  proc search_next {app} {
+    
+    variable widgets
+    variable search_counts
+
+    # Get the current tab frame
+    set tab_frame [$widgets(nb) select]
+    
+    # Get the current text widget
+    set txt $tab_frame.tf.txt
+    
+    # Get the search text
+    set value [$tab_frame.sf.e get]
+    
+    # If we are not appending to the selection, clear the selection
+    if {!$app} {
+      $txt tag remove sel 1.0 end
+    }
+    
+    # Search the text widget from the current insertion cursor forward.
+    if {[set match [$txt search -count gui::search_counts -- $value insert]] ne ""} {
+      $txt tag add sel $match "$match+${search_counts}c"
+      $txt mark set insert "$match+${search_counts}c"
+      $txt see $match
+    }
+    
+    # Closes the search interface
+    close_search
+    
+  }
+  
+  ######################################################################
+  # Searches for the previous occurrence of the search item.
+  proc search_previous {app} {
+    
+    variable widgets
+    variable search_counts
+    
+    # Get the current tab frame
+    set tab_frame [$widgets(nb) select]
+    
+    # Get the current text widget
+    set txt $tab_frame.tf.txt
+    
+    # Get the search text
+    set value [$tab_frame.sf.e get]
+    
+    # If we are not appending to the selection, clear the selection
+    if {!$app} {
+      $txt tag remove sel 1.0 end
+    }
+   
+    # Search the text widget from the current insertion cursor forward.
+    if {[set match [$txt search -backwards -count gui::search_counts -- $value insert-[string length $value]c]] ne ""} {
+      $txt tag add sel $match "$match+${search_counts}c"
+      $txt mark set insert "$match+${search_counts}c"
+      $txt see $match
+    }
+    
+    # Close the search interface
+    close_search
+    
+  }
+  
+  ######################################################################
+  # Searches for all of the occurrences and selects them all.
+  proc search_all {} {
+    
+    variable widgets
+    variable search_counts
+    
+    # Get the current tab frame
+    set tab_frame [$widgets(nb) select]
+    
+    # Get the current text widget
+    set txt $tab_frame.tf.txt
+    
+    # Get the search text
+    set value [$tab_frame.sf.e get]
+    
+    # Clear the selection
+    $txt tag remove sel 1.0 end
+    
+    # Search the entire text
+    set i 0
+    set matches [$txt search -count gui::search_counts -all -- $value 1.0]
+    foreach match $matches {
+      $txt tag add sel $match "$match+[lindex $search_counts $i]c"
+      incr i
+    }
+
+    # Make the first line viewable
+    catch {
+      $txt mark set insert "[lindex $matches 0]+[lindex $search_counts 0]c"
+      $txt see [lindex $matches 0]
+    }
+    
+    # Close the search interface
+    close_search
+    
+  }
+  
   ########################
   #  PRIVATE PROCEDURES  #
   ########################
@@ -387,6 +619,7 @@ namespace eval gui {
     ttk::scrollbar $tab_frame.tf.hb -orient horizontal -command "$tab_frame.tf.txt xview"
     
     bind $tab_frame.tf.txt <<Modified>>    "gui::text_changed %W"
+    bind $tab_frame.tf.txt <<Selection>>   "gui::selection_changed %W"
     bind $tab_frame.tf.txt <ButtonPress-1> "after idle [list gui::update_position $tab_frame]"
     bind $tab_frame.tf.txt <B1-Motion>     "gui::update_position $tab_frame"
     bind $tab_frame.tf.txt <KeyRelease>    "gui::update_position $tab_frame"
@@ -400,6 +633,20 @@ namespace eval gui {
     grid $tab_frame.tf.vb  -row 0 -column 1 -sticky ns
     grid $tab_frame.tf.hb  -row 1 -column 0 -sticky ew
     
+    # Create the search bar
+    ttk::frame     $tab_frame.sf
+    ttk::label     $tab_frame.sf.l1 -text "Find:"
+    ttk::entry     $tab_frame.sf.e
+    
+    pack $tab_frame.sf.l1  -side left -padx 2 -pady 2
+    pack $tab_frame.sf.e   -side left -padx 2 -pady 2 -fill x
+    
+    bind $tab_frame.sf.e <Return> "gui::search_next 0"
+    bind $tab_frame.sf.e <Escape> "gui::close_search"
+    
+    # Create separator between search and information bar
+    ttk::separator $tab_frame.sep -orient horizontal
+    
     # Create the information bar
     ttk::frame $tab_frame.if
     pack [ttk::label $tab_frame.if.ll1 -text "Line:"]   -side left -padx 2 -pady 2
@@ -407,8 +654,16 @@ namespace eval gui {
     pack [ttk::label $tab_frame.if.cl1 -text "Column:"] -side left -padx 2 -pady 2
     pack [ttk::label $tab_frame.if.cl2 -text 0]         -side left -padx 2 -pady 2
     
-    pack $tab_frame.tf -fill both -expand yes
-    pack $tab_frame.if -fill x
+    grid rowconfigure    $tab_frame 0 -weight 1
+    grid columnconfigure $tab_frame 0 -weight 1
+    grid $tab_frame.tf  -row 0 -column 0 -sticky news
+    grid $tab_frame.sf  -row 1 -column 0 -sticky ew
+    grid $tab_frame.sep -row 2 -column 0 -sticky ew
+    grid $tab_frame.if  -row 3 -column 0 -sticky ew
+    
+    # Hide the search bar and search separator
+    grid remove $tab_frame.sf
+    grid remove $tab_frame.sep
     
     # Add the text bindings
     indent::add_bindings $tab_frame.tf.txt
@@ -423,10 +678,7 @@ namespace eval gui {
     $widgets(nb) select $adjusted_index
     
     # Give the text widget the focus
-    after idle {
-      focus [gui::current_txt]
-      grab  [gui::current_txt]
-    }
+    focus $tab_frame.tf.txt.t
     
     return $tab_frame
     
@@ -465,7 +717,7 @@ namespace eval gui {
     ctext::addHighlightClass                  $w flags          "orange"            $flags
     ctext::addHighlightClass                  $w stackControl   "red"               $control
     ctext::addHighlightClassWithOnlyCharStart $w vars           "mediumspringgreen" "\$"
-    ctext::addHighlightClass                  $w variable_funcs "gold"              {set global variable unset list array}
+    ctext::addHighlightClass                  $w variable_funcs "gold"              {set global variable unset list array incr}
     ctext::addHighlightClassForSpecialChars   $w brackets       "green"             {[]{}}
     ctext::addHighlightClassForRegexp         $w paths          "lightblue"         {\.[a-zA-Z0-9\_\-]+}
     ctext::addHighlightClassForRegexp         $w strings        "pink"              {\"[^\"]*\"}
@@ -494,12 +746,40 @@ namespace eval gui {
   }
   
   ######################################################################
+  # Handles a change to the current text widget selection.
+  proc selection_changed {txt} {
+    
+    # Get the first range of selected text
+    if {[set range [$txt tag nextrange sel 1.0]] ne ""} {
+      
+      # Get the current search entry field
+      set sentry [current_search]
+      
+      # Set the search frame
+      $sentry delete 0 end
+      $sentry insert end [$txt get {*}$range]
+      
+    }
+    
+  }
+
+  ######################################################################
   # Returns the current text widget pathname.
   proc current_txt {} {
   
     variable widgets
     
     return "[$widgets(nb) select].tf.txt"
+    
+  }
+  
+  ######################################################################
+  # Returns the current search entry pathname.
+  proc current_search {} {
+    
+    variable widgets
+    
+    return "[$widgets(nb) select].sf.e"
     
   }
   
@@ -520,3 +800,4 @@ namespace eval gui {
   }
   
 }
+

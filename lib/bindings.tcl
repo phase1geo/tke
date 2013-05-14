@@ -11,6 +11,10 @@ namespace eval bindings {
   array set menus         {}
   array set menu_bindings {}
   
+  #######################
+  #  PUBLIC PROCEDURES  #
+  #######################
+  
   ######################################################################
   # Loads the bindings information
   proc load {} {
@@ -31,6 +35,10 @@ namespace eval bindings {
     launcher::register "Menu Bindings: Use default menu bindings" "bindings::copy_default"
   
   }
+  
+  ########################
+  #  PRIVATE PROCEDURES  #
+  ########################
   
   ######################################################################
   # Polls on the bindings file in the tke home directory.  Whenever it
@@ -80,7 +88,7 @@ namespace eval bindings {
       if {[$mnu type $i] eq "command"} {
         set label [$mnu entrycget $i -label]
         if {[info exists menu_bindings($mnu/$label)]} {
-          $mnu entryconfigure $i -accelerator [string map {Control Ctrl Shift Shft} $menu_bindings($mnu/$label)]
+          $mnu entryconfigure $i -accelerator [bind_to_accelerator $menu_bindings($mnu/$label)]
           bind all <$menu_bindings($mnu/$label)> "$mnu invoke $i"
         }
       }
@@ -113,14 +121,40 @@ namespace eval bindings {
   }
   
   ######################################################################
+  # Convert the Tcl binding to an appropriate accelerator.
+  proc bind_to_accelerator {value} {
+    
+    set accelerator ""
+    
+    foreach value [split $value -] {
+      switch $value {
+        Control { append accelerator "Ctrl-" }
+        Alt     { append accelerator "Alt-" }
+        default {
+          if {[regexp {^[A-Z]$} $value]} {
+            append accelerator "Shft-$value"
+          } else {
+            append accelerator [string totitle $value]
+          }
+        }
+      }
+    }
+
+    return $accelerator
+    
+  }
+  
+  ######################################################################
   # Copies the default settings to the user's .tke directory.
   proc copy_default {} {
   
     variable bindings_file
     
-    file copy [file join [file dirname $::tke_dir] data [file tail $bindings_file]] $::tke_home
+    file copy -force [file join [file dirname $::tke_dir] data [file tail $bindings_file]] $::tke_home
     
   }
 
 }
+
+
 

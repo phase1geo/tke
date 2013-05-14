@@ -13,7 +13,7 @@ lappend auto_path $tke_dir
 
 package require Tclx
 package require ctext
-package require tablelist
+package require tablelist 5.7
 
 source [file join $tke_dir utils.tcl]
 source [file join $tke_dir preferences.tcl]
@@ -124,8 +124,12 @@ gui::create
 # Populate the GUI with the command-line filelist (if specified)
 if {[llength $cl_files] > 0} {
   foreach cl_file $cl_files {
-    gui::add_file end $cl_file
+    gui::add_file end [file normalize $cl_file]
   }
 } else {
   gui::add_new_file end
 }
+
+
+
+

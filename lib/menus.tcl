@@ -26,6 +26,10 @@ namespace eval menus {
     # Add the edit menu
     $mb add cascade -label "Edit" -menu [menu $mb.edit -tearoff false]
     add_edit $mb.edit
+    
+    # Add the find menu
+    $mb add cascade -label "Find" -menu [menu $mb.find -tearoff false]
+    add_find $mb.find
       
     # Add the tools menu
     $mb add cascade -label "Tools" -menu [menu $mb.tools -tearoff false]
@@ -128,6 +132,9 @@ namespace eval menus {
   
     # Close all of the tabs
     gui::close_all
+    
+    # Save the window geometry
+    gui::save_geometry
   
     # Destroy the interface
     destroy .
@@ -162,6 +169,36 @@ namespace eval menus {
   }
   
   ######################################################################
+  # Add the find menu.
+  proc add_find {mb} {
+    
+    # Add find menu commands
+    $mb add command -label "Find" -underline 0 -command "gui::search"
+    launcher::register "Menu: Find" gui::search
+    
+    $mb add command -label "Find and Replace" -underline 9 -command "gui::search_and_replace"
+    launcher::register "Menu: Find and Replace" gui::search_and_replace
+    
+    $mb add separator
+    
+    $mb add command -label "Select next occurrence" -underline 7 -command "gui::search_next 0"
+    launcher::register "Menu: Find next occurrence" "gui::search_next 0"
+    
+    $mb add command -label "Select previous occurrence" -underline 7 -command "gui::search_previous 0"
+    launcher::register "Menu: Find previous occurrence" "gui::search_previous 0"
+    
+    $mb add command -label "Append next occurrence" -underline 1 -command "gui::search_next 1"
+    launcher::register "Menu: Append next occurrence" "gui::search_next 1"
+    
+    $mb add command -label "Select all occurrences" -underline 7 -command "gui::search_all"
+    launcher::register "Menu: Select all occurrences" "gui::search_all"
+    
+    # Apply the menu settings for the find menu
+    bindings::apply $mb
+    
+  }
+  
+  ######################################################################
   # Adds the tools menu.
   proc add_tools {mb} {
   
@@ -174,4 +211,6 @@ namespace eval menus {
   }
   
 }
+
+
 

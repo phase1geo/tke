@@ -60,8 +60,9 @@ namespace eval preferences {
   
     variable preferences_file
     
-    file copy [file join [file dirname $::tke_dir] data [file tail $preferences_file]] $::tke_home
+    file copy -force [file join [file dirname $::tke_dir] data [file tail $preferences_file]] $::tke_home
     
   }
   
 }
+
