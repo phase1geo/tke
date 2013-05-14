@@ -18,15 +18,17 @@ namespace eval indent {
     
     bind indent$txt <Key-braceleft>   "indent::increment $txt"
     bind indent$txt <Key-braceright>  "indent::decrement $txt"
-    bind indent$txt <Return>          "puts HERE!; indent::newline $txt"
-    # bind $txt <Return> "indent::newline $txt"
+    bind indent$txt <Return>          "indent::newline $txt"
+    bind indent$txt <Key-Up>          "indent::update_indent_level $txt"
+    bind indent$txt <Key-Down>        "indent::update_indent_level $txt"
+    bind indent$txt <Key-Left>        "indent::update_indent_level $txt"
+    bind indent$txt <Key-Right>       "indent::update_indent_level $txt"
+    bind indent$txt <ButtonRelease-1> "indent::update_indent_level $txt"
+    bind indent$txt <Key-Delete>      "indent::update_indent_level $txt"
+    bind indent$txt <Key-BackSpace>   "indent::update_indent_level $txt"
     
     # Add the indentation tag into the bindtags list
     bindtags $txt.t [linsert [bindtags $txt.t] 3 indent$txt]
-    
-    puts "Bindtags: [bindtags $txt.t], bindings: [bind indent$txt]"
-    
-    puts "Ctext bindings: [bind Ctext]"
      
   }
   
@@ -36,7 +38,7 @@ namespace eval indent {
   
     variable indent_levels
     
-    unset indent_levels($txt)
+    catch { unset indent_levels($txt) }
     
   }
   
@@ -46,25 +48,9 @@ namespace eval indent {
   
     variable indent_levels
     
-    if {0} {
-    
-      # Get the index of the insertion point
-      set index [$txt index insert]
-    
-      # Auto-add the completion curly bracket
-      append str "\n"
-      if {$indent_levels($txt) > 0} {
-        append str [string repeat " " [expr $indent_levels($txt) * 2]]
-      }
-      append str "\}"
-      $txt insert insert $str
-    
-      # Set the insertion point
-      $txt mark set insert $index
-      
+    if {[string first "#" [$txt get "insert linestart" insert]] == -1} {
+      incr indent_levels($txt)
     }
-    
-    incr indent_levels($txt)
     
   }
   
@@ -74,7 +60,9 @@ namespace eval indent {
   
     variable indent_levels
     
-    incr indent_levels($txt) -1
+    if {[string first "#" [$txt get "insert linestart" insert]] == -1} {
+      incr indent_levels($txt) -1
+    }
     
     # Remove one indentation of whitespace before the right curly character
     set line [$txt get "insert linestart" insert-1c]
@@ -90,14 +78,60 @@ namespace eval indent {
   
     variable indent_levels
     
-    puts "In indent::newline!  indent_levels: $indent_levels($txt)"
-    
-    # Remove any whitespace on lines with no code
-    
+    # Insert leading whitespace to match current indentation level
     if {$indent_levels($txt) > 0} {
       $txt insert insert [string repeat " " [expr $indent_levels($txt) * 2]]
     }
 
+  }
+  
+  ######################################################################
+  # This procedure is called whenever the insertion cursor moves to a
+  # new spot via keyboard traversal or a left button click.
+  proc update_indent_level {txt} {
+  
+    variable indent_levels
+    
+    # Get the current line
+    set line [$txt get "insert linestart" insert]
+    
+    # First, get the indentation level of the current line
+    regexp {^(\s*)} $line -> leading_whitespace
+    set indent_levels($txt) [expr [string length $leading_whitespace] / 2]
+    
+    # Second, if we have a mismatched brace on the current line,
+    # add an indent level to ourselves
+
+    # If we are in a comment, do nothing
+    if {[string first "#" $line] != -1} {
+      return
+    }
+    
+    set lcount 0
+    set rcount 0
+    
+    # Count the number of left braces in the current line
+    set index 0
+    while {[set index [string first "\{" $line $index]] != -1} {
+      incr lcount
+      incr index
+    }
+    
+    # Count the number of right braces in the current line, if necessary
+    if {$lcount > 0} {
+      set index 0
+      while {[set index [string first "\}" $line $index]] != -1} {
+        incr rcount
+        incr index
+      }
+    }
+    
+    # If the left count is greater then the right count, increment the
+    # indentation level
+    if {$lcount > $rcount} {
+      incr indent_levels($txt)
+    }
+  
   }
   
 }

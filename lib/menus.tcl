@@ -44,28 +44,28 @@ namespace eval menus {
     $mb delete 0 end
   
     $mb add command -label "New"        -underline 0 -command "menus::new_command"
-    launcher::register "New file" menus::new_command
+    launcher::register "Menu: New file" menus::new_command
     
     $mb add command -label "Open..."    -underline 0 -command "menus::open_command"
-    launcher::register "Open file" menus::open_command
+    launcher::register "Menu: Open file" menus::open_command
     
     $mb add separator
     
     $mb add command -label "Save"       -underline 0 -command "menus::save_command"
-    launcher::register "Save file" menus::save_command
+    launcher::register "Menu: Save file" menus::save_command
     
     $mb add command -label "Save As..." -underline 5 -command "menus::save_as_command"
-    launcher::register "Save file as" menus::save_as_command
+    launcher::register "Menu: Save file as" menus::save_as_command
     
     $mb add separator
     
     $mb add command -label "Close"      -underline 0 -command "menus::close_command"
-    launcher::register "Close current tab" menus::close_command
+    launcher::register "Menu: Close current tab" menus::close_command
 
     $mb add separator
 
     $mb add command -label "Quit tke"   -underline 0 -command "menus::exit_command"
-    launcher::register "Quit tke" menus::exit_command
+    launcher::register "Menu: Quit tke" menus::exit_command
 
     # Apply the menu settings for the current menu
     bindings::apply $mb
@@ -140,21 +140,21 @@ namespace eval menus {
     
     # Add edit menu commands
     $mb add command -label "Undo" -underline 0 -command "gui::undo"
-    launcher::register "Undo" gui::undo
+    launcher::register "Menu: Undo" gui::undo
     
     $mb add command -label "Redo" -underline 0 -command "gui::redo"
-    launcher::register "Redo" gui::redo
+    launcher::register "Menu: Redo" gui::redo
     
     $mb add separator
     
     $mb add command -label "Cut"   -underline 0 -command "gui::cut"
-    launcher::register "Cut selected text" gui::cut
+    launcher::register "Menu: Cut selected text" gui::cut
     
     $mb add command -label "Copy"  -underline 1 -command "gui::copy"
-    launcher::register "Copy selected text" gui::copy
+    launcher::register "Menu: Copy selected text" gui::copy
     
     $mb add command -label "Paste" -underline 0 -command "gui::paste"
-    launcher::register "Paste text from clipboard" gui::paste
+    launcher::register "Menu: Paste text from clipboard" gui::paste
 
     # Apply the menu settings for the edit menu
     bindings::apply $mb

@@ -386,7 +386,13 @@ namespace eval gui {
     ttk::scrollbar $tab_frame.tf.vb -orient vertical   -command "$tab_frame.tf.txt yview"
     ttk::scrollbar $tab_frame.tf.hb -orient horizontal -command "$tab_frame.tf.txt xview"
     
-    bind $tab_frame.tf.txt <<Modified>> "gui::text_changed %W"
+    bind $tab_frame.tf.txt <<Modified>>    "gui::text_changed %W"
+    bind $tab_frame.tf.txt <ButtonPress-1> "after idle [list gui::update_position $tab_frame]"
+    bind $tab_frame.tf.txt <B1-Motion>     "gui::update_position $tab_frame"
+    bind $tab_frame.tf.txt <KeyRelease>    "gui::update_position $tab_frame"
+    bind Text <<Cut>>   ""
+    bind Text <<Copy>>  ""
+    bind Text <<Paste>> ""
     
     grid rowconfigure    $tab_frame.tf 0 -weight 1
     grid columnconfigure $tab_frame.tf 0 -weight 1
@@ -407,14 +413,20 @@ namespace eval gui {
     # Add the text bindings
     indent::add_bindings $tab_frame.tf.txt
     
+    # Get the adjusted index
+    set adjusted_index [$widgets(nb) index $index]
+    
     # Add the new tab to the notebook
     $widgets(nb) insert $index $tab_frame -text $title
     
     # Make the new tab the current tab
-    # $widgets(nb) select $index
+    $widgets(nb) select $adjusted_index
     
     # Give the text widget the focus
-    after idle [focus $tab_frame.tf.txt]
+    after idle {
+      focus [gui::current_txt]
+      grab  [gui::current_txt]
+    }
     
     return $tab_frame
     
@@ -489,6 +501,22 @@ namespace eval gui {
     
     return "[$widgets(nb) select].tf.txt"
     
+  }
+  
+  ######################################################################
+  # Updates the current position information in the information bar based
+  # on the current location of the insertion cursor.
+  proc update_position {w} {
+  
+    variable widgets
+    
+    # Get the current position of the insertion cursor
+    lassign [split [$w.tf.txt index insert] .] line column
+    
+    # Update the information widgets
+    $w.if.ll2 configure -text $line
+    $w.if.cl2 configure -text [expr $column + 1]
+  
   }
   
 }

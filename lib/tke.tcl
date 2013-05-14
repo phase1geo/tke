@@ -16,6 +16,7 @@ package require ctext
 package require tablelist
 
 source [file join $tke_dir utils.tcl]
+source [file join $tke_dir preferences.tcl]
 source [file join $tke_dir gui.tcl]
 source [file join $tke_dir indent.tcl]
 source [file join $tke_dir menus.tcl]
@@ -107,6 +108,9 @@ if {[llength $cl_files] > 0} {
 if {![file exists $tke_home]} {
   mkdir $tke_home
 }
+
+# Load the preferences
+preferences::load
 
 # Load the plugins
 plugins::load

@@ -16,12 +16,19 @@ namespace eval bindings {
   proc load {} {
   
     variable bindings_file
+    
+    # If the bindings file does not exist, copy the one from the "data"
+    # directory to the tke_home directory.
+    if {![file exists $bindings_file]} {
+      copy_default
+    }
   
     # Start the polling process on the bindings information
     poll
     
     # Add our launcher commands
-    launcher::register "Edit menu bindings" "gui::add_file end $bindings_file"
+    launcher::register "Menu Bindings: Edit menu bindings"        "gui::add_file end $bindings_file"
+    launcher::register "Menu Bindings: Use default menu bindings" "bindings::copy_default"
   
   }
   
@@ -73,7 +80,7 @@ namespace eval bindings {
       if {[$mnu type $i] eq "command"} {
         set label [$mnu entrycget $i -label]
         if {[info exists menu_bindings($mnu/$label)]} {
-          $mnu entryconfigure $i -accelerator $menu_bindings($mnu/$label)
+          $mnu entryconfigure $i -accelerator [string map {Control Ctrl Shift Shft} $menu_bindings($mnu/$label)]
           bind all <$menu_bindings($mnu/$label)> "$mnu invoke $i"
         }
       }
@@ -102,6 +109,16 @@ namespace eval bindings {
    
     # Delete the menu_bindings array
     array unset menu_bindings
+    
+  }
+  
+  ######################################################################
+  # Copies the default settings to the user's .tke directory.
+  proc copy_default {} {
+  
+    variable bindings_file
+    
+    file copy [file join [file dirname $::tke_dir] data [file tail $bindings_file]] $::tke_home
     
   }
 

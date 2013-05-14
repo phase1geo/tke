@@ -21,11 +21,12 @@ namespace eval launcher {
     validate_cmd 1
   }
   array set command_values {
-    command       0
-    auto_register 1
-    temporary     2
-    count         3
-    search_str    4
+    description   0
+    command       1
+    auto_register 2
+    temporary     3
+    count         4
+    search_str    5
   }
 
   ######################################################################
@@ -192,6 +193,7 @@ namespace eval launcher {
 
     # Create the command list
     set command_value [lrepeat [array size command_values] ""]
+    lset command_value $command_values(description)   $name
     lset command_value $command_values(command)       $command
     lset command_value $command_values(auto_register) $auto_register
     lset command_value $command_values(temporary)     0
@@ -218,6 +220,7 @@ namespace eval launcher {
 
     # Create the command value list
     set command_value [lrepeat [array size command_values] ""]
+    lset command_value $command_values(command)       $name
     lset command_value $command_values(command)       $command
     lset command_value $command_values(auto_register) 0
     lset command_value $command_values(temporary)     1
@@ -237,7 +240,7 @@ namespace eval launcher {
 
     # Create the command name list
     set command_name [lrepeat [array size command_names] ""]
-    lset command_name $command_names(name)         $name
+    lset command_name $command_names(name)         [string tolower $name]
     lset command_name $command_names(validate_cmd) $validate_cmd
 
     return $command_name
@@ -270,6 +273,7 @@ namespace eval launcher {
     variable options
     variable match_commands
     variable command_names
+    variable command_values
 
     if {$value ne ""} {
 
@@ -291,7 +295,7 @@ namespace eval launcher {
         # Update the table
         set match_commands [list]
         for {set i 0} {$i < $match_num} {incr i} {
-          lappend match_commands [lindex $matches $i $command_names(name)]
+          lappend match_commands [lindex $commands([lindex $matches $i]) $command_values(description)]
         }
 
         # Bind up/down and return keys
