@@ -25,6 +25,7 @@ source [file join $tke_dir plugins.tcl]
 source [file join $tke_dir snippets.tcl]
 source [file join $tke_dir bindings.tcl]
 source [file join $tke_dir bgproc.tcl]
+source [file join $tke_dir multicursor.tcl]
 
 ######################################################################
 # Display the usage information to standard output and exits.

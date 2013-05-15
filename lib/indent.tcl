@@ -136,9 +136,44 @@ namespace eval indent {
     set current_line 0
     
     # If we have non-whitespace text to our left, paste the first line as is.
-    if {[regexp {\S+} $line]} {
-      clipboard append [lindex $clipped 0]
-      incr current_line
+    if {[regexp {^\s*$} $line]} {
+      set extra_whitespace [expr ($indent_levels($txt) * 2) - [string length $line]]
+      if {$extra_whitespace > 0} {
+        clipboard append [string repeat " " $extra_whitespace]
+      }
+    }
+    
+    # Append the first line to the clipboard
+    clipboard append [lindex $clipped 0]
+    
+    # If we have more than one line to paste, add the newline to the first
+    if {[llength $clipped] > 1} {
+
+      # Adjust the indent levels, if necessary
+      if {[regexp {\{[^\}]*$} [lindex $clipped 0]]} {
+        incr indent_levels($txt)
+      } elseif {[string index [lindex $clipped 0] 0] eq "\}"} {
+        incr indent_levels($txt) -1
+      }
+
+      # Add the newline and adjust the indent levels if necessary
+      clipboard append "\n"
+
+      for {set i 1} {$i < [llength $clipped]} {incr i} {
+        if {[regexp {\{[^\}]*$} [lindex $clipped $i]]} {
+          clipboard append [string repeat " " [expr $indent_levels($txt) * 2]]
+          incr indent_levels($txt)
+        } else {
+          if {[string index [lindex $clipped $i] 0] eq "\}"} {
+            incr indent_levels($txt) -1
+          }
+          clipboard append [string repeat " " [expr $indent_levels($txt) * 2]]
+        }
+        clipboard append [lindex $clipped $i]
+        if {($i + 1) < [llength $clipped]} {
+          clipboard append "\n"
+        }
+      }
     }
   
   }

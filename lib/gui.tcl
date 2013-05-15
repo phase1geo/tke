@@ -336,16 +336,16 @@ namespace eval gui {
     # Remove bindings
     indent::remove_bindings [current_txt]
     
-    # Delete the file from filenames
-    set filenames [lreplace $filenames $tab_index $tab_index]
-    
     # Add a new file if we have no more tabs
     if {[llength [$widgets(nb) tabs]] == 1} {
       add_new_file end
     }
-    
+
+    # Delete the file from filenames
+    set filenames [lreplace $filenames $tab_index $tab_index]
+        
     # Remove the tab
-    $widgets(nb) forget current
+    $widgets(nb) forget $tab_index
     
   }
   
@@ -700,6 +700,7 @@ namespace eval gui {
     
     # Add the text bindings
     indent::add_bindings $tab_frame.tf.txt
+    multicursor::add_bindings $tab_frame.tf.txt
     
     # Get the adjusted index
     set adjusted_index [$widgets(nb) index $index]
@@ -740,7 +741,7 @@ namespace eval gui {
                       -cursor -highlightcolors -linemap -menu -tearoff -displayof -cursor -underline \
                       -tags -tag -weight -sticky -rowspan -columnspan]
                       
-    set control [list proc uplevel namespace while for foreach if else elseif switch default return]
+    set control [list proc uplevel namespace while for foreach if else elseif switch default return catch exec exit]
   
     # Create the ctext widget
     ctext $w -wrap none -background black -foreground white -insertbackground white {*}$args
