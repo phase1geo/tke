@@ -88,8 +88,8 @@ namespace eval bindings {
       if {[$mnu type $i] eq "command"} {
         set label [$mnu entrycget $i -label]
         if {[info exists menu_bindings($mnu/$label)]} {
-          $mnu entryconfigure $i -accelerator [bind_to_accelerator $menu_bindings($mnu/$label)]
-          bind all <$menu_bindings($mnu/$label)> "$mnu invoke $i"
+          $mnu entryconfigure $i -accelerator $menu_bindings($mnu/$label)
+          bind all [accelerator_to_sequence $menu_bindings($mnu/$label)] "$mnu invoke $i"
         }
       }
     }
@@ -122,25 +122,66 @@ namespace eval bindings {
   
   ######################################################################
   # Convert the Tcl binding to an appropriate accelerator.
-  proc bind_to_accelerator {value} {
+  proc accelerator_to_sequence {accelerator} {
     
-    set accelerator ""
+    set sequence "<"
+    set shifted  0
     
-    foreach value [split $value -] {
-      switch $value {
-        Control { append accelerator "Ctrl-" }
-        Alt     { append accelerator "Alt-" }
-        default {
-          if {[regexp {^[A-Z]$} $value]} {
-            append accelerator "Shft-$value"
-          } else {
-            append accelerator [string totitle $value]
-          }
+    # Create character to keysym mapping
+    array set mapping {
+      Ctrl      "Control-"
+      Alt       "Alt-"
+      !         "exclam"
+      \"        "quotedbl"
+      \#        "numbersign"
+      \$        "dollar"
+      %         "percent"
+      '         "quoteright"
+      (         "parenleft"
+      )         "parenright"
+      *         "asterisk"
+      +         "plus"
+      ,         "comma"
+      -         "minus"
+      .         "period"
+      /         "slash"
+      :         "colon"
+      ;         "semicolon"
+      <         "less"
+      =         "equal"
+      >         "greater"
+      ?         "question"
+      @         "at"
+      \[        "bracketleft"
+      \\        "backslash"
+      \]        "bracketright"
+      ^         "asciicircum"
+      _         "underscore"
+      `         "quoteleft"
+      \{        "braceleft"
+      |         "bar"
+      \}        "braceright"
+      ~         "asciitilde"
+    }
+    
+    # Create the sequence
+    foreach value [split $accelerator -] {
+      if {[info exists mapping($value)]} {
+        append sequence $mapping($value)
+      } elseif {$value eq "Shift"} {
+        set shifted 1
+      } else {
+        if {$shifted} {
+          append sequence [string toupper $value]
+        } else {
+          append sequence [string tolower $value]
         }
       }
     }
+    
+    append sequence ">"
 
-    return $accelerator
+    return $sequence
     
   }
   

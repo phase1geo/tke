@@ -92,12 +92,12 @@ namespace eval indent {
   
     variable indent_levels
     
+    # First, get the indentation level of the current line
+    regexp {^(\s*)} [$txt get "insert linestart" "insert lineend"] -> whitespace
+    set indent_levels($txt) [expr [string length $whitespace] / 2]
+    
     # Get the current line
     set line [$txt get "insert linestart" insert]
-    
-    # First, get the indentation level of the current line
-    regexp {^(\s*)} $line -> leading_whitespace
-    set indent_levels($txt) [expr [string length $leading_whitespace] / 2]
     
     # Second, if we have a mismatched brace on the current line,
     # add an indent level to ourselves
@@ -107,29 +107,38 @@ namespace eval indent {
       return
     }
     
-    set lcount 0
-    set rcount 0
-    
-    # Count the number of left braces in the current line
-    set index 0
-    while {[set index [string first "\{" $line $index]] != -1} {
-      incr lcount
-      incr index
-    }
-    
-    # Count the number of right braces in the current line, if necessary
-    if {$lcount > 0} {
-      set index 0
-      while {[set index [string first "\}" $line $index]] != -1} {
-        incr rcount
-        incr index
-      }
-    }
-    
-    # If the left count is greater then the right count, increment the
-    # indentation level
-    if {$lcount > $rcount} {
+    # If the line contains an open brace with no following close brace,
+    # increment the indentation level.
+    if {[regexp {\{[^\}]*$} $line]} {
       incr indent_levels($txt)
+    }
+  
+  }
+  
+  ######################################################################
+  # Grabs the text in the clipboard, formats the text to match the current
+  # insertion point, and puts the formatted text back into the clipboard
+  # for future pasting.
+  proc format_clipboard {txt} {
+  
+    variable indent_levels
+    
+    # Get the clipboard contents, trimming the whitespace and splitting into lines
+    foreach line [split [clipboard get] \n] {
+      lappend clipped [string trim $line]
+    }
+    
+    # Clear the clipboard
+    clipboard clear
+    
+    # Get the line up to the insertion point
+    set line         [$txt get "insert linestart" insert]
+    set current_line 0
+    
+    # If we have non-whitespace text to our left, paste the first line as is.
+    if {[regexp {\S+} $line]} {
+      clipboard append [lindex $clipped 0]
+      incr current_line
     }
   
   }

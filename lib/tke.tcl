@@ -13,7 +13,7 @@ lappend auto_path $tke_dir
 
 package require Tclx
 package require ctext
-package require tablelist 5.7
+package require tablelist
 
 source [file join $tke_dir utils.tcl]
 source [file join $tke_dir preferences.tcl]
@@ -59,8 +59,8 @@ proc parse_cmdline {argc argv} {
   set i 0
   while {$i < $argc} {
     switch -- [lindex $argv $i] {
-      -h { usage }
-      -v { version }
+      -h       { usage }
+      -v       { version }
       default {
         lappend ::cl_files [lindex $argv $i]
       }

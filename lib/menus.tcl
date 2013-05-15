@@ -162,6 +162,9 @@ namespace eval menus {
     
     $mb add command -label "Paste" -underline 0 -command "gui::paste"
     launcher::register "Menu: Paste text from clipboard" gui::paste
+    
+    $mb add command -label "Paste and Format" -underline 10 -command "gui::paste_and_format"
+    launcher::register "Menu: Paste and format text from clipboard" gui::paste_and_format
 
     # Apply the menu settings for the edit menu
     bindings::apply $mb
@@ -204,9 +207,26 @@ namespace eval menus {
   
     # Add tools menu commands
     $mb add command -label "Launcher" -underline 0 -command "launcher::launch"
+    
+    $mb add separator
+    
+    $mb add command -label "Restart tke" -underline 0 -command "menus::restart_command"
+    launcher::register "Menu: Restart tke" "menus::restart_command"
    
     # Apply the menu bindings for the tools menu
     bindings::apply $mb
+  
+  }
+  
+  ######################################################################
+  # Restart the GUI.
+  proc restart_command {} {
+  
+    # Get the list of filenames to start
+    set filenames [gui::get_actual_filenames]
+    
+    # Execute the restart command
+    exec [info nameofexecutable] [file join $::tke_dir restart.tcl] [info nameofexecutable] [file join $::tke_dir tke.tcl] {*}$filenames &
   
   }
   

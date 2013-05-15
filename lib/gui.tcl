@@ -57,9 +57,10 @@ namespace eval gui {
     # Create editor notebook
     $widgets(pw) add [set widgets(nb) [ttk::notebook .nb]]
 
-    bind $widgets(nb) <ButtonPress-1>   { gui::tab_move_start %W %x %y }
-    bind $widgets(nb) <B1-Motion>       { gui::tab_move_motion %W %x %y }
-    bind $widgets(nb) <ButtonRelease-1> { gui::tab_move_end %W %x %y }
+    bind $widgets(nb) <<NotebookTabChanged>> { focus [gui::current_txt].t }
+    bind $widgets(nb) <ButtonPress-1>        { gui::tab_move_start %W %x %y }
+    bind $widgets(nb) <B1-Motion>            { gui::tab_move_motion %W %x %y }
+    bind $widgets(nb) <ButtonRelease-1>      { gui::tab_move_end %W %x %y }
     bind $widgets(nb) <Button-3> {
       if {[%W index @%x,%y] eq [%W index current]} {
         if {[llength [%W tabs]] > 1} {
@@ -445,6 +446,19 @@ namespace eval gui {
   }
   
   ######################################################################
+  # This procedure performs a paste operation, formatting the pasted text
+  # to match the code that it is being pasted into.
+  proc paste_and_format {} {
+  
+    # Have the indent namespace format the clipboard contents
+    indent::format_clipboard [current_txt]
+    
+    # Perform the paste operation
+    paste
+  
+  }
+  
+  ######################################################################
   # Displays the search bar.
   proc search {} {
     
@@ -593,6 +607,24 @@ namespace eval gui {
     
   }
   
+  ######################################################################
+  # Returns the list of stored filenames.
+  proc get_actual_filenames {} {
+  
+    variable filenames
+    
+    set actual_filenames [list]
+    
+    foreach filename $filenames {
+      if {$filename ne ""} {
+        lappend actual_filenames $filename
+      }
+    }
+    
+    return $actual_filenames
+    
+  }
+  
   ########################
   #  PRIVATE PROCEDURES  #
   ########################
@@ -623,9 +655,10 @@ namespace eval gui {
     bind $tab_frame.tf.txt <ButtonPress-1> "after idle [list gui::update_position $tab_frame]"
     bind $tab_frame.tf.txt <B1-Motion>     "gui::update_position $tab_frame"
     bind $tab_frame.tf.txt <KeyRelease>    "gui::update_position $tab_frame"
-    bind Text <<Cut>>   ""
-    bind Text <<Copy>>  ""
-    bind Text <<Paste>> ""
+    bind Text <<Cut>>     ""
+    bind Text <<Copy>>    ""
+    bind Text <<Paste>>   ""
+    bind Text <Control-d> ""
     
     grid rowconfigure    $tab_frame.tf 0 -weight 1
     grid columnconfigure $tab_frame.tf 0 -weight 1

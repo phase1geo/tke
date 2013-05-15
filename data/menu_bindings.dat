@@ -1,28 +1,29 @@
 # File menu bindings
-{.menubar.file/New}                        Control-n
-{.menubar.file/Open...}                    Control-o
-{.menubar.file/Save}                       Control-s
-{.menubar.file/Save As...}                 Control-S
-{.menubar.file/Close}                      Control-w
-{.menubar.file/Quit tke}                   Control-q
+{.menubar.file/New}                        Ctrl-N
+{.menubar.file/Open...}                    Ctrl-O
+{.menubar.file/Save}                       Ctrl-S
+{.menubar.file/Save As...}                 Ctrl-Shift-S
+{.menubar.file/Close}                      Ctrl-W
+{.menubar.file/Quit tke}                   Ctrl-Q
 
 # Edit menu bindings
-{.menubar.edit/Undo}                       Control-z
-{.menubar.edit/Redo}                       Control-r
-{.menubar.edit/Cut}                        Control-x
-{.menubar.edit/Copy}                       Control-c
-{.menubar.edit/Paste}                      Control-v
+{.menubar.edit/Undo}                       Ctrl-Z
+{.menubar.edit/Redo}                       Ctrl-R
+{.menubar.edit/Cut}                        Ctrl-X
+{.menubar.edit/Copy}                       Ctrl-C
+{.menubar.edit/Paste}                      Ctrl-V
+{.menubar.edit/Paste and Format}           Ctrl-Shift-V
 
 # Find menu bindings
-{.menubar.find/Find}                       Control-f
-{.menubar.find/Find and Replace}           Control-F
-{.menubar.find/Select next occurrence}     Control-n
-{.menubar.find/Select previous occurrence} Control-N
-{.menubar.find/Append next occurrence}     Control-d
-{.menubar.find/Select all occurrences}     Control-a
+{.menubar.find/Find}                       Ctrl-F
+{.menubar.find/Find and Replace}           Ctrl-Shift-F
+{.menubar.find/Select next occurrence}     Ctrl-N
+{.menubar.find/Select previous occurrence} Ctrl-Shift-N
+{.menubar.find/Append next occurrence}     Ctrl-D
+{.menubar.find/Select all occurrences}     Ctrl-Shift-A
 
 # Tools menu bindings
-{.menubar.tools/Launcher}                  Control-space
+{.menubar.tools/Launcher}                  Ctrl-Space
 
 
 
