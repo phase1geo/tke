@@ -11,21 +11,19 @@ namespace eval indent {
   # Adds indentation bindings for the given text widget.
   proc add_bindings {txt} {
   
-    variable indent_levels
-    
     # Set the indent level for the given text widget to 0
-    set indent_levels($txt) 0
-    
-    bind indent$txt <Key-braceleft>   "indent::increment $txt"
-    bind indent$txt <Key-braceright>  "indent::decrement $txt"
-    bind indent$txt <Return>          "indent::newline $txt"
-    bind indent$txt <Key-Up>          "indent::update_indent_level $txt"
-    bind indent$txt <Key-Down>        "indent::update_indent_level $txt"
-    bind indent$txt <Key-Left>        "indent::update_indent_level $txt"
-    bind indent$txt <Key-Right>       "indent::update_indent_level $txt"
-    bind indent$txt <ButtonRelease-1> "indent::update_indent_level $txt"
-    bind indent$txt <Key-Delete>      "indent::update_indent_level $txt"
-    bind indent$txt <Key-BackSpace>   "indent::update_indent_level $txt"
+    add_indent_level $txt insert
+
+    bind indent$txt <Key-braceleft>   "indent::increment $txt insert insert"
+    bind indent$txt <Key-braceright>  "indent::decrement $txt insert insert"
+    bind indent$txt <Return>          "indent::newline $txt insert insert"
+    bind indent$txt <Key-Up>          "indent::update_indent_level $txt insert insert"
+    bind indent$txt <Key-Down>        "indent::update_indent_level $txt insert insert"
+    bind indent$txt <Key-Left>        "indent::update_indent_level $txt insert insert"
+    bind indent$txt <Key-Right>       "indent::update_indent_level $txt insert insert"
+    bind indent$txt <ButtonRelease-1> "indent::update_indent_level $txt insert insert"
+    bind indent$txt <Key-Delete>      "indent::update_indent_level $txt insert insert"
+    bind indent$txt <Key-BackSpace>   "indent::update_indent_level $txt insert insert"
     
     # Add the indentation tag into the bindtags list
     bindtags $txt.t [linsert [bindtags $txt.t] 3 indent$txt]
@@ -38,49 +36,71 @@ namespace eval indent {
   
     variable indent_levels
     
-    catch { unset indent_levels($txt) }
+    catch { array unset indent_levels $txt,* }
     
   }
   
   ######################################################################
+  # Adds an indentation level marker called name.
+  proc add_indent_level {txt indent_name} {
+
+    variable indent_levels
+
+    set indent_levels($txt,$indent_name) 0
+
+  }
+
+  ######################################################################
+  # Removes all of the indent levels that match indent_pattern.
+  proc remove_indent_levels {txt indent_pattern} {
+
+    variable indent_levels
+
+    catch { array unset indent_levels $txt,$indent_pattern }
+ 
+  }
+
+  ######################################################################
   # Increments the indentation level for the given text widget.
-  proc increment {txt} {
+  proc increment {txt insert_index indent_name} {
   
     variable indent_levels
     
-    if {[string first "#" [$txt get "insert linestart" insert]] == -1} {
-      incr indent_levels($txt)
+    if {[string first "#" [$txt get "$insert_index linestart" $insert_index]] == -1} {
+      incr indent_levels($txt,$indent_name)
     }
     
   }
   
   ######################################################################
   # Decrements the indentation level for the given text widget.
-  proc decrement {txt} {
+  proc decrement {txt insert_index indent_name} {
   
     variable indent_levels
     
-    if {[string first "#" [$txt get "insert linestart" insert]] == -1} {
-      incr indent_levels($txt) -1
+    if {[string first "#" [$txt get "$insert_index linestart" $insert_index]] == -1} {
+      incr indent_levels($txt,$indent_name) -1
     }
     
     # Remove one indentation of whitespace before the right curly character
-    set line [$txt get "insert linestart" insert-1c]
+    set line [$txt get "$insert_index linestart" $insert_index-1c]
     if {($line ne "") && ([string trim $line] eq "")} {
-      $txt delete insert-3c insert-1c
+      $txt delete $insert_index-3c $insert_index-1c
     }
   
   }
   
   ######################################################################
   # Handles a newline character.
-  proc newline {txt} {
+  proc newline {txt insert_index indent_name} {
   
     variable indent_levels
+
+    puts "In newline, indent_levels: $indent_levels($txt,$indent_name)"
     
     # Insert leading whitespace to match current indentation level
-    if {$indent_levels($txt) > 0} {
-      $txt insert insert [string repeat " " [expr $indent_levels($txt) * 2]]
+    if {$indent_levels($txt,$indent_name) > 0} {
+      $txt insert $insert_index [string repeat " " [expr $indent_levels($txt,$indent_name) * 2]]
     }
 
   }
@@ -88,16 +108,16 @@ namespace eval indent {
   ######################################################################
   # This procedure is called whenever the insertion cursor moves to a
   # new spot via keyboard traversal or a left button click.
-  proc update_indent_level {txt} {
+  proc update_indent_level {txt insert_index indent_name} {
   
     variable indent_levels
     
     # First, get the indentation level of the current line
-    regexp {^(\s*)} [$txt get "insert linestart" "insert lineend"] -> whitespace
-    set indent_levels($txt) [expr [string length $whitespace] / 2]
+    regexp {^(\s*)} [$txt get "$insert_index linestart" "$insert_index lineend"] -> whitespace
+    set indent_levels($txt,$indent_name) [expr [string length $whitespace] / 2]
     
     # Get the current line
-    set line [$txt get "insert linestart" insert]
+    set line [$txt get "$insert_index linestart" $insert_index]
     
     # Second, if we have a mismatched brace on the current line,
     # add an indent level to ourselves
@@ -110,7 +130,7 @@ namespace eval indent {
     # If the line contains an open brace with no following close brace,
     # increment the indentation level.
     if {[regexp {\{[^\}]*$} $line]} {
-      incr indent_levels($txt)
+      incr indent_levels($txt,$indent_name)
     }
   
   }

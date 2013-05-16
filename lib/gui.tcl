@@ -28,7 +28,7 @@ namespace eval gui {
     # Load the geometry information
     load_geometry
     
-    wm title . "tke"
+    wm title . "tke \[[lindex [split [info hostname] .] 0]\]"
     # FIXME: wm iconphoto FOOBAR
     
     # Create the panedwindow
