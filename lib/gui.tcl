@@ -390,12 +390,7 @@ namespace eval gui {
     set txt [current_txt]
     
     # Perform the undo operation
-    $txt edit undo
-  
-    # Attempt to undo again to see if the undo button should be disabled
-    if {![catch "$txt edit undo"]} {
-      $txt edit redo
-    }
+    catch { $txt edit undo }
   
   }
   
@@ -409,12 +404,7 @@ namespace eval gui {
     set txt [current_txt]
     
     # Perform the redo operation
-    $txt edit redo
-  
-    # Attempt to redo again to see if the redo button should be disabled
-    if {![catch "$txt edit redo"]} {
-      $txt edit undo
-    }
+    catch { $txt edit redo }
     
   }
   
