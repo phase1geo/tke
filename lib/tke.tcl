@@ -97,11 +97,15 @@ if {[llength $cl_files] > 0} {
   if {![catch "send tke.tcl gui::add_files_and_raise end $cl_files" rc]} {
     destroy .
     exit
+  } elseif {[regexp {X server} $rc]} {
+    puts $rc
   }
 } else {
   if {![catch "send tke.tcl gui::raise_window" rc]} {
     destroy .
     exit
+  } elseif {[regexp {X server} $rc]} {
+    puts $rc
   }
 }
 
