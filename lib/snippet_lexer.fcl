@@ -1,0 +1,50 @@
+%{
+source [file join $tke_dir snippet_parser.tab.tcl]
+%}
+
+%option stack
+
+WSPACE [ \t\b\f]+
+
+%%
+
+  # Whitespace -- we ignore this
+[ \t\b\f\r\n] {
+     set ::snippet_begpos $::snippet_endpos
+     incr ::snippet_endpos
+ }
+
+  # Special-case the dollar sign character
+\$ {
+     set ::snippet_lval $snippet_text;
+     set ::snippet_begpos $::snippet_endpos
+     incr ::snippet_endpos
+     return $::DOLLAR_SIGN
+ }
+
+  # Single character symbols
+[\}\{:] {
+     set ::snippet_lval $snippet_text;
+     set ::snippet_begpos $::snippet_endpos
+     incr ::snippet_endpos
+     return $snippet_text
+ }
+
+  # Decimal number
+[0-9][0-9]* {
+     set ::snippet_lval $snippet_text
+     set ::snippet_begpos $::snippet_endpos
+     incr ::snippet_endpos [string length $snippet_text]
+     return $::DECIMAL
+ }
+
+  # Final catchall. something got lost or mishandled.
+. {
+     set ::snippet_begpos $::snippet_endpos
+     incr ::snippet_endpos [string length $snippet_text]
+     snippet_error "unmatched character ($snippet_text)"
+     return -code error "unmatched character ($snippet_text)"
+ }
+
+%%
+

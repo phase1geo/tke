@@ -155,7 +155,7 @@ namespace eval indent {
     
     # If we have non-whitespace text to our left, paste the first line as is.
     if {[regexp {^\s*$} $line]} {
-      set extra_whitespace [expr ($indent_levels($txt) * 2) - [string length $line]]
+      set extra_whitespace [expr ($indent_levels($txt,insert) * 2) - [string length $line]]
       if {$extra_whitespace > 0} {
         clipboard append [string repeat " " $extra_whitespace]
       }
@@ -169,9 +169,9 @@ namespace eval indent {
 
       # Adjust the indent levels, if necessary
       if {[regexp {\{[^\}]*$} [lindex $clipped 0]]} {
-        incr indent_levels($txt)
+        incr indent_levels($txt,insert)
       } elseif {[string index [lindex $clipped 0] 0] eq "\}"} {
-        incr indent_levels($txt) -1
+        incr indent_levels($txt,insert) -1
       }
 
       # Add the newline and adjust the indent levels if necessary
@@ -179,13 +179,13 @@ namespace eval indent {
 
       for {set i 1} {$i < [llength $clipped]} {incr i} {
         if {[regexp {\{[^\}]*$} [lindex $clipped $i]]} {
-          clipboard append [string repeat " " [expr $indent_levels($txt) * 2]]
+          clipboard append [string repeat " " [expr $indent_levels($txt,insert) * 2]]
           incr indent_levels($txt)
         } else {
           if {[string index [lindex $clipped $i] 0] eq "\}"} {
             incr indent_levels($txt) -1
           }
-          clipboard append [string repeat " " [expr $indent_levels($txt) * 2]]
+          clipboard append [string repeat " " [expr $indent_levels($txt,insert) * 2]]
         }
         clipboard append [lindex $clipped $i]
         if {($i + 1) < [llength $clipped]} {

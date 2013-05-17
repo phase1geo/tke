@@ -689,8 +689,9 @@ namespace eval gui {
     grid remove $tab_frame.sep
     
     # Add the text bindings
-    indent::add_bindings $tab_frame.tf.txt
+    indent::add_bindings      $tab_frame.tf.txt
     multicursor::add_bindings $tab_frame.tf.txt
+    snippets::add_bindings    $tab_frame.tf.txt
     
     # Get the adjusted index
     set adjusted_index [$widgets(nb) index $index]
