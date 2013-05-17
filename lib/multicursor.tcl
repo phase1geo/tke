@@ -5,7 +5,9 @@
 
 namespace eval multicursor {
   
-  variable selected 0
+  variable selected            0
+  variable select_start_line   ""
+  variable select_start_column ""
    
   ######################################################################
   # Adds bindings for multicursor support to the supplied text widget.
@@ -43,6 +45,29 @@ namespace eval multicursor {
       }
     }
     
+    # Handle a column select
+    bind mcursor$txt <Shift-ButtonPress-1> {
+      lassign [split [%W index @%x,%y] .] multicursor::select_start_line multicursor::select_start_column
+      %W tag remove sel 1.0 end
+      break
+    }
+    bind mcursor$txt <Shift-B1-Motion> {
+      lassign [split [%W index @%x,%y] .] line column
+      lassign [split [lindex [%W tag ranges sel] end] .] last_line last_column
+      if {($last_line eq "") || ($line != $last_line) || ($column != $last_column)} {
+        %W tag remove sel 1.0 end
+        for {set i $multicursor::select_start_line} {$i <= $line} {incr i} {
+          %W tag add sel $i.$multicursor::select_start_column $i.$column
+        }
+      }
+      break
+    }
+    bind mcursor$txt <Shift-ButtonRelease-1> {
+      set multicursor::select_start_line   ""
+      set multicursor::select_start_column ""
+      break
+    }
+    
     bind mcursor$txt <Key-Delete> {
       if {[multicursor::delete %W]} {
         break
@@ -70,14 +95,16 @@ namespace eval multicursor {
       }
     }
     bind mcursor$txt <Any-KeyPress> {
-      if {[string compare -length 5 %K "Shift"] != 0} {
+      if {([string compare -length 5 %K "Shift"] != 0) && \
+          ([string compare -length 7 %K "Control"] != 0)} {
         if {[string length %A] == 0} {
           multicursor::disable %W
-        } elseif {[multicursor::insert %W %A]} {
+        } elseif {[string is print %A] && [multicursor::insert %W %A]} {
           break
         }
       }
     }
+    bind mcursor$txt <Escape>   "multicursor::disable %W"
     bind mcursor$txt <Button-1> "multicursor::disable %W"
     
     # Add the multicursor bindings to the text widget's bindtags

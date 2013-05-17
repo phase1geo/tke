@@ -95,8 +95,6 @@ namespace eval indent {
   proc newline {txt insert_index indent_name} {
   
     variable indent_levels
-
-    puts "In newline, indent_levels: $indent_levels($txt,$indent_name)"
     
     # Insert leading whitespace to match current indentation level
     if {$indent_levels($txt,$indent_name) > 0} {

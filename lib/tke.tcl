@@ -9,7 +9,7 @@
 set tke_dir  [file dirname $argv0]
 set tke_home [file join ~ .tke]
 
-lappend auto_path $tke_dir
+set auto_path [concat $tke_dir $auto_path]
 
 package require Tclx
 package require ctext
