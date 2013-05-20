@@ -12,18 +12,18 @@ namespace eval indent {
   proc add_bindings {txt} {
   
     # Set the indent level for the given text widget to 0
-    add_indent_level $txt insert
+    add_indent_level $txt.t insert
 
-    bind indent$txt <Key-braceleft>   "indent::increment $txt insert insert"
-    bind indent$txt <Key-braceright>  "indent::decrement $txt insert insert"
-    bind indent$txt <Return>          "indent::newline $txt insert insert"
-    bind indent$txt <Key-Up>          "indent::update_indent_level $txt insert insert"
-    bind indent$txt <Key-Down>        "indent::update_indent_level $txt insert insert"
-    bind indent$txt <Key-Left>        "indent::update_indent_level $txt insert insert"
-    bind indent$txt <Key-Right>       "indent::update_indent_level $txt insert insert"
-    bind indent$txt <ButtonRelease-1> "indent::update_indent_level $txt insert insert"
-    bind indent$txt <Key-Delete>      "indent::update_indent_level $txt insert insert"
-    bind indent$txt <Key-BackSpace>   "indent::update_indent_level $txt insert insert"
+    bind indent$txt <Key-braceleft>   "indent::increment %W insert insert"
+    bind indent$txt <Key-braceright>  "indent::decrement %W insert insert"
+    bind indent$txt <Return>          "indent::newline %W insert insert"
+    bind indent$txt <Key-Up>          "indent::update_indent_level %W insert insert"
+    bind indent$txt <Key-Down>        "indent::update_indent_level %W insert insert"
+    bind indent$txt <Key-Left>        "indent::update_indent_level %W insert insert"
+    bind indent$txt <Key-Right>       "indent::update_indent_level %W insert insert"
+    bind indent$txt <ButtonRelease-1> "indent::update_indent_level %W insert insert"
+    bind indent$txt <Key-Delete>      "indent::update_indent_level %W insert insert"
+    bind indent$txt <Key-BackSpace>   "indent::update_indent_level %W insert insert"
     
     # Add the indentation tag into the bindtags list
     bindtags $txt.t [linsert [bindtags $txt.t] 3 indent$txt]
@@ -134,20 +134,18 @@ namespace eval indent {
   }
   
   ######################################################################
-  # Grabs the text in the clipboard, formats the text to match the current
-  # insertion point, and puts the formatted text back into the clipboard
-  # for future pasting.
-  proc format_clipboard {txt} {
+  # Formats the given str based on the indentation information of the text
+  # widget at the current insertion cursor.
+  proc format_string {txt str} {
   
     variable indent_levels
     
     # Get the clipboard contents, trimming the whitespace and splitting into lines
-    foreach line [split [clipboard get] \n] {
+    foreach line [split $str \n] {
       lappend clipped [string trim $line]
     }
     
-    # Clear the clipboard
-    clipboard clear
+    set str ""
     
     # Get the line up to the insertion point
     set line         [$txt get "insert linestart" insert]
@@ -157,12 +155,12 @@ namespace eval indent {
     if {[regexp {^\s*$} $line]} {
       set extra_whitespace [expr ($indent_levels($txt,insert) * 2) - [string length $line]]
       if {$extra_whitespace > 0} {
-        clipboard append [string repeat " " $extra_whitespace]
+        append str [string repeat " " $extra_whitespace]
       }
     }
     
     # Append the first line to the clipboard
-    clipboard append [lindex $clipped 0]
+    append str [lindex $clipped 0]
     
     # If we have more than one line to paste, add the newline to the first
     if {[llength $clipped] > 1} {
@@ -175,24 +173,39 @@ namespace eval indent {
       }
 
       # Add the newline and adjust the indent levels if necessary
-      clipboard append "\n"
+      append str "\n"
 
       for {set i 1} {$i < [llength $clipped]} {incr i} {
         if {[regexp {\{[^\}]*$} [lindex $clipped $i]]} {
-          clipboard append [string repeat " " [expr $indent_levels($txt,insert) * 2]]
+          append str [string repeat " " [expr $indent_levels($txt,insert) * 2]]
           incr indent_levels($txt)
         } else {
           if {[string index [lindex $clipped $i] 0] eq "\}"} {
             incr indent_levels($txt) -1
           }
-          clipboard append [string repeat " " [expr $indent_levels($txt,insert) * 2]]
+          append str [string repeat " " [expr $indent_levels($txt,insert) * 2]]
         }
-        clipboard append [lindex $clipped $i]
+        append str [lindex $clipped $i]
         if {($i + 1) < [llength $clipped]} {
-          clipboard append "\n"
+          append str "\n"
         }
       }
     }
+    
+    return $str
+  
+  }
+  
+  ######################################################################
+  # Grabs the text in the clipboard, formats the text to match the current
+  # insertion point, and puts the formatted text back into the clipboard
+  # for future pasting.
+  proc format_clipboard {txt} {
+  
+    set str [clipboard get]
+    
+    clipboard clear
+    clipboard append [format_string $txt $str]
   
   }
   
