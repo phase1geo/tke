@@ -166,6 +166,11 @@ namespace eval menus {
     $mb add command -label "Paste and Format" -underline 10 -command "gui::paste_and_format"
     launcher::register "Menu: Paste and format text from clipboard" gui::paste_and_format
 
+    #$mb add separator
+
+    #$mb add command -label "Preferences..." -underline 3 -command "FOOBAR"
+    #launcher::register "FOOBAR" FOOBAR
+
     # Apply the menu settings for the edit menu
     bindings::apply $mb
   

@@ -440,12 +440,18 @@ namespace eval gui {
   # to match the code that it is being pasted into.
   proc paste_and_format {} {
   
-    # Have the indent namespace format the clipboard contents
-    indent::format_clipboard [current_txt]
-    
+    # Get the length of the clipboard text
+    set cliplen [string length [clipboard get]]
+
+    # Get the position of the insertion cursor
+    set insertpos [[current_txt] index insert]
+
     # Perform the paste operation
     paste
   
+    # Have the indent namespace format the clipboard contents
+    indent::format_text [current_txt] $insertpos "$insertpos+${cliplen}c"
+    
   }
   
   ######################################################################

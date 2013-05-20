@@ -136,77 +136,50 @@ namespace eval indent {
   ######################################################################
   # Formats the given str based on the indentation information of the text
   # widget at the current insertion cursor.
-  proc format_string {txt str} {
+  proc format_text {txt startpos endpos} {
   
     variable indent_levels
     
     # Get the clipboard contents, trimming the whitespace and splitting into lines
-    foreach line [split $str \n] {
-      lappend clipped [string trim $line]
+    foreach line [split [$txt get $startpos $endpos] \n] {
+      lappend str [string trim $line]
     }
     
-    set str ""
-    
     # Get the line up to the insertion point
-    set line         [$txt get "insert linestart" insert]
+    set line         [$txt get "$startpos linestart" $startpos-1c]
     set current_line 0
     
     # If we have non-whitespace text to our left, paste the first line as is.
     if {[regexp {^\s*$} $line]} {
       set extra_whitespace [expr ($indent_levels($txt,insert) * 2) - [string length $line]]
       if {$extra_whitespace > 0} {
-        append str [string repeat " " $extra_whitespace]
+        $txt insert $startpos [string repeat " " $extra_whitespace]
       }
     }
     
-    # Append the first line to the clipboard
-    append str [lindex $clipped 0]
-    
-    # If we have more than one line to paste, add the newline to the first
-    if {[llength $clipped] > 1} {
+    # If we have more than one line, add the newline to the first
+    if {[llength $str] > 1} {
 
       # Adjust the indent levels, if necessary
-      if {[regexp {\{[^\}]*$} [lindex $clipped 0]]} {
+      if {[regexp {\{[^\}]*$} [lindex $str 0]]} {
         incr indent_levels($txt,insert)
-      } elseif {[string index [lindex $clipped 0] 0] eq "\}"} {
+      } elseif {[string index [lindex $str 0] 0] eq "\}"} {
         incr indent_levels($txt,insert) -1
       }
 
-      # Add the newline and adjust the indent levels if necessary
-      append str "\n"
-
-      for {set i 1} {$i < [llength $clipped]} {incr i} {
-        if {[regexp {\{[^\}]*$} [lindex $clipped $i]]} {
-          append str [string repeat " " [expr $indent_levels($txt,insert) * 2]]
+      for {set i 1} {$i < [llength $str]} {incr i} {
+        if {[regexp {\{[^\}]*$} [lindex $str $i]]} {
+          $txt insert "$startpos+${i}l linestart" [string repeat " " [expr $indent_levels($txt,insert) * 2]]
           incr indent_levels($txt)
         } else {
-          if {[string index [lindex $clipped $i] 0] eq "\}"} {
+          if {[string index [lindex $str $i] 0] eq "\}"} {
             incr indent_levels($txt) -1
           }
-          append str [string repeat " " [expr $indent_levels($txt,insert) * 2]]
-        }
-        append str [lindex $clipped $i]
-        if {($i + 1) < [llength $clipped]} {
-          append str "\n"
+          $txt insert "$startpos+${i}l linestart" [string repeat " " [expr $indent_levels($txt,insert) * 2]]
         }
       }
     }
     
-    return $str
-  
-  }
-  
-  ######################################################################
-  # Grabs the text in the clipboard, formats the text to match the current
-  # insertion point, and puts the formatted text back into the clipboard
-  # for future pasting.
-  proc format_clipboard {txt} {
-  
-    set str [clipboard get]
-    
-    clipboard clear
-    clipboard append [format_string $txt $str]
-  
   }
   
 }

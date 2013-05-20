@@ -46,6 +46,8 @@ namespace eval snippets {
       
       # Clear the snippets for the given file
       array unset snippets $sfile,*
+
+      set in_snippet 0
      
       # Do a quick parse of the snippets file
       foreach line [split $contents \n] {
@@ -81,49 +83,128 @@ namespace eval snippets {
     set in_escape  0
     set from_start 0
     set linenum    0
-    set last_char  ""
-    set sub_string ""
+    set shell_str  ""
     set raw_string ""
     set tabs       [list]
     set dynamics   [list]
     
     set i 0
     while {$i < [string length $snippet]} {
+      
+      # Get the current character
       set char [string index $snippet $i]
+      
+      # We have found a dollar sign
       if {!$in_escape && !$in_tick && ($char eq "\$")} {
-        incr in_dollar
-      } elseif {($last_char eq "\$") && [regexp {^(\d+)} [string range $snippet $i end] -> number]} {
-        lappend tabs [list snippet_mark_$number $from_start [expr $from_start + 1]]
-        incr i [string length $number]
-      } elseif {($last_char eq "\$") && ($char eq "\{") && \
-                [regexp {^(\{(\d+)\s*:\s*([^\}]+))} [string range $snippet $i end] -> whole_string number dflt_string]} {
-        set dflt_string [string trim $dflt_string]
-        append raw_string $dflt_string
-        lappend tabs [list snippet_sel_$number $from_start [expr $from_start + [string length $dflt_string]]]
-        incr i [string length $whole_string]
-        incr from_start [string length $dflt_string]
+
+        # Handle a tab stop
+        if {[regexp {^(\d+)} [string range $snippet [expr $i + 1] end] -> number]} {
+          if {![info exists tabstop_string($number)]} {
+            lappend tabs [list snippet_mark_$number $from_start [expr $from_start + 1]]
+          } else {
+            lappend tabs [list snippet_mirror_$number $from_start [expr $from_start + [string length $tabstop_string($number)]]]
+            append raw_string $tabstop_string($number)
+            incr from_start [string length $tabstop_string($number)]
+          }
+          incr i [string length $number]
+          
+        # Handle a single variable substitution
+        } elseif {[regexp {^(\w+)} [string range $snippet [expr $i + 1] end] -> varname]} {
+          
+          lappend dynamics [list var $varname $from_start ""]
+          incr i [string length $varname]
+          
+        } else {
+          incr i
+          
+          # Handle a more complex dollar operator
+          if {[string index $snippet $i] eq "\{"} {
+            incr in_dollar
+            incr i
+          
+            # Start handling a complex tab stop
+            if {[regexp {^(\d+):} [string range $snippet $i end] -> number]} {
+              set dollar($in_dollar,string)  ""
+              set dollar($in_dollar,start)   $from_start
+              set dollar($in_dollar,tabstop) $number
+              incr i [string length $number]
+              
+            # Handle a tab stop mirror
+            } elseif {[regexp {^(\d+)/(.*)/(.*)/(.*)} [string range $snippet $i end] -> number expr format opts]} {
+              set dollar($in_dollar,string)  ""
+              set dollar($in_dollar,start)   $from_start
+              set dollar($in_dollar,tabstop) $number
+              set dollar($in_dollar,regsub)  [list $expr $format $opts]
+              incr i [expr [string length $number] + [string length $expr] + [string length $format] + [string length $opts] + 3]
+              
+            # Start handling a complex variable substitution  
+            } elseif {[regexp {^(\w+):} [string range $snippet $i end] -> varname]} {
+              set dollar($in_dollar,string)  ""
+              set dollar($in_dollar,start)   $from_start
+              set dollar($in_dollar,varname) $varname
+              incr i [expr [string length $varname] + 1]
+              
+            # Handle a variable with regular expression substitution
+            } elseif {[regexp {^(\w+)/(.*)/(.*)/(.*)} [string range $snippet $i end] -> varname expr format opts]} {
+              set dollar($in_dollar,string)  ""
+              set dollar($in_dollar,start)   $from_start
+              set dollar($in_dollar,varname) $varname
+              set dollar($in_dollar,regsub)  [list $expr $format $opts]
+              incr i [expr [string length $varname] + [string length $expr] + [string length $format] + [string length $opts] + 3]
+            }
+            
+          }
+          
+        }
+        
+      # We have found an unescaped right brace
+      } elseif {$in_dollar && !$in_escape && ($char eq "\}")} {
+        if {[info exists dollar($in_dollar,varname)]} {
+          lappend dynamics [list var $dollar($in_dollar,varname) $dollar($in_dollar,start) $dollar($in_dollar,string)]
+        } else {
+          set tabstop_string($dollar($in_dollar,tabstop)) $dollar($in_dollar,string)
+          lappend tabs [list snippet_sel_$dollar($in_dollar,tabstop) $dollar($in_dollar,start) [expr $dollar($in_dollar,start) + [string length $dollar($in_dollar,string)]]]
+        }
+        array unset dollar $in_dollar,*
+        incr in_dollar -1
+        
+      # We have found a tick, se we are either starting or stopping a shell command
       } elseif {!$in_escape && ($char eq "`")} {
         if {$in_tick} {
           set in_tick 0
-          lappend dynamics [list command $sub_string $from_start]
+          lappend dynamics [list cmd $shell_str $from_start ""]
         } else {
           set in_tick    1
           set sub_string ""
         }
+        
+      # We have found an escape character
       } elseif {!$in_escape && ($char eq "\\")} {
         set in_escape 1
+        
+      # We are in a shell command
       } elseif {$in_tick} {
-        append sub_string $char
+        append shell_str $char
         set in_escape 0
+        
+      # We are in a dollar sign expression
+      } elseif {$in_dollar} {
+        append dollar($in_dollar,string) $char
+        append raw_string $char
+        set in_escape 0
+        incr from_start
+        
+      # This is just a raw expression
       } else {
         append raw_string $char
         set in_escape 0
         incr from_start
       }
-      set last_char $char
+
       incr i
+      
     }
-    
+
     return [list raw_string $raw_string tabs $tabs dynamics $dynamics]   
     
   }
@@ -208,15 +289,49 @@ namespace eval snippets {
     set within($txt)    0
     set insert_index    [$txt index insert]
     
-    # Perform indentation formatting for the raw string and insert it into
-    # the text widget at the current insertion point.
-    $txt insert insert [set formatted [indent::format_string $txt $snip(raw_string)]]
+    # Insert the raw string into the text widget
+    $txt insert insert $snip(raw_string)
+
+    # Create a tag for the inserted text
+    $txt tag add snippet_raw $insert_index "$insert_index+[string length $snip(raw_string)]c"
     
     # Create the tab point selection tags
     foreach tab $snip(tabs) {
       $txt tag add [lindex $tab 0] "$insert_index+[lindex $tab 1]c" "$insert_index+[lindex $tab 2]c"
       set within($txt) 1
     }
+
+    # Insert the dynamics into the raw string
+    foreach dynamic [lreverse $snip(dynamics)] {
+      if {[lindex $dynamic 0] eq "var"} {
+        switch [lindex $dynamic 1] {
+          TM_SELECTED_TEXT { set str [$txt get sel.first sel.last] }
+          TM_CURRENT_LINE  { set str [$txt get "insert linestart" "insert lineend"] }
+          TM_CURRENT_WORD  { set str [$txt get "insert wordstart" "insert wordend"] }
+          TM_DIRECTORY     { set str [file dirname [gui::current_filename]] }
+          TM_FILEPATH      { set str [gui::current_filename] }
+          TM_LINE_INDEX    { set str [lindex [split [$txt index insert] .] 1] }
+          TM_LINE_NUMBER   { set str [lindex [split [$txt index insert] .] 0] }
+          TM_DATE          { set str [clock format [clock seconds]] }
+          default          { set str "" }
+        }
+      } elseif {[lindex $dynamic 0] eq "cmd"} {
+        if {[catch "exec sh -c [lindex $dynamic 1]" str]} {
+          set str ""
+        }
+      }
+      if {$str eq ""} {
+        $txt insert [lindex $dynamic 2] [lindex $dynamic 3]
+      } else {
+        $txt insert [lindex $dynamic 2] $str
+      }
+    }
+
+    # Indent the text
+    indent::format_text $txt "snippet_raw.first" "snippet_raw.last"
+
+    # Delete the snippet_raw tag
+    $txt tag delete snippet_raw
     
     # Start to traverse the snippet
     traverse_snippet $txt
@@ -253,24 +368,40 @@ namespace eval snippets {
   proc traverse_snippet {txt} {
   
     variable tabpoints
+    variable within
+    variable tabstart
     
+    # Update any mirrored tab points
+    if {[info exists tabstart($txt)]} {
+      set mirrored_value [$txt get $tabstart($txt) insert]
+      foreach {endpos startpos} [lreverse [$txt tag ranges snippet_mirror_[expr $tabpoints($txt) - 1]]] {
+        $txt delete $startpos $endpos
+        $txt insert $startpos $mirrored_value
+      }
+    }
+
     # Remove the selection
     $txt tag remove sel 1.0 end
-    
+
     # Find the current tab point tag
     if {[llength [set range [$txt tag ranges snippet_sel_$tabpoints($txt)]]] == 2} {
       $txt tag add sel {*}$range
       $txt tag delete snippet_sel_$tabpoints($txt)
       $txt mark set insert [lindex $range 1]
+      set tabstart($txt) [lindex $range 0]
     } elseif {[llength [set range [$txt tag ranges snippet_mark_$tabpoints($txt)]]] == 2} {
       $txt mark set insert [lindex $range 0]
       $txt tag delete snippet_mark_$tabpoints($txt)
+      set tabstart($txt) [lindex $range 0]
     } elseif {[llength [set range [$txt tag ranges snippet_mark_0]]] == 2} {
       $txt mark set insert [lindex $range 0]
       $txt tag delete snippet_mark_0
+      set tabstart($txt) [lindex $range 0]
+      set within($txt)   0
     }
     
-    puts "END"
+    # Increment the tabpoint
+    incr tabpoints($txt)
     
   }
   
