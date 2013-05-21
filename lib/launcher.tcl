@@ -231,6 +231,16 @@ namespace eval launcher {
     set commands([get_command_name $name $validate_cmd]) $command_value
 
   }
+  
+  ######################################################################
+  # Unregisters launcher commands that match the given pattern.
+  proc unregister {pattern} {
+  
+    variable commands
+    
+    array unset commands [get_command_name $pattern *]
+    
+  }
     
   ######################################################################
   # Returns the command name given the specified values.

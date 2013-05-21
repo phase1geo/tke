@@ -38,6 +38,8 @@ namespace eval snippets {
     
     variable snippets
     
+    puts "In load_file, sfile: $sfile"
+    
     if {![catch "open $sfile r" rc]} {
       
       # Read the contents of the snippets file
@@ -46,6 +48,12 @@ namespace eval snippets {
       
       # Clear the snippets for the given file
       array unset snippets $sfile,*
+      
+      # Get the basename of the file
+      set basename [file rootname [file tail $sfile]]
+      
+      # Remove any launcher commands that would be associated with this file
+      launcher::unregister "Snippet-$basename:"
 
       set in_snippet 0
      
@@ -62,7 +70,8 @@ namespace eval snippets {
             set snippets($sfile,$name) [parse_snippet $snippet]
             set snippet    ""
             array set snip $snippets($sfile,$name)
-            launcher::register "Snippet: $name: [string range $snip(raw_string) 0 30]" \
+            puts "Registering $basename/$name"
+            launcher::register "Snippet-$basename: $name: [string range $snip(raw_string) 0 30]" \
               [list snippets::insert_snippet_into_current $snippets($sfile,$name)] 
           }
         }
@@ -142,7 +151,7 @@ namespace eval snippets {
               set dollar($in_dollar,string)  ""
               set dollar($in_dollar,start)   $from_start
               set dollar($in_dollar,varname) $varname
-              incr i [expr [string length $varname] + 1]
+              incr i [string length $varname]
               
             # Handle a variable with regular expression substitution
             } elseif {[regexp {^(\w+)/(.*)/(.*)/(.*)} [string range $snippet $i end] -> varname expr format opts]} {
@@ -305,25 +314,25 @@ namespace eval snippets {
     foreach dynamic [lreverse $snip(dynamics)] {
       if {[lindex $dynamic 0] eq "var"} {
         switch [lindex $dynamic 1] {
-          TM_SELECTED_TEXT { set str [$txt get sel.first sel.last] }
-          TM_CURRENT_LINE  { set str [$txt get "insert linestart" "insert lineend"] }
-          TM_CURRENT_WORD  { set str [$txt get "insert wordstart" "insert wordend"] }
-          TM_DIRECTORY     { set str [file dirname [gui::current_filename]] }
-          TM_FILEPATH      { set str [gui::current_filename] }
-          TM_LINE_INDEX    { set str [lindex [split [$txt index insert] .] 1] }
-          TM_LINE_NUMBER   { set str [lindex [split [$txt index insert] .] 0] }
-          TM_DATE          { set str [clock format [clock seconds]] }
-          default          { set str "" }
+          SELECTED_TEXT { set str [$txt get sel.first sel.last] }
+          CURRENT_LINE  { set str [$txt get "insert linestart" "insert lineend"] }
+          CURRENT_WORD  { set str [$txt get "insert wordstart" "insert wordend"] }
+          DIRECTORY     { set str [file dirname [gui::current_filename]] }
+          FILEPATH      { set str [gui::current_filename] }
+          FILENAME      { set str [file tail [gui::current_filename]] }
+          LINE_INDEX    { set str [lindex [split [$txt index insert] .] 1] }
+          LINE_NUMBER   { set str [lindex [split [$txt index insert] .] 0] }
+          CURRENT_DATE  { set str [clock format [clock seconds] -format "%m/%d/%Y"] }
+          default       { set str "" }
         }
       } elseif {[lindex $dynamic 0] eq "cmd"} {
         if {[catch "exec sh -c [lindex $dynamic 1]" str]} {
           set str ""
         }
       }
-      if {$str eq ""} {
-        $txt insert [lindex $dynamic 2] [lindex $dynamic 3]
-      } else {
-        $txt insert [lindex $dynamic 2] $str
+      if {$str ne ""} {
+        $txt delete "$insert_index+[lindex $dynamic 2]c" "$insert_index+[expr [lindex $dynamic 2] + [string length [lindex $dynamic 3]]]c"
+        $txt insert "$insert_index+[lindex $dynamic 2]c" $str
       }
     }
 

@@ -450,7 +450,7 @@ namespace eval gui {
     paste
   
     # Have the indent namespace format the clipboard contents
-    indent::format_text [current_txt] $insertpos "$insertpos+${cliplen}c"
+    indent::format_text [current_txt].t $insertpos "$insertpos+${cliplen}c"
     
   }
   
