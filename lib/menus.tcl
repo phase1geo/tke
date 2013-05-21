@@ -30,6 +30,10 @@ namespace eval menus {
     # Add the find menu
     $mb add cascade -label "Find" -menu [menu $mb.find -tearoff false]
     add_find $mb.find
+
+    # Add the text menu
+    $mb add cascade -label "Text" -menu [menu $mb.text -tearoff false]
+    add_text $mb.text
       
     # Add the tools menu
     $mb add cascade -label "Tools" -menu [menu $mb.tools -tearoff false]
@@ -210,7 +214,19 @@ namespace eval menus {
   }
   
   ######################################################################
-  # Adds the tools menu.
+  # Adds the text menu commands.
+  proc add_text {mb} {
+
+    $mb add command -label "Comment" -underline 0 -command "texttools::comment"
+    launcher::register "Menu: Comment selected text" "texttools::comment"
+
+    $mb add command -label "Uncomment" -underline 0 -command "texttools::uncomment"
+    launcher::register "Menu: Uncomment selected text" "texttools::uncomment"
+
+  }
+
+  ######################################################################
+  # Adds the tools menu commands.
   proc add_tools {mb} {
   
     # Add tools menu commands
