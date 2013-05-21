@@ -7,8 +7,7 @@
 namespace eval gui {
 
   variable curr_id       0
-  variable filenames     {}
-  variable save_commands {}
+  variable files         {}
   variable nb_index      0
   variable nb_current    ""
   variable geometry_file [file join $::tke_home geometry.dat]
@@ -20,6 +19,42 @@ namespace eval gui {
   #  PUBLIC PROCEDURES  #
   #######################
   
+  ######################################################################
+  # Polls every 10 seconds to see if any of the loaded files have been
+  # updated since the last save.
+  proc poll {} {
+
+    variable files
+
+    # Check the modification of every file in the files list
+    for {set i 0} {$i < [llength $files]} {incr i} {
+      lassign [lindex $files $i] fname save_command mtime
+      if {$fname ne ""} {
+        if {[file exists $fname]} {
+          file stat $fname stat
+          if {$mtime != $stat(mtime)} {
+            set answer [tk_messageBox -parent . -icon question -message "Reload file?" \
+              -detail $fname -type yesno -default yes]
+            if {$answer eq "yes"} {
+              update_file $i
+            }
+            lset files $i 2 $stat(mtime)
+          }
+        } else {
+          set answer [tk_messageBox -parent . -icon question -message "Delete tab?" \
+            -detail $fname -type yesno -default yes]
+          if {$answer eq "yes"} {
+            close_tab $i
+          }
+        }
+      }
+    }
+
+    # Check again after 10 seconds
+    after 10000 gui::poll
+
+  }
+
   ######################################################################
   # Create the main GUI interface.
   proc create {} {
@@ -96,6 +131,9 @@ namespace eval gui {
     wm protocol . WM_DELETE_WINDOW {
       menus::exit_command
     }
+
+    # Start polling on the files
+    poll
   
   }
   
@@ -121,25 +159,21 @@ namespace eval gui {
     
     variable nb_current
     variable last_x
-    variable filenames
-    variable save_commands
+    variable files
     
     if {[set tabid [$W index @$x,$y]] ne ""} {
       if {($nb_current ne "") && \
           ((($nb_current > $tabid) && ($x < $last_x)) || \
            (($nb_current < $tabid) && ($x > $last_x)))} {
-        set tab           [lindex [$W tabs] $nb_current]
-        set title         [$W tab $nb_current -text]
-        set fname         [lindex $filenames $nb_current]
-        set filenames     [lreplace $filenames $nb_current $nb_current]
-        set save_command  [lindex $save_commands $nb_current]
-        set save_commands [lreplace $save_commands $nb_current $nb_current]
+        set tab   [lindex [$W tabs] $nb_current]
+        set title [$W tab $nb_current -text]
+        set finfo [lindex $files $nb_current]
+        set files [lreplace $files $nb_current $nb_current]
         $W forget $nb_current
         $W insert [expr {($tabid == [$W index end]) ? "end" : $tabid}] $tab -text $title
         $W select $tabid
-        set filenames     [linsert $filenames $tabid $fname]
-        set save_commands [linsert $save_commands $tabid $save_command]
-        set nb_current    $tabid
+        set files      [linsert $files $tabid $finfo]
+        set nb_current $tabid
       }
       set last_x $x
     }
@@ -188,18 +222,14 @@ namespace eval gui {
   proc add_new_file {index} {
   
     variable widgets
-    variable filenames
-    variable save_commands
+    variable files
     
     # Get the current index
     set index [insert_tab $index "Untitled"]
 
-    # Add the filename to the filenames
-    set filenames [linsert $filenames [$widgets(nb) index $index] ""]
+    # Add the file information to the files list
+    set files [linsert $files [$widgets(nb) index $index] [list "" "" ""]]
 
-    # Adds the save commands
-    set save_commands [linsert $save_commands [$widgets(nb) index $index] ""] 
-    
   }
   
   ######################################################################
@@ -208,11 +238,10 @@ namespace eval gui {
   proc add_file {index fname {save_command ""}} {
   
     variable widgets
-    variable filenames
-    variable save_commands
+    variable files
     
     # If the file is already loaded, display the tab
-    if {[set file_index [lsearch $filenames $fname]] != -1} {
+    if {[set file_index [lsearch -index 0 $files $fname]] != -1} {
       
       $widgets(nb) select $file_index
       
@@ -240,15 +269,15 @@ namespace eval gui {
         $w.tf.txt mark set insert 1.0
       
       }
-      
-      # Insert the filenames
-      set filenames [linsert $filenames [$widgets(nb) index $w] $fname]
 
-      # Insert the save commands
-      set save_commands [linsert $save_commands [$widgets(nb) index $w] $save_command]
+      # Get the modification time of the file
+      file stat $fname stat
       
+      # Insert the file information
+      set files [linsert $files [$widgets(nb) index $w] [list $fname $save_command $stat(mtime)]]
+
       # Change the tab text
-      $widgets(nb) tab [$widgets(nb) index $w] -text [file tail [lindex $filenames $index]]
+      $widgets(nb) tab [$widgets(nb) index $w] -text [file tail $fname]
       
     }
 
@@ -286,13 +315,53 @@ namespace eval gui {
   }
   
   ######################################################################
+  # Update the file located at the given notebook index.
+  proc update_file {nb_index} {
+
+    variable widgets
+    variable files
+
+    # Get the text widget at the given index
+    set txt "[lindex [$widgets(nb) tabs] $nb_index].tf.txt"
+
+    # Get the current insertion index
+    set insert_index [$txt index insert]
+
+    # Delete the text widget
+    $txt delete 1.0 end
+
+    if {![catch "open [lindex $files $nb_index 0] r" rc]} {
+    
+      # Read the file contents and insert them
+      $txt insert end [string range [read $rc] 0 end-1]
+      
+      # Close the file
+      close $rc
+      
+      # Highlight the text
+      $txt highlight 1.0 end
+      
+      # Change the text to unmodified
+      $txt edit modified false
+        
+      # Set the insertion mark to the first position
+      $txt mark set insert $insert_index
+
+      # Make the insertion mark visible
+      $txt see $insert_index
+      
+    }
+
+  }
+
+  ######################################################################
   # Returns the filename of the current tab.
   proc current_filename {} {
   
     variable widgets
-    variable filenames
+    variable files
     
-    return [lindex $filenames [$widgets(nb) index current]]
+    return [lindex $files [$widgets(nb) index current] 0]
   
   }
   
@@ -301,40 +370,43 @@ namespace eval gui {
   proc save_current {{save_as ""}} {
   
     variable widgets
-    variable filenames
-    variable save_commands
+    variable files
     
     # Get the index of the currently displayed tab
     set index [$widgets(nb) index current]
     
     # If a save_as name is specified, change the filename
     if {$save_as ne ""} {
-      lset filenames $index $save_as
+      lset files $index 0 $save_as
     
     # If the current file doesn't have a filename, allow the user to set it
-    } elseif {[lindex $filenames $index] eq ""} {
+    } elseif {[lindex $files $index 0] eq ""} {
       if {[set sfile [tk_getSaveFile -defaultextension .tcl -parent . -title "Save As" -initialdir [pwd]]] eq ""} {
         return
       } else {
-        lset filenames $index $sfile
+        lset files $index 0 $sfile
       }
     }
     
     # Save the file contents
-    if {![catch "open [lindex $filenames $index] w" rc]} {
+    if {![catch "open [lindex $files $index 0] w" rc]} {
       puts $rc [[current_txt] get 1.0 end-1c]
       close $rc
     }
+
+    # Update the timestamp
+    file stat [lindex $files $index 0] stat
+    lset files $index 2 $stat(mtime)
     
     # Change the tab text
-    $widgets(nb) tab $index -text [file tail [lindex $filenames $index]]
+    $widgets(nb) tab $index -text [file tail [lindex $files $index 0]]
     
     # Change the text to unmodified
     [current_txt] edit modified false
 
     # If there is a save command, run it now
-    if {[lindex $save_commands $index] ne ""} {
-      eval [lindex $save_commands $index]
+    if {[lindex $files $index 1] ne ""} {
+      eval [lindex $files $index 1]
     }
   
   }
@@ -344,8 +416,6 @@ namespace eval gui {
   proc close_current {} {
   
     variable widgets
-    variable filenames
-    variable save_commands
     
     # If the file needs to be saved, do it now
     if {[[current_txt] edit modified]} {
@@ -353,29 +423,38 @@ namespace eval gui {
         save_current
       }
     }
+
+    # Close the current tab
+    close_tab [$widgets(nb) index current]
     
-    # Get the index of the current tab
-    set tab_index [$widgets(nb) index current]
-    
+  }
+  
+  ######################################################################
+  # Close the specified tab (do not ask the user about closing the tab).
+  proc close_tab {nb_index} {
+
+    variable widgets
+    variable files
+
+    # Get the indexed text widget 
+    set txt "[lindex [$widgets(nb) tabs] $nb_index].tf.txt"
+
     # Remove bindings
-    indent::remove_bindings [current_txt]
-    
+    indent::remove_bindings $txt
+
     # Add a new file if we have no more tabs
     if {[llength [$widgets(nb) tabs]] == 1} {
       add_new_file end
     }
 
-    # Delete the file from filenames
-    set filenames [lreplace $filenames $tab_index $tab_index]
+    # Delete the file from files
+    set files [lreplace $files $nb_index $nb_index]
 
-    # Delete the save command from the list
-    set save_commands [lreplace $save_commands $tab_index $tab_index]
-        
     # Remove the tab
-    $widgets(nb) forget $tab_index
-    
+    $widgets(nb) forget $nb_index
+
   }
-  
+
   ######################################################################
   # Close all tabs but the current tab.
   proc close_others {} {
@@ -441,6 +520,9 @@ namespace eval gui {
     
     # Perform the cut
     tk_textCut [current_txt]
+
+    # Add the clipboard contents to history
+    cliphist::add_from_clipboard
   
   }
   
@@ -450,6 +532,9 @@ namespace eval gui {
     
     # Perform the copy
     tk_textCopy [current_txt]
+  
+    # Add the clipboard contents to history
+    cliphist::add_from_clipboard
   
   }
   
@@ -634,13 +719,13 @@ namespace eval gui {
   # Returns the list of stored filenames.
   proc get_actual_filenames {} {
   
-    variable filenames
+    variable files
     
     set actual_filenames [list]
     
-    foreach filename $filenames {
-      if {$filename ne ""} {
-        lappend actual_filenames $filename
+    foreach finfo $files {
+      if {[lindex $finfo 0] ne ""} {
+        lappend actual_filenames [lindex $finfo 0]
       }
     }
     

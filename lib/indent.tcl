@@ -142,11 +142,11 @@ namespace eval indent {
     
     # Get the clipboard contents, trimming the whitespace and splitting into lines
     foreach line [split [$txt get $startpos $endpos] \n] {
-      lappend str [string trim $line]
+      lappend str $line
     }
-    
+
     # Get the line up to the insertion point
-    set line         [$txt get "$startpos linestart" $startpos-1c]
+    set line         [$txt get "$startpos linestart" $startpos]
     set current_line 0
     
     # If we have non-whitespace text to our left, paste the first line as is.
@@ -168,14 +168,19 @@ namespace eval indent {
       }
 
       for {set i 1} {$i < [llength $str]} {incr i} {
+        set linestart [$txt index "$startpos+${i}l linestart"]
+        set tags      [$txt tag names $linestart]
+        if {[regexp {^(\s*)} [lindex $str $i] -> whitespace]} {
+          $txt delete $linestart "$linestart+[string length $whitespace]c"
+        }
         if {[regexp {\{[^\}]*$} [lindex $str $i]]} {
-          $txt insert "$startpos+${i}l linestart" [string repeat " " [expr $indent_levels($txt,insert) * 2]]
-          incr indent_levels($txt)
+          $txt insert $linestart [string repeat " " [expr $indent_levels($txt,insert) * 2]] $tags
+          incr indent_levels($txt,insert)
         } else {
-          if {[string index [lindex $str $i] 0] eq "\}"} {
-            incr indent_levels($txt) -1
+          if {[regexp {^\s*\}} [lindex $str $i]]} {
+            incr indent_levels($txt,insert) -1
           }
-          $txt insert "$startpos+${i}l linestart" [string repeat " " [expr $indent_levels($txt,insert) * 2]]
+          $txt insert $linestart [string repeat " " [expr $indent_levels($txt,insert) * 2]] $tags
         }
       }
     }

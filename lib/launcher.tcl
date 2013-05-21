@@ -214,18 +214,14 @@ namespace eval launcher {
     variable command_names
     variable command_values
 
-    # Create default values
-    set count      0
-    set search_str ""
-
     # Create the command value list
     set command_value [lrepeat [array size command_values] ""]
-    lset command_value $command_values(command)       $name
+    lset command_value $command_values(description)   $name
     lset command_value $command_values(command)       $command
     lset command_value $command_values(auto_register) 0
     lset command_value $command_values(temporary)     1
-    lset command_value $command_values(count)         $count
-    lset command_value $command_values(search_str)    $search_str
+    lset command_value $command_values(count)         0
+    lset command_value $command_values(search_str)    $name
 
     # Populate the command in the lookup table
     set commands([get_command_name $name $validate_cmd]) $command_value

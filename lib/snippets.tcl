@@ -77,7 +77,7 @@ namespace eval snippets {
             append snippet "[string trim $txt]\n"
           } else {
             set in_snippet 0
-            set snippets($sfile,$name) [parse_snippet $snippet]
+            set snippets($sfile,$name) [parse_snippet [string range $snippet 0 end-1]]
             set snippet    ""
             array set snip $snippets($sfile,$name)
             launcher::register "Snippet-$basename: $name: [string range $snip(raw_string) 0 30]" \
@@ -306,9 +306,10 @@ namespace eval snippets {
     set tabpoints($txt) 1
     set within($txt)    0
     set insert_index    [$txt index insert]
+    set current_line    [$txt get "insert linestart" "insert lineend"]
     
     # Insert the raw string into the text widget
-    $txt insert insert $snip(raw_string)
+    [winfo parent $txt] insert insert $snip(raw_string)
 
     # Create a tag for the inserted text
     $txt tag add snippet_raw $insert_index "$insert_index+[string length $snip(raw_string)]c"
@@ -323,8 +324,8 @@ namespace eval snippets {
     foreach dynamic [lreverse $snip(dynamics)] {
       if {[lindex $dynamic 0] eq "var"} {
         switch [lindex $dynamic 1] {
-          SELECTED_TEXT { set str [$txt get sel.first sel.last] }
-          CURRENT_LINE  { set str [$txt get "insert linestart" "insert lineend"] }
+          CLIPBOARD     { set str [expr {![catch "clipboard get" rc] ? $rc : ""}] }
+          CURRENT_LINE  { set str $current_line }
           CURRENT_WORD  { set str [$txt get "insert wordstart" "insert wordend"] }
           DIRECTORY     { set str [file dirname [gui::current_filename]] }
           FILEPATH      { set str [gui::current_filename] }
@@ -340,13 +341,12 @@ namespace eval snippets {
         }
       }
       if {$str ne ""} {
-        $txt delete "$insert_index+[lindex $dynamic 2]c" "$insert_index+[expr [lindex $dynamic 2] + [string length [lindex $dynamic 3]]]c"
-        $txt insert "$insert_index+[lindex $dynamic 2]c" $str
+        $txt replace "$insert_index+[lindex $dynamic 2]c" "$insert_index+[expr [lindex $dynamic 2] + [string length [lindex $dynamic 3]]]c" $str snippet_raw
       }
     }
 
     # Indent the text
-    indent::format_text $txt "snippet_raw.first" "snippet_raw.last"
+    indent::format_text $txt [$txt index snippet_raw.first] [$txt index snippet_raw.last]
 
     # Delete the snippet_raw tag
     $txt tag delete snippet_raw
