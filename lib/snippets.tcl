@@ -23,23 +23,33 @@ namespace eval snippets {
     }
     
     # Load the snippet files into memory
-    foreach file [glob -nocomplain -directory $snippets_dir *.snippets] {
-      load_file $file
-      launcher::register "Snippets: Edit [file tail $file] snippets" "gui::add_file end $file"
-    }
+    load_directory
     
     launcher::register "Snippets: Create new snippets file" "snippets::add_new_snippet_file"
+    launcher::register "Snippets: Reload all snippets" "snippets::load_directory"
     
   }
   
+  ######################################################################
+  # Load all of the snippets from the snippets directory.
+  proc load_directory {} {
+
+    variable snippets_dir
+
+    foreach file [glob -nocomplain -directory $snippets_dir *.snippets] {
+      load_file $file
+      launcher::register "Snippets: Edit [file tail $file] snippets" \
+        [list gui::add_file end $file [list snippets::load_file $file]]
+    }
+    
+  }
+
   ######################################################################
   # Load the snippets file.
   proc load_file {sfile} {
     
     variable snippets
-    
-    puts "In load_file, sfile: $sfile"
-    
+
     if {![catch "open $sfile r" rc]} {
       
       # Read the contents of the snippets file
@@ -53,7 +63,7 @@ namespace eval snippets {
       set basename [file rootname [file tail $sfile]]
       
       # Remove any launcher commands that would be associated with this file
-      launcher::unregister "Snippet-$basename:"
+      launcher::unregister "Snippet-$basename:*"
 
       set in_snippet 0
      
@@ -70,7 +80,6 @@ namespace eval snippets {
             set snippets($sfile,$name) [parse_snippet $snippet]
             set snippet    ""
             array set snip $snippets($sfile,$name)
-            puts "Registering $basename/$name"
             launcher::register "Snippet-$basename: $name: [string range $snip(raw_string) 0 30]" \
               [list snippets::insert_snippet_into_current $snippets($sfile,$name)] 
           }
@@ -442,7 +451,7 @@ namespace eval snippets {
     ttk::button .snipwin.bf.ok -text "OK" -width 6 -command {
       set sfname [file join $snippets::snippets_dir [.snipwin.f.e get].snippets]
       exec touch $sfname
-      gui::add_file end $sfname
+      gui::add_file end $sfname "snippets::load_file $sfname"
       destroy .snipwin
     }
     ttk::button .snipwin.bf.cancel -text "Cancel" -width 6 -command {

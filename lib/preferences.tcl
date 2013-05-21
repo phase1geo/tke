@@ -6,7 +6,6 @@
 namespace eval preferences {
 
   variable preferences_file [file join $::tke_home preferences.dat]
-  variable last_mtime       0
   
   array set prefs {}
   
@@ -16,21 +15,22 @@ namespace eval preferences {
   
     variable preferences_file
     
-    # Start polling on the preferences file
-    poll
+    # Load the preferences file contents
+    load_file
     
     # Add our launcher commands
-    launcher::register "Preferences: Edit preferences"        "gui::add_file end $preferences_file"
+    launcher::register "Preferences: Edit preferences" \
+      [list gui::add_file end $preferences_file preferences::load_file]
     launcher::register "Preferences: Use default preferences" "preferences::copy_default"
+    launcher::register "Preferences: Reload preferences" "preferences::load_file"
   
   }
   
   ######################################################################
   # Constantly monitors changes to the tke preferences file.
-  proc poll {} {
+  proc load_file {} {
   
     variable preferences_file
-    variable last_mtime
     variable prefs
     variable menus
     
@@ -40,17 +40,10 @@ namespace eval preferences {
     }
     
     # Check for file differences
-    file stat $preferences_file stat
-    if {$stat(mtime) != $last_mtime} {
-      set last_mtime $stat(mtime)
-      if {![catch "open $preferences_file r" rc]} {
-        array set prefs [read $rc]
-        close $rc
-      }
+    if {![catch "open $preferences_file r" rc]} {
+      array set prefs [read $rc]
+      close $rc
     }
-    
-    # Check every second for a change to the preferences file
-    after 1000 [list preferences::poll]
     
   }
   

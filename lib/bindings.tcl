@@ -6,7 +6,6 @@
 namespace eval bindings {
 
   variable bindings_file [file join $::tke_home menu_bindings.dat]
-  variable last_mtime    0
 
   array set menus         {}
   array set menu_bindings {}
@@ -27,12 +26,14 @@ namespace eval bindings {
       copy_default
     }
   
-    # Start the polling process on the bindings information
-    poll
+    # Load the menu bindings file
+    load_file
     
     # Add our launcher commands
-    launcher::register "Menu Bindings: Edit menu bindings"        "gui::add_file end $bindings_file"
+    launcher::register "Menu Bindings: Edit menu bindings" \
+      [list gui::add_file end $bindings_file bindings::load_file]
     launcher::register "Menu Bindings: Use default menu bindings" "bindings::copy_default"
+    launcher::register "Menu Bindings: Reload menu bindings" "bindings::load_file"
   
   }
   
@@ -44,33 +45,25 @@ namespace eval bindings {
   # Polls on the bindings file in the tke home directory.  Whenever it
   # changes modification time, re-read the file and store it in the
   # menu_bindings array
-  proc poll {} {
+  proc load_file {} {
   
     variable bindings_file
-    variable last_mtime
     variable menu_bindings
     variable menus
     
     if {[file exists $bindings_file]} {
-      file stat $bindings_file stat
-      if {$stat(mtime) != $last_mtime} {
-        set last_mtime $stat(mtime)
-        if {![catch "open $bindings_file r" rc]} {
-          remove_all_bindings
-          array set menu_bindings [read $rc]
-          close $rc
-          foreach mnu [array names menus] {
-            apply $mnu
-          }
+      if {![catch "open $bindings_file r" rc]} {
+        remove_all_bindings
+        array set menu_bindings [read $rc]
+        close $rc
+        foreach mnu [array names menus] {
+          apply $mnu
         }
       }
     } else {
       array unset menu_bindings
     }
     
-    # Set to poll after 1 second
-    after 1000 [list bindings::poll]
-  
   }
 
   ######################################################################

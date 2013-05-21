@@ -8,6 +8,7 @@ namespace eval gui {
 
   variable curr_id       0
   variable filenames     {}
+  variable save_commands {}
   variable nb_index      0
   variable nb_current    ""
   variable geometry_file [file join $::tke_home geometry.dat]
@@ -121,20 +122,24 @@ namespace eval gui {
     variable nb_current
     variable last_x
     variable filenames
+    variable save_commands
     
     if {[set tabid [$W index @$x,$y]] ne ""} {
       if {($nb_current ne "") && \
           ((($nb_current > $tabid) && ($x < $last_x)) || \
            (($nb_current < $tabid) && ($x > $last_x)))} {
-        set tab       [lindex [$W tabs] $nb_current]
-        set title     [$W tab $nb_current -text]
-        set fname     [lindex $filenames $nb_current]
-        set filenames [lreplace $filenames $nb_current $nb_current]
+        set tab           [lindex [$W tabs] $nb_current]
+        set title         [$W tab $nb_current -text]
+        set fname         [lindex $filenames $nb_current]
+        set filenames     [lreplace $filenames $nb_current $nb_current]
+        set save_command  [lindex $save_commands $nb_current]
+        set save_commands [lreplace $save_commands $nb_current $nb_current]
         $W forget $nb_current
         $W insert [expr {($tabid == [$W index end]) ? "end" : $tabid}] $tab -text $title
         $W select $tabid
-        set filenames  [linsert $filenames $tabid $fname]
-        set nb_current $tabid
+        set filenames     [linsert $filenames $tabid $fname]
+        set save_commands [linsert $save_commands $tabid $save_command]
+        set nb_current    $tabid
       }
       set last_x $x
     }
@@ -184,18 +189,27 @@ namespace eval gui {
   
     variable widgets
     variable filenames
+    variable save_commands
     
-    set filenames [linsert $filenames [$widgets(nb) index [insert_tab $index "Untitled"]] ""]
+    # Get the current index
+    set index [insert_tab $index "Untitled"]
+
+    # Add the filename to the filenames
+    set filenames [linsert $filenames [$widgets(nb) index $index] ""]
+
+    # Adds the save commands
+    set save_commands [linsert $save_commands [$widgets(nb) index $index] ""] 
     
   }
   
   ######################################################################
   # Creates a new tab for the given filename specified at the given index
   # tab position.
-  proc add_file {index fname} {
+  proc add_file {index fname {save_command ""}} {
   
     variable widgets
     variable filenames
+    variable save_commands
     
     # If the file is already loaded, display the tab
     if {[set file_index [lsearch $filenames $fname]] != -1} {
@@ -229,6 +243,9 @@ namespace eval gui {
       
       # Insert the filenames
       set filenames [linsert $filenames [$widgets(nb) index $w] $fname]
+
+      # Insert the save commands
+      set save_commands [linsert $save_commands [$widgets(nb) index $w] $save_command]
       
       # Change the tab text
       $widgets(nb) tab [$widgets(nb) index $w] -text [file tail [lindex $filenames $index]]
@@ -285,6 +302,7 @@ namespace eval gui {
   
     variable widgets
     variable filenames
+    variable save_commands
     
     # Get the index of the currently displayed tab
     set index [$widgets(nb) index current]
@@ -313,6 +331,11 @@ namespace eval gui {
     
     # Change the text to unmodified
     [current_txt] edit modified false
+
+    # If there is a save command, run it now
+    if {[lindex $save_commands $index] ne ""} {
+      eval [lindex $save_commands $index]
+    }
   
   }
   
@@ -322,6 +345,7 @@ namespace eval gui {
   
     variable widgets
     variable filenames
+    variable save_commands
     
     # If the file needs to be saved, do it now
     if {[[current_txt] edit modified]} {
@@ -343,6 +367,9 @@ namespace eval gui {
 
     # Delete the file from filenames
     set filenames [lreplace $filenames $tab_index $tab_index]
+
+    # Delete the save command from the list
+    set save_commands [lreplace $save_commands $tab_index $tab_index]
         
     # Remove the tab
     $widgets(nb) forget $tab_index

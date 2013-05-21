@@ -135,6 +135,9 @@ namespace eval menus {
     
     # Save the window geometry
     gui::save_geometry
+
+    # Save the clipboard history
+    cliphist::save
   
     # Destroy the interface
     destroy .
