@@ -48,5 +48,31 @@ namespace eval utils {
     }
 
   }
+
+  ######################################################################
+  # Compares the two text indices.  Returns 0 if the are the same index
+  # value.  Returns -1 if index1 is less then index2.  Returns 1 if index1
+  # is greater than index2.
+  proc compare_indices {index1 index2} {
+
+    if {$index1 eq $index2} {
+      return 0
+    } else {
+      lassign [split $index1 .] line1 col1
+      lassign [split $index2 .] line2 col2
+      if {$line1 == $line2} {
+        if {$col1 < $col2} {
+          return -1
+        } else {
+          return 1
+        }
+      } elseif {$line1 < $line2} {
+        return -1
+      } else {
+        return 1
+      }
+    }
+
+  }
   
 }

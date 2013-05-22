@@ -129,6 +129,9 @@ snippets::load
 # Load the clipboard history
 cliphist::load
 
+# Set the tk style to clam
+ttk::style theme use clam
+
 # Create GUI
 gui::create
 

@@ -237,9 +237,9 @@ namespace eval menus {
     
     $mb add separator
     
-    $mb add checkbutton -label "Vim Mode" -underline 0 -variable preferences::prefs(Tools/VimMode) -command "vim::set_vim_mode"
-    launcher::register "Menu: Enable Vim mode"  "set preferences::prefs(Tools/VimMode) 1; vim::set_vim_mode"
-    launcher::register "Menu: Disable Vim mode" "set preferences::prefs(Tools/VimMode) 0; vim::set_vim_mode"
+    $mb add checkbutton -label "Vim Mode" -underline 0 -variable preferences::prefs(Tools/VimMode) -command "vim::set_vim_mode_all"
+    launcher::register "Menu: Enable Vim mode"  "set preferences::prefs(Tools/VimMode) 1; vim::set_vim_mode_all"
+    launcher::register "Menu: Disable Vim mode" "set preferences::prefs(Tools/VimMode) 0; vim::set_vim_mode_all"
     
     $mb add separator
     

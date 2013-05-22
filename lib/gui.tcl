@@ -40,7 +40,7 @@ namespace eval gui {
             }
             lset files $i 2 $stat(mtime)
           }
-        } else {
+        } elseif {$mtime ne ""} {
           set answer [tk_messageBox -parent . -icon question -message "Delete tab?" \
             -detail $fname -type yesno -default yes]
           if {$answer eq "yes"} {
@@ -305,13 +305,17 @@ namespace eval gui {
         # Set the insertion mark to the first position
         $w.tf.txt mark set insert 1.0
       
-      }
-
-      # Get the modification time of the file
-      file stat $fname stat
+        # Get the modification time of the file
+        file stat $fname stat
       
-      # Insert the file information
-      set files [linsert $files [$widgets(nb) index $w] [list $fname $save_command $stat(mtime)]]
+        # Insert the file information
+        set files [linsert $files [$widgets(nb) index $w] [list $fname $save_command $stat(mtime)]]
+
+      } else {
+
+        set files [linsert $files [$widgets(nb) index $w] [list $fname $save_command ""]]
+
+      }
 
       # Change the tab text
       $widgets(nb) tab [$widgets(nb) index $w] -text [file tail $fname]
@@ -670,7 +674,7 @@ namespace eval gui {
     }
     
     # Search the text widget from the current insertion cursor forward.
-    if {[set match [$txt search -count gui::search_counts -- $value insert]] ne ""} {
+    if {[set match [$txt search -regexp -count gui::search_counts -- $value insert]] ne ""} {
       $txt tag add sel $match "$match+${search_counts}c"
       $txt mark set insert "$match+${search_counts}c"
       $txt see $match
@@ -703,7 +707,7 @@ namespace eval gui {
     }
    
     # Search the text widget from the current insertion cursor forward.
-    if {[set match [$txt search -backwards -count gui::search_counts -- $value insert-[string length $value]c]] ne ""} {
+    if {[set match [$txt search -regexp -backwards -count gui::search_counts -- $value insert-[string length $value]c]] ne ""} {
       $txt tag add sel $match "$match+${search_counts}c"
       $txt mark set insert "$match+${search_counts}c"
       $txt see $match
@@ -789,7 +793,7 @@ namespace eval gui {
     
     # Create the editor frame
     ttk::frame $tab_frame.tf
-    create_ctext $tab_frame.tf.txt -undo 1 \
+    create_ctext $tab_frame.tf.txt -undo 1 -autoseparators 1 \
       -xscrollcommand "utils::set_scrollbar $tab_frame.tf.hb" \
       -yscrollcommand "utils::set_scrollbar $tab_frame.tf.vb"
     ttk::scrollbar $tab_frame.tf.vb -orient vertical   -command "$tab_frame.tf.txt yview"
@@ -813,7 +817,9 @@ namespace eval gui {
     grid $tab_frame.tf.hb  -row 1 -column 0 -sticky ew
     
     # Create the Vim command bar
-    vim::bind_command_entry $tab_frame.tf.txt [entry $tab_frame.ve -background black -foreground white]
+    vim::bind_command_entry $tab_frame.tf.txt \
+      [entry $tab_frame.ve -background black -foreground white -insertbackground white \
+        -font [$tab_frame.tf.txt cget -font]]
     
     # Create the search bar
     ttk::frame $tab_frame.sf
@@ -853,6 +859,7 @@ namespace eval gui {
     indent::add_bindings      $tab_frame.tf.txt
     multicursor::add_bindings $tab_frame.tf.txt
     snippets::add_bindings    $tab_frame.tf.txt
+    vim::set_vim_mode         $tab_frame.tf.txt
     
     # Get the adjusted index
     set adjusted_index [$widgets(nb) index $index]

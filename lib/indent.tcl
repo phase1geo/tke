@@ -85,7 +85,7 @@ namespace eval indent {
     # Remove one indentation of whitespace before the right curly character
     set line [$txt get "$insert_index linestart" $insert_index-1c]
     if {($line ne "") && ([string trim $line] eq "")} {
-      $txt delete $insert_index-3c $insert_index-1c
+      $txt replace "$insert_index linestart" "$insert_index-1c" [string repeat " " [expr $indent_levels($txt,$indent_name) * 2]]
     }
   
   }
@@ -109,28 +109,18 @@ namespace eval indent {
   proc update_indent_level {txt insert_index indent_name} {
   
     variable indent_levels
-    
-    # First, get the indentation level of the current line
-    regexp {^(\s*)} [$txt get "$insert_index linestart" "$insert_index lineend"] -> whitespace
-    set indent_levels($txt,$indent_name) [expr [string length $whitespace] / 2]
-    
-    # Get the current line
-    set line [$txt get "$insert_index linestart" $insert_index]
-    
-    # Second, if we have a mismatched brace on the current line,
-    # add an indent level to ourselves
 
-    # If we are in a comment, do nothing
-    if {[string first "#" $line] != -1} {
-      return
+    # Find the last open brace starting from the current insertion point
+    set i 0
+    foreach line [lreverse [split [$txt get 1.0 $insert_index] \n]] {
+      if {[regexp {^[^#]*\{[^\}]*$} $line]} {
+        regexp {^(\s*)} $line -> whitespace
+        set indent_levels($txt,$indent_name) [expr ([string length $whitespace] / 2) + (($i == 0) ? 0 : 1)]
+        break
+      }
+      incr i
     }
     
-    # If the line contains an open brace with no following close brace,
-    # increment the indentation level.
-    if {[regexp {\{[^\}]*$} $line]} {
-      incr indent_levels($txt,$indent_name)
-    }
-  
   }
   
   ######################################################################
