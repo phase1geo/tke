@@ -1,5 +1,15 @@
+######################################################################
+# Name:    texttools.tcl
+# Author:  Trevor Williams  (phase1geo@gmail.com)
+# Date:    05/21/2013
+# Brief:   Namespace containing procedures to manipulate text in the
+#          current text widget.
+######################################################################
+
 namespace eval texttools {
 
+  ######################################################################
+  # Comments out the currently selected text.
   proc comment {} {
 
     # Get the current text widget
@@ -22,6 +32,9 @@ namespace eval texttools {
 
   }
 
+  ######################################################################
+  # Uncomments out the currently selected text in the current text
+  # widget.
   proc uncomment {} {
 
     # Get the current text widget

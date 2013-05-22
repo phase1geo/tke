@@ -237,6 +237,12 @@ namespace eval menus {
     
     $mb add separator
     
+    $mb add checkbutton -label "Vim Mode" -underline 0 -variable preferences::prefs(Tools/VimMode) -command "vim::set_vim_mode"
+    launcher::register "Menu: Enable Vim mode"  "set preferences::prefs(Tools/VimMode) 1; vim::set_vim_mode"
+    launcher::register "Menu: Disable Vim mode" "set preferences::prefs(Tools/VimMode) 0; vim::set_vim_mode"
+    
+    $mb add separator
+    
     $mb add command -label "Restart tke" -underline 0 -command "menus::restart_command"
     launcher::register "Menu: Restart tke" "menus::restart_command"
    

@@ -775,13 +775,16 @@ namespace eval gui {
     grid $tab_frame.tf.vb  -row 0 -column 1 -sticky ns
     grid $tab_frame.tf.hb  -row 1 -column 0 -sticky ew
     
-    # Create the search bar
-    ttk::frame     $tab_frame.sf
-    ttk::label     $tab_frame.sf.l1 -text "Find:"
-    ttk::entry     $tab_frame.sf.e
+    # Create the Vim command bar
+    vim::bind_command_entry $tab_frame.tf.txt [entry $tab_frame.ve -background black -foreground white]
     
-    pack $tab_frame.sf.l1  -side left -padx 2 -pady 2
-    pack $tab_frame.sf.e   -side left -padx 2 -pady 2 -fill x
+    # Create the search bar
+    ttk::frame $tab_frame.sf
+    ttk::label $tab_frame.sf.l1 -text "Find:"
+    ttk::entry $tab_frame.sf.e
+    
+    pack $tab_frame.sf.l1 -side left -padx 2 -pady 2
+    pack $tab_frame.sf.e  -side left -padx 2 -pady 2 -fill x
     
     bind $tab_frame.sf.e <Return> "gui::search_next 0"
     bind $tab_frame.sf.e <Escape> "gui::close_search"
@@ -799,11 +802,13 @@ namespace eval gui {
     grid rowconfigure    $tab_frame 0 -weight 1
     grid columnconfigure $tab_frame 0 -weight 1
     grid $tab_frame.tf  -row 0 -column 0 -sticky news
-    grid $tab_frame.sf  -row 1 -column 0 -sticky ew
-    grid $tab_frame.sep -row 2 -column 0 -sticky ew
-    grid $tab_frame.if  -row 3 -column 0 -sticky ew
+    grid $tab_frame.ve  -row 1 -column 0 -sticky ew
+    grid $tab_frame.sf  -row 2 -column 0 -sticky ew
+    grid $tab_frame.sep -row 3 -column 0 -sticky ew
+    grid $tab_frame.if  -row 4 -column 0 -sticky ew
     
-    # Hide the search bar and search separator
+    # Hide the vim command entry, search bar and search separator
+    grid remove $tab_frame.ve
     grid remove $tab_frame.sf
     grid remove $tab_frame.sep
     

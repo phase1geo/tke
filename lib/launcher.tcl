@@ -488,7 +488,7 @@ namespace eval launcher {
     set closed 1
 
     # Execute the associated command
-    after 1 [list launcher::execute_helper [lindex $commands($command_name)) $command_values(command)]]
+    after 1 [list launcher::execute_helper [lindex $commands($command_name) $command_values(command)]]
 
   }
 

@@ -1,2 +1,3 @@
 {Appearance/Background} {black}
 {Appearance/Foreground} {white}
+{Tools/Vim Mode}        {false}
