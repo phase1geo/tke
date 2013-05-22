@@ -767,6 +767,7 @@ namespace eval gui {
     bind Text <<Copy>>    ""
     bind Text <<Paste>>   ""
     bind Text <Control-d> ""
+    bind Text <Control-i> ""
     
     grid rowconfigure    $tab_frame.tf 0 -weight 1
     grid columnconfigure $tab_frame.tf 0 -weight 1
@@ -853,7 +854,7 @@ namespace eval gui {
     set control [list proc uplevel namespace while for foreach if else elseif switch default return catch exec exit]
   
     # Create the ctext widget
-    ctext $w -wrap none -background black -foreground white -insertbackground white {*}$args
+    ctext $w -wrap none -background black -foreground white -insertbackground white -selectforeground white -selectbackground blue {*}$args
     
     # Apply the syntax highlighting rules
     ctext::addHighlightClass                  $w widgets        "purple"            $widgets

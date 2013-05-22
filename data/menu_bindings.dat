@@ -22,6 +22,10 @@
 {.menubar.find/Append next occurrence}     Ctrl-D
 {.menubar.find/Select all occurrences}     Ctrl-Shift-A
 
+# Text menu bindings
+{.menubar.text/Comment}                    Ctrl-I
+{.menubar.text/Uncomment}                  Ctrl-Shift-I
+
 # Tools menu bindings
 {.menubar.tools/Launcher}                  Ctrl-Space
 

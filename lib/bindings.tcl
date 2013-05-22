@@ -184,7 +184,11 @@ namespace eval bindings {
   
     variable bindings_file
     
+    # Copy the default bindings to the tke home directory
     file copy -force [file join [file dirname $::tke_dir] data [file tail $bindings_file]] $::tke_home
+    
+    # Load the file
+    load_file
     
   }
 

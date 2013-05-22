@@ -53,7 +53,11 @@ namespace eval preferences {
   
     variable preferences_file
     
+    # Copy the default file to the tke_home directory
     file copy -force [file join [file dirname $::tke_dir] data [file tail $preferences_file]] $::tke_home
+    
+    # Load the preferences file
+    load_file
     
   }
   

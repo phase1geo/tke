@@ -222,6 +222,9 @@ namespace eval menus {
 
     $mb add command -label "Uncomment" -underline 0 -command "texttools::uncomment"
     launcher::register "Menu: Uncomment selected text" "texttools::uncomment"
+    
+    # Apply the menu settings for the text menu
+    bindings::apply $mb
 
   }
 
