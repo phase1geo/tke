@@ -78,7 +78,8 @@ namespace eval bindings {
 
     # Iterate through the menu items
     for {set i 0} {$i <= [$mnu index end]} {incr i} {
-      if {[$mnu type $i] eq "command"} {
+      set type [$mnu type $i]
+      if {($type eq "command") || ($type eq "checkbutton")} {
         set label [$mnu entrycget $i -label]
         if {[info exists menu_bindings($mnu/$label)]} {
           $mnu entryconfigure $i -accelerator $menu_bindings($mnu/$label)

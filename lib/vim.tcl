@@ -31,6 +31,8 @@ namespace eval vim {
   
     variable command_entries
     
+    puts "In bind_command_entry, $txt, $entry"
+    
     # Save the entry
     set command_entries($txt.t) $entry
   
@@ -42,14 +44,26 @@ namespace eval vim {
   ######################################################################
   # Handles the command entry text.
   proc handle_command_return {w txt} {
-  
-    variable command_entries
-    
+      
     # Get the value from the command field
     set value [$w get]
     
+    # Delete the value in the command entry
+    $w delete 0 end
+    
     # FIXME - Do whatever the command says
-    puts "Command: $value"
+    switch -- $value {
+      w  { gui::save_current }
+      w! { gui::save_current }
+      wq { gui::save_current; gui::close_current }
+      q  { gui::close_current }
+      q! { gui::close_current }
+      n  { gui::next_tab }
+      e  { gui::previous_tab }
+      default {
+        # FIXME
+      }
+    }
     
     # Remove the grab and set the focus back to the text widget
     grab release $w
@@ -63,8 +77,9 @@ namespace eval vim {
   ######################################################################
   # Handles an escape key in the command entry widget.
   proc handle_command_escape {w txt} {
-  
-    variable command_entries
+    
+    # Delete the value in the command entry
+    $w delete 0 end
     
     # Remove the grab and set the focus back to the text widget
     grab release $w
@@ -113,6 +128,11 @@ namespace eval vim {
     }
     bind vim$txt <Key-asciicircum> {
       if {[vim::handle_asciicircum %W]} {
+        break
+      }
+    }
+    bind vim$txt <Key-slash> {
+      if {[vim::handle_slash %W]} {
         break
       }
     }
@@ -178,6 +198,21 @@ namespace eval vim {
     }
     bind vim$txt <Key-x> {
       if {[vim::handle_x %W]} {
+        break
+      }
+    }
+    bind vim$txt <Key-o> {
+      if {[vim::handle_o %W]} {
+        break
+      }
+    }
+    bind vim$txt <Key-O> {
+      if {[vim::handle_O %W]} {
+        break
+      }
+    }
+    bind vim$txt <Key-Z> {
+      if {[vim::handle_Z %W]} {
         break
       }
     }
@@ -320,7 +355,7 @@ namespace eval vim {
   proc handle_colon {txt} {
   
     variable mode
-    variable command_entries'
+    variable command_entries
     variable number
     
     # If we are in the "start" mode, bring up the command entry widget
@@ -390,6 +425,23 @@ namespace eval vim {
     
     return 0
 
+  }
+  
+  ######################################################################
+  # If we are in "start" mode, display the search bar.
+  proc handle_slash {txt} {
+  
+    variable mode
+    variable number
+    
+    if {$mode($txt) eq "start"} {
+      gui::search
+      set number($txt) ""
+      return 1
+    }
+    
+    return 0
+    
   }
   
   ######################################################################
@@ -670,6 +722,70 @@ namespace eval vim {
       } else {
         $txt delete insert
       }
+      return 1
+    }
+    
+    return 0
+    
+  }
+  
+  ######################################################################
+  # If we are in "start" mode, add a new line below the current line
+  # and transition into "edit" mode.
+  proc handle_o {txt} {
+  
+    variable mode
+    variable number
+    
+    if {$mode($txt) eq "start"} {
+      $txt insert "insert lineend" "\n"
+      $txt mark set insert "insert+1l"
+      set mode($txt) "edit"
+      $txt configure -blockcursor false
+      set number($txt) ""
+      return 1
+    }
+    
+    return 0
+    
+  }
+  
+  ######################################################################
+  # If we are in "start" mode, add a new line above the current line
+  # and transition into "edit" mode.
+  proc handle_O {txt} {
+  
+    variable mode
+    variable number
+    
+    if {$mode($txt) eq "start"} {
+      $txt insert "insert linestart" "\n"
+      $txt mark set insert "insert-1l"
+      set mode($txt) "edit"
+      $txt configure -blockcursor false
+      set number($txt) ""
+      return 1
+    }
+    
+    return 0
+    
+  }
+  
+  ######################################################################
+  # If we are in "start" mode, set the mode to the "quit" mode.  If we
+  # are in "quit" mode, save and exit the current tab.
+  proc handle_Z {txt} {
+  
+    variable mode
+    variable number
+    
+    if {$mode($txt) eq "start"} {
+      set mode($txt) "quit"
+      set number($txt) ""
+      return 1
+    } elseif {$mode($txt) eq "quit"} {
+      gui::save_current
+      gui::close_current
       return 1
     }
     

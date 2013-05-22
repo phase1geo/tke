@@ -28,6 +28,7 @@
 
 # Tools menu bindings
 {.menubar.tools/Launcher}                  Ctrl-Space
+{.menubar.tools/Vim Mode}                  Ctrl-M
 
 
 

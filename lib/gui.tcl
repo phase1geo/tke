@@ -218,6 +218,43 @@ namespace eval gui {
   }
   
   ######################################################################
+  # Makes the next tab in the notebook viewable.
+  proc next_tab {} {
+  
+    variable widgets
+    
+    set index [expr [$widgets(nb) index current] + 1]
+    
+    # If the new tab index is at the end, circle to the first tab
+    if {$index == [$widgets(nb) index end]} {
+      set index 0
+    }
+    
+    # Select the next tab
+    $widgets(nb) select $index
+    
+  }
+  
+  ######################################################################
+  # Makes the previous tab in the notebook viewable.
+  proc previous_tab {} {
+  
+    variable widgets
+    
+    # Get the current index
+    set index [expr [$widgets(nb) index current] - 1]
+    
+    # If the new tab index is at the less than 0, circle to the last tab
+    if {$index == -1} {
+      set index [expr [$widgets(nb) index end] - 1]
+    }
+    
+    # Select the previous tab
+    $widgets(nb) select $index
+    
+  }
+  
+  ######################################################################
   # Adds a new file to the editor pane.
   proc add_new_file {index} {
   
