@@ -159,17 +159,13 @@ namespace eval vim {
     variable number
     variable buffer
     
-    # Put the current mode into the "start" mode
-    set mode($txt.t) "start"
-    
-    # Initialize the number for the current text widget
-    set number($txt.t) ""
-
-    # Clear the buffer
-    set buffer($txt.t) ""
-    
     # Change the cursor to the block cursor
     $txt configure -blockcursor true
+    
+    # Put ourselves into start mode
+    set mode($txt.t)   "start"
+    set number($txt.t) ""
+    start_mode $txt.t
     
     bind vim$txt <Escape> {
       if {[vim::handle_escape %W]} {
@@ -223,6 +219,11 @@ namespace eval vim {
 
     # Clear the buffer
     set buffer($txt) ""
+    
+    # If the current cursor is on a dummy space, remove it
+    if {[lsearch [$txt tag names insert] "dspace"] != -1} {
+      $txt delete insert
+    }
 
   }
 
@@ -232,12 +233,39 @@ namespace eval vim {
 
     variable mode
     
+    # If we are going from the edit state to the start state, add a separator
+    # to the undo stack.
+    if {$mode($txt) eq "edit"} {
+      $txt edit separator
+    }
+    
     # Set the current mode to the start mode
     set mode($txt) "start"
     
     # Set the blockcursor to true
     $txt configure -blockcursor true
-      
+    
+    # Adjust the insertion marker
+    adjust_insert $txt
+
+  }
+  
+  ######################################################################
+  # Adjust the insertion marker so that it never is allowed to sit on
+  # the lineend spot.
+  proc adjust_insert {txt} {
+    
+    # If the current line contains nothing, add a dummy space so that the
+    # block cursor doesn't look dumb.
+    if {[$txt index "insert linestart"] eq [$txt index "insert lineend"]} {
+      $txt insert insert " " dspace
+    }
+    
+    # Make sure that lineend is never the insertion point
+    if {[$txt index insert] ne [$txt index "insert linestart"]} {
+      $txt mark set insert "insert-1c"
+    }
+    
   }
 
   ######################################################################
@@ -246,12 +274,6 @@ namespace eval vim {
     
     variable mode
     variable number
-    
-    if {$mode($txt) eq "edit"} {
-      if {[utils::compare_indices [$txt index "insert linestart"] [$txt index "insert-1c"]] != 1} {
-        $txt mark set insert "insert-1c"
-      }
-    }
     
     # Clear the current number string
     set number($txt) ""
@@ -270,13 +292,13 @@ namespace eval vim {
     variable mode
     variable number
     variable buffer
-
+    
     if {![catch "handle_$keysym $txt" rc] && $rc} {
       if {$mode($txt) eq "start"} {
         set number($txt) ""
       }
       return 1
-    } elseif {[string is integer $char] && [handle_number $txt $char]} {
+    } elseif {[string is integer $keysym] && [handle_number $txt $char]} {
       return 1
     }
 
@@ -288,7 +310,7 @@ namespace eval vim {
       start_mode $txt
       return 1
     }
-
+    
     return 0
         
   }
@@ -466,8 +488,9 @@ namespace eval vim {
       } else {
         $txt mark set insert "insert+1l"
       }
+      adjust_insert $txt
       $txt see insert
-      indent::update_indent_level $txt insert insert
+      indent::update_indent_level $txt "insert lineend" insert
       return 1
     }
     
@@ -490,8 +513,9 @@ namespace eval vim {
       } else {
         $txt mark set insert "insert-1l"
       }
+      adjust_insert $txt
       $txt see insert
-      indent::update_indent_level $txt insert insert
+      indent::update_indent_level $txt "insert lineend" insert
       return 1
     }
     
@@ -597,6 +621,7 @@ namespace eval vim {
     
     if {$mode($txt) eq "start"} {
       $txt mark set insert "end linestart"
+      adjust_insert $txt
       $txt see end
       return 1
     }
@@ -749,10 +774,25 @@ namespace eval vim {
     
     if {$mode($txt) eq "start"} {
       if {$number($txt) ne ""} {
-        $txt delete insert "insert+$number($txt)c"
+        if {[utils::compare_indices [$txt index "insert+$number($txt)c"] [$txt index "insert lineend"]] == 1} {
+          $txt delete insert "insert lineend"
+          if {[$txt index insert] eq [$txt index "insert linestart"]} {
+            $txt insert insert " "
+          }
+          $txt mark set insert "insert-1c"
+        } else {
+          $txt delete insert "insert+$number($txt)c"
+        }
       } else {
         $txt delete insert
+        if {[$txt index insert] eq [$txt index "insert lineend"]} {
+          if {[$txt index insert] eq [$txt index "insert linestart"]} {
+            $txt insert insert " "
+          }
+          $txt mark set insert "insert-1c"
+        }
       }
+      $txt edit separator
       return 1
     }
     
@@ -789,6 +829,7 @@ namespace eval vim {
     if {$mode($txt) eq "start"} {
       $txt insert "insert linestart" "\n"
       $txt mark set insert "insert-1l"
+      indent::newline $txt insert insert
       edit_mode $txt
       return 1
     }
@@ -855,8 +896,8 @@ namespace eval vim {
     variable mode
     
     if {$mode($txt) eq "start"} {
-      $txt tag remove sel 1.0 end
       event generate $txt <Next>
+      adjust_insert $txt
       return 1
     }
     
@@ -872,6 +913,7 @@ namespace eval vim {
     
     if {$mode($txt) eq "start"} {
       event generate $txt <Prior>
+      adjust_insert $txt
       return 1
     }
     

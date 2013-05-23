@@ -113,7 +113,11 @@ namespace eval indent {
     # Find the last open brace starting from the current insertion point
     set i 0
     foreach line [lreverse [split [$txt get 1.0 $insert_index] \n]] {
-      if {[regexp {^[^#]*\{[^\}]*$} $line]} {
+      if {[regexp {^[^#]*\}[^\{]*$} $line]} {
+        regexp {^(\s*)} $line -> whitespace
+        set indent_levels($txt,$indent_name) [expr [string length $whitespace] / 2]
+        break
+      } elseif {[regexp {^[^#]*\{[^\}]*$} $line]} {
         regexp {^(\s*)} $line -> whitespace
         set indent_levels($txt,$indent_name) [expr ([string length $whitespace] / 2) + (($i == 0) ? 0 : 1)]
         break
