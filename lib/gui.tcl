@@ -1,4 +1,4 @@
-# Name:    gui.tcl
+ # Name:    gui.tcl
 # Author:  Trevor Williams  (phase1geo@gmail.com)
 # Date:    5/11/2013
 # Brief:   Contains all of the main GUI elements for the editor and
@@ -595,10 +595,10 @@ namespace eval gui {
   
     # Get the length of the clipboard text
     set cliplen [string length [clipboard get]]
-
+ 
     # Get the position of the insertion cursor
     set insertpos [[current_txt] index insert]
-
+ 
     # Perform the paste operation
     paste
   
@@ -609,13 +609,16 @@ namespace eval gui {
   
   ######################################################################
   # Displays the search bar.
-  proc search {} {
+  proc search {{dir "next"}} {
     
     variable widgets
     
     # Get the current text frame
     set tab_frame [$widgets(nb) select]
     
+    # Update the search binding
+    bind $tab_frame.sf.e <Return> "gui::search_start $dir"
+ 
     # Display the search bar and separator
     grid $tab_frame.sf
     grid $tab_frame.sep
@@ -653,20 +656,54 @@ namespace eval gui {
   }
   
   ######################################################################
+  # Starts a text search
+  proc search_start {{dir "next"}} {
+
+    variable search_counts
+    
+    # If the user has specified a new search value, find all occurrences
+    if {[set str [[current_search] get]] ne ""} {
+    
+      # Get the current text widget
+      set txt [current_txt]
+
+      # Delete the search tag
+      $txt tag delete search
+
+      # Search the entire text
+      set i 0
+      foreach match [$txt search -count gui::search_counts -all -- $str 1.0] {
+        $txt tag add search $match "$match+[lindex $search_counts $i]c"
+        incr i
+      }
+
+      # Change the color of the items that match the search criteria
+      $txt tag configure search -background yellow -foreground black
+
+      # Make the search tag lower in priority than the selection tag
+      $txt tag lower search sel
+
+    }
+ 
+    # Select the search term
+    if {$dir eq "next"} {
+      search_next 0
+    } else {
+      search_prev 0
+    }
+
+  }
+ 
+  ######################################################################
   # Searches for the next occurrence of the search item.
   proc search_next {app} {
     
     variable widgets
     variable search_counts
-
-    # Get the current tab frame
-    set tab_frame [$widgets(nb) select]
-    
+    variable search_index
+ 
     # Get the current text widget
-    set txt $tab_frame.tf.txt
-    
-    # Get the search text
-    set value [$tab_frame.sf.e get]
+    set txt [current_txt]
     
     # If we are not appending to the selection, clear the selection
     if {!$app} {
@@ -674,10 +711,18 @@ namespace eval gui {
     }
     
     # Search the text widget from the current insertion cursor forward.
-    if {[set match [$txt search -regexp -count gui::search_counts -- $value insert]] ne ""} {
-      $txt tag add sel $match "$match+${search_counts}c"
-      $txt mark set insert "$match+${search_counts}c"
-      $txt see $match
+    lassign [$txt tag nextrange search "insert+1c"] startpos endpos
+
+    # We need to wrap on the search item
+    if {$startpos eq ""} {
+      lassign [$txt tag nextrange search 1.0] startpos endpos
+    }
+
+    # Select the next match
+    if {$startpos ne ""} {
+      $txt tag add sel $startpos $endpos
+      $txt mark set insert $startpos
+      $txt see insert
     }
     
     # Closes the search interface
@@ -687,19 +732,14 @@ namespace eval gui {
   
   ######################################################################
   # Searches for the previous occurrence of the search item.
-  proc search_previous {app} {
+  proc search_prev {app} {
     
     variable widgets
     variable search_counts
-    
-    # Get the current tab frame
-    set tab_frame [$widgets(nb) select]
+    variable search_text
     
     # Get the current text widget
-    set txt $tab_frame.tf.txt
-    
-    # Get the search text
-    set value [$tab_frame.sf.e get]
+    set txt [current_txt]
     
     # If we are not appending to the selection, clear the selection
     if {!$app} {
@@ -707,12 +747,20 @@ namespace eval gui {
     }
    
     # Search the text widget from the current insertion cursor forward.
-    if {[set match [$txt search -regexp -backwards -count gui::search_counts -- $value insert-[string length $value]c]] ne ""} {
-      $txt tag add sel $match "$match+${search_counts}c"
-      $txt mark set insert "$match+${search_counts}c"
-      $txt see $match
+    lassign [$txt tag prevrange search insert] startpos endpos
+
+    # We need to wrap on the search item
+    if {$startpos eq ""} {
+      lassign [$txt tag prevrange search end] startpos endpos
     }
-    
+
+    # Select the next match
+    if {$startpos ne ""} {
+      $txt tag add sel $startpos $endpos
+      $txt mark set insert $startpos
+      $txt see insert
+    }
+
     # Close the search interface
     close_search
     
@@ -724,31 +772,22 @@ namespace eval gui {
     
     variable widgets
     variable search_counts
-    
-    # Get the current tab frame
-    set tab_frame [$widgets(nb) select]
+    variable search_text
     
     # Get the current text widget
-    set txt $tab_frame.tf.txt
-    
-    # Get the search text
-    set value [$tab_frame.sf.e get]
+    set txt [current_txt]
     
     # Clear the selection
     $txt tag remove sel 1.0 end
     
-    # Search the entire text
-    set i 0
-    set matches [$txt search -count gui::search_counts -all -- $value 1.0]
-    foreach match $matches {
-      $txt tag add sel $match "$match+[lindex $search_counts $i]c"
-      incr i
-    }
-
+    # Add all matching search items to the selection
+    $txt tag add sel {*}[$txt tag ranges search]
+ 
     # Make the first line viewable
     catch {
-      $txt mark set insert "[lindex $matches 0]+[lindex $search_counts 0]c"
-      $txt see [lindex $matches 0]
+      set firstpos [lindex [$txt tag ranges search] 0]
+      $txt mark set insert $firstpos
+      $txt see $firstpos
     }
     
     # Close the search interface
@@ -829,7 +868,6 @@ namespace eval gui {
     pack $tab_frame.sf.l1 -side left -padx 2 -pady 2
     pack $tab_frame.sf.e  -side left -padx 2 -pady 2 -fill x
     
-    bind $tab_frame.sf.e <Return> "gui::search_next 0"
     bind $tab_frame.sf.e <Escape> "gui::close_search"
     
     # Create separator between search and information bar
@@ -855,17 +893,17 @@ namespace eval gui {
     grid remove $tab_frame.sf
     grid remove $tab_frame.sep
     
-    # Add the text bindings
-    indent::add_bindings      $tab_frame.tf.txt
-    multicursor::add_bindings $tab_frame.tf.txt
-    snippets::add_bindings    $tab_frame.tf.txt
-    vim::set_vim_mode         $tab_frame.tf.txt
-    
     # Get the adjusted index
     set adjusted_index [$widgets(nb) index $index]
     
     # Add the new tab to the notebook
     $widgets(nb) insert $index $tab_frame -text $title
+    
+    # Add the text bindings
+    indent::add_bindings      $tab_frame.tf.txt
+    multicursor::add_bindings $tab_frame.tf.txt
+    snippets::add_bindings    $tab_frame.tf.txt
+    vim::set_vim_mode         $tab_frame.tf.txt
     
     # Make the new tab the current tab
     $widgets(nb) select $adjusted_index

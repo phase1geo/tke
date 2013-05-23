@@ -6,18 +6,19 @@
 #          support.  The Vim commands supported are not meant to be
 #          a complete representation of its functionality.
 ######################################################################
-
+ 
 namespace eval vim {
   
   array set command_entries {}
   array set mode            {}
   array set number          {}
   array set buffer          {}
+  array set search_dir      {}
   
   ######################################################################
   # Enables/disables Vim mode for the current text widget.
   proc set_vim_mode_all {} {
-
+ 
     variable command_entries
 
     # Set the Vim mode on all text widgets
@@ -121,7 +122,7 @@ namespace eval vim {
   ######################################################################
   # Handles a backspace key in the command entry widget.
   proc handle_command_backspace {w txt} {
-
+ 
     if {[$w get] eq ""} {
       
       # Remove the grab and set the focus back to the text widget
@@ -163,8 +164,9 @@ namespace eval vim {
     $txt configure -blockcursor true
     
     # Put ourselves into start mode
-    set mode($txt.t)   "start"
-    set number($txt.t) ""
+    set mode($txt.t)       "start"
+    set number($txt.t)     ""
+    set search_dir($txt.t) "next"
     start_mode $txt.t
     
     bind vim$txt <Escape> {
@@ -174,6 +176,7 @@ namespace eval vim {
     }
     bind vim$txt <Any-Key> {
       if {[vim::handle_any %W %K %A]} {
+        puts "HERE!"
         break
       }
     }
@@ -187,6 +190,11 @@ namespace eval vim {
         break
       }
     }
+    bind vim$txt <Button-1> {
+      %W mark set insert [%W index @%x,%y]
+      vim::adjust_insert %W
+      break
+    }
     
     bindtags $txt.t [linsert [bindtags $txt.t] 1 vim$txt]
     
@@ -197,7 +205,9 @@ namespace eval vim {
   proc remove_bindings {txt} {
     
     # Remove the Vim bindings from the widget
-    bindtags $txt.t [lreplace [bindtags $txt.t] 1 1]
+    if {[set index [lsearch [bindtags $txt.t] vim$txt]] != -1} {
+      bindtags $txt.t [lreplace [bindtags $txt.t] $index $index]
+    }
     
     # Change the cursor to the insertion cursor
     $txt configure -blockcursor false
@@ -224,13 +234,13 @@ namespace eval vim {
     if {[lsearch [$txt tag names insert] "dspace"] != -1} {
       $txt delete insert
     }
-
+ 
   }
-
+ 
   ######################################################################
   # Set the current mode to the "start" mode.
   proc start_mode {txt} {
-
+ 
     variable mode
     
     # If we are going from the edit state to the start state, add a separator
@@ -412,9 +422,11 @@ namespace eval vim {
   proc handle_slash {txt} {
   
     variable mode
+    variable search_dir
     
     if {$mode($txt) eq "start"} {
-      gui::search
+      gui::search "next"
+      set search_dir($txt) "next"
       return 1
     }
     
@@ -423,21 +435,55 @@ namespace eval vim {
   }
   
   ######################################################################
+  # If we are in "start" mode, display the search bar for doing a
+  # a previous search.
+  proc handle_question {txt} {
+    
+    variable mode
+    variable search_dir
+    
+    if {$mode($txt) eq "start"} {
+      gui::search "prev"
+      set search_dir($txt) "prev"
+      return 1
+    }
+    
+    return 0
+    
+  }
+ 
+  ######################################################################
   # If we are in "start" mode, inserts the contents of the insertion
   # buffer at the current location.
   proc handle_period {txt} {
-
+ 
     variable mode
     variable buffer
-
+ 
     if {$mode($txt) eq "start"} {
       $txt insert insert $buffer($txt)
       $txt mark set insert "insert-1c"
       return 1
     }
-
+ 
     return 0
       
+  }
+ 
+  ######################################################################
+  # If we are in "start" mode and the insertion point character has a
+  # matching left/right partner, display the partner. 
+  proc handle_percent {txt} {
+    
+    variable mode
+    
+    if {$mode($txt) eq "start"} {
+      # FIXME
+      return 1
+    }
+    
+    return 0
+    
   }
 
   ######################################################################
@@ -863,9 +909,14 @@ namespace eval vim {
   proc handle_n {txt} {
       
     variable mode
-    
+    variable search_dir
+
     if {$mode($txt) eq "start"} {
-      gui::search_next 0
+      if {$search_dir($txt) eq "next"} {
+        gui::search_next 0
+      } else {
+        gui::search_prev 0
+      }
       return 1
     }
     
