@@ -75,7 +75,11 @@ namespace eval vim {
       n  { gui::next_tab }
       e\# { gui::previous_tab }
       default {
-        if {[regexp {^([0-9]+|[.^$]),([0-9]+|[.^$])([dy])$} $value -> from to cmd]} {
+        if {[regexp {^([0-9]+|[.^$]),([0-9]+|[.^$])s/(.*)/(.*)/(g?)$} $value -> from to search replace glob]} {
+          set from [get_linenum $txt $from]
+          set to   [$txt index "[get_linenum $txt $to] lineend-1c"]
+          gui::do_raw_search_and_replace $from $to $search $replace [expr {$glob eq "g"}]
+        } elseif {[regexp {^([0-9]+|[.^$]),([0-9]+|[.^$])([dy])$} $value -> from to cmd]} {
           set from [get_linenum $txt $from]
           set to   [$txt index "[get_linenum $txt $to] lineend-1c"]
           clipboard clear
@@ -176,7 +180,6 @@ namespace eval vim {
     }
     bind vim$txt <Any-Key> {
       if {[vim::handle_any %W %K %A]} {
-        puts "HERE!"
         break
       }
     }

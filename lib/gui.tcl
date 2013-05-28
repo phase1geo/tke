@@ -12,6 +12,7 @@ namespace eval gui {
   variable nb_current    ""
   variable geometry_file [file join $::tke_home geometry.dat]
   variable search_counts {}
+  variable sar_global    1
 
   array set widgets {}
   
@@ -652,9 +653,43 @@ namespace eval gui {
   ######################################################################
   # Displays the search and replace bar.
   proc search_and_replace {} {
+
+    variable widgets
+
+    # Get the current text frame
+    set tab_frame [$widgets(nb) select]
+
+    # Display the search bar and separator
+    grid $tab_frame.rf
+    grid $tab_frame.sep
+
+    # Clear the search entry
+    $tab_frame.rf.fe delete 0 end
+    $tab_frame.rf.re delete 0 end
+
+    # Place the focus on the find entry field
+    focus $tab_frame.rf.fe
     
   }
   
+  ######################################################################
+  # Closes the search and replace bar.
+  proc close_search_and_replace {} {
+
+    variable widgets
+
+    # Get the current text frame
+    set tab_frame [$widgets(nb) select]
+
+    # Hide the search and replace bar
+    grid remove $tab_frame.rf
+    grid remove $tab_frame.sep
+
+    # Puts the focus on the text widget
+    focus $tab_frame.tf.txt.t
+
+  }
+
   ######################################################################
   # Starts a text search
   proc search_start {{dir "next"}} {
@@ -794,6 +829,50 @@ namespace eval gui {
     close_search
     
   }
+
+  ######################################################################
+  # Performs a search and replace operation based on the GUI element
+  # settings.
+  proc do_search_and_replace {} {
+
+    variable widgets
+    variable sar_global
+
+    # Get the current tab frame
+    set tab_frame [$widgets(nb) select]
+
+    # Perform the search and replace
+    do_raw_search_and_replace 1.0 end [$tab_frame.rf.fe get] [$tab_frame.rf.re get] $sar_global
+
+    # Close the search and replace bar
+    close_search_and_replace
+
+  }
+
+  ######################################################################
+  # Performs a search and replace given the expression, 
+  proc do_raw_search_and_replace {sline eline search replace glob} {
+
+    # Get the current text widget
+    set txt [current_txt]
+
+    # Clear the selection
+    $txt tag remove sel 1.0 end
+
+    # Perform the string substitutions
+    if {!$glob} {
+      set sline [$txt index "insert linestart"]
+      set eline [$txt index "insert lineend"]
+    }
+
+    # Replace the text and re-highlight the changes
+    $txt replace $sline $eline [regsub -all $search [$txt get $sline "$eline-1c"] $replace]
+    $txt highlight $sline $eline
+
+    # Make sure that the insertion cursor is valid
+    vim::adjust_insert $txt
+
+  }
   
   ######################################################################
   # Returns the list of stored filenames.
@@ -869,6 +948,27 @@ namespace eval gui {
     pack $tab_frame.sf.e  -side left -padx 2 -pady 2 -fill x
     
     bind $tab_frame.sf.e <Escape> "gui::close_search"
+
+    # Create the search/replace bar
+    ttk::frame       $tab_frame.rf
+    ttk::label       $tab_frame.rf.fl   -text "Find:"
+    ttk::entry       $tab_frame.rf.fe
+    ttk::label       $tab_frame.rf.rl   -text "Replace:"
+    ttk::entry       $tab_frame.rf.re
+    ttk::checkbutton $tab_frame.rf.glob -text "Global" -variable gui::sar_global
+
+    pack $tab_frame.rf.fl   -side left -padx 2 -pady 2
+    pack $tab_frame.rf.fe   -side left -padx 2 -pady 2
+    pack $tab_frame.rf.rl   -side left -padx 2 -pady 2
+    pack $tab_frame.rf.re   -side left -padx 2 -pady 2
+    pack $tab_frame.rf.glob -side left -padx 2 -pady 2
+
+    bind $tab_frame.rf.fe   <Return> "gui::do_search_and_replace"
+    bind $tab_frame.rf.re   <Return> "gui::do_search_and_replace"
+    bind $tab_frame.rf.glob <Return> "gui::do_search_and_replace"
+    bind $tab_frame.rf.fe   <Escape> "gui::close_search_and_replace"
+    bind $tab_frame.rf.re   <Escape> "gui::close_search_and_replace"
+    bind $tab_frame.rf.glob <Escape> "gui::close_search_and_replace"
     
     # Create separator between search and information bar
     ttk::separator $tab_frame.sep -orient horizontal
@@ -885,12 +985,14 @@ namespace eval gui {
     grid $tab_frame.tf  -row 0 -column 0 -sticky news
     grid $tab_frame.ve  -row 1 -column 0 -sticky ew
     grid $tab_frame.sf  -row 2 -column 0 -sticky ew
-    grid $tab_frame.sep -row 3 -column 0 -sticky ew
-    grid $tab_frame.if  -row 4 -column 0 -sticky ew
+    grid $tab_frame.rf  -row 3 -column 0 -sticky ew
+    grid $tab_frame.sep -row 4 -column 0 -sticky ew
+    grid $tab_frame.if  -row 5 -column 0 -sticky ew
     
-    # Hide the vim command entry, search bar and search separator
+    # Hide the vim command entry, search bar, search/replace bar and search separator
     grid remove $tab_frame.ve
     grid remove $tab_frame.sf
+    grid remove $tab_frame.rf
     grid remove $tab_frame.sep
     
     # Get the adjusted index
