@@ -1,11 +1,11 @@
- # Name:    gui.tcl
+# Name:    gui.tcl
 # Author:  Trevor Williams  (phase1geo@gmail.com)
 # Date:    5/11/2013
 # Brief:   Contains all of the main GUI elements for the editor and
 #          their behavior.
-
+ 
 namespace eval gui {
-
+ 
   variable curr_id       0
   variable files         {}
   variable nb_index      0
@@ -13,7 +13,7 @@ namespace eval gui {
   variable geometry_file [file join $::tke_home geometry.dat]
   variable search_counts {}
   variable sar_global    1
-
+ 
   array set widgets {}
   
   #######################
@@ -76,14 +76,15 @@ namespace eval gui {
     
     # Add the file tree elements
     set widgets(filetl) \
-      [tablelist::tablelist $widgets(fview).tl -columns {0 {}} -showlabels 0 -exportselection 0 \
+      [tablelist::tablelist $widgets(fview).tl -columns {0 {} 0 {}} -showlabels 0 -exportselection 0 \
         -treecolumn 0 \
         -xscrollcommand "utils::set_scrollbar $widgets(fview).hb" \
         -yscrollcommand "utils::set_scrollbar $widgets(fview).vb"]
     ttk::scrollbar $widgets(fview).vb -orient vertical   -command "$widgets(filetl) yview"
     ttk::scrollbar $widgets(fview).hb -orient horizontal -command "$widgets(filetl) xview"
     
-    $widgets(filetl) columnconfigure 0 -name files -editable 0
+    $widgets(filetl) columnconfigure 0 -name files    -editable 0
+    $widgets(filetl) columnconfigure 1 -name filepath -editable 0 -hide 1
     
     grid rowconfigure    $widgets(fview) 0 -weight 1
     grid columnconfigure $widgets(fview) 0 -weight 1
@@ -256,6 +257,29 @@ namespace eval gui {
   }
   
   ######################################################################
+  # Adds the given directory which displays within the file browser.
+  proc add_directory {dir} {
+
+    variable widgets
+
+    # Get the length of the directory
+    set dirlen [string length $dir]
+
+    # Check to see if the directory root has already been added
+    foreach child [$widgets(filetl) childkeys root] {
+      set filepath1 [$widgets(filetl) cellcget $child,filepath -text]
+      if {[set fplen [string length $filepath1]] >= $dirlen} {
+        set complen $dirlen
+      } else {
+        set complen $fplen
+      }
+      if {[string compare -length $complen $filepath $dir] == 0} {
+      }
+    }
+
+  }
+
+  ######################################################################
   # Adds a new file to the editor pane.
   proc add_new_file {index} {
   
@@ -264,10 +288,10 @@ namespace eval gui {
     
     # Get the current index
     set index [insert_tab $index "Untitled"]
-
+ 
     # Add the file information to the files list
     set files [linsert $files [$widgets(nb) index $index] [list "" "" ""]]
-
+ 
   }
   
   ######################################################################
@@ -311,18 +335,18 @@ namespace eval gui {
       
         # Insert the file information
         set files [linsert $files [$widgets(nb) index $w] [list $fname $save_command $stat(mtime)]]
-
+ 
       } else {
-
+ 
         set files [linsert $files [$widgets(nb) index $w] [list $fname $save_command ""]]
-
+ 
       }
-
+ 
       # Change the tab text
       $widgets(nb) tab [$widgets(nb) index $w] -text [file tail $fname]
       
     }
-
+ 
   }
   
   ######################################################################
@@ -435,7 +459,7 @@ namespace eval gui {
       puts $rc [[current_txt] get 1.0 end-1c]
       close $rc
     }
-
+ 
     # Update the timestamp
     file stat [lindex $files $index 0] stat
     lset files $index 2 $stat(mtime)
@@ -561,8 +585,8 @@ namespace eval gui {
   proc cut {} {
     
     # Perform the cut
-    tk_textCut [current_txt]
-
+    [current_txt] cut
+ 
     # Add the clipboard contents to history
     cliphist::add_from_clipboard
   
@@ -573,7 +597,7 @@ namespace eval gui {
   proc copy {} {
     
     # Perform the copy
-    tk_textCopy [current_txt]
+    [current_txt] copy
   
     # Add the clipboard contents to history
     cliphist::add_from_clipboard
@@ -585,7 +609,7 @@ namespace eval gui {
   proc paste {} {
   
     # Perform the paste
-    tk_textPaste [current_txt]
+    [current_txt] paste
  
   }
   
@@ -948,7 +972,7 @@ namespace eval gui {
     pack $tab_frame.sf.e  -side left -padx 2 -pady 2 -fill x
     
     bind $tab_frame.sf.e <Escape> "gui::close_search"
-
+ 
     # Create the search/replace bar
     ttk::frame       $tab_frame.rf
     ttk::label       $tab_frame.rf.fl   -text "Find:"
@@ -956,7 +980,7 @@ namespace eval gui {
     ttk::label       $tab_frame.rf.rl   -text "Replace:"
     ttk::entry       $tab_frame.rf.re
     ttk::checkbutton $tab_frame.rf.glob -text "Global" -variable gui::sar_global
-
+ 
     pack $tab_frame.rf.fl   -side left -padx 2 -pady 2
     pack $tab_frame.rf.fe   -side left -padx 2 -pady 2
     pack $tab_frame.rf.rl   -side left -padx 2 -pady 2
@@ -1066,7 +1090,7 @@ namespace eval gui {
   proc text_changed {txt} {
   
     variable widgets
-  
+    
     if {[$txt edit modified]} {
       
       # Change the look of the tab
@@ -1133,4 +1157,4 @@ namespace eval gui {
   }
   
 }
-
+ 

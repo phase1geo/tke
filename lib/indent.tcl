@@ -2,7 +2,7 @@
 # Author:  Trevor Williams  (phase1geo@gmail.com)
 # Date:    5/13/2013
 # Brief:   Namespace for text bindings to handle proper indentations
-
+ 
 namespace eval indent {
 
   array set indent_levels {}

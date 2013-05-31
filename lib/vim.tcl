@@ -8,7 +8,7 @@
 ######################################################################
  
 namespace eval vim {
-  
+ 
   array set command_entries {}
   array set mode            {}
   array set number          {}
@@ -139,7 +139,7 @@ namespace eval vim {
     }
   
   }
-
+ 
   ######################################################################
   # Returns the line number based on the given line number character.
   proc get_linenum {txt char} {
@@ -171,8 +171,10 @@ namespace eval vim {
     set mode($txt.t)       "start"
     set number($txt.t)     ""
     set search_dir($txt.t) "next"
-    start_mode $txt.t
     
+    # Handle any other modifications to the text
+    bind $txt <<Modified>> "vim::cleanup_dspace %W [list [bind $txt <<Modified>>]]"
+ 
     bind vim$txt <Escape> {
       if {[vim::handle_escape %W]} {
         break
@@ -201,6 +203,9 @@ namespace eval vim {
     
     bindtags $txt.t [linsert [bindtags $txt.t] 1 vim$txt]
     
+    # Put ourselves into start mode
+    start_mode $txt.t
+ 
   }
   
   ######################################################################
@@ -226,10 +231,10 @@ namespace eval vim {
     
     # Set the mode to the edit mode
     set mode($txt) "edit"
-
+ 
     # Set the blockcursor to false
     $txt configure -blockcursor false
-
+ 
     # Clear the buffer
     set buffer($txt) ""
     
@@ -260,7 +265,7 @@ namespace eval vim {
     
     # Adjust the insertion marker
     adjust_insert $txt
-
+ 
   }
   
   ######################################################################
@@ -280,7 +285,24 @@ namespace eval vim {
     }
     
   }
-
+ 
+  ######################################################################
+  # Cleans up the dspace.
+  proc cleanup_dspace {w cmd} {
+ 
+    foreach {endpos startpos} [lreverse [$w tag ranges dspace]] {
+      puts "endpos: [$w index $endpos], insert: [$w index insert]"
+      if {[$w index $endpos] ne [$w index insert]} {
+        $w delete $startpos $endpos
+        return
+      }
+    }
+    
+    # Run any other bindings associated with the widget
+    eval $cmd
+    
+  }
+ 
   ######################################################################
   # Handles the escape-key when in Vim mode.
   proc handle_escape {txt} {
@@ -389,7 +411,7 @@ namespace eval vim {
       $txt mark set insert "insert lineend-1c"
       return 1
     } elseif {$mode($txt) eq "delete"} {
-      $txt delete insert "insert lineend-1c"
+      $txt delete insert "insert lineend"
       start_mode $txt
       return 1
     }
@@ -906,14 +928,14 @@ namespace eval vim {
     return 0
     
   }
-
+ 
   ######################################################################
   # If we are in "start" mode, finds the next occurrence of the search text.
   proc handle_n {txt} {
       
     variable mode
     variable search_dir
-
+ 
     if {$mode($txt) eq "start"} {
       if {$search_dir($txt) eq "next"} {
         gui::search_next 0
@@ -926,14 +948,14 @@ namespace eval vim {
     return 0
     
   }
-
+ 
   ######################################################################
   # If we are in "start" mode, replaces the current character with the
   # next character.
   proc handle_r {txt} {
-
+ 
     variable mode
-
+ 
     if {$mode($txt) eq "start"} {
       set mode($txt) "replace"
       return 1
