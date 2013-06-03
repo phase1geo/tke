@@ -95,7 +95,7 @@ namespace eval indent {
   proc newline {txt insert_index indent_name} {
   
     variable indent_levels
-    
+
     # Insert leading whitespace to match current indentation level
     if {$indent_levels($txt,$indent_name) > 0} {
       $txt insert $insert_index [string repeat " " [expr $indent_levels($txt,$indent_name) * 2]]
@@ -110,6 +110,9 @@ namespace eval indent {
   
     variable indent_levels
 
+    # Initialize the indent_levels
+    set indent_levels($txt,$indent_name) 0
+
     # Find the last open brace starting from the current insertion point
     set i 0
     foreach line [lreverse [split [$txt get 1.0 $insert_index] \n]] {
@@ -119,7 +122,10 @@ namespace eval indent {
         break
       } elseif {[regexp {^[^#]*\{[^\}]*$} $line]} {
         regexp {^(\s*)} $line -> whitespace
-        set indent_levels($txt,$indent_name) [expr ([string length $whitespace] / 2) + (($i == 0) ? 0 : 1)]
+        set indent_levels($txt,$indent_name) [expr ([string length $whitespace] / 2) + 1]
+        break
+      } elseif {[regexp {^(\s*)\S+$} $line -> whitespace]} {
+        set indent_levels($txt,$indent_name) [expr [string length $whitespace] / 2]
         break
       }
       incr i

@@ -242,6 +242,9 @@ namespace eval vim {
     if {[lsearch [$txt tag names insert] "dspace"] != -1} {
       $txt delete insert
     }
+
+    # Update the current indentation level
+    indent::update_indent_level $txt insert insert
  
   }
  
@@ -291,7 +294,6 @@ namespace eval vim {
   proc cleanup_dspace {w cmd} {
  
     foreach {endpos startpos} [lreverse [$w tag ranges dspace]] {
-      puts "endpos: [$w index $endpos], insert: [$w index insert]"
       if {[$w index $endpos] ne [$w index insert]} {
         $w delete $startpos $endpos
         return
@@ -328,6 +330,7 @@ namespace eval vim {
     variable number
     variable buffer
     
+    # If we are not in edit mode
     if {![catch "handle_$keysym $txt" rc] && $rc} {
       if {$mode($txt) eq "start"} {
         set number($txt) ""
@@ -340,9 +343,11 @@ namespace eval vim {
     # Append the text to the insertion buffer
     if {$mode($txt) eq "edit"} {
       append buffer($txt) $char
-    } elseif {$mode($txt) eq "replace"} {
-      $txt replace insert "insert+1c" $char
-      start_mode $txt
+    } else {
+      if {$mode($txt) eq "replace"} {
+        $txt replace insert "insert+1c" $char
+        start_mode $txt
+      }
       return 1
     }
     
@@ -561,7 +566,6 @@ namespace eval vim {
       }
       adjust_insert $txt
       $txt see insert
-      indent::update_indent_level $txt "insert lineend" insert
       return 1
     }
     
@@ -569,6 +573,28 @@ namespace eval vim {
     
   }
   
+  ######################################################################
+  # If we are in "start" mode, join the next line to the end of the
+  # previous line.
+  proc handle_J {txt} {
+
+    variable mode
+
+    if {$mode($txt) eq "start"} {
+      set line [string trimleft [$txt get "insert+1l linestart" "insert+1l lineend"]]
+      $txt delete "insert+1l linestart" "insert+2l linestart"
+      set index [$txt index "insert lineend"]
+      if {$line ne ""} {
+        $txt insert "insert lineend" " [string trimleft $line]"
+      }
+      $txt mark set insert $index
+      return 1
+    }
+
+    return 0
+
+  }
+
   ######################################################################
   # If we are in "start" mode, move the insertion cursor up one line.
   proc handle_k {txt} {
@@ -586,7 +612,6 @@ namespace eval vim {
       }
       adjust_insert $txt
       $txt see insert
-      indent::update_indent_level $txt "insert lineend" insert
       return 1
     }
     
@@ -881,8 +906,8 @@ namespace eval vim {
     if {$mode($txt) eq "start"} {
       $txt insert "insert lineend" "\n"
       $txt mark set insert "insert+1l"
-      indent::newline $txt insert insert
       edit_mode $txt
+      indent::newline $txt insert insert
       return 1
     }
     
@@ -900,8 +925,8 @@ namespace eval vim {
     if {$mode($txt) eq "start"} {
       $txt insert "insert linestart" "\n"
       $txt mark set insert "insert-1l"
-      indent::newline $txt insert insert
       edit_mode $txt
+      indent::newline $txt insert insert
       return 1
     }
     
