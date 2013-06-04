@@ -952,6 +952,12 @@ namespace eval gui {
     bind Text <Control-d> ""
     bind Text <Control-i> ""
     
+    # Move the all bindtag ahead of the Text bindtag
+    set text_index [lsearch [bindtags $tab_frame.tf.txt.t] Text]
+    set all_index  [lsearch [bindtags $tab_frame.tf.txt.t] all]
+    bindtags $tab_frame.tf.txt.t [lreplace [bindtags $tab_frame.tf.txt.t] $all_index $all_index]
+    bindtags $tab_frame.tf.txt.t [linsert  [bindtags $tab_frame.tf.txt.t] $text_index all]
+    
     grid rowconfigure    $tab_frame.tf 0 -weight 1
     grid columnconfigure $tab_frame.tf 0 -weight 1
     grid $tab_frame.tf.txt -row 0 -column 0 -sticky news
@@ -1030,7 +1036,7 @@ namespace eval gui {
     multicursor::add_bindings $tab_frame.tf.txt
     snippets::add_bindings    $tab_frame.tf.txt
     vim::set_vim_mode         $tab_frame.tf.txt
-    
+        
     # Make the new tab the current tab
     $widgets(nb) select $adjusted_index
     

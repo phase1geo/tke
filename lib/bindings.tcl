@@ -83,7 +83,7 @@ namespace eval bindings {
         set label [$mnu entrycget $i -label]
         if {[info exists menu_bindings($mnu/$label)]} {
           $mnu entryconfigure $i -accelerator $menu_bindings($mnu/$label)
-          bind all [accelerator_to_sequence $menu_bindings($mnu/$label)] "$mnu invoke $i"
+          bind all [accelerator_to_sequence $menu_bindings($mnu/$label)] "$mnu invoke $i; break"
         }
       }
     }

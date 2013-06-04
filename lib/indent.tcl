@@ -25,8 +25,9 @@ namespace eval indent {
     bind indent$txt <Key-Delete>      "indent::update_indent_level %W insert insert"
     bind indent$txt <Key-BackSpace>   "indent::update_indent_level %W insert insert"
     
-    # Add the indentation tag into the bindtags list
-    bindtags $txt.t [linsert [bindtags $txt.t] 3 indent$txt]
+    # Add the indentation tag into the bindtags list just after Text
+    set text_index [lsearch [bindtags $txt.t] Text]
+    bindtags $txt.t [linsert [bindtags $txt.t] [expr $text_index + 1] indent$txt]
      
   }
   

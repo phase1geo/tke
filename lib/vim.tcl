@@ -201,7 +201,9 @@ namespace eval vim {
       break
     }
     
-    bindtags $txt.t [linsert [bindtags $txt.t] 1 vim$txt]
+    # Insert the vim binding just prior to Text    
+    set text_index [lsearch [bindtags $txt.t] Text]
+    bindtags $txt.t [linsert [bindtags $txt.t] $text_index vim$txt]
     
     # Put ourselves into start mode
     start_mode $txt.t
