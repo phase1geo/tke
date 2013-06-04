@@ -185,12 +185,12 @@ namespace eval vim {
         break
       }
     }
-    bind vim$txt <Control-f> {
+    bind vimpre$txt <Control-f> {
       if {[vim::handle_control_f %W]} {
         break
       }
     }
-    bind vim$txt <Control-b> {
+    bind vimpre$txt <Control-b> {
       if {[vim::handle_control_b %W]} {
         break
       }
@@ -200,6 +200,10 @@ namespace eval vim {
       vim::adjust_insert %W
       break
     }
+    
+    # Insert the vimpre binding just prior to all
+    set all_index [lsearch [bindtags $txt.t] all]
+    bindtags $txt.t [linsert [bindtags $txt.t] $all_index vimpre$txt]
     
     # Insert the vim binding just prior to Text    
     set text_index [lsearch [bindtags $txt.t] Text]
@@ -999,7 +1003,7 @@ namespace eval vim {
     variable mode
     
     if {$mode($txt) eq "start"} {
-      event generate $txt <Next>
+      eval [string map {%W $txt} [bind Text <Next>]]
       adjust_insert $txt
       return 1
     }
@@ -1015,7 +1019,7 @@ namespace eval vim {
     variable mode
     
     if {$mode($txt) eq "start"} {
-      event generate $txt <Prior>
+      eval [string map {%W $txt} [bind Text <Prior>]]
       adjust_insert $txt
       return 1
     }
