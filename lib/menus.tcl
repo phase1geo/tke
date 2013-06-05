@@ -172,6 +172,14 @@ namespace eval menus {
     
     $mb add command -label "Paste and Format" -underline 10 -command "gui::paste_and_format"
     launcher::register "Menu: Paste and format text from clipboard" gui::paste_and_format
+    
+    $mb add separator
+    
+    $mb add cascade -label "Format Text" -menu [menu $mb.formatPopup -tearoff 0]
+    
+    # Create formatting menu
+    $mb.formatPopup add command -label "Selected" -command "gui::format selected"
+    $mb.formatPopup add command -label "All"      -command "gui::format all"
 
     #$mb add separator
 
@@ -234,6 +242,12 @@ namespace eval menus {
   
     # Add tools menu commands
     $mb add command -label "Launcher" -underline 0 -command "launcher::launch"
+    
+    $mb add separator
+    
+    $mb add checkbutton -label "View Sidebar" -underline 5 -variable preferences::prefs(Tools/ViewSidebar) -command "gui::change_sidebar_view"
+    launcher::register "Menu: Show Sidebar" "set preferences::prefs(Tools/ViewSidebar) 1; gui::change_sidebar_view"
+    launcher::register "Menu: Hide Sidebar" "set preferences::prefs(Tools/ViewSidebar) 0; gui::change_sidebar_view"
     
     $mb add separator
     

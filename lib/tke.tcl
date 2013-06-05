@@ -66,7 +66,7 @@ proc parse_cmdline {argc argv} {
       -h       { usage }
       -v       { version }
       default {
-        lappend ::cl_files [lindex $argv $i]
+        lappend ::cl_files [file normalize [lindex $argv $i]]
       }
     }
     incr i
@@ -134,7 +134,7 @@ ttk::style theme use clam
 
 # Create GUI
 gui::create
-
+ 
 # Populate the GUI with the command-line filelist (if specified)
 if {[llength $cl_files] > 0} {
   foreach cl_file $cl_files {

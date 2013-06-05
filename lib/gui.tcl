@@ -77,7 +77,7 @@ namespace eval gui {
     # Add the file tree elements
     set widgets(filetl) \
       [tablelist::tablelist $widgets(fview).tl -columns {0 {} 0 {}} -showlabels 0 -exportselection 0 \
-        -treecolumn 0 \
+        -treecolumn 0 -selectmode multiple \
         -xscrollcommand "utils::set_scrollbar $widgets(fview).hb" \
         -yscrollcommand "utils::set_scrollbar $widgets(fview).vb"]
     ttk::scrollbar $widgets(fview).vb -orient vertical   -command "$widgets(filetl) yview"
@@ -85,15 +85,17 @@ namespace eval gui {
     
     $widgets(filetl) columnconfigure 0 -name files    -editable 0
     $widgets(filetl) columnconfigure 1 -name filepath -editable 0 -hide 1
+      
+    bind $widgets(filetl) <<TablelistSelect>> "gui::handle_filetl_selection %x %y"
     
     grid rowconfigure    $widgets(fview) 0 -weight 1
     grid columnconfigure $widgets(fview) 0 -weight 1
     grid $widgets(fview).tl -row 0 -column 0 -sticky news
     grid $widgets(fview).vb -row 0 -column 1 -sticky ns
-    grid $widgets(fview).hb -row 0 -column 2 -sticky ew
+    grid $widgets(fview).hb -row 1 -column 0 -sticky ew
     
     # Create editor notebook
-    $widgets(pw) add [set widgets(nb) [ttk::notebook .nb]]
+    $widgets(pw) add [set widgets(nb) [ttk::notebook $widgets(pw).nb]]
 
     bind $widgets(nb) <<NotebookTabChanged>> { focus [gui::current_txt].t }
     bind $widgets(nb) <ButtonPress-1>        { gui::tab_move_start %W %x %y }
@@ -111,7 +113,7 @@ namespace eval gui {
     }
 
     # Create tab popup
-    set widgets(menu) [menu .nb.popupMenu -tearoff 0]
+    set widgets(menu) [menu $widgets(nb).popupMenu -tearoff 0]
     $widgets(menu) add command -label "Close Tab" -command {
       gui::close_current
     }
@@ -123,10 +125,13 @@ namespace eval gui {
     }
     
     # Pack the notebook
-    pack $widgets(nb) -fill both -expand yes
+    pack $widgets(pw) -fill both -expand yes
     
     # Add the menu bar
     menus::create
+    
+    # Show the sidebar (if necessary)
+    change_sidebar_view
     
     # If the user attempts to close the window via the window manager, treat
     # it as an exit request from the menu system.
@@ -139,6 +144,30 @@ namespace eval gui {
   
   }
   
+  ######################################################################
+  # Shows/Hides the sidebar viewer.
+  proc change_sidebar_view {} {
+    
+    variable widgets
+    
+    if {$preferences::prefs(Tools/ViewSidebar)} {
+      $widgets(pw) insert 0 $widgets(fview)
+    } else {
+      $widgets(pw) forget $widgets(fview)
+    }
+    
+  }
+  
+  ######################################################################
+  # Handle a selection change to the sidebar.
+  proc handle_filetl_selection {x y} {
+    
+    variable widgets
+    
+    # FOOBAR
+    
+  }
+
   ######################################################################
   # Handles a tab move start event.
   proc tab_move_start {W x y} {
@@ -261,24 +290,69 @@ namespace eval gui {
   proc add_directory {dir} {
 
     variable widgets
-
+    
     # Get the length of the directory
     set dirlen [string length $dir]
 
     # Check to see if the directory root has already been added
     foreach child [$widgets(filetl) childkeys root] {
-      set filepath1 [$widgets(filetl) cellcget $child,filepath -text]
-      if {[set fplen [string length $filepath1]] >= $dirlen} {
-        set complen $dirlen
-      } else {
-        set complen $fplen
-      }
+      set filepath [$widgets(filetl) cellcget $child,filepath -text]
+      set complen  [string length $filepath]
       if {[string compare -length $complen $filepath $dir] == 0} {
+        foreach name [file split [string range $dir $complen end]] {
+          foreach grandchild [$widgets(filetl) childkeys $child] {
+            if {[$widgets(filetl) cellcget $grandchild,files -text] eq $name} {
+              set child $grandchild
+              break
+            }
+          }
+        }
+        $widgets(filetl) expand $child
+        return
+      } elseif {[string compare -length $dirlen $filepath $dir] == 0} {
+        add_subdirectory root $dir $child
+        return
       }
     }
+    
+    # Recursively add directories to the sidebar
+    add_subdirectory root $dir
 
   }
 
+  ######################################################################
+  # Recursively adds the current directory and all subdirectories and files
+  # found within it to the sidebar.
+  proc add_subdirectory {parent dir {movekey ""}} {
+    
+    variable widgets
+    
+    if {[file exists $dir]} {
+    
+      # Add the directory to the sidebar
+      set child [$widgets(filetl) insertchild $parent end [list [file tail $dir] $dir]]
+    
+      # Add all of the stuff within this directory
+      foreach name [lsort [glob -nocomplain -directory $dir *]] {
+        if {[file isdirectory $name]} {
+          if {($movekey ne "") && ([$widgets(filetl) cellcget $movekey,filepath -text] eq $name)} {
+            $widgets(filetl) move $movekey $child end
+          } else {
+            $widgets(filetl) collapse [add_subdirectory $child $name]
+          }
+        } else {
+          $widgets(filetl) insertchild $child end [list [file tail $name] $name]]
+        }
+      }
+    
+      return $child
+      
+    }
+    
+    return ""
+    
+  }
+  
   ######################################################################
   # Adds a new file to the editor pane.
   proc add_new_file {index} {
@@ -291,6 +365,9 @@ namespace eval gui {
  
     # Add the file information to the files list
     set files [linsert $files [$widgets(nb) index $index] [list "" "" ""]]
+    
+    # Add the current directory
+    add_directory [file normalize [pwd]]
  
   }
   
@@ -346,6 +423,9 @@ namespace eval gui {
       $widgets(nb) tab [$widgets(nb) index $w] -text [file tail $fname]
       
     }
+    
+    # Add the file's directory to the sidebar
+    add_directory [file dirname [file normalize $fname]]
  
   }
   
@@ -629,6 +709,24 @@ namespace eval gui {
   
     # Have the indent namespace format the clipboard contents
     indent::format_text [current_txt].t $insertpos "$insertpos+${cliplen}c"
+    
+  }
+  
+  ######################################################################
+  # Formats either the selected text (if type is "selected") or the entire
+  # file contents (if type is "all").
+  proc format {type} {
+    
+    # Get the current text widget
+    set txt [current_txt]
+    
+    if {$type eq "selected"} {
+      foreach {endpos startpos} [lreverse [$txt tag ranges sel]] { 
+        indent::format_text $txt $startpos $endpos
+      }
+    } else {
+      indent::format_text $txt 1.0 end
+    }
     
   }
   
