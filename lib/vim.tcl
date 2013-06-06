@@ -91,7 +91,7 @@ namespace eval vim {
           $txt mark set insert [get_linenum $txt $value]
           $txt see insert
         } elseif {[regexp {^e\s+(.*)$} $value -> filename]} {
-          gui::add_file end $filename
+          gui::add_file end [file normalize $filename]
         } elseif {[regexp {^w\s+(.*)$} $value -> filename]} {
           gui::save_current $filename
         }
@@ -373,6 +373,7 @@ namespace eval vim {
     if {$mode($txt) eq "start"} {
       if {($num eq "0") && ($number($txt) eq "")} {
         $txt mark set insert "insert linestart"
+        $txt see insert
       } else {
         append number($txt) $num
       }
@@ -420,6 +421,7 @@ namespace eval vim {
     
     if {$mode($txt) eq "start"} {
       $txt mark set insert "insert lineend-1c"
+      $txt see insert
       return 1
     } elseif {$mode($txt) eq "delete"} {
       $txt delete insert "insert lineend"
@@ -442,6 +444,7 @@ namespace eval vim {
     
     if {$mode($txt) eq "start"} {
       $txt mark set insert "insert linestart"
+      $txt see insert
       return 1
     } elseif {$mode($txt) eq "delete"} {
       $txt delete "insert linestart" insert
@@ -807,9 +810,9 @@ namespace eval vim {
     } elseif {$mode($txt) eq "yank"} {
       clipboard clear
       if {$number($txt) ne ""} {
-        clipboard append [$txt get "insert linestart" "insert linestart+$number($txt)l"]
+        clipboard append [$txt get "insert linestart" "insert linestart+$number($txt)l-1c"]
       } else {
-        clipboard append [$txt get "insert linestart" "insert linestart+1l"]
+        clipboard append [$txt get "insert linestart" "insert linestart+1l-1c"]
       }
       start_mode $txt
       return 1

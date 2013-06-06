@@ -77,7 +77,9 @@ namespace eval gui {
     # Add the file tree elements
     set widgets(filetl) \
       [tablelist::tablelist $widgets(fview).tl -columns {0 {} 0 {}} -showlabels 0 -exportselection 0 \
-        -treecolumn 0 -selectmode multiple \
+        -treecolumn 0 \
+        -editstartcommand "gui::filetl_edit_start_command" \
+        -editendcommand   "gui::filetl_edit_end_command" \
         -xscrollcommand "utils::set_scrollbar $widgets(fview).hb" \
         -yscrollcommand "utils::set_scrollbar $widgets(fview).vb"]
     ttk::scrollbar $widgets(fview).vb -orient vertical   -command "$widgets(filetl) yview"
@@ -86,7 +88,9 @@ namespace eval gui {
     $widgets(filetl) columnconfigure 0 -name files    -editable 0
     $widgets(filetl) columnconfigure 1 -name filepath -editable 0 -hide 1
       
-    bind $widgets(filetl) <<TablelistSelect>> "gui::handle_filetl_selection %x %y"
+    bind $widgets(filetl) <<TablelistSelect>>         "gui::handle_filetl_selection"
+    bind [$widgets(filetl) bodytag] <Button-3>        "gui::handle_filetl_right_click %W %x %y"
+    bind [$widgets(filetl) bodytag] <Double-Button-1> "gui::handle_filetl_double_click %W %x %y"
     
     grid rowconfigure    $widgets(fview) 0 -weight 1
     grid columnconfigure $widgets(fview) 0 -weight 1
@@ -124,6 +128,36 @@ namespace eval gui {
       gui::close_all
     }
     
+    # Create directory popup
+    set widgets(dirmenu) [menu $widgets(nb).dirPopupMenu -tearoff 0]
+    $widgets(dirmenu) add command -label "New File" -command {
+      gui::add_folder_file
+    }
+    $widgets(dirmenu) add command -label "New Directory" -command {
+      gui::add_folder
+    }
+    $widgets(dirmenu) add separator
+    $widgets(dirmenu) add command -label "Rename Directory" -command {
+      gui::rename_folder
+    }
+    $widgets(dirmenu) add separator
+    $widgets(dirmenu) add command -label "Delete Directory" -command {
+      gui::delete_folder
+    }
+    
+    # Create file popup
+    set widgets(filemenu) [menu $widgets(nb).filePopupMenu -tearoff 0]
+    $widgets(filemenu) add command -label "Open" -command {
+      gui::open_file
+    }
+    $widgets(filemenu) add command -label "Rename File" -command {
+      gui::rename_file
+    }
+    $widgets(filemenu) add separator
+    $widgets(filemenu) add command -label "Delete File" -command {
+      gui::delete_file
+    }
+    
     # Pack the notebook
     pack $widgets(pw) -fill both -expand yes
     
@@ -159,12 +193,291 @@ namespace eval gui {
   }
   
   ######################################################################
-  # Handle a selection change to the sidebar.
-  proc handle_filetl_selection {x y} {
+  # Returns the filepath of the given row in the table.
+  proc get_filepath {row} {
     
     variable widgets
     
-    # FOOBAR
+    # Start with the filepath of the current row
+    set filepath [$widgets(filetl) cellcget $row,filepath -text]
+    
+    while {[set row [$widgets(filetl) parentkey $row]] ne "root"} {
+      set filepath [file join [$widgets(filetl) cellcget $row,filepath -text] $filepath]
+    }
+    
+    return $filepath
+    
+  }
+  
+  ######################################################################
+  # Handle a selection change to the sidebar.
+  proc handle_filetl_selection {} {
+    
+    variable widgets
+    variable files
+    
+    # Get the current selection
+    set selected [$widgets(filetl) curselection]
+    
+    # If the file is currently in the notebook, make it the current tab
+    if {[$widgets(filetl) cellcget $selected,files -background] eq "yellow"} {
+      $widgets(nb) select [lsearch -index 0 $files [get_filepath $selected]]
+    }
+    
+  }
+  
+  ######################################################################
+  # Handles right click from the filetl table.
+  proc handle_filetl_right_click {W x y} {
+    
+    variable widgets
+    
+    foreach {tablelist::W tablelist::x tablelist::y} [tablelist::convEventFields $W $x $y] {}
+    foreach {row col} [split [$widgets(filetl) containingcell $tablelist::x $tablelist::y] ,] {}
+
+    if {$row != -1} {
+      $widgets(filetl) selection clear 0 end
+      $widgets(filetl) selection set $row
+      handle_filetl_selection
+      if {[file isdirectory [get_filepath $row]] > 0} {
+        set mnu $widgets(dirmenu)
+      } else {
+        set mnu $widgets(filemenu)
+      }
+      tk_popup $mnu [expr [winfo rootx $W] + $x] [expr [winfo rooty $W] + $y]
+    }
+    
+  }
+  
+  ######################################################################
+  # Begins the edit process.
+  proc filetl_edit_start_command {tbl row col value} {
+    
+    return $value
+    
+  }
+  
+  ######################################################################
+  # Ends the edit process.
+  proc filetl_edit_end_command {tbl row col value} {
+    
+    variable widgets
+    variable files
+    
+    # Change the cell so that it can't be edited directory
+    $tbl cellconfigure $row,$col -editable 0
+    
+    # Get the current pathname
+    set old_filepath [get_filepath $row]
+    
+    # Create the new pathname
+    set new_filepath [file join [file dirname $old_filepath] $value]
+    
+    # Place the new value in the filepath cell
+    if {[$tbl parentkey $row] eq "root"} {
+      $tbl cellconfigure $row,filepath -text $new_filepath
+    } else {
+      $tbl cellconfigure $row,filepath -text $value
+    }
+    
+    # If this is a directory, update the filepath cell content
+    if {[file isdirectory $old_filepath]} {
+      $tbl cellconfigure $row,filepath -text $value
+      
+    # Otherwise, update the files list, if necessary
+    } elseif {[$tbl cellcget $row,$col -background] eq "yellow"} {
+      set index [lsearch -index 0 $files $old_filepath]
+      lset files $index 0 $new_filepath
+      $widgets(nb) tab $index -text [file tail $value]
+    }
+    
+    # Perform the rename operation
+    file rename -force $old_filepath $new_filepath
+
+    return $value
+
+  }
+  
+  ######################################################################
+  # Handles double-click from the filetl table.
+  proc handle_filetl_double_click {W x y} {
+    
+    variable widgets
+    
+    foreach {tablelist::W tablelist::x tablelist::y} [tablelist::convEventFields $W $x $y] {}
+    foreach {row col} [split [$widgets(filetl) containingcell $tablelist::x $tablelist::y] ,] {}
+
+    if {$row != -1} {
+      $widgets(filetl) selection clear 0 end
+      $widgets(filetl) selection set $row
+      open_file  
+    }
+
+  }
+  
+  ######################################################################
+  # Adds a new file to the currently selected folder.
+  proc add_folder_file {} {
+    
+    variable widgets
+    
+    # Get the currently selected row
+    set selected [$widgets(filetl) curselection]
+    
+    # Get the directory pathname
+    set dirpath [get_filepath $selected]
+    
+    # Expand the directory
+    $widgets(filetl) expand $selected -partly
+    
+    # Add a new file to the directory
+    set key [$widgets(filetl) insertchild $selected 0 [list "Untitled" "Untitled"]]
+    
+    # Highlight the file in the file browser
+    $widgets(filetl) cellconfigure $key,files -background "yellow"
+    
+    # Create the file
+    exec touch [set file [file join $dirpath "Untitled"]]
+    
+    # Create an empty file
+    add_file end $file
+    
+    # Make the new file editable
+    rename_file $key
+    
+  }
+  
+  ######################################################################
+  # Adds a new folder to the currently selected folder.
+  proc add_folder {} {
+    
+    variable widgets
+    
+    # Get the currently selected row
+    set selected [$widgets(filetl) curselection]
+    
+    # Get the directory pathname
+    set dirpath [get_filepath $selected]
+    
+    # Expand the directory
+    $widgets(filetl) expand $selected -partly
+    
+    # Add a new folder to the directory
+    set key [$widgets(filetl) insertchild $selected 0 [list "Folder" "Folder"]]
+    
+    # Create the directory
+    file mkdir [file join $dirpath "Folder"]
+    
+    # Allow the user to rename the folder
+    rename_folder $key
+    
+  }
+  
+  ######################################################################
+  # Allows the user to rename the currently selected folder.
+  proc rename_folder {{row ""}} {
+    
+    variable widgets
+    
+    # Get the currently selected row
+    if {$row eq ""} {
+      set row [$widgets(filetl) curselection]
+    }
+    
+    # Make the row editable
+    $widgets(filetl) cellconfigure $row,files -editable 1
+    $widgets(filetl) editcell $row,files
+    
+  }
+  
+  ######################################################################
+  # Allows the user to delete the currently selected folder.
+  proc delete_folder {} {
+    
+    variable widgets
+    
+    if {[tk_messageBox -parent . -type yesno -default yes -message "Delete directory?"] eq "yes"} {
+      
+      # Get the currently selected row
+      set selected [$widgets(filetl) curselection]
+      
+      # Get the directory pathname
+      set dirpath [get_filepath $selected]
+      
+      # Remove the directory from the file browser
+      $widgets(filetl) delete $selected
+      
+      # Delete the folder
+      file delete -force $dirpath
+      
+    }
+ 
+  }
+ 
+  ######################################################################
+  # Opens the currently selected file in the notebook.
+  proc open_file {} {
+    
+    variable widgets
+    
+    # Get the current selection
+    set selected [$widgets(filetl) curselection]
+    
+    # Get the filename of the currently selected row
+    set fname [get_filepath $selected]
+    
+    # Add the file to the notebook
+    add_file end $fname
+    
+  }
+  
+  ######################################################################
+  # Allow the user to rename the currently selected file in the file
+  # browser.
+  proc rename_file {{row ""}} {
+    
+    variable widgets
+    
+    # Get the current selection
+    if {$row eq ""} {
+      set row [$widgets(filetl) curselection]
+    }
+    
+    # Make the row editable
+    $widgets(filetl) cellconfigure $row,files -editable 1
+    $widgets(filetl) editcell $row,files
+    
+  }
+  
+  ######################################################################
+  # Deletes the currently selected file.
+  proc delete_file {} {
+    
+    variable widgets
+    variable files
+    
+    # Get confirmation from the user
+    if {[tk_messageBox -parent . -type yesno -default yes -message "Delete file?"] eq "yes"} {
+    
+      # Get the current selection
+      set selected [$widgets(filetl) curselection]
+    
+      # Get the full pathname
+      set fname [get_filepath $selected]
+    
+      # Close the tab if the file is currently in the notebook
+      if {[$widgets(filetl) cellcget $selected,files -background] eq "yellow"} {
+        set index [lsearch -index 0 $files $fname]
+        close_tab $index
+      }
+      
+      # Delete the row in the table
+      $widgets(filetl) delete $selected
+    
+      # Delete the file
+      file delete -force $fname
+      
+    }
     
   }
 
@@ -293,7 +606,7 @@ namespace eval gui {
     
     # Get the length of the directory
     set dirlen [string length $dir]
-
+    
     # Check to see if the directory root has already been added
     foreach child [$widgets(filetl) childkeys root] {
       set filepath [$widgets(filetl) cellcget $child,filepath -text]
@@ -307,7 +620,7 @@ namespace eval gui {
             }
           }
         }
-        $widgets(filetl) expand $child
+        $widgets(filetl) expand $child -partly
         return
       } elseif {[string compare -length $dirlen $filepath $dir] == 0} {
         add_subdirectory root $dir $child
@@ -330,18 +643,22 @@ namespace eval gui {
     if {[file exists $dir]} {
     
       # Add the directory to the sidebar
-      set child [$widgets(filetl) insertchild $parent end [list [file tail $dir] $dir]]
+      if {$parent eq "root"} {
+        set child [$widgets(filetl) insertchild $parent end [list [file tail $dir] $dir]]
+      } else {
+        set child [$widgets(filetl) insertchild $parent end [list [file tail $dir] [file tail $dir]]]
+      }
     
       # Add all of the stuff within this directory
       foreach name [lsort [glob -nocomplain -directory $dir *]] {
         if {[file isdirectory $name]} {
-          if {($movekey ne "") && ([$widgets(filetl) cellcget $movekey,filepath -text] eq $name)} {
+          if {($movekey ne "") && ([get_filepath $movekey] eq $name)} {
             $widgets(filetl) move $movekey $child end
           } else {
             $widgets(filetl) collapse [add_subdirectory $child $name]
           }
         } else {
-          $widgets(filetl) insertchild $child end [list [file tail $name] $name]]
+          $widgets(filetl) insertchild $child end [list [file tail $name] [file tail $name]]
         }
       }
     
@@ -350,6 +667,27 @@ namespace eval gui {
     }
     
     return ""
+    
+  }
+  
+  ######################################################################
+  # Highlights (or dehighlights) the given filename in the file system
+  # sidebar.
+  proc highlight_filename {fname highlight} {
+    
+    variable widgets
+    
+    for {set i 0} {$i < [$widgets(filetl) size]} {incr i} {
+      if {[get_filepath $i] eq $fname} {
+        if {$highlight} {
+          $widgets(filetl) cellconfigure $i,files -background yellow
+        } else {
+          $widgets(filetl) cellconfigure $i,files -background white
+        }
+        return
+      }
+      incr i
+    }
     
   }
   
@@ -426,6 +764,9 @@ namespace eval gui {
     
     # Add the file's directory to the sidebar
     add_directory [file dirname [file normalize $fname]]
+    
+    # Highlight the file in the sidebar
+    highlight_filename $fname 1
  
   }
   
@@ -592,6 +933,9 @@ namespace eval gui {
     if {[llength [$widgets(nb) tabs]] == 1} {
       add_new_file end
     }
+    
+    # Unhighlight the file in the file browser
+    highlight_filename [lindex $files $nb_index 0] 0
 
     # Delete the file from files
     set files [lreplace $files $nb_index $nb_index]
@@ -722,10 +1066,10 @@ namespace eval gui {
     
     if {$type eq "selected"} {
       foreach {endpos startpos} [lreverse [$txt tag ranges sel]] { 
-        indent::format_text $txt $startpos $endpos
+        indent::format_text $txt.t $startpos $endpos
       }
     } else {
-      indent::format_text $txt 1.0 end
+      indent::format_text $txt.t 1.0 end
     }
     
   }

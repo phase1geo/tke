@@ -75,6 +75,10 @@ namespace eval bindings {
     
     # Add the menu to the list of menus
     set menus($mnu) 1
+    
+#     while {[winfo parent $mnu] ne ".menubar"} {
+#       set parent_label "FOOBAR"
+#     }
 
     # Iterate through the menu items
     for {set i 0} {$i <= [$mnu index end]} {incr i} {

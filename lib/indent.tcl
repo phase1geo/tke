@@ -186,6 +186,9 @@ namespace eval indent {
       }
     }
     
+    # Perform syntax highlighting
+    [winfo parent $txt] highlight $startpos $endpos
+    
   }
   
 }
