@@ -231,6 +231,12 @@ namespace eval menus {
     $mb add command -label "Uncomment" -underline 0 -command "texttools::uncomment"
     launcher::register "Menu: Uncomment selected text" "texttools::uncomment"
     
+    $mb add command -label "Indent" -underline 0 -command "texttools::indent"
+    launcher::register "Menu: Indent selected text" "texttools::indent"
+    
+    $mb add command -label "Unindent" -underline 1 -command "texttools::unindent"
+    launcher::register "Menu: Unindent selected text" "texttools::unindent"
+    
     # Apply the menu settings for the text menu
     bindings::apply $mb
 

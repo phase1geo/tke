@@ -187,7 +187,7 @@ namespace eval gui {
     if {$preferences::prefs(Tools/ViewSidebar)} {
       $widgets(pw) insert 0 $widgets(fview)
     } else {
-      $widgets(pw) forget $widgets(fview)
+      catch { $widgets(pw) forget $widgets(fview) }
     }
     
   }

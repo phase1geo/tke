@@ -60,6 +60,48 @@ namespace eval texttools {
     }
 
   }
+  
+  ######################################################################
+  # Indents the selected text of the current text widget by one
+  # indentation level.
+  proc indent {} {
+    
+    # Get the current text widget
+    set txt [gui::current_txt]
+    
+    # Get the selection ranges
+    set selected [$txt tag ranges sel]
+    
+    foreach {endpos startpos} [lreverse $selected] {
+      while {[$txt index "$startpos linestart"] <= [$txt index "$endpos linestart"]} {
+        $txt insert "$startpos linestart" "  "
+        set startpos [$txt index "$startpos linestart+1l"]
+      }
+    }        
+    
+  }
+  
+  ######################################################################
+  # Unindents the selected text of the current text widget by one
+  # indentation level.
+  proc unindent {} {
+    
+    # Get the current text widget
+    set txt [gui::current_txt]
+    
+    # Get the selection ranges
+    set selected [$txt tag ranges sel]
+    
+    foreach {endpos startpos} [lreverse $selected] {
+      while {[$txt index "$startpos linestart"] <= [$txt index "$endpos linestart"]} {
+        if {[regexp {^  } [$txt get "$startpos linestart" "$startpos lineend"]]} {
+          $txt delete "$startpos linestart" "$startpos linestart+2c"
+        }
+        set startpos [$txt index "$startpos linestart+1l"]
+      }
+    }
+    
+  }
 
 }
-
+ 

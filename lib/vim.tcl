@@ -196,8 +196,10 @@ namespace eval vim {
       }
     }
     bind vim$txt <Button-1> {
+      %W tag remove sel 1.0 end
       %W mark set insert [%W index @%x,%y]
       vim::adjust_insert %W
+      focus %W
       break
     }
     
@@ -318,11 +320,15 @@ namespace eval vim {
     variable mode
     variable number
     
-    # Clear the current number string
-    set number($txt) ""
+    if {$mode($txt) ne "start"} {
+      
+      # Clear the current number string
+      set number($txt) ""
     
-    # Set the mode to start
-    start_mode $txt
+      # Set the mode to start
+      start_mode $txt
+      
+    }
     
     return 1
     
