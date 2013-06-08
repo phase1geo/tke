@@ -13,6 +13,7 @@ namespace eval gui {
   variable geometry_file [file join $::tke_home geometry.dat]
   variable search_counts {}
   variable sar_global    1
+  variable lengths       {}
  
   array set widgets {}
   
@@ -1512,7 +1513,7 @@ namespace eval gui {
                       -cursor -highlightcolors -linemap -menu -tearoff -displayof -cursor -underline \
                       -tags -tag -weight -sticky -rowspan -columnspan]
                       
-    set control [list proc uplevel namespace while for foreach if else elseif switch default return catch exec exit]
+    set control [list uplevel namespace while for foreach if else elseif switch default return catch exec exit]
   
     # Create the ctext widget
     ctext $w -wrap none -background black -foreground white -insertbackground white -selectforeground white -selectbackground blue {*}$args
@@ -1521,6 +1522,7 @@ namespace eval gui {
     ctext::addHighlightClass                  $w widgets        "purple"            $widgets
     ctext::addHighlightClass                  $w flags          "orange"            $flags
     ctext::addHighlightClass                  $w stackControl   "red"               $control
+    ctext::addHighlightClass                  $w procs          "red"               {proc}
     ctext::addHighlightClassWithOnlyCharStart $w vars           "mediumspringgreen" "\$"
     ctext::addHighlightClass                  $w variable_funcs "gold"              {set global variable unset list array incr}
     ctext::addHighlightClassForSpecialChars   $w brackets       "green"             {[]{}}
@@ -1602,6 +1604,42 @@ namespace eval gui {
     $w.if.ll2 configure -text $line
     $w.if.cl2 configure -text [expr $column + 1]
   
+  }
+  
+  ######################################################################
+  # Returns the list of procs in the current text widget.  Uses the _procs
+  # highlighting to tag to quickly find procs in the widget.
+  proc get_proc_list {} {
+    
+    variable lengths
+    
+    # Get current text widget
+    set txt [current_txt]
+    
+    set proclist [list]
+    set lengths  [list]
+    foreach {startpos endpos} [$txt tag ranges _procs] {
+      if {[set pos [$txt search -regexp -count gui::lengths -- {\S+} $endpos]] eq ""} {
+        break
+      }
+      lappend proclist [$txt get $pos "$pos+${gui::lengths}c"] $pos
+    }
+    
+    return $proclist
+    
+  }
+  
+  ######################################################################
+  # Jump to the given position.
+  proc jump_to {pos} {
+    
+    # Get the current text widget
+    set txt [current_txt]
+    
+    # Set the current insertion marker and make it viewable.
+    $txt mark set insert $pos
+    $txt see $pos
+    
   }
   
 }

@@ -161,6 +161,7 @@ namespace eval indent {
     # If we have more than one line, add the newline to the first
     if {[llength $str] > 1} {
 
+      puts "str-0: [lindex $str 0]"
       # Adjust the indent levels, if necessary
       if {[regexp {\{[^\}]*$} [lindex $str 0]]} {
         incr indent_levels($txt,insert)
@@ -174,7 +175,9 @@ namespace eval indent {
         if {[regexp {^(\s*)} [lindex $str $i] -> whitespace]} {
           $txt delete $linestart "$linestart+[string length $whitespace]c"
         }
-        if {[regexp {\{[^\}]*$} [lindex $str $i]]} {
+        if {[regexp {^\s*\}.*\{[^\}]*$} [lindex $str $i]]} {
+          $txt insert $linestart [string repeat " " [expr ($indent_levels($txt,insert) - 1) * 2]] $tags
+        } elseif {[regexp {\{[^\}]*$} [lindex $str $i]]} {
           $txt insert $linestart [string repeat " " [expr $indent_levels($txt,insert) * 2]] $tags
           incr indent_levels($txt,insert)
         } else {

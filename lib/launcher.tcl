@@ -213,6 +213,9 @@ namespace eval launcher {
     variable commands
     variable command_names
     variable command_values
+    
+    # Create the command name list
+    set command_name [get_command_name $name $validate_cmd]
 
     # Create the command value list
     set command_value [lrepeat [array size command_values] ""]
@@ -224,7 +227,9 @@ namespace eval launcher {
     lset command_value $command_values(search_str)    $name
 
     # Populate the command in the lookup table
-    set commands([get_command_name $name $validate_cmd]) $command_value
+    set commands($command_name) $command_value
+    
+    return $command_name
 
   }
   
@@ -265,6 +270,14 @@ namespace eval launcher {
   # Validate command for calculations.
   proc calc_okay {} {
   
+    return 1
+    
+  }
+  
+  ######################################################################
+  # Validate command for symbols.
+  proc symbol_okay {} {
+    
     return 1
     
   }
@@ -366,6 +379,15 @@ namespace eval launcher {
       handle_calculation $str
     }
     
+    # Check to see if this is a symbol lookup
+    if {$str eq "@"} {
+      array unset command [get_command_name * launcher::symbol_okay]
+      foreach {procedure pos} [gui::get_proc_list] {
+        lappend matches [register_temp "@$procedure" "gui::jump_to $pos" launcher::symbol_okay]
+        lappend match_types 2
+      }
+    }
+    
 #    # Check to see if this is a URL
 #    if {[regexp {(\S+\.[[:alpha:]][[:alpha:]]+)$} $str -> url]} {
 #
@@ -383,7 +405,7 @@ namespace eval launcher {
 #      lappend match_types 2
 #
 #    }
-
+ 
     # Get the precise match (if one exists)
     set results [list]
     foreach {name value} [array get commands [get_command_name * *]] {
@@ -553,5 +575,5 @@ namespace eval launcher {
   
   # Register the calculator
   register_temp "" launcher::copy_calculation launcher::calc_okay
-   
+  
 }
