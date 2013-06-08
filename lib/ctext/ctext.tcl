@@ -6,7 +6,7 @@ package require Tk
 package provide ctext 3.3
 
 namespace eval ctext {}
-
+ 
 #win is used as a unique token to create arrays for each ctext instance
 proc ctext::getAr {win suffix name} {
   set arName __ctext[set win][set suffix]
@@ -253,10 +253,8 @@ proc ctext::commentsAfterIdle {win} {
 proc ctext::highlightAfterIdle {win lineStart lineEnd} {
   ctext::getAr $win config configAr
   
-  if {"" eq $configAr(highlightAfterId)} {
-    set configAr(highlightAfterId) [after idle \
-    [list ctext::highlight $win $lineStart $lineEnd [set afterTriggered 1]]]
-  }
+  set configAr(highlightAfterId) [after idle \
+  [list ctext::highlight $win $lineStart $lineEnd [set afterTriggered 1]]]
 }
 
 proc ctext::instanceCmd {self cmd args} {
@@ -363,759 +361,760 @@ proc ctext::instanceCmd {self cmd args} {
         #This pattern was used in 3.1.  We may want to investigate using it again
         #eventually to reduce flicker.  It caused a bug with some patterns.
         #if {[string equal $prevChar "#"] || [string equal $char "#"]} {
-          #	set removeStart $lineStart
-          #	set removeEnd $lineEnd
-          #} else {
-            #	set removeStart $prevSpace
-            #	set removeEnd $nextSpace
-            #}
-            set removeStart $lineStart
-            set removeEnd $lineEnd
-            
-            foreach tag [$self._t tag names] {
-              if {([string equal $tag "_cComment"] != 1) && \
-                ([string index $tag 0] eq "_")} {
-                  $self._t tag remove $tag $removeStart $removeEnd
-                }
-              }
-              
-              set checkStr "$prevChar[set char]"
-              
-              if {[regexp $commentRE $checkStr]} {
-                ctext::commentsAfterIdle $self
-              }
-              
-              ctext::highlightAfterIdle $self $lineStart $lineEnd
-              ctext::linemapUpdate $self
-              } elseif {$argsLength == 2} {
-                #now deal with delete n.n ?n.n?
-                set deleteStartPos [lindex $args 0]
-                set deleteEndPos [lindex $args 1]
-                
-                set data [$self._t get $deleteStartPos $deleteEndPos]
-                
-                set lineStart [$self._t index "$deleteStartPos linestart"]
-                set lineEnd [$self._t index "$deleteEndPos + 1 chars lineend"]
-                eval \$self._t delete $args
-                
-                foreach tag [$self._t tag names] {
-                  if {([string equal $tag "_cComment"] != 1) && \
-                    ([string index $tag 0] eq "_")} {
-                      $self._t tag remove $tag $lineStart $lineEnd
-                    }
-                  }
-                  
-                  if {[regexp $commentRE $data]} {
-                    ctext::commentsAfterIdle $self
-                  }
-                  
-                  ctext::highlightAfterIdle $self $lineStart $lineEnd
-                  if {[string first "\n" $data] >= 0} {
-                    ctext::linemapUpdate $self
-                  }
-                  } else {
-                    return -code error "invalid argument(s) sent to $self delete: $args"
-                  }
-                  ctext::modified $self 1
-                }
-                
-                fastdelete {
-                  eval \$self._t delete $args
-                  ctext::modified $self 1
-                  ctext::linemapUpdate $self
-                }
-                
-                fastinsert {
-                  eval \$self._t insert $args
-                  ctext::modified $self 1
-                  ctext::linemapUpdate $self
-                }
-                
-                highlight {
-                  ctext::highlight $self [lindex $args 0] [lindex $args 1]
-                  ctext::comments $self
-                }
-                
-                insert {
-                  if {[llength $args] < 2} {
-                    return -code error "please use at least 2 arguments to $self insert"
-                  }
-                  
-                  set insertPos [lindex $args 0]
-                  set prevChar [$self._t get "$insertPos - 1 chars"]
-                  set nextChar [$self._t get $insertPos]
-                  set lineStart [$self._t index "$insertPos linestart"]
-                  set prevSpace [ctext::findPreviousSpace $self._t ${insertPos}-1c]
-                  set data [lindex $args 1]
-                  eval \$self._t insert $args
-                  
-                  set nextSpace [ctext::findNextSpace $self._t insert]
-                  set lineEnd [$self._t index "insert lineend"]
-                  
-                  if {[$self._t compare $prevSpace < $lineStart]} {
-                    set prevSpace $lineStart
-                  }
-                  
-                  if {[$self._t compare $nextSpace > $lineEnd]} {
-                    set nextSpace $lineEnd
-                  }
-                  
-                  foreach tag [$self._t tag names] {
-                    if {([string equal $tag "_cComment"] != 1) && \
-                      ([string index $tag 0] eq "_")} {
-                        $self._t tag remove $tag $prevSpace $nextSpace
-                      }
-                    }
-                    
-                    set REData $prevChar
-                    append REData $data
-                    append REData $nextChar
-                    if {[regexp $commentRE $REData]} {
-                      ctext::commentsAfterIdle $self
-                    }
-                    
-                    ctext::highlightAfterIdle $self $lineStart $lineEnd
-                    
-                    switch -- $data {
-                      "\}" {
-                        ctext::matchPair $self "\\\{" "\\\}" "\\"
-                      }
-                      "\]" {
-                        ctext::matchPair $self "\\\[" "\\\]" "\\"
-                      }
-                      "\)" {
-                        ctext::matchPair $self "\\(" "\\)" ""
-                      }
-                      "\"" {
-                        ctext::matchQuote $self
-                      }
-                    }
-                    ctext::modified $self 1
-                    ctext::linemapUpdate $self
-                  }
-                  
-                  paste {
-                    tk_textPaste $self
-                    ctext::modified $self 1
-                  }
-                  
-                  edit {
-                    set subCmd [lindex $args 0]
-                    set argsLength [llength $args]
-                    
-                    ctext::getAr $self config ar
-                    
-                    if {"modified" == $subCmd} {
-                      if {$argsLength == 1} {
-                        return $ar(modified)
-                        } elseif {$argsLength == 2} {
-                          set value [lindex $args 1]
-                          set ar(modified) $value
-                          } else {
-                            return -code error "invalid arg(s) to $self edit modified: $args"
-                          }
-                          } else {
-                            #Tk 8.4 has other edit subcommands that I don't want to emulate.
-                            return [uplevel 1 [linsert $args 0 $self._t $cmd]]
-                          }
-                        }
-                        
-                        default {
-                          return [uplevel 1 [linsert $args 0 $self._t $cmd]]
-                        }
-                      }
-                    }
-                    
-                    proc ctext::tag:blink {win count {afterTriggered 0}} {
-                      if {$count & 1} {
-                        $win tag configure __ctext_blink \
-                        -foreground [$win cget -bg] -background [$win cget -fg]
-                        } else {
-                          $win tag configure __ctext_blink \
-                          -foreground [$win cget -fg] -background [$win cget -bg]
-                        }
-                        
-                        ctext::getAr $win config configAr
-                        if {$afterTriggered} {
-                          set configAr(blinkAfterId) ""
-                        }
-                        
-                        if {$count == 4} {
-                          $win tag delete __ctext_blink 1.0 end
-                          return
-                        }
-                        
-                        incr count
-                        if {"" eq $configAr(blinkAfterId)} {
-                          set configAr(blinkAfterId) [after 50 \
-                          [list ctext::tag:blink $win $count [set afterTriggered 1]]]
-                        }
-                      }
-                      
-                      proc ctext::matchPair {win str1 str2 escape} {
-                        set prevChar [$win get "insert - 2 chars"]
-                        
-                        if {[string equal $prevChar $escape]} {
-                          #The char that we thought might be the end is actually escaped.
-                          return
-                        }
-                        
-                        set searchRE "[set str1]|[set str2]"
-                        set count 1
-                        
-                        set pos [$win index "insert - 1 chars"]
-                        set endPair $pos
-                        set lastFound ""
-                        while 1 {
-                          set found [$win search -backwards -regexp $searchRE $pos]
-                          
-                          if {$found == "" || [$win compare $found > $pos]} {
-                            return
-                          }
-                          
-                          if {$lastFound != "" && [$win compare $found == $lastFound]} {
-                            #The search wrapped and found the previous search
-                            return
-                          }
-                          
-                          set lastFound $found
-                          set char [$win get $found]
-                          set prevChar [$win get "$found - 1 chars"]
-                          set pos $found
-                          
-                          if {[string equal $prevChar $escape]} {
-                            continue
-                            } elseif {[string equal $char [subst $str2]]} {
-                              incr count
-                              } elseif {[string equal $char [subst $str1]]} {
-                                incr count -1
-                                if {$count == 0} {
-                                  set startPair $found
-                                  break
-                                }
-                                } else {
-                                  # This shouldn't happen.  I may in the future make it
-                                  # return -code error
-                                  puts stderr "ctext seems to have encountered a bug in ctext::matchPair"
-                                  return
-                                }
-                              }
-                              
-                              $win tag add __ctext_blink $startPair
-                              $win tag add __ctext_blink $endPair
-                              ctext::tag:blink $win 0
-                            }
-                            
-                            proc ctext::matchQuote {win} {
-                              set endQuote [$win index insert]
-                              set start [$win index "insert - 1 chars"]
-                              
-                              if {[$win get "$start - 1 chars"] == "\\"} {
-                                #the quote really isn't the end
-                                return
-                              }
-                              set lastFound ""
-                              while 1 {
-                                set startQuote [$win search -backwards \" $start]
-                                if {$startQuote == "" || [$win compare $startQuote > $start]} {
-                                  #The search found nothing or it wrapped.
-                                  return
-                                }
-                                
-                                if {$lastFound != "" && [$win compare $lastFound == $startQuote]} {
-                                  #We found the character we found before, so it wrapped.
-                                  return
-                                }
-                                set lastFound $startQuote
-                                set start [$win index "$startQuote - 1 chars"]
-                                set prevChar [$win get $start]
-                                
-                                if {$prevChar == "\\"} {
-                                  continue
-                                }
-                                break
-                              }
-                              
-                              if {[$win compare $endQuote == $startQuote]} {
-                                #probably just \"
-                                return
-                              }
-                              
-                              $win tag add __ctext_blink $startQuote $endQuote
-                              ctext::tag:blink $win 0
-                            }
-                            
-                            proc ctext::enableComments {win} {
-                              $win tag configure _cComment -foreground khaki
-                            }
-                            proc ctext::disableComments {win} {
-                              catch {$win tag delete _cComment}
-                            }
-                            
-                            proc ctext::comments {win {afterTriggered 0}} {
-                              if {[catch {$win tag cget _cComment -foreground}]} {
-                                #C comments are disabled
-                                return
-                              }
-                              
-                              if {$afterTriggered} {
-                                ctext::getAr $win config configAr
-                                set configAr(commentsAfterId) ""
-                              }
-                              
-                              set startIndex 1.0
-                              set commentRE {\\\\|\"|\\\"|\\'|'|/\*|\*/}
-                              set commentStart 0
-                              set isQuote 0
-                              set isSingleQuote 0
-                              set isComment 0
-                              $win tag remove _cComment 1.0 end
-                              while 1 {
-                                set index [$win search -count length -regexp $commentRE $startIndex end]
-                                
-                                if {$index == ""} {
-                                  break
-                                }
-                                
-                                set endIndex [$win index "$index + $length chars"]
-                                set str [$win get $index $endIndex]
-                                set startIndex $endIndex
-                                
-                                if {$str == "\\\\"} {
-                                  continue
-                                  } elseif {$str == "\\\""} {
-                                    continue
-                                    } elseif {$str == "\\'"} {
-                                      continue
-                                      } elseif {$str == "\"" && $isComment == 0 && $isSingleQuote == 0} {
-                                        if {$isQuote} {
-                                          set isQuote 0
-                                          } else {
-                                            set isQuote 1
-                                          }
-                                          } elseif {$str == "'" && $isComment == 0 && $isQuote == 0} {
-                                            if {$isSingleQuote} {
-                                              set isSingleQuote 0
-                                              } else {
-                                                set isSingleQuote 1
-                                              }
-                                              } elseif {$str == "/*" && $isQuote == 0 && $isSingleQuote == 0} {
-                                                if {$isComment} {
-                                                  #comment in comment
-                                                  break
-                                                  } else {
-                                                    set isComment 1
-                                                    set commentStart $index
-                                                  }
-                                                  } elseif {$str == "*/" && $isQuote == 0 && $isSingleQuote == 0} {
-                                                    if {$isComment} {
-                                                      set isComment 0
-                                                      $win tag add _cComment $commentStart $endIndex
-                                                      $win tag raise _cComment
-                                                      } else {
-                                                        #comment end without beginning
-                                                        break
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                                
-                                                proc ctext::addHighlightClass {win class color keywords} {
-                                                  set ref [ctext::getAr $win highlight ar]
-                                                  foreach word $keywords {
-                                                    set ar($word) [list _$class $color]
-                                                  }
-                                                  $win tag configure _$class
-                                                  
-                                                  ctext::getAr $win classes classesAr
-                                                  set classesAr(_$class) [list $ref $keywords]
-                                                }
-                                                
-                                                #For [ ] { } # etc.
-                                                proc ctext::addHighlightClassForSpecialChars {win class color chars} {
-                                                  set charList [split $chars ""]
-                                                  
-                                                  set ref [ctext::getAr $win highlightSpecialChars ar]
-                                                  foreach char $charList {
-                                                    set ar($char) [list _$class $color]
-                                                  }
-                                                  $win tag configure _$class
-                                                  
-                                                  ctext::getAr $win classes classesAr
-                                                  set classesAr(_$class) [list $ref $charList]
-                                                }
-                                                
-                                                proc ctext::addHighlightClassForRegexp {win class color re} {
-                                                  set ref [ctext::getAr $win highlightRegexp ar]
-                                                  
-                                                  set ar(_$class) [list $re $color]
-                                                  $win tag configure _$class
-                                                  
-                                                  ctext::getAr $win classes classesAr
-                                                  set classesAr(_$class) [list $ref _$class]
-                                                }
-                                                
-                                                #For things like $blah
-                                                proc ctext::addHighlightClassWithOnlyCharStart {win class color char} {
-                                                  set ref [ctext::getAr $win highlightCharStart ar]
-                                                  
-                                                  set ar($char) [list _$class $color]
-                                                  $win tag configure _$class
-                                                  
-                                                  ctext::getAr $win classes classesAr
-                                                  set classesAr(_$class) [list $ref $char]
-                                                }
-                                                
-                                                proc ctext::deleteHighlightClass {win classToDelete} {
-                                                  ctext::getAr $win classes classesAr
-                                                  
-                                                  if {![info exists classesAr(_$classToDelete)]} {
-                                                    return -code error "$classToDelete doesn't exist"
-                                                  }
-                                                  
-                                                  foreach {ref keyList} [set classesAr(_$classToDelete)] {
-                                                    upvar #0 $ref refAr
-                                                    foreach key $keyList {
-                                                      if {![info exists refAr($key)]} {
-                                                        continue
-                                                      }
-                                                      unset refAr($key)
-                                                    }
-                                                  }
-                                                  unset classesAr(_$classToDelete)
-                                                }
-                                                
-                                                proc ctext::getHighlightClasses win {
-                                                  ctext::getAr $win classes classesAr
-                                                  
-                                                  set classes [list]
-                                                  foreach class [array names classesAr] {
-                                                    lappend classes [string range 1 end]
-                                                  }
-                                                  
-                                                  return $classes
-                                                }
-                                                
-                                                proc ctext::findNextChar {win index char} {
-                                                  set i [$win index "$index + 1 chars"]
-                                                  set lineend [$win index "$i lineend"]
-                                                  while 1 {
-                                                    set ch [$win get $i]
-                                                    if {[$win compare $i >= $lineend]} {
-                                                      return ""
-                                                    }
-                                                    if {$ch == $char} {
-                                                      return $i
-                                                    }
-                                                    set i [$win index "$i + 1 chars"]
-                                                  }
-                                                }
-                                                
-                                                proc ctext::findNextSpace {win index} {
-                                                  set i [$win index $index]
-                                                  set lineStart [$win index "$i linestart"]
-                                                  set lineEnd [$win index "$i lineend"]
-                                                  #Sometimes the lineend fails (I don't know why), so add 1 and try again.
-                                                  if {[$win compare $lineEnd == $lineStart]} {
-                                                    set lineEnd [$win index "$i + 1 chars lineend"]
-                                                  }
-                                                  
-                                                  while {1} {
-                                                    set ch [$win get $i]
-                                                    
-                                                    if {[$win compare $i >= $lineEnd]} {
-                                                      set i $lineEnd
-                                                      break
-                                                    }
-                                                    
-                                                    if {[string is space $ch]} {
-                                                      break
-                                                    }
-                                                    set i [$win index "$i + 1 chars"]
-                                                  }
-                                                  return $i
-                                                }
-                                                
-                                                proc ctext::findPreviousSpace {win index} {
-                                                  set i [$win index $index]
-                                                  set lineStart [$win index "$i linestart"]
-                                                  while {1} {
-                                                    set ch [$win get $i]
-                                                    
-                                                    if {[$win compare $i <= $lineStart]} {
-                                                      set i $lineStart
-                                                      break
-                                                    }
-                                                    
-                                                    if {[string is space $ch]} {
-                                                      break
-                                                    }
-                                                    
-                                                    set i [$win index "$i - 1 chars"]
-                                                  }
-                                                  return $i
-                                                }
-                                                
-                                                proc ctext::clearHighlightClasses {win} {
-                                                  #no need to catch, because array unset doesn't complain
-                                                  #puts [array exists ::ctext::highlight$win]
-                                                  
-                                                  ctext::getAr $win highlight ar
-                                                  array unset ar
-                                                  
-                                                  ctext::getAr $win highlightSpecialChars ar
-                                                  array unset ar
-                                                  
-                                                  ctext::getAr $win highlightRegexp ar
-                                                  array unset ar
-                                                  
-                                                  ctext::getAr $win highlightCharStart ar
-                                                  array unset ar
-                                                  
-                                                  ctext::getAr $win classes ar
-                                                  array unset ar
-                                                }
-                                                
-                                                #This is a proc designed to be overwritten by the user.
-                                                #It can be used to update a cursor or animation while
-                                                #the text is being highlighted.
-                                                proc ctext::update {} {
-                                                  
-                                                }
-                                                
-                                                proc ctext::highlight {win start end {afterTriggered 0}} {
-                                                  ctext::getAr $win config configAr
-                                                  
-                                                  if {$afterTriggered} {
-                                                    set configAr(highlightAfterId) ""
-                                                  }
-                                                  
-                                                  if {!$configAr(-highlight)} {
-                                                    return
-                                                  }
-                                                  
-                                                  set si $start
-                                                  set twin "$win._t"
-                                                  
-                                                  #The number of times the loop has run.
-                                                  set numTimesLooped 0
-                                                  set numUntilUpdate 600
-                                                  
-                                                  ctext::getAr $win highlight highlightAr
-                                                  ctext::getAr $win highlightSpecialChars highlightSpecialCharsAr
-                                                  ctext::getAr $win highlightRegexp highlightRegexpAr
-                                                  ctext::getAr $win highlightCharStart highlightCharStartAr
-                                                  
-                                                  while 1 {
-                                                    set res [$twin search -count length -regexp -- {([^\s\(\{\[\}\]\)\.\t\n\r;\"'\|,]+)} $si $end]
-                                                    if {$res == ""} {
-                                                      break
-                                                    }
-                                                    
-                                                    set wordEnd [$twin index "$res + $length chars"]
-                                                    set word [$twin get $res $wordEnd]
-                                                    set firstOfWord [string index $word 0]
-                                                    
-                                                    if {[info exists highlightAr($word)] == 1} {
-                                                      set wordAttributes [set highlightAr($word)]
-                                                      foreach {tagClass color} $wordAttributes break
-                                                      
-                                                      $twin tag add $tagClass $res $wordEnd
-                                                      $twin tag configure $tagClass -foreground $color
-                                                      
-                                                      } elseif {[info exists highlightCharStartAr($firstOfWord)] == 1} {
-                                                        set wordAttributes [set highlightCharStartAr($firstOfWord)]
-                                                        foreach {tagClass color} $wordAttributes break
-                                                        
-                                                        $twin tag add $tagClass $res $wordEnd
-                                                        $twin tag configure $tagClass -foreground $color
-                                                      }
-                                                      set si $wordEnd
-                                                      
-                                                      incr numTimesLooped
-                                                      if {$numTimesLooped >= $numUntilUpdate} {
-                                                        ctext::update
-                                                        set numTimesLooped 0
-                                                      }
-                                                    }
-                                                    
-                                                    foreach {ichar tagInfo} [array get highlightSpecialCharsAr] {
-                                                      set si $start
-                                                      foreach {tagClass color} $tagInfo break
-                                                      
-                                                      while 1 {
-                                                        set res [$twin search -- $ichar $si $end]
-                                                        if {"" == $res} {
-                                                          break
-                                                        }
-                                                        set wordEnd [$twin index "$res + 1 chars"]
-                                                        
-                                                        $twin tag add $tagClass $res $wordEnd
-                                                        $twin tag configure $tagClass -foreground $color
-                                                        set si $wordEnd
-                                                        
-                                                        incr numTimesLooped
-                                                        if {$numTimesLooped >= $numUntilUpdate} {
-                                                          ctext::update
-                                                          set numTimesLooped 0
-                                                        }
-                                                      }
-                                                    }
-                                                    
-                                                    foreach {tagClass tagInfo} [array get highlightRegexpAr] {
-                                                      set si $start
-                                                      foreach {re color} $tagInfo break
-                                                      while 1 {
-                                                        set res [$twin search -count length -regexp -- $re $si $end]
-                                                        if {"" == $res} {
-                                                          break
-                                                        }
-                                                        
-                                                        set wordEnd [$twin index "$res + $length chars"]
-                                                        $twin tag add $tagClass $res $wordEnd
-                                                        $twin tag configure $tagClass -foreground $color
-                                                        set si $wordEnd
-                                                        
-                                                        incr numTimesLooped
-                                                        if {$numTimesLooped >= $numUntilUpdate} {
-                                                          ctext::update
-                                                          set numTimesLooped 0
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                  
-                                                  proc ctext::linemapToggleMark {win y} {
-                                                    ctext::getAr $win config configAr
-                                                    
-                                                    if {!$configAr(-linemap_markable)} {
-                                                      return
-                                                    }
-                                                    
-                                                    set markChar [$win.l index @0,$y]
-                                                    set lineSelected [lindex [split $markChar .] 0]
-                                                    set line [$win.l get $lineSelected.0 $lineSelected.end]
-                                                    
-                                                    if {$line == ""} {
-                                                      return
-                                                    }
-                                                    
-                                                    ctext::getAr $win linemap linemapAr
-                                                    
-                                                    if {[info exists linemapAr($line)] == 1} {
-                                                      #It's already marked, so unmark it.
-                                                      array unset linemapAr $line
-                                                      ctext::linemapUpdate $win
-                                                      set type unmarked
-                                                      } else {
-                                                        #This means that the line isn't toggled, so toggle it.
-                                                        array set linemapAr [list $line {}]
-                                                        $win.l tag add lmark $markChar [$win.l index "$markChar lineend"]
-                                                        $win.l tag configure lmark -foreground $configAr(-linemap_select_fg) \
-                                                        -background $configAr(-linemap_select_bg)
-                                                        set type marked
-                                                      }
-                                                      
-                                                      if {[string length $configAr(-linemap_mark_command)]} {
-                                                        uplevel #0 [linsert $configAr(-linemap_mark_command) end $win $type $line]
-                                                      }
-                                                    }
-                                                    
-                                                    #args is here because -yscrollcommand may call it
-                                                    proc ctext::linemapUpdate {win args} {
-                                                      if {[winfo exists $win.l] != 1} {
-                                                        return
-                                                      }
-                                                      
-                                                      set pixel 0
-                                                      set lastLine {}
-                                                      set lineList [list]
-                                                      set fontMetrics [font metrics [$win._t cget -font]]
-                                                      set incrBy [expr {1 + ([lindex $fontMetrics 5] / 2)}]
-                                                      
-                                                      while {$pixel < [winfo height $win.l]} {
-                                                        set idx [$win._t index @0,$pixel]
-                                                        
-                                                        if {$idx != $lastLine} {
-                                                          set line [lindex [split $idx .] 0]
-                                                          set lastLine $idx
-                                                          lappend lineList $line
-                                                        }
-                                                        incr pixel $incrBy
-                                                      }
-                                                      
-                                                      ctext::getAr $win linemap linemapAr
-                                                      
-                                                      $win.l delete 1.0 end
-                                                      set lastLine {}
-                                                      foreach line $lineList {
-                                                        if {$line == $lastLine} {
-                                                          $win.l insert end "\n"
-                                                          } else {
-                                                            if {[info exists linemapAr($line)]} {
-                                                              $win.l insert end "$line\n" lmark
-                                                              } else {
-                                                                $win.l insert end "$line\n"
-                                                              }
-                                                            }
-                                                            set lastLine $line
-                                                          }
-                                                          if {[llength $lineList] > 0} {
-                                                            linemapUpdateOffset $win $lineList
-                                                          }
-                                                          set endrow [lindex [split [$win._t index end-1c] .] 0]
-                                                          $win.l configure -width [string length $endrow]
-                                                        }
-                                                        
-                                                        # Starting with Tk 8.5 the text widget allows smooth scrolling; this
-                                                        # code calculates the offset for the line numbering text widget and
-                                                        # scrolls by the specified amount of pixels
-                                                        
-                                                        if {![catch {
-                                                          package require Tk 8.5
-                                                          }]} {
-                                                            proc ctext::linemapUpdateOffset {win lineList} {
-                                                              # reset view for line numbering widget
-                                                              $win.l yview 0.0
-                                                              
-                                                              # find the first line that is visible and calculate the
-                                                              # corresponding line in the line numbers widget
-                                                              set lline 1
-                                                              foreach line $lineList {
-                                                                set tystart [lindex [$win.t bbox $line.0] 1]
-                                                                if {$tystart != ""} {
-                                                                  break
-                                                                }
-                                                                incr lline
-                                                              }
-                                                              
-                                                              # return in case the line numbers text widget is not up to
-                                                              # date
-                                                              if {[catch {
-                                                                set lystart [lindex [$win.l bbox $lline.0] 1]
-                                                                }]} {
-                                                                  return
-                                                                }
-                                                                
-                                                                # return in case the bbox for any of the lines returned an
-                                                                # empty value
-                                                                if {($tystart == "") || ($lystart == "")} {
-                                                                  return
-                                                                }
-                                                                
-                                                                # calculate the offset and then scroll by specified number of
-                                                                # pixels
-                                                                set offset [expr {$lystart - $tystart}]
-                                                                $win.l yview scroll $offset pixels
-                                                              }
-                                                              }  else  {
-                                                                # Do not try to perform smooth scrolling if Tk is 8.4 or less.
-                                                                proc ctext::linemapUpdateOffset {args} {}
-                                                              }
-                                                              
-                                                              proc ctext::modified {win value} {
-                                                                ctext::getAr $win config ar
-                                                                set ar(modified) $value
-                                                                event generate $win <<Modified>>
-                                                                return $value
-                                                              }                                                              
+        #	set removeStart $lineStart
+        #	set removeEnd $lineEnd
+        #} else {
+        #	set removeStart $prevSpace
+        #	set removeEnd $nextSpace
+        #}
+        set removeStart $lineStart
+        set removeEnd $lineEnd
+        
+        foreach tag [$self._t tag names] {
+          if {([string equal $tag "_cComment"] != 1) && \
+          ([string index $tag 0] eq "_")} {
+            $self._t tag remove $tag $removeStart $removeEnd
+          }
+        }
+        
+        set checkStr "$prevChar[set char]"
+        
+        if {[regexp $commentRE $checkStr]} {
+          ctext::commentsAfterIdle $self
+        }
+        
+        ctext::highlightAfterIdle $self $lineStart $lineEnd
+        ctext::linemapUpdate $self
+      } elseif {$argsLength == 2} {
+        #now deal with delete n.n ?n.n?
+        set deleteStartPos [lindex $args 0]
+        set deleteEndPos [lindex $args 1]
+        
+        set data [$self._t get $deleteStartPos $deleteEndPos]
+        
+        set lineStart [$self._t index "$deleteStartPos linestart"]
+        set lineEnd [$self._t index "$deleteEndPos + 1 chars lineend"]
+        eval \$self._t delete $args
+        
+        foreach tag [$self._t tag names] {
+          if {([string equal $tag "_cComment"] != 1) && \
+          ([string index $tag 0] eq "_")} {
+            $self._t tag remove $tag $lineStart $lineEnd
+          }
+        }
+        
+        if {[regexp $commentRE $data]} {
+          ctext::commentsAfterIdle $self
+        }
+        
+        ctext::highlightAfterIdle $self $lineStart $lineEnd
+        if {[string first "\n" $data] >= 0} {
+          ctext::linemapUpdate $self
+        }
+      } else {
+        return -code error "invalid argument(s) sent to $self delete: $args"
+      }
+      ctext::modified $self 1
+    }
+    
+    fastdelete {
+      eval \$self._t delete $args
+      ctext::modified $self 1
+      ctext::linemapUpdate $self
+    }
+    
+    fastinsert {
+      eval \$self._t insert $args
+      ctext::modified $self 1
+      ctext::linemapUpdate $self
+    }
+    
+    highlight {
+      ctext::highlight $self [lindex $args 0] [lindex $args 1]
+      ctext::comments $self
+    }
+    
+    insert {
+      if {[llength $args] < 2} {
+        return -code error "please use at least 2 arguments to $self insert"
+      }
+      
+      set insertPos [lindex $args 0]
+      set prevChar [$self._t get "$insertPos - 1 chars"]
+      set nextChar [$self._t get $insertPos]
+      set lineStart [$self._t index "$insertPos linestart"]
+      set prevSpace [ctext::findPreviousSpace $self._t ${insertPos}-1c]
+      set data [lindex $args 1]
+      set datalen [string length $data]
+      eval \$self._t insert $args
+      
+      set nextSpace [ctext::findNextSpace $self._t insert]
+      set lineEnd [$self._t index "insert+${datalen}c lineend"]
+      
+      if {[$self._t compare $prevSpace < $lineStart]} {
+        set prevSpace $lineStart
+      }
+      
+      if {[$self._t compare $nextSpace > $lineEnd]} {
+        set nextSpace $lineEnd
+      }
+      
+      foreach tag [$self._t tag names] {
+        if {([string equal $tag "_cComment"] != 1) && \
+        ([string index $tag 0] eq "_")} {
+          $self._t tag remove $tag $prevSpace $nextSpace
+        }
+      }
+      
+      set REData $prevChar
+      append REData $data
+      append REData $nextChar
+      if {[regexp $commentRE $REData]} {
+        ctext::commentsAfterIdle $self
+      }
+      
+      ctext::highlightAfterIdle $self $lineStart $lineEnd
+      
+      switch -- $data {
+        "\}" {
+          ctext::matchPair $self "\\\{" "\\\}" "\\"
+        }
+        "\]" {
+          ctext::matchPair $self "\\\[" "\\\]" "\\"
+        }
+        "\)" {
+          ctext::matchPair $self "\\(" "\\)" ""
+        }
+        "\"" {
+          ctext::matchQuote $self
+        }
+      }
+      ctext::modified $self 1
+      ctext::linemapUpdate $self
+    }
+    
+    paste {
+      tk_textPaste $self
+      ctext::modified $self 1
+    }
+    
+    edit {
+      set subCmd [lindex $args 0]
+      set argsLength [llength $args]
+      
+      ctext::getAr $self config ar
+      
+      if {"modified" == $subCmd} {
+        if {$argsLength == 1} {
+          return $ar(modified)
+        } elseif {$argsLength == 2} {
+          set value [lindex $args 1]
+          set ar(modified) $value
+        } else {
+          return -code error "invalid arg(s) to $self edit modified: $args"
+        }
+      } else {
+        #Tk 8.4 has other edit subcommands that I don't want to emulate.
+        return [uplevel 1 [linsert $args 0 $self._t $cmd]]
+      }
+    }
+    
+    default {
+      return [uplevel 1 [linsert $args 0 $self._t $cmd]]
+    }
+  }
+}
+
+proc ctext::tag:blink {win count {afterTriggered 0}} {
+  if {$count & 1} {
+    $win tag configure __ctext_blink \
+    -foreground [$win cget -bg] -background [$win cget -fg]
+  } else {
+    $win tag configure __ctext_blink \
+    -foreground [$win cget -fg] -background [$win cget -bg]
+  }
+  
+  ctext::getAr $win config configAr
+  if {$afterTriggered} {
+    set configAr(blinkAfterId) ""
+  }
+  
+  if {$count == 4} {
+    $win tag delete __ctext_blink 1.0 end
+    return
+  }
+  
+  incr count
+  if {"" eq $configAr(blinkAfterId)} {
+    set configAr(blinkAfterId) [after 50 \
+    [list ctext::tag:blink $win $count [set afterTriggered 1]]]
+  }
+}
+
+proc ctext::matchPair {win str1 str2 escape} {
+  set prevChar [$win get "insert - 2 chars"]
+  
+  if {[string equal $prevChar $escape]} {
+    #The char that we thought might be the end is actually escaped.
+    return
+  }
+  
+  set searchRE "[set str1]|[set str2]"
+  set count 1
+  
+  set pos [$win index "insert - 1 chars"]
+  set endPair $pos
+  set lastFound ""
+  while 1 {
+    set found [$win search -backwards -regexp $searchRE $pos]
+    
+    if {$found == "" || [$win compare $found > $pos]} {
+      return
+    }
+    
+    if {$lastFound != "" && [$win compare $found == $lastFound]} {
+      #The search wrapped and found the previous search
+      return
+    }
+    
+    set lastFound $found
+    set char [$win get $found]
+    set prevChar [$win get "$found - 1 chars"]
+    set pos $found
+    
+    if {[string equal $prevChar $escape]} {
+      continue
+    } elseif {[string equal $char [subst $str2]]} {
+      incr count
+    } elseif {[string equal $char [subst $str1]]} {
+      incr count -1
+      if {$count == 0} {
+        set startPair $found
+        break
+      }
+    } else {
+      # This shouldn't happen.  I may in the future make it
+      # return -code error
+      puts stderr "ctext seems to have encountered a bug in ctext::matchPair"
+      return
+    }
+  }
+  
+  $win tag add __ctext_blink $startPair
+  $win tag add __ctext_blink $endPair
+  ctext::tag:blink $win 0
+}
+
+proc ctext::matchQuote {win} {
+  set endQuote [$win index insert]
+  set start [$win index "insert - 1 chars"]
+  
+  if {[$win get "$start - 1 chars"] == "\\"} {
+    #the quote really isn't the end
+    return
+  }
+  set lastFound ""
+  while 1 {
+    set startQuote [$win search -backwards \" $start]
+    if {$startQuote == "" || [$win compare $startQuote > $start]} {
+      #The search found nothing or it wrapped.
+      return
+    }
+    
+    if {$lastFound != "" && [$win compare $lastFound == $startQuote]} {
+      #We found the character we found before, so it wrapped.
+      return
+    }
+    set lastFound $startQuote
+    set start [$win index "$startQuote - 1 chars"]
+    set prevChar [$win get $start]
+    
+    if {$prevChar == "\\"} {
+      continue
+    }
+    break
+  }
+  
+  if {[$win compare $endQuote == $startQuote]} {
+    #probably just \"
+    return
+  }
+  
+  $win tag add __ctext_blink $startQuote $endQuote
+  ctext::tag:blink $win 0
+}
+
+proc ctext::enableComments {win} {
+  $win tag configure _cComment -foreground khaki
+}
+proc ctext::disableComments {win} {
+  catch {$win tag delete _cComment}
+}
+
+proc ctext::comments {win {afterTriggered 0}} {
+  if {[catch {$win tag cget _cComment -foreground}]} {
+    #C comments are disabled
+    return
+  }
+  
+  if {$afterTriggered} {
+    ctext::getAr $win config configAr
+    set configAr(commentsAfterId) ""
+  }
+  
+  set startIndex 1.0
+  set commentRE {\\\\|\"|\\\"|\\'|'|/\*|\*/}
+  set commentStart 0
+  set isQuote 0
+  set isSingleQuote 0
+  set isComment 0
+  $win tag remove _cComment 1.0 end
+  while 1 {
+    set index [$win search -count length -regexp $commentRE $startIndex end]
+    
+    if {$index == ""} {
+      break
+    }
+    
+    set endIndex [$win index "$index + $length chars"]
+    set str [$win get $index $endIndex]
+    set startIndex $endIndex
+    
+    if {$str == "\\\\"} {
+      continue
+    } elseif {$str == "\\\""} {
+      continue
+    } elseif {$str == "\\'"} {
+      continue
+    } elseif {$str == "\"" && $isComment == 0 && $isSingleQuote == 0} {
+      if {$isQuote} {
+        set isQuote 0
+      } else {
+        set isQuote 1
+      }
+    } elseif {$str == "'" && $isComment == 0 && $isQuote == 0} {
+      if {$isSingleQuote} {
+        set isSingleQuote 0
+      } else {
+        set isSingleQuote 1
+      }
+    } elseif {$str == "/*" && $isQuote == 0 && $isSingleQuote == 0} {
+      if {$isComment} {
+        #comment in comment
+        break
+      } else {
+        set isComment 1
+        set commentStart $index
+      }
+    } elseif {$str == "*/" && $isQuote == 0 && $isSingleQuote == 0} {
+      if {$isComment} {
+        set isComment 0
+        $win tag add _cComment $commentStart $endIndex
+        $win tag raise _cComment
+      } else {
+        #comment end without beginning
+        break
+      }
+    }
+  }
+}
+
+proc ctext::addHighlightClass {win class color keywords} {
+  set ref [ctext::getAr $win highlight ar]
+  foreach word $keywords {
+    set ar($word) [list _$class $color]
+  }
+  $win tag configure _$class
+  
+  ctext::getAr $win classes classesAr
+  set classesAr(_$class) [list $ref $keywords]
+}
+
+#For [ ] { } # etc.
+proc ctext::addHighlightClassForSpecialChars {win class color chars} {
+  set charList [split $chars ""]
+  
+  set ref [ctext::getAr $win highlightSpecialChars ar]
+  foreach char $charList {
+    set ar($char) [list _$class $color]
+  }
+  $win tag configure _$class
+  
+  ctext::getAr $win classes classesAr
+  set classesAr(_$class) [list $ref $charList]
+}
+
+proc ctext::addHighlightClassForRegexp {win class color re} {
+  set ref [ctext::getAr $win highlightRegexp ar]
+  
+  set ar(_$class) [list $re $color]
+  $win tag configure _$class
+  
+  ctext::getAr $win classes classesAr
+  set classesAr(_$class) [list $ref _$class]
+}
+
+#For things like $blah
+proc ctext::addHighlightClassWithOnlyCharStart {win class color char} {
+  set ref [ctext::getAr $win highlightCharStart ar]
+  
+  set ar($char) [list _$class $color]
+  $win tag configure _$class
+  
+  ctext::getAr $win classes classesAr
+  set classesAr(_$class) [list $ref $char]
+}
+
+proc ctext::deleteHighlightClass {win classToDelete} {
+  ctext::getAr $win classes classesAr
+  
+  if {![info exists classesAr(_$classToDelete)]} {
+    return -code error "$classToDelete doesn't exist"
+  }
+  
+  foreach {ref keyList} [set classesAr(_$classToDelete)] {
+    upvar #0 $ref refAr
+    foreach key $keyList {
+      if {![info exists refAr($key)]} {
+        continue
+      }
+      unset refAr($key)
+    }
+  }
+  unset classesAr(_$classToDelete)
+}
+
+proc ctext::getHighlightClasses win {
+  ctext::getAr $win classes classesAr
+  
+  set classes [list]
+  foreach class [array names classesAr] {
+    lappend classes [string range 1 end]
+  }
+  
+  return $classes
+}
+
+proc ctext::findNextChar {win index char} {
+  set i [$win index "$index + 1 chars"]
+  set lineend [$win index "$i lineend"]
+  while 1 {
+    set ch [$win get $i]
+    if {[$win compare $i >= $lineend]} {
+      return ""
+    }
+    if {$ch == $char} {
+      return $i
+    }
+    set i [$win index "$i + 1 chars"]
+  }
+}
+
+proc ctext::findNextSpace {win index} {
+  set i [$win index $index]
+  set lineStart [$win index "$i linestart"]
+  set lineEnd [$win index "$i lineend"]
+  #Sometimes the lineend fails (I don't know why), so add 1 and try again.
+  if {[$win compare $lineEnd == $lineStart]} {
+    set lineEnd [$win index "$i + 1 chars lineend"]
+  }
+  
+  while {1} {
+    set ch [$win get $i]
+    
+    if {[$win compare $i >= $lineEnd]} {
+      set i $lineEnd
+      break
+    }
+    
+    if {[string is space $ch]} {
+      break
+    }
+    set i [$win index "$i + 1 chars"]
+  }
+  return $i
+}
+
+proc ctext::findPreviousSpace {win index} {
+  set i [$win index $index]
+  set lineStart [$win index "$i linestart"]
+  while {1} {
+    set ch [$win get $i]
+    
+    if {[$win compare $i <= $lineStart]} {
+      set i $lineStart
+      break
+    }
+    
+    if {[string is space $ch]} {
+      break
+    }
+    
+    set i [$win index "$i - 1 chars"]
+  }
+  return $i
+}
+
+proc ctext::clearHighlightClasses {win} {
+  #no need to catch, because array unset doesn't complain
+  #puts [array exists ::ctext::highlight$win]
+  
+  ctext::getAr $win highlight ar
+  array unset ar
+  
+  ctext::getAr $win highlightSpecialChars ar
+  array unset ar
+  
+  ctext::getAr $win highlightRegexp ar
+  array unset ar
+  
+  ctext::getAr $win highlightCharStart ar
+  array unset ar
+  
+  ctext::getAr $win classes ar
+  array unset ar
+}
+
+#This is a proc designed to be overwritten by the user.
+#It can be used to update a cursor or animation while
+#the text is being highlighted.
+proc ctext::update {} {
+  
+}
+
+proc ctext::highlight {win start end {afterTriggered 0}} {
+  ctext::getAr $win config configAr
+  
+  if {$afterTriggered} {
+    set configAr(highlightAfterId) ""
+  }
+  
+  if {!$configAr(-highlight)} {
+    return
+  }
+  
+  set si $start
+  set twin "$win._t"
+  
+  #The number of times the loop has run.
+  set numTimesLooped 0
+  set numUntilUpdate 600
+  
+  ctext::getAr $win highlight highlightAr
+  ctext::getAr $win highlightSpecialChars highlightSpecialCharsAr
+  ctext::getAr $win highlightRegexp highlightRegexpAr
+  ctext::getAr $win highlightCharStart highlightCharStartAr
+  
+  while 1 {
+    set res [$twin search -count length -regexp -- {([^\s\(\{\[\}\]\)\.\t\n\r;\"'\|,]+)} $si $end]
+    if {$res == ""} {
+      break
+    }
+    
+    set wordEnd [$twin index "$res + $length chars"]
+    set word [$twin get $res $wordEnd]
+    set firstOfWord [string index $word 0]
+    
+    if {[info exists highlightAr($word)] == 1} {
+      set wordAttributes [set highlightAr($word)]
+      foreach {tagClass color} $wordAttributes break
+      
+      $twin tag add $tagClass $res $wordEnd
+      $twin tag configure $tagClass -foreground $color
+      
+    } elseif {[info exists highlightCharStartAr($firstOfWord)] == 1} {
+      set wordAttributes [set highlightCharStartAr($firstOfWord)]
+      foreach {tagClass color} $wordAttributes break
+      
+      $twin tag add $tagClass $res $wordEnd
+      $twin tag configure $tagClass -foreground $color
+    }
+    set si $wordEnd
+    
+    incr numTimesLooped
+    if {$numTimesLooped >= $numUntilUpdate} {
+      ctext::update
+      set numTimesLooped 0
+    }
+  }
+  
+  foreach {ichar tagInfo} [array get highlightSpecialCharsAr] {
+    set si $start
+    foreach {tagClass color} $tagInfo break
+    
+    while 1 {
+      set res [$twin search -- $ichar $si $end]
+      if {"" == $res} {
+        break
+      }
+      set wordEnd [$twin index "$res + 1 chars"]
+      
+      $twin tag add $tagClass $res $wordEnd
+      $twin tag configure $tagClass -foreground $color
+      set si $wordEnd
+      
+      incr numTimesLooped
+      if {$numTimesLooped >= $numUntilUpdate} {
+        ctext::update
+        set numTimesLooped 0
+      }
+    }
+  }
+  
+  foreach {tagClass tagInfo} [array get highlightRegexpAr] {
+    set si $start
+    foreach {re color} $tagInfo break
+    while 1 {
+      set res [$twin search -count length -regexp -- $re $si $end]
+      if {"" == $res} {
+        break
+      }
+      
+      set wordEnd [$twin index "$res + $length chars"]
+      $twin tag add $tagClass $res $wordEnd
+      $twin tag configure $tagClass -foreground $color
+      set si $wordEnd
+      
+      incr numTimesLooped
+      if {$numTimesLooped >= $numUntilUpdate} {
+        ctext::update
+        set numTimesLooped 0
+      }
+    }
+  }
+}
+
+proc ctext::linemapToggleMark {win y} {
+  ctext::getAr $win config configAr
+  
+  if {!$configAr(-linemap_markable)} {
+    return
+  }
+  
+  set markChar [$win.l index @0,$y]
+  set lineSelected [lindex [split $markChar .] 0]
+  set line [$win.l get $lineSelected.0 $lineSelected.end]
+  
+  if {$line == ""} {
+    return
+  }
+  
+  ctext::getAr $win linemap linemapAr
+  
+  if {[info exists linemapAr($line)] == 1} {
+    #It's already marked, so unmark it.
+    array unset linemapAr $line
+    ctext::linemapUpdate $win
+    set type unmarked
+  } else {
+    #This means that the line isn't toggled, so toggle it.
+    array set linemapAr [list $line {}]
+    $win.l tag add lmark $markChar [$win.l index "$markChar lineend"]
+    $win.l tag configure lmark -foreground $configAr(-linemap_select_fg) \
+    -background $configAr(-linemap_select_bg)
+    set type marked
+  }
+  
+  if {[string length $configAr(-linemap_mark_command)]} {
+    uplevel #0 [linsert $configAr(-linemap_mark_command) end $win $type $line]
+  }
+}
+
+#args is here because -yscrollcommand may call it
+proc ctext::linemapUpdate {win args} {
+  if {[winfo exists $win.l] != 1} {
+    return
+  }
+  
+  set pixel 0
+  set lastLine {}
+  set lineList [list]
+  set fontMetrics [font metrics [$win._t cget -font]]
+  set incrBy [expr {1 + ([lindex $fontMetrics 5] / 2)}]
+  
+  while {$pixel < [winfo height $win.l]} {
+    set idx [$win._t index @0,$pixel]
+    
+    if {$idx != $lastLine} {
+      set line [lindex [split $idx .] 0]
+      set lastLine $idx
+      lappend lineList $line
+    }
+    incr pixel $incrBy
+  }
+  
+  ctext::getAr $win linemap linemapAr
+  
+  $win.l delete 1.0 end
+  set lastLine {}
+  foreach line $lineList {
+    if {$line == $lastLine} {
+      $win.l insert end "\n"
+    } else {
+      if {[info exists linemapAr($line)]} {
+        $win.l insert end "$line\n" lmark
+      } else {
+        $win.l insert end "$line\n"
+      }
+    }
+    set lastLine $line
+  }
+  if {[llength $lineList] > 0} {
+    linemapUpdateOffset $win $lineList
+  }
+  set endrow [lindex [split [$win._t index end-1c] .] 0]
+  $win.l configure -width [string length $endrow]
+}
+
+# Starting with Tk 8.5 the text widget allows smooth scrolling; this
+# code calculates the offset for the line numbering text widget and
+# scrolls by the specified amount of pixels
+
+if {![catch {
+  package require Tk 8.5
+}]} {
+  proc ctext::linemapUpdateOffset {win lineList} {
+    # reset view for line numbering widget
+    $win.l yview 0.0
+    
+    # find the first line that is visible and calculate the
+    # corresponding line in the line numbers widget
+    set lline 1
+    foreach line $lineList {
+      set tystart [lindex [$win.t bbox $line.0] 1]
+      if {$tystart != ""} {
+        break
+      }
+      incr lline
+    }
+    
+    # return in case the line numbers text widget is not up to
+    # date
+    if {[catch {
+      set lystart [lindex [$win.l bbox $lline.0] 1]
+    }]} {
+      return
+    }
+    
+    # return in case the bbox for any of the lines returned an
+    # empty value
+    if {($tystart == "") || ($lystart == "")} {
+      return
+    }
+    
+    # calculate the offset and then scroll by specified number of
+    # pixels
+    set offset [expr {$lystart - $tystart}]
+    $win.l yview scroll $offset pixels
+  }
+}  else  {
+  # Do not try to perform smooth scrolling if Tk is 8.4 or less.
+  proc ctext::linemapUpdateOffset {args} {}
+}
+
+proc ctext::modified {win value} {
+  ctext::getAr $win config ar
+  set ar(modified) $value
+  event generate $win <<Modified>>
+  return $value
+}                                                                          

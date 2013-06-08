@@ -161,23 +161,22 @@ namespace eval indent {
     # If we have more than one line, add the newline to the first
     if {[llength $str] > 1} {
 
-      puts "str-0: [lindex $str 0]"
       # Adjust the indent levels, if necessary
-      if {[regexp {\{[^\}]*$} [lindex $str 0]]} {
+      if {[regexp {^(.*)\{[^\}\\]*$} [lindex $str 0] -> content] && ![regexp {[^\{]*(;\s*)?#} $content]} {
         incr indent_levels($txt,insert)
       } elseif {[string index [lindex $str 0] 0] eq "\}"} {
         incr indent_levels($txt,insert) -1
       }
-
+ 
       for {set i 1} {$i < [llength $str]} {incr i} {
         set linestart [$txt index "$startpos+${i}l linestart"]
         set tags      [$txt tag names $linestart]
         if {[regexp {^(\s*)} [lindex $str $i] -> whitespace]} {
           $txt delete $linestart "$linestart+[string length $whitespace]c"
         }
-        if {[regexp {^\s*\}.*\{[^\}]*$} [lindex $str $i]]} {
+        if {[regexp {^\s*\}(.*)\{[^\}\\]*$} [lindex $str $i] -> content] && ![regexp {[^\{]*;\s*#} $content]} {
           $txt insert $linestart [string repeat " " [expr ($indent_levels($txt,insert) - 1) * 2]] $tags
-        } elseif {[regexp {\{[^\}]*$} [lindex $str $i]]} {
+        } elseif {[regexp {^(.*)\{[^\}\\]*$} [lindex $str $i] -> content] && ![regexp {[^\{]*(;\s*)?#} $content]} {
           $txt insert $linestart [string repeat " " [expr $indent_levels($txt,insert) * 2]] $tags
           incr indent_levels($txt,insert)
         } else {

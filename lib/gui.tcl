@@ -66,7 +66,7 @@ namespace eval gui {
     # Load the geometry information
     load_geometry
     
-    wm title . "tke \[[lindex [split [info hostname] .] 0]\]"
+    wm title . "tke \[[lindex [split [info hostname] .] 0]:[pwd]\]"
     # FIXME: wm iconphoto FOOBAR
     
     # Create the panedwindow
@@ -738,7 +738,7 @@ namespace eval gui {
         close $rc
       
         # Highlight the text
-        $w.tf.txt highlight 1.0 end
+        # $w.tf.txt highlight 1.0 end
       
         # Change the text to unmodified
         $w.tf.txt edit modified false
