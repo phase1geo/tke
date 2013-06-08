@@ -25,6 +25,8 @@
 # Text menu bindings
 {.menubar.text/Comment}                    Ctrl-I
 {.menubar.text/Uncomment}                  Ctrl-Shift-I
+{.menubar.text/Indent}                     Ctrl-[
+{.menubar.text/Unindent}                   Ctrl-]
 
 # Tools menu bindings
 {.menubar.tools/Launcher}                  Ctrl-Space
