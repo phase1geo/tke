@@ -141,9 +141,12 @@ namespace eval gui {
     $widgets(dirmenu) add command -label "Rename Directory" -command {
       gui::rename_folder
     }
-    $widgets(dirmenu) add separator
     $widgets(dirmenu) add command -label "Delete Directory" -command {
       gui::delete_folder
+    }
+    $widgets(dirmenu) add separator
+    $widgets(dirmenu) add command -label "Remove from Sidebar" -command {
+      gui::remove_folder_from_sidebar
     }
     
     # Create file popup
@@ -413,6 +416,20 @@ namespace eval gui {
       
     }
  
+  }
+  
+  ######################################################################
+  # Removes the selected folder from the sidebar.
+  proc remove_folder_from_sidebar {} {
+    
+    variable widgets
+    
+    # Get the currently selected row
+    set selected [$widgets(filetl) curselection]
+    
+    # Delete the row and its children
+    $widgets(filetl) delete $selected
+    
   }
  
   ######################################################################
@@ -877,10 +894,14 @@ namespace eval gui {
     }
     
     # Save the file contents
-    if {![catch "open [lindex $files $index 0] w" rc]} {
-      puts $rc [[current_txt] get 1.0 end-1c]
-      close $rc
+    if {[catch "open [lindex $files $index 0] w" rc]} {
+      tk_messageBox -parent . -title "Error" -type ok -default ok -message "Unable to write file" -detail $rc
+      return
     }
+    
+    # Write the file contents
+    puts $rc [[current_txt] get 1.0 end-1c]
+    close $rc
  
     # Update the timestamp
     file stat [lindex $files $index 0] stat
