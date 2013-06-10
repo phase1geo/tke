@@ -326,14 +326,12 @@ namespace eval vim {
     
     set search_re  "[set str1]|[set str2]"
     set count      1
-    set pos        [$txt index [expr {($dir eq "-forwards") ? "insert+1c" : "insert-1c"}]]
+    set pos        [$txt index [expr {($dir eq "-forwards") ? "insert+1c" : "insert"}]]
     set last_found ""
     
     while {1} {
       
       set found [$txt search $dir -regexp $search_re $pos]
-      
-      puts "$txt search $dir -regexp $search_re $pos ==> $found"
       
       if {($found eq "") || \
           (($dir eq "-forwards")  && [$txt compare $found < $pos]) || \
@@ -351,10 +349,8 @@ namespace eval vim {
         continue
       } elseif {[string equal $char [subst $str2]]} {
         incr count
-        puts "A count: $count"
       } elseif {[string equal $char [subst $str1]]} {
         incr count -1
-        puts "B count: $count"
         if {$count == 0} {
           return $found
         }
@@ -390,7 +386,8 @@ namespace eval vim {
       set start_quote [$txt search $dir \" $start]
       
       if {($start_quote eq "") || \
-          [$txt compare $start_quote > $start] || \
+          (($dir eq "-backwards") && [$txt compare $start_quote > $start]) || \
+          (($dir eq "-forwards")  && [$txt compare $start_quote < $start]) || \
           (($last_found ne "") && [$txt compare $last_found == $start_quote])} {
         return -1
       }
