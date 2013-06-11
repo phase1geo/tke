@@ -216,6 +216,11 @@ namespace eval menus {
     $mb add command -label "Select all occurrences" -underline 7 -command "gui::search_all"
     launcher::register "Menu: Select all occurrences" "gui::search_all"
     
+    $mb add separator
+    
+    $mb add command -label "Find matching pair" -underline 5 -command "gui::show_match_pair"
+    launcher::register "Menu: Find matching character pair" "gui::show_match_pair"
+    
     # Apply the menu settings for the find menu
     bindings::apply $mb
     

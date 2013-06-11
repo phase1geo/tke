@@ -1405,7 +1405,7 @@ namespace eval gui {
     ttk::scrollbar $tab_frame.tf.vb -orient vertical   -command "$tab_frame.tf.txt yview"
     ttk::scrollbar $tab_frame.tf.hb -orient horizontal -command "$tab_frame.tf.txt xview"
     
-    bind $tab_frame.tf.txt <<Modified>>    "gui::text_changed %W"
+    bind $tab_frame.tf.txt <<Modified>>    "gui::text_changed $tab_frame %W"
     bind $tab_frame.tf.txt <<Selection>>   "gui::selection_changed %W"
     bind $tab_frame.tf.txt <ButtonPress-1> "after idle [list gui::update_position $tab_frame]"
     bind $tab_frame.tf.txt <B1-Motion>     "gui::update_position $tab_frame"
@@ -1558,15 +1558,15 @@ namespace eval gui {
   
   ######################################################################
   # Handles a change to the current text widget.
-  proc text_changed {txt} {
+  proc text_changed {tab txt} {
   
     variable widgets
     
     if {[$txt edit modified]} {
       
       # Change the look of the tab
-      if {[string index [set name [$widgets(nb) tab current -text]] 0] ne "*"} {
-        $widgets(nb) tab current -text "* $name"
+      if {[string index [set name [$widgets(nb) tab $tab -text]] 0] ne "*"} {
+        $widgets(nb) tab $tab -text "* $name"
       }
     
     }
@@ -1661,6 +1661,131 @@ namespace eval gui {
     $txt mark set insert $pos
     $txt see $pos
     
+  }
+  
+  ######################################################################
+  # Finds the matching character for the one at the current insertion
+  # marker.
+  proc show_match_pair {} {
+  
+    # Get the current widget
+    set txt [current_txt]
+    
+    # If the current character is a matchable character, change the
+    # insertion cursor to the matching character.
+    switch -- [$txt get insert] {
+      "\{" { set index [find_match_brace $txt "\\\}" "\\\{" "\\" -forwards] }
+      "\}" { set index [find_match_brace $txt "\\\{" "\\\}" "\\" -backwards] }
+      "\[" { set index [find_match_brace $txt "\\\]" "\\\[" "\\" -forwards] }
+      "\]" { set index [find_match_brace $txt "\\\[" "\\\]" "\\" -backwards] }
+      "\(" { set index [find_match_brace $txt "\\\)" "\\\(" ""   -forwards] }
+      "\)" { set index [find_match_brace $txt "\\\(" "\\\)" ""   -backwards] }
+      "\"" { set index [find_match_quote $txt] }
+    }
+      
+    # Change the insertion cursor to the matching character
+    if {$index != -1} {
+      $txt mark set insert $index
+      $txt see insert
+    }
+      
+  }
+  
+  ######################################################################
+  # Finds the matching bracket type and returns it's index if found;
+  # otherwise, returns -1.
+  proc find_match_brace {txt str1 str2 escape dir} {
+  
+    set prev_char [$txt get "insert-2c"]
+    
+    if {[string equal $prev_char $escape]} {
+      return -1
+    }
+    
+    set search_re  "[set str1]|[set str2]"
+    set count      1
+    set pos        [$txt index [expr {($dir eq "-forwards") ? "insert+1c" : "insert"}]]
+    set last_found ""
+    
+    while {1} {
+      
+      set found [$txt search $dir -regexp $search_re $pos]
+      
+      if {($found eq "") || \
+          (($dir eq "-forwards")  && [$txt compare $found < $pos]) || \
+          (($dir eq "-backwards") && [$txt compare $found > $pos]) || \
+          (($last_found ne "") && [$txt compare $found == $last_found])} {
+        return -1
+      }
+      
+      set last_found $found
+      set char       [$txt get $found]
+      set prev_char  [$txt get "$found-1c"]
+      if {$dir eq "-forwards"} {
+        set pos "$found+1c"
+      } else {
+        set pos "$found"
+      }
+      
+      if {[string equal $prev_char $escape]} {
+        continue
+      } elseif {[string equal $char [subst $str2]]} {
+        incr count
+      } elseif {[string equal $char [subst $str1]]} {
+        incr count -1
+        if {$count == 0} {
+          return $found
+        }
+      }
+      
+    }    
+    
+  }
+ 
+  ######################################################################
+  # Returns the index of the matching quotation mark; otherwise, if one
+  # is not found, returns -1.
+  proc find_match_quote {txt} {
+    
+    set end_quote  [$txt index insert]
+    set start      [$txt index "insert-1c"]
+    set last_found ""
+  
+    if {[$txt get "$start-1c"] eq "\\"} {
+      return
+    }
+    
+    # Figure out if we need to search forwards or backwards
+    if {[lsearch [$txt tag names $start] _strings] == -1} {
+      set dir   "-forwards"
+      set start [$txt index "insert+1c"]
+    } else {
+      set dir   "-backwards"
+    }
+    
+    while {1} {
+      
+      set start_quote [$txt search $dir \" $start]
+      
+      if {($start_quote eq "") || \
+          (($dir eq "-backwards") && [$txt compare $start_quote > $start]) || \
+          (($dir eq "-forwards")  && [$txt compare $start_quote < $start]) || \
+          (($last_found ne "") && [$txt compare $last_found == $start_quote])} {
+        return -1
+      }
+      
+      set last_found $start_quote
+      set start      [$txt index "$start_quote-1c"]
+      set prev_char  [$txt get $start]
+      
+      if {$prev_char eq "\\"} {
+        continue
+      }
+      
+      return $last_found
+      
+    }
+  
   }
   
 }

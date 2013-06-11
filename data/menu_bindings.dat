@@ -21,6 +21,7 @@
 {.menubar.find/Select previous occurrence} Ctrl-Shift-N
 {.menubar.find/Append next occurrence}     Ctrl-D
 {.menubar.find/Select all occurrences}     Ctrl-Shift-A
+{.menubar.find/Find Matching Pair}         Ctrl-P
 
 # Text menu bindings
 {.menubar.text/Comment}                    Ctrl-I
