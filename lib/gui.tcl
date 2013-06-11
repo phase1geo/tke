@@ -15,7 +15,8 @@ namespace eval gui {
   variable sar_global    1
   variable lengths       {}
  
-  array set widgets {}
+  array set widgets  {}
+  array set language {}
   
   #######################
   #  PUBLIC PROCEDURES  #
@@ -1390,6 +1391,7 @@ namespace eval gui {
   
     variable widgets
     variable curr_id
+    variable language
     
     # Get the unique tab ID
     set id [incr curr_id]
@@ -1473,6 +1475,7 @@ namespace eval gui {
     pack [ttk::label $tab_frame.if.ll2 -text 1]         -side left -padx 2 -pady 2
     pack [ttk::label $tab_frame.if.cl1 -text "Column:"] -side left -padx 2 -pady 2
     pack [ttk::label $tab_frame.if.cl2 -text 0]         -side left -padx 2 -pady 2
+    pack [tk_optionMenu $tab_frame.if.syn gui::language($tab_frame) {*}[syntax::get_languages]] -side right -padx 2 -pady 2
     
     grid rowconfigure    $tab_frame 0 -weight 1
     grid columnconfigure $tab_frame 0 -weight 1
@@ -1501,6 +1504,10 @@ namespace eval gui {
     snippets::add_bindings    $tab_frame.tf.txt
     vim::set_vim_mode         $tab_frame.tf.txt
         
+    # Apply the appropriate syntax highlighting for the given extension
+    set language($tab_frame) [syntax::get_language [file extension $file]]
+    syntax::set_language $tab_frame.tf.txt $language($tab_frame)
+
     # Make the new tab the current tab
     $widgets(nb) select $adjusted_index
     
@@ -1516,42 +1523,12 @@ namespace eval gui {
   # the widget path.
   proc create_ctext {w args} {
   
-    set widgets [list ctext button label text frame toplevel scrollbar checkbutton canvas \
-                      listbox menu menubar menubutton radiobutton scale entry message \
-                      tk_chooseDir tk_getSaveFile tk_getOpenFile tk_chooseColor tk_optionMenu \
-                      ttk::button ttk::checkbutton ttk::combobox ttk::entry ttk::frame ttk::label \
-                      ttk::labelframe ttk::menubutton ttk::notebook ttk::panedwindow \
-                      ttk::progressbar ttk::radiobutton ttk::scale ttk::scrollbar ttk::separator \
-                      ttk::sizegrip ttk::treeview]
-  
-    set flags   [list -text -command -yscrollcommand -xscrollcommand -background -foreground -fg \
-                      -bg -highlightbackground -y -x -highlightcolor -relief -width -height -wrap \
-                      -font -fill -side -outline -style -insertwidth  -textvariable -activebackground \
-                      -activeforeground -insertbackground -anchor -orient -troughcolor -nonewline \
-                      -expand -type -message -title -offset -in -after -yscroll -xscroll -forward \
-                      -regexp -count -exact -padx -ipadx -filetypes -all -from -to -label -value \
-                      -variable -regexp -backwards -forwards -bd -pady -ipady -state -row -column \
-                      -cursor -highlightcolors -linemap -menu -tearoff -displayof -cursor -underline \
-                      -tags -tag -weight -sticky -rowspan -columnspan]
-                      
-    set control [list uplevel namespace while for foreach if else elseif switch default return catch exec exit]
-  
     # Create the ctext widget
     ctext $w -wrap none -background black -foreground white -insertbackground white -selectforeground white -selectbackground blue {*}$args
     
-    # Apply the syntax highlighting rules
-    ctext::addHighlightClass                  $w widgets        "purple"            $widgets
-    ctext::addHighlightClass                  $w flags          "orange"            $flags
-    ctext::addHighlightClass                  $w stackControl   "red"               $control
-    ctext::addHighlightClass                  $w procs          "red"               {proc}
-    ctext::addHighlightClassWithOnlyCharStart $w vars           "mediumspringgreen" "\$"
-    ctext::addHighlightClass                  $w variable_funcs "gold"              {set global variable unset list array incr}
-    ctext::addHighlightClassForSpecialChars   $w brackets       "green"             {[]{}}
-    ctext::addHighlightClassForRegexp         $w paths          "lightblue"         {\.[a-zA-Z0-9\_\-]+}
-    ctext::addHighlightClassForRegexp         $w strings        "pink"              {\"[^\"]*\"}
-    ctext::addHighlightClassForRegexp         $w comments       "grey"              {#[^\n\r]*}
-    ctext::addHighlightClassForRegexp         $w fixme          "yellow"            {FIXME}
-  
+    # Apply the generic syntax highlighting rules
+    ctext::addHighlightClassForRegexp $w fixme "yellow" {FIXME}
+    
     return $w
   
   }
@@ -1590,7 +1567,7 @@ namespace eval gui {
     }
     
   }
-
+ 
   ######################################################################
   # Returns the current text widget pathname.
   proc current_txt {} {
@@ -1630,7 +1607,7 @@ namespace eval gui {
   ######################################################################
   # Returns the list of procs in the current text widget.  Uses the _procs
   # highlighting to tag to quickly find procs in the widget.
-  proc get_proc_list {} {
+  proc get_symbol_list {} {
     
     variable lengths
     
@@ -1639,7 +1616,7 @@ namespace eval gui {
     
     set proclist [list]
     set lengths  [list]
-    foreach {startpos endpos} [$txt tag ranges _procs] {
+    foreach {startpos endpos} [$txt tag ranges _symbols] {
       if {[set pos [$txt search -regexp -count gui::lengths -- {\S+} $endpos]] eq ""} {
         break
       }

@@ -1,0 +1,14 @@
+{.syntax}
+
+{
+  HighlightClass symbols "red" {
+    HighlightClass
+    HighlightClassForSpecialChars
+    HighlightClassForRegexp
+    HighlightClassWithOnlyCharStart
+  }
+  HighlightClassForSpecialChars brackets  "green"  {{}}
+  HighlightClassForRegexp       extension "purple" {\.\w+}
+  HighlightClassForRegexp       strings   "pink"   {\"[^\"]*\"}
+  HighlightClassForRegexp       comments  "grey"   {#[^\n\r]*}
+}

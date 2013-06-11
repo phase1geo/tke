@@ -364,6 +364,8 @@ namespace eval vim {
       if {$mode($txt) eq "replace"} {
         $txt replace insert "insert+1c" $char
         start_mode $txt
+      } elseif {$mode($txt) eq "replace_all"} {
+        $txt replace insert "insert+1c" $char
       }
       return 1
     }
@@ -584,6 +586,9 @@ namespace eval vim {
       } else {
         $txt mark set insert "insert+1l"
       }
+      if {[$txt index insert] ne [$txt index "insert lineend"]} {
+        $txt mark set insert "insert+1c"
+      }
       adjust_insert $txt
       $txt see insert
       return 1
@@ -629,6 +634,9 @@ namespace eval vim {
         $txt mark set insert "insert-$number($txt)l"
       } else {
         $txt mark set insert "insert-1l"
+      }
+      if {[$txt index insert] ne [$txt index "insert lineend"]} {
+        $txt mark set insert "insert+1c"
       }
       adjust_insert $txt
       $txt see insert
@@ -1003,6 +1011,22 @@ namespace eval vim {
  
     if {$mode($txt) eq "start"} {
       set mode($txt) "replace"
+      return 1
+    }
+    
+    return 0
+    
+  }
+  
+  ######################################################################
+  # If we are in "start" mode, replaces all characters until the escape
+  # key is hit.
+  proc handle_R {txt} {
+    
+    variable mode
+    
+    if {$mode($txt) eq "start"} {
+      set mode($txt) "replace_all"
       return 1
     }
     
