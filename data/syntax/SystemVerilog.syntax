@@ -1,0 +1,36 @@
+{.v .sv .vg}
+
+{
+  HighlightClass keywords_1995 "red" {
+    always and assign begin buf bufif0 bufif1 case casex casez cmos deassign default defparam
+    disable edge else end endcase endfunction endmodule endprimitive endspecify endtable endtask
+    event for force forever fork function highz0 highz1 if initial inout input integer join
+    large macromodule medium module nand negedge nmos nor not notif0 notif1 or output parameter
+    pmos posedge primitive pull0 pull1 pulldown pullup rcmos real realtime reg release repeat
+    rnmos rpmos rtran rtranif0 rtranif1 scalered signed small specify specparam strong0 strong1
+    supply0 supply1 table task time tran tranif0 tranif1 tri tri0 tri1 triand trior trireg
+    vectored wait wand weak0 weak1 while wire wor xnor xor
+  }
+  HighlightClass keywords_2001 "red" {
+    automatic cell config design endconfig endgenerate generate genvar instance liblist library
+    localparam noshowcancelled pulsestyle_onevent pulsestyle_ondetect showcancelled use
+  }
+  HighlightClass keywords_sv "red" {
+    alias always_comb always_ff always_latch assert assume bind bins binsof bit before break byte
+    chandle char class clocking const constraint context continue cover covergroup coverpoint
+    cross dist do endclass endclocking endgroup endinterface endpackage endprogram endproperty
+    endsequence enum expect export extends extern final first_match foreach forkjoin iff ifnone
+    ignore_bins illegal_bins import include inside instance int interface intersect join_any
+    join_none local logic longint matches modport new null option. package packed priority
+    program property protected pure rand randc randcase randomize randsequence ref return scalared
+    sequence shortint shortreal solve static struct super tagged this throughout timeprecision
+    timeunit type typedef type_option. union unique unsigned virtual void wait_order wildcard with
+    within 
+  }
+  HighlightClassForSpecialChars   singlechar "green"     {{};:[],()#=.@&!?<>%|^~+*/-}
+  HighlightClassForRegexp         strings    "pink"      {\"[^\"]*\"}
+  HighlightClassForRegexp         comments   "grey"      {//[^\n\r]*}
+  HighlightClassWithOnlyCharStart system     "red"       \$
+  HighlightClassForRegexp         numbers    "gold"      {[+-]?[0-9]+|[0-9]*'[sS]?[hHdDoObB]\s*[0-9a-fA-F_]+}
+  HighlightClassForRegexp         precompile "turquoise" {#line|`\w+}
+}
