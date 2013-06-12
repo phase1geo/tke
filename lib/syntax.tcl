@@ -7,11 +7,24 @@
  
 namespace eval syntax {
   
-  array set langs {}
+  array set langs  {}
+  array set themes {}
+  array set theme  {}
+  
+  ######################################################################
+  proc load {} {
+    
+    # Load the supported syntax information
+    load_syntax
+    
+    # Load themes
+    load_themes
+ 
+  }
   
   ######################################################################
   # Loads the syntax highlighting information.
-  proc load {} {
+  proc load_syntax {} {
     
     variable langs
     
@@ -24,10 +37,80 @@ namespace eval syntax {
     # Get the syntax information from all of the files in the user's syntax directory.
     foreach sfile $sfiles {
       if {![catch "open $sfile r" rc]} {
-        set langs([file rootname [file tail $sfile]]) [read $rc]
+        set name [file rootname [file tail $sfile]]
+        set langs($name) [read $rc]
+        launcher::register "Syntax:  $name" "syntax::set_current_language $name"
         close $rc
       }
     }
+    
+  }
+  
+  ######################################################################
+  # Loads the theme file information.
+  proc load_themes {} {
+    
+    variable themes
+    variable theme
+    
+    # Load the tke_dir theme files
+    set tfiles [glob -nocomplain -directory [file join [file dirname $::tke_dir] data themes] *.tketheme]
+    
+    # Load the tke_home theme files
+    set tfiles [concat $tfiles [glob -nocomplain -directory [file join $::tke_home themes] *.tketheme]]
+    
+    # Get the theme information
+    foreach tfile $tfiles {
+      if {![catch "open $tfile r" rc]} {
+        set name [file rootname [file tail $tfile]]
+        set themes($name) [read $rc]
+        launcher::register "Theme:  $name" "syntax::set_theme $name"
+        close $rc
+      }
+    }
+    
+    # Sets the current theme
+    set_theme $preferences::prefs(Appearance/Theme)
+    
+    # Trace changes to the Appearance/Theme preference variable
+    trace variable preferences::prefs(Appearance/Theme) w syntax::handle_theme_change
+    
+  }
+  
+  ######################################################################
+  # Called whenever the Appearance/Theme preference value is changed.
+  proc handle_theme_change {name1 name2 op} {
+
+    set_theme $preferences::prefs(Appearance/Theme)
+
+  }
+
+  ######################################################################
+  # Sets the theme to the specified value.  Returns 1 if the theme was
+  # set; otherwise, returns 0.
+  proc set_theme {theme_name} {
+    
+    variable themes
+    variable theme
+    variable lang
+    
+    if {[info exists themes($theme_name)]} {
+      
+      # Set the current theme array
+      array set theme $themes($theme_name)
+      
+      # Iterate through our tab list and update there
+      foreach txt [array names lang] {
+        if {[winfo exists $txt]} {
+          set_language $txt [lindex $lang($txt) 0] [lindex $lang($txt) 1]
+        } else {
+          unset lang($txt)
+        }
+      }
+      
+    }
+    
+    return 0
     
   }
   
@@ -49,7 +132,8 @@ namespace eval syntax {
     variable langs
     
     foreach lang [array names langs] {
-      if {[lsearch [lindex $langs($lang) 0] $extension] != -1} {
+      array set lang_array $langs($lang)
+      if {[lsearch $lang_array(extensions) $extension] != -1} {
         return $lang
       }
     }
@@ -59,27 +143,72 @@ namespace eval syntax {
   }
   
   ######################################################################
+  # Sets the language of the current tab to the specified language.
+  proc set_current_language {language} {
+    
+    variable lang
+    
+    # Get the current text widget
+    set txt [gui::current_txt]
+    
+    if {[info exists lang($txt)]} {
+      set_language $txt [lindex $lang($txt) 0] $language
+    }
+    
+  }
+  
+  ######################################################################
   # Sets the language of the given text widget to the given language.
   proc set_language {txt mb language} {
     
     variable langs
+    variable theme
+    variable lang
     
     # Clear the syntax highlighting for the widget
     ctext::clearHighlightClasses $txt
     ctext::disableComments $txt
-
+    
+    # Set the text background color to the current theme
+    $txt configure -background $theme(background) -foreground $theme(foreground) \
+      -selectbackground $theme(selectbackground) -selectforeground $theme(selectforeground)
+ 
     # Apply the new syntax highlighting syntax, if one exists for the given language
     if {[info exists langs($language)]} {
+      
       if {[catch {
-        foreach {type name color syntax} [lindex $langs($language) 1] {
-          ctext::add$type $txt $name $color $syntax
+        
+        array set lang_array $langs($language)
+        
+        # Add the language keywords
+        ctext::addHighlightClass $txt keywords $theme(keywords) $lang_array(keywords)
+        
+        # Add the language symbols
+        ctext::addHighlightClass $txt symbols  $theme(keywords) $lang_array(symbols)
+        
+        # Add the rest of the sections
+        set_language_section $txt numbers       $lang_array(numbers)
+        set_language_section $txt punctuation   $lang_array(punctuation)
+        set_language_section $txt precompile    $lang_array(precompile)
+        set_language_section $txt miscellaneous $lang_array(miscellaneous)
+        set_language_section $txt strings       $lang_array(strings)
+        set_language_section $txt comments      $lang_array(lcomments)
+        
+        # Add the C comments, if specified
+        if {$lang_array(ccomments)} {
+          ctext::enableComments $txt $theme(comments)
         }
+
+        # Add the FIXME
+        ctext::addHighlightClassForRegexp $txt fixme $theme(miscellaneous) {FIXME}
+        
+        # Save the language
+        set lang($txt) [list $mb $language]
+       
       } rc]} {
         tk_messageBox -parent . -type ok -default ok -message "Syntax error in $language.syntax file" -detail $rc
       }
-      if {[lindex $langs($language) 2] eq "CComment"} {
-        ctext::enableComments $txt
-      }
+      
     }
     
     # Re-highlight
@@ -87,6 +216,21 @@ namespace eval syntax {
     
     # Set the menubutton text
     $mb configure -text $language
+    
+  }
+  
+  ######################################################################
+  # Adds syntax highlighting for a given type
+  proc set_language_section {txt section section_list} {
+    
+    variable theme
+    
+    set i 0
+    
+    foreach {type syntax} $section_list {
+      ctext::add$type $txt $section$i $theme($section) $syntax
+      incr i
+    }
     
   }
   

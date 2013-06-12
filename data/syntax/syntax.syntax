@@ -1,14 +1,39 @@
+extensions
 {.syntax}
 
+keywords
 {
-  HighlightClass symbols "red" {
-    HighlightClass
-    HighlightClassForSpecialChars
-    HighlightClassForRegexp
-    HighlightClassWithOnlyCharStart
-  }
-  HighlightClassForSpecialChars brackets  "green"  {{}}
-  HighlightClassForRegexp       extension "purple" {\.\w+}
-  HighlightClassForRegexp       strings   "pink"   {\"[^\"]*\"}
-  HighlightClassForRegexp       comments  "grey"   {#[^\n\r]*}
+  extensions keywords symbols lcomments ccomments strings numbers punctuation precompile miscellaneous 
+  HighlightClass
+  HighlightClassForSpecialChars
+  HighlightClassForRegexp
+  HighlightClassWithOnlyCharStart
 }
+
+symbols
+{
+  extensions keywords symbols lcomments ccomments strings numbers punctuation precompile miscellaneous 
+}
+
+lcomments {}
+
+ccomments 0
+
+strings
+{
+  HighlightClassForRegexp {\"[^\"]*\"}
+}
+
+numbers {}
+
+punctuation
+{
+  HighlightClassForSpecialChars {{}}
+}
+
+precompile {}
+
+miscellaneous
+  HighlightClassForRegexp {\.[^ \t\n\r\}]+}
+}
+

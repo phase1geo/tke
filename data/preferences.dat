@@ -1,4 +1,3 @@
-{Appearance/Background} {black}
-{Appearance/Foreground} {white}
-{Tools/VimMode}         {0}
-{Tools/ViewSidebar}     {1}
+{Appearance/Theme}  {default}
+{Tools/VimMode}     {0}
+{Tools/ViewSidebar} {1}

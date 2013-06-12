@@ -1,10 +1,54 @@
+extensions
 {.tcl}
 
+keywords
 {
-  HighlightClass symbols "red" {
-    proc
-  }
-  HighlightClass widgets "purple" {
+  after append apply array auto_execok auto_import auto_load auto_mkindex auto_mkindex_old
+  auto_qualify auto_reset bgerror binary break catch cd chan clock close concat continue
+  dde dict encoding eof error eval exec exit expr fblocked fconfigure fcopy file fileevent
+  filename flush for foreach format gets glob global history http if incr info interp
+  join lappend lassign lindex linsert list llength load lrange lrepeat lreplace lreverse
+  lsearch lset lsort mathfunc mathop memory msgcat namespace open package parray pid
+  pkg::create pkg_mkIndex platform platform::shell puts pwd read refchan regexp
+  registry regsub rename return scan seek set socket source split string subst switch
+  tcl_endOfWord tcl_findLibrary tcl_startOfNextWord tcl_startOfPreviousWord tcl_wordBreakAfter
+  tcl_wordBreakBefore tcltest tell time tm trace unknown unload unset update uplevel upvar
+  variable vwait while
+}
+
+symbols
+{
+  HighlightClass proc
+}
+
+lcomments
+{
+  HighlightClassForRegexp {#[^\n\r]*}
+}
+
+ccomments
+0
+
+strings
+{
+  HighlightClassForRegexp {\"[^\"]*\"}
+}
+
+numbers
+{
+  HighlightClassForSpecialChars {0123456789}
+}
+
+punctuation
+{
+  HighlightClassForSpecialChars {{}[]}
+}
+
+precompile {}
+
+miscellaneous
+{
+  HighlightClass {
     ctext button label text frame toplevel scrollbar checkbutton canvas
     listbox menu menubar menubutton radiobutton scale entry message
     tk_chooseDir tk_getSaveFile tk_getOpenFile tk_chooseColor tk_optionMenu
@@ -13,7 +57,7 @@
     ttk::progressbar ttk::radiobutton ttk::scale ttk::scrollbar ttk::separator
     ttk::sizegrip ttk::treeview
   }
-  HighlightClass flags "orange" {
+  HighlightClass {
     -text -command -yscrollcommand -xscrollcommand -background -foreground -fg
     -bg -highlightbackground -y -x -highlightcolor -relief -width -height -wrap
     -font -fill -side -outline -style -insertwidth  -textvariable -activebackground
@@ -24,15 +68,7 @@
     -cursor -highlightcolors -linemap -menu -tearoff -displayof -cursor -underline
     -tags -tag -weight -sticky -rowspan -columnspan
   }
-  HighlightClass stackControl "red" {
-    uplevel namespace while for foreach if else elseif switch default return catch exec exit
-  }
-  HighlightClass variable_funcs "gold" {
-    set global variable unset list array incr
-  }
-  HighlightClassWithOnlyCharStart vars     "mediumspringgreen" {\$}
-  HighlightClassForSpecialChars   brackets "green"             {[]{}}
-  HighlightClassForRegexp         paths    "lightblue"         {\.[a-zA-Z0-9\_\-]+}
-  HighlightClassForRegexp         strings  "pink"              {\"[^\"]*\"}
-  HighlightClassForRegexp         comments "grey"              {#[^\n\r]*}
+  HighlightClassForRegexp {\.[a-zA-Z0-9\_\-]+}
+  HighlightClassWithOnlyCharStart \$
 }
+

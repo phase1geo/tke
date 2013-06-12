@@ -1401,7 +1401,7 @@ namespace eval gui {
     
     # Create the editor frame
     ttk::frame $tab_frame.tf
-    create_ctext $tab_frame.tf.txt -undo 1 -autoseparators 1 \
+    ctext $tab_frame.tf.txt -wrap none -undo 1 -autoseparators 1 \
       -xscrollcommand "utils::set_scrollbar $tab_frame.tf.hb" \
       -yscrollcommand "utils::set_scrollbar $tab_frame.tf.vb"
     ttk::scrollbar $tab_frame.tf.vb -orient vertical   -command "$tab_frame.tf.txt yview"
@@ -1517,21 +1517,6 @@ namespace eval gui {
     
   }
  
-  ##############################################################################
-  # Creates a ctext widget and configures it for Tcl/Tk syntax highlighting.  Returns
-  # the widget path.
-  proc create_ctext {w args} {
-  
-    # Create the ctext widget
-    ctext $w -wrap none -background black -foreground white -insertbackground white -selectforeground white -selectbackground blue {*}$args
-    
-    # Apply the generic syntax highlighting rules
-    ctext::addHighlightClassForRegexp $w fixme "yellow" {FIXME}
-    
-    return $w
-  
-  }
-  
   ######################################################################
   # Handles a change to the current text widget.
   proc text_changed {tab txt} {

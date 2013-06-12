@@ -644,8 +644,8 @@ proc ctext::matchQuote {win} {
   ctext::tag:blink $win 0
 }
 
-proc ctext::enableComments {win} {
-  $win tag configure _cComment -foreground khaki
+proc ctext::enableComments {win {color "khaki"}} {
+  $win tag configure _cComment -foreground $color
 }
 proc ctext::disableComments {win} {
   catch {$win tag delete _cComment}
@@ -789,7 +789,7 @@ proc ctext::getHighlightClasses win {
   
   set classes [list]
   foreach class [array names classesAr] {
-    lappend classes [string range 1 end]
+    lappend classes [string range $class 1 end]
   }
   
   return $classes
@@ -873,6 +873,13 @@ proc ctext::clearHighlightClasses {win} {
   
   ctext::getAr $win classes ar
   array unset ar
+
+  # Delete the associated tags
+  foreach tag [$win tag names] {
+    if {[string index $tag 0] eq "_"} {
+      $win tag delete $tag
+    }
+  }
 }
 
 #This is a proc designed to be overwritten by the user.
