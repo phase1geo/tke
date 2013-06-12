@@ -54,18 +54,19 @@ namespace eval syntax {
       }
     }
     
-    return "unknown"
+    return "<None>"
     
   }
   
   ######################################################################
   # Sets the language of the given text widget to the given language.
-  proc set_language {txt language} {
+  proc set_language {txt mb language} {
     
     variable langs
     
     # Clear the syntax highlighting for the widget
     ctext::clearHighlightClasses $txt
+    ctext::disableComments $txt
 
     # Apply the new syntax highlighting syntax, if one exists for the given language
     if {[info exists langs($language)]} {
@@ -76,8 +77,39 @@ namespace eval syntax {
       } rc]} {
         tk_messageBox -parent . -type ok -default ok -message "Syntax error in $language.syntax file" -detail $rc
       }
+      if {[lindex $langs($language) 2] eq "CComment"} {
+        ctext::enableComments $txt
+      }
     }
     
+    # Re-highlight
+    $txt highlight 1.0 end
+    
+    # Set the menubutton text
+    $mb configure -text $language
+    
+  }
+  
+  ######################################################################
+  # Create a menubutton containing a list of all available languages.
+  proc create_menubutton {w txt} {
+  
+    variable langs
+    
+    # Create the menubutton
+    ttk::menubutton $w -menu $w.menu -direction above
+    
+    # Create the menu
+    set mnu [menu $w.menu -tearoff 0]
+    
+    # Populate the menu with the available languages
+    $mnu add command -label "<None>" -command "syntax::set_language $txt $w <None>"
+    foreach lang [lsort [array names langs]] {
+      $mnu add command -label $lang -command "syntax::set_language $txt $w $lang"
+    }
+    
+    return $w
+  
   }
   
 }

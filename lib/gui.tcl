@@ -1475,7 +1475,7 @@ namespace eval gui {
     pack [ttk::label $tab_frame.if.ll2 -text 1]         -side left -padx 2 -pady 2
     pack [ttk::label $tab_frame.if.cl1 -text "Column:"] -side left -padx 2 -pady 2
     pack [ttk::label $tab_frame.if.cl2 -text 0]         -side left -padx 2 -pady 2
-    pack [tk_optionMenu $tab_frame.if.syn gui::language($tab_frame) {*}[syntax::get_languages]] -side right -padx 2 -pady 2
+    pack [syntax::create_menubutton $tab_frame.if.syn $tab_frame.tf.txt] -side right -padx 2 -pady 2
     
     grid rowconfigure    $tab_frame 0 -weight 1
     grid columnconfigure $tab_frame 0 -weight 1
@@ -1505,8 +1505,7 @@ namespace eval gui {
     vim::set_vim_mode         $tab_frame.tf.txt
         
     # Apply the appropriate syntax highlighting for the given extension
-    set language($tab_frame) [syntax::get_language [file extension $file]]
-    syntax::set_language $tab_frame.tf.txt $language($tab_frame)
+    syntax::set_language $tab_frame.tf.txt $tab_frame.if.syn [syntax::get_language [file extension $title]]
 
     # Make the new tab the current tab
     $widgets(nb) select $adjusted_index
