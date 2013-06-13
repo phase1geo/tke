@@ -1,5 +1,5 @@
-extensions
-{.c .cc .cpp .c++ .h}
+filepatterns
+{*.c *.cc *.cpp *.c++ *.h}
 
 keywords
 {

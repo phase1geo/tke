@@ -1,5 +1,5 @@
-extensions
-{.v .sv .vg}
+filepatterns
+{*.v *.sv *.vg}
 
 keywords
 {

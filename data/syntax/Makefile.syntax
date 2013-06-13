@@ -1,0 +1,34 @@
+filepatterns
+{Makefile makefile Makefile.* makefile.*}
+
+keywords
+{
+  include sinclude .SECONDEXPANSION .RECIPEPREFIX .PHONY .SUFFIXES .DEFAULT .PRECIOUS .INTERMEDIATE .SECONDARY
+  .DELETE_ON_ERROR .IGNORE .LOW_RESOLUTION_TIME .SILENT .EXPORT_ALL_VARIABLES .NOTPARALLEL .ONESHELL .POSIX vpath
+  override define endef undefine ifeq else endif ifneq ifdef ifndef export unexport private
+}
+
+symbols {}
+
+lcomments
+{
+  HighlightClassForRegexp {#[^\n\r]*}
+}
+
+ccomments 0
+
+strings {}
+
+numbers {}
+
+punctuation {
+  HighlightClassForSpecialChars {{};:()=%/$+?,*}
+}
+
+precompile {}
+ 
+miscellaneous {
+  HighlightClassForRegexp {\t[^\n\r]+}
+  HighlightClassForRegexp {@[^\n\r]+}
+  HighlightClassForRegexp {$\([^\)]*\)}
+}

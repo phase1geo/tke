@@ -125,16 +125,18 @@ namespace eval syntax {
   }
   
   ######################################################################
-  # Given the specified extension, returns the language name that supports
-  # this extension.  If multiple extensions respond, use the first match.
-  proc get_language {extension} {
+  # Given the specified filename, returns the language name that supports
+  # it.  If multiple languages respond, use the first match.
+  proc get_language {filename} {
     
     variable langs
     
     foreach lang [array names langs] {
       array set lang_array $langs($lang)
-      if {[lsearch $lang_array(extensions) $extension] != -1} {
-        return $lang
+      foreach filepattern $lang_array(filepatterns) {
+        if {[string match $filepattern $filename]} {
+          return $lang
+        }
       }
     }
     

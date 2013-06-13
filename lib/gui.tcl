@@ -1505,7 +1505,7 @@ namespace eval gui {
     vim::set_vim_mode         $tab_frame.tf.txt
         
     # Apply the appropriate syntax highlighting for the given extension
-    syntax::set_language $tab_frame.tf.txt $tab_frame.if.syn [syntax::get_language [file extension $title]]
+    syntax::set_language $tab_frame.tf.txt $tab_frame.if.syn [syntax::get_language $title]
 
     # Make the new tab the current tab
     $widgets(nb) select $adjusted_index
