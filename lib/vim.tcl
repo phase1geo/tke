@@ -14,6 +14,7 @@ namespace eval vim {
   array set number          {}
   array set buffer          {}
   array set search_dir      {}
+  array set ignore_modified {}
   
   ######################################################################
   # Enables/disables Vim mode for the current text widget.
@@ -163,17 +164,24 @@ namespace eval vim {
     variable mode
     variable number
     variable buffer
+    variable ignore_modified
     
     # Change the cursor to the block cursor
     $txt configure -blockcursor true
     
     # Put ourselves into start mode
-    set mode($txt.t)       "start"
-    set number($txt.t)     ""
-    set search_dir($txt.t) "next"
+    set mode($txt.t)          "start"
+    set number($txt.t)        ""
+    set search_dir($txt.t)    "next"
+    set ignore_modified($txt) 0
     
     # Handle any other modifications to the text
-    bind $txt <<Modified>> "vim::cleanup_dspace %W [list [bind $txt <<Modified>>]]"
+    bind $txt <<Modified>>   {
+      if {[vim::cleanup_dspace %W]} {
+        puts "Breaking"
+        break
+      }
+    }
  
     bind vim$txt <Escape> {
       if {[vim::handle_escape %W]} {
@@ -229,6 +237,9 @@ namespace eval vim {
     if {[set index [lsearch [bindtags $txt.t] vimpre$txt]] != -1} {
       bindtags $txt.t [lreplace [bindtags $txt.t] $index $index]
     }
+    
+    # Move $txt.t <<Modified>> binding back to $txt
+    bind $txt <<Modified>> ""
     
     # Change the cursor to the insertion cursor
     $txt configure -blockcursor false
@@ -293,6 +304,7 @@ namespace eval vim {
     # block cursor doesn't look dumb.
     if {[$txt index "insert linestart"] eq [$txt index "insert lineend"]} {
       $txt insert insert " " dspace
+      puts "Inserting dspace"
     }
     
     # Make sure that lineend is never the insertion point
@@ -304,17 +316,36 @@ namespace eval vim {
  
   ######################################################################
   # Cleans up the dspace.
-  proc cleanup_dspace {w cmd} {
- 
-    foreach {endpos startpos} [lreverse [$w tag ranges dspace]] {
-      if {[$w index $endpos] ne [$w index insert]} {
-        $w delete $startpos $endpos
-        return
+  proc cleanup_dspace {w} {
+    
+    variable ignore_modified
+    
+    puts "In cleanup_dspace, w: $w"
+
+    if {[info exists ignore_modified($w)]} {
+
+      puts "HERE !"
+
+      if {$ignore_modified($w)} {
+      
+        set ignore_modified($w) 0
+        return 1
+      
+      } else {
+      
+        foreach {endpos startpos} [lreverse [$w tag ranges dspace]] {
+          if {[$w index $endpos] ne [$w index insert]} {
+            set ignore_modified($w) 1
+            $w delete $startpos $endpos
+            return 1
+          }
+        }
+    
       }
+
     }
     
-    # Run any other bindings associated with the widget
-    eval $cmd
+    return 0
     
   }
   
