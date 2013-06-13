@@ -33,7 +33,8 @@ punctuation
 
 precompile {}
 
-miscellaneous
+miscellaneous 
+{
   HighlightClassForRegexp {\.[^ \t\n\r\}]+}
 }
 
