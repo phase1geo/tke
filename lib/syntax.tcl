@@ -171,8 +171,9 @@ namespace eval syntax {
     
     # Set the text background color to the current theme
     $txt configure -background $theme(background) -foreground $theme(foreground) \
-      -selectbackground $theme(selectbackground) -selectforeground $theme(selectforeground)
- 
+      -selectbackground $theme(selectbackground) -selectforeground $theme(selectforeground) \
+      -insertbackground $theme(cursor)
+    
     # Apply the new syntax highlighting syntax, if one exists for the given language
     if {[info exists langs($language)]} {
       
@@ -187,11 +188,11 @@ namespace eval syntax {
         ctext::addHighlightClass $txt symbols  $theme(keywords) $lang_array(symbols)
         
         # Add the rest of the sections
-        set_language_section $txt numbers       $lang_array(numbers)
+        set_language_section $txt miscellaneous $lang_array(miscellaneous)
         set_language_section $txt punctuation   $lang_array(punctuation)
         set_language_section $txt precompile    $lang_array(precompile)
-        set_language_section $txt miscellaneous $lang_array(miscellaneous)
         set_language_section $txt strings       $lang_array(strings)
+        set_language_section $txt numbers       $lang_array(numbers)
         set_language_section $txt comments      $lang_array(lcomments)
         
         # Add the C comments, if specified
@@ -228,7 +229,9 @@ namespace eval syntax {
     set i 0
     
     foreach {type syntax} $section_list {
-      ctext::add$type $txt $section$i $theme($section) $syntax
+      if {$syntax ne ""} {
+        ctext::add$type $txt $section$i $theme($section) $syntax
+      }
       incr i
     }
     

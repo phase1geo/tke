@@ -828,10 +828,10 @@ namespace eval vim {
       return 1
     } elseif {$mode($txt) eq "yank"} {
       clipboard clear
-      if {$number($txt) ne ""} {
-        clipboard append [$txt get "insert linestart" "insert linestart+$number($txt)l-1c"]
+      if {($number($txt) ne "") && ($number($txt) > 1)} {
+        clipboard append [$txt get "insert linestart" "insert linestart+[expr $number($txt) - 1]l lineend"]
       } else {
-        clipboard append [$txt get "insert linestart" "insert linestart+1l-1c"]
+        clipboard append [$txt get "insert linestart" "insert lineend"]
       }
       start_mode $txt
       return 1
