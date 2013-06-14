@@ -1,0 +1,58 @@
+filepatterns
+{*.php}
+
+keywords
+{
+  array var_dump class public new echo var const static echo foreach for print as unset while
+  extends if return include global and or xor switch case break elseif else instanceof
+  implements interface continue declare require require_once include_once goto do endif
+  endwhile endfor endforeach endswitch default
+}
+
+symbols {
+  function
+}
+
+lcomments
+{
+  HighlightClassForRegexp {//[^\n\r]*}
+  HighlightClassForRegexp {#[^\n\r]*}
+}
+
+ccomments 1
+
+strings {
+  HighlightClassForRegexp {\"[^\"]*\"}
+  HighlightClassForRegexp {\'[^\']*\'}
+}
+
+numbers {
+  HighlightClassForRegexp {([0-1]*|-?[0-9]+|0[0-7]+|0x[0-9a-fA-F]+)}
+  HighlightClass          {
+    TRUE FALSE True False true false
+    PHP_INT_SIZE PHP_INT_MAX NAN NULL
+    __LINE__ __FILE__ __DIR__ __FUNCTION__ __CLASS__ __TRAIT__ __METHOD__ __NAMESPACE__
+  }
+}
+
+punctuation {
+  HighlightClassForSpecialChars {{}()<>?;^:!=[]+-*/%,&|.~`}
+}
+
+precompile {}
+ 
+miscellaneous {
+  HighlightClass {
+    is_nan substr substr_replace isset print_r printf array_values array_diff sort opendir readdir closedir
+    array_merge range is_null call_user_func call_user_func_array usort empty eval exit list create_function
+    import_request_variables setcookie time gettype is_array is_float is_int is_object is_string define constant
+    get_defined_constants get_class get_object_vars file_exists function_exists pack unpack gmp_and gmp_or gmp_xor
+    gmp_testbit gmp_clrbit set_error_handler error_reporting popen proc_open shell_exec array_unique is_a
+    count register_tick_function unregister_tick_function phpinfo fopen file is_file get_included_files readfile
+    virtual
+  }
+  HighlightClass {
+    $GLOBALS $_GET $_REQUEST $_POST $_COOKIE $php_errormsg
+  }
+  HighlightClassWithOnlyCharStart \$
+}
