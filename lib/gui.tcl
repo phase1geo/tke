@@ -755,14 +755,14 @@ namespace eval gui {
         # Close the file
         close $rc
       
-        # Highlight the text
-        # $w.tf.txt highlight 1.0 end
-      
         # Change the text to unmodified
         $w.tf.txt edit modified false
         
         # Set the insertion mark to the first position
         $w.tf.txt mark set insert 1.0
+        
+        # Perform an insertion adjust, if necessary
+        vim::adjust_insert $w.tf.txt.t
       
         # Get the modification time of the file
         file stat $fname stat
@@ -844,9 +844,9 @@ namespace eval gui {
       # Close the file
       close $rc
       
-      # Highlight the text
-      $txt highlight 1.0 end
-      
+      # Change the tab text
+      $widgets(nb) tab $nb_index -text [file tail [lindex $files $nb_index 0]]
+            
       # Change the text to unmodified
       $txt edit modified false
         
@@ -901,7 +901,7 @@ namespace eval gui {
     }
     
     # Write the file contents
-    puts $rc [[current_txt] get 1.0 end-1c]
+    puts $rc [vim::get_cleaned_content [current_txt]]
     close $rc
  
     # Update the timestamp

@@ -303,7 +303,7 @@ namespace eval vim {
   proc adjust_insert {txt} {
   
     variable ignore_modified
-  
+    
     # Remove any existing dspace characters
     cleanup_dspace [winfo parent $txt]
     
@@ -320,17 +320,37 @@ namespace eval vim {
     }
     
   }
- 
+  
   ######################################################################
   # Cleans up the dspace.
   proc cleanup_dspace {w} {
-    
+
     variable ignore_modified
-    
+      
     foreach {endpos startpos} [lreverse [$w tag ranges dspace]] {
       set ignore_modified($w) 1
       $w delete $startpos $endpos
     }
+
+  }
+ 
+  ######################################################################
+  # Returns the contents of the given text widget without the injected
+  # dspaces.
+  proc get_cleaned_content {txt} {
+  
+    set str ""
+    set last_startpos 1.0
+    
+    # Remove any dspace characters
+    foreach {startpos endpos} [$txt tag ranges dspace] {
+      append str [$txt get $last_startpos $startpos]
+      set last_startpos $endpos
+    }
+    
+    append str [$txt get $last_startpos "end-1c"]
+    
+    return $str
     
   }
   
