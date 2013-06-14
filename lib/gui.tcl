@@ -1418,8 +1418,6 @@ namespace eval gui {
     bind Text <Control-d> ""
     bind Text <Control-i> ""
     
-    puts "bindtags: [bindtags $tab_frame.tf.txt]; [bindtags $tab_frame.tf.txt.t]"
-    
     # Move the all bindtag ahead of the Text bindtag
     set text_index [lsearch [bindtags $tab_frame.tf.txt.t] Text]
     set all_index  [lsearch [bindtags $tab_frame.tf.txt.t] all]
@@ -1509,14 +1507,6 @@ namespace eval gui {
     # Apply the appropriate syntax highlighting for the given extension
     syntax::set_language $tab_frame.tf.txt $tab_frame.if.syn [syntax::get_language $title]
 
-    puts "HERE A"
-    foreach widget [list $tab_frame.tf.txt $tab_frame.tf.txt.t] {
-      foreach bindtag [bindtags $widget] {
-        puts "widget: $widget, bindtag: $bindtag, <<Modified>>: [bind $bindtag <<Modified>>]" 
-      }
-    }
-    puts "HERE B"
-
     # Make the new tab the current tab
     $widgets(nb) select $adjusted_index
     
@@ -1532,10 +1522,7 @@ namespace eval gui {
   proc text_changed {tab txt} {
   
     variable widgets
-    
-    puts "In gui::text_changed"
-    puts "--------------------"
-    
+        
     if {[$txt edit modified]} {
       
       # Change the look of the tab

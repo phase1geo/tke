@@ -90,6 +90,7 @@ namespace eval vim {
           }
         } elseif {[regexp {^([0-9]+|[.^$])$} $value]} {
           $txt mark set insert [get_linenum $txt $value]
+          adjust_insert $txt.t
           $txt see insert
         } elseif {[regexp {^e\s+(.*)$} $value -> filename]} {
           gui::add_file end [file normalize $filename]
@@ -177,8 +178,9 @@ namespace eval vim {
     
     # Handle any other modifications to the text
     bind $txt <<Modified>>   {
-      if {[vim::cleanup_dspace %W]} {
-        puts "Breaking"
+      if {[info exists vim::ignore_modified(%W)] && $vim::ignore_modified(%W)} {
+        set vim::ignore_modified(%W) 0
+        %W edit modified false
         break
       }
     }
@@ -299,12 +301,17 @@ namespace eval vim {
   # Adjust the insertion marker so that it never is allowed to sit on
   # the lineend spot.
   proc adjust_insert {txt} {
+  
+    variable ignore_modified
+  
+    # Remove any existing dspace characters
+    cleanup_dspace [winfo parent $txt]
     
     # If the current line contains nothing, add a dummy space so that the
     # block cursor doesn't look dumb.
     if {[$txt index "insert linestart"] eq [$txt index "insert lineend"]} {
+      set ignore_modified([winfo parent $txt]) 1
       $txt insert insert " " dspace
-      puts "Inserting dspace"
     }
     
     # Make sure that lineend is never the insertion point
@@ -320,32 +327,10 @@ namespace eval vim {
     
     variable ignore_modified
     
-    puts "In cleanup_dspace, w: $w"
-
-    if {[info exists ignore_modified($w)]} {
-
-      puts "HERE !"
-
-      if {$ignore_modified($w)} {
-      
-        set ignore_modified($w) 0
-        return 1
-      
-      } else {
-      
-        foreach {endpos startpos} [lreverse [$w tag ranges dspace]] {
-          if {[$w index $endpos] ne [$w index insert]} {
-            set ignore_modified($w) 1
-            $w delete $startpos $endpos
-            return 1
-          }
-        }
-    
-      }
-
+    foreach {endpos startpos} [lreverse [$w tag ranges dspace]] {
+      set ignore_modified($w) 1
+      $w delete $startpos $endpos
     }
-    
-    return 0
     
   }
   
