@@ -190,11 +190,11 @@ namespace eval syntax {
         ctext::addHighlightClass $txt symbols  $theme(keywords) $lang_array(symbols)
         
         # Add the rest of the sections
-        set_language_section $txt miscellaneous $lang_array(miscellaneous)
         set_language_section $txt punctuation   $lang_array(punctuation)
-        set_language_section $txt precompile    $lang_array(precompile)
-        set_language_section $txt strings       $lang_array(strings)
         set_language_section $txt numbers       $lang_array(numbers)
+        set_language_section $txt precompile    $lang_array(precompile)
+        set_language_section $txt miscellaneous $lang_array(miscellaneous)
+        set_language_section $txt strings       $lang_array(strings)
         set_language_section $txt comments      $lang_array(lcomments)
         
         # Add the C comments, if specified

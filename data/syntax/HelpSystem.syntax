@@ -1,0 +1,40 @@
+filepatterns
+{*.help}
+
+keywords
+{
+  <a </a> address /address b /b blockquote /blockquote
+  body /body br center /center cite /cite code /code dir /dir div /div em /em
+  font /font h1 /h1 h2 /h2 h3 /h3 h4 /h4 h5 /h5 h6 /h6 hr i /i img kbd /kbd
+  li menu /menu nobr /nobr ol /ol p /p pre /pre samp /samp script /script
+  span /span strong /strong title /title tt /tt u /u ul /ul var /var
+}
+
+symbols {
+}
+
+lcomments
+{
+  HighlightClassForRegexp {^;[^\n\r]*}
+}
+
+ccomments 0
+
+strings {
+  HighlightClassForRegexp {\"[^\"]*\"}
+}
+
+numbers {
+  HighlightClassForRegexp {[0-9]+}
+}
+
+punctuation {
+  HighlightClassForSpecialChars {{}()<>?;^:!=[]+-*/%,&|.~`}
+}
+
+precompile {}
+ 
+miscellaneous {
+  HighlightClassForRegexp {\.(\$|alinkcolor|backcolor|buttons|controls|font|fontfixed|fontsize|forecolor|h_appendlist|h_ignore|h_contents|h_topics|image|include|linkcolor|lmargin|rmargin|title|topic)}
+  HighlightClassForRegexp {</?(a|address|b|blockquote|body|br|center|cite|code|dir|div|em|font|h1|h2|h3|h4|h5|h6|i|img|kbd|li|menu|nobr|ol|p|pre|samp|script|span|strong|title|tt|u|ul|var)>?}
+}
