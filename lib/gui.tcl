@@ -640,6 +640,7 @@ namespace eval gui {
           }
         }
         $widgets(filetl) expand $child -partly
+        update_directory $child
         return
       } elseif {[string compare -length $dirlen $filepath $dir] == 0} {
         add_subdirectory root $dir $child
@@ -687,6 +688,35 @@ namespace eval gui {
     
     return ""
     
+  }
+  
+  ######################################################################
+  # Update the given directory to include (or uninclude) new file
+  # information.
+  proc update_directory {parent} {
+    
+    variable widgets
+    
+    # Get the directory contents
+    set dir_files [lassign [lsort [glob -nocomplain -tails -directory [get_filepath $parent] *]] dir_file]
+    
+    foreach child [$widgets(filetl) childkeys $parent] {
+      set tl_file [$widgets(filetl) cellcget $child,files -text]
+      set compare [string compare $tl_file $dir_file]
+      if {$compare == -1} {
+        $widgets(filetl) delete $child
+      } else {
+        while {1} {
+          if {$compare == 1} {
+            $widgets(filetl) insertchild $parent [$widgets(filetl) childindex $child] [list $dir_file $dir_file]
+          }
+          set dir_files [lassign $dir_files dir_file]
+          if {$compare == 0} { break }
+          set compare [string compare $tl_file $dir_file]
+        }
+      }
+    }
+        
   }
   
   ######################################################################
@@ -904,6 +934,17 @@ namespace eval gui {
     puts $rc [vim::get_cleaned_content [current_txt]]
     close $rc
  
+    # If the file doesn't have a timestamp, it's a new file so add and highlight it in the sidebar
+    if {[lindex $files $index 2] eq ""} {
+      
+      # Add the file's directory to the sidebar
+      add_directory [file dirname [file normalize [lindex $files $index 0]]]
+    
+      # Highlight the file in the sidebar
+      highlight_filename [lindex $files $index 0] 1
+      
+    }
+
     # Update the timestamp
     file stat [lindex $files $index 0] stat
     lset files $index 2 $stat(mtime)
