@@ -54,6 +54,8 @@ namespace eval plugins {
           $registry_size,file        $plugin
           $registry_size,name        ""
           $registry_size,category    ""
+          $registry_size,author      ""
+          $registry_size,date        ""
           $registry_size,version     ""
           $registry_size,description ""
         }
@@ -70,19 +72,30 @@ namespace eval plugins {
             } elseif {[regexp {^\s*HEADER_END} $comment]} {
               break
             } elseif {$parse} {
-                  if {[regexp {^\s*NAME\s*(.*)$}        $comment -> info($registry_size,name)]}     { set in_description 0 }
-              elseif {[regexp {^\s*CATEGORY\s*(.*)$}    $comment -> info($registry_size,category)]} { set in_description 0 }
-              elseif {[regexp {^\s*VERSION\s*(.*)$}     $comment -> info($registry_size,version)]}  { set in_description 0 }
-              elseif {[regexp {^\s*INCLUDE\s*(.*)$}     $comment -> include]}                       { set in_description 0 }
-              elseif {[regexp {^\s*DESCRIPTION\s*(.*)$} $comment -> info($registry_size,description)]} {
-              elseif {$in_description} { append info($registry_size,DESCRIPTION) [string trim $comment] }
+              if {[regexp {^\s*NAME\s*(.*)$}              $comment -> info($registry_size,name)]} {
+                set in_description 0 
+              } elseif {[regexp {^\s*CATEGORY\s*(.*)$}    $comment -> info($registry_size,category)]} {
+                set in_description 0
+              } elseif {[regexp {^\s*AUTHOR\s*(.*)$}      $comment -> info($registry_size,author)]} {
+                set in_description 0
+              } elseif {[regexp {^\s*DATE\s*(.*)$}        $comment -> info($registry_size,date)]} {
+                set in_description 0
+              } elseif {[regexp {^\s*VERSION\s*(.*)$}     $comment -> info($registry_size,version)]} {
+                set in_description 0
+              } elseif {[regexp {^\s*INCLUDE\s*(.*)$}     $comment -> include]} {
+                set in_description 0
+              } elseif {[regexp {^\s*DESCRIPTION\s*(.*)$} $comment -> info($registry_size,description)]} {
+                set in_description 1
+              } elseif {$in_description} {
+                append info($registry_size,DESCRIPTION) [string trim $comment]
+              }
             }
           }
         } 
         
         # Add this information to the registry if is valid and included
-        if {$info($registry_size,NAME) ne "") && ([string trim $include] eq "yes")} {
-          array set registry $info
+        if {($info($registry_size,name) ne "") && ([string trim $include] eq "yes")} {
+          array set registry [array get info]
           array unset info
           incr registry_size
         }
@@ -171,6 +184,8 @@ namespace eval plugins {
     
     variable registry
     variable registry_size
+
+    set bad_sources [list]
     
     if {![catch "open [file join $::tke_home plugins.dat] r" rc]} {
       
@@ -185,7 +200,7 @@ namespace eval plugins {
             if {$i < $registry_size} {
               set registry($i,selected) 1
               handle_resourcing $i
-              if {[catch "source $registry($i,file)" status]} {
+              if {[catch "uplevel #0 [list source $registry($i,file)]" status]} {
                 handle_status_error $i $status
                 lappend bad_sources $i
               } else {

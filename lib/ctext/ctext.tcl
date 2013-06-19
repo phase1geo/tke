@@ -253,8 +253,10 @@ proc ctext::commentsAfterIdle {win} {
 proc ctext::highlightAfterIdle {win lineStart lineEnd} {
   ctext::getAr $win config configAr
   
-  set configAr(highlightAfterId) [after idle \
-  [list ctext::highlight $win $lineStart $lineEnd [set afterTriggered 1]]]
+  ctext::highlight $win $lineStart $lineEnd [set afterTriggered 1]
+  
+#  set configAr(highlightAfterId) [after idle \
+#  [list ctext::highlight $win $lineStart $lineEnd [set afterTriggered 1]]]
 }
 
 proc ctext::instanceCmd {self cmd args} {

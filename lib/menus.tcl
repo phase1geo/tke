@@ -38,6 +38,10 @@ namespace eval menus {
     # Add the tools menu
     $mb add cascade -label "Tools" -menu [menu $mb.tools -tearoff false]
     add_tools $mb.tools
+    
+    # Add the plugins menu
+    $mb add cascade -label "Plugins" -menu [menu $mb.plugins -tearoff false]
+    add_plugins $mb.plugins
   
   }
   
@@ -286,6 +290,12 @@ namespace eval menus {
     # Execute the restart command
     exec [info nameofexecutable] [file join $::tke_dir restart.tcl] [info nameofexecutable] [file join $::tke_dir tke.tcl] {*}$filenames &
   
+  }
+  
+  ######################################################################
+  # Add the plugins menu commands.
+  proc add_plugins {mb} {
+    
   }
   
 }
