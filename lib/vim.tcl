@@ -9,10 +9,12 @@
  
 namespace eval vim {
  
+  variable buffer    {}
+  variable recording {}
+
   array set command_entries {}
   array set mode            {}
   array set number          {}
-  array set buffer          {}
   array set search_dir      {}
   array set ignore_modified {}
   
@@ -71,8 +73,8 @@ namespace eval vim {
       w  { gui::save_current }
       w! { gui::save_current }
       wq { gui::save_current; gui::close_current }
-      q  { gui::close_current }
-      q! { gui::close_current }
+      q  { gui::close_current 0 }
+      q! { gui::close_current 1 }
       n  { gui::next_tab }
       e\# { gui::previous_tab }
       default {
@@ -254,6 +256,7 @@ namespace eval vim {
     
     variable mode
     variable buffer
+    variable recording
     
     # Set the mode to the edit mode
     set mode($txt) "edit"
@@ -262,7 +265,10 @@ namespace eval vim {
     $txt configure -blockcursor false
  
     # Clear the buffer
-    set buffer($txt) ""
+    set buffer ""
+    
+    # Clear the recording
+    set recording [list]
     
     # If the current cursor is on a dummy space, remove it
     if {[lsearch [$txt tag names insert] "dspace"] != -1} {
@@ -279,11 +285,14 @@ namespace eval vim {
   proc start_mode {txt} {
  
     variable mode
+    variable recording
+    variable buffer
     
     # If we are going from the edit state to the start state, add a separator
     # to the undo stack.
     if {$mode($txt) eq "edit"} {
       $txt edit separator
+      lappend recording [list $txt insert insert $buffer]
     }
     
     # Set the current mode to the start mode
@@ -395,7 +404,7 @@ namespace eval vim {
 
     # Append the text to the insertion buffer
     if {$mode($txt) eq "edit"} {
-      append buffer($txt) $char
+      append buffer $char
     } else {
       if {$mode($txt) eq "replace"} {
         $txt replace insert "insert+1c" $char
@@ -541,16 +550,17 @@ namespace eval vim {
   }
  
   ######################################################################
-  # If we are in "start" mode, inserts the contents of the insertion
-  # buffer at the current location.
+  # If we are in "start" mode, invokes the buffered command at the current
+  # insertion point.
   proc handle_period {txt} {
  
     variable mode
-    variable buffer
+    variable recording
  
     if {$mode($txt) eq "start"} {
-      $txt insert insert $buffer($txt)
-      $txt mark set insert "insert-1c"
+      foreach record $recording {
+        eval $record
+      }
       return 1
     }
  
@@ -579,7 +589,6 @@ namespace eval vim {
   proc handle_i {txt} {
     
     variable mode
-    variable buffer
     
     if {$mode($txt) eq "start"} {
       edit_mode $txt
@@ -596,10 +605,12 @@ namespace eval vim {
   proc handle_I {txt} {
     
     variable mode
+    variable recording
     
     if {$mode($txt) eq "start"} {
       $txt mark set insert "insert linestart"
       edit_mode $txt
+      lappend recording [list $txt mark set insert "insert linestart"]
       return 1
     }
     
@@ -635,20 +646,34 @@ namespace eval vim {
   }
   
   ######################################################################
+  # Performs a join operation.
+  proc do_join {txt} {
+
+    # Perform a line join with the current line, trimming whitespace
+    set line [string trimleft [$txt get "insert+1l linestart" "insert+1l lineend"]]
+    $txt delete "insert+1l linestart" "insert+2l linestart"
+    set index [$txt index "insert lineend"]
+    if {$line ne ""} {
+      $txt insert "insert lineend" " [string trimleft $line]"
+    }
+    $txt mark set insert $index
+
+    # Create a separator in the text history
+    $txt edit separator
+
+  }
+
+  ######################################################################
   # If we are in "start" mode, join the next line to the end of the
   # previous line.
   proc handle_J {txt} {
 
     variable mode
+    variable recording
 
     if {$mode($txt) eq "start"} {
-      set line [string trimleft [$txt get "insert+1l linestart" "insert+1l lineend"]]
-      $txt delete "insert+1l linestart" "insert+2l linestart"
-      set index [$txt index "insert lineend"]
-      if {$line ne ""} {
-        $txt insert "insert lineend" " [string trimleft $line]"
-      }
-      $txt mark set insert $index
+      do_join $txt
+      set recording [list [list do_join $txt]]
       return 1
     }
 
@@ -757,15 +782,25 @@ namespace eval vim {
   }
   
   ######################################################################
+  # Performs a word cut operation.
+  proc do_word_cut {txt} {
+    
+    $txt delete insert "insert wordend"
+    edit_mode $txt
+
+  }
+  
+  ######################################################################
   # If we are in "cut" mode, delete the current word and change to edit
   # mode.
   proc handle_w {txt} {
   
     variable mode
+    variable recording
     
     if {$mode($txt) eq "cut"} {
-      $txt delete insert "insert wordend"
-      edit_mode $txt
+      do_word_cut $txt
+      set recording [list [list do_word_cut $txt]]
       return 1
     }
     
@@ -878,19 +913,45 @@ namespace eval vim {
   }
   
   ######################################################################
+  # Pastes the contents of the given clip to the text widget after the
+  # current line.
+  proc do_post_paste {txt clip} {
+    
+    $txt insert "insert lineend" "\n$clip"
+    $txt mark set insert "insert+1l linestart"
+    
+    # Create a marker in the text history
+    $txt edit separator
+    
+  }
+  
+  ######################################################################
   # If we are in the "start" mode, put the contents of the clipboard
   # after the current line.
   proc handle_p {txt} {
   
     variable mode
+    variable recording
 
     if {$mode($txt) eq "start"} {
-      $txt insert "insert lineend" "\n[clipboard get]"
-      $txt mark set insert "insert+1l linestart"
+      do_post_paste $txt [set clip [clipboard get]]
+      set recording [list [list do_post_paste $txt $clip]]
       return 1
     }
     
     return 0
+    
+  }
+  
+  ######################################################################
+  # Pastes the contents of the given clip prior to the current line
+  # in the text widget.
+  proc do_pre_paste {txt clip} {
+    
+    $txt insert "insert linestart" "$clip\n"
+    
+    # Create a marker in the text history
+    $txt edit separator
     
   }
   
@@ -900,9 +961,11 @@ namespace eval vim {
   proc handle_P {txt} {
   
     variable mode
+    variable recording
 
     if {$mode($txt) eq "start"} {
-      $txt insert "insert linestart" "[clipboard get]\n"
+      do_pre_paste $txt [set clip [clipboard get]]
+      set recording [list [list do_pre_paste $txt $clip]]
       return 1
     }
     
@@ -918,6 +981,7 @@ namespace eval vim {
     
     if {$mode($txt) eq "start"} {
       gui::undo
+      adjust_insert $txt
       return 1
     }
     
@@ -926,33 +990,45 @@ namespace eval vim {
   }
   
   ######################################################################
+  # Performs a single character delete.
+  proc do_char_delete {txt number} {
+
+    if {$number ne ""} {
+      if {[utils::compare_indices [$txt index "insert+${number}c"] [$txt index "insert lineend"]] == 1} {
+        $txt delete insert "insert lineend"
+        if {[$txt index insert] eq [$txt index "insert linestart"]} {
+          $txt insert insert " "
+        }
+        $txt mark set insert "insert-1c"
+      } else {
+        $txt delete insert "insert+${number}c"
+      }
+    } else {
+      $txt delete insert
+      if {[$txt index insert] eq [$txt index "insert lineend"]} {
+        if {[$txt index insert] eq [$txt index "insert linestart"]} {
+          $txt insert insert " "
+        }
+        $txt mark set insert "insert-1c"
+      }
+    }
+
+    # Create a separator in the text history
+    $txt edit separator
+
+  }
+
+  ######################################################################
   # If we are in "start" mode, deletes the current character.
   proc handle_x {txt} {
   
     variable mode
     variable number
+    variable recording
     
     if {$mode($txt) eq "start"} {
-      if {$number($txt) ne ""} {
-        if {[utils::compare_indices [$txt index "insert+$number($txt)c"] [$txt index "insert lineend"]] == 1} {
-          $txt delete insert "insert lineend"
-          if {[$txt index insert] eq [$txt index "insert linestart"]} {
-            $txt insert insert " "
-          }
-          $txt mark set insert "insert-1c"
-        } else {
-          $txt delete insert "insert+$number($txt)c"
-        }
-      } else {
-        $txt delete insert
-        if {[$txt index insert] eq [$txt index "insert lineend"]} {
-          if {[$txt index insert] eq [$txt index "insert linestart"]} {
-            $txt insert insert " "
-          }
-          $txt mark set insert "insert-1c"
-        }
-      }
-      $txt edit separator
+      do_char_delete $txt $number($txt)
+      set recording [list [list do_char_delete $txt $number($txt)]]
       return 1
     }
     

@@ -103,7 +103,7 @@ namespace eval gui {
     # Create editor notebook
     $widgets(pw) add [set widgets(nb) [ttk::notebook $widgets(pw).nb]]
 
-    bind $widgets(nb) <<NotebookTabChanged>> { focus [gui::current_txt].t }
+    bind $widgets(nb) <<NotebookTabChanged>> { after 500 [list focus [gui::current_txt].t] }
     bind $widgets(nb) <ButtonPress-1>        { gui::tab_move_start %W %x %y }
     bind $widgets(nb) <B1-Motion>            { gui::tab_move_motion %W %x %y }
     bind $widgets(nb) <ButtonRelease-1>      { gui::tab_move_end %W %x %y }
@@ -735,7 +735,6 @@ namespace eval gui {
         }
         return
       }
-      incr i
     }
     
   }
@@ -963,13 +962,16 @@ namespace eval gui {
   }
   
   ######################################################################
-  # Close the current tab.
-  proc close_current {} {
+  # Close the current tab.  If force is set to 1, closes regardless of
+  # modified state of text widget.  If force is set to 0 and the text
+  # widget is modified, the user will be questioned if they want to save
+  # the contents of the file prior to closing the tab.
+  proc close_current {{force 0}} {
   
     variable widgets
     
     # If the file needs to be saved, do it now
-    if {[[current_txt] edit modified]} {
+    if {[[current_txt] edit modified] && !$force} {
       if {[set answer [tk_messageBox -default yes -type yesno -message "Save file?" -title "Save request"]] eq "yes"} {
         save_current
       }
@@ -1448,7 +1450,7 @@ namespace eval gui {
     ttk::scrollbar $tab_frame.tf.vb -orient vertical   -command "$tab_frame.tf.txt yview"
     ttk::scrollbar $tab_frame.tf.hb -orient horizontal -command "$tab_frame.tf.txt xview"
     
-    bind Ctext <<Modified>>                "gui::text_changed $tab_frame %W"
+    bind Ctext <<Modified>>                "gui::text_changed %W"
     bind $tab_frame.tf.txt <<Selection>>   "gui::selection_changed %W"
     bind $tab_frame.tf.txt <ButtonPress-1> "after idle [list gui::update_position $tab_frame]"
     bind $tab_frame.tf.txt <B1-Motion>     "gui::update_position $tab_frame"
@@ -1560,11 +1562,14 @@ namespace eval gui {
  
   ######################################################################
   # Handles a change to the current text widget.
-  proc text_changed {tab txt} {
+  proc text_changed {txt} {
   
     variable widgets
         
     if {[$txt edit modified]} {
+      
+      # Get the tab path from the text path
+      set tab [winfo parent [winfo parent $txt]]
       
       # Change the look of the tab
       if {[string index [set name [$widgets(nb) tab $tab -text]] 0] ne "*"} {
