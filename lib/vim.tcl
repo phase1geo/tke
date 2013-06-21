@@ -209,7 +209,9 @@ namespace eval vim {
     }
     bind vim$txt <Button-1> {
       %W tag remove sel 1.0 end
-      %W mark set insert [%W index @%x,%y]
+      set current [%W index @%x,%y]
+      %W mark set [utils::text_anchor %W] $current
+      %W mark set insert $current
       vim::adjust_insert %W
       focus %W
       break

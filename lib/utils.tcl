@@ -75,4 +75,16 @@ namespace eval utils {
 
   }
   
+  ######################################################################
+  # Returns the mark of the anchor.
+  proc text_anchor {w} {
+
+    if {[info procs ::tk::TextAnchor] ne ""} {
+      return [::tk::TextAnchor $w]
+    } else {
+      return tk::anchor$w
+    }
+
+  }
+
 }

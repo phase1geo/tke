@@ -96,6 +96,17 @@ namespace eval indent {
   proc newline {txt insert_index indent_name} {
   
     variable indent_levels
+    
+    # Get the current line
+    set line [$txt get $insert_index "$insert_index lineend"]
+
+    # Remove any leading whitespace and update indentation level (if the first non-whitespace char is a closing bracket)
+    if {[regexp {^( *)} $line -> whitespace]} {
+      if {[string index $line [string length $whitespace]] eq "\}"} {
+        incr indent_levels($txt,$indent_name) -1
+      }
+      $txt delete $insert_index "$insert_index+[string length $whitespace]c"
+    }
 
     # Insert leading whitespace to match current indentation level
     if {$indent_levels($txt,$indent_name) > 0} {
