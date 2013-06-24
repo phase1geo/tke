@@ -79,7 +79,7 @@ namespace eval gui {
     # Add the file tree elements
     set widgets(filetl) \
       [tablelist::tablelist $widgets(fview).tl -columns {0 {} 0 {}} -showlabels 0 -exportselection 0 \
-        -treecolumn 0 \
+        -treecolumn 0 -forceeditendcommand 1 \
         -editstartcommand "gui::filetl_edit_start_command" \
         -editendcommand   "gui::filetl_edit_end_command" \
         -xscrollcommand "utils::set_scrollbar $widgets(fview).hb" \
@@ -157,6 +157,9 @@ namespace eval gui {
     }
     $widgets(filemenu) add command -label "Rename File" -command {
       gui::rename_file
+    }
+    $widgets(filemenu) add command -label "Duplicate File" -command {
+      gui::duplicate_file
     }
     $widgets(filemenu) add separator
     $widgets(filemenu) add command -label "Delete File" -command {
@@ -465,6 +468,39 @@ namespace eval gui {
     # Make the row editable
     $widgets(filetl) cellconfigure $row,files -editable 1
     $widgets(filetl) editcell $row,files
+    
+  }
+  
+  ######################################################################
+  # Creates a duplicate of the currently selected file, adds it to the
+  # sidebard and allows the user to modify its name.
+  proc duplicate_file {} {
+    
+    variable widgets
+    
+    # Get the current selection
+    set row [$widgets(filetl) curselection]
+    
+    # Get the filename of the current selection
+    set fname [get_filepath $row]
+    
+    # Create the default name of the duplicate file
+    set dup_fname "[file rootname $fname] Copy[file extension $fname]"
+    set num       1
+    while {[file exists $dup_fname]} {
+      set dup_fname "[file rootname $fname] Copy [incr num][file extension $fname]"
+    }
+    
+    # Copy the file to create the duplicate
+    file copy $fname $dup_fname
+    
+    # Add the file to the sidebar (just below the currently selected line)
+    set new_row [$widgets(filetl) insertchild [$widgets(filetl) parentkey $row] [expr [$widgets(filetl) childindex $row] + 1] \
+      [list [file tail $dup_fname] [file tail $dup_fname]]]
+    
+    # Make the new row editable
+    $widgets(filetl) cellconfigure $new_row,files -editable 1
+    $widgets(filetl) editcell      $new_row,files
     
   }
   
