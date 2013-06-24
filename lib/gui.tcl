@@ -819,13 +819,37 @@ namespace eval gui {
   }
   
   ######################################################################
+  # Normalizes the given filename and resolves any NFS mount information if
+  # the specified host is not the current host.
+  proc normalize {host fname} {
+    
+    # Perform a normalization of the file
+    set fname [file normalize $fname]
+    
+    # If the host does not match our host, handle the NFS mount normalization
+    if {$host ne [info hostname]} {
+      array set nfs_mounts $preferences::prefs(NFSMounts)
+      if {[info exists nfs_mounts($host)]} {
+        lassign $nfs_mounts($host) mount_dir shortcut
+        set shortcut_len [string length $shortcut]
+        if {[string equal -length $shortcut_len $shortcut $fname]} {
+          set fname [string replace $fname 0 [expr $shortcut_len - 1] $mount_dir]
+        }
+      }
+    }
+    
+    return $fname
+    
+  }
+  
+  ######################################################################
   # Add a list of files to the editor panel and raise the window to
   # make it visible.
-  proc add_files_and_raise {index args} {
+  proc add_files_and_raise {host index args} {
   
     # Add the list of files to the editor panel.
     foreach fname [lreverse $args] {
-      add_file $index [file normalize $fname]
+      add_file $index [normalize $host $fname]
     }
     
     # Raise ourselves

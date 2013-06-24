@@ -99,12 +99,13 @@ parse_cmdline $argc $argv
 # Attempt to add files or raise the existing application
 if {[tk appname] ne "tke.tcl"} {
   if {[llength $cl_files] > 0} {
-    if {![catch "send tke.tcl gui::add_files_and_raise end $cl_files" rc]} {
+    if {![catch "send tke.tcl gui::add_files_and_raise [info hostname] end $cl_files" rc]} {
       destroy .
       exit
     } elseif {[regexp {X server} $rc]} {
       puts $rc
     }
+    puts "rc: $rc"
   } else {
     if {![catch "send tke.tcl gui::raise_window" rc]} {
       destroy .
@@ -119,7 +120,7 @@ if {[tk appname] ne "tke.tcl"} {
 if {![file exists $tke_home]} {
   mkdir $tke_home
 }
-
+ 
 # Load the preferences
 preferences::load
 
