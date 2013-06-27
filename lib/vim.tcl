@@ -478,6 +478,7 @@ namespace eval vim {
   proc handle_dollar {txt} {
   
     variable mode
+    variable recording
     
     if {$mode($txt) eq "start"} {
       $txt mark set insert "insert lineend-1c"
@@ -485,6 +486,7 @@ namespace eval vim {
       return 1
     } elseif {$mode($txt) eq "delete"} {
       $txt delete insert "insert lineend"
+      lappend recording [list $txt delete insert "insert lineend"]
       start_mode $txt
       return 1
     }
@@ -501,6 +503,7 @@ namespace eval vim {
   proc handle_asciicircum {txt} {
   
     variable mode
+    variable recording
     
     if {$mode($txt) eq "start"} {
       $txt mark set insert "insert linestart"
@@ -508,6 +511,7 @@ namespace eval vim {
       return 1
     } elseif {$mode($txt) eq "delete"} {
       $txt delete "insert linestart" insert
+      lappend recording [list $txt delete "insert linestart" insert]
       start_mode $txt
       return 1
     }
