@@ -5,7 +5,7 @@ keywords
 {
   after append apply array auto_execok auto_import auto_load auto_mkindex auto_mkindex_old
   auto_qualify auto_reset bgerror binary break catch cd chan clock close concat continue
-  dde dict encoding eof error eval exec exit expr fblocked fconfigure fcopy file fileevent
+  dde dict else elseif encoding eof error eval exec exit expr fblocked fconfigure fcopy file fileevent
   filename flush for foreach format gets glob global history http if incr info interp
   join lappend lassign lindex linsert list llength load lrange lrepeat lreplace lreverse
   lsearch lset lsort mathfunc mathop memory msgcat namespace open package parray pid
@@ -36,7 +36,7 @@ strings
 
 numbers
 {
-  HighlightClassForSpecialChars {0123456789}
+  HighlightClassForRegexp {\m[0-9]+}
 }
 
 punctuation

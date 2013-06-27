@@ -9,14 +9,15 @@
  
 namespace eval vim {
  
-  variable buffer    {}
-  variable recording {}
+  variable record_mode "none"
+  variable recording   {}
 
   array set command_entries {}
   array set mode            {}
   array set number          {}
   array set search_dir      {}
   array set ignore_modified {}
+  array set column          {}
   
   ######################################################################
   # Enables/disables Vim mode for the current text widget.
@@ -166,8 +167,8 @@ namespace eval vim {
     
     variable mode
     variable number
-    variable buffer
     variable ignore_modified
+    variable column
     
     # Change the cursor to the block cursor
     $txt configure -blockcursor true
@@ -177,6 +178,7 @@ namespace eval vim {
     set number($txt.t)        ""
     set search_dir($txt.t)    "next"
     set ignore_modified($txt) 0
+    set column($txt.t)        ""
     
     # Handle any other modifications to the text
     bind $txt <<Modified>>   {
@@ -257,8 +259,6 @@ namespace eval vim {
   proc edit_mode {txt} {
     
     variable mode
-    variable buffer
-    variable recording
     
     # Set the mode to the edit mode
     set mode($txt) "edit"
@@ -266,12 +266,6 @@ namespace eval vim {
     # Set the blockcursor to false
     $txt configure -blockcursor false
  
-    # Clear the buffer
-    set buffer ""
-    
-    # Clear the recording
-    set recording [list]
-    
     # If the current cursor is on a dummy space, remove it
     if {[lsearch [$txt tag names insert] "dspace"] != -1} {
       $txt delete insert
@@ -287,14 +281,11 @@ namespace eval vim {
   proc start_mode {txt} {
  
     variable mode
-    variable recording
-    variable buffer
     
     # If we are going from the edit state to the start state, add a separator
     # to the undo stack.
     if {$mode($txt) eq "edit"} {
       $txt edit separator
-      lappend recording [list $txt insert insert $buffer]
     }
     
     # Set the current mode to the start mode
@@ -306,6 +297,78 @@ namespace eval vim {
     # Adjust the insertion marker
     adjust_insert $txt
  
+  }
+  
+  ######################################################################
+  # Starts recording keystrokes.
+  proc record_start {} {
+    
+    variable record_mode
+    variable recording
+    
+    if {$record_mode eq "none"} {
+      set record_mode "record"
+      set recording   [list]
+    }
+    
+  }
+  
+  ######################################################################
+  # Stops recording keystrokes.
+  proc record_stop {} {
+    
+    variable record_mode
+    
+    if {$record_mode eq "record"} {
+      set record_mode "none"
+    }
+    
+  }
+  
+  ######################################################################
+  # Records a signal event and stops recording.
+  proc record {event} {
+    
+    variable record_mode
+    variable recording
+    
+    if {$record_mode eq "none"} {
+      set recording $event
+    }
+    
+  }
+  
+  ######################################################################
+  # Adds an event to the recording buffer if we are in record mode.
+  proc record_add {event} {
+    
+    variable record_mode
+    variable recording
+    
+    if {$record_mode eq "record"} {
+      lappend recording $event
+    }
+    
+  }
+  
+  ######################################################################
+  # Plays back the record buffer.
+  proc playback {txt} {
+    
+    variable record_mode
+    variable recording
+
+    # Set the record mode to playback
+    set record_mode "playback"
+    
+    # Replay the recording buffer
+    foreach event $recording {
+      eval "event generate $txt <$event>"
+    }
+    
+    # Set the record mode to none
+    set record_mode "none"
+    
   }
   
   ######################################################################
@@ -374,6 +437,10 @@ namespace eval vim {
     
     if {$mode($txt) ne "start"} {
       
+      # Add to the recording if we are doing so
+      record_add Escape
+      record_stop
+      
       # Clear the current number string
       set number($txt) ""
     
@@ -392,27 +459,33 @@ namespace eval vim {
 
     variable mode
     variable number
-    variable buffer
+    variable column
+    
+    # If the keysym is neither j or k, clear the column
+    if {($keysym ne "j") && ($keysym ne "k")} {
+      set column($txt) ""
+    }
     
     # If we are not in edit mode
     if {![catch "handle_$keysym $txt" rc] && $rc} {
+      record_add "Key-$keysym"
       if {$mode($txt) eq "start"} {
         set number($txt) ""
       }
       return 1
     } elseif {[string is integer $keysym] && [handle_number $txt $char]} {
+      record_add "Key-$keysym"
       return 1
     }
+    
+    record_add "Key-$keysym"
 
     # Append the text to the insertion buffer
-    if {$mode($txt) eq "edit"} {
-      append buffer $char
-    } else {
+    if {[string equal -length 7 $mode($txt) "replace"]} {
+      $txt replace insert "insert+1c" $char
+      $txt highlight "insert linestart" "insert lineend"
       if {$mode($txt) eq "replace"} {
-        $txt replace insert "insert+1c" $char
         start_mode $txt
-      } elseif {$mode($txt) eq "replace_all"} {
-        $txt replace insert "insert+1c" $char
       }
       return 1
     }
@@ -436,6 +509,7 @@ namespace eval vim {
         $txt see insert
       } else {
         append number($txt) $num
+        record_start
       }
       return 1
     }
@@ -478,7 +552,6 @@ namespace eval vim {
   proc handle_dollar {txt} {
   
     variable mode
-    variable recording
     
     if {$mode($txt) eq "start"} {
       $txt mark set insert "insert lineend-1c"
@@ -486,7 +559,6 @@ namespace eval vim {
       return 1
     } elseif {$mode($txt) eq "delete"} {
       $txt delete insert "insert lineend"
-      lappend recording [list $txt delete insert "insert lineend"]
       start_mode $txt
       return 1
     }
@@ -503,7 +575,6 @@ namespace eval vim {
   proc handle_asciicircum {txt} {
   
     variable mode
-    variable recording
     
     if {$mode($txt) eq "start"} {
       $txt mark set insert "insert linestart"
@@ -511,7 +582,6 @@ namespace eval vim {
       return 1
     } elseif {$mode($txt) eq "delete"} {
       $txt delete "insert linestart" insert
-      lappend recording [list $txt delete "insert linestart" insert]
       start_mode $txt
       return 1
     }
@@ -561,12 +631,9 @@ namespace eval vim {
   proc handle_period {txt} {
  
     variable mode
-    variable recording
  
     if {$mode($txt) eq "start"} {
-      foreach record $recording {
-        eval $record
-      }
+      playback $txt
       return 1
     }
  
@@ -598,6 +665,7 @@ namespace eval vim {
     
     if {$mode($txt) eq "start"} {
       edit_mode $txt
+      record_start
       return 1
     }
     
@@ -611,12 +679,11 @@ namespace eval vim {
   proc handle_I {txt} {
     
     variable mode
-    variable recording
     
     if {$mode($txt) eq "start"} {
       $txt mark set insert "insert linestart"
       edit_mode $txt
-      lappend recording [list $txt mark set insert "insert linestart"]
+      record_start
       return 1
     }
     
@@ -630,14 +697,21 @@ namespace eval vim {
   
     variable mode
     variable number
+    variable column
     
     # Move the insertion cursor down one line
     if {$mode($txt) eq "start"} {
+      lassign [split [$txt index insert] .] row col
+      if {$column($txt) ne ""} {
+        set col $column($txt)
+      } else {
+        set column($txt) $col
+      }
       $txt tag remove sel 1.0 end
       if {$number($txt) ne ""} {
-        $txt mark set insert "insert+$number($txt)l"
+        $txt mark set insert "[expr $row + $number($txt)].$col"
       } else {
-        $txt mark set insert "insert+1l"
+        $txt mark set insert "[expr $row + 1].$col"
       }
       if {[$txt index insert] ne [$txt index "insert lineend"]} {
         $txt mark set insert "insert+1c"
@@ -675,11 +749,10 @@ namespace eval vim {
   proc handle_J {txt} {
 
     variable mode
-    variable recording
 
     if {$mode($txt) eq "start"} {
       do_join $txt
-      set recording [list [list do_join $txt]]
+      record "Key-J"
       return 1
     }
 
@@ -693,14 +766,21 @@ namespace eval vim {
   
     variable mode
     variable number
+    variable column
     
     # Move the insertion cursor up one line
     if {$mode($txt) eq "start"} {
+      lassign [split [$txt index insert] .] row col
+      if {$column($txt) ne ""} {
+        set col $column($txt)
+      } else {
+        set column($txt) $col
+      }
       $txt tag remove sel 1.0 end
       if {$number($txt) ne ""} {
-        $txt mark set insert "insert-$number($txt)l"
+        $txt mark set insert "[expr $row - $number($txt)].$col"
       } else {
-        $txt mark set insert "insert-1l"
+        $txt mark set insert "[expr $row - 1].$col"
       }
       if {[$txt index insert] ne [$txt index "insert lineend"]} {
         $txt mark set insert "insert+1c"
@@ -780,6 +860,7 @@ namespace eval vim {
     
     if {$mode($txt) eq "start"} {
       set mode($txt) "cut"
+      record_start
       return 1
     }
     
@@ -793,7 +874,7 @@ namespace eval vim {
     
     $txt delete insert "insert wordend"
     edit_mode $txt
-
+ 
   }
   
   ######################################################################
@@ -802,11 +883,9 @@ namespace eval vim {
   proc handle_w {txt} {
   
     variable mode
-    variable recording
     
     if {$mode($txt) eq "cut"} {
       do_word_cut $txt
-      set recording [list [list do_word_cut $txt]]
       return 1
     }
     
@@ -835,12 +914,13 @@ namespace eval vim {
   # If we are in "start" mode, transition the mode to the delete mode.
   # If we are in the "delete" mode, delete the current line.
   proc handle_d {txt} {
-  
+    
     variable mode
     variable number
     
     if {$mode($txt) eq "start"} {
       set mode($txt) "delete"
+      record_start
       return 1
     } elseif {$mode($txt) eq "delete"} {
       clipboard clear
@@ -852,6 +932,8 @@ namespace eval vim {
         $txt delete "insert linestart" "insert linestart+1l"
       }
       start_mode $txt
+      record_add "Key-d"
+      record_stop
       return 1
     }
     
@@ -869,6 +951,7 @@ namespace eval vim {
     if {$mode($txt) eq "start"} {
       $txt mark set insert "insert+1c"
       edit_mode $txt
+      record_start
       return 1
     }
     
@@ -885,6 +968,7 @@ namespace eval vim {
     if {$mode($txt) eq "start"} {
       $txt mark set insert "insert lineend"
       edit_mode $txt
+      record_start
       return 1
     }
     
@@ -937,11 +1021,10 @@ namespace eval vim {
   proc handle_p {txt} {
   
     variable mode
-    variable recording
 
     if {$mode($txt) eq "start"} {
       do_post_paste $txt [set clip [clipboard get]]
-      set recording [list [list do_post_paste $txt $clip]]
+      record "Key-p"
       return 1
     }
     
@@ -967,11 +1050,10 @@ namespace eval vim {
   proc handle_P {txt} {
   
     variable mode
-    variable recording
 
     if {$mode($txt) eq "start"} {
       do_pre_paste $txt [set clip [clipboard get]]
-      set recording [list [list do_pre_paste $txt $clip]]
+      record "Key-P"
       return 1
     }
     
@@ -1030,11 +1112,10 @@ namespace eval vim {
   
     variable mode
     variable number
-    variable recording
     
     if {$mode($txt) eq "start"} {
       do_char_delete $txt $number($txt)
-      set recording [list [list do_char_delete $txt $number($txt)]]
+      record "Key-x"
       return 1
     }
     
@@ -1054,6 +1135,7 @@ namespace eval vim {
       $txt mark set insert "insert+1l"
       edit_mode $txt
       indent::newline $txt insert insert
+      record_start
       return 1
     }
     
@@ -1073,6 +1155,7 @@ namespace eval vim {
       $txt mark set insert "insert-1l"
       edit_mode $txt
       indent::newline $txt insert insert
+      record_start
       return 1
     }
     
@@ -1113,6 +1196,7 @@ namespace eval vim {
       } else {
         gui::search_prev 0
       }
+      record "Key-n"
       return 1
     }
     
@@ -1129,6 +1213,7 @@ namespace eval vim {
  
     if {$mode($txt) eq "start"} {
       set mode($txt) "replace"
+      record_start
       return 1
     }
     
@@ -1145,6 +1230,7 @@ namespace eval vim {
     
     if {$mode($txt) eq "start"} {
       set mode($txt) "replace_all"
+      record_start
       return 1
     }
     
@@ -1161,6 +1247,7 @@ namespace eval vim {
     if {$mode($txt) eq "start"} {
       eval [string map {%W $txt} [bind Text <Next>]]
       adjust_insert $txt
+      record "Control-f"
       return 1
     }
     
@@ -1177,11 +1264,12 @@ namespace eval vim {
     if {$mode($txt) eq "start"} {
       eval [string map {%W $txt} [bind Text <Prior>]]
       adjust_insert $txt
+      record "Control-b"
       return 1
     }
     
     return 0
     
   }
-        
+  
 }

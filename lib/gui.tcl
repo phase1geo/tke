@@ -1504,7 +1504,7 @@ namespace eval gui {
     
     # Create the editor frame
     ttk::frame $tab_frame.tf
-    ctext $tab_frame.tf.txt -wrap none -undo 1 -autoseparators 1 \
+    ctext $tab_frame.tf.txt -wrap none -undo 1 -autoseparators 1 -insertofftime 0 \
       -xscrollcommand "utils::set_scrollbar $tab_frame.tf.hb" \
       -yscrollcommand "utils::set_scrollbar $tab_frame.tf.vb"
     ttk::scrollbar $tab_frame.tf.vb -orient vertical   -command "$tab_frame.tf.txt yview"

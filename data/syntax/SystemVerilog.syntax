@@ -43,7 +43,7 @@ strings
 
 numbers
 {
-  HighlightClassForRegexp {[+-]?[0-9]+|[0-9]*'[sS]?[hHdDoObB]\s*[0-9a-fA-F_]+}
+  HighlightClassForRegexp {\m[0-9]+|\m[0-9]*'[sS]?[hHdDoObB]\s*[0-9a-fA-F_]+}
 }
 
 punctuation

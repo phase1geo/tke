@@ -45,6 +45,7 @@ proc ctext {win args} {
   set ar(commentsAfterId) ""
   set ar(highlightAfterId) ""
   set ar(blinkAfterId) ""
+  set ar(lastUpdate) 0
   
   set ar(ctextFlags) [list -yscrollcommand -linemap -linemapfg -linemapbg \
   -font -linemap_mark_command -highlight -linemap_markable \
@@ -887,7 +888,17 @@ proc ctext::clearHighlightClasses {win} {
 #This is a proc designed to be overwritten by the user.
 #It can be used to update a cursor or animation while
 #the text is being highlighted.
-proc ctext::update {} {
+proc ctext::update {win} {
+  
+  ctext::getAr $win config configAr
+  
+  # If the difference between the last update time and the current time exceeds the 
+  # maximum allowed update interval, perform the update and save the current time as
+  # the last update time.
+  if {[expr [set curr_time [clock milliseconds]] - $configAr(lastUpdate)] >= 100} {
+    set configAr(lastUpdate) $curr_time
+    ::update
+  }
   
 }
 
@@ -907,7 +918,7 @@ proc ctext::highlight {win start end {afterTriggered 0}} {
   
   #The number of times the loop has run.
   set numTimesLooped 0
-  set numUntilUpdate 600
+  set numUntilUpdate 1  ;# 600
   
   ctext::getAr $win highlight highlightAr
   ctext::getAr $win highlightSpecialChars highlightSpecialCharsAr
@@ -942,7 +953,7 @@ proc ctext::highlight {win start end {afterTriggered 0}} {
     
     incr numTimesLooped
     if {$numTimesLooped >= $numUntilUpdate} {
-      ctext::update
+      ctext::update $win
       set numTimesLooped 0
     }
   }
@@ -964,7 +975,7 @@ proc ctext::highlight {win start end {afterTriggered 0}} {
       
       incr numTimesLooped
       if {$numTimesLooped >= $numUntilUpdate} {
-        ctext::update
+        ctext::update $win
         set numTimesLooped 0
       }
     }
@@ -986,7 +997,7 @@ proc ctext::highlight {win start end {afterTriggered 0}} {
       
       incr numTimesLooped
       if {$numTimesLooped >= $numUntilUpdate} {
-        ctext::update
+        ctext::update $win
         set numTimesLooped 0
       }
     }
