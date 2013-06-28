@@ -1037,6 +1037,17 @@ namespace eval gui {
     }
 
   }
+  
+  ######################################################################
+  # Updates the currently displayed file.
+  proc update_current {} {
+    
+    variable widgets
+    
+    # Update the current tab
+    update_file [$widgets(nb) index current]
+    
+  }
 
   ######################################################################
   # Returns the filename of the current tab.

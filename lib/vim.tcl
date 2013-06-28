@@ -76,6 +76,7 @@ namespace eval vim {
       wq { gui::save_current; gui::close_current }
       q  { gui::close_current 0 }
       q! { gui::close_current 1 }
+      e! { gui::update_current }
       n  { gui::next_tab }
       e\# { gui::previous_tab }
       default {

@@ -98,8 +98,11 @@ namespace eval menus {
   ######################################################################
   # Opens a new file and adds a new tab for the file.
   proc open_command {} {
+    
+    # Get the directory of the current file
+    set dirname [file dirname [gui::current_filename]]
   
-    if {[set ofiles [tk_getOpenFile -parent . -initialdir [pwd] -defaultextension .tcl -multiple 1]] ne ""} {
+    if {[set ofiles [tk_getOpenFile -parent . -initialdir $dirname -defaultextension .tcl -multiple 1]] ne ""} {
       foreach ofile $ofiles {
         gui::add_file end $ofile
       }
@@ -111,7 +114,10 @@ namespace eval menus {
   # Opens a directory in the sidebar.
   proc open_dir_command {} {
     
-    if {[set odir [tk_chooseDirectory -parent . -initialdir [pwd] -mustexist 1]] ne ""} {
+    # Get the directory of the current file
+    set dirname [file dirname [gui::current_filename]]
+    
+    if {[set odir [tk_chooseDirectory -parent . -initialdir $dirname -mustexist 1]] ne ""} {
       gui::add_directory $odir
     }
     
@@ -132,8 +138,11 @@ namespace eval menus {
   ######################################################################
   # Saves the current tab file as a new filename.
   proc save_as_command {} {
+    
+    # Get the directory of the current file
+    set dirname [file dirname [gui::current_filename]]
   
-    if {[set sfile [tk_getSaveFile -defaultextension .tcl -title "Save As" -parent . -initialdir [pwd]]] ne ""} {
+    if {[set sfile [tk_getSaveFile -defaultextension .tcl -title "Save As" -parent . -initialdir $dirname]] ne ""} {
       gui::save_current $sfile
     }
   
