@@ -150,19 +150,19 @@ namespace eval menus {
   ######################################################################
   # Exits the application.
   proc exit_command {} {
-  
+    
     # Close all of the tabs
     gui::close_all
     
     # Save the window geometry
     gui::save_geometry
-
+    
     # Save the clipboard history
     cliphist::save
-  
+    
     # Destroy the interface
     destroy .
-
+    
   }
   
   ######################################################################

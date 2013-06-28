@@ -1,6 +1,7 @@
 # File menu bindings
 {.menubar.file/New}                        Ctrl-N
-{.menubar.file/Open...}                    Ctrl-O
+{.menubar.file/Open File...}               Ctrl-O
+{.menubar.file/Open Directory...}          Ctrl-Shift-O
 {.menubar.file/Save}                       Ctrl-S
 {.menubar.file/Save As...}                 Ctrl-Shift-S
 {.menubar.file/Close}                      Ctrl-W

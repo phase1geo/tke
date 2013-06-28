@@ -770,6 +770,7 @@ namespace eval gui {
   proc add_subdirectory {parent dir {movekey ""}} {
     
     variable widgets
+    variable files
     
     if {[file exists $dir]} {
     
@@ -786,10 +787,12 @@ namespace eval gui {
           } else {
             set child [$widgets(filetl) insertchild $parent end [list [file tail $name] [file tail $name]]]
             $widgets(filetl) collapse $child
-            # after idle [list gui::add_subdirectory $child $name]
           }
         } else {
-          $widgets(filetl) insertchild $parent end [list [file tail $name] [file tail $name]]
+          set key [$widgets(filetl) insertchild $parent end [list [file tail $name] [file tail $name]]]
+          if {[lsearch -index 0 $files $name] != -1} {
+            $widgets(filetl) cellconfigure $key,files -background yellow
+          }
         }
         bgproc::update
       }
@@ -802,6 +805,11 @@ namespace eval gui {
   # Expands the currently selected directory.
   proc expand_directory {tbl row} {
     
+    # Clean the subdirectory
+    foreach child [$tbl childkeys $row] {
+      $tbl delete $child
+    }
+
     # Add the missing subdirectory
     add_subdirectory $row [get_filepath $row]
     
@@ -871,7 +879,7 @@ namespace eval gui {
     
     # Add the current directory
     add_directory [file normalize [pwd]]
- 
+    
   }
   
   ######################################################################
@@ -1129,13 +1137,13 @@ namespace eval gui {
 
     variable widgets
     variable files
-
+    
     # Get the indexed text widget 
     set txt "[lindex [$widgets(nb) tabs] $nb_index].tf.txt"
-
+    
     # Remove bindings
     indent::remove_bindings $txt
-
+    
     # Add a new file if we have no more tabs
     if {[llength [$widgets(nb) tabs]] == 1} {
       add_new_file end
@@ -1143,13 +1151,13 @@ namespace eval gui {
     
     # Unhighlight the file in the file browser
     highlight_filename [lindex $files $nb_index 0] 0
-
+    
     # Delete the file from files
     set files [lreplace $files $nb_index $nb_index]
-
+    
     # Remove the tab
     $widgets(nb) forget $nb_index
-
+    
   }
 
   ######################################################################

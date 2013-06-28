@@ -212,9 +212,14 @@ namespace eval vim {
     bind vim$txt <Button-1> {
       %W tag remove sel 1.0 end
       set current [%W index @%x,%y]
+      if {($vim::mode(%W) ne "edit") && ($current ne [%W index "$current lineend"])} {
+        set current [%W index "$current+1c"]
+      }
       %W mark set [utils::text_anchor %W] $current
       %W mark set insert $current
-      vim::adjust_insert %W
+      if {$vim::mode(%W) ne "edit"} {
+        vim::adjust_insert %W
+      }
       focus %W
       break
     }
@@ -372,6 +377,18 @@ namespace eval vim {
   }
   
   ######################################################################
+  # Stops recording and clears the recording array.
+  proc record_clear {} {
+    
+    variable record_mode
+    variable recording
+    
+    set record_mode "none"
+    set recording   [list]
+    
+  }
+  
+  ######################################################################
   # Adjust the insertion marker so that it never is allowed to sit on
   # the lineend spot.
   proc adjust_insert {txt} {
@@ -441,14 +458,19 @@ namespace eval vim {
       record_add Escape
       record_stop
       
-      # Clear the current number string
-      set number($txt) ""
-    
       # Set the mode to start
       start_mode $txt
       
+    } else {
+      
+      # If were in start mode, clear the recording buffer
+      record_clear
+      
     }
     
+    # Clear the current number string
+    set number($txt) ""
+
     return 1
     
   }
@@ -560,6 +582,8 @@ namespace eval vim {
     } elseif {$mode($txt) eq "delete"} {
       $txt delete insert "insert lineend"
       start_mode $txt
+      record_add "Key-dollar"
+      record_stop
       return 1
     }
     
@@ -583,6 +607,8 @@ namespace eval vim {
     } elseif {$mode($txt) eq "delete"} {
       $txt delete "insert linestart" insert
       start_mode $txt
+      record_add "Key-asciicircum"
+      record_stop
       return 1
     }
     
@@ -708,16 +734,15 @@ namespace eval vim {
         set column($txt) $col
       }
       $txt tag remove sel 1.0 end
-      if {$number($txt) ne ""} {
-        $txt mark set insert "[expr $row + $number($txt)].$col"
-      } else {
-        $txt mark set insert "[expr $row + 1].$col"
+      set row [expr {$row + (($number($txt) ne "") ? $number($txt) : 1)}]
+      if {[$txt compare "$row.$col" < end]} {
+        $txt mark set insert "$row.$col"
+        if {[$txt index insert] ne [$txt index "insert lineend"]} {
+          $txt mark set insert "insert+1c"
+        }
+        adjust_insert $txt
+        $txt see insert
       }
-      if {[$txt index insert] ne [$txt index "insert lineend"]} {
-        $txt mark set insert "insert+1c"
-      }
-      adjust_insert $txt
-      $txt see insert
       return 1
     }
     
@@ -777,16 +802,15 @@ namespace eval vim {
         set column($txt) $col
       }
       $txt tag remove sel 1.0 end
-      if {$number($txt) ne ""} {
-        $txt mark set insert "[expr $row - $number($txt)].$col"
-      } else {
-        $txt mark set insert "[expr $row - 1].$col"
+      set row [expr {$row - (($number($txt) ne "") ? $number($txt) : 1)}]
+      if {$row >= 1} {
+        $txt mark set insert "$row.$col"
+        if {[$txt index insert] ne [$txt index "insert lineend"]} {
+          $txt mark set insert "insert+1c"
+        }
+        adjust_insert $txt
+        $txt see insert
       }
-      if {[$txt index insert] ne [$txt index "insert lineend"]} {
-        $txt mark set insert "insert+1c"
-      }
-      adjust_insert $txt
-      $txt see insert
       return 1
     }
     
@@ -1254,7 +1278,7 @@ namespace eval vim {
     return 0
     
   }
-  
+ 
   ######################################################################
   # If we are in "start" mode, move the cursor up by 1 page.
   proc handle_control_b {txt} {
