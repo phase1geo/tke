@@ -79,7 +79,7 @@ namespace eval gui {
     # Add the file tree elements
     set widgets(filetl) \
       [tablelist::tablelist $widgets(fview).tl -columns {0 {} 0 {}} -showlabels 0 -exportselection 0 \
-        -treecolumn 0 -forceeditendcommand 1 \
+        -treecolumn 0 -forceeditendcommand 1 -expandcommand gui::expand_directory \
         -editstartcommand "gui::filetl_edit_start_command" \
         -editendcommand   "gui::filetl_edit_end_command" \
         -xscrollcommand "utils::set_scrollbar $widgets(fview).hb" \
@@ -148,6 +148,9 @@ namespace eval gui {
     $widgets(dirmenu) add separator
     $widgets(dirmenu) add command -label "Remove from Sidebar" -command {
       gui::remove_folder_from_sidebar
+    }
+    $widgets(dirmenu) add command -label "Remove Parent from Sidebar" -command {
+      gui::remove_parent_from_sidebar
     }
     
     # Create a root directory popup
@@ -460,6 +463,35 @@ namespace eval gui {
     $widgets(filetl) delete $selected
     
   }
+  
+  ######################################################################
+  # Removes the parent(s) of the currently selected folder from the sidebar.
+  proc remove_parent_from_sidebar {} {
+    
+    variable widgets
+    
+    # Get the currently selected row
+    set selected [$widgets(filetl) curselection]
+    
+    # Find the child index of the ancestor of the root
+    set child $selected
+    while {1} {
+      if {[set parent [$widgets(filetl) parentkey $child]] eq "root"} {
+        break
+      }
+      set child $parent
+    }
+    
+    # Put the full pathname in the filepath cell
+    $widgets(filetl) cellconfigure $selected,filepath -text [get_filepath $selected]
+
+    # Move the currently selected row to root
+    $widgets(filetl) move $selected root [$widgets(filetl) childindex $child]
+    
+    # Delete the child tree
+    $widgets(filetl) delete $child
+    
+  }
  
   ######################################################################
   # Opens the currently selected file in the notebook.
@@ -743,27 +775,35 @@ namespace eval gui {
     
       # Add the directory to the sidebar
       if {$parent eq "root"} {
-        set child [$widgets(filetl) insertchild $parent end [list [file tail $dir] $dir]]
-      } else {
-        set child [$widgets(filetl) insertchild $parent end [list [file tail $dir] [file tail $dir]]]
-        $widgets(filetl) collapse $child
+        set parent [$widgets(filetl) insertchild $parent end [list [file tail $dir] $dir]]
       }
 
       # Add all of the stuff within this directory
       foreach name [lsort [glob -nocomplain -directory $dir *]] {
         if {[file isdirectory $name]} {
           if {($movekey ne "") && ([get_filepath $movekey] eq $name)} {
-            $widgets(filetl) move $movekey $child end
+            $widgets(filetl) move $movekey $parent end
           } else {
-            after idle [list gui::add_subdirectory $child $name]
+            set child [$widgets(filetl) insertchild $parent end [list [file tail $name] [file tail $name]]]
+            $widgets(filetl) collapse $child
+            # after idle [list gui::add_subdirectory $child $name]
           }
         } else {
-          $widgets(filetl) insertchild $child end [list [file tail $name] [file tail $name]]
+          $widgets(filetl) insertchild $parent end [list [file tail $name] [file tail $name]]
         }
         bgproc::update
       }
     
     }
+    
+  }
+  
+  ######################################################################
+  # Expands the currently selected directory.
+  proc expand_directory {tbl row} {
+    
+    # Add the missing subdirectory
+    add_subdirectory $row [get_filepath $row]
     
   }
   

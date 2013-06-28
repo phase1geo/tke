@@ -111,7 +111,7 @@ namespace eval menus {
   # Opens a directory in the sidebar.
   proc open_dir_command {} {
     
-    if {[set odir [tk_chooseDirectory -parent . -initialidir [pwd] -mustexist 1]] ne ""} {
+    if {[set odir [tk_chooseDirectory -parent . -initialdir [pwd] -mustexist 1]] ne ""} {
       gui::add_directory $odir
     }
     
