@@ -508,6 +508,7 @@ namespace eval vim {
       $txt highlight "insert linestart" "insert lineend"
       if {$mode($txt) eq "replace"} {
         start_mode $txt
+        record_stop
       }
       return 1
     }
@@ -1019,6 +1020,8 @@ namespace eval vim {
         clipboard append [$txt get "insert linestart" "insert lineend"]
       }
       start_mode $txt
+      record_add "Key-y"
+      record_stop
       return 1
     }
     

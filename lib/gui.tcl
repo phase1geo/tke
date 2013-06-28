@@ -343,7 +343,7 @@ namespace eval gui {
     foreach {tablelist::W tablelist::x tablelist::y} [tablelist::convEventFields $W $x $y] {}
     foreach {row col} [split [$widgets(filetl) containingcell $tablelist::x $tablelist::y] ,] {}
 
-    if {$row != -1} {
+    if {($row != -1) && [file isfile [get_filepath $row]]} {
       $widgets(filetl) selection clear 0 end
       $widgets(filetl) selection set $row
       open_file  
