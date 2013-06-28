@@ -150,6 +150,29 @@ namespace eval gui {
       gui::remove_folder_from_sidebar
     }
     
+    # Create a root directory popup
+    set widgets(rootmenu) [menu $widgets(nb).rootPopupMenu -tearoff 0]
+    $widgets(rootmenu) add command -label "New File" -command {
+      gui::add_folder_file
+    }
+    $widgets(rootmenu) add command -label "New Directory" -command {
+      gui::add_folder
+    }
+    $widgets(rootmenu) add separator
+    $widgets(rootmenu) add command -label "Rename Directory" -command {
+      gui::rename_folder
+    }
+    $widgets(rootmenu) add command -label "Delete Directory" -command {
+      gui::delete_folder
+    }
+    $widgets(rootmenu) add separator
+    $widgets(rootmenu) add command -label "Remove from Sidebar" -command {
+      gui::remove_folder_from_sidebar
+    } 
+    $widgets(rootmenu) add command -label "Add parent directory" -command {
+      gui::add_parent_directory
+    }
+    
     # Create file popup
     set widgets(filemenu) [menu $widgets(nb).filePopupMenu -tearoff 0]
     $widgets(filemenu) add command -label "Open" -command {
@@ -247,7 +270,9 @@ namespace eval gui {
       $widgets(filetl) selection clear 0 end
       $widgets(filetl) selection set $row
       handle_filetl_selection
-      if {[file isdirectory [get_filepath $row]] > 0} {
+      if {([$widgets(filetl) parentkey $row] eq "root") && ([file dirname [get_filepath $row]] ne "")} {
+        set mnu $widgets(rootmenu)
+      } elseif {[file isdirectory [get_filepath $row]] > 0} {
         set mnu $widgets(dirmenu)
       } else {
         set mnu $widgets(filemenu)
@@ -654,6 +679,21 @@ namespace eval gui {
   }
   
   ######################################################################
+  # Adds the parent directory to the sidebar of the currently selected
+  # row.
+  proc add_parent_directory {} {
+    
+    variable widgets
+    
+    # Get the currently selected row
+    set selected [$widgets(filetl) curselection]
+    
+    # Add the parent directory to the sidebar
+    add_directory [file dirname [get_filepath $selected]]
+    
+  }
+  
+  ######################################################################
   # Adds the given directory which displays within the file browser.
   proc add_directory {dir} {
 
@@ -661,6 +701,9 @@ namespace eval gui {
     
     # Get the length of the directory
     set dirlen [string length $dir]
+    
+    # Initialize the bgproc updater
+    bgproc::update 1
     
     # Check to see if the directory root has already been added
     foreach child [$widgets(filetl) childkeys root] {
@@ -703,26 +746,24 @@ namespace eval gui {
         set child [$widgets(filetl) insertchild $parent end [list [file tail $dir] $dir]]
       } else {
         set child [$widgets(filetl) insertchild $parent end [list [file tail $dir] [file tail $dir]]]
+        $widgets(filetl) collapse $child
       }
-    
+
       # Add all of the stuff within this directory
       foreach name [lsort [glob -nocomplain -directory $dir *]] {
         if {[file isdirectory $name]} {
           if {($movekey ne "") && ([get_filepath $movekey] eq $name)} {
             $widgets(filetl) move $movekey $child end
           } else {
-            $widgets(filetl) collapse [add_subdirectory $child $name]
+            after idle [list gui::add_subdirectory $child $name]
           }
         } else {
           $widgets(filetl) insertchild $child end [list [file tail $name] [file tail $name]]
         }
+        bgproc::update
       }
     
-      return $child
-      
     }
-    
-    return ""
     
   }
   

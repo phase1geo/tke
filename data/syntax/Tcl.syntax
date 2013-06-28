@@ -51,7 +51,7 @@ miscellaneous
   HighlightClass {
     ctext button label text frame toplevel scrollbar checkbutton canvas
     listbox menu menubar menubutton radiobutton scale entry message
-    tk_chooseDir tk_getSaveFile tk_getOpenFile tk_chooseColor tk_optionMenu
+    tk_chooseDirectory tk_getSaveFile tk_getOpenFile tk_chooseColor tk_optionMenu
     ttk::button ttk::checkbutton ttk::combobox ttk::entry ttk::frame ttk::label
     ttk::labelframe ttk::menubutton ttk::notebook ttk::panedwindow
     ttk::progressbar ttk::radiobutton ttk::scale ttk::scrollbar ttk::separator

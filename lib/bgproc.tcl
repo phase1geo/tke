@@ -105,15 +105,22 @@ namespace eval bgproc {
   # This procedure can be called from anywhere.  It calls the
   # update command if it hasn't been called within a specified
   # period of time.
-  proc update {} {
+  proc update {{initialize 0}} {
 
     variable last_update
     variable update_interval
+    
+    # Get the current time
+    set curr_time [clock milliseconds]
+    
+    # If we are initializing, don't update
+    if {$initialize} {
+      set last_update $curr_time
 
     # If the difference between the last update time and the current time exceeds the 
     # maximum allowed update interval, perform the update and save the current time as
     # the last update time.
-    if {[expr [set curr_time [clock milliseconds]] - $last_update] >= $update_interval} {
+    } elseif {($curr_time - $last_update) >= $update_interval} {
       set last_update $curr_time
       ::update
     }

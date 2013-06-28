@@ -58,8 +58,11 @@ namespace eval menus {
     $mb add command -label "New"        -underline 0 -command "menus::new_command"
     launcher::register "Menu: New file" menus::new_command
     
-    $mb add command -label "Open..."    -underline 0 -command "menus::open_command"
+    $mb add command -label "Open File..." -underline 0 -command "menus::open_command"
     launcher::register "Menu: Open file" menus::open_command
+    
+    $mb add command -label "Open Directory..." -underline 5 -command "menus::open_dir_command"
+    launcher::register "Menu: Open directory" menus::open_dir_command
     
     $mb add separator
     
@@ -102,6 +105,16 @@ namespace eval menus {
       }
     }
   
+  }
+  
+  ######################################################################
+  # Opens a directory in the sidebar.
+  proc open_dir_command {} {
+    
+    if {[set odir [tk_chooseDirectory -parent . -initialidir [pwd] -mustexist 1]] ne ""} {
+      gui::add_directory $odir
+    }
+    
   }
   
   ######################################################################
