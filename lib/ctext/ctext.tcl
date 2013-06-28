@@ -927,7 +927,7 @@ proc ctext::doHighlight {win} {
   
     #The number of times the loop has run.
     set numTimesLooped 0
-    set numUntilUpdate 1  ;# 600
+    set numUntilUpdate 600
   
     ctext::getAr $win highlight highlightAr
     ctext::getAr $win highlightSpecialChars highlightSpecialCharsAr
