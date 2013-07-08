@@ -11,7 +11,8 @@ namespace eval gui {
   variable pw_index      0
   variable pw_current    0
   variable nb_index      0
-  variable nb_current    ""
+  variable nb_move       ""
+  variable file_move     0
   variable geometry_file [file join $::tke_home geometry.dat]
   variable search_counts {}
   variable sar_global    1
@@ -275,7 +276,6 @@ namespace eval gui {
     variable widgets
     variable files
     variable files_index
-    variable pw_current
     
     # Get the current selection
     set selected [$widgets(filetl) curselection]
@@ -627,14 +627,17 @@ namespace eval gui {
   # Handles a tab move start event.
   proc tab_move_start {W x y} {
   
-    variable nb_current
+    variable pw_current
+    variable nb_move
+    variable file_move
     variable last_x
   
     if {[set tabid [$W index @$x,$y]] ne ""} {
-      set nb_current $tabid
-      set last_x     $x
+      set nb_move   $tabid
+      set file_move [get_file_index $pw_current $tabid]
+      set last_x    $x
     } else {
-      set nb_current ""
+      set nb_move ""
     }
   
   }
@@ -643,23 +646,40 @@ namespace eval gui {
   # Handles a tab move motion.
   proc tab_move_motion {W x y} {
     
-    variable nb_current
+    variable pw_current
+    variable nb_move
+    variable file_move
     variable last_x
     variable files
+    variable files_index
     
     if {[set tabid [$W index @$x,$y]] ne ""} {
-      if {($nb_current ne "") && \
-          ((($nb_current > $tabid) && ($x < $last_x)) || \
-           (($nb_current < $tabid) && ($x > $last_x)))} {
-        set tab   [lindex [$W tabs] $nb_current]
-        set title [$W tab $nb_current -text]
-        set finfo [lindex $files $nb_current]
-        set files [lreplace $files $nb_current $nb_current]
-        $W forget $nb_current
+      if {($nb_move ne "") && \
+          ((($nb_move > $tabid) && ($x < $last_x)) || \
+           (($nb_move < $tabid) && ($x > $last_x)))} {
+        set tab   [lindex [$W tabs] $nb_move]
+        set title [$W tab $nb_move -text]
+        $W forget $nb_move
         $W insert [expr {($tabid == [$W index end]) ? "end" : $tabid}] $tab -text $title
         $W select $tabid
-        set files      [linsert $files $tabid $finfo]
-        set nb_current $tabid
+        set file_indices [lsearch -all -index $files_index(pane) $files $pw_current]
+        if {$nb_move > $tabid} {
+          foreach index $file_indices {
+            set tab [lindex $files $index $files_index(tab)]
+            if {($tab < $nb_move) && ($tab >= $tabid)} {
+              lset files $index $files_index(tab) [expr $tab + 1]
+            }
+          }
+        } else {
+          foreach index $file_indices {
+            set tab [lindex $files $index $files_index(tab)]
+            if {($tab <= $tabid) && ($tab > $nb_move)} {
+              lset files $index $files_index(tab) [expr $tab - 1]
+            }
+          }
+        }
+        lset files $file_move $files_index(tab) $tabid
+        set nb_move $tabid
       }
       set last_x $x
     }
@@ -669,10 +689,10 @@ namespace eval gui {
   ######################################################################
   # Handles the end of a tab move.
   proc tab_move_end {W x y} {
+ 
+    variable nb_move
 
-    variable nb_current
-
-    set nb_current ""
+    set nb_move ""
 
   }
 
@@ -809,6 +829,7 @@ namespace eval gui {
     
     variable widgets
     variable files
+    variable files_index
     
     if {[file exists $dir]} {
     
@@ -828,7 +849,7 @@ namespace eval gui {
           }
         } else {
           set key [$widgets(filetl) insertchild $parent end [list [file tail $name] [file tail $name]]]
-          if {[lsearch -index 0 $files $name] != -1} {
+          if {[lsearch -index $files_index(fname) $files $name] != -1} {
             $widgets(filetl) cellconfigure $key,files -background yellow
           }
         }
@@ -1067,7 +1088,6 @@ namespace eval gui {
     variable widgets
     variable files
     variable files_index
-    variable pw_current
 
     # Get the file information
     set file_info [lindex $files $file_index]
@@ -1134,7 +1154,6 @@ namespace eval gui {
     variable widgets
     variable files
     variable files_index
-    variable pw_current
     
     # Get the current notebook
     set nb [current_notebook]
@@ -1227,7 +1246,8 @@ namespace eval gui {
     set nb [lindex [$widgets(nb_pw) panes] $pw_index]
     
     # Get the indexed text widget 
-    set txt "[lindex [$nb tabs] $nb_index].tf.txt"
+    set tab_frame [lindex [$nb tabs] $nb_index]
+    set txt       "$tab_frame.tf.txt"
     
     # Remove bindings
     indent::remove_bindings $txt
@@ -1248,10 +1268,12 @@ namespace eval gui {
     
     # Remove the tab
     $nb forget $nb_index
+    # destroy $tab_frame
     
     # If we have no more tabs and there is another pane, remove this pane
     if {([llength [$nb tabs]] == 0) && ([llength [$widgets(nb_pw) panes]] > 1)} {
       $widgets(nb_pw) forget $pw_index
+      # destroy $nb
     }
     
   }
@@ -1726,12 +1748,13 @@ namespace eval gui {
   proc get_actual_filenames {} {
   
     variable files
+    variable files_index
     
     set actual_filenames [list]
     
     foreach finfo $files {
-      if {[lindex $finfo 0] ne ""} {
-        lappend actual_filenames [lindex $finfo 0]
+      if {[set fname [lindex $finfo $files_index(fname)]] ne ""} {
+        lappend actual_filenames $fname
       }
     }
     
@@ -1897,6 +1920,9 @@ namespace eval gui {
     # Make the new tab the current tab
     set_current_tab $pw_current $adjusted_index
     
+    # Set the current language
+    syntax::set_current_language
+
     # Give the text widget the focus
     focus $tab_frame.tf.txt.t
     
@@ -1964,7 +1990,7 @@ namespace eval gui {
     $widgets(info_col) configure -text $col
     
     # Set the language
-    syntax::set_current_language
+    # syntax::set_current_language
 
     # Finally, set the focus to the text widget
     focus [current_txt].t       
@@ -1978,7 +2004,9 @@ namespace eval gui {
     variable widgets
     
     # Get the pane index
-    set pane [lsearch [$widgets(nb_pw) panes] $nb]
+    if {[set pane [lsearch [$widgets(nb_pw) panes] $nb]] == -1} {
+      return
+    }
     
     # Get the tab index
     set tab [$nb index current]
@@ -2031,31 +2059,37 @@ namespace eval gui {
   }
   
   ######################################################################
-  # Gets the current file list from the files array based on the current
-  # pane and notebook tab.  Returns the index of the found file
-  proc current_file {} {
-  
-    variable widgets
-    variable pw_current
+  # Returns the index of the file list that pertains to the given file.
+  proc get_file_index {pane tab} {
+
     variable files
     variable files_index
-    
-    # Get the notebook tab index
-    set nb_index [[current_notebook] index current]
-    
-    # Find the file that matches the current pane and tab
+
+    # Look for the file index
     set index 0
-    foreach file $files {
-      if {([lindex $file $files_index(pane)] eq $pw_current) && \
-          ([lindex $file $files_index(tab)]  eq $nb_index)} {
+    foreach file_info $files {
+      if {([lindex $file_info $files_index(pane)] eq $pane) && \
+          ([lindex $file_info $files_index(tab)]  eq $tab)} {
         return $index
       }
       incr index
     }
-    
+
     # Throw an exception if we couldn't find the current file
     # (this is considered an unhittable case)
-    return -code error "Unable to find current file (pane: $pw_current, tab: $nb_index)"
+    return -code error "Unable to find current file (pane: $pane, tab: $tab)"
+    
+  }
+
+  ######################################################################
+  # Gets the current index into the file list based on the current pane
+  # and notebook tab.
+  proc current_file {} {
+  
+    variable pw_current
+
+    # Returns the file index
+    return [get_file_index $pw_current [[current_notebook] index current]]
     
   }
   
