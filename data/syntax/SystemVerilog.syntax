@@ -1,6 +1,12 @@
 filepatterns
 {*.v *.sv *.vg}
 
+indent
+{\m(begin(\s*:\s*\S+)?|task.*;|function.*;|case[xz]?.*\)|module.*;|generate)\M}
+
+unindent
+{\m(end|endtask|endfunction|endcase|endmodule|endgenerate)\M}
+
 keywords
 {
   always and assign begin buf bufif0 bufif1 case casex casez cmos deassign default defparam

@@ -1,6 +1,12 @@
 filepatterns
 {Makefile makefile Makefile.* makefile.*}
 
+indent
+{\{}
+  
+unindent
+{\}}
+
 keywords
 {
   include sinclude .SECONDEXPANSION .RECIPEPREFIX .PHONY .SUFFIXES .DEFAULT .PRECIOUS .INTERMEDIATE .SECONDARY

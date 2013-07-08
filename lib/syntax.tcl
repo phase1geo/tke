@@ -39,7 +39,7 @@ namespace eval syntax {
       if {![catch "open $sfile r" rc]} {
         set name [file rootname [file tail $sfile]]
         set langs($name) [read $rc]
-        launcher::register "Syntax:  $name" "syntax::set_current_language $name"
+        launcher::register "Syntax:  $name" "syntax::set_language $name"
         close $rc
       }
     }
@@ -145,8 +145,18 @@ namespace eval syntax {
   }
   
   ######################################################################
+  # Initializes the language for the given text widget.
+  proc initialize_language {txt filename} {
+  
+    variable lang
+    
+    set lang($txt) [get_language $filename]
+  
+  }
+  
+  ######################################################################
   # Sets the language of the current tab to the specified language.
-  proc set_current_language {language} {
+  proc set_current_language {} {
     
     variable lang
     
@@ -154,19 +164,22 @@ namespace eval syntax {
     set txt [gui::current_txt]
     
     if {[info exists lang($txt)]} {
-      set_language $txt [lindex $lang($txt) 0] $language
+      set_language $lang($txt)
     }
     
   }
   
   ######################################################################
   # Sets the language of the given text widget to the given language.
-  proc set_language {txt mb language} {
+  proc set_language {language} {
     
     variable langs
     variable theme
     variable lang
     
+    # Get the current text widget
+    set txt [gui::current_txt]
+        
     # Clear the syntax highlighting for the widget
     ctext::clearHighlightClasses $txt
     ctext::disableComments $txt
@@ -174,7 +187,10 @@ namespace eval syntax {
     # Set the text background color to the current theme
     $txt configure -background $theme(background) -foreground $theme(foreground) \
       -selectbackground $theme(selectbackground) -selectforeground $theme(selectforeground) \
-      -insertbackground $theme(cursor)
+      -insertbackground $theme(cursor) -highlightcolor $theme(highlightcolor)
+
+    # Set default indent/unindent strings
+    indent::set_indent_expressions $txt.t "\{" "\}"
     
     # Apply the new syntax highlighting syntax, if one exists for the given language
     if {[info exists langs($language)]} {
@@ -205,8 +221,12 @@ namespace eval syntax {
         # Add the FIXME
         ctext::addHighlightClassForRegexp $txt fixme $theme(miscellaneous) {FIXME}
         
+        # Set the indentation namespace for the given text widget to be
+        # the indent/unindent expressions for this language
+        indent::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent)
+        
         # Save the language
-        set lang($txt) [list $mb $language]
+        set lang($txt) $language
        
       } rc]} {
         tk_messageBox -parent . -type ok -default ok -message "Syntax error in $language.syntax file" -detail $rc
@@ -218,7 +238,7 @@ namespace eval syntax {
     $txt highlight 1.0 end
     
     # Set the menubutton text
-    $mb configure -text $language
+    $gui::widgets(info_syntax) configure -text $language
     
   }
   
@@ -241,7 +261,7 @@ namespace eval syntax {
   
   ######################################################################
   # Create a menubutton containing a list of all available languages.
-  proc create_menubutton {w txt} {
+  proc create_menubutton {w} {
   
     variable langs
     
@@ -252,13 +272,32 @@ namespace eval syntax {
     set mnu [menu $w.menu -tearoff 0]
     
     # Populate the menu with the available languages
-    $mnu add command -label "<None>" -command "syntax::set_language $txt $w <None>"
+    $mnu add command -label "<None>" -command "syntax::set_language <None>"
     foreach lang [lsort [array names langs]] {
-      $mnu add command -label $lang -command "syntax::set_language $txt $w $lang"
+      $mnu add command -label $lang -command "syntax::set_language $lang"
     }
     
     return $w
   
+  }
+ 
+  ######################################################################
+  # Returns a list containing two items.  The first item is a regular
+  # expression that matches the string(s) to indicate that an indentation
+  # should occur on the following line.  The second item is a regular
+  # expression that matches the string(s) to indicate that an unindentation
+  # should occur on the following line.  Both of these expressions come
+  # from the syntax file for the current language.
+  proc get_indentation_expressions {} {
+    
+    variable langs
+    variable lang
+    
+    # Get the language array for the current language.
+    array set lang_array $langs($lang)
+    
+    return [list $lang_array(indent) $lang_array(unindent)]
+    
   }
   
 }

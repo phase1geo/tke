@@ -1,6 +1,12 @@
 filepatterns
 {*.tcl}
 
+indent
+{\{}
+  
+unindent
+{\}}
+
 keywords
 {
   after append apply array auto_execok auto_import auto_load auto_mkindex auto_mkindex_old
@@ -13,7 +19,7 @@ keywords
   registry regsub rename return scan seek set socket source split string subst switch
   tcl_endOfWord tcl_findLibrary tcl_startOfNextWord tcl_startOfPreviousWord tcl_wordBreakAfter
   tcl_wordBreakBefore tcltest tell time tm trace unknown unload unset update uplevel upvar
-  variable vwait while
+  variable vwait while bind bindtags
 }
 
 symbols

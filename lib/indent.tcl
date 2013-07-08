@@ -6,6 +6,7 @@
 namespace eval indent {
 
   array set indent_levels {}
+  array set indent_exprs  {}
   
   ######################################################################
   # Adds indentation bindings for the given text widget.
@@ -96,13 +97,14 @@ namespace eval indent {
   proc newline {txt insert_index indent_name} {
   
     variable indent_levels
+    variable indent_exprs
     
     # Get the current line
     set line [$txt get $insert_index "$insert_index lineend"]
 
     # Remove any leading whitespace and update indentation level (if the first non-whitespace char is a closing bracket)
-    if {[regexp {^( *)} $line -> whitespace]} {
-      if {[string index $line [string length $whitespace]] eq "\}"} {
+    if {[regexp {^( *)(.*)} $line -> whitespace rest]} {
+      if {[regexp "^$indent_exprs($txt,unindent)" $rest]} {
         incr indent_levels($txt,$indent_name) -1
       }
       $txt delete $insert_index "$insert_index+[string length $whitespace]c"
@@ -121,18 +123,23 @@ namespace eval indent {
   proc update_indent_level {txt insert_index indent_name} {
   
     variable indent_levels
-
+    variable indent_exprs
+    
     # Initialize the indent_levels
     set indent_levels($txt,$indent_name) 0
 
     # Find the last open brace starting from the current insertion point
-    set i 0
-    foreach line [lreverse [split [$txt get 1.0 $insert_index] \n]] {
-      if {[regexp {^[^#]*\}[^\{]*$} $line]} {
+    lassign [split [$txt index $insert_index] .] start_row
+    set end $insert_index
+    while {$start_row >= 1} {
+      set line [$txt get $start_row.0 $end]
+      if {[regexp "^\[^#\]*$indent_exprs($txt,unindent)(.*)\$" $line -> rest] && \
+          ![regexp $indent_exprs($txt,indent) $rest]} {
         regexp {^(\s*)} $line -> whitespace
         set indent_levels($txt,$indent_name) [expr [string length $whitespace] / 2]
         break
-      } elseif {[regexp {^[^#]*\{[^\}]*$} $line]} {
+      } elseif {[regexp "^\[^#\]*$indent_exprs($txt,indent)(.*)$" $line -> rest] && \
+                ![regexp $indent_exprs($txt,unindent) $rest]} {
         regexp {^(\s*)} $line -> whitespace
         set indent_levels($txt,$indent_name) [expr ([string length $whitespace] / 2) + 1]
         break
@@ -140,7 +147,8 @@ namespace eval indent {
         set indent_levels($txt,$indent_name) [expr [string length $whitespace] / 2]
         break
       }
-      incr i
+      incr start_row -1
+      set end "$start_row.0 lineend"
     }
     
   }
@@ -151,8 +159,9 @@ namespace eval indent {
   proc format_text {txt startpos endpos} {
   
     variable indent_levels
+    variable indent_exprs
     
-    # Get the clipboard contents, trimming the whitespace and splitting into lines
+    # Get the text widget contents, trimming the whitespace and splitting into lines
     foreach line [split [$txt get $startpos $endpos] \n] {
       lappend str $line
     }
@@ -201,6 +210,24 @@ namespace eval indent {
     
     # Perform syntax highlighting
     [winfo parent $txt] highlight $startpos $endpos
+    
+  }
+  
+  ######################################################################
+  # Sets the indentation expressions for the given text widget.
+  proc set_indent_expressions {txt indent unindent} {
+    
+    variable indent_levels
+    variable indent_exprs
+    
+    # Clear the indentation levels
+    foreach name [array names indent_level $txt,*] {
+      set indent_levels($name) 0
+    }
+
+    # Set the indentation expressions
+    set indent_exprs($txt,indent)   $indent
+    set indent_exprs($txt,unindent) $unindent
     
   }
   

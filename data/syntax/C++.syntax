@@ -1,6 +1,12 @@
 filepatterns
 {*.c *.cc *.cpp *.c++ *.h}
 
+indent
+{\{}
+  
+unindent
+{\}}
+
 keywords
 {
   return break case continue default do else for goto if switch while

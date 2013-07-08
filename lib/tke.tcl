@@ -89,6 +89,15 @@ proc handle_signal {} {
 
 }
 
+######################################################################
+# Handle any background errors.
+proc bgerror {msg} {
+
+  puts "ERROR:  $msg"
+  puts $::errorInfo
+
+}
+
 # Set signal handlers
 signal trap TERM handle_signal
 signal trap INT  handle_signal
@@ -105,7 +114,6 @@ if {[tk appname] ne "tke.tcl"} {
     } elseif {[regexp {X server} $rc]} {
       puts $rc
     }
-    puts "rc: $rc"
   } else {
     if {![catch "send tke.tcl gui::raise_window" rc]} {
       destroy .
@@ -141,7 +149,7 @@ ttk::style theme use clam
 
 # Create GUI
 gui::create
- 
+
 # Populate the GUI with the command-line filelist (if specified)
 if {[llength $cl_files] > 0} {
   foreach cl_file $cl_files {

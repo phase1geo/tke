@@ -1,6 +1,12 @@
 filepatterns
 {*.help}
 
+indent
+{\{}
+  
+unindent
+{\}}
+
 keywords
 {
   <a </a> address /address b /b blockquote /blockquote

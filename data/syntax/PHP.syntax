@@ -1,6 +1,12 @@
 filepatterns
 {*.php}
 
+indent
+{\{}
+  
+unindent
+{\}}
+
 keywords
 {
   array var_dump class public new echo var const static echo foreach for print as unset while

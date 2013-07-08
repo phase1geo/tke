@@ -1,9 +1,16 @@
 filepatterns
 {*.syntax}
 
+indent
+{\{}
+  
+unindent
+{\}}
+
 keywords
 {
-  filepatterns keywords symbols lcomments ccomments strings numbers punctuation precompile miscellaneous 
+  filepatterns indent unindent keywords symbols lcomments ccomments
+  strings numbers punctuation precompile miscellaneous 
   HighlightClass
   HighlightClassForSpecialChars
   HighlightClassForRegexp

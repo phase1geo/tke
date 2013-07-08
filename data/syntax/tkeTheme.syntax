@@ -1,6 +1,12 @@
 filepatterns
 {*.tketheme}
 
+indent
+{\{}
+  
+unindent
+{\}}
+
 keywords
 {
   background foreground selectbackground selectforeground cursor
