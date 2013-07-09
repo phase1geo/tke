@@ -108,6 +108,11 @@ namespace eval launcher {
 
       # Make sure the entry field is given focus
       focus $widgets(entry)
+      
+      # If we are running in a mode, display the default results
+      if {$mode ne ""} {
+        lookup "" $mode
+      }
 
       # Wait for the window to be destroyed
       vwait launcher::closed
@@ -293,8 +298,8 @@ namespace eval launcher {
     variable match_commands
     variable command_names
     variable command_values
-
-    if {$value ne ""} {
+    
+    if {($value ne "") || ($mode ne "")} {
 
       # Find all of the matches
       find_matches $value $mode
@@ -374,47 +379,46 @@ namespace eval launcher {
     set matches     [list]
     set match_types [list]
     
-    # If the current mode is not the empty string, only display match results for the current mode
-    if {$mode ne ""} {
-      set str "${mode}${str}"
-    }
-
-    # Check to see if this is a calculation
-    if {[regexp {[]0-9a-zA-Z',{}_ ()*/%&|^~:+<>-]+} $str]} {
-      handle_calculation $str
-    }
-    
-    # Check to see if this is a symbol lookup
-    if {$str eq "@"} {
-      array unset command [get_command_name * launcher::symbol_okay]
-      foreach {procedure pos} [gui::get_symbol_list] {
-        lappend matches [register_temp "@$procedure" "gui::jump_to $pos" $procedure launcher::symbol_okay]
-        lappend match_types 2
+    if {$mode eq ""} {
+      
+      # Check to see if this is a calculation
+      if {[regexp {[]0-9a-zA-Z',{}_ ()*/%&|^~:+<>-]+} $str]} {
+        handle_calculation $str
       }
-    }
     
-#    # Check to see if this is a URL
-#    if {[regexp {(\S+\.[[:alpha:]][[:alpha:]]+)$} $str -> url]} {
+      # Check to see if this is a symbol lookup
+      if {$str eq "@"} {
+        array unset command [get_command_name * launcher::symbol_okay]
+        foreach {procedure pos} [gui::get_symbol_list] {
+          lappend matches [register_temp "@$procedure" "gui::jump_to $pos" $procedure launcher::symbol_okay]
+          lappend match_types 2
+        }
+      }
+    
+#      # Check to see if this is a URL
+#      if {[regexp {(\S+\.[[:alpha:]][[:alpha:]]+)$} $str -> url]} {
 #
-#      set last_command_name [get_command_name $top launcher::url_okay $last_url]
-#      set curr_command_name [get_command_name $top launcher::url_okay $url]
+#        set last_command_name [get_command_name $top launcher::url_okay $last_url]
+#        set curr_command_name [get_command_name $top launcher::url_okay $url]
 #      
-#      # Change the command to the updated command
-#      set value $commands($last_command_name)
-#      array unset commands $last_command_name
-#      set commands($curr_command_name) $value
-#      set last_url $url
+#        # Change the command to the updated command
+#        set value $commands($last_command_name)
+#        array unset commands $last_command_name
+#        set commands($curr_command_name) $value
+#        set last_url $url
 #
-#      # Add this to the list of matches
-#      lappend matches     $curr_command_name
-#      lappend match_types 2
+#        # Add this to the list of matches
+#        lappend matches     $curr_command_name
+#        lappend match_types 2
 #
-#    }
+#      }
+
+    }
  
     # Get the precise match (if one exists)
     set results [list]
     foreach {name value} [array get commands [get_command_name * *]] {
-      if {[lindex $value $command_values(search_str)] eq $str} {
+      if {[lindex $value $command_values(search_str)] eq "$mode$str"} {
         if {[eval [lindex $name $command_names(validate_cmd)]]} {
           lappend results [list $name $value]
         }
@@ -425,14 +429,14 @@ namespace eval launcher {
     sort_match_results $results 1
 
     # Get exact matches that match the beginning of the statement
-    sort_match_results [get_match_results $str*] 0
+    sort_match_results [get_match_results $mode$str*] 0
 
     # Get all of the exact matches within the string
-    sort_match_results [get_match_results *$str*] 0
+    sort_match_results [get_match_results $mode*$str*] 0
 
     # Get all of the fuzzy matches
-    sort_match_results [get_match_results *[join [split $str {}] *]*] 1
-
+    sort_match_results [get_match_results $mode*[join [split $str {}] *]*] 1
+      
   }
 
   ############################################################################

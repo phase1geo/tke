@@ -6,17 +6,18 @@
  
 namespace eval gui {
  
-  variable curr_id       0
-  variable files         {}
-  variable pw_index      0
-  variable pw_current    0
-  variable nb_index      0
-  variable nb_move       ""
-  variable file_move     0
-  variable geometry_file [file join $::tke_home geometry.dat]
-  variable search_counts {}
-  variable sar_global    1
-  variable lengths       {}
+  variable curr_id          0
+  variable files            {}
+  variable pw_index         0
+  variable pw_current       0
+  variable nb_index         0
+  variable nb_move          ""
+  variable file_move        0
+  variable geometry_file    [file join $::tke_home geometry.dat]
+  variable search_counts    {}
+  variable sar_global       1
+  variable lengths          {}
+  variable user_exit_status ""
   
   array set widgets  {}
   array set language {}
@@ -118,27 +119,50 @@ namespace eval gui {
       
     # Create the notebook panedwindow
     set widgets(nb_pw) [ttk::panedwindow $widgets(pw).tf.nbpw -orient horizontal]
-    
-    # Create the information bar
-    ttk::frame $widgets(pw).tf.if
-    ttk::label $widgets(pw).tf.if.ll1 -text "Line:"
-    set widgets(info_row)    [ttk::label $widgets(pw).tf.if.ll2 -text 1]
-    ttk::label $widgets(pw).tf.if.cl1 -text "Column:"
-    set widgets(info_col)    [ttk::label $widgets(pw).tf.if.cl2 -text 0]
-    set widgets(info_syntax) [syntax::create_menubutton $widgets(pw).tf.if.syn]
-   
-    pack $widgets(pw).tf.if.ll1 -side left  -padx 2 -pady 2
-    pack $widgets(pw).tf.if.ll2 -side left  -padx 2 -pady 2
-    pack $widgets(pw).tf.if.cl1 -side left  -padx 2 -pady 2
-    pack $widgets(pw).tf.if.cl2 -side left  -padx 2 -pady 2
-    pack $widgets(pw).tf.if.syn -side right -padx 2 -pady 2
       
     # Add notebook
     add_notebook
     
     # Pack the notebook panedwindow
-    pack $widgets(nb_pw)    -fill both -expand yes
-    pack $widgets(pw).tf.if -fill x
+    pack $widgets(nb_pw) -fill both -expand yes
+
+    # Create the information bar
+    set widgets(info)        [ttk::frame .if]
+    ttk::label .if.ll1 -text "Line:"
+    set widgets(info_row)    [ttk::label .if.ll2 -text 1]
+    ttk::label .if.cl1 -text "Column:"
+    set widgets(info_col)    [ttk::label .if.cl2 -text 0]
+    set widgets(info_syntax) [syntax::create_menubutton .if.syn]
+   
+    pack .if.ll1 -side left  -padx 2 -pady 2
+    pack .if.ll2 -side left  -padx 2 -pady 2
+    pack .if.cl1 -side left  -padx 2 -pady 2
+    pack .if.cl2 -side left  -padx 2 -pady 2
+    pack .if.syn -side right -padx 2 -pady 2
+     
+    # Create the configurable response widget
+    set widgets(ursp)        [ttk::frame  .rf]
+    set widgets(ursp_label)  [ttk::label  .rf.l]
+    set widgets(ursp_entry)  [ttk::entry  .rf.e]
+    set widgets(ursp_cancel) [ttk::button .rf.cancel -text "Cancel" -command "set gui::user_exit_status 0"]
+    
+    bind $widgets(ursp_entry) <Return> "set gui::user_exit_status 1"
+    bind $widgets(ursp_entry) <Escape> "set gui::user_exit_status 0"
+      
+    grid rowconfigure    .rf 0 -weight 1
+    grid columnconfigure .rf 1 -weight 1
+    grid $widgets(ursp_label)  -row 0 -column 0 -sticky news
+    grid $widgets(ursp_entry)  -row 0 -column 1 -sticky news
+    grid $widgets(ursp_cancel) -row 0 -column 2 -sticky news
+     
+    # Pack the notebook
+    grid rowconfigure    . 0 -weight 1
+    grid columnconfigure . 0 -weight 1
+    grid $widgets(pw)   -row 0 -column 0 -sticky news
+    grid $widgets(ursp) -row 1 -column 0 -sticky ew
+    grid $widgets(info) -row 2 -column 0 -sticky ew
+    
+    grid remove $widgets(ursp)
 
     # Create tab popup
     set widgets(menu) [menu $widgets(nb_pw).popupMenu -tearoff 0]
@@ -217,9 +241,6 @@ namespace eval gui {
     $widgets(filemenu) add command -label "Delete File" -command {
       gui::delete_file
     }
-    
-    # Pack the notebook
-    pack $widgets(pw) -fill both -expand yes
     
     # Add the menu bar
     menus::create
@@ -949,6 +970,9 @@ namespace eval gui {
     # Add the current directory
     add_directory [file normalize [pwd]]
     
+    # Run any plugins that need to be run when a file is opened
+    plugins::handle_on_open [expr [llength $files] - 1]
+    
   }
   
   ######################################################################
@@ -1023,6 +1047,9 @@ namespace eval gui {
     
     # Highlight the file in the sidebar
     highlight_filename $fname 1
+    
+    # Run any plugins that should run when a file is opened
+    plugins::handle_on_open [expr [llength $files] - 1]
  
   }
   
@@ -1262,6 +1289,9 @@ namespace eval gui {
     
     # Unhighlight the file in the file browser
     highlight_filename [lindex $files $index $files_index(fname)] 0
+    
+    # Run the close event for this file
+    plugins::handle_on_close $index
     
     # Delete the file from files
     set files [lreplace $files $index $index]
@@ -1762,6 +1792,63 @@ namespace eval gui {
     
   }
   
+  ######################################################################
+  # Gets user input from the interface in a generic way.
+  proc user_response_get {msg pvar cancelable} {
+    
+    variable widgets
+    
+    # Create a reference to the storage variable
+    upvar $pvar var
+    
+    # Initialize the widget
+    $widgets(ursp_label) configure -text $msg
+    $widgets(ursp_entry) configure -text ""
+    if {$cancelable} {
+      grid $widgets(ursp_cancel)
+    } else {
+      grid remove $widgets(ursp_cancel)
+    }
+    
+    # Display the user input widget
+    grid $widgets(ursp)
+    
+    # Grab the focus on the entry widget
+    ::tk::SetFocusGrab $widgets(ursp) $widgets(ursp_entry)
+    
+    # Wait for the widget to be closed
+    vwait gui::user_exit_status
+    
+    # Restore the focus and grab
+    ::tk::RestoreFocusGrab $widgets(ursp) $widgets(ursp_entry)
+    
+    # Get the user response value
+    set var [$widgets(ursp_entry) get]
+    
+    return $gui::user_exit_status
+    
+  }
+  
+  ######################################################################
+  # Returns file information for the given file index and attribute.
+  # This is called by the get_file_info API command.
+  proc get_file_info {index attr} {
+    
+    variable files
+    variable files_index
+    
+    # Perform error detections
+    if {($index < 0) || ($index >= [llength $files])} {
+      return -code error "File index is out of range"
+    }
+    if {![info exists files_index($attr)]} {
+      return -code error "File attribute ($attr) does not exist"
+    }
+    
+    return [lindex $files $index $files_index($attr)]
+    
+  }
+
   ########################
   #  PRIVATE PROCEDURES  #
   ########################
@@ -2019,9 +2106,14 @@ namespace eval gui {
   ######################################################################
   # Sets the current tab information based on the given text widget.
   proc set_current_tab_from_txt {txt} {
+    
+    set tab [winfo parent [winfo parent [winfo parent $txt]]]
         
     # Get the tab from the text widget's notebook
-    set_current_tab_from_nb [winfo parent [winfo parent [winfo parent [winfo parent $txt]]]]
+    set_current_tab_from_nb [winfo parent $tab]
+    
+    # Handle any on_focusin events
+    plugins::handle_on_focusin $tab
     
   }
   

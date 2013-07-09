@@ -10,7 +10,6 @@
 #  readplugin  - Reads local plugin information from a save file
 #  on_open     - Runs when a tab is opened
 #  on_focusin  - Runs when a tab receives focus
-#  on_focusout - Runs when a tab loses focus
 #  on_close    - Runs when a tab is closed
 #  on_quit     - Runs when the editor is exited
 #  on_reload   - Takes action when the plugin is reloaded
@@ -25,7 +24,7 @@ namespace eval plugins {
   ######################################################################
   # Procedure that is called be each plugin that registers all of the
   # actions that the plugin can perform.
-  proc registry {name cmdlist} {
+  proc register {name cmdlist} {
     
     variable registry
     variable registry_size
@@ -324,16 +323,16 @@ namespace eval plugins {
       if {!$registry($i,selected)} {
         set name $registry($i,name)
         lappend plugins $name
-        launcher::register_temp $"PLUGIN:$name" "plugins::install_item $i" $name
+        launcher::register_temp "`PLUGIN:$name" "plugins::install_item $i" $name
       }
     }
     
     # Display the launcher in PLUGIN: mode
-    launcher::launch "PLUGIN:"
+    launcher::launch "`PLUGIN:"
     
     # Unregister the plugins
     foreach name $plugins {
-      launcher::unregister "PLUGIN:$name"
+      launcher::unregister "`PLUGIN:$name"
     }
   
   }
@@ -353,7 +352,7 @@ namespace eval plugins {
         set registry($index,selected) 0
         # FIXME - Let the user know about the plugin error
       } else {
-        puts "Selected!"
+        puts "$registry($index,name) installed"
         set registry($index,sourced)  1
         set registry($index,selected) 1
         handle_reloading $index
@@ -361,6 +360,7 @@ namespace eval plugins {
       
     # Otherwise, just mark the plugin as being selected
     } else {
+      puts "$registry($index,name) installed"
       set registry($index,selected) 1
     }
   
@@ -377,18 +377,18 @@ namespace eval plugins {
     
     for {set i 0} {$i < $registry_size} {incr i} {
       if {$registry($i,selected)} {
-        set name $registry($i,selected)
+        set name $registry($i,name)
         lappend plugins $name
-        launcher::register_temp "PLUGIN:$name" "plugins::uninstall_item $i" $name
+        launcher::register_temp "`PLUGIN:$name" "plugins::uninstall_item $i" $name
       }
     }
     
     # Display the launcher in PLUGIN: mode
-    launcher::launch "PLUGIN:"
+    launcher::launch "`PLUGIN:"
     
     # Unregister the plugins
     foreach name $plugins {
-      launcher::unregister "PLUGIN:$name"
+      launcher::unregister "`PLUGIN:$name"
     }
   
   }
@@ -399,6 +399,7 @@ namespace eval plugins {
   
     variable registry
     
+    puts "$registry($index,name) uninstalled"
     set registry($index,selected) 0
     
   }
@@ -420,14 +421,70 @@ namespace eval plugins {
   }
   
   ######################################################################
-  # Called when the application is exiting.
-  proc handle_on_quit {} {
+  # Adds the menus to the given plugin menu.
+  proc handle_menu_add {mb} {
     
-    foreach entry [find_registry_entries "on_quit"] {
-      if {[catch "[lindex $entry 1]" status]} {
+    foreach entry [find_registry_entries "menu"] {
+      
+    }
+    
+  }
+  
+  ######################################################################
+  # Updates the plugin menu state of the given menu.
+  proc handle_menu_state {mb} {
+    
+    # Remove prefix text from mb name
+    set mb [string range $mb [string length ".menubar.plugins."] end]
+    
+    foreach entry [find_registry_entries "menu"] {
+      
+    }
+    
+  }
+  
+  ######################################################################
+  # Generically handles the given event.
+  proc handle_event {event args} {
+    
+    foreach entry [find_registry_entries $event] {
+      if {[catch "[lindex $entry 1] $args" status]} {
         handle_status_error [lindex $entry 0] $status
       }
     }
+    
+  }
+  
+  ######################################################################
+  # Called whenever a file is opened in a tab.
+  proc handle_on_open {file_index} {
+    
+    handle_event "on_open" $file_index
+    
+  }
+  
+  ######################################################################
+  # Called whenever a tab receives focus.
+  proc handle_on_focusin {tab} {
+    
+    handle_event "on_focusin" $tab
+    
+  }
+  
+  ######################################################################
+  # Called whenever a tab is closed.
+  proc handle_on_close {file_index} {
+    
+    handle_event "on_close" $file_index
+    
+  }
+  
+  ######################################################################
+  # Called when the application is exiting.
+  proc handle_on_quit {} {
+    
+    # Handle the on_quit event
+    handle_event "on_quit"
     
     # Finally, write the plugin information file
     write_config

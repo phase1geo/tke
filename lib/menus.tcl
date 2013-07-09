@@ -326,6 +326,9 @@ namespace eval menus {
     $mb add command -label "Uninstall..." -underline 0 -command "plugins::uninstall"
     $mb add command -label "Reload"       -underline 0 -command "plugins::reload"
     
+    # Allow the plugin architecture to add menu items
+    plugins::handle_menu_add $mb
+    
   }
   
 }

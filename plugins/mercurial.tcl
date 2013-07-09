@@ -33,7 +33,14 @@ namespace eval plugins::mercurial {
   # Performs an 'hg commit' command and displays it to a scratch file.
   proc commit_do {} {
     
-    if {[catch "exec hg commit" rc]} {
+    set msg ""
+    
+    # Get the commit message from the user
+    if {[api::get_user_input "Commit message" msg]} {
+    
+      if {[catch "exec hg commit -m {$msg}" rc]} {
+      }
+      
     }
     
   }
@@ -96,9 +103,9 @@ namespace eval plugins::mercurial {
 }
 
 plugins::register mercurial {
-  menu "Mercurial.hg status" "Display hg status output" plugins::mercurial::status_do plugins::mercurial::status_state
-  menu "Mercurial.hg commit" "Commit current files"     plugins::mercurial::commit_do plugins::mercurial::commit_state
-  menu "Mercurial.hg push"   "Push changelists"         plugins::mercurial::push_do   plugins::mercurial::push_state
-  menu "Mercurial.hg pull"   "Pull changelists"         plugins::mercurial::pull_do   plugins::mercurial::pull_state
+  menu "Mercurial.hg_status" "Display hg status output" plugins::mercurial::status_do plugins::mercurial::status_state
+  menu "Mercurial.hg_commit" "Commit current files"     plugins::mercurial::commit_do plugins::mercurial::commit_state
+  menu "Mercurial.hg_push"   "Push changelists"         plugins::mercurial::push_do   plugins::mercurial::push_state
+  menu "Mercurial.hg_pull"   "Pull changelists"         plugins::mercurial::pull_do   plugins::mercurial::pull_state
 }
 
