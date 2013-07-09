@@ -61,7 +61,7 @@ namespace eval launcher {
   
   ######################################################################
   # Launches the command launcher.
-  proc launch {} {
+  proc launch {{mode ""}} {
   
     variable widgets
     variable closed
@@ -74,7 +74,7 @@ namespace eval launcher {
       wm overrideredirect $widgets(win) 1
       wm transient        $widgets(win) .
 
-      set widgets(entry) [ttk::entry $widgets(win).entry -width 50 -validate key -validatecommand "launcher::lookup %P" -invalidcommand {bell}]
+      set widgets(entry) [ttk::entry $widgets(win).entry -width 50 -validate key -validatecommand "launcher::lookup %P $mode" -invalidcommand {bell}]
       set widgets(lb)    [listbox    $widgets(win).lb    -exportselection 0 -bg white -height 0 -listvariable launcher::match_commands]
 
       pack $widgets(entry) -fill x
@@ -208,7 +208,7 @@ namespace eval launcher {
   ############################################################################
   # Adds a new command that is registered for use by the widget but will not
   # be saved.
-  proc register_temp {name command {validate_cmd "launcher::okay"}} {
+  proc register_temp {name command description {validate_cmd "launcher::okay"}} {
 
     variable commands
     variable command_names
@@ -219,7 +219,7 @@ namespace eval launcher {
 
     # Create the command value list
     set command_value [lrepeat [array size command_values] ""]
-    lset command_value $command_values(description)   $name
+    lset command_value $command_values(description)   $description
     lset command_value $command_values(command)       $command
     lset command_value $command_values(auto_register) 0
     lset command_value $command_values(temporary)     1
@@ -284,7 +284,7 @@ namespace eval launcher {
   
   ######################################################################
   # Called whenever the user enters a value
-  proc lookup {value} {
+  proc lookup {value {mode ""}} {
 
     variable widgets
     variable commands
@@ -297,7 +297,7 @@ namespace eval launcher {
     if {$value ne ""} {
 
       # Find all of the matches
-      find_matches $value
+      find_matches $value $mode
 
       # Get the number of matches
       set match_num [llength $matches]
@@ -361,7 +361,7 @@ namespace eval launcher {
   ############################################################################
   # Updates the contents of the matches array which contains all of the entries
   # that match the given user input.
-  proc find_matches {str} {
+  proc find_matches {str mode} {
 
     variable commands
     variable command_names
@@ -373,6 +373,11 @@ namespace eval launcher {
 
     set matches     [list]
     set match_types [list]
+    
+    # If the current mode is not the empty string, only display match results for the current mode
+    if {$mode ne ""} {
+      set str "${mode}${str}"
+    }
 
     # Check to see if this is a calculation
     if {[regexp {[]0-9a-zA-Z',{}_ ()*/%&|^~:+<>-]+} $str]} {
@@ -383,7 +388,7 @@ namespace eval launcher {
     if {$str eq "@"} {
       array unset command [get_command_name * launcher::symbol_okay]
       foreach {procedure pos} [gui::get_symbol_list] {
-        lappend matches [register_temp "@$procedure" "gui::jump_to $pos" launcher::symbol_okay]
+        lappend matches [register_temp "@$procedure" "gui::jump_to $pos" $procedure launcher::symbol_okay]
         lappend match_types 2
       }
     }
@@ -397,7 +402,7 @@ namespace eval launcher {
 #      # Change the command to the updated command
 #      set value $commands($last_command_name)
 #      array unset commands $last_command_name
-#     set commands($curr_command_name) $value
+#      set commands($curr_command_name) $value
 #      set last_url $url
 #
 #      # Add this to the list of matches
@@ -574,6 +579,6 @@ namespace eval launcher {
   }
   
   # Register the calculator
-  register_temp "" launcher::copy_calculation launcher::calc_okay
+  register_temp "" launcher::copy_calculation "" launcher::calc_okay
   
 }

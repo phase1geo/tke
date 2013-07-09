@@ -317,10 +317,51 @@ namespace eval plugins {
     variable registry
     variable registry_size
     
+    set plugins [list]
+    
+    # Add registries to launcher
     for {set i 0} {$i < $registry_size} {incr i} {
       if {!$registry($i,selected)} {
-        puts "Adding $registry($i,name) to list"
+        set name $registry($i,name)
+        lappend plugins $name
+        launcher::register_temp $"PLUGIN:$name" "plugins::install_item $i" $name
       }
+    }
+    
+    # Display the launcher in PLUGIN: mode
+    launcher::launch "PLUGIN:"
+    
+    # Unregister the plugins
+    foreach name $plugins {
+      launcher::unregister "PLUGIN:$name"
+    }
+  
+  }
+  
+  ######################################################################
+  # Installs the plugin in the registry specified by name.
+  proc install_item {index} {
+  
+    variable registry
+    
+    # Source the file if it hasn't been previously sourced
+    if {$registry($index,sourced) == 0} {
+      handle_resourcing $index
+      if {[catch "source $registry($index,file)" status]} {
+        puts "status: $status"
+        set registry($index,status)   $status
+        set registry($index,selected) 0
+        # FIXME - Let the user know about the plugin error
+      } else {
+        puts "Selected!"
+        set registry($index,sourced)  1
+        set registry($index,selected) 1
+        handle_reloading $index
+      }
+      
+    # Otherwise, just mark the plugin as being selected
+    } else {
+      set registry($index,selected) 1
     }
   
   }
@@ -332,12 +373,34 @@ namespace eval plugins {
     variable registry
     variable registry_size
     
+    set plugins [list]
+    
     for {set i 0} {$i < $registry_size} {incr i} {
       if {$registry($i,selected)} {
-        puts "Adding $registry($i,name) to list"
+        set name $registry($i,selected)
+        lappend plugins $name
+        launcher::register_temp "PLUGIN:$name" "plugins::uninstall_item $i" $name
       }
     }
+    
+    # Display the launcher in PLUGIN: mode
+    launcher::launch "PLUGIN:"
+    
+    # Unregister the plugins
+    foreach name $plugins {
+      launcher::unregister "PLUGIN:$name"
+    }
   
+  }
+  
+  ######################################################################
+  # Uninstalls the specified plugin.
+  proc uninstall_item {index} {
+  
+    variable registry
+    
+    set registry($index,selected) 0
+    
   }
   
   ######################################################################

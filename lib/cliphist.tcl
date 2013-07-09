@@ -36,8 +36,8 @@ namespace eval cliphist {
           set clipping   [string range $clipping 0 end-1]
           set in_history 0
           lappend history $clipping
-          launcher::register_temp "![string range [lindex [split $clipping \n] 0] 0 30]" \
-            [list cliphist::add_to_clipboard $clipping]
+          set name [string range [lindex [split $clipping \n] 0] 0 30]
+          launcher::register_temp "!$name" [list cliphist::add_to_clipboard $clipping] $name
         }
       }
       
@@ -84,7 +84,7 @@ namespace eval cliphist {
 
       # Register the clipping to the launcher
       set name [string range [lindex [split $str \n] 0] 0 30]
-      launcher::register_temp "!$name" [list cliphist::add_to_clipboard $str]
+      launcher::register_temp "!$name" [list cliphist::add_to_clipboard $str] $name
 
       # Trim the history to meet the maxsize requirement, if necessary
       if {[llength $history] > $history_maxsize} {
