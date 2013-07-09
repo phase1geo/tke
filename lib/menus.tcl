@@ -79,8 +79,8 @@ namespace eval menus {
 
     $mb add separator
 
-    $mb add command -label "Quit tke"   -underline 0 -command "menus::exit_command"
-    launcher::register "Menu: Quit tke" menus::exit_command
+    $mb add command -label "Quit"   -underline 0 -command "menus::exit_command"
+    launcher::register "Menu: Quit application" menus::exit_command
 
     # Apply the menu settings for the current menu
     bindings::apply $mb
@@ -168,6 +168,9 @@ namespace eval menus {
     
     # Save the clipboard history
     cliphist::save
+    
+    # Handle on_quit plugins
+    plugins::handle_on_quit
     
     # Destroy the interface
     destroy .
@@ -317,6 +320,11 @@ namespace eval menus {
   ######################################################################
   # Add the plugins menu commands.
   proc add_plugins {mb} {
+  
+    # Add plugins menu commands
+    $mb add command -label "Install..."   -underline 0 -command "plugins::install"
+    $mb add command -label "Uninstall..." -underline 0 -command "plugins::uninstall"
+    $mb add command -label "Reload"       -underline 0 -command "plugins::reload"
     
   }
   

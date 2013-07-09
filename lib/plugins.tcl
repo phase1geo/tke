@@ -2,6 +2,18 @@
 # Author:  Trevor Williams  (phase1geo@gmail.com)
 # Date:    5/11/2013
 # Brief:   Namespace to support the plugin framework.
+#
+# List of available plugin actions:
+#  menu        - Adds a menu to the main menubar
+#  sb_popup    - Adds items to the file sidebar popup menu
+#  writeplugin - Writes local plugin information to a save file (saves data between sessions)
+#  readplugin  - Reads local plugin information from a save file
+#  on_open     - Runs when a tab is opened
+#  on_focusin  - Runs when a tab receives focus
+#  on_focusout - Runs when a tab loses focus
+#  on_close    - Runs when a tab is closed
+#  on_quit     - Runs when the editor is exited
+#  on_reload   - Takes action when the plugin is reloaded
 
 namespace eval plugins {
 
@@ -24,14 +36,28 @@ namespace eval plugins {
     }
     
     if {$i < $registry_size} {
-      set registry($i,cmdlist) $cmdlist
+      set registry($i,cmdlist,[lindex $cmdlist 0]) [lrange $cmdlist 1 end]
     }
     
   }
   
   ######################################################################
+  # Loads the plugin directory files and initializes the namespace.
+  proc load {} {
+  
+    # Add launcher registrations
+    launcher::register "Plugins: Install"   plugins::install
+    launcher::register "Plugins: Uninstall" plugins::uninstall
+    launcher::register "Plugins: Reload"    plugins::reload
+    
+    # Load the plugin directory contents
+    load_directory
+    
+  }
+  
+  ######################################################################
   # Loads the header information from all available plugins.
-  proc load {{read_config_file 1}} {
+  proc load_directory {{read_config_file 1}} {
   
     variable registry
     variable registry_size
@@ -40,8 +66,6 @@ namespace eval plugins {
     
     foreach plugin [glob -nocomplain -directory [file join [file dirname $::tke_dir] plugins] *.tcl] {
     
-      puts "Loading plugin $plugin"
-     
       if {![catch "open $plugin r" rc]} {
         
         # Read in the contents of the file and close it
@@ -49,18 +73,18 @@ namespace eval plugins {
         close $rc
         
         # Initialize a new array storing the contents
-        array set info {
-          $registry_size,selected    0
-          $registry_size,sourced     0
-          $registry_size,status      ""
-          $registry_size,file        $plugin
-          $registry_size,name        ""
-          $registry_size,category    ""
-          $registry_size,author      ""
-          $registry_size,date        ""
-          $registry_size,version     ""
-          $registry_size,description ""
-        }
+        array set info [list \
+          $registry_size,selected    0 \
+          $registry_size,sourced     0 \
+          $registry_size,status      "" \
+          $registry_size,file        $plugin \
+          $registry_size,name        "" \
+          $registry_size,category    "" \
+          $registry_size,author      "" \
+          $registry_size,date        "" \
+          $registry_size,version     "" \
+          $registry_size,description "" \
+        ]
         
         # Initialize a few parsing variables
         set parse          0
@@ -124,10 +148,8 @@ namespace eval plugins {
     catch { array unset prev_sourced }
     for {set i 0} {$i < $registry_size} {incr i} {
       if {$registry($i,selected) && $registry($i,sourced)} {
-        foreach cmd $registry($i,cmdlist) {
-          if {[lindex $cmd 0] eq "on_reload"} {
-            set prev_sourced($registry($i,name)) [lrange $cmd 1 end]
-          }
+        foreach cmd $registry($i,cmdlist,on_reload) {
+          set prev_sourced($registry($i,name)) $cmd
         }
       }  
     }
@@ -137,7 +159,7 @@ namespace eval plugins {
     set registry_size 0
     
     # Load plugin header information
-    load
+    load_directory
     
   }
   
@@ -158,17 +180,14 @@ namespace eval plugins {
       }
       
       # Allow any plugins that need to write configuration information now
-      for {set i 0} {$i < $registry_size} {incr i} {
+      foreach cmd [array names registry *,cmdlist,writeplugin] {
+        lassign [split $cmd ,] i
         if {$registry($i,selected)} {
-          foreach cmd $registry($i,cmdlist) {
-            if {[lindex $cmd 0] eq "writeplugin"} {
-              if {[catch "[lindex $cmd 1]" status]} {
-                handle_status_error $i $status
-              } else {
-                foreach pair $status {
-                  puts $rc "$registry($i,name).[lindex $pair 0] = [lindex $pair 1]"
-                }
-              }
+          if {[catch "[lindex $registry($cmd) 0]" status]} {
+            handle_status_error $i $status
+          } else {
+            foreach pair $status {
+              puts $rc "$registry($i,name).[lindex $pair 0] = [lindex $pair 1]"
             }
           }
         }
@@ -217,12 +236,10 @@ namespace eval plugins {
               incr i
             }
             if {$i < $registry_size) && ($registry($i,selected) && [lsearch $bad_sources $i] == -1} {
-              foreach cmd $registry($i,cmdlist) {
-                if {[lindex $cmd 0] eq "readplugin"} {
-                  if {[catch "[lindex $cmd 1] $suboption {$value}" status]} {
-                    handle_status_error $i $status
-                    lappend bad_sources $i
-                  }
+              foreach cmd $registry($i,cmdlist,readplugin) {
+                if {[catch "[lindex $registry(cmd) 0] $suboption {$value}" status]} {
+                  handle_status_error $i $status
+                  lappend bad_sources $i
                 }
               }
             }
@@ -239,14 +256,10 @@ namespace eval plugins {
       
     # If there was an error in sourcing any of the selected plugins, report the error to the user
     if {[llength $bad_sources] > 0} {
-      set response [tk_messageBox -default ok -type okcancel -icon warning -parent . -title "Plugin Errors" \
-        -message "Syntax errors found in selected plugins" -detail "Click OK to view plugin manager or Cancel to disable these plugins"
-      if {$response eq "ok"} {
-        start_manager
-      } else {
-        foreach bad_source $bad_sources {
-          set registry($bad_source,selected) 0
-        }
+      tk_messageBox -default ok -type ok -icon warning -parent . -title "Plugin Errors" \
+        -message "Syntax errors found in selected plugins" -detail [join $bad_sources \n]
+      foreach bad_source $bad_sources {
+        set registry($bad_source,selected) 0
       }
     }
     
@@ -271,7 +284,7 @@ namespace eval plugins {
     variable registry
     variable prev_sourced
     
-    if {$registry($index,selecte) && [info exists prev_sourced($registry($index,name))]} {
+    if {$registry($index,selected) && [info exists prev_sourced($registry($index,name))]} {
       if {[catch "[lindex $prev_sourced($registry($index,name)) 0] $index" status]} {
         handle_status_error $index $status
       }
@@ -290,11 +303,72 @@ namespace eval plugins {
     set name $registry($index,name)
     
     if {$registry($index,selected) && [info exists prev_sourced($name)]} {
-      if {[catch "[lindex $prev_sourced($name) 1] $index" status]} {
+      if {[catch "[lindex $prev_sourced($name) 0pre] $index" status]} {
         handle_status_error $index $status
       }
     }
     
+  }
+  
+  ######################################################################
+  # Installs available plugins.
+  proc install {} {
+  
+    variable registry
+    variable registry_size
+    
+    for {set i 0} {$i < $registry_size} {incr i} {
+      if {!$registry($i,selected)} {
+        puts "Adding $registry($i,name) to list"
+      }
+    }
+  
+  }
+  
+  ######################################################################
+  # Uninstalls previously installed plugins.
+  proc uninstall {} {
+  
+    variable registry
+    variable registry_size
+    
+    for {set i 0} {$i < $registry_size} {incr i} {
+      if {$registry($i,selected)} {
+        puts "Adding $registry($i,name) to list"
+      }
+    }
+  
+  }
+  
+  ######################################################################
+  # Finds all of the registry entries that match the given type.
+  proc find_registry_entries {type} {
+  
+    variable registry
+    
+    set plugin_list [list]
+    foreach cmd [array names registry *,cmdlist,$type] {
+      lassign [split $cmd ,] index
+      lappend plugin_list [concat $index $registry($cmd)]
+    }
+    
+    return $plugin_list
+  
+  }
+  
+  ######################################################################
+  # Called when the application is exiting.
+  proc handle_on_quit {} {
+    
+    foreach entry [find_registry_entries "on_quit"] {
+      if {[catch "[lindex $entry 1]" status]} {
+        handle_status_error [lindex $entry 0] $status
+      }
+    }
+    
+    # Finally, write the plugin information file
+    write_config
+  
   }
   
 }

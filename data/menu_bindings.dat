@@ -5,7 +5,7 @@
 {.menubar.file/Save}                       Ctrl-S
 {.menubar.file/Save As...}                 Ctrl-Shift-S
 {.menubar.file/Close}                      Ctrl-W
-{.menubar.file/Quit tke}                   Ctrl-Q
+{.menubar.file/Quit}                       Ctrl-Q
 
 # Edit menu bindings
 {.menubar.edit/Undo}                       Ctrl-Z
