@@ -1292,6 +1292,13 @@ namespace eval gui {
     $nb forget $nb_index
     # destroy $tab_frame
     
+    # Renumber any tabs after this tab
+    foreach tab_index [lsearch -all -index $files_index(pane) $files $pw_index] {
+      if {[set tab [lindex $files $tab_index $files_index(tab)]] > $nb_index} {
+        lset files $tab_index $files_index(tab) [expr $tab - 1]
+      }
+    }
+        
     # If we have no more tabs and there is another pane, remove this pane
     if {([llength [$nb tabs]] == 0) && ([llength [$widgets(nb_pw) panes]] > 1)} {
       $widgets(nb_pw) forget $pw_index
