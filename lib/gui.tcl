@@ -128,32 +128,24 @@ namespace eval gui {
 
     # Create the information bar
     set widgets(info)        [ttk::frame .if]
-    ttk::label .if.ll1 -text "Line:"
-    set widgets(info_row)    [ttk::label .if.ll2 -text 1]
-    ttk::label .if.cl1 -text "Column:"
-    set widgets(info_col)    [ttk::label .if.cl2 -text 0]
+    set widgets(info_label)  [ttk::label .if.l]
     set widgets(info_syntax) [syntax::create_menubutton .if.syn]
    
-    pack .if.ll1 -side left  -padx 2 -pady 2
-    pack .if.ll2 -side left  -padx 2 -pady 2
-    pack .if.cl1 -side left  -padx 2 -pady 2
-    pack .if.cl2 -side left  -padx 2 -pady 2
+    pack .if.l   -side left  -padx 2 -pady 2
     pack .if.syn -side right -padx 2 -pady 2
      
     # Create the configurable response widget
-    set widgets(ursp)        [ttk::frame  .rf]
-    set widgets(ursp_label)  [ttk::label  .rf.l]
-    set widgets(ursp_entry)  [ttk::entry  .rf.e]
-    set widgets(ursp_cancel) [ttk::button .rf.cancel -text "Cancel" -command "set gui::user_exit_status 0"]
+    set widgets(ursp)       [ttk::frame  .rf]
+    set widgets(ursp_label) [ttk::label  .rf.l]
+    set widgets(ursp_entry) [ttk::entry  .rf.e]
     
     bind $widgets(ursp_entry) <Return> "set gui::user_exit_status 1"
     bind $widgets(ursp_entry) <Escape> "set gui::user_exit_status 0"
       
     grid rowconfigure    .rf 0 -weight 1
     grid columnconfigure .rf 1 -weight 1
-    grid $widgets(ursp_label)  -row 0 -column 0 -sticky news
-    grid $widgets(ursp_entry)  -row 0 -column 1 -sticky news
-    grid $widgets(ursp_cancel) -row 0 -column 2 -sticky news
+    grid $widgets(ursp_label) -row 0 -column 0 -sticky news -padx 2 -pady 2
+    grid $widgets(ursp_entry) -row 0 -column 1 -sticky news -padx 2 -pady 2
      
     # Pack the notebook
     grid rowconfigure    . 0 -weight 1
@@ -1793,8 +1785,18 @@ namespace eval gui {
   }
   
   ######################################################################
+  # Sets the current information message to the given string.
+  proc set_info_message {msg} {
+  
+    variable widgets
+    
+    $widgets(info_label) configure -text $msg
+    
+  }
+  
+  ######################################################################
   # Gets user input from the interface in a generic way.
-  proc user_response_get {msg pvar cancelable} {
+  proc user_response_get {msg pvar} {
     
     variable widgets
     
@@ -1804,23 +1806,35 @@ namespace eval gui {
     # Initialize the widget
     $widgets(ursp_label) configure -text $msg
     $widgets(ursp_entry) configure -text ""
-    if {$cancelable} {
-      grid $widgets(ursp_cancel)
-    } else {
-      grid remove $widgets(ursp_cancel)
-    }
     
     # Display the user input widget
     grid $widgets(ursp)
     
-    # Grab the focus on the entry widget
-    ::tk::SetFocusGrab $widgets(ursp) $widgets(ursp_entry)
+    # Get current focus and grab
+    set old_focus [focus]
+    set old_grab  [grab current $widgets(ursp)]
+    if {$old_grab ne ""} {
+      set grab_status [grab status $old_grab]
+    }
+    
+    # Set focus to the ursp_entry widget
+    focus $widgets(ursp_entry)
     
     # Wait for the widget to be closed
     vwait gui::user_exit_status
     
-    # Restore the focus and grab
-    ::tk::RestoreFocusGrab $widgets(ursp) $widgets(ursp_entry)
+    # Reset the original focus and grab
+    catch { focus $old_focus }
+    if {$old_grab ne ""} {
+      if {$grab_status ne "global"} {
+        grab $old_grab
+      } else {
+        grab -global $old_grab
+      }
+    }
+    
+    # Hide the user input widget
+    grid remove $widgets(ursp)
     
     # Get the user response value
     set var [$widgets(ursp_entry) get]
@@ -2073,11 +2087,7 @@ namespace eval gui {
     
     # Set the line and row information
     lassign [split [[current_txt] index insert] .] row col
-    $widgets(info_row) configure -text $row
-    $widgets(info_col) configure -text $col
-    
-    # Set the language
-    # syntax::set_current_language
+    $widgets(info_label) configure -text "Line: $row, Column: $col"
 
     # Finally, set the focus to the text widget
     focus [current_txt].t       
@@ -2196,8 +2206,7 @@ namespace eval gui {
     lassign [split [$w.tf.txt index insert] .] line column
     
     # Update the information widgets
-    $widgets(info_row) configure -text $line
-    $widgets(info_col) configure -text [expr $column + 1]
+    $widgets(info_label) configure -text "Line: $line, Column: [expr $column + 1]"
   
   }
   

@@ -6,6 +6,20 @@
 ###################################################################### 
 
 namespace eval api {
+
+  ######################################################################
+  # Displays the given message string in the information bar.  The
+  # message must not contain any newline characters.
+  #
+  # Parameters:
+  #   msg   - Message to display in the information bar
+  #   delay - Specifies the amount of time to wait before displaying the message
+  proc show_info {msg {delay 100}} {
+  
+    # Displays the given message
+    after $delay [list gui::set_info_message $msg]
+  
+  }
   
   ######################################################################
   # Displays a widget that allows the user to provide input.  This
@@ -21,7 +35,9 @@ namespace eval api {
   #   indicate that the user cancelled the input operation.
   proc get_user_input {msg pvar} {
     
-    return [gui::user_response_get]
+    upvar $pvar var
+    
+    return [gui::user_response_get $msg var]
     
   }
   

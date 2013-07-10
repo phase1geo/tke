@@ -323,8 +323,18 @@ namespace eval menus {
   
     # Add plugins menu commands
     $mb add command -label "Install..."   -underline 0 -command "plugins::install"
+    launcher::register "Menu: Install plugin" "plugins::install"
+    
     $mb add command -label "Uninstall..." -underline 0 -command "plugins::uninstall"
+    launcher::register "Menu: Uninstall plugin" "plugins::uninstall"
+    
     $mb add command -label "Reload"       -underline 0 -command "plugins::reload"
+    launcher::register "Menu: Reload all plugins" "plugins::reload"
+    
+    $mb add separator
+    
+    $mb add command -label "Create..." -underline 0 -command "plugins::create_new_plugin"
+    launcher::register "Menu: Create new plugin" "plugins::create_new_plugin"
     
     # Allow the plugin architecture to add menu items
     plugins::handle_menu_add $mb

@@ -15,6 +15,7 @@ namespace eval plugins::mercurial {
   proc status_do {} {
     
     if {[catch "exec hg status" rc]} {
+      api::show_info "Mercurial status failed: [lindex [split $rc \n] 0]"
     }
     
   }
@@ -39,6 +40,7 @@ namespace eval plugins::mercurial {
     if {[api::get_user_input "Commit message" msg]} {
     
       if {[catch "exec hg commit -m {$msg}" rc]} {
+        api::show_info "Mercurial commit failed: [lindex [split $rc \n] 0]"
       }
       
     }
@@ -60,6 +62,7 @@ namespace eval plugins::mercurial {
   proc push_do {} {
     
     if {[catch "exec hg push" rc]} {
+      api::show_info "Mercurial push failed: [lindex [split $rc \n] 0]"
     }
     
   }
@@ -78,7 +81,8 @@ namespace eval plugins::mercurial {
   # Performs an 'hg pull' command and displays it to a scratch file.
   proc pull_do {} {
     
-    if {[catch "exec hg pull" rc]} {
+    if {[catch "exec hg pull -u" rc]} {
+      api::show_info "Mercurial pull failed: [lindex [split $rc \n] 0]"
     }
     
   }
@@ -103,9 +107,9 @@ namespace eval plugins::mercurial {
 }
 
 plugins::register mercurial {
-  menu "Mercurial.hg_status" "Display hg status output" plugins::mercurial::status_do plugins::mercurial::status_state
-  menu "Mercurial.hg_commit" "Commit current files"     plugins::mercurial::commit_do plugins::mercurial::commit_state
-  menu "Mercurial.hg_push"   "Push changelists"         plugins::mercurial::push_do   plugins::mercurial::push_state
-  menu "Mercurial.hg_pull"   "Pull changelists"         plugins::mercurial::pull_do   plugins::mercurial::pull_state
+  {menu "Mercurial Commands.Display hg status output" plugins::mercurial::status_do plugins::mercurial::status_state}
+  {menu "Mercurial Commands.Commit current files"     plugins::mercurial::commit_do plugins::mercurial::commit_state}
+  {menu "Mercurial Commands.Push changelists"         plugins::mercurial::push_do   plugins::mercurial::push_state}
+  {menu "Mercurial Commands.Pull changelists"         plugins::mercurial::pull_do   plugins::mercurial::pull_state}
 }
 

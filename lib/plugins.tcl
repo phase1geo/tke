@@ -17,6 +17,7 @@
 namespace eval plugins {
 
   variable registry_size 0
+  variable plugin_mb     ""
   
   array set registry     {}
   array set prev_sourced {}
@@ -24,7 +25,7 @@ namespace eval plugins {
   ######################################################################
   # Procedure that is called be each plugin that registers all of the
   # actions that the plugin can perform.
-  proc register {name cmdlist} {
+  proc register {name actions} {
     
     variable registry
     variable registry_size
@@ -35,28 +36,18 @@ namespace eval plugins {
     }
     
     if {$i < $registry_size} {
-      set registry($i,cmdlist,[lindex $cmdlist 0]) [lrange $cmdlist 1 end]
+      set j 0
+      foreach action $actions {
+        set registry($i,action,[lindex $action 0],$j) [lrange $action 1 end]
+        incr j
+      }
     }
     
   }
   
   ######################################################################
-  # Loads the plugin directory files and initializes the namespace.
-  proc load {} {
-  
-    # Add launcher registrations
-    launcher::register "Plugins: Install"   plugins::install
-    launcher::register "Plugins: Uninstall" plugins::uninstall
-    launcher::register "Plugins: Reload"    plugins::reload
-    
-    # Load the plugin directory contents
-    load_directory
-    
-  }
-  
-  ######################################################################
   # Loads the header information from all available plugins.
-  proc load_directory {{read_config_file 1}} {
+  proc load {{read_config_file 1}} {
   
     variable registry
     variable registry_size
@@ -147,8 +138,8 @@ namespace eval plugins {
     catch { array unset prev_sourced }
     for {set i 0} {$i < $registry_size} {incr i} {
       if {$registry($i,selected) && $registry($i,sourced)} {
-        foreach cmd $registry($i,cmdlist,on_reload) {
-          set prev_sourced($registry($i,name)) $cmd
+        foreach action [array names registry $i,action,on_reload,*] {
+          set prev_sourced($registry($i,name)) $registry($action)
         }
       }  
     }
@@ -158,7 +149,7 @@ namespace eval plugins {
     set registry_size 0
     
     # Load plugin header information
-    load_directory
+    load
     
   }
   
@@ -179,10 +170,10 @@ namespace eval plugins {
       }
       
       # Allow any plugins that need to write configuration information now
-      foreach cmd [array names registry *,cmdlist,writeplugin] {
-        lassign [split $cmd ,] i
+      foreach action [array names registry *,action,writeplugin,*] {
+        lassign [split $action ,] i
         if {$registry($i,selected)} {
-          if {[catch "[lindex $registry($cmd) 0]" status]} {
+          if {[catch "[lindex $registry($action) 0]" status]} {
             handle_status_error $i $status
           } else {
             foreach pair $status {
@@ -235,8 +226,8 @@ namespace eval plugins {
               incr i
             }
             if {$i < $registry_size) && ($registry($i,selected) && [lsearch $bad_sources $i] == -1} {
-              foreach cmd $registry($i,cmdlist,readplugin) {
-                if {[catch "[lindex $registry(cmd) 0] $suboption {$value}" status]} {
+              foreach action [array names registry $i,action,readplugin,*] {
+                if {[catch "[lindex $registry($action) 0] $suboption {$value}" status]} {
                   handle_status_error $i $status
                   lappend bad_sources $i
                 }
@@ -270,7 +261,11 @@ namespace eval plugins {
     
     variable registry
     
+    # Save the status
     set registry($index,status) $status
+    
+    # Set the current information message
+    after 100 [list gui::set_info_message "ERROR: [lindex [split $status \n] 0]"]
     
   }
   
@@ -343,16 +338,17 @@ namespace eval plugins {
   
     variable registry
     
+    # Delete all plugin menu items
+    handle_menu_delete
+    
     # Source the file if it hasn't been previously sourced
     if {$registry($index,sourced) == 0} {
       handle_resourcing $index
       if {[catch "source $registry($index,file)" status]} {
-        puts "status: $status"
-        set registry($index,status)   $status
+        handle_status_error $index $status
         set registry($index,selected) 0
-        # FIXME - Let the user know about the plugin error
       } else {
-        puts "$registry($index,name) installed"
+        after 100 [list gui::set_info_message "Plugin $registry($index,name) installed"]
         set registry($index,sourced)  1
         set registry($index,selected) 1
         handle_reloading $index
@@ -360,9 +356,12 @@ namespace eval plugins {
       
     # Otherwise, just mark the plugin as being selected
     } else {
-      puts "$registry($index,name) installed"
+      after 100 [list gui::set_info_message "Plugin $registry($index,name) installed"]
       set registry($index,selected) 1
     }
+    
+    # Add all of the plugins
+    handle_menu_add
   
   }
   
@@ -399,8 +398,56 @@ namespace eval plugins {
   
     variable registry
     
-    puts "$registry($index,name) uninstalled"
+    # Delete all plugin menu items
+    handle_menu_delete
+    
+    # Unselect the plugin
     set registry($index,selected) 0
+    
+    # Add all of the plugins
+    handle_menu_add
+    
+    # Display the uninstall message
+    after 100 [list gui::set_info_message "Plugin $registry($index,name) uninstalled"]
+    
+  }
+  
+  ######################################################################
+  # Creates a new plugin
+  proc create_new_plugin {} {
+  
+    set name ""
+    
+    if {[api::get_user_input "Enter plugin name" name]} {
+    
+      if {[regexp {^[a-zA-Z0-9_]+$} $name]} {
+    
+        if {![catch "open [file join [file dirname $::tke_dir] plugins $name.tcl] w" rc]} {
+          puts $rc "# HEADER_BEGIN"
+          puts $rc "# NAME         $name"
+          puts $rc "# AUTHOR       "
+          puts $rc "# DATE         [clock format [clock seconds] -format {%D}]"
+          puts $rc "# INCLUDE      yes"
+          puts $rc "# DESCRIPTION  "
+          puts $rc "# HEADER_END"
+          puts $rc ""
+          puts $rc "namespace eval plugins::$name {"
+          puts $rc ""
+          puts $rc "}"
+          puts $rc ""
+          puts $rc "plugins::register $name {"
+          puts $rc ""
+          puts $rc "}"
+          close $rc
+        } else {
+          api::show_info "ERROR:  Unable to write plugin file"
+        }
+
+      } else {
+        api::show_info "ERROR:  Plugin name is not valid (only alphanumeric and underscores are allowed)"
+      }
+            
+    }
     
   }
   
@@ -411,9 +458,11 @@ namespace eval plugins {
     variable registry
     
     set plugin_list [list]
-    foreach cmd [array names registry *,cmdlist,$type] {
-      lassign [split $cmd ,] index
-      lappend plugin_list [concat $index $registry($cmd)]
+    foreach action [lsort -dictionary [array names registry *,action,$type,*]] {
+      lassign [split $action ,] index
+      if {$registry($index,selected)} {
+        lappend plugin_list [concat $index $registry($action)]
+      }
     }
     
     return $plugin_list
@@ -421,24 +470,109 @@ namespace eval plugins {
   }
   
   ######################################################################
-  # Adds the menus to the given plugin menu.
-  proc handle_menu_add {mb} {
+  # Adds the menus to the given plugin menu.  This is called after the
+  # plugin menu is initially created.
+  proc handle_menu_add {{mb ""}} {
+  
+    variable plugin_mb
     
-    foreach entry [find_registry_entries "menu"] {
-      
+    # Save the plugin menu
+    if {$mb ne ""} {
+      set plugin_mb $mb
+    }
+    
+    # Get the list of menu entries
+    if {[llength [set entries [find_registry_entries "menu"]]] > 0} {
+      $plugin_mb add separator
+    }
+    
+    # Add each of the entries
+    foreach entry $entries {
+      lassign $entry index hier do
+      handle_menu_add_item $plugin_mb [split $hier .] $do
     }
     
   }
   
   ######################################################################
-  # Updates the plugin menu state of the given menu.
-  proc handle_menu_state {mb} {
+  # Adds menu item, creating all needed cascading menus.
+  proc handle_menu_add_item {mnu hier do} {
     
-    # Remove prefix text from mb name
-    set mb [string range $mb [string length ".menubar.plugins."] end]
+    # Add cascading menus
+    while {[llength [set hier [lassign $hier level]]] > 0} {
+      set sub_mnu [string tolower [string map {{ } _} $level]]
+      if {![winfo exists $mnu.$sub_mnu]} {
+        set new_mnu [menu $mnu.$sub_mnu -tearoff 0 -postcommand "plugins::handle_menu_state $mnu.$sub_mnu"]
+        $mnu add cascade -label $level -menu $mnu.$sub_mnu
+      }
+      set mnu $mnu.$sub_mnu
+    }
     
-    foreach entry [find_registry_entries "menu"] {
+    # Add menu item
+    $mnu add command -label $level -command $do
+    
+  }
+  
+  ######################################################################
+  # Deletes all of the menus in the plugins menu.
+  proc handle_menu_delete {} {
+  
+    variable plugin_mb
+    
+    # Get the list of menu entries
+    if {[llength [set entries [find_registry_entries "menu"]]] > 0} {
       
+      # Delete all of the plugin items
+      foreach entry $entries {
+        lassign $entry index hier
+        if {[handle_menu_delete_item $plugin_mb [lrange [split [string tolower [string map {{ } _} $hier]] .] 0 end-1]]} {
+          $plugin_mb delete last
+        }
+      }
+      
+      # Delete the last separator
+      $plugin_mb delete last
+    
+    }
+  
+  }
+  
+  ######################################################################
+  # Deletes one upper level
+  proc handle_menu_delete_item {mnu hier} {
+  
+    while {[llength $hier] > 0} {
+      if {![winfo exists $mnu.[join $hier .]]} {
+        return 0
+      }
+      catch { destroy $mnu.[join $hier .] }
+      set hier [lrange $hier 0 end-1]
+    }
+    
+    return 1
+    
+  }
+  
+  ######################################################################
+  # Updates the plugin menu state of the given menu.
+  proc handle_menu_state {mnu} {
+  
+    variable plugin_mb
+  
+    set mnu_index 0
+    foreach entry [find_registry_entries "menu"] {
+      lassign $entry index hier do state
+      set entry_mnu "$plugin_mb.[string tolower [string map {{ } _} [join [lrange [split $hier .] 0 end-1] .]]]"
+      if {$mnu eq $entry_mnu} {
+        if {[catch "$state" status]} {
+          handle_status_error $index $status
+        } elseif {$status} {
+          $mnu entryconfigure $mnu_index -state normal
+        } else {
+          $mnu entryconfigure $mnu_index -state disabled
+        }
+      }
+      incr mnu_index
     }
     
   }
