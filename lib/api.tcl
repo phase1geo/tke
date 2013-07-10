@@ -58,4 +58,22 @@ namespace eval api {
     
   }
   
+  ######################################################################
+  # Adds a file to the browser.  If the file name is the empty string,
+  # a new untitled file tab will be created.
+  #
+  # Parameters:
+  #   fname        - Full, normalized filename to add (optional).
+  #   save_command - Command to execute when the file is saved (only
+  #                  valid when fname is not the empty string).
+  proc add_file {{fname ""} {save_command ""}} {
+  
+    if {$fname eq ""} {
+      gui::add_new_file end
+    } else {
+      gui::add_file end $fname $save_command
+    }
+    
+  }
+  
 }

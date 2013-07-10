@@ -83,7 +83,7 @@ proc handle_signal {} {
   # FIXME: Die gracefully
   
   # Kill the GUI
-  destroy .
+  catch { destroy . }
   
   # Exit the application
   exit

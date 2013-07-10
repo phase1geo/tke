@@ -1805,7 +1805,7 @@ namespace eval gui {
     
     # Initialize the widget
     $widgets(ursp_label) configure -text $msg
-    $widgets(ursp_entry) configure -text ""
+    $widgets(ursp_entry) delete 0 end
     
     # Display the user input widget
     grid $widgets(ursp)

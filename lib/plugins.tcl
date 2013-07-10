@@ -418,11 +418,15 @@ namespace eval plugins {
   
     set name ""
     
-    if {[api::get_user_input "Enter plugin name" name]} {
+    if {[gui::user_response_get "Enter plugin name" name]} {
     
       if {[regexp {^[a-zA-Z0-9_]+$} $name]} {
+      
+        set fname [file join [file dirname $::tke_dir] plugins $name.tcl]
     
-        if {![catch "open [file join [file dirname $::tke_dir] plugins $name.tcl] w" rc]} {
+        if {![catch "open $fname w" rc]} {
+        
+          # Create the file contents
           puts $rc "# HEADER_BEGIN"
           puts $rc "# NAME         $name"
           puts $rc "# AUTHOR       "
@@ -439,12 +443,16 @@ namespace eval plugins {
           puts $rc ""
           puts $rc "}"
           close $rc
+          
+          # Add the new file to the editor
+          gui::add_file end $fname plugins::reload 
+          
         } else {
-          api::show_info "ERROR:  Unable to write plugin file"
+          gui::set_info_message "ERROR:  Unable to write plugin file"
         }
 
       } else {
-        api::show_info "ERROR:  Plugin name is not valid (only alphanumeric and underscores are allowed)"
+        gui::set_info_message "ERROR:  Plugin name is not valid (only alphanumeric and underscores are allowed)"
       }
             
     }
