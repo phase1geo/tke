@@ -937,6 +937,21 @@ namespace eval gui {
   }
   
   ######################################################################
+  # Adjusts the tab indices when a new tab is inserted into a pane.
+  proc adjust_tabs_for_insert {index} {
+  
+    # Move the tabs in the current pane to make room
+    if {$index ne "end"} {
+      foreach file_index [lsearch -all -index $files_index(pane) $files $pw_current] {
+        if {[set tab [lindex $files $file_index $files_index(tab)]] >= $index} {
+          lset files $file_index $files_index(tab) [expr $tab + 1]
+        }
+      }
+    }
+    
+  }
+  
+  ######################################################################
   # Adds a new file to the editor pane.
   proc add_new_file {index} {
   
@@ -944,6 +959,9 @@ namespace eval gui {
     variable files
     variable files_index
     variable pw_current
+    
+    # Adjust the tab indices
+    adjust_tabs_for_insert $index
     
     # Get the current index
     set w [insert_tab $index "Untitled"]
@@ -987,6 +1005,9 @@ namespace eval gui {
       
     # Otherwise, load the file in a new tab
     } else {
+    
+      # Adjust tab indices
+      adjust_tabs_for_insert $index
   
       # Add the tab to the editor frame
       set w [insert_tab $index [file tail $fname]]
