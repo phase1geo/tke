@@ -20,7 +20,7 @@ namespace eval menus {
     . configure -menu $mb
   
     # Add the file menu
-    $mb add cascade -label "File" -menu [menu $mb.file -tearoff false] 
+    $mb add cascade -label "File" -menu [menu $mb.file -tearoff false -postcommand "menus::file_posting $mb.file"] 
     add_file $mb.file
     
     # Add the edit menu
@@ -34,6 +34,10 @@ namespace eval menus {
     # Add the text menu
     $mb add cascade -label "Text" -menu [menu $mb.text -tearoff false]
     add_text $mb.text
+    
+    # Add the view menu
+    $mb add cascade -label "View" -menu [menu $mb.view -tearoff false]
+    add_view $mb.view
       
     # Add the tools menu
     $mb add cascade -label "Tools" -menu [menu $mb.tools -tearoff false]
@@ -74,6 +78,12 @@ namespace eval menus {
     
     $mb add separator
     
+    $mb add command -label "Lock" -underline 0 -command "menus::lock_command $mb"
+    launcher::register "Menu: Lock file"   "menus::lock_command $mb"
+    launcher::register "Menu: Unlock file" "menus::unlock_command $mb"
+    
+    $mb add separator
+    
     $mb add command -label "Close"      -underline 0 -command "menus::close_command"
     launcher::register "Menu: Close current tab" menus::close_command
 
@@ -85,6 +95,22 @@ namespace eval menus {
     # Apply the menu settings for the current menu
     bindings::apply $mb
   
+  }
+  
+  ######################################################################
+  # Called prior to the file menu posting.
+  proc file_posting {mb} {
+  
+    # Get the current file lock status
+    set file_lock [gui::get_file_info [gui::current_file] lock]
+
+    # Configure the Lock/Unlock menu item    
+    if {$file_lock && ![catch "$mb index Lock" index]} {
+      $mb entryconfigure $index -label "Unlock" -command "menus::unlock_command $mb"
+    } elseif {!$file_lock && ![catch "$mb index Unlock" index]} {
+      $mb entryconfigure $index -label "Lock" -command "menus::lock_command $mb"
+    }
+      
   }
   
   ######################################################################
@@ -144,6 +170,34 @@ namespace eval menus {
   
     if {[set sfile [tk_getSaveFile -defaultextension .tcl -title "Save As" -parent . -initialdir $dirname]] ne ""} {
       gui::save_current $sfile
+    }
+  
+  }
+  
+  ######################################################################
+  # Locks the current file.
+  proc lock_command {mb} {
+  
+    # Lock the current file
+    if {[gui::set_current_file_lock 1]} {
+    
+      # Set the menu up to display the unlock file menu option
+      $mb entryconfigure "Lock" -label "Unlock" -command "menus::unlock_command $mb"
+      
+    }
+  
+  }
+  
+  ######################################################################
+  # Unlocks the current file.
+  proc unlock_command {mb} {
+  
+    # Unlock the current file
+    if {[gui::set_current_file_lock 0]} {
+    
+      # Set the menu up to display the lock file menu option
+      $mb entryconfigure "Unlock" -label "Lock" -command "menus::lock_command $mb"
+      
     }
   
   }
@@ -275,6 +329,21 @@ namespace eval menus {
     bindings::apply $mb
 
   }
+  
+  ######################################################################
+  # Adds the view menu commands.
+  proc add_view {mb} {
+  
+    $mb add checkbutton -label "View Sidebar" -underline 5 -variable preferences::prefs(View/ShowSidebar) -command "gui::change_sidebar_view"
+    launcher::register "Menu: Show sidebar" "set preferences::prefs(View/ShowSidebar) 1; gui::change_sidebar_view"
+    launcher::register "Menu: Hide sidebar" "set preferences::prefs(View/ShowSidebar) 0; gui::change_sidebar_view"
+    
+    # $mb add checkbutton -label "View Horizontal Panes" -underline 5 -onvalue "horizontal" -offvalue "vertical" \
+    #   -variable preferences::prefs(View/PaneOrientation) -command "gui::change_pane_orientation"
+    # launcher::register "Menu: Show horizontal panes" "set preferences::prefs(View/PaneOrientation) horizontal; gui::change_pane_orientation"
+    # launcher::register "Menu: Show vertical panes"   "set preferences::prefs(View/PaneOrientation) vertical;   gui::change_pane_orientation"
+  
+  }
 
   ######################################################################
   # Adds the tools menu commands.
@@ -282,12 +351,6 @@ namespace eval menus {
   
     # Add tools menu commands
     $mb add command -label "Launcher" -underline 0 -command "launcher::launch"
-    
-    $mb add separator
-    
-    $mb add checkbutton -label "View Sidebar" -underline 5 -variable preferences::prefs(Tools/ViewSidebar) -command "gui::change_sidebar_view"
-    launcher::register "Menu: Show Sidebar" "set preferences::prefs(Tools/ViewSidebar) 1; gui::change_sidebar_view"
-    launcher::register "Menu: Hide Sidebar" "set preferences::prefs(Tools/ViewSidebar) 0; gui::change_sidebar_view"
     
     $mb add separator
     

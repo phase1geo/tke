@@ -18,9 +18,11 @@ namespace eval gui {
   variable sar_global       1
   variable lengths          {}
   variable user_exit_status ""
+  variable file_locked      0
   
   array set widgets  {}
   array set language {}
+  array set images   {}
 
   array set files_index {
     fname    0
@@ -28,6 +30,7 @@ namespace eval gui {
     save_cmd 2
     pane     3
     tab      4
+    lock     5
   }
   
   #######################
@@ -77,6 +80,7 @@ namespace eval gui {
   proc create {} {
   
     variable widgets
+    variable images
     
     # Load the geometry information
     load_geometry
@@ -118,7 +122,7 @@ namespace eval gui {
     $widgets(pw) add [ttk::frame $widgets(pw).tf]
       
     # Create the notebook panedwindow
-    set widgets(nb_pw) [ttk::panedwindow $widgets(pw).tf.nbpw -orient horizontal]
+    set widgets(nb_pw) [ttk::panedwindow $widgets(pw).tf.nbpw -orient $preferences::prefs(View/PaneOrientation)]
       
     # Add notebook
     add_notebook
@@ -135,9 +139,9 @@ namespace eval gui {
     pack .if.syn -side right -padx 2 -pady 2
      
     # Create the configurable response widget
-    set widgets(ursp)       [ttk::frame  .rf]
-    set widgets(ursp_label) [ttk::label  .rf.l]
-    set widgets(ursp_entry) [ttk::entry  .rf.e]
+    set widgets(ursp)       [ttk::frame .rf]
+    set widgets(ursp_label) [ttk::label .rf.l]
+    set widgets(ursp_entry) [ttk::entry .rf.e]
     
     bind $widgets(ursp_entry) <Return> "set gui::user_exit_status 1"
     bind $widgets(ursp_entry) <Escape> "set gui::user_exit_status 0"
@@ -157,7 +161,7 @@ namespace eval gui {
     grid remove $widgets(ursp)
 
     # Create tab popup
-    set widgets(menu) [menu $widgets(nb_pw).popupMenu -tearoff 0]
+    set widgets(menu) [menu $widgets(nb_pw).popupMenu -tearoff 0 -postcommand gui::setup_tab_popup_menu]
     $widgets(menu) add command -label "Close Tab" -command {
       gui::close_current
     }
@@ -166,6 +170,10 @@ namespace eval gui {
     }
     $widgets(menu) add command -label "Close All Tabs" -command {
       gui::close_all
+    }
+    $widgets(menu) add separator
+    $widgets(menu) add checkbutton -label "Locked" -onvalue 1 -offvalue 0 -variable gui::file_locked -command {
+      gui::set_current_file_lock $gui::file_locked
     }
     $widgets(menu) add separator
     $widgets(menu) add command -label "Move to Other Pane" -command {
@@ -245,9 +253,28 @@ namespace eval gui {
     wm protocol . WM_DELETE_WINDOW {
       menus::exit_command
     }
+    
+    # Create images
+    set images(lock) [image create bitmap -file [file join $::tke_dir images lock.bmp] -maskfile [file join $::tke_dir images lock.bmp] -foreground grey10]
 
     # Start polling on the files
     poll
+  
+  }
+  
+  ######################################################################
+  # Sets up the tab popup menu.
+  proc setup_tab_popup_menu {} {
+  
+    variable files
+    variable files_index
+    variable file_locked
+    
+    # Get the current file index
+    set file_index [current_file]
+    
+    # Set the file_locked variable
+    set file_locked [lindex $files $file_index $files_index(lock)]
   
   }
   
@@ -257,12 +284,22 @@ namespace eval gui {
     
     variable widgets
     
-    if {$preferences::prefs(Tools/ViewSidebar)} {
+    if {$preferences::prefs(View/ShowSidebar)} {
       $widgets(pw) insert 0 $widgets(fview)
     } else {
       catch { $widgets(pw) forget $widgets(fview) }
     }
     
+  }
+  
+  ######################################################################
+  # Changes the pane orientation.
+  proc change_pane_orientation {} {
+  
+    variable widgets
+    
+    $widgets(nb_pw) configure -orient $preferences::prefs(View/PaneOrientation)
+  
   }
   
   ######################################################################
@@ -573,7 +610,7 @@ namespace eval gui {
   
   ######################################################################
   # Creates a duplicate of the currently selected file, adds it to the
-  # sidebard and allows the user to modify its name.
+  # sideband and allows the user to modify its name.
   proc duplicate_file {} {
     
     variable widgets
@@ -973,6 +1010,7 @@ namespace eval gui {
     lset file_info $files_index(save_cmd) ""
     lset file_info $files_index(pane)     $pw_current
     lset file_info $files_index(tab)      [[current_notebook] index $w]
+    lset file_info $files_index(lock)     0
  
     # Add the file information to the files list
     lappend files $file_info
@@ -1022,6 +1060,7 @@ namespace eval gui {
       lset file_info $files_index(save_cmd) $save_command
       lset file_info $files_index(pane)     $pw_current
       lset file_info $files_index(tab)      $nb_index
+      lset file_info $files_index(lock)     0
 
       if {![catch "open $fname r" rc]} {
     
@@ -1140,8 +1179,9 @@ namespace eval gui {
 
     # Get the current insertion index
     set insert_index [$txt index insert]
-
+    
     # Delete the text widget
+    $txt configure -state normal
     $txt delete 1.0 end
 
     if {![catch "open [lindex $file_info $files_index(fname)] r" rc]} {
@@ -1164,6 +1204,11 @@ namespace eval gui {
       # Make the insertion mark visible
       $txt see $insert_index
       
+    }
+    
+    # If we are locked, set our state back to disabled
+    if {[lindex $file_info $files_index(lock)]} {
+      $txt configure -state disabled
     }
 
   }
@@ -1811,6 +1856,39 @@ namespace eval gui {
     return $actual_filenames
     
   }
+
+  ######################################################################
+  # Sets the file lock to the specified value for the current file.
+  proc set_current_file_lock {lock} {
+  
+    variable files
+    variable files_index
+    variable images
+    
+    # Get the current file index
+    set file_index [current_file]
+    
+    # If we are unable to set the lock to the given value, return
+    # immediately
+    if {[lindex $files $file_index $files_index(lock)] == $lock} {
+      return 0
+    }
+    
+    # Set the current lock status
+    lset files $file_index $files_index(lock) $lock 
+    
+    # Change the state of the text widget to match the lock value
+    if {$lock} {
+      [current_notebook] tab current -compound left -image $images(lock)
+      [current_txt] configure -state disabled
+    } else {
+      [current_notebook] tab current -image ""
+      [current_txt] configure -state normal
+    }
+    
+    return 1
+  
+  }
   
   ######################################################################
   # Sets the current information message to the given string.
@@ -1890,7 +1968,7 @@ namespace eval gui {
     return [lindex $files $index $files_index($attr)]
     
   }
-
+  
   ########################
   #  PRIVATE PROCEDURES  #
   ########################
@@ -1917,9 +1995,9 @@ namespace eval gui {
           $gui::widgets(menu) entryconfigure 1 -state disabled
         }
         if {([llength [%W tabs]] > 1) || ([llength [$gui::widgets(nb_pw) panes]] > 1)} {
-          $gui::widgets(menu) entryconfigure 4 -state normal
+          $gui::widgets(menu) entryconfigure 6 -state normal
         } else {
-          $gui::widgets(menu) entryconfigure 4 -state disabled
+          $gui::widgets(menu) entryconfigure 6 -state disabled
         }
         tk_popup $gui::widgets(menu) %X %Y
       }
@@ -2194,7 +2272,7 @@ namespace eval gui {
 
     variable files
     variable files_index
-
+    
     # Look for the file index
     set index 0
     foreach file_info $files {

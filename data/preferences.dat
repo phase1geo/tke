@@ -1,4 +1,5 @@
-{Appearance/Theme}  {default}
-{Tools/VimMode}     {0}
-{Tools/ViewSidebar} {1}
-{NFSMounts}         {}
+{Appearance/Theme}     {default}
+{View/ShowSidebar}     {1}
+{View/PaneOrientation} {horizontal}
+{Tools/VimMode}        {0}
+{NFSMounts}            {}

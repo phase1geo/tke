@@ -52,6 +52,7 @@ namespace eval api {
   #                  mtime - Last mofication timestamp (in seconds)
   #                  pane  - Specifies which pane the file tab exists within
   #                  tab   - Specifies the index of the tab in its pane
+  #                  lock  - Specifies the current lock status of the file
   proc get_file_info {file_index attr} {
     
     return [gui::get_file_info $file_index $attr]
