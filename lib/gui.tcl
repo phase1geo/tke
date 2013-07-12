@@ -266,6 +266,7 @@ namespace eval gui {
   # Sets up the tab popup menu.
   proc setup_tab_popup_menu {} {
   
+    variable widgets
     variable files
     variable files_index
     variable file_locked
@@ -275,6 +276,21 @@ namespace eval gui {
     
     # Set the file_locked variable
     set file_locked [lindex $files $file_index $files_index(lock)]
+    
+    # Get the current notebook
+    set nb [current_notebook]
+    
+    # Set the state of the menu items
+    if {[llength [$nb tabs]] > 1} {
+      $widgets(menu) entryconfigure "Close Other*" -state normal
+    } else {
+      $widgets(menu) entryconfigure "Close Other*" -state disabled
+    }
+    if {([llength [$nb tabs]] > 1) || ([llength [$widgets(nb_pw) panes]] > 1)} {
+      $widgets(menu) entryconfigure "Move*" -state normal
+    } else {
+      $widgets(menu) entryconfigure "Move*" -state disabled
+    }
   
   }
   
@@ -741,8 +757,19 @@ namespace eval gui {
   proc tab_move_end {W x y} {
  
     variable nb_move
+    variable pw_current
+    variable widgets
 
+    # Clear the move operation
     set nb_move ""
+    
+    # Set the current pane
+    set pw_current [lsearch [$widgets(nb_pw) panes] $W]
+    
+    puts "In tab_move_end, pw_current: $pw_current, W: $W, current_txt: [current_txt]"
+    
+    # Give the selected tab the focus
+    focus [current_txt].t
 
   }
 
@@ -1326,6 +1353,7 @@ namespace eval gui {
     variable widgets
     variable files
     variable files_index
+    variable pw_current
     
     # Get the notebook
     set nb [lindex [$widgets(nb_pw) panes] $pw_index]
@@ -1343,8 +1371,8 @@ namespace eval gui {
     }
     
     # Get the file index
-    set index [lsearch -index $files_index(tab) [lsearch -inline -all -index $files_index(pane) $files $pw_index] $nb_index]
-    
+    set index [get_file_index $pw_index $nb_index]
+
     # Unhighlight the file in the file browser
     highlight_filename [lindex $files $index $files_index(fname)] 0
     
@@ -1364,11 +1392,14 @@ namespace eval gui {
         lset files $tab_index $files_index(tab) [expr $tab - 1]
       }
     }
-        
+    
     # If we have no more tabs and there is another pane, remove this pane
     if {([llength [$nb tabs]] == 0) && ([llength [$widgets(nb_pw) panes]] > 1)} {
       $widgets(nb_pw) forget $pw_index
-      # destroy $nb
+      set pw_current 0
+      for {set i 0} {$i < [llength $files]} {incr i} {
+        lset files $i $files_index(pane) 0
+      }
     }
     
   }
@@ -1398,7 +1429,7 @@ namespace eval gui {
   proc close_all {} {
   
     variable widgets
-        
+    
     foreach nb [lreverse [$widgets(nb_pw) panes]] {
       foreach tab [lreverse [$nb tabs]] {
         $nb select $tab
@@ -1430,7 +1461,9 @@ namespace eval gui {
     # Get the title and text from the current text widget
     set txt      [current_txt]
     set file     [lindex $files [current_file]]
-    set fname    [current_filename]
+    if {[set fname [current_filename]] eq ""} {
+      set fname "Untitled"
+    }
     set content  [$txt get 1.0 end-1c]
     set insert   [$txt index insert]
     set select   [$txt tag ranges sel]
@@ -1449,7 +1482,7 @@ namespace eval gui {
     lset file $files_index(pane) $pw_current
     lset file $files_index(tab)  [[current_notebook] index current]
     lappend files $file
-        
+    
     # Add the text, insertion marker and selection
     set txt [current_txt]
     $txt insert end $content
@@ -1649,7 +1682,7 @@ namespace eval gui {
     grid remove $tab_frame.rf
     grid remove $tab_frame.sep
 
-    # Puts the focus on the text widget
+    # Put the focus on the text widget
     focus $tab_frame.tf.txt.t
 
   }
@@ -1987,20 +2020,17 @@ namespace eval gui {
     bind $nb <ButtonPress-1>        { gui::tab_move_start %W %x %y }
     bind $nb <B1-Motion>            { gui::tab_move_motion %W %x %y }
     bind $nb <ButtonRelease-1>      { gui::tab_move_end %W %x %y }
-    bind $nb <Button-3> {
-      if {[%W index @%x,%y] eq [%W index current]} {
-        if {[llength [%W tabs]] > 1} {
-          $gui::widgets(menu) entryconfigure 1 -state normal
-        } else {
-          $gui::widgets(menu) entryconfigure 1 -state disabled
-        }
-        if {([llength [%W tabs]] > 1) || ([llength [$gui::widgets(nb_pw) panes]] > 1)} {
-          $gui::widgets(menu) entryconfigure 6 -state normal
-        } else {
-          $gui::widgets(menu) entryconfigure 6 -state disabled
-        }
-        tk_popup $gui::widgets(menu) %X %Y
-      }
+    bind $nb <ButtonPress-3> {
+      set gui::pw_current [lsearch [$gui::widgets(nb_pw) panes] %W]
+      %W select @%x,%y
+      puts "In ButtonPress-3, current_txt: [gui::current_txt]"
+      tk_popup $gui::widgets(menu) %X %Y
+    }
+    bind $nb <ButtonRelease-3> {
+      set gui::pw_current [lsearch [$gui::widgets(nb_pw) panes] %W]
+      %W select @%x,%y
+      puts "In ButtonRelease-3, current_txt: [gui::current_txt]"
+      focus [gui::current_txt].t
     }
     
   }
@@ -2239,6 +2269,8 @@ namespace eval gui {
   
     variable widgets
     variable pw_current
+    
+    puts "In current_notebook, pw_current: $pw_current, panes: [$widgets(nb_pw) panes]"
     
     return [lindex [$widgets(nb_pw) panes] $pw_current]
   

@@ -4,6 +4,7 @@
 {.menubar.file/Open Directory...}          Ctrl-Shift-O
 {.menubar.file/Save}                       Ctrl-S
 {.menubar.file/Save As...}                 Ctrl-Shift-S
+{.menubar.file/Lock}                       Ctrl-L
 {.menubar.file/Close}                      Ctrl-W
 {.menubar.file/Quit}                       Ctrl-Q
 
