@@ -766,8 +766,6 @@ namespace eval gui {
     # Set the current pane
     set pw_current [lsearch [$widgets(nb_pw) panes] $W]
     
-    puts "In tab_move_end, pw_current: $pw_current, W: $W, current_txt: [current_txt]"
-    
     # Give the selected tab the focus
     focus [current_txt].t
 
@@ -2023,13 +2021,11 @@ namespace eval gui {
     bind $nb <ButtonPress-3> {
       set gui::pw_current [lsearch [$gui::widgets(nb_pw) panes] %W]
       %W select @%x,%y
-      puts "In ButtonPress-3, current_txt: [gui::current_txt]"
       tk_popup $gui::widgets(menu) %X %Y
     }
     bind $nb <ButtonRelease-3> {
       set gui::pw_current [lsearch [$gui::widgets(nb_pw) panes] %W]
       %W select @%x,%y
-      puts "In ButtonRelease-3, current_txt: [gui::current_txt]"
       focus [gui::current_txt].t
     }
     
@@ -2269,8 +2265,6 @@ namespace eval gui {
   
     variable widgets
     variable pw_current
-    
-    puts "In current_notebook, pw_current: $pw_current, panes: [$widgets(nb_pw) panes]"
     
     return [lindex [$widgets(nb_pw) panes] $pw_current]
   

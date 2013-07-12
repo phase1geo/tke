@@ -496,15 +496,15 @@ namespace eval plugins {
     
     # Add each of the entries
     foreach entry $entries {
-      lassign $entry index hier do
-      handle_menu_add_item $plugin_mb [split $hier .] $do
+      lassign $entry index type hier do
+      handle_menu_add_item $plugin_mb [split $hier .] $type $do
     }
     
   }
   
   ######################################################################
   # Adds menu item, creating all needed cascading menus.
-  proc handle_menu_add_item {mnu hier do} {
+  proc handle_menu_add_item {mnu hier type do} {
     
     # Add cascading menus
     while {[llength [set hier [lassign $hier level]]] > 0} {
@@ -517,7 +517,17 @@ namespace eval plugins {
     }
     
     # Add menu item
-    $mnu add command -label $level -command $do
+    switch [lindex $type 0] {
+      command {
+        $mnu add command -label $level -command $do
+      }
+      checkbutton {
+        $mnu add checkbutton -label $level -variable [lindex $type 1] -command $do
+      }
+      radiobutton {
+        $mnu add radiobutton -label $level -variable [lindex $type 1] -value [lindex $type 2] -command $do
+      }
+    }
     
   }
   
