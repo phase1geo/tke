@@ -86,7 +86,7 @@ namespace eval gui {
     load_geometry
     
     wm title . "tke \[[lindex [split [info hostname] .] 0]:[pwd]\]"
-    # FIXME: wm iconphoto FOOBAR
+    wm iconphoto . [image create photo -file [file join $::tke_dir images tke_logo.gif]]
     
     # Create the panedwindow
     set widgets(pw) [ttk::panedwindow .pw -orient horizontal]
