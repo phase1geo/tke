@@ -1,0 +1,34 @@
+filepatterns
+{*.snippets}
+ 
+indent
+{\{}
+
+unindent
+{\}}
+
+keywords
+{
+  snippet
+}
+
+symbols
+{
+  snippet
+}
+
+lcomments {}
+
+ccomments 0
+
+strings {}
+
+numbers {}
+
+punctuation {}
+
+precompile {}
+
+miscellaneous {
+  HighlightClassForRegexp {^\t.*$}
+}

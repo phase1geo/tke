@@ -64,7 +64,7 @@ namespace eval gui {
           set answer [tk_messageBox -parent . -icon question -message "Delete tab?" \
             -detail $fname -type yesno -default yes]
           if {$answer eq "yes"} {
-            close_tab $i
+            close_tab [lindex $files $i $files_index(pane)] [lindex $files $i $files_index(tab)]
           }
         }
       }
@@ -395,7 +395,12 @@ namespace eval gui {
     variable files
     variable files_index
     
-    # Change the cell so that it can't be edited directory
+    # If the value of the cell hasn't changed, do nothing else.
+    if {[$tbl cellcget $row,filepath -text] eq $value} {
+      return $value
+    }
+    
+    # Change the cell so that it can't be edited directly
     $tbl cellconfigure $row,$col -editable 0
     
     # Get the current pathname
@@ -419,7 +424,7 @@ namespace eval gui {
     } elseif {[$tbl cellcget $row,$col -background] eq "yellow"} {
       set index [lsearch -index 0 $files $old_filepath]
       lset files $index $files_index(fname) $new_filepath
-      [lindex $widgets(nb_pw) [lindex $files $index $files_index(pane)] tab [lindex $files $index $files_index(tab)] \
+      [lindex $widgets(nb_pw) [lindex $files $index $files_index(pane)]] tab [lindex $files $index $files_index(tab)] \
         -text [file tail $value]
     }
     

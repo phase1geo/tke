@@ -22,33 +22,28 @@ namespace eval snippets {
       file mkdir $snippets_dir
     }
     
-    # Load the snippet files into memory
-    load_directory
-    
-    launcher::register "Snippets: Create new snippets file" "snippets::add_new_snippet_file"
+    launcher::register "Snippets: Add snippet"         "snippets::add_new_snippet"
     launcher::register "Snippets: Reload all snippets" "snippets::load_directory"
     
   }
   
   ######################################################################
-  # Load all of the snippets from the snippets directory.
-  proc load_directory {} {
-
-    variable snippets_dir
-
-    foreach file [glob -nocomplain -directory $snippets_dir *.snippets] {
-      load_file $file
-      launcher::register "Snippets: Edit [file tail $file] snippets" \
-        [list gui::add_file end $file [list snippets::load_file $file]]
-    }
-    
-  }
-
-  ######################################################################
   # Load the snippets file.
-  proc load_file {sfile} {
+  proc set_language {language} {
     
+    variable snippets_dir
     variable snippets
+    
+    # Create language-specific snippets filename
+    set sfile [file join $snippets_dir $language.snippets]
+
+    puts "In set_language, language: $language, sfile: $sfile"
+
+    # Clear the snippets for the given file
+    array unset snippets $language,*
+      
+    # Remove any launcher commands that would be associated with this file
+    launcher::unregister "Snippet:*"
 
     if {![catch "open $sfile r" rc]} {
       
@@ -56,15 +51,6 @@ namespace eval snippets {
       set contents [read $rc]
       close $rc
       
-      # Clear the snippets for the given file
-      array unset snippets $sfile,*
-      
-      # Get the basename of the file
-      set basename [file rootname [file tail $sfile]]
-      
-      # Remove any launcher commands that would be associated with this file
-      launcher::unregister "Snippet-$basename:*"
-
       set in_snippet 0
      
       # Do a quick parse of the snippets file
@@ -77,11 +63,11 @@ namespace eval snippets {
             append snippet "[string trim $txt]\n"
           } else {
             set in_snippet 0
-            set snippets($sfile,$name) [parse_snippet [string range $snippet 0 end-1]]
+            set snippets($language,$name) [parse_snippet [string range $snippet 0 end-1]]
             set snippet    ""
-            array set snip $snippets($sfile,$name)
-            launcher::register "Snippet-$basename: $name: [string range $snip(raw_string) 0 30]" \
-              [list snippets::insert_snippet_into_current $snippets($sfile,$name)] 
+            array set snip $snippets($language,$name)
+            launcher::register "Snippet: $name: [string range $snip(raw_string) 0 30]" \
+              [list snippets::insert_snippet_into_current $snippets($language,$name)] 
           }
         }
         
@@ -424,82 +410,26 @@ namespace eval snippets {
   }
   
   ######################################################################
-  # Prompts the user for the name of the snippets group, creates a
-  # file in the ~/.tke/snippets directory based on its name, and makes
-  # this file editable.
-  proc add_new_snippet_file {} {
-  
+  # If a snippet file does not exist for the current language, creates
+  # an empty snippet file in the user's local snippet directory.  Opens
+  # the snippet file for editing.
+  proc add_new_snippet {} {
+    
     variable snippets_dir
     
-    toplevel     .snipwin
-    wm title     .snipwin "Create new snippet file"
-    wm transient .snipwin .
-    wm resizable .snipwin 0 0
+    # Get the current language
+    set language [syntax::get_current_language]
     
-    ttk::frame .snipwin.f
-    ttk::label .snipwin.f.l -text "Name:"
-    ttk::entry .snipwin.f.e
+    # Get the snippet file name
+    set fname [file join $::tke_home snippets $language.snippets]
     
-    bind .snipwin.f.e <Return> {
-      .snipwin.bf.ok invoke
+    # If the snippet file does not exist, create the file
+    if {![file exists $fname]} {
+      touch $fname
     }
     
-    pack .snipwin.f.l -side left -padx 2 -pady 2
-    pack .snipwin.f.e -side left -padx 2 -pady 2
-    
-    ttk::frame .snipwin.bf
-    ttk::button .snipwin.bf.ok -text "OK" -width 6 -command {
-      set sfname [file join $snippets::snippets_dir [.snipwin.f.e get].snippets]
-      exec touch $sfname
-      gui::add_file end $sfname "snippets::load_file $sfname"
-      destroy .snipwin
-    }
-    ttk::button .snipwin.bf.cancel -text "Cancel" -width 6 -command {
-      destroy .snipwin
-    }
-    
-    pack .snipwin.bf.cancel -side right -padx 2 -pady 2
-    pack .snipwin.bf.ok     -side right -padx 2 -pady 2
-    
-    pack .snipwin.f  -fill x
-    pack .snipwin.bf -fill x
-    
-    # Position the window in the center of the main window
-    wm withdraw .snipwin
-    update idletasks
-    set x [expr (([winfo width  .] / 2) - ([winfo reqwidth  .snipwin] / 2)) + [winfo x .]]
-    set y [expr (([winfo height .] / 4) - ([winfo reqheight .snipwin] / 2)) + [winfo y .]]
-    if {$x < 0} {
-      set x 0
-    }
-    if {$y < 0} {
-      set y 0
-    }
-    wm geometry  .snipwin +$x+$y
-    wm deiconify .snipwin
-
-    # Get current focus and grab
-    set old_focus [focus]
-    set old_grab  [grab current .snipwin]
-    if {$old_grab ne ""} {
-      set grab_status [grab status $old_grab]
-    }
-
-    # Make sure the entry field is given focus
-    focus .snipwin.f.e
-
-    # Wait for the window to be destroyed
-    tkwait window .snipwin
-
-    # Reset the original focus and grab
-    catch { focus $old_focus }
-    if {$old_grab ne ""} {
-      if {$grab_status ne "global"} {
-        grab $old_grab
-      } else {
-        grab -global $old_grab
-      }
-    }
+    # Add the snippet file to the editor
+    gui::add_file end $fname [list snippets::set_language $language]
     
   }
   

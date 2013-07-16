@@ -140,7 +140,24 @@ namespace eval syntax {
       }
     }
     
-    return "<None>"
+    return "None"
+    
+  }
+  
+  ######################################################################
+  # Retrieves the language of the current text widget.
+  proc get_current_language {} {
+    
+    variable lang
+    
+    # Get the current text widget
+    set txt [gui::current_txt]
+    
+    if {[info exists lang($txt)]} {
+      return $lang($txt)
+    }
+    
+    return "None"
     
   }
   
@@ -192,6 +209,9 @@ namespace eval syntax {
     # Set default indent/unindent strings
     indent::set_indent_expressions $txt.t "\{" "\}"
     
+    # Set the snippet set to the current language
+    snippets::set_language $language
+
     # Apply the new syntax highlighting syntax, if one exists for the given language
     if {[info exists langs($language)]} {
       
