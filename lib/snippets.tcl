@@ -43,7 +43,7 @@ namespace eval snippets {
     array unset snippets $language,*
       
     # Remove any launcher commands that would be associated with this file
-    launcher::unregister "Snippet:*"
+    launcher::unregister "Snippet: *"
 
     if {![catch "open $sfile r" rc]} {
       
@@ -208,6 +208,8 @@ namespace eval snippets {
       incr i
       
     }
+    
+    puts "raw_string: $raw_string"
 
     return [list raw_string $raw_string tabs $tabs dynamics $dynamics]   
     

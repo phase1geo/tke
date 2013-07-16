@@ -244,10 +244,6 @@ namespace eval launcher {
   
     variable commands
     
-    puts "In unregister, pattern: $pattern, command_name: [get_command_name $pattern *]"
-    puts "  1 [join [array names commands] \n]"
-    puts "  2 [join [array names commands [get_command_name $pattern *]] \n]"
-    
     array unset commands [get_command_name $pattern *]
     
   }
