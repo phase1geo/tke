@@ -102,7 +102,7 @@ namespace eval syntax {
       # Iterate through our tab list and update there
       foreach txt [array names lang] {
         if {[winfo exists $txt]} {
-          set_language $txt [lindex $lang($txt) 0] [lindex $lang($txt) 1]
+          set_language $lang($txt)
         } else {
           unset lang($txt)
         }
