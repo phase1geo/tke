@@ -37,8 +37,6 @@ namespace eval snippets {
     # Create language-specific snippets filename
     set sfile [file join $snippets_dir $language.snippets]
 
-    puts "In set_language, language: $language, sfile: $sfile"
-
     # Clear the snippets for the given file
     array unset snippets $language,*
       
@@ -200,7 +198,7 @@ namespace eval snippets {
         
       # This is just a raw expression
       } else {
-        append raw_string $char
+        append raw_string [expr {($char eq "\$") ? "\$" : $char}]
         set in_escape 0
         incr from_start
       }
@@ -209,8 +207,6 @@ namespace eval snippets {
       
     }
     
-    puts "raw_string: $raw_string"
-
     return [list raw_string $raw_string tabs $tabs dynamics $dynamics]   
     
   }
