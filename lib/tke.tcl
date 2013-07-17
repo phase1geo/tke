@@ -115,6 +115,7 @@ if {[tk appname] ne "tke.tcl"} {
     } elseif {[regexp {X server} $rc]} {
       puts $rc
     }
+    # puts "rc: $rc"
   } else {
     if {![catch "send tke.tcl gui::raise_window" rc]} {
       destroy .

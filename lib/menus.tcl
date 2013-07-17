@@ -435,8 +435,8 @@ namespace eval menus {
       
       # Generate a report file
       generate_profile_report
-      set sortby $preferences::prefs(Tools/ProfileReportSortby)
-      profrep profiling_info $sortby $profile_report "Profiling Information Sorted by $sortby"
+      # set sortby $preferences::prefs(Tools/ProfileReportSortby)
+      # profrep profiling_info $sortby $profile_report "Profiling Information Sorted by $sortby"
       
       # Indicate that profiling has completed
       gui::set_info_message "Profiling stopped"
@@ -499,20 +499,31 @@ namespace eval menus {
     
     # Sort the information
     switch $preferences::prefs(Tools/ProfileReportSortby) {
-      "calls"         { set info_list [lsort -integer -index 1 $info_list] }
-      "real"          { set info_list [lsort -integer -index 2 $info_list] }
-      "cpu"           { set info_list [lsort -integer -index 3 $info_list] }
-      "real_per_call" { set info_list [lsort -real -index 4 $info_list] }
-      "cpu_per_call"  { set info_list [lsort -real -index 5 $info_list] }
+      "calls"         { set info_list [lsort -decreasing -integer -index 1 $info_list] }
+      "real"          { set info_list [lsort -decreasing -integer -index 2 $info_list] }
+      "cpu"           { set info_list [lsort -decreasing -integer -index 3 $info_list] }
+      "real_per_call" { set info_list [lsort -decreasing -real -index 4 $info_list] }
+      "cpu_per_call"  { set info_list [lsort -decreasing -real -index 5 $info_list] }
+      default         { set info_list [lsort -index 0 $info_list] }
     }
     
     # Create the report file
     if {![catch "open $profile_report w" rc]} {
-    
+      
+      puts $rc "=============================================================================================="
+      puts $rc "                   Profiling Report Sorted By ($preferences::prefs(Tools/ProfileReportSortby))"
+      puts $rc "=============================================================================================="
+      puts $rc [format "%-50s  %10s  %10s  %10s  %10s  %10s" "Procedure" "Calls" "Real" "CPU" "Real/Calls" "CPU/Calls"]
+      puts $rc "=============================================================================================="
+      
+      foreach info $info_list {
+        puts $rc [format "%-50s  %10d  %10d  %10d  %.3f  %.3f" {*}$info]
+      }
+      
+      close $rc
+      
     }
     
-    puts [join $info_list \n]
-        
   }
   
   ######################################################################
