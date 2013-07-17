@@ -7,6 +7,8 @@ namespace eval menus {
 
   variable profile_report [file join $::tke_home profiling_report.log]
   
+  array set profiling_info {}
+  
   #######################
   #  PUBLIC PROCEDURES  #
   #######################
@@ -424,6 +426,7 @@ namespace eval menus {
   proc stop_profiling_command {mb show_report} {
     
     variable profile_report
+    variable profiling_info
     
     if {[$mb entrycget "Stop Profiling" -state] eq "normal"} {
       
@@ -431,6 +434,7 @@ namespace eval menus {
       profile off profiling_info
       
       # Generate a report file
+      generate_profile_report
       set sortby $preferences::prefs(Tools/ProfileReportSortby)
       profrep profiling_info $sortby $profile_report "Profiling Information Sorted by $sortby"
       
@@ -461,6 +465,54 @@ namespace eval menus {
       gui::add_file end $profile_report
     }
     
+  }
+  
+  ######################################################################
+  # Generates a profiling report.
+  proc generate_profile_report {} {
+  
+    variable profile_report
+    variable profiling_info
+    
+    # Recollect the data
+    set info_list [list]
+    foreach info [array names profiling_info] {
+    
+      set calls         [lindex $profiling_info($info) 0]
+      set real          [lindex $profiling_info($info) 1]
+      set cpu           [lindex $profiling_info($info) 2]
+      set real_per_call [expr ($calls == 0) ? 0.0 : ($real.0 / $calls)]
+      set cpu_per_call  [expr ($calls == 0) ? 0.0 : ($cpu.0 / $calls)]
+      
+      if {[set index [lsearch -index 0 $info_list [lindex $info 0]]] == -1} {
+        lappend info_list [list [lindex $info 0] $calls $real $cpu $real_per_call $cpu_per_call]
+      } else {
+        set info_entry [lindex $info_list $index]
+        lset info_list $index 1 [expr [lindex $info_entry 1] + $calls]
+        lset info_list $index 2 [expr [lindex $info_entry 2] + $real]
+        lset info_list $index 3 [expr [lindex $info_entry 3] + $cpu]
+        lset info_list $index 4 [expr [lindex $info_entry 4] + $real_per_call]
+        lset info_list $index 5 [expr [lindex $info_entry 5] + $cpu_per_call]
+      }
+      
+    }
+    
+    # Sort the information
+    switch $preferences::prefs(Tools/ProfileReportSortby) {
+      "calls"         { set info_list [lsort -integer -index 1 $info_list] }
+      "real"          { set info_list [lsort -integer -index 2 $info_list] }
+      "cpu"           { set info_list [lsort -integer -index 3 $info_list] }
+      "real_per_call" { set info_list [lsort -real -index 4 $info_list] }
+      "cpu_per_call"  { set info_list [lsort -real -index 5 $info_list] }
+    }
+    
+    # Create the report file
+    if {![catch "open $profile_report w" rc]} {
+    
+    }
+    
+    puts [join $info_list \n]
+        
   }
   
   ######################################################################
