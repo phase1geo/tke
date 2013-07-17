@@ -1,5 +1,7 @@
-{Appearance/Theme}     {default}
-{View/ShowSidebar}     {1}
-{View/PaneOrientation} {horizontal}
-{Tools/VimMode}        {0}
-{NFSMounts}            {}
+{Appearance/Theme}           {default}
+{View/ShowSidebar}           {1}
+{View/PaneOrientation}       {horizontal}
+{Tools/VimMode}              {0}
+{Tools/ProfileReportSortby}  {calls}
+{Tools/ProfileReportOptions} {}
+{NFSMounts}                  {}

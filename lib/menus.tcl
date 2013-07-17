@@ -5,6 +5,8 @@
 
 namespace eval menus {
 
+  variable profile_report [file join $::tke_home profiling_report.log]
+  
   #######################
   #  PUBLIC PROCEDURES  #
   #######################
@@ -40,7 +42,7 @@ namespace eval menus {
     add_view $mb.view
       
     # Add the tools menu
-    $mb add cascade -label "Tools" -menu [menu $mb.tools -tearoff false]
+    $mb add cascade -label "Tools" -menu [menu $mb.tools -tearoff false -postcommand "menus::tools_posting $mb.tools"]
     add_tools $mb.tools
     
     # Add the plugins menu
@@ -111,6 +113,20 @@ namespace eval menus {
       $mb entryconfigure $index -label "Lock" -command "menus::lock_command $mb"
     }
       
+  }
+  
+  ######################################################################
+  # Called prior to the tools menu posting.
+  proc tools_posting {mb} {
+    
+    variable profile_report
+    
+    if {[file exists $profile_report]} {
+      $mb entryconfigure "Show*Profiling*" -state normal
+    } else {
+      $mb entryconfigure "Show*Profiling*" -state disabled
+    }
+    
   }
   
   ######################################################################
@@ -225,6 +241,9 @@ namespace eval menus {
     
     # Handle on_quit plugins
     plugins::handle_on_quit
+
+    # Turn off profiling (if it was turned on)
+    stop_profiling_command .menubar.tools 0
     
     # Destroy the interface
     destroy .
@@ -360,12 +379,88 @@ namespace eval menus {
     
     $mb add separator
     
+    $mb add command -label "Start Profiling" -underline 0 -command "menus::start_profiling_command $mb"
+    launcher::register "Menu: Start profiling" "menus::start_profiling_command $mb"
+    
+    $mb add command -label "Stop Profiling" -underline 1 -command "menus::stop_profiling_command $mb 1" -state disabled
+    launcher::register "Menu: Stop profiling" "menus::stop_profiling_command $mb 1"
+    
+    $mb add command -label "Show Last Profiling Report" -underline 1 -command "menus::show_last_profiling_report"
+    launcher::register "Menu: Show last profiling report" "menus::show_last_profiling_report"
+    
+    $mb add separator
+    
     $mb add command -label "Restart tke" -underline 0 -command "menus::restart_command"
     launcher::register "Menu: Restart tke" "menus::restart_command"
    
     # Apply the menu bindings for the tools menu
     bindings::apply $mb
   
+  }
+  
+  ######################################################################
+  # Starts the procedure profiling.
+  proc start_profiling_command {mb} {
+   
+    if {[$mb entrycget "Start Profiling" -state] eq "normal"} {
+      
+      # Turn on procedure profiling
+      profile {*}$preferences::prefs(Tools/ProfileReportOptions) on
+      
+      # Indicate that profiling mode is on
+      $mb entryconfigure "Start Profiling" -state disabled
+      $mb entryconfigure "Stop Profiling"  -state normal
+      
+      # Indicate that profiling has started in the information bar
+      gui::set_info_message "Profiling started"
+      
+    }
+    
+  }
+  
+  ######################################################################
+  # Stops the profiling process, generates a report and displays the
+  # report file to a new editor tab.
+  proc stop_profiling_command {mb show_report} {
+    
+    variable profile_report
+    
+    if {[$mb entrycget "Stop Profiling" -state] eq "normal"} {
+      
+      # Turn off procedure profiling
+      profile off profiling_info
+      
+      # Generate a report file
+      set sortby $preferences::prefs(Tools/ProfileReportSortby)
+      profrep profiling_info $sortby $profile_report "Profiling Information Sorted by $sortby"
+      
+      # Indicate that profiling has completed
+      gui::set_info_message "Profiling stopped"
+      
+      # Add the report to the tab list
+      if {$show_report} {
+        show_last_profiling_report
+      }
+      
+      # Indicate that profiling mode is off
+      $mb entryconfigure "Stop Profiling"  -state disabled
+      $mb entryconfigure "Start Profiling" -state normal
+      
+    }
+    
+  }
+  
+  ######################################################################
+  # Displays the last profiling report.
+  proc show_last_profiling_report {} {
+    
+    variable profile_report
+    
+    # If the profiling report exists, display it
+    if {[file exists $profile_report]} {
+      gui::add_file end $profile_report
+    }
+    
   }
   
   ######################################################################
