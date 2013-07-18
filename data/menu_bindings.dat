@@ -19,10 +19,10 @@
 # Find menu bindings
 {.menubar.find/Find}                       Ctrl-F
 {.menubar.find/Find and Replace}           Ctrl-Shift-F
-{.menubar.find/Select next occurrence}     Ctrl-N
-{.menubar.find/Select previous occurrence} Ctrl-Shift-N
-{.menubar.find/Append next occurrence}     Ctrl-D
-{.menubar.find/Select all occurrences}     Ctrl-Shift-A
+{.menubar.find/Select next occurrence}     Alt-N
+{.menubar.find/Select previous occurrence} Alt-P
+{.menubar.find/Append next occurrence}     Alt-D
+{.menubar.find/Select all occurrences}     Alt-A
 {.menubar.find/Find Matching Pair}         Ctrl-P
 
 # Text menu bindings

@@ -42,7 +42,7 @@ numbers {
 }
 
 punctuation {
-  HighlightClassForSpecialChars {{}()<>?;^:!=[]+-*/%,&|.~`}
+  HighlightClassForRegexp {[][\{\}()<>?;^:!=+-*/%,&|.~`]}
 }
 
 precompile {}

@@ -5,7 +5,11 @@
 package require Tk
 package provide ctext 3.3
 
-namespace eval ctext {}
+namespace eval ctext {
+  array set REs {
+    words  {([^\s\(\{\[\}\]\)\.\t\n\r;\"'\|,]+)}
+  }
+}
  
 #win is used as a unique token to create arrays for each ctext instance
 proc ctext::getAr {win suffix name} {
@@ -749,20 +753,6 @@ proc ctext::addHighlightClass {win class color keywords} {
   set classesAr(_$class) [list $ref $keywords]
 }
 
-#For [ ] { } # etc.
-proc ctext::addHighlightClassForSpecialChars {win class color chars} {
-  set charList [split $chars ""]
-  
-  set ref [ctext::getAr $win highlightSpecialChars ar]
-  foreach char $charList {
-    set ar($char) [list _$class $color]
-  }
-  $win tag configure _$class
-  
-  ctext::getAr $win classes classesAr
-  set classesAr(_$class) [list $ref $charList]
-}
-
 proc ctext::addHighlightClassForRegexp {win class color re} {
   set ref [ctext::getAr $win highlightRegexp ar]
   
@@ -881,9 +871,6 @@ proc ctext::clearHighlightClasses {win} {
   ctext::getAr $win highlight ar
   array unset ar
   
-  ctext::getAr $win highlightSpecialChars ar
-  array unset ar
-  
   ctext::getAr $win highlightRegexp ar
   array unset ar
   
@@ -909,8 +896,11 @@ proc ctext::update {win} {
 }
 
 proc ctext::doHighlight {win} {
-  ctext::getAr $win config configAr
 
+  variable REs
+  
+  ctext::getAr $win config configAr
+  
   if {!$configAr(-highlight)} {
     return
   }
@@ -918,102 +908,58 @@ proc ctext::doHighlight {win} {
   # Get the highlights and delete the tag
   set linesChanged [$win tag ranges lineChanged]
   $win tag delete lineChanged
+
+  ctext::getAr $win highlight highlightAr
+  ctext::getAr $win highlightRegexp highlightRegexpAr
+  ctext::getAr $win highlightCharStart highlightCharStartAr
+  
+  set twin "$win._t"
+  array set tagged {}
+  
+  puts "first visible: [$twin index @0,0], last visible: [$twin index @0,65535]"
   
   foreach {start end} $linesChanged {
     
-    set si $start
     append end " lineend"
-    set twin "$win._t"
   
-    #The number of times the loop has run.
-    set numTimesLooped 0
-    set numUntilUpdate 600
-  
-    ctext::getAr $win highlight highlightAr
-    ctext::getAr $win highlightSpecialChars highlightSpecialCharsAr
-    ctext::getAr $win highlightRegexp highlightRegexpAr
-    ctext::getAr $win highlightCharStart highlightCharStartAr
-  
-    while 1 {
-      set res [$twin search -count length -regexp -- {([^\s\(\{\[\}\]\)\.\t\n\r;\"'\|,]+)} $si $end]
-      if {$res == ""} {
-        break
-      }
-    
-      set wordEnd [$twin index "$res + $length chars"]
-      set word [$twin get $res $wordEnd]
-      set firstOfWord [string index $word 0]
-    
-      if {[info exists highlightAr($word)] == 1} {
-        set wordAttributes [set highlightAr($word)]
-        foreach {tagClass color} $wordAttributes break
-      
+    set i 0
+    foreach res [$twin search -count lengths -regexp -all -- $REs(words) $start $end] {
+      set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
+      set word    [$twin get $res $wordEnd]
+      if {[info exists highlightAr($word)]} {
+        foreach {tagClass color} $highlightAr($word) break
         $twin tag add $tagClass $res $wordEnd
-        $twin tag configure $tagClass -foreground $color
-      
-      } elseif {[info exists highlightCharStartAr($firstOfWord)] == 1} {
-        set wordAttributes [set highlightCharStartAr($firstOfWord)]
-        foreach {tagClass color} $wordAttributes break
-      
-        $twin tag add $tagClass $res $wordEnd
-        $twin tag configure $tagClass -foreground $color
-      }
-      set si $wordEnd
-    
-      incr numTimesLooped
-      if {$numTimesLooped >= $numUntilUpdate} {
-        ctext::update $win
-        set numTimesLooped 0
-      }
-    }
-  
-    foreach {ichar tagInfo} [array get highlightSpecialCharsAr] {
-      set si $start
-      foreach {tagClass color} $tagInfo break
-    
-      while 1 {
-        set res [$twin search -- $ichar $si $end]
-        if {"" == $res} {
-          break
+        if {![info exists tagged($tagClass)]} {
+          set tagged($tagClass) 1
+          $twin tag configure $tagClass -foreground $color
         }
-        set wordEnd [$twin index "$res + 1 chars"]
-      
+      } elseif {[info exists highlightCharStartAr([set firstOfWord [string index $word 0]])]} {
+        foreach {tagClass color} $highlightCharStartAr($firstOfWord) break
         $twin tag add $tagClass $res $wordEnd
-        $twin tag configure $tagClass -foreground $color
-        set si $wordEnd
-      
-        incr numTimesLooped
-        if {$numTimesLooped >= $numUntilUpdate} {
-          ctext::update $win
-          set numTimesLooped 0
+        if {![info exists tagged($tagClass)]} {
+          set tagged($tagClass) 1
+          $twin tag configure $tagClass -foreground $color
         }
       }
+      incr i
     }
-  
+    
     foreach {tagClass tagInfo} [array get highlightRegexpAr] {
-      set si $start
       foreach {re color} $tagInfo break
-      while 1 {
-        set res [$twin search -count length -regexp -- $re $si $end]
-        if {"" == $res} {
-          break
-        }
-      
-        set wordEnd [$twin index "$res + $length chars"]
+      set i 0
+      foreach res [$twin search -count lengths -regexp -all -- $re $start $end] {
+        set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
         $twin tag add $tagClass $res $wordEnd
-        $twin tag configure $tagClass -foreground $color
-        set si $wordEnd
-      
-        incr numTimesLooped
-        if {$numTimesLooped >= $numUntilUpdate} {
-          ctext::update $win
-          set numTimesLooped 0
+        if {![info exists tagged($tagClass)]} {
+          set tagged($tagClass) 1
+          $twin tag configure $tagClass -foreground $color
         }
+        incr i
       }
     }
     
   }
-  
+    
 }
 
 proc ctext::linemapToggleMark {win y} {

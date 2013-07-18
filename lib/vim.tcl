@@ -403,7 +403,7 @@ namespace eval vim {
     # block cursor doesn't look dumb.
     if {[$txt index "insert linestart"] eq [$txt index "insert lineend"]} {
       set ignore_modified([winfo parent $txt]) 1
-      $txt insert insert " " dspace
+      $txt fastinsert insert " " dspace
     }
     
     # Make sure that lineend is never the insertion point
@@ -421,7 +421,7 @@ namespace eval vim {
       
     foreach {endpos startpos} [lreverse [$w tag ranges dspace]] {
       set ignore_modified($w) 1
-      $w delete $startpos $endpos
+      $w fastdelete $startpos $endpos
     }
 
   }

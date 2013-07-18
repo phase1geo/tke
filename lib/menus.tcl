@@ -478,23 +478,36 @@ namespace eval menus {
     set info_list [list]
     foreach info [array names profiling_info] {
     
-      set calls         [lindex $profiling_info($info) 0]
-      set real          [lindex $profiling_info($info) 1]
-      set cpu           [lindex $profiling_info($info) 2]
-      set real_per_call [expr ($calls == 0) ? 0.0 : ($real.0 / $calls)]
-      set cpu_per_call  [expr ($calls == 0) ? 0.0 : ($cpu.0 / $calls)]
+      set name [lindex $info 0]
+      
+      # If the name matches anything that we don't want to profile,
+      # skip to the next iteration now
+      if {[regexp {^(((::)?(tk::|tcl::|ttk::|tablelist::|mwutil::))|<global>|::\w+$)} $name]} {
+        continue
+      }
+      
+      set calls [lindex $profiling_info($info) 0]
+      set real  [lindex $profiling_info($info) 1]
+      set cpu   [lindex $profiling_info($info) 2]
       
       if {[set index [lsearch -index 0 $info_list [lindex $info 0]]] == -1} {
-        lappend info_list [list [lindex $info 0] $calls $real $cpu $real_per_call $cpu_per_call]
+        lappend info_list [list [lindex $info 0] $calls $real $cpu 0.0 0.0]
       } else {
         set info_entry [lindex $info_list $index]
         lset info_list $index 1 [expr [lindex $info_entry 1] + $calls]
         lset info_list $index 2 [expr [lindex $info_entry 2] + $real]
         lset info_list $index 3 [expr [lindex $info_entry 3] + $cpu]
-        lset info_list $index 4 [expr [lindex $info_entry 4] + $real_per_call]
-        lset info_list $index 5 [expr [lindex $info_entry 5] + $cpu_per_call]
       }
       
+    }
+    
+    # Calculate the real/call and cpu/call values
+    for {set i 0} {$i < [llength $info_list]} {incr i} {
+      set info_entry [lindex $info_list $i]
+      if {[lindex $info_entry 1] > 0} {
+        lset info_list $i 4 [expr [lindex $info_entry 2].0 / [lindex $info_entry 1]]
+        lset info_list $i 5 [expr [lindex $info_entry 3].0 / [lindex $info_entry 1]]
+      }
     }
     
     # Sort the information
@@ -510,14 +523,14 @@ namespace eval menus {
     # Create the report file
     if {![catch "open $profile_report w" rc]} {
       
-      puts $rc "=============================================================================================="
-      puts $rc "                   Profiling Report Sorted By ($preferences::prefs(Tools/ProfileReportSortby))"
-      puts $rc "=============================================================================================="
+      puts $rc "=============================================================================================================="
+      puts $rc "                                  Profiling Report Sorted By ($preferences::prefs(Tools/ProfileReportSortby))"
+      puts $rc "=============================================================================================================="
       puts $rc [format "%-50s  %10s  %10s  %10s  %10s  %10s" "Procedure" "Calls" "Real" "CPU" "Real/Calls" "CPU/Calls"]
-      puts $rc "=============================================================================================="
+      puts $rc "=============================================================================================================="
       
       foreach info $info_list {
-        puts $rc [format "%-50s  %10d  %10d  %10d  %.3f  %.3f" {*}$info]
+        puts $rc [format "%-50s  %10d  %10d  %10d  %10.3f  %10.3f" {*}$info]
       }
       
       close $rc

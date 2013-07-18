@@ -28,7 +28,7 @@ strings {}
 numbers {}
 
 punctuation {
-  HighlightClassForSpecialChars {{};:()=%/$+?,*}
+  HighlightClassForRegexp {[\{\};:()=%/$+?,*]}
 }
 
 precompile {}
