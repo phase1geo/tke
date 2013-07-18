@@ -914,10 +914,7 @@ proc ctext::doHighlight {win} {
   ctext::getAr $win highlightCharStart highlightCharStartAr
   
   set twin "$win._t"
-  array set tagged {}
-  
-  puts "first visible: [$twin index @0,0], last visible: [$twin index @0,65535]"
-  
+    
   foreach {start end} $linesChanged {
     
     append end " lineend"
@@ -927,37 +924,33 @@ proc ctext::doHighlight {win} {
       set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
       set word    [$twin get $res $wordEnd]
       if {[info exists highlightAr($word)]} {
-        foreach {tagClass color} $highlightAr($word) break
+        lassign $highlightAr($word) tagClass color
         $twin tag add $tagClass $res $wordEnd
-        if {![info exists tagged($tagClass)]} {
-          set tagged($tagClass) 1
-          $twin tag configure $tagClass -foreground $color
-        }
+        set tagged($tagClass) $color
       } elseif {[info exists highlightCharStartAr([set firstOfWord [string index $word 0]])]} {
-        foreach {tagClass color} $highlightCharStartAr($firstOfWord) break
+        lassign $highlightCharStartAr($firstOfWord) tagClass color
         $twin tag add $tagClass $res $wordEnd
-        if {![info exists tagged($tagClass)]} {
-          set tagged($tagClass) 1
-          $twin tag configure $tagClass -foreground $color
-        }
+        set tagged($tagClass) $color
       }
       incr i
     }
     
     foreach {tagClass tagInfo} [array get highlightRegexpAr] {
-      foreach {re color} $tagInfo break
+      lassign $tagInfo re color
       set i 0
       foreach res [$twin search -count lengths -regexp -all -- $re $start $end] {
         set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
         $twin tag add $tagClass $res $wordEnd
-        if {![info exists tagged($tagClass)]} {
-          set tagged($tagClass) 1
-          $twin tag configure $tagClass -foreground $color
-        }
+        set tagged($tagClass) $color
         incr i
       }
     }
     
+  }
+  
+  # Finally, colorize the tags
+  foreach {tagClass color} [array get tagged] {
+    $twin tag configure $tagClass -foreground $color
   }
     
 }
