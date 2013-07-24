@@ -1289,6 +1289,9 @@ namespace eval gui {
       }
     }
     
+    # Run the on_save plugins
+    plugins::handle_on_save $file_index
+    
     # Save the file contents
     if {[catch "open [lindex $files $file_index 0] w" rc]} {
       tk_messageBox -parent . -title "Error" -type ok -default ok -message "Unable to write file" -detail $rc
@@ -1932,7 +1935,11 @@ namespace eval gui {
   
     variable widgets
     
-    $widgets(info_label) configure -text $msg
+    if {[info exists widgets(info_label)]} {
+      $widgets(info_label) configure -text $msg
+    } else {
+      puts $msg
+    }
     
   }
   

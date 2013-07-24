@@ -914,11 +914,15 @@ proc ctext::doHighlight {win} {
   ctext::getAr $win highlightCharStart highlightCharStartAr
   
   set twin "$win._t"
+
+  set total_keywords 0 
+  set total_regexps  0
     
   foreach {start end} $linesChanged {
     
     append end " lineend"
   
+    set keywords [time {
     set i 0
     foreach res [$twin search -count lengths -regexp -all -- $REs(words) $start $end] {
       set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
@@ -934,7 +938,9 @@ proc ctext::doHighlight {win} {
       }
       incr i
     }
+    }]
     
+    set regexps [time {
     foreach {tagClass tagInfo} [array get highlightRegexpAr] {
       lassign $tagInfo re color
       set i 0
@@ -945,8 +951,14 @@ proc ctext::doHighlight {win} {
         incr i
       }
     }
+    }]
+
+    incr total_keywords [lindex $keywords 0]
+    incr total_regexps  [lindex $regexps 0]
     
   }
+
+  # puts "total_keywords: $total_keywords, total_regexps: $total_regexps"
   
   # Finally, colorize the tags
   foreach {tagClass color} [array get tagged] {

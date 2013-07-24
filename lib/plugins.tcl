@@ -8,11 +8,13 @@
 #  sb_popup    - Adds items to the file sidebar popup menu
 #  writeplugin - Writes local plugin information to a save file (saves data between sessions)
 #  readplugin  - Reads local plugin information from a save file
+#  on_start    - Runs when the editor is started
 #  on_open     - Runs when a tab is opened
 #  on_focusin  - Runs when a tab receives focus
 #  on_close    - Runs when a tab is closed
 #  on_quit     - Runs when the editor is exited
 #  on_reload   - Takes action when the plugin is reloaded
+#  on_save     - Runs prior to a file being saved
 
 namespace eval plugins {
 
@@ -225,8 +227,9 @@ namespace eval plugins {
             while {($i < $registry_size) && ($registry($i,name) ne $prefix)} {
               incr i
             }
-            if {$i < $registry_size) && ($registry($i,selected) && [lsearch $bad_sources $i] == -1} {
+            if {($i < $registry_size) && $registry($i,selected) && ([lsearch $bad_sources $i] == -1)} {
               foreach action [array names registry $i,action,readplugin,*] {
+                puts "[lindex $registry($action) 0] $suboption {$value}"
                 if {[catch "[lindex $registry($action) 0] $suboption {$value}" status]} {
                   handle_status_error $i $status
                   lappend bad_sources $i
@@ -246,11 +249,13 @@ namespace eval plugins {
       
     # If there was an error in sourcing any of the selected plugins, report the error to the user
     if {[llength $bad_sources] > 0} {
-      tk_messageBox -default ok -type ok -icon warning -parent . -title "Plugin Errors" \
-        -message "Syntax errors found in selected plugins" -detail [join $bad_sources \n]
+      set names [list]
       foreach bad_source $bad_sources {
         set registry($bad_source,selected) 0
+        lappend names $registry($bad_source,name)
       }
+      tk_messageBox -default ok -type ok -icon warning -parent . -title "Plugin Errors" \
+        -message "Syntax errors found in selected plugins" -detail [join $names \n]
     }
     
   }
@@ -608,6 +613,14 @@ namespace eval plugins {
   }
   
   ######################################################################
+  # Called whenever the application is started.
+  proc handle_on_start {} {
+    
+    handle_event "on_start" 
+    
+  }
+  
+  ######################################################################
   # Called whenever a file is opened in a tab.
   proc handle_on_open {file_index} {
     
@@ -615,6 +628,14 @@ namespace eval plugins {
     
   }
   
+  ######################################################################
+  # Called whenever a file is saved.
+  proc handle_on_save {file_index} {
+    
+    handle_event "on_save" $file_index
+    
+  }
+
   ######################################################################
   # Called whenever a tab receives focus.
   proc handle_on_focusin {tab} {

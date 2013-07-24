@@ -152,6 +152,9 @@ ttk::style theme use clam
 # Create GUI
 gui::create
 
+# Run any plugins that are required at application start
+plugins::handle_on_start
+
 # Populate the GUI with the command-line filelist (if specified)
 if {[llength $cl_files] > 0} {
   foreach cl_file $cl_files {

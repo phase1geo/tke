@@ -224,6 +224,17 @@ namespace eval vim {
       focus %W
       break
     }
+    bind vim$txt <Double-Button-1> {
+      %W tag remove sel 1.0 end
+      set current [%W index @%x,%y]
+      if {($vim::mode(%W) ne "edit") && ($current ne [%W index "$current lineend"])} {
+        set current [%W index "$current+1c"]
+      }
+      %W tag add sel [%W index "$current wordstart"] [%W index "$current wordend"]
+      %W mark set insert [%W index "$current wordstart"]
+      focus %W
+      break
+    }
     
     # Insert the vimpre binding just prior to all
     set all_index [lsearch [bindtags $txt.t] all]
@@ -483,6 +494,11 @@ namespace eval vim {
     variable mode
     variable number
     variable column
+    
+    # If the keysym is the shift key, stop
+    if {($keysym eq "Shift_L") || ($keysym eq "Shift_R")} {
+      return 1
+    }
     
     # If the keysym is neither j or k, clear the column
     if {($keysym ne "j") && ($keysym ne "k")} {

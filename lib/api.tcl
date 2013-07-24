@@ -8,6 +8,17 @@
 namespace eval api {
 
   ######################################################################
+  # Returns the pathname to the user's home tke directory.
+  #
+  # Parameters:
+  #   none
+  proc get_home_directory {} {
+    
+    return $::tke_home
+    
+  }
+  
+  ######################################################################
   # Displays the given message string in the information bar.  The
   # message must not contain any newline characters.
   #
@@ -56,6 +67,18 @@ namespace eval api {
   proc get_file_info {file_index attr} {
     
     return [gui::get_file_info $file_index $attr]
+    
+  }
+  
+  ######################################################################
+  # Returns a fully NFS normalized filename based on the given host.
+  #
+  # Parameters:
+  #   host  - Name of the host that contains the filename
+  #   fname - Name of the file to normalize
+  proc normalize_filename {host fname} {
+    
+    return [gui::normalize $host $fname]
     
   }
   
