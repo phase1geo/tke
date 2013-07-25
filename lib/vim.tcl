@@ -853,8 +853,10 @@ namespace eval vim {
         } else {
           $txt mark set insert "insert+$number($txt)c"
         }
+        $txt see insert
       } elseif {[utils::compare_indices [$txt index "insert lineend"] [$txt index "insert+1c"]] == 1} {
         $txt mark set insert "insert+1c"
+        $txt see insert
       } else {
         bell
       }
@@ -882,8 +884,10 @@ namespace eval vim {
         } else {
           $txt mark set insert "insert-$number($txt)c"
         }
+        $txt see insert
       } elseif {[utils::compare_indices [$txt index "insert linestart"] [$txt index "insert-1c"]] != 1} {
         $txt mark set insert "insert-1c"
+        $txt see insert
       } else {
         bell
       }
