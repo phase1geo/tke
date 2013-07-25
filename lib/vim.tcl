@@ -86,7 +86,7 @@ namespace eval vim {
           gui::do_raw_search_and_replace $from $to $search $replace [expr {$glob eq "g"}]
         } elseif {[regexp {^([0-9]+|[.^$]),([0-9]+|[.^$])([dy])$} $value -> from to cmd]} {
           set from [get_linenum $txt $from]
-          set to   [$txt index "[get_linenum $txt $to] lineend-1c"]
+          set to   [$txt index "[get_linenum $txt $to] lineend"]
           clipboard clear
           clipboard append [$txt get $from $to]
           if {$cmd eq "d"} {
@@ -1055,7 +1055,7 @@ namespace eval vim {
   # current line.
   proc do_post_paste {txt clip} {
     
-    $txt insert "insert lineend" "\n$clip"
+    $txt insert "insert+1l linestart" "$clip\n"
     $txt mark set insert "insert+1l linestart"
     
     # Create a marker in the text history

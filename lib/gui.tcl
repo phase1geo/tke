@@ -74,6 +74,17 @@ namespace eval gui {
     after 10000 gui::poll
 
   }
+  
+  ######################################################################
+  # Sets the title of the window to match the current file.
+  proc set_title {} {
+    
+    # Get the current tab
+    set tab_name [[current_notebook] tab current -text]
+    
+    wm title . "$tab_name \[[lindex [split [info hostname] .] 0]:[pwd]\]"
+    
+  }
 
   ######################################################################
   # Create the main GUI interface.
@@ -85,7 +96,7 @@ namespace eval gui {
     # Load the geometry information
     load_geometry
     
-    wm title . "tke \[[lindex [split [info hostname] .] 0]:[pwd]\]"
+    # Set the application icon photo
     wm iconphoto . [image create photo -file [file join $::tke_dir images tke_logo.gif]]
     
     # Create the panedwindow
@@ -2232,6 +2243,12 @@ namespace eval gui {
     # Set the line and row information
     lassign [split [[current_txt] index insert] .] row col
     $widgets(info_label) configure -text "Line: $row, Column: $col"
+    
+    # Set the syntax menubutton to the current language
+    syntax::update_menubutton $widgets(info_syntax)
+    
+    # Set the application title bar
+    set_title
 
     # Finally, set the focus to the text widget
     focus [current_txt].t       

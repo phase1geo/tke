@@ -12,6 +12,7 @@ namespace eval syntax {
   array set theme  {}
   
   ######################################################################
+  # Loads the syntax and theme information.
   proc load {} {
     
     # Load the supported syntax information
@@ -299,6 +300,17 @@ namespace eval syntax {
     
     return $w
   
+  }
+  
+  ######################################################################
+  # Updates the menubutton with the current language.
+  proc update_menubutton {w} {
+    
+    variable lang
+    
+    # Configures the current language for the specified text widget
+    $w configure -text $lang([gui::current_txt])
+    
   }
  
   ######################################################################
