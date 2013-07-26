@@ -1199,6 +1199,7 @@ namespace eval vim {
     if {$mode($txt) eq "start"} {
       $txt insert "insert lineend" "\n"
       $txt mark set insert "insert+1l"
+      $txt see insert
       edit_mode $txt
       indent::newline $txt insert insert
       record_start
