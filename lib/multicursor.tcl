@@ -32,17 +32,7 @@ namespace eval multicursor {
       }
     }
     bind mcursor$txt <Control-Button-1> {
-      set index [%W index @%x,%y]
-      if {[%W index "$index lineend"] eq $index} {
-        %W insert $index " "
-      }
-      if {[llength [set mcursors [lsearch -inline [%W tag names $index] mcursor*]]] == 0} {
-        %W tag add mcursor $index
-        indent::add_indent_level %W mcursor[expr [llength [%W tag ranges mcursor]] / 2]
-      } else {
-        %W tag remove mcursor $index
-        indent::remove_indent_levels %W $mcursors
-      }
+      add_cursor %W [%W index @%x,%y]
     }
     
     # Handle a column select
@@ -96,7 +86,8 @@ namespace eval multicursor {
     }
     bind mcursor$txt <Any-KeyPress> {
       if {([string compare -length 5 %K "Shift"] != 0) && \
-          ([string compare -length 7 %K "Control"] != 0)} {
+          ([string compare -length 7 %K "Control"] != 0) && \
+          ![vim::in_vim_mode %W]} {
         if {[string length %A] == 0} {
           multicursor::disable %W
         } elseif {[string is print %A] && [multicursor::insert %W %A]} {
@@ -123,13 +114,30 @@ namespace eval multicursor {
   ######################################################################
   # Disables the multicursor mode for the given text widget.
   proc disable {txt} {
-      
+    
     # Clear the start positions value
     $txt tag remove mcursor 1.0 end
 
     # Remove the indent levels
     indent::remove_indent_levels $txt mcursor*
   
+  }
+  
+  ######################################################################
+  # Set a multicursor at the given index.
+  proc add_cursor {txt index} {
+    
+    if {[$txt index "$index lineend"] eq $index} {
+      $txt insert $index " "
+    }
+    if {[llength [set mcursors [lsearch -inline [$txt tag names $index] mcursor*]]] == 0} {
+      $txt tag add mcursor $index
+      indent::add_indent_level $txt mcursor[expr [llength [$txt tag ranges mcursor]] / 2]
+    } else {
+      $txt tag remove mcursor $index
+      indent::remove_indent_levels $txt $mcursors
+    }
+      
   }
   
   ######################################################################

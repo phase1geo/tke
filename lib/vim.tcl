@@ -43,6 +43,21 @@ namespace eval vim {
     }
     
   }
+  
+  ######################################################################
+  # Returns 1 if we are currently in non-edit vim mode; otherwise,
+  # returns 0.
+  proc in_vim_mode {txt} {
+    
+    variable mode
+    
+    if {$preferences::prefs(Tools/VimMode) && ($mode($txt) ne "edit")} {
+      return 1
+    } else {
+      return 0
+    }
+    
+  }
 
   ######################################################################
   # Binds the given entry 
@@ -213,9 +228,9 @@ namespace eval vim {
     bind vim$txt <Button-1> {
       %W tag remove sel 1.0 end
       set current [%W index @%x,%y]
-      if {($vim::mode(%W) ne "edit") && ($current ne [%W index "$current lineend"])} {
-        set current [%W index "$current+1c"]
-      }
+      # if {($vim::mode(%W) ne "edit") && ($current ne [%W index "$current lineend"])} {
+      #   set current [%W index "$current+1c"]
+      # }
       %W mark set [utils::text_anchor %W] $current
       %W mark set insert $current
       if {$vim::mode(%W) ne "edit"} {
@@ -227,9 +242,9 @@ namespace eval vim {
     bind vim$txt <Double-Button-1> {
       %W tag remove sel 1.0 end
       set current [%W index @%x,%y]
-      if {($vim::mode(%W) ne "edit") && ($current ne [%W index "$current lineend"])} {
-        set current [%W index "$current+1c"]
-      }
+      # if {($vim::mode(%W) ne "edit") && ($current ne [%W index "$current lineend"])} {
+      #   set current [%W index "$current+1c"]
+      # }
       %W tag add sel [%W index "$current wordstart"] [%W index "$current wordend"]
       %W mark set insert [%W index "$current wordstart"]
       focus %W
@@ -284,7 +299,8 @@ namespace eval vim {
     $txt configure -blockcursor false
  
     # If the current cursor is on a dummy space, remove it
-    if {[lsearch [$txt tag names insert] "dspace"] != -1} {
+    set tags [$txt tag names insert]
+    if {([lsearch $tags "dspace"] != -1) && ([lsearch $tags "mcursor"] == -1)} {
       $txt delete insert
     }
 
@@ -431,8 +447,10 @@ namespace eval vim {
     variable ignore_modified
       
     foreach {endpos startpos} [lreverse [$w tag ranges dspace]] {
-      set ignore_modified($w) 1
-      $w fastdelete $startpos $endpos
+      if {[lsearch [$w tag names $startpos] "mcursor"] == -1} {
+        set ignore_modified($w) 1
+        $w fastdelete $startpos $endpos
+      }
     }
 
   }
@@ -1313,6 +1331,21 @@ namespace eval vim {
       eval [string map {%W $txt} [bind Text <Prior>]]
       adjust_insert $txt
       record "Control-b"
+      return 1
+    }
+    
+    return 0
+    
+  }
+  
+  ######################################################################
+  # If we are in "start" mode, add a cursor.
+  proc handle_s {txt} {
+    
+    variable mode
+    
+    if {$mode($txt) eq "start"} {
+      multicursor::add_cursor $txt [$txt index insert]
       return 1
     }
     
