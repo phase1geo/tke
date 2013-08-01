@@ -1148,7 +1148,9 @@ namespace eval vim {
   proc do_char_delete {txt number} {
 
     if {$number ne ""} {
-      if {[utils::compare_indices [$txt index "insert+${number}c"] [$txt index "insert lineend"]] == 1} {
+      if {[multicursor::enabled $txt]} {
+        multicursor::delete $txt $number
+      } elseif {[utils::compare_indices [$txt index "insert+${number}c"] [$txt index "insert lineend"]] == 1} {
         $txt delete insert "insert lineend"
         if {[$txt index insert] eq [$txt index "insert linestart"]} {
           $txt insert insert " "
@@ -1157,6 +1159,8 @@ namespace eval vim {
       } else {
         $txt delete insert "insert+${number}c"
       }
+    } elseif {[multicursor::enabled $txt]} {
+      multicursor::delete $txt
     } else {
       $txt delete insert
       if {[$txt index insert] eq [$txt index "insert lineend"]} {

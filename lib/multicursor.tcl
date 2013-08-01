@@ -142,7 +142,7 @@ namespace eval multicursor {
   
   ######################################################################
   # Handles the deletion key.
-  proc delete {txt} {
+  proc delete {txt {chars 1}} {
     
     variable selected
         
@@ -156,8 +156,11 @@ namespace eval multicursor {
         set selected 0
       } else {
         foreach {start end} [$txt tag ranges mcursor] {
-          $txt tag add mcursor [set position [$txt index $start-1c]]
-          $txt delete $start
+          if {[set start_col [lindex [split [$txt index $start] .] 1]] < [set chars_to_delete $chars]} {
+            set chars_to_delete $start_col
+          }
+          $txt tag add mcursor [set position [$txt index $start-${chars_to_delete}c]]
+          $txt delete "$start-${chars_to_delete}c" $start
         }
       }
       return 1
@@ -195,6 +198,36 @@ namespace eval multicursor {
     
     return 0
   
+  }
+  
+  ######################################################################
+  # Aligns all of the cursors by inserting spaces prior to each cursor
+  # that is less than the one in the highest column position.  If multiple
+  # cursors exist on the same line, the cursor in the lowest column position
+  # is used.
+  proc align {txt} {
+    
+    set last_row -1
+    set max_col  0
+    set cursors  [list]
+    
+    # Find the cursor position to align to and the cursors to align
+    foreach {start end} [$txt tag ranges mcursor] {
+      lassign [split $start .] row col
+      if {$row ne $last_row} {
+        set last_row $row
+        if {$col > $max_col} {
+          set max_col $col
+        }
+        lappend cursors [list $row $col]
+      }
+    }
+    
+    # Insert spaces to align all columns
+    foreach cursor $cursors {
+      $txt insert [join $cursor .] [string repeat " " [expr $max_col - [lindex $cursor 1]]]
+    }
+    
   }
    
 }

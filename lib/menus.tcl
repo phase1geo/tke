@@ -36,7 +36,7 @@ namespace eval menus {
     add_find $mb.find
 
     # Add the text menu
-    $mb add cascade -label "Text" -menu [menu $mb.text -tearoff false]
+    $mb add cascade -label "Text" -menu [menu $mb.text -tearoff false -postcommand "menus::text_posting $mb.text"]
     add_text $mb.text
     
     # Add the view menu
@@ -115,6 +115,18 @@ namespace eval menus {
       $mb entryconfigure $index -label "Lock" -command "menus::lock_command $mb"
     }
       
+  }
+  
+  ######################################################################
+  # Called prior to the text menu posting.
+  proc text_posting {mb} {
+    
+    if {[multicursor::enabled [gui::current_txt]]} {
+      $mb entryconfigure "Align cursors" -state normal
+    } else {
+      $mb entryconfigure "Align cursors" -state disabled
+    }
+    
   }
   
   ######################################################################
@@ -346,6 +358,11 @@ namespace eval menus {
     $mb add command -label "Unindent" -underline 1 -command "texttools::unindent"
     launcher::register "Menu: Unindent selected text" "texttools::unindent"
     
+    $mb add separator
+    
+    $mb add command -label "Align cursors" -underlin 0 -command "texttools::align"
+    launcher::register "Menu: Align cursors" "texttools::align"
+    
     # Apply the menu settings for the text menu
     bindings::apply $mb
 
@@ -363,6 +380,9 @@ namespace eval menus {
     #   -variable preferences::prefs(View/PaneOrientation) -command "gui::change_pane_orientation"
     # launcher::register "Menu: Show horizontal panes" "set preferences::prefs(View/PaneOrientation) horizontal; gui::change_pane_orientation"
     # launcher::register "Menu: Show vertical panes"   "set preferences::prefs(View/PaneOrientation) vertical;   gui::change_pane_orientation"
+  
+    # Apply the menu settings for the current menu
+    bindings::apply $mb
   
   }
 

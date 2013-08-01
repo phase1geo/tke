@@ -30,6 +30,10 @@
 {.menubar.text/Uncomment}                  Ctrl-Shift-I
 {.menubar.text/Indent}                     Ctrl-[
 {.menubar.text/Unindent}                   Ctrl-]
+{.menubar.text/Align cursors}              Ctrl-A
+
+# View menu bindings
+{.menubar.view/View Sidebar}               Ctrl-K
 
 # Tools menu bindings
 {.menubar.tools/Launcher}                  Ctrl-Space

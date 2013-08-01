@@ -102,6 +102,18 @@ namespace eval texttools {
     }
     
   }
+  
+  ######################################################################
+  # Aligns the current cursors.
+  proc align {} {
+    
+    # Get the current text widget
+    set txt [gui::current_txt]
+    
+    # Align multicursors
+    multicursor::align $txt
+    
+  }
 
 }
  
