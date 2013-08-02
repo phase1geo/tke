@@ -616,7 +616,11 @@ namespace eval vim {
       $txt see insert
       return 1
     } elseif {$mode($txt) eq "delete"} {
-      $txt delete insert "insert lineend"
+      if {[multicursor::enabled $txt]} {
+        multicursor::delete $txt "lineend"
+      } else {
+        $txt delete insert "insert lineend"
+      }
       start_mode $txt
       record_add "Key-dollar"
       record_stop
@@ -641,7 +645,11 @@ namespace eval vim {
       $txt see insert
       return 1
     } elseif {$mode($txt) eq "delete"} {
-      $txt delete "insert linestart" insert
+      if {[multicursor::enabled $txt]} {
+        multicursor::delete $txt "linestart"
+      } else {
+        $txt delete "insert linestart" insert
+      }
       start_mode $txt
       record_add "Key-asciicircum"
       record_stop
@@ -1013,6 +1021,9 @@ namespace eval vim {
     variable mode
     
     if {$mode($txt) eq "start"} {
+      if {[multicursor::enabled $txt]} {
+        multicursor::adjust $txt "+1c" 1 dspace
+      }
       $txt mark set insert "insert+1c"
       edit_mode $txt
       record_start
@@ -1149,7 +1160,7 @@ namespace eval vim {
 
     if {$number ne ""} {
       if {[multicursor::enabled $txt]} {
-        multicursor::delete $txt $number
+        multicursor::delete $txt "+${number}c"
       } elseif {[utils::compare_indices [$txt index "insert+${number}c"] [$txt index "insert lineend"]] == 1} {
         $txt delete insert "insert lineend"
         if {[$txt index insert] eq [$txt index "insert linestart"]} {
@@ -1160,7 +1171,7 @@ namespace eval vim {
         $txt delete insert "insert+${number}c"
       }
     } elseif {[multicursor::enabled $txt]} {
-      multicursor::delete $txt
+      multicursor::delete $txt "+1c"
     } else {
       $txt delete insert
       if {[$txt index insert] eq [$txt index "insert lineend"]} {
@@ -1185,7 +1196,8 @@ namespace eval vim {
     
     if {$mode($txt) eq "start"} {
       do_char_delete $txt $number($txt)
-      record "Key-x"
+      record_add "Key-x"
+      record_stop
       return 1
     }
     
@@ -1201,7 +1213,11 @@ namespace eval vim {
     variable mode
     
     if {$mode($txt) eq "start"} {
-      $txt insert "insert lineend" "\n"
+      if {[multicursor::enabled $txt]} {
+        multicursor::adjust $txt "+1l" 1 dspace
+      } else {
+        $txt insert "insert lineend" "\n"
+      }
       $txt mark set insert "insert+1l"
       $txt see insert
       edit_mode $txt
@@ -1222,7 +1238,11 @@ namespace eval vim {
     variable mode
     
     if {$mode($txt) eq "start"} {
-      $txt insert "insert linestart" "\n"
+      if {[multicursor::enabled $txt]} {
+        multicursor::adjust $txt "-1l" 1 dspace
+      } else {
+        $txt insert "insert linestart" "\n"
+      }
       $txt mark set insert "insert-1l"
       edit_mode $txt
       indent::newline $txt insert insert

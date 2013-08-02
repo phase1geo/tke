@@ -59,12 +59,12 @@ namespace eval multicursor {
     }
     
     bind mcursor$txt <Key-Delete> {
-      if {[multicursor::delete %W]} {
+      if {[multicursor::delete %W "+1c"]} {
         break
       }
     }
     bind mcursor$txt <Key-BackSpace> {
-      if {[multicursor::delete %W]} {
+      if {[multicursor::delete %W "-1c"]} {
         break
       }
     }
@@ -141,11 +141,52 @@ namespace eval multicursor {
   }
   
   ######################################################################
+  # Adjusts the cursors by the given suffix.
+  proc adjust {txt suffix {insert 0} {insert_tag ""}} {
+    
+    puts "In multicursor::adjust, txt: $txt, suffix: $suffix, insert: $insert, insert_tag: $insert_tag"
+    
+    foreach {end start} [lreverse [$txt tag ranges mcursor]] {
+      puts "  start: $start"
+      $txt tag remove mcursor $start
+      if {$insert} {
+        if {($suffix eq "+1c") && [$txt compare $start "$start lineend"]} {
+          $txt insert "$start+1c" " "
+          if {$insert_tag ne ""} {
+            $txt tag add $insert_tag "$start+1c"
+          }
+          $txt tag add mcursor "$start+1c"
+        } elseif {$suffix eq "+1l"} {
+          catch {
+            $txt insert "$start lineend" "\n "
+            if {$insert_tag ne ""} {
+              $txt tag add $insert_tag "$start+1l linestart"
+            }
+            $txt tag add mcursor "$start+1l linestart"
+            puts "Setting mcursor [$txt index {$start+1l linestart}]"
+          } rc
+          puts "  rc: $rc"
+        } elseif {$suffix eq "-1l"} {
+          $txt insert "$start linestart" " \n"
+          if {$insert_tag ne ""} {
+            $txt tag add $insert_tag "$start linestart"
+          }
+          $txt tag add mcursor "$start linestart"
+        }
+      } else {
+        $txt tag add mcursor "$start$suffix"
+      }
+      break
+    }
+    
+  }
+  
+  ######################################################################
   # Handles the deletion key.
-  proc delete {txt {chars 1}} {
+  proc delete {txt suffix} {
     
     variable selected
-        
+    
     # Only perform this if muliple cursors
     if {[enabled $txt]} {
       if {$selected} {
@@ -154,13 +195,37 @@ namespace eval multicursor {
           $txt tag add mcursor $start
         }
         set selected 0
-      } else {
+      } elseif {$suffix eq "linestart"} {
         foreach {start end} [$txt tag ranges mcursor] {
-          if {[set start_col [lindex [split [$txt index $start] .] 1]] < [set chars_to_delete $chars]} {
-            set chars_to_delete $start_col
+          $txt delete "$start linestart" $start
+          $txt tag add mcursor "$start linestart"
+        }
+      } elseif {$suffix eq "lineend"} {
+        foreach {end start} [lreverse [$txt tag ranges mcursor]] {
+          $txt delete $start "$start lineend"
+          if {[$txt compare $start > "$start linestart"]} {
+            $txt tag add mcursor "$start-1c"
           }
-          $txt tag add mcursor [set position [$txt index $start-${chars_to_delete}c]]
-          $txt delete "$start-${chars_to_delete}c" $start
+        }
+      } elseif {[string index $suffix 0] eq "-"} {
+        foreach {start end} [$txt tag ranges mcursor] {
+          if {[$txt compare "$start$suffix" < "$start linestart"]} {
+            $txt delete "$start linestart" $start
+            $txt tag add mcursor "$start$suffix"
+          } else {
+            $txt delete "$start$suffix" $start
+            $txt tag add mcursor "$start$suffix"
+          }
+        }
+      } else {
+        foreach {end start} [lreverse [$txt tag ranges mcursor]] {
+          if {[$txt compare "$start$suffix" > "$start lineend"]} {
+            $txt delete $start "$start lineend"
+            $txt tag add mcursor "$start-1c"
+          } else {
+            $txt delete $start "$start$suffix"
+            $txt tag add mcursor $start
+          }
         }
       }
       return 1
