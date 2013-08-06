@@ -8,6 +8,7 @@ namespace eval multicursor {
   variable selected            0
   variable select_start_line   ""
   variable select_start_column ""
+  variable cursor anchor       ""
    
   ######################################################################
   # Adds bindings for multicursor support to the supplied text widget.
@@ -32,7 +33,10 @@ namespace eval multicursor {
       }
     }
     bind mcursor$txt <Control-Button-1> {
-      add_cursor %W [%W index @%x,%y]
+      multicursor::add_cursor %W [%W index @%x,%y]
+    }
+    bind mcursor$txt <Control-Button-3> {
+      multicursor::add_cursors %W [%W index @%x,%y]
     }
     
     # Handle a column select
@@ -115,11 +119,16 @@ namespace eval multicursor {
   # Disables the multicursor mode for the given text widget.
   proc disable {txt} {
     
+    variable cursor_anchor
+    
     # Clear the start positions value
     $txt tag remove mcursor 1.0 end
 
     # Remove the indent levels
     indent::remove_indent_levels $txt mcursor*
+    
+    # Clear the current anchor
+    set cursor_anchor ""
   
   }
   
@@ -127,9 +136,12 @@ namespace eval multicursor {
   # Set a multicursor at the given index.
   proc add_cursor {txt index} {
     
+    variable cursor_anchor
+    
     if {[$txt index "$index lineend"] eq $index} {
       $txt insert $index " "
     }
+    
     if {[llength [set mcursors [lsearch -inline [$txt tag names $index] mcursor*]]] == 0} {
       $txt tag add mcursor $index
       indent::add_indent_level $txt mcursor[expr [llength [$txt tag ranges mcursor]] / 2]
@@ -137,7 +149,42 @@ namespace eval multicursor {
       $txt tag remove mcursor $index
       indent::remove_indent_levels $txt $mcursors
     }
+    
+    # Set the cursor anchor to the current index
+    set cursor_anchor $index
       
+  }
+  
+  ######################################################################
+  # Set multicursors between the anchor and the current line.
+  proc add_cursors {txt index} {
+    
+    variable cursor_anchor
+    
+    if {$cursor_anchor ne ""} {
+      
+      # Get the anchor line and column
+      lassign [split [set orig_anchor $cursor_anchor] .] row col
+      
+      # Get the current row
+      set curr_row [lindex [split $index .] 0]
+      
+      # Set the cursor
+      if {$row < $curr_row} {
+        for {set i [expr $row + 1]} {$i <= $curr_row} {incr i} {
+          add_cursor $txt $i.$col
+        }
+      } else {
+        for {set i [expr $curr_row + 1]} {$i <= $row} {incr i} {
+          add_cursor $txt $i.$col
+        }
+      }
+      
+      # Re-set the cursor anchor
+      set cursor_anchor $orig_anchor
+      
+    }
+    
   }
   
   ######################################################################

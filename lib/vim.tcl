@@ -1378,4 +1378,20 @@ namespace eval vim {
     
   }
   
+  ######################################################################
+  # If we are in "start" mode, add cursors between the current anchor
+  # the current line.
+  proc handle_S {txt} {
+    
+    variable mode
+    
+    if {$mode($txt) eq "start"} {
+      multicursor::add_cursors $txt [$txt index insert]
+      return 1
+    }
+    
+    return 0
+    
+  }
+  
 }
