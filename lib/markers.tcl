@@ -10,22 +10,21 @@ namespace eval markers {
   array set markers {}
   
   ######################################################################
-  # Adds a new marker for the given index.
+  # Adds a new marker for the given index.  Returns 1 if the marker
+  # was added; otherwise, returns 0.
   proc add {txt index {name ""}} {
     
     variable markers
     
     # If the name wasn't specified, ask the user
-    if {$name eq ""} {
-      set resp ""
-      if {![gui::user_response_get "Marker name:" name]} {
-        lassign [split $index .] row col
-        set name "Line $row, Column $col"
-      }
+    if {($name eq "") && ![gui::user_response_get "Marker name:" name]} {
+      return 0
     }
     
     # Add the marker
     set markers($txt,$name) $index
+    
+    return 1
   
   }
   
@@ -56,8 +55,22 @@ namespace eval markers {
   }
   
   ######################################################################
-  # Returns the marker names.
-  proc get_names {txt} {
+  # Deletes all markers at the given line.
+  proc delete_by_line {txt line} {
+    
+    variable markers
+    
+    foreach {name index} [array get markers $txt,*] {
+      if {[lindex [split $index .] 0] eq $line} {
+        unset markers($name)
+      }
+    }
+    
+  }
+  
+  ######################################################################
+  # Returns all of the marker names.
+  proc get_all_names {txt} {
     
     variable markers
     
@@ -80,15 +93,32 @@ namespace eval markers {
     
     variable markers
     
-    if {[info exists markers($name)]} {
-      if {[regexp {^\d+$} $markers($name)]} {
-        return $markers($name).0
+    if {[info exists markers($txt,$name)]} {
+      if {[regexp {^\d+$} $markers($txt,$name)]} {
+        return $markers($txt,$name).0
       } else {
-        return $markers($name)
+        return $markers($txt,$name)
       }
     } else {
       return ""
     }
+    
+  }
+  
+  ######################################################################
+  # Returns all of the names for the given index.
+  proc get_names {txt line} {
+    
+    variable markers
+    
+    set names [list]
+    foreach {name index} [array get markers] {
+      if {[lindex [split $index .] 0] == $line} {
+        lappend names $name
+      }
+    }
+    
+    return $names
     
   }
   

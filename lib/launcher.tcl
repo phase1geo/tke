@@ -288,6 +288,14 @@ namespace eval launcher {
   }
   
   ######################################################################
+  # Validate command for markers.
+  proc marker_okay {} {
+    
+    return 1
+    
+  }
+  
+  ######################################################################
   # Called whenever the user enters a value
   proc lookup {value {mode ""}} {
 
@@ -391,6 +399,15 @@ namespace eval launcher {
         array unset command [get_command_name * launcher::symbol_okay]
         foreach {procedure pos} [gui::get_symbol_list] {
           lappend matches [register_temp "@$procedure" "gui::jump_to $pos" $procedure launcher::symbol_okay]
+          lappend match_types 2
+        }
+      }
+      
+      # Check to see if this is a marker lookup
+      if {$str eq "-"} {
+        array unset command [get_command_name * launcher::marker_okay]
+        foreach {marker pos} [gui::get_marker_list] {
+          lappend matches [register_temp "-$marker" "gui::jump_to $pos" $marker launcher::marker_okay]
           lappend match_types 2
         }
       }

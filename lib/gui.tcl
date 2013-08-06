@@ -1980,11 +1980,16 @@ namespace eval gui {
     # Set focus to the ursp_entry widget
     focus $widgets(ursp_entry)
     
+    # Wait for the ursp_entry widget to be visible and then grab it
+    tkwait visibility $widgets(ursp_entry)
+    grab $widgets(ursp_entry)
+    
     # Wait for the widget to be closed
     vwait gui::user_exit_status
     
     # Reset the original focus and grab
     catch { focus $old_focus }
+    catch { grab release $widgets(ursp_entry) }
     if {$old_grab ne ""} {
       if {$grab_status ne "global"} {
         grab $old_grab
@@ -2396,6 +2401,23 @@ namespace eval gui {
   }
   
   ######################################################################
+  # Returns the list of markers in the current text widget.
+  proc get_marker_list {} {
+    
+    # Get the current text widget
+    set txt [current_txt]
+    
+    # Create a list of marker names and index
+    set markers [list]
+    foreach name [markers::get_all_names $txt] {
+      lappend markers $name [markers::get_index $txt $name]
+    }
+    
+    return $markers
+    
+  }
+  
+  ######################################################################
   # Jump to the given position.
   proc jump_to {pos} {
     
@@ -2538,7 +2560,9 @@ namespace eval gui {
   proc mark_command {win type line} {
     
     if {$type eq "marked"} {
-      markers::add $win $line
+      if {![markers::add $win $line]} {
+        ctext::linemapClearMark $win $line
+      }
     } else {
       markers::delete_by_index $win $line
     }

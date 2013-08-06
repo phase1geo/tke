@@ -94,27 +94,43 @@ namespace eval vim {
       e! { gui::update_current }
       n  { gui::next_tab }
       e\# { gui::previous_tab }
+      m  {
+        set line [lindex [split [$txt index insert] .] 0]
+        markers::delete_by_line $txt $line
+        ctext::linemapClearMark $txt $line
+      }
       default {
-        if {[regexp {^([0-9]+|[.^$]),([0-9]+|[.^$])s/(.*)/(.*)/(g?)$} $value -> from to search replace glob]} {
-          set from [get_linenum $txt $from]
-          set to   [$txt index "[get_linenum $txt $to] lineend-1c"]
-          gui::do_raw_search_and_replace $from $to $search $replace [expr {$glob eq "g"}]
-        } elseif {[regexp {^([0-9]+|[.^$]),([0-9]+|[.^$])([dy])$} $value -> from to cmd]} {
-          set from [get_linenum $txt $from]
-          set to   [$txt index "[get_linenum $txt $to] lineend"]
-          clipboard clear
-          clipboard append [$txt get $from $to]
-          if {$cmd eq "d"} {
-            $txt delete $from $to
+        catch {
+          if {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)s/(.*)/(.*)/(g?)$} $value -> from to search replace glob]} {
+            set from [get_linenum $txt $from]
+            set to   [$txt index "[get_linenum $txt $to] lineend-1c"]
+            gui::do_raw_search_and_replace $from $to $search $replace [expr {$glob eq "g"}]
+          } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)([dy])$} $value -> from to cmd]} {
+            set from [get_linenum $txt $from]
+            set to   [$txt index "[get_linenum $txt $to] lineend"]
+            clipboard clear
+            clipboard append [$txt get $from $to]
+            if {$cmd eq "d"} {
+              $txt delete $from $to
+            }
+          } elseif {[regexp {^(\d+|[.^$]|\w+)$} $value]} {
+            $txt mark set insert [get_linenum $txt $value]
+            adjust_insert $txt.t
+            $txt see insert
+          } elseif {[regexp {^e\s+(.*)$} $value -> filename]} {
+            gui::add_file end [file normalize $filename]
+          } elseif {[regexp {^w\s+(.*)$} $value -> filename]} {
+            gui::save_current $filename
+          } elseif {[regexp {^m\s+(.*)$} $value -> marker]} {
+            set line [lindex [split [$txt index insert] .] 0]
+            if {$marker ne ""} {
+              markers::add $txt [$txt index insert] $marker
+              ctext::linemapSetMark $txt $line
+            } else {
+              markers::delete_by_line $txt $line
+              ctext::linemapClearMark $txt $line
+            }
           }
-        } elseif {[regexp {^([0-9]+|[.^$])$} $value]} {
-          $txt mark set insert [get_linenum $txt $value]
-          adjust_insert $txt.t
-          $txt see insert
-        } elseif {[regexp {^e\s+(.*)$} $value -> filename]} {
-          gui::add_file end [file normalize $filename]
-        } elseif {[regexp {^w\s+(.*)$} $value -> filename]} {
-          gui::save_current $filename
         }
       }
     }
@@ -171,8 +187,12 @@ namespace eval vim {
       return "1.0"
     } elseif {$char eq "$"} {
       return [$txt index "end linestart"]
-    } else {
+    } elseif {[set index [markers::get_index $txt $char]] ne ""} {
+      return $index
+    } elseif {[regexp {^\d+$} $char]} {
       return "$char.0"
+    } else {
+      return -code error "$char is not a valid marker name"
     }
     
   }

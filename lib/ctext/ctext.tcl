@@ -43,6 +43,7 @@ proc ctext {win args} {
   set ar(-linemap_markable) 1
   set ar(-linemap_select_fg) black
   set ar(-linemap_select_bg) yellow
+  set ar(-linemap_cursor) left_ptr
   set ar(-highlight) 1
   set ar(win) $win
   set ar(modified) 0
@@ -52,7 +53,7 @@ proc ctext {win args} {
   set ar(lastUpdate) 0
   
   set ar(ctextFlags) [list -yscrollcommand -linemap -linemapfg -linemapbg \
-  -font -linemap_mark_command -highlight -linemap_markable \
+  -font -linemap_mark_command -highlight -linemap_markable -linemap_cursor \
   -linemap_select_fg \
   -linemap_select_bg]
   
@@ -74,7 +75,7 @@ proc ctext {win args} {
   }
   
   text $win.l -font $ar(-font) -width 1 -height 1 \
-  -relief $ar(-relief) -fg $ar(-linemapfg) \
+  -relief $ar(-relief) -fg $ar(-linemapfg) -cursor $ar(-linemap_cursor) \
   -bg $ar(-linemapbg) -takefocus 0
   
   set topWin [winfo toplevel $win]
@@ -1001,6 +1002,43 @@ proc ctext::linemapToggleMark {win y} {
   if {[string length $configAr(-linemap_mark_command)]} {
     uplevel #0 [linsert $configAr(-linemap_mark_command) end $win $type $line]
   }
+}
+
+proc ctext::linemapSetMark {win line} {
+  
+  set line [$win.l get $line.0 $line.end]
+  
+  if {$line == ""} {
+    return
+  }
+  
+  ctext::getAr $win linemap linemapAr
+  
+  if {![info exists linemapAr($line)]} {
+    ctext::getAr $win config configAr
+    array set linemapAr [list $line {}]
+    $win.l tag add lmark $line.0 [$win.l index "$line.0 lineend"]
+    $win.l tag configure lmark -foreground $configAr(-linemap_select_fg) \
+      -background $configAr(-linemap_select_bg)
+  }
+  
+}
+
+proc ctext::linemapClearMark {win line} {
+  
+  set line [$win.l get $line.0 $line.end]
+  
+  if {$line == ""} {
+    return
+  }
+  
+  ctext::getAr $win linemap linemapAr
+  
+  if {[info exists linemapAr($line)] == 1} {
+    array unset linemapAr $line
+    ctext::linemapUpdate $win
+  }
+  
 }
 
 #args is here because -yscrollcommand may call it
