@@ -31,6 +31,7 @@ source [file join $tke_dir texttools.tcl]
 source [file join $tke_dir vim.tcl]
 source [file join $tke_dir syntax.tcl]
 source [file join $tke_dir api.tcl]
+source [file join $tke_dir markers.tcl]
 
 ######################################################################
 # Display the usage information to standard output and exits.

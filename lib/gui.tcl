@@ -2076,6 +2076,7 @@ namespace eval gui {
     ttk::frame $tab_frame.tf
     ctext $tab_frame.tf.txt -wrap none -undo 1 -autoseparators 1 -insertofftime 0 \
       -highlightcolor yellow \
+      -linemap_mark_command gui::mark_command -linemap_select_bg orange \
       -xscrollcommand "utils::set_scrollbar $tab_frame.tf.hb" \
       -yscrollcommand "utils::set_scrollbar $tab_frame.tf.vb"
     ttk::scrollbar $tab_frame.tf.vb -orient vertical   -command "$tab_frame.tf.txt yview"
@@ -2530,6 +2531,18 @@ namespace eval gui {
       
     }
   
+  }
+  
+  ######################################################################
+  # Handles a mark request when the line is clicked.
+  proc mark_command {win type line} {
+    
+    if {$type eq "marked"} {
+      markers::add $win $line
+    } else {
+      markers::delete_by_index $win $line
+    }
+    
   }
   
 }
