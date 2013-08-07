@@ -117,6 +117,10 @@ namespace eval vim {
             $txt mark set insert [get_linenum $txt $value]
             adjust_insert $txt.t
             $txt see insert
+          } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)c/(.*)/$} $value -> from to search]} {
+            set from [get_linenum $txt $from]
+            set to   [$txt index "[get_linenum $txt $to] lineend"]
+            multicursor::search_and_add_cursors $txt $from $to $search
           } elseif {[regexp {^e\s+(.*)$} $value -> filename]} {
             gui::add_file end [file normalize $filename]
           } elseif {[regexp {^w\s+(.*)$} $value -> filename]} {

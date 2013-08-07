@@ -188,13 +188,22 @@ namespace eval multicursor {
   }
   
   ######################################################################
+  # Searches for any string matches in the from/to range that match the
+  # regular expression "exp".  Whenever a match is found, the first
+  # character in the match is added to the current cursor list.
+  proc search_and_add_cursors {txt from to exp} {
+    
+    foreach index [$txt search -regexp -all $exp $from $to] {
+      add_cursor $txt $index
+    }
+    
+  }
+  
+  ######################################################################
   # Adjusts the cursors by the given suffix.
   proc adjust {txt suffix {insert 0} {insert_tag ""}} {
     
-    puts "In multicursor::adjust, txt: $txt, suffix: $suffix, insert: $insert, insert_tag: $insert_tag"
-    
     foreach {end start} [lreverse [$txt tag ranges mcursor]] {
-      puts "  start: $start"
       $txt tag remove mcursor $start
       if {$insert} {
         if {($suffix eq "+1c") && [$txt compare $start "$start lineend"]} {
@@ -210,9 +219,7 @@ namespace eval multicursor {
               $txt tag add $insert_tag "$start+1l linestart"
             }
             $txt tag add mcursor "$start+1l linestart"
-            puts "Setting mcursor [$txt index {$start+1l linestart}]"
           } rc
-          puts "  rc: $rc"
         } elseif {$suffix eq "-1l"} {
           $txt insert "$start linestart" " \n"
           if {$insert_tag ne ""} {
