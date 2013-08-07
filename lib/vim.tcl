@@ -192,7 +192,7 @@ namespace eval vim {
     } elseif {$char eq "$"} {
       return [$txt index "end linestart"]
     } elseif {[set index [markers::get_index $txt $char]] ne ""} {
-      return $index
+      return [$txt index "$index linestart"]
     } elseif {[regexp {^\d+$} $char]} {
       return "$char.0"
     } else {
