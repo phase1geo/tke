@@ -557,6 +557,8 @@ namespace eval vim {
     } elseif {[string is integer $keysym] && [handle_number $txt $char]} {
       record_add "Key-$keysym"
       return 1
+    } elseif {$mode($txt) eq "start"} {
+      return 1
     }
     
     record_add "Key-$keysym"
