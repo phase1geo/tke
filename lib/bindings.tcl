@@ -5,7 +5,7 @@
 
 namespace eval bindings {
 
-  variable bindings_file [file join $::tke_home menu_bindings.dat]
+  variable bindings_file [file join $::tke_home menu_bindings.tkedat]
 
   array set menus         {}
   array set menu_bindings {}
@@ -52,10 +52,9 @@ namespace eval bindings {
     variable menus
     
     if {[file exists $bindings_file]} {
-      if {![catch "open $bindings_file r" rc]} {
+      if {![catch "tkedat::read $bindings_file" rc]} {
         remove_all_bindings
-        array set menu_bindings [read $rc]
-        close $rc
+        array set menu_bindings $rc
         foreach mnu [array names menus] {
           apply $mnu
         }

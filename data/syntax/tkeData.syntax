@@ -1,0 +1,31 @@
+filepatterns
+{*.tkedat}
+
+indent
+{\{}
+
+unindent
+{\}}
+
+keywords {}
+
+symbols {}
+
+lcomments {
+  HighlightClassForRegexp {^\s*#.*$}
+}
+
+ccomments 0 
+
+strings {}
+
+numbers {}
+
+punctuation
+{
+  HighlightClassForRegexp {[\{\}]}
+}
+
+precompile {}
+
+miscellaneous {}

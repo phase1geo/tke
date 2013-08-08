@@ -1,0 +1,51 @@
+# Specifies the current theme that is used in the code editor.  Each
+# theme contains setting for syntax highlight coloring schemes, background
+# color and selection background/foreground colors.  The following
+# values are valid by default:
+#  - choco
+#  - default
+#  - idleFingers
+
+{Appearance/Theme}           {default}
+
+# If this value is set to 1, the sidebar will be displayed on application start.
+# If this value is set to 0, the sidebar will be hidden on application start.
+
+{View/ShowSidebar}           {1}
+
+# If this value is set to a value of "horizontal", multiple panes will be displayed
+# side by side.  If this value is set to a value of "vertical", multiple panes will
+# be displayed one on top of the other.
+
+{View/PaneOrientation}       {horizontal}
+
+# If this value is set to a value of 1, the application will start in Vim mode;
+# otherwise, if the value is set to a value of 0, the application will start in
+# normal mode.
+
+{Tools/VimMode}              {0}
+
+# This option is only valid when we are running in developer mode.  Specifies
+# how the profile report will be displayed.  Valid values are:
+#  - calls
+#  - FOOBAR
+
+{Tools/ProfileReportSortby}  {calls}
+
+# This option is only valid when we are running in developer mode.  Specifies
+# any extra options to pass to the profile report generator mechanism.
+
+{Tools/ProfileReportOptions} {}
+
+# This option allows tke to modify the NFS mounted location of a file if tke is
+# running on one machine and on another machine, the user calls tke with a new
+# file to edit.  This option is a Tcl list in the form of:
+#
+#  {<hostname> {<NFS base directory> <remote base directory>}}
+#
+# <hostname> is the name of the full hostname of the remote machine (same name
+# as running "info hostname" in a Tcl shell).
+# <NFS base directory> is the pathname of the NFS mounted directory that matches
+# the <remote base directory> directory on the remote machine.
+
+{NFSMounts}                  {}

@@ -5,7 +5,7 @@
 
 namespace eval preferences {
 
-  variable preferences_file [file join $::tke_home preferences.dat]
+  variable preferences_file [file join $::tke_home preferences.tkedat]
   
   array set prefs {}
   
@@ -40,9 +40,8 @@ namespace eval preferences {
     }
     
     # Check for file differences
-    if {![catch "open $preferences_file r" rc]} {
-      array set prefs [read $rc]
-      close $rc
+    if {![catch "tkedat::read $preferences_file" rc]} {
+      array set prefs $rc
     }
     
   }

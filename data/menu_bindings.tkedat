@@ -1,0 +1,43 @@
+# File menu bindings
+{.menubar.file/New}                        Ctrl-N
+{.menubar.file/Open File...}               Ctrl-O
+{.menubar.file/Open Directory...}          Ctrl-Shift-O
+{.menubar.file/Save}                       Ctrl-S
+{.menubar.file/Save As...}                 Ctrl-Shift-S
+{.menubar.file/Lock}                       Ctrl-L
+{.menubar.file/Close}                      Ctrl-W
+{.menubar.file/Quit}                       Ctrl-Q
+
+# Edit menu bindings
+{.menubar.edit/Undo}                       Ctrl-Z
+{.menubar.edit/Redo}                       Ctrl-R
+{.menubar.edit/Cut}                        Ctrl-X
+{.menubar.edit/Copy}                       Ctrl-C
+{.menubar.edit/Paste}                      Ctrl-V
+{.menubar.edit/Paste and Format}           Ctrl-Shift-V
+
+# Find menu bindings
+{.menubar.find/Find}                       Ctrl-F
+{.menubar.find/Find and Replace}           Ctrl-Shift-F
+{.menubar.find/Select next occurrence}     Alt-N
+{.menubar.find/Select previous occurrence} Alt-P
+{.menubar.find/Append next occurrence}     Alt-D
+{.menubar.find/Select all occurrences}     Alt-A
+{.menubar.find/Find Matching Pair}         Ctrl-P
+
+# Text menu bindings
+{.menubar.text/Comment}                    Ctrl-I
+{.menubar.text/Uncomment}                  Ctrl-Shift-I
+{.menubar.text/Indent}                     Ctrl-[
+{.menubar.text/Unindent}                   Ctrl-]
+{.menubar.text/Align cursors}              Ctrl-A
+
+# View menu bindings
+{.menubar.view/View Sidebar}               Ctrl-K
+
+# Tools menu bindings
+{.menubar.tools/Launcher}                  Ctrl-Space
+{.menubar.tools/Vim Mode}                  Ctrl-M
+
+
+
