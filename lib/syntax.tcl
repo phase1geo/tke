@@ -205,8 +205,9 @@ namespace eval syntax {
     # Set the text background color to the current theme
     $txt configure -background $theme(background) -foreground $theme(foreground) \
       -selectbackground $theme(selectbackground) -selectforeground $theme(selectforeground) \
-      -insertbackground $theme(cursor) -highlightcolor $theme(highlightcolor)
-
+      -insertbackground $theme(cursor) -highlightcolor $theme(highlightcolor) \
+      -warnwidth_bg $theme(warnwidthcolor)
+    
     # Set default indent/unindent strings
     indent::set_indent_expressions $txt.t "\{" "\}"
     

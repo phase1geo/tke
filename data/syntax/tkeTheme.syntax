@@ -9,13 +9,13 @@ unindent
 
 keywords
 {
-  background foreground selectbackground selectforeground cursor
+  background foreground selectbackground selectforeground highlightcolor cursor warnwidthcolor
   keywords comments strings numbers punctuation precompile miscellaneous
 }
 
 symbols
 {
-  background foreground selectbackground selectforeground cursor
+  background foreground selectbackground selectforeground highlightcolor cursor warnwidthcolor
   keywords comments strings numbers punctuation precompile miscellaneous
 }
 

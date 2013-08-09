@@ -271,6 +271,24 @@ namespace eval gui {
     # Start polling on the files
     poll
   
+    # Trace changes to the Appearance/Theme preference variable
+    trace variable preferences::prefs(Editor/WarningWidth) w gui::handle_warning_width_change
+    
+  }
+  
+  ######################################################################
+  # Handles any preference changes to the Editor/WarningWidth setting.
+  proc handle_warning_width_change {name1 name2 op} {
+    
+    variable widgets
+    
+    # Set the warning width to the specified value
+    foreach pane [$widgets(nb_pw) panes] {
+      foreach tab [$pane tabs] {
+        $tab.tf.txt configure -warnwidth $preferences::prefs(Editor/WarningWidth)
+      }
+    }
+    
   }
   
   ######################################################################
@@ -2080,7 +2098,7 @@ namespace eval gui {
     # Create the editor frame
     ttk::frame $tab_frame.tf
     ctext $tab_frame.tf.txt -wrap none -undo 1 -autoseparators 1 -insertofftime 0 \
-      -highlightcolor yellow \
+      -highlightcolor yellow -warnwidth $preferences::prefs(Editor/WarningWidth) \
       -linemap_mark_command gui::mark_command -linemap_select_bg orange \
       -xscrollcommand "utils::set_scrollbar $tab_frame.tf.hb" \
       -yscrollcommand "utils::set_scrollbar $tab_frame.tf.vb"

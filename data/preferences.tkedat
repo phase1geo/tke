@@ -8,6 +8,11 @@
 
 {Appearance/Theme}           {default}
 
+# Specifies the number of characters to allow on a line before additional characters
+# are flagged with a warning character.
+
+{Editor/WarningWidth}        {80}
+
 # If this value is set to 1, the sidebar will be displayed on application start.
 # If this value is set to 0, the sidebar will be hidden on application start.
 

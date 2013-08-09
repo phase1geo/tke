@@ -45,15 +45,16 @@ proc ctext {win args} {
   set ar(-linemap_select_bg) yellow
   set ar(-linemap_cursor) left_ptr
   set ar(-highlight) 1
+  set ar(-warnwidth) ""
+  set ar(-warnwidth_bg) red
   set ar(win) $win
   set ar(modified) 0
   set ar(commentsAfterId) ""
-  set ar(highlightAfterId) ""
   set ar(blinkAfterId) ""
   set ar(lastUpdate) 0
   
   set ar(ctextFlags) [list -yscrollcommand -linemap -linemapfg -linemapbg \
-  -font -linemap_mark_command -highlight -linemap_markable -linemap_cursor \
+  -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable -linemap_cursor \
   -linemap_select_fg \
   -linemap_select_bg]
   
@@ -133,8 +134,9 @@ proc ctext::event:Destroy {win dWin} {
   ctext::getAr $win config configAr
   
   catch {after cancel $configAr(commentsAfterId)}
-  catch {after cancel $configAr(highlightAfterId)}
   catch {after cancel $configAr(blinkAfterId)}
+  
+  bgproc::killall ctext::*
   
   catch {rename $win {}}
   interp alias {} $win.t {}
@@ -215,6 +217,21 @@ proc ctext::buildArgParseTable win {
     break
   }
   
+  lappend argTable any -warnwidth {
+    set configAr(-warnwidth) $value
+    ctext::warnWidthUpdate $self 1.0 [$self._t index end]
+    break
+  }
+  
+  lappend argTable any -warnwidth_bg {
+    if {[catch {winfo rgb $self $value} res]} {
+      return -code error $res
+    }
+    set configAr(-warnwidth_bg) $value
+    ctext::warnWidthUpdate $self 1.0 [$self._t index end]
+    break
+  }
+  
   lappend argTable {0 false no} -linemap_markable {
     set configAr(-linemap_markable) 0
     break
@@ -265,6 +282,11 @@ proc ctext::highlight {win lineStart lineEnd} {
 proc ctext::highlightAfterIdle {win lineStart lineEnd} {
 
   ctext::getAr $win config configAr
+  
+  # If highlighting has been disabled, return immediately
+  if {!$configAr(-highlight)} {
+    return
+  }
   
   # Set the lineChanged tag on all lines to highlight
   set currRow [lindex [split $lineStart .] 0]
@@ -408,6 +430,7 @@ proc ctext::instanceCmd {self cmd args} {
         }
         
         ctext::highlightAfterIdle $self $lineStart $lineEnd
+        ctext::warnWidthUpdate $self $lineStart $lineEnd
         ctext::linemapUpdate $self
       } elseif {$argsLength == 2} {
         #now deal with delete n.n ?n.n?
@@ -432,6 +455,7 @@ proc ctext::instanceCmd {self cmd args} {
         }
         
         ctext::highlightAfterIdle $self $lineStart $lineEnd
+        ctext::warnWidthUpdate $self $lineStart $lineEnd
         if {[string first "\n" $data] >= 0} {
           ctext::linemapUpdate $self
         }
@@ -444,12 +468,18 @@ proc ctext::instanceCmd {self cmd args} {
     fastdelete {
       eval \$self._t delete $args
       ctext::modified $self 1
+      if {[llength $args] == 1} {
+        ctext::warnWidthUpdate $self [$self._t index [lindex $args 0]] [$self._t index [lindex $args 0]]
+      } else {
+        ctext::warnWidthUpdate $self [$self._t index [lindex $args 0]] [$self._t index [lindex $args 1]]
+      }
       ctext::linemapUpdate $self
     }
     
     fastinsert {
       eval \$self._t insert $args
       ctext::modified $self 1
+      ctext::warnWidthUpdate $self 1.0 [$self._t index end]
       ctext::linemapUpdate $self
     }
     
@@ -498,6 +528,7 @@ proc ctext::instanceCmd {self cmd args} {
       }
       
       ctext::highlightAfterIdle $self $lineStart $lineEnd
+      ctext::warnWidthUpdate $self $lineStart $lineEnd
       
       switch -- $data {
         "\}" {
@@ -1087,6 +1118,33 @@ proc ctext::linemapUpdate {win args} {
   $win.l configure -width [string length $endrow]
 }
 
+# Updates the warning width, if specified
+proc ctext::warnWidthUpdate {win start end} {
+
+  ctext::getAr $win config configAr
+  
+  # If the warning width has not been specified, skip this step
+  if {$configAr(-warnwidth) eq ""} {
+    $win._t tag delete warnWidth
+    return
+  }
+  
+  # Check the width of each line and
+  set currRow [lindex [split $start .] 0]
+  set lastRow [lindex [split $end .] 0]
+  while {1} {
+    $win._t tag remove warnWidth $currRow.0 $currRow.end
+    $win._t tag add warnWidth $currRow.$configAr(-warnwidth) $currRow.end
+    if {[incr currRow] > $lastRow} {
+      break
+    }
+  }
+  
+  # Configure the background to a new color
+  $win._t tag configure warnWidth -background $configAr(-warnwidth_bg)
+  
+}
+
 # Starting with Tk 8.5 the text widget allows smooth scrolling; this
 # code calculates the offset for the line numbering text widget and
 # scrolls by the specified amount of pixels
@@ -1138,4 +1196,4 @@ proc ctext::modified {win value} {
   set ar(modified) $value
   event generate $win <<Modified>>
   return $value
-}                                                                          
+}
