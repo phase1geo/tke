@@ -832,6 +832,7 @@ namespace eval vim {
       $txt insert "insert lineend" " [string trimleft $line]"
     }
     $txt mark set insert $index
+    $txt see insert
 
     # Create a separator in the text history
     $txt edit separator
@@ -1112,6 +1113,7 @@ namespace eval vim {
     
     $txt insert "insert+1l linestart" "$clip\n"
     $txt mark set insert "insert+1l linestart"
+    $txt see insert
     
     # Create a marker in the text history
     $txt edit separator
