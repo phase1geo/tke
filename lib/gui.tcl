@@ -1332,7 +1332,7 @@ namespace eval gui {
     close $rc
  
     # If the file doesn't have a timestamp, it's a new file so add and highlight it in the sidebar
-    if {[lindex $files $file_index $files_index(mtime)] eq ""} {
+    if {([lindex $files $file_index $files_index(mtime)] eq "") || ($save_as ne "")} {
       
       # Add the file's directory to the sidebar
       add_directory [file dirname [file normalize [lindex $files $file_index $files_index(fname)]]]
