@@ -2260,7 +2260,7 @@ namespace eval gui {
     
     # Set the current pane
     set pw_current $pane
-    
+  
     # Set the current tab
     [current_notebook] select $tab
     
@@ -2302,10 +2302,20 @@ namespace eval gui {
   # Sets the current tab information based on the given text widget.
   proc set_current_tab_from_txt {txt} {
     
+    variable widgets
+    variable pw_current
+    
+    # Get the current tab
     set tab [winfo parent [winfo parent [winfo parent $txt]]]
         
-    # Get the tab from the text widget's notebook
-    set_current_tab_from_nb [winfo parent $tab]
+    # Get the pane index
+    if {[set pane [lsearch [$widgets(nb_pw) panes] [winfo parent $tab]]] == -1} {
+      return
+      
+    # Get the tab from the text widget's notebook if the pane has changed
+    } elseif {$pane ne $pw_current} {
+      set_current_tab_from_nb [winfo parent $tab]
+    }
     
     # Handle any on_focusin events
     plugins::handle_on_focusin $tab
