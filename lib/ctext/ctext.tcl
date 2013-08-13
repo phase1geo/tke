@@ -1011,26 +1011,19 @@ proc ctext::linemapToggleMark {win y} {
   }
   
   set markChar [$win.l index @0,$y]
-  set lineSelected [lindex [split $markChar .] 0]
-  set line [$win.l get $lineSelected.0 $lineSelected.end]
+  set line     [lindex [split $markChar .] 0]
   
-  if {$line == ""} {
-    return
-  }
-  
-  ctext::getAr $win linemap linemapAr
-  
-  if {[info exists linemapAr($line)] == 1} {
+  if {[lsearch [$win.t tag names $line.0] lmark] != -1} {
     #It's already marked, so unmark it.
-    array unset linemapAr $line
+    $win.t tag remove $line.0 $line.end
     ctext::linemapUpdate $win
     set type unmarked
   } else {
     #This means that the line isn't toggled, so toggle it.
-    array set linemapAr [list $line {}]
     $win.l tag add lmark $markChar [$win.l index "$markChar lineend"]
+    $win.t tag add lmark $markChar [$win.t index "$markChar lineend"]
     $win.l tag configure lmark -foreground $configAr(-linemap_select_fg) \
-    -background $configAr(-linemap_select_bg)
+      -background $configAr(-linemap_select_bg)
     set type marked
   }
   
@@ -1041,18 +1034,10 @@ proc ctext::linemapToggleMark {win y} {
 
 proc ctext::linemapSetMark {win line} {
   
-  set line [$win.l get $line.0 $line.end]
-  
-  if {$line == ""} {
-    return
-  }
-  
-  ctext::getAr $win linemap linemapAr
-  
-  if {![info exists linemapAr($line)]} {
+  if {[lsearch [$win.t tag names "$line linestart"] lmark] == -1} {
     ctext::getAr $win config configAr
-    array set linemapAr [list $line {}]
     $win.l tag add lmark $line.0 [$win.l index "$line.0 lineend"]
+    $win.t tag add lmark $line.0 [$win.t index "$line.0 lineend"]
     $win.l tag configure lmark -foreground $configAr(-linemap_select_fg) \
       -background $configAr(-linemap_select_bg)
   }
@@ -1061,16 +1046,8 @@ proc ctext::linemapSetMark {win line} {
 
 proc ctext::linemapClearMark {win line} {
   
-  set line [$win.l get $line.0 $line.end]
-  
-  if {$line == ""} {
-    return
-  }
-  
-  ctext::getAr $win linemap linemapAr
-  
-  if {[info exists linemapAr($line)] == 1} {
-    array unset linemapAr $line
+  if {[lsearch [$win.t tag names "$line linestart"] lmark] != -1} {
+    $win.t tag remove lmark "$line linestart" "$line lineend"
     ctext::linemapUpdate $win
   }
   
@@ -1090,7 +1067,6 @@ proc ctext::linemapUpdate {win args} {
   
   while {$pixel < [winfo height $win.l]} {
     set idx [$win._t index @0,$pixel]
-    
     if {$idx != $lastLine} {
       set line [lindex [split $idx .] 0]
       set lastLine $idx
@@ -1099,15 +1075,13 @@ proc ctext::linemapUpdate {win args} {
     incr pixel $incrBy
   }
   
-  ctext::getAr $win linemap linemapAr
-  
   $win.l delete 1.0 end
   set lastLine {}
   foreach line $lineList {
     if {$line == $lastLine} {
       $win.l insert end "\n"
     } else {
-      if {[info exists linemapAr($line)]} {
+      if {[lsearch [$win.t tag names $line.0] lmark] != -1} {
         $win.l insert end "$line\n" lmark
       } else {
         $win.l insert end "$line\n"
