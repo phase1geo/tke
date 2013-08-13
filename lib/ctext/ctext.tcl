@@ -292,7 +292,7 @@ proc ctext::highlightAfterIdle {win lineStart lineEnd} {
   set currRow [lindex [split $lineStart .] 0]
   set lastRow [lindex [split $lineEnd .] 0]
   while {1} {
-    $win tag add lineChanged $currRow.0
+    $win tag add lineChanged $currRow.0 $currRow.end
     if {[incr currRow] > $lastRow} {
       break
     }
@@ -496,7 +496,11 @@ proc ctext::instanceCmd {self cmd args} {
       set insertPos [lindex $args 0]
       set prevChar [$self._t get "$insertPos - 1 chars"]
       set nextChar [$self._t get $insertPos]
-      set lineStart [$self._t index "$insertPos linestart"]
+      if {$insertPos eq "end"} {
+        set lineStart [$self._t index "$insertPos-1c linestart"]
+      } else {
+        set lineStart [$self._t index "$insertPos linestart"]
+      }
       set prevSpace [ctext::findPreviousSpace $self._t ${insertPos}-1c]
       set data [lindex $args 1]
       set datalen [string length $data]
