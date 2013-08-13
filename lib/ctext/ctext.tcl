@@ -75,9 +75,13 @@ proc ctext {win args} {
     }
   }
   
+  # Initialize the starting linemap ID
+  ctext::getAr $win linemap linemapAr
+  set linemapAr(id) 0
+  
   text $win.l -font $ar(-font) -width 1 -height 1 \
-  -relief $ar(-relief) -fg $ar(-linemapfg) -cursor $ar(-linemap_cursor) \
-  -bg $ar(-linemapbg) -takefocus 0
+    -relief $ar(-relief) -fg $ar(-linemapfg) -cursor $ar(-linemap_cursor) \
+    -bg $ar(-linemapbg) -takefocus 0
   
   set topWin [winfo toplevel $win]
   bindtags $win.l [list $win.l $topWin all]
@@ -87,7 +91,7 @@ proc ctext {win args} {
   }
   
   set args [concat $args [list -yscrollcommand \
-  [list ctext::event:yscroll $win $ar(-yscrollcommand)]]]
+    [list ctext::event:yscroll $win $ar(-yscrollcommand)]]]
   
   #escape $win, because it could have a space
   eval text \$win.t -font \$ar(-font) $args
@@ -1004,40 +1008,48 @@ proc ctext::doHighlight {win} {
 }
 
 proc ctext::linemapToggleMark {win y} {
+  
   ctext::getAr $win config configAr
   
   if {!$configAr(-linemap_markable)} {
     return
   }
   
+  ctext::getAr $win linemap linemapAr
+  
   set markChar [$win.l index @0,$y]
   set line     [lindex [split $markChar .] 0]
   
-  if {[lsearch [$win.t tag names $line.0] lmark] != -1} {
+  if {[set lmark [lsearch -inline -glob [$win.t tag names $line.0] lmark*]] ne ""} {
     #It's already marked, so unmark it.
-    $win.t tag remove $line.0 $line.end
+    $win.l tag remove lmark $line.0 $line.end
+    $win.t tag delete $lmark
     ctext::linemapUpdate $win
     set type unmarked
   } else {
+    set lmark "lmark[incr linemapAr(id)]"
     #This means that the line isn't toggled, so toggle it.
+    $win.t tag add $lmark $markChar [$win.t index "$markChar lineend"]
     $win.l tag add lmark $markChar [$win.l index "$markChar lineend"]
-    $win.t tag add lmark $markChar [$win.t index "$markChar lineend"]
     $win.l tag configure lmark -foreground $configAr(-linemap_select_fg) \
       -background $configAr(-linemap_select_bg)
     set type marked
   }
   
   if {[string length $configAr(-linemap_mark_command)]} {
-    uplevel #0 [linsert $configAr(-linemap_mark_command) end $win $type $line]
+    uplevel #0 [linsert $configAr(-linemap_mark_command) end $win $type $lmark]
   }
+  
 }
 
 proc ctext::linemapSetMark {win line} {
   
-  if {[lsearch [$win.t tag names "$line linestart"] lmark] == -1} {
+  if {[lsearch -inline -glob [$win.t tag names "$line linestart"] lmark*] eq ""} {
     ctext::getAr $win config configAr
+    ctext::getAr $win linemap linemapAr
+    set lmark "lmark[incr linemapAr(id)]"
+    $win.t tag add $lmark $line.0 [$win.t index "$line.0 lineend"]
     $win.l tag add lmark $line.0 [$win.l index "$line.0 lineend"]
-    $win.t tag add lmark $line.0 [$win.t index "$line.0 lineend"]
     $win.l tag configure lmark -foreground $configAr(-linemap_select_fg) \
       -background $configAr(-linemap_select_bg)
   }
@@ -1046,8 +1058,9 @@ proc ctext::linemapSetMark {win line} {
 
 proc ctext::linemapClearMark {win line} {
   
-  if {[lsearch [$win.t tag names "$line linestart"] lmark] != -1} {
-    $win.t tag remove lmark "$line linestart" "$line lineend"
+  if {[set lmark [lsearch -inline -glob [$win.t tag names "$line linestart"] lmark*]] ne ""} {
+    $win.t tag delete $lmark
+    $win.l tag remove lmark $line.0 $line.end 
     ctext::linemapUpdate $win
   }
   
@@ -1081,7 +1094,7 @@ proc ctext::linemapUpdate {win args} {
     if {$line == $lastLine} {
       $win.l insert end "\n"
     } else {
-      if {[lsearch [$win.t tag names $line.0] lmark] != -1} {
+      if {[lsearch -glob [$win.t tag names $line.0] lmark*] != -1} {
         $win.l insert end "$line\n" lmark
       } else {
         $win.l insert end "$line\n"

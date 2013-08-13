@@ -1,4 +1,4 @@
-######################################################################
+ ######################################################################
 # Name:    markers.tcl
 # Author:  Trevor Williams  (phase1geo@gmail.com)
 # Date:    08/05/2013
@@ -12,7 +12,7 @@ namespace eval markers {
   ######################################################################
   # Adds a new marker for the given index.  Returns 1 if the marker
   # was added; otherwise, returns 0.
-  proc add {txt index {name ""}} {
+  proc add {txt tag {name ""}} {
     
     variable markers
     
@@ -22,7 +22,7 @@ namespace eval markers {
     }
     
     # Add the marker
-    set markers($txt,$name) $index
+    set markers($txt,$name) $tag
     
     return 1
   
@@ -41,13 +41,13 @@ namespace eval markers {
   }
   
   ######################################################################
-  # Deletes the marker of the given index, if it exists.
-  proc delete_by_index {txt index} {
+  # Deletes the marker of the given tag, if it exists.
+  proc delete_by_tag {txt tag} {
     
     variable markers
     
-    foreach {name i} [array get markers $txt,*] {
-      if {$i eq $index} {
+    foreach {name t} [array get markers $txt,*] {
+      if {$t eq $tag} {
         unset markers($name)
       }
     }
@@ -60,8 +60,8 @@ namespace eval markers {
     
     variable markers
     
-    foreach {name index} [array get markers $txt,*] {
-      if {[lindex [split $index .] 0] eq $line} {
+    foreach {name tag} [array get markers $txt,*] {
+      if {[lsearch [$txt tag ranges $tag] $line.0] != -1} {
         unset markers($name)
       }
     }
@@ -94,11 +94,7 @@ namespace eval markers {
     variable markers
     
     if {[info exists markers($txt,$name)]} {
-      if {[regexp {^\d+$} $markers($txt,$name)]} {
-        return $markers($txt,$name).0
-      } else {
-        return $markers($txt,$name)
-      }
+      return [lindex [$txt tag ranges $markers($txt,$name)] 0]
     } else {
       return ""
     }

@@ -2585,14 +2585,14 @@ namespace eval gui {
   
   ######################################################################
   # Handles a mark request when the line is clicked.
-  proc mark_command {win type line} {
+  proc mark_command {win type tag} {
     
     if {$type eq "marked"} {
-      if {![markers::add $win $line]} {
-        ctext::linemapClearMark $win $line
+      if {![markers::add $win $tag]} {
+        ctext::linemapClearMark $win $tag
       }
     } else {
-      markers::delete_by_index $win $line
+      markers::delete_by_tag $win $tag
     }
     
   }
