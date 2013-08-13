@@ -191,6 +191,9 @@ namespace eval gui {
       gui::move_to_pane
     }
     
+    # Add plugins to tab popup
+    plugins::handle_tab_popup $widgets(menu)
+    
     # Create directory popup
     set widgets(dirmenu) [menu $widgets(fview).dirPopupMenu -tearoff 0]
     $widgets(dirmenu) add command -label "New File" -command {
@@ -213,6 +216,9 @@ namespace eval gui {
     $widgets(dirmenu) add command -label "Remove Parent from Sidebar" -command {
       gui::remove_parent_from_sidebar
     }
+    
+    # Add plugins to sidebar directory popup
+    plugins::handle_dir_popup $widgets(dirmenu)
     
     # Create a root directory popup
     set widgets(rootmenu) [menu $widgets(fview).rootPopupMenu -tearoff 0]
@@ -237,6 +243,9 @@ namespace eval gui {
       gui::add_parent_directory
     }
     
+    # Add plugins to sidebar root popup
+    plugins::handle_root_popup $widgets(rootmenu)
+    
     # Create file popup
     set widgets(filemenu) [menu $widgets(fview).filePopupMenu -tearoff 0]
     $widgets(filemenu) add command -label "Open" -command {
@@ -252,6 +261,9 @@ namespace eval gui {
     $widgets(filemenu) add command -label "Delete File" -command {
       gui::delete_file
     }
+    
+    # Add plugins to sidebar file popup
+    plugins::handle_file_popup $widgets(filemenu)
     
     # Add the menu bar
     menus::create

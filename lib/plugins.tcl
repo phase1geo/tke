@@ -5,7 +5,10 @@
 #
 # List of available plugin actions:
 #  menu        - Adds a menu to the main menubar
-#  sb_popup    - Adds items to the file sidebar popup menu
+#  tab_popup   - Adds items to the tab popup menu
+#  root_popup  - Adds items to a root directory sidebar popup menu
+#  dir_popup   - Adds items to a non-root directory sidebar popup menu
+#  file_popup  - Adds items to a file sidebar popup menu
 #  writeplugin - Writes local plugin information to a save file (saves data between sessions)
 #  readplugin  - Reads local plugin information from a save file
 #  on_start    - Runs when the editor is started
@@ -20,6 +23,10 @@ namespace eval plugins {
 
   variable registry_size 0
   variable plugin_mb     ""
+  variable tab_popup     ""
+  variable root_popup    ""
+  variable dir_popup     ""
+  variable file_popup    ""
   
   array set registry     {}
   array set prev_sourced {}
@@ -367,6 +374,10 @@ namespace eval plugins {
     
     # Add all of the plugins
     handle_menu_add
+    handle_tab_popup_add
+    handle_root_popup_add
+    handle_dir_popup_add
+    handle_file_popup_add
   
   }
   
@@ -596,6 +607,102 @@ namespace eval plugins {
         }
       }
       incr mnu_index
+    }
+    
+  }
+  
+  ######################################################################
+  # Adds any tab_popup menu items to the tab popup menu.
+  proc handle_tab_popup {{mnu ""}} {
+    
+    variable tab_popup
+    
+    # Save the plugin menu
+    if {$mnu ne ""} {
+      set tab_popup $mnu
+    }
+    
+    # Get the list of menu entries
+    if {[llength [set entries [find_registry_entries "tab_popup"]]] > 0} {
+      $tab_popup add separator
+    }
+    
+    # Add each of the entries
+    foreach entry $entries {
+      lassign $entry index type hier do
+      handle_menu_add_item $tab_popup [split $hier .] $type $do
+    }
+    
+  }
+
+  ######################################################################
+  # Adds any root_popup menu items to the given menu.
+  proc handle_root_popup {{mnu ""}} {
+    
+    variable root_popup
+    
+    # Save the root popup menu
+    if {$mnu ne ""} {
+      set root_popup $mnu
+    }
+    
+    # Get the list of menu entries
+    if {[llength [set entries [find_registry_entries "root_popup"]]] > 0} {
+      $root_popup add separator
+    }
+    
+    # Add each of the entries
+    foreach entry $entries {
+      lassign $entry index type hier do
+      handle_menu_add_item $root_popup [split $hier .] $type $do
+    }
+    
+  }
+  
+  ######################################################################
+  # Adds any dir_popup menu items to the given menu.
+  proc handle_dir_popup {{mnu ""}} {
+    
+    variable dir_popup
+    
+    # Save the dir popup menu
+    if {$mnu ne ""} {
+      set dir_popup $mnu
+    }
+    
+    # Get the list of menu entries
+    if {[llength [set entries [find_registry_entries "dir_popup"]]] > 0} {
+      $dir_popup add separator
+    }
+    
+    # Add each of the entries
+    foreach entry $entries {
+      lassign $entry index type hier do
+      handle_menu_add_item $dir_popup [split $hier .] $type $do
+    }
+    
+  }
+  
+  ######################################################################
+  # Adds any file_popup menu items to the given menu.
+  proc handle_file_popup {mnu} {
+    
+    variable file_popup
+    
+    # Save the file popup menu
+    if {$mnu ne ""} {
+      set file_popup $mnu
+    }
+    
+    # Get the list of menu entries
+    if {[llength [set entries [find_registry_entries "file_popup"]]] > 0} {
+      $file_popup add separator
+    }
+    
+    # Add each of the entries
+    foreach entry $entries {
+      lassign $entry index type hier do
+      handle_menu_add_item $file_popup [split $hier .] $type $do
     }
     
   }
