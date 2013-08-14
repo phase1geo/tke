@@ -236,7 +236,6 @@ namespace eval plugins {
             }
             if {($i < $registry_size) && $registry($i,selected) && ([lsearch $bad_sources $i] == -1)} {
               foreach action [array names registry $i,action,readplugin,*] {
-                puts "[lindex $registry($action) 0] $suboption {$value}"
                 if {[catch "[lindex $registry($action) 0] $suboption {$value}" status]} {
                   handle_status_error $i $status
                   lappend bad_sources $i
@@ -351,7 +350,7 @@ namespace eval plugins {
     variable registry
     
     # Delete all plugin menu items
-    handle_menu_delete
+    delete_all_menus
     
     # Source the file if it hasn't been previously sourced
     if {$registry($index,sourced) == 0} {
@@ -373,11 +372,7 @@ namespace eval plugins {
     }
     
     # Add all of the plugins
-    handle_menu_add
-    handle_tab_popup_add
-    handle_root_popup_add
-    handle_dir_popup_add
-    handle_file_popup_add
+    add_all_menus
   
   }
   
@@ -415,13 +410,13 @@ namespace eval plugins {
     variable registry
     
     # Delete all plugin menu items
-    handle_menu_delete
+    delete_all_menus
     
     # Unselect the plugin
     set registry($index,selected) 0
     
     # Add all of the plugins
-    handle_menu_add
+    add_all_menus
     
     # Display the uninstall message
     after 100 [list gui::set_info_message "Plugin $registry($index,name) uninstalled"]
@@ -476,7 +471,7 @@ namespace eval plugins {
   }
   
   ######################################################################
-  # Finds all of the registry entries that match the given type.
+  # Finds all of the registry entries that match the given action.
   proc find_registry_entries {type} {
   
     variable registry
@@ -496,37 +491,30 @@ namespace eval plugins {
   ######################################################################
   # Adds the menus to the given plugin menu.  This is called after the
   # plugin menu is initially created.
-  proc handle_menu_add {{mb ""}} {
-  
-    variable plugin_mb
-    
-    # Save the plugin menu
-    if {$mb ne ""} {
-      set plugin_mb $mb
-    }
+  proc menu_add {mnu action} {
     
     # Get the list of menu entries
-    if {[llength [set entries [find_registry_entries "menu"]]] > 0} {
-      $plugin_mb add separator
+    if {[llength [set entries [find_registry_entries $action]]] > 0} {
+      $mnu add separator
     }
     
     # Add each of the entries
     foreach entry $entries {
       lassign $entry index type hier do
-      handle_menu_add_item $plugin_mb [split $hier .] $type $do
+      menu_add_item $mnu $action [split $hier .] $type $do
     }
     
   }
   
   ######################################################################
   # Adds menu item, creating all needed cascading menus.
-  proc handle_menu_add_item {mnu hier type do} {
+  proc menu_add_item {mnu action hier type do} {
     
     # Add cascading menus
     while {[llength [set hier [lassign $hier level]]] > 0} {
       set sub_mnu [string tolower [string map {{ } _} $level]]
       if {![winfo exists $mnu.$sub_mnu]} {
-        set new_mnu [menu $mnu.$sub_mnu -tearoff 0 -postcommand "plugins::handle_menu_state $mnu.$sub_mnu"]
+        set new_mnu [menu $mnu.$sub_mnu -tearoff 0 -postcommand "plugins::menu_state $mnu.$sub_mnu $action"]
         $mnu add cascade -label $level -menu $mnu.$sub_mnu
       }
       set mnu $mnu.$sub_mnu
@@ -549,23 +537,23 @@ namespace eval plugins {
   
   ######################################################################
   # Deletes all of the menus in the plugins menu.
-  proc handle_menu_delete {} {
+  proc menu_delete {mnu action} {
   
-    variable plugin_mb
+    variable menus
     
     # Get the list of menu entries
-    if {[llength [set entries [find_registry_entries "menu"]]] > 0} {
+    if {[llength [set entries [find_registry_entries $action]]] > 0} {
       
       # Delete all of the plugin items
       foreach entry $entries {
         lassign $entry index hier
-        if {[handle_menu_delete_item $plugin_mb [lrange [split [string tolower [string map {{ } _} $hier]] .] 0 end-1]]} {
-          $plugin_mb delete last
+        if {[menu_delete_item $mnu [lrange [split [string tolower [string map {{ } _} $hier]] .] 0 end-1]]} {
+          $mnu delete last
         }
       }
       
       # Delete the last separator
-      $plugin_mb delete last
+      $mnu delete last
     
     }
   
@@ -573,7 +561,7 @@ namespace eval plugins {
   
   ######################################################################
   # Deletes one upper level
-  proc handle_menu_delete_item {mnu hier} {
+  proc menu_delete_item {mnu hier} {
   
     while {[llength $hier] > 0} {
       if {![winfo exists $mnu.[join $hier .]]} {
@@ -589,14 +577,14 @@ namespace eval plugins {
   
   ######################################################################
   # Updates the plugin menu state of the given menu.
-  proc handle_menu_state {mnu} {
+  proc menu_state {mnu action} {
   
-    variable plugin_mb
-  
+    variable menus
+    
     set mnu_index 0
-    foreach entry [find_registry_entries "menu"] {
-      lassign $entry index hier do state
-      set entry_mnu "$plugin_mb.[string tolower [string map {{ } _} [join [lrange [split $hier .] 0 end-1] .]]]"
+    foreach entry [find_registry_entries $action] {
+      lassign $entry index type hier do state
+      set entry_mnu "$menus($action).[string tolower [string map {{ } _} [join [lrange [split $hier .] 0 end-1] .]]]"
       if {$mnu eq $entry_mnu} {
         if {[catch "$state" status]} {
           handle_status_error $index $status
@@ -612,74 +600,82 @@ namespace eval plugins {
   }
   
   ######################################################################
-  # Adds any tab_popup menu items to the tab popup menu.
-  proc handle_tab_popup {{mnu ""}} {
+  # Adds all of the plugins to the list of available menus.
+  proc add_all_menus {} {
     
-    variable tab_popup
+    variable menus
     
-    # Save the plugin menu
-    if {$mnu ne ""} {
-      set tab_popup $mnu
-    }
-    
-    # Get the list of menu entries
-    if {[llength [set entries [find_registry_entries "tab_popup"]]] > 0} {
-      $tab_popup add separator
-    }
-    
-    # Add each of the entries
-    foreach entry $entries {
-      lassign $entry index type hier do
-      handle_menu_add_item $tab_popup [split $hier .] $type $do
-    }
-    
-  }
-
-  ######################################################################
-  # Adds any root_popup menu items to the given menu.
-  proc handle_root_popup {{mnu ""}} {
-    
-    variable root_popup
-    
-    # Save the root popup menu
-    if {$mnu ne ""} {
-      set root_popup $mnu
-    }
-    
-    # Get the list of menu entries
-    if {[llength [set entries [find_registry_entries "root_popup"]]] > 0} {
-      $root_popup add separator
-    }
-    
-    # Add each of the entries
-    foreach entry $entries {
-      lassign $entry index type hier do
-      handle_menu_add_item $root_popup [split $hier .] $type $do
+    foreach {action mnu} [array get menus] {
+      menu_add $mnu $action
     }
     
   }
   
   ######################################################################
+  # Deletes all plugins from their respective menus.
+  proc delete_all_menus {} {
+    
+    variable menus
+    
+    foreach {action mnu} [array get menus] {
+      menu_delete $mnu $action
+    }
+    
+  }
+  
+  ######################################################################
+  # Called when the plugin menu is created.
+  proc handle_plugin_menu {mnu} {
+    
+    variable menus
+    
+    # Add the menu to the list of menus to update
+    set menus(menu) $mnu
+    
+    # Add the menu items
+    menu_add $mnu menu
+    
+  }
+  
+  ######################################################################
+  # Adds any tab_popup menu items to the tab popup menu.
+  proc handle_tab_popup {mnu} {
+    
+    variable menus
+    
+    # Add the menu to the list of menus to update
+    set menus(tab_popup) $mnu
+    
+    # Add the menu items
+    menu_add $mnu tab_popup
+    
+  }
+
+  ######################################################################
+  # Adds any root_popup menu items to the given menu.
+  proc handle_root_popup {mnu} {
+    
+    variable menus
+    
+    # Add the menu to the list of menus to update
+    set menus(root_popup) $mnu
+    
+    # Add the menu items
+    menu_add $mnu root_popup
+    
+  }
+  
+  ######################################################################
   # Adds any dir_popup menu items to the given menu.
-  proc handle_dir_popup {{mnu ""}} {
+  proc handle_dir_popup {mnu} {
     
-    variable dir_popup
+    variable menus
     
-    # Save the dir popup menu
-    if {$mnu ne ""} {
-      set dir_popup $mnu
-    }
+    # Add the menu to the list of menus to update
+    set menus(dir_popup) $mnu
     
-    # Get the list of menu entries
-    if {[llength [set entries [find_registry_entries "dir_popup"]]] > 0} {
-      $dir_popup add separator
-    }
-    
-    # Add each of the entries
-    foreach entry $entries {
-      lassign $entry index type hier do
-      handle_menu_add_item $dir_popup [split $hier .] $type $do
-    }
+    # Add the menu items
+    menu_add $mnu dir_popup
     
   }
   
@@ -687,23 +683,13 @@ namespace eval plugins {
   # Adds any file_popup menu items to the given menu.
   proc handle_file_popup {mnu} {
     
-    variable file_popup
+    variable menus
     
-    # Save the file popup menu
-    if {$mnu ne ""} {
-      set file_popup $mnu
-    }
+    # Add the menu to the list of menus to update
+    set menus(file_popup) $mnu
     
-    # Get the list of menu entries
-    if {[llength [set entries [find_registry_entries "file_popup"]]] > 0} {
-      $file_popup add separator
-    }
-    
-    # Add each of the entries
-    foreach entry $entries {
-      lassign $entry index type hier do
-      handle_menu_add_item $file_popup [split $hier .] $type $do
-    }
+    # Add the menu items
+    menu_add $mnu file_popup
     
   }
   

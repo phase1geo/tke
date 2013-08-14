@@ -591,7 +591,7 @@ namespace eval menus {
     launcher::register "Menu: Create new plugin" "plugins::create_new_plugin"
     
     # Allow the plugin architecture to add menu items
-    plugins::handle_menu_add $mb
+    plugins::handle_plugin_menu $mb
     
   }
   
