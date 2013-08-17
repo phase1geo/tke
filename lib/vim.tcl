@@ -274,6 +274,17 @@ namespace eval vim {
       focus %W
       break
     }
+    bind vim$txt <B1-Motion> {
+      %W tag remove sel 1.0 end
+      set current [%W index @%x,%y]
+      %W tag add sel [utils::text_anchor %W] $current
+      %W mark set insert $current
+      if {$vim::mode(%W) ne "edit"} {
+        vim::adjust_insert %W
+      }
+      focus %W
+      break
+    }
     
     # Insert the vimpre binding just prior to all
     set all_index [lsearch [bindtags $txt.t] all]
