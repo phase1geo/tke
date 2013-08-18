@@ -13,6 +13,11 @@
 
 {Editor/WarningWidth}        {80}
 
+# Specifies the number of spaces that will be inserted when the tab character is
+# entered in edit mode.
+
+{Editor/SpacesPerTab}        {4}
+
 # If this value is set to 1, the sidebar will be displayed on application start.
 # If this value is set to 0, the sidebar will be hidden on application start.
 

@@ -232,9 +232,13 @@ namespace eval snippets {
       }
     }
     bind snippet$txt <Tab> {
-      if {[snippets::handle_tab %W]} {
-        break
+      if {![snippets::handle_tab %W]} {
+        if {![vim::in_vim_mode %W]} {
+          %W insert insert [string repeat " " $preferences::prefs(Editor/SpacesPerTab)]
+          %W mark set insert "insert + $preferences::prefs(Editor/SpacesPerTab) c"
+        }
       }
+      break
     }
     
     bindtags $txt.t [linsert [bindtags $txt.t] 3 snippet$txt]
