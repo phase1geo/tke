@@ -83,13 +83,21 @@ namespace eval api {
   }
   
   ######################################################################
-  # Adds a file to the browser.  If the file name is the empty string,
-  # a new untitled file tab will be created.
+  # Adds a file to the browser.  If the first argument does not start with
+  # a '-' character, the argument is considered to be the name of a file
+  # to add.  If no filename is specified, an empty/unnamed file will be added.
+  # All other options are considered to be parameters.
   #
   # Parameters:
-  #   fname        - Full, normalized filename to add (optional).
-  #   save_command - Command to execute when the file is saved (only
-  #                  valid when fname is not the empty string).
+  #   -savecommand <command>  Specifies the name of a command to execute after
+  #                           the file is saved.
+  #   -lock (0|1)             If set to 0, the file will begin in the unlocked
+  #                           state (i.e., the user can edit the file immediately).
+  #                           If set to 1, the file will begin in the locked state
+  #                           (i.e., the user must unlock the file to edit it)
+  #   -readonly (0|1)         If set to 1, the file will be considered readonly
+  #                           (i.e., the file will be locked indefinitely); otherwise,
+  #                           the file will be able to be edited.
   proc add_file {args} {
   
     if {([llength $args] == 0) || ([string index [lindex $args 0] 0] eq "-")} {
