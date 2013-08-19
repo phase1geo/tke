@@ -24,7 +24,7 @@ namespace eval preferences {
     launcher::register "Preferences: Edit user preferences" \
       [list gui::add_file end $user_preferences_file -savecommand preferences::load_file]
     launcher::register "Preferences: View global preferences" \
-      [list gui::add_file end $base_preferences_file -lock 1] 
+      [list gui::add_file end $base_preferences_file -lock 1 -readonly 1] 
     launcher::register "Preferences: Use default preferences" "preferences::copy_default"
     launcher::register "Preferences: Reload preferences" "preferences::load_file"
   

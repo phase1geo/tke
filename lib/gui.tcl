@@ -31,6 +31,7 @@ namespace eval gui {
     pane     3
     tab      4
     lock     5
+    readonly 6
   }
   
   #######################
@@ -278,8 +279,9 @@ namespace eval gui {
     }
     
     # Create images
-    set images(lock) [image create bitmap -file [file join $::tke_dir images lock.bmp] -maskfile [file join $::tke_dir images lock.bmp] -foreground grey10]
-
+    set images(lock)     [image create bitmap -file [file join $::tke_dir images lock.bmp] -maskfile [file join $::tke_dir images lock.bmp] -foreground grey10]
+    set images(readonly) [image create bitmap -file [file join $::tke_dir images lock.bmp] -maskfile [file join $::tke_dir images lock.bmp] -foreground grey30]
+    
     # Start polling on the files
     poll
   
@@ -315,8 +317,11 @@ namespace eval gui {
     # Get the current file index
     set file_index [current_file]
     
+    # Get the readonly variable
+    set readonly [lindex $files $file_index $files_index(readonly)]
+
     # Set the file_locked variable
-    set file_locked [lindex $files $file_index $files_index(lock)]
+    set file_locked [expr $readonly || [lindex $files $file_index $files_index(lock)]]
     
     # Get the current notebook
     set nb [current_notebook]
@@ -331,6 +336,11 @@ namespace eval gui {
       $widgets(menu) entryconfigure "Move*" -state normal
     } else {
       $widgets(menu) entryconfigure "Move*" -state disabled
+    }
+    if {$readonly} {
+      $widgets(menu) entryconfigure "Locked" -state disabled
+    } else {
+      $widgets(menu) entryconfigure "Locked" -state normal
     }
   
   }
@@ -1072,6 +1082,7 @@ namespace eval gui {
     array set opts {
       -savecommand ""
       -lock        0
+      -readonly    0
     }
     array set opts $args
     
@@ -1089,6 +1100,7 @@ namespace eval gui {
     lset file_info $files_index(pane)     $pw_current
     lset file_info $files_index(tab)      [[current_notebook] index $w]
     lset file_info $files_index(lock)     0
+    lset file_info $files_index(readonly) $opts(-readonly)
  
     # Add the file information to the files list
     lappend files $file_info
@@ -1118,6 +1130,7 @@ namespace eval gui {
     array set opts {
       -savecommand ""
       -lock        0
+      -readonly    0
     }
     array set opts $args
 
@@ -1149,6 +1162,7 @@ namespace eval gui {
       lset file_info $files_index(pane)     $pw_current
       lset file_info $files_index(tab)      $nb_index
       lset file_info $files_index(lock)     0
+      lset file_info $files_index(readonly) $opts(-readonly)
 
       if {![catch "open $fname r" rc]} {
     
@@ -1978,7 +1992,10 @@ namespace eval gui {
     lset files $file_index $files_index(lock) $lock 
     
     # Change the state of the text widget to match the lock value
-    if {$lock} {
+    if {[lindex $files $file_index $files_index(readonly)]} {
+      [current_notebook] tab current -compound left -image $images(readonly)
+      [current_txt] configure -state disabled
+    } elseif {$lock} {
       [current_notebook] tab current -compound left -image $images(lock)
       [current_txt] configure -state disabled
     } else {

@@ -29,7 +29,7 @@ namespace eval bindings {
     launcher::register "Menu Bindings: Edit user menu bindings" \
       [list gui::add_file end $user_bindings_file -savecommand bindings::load_file]
     launcher::register "Menu Bindings: View global menu bindings" \
-      [list gui::add_file end $base_bindings_file -lock 1]
+      [list gui::add_file end $base_bindings_file -lock 1 -readonly 1]
     launcher::register "Menu Bindings: Use default menu bindings" "bindings::copy_default"
     launcher::register "Menu Bindings: Reload menu bindings" "bindings::load_file"
   

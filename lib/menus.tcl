@@ -12,7 +12,7 @@ namespace eval menus {
   #######################
   #  PUBLIC PROCEDURES  #
   #######################
-
+  
   ######################################################################
   # Creates the main menu.
   proc create {} {
@@ -105,16 +105,22 @@ namespace eval menus {
   # Called prior to the file menu posting.
   proc file_posting {mb} {
   
+    # Get the current readonly status
+    set readonly [gui::get_file_info [gui::current_file] readonly]
+    
     # Get the current file lock status
-    set file_lock [gui::get_file_info [gui::current_file] lock]
-
+    set file_lock [expr $readonly || [gui::get_file_info [gui::current_file] lock]]
+    
     # Configure the Lock/Unlock menu item    
     if {$file_lock && ![catch "$mb index Lock" index]} {
-      $mb entryconfigure $index -label "Unlock" -command "menus::unlock_command $mb"
+      $mb entryconfigure $index -label "Unlock" -state normal -command "menus::unlock_command $mb"
+      if {$readonly} {
+        $mb entryconfigure $index -state disabled
+      }
     } elseif {!$file_lock && ![catch "$mb index Unlock" index]} {
-      $mb entryconfigure $index -label "Lock" -command "menus::lock_command $mb"
+      $mb entryconfigure $index -label "Lock" -state normal -command "menus::lock_command $mb"
     }
-      
+    
   }
   
   ######################################################################
