@@ -90,12 +90,18 @@ namespace eval api {
   #   fname        - Full, normalized filename to add (optional).
   #   save_command - Command to execute when the file is saved (only
   #                  valid when fname is not the empty string).
-  proc add_file {{fname ""} {save_command ""}} {
+  proc add_file {args} {
   
-    if {$fname eq ""} {
-      gui::add_new_file end
+    if {([llength $args] == 0) || ([string index [lindex $args 0] 0] eq "-")} {
+      if {[llength $args] % 2] == 1} {
+        return -code error "Argument list to api::add_file was not an even key/value pair"
+      }
+      gui::add_new_file end {*}$args
     } else {
-      gui::add_file end $fname $save_command
+      if {[llength $args] % 2] == 0} {
+        return -code error "Argument list to api::add_file was not in the form 'filename [<option> <value>]*'"
+      }
+      gui::add_file end {*}$args
     }
     
   }

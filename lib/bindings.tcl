@@ -5,7 +5,8 @@
 
 namespace eval bindings {
 
-  variable bindings_file [file join $::tke_home menu_bindings.tkedat]
+  variable base_bindings_file [file join [file dirname $::tke_dir] data menu_bindings.tkedat]
+  variable user_bindings_file [file join $::tke_home menu_bindings.tkedat]
 
   array set menus         {}
   array set menu_bindings {}
@@ -18,20 +19,17 @@ namespace eval bindings {
   # Loads the bindings information
   proc load {} {
   
-    variable bindings_file
+    variable base_bindings_file
+    variable user_bindings_file
     
-    # If the bindings file does not exist, copy the one from the "data"
-    # directory to the tke_home directory.
-    if {![file exists $bindings_file]} {
-      copy_default
-    }
-  
     # Load the menu bindings file
     load_file
     
     # Add our launcher commands
-    launcher::register "Menu Bindings: Edit menu bindings" \
-      [list gui::add_file end $bindings_file bindings::load_file]
+    launcher::register "Menu Bindings: Edit user menu bindings" \
+      [list gui::add_file end $user_bindings_file -savecommand bindings::load_file]
+    launcher::register "Menu Bindings: View global menu bindings" \
+      [list gui::add_file end $base_bindings_file -lock 1]
     launcher::register "Menu Bindings: Use default menu bindings" "bindings::copy_default"
     launcher::register "Menu Bindings: Reload menu bindings" "bindings::load_file"
   
@@ -47,17 +45,25 @@ namespace eval bindings {
   # menu_bindings array
   proc load_file {} {
   
-    variable bindings_file
+    variable base_bindings_file
+    variable user_bindings_file
     variable menu_bindings
     variable menus
     
-    if {[file exists $bindings_file]} {
-      if {![catch "tkedat::read $bindings_file" rc]} {
-        remove_all_bindings
+    if {[file exists $user_bindings_file]} {
+      remove_all_bindings
+      if {![catch "tkedat::read $base_bindings_file" rc]} {
         array set menu_bindings $rc
-        foreach mnu [array names menus] {
-          apply $mnu
-        }
+      }
+    } else {
+      remove_all_bindings
+      copy_default 0
+    }
+    
+    if {![catch "tkedat::read $user_bindings_file" rc]} {
+      array set menu_bindings $rc
+      foreach mnu [array names menus] {
+        apply $mnu
       }
     } else {
       array unset menu_bindings
@@ -180,15 +186,17 @@ namespace eval bindings {
   
   ######################################################################
   # Copies the default settings to the user's .tke directory.
-  proc copy_default {} {
+  proc copy_default {{load 1}} {
   
-    variable bindings_file
+    variable base_bindings_file
     
     # Copy the default bindings to the tke home directory
-    file copy -force [file join [file dirname $::tke_dir] data [file tail $bindings_file]] $::tke_home
+    file copy -force $base_bindings_file $::tke_home
     
     # Load the file
-    load_file
+    if {$load} {
+      load_file
+    }
     
   }
 

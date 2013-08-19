@@ -1061,12 +1061,19 @@ namespace eval gui {
   
   ######################################################################
   # Adds a new file to the editor pane.
-  proc add_new_file {index} {
+  proc add_new_file {index args} {
   
     variable widgets
     variable files
     variable files_index
     variable pw_current
+    
+    # Handle options
+    array set opts {
+      -savecommand ""
+      -lock        0
+    }
+    array set opts $args
     
     # Adjust the tab indices
     adjust_tabs_for_insert $index
@@ -1078,7 +1085,7 @@ namespace eval gui {
     set file_info [lrepeat [array size files_index] ""]
     lset file_info $files_index(fname)    ""
     lset file_info $files_index(mtime)    ""
-    lset file_info $files_index(save_cmd) ""
+    lset file_info $files_index(save_cmd) $opts(-savecommand)
     lset file_info $files_index(pane)     $pw_current
     lset file_info $files_index(tab)      [[current_notebook] index $w]
     lset file_info $files_index(lock)     0
@@ -1089,6 +1096,9 @@ namespace eval gui {
     # Add the current directory
     add_directory [file normalize [pwd]]
     
+    # Sets the file lock to the specified value
+    set_current_file_lock $opts(-lock)
+    
     # Run any plugins that need to be run when a file is opened
     plugins::handle_on_open [expr [llength $files] - 1]
     
@@ -1097,12 +1107,19 @@ namespace eval gui {
   ######################################################################
   # Creates a new tab for the given filename specified at the given index
   # tab position.
-  proc add_file {index fname {save_command ""}} {
+  proc add_file {index fname args} {
   
     variable widgets
     variable files
     variable files_index
     variable pw_current
+    
+    # Handle arguments
+    array set opts {
+      -savecommand ""
+      -lock        0
+    }
+    array set opts $args
 
     # Get the current notebook
     set nb [current_notebook]
@@ -1128,7 +1145,7 @@ namespace eval gui {
       set file_info [lrepeat [array size files_index] ""]
       lset file_info $files_index(fname)    $fname
       lset file_info $files_index(mtime)    ""
-      lset file_info $files_index(save_cmd) $save_command
+      lset file_info $files_index(save_cmd) $opts(-savecommand)
       lset file_info $files_index(pane)     $pw_current
       lset file_info $files_index(tab)      $nb_index
       lset file_info $files_index(lock)     0
@@ -1170,6 +1187,9 @@ namespace eval gui {
     
     # Highlight the file in the sidebar
     highlight_filename $fname 1
+    
+    # Sets the file lock to the specified value
+    set_current_file_lock $opts(-lock)
     
     # Run any plugins that should run when a file is opened
     plugins::handle_on_open [expr [llength $files] - 1]

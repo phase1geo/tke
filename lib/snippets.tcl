@@ -431,7 +431,7 @@ namespace eval snippets {
     }
     
     # Add the snippet file to the editor
-    gui::add_file end $fname [list snippets::set_language $language]
+    gui::add_file end $fname -savecommand [list snippets::set_language $language]
     
   }
   

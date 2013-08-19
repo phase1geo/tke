@@ -456,7 +456,7 @@ namespace eval plugins {
           close $rc
           
           # Add the new file to the editor
-          gui::add_file end $fname plugins::reload 
+          gui::add_file end $fname -savecommand plugins::reload 
           
         } else {
           gui::set_info_message "ERROR:  Unable to write plugin file"
