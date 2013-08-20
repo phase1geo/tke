@@ -91,13 +91,19 @@ namespace eval api {
   # Parameters:
   #   -savecommand <command>  Specifies the name of a command to execute after
   #                           the file is saved.
+  #
   #   -lock (0|1)             If set to 0, the file will begin in the unlocked
   #                           state (i.e., the user can edit the file immediately).
   #                           If set to 1, the file will begin in the locked state
   #                           (i.e., the user must unlock the file to edit it)
+  #
   #   -readonly (0|1)         If set to 1, the file will be considered readonly
   #                           (i.e., the file will be locked indefinitely); otherwise,
   #                           the file will be able to be edited.
+  #
+  #   -sidebar (0|1)          If set to 1 (default), the file's directory contents
+  #                           will be included in the sidebar; otherwise, the file's
+  #                           directory components will not be added to the sidebar.
   proc add_file {args} {
   
     if {([llength $args] == 0) || ([string index [lindex $args 0] 0] eq "-")} {
