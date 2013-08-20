@@ -1083,6 +1083,7 @@ namespace eval gui {
       -savecommand ""
       -lock        0
       -readonly    0
+      -sidebar     1
     }
     array set opts $args
     
@@ -1106,7 +1107,9 @@ namespace eval gui {
     lappend files $file_info
     
     # Add the current directory
-    add_directory [file normalize [pwd]]
+    if {$opts(-sidebar)} {
+      add_directory [file normalize [pwd]]
+    }
     
     # Sets the file lock to the specified value
     set_current_file_lock $opts(-lock)
@@ -1131,6 +1134,7 @@ namespace eval gui {
       -savecommand ""
       -lock        0
       -readonly    0
+      -sidebar     1
     }
     array set opts $args
 
@@ -1196,11 +1200,11 @@ namespace eval gui {
       
     }
     
-    # Add the file's directory to the sidebar
-    add_directory [file dirname [file normalize $fname]]
-    
-    # Highlight the file in the sidebar
-    highlight_filename $fname 1
+    # Add the file's directory to the sidebar and highlight it
+    if {$opts(-sidebar)} {
+      add_directory [file dirname [file normalize $fname]]
+      highlight_filename $fname 1
+    }
     
     # Sets the file lock to the specified value
     set_current_file_lock $opts(-lock)
@@ -1981,12 +1985,6 @@ namespace eval gui {
     
     # Get the current file index
     set file_index [current_file]
-    
-    # If we are unable to set the lock to the given value, return
-    # immediately
-    if {[lindex $files $file_index $files_index(lock)] == $lock} {
-      return 0
-    }
     
     # Set the current lock status
     lset files $file_index $files_index(lock) $lock 
