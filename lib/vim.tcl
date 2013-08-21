@@ -467,10 +467,10 @@ namespace eval vim {
     if {[$txt index "insert linestart"] eq [$txt index "insert lineend"]} {
       set ignore_modified([winfo parent $txt]) 1
       $txt fastinsert insert " " dspace
-    }
-    
+      $txt mark set insert "insert-1c"
+      
     # Make sure that lineend is never the insertion point
-    if {[$txt index insert] ne [$txt index "insert linestart"]} {
+    } elseif {[$txt index insert] eq [$txt index "insert lineend"]} {
       $txt mark set insert "insert-1c"
     }
     

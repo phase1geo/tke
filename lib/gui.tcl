@@ -23,6 +23,7 @@ namespace eval gui {
   array set widgets  {}
   array set language {}
   array set images   {}
+  array set tab_tip  {}
 
   array set files_index {
     fname    0
@@ -2112,6 +2113,10 @@ namespace eval gui {
     bind $nb <B1-Motion>            { gui::tab_move_motion %W %x %y }
     bind $nb <ButtonRelease-1>      { gui::tab_move_end %W %x %y }
     bind $nb <ButtonPress-3> {
+      if {[info exists gui::tab_tip(%W)]} {
+        unset gui::tab_tip(%W)
+        tooltip::tooltip clear %W
+      }
       set gui::pw_current [lsearch [$gui::widgets(nb_pw) panes] %W]
       %W select @%x,%y
       tk_popup $gui::widgets(menu) %X %Y
@@ -2121,6 +2126,66 @@ namespace eval gui {
       %W select @%x,%y
       focus [gui::current_txt].t
     }
+    
+    # Handle tooltips
+    bind $nb <Motion> { gui::handle_notebook_tooltip %W %x %y }
+
+  }
+  
+  ######################################################################
+  # Called when the user places the cursor over a notebook tab.
+  proc handle_notebook_tooltip {W x y} {
+    
+    variable tab_tip
+    
+    set tab  [$W index @$x,$y]
+    set type [$W identify $x $y]
+    
+    if {![info exists tab_tip($W)]} {
+      if {$type eq "label"} {
+        set_tab_tooltip $W $tab
+      }
+    } elseif {$type ne "label"} {
+      clear_tab_tooltip $W $tab
+    } elseif {$tab_tip($W) ne $tab} {
+      clear_tab_tooltip $W $tab
+      set_tab_tooltip $W $tab
+    }
+    
+  }
+  
+  ######################################################################
+  # Sets a tooltip for the specified tab.
+  proc set_tab_tooltip {W tab} {
+    
+    variable widgets
+    variable tab_tip
+    variable files
+    variable files_index
+    
+    # Get the current pane
+    if {[set pane [lsearch [$widgets(nb_pw) panes] $W]] != -1} {
+      
+      # Get the full pathname to the current file
+      set fname [lindex $files [get_file_index $pane $tab] $files_index(fname)]
+    
+      # Create the tooltip
+      set tab_tip($W) $tab
+      tooltip::tooltip $W $fname
+      event generate $W <Enter>
+      
+    } 
+    
+  }
+  
+  ######################################################################
+  # Clears the tooltip for the specified tab.
+  proc clear_tab_tooltip {W tab} {
+    
+    variable tab_tip
+    
+    unset tab_tip($W)
+    tooltip::tooltip clear $W
     
   }
    

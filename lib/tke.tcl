@@ -14,6 +14,7 @@ set auto_path [concat $tke_dir $auto_path]
 package require Tclx
 package require ctext
 package require tablelist
+package require tooltip
 
 source [file join $tke_dir utils.tcl]
 source [file join $tke_dir preferences.tcl]
@@ -150,6 +151,9 @@ syntax::load
 
 # Set the tk style to clam
 ttk::style theme use clam
+
+# Set the delay to 1 second
+tooltip::tooltip delay 1000
 
 # Create GUI
 gui::create
