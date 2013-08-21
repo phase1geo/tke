@@ -99,8 +99,8 @@ namespace eval multicursor {
         }
       }
     }
-    bind mcursor$txt <Escape>   "multicursor::disable %W"
-    bind mcursor$txt <Button-1> "multicursor::disable %W"
+    bind mcursor$txt <Escape>   { multicursor::disable %W }
+    bind mcursor$txt <Button-1> { multicursor::disable %W }
     
     # Add the multicursor bindings to the text widget's bindtags
     bindtags $txt.t [linsert [bindtags $txt.t] 2 mcursor$txt]
@@ -175,7 +175,7 @@ namespace eval multicursor {
           add_cursor $txt $i.$col
         }
       } else {
-        for {set i [expr $curr_row + 1]} {$i <= $row} {incr i} {
+        for {set i $curr_row} {$i < $row} {incr i} {
           add_cursor $txt $i.$col
         }
       }

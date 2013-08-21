@@ -112,6 +112,7 @@ namespace eval vim {
             clipboard append [$txt get $from $to]
             if {$cmd eq "d"} {
               $txt delete $from $to
+              adjust_insert $txt.t
             }
           } elseif {[regexp {^(\d+|[.^$]|\w+)$} $value]} {
             $txt mark set insert [get_linenum $txt $value]
