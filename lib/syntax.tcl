@@ -247,15 +247,15 @@ namespace eval syntax {
         # the indent/unindent expressions for this language
         indent::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent)
         
-        # Save the language
-        set lang($txt) $language
-       
       } rc]} {
         tk_messageBox -parent . -type ok -default ok -message "Syntax error in $language.syntax file" -detail $rc
       }
       
     }
     
+    # Save the language
+    set lang($txt) $language
+
     # Re-highlight
     $txt highlight 1.0 end
     
