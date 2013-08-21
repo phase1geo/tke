@@ -580,6 +580,7 @@ namespace eval vim {
       $txt replace insert "insert+1c" $char
       $txt highlight "insert linestart" "insert lineend"
       if {$mode($txt) eq "replace"} {
+        $txt mark set insert "insert-1c"
         start_mode $txt
         record_stop
       }
@@ -819,9 +820,6 @@ namespace eval vim {
       set row [expr {$row + (($number($txt) ne "") ? $number($txt) : 1)}]
       if {[$txt compare "$row.$col" < end]} {
         $txt mark set insert "$row.$col"
-        if {[$txt index insert] ne [$txt index "insert lineend"]} {
-          $txt mark set insert "insert+1c"
-        }
         adjust_insert $txt
         $txt see insert
       }
@@ -888,9 +886,6 @@ namespace eval vim {
       set row [expr {$row - (($number($txt) ne "") ? $number($txt) : 1)}]
       if {$row >= 1} {
         $txt mark set insert "$row.$col"
-        if {[$txt index insert] ne [$txt index "insert lineend"]} {
-          $txt mark set insert "insert+1c"
-        }
         adjust_insert $txt
         $txt see insert
       }

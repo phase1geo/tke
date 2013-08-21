@@ -58,7 +58,7 @@ namespace eval snippets {
           set snippet    ""
         } elseif {$in_snippet} {
           if {[regexp {^\t(.*)$} $line -> txt]} {
-            append snippet "[string trim $txt]\n"
+            append snippet "[string trimright $txt]\n"
           } else {
             set in_snippet 0
             set snippets($language,$name) [parse_snippet [string range $snippet 0 end-1]]
@@ -298,7 +298,7 @@ namespace eval snippets {
     
     # Insert the raw string into the text widget
     [winfo parent $txt] insert insert $snip(raw_string)
-
+    
     # Create a tag for the inserted text
     $txt tag add snippet_raw $insert_index "$insert_index+[string length $snip(raw_string)]c"
     
