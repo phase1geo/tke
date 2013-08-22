@@ -46,7 +46,7 @@ namespace eval plugins::perforce {
     }
     
     # Add the file to the editor
-    api::add_file $id_fname "plugins::perforce::edit_include_dirs_save $id_fname"
+    api::add_file $id_fname -savecommand "plugins::perforce::edit_include_dirs_save $id_fname"
         
   }
   
@@ -124,7 +124,7 @@ namespace eval plugins::perforce {
       
       # Get the filename
       if {[included [set fname [api::get_file_info $file_index fname]]]} {
-    
+        
         # If the file does not exist, do a Perforce add
         if {[file exists $fname] && ![catch "exec p4 edit $fname"]} {
           api::show_info "File in Perforce edit state"
