@@ -135,6 +135,8 @@ namespace eval vim {
               markers::delete_by_line $txt $line
               ctext::linemapClearMark $txt $line
             }
+          } elseif {[regexp {^r\s+(.*)$} $value -> filename]} {
+            vim::insert_file $txt $filename
           }
         }
       }
@@ -147,6 +149,26 @@ namespace eval vim {
     # Hide the command entry widget
     grid remove $w 
   
+  }
+  
+  ######################################################################
+  # Inserts the given file contents beneath the current insertion line.
+  proc insert_file {txt filename} {
+    
+    if {![catch "open $filename r" rc]} {
+      
+      # Read the contents of the file and close the file
+      set contents [read $rc]
+      close $rc
+      
+      # Insert the file contents beneath the current insertion line
+      $txt insert "insert lineend" "\n$contents"
+      
+      # Adjust the insert cursor
+      adjust_cursor $txt
+      
+    }
+    
   }
   
   ######################################################################
