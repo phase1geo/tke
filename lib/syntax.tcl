@@ -164,14 +164,14 @@ namespace eval syntax {
   
   ######################################################################
   # Initializes the language for the given text widget.
-  proc initialize_language {txt filename} {
+  proc initialize_language {txt language} {
   
     variable lang
     
-    set lang($txt) [get_language $filename]
-  
+    set lang($txt) $language
+    
   }
-  
+    
   ######################################################################
   # Sets the language of the current tab to the specified language.
   proc set_current_language {} {

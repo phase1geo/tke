@@ -1544,7 +1544,7 @@ namespace eval gui {
       set panes [$widgets(nb_pw) panes]
     }
     
-    # Get the title and text from the current text widget
+    # Get the title, text and language from the current text widget
     set txt      [current_txt]
     set file     [lindex $files [current_file]]
     if {[set fname [current_filename]] eq ""} {
@@ -1554,15 +1554,18 @@ namespace eval gui {
     set insert   [$txt index insert]
     set select   [$txt tag ranges sel]
     set modified [$txt edit modified]
+    set language [syntax::get_current_language]
     
     # Delete the current tab
     close_current 1
 
-    # Get the name of the other pane
-    set pw_current [expr $pw_current ^ 1]
+    # Get the name of the other pane if it exists
+    if {[llength [$widgets(nb_pw) panes]] == 2} {
+      set pw_current [expr $pw_current ^ 1]
+    }
 
     # Create a new tab
-    insert_tab end [file tail $fname]
+    insert_tab end [file tail $fname] $language
         
     # Update the file components to include position change information
     lset file $files_index(pane) $pw_current
@@ -2191,7 +2194,7 @@ namespace eval gui {
    
   ######################################################################
   # Inserts a new tab into the editor tab notebook.
-  proc insert_tab {index title} {
+  proc insert_tab {index title {initial_language ""}} {
   
     variable widgets
     variable curr_id
@@ -2307,7 +2310,11 @@ namespace eval gui {
     vim::set_vim_mode         $tab_frame.tf.txt
         
     # Apply the appropriate syntax highlighting for the given extension
-    syntax::initialize_language $tab_frame.tf.txt $title
+    if {$initial_language eq ""} {
+      syntax::initialize_language $tab_frame.tf.txt [syntax::get_language $title]
+    } else {
+      syntax::initialize_language $tab_frame.tf.txt $initial_language
+    }
 
     # Make the new tab the current tab
     set_current_tab $pw_current $adjusted_index
