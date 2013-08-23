@@ -377,11 +377,15 @@ namespace eval vim {
     # to the undo stack.
     if {$mode($txt) eq "edit"} {
       $txt edit separator
-      if {[$txt index insert] ne [$txt index "insert linestart"]} {
-        $txt mark set insert "insert-1c"
-      }
     }
     
+    # If were in the edit or replace_all state, move the insertion cursor back
+    # one character.
+    if {(($mode($txt) eq "edit") || ($mode($txt) eq "replace_all")) && \
+        ([$txt index insert] ne [$txt index "insert linestart"])} {
+      $txt mark set insert "insert-1c"
+    }
+
     # Set the current mode to the start mode
     set mode($txt) "start"
     
