@@ -14,7 +14,6 @@ namespace eval gui {
   variable nb_move          ""
   variable file_move        0
   variable geometry_file    [file join $::tke_home geometry.dat]
-  variable search_counts    {}
   variable sar_global       1
   variable lengths          {}
   variable user_exit_status ""
@@ -1780,29 +1779,20 @@ namespace eval gui {
   # Starts a text search
   proc search_start {{dir "next"}} {
 
-    variable search_counts
-    
     # If the user has specified a new search value, find all occurrences
     if {[set str [[current_search] get]] ne ""} {
     
       # Get the current text widget
       set txt [current_txt]
 
-      # Delete the search tag
-      $txt tag delete search
+      # Clear the search highlight class
+      catch { ctext::deleteHighlightClass $txt search }
 
-      # Search the entire text
-      set i 0
-      foreach match [$txt search -count gui::search_counts -all -- $str 1.0] {
-        $txt tag add search $match "$match+[lindex $search_counts $i]c"
-        incr i
-      }
-
-      # Change the color of the items that match the search criteria
-      $txt tag configure search -background yellow -foreground black
-
+      # Create a highlight class for the given search string
+      ctext::addSearchClassForRegexp $txt search black yellow $str
+      
       # Make the search tag lower in priority than the selection tag
-      $txt tag lower search sel
+      $txt tag lower _search sel
 
     }
  
@@ -1820,7 +1810,6 @@ namespace eval gui {
   proc search_next {app} {
     
     variable widgets
-    variable search_counts
     variable search_index
  
     # Get the current text widget
@@ -1832,11 +1821,11 @@ namespace eval gui {
     }
     
     # Search the text widget from the current insertion cursor forward.
-    lassign [$txt tag nextrange search "insert+1c"] startpos endpos
+    lassign [$txt tag nextrange _search "insert+1c"] startpos endpos
 
     # We need to wrap on the search item
     if {$startpos eq ""} {
-      lassign [$txt tag nextrange search 1.0] startpos endpos
+      lassign [$txt tag nextrange _search 1.0] startpos endpos
     }
 
     # Select the next match
@@ -1856,8 +1845,6 @@ namespace eval gui {
   proc search_prev {app} {
     
     variable widgets
-    variable search_counts
-    variable search_text
     
     # Get the current text widget
     set txt [current_txt]
@@ -1868,11 +1855,11 @@ namespace eval gui {
     }
    
     # Search the text widget from the current insertion cursor forward.
-    lassign [$txt tag prevrange search insert] startpos endpos
+    lassign [$txt tag prevrange _search insert] startpos endpos
 
     # We need to wrap on the search item
     if {$startpos eq ""} {
-      lassign [$txt tag prevrange search end] startpos endpos
+      lassign [$txt tag prevrange _search end] startpos endpos
     }
 
     # Select the next match
@@ -1892,8 +1879,6 @@ namespace eval gui {
   proc search_all {} {
     
     variable widgets
-    variable search_counts
-    variable search_text
     
     # Get the current text widget
     set txt [current_txt]
@@ -1902,11 +1887,11 @@ namespace eval gui {
     $txt tag remove sel 1.0 end
     
     # Add all matching search items to the selection
-    $txt tag add sel {*}[$txt tag ranges search]
+    $txt tag add sel {*}[$txt tag ranges _search]
  
     # Make the first line viewable
     catch {
-      set firstpos [lindex [$txt tag ranges search] 0]
+      set firstpos [lindex [$txt tag ranges _search] 0]
       $txt mark set insert $firstpos
       $txt see $firstpos
     }

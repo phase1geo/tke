@@ -785,7 +785,7 @@ proc ctext::comments {win {afterTriggered 0}} {
 proc ctext::addHighlightClass {win class color keywords} {
   set ref [ctext::getAr $win highlight ar]
   foreach word $keywords {
-    set ar($word) [list _$class $color]
+    set ar($word) [list _$class [list -foreground $color]]
   }
   $win tag configure _$class
   
@@ -796,7 +796,7 @@ proc ctext::addHighlightClass {win class color keywords} {
 proc ctext::addHighlightClassForRegexp {win class color re} {
   set ref [ctext::getAr $win highlightRegexp ar]
   
-  set ar(_$class) [list $re $color]
+  set ar(_$class) [list $re [list -foreground $color]]
   $win tag configure _$class
   
   ctext::getAr $win classes classesAr
@@ -807,11 +807,30 @@ proc ctext::addHighlightClassForRegexp {win class color re} {
 proc ctext::addHighlightClassWithOnlyCharStart {win class color char} {
   set ref [ctext::getAr $win highlightCharStart ar]
   
-  set ar($char) [list _$class $color]
+  set ar($char) [list _$class [list -foreground $color]]
   $win tag configure _$class
   
   ctext::getAr $win classes classesAr
   set classesAr(_$class) [list $ref $char]
+}
+
+proc ctext::addSearchClassForRegexp {win class fgcolor bgcolor re} {
+  set ref [ctext::getAr $win highlightRegexp ar]
+  
+  set ar(_$class) [list $re [list -foreground $fgcolor -background $bgcolor]]
+  
+  ctext::getAr $win classes classesAr
+  set classesAr(_$class) [list $ref _$class]
+  
+  # Perform the search
+  set i 0
+  foreach res [$win._t search -count lengths -regexp -all -- $re 1.0 end] {
+    set wordEnd [$win._t index "$res + [lindex $lengths $i] chars"]
+    $win._t tag add _$class $res $wordEnd
+    incr i
+  }
+  $win._t tag configure _$class -foreground $fgcolor -background $bgcolor
+  
 }
 
 proc ctext::deleteHighlightClass {win classToDelete} {
@@ -831,6 +850,7 @@ proc ctext::deleteHighlightClass {win classToDelete} {
     }
   }
   unset classesAr(_$classToDelete)
+  $win tag delete _$classToDelete 1.0 end
 }
 
 proc ctext::getHighlightClasses win {
@@ -968,13 +988,13 @@ proc ctext::doHighlight {win} {
       set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
       set word    [$twin get $res $wordEnd]
       if {[info exists highlightAr($word)]} {
-        lassign $highlightAr($word) tagClass color
+        lassign $highlightAr($word) tagClass colors
         $twin tag add $tagClass $res $wordEnd
-        set tagged($tagClass) $color
+        set tagged($tagClass) $colors
       } elseif {[info exists highlightCharStartAr([set firstOfWord [string index $word 0]])]} {
-        lassign $highlightCharStartAr($firstOfWord) tagClass color
+        lassign $highlightCharStartAr($firstOfWord) tagClass colors
         $twin tag add $tagClass $res $wordEnd
-        set tagged($tagClass) $color
+        set tagged($tagClass) $colors
       }
       incr i
     }
@@ -982,12 +1002,12 @@ proc ctext::doHighlight {win} {
     
     set regexps [time {
     foreach {tagClass tagInfo} [array get highlightRegexpAr] {
-      lassign $tagInfo re color
+      lassign $tagInfo re colors
       set i 0
       foreach res [$twin search -count lengths -regexp -all -- $re $start $end] {
         set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
         $twin tag add $tagClass $res $wordEnd
-        set tagged($tagClass) $color
+        set tagged($tagClass) $colors
         incr i
       }
     }
@@ -1001,8 +1021,8 @@ proc ctext::doHighlight {win} {
   # puts "total_keywords: $total_keywords, total_regexps: $total_regexps"
   
   # Finally, colorize the tags
-  foreach {tagClass color} [array get tagged] {
-    $twin tag configure $tagClass -foreground $color
+  foreach {tagClass colors} [array get tagged] {
+    $twin tag configure $tagClass {*}$colors
   }
     
 }
