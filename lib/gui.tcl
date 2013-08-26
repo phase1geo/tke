@@ -1361,7 +1361,11 @@ namespace eval gui {
     
     # If the current file doesn't have a filename, allow the user to set it
     } elseif {[lindex $files $file_index $files_index(fname)] eq ""} {
-      if {[set sfile [tk_getSaveFile -defaultextension .tcl -parent . -title "Save As" -initialdir [pwd]]] eq ""} {
+      lappend save_opts -filetypes [syntax::get_filetypes]
+      if {[llength [set extensions [syntax::get_extensions]]] > 0} {
+        lappend save_opts -defaultextension [lindex $extensions 0]
+      }
+      if {[set sfile [tk_getSaveFile {*}$save_opts -parent . -title "Save As" -initialdir [pwd]]] eq ""} {
         return
       } else {
         lset files $file_index $files_index(fname) $sfile

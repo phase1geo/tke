@@ -163,8 +163,8 @@ namespace eval menus {
     
     # Get the directory of the current file
     set dirname [file dirname [gui::current_filename]]
-  
-    if {[set ofiles [tk_getOpenFile -parent . -initialdir $dirname -defaultextension .tcl -multiple 1]] ne ""} {
+    
+    if {[set ofiles [tk_getOpenFile -parent . -initialdir $dirname -filetypes [syntax::get_filetypes] -defaultextension .tcl -multiple 1]] ne ""} {
       foreach ofile $ofiles {
         gui::add_file end $ofile
       }

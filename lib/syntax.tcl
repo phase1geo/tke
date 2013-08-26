@@ -7,9 +7,11 @@
  
 namespace eval syntax {
   
-  array set langs  {}
-  array set themes {}
-  array set theme  {}
+  variable filetypes
+
+  array set langs     {}
+  array set themes    {}
+  array set theme     {}
   
   ######################################################################
   # Loads the syntax and theme information.
@@ -44,6 +46,39 @@ namespace eval syntax {
         close $rc
       }
     }
+    
+    # Calculate the filetypes array
+    create_filetypes
+    
+  }
+  
+  ######################################################################
+  # Generates the filetypes list.
+  proc create_filetypes {} {
+    
+    variable langs
+    variable filetypes
+    
+    # Calculate the filetypes array
+    set filetypes [list]
+    foreach {name syntax_list} [array get langs] {
+      array set lang_array $syntax_list
+      set extensions [list]
+      foreach pattern $lang_array(filepatterns) {
+        if {[regexp {^\.\w+$} [set extension [file extension $pattern]]]} {
+          lappend extensions $extension
+        }
+      }
+      if {[llength $extensions] > 0} {
+        lappend filetypes [list "$name Files" $extensions TEXT]
+      }
+    }
+    
+    # Sort the filetypes by name
+    set filetypes [lsort -index 0 $filetypes]
+    
+    # Add an "All Files" to the end of the filetypes list
+    lappend filetypes [list "All Files" "*"]
     
   }
   
@@ -330,6 +365,32 @@ namespace eval syntax {
     array set lang_array $langs($lang)
     
     return [list $lang_array(indent) $lang_array(unindent)]
+    
+  }
+  
+  ######################################################################
+  # Returns the full list of available file patterns.
+  proc get_filetypes {} {
+    
+    variable filetypes
+    
+    return $filetypes
+    
+  }
+  
+  ######################################################################
+  # Retrieves the extensions for the current text widget.
+  proc get_extensions {} {
+    
+    variable langs
+    variable lang
+    
+    # Get the current language
+    if {[set language $lang([gui::set_current])] eq ""} {
+      return [list]
+    } else {
+      return $lang_array(filepatterns)
+    }
     
   }
   
