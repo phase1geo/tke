@@ -69,6 +69,8 @@ namespace eval syntax {
           lappend extensions $extension
         }
       }
+      lappend syntax_list extensions $extensions
+      set langs($name) $syntax_list
       if {[llength $extensions] > 0} {
         lappend filetypes [list "$name Files" $extensions TEXT]
       }
@@ -386,10 +388,11 @@ namespace eval syntax {
     variable lang
     
     # Get the current language
-    if {[set language $lang([gui::set_current])] eq ""} {
+    if {[set language $lang([gui::current_txt])] eq "None"} {
       return [list]
     } else {
-      return $lang_array(filepatterns)
+      array set lang_array $langs($language)
+      return $lang_array(extensions)
     }
     
   }

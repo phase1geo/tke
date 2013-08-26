@@ -204,7 +204,13 @@ namespace eval menus {
     # Get the directory of the current file
     set dirname [file dirname [gui::current_filename]]
   
-    if {[set sfile [tk_getSaveFile -defaultextension .tcl -title "Save As" -parent . -initialdir $dirname]] ne ""} {
+    # Get some of the save options
+    set save_opts [list]
+    if {[llength [set extensions [syntax::get_extensions]]] > 0} {
+      lappend save_opts -defaultextension [lindex $extensions 0]
+    }
+    
+    if {[set sfile [tk_getSaveFile {*}$save_opts -title "Save As" -parent . -initialdir $dirname]] ne ""} {
       gui::save_current $sfile
     }
   

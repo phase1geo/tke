@@ -1361,7 +1361,6 @@ namespace eval gui {
     
     # If the current file doesn't have a filename, allow the user to set it
     } elseif {[lindex $files $file_index $files_index(fname)] eq ""} {
-      lappend save_opts -filetypes [syntax::get_filetypes]
       if {[llength [set extensions [syntax::get_extensions]]] > 0} {
         lappend save_opts -defaultextension [lindex $extensions 0]
       }
@@ -2244,7 +2243,7 @@ namespace eval gui {
     ttk::entry $tab_frame.sf.e
     
     pack $tab_frame.sf.l1 -side left -padx 2 -pady 2
-    pack $tab_frame.sf.e  -side left -padx 2 -pady 2 -fill x
+    pack $tab_frame.sf.e  -side left -padx 2 -pady 2 -fill x -expand yes
     
     bind $tab_frame.sf.e <Escape> "gui::close_search"
  
@@ -2257,9 +2256,9 @@ namespace eval gui {
     ttk::checkbutton $tab_frame.rf.glob -text "Global" -variable gui::sar_global
  
     pack $tab_frame.rf.fl   -side left -padx 2 -pady 2
-    pack $tab_frame.rf.fe   -side left -padx 2 -pady 2
+    pack $tab_frame.rf.fe   -side left -padx 2 -pady 2 -fill x -expand yes
     pack $tab_frame.rf.rl   -side left -padx 2 -pady 2
-    pack $tab_frame.rf.re   -side left -padx 2 -pady 2
+    pack $tab_frame.rf.re   -side left -padx 2 -pady 2 -fill x -expand yes
     pack $tab_frame.rf.glob -side left -padx 2 -pady 2
  
     bind $tab_frame.rf.fe   <Return> "gui::do_search_and_replace"
