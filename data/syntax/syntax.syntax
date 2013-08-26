@@ -1,6 +1,9 @@
 filepatterns
 {*.syntax}
 
+tabsallowed
+{0}
+
 indent
 {\{}
   

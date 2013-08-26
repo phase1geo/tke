@@ -397,4 +397,21 @@ namespace eval syntax {
     
   }
   
+  ######################################################################
+  # Retrieves the value of tabsallowed in the current syntax.
+  proc get_tabs_allowed {txt} {
+    
+    variable langs
+    variable lang
+    
+    # Get the current language
+    if {[set language $lang($txt)] eq "None"} {
+      return 1
+    } else {
+      array set lang_array $langs($language)
+      return $lang_array(tabsallowed)
+    }
+    
+  }
+  
 }

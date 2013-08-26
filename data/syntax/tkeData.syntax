@@ -1,6 +1,9 @@
 filepatterns
 {*.tkedat}
 
+tabsallowed
+{0}
+
 indent
 {\{}
 

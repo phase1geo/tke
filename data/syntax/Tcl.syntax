@@ -1,6 +1,9 @@
 filepatterns
 {*.tcl}
 
+tabsallowed
+{0}
+
 indent
 {\{}
   

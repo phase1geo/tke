@@ -1,6 +1,9 @@
 filepatterns
 {*.snippets}
  
+tabsallowed
+{1}
+
 indent
 {\{}
 

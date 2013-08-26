@@ -1,6 +1,9 @@
 filepatterns
 {*.v *.sv *.vg}
 
+tabsallowed
+{0}
+
 indent
 {\m(begin(\s*:\s*\S+)?|task.*;|function.*;|case[xz]?.*\)|module.*;|generate)\M}
 

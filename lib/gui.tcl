@@ -1309,6 +1309,7 @@ namespace eval gui {
         
       # Set the insertion mark to the first position
       $txt mark set insert $insert_index
+      vim::adjust_insert $txt
 
       # Make the insertion mark visible
       $txt see $insert_index

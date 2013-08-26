@@ -1,6 +1,9 @@
 filepatterns
 {*.tketheme}
 
+tabsallowed
+{0}
+
 indent
 {\{}
   

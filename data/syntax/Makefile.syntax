@@ -1,6 +1,9 @@
 filepatterns
 {Makefile makefile Makefile.* makefile.*}
 
+tabsallowed
+{1}
+
 indent
 {\{}
   

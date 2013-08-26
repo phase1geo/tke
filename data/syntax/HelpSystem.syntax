@@ -1,11 +1,14 @@
 filepatterns
 {*.help}
 
+tabsallowed
+{0}
+
 indent
-{\{}
+{<\w+>}
   
 unindent
-{\}}
+{</\w+>}
 
 keywords
 {

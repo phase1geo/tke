@@ -1004,6 +1004,7 @@ proc ctext::doHighlight {win} {
     foreach {tagClass tagInfo} [array get highlightRegexpAr] {
       lassign $tagInfo re colors
       set i 0
+      puts "re: $re"
       foreach res [$twin search -count lengths -regexp -all -- $re $start $end] {
         set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
         $twin tag add $tagClass $res $wordEnd

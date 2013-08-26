@@ -123,12 +123,18 @@ namespace eval plugins::perforce {
     if {!$disable_edit} {
       
       # Get the filename
-      if {[included [set fname [api::get_file_info $file_index fname]]]} {
+      if {[included [set fname [api::get_file_info $file_index fname]]] && [file exists $fname]} {
         
-        # If the file does not exist, do a Perforce add
-        if {[file exists $fname] && ![catch "exec p4 edit $fname"]} {
-          api::show_info "File in Perforce edit state"
+        # If the file is a symlink, edit the original file
+        if {![catch "file readlink $fname" rc]} {
+          set orig_pwd [pwd]; cd [file dirname $fname]; set fname [file normalize $rc]; cd $orig_pwd
+          if {![included $fname]} {
+            return
+          }
         }
+        
+        # If the file exists and we don't get an error when editing the file
+        catch "exec p4 edit $fname"
         
       }
       

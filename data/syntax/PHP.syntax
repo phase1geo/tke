@@ -1,6 +1,9 @@
 filepatterns
 {*.php}
 
+tabsallowed
+{0}
+
 indent
 {\{}
   

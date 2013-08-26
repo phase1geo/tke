@@ -1,6 +1,9 @@
 filepatterns
 {*.c *.cc *.cpp *.c++ *.h}
 
+tabsallowed
+{0}
+
 indent
 {\{}
   
