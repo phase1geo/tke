@@ -204,10 +204,14 @@ namespace eval gui {
       gui::add_folder
     }
     $widgets(dirmenu) add separator
-    $widgets(dirmenu) add command -label "Rename Directory" -command {
+    $widgets(dirmenu) add command -label "Close Directory Files" -command {
+      gui::close_folder_files
+    }
+    $widgets(dirmenu) add separator
+    $widgets(dirmenu) add command -label "Rename" -command {
       gui::rename_folder
     }
-    $widgets(dirmenu) add command -label "Delete Directory" -command {
+    $widgets(dirmenu) add command -label "Delete" -command {
       gui::delete_folder
     }
     $widgets(dirmenu) add separator
@@ -230,10 +234,14 @@ namespace eval gui {
       gui::add_folder
     }
     $widgets(rootmenu) add separator
-    $widgets(rootmenu) add command -label "Rename Directory" -command {
+    $widgets(rootmenu) add command -label "Close Directory Files" -command {
+      gui::close_folder_files
+    }
+    $widgets(rootmenu) add separator
+    $widgets(rootmenu) add command -label "Rename" -command {
       gui::rename_folder
     }
-    $widgets(rootmenu) add command -label "Delete Directory" -command {
+    $widgets(rootmenu) add command -label "Delete" -command {
       gui::delete_folder
     }
     $widgets(rootmenu) add separator
@@ -252,14 +260,18 @@ namespace eval gui {
     $widgets(filemenu) add command -label "Open" -command {
       gui::open_file
     }
-    $widgets(filemenu) add command -label "Rename File" -command {
-      gui::rename_file
-    }
-    $widgets(filemenu) add command -label "Duplicate File" -command {
-      gui::duplicate_file
+    $widgets(filemenu) add separator
+    $widgets(filemenu) add command -label "Close" -command {
+      gui::close_file
     }
     $widgets(filemenu) add separator
-    $widgets(filemenu) add command -label "Delete File" -command {
+    $widgets(filemenu) add command -label "Rename" -command {
+      gui::rename_file
+    }
+    $widgets(filemenu) add command -label "Duplicate" -command {
+      gui::duplicate_file
+    }
+    $widgets(filemenu) add command -label "Delete" -command {
       gui::delete_file
     }
     
@@ -562,6 +574,29 @@ namespace eval gui {
   }
   
   ######################################################################
+  # Close all of the open files in the current directory.
+  proc close_folder_files {} {
+    
+    variable widgets
+    variable files
+    variable files_index
+    
+    # Get the currently selected row
+    set selected [$widgets(filetl) curselection]
+    
+    # Close all of the opened children
+    foreach child [$widgets(filetl) childkeys $selected] {
+      
+      if {[$widgets(filetl) cellcget $child,files -background] eq "yellow"} {
+        set fname [get_filepath [$widgets(filetl) index $child]]
+        set index [lsearch -index 0 $files $fname]
+        close_tab [lindex $files $index $files_index(pane)] [lindex $files $index $files_index(tab)]
+      }
+    }
+    
+  }
+  
+  ######################################################################
   # Allows the user to rename the currently selected folder.
   proc rename_folder {{row ""}} {
     
@@ -663,6 +698,31 @@ namespace eval gui {
   }
   
   ######################################################################
+  # Closes the currently selected file in the notebook.
+  proc close_file {} {
+    
+    variable widgets
+    variable files
+    variable files_index
+    
+    # Get the current selection
+    set selected [$widgets(filetl) curselection]
+    
+    # If the current file is selected, close it
+    if {[$widgets(filetl) cellcget $selected,files -background] eq "yellow"} {
+      
+      # Get the filename of the currently selected row
+      set fname [get_filepath $selected]
+       
+      # Close the tab at the current location
+      set index [lsearch -index 0 $files $fname]
+      close_tab [lindex $files $index $files_index(pane)] [lindex $files $index $files_index(tab)]
+      
+    }
+    
+  }
+  
+  ######################################################################
   # Allow the user to rename the currently selected file in the file
   # browser.
   proc rename_file {{row ""}} {
@@ -719,6 +779,7 @@ namespace eval gui {
     
     variable widgets
     variable files
+    variable files_index
     
     # Get confirmation from the user
     if {[tk_messageBox -parent . -type yesno -default yes -message "Delete file?"] eq "yes"} {
@@ -732,7 +793,7 @@ namespace eval gui {
       # Close the tab if the file is currently in the notebook
       if {[$widgets(filetl) cellcget $selected,files -background] eq "yellow"} {
         set index [lsearch -index 0 $files $fname]
-        close_tab [lindex $files $index 3] [lindex $files $index 4]
+        close_tab [lindex $files $index $files_index(pane)] [lindex $files $index $files_index(tab)]
       }
       
       # Delete the row in the table
