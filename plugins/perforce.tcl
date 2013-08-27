@@ -46,7 +46,7 @@ namespace eval plugins::perforce {
     }
     
     # Add the file to the editor
-    api::add_file $id_fname -savecommand "plugins::perforce::edit_include_dirs_save $id_fname"
+    api::add_file $id_fname -sidebar 0 -savecommand "plugins::perforce::edit_include_dirs_save $id_fname"
         
   }
   
