@@ -2202,6 +2202,7 @@ namespace eval gui {
       if {[info exists gui::tab_tip(%W)]} {
         unset gui::tab_tip(%W)
         tooltip::tooltip clear %W
+        tooltip::hide
       }
       set gui::pw_current [lsearch [$gui::widgets(nb_pw) panes] %W]
       %W select @%x,%y
@@ -2287,6 +2288,7 @@ namespace eval gui {
     
     unset -nocomplain tab_tip($W)
     tooltip::tooltip clear $W
+    tooltip::hide
     
   }
    
