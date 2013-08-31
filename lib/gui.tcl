@@ -221,6 +221,10 @@ namespace eval gui {
     $widgets(dirmenu) add command -label "Remove Parent from Sidebar" -command {
       gui::remove_parent_from_sidebar
     }
+    $widgets(dirmenu) add separator
+    $widgets(dirmenu) add command -label "Refresh Directory Files" -command {
+      gui::refresh_directory_files
+    }
     
     # Add plugins to sidebar directory popup
     plugins::handle_dir_popup $widgets(dirmenu)
@@ -248,8 +252,12 @@ namespace eval gui {
     $widgets(rootmenu) add command -label "Remove from Sidebar" -command {
       gui::remove_folder_from_sidebar
     } 
-    $widgets(rootmenu) add command -label "Add parent directory" -command {
+    $widgets(rootmenu) add command -label "Add Parent Directory" -command {
       gui::add_parent_directory
+    }
+    $widgets(rootmenu) add separator
+    $widgets(rootmenu) add command -label "Refresh Directory Files" -command {
+      gui::refresh_directory_files
     }
     
     # Add plugins to sidebar root popup
@@ -982,6 +990,20 @@ namespace eval gui {
     
     # Add the parent directory to the sidebar
     add_directory [file dirname [get_filepath $selected]]
+    
+  }
+  
+  ######################################################################
+  # Refreshes the currently selected directory contents.
+  proc refresh_directory_files {} {
+    
+    variable widgets
+    
+    # Get the currently selected row
+    set selected [$widgets(filetl) curselection]
+    
+    # Do a directory expansion
+    expand_directory $widgets(filetl) $selected
     
   }
   

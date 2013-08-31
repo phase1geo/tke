@@ -31,7 +31,7 @@ namespace eval BNotebook {
     # Create two image based elements to provide buttons to close the
     # tabs or to display an image which provides user-defined functionality.
     namespace eval ::img {}
-    set imgdir [file join [file dirname [info script]] images]
+    set imgdir [file join $::tke_dir images]
     image create bitmap ::img::blank       -file [file join $imgdir blank.bmp]
     image create bitmap ::img::close       -file [file join $imgdir close.bmp] -foreground grey50
     image create bitmap ::img::closeactive -file [file join $imgdir close.bmp] -foreground grey10
