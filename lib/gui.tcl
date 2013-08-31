@@ -1267,7 +1267,7 @@ namespace eval gui {
       }
  
       # Change the tab text
-      $nb tab $nb_index -text "  [file tail $fname]"
+      $nb tab $nb_index -text " [file tail $fname]"
       
     }
     
@@ -1373,7 +1373,7 @@ namespace eval gui {
       close $rc
       
       # Change the tab text
-      $nb tab [lindex $file_info $files_index(tab)] -text "  [file tail [lindex $file_info $files_index(fname)]]"
+      $nb tab [lindex $file_info $files_index(tab)] -text " [file tail [lindex $file_info $files_index(fname)]]"
             
       # Change the text to unmodified
       $txt edit modified false
@@ -1473,7 +1473,7 @@ namespace eval gui {
     lset files $file_index $files_index(mtime) $stat(mtime)
     
     # Change the tab text
-    $nb tab current -text "  [file tail [lindex $files $file_index $files_index(fname)]]"
+    $nb tab current -text " [file tail [lindex $files $file_index $files_index(fname)]]"
     
     # Change the text to unmodified
     [current_txt] edit modified false
@@ -1663,7 +1663,7 @@ namespace eval gui {
     # If the text widget was not in a modified state, force it to be so now
     if {!$modified} {
       $txt edit modified false
-      [current_notebook] tab current -text "  [file tail $fname]"
+      [current_notebook] tab current -text " [file tail $fname]"
     }
     
     # Highlight the file in the sidebar
@@ -2378,7 +2378,7 @@ namespace eval gui {
     set adjusted_index [$nb index $index]
     
     # Add the new tab to the notebook
-    $nb insert $index $tab_frame -text "  $title"
+    $nb insert $index $tab_frame -text " $title"
     
     # Add the text bindings
     indent::add_bindings      $tab_frame.tf.txt
