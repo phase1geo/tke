@@ -38,7 +38,8 @@ namespace eval BNotebook {
     if {[lsearch -exact [ttk::style element names] close] == -1} {
       if {[catch {
         ttk::style element create close image \
-          [list ::img::close \
+          [list ::img::blank \
+            {active !pressed !disabled} ::img::close \
             {active pressed !disabled} ::img::closeactive] \
           -padding 8 -sticky {}
       } err]} { puts stderr $err }
@@ -94,6 +95,7 @@ namespace eval BNotebook {
     } else {
       $w state !pressed
     }
+    # puts "state: [$w state]"
   }
    
   # Initialize the BNotebook namespace
