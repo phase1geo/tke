@@ -1351,7 +1351,6 @@ namespace eval vim {
       } else {
         gui::search_prev 0
       }
-      record "Key-n"
       return 1
     }
     
