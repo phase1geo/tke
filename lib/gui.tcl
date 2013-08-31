@@ -293,6 +293,7 @@ namespace eval gui {
     # Create images
     set images(lock)     [image create bitmap -file [file join $::tke_dir images lock.bmp] -maskfile [file join $::tke_dir images lock.bmp] -foreground grey10]
     set images(readonly) [image create bitmap -file [file join $::tke_dir images lock.bmp] -maskfile [file join $::tke_dir images lock.bmp] -foreground grey30]
+    set images(close)    [image create bitmap -file [file join $::tke_dir images close.bmp] -maskfile [file join $::tke_dir images close.bmp] -foreground grey10]
     
     # Start polling on the files
     poll
@@ -815,7 +816,7 @@ namespace eval gui {
     variable file_move
     variable last_x
   
-    if {[set tabid [$W index @$x,$y]] ne ""} {
+    if {([$W identify $x $y] ne "close") && ([set tabid [$W index @$x,$y]] ne "")} {
       set nb_move   $tabid
       set file_move [get_file_index $pw_current $tabid]
       set last_x    $x
@@ -877,14 +878,23 @@ namespace eval gui {
     variable pw_current
     variable widgets
 
-    # Clear the move operation
-    set nb_move ""
-    
-    # Set the current pane
-    set pw_current [lsearch [$widgets(nb_pw) panes] $W]
-    
-    # Give the selected tab the focus
-    focus [current_txt].t
+    if {[$W identify $x $y] eq "close"} {
+      
+      # Close the current tab
+      close_current
+      
+    } else {
+      
+      # Clear the move operation
+      set nb_move ""
+      
+      # Set the current pane
+      set pw_current [lsearch [$widgets(nb_pw) panes] $W]
+      
+      # Give the selected tab the focus
+      focus [current_txt].t
+      
+    }
 
   }
 
@@ -1257,7 +1267,7 @@ namespace eval gui {
       }
  
       # Change the tab text
-      $nb tab $nb_index -text [file tail $fname]
+      $nb tab $nb_index -text "  [file tail $fname]"
       
     }
     
@@ -1363,7 +1373,7 @@ namespace eval gui {
       close $rc
       
       # Change the tab text
-      $nb tab [lindex $file_info $files_index(tab)] -text [file tail [lindex $file_info $files_index(fname)]]
+      $nb tab [lindex $file_info $files_index(tab)] -text "  [file tail [lindex $file_info $files_index(fname)]]"
             
       # Change the text to unmodified
       $txt edit modified false
@@ -1423,6 +1433,7 @@ namespace eval gui {
     
     # If the current file doesn't have a filename, allow the user to set it
     } elseif {[lindex $files $file_index $files_index(fname)] eq ""} {
+      set save_opts [list]
       if {[llength [set extensions [syntax::get_extensions]]] > 0} {
         lappend save_opts -defaultextension [lindex $extensions 0]
       }
@@ -1462,7 +1473,7 @@ namespace eval gui {
     lset files $file_index $files_index(mtime) $stat(mtime)
     
     # Change the tab text
-    $nb tab current -text [file tail [lindex $files $file_index $files_index(fname)]]
+    $nb tab current -text "  [file tail [lindex $files $file_index $files_index(fname)]]"
     
     # Change the text to unmodified
     [current_txt] edit modified false
@@ -1652,7 +1663,7 @@ namespace eval gui {
     # If the text widget was not in a modified state, force it to be so now
     if {!$modified} {
       $txt edit modified false
-      [current_notebook] tab current -text [file tail $fname]
+      [current_notebook] tab current -text "  [file tail $fname]"
     }
     
     # Highlight the file in the sidebar
@@ -2159,7 +2170,7 @@ namespace eval gui {
     variable curr_notebook
     
     # Create editor notebook
-    $widgets(nb_pw) add [set nb [ttk::notebook $widgets(nb_pw).nb[incr curr_notebook]]] -weight 1
+    $widgets(nb_pw) add [set nb [ttk::notebook $widgets(nb_pw).nb[incr curr_notebook] -style BNotebook]] -weight 1
 
     bind $nb <<NotebookTabChanged>> { gui::set_current_tab_from_nb %W }
     bind $nb <ButtonPress-1>        { gui::tab_move_start %W %x %y }
@@ -2181,28 +2192,43 @@ namespace eval gui {
     }
     
     # Handle tooltips
-    bind $nb <Motion> { gui::handle_notebook_tooltip %W %x %y }
+    bind $nb <Motion> { gui::handle_notebook_motion %W %x %y }
 
   }
   
   ######################################################################
   # Called when the user places the cursor over a notebook tab.
-  proc handle_notebook_tooltip {W x y} {
+  proc handle_notebook_motion {W x y} {
     
     variable tab_tip
+    variable tab_close
+    variable images
     
     set tab  [$W index @$x,$y]
     set type [$W identify $x $y]
     
+    # Handle tooltip
     if {![info exists tab_tip($W)]} {
       if {$type eq "label"} {
         set_tab_tooltip $W $tab
       }
     } elseif {$type ne "label"} {
-      clear_tab_tooltip $W $tab
+      clear_tab_tooltip $W
     } elseif {$tab_tip($W) ne $tab} {
-      clear_tab_tooltip $W $tab
+      clear_tab_tooltip $W
       set_tab_tooltip $W $tab
+    }
+    
+    # Handle close behavior
+    if {![info exists tab_close($W)]} {
+      if {$type eq "image"} {
+        $W tab $tab -compound left -image $images(close)
+      }
+    } elseif {$type ne "image"} {
+      $W tab $tab_close($W) -image ""
+    } elseif {$tab_close($W) ne $tab} {
+      $W tab $tab_close($W) -image ""
+      $W tab $tab -compound left -image $images(close)
     }
     
   }
@@ -2233,11 +2259,11 @@ namespace eval gui {
   
   ######################################################################
   # Clears the tooltip for the specified tab.
-  proc clear_tab_tooltip {W tab} {
+  proc clear_tab_tooltip {W} {
     
     variable tab_tip
     
-    unset tab_tip($W)
+    unset -nocomplain tab_tip($W)
     tooltip::tooltip clear $W
     
   }
@@ -2276,6 +2302,7 @@ namespace eval gui {
     bind $tab_frame.tf.txt   <ButtonPress-1> "after idle [list gui::update_position $tab_frame]"
     bind $tab_frame.tf.txt   <B1-Motion>     "gui::update_position $tab_frame"
     bind $tab_frame.tf.txt   <KeyRelease>    "gui::update_position $tab_frame"
+    bind $tab_frame.tf.txt   <Motion>        "gui::clear_tab_tooltip $nb"
     bind Text                <<Cut>>         ""
     bind Text                <<Copy>>        ""
     bind Text                <<Paste>>       ""
@@ -2351,7 +2378,7 @@ namespace eval gui {
     set adjusted_index [$nb index $index]
     
     # Add the new tab to the notebook
-    $nb insert $index $tab_frame -text $title
+    $nb insert $index $tab_frame -text "  $title"
     
     # Add the text bindings
     indent::add_bindings      $tab_frame.tf.txt
@@ -2394,8 +2421,8 @@ namespace eval gui {
       set nb [current_notebook]
       
       # Change the look of the tab
-      if {[string index [set name [$nb tab $tab -text]] 0] ne "*"} {
-        $nb tab $tab -text "* $name"
+      if {[string index [set name [string trimleft [$nb tab $tab -text]]] 0] ne "*"} {
+        $nb tab $tab -text " * $name"
       }
     
     }
