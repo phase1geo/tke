@@ -252,7 +252,7 @@ namespace eval plugins {
       close $rc
       
     }
-      
+    
     # If there was an error in sourcing any of the selected plugins, report the error to the user
     if {[llength $bad_sources] > 0} {
       set names [list]
@@ -289,8 +289,10 @@ namespace eval plugins {
     variable registry
     variable prev_sourced
     
-    if {$registry($index,selected) && [info exists prev_sourced($registry($index,name))]} {
-      if {[catch "[lindex $prev_sourced($registry($index,name)) 0] $index" status]} {
+    set name $registry($index,name)
+    
+    if {$registry($index,selected) && [info exists prev_sourced($name)]} {
+      if {[catch "[lindex $prev_sourced($name) 0] $index" status]} {
         handle_status_error $index $status
       }
     }
@@ -308,10 +310,40 @@ namespace eval plugins {
     set name $registry($index,name)
     
     if {$registry($index,selected) && [info exists prev_sourced($name)]} {
-      if {[catch "[lindex $prev_sourced($name) 0pre] $index" status]} {
+      if {[catch "[lindex $prev_sourced($name) 1] $index" status]} {
         handle_status_error $index $status
       }
     }
+    
+  }
+  
+  ######################################################################
+  # Allows a plugin to save temporary data to non-corruptible memory.
+  # This memory will be cleared whenever the plugin retrieves the data.
+  proc save_data {index name value} {
+    
+    variable temp_user_data
+    
+    set temp_user_data($index,$name) $value
+    
+  }
+  
+  ######################################################################
+  # If a previous call to save_data form the same index/name combination
+  # was called, returns the value stored for that variable.  Removes
+  # temporary memory prior to returning.
+  proc restore_data {index name} {
+    
+    variable temp_user_data
+    
+    if {[info exists temp_user_data($index,$name)]} {
+      set value $temp_user_data($index,$name)
+      unset temp_user_data $index,$name
+    } else {
+      set value ""
+    }
+    
+    return $value
     
   }
   
@@ -501,14 +533,14 @@ namespace eval plugins {
     # Add each of the entries
     foreach entry $entries {
       lassign $entry index type hier do
-      menu_add_item $mnu $action [split $hier .] $type $do
+      menu_add_item $index $mnu $action [split $hier .] $type $do
     }
     
   }
   
   ######################################################################
   # Adds menu item, creating all needed cascading menus.
-  proc menu_add_item {mnu action hier type do} {
+  proc menu_add_item {index mnu action hier type do} {
     
     # Add cascading menus
     while {[llength [set hier [lassign $hier level]]] > 0} {
@@ -531,6 +563,47 @@ namespace eval plugins {
       radiobutton {
         $mnu add radiobutton -label $level -variable [lindex $type 1] -value [lindex $type 2] -command $do
       }
+      cascade {
+        set new_mnu_name "$mnu.[string tolower [string map {{ } _} $level]]"
+        set new_mnu [menu $new_mnu_name -tearoff 0 -postcommand "plugins::post_cascade_menu $index $do $new_mnu_name"]
+        $mnu add cascade -label $level -menu $new_mnu
+      }
+    }
+    
+  }
+  
+  ######################################################################
+  # Handles a cascade menu post command.
+  proc post_cascade_menu {index do mnu} {
+    
+    # Recursively delete all of the items in the given menu
+    menu_delete_cascade $mnu
+    
+    # Call the plugins do command to populate the menu
+    if {[catch "$do $mnu" status]} {
+      handle_status_error $index $status
+    }
+    
+  }
+  
+  ######################################################################
+  # Recursively deletes all submenus of the given menu.
+  proc menu_delete_cascade {mnu} {
+
+    # If the menu is empty, stop now
+    if {[$mnu index end] ne "none"} {
+    
+      # Recursively remove the children menus
+      for {set i 0} {$i <= [$mnu index end]} {incr i} {
+        if {[$mnu type $i] eq "cascade"} {
+          menu_delete_cascade [set child_menu [$mnu entrycget $i -menu]]
+          destroy $child_menu
+        }
+      }
+      
+      # Delete all of the menu items
+      $mnu delete 0 end
+      
     }
     
   }

@@ -8,6 +8,17 @@
 namespace eval api {
 
   ######################################################################
+  # Returns the pathname to the tke plugin images directory.
+  #
+  # Parameters:
+  #   none
+  proc get_images_directory {} {
+    
+    return [file join [file dirname $::tke_dir] plugins images]
+    
+  }
+  
+  ######################################################################
   # Returns the pathname to the user's home tke directory.
   #
   # Parameters:
@@ -117,6 +128,34 @@ namespace eval api {
       }
       gui::add_file end {*}$args
     }
+    
+  }
+  
+  ######################################################################
+  # Saves the value of the given variable name to non-corruptible memory
+  # so that it can be later retrieved when the plugin is reloaded.
+  #
+  # Parameters:
+  #   index - Unique value that is passed to the on_reload save command.
+  #   name  - Name of the variable to store
+  #   value - Variable value to store
+  proc save_variable {index name value} {
+    
+    plugins::save_data $index $name $value
+    
+  }
+  
+  ######################################################################
+  # Retrieves the value of the named variable from non-corruptible memory
+  # (from a previous save_variable call.
+  #
+  # Parameters:
+  #   index - Unique value that is passed to the on_reload retrieve command.
+  #   name  - Name of the variable to get the value of.  If the named variable
+  #           could not be found), an empty string is returned.
+  proc load_variable {index name} {
+    
+    return [plugins::retrieve_data $index $name]
     
   }
   
