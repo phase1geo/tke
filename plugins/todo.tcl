@@ -39,10 +39,20 @@ namespace eval plugins::todo {
     set todo_lists [list]
     
     # Read each list file from the home directory and store the contents into todo_lists
-    foreach listfile [glob -nocomplain -directory [api::get_home_directory] *.list] {
-      if {![catch "open $listfile r" rc]} {
-        lappend todo_lists [read $rc]
-        close $rc
+    if {![catch "open [file join [api::get_home_directory] all.list] r" rc]} {
+      set todo_lists [read $rc]
+      close $rc
+    }
+    
+    # If we are a TKE developer, add the TKE development todo list
+    if {[api::tke_development]} {
+      if {[file exists [set devel_fname [file join [api::get_tke_directory] data todo.list]]]} {
+        if {![catch "open [file join [api::get_tke_directory] data todo.list] r" rc]} {
+          lappend todo_lists [read $rc]
+          close $rc
+        }
+      } else {
+        lappend todo_lists [list "TKE Development" [list]]
       }
     }
     
@@ -50,16 +60,24 @@ namespace eval plugins::todo {
   
   ######################################################################
   # Saves the todo lists to the plugin home directory.
-  proc save_todo_list {list_index} {
+  proc save_todo_lists {} {
     
     variable todo_lists
     
-    # Get the directory
-    set listfile [file join [api::get_home_directory] [lindex $todo_lists $list_index 0].list]
+    # If we are doing TKE development, write that todo list and remove it from all.list
+    if {[api::tke_development]} {
+      if {![catch "open [file join [api::get_tke_directory] data todo.list] w" rc]} {
+        puts $rc [lindex $todo_lists end]
+        close $rc
+      }
+      set temp_todo_lists [lrange $todo_lists 0 end-1]
+    } else {
+      set temp_todo_lists $todo_lists
+    }
     
     # Write the file contents
-    if {![catch "open $listfile w" rc]} {
-      puts $rc [lindex $todo_lists $list_index]
+    if {![catch "open [file join [api::get_home_directory] all.list] w" rc]} {
+      puts $rc $temp_todo_lists
       close $rc
     }
     
@@ -173,7 +191,7 @@ namespace eval plugins::todo {
       lappend todo_lists [list $user_input [list]]
       
       # Save the new todo list
-      save_todo_list [expr [llength $todo_lists] - 1]
+      save_todo_lists
       
     }
     
@@ -213,7 +231,7 @@ namespace eval plugins::todo {
       lset todo_lists $list_index 1 $todos
       
       # Save the todo list
-      save_todo_list $list_index
+      save_todo_lists
       
     }
     
@@ -229,7 +247,7 @@ namespace eval plugins::todo {
     lset todo_lists $list_index 1 $todo_index 1 $done
     
     # Save the todo list
-    save_todo_list $list_index
+    save_todo_lists
     
   }
   
@@ -249,7 +267,7 @@ namespace eval plugins::todo {
     lset todo_lists $list_index 1 $todos
     
     # Save the todo list
-    save_todo_list $list_index
+    save_todo_lists
     
   }
   

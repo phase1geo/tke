@@ -6,7 +6,27 @@
 ###################################################################### 
 
 namespace eval api {
-
+  
+  ######################################################################
+  # Returns true if we are doing tke_development.
+  proc tke_development {} {
+    
+    return [::tke_development]
+    
+  }
+  
+  if {[tke_development]} {
+    
+    ######################################################################
+    # Returns the pathname to the TKE directory.
+    proc get_tke_directory {} {
+      
+      return [file dirname $::tke_dir]
+      
+    }
+    
+  }
+  
   ######################################################################
   # Returns the pathname to the tke plugin images directory.
   #

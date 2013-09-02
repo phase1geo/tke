@@ -9,6 +9,14 @@
 set tke_dir  [file dirname $argv0]
 set tke_home [file join ~ .tke]
 
+######################################################################
+# Returns 1 if we are doing TKE development; otherwise, returns 0.
+proc tke_development {} {
+  
+  return [info exists ::env(TKE_DEVEL)]
+  
+}
+
 set auto_path [concat $tke_dir $auto_path]
 
 package require Tclx

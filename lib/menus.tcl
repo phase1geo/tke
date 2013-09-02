@@ -411,21 +411,26 @@ namespace eval menus {
     launcher::register "Menu: Enable Vim mode"  "set preferences::prefs(Tools/VimMode) 1; vim::set_vim_mode_all"
     launcher::register "Menu: Disable Vim mode" "set preferences::prefs(Tools/VimMode) 0; vim::set_vim_mode_all"
     
-    $mb add separator
-    
-    $mb add command -label "Start Profiling" -underline 0 -command "menus::start_profiling_command $mb"
-    launcher::register "Menu: Start profiling" "menus::start_profiling_command $mb"
-    
-    $mb add command -label "Stop Profiling" -underline 1 -command "menus::stop_profiling_command $mb 1" -state disabled
-    launcher::register "Menu: Stop profiling" "menus::stop_profiling_command $mb 1"
-    
-    $mb add command -label "Show Last Profiling Report" -underline 1 -command "menus::show_last_profiling_report"
-    launcher::register "Menu: Show last profiling report" "menus::show_last_profiling_report"
-    
-    $mb add separator
-    
-    $mb add command -label "Restart tke" -underline 0 -command "menus::restart_command"
-    launcher::register "Menu: Restart tke" "menus::restart_command"
+    # Add development tools
+    if {[::tke_development]} {
+      
+      $mb add separator
+       
+      $mb add command -label "Start Profiling" -underline 0 -command "menus::start_profiling_command $mb"
+      launcher::register "Menu: Start profiling" "menus::start_profiling_command $mb"
+       
+      $mb add command -label "Stop Profiling" -underline 1 -command "menus::stop_profiling_command $mb 1" -state disabled
+      launcher::register "Menu: Stop profiling" "menus::stop_profiling_command $mb 1"
+       
+      $mb add command -label "Show Last Profiling Report" -underline 1 -command "menus::show_last_profiling_report"
+      launcher::register "Menu: Show last profiling report" "menus::show_last_profiling_report"
+      
+      $mb add separator
+      
+      $mb add command -label "Restart tke" -underline 0 -command "menus::restart_command"
+      launcher::register "Menu: Restart tke" "menus::restart_command"
+      
+    }
    
     # Apply the menu bindings for the tools menu
     bindings::apply $mb
@@ -597,10 +602,13 @@ namespace eval menus {
     $mb add command -label "Reload"       -underline 0 -command "plugins::reload"
     launcher::register "Menu: Reload all plugins" "plugins::reload"
     
-    $mb add separator
-    
-    $mb add command -label "Create..." -underline 0 -command "plugins::create_new_plugin"
-    launcher::register "Menu: Create new plugin" "plugins::create_new_plugin"
+    if {[::tke_development]} {
+      
+      $mb add separator
+      $mb add command -label "Create..." -underline 0 -command "plugins::create_new_plugin"
+      launcher::register "Menu: Create new plugin" "plugins::create_new_plugin"
+      
+    }
     
     # Allow the plugin architecture to add menu items
     plugins::handle_plugin_menu $mb
