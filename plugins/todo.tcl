@@ -9,12 +9,7 @@
 
 namespace eval plugins::todo {
   
-  # variable todo_lists {}
-  variable todo_lists {
-    {Development
-      {{{Add plugin infrastructure for bindings} 0}
-       {{Add todo list plugin} 0}}}}
-  
+  variable todo_lists {}
   variable user_input ""
       
   array set images {}
@@ -28,6 +23,45 @@ namespace eval plugins::todo {
     # Create images files
     set images(checked)   [image create photo -file [file join [api::get_images_directory] checked.gif]]
     set images(unchecked) [image create photo -file [file join [api::get_images_directory] unchecked.gif]]
+    
+    # Load the todo information
+    load_todos
+    
+  }
+  
+  ######################################################################
+  # Loads the todo information from the file.
+  proc load_todos {} {
+    
+    variable todo_lists
+    
+    # Initialize the todo_lists list
+    set todo_lists [list]
+    
+    # Read each list file from the home directory and store the contents into todo_lists
+    foreach listfile [glob -nocomplain -directory [api::get_home_directory] *.list] {
+      if {![catch "open $listfile r" rc]} {
+        lappend todo_lists [read $rc]
+        close $rc
+      }
+    }
+    
+  }
+  
+  ######################################################################
+  # Saves the todo lists to the plugin home directory.
+  proc save_todo_list {list_index} {
+    
+    variable todo_lists
+    
+    # Get the directory
+    set listfile [file join [api::get_home_directory] [lindex $todo_lists $list_index 0].list]
+    
+    # Write the file contents
+    if {![catch "open $listfile w" rc]} {
+      puts $rc [lindex $todo_lists $list_index]
+      close $rc
+    }
     
   }
   
@@ -138,6 +172,9 @@ namespace eval plugins::todo {
       # Append the todo list to the list of todos
       lappend todo_lists [list $user_input [list]]
       
+      # Save the new todo list
+      save_todo_list [expr [llength $todo_lists] - 1]
+      
     }
     
   }
@@ -148,6 +185,9 @@ namespace eval plugins::todo {
     
     variable todo_lists
     
+    # Delete the list file
+    file delete -force [file join [api::get_home_directory] [lindex $todo_lists $list_index 0].list]
+
     # Delete the todo list at the given index
     set todo_lists [lreplace $todo_lists $list_index $list_index]
     
@@ -172,6 +212,9 @@ namespace eval plugins::todo {
       # Replace the todos list into the todo_lists list
       lset todo_lists $list_index 1 $todos
       
+      # Save the todo list
+      save_todo_list $list_index
+      
     }
     
   }
@@ -184,6 +227,9 @@ namespace eval plugins::todo {
     
     # Set the done bit to the specified value for the given todo item
     lset todo_lists $list_index 1 $todo_index 1 $done
+    
+    # Save the todo list
+    save_todo_list $list_index
     
   }
   
@@ -201,6 +247,9 @@ namespace eval plugins::todo {
     
     # Replace the todos list
     lset todo_lists $list_index 1 $todos
+    
+    # Save the todo list
+    save_todo_list $list_index
     
   }
   

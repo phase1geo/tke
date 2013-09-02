@@ -25,7 +25,22 @@ namespace eval api {
   #   none
   proc get_home_directory {} {
     
-    return $::tke_home
+    # Get the name of the plugin
+    if {[regexp {plugins::(.*)$} [uplevel {namespace current}] -> name]} {
+      
+      # Figure out the home directory
+      set home [file join $::tke_home plugins $name]
+      
+      # If the home directory does not exist, create it
+      file mkdir $home
+      
+      return $home
+      
+    } else {
+      
+      return -code error "get_home_directory can only be called within plugin code"
+      
+    }
     
   }
   
