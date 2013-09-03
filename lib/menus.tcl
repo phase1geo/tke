@@ -269,7 +269,9 @@ namespace eval menus {
     plugins::handle_on_quit
 
     # Turn off profiling (if it was turned on)
-    stop_profiling_command .menubar.tools 0
+    if {[::tke_development]} {
+      stop_profiling_command .menubar.tools 0
+    }
     
     # Destroy the interface
     destroy .
