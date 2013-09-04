@@ -47,6 +47,10 @@ namespace eval BNotebook {
   }
    
   proc Init {{pertab 0}} {
+    
+    # Make sure that tab has the same padding as the clam theme
+    ttk::style configure BNotebook.Tab -padding {6 2 0 2}
+    
     CreateElements
     
     # This places the buttons on the right end of the tab area -- but in

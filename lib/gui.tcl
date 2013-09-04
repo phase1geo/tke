@@ -1519,8 +1519,10 @@ namespace eval gui {
     
     # If the file needs to be saved, do it now
     if {[[current_txt] edit modified] && !$force} {
-      if {[set answer [tk_messageBox -default yes -type yesno -message "Save file?" -title "Save request"]] eq "yes"} {
+      if {[set answer [tk_messageBox -default yes -type yesnocancel -message "Save file?" -title "Save request"]] eq "yes"} {
         save_current
+      } elseif {$answer eq "cancel"} {
+        return
       }
     }
 
@@ -1567,7 +1569,6 @@ namespace eval gui {
     
     # Remove the tab
     $nb forget $nb_index
-    # destroy $tab_frame
     
     # Renumber any tabs after this tab
     foreach tab_index [lsearch -all -index $files_index(pane) $files $pw_index] {
@@ -1879,6 +1880,12 @@ namespace eval gui {
 
     # If the user has specified a new search value, find all occurrences
     if {[set str [[current_search] get]] ne ""} {
+      
+      # Test the regular expression, if it is invalid, let the user know
+      if {[catch { regexp $str "" } rc]} {
+        after 100 [list gui::set_info_message $rc]
+        return
+      }
     
       # Get the current text widget
       set txt [current_txt]
@@ -1890,7 +1897,9 @@ namespace eval gui {
       ctext::addSearchClassForRegexp $txt search black yellow $str
       
       # Make the search tag lower in priority than the selection tag
+      # but higher in priority than the warnWidth tag
       $txt tag lower _search sel
+      $txt tag raise _search warnWidth
 
     }
  
