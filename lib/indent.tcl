@@ -15,7 +15,7 @@ namespace eval indent {
     # Set the indent level for the given text widget to 0
     add_indent_level $txt.t insert
 
-    bind indent$txt <Any-Key>        "indent::check_indent %W insert insert"
+    bind indent$txt <Any-Key>        "after 2 [list indent::check_indent %W insert insert]"
     # bind indent$txt <Key-braceleft>   "indent::increment %W insert insert"
     # bind indent$txt <Key-braceright>  "indent::decrement %W insert insert"
     bind indent$txt <Return>          "indent::newline %W insert insert"
@@ -72,7 +72,31 @@ namespace eval indent {
     variable indent_levels
     variable indent_exprs
     
-    # FOOBAR
+    # If the start of the current word is in a comment or string, do nothing
+    set wordTags [$txt tag names "$insert_index-1c wordstart"]
+        
+    # This needs to be fixed (tags haven't been applied when this is called)
+    if {([lsearch -glob $wordTags _strings*] == -1) && \
+        ([lsearch -glob $wordTags _comments*] == -1) && \
+        ([lsearch $wordTags _cComment] == -1)} {
+         
+      # Get the current word
+      set word [$txt get "$insert_index-1c wordstart" "$insert_index-1c wordend"]
+          
+      # Increment the indentation level
+      if {[regexp $indent_exprs($txt,indent) $word]} {
+        incr indent_levels($txt,$indent_name)
+        
+      # Decrement the indentation level and replace preceding whitespace
+      } elseif {[regexp $indent_exprs($txt,unindent) $word]} {
+        incr indent_levels($txt,$indent_name) -1
+        set line [$txt get "$insert_index linestart" "$insert_index-1c"]
+        if {($line ne "") && ([string trim $line] eq "")} {
+          $txt replace "$insert_index linestart" "$insert_index-1c" [string repeat " " [expr $indent_levels($txt,$indent_name) * 2]]
+        }
+      }
+      
+    }
     
   }
 
