@@ -43,6 +43,8 @@ namespace eval gui {
   # updated since the last save.
   proc poll {} {
 
+    variable widgets
+    variable pw_current
     variable files
     variable files_index
 
@@ -54,9 +56,13 @@ namespace eval gui {
         if {[file exists $fname]} {
           file stat $fname stat
           if {$mtime != $stat(mtime)} {
-            set answer [tk_messageBox -parent . -icon question -message "Reload file?" \
-              -detail $fname -type yesno -default yes]
-            if {$answer eq "yes"} {
+            if {[[[lindex [$widgets(nb_pw) panes] $pw_current] select].tf.txt edit modified]} {
+              set answer [tk_messageBox -parent . -icon question -message "Reload file?" \
+                -detail $fname -type yesno -default yes]
+              if {$answer eq "yes"} {
+                update_file $i
+              }
+            } else {
               update_file $i
             }
             lset files $i $files_index(mtime) $stat(mtime)
