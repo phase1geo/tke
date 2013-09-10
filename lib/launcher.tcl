@@ -78,7 +78,7 @@ namespace eval launcher {
       
       set widgets(lf) [ttk::frame $widgets(win).lf]
       set widgets(lb) [listbox $widgets(lf).lb -exportselection 0 -bg white -height 0 \
-        -yscrollcommand "utils::set_scrollbar $widgets(lf).vb" -listvariable launcher::match_commands]
+        -yscrollcommand "utils::set_yscrollbar $widgets(lf).vb" -listvariable launcher::match_commands]
       ttk::scrollbar $widgets(lf).vb -orient vertical -command "$widgets(lb) yview"
       
       grid rowconfigure    $widgets(lf) 0 -weight 1

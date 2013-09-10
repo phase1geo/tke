@@ -4,6 +4,9 @@
 # Brief:   Namespace for general purpose utility procedures
 
 namespace eval utils {
+  
+  array set xignore    {}
+  array set xignore_id {}
 
   ##########################################################
   # Useful process for debugging.
@@ -36,9 +39,9 @@ namespace eval utils {
   }
   
   ###########################################################################
-  # Performs the set operation on a given scrollbar.
-  proc set_scrollbar {sb first last} {
-  
+  # Performs the set operation on a given yscrollbar.
+  proc set_yscrollbar {sb first last} {
+        
     # If everything is displayed, hide the scrollbar
     if {($first == 0) && ($last == 1)} {
       grid remove $sb
@@ -47,6 +50,45 @@ namespace eval utils {
       $sb set $first $last
     }
 
+  }
+  
+  ######################################################################
+  # Performs the set operation on a given xscrollbar.
+  proc set_xscrollbar {sb first last} {
+    
+    variable xignore
+    variable xignore_id
+    
+    if {($first == 0) && ($last == 1)} {
+      grid remove $sb
+      set_xignore $sb 1 0
+      set xignore_id($sb) [after 1000 [list utils::set_xignore $sb 0 1]]
+    } else {
+      if {![info exists xignore($sb)] || !$xignore($sb)} {
+        grid $sb
+        $sb set $first $last
+      }
+      set_xignore $sb 0 0
+    }
+    
+  }
+  
+  ######################################################################
+  # Clears the xignore and xignore_id values.
+  proc set_xignore {sb value auto} {
+  
+    variable xignore
+    variable xignore_id
+        
+    # Clear the after (if it exists)
+    if {[info exists xignore_id($sb)]} {
+      after cancel $xignore_id($sb)
+      unset xignore_id($sb)
+    }
+    
+    # Set the xignore value to the specified value
+    set xignore($sb) $value
+    
   }
 
   ######################################################################

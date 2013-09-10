@@ -118,8 +118,8 @@ namespace eval gui {
         -treecolumn 0 -forceeditendcommand 1 -expandcommand gui::expand_directory \
         -editstartcommand "gui::filetl_edit_start_command" \
         -editendcommand   "gui::filetl_edit_end_command" \
-        -xscrollcommand "utils::set_scrollbar $widgets(fview).hb" \
-        -yscrollcommand "utils::set_scrollbar $widgets(fview).vb"]
+        -xscrollcommand "utils::set_xscrollbar $widgets(fview).hb" \
+        -yscrollcommand "utils::set_yscrollbar $widgets(fview).vb"]
     ttk::scrollbar $widgets(fview).vb -orient vertical   -command "$widgets(filetl) yview"
     ttk::scrollbar $widgets(fview).hb -orient horizontal -command "$widgets(filetl) xview"
     
@@ -135,7 +135,7 @@ namespace eval gui {
     grid $widgets(fview).tl -row 0 -column 0 -sticky news
     grid $widgets(fview).vb -row 0 -column 1 -sticky ns
     grid $widgets(fview).hb -row 1 -column 0 -sticky ew
-      
+
     # Create panedwindow (to support split pane view)
     $widgets(pw) add [ttk::frame $widgets(pw).tf]
       
@@ -2330,8 +2330,8 @@ namespace eval gui {
     ctext $tab_frame.tf.txt -wrap none -undo 1 -autoseparators 1 -insertofftime 0 \
       -highlightcolor yellow -warnwidth $preferences::prefs(Editor/WarningWidth) \
       -linemap_mark_command gui::mark_command -linemap_select_bg orange \
-      -xscrollcommand "utils::set_scrollbar $tab_frame.tf.hb" \
-      -yscrollcommand "utils::set_scrollbar $tab_frame.tf.vb"
+      -xscrollcommand "utils::set_xscrollbar $tab_frame.tf.hb" \
+      -yscrollcommand "utils::set_yscrollbar $tab_frame.tf.vb"
     ttk::scrollbar $tab_frame.tf.vb -orient vertical   -command "$tab_frame.tf.txt yview"
     ttk::scrollbar $tab_frame.tf.hb -orient horizontal -command "$tab_frame.tf.txt xview"
     
@@ -2359,7 +2359,7 @@ namespace eval gui {
     grid $tab_frame.tf.txt -row 0 -column 0 -sticky news
     grid $tab_frame.tf.vb  -row 0 -column 1 -sticky ns
     grid $tab_frame.tf.hb  -row 1 -column 0 -sticky ew
-    
+
     # Create the Vim command bar
     vim::bind_command_entry $tab_frame.tf.txt \
       [entry $tab_frame.ve -background black -foreground white -insertbackground white \

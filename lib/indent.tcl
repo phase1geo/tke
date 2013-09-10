@@ -15,8 +15,9 @@ namespace eval indent {
     # Set the indent level for the given text widget to 0
     add_indent_level $txt.t insert
 
-    bind indent$txt <Key-braceleft>   "indent::increment %W insert insert"
-    bind indent$txt <Key-braceright>  "indent::decrement %W insert insert"
+    bind indent$txt <Any-Key>        "indent::check_indent %W insert insert"
+    # bind indent$txt <Key-braceleft>   "indent::increment %W insert insert"
+    # bind indent$txt <Key-braceright>  "indent::decrement %W insert insert"
     bind indent$txt <Return>          "indent::newline %W insert insert"
     bind indent$txt <Key-Up>          "indent::update_indent_level %W insert insert"
     bind indent$txt <Key-Down>        "indent::update_indent_level %W insert insert"
@@ -60,6 +61,19 @@ namespace eval indent {
 
     catch { array unset indent_levels $txt,$indent_pattern }
  
+  }
+  
+  ######################################################################
+  # Checks the given text prior to the insertion marker to see if it
+  # matches the indent or unindent expressions.  Increment/decrement
+  # accordingly.
+  proc check_indent {txt insert_index indent_name} {
+    
+    variable indent_levels
+    variable indent_exprs
+    
+    # FOOBAR
+    
   }
 
   ######################################################################
