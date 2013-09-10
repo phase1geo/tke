@@ -1153,6 +1153,7 @@ proc ctext::warnWidthUpdate {win start end} {
   
   # Configure the background to a new color
   $win._t tag configure warnWidth -background $configAr(-warnwidth_bg)
+  $win._t tag lower warnWidth
   
 }
 
