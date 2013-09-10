@@ -75,7 +75,16 @@ namespace eval launcher {
       wm transient        $widgets(win) .
 
       set widgets(entry) [ttk::entry $widgets(win).entry -width 50 -validate key -validatecommand "launcher::lookup %P $mode" -invalidcommand {bell}]
-      set widgets(lb)    [listbox    $widgets(win).lb    -exportselection 0 -bg white -height 0 -listvariable launcher::match_commands]
+      
+      set widgets(lf) [ttk::frame $widgets(win).lf]
+      set widgets(lb) [listbox $widgets(lf).lb -exportselection 0 -bg white -height 0 \
+        -yscrollcommand "utils::set_scrollbar $widgets(lf).vb" -listvariable launcher::match_commands]
+      ttk::scrollbar $widgets(lf).vb -orient vertical -command "$widgets(lb) yview"
+      
+      grid rowconfigure    $widgets(lf) 0 -weight 1
+      grid columnconfigure $widgets(lf) 0 -weight 1
+      grid $widgets(lf).lb -row 0 -column 0 -sticky news
+      grid $widgets(lf).vb -row 0 -column 1 -sticky ns
 
       pack $widgets(entry) -fill x
 
@@ -166,6 +175,7 @@ namespace eval launcher {
     # Set the selection
     $lb selection clear 0 end
     $lb selection set $row $row
+    $lb see $row
 
   }
   
@@ -320,9 +330,10 @@ namespace eval launcher {
 
         # Limit the match list to the top
         if {$match_num > $options(-results)} {
-          set match_num $options(-results)
+          $widgets(lb) configure -height $options(-results)
+        } else {
+          $widgets(lb) configure -height $match_num
         }
-        $widgets(lb) configure -height $match_num
 
         # Update the table
         set match_commands [list]
@@ -339,14 +350,14 @@ namespace eval launcher {
         select $widgets(lb) 0
 
         # Pack the listbox, if it isn't already
-        if {[catch "pack info $widgets(lb)"]} {    
-          pack $widgets(lb) -fill both -expand yes
+        if {[catch "pack info $widgets(lf)"]} {    
+          pack $widgets(lf) -fill both -expand yes
         }
 
       } else {
 
         # Remove the results frame
-        pack forget $widgets(lb)
+        pack forget $widgets(lf)
 
         # Unbind up and down arrows
         bind $widgets(win) <Up>     ""
@@ -358,7 +369,7 @@ namespace eval launcher {
     } else {
 
       # Remove the results frame
-      pack forget $widgets(lb)
+      pack forget $widgets(lf)
 
       # Unbind up and down arrows
       bind $widgets(win) <Up>     ""
