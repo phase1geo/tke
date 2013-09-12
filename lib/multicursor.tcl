@@ -73,16 +73,16 @@ namespace eval multicursor {
       }
     }
     # We will want to indent the text if we are a multicursor key event
-    bind mcursor$txt <Key-braceleft> {
-      if {[multicursor::insert %W %A indent::increment]} {
-        break
-      }
-    }
-    bind mcursor$txt <Key-braceright> {
-      if {[multicursor::insert %W %A indent::decrement]} {
-        break
-      }
-    }
+#    bind mcursor$txt <Key-braceleft> {
+#      if {[multicursor::insert %W %A indent::increment]} {
+#        break
+#      }
+#    }
+#    bind mcursor$txt <Key-braceright> {
+#      if {[multicursor::insert %W %A indent::decrement]} {
+#        break
+#      }
+#    }
     bind mcursor$txt <Return> {
       if {[multicursor::insert %W "\n" indent::newline]} {
         break

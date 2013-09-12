@@ -246,7 +246,7 @@ namespace eval syntax {
       -warnwidth_bg $theme(warnwidthcolor)
     
     # Set default indent/unindent strings
-    indent::set_indent_expressions $txt.t "\{" "\}"
+    indent::set_indent_expressions $txt.t {\{} {\}}
     
     # Set the snippet set to the current language
     snippets::set_language $language

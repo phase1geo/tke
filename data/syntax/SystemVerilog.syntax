@@ -5,10 +5,10 @@ tabsallowed
 {0}
 
 indent
-{\m(begin(\s*:\s*\S+)?|task.*;|function.*;|case[xz]?.*\)|module.*;|generate)\M}
+{begin task function casex casez module generate}
 
 unindent
-{\m(end|endtask|endfunction|endcase|endmodule|endgenerate)\M}
+{end endtask endfunction endcase endmodule endgenerate}
 
 keywords
 {

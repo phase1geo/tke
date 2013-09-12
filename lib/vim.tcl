@@ -51,7 +51,7 @@ namespace eval vim {
     
     variable mode
     
-    if {$preferences::prefs(Tools/VimMode) && ($mode($txt) ne "edit")} {
+    if {$preferences::prefs(Tools/VimMode) && [info exists mode($txt)] && ($mode($txt) ne "edit")} {
       return 1
     } else {
       return 0
