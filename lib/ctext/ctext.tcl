@@ -784,8 +784,10 @@ proc ctext::comments {win {afterTriggered 0}} {
 
 proc ctext::addHighlightClass {win class color keywords} {
   set ref [ctext::getAr $win highlight ar]
+  
+  set color_opts [expr {($color eq "") ? [list] : [list -foreground $color]}]
   foreach word $keywords {
-    set ar($word) [list _$class [list -foreground $color]]
+    set ar($word) [list _$class $color_opts]
   }
   $win tag configure _$class
   
@@ -796,7 +798,9 @@ proc ctext::addHighlightClass {win class color keywords} {
 proc ctext::addHighlightClassForRegexp {win class color re} {
   set ref [ctext::getAr $win highlightRegexp ar]
   
-  set ar(_$class) [list $re [list -foreground $color]]
+  set color_opts [expr {($color eq "") ? [list] : [list -foreground $color]}]
+  set ar(_$class) [list $re $color_opts]
+  
   $win tag configure _$class
   
   ctext::getAr $win classes classesAr
@@ -807,7 +811,9 @@ proc ctext::addHighlightClassForRegexp {win class color re} {
 proc ctext::addHighlightClassWithOnlyCharStart {win class color char} {
   set ref [ctext::getAr $win highlightCharStart ar]
   
-  set ar($char) [list _$class [list -foreground $color]]
+  set color_opts [expr {($color eq "") ? [list] : [list -foreground $color]}]
+  set ar($char) [list _$class $color_opts]
+  
   $win tag configure _$class
   
   ctext::getAr $win classes classesAr

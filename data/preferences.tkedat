@@ -8,6 +8,18 @@
 
 {Appearance/Theme}           {default}
 
+# Specifies which syntax highlighting elements should be colorized.  The following
+# element names are valid:
+#  - keywords
+#  - comments
+#  - strings
+#  - numbers
+#  - punctuation
+#  - precompile
+#  - miscellaneous
+
+{Appearance/Colorize}        {keywords comments strings numbers punctuation precompile miscellaneous}
+
 # Specifies the number of characters to allow on a line before additional characters
 # are flagged with a warning character.
 

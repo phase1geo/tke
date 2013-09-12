@@ -12,6 +12,15 @@ namespace eval syntax {
   array set langs     {}
   array set themes    {}
   array set theme     {}
+  array set colorizers {
+    keywords      1
+    comments      1
+    strings       1
+    numbers       1
+    punctuation   1
+    precompile    1
+    miscellaneous 1
+  }
   
   ######################################################################
   # Loads the syntax and theme information.
@@ -113,6 +122,9 @@ namespace eval syntax {
     # Trace changes to the Appearance/Theme preference variable
     trace variable preferences::prefs(Appearance/Theme) w syntax::handle_theme_change
     
+    # Trace changes to the Appearance/Colorize preference variable
+    trace variable preferences::prefs(Appearance/Colorize) w syntax::handle_colorize_change
+    
   }
   
   ######################################################################
@@ -121,6 +133,14 @@ namespace eval syntax {
 
     set_theme $preferences::prefs(Appearance/Theme)
 
+  }
+  
+  ######################################################################
+  # Called whenever the Appearance/Colorize preference value is changed.
+  proc handle_colorize_change {name1 name2 op} {
+    
+    set_theme $preferences::prefs(Appearance/Theme)
+    
   }
 
   ######################################################################
@@ -131,16 +151,25 @@ namespace eval syntax {
     variable themes
     variable theme
     variable lang
+    variable colorizers
     
     if {[info exists themes($theme_name)]} {
       
       # Set the current theme array
       array set theme $themes($theme_name)
       
+      # Remove theme values that aren't in the Appearance/Colorize array
+      foreach name [array names theme] {
+        if {[info exists colorizers($name)] && \
+            [lsearch $preferences::prefs(Appearance/Colorize) $name] == -1} {
+          set theme($name) ""
+        }
+      }
+      
       # Iterate through our tab list and update there
       foreach txt [array names lang] {
         if {[winfo exists $txt]} {
-          set_language $lang($txt)
+          set_language $lang($txt) $txt
         } else {
           unset lang($txt)
         }
@@ -219,22 +248,24 @@ namespace eval syntax {
     set txt [gui::current_txt]
     
     if {[info exists lang($txt)]} {
-      set_language $lang($txt)
+      set_language $lang($txt) $txt
     }
     
   }
   
   ######################################################################
   # Sets the language of the given text widget to the given language.
-  proc set_language {language} {
+  proc set_language {language {txt ""}} {
     
     variable langs
     variable theme
     variable lang
     
-    # Get the current text widget
-    set txt [gui::current_txt]
-        
+    # If a text widget wasn't specified, get the current text widget
+    if {$txt eq ""} {
+      set txt [gui::current_txt]
+    }
+    
     # Clear the syntax highlighting for the widget
     ctext::clearHighlightClasses $txt
     ctext::disableComments $txt
