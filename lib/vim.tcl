@@ -123,9 +123,9 @@ namespace eval vim {
             set to   [$txt index "[get_linenum $txt $to] lineend"]
             multicursor::search_and_add_cursors $txt $from $to $search
           } elseif {[regexp {^e\s+(.*)$} $value -> filename]} {
-            gui::add_file end [file normalize $filename]
+            gui::add_file end [normalize_filename $filename]
           } elseif {[regexp {^w\s+(.*)$} $value -> filename]} {
-            gui::save_current $filename
+            gui::save_current [normalize_filename $filename]
           } elseif {[regexp {^m\s+(.*)$} $value -> marker]} {
             set line [lindex [split [$txt index insert] .] 0]
             if {$marker ne ""} {
@@ -149,6 +149,24 @@ namespace eval vim {
     # Hide the command entry widget
     grid remove $w 
   
+  }
+  
+  ######################################################################
+  # Normalizes the given filename string, performing any environment
+  # variable substitutions.
+  proc normalize_filename {file_str} {
+    
+    while {[regexp -indices {(\$(\w+))} $file_str -> str var]} {
+      set var [string range $file_str {*}$var]
+      if {[info exists ::env($var)]} {
+        set file_str [string replace $file_str {*}$str $::env($var)]
+      } else {
+        return -code error "Environment variable $var does not exist"
+      }
+    }
+    
+    return [file normalize $file_str]
+    
   }
   
   ######################################################################
