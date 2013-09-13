@@ -1147,7 +1147,8 @@ namespace eval vim {
   # current line.
   proc do_post_paste {txt clip} {
     
-    $txt insert "insert+1l linestart" "$clip\n"
+    # $txt insert "insert+1l linestart" "$clip\n"
+    $txt insert "insert lineend" "\n$clip"
     $txt mark set insert "insert+1l linestart"
     $txt see insert
     

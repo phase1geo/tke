@@ -16,8 +16,6 @@ namespace eval indent {
     add_indent_level $txt.t insert
 
     bind indent$txt <Any-Key>        "after 2 [list indent::check_indent %W insert insert]"
-    # bind indent$txt <Key-braceleft>   "indent::increment %W insert insert"
-    # bind indent$txt <Key-braceright>  "indent::decrement %W insert insert"
     bind indent$txt <Return>          "after 2 [list indent::newline %W insert insert]"
     bind indent$txt <Key-Up>          "indent::update_indent_level %W insert insert"
     bind indent$txt <Key-Down>        "indent::update_indent_level %W insert insert"
