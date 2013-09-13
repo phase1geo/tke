@@ -1495,6 +1495,9 @@ namespace eval gui {
       # Highlight the file in the sidebar
       highlight_filename [lindex $files $file_index $files_index(fname)] 1
       
+      # Syntax highlight the file
+      syntax::set_language [syntax::get_language [lindex $files $file_index $files_index(fname)]]
+      
     }
 
     # Update the timestamp
