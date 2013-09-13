@@ -50,6 +50,10 @@ namespace eval menus {
     # Add the plugins menu
     $mb add cascade -label "Plugins" -menu [menu $mb.plugins -tearoff false]
     add_plugins $mb.plugins
+    
+    # Add the help menu
+    $mb add cascade -label "Help" -menu [menu $mb.help -tearoff false]
+    add_help $mb.help
   
   }
   
@@ -614,6 +618,15 @@ namespace eval menus {
     
     # Allow the plugin architecture to add menu items
     plugins::handle_plugin_menu $mb
+    
+  }
+  
+  ######################################################################
+  # Adds the help menu commands.
+  proc add_help {mb} {
+    
+    $mb add command -label "About tke" -underline 0 -command "gui::show_about"
+    launcher::register "Menu: About tke" "gui::show_about"
     
   }
   

@@ -24,6 +24,7 @@ package require ctext
 package require tablelist
 package require tooltip
 
+source [file join $tke_dir version.tcl]
 source [file join $tke_dir bnotebook.tcl]
 source [file join $tke_dir utils.tcl]
 source [file join $tke_dir preferences.tcl]
