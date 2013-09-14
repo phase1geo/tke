@@ -199,50 +199,81 @@ namespace eval indent {
     variable indent_levels
     variable indent_exprs
     
-    # Get the text widget contents, trimming the whitespace and splitting into lines
-    foreach line [split [$txt get $startpos $endpos] \n] {
-      lappend str $line
-    }
-
-    # Get the line up to the insertion point
-    set line         [$txt get "$startpos linestart" $startpos]
-    set current_line 0
+    # Get the current position and recalculate the endpos
+    set currpos [$txt index "$startpos linestart"]
+    set endpos  [$txt index $endpos]
     
-    # If we have non-whitespace text to our left, paste the first line as is.
-    if {[regexp {^\s*$} $line]} {
-      set extra_whitespace [expr ($indent_levels($txt,insert) * 2) - [string length $line]]
-      if {$extra_whitespace > 0} {
-        $txt insert $startpos [string repeat " " $extra_whitespace]
-      }
+    # Update the indentation level at the start of the first text line
+    if {$currpos eq "1.0"} {
+      set indent_levels($txt,insert) 0
+    } else {
+      update_indent_level $txt "$startpos-1l lineend" insert
     }
+              
+    # Create the regular expression containing the indent and unindent words
+    set re [join [concat $indent_exprs($txt,indent) $indent_exprs($txt,unindent)] |]
     
-    # If we have more than one line, add the newline to the first
-    if {[llength $str] > 1} {
-
-      # Adjust the indent levels, if necessary
-      if {[regexp {^(.*)\{[^\}\\]*$} [lindex $str 0] -> content] && ![regexp {[^\{]*(;\s*)?#} $content]} {
-        incr indent_levels($txt,insert)
-      } elseif {[string index [lindex $str 0] 0] eq "\}"} {
-        incr indent_levels($txt,insert) -1
-      }
- 
-      for {set i 1} {$i < [llength $str]} {incr i} {
-        set linestart [$txt index "$startpos+${i}l linestart"]
-        set tags      [$txt tag names $linestart]
-        if {[regexp {^(\s*)} [lindex $str $i] -> whitespace]} {
-          $txt delete $linestart "$linestart+[string length $whitespace]c"
+    # Find the last open brace starting from the current insertion point
+    while {[$txt compare $currpos < $endpos]} {
+    
+      # Get the current line
+      set line [$txt get $currpos "$currpos lineend"]
+      
+      # Remove the leading whitespace and modify it to match the current indentation level
+      if {[regexp {^(\s*)\S} $line -> whitespace]} {
+        if {[string length $whitespace] > 0} {
+          $txt delete $currpos "$currpos+[string length $whitespace]c"
+          set line [string replace $line 0 [expr [string length $whitespace] - 1]]
         }
-        if {[regexp {^\s*\}(.*)\{[^\}\\]*$} [lindex $str $i] -> content] && ![regexp {[^\{]*;\s*#} $content]} {
-          $txt insert $linestart [string repeat " " [expr ($indent_levels($txt,insert) - 1) * 2]] $tags
-        } elseif {[regexp {^(.*)\{[^\}\\]*$} [lindex $str $i] -> content] && ![regexp {[^\{]*(;\s*)?#} $content]} {
-          $txt insert $linestart [string repeat " " [expr $indent_levels($txt,insert) * 2]] $tags incr indent_levels($txt,insert) } else { if {[regexp {^\s*\}} [lindex $str $i]]} { incr indent_levels($txt,insert) -1 } $txt insert $linestart [string repeat " " [expr $indent_levels($txt,insert) * 2]] $tags
+        if {[regexp "^$indent_exprs($txt,unindent)" $line]} {
+          incr indent_levels($txt,insert) -1
+        }
+        if {$indent_levels($txt,insert) > 0} {
+          set spaces [string repeat " " [expr $indent_levels($txt,insert) * 2]]
+          $txt insert $currpos $spaces
+          set line "$spaces$line"
         }
       }
+      
+      # Calculate the indentation level for the next line based on the contents of the current line
+      set i     0
+      set start 0
+      while {[regexp -indices -start $start -- $re $line match]} {
+        
+        # If the current word is in a string, a comment or is escaped, skip it
+        set wordTags [$txt tag names "$currpos+[lindex $match 0]c"]
+        if {([lsearch -glob $wordTags _strings*] != -1) || \
+            ([lsearch -glob $wordTags _comments*] != -1) || \
+            ([lsearch $wordTags _cComment] != -1) || \
+            (([lindex $match 0] > 0) && ([string index $line [expr [lindex $match 0] - 1]] eq "\\"))} {
+          set start [expr [lindex $match 1] + 1]
+          continue
+        }
+          
+        # Check to see if the current word is an indent or an unindent and adjust the current level
+        set word [string range $line {*}$match]
+        if {[lsearch $indent_exprs($txt,indent) $word] != -1} {
+          incr indent_levels($txt,insert)
+        } elseif {($i != 0) || ([lindex $match 0] != $start)} {
+          incr indent_levels($txt,insert) -1
+        }
+        
+        set start [expr [lindex $match 1] + 1]
+        incr i
+        
+      }
+      
+      # Increment the starting position to the next line
+      set currpos [$txt index "$currpos+1l linestart"]
+      
     }
     
     # Perform syntax highlighting
     [winfo parent $txt] highlight $startpos $endpos
-    
+
+    # Update the indentation level based on the current cursor location
+    update_indent_level $txt insert insert
+        
   }
   
   ######################################################################
