@@ -118,6 +118,8 @@ namespace eval gui {
         -treecolumn 0 -forceeditendcommand 1 -expandcommand gui::expand_directory \
         -editstartcommand "gui::filetl_edit_start_command" \
         -editendcommand   "gui::filetl_edit_end_command" \
+        -tooltipaddcommand "gui::filetl_show_tooltip" \
+        -tooltipdelcommand "gui::filetl_hide_tooltip" \
         -xscrollcommand "utils::set_xscrollbar $widgets(fview).hb" \
         -yscrollcommand "utils::set_yscrollbar $widgets(fview).vb"]
     ttk::scrollbar $widgets(fview).vb -orient vertical   -command "$widgets(filetl) yview"
@@ -512,6 +514,26 @@ namespace eval gui {
 
     return $value
 
+  }
+  
+  ######################################################################
+  # Displays a tooltip for each root row.
+  proc filetl_show_tooltip {tbl row col} {
+    
+    if {[$tbl parentkey $row] eq "root"} {
+      tooltip::tooltip $tbl [get_filepath $row]
+    } else {
+      tooltip::tooltip clear
+    }
+    
+  }
+  
+  ######################################################################
+  # Hides the tooltip associated with the root row.
+  proc filetl_hide_tooltip {tbl} {
+    
+    tooltip::tooltip clear
+    
   }
   
   ######################################################################
