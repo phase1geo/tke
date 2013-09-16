@@ -51,6 +51,9 @@ namespace eval BNotebook {
     # Make sure that tab has the same padding as the clam theme
     ttk::style configure BNotebook.Tab -padding {6 2 0 2}
     
+    ttk::style map BNotebook.Tab \
+      -background [list !selected grey]
+
     CreateElements
     
     # This places the buttons on the right end of the tab area -- but in
