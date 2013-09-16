@@ -2241,7 +2241,7 @@ namespace eval gui {
     ttk::label .aboutwin.if.l1 -text "Email:"
     ttk::label .aboutwin.if.v1 -text "phase1geo@gmail.com"
     ttk::label .aboutwin.if.l2 -text "Version:"
-    ttk::label .aboutwin.if.v2 -text $::version
+    ttk::label .aboutwin.if.v2 -text "$::version_major.$::version_minor ($::version_hgid)"
     
     grid .aboutwin.if.l0 -row 0 -column 0 -sticky news
     grid .aboutwin.if.v0 -row 0 -column 1 -sticky news

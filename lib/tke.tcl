@@ -63,7 +63,7 @@ proc usage {} {
 # Displays version information to standard output and exits.
 proc version {} {
 
-  puts "0.1"
+  puts "$::version_major.$::version_minor ($::version_hgid)"
   
   exit
   
