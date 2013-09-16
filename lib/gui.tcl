@@ -1712,7 +1712,7 @@ namespace eval gui {
         
     # Add the selection (if it exists)
     if {[llength $select] > 0} {
-      $txt tag add sel {*}select
+      $txt tag add sel {*}$select
     }
     
     # If the text widget was not in a modified state, force it to be so now
