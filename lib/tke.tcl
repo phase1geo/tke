@@ -174,7 +174,12 @@ plugins::handle_on_start
 # Populate the GUI with the command-line filelist (if specified)
 if {[llength $cl_files] > 0} {
   foreach cl_file $cl_files {
-    gui::add_file end [file normalize $cl_file]
+    set name [file normalize $cl_file]
+    if {[file isdirectory $name]} {
+      gui::add_directory $name
+    } else {
+      gui::add_file end $name
+    }
   }
 } else {
   gui::add_new_file end
