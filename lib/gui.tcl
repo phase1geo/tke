@@ -1528,6 +1528,7 @@ namespace eval gui {
     
     # Change the tab text
     $nb tab current -text " [file tail [lindex $files $file_index $files_index(fname)]]"
+    set_title
     
     # Change the text to unmodified
     [current_txt] edit modified false
@@ -2525,6 +2526,7 @@ namespace eval gui {
       # Change the look of the tab
       if {[string index [set name [string trimleft [$nb tab $tab -text]]] 0] ne "*"} {
         $nb tab $tab -text " * $name"
+        set_title
       }
     
     }
