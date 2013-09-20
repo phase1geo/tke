@@ -300,13 +300,16 @@ namespace eval syntax {
         set_language_section $txt numbers       $lang_array(numbers)
         set_language_section $txt precompile    $lang_array(precompile)
         set_language_section $txt miscellaneous $lang_array(miscellaneous)
-        set_language_section $txt strings       $lang_array(strings)
+        # set_language_section $txt strings       $lang_array(strings)
         set_language_section $txt comments      $lang_array(lcomments)
         
         # Add the C comments, if specified
         if {$lang_array(ccomments)} {
           ctext::enableComments $txt $theme(comments)
         }
+        
+        # Add strings
+        ctext::enableStrings $txt $theme(strings)
 
         # Add the FIXME
         ctext::addHighlightClassForRegexp $txt fixme $theme(miscellaneous) {FIXME}

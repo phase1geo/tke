@@ -6,7 +6,7 @@
 # Brief:   Tcl/Tk editor written in Tcl/Tk
 # Usage:   tke [<options>] <file>*
 
-set tke_dir  [file dirname $argv0]
+set tke_dir  [file dirname [info script]]
 set tke_home [file join ~ .tke]
 
 ######################################################################
@@ -184,7 +184,4 @@ if {[llength $cl_files] > 0} {
 } else {
   gui::add_new_file end
 }
-
-
-
 
