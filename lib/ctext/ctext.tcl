@@ -488,7 +488,14 @@ proc ctext::instanceCmd {self cmd args} {
     }
     
     highlight {
-      ctext::highlight $self [lindex $args 0] [lindex $args 1]
+      set lineStart [lindex $args 0]
+      set lineEnd   [lindex $args 1]
+      foreach tag [$self._t tag names] {
+        if {([string equal $tag "_cComment"] != 1) && ([string index $tag 0] eq "_")} {
+          $self._t tag remove $tag $lineStart $lineEnd
+        }
+      }
+      ctext::highlight $self $lineStart $lineEnd
       ctext::comments $self
     }
     
@@ -974,7 +981,7 @@ proc ctext::doHighlight {win} {
   # Get the highlights and delete the tag
   set linesChanged [$win tag ranges lineChanged]
   $win tag delete lineChanged
-
+  
   ctext::getAr $win highlight highlightAr
   ctext::getAr $win highlightRegexp highlightRegexpAr
   ctext::getAr $win highlightCharStart highlightCharStartAr
