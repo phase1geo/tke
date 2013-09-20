@@ -104,7 +104,8 @@ namespace eval indent {
   }
 
   ######################################################################
-  # Handles a newline character.
+  # Handles a newline character.  Returns the character position of the
+  # first line of non-space text.
   proc newline {txt insert_index indent_name} {
   
     variable indent_levels
@@ -114,18 +115,24 @@ namespace eval indent {
     set line [$txt get $insert_index "$insert_index lineend"]
 
     # Remove any leading whitespace and update indentation level (if the first non-whitespace char is a closing bracket)
-    if {[regexp {^( *)(.*)} $line -> whitespace rest]} {
+    if {[regexp {^( *)(.*)} $line -> whitespace rest] && (($rest ne "") || ([string index $indent_name 0] ne "m"))} {
       if {[regexp [subst {^$indent_exprs($txt,unindent)}] $rest]} {
         incr indent_levels($txt,$indent_name) -1
       }
       $txt delete $insert_index "$insert_index+[string length $whitespace]c"
+      
+      # If the insert_name was a multicursor, we need to re-add the tag since we have deleted it
+      if {[string index $indent_name 0] eq "m"} {
+        $txt tag add mcursor $insert_index
+      }
+
     }
     
     # Insert leading whitespace to match current indentation level
     if {$indent_levels($txt,$indent_name) > 0} {
       $txt insert $insert_index [string repeat " " [expr $indent_levels($txt,$indent_name) * 2]]
     }
-
+    
   }
   
   ######################################################################

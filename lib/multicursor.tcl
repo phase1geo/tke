@@ -63,28 +63,17 @@ namespace eval multicursor {
     }
     
     bind mcursor$txt <Key-Delete> {
-      if {[multicursor::delete %W "+1c"]} {
+      if {![vim::in_vim_mode %W] && [multicursor::delete %W "+1c"]} {
         break
       }
     }
     bind mcursor$txt <Key-BackSpace> {
-      if {[multicursor::delete %W "-1c"]} {
+      if {![vim::in_vim_mode %W] && [multicursor::delete %W "-1c"]} {
         break
       }
     }
-    # We will want to indent the text if we are a multicursor key event
-#    bind mcursor$txt <Key-braceleft> {
-#      if {[multicursor::insert %W %A indent::increment]} {
-#        break
-#      }
-#    }
-#    bind mcursor$txt <Key-braceright> {
-#      if {[multicursor::insert %W %A indent::decrement]} {
-#        break
-#      }
-#    }
     bind mcursor$txt <Return> {
-      if {[multicursor::insert %W "\n" indent::newline]} {
+      if {![vim::in_vim_mode %W] && [multicursor::insert %W "\n" indent::newline]} {
         break
       }
     }
@@ -94,12 +83,16 @@ namespace eval multicursor {
           ![vim::in_vim_mode %W]} {
         if {[string length %A] == 0} {
           multicursor::disable %W
-        } elseif {[string is print %A] && [multicursor::insert %W %A]} {
+        } elseif {[string is print %A] && [multicursor::insert %W %A indent::check_indent]} {
           break
         }
       }
     }
-    bind mcursor$txt <Escape>   { multicursor::disable %W }
+    bind mcursor$txt <Escape> {
+      if {[vim::in_vim_mode %W]} {
+        multicursor::disable %W
+      }
+    }
     bind mcursor$txt <Button-1> { multicursor::disable %W }
     
     # Add the multicursor bindings to the text widget's bindtags
@@ -144,7 +137,9 @@ namespace eval multicursor {
     
     if {[llength [set mcursors [lsearch -inline [$txt tag names $index] mcursor*]]] == 0} {
       $txt tag add mcursor $index
-      indent::add_indent_level $txt mcursor[expr [llength [$txt tag ranges mcursor]] / 2]
+      set name "mcursor[expr [llength [$txt tag ranges mcursor]] / 2]"
+      indent::add_indent_level $txt $name
+      indent::update_indent_level $txt $index $name
     } else {
       $txt tag remove mcursor $index
       indent::remove_indent_levels $txt $mcursors
@@ -241,7 +236,7 @@ namespace eval multicursor {
     
     variable selected
     
-    # Only perform this if muliple cursors
+    # Only perform this if multiple cursors
     if {[enabled $txt]} {
       if {$selected} {
         foreach {start end} [$txt tag ranges mcursor] {
@@ -304,7 +299,7 @@ namespace eval multicursor {
         }
         set selected 0
       }
-      set i 0
+      set i 1
       foreach {end start} [lreverse [$txt tag ranges mcursor]] {
         $txt insert $start $value
         if {$indent_cmd ne ""} {
@@ -317,6 +312,18 @@ namespace eval multicursor {
     
     return 0
   
+  }
+  
+  ######################################################################
+  # Updates all of the multicursor indent levels.
+  proc update_indent_levels {txt} {
+    
+    set i 1
+    foreach {end start} [lreverse [$txt tag ranges mcursor]] {
+      indent::update_indent_level $txt $start mcursor$i
+      incr i
+    }
+    
   }
   
   ######################################################################

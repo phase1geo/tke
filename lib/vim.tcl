@@ -381,7 +381,11 @@ namespace eval vim {
     }
 
     # Update the current indentation level
-    indent::update_indent_level $txt insert insert
+    if {[multicursor::enabled $txt]} {
+      multicursor::update_indent_levels $txt
+    } else {
+      indent::update_indent_level $txt insert insert
+    }
  
   }
  
