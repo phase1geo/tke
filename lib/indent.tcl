@@ -15,7 +15,7 @@ namespace eval indent {
     # Set the indent level for the given text widget to 0
     add_indent_level $txt.t insert
 
-    bind indent$txt <Any-Key>        "after 2 [list indent::check_indent %W insert insert]"
+    bind indent$txt <Any-Key>         "after 2 [list indent::check_indent %W insert insert]"
     bind indent$txt <Return>          "after 2 [list indent::newline %W insert insert]"
     bind indent$txt <Key-Up>          "indent::update_indent_level %W insert insert"
     bind indent$txt <Key-Down>        "indent::update_indent_level %W insert insert"
@@ -86,13 +86,13 @@ namespace eval indent {
          
     # Get the current word
     set word [$txt get "$insert_index-1c wordstart" "$insert_index-1c wordend"]
-          
+    
     # Increment the indentation level
-    if {[lsearch $indent_exprs($txt,indent) $word] != -1} {
+    if {[lsearch -exact $indent_exprs($txt,indent) $word] != -1} {
       incr indent_levels($txt,$indent_name)
         
     # Decrement the indentation level and replace preceding whitespace
-    } elseif {[lsearch $indent_exprs($txt,unindent) $word] != -1} {
+    } elseif {[lsearch -exact $indent_exprs($txt,unindent) $word] != -1} {
       incr indent_levels($txt,$indent_name) -1
       set line [$txt get "$insert_index linestart" "$insert_index-[string length $word]c"]
       if {($line ne "") && ([string trim $line] eq "")} {
@@ -173,7 +173,7 @@ namespace eval indent {
           
           # Check to see if the current word is an indent or an unindent and adjust the current level
           set word [string range $line {*}$match]
-          if {[lsearch $indent_exprs($txt,indent) $word] != -1} {
+          if {[lsearch -exact $indent_exprs($txt,indent) $word] != -1} {
             incr level
           } elseif {($i != 0) || ([lindex $match 0] != $start)} {
             incr level -1
@@ -252,7 +252,7 @@ namespace eval indent {
           
         # Check to see if the current word is an indent or an unindent and adjust the current level
         set word [string range $line {*}$match]
-        if {[lsearch $indent_exprs($txt,indent) $word] != -1} {
+        if {[lsearch -exact $indent_exprs($txt,indent) $word] != -1} {
           incr indent_levels($txt,insert)
         } elseif {($i != 0) || ([lindex $match 0] != $start)} {
           incr indent_levels($txt,insert) -1
