@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+	Copyright (c) 2005-2007 Daniel A. Steffen <das@users.sourceforge.net>
+
+	See the file "license.terms" for information on usage and redistribution of
+	this file, and for a DISCLAIMER OF ALL WARRANTIES.
+
+	RCS: @(#) $Id: Wish-Info.plist.in,v 1.3.2.1 2009/04/14 00:55:35 das Exp $
+-->
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>tcl</string>
+				<string>TCL</string>
+				<string>*</string>
+			</array>
+			<key>CFBundleTypeMIMETypes</key>
+			<array>
+				<string>application/x-tcl</string>
+				<string>text/plain</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>NSStringPboardType</string>
+			<key>CFBundleTypeOSTypes</key>
+			<array>
+				<string>TEXT</string>
+				<string>****</string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+		</dict>
+	</array>
+	<key>CFBundleExecutable</key>
+	<string>Wish</string>
+	<key>CFBundleGetInfoString</key>
+	<string>Wish Shell 8.5.9,
+Copyright © 1989-2011 Tcl Core Team,
+Copyright © 2002-2011 Daniel A. Steffen,
+Copyright © 2001-2002 Apple Inc.,
+Copyright © 2001-2002 Jim Ingham &amp; Ian Reid</string>
+	<key>CFBundleIconFile</key>
+	<string>Tke.icns</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.tcltk.budget</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>cs</string><string>da</string><string>de</string><string>el</string><string>en</string><string>en_gb</string><string>eo</string><string>es</string><string>fr</string><string>hu</string><string>it</string><string>nl</string><string>pl</string><string>pt</string><string>ru</string><string>sv</string>
+	</array>
+	<key>CFBundleName</key>
+	<string>Tke</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>8.5.9</string>
+	<key>CFBundleSignature</key>
+	<string>WiSH</string>
+	<key>CFBundleVersion</key>
+	<string>8.5.9</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>10.2.0</string>
+	<key>LSRequiresCarbon</key>
+	<true/>
+	<key>NSAppleScriptEnabled</key>
+	<true/>
+</dict>
+</plist>

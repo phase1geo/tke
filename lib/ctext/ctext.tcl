@@ -268,12 +268,12 @@ proc ctext::buildArgParseTable win {
   set ar(argTable) $argTable
 }
 
-proc ctext::commentsAfterIdle {win} {
+proc ctext::commentsAfterIdle {win start end} {
   ctext::getAr $win config configAr
   
   if {"" eq $configAr(commentsAfterId)} {
     set configAr(commentsAfterId) [after idle \
-    [list ctext::comments $win [set afterTriggered 1]]]
+    [list ctext::comments $win $start $end [set afterTriggered 1]]]
   }
 }
 
@@ -430,7 +430,7 @@ proc ctext::instanceCmd {self cmd args} {
         set checkStr "$prevChar[set char]"
         
         if {[regexp $commentRE $checkStr]} {
-          ctext::commentsAfterIdle $self
+          ctext::commentsAfterIdle $self $lineStart $lineEnd
         }
         
         ctext::highlightAfterIdle $self $lineStart $lineEnd
@@ -455,7 +455,7 @@ proc ctext::instanceCmd {self cmd args} {
         }
         
         if {[regexp $commentRE $data]} {
-          ctext::commentsAfterIdle $self
+          ctext::commentsAfterIdle $self $lineStart $lineEnd
         }
         
         ctext::highlightAfterIdle $self $lineStart $lineEnd
@@ -539,7 +539,7 @@ proc ctext::instanceCmd {self cmd args} {
       append REData $data
       append REData $nextChar
       if {[regexp $commentRE $REData]} {
-        ctext::commentsAfterIdle $self
+        ctext::commentsAfterIdle $self $lineStart $lineEnd
       }
       
       ctext::highlightAfterIdle $self $lineStart $lineEnd
@@ -717,38 +717,40 @@ proc ctext::matchQuote {win} {
 proc ctext::enableComments {win {color "khaki"}} {
   $win tag configure _cComment -foreground $color
 }
+
 proc ctext::disableComments {win} {
   catch {$win tag delete _cComment}
 }
 
-proc ctext::comments {win {afterTriggered 0}} {
-  if {[catch {$win tag cget _cComment -foreground}]} {
-    #C comments are disabled
+proc ctext::enableStrings {win {color "green"}} {
+  $win tag configure _string -foreground $color
+}
+
+proc ctext::disableStrings {win} {
+  catch {$win tag delete _string}
+}
+
+proc ctext::comments {win start end {afterTriggered 0}} {
+  
+  # If C comments and strings are disabled, go no further
+  if {[catch {$win tag cget _cComment -foreground}] && \
+      [catch {$win tag cget _string -foreground}]} {
     return
   }
   
+  # Clear our trigger so that we can be called again
   if {$afterTriggered} {
     ctext::getAr $win config configAr
     set configAr(commentsAfterId) ""
   }
   
-  set startIndex 1.0
-  set commentRE {\\\\|\"|\\\"|\\'|'|/\*|\*/}
-  set commentStart 0
-  set isQuote 0
-  set isSingleQuote 0
-  set isComment 0
-  $win tag remove _cComment 1.0 end
-  while 1 {
-    set index [$win search -count length -regexp $commentRE $startIndex end]
-    
-    if {$index == ""} {
-      break
-    }
-    
-    set endIndex [$win index "$index + $length chars"]
-    set str [$win get $index $endIndex]
-    set startIndex $endIndex
+  set in_double  ""
+  set in_single  ""
+  set in_comment ""
+  set commentRE  {\\\\|\"|\\\"|\\'|'|/\*|\*/}
+  set i 0
+  foreach index [$win search -all -count lengths -regexp -- $commentRE $start $end] {
+    set str [$win get $index "$index + [lindex $lengths $i]c"]
     
     if {$str == "\\\\"} {
       continue
@@ -756,37 +758,49 @@ proc ctext::comments {win {afterTriggered 0}} {
       continue
     } elseif {$str == "\\'"} {
       continue
-    } elseif {$str == "\"" && $isComment == 0 && $isSingleQuote == 0} {
-      if {$isQuote} {
-        set isQuote 0
-      } else {
-        set isQuote 1
+    } elseif {$str == "\""} {
+      set tags [$win tag names $index]
+      if {[lsearch $tags "_string"] != -1} {
+        lassign [$win tag prevrange $index] str_start str_end
+        $win tag remove _string $str_start $str_end
+        $win tag add _string $str_start "$index+1c"
+        # TBD - Save (index+1) and str_end to variables
+      } elseif {([lsearch $tags "_cComment"] == -1) && ([lsearch $tags "_lComment"] == -1)} {
+        if {$in_double eq ""} {
+          set in_double $index
+        } else {
+          $win tag add _string $in_double $index
+        }
       }
-    } elseif {$str == "'" && $isComment == 0 && $isQuote == 0} {
-      if {$isSingleQuote} {
-        set isSingleQuote 0
-      } else {
-        set isSingleQuote 1
+    } elseif {$str == "'"} {
+      # TBD
+    } elseif {$str == "/*"} {
+      set tags [$win tag names $index]
+      if {([lsearch $tags "_cComment"] == -1) && \
+          ([lsearch $tags "_string"]   == -1) && \
+          ([lsearch $tags "_lComment"] == -1)} {
+        if {[set range [$win tag nextrange _cComment $index]] ne ""} {
+          $win tag remove _cComment {*}$range
+          $win tag add _cComment $index [lindex $range 1]
+        } else {
+          $win tag add _cComment $index end
+        }
       }
-    } elseif {$str == "/*" && $isQuote == 0 && $isSingleQuote == 0} {
-      if {$isComment} {
-        #comment in comment
-        break
+    } elseif {$str == "*/"} {
+      set tags [$win tag names $index]
+      if {([lsearch $tags "_cComment"] != -1) && \
+          ([lsearch $tags "_string"]   == -1) && \
+          ([lsearch $tags "_lComment"] == -1)} {
+        lassign [$win tag prevrange _cComment $index] str_start str_end
+        $win tag remove _cComment $str_start $str_end
+        $win tag add _cComment $str_start "$index+2c"
+        # TBD - We need to re-highlight the next comment block (there will be one between $index and $str_end)
       } else {
-        set isComment 1
-        set commentStart $index
-      }
-    } elseif {$str == "*/" && $isQuote == 0 && $isSingleQuote == 0} {
-      if {$isComment} {
-        set isComment 0
-        $win tag add _cComment $commentStart $endIndex
-        $win tag raise _cComment
-      } else {
-        #comment end without beginning
-        break
+        $win tag add _cComment $index end
       }
     }
   }
+  
 }
 
 proc ctext::addHighlightClass {win class color keywords} {
