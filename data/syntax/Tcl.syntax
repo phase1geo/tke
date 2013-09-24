@@ -30,13 +30,7 @@ symbols
   HighlightClass proc
 }
 
-lcomments
-{
-  HighlightClassForRegexp {#[^\n\r]*}
-}
-
-ccomments
-0
+ccomments 0
 
 strings
 {

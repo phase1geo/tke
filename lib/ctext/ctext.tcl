@@ -52,6 +52,7 @@ proc ctext {win args} {
   set ar(commentsAfterId) ""
   set ar(blinkAfterId) ""
   set ar(lastUpdate) 0
+  set ar(line_comment_pattern) "\\;#|#"
   
   set ar(ctextFlags) [list -yscrollcommand -linemap -linemapfg -linemapbg \
   -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable -linemap_cursor \
@@ -268,12 +269,12 @@ proc ctext::buildArgParseTable win {
   set ar(argTable) $argTable
 }
 
-proc ctext::commentsAfterIdle {win start end} {
+proc ctext::commentsAfterIdle {win start end block} {
   ctext::getAr $win config configAr
   
   if {"" eq $configAr(commentsAfterId)} {
     set configAr(commentsAfterId) [after idle \
-    [list ctext::comments $win $start $end [set afterTriggered 1]]]
+    [list ctext::comments $win $start $end $block [set afterTriggered 1]]]
   }
 }
 
@@ -309,7 +310,7 @@ proc ctext::highlightAfterIdle {win lineStart lineEnd} {
 
 proc ctext::instanceCmd {self cmd args} {
   #slightly different than the RE used in ctext::comments
-  set commentRE {\"|\\|'|/|\*}
+  set commentRE {\"|\\|'|/|\*|;#|#}
   
   switch -glob -- $cmd {
     append {
@@ -422,17 +423,15 @@ proc ctext::instanceCmd {self cmd args} {
         
         foreach tag [$self._t tag names] {
           if {([string equal $tag "_cComment"] != 1) && \
-          ([string index $tag 0] eq "_")} {
+              ([string equal $tag "_string"] != 1) && \
+              ([string index $tag 0] eq "_")} {
             $self._t tag remove $tag $removeStart $removeEnd
           }
         }
         
         set checkStr "$prevChar[set char]"
         
-        if {[regexp $commentRE $checkStr]} {
-          ctext::commentsAfterIdle $self $lineStart $lineEnd
-        }
-        
+        ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp $commentRE $checkStr]
         ctext::highlightAfterIdle $self $lineStart $lineEnd
         ctext::warnWidthUpdate $self $lineStart $lineEnd
         ctext::linemapUpdate $self
@@ -449,15 +448,13 @@ proc ctext::instanceCmd {self cmd args} {
         
         foreach tag [$self._t tag names] {
           if {([string equal $tag "_cComment"] != 1) && \
-          ([string index $tag 0] eq "_")} {
+              ([string equal $tag "_string"] != 1) && \
+              ([string index $tag 0] eq "_")} {
             $self._t tag remove $tag $lineStart $lineEnd
           }
         }
         
-        if {[regexp $commentRE $data]} {
-          ctext::commentsAfterIdle $self $lineStart $lineEnd
-        }
-        
+        ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp $commentRE $data]
         ctext::highlightAfterIdle $self $lineStart $lineEnd
         ctext::warnWidthUpdate $self $lineStart $lineEnd
         if {[string first "\n" $data] >= 0} {
@@ -491,12 +488,14 @@ proc ctext::instanceCmd {self cmd args} {
       set lineStart [lindex $args 0]
       set lineEnd   [lindex $args 1]
       foreach tag [$self._t tag names] {
-        if {([string equal $tag "_cComment"] != 1) && ([string index $tag 0] eq "_")} {
+        if {([string equal $tag "_cComment"] != 1) && \
+            ([string equal $tag "_string"] != 1) && \
+            ([string index $tag 0] eq "_")} {
           $self._t tag remove $tag $lineStart $lineEnd
         }
       }
       ctext::highlight $self $lineStart $lineEnd
-      ctext::comments $self
+      ctext::comments $self $lineStart $lineEnd 1
     }
     
     insert {
@@ -504,7 +503,7 @@ proc ctext::instanceCmd {self cmd args} {
         return -code error "please use at least 2 arguments to $self insert"
       }
       
-      set insertPos [lindex $args 0]
+      set insertPos [$self._t index [lindex $args 0]]
       set prevChar [$self._t get "$insertPos - 1 chars"]
       set nextChar [$self._t get $insertPos]
       if {$insertPos eq "end"} {
@@ -530,7 +529,8 @@ proc ctext::instanceCmd {self cmd args} {
       
       foreach tag [$self._t tag names] {
         if {([string equal $tag "_cComment"] != 1) && \
-        ([string index $tag 0] eq "_")} {
+            ([string equal $tag "_string"] != 1) && \
+            ([string index $tag 0] eq "_")} {
           $self._t tag remove $tag $prevSpace $nextSpace
         }
       }
@@ -538,10 +538,8 @@ proc ctext::instanceCmd {self cmd args} {
       set REData $prevChar
       append REData $data
       append REData $nextChar
-      if {[regexp $commentRE $REData]} {
-        ctext::commentsAfterIdle $self $lineStart $lineEnd
-      }
       
+      ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp $commentRE $REData]
       ctext::highlightAfterIdle $self $lineStart $lineEnd
       ctext::warnWidthUpdate $self $lineStart $lineEnd
       
@@ -716,10 +714,15 @@ proc ctext::matchQuote {win} {
 
 proc ctext::enableComments {win {color "khaki"}} {
   $win tag configure _cComment -foreground $color
+  $win tag configure _lComment -foreground $color
+  ctext::getAr $win config configAr
+  set configAr(line_comment_pattern) "//"
 }
 
 proc ctext::disableComments {win} {
-  catch {$win tag delete _cComment}
+  catch {$win tag delete _cComment _lComment}
+  ctext::getAr $win config configAr
+  set configAr(line_comment_pattern) "\\;#|#"
 }
 
 proc ctext::enableStrings {win {color "green"}} {
@@ -730,74 +733,102 @@ proc ctext::disableStrings {win} {
   catch {$win tag delete _string}
 }
 
-proc ctext::comments {win start end {afterTriggered 0}} {
+proc ctext::comments {win start end blocks {afterTriggered 0}} {
+
+  ctext::getAr $win config configAr
   
-  # If C comments and strings are disabled, go no further
-  if {[catch {$win tag cget _cComment -foreground}] && \
-      [catch {$win tag cget _string -foreground}]} {
-    return
-  }
-  
-  # Clear our trigger so that we can be called again
   if {$afterTriggered} {
-    ctext::getAr $win config configAr
     set configAr(commentsAfterId) ""
   }
   
-  set in_double  ""
-  set in_single  ""
-  set in_comment ""
-  set commentRE  {\\\\|\"|\\\"|\\'|'|/\*|\*/}
+  set commentRE $configAr(line_comment_pattern)
+  append commentRE {[^\n\r]*}
+    
+  # Handle single line comments in the given range
   set i 0
   foreach index [$win search -all -count lengths -regexp -- $commentRE $start $end] {
-    set str [$win get $index "$index + [lindex $lengths $i]c"]
+    $win tag add _lComment $index "$index+[lindex $lengths $i]c"
+    $win tag raise _lComment
+    incr i
+  }
+
+  # If C comments were disabled, exit now
+  if {[catch {$win tag cget _cComment -foreground}]} {
+    return
+  }
+  
+  if {$blocks} {
     
-    if {$str == "\\\\"} {
-      continue
-    } elseif {$str == "\\\""} {
-      continue
-    } elseif {$str == "\\'"} {
-      continue
-    } elseif {$str == "\""} {
-      set tags [$win tag names $index]
-      if {[lsearch $tags "_string"] != -1} {
-        lassign [$win tag prevrange $index] str_start str_end
-        $win tag remove _string $str_start $str_end
-        $win tag add _string $str_start "$index+1c"
-        # TBD - Save (index+1) and str_end to variables
-      } elseif {([lsearch $tags "_cComment"] == -1) && ([lsearch $tags "_lComment"] == -1)} {
-        if {$in_double eq ""} {
-          set in_double $index
-        } else {
-          $win tag add _string $in_double $index
-        }
+    set commentRE      {\\\\|\"|\\\"|\\'|'|/\*|\*/}
+    append commentRE   "|$configAr(line_comment_pattern)"
+    set double_index   ""
+    set single_index   ""
+    set lcomment_index ""
+    set bcomment_index ""
+     
+    $win tag remove _cComment 1.0 end
+    $win tag remove _string   1.0 end
+     
+    set i 0
+    foreach index [$win search -all -count lengths -regexp -- $commentRE 1.0 end] {
+      
+      set endIndex [$win index "$index + [lindex $lengths $i] chars"]
+      set str      [$win get $index $endIndex]
+      
+      # If the line comment index is set and the index is greater that the end of its line,
+      # clear the line comment.
+      if {($lcomment_index ne "") && [$win compare $index > "$lcomment_index lineend"]} {
+        set lcomment_index ""
       }
-    } elseif {$str == "'"} {
-      # TBD
-    } elseif {$str == "/*"} {
-      set tags [$win tag names $index]
-      if {([lsearch $tags "_cComment"] == -1) && \
-          ([lsearch $tags "_string"]   == -1) && \
-          ([lsearch $tags "_lComment"] == -1)} {
-        if {[set range [$win tag nextrange _cComment $index]] ne ""} {
-          $win tag remove _cComment {*}$range
-          $win tag add _cComment $index [lindex $range 1]
+      
+      # Found a double-quote character
+      if {($str == "\"") && ($lcomment_index eq "") && ($bcomment_index eq "") && ($single_index eq "")} {
+        if {$double_index ne ""} {
+          $win tag remove _string "$index+1c" end
+          set double_index ""
         } else {
+          $win tag add _string $index end
+          $win tag raise _string
+          set double_index $index
+        }
+        
+      # Found a single-quote character
+      } elseif {($str == "'") && ($lcomment_index eq "") && ($bcomment_index eq "") && ($double_index eq "")} {
+        if {$single_index ne ""} {
+          $win tag remove "$index+1c" end
+          set single_index ""
+        } else {
+          $win tag add _string $index end
+          $win tag raise _string
+          set single_index $index
+        }
+        
+      # Found a single line comment
+      } elseif {($str == ";#") || ($str == "#") || ($str == "//")} {
+        if {($bcomment_index eq "") && ($double_index eq "") && ($single_index eq "")} {
+          set lcomment_index $index
+        } else {
+          $win tag remove _lComment $index "$index lineend"
+        }
+        
+      # Found a starting block comment string
+      } elseif {($str == "/*") && ($lcomment_index eq "") && ($double_index eq "") && ($single_index eq "")} {
+        if {$bcomment_index eq ""} {
           $win tag add _cComment $index end
+          $win tag raise _cComment
+          set bcomment_index $index
+        }
+        
+      # Found an ending block comment string
+      } elseif {($str == "*/") && ($lcomment_index eq "") && ($double_index eq "") && ($single_index eq "")} {
+        if {$bcomment_index ne ""} {
+          $win tag remove _cComment "$index+2c" end
+          set bcomment_index ""
         }
       }
-    } elseif {$str == "*/"} {
-      set tags [$win tag names $index]
-      if {([lsearch $tags "_cComment"] != -1) && \
-          ([lsearch $tags "_string"]   == -1) && \
-          ([lsearch $tags "_lComment"] == -1)} {
-        lassign [$win tag prevrange _cComment $index] str_start str_end
-        $win tag remove _cComment $str_start $str_end
-        $win tag add _cComment $str_start "$index+2c"
-        # TBD - We need to re-highlight the next comment block (there will be one between $index and $str_end)
-      } else {
-        $win tag add _cComment $index end
-      }
+      
+      incr i
+      
     }
   }
   

@@ -22,11 +22,6 @@ keywords
 symbols {
 }
 
-lcomments
-{
-  HighlightClassForRegexp {^;[^\n\r]*}
-}
-
 ccomments 0
 
 strings {

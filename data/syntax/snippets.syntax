@@ -20,8 +20,6 @@ symbols
   snippet
 }
 
-lcomments {}
-
 ccomments 0
 
 strings {}

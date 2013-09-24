@@ -6,6 +6,8 @@
 # Brief:   Tcl/Tk editor written in Tcl/Tk
 # Usage:   tke [<options>] <file>*
 
+puts "script: [info script]"
+
 set tke_dir  [file dirname [info script]]
 set tke_home [file join ~ .tke]
 

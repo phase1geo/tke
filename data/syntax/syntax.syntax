@@ -25,8 +25,6 @@ symbols
   filepatterns keywords symbols lcomments ccomments strings numbers punctuation precompile miscellaneous 
 }
 
-lcomments {}
-
 ccomments 0
 
 strings

@@ -22,7 +22,6 @@ symbols
   keywords comments strings numbers punctuation precompile miscellaneous
 }
 
-lcomments {}
 ccomments 0 
 
 strings

@@ -22,12 +22,6 @@ symbols {
   function
 }
 
-lcomments
-{
-  HighlightClassForRegexp {//[^\n\r]*}
-  HighlightClassForRegexp {#[^\n\r]*}
-}
-
 ccomments 1
 
 strings {
