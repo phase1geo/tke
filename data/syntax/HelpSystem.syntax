@@ -10,6 +10,12 @@ indent
 unindent
 {</\w+>}
 
+lcomments {{;}}
+
+bcomments {}
+
+strings {{\"}}
+
 keywords
 {
   <a </a> address /address b /b blockquote /blockquote
@@ -20,12 +26,6 @@ keywords
 }
 
 symbols {
-}
-
-ccomments 0
-
-strings {
-  HighlightClassForRegexp {\"[^\"]*\"}
 }
 
 numbers {

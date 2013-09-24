@@ -10,6 +10,12 @@ indent
 unindent
 {\}}
 
+lcomments {{#}}
+
+bcomments {}
+
+strings {{\"}}
+
 keywords
 {
   filepatterns indent unindent keywords symbols lcomments ccomments
@@ -23,13 +29,6 @@ keywords
 symbols
 {
   filepatterns keywords symbols lcomments ccomments strings numbers punctuation precompile miscellaneous 
-}
-
-ccomments 0
-
-strings
-{
-  HighlightClassForRegexp {\"[^\"]*\"}
 }
 
 numbers {}

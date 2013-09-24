@@ -52,7 +52,9 @@ proc ctext {win args} {
   set ar(commentsAfterId) ""
   set ar(blinkAfterId) ""
   set ar(lastUpdate) 0
-  set ar(line_comment_pattern) "\\;#|#"
+  set ar(block_comment_patterns) [list]
+  set ar(string_patterns)        [list]
+  set ar(line_comment_patterns)  [list]
   
   set ar(ctextFlags) [list -yscrollcommand -linemap -linemapfg -linemapbg \
   -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable -linemap_cursor \
@@ -254,7 +256,7 @@ proc ctext::buildArgParseTable win {
     set configAr(-linemap_select_fg) $value
     $self.l tag configure lmark -foreground $value
     break
-  }
+}
   
   lappend argTable any -linemap_select_bg {
     if {[catch {winfo rgb $self $value} res]} {
@@ -267,6 +269,27 @@ proc ctext::buildArgParseTable win {
   
   ctext::getAr $win config ar
   set ar(argTable) $argTable
+}
+
+proc ctext::getCommentRE {win} {
+  
+  ctext::getAr $win config configAr
+  
+  set commentRE {\\}
+  if {[llength $configAr(block_comment_patterns)] > 0} {
+    append commentRE "|[join [concat $configAr(block_comment_patterns)] |]"
+  }
+  if {[llength $configAr(line_comment_patterns)] > 0} {
+    append commentRE "|[join $configAr(line_comment_patterns) |]"
+  }
+  if {[llength $configAr(string_patterns)] > 0} {
+    append commentRE "|[join $configAr(string_patterns) |]"
+  }
+  
+  puts "In getCommentRE: $commentRE"
+  
+  return $commentRE
+  
 }
 
 proc ctext::commentsAfterIdle {win start end block} {
@@ -310,7 +333,10 @@ proc ctext::highlightAfterIdle {win lineStart lineEnd} {
 
 proc ctext::instanceCmd {self cmd args} {
   #slightly different than the RE used in ctext::comments
-  set commentRE {\"|\\|'|/|\*|;#|#}
+  ctext::getAr $self config configAr
+  
+  # Create comment RE
+  set commentRE [getCommentRE $self]
   
   switch -glob -- $cmd {
     append {
@@ -712,25 +738,22 @@ proc ctext::matchQuote {win} {
   ctext::tag:blink $win 0
 }
 
-proc ctext::enableComments {win {color "khaki"}} {
+proc ctext::addBlockCommentPatterns {win patterns {color "khaki"}} {
+  ctext::getAr $win config configAr
+  set ar(block_comment_patterns) $patterns
   $win tag configure _cComment -foreground $color
+}
+
+proc ctext::addLineCommentPatterns {win patterns {color "khaki"}} {
+  ctext::getAr $win config configAr
+  set ar(line_comment_patterns) $patterns
   $win tag configure _lComment -foreground $color
-  ctext::getAr $win config configAr
-  set configAr(line_comment_pattern) "//"
 }
 
-proc ctext::disableComments {win} {
-  catch {$win tag delete _cComment _lComment}
+proc ctext::addStringPatterns {win patterns {color "green"}} {
   ctext::getAr $win config configAr
-  set configAr(line_comment_pattern) "\\;#|#"
-}
-
-proc ctext::enableStrings {win {color "green"}} {
+  set ar(string_patterns) $patterns
   $win tag configure _string -foreground $color
-}
-
-proc ctext::disableStrings {win} {
-  catch {$win tag delete _string}
 }
 
 proc ctext::comments {win start end blocks {afterTriggered 0}} {
@@ -741,7 +764,7 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
     set configAr(commentsAfterId) ""
   }
   
-  set commentRE $configAr(line_comment_pattern)
+  set commentRE [join $configAr(line_comment_patterns) |]
   append commentRE {[^\n\r]*}
     
   # Handle single line comments in the given range
@@ -751,16 +774,14 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
     $win tag raise _lComment
     incr i
   }
-
-  # If C comments were disabled, exit now
-  if {[catch {$win tag cget _cComment -foreground}]} {
-    return
-  }
   
-  if {$blocks} {
+  set strings        [llength $configAr(string_patterns)]
+  set block_comments [llength $configAr(block_comment_patterns)]
+  set line_comments  [llength $configAr(line_comments)]
+
+  if {$blocks && [expr ($strings + $block_comments + $line_comments) > 0]} {
     
-    set commentRE      {\\\\|\"|\\\"|\\'|'|/\*|\*/}
-    append commentRE   "|$configAr(line_comment_pattern)"
+    set commentRE      [getCommentRE $win]
     set double_index   ""
     set single_index   ""
     set lcomment_index ""
@@ -804,7 +825,7 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
         }
         
       # Found a single line comment
-      } elseif {($str == ";#") || ($str == "#") || ($str == "//")} {
+      } elseif {[lsearch -exact $configAr(line_comment_patterns) $str] != -1} {
         if {($bcomment_index eq "") && ($double_index eq "") && ($single_index eq "")} {
           set lcomment_index $index
         } else {
@@ -812,7 +833,8 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
         }
         
       # Found a starting block comment string
-      } elseif {($str == "/*") && ($lcomment_index eq "") && ($double_index eq "") && ($single_index eq "")} {
+      } elseif {([lsearch -exact -index 0 $configAr(block_comment_patterns) $str] != -1) && \
+                ($lcomment_index eq "") && ($double_index eq "") && ($single_index eq "")} {
         if {$bcomment_index eq ""} {
           $win tag add _cComment $index end
           $win tag raise _cComment
@@ -820,9 +842,10 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
         }
         
       # Found an ending block comment string
-      } elseif {($str == "*/") && ($lcomment_index eq "") && ($double_index eq "") && ($single_index eq "")} {
+      } elseif {([lsearch -exact -index 1 $configAr(block_comment_patterns) $str] != -1) && \
+                ($lcomment_index eq "") && ($double_index eq "") && ($single_index eq "")} {
         if {$bcomment_index ne ""} {
-          $win tag remove _cComment "$index+2c" end
+          $win tag remove _cComment "$index+[string length $str]c" end
           set bcomment_index ""
         }
       }

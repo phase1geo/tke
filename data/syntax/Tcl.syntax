@@ -10,6 +10,12 @@ indent
 unindent
 {\}}
 
+lcomments {{#}}
+
+bcomments {}
+
+strings {{\"}}
+
 keywords
 {
   after append apply array auto_execok auto_import auto_load auto_mkindex auto_mkindex_old
@@ -28,13 +34,6 @@ keywords
 symbols
 {
   HighlightClass proc
-}
-
-ccomments 0
-
-strings
-{
-  HighlightClassForRegexp {\"[^\"]*\"}
 }
 
 numbers

@@ -10,6 +10,12 @@ indent
 unindent
 {\}}
 
+lcomments {{#}}
+
+bcomments {}
+
+strings {}
+
 keywords
 {
   snippet
@@ -19,10 +25,6 @@ symbols
 {
   snippet
 }
-
-ccomments 0
-
-strings {}
 
 numbers {}
 

@@ -10,6 +10,12 @@ indent
 unindent
 {\}}
 
+lcomments {{//}}
+
+bcomments {{{/*} {*/}}}
+
+strings {{\"}}
+
 keywords
 {
   return break case continue default do else for goto if switch while
@@ -33,13 +39,6 @@ keywords
 }
 
 symbols {}
-
-ccomments 1
-
-strings
-{
-  HighlightClassForRegexp {\"[^\"]*\"}
-}
 
 numbers
 {

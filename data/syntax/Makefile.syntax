@@ -10,6 +10,12 @@ indent
 unindent
 {\}}
 
+lcomments {{#}}
+
+bcomments {}
+
+strings {}
+
 keywords
 {
   include sinclude .SECONDEXPANSION .RECIPEPREFIX .PHONY .SUFFIXES .DEFAULT .PRECIOUS .INTERMEDIATE .SECONDARY
@@ -18,10 +24,6 @@ keywords
 }
 
 symbols {}
-
-ccomments 0
-
-strings {}
 
 numbers {}
 

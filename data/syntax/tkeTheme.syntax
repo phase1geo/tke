@@ -10,6 +10,12 @@ indent
 unindent
 {\}}
 
+lcomments {{#}}
+
+bcomments {}
+
+strings {{\"}}
+
 keywords
 {
   background foreground selectbackground selectforeground highlightcolor cursor warnwidthcolor
@@ -20,13 +26,6 @@ symbols
 {
   background foreground selectbackground selectforeground highlightcolor cursor warnwidthcolor
   keywords comments strings numbers punctuation precompile miscellaneous
-}
-
-ccomments 0 
-
-strings
-{
-  HighlightClassForRegexp {\"[^\"]*\"}
 }
 
 numbers {}

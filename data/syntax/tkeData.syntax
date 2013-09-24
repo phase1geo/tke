@@ -10,13 +10,15 @@ indent
 unindent
 {\}}
 
+lcomments {{#}}
+
+bcomments {}
+
+strings {}
+
 keywords {}
 
 symbols {}
-
-ccomments 0 
-
-strings {}
 
 numbers {}
 

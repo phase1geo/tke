@@ -10,6 +10,12 @@ indent
 unindent
 {\}}
 
+lcomments {{#} {//}}
+
+bcomments {{{/*} {*/}}}
+
+strings {{\"} {\'}}
+
 keywords
 {
   array var_dump class public new echo var const static echo foreach for print as unset while
@@ -20,13 +26,6 @@ keywords
 
 symbols {
   function
-}
-
-ccomments 1
-
-strings {
-  HighlightClassForRegexp {\"[^\"]*\"}
-  HighlightClassForRegexp {\'[^\']*\'}
 }
 
 numbers {

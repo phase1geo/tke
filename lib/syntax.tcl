@@ -303,13 +303,10 @@ namespace eval syntax {
         # set_language_section $txt strings       $lang_array(strings)
         # set_language_section $txt comments      $lang_array(lcomments)
         
-        # Add the C comments, if specified
-        if {$lang_array(ccomments)} {
-          ctext::enableComments $txt $theme(comments)
-        }
-        
-        # Add strings
-        ctext::enableStrings $txt $theme(strings)
+        # Add the comments and strings
+        ctext::addBlockCommentPatterns $txt $lang_array(bcomments) $theme(comments)
+        ctext::addLineCommentPatterns  $txt $lang_array(lcomments) $theme(comments)
+        ctext::addStringPatterns       $txt $lang_array(strings)   $theme(strings)
 
         # Add the FIXME
         ctext::addHighlightClassForRegexp $txt fixme $theme(miscellaneous) {FIXME}
