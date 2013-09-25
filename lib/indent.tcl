@@ -70,6 +70,11 @@ namespace eval indent {
     variable indent_levels
     variable indent_exprs
     
+    # If the auto-indent feature was disabled, quit now
+    if {!$preferences::prefs(Editor/EnableAutoIndent)} {
+      return
+    }
+    
     # Get the indent of the start of the current word
     set wordStart [$txt index "$insert_index-1c wordstart"]
     
@@ -91,7 +96,7 @@ namespace eval indent {
       set line [$txt get "$insert_index linestart" "$insert_index-[string length $word]c"]
       if {($line ne "") && ([string trim $line] eq "")} {
         $txt replace "$insert_index linestart" "$insert_index-[string length $word]c" \
-          [string repeat " " [expr $indent_levels($txt,$indent_name) * 2]]
+          [string repeat " " [expr $indent_levels($txt,$indent_name) * $preferences::prefs(Editor/IndentSpaces)]]
       }
     }
     
@@ -104,6 +109,11 @@ namespace eval indent {
   
     variable indent_levels
     variable indent_exprs
+    
+    # If the auto-indent feature was disabled, quit now
+    if {!$preferences::prefs(Editor/EnableAutoIndent)} {
+      return
+    }
     
     # Get the current line
     set line [$txt get $insert_index "$insert_index lineend"]
@@ -124,7 +134,7 @@ namespace eval indent {
     
     # Insert leading whitespace to match current indentation level
     if {$indent_levels($txt,$indent_name) > 0} {
-      $txt insert $insert_index [string repeat " " [expr $indent_levels($txt,$indent_name) * 2]]
+      $txt insert $insert_index [string repeat " " [expr $indent_levels($txt,$indent_name) * $preferences::prefs(Editor/IndentSpaces)]]
     }
     
   }
@@ -158,7 +168,7 @@ namespace eval indent {
       if {[regexp {^([ ]*)\S} $line -> whitespace]} {
         set line  [string range $line 0 $end_col]
         set start [string length $whitespace]
-        set level [expr $start / 2]
+        set level [expr $start / $preferences::prefs(Editor/IndentSpaces)]
         set i     0
         while {[regexp -indices -start $start -- $re $line match]} {
         
@@ -227,7 +237,7 @@ namespace eval indent {
           incr indent_levels($txt,insert) -1
         }
         if {$indent_levels($txt,insert) > 0} {
-          set spaces [string repeat " " [expr $indent_levels($txt,insert) * 2]]
+          set spaces [string repeat " " [expr $indent_levels($txt,insert) * $preferences::prefs(Editor/IndentSpaces)]]
           $txt insert $currpos $spaces
           set line "$spaces$line"
         }

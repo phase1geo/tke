@@ -44,7 +44,10 @@ source [file join $tke_dir syntax.tcl]
 source [file join $tke_dir api.tcl]
 source [file join $tke_dir markers.tcl]
 source [file join $tke_dir tkedat.tcl]
-source [file join $tke_dir windowlist.tcl]
+
+if {[tk windowingsystem] eq "aqua"} {
+  source [file join $tke_dir windowlist.tcl]
+}
 
 ######################################################################
 # Display the usage information to standard output and exits.

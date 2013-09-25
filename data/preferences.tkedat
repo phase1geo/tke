@@ -30,6 +30,16 @@
 
 {Editor/SpacesPerTab}        {4}
 
+# If set to a value of 1, auto-indentation is enabled.  If set to a value of 0,
+# disables auto-indentation feature.
+
+{Editor/EnableAutoIndent}    {1}
+
+# Specifies the number of spaces that will be automatically inserted when an
+# auto-indent event occurs.
+
+{Editor/IndentSpaces}        {2}
+
 # If this value is set to 1, the sidebar will be displayed on application start.
 # If this value is set to 0, the sidebar will be hidden on application start.
 
