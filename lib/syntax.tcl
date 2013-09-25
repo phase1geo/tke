@@ -267,8 +267,10 @@ namespace eval syntax {
     }
     
     # Clear the syntax highlighting for the widget
-    ctext::clearHighlightClasses $txt
-    ctext::disableComments $txt
+    ctext::clearHighlightClasses   $txt
+    ctext::setBlockCommentPatterns $txt {}
+    ctext::setLineCommentPatterns  $txt {}
+    ctext::setStringPatterns       $txt {}
     
     # Set the text background color to the current theme
     $txt configure -background $theme(background) -foreground $theme(foreground) \
@@ -304,9 +306,9 @@ namespace eval syntax {
         # set_language_section $txt comments      $lang_array(lcomments)
         
         # Add the comments and strings
-        ctext::addBlockCommentPatterns $txt $lang_array(bcomments) $theme(comments)
-        ctext::addLineCommentPatterns  $txt $lang_array(lcomments) $theme(comments)
-        ctext::addStringPatterns       $txt $lang_array(strings)   $theme(strings)
+        ctext::setBlockCommentPatterns $txt $lang_array(bcomments) $theme(comments)
+        ctext::setLineCommentPatterns  $txt $lang_array(lcomments) $theme(comments)
+        ctext::setStringPatterns       $txt $lang_array(strings)   $theme(strings)
 
         # Add the FIXME
         ctext::addHighlightClassForRegexp $txt fixme $theme(miscellaneous) {FIXME}

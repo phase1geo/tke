@@ -73,14 +73,8 @@ namespace eval indent {
     # Get the indent of the start of the current word
     set wordStart [$txt index "$insert_index-1c wordstart"]
     
-    # If the start of the current word is in a comment or string, do nothing
-    set wordTags [$txt tag names $wordStart]
-    
     # If the current word is in a string, a comment or is escaped, stop processing.
-    if {([lsearch -glob $wordTags _strings*] != -1) || \
-        ([lsearch -glob $wordTags _comments*] != -1) || \
-        ([lsearch $wordTags _cComment] != -1) || \
-        ([$txt compare $wordStart > "$insert_index linestart"] && ([$txt get "$wordStart-1c"] eq "\\"))} {
+    if {[ctext::inCommentString $txt $wordStart]} {
       return
     }
          
@@ -170,10 +164,7 @@ namespace eval indent {
         
           # If the current word is in a string, a comment or is escaped, skip it
           set wordTags [$txt tag names $start_row.[lindex $match 0]]
-          if {([lsearch -glob $wordTags _strings*] != -1) || \
-              ([lsearch -glob $wordTags _comments*] != -1) || \
-              ([lsearch $wordTags _cComment] != -1) || \
-              (([lindex $match 0] > 0) && ([string index $line [expr [lindex $match 0] - 1]] eq "\\"))} {
+          if {[ctext::inCommentString $txt "$start_row.[lindex $match 0]"]} {
             set start [expr [lindex $match 1] + 1]
             continue
           }
@@ -249,10 +240,7 @@ namespace eval indent {
         
         # If the current word is in a string, a comment or is escaped, skip it
         set wordTags [$txt tag names "$currpos+[lindex $match 0]c"]
-        if {([lsearch -glob $wordTags _strings*] != -1) || \
-            ([lsearch -glob $wordTags _comments*] != -1) || \
-            ([lsearch $wordTags _cComment] != -1) || \
-            (([lindex $match 0] > 0) && ([string index $line [expr [lindex $match 0] - 1]] eq "\\"))} {
+        if {[ctext::inCommentString $txt "$currpos+[lindex $match 0]c"]} {
           set start [expr [lindex $match 1] + 1]
           continue
         }
