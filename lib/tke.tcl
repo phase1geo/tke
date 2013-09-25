@@ -116,6 +116,38 @@ proc bgerror {msg} {
 
 }
 
+# If we are using aqua, define a few tk::mac procedures that the application can use
+if {[tk windowingsystem] eq "aqua"} {
+
+  ######################################################################
+  # Called whenever the user opens a document via drag-and-drop or within
+  # the finder.
+  proc ::tk::mac::OpenDocument {args} {
+
+    # Add the files
+    foreach name $args {
+      if {[file isdirectory $name]} {
+        gui::add_directory $name
+      } else {
+        gui::add_file end $name
+      }
+    }
+
+    # Make sure that the window is raised
+    ::tk::mac::ReopenApplication
+  
+  }
+
+  ######################################################################
+  # Called when the application exits.
+  proc ::tk::mac::Quit {} {
+
+    menus::exit_command
+
+  }
+
+}
+
 # Set signal handlers
 signal trap TERM handle_signal
 signal trap INT  handle_signal
