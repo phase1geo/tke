@@ -6,8 +6,6 @@
 # Brief:   Tcl/Tk editor written in Tcl/Tk
 # Usage:   tke [<options>] <file>*
 
-puts "script: [info script]"
-
 set tke_dir  [file dirname [info script]]
 set tke_home [file join ~ .tke]
 
@@ -46,6 +44,7 @@ source [file join $tke_dir syntax.tcl]
 source [file join $tke_dir api.tcl]
 source [file join $tke_dir markers.tcl]
 source [file join $tke_dir tkedat.tcl]
+source [file join $tke_dir windowlist.tcl]
 
 ######################################################################
 # Display the usage information to standard output and exits.
@@ -122,7 +121,7 @@ signal trap INT  handle_signal
 parse_cmdline $argc $argv
 
 # Attempt to add files or raise the existing application
-if {[tk appname] ne "tke.tcl"} {
+if {([tk appname] ne "tke.tcl") && ([tk windowingsystem] eq "x11")} {
   if {[llength $cl_files] > 0} {
     if {![catch "send tke.tcl gui::add_files_and_raise [info hostname] end $cl_files" rc]} {
       destroy .
@@ -162,7 +161,9 @@ cliphist::load
 syntax::load
 
 # Set the tk style to clam
-ttk::style theme use clam
+if {[tk windowingsystem] eq "x11"} {
+  ttk::style theme use clam
+}
 
 # Set the delay to 1 second
 tooltip::tooltip delay 1000

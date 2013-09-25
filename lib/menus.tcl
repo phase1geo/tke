@@ -54,7 +54,21 @@ namespace eval menus {
     # Add the help menu
     $mb add cascade -label "Help" -menu [menu $mb.help -tearoff false]
     add_help $mb.help
-  
+
+    # If we are running on Mac OS X, add the window menu with the windowlist package
+    if {[tk windowingsystem] eq "aqua"} {
+
+      # Add the window menu with the windowlist package
+      windowlist::windowMenu $mb
+
+      # Add the "About Tke" menu in the application menu
+      set appl [menu $mb.apple -tearoff false]
+      $mb add cascade -menu $appl
+      $appl add command -label "About Tke" -command gui::show_about
+      $appl add separator
+
+    }
+
   }
   
   ########################
@@ -95,9 +109,11 @@ namespace eval menus {
     $mb add command -label "Close"      -underline 0 -command "menus::close_command"
     launcher::register "Menu: Close current tab" menus::close_command
 
-    $mb add separator
-
-    $mb add command -label "Quit"   -underline 0 -command "menus::exit_command"
+    # Only add the quit menu to File if we are not running in aqua
+    if {[tk windowingsystem] ne "aqua"} {
+      $mb add separator
+      $mb add command -label "Quit" -underline 0 -command "menus::exit_command"
+    }
     launcher::register "Menu: Quit application" menus::exit_command
 
     # Apply the menu settings for the current menu
@@ -145,10 +161,12 @@ namespace eval menus {
     
     variable profile_report
     
-    if {[file exists $profile_report]} {
-      $mb entryconfigure "Show*Profiling*" -state normal
-    } else {
-      $mb entryconfigure "Show*Profiling*" -state disabled
+    if {[::tke_development]} {
+      if {[file exists $profile_report]} {
+        $mb entryconfigure "Show*Profiling*" -state normal
+      } else {
+        $mb entryconfigure "Show*Profiling*" -state disabled
+      }
     }
     
   }
@@ -625,7 +643,9 @@ namespace eval menus {
   # Adds the help menu commands.
   proc add_help {mb} {
     
-    $mb add command -label "About tke" -underline 0 -command "gui::show_about"
+    if {[tk windowingsystem] ne "aqua"} {
+      $mb add command -label "About tke" -underline 0 -command "gui::show_about"
+    }
     launcher::register "Menu: About tke" "gui::show_about"
     
   }
