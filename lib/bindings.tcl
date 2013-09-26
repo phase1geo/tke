@@ -32,6 +32,7 @@ namespace eval bindings {
       [list gui::add_file end $base_bindings_file -sidebar 0 -readonly 1]
     launcher::register "Menu Bindings: Use default menu bindings" "bindings::copy_default"
     launcher::register "Menu Bindings: Reload menu bindings" "bindings::load_file"
+
   
   }
   
@@ -161,6 +162,19 @@ namespace eval bindings {
       |         "bar"
       \}        "braceright"
       ~         "asciitilde"
+    }
+    
+    # If we are on a Mac, convert the Cmd string to the Command string
+    if {[tk windowingsystem] eq "aqua"} {
+      array set mapping {
+        Cmd   "Command-"
+        Super "Command-"
+      }
+    } else {
+      array set mapping {
+        Cmd   "Command-"
+        Super "Meta-"
+      }
     }
     
     # Create the sequence

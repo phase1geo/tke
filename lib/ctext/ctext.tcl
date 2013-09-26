@@ -276,12 +276,15 @@ proc ctext::setCommentRE {win} {
   set commentRE {\\}
   foreach block $configAr(block_comment_patterns) {
     append commentRE "|" [string map {{*} {\*} {"} {\"}} [join [concat $block] |]]
+    append commentRE "|" [string map {{*} {\*} {"} {\"}} \\[join [concat $block] {|\\}]]
   }
   if {[llength $configAr(line_comment_patterns)] > 0} {
     append commentRE "|" [string map {{*} {\*} {"} {\"}} [join $configAr(line_comment_patterns) |]]
+    append commentRE "|" [string map {{*} {\*} {"} {\"}} \\[join $configAr(line_comment_patterns) {|\\}]]
   }
   if {[llength $configAr(string_patterns)] > 0} {
     append commentRE "|" [string map {{*} {\*} {"} {\"}} [join $configAr(string_patterns) |]]
+    append commentRE "|" [string map {{*} {\*} {"} {\"}} \\[join $configAr(string_patterns) {|\\}]]
   }
   
   set configAr(comment_re) $commentRE
@@ -807,7 +810,7 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
     $win tag remove _string   1.0 end
      
     set i 0
-    foreach index [$win search -all -count lengths -regexp -- $commentRE 1.0 end] {
+    foreach index [$win search -all -overlap -count lengths -regexp -- $commentRE 1.0 end] {
       
       set endIndex [$win index "$index + [lindex $lengths $i] chars"]
       set str      [$win get $index $endIndex]
