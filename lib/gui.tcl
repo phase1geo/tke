@@ -129,7 +129,7 @@ namespace eval gui {
     $widgets(filetl) columnconfigure 1 -name filepath -editable 0 -hide 1
       
     bind $widgets(filetl) <<TablelistSelect>>         "gui::handle_filetl_selection"
-    bind [$widgets(filetl) bodytag] <Button-3>        "gui::handle_filetl_right_click %W %x %y"
+    bind [$widgets(filetl) bodytag] $::right_click    "gui::handle_filetl_right_click %W %x %y"
     bind [$widgets(filetl) bodytag] <Double-Button-1> "gui::handle_filetl_double_click %W %x %y"
       
     grid rowconfigure    $widgets(fview) 0 -weight 1

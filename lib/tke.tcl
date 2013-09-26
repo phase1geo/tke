@@ -49,6 +49,9 @@ if {[tk windowingsystem] eq "aqua"} {
   source [file join $tke_dir windowlist.tcl]
 }
 
+# Set the default right click button number
+set right_click "<Button-3>"
+
 ######################################################################
 # Display the usage information to standard output and exits.
 proc usage {} {
@@ -145,6 +148,9 @@ if {[tk windowingsystem] eq "aqua"} {
     menus::exit_command
 
   }
+  
+  # Change the right_click
+  set right_click "<Button-2>"
 
 }
 
