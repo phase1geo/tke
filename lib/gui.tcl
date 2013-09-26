@@ -128,9 +128,9 @@ namespace eval gui {
     $widgets(filetl) columnconfigure 0 -name files    -editable 0
     $widgets(filetl) columnconfigure 1 -name filepath -editable 0 -hide 1
       
-    bind $widgets(filetl) <<TablelistSelect>>         "gui::handle_filetl_selection"
-    bind [$widgets(filetl) bodytag] $::right_click    "gui::handle_filetl_right_click %W %x %y"
-    bind [$widgets(filetl) bodytag] <Double-Button-1> "gui::handle_filetl_double_click %W %x %y"
+    bind $widgets(filetl) <<TablelistSelect>>               "gui::handle_filetl_selection"
+    bind [$widgets(filetl) bodytag] <Button-$::right_click> "gui::handle_filetl_right_click %W %x %y"
+    bind [$widgets(filetl) bodytag] <Double-Button-1>       "gui::handle_filetl_double_click %W %x %y"
       
     grid rowconfigure    $widgets(fview) 0 -weight 1
     grid columnconfigure $widgets(fview) 0 -weight 1
@@ -970,7 +970,7 @@ namespace eval gui {
     variable pw_current
 
     # Get the current notebook
-    set nb [lindex $widgets(nb_pw) $pw_current]
+    set nb [lindex [$widgets(nb_pw) panes] $pw_current]
     
     set index [expr [$nb index current] + 1]
     
@@ -992,7 +992,7 @@ namespace eval gui {
     variable pw_current
 
     # Get the current notebook
-    set nb [lindex $widgets(nb_pw) $pw_current]
+    set nb [lindex [$widgets(nb_pw) panes] $pw_current]
     
     # Get the current index
     set index [expr [$nb index current] - 1]
@@ -2286,7 +2286,7 @@ namespace eval gui {
     bind $nb <ButtonPress-1>        { gui::tab_move_start %W %x %y }
     bind $nb <B1-Motion>            { gui::tab_move_motion %W %x %y }
     bind $nb <ButtonRelease-1>      { gui::tab_move_end %W %x %y }
-    bind $nb <ButtonPress-3> {
+    bind $nb <ButtonPress-$::right_click> {
       if {[info exists gui::tab_tip(%W)]} {
         unset gui::tab_tip(%W)
         tooltip::tooltip clear %W
@@ -2296,7 +2296,7 @@ namespace eval gui {
       %W select @%x,%y
       tk_popup $gui::widgets(menu) %X %Y
     }
-    bind $nb <ButtonRelease-3> {
+    bind $nb <ButtonRelease-$::right_click> {
       set gui::pw_current [lsearch [$gui::widgets(nb_pw) panes] %W]
       %W select @%x,%y
       focus [gui::current_txt].t

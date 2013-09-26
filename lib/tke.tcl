@@ -50,7 +50,7 @@ if {[tk windowingsystem] eq "aqua"} {
 }
 
 # Set the default right click button number
-set right_click "<Button-3>"
+set right_click 3
 
 ######################################################################
 # Display the usage information to standard output and exits.
@@ -150,7 +150,7 @@ if {[tk windowingsystem] eq "aqua"} {
   }
   
   # Change the right_click
-  set right_click "<Button-2>"
+  set ::right_click 2
 
 }
 
