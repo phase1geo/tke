@@ -7,11 +7,64 @@ namespace eval indent {
 
   array set indent_levels {}
   array set indent_exprs  {}
+  array set widgets       {}
+  
+  ######################################################################
+  # Initializes the indent namespace.
+  proc initialize {} {
+    
+    # Set traces on preference items
+    trace variable preferences::prefs(Editor/EnableAutoIndent) w indent::handle_auto_indent
+    trace variable preferences::prefs(Editor/IndentSpaces)     w indent::handle_indent_spaces
+    
+  }
+  
+  ######################################################################
+  # Called whenever the Editor/EnableAutoIndent option is changed.
+  proc handle_auto_indent {name1 name2 op} {
+    
+    variable widgets
+    
+    # Make sure that we reformat the text if auto-indent is turned on (from being off)
+    if {$preferences::prefs(Editor/EnableAutoIndent)} {
+      foreach widget [array names widgets] {
+        if {[winfo exists $widget]} {
+          format_text $widget 1.0 end
+        } else {
+          catch { unset widgets($widget) }
+        }
+      }
+    }
+    
+  }
+  
+  ######################################################################
+  # Called whenever the Editor/IndentSpaces option is changed.
+  proc handle_indent_spaces {name1 name2 op} {
+    
+    variable widgets
+   
+    puts "In handle_indent_spaces"
+    
+    # Reformat the text with the given indentation spaces
+    if {$preferences::prefs(Editor/EnableAutoIndent} {
+      foreach widget [array names widgets] {
+        if {[winfo exists $widget]} {
+          format_text $widget 1.0 end
+        } else {
+          catch { unset widgets($widget) }
+        }
+      }
+    }
+    
+  }
   
   ######################################################################
   # Adds indentation bindings for the given text widget.
   proc add_bindings {txt} {
   
+    variable widgets
+    
     # Set the indent level for the given text widget to 0
     add_indent_level $txt.t insert
 
@@ -28,6 +81,9 @@ namespace eval indent {
     # Add the indentation tag into the bindtags list just after Text
     set text_index [lsearch [bindtags $txt.t] Text]
     bindtags $txt.t [linsert [bindtags $txt.t] [expr $text_index + 1] indent$txt]
+    
+    # Add the text item to the list of widgets
+    set widgets($txt.t) 1
      
   }
   
