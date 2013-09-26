@@ -151,9 +151,18 @@ while {$install_dir eq ""} {
 }
 
 # If we are running Gnome, create tke.desktop file in the ~/.local/share/applications directory
-if {[file exists env(DESKTOP_SESSION)] && ($env(DESKTOP_SESSION) eq "gnome")} {
-  set app_file [file ~ .local share applications tke.desktop]
+if {[exec -ignorestderr ps -fe | grep gnome-session] ne ""} {
+  set app_dir  [file join / usr share applications]
+  set app_file [file join $app_dir tke.desktop]
   puts -nonewline "Creating $app_file...  "
+  if {![file writable $app_dir]} {
+    puts "error."
+    puts "  $rc"
+    exit 1
+  }
+  if {![file exists $app_dir]} {
+    file mkdir $app_dir
+  }
   if {![catch "open $app_file w" rc]} {
     puts $rc "\[Desktop Entry\]"
     puts $rc "Name=TKE"

@@ -297,6 +297,7 @@ namespace eval gui {
     # Trace changes to the Appearance/Theme preference variable
     trace variable preferences::prefs(Editor/WarningWidth)    w gui::handle_warning_width_change
     trace variable preferences::prefs(View/AllowTabScrolling) w gui::handle_allow_tab_scrolling
+    trace variable preferences::prefs(Tools/VimMode)          w gui::handle_vim_mode
 
   }
   
@@ -308,7 +309,7 @@ namespace eval gui {
     
     # Set the warning width to the specified value
     foreach pane [$widgets(nb_pw) panes] {
-      foreach tab [$nb.tbf.tb tabs] {
+      foreach tab [$pane.tbf.tb tabs] {
         foreach txt_pane [$tab.pw panes] {
           $txt_pane.txt configure -warnwidth $preferences::prefs(Editor/WarningWidth)
         }
@@ -326,6 +327,15 @@ namespace eval gui {
     # TBD
         
   }
+  
+  ######################################################################
+  # Handles any changes to the Tools/VimMode preference variable.
+  proc handle_vim_mode {name1 name2 op} {
+    
+    vim::set_vim_mode_all
+    
+  }
+  
   
   ######################################################################
   # Toggles the specified labelbutton.
