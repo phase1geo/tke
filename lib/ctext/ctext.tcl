@@ -277,32 +277,19 @@ proc ctext::setCommentRE {win} {
   array set chars {}
   
   set patterns [concat [eval concat $configAr(block_comment_patterns)] $configAr(line_comment_patterns) $configAr(string_patterns)]
-  puts "all: $patterns"
   
-  foreach block $configAr(block_comment_patterns) {
-    append commentRE "|" [string map {{*} {\*} {"} {\"}} [join [concat $block] |]]
-    append commentRE "|" [string map {{*} {\*} {"} {\"}} \\[join [concat $block] {|\\}]]
-    foreach char [split [join [concat $block] ""] ""] {
-      set chars($char) 1
-    }
-  }
-  if {[llength $configAr(line_comment_patterns)] > 0} {
-    append commentRE "|" [string map {{*} {\*} {"} {\"}} [join $configAr(line_comment_patterns) |]]
-    append commentRE "|" [string map {{*} {\*} {"} {\"}} \\[join $configAr(line_comment_patterns) {|\\}]]
-    foreach char [split [join $configAr(line_comment_patterns) ""] ""] {
-      set chars($char) 1
-    }
-  }
-  if {[llength $configAr(string_patterns)] > 0} {
-    append commentRE "|" [string map {{*} {\*} {"} {\"}} [join $configAr(string_patterns) |]]
-    append commentRE "|" [string map {{*} {\*} {"} {\"}} \\[join $configAr(string_patterns) {|\\}]]
-    foreach char [split [join $configAr(string_patterns) ""] ""] {
-      set chars($char) 1
-    }
+  if {[llength $patterns] > 0} {
+    append commentRE "|" [string map {{*} {\*} {"} {\"}} [join $patterns |]]
+    append commentRE "|" [string map {{*} {\*} {"} {\"}} \\[join $patterns {|\\}]]
+#    foreach char [split [join [concat $block] ""] ""] {
+#      set chars($char) 1
+#    }
+#    append commentRE "|" [string map {{*} {\*} {"} {\"}} [join [array names chars] |]]
+#    append commentRE "|" [string map {{*} {\*} {"} {\"}} \\[join [array names chars] {\\|}]]
   }
   
-  puts "commentRE: $commentRE"
-  puts "chars: [array names chars]"
+#  puts "commentRE: $commentRE"
+#  puts "chars: [array names chars]"
   
   set configAr(comment_re) $commentRE
   

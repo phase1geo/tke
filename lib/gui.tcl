@@ -2226,46 +2226,37 @@ namespace eval gui {
   # Displays the help menu "About" window.
   proc show_about {} {
     
-    if {[tk windowingsystem] ne "aqua"} {
-
-      variable images
+    variable images
+  
+    toplevel     .aboutwin
+    wm title     .aboutwin ""
+    wm transient .aboutwin .
+    wm resizable .aboutwin 0 0
+  
+    ttk::label .aboutwin.logo -compound left -image $images(logo) -text " tke" \
+      -font [font create -family Helvetica -size 30 -weight bold]
+  
+    ttk::frame .aboutwin.if
+    ttk::label .aboutwin.if.l0 -text "Developer:"
+    ttk::label .aboutwin.if.v0 -text "Trevor Williams"
+    ttk::label .aboutwin.if.l1 -text "Email:"
+    ttk::label .aboutwin.if.v1 -text "phase1geo@gmail.com"
+    ttk::label .aboutwin.if.l2 -text "Version:"
+    ttk::label .aboutwin.if.v2 -text "$::version_major.$::version_minor ($::version_hgid)"
+  
+    grid .aboutwin.if.l0 -row 0 -column 0 -sticky news
+    grid .aboutwin.if.v0 -row 0 -column 1 -sticky news
+    grid .aboutwin.if.l1 -row 1 -column 0 -sticky news
+    grid .aboutwin.if.v1 -row 1 -column 1 -sticky news
+    grid .aboutwin.if.l2 -row 2 -column 0 -sticky news
+    grid .aboutwin.if.v2 -row 2 -column 1 -sticky news
+  
+    ttk::label .aboutwin.copyright -text "Copyright 2013"
+  
+    pack .aboutwin.logo      -padx 2 -pady 8 -anchor w
+    pack .aboutwin.if        -padx 2 -pady 2
+    pack .aboutwin.copyright -padx 2 -pady 8
     
-      toplevel     .aboutwin
-      wm title     .aboutwin ""
-      wm transient .aboutwin .
-      wm resizable .aboutwin 0 0
-    
-      ttk::label .aboutwin.logo -compound left -image $images(logo) -text " tke" \
-        -font [font create -family Helvetica -size 30 -weight bold]
-    
-      ttk::frame .aboutwin.if
-      ttk::label .aboutwin.if.l0 -text "Developer:"
-      ttk::label .aboutwin.if.v0 -text "Trevor Williams"
-      ttk::label .aboutwin.if.l1 -text "Email:"
-      ttk::label .aboutwin.if.v1 -text "phase1geo@gmail.com"
-      ttk::label .aboutwin.if.l2 -text "Version:"
-      ttk::label .aboutwin.if.v2 -text "$::version_major.$::version_minor ($::version_hgid)"
-    
-      grid .aboutwin.if.l0 -row 0 -column 0 -sticky news
-      grid .aboutwin.if.v0 -row 0 -column 1 -sticky news
-      grid .aboutwin.if.l1 -row 1 -column 0 -sticky news
-      grid .aboutwin.if.v1 -row 1 -column 1 -sticky news
-      grid .aboutwin.if.l2 -row 2 -column 0 -sticky news
-      grid .aboutwin.if.v2 -row 2 -column 1 -sticky news
-    
-      ttk::label .aboutwin.copyright -text "Copyright 2013"
-    
-      pack .aboutwin.logo      -padx 2 -pady 8 -anchor w
-      pack .aboutwin.if        -padx 2 -pady 2
-      pack .aboutwin.copyright -padx 2 -pady 8
-    
-    } else {
-
-      # Display the standard about panel
-      ::tk::mac::standardAboutPanel
-
-    }
-
   }
   
   ########################
