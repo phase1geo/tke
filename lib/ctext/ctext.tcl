@@ -274,18 +274,35 @@ proc ctext::setCommentRE {win} {
   ctext::getAr $win config configAr
     
   set commentRE {\\}
+  array set chars {}
+  
+  set patterns [concat [eval concat $configAr(block_comment_patterns)] $configAr(line_comment_patterns) $configAr(string_patterns)]
+  puts "all: $patterns"
+  
   foreach block $configAr(block_comment_patterns) {
     append commentRE "|" [string map {{*} {\*} {"} {\"}} [join [concat $block] |]]
     append commentRE "|" [string map {{*} {\*} {"} {\"}} \\[join [concat $block] {|\\}]]
+    foreach char [split [join [concat $block] ""] ""] {
+      set chars($char) 1
+    }
   }
   if {[llength $configAr(line_comment_patterns)] > 0} {
     append commentRE "|" [string map {{*} {\*} {"} {\"}} [join $configAr(line_comment_patterns) |]]
     append commentRE "|" [string map {{*} {\*} {"} {\"}} \\[join $configAr(line_comment_patterns) {|\\}]]
+    foreach char [split [join $configAr(line_comment_patterns) ""] ""] {
+      set chars($char) 1
+    }
   }
   if {[llength $configAr(string_patterns)] > 0} {
     append commentRE "|" [string map {{*} {\*} {"} {\"}} [join $configAr(string_patterns) |]]
     append commentRE "|" [string map {{*} {\*} {"} {\"}} \\[join $configAr(string_patterns) {|\\}]]
+    foreach char [split [join $configAr(string_patterns) ""] ""] {
+      set chars($char) 1
+    }
   }
+  
+  puts "commentRE: $commentRE"
+  puts "chars: [array names chars]"
   
   set configAr(comment_re) $commentRE
   
@@ -783,17 +800,7 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
     set configAr(commentsAfterId) ""
   }
   
-  set commentRE "([join $configAr(line_comment_patterns) |])"
-  append commentRE {[^\n\r]*}
-    
-  # Handle single line comments in the given range
-  set i 0
-  foreach index [$win search -all -count lengths -regexp -- $commentRE $start $end] {
-    $win tag add _lComment $index "$index+[lindex $lengths $i]c"
-    $win tag raise _lComment
-    incr i
-  }
-  
+
   set strings        [llength $configAr(string_patterns)]
   set block_comments [llength $configAr(block_comment_patterns)]
   set line_comments  [llength $configAr(line_comment_patterns)]
@@ -807,6 +814,7 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
     set bcomment_index ""
      
     $win tag remove _cComment 1.0 end
+    $win tag remove _lComment 1.0 end
     $win tag remove _string   1.0 end
      
     set i 0
@@ -846,6 +854,8 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
       # Found a single line comment
       } elseif {[lsearch -exact $configAr(line_comment_patterns) $str] != -1} {
         if {($bcomment_index eq "") && ($double_index eq "") && ($single_index eq "")} {
+          $win tag add _lComment $index "$index lineend"
+          $win tag raise _lComment
           set lcomment_index $index
         } else {
           $win tag remove _lComment $index "$index lineend"
@@ -872,6 +882,21 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
       incr i
       
     }
+    
+  # Otherwise, look for just the single line comments
+  } else {
+    
+    set commentRE "([join $configAr(line_comment_patterns) |])"
+    append commentRE {[^\n\r]*}
+    
+    # Handle single line comments in the given range
+    set i 0
+    foreach index [$win search -all -count lengths -regexp -- $commentRE $start $end] {
+      $win tag add _lComment $index "$index+[lindex $lengths $i]c"
+      $win tag raise _lComment
+      incr i
+    }
+    
   }
   
 }

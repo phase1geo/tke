@@ -44,8 +44,6 @@ namespace eval indent {
     
     variable widgets
    
-    puts "In handle_indent_spaces"
-    
     # Reformat the text with the given indentation spaces
     if {$preferences::prefs(Editor/EnableAutoIndent} {
       foreach widget [array names widgets] {
@@ -266,6 +264,7 @@ namespace eval indent {
     # Get the current position and recalculate the endpos
     set currpos [$txt index "$startpos linestart"]
     set endpos  [$txt index $endpos]
+    set first   1
     
     # Update the indentation level at the start of the first text line
     if {$currpos eq "1.0"} {
@@ -273,7 +272,7 @@ namespace eval indent {
     } else {
       update_indent_level $txt "$startpos-1l lineend" insert
     }
-              
+    
     # Create the regular expression containing the indent and unindent words
     set re [join [concat $indent_exprs($txt,indent) $indent_exprs($txt,unindent)] |]
     
@@ -315,7 +314,7 @@ namespace eval indent {
         set word [string range $line {*}$match]
         if {[lsearch -exact $indent_exprs($txt,indent) $word] != -1} {
           incr indent_levels($txt,insert)
-        } elseif {($i != 0) || ([lindex $match 0] != $start)} {
+        } elseif {($i != 0) && ([lindex $match 0] != $start)} {
           incr indent_levels($txt,insert) -1
         }
         
@@ -326,6 +325,7 @@ namespace eval indent {
       
       # Increment the starting position to the next line
       set currpos [$txt index "$currpos+1l linestart"]
+      set first   0
       
     }
     
