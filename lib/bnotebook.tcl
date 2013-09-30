@@ -102,7 +102,7 @@ namespace eval BNotebook {
     } else {
       $w state !pressed
     }
-    # puts "state: [$w state]"
+    # puts "w: $w, state: [$w state]"
   }
    
   # Initialize the BNotebook namespace

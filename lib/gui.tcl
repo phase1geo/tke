@@ -19,10 +19,11 @@ namespace eval gui {
   variable user_exit_status ""
   variable file_locked      0
   
-  array set widgets  {}
-  array set language {}
-  array set images   {}
-  array set tab_tip  {}
+  array set widgets     {}
+  array set language    {}
+  array set images      {}
+  array set tab_tip     {}
+  array set tab_current {}
 
   array set files_index {
     fname    0
@@ -131,7 +132,7 @@ namespace eval gui {
     bind $widgets(filetl) <<TablelistSelect>>               "gui::handle_filetl_selection"
     bind [$widgets(filetl) bodytag] <Button-$::right_click> "gui::handle_filetl_right_click %W %x %y"
     bind [$widgets(filetl) bodytag] <Double-Button-1>       "gui::handle_filetl_double_click %W %x %y"
-      
+    
     grid rowconfigure    $widgets(fview) 0 -weight 1
     grid columnconfigure $widgets(fview) 0 -weight 1
     grid $widgets(fview).tl -row 0 -column 0 -sticky news
@@ -144,6 +145,12 @@ namespace eval gui {
     # Create the notebook panedwindow
     set widgets(nb_pw) [ttk::panedwindow $widgets(pw).tf.nbpw -orient $preferences::prefs(View/PaneOrientation)]
       
+    # Create notebook images
+    set images(left)  [image create bitmap -file     [file join $::tke_dir images left.bmp] \
+                                           -maskfile [file join $::tke_dir images left.bmp]]
+    set images(right) [image create bitmap -file     [file join $::tke_dir images right.bmp] \
+                                           -maskfile [file join $::tke_dir images right.bmp]]
+
     # Add notebook
     add_notebook
     
@@ -852,8 +859,15 @@ namespace eval gui {
     variable nb_move
     variable file_move
     variable last_x
+
+    # Only continue if the tab is not a left/right shift tab
+    set tabs [$W tabs]
+    if {([set tabid [$W index @$x,$y]] eq "") || ![regexp "^$W.\d+" [lindex $tabs $tabid]]} {
+      set nb_move ""
+      return
+    }
   
-    if {([$W identify $x $y] ne "close") && ([set tabid [$W index @$x,$y]] ne "")} {
+    if {[$W identify $x $y] ne "close"} {
       set nb_move   $tabid
       set file_move [get_file_index $pw_current $tabid]
       set last_x    $x
@@ -874,36 +888,40 @@ namespace eval gui {
     variable files
     variable files_index
     
-    if {[set tabid [$W index @$x,$y]] ne ""} {
-      if {($nb_move ne "") && \
-          ((($nb_move > $tabid) && ($x < $last_x)) || \
-           (($nb_move < $tabid) && ($x > $last_x)))} {
-        set tab   [lindex [$W tabs] $nb_move]
-        set title [$W tab $nb_move -text]
-        $W forget $nb_move
-        $W insert [expr {($tabid == [$W index end]) ? "end" : $tabid}] $tab -text $title
-        $W select $tabid
-        set file_indices [lsearch -all -index $files_index(pane) $files $pw_current]
-        if {$nb_move > $tabid} {
-          foreach index $file_indices {
-            set tab [lindex $files $index $files_index(tab)]
-            if {($tab < $nb_move) && ($tab >= $tabid)} {
-              lset files $index $files_index(tab) [expr $tab + 1]
-            }
-          }
-        } else {
-          foreach index $file_indices {
-            set tab [lindex $files $index $files_index(tab)]
-            if {($tab <= $tabid) && ($tab > $nb_move)} {
-              lset files $index $files_index(tab) [expr $tab - 1]
-            }
+    # Only continue if the tab is not a left/right shift tab
+    set tabs [$W tabs]
+    if {([set tabid [$W index @$x,$y]] eq "") || ![regexp "^$W.\d+" [lindex $tabs $tabid]]} {
+      return
+    }
+  
+    if {($nb_move ne "") && \
+        ((($nb_move > $tabid) && ($x < $last_x)) || \
+         (($nb_move < $tabid) && ($x > $last_x)))} {
+      set tab   [lindex [$W tabs] $nb_move]
+      set title [$W tab $nb_move -text]
+      $W forget $nb_move
+      $W insert [expr {($tabid == [$W index end]) ? "end" : $tabid}] $tab -text $title
+      $W select $tabid
+      set file_indices [lsearch -all -index $files_index(pane) $files $pw_current]
+      if {$nb_move > $tabid} {
+        foreach index $file_indices {
+          set tab [lindex $files $index $files_index(tab)]
+          if {($tab < $nb_move) && ($tab >= $tabid)} {
+            lset files $index $files_index(tab) [expr $tab + 1]
           }
         }
-        lset files $file_move $files_index(tab) $tabid
-        set nb_move $tabid
+      } else {
+        foreach index $file_indices {
+          set tab [lindex $files $index $files_index(tab)]
+          if {($tab <= $tabid) && ($tab > $nb_move)} {
+            lset files $index $files_index(tab) [expr $tab - 1]
+          }
+        }
       }
-      set last_x $x
+      lset files $file_move $files_index(tab) $tabid
+      set nb_move $tabid
     }
+    set last_x $x
     
   }
   
@@ -915,6 +933,12 @@ namespace eval gui {
     variable pw_current
     variable widgets
 
+    # Only continue if the tab is not a left/right shift tab
+    set tabs [$W tabs]
+    if {([set tabid [$W index @$x,$y]] eq "") || ![regexp "^$W.\d+" [lindex $tabs $tabid]]} {
+      return
+    }
+  
     if {[$W identify $x $y] eq "close"} {
       
       # Close the current tab
@@ -1628,7 +1652,7 @@ namespace eval gui {
     set current_pw [lindex [$widgets(nb_pw) panes] $pw_current]
 
     foreach nb [lreverse [$widgets(nb_pw) panes]] {    
-      foreach tab [lreverse [$nb tabs]] {
+      foreach tab [lreverse [lrange [$nb tabs] 1 end-1]] {
         if {($nb ne $current_pw) || ($tab ne [$nb select])} {
           $nb select $tab
           close_current
@@ -1645,7 +1669,7 @@ namespace eval gui {
     variable widgets
     
     foreach nb [lreverse [$widgets(nb_pw) panes]] {
-      foreach tab [lreverse [$nb tabs]] {
+      foreach tab [lreverse [lrange [$nb tabs] 1 end-1]] {
         $nb select $tab
         close_current
       }
@@ -2266,11 +2290,26 @@ namespace eval gui {
     
     variable widgets
     variable curr_notebook
+    variable images
     
     # Create editor notebook
     $widgets(nb_pw) add [set nb [ttk::notebook $widgets(nb_pw).nb[incr curr_notebook] -style BNotebook]] -weight 1
 
-    bind $nb <<NotebookTabChanged>> { gui::set_current_tab_from_nb %W }
+    # Add right and left shift tabs and then hide them
+    $nb add [ttk::frame $nb.left]  -image $images(left)
+    $nb add [ttk::frame $nb.right] -image $images(right)
+
+    # Hide the tabs
+    $nb hide $nb.left
+    $nb hide $nb.right
+
+    bind $nb <<NotebookTabChanged>> {
+      if {[regexp "^%W.\d+" [%W select]]} {
+        gui::set_current_tab_from_nb %W
+      } else {
+        %W select $gui::tab_current(%W)
+      }
+    }
     bind $nb <ButtonPress-1>        { gui::tab_move_start %W %x %y }
     bind $nb <B1-Motion>            { gui::tab_move_motion %W %x %y }
     bind $nb <ButtonRelease-1>      { gui::tab_move_end %W %x %y }
@@ -2290,6 +2329,9 @@ namespace eval gui {
       focus [gui::current_txt].t
     }
     
+    # Handles the tab sizing
+    bind $nb <Configure> { gui::handle_tab_sizing %W }
+    
     # Handle tooltips
     bind $nb <Motion> { gui::handle_notebook_motion %W %x %y }
 
@@ -2303,7 +2345,12 @@ namespace eval gui {
     variable tab_close
     variable images
     
-    set tab  [$W index @$x,$y]
+    # If the tab is one of the left or right shift tabs, exit now
+    set tabs [$W tabs]
+    if {([set tab [$W index @$x,$y]] eq "") || ![regexp "^$W.\d+" [lindex $tabs $tab]]} {
+      return
+    }
+
     set type [$W identify $x $y]
     
     # Handle tooltip
@@ -2376,6 +2423,7 @@ namespace eval gui {
     variable curr_id
     variable language
     variable pw_current
+    variable images
         
     # Get the unique tab ID
     set id [incr curr_id]
@@ -2475,10 +2523,10 @@ namespace eval gui {
     grid remove $tab_frame.sep
     
     # Get the adjusted index
-    set adjusted_index [$nb index $index]
+    set adjusted_index [expr [$nb index $index] - 1]
     
     # Add the new tab to the notebook
-    $nb insert $index $tab_frame -text " $title"
+    $nb insert $adjusted_index $tab_frame -text " $title"
     
     # Add the text bindings
     indent::add_bindings      $tab_frame.tf.txt
@@ -2554,9 +2602,14 @@ namespace eval gui {
 
     variable widgets
     variable pw_current
+    variable tab_current
     
     # Set the current pane
     set pw_current $pane
+
+    # Set the current tab for the given notebook
+    set nb [current_notebook]
+    set tab_current($nb) $tab
   
     # Set the current tab
     [current_notebook] select $tab
@@ -2893,7 +2946,66 @@ namespace eval gui {
     }
     
   }
+
+  ######################################################################
+  # Manages the tabs and makes them scrolling, if necessary.
+  proc handle_tab_sizing {nb} {
+
+    variable widgets
+    variable images
+
+    # Get the padding
+    if {([set padding [ttk::style configure BNotebook.Tab -padding]] eq "") ||
+        ([set nb_width [winfo width $nb]] == 1)} {
+      return
+    }
+  
+    # Calculate the padding around the text and close button
+    set padding [expr [lindex $padding 0] * 3]
+
+    # Get the width of the close image
+    set close_width [image width $images(close)]
+  
+    # Calculate accumulative tab width
+    set total_width 0
+    foreach tab [lrange [$nb tabs] 1 end-1] {
+      set widths($tab) [expr [font measure TkDefaultFont [$nb tab $tab -text]] + \
+                             $close_width + $padding]
+      if {[set img [$nb tab $tab -image]] ne ""} {
+        incr widths($tab) [image width $img]
+      }
+      if {[$nb tab $tab -state] eq "normal"} {
+        incr total_width $widths($tab)
+      }
+    }
+
+    if {$total_width > $nb_width} {
+      if {[$nb tab $nb.left -state] eq "hidden"} {
+        $nb tab $nb.left  -state "disabled"
+        $nb tab $nb.right -state "disabled"
+      }
+      foreach tab [lrange [$nb tabs] 1 end-1] {
+        if {[$nb tab $tab -state] eq "normal"} {
+          $nb tab $tab -state hidden
+          incr total_width [expr 0 - $widths($tab)]
+          if {$total_width < $nb_width} {
+            break
+          }
+        }
+      }
+    } else {
+      foreach tab [lreverse [lrange [$nb tabs] 1 end-1]] {
+        if {[$nb tab $tab -state] eq "hidden"} {
+          incr total_width $widths($tab)
+          if {$total_width > $nb_width} {
+            break
+          }
+          $nb tab $tab -state normal
+        }
+      }
+    }
+    
+  }
   
 }
  
-
