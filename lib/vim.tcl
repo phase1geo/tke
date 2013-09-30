@@ -379,13 +379,6 @@ namespace eval vim {
     if {([lsearch $tags "dspace"] != -1) && ([lsearch $tags "mcursor"] == -1)} {
       $txt delete insert
     }
-
-    # Update the current indentation level
-    if {[multicursor::enabled $txt]} {
-      multicursor::update_indent_levels $txt
-    } else {
-      indent::update_indent_level $txt insert insert
-    }
  
   }
  
@@ -1308,7 +1301,7 @@ namespace eval vim {
       $txt mark set insert "insert+1l"
       $txt see insert
       edit_mode $txt
-      indent::newline $txt insert insert
+      indent::newline $txt insert
       record_start
       return 1
     }
@@ -1332,7 +1325,7 @@ namespace eval vim {
       }
       $txt mark set insert "insert-1l"
       edit_mode $txt
-      indent::newline $txt insert insert
+      indent::newline $txt insert
       record_start
       return 1
     }

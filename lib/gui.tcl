@@ -1580,9 +1580,6 @@ namespace eval gui {
     set tab_frame [lindex [$nb tabs] $nb_index]
     set txt       "$tab_frame.tf.txt"
     
-    # Remove bindings
-    indent::remove_bindings $txt
-    
     # Add a new file if we have no more tabs and we are the only pane
     if {([llength [$nb tabs]] == 1) && ([llength [$widgets(nb_pw) panes]] == 1)} {
       add_new_file end

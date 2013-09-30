@@ -23,11 +23,9 @@ namespace eval multicursor {
       if {[llength [set sel [%W tag ranges sel]]] > 2} {
         set multicursor::selected 1
         %W tag remove mcursor 1.0 end
-        indent::remove_indent_levels %W mcursor*
         set i 0
         foreach {start end} $sel {
           %W tag add mcursor $start $end
-          indent::add_indent_level %W mcursor$i
           incr i
         }
       }
@@ -117,9 +115,6 @@ namespace eval multicursor {
     # Clear the start positions value
     $txt tag remove mcursor 1.0 end
 
-    # Remove the indent levels
-    indent::remove_indent_levels $txt mcursor*
-    
     # Clear the current anchor
     set cursor_anchor ""
   
@@ -138,11 +133,8 @@ namespace eval multicursor {
     if {[llength [set mcursors [lsearch -inline [$txt tag names $index] mcursor*]]] == 0} {
       $txt tag add mcursor $index
       set name "mcursor[expr [llength [$txt tag ranges mcursor]] / 2]"
-      indent::add_indent_level $txt $name
-      indent::update_indent_level $txt $index $name
     } else {
       $txt tag remove mcursor $index
-      indent::remove_indent_levels $txt $mcursors
     }
     
     # Set the cursor anchor to the current index
@@ -303,7 +295,7 @@ namespace eval multicursor {
       foreach {end start} [lreverse [$txt tag ranges mcursor]] {
         $txt insert $start $value
         if {$indent_cmd ne ""} {
-          $indent_cmd $txt [$txt index $start+1c] mcursor$i
+          $indent_cmd $txt [$txt index $start+1c]
         }
         incr i
       }
@@ -312,18 +304,6 @@ namespace eval multicursor {
     
     return 0
   
-  }
-  
-  ######################################################################
-  # Updates all of the multicursor indent levels.
-  proc update_indent_levels {txt} {
-    
-    set i 1
-    foreach {end start} [lreverse [$txt tag ranges mcursor]] {
-      indent::update_indent_level $txt $start mcursor$i
-      incr i
-    }
-    
   }
   
   ######################################################################
