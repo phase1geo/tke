@@ -321,6 +321,7 @@ namespace eval gui {
   
     # Trace changes to the Appearance/Theme preference variable
     trace variable preferences::prefs(Editor/WarningWidth) w gui::handle_warning_width_change
+    trace variable preferences::prefs(View/HideTabs)       w gui::handle_hide_tabs_change    
     
   }
   
@@ -337,6 +338,19 @@ namespace eval gui {
       }
     }
     
+  }
+    
+  ######################################################################
+  # Handles any changes to the View/HideTabs preference variable.
+  proc handle_hide_tabs_change {name1 name2 op} {
+    
+    variable widgets
+    
+    # Make sure that each notebook gets the treatment
+    foreach nb [$widgets(nb_pw) panes] {
+      handle_tab_sizing $nb 1
+    }
+        
   }
   
   ######################################################################
@@ -2934,19 +2948,27 @@ namespace eval gui {
 
   ######################################################################
   # Manages the tabs and makes them scrolling, if necessary.
-  proc handle_tab_sizing {nb} {
+  proc handle_tab_sizing {nb {force 0}} {
 
     variable widgets
     variable images
 
     # Only continue running if the padding and notebook width values are known
     if {([set padding [ttk::style configure BNotebook.Tab -padding]] eq "") ||
-        ([set nb_width [winfo width $nb]] == 1)} {
+        ([set nb_width [winfo width $nb]] == 1) ||
+        (($preferences::prefs(View/HideTabs) == 0) && !$force)} {
       return
     }
 
-    # Display the currently selected tab
-    show_tab $nb [$nb select]
+    # Make the tabs visible
+    if {$preferences::prefs(View/HideTabs) == 1} {
+      show_tab $nb [$nb select]
+    } else {
+      foreach tab [$nb tabs] {
+        $nb tab $tab -state normal
+      }
+      catch { place forget $nb.extra }
+    }
   
   }
 

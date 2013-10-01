@@ -45,6 +45,15 @@
 
 {View/ShowSidebar}           {1}
 
+# When the number of opened tabs in a notebook exceeds the number of tabs that can
+# be fully displayed, a value of 1 will cause some of the tabs to be "hidden" from
+# view, displayable by clicking on the double down arrow button on the top-right
+# corner of the notebook pane.  If this value is set to 0, the tabs will simply be
+# "squished" together such that all tabs will be visible in the notebook (though
+# the content may not be completely visible).
+
+{View/HideTabs}              {1}
+
 # If this value is set to a value of "horizontal", multiple panes will be displayed
 # side by side.  If this value is set to a value of "vertical", multiple panes will
 # be displayed one on top of the other.
