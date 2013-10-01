@@ -146,10 +146,7 @@ namespace eval gui {
     set widgets(nb_pw) [ttk::panedwindow $widgets(pw).tf.nbpw -orient $preferences::prefs(View/PaneOrientation)]
       
     # Create notebook images
-    set images(left)  [image create bitmap -file     [file join $::tke_dir images left.bmp] \
-                                           -maskfile [file join $::tke_dir images left.bmp]]
-    set images(right) [image create bitmap -file     [file join $::tke_dir images right.bmp] \
-                                           -maskfile [file join $::tke_dir images right.bmp]]
+    set images(down) [image create bitmap -file [file join $::tke_dir images down.bmp] -maskfile [file join $::tke_dir images down.bmp]]
 
     # Add notebook
     add_notebook
@@ -860,9 +857,7 @@ namespace eval gui {
     variable file_move
     variable last_x
 
-    # Only continue if the tab is not a left/right shift tab
-    set tabs [$W tabs]
-    if {([set tabid [$W index @$x,$y]] eq "") || ![regexp "^$W.\d+" [lindex $tabs $tabid]]} {
+    if {[set tabid [$W index @$x,$y]] eq ""} {
       set nb_move ""
       return
     }
@@ -889,8 +884,7 @@ namespace eval gui {
     variable files_index
     
     # Only continue if the tab is not a left/right shift tab
-    set tabs [$W tabs]
-    if {([set tabid [$W index @$x,$y]] eq "") || ![regexp "^$W.\d+" [lindex $tabs $tabid]]} {
+    if {[set tabid [$W index @$x,$y]] eq ""} {
       return
     }
   
@@ -934,8 +928,7 @@ namespace eval gui {
     variable widgets
 
     # Only continue if the tab is not a left/right shift tab
-    set tabs [$W tabs]
-    if {([set tabid [$W index @$x,$y]] eq "") || ![regexp "^$W.\d+" [lindex $tabs $tabid]]} {
+    if {[set tabid [$W index @$x,$y]] eq ""} {
       return
     }
   
@@ -1652,7 +1645,7 @@ namespace eval gui {
     set current_pw [lindex [$widgets(nb_pw) panes] $pw_current]
 
     foreach nb [lreverse [$widgets(nb_pw) panes]] {    
-      foreach tab [lreverse [lrange [$nb tabs] 1 end-1]] {
+      foreach tab [lreverse [$nb tabs]] {
         if {($nb ne $current_pw) || ($tab ne [$nb select])} {
           $nb select $tab
           close_current
@@ -1669,7 +1662,7 @@ namespace eval gui {
     variable widgets
     
     foreach nb [lreverse [$widgets(nb_pw) panes]] {
-      foreach tab [lreverse [lrange [$nb tabs] 1 end-1]] {
+      foreach tab [lreverse [$nb tabs]] {
         $nb select $tab
         close_current
       }
@@ -2295,21 +2288,14 @@ namespace eval gui {
     # Create editor notebook
     $widgets(nb_pw) add [set nb [ttk::notebook $widgets(nb_pw).nb[incr curr_notebook] -style BNotebook]] -weight 1
 
-    # Add right and left shift tabs and then hide them
-    $nb add [ttk::frame $nb.left]  -image $images(left)
-    $nb add [ttk::frame $nb.right] -image $images(right)
+    # Create the label for displaying extra tabs
+    ttk::label $nb.extra -image $images(down) -padding {4 4 4 4}
+    bind $nb.extra <Button-1> { tk_popup %W.mnu [expr %X - [winfo reqwidth %W.mnu]] %Y }
 
-    # Hide the tabs
-    $nb hide $nb.left
-    $nb hide $nb.right
+    # Create popup menu for extra tabs
+    menu $nb.extra.mnu -tearoff 0
 
-    bind $nb <<NotebookTabChanged>> {
-      if {[regexp "^%W.\d+" [%W select]]} {
-        gui::set_current_tab_from_nb %W
-      } else {
-        %W select $gui::tab_current(%W)
-      }
-    }
+    bind $nb <<NotebookTabChanged>> { gui::set_current_tab_from_nb %W }
     bind $nb <ButtonPress-1>        { gui::tab_move_start %W %x %y }
     bind $nb <B1-Motion>            { gui::tab_move_motion %W %x %y }
     bind $nb <ButtonRelease-1>      { gui::tab_move_end %W %x %y }
@@ -2346,8 +2332,7 @@ namespace eval gui {
     variable images
     
     # If the tab is one of the left or right shift tabs, exit now
-    set tabs [$W tabs]
-    if {([set tab [$W index @$x,$y]] eq "") || ![regexp "^$W.\d+" [lindex $tabs $tab]]} {
+    if {[set tab [$W index @$x,$y]] eq ""} {
       return
     }
 
@@ -2523,10 +2508,10 @@ namespace eval gui {
     grid remove $tab_frame.sep
     
     # Get the adjusted index
-    set adjusted_index [expr [$nb index $index] - 1]
+    set adjusted_index [$nb index $index]
     
     # Add the new tab to the notebook
-    $nb insert $adjusted_index $tab_frame -text " $title"
+    $nb insert $index $tab_frame -text " $title"
     
     # Add the text bindings
     indent::add_bindings      $tab_frame.tf.txt
@@ -2954,55 +2939,108 @@ namespace eval gui {
     variable widgets
     variable images
 
-    # Get the padding
+    # Only continue running if the padding and notebook width values are known
     if {([set padding [ttk::style configure BNotebook.Tab -padding]] eq "") ||
         ([set nb_width [winfo width $nb]] == 1)} {
       return
     }
-  
-    # Calculate the padding around the text and close button
-    set padding [expr [lindex $padding 0] * 3]
 
-    # Get the width of the close image
-    set close_width [image width $images(close)]
+    # Display the currently selected tab
+    show_tab $nb [$nb select]
   
-    # Calculate accumulative tab width
+  }
+
+  ######################################################################
+  # Displays a tab that was hidden.
+  proc show_tab {nb target_tab} {
+
+    variable images
+
+    set current_tab [$nb index [$nb select]]
+    set target_tab  [$nb index $target_tab]
+    set unhide      0
     set total_width 0
-    foreach tab [lrange [$nb tabs] 1 end-1] {
-      set widths($tab) [expr [font measure TkDefaultFont [$nb tab $tab -text]] + \
-                             $close_width + $padding]
+    set close_width [image width $images(close)]
+    set padding     [expr [lindex [ttk::style configure BNotebook.Tab -padding] 0] * 3]
+    set nb_width    [expr [winfo width $nb] - ([image width $images(down)] + 8)]
+
+    # Gather the tab widths and create a "tabs" array that contains a state (0=hidden, 1=normal) and the width
+    foreach tab [$nb tabs] {
+      set width [expr [font measure TkDefaultFont [$nb tab $tab -text]] + $close_width + $padding]
       if {[set img [$nb tab $tab -image]] ne ""} {
-        incr widths($tab) [image width $img]
+        incr width [image width $img]
       }
-      if {[$nb tab $tab -state] eq "normal"} {
-        incr total_width $widths($tab)
-      }
+      lappend tabs [list 0 $width]
     }
 
-    if {$total_width > $nb_width} {
-      if {[$nb tab $nb.left -state] eq "hidden"} {
-        $nb tab $nb.left  -state "disabled"
-        $nb tab $nb.right -state "disabled"
-      }
-      foreach tab [lrange [$nb tabs] 1 end-1] {
-        if {[$nb tab $tab -state] eq "normal"} {
-          $nb tab $tab -state hidden
-          incr total_width [expr 0 - $widths($tab)]
-          if {$total_width < $nb_width} {
-            break
+    # Perform a "sliding window" to figure out what should be displayed or not
+    # If the target_tab position is prior to the current_tab position, attempt to 
+    # put the tab in the left-most position; otherwise, place the tab in the right-most
+    # position.
+    set total_width 0
+    set start_pos   0
+    set i           0
+    while {$i < [llength $tabs]} {
+
+      # If we have space to put more tabs, always do so
+      if {[expr ($total_width + [lindex $tabs $i 1]) < $nb_width]} {
+        incr total_width [lindex $tabs $i 1]
+        lset tabs $i 0 1
+        incr i
+
+      # Otherwise, slide the window up unless we are done sliding
+      } else {
+
+        # If the target_tab is to the right of the current tab and we have set
+        # the target_tab to the normal state, stop processing the for loop.
+        if {(($target_tab >= $current_tab) && ($target_tab < $i)) || \
+            (($target_tab < $current_tab) && ($target_tab == $start_pos))} {
+          break
+
+        # Otherwise, we will need to move the sliding window
+        } else {
+          while {1} {
+            incr total_width [expr 0 - [lindex $tabs $start_pos 1]]
+            lset tabs $start_pos 0 0
+            incr start_pos
+            if {[expr ($total_width + [lindex $tabs $i 1]) < $nb_width] || ($start_pos == $target_tab)} {
+              break
+            }
           }
+          
         }
+
       }
+
+    }
+
+    # Clear the extra menu
+    $nb.extra.mnu delete 0 end
+
+    # Set the tabs to the given states
+    set separator_needed 0
+    for {set i 0} {$i < [llength $tabs]} {incr i} {
+      if {[lindex $tabs $i 0]} {
+        $nb tab $i -state normal
+        incr separator_needed [expr $separator_needed == 1]
+      } else {
+        $nb tab $i -state hidden
+        if {$separator_needed == 2} {
+          $nb.extra.mnu add separator
+        }
+        $nb.extra.mnu add command -label [$nb tab $i -text] -command "gui::show_tab $nb $i"
+        incr separator_needed [expr $separator_needed != 1]
+      }
+    }
+        
+    # Select the target tab
+    $nb select $target_tab
+
+    # Place the extra menu, if it is needed
+    if {[$nb.extra.mnu index end] ne "none"} {
+      place $nb.extra -relx 1.0 -rely 0.0 -anchor ne
     } else {
-      foreach tab [lreverse [lrange [$nb tabs] 1 end-1]] {
-        if {[$nb tab $tab -state] eq "hidden"} {
-          incr total_width $widths($tab)
-          if {$total_width > $nb_width} {
-            break
-          }
-          $nb tab $tab -state normal
-        }
-      }
+      catch { place forget $nb.extra }
     }
     
   }
