@@ -1236,7 +1236,6 @@ namespace eval gui {
       -savecommand ""
       -lock        0
       -readonly    0
-      -sidebar     1
     }
     array set opts $args
     
@@ -1258,11 +1257,6 @@ namespace eval gui {
  
     # Add the file information to the files list
     lappend files $file_info
-    
-    # Add the current directory
-    if {$opts(-sidebar)} {
-      add_directory [file normalize [pwd]]
-    }
     
     # Sets the file lock to the specified value
     set_current_file_lock $opts(-lock)

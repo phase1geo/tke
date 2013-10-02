@@ -88,7 +88,9 @@ proc parse_cmdline {argc argv} {
       -h       { usage }
       -v       { version }
       default {
-        lappend ::cl_files [file normalize [lindex $argv $i]]
+        if {[lindex $argv $i] ne ""} {
+          lappend ::cl_files [file normalize [lindex $argv $i]]
+        }
       }
     }
     incr i
