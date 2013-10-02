@@ -60,6 +60,11 @@
 
 {View/PaneOrientation}       {horizontal}
 
+# If a filename matches any of the patterns in the list, they will not be
+# displayed in the sidebar.
+
+{Sidebar/IgnoreFilePatterns} {}
+
 # If this value is set to a value of 1, the application will start in Vim mode;
 # otherwise, if the value is set to a value of 0, the application will start in
 # normal mode.

@@ -320,8 +320,9 @@ namespace eval gui {
     poll
   
     # Trace changes to the Appearance/Theme preference variable
-    trace variable preferences::prefs(Editor/WarningWidth) w gui::handle_warning_width_change
-    trace variable preferences::prefs(View/HideTabs)       w gui::handle_hide_tabs_change    
+    trace variable preferences::prefs(Editor/WarningWidth)        w gui::handle_warning_width_change
+    trace variable preferences::prefs(View/HideTabs)              w gui::handle_hide_tabs_change    
+    trace variable preferences::prefs(Sidebar/IgnoreFilePatterns) w gui::handle_ignore_file_patterns
     
   }
   
@@ -351,6 +352,17 @@ namespace eval gui {
       handle_tab_sizing $nb 1
     }
         
+  }
+  
+  ######################################################################
+  # Handle any changes to the ignore file patterns preference variable. 
+  proc handle_ignore_file_patterns {name1 name2 op} {
+    
+    variable widgets
+    
+    # Update all of the top-level directories
+    update_directory_recursively root
+    
   }
   
   ######################################################################
@@ -1105,6 +1117,20 @@ namespace eval gui {
     add_subdirectory root $dir
 
   }
+  
+  ######################################################################
+  # Figure out if the given file should be ignored.
+  proc ignore_sidebar_file {fname} {
+    
+    foreach pattern $preferences::prefs(Sidebar/IgnoreFilePatterns) {
+      if {[string match $pattern $fname]} {
+        return 1
+      }
+    }
+    
+    return 0
+    
+  }
 
   ######################################################################
   # Recursively adds the current directory and all subdirectories and files
@@ -1132,9 +1158,11 @@ namespace eval gui {
             $widgets(filetl) collapse $child
           }
         } else {
-          set key [$widgets(filetl) insertchild $parent end [list [file tail $name] [file tail $name]]]
-          if {[lsearch -index $files_index(fname) $files $name] != -1} {
-            $widgets(filetl) cellconfigure $key,files -background yellow
+          if {![ignore_sidebar_file [file tail $name]]} {
+            set key [$widgets(filetl) insertchild $parent end [list [file tail $name] [file tail $name]]]
+            if {[lsearch -index $files_index(fname) $files $name] != -1} {
+              $widgets(filetl) cellconfigure $key,files -background yellow
+            }
           }
         }
         bgproc::update
@@ -1159,15 +1187,43 @@ namespace eval gui {
   }
   
   ######################################################################
+  # Recursively updates the given directory (if the child directories
+  # are already expanded.
+  proc update_directory_recursively {parent} {
+    
+    variable widgets
+    
+    # If the parent is not root, update the directory
+    if {$parent ne "root"} {
+      update_directory $parent
+    }
+    
+    # Update the child directories that are not expanded
+    foreach child [$widgets(filetl) childkeys $parent] {
+      if {[$widgets(filetl) isexpanded $child]} {
+        update_directory_recursively $child
+      }
+    }
+    
+  }
+  
+  ######################################################################
   # Update the given directory to include (or uninclude) new file
   # information.
   proc update_directory {parent} {
     
     variable widgets
     
-    # Get the directory contents
-    set dir_files [lassign [lsort [glob -nocomplain -tails -directory [get_filepath $parent] *]] dir_file]
+    # Get the directory contents (removing anything that matches the
+    # ignored file patterns)
+    set dir_files [list]
+    foreach dir_file [glob -nocomplain -tails -directory [get_filepath $parent] *] {
+      if {![ignore_sidebar_file $dir_file]} {
+        lappend dir_files $dir_file
+      }
+    }
     
+    set dir_files [lassign [lsort $dir_files] dir_file]
     foreach child [$widgets(filetl) childkeys $parent] {
       set tl_file [$widgets(filetl) cellcget $child,files -text]
       set compare [string compare $tl_file $dir_file]
