@@ -13,7 +13,7 @@ namespace eval gui {
   variable nb_index         0
   variable nb_move          ""
   variable file_move        0
-  variable geometry_file    [file join $::tke_home geometry.dat]
+  variable session_file     [file join $::tke_home session.tkedat]
   variable sar_global       1
   variable lengths          {}
   variable user_exit_status ""
@@ -100,9 +100,6 @@ namespace eval gui {
   
     variable widgets
     variable images
-    
-    # Load the geometry information
-    load_geometry
     
     # Set the application icon photo
     wm iconphoto . [image create photo -file [file join $::tke_dir images tke_logo_128.gif]]
@@ -324,6 +321,9 @@ namespace eval gui {
     trace variable preferences::prefs(View/HideTabs)              w gui::handle_hide_tabs_change    
     trace variable preferences::prefs(Sidebar/IgnoreFilePatterns) w gui::handle_ignore_file_patterns
     
+    # Load the session information
+    load_session
+
   }
   
   ######################################################################
@@ -980,27 +980,48 @@ namespace eval gui {
 
   ######################################################################
   # Save the window geometry to the geometry.dat file.
-  proc save_geometry {} {
+  proc save_session {} {
     
-    variable geometry_file
+    variable widgets
+    variable session_file
+    variable files
+    variable files_index
     
-    if {![catch "open $geometry_file w" rc]} {
-      puts $rc [wm geometry .]
-      close $rc
+    # Gather content to save
+    set content(geometry) [wm geometry .]
+
+    # Gather the current tab info
+    set finfo [list]
+    foreach file $files {
+      lappend finfo 0
     }
+    set content(files) $finfo
+
+    # Write the content to the save file
+    catch { tkedat::write $session_file [array get content] }
     
   }
   
   ######################################################################
   # Loads the geometry information (if it exists) and changes the current
   # window geometry to match the read value.
-  proc load_geometry {} {
+  proc load_session {} {
     
-    variable geometry_file
+    variable widgets
+    variable session_file
+    variable files
+    variable files_index
     
-    if {![catch "open $geometry_file r" rc]} {
-      wm geometry . [string trim [read $rc]]
-      close $rc
+    # Read the state file
+    if {![catch "tkedat::read $session_file" rc]} {
+
+      array set content $rc
+    
+      # Put the state information into the rest of the GUI
+      wm geometry . $content(geometry)
+
+      # FOOBAR
+      
     }
     
   }

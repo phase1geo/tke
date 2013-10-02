@@ -47,23 +47,22 @@ namespace eval tkedat {
   ######################################################################
   # Writes the given array to the given tkedat file, adding the comments
   # back to the file.
-  proc write {fname content} {
-    
+  proc write {fname contents} {
+
     if {![catch "open $fname w" rc]} {
+
+      array set content $contents
       
-      foreach {key value} $content {
-        
-        if {![regexp {^(.*),comment$} $key -> basekey] || \
-            ![info exists content($basekey)]} {
+      foreach {key value} $contents {
+        if {![regexp {,comment$} $key]} {
           if {[info exists content($key,comment)]} {
             foreach comment $content($key,comment) {
               puts $rc "$comment\n"
             }
             puts $rc "\n"
           }
-          puts $rc $content($key)
+          puts $rc "$key $value"
         }
-        
       }
       
       close $rc

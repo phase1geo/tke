@@ -281,8 +281,8 @@ namespace eval menus {
     # Close all of the tabs
     gui::close_all
     
-    # Save the window geometry
-    gui::save_geometry
+    # Save the session information
+    gui::save_session
     
     # Save the clipboard history
     cliphist::save
