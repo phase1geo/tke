@@ -90,6 +90,8 @@ namespace eval menus {
     $mb add command -label "Open Directory..." -underline 5 -command "menus::open_dir_command"
     launcher::register "Menu: Open directory" menus::open_dir_command
     
+    $mb add cascade -label "Open Recent" -menu [menu $mb.recent -tearoff false -postcommand "menus::file_recent_posting $mb.recent"]
+    
     $mb add separator
     
     $mb add command -label "Save"       -underline 0 -command "menus::save_command"
@@ -140,6 +142,29 @@ namespace eval menus {
     } elseif {!$file_lock && ![catch "$mb index Unlock" index]} {
       $mb entryconfigure $index -label "Lock" -state normal -command "menus::lock_command $mb"
     }
+    
+    # Configure the Open Recent menu
+    if {($preferences::prefs(View/ShowRecentlyOpened) == 0) || ([llength [gui::get_last_opened]] == 0)} {
+      $mb entryconfigure "Open Recent" -state disabled
+    } else {
+      $mb entryconfigure "Open Recent" -state normal
+    }
+    
+  }
+  
+  ######################################################################
+  # Sets up the "Open Recent" menu item prior to it being posted.
+  proc file_recent_posting {mb} {
+  
+    # Clear the menu
+    $mb delete 0 end
+    
+    # Populate the menu with the filenames and a "Clear All" menu option
+    foreach fname [lrange [gui::get_last_opened] 0 [expr $preferences::prefs(View/ShowRecentlyOpened) - 1]] {
+      $mb add command -label [file tail $fname] -command "gui::add_file end $fname"
+    }
+    $mb add separator
+    $mb add command -label "Clear All" -command "gui::clear_last_opened"
     
   }
   
@@ -278,11 +303,11 @@ namespace eval menus {
   # Exits the application.
   proc exit_command {} {
     
-    # Close all of the tabs
-    gui::close_all
-    
     # Save the session information
     gui::save_session
+    
+    # Close all of the tabs
+    gui::close_all 1
     
     # Save the clipboard history
     cliphist::save

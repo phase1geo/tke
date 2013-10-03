@@ -335,7 +335,7 @@ proc ctext::highlightAfterIdle {win lineStart lineEnd} {
   }
 
   # Perform the highlight in the background
-  bgproc::command ctext::highlightAfterIdle "ctext::doHighlight $win" -cancelable 1
+  bgproc::command ctext::highlightAfterIdle$win "ctext::doHighlight $win" -cancelable 1
   
 }
 

@@ -1,0 +1,43 @@
+filepatterns
+{*.js}
+
+tabsallowed
+{0}
+
+indent
+{\{}
+  
+unindent
+{\}}
+
+lcomments {{//}}
+
+bcomments {{{/*} {*/}}}
+
+strings {{"} {'}}
+
+keywords
+{
+  return var function undefined null typeof void undefined new true false throw
+  if else switch case default break for in while do with continue goto this
+  delete instanceof prototype try catch finally
+}
+
+symbols {
+  function
+}
+
+numbers
+{
+  HighlightClassForRegexp {\m[0-9]+|[0-9]+\.[0-9e]+|0x[0-9a-fA-F]+|Infinity|NaN}
+}
+
+punctuation
+{
+  HighlightClassForRegexp {[][\{\};:,()#=.@&!?<>%|^~+*/-]}
+}
+
+precompile
+{}
+
+miscellaneous {}

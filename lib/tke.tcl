@@ -21,7 +21,7 @@ set auto_path [concat $tke_dir $auto_path]
 
 package require Tclx
 package require ctext
-package require tablelist
+package require -exact tablelist 5.9
 package require tooltip
 
 source [file join $tke_dir version.tcl]
@@ -59,8 +59,11 @@ proc usage {} {
   puts "tke [<options>] <file>*"
   puts ""
   puts "Options:"
-  puts "  -h   Displays usage information"
-  puts "  -v   Displays version"
+  puts "  -h     Displays usage information"
+  puts "  -v     Displays version"
+  puts "  -nosb  Avoids populating the sidebar with the current"
+  puts "           directory contents (only valid if no files are"
+  puts "           specified)."
   
   exit
 
@@ -80,13 +83,15 @@ proc version {} {
 # Parse the command-line options
 proc parse_cmdline {argc argv} {
 
-  set ::cl_files [list]
+  set ::cl_files   [list]
+  set ::cl_sidebar 1
   
   set i 0
   while {$i < $argc} {
     switch -- [lindex $argv $i] {
-      -h       { usage }
-      -v       { version }
+      -h      { usage }
+      -v      { version }
+      -nosb   { set ::cl_sidebar 0 }
       default {
         if {[lindex $argv $i] ne ""} {
           lappend ::cl_files [file normalize [lindex $argv $i]]
@@ -231,3 +236,5 @@ if {[llength $cl_files] > 0} {
   gui::add_new_file end
 }
 
+# Load the session file
+gui::load_session

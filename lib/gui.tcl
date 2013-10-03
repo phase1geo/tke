@@ -18,6 +18,7 @@ namespace eval gui {
   variable lengths          {}
   variable user_exit_status ""
   variable file_locked      0
+  variable last_opened      [list]
   
   array set widgets     {}
   array set language    {}
@@ -33,6 +34,7 @@ namespace eval gui {
     tab      4
     lock     5
     readonly 6
+    sidebar  7
   }
   
   #######################
@@ -320,9 +322,6 @@ namespace eval gui {
     trace variable preferences::prefs(Editor/WarningWidth)        w gui::handle_warning_width_change
     trace variable preferences::prefs(View/HideTabs)              w gui::handle_hide_tabs_change    
     trace variable preferences::prefs(Sidebar/IgnoreFilePatterns) w gui::handle_ignore_file_patterns
-    
-    # Load the session information
-    load_session
 
   }
   
@@ -977,29 +976,54 @@ namespace eval gui {
     }
 
   }
-
+  
   ######################################################################
   # Save the window geometry to the geometry.dat file.
   proc save_session {} {
     
     variable widgets
     variable session_file
+    variable last_opened
     variable files
     variable files_index
     
     # Gather content to save
-    set content(geometry) [wm geometry .]
+    set content(Geometry) [wm geometry .]
 
     # Gather the current tab info
-    set finfo [list]
     foreach file $files {
-      lappend finfo 0
+    
+      set pane [lindex $file $files_index(pane)]
+      set tab  [lindex $file $files_index(tab)]
+      set nb   [lindex [$widgets(nb_pw) panes] $pane]
+      set txt  "[lindex [$nb tabs] $tab].tf.txt" 
+      
+      set finfo(fname)       [lindex $file $files_index(fname)]
+      set finfo(savecommand) [lindex $file $files_index(save_cmd)]
+      set finfo(pane)        $pane
+      set finfo(tab)         [lindex $file $files_index(tab)]
+      set finfo(lock)        [lindex $file $files_index(lock)]
+      set finfo(readonly)    [lindex $file $files_index(readonly)]
+      set finfo(sidebar)     [lindex $file $files_index(sidebar)]
+      set finfo(language)    [syntax::get_current_language $txt]
+      
+      lappend content(FileInfo) [array get finfo]
+      
     }
-    set content(files) $finfo
+    
+    # Get the currently selected tabs
+    foreach nb [$widgets(nb_pw) panes] {
+      if {[set tab [$nb select]] ne ""} {
+        lappend content(CurrentTabs) [$nb index $tab]
+      }
+    }
+    
+    # Get the last_opened list
+    set content(LastOpened) $last_opened
 
     # Write the content to the save file
     catch { tkedat::write $session_file [array get content] }
-    
+        
   }
   
   ######################################################################
@@ -1009,8 +1033,10 @@ namespace eval gui {
     
     variable widgets
     variable session_file
+    variable last_opened
     variable files
     variable files_index
+    variable pw_current
     
     # Read the state file
     if {![catch "tkedat::read $session_file" rc]} {
@@ -1018,9 +1044,53 @@ namespace eval gui {
       array set content $rc
     
       # Put the state information into the rest of the GUI
-      wm geometry . $content(geometry)
+      wm geometry . $content(Geometry)
 
-      # FOOBAR
+      # If we are supposed to load the last saved session, do it now
+      if {$preferences::prefs(General/LoadLastSession) && \
+          ([llength $files] == 1) && \
+          ([lindex $files 0 $files_index(fname)] eq "") && \
+          [info exists content(FileInfo)]} {
+      
+        # Put the list in order
+        set ordered     [lrepeat 2 [lrepeat [llength $content(FileInfo)] ""]]
+        set second_pane 0
+        set i           0
+        foreach finfo_list $content(FileInfo) {
+          array set finfo $finfo_list
+          lset ordered $finfo(pane) $finfo(tab) $i
+          set second_pane [expr $finfo(pane) == 2]
+          incr i
+        }
+        
+        # If the second pane is necessary, create it now
+        if {[llength $content(CurrentTabs)] == 2} {
+          add_notebook
+        }
+        
+        # Add the tabs (in order) to each of the panes and set the current tab in each pane
+        for {set pane 0} {$pane < [llength $content(CurrentTabs)]} {incr pane} {
+          set pw_current $pane
+          foreach index [lindex $ordered $pane] {
+            if {$index ne ""} {
+              array set finfo [lindex $content(FileInfo) $index]
+              add_file end $finfo(fname) \
+                -savecommand $finfo(savecommand) -lock $finfo(lock) -readonly $finfo(readonly) -sidebar $finfo(sidebar)
+              if {[syntax::get_current_language [current_txt]] ne $finfo(language)} {
+                syntax::set_language $finfo(language)
+              }
+            }
+          }
+          set_current_tab $pane [lindex $content(CurrentTabs) $pane]
+        }
+        
+        # Delete the Untitled document
+        close_tab 0 0
+        
+      }
+      
+      # Restore the "last_opened" list
+      set last_opened $content(LastOpened)
       
     }
     
@@ -1221,6 +1291,7 @@ namespace eval gui {
     
     # Update the child directories that are not expanded
     foreach child [$widgets(filetl) childkeys $parent] {
+      puts "parent: $parent, child: $child"
       if {[$widgets(filetl) isexpanded $child]} {
         update_directory_recursively $child
       }
@@ -1300,6 +1371,40 @@ namespace eval gui {
   }
   
   ######################################################################
+  # Adds the given filename to the list of most recently opened files.
+  proc add_to_recently_opened {fname} {
+  
+    variable last_opened
+    
+    if {[set index [lsearch $last_opened $fname]] != -1} {
+      set last_opened [lreplace $last_opened $index $index]
+    }
+    
+    set last_opened [lrange [concat $fname $last_opened] 0 20]
+    
+  }
+
+  ######################################################################
+  # Returns the last_opened list contents.
+  proc get_last_opened {} {
+  
+    variable last_opened
+    
+    return $last_opened
+    
+  }
+  
+  ######################################################################
+  # Clears the last_opened list contents.
+  proc clear_last_opened {} {
+  
+    variable last_opened
+    
+    set last_opened [list]
+    
+  }
+  
+  ######################################################################
   # Adds a new file to the editor pane.
   proc add_new_file {index args} {
   
@@ -1309,11 +1414,12 @@ namespace eval gui {
     variable pw_current
     
     # Handle options
-    array set opts {
-      -savecommand ""
-      -lock        0
-      -readonly    0
-    }
+    array set opts [list \
+      -savecommand "" \
+      -lock        0 \
+      -readonly    0 \
+      -sidebar     $::cl_sidebar \
+    ]
     array set opts $args
     
     # Adjust the tab indices
@@ -1331,10 +1437,16 @@ namespace eval gui {
     lset file_info $files_index(tab)      [[current_notebook] index $w]
     lset file_info $files_index(lock)     0
     lset file_info $files_index(readonly) $opts(-readonly)
+    lset file_info $files_index(sidebar)  $opts(-sidebar)
  
     # Add the file information to the files list
     lappend files $file_info
-    
+
+    # Add the file's directory to the sidebar and highlight it
+    if {$opts(-sidebar)} {
+      add_directory [pwd]
+    }
+        
     # Sets the file lock to the specified value
     set_current_file_lock $opts(-lock)
     
@@ -1352,6 +1464,7 @@ namespace eval gui {
     variable files
     variable files_index
     variable pw_current
+    variable last_opened
     
     # Handle arguments
     array set opts {
@@ -1391,6 +1504,7 @@ namespace eval gui {
       lset file_info $files_index(tab)      $nb_index
       lset file_info $files_index(lock)     0
       lset file_info $files_index(readonly) $opts(-readonly)
+      lset file_info $files_index(sidebar)  $opts(-sidebar)
 
       if {![catch "open $fname r" rc]} {
     
@@ -1412,6 +1526,9 @@ namespace eval gui {
         file stat $fname stat
         lset file_info $files_index(mtime) $stat(mtime)
         lappend files $file_info
+        
+        # Add the file to the list of recently opened files
+        gui::add_to_recently_opened $fname
  
       } else {
  
@@ -1612,15 +1729,21 @@ namespace eval gui {
  
     # If the file doesn't have a timestamp, it's a new file so add and highlight it in the sidebar
     if {([lindex $files $file_index $files_index(mtime)] eq "") || ($save_as ne "")} {
+    
+      # Calculate the normalized filename
+      set fname [file normalize [lindex $files $file_index $files_index(fname)]]
+      
+      # Add the filename to the most recently opened list
+      add_to_recently_opened $fname
       
       # Add the file's directory to the sidebar
-      add_directory [file dirname [file normalize [lindex $files $file_index $files_index(fname)]]]
+      add_directory [file dirname $fname]
     
       # Highlight the file in the sidebar
       highlight_filename [lindex $files $file_index $files_index(fname)] 1
       
       # Syntax highlight the file
-      syntax::set_language [syntax::get_language [lindex $files $file_index $files_index(fname)]]
+      syntax::set_language [syntax::get_default_language [lindex $files $file_index $files_index(fname)]]
       
     }
 
@@ -1647,7 +1770,7 @@ namespace eval gui {
   # modified state of text widget.  If force is set to 0 and the text
   # widget is modified, the user will be questioned if they want to save
   # the contents of the file prior to closing the tab.
-  proc close_current {{force 0}} {
+  proc close_current {{force 0} {exiting 0}} {
   
     variable widgets
     variable pw_current
@@ -1662,13 +1785,13 @@ namespace eval gui {
     }
 
     # Close the current tab
-    close_tab $pw_current [[current_notebook] index current]
+    close_tab $pw_current [[current_notebook] index current] $exiting
     
   }
   
   ######################################################################
   # Close the specified tab (do not ask the user about closing the tab).
-  proc close_tab {pw_index nb_index} {
+  proc close_tab {pw_index nb_index {exiting 0}} {
 
     variable widgets
     variable files
@@ -1681,11 +1804,6 @@ namespace eval gui {
     # Get the indexed text widget 
     set tab_frame [lindex [$nb tabs] $nb_index]
     set txt       "$tab_frame.tf.txt"
-    
-    # Add a new file if we have no more tabs and we are the only pane
-    if {([llength [$nb tabs]] == 1) && ([llength [$widgets(nb_pw) panes]] == 1)} {
-      add_new_file end
-    }
     
     # Get the file index
     set index [get_file_index $pw_index $nb_index]
@@ -1718,6 +1836,16 @@ namespace eval gui {
       }
     }
     
+    # Add a new file if we have no more tabs, we are the only pane, and the preference
+    # setting is to not close after the last tab is closed.
+    if {([llength [$nb tabs]] == 0) && ([llength [$widgets(nb_pw) panes]] == 1) && !$exiting} {
+      if {$preferences::prefs(General/ExitOnLastClose)} {
+        menus::exit_command
+      } else {
+        add_new_file end
+      }
+    }
+        
   }
 
   ######################################################################
@@ -1742,14 +1870,14 @@ namespace eval gui {
   
   ######################################################################
   # Close all of the tabs.
-  proc close_all {} {
+  proc close_all {{exiting 0}} {
   
     variable widgets
     
     foreach nb [lreverse [$widgets(nb_pw) panes]] {
       foreach tab [lreverse [$nb tabs]] {
         $nb select $tab
-        close_current
+        close_current 0 $exiting
       }
     }
   
@@ -1784,7 +1912,7 @@ namespace eval gui {
     set insert   [$txt index insert]
     set select   [$txt tag ranges sel]
     set modified [$txt edit modified]
-    set language [syntax::get_current_language]
+    set language [syntax::get_current_language $txt]
     
     # Delete the current tab
     close_current 1
@@ -2606,7 +2734,7 @@ namespace eval gui {
         
     # Apply the appropriate syntax highlighting for the given extension
     if {$initial_language eq ""} {
-      syntax::initialize_language $tab_frame.tf.txt [syntax::get_language $title]
+      syntax::initialize_language $tab_frame.tf.txt [syntax::get_default_language $title]
     } else {
       syntax::initialize_language $tab_frame.tf.txt $initial_language
     }
@@ -2706,12 +2834,10 @@ namespace eval gui {
     variable widgets
     
     # Get the pane index
-    if {[set pane [lsearch [$widgets(nb_pw) panes] $nb]] == -1} {
+    if {([set pane [lsearch [$widgets(nb_pw) panes] $nb]] == -1) ||
+        ([set tab [$nb index current]] eq "")} {
       return
     }
-    
-    # Get the tab index
-    set tab [$nb index current]
     
     # Set the current tab
     set_current_tab $pane $tab
@@ -3027,6 +3153,7 @@ namespace eval gui {
     # Only continue running if the padding and notebook width values are known
     if {([set padding [ttk::style configure BNotebook.Tab -padding]] eq "") ||
         ([set nb_width [winfo width $nb]] == 1) ||
+        ([llength [$nb tabs]] == 0) ||
         (($preferences::prefs(View/HideTabs) == 0) && !$force)} {
       return
     }

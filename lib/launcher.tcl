@@ -116,7 +116,11 @@ namespace eval launcher {
       }
 
       # Make sure the entry field is given focus
-      focus $widgets(entry)
+      if {[tk windowingsystem] eq "aqua"} {
+        focus -force $widgets(entry)
+      } else {
+        focus $widgets(entry)
+      }
       
       # If we are running in a mode, display the default results
       if {$mode ne ""} {

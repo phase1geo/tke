@@ -61,7 +61,7 @@ namespace eval tkedat {
             }
             puts $rc "\n"
           }
-          puts $rc "$key $value"
+          puts $rc "{$key} {$value}"
         }
       }
       

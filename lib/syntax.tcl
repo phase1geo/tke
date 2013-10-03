@@ -194,7 +194,7 @@ namespace eval syntax {
   ######################################################################
   # Given the specified filename, returns the language name that supports
   # it.  If multiple languages respond, use the first match.
-  proc get_language {filename} {
+  proc get_default_language {filename} {
     
     variable langs
     
@@ -213,12 +213,9 @@ namespace eval syntax {
   
   ######################################################################
   # Retrieves the language of the current text widget.
-  proc get_current_language {} {
+  proc get_current_language {txt} {
     
     variable lang
-    
-    # Get the current text widget
-    set txt [gui::current_txt]
     
     if {[info exists lang($txt)]} {
       return $lang($txt)

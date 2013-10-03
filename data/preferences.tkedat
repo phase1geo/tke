@@ -1,3 +1,16 @@
+# If this option is set to 1, the interface will be setup to match the
+# last, properly exited session.  If set to 0, an "Untitled" tab will
+# appear in the interface, if no file was specified on the command-line.
+# This option is only valid if no files were specified on the command-line.
+
+{General/LoadLastSession}    {1}
+
+# If this option is set to 1, the application will exit when the last tab
+# is closed.  If this option is set to 0, closing the last tab will cause
+# the application to remain open, creating a new "Untitled" tab.
+
+{General/ExitOnLastClose}    {0}
+
 # Specifies the current theme that is used in the code editor.  Each
 # theme contains setting for syntax highlight coloring schemes, background
 # color and selection background/foreground colors.  The following
@@ -59,6 +72,12 @@
 # be displayed one on top of the other.
 
 {View/PaneOrientation}       {horizontal}
+
+# Displays the specified number of most recently opened files.  This value can be
+# set to any value between 0 and 20, inclusive.  A value of zero will disable the
+# "Open Recent" menu item.
+
+{View/ShowRecentlyOpened}    {10}
 
 # If a filename matches any of the patterns in the list, they will not be
 # displayed in the sidebar.
