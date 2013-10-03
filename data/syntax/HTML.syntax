@@ -1,0 +1,43 @@
+filepatterns
+{*.htm *.html}
+
+tabsallowed
+{0}
+
+indent
+{<[^/]*.*[^/]*>}
+  
+unindent
+{</.*>}
+
+lcomments {}
+
+bcomments {{{<!--} {-->}} {{<![CDATA[} {]]>}}}
+
+strings {{"}}
+
+keywords
+{
+  b i del big small sub sup xmp a span div img br hr ul li ol 
+  table tr td th DOCTYPE script html head body title code pre
+  abbr acronym address area base bdo blockquote button caption
+  cite col colgroup dfn dl dt em fieldset form h1 h2 h3 h4 h5 h6
+  input ins kbd label legend link map meta noscript object optgroup
+  option p param q samp select small strong style tbody textarea
+  tfoot thead tt var
+}
+
+symbols
+{}
+
+numbers {}
+
+punctuation
+{
+  HighlightClassForRegexp {[][\{\};:,()#=.@&!?<>%|^~+*/-]}
+}
+
+precompile {}
+
+miscellaneous {}
+
