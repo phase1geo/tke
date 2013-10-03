@@ -7,7 +7,7 @@ package provide ctext 3.3
 
 namespace eval ctext {
   array set REs {
-    words  {([^\s\(\{\[\}\]\)\.\t\n\r;\"'\|,]+)}
+    words  {([^\s\(\{\[\}\]\)\.\t\n\r;\"'\|,<>]+)}
   }
 }
  
@@ -281,18 +281,20 @@ proc ctext::setCommentRE {win} {
   if {[llength $patterns] > 0} {
     append commentRE "|" [string map {{*} {\*} {"} {\"}} [join $patterns |]]
     append commentRE "|" [string map {{*} {\*} {"} {\"}} \\[join $patterns {|\\}]]
-#    foreach char [split [join [concat $block] ""] ""] {
-#      set chars($char) 1
-#    }
-#    append commentRE "|" [string map {{*} {\*} {"} {\"}} [join [array names chars] |]]
-#    append commentRE "|" [string map {{*} {\*} {"} {\"}} \\[join [array names chars] {\\|}]]
   }
   
-#  puts "commentRE: $commentRE"
-#  puts "chars: [array names chars]"
+  set bcomments [list]
+  set ecomments [list]
+  foreach block $configAr(block_comment_patterns) {
+    lappend bcomments [lindex $block 0]
+    lappend ecomments [lindex $block 1]
+  }
   
-  set configAr(comment_re) $commentRE
-  
+  set configAr(comment_re)  $commentRE
+  set configAr(bcomment_re) [join $bcomments |]
+  set configAr(ecomment_re) [join $ecomments |]
+  set configAr(lcomment_re) [join $configAr(line_comment_patterns) |]
+              
 }
 
 proc ctext::inCommentString {win index} {
@@ -550,7 +552,7 @@ proc ctext::instanceCmd {self cmd args} {
       set datalen [string length $data]
       eval \$self._t insert $args
       
-      set nextSpace [ctext::findNextSpace $self._t insert]
+      set nextSpace [ctext::findNextSpace $self._t "insert+${datalen}c"]
       set lineEnd [$self._t index "insert+${datalen}c lineend"]
       
       if {[$self._t compare $prevSpace < $lineStart]} {
@@ -569,9 +571,7 @@ proc ctext::instanceCmd {self cmd args} {
         }
       }
       
-      set REData $prevChar
-      append REData $data
-      append REData $nextChar
+      set REData [$self._t get $prevSpace $nextSpace]
       
       ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp $commentRE $REData]
       ctext::highlightAfterIdle $self $lineStart $lineEnd
@@ -787,7 +787,6 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
     set configAr(commentsAfterId) ""
   }
   
-
   set strings        [llength $configAr(string_patterns)]
   set block_comments [llength $configAr(block_comment_patterns)]
   set line_comments  [llength $configAr(line_comment_patterns)]
@@ -799,11 +798,12 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
     set single_index   ""
     set lcomment_index ""
     set bcomment_index ""
+    set tripdoub_index ""
      
     $win tag remove _cComment 1.0 end
     $win tag remove _lComment 1.0 end
     $win tag remove _string   1.0 end
-     
+
     set i 0
     foreach index [$win search -all -overlap -count lengths -regexp -- $commentRE 1.0 end] {
       
@@ -817,7 +817,8 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
       }
       
       # Found a double-quote character
-      if {($str == "\"") && ($lcomment_index eq "") && ($bcomment_index eq "") && ($single_index eq "")} {
+      if {($str == "\"") && ($lcomment_index eq "") && ($bcomment_index eq "") && \
+          ($single_index eq "") && ($tripdoub_index eq "")} {
         if {$double_index ne ""} {
           $win tag remove _string "$index+1c" end
           set double_index ""
@@ -828,7 +829,8 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
         }
         
       # Found a single-quote character
-      } elseif {($str == "'") && ($lcomment_index eq "") && ($bcomment_index eq "") && ($double_index eq "")} {
+      } elseif {($str == "'") && ($lcomment_index eq "") && ($bcomment_index eq "") && \
+                ($double_index eq "") && ($tripdoub_index eq "")} {
         if {$single_index ne ""} {
           $win tag remove "$index+1c" end
           set single_index ""
@@ -839,8 +841,8 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
         }
         
       # Found a single line comment
-      } elseif {[lsearch -exact $configAr(line_comment_patterns) $str] != -1} {
-        if {($bcomment_index eq "") && ($double_index eq "") && ($single_index eq "")} {
+      } elseif {($configAr(lcomment_re) ne "") && [regexp $configAr(lcomment_re) $str]} {
+        if {($bcomment_index eq "") && ($double_index eq "") && ($single_index eq "") && ($tripdoub_index eq "")} {
           $win tag add _lComment $index "$index lineend"
           $win tag raise _lComment
           set lcomment_index $index
@@ -849,8 +851,9 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
         }
         
       # Found a starting block comment string
-      } elseif {([lsearch -exact -index 0 $configAr(block_comment_patterns) $str] != -1) && \
-                ($lcomment_index eq "") && ($double_index eq "") && ($single_index eq "")} {
+      } elseif {($configAr(bcomment_re) ne "") && [regexp $configAr(bcomment_re) $str] && \
+                ($lcomment_index eq "") && ($double_index eq "") && ($single_index eq "") && \
+                ($tripdoub_index eq "")} {
         if {$bcomment_index eq ""} {
           $win tag add _cComment $index end
           $win tag raise _cComment
@@ -858,11 +861,24 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
         }
         
       # Found an ending block comment string
-      } elseif {([lsearch -exact -index 1 $configAr(block_comment_patterns) $str] != -1) && \
-                ($lcomment_index eq "") && ($double_index eq "") && ($single_index eq "")} {
+      } elseif {($configAr(ecomment_re) ne "") && [regexp $configAr(ecomment_re) $str] && \
+                ($lcomment_index eq "") && ($double_index eq "") && ($single_index eq "") && \
+                ($tripdoub_index eq "")} {
         if {$bcomment_index ne ""} {
           $win tag remove _cComment "$index+[string length $str]c" end
           set bcomment_index ""
+        }
+
+      # Found a triple-double-quote character string
+      } elseif {($str == "\"\"\"") && ($lcomment_index eq "") && ($bcomment_index eq "") && \
+                ($single_index eq "") && ($double_index eq "")} {
+        if {$tripdoub_index ne ""} {
+          $win tag remove _string "$index+3c" end
+          set tripdoub_index ""
+        } else {
+          $win tag add _string $index end
+          $win tag raise _string
+          set tripdoub_index $index
         }
       }
       
@@ -871,7 +887,7 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
     }
     
   # Otherwise, look for just the single line comments
-  } else {
+  } elseif {$line_comments > 0} {
     
     set commentRE "([join $configAr(line_comment_patterns) |])"
     append commentRE {[^\n\r]*}
@@ -896,7 +912,7 @@ proc ctext::addHighlightClass {win class color keywords} {
     set ar($word) [list _$class $color_opts]
   }
   $win tag configure _$class
-  
+
   ctext::getAr $win classes classesAr
   set classesAr(_$class) [list $ref $keywords]
 }

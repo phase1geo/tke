@@ -1,0 +1,52 @@
+filepatterns
+{*.pl *.PL}
+
+tabsallowed
+{0}
+
+indent
+{\{}
+  
+unindent
+{\}}
+
+lcomments {{(^|[^\$])#}}
+
+bcomments {{{^=} {=cut}}}
+
+strings {{"} {'}}
+
+keywords
+{
+  print eq ne lt gt le ge cmp and or not keys values exists if elsif unless switch
+  while until for foreach do next last continue redo goto localtime gmtime printf
+  time strftime sub scalar my local state use format write select open sysopen
+  close die exit getc read rename unlink tell seek join glob opendir closedir readdir
+  mkdir rmdir chdir warn package require carp cluck croak confess socket bind listen
+  accept connect
+}
+
+symbols
+{
+  HighlightClass sub
+}
+
+numbers
+{
+  HighlightClassForRegexp {\m([0-9]+|[0-9]+\.[0-9]+|0x[0-9a-fA-F]+)}
+}
+
+punctuation
+{
+  HighlightClassForRegexp {[][\{\}\(\);+*/%\.<>=!?:&\|\^~-]}
+}
+
+precompile {}
+ 
+miscellaneous
+{
+  HighlightClassWithOnlyCharStart \$
+  HighlightClassWithOnlyCharStart \@
+  HighlightClassWithOnlyCharStart \%
+}
+

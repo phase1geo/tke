@@ -1291,7 +1291,6 @@ namespace eval gui {
     
     # Update the child directories that are not expanded
     foreach child [$widgets(filetl) childkeys $parent] {
-      puts "parent: $parent, child: $child"
       if {[$widgets(filetl) isexpanded $child]} {
         update_directory_recursively $child
       }

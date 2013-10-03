@@ -14,11 +14,11 @@ lcomments {{#}}
 
 bcomments {}
 
-strings {{"}}
+strings {}
 
 keywords
 {
-  filepatterns indent unindent keywords symbols lcomments ccomments
+  filepatterns tabsallowed indent unindent keywords symbols lcomments bcomments
   strings numbers punctuation precompile miscellaneous 
   HighlightClass
   HighlightClassForSpecialChars

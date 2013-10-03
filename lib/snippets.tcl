@@ -235,7 +235,6 @@ namespace eval snippets {
       if {![snippets::handle_tab %W]} {
         if {![vim::in_vim_mode %W] && ![syntax::get_tabs_allowed [winfo parent %W]]} {
           %W insert insert [string repeat " " $preferences::prefs(Editor/SpacesPerTab)]
-          %W mark set insert "insert + $preferences::prefs(Editor/SpacesPerTab) c"
           break
         }
       } else {

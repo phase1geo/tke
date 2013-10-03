@@ -34,8 +34,11 @@ namespace eval indent {
     
     variable indent_exprs
     
-    # If the auto-indent feature was disabled or we are in vim start mode, quit now
-    if {!$preferences::prefs(Editor/EnableAutoIndent) || [vim::in_vim_mode $txt]} {
+    # If the auto-indent feature was disabled, we are in vim start mode, or
+    # the current language doesn't have an indent expression, quit now
+    if {!$preferences::prefs(Editor/EnableAutoIndent) || \
+        [vim::in_vim_mode $txt] || \
+        ($indent_exprs($txt,indent) eq "")} {
       return
     }
     
@@ -70,16 +73,17 @@ namespace eval indent {
  
     variable indent_exprs
  
-    # If the auto-indent feature was disabled, quit now
-    if {!$preferences::prefs(Editor/EnableAutoIndent)} {
+    # If the auto-indent feature was disabled, we are in vim start mode,
+    # or the current language doesn't have an indent expression, quit now
+    if {!$preferences::prefs(Editor/EnableAutoIndent) || \
+        [vim::in_vim_mode $txt] || \
+        ($indent_exprs($txt,indent) eq "")} {
       return
     }
     
-    # If the current insertion indent
-    
     # Get the current indentation level
     set indent_level [get_indent_level $txt 1.0 $index]
- 
+    
     # Get the current line
     set line [$txt get $index "$index lineend"]
  
@@ -89,7 +93,7 @@ namespace eval indent {
       
       # If the first non-whitespace characters match an unindent pattern,
       # lessen the indentation by one
-      if {[regexp [subst {^$indent_exprs($txt,unindent)}] $rest]} {
+      if {[regexp [subst {^[join $indent_exprs($txt,unindent) |]}] $rest]} {
         incr indent_level -1
       }
       
@@ -119,25 +123,32 @@ namespace eval indent {
   proc get_indent_level {txt start end} {
  
     variable indent_exprs
+
+    # If the auto-indent feature was disabled, we are in vim start mode,
+    # or the current language doesn't have an indent expression, quit now
+    if {!$preferences::prefs(Editor/EnableAutoIndent) || \
+        [vim::in_vim_mode $txt] || \
+        ($indent_exprs($txt,indent) eq "")} {
+      return 0
+    }
  
     # Initialize the indent_level
     set indent_level 0
   
     # Create the regular expression
-    set re [join [concat $indent_exprs($txt,indent) $indent_exprs($txt,unindent)] |]
+    set all_re [join [concat $indent_exprs($txt,indent) $indent_exprs($txt,unindent)] |]
+    set ind_re [join $indent_exprs($txt,indent) |]
     
     # Get the indentation level based on the indent/unindent words found
     set i 0
-    foreach index [$txt search -all -count lengths -regexp -- $re $start $end] {
+    foreach index [$txt search -all -count lengths -regexp -- $all_re $start $end] {
       if {[ctext::inCommentString $txt $index] || \
           (([lindex [split $index .] 1] > 0) && ([$txt get "$index-1c"] eq {\\}))} {
+        incr i
         continue
       }
-      if {[lsearch $indent_exprs($txt,indent) [$txt get $index "$index+[lindex $lengths $i]c"]] != -1} {
-        incr indent_level
-      } else {
-        incr indent_level -1
-      }
+      set word [$txt get $index "$index+[lindex $lengths $i]c"]
+      incr indent_level [expr {[regexp $ind_re $word] ? 1 : -1}]
       incr i
     }
  
@@ -152,6 +163,14 @@ namespace eval indent {
   
     variable indent_exprs
  
+    # If the auto-indent feature was disabled, we are in vim start mode,
+    # or the current language doesn't have an indent expression, quit now
+    if {!$preferences::prefs(Editor/EnableAutoIndent) || \
+        [vim::in_vim_mode $txt] || \
+        ($indent_exprs($txt,indent) eq "")} {
+      return
+    }
+ 
     # Get the current position and recalculate the endpos
     set currpos [$txt index "$startpos linestart"]
     set endpos  [$txt index $endpos]
@@ -164,7 +183,7 @@ namespace eval indent {
     }
     
     # Create the regular expression containing the indent and unindent words
-    set re [join [concat $indent_exprs($txt,indent) $indent_exprs($txt,unindent)] |]
+    set uni_re [join $indent_exprs($txt,unindent) |]
  
     # Find the last open brace starting from the current insertion point
     while {[$txt compare $currpos < $endpos]} {
@@ -177,7 +196,7 @@ namespace eval indent {
         if {[string length $whitespace] > 0} {
           $txt delete $currpos "$currpos+[string length $whitespace]c"
         }
-        set unindent [expr {[regexp "^$indent_exprs($txt,unindent)" $rest] ? 1 : 0}]
+        set unindent [expr {[regexp "^$uni_re" $rest] ? 1 : 0}]
         if {$indent_level > 0} {
           $txt insert $currpos [string repeat " " [expr ($indent_level - $unindent) * $preferences::prefs(Editor/IndentSpaces)]]
         }

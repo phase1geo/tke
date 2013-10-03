@@ -5,26 +5,33 @@ tabsallowed
 {0}
 
 indent
-{<[^/]*.*[^/]*>}
+{<[^/>][^>]*[^/]?>}
   
 unindent
-{</.*>}
-
+{</[^>]*>}
+ 
 lcomments {}
 
-bcomments {{{<!--} {-->}} {{<![CDATA[} {]]>}}}
+bcomments {{{<!--} {-->}} {{<!\[CDATA\[} {\]\]>}}}
 
 strings {{"}}
 
 keywords
 {
-  b i del big small sub sup xmp a span div img br hr ul li ol 
-  table tr td th DOCTYPE script html head body title code pre
-  abbr acronym address area base bdo blockquote button caption
-  cite col colgroup dfn dl dt em fieldset form h1 h2 h3 h4 h5 h6
-  input ins kbd label legend link map meta noscript object optgroup
-  option p param q samp select small strong style tbody textarea
-  tfoot thead tt var
+  b /b i /i del /del big /big small /small sub /sub sup /sup
+  xmp /xmp a /a span /span div /div img br hr ul /ul li /li
+  ol /ol table /table tr /tr td /td th /th !DOCTYPE script /script
+  html /html head /head body /body title /title code /code pre /pre
+  abbr /abbr acronym /acronym address /address area /area base /base
+  bdo /bdo blockquote /blockquote button /button caption /caption
+  cite /cite col /col colgroup /colgroup dfn /dfn dl /dl dt /dt
+  em /em fieldset /fieldset form /form h1 /h1 h2 /h2 h3 /h3 h4 /h4
+  h5 /h5 h6 /h6 input /input ins /ins kbd /kbd label /label
+  legend /legend link /link map /map meta /meta noscript /noscript
+  object /object optgroup /optgroup option /option p /p param /param
+  q /q samp /samp select /select small /small strong /strong style /style
+  tbody /tbody textarea /textarea tfoot /tfoot thead /thread tt /tt var
+  /var
 }
 
 symbols
@@ -34,7 +41,7 @@ numbers {}
 
 punctuation
 {
-  HighlightClassForRegexp {[][\{\};:,()#=.@&!?<>%|^~+*/-]}
+  HighlightClassForRegexp {[<>&;/]}
 }
 
 precompile {}
