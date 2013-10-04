@@ -286,8 +286,8 @@ proc ctext::setCommentRE {win} {
   set bcomments [list]
   set ecomments [list]
   foreach block $configAr(block_comment_patterns) {
-    lappend bcomments [lindex $block 0]
-    lappend ecomments [lindex $block 1]
+    lappend bcomments [string map {{*} {\*} {"} {\"}} [lindex $block 0]]
+    lappend ecomments [string map {{*} {\*} {"} {\"}} [lindex $block 1]]
   }
   
   set configAr(comment_re)  $commentRE
@@ -842,7 +842,8 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
         
       # Found a single line comment
       } elseif {($configAr(lcomment_re) ne "") && [regexp $configAr(lcomment_re) $str]} {
-        if {($bcomment_index eq "") && ($double_index eq "") && ($single_index eq "") && ($tripdoub_index eq "")} {
+        if {($bcomment_index eq "") && ($double_index eq "") && \
+            ($single_index eq "") && ($tripdoub_index eq "")} {
           $win tag add _lComment $index "$index lineend"
           $win tag raise _lComment
           set lcomment_index $index
@@ -901,7 +902,7 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
     }
     
   }
-  
+
 }
 
 proc ctext::addHighlightClass {win class color keywords} {
