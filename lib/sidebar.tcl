@@ -152,16 +152,17 @@ namespace eval sidebar {
     
     # Find the main directory containing the file
     if {[set row [$widgets(tl) searchcolumn name $fname -descend -exact]] != -1} {
+      set highlighted [expr {[$widgets(tl) cellcget $row,name -background] eq "yellow"}]
       if {$highlight} {
-        if {[$widgets(tl) cellcget $row,name -background] ne "yellow"} {
+        if {!$highlighted} {
           update_root_count $row 1
         }
         $widgets(tl) cellconfigure $row,name -background yellow
       } else {
-        if {[$widgets(tl) cellcget $row,name -background] ne "white"} {
+        $widgets(tl) cellconfigure $row,name -background white
+        if {$highlighted} {
           update_root_count $row -1
         }
-        $widgets(tl) cellconfigure $row,name -background white
       }
     }
     

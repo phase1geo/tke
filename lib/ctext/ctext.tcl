@@ -891,7 +891,7 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
     
     set commentRE "([join $configAr(line_comment_patterns) |])"
     append commentRE {[^\n\r]*}
-    
+  
     # Handle single line comments in the given range
     set i 0
     foreach index [$win search -all -count lengths -regexp -- $commentRE $start $end] {
