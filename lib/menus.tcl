@@ -227,7 +227,7 @@ namespace eval menus {
     set dirname [file dirname [gui::current_filename]]
     
     if {[set odir [tk_chooseDirectory -parent . -initialdir $dirname -mustexist 1]] ne ""} {
-      gui::add_directory $odir
+      sidebar::add_directory $odir
     }
     
   }

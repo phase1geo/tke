@@ -300,9 +300,11 @@ namespace eval gui {
   }
   
   ######################################################################
-  # Changes the given filename to the new filename.
+  # Changes the given filename to the new filename in the file list and
+  # updates the tab name to match the new name.
   proc change_filename {old_name new_name} {
     
+    variable widgets
     variable files
     variable files_index
     
@@ -314,7 +316,7 @@ namespace eval gui {
       lset files $index $files_index(fname) $new_name
       
       # Update the tab name
-      set nb [lindex $widgets(nb_pw) [lindex $files $index $files_index(pane)]]
+      set nb  [lindex [$widgets(nb_pw) panes] [lindex $files $index $files_index(pane)]]
       $nb tab [lindex $files $index $files_index(tab)] -text [file tail $new_name]
       
     }
@@ -1136,8 +1138,8 @@ namespace eval gui {
     variable files_index
     
     if {[set index [lsearch -index $files_index(fname) $files $fname]] != -1} {
-      set pane [lindex $files $files_index(pane)
-      set tab  [lindex $files $files_index(tab)
+      set pane [lindex $files $index $files_index(pane)]
+      set tab  [lindex $files $index $files_index(tab)]
       close_tab $pane $tab
     }
     
@@ -2136,8 +2138,8 @@ namespace eval gui {
     variable files_index
     
     if {[set index [lsearch -index $files_index(fname) $files $fname]] != -1} {
-      set pane [lindex $files $files_index(pane)]
-      set tab  [lindex $files $files_index(tab)]
+      set pane [lindex $files $index $files_index(pane)]
+      set tab  [lindex $files $index $files_index(tab)]
       set_current_tab $pane $tab
     }
     

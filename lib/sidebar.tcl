@@ -153,11 +153,15 @@ namespace eval sidebar {
     # Find the main directory containing the file
     if {[set row [$widgets(tl) searchcolumn name $fname -descend -exact]] != -1} {
       if {$highlight} {
+        if {[$widgets(tl) cellcget $row,name -background] ne "yellow"} {
+          update_root_count $row 1
+        }
         $widgets(tl) cellconfigure $row,name -background yellow
-        update_root_count $row 1
       } else {
+        if {[$widgets(tl) cellcget $row,name -background] ne "white"} {
+          update_root_count $row -1
+        }
         $widgets(tl) cellconfigure $row,name -background white
-        update_root_count $row -1
       }
     }
     
@@ -176,9 +180,10 @@ namespace eval sidebar {
     bgproc::update 1
     
     # Check to see if the directory root has already been added
-    if {[set row [$widgets(tl) searchcolumn name $dirlen -descend -exact]] != -1} {
+    if {[set row [$widgets(tl) searchcolumn name $dir -descend -exact]] != -1} {
       $widgets(tl) expand $row -partly
       update_directory $row
+      return
     } else {
       foreach child [$widgets(tl) childkeys root] {
         set name [$widgets(tl) cellcget $child,name -text]
@@ -296,7 +301,12 @@ namespace eval sidebar {
       } else {
         while {1} {
           if {$compare == 1} {
-            $widgets(tl) insertchild $parent [$widgets(tl) childindex $child] [list $dir_file 0]
+            set node [$widgets(tl) insertchild $parent [$widgets(tl) childindex $child] [list $dir_file 0]]
+            if {[file isdirectory $dir_file]} {
+              $widgets(tl) collapse $node
+            } elseif {[gui::file_exists $dir_file]} {
+              $widgets(tl) cellconfigure $node,name -background "yellow"
+            }
           }
           set dir_files [lassign $dir_files dir_file]
           if {$compare == 0} { break }
@@ -333,9 +343,9 @@ namespace eval sidebar {
     $widgets(tl) cellconfigure $descendant,ocount -text $ocount
     
     # If the user wants us to auto-remove when the open file count reaches 0,
-    # do it now.
+    # remove it from the sidebar
     if {$preferences::prefs(Sidebar/RemoveRootAfterLastClose) && ($ocount == 0)} {
-      remove_folder $descendant
+      $widgets(tl) delete $descendant
     }
     
   }
@@ -364,32 +374,35 @@ namespace eval sidebar {
   # Ends the edit process.
   proc edit_end_command {tbl row col value} {
     
+    # Get the current pathname
+    set old_name [$tbl cellcget $row,name -text]
+    
+    # Create the new pathname
+    set new_name [file join [file dirname $old_name] $value]
+
     # If the value of the cell hasn't changed, do nothing else.
-    if {[$tbl cellcget $row,filepath -text] eq $value} {
-      return $value
+    if {$old_name eq $new_name} {
+      return $old_name
     }
     
     # Change the cell so that it can't be edited directly
     $tbl cellconfigure $row,$col -editable 0
     
-    # Get the current pathname
-    set old_name [$table cellcget $row,name -text]
-    
-    # Create the new pathname
-    set new_name [file join [file dirname $old_name] $value]
-    
     # Perform the rename operation
-    if {![catch "file rename -force $old_name $new_name"]} {
+    if {![catch { file rename -force $old_name $new_name }]} {
     
       # Place the new value in the filepath cell
       $tbl cellconfigure $row,name -text $new_name
     
       # If this is a displayed file, update the file information
-      if {$tbl cellcget $row,$col -background] eq "yellow"} {
+      if {[$tbl cellcget $row,$col -background] eq "yellow"} {
         gui::change_filename $old_name $new_name
       }
       
-      return $value
+      # Update the directory
+      after idle [list sidebar::update_directory [$tbl parentkey $row]]
+      
+      return $new_name
 
     } else {
       
@@ -430,7 +443,7 @@ namespace eval sidebar {
     
     # If the file is currently in the notebook, make it the current tab
     if {[$widgets(tl) cellcget $selected,name -background] eq "yellow"} {
-      set_current_tab_from_fname [$tbl cellcget $selected,name -text]
+      gui::set_current_tab_from_fname [$widgets(tl) cellcget $selected,name -text]
     }
     
   }
@@ -500,7 +513,7 @@ namespace eval sidebar {
     set fname [file join [$widgets(tl) cellcget $selected,name -text] "Untitled"]
     
     # Create the file
-    if {![catch "exec touch $fname"]} {
+    if {![catch { exec touch $fname }]} {
     
       # Expand the directory
       $widgets(tl) expand $selected -partly
@@ -508,16 +521,12 @@ namespace eval sidebar {
       # Add a new file to the directory
       set key [$widgets(tl) insertchild $selected 0 [list $fname 0]]
     
-      # Highlight the file in the file browser
-      $widgets(tl) cellconfigure $key,name -background "yellow"
-      update_root_count $key 1
-    
-      # Create an empty file
-      add_file end $fname
-    
       # Make the new file editable
       rename_file $key
-      
+
+      # Create an empty file
+      gui::add_file end $fname
+    
     }
     
   }
@@ -534,17 +543,19 @@ namespace eval sidebar {
     # Get the directory pathname
     set dname [file join [$widgets(tl) cellcget $selected,name -text] "Folder"]
     
-    # Expand the directory
-    $widgets(tl) expand $selected -partly
-    
-    # Add a new folder to the directory
-    set key [$widgets(tl) insertchild $selected 0 [list $dname 0]]
-    
     # Create the directory
-    file mkdir $dname
+    if {![catch { file mkdir $dname }]} {
     
-    # Allow the user to rename the folder
-    rename_folder $key
+      # Expand the directory
+      $widgets(tl) expand $selected -partly
+    
+      # Add a new folder to the directory
+      set key [$widgets(tl) insertchild $selected 0 [list $dname 0]]
+    
+      # Allow the user to rename the folder
+      rename_folder $key
+      
+    }
     
   }
   
@@ -601,7 +612,7 @@ namespace eval sidebar {
       set dirpath [$widgets(tl) cellcget $selected,name -text]
       
       # Delete the folder
-      if {![catch "file delete -force $dirpath"]} {
+      if {![catch { file delete -force $dirpath }]} {
         
         # Remove the directory from the file browser
         $widgets(tl) delete $selected
@@ -748,7 +759,7 @@ namespace eval sidebar {
     }
     
     # Copy the file to create the duplicate
-    if {![catch "file copy $fname $dup_fname"]} {
+    if {![catch { file copy $fname $dup_fname } rc]} {
     
       # Add the file to the sidebar (just below the currently selected line)
       set new_row [$widgets(tl) insertchild \
@@ -779,7 +790,7 @@ namespace eval sidebar {
       set fname [$widgets(tl) cellcget $selected,name -text]
       
       # Delete the file
-      if {![catch "file delete -force $fname"]} {
+      if {![catch { file delete -force $fname }]} {
 
         # Get the background color before we delete the row
         set bg [$widgets(tl) cellcget $selected,name -background]

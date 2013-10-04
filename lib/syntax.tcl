@@ -88,8 +88,8 @@ namespace eval syntax {
     # Sort the filetypes by name
     set filetypes [lsort -index 0 $filetypes]
     
-    # Add an "All Files" to the end of the filetypes list
-    lappend filetypes [list "All Files" "*"]
+    # Add an "All Files" to the beginning of the filetypes list
+    set filetypes [list [list "All Files" "*"] {*}$filetypes]
     
   }
   
