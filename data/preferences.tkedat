@@ -84,6 +84,13 @@
 
 {Sidebar/IgnoreFilePatterns} {}
 
+# When a file is closed in the editor and the file was last opened file within
+# a "rooted" directory in the sidebar, a value of 1 to this option will automatically
+# remove the "rooted" directory from the sidebar browser; otherwise, a value of 0
+# will keep the "rooted" directory and its contents in the browser.
+
+{Sidebar/RemoveRootAfterLastClose} {0}
+
 # If this value is set to a value of 1, the application will start in Vim mode;
 # otherwise, if the value is set to a value of 0, the application will start in
 # normal mode.
