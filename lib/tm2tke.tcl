@@ -345,8 +345,8 @@ namespace eval tm2tke {
     foreach color [list background foreground cursor precompile comments keywords punctuation numbers strings miscellaneous] {
       
       # Create the label and menubutton
-      ttk::label      .tf.lf.l$color  -text $color
-      ttk::menubutton .tf.lf.mb$color -menu .tf.lf.mb$color.mnu
+      ttk::label .tf.lf.l$color  -text $color
+      set widgets(mb:$color) [ttk::menubutton .tf.lf.mb$color -menu .tf.lf.mb$color.mnu]
       
       # Create menu
       menu .tf.lf.mb$color.mnu -tearoff 0
@@ -356,9 +356,8 @@ namespace eval tm2tke {
       
       set j 2
       foreach scope [lsort [array names all_scopes]] {
-        set widgets(mb:$color) \
-          [.tf.lf.mb$color.mnu add command -label $scope -columnbreak [expr ($j % 40) == 39] \
-                                           -command "tm2tke::handle_menu_select $color $scope)"
+        .tf.lf.mb$color.mnu add command -label $scope -columnbreak [expr ($j % 40) == 39] \
+                                        -command "tm2tke::handle_menu_select $color $scope"
         incr j
       }
       
@@ -433,7 +432,7 @@ namespace eval tm2tke {
     variable widgets
     
     # Set the menubutton
-    $widgets(mb:$type) configure -label $scope
+    $widgets(mb:$type) configure -text $scope
   
     # Set the current color to the givens cope
     set colors($type) $all_scopes($scope)
