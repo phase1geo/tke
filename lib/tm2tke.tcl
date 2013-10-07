@@ -356,7 +356,9 @@ namespace eval tm2tke {
       
       set j 2
       foreach scope [lsort [array names all_scopes]] {
-        .tf.lf.mb$color.mnu add command -label $scope -columnbreak [expr ($j % 40) == 39] -command "set tm2tke::colors($color) $all_scopes($scope); tm2tke::highlight"
+        set widgets(mb:$color) \
+          [.tf.lf.mb$color.mnu add command -label $scope -columnbreak [expr ($j % 40) == 39] \
+                                           -command "tm2tke::handle_menu_select $color $scope)"
         incr j
       }
       
@@ -420,6 +422,25 @@ namespace eval tm2tke {
     pack .tf -fill both -expand yes
     pack .bf -fill x
       
+  }
+  
+  #############################################################
+  # Called whenever a menu item is selected inthe scope menu.
+  proc handle_menu_select {type scope} {
+  
+    variable colors
+    variable all_scopes
+    variable widgets
+    
+    # Set the menubutton
+    $widgets(mb:$type) configure -label $scope
+  
+    # Set the current color to the givens cope
+    set colors($type) $all_scopes($scope)
+    
+    # Highlight the sample textbox
+    highlight
+  
   }
   
   ######################################################################
