@@ -1,7 +1,7 @@
 #!wish8.5
 
 ######################################################################
-# Name:    tm2tke.tcl
+# Name:    themer.tcl
 # Author:  Trevor Williams  (phase1geo@gmail.com)
 # Date:    10/04/2013
 # Brief:   Converts a *.tmTheme file to a *.tketheme file.
@@ -9,7 +9,7 @@
 
 set tke_dir [file dirname [file dirname [file normalize $argv0]]]
 
-namespace eval tm2tke {
+namespace eval themer {
   
   variable theme_dir [file join $::tke_dir data themes]
   variable tmtheme   ""
@@ -351,13 +351,13 @@ namespace eval tm2tke {
       # Create menu
       menu .tf.lf.mb$color.mnu -tearoff 0
       
-      .tf.lf.mb$color.mnu add command -label "Create custom" -command "tm2tke::create_custom_color $color"
+      .tf.lf.mb$color.mnu add command -label "Create custom" -command "themer::create_custom_color $color"
       .tf.lf.mb$color.mnu add separator
       
       set j 2
       foreach scope [lsort [array names all_scopes]] {
         .tf.lf.mb$color.mnu add command -label $scope -columnbreak [expr ($j % 40) == 39] \
-                                        -command "tm2tke::handle_menu_select $color $scope"
+                                        -command "themer::handle_menu_select $color $scope"
         incr j
       }
       
@@ -408,7 +408,7 @@ namespace eval tm2tke {
     # Create the button frame
     ttk::frame  .bf
     ttk::button .bf.import -text "Import" -width 6 -command {
-      tm2tke::write_tketheme
+      themer::write_tketheme
       destroy .
     }
     ttk::button .bf.cancel -text "Cancel" -width 6 -command {
@@ -496,7 +496,7 @@ namespace eval tm2tke {
 # command-line.
 proc usage {} {
   
-  puts "Usage:  tm2tke (-h | <tmTheme file>)"
+  puts "Usage:  themer (-h | <tmTheme file>)"
   puts ""
   puts "Options:"
   puts "  -h  Displays this help information"
@@ -523,10 +523,11 @@ if {![info exists tmtheme]} {
 }
 
 # Read the contents of the TextMate theme file (its in XML format)
-tm2tke::read_tmtheme $tmtheme
+themer::read_tmtheme $tmtheme
 
 # Create the UI
-tm2tke::create
+themer::create
 
+# Set the theme to clam
 ttk::style theme use clam
 
