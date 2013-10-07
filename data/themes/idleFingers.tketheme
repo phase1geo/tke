@@ -1,39 +1,14 @@
-filepatterns
-{*.tketheme}
-
-indent
-{\{}
-  
-unindent
-{\}}
-
-keywords
-{
-  background foreground selectbackground selectforeground highlightcolor cursor
-  keywords comments strings numbers punctuation precompile miscellaneous
-}
-
-symbols
-{
-  background foreground selectbackground selectforeground cursor
-  keywords comments strings numbers punctuation precompile miscellaneous
-}
-
-lcomments {}
-ccomments 0 
-
-strings
-{
-  HighlightClassForRegexp {\"[^\"]*\"}
-}
-
-numbers {}
-
-punctuation
-{
-  HighlightClassForSpecialChars {{}}
-}
-
-precompile {}
-
-miscellaneous {}
+precompile       "#d0d0ff"
+keywords         "#cc7833"
+numbers          "#6c99bb"
+warnwidthcolor   "#4b4b4b"
+highlightcolor   "yellow"
+background       "#323232"
+selectbackground "blue"
+strings          "#a5c261"
+punctuation      "#ffc66d"
+foreground       "#ffffff"
+selectforeground "white"
+miscellaneous    "#b7dff8"
+cursor           "#91ff00"
+comments         "#bc9458"

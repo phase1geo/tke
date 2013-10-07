@@ -108,10 +108,10 @@ namespace eval syntax {
     
     # Get the theme information
     foreach tfile $tfiles {
-      if {![catch "open $tfile r" rc]} {
+      if {![catch { open $tfile r } rc]} {
         set name [file rootname [file tail $tfile]]
         set themes($name) [read $rc]
-        launcher::register "Theme:  $name" "syntax::set_theme $name"
+        launcher::register "Theme:  $name" [list syntax::set_theme $name]
         close $rc
       }
     }
