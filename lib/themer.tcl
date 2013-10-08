@@ -14,8 +14,9 @@ namespace eval themer {
   variable theme_dir [file join $::tke_dir data themes]
   variable tmtheme   ""
    
-  array set widgets    {}
-  array set all_scopes {}
+  array set widgets     {}
+  array set all_scopes  {}
+  array set orig_colors {}
   
   array set scopes {
     comment        comments
@@ -191,6 +192,7 @@ namespace eval themer {
     variable scopes
     variable all_scopes
     variable tmtheme
+    variable orig_colors
     
     set tmtheme $theme
     
@@ -274,6 +276,9 @@ namespace eval themer {
       
     }
     
+    # Save the colors array to orig_colors
+    array set orig_colors [array get colors]
+    
   }
    
   ######################################################################
@@ -335,6 +340,7 @@ namespace eval themer {
     variable widgets
     variable colors
     variable all_scopes
+    variable tmtheme
     
     ttk::frame .tf
     
@@ -407,12 +413,20 @@ namespace eval themer {
     
     # Create the button frame
     ttk::frame  .bf
+    ttk::button .bf.reset  -text "Reset"  -width 6 -command {
+      array set themer::colors [array get themer::orig_colors]
+      themer::highlight
+    }
     ttk::button .bf.import -text "Import" -width 6 -command {
       themer::write_tketheme
       destroy .
     }
     ttk::button .bf.cancel -text "Cancel" -width 6 -command {
       destroy .
+    }
+    
+    if {$tmtheme ne ""} {
+      pack .bf.reset  -side left  -padx 2 -pady 2
     }
     
     pack .bf.cancel -side right -padx 2 -pady 2

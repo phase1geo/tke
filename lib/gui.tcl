@@ -535,10 +535,12 @@ namespace eval gui {
           foreach index [lindex $ordered $pane] {
             if {$index ne ""} {
               array set finfo [lindex $content(FileInfo) $index]
-              add_file end $finfo(fname) \
-                -savecommand $finfo(savecommand) -lock $finfo(lock) -readonly $finfo(readonly) -sidebar $finfo(sidebar)
-              if {[syntax::get_current_language [current_txt]] ne $finfo(language)} {
-                syntax::set_language $finfo(language)
+              if {[file exists $finfo(fname)]} {
+                add_file end $finfo(fname) \
+                  -savecommand $finfo(savecommand) -lock $finfo(lock) -readonly $finfo(readonly) -sidebar $finfo(sidebar)
+                if {[syntax::get_current_language [current_txt]] ne $finfo(language)} {
+                  syntax::set_language $finfo(language)
+                }
               }
             }
           }
