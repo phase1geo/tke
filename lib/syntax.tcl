@@ -287,6 +287,9 @@ namespace eval syntax {
       if {[catch {
         
         array set lang_array $langs($language)
+          
+        # Set the case sensitivity
+        $txt configure -casesensitive $lang_array(casesensitive)
         
         # Add the language keywords
         ctext::addHighlightClass $txt keywords $theme(keywords) $lang_array(keywords)

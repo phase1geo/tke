@@ -4,6 +4,9 @@ filepatterns
 tabsallowed
 {1}
 
+casesensitive
+{1}
+
 indent
 {\{}
   

@@ -4,6 +4,9 @@ filepatterns
 tabsallowed
 {0}
 
+casesensitive
+{0}
+
 indent
 {<[^/>][^>]*[^/]?>}
   
@@ -41,7 +44,7 @@ numbers {}
 
 punctuation
 {
-  HighlightClassForRegexp {[<>&;/]}
+  HighlightClassForRegexp {[<>&;=/]}
 }
 
 precompile {}

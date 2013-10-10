@@ -1,0 +1,38 @@
+filepatterns
+{*.htm *.html}
+
+tabsallowed
+{0}
+
+casesensitive
+{0}
+
+indent
+{<[^/>][^>]*[^/]?>}
+  
+unindent
+{</[^>]*>}
+ 
+lcomments {}
+
+bcomments {{{<!--} {-->}} {{<!\[CDATA\[} {\]\]>}}}
+
+strings {{"}}
+
+keywords
+{}
+
+symbols
+{}
+
+numbers {}
+
+punctuation
+{
+  HighlightClassForRegexp {[<>&;=/]}
+}
+
+precompile {}
+
+miscellaneous {}
+

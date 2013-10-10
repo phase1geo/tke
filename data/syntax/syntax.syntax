@@ -4,6 +4,9 @@ filepatterns
 tabsallowed
 {0}
 
+casesensitive
+{1}
+
 indent
 {\{}
   
@@ -18,7 +21,7 @@ strings {}
 
 keywords
 {
-  filepatterns tabsallowed indent unindent keywords symbols lcomments bcomments
+  filepatterns tabsallowed casesensitive indent unindent keywords symbols lcomments bcomments
   strings numbers punctuation precompile miscellaneous 
   HighlightClass
   HighlightClassForSpecialChars

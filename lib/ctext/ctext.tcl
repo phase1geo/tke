@@ -47,6 +47,8 @@ proc ctext {win args} {
   set ar(-highlight) 1
   set ar(-warnwidth) ""
   set ar(-warnwidth_bg) red
+  set ar(-casesensitive) 1
+  set ar(re_opts) ""
   set ar(win) $win
   set ar(modified) 0
   set ar(commentsAfterId) ""
@@ -59,8 +61,7 @@ proc ctext {win args} {
   
   set ar(ctextFlags) [list -yscrollcommand -linemap -linemapfg -linemapbg \
   -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable -linemap_cursor \
-  -linemap_select_fg \
-  -linemap_select_bg]
+  -linemap_select_fg -linemap_select_bg -casesensitive]
   
   array set ar $args
   
@@ -254,7 +255,7 @@ proc ctext::buildArgParseTable win {
     set configAr(-linemap_select_fg) $value
     $self.l tag configure lmark -foreground $value
     break
-}
+  }
   
   lappend argTable any -linemap_select_bg {
     if {[catch {winfo rgb $self $value} res]} {
@@ -262,6 +263,18 @@ proc ctext::buildArgParseTable win {
     }
     set configAr(-linemap_select_bg) $value
     $self.l tag configure lmark -background $value
+    break
+  }
+  
+  lappend argTable {0 false no} -casesensitive {
+    set configAr(-casesensitive) 0
+    set configAr(re_opts) "-nocase"
+    break
+  }
+  
+  lappend argTable {1 true yes} -casesensitive {
+    set configAr(-casesensitive) 1
+    set configAr(re_opts) ""
     break
   }
   
@@ -467,7 +480,7 @@ proc ctext::instanceCmd {self cmd args} {
         
         set checkStr "$prevChar[set char]"
         
-        ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp $commentRE $checkStr]
+        ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$configAr(re_opts) $commentRE $checkStr]
         ctext::highlightAfterIdle $self $lineStart $lineEnd
         ctext::warnWidthUpdate $self $lineStart $lineEnd
         ctext::linemapUpdate $self
@@ -490,7 +503,7 @@ proc ctext::instanceCmd {self cmd args} {
           }
         }
         
-        ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp $commentRE $data]
+        ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$configAr(re_opts)$commentRE $data]
         ctext::highlightAfterIdle $self $lineStart $lineEnd
         ctext::warnWidthUpdate $self $lineStart $lineEnd
         if {[string first "\n" $data] >= 0} {
@@ -573,7 +586,7 @@ proc ctext::instanceCmd {self cmd args} {
       
       set REData [$self._t get $prevSpace $nextSpace]
       
-      ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp $commentRE $REData]
+      ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$configAr(re_opts) $commentRE $REData]
       ctext::highlightAfterIdle $self $lineStart $lineEnd
       ctext::warnWidthUpdate $self $lineStart $lineEnd
       
@@ -805,7 +818,7 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
     $win tag remove _string   1.0 end
 
     set i 0
-    foreach index [$win search -all -overlap -count lengths -regexp -- $commentRE 1.0 end] {
+    foreach index [$win search -all -overlap -count lengths -regexp {*}$configAr(re_opts) -- $commentRE 1.0 end] {
       
       set endIndex [$win index "$index + [lindex $lengths $i] chars"]
       set str      [$win get $index $endIndex]
@@ -841,7 +854,7 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
         }
         
       # Found a single line comment
-      } elseif {($configAr(lcomment_re) ne "") && [regexp $configAr(lcomment_re) $str]} {
+      } elseif {($configAr(lcomment_re) ne "") && [regexp {*}$configAr(re_opts) $configAr(lcomment_re) $str]} {
         if {($bcomment_index eq "") && ($double_index eq "") && \
             ($single_index eq "") && ($tripdoub_index eq "")} {
           $win tag add _lComment $index "$index lineend"
@@ -852,7 +865,7 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
         }
         
       # Found a starting block comment string
-      } elseif {($configAr(bcomment_re) ne "") && [regexp $configAr(bcomment_re) $str] && \
+      } elseif {($configAr(bcomment_re) ne "") && [regexp {*}$configAr(re_opts) $configAr(bcomment_re) $str] && \
                 ($lcomment_index eq "") && ($double_index eq "") && ($single_index eq "") && \
                 ($tripdoub_index eq "")} {
         if {$bcomment_index eq ""} {
@@ -862,7 +875,7 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
         }
         
       # Found an ending block comment string
-      } elseif {($configAr(ecomment_re) ne "") && [regexp $configAr(ecomment_re) $str] && \
+      } elseif {($configAr(ecomment_re) ne "") && [regexp {*}$configAr(re_opts) $configAr(ecomment_re) $str] && \
                 ($lcomment_index eq "") && ($double_index eq "") && ($single_index eq "") && \
                 ($tripdoub_index eq "")} {
         if {$bcomment_index ne ""} {
@@ -895,7 +908,7 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
   
     # Handle single line comments in the given range
     set i 0
-    foreach index [$win search -all -count lengths -regexp -- $commentRE $start $end] {
+    foreach index [$win search -all -count lengths -regexp {*}$configAr(re_opts) -- $commentRE $start $end] {
       $win tag add _lComment $index "$index+[lindex $lengths $i]c"
       $win tag raise _lComment
       incr i
@@ -1113,7 +1126,7 @@ proc ctext::doHighlight {win} {
   
     set keywords [time {
     set i 0
-    foreach res [$twin search -count lengths -regexp -all -- $REs(words) $start $end] {
+    foreach res [$twin search -count lengths -regexp {*}$configAr(re_opts) -all -- $REs(words) $start $end] {
       set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
       set word    [$twin get $res $wordEnd]
       if {[info exists highlightAr($word)]} {
@@ -1133,7 +1146,7 @@ proc ctext::doHighlight {win} {
     foreach {tagClass tagInfo} [array get highlightRegexpAr] {
       lassign $tagInfo re colors
       set i 0
-      foreach res [$twin search -count lengths -regexp -all -- $re $start $end] {
+      foreach res [$twin search -count lengths -regexp {*}$configAr(re_opts) -all -- $re $start $end] {
         set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
         $twin tag add $tagClass $res $wordEnd
         set tagged($tagClass) $colors
