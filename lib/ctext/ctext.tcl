@@ -503,7 +503,7 @@ proc ctext::instanceCmd {self cmd args} {
           }
         }
         
-        ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$configAr(re_opts)$commentRE $data]
+        ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$configAr(re_opts) $commentRE $data]
         ctext::highlightAfterIdle $self $lineStart $lineEnd
         ctext::warnWidthUpdate $self $lineStart $lineEnd
         if {[string first "\n" $data] >= 0} {
