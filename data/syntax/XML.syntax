@@ -1,5 +1,5 @@
 filepatterns
-{*.htm *.html}
+{*.xml}
 
 tabsallowed
 {0}
