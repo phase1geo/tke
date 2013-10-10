@@ -414,6 +414,118 @@ namespace eval themer {
     }
     
   }
+  
+  ######################################################################
+  # Displays a window showing all of the current themes.
+  proc get_theme {} {
+    
+    # Initialize variables
+    set w            ".thrwin"
+    set ::theme_name ""
+    
+    # Create the window
+    toplevel     $w
+    wm title     $w "Select theme"
+    wm transient $w .
+    wm resizable $w 0 0
+    
+    ttk::frame     $w.tf
+    listbox        $w.tf.lb -height 8 -selectmode "single" -yscrollcommand "$w.tf.vb set"
+    ttk::scrollbar $w.tf.vb -orient vertical -command "$w.tf.lb yview"
+    
+    grid rowconfigure    $w.tf 0 -weight 1
+    grid columnconfigure $w.tf 0 -weight 1
+    grid $w.tf.lb -row 0 -column 0 -sticky news
+    grid $w.tf.vb -row 0 -column 1 -sticky ns
+    
+    ttk::frame  $w.bf
+    ttk::button $w.bf.ok -text "OK" -width 6 -command {
+      set ::theme_name [.thrwin.tf.lb get [.thrwin.tf.lb curselection]]
+      destroy .thrwin
+    }
+    ttk::button $w.bf.cancel -text "Cancel" -width 6 -command {
+      destroy .thrwin
+    }
+    
+    pack $w.bf.cancel -side right -padx 2 -pady 2
+    pack $w.bf.ok     -side right -padx 2 -pady 2
+    
+    pack $w.tf -fill x
+    pack $w.bf -fill x
+    
+    # Get the theme names
+    foreach theme [lsort [glob -tails -directory [file join $::tke_dir data themes] *.tketheme]] {
+      $w.tf.lb insert end $theme
+    }
+    $w.tf.lb selection set 0
+
+    # Center the window and grab the focus
+    ::tk::PlaceWindow $w widget .
+    ::tk::SetFocusGrab $w $w
+    
+    # Wait for the window to be closed
+    tkwait window $w
+    
+    # Release the grab/focus
+    ::tk::RestoreFocusGrab $w $w
+    
+    return [file join $::tke_dir data themes $::theme_name]
+    
+  }
+  
+  ######################################################################
+  # Displays a window that gets the name of a theme file.
+  proc get_save_name {} {
+    
+    # Initialize variables
+    set w            "[get_win].swin"
+    set ::theme_name ""
+    
+    # Create the window
+    toplevel     $w
+    wm title     $w "Enter theme name"
+    wm transient $w [get_win]
+    wm resizable $w 0 0
+    
+    ttk::frame $w.tf
+    ttk::label $w.tf.l -text "Name:"
+    ttk::entry $w.tf.e -validate key -invalidcommand bell -validatecommand {
+      [[winfo toplevel %W].swin.bf.ok configure \
+        -state [expr {([string length %P] eq "") ? disabled : normal}]
+      return 1
+    }
+    
+    pack $w.tf.l -side left -padx 2 -pady 2
+    pack $w.tf.e -side left -fill x -padx 2 -pady 2
+    
+    ttk::frame  $w.bf
+    ttk::button $w.bf.ok -text "OK" -width 6 -command {
+      set ::save_name [[winfo toplevel %W].swin.tf.e get]
+      destroy [winfo toplevel %W]
+    }
+    ttk::button $w.bf.cancel -text "Cancel" -width 6 -command {
+      destroy [winfo toplevel %W]
+    }
+    
+    pack $w.bf.cancel -side right -padx 2 -pady 2
+    pack $w.bf.ok     -side right -padx 2 -pady 2
+    
+    pack $w.tf -fill x
+    pack $w.bf -fill x
+    
+    # Center the window and grab the focus
+    ::tk::PlaceWindow $w widget [get_win]
+    ::tk::SetFocusGrab $w $w
+    
+    # Wait for the window to be closed
+    tkwait window $w
+    
+    # Release the grab/focus
+    ::tk::RestoreFocusGrab $w $w
+    
+    return "[file tail [file rootname $::theme_name]].tketheme"
+    
+  }
    
   ######################################################################
   # Writes the TKE theme file to the theme directory.
@@ -426,7 +538,7 @@ namespace eval themer {
     
     # If we don't have a theme name, get one
     if {$tmtheme eq ""} {
-      if {[set tmtheme [tk_getSaveFile -parent [get_win] -initialdir [pwd] -defaultextension ".tketheme"]] eq ""} {
+      if {[set tmtheme [get_save_name]] eq ""} {
         return
       }
     }

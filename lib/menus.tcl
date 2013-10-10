@@ -456,13 +456,13 @@ namespace eval menus {
     
     $mb add cascade -label "Theme Creator" -underline 0 -menu [menu $mb.themer -tearoff 0]
     
-    $mb.themer add command -label "Create new theme"      -underline 0 -command "themer::create_new"
+    $mb.themer add command -label "Create new..." -underline 0 -command "themer::create_new"
     launcher::register "Menu: Create new theme" "themer::create_new"
     
-    $mb.themer add command -label "Edit Tke theme"        -underline 0 -command "menus::edit_tke_command"
+    $mb.themer add command -label "Edit..." -underline 0 -command "menus::edit_tke_command"
     launcher::register "Menu: Edit Tke theme" "menus::edit_tke_command"
     
-    $mb.themer add command -label "Import TextMate theme" -underline 0 -command "menus::import_tm_command"
+    $mb.themer add command -label "Import TextMate theme..." -underline 0 -command "menus::import_tm_command"
     launcher::register "Menu: Import TextMate theme" "menus::import_tm_command"
     
     $mb add separator
@@ -502,8 +502,13 @@ namespace eval menus {
   # up the theme editor.
   proc edit_tke_command {} {
     
-    # Call the themer importer for the given tke file
-    # themer::import_tke $name
+    # Attempt to get the name of an available theme
+    if {[set name [themer::get_theme]] ne ""} {
+      
+      # Call the themer importer for the given tke file
+      themer::import_tke $name
+      
+    }
     
   }
   
@@ -512,8 +517,13 @@ namespace eval menus {
   # calls the theme importer.
   proc import_tm_command {} {
     
-    # Call the themer importer for the given TextMate file
-    # themer::import_tm $name
+    # Open a TextMate theme
+    if {[set name [tk_getOpenFile -filetypes {{TextMate {.tmTheme .tmtheme}}} -initialdir [pwd] -parent [get_win] -title "Select TextMate theme"]] ne ""} {
+      
+      # Call the themer importer for the given TextMate file
+      themer::import_tm $name
+      
+    }
     
   }
   
