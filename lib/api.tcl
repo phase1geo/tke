@@ -21,7 +21,7 @@ namespace eval api {
     # Returns the pathname to the TKE directory.
     proc get_tke_directory {} {
       
-      return [file dirname $::tke_dir]
+      return $::tke_dir
       
     }
     
@@ -34,7 +34,7 @@ namespace eval api {
   #   none
   proc get_images_directory {} {
     
-    return [file join [file dirname $::tke_dir] plugins images]
+    return [file join $::tke_dir plugins images]
     
   }
   

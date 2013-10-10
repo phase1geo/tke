@@ -454,6 +454,17 @@ namespace eval menus {
     # Add tools menu commands
     $mb add command -label "Launcher" -underline 0 -command "launcher::launch"
     
+    $mb add cascade -label "Theme Creator" -underline 0 -menu [menu $mb.themer -tearoff 0]
+    
+    $mb.themer add command -label "Create new theme"      -underline 0 -command "themer::create_new"
+    launcher::register "Menu: Create new theme" "themer::create_new"
+    
+    $mb.themer add command -label "Edit Tke theme"        -underline 0 -command "menus::edit_tke_command"
+    launcher::register "Menu: Edit Tke theme" "menus::edit_tke_command"
+    
+    $mb.themer add command -label "Import TextMate theme" -underline 0 -command "menus::import_tm_command"
+    launcher::register "Menu: Import TextMate theme" "menus::import_tm_command"
+    
     $mb add separator
     
     $mb add checkbutton -label "Vim Mode" -underline 0 -variable preferences::prefs(Tools/VimMode) -command "vim::set_vim_mode_all"
@@ -484,6 +495,26 @@ namespace eval menus {
     # Apply the menu bindings for the tools menu
     bindings::apply $mb
   
+  }
+  
+  ######################################################################
+  # Allows the user to select one of the Tke themes to edit and calls
+  # up the theme editor.
+  proc edit_tke_command {} {
+    
+    # Call the themer importer for the given tke file
+    # themer::import_tke $name
+    
+  }
+  
+  ######################################################################
+  # Allows the user to select an existing TextMate theme to import and
+  # calls the theme importer.
+  proc import_tm_command {} {
+    
+    # Call the themer importer for the given TextMate file
+    # themer::import_tm $name
+    
   }
   
   ######################################################################

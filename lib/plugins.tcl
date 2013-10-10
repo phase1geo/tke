@@ -63,7 +63,7 @@ namespace eval plugins {
     
     set registry_size 0
     
-    foreach plugin [glob -nocomplain -directory [file join [file dirname $::tke_dir] plugins] *.tcl] {
+    foreach plugin [glob -nocomplain -directory [file join $::tke_dir plugins] *.tcl] {
     
       if {![catch "open $plugin r" rc]} {
         
@@ -465,7 +465,7 @@ namespace eval plugins {
     
       if {[regexp {^[a-zA-Z0-9_]+$} $name]} {
       
-        set fname [file join [file dirname $::tke_dir] plugins $name.tcl]
+        set fname [file join $::tke_dir plugins $name.tcl]
     
         if {![catch "open $fname w" rc]} {
         

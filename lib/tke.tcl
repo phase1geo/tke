@@ -6,7 +6,7 @@
 # Brief:   Tcl/Tk editor written in Tcl/Tk
 # Usage:   tke [<options>] <file>*
 
-set tke_dir  [file dirname [info script]]
+set tke_dir  [file dirname [file dirname [info script]]]
 set tke_home [file join ~ .tke]
 
 ######################################################################
@@ -17,37 +17,38 @@ proc tke_development {} {
   
 }
 
-set auto_path [concat $tke_dir $auto_path]
+set auto_path [concat [file join $tke_dir lib] $auto_path]
 
 package require Tclx
 package require ctext
 package require -exact tablelist 5.9
 package require tooltip
 
-source [file join $tke_dir version.tcl]
-source [file join $tke_dir bnotebook.tcl]
-source [file join $tke_dir utils.tcl]
-source [file join $tke_dir preferences.tcl]
-source [file join $tke_dir gui.tcl]
-source [file join $tke_dir sidebar.tcl]
-source [file join $tke_dir indent.tcl]
-source [file join $tke_dir menus.tcl]
-source [file join $tke_dir launcher.tcl]
-source [file join $tke_dir plugins.tcl]
-source [file join $tke_dir snippets.tcl]
-source [file join $tke_dir bindings.tcl]
-source [file join $tke_dir bgproc.tcl]
-source [file join $tke_dir multicursor.tcl]
-source [file join $tke_dir cliphist.tcl]
-source [file join $tke_dir texttools.tcl]
-source [file join $tke_dir vim.tcl]
-source [file join $tke_dir syntax.tcl]
-source [file join $tke_dir api.tcl]
-source [file join $tke_dir markers.tcl]
-source [file join $tke_dir tkedat.tcl]
+source [file join $tke_dir lib version.tcl]
+source [file join $tke_dir lib bnotebook.tcl]
+source [file join $tke_dir lib utils.tcl]
+source [file join $tke_dir lib preferences.tcl]
+source [file join $tke_dir lib gui.tcl]
+source [file join $tke_dir lib sidebar.tcl]
+source [file join $tke_dir lib indent.tcl]
+source [file join $tke_dir lib menus.tcl]
+source [file join $tke_dir lib launcher.tcl]
+source [file join $tke_dir lib plugins.tcl]
+source [file join $tke_dir lib snippets.tcl]
+source [file join $tke_dir lib bindings.tcl]
+source [file join $tke_dir lib bgproc.tcl]
+source [file join $tke_dir lib multicursor.tcl]
+source [file join $tke_dir lib cliphist.tcl]
+source [file join $tke_dir lib texttools.tcl]
+source [file join $tke_dir lib vim.tcl]
+source [file join $tke_dir lib syntax.tcl]
+source [file join $tke_dir lib api.tcl]
+source [file join $tke_dir lib markers.tcl]
+source [file join $tke_dir lib tkedat.tcl]
+source [file join $tke_dir lib themer.tcl]
 
 if {[tk windowingsystem] eq "aqua"} {
-  source [file join $tke_dir windowlist.tcl]
+  source [file join $tke_dir lib windowlist.tcl]
 }
 
 # Set the default right click button number
@@ -140,7 +141,31 @@ if {[tk windowingsystem] eq "aqua"} {
       if {[file isdirectory $name]} {
         gui::add_directory $name
       } else {
-        gui::add_file end $name
+        switch -exact -- [string tolower [file extension $name]] {
+          .tmtheme {
+            set ans [tk_messageBox -default yes -icon question -message "Import TextMate theme?" -parent . -type yesnocancel]
+            if {$ans eq "yes"} {
+              themer::import_tm $name
+            } elseif {$ans eq "no"} {
+              gui::add_file end $name
+            } else {
+              return
+            }
+          }
+          .tketheme {
+            set ans [tk_messageBox -default yes -icon question -message "Edit theme?" -parent . -type yesnocancel]
+            if {$ans eq "yes"} {
+              themer::import_tke $name
+            } elseif {$ans eq "no"} {
+              gui::add_file end $name
+            } else {
+              return
+            }
+          }
+          default {
+            gui::add_file end $name
+          }
+        }
       }
     }
 

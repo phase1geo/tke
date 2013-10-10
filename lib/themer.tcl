@@ -28,16 +28,17 @@ namespace eval themer {
   }
   
   array set scope_map {
-    comment          comments
-    keyword          keywords
-    string           strings
-    entity           punctuation
-    punctuation      punctuation
-    preprocessor     precompile
-    preprocessor     precompile
-    constant.numeric numbers
-    variable.other   miscellaneous
-    meta.tag         miscellaneous
+    comment              comments
+    keyword              keywords
+    string               strings
+    entity               punctuation
+    punctuation          punctuation
+    meta.preprocessor.c  precompile
+    other.preprocessor.c precompile
+    constant             numbers
+    constant.numeric     numbers
+    variable.other       miscellaneous
+    meta.tag             miscellaneous
   }
    
   array set labels {
@@ -58,7 +59,7 @@ namespace eval themer {
   }
   
   # Add trace to the labels array
-  trace add variable themer::labels w themer::handle_label_change 
+  trace add variable themer::labels write themer::handle_label_change 
   
   #############################################################
   # Called whenever a menu item is selected inthe scope menu.
@@ -75,8 +76,8 @@ namespace eval themer {
       set color [lindex $labels($lbl) $label_index(color)]
        
       # Set the button and label
-      $widgets(l:$name2) configure -foreground ""
-      $widgets(b:$name2) configure -text [lindex $labels($lbl) $label_index(scope)]
+      $widgets(l:$lbl) configure -foreground ""
+      $widgets(b:$lbl) configure -text [lindex $labels($lbl) $label_index(scope)]
        
       # Set the image
       if {$lbl eq "background"} {
@@ -214,7 +215,7 @@ namespace eval themer {
   proc create_warn_width_color {color} {
    
     # Convert the color to an HSV value
-    foreach {r g b} [winfo rgb . $color] {}
+    foreach {r g b} [winfo rgb [get_win] $color] {}
     set hsv [rgb_to_hsv [expr $r >> 8] [expr $g >> 8] [expr $b >> 8]]
    
     # Lighten it if value is closer to black
@@ -361,6 +362,36 @@ namespace eval themer {
     array set orig_labels [array get labels]
     
   }
+  
+  ######################################################################
+  # Reads the contents of the tketheme and stores the results 
+  proc read_tketheme {theme} {
+    
+    variable labels
+    variable label_index
+    
+    if {![catch { open $theme r } rc]} {
+      
+      # Read the contents from the file and close
+      array set contents [read $rc]
+      close $rc
+      
+      # Store the contents into the labels array
+      foreach {lbl info} [array get labels] {
+        if {[info exists contents($lbl)]} {
+          lset labels($lbl) $label_index(color) $contents($lbl)
+        }
+      }
+      
+    } else {
+      
+      puts "ERROR:  Unable to read $theme"
+      puts $rc
+      exit 1
+      
+    }
+    
+  }
    
   ######################################################################
   # Checks to make sure that all colors needed were found in the TextMate
@@ -391,10 +422,11 @@ namespace eval themer {
     variable theme_dir
     variable tmtheme
     variable labels
+    variable label_index
     
     # If we don't have a theme name, get one
     if {$tmtheme eq ""} {
-      if {[set tmtheme [tk_getSaveFile -parent . -initialdir [pwd] -defaultextension ".tketheme"]] eq ""} {
+      if {[set tmtheme [tk_getSaveFile -parent [get_win] -initialdir [pwd] -defaultextension ".tketheme"]] eq ""} {
         return
       }
     }
@@ -404,8 +436,8 @@ namespace eval themer {
     
     if {![catch { open [file join $theme_dir $basename.tketheme] w } rc]} {
       
-      foreach {key value} [array get labels] {
-        puts $rc [format "%-16s \"%s\"" $key [string tolower $value]]
+      foreach {lbl info} [array get labels] {
+        puts $rc [format "%-16s \"%s\"" $lbl [string tolower [lindex $info $label_index(color)]]]
       }
       
       close $rc
@@ -431,10 +463,18 @@ namespace eval themer {
     variable all_scopes
     variable tmtheme
     
-    ttk::frame .tf
+    # Make it so that the window cannot be resized
+    if {[file tail $::argv0] ne "themer.tcl"} {
+      toplevel [get_win]
+      wm transient [get_win] .
+    }
+    wm resizable [get_win] 0 0
     
-    # Create left frame
-    ttk::frame .tf.lf
+    # Create top frame
+    ttk::frame [get_path].tf
+    
+    # Create top-left frame
+    ttk::frame [get_path].tf.lf
     
     incr i
     foreach lbl [lsort [array names labels]] {
@@ -442,13 +482,16 @@ namespace eval themer {
       if {[lindex $labels($lbl) $label_index(setable)]} {
       
         # Create the label and menubutton
-        set widgets(l:$lbl) [ttk::label .tf.lf.l$lbl -text [string totitle $lbl]]
-        set widgets(b:$lbl) [ttk::label .tf.lf.b$lbl -compound left -anchor w -relief raised]
+        set widgets(l:$lbl) [ttk::label [get_path].tf.lf.l$lbl -text "[string totitle $lbl]:"]
+        set widgets(b:$lbl) [ttk::label [get_path].tf.lf.b$lbl -anchor w -relief raised]
         
         bind $widgets(b:$lbl) <Button-1> "themer::show_menu $lbl"
       
         # Create menu
-        set widgets(m:$lbl) [menu .tf.lf.b$lbl.mnu -tearoff 0]
+        set widgets(m:$lbl) [menu [get_path].tf.lf.b$lbl.mnu -tearoff 0]
+        
+        # Add custom command so that we don't get an error when parsing
+        $widgets(m:$lbl) add command -label "Create custom"
       
         # Add them to the grid
         grid $widgets(l:$lbl) -row $i -column 0 -sticky news -padx 2 -pady 2
@@ -460,9 +503,9 @@ namespace eval themer {
       
     }
     
-    # Create the right frame
-    ttk::frame .tf.rf
-    set widgets(txt) [text .tf.rf.txt -height 10 -width 40]
+    # Create the top-right frame
+    ttk::labelframe [get_path].tf.rf -text "Sample Text"
+    set widgets(txt) [text [get_path].tf.rf.txt -height 10 -width 40]
     
     $widgets(txt) insert end "#ifdef DFN\n"
     $widgets(txt) insert end "\n"
@@ -488,34 +531,34 @@ namespace eval themer {
     # Disable the text widget
     $widgets(txt) configure -state disabled
 
-    pack $widgets(txt)
+    pack $widgets(txt) -fill both -expand yes
 
-    grid .tf.lf -row 0 -column 0 -sticky news -padx 2 -pady 2
-    grid .tf.rf -row 0 -column 1 -sticky news -padx 2 -pady 2
+    grid [get_path].tf.lf -row 0 -column 0 -sticky news -padx 2 -pady 2
+    grid [get_path].tf.rf -row 0 -column 1 -sticky news -padx 2 -pady 2
     
     # Create the button frame
-    ttk::frame  .bf
-    set widgets(reset) [ttk::button .bf.reset  -text "Reset"  -width 6 -command {
+    ttk::frame  [get_path].bf
+    set widgets(reset) [ttk::button [get_path].bf.reset  -text "Reset"  -width 6 -command {
       array set themer::labels [array get themer::orig_labels]
       themer::highlight
     }]
-    set widgets(action) [ttk::button .bf.import -text "Import" -width 6 -command {
+    set widgets(action) [ttk::button [get_path].bf.import -text "Import" -width 6 -command {
       themer::write_tketheme
-      destroy .
+      destroy [themer::get_win]
     }]
-    ttk::button .bf.cancel -text "Cancel" -width 6 -command {
-      destroy .
+    ttk::button [get_path].bf.cancel -text "Cancel" -width 6 -command {
+      destroy [themer::get_win]
     }
     
     if {$tmtheme ne ""} {
-      pack .bf.reset  -side left  -padx 2 -pady 2
+      pack [get_path].bf.reset  -side left  -padx 2 -pady 2
     }
     
-    pack .bf.cancel -side right -padx 2 -pady 2
-    pack .bf.import -side right -padx 2 -pady 2
+    pack [get_path].bf.cancel -side right -padx 2 -pady 2
+    pack [get_path].bf.import -side right -padx 2 -pady 2
     
-    pack .tf -fill both -expand yes
-    pack .bf -fill x
+    pack [get_path].tf -fill both -expand yes
+    pack [get_path].bf -fill x
       
   }
   
@@ -552,6 +595,7 @@ namespace eval themer {
     
     # Set the current color to the given scope
     lset labels($lbl) $label_index(color) $all_scopes($scope)
+    lset labels($lbl) $label_index(scope) $scope
  
   }
   
@@ -563,7 +607,7 @@ namespace eval themer {
     variable label_index
     
     # Set the color to the chosen color
-    if {[set color [tk_chooseColor -initialcolor [lindex $labels($lbl) $label_index(color)] -parent . -title "Choose custom color"]] ne ""} {
+    if {[set color [tk_chooseColor -initialcolor [lindex $labels($lbl) $label_index(color)] -parent [get_win] -title "Choose custom color"]] ne ""} {
       lset labels($lbl) $label_index(color) $color
     }
     
@@ -587,18 +631,26 @@ namespace eval themer {
     }
     
     # Colorize the text widget itself
-    $widgets(txt) configure -foreground [lindex $labels(foreground) $label_index(color)] \
-                            -background [lindex $labels(background) $label_index(color)]
+    if {[set color [lindex $labels(foreground) $label_index(color)]] ne ""} {
+      $widgets(txt) configure -foreground $color
+    }
+    if {[set color [lindex $labels(background) $label_index(color)]] ne ""} {
+      $widgets(txt) configure -background $color
+    }
     
     # Colorize the menubuttons and menus
     if {$tmtheme ne ""} {
       foreach {lbl info} [array get labels] {
         if {[lindex $info $label_index(setable)]} {
-          set mnu .tf.lf.b$lbl.mnu
-          $mnu configure -background [lindex $labels(background) $label_index(color)]
-          $mnu entryconfigure "Create custom" -foreground [lindex $info $label_index(color)]
+          set mnu $widgets(m:$lbl)
+          if {[set color [lindex $labels(background) $label_index(color)]] ne ""} {
+            $mnu configure -background $color
+          }
+          if {[set color [lindex $info $label_index(color)]] ne ""} {
+            $mnu entryconfigure "Create custom" -foreground $color
+          }
           foreach scope [array names all_scopes] {
-            $mnu entryconfigure $scope -foreground $all_scopes($scope)
+            catch { $mnu entryconfigure $scope -foreground $all_scopes($scope) }
           }
         }
       }
@@ -607,7 +659,23 @@ namespace eval themer {
   }
   
   ######################################################################
-  # Imports the given theme and upd
+  # Returns the name of the top-level window.
+  proc get_win {} {
+    
+    return [expr {([file tail $::argv0] eq "themer.tcl") ? "." : ".thwin"}]
+
+  }
+  
+  ######################################################################
+  # Returns the path of the top-level window.
+  proc get_path {} {
+    
+    return [expr {([file tail $::argv0] eq "themer.tcl") ? "" : ".thwin"}]
+    
+  }
+  
+  ######################################################################
+  # Imports the given TextMate theme and displays the result in the UI.
   proc import_tm {theme} {
   
     variable widgets
@@ -615,19 +683,20 @@ namespace eval themer {
     variable all_scopes
     
     # Set the theme
-    set tmtheme $tmtheme
+    set tmtheme $theme
     
     # Create the UI
     create
     
     # Initialize the widgets
-    wm title . "Import TextMate Theme"
+    wm title [get_win] "Import TextMate Theme"
     $widgets(action) configure -text "Import"
     catch { pack $widgets(reset) -side left -padx 2 -pady 2 }
     
     # Set the label colors to red
     foreach l [array names widgets l:*] {
       $widgets($l) configure -foreground "red"
+      $widgets(b:[lindex [split $l :] 1]) configure -compound left
     }
     
     # Read the theme
@@ -655,8 +724,29 @@ namespace eval themer {
       
     }
     
-    # Perform the highlight based on the current colors
-    highlight
+  }
+  
+  ######################################################################
+  # Imports the given tke theme and displays the result in the UI.
+  proc import_tke {theme} {
+    
+    variable widgets
+    variable tmtheme
+    variable all_scopes
+    
+    # Set the theme
+    set tmtheme $theme
+    
+    # Create the UI
+    create
+    
+    # Initialize UI
+    wm title [get_win] "Edit theme"
+    $widgets(action) configure -text "Save"
+    catch { pack $widgets(reset) -side left -padx 2 -pady 2 }
+    
+    # Read the theme
+    read_tketheme $theme
     
   }
   
@@ -676,7 +766,7 @@ namespace eval themer {
     create
     
     # Initialize the widgets
-    wm title . "Create New Theme"
+    wm title [get_win] "Create New Theme"
     $widgets(action) configure -text "Create"
     catch { pack forget $widgets(reset) }
     
@@ -707,7 +797,7 @@ if {[file tail $argv0] eq "themer.tcl"} {
   # command-line.
   proc usage {} {
   
-    puts "Usage:  themer (-h | <tmTheme file>)"
+    puts "Usage:  themer (-h | <tmTheme file> | <tkeTheme file>)"
     puts ""
     puts "Options:"
     puts "  -h  Displays this help information"
@@ -722,7 +812,7 @@ if {[file tail $argv0] eq "themer.tcl"} {
   while {$i < $argc} {
     switch [lindex $argv $i] {
       -h      { usage }
-      default { set tmtheme [lindex $argv $i] }
+      default { set theme [lindex $argv $i] }
     }
     incr i
   }
@@ -730,8 +820,16 @@ if {[file tail $argv0] eq "themer.tcl"} {
   # Set the theme to clam
   ttk::style theme use clam
 
-  if {[info exists tmtheme]} {
-    themer::import_tm $tmtheme
+  if {[info exists theme]} {
+    set ext [string tolower [file extension $theme]]
+    switch -exact -- $ext {
+      .tmtheme  { themer::import_tm $theme }
+      .tketheme { themer::import_tke $theme }
+      default   {
+        puts "Error:  Theme is not a supported theme"
+        usage
+      }
+    }
   } else {
     themer::create_new
   }

@@ -5,7 +5,7 @@
 
 namespace eval preferences {
 
-  variable base_preferences_file [file join [file dirname $::tke_dir] data preferences.tkedat]
+  variable base_preferences_file [file join $::tke_dir data preferences.tkedat]
   variable user_preferences_file [file join $::tke_home preferences.tkedat]
   
   array set prefs {}

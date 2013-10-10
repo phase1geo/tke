@@ -104,7 +104,7 @@ namespace eval gui {
     variable images
     
     # Set the application icon photo
-    wm iconphoto . [image create photo -file [file join $::tke_dir images tke_logo_128.gif]]
+    wm iconphoto . [image create photo -file [file join $::tke_dir lib images tke_logo_128.gif]]
     
     # Create the panedwindow
     set widgets(pw) [ttk::panedwindow .pw -orient horizontal]
@@ -119,7 +119,8 @@ namespace eval gui {
     set widgets(nb_pw) [ttk::panedwindow $widgets(pw).tf.nbpw -orient $preferences::prefs(View/PaneOrientation)]
       
     # Create notebook images
-    set images(down) [image create bitmap -file [file join $::tke_dir images down.bmp] -maskfile [file join $::tke_dir images down.bmp]]
+    set images(down) [image create bitmap -file     [file join $::tke_dir lib images down.bmp] \
+                                          -maskfile [file join $::tke_dir lib images down.bmp]]
 
     # Add notebook
     add_notebook
@@ -193,10 +194,16 @@ namespace eval gui {
     }
     
     # Create images
-    set images(lock)     [image create bitmap -file [file join $::tke_dir images lock.bmp] -maskfile [file join $::tke_dir images lock.bmp] -foreground grey10]
-    set images(readonly) [image create bitmap -file [file join $::tke_dir images lock.bmp] -maskfile [file join $::tke_dir images lock.bmp] -foreground grey30]
-    set images(close)    [image create bitmap -file [file join $::tke_dir images close.bmp] -maskfile [file join $::tke_dir images close.bmp] -foreground grey10]
-    set images(logo)     [image create photo  -file [file join $::tke_dir images tke_logo_64.gif]]
+    set images(lock)     [image create bitmap -file     [file join $::tke_dir lib images lock.bmp] \
+                                              -maskfile [file join $::tke_dir lib images lock.bmp] \
+                                              -foreground grey10]
+    set images(readonly) [image create bitmap -file     [file join $::tke_dir lib images lock.bmp] \
+                                              -maskfile [file join $::tke_dir lib images lock.bmp] \
+                                              -foreground grey30]
+    set images(close)    [image create bitmap -file     [file join $::tke_dir lib images close.bmp] \
+                                              -maskfile [file join $::tke_dir lib images close.bmp] \
+                                              -foreground grey10]
+    set images(logo)     [image create photo  -file     [file join $::tke_dir lib images tke_logo_64.gif]]
     
     # Start polling on the files
     poll

@@ -41,7 +41,7 @@ namespace eval syntax {
     variable langs
     
     # Load the tke_dir syntax files
-    set sfiles [glob -nocomplain -directory [file join [file dirname $::tke_dir] data syntax] *.syntax]
+    set sfiles [glob -nocomplain -directory [file join $::tke_dir data syntax] *.syntax]
     
     # Load the tke_home syntax files
     set sfiles [concat $sfiles [glob -nocomplain -directory [file join $::tke_home syntax] *.syntax]]
@@ -101,7 +101,7 @@ namespace eval syntax {
     variable theme
     
     # Load the tke_dir theme files
-    set tfiles [glob -nocomplain -directory [file join [file dirname $::tke_dir] data themes] *.tketheme]
+    set tfiles [glob -nocomplain -directory [file join $::tke_dir data themes] *.tketheme]
     
     # Load the tke_home theme files
     set tfiles [concat $tfiles [glob -nocomplain -directory [file join $::tke_home themes] *.tketheme]]
