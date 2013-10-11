@@ -62,3 +62,87 @@ msgcat::mcmset de {
   "Menu Bindings: Reload Menü Bindungen"
   
 }
+
+# menus.tcl
+msgcat::mcmset de {
+  
+  "File"
+  "Feile"
+  
+  "New"
+  "Neu"
+  
+  "Open File..."
+  "Datei öffnen..."
+  
+  "Open Directory..."
+  "Verzeichnis öffnen..."
+  
+  "Open Recent"
+  "Öffnen Sie den letzten"
+  
+  "Save"
+  "Speichern"
+  
+  "Save As..."
+  "Speichern unter..."
+  
+  "Lock"
+  "Sperren"
+  
+  "Close"
+  "schließen"
+  
+  "Quit"
+  "Beenden"
+  
+  "Edit"
+  "Bearbeiten"
+  
+  "Undo"
+  "Rückgängig"
+  
+  "Redo"
+  "Redo"
+  
+  "Cut"
+  "Schneiden"
+  
+  "Copy"
+  "Kopieren"
+  
+  "Paste"
+  "Einfügen"
+  
+  "Paste and Format"
+  "Einfügen und Format"
+  
+  "Format Text"
+  "Formatieren von Text"
+  
+  "Selected"
+  "Ausgewählt"
+  
+  "All"
+  "Alle"
+  
+  "Find"
+  "Finden"
+  
+  "Text"
+  "Text"
+  
+  "View"
+  "Blick"
+  
+  "Tools"
+  "Instrument"
+  
+  "Plugins"
+  "Plugins"
+  
+  "Help"
+  "Hilfe"
+  
+}
+

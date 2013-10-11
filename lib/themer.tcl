@@ -9,6 +9,9 @@
 
 if {[file tail $argv0] eq "themer.tcl"} {
   set tke_dir [file dirname [file dirname [file normalize $argv0]]]
+  
+  package require msgcat
+  
 }
 
 namespace eval themer {
@@ -352,7 +355,7 @@ namespace eval themer {
       
     } elseif {[file tail $::argv0] eq "themer.tcl"} {
       
-      puts "ERROR:  Unable to read $theme"
+      puts [msgcat::mc "ERROR:  Unable to read %s" $theme]
       puts $rc
       exit 1
       
@@ -385,7 +388,7 @@ namespace eval themer {
       
     } elseif {[file tail $::argv0] eq "themer.tcl"} {
       
-      puts "ERROR:  Unable to read $theme"
+      puts [msgcat::mc "ERROR:  Unable to read %s" $theme]
       puts $rc
       exit 1
       
@@ -403,7 +406,7 @@ namespace eval themer {
     
     # Create the window
     toplevel     $w
-    wm title     $w "Select theme"
+    wm title     $w [msgcat::mc "Select theme"]
     wm transient $w .
     wm resizable $w 0 0
     
@@ -416,12 +419,15 @@ namespace eval themer {
     grid $w.tf.lb -row 0 -column 0 -sticky news
     grid $w.tf.vb -row 0 -column 1 -sticky ns
     
+    # Figure out the width of the buttons
+    set bwidth [msgcat::mcmax "OK" "Cancel"]
+    
     ttk::frame  $w.bf
-    ttk::button $w.bf.ok -text "OK" -width 6 -command {
+    ttk::button $w.bf.ok -text [msgcat::mc "OK" -width $bwidth -command {
       set ::theme_name [.thrwin.tf.lb get [.thrwin.tf.lb curselection]]
       destroy .thrwin
     }
-    ttk::button $w.bf.cancel -text "Cancel" -width 6 -command {
+    ttk::button $w.bf.cancel -text [msgcat::mc "Cancel"] -width $bwidth -command {
       destroy .thrwin
     }
     
@@ -477,12 +483,12 @@ namespace eval themer {
     
     # Create the window
     toplevel     $w
-    wm title     $w "Enter theme name"
+    wm title     $w [msgcat::mc "Enter theme name"]
     wm transient $w [get_win]
     wm resizable $w 0 0
     
     ttk::frame $w.tf
-    ttk::label $w.tf.l -text "Name:"
+    ttk::label $w.tf.l -text [msgcat::mc "Name:"]
     ttk::entry $w.tf.e -validate key -invalidcommand bell -validatecommand {
       [themer::get_path].swin.bf.ok configure \
         -state [expr {([string length %P] eq "") ? "disabled" : "normal"}]
@@ -492,13 +498,15 @@ namespace eval themer {
     pack $w.tf.l -side left -padx 2 -pady 2
     pack $w.tf.e -side left -fill x -padx 2 -pady 2
     
+    set bwidth [msgcat::mcmax "OK" "Cancel"]
+    
     ttk::frame  $w.bf
-    ttk::button $w.bf.ok -text "OK" -width 6 -state disabled -command {
+    ttk::button $w.bf.ok -text [msgcat::mc "OK"] -width $bwidth -state disabled -command {
       set top          [themer::get_path]
       set ::theme_name [$top.swin.tf.e get]
       destroy $top.swin
     }
-    ttk::button $w.bf.cancel -text "Cancel" -width 6 -command {
+    ttk::button $w.bf.cancel -text [msgcat::mc "Cancel"] -width $bwidth -command {
       destroy [themer::get_path].swin
     }
     
@@ -565,7 +573,7 @@ namespace eval themer {
       
     } elseif {[file tail $::argv0] eq "themer.tcl"} {
       
-      puts "ERROR:  Unable to write [file join $theme_dir $basename.tketheme]"
+      puts [msgcat::mc "ERROR:  Unable to write %s" [file join $theme_dir $basename.tketheme]]
       puts $rc
       exit 1
       
@@ -614,7 +622,7 @@ namespace eval themer {
         set widgets(m:$lbl) [menu [get_path].tf.lf.b$lbl.mnu -tearoff 0]
         
         # Add custom command so that we don't get an error when parsing
-        $widgets(m:$lbl) add command -label "Create custom"
+        $widgets(m:$lbl) add command -label [msgcat::mc "Create custom"]
       
         # Add them to the grid
         grid $widgets(l:$lbl) -row $i -column 0 -sticky news -padx 2 -pady 2
@@ -659,13 +667,15 @@ namespace eval themer {
     grid [get_path].tf.lf -row 0 -column 0 -sticky news -padx 2 -pady 2
     grid [get_path].tf.rf -row 0 -column 1 -sticky news -padx 2 -pady 2
     
+    set bwidth [msgcat::mcmax "Reset" "Save As" "Import" "Create" "Save" "Cancel"]
+    
     # Create the button frame
     ttk::frame  [get_path].bf
-    set widgets(reset) [ttk::button [get_path].bf.reset  -text "Reset"  -width 7 -command {
+    set widgets(reset) [ttk::button [get_path].bf.reset  -text [msgcat::mc "Reset"] -width $bwidth -command {
       array set themer::labels [array get themer::orig_labels]
       themer::highlight
     }]
-    set widgets(saveas) [ttk::button [get_path].bf.saveas -text "Save As" -width 7 -command {
+    set widgets(saveas) [ttk::button [get_path].bf.saveas -text [msgcat::mc "Save As"] -width $bwidth -command {
       set orig_tmtheme    $themer::tmtheme
       set themer::tmtheme ""
       if {[themer::write_tketheme]} {
@@ -674,12 +684,12 @@ namespace eval themer {
         set themer::tmtheme $orig_tmtheme
       }
     }]
-    set widgets(action) [ttk::button [get_path].bf.import -text "Import" -width 7 -command {
+    set widgets(action) [ttk::button [get_path].bf.import -text [msgcat::mc "Import"] -width $bwidth -command {
       if {[themer::write_tketheme]} {
         destroy [themer::get_win]
       }
     }]
-    ttk::button [get_path].bf.cancel -text "Cancel" -width 7 -command {
+    ttk::button [get_path].bf.cancel -text [msgcat::mc "Cancel"] -width $bwidth -command {
       destroy [themer::get_win]
     }
     
@@ -785,7 +795,7 @@ namespace eval themer {
             $mnu configure -background $color
           }
           if {[set color [lindex $info $label_index(color)]] ne ""} {
-            $mnu entryconfigure "Create custom" -foreground $color
+            $mnu entryconfigure [msgcat::mc "Create custom"] -foreground $color
           }
           foreach scope [array names all_scopes] {
             catch { $mnu entryconfigure $scope -foreground $all_scopes($scope) }
@@ -827,8 +837,8 @@ namespace eval themer {
     create
     
     # Initialize the widgets
-    wm title [get_win] "Import TextMate Theme"
-    $widgets(action) configure -text "Import"
+    wm title [get_win] [msgcat::mc "Import TextMate Theme"]
+    $widgets(action) configure -text [msgcat::mc "Import"]
     catch { pack $widgets(reset) -side left -padx 2 -pady 2 }
     
     # Set the label colors to red
@@ -849,7 +859,7 @@ namespace eval themer {
       $widgets($mnu) delete 0 end
       
       # Add the custom menu
-      $widgets($mnu) add command -label "Create custom" -command "themer::create_custom_color $lbl"
+      $widgets($mnu) add command -label [msgcat::mc "Create custom"] -command "themer::create_custom_color $lbl"
       $widgets($mnu) add separator
     
       # Add the scopes to the menu
@@ -879,8 +889,8 @@ namespace eval themer {
     create
     
     # Initialize UI
-    wm title [get_win] "Edit theme"
-    $widgets(action) configure -text "Save"
+    wm title [get_win] [msgcat::mc "Edit theme"]
+    $widgets(action) configure -text [msgcat::mc "Save"]
     catch { pack $widgets(reset) -side left -padx 2 -pady 2 }
     catch { pack $widgets(saveas) -side right -padx 2 -pady 2 }
     
@@ -905,8 +915,8 @@ namespace eval themer {
     create
     
     # Initialize the widgets
-    wm title [get_win] "Create New Theme"
-    $widgets(action) configure -text "Create"
+    wm title [get_win] [msgcat::mc "Create New Theme"]
+    $widgets(action) configure -text [msgcat::mc "Create"]
     catch { pack forget $widgets(reset) }
     
     # Initialize the labels array
@@ -965,7 +975,7 @@ if {[file tail $argv0] eq "themer.tcl"} {
       .tmtheme  { themer::import_tm $theme }
       .tketheme { themer::import_tke $theme }
       default   {
-        puts "Error:  Theme is not a supported theme"
+        puts [msgcat::mc "Error:  Theme is not a supported theme"]
         usage
       }
     }

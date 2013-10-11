@@ -22,8 +22,8 @@ namespace eval snippets {
       file mkdir $snippets_dir
     }
     
-    launcher::register "Snippets: Add snippet"         "snippets::add_new_snippet"
-    launcher::register "Snippets: Reload all snippets" "snippets::load_directory"
+    launcher::register [msgcat::mc "Snippets: Add snippet"]         "snippets::add_new_snippet"
+    launcher::register [msgcat::mc "Snippets: Reload all snippets"] "snippets::load_directory"
     
   }
   
@@ -41,7 +41,7 @@ namespace eval snippets {
     array unset snippets $language,*
       
     # Remove any launcher commands that would be associated with this file
-    launcher::unregister "Snippet: *"
+    launcher::unregister [msgcat::mc "Snippet: *"]
 
     if {![catch "open $sfile r" rc]} {
       
@@ -64,7 +64,7 @@ namespace eval snippets {
             set snippets($language,$name) [parse_snippet [string range $snippet 0 end-1]]
             set snippet    ""
             array set snip $snippets($language,$name)
-            launcher::register "Snippet: $name: [string range $snip(raw_string) 0 30]" \
+            launcher::register [msgcat::mc "Snippet: %s: %s" $name [string range $snip(raw_string) 0 30]] \
               [list snippets::insert_snippet_into_current $snippets($language,$name)] 
           }
         }

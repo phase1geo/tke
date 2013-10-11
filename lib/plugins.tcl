@@ -260,8 +260,8 @@ namespace eval plugins {
         set registry($bad_source,selected) 0
         lappend names $registry($bad_source,name)
       }
-      tk_messageBox -default ok -type ok -icon warning -parent . -title "Plugin Errors" \
-        -message "Syntax errors found in selected plugins" -detail [join $names \n]
+      tk_messageBox -default ok -type ok -icon warning -parent . -title [msgcat::mc "Plugin Errors"] \
+        -message [msgcat::mc "Syntax errors found in selected plugins"] -detail [join $names \n]
     }
     
   }
@@ -391,7 +391,7 @@ namespace eval plugins {
         handle_status_error $index $status
         set registry($index,selected) 0
       } else {
-        after 100 [list gui::set_info_message "Plugin $registry($index,name) installed"]
+        after 100 [list gui::set_info_message [msgcat::mc "Plugin %s installed" $registry($index,name)]]
         set registry($index,sourced)  1
         set registry($index,selected) 1
         handle_reloading $index
@@ -399,7 +399,7 @@ namespace eval plugins {
       
     # Otherwise, just mark the plugin as being selected
     } else {
-      after 100 [list gui::set_info_message "Plugin $registry($index,name) installed"]
+      after 100 [list gui::set_info_message [msgcat::mc "Plugin %s installed" $registry($index,name)]]
       set registry($index,selected) 1
     }
     
@@ -451,7 +451,7 @@ namespace eval plugins {
     add_all_menus
     
     # Display the uninstall message
-    after 100 [list gui::set_info_message "Plugin $registry($index,name) uninstalled"]
+    after 100 [list gui::set_info_message [msgcat::mc "Plugin %s uninstalled" $registry($index,name)]]
     
   }
   
@@ -461,7 +461,7 @@ namespace eval plugins {
   
     set name ""
     
-    if {[gui::user_response_get "Enter plugin name" name]} {
+    if {[gui::user_response_get [msgcat::mc "Enter plugin name"] name]} {
     
       if {[regexp {^[a-zA-Z0-9_]+$} $name]} {
       
@@ -491,11 +491,11 @@ namespace eval plugins {
           gui::add_file end $fname -savecommand plugins::reload 
           
         } else {
-          gui::set_info_message "ERROR:  Unable to write plugin file"
+          gui::set_info_message [msgcat::mc "ERROR:  Unable to write plugin file"]
         }
 
       } else {
-        gui::set_info_message "ERROR:  Plugin name is not valid (only alphanumeric and underscores are allowed)"
+        gui::set_info_message [msgcat::mc "ERROR:  Plugin name is not valid (only alphanumeric and underscores are allowed)"]
       }
             
     }

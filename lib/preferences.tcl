@@ -21,12 +21,12 @@ namespace eval preferences {
     load_file
     
     # Add our launcher commands
-    launcher::register "Preferences: Edit user preferences" \
+    launcher::register [msgcat::mc "Preferences: Edit user preferences"] \
       [list gui::add_file end $user_preferences_file -sidebar 0 -savecommand preferences::load_file]
-    launcher::register "Preferences: View global preferences" \
+    launcher::register [msgcat::mc "Preferences: View global preferences"] \
       [list gui::add_file end $base_preferences_file -readonly 1 -sidebar 0] 
-    launcher::register "Preferences: Use default preferences" "preferences::copy_default"
-    launcher::register "Preferences: Reload preferences" "preferences::load_file"
+    launcher::register [msgcat::mc "Preferences: Use default preferences"] "preferences::copy_default"
+    launcher::register [msgcat::mc "Preferences: Reload preferences"] "preferences::load_file"
   
   }
   

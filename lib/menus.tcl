@@ -24,35 +24,35 @@ namespace eval menus {
     . configure -menu $mb
   
     # Add the file menu
-    $mb add cascade -label "File" -menu [menu $mb.file -tearoff false -postcommand "menus::file_posting $mb.file"] 
+    $mb add cascade -label [msgcat::mc "File"] -menu [menu $mb.file -tearoff false -postcommand "menus::file_posting $mb.file"] 
     add_file $mb.file
     
     # Add the edit menu
-    $mb add cascade -label "Edit" -menu [menu $mb.edit -tearoff false]
+    $mb add cascade -label [msgcat::mc "Edit"] -menu [menu $mb.edit -tearoff false]
     add_edit $mb.edit
     
     # Add the find menu
-    $mb add cascade -label "Find" -menu [menu $mb.find -tearoff false]
+    $mb add cascade -label [msgcat::mc "Find"] -menu [menu $mb.find -tearoff false]
     add_find $mb.find
 
     # Add the text menu
-    $mb add cascade -label "Text" -menu [menu $mb.text -tearoff false -postcommand "menus::text_posting $mb.text"]
+    $mb add cascade -label [msgcat::mc "Text"] -menu [menu $mb.text -tearoff false -postcommand "menus::text_posting $mb.text"]
     add_text $mb.text
     
     # Add the view menu
-    $mb add cascade -label "View" -menu [menu $mb.view -tearoff false]
+    $mb add cascade -label [msgcat::mc "View"] -menu [menu $mb.view -tearoff false]
     add_view $mb.view
       
     # Add the tools menu
-    $mb add cascade -label "Tools" -menu [menu $mb.tools -tearoff false -postcommand "menus::tools_posting $mb.tools"]
+    $mb add cascade -label [msgcat::mc "Tools"] -menu [menu $mb.tools -tearoff false -postcommand "menus::tools_posting $mb.tools"]
     add_tools $mb.tools
     
     # Add the plugins menu
-    $mb add cascade -label "Plugins" -menu [menu $mb.plugins -tearoff false]
+    $mb add cascade -label [msgcat::mc "Plugins"] -menu [menu $mb.plugins -tearoff false]
     add_plugins $mb.plugins
     
     # Add the help menu
-    $mb add cascade -label "Help" -menu [menu $mb.help -tearoff false]
+    $mb add cascade -label [msgcat::mc "Help"] -menu [menu $mb.help -tearoff false]
     add_help $mb.help
 
     # If we are running on Mac OS X, add the window menu with the windowlist package
@@ -64,7 +64,7 @@ namespace eval menus {
       # Add the "About Tke" menu in the application menu
       set appl [menu $mb.apple -tearoff false]
       $mb add cascade -menu $appl
-      $appl add command -label "About Tke" -command gui::show_about
+      $appl add command -label [msgcat::mc "About Tke"] -command gui::show_about
       $appl add separator
 
     }
@@ -81,42 +81,42 @@ namespace eval menus {
   
     $mb delete 0 end
   
-    $mb add command -label "New"        -underline 0 -command "menus::new_command"
-    launcher::register "Menu: New file" menus::new_command
+    $mb add command -label [msgcat::mc "New"] -underline 0 -command "menus::new_command"
+    launcher::register [msgcat::mc "Menu: New file"] menus::new_command
     
-    $mb add command -label "Open File..." -underline 0 -command "menus::open_command"
-    launcher::register "Menu: Open file" menus::open_command
+    $mb add command -label [msgcat::mc "Open File..."] -underline 0 -command "menus::open_command"
+    launcher::register [msgcat::mc "Menu: Open file"] menus::open_command
     
-    $mb add command -label "Open Directory..." -underline 5 -command "menus::open_dir_command"
-    launcher::register "Menu: Open directory" menus::open_dir_command
+    $mb add command -label [msgcat::mc "Open Directory..."] -underline 5 -command "menus::open_dir_command"
+    launcher::register [msgcat::mc "Menu: Open directory"] menus::open_dir_command
     
-    $mb add cascade -label "Open Recent" -menu [menu $mb.recent -tearoff false -postcommand "menus::file_recent_posting $mb.recent"]
-    
-    $mb add separator
-    
-    $mb add command -label "Save"       -underline 0 -command "menus::save_command"
-    launcher::register "Menu: Save file" menus::save_command
-    
-    $mb add command -label "Save As..." -underline 5 -command "menus::save_as_command"
-    launcher::register "Menu: Save file as" menus::save_as_command
+    $mb add cascade -label [msgcat::mc "Open Recent"] -menu [menu $mb.recent -tearoff false -postcommand "menus::file_recent_posting $mb.recent"]
     
     $mb add separator
     
-    $mb add command -label "Lock" -underline 0 -command "menus::lock_command $mb"
-    launcher::register "Menu: Lock file"   "menus::lock_command $mb"
-    launcher::register "Menu: Unlock file" "menus::unlock_command $mb"
+    $mb add command -label [msgcat::mc "Save"] -underline 0 -command "menus::save_command"
+    launcher::register [msgcat::mc "Menu: Save file"] menus::save_command
+    
+    $mb add command -label [msgcat::mc "Save As..."] -underline 5 -command "menus::save_as_command"
+    launcher::register [msgcat::mc "Menu: Save file as"] menus::save_as_command
     
     $mb add separator
     
-    $mb add command -label "Close"      -underline 0 -command "menus::close_command"
-    launcher::register "Menu: Close current tab" menus::close_command
+    $mb add command -label [msgcat::mc "Lock"] -underline 0 -command "menus::lock_command $mb"
+    launcher::register [msgcat::mc "Menu: Lock file"] "menus::lock_command $mb"
+    launcher::register [msgcat::mc "Menu: Unlock file"] "menus::unlock_command $mb"
+    
+    $mb add separator
+    
+    $mb add command -label [msgcat::mc "Close"] -underline 0 -command "menus::close_command"
+    launcher::register [msgcat::mc "Menu: Close current tab"] menus::close_command
 
     # Only add the quit menu to File if we are not running in aqua
     if {[tk windowingsystem] ne "aqua"} {
       $mb add separator
-      $mb add command -label "Quit" -underline 0 -command "menus::exit_command"
+      $mb add command -label [msgcat::mc "Quit"] -underline 0 -command "menus::exit_command"
     }
-    launcher::register "Menu: Quit application" menus::exit_command
+    launcher::register [msgcat::mc "Menu: Quit application"] menus::exit_command
 
     # Apply the menu settings for the current menu
     bindings::apply $mb
@@ -135,19 +135,19 @@ namespace eval menus {
     
     # Configure the Lock/Unlock menu item    
     if {$file_lock && ![catch "$mb index Lock" index]} {
-      $mb entryconfigure $index -label "Unlock" -state normal -command "menus::unlock_command $mb"
+      $mb entryconfigure $index -label [msgcat::mc "Unlock"] -state normal -command "menus::unlock_command $mb"
       if {$readonly} {
         $mb entryconfigure $index -state disabled
       }
     } elseif {!$file_lock && ![catch "$mb index Unlock" index]} {
-      $mb entryconfigure $index -label "Lock" -state normal -command "menus::lock_command $mb"
+      $mb entryconfigure $index -label [msgcat::mc "Lock"] -state normal -command "menus::lock_command $mb"
     }
     
     # Configure the Open Recent menu
     if {($preferences::prefs(View/ShowRecentlyOpened) == 0) || ([llength [gui::get_last_opened]] == 0)} {
-      $mb entryconfigure "Open Recent" -state disabled
+      $mb entryconfigure [msgcat::mc "Open Recent"] -state disabled
     } else {
-      $mb entryconfigure "Open Recent" -state normal
+      $mb entryconfigure [msgcat::mc "Open Recent"] -state normal
     }
     
   }
@@ -164,7 +164,7 @@ namespace eval menus {
       $mb add command -label [file tail $fname] -command "gui::add_file end $fname"
     }
     $mb add separator
-    $mb add command -label "Clear All" -command "gui::clear_last_opened"
+    $mb add command -label [msgcat::mc "Clear All"] -command "gui::clear_last_opened"
     
   }
   
@@ -173,9 +173,9 @@ namespace eval menus {
   proc text_posting {mb} {
     
     if {[multicursor::enabled [gui::current_txt]]} {
-      $mb entryconfigure "Align cursors" -state normal
+      $mb entryconfigure [msgcat::mc "Align cursors"] -state normal
     } else {
-      $mb entryconfigure "Align cursors" -state disabled
+      $mb entryconfigure [msgcat::mc "Align cursors"] -state disabled
     }
     
   }
@@ -188,9 +188,9 @@ namespace eval menus {
     
     if {[::tke_development]} {
       if {[file exists $profile_report]} {
-        $mb entryconfigure "Show*Profiling*" -state normal
+        $mb entryconfigure [msgcat::mc "Show*Profiling*"] -state normal
       } else {
-        $mb entryconfigure "Show*Profiling*" -state disabled
+        $mb entryconfigure [msgcat::mc "Show*Profiling*"] -state disabled
       }
     }
     
@@ -257,7 +257,7 @@ namespace eval menus {
       lappend save_opts -defaultextension [lindex $extensions 0]
     }
     
-    if {[set sfile [tk_getSaveFile {*}$save_opts -title "Save As" -parent . -initialdir $dirname]] ne ""} {
+    if {[set sfile [tk_getSaveFile {*}$save_opts -title [msgcat::mc "Save As"] -parent . -initialdir $dirname]] ne ""} {
       gui::save_current $sfile
     }
   
@@ -271,7 +271,7 @@ namespace eval menus {
     if {[gui::set_current_file_lock 1]} {
     
       # Set the menu up to display the unlock file menu option
-      $mb entryconfigure "Lock" -label "Unlock" -command "menus::unlock_command $mb"
+      $mb entryconfigure [msgcat::mc "Lock"] -label [msgcat::mc "Unlock"] -command "menus::unlock_command $mb"
       
     }
   
@@ -285,7 +285,7 @@ namespace eval menus {
     if {[gui::set_current_file_lock 0]} {
     
       # Set the menu up to display the lock file menu option
-      $mb entryconfigure "Unlock" -label "Lock" -command "menus::lock_command $mb"
+      $mb entryconfigure [msgcat::mc "Unlock"] -label [msgcat::mc "Lock"] -command "menus::lock_command $mb"
       
     }
   
@@ -330,38 +330,38 @@ namespace eval menus {
   proc add_edit {mb} {
     
     # Add edit menu commands
-    $mb add command -label "Undo" -underline 0 -command "gui::undo"
-    launcher::register "Menu: Undo" gui::undo
+    $mb add command -label [msgcat::mc "Undo"] -underline 0 -command "gui::undo"
+    launcher::register [msgcat::mc "Menu: Undo"] gui::undo
     
-    $mb add command -label "Redo" -underline 0 -command "gui::redo"
-    launcher::register "Menu: Redo" gui::redo
-    
-    $mb add separator
-    
-    $mb add command -label "Cut"   -underline 0 -command "gui::cut"
-    launcher::register "Menu: Cut selected text" gui::cut
-    
-    $mb add command -label "Copy"  -underline 1 -command "gui::copy"
-    launcher::register "Menu: Copy selected text" gui::copy
-    
-    $mb add command -label "Paste" -underline 0 -command "gui::paste"
-    launcher::register "Menu: Paste text from clipboard" gui::paste
-    
-    $mb add command -label "Paste and Format" -underline 10 -command "gui::paste_and_format"
-    launcher::register "Menu: Paste and format text from clipboard" gui::paste_and_format
+    $mb add command -label [msgcat::mc "Redo"] -underline 0 -command "gui::redo"
+    launcher::register [msgcat::mc "Menu: Redo"] gui::redo
     
     $mb add separator
     
-    $mb add cascade -label "Format Text" -menu [menu $mb.formatPopup -tearoff 0]
+    $mb add command -label [msgcat::mc "Cut"] -underline 0 -command "gui::cut"
+    launcher::register [msgcat::mc "Menu: Cut selected text"] gui::cut
+    
+    $mb add command -label [msgcat::mc "Copy"] -underline 1 -command "gui::copy"
+    launcher::register [msgcat::mc "Menu: Copy selected text"] gui::copy
+    
+    $mb add command -label [msgcat::mc "Paste"] -underline 0 -command "gui::paste"
+    launcher::register [msgcat::mc "Menu: Paste text from clipboard"] gui::paste
+    
+    $mb add command -label [msgcat::mc "Paste and Format"] -underline 10 -command "gui::paste_and_format"
+    launcher::register [msgcat::mc "Menu: Paste and format text from clipboard"] gui::paste_and_format
+    
+    $mb add separator
+    
+    $mb add cascade -label [msgcat::mc "Format Text"] -menu [menu $mb.formatPopup -tearoff 0]
     
     # Create formatting menu
-    $mb.formatPopup add command -label "Selected" -command "gui::format selected"
-    $mb.formatPopup add command -label "All"      -command "gui::format all"
+    $mb.formatPopup add command -label [msgcat::mc "Selected"] -command "gui::format selected"
+    $mb.formatPopup add command -label [msgcat::mc "All"]      -command "gui::format all"
 
     #$mb add separator
 
-    #$mb add command -label "Preferences..." -underline 3 -command "FOOBAR"
-    #launcher::register "FOOBAR" FOOBAR
+    #$mb add command -label [msgcat::mc "Preferences..."] -underline 3 -command "FOOBAR"
+    #launcher::register [msgcat::mc "FOOBAR"] FOOBAR
 
     # Apply the menu settings for the edit menu
     bindings::apply $mb
@@ -373,30 +373,30 @@ namespace eval menus {
   proc add_find {mb} {
     
     # Add find menu commands
-    $mb add command -label "Find" -underline 0 -command "gui::search"
-    launcher::register "Menu: Find" gui::search
+    $mb add command -label [msgcat::mc "Find"] -underline 0 -command "gui::search"
+    launcher::register [msgcat::mc "Menu: Find"] gui::search
     
-    $mb add command -label "Find and Replace" -underline 9 -command "gui::search_and_replace"
-    launcher::register "Menu: Find and Replace" gui::search_and_replace
-    
-    $mb add separator
-    
-    $mb add command -label "Select next occurrence" -underline 7 -command "gui::search_next 0"
-    launcher::register "Menu: Find next occurrence" "gui::search_next 0"
-    
-    $mb add command -label "Select previous occurrence" -underline 7 -command "gui::search_previous 0"
-    launcher::register "Menu: Find previous occurrence" "gui::search_previous 0"
-    
-    $mb add command -label "Append next occurrence" -underline 1 -command "gui::search_next 1"
-    launcher::register "Menu: Append next occurrence" "gui::search_next 1"
-    
-    $mb add command -label "Select all occurrences" -underline 7 -command "gui::search_all"
-    launcher::register "Menu: Select all occurrences" "gui::search_all"
+    $mb add command -label [msgcat::mc "Find and Replace"] -underline 9 -command "gui::search_and_replace"
+    launcher::register [msgcat::mc "Menu: Find and Replace"] gui::search_and_replace
     
     $mb add separator
     
-    $mb add command -label "Find matching pair" -underline 5 -command "gui::show_match_pair"
-    launcher::register "Menu: Find matching character pair" "gui::show_match_pair"
+    $mb add command -label [msgcat::mc "Select next occurrence"] -underline 7 -command "gui::search_next 0"
+    launcher::register [msgcat::mc "Menu: Find next occurrence"] "gui::search_next 0"
+    
+    $mb add command -label [msgcat::mc "Select previous occurrence"] -underline 7 -command "gui::search_previous 0"
+    launcher::register [msgcat::mc "Menu: Find previous occurrence"] "gui::search_previous 0"
+    
+    $mb add command -label [msgcat::mc "Append next occurrence"] -underline 1 -command "gui::search_next 1"
+    launcher::register [msgcat::mc "Menu: Append next occurrence"] "gui::search_next 1"
+    
+    $mb add command -label [msgcat::mc "Select all occurrences"] -underline 7 -command "gui::search_all"
+    launcher::register [msgcat::mc "Menu: Select all occurrences"] "gui::search_all"
+    
+    $mb add separator
+    
+    $mb add command -label [msgcat::mc "Find matching pair"] -underline 5 -command "gui::show_match_pair"
+    launcher::register [msgcat::mc "Menu: Find matching character pair"] "gui::show_match_pair"
     
     # Apply the menu settings for the find menu
     bindings::apply $mb
@@ -407,22 +407,22 @@ namespace eval menus {
   # Adds the text menu commands.
   proc add_text {mb} {
 
-    $mb add command -label "Comment" -underline 0 -command "texttools::comment"
-    launcher::register "Menu: Comment selected text" "texttools::comment"
+    $mb add command -label [msgcat::mc "Comment"] -underline 0 -command "texttools::comment"
+    launcher::register [msgcat::mc "Menu: Comment selected text"] "texttools::comment"
 
-    $mb add command -label "Uncomment" -underline 0 -command "texttools::uncomment"
-    launcher::register "Menu: Uncomment selected text" "texttools::uncomment"
+    $mb add command -label [msgcat::mc "Uncomment"] -underline 0 -command "texttools::uncomment"
+    launcher::register [msgcat::mc "Menu: Uncomment selected text"] "texttools::uncomment"
     
-    $mb add command -label "Indent" -underline 0 -command "texttools::indent"
-    launcher::register "Menu: Indent selected text" "texttools::indent"
+    $mb add command -label [msgcat::mc "Indent"] -underline 0 -command "texttools::indent"
+    launcher::register [msgcat::mc "Menu: Indent selected text"] "texttools::indent"
     
-    $mb add command -label "Unindent" -underline 1 -command "texttools::unindent"
-    launcher::register "Menu: Unindent selected text" "texttools::unindent"
+    $mb add command -label [msgcat::mc "Unindent"] -underline 1 -command "texttools::unindent"
+    launcher::register [msgcat::mc "Menu: Unindent selected text"] "texttools::unindent"
     
     $mb add separator
     
-    $mb add command -label "Align cursors" -underlin 0 -command "texttools::align"
-    launcher::register "Menu: Align cursors" "texttools::align"
+    $mb add command -label [msgcat::mc "Align cursors"] -underlin 0 -command "texttools::align"
+    launcher::register [msgcat::mc "Menu: Align cursors"] "texttools::align"
     
     # Apply the menu settings for the text menu
     bindings::apply $mb
@@ -433,14 +433,14 @@ namespace eval menus {
   # Adds the view menu commands.
   proc add_view {mb} {
   
-    $mb add checkbutton -label "View Sidebar" -underline 5 -variable preferences::prefs(View/ShowSidebar) -command "gui::change_sidebar_view"
-    launcher::register "Menu: Show sidebar" "set preferences::prefs(View/ShowSidebar) 1; gui::change_sidebar_view"
-    launcher::register "Menu: Hide sidebar" "set preferences::prefs(View/ShowSidebar) 0; gui::change_sidebar_view"
+    $mb add checkbutton -label [msgcat::mc "View Sidebar"] -underline 5 -variable preferences::prefs(View/ShowSidebar) -command "gui::change_sidebar_view"
+    launcher::register [msgcat::mc "Menu: Show sidebar"] "set preferences::prefs(View/ShowSidebar) 1; gui::change_sidebar_view"
+    launcher::register [msgcat::mc "Menu: Hide sidebar"] "set preferences::prefs(View/ShowSidebar) 0; gui::change_sidebar_view"
     
-    # $mb add checkbutton -label "View Horizontal Panes" -underline 5 -onvalue "horizontal" -offvalue "vertical" \
+    # $mb add checkbutton -label [msgcat::mc "View Horizontal Panes"] -underline 5 -onvalue "horizontal" -offvalue "vertical" \
     #   -variable preferences::prefs(View/PaneOrientation) -command "gui::change_pane_orientation"
-    # launcher::register "Menu: Show horizontal panes" "set preferences::prefs(View/PaneOrientation) horizontal; gui::change_pane_orientation"
-    # launcher::register "Menu: Show vertical panes"   "set preferences::prefs(View/PaneOrientation) vertical;   gui::change_pane_orientation"
+    # launcher::register [msgcat::mc "Menu: Show horizontal panes"] "set preferences::prefs(View/PaneOrientation) horizontal; gui::change_pane_orientation"
+    # launcher::register [msgcat::mc "Menu: Show vertical panes"]   "set preferences::prefs(View/PaneOrientation) vertical;   gui::change_pane_orientation"
   
     # Apply the menu settings for the current menu
     bindings::apply $mb
@@ -452,43 +452,43 @@ namespace eval menus {
   proc add_tools {mb} {
   
     # Add tools menu commands
-    $mb add command -label "Launcher" -underline 0 -command "launcher::launch"
+    $mb add command -label [msgcat::mc "Launcher"] -underline 0 -command "launcher::launch"
     
-    $mb add cascade -label "Theme Creator" -underline 0 -menu [menu $mb.themer -tearoff 0]
+    $mb add cascade -label [msgcat::mc "Theme Creator"] -underline 0 -menu [menu $mb.themer -tearoff 0]
     
-    $mb.themer add command -label "Create new..." -underline 0 -command "themer::create_new"
-    launcher::register "Menu: Create new theme" "themer::create_new"
+    $mb.themer add command -label [msgcat::mc "Create new..."] -underline 0 -command "themer::create_new"
+    launcher::register [msgcat::mc "Menu: Create new theme"] "themer::create_new"
     
-    $mb.themer add command -label "Edit..." -underline 0 -command "menus::edit_tke_command"
-    launcher::register "Menu: Edit Tke theme" "menus::edit_tke_command"
+    $mb.themer add command -label [msgcat::mc "Edit..."] -underline 0 -command "menus::edit_tke_command"
+    launcher::register [msgcat::mc "Menu: Edit Tke theme"] "menus::edit_tke_command"
     
-    $mb.themer add command -label "Import TextMate theme..." -underline 0 -command "menus::import_tm_command"
-    launcher::register "Menu: Import TextMate theme" "menus::import_tm_command"
+    $mb.themer add command -label [msgcat::mc "Import TextMate theme..."] -underline 0 -command "menus::import_tm_command"
+    launcher::register [msgcat::mc "Menu: Import TextMate theme"] "menus::import_tm_command"
     
     $mb add separator
     
-    $mb add checkbutton -label "Vim Mode" -underline 0 -variable preferences::prefs(Tools/VimMode) -command "vim::set_vim_mode_all"
-    launcher::register "Menu: Enable Vim mode"  "set preferences::prefs(Tools/VimMode) 1; vim::set_vim_mode_all"
-    launcher::register "Menu: Disable Vim mode" "set preferences::prefs(Tools/VimMode) 0; vim::set_vim_mode_all"
+    $mb add checkbutton -label [msgcat::mc "Vim Mode"] -underline 0 -variable preferences::prefs(Tools/VimMode) -command "vim::set_vim_mode_all"
+    launcher::register [msgcat::mc "Menu: Enable Vim mode"]  "set preferences::prefs(Tools/VimMode) 1; vim::set_vim_mode_all"
+    launcher::register [msgcat::mc "Menu: Disable Vim mode"] "set preferences::prefs(Tools/VimMode) 0; vim::set_vim_mode_all"
     
     # Add development tools
     if {[::tke_development]} {
       
       $mb add separator
        
-      $mb add command -label "Start Profiling" -underline 0 -command "menus::start_profiling_command $mb"
-      launcher::register "Menu: Start profiling" "menus::start_profiling_command $mb"
+      $mb add command -label [msgcat::mc "Start Profiling"] -underline 0 -command "menus::start_profiling_command $mb"
+      launcher::register [msgcat::mc "Menu: Start profiling"] "menus::start_profiling_command $mb"
        
-      $mb add command -label "Stop Profiling" -underline 1 -command "menus::stop_profiling_command $mb 1" -state disabled
-      launcher::register "Menu: Stop profiling" "menus::stop_profiling_command $mb 1"
+      $mb add command -label [msgcat::mc "Stop Profiling"] -underline 1 -command "menus::stop_profiling_command $mb 1" -state disabled
+      launcher::register [msgcat::mc "Menu: Stop profiling"] "menus::stop_profiling_command $mb 1"
        
-      $mb add command -label "Show Last Profiling Report" -underline 1 -command "menus::show_last_profiling_report"
-      launcher::register "Menu: Show last profiling report" "menus::show_last_profiling_report"
+      $mb add command -label [msgcat::mc "Show Last Profiling Report"] -underline 1 -command "menus::show_last_profiling_report"
+      launcher::register [msgcat::mc "Menu: Show last profiling report"] "menus::show_last_profiling_report"
       
       $mb add separator
       
-      $mb add command -label "Restart tke" -underline 0 -command "menus::restart_command"
-      launcher::register "Menu: Restart tke" "menus::restart_command"
+      $mb add command -label [msgcat::mc "Restart tke"] -underline 0 -command "menus::restart_command"
+      launcher::register [msgcat::mc "Menu: Restart tke"] "menus::restart_command"
       
     }
    
@@ -531,17 +531,17 @@ namespace eval menus {
   # Starts the procedure profiling.
   proc start_profiling_command {mb} {
    
-    if {[$mb entrycget "Start Profiling" -state] eq "normal"} {
+    if {[$mb entrycget [msgcat::mc "Start Profiling"] -state] eq "normal"} {
       
       # Turn on procedure profiling
       profile {*}$preferences::prefs(Tools/ProfileReportOptions) on
       
       # Indicate that profiling mode is on
-      $mb entryconfigure "Start Profiling" -state disabled
-      $mb entryconfigure "Stop Profiling"  -state normal
+      $mb entryconfigure [msgcat::mc "Start Profiling"] -state disabled
+      $mb entryconfigure [msgcat::mc "Stop Profiling"]  -state normal
       
       # Indicate that profiling has started in the information bar
-      gui::set_info_message "Profiling started"
+      gui::set_info_message [msgcat::mc "Profiling started"]
       
     }
     
@@ -555,7 +555,7 @@ namespace eval menus {
     variable profile_report
     variable profiling_info
     
-    if {[$mb entrycget "Stop Profiling" -state] eq "normal"} {
+    if {[$mb entrycget [msgcat::mc "Stop Profiling"] -state] eq "normal"} {
       
       # Turn off procedure profiling
       profile off profiling_info
@@ -566,7 +566,7 @@ namespace eval menus {
       # profrep profiling_info $sortby $profile_report "Profiling Information Sorted by $sortby"
       
       # Indicate that profiling has completed
-      gui::set_info_message "Profiling stopped"
+      gui::set_info_message [msgcat::mc "Profiling stopped"]
       
       # Add the report to the tab list
       if {$show_report} {
@@ -574,8 +574,8 @@ namespace eval menus {
       }
       
       # Indicate that profiling mode is off
-      $mb entryconfigure "Stop Profiling"  -state disabled
-      $mb entryconfigure "Start Profiling" -state normal
+      $mb entryconfigure [msgcat::mc "Stop Profiling"] -state disabled
+      $mb entryconfigure [msgcat::mc "Start Profiling"] -state normal
       
     }
     
@@ -651,7 +651,7 @@ namespace eval menus {
     if {![catch "open $profile_report w" rc]} {
       
       puts $rc "=============================================================================================================="
-      puts $rc "                                  Profiling Report Sorted By ($preferences::prefs(Tools/ProfileReportSortby))"
+      puts $rc [msgcat::mc "                                  Profiling Report Sorted By (%s)" $preferences::prefs(Tools/ProfileReportSortby)]
       puts $rc "=============================================================================================================="
       puts $rc [format "%-50s  %10s  %10s  %10s  %10s  %10s" "Procedure" "Calls" "Real" "CPU" "Real/Calls" "CPU/Calls"]
       puts $rc "=============================================================================================================="
@@ -683,20 +683,20 @@ namespace eval menus {
   proc add_plugins {mb} {
   
     # Add plugins menu commands
-    $mb add command -label "Install..."   -underline 0 -command "plugins::install"
-    launcher::register "Menu: Install plugin" "plugins::install"
+    $mb add command -label [msgcat::mc "Install..."] -underline 0 -command "plugins::install"
+    launcher::register [msgcat::mc "Menu: Install plugin"] "plugins::install"
     
-    $mb add command -label "Uninstall..." -underline 0 -command "plugins::uninstall"
-    launcher::register "Menu: Uninstall plugin" "plugins::uninstall"
+    $mb add command -label [msgcat::mc "Uninstall..."] -underline 0 -command "plugins::uninstall"
+    launcher::register [msgcat::mc "Menu: Uninstall plugin"] "plugins::uninstall"
     
-    $mb add command -label "Reload"       -underline 0 -command "plugins::reload"
-    launcher::register "Menu: Reload all plugins" "plugins::reload"
+    $mb add command -label [msgcat::mc "Reload"] -underline 0 -command "plugins::reload"
+    launcher::register [msgcat::mc "Menu: Reload all plugins"] "plugins::reload"
     
     if {[::tke_development]} {
       
       $mb add separator
-      $mb add command -label "Create..." -underline 0 -command "plugins::create_new_plugin"
-      launcher::register "Menu: Create new plugin" "plugins::create_new_plugin"
+      $mb add command -label [msgcat::mc "Create..."] -underline 0 -command "plugins::create_new_plugin"
+      launcher::register [msgcat::mc "Menu: Create new plugin"] "plugins::create_new_plugin"
       
     }
     
@@ -710,9 +710,9 @@ namespace eval menus {
   proc add_help {mb} {
     
     if {[tk windowingsystem] ne "aqua"} {
-      $mb add command -label "About tke" -underline 0 -command "gui::show_about"
+      $mb add command -label [msgcat::mc "About tke"] -underline 0 -command "gui::show_about"
     }
-    launcher::register "Menu: About tke" "gui::show_about"
+    launcher::register [msgcat::mc "Menu: About tke"] "gui::show_about"
     
   }
   

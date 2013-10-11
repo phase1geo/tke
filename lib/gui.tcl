@@ -60,7 +60,7 @@ namespace eval gui {
           file stat $fname stat
           if {$mtime != $stat(mtime)} {
             if {[[[lindex [$widgets(nb_pw) panes] $pw_current] select].tf.txt edit modified]} {
-              set answer [tk_messageBox -parent . -icon question -message "Reload file?" \
+              set answer [tk_messageBox -parent . -icon question -message [msgcat::mc "Reload file?"] \
                 -detail $fname -type yesno -default yes]
               if {$answer eq "yes"} {
                 update_file $i
@@ -71,7 +71,7 @@ namespace eval gui {
             lset files $i $files_index(mtime) $stat(mtime)
           }
         } elseif {$mtime ne ""} {
-          set answer [tk_messageBox -parent . -icon question -message "Delete tab?" \
+          set answer [tk_messageBox -parent . -icon question -message [msgcat::mc "Delete tab?"] \
             -detail $fname -type yesno -default yes]
           if {$answer eq "yes"} {
             close_tab [lindex $files $i $files_index(pane)] [lindex $files $i $files_index(tab)]
@@ -160,21 +160,21 @@ namespace eval gui {
 
     # Create tab popup
     set widgets(menu) [menu $widgets(nb_pw).popupMenu -tearoff 0 -postcommand gui::setup_tab_popup_menu]
-    $widgets(menu) add command -label "Close Tab" -command {
+    $widgets(menu) add command -label [msgcat::mc "Close Tab"] -command {
       gui::close_current
     }
-    $widgets(menu) add command -label "Close Other Tab(s)" -command {
+    $widgets(menu) add command -label [msgcat::mc "Close Other Tab(s)"] -command {
       gui::close_others
     }
-    $widgets(menu) add command -label "Close All Tabs" -command {
+    $widgets(menu) add command -label [msgcat::mc "Close All Tabs"] -command {
       gui::close_all
     }
     $widgets(menu) add separator
-    $widgets(menu) add checkbutton -label "Locked" -onvalue 1 -offvalue 0 -variable gui::file_locked -command {
+    $widgets(menu) add checkbutton -label [msgcat::mc "Locked"] -onvalue 1 -offvalue 0 -variable gui::file_locked -command {
       gui::set_current_file_lock $gui::file_locked
     }
     $widgets(menu) add separator
-    $widgets(menu) add command -label "Move to Other Pane" -command {
+    $widgets(menu) add command -label [msgcat::mc "Move to Other Pane"] -command {
       gui::move_to_pane
     }
     
@@ -265,19 +265,19 @@ namespace eval gui {
     
     # Set the state of the menu items
     if {[llength [$nb tabs]] > 1} {
-      $widgets(menu) entryconfigure "Close Other*" -state normal
+      $widgets(menu) entryconfigure [msgcat::mc "Close Other*"] -state normal
     } else {
-      $widgets(menu) entryconfigure "Close Other*" -state disabled
+      $widgets(menu) entryconfigure [msgcat::mc "Close Other*"] -state disabled
     }
     if {([llength [$nb tabs]] > 1) || ([llength [$widgets(nb_pw) panes]] > 1)} {
-      $widgets(menu) entryconfigure "Move*" -state normal
+      $widgets(menu) entryconfigure [msgcat::mc "Move*"] -state normal
     } else {
-      $widgets(menu) entryconfigure "Move*" -state disabled
+      $widgets(menu) entryconfigure [msgcat::mc "Move*"] -state disabled
     }
     if {$readonly} {
-      $widgets(menu) entryconfigure "Locked" -state disabled
+      $widgets(menu) entryconfigure [msgcat::mc "Locked"] -state disabled
     } else {
-      $widgets(menu) entryconfigure "Locked" -state normal
+      $widgets(menu) entryconfigure [msgcat::mc "Locked"] -state normal
     }
   
   }
@@ -682,7 +682,7 @@ namespace eval gui {
     adjust_tabs_for_insert $index
     
     # Get the current index
-    set w [insert_tab $index "Untitled"]
+    set w [insert_tab $index [msgcat::mc "Untitled"]]
     
     # Create the file info structure
     set file_info [lrepeat [array size files_index] ""]
@@ -963,7 +963,7 @@ namespace eval gui {
       if {[llength [set extensions [syntax::get_extensions]]] > 0} {
         lappend save_opts -defaultextension [lindex $extensions 0]
       }
-      if {[set sfile [tk_getSaveFile {*}$save_opts -parent . -title "Save As" -initialdir [pwd]]] eq ""} {
+      if {[set sfile [tk_getSaveFile {*}$save_opts -parent . -title [msgcat::mc "Save As"] -initialdir [pwd]]] eq ""} {
         return
       } else {
         lset files $file_index $files_index(fname) $sfile
@@ -1033,7 +1033,7 @@ namespace eval gui {
     
     # If the file needs to be saved, do it now
     if {[[current_txt] edit modified] && !$force} {
-      if {[set answer [tk_messageBox -default yes -type yesnocancel -message "Save file?" -title "Save request"]] eq "yes"} {
+      if {[set answer [tk_messageBox -default yes -type yesnocancel -message [msgcat::mc "Save file?"] -title [msgcatc::mc "Save request"]]] eq "yes"} {
         save_current
       } elseif {$answer eq "cancel"} {
         return
@@ -1177,7 +1177,7 @@ namespace eval gui {
     set txt      [current_txt]
     set file     [lindex $files [current_file]]
     if {[set fname [current_filename]] eq ""} {
-      set fname "Untitled"
+      set fname [msgcat::mc "Untitled"]
     }
     set content  [$txt get 1.0 end-1c]
     set insert   [$txt index insert]
@@ -1710,10 +1710,10 @@ namespace eval gui {
     
     # Perform error detections
     if {($index < 0) || ($index >= [llength $files])} {
-      return -code error "File index is out of range"
+      return -code error [msgcat::mc "File index is out of range"]
     }
     if {![info exists files_index($attr)]} {
-      return -code error "File attribute ($attr) does not exist"
+      return -code error [msgcat::mc "File attribute ($attr) does not exist"]
     }
     
     return [lindex $files $index $files_index($attr)]
@@ -1735,11 +1735,11 @@ namespace eval gui {
       -font [font create -family Helvetica -size 30 -weight bold]
   
     ttk::frame .aboutwin.if
-    ttk::label .aboutwin.if.l0 -text "Developer:"
+    ttk::label .aboutwin.if.l0 -text [msgcat::mc "Developer:"]
     ttk::label .aboutwin.if.v0 -text "Trevor Williams"
-    ttk::label .aboutwin.if.l1 -text "Email:"
+    ttk::label .aboutwin.if.l1 -text [msgcat::mc "Email:"]
     ttk::label .aboutwin.if.v1 -text "phase1geo@gmail.com"
-    ttk::label .aboutwin.if.l2 -text "Version:"
+    ttk::label .aboutwin.if.l2 -text [msgcat::mc "Version:"]
     ttk::label .aboutwin.if.v2 -text "$::version_major.$::version_minor ($::version_hgid)"
   
     grid .aboutwin.if.l0 -row 0 -column 0 -sticky news
@@ -1749,7 +1749,7 @@ namespace eval gui {
     grid .aboutwin.if.l2 -row 2 -column 0 -sticky news
     grid .aboutwin.if.v2 -row 2 -column 1 -sticky news
   
-    ttk::label .aboutwin.copyright -text "Copyright 2013"
+    ttk::label .aboutwin.copyright -text [msgcat::mc "Copyright %d" 2013]
   
     pack .aboutwin.logo      -padx 2 -pady 8 -anchor w
     pack .aboutwin.if        -padx 2 -pady 2
@@ -1945,7 +1945,7 @@ namespace eval gui {
     
     # Create the search bar
     ttk::frame $tab_frame.sf
-    ttk::label $tab_frame.sf.l1 -text "Find:"
+    ttk::label $tab_frame.sf.l1 -text [msgcat::mc "Find:"]
     ttk::entry $tab_frame.sf.e
     
     pack $tab_frame.sf.l1 -side left -padx 2 -pady 2
@@ -1955,11 +1955,11 @@ namespace eval gui {
  
     # Create the search/replace bar
     ttk::frame       $tab_frame.rf
-    ttk::label       $tab_frame.rf.fl   -text "Find:"
+    ttk::label       $tab_frame.rf.fl   -text [msgcat::mc "Find:"]
     ttk::entry       $tab_frame.rf.fe
-    ttk::label       $tab_frame.rf.rl   -text "Replace:"
+    ttk::label       $tab_frame.rf.rl   -text [msgcat::mc "Replace:"]
     ttk::entry       $tab_frame.rf.re
-    ttk::checkbutton $tab_frame.rf.glob -text "Global" -variable gui::sar_global
+    ttk::checkbutton $tab_frame.rf.glob -text [msgcat::mc "Global"] -variable gui::sar_global
  
     pack $tab_frame.rf.fl   -side left -padx 2 -pady 2
     pack $tab_frame.rf.fe   -side left -padx 2 -pady 2 -fill x -expand yes
@@ -2085,7 +2085,7 @@ namespace eval gui {
     
     # Set the line and row information
     lassign [split [[current_txt] index insert] .] row col
-    $widgets(info_label) configure -text "Line: $row, Column: $col"
+    $widgets(info_label) configure -text [msgcat::mc "Line: %d, Column: %d" $row $col]
     
     # Set the syntax menubutton to the current language
     syntax::update_menubutton $widgets(info_syntax)
@@ -2206,7 +2206,7 @@ namespace eval gui {
 
     # Throw an exception if we couldn't find the current file
     # (this is considered an unhittable case)
-    return -code error "Unable to find current file (pane: $pane, tab: $tab)"
+    return -code error [msgcat::mc "Unable to find current file (pane: %s, tab: %s)" $pane $tab]
     
   }
 
@@ -2233,7 +2233,7 @@ namespace eval gui {
     lassign [split [$w.tf.txt index insert] .] line column
     
     # Update the information widgets
-    $widgets(info_label) configure -text "Line: $line, Column: [expr $column + 1]"
+    $widgets(info_label) configure -text [msgcat::mc "Line: %d, Column: %d" $line [expr $column + 1]]
   
   }
   

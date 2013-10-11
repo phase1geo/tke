@@ -51,7 +51,7 @@ namespace eval syntax {
       if {![catch "open $sfile r" rc]} {
         set name [file rootname [file tail $sfile]]
         set langs($name) [read $rc]
-        launcher::register "Syntax:  $name" "syntax::set_language $name"
+        launcher::register [msgcat::mc "Syntax:  %s" $name] "syntax::set_language $name"
         close $rc
       }
     }
@@ -111,7 +111,7 @@ namespace eval syntax {
       if {![catch { open $tfile r } rc]} {
         set name [file rootname [file tail $tfile]]
         set themes($name) [read $rc]
-        launcher::register "Theme:  $name" [list syntax::set_theme $name]
+        launcher::register [msgcat::mc "Theme:  %s" $name] [list syntax::set_theme $name]
         close $rc
       }
     }
@@ -318,7 +318,7 @@ namespace eval syntax {
         indent::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent)
         
       } rc]} {
-        tk_messageBox -parent . -type ok -default ok -message "Syntax error in $language.syntax file" -detail $rc
+        tk_messageBox -parent . -type ok -default ok -message [msgcat::mc "Syntax error in %s.syntax file" $language] -detail $rc
       }
       
     }
@@ -364,7 +364,7 @@ namespace eval syntax {
     set mnu [menu $w.menu -tearoff 0]
     
     # Populate the menu with the available languages
-    $mnu add command -label "<None>" -command "syntax::set_language <None>"
+    $mnu add command -label "<[msgcat::mc None]>" -command "syntax::set_language <None>"
     foreach lang [lsort [array names langs]] {
       $mnu add command -label $lang -command "syntax::set_language $lang"
     }

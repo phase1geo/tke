@@ -36,7 +36,7 @@ namespace eval tkedat {
       
     } else {
       
-      return -code error "Unable to open $fname for reading"
+      return -code error [msgcat::mc "Unable to open %s for reading" $fname]
       
     }
     
@@ -69,7 +69,7 @@ namespace eval tkedat {
       
     } else {
       
-      return -code error "Unable to open $fname for writing"
+      return -code error [msgcat::mc "Unable to open %s for writing" $fname]
       
     }
     

@@ -47,32 +47,32 @@ namespace eval sidebar {
     
     # Create directory popup
     set widgets(dirmenu) [menu $w.dirPopupMenu -tearoff 0]
-    $widgets(dirmenu) add command -label "New File" -command {
+    $widgets(dirmenu) add command -label [msgcat::mc "New File"] -command {
       sidebar::add_file_to_folder
     }
-    $widgets(dirmenu) add command -label "New Directory" -command {
+    $widgets(dirmenu) add command -label [msgcat::mc "New Directory"] -command {
       sidebar::add_folder_to_folder
     }
     $widgets(dirmenu) add separator
-    $widgets(dirmenu) add command -label "Close Directory Files" -command {
+    $widgets(dirmenu) add command -label [msgcat::mc "Close Directory Files"] -command {
       sidebar::close_folder_files
     }
     $widgets(dirmenu) add separator
-    $widgets(dirmenu) add command -label "Rename" -command {
+    $widgets(dirmenu) add command -label [msgcat::mc "Rename"] -command {
       sidebar::rename_folder
     }
-    $widgets(dirmenu) add command -label "Delete" -command {
+    $widgets(dirmenu) add command -label [msgcat::mc "Delete"] -command {
       sidebar::delete_folder
     }
     $widgets(dirmenu) add separator
-    $widgets(dirmenu) add command -label "Remove from Sidebar" -command {
+    $widgets(dirmenu) add command -label [msgcat::mc "Remove from Sidebar"] -command {
       sidebar::remove_folder
     }
-    $widgets(dirmenu) add command -label "Remove Parent from Sidebar" -command {
+    $widgets(dirmenu) add command -label [msgcat::mc "Remove Parent from Sidebar"] -command {
       sidebar::remove_parent_folder
     }
     $widgets(dirmenu) add separator
-    $widgets(dirmenu) add command -label "Refresh Directory Files" -command {
+    $widgets(dirmenu) add command -label [msgcat::mc "Refresh Directory Files"] -command {
       sidebar::refresh_directory_files
     }
     
@@ -81,32 +81,32 @@ namespace eval sidebar {
     
     # Create a root directory popup
     set widgets(rootmenu) [menu $w.rootPopupMenu -tearoff 0]
-    $widgets(rootmenu) add command -label "New File" -command {
+    $widgets(rootmenu) add command -label [msgcat::mc "New File"] -command {
       sidebar::add_file_to_folder
     }
-    $widgets(rootmenu) add command -label "New Directory" -command {
+    $widgets(rootmenu) add command -label [msgcat::mc "New Directory"] -command {
       sidebar::add_folder_to_folder
     }
     $widgets(rootmenu) add separator
-    $widgets(rootmenu) add command -label "Close Directory Files" -command {
+    $widgets(rootmenu) add command -label [msgcat::mc "Close Directory Files"] -command {
       sidebar::close_folder_files
     }
     $widgets(rootmenu) add separator
-    $widgets(rootmenu) add command -label "Rename" -command {
+    $widgets(rootmenu) add command -label [msgcat::mc "Rename"] -command {
       sidebar::rename_folder
     }
-    $widgets(rootmenu) add command -label "Delete" -command {
+    $widgets(rootmenu) add command -label [msgcat::mc "Delete"] -command {
       sidebar::delete_folder
     }
     $widgets(rootmenu) add separator
-    $widgets(rootmenu) add command -label "Remove from Sidebar" -command {
+    $widgets(rootmenu) add command -label [msgcat::mc "Remove from Sidebar"] -command {
       sidebar::remove_folder
     } 
-    $widgets(rootmenu) add command -label "Add Parent Directory" -command {
+    $widgets(rootmenu) add command -label [msgcat::mc "Add Parent Directory"] -command {
       sidebar::add_parent_directory
     }
     $widgets(rootmenu) add separator
-    $widgets(rootmenu) add command -label "Refresh Directory Files" -command {
+    $widgets(rootmenu) add command -label [msgcat::mc "Refresh Directory Files"] -command {
       sidebar::refresh_directory_files
     }
     
@@ -115,21 +115,21 @@ namespace eval sidebar {
     
     # Create file popup
     set widgets(filemenu) [menu $w.filePopupMenu -tearoff 0]
-    $widgets(filemenu) add command -label "Open" -command {
+    $widgets(filemenu) add command -label [msgcat::mc "Open"] -command {
       sidebar::open_file
     }
     $widgets(filemenu) add separator
-    $widgets(filemenu) add command -label "Close" -command {
+    $widgets(filemenu) add command -label [msgcat::mc "Close"] -command {
       sidebar::close_file
     }
     $widgets(filemenu) add separator
-    $widgets(filemenu) add command -label "Rename" -command {
+    $widgets(filemenu) add command -label [msgcat::mc "Rename"] -command {
       sidebar::rename_file
     }
-    $widgets(filemenu) add command -label "Duplicate" -command {
+    $widgets(filemenu) add command -label [msgcat::mc "Duplicate"] -command {
       sidebar::duplicate_file
     }
-    $widgets(filemenu) add command -label "Delete" -command {
+    $widgets(filemenu) add command -label [msgcat::mc "Delete"] -command {
       sidebar::delete_file
     }
     
@@ -604,7 +604,7 @@ namespace eval sidebar {
     
     variable widgets
     
-    if {[tk_messageBox -parent . -type yesno -default yes -message "Delete directory?"] eq "yes"} {
+    if {[tk_messageBox -parent . -type yesno -default yes -message [msgcat::mc "Delete directory?"]] eq "yes"} {
       
       # Get the currently selected row
       set selected [$widgets(tl) curselection]
@@ -782,7 +782,7 @@ namespace eval sidebar {
     variable widgets
     
     # Get confirmation from the user
-    if {[tk_messageBox -parent . -type yesno -default yes -message "Delete file?"] eq "yes"} {
+    if {[tk_messageBox -parent . -type yesno -default yes -message [msgcat::mc "Delete file?"]] eq "yes"} {
       
       # Get the current selection
       set selected [$widgets(tl) curselection]

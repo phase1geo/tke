@@ -17,7 +17,7 @@ namespace eval markers {
     variable markers
     
     # If the name wasn't specified, ask the user
-    if {($name eq "") && ![gui::user_response_get "Marker name:" name]} {
+    if {($name eq "") && ![gui::user_response_get [msgcat::mc "Marker name:"] name]} {
       return 0
     }
     
