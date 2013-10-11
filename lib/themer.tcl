@@ -350,7 +350,7 @@ namespace eval themer {
         }
       }
       
-    } else {
+    } elseif {[file tail $::argv0] eq "themer.tcl"} {
       
       puts "ERROR:  Unable to read $theme"
       puts $rc
@@ -383,7 +383,7 @@ namespace eval themer {
         }
       }
       
-    } else {
+    } elseif {[file tail $::argv0] eq "themer.tcl"} {
       
       puts "ERROR:  Unable to read $theme"
       puts $rc
@@ -393,28 +393,6 @@ namespace eval themer {
     
   }
    
-  ######################################################################
-  # Checks to make sure that all colors needed were found in the TextMate
-  # theme file.
-  proc check_colors {} {
-    
-    variable labels
-    
-    set missing 0
-    
-    foreach {key value} [array get labels] {
-      if {$value eq ""} {
-        puts "ERROR:  Could not find color $key"
-        set missing 1
-      }
-    }
-    
-    if {$missing} {
-      exit 1
-    }
-    
-  }
-  
   ######################################################################
   # Displays a window showing all of the current themes.
   proc get_theme {} {
@@ -453,6 +431,15 @@ namespace eval themer {
     pack $w.tf -fill x
     pack $w.bf -fill x
     
+    bind $w.tf.lb <Return> {
+      set ::theme_name [.thrwin.tf.lb get [.thrwin.tf.lb curselection]]
+      destroy .thrwin
+    }
+    bind $w.tf.lb <Double-Button-1> {
+      set ::theme_name [.thrwin.tf.lb get [.thrwin.tf.lb curselection]]
+      destroy .thrwin
+    }
+    
     # Get the theme names
     foreach theme [lsort [glob -tails -directory [file join $::tke_dir data themes] *.tketheme]] {
       $w.tf.lb insert end $theme
@@ -463,13 +450,20 @@ namespace eval themer {
     ::tk::PlaceWindow $w widget .
     ::tk::SetFocusGrab $w $w
     
+    # Put the focus on the listbox
+    focus $w.tf.lb
+    
     # Wait for the window to be closed
     tkwait window $w
     
     # Release the grab/focus
     ::tk::RestoreFocusGrab $w $w
     
-    return [file join $::tke_dir data themes $::theme_name]
+    if {$::theme_name ne ""} {
+      return [file join $::tke_dir data themes $::theme_name]
+    } else {
+      return ""
+    }
     
   }
   
@@ -478,7 +472,7 @@ namespace eval themer {
   proc get_save_name {} {
     
     # Initialize variables
-    set w            "[get_win].swin"
+    set w            "[get_path].swin"
     set ::theme_name ""
     
     # Create the window
@@ -490,8 +484,8 @@ namespace eval themer {
     ttk::frame $w.tf
     ttk::label $w.tf.l -text "Name:"
     ttk::entry $w.tf.e -validate key -invalidcommand bell -validatecommand {
-      [[winfo toplevel %W].swin.bf.ok configure \
-        -state [expr {([string length %P] eq "") ? disabled : normal}]
+      [themer::get_path].swin.bf.ok configure \
+        -state [expr {([string length %P] eq "") ? "disabled" : "normal"}]
       return 1
     }
     
@@ -499,12 +493,13 @@ namespace eval themer {
     pack $w.tf.e -side left -fill x -padx 2 -pady 2
     
     ttk::frame  $w.bf
-    ttk::button $w.bf.ok -text "OK" -width 6 -command {
-      set ::save_name [[winfo toplevel %W].swin.tf.e get]
-      destroy [winfo toplevel %W]
+    ttk::button $w.bf.ok -text "OK" -width 6 -state disabled -command {
+      set top          [themer::get_path]
+      set ::theme_name [$top.swin.tf.e get]
+      destroy $top.swin
     }
     ttk::button $w.bf.cancel -text "Cancel" -width 6 -command {
-      destroy [winfo toplevel %W]
+      destroy [themer::get_path].swin
     }
     
     pack $w.bf.cancel -side right -padx 2 -pady 2
@@ -513,9 +508,19 @@ namespace eval themer {
     pack $w.tf -fill x
     pack $w.bf -fill x
     
+    bind $w.tf.e <Return> {
+      set top [themer::get_path]
+      if {[set ::theme_name [$top.swin.tf.e get]] ne ""} {
+        destroy $top.swin
+      }
+    }
+    
     # Center the window and grab the focus
     ::tk::PlaceWindow $w widget [get_win]
     ::tk::SetFocusGrab $w $w
+    
+    # Focus on the entry
+    focus $w.tf.e
     
     # Wait for the window to be closed
     tkwait window $w
@@ -523,7 +528,11 @@ namespace eval themer {
     # Release the grab/focus
     ::tk::RestoreFocusGrab $w $w
     
-    return "[file tail [file rootname $::theme_name]].tketheme"
+    if {$::theme_name ne ""} {
+      return "[file tail [file rootname $::theme_name]].tketheme"
+    } else {
+      return ""
+    }
     
   }
    
@@ -539,7 +548,7 @@ namespace eval themer {
     # If we don't have a theme name, get one
     if {$tmtheme eq ""} {
       if {[set tmtheme [get_save_name]] eq ""} {
-        return
+        return 0
       }
     }
     
@@ -554,13 +563,15 @@ namespace eval themer {
       
       close $rc
       
-    } else {
+    } elseif {[file tail $::argv0] eq "themer.tcl"} {
       
       puts "ERROR:  Unable to write [file join $theme_dir $basename.tketheme]"
       puts $rc
       exit 1
       
     }
+    
+    return 1
     
   }
   
@@ -650,15 +661,25 @@ namespace eval themer {
     
     # Create the button frame
     ttk::frame  [get_path].bf
-    set widgets(reset) [ttk::button [get_path].bf.reset  -text "Reset"  -width 6 -command {
+    set widgets(reset) [ttk::button [get_path].bf.reset  -text "Reset"  -width 7 -command {
       array set themer::labels [array get themer::orig_labels]
       themer::highlight
     }]
-    set widgets(action) [ttk::button [get_path].bf.import -text "Import" -width 6 -command {
-      themer::write_tketheme
-      destroy [themer::get_win]
+    set widgets(saveas) [ttk::button [get_path].bf.saveas -text "Save As" -width 7 -command {
+      set orig_tmtheme    $themer::tmtheme
+      set themer::tmtheme ""
+      if {[themer::write_tketheme]} {
+        destroy [themer::get_win]
+      } else {
+        set themer::tmtheme $orig_tmtheme
+      }
     }]
-    ttk::button [get_path].bf.cancel -text "Cancel" -width 6 -command {
+    set widgets(action) [ttk::button [get_path].bf.import -text "Import" -width 7 -command {
+      if {[themer::write_tketheme]} {
+        destroy [themer::get_win]
+      }
+    }]
+    ttk::button [get_path].bf.cancel -text "Cancel" -width 7 -command {
       destroy [themer::get_win]
     }
     
@@ -672,6 +693,11 @@ namespace eval themer {
     pack [get_path].tf -fill both -expand yes
     pack [get_path].bf -fill x
       
+    # If the window is coming from tke, center it in the window
+    if {[file tail $::argv0] ne "themer.tcl"} {
+      ::tk::PlaceWindow [get_win] widget .
+    }
+    
   }
   
   ######################################################################
@@ -856,6 +882,7 @@ namespace eval themer {
     wm title [get_win] "Edit theme"
     $widgets(action) configure -text "Save"
     catch { pack $widgets(reset) -side left -padx 2 -pady 2 }
+    catch { pack $widgets(saveas) -side right -padx 2 -pady 2 }
     
     # Read the theme
     read_tketheme $theme

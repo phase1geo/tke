@@ -518,7 +518,7 @@ namespace eval menus {
   proc import_tm_command {} {
     
     # Open a TextMate theme
-    if {[set name [tk_getOpenFile -filetypes {{TextMate {.tmTheme .tmtheme}}} -initialdir [pwd] -parent [get_win] -title "Select TextMate theme"]] ne ""} {
+    if {[set name [tk_getOpenFile -filetypes {{TextMate {.tmTheme .tmtheme}}} -initialdir [pwd] -parent . -title "Select TextMate theme"]] ne ""} {
       
       # Call the themer importer for the given TextMate file
       themer::import_tm $name

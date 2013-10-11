@@ -109,8 +109,6 @@ proc parse_cmdline {argc argv} {
 # Handles an interrupt or terminate signal
 proc handle_signal {} {
 
-  # FIXME: Die gracefully
-  
   # Kill the GUI
   catch { destroy . }
   
