@@ -151,7 +151,7 @@ namespace eval bgproc {
           frame            $w.f
           label            $w.f.msg    -text $msg
           ttk::progressbar $w.f.pb     -orient horizontal -mode indeterminate
-          button           $w.f.cancel -text "Cancel" -command "set bgproc::cancelled($resource) 1; bgproc::killall $resource"
+          button           $w.f.cancel -text [msgcat::mc "Cancel"] -command "set bgproc::cancelled($resource) 1; bgproc::killall $resource"
 
           grid columnconfigure $w.f 0 -weight 1
           grid $w.f.msg -row 0 -column 0 -sticky news -padx 2 -pady 2
@@ -287,7 +287,8 @@ namespace eval bgproc {
             bgerror $rc
           }
         } else {
-          notifier::notify -type error -parent $::top_window -message "Unable to run system command ($cmd)" -detail $cmd_id
+          notifier::notify -type error -parent $::top_window \
+            -message [msgcat::mc "Unable to run system command (%s)" $cmd] -detail $cmd_id
         }
         pop_resource $resource
         return

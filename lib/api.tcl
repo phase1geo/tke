@@ -58,7 +58,7 @@ namespace eval api {
       
     } else {
       
-      return -code error "get_home_directory can only be called within plugin code"
+      return -code error [msgcat::mc "get_home_directory can only be called within plugin code"]
       
     }
     
@@ -154,12 +154,12 @@ namespace eval api {
   
     if {([llength $args] == 0) || ([string index [lindex $args 0] 0] eq "-")} {
       if {[expr [llength $args] % 2] == 1} {
-        return -code error "Argument list to api::add_file was not an even key/value pair"
+        return -code error [msgcat::mc "Argument list to api::add_file was not an even key/value pair"]
       }
       gui::add_new_file end {*}$args
     } else {
       if {[expr [llength $args] % 2] == 0} {
-        return -code error "Argument list to api::add_file was not in the form 'filename [<option> <value>]*'"
+        return -code error [msgcat::mc "Argument list to api::add_file was not in the form 'filename [<option> <value>]*'"]
       }
       gui::add_file end {*}$args
     }

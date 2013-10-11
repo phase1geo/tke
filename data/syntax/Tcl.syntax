@@ -1,5 +1,5 @@
 filepatterns
-{*.tcl}
+{*.tcl *.msg}
 
 tabsallowed
 {0}

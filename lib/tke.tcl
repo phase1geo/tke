@@ -23,6 +23,7 @@ package require Tclx
 package require ctext
 package require -exact tablelist 5.9
 package require tooltip
+package require msgcat
 
 source [file join $tke_dir lib version.tcl]
 source [file join $tke_dir lib bnotebook.tcl]
@@ -50,6 +51,9 @@ source [file join $tke_dir lib themer.tcl]
 if {[tk windowingsystem] eq "aqua"} {
   source [file join $tke_dir lib windowlist.tcl]
 }
+
+# Load the message file that is needed
+msgcat::mcload [file join $::tke_dir data msgs]
 
 # Set the default right click button number
 set right_click 3
@@ -121,7 +125,7 @@ proc handle_signal {} {
 # Handle any background errors.
 proc bgerror {msg} {
 
-  puts "ERROR:  $msg"
+  puts [msgcat::mc "ERROR:  %s" $msg]
   puts $::errorInfo
 
 }
@@ -141,7 +145,7 @@ if {[tk windowingsystem] eq "aqua"} {
       } else {
         switch -exact -- [string tolower [file extension $name]] {
           .tmtheme {
-            set ans [tk_messageBox -default yes -icon question -message "Import TextMate theme?" -parent . -type yesnocancel]
+            set ans [tk_messageBox -default yes -icon question -message [msgcat::mc "Import TextMate theme?"] -parent . -type yesnocancel]
             if {$ans eq "yes"} {
               themer::import_tm $name
             } elseif {$ans eq "no"} {
@@ -151,7 +155,7 @@ if {[tk windowingsystem] eq "aqua"} {
             }
           }
           .tketheme {
-            set ans [tk_messageBox -default yes -icon question -message "Edit theme?" -parent . -type yesnocancel]
+            set ans [tk_messageBox -default yes -icon question -message [msgcat::mc "Edit theme?"] -parent . -type yesnocancel]
             if {$ans eq "yes"} {
               themer::import_tke $name
             } elseif {$ans eq "no"} {
