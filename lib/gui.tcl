@@ -1033,7 +1033,7 @@ namespace eval gui {
     
     # If the file needs to be saved, do it now
     if {[[current_txt] edit modified] && !$force} {
-      if {[set answer [tk_messageBox -default yes -type yesnocancel -message [msgcat::mc "Save file?"] -title [msgcatc::mc "Save request"]]] eq "yes"} {
+      if {[set answer [tk_messageBox -default yes -type yesnocancel -message [msgcat::mc "Save file?"] -title [msgcat::mc "Save request"]]] eq "yes"} {
         save_current
       } elseif {$answer eq "cancel"} {
         return

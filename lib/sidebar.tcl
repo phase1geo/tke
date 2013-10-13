@@ -417,7 +417,7 @@ namespace eval sidebar {
   # Displays a tooltip for each root row.
   proc show_tooltip {tbl row col} {
     
-    if {[$tbl parentkey $row] eq "root"} {
+    if {($row >= 0) && ([$tbl parentkey $row] eq "root")} {
       tooltip::tooltip $tbl [$tbl cellcget $row,name -text]
     } else {
       tooltip::tooltip clear
