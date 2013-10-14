@@ -28,6 +28,8 @@ array set tablelistopts {
 
 namespace eval lang {
   
+  variable hide_xlates 0
+  
   array set phrases {}
   array set xlates  {}
   array set widgets {}
@@ -176,6 +178,8 @@ namespace eval lang {
     
     variable widgets
     
+    wm geometry . 800x600
+    
     # Force the window to exit if the close button is clicked
     wm protocol . WM_DELETE_WINDOW {
       exit
@@ -184,6 +188,7 @@ namespace eval lang {
     ttk::frame .tf
     set widgets(tbl) [tablelist::tablelist .tf.tl -columns {0 String 0 Translation 0 {}} \
       -editselectedonly 1 -selectmode extended -exportselection 0 \
+      -editendcommand "lang::edit_end_command" \
       -yscrollcommand ".tf.vb set"]
     ttk::scrollbar .tf.vb -orient vertical -command ".tf.tl yview"
     
@@ -201,16 +206,32 @@ namespace eval lang {
     grid .tf.vb -row 0 -column 1 -sticky ns
     
     ttk::frame .bf
-    set widgets(xlate) [ttk::button .bf.xlate -text "Add Translations"]
+    set widgets(xlate) [ttk::button      .bf.xlate -text "Add Translations"]
+    set widgets(hide)  [ttk::checkbutton .bf.hide  -text "Hide translated" -variable lang::hide_xlates \
+      -command "lang::show_hide_xlates"]
     ttk::button .bf.upd    -text "Update" -width 6 -command "set ::update_lang 1; set ::update_done 1"
     ttk::button .bf.cancel -text "Cancel" -width 6 -command "set ::update_done 1"
     
     pack .bf.xlate  -side left  -padx 2 -pady 2
+    pack .bf.hide   -side left  -padx 2 -pady 2
     pack .bf.cancel -side right -padx 2 -pady 2
     pack .bf.upd    -side right -padx 2 -pady 2
     
     pack .tf -fill both -expand yes
     pack .bf -fill x
+    
+  }
+  
+  ######################################################################
+  # Handles the end of a manual edit of a cell.
+  proc edit_end_command {tbl row col value} {
+    
+    # Handle the show/hide status of the row
+    if {$value ne ""} {
+      after idle [list lang::show_hide_xlate $row]
+    }
+    
+    return $value
     
   }
   
@@ -243,9 +264,39 @@ namespace eval lang {
     # Wait for the user to Update or Cancel the window
     vwait ::update_done
     
+    # Make sure any edited cells are in the not edit mode
+    $widgets(tbl) finishediting
+    
     # If we need to write the language file, do so now
     if {$::update_lang} {
       write_lang $lang
+    }
+    
+  }
+  
+  ######################################################################
+  # Toggles the show/hide translated status of the given row.
+  proc show_hide_xlate {row} {
+    
+    variable widgets
+    variable hide_xlates
+    
+    if {[$widgets(tbl) cellcget $row,xlate -text] ne ""} {
+      $widgets(tbl) rowconfigure $row -hide $hide_xlates
+      $widgets(tbl) selection clear $row
+    }
+    
+  }
+  
+  ######################################################################
+  # Toggles the show/hide translated items in the table.
+  proc show_hide_xlates {} {
+    
+    variable widgets
+    variable hide_xlates
+    
+    for {set i 0} {$i < [$widgets(tbl) size]} {incr i} {
+      show_hide_xlate $i
     }
     
   }
@@ -273,6 +324,7 @@ namespace eval lang {
         }
         $widgets(tbl) cellconfigure $row,xlate -text [subst [string map {{[} {\[} {]} {\]}} $ttext]]
         $widgets(tbl) see $row
+        show_hide_xlate $row
       }
     }
         
@@ -286,6 +338,9 @@ namespace eval lang {
   proc perform_translations {lang} {
     
     variable widgets
+    
+    # Disable the "Add Translations" button from being clicked again
+    $widgets(xlate) configure -state disabled
     
     # Get any selected rows
     set selected [$widgets(tbl) curselection]
@@ -305,6 +360,9 @@ namespace eval lang {
       } rc]} {
       tk_messageBox -parent . -default ok -message "Translation error" -detail $rc -type ok
     }
+    
+    # Enable the 'Add Translations' button
+    $widgets(xlate) configure -state normal
     
   }
   
