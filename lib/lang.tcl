@@ -104,11 +104,11 @@ namespace eval lang {
         }
       }
       
-      # Update the xlates array
-      update_xlates
-      
     }
     
+    # Update the xlates array
+    update_xlates
+
   }
     
   ######################################################################
@@ -142,27 +142,27 @@ namespace eval lang {
     
     if {![catch "open [file join $::tke_dir data msgs $lang.msg] w" rc]} {
       
-      set last_src ""
-      
+      # Organize the strings by file
       for {set i 0} {$i < [$widgets(tbl) size]} {incr i} {
-        
-        if {[set src [$widgets(tbl) cellcget $i,src -text]] ne $last_src} {
-          if {$last_src ne ""} {
-            puts $rc "\}\n"
-          }
-          puts $rc "# [file tail $src]"
-          puts $rc "msgcat::mcmset $lang \{\n"
-          set last_src $src
-        }
-        
         if {[set xlate [$widgets(tbl) cellcget $i,xlate -text]] ne ""} {
-          puts $rc "  \"[$widgets(tbl) cellcget $i,str -text]\""
-          puts $rc "  \"$xlate\"\n"
+          lappend srcs([$widgets(tbl) cellcget $i,src -text]) [list [$widgets(tbl) cellcget $i,str -text] $xlate]
         }
-        
       }
       
-      puts $rc "\}\n"
+      # Output to the file by source file
+      foreach src [lsort [array names srcs]] {
+        
+        puts $rc "# [file tail $src]"
+        puts $rc "msgcat::mcmset $lang \{\n"
+        
+        foreach xlate $srcs($src) {
+          puts $rc "  \"[lindex $xlate 0]\""
+          puts $rc "  \"[lindex $xlate 1]\"\n"
+        }
+        
+        puts $rc "\}\n"
+        
+      }
       
       close $rc
       
@@ -176,8 +176,14 @@ namespace eval lang {
     
     variable widgets
     
+    # Force the window to exit if the close button is clicked
+    wm protocol . WM_DELETE_WINDOW {
+      exit
+    }
+    
     ttk::frame .tf
     set widgets(tbl) [tablelist::tablelist .tf.tl -columns {0 String 0 Translation 0 {}} \
+      -editselectedonly 1 -selectmode extended -exportselection 0 \
       -yscrollcommand ".tf.vb set"]
     ttk::scrollbar .tf.vb -orient vertical -command ".tf.tl yview"
     
@@ -215,6 +221,8 @@ namespace eval lang {
     variable widgets
     variable xlates
     
+    wm title . "Translations for $lang"
+    
     # Clear the table
     $widgets(tbl) delete 0 end
     
@@ -243,37 +251,60 @@ namespace eval lang {
   }
   
   ######################################################################
+  # Translates the item at the given row.  Throws an exception if there
+  # was an error with the translation.
+  proc perform_translation {row lang} {
+    
+    variable widgets
+    
+    # Prepare the search string for URL usage
+    set str [http::formatQuery q [$widgets(tbl) cellcget $row,str -text]]
+    set str "http://mymemory.translated.net/api/get?$str&langpair=en|$lang&de=phase1geo@gmail.com"
+        
+    # Perform http request
+    set token [http::geturl $str -strict 0]
+      
+    # Get the data returned from the request
+    if {[http::status $token] eq "ok"} {
+      set data [http::data $token]
+      if {[regexp {translatedText\":\"([^\"]+)\"} $data -> ttext]} {
+        if {[string compare -length 17 "MYMEMORY WARNING:" $ttext] == 0} {
+          return -code error "Row: $row, $ttext"
+        }
+        $widgets(tbl) cellconfigure $row,xlate -text [subst [string map {{[} {\[} {]} {\]}} $ttext]]
+        $widgets(tbl) see $row
+      }
+    }
+        
+    # Cleanup request
+    http::cleanup $token
+    
+  }
+  
+  ######################################################################
   # Translate any items that are empty.
   proc perform_translations {lang} {
     
     variable widgets
     
-    for {set i 0} {$i < [$widgets(tbl) size]} {incr i} {
-      
-      if {[$widgets(tbl) cellcget $i,xlate -text] eq ""} {
-        
-        # Prepare the search string for URL usage
-        set str [http::formatQuery q [$widgets(tbl) cellcget $i,str -text]]
-        set str "http://mymemory.translated.net/api/get?$str&langpair=en|$lang"
-        
-        # Perform http request
-        set token [http::geturl $str -strict 0]
-        
-        # Get the data returned from the request
-        if {[http::status $token] eq "ok"} {
-          set data [http::data $token]
-          if {[regexp {translatedText\":\"([^\"]+)\"} $data -> ttext]} {
-            $widgets(tbl) cellconfigure $i,xlate -text $ttext
+    # Get any selected rows
+    set selected [$widgets(tbl) curselection]
+    
+    if {[catch {
+        if {[llength $selected] > 0} {
+          foreach row $selected {
+            perform_translation $row $lang
+          }
+        } else {
+          for {set i 0} {$i < [$widgets(tbl) size]} {incr i} {
+            if {[$widgets(tbl) cellcget $i,xlate -text] eq ""} {
+              perform_translation $i $lang
+            }
           }
         }
-        
-        # Cleanup request
-        http::cleanup $token
-        
-      }
- 
+      } rc]} {
+      tk_messageBox -parent . -default ok -message "Translation error" -detail $rc -type ok
     }
-    
     
   }
   

@@ -1713,7 +1713,7 @@ namespace eval gui {
       return -code error [msgcat::mc "File index is out of range"]
     }
     if {![info exists files_index($attr)]} {
-      return -code error [msgcat::mc "File attribute ($attr) does not exist"]
+      return -code error [msgcat::mc "File attribute (%s) does not exist" $attr]
     }
     
     return [lindex $files $index $files_index($attr)]
