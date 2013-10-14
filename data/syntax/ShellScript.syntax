@@ -1,0 +1,44 @@
+filepatterns
+{*.sh}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+indent
+{}
+  
+unindent
+{}
+
+lcomments {{#}}
+
+bcomments {}
+
+strings {{"}}
+
+keywords
+{
+}
+
+symbols
+{
+}
+
+numbers
+{
+  HighlightClassForRegexp {\m[0-9]+}
+}
+
+punctuation
+{
+  HighlightClassForRegexp {[][\{\}]}
+}
+
+precompile {}
+
+miscellaneous
+{}
+
