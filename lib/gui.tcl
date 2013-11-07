@@ -1412,6 +1412,9 @@ namespace eval gui {
     # If the user has specified a new search value, find all occurrences
     if {[set str [[current_search] get]] ne ""} {
       
+      # Escape any parenthesis in the regular expression
+      set str [string map {{(} {\(} {)} {\)}} $str]
+      
       # Test the regular expression, if it is invalid, let the user know
       if {[catch { regexp $str "" } rc]} {
         after 100 [list gui::set_info_message $rc]
@@ -1573,6 +1576,9 @@ namespace eval gui {
       set sline [$txt index "insert linestart"]
       set eline [$txt index "insert lineend"]
     }
+
+    # Escape any parenthesis in the search string
+    set search [string map {{(} {\(} {)} {\)}} $search]
 
     # Replace the text and re-highlight the changes
     $txt replace $sline $eline [regsub -all $search [$txt get $sline "$eline-1c"] $replace]
