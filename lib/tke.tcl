@@ -141,7 +141,7 @@ if {[tk windowingsystem] eq "aqua"} {
     # Add the files
     foreach name $args {
       if {[file isdirectory $name]} {
-        gui::add_directory $name
+        sidebar::add_directory $name
       } else {
         switch -exact -- [string tolower [file extension $name]] {
           .tmtheme {
@@ -255,7 +255,7 @@ if {[llength $cl_files] > 0} {
   foreach cl_file $cl_files {
     set name [file normalize $cl_file]
     if {[file isdirectory $name]} {
-      gui::add_directory $name
+      sidebar::add_directory $name
     } else {
       gui::add_file end $name
     }
