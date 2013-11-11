@@ -46,7 +46,7 @@ namespace eval plugins::perforce {
     }
     
     # Add the file to the editor
-    api::add_file $id_fname -sidebar 0 -savecommand "plugins::perforce::edit_include_dirs_save $id_fname"
+    api::file::add $id_fname -sidebar 0 -savecommand "plugins::perforce::edit_include_dirs_save $id_fname"
         
   }
   
@@ -123,7 +123,7 @@ namespace eval plugins::perforce {
     if {!$disable_edit} {
       
       # Get the filename
-      if {[included [set fname [api::get_file_info $file_index fname]]] && [file exists $fname]} {
+      if {[included [set fname [api::file::get_info $file_index fname]]] && [file exists $fname]} {
         
         # If the file is a symlink, edit the original file
         if {![catch "file readlink $fname" rc]} {
