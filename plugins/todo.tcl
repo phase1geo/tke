@@ -91,11 +91,11 @@ namespace eval plugins::todo {
     variable todo_lists
     
     # Save the image information
-    api::save_variable $index checked   $images(checked)
-    api::save_variable $index unchecked $images(unchecked)
+    api::plugin::save_variable $index checked   $images(checked)
+    api::plugin::save_variable $index unchecked $images(unchecked)
     
     # Save the todo list array
-    api::save_variable $index todo_lists $todo_lists
+    api::plugin::save_variable $index todo_lists $todo_lists
     
   }
   
@@ -106,9 +106,9 @@ namespace eval plugins::todo {
     variable images
     variable todo_lists
     
-    set images(checked)   [api::load_variable $index checked]
-    set images(unchecked) [api::load_variable $index unchecked]
-    set todo_lists        [api::load_variable $index todo_lists]
+    set images(checked)   [api::plugin::load_variable $index checked]
+    set images(unchecked) [api::plugin::load_variable $index unchecked]
+    set todo_lists        [api::plugin::load_variable $index todo_lists]
     
   }
   
