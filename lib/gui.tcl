@@ -35,6 +35,7 @@ namespace eval gui {
     lock     5
     readonly 6
     sidebar  7
+    modified 8
   }
   
   #######################
@@ -59,7 +60,7 @@ namespace eval gui {
         if {[file exists $fname]} {
           file stat $fname stat
           if {$mtime != $stat(mtime)} {
-            if {[[[lindex [$widgets(nb_pw) panes] $pw_current] select].tf.txt edit modified]} {
+            if {[lindex $files $i $files_index(modified)]} {
               set answer [tk_messageBox -parent . -icon question -message [msgcat::mc "Reload file?"] \
                 -detail $fname -type yesno -default yes]
               if {$answer eq "yes"} {
@@ -474,6 +475,7 @@ namespace eval gui {
       set finfo(readonly)    [lindex $file $files_index(readonly)]
       set finfo(sidebar)     [lindex $file $files_index(sidebar)]
       set finfo(language)    [syntax::get_current_language $txt]
+      set finfo(modified)    0
       
       lappend content(FileInfo) [array get finfo]
       
@@ -694,6 +696,7 @@ namespace eval gui {
     lset file_info $files_index(lock)     0
     lset file_info $files_index(readonly) $opts(-readonly)
     lset file_info $files_index(sidebar)  $opts(-sidebar)
+    lset file_info $files_index(modified) 0
  
     # Add the file information to the files list
     lappend files $file_info
@@ -761,6 +764,7 @@ namespace eval gui {
       lset file_info $files_index(lock)     0
       lset file_info $files_index(readonly) $opts(-readonly)
       lset file_info $files_index(sidebar)  $opts(-sidebar)
+      lset file_info $files_index(modified) 0
 
       if {![catch "open $fname r" rc]} {
     
@@ -903,6 +907,7 @@ namespace eval gui {
             
       # Change the text to unmodified
       $txt edit modified false
+      lset files $file_index $files_index(modified) 0
         
       # Set the insertion mark to the first position
       $txt mark set insert $insert_index
@@ -1013,6 +1018,7 @@ namespace eval gui {
     
     # Change the text to unmodified
     [current_txt] edit modified false
+    lset files $file_index $files_index(modified) 0
 
     # If there is a save command, run it now
     if {[lindex $files $file_index $files_index(save_cmd)] ne ""} {
@@ -1030,9 +1036,14 @@ namespace eval gui {
   
     variable widgets
     variable pw_current
+    variable files
+    variable files_index
+    
+    # Get the current file index
+    set file_index [current_file]
     
     # If the file needs to be saved, do it now
-    if {[[current_txt] edit modified] && !$force} {
+    if {[lindex $files $file_index $files_index(modified)] && !$force} {
       if {[set answer [tk_messageBox -default yes -type yesnocancel -message [msgcat::mc "Save file?"] -title [msgcat::mc "Save request"]]] eq "yes"} {
         save_current
       } elseif {$answer eq "cancel"} {
@@ -1182,7 +1193,7 @@ namespace eval gui {
     set content  [$txt get 1.0 end-1c]
     set insert   [$txt index insert]
     set select   [$txt tag ranges sel]
-    set modified [$txt edit modified]
+    set modified [lindex $file $files_index(modified)]
     set language [syntax::get_current_language $txt]
     
     # Delete the current tab
@@ -1197,8 +1208,9 @@ namespace eval gui {
     insert_tab end [file tail $fname] $language
         
     # Update the file components to include position change information
-    lset file $files_index(pane) $pw_current
-    lset file $files_index(tab)  [[current_notebook] index current]
+    lset file $files_index(pane)     $pw_current
+    lset file $files_index(tab)      [[current_notebook] index current]
+    lset file $files_index(modified) 0
     lappend files $file
     
     # Add the text, insertion marker and selection
@@ -2034,8 +2046,13 @@ namespace eval gui {
   proc text_changed {txt} {
   
     variable widgets
+    variable files
+    variable files_index
         
     if {[$txt edit modified]} {
+      
+      # Save the modified state to the files list
+      catch { lset files [current_file] $files_index(modified) 1 }
       
       # Get the tab path from the text path
       set tab [winfo parent [winfo parent $txt]]
