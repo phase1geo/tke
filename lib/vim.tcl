@@ -137,6 +137,11 @@ namespace eval vim {
             }
           } elseif {[regexp {^r\s+(.*)$} $value -> filename]} {
             vim::insert_file $txt $filename
+          } elseif {[regexp {^cd\s+(.*)$} $value -> directory]} {
+            if {[file isdirectory $directory]} {
+              cd $directory
+              gui::set_title
+            }
           }
         }
       }
