@@ -72,6 +72,9 @@ namespace eval sidebar {
       sidebar::remove_parent_folder
     }
     $widgets(dirmenu) add separator
+    $widgets(dirmenu) add command -label [msgcat::mc "Make Current Working Directory"] -command {
+      sidebar::set_current_working_directory
+    }
     $widgets(dirmenu) add command -label [msgcat::mc "Refresh Directory Files"] -command {
       sidebar::refresh_directory_files
     }
@@ -106,6 +109,9 @@ namespace eval sidebar {
       sidebar::add_parent_directory
     }
     $widgets(rootmenu) add separator
+    $widgets(rootmenu) add command -label [msgcat::mc "Make Current Working Directory"] -command {
+      sidebar::set_current_working_directory
+    }
     $widgets(rootmenu) add command -label [msgcat::mc "Refresh Directory Files"] -command {
       sidebar::refresh_directory_files
     }
@@ -658,6 +664,23 @@ namespace eval sidebar {
     
     # Delete the child tree
     $widgets(tl) delete $child
+    
+  }
+  
+  ######################################################################
+  # Sets the currently selected directory to the working directory.
+  proc set_current_working_directory {} {
+    
+    variable widgets
+    
+    # Get the currently selected row
+    set selected [$widgets(tl) curselection]
+    
+    # Set the current working directory to the selected pathname
+    cd [$widgets(tl) cellcget $selected,name -text]
+    
+    # Update the UI
+    gui::set_title
     
   }
   

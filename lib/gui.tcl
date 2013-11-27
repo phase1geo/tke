@@ -457,7 +457,8 @@ namespace eval gui {
     variable files_index
     
     # Gather content to save
-    set content(Geometry) [wm geometry .]
+    set content(Geometry)                [wm geometry .]
+    set content(CurrentWorkingDirectory) [pwd]
 
     # Gather the current tab info
     foreach file $files {
@@ -515,6 +516,9 @@ namespace eval gui {
     
       # Put the state information into the rest of the GUI
       wm geometry . $content(Geometry)
+      
+      # Set the current working directory to the saved value
+      cd $content(CurrentWorkingDirectory)
 
       # If we are supposed to load the last saved session, do it now
       if {$preferences::prefs(General/LoadLastSession) && \
