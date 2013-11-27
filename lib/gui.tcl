@@ -663,6 +663,22 @@ namespace eval gui {
   }
   
   ######################################################################
+  # Returns true if we have only a single tab that has not been modified
+  # or named.
+  proc untitled_check {} {
+    
+    variable widgets
+    variable files
+    variable files_index
+
+    # If we have no more tabs and there is another pane, remove this pane
+    return [expr {([llength $files] == 1) && \
+                  ([lindex $files 0 $files_index(fname)] eq "") && \
+                  ([vim::get_cleaned_content "[lindex [[lindex [$widgets(nb_pw) panes] 0] tabs] 0].tf.txt"] eq "")}]
+      
+  }
+  
+  ######################################################################
   # Adds a new file to the editor pane.
   proc add_new_file {index args} {
   
@@ -679,6 +695,11 @@ namespace eval gui {
       -sidebar     $::cl_sidebar \
     ]
     array set opts $args
+    
+    # Perform untitled tab check
+    if {[untitled_check]} {
+      return
+    }
     
     # Adjust the tab indices
     adjust_tabs_for_insert $index
@@ -734,6 +755,11 @@ namespace eval gui {
     }
     array set opts $args
 
+    # If have a single untitled tab in view, close it before adding the file
+    if {[untitled_check]} {
+      close_tab 0 0 0 0
+    }
+    
     # Get the current notebook
     set nb [current_notebook]
     
@@ -1058,7 +1084,7 @@ namespace eval gui {
   
   ######################################################################
   # Close the specified tab (do not ask the user about closing the tab).
-  proc close_tab {pw_index nb_index {exiting 0}} {
+  proc close_tab {pw_index nb_index {exiting 0} {keep_tab 1}} {
 
     variable widgets
     variable files
@@ -1108,7 +1134,7 @@ namespace eval gui {
     if {([llength [$nb tabs]] == 0) && ([llength [$widgets(nb_pw) panes]] == 1) && !$exiting} {
       if {$preferences::prefs(General/ExitOnLastClose)} {
         menus::exit_command
-      } else {
+      } elseif {$keep_tab} {
         add_new_file end
       }
     }
@@ -2523,7 +2549,7 @@ namespace eval gui {
         # If the target_tab is to the right of the current tab and we have set
         # the target_tab to the normal state, stop processing the for loop.
         if {(($target_tab >= $current_tab) && ($target_tab < $i)) || \
-            (($target_tab < $current_tab) && ($target_tab == $start_pos))} {
+            (($target_tab <= $current_tab) && ($target_tab == $start_pos))} {
           break
 
         # Otherwise, we will need to move the sliding window

@@ -1,0 +1,41 @@
+filepatterns
+{*.haskell}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+indent
+{\{}
+  
+unindent
+{\}}
+
+lcomments {{--}}
+
+bcomments {{\{- -\}}}
+
+strings {{"} {'}}
+
+keywords
+{
+}
+
+symbols
+{
+}
+
+numbers {
+  HighlightClassForRegexp {[0-9]+|0[oO][0-7]+|0[xX][0-9a-fA-F]+|[eE][+-]?[0-9]+}
+}
+
+punctuation
+{
+}
+
+precompile {}
+
+miscellaneous {}
+
