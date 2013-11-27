@@ -560,9 +560,6 @@ namespace eval gui {
           set_current_tab $pane [lindex $content(CurrentTabs) $pane]
         }
         
-        # Delete the Untitled document
-        close_tab 0 0
-        
       }
       
       # Restore the "last_opened" list
