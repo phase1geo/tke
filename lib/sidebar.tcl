@@ -188,7 +188,9 @@ namespace eval sidebar {
     
     # Check to see if the directory root has already been added
     if {[set row [$widgets(tl) searchcolumn name $dir -descend -exact]] != -1} {
-      $widgets(tl) expand $row -partly
+      if {![$widgets(tl) isexpanded $row]} {
+        $widgets(tl) expand $row -partly
+      }
       update_directory $row
       return
     } else {
