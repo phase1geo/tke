@@ -1510,7 +1510,9 @@ namespace eval gui {
 
     # Select the next match
     if {$startpos ne ""} {
-      $txt tag add sel $startpos $endpos
+      if {![vim::in_vim_mode $txt.t]} {
+        $txt tag add sel $startpos $endpos
+      }
       $txt mark set insert $startpos
       $txt see insert
     }
@@ -1544,7 +1546,9 @@ namespace eval gui {
 
     # Select the next match
     if {$startpos ne ""} {
-      $txt tag add sel $startpos $endpos
+      if {![vim::in_vim_mode $txt.t]} {
+        $txt tag add sel $startpos $endpos
+      }
       $txt mark set insert $startpos
       $txt see insert
     }
