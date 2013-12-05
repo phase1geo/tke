@@ -518,7 +518,9 @@ namespace eval gui {
       wm geometry . $content(Geometry)
       
       # Set the current working directory to the saved value
-      cd $content(CurrentWorkingDirectory)
+      if {[file exists $content(CurrentWorkingDirectory)]} {
+        cd $content(CurrentWorkingDirectory)
+      }
 
       # If we are supposed to load the last saved session, do it now
       if {$preferences::prefs(General/LoadLastSession) && \
@@ -1071,7 +1073,8 @@ namespace eval gui {
     
     # If the file needs to be saved, do it now
     if {[lindex $files $file_index $files_index(modified)] && !$force} {
-      if {[set answer [tk_messageBox -default yes -type yesnocancel -message [msgcat::mc "Save file?"] -title [msgcat::mc "Save request"]]] eq "yes"} {
+      set msg "[msgcat::mc Save] [file tail [lindex $files $file_index $files_index(fname)]]?"
+      if {[set answer [tk_messageBox -default yes -type yesnocancel -message $msg -title [msgcat::mc "Save request"]]] eq "yes"} {
         save_current
       } elseif {$answer eq "cancel"} {
         return
