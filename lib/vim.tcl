@@ -1080,10 +1080,10 @@ namespace eval vim {
     } elseif {$mode($txt) eq "delete"} {
       clipboard clear
       if {$number($txt) ne ""} {
-        clipboard append [$txt get "insert linestart" "insert linestart+$number($txt)l"]
+        clipboard append [$txt get "insert linestart" "insert linestart+[expr $number($txt) - 1]l lineend"]
         $txt delete "insert linestart" "insert linestart+$number($txt)l"
       } else {
-        clipboard append [$txt get "insert linestart" "insert linestart+1l"]
+        clipboard append [$txt get "insert linestart" "insert lineend"]
         $txt delete "insert linestart" "insert linestart+1l"
       }
       start_mode $txt
