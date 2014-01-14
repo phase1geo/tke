@@ -321,7 +321,7 @@ namespace eval multicursor {
     variable selected
     
     # Parse the number string to verify that it's valid
-    if {[regexp {^(d[0-9]*)|(o[0-7]*)|(x[0-9a-fA-F]*)$} $numstr]} {
+    if {[regexp {^(.*)((b[0-1]*)(d[0-9]*)|(o[0-7]*)|([xh][0-9a-fA-F]*))$} $numstr -> prefix numstr]} {
       
       # Get the cursors
       set mcursors [lreverse [$txt tag ranges mcursor]]
@@ -345,7 +345,16 @@ namespace eval multicursor {
       }
       
       # Handle the value insertions
-      switch [string index $numstr 0] {
+      switch [string tolower [string index $numstr 0]] {
+        b {
+          set num [expr 0b$num + ($num_mcursors - 1)]
+          foreach {end start} $mcursors {
+            set binRep [binary format c $num]
+            binary scan $binRep B* binStr
+            $txt insert $start [string trimleft $binStr 0]
+            incr num -1
+          }
+        }
         d {
           set num [expr $num + ($num_mcursors - 1)]
           foreach {end start} $mcursors {
@@ -360,6 +369,7 @@ namespace eval multicursor {
             incr num -1
           }
         }
+        h -
         x {
           set num [expr 0x$num + ($num_mcursors - 1)]
           foreach {end start} $mcursors {
