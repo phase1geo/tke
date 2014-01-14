@@ -658,6 +658,9 @@ namespace eval vim {
         record_start
       }
       return 1
+    } elseif {$mode($txt) eq "number"} {
+      append number($txt) $num
+      return 1
     }
     
     return 0
@@ -805,9 +808,19 @@ namespace eval vim {
   proc handle_percent {txt} {
     
     variable mode
+    variable number
     
     if {$mode($txt) eq "start"} {
-      gui::show_match_pair
+      if {[multicursor::enabled $txt]} {
+        set mode($txt)   "number"
+        set number($txt) "d"
+      } else {
+        gui::show_match_pair
+      }
+      return 1
+    } elseif {$mode($txt) eq "number"} {
+      multicursor::insert_numbers $txt $number($txt)
+      start_mode $txt
       return 1
     }
     
@@ -1090,6 +1103,9 @@ namespace eval vim {
       record_add "Key-d"
       record_stop
       return 1
+    } elseif {$mode($txt) eq "number"} {
+      set number($txt) "d"
+      return 1
     }
     
     return 0
@@ -1284,6 +1300,9 @@ namespace eval vim {
       record_add "Key-x"
       record_stop
       return 1
+    } elseif {$mode($txt) eq "number"} {
+      set number($txt) "x"
+      return 1
     }
     
     return 0
@@ -1296,6 +1315,7 @@ namespace eval vim {
   proc handle_o {txt} {
   
     variable mode
+    variable number
     
     if {$mode($txt) eq "start"} {
       if {[multicursor::enabled $txt]} {
@@ -1308,6 +1328,9 @@ namespace eval vim {
       edit_mode $txt
       indent::newline $txt insert
       record_start
+      return 1
+    } elseif {$mode($txt) eq "number"} {
+      set number($txt) "o"
       return 1
     }
     

@@ -307,6 +307,77 @@ namespace eval multicursor {
   }
   
   ######################################################################
+  # Parses the given number string with the format of:
+  #   (d|o|x)?<number>+
+  # Where d means to parse and insert decimal numbers, o means to parse
+  # and insert octal numbers, and x means to parse and insert hexidecimal
+  # numbers.  If d, o or x are not specified, d is assumed.
+  # Numbers will be inserted at each cursor location such that the first
+  # cursor will be replaced with the number specified by <number>+ and
+  # each successive cursor will have an incrementing value inserted
+  # at its location.
+  proc insert_numbers {txt numstr} {
+    
+    variable selected
+    
+    # Parse the number string to verify that it's valid
+    if {[regexp {^(d[0-9]*)|(o[0-7]*)|(x[0-9a-fA-F]*)$} $numstr]} {
+      
+      # Get the cursors
+      set mcursors [lreverse [$txt tag ranges mcursor]]
+      
+      # Get the last number
+      set num_mcursors [expr ([llength $mcursors] / 2)]
+      
+      # If things were selected, delete their characters and re-add the multicursors
+      if {$selected} {
+        foreach {end start} $mcursors {
+          $txt delete $start $end
+          $txt tag add mcursor $start
+        }
+        set selected 0
+      }
+      
+      # Get the number portion of the number string.  If one does not exist,
+      # default the number to 0.
+      if {[set num [string range $numstr 1 end]] eq ""} {
+        set num 0
+      }
+      
+      # Handle the value insertions
+      switch [string index $numstr 0] {
+        d {
+          set num [expr $num + ($num_mcursors - 1)]
+          foreach {end start} $mcursors {
+            $txt insert $start $num
+            incr num -1
+          }
+        }
+        o {
+          set num [expr 0o$num + ($num_mcursors - 1)]
+          foreach {end start} $mcursors {
+            $txt insert $start [format "0o%o" $num]
+            incr num -1
+          }
+        }
+        x {
+          set num [expr 0x$num + ($num_mcursors - 1)]
+          foreach {end start} $mcursors {
+            $txt insert $start [format "0x%x" $num]
+            incr num -1
+          }
+        }
+      }
+      
+      return 1
+      
+    }
+    
+    return 0
+    
+  }
+  
+  ######################################################################
   # Aligns all of the cursors by inserting spaces prior to each cursor
   # that is less than the one in the highest column position.  If multiple
   # cursors exist on the same line, the cursor in the lowest column position
