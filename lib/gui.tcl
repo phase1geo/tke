@@ -327,6 +327,9 @@ namespace eval gui {
       set nb  [lindex [$widgets(nb_pw) panes] [lindex $files $index $files_index(pane)]]
       $nb tab [lindex $files $index $files_index(tab)] -text [file tail $new_name]
       
+      # Update the title if necessary
+      set_title
+      
     }
     
   }
@@ -547,6 +550,7 @@ namespace eval gui {
         # Add the tabs (in order) to each of the panes and set the current tab in each pane
         for {set pane 0} {$pane < [llength $content(CurrentTabs)]} {incr pane} {
           set pw_current $pane
+          set set_tab    1
           foreach index [lindex $ordered $pane] {
             if {$index ne ""} {
               array set finfo [lindex $content(FileInfo) $index]
@@ -556,10 +560,14 @@ namespace eval gui {
                 if {[syntax::get_current_language [current_txt]] ne $finfo(language)} {
                   syntax::set_language $finfo(language)
                 }
+              } else {
+                set set_tab 0
               }
             }
           }
-          set_current_tab $pane [lindex $content(CurrentTabs) $pane]
+          if {$set_tab} {
+            set_current_tab $pane [lindex $content(CurrentTabs) $pane]
+          }
         }
         
       }
@@ -933,6 +941,9 @@ namespace eval gui {
       
       # Change the tab text
       $nb tab [lindex $file_info $files_index(tab)] -text " [file tail [lindex $file_info $files_index(fname)]]"
+      
+      # Update the title bar (if necessary)
+      set_title
             
       # Change the text to unmodified
       $txt edit modified false
@@ -1260,6 +1271,7 @@ namespace eval gui {
     if {!$modified} {
       $txt edit modified false
       [current_notebook] tab current -text " [file tail $fname]"
+      set_title
     }
     
     # Highlight the file in the sidebar
@@ -1806,6 +1818,32 @@ namespace eval gui {
     pack .aboutwin.logo      -padx 2 -pady 8 -anchor w
     pack .aboutwin.if        -padx 2 -pady 2
     pack .aboutwin.copyright -padx 2 -pady 8
+    
+  }
+  
+  ######################################################################
+  # Displays the number insertion dialog box if we are currently in
+  # multicursor mode.
+  proc insert_numbers {txt} {
+    
+    variable widgets
+    
+    if {[multicursor::enabled $txt]} {
+      
+      # Get the number string from the user
+      if {[user_response_get "Starting number:" var1]} {
+      
+        # Insert the numbers (if not successful, output an error to the user)
+        if {![multicursor::insert_numbers $txt $var1]} {
+          set_info_message "Unable to successfully parse number string"
+        }
+        
+      }
+      
+    # Otherwise, display an error message to the user
+    } else {
+      set_info_message "Must be in multicursor mode to insert numbers"
+    }
     
   }
   

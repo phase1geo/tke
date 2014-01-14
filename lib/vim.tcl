@@ -658,9 +658,6 @@ namespace eval vim {
         record_start
       }
       return 1
-    } elseif {$mode($txt) eq "number"} {
-      append number($txt) $num
-      return 1
     }
     
     return 0
@@ -811,16 +808,7 @@ namespace eval vim {
     variable number
     
     if {$mode($txt) eq "start"} {
-      if {[multicursor::enabled $txt]} {
-        set mode($txt)   "number"
-        set number($txt) "d"
-      } else {
-        gui::show_match_pair
-      }
-      return 1
-    } elseif {$mode($txt) eq "number"} {
-      multicursor::insert_numbers $txt $number($txt)
-      start_mode $txt
+      gui::show_match_pair
       return 1
     }
     
@@ -1037,15 +1025,6 @@ namespace eval vim {
   }
   
   ######################################################################
-  # Performs a word cut operation.
-  proc do_word_cut {txt} {
-    
-    $txt delete insert "insert wordend"
-    edit_mode $txt
- 
-  }
-  
-  ######################################################################
   # If we are in "cut" mode, delete the current word and change to edit
   # mode.
   proc handle_w {txt} {
@@ -1053,7 +1032,10 @@ namespace eval vim {
     variable mode
     
     if {$mode($txt) eq "cut"} {
-      do_word_cut $txt
+      if {![multicursor::delete $txt " wordend"]} {
+        $txt delete insert "insert wordend"
+      }
+      edit_mode $txt
       return 1
     }
     
@@ -1102,9 +1084,6 @@ namespace eval vim {
       start_mode $txt
       record_add "Key-d"
       record_stop
-      return 1
-    } elseif {$mode($txt) eq "number"} {
-      set number($txt) "d"
       return 1
     }
     
@@ -1300,9 +1279,6 @@ namespace eval vim {
       record_add "Key-x"
       record_stop
       return 1
-    } elseif {$mode($txt) eq "number"} {
-      set number($txt) "x"
-      return 1
     }
     
     return 0
@@ -1328,9 +1304,6 @@ namespace eval vim {
       edit_mode $txt
       indent::newline $txt insert
       record_start
-      return 1
-    } elseif {$mode($txt) eq "number"} {
-      set number($txt) "o"
       return 1
     }
     
@@ -1494,6 +1467,23 @@ namespace eval vim {
     
     if {$mode($txt) eq "start"} {
       multicursor::add_cursors $txt [$txt index insert]
+      return 1
+    }
+    
+    return 0
+    
+  }
+  
+  ######################################################################
+  # If we are in "start" mode, run the gui::insert_numbers procedure to
+  # allow the user to potentially insert incrementing numbers into the
+  # specified text widget.
+  proc handle_numbersign {txt} {
+    
+    variable mode
+    
+    if {$mode($txt) eq "start"} {
+      gui::insert_numbers $txt
       return 1
     }
     
