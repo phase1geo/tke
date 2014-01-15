@@ -114,6 +114,18 @@ namespace eval texttools {
     multicursor::align $txt
     
   }
+    
+  ######################################################################
+  # Inserts an enumeration when in multicursor mode.
+  proc insert_enumeration {} {
+      
+    # Get the current text widget
+    set txt [gui::current_txt]
+      
+    # Perform the insertion
+    gui::insert_numbers $txt
+      
+  }
 
 }
  
