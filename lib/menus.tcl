@@ -173,9 +173,11 @@ namespace eval menus {
   proc text_posting {mb} {
     
     if {[multicursor::enabled [gui::current_txt]]} {
-      $mb entryconfigure [msgcat::mc "Align cursors"] -state normal
+      $mb entryconfigure [msgcat::mc "Align cursors"]      -state normal
+      $mb entryconfigure [msgcat::mc "Insert enumeration"] -state normal
     } else {
-      $mb entryconfigure [msgcat::mc "Align cursors"] -state disabled
+      $mb entryconfigure [msgcat::mc "Align cursors"]      -state disabled
+      $mb entryconfigure [msgcat::mc "Insert enumeration"] -state disabled
     }
     
   }
@@ -421,8 +423,11 @@ namespace eval menus {
     
     $mb add separator
     
-    $mb add command -label [msgcat::mc "Align cursors"] -underlin 0 -command "texttools::align"
+    $mb add command -label [msgcat::mc "Align cursors"] -underline 0 -command "texttools::align"
     launcher::register [msgcat::mc "Menu: Align cursors"] "texttools::align"
+    
+    $mb add command -label [msgcat::mc "Insert enumeration"] -underline 7 -command "texttools::insert_enumeration"
+    launcher::register [msgcat::mc "Menu: Insert enumeration"] "texttools::insert_enumeration"
     
     # Apply the menu settings for the text menu
     bindings::apply $mb

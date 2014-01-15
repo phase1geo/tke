@@ -1880,13 +1880,15 @@ namespace eval gui {
         tooltip::hide
       }
       set gui::pw_current [lsearch [$gui::widgets(nb_pw) panes] %W]
-      %W select @%x,%y
-      tk_popup $gui::widgets(menu) %X %Y
+      if {![catch "%W select @%x,%y"]} {
+        tk_popup $gui::widgets(menu) %X %Y
+      }
     }
     bind $nb <ButtonRelease-$::right_click> {
       set gui::pw_current [lsearch [$gui::widgets(nb_pw) panes] %W]
-      %W select @%x,%y
-      focus [gui::current_txt].t
+      if {![catch "%W select @%x,%y"]} {
+        focus [gui::current_txt].t
+      }
     }
     
     # Handles the tab sizing
