@@ -719,6 +719,8 @@ namespace eval sidebar {
   # Opens the currently selected file in the notebook.
   proc open_file {} {
     
+    variable widgets
+    
     # Get the current selection
     set selected [$widgets(tl) curselection]
     
