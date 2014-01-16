@@ -400,8 +400,32 @@ namespace eval menus {
     $mb add command -label [msgcat::mc "Find matching pair"] -underline 5 -command "gui::show_match_pair"
     launcher::register [msgcat::mc "Menu: Find matching character pair"] "gui::show_match_pair"
     
+    $mb add separator
+    
+    $mb add command -label [msgcat::mc "Find in files"] -underline 5 -command "menus::find_in_files"
+    launcher::register [msgcat::mc "Menu: Find in files"] "menus::find_in_files"
+    
+    $mb add command -label [msgcat::mc "Show search results"] -underline 0 -command "menus::show_search_results"
+    launcher::register [msgcat::mc "Menu: Show search results"] "menus::show_search_results"
+    
     # Apply the menu settings for the find menu
     bindings::apply $mb
+    
+  }
+  
+  ######################################################################
+  # Performs an egrep-like search in a user-specified list of files/directories.
+  proc find_in_files {} {
+    
+    # TBD
+    
+  }
+  
+  ######################################################################
+  # Displays the search results tab in the file viewer.
+  proc show_search_results {} {
+    
+    # TBD
     
   }
   
