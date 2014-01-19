@@ -854,6 +854,8 @@ namespace eval sidebar {
     variable widgets
     
     set fif_files [list]
+    set odirs     [list]
+    set ofiles    [list]
     
     # Gather the lists of files, opened files and opened directories
     for {set i 0} {$i < [$widgets(tl) size]} {incr i} {
@@ -871,9 +873,13 @@ namespace eval sidebar {
     }
     
     # Add the Opened files/directories
-    lappend fif_files [list {Opened Files}       $ofiles]
-    lappend fif_files [list {Opened Directories} $odirs]
-    lappend fif_files [list {Current Directory}  [pwd]]
+    if {[llength $ofiles] > 0} {
+      lappend fif_files [list {Opened Files} $ofiles]
+    }
+    if {[llength $odirs] > 0} {
+      lappend fif_files [list {Opened Directories} $odirs]
+    }
+    lappend fif_files [list {Current Directory} [pwd]]
     
     return [lsort -index 0 $fif_files]
     

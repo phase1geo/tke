@@ -408,9 +408,6 @@ namespace eval menus {
     $mb add command -label [msgcat::mc "Find in files"] -underline 5 -command "menus::find_in_files"
     launcher::register [msgcat::mc "Menu: Find in files"] "menus::find_in_files"
     
-    $mb add command -label [msgcat::mc "Show search results"] -underline 0 -command "menus::show_search_results"
-    launcher::register [msgcat::mc "Menu: Show search results"] "menus::show_search_results"
-    
     # Apply the menu settings for the find menu
     bindings::apply $mb
     
@@ -440,7 +437,7 @@ namespace eval menus {
       }
       
       # Perform egrep operation (test)
-      bgproc::system find_in_files "egrep -a -H -C3 -n -s $rsp(find) [lsort [array names files]]" -killable 1 \
+      bgproc::system find_in_files "egrep -a -H -C$preferences::prefs(Find/ContextNum) -n -s $rsp(find) [lsort [array names files]]" -killable 1 \
         -callback "menus::find_in_files_callback [list $rsp(find)] [array size files]"
       
     }
@@ -486,7 +483,7 @@ namespace eval menus {
       
     } else {
       
-      $txt insert end "ERROR: $data"
+      $txt insert end "ERROR: $data\n\n\n"
       
     }
       
@@ -585,14 +582,6 @@ namespace eval menus {
     set txt [gui::current_txt]
     $txt see $linenum.0
     $txt mark set insert $linenum.0
-    
-  }
-  
-  ######################################################################
-  # Displays the search results tab in the file viewer.
-  proc show_search_results {} {
-    
-    # TBD
     
   }
   
