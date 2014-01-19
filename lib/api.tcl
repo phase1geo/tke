@@ -152,6 +152,10 @@ namespace eval api {
     #   -sidebar (0|1)          If set to 1 (default), the file's directory contents
     #                           will be included in the sidebar; otherwise, the file's
     #                           directory components will not be added to the sidebar.
+    #
+    #   -saveas (0|1)           If set to 0 (default), the file will be saved to the
+    #                           current file; otherwise, the file will always force a
+    #                           save as dialog to be displayed when saving.
     proc add {args} {
      
       if {([llength $args] == 0) || ([string index [lindex $args 0] 0] eq "-")} {
