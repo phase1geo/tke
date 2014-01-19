@@ -24,6 +24,7 @@ package require ctext
 package require -exact tablelist 5.10
 package require tooltip
 package require msgcat
+package require tokenentry
 
 source [file join $tke_dir lib version.tcl]
 source [file join $tke_dir lib bnotebook.tcl]

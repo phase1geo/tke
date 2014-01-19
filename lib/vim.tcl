@@ -188,7 +188,7 @@ namespace eval vim {
       $txt insert "insert lineend" "\n$contents"
       
       # Adjust the insert cursor
-      adjust_cursor $txt
+      adjust_insert $txt
       
     }
     

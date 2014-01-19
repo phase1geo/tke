@@ -846,4 +846,37 @@ namespace eval sidebar {
 
   }
   
+  ######################################################################
+  # Returns a list of files specifically for use in the "find in files"
+  # function.
+  proc get_fif_files {} {
+    
+    variable widgets
+    
+    set fif_files [list]
+    
+    # Gather the lists of files, opened files and opened directories
+    for {set i 0} {$i < [$widgets(tl) size]} {incr i} {
+      set name [$widgets(tl) cellcget $i,name -text]
+      if {[file isdirectory $name]} {
+        if {[$widgets(tl) isexpanded $i] || ([$widgets(tl) parentkey $i] eq "root")} {
+          lappend odirs $name
+        }
+      } else {
+        if {[$widgets(tl) cellcget $i,name -background] eq "yellow"} {
+          lappend ofiles $name
+        }
+        lappend fif_files [list $name $name]
+      }
+    }
+    
+    # Add the Opened files/directories
+    lappend fif_files [list {Opened Files}       $ofiles]
+    lappend fif_files [list {Opened Directories} $odirs]
+    lappend fif_files [list {Current Directory}  [pwd]]
+    
+    return [lsort -index 0 $fif_files]
+    
+  }
+  
 }

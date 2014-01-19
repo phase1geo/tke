@@ -19,6 +19,7 @@ namespace eval gui {
   variable user_exit_status ""
   variable file_locked      0
   variable last_opened      [list]
+  variable fif_files        [list]
   
   array set widgets     {}
   array set language    {}
@@ -36,6 +37,7 @@ namespace eval gui {
     readonly 6
     sidebar  7
     modified 8
+    buffer   9
   }
   
   #######################
@@ -128,6 +130,36 @@ namespace eval gui {
     
     # Pack the notebook panedwindow
     pack $widgets(nb_pw) -fill both -expand yes
+    
+    # Create the find_in_files widget
+    set widgets(fif)      [ttk::frame .fif]
+    ttk::label $widgets(fif).lf -text "Find: "
+    set widgets(fif_find) [ttk::entry $widgets(fif).ef]
+    ttk::label $widgets(fif).li -text "In: "
+    set widgets(fif_in)   [tokenentry::tokenentry $widgets(fif).ti]
+    
+    bind $widgets(fif_find) <Return> {
+      if {([llength [$gui::widgets(fif_in) tokenget]] > 0) && \
+          ([$gui::widgets(fif_find) get] ne "")} {
+        set gui::user_exit_status 1
+      }
+    }
+    bind $widgets(fif_find) <Escape> "set gui::user_exit_status 0"
+    bind [$widgets(fif_in) entrytag] <Return> {
+      if {([llength [$gui::widgets(fif_in) tokenget]] > 0) && \
+          ([$gui::widgets(fif_in) entryget] eq "") && \
+          ([$gui::widgets(fif_find) get] ne "")} {
+        set gui::user_exit_status 1
+        break
+      }
+    }
+    bind $widgets(fif_in)   <Escape> "set gui::user_exit_status 0"
+      
+    grid columnconfigure $widgets(fif) 1 -weight 1
+    grid $widgets(fif).lf -row 0 -column 0 -sticky ew
+    grid $widgets(fif).ef -row 0 -column 1 -sticky ew
+    grid $widgets(fif).li -row 1 -column 0 -sticky ew
+    grid $widgets(fif).ti -row 1 -column 1 -sticky ew
 
     # Create the information bar
     set widgets(info)        [ttk::frame .if]
@@ -155,9 +187,11 @@ namespace eval gui {
     grid columnconfigure . 0 -weight 1
     grid $widgets(pw)   -row 0 -column 0 -sticky news
     grid $widgets(ursp) -row 1 -column 0 -sticky ew
-    grid $widgets(info) -row 2 -column 0 -sticky ew
+    grid $widgets(fif)  -row 2 -column 0 -sticky ew
+    grid $widgets(info) -row 3 -column 0 -sticky ew
     
     grid remove $widgets(ursp)
+    grid remove $widgets(fif)
 
     # Create tab popup
     set widgets(menu) [menu $widgets(nb_pw).popupMenu -tearoff 0 -postcommand gui::setup_tab_popup_menu]
@@ -462,7 +496,7 @@ namespace eval gui {
     # Gather content to save
     set content(Geometry)                [wm geometry .]
     set content(CurrentWorkingDirectory) [pwd]
-
+    
     # Gather the current tab info
     foreach file $files {
     
@@ -479,10 +513,11 @@ namespace eval gui {
       set finfo(readonly)    [lindex $file $files_index(readonly)]
       set finfo(sidebar)     [lindex $file $files_index(sidebar)]
       set finfo(language)    [syntax::get_current_language $txt]
+      set finfo(buffer)      [lindex $file $files_index(buffer)]
       set finfo(modified)    0
       
       lappend content(FileInfo) [array get finfo]
-      
+        
     }
     
     # Get the currently selected tabs
@@ -556,7 +591,8 @@ namespace eval gui {
               array set finfo [lindex $content(FileInfo) $index]
               if {[file exists $finfo(fname)]} {
                 add_file end $finfo(fname) \
-                  -savecommand $finfo(savecommand) -lock $finfo(lock) -readonly $finfo(readonly) -sidebar $finfo(sidebar)
+                  -savecommand $finfo(savecommand) -lock $finfo(lock) -readonly $finfo(readonly) \
+                  -sidebar $finfo(sidebar)
                 if {[syntax::get_current_language [current_txt]] ne $finfo(language)} {
                   syntax::set_language $finfo(language)
                 }
@@ -691,6 +727,13 @@ namespace eval gui {
   
   ######################################################################
   # Adds a new file to the editor pane.
+  #
+  # Several options are available:
+  # -savecommand <command>  Optional command that is run when the file is saved.
+  # -lock        <bool>     Initial lock setting.
+  # -readonly    <bool>     Set if file should not be saveable.
+  # -sidebar     <bool>     Specifies if file/directory should be added to the sidebar.
+  # -buffer      <bool>     If true, treats contents as a temporary buffer.
   proc add_new_file {index args} {
   
     variable widgets
@@ -704,6 +747,7 @@ namespace eval gui {
       -lock        0 \
       -readonly    0 \
       -sidebar     $::cl_sidebar \
+      -buffer      0 \
     ]
     array set opts $args
     
@@ -728,6 +772,7 @@ namespace eval gui {
     lset file_info $files_index(lock)     0
     lset file_info $files_index(readonly) $opts(-readonly)
     lset file_info $files_index(sidebar)  $opts(-sidebar)
+    lset file_info $files_index(buffer)   $opts(-buffer)
     lset file_info $files_index(modified) 0
  
     # Add the file information to the files list
@@ -749,6 +794,13 @@ namespace eval gui {
   ######################################################################
   # Creates a new tab for the given filename specified at the given index
   # tab position.
+  #
+  # Several options are available:
+  # -savecommand <command>  Optional command that is run when the file is saved.
+  # -lock        <bool>     Initial lock setting.
+  # -readonly    <bool>     Set if file should not be saveable.
+  # -sidebar     <bool>     Specifies if file/directory should be added to the sidebar.
+  # -buffer      <bool>     If true, treats the text widget as a temporary buffer.
   proc add_file {index fname args} {
   
     variable widgets
@@ -763,6 +815,7 @@ namespace eval gui {
       -lock        0
       -readonly    0
       -sidebar     1
+      -buffer      0
     }
     array set opts $args
 
@@ -801,6 +854,7 @@ namespace eval gui {
       lset file_info $files_index(lock)     0
       lset file_info $files_index(readonly) $opts(-readonly)
       lset file_info $files_index(sidebar)  $opts(-sidebar)
+      lset file_info $files_index(buffer)   $opts(-buffer)
       lset file_info $files_index(modified) 0
 
       if {![catch "open $fname r" rc]} {
@@ -1003,7 +1057,8 @@ namespace eval gui {
       lset files $file_index $files_index(fname) $save_as
     
     # If the current file doesn't have a filename, allow the user to set it
-    } elseif {[lindex $files $file_index $files_index(fname)] eq ""} {
+    } elseif {([lindex $files $file_index $files_index(fname)] eq "") || \
+               [lindex $files $file_index $files_index(buffer)]} {
       set save_opts [list]
       if {[llength [set extensions [syntax::get_extensions]]] > 0} {
         lappend save_opts -defaultextension [lindex $extensions 0]
@@ -1019,7 +1074,7 @@ namespace eval gui {
     plugins::handle_on_save $file_index
     
     # Save the file contents
-    if {[catch "open [lindex $files $file_index 0] w" rc]} {
+    if {[catch "open [lindex $files $file_index $files_index(fname)] w" rc]} {
       tk_messageBox -parent . -title "Error" -type ok -default ok -message "Unable to write file" -detail $rc
       return
     }
@@ -1083,7 +1138,9 @@ namespace eval gui {
     set file_index [current_file]
     
     # If the file needs to be saved, do it now
-    if {[lindex $files $file_index $files_index(modified)] && !$force} {
+    if {[lindex $files $file_index $files_index(modified)] && \
+        ![lindex $files $file_index $files_index(buffer)] && \
+        !$force} {
       set msg "[msgcat::mc Save] [file tail [lindex $files $file_index $files_index(fname)]]?"
       if {[set answer [tk_messageBox -default yes -type yesnocancel -message $msg -title [msgcat::mc "Save request"]]] eq "yes"} {
         save_current
@@ -1202,6 +1259,21 @@ namespace eval gui {
       set pane [lindex $files $index $files_index(pane)]
       set tab  [lindex $files $index $files_index(tab)]
       close_tab $pane $tab
+    }
+    
+  }
+  
+  ######################################################################
+  # Closes all buffers.
+  proc close_buffers {} {
+    
+    variable files
+    variable files_index
+    
+    foreach index [lsearch -all -index $files_index(buffer) $files 1] {
+      set pane [lindex $files $index $files_index(pane)]
+      set tab  [lindex $files $index $files_index(tab)]
+      close_tab $pane $tab 1
     }
     
   }
@@ -1785,6 +1857,73 @@ namespace eval gui {
   }
   
   ######################################################################
+  # Retrieves the "find in file" inputs from the user.
+  proc fif_get_input {prsp_list} {
+    
+    variable widgets
+    variable fif_files
+    
+    upvar $prsp_list rsp_list
+    
+    # Reset the input widgets
+    $widgets(fif_find) delete 0 end
+    $widgets(fif_in)   delete 0 end
+    
+    # Populate the fif_in tokenentry menu
+    set fif_files [sidebar::get_fif_files]
+    $widgets(fif_in) configure -listvar gui::fif_files -matchmode regexp -matchindex 0 -matchdisplayindex 0
+    
+    # Display the FIF widget
+    grid $widgets(fif)
+    
+    # Get current focus and grab
+    set old_focus [focus]
+    set old_grab  [grab current $widgets(fif)]
+    if {$old_grab ne ""} {
+      set grab_status [grab status $old_grab]
+    }
+    
+    # Set focus to the ursp_entry widget
+    focus $widgets(fif_find)
+    
+    # Wait for the fif frame to be visible and then grab it
+    tkwait visibility $widgets(fif)
+    grab $widgets(fif)
+    
+    vwait gui::user_exit_status
+    
+    # Reset the original focus and grab
+    catch { focus $old_focus }
+    catch { grab release $widgets(fif) }
+    if {$old_grab ne ""} {
+      if {$grab_status ne "global"} {
+        grab $old_grab
+      } else {
+        grab -global $old_grab
+      }
+    }
+    
+    # Hide the widget
+    grid remove $widgets(fif)
+    
+    # Get the list of files/directories from the list of tokens
+    set ins [list]
+    foreach token [$widgets(fif_in) tokenget] {
+      if {[set index [lsearch -index 0 $fif_files $token]] != -1} {
+        lappend ins {*}[lindex $fif_files $index 1]
+      } else {
+        lappend ins $token
+      }
+    }
+    
+    # Gather the input to return
+    set rsp_list [list find [$widgets(fif_find) get] in $ins]
+    
+    return $gui::user_exit_status
+    
+  }
+  
+  ######################################################################
   # Displays the help menu "About" window.
   proc show_about {} {
     
@@ -2125,21 +2264,25 @@ namespace eval gui {
         
     if {[$txt edit modified]} {
       
-      # Save the modified state to the files list
-      catch { lset files [current_file] $files_index(modified) 1 }
+      if {![catch { lindex $files [current_file] $files_index(buffer) } rc] && ($rc == 0)} {
+        
+        # Save the modified state to the files list
+        catch { lset files [current_file] $files_index(modified) 1 }
       
-      # Get the tab path from the text path
-      set tab [winfo parent [winfo parent $txt]]
+        # Get the tab path from the text path
+        set tab [winfo parent [winfo parent $txt]]
       
-      # Get the current notebook
-      set nb [current_notebook]
+        # Get the current notebook
+        set nb [current_notebook]
       
-      # Change the look of the tab
-      if {[string index [set name [string trimleft [$nb tab $tab -text]]] 0] ne "*"} {
-        $nb tab $tab -text " * $name"
-        set_title
+        # Change the look of the tab
+        if {[string index [set name [string trimleft [$nb tab $tab -text]]] 0] ne "*"} {
+          $nb tab $tab -text " * $name"
+          set_title
+        }
+        
       }
-    
+      
     }
   
   }
