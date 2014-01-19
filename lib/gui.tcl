@@ -136,7 +136,7 @@ namespace eval gui {
     ttk::label $widgets(fif).lf -text "Find: "
     set widgets(fif_find) [ttk::entry $widgets(fif).ef]
     ttk::label $widgets(fif).li -text "In: "
-    set widgets(fif_in)   [tokenentry::tokenentry $widgets(fif).ti]
+    set widgets(fif_in)   [tokenentry::tokenentry $widgets(fif).ti -font [$widgets(fif_find) cget -font]]
     
     bind $widgets(fif_find) <Return> {
       if {([llength [$gui::widgets(fif_in) tokenget]] > 0) && \
