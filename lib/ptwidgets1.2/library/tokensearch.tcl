@@ -718,7 +718,7 @@ namespace eval tokensearch {
           lappend cmdargs "-nocase"
         }
         lappend cmdargs "-all" "-inline"
-        foreach value [eval "lsearch $cmdargs {$history} {$matchval}"] {
+        foreach value [lsearch {*}$cmdargs $history $matchval] {
           $w.top.list insert end $value
         }
       }
@@ -1957,7 +1957,7 @@ namespace eval tokensearch {
       tokeninsert    { eval "tokensearch::tokeninsert $w $opts" }
       tokendelete    { eval "tokensearch::tokendelete $w $opts" }
       tokenedit      { eval "tokensearch::tokenedit $w $opts" }
-      entryget       { return [$w.txt get 1.0 end] }
+      entryget       { return [$w.txt get 1.0 end-1c] }
       insert         { eval "tokensearch::insert $w $opts" }
       delete         { eval "tokensearch::delete $w $opts" }
       get            { return [eval "tokensearch::get $w $opts"] }
