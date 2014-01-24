@@ -421,14 +421,14 @@ namespace eval snippets {
     variable snippets_dir
     
     # Get the current language
-    set language [syntax::get_current_language]
+    set language [syntax::get_current_language [gui::current_txt]]
     
     # Get the snippet file name
     set fname [file join $::tke_home snippets $language.snippets]
     
     # If the snippet file does not exist, create the file
     if {![file exists $fname]} {
-      touch $fname
+      exec touch $fname
     }
     
     # Add the snippet file to the editor
