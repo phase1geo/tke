@@ -421,7 +421,7 @@ namespace eval snippets {
     variable snippets_dir
     
     # Get the current language
-    set language [syntax::get_current_language]
+    set language [syntax::get_current_language [gui::current_txt]]
     
     # Get the snippet file name
     set fname [file join $::tke_home snippets $language.snippets]
