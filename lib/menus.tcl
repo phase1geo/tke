@@ -110,6 +110,9 @@ namespace eval menus {
     
     $mb add command -label [msgcat::mc "Close"] -underline 0 -command "menus::close_command"
     launcher::register [msgcat::mc "Menu: Close current tab"] menus::close_command
+    
+    $mb add command -label [msgcat::mc "Close All"] -underline 6 -command "menus::close_all_command"
+    launcher::register [msgcat::mc "Menu: Close all tabs"] menus::close_all_command
 
     # Only add the quit menu to File if we are not running in aqua
     if {[tk windowingsystem] ne "aqua"} {
@@ -299,6 +302,14 @@ namespace eval menus {
   
     gui::close_current
   
+  }
+  
+  ######################################################################
+  # Closes all opened tabs.
+  proc close_all_command {} {
+    
+    gui::close_all
+    
   }
   
   ######################################################################
