@@ -428,7 +428,7 @@ namespace eval snippets {
     
     # If the snippet file does not exist, create the file
     if {![file exists $fname]} {
-      touch $fname
+      exec touch $fname
     }
     
     # Add the snippet file to the editor
