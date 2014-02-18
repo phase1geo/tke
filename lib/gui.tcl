@@ -2400,7 +2400,7 @@ namespace eval gui {
   
     variable widgets
     variable pw_current
-    
+
     return [lindex [$widgets(nb_pw) panes] $pw_current]
   
   }
@@ -2458,7 +2458,11 @@ namespace eval gui {
     variable pw_current
 
     # Returns the file index
-    return [get_file_index $pw_current [[current_notebook] index current]]
+    if {[set nb [current_notebook]] ne ""} {
+      return [get_file_index $pw_current [$nb index current]]
+    } else {
+      return -1
+    }
     
   }
   

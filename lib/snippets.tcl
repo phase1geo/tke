@@ -313,16 +313,17 @@ namespace eval snippets {
     foreach dynamic [lreverse $snip(dynamics)] {
       if {[lindex $dynamic 0] eq "var"} {
         switch [lindex $dynamic 1] {
-          CLIPBOARD     { set str [expr {![catch "clipboard get" rc] ? $rc : ""}] }
-          CURRENT_LINE  { set str $current_line }
-          CURRENT_WORD  { set str [$txt get "insert wordstart" "insert wordend"] }
-          DIRECTORY     { set str [file dirname [gui::current_filename]] }
-          FILEPATH      { set str [gui::current_filename] }
-          FILENAME      { set str [file tail [gui::current_filename]] }
-          LINE_INDEX    { set str [lindex [split [$txt index insert] .] 1] }
-          LINE_NUMBER   { set str [lindex [split [$txt index insert] .] 0] }
-          CURRENT_DATE  { set str [clock format [clock seconds] -format "%m/%d/%Y"] }
-          default       { set str "" }
+          CLIPBOARD      { set str [expr {![catch "clipboard get" rc] ? $rc : ""}] }
+          CURRENT_LINE   { set str $current_line }
+          CURRENT_WORD   { set str [$txt get "insert wordstart" "insert wordend"] }
+          DIRECTORY      { set str [file dirname [gui::current_filename]] }
+          FILEPATH       { set str [gui::current_filename] }
+          FILENAME       { set str [file tail [gui::current_filename]] }
+          FILENAME_UPPER { set str [string toupper [file tail [gui::current_filename]]] }
+          LINE_INDEX     { set str [lindex [split [$txt index insert] .] 1] }
+          LINE_NUMBER    { set str [lindex [split [$txt index insert] .] 0] }
+          CURRENT_DATE   { set str [clock format [clock seconds] -format "%m/%d/%Y"] }
+          default        { set str "" }
         }
       } elseif {[lindex $dynamic 0] eq "cmd"} {
         if {[catch "exec sh -c [lindex $dynamic 1]" str]} {

@@ -114,6 +114,9 @@ namespace eval menus {
     $mb add command -label [msgcat::mc "Close All"] -underline 6 -command "menus::close_all_command"
     launcher::register [msgcat::mc "Menu: Close all tabs"] menus::close_all_command
 
+    $mb add command -label [msgcat::mc "Close All"] -underline 6 -command "menus::close_all_command"
+    launcher::register [msgcat::mc "Menu: Close all tabs"] menus::close_all_command
+
     # Only add the quit menu to File if we are not running in aqua
     if {[tk windowingsystem] ne "aqua"} {
       $mb add separator
@@ -131,19 +134,27 @@ namespace eval menus {
   proc file_posting {mb} {
   
     # Get the current readonly status
-    set readonly [gui::get_file_info [gui::current_file] readonly]
+    if {[set file_index [gui::current_file]] != -1} {
+
+      set readonly [gui::get_file_info $file_index readonly]
     
-    # Get the current file lock status
-    set file_lock [expr $readonly || [gui::get_file_info [gui::current_file] lock]]
+      # Get the current file lock status
+      set file_lock [expr $readonly || [gui::get_file_info [gui::current_file] lock]]
     
-    # Configure the Lock/Unlock menu item    
-    if {$file_lock && ![catch "$mb index Lock" index]} {
-      $mb entryconfigure $index -label [msgcat::mc "Unlock"] -state normal -command "menus::unlock_command $mb"
-      if {$readonly} {
-        $mb entryconfigure $index -state disabled
+      # Configure the Lock/Unlock menu item    
+      if {$file_lock && ![catch "$mb index Lock" index]} {
+        $mb entryconfigure $index -label [msgcat::mc "Unlock"] -state normal -command "menus::unlock_command $mb"
+        if {$readonly} {
+          $mb entryconfigure $index -state disabled
+        }
+      } elseif {!$file_lock && ![catch "$mb index Unlock" index]} {
+        $mb entryconfigure $index -label [msgcat::mc "Lock"] -state normal -command "menus::lock_command $mb"
       }
-    } elseif {!$file_lock && ![catch "$mb index Unlock" index]} {
-      $mb entryconfigure $index -label [msgcat::mc "Lock"] -state normal -command "menus::lock_command $mb"
+
+    } else {
+
+      # TBD - Disable file menu items associated with current tab (since one doesn't currently exist)
+
     }
     
     # Configure the Open Recent menu
@@ -152,7 +163,7 @@ namespace eval menus {
     } else {
       $mb entryconfigure [msgcat::mc "Open Recent"] -state normal
     }
-    
+
   }
   
   ######################################################################
@@ -302,6 +313,14 @@ namespace eval menus {
   
     gui::close_current
   
+  }
+
+  ######################################################################
+  # Closes all open tabs
+  proc close_all_command {} {
+
+    gui::close_all
+
   }
   
   ######################################################################
