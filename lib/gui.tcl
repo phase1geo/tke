@@ -1141,7 +1141,11 @@ namespace eval gui {
     if {[lindex $files $file_index $files_index(modified)] && \
         ![lindex $files $file_index $files_index(buffer)] && \
         !$force} {
-      set msg "[msgcat::mc Save] [file tail [lindex $files $file_index $files_index(fname)]]?"
+      set fname [file tail [lindex $files $file_index $files_index(fname)]]
+      if {$fname eq ""} {
+        set fname "Untitled"
+      }
+      set msg "[msgcat::mc Save] $fname?"
       if {[set answer [tk_messageBox -default yes -type yesnocancel -message $msg -title [msgcat::mc "Save request"]]] eq "yes"} {
         save_current
       } elseif {$answer eq "cancel"} {
