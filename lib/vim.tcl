@@ -860,13 +860,13 @@ namespace eval vim {
     
     # Move the insertion cursor down one line
     if {$mode($txt) eq "start"} {
+      $txt tag remove sel 1.0 end
       lassign [split [$txt index insert] .] row col
       if {$column($txt) ne ""} {
         set col $column($txt)
       } else {
         set column($txt) $col
       }
-      $txt tag remove sel 1.0 end
       set row [expr {$row + (($number($txt) ne "") ? $number($txt) : 1)}]
       if {[$txt compare "$row.$col" < end]} {
         $txt mark set insert "$row.$col"
@@ -907,8 +907,13 @@ namespace eval vim {
     variable mode
 
     if {$mode($txt) eq "start"} {
-      do_join $txt
-      record "Key-J"
+      if {[multicursor::enabled $txt]} {
+        $txt tag remove sel 1.0 end
+        multicursor::adjust $txt "+1l"
+      } else {
+        do_join $txt
+        record "Key-J"
+      }
       return 1
     }
 
@@ -926,18 +931,37 @@ namespace eval vim {
     
     # Move the insertion cursor up one line
     if {$mode($txt) eq "start"} {
+      $txt tag remove sel 1.0 end
       lassign [split [$txt index insert] .] row col
       if {$column($txt) ne ""} {
         set col $column($txt)
       } else {
         set column($txt) $col
       }
-      $txt tag remove sel 1.0 end
       set row [expr {$row - (($number($txt) ne "") ? $number($txt) : 1)}]
       if {$row >= 1} {
         $txt mark set insert "$row.$col"
         adjust_insert $txt
         $txt see insert
+      }
+      return 1
+    }
+    
+    return 0
+    
+  }
+  
+  ######################################################################
+  # If we are in start mode and multicursor is enabled, move all of the
+  # cursors up one line.
+  proc handle_K {txt} {
+    
+    variable mode
+    
+    if {$mode($txt) eq "start"} {
+      $txt tag remove sel 1.0 end
+      if {[multicursor::enabled $txt]} {
+        multicursor::adjust $txt "-1l"
       }
       return 1
     }
@@ -978,6 +1002,25 @@ namespace eval vim {
   }
   
   ######################################################################
+  # If we are in "start" mode and multicursor mode is enabled, adjust
+  # all of the cursors to the right by one character.
+  proc handle_L {txt} {
+    
+    variable mode
+    
+    if {$mode($txt) eq "start"} {
+      $txt tag remove sel 1.0 end
+      if {[multicursor::enabled $txt]} {
+        multicursor::adjust $txt "+1c"
+      }
+      return 1
+    }
+    
+    return 0
+    
+  }
+  
+  ######################################################################
   # If we are in "start" mode, move the insertion cursor left one
   # character.
   proc handle_h {txt} {
@@ -987,7 +1030,6 @@ namespace eval vim {
     
     # Move the insertion cursor left one character
     if {$mode($txt) eq "start"} {
-      $txt tag remove sel 1.0 end
       if {$number($txt) ne ""} {
         if {[utils::compare_indices [$txt index "insert linestart"] [$txt index "insert-$number($txt)c"]] == 1} {
           $txt mark set insert "insert linestart"
@@ -1000,6 +1042,25 @@ namespace eval vim {
         $txt see insert
       } else {
         bell
+      }
+      return 1
+    }
+    
+    return 0
+    
+  }
+  
+  ######################################################################
+  # If we are in "start" mode and multicursor mode is enabled, move all
+  # cursors to the left by one character.
+  proc handle_H {txt} {
+    
+    variable mode
+    
+    if {$mode($txt) eq "start"} {
+      $txt tag remove sel 1.0 end
+      if {[multicursor::enabled $txt]} {
+        multicursor::adjust $txt "-1c"
       }
       return 1
     }

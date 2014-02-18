@@ -132,7 +132,6 @@ namespace eval multicursor {
     
     if {[llength [set mcursors [lsearch -inline [$txt tag names $index] mcursor*]]] == 0} {
       $txt tag add mcursor $index
-      set name "mcursor[expr [llength [$txt tag ranges mcursor]] / 2]"
     } else {
       $txt tag remove mcursor $index
     }
@@ -187,37 +186,115 @@ namespace eval multicursor {
   }
   
   ######################################################################
-  # Adjusts the cursors by the given suffix.
+  # Adjusts the cursors by the given suffix.  The valid values for suffix
+  # are:
+  #  +1c - Adjusts the cursors one character to the right.
+  #  -1c - Adjusts the cursors one character to the left.
+  #  +1l - Adjusts the cursors one line down.
+  #  -1l - Adjusts the cursors one line up.
+  #
+  # If the insert value is set to 1 and moving the character would cause
+  # the cursor to be lost (beginning/end of line or beginning/end of file),
+  # a line or character will be inserted and the cursor set to that position.
+  # The inserted text will be given the tag name of "insert_tag".
   proc adjust {txt suffix {insert 0} {insert_tag ""}} {
     
-    foreach {end start} [lreverse [$txt tag ranges mcursor]] {
-      $txt tag remove mcursor $start
-      if {$insert} {
-        if {($suffix eq "+1c") && [$txt compare $start "$start lineend"]} {
-          $txt insert "$start+1c" " "
-          if {$insert_tag ne ""} {
-            $txt tag add $insert_tag "$start+1c"
+    if {[string index $suffix 0] eq "+"} {
+      
+      # If any of the cursors would "fall off the edge", don't modify any of them
+      if {!$insert && ([string index $suffix end] eq "c")} {
+        foreach {start end} [$txt tag ranges mcursor] {
+          if {[$txt compare $start == "$start lineend-1c"]} {
+            return
           }
-          $txt tag add mcursor "$start+1c"
-        } elseif {$suffix eq "+1l"} {
-          catch {
-            $txt insert "$start lineend" "\n "
-            if {$insert_tag ne ""} {
-              $txt tag add $insert_tag "$start+1l linestart"
-            }
-            $txt tag add mcursor "$start+1l linestart"
-          } rc
-        } elseif {$suffix eq "-1l"} {
-          $txt insert "$start linestart" " \n"
-          if {$insert_tag ne ""} {
-            $txt tag add $insert_tag "$start linestart"
-          }
-          $txt tag add mcursor "$start linestart"
         }
-      } else {
-        $txt tag add mcursor "$start$suffix"
       }
-      break
+      
+      # Move the cursors
+      foreach {end start} [lreverse [$txt tag ranges mcursor]] {
+        $txt tag remove mcursor $start
+        switch $suffix {
+          "+1c" {
+            if {[$txt compare $start == "$start lineend-1c"]} {
+              if {$insert} {
+                $txt insert "$start+1c" " "
+                if {$insert_tag ne ""} {
+                  $txt tag add $insert_tag "$start+1c"
+                }
+                $txt tag add mcursor "$start+1c"
+              } else {
+                $txt tag add mcursor $start
+                break
+              }
+            } else {
+              $txt tag add mcursor "$start+1c"
+            }
+          }
+          "+1l" {
+            if {$insert} {
+              $txt insert "$start lineend" "\n "
+              if {$insert_tag ne ""} {
+                $txt tag add $insert_tag "$start+1l linestart"
+              }
+              $txt tag add mcursor "$start+1l linestart"
+            } elseif {[$txt compare $start < "end-1l"]} {
+              $txt tag add mcursor "$start+1l"
+            } else {
+              $txt tag add mcursor $start
+              break
+            }
+          }
+        }
+      }
+      
+    } else {
+      
+      # If any of the cursors would "fall off the edge", don't adjust any of them
+      if {!$insert && ([string index $suffix end] eq "c")} {
+        foreach {start end} [$txt tag ranges mcursor] {
+          if {[$txt compare $start == "$start linestart"]} {
+            return
+          }
+        }
+      }
+      
+      # Adjust the cursors
+      foreach {start end} [$txt tag ranges mcursor] {
+        $txt tag remove mcursor $start
+        switch $suffix {
+          "-1c" {
+            if {[$txt compare $start == "$start linestart"]} {
+              if {$insert} {
+                $txt insert $start " "
+                if {$insert_tag ne ""} {
+                  $txt tag add $insert_tag $start
+                }
+                $txt tag add mcursor $start
+              } else {
+                $txt tag add mcursor $start
+                break
+              }
+            } else {
+              $txt tag add mcursor "$start-1c"
+            }
+          }
+          "-1l" {
+            if {$insert} {
+              $txt insert "$start linestart" " \n"
+              if {$insert_tag ne ""} {
+                $txt tag add $insert_tag "$start linestart"
+              }
+              $txt tag add mcursor "$start linestart"
+            } elseif {[$txt compare $start >= 2.0]} {
+              $txt tag add mcursor "$start-1l"
+            } else {
+              $txt tag add mcursor $start
+              break
+            }
+          }
+        }
+      }
+      
     }
     
   }
