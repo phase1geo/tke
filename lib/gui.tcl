@@ -2462,8 +2462,8 @@ namespace eval gui {
     variable pw_current
 
     # Returns the file index
-    if {[set nb [current_notebook]] ne ""} {
-      return [get_file_index $pw_current [$nb index current]]
+    if {[set tab [[current_notebook] index current]] ne ""} {
+      return [get_file_index $pw_current $tab]
     } else {
       return -1
     }

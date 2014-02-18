@@ -114,9 +114,6 @@ namespace eval menus {
     $mb add command -label [msgcat::mc "Close All"] -underline 6 -command "menus::close_all_command"
     launcher::register [msgcat::mc "Menu: Close all tabs"] menus::close_all_command
 
-    $mb add command -label [msgcat::mc "Close All"] -underline 6 -command "menus::close_all_command"
-    launcher::register [msgcat::mc "Menu: Close all tabs"] menus::close_all_command
-
     # Only add the quit menu to File if we are not running in aqua
     if {[tk windowingsystem] ne "aqua"} {
       $mb add separator
@@ -151,9 +148,20 @@ namespace eval menus {
         $mb entryconfigure $index -label [msgcat::mc "Lock"] -state normal -command "menus::lock_command $mb"
       }
 
+      # Make sure that the file-specific items are enabled
+      $mb entryconfigure [msgcat::mc "Save"]       -state normal
+      $mb entryconfigure [msgcat::mc "Save As..."] -state normal
+      $mb entryconfigure [msgcat::mc "Close"]      -state normal
+      $mb entryconfigure [msgcat::mc "Close All"]  -state normal
+
     } else {
 
-      # TBD - Disable file menu items associated with current tab (since one doesn't currently exist)
+      # Disable file menu items associated with current tab (since one doesn't currently exist)
+      $mb entryconfigure [msgcat::mc "Save"]       -state disabled
+      $mb entryconfigure [msgcat::mc "Save As..."] -state disabled
+      $mb entryconfigure [msgcat::mc "Lock"]       -state disabled
+      $mb entryconfigure [msgcat::mc "Close"]      -state disabled
+      $mb entryconfigure [msgcat::mc "Close All"]  -state disabled
 
     }
     
@@ -315,14 +323,6 @@ namespace eval menus {
   
   }
 
-  ######################################################################
-  # Closes all open tabs
-  proc close_all_command {} {
-
-    gui::close_all
-
-  }
-  
   ######################################################################
   # Closes all opened tabs.
   proc close_all_command {} {
