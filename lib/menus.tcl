@@ -654,15 +654,18 @@ namespace eval menus {
     
     if {![catch "console hide"]} {
       $mb add checkbutton -label [msgcat::mc "View Console"] -underline 5 -variable preferences::prefs(View/ShowConsole) -command "gui::change_console_view"
-      launcher::register [msgcat::mc "Menu: Show Console"] "set preferences::prefs(View/ShowConsole) 1; gui::change_console_view"
-      launcher::register [msgcat::mc "Menu: Hide Console"] "set preferences::prefs(View/ShowConsole) 0; gui::change_console_view"
+      launcher::register [msgcat::mc "Menu: Show console"] "set preferences::prefs(View/ShowConsole) 1; gui::change_console_view"
+      launcher::register [msgcat::mc "Menu: Hide console"] "set preferences::prefs(View/ShowConsole) 0; gui::change_console_view"
     }
     
-    # $mb add checkbutton -label [msgcat::mc "View Horizontal Panes"] -underline 5 -onvalue "horizontal" -offvalue "vertical" \
-    #   -variable preferences::prefs(View/PaneOrientation) -command "gui::change_pane_orientation"
-    # launcher::register [msgcat::mc "Menu: Show horizontal panes"] "set preferences::prefs(View/PaneOrientation) horizontal; gui::change_pane_orientation"
-    # launcher::register [msgcat::mc "Menu: Show vertical panes"]   "set preferences::prefs(View/PaneOrientation) vertical;   gui::change_pane_orientation"
-  
+    $mb add checkbutton -label [msgcat::mc "View Status Bar"] -underline 6 -variable preferences::prefs(View/ShowStatus) -command "gui::change_status_view"
+    launcher::register [msgcat::mc "Menu: Show status bar"] "set preferences::prefs(View/ShowStatus) 1; gui::change_status_view"
+    launcher::register [msgcat::mc "Menu: Hide status bar"] "set preferences::prefs(View/ShowStatus) 0; gui::change_status_view"
+    
+    $mb add separator
+    
+    $mb add cascade -label [msgcat::mc "Set Syntax"] -underline 9 -menu [syntax::create_menu $mb.syntaxMenu]
+    
     # Apply the menu settings for the current menu
     bindings::apply $mb
   

@@ -224,6 +224,9 @@ namespace eval gui {
     
     # Show the console (if necessary)
     change_console_view
+    
+    # Show the status bar (if necessary)
+    change_status_view
 
     # If the user attempts to close the window via the window manager, treat
     # it as an exit request from the menu system.
@@ -343,6 +346,22 @@ namespace eval gui {
         console show
       } else {
         console hide
+      }
+    }
+    
+  }
+  
+  ######################################################################
+  # Shows/Hides the status bar.
+  proc change_status_view {} {
+    
+    variable widgets
+    
+    catch {
+      if {$preferences::prefs(View/ShowStatus)} {
+        grid $widgets(info)
+      } else {
+        grid remove $widgets(info)
       }
     }
     
