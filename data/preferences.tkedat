@@ -69,6 +69,11 @@
 
 {View/ShowConsole}           {0}
 
+# If this value is set to 1, the status bar will be displayed on application
+# start; otherwise, the status bar will be hidden on application start.
+
+{View/ShowStatus}            {1}
+
 # When the number of opened tabs in a notebook exceeds the number of tabs that can
 # be fully displayed, a value of 1 will cause some of the tabs to be "hidden" from
 # view, displayable by clicking on the double down arrow button on the top-right

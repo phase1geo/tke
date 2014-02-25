@@ -352,16 +352,13 @@ namespace eval syntax {
   }
   
   ######################################################################
-  # Create a menubutton containing a list of all available languages.
-  proc create_menubutton {w} {
-  
+  # Creates a syntax selection menu.
+  proc create_menu {mnu} {
+    
     variable langs
     
-    # Create the menubutton
-    ttk::menubutton $w -menu $w.menu -direction above
-    
     # Create the menu
-    set mnu [menu $w.menu -tearoff 0]
+    menu $mnu -tearoff 0
     
     # Populate the menu with the available languages
     $mnu add command -label "<[msgcat::mc None]>" -command "syntax::set_language <None>"
@@ -369,8 +366,22 @@ namespace eval syntax {
       $mnu add command -label $lang -command "syntax::set_language $lang"
     }
     
-    return $w
+    return $mnu
+    
+  }
   
+  ######################################################################
+  # Create a menubutton containing a list of all available languages.
+  proc create_menubutton {w} {
+  
+    # Create the menubutton
+    ttk::menubutton $w -menu $w.menu -direction above
+
+    # Create the menubutton menu
+    create_menu $w.menu
+
+    return $w
+    
   }
   
   ######################################################################
