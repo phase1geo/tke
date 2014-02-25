@@ -221,6 +221,9 @@ namespace eval gui {
     
     # Show the sidebar (if necessary)
     change_sidebar_view
+    
+    # Show the console (if necessary)
+    change_console_view
 
     # If the user attempts to close the window via the window manager, treat
     # it as an exit request from the menu system.
@@ -327,6 +330,20 @@ namespace eval gui {
       $widgets(pw) insert 0 $widgets(sb)
     } else {
       catch { $widgets(pw) forget $widgets(sb) }
+    }
+    
+  }
+  
+  ######################################################################
+  # Shows/Hides the console.
+  proc change_console_view {} {
+    
+    catch {
+      if {$preferences::prefs(View/ShowConsole)} {
+        console show
+      } else {
+        console hide
+      }
     }
     
   }
