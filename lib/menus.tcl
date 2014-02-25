@@ -652,6 +652,12 @@ namespace eval menus {
     launcher::register [msgcat::mc "Menu: Show sidebar"] "set preferences::prefs(View/ShowSidebar) 1; gui::change_sidebar_view"
     launcher::register [msgcat::mc "Menu: Hide sidebar"] "set preferences::prefs(View/ShowSidebar) 0; gui::change_sidebar_view"
     
+    if {![catch "console hide"]} {
+      $mb add checkbutton -label [msgcat::mc "View Console"] -underline 5 -variable preferences::prefs(View/ShowConsole) -command "gui::change_console_view"
+      launcher::register [msgcat::mc "Menu: Show Console"] "set preferences::prefs(View/ShowConsole) 1; gui::change_console_view"
+      launcher::register [msgcat::mc "Menu: Hide Console"] "set preferences::prefs(View/ShowConsole) 0; gui::change_console_view"
+    }
+    
     # $mb add checkbutton -label [msgcat::mc "View Horizontal Panes"] -underline 5 -onvalue "horizontal" -offvalue "vertical" \
     #   -variable preferences::prefs(View/PaneOrientation) -command "gui::change_pane_orientation"
     # launcher::register [msgcat::mc "Menu: Show horizontal panes"] "set preferences::prefs(View/PaneOrientation) horizontal; gui::change_pane_orientation"

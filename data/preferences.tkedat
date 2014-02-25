@@ -64,6 +64,11 @@
 
 {View/ShowSidebar}           {1}
 
+# If this value is set to 1 and the console is supported on the current platform,
+# the Tcl console window will be displayed on application start.
+
+{View/ShowConsole}           {0}
+
 # When the number of opened tabs in a notebook exceeds the number of tabs that can
 # be fully displayed, a value of 1 will cause some of the tabs to be "hidden" from
 # view, displayable by clicking on the double down arrow button on the top-right
