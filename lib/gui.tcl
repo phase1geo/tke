@@ -383,10 +383,14 @@ namespace eval gui {
   # Handles a tab move start event.
   proc tab_move_start {W x y} {
   
+    variable widgets
     variable pw_current
     variable nb_move
     variable file_move
     variable last_x
+    
+    # Set the current pane
+    set_current_tab_from_nb $W
 
     if {[set tabid [$W index @$x,$y]] eq ""} {
       set nb_move ""
@@ -472,9 +476,6 @@ namespace eval gui {
       
       # Clear the move operation
       set nb_move ""
-      
-      # Set the current pane
-      set pw_current [lsearch [$widgets(nb_pw) panes] $W]
       
       # Give the selected tab the focus
       focus [current_txt].t
