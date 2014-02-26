@@ -518,8 +518,16 @@ namespace eval sidebar {
     # Get the currently selected row
     set selected [$widgets(tl) curselection]
     
-    # Get the directory pathname
-    set fname [file join [$widgets(tl) cellcget $selected,name -text] "Untitled"]
+    # Get the new filename from the user
+    set fname ""
+    if {![gui::user_response_get "File Name:" fname]} {
+      return
+    }
+    
+    # Normalize the pathname
+    if {[file pathtype $fname] eq "relative"} {
+      set fname [file normalize [file join [$widgets(tl) cellcget $selected,name -text] $fname]]
+    }
     
     # Create the file
     if {![catch { exec touch $fname }]} {
@@ -530,9 +538,6 @@ namespace eval sidebar {
       # Add a new file to the directory
       set key [$widgets(tl) insertchild $selected 0 [list $fname 0]]
     
-      # Make the new file editable
-      rename_file $key
-
       # Create an empty file
       gui::add_file end $fname
     
@@ -549,8 +554,16 @@ namespace eval sidebar {
     # Get the currently selected row
     set selected [$widgets(tl) curselection]
     
-    # Get the directory pathname
-    set dname [file join [$widgets(tl) cellcget $selected,name -text] "Folder"]
+    # Get the directory name from the user
+    set dname ""
+    if {![gui::user_response_get "Directory Name:" dname]} {
+      return
+    }
+    
+    # Normalize the pathname
+    if {[file pathtype $dname] eq "relative"} {
+      set dname [file normalize [file join [$widgets(tl) cellcget $selected,name -text] $dname]]
+    }
     
     # Create the directory
     if {![catch { file mkdir $dname }]} {
@@ -561,9 +574,6 @@ namespace eval sidebar {
       # Add a new folder to the directory
       set key [$widgets(tl) insertchild $selected 0 [list $dname 0]]
     
-      # Allow the user to rename the folder
-      rename_folder $key
-      
     }
     
   }
