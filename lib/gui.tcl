@@ -1160,6 +1160,77 @@ namespace eval gui {
   }
   
   ######################################################################
+  # Saves all of the opened tab contents (if necessary).  If a tab has
+  # not been previously saved (a new file), that tab is made the current
+  # tab and the save_current procedure is called.
+  proc save_all {} {
+    
+    variable files
+    variable files_index
+    variable pw_current
+    
+    for {set i 0} {$i < [llength $files]} {incr i} {
+      
+      # If the file needs to be saved, do it
+      if {[lindex $files $i $files_index(modified)] && ![lindex $files $i $files_index(buffer)]} {
+        
+        set pane [lindex $files $i $files_index(pane)]
+        set tab  [lindex $files $i $files_index(tab)]
+        
+        # If the file needs to be saved as a new filename, call the save_current
+        # procedure
+        if {[lindex $files $i $files_index(fname)] eq "")} {
+          
+          set_current_tab $pane $tab
+          save_current
+          
+        # Perform a tab-only save
+        } else {
+          
+          # Get the notebook
+          set nb        [lindex [$widgets(nb_pw) panes] $pane]
+          set tab_frame [lindex [$nb tabs] $tab]
+          set txt       "$tab_frame.tf.txt"
+          
+          # Run the on_save plugins
+          plugins::handle_on_save $i
+          
+          # Save the file contents
+          if {[catch "open [lindex $files $i $files_index(fname)] w" rc]} {
+            continue
+          }
+          
+          # Write the file contents
+          puts $rc [vim::get_cleaned_content $txt]
+          close $rc
+          
+          # Update the timestamp
+          file stat [lindex $files $i $files_index(fname)] stat
+          lset files $i $files_index(mtime) $stat(mtime)
+          
+          # Change the tab text
+          $nb tab $tab_frame -text " [file tail [lindex $files $i $files_index(fname)]]"
+          
+          # Change the text to unmodified
+          $txt edit modified false
+          lset files $i $files_index(modified) 0
+          
+          # If there is a save command, run it now
+          if {[lindex $files $i $files_index(save_cmd)] ne ""} {
+            eval [lindex $files $i $files_index(save_cmd)]
+          }
+        }
+        
+      }
+      
+    }
+    
+    # Make sure that the title is consistent
+    set_title
+    
+  }
+  
+  ######################################################################
   # Close the current tab.  If force is set to 1, closes regardless of
   # modified state of text widget.  If force is set to 0 and the text
   # widget is modified, the user will be questioned if they want to save
