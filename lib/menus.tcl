@@ -100,6 +100,9 @@ namespace eval menus {
     $mb add command -label [msgcat::mc "Save As..."] -underline 5 -command "menus::save_as_command"
     launcher::register [msgcat::mc "Menu: Save file as"] menus::save_as_command
     
+    $mb add command -label [msgcat::mc "Save All"] -underline 6 -command "gui::save_all"
+    launcher::register [msgcat::mc "Menu: Save all files"] gui::save_all
+    
     $mb add separator
     
     $mb add command -label [msgcat::mc "Lock"] -underline 0 -command "menus::lock_command $mb"
