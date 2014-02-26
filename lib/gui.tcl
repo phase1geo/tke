@@ -1165,9 +1165,9 @@ namespace eval gui {
   # tab and the save_current procedure is called.
   proc save_all {} {
     
+    variable widgets
     variable files
     variable files_index
-    variable pw_current
     
     for {set i 0} {$i < [llength $files]} {incr i} {
       
@@ -1179,7 +1179,7 @@ namespace eval gui {
         
         # If the file needs to be saved as a new filename, call the save_current
         # procedure
-        if {[lindex $files $i $files_index(fname)] eq "")} {
+        if {[lindex $files $i $files_index(fname)] eq ""} {
           
           set_current_tab $pane $tab
           save_current
