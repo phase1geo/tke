@@ -94,9 +94,6 @@ msgcat::mcmset de {
   "Replace:"
   "Ersetzen:"
 
-  "Save file?"
-  "File speichern"
-
   "Save request"
   "Speichern Anfrage"
 
@@ -143,6 +140,9 @@ msgcat::mcmset de {
   "Clear All"
   "Alles löschen"
 
+  "Close All"
+  "Alle schließen"
+
   "Comment"
   "Kommentar"
 
@@ -176,6 +176,9 @@ msgcat::mcmset de {
   "Find and Replace"
   "Suchen und Ersetzen"
 
+  "Find in files"
+  "In Dateien suchen..."
+
   "Find matching pair"
   "Finden Sie passende Paar"
 
@@ -190,6 +193,9 @@ msgcat::mcmset de {
 
   "Indent"
   "Einzug"
+
+  "Insert enumeration"
+  "Legen Aufzählung"
 
   "Install..."
   "installieren"
@@ -208,6 +214,9 @@ msgcat::mcmset de {
 
   "Menu: Append next occurrence"
   "Menü: anhängen nächste Vorkommen"
+
+  "Menu: Close all tabs"
+  "Alle Tabs schließen"
 
   "Menu: Close current tab"
   "Aktuelles Unterfenster schließen"
@@ -242,6 +251,9 @@ msgcat::mcmset de {
   "Menu: Find and Replace"
   "Suchen und Ersetzen"
 
+  "Menu: Find in files"
+  "Menü: Suche in Dateien"
+
   "Menu: Find matching character pair"
   "Menü: Finden Sie passende Charakter Paar"
 
@@ -251,14 +263,23 @@ msgcat::mcmset de {
   "Menu: Find previous occurrence"
   "Menü: Finden vorherige Vorkommen"
 
+  "Menu: Hide console"
+  "Menü: Konsole ausblenden"
+
   "Menu: Hide sidebar"
   "Menü: Sidebar ausblenden"
+
+  "Menu: Hide status bar"
+  "Statusanzeige ausblenden"
 
   "Menu: Import TextMate theme"
   "Menü: Import TextMate Thema"
 
   "Menu: Indent selected text"
   "Menü: Text einzurücken ausgewählt"
+
+  "Menu: Insert enumeration"
+  "Menü: Legen Aufzählung"
 
   "Menu: Install plugin"
   "Menü: Plugin installieren"
@@ -293,6 +314,9 @@ msgcat::mcmset de {
   "Menu: Restart tke"
   "Menü: Starten tke"
 
+  "Menu: Save all files"
+  "Menü: Speichern Sie alle Dateien"
+
   "Menu: Save file"
   "Menü: Datei speichern"
 
@@ -302,8 +326,8 @@ msgcat::mcmset de {
   "Menu: Select all occurrences"
   "Menü: Wählen Sie alle Vorkommen"
 
-  "Menu: Show horizontal panes"
-  "Menü: Zeigen horizontale Scheiben"
+  "Menu: Show console"
+  "Menü: Show-Konsole"
 
   "Menu: Show last profiling report"
   "Menü: anzeigen Profilierung letzten Bericht"
@@ -311,8 +335,8 @@ msgcat::mcmset de {
   "Menu: Show sidebar"
   "Menü: Seitenleiste anzeigen"
 
-  "Menu: Show vertical panes"
-  "Menü: Zeigen senkrechten Scheiben"
+  "Menu: Show status bar"
+  "Status einblenden"
 
   "Menu: Start profiling"
   "Menü: Start-Profiling"
@@ -377,6 +401,9 @@ msgcat::mcmset de {
   "Restart tke"
   "Starten tke"
 
+  "Save All"
+  "Alle speichern"
+
   "Save As..."
   "Speichern unter..."
 
@@ -391,6 +418,9 @@ msgcat::mcmset de {
 
   "Selected"
   "Ausgewählt"
+
+  "Set Syntax"
+  "Stellen Syntax"
 
   "Show Last Profiling Report"
   "Zeige die letzten Profiling melden"
@@ -431,11 +461,14 @@ msgcat::mcmset de {
   "View"
   "Blick"
 
-  "View Horizontal Panes"
-  "Sehen Horizontal Panes"
+  "View Console"
+  "Ansicht Console"
 
   "View Sidebar"
   "Blick Sidebar"
+
+  "View Status Bar"
+  "Ansicht - Statusleiste"
 
   "Vim Mode"
   "Vim-Modus"
@@ -505,6 +538,9 @@ msgcat::mcmset de {
 
   "Duplicate"
   "Duplikation"
+
+  "Make Current Working Directory"
+  "Make Current Working Directory"
 
   "New Directory"
   "Neues Verzeichnis"

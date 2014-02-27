@@ -94,9 +94,6 @@ msgcat::mcmset ja {
   "Replace:"
   "置換："
 
-  "Save file?"
-  "ファイルを保存しますか？"
-
   "Save request"
   "リクエストを保存"
 
@@ -143,6 +140,9 @@ msgcat::mcmset ja {
   "Clear All"
   "すべてクリア"
 
+  "Close All"
+  "すべて閉じる"
+
   "Comment"
   "コメント"
 
@@ -176,6 +176,9 @@ msgcat::mcmset ja {
   "Find and Replace"
   "検索と置換"
 
+  "Find in files"
+  "ファイルから検索"
+
   "Find matching pair"
   "一致するペアを見つける"
 
@@ -190,6 +193,9 @@ msgcat::mcmset ja {
 
   "Indent"
   "インデント"
+
+  "Insert enumeration"
+  "列挙型を挿入"
 
   "Install..."
   "インストール"
@@ -208,6 +214,9 @@ msgcat::mcmset ja {
 
   "Menu: Append next occurrence"
   "メニュー：次のオカレンスを追加"
+
+  "Menu: Close all tabs"
+  "すべてのタブを閉じる"
 
   "Menu: Close current tab"
   "メニュー：現在のタブを閉じる"
@@ -242,6 +251,9 @@ msgcat::mcmset ja {
   "Menu: Find and Replace"
   "検索と置換"
 
+  "Menu: Find in files"
+  "メニュー：ファイルから検索"
+
   "Menu: Find matching character pair"
   "メニュー：一致する文字のペアを探す"
 
@@ -251,14 +263,23 @@ msgcat::mcmset ja {
   "Menu: Find previous occurrence"
   "メニュー：前の発生を検索"
 
+  "Menu: Hide console"
+  "メニュー：コンソールを非表示に"
+
   "Menu: Hide sidebar"
   "メニュー：サイドバーを隠す"
+
+  "Menu: Hide status bar"
+  "メニュー：非表示のステータスバー"
 
   "Menu: Import TextMate theme"
   "メニュー：輸入TextMateのテーマ"
 
   "Menu: Indent selected text"
   "メニュー：選択したテキストをインデント"
+
+  "Menu: Insert enumeration"
+  "メニュー：列挙型を挿入します"
 
   "Menu: Install plugin"
   "メニュー：インストールプラグイン"
@@ -293,6 +314,9 @@ msgcat::mcmset ja {
   "Menu: Restart tke"
   "メニュー：TKEを再起動します"
 
+  "Menu: Save all files"
+  "メニュー：すべてのファイルを保存"
+
   "Menu: Save file"
   "メニュー：ファイルを保存します"
 
@@ -302,8 +326,8 @@ msgcat::mcmset ja {
   "Menu: Select all occurrences"
   "メニュー：すべてのオカレンスを選択"
 
-  "Menu: Show horizontal panes"
-  "メニュー：水平方向のペインを表示する"
+  "Menu: Show console"
+  "メニュー：表示するコンソール"
 
   "Menu: Show last profiling report"
   "メニュー：ショー最後のプロファイリングレポート"
@@ -311,8 +335,8 @@ msgcat::mcmset ja {
   "Menu: Show sidebar"
   "メニュー：表示するサイドバー"
 
-  "Menu: Show vertical panes"
-  "メニュー：垂直ペインを表示"
+  "Menu: Show status bar"
+  "メニュー：表示するステータスバー"
 
   "Menu: Start profiling"
   "メニュー：スタートプロファイリング"
@@ -377,6 +401,9 @@ msgcat::mcmset ja {
   "Restart tke"
   "TKEを再起動します"
 
+  "Save All"
+  "すべて保存"
+
   "Save As..."
   "名前を付けて保存..."
 
@@ -391,6 +418,9 @@ msgcat::mcmset ja {
 
   "Selected"
   "選択"
+
+  "Set Syntax"
+  "構文を設定"
 
   "Show Last Profiling Report"
   "最後のプロファイリングレポートを表示"
@@ -431,11 +461,14 @@ msgcat::mcmset ja {
   "View"
   "表示"
 
-  "View Horizontal Panes"
-  "水平ペインの表示"
+  "View Console"
+  "ビューコンソール"
 
   "View Sidebar"
   "ビューサイドバー"
+
+  "View Status Bar"
+  "ステータス バー"
 
   "Vim Mode"
   "Vimのモード"
@@ -505,6 +538,9 @@ msgcat::mcmset ja {
 
   "Duplicate"
   "複製"
+
+  "Make Current Working Directory"
+  "現在の作業ディレクトリを作る"
 
   "New Directory"
   "新しいディレクトリ"
