@@ -94,9 +94,6 @@ msgcat::mcmset fr {
   "Replace:"
   "remplacer le point:"
 
-  "Save file?"
-  "Enregistrer le fichier"
-
   "Save request"
   "Enregistrer la demande"
 
@@ -143,6 +140,9 @@ msgcat::mcmset fr {
   "Clear All"
   "Effacer tout"
 
+  "Close All"
+  "Tout fermer"
+
   "Comment"
   "Remarques"
 
@@ -176,6 +176,9 @@ msgcat::mcmset fr {
   "Find and Replace"
   "Rechercher et remplacer"
 
+  "Find in files"
+  "Rechercher dans les fichiers"
+
   "Find matching pair"
   "Trouvez paire correspondante"
 
@@ -190,6 +193,9 @@ msgcat::mcmset fr {
 
   "Indent"
   "Retrait"
+
+  "Insert enumeration"
+  "Insérez énumération"
 
   "Install..."
   "Installation..."
@@ -208,6 +214,9 @@ msgcat::mcmset fr {
 
   "Menu: Append next occurrence"
   "Menu: Ajoute occurrence suivante"
+
+  "Menu: Close all tabs"
+  "Menu: Fermez tous les onglets"
 
   "Menu: Close current tab"
   "Fermer l'onglet actuel"
@@ -242,6 +251,9 @@ msgcat::mcmset fr {
   "Menu: Find and Replace"
   "Rechercher et remplacer"
 
+  "Menu: Find in files"
+  "Menu: Trouver des fichiers"
+
   "Menu: Find matching character pair"
   "Menu: Trouvez paire assortie de caractère"
 
@@ -251,14 +263,23 @@ msgcat::mcmset fr {
   "Menu: Find previous occurrence"
   "Menu: Trouvez occurrence précédente"
 
+  "Menu: Hide console"
+  "Menu: Masquer console"
+
   "Menu: Hide sidebar"
   "Menu: Cacher la barre latérale"
+
+  "Menu: Hide status bar"
+  "Masquer la barre d’état"
 
   "Menu: Import TextMate theme"
   "Menu: thème de TextMate d&#39;importation"
 
   "Menu: Indent selected text"
   "Menu: indent texte sélectionné"
+
+  "Menu: Insert enumeration"
+  "Menu: Insérez énumération"
 
   "Menu: Install plugin"
   "Menu: Installer l&#39;extension"
@@ -293,6 +314,9 @@ msgcat::mcmset fr {
   "Menu: Restart tke"
   "Menu: Redémarrez TKE"
 
+  "Menu: Save all files"
+  "Menu: Enregistrez tous les fichiers"
+
   "Menu: Save file"
   "Menu: Enregistrer le fichier"
 
@@ -302,8 +326,8 @@ msgcat::mcmset fr {
   "Menu: Select all occurrences"
   "Menu: Sélectionner toutes les occurrences"
 
-  "Menu: Show horizontal panes"
-  "Menu: Afficher volets horizontaux"
+  "Menu: Show console"
+  "Menu: Afficher console"
 
   "Menu: Show last profiling report"
   "Menu: Afficher le dernier rapport de profilage"
@@ -311,8 +335,8 @@ msgcat::mcmset fr {
   "Menu: Show sidebar"
   "Menu: Afficher la barre latérale"
 
-  "Menu: Show vertical panes"
-  "Menu: Afficher volets verticaux"
+  "Menu: Show status bar"
+  "Barre d'état"
 
   "Menu: Start profiling"
   "Menu: profilage de départ"
@@ -377,6 +401,9 @@ msgcat::mcmset fr {
   "Restart tke"
   "Redémarrez TKE"
 
+  "Save All"
+  "Enregistrer tout"
+
   "Save As..."
   "Enregistrer sous..."
 
@@ -391,6 +418,9 @@ msgcat::mcmset fr {
 
   "Selected"
   "Sélectionné"
+
+  "Set Syntax"
+  "SET Syntaxe"
 
   "Show Last Profiling Report"
   "Afficher la dernière Profiling Report"
@@ -431,11 +461,14 @@ msgcat::mcmset fr {
   "View"
   "Affichage"
 
-  "View Horizontal Panes"
-  "Voir volets horizontaux"
+  "View Console"
+  "CONSOLE"
 
   "View Sidebar"
   "Voir Sidebar"
+
+  "View Status Bar"
+  "Affichage - Barre d'état"
 
   "Vim Mode"
   "Vim mode"
@@ -505,6 +538,9 @@ msgcat::mcmset fr {
 
   "Duplicate"
   "Dupliquer"
+
+  "Make Current Working Directory"
+  "Assurez-répertoire de travail courant"
 
   "New Directory"
   "Nouveau répertoire"

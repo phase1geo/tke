@@ -94,9 +94,6 @@ msgcat::mcmset es {
   "Replace:"
   "Reemplazar:"
 
-  "Save file?"
-  "Guardar archivo"
-
   "Save request"
   "Memorizar encargo"
 
@@ -143,6 +140,9 @@ msgcat::mcmset es {
   "Clear All"
   "Limpiar todo"
 
+  "Close All"
+  "Cerrar todo"
+
   "Comment"
   "Comentario"
 
@@ -176,6 +176,9 @@ msgcat::mcmset es {
   "Find and Replace"
   "Buscar y reemplazar"
 
+  "Find in files"
+  "Buscar en archivos..."
+
   "Find matching pair"
   "Encuentra pares"
 
@@ -190,6 +193,9 @@ msgcat::mcmset es {
 
   "Indent"
   "Indentar"
+
+  "Insert enumeration"
+  "Inserte enumeración"
 
   "Install..."
   "Instalar..."
@@ -208,6 +214,9 @@ msgcat::mcmset es {
 
   "Menu: Append next occurrence"
   "Menú: Anexar siguiente aparición"
+
+  "Menu: Close all tabs"
+  "¿Cerramos todas las pestañas?"
 
   "Menu: Close current tab"
   "Menú: Cerrar pestaña actual"
@@ -242,6 +251,9 @@ msgcat::mcmset es {
   "Menu: Find and Replace"
   "Buscar y reemplazar"
 
+  "Menu: Find in files"
+  "Menú: Buscar en los archivos"
+
   "Menu: Find matching character pair"
   "Menú: Encuentra pares de caracteres coincidente"
 
@@ -251,14 +263,23 @@ msgcat::mcmset es {
   "Menu: Find previous occurrence"
   "Menú: Buscar aparición anterior"
 
+  "Menu: Hide console"
+  "Menú: Ocultar la consola"
+
   "Menu: Hide sidebar"
   "Menú: Ocultar barra lateral"
+
+  "Menu: Hide status bar"
+  "Menú: Ocultar barra de estado"
 
   "Menu: Import TextMate theme"
   "Menú: Import tema TextMate"
 
   "Menu: Indent selected text"
   "Menú: sangría del texto seleccionado"
+
+  "Menu: Insert enumeration"
+  "Menú: Insertar enumeración"
 
   "Menu: Install plugin"
   "Menú: Instalar Plugin"
@@ -293,6 +314,9 @@ msgcat::mcmset es {
   "Menu: Restart tke"
   "Menú: Reinicie tke"
 
+  "Menu: Save all files"
+  "Menú: Guarde todos los archivos"
+
   "Menu: Save file"
   "Menú: Guardar el archivo"
 
@@ -302,8 +326,8 @@ msgcat::mcmset es {
   "Menu: Select all occurrences"
   "Menú: seleccione todas las ocurrencias"
 
-  "Menu: Show horizontal panes"
-  "Menú: Mostrar paneles horizontales"
+  "Menu: Show console"
+  "Menú: Mostrar consola"
 
   "Menu: Show last profiling report"
   "Menú: Mostrar último informe perfiles"
@@ -311,8 +335,8 @@ msgcat::mcmset es {
   "Menu: Show sidebar"
   "Menú: Mostrar barra lateral"
 
-  "Menu: Show vertical panes"
-  "Menú: Mostrar paneles verticales"
+  "Menu: Show status bar"
+  "Menú: Mostrar barra de estado"
 
   "Menu: Start profiling"
   "Menú: perfiles inicio"
@@ -377,6 +401,9 @@ msgcat::mcmset es {
   "Restart tke"
   "Reiniciar tke"
 
+  "Save All"
+  "Guardar todo"
+
   "Save As..."
   "Guardar como ..."
 
@@ -391,6 +418,9 @@ msgcat::mcmset es {
 
   "Selected"
   "Seleccionado"
+
+  "Set Syntax"
+  "Establecer Sintaxis"
 
   "Show Last Profiling Report"
   "Mostrar último informe Profiling"
@@ -431,11 +461,14 @@ msgcat::mcmset es {
   "View"
   "Vista"
 
-  "View Horizontal Panes"
-  "Ver paneles horizontales"
+  "View Console"
+  "Consola"
 
   "View Sidebar"
   "Vista Sidebar"
+
+  "View Status Bar"
+  "Ver - Barra de estado"
 
   "Vim Mode"
   "Modo de Vim"
@@ -505,6 +538,9 @@ msgcat::mcmset es {
 
   "Duplicate"
   "Duplicar"
+
+  "Make Current Working Directory"
+  "Haga directorio de trabajo actual"
 
   "New Directory"
   "Nuevo directorio"
