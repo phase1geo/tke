@@ -338,7 +338,7 @@ namespace eval plugins {
     
     if {[info exists temp_user_data($index,$name)]} {
       set value $temp_user_data($index,$name)
-      unset temp_user_data $index,$name
+      unset temp_user_data($index,$name)
     } else {
       set value ""
     }

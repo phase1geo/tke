@@ -592,17 +592,17 @@ namespace eval gui {
       # Put the state information into the rest of the GUI
       wm geometry . $content(Geometry)
       
-      # Set the current working directory to the saved value
-      if {[file exists $content(CurrentWorkingDirectory)]} {
-        cd $content(CurrentWorkingDirectory)
-      }
-
       # If we are supposed to load the last saved session, do it now
       if {$preferences::prefs(General/LoadLastSession) && \
           ([llength $files] == 1) && \
           ([lindex $files 0 $files_index(fname)] eq "") && \
           [info exists content(FileInfo)]} {
       
+        # Set the current working directory to the saved value
+        if {[file exists $content(CurrentWorkingDirectory)]} {
+          cd $content(CurrentWorkingDirectory)
+        }
+
         # Put the list in order
         set ordered     [lrepeat 2 [lrepeat [llength $content(FileInfo)] ""]]
         set second_pane 0
