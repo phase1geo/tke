@@ -200,7 +200,7 @@ namespace eval api {
     #           could not be found), an empty string is returned.
     proc load_variable {index name} {
       
-      return [plugins::retrieve_data $index $name]
+      return [plugins::restore_data $index $name]
       
     }
     

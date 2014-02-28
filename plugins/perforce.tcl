@@ -102,7 +102,7 @@ namespace eval plugins::perforce {
   proc included {fdir} {
     
     variable include_dirs
-    
+
     foreach include_dir $include_dirs {
       if {[string compare -length [string length $include_dir] $include_dir $fdir] == 0} {
         return 1
@@ -124,7 +124,7 @@ namespace eval plugins::perforce {
       
       # Get the filename
       if {[included [set fname [api::file::get_info $file_index fname]]] && [file exists $fname]} {
-        
+
         # If the file is a symlink, edit the original file
         if {![catch "file readlink $fname" rc]} {
           set orig_pwd [pwd]; cd [file dirname $fname]; set fname [file normalize $rc]; cd $orig_pwd
@@ -134,7 +134,7 @@ namespace eval plugins::perforce {
         }
         
         # If the file exists and we don't get an error when editing the file
-        catch "exec p4 edit $fname"
+        catch "exec p4 edit $fname" rc
         
       }
       
@@ -168,7 +168,7 @@ namespace eval plugins::perforce {
 
 plugins::register perforce {
   {menu {checkbutton plugins::perforce::disable_edit} "Perforce Options.Disable edit on open" plugins::perforce::toggle_edit_do plugins::perforce::toggle_edit_state}
-  {menu command "Perforce Options.Edit include directories" plugins::perforce::edit_include_dirs_do plugins::edit_include_dirs_state}
+  {menu command "Perforce Options.Edit include directories" plugins::perforce::edit_include_dirs_do plugins::perforce::edit_include_dirs_state}
   {on_start plugins::perforce::on_start_do}
   {on_save plugins::perforce::on_save_do}
 }
