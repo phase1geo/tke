@@ -7,6 +7,7 @@ namespace eval utils {
   
   array set xignore    {}
   array set xignore_id {}
+  array set vars       {}
 
   ##########################################################
   # Useful process for debugging.
@@ -127,6 +128,37 @@ namespace eval utils {
       return tk::anchor$w
     }
 
+  }
+  
+  ######################################################################
+  # Parses the given string for any variables and substitutes those
+  # variables with their respective values.  If a variable was found that
+  # has not been defined, no substitution occurs for it.  The fully
+  # substituted string is returned.
+  proc perform_substitutions {str} {
+    
+    variable vars
+    
+    return [subst [regsub -all {\$([a-zA-Z0-9_]+)} $str {[expr {[info exists vars(\1)] ? $vars(\1) : {&}}]}]]
+    
+  }
+  
+  ######################################################################
+  # Adds the given environment variables to the environment.
+  proc set_environment {var_list} {
+    
+    variable vars
+        
+    array unset vars
+    
+    # Pre-load the vars with the environment variables
+    array set vars [array get ::env]
+    
+    # Load the var_list into vars
+    foreach var_pair $var_list {
+      set vars([string toupper [lindex $var_pair 0]]) [perform_substitutions [lindex $var_pair 1]]
+    }
+    
   }
 
 }

@@ -153,7 +153,7 @@ namespace eval gui {
         break
       }
     }
-    bind $widgets(fif_in)   <Escape> "set gui::user_exit_status 0"
+    bind $widgets(fif_in) <Escape> "set gui::user_exit_status 0"
       
     grid columnconfigure $widgets(fif) 1 -weight 1
     grid $widgets(fif).lf -row 0 -column 0 -sticky ew
@@ -1896,7 +1896,7 @@ namespace eval gui {
   
   ######################################################################
   # Gets user input from the interface in a generic way.
-  proc user_response_get {msg pvar} {
+  proc user_response_get {msg pvar {allow_vars 1}} {
     
     variable widgets
     
@@ -1943,6 +1943,11 @@ namespace eval gui {
     
     # Get the user response value
     set var [$widgets(ursp_entry) get]
+    
+    # If variable substitutions are allowed, perform any substitutions
+    if {$allow_vars} {
+      set var [utils::perform_substitutions $var]
+    }
     
     return $gui::user_exit_status
     
@@ -2024,7 +2029,7 @@ namespace eval gui {
       if {[set index [lsearch -index 0 $fif_files $token]] != -1} {
         lappend ins {*}[lindex $fif_files $index 1]
       } else {
-        lappend ins $token
+        lappend ins [utils::perform_substitutions $token]
       }
     }
     

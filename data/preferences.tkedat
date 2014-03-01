@@ -11,6 +11,17 @@
 
 {General/ExitOnLastClose}    {0}
 
+# Specifies a list of variable/value pairs.  The specified variables will
+# be added to the environment variables and may be used in any of the entry
+# fields by preceding the variable name with a dollar sign.  This value is
+# a Tcl list in the form of:
+#
+#   {variable_name value}
+#
+# A value may contain previously defined variables.
+
+{General/Variables}          {}
+
 # Specifies the current theme that is used in the code editor.  Each
 # theme contains setting for syntax highlight coloring schemes, background
 # color and selection background/foreground colors.  The following

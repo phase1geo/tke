@@ -96,17 +96,20 @@ namespace eval api {
   # or has cancelled the input by hitting the escape key.
   # 
   # Parameters:
-  #   msg  - Message to display next to input field (prompt)
-  #   pvar - Reference to variable to store user input to
+  #   msg        - Message to display next to input field (prompt)
+  #   pvar       - Reference to variable to store user input to
+  #   allow_vars - If set to 1, variables embedded in string will have
+  #                substitutions performed; otherwise, the raw string
+  #                will be returned.
   #
   # Returns:
   #   Returns 1 if the user provided input; otherwise, returns 0 to
   #   indicate that the user cancelled the input operation.
-  proc get_user_input {msg pvar} {
+  proc get_user_input {msg pvar {allow_vars 1}} {
     
     upvar $pvar var
     
-    return [gui::user_response_get $msg var]
+    return [gui::user_response_get $msg var $allow_vars]
     
   }
   

@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<!--
-	Copyright (c) 2005-2007 Daniel A. Steffen <das@users.sourceforge.net>
-
-	See the file "license.terms" for information on usage and redistribution of
-	this file, and for a DISCLAIMER OF ALL WARRANTIES.
-
-	RCS: @(#) $Id: Wish-Info.plist.in,v 1.3.2.1 2009/04/14 00:55:35 das Exp $
--->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
@@ -34,7 +26,34 @@
 				<string>****</string>
 			</array>
 			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.c-header</string>
+				<string>public.c-plus-plus-source</string>
+				<string>public.c-source</string>
+				<string>public.html</string>
+				<string>public.perl-script</string>
+				<string>public.php-script</string>
+				<string>public.plain-text</string>
+				<string>public.python-script</string>
+				<string>public.text</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>Anything</string>
+			<key>LSHandlerRank</key>
+			<string>Default</string>
+			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.data</string>
+				<string>public.folder</string>
+				<string>com.apple.package</string>
+				<string>com.apple.bundle</string>
+			</array>
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
@@ -53,7 +72,22 @@ Copyright © 2001-2002 Jim Ingham &amp; Ian Reid</string>
 	<string>6.0</string>
 	<key>CFBundleLocalizations</key>
 	<array>
-		<string>cs</string><string>da</string><string>de</string><string>el</string><string>en</string><string>en_gb</string><string>eo</string><string>es</string><string>fr</string><string>hu</string><string>it</string><string>nl</string><string>pl</string><string>pt</string><string>ru</string><string>sv</string>
+		<string>cs</string>
+		<string>da</string>
+		<string>de</string>
+		<string>el</string>
+		<string>en</string>
+		<string>en_gb</string>
+		<string>eo</string>
+		<string>es</string>
+		<string>fr</string>
+		<string>hu</string>
+		<string>it</string>
+		<string>nl</string>
+		<string>pl</string>
+		<string>pt</string>
+		<string>ru</string>
+		<string>sv</string>
 	</array>
 	<key>CFBundleName</key>
 	<string>Tke</string>

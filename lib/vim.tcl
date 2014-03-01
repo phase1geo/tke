@@ -123,9 +123,9 @@ namespace eval vim {
             set to   [$txt index "[get_linenum $txt $to] lineend"]
             multicursor::search_and_add_cursors $txt $from $to $search
           } elseif {[regexp {^e\s+(.*)$} $value -> filename]} {
-            gui::add_file end [normalize_filename $filename]
+            gui::add_file end [normalize_filename [utils::perform_substitutions $filename]]
           } elseif {[regexp {^w\s+(.*)$} $value -> filename]} {
-            gui::save_current [normalize_filename $filename]
+            gui::save_current [normalize_filename [utils::perform_substitutions $filename]]
           } elseif {[regexp {^m\s+(.*)$} $value -> marker]} {
             set line [lindex [split [$txt index insert] .] 0]
             if {$marker ne ""} {
@@ -136,8 +136,9 @@ namespace eval vim {
               ctext::linemapClearMark $txt $line
             }
           } elseif {[regexp {^r\s+(.*)$} $value -> filename]} {
-            vim::insert_file $txt $filename
+            vim::insert_file $txt [normalize_filename [utils::perform_substitutions $filename]]
           } elseif {[regexp {^cd\s+(.*)$} $value -> directory]} {
+            set directory [utils::perform_substitutions $directory]
             if {[file isdirectory $directory]} {
               cd $directory
               gui::set_title
