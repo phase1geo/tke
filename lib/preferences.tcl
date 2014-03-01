@@ -53,6 +53,9 @@ namespace eval preferences {
       array set prefs $rc
     }
     
+    # Perform environment variable setting from the General/Variables preference option
+    utils::set_environment $prefs(General/Variables)
+    
   }
   
   ######################################################################
