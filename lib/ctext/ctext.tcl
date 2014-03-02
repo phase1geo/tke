@@ -923,7 +923,7 @@ proc ctext::addHighlightClass {win class color keywords} {
   
   set color_opts [expr {($color eq "") ? [list] : [list -foreground $color]}]
   foreach word $keywords {
-    set ar($word) [list _$class $color_opts]
+    set ar($word) [list _$class $color_opts [list]]
   }
   $win tag configure _$class
 
@@ -935,7 +935,7 @@ proc ctext::addHighlightClassForRegexp {win class color re} {
   set ref [ctext::getAr $win highlightRegexp ar]
   
   set color_opts [expr {($color eq "") ? [list] : [list -foreground $color]}]
-  set ar(_$class) [list $re $color_opts]
+  set ar(_$class) [list $re $color_opts [list]]
   
   $win tag configure _$class
   
@@ -948,7 +948,7 @@ proc ctext::addHighlightClassWithOnlyCharStart {win class color char} {
   set ref [ctext::getAr $win highlightCharStart ar]
   
   set color_opts [expr {($color eq "") ? [list] : [list -foreground $color]}]
-  set ar($char) [list _$class $color_opts]
+  set ar($char) [list _$class $color_opts [list]]
   
   $win tag configure _$class
   
@@ -956,17 +956,17 @@ proc ctext::addHighlightClassWithOnlyCharStart {win class color char} {
   set classesAr(_$class) [list $ref $char]
 }
 
-proc ctext::addSearchClassForRegexp {win class fgcolor bgcolor re} {
+proc ctext::addSearchClassForRegexp {win class fgcolor bgcolor re {re_opts ""}} {
   set ref [ctext::getAr $win highlightRegexp ar]
   
-  set ar(_$class) [list $re [list -foreground $fgcolor -background $bgcolor]]
+  set ar(_$class) [list $re [list -foreground $fgcolor -background $bgcolor] $re_opts]
   
   ctext::getAr $win classes classesAr
   set classesAr(_$class) [list $ref _$class]
   
   # Perform the search
   set i 0
-  foreach res [$win._t search -count lengths -regexp -all -- $re 1.0 end] {
+  foreach res [$win._t search -count lengths -regexp -all {*}$re_opts -- $re 1.0 end] {
     set wordEnd [$win._t index "$res + [lindex $lengths $i] chars"]
     $win._t tag add _$class $res $wordEnd
     incr i
@@ -1144,9 +1144,12 @@ proc ctext::doHighlight {win} {
     
     set regexps [time {
     foreach {tagClass tagInfo} [array get highlightRegexpAr] {
-      lassign $tagInfo re colors
+      lassign $tagInfo re colors re_opts
+      if {$re_opts eq ""} {
+        set re_opts $configAr(re_opts)
+      }
       set i 0
-      foreach res [$twin search -count lengths -regexp {*}$configAr(re_opts) -all -- $re $start $end] {
+      foreach res [$twin search -count lengths -regexp {*}$re_opts -all -- $re $start $end] {
         set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
         $twin tag add $tagClass $res $wordEnd
         set tagged($tagClass) $colors

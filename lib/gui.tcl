@@ -14,7 +14,6 @@ namespace eval gui {
   variable nb_move          ""
   variable file_move        0
   variable session_file     [file join $::tke_home session.tkedat]
-  variable sar_global       1
   variable lengths          {}
   variable user_exit_status ""
   variable file_locked      0
@@ -109,6 +108,21 @@ namespace eval gui {
     # Set the application icon photo
     wm iconphoto . [image create photo -file [file join $::tke_dir lib images tke_logo_128.gif]]
     
+    # Create images
+    set images(lock)     [image create bitmap -file     [file join $::tke_dir lib images lock.bmp] \
+                                              -maskfile [file join $::tke_dir lib images lock.bmp] \
+                                              -foreground grey10]
+    set images(readonly) [image create bitmap -file     [file join $::tke_dir lib images lock.bmp] \
+                                              -maskfile [file join $::tke_dir lib images lock.bmp] \
+                                              -foreground grey30]
+    set images(close)    [image create bitmap -file     [file join $::tke_dir lib images close.bmp] \
+                                              -maskfile [file join $::tke_dir lib images close.bmp] \
+                                              -foreground grey10]
+    set images(logo)     [image create photo  -file     [file join $::tke_dir lib images tke_logo_64.gif]]
+    set images(global)   [image create photo  -file     [file join $::tke_dir lib images global.gif]]
+    set images(down)     [image create bitmap -file     [file join $::tke_dir lib images down.bmp] \
+                                              -maskfile [file join $::tke_dir lib images down.bmp]]
+    
     # Create the panedwindow
     set widgets(pw) [ttk::panedwindow .pw -orient horizontal]
     
@@ -121,10 +135,6 @@ namespace eval gui {
     # Create the notebook panedwindow
     set widgets(nb_pw) [ttk::panedwindow $widgets(pw).tf.nbpw -orient $preferences::prefs(View/PaneOrientation)]
       
-    # Create notebook images
-    set images(down) [image create bitmap -file     [file join $::tke_dir lib images down.bmp] \
-                                          -maskfile [file join $::tke_dir lib images down.bmp]]
-
     # Add notebook
     add_notebook
     
@@ -135,8 +145,12 @@ namespace eval gui {
     set widgets(fif)      [ttk::frame .fif]
     ttk::label $widgets(fif).lf -text "Find: "
     set widgets(fif_find) [ttk::entry $widgets(fif).ef]
+    set widgets(fif_case) [ttk::label $widgets(fif).case -text "Aa" -relief raised]
     ttk::label $widgets(fif).li -text "In: "
     set widgets(fif_in)   [tokenentry::tokenentry $widgets(fif).ti -font [$widgets(fif_find) cget -font]]
+    ttk::label $widgets(fif).close -image $images(close)
+    
+    tooltip::tooltip $widgets(fif_case) "Case sensitivity"
     
     bind $widgets(fif_find) <Return> {
       if {([llength [$gui::widgets(fif_in) tokenget]] > 0) && \
@@ -153,13 +167,20 @@ namespace eval gui {
         break
       }
     }
-    bind $widgets(fif_in) <Escape> "set gui::user_exit_status 0"
+    bind $widgets(fif_in)    <Escape>    "set gui::user_exit_status 0"
+    bind $widgets(fif_case)  <Button-1>  "gui::toggle_labelbutton %W"
+    bind $widgets(fif_case)  <Key-space> "gui::toggle_labelbutton %W"
+    bind $widgets(fif_case)  <Escape>    "set gui::user_exit_status 0"
+    bind $widgets(fif).close <Button-1>  "set gui::user_exit_status 0"
+    bind $widgets(fif).close <Key-space> "set gui::user_exit_status 0"
       
     grid columnconfigure $widgets(fif) 1 -weight 1
-    grid $widgets(fif).lf -row 0 -column 0 -sticky ew
-    grid $widgets(fif).ef -row 0 -column 1 -sticky ew
-    grid $widgets(fif).li -row 1 -column 0 -sticky ew
-    grid $widgets(fif).ti -row 1 -column 1 -sticky ew
+    grid $widgets(fif).lf    -row 0 -column 0 -sticky ew -pady 2
+    grid $widgets(fif).ef    -row 0 -column 1 -sticky ew -pady 2
+    grid $widgets(fif).case  -row 0 -column 2 -sticky news -padx 2 -pady 2
+    grid $widgets(fif).close -row 0 -column 3 -sticky news -padx 2 -pady 2
+    grid $widgets(fif).li    -row 1 -column 0 -sticky ew -pady 2
+    grid $widgets(fif).ti    -row 1 -column 1 -sticky ew -pady 2 -columnspan 2
 
     # Create the information bar
     set widgets(info)        [ttk::frame .if]
@@ -173,14 +194,18 @@ namespace eval gui {
     set widgets(ursp)       [ttk::frame .rf]
     set widgets(ursp_label) [ttk::label .rf.l]
     set widgets(ursp_entry) [ttk::entry .rf.e]
+    ttk::label .rf.close -image $images(close)
     
-    bind $widgets(ursp_entry) <Return> "set gui::user_exit_status 1"
-    bind $widgets(ursp_entry) <Escape> "set gui::user_exit_status 0"
+    bind $widgets(ursp_entry) <Return>    "set gui::user_exit_status 1"
+    bind $widgets(ursp_entry) <Escape>    "set gui::user_exit_status 0"
+    bind .rf.close            <Button-1>  "set gui::user_exit_status 0"
+    bind .rf.close            <Key-space> "set gui::user_exit_status 0"
       
     grid rowconfigure    .rf 0 -weight 1
     grid columnconfigure .rf 1 -weight 1
     grid $widgets(ursp_label) -row 0 -column 0 -sticky news -padx 2 -pady 2
     grid $widgets(ursp_entry) -row 0 -column 1 -sticky news -padx 2 -pady 2
+    grid .rf.close            -row 0 -column 2 -sticky news -padx 2 -pady 2
      
     # Pack the notebook
     grid rowconfigure    . 0 -weight 1
@@ -234,18 +259,6 @@ namespace eval gui {
       menus::exit_command
     }
     
-    # Create images
-    set images(lock)     [image create bitmap -file     [file join $::tke_dir lib images lock.bmp] \
-                                              -maskfile [file join $::tke_dir lib images lock.bmp] \
-                                              -foreground grey10]
-    set images(readonly) [image create bitmap -file     [file join $::tke_dir lib images lock.bmp] \
-                                              -maskfile [file join $::tke_dir lib images lock.bmp] \
-                                              -foreground grey30]
-    set images(close)    [image create bitmap -file     [file join $::tke_dir lib images close.bmp] \
-                                              -maskfile [file join $::tke_dir lib images close.bmp] \
-                                              -foreground grey10]
-    set images(logo)     [image create photo  -file     [file join $::tke_dir lib images tke_logo_64.gif]]
-    
     # Start polling on the files
     poll
   
@@ -281,6 +294,18 @@ namespace eval gui {
       handle_tab_sizing $nb 1
     }
         
+  }
+  
+  ######################################################################
+  # Toggles the specified labelbutton.
+  proc toggle_labelbutton {w} {
+    
+    if {[$w cget -relief] eq "raised"} {
+      $w configure -relief sunken
+    } else {
+      $w configure -relief raised
+    }
+    
   }
   
   ######################################################################
@@ -1648,7 +1673,7 @@ namespace eval gui {
   proc search_start {{dir "next"}} {
 
     # If the user has specified a new search value, find all occurrences
-    if {[set str [[current_search] get]] ne ""} {
+    if {[set str [[current_search].e get]] ne ""} {
       
       # Escape any parenthesis in the regular expression
       set str [string map {{(} {\(} {)} {\)}} $str]
@@ -1661,12 +1686,18 @@ namespace eval gui {
     
       # Get the current text widget
       set txt [current_txt]
+      
+      # Gather any search options
+      set search_opts [list]
+      if {[[current_search].case cget -relief] eq "raised"} {
+        lappend search_opts -nocase
+      }
 
       # Clear the search highlight class
       catch { ctext::deleteHighlightClass $txt search }
 
       # Create a highlight class for the given search string
-      ctext::addSearchClassForRegexp $txt search black yellow $str
+      ctext::addSearchClassForRegexp $txt search black yellow $str $search_opts
       
       # Make the search tag lower in priority than the selection tag
       # but higher in priority than the warnWidth tag
@@ -1790,13 +1821,14 @@ namespace eval gui {
   proc do_search_and_replace {} {
 
     variable widgets
-    variable sar_global
 
     # Get the current tab frame
     set tab_frame [[current_notebook] select]
 
     # Perform the search and replace
-    do_raw_search_and_replace 1.0 end [$tab_frame.rf.fe get] [$tab_frame.rf.re get] $sar_global
+    do_raw_search_and_replace 1.0 end [$tab_frame.rf.fe get] [$tab_frame.rf.re get] \
+      [expr {[$tab_frame.rf.case cget -relief] eq "raised"}] \
+      [expr {[$tab_frame.rf.glob cget -relief] eq "sunken"}]
 
     # Close the search and replace bar
     close_search_and_replace
@@ -1805,7 +1837,7 @@ namespace eval gui {
 
   ######################################################################
   # Performs a search and replace given the expression, 
-  proc do_raw_search_and_replace {sline eline search replace glob} {
+  proc do_raw_search_and_replace {sline eline search replace ignore_case all} {
 
     # Get the current text widget
     set txt [current_txt]
@@ -1814,16 +1846,22 @@ namespace eval gui {
     $txt tag remove sel 1.0 end
 
     # Perform the string substitutions
-    if {!$glob} {
+    if {!$all} {
       set sline [$txt index "insert linestart"]
       set eline [$txt index "insert lineend"]
     }
 
     # Escape any parenthesis in the search string
     set search [string map {{(} {\(} {)} {\)}} $search]
+    
+    # Create regsub arguments
+    set rs_args [list]
+    if {$ignore_case} {
+      lappend rs_args -nocase
+    }
 
     # Replace the text and re-highlight the changes
-    $txt replace $sline $eline [regsub -all $search [$txt get $sline "$eline-1c"] $replace]
+    $txt replace $sline $eline [regsub -all {*}$rs_args $search [$txt get $sline "$eline-1c"] $replace]
     $txt highlight $sline $eline
 
     # Make sure that the insertion cursor is valid
@@ -2033,8 +2071,14 @@ namespace eval gui {
       }
     }
     
+    # Figure out any search options
+    set egrep_opts [list]
+    if {[$widgets(fif_case) cget -relief] eq "raised"} {
+      lappend egrep_opts -i
+    }
+    
     # Gather the input to return
-    set rsp_list [list find [$widgets(fif_find) get] in $ins]
+    set rsp_list [list find [$widgets(fif_find) get] in $ins egrep_opts $egrep_opts]
     
     return $gui::user_exit_status
     
@@ -2293,34 +2337,59 @@ namespace eval gui {
     
     # Create the search bar
     ttk::frame $tab_frame.sf
-    ttk::label $tab_frame.sf.l1 -text [msgcat::mc "Find:"]
+    ttk::label $tab_frame.sf.l1    -text [msgcat::mc "Find:"]
     ttk::entry $tab_frame.sf.e
+    ttk::label $tab_frame.sf.case  -text "Aa" -relief raised
+    ttk::label $tab_frame.sf.close -image $images(close)
     
-    pack $tab_frame.sf.l1 -side left -padx 2 -pady 2
-    pack $tab_frame.sf.e  -side left -padx 2 -pady 2 -fill x -expand yes
+    tooltip::tooltip $tab_frame.sf.case "Case sensitivity"
     
-    bind $tab_frame.sf.e <Escape> "gui::close_search"
+    pack $tab_frame.sf.l1    -side left  -padx 2 -pady 2
+    pack $tab_frame.sf.e     -side left  -padx 2 -pady 2 -fill x -expand yes
+    pack $tab_frame.sf.close -side right -padx 2 -pady 2
+    pack $tab_frame.sf.case  -side right -padx 2 -pady 2
+    
+    bind $tab_frame.sf.e     <Escape>    "gui::close_search"
+    bind $tab_frame.sf.case  <Button-1>  "gui::toggle_labelbutton %W"
+    bind $tab_frame.sf.case  <Key-space> "gui::toggle_labelbutton %W"
+    bind $tab_frame.sf.case  <Escape>    "gui::close_search"
+    bind $tab_frame.sf.close <Button-1>  "gui::close_search"
+    bind $tab_frame.sf.close <Key-space> "gui::close_search"
  
     # Create the search/replace bar
-    ttk::frame       $tab_frame.rf
-    ttk::label       $tab_frame.rf.fl   -text [msgcat::mc "Find:"]
-    ttk::entry       $tab_frame.rf.fe
-    ttk::label       $tab_frame.rf.rl   -text [msgcat::mc "Replace:"]
-    ttk::entry       $tab_frame.rf.re
-    ttk::checkbutton $tab_frame.rf.glob -text [msgcat::mc "Global"] -variable gui::sar_global
+    ttk::frame $tab_frame.rf
+    ttk::label $tab_frame.rf.fl    -text [msgcat::mc "Find:"]
+    ttk::entry $tab_frame.rf.fe
+    ttk::label $tab_frame.rf.rl    -text [msgcat::mc "Replace:"]
+    ttk::entry $tab_frame.rf.re
+    ttk::label $tab_frame.rf.case  -text "Aa" -relief raised
+    ttk::label $tab_frame.rf.glob  -image $images(global) -relief raised
+    ttk::label $tab_frame.rf.close -image $images(close)
+    
+    tooltip::tooltip $tab_frame.rf.case "Case sensitivity"
+    tooltip::tooltip $tab_frame.rf.glob "Replace globally"
  
-    pack $tab_frame.rf.fl   -side left -padx 2 -pady 2
-    pack $tab_frame.rf.fe   -side left -padx 2 -pady 2 -fill x -expand yes
-    pack $tab_frame.rf.rl   -side left -padx 2 -pady 2
-    pack $tab_frame.rf.re   -side left -padx 2 -pady 2 -fill x -expand yes
-    pack $tab_frame.rf.glob -side left -padx 2 -pady 2
+    pack $tab_frame.rf.fl    -side left -padx 2 -pady 2
+    pack $tab_frame.rf.fe    -side left -padx 2 -pady 2 -fill x -expand yes
+    pack $tab_frame.rf.rl    -side left -padx 2 -pady 2
+    pack $tab_frame.rf.re    -side left -padx 2 -pady 2 -fill x -expand yes
+    pack $tab_frame.rf.case  -side left -padx 2 -pady 2
+    pack $tab_frame.rf.glob  -side left -padx 2 -pady 2
+    pack $tab_frame.rf.close -side left -padx 2 -pady 2
  
-    bind $tab_frame.rf.fe   <Return> "gui::do_search_and_replace"
-    bind $tab_frame.rf.re   <Return> "gui::do_search_and_replace"
-    bind $tab_frame.rf.glob <Return> "gui::do_search_and_replace"
-    bind $tab_frame.rf.fe   <Escape> "gui::close_search_and_replace"
-    bind $tab_frame.rf.re   <Escape> "gui::close_search_and_replace"
-    bind $tab_frame.rf.glob <Escape> "gui::close_search_and_replace"
+    bind $tab_frame.rf.fe    <Return>    "gui::do_search_and_replace"
+    bind $tab_frame.rf.re    <Return>    "gui::do_search_and_replace"
+    bind $tab_frame.rf.glob  <Return>    "gui::do_search_and_replace"
+    bind $tab_frame.rf.fe    <Escape>    "gui::close_search_and_replace"
+    bind $tab_frame.rf.re    <Escape>    "gui::close_search_and_replace"
+    bind $tab_frame.rf.case  <Button-1>  "gui::toggle_labelbutton %W"
+    bind $tab_frame.rf.case  <Key-space> "gui::toggle_labelbutton %W"
+    bind $tab_frame.rf.case  <Escape>    "gui::close_search_and_replace"
+    bind $tab_frame.rf.glob  <Button-1>  "gui::toggle_labelbutton %W"
+    bind $tab_frame.rf.glob  <Key-space> "gui::toggle_labelbutton %W"
+    bind $tab_frame.rf.glob  <Escape>    "gui::close_search_and_replace"
+    bind $tab_frame.rf.close <Button-1>  "gui::close_search_and_replace"
+    bind $tab_frame.rf.close <Key-space> "gui::close_search_and_replace"
     
     # Create separator between search and information bar
     ttk::separator $tab_frame.sep -orient horizontal
@@ -2412,7 +2481,7 @@ namespace eval gui {
     if {[set range [$txt tag nextrange sel 1.0]] ne ""} {
       
       # Get the current search entry field
-      set sentry [current_search]
+      set sentry [current_search].e
       
       # Set the search frame
       $sentry delete 0 end
@@ -2540,7 +2609,7 @@ namespace eval gui {
     variable widgets
     variable pw_current
     
-    return "[[current_notebook] select].sf.e"
+    return "[[current_notebook] select].sf"
     
   }
   
