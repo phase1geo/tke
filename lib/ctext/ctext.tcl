@@ -845,7 +845,7 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
       } elseif {($str == "'") && ($lcomment_index eq "") && ($bcomment_index eq "") && \
                 ($double_index eq "") && ($tripdoub_index eq "")} {
         if {$single_index ne ""} {
-          $win tag remove "$index+1c" end
+          $win tag remove _string "$index+1c" end
           set single_index ""
         } else {
           $win tag add _string $index end
