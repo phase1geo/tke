@@ -528,7 +528,7 @@ namespace eval gui {
       return
     }
   
-    if {[$W identify $x $y] eq "close"} {
+    if {([$W identify $x $y] eq "close") && ($nb_move eq "")} {
       
       # Close the current tab
       close_current
@@ -1422,6 +1422,59 @@ namespace eval gui {
       set pane [lindex $files $index $files_index(pane)]
       set tab  [lindex $files $index $files_index(tab)]
       close_tab $pane $tab 1
+    }
+    
+  }
+  
+  ######################################################################
+  # Sorts all of the open tabs (in both panes, if both panes are visible)
+  # by alphabetical order.
+  proc sort_tabs {} {
+    
+    variable widgets
+    variable files
+    variable files_index
+    
+    set pw 0
+    
+    foreach nb [$widgets(nb_pw) panes] {
+    
+      # Get the current tab
+      set current_tab [$nb select]
+      
+      # Get all of the files in the current pane
+      set files_in_pane [lsearch -all -index $files_index(pane) $files $pw]
+      
+      # Get the list of opened tabs
+      set tab_values [list]
+      set tab_index  0
+      foreach tab [$nb tabs] {
+        set fullname [$nb tab $tab -text]
+        regexp {(\S+)$} $fullname -> name
+        foreach index $files_in_pane {
+          if {[lindex $files $index $files_index(tab)] == $tab_index} {
+            lappend tab_values [list $name $fullname $tab $index]
+            break
+          }
+        }
+        incr tab_index
+      }
+      
+      # Sort the tabs by alphabetical order and move them
+      set i 0
+      foreach tab [lsort -index 0 $tab_values] {
+        lassign $tab name fullname tabid index
+        $nb forget $tabid
+        $nb insert [expr {([$nb index end] == $i) ? "end" : $i}] $tabid -text $fullname
+        lset files $index $files_index(tab) $i
+        incr i
+      }
+      
+      # Reset the current tab
+      $nb select $current_tab
+            
+      incr pw
+      
     }
     
   }
