@@ -667,6 +667,11 @@ namespace eval menus {
     
     $mb add separator
     
+    $mb add command -label [msgcat::mc "Sort Tabs"] -underline 5 -command "gui::sort_tabs"
+    launcher::register [msgcat::mc "Menu: Sort tabs"] "gui::sort_tabs"
+    
+    $mb add separator
+    
     $mb add cascade -label [msgcat::mc "Set Syntax"] -underline 9 -menu [syntax::create_menu $mb.syntaxMenu]
     
     # Apply the menu settings for the current menu
