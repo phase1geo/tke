@@ -154,6 +154,7 @@ namespace eval menus {
       # Make sure that the file-specific items are enabled
       $mb entryconfigure [msgcat::mc "Save"]       -state normal
       $mb entryconfigure [msgcat::mc "Save As..."] -state normal
+      $mb entryconfigure [msgcat::mc "Save All"]   -state normal
       $mb entryconfigure [msgcat::mc "Close"]      -state normal
       $mb entryconfigure [msgcat::mc "Close All"]  -state normal
 
@@ -162,6 +163,7 @@ namespace eval menus {
       # Disable file menu items associated with current tab (since one doesn't currently exist)
       $mb entryconfigure [msgcat::mc "Save"]       -state disabled
       $mb entryconfigure [msgcat::mc "Save As..."] -state disabled
+      $mb entryconfigure [msgcat::mc "Save All"]   -state disabled
       $mb entryconfigure [msgcat::mc "Lock"]       -state disabled
       $mb entryconfigure [msgcat::mc "Close"]      -state disabled
       $mb entryconfigure [msgcat::mc "Close All"]  -state disabled

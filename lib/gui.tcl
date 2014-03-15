@@ -92,7 +92,11 @@ namespace eval gui {
   proc set_title {} {
     
     # Get the current tab
-    set tab_name [[current_notebook] tab current -text]
+    if {[llength [[current_notebook] tabs]] > 0} {
+      set tab_name [[current_notebook] tab current -text]
+    } else {
+      set tab_name ""
+    }
     
     wm title . "$tab_name \[[lindex [split [info hostname] .] 0]:[pwd]\]"
     
