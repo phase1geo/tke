@@ -723,9 +723,14 @@ namespace eval gui {
   }
   
   ######################################################################
-  # Adjusts the tab indices when a new tab is inserted into a pane.
+  # Adjusts the tab indices when a new tab is inserted into a pane at
+  # a position that is not the end of a line.
   proc adjust_tabs_for_insert {index} {
   
+    variable pw_current
+    variable files
+    variable files_index
+    
     # Move the tabs in the current pane to make room
     if {$index ne "end"} {
       foreach file_index [lsearch -all -index $files_index(pane) $files $pw_current] {
@@ -818,6 +823,9 @@ namespace eval gui {
       return
     }
     
+    # Adjust the index (if necessary)
+    set index [adjust_insert_tab_index $index "Untitled"]
+    
     # Adjust the tab indices
     adjust_tabs_for_insert $index
     
@@ -896,6 +904,9 @@ namespace eval gui {
       
     # Otherwise, load the file in a new tab
     } else {
+    
+      # Adjust the index (if necessary)
+      set index [adjust_insert_tab_index $index [file tail $fname]]
     
       # Adjust tab indices
       adjust_tabs_for_insert $index
@@ -1454,8 +1465,14 @@ namespace eval gui {
       set pw_current [expr $pw_current ^ 1]
     }
 
+    # Adjust the index (if necessary)
+    set index [adjust_insert_tab_index end [file tail $fname]]
+    
+    # Adjust the tab indices
+    adjust_tabs_for_insert $index
+    
     # Create a new tab
-    insert_tab end [file tail $fname] $language
+    insert_tab $index [file tail $fname] $language
         
     # Update the file components to include position change information
     lset file $files_index(pane)     $pw_current
@@ -2275,6 +2292,30 @@ namespace eval gui {
     tooltip::hide
     
   }
+  
+  ######################################################################
+  # Adjusts the given index (if necessary) such that the tab will be
+  # inserted into the current notebook in alphabetical order.
+  proc adjust_insert_tab_index {index title} {
+    
+    if {$preferences::prefs(View/OpenTabsAlphabetically) && ($index eq "end")} {
+      
+      set sorted_index 0
+      set nb           [current_notebook]
+      
+      foreach tab [$nb tabs] {
+        regexp {(\S+)$} [$nb tab $tab -text] -> curr_title
+        if {[string compare $title $curr_title] == -1} {
+          return $sorted_index
+        }
+        incr sorted_index
+      }
+      
+    }
+    
+    return $index
+    
+  }
    
   ######################################################################
   # Inserts a new tab into the editor tab notebook.
@@ -2411,8 +2452,25 @@ namespace eval gui {
     # Get the adjusted index
     set adjusted_index [$nb index $index]
     
-    # Add the new tab to the notebook
-    $nb insert $index $tab_frame -text " $title"
+    # Add the new tab to the notebook in alphabetical order (if specified) and if
+    # the given index is "end"
+    if {$preferences::prefs(View/OpenTabsAlphabetically) && ($index eq "end")} {
+      set added 0
+      foreach t [$nb tabs] {
+        if {[string compare " $title" [$nb tab $t -text]] == -1} {
+          $nb insert $t $tab_frame -text " $title"
+          set added 1
+          break
+        }
+      }
+      if {$added == 0} {
+        $nb insert end $tab_frame -text " $title"
+      }
+      
+    # Otherwise, add the tab in the specified location
+    } else {
+      $nb insert $index $tab_frame -text " $title"
+    }
     
     # Add the text bindings
     indent::add_bindings      $tab_frame.tf.txt

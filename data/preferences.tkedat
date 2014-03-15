@@ -106,6 +106,12 @@
 
 {View/ShowRecentlyOpened}    {10}
 
+# When a new file is opened, if this option is set to 1, the new tab will be
+# inserted in the tab bar in alphabetical order.  If this option is set to 0,
+# the new tab will be added to the end of the tab bar.
+
+{View/OpenTabsAlphabetically} {0}
+
 # If a filename matches any of the patterns in the list, they will not be
 # displayed in the sidebar.
 
