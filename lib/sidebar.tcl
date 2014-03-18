@@ -223,6 +223,30 @@ namespace eval sidebar {
   }
   
   ######################################################################
+  # Handles directory/file ordering issues
+  proc order_files_dirs {contents} {
+    
+    set contents [lsort $contents]
+    
+    # If we need to show the folders at the top, handle this
+    if {$preferences::prefs(Sidebar/FoldersAtTop)} {
+      set tmp_dirs  [list]
+      set tmp_files [list]
+      foreach name $contents {
+        if {[file isdirectory $name]} {
+          lappend tmp_dirs $name
+        } else {
+          lappend tmp_files $name
+        }
+      }
+      set contents [concat $tmp_dirs $tmp_files]
+    }
+    
+    return $contents
+    
+  }
+  
+  ######################################################################
   # Recursively adds the current directory and all subdirectories and files
   # found within it to the sidebar.
   proc add_subdirectory {parent dir {movekey ""}} {
@@ -236,8 +260,11 @@ namespace eval sidebar {
         set parent [$widgets(tl) insertchild $parent end [list $dir 0]]
       }
       
+      # Get the folder contents and sort them
+      set folder_contents [order_files_dirs [glob -nocomplain -directory $dir *]]
+      
       # Add all of the stuff within this directory
-      foreach name [lsort [glob -nocomplain -directory $dir *]] {
+      foreach name $folder_contents {
         
         if {[file isdirectory $name]} {
           if {($movekey ne "") && ([$widgets(tl) cellcget $movekey,name -text] eq $name)} {
@@ -301,7 +328,7 @@ namespace eval sidebar {
       }
     }
     
-    set dir_files [lassign [lsort $dir_files] dir_file]
+    set dir_files [lassign [order_files_dirs $dir_files] dir_file]
     foreach child [$widgets(tl) childkeys $parent] {
       set tl_file [$widgets(tl) cellcget $child,name -text]
       set compare [string compare $tl_file $dir_file]
