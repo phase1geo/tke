@@ -92,8 +92,8 @@ namespace eval gui {
   proc set_title {} {
     
     # Get the current tab
-    if {[llength [[current_notebook] tabs]] > 0} {
-      set tab_name [[current_notebook] tab current -text]
+    if {[llength [[current_notebook].tbf.tb tabs]] > 0} {
+      set tab_name [[current_notebook].tbf.tb tab current -text]
     } else {
       set tab_name ""
     }
@@ -334,12 +334,12 @@ namespace eval gui {
     set nb [current_notebook]
     
     # Set the state of the menu items
-    if {[llength [$nb tabs]] > 1} {
+    if {[llength [$nb.tbf.tb tabs]] > 1} {
       $widgets(menu) entryconfigure [msgcat::mc "Close Other*"] -state normal
     } else {
       $widgets(menu) entryconfigure [msgcat::mc "Close Other*"] -state disabled
     }
-    if {([llength [$nb tabs]] > 1) || ([llength [$widgets(nb_pw) panes]] > 1)} {
+    if {([llength [$nb.tbf.tb tabs]] > 1) || ([llength [$widgets(nb_pw) panes]] > 1)} {
       $widgets(menu) entryconfigure [msgcat::mc "Move*"] -state normal
     } else {
       $widgets(menu) entryconfigure [msgcat::mc "Move*"] -state disabled
@@ -569,7 +569,7 @@ namespace eval gui {
       set pane [lindex $file $files_index(pane)]
       set tab  [lindex $file $files_index(tab)]
       set nb   [lindex [$widgets(nb_pw) panes] $pane]
-      set txt  "[lindex [$nb tabs] $tab].tf.txt" 
+      set txt  "[lindex [$nb.tbf.tb tabs] $tab].tf.txt" 
       
       set finfo(fname)       [lindex $file $files_index(fname)]
       set finfo(savecommand) [lindex $file $files_index(save_cmd)]
@@ -588,8 +588,8 @@ namespace eval gui {
     
     # Get the currently selected tabs
     foreach nb [$widgets(nb_pw) panes] {
-      if {[set tab [$nb select]] ne ""} {
-        lappend content(CurrentTabs) [$nb index $tab]
+      if {[set tab [$nb.tbf.tb select]] ne ""} {
+        lappend content(CurrentTabs) [$nb.tbf.tb index $tab]
       }
     }
     
@@ -792,7 +792,7 @@ namespace eval gui {
     # If we have no more tabs and there is another pane, remove this pane
     return [expr {([llength $files] == 1) && \
                   ([lindex $files 0 $files_index(fname)] eq "") && \
-                  ([vim::get_cleaned_content "[lindex [[lindex [$widgets(nb_pw) panes] 0] tabs] 0].tf.txt"] eq "")}]
+                  ([vim::get_cleaned_content "[lindex [[lindex [$widgets(nb_pw) panes] 0].tbf.tb tabs] 0].tf.txt"] eq "")}]
       
   }
   
@@ -842,7 +842,7 @@ namespace eval gui {
     lset file_info $files_index(mtime)    ""
     lset file_info $files_index(save_cmd) $opts(-savecommand)
     lset file_info $files_index(pane)     $pw_current
-    lset file_info $files_index(tab)      [[current_notebook] index $w]
+    lset file_info $files_index(tab)      [[current_notebook].tbf.tb index $w]
     lset file_info $files_index(lock)     0
     lset file_info $files_index(readonly) $opts(-readonly)
     lset file_info $files_index(sidebar)  $opts(-sidebar)
@@ -919,7 +919,7 @@ namespace eval gui {
       set w [insert_tab $index [file tail $fname]]
       
       # Get the nb_index
-      set nb_index [$nb index $w]
+      set nb_index [$nb.tbf.tb index $w]
       
       # Create the file information
       set file_info [lrepeat [array size files_index] ""]
@@ -965,7 +965,7 @@ namespace eval gui {
       }
  
       # Change the tab text
-      $nb tab $nb_index -text " [file tail $fname]"
+      $nb.tbf.tb tab $nb_index -text " [file tail $fname]"
       
     }
     
@@ -1302,8 +1302,17 @@ namespace eval gui {
     }
 
     # Close the current tab
-    close_tab $pw_current [[current_notebook] index current] $exiting
+    close_tab $pw_current [[current_notebook].tbf.tb index current] $exiting
     
+  }
+  
+  ######################################################################
+  # Closes the tab specified by "tab".  This is called by the tabbar when
+  # the user clicks on the close button of a tab.
+  proc close_tab_by_tabbar {w tab} {
+  
+    puts "w: $w, tab: $tab"
+  
   }
   
   ######################################################################
@@ -1319,7 +1328,7 @@ namespace eval gui {
     set nb [lindex [$widgets(nb_pw) panes] $pw_index]
     
     # Get the indexed text widget 
-    set tab_frame [lindex [$nb tabs] $nb_index]
+    set tab_frame [lindex [$nb.tbf.tb tabs] $nb_index]
     set txt       "$tab_frame.tf.txt"
     
     # Get the file index
@@ -1335,7 +1344,7 @@ namespace eval gui {
     set files [lreplace $files $index $index]
     
     # Remove the tab
-    $nb forget $nb_index
+    $nb.tbf.tb delete $nb_index
     
     # Renumber any tabs after this tab
     foreach tab_index [lsearch -all -index $files_index(pane) $files $pw_index] {
@@ -1345,7 +1354,7 @@ namespace eval gui {
     }
     
     # If we have no more tabs and there is another pane, remove this pane
-    if {([llength [$nb tabs]] == 0) && ([llength [$widgets(nb_pw) panes]] > 1)} {
+    if {([llength [$nb.tbf.tb tabs]] == 0) && ([llength [$widgets(nb_pw) panes]] > 1)} {
       $widgets(nb_pw) forget $pw_index
       set pw_current 0
       for {set i 0} {$i < [llength $files]} {incr i} {
@@ -1355,7 +1364,7 @@ namespace eval gui {
     
     # Add a new file if we have no more tabs, we are the only pane, and the preference
     # setting is to not close after the last tab is closed.
-    if {([llength [$nb tabs]] == 0) && ([llength [$widgets(nb_pw) panes]] == 1) && !$exiting} {
+    if {([llength [$nb.tbf.tb tabs]] == 0) && ([llength [$widgets(nb_pw) panes]] == 1) && !$exiting} {
       if {$preferences::prefs(General/ExitOnLastClose)} {
         menus::exit_command
       } elseif {$keep_tab} {
@@ -1375,9 +1384,9 @@ namespace eval gui {
     set current_pw [lindex [$widgets(nb_pw) panes] $pw_current]
 
     foreach nb [lreverse [$widgets(nb_pw) panes]] {    
-      foreach tab [lreverse [$nb tabs]] {
-        if {($nb ne $current_pw) || ($tab ne [$nb select])} {
-          $nb select $tab
+      foreach tab [lreverse [$nb.tbf.tb tabs]] {
+        if {($nb ne $current_pw) || ($tab ne [$nb.tbf.tb select])} {
+          $nb.tbf.tb select $tab
           close_current
         }
       }
@@ -1392,8 +1401,8 @@ namespace eval gui {
     variable widgets
     
     foreach nb [lreverse [$widgets(nb_pw) panes]] {
-      foreach tab [lreverse [$nb tabs]] {
-        $nb select $tab
+      foreach tab [lreverse [$nb.tbf.tb tabs]] {
+        $nb.tbf.tb select $tab
         close_current 0 $exiting
       }
     }
@@ -1978,13 +1987,13 @@ namespace eval gui {
     
     # Change the state of the text widget to match the lock value
     if {[lindex $files $file_index $files_index(readonly)]} {
-      [current_notebook] tab current -compound left -image $images(readonly)
+      [current_notebook].tbf.tb tab current -compound left -image $images(readonly)
       [current_txt] configure -state disabled
     } elseif {$lock} {
-      [current_notebook] tab current -compound left -image $images(lock)
+      [current_notebook].tbf.tb tab current -compound left -image $images(lock)
       [current_txt] configure -state disabled
     } else {
-      [current_notebook] tab current -image ""
+      [current_notebook].tbf.tb tab current -image ""
       [current_txt] configure -state normal
     }
     
@@ -2234,42 +2243,50 @@ namespace eval gui {
     variable images
     
     # Create editor notebook
-    $widgets(nb_pw) add [set nb [ttk::notebook $widgets(nb_pw).nb[incr curr_notebook] -style BNotebook]] -weight 1
+    $widgets(nb_pw) add [set nb [ttk::frame $widgets(nb_pw).nb[incr curr_notebook]]] -weight 1
+    
+    # Add the tabbar frame
+    ttk::frame $nb.tbf
+    tabbar::tabbar $nb.tbf.tb -command "gui::set_current_tab_from_nb $nb" -closecommand "gui::close_tab_by_tabbar"
+    ttk::label $nb.tbf.extra -image $images(down) -padding {4 4 4 4}
+    
+    grid rowconfigure    $nb.tbf 0 -weight 1
+    grid columnconfigure $nb.tbf 0 -weight 1
+    grid $nb.tbf.tb    -row 0 -column 0 -sticky news
+    grid $nb.tbf.extra -row 0 -column 1 -sticky news    
+    grid remove $nb.tbf.extra
 
-    # Create the label for displaying extra tabs
-    ttk::label $nb.extra -image $images(down) -padding {4 4 4 4}
-    bind $nb.extra <Button-1> { tk_popup %W.mnu [expr %X - [winfo reqwidth %W.mnu]] %Y }
+    bind $nb.tbf.extra <Button-1> { tk_popup %W.mnu [expr %X - [winfo reqwidth %W.mnu]] %Y }
 
     # Create popup menu for extra tabs
-    menu $nb.extra.mnu -tearoff 0
+    menu $nb.tbf.extra.mnu -tearoff 0
+    
+    ttk::frame $nb.tf
+    
+    pack $nb.tbf -fill x
+    pack $nb.tf  -fill both -expand yes
 
-    bind $nb <<NotebookTabChanged>> { gui::set_current_tab_from_nb %W }
-    bind $nb <ButtonPress-1>        { gui::tab_move_start %W %x %y }
-    bind $nb <B1-Motion>            { gui::tab_move_motion %W %x %y }
-    bind $nb <ButtonRelease-1>      { gui::tab_move_end %W %x %y }
-    bind $nb <ButtonPress-$::right_click> {
+    bind [$nb.tbf.tb btag] <ButtonPress-$::right_click> {
       if {[info exists gui::tab_tip(%W)]} {
         unset gui::tab_tip(%W)
         tooltip::tooltip clear %W
         tooltip::hide
       }
-      set gui::pw_current [lsearch [$gui::widgets(nb_pw) panes] %W]
-      if {![catch "%W select @%x,%y"]} {
+      set pane [winfo parent [winfo parent [winfo parent %W]]]
+      set gui::pw_current [lsearch [$gui::widgets(nb_pw) panes] [winfo parent [winfo parent [winfo parent %W]]]]
+      if {![catch "[winfo parent %W] select @%x,%y"]} {
         tk_popup $gui::widgets(menu) %X %Y
       }
     }
-    bind $nb <ButtonRelease-$::right_click> {
-      set gui::pw_current [lsearch [$gui::widgets(nb_pw) panes] %W]
-      if {![catch "%W select @%x,%y"]} {
+    bind [$nb.tbf.tb btag] <ButtonRelease-$::right_click> {
+      set gui::pw_current [lsearch [$gui::widgets(nb_pw) panes] [winfo parent [winfo parent [winfo parent %W]]]]
+      if {![catch "[winfo parent %W] select @%x,%y"]} {
         focus [gui::current_txt].t
       }
     }
     
-    # Handles the tab sizing
-    bind $nb <Configure> { gui::handle_tab_sizing %W }
-    
     # Handle tooltips
-    bind $nb <Motion> { gui::handle_notebook_motion %W %x %y }
+    bind [$nb.tbf.tb btag] <Motion> { gui::handle_notebook_motion [winfo parent %W] %x %y }
 
   }
   
@@ -2281,35 +2298,19 @@ namespace eval gui {
     variable tab_close
     variable images
     
-    # If the tab is one of the left or right shift tabs, exit now
-    if {[set tab [$W index @$x,$y]] eq ""} {
+    # If we are not over a tab, exit now
+    if {[set tab [$W index @$x,$y]] == -1} {
       return
     }
 
-    set type [$W identify $x $y]
-    
     # Handle tooltip
     if {![info exists tab_tip($W)]} {
-      if {$type eq "label"} {
+      set_tab_tooltip $W $tab
+    } else {
+      clear_tab_tooltip $W
+      if {$tab_tip($W) ne $tab} {
         set_tab_tooltip $W $tab
       }
-    } elseif {$type ne "label"} {
-      clear_tab_tooltip $W
-    } elseif {$tab_tip($W) ne $tab} {
-      clear_tab_tooltip $W
-      set_tab_tooltip $W $tab
-    }
-    
-    # Handle close behavior
-    if {![info exists tab_close($W)]} {
-      if {$type eq "image"} {
-        $W tab $tab -compound left -image $images(close)
-      }
-    } elseif {$type ne "image"} {
-      $W tab $tab_close($W) -image ""
-    } elseif {$tab_close($W) ne $tab} {
-      $W tab $tab_close($W) -image ""
-      $W tab $tab -compound left -image $images(close)
     }
     
   }
@@ -2324,13 +2325,13 @@ namespace eval gui {
     variable files_index
     
     # Get the current pane
-    if {[set pane [lsearch [$widgets(nb_pw) panes] $W]] != -1} {
+    if {[set pane [lsearch [$widgets(nb_pw) panes] [winfo parent [winfo parent $W]]]] != -1} {
       
       # Get the full pathname to the current file
       set fname [lindex $files [get_file_index $pane $tab] $files_index(fname)]
     
       # Create the tooltip
-      set tab_tip($W) $tab
+      # set tab_tip($W) $tab
       tooltip::tooltip $W $fname
       event generate $W <Enter>
       
@@ -2360,8 +2361,8 @@ namespace eval gui {
       set sorted_index 0
       set nb           [current_notebook]
       
-      foreach tab [$nb tabs] {
-        regexp {(\S+)$} [$nb tab $tab -text] -> curr_title
+      foreach tab [$nb.tbf.tb tabs] {
+        regexp {(\S+)$} [$nb.tbf.tb tab $tab -text] -> curr_title
         if {[string compare $title $curr_title] == -1} {
           return $sorted_index
         }
@@ -2507,27 +2508,7 @@ namespace eval gui {
     grid remove $tab_frame.sep
     
     # Get the adjusted index
-    set adjusted_index [$nb index $index]
-    
-    # Add the new tab to the notebook in alphabetical order (if specified) and if
-    # the given index is "end"
-    if {$preferences::prefs(View/OpenTabsAlphabetically) && ($index eq "end")} {
-      set added 0
-      foreach t [$nb tabs] {
-        if {[string compare " $title" [$nb tab $t -text]] == -1} {
-          $nb insert $t $tab_frame -text " $title"
-          set added 1
-          break
-        }
-      }
-      if {$added == 0} {
-        $nb insert end $tab_frame -text " $title"
-      }
-      
-    # Otherwise, add the tab in the specified location
-    } else {
-      $nb insert $index $tab_frame -text " $title"
-    }
+    set adjusted_index [$nb.tbf.tb index $index]
     
     # Add the text bindings
     indent::add_bindings      $tab_frame.tf.txt
@@ -2542,8 +2523,28 @@ namespace eval gui {
       syntax::initialize_language $tab_frame.tf.txt $initial_language
     }
 
+    # Add the new tab to the notebook in alphabetical order (if specified) and if
+    # the given index is "end"
+    if {$preferences::prefs(View/OpenTabsAlphabetically) && ($index eq "end")} {
+      set added 0
+      foreach t [$nb.tbf.tb tabs] {
+        if {[string compare " $title" [$nb.tbf.tb tab $t -text]] == -1} {
+          $nb.tbf.tb insert $t $tab_frame -text " $title" -emboss 0
+          set added 1
+          break
+        }
+      }
+      if {$added == 0} {
+        $nb.tbf.tb insert end $tab_frame -text " $title" -emboss 0
+      }
+      
+    # Otherwise, add the tab in the specified location
+    } else {
+      $nb.tbf.tb insert $index $tab_frame -text " $title" -emboss 0
+    }
+    
     # Make the new tab the current tab
-    set_current_tab $pw_current $adjusted_index
+    # set_current_tab $pw_current $adjusted_index
     
     # Set the current language
     syntax::set_current_language
@@ -2577,8 +2578,8 @@ namespace eval gui {
         set nb [current_notebook]
       
         # Change the look of the tab
-        if {[string index [set name [string trimleft [$nb tab $tab -text]]] 0] ne "*"} {
-          $nb tab $tab -text " * $name"
+        if {[string index [set name [string trimleft [$nb.tbf.tb tab $tab -text]]] 0] ne "*"} {
+          $nb.tbf.tb tab $tab -text " * $name"
           set_title
         }
         
@@ -2613,7 +2614,7 @@ namespace eval gui {
     variable widgets
     variable pw_current
     variable tab_current
-    
+        
     # Set the current pane
     set pw_current $pane
 
@@ -2622,7 +2623,14 @@ namespace eval gui {
     set tab_current($nb) $tab
   
     # Set the current tab
-    [current_notebook] select $tab
+    $nb.tbf.tb select $tab
+    
+    if {[set slave [pack slaves $nb.tf]] ne ""} {
+      pack forget $slave
+    }
+    puts "selected: [$nb.tbf.tb select]"
+    puts [utils::stacktrace]
+    pack [$nb.tbf.tb select] -in $nb.tf -fill both -expand yes
     
     # Set the line and row information
     lassign [split [[current_txt] index insert] .] row col
@@ -2641,13 +2649,13 @@ namespace eval gui {
   
   ######################################################################
   # Sets the current tab information based on the given notebook.
-  proc set_current_tab_from_nb {nb} {
+  proc set_current_tab_from_nb {nb {tb ""} {frm ""}} {
     
     variable widgets
     
     # Get the pane index
     if {([set pane [lsearch [$widgets(nb_pw) panes] $nb]] == -1) ||
-        ([set tab [$nb index current]] eq "")} {
+        ([set tab [$nb.tbf.tb index current]] == -1)} {
       return
     }
     
@@ -2713,7 +2721,7 @@ namespace eval gui {
     variable widgets
     variable pw_current
     
-    return "[[current_notebook] select].tf.txt"
+    return "[[current_notebook].tbf.tb select].tf.txt"
     
   }
   
@@ -2724,7 +2732,7 @@ namespace eval gui {
     variable widgets
     variable pw_current
     
-    return "[[current_notebook] select].sf"
+    return "[[current_notebook].tbf.tb select].sf"
     
   }
   
@@ -2759,7 +2767,7 @@ namespace eval gui {
     variable pw_current
 
     # Returns the file index
-    if {[set tab [[current_notebook] index current]] ne ""} {
+    if {[set tab [[current_notebook].tbf.tb index current]] ne ""} {
       return [get_file_index $pw_current $tab]
     } else {
       return -1

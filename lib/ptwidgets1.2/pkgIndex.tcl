@@ -15,4 +15,6 @@ package ifneeded timeline 1.2 \
   "namespace eval timeline { proc DIR {} {return [list $dir]} }; source [file join $dir library timeline.tcl]"
 package ifneeded specl 1.2 \
   "namespace eval specl { proc DIR {} {return [list $dir]} }; source [file join $dir library specl.tcl]"
+package ifneeded tabbar 1.2 \
+  "namespace eval tabbar { proc DIR {} {return [list $dir]} }; source [file join $dir library tabbar.tcl]"
 
