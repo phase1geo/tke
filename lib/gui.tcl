@@ -1260,7 +1260,7 @@ namespace eval gui {
     variable pw_current
     
     # Get the notebook
-    set nb [lindex [pane_nb_index_from_tab $tab] 1]
+    lassign [pane_nb_index_from_tab $tab] pane nb
     
     # Get the indexed text widget 
     set txt "$tab.tf.txt"
@@ -1279,10 +1279,10 @@ namespace eval gui {
     
     # Remove the tab
     $nb forget $tab
-    
+
     # If we have no more tabs and there is another pane, remove this pane
     if {([llength [$nb tabs]] == 0) && ([llength [$widgets(nb_pw) panes]] > 1)} {
-      $widgets(nb_pw) forget $pw_index
+      $widgets(nb_pw) forget $pane
       set pw_current 0
     }
     
@@ -1295,7 +1295,7 @@ namespace eval gui {
         add_new_file end
       }
     }
-        
+    
   }
 
   ######################################################################
@@ -2585,14 +2585,18 @@ namespace eval gui {
     variable widgets
     variable pw_current
     
-    # Get the tab
-    set tab [winfo parent [winfo parent [winfo parent $txt]]]
+    if {[winfo ismapped $txt]} {
     
-    # Get the current tab
-    set_current_tab $tab
+      # Get the tab
+      set tab [winfo parent [winfo parent [winfo parent $txt]]]
+    
+      # Get the current tab
+      set_current_tab $tab
         
-    # Handle any on_focusin events
-    plugins::handle_on_focusin $tab
+      # Handle any on_focusin events
+      plugins::handle_on_focusin $tab
+      
+    }
     
   }
   
