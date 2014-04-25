@@ -535,11 +535,9 @@ namespace eval tabbar {
     
       # Get the page index
       set page_index [index $w @$x,$y]
-      
-      # Run the close command if one was specified
-      if {$data($w,option,-closecommand) ne ""} {
-        uplevel #0 $data($w,option,-closecommand) $w [lindex $data($w,pages) $page_index 0]
-      }
+
+      # Get the page to delete
+      set page [lindex $data($w,pages) $page_index 0]
       
       # Delete the tab
       delete $w [index $w @$x,$y]
@@ -550,6 +548,11 @@ namespace eval tabbar {
           $w.c itemconfigure [close_tag $w [page_index $w $tab_index]] -state normal
         }
         set data($w,last_tab) $tab_index
+      }
+      
+      # Run the close command if one was specified
+      if {$data($w,option,-closecommand) ne ""} {
+        uplevel #0 $data($w,option,-closecommand) $w $page
       }
       
     } else {
@@ -1372,11 +1375,6 @@ namespace eval tabbar {
       # Make sure that the tab is in view
       make_current_viewable $w
       
-      # If the user has specified a command to run for the selection, run it now
-      if {($data($w,option,-command) ne "") && ($data($w,current) != -1)} {
-        uplevel #0 $data($w,option,-command) $w [lindex $data($w,pages) $data($w,current) 0]
-      }
-      
     }
       
   }
@@ -1414,11 +1412,6 @@ namespace eval tabbar {
         # Redraw the tabbar
         redraw $w 1
         
-        # If the user has specified a command to run for the selection, run it now
-        if {($data($w,option,-command) ne "") && ($data($w,current) != -1)} {
-          uplevel #0 $data($w,option,-command) $w [lindex $data($w,pages) $data($w,current) 0]
-        }
-      
       }
       
       2 {
@@ -1449,11 +1442,6 @@ namespace eval tabbar {
         # Redraw the tabbar
         redraw $w
         
-        # If the user has specified a command to run for the selection, run it now
-        if {($data($w,option,-command) ne "") && ($data($w,current) != -1)} {
-          uplevel #0 $data($w,option,-command) $w [lindex $data($w,pages) $data($w,current) 0]
-        }
-      
       }
       
       default {
@@ -1492,7 +1480,6 @@ namespace eval tabbar {
           # If we are recording history, update it now
           if {$data($w,option,-history) && ($data($w,current) != -1)} {
             lappend data($w,history) [lindex $data($w,pages) $data($w,current) 0]
-            puts "history: $data($w,history)"
           }
     
           # Update the tabbar
@@ -1501,11 +1488,6 @@ namespace eval tabbar {
           # Make sure that the tab is in view
           make_current_viewable $w
       
-          # If the user has specified a command to run for the selection, run it now
-          # if {($data($w,option,-command) ne "") && ($data($w,current) != -1)} {
-          #   uplevel #0 $data($w,option,-command) $w [lindex $data($w,pages) $data($w,current) 0]
-          # }
-          
         }
       
       }
