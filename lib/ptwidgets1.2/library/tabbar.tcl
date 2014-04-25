@@ -1492,6 +1492,7 @@ namespace eval tabbar {
           # If we are recording history, update it now
           if {$data($w,option,-history) && ($data($w,current) != -1)} {
             lappend data($w,history) [lindex $data($w,pages) $data($w,current) 0]
+            puts "history: $data($w,history)"
           }
     
           # Update the tabbar
@@ -1501,9 +1502,9 @@ namespace eval tabbar {
           make_current_viewable $w
       
           # If the user has specified a command to run for the selection, run it now
-          if {($data($w,option,-command) ne "") && ($data($w,current) != -1)} {
-            uplevel #0 $data($w,option,-command) $w [lindex $data($w,pages) $data($w,current) 0]
-          }
+          # if {($data($w,option,-command) ne "") && ($data($w,current) != -1)} {
+          #   uplevel #0 $data($w,option,-command) $w [lindex $data($w,pages) $data($w,current) 0]
+          # }
           
         }
       
