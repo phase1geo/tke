@@ -25,6 +25,7 @@ package require -exact tablelist 5.10
 package require tooltip
 package require msgcat
 package require tokenentry
+package require tabbar
 
 source [file join $tke_dir lib version.tcl]
 source [file join $tke_dir lib bnotebook.tcl]
