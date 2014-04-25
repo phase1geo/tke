@@ -2544,7 +2544,7 @@ namespace eval gui {
     }
     
     # Make the new tab the current tab
-    # set_current_tab $pw_current $adjusted_index
+    set_current_tab $pw_current $adjusted_index
     
     # Set the current language
     syntax::set_current_language
