@@ -913,7 +913,7 @@ namespace eval gui {
       }
  
       # Change the tab text
-      [current_notebook] tab $w -text " [file tail $fname]"
+      [current_notebook].tbf.tb tab $w -text " [file tail $fname]"
       
     }
     
@@ -1257,7 +1257,45 @@ namespace eval gui {
   # the user clicks on the close button of a tab.
   proc close_tab_by_tabbar {w tab} {
   
-    puts "w: $w, tab: $tab"
+    variable widgets
+    variable files
+    variable files_index
+    
+    # Get the indexed text widget 
+    set txt "$tab.tf.txt"
+    
+    # Get the file index
+    set index [get_file_index $tab]
+
+    # Unhighlight the file in the file browser
+    sidebar::highlight_filename [lindex $files $index $files_index(fname)] 0
+    
+    # Run the close event for this file
+    plugins::handle_on_close $index
+    
+    # Delete the file from files
+    set files [lreplace $files $index $index]
+    
+    # Remove the tab frame
+    if {[set slave [pack slaves [winfo parent [winfo parent $w]].tf]] ne ""} {
+      pack forget $slave
+    }
+    
+    # If we have no more tabs and there is another pane, remove this pane
+    if {([llength [$w tabs]] == 0) && ([llength [$widgets(nb_pw) panes]] > 1)} {
+      $widgets(nb_pw) forget $pane
+      set pw_current 0
+    }
+    
+    # Add a new file if we have no more tabs, we are the only pane, and the preference
+    # setting is to not close after the last tab is closed.
+    if {([llength [$w tabs]] == 0) && ([llength [$widgets(nb_pw) panes]] == 1)} {
+      if {$preferences::prefs(General/ExitOnLastClose)} {
+        menus::exit_command
+      } else {
+        add_new_file end
+      }
+    }
   
   }
   
@@ -1271,7 +1309,7 @@ namespace eval gui {
     variable pw_current
     
     # Get the notebook
-    lassign [pane_nb_index_from_tab $tab] pane nb
+    lassign [pane_nb_index_from_tab $tab] pane nb tab_index
     
     # Get the indexed text widget 
     set txt "$tab.tf.txt"
@@ -1289,7 +1327,7 @@ namespace eval gui {
     set files [lreplace $files $index $index]
     
     # Remove the tab
-    $nb.tbf.tb delete $nb_index
+    $nb.tbf.tb delete $tab_index
     
     # If we have no more tabs and there is another pane, remove this pane
     if {([llength [$nb.tbf.tb tabs]] == 0) && ([llength [$widgets(nb_pw) panes]] > 1)} {
@@ -2152,7 +2190,7 @@ namespace eval gui {
     
     set pane 0
     foreach nb [$widgets(nb_pw) panes] {
-      if {[set index [lsearch [$nb tabs] $tab]] != -1} { 
+      if {[set index [lsearch [$nb.tbf.tb tabs] $tab]] != -1} { 
         return [list $pane $nb $index]
       }
       incr pane
@@ -2227,21 +2265,20 @@ namespace eval gui {
     variable images
     
     # If the tab is one of the left or right shift tabs, exit now
-    if {[set tab_index [$W index @$x,$y]] eq ""} {
+    if {[set tab_index [$W index @$x,$y]] == -1} {
       return
     }
 
-    set type [$W identify $x $y]
-    set tab  [lindex [$W tabs] $tab_index]
+    set tab [lindex [$W tabs] $tab_index]
     
     # Handle tooltip
     if {![info exists tab_tip($W)]} {
       set_tab_tooltip $W $tab
+    } elseif {$tab_tip($W) ne $tab} {
+      clear_tab_tooltip $W
+      set_tab_tooltip $W $tab
     } else {
       clear_tab_tooltip $W
-      if {$tab_tip($W) ne $tab} {
-        set_tab_tooltip $W $tab
-      }
     }
     
   }
@@ -2548,7 +2585,7 @@ namespace eval gui {
     lassign [pane_nb_index_from_tab $tab] pw_current nb
     
     # Set the current tab
-    $nb select $tab
+    $nb.tbf.tb select $tab
 
     # Set the current tab for the given notebook
     set tab_current($nb) $tab
@@ -2687,7 +2724,7 @@ namespace eval gui {
   proc current_file {} {
   
     # Returns the file index
-    if {[set tab [[current_notebook].tbf.tb index current]] ne ""} {
+    if {[set tab [[current_notebook].tbf.tb select]] ne ""} {
       return [get_file_index $tab]
     } else {
       return -1
