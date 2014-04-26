@@ -713,7 +713,7 @@ namespace eval tabbar {
     }
     
     # If there are any options that changed that require us to redraw ourself, do it now
-    foreach opt [list -emboss -compound -padx -pady] {
+    foreach opt [list -emboss -compound -image -padx -pady] {
       if {$orig_opts($opt) ne $opts($opt)} {
         redraw_tab $w $page_index
         redraw $w
@@ -722,16 +722,10 @@ namespace eval tabbar {
     }
     
     set resize_needed 0
-    
-    # If the image changed, change it
-    if {$orig_opts(-image) ne $opts(-image)} {
-      $w.c itemconfigure [image_tag $w $page_index] -image $opts(-image)
-      set resize_needed [expr [image width $orig_opts(-image)] != [image width $opts(-image)]]
-    }
+    set text_tag      [text_tag $w $page_index]
     
     # If the text changed, change it
     if {$orig_opts(-text) ne $opts(-text)} {
-      set text_tag [text_tag $w $page_index]
       $w.c itemconfigure $text_tag -text $opts(-text)
       set resize_needed 1
     }
