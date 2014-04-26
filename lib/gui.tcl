@@ -558,7 +558,7 @@ namespace eval gui {
             }
           }
           if {$set_tab} {
-            set_current_tab [lindex [[lindex [$widgets(nb_pw) panes] $pane] tabs] [lindex $content(CurrentTabs) $pane]]
+            set_current_tab [lindex [[lindex [$widgets(nb_pw) panes] $pane].tbf.tb tabs] [lindex $content(CurrentTabs) $pane]]
           }
         }
         
@@ -609,7 +609,7 @@ namespace eval gui {
     
     # If the new tab index is at the less than 0, circle to the last tab
     if {$index == -1} {
-      set index [expr [$nb index end] - 1]
+      set index [expr [$tb index end] - 1]
     }
     
     # Select the previous tab
@@ -1340,26 +1340,29 @@ namespace eval gui {
     
     foreach nb [$widgets(nb_pw) panes] {
     
+      # Create the tabbar path
+      set tb "$nb.tbf.tb"
+      
       # Get the current tab
-      set current_tab [$nb select]
+      set current_tab [$tb select]
       
       # Get the list of opened tabs
       set tabs [list]
-      foreach tab [$nb tabs] {
-        set fullname [$nb tab $tab -text]
+      foreach tab [$tb tabs] {
+        set fullname [$tb tab $tab -text]
         regexp {(\S+)$} $fullname -> name
-        lappend tab_values [list $name $fullname $tab [lsearch -index $files_index(tab) $files $tab]]
-        $nb forget $tab
+        lappend tabs [list $name $fullname $tab [lsearch -index $files_index(tab) $files $tab]]
+        $tb delete $tab
       }
       
       # Sort the tabs by alphabetical order and move them
       foreach tab [lsort -index 0 $tabs] {
         lassign $tab name fullname tabid index
-        $nb insert end $tabid -text $fullname
+        $tb insert end $tabid -text $fullname -emboss 0
       }
       
       # Reset the current tab
-      $nb select $current_tab
+      $tb select $current_tab
             
     }
     
