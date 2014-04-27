@@ -1183,9 +1183,7 @@ namespace eval gui {
     set files [lreplace $files $index $index]
     
     # Remove the tab frame
-    if {[set slave [pack slaves [winfo parent [winfo parent $w]].tf]] ne ""} {
-      pack forget $slave
-    }
+    catch { pack forget $tab }
     
     # Display the current pane (if one exists)
     if {[set tab [$w select]] ne ""} {
@@ -1241,9 +1239,7 @@ namespace eval gui {
     $tb delete $tab_index
 
     # Delete the text frame
-    if {[set slave [pack slaves [winfo parent [winfo parent $tb]].tf]] ne ""} {
-      pack forget $slave
-    }
+    catch { pack forget $tab }
     
     # Display the current pane (if one exists)
     if {[set tab [$tb select]] ne ""} {
@@ -2140,7 +2136,7 @@ namespace eval gui {
     grid $nb.tbf.extra -row 0 -column 1 -sticky news    
     grid remove $nb.tbf.extra
 
-    bind $nb.tbf.extra <Button-1> { tk_popup %W.mnu [expr %X - [winfo reqwidth %W.mnu]] %Y }
+    bind $nb.tbf.extra <Button-1> "gui::show_tabs $nb"
 
     # Create popup menu for extra tabs
     menu $nb.tbf.extra.mnu -tearoff 0
@@ -2168,6 +2164,9 @@ namespace eval gui {
         focus [gui::current_txt].t
       }
     }
+    
+    bind $nb.tbf.tb <<TabbarScrollEnabled>>  "grid $nb.tbf.extra"
+    bind $nb.tbf.tb <<TabbarScrollDisabled>> "grid remove $nb.tbf.extra"
     
     # Handle tooltips
     bind [$nb.tbf.tb btag] <Motion> { gui::handle_notebook_motion [winfo parent %W] %x %y }
@@ -2882,6 +2881,41 @@ namespace eval gui {
       catch { place forget $nb.extra }
     }
   
+  }
+
+  ######################################################################
+  # Displays all of the unhidden tabs.
+  proc show_tabs {nb} {
+
+    set tb    $nb.tbf.tb
+    set extra $nb.tbf.extra
+    set mnu   $extra.mnu
+
+    # Get the shown tabs
+    set shown [$tb xview shown]
+    lset shown 1 [expr [lindex $shown 1] + 1]
+
+    # Clear the menu
+    $mnu delete 0 end
+
+    set i 0
+    foreach tab [$tb tabs] {
+      if {[lindex $shown 0] == $i} {
+        if {$i > 0} {
+          $mnu add separator
+        }
+        set shown [lassign $shown tmp]
+      }
+      if {[$tb tab $tab -state] ne "hidden"} {
+        $mnu add command -label [$tb tab $tab -text] -command "gui::set_current_tab $tab"
+      } 
+      incr i
+    }
+
+    # Display the menu
+    tk_popup $mnu [expr ([winfo rootx $extra] + [winfo reqwidth $extra]) - [winfo reqwidth $mnu]] \
+                  [expr [winfo rooty $extra] + [winfo reqheight $extra]]
+
   }
 
   ######################################################################
