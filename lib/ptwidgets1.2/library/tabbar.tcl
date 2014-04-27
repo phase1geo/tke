@@ -885,7 +885,7 @@ namespace eval tabbar {
     
     # If the tab widths changed, resize all of the tabs
     if {($tab_width != $data($w,tab_width)) || $force} {
-    
+      
       for {set i [expr [llength $data($w,tab_order)] - 1]} {$i >= 0} {incr i -1} {
       
         # Get the current page
@@ -935,6 +935,9 @@ namespace eval tabbar {
     # If the tab bar exceeds the width of the canvas, add the scroll buttons
     if {($data($w,tab_width) * [llength $data($w,tab_order)]) > $nb_width } {
       
+      # Check to see if the shift buttons are not mapped yet
+      set gen_event [expr ![winfo ismapped $w.sl]]
+      
       # Display the shift left/right buttons
       grid $w.sl
       grid $w.sr
@@ -956,8 +959,16 @@ namespace eval tabbar {
       # Update the state of the shift buttons
       update_shift_button_state $w
       
+      # Generate event (if necessary)
+      if {$gen_event} {
+        event generate $w <<TabbarScrollEnabled>>
+      }
+      
     # Otherwise, if the scroll buttons are visible, remove them
     } else {
+      
+      # Check to see if the shift buttons are currently mapped
+      set gen_event [winfo ismapped $w.sl]
       
       # Remove the shift buttons from the view
       grid remove $w.sl
@@ -967,6 +978,11 @@ namespace eval tabbar {
       if {[set shift_left $data($w,left_tab)] > 0} {
         set data($w,left_tab) 0
         $w.c xview scroll [expr 0 - $shift_left] units
+      }
+      
+      # Generate event
+      if {$gen_event} {
+        event generate $w <<TabbarScrollDisabled>>
       }
       
     }
@@ -1109,6 +1125,7 @@ namespace eval tabbar {
       btag      { return [tabbar::btag $w {*}$opts] }
       tab       { return [tabbar::tab $w {*}$opts] }
       tabs      { return [tabbar::tabs $w {*}$opts] }
+      xview     { return [tabbar::xview $w {*}$opts] }
       default   { return -code error "Unknown tabbar command ($cmd)" }
     }
     
@@ -1362,7 +1379,7 @@ namespace eval tabbar {
     update_tab_order $w
     
     # Draw the tab in the canvas
-    redraw $w
+    redraw $w 1
     
     if {$make_current} {
     
@@ -1431,10 +1448,10 @@ namespace eval tabbar {
         }
         
         # Update the tab order
-        update_tab_order $w 1
+        update_tab_order $w
     
         # Redraw the tabbar
-        redraw $w
+        redraw $w 1
         
       }
       
@@ -1488,6 +1505,46 @@ namespace eval tabbar {
       
       default {
         return -code error "Incorrect number of parameter given to the tabbar::select command"
+      }
+      
+    }
+    
+  }
+  
+  ######################################################################
+  # Returns xview information of the tabbar and allows the xview to be
+  # manipulated by the user.
+  proc xview {w args} {
+    
+    variable data
+    
+    switch [llength $args] {
+      
+      0 {
+        return [$w.c xview]
+      }
+      
+      default {
+        set args [lassign $args subcmd]
+        if {$subcmd eq "scroll"} {
+          if {[llength $args] != 1} {
+            return -code error "Incorrect number of parameters given to the tabbar::xview scroll command"
+          }
+          set units [lindex $args 0]
+          if {$units < 0} {
+            for {set i 0} {$i < [expr abs($units)]} {incr i} {
+              scroll_left $w
+            }
+          } else {
+            for {set i 0} {$i < $units} {incr i} {
+              scroll_right $w
+            }
+          }
+        } elseif {$subcmd eq "shown"} {
+          return [list [leftmost_tab $w] [rightmost_tab $w]]
+        } else {
+          return -code error "Incorrect number of parameters given to the tabbar::xivew command"
+        }
       }
       
     }
