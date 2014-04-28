@@ -290,10 +290,7 @@ namespace eval gui {
     
     variable widgets
     
-    # Make sure that each notebook gets the treatment
-    foreach nb [$widgets(nb_pw) panes] {
-      handle_tab_sizing $nb 1
-    }
+    # TBD
         
   }
   
@@ -618,6 +615,36 @@ namespace eval gui {
   }
   
   ######################################################################
+  # Makes the last viewed tab in the notebook viewable.
+  proc last_tab {} {
+    
+    variable pw_current
+    variable tab_current
+    
+    lassign [pane_tb_index_from_tab $tab_current($pw_current)] pane tb
+    
+    # Select the last tab
+    set_current_tab [lindex [$tb tabs] [$tb index last]]
+    
+  }
+  
+  ######################################################################
+  # If more than one pane is displayed, sets the current pane to the other
+  # pane.
+  proc next_pane {} {
+    
+    variable widgets
+    variable pw_current
+    variable tab_current
+    
+    # If we have more than one pane, go to it
+    if {[llength [$widgets(nb_pw) panes]] > 1} {
+      set_current_tab $tab_current([expr $pw_current ^ 1])
+    }
+    
+  }
+  
+  ######################################################################
   # Adds the given filename to the list of most recently opened files.
   proc add_to_recently_opened {fname} {
   
@@ -768,8 +795,7 @@ namespace eval gui {
     # If the file is already loaded, display the tab
     if {[set file_index [lsearch -index $files_index(fname) $files $fname]] != -1} {
       
-      set tab [lindex $files $file_index $files_index(tab)]
-      [lindex [pane_tb_index_from_tab $tab] 1] select $tab
+      set_current_tab [lindex $files $file_index $files_index(tab)]
       
     # Otherwise, load the file in a new tab
     } else {
@@ -2490,7 +2516,7 @@ namespace eval gui {
  
   ######################################################################
   # Make the specified tab the current tab.
-  proc set_current_tab {tab} {
+  proc set_current_tab {tab {skip_focus 0}} {
 
     variable widgets
     variable pw_current
@@ -2517,23 +2543,25 @@ namespace eval gui {
         pack forget $slave
       }
       pack [$tb select] -in $tf -fill both -expand yes
+      
+    }
+    
+    # Set the text widget
+    set txt "$tab.tf.txt"
+    
+    # Set the line and row information
+    lassign [split [$txt index insert] .] row col
+    $widgets(info_label) configure -text [msgcat::mc "Line: %d, Column: %d" $row $col]
+    
+    # Set the syntax menubutton to the current language
+    syntax::update_menubutton $widgets(info_syntax)
+    
+    # Set the application title bar
+    set_title
 
-      # Set the text widget
-      set txt "$tab.tf.txt"
-    
-      # Set the line and row information
-      lassign [split [$txt index insert] .] row col
-      $widgets(info_label) configure -text [msgcat::mc "Line: %d, Column: %d" $row $col]
-    
-      # Set the syntax menubutton to the current language
-      syntax::update_menubutton $widgets(info_syntax)
-    
-      # Set the application title bar
-      set_title
-
-      # Finally, set the focus to the text widget
+    # Finally, set the focus to the text widget
+    if {([focus] ne "$txt.t") && !$skip_focus} {
       focus $txt.t       
-
     }
 
   }
@@ -2564,7 +2592,7 @@ namespace eval gui {
       set tab [winfo parent [winfo parent [winfo parent $txt]]]
     
       # Get the current tab
-      set_current_tab $tab
+      set_current_tab $tab 1
         
       # Handle any on_focusin events
       plugins::handle_on_focusin $tab
@@ -2858,32 +2886,6 @@ namespace eval gui {
   }
 
   ######################################################################
-  # Manages the tabs and makes them scrolling, if necessary.
-  proc handle_tab_sizing {nb {force 0}} {
-
-    variable images
-
-    # Only continue running if the padding and notebook width values are known
-    if {([set padding [ttk::style configure BNotebook.Tab -padding]] eq "") ||
-        ([set nb_width [winfo width $nb]] == 1) ||
-        ([llength [$nb tabs]] == 0) ||
-        (($preferences::prefs(View/HideTabs) == 0) && !$force)} {
-      return
-    }
-
-    # Make the tabs visible
-    if {$preferences::prefs(View/HideTabs) == 1} {
-      show_tab $nb [$nb select]
-    } else {
-      foreach tab [$nb tabs] {
-        $nb tab $tab -state normal
-      }
-      catch { place forget $nb.extra }
-    }
-  
-  }
-
-  ######################################################################
   # Displays all of the unhidden tabs.
   proc show_tabs {nb} {
 
@@ -2918,100 +2920,5 @@ namespace eval gui {
 
   }
 
-  ######################################################################
-  # Displays a tab that was hidden.
-  proc show_tab {nb target_tab} {
-
-    variable images
-
-    set current_tab [$nb index [$nb select]]
-    set target_tab  [$nb index $target_tab]
-    set unhide      0
-    set total_width 0
-    set close_width [image width $images(close)]
-    set padding     [expr [lindex [ttk::style configure BNotebook.Tab -padding] 0] * 3]
-    set nb_width    [expr [winfo width $nb] - ([image width $images(down)] + 8)]
-
-    # Gather the tab widths and create a "tabs" array that contains a state (0=hidden, 1=normal) and the width
-    foreach tab [$nb tabs] {
-      set width [expr [font measure TkDefaultFont [$nb tab $tab -text]] + $close_width + $padding]
-      if {[set img [$nb tab $tab -image]] ne ""} {
-        incr width [image width $img]
-      }
-      lappend tabs [list 0 $width]
-    }
-
-    # Perform a "sliding window" to figure out what should be displayed or not
-    # If the target_tab position is prior to the current_tab position, attempt to 
-    # put the tab in the left-most position; otherwise, place the tab in the right-most
-    # position.
-    set total_width 0
-    set start_pos   0
-    set i           0
-    while {$i < [llength $tabs]} {
-
-      # If we have space to put more tabs, always do so
-      if {[expr ($total_width + [lindex $tabs $i 1]) < $nb_width]} {
-        incr total_width [lindex $tabs $i 1]
-        lset tabs $i 0 1
-        incr i
-
-      # Otherwise, slide the window up unless we are done sliding
-      } else {
-
-        # If the target_tab is to the right of the current tab and we have set
-        # the target_tab to the normal state, stop processing the for loop.
-        if {(($target_tab >= $current_tab) && ($target_tab < $i)) || \
-            (($target_tab <= $current_tab) && ($target_tab == $start_pos))} {
-          break
-
-        # Otherwise, we will need to move the sliding window
-        } else {
-          while {1} {
-            incr total_width [expr 0 - [lindex $tabs $start_pos 1]]
-            lset tabs $start_pos 0 0
-            incr start_pos
-            if {[expr ($total_width + [lindex $tabs $i 1]) < $nb_width] || ($start_pos == $target_tab)} {
-              break
-            }
-          }
-          
-        }
-
-      }
-
-    }
-
-    # Clear the extra menu
-    $nb.extra.mnu delete 0 end
-
-    # Set the tabs to the given states
-    set separator_needed 0
-    for {set i 0} {$i < [llength $tabs]} {incr i} {
-      if {[lindex $tabs $i 0]} {
-        $nb tab $i -state normal
-        incr separator_needed [expr $separator_needed == 1]
-      } else {
-        $nb tab $i -state hidden
-        if {$separator_needed == 2} {
-          $nb.extra.mnu add separator
-        }
-        $nb.extra.mnu add command -label [$nb tab $i -text] -command "gui::show_tab $nb $i"
-        incr separator_needed [expr $separator_needed != 1]
-      }
-    }
-        
-    # Select the target tab
-    $nb select $target_tab
-
-    # Place the extra menu, if it is needed
-    if {[$nb.extra.mnu index end] ne "none"} {
-      place $nb.extra -relx 1.0 -rely 0.0 -anchor ne
-    } else {
-      catch { place forget $nb.extra }
-    }
-    
-  }
-  
 }
  

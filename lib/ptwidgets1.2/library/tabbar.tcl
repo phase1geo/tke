@@ -1326,6 +1326,8 @@ namespace eval tabbar {
       return [llength $data($w,pages)]
     } elseif {$tabid eq "current"} {
       return $data($w,current)
+    } elseif {$tabid eq "last"} {
+      return [lsearch -index 0 $data($w,pages) [lindex $data($w,history) end]]
     } elseif {[winfo exists $tabid]} {
       return [lsearch -index 0 $data($w,pages) $tabid]
     } elseif {[regexp {^@(\d+),(\d+)$} $tabid -> x y]} {
@@ -1473,9 +1475,7 @@ namespace eval tabbar {
     switch [llength $args] {
     
       0 {
-
         return [expr {($data($w,current) == -1) ? "" : [lindex $data($w,pages) $data($w,current) 0]}]
-
       }
       
       1 {
@@ -1486,12 +1486,17 @@ namespace eval tabbar {
         # Set the current tab if it has changed
         if {$index != $data($w,current)} {
       
-          set data($w,current) $index
-    
           # If we are recording history, update it now
-          if {$data($w,option,-history) && ($data($w,current) != -1)} {
+          if {$data($w,option,-history) && ($index != -1)} {
             lappend data($w,history) [lindex $data($w,pages) $data($w,current) 0]
+            
+          # Otherwise, just save the last page to history
+          } else {
+            set data($w,history) [lindex $data($w,pages) $data($w,current) 0]
           }
+    
+          # Set the current index
+          set data($w,current) $index
     
           # Update the tabbar
           redraw $w
