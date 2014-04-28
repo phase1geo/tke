@@ -93,7 +93,9 @@ namespace eval vim {
       q! { gui::close_current 1 }
       e! { gui::update_current }
       n  { gui::next_tab }
-      e\# { gui::previous_tab }
+      N  { gui::previous_tab }
+      p  { after idle gui::next_pane }
+      e\# { gui::last_tab }
       m  {
         set line [lindex [split [$txt index insert] .] 0]
         markers::delete_by_line $txt $line
