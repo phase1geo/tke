@@ -188,6 +188,8 @@ namespace eval gui {
     set widgets(info)        [ttk::frame .if]
     set widgets(info_label)  [ttk::label .if.l]
     set widgets(info_syntax) [syntax::create_menubutton .if.syn]
+    
+    $widgets(info_syntax) configure -state disabled
    
     pack .if.l   -side left  -padx 2 -pady 2
     pack .if.syn -side right -padx 2 -pady 2
@@ -2243,6 +2245,7 @@ namespace eval gui {
     grid columnconfigure $nb.tbf 0 -weight 1
     grid $nb.tbf.tb    -row 0 -column 0 -sticky news
     grid $nb.tbf.extra -row 0 -column 1 -sticky news    
+    grid remove $nb.tbf.tb
     grid remove $nb.tbf.extra
 
     bind $nb.tbf.extra <Button-1> "gui::show_tabs $nb"
@@ -2368,6 +2371,7 @@ namespace eval gui {
   # Inserts a new tab into the editor tab notebook.
   proc insert_tab {index title {initial_language ""}} {
   
+    variable widgets
     variable curr_id
     variable language
     variable pw_current
@@ -2379,6 +2383,10 @@ namespace eval gui {
     # Get the current notebook
     set tb [current_tabbar]
     set nb [winfo parent [winfo parent $tb]]
+    
+    # Make the tabbar visible and the syntax menubutton enabled
+    grid $tb
+    $widgets(info_syntax) configure -state normal
     
     # Create the tab frame
     set tab_frame [ttk::frame $nb.$id]
