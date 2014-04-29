@@ -32,7 +32,6 @@ namespace eval bindings {
       [list gui::add_file end $base_bindings_file -sidebar 0 -readonly 1]
     launcher::register [msgcat::mc "Menu Bindings: Use default menu bindings"] "bindings::copy_default"
     launcher::register [msgcat::mc "Menu Bindings: Reload menu bindings"] "bindings::load_file"
-
   
   }
   

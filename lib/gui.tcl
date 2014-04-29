@@ -20,10 +20,11 @@ namespace eval gui {
   variable last_opened      [list]
   variable fif_files        [list]
   
-  array set widgets   {}
-  array set language  {}
-  array set images    {}
-  array set tab_tip   {}
+  array set widgets    {}
+  array set language   {}
+  array set images     {}
+  array set tab_tip    {}
+  array set redo_count {}
 
   array set files_index {
     fname    0
@@ -89,14 +90,14 @@ namespace eval gui {
   proc set_title {} {
     
     # Get the current tab
-    if {[llength [[current_tabbar] tabs]] > 0} {
-      set tab_name [[current_tabbar] tab current -text]
+    if {([set tb [current_tabbar]] ne "") && ([llength [$tb tabs]] > 0)} {
+      set tab_name [$tb tab current -text]
     } else {
       set tab_name ""
     }
     
     wm title . "$tab_name \[[lindex [split [info hostname] .] 0]:[pwd]\]"
-    
+      
   }
 
   ######################################################################
@@ -640,6 +641,31 @@ namespace eval gui {
     # If we have more than one pane, go to it
     if {[llength [$widgets(nb_pw) panes]] > 1} {
       set_current_tab $tab_current([expr $pw_current ^ 1])
+    }
+    
+  }
+  
+  ######################################################################
+  # Returns the number of panes.
+  proc panes {} {
+    
+    variable widgets
+    
+    return [llength [$widgets(nb_pw) panes]]
+    
+  }
+  
+  ######################################################################
+  # Returns the number of tabs in the current pane.
+  proc tabs_in_pane {} {
+    
+    variable pw_current
+    variable tab_current
+    
+    if {[info exists tab_current($pw_current)]} {
+      return [llength [[lindex [pane_tb_index_from_tab $tab_current($pw_current)] 1] tabs]]
+    } else {
+      return 0
     }
     
   }
@@ -1469,12 +1495,32 @@ namespace eval gui {
   # Performs an undo of the current tab.
   proc undo {} {
   
+    variable redo_count
+    
     # Get the current textbox
     set txt [current_txt]
     
     # Perform the undo operation
     catch { $txt edit undo }
+    
+    # Increment the redo stack count
+    incr redo_count($txt)
   
+  }
+  
+  ######################################################################
+  # Returns true if there is something in the undo buffer.
+  proc undoable {} {
+    
+    variable files
+    variable files_index
+    
+    if {[set index [current_file]] != -1} {
+      return [lindex $files $index $files_index(modified)]
+    } else {
+      return 0
+    }
+    
   }
   
   ######################################################################
@@ -1486,6 +1532,22 @@ namespace eval gui {
     
     # Perform the redo operation
     catch { $txt edit redo }
+    
+  }
+  
+  ######################################################################
+  # Returns true if there is something in the redo buffer.
+  proc redoable {} {
+    
+    variable redo_count
+    
+    if {([set txt [current_txt]] ne "") && \
+        [info exists redo_count($txt)] && \
+        ($redo_count($txt) > 0)} {
+      return 1
+    } else {
+      return 0
+    }
     
   }
   
@@ -1513,6 +1575,19 @@ namespace eval gui {
   
   }
   
+  ######################################################################
+  # Returns true if text is currently selected in the current buffer.
+  proc selected {} {
+    
+    if {([set txt [current_txt]] ne "") && \
+        ([llength [$txt tag ranges sel]] > 0)} {
+      return 1
+    } else {
+      return 0
+    }
+    
+  }
+  
   ##############################################################################
   # This procedure performs a text selection paste operation.
   proc paste {} {
@@ -1538,6 +1613,14 @@ namespace eval gui {
   
     # Have the indent namespace format the clipboard contents
     indent::format_text [current_txt].t $insertpos "$insertpos+${cliplen}c"
+    
+  }
+  
+  ######################################################################
+  # Returns true if there is something in the paste buffer.
+  proc pastable {} {
+    
+    return [expr {[clipboard get] ne ""}]
     
   }
   
@@ -2264,14 +2347,15 @@ namespace eval gui {
     if {$preferences::prefs(View/OpenTabsAlphabetically) && ($index eq "end")} {
       
       set sorted_index 0
-      set tb           [current_tabbar]
       
-      foreach tab [$tb tabs] {
-        regexp {(\S+)$} [$tb tab $tab -text] -> curr_title
-        if {[string compare $title $curr_title] == -1} {
-          return $sorted_index
+      if {[set tb [current_tabbar]] ne ""} {
+        foreach tab [$tb tabs] {
+          regexp {(\S+)$} [$tb tab $tab -text] -> curr_title
+          if {[string compare $title $curr_title] == -1} {
+            return $sorted_index
+          }
+          incr sorted_index
         }
-        incr sorted_index
       }
       
     }
@@ -2467,6 +2551,7 @@ namespace eval gui {
   
     variable files
     variable files_index
+    variable redo_count
         
     if {[$txt edit modified]} {
       
@@ -2491,6 +2576,9 @@ namespace eval gui {
         }
         
       }
+      
+      # Clear the redo_count value
+      set redo_count($txt) 0
       
     }
   
@@ -2621,7 +2709,11 @@ namespace eval gui {
     variable widgets
     variable pw_current
 
-    return "[lindex [$widgets(nb_pw) panes] $pw_current].tbf.tb"
+    if {[llength [$widgets(nb_pw) panes]] == 0} {
+      return ""
+    } else {
+      return "[lindex [$widgets(nb_pw) panes] $pw_current].tbf.tb"
+    }
   
   }
 
@@ -2632,7 +2724,11 @@ namespace eval gui {
     variable pw_current
     variable tab_current
 
-    return "$tab_current($pw_current).tf.txt"
+    if {![info exists tab_current($pw_current)]} {
+      return ""
+    } else {
+      return "$tab_current($pw_current).tf.txt"
+    }
     
   }
   
@@ -2656,7 +2752,11 @@ namespace eval gui {
     variable tab_current
 
     # Returns the file index
-    return [get_file_index $tab_current($pw_current)]
+    if {![info exists tab_current($pw_current)]} {
+      return -1
+    } else {
+      return [get_file_index $tab_current($pw_current)]
+    }
     
   }
   

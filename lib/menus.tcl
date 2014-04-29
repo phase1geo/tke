@@ -28,11 +28,11 @@ namespace eval menus {
     add_file $mb.file
     
     # Add the edit menu
-    $mb add cascade -label [msgcat::mc "Edit"] -menu [menu $mb.edit -tearoff false]
+    $mb add cascade -label [msgcat::mc "Edit"] -menu [menu $mb.edit -tearoff false -postcommand "menus::edit_posting $mb.edit"]
     add_edit $mb.edit
     
     # Add the find menu
-    $mb add cascade -label [msgcat::mc "Find"] -menu [menu $mb.find -tearoff false]
+    $mb add cascade -label [msgcat::mc "Find"] -menu [menu $mb.find -tearoff false -postcommand "menus::find_posting $mb.find"]
     add_find $mb.find
 
     # Add the text menu
@@ -40,7 +40,7 @@ namespace eval menus {
     add_text $mb.text
     
     # Add the view menu
-    $mb add cascade -label [msgcat::mc "View"] -menu [menu $mb.view -tearoff false]
+    $mb add cascade -label [msgcat::mc "View"] -menu [menu $mb.view -tearoff false -postcommand "menus::view_posting $mb.view"]
     add_view $mb.view
       
     # Add the tools menu
@@ -194,37 +194,7 @@ namespace eval menus {
     $mb add command -label [msgcat::mc "Clear All"] -command "gui::clear_last_opened"
     
   }
-  
-  ######################################################################
-  # Called prior to the text menu posting.
-  proc text_posting {mb} {
-    
-    if {[multicursor::enabled [gui::current_txt]]} {
-      $mb entryconfigure [msgcat::mc "Align cursors"]      -state normal
-      $mb entryconfigure [msgcat::mc "Insert enumeration"] -state normal
-    } else {
-      $mb entryconfigure [msgcat::mc "Align cursors"]      -state disabled
-      $mb entryconfigure [msgcat::mc "Insert enumeration"] -state disabled
-    }
-    
-  }
-  
-  ######################################################################
-  # Called prior to the tools menu posting.
-  proc tools_posting {mb} {
-    
-    variable profile_report
-    
-    if {[::tke_development]} {
-      if {[file exists $profile_report]} {
-        $mb entryconfigure [msgcat::mc "Show*Profiling*"] -state normal
-      } else {
-        $mb entryconfigure [msgcat::mc "Show*Profiling*"] -state disabled
-      }
-    }
-    
-  }
-  
+
   ######################################################################
   # Implements the "create new file" command.
   proc new_command {} {
@@ -392,7 +362,7 @@ namespace eval menus {
     
     $mb add separator
     
-    $mb add cascade -label [msgcat::mc "Format Text"] -menu [menu $mb.formatPopup -tearoff 0]
+    $mb add cascade -label [msgcat::mc "Format Text"] -menu [menu $mb.formatPopup -tearoff 0 -postcommand "menus::edit_format_posting $mb.formatPopup"]
     
     # Create formatting menu
     $mb.formatPopup add command -label [msgcat::mc "Selected"] -command "gui::format selected"
@@ -406,6 +376,62 @@ namespace eval menus {
     # Apply the menu settings for the edit menu
     bindings::apply $mb
   
+  }
+  
+  ######################################################################
+  # Called just prior to posting the edit menu.  Sets the state of all
+  # menu items to match the proper state of the UI.
+  proc edit_posting {mb} {
+    
+    if {[gui::current_txt] eq ""} {
+      $mb entryconfigure [msgcat::mc "Undo"]             -state disabled
+      $mb entryconfigure [msgcat::mc "Redo"]             -state disabled
+      $mb entryconfigure [msgcat::mc "Cut"]              -state disabled
+      $mb entryconfigure [msgcat::mc "Copy"]             -state disabled
+      $mb entryconfigure [msgcat::mc "Paste"]            -state disabled
+      $mb entryconfigure [msgcat::mc "Paste and Format"] -state disabled
+      $mb entryconfigure [msgcat::mc "Format Text"]      -state disabled
+    } else {
+      if {[gui::undoable]} {
+        $mb entryconfigure [msgcat::mc "Undo"] -state normal
+      } else {
+        $mb entryconfigure [msgcat::mc "Undo"] -state disabled
+      }
+      if {[gui::redoable]} {
+        $mb entryconfigure [msgcat::mc "Redo"] -state normal
+      } else {
+        $mb entryconfigure [msgcat::mc "Redo"] -state disabled
+      }
+      if {[gui::selected]} {
+        $mb entryconfigure [msgcat::mc "Cut"]  -state normal
+        $mb entryconfigure [msgcat::mc "Copy"] -state normal
+      } else {
+        $mb entryconfigure [msgcat::mc "Cut"]  -state disabled
+        $mb entryconfigure [msgcat::mc "Copy"] -state disabled
+      }
+      if {[gui::pastable]} {
+        $mb entryconfigure [msgcat::mc "Paste"]            -state normal
+        $mb entryconfigure [msgcat::mc "Paste and Format"] -state normal
+      } else {
+        $mb entryconfigure [msgcat::mc "Paste"]            -state disabled
+        $mb entryconfigure [msgcat::mc "Paste and Format"] -state disabled
+      }
+      $mb entryconfigure [msgcat::mc "Format Text"] -state normal
+    }
+    
+  }
+  
+  ######################################################################
+  # Called just prior to posting the edit/format menu option.  Sets the
+  # menu option states to match the current UI state.
+  proc edit_format_posting {mb} {
+    
+    if {[gui::selected]} {
+      $mb entryconfigure [msgcat::mc "Selected"] -state normal
+    } else {
+      $mb entryconfigure [msgcat::mc "Selected"] -state disabled
+    }
+    
   }
   
   ######################################################################
@@ -445,6 +471,31 @@ namespace eval menus {
     
     # Apply the menu settings for the find menu
     bindings::apply $mb
+    
+  }
+  
+  ######################################################################
+  # Called just prior to posting the find menu.  Sets the state of the menu
+  # items to match the current UI state.
+  proc find_posting {mb} {
+    
+    if {[set txt [gui::current_txt]] eq ""} {
+      $mb entryconfigure [msgcat::mc "Find"]                       -state disabled
+      $mb entryconfigure [msgcat::mc "Find and Replace"]           -state disabled
+      $mb entryconfigure [msgcat::mc "Select next occurrence"]     -state disabled
+      $mb entryconfigure [msgcat::mc "Select previous occurrence"] -state disabled
+      $mb entryconfigure [msgcat::mc "Append next occurrence"]     -state disabled
+      $mb entryconfigure [msgcat::mc "Select all occurrences"]     -state disabled
+      $mb entryconfigure [msgcat::mc "Find matching pair"]         -state disabled
+    } else {
+      $mb entryconfigure [msgcat::mc "Find"]                       -state normal
+      $mb entryconfigure [msgcat::mc "Find and Replace"]           -state normal
+      $mb entryconfigure [msgcat::mc "Select next occurrence"]     -state normal
+      $mb entryconfigure [msgcat::mc "Select previous occurrence"] -state normal
+      $mb entryconfigure [msgcat::mc "Append next occurrence"]     -state normal
+      $mb entryconfigure [msgcat::mc "Select all occurrences"]     -state normal
+      $mb entryconfigure [msgcat::mc "Find matching pair"]         -state normal
+    }
     
   }
   
@@ -650,6 +701,33 @@ namespace eval menus {
   }
   
   ######################################################################
+  # Called prior to the text menu posting.
+  proc text_posting {mb} {
+    
+    if {[set txt [gui::current_txt]] eq ""} {
+      $mb entryconfigure [msgcat::mc "Comment"]            -state disabled
+      $mb entryconfigure [msgcat::mc "Uncomment"]          -state disabled
+      $mb entryconfigure [msgcat::mc "Indent"]             -state disabled
+      $mb entryconfigure [msgcat::mc "Unindent"]           -state disabled
+      $mb entryconfigure [msgcat::mc "Align cursors"]      -state disabled
+      $mb entryconfigure [msgcat::mc "Insert enumeration"] -state disabled
+    } else {
+      $mb entryconfigure [msgcat::mc "Comment"]            -state normal
+      $mb entryconfigure [msgcat::mc "Uncomment"]          -state normal
+      $mb entryconfigure [msgcat::mc "Indent"]             -state normal
+      $mb entryconfigure [msgcat::mc "Unindent"]           -state normal
+      if {[multicursor::enabled $txt]} {
+        $mb entryconfigure [msgcat::mc "Align cursors"]      -state normal
+        $mb entryconfigure [msgcat::mc "Insert enumeration"] -state normal
+      } else {
+        $mb entryconfigure [msgcat::mc "Align cursors"]      -state disabled
+        $mb entryconfigure [msgcat::mc "Insert enumeration"] -state disabled
+      }
+    }
+    
+  }
+  
+  ######################################################################
   # Adds the view menu commands.
   proc add_view {mb} {
   
@@ -669,16 +747,77 @@ namespace eval menus {
     
     $mb add separator
     
-    $mb add command -label [msgcat::mc "Sort Tabs"] -underline 5 -command "gui::sort_tabs"
-    launcher::register [msgcat::mc "Menu: Sort tabs"] "gui::sort_tabs"
+    $mb add cascade -label [msgcat::mc "Tabs"] -underline 0 -menu [menu $mb.tabPopup -tearoff 0 -postcommand "menus::view_tabs_posting $mb.tabPopup"]
     
     $mb add separator
-    
+
     $mb add cascade -label [msgcat::mc "Set Syntax"] -underline 9 -menu [syntax::create_menu $mb.syntaxMenu]
+    
+    # Setup the tab popup menu
+    $mb.tabPopup add command -label [msgcat::mc "Goto Next Tab"] -underline 5 -command "gui::next_tab"
+    launcher::register [msgcat::mc "Menu: Goto next tab"] "gui::next_tab"
+    
+    $mb.tabPopup add command -label [msgcat::mc "Goto Previous Tab"] -underline 5 -command "gui::previous_tab"
+    launcher::register [msgcat::mc "Menu: Goto previous tab"] "gui::previous_tab"
+
+    $mb.tabPopup add command -label [msgcat::mc "Goto Last Tab"] -underline 5 -command "gui::last_tab"
+    launcher::register [msgcat::mc "Menu: Goto last tab"] "gui::last_tab"
+    
+    $mb.tabPopup add command -label [msgcat::mc "Goto Other Pane"] -underline 11 -command "gui::next_pane"
+    launcher::register [msgcat::mc "Menu: Goto other pane"] "gui::next_pane"
+    
+    $mb.tabPopup add separator
+    
+    $mb.tabPopup add command -label [msgcat::mc "Sort Tabs"] -underline 0 -command "gui::sort_tabs"
+    launcher::register [msgcat::mc "Menu: Sort tabs"] "gui::sort_tabs"
     
     # Apply the menu settings for the current menu
     bindings::apply $mb
   
+  }
+  
+  ######################################################################
+  # Called just prior to posting the view menu.  Sets the state of the
+  # menu options to match the current UI state.
+  proc view_posting {mb} {
+    
+    if {([gui::tabs_in_pane] < 2) && ([gui::panes] < 2)} {
+      $mb entryconfigure [msgcat::mc "Tabs"] -state disabled
+    } else {
+      $mb entryconfigure [msgcat::mc "Tabs"] -state normal
+    }
+
+    if {[gui::current_txt] eq ""} {
+      $mb entryconfigure [msgcat::mc "Set Syntax"] -state disabled
+    } else {
+      $mb entryconfigure [msgcat::mc "Set Syntax"] -state normal
+    }
+    
+  }
+  
+  ######################################################################
+  # Called just prior to posting the view/tabs menu.  Sets the state of
+  # the menu options to match the current UI state.
+  proc view_tabs_posting {mb} {
+    
+    if {[gui::tabs_in_pane] < 2} {
+      $mb entryconfigure [msgcat::mc "Goto Next Tab"]     -state disabled
+      $mb entryconfigure [msgcat::mc "Goto Previous Tab"] -state disabled
+      $mb entryconfigure [msgcat::mc "Goto Last Tab"]     -state disabled
+      $mb entryconfigure [msgcat::mc "Sort Tabs"]         -state disabled
+    } else {
+      $mb entryconfigure [msgcat::mc "Goto Next Tab"]     -state normal
+      $mb entryconfigure [msgcat::mc "Goto Previous Tab"] -state normal
+      $mb entryconfigure [msgcat::mc "Goto Last Tab"]     -state normal
+      $mb entryconfigure [msgcat::mc "Sort Tabs"]         -state normal
+    }
+    
+    if {[gui::panes] < 2} {
+      $mb entryconfigure [msgcat::mc "Goto Other Pane"] -state disabled
+    } else {
+      $mb entryconfigure [msgcat::mc "Goto Other Pane"] -state normal
+    }
+    
   }
 
   ######################################################################
@@ -729,6 +868,22 @@ namespace eval menus {
     # Apply the menu bindings for the tools menu
     bindings::apply $mb
   
+  }
+  
+  ######################################################################
+  # Called prior to the tools menu posting.
+  proc tools_posting {mb} {
+    
+    variable profile_report
+    
+    if {[::tke_development]} {
+      if {[file exists $profile_report]} {
+        $mb entryconfigure [msgcat::mc "Show*Profiling*"] -state normal
+      } else {
+        $mb entryconfigure [msgcat::mc "Show*Profiling*"] -state disabled
+      }
+    }
+    
   }
   
   ######################################################################
