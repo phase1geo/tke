@@ -116,6 +116,27 @@ namespace eval indent {
     }
     
   }
+  
+  ######################################################################
+  # Returns the indentation (in number of spaces) of the previous line
+  # of text.
+  proc get_previous_indent {txt index} {
+    
+    if {!$preferences::prefs(Editor/EnableAutoIndent) || \
+        [vim::in_vim_mode $txt] || \
+        ([lindex [split $index .] 0] == 1)} {
+      return 0
+    }
+    
+    set line [$txt get "$index-1l linestart" "$index-1l"]
+    
+    if {[regexp {^( *)(.*)} $line -> whitespace rest]} {
+      return [string length $whitespace]
+    } else {
+      return 0
+    }
+    
+  }
  
   ######################################################################
   # This procedure is called to get the indentation level of the given
