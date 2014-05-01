@@ -54,13 +54,12 @@ namespace eval indent {
     set word [$txt get "$index-1c wordstart" "$index-1c wordend"]
  
     # If the current word matches an unindent pattern and there is only
-    # whitespace prior to the unindent word, replace the 
+    # whitespace prior to the unindent word, replace the whitespace with the
+    # appropriate indentation space.
     if {[lsearch -exact $indent_exprs($txt,unindent) $word] != -1} {
       set line [$txt get "$index linestart" $wordStart]
       if {($line ne "") && ([string trim $line] eq "")} {
-        set indent_level [get_indent_level $txt 1.0 $index]
-        $txt replace "$index linestart" $wordStart \
-          [string repeat " " [expr $indent_level * $preferences::prefs(Editor/IndentSpaces)]]
+        $txt replace "$index linestart" $wordStart [get_indent_space $txt 1.0 $index]
       }
     }
     
@@ -82,7 +81,13 @@ namespace eval indent {
     }
     
     # Get the current indentation level
-    set indent_level [get_indent_level $txt 1.0 $index]
+    set indent_space [get_indent_space $txt 1.0 $index]
+    
+    # Check to see if the previous space is greater than the indent space (if so use it instead)
+    set prev_space [get_previous_indent_space $txt $index]
+    if {[string length $prev_space] > [string length $indent_space]} {
+      set indent_space $prev_space
+    }
     
     # Get the current line
     set line [$txt get $index "$index lineend"]
@@ -94,7 +99,7 @@ namespace eval indent {
       # If the first non-whitespace characters match an unindent pattern,
       # lessen the indentation by one
       if {[regexp [subst {^[join $indent_exprs($txt,unindent) |]}] $rest]} {
-        incr indent_level -1
+        set indent_space [string range $indent_space $preferences::prefs(Editor/IndentSpaces) end]
       }
       
       # See if we are deleting a multicursor
@@ -111,8 +116,8 @@ namespace eval indent {
     }
  
     # Insert leading whitespace to match current indentation level
-    if {$indent_level > 0} {
-      $txt insert $index [string repeat " " [expr $indent_level * $preferences::prefs(Editor/IndentSpaces)]]
+    if {$indent_space ne ""} {
+      $txt insert $index $indent_space
     }
     
   }
@@ -120,7 +125,7 @@ namespace eval indent {
   ######################################################################
   # Returns the indentation (in number of spaces) of the previous line
   # of text.
-  proc get_previous_indent {txt index} {
+  proc get_previous_indent_space {txt index} {
     
     if {!$preferences::prefs(Editor/EnableAutoIndent) || \
         [vim::in_vim_mode $txt] || \
@@ -128,12 +133,16 @@ namespace eval indent {
       return 0
     }
     
-    set line [$txt get "$index-1l linestart" "$index-1l"]
+    set line_pos [expr [lindex [split [$txt index $index] .] 0] - 1]
     
-    if {[regexp {^( *)(.*)} $line -> whitespace rest]} {
-      return [string length $whitespace]
+    while {($line_pos > 0) && ([string trim [set line [$txt get "$line_pos.0" "$line_pos.end"]]] eq "")} {
+      incr line_pos -1
+    }
+    
+    if {($line_pos > 0) && [regexp {^( *)(.*)} $line -> whitespace rest]} {
+      return $whitespace
     } else {
-      return 0
+      return ""
     }
     
   }
@@ -141,7 +150,7 @@ namespace eval indent {
   ######################################################################
   # This procedure is called to get the indentation level of the given
   # index.
-  proc get_indent_level {txt start end} {
+  proc get_indent_space {txt start end} {
  
     variable indent_exprs
 
@@ -153,7 +162,7 @@ namespace eval indent {
       return 0
     }
  
-    # Initialize the indent_level
+    # Initialize the indent_space
     set indent_level 0
   
     # Create the regular expression
@@ -173,7 +182,7 @@ namespace eval indent {
       incr i
     }
  
-    return $indent_level
+    return [string repeat " " [expr $indent_level * $preferences::prefs(Editor/IndentSpaces)]]
     
   }
  
@@ -198,9 +207,9 @@ namespace eval indent {
  
     # Update the indentation level at the start of the first text line
     if {[$txt compare $startpos == 1.0]} {
-      set indent_level 0
+      set indent_space ""
     } else {
-      set indent_level [get_indent_level $txt 1.0 "$startpos-1l lineend"]
+      set indent_space [get_indent_space $txt 1.0 "$startpos-1l lineend"]
     }
     
     # Create the regular expression containing the indent and unindent words
@@ -218,13 +227,13 @@ namespace eval indent {
           $txt delete $currpos "$currpos+[string length $whitespace]c"
         }
         set unindent [expr {[regexp "^$uni_re" $rest] ? 1 : 0}]
-        if {$indent_level > 0} {
-          $txt insert $currpos [string repeat " " [expr ($indent_level - $unindent) * $preferences::prefs(Editor/IndentSpaces)]]
+        if {$indent_space ne ""} {
+          $txt insert $currpos [string range $indent_space $unindent end]
         }
       }
  
       # Update the indentation level based on the current line
-      incr indent_level [get_indent_level $txt $currpos "$currpos lineend"]
+      append indent_space [get_indent_space $txt $currpos "$currpos lineend"]
       
       # Increment the starting position to the next line
       set currpos [$txt index "$currpos+1l linestart"]
