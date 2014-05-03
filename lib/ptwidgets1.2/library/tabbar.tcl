@@ -11,6 +11,7 @@ namespace eval tabbar {
   array set data {}
   
   array set widget_options {
+    -anchor                 {anchor                 Anchor}
     -background             {background             Background}
     -bg                     -background
     -bordercolor            {borderColor            Color}
@@ -28,6 +29,7 @@ namespace eval tabbar {
     -height                 {height                 Height}
     -history                {history                History}
     -inactivebackground     {inactiveBackground     Background}
+    -margin                 {margin                 Margin}
     -maxtabwidth            {maxTabWidth            TabWidth}
     -mintabwidth            {minTabWidth            TabWidth}
     -padx                   {padX                   Pad}
@@ -83,6 +85,7 @@ namespace eval tabbar {
     if {[array size data] == 0} {
       
       # Initialize default options
+      option add *Tabbar.anchor              center    widgetDefault
       option add *Tabbar.background          grey90    widgetDefault
       option add *Tabbar.borderColor         grey50    widgetDefault
       option add *Tabbar.close               "right"   widgetDefault
@@ -94,6 +97,7 @@ namespace eval tabbar {
       option add *Tabbar.inactiveBackground  grey70    widgetDefault
       option add *Tabbar.height              25        widgetDefault
       option add *Tabbar.history             1         widgetDefault
+      option add *Tabbar.margin              0         widgetDefault
       option add *Tabbar.maxTabWidth         200       widgetDefault
       option add *Tabbar.minTabWidth         100       widgetDefault
       option add *Tabbar.relief              "flat"    widgetDefault
@@ -603,7 +607,7 @@ namespace eval tabbar {
     array set opts [array get tab_options]
     array set opts $args
     
-    set x0 [expr $index * $data($w,tab_width)]
+    set x0 [expr $index * ($data($w,tab_width) + $data($w,option,-margin))]
     set y0 [expr $data($w,option,-height) / 2]
     set x1 [expr $x0 + $data($w,tab_width)]
     
@@ -747,7 +751,7 @@ namespace eval tabbar {
     array set orig_opts $orig_opts_list
     
     # If any options have changed that will require a complete redraw, do it now
-    foreach opt [list -close -closeimage -closeshow -font -state -padx -pady -height] {
+    foreach opt [list -close -closeimage -closeshow -font -state -padx -pady -height -margin -anchor] {
       if {$orig_opts($w,option,$opt) ne $data($w,option,$opt)} {
         redraw_all_tabs $w
         return
@@ -759,12 +763,6 @@ namespace eval tabbar {
         $w.c itemconfigure b[lindex $page 1 0] -outline $data($w,option,-bordercolor)
       }
     }
-    
-#    if {$orig_opts(-borderwidth) ne $opts(-borderwidth)} {
-#      foreach page $data($w,pages) {
-#        $w.c itemconfigure b[lindex $page 1 0]
-#      }
-#    }
     
     if {$orig_opts($w,option,-foreground) ne $data($w,option,-foreground)} {
       foreach page $data($w,pages) {
