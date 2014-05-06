@@ -7,6 +7,8 @@
 
 namespace eval markers {
   
+  variable curr_marker 0
+  
   array set markers {}
   
   ######################################################################
@@ -15,6 +17,7 @@ namespace eval markers {
   proc add {txt tag {name ""}} {
     
     variable markers
+    variable curr_marker
     
     # If the name wasn't specified, ask the user
     if {($name eq "") && ![gui::user_response_get [msgcat::mc "Marker name:"] name]} {
@@ -22,7 +25,11 @@ namespace eval markers {
     }
     
     # Add the marker
-    set markers($txt,$name) $tag
+    if {$name eq ""} {
+      set markers($txt,Marker-[incr curr_marker]) $tag
+    } else {
+      set markers($txt,$name) $tag
+    }
     
     return 1
   

@@ -1604,17 +1604,21 @@ namespace eval gui {
   # to match the code that it is being pasted into.
   proc paste_and_format {} {
   
-    # Get the length of the clipboard text
-    set cliplen [string length [clipboard get]]
+    if {![catch {clipboard get}]} {
+      
+      # Get the length of the clipboard text
+      set cliplen [string length [clipboard get]]
  
-    # Get the position of the insertion cursor
-    set insertpos [[current_txt] index insert]
+      # Get the position of the insertion cursor
+      set insertpos [[current_txt] index insert]
  
-    # Perform the paste operation
-    paste
+      # Perform the paste operation
+      paste
   
-    # Have the indent namespace format the clipboard contents
-    indent::format_text [current_txt].t $insertpos "$insertpos+${cliplen}c"
+      # Have the indent namespace format the clipboard contents
+      indent::format_text [current_txt].t $insertpos "$insertpos+${cliplen}c"
+      
+    }
     
   }
   
@@ -1622,7 +1626,7 @@ namespace eval gui {
   # Returns true if there is something in the paste buffer.
   proc pastable {} {
     
-    return [expr {[clipboard get] ne ""}]
+    return [expr {![catch {clipboard get} contents] && ($contents ne "")}]
     
   }
   
@@ -2985,7 +2989,7 @@ namespace eval gui {
     
     if {$type eq "marked"} {
       if {![markers::add $win $tag]} {
-        ctext::linemapClearMark $win $tag
+        ctext::linemapClearMark $win [lindex [split [$win index $tag.first] .] 0]
       }
     } else {
       markers::delete_by_tag $win $tag

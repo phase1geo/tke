@@ -461,6 +461,10 @@ namespace eval menus {
     
     $mb add separator
     
+    $mb add cascade -label [msgcat::mc "Find marker"] -underline 5 -menu [menu $mb.markerPopup -tearoff 0 -postcommand "menus::find_marker_posting $mb.markerPopup"]
+    
+    $mb add separator
+    
     $mb add command -label [msgcat::mc "Find matching pair"] -underline 5 -command "gui::show_match_pair"
     launcher::register [msgcat::mc "Menu: Find matching character pair"] "gui::show_match_pair"
     
@@ -486,6 +490,7 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Select previous occurrence"] -state disabled
       $mb entryconfigure [msgcat::mc "Append next occurrence"]     -state disabled
       $mb entryconfigure [msgcat::mc "Select all occurrences"]     -state disabled
+      $mb entryconfigure [msgcat::mc "Find marker"]                -state disabled
       $mb entryconfigure [msgcat::mc "Find matching pair"]         -state disabled
     } else {
       $mb entryconfigure [msgcat::mc "Find"]                       -state normal
@@ -495,6 +500,24 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Append next occurrence"]     -state normal
       $mb entryconfigure [msgcat::mc "Select all occurrences"]     -state normal
       $mb entryconfigure [msgcat::mc "Find matching pair"]         -state normal
+      if {[llength [gui::get_marker_list]] > 0} {
+        $mb entryconfigure [msgcat::mc "Find marker"] -state normal
+      } else {
+        $mb entryconfigure [msgcat::mc "Find marker"] -state disabled
+      }
+    }
+    
+  }
+  
+  ######################################################################
+  # Called when the marker menu is opened.
+  proc find_marker_posting {mb} {
+    
+    # Clear the menu
+    $mb delete 0 end
+    
+    foreach {marker pos} [gui::get_marker_list] {
+      $mb add command -label $marker -command "gui::jump_to $pos"
     }
     
   }

@@ -1209,7 +1209,7 @@ proc ctext::linemapToggleMark {win y} {
 
 proc ctext::linemapSetMark {win line} {
   
-  if {[lsearch -inline -glob [$win.t tag names "$line linestart"] lmark*] eq ""} {
+  if {[lsearch -inline -glob [$win.t tag names $line.0] lmark*] eq ""} {
     ctext::getAr $win config configAr
     ctext::getAr $win linemap linemapAr
     set lmark "lmark[incr linemapAr(id)]"
@@ -1223,7 +1223,7 @@ proc ctext::linemapSetMark {win line} {
 
 proc ctext::linemapClearMark {win line} {
   
-  if {[set lmark [lsearch -inline -glob [$win.t tag names "$line linestart"] lmark*]] ne ""} {
+  if {[set lmark [lsearch -inline -glob [$win.t tag names $line.0] lmark*]] ne ""} {
     $win.t tag delete $lmark
     $win.l tag remove lmark $line.0 $line.end 
     ctext::linemapUpdate $win
