@@ -105,8 +105,8 @@ proc ctext {win args} {
   grid rowconfigure $win 0 -weight 100
   grid columnconfigure $win 1 -weight 100
   
-  bind $win.t <Configure> [list ctext::linemapUpdate $win]
-  bind $win.l <ButtonPress-1> [list ctext::linemapToggleMark $win %y]
+  bind $win.t <Configure>         [list ctext::linemapUpdate $win]
+  bind $win.l <ButtonPress-1>     [list ctext::linemapToggleMark $win %y]
   bind $win.t <KeyRelease-Return> [list ctext::linemapUpdate $win]
   rename $win __ctextJunk$win
   rename $win.t $win._t
@@ -312,7 +312,7 @@ proc ctext::setCommentRE {win} {
 
 proc ctext::inCommentString {win index} {
   set names [$win tag names $index]
-  return [expr ([lsearch $names "_cComment"] != -1) || ([lsearch $names "_lComment"] != -1) || ([lsearch $names "_string"] != -1)]
+  return [expr [lsearch -regexp $names {_([cl]Comment|[sdt]String)}] != -1]
 } 
 
 proc ctext::commentsAfterIdle {win start end block} {
@@ -785,9 +785,13 @@ proc ctext::setStringPatterns {win patterns {color "green"}} {
   ctext::getAr $win config configAr
   set configAr(string_patterns) $patterns
   if {[llength $patterns] > 0} {
-    $win tag configure _string -foreground $color
+    $win tag configure _sString -foreground $color
+    $win tag configure _dString -foreground $color
+    $win tag configure _tString -foreground $color
   } else {
-    catch { $win tag delete _string }
+    catch { $win tag delete _sString }
+    catch { $win tag delete _dString }
+    catch { $win tag delete _tString }
   }
   setCommentRE $win
 }
@@ -806,99 +810,18 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
 
   if {$blocks && [expr ($strings + $block_comments + $line_comments) > 0]} {
     
-    set commentRE      $configAr(comment_re)
-    set double_index   ""
-    set single_index   ""
-    set lcomment_index ""
-    set bcomment_index ""
-    set tripdoub_index ""
-     
-    $win tag remove _cComment 1.0 end
-    $win tag remove _lComment 1.0 end
-    $win tag remove _string   1.0 end
-
-    set i 0
-    foreach index [$win search -all -overlap -count lengths -regexp {*}$configAr(re_opts) -- $commentRE 1.0 end] {
-      
-      set endIndex [$win index "$index + [lindex $lengths $i] chars"]
-      set str      [$win get $index $endIndex]
-      
-      # If the line comment index is set and the index is greater that the end of its line,
-      # clear the line comment.
-      if {($lcomment_index ne "") && [$win compare $index > "$lcomment_index lineend"]} {
-        set lcomment_index ""
-      }
-      
-      # Found a double-quote character
-      if {($str == "\"") && ($lcomment_index eq "") && ($bcomment_index eq "") && \
-          ($single_index eq "") && ($tripdoub_index eq "")} {
-        if {$double_index ne ""} {
-          $win tag remove _string "$index+1c" end
-          set double_index ""
-        } else {
-          $win tag add _string $index end
-          $win tag raise _string
-          set double_index $index
-        }
-        
-      # Found a single-quote character
-      } elseif {($str == "'") && ($lcomment_index eq "") && ($bcomment_index eq "") && \
-                ($double_index eq "") && ($tripdoub_index eq "")} {
-        if {$single_index ne ""} {
-          $win tag remove _string "$index+1c" end
-          set single_index ""
-        } else {
-          $win tag add _string $index end
-          $win tag raise _string
-          set single_index $index
-        }
-        
-      # Found a single line comment
-      } elseif {($configAr(lcomment_re) ne "") && [regexp {*}$configAr(re_opts) $configAr(lcomment_re) $str]} {
-        if {($bcomment_index eq "") && ($double_index eq "") && \
-            ($single_index eq "") && ($tripdoub_index eq "")} {
-          $win tag add _lComment $index "$index lineend"
-          $win tag raise _lComment
-          set lcomment_index $index
-        } else {
-          $win tag remove _lComment $index "$index lineend"
-        }
-        
-      # Found a starting block comment string
-      } elseif {($configAr(bcomment_re) ne "") && [regexp {*}$configAr(re_opts) $configAr(bcomment_re) $str] && \
-                ($lcomment_index eq "") && ($double_index eq "") && ($single_index eq "") && \
-                ($tripdoub_index eq "")} {
-        if {$bcomment_index eq ""} {
-          $win tag add _cComment $index end
-          $win tag raise _cComment
-          set bcomment_index $index
-        }
-        
-      # Found an ending block comment string
-      } elseif {($configAr(ecomment_re) ne "") && [regexp {*}$configAr(re_opts) $configAr(ecomment_re) $str] && \
-                ($lcomment_index eq "") && ($double_index eq "") && ($single_index eq "") && \
-                ($tripdoub_index eq "")} {
-        if {$bcomment_index ne ""} {
-          $win tag remove _cComment "$index+[string length $str]c" end
-          set bcomment_index ""
-        }
-
-      # Found a triple-double-quote character string
-      } elseif {($str == "\"\"\"") && ($lcomment_index eq "") && ($bcomment_index eq "") && \
-                ($single_index eq "") && ($double_index eq "")} {
-        if {$tripdoub_index ne ""} {
-          $win tag remove _string "$index+3c" end
-          set tripdoub_index ""
-        } else {
-          $win tag add _string $index end
-          $win tag raise _string
-          set tripdoub_index $index
-        }
-      }
-      
-      incr i
-      
-    }
+    set dStr ""
+    set sStr ""
+    set tStr ""
+    set lCom ""
+    set cCom ""
+    
+    # Update the indices based on previous text
+    # commentsGetPrevious $win $start cCom lCom sStr dStr tStr
+    
+    # Parse the new text between start and end
+    # commentsParse $win $start end cCom lCom sStr dStr tStr
+    commentsParse $win 1.0 end cCom lCom sStr dStr tStr
     
   # Otherwise, look for just the single line comments
   } elseif {$line_comments > 0} {
@@ -914,6 +837,125 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
       incr i
     }
     
+  }
+
+}
+
+proc ctext::commentsGetPrevious {win index pcCom plCom psStr pdStr ptStr} {
+
+  upvar $pcCom cCom
+  upvar $plCom lCom
+  upvar $psStr sStr
+  upvar $pdStr dStr
+  upvar $ptStr tStr
+  
+  # Figure out if we are in a comment or string currently
+  if {[set prev_index [$win index "$index-1c"]] ne [$win index $index]} {
+    foreach tag [$win tag names $prev_index] {
+      switch $tag {
+        "_cComment" { lassign [$win tag prevrange $tag $index] cCom }
+        "_lComment" { lassign [$win tag prevrange $tag $index] lCom }
+        "_sString"  { lassign [$win tag prevrange $tag $index] sStr }
+        "_dString"  { lassign [$win tag prevrange $tag $index] dStr }
+        "_tString"  { lassign [$win tag prevrange $tag $index] tStr }
+      }
+    }
+  }
+
+}
+
+proc ctext::commentsParse {win start end pcCom plCom psStr pdStr ptStr} {
+
+  upvar $pcCom cCom
+  upvar $plCom lCom
+  upvar $psStr sStr
+  upvar $pdStr dStr
+  upvar $ptStr tStr
+
+  ctext::getAr $win config configAr
+  
+  # Delete the tags
+  $win tag remove _lComment $start $end
+  $win tag remove _cComment $start $end
+  $win tag remove _sString  $start $end
+  $win tag remove _dString  $start $end
+  $win tag remove _tString  $start $end
+  
+  set i 0
+  foreach index [$win search -all -overlap -count lengths -regexp {*}$configAr(re_opts) -- $configAr(comment_re) $start $end] {
+      
+    set endIndex [$win index "$index + [lindex $lengths $i] chars"]
+    set str      [$win get $index $endIndex]
+      
+    # If the line comment index is set and the index is greater that the end of its line,
+    # clear the line comment.
+    if {($lCom ne "") && [$win compare $index > "$lCom lineend"]} {
+      set lCom ""
+    }
+      
+    # Found a double-quote character
+    if {($str == "\"") && ($lCom eq "") && ($cCom eq "") && ($sStr eq "") && ($tStr eq "")} {
+      if {$dStr ne ""} {
+        $win tag remove _dString "$index+1c" end
+        set dStr ""
+      } else {
+        $win tag add _dString $index end
+        $win tag raise _dString
+        set dStr $index
+      }
+        
+    # Found a single-quote character
+    } elseif {($str == "'") && ($lCom eq "") && ($cCom eq "") && ($dStr eq "") && ($tStr eq "")} {
+      if {$sStr ne ""} {
+        $win tag remove _sString "$index+1c" end
+        set sStr ""
+      } else {
+        $win tag add _sString $index end
+        $win tag raise _sString
+        set sStr $index
+      }
+        
+    # Found a single line comment
+    } elseif {($configAr(lcomment_re) ne "") && [regexp {*}$configAr(re_opts) $configAr(lcomment_re) $str]} {
+      if {($cCom eq "") && ($dStr eq "") && ($sStr eq "") && ($tStr eq "")} {
+        $win tag add _lComment $index "$index lineend"
+        $win tag raise _lComment
+        set lCom $index
+      } else {
+        $win tag remove _lComment $index "$index lineend"
+      }
+        
+    # Found a starting block comment string
+    } elseif {($configAr(bcomment_re) ne "") && [regexp {*}$configAr(re_opts) $configAr(bcomment_re) $str] && \
+              ($lCom eq "") && ($dStr eq "") && ($sStr eq "") && ($tStr eq "")} {
+      if {$cCom eq ""} {
+        $win tag add _cComment $index end
+        $win tag raise _cComment
+        set cCom $index
+      }
+        
+    # Found an ending block comment string
+    } elseif {($configAr(ecomment_re) ne "") && [regexp {*}$configAr(re_opts) $configAr(ecomment_re) $str] && \
+              ($lCom eq "") && ($dStr eq "") && ($sStr eq "") && ($tStr eq "")} {
+      if {$cCom ne ""} {
+        $win tag remove _cComment "$index+[string length $str]c" end
+        set cCom ""
+      }
+
+    # Found a triple-double-quote character string
+    } elseif {($str == "\"\"\"") && ($lCom eq "") && ($cCom eq "") && ($sStr eq "") && ($dStr eq "")} {
+      if {$tStr ne ""} {
+        $win tag remove _tString "$index+3c" end
+        set tStr ""
+      } else {
+        $win tag add _tString $index end
+        $win tag raise _tString
+        set tStr $index
+      }
+    }
+      
+    incr i
+      
   }
 
 }
