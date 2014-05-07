@@ -20,11 +20,12 @@ namespace eval gui {
   variable last_opened      [list]
   variable fif_files        [list]
   
-  array set widgets    {}
-  array set language   {}
-  array set images     {}
-  array set tab_tip    {}
-  array set redo_count {}
+  array set widgets         {}
+  array set language        {}
+  array set images          {}
+  array set tab_tip         {}
+  array set redo_count      {}
+  array set line_sel_anchor {}
 
   array set files_index {
     fname    0
@@ -2405,18 +2406,22 @@ namespace eval gui {
     ttk::scrollbar $tab_frame.tf.vb -orient vertical   -command "$tab_frame.tf.txt yview"
     ttk::scrollbar $tab_frame.tf.hb -orient horizontal -command "$tab_frame.tf.txt xview"
     
-    bind Ctext               <<Modified>>    "gui::text_changed %W"
-    bind $tab_frame.tf.txt.t <FocusIn>       "gui::set_current_tab_from_txt %W"
-    bind $tab_frame.tf.txt   <<Selection>>   "gui::selection_changed %W"
-    bind $tab_frame.tf.txt   <ButtonPress-1> "after idle [list gui::update_position $tab_frame]"
-    bind $tab_frame.tf.txt   <B1-Motion>     "gui::update_position $tab_frame"
-    bind $tab_frame.tf.txt   <KeyRelease>    "gui::update_position $tab_frame"
-    bind $tab_frame.tf.txt   <Motion>        "gui::clear_tab_tooltip $tb"
-    bind Text                <<Cut>>         ""
-    bind Text                <<Copy>>        ""
-    bind Text                <<Paste>>       ""
-    bind Text                <Control-d>     ""
-    bind Text                <Control-i>     ""
+    bind Ctext               <<Modified>>          "gui::text_changed %W"
+    bind $tab_frame.tf.txt.t <FocusIn>             "gui::set_current_tab_from_txt %W"
+    bind $tab_frame.tf.txt.l <Button-3>            [bind $tab_frame.tf.txt.l <Button-1>]
+    bind $tab_frame.tf.txt.l <ButtonPress-1>       "gui::select_line %W %y"
+    bind $tab_frame.tf.txt.l <B1-Motion>           "gui::select_lines %W %y"
+    bind $tab_frame.tf.txt.l <Shift-ButtonPress-1> "gui::select_lines %W %y"
+    bind $tab_frame.tf.txt   <<Selection>>         "gui::selection_changed %W"
+    bind $tab_frame.tf.txt   <ButtonPress-1>       "after idle [list gui::update_position $tab_frame]"
+    bind $tab_frame.tf.txt   <B1-Motion>           "gui::update_position $tab_frame"
+    bind $tab_frame.tf.txt   <KeyRelease>          "gui::update_position $tab_frame"
+    bind $tab_frame.tf.txt   <Motion>              "gui::clear_tab_tooltip $tb"
+    bind Text                <<Cut>>               ""
+    bind Text                <<Copy>>              ""
+    bind Text                <<Paste>>             ""
+    bind Text                <Control-d>           ""
+    bind Text                <Control-i>           ""
     
     # Move the all bindtag ahead of the Text bindtag
     set text_index [lsearch [bindtags $tab_frame.tf.txt.t] Text]
@@ -2610,6 +2615,51 @@ namespace eval gui {
       $sentry delete 0 end
       $sentry insert end [$txt get {*}$range]
       
+    }
+    
+  }
+  
+  ######################################################################
+  # Selects the given line in the text widget.
+  proc select_line {w y} {
+  
+    variable line_sel_anchor
+    
+    # Get the current line from the line sidebar
+    set index [$w index @0,$y]
+    
+    # Select the corresponding line in the text widget
+    [winfo parent $w] tag remove sel 1.0 end
+    [winfo parent $w] tag add sel "$index linestart" "$index lineend"
+    
+    # Save the selected line to the anchor
+    set line_sel_anchor($w) $index
+  
+  }
+  
+  ######################################################################
+  # Selects all lines between the anchored line and the current line,
+  # inclusive.
+  proc select_lines {w y} {
+  
+    variable line_sel_anchor
+  
+    # Get the current line from the line sidebar
+    set index [$w index @0,$y]
+      
+    # Remove the current selection
+    [winfo parent $w] tag remove sel 1.0 end
+    
+    # If the anchor has not been set, set it now
+    if {![info exists line_sel_anchor($w)]} {
+      set line_sel_anchor($w) $index    
+    }
+  
+    # Add the selection between the anchor and this line, inclusive
+    if {[[winfo parent $w] compare $index < $line_sel_anchor($w)]} {
+      [winfo parent $w] tag add sel "$index linestart" "$line_sel_anchor($w) lineend"
+    } else {
+      [winfo parent $w] tag add sel "$line_sel_anchor($w) linestart" "$index lineend"
     }
     
   }
