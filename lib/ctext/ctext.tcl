@@ -307,7 +307,7 @@ proc ctext::setCommentRE {win} {
   set configAr(bcomment_re) [join $bcomments |]
   set configAr(ecomment_re) [join $ecomments |]
   set configAr(lcomment_re) [join $configAr(line_comment_patterns) |]
-              
+  
 }
 
 proc ctext::inCommentString {win index} {
@@ -471,9 +471,7 @@ proc ctext::instanceCmd {self cmd args} {
         set removeEnd $lineEnd
         
         foreach tag [$self._t tag names] {
-          if {([string equal $tag "_cComment"] != 1) && \
-              ([string equal $tag "_string"] != 1) && \
-              ([string index $tag 0] eq "_")} {
+          if {![regexp {^_([lc]Comment|[sdt]String)$} $tag] && ([string index $tag 0] eq "_")} {
             $self._t tag remove $tag $removeStart $removeEnd
           }
         }
@@ -496,9 +494,7 @@ proc ctext::instanceCmd {self cmd args} {
         eval \$self._t delete $args
         
         foreach tag [$self._t tag names] {
-          if {([string equal $tag "_cComment"] != 1) && \
-              ([string equal $tag "_string"] != 1) && \
-              ([string index $tag 0] eq "_")} {
+          if {![regexp {^_([lc]Comment|[sdt]String)$} $tag] && ([string index $tag 0] eq "_")} {
             $self._t tag remove $tag $lineStart $lineEnd
           }
         }
@@ -537,9 +533,7 @@ proc ctext::instanceCmd {self cmd args} {
       set lineStart [lindex $args 0]
       set lineEnd   [lindex $args 1]
       foreach tag [$self._t tag names] {
-        if {([string equal $tag "_cComment"] != 1) && \
-            ([string equal $tag "_string"] != 1) && \
-            ([string index $tag 0] eq "_")} {
+        if {![regexp {^_([lc]Comment|[sdt]String)$} $tag] && ([string index $tag 0] eq "_")} {
           $self._t tag remove $tag $lineStart $lineEnd
         }
       }
@@ -577,9 +571,7 @@ proc ctext::instanceCmd {self cmd args} {
       }
       
       foreach tag [$self._t tag names] {
-        if {([string equal $tag "_cComment"] != 1) && \
-            ([string equal $tag "_string"] != 1) && \
-            ([string index $tag 0] eq "_")} {
+        if {![regexp {^_([lc]Comment|[sdt]String)$} $tag] && ([string index $tag 0] eq "_")} {
           $self._t tag remove $tag $prevSpace $nextSpace
         }
       }
@@ -828,13 +820,20 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
     
     set commentRE "([join $configAr(line_comment_patterns) |])"
     append commentRE {[^\n\r]*}
+    
+    set lcomment [list]
   
     # Handle single line comments in the given range
     set i 0
     foreach index [$win search -all -count lengths -regexp {*}$configAr(re_opts) -- $commentRE $start $end] {
-      $win tag add _lComment $index "$index+[lindex $lengths $i]c"
-      $win tag raise _lComment
+      lappend lcomment $index "$index+[lindex $lengths $i]c"
       incr i
+    }
+    
+    # If we need to raise the lComment, do it now
+    if {[llength $lcomment] > 0 } {
+      $win tag add _lComment {*}$lcomment
+      $win tag raise _lComment
     }
     
   }
@@ -866,6 +865,8 @@ proc ctext::commentsGetPrevious {win index pcCom plCom psStr pdStr ptStr} {
 
 proc ctext::commentsParse {win start end pcCom plCom psStr pdStr ptStr} {
 
+  set parse_time [time {
+  
   upvar $pcCom cCom
   upvar $plCom lCom
   upvar $psStr sStr
@@ -874,89 +875,118 @@ proc ctext::commentsParse {win start end pcCom plCom psStr pdStr ptStr} {
 
   ctext::getAr $win config configAr
   
-  # Delete the tags
-  $win tag remove _lComment $start $end
-  $win tag remove _cComment $start $end
-  $win tag remove _sString  $start $end
-  $win tag remove _dString  $start $end
-  $win tag remove _tString  $start $end
+  set lcomment ""
+  set ccomment ""
+  set sstring  ""
+  set dstring  ""
+  set tstring  ""
   
-  set i 0
-  foreach index [$win search -all -overlap -count lengths -regexp {*}$configAr(re_opts) -- $configAr(comment_re) $start $end] {
+  set search_time [time {
+  set indices [$win search -all -overlap -count lengths -regexp {*}$configAr(re_opts) -- $configAr(comment_re) $start $end]
+  }]
+  set num_indices [llength $indices]
+  set match_time [time {
+  for {set i 0} {$i < $num_indices} {incr i} {
       
-    set endIndex [$win index "$index + [lindex $lengths $i] chars"]
-    set str      [$win get $index $endIndex]
-      
-    # If the line comment index is set and the index is greater that the end of its line,
-    # clear the line comment.
-    if {($lCom ne "") && [$win compare $index > "$lCom lineend"]} {
-      set lCom ""
-    }
+    set index [lindex $indices $i]
+    set str   [$win get $index "$index+[lindex $lengths $i]c"]
       
     # Found a double-quote character
-    if {($str == "\"") && ($lCom eq "") && ($cCom eq "") && ($sStr eq "") && ($tStr eq "")} {
-      if {$dStr ne ""} {
-        $win tag remove _dString "$index+1c" end
-        set dStr ""
-      } else {
-        $win tag add _dString $index end
-        $win tag raise _dString
-        set dStr $index
+    if {$str == "\""} {
+      lappend dstring $index end
+      for {incr i} {$i < $num_indices} {incr i} {
+        set index [lindex $indices $i]
+        set str   [$win get $index "$index+[lindex $lengths $i]c"]
+        if {$str == "\""} {
+          lset dstring end "$index+1c"
+          break
+        }
       }
         
     # Found a single-quote character
-    } elseif {($str == "'") && ($lCom eq "") && ($cCom eq "") && ($dStr eq "") && ($tStr eq "")} {
-      if {$sStr ne ""} {
-        $win tag remove _sString "$index+1c" end
-        set sStr ""
-      } else {
-        $win tag add _sString $index end
-        $win tag raise _sString
-        set sStr $index
+    } elseif {$str == "'"} {
+      lappend sstring $index end
+      for {incr i} {$i < $num_indices} {incr i} {
+        set index [lindex $indices $i]
+        set str   [$win get $index "$index+[lindex $lengths $i]c"]
+        if {$str == "'"} {
+          lset sstring end "$index+1c"
+          break
+        }
       }
         
+    # Found a triple-double-quote character string
+    } elseif {$str == "\"\"\""} {
+      lappend tstring $index end
+      for {incr i} {$i < $num_indices} {incr i} {
+        set index [lindex $indices $i]
+        set str   [$win get $index "$index+[lindex $lengths $i]c"]
+        if {$str == "\"\"\""} {
+          lset tstring end "$index+3c"
+          break
+        }
+      }
+      
     # Found a single line comment
     } elseif {($configAr(lcomment_re) ne "") && [regexp {*}$configAr(re_opts) $configAr(lcomment_re) $str]} {
-      if {($cCom eq "") && ($dStr eq "") && ($sStr eq "") && ($tStr eq "")} {
-        $win tag add _lComment $index "$index lineend"
-        $win tag raise _lComment
-        set lCom $index
-      } else {
-        $win tag remove _lComment $index "$index lineend"
+      lappend lcomment $index "$index lineend"
+      for {incr i} {$i < $num_indices} {incr i} {
+        set nxt_index [lindex $indices $i]
+        if {[$win compare $nxt_index > "$index lineend"]} {
+          incr i -1
+          break
+        }
       }
         
     # Found a starting block comment string
-    } elseif {($configAr(bcomment_re) ne "") && [regexp {*}$configAr(re_opts) $configAr(bcomment_re) $str] && \
-              ($lCom eq "") && ($dStr eq "") && ($sStr eq "") && ($tStr eq "")} {
-      if {$cCom eq ""} {
-        $win tag add _cComment $index end
-        $win tag raise _cComment
-        set cCom $index
+    } elseif {($configAr(bcomment_re) ne "") && [regexp {*}$configAr(re_opts) $configAr(bcomment_re) $str]} {
+      lappend ccomment $index end
+      for {incr i} {$i < $num_indices} {incr i} {
+        set index [lindex $indices $i]
+        set str   [$win get $index "$index+[lindex $lengths $i]c"]
+        if {[regexp {*}$configAr(re_opts) $configAr(ecomment_re) $str]} {
+          lset ccomment end "$index+[string length $str]c"
+          break
+        }
       }
-        
-    # Found an ending block comment string
-    } elseif {($configAr(ecomment_re) ne "") && [regexp {*}$configAr(re_opts) $configAr(ecomment_re) $str] && \
-              ($lCom eq "") && ($dStr eq "") && ($sStr eq "") && ($tStr eq "")} {
-      if {$cCom ne ""} {
-        $win tag remove _cComment "$index+[string length $str]c" end
-        set cCom ""
-      }
-
-    # Found a triple-double-quote character string
-    } elseif {($str == "\"\"\"") && ($lCom eq "") && ($cCom eq "") && ($sStr eq "") && ($dStr eq "")} {
-      if {$tStr ne ""} {
-        $win tag remove _tString "$index+3c" end
-        set tStr ""
-      } else {
-        $win tag add _tString $index end
-        $win tag raise _tString
-        set tStr $index
-      }
+      
     }
-      
-    incr i
-      
+
   }
+  }]
+  
+  # Delete old, add new and re-raise tags
+  set add_time [time {
+  $win tag remove _lComment $start $end
+  if {[llength $lcomment] > 0} {
+    $win tag add _lComment {*}$lcomment    
+    $win tag raise _lComment
+  }
+  $win tag remove _cComment $start $end
+  if {[llength $ccomment] > 0} {
+    $win tag add _cComment {*}$ccomment
+    $win tag raise _cComment
+  }
+  $win tag remove _sString  $start $end
+  if {[llength $sstring] > 0} {
+    $win tag add _sString {*}$sstring
+    $win tag raise _sString
+  }
+  $win tag remove _dString  $start $end
+  if {[llength $dstring] > 0} {
+    $win tag add _dString {*}$dstring
+    $win tag raise _dString
+  }
+  $win tag remove _tString  $start $end
+  if {[llength $tstring] > 0} {
+    $win tag add _tString {*}$tstring
+    $win tag raise _tString
+  }
+  }]
+  
+  }]
+  
+  # puts "search_time: $search_time, match_time: $match_time, add_time: $add_time, parse_time: $parse_time"
 
 }
 
