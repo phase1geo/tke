@@ -605,6 +605,27 @@ proc ctext::instanceCmd {self cmd args} {
       ctext::modified $self 1
     }
     
+    peer {
+      switch [lindex $args 0] {
+        create {
+          if {[llength $args] == 1} {
+            return -code error "incorrect arguments to peer create command"
+          }
+          $self._t peer create [lindex $args 1]._t {*}[lrange $args 2 end]
+        }
+        names {
+          set names [list]
+          foreach name [$self._t peer names] {
+            lappend names [winfo parent $name]
+          }
+          return $names
+        }
+        default {
+          return -code error "unknown peer subcommand: [lindex $args 0]"
+        }
+      }
+    }
+    
     edit {
       set subCmd [lindex $args 0]
       set argsLength [llength $args]
