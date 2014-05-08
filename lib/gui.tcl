@@ -2176,7 +2176,7 @@ namespace eval gui {
     grid .aboutwin.if.l2 -row 2 -column 0 -sticky news
     grid .aboutwin.if.v2 -row 2 -column 1 -sticky news
   
-    ttk::label .aboutwin.copyright -text [msgcat::mc "Copyright %d" 2013]
+    ttk::label .aboutwin.copyright -text [msgcat::mc "Copyright %d-%d" 2013 14]
   
     pack .aboutwin.logo      -padx 2 -pady 8 -anchor w
     pack .aboutwin.if        -padx 2 -pady 2
@@ -2941,8 +2941,11 @@ namespace eval gui {
     # Get the current position of the insertion cursor
     lassign [split [$txt index insert] .] line column
     
+    # Get the last line
+    set last_line [lindex [split [$txt index end-1c] .] 0]
+    
     # Update the information widgets
-    $widgets(info_label) configure -text [msgcat::mc "Line: %d, Column: %d" $line [expr $column + 1]]
+    $widgets(info_label) configure -text [msgcat::mc "Line: %d (%d), Column: %d" $line $last_line [expr $column + 1]]
   
   }
   
