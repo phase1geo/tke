@@ -2591,7 +2591,7 @@ namespace eval gui {
     $pw add [ttk::frame $pw.tf2]
     ctext $pw.tf2.txt -wrap none -undo 1 -autoseparators 1 -insertofftime 0 \
       -highlightcolor yellow -warnwidth $preferences::prefs(Editor/WarningWidth) \
-      -linemap_mark_command gui::mark_command -linemap_select_bg orange \
+      -linemap_mark_command gui::mark_command -linemap_select_bg orange -peer $txt \
       -xscrollcommand "utils::set_xscrollbar $pw.tf2.hb" \
       -yscrollcommand "utils::set_yscrollbar $pw.tf2.vb"
     ttk::scrollbar $pw.tf2.vb -orient vertical   -command "$pw.tf2.txt yview"
@@ -2620,16 +2620,30 @@ namespace eval gui {
     grid $pw.tf2.vb  -row 0 -column 1 -sticky ns
     grid $pw.tf2.hb  -row 1 -column 0 -sticky ew
     
-    # Make the two ctext widget peers of each other
-    $txt peer create $pw.tf2.txt
+    # Associate the existing command entry field with this text widget
+    vim::bind_command_entry $pw.tf2.txt $tb.ve
     
+    # Add the text bindings
+    indent::add_bindings      $pw.tf2.txt
+    multicursor::add_bindings $pw.tf2.txt
+    snippets::add_bindings    $pw.tf2.txt
+    vim::set_vim_mode         $pw.tf2.txt
+        
   }
   
   ######################################################################
   # Removes the split pane
   proc hide_split_pane {} {
     
-    # TBD
+    # Get the current paned window
+    set txt [current_txt]
+    set pw  [winfo parent [winfo parent $txt]]
+    
+    # Delete the extra text widget
+    $pw forget $pw.tf2
+    
+    # Destroy the extra text widget frame
+    destroy $pw.tf2
     
   }
  

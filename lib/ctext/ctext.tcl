@@ -48,6 +48,7 @@ proc ctext {win args} {
   set ar(-warnwidth) ""
   set ar(-warnwidth_bg) red
   set ar(-casesensitive) 1
+  set ar(-peer) ""
   set ar(re_opts) ""
   set ar(win) $win
   set ar(modified) 0
@@ -61,7 +62,7 @@ proc ctext {win args} {
   
   set ar(ctextFlags) [list -yscrollcommand -linemap -linemapfg -linemapbg \
   -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable -linemap_cursor \
-  -linemap_select_fg -linemap_select_bg -casesensitive]
+  -linemap_select_fg -linemap_select_bg -casesensitive -peer]
   
   array set ar $args
   
@@ -99,7 +100,12 @@ proc ctext {win args} {
     [list ctext::event:yscroll $win $ar(-yscrollcommand)]]]
   
   #escape $win, because it could have a space
-  eval text \$win.t -font \$ar(-font) $args
+  if {$ar(-peer) eq ""} {
+    text $win.t -font $ar(-font) {*}$args
+  } else {
+    # TBD - We should probably verify that -peer is a ctext widget path
+    $ar(-peer)._t peer create $win.t -font $ar(-font) {*}$args
+  }
   
   grid $win.t -row 0 -column 1 -sticky news
   grid rowconfigure $win 0 -weight 100
@@ -607,12 +613,6 @@ proc ctext::instanceCmd {self cmd args} {
     
     peer {
       switch [lindex $args 0] {
-        create {
-          if {[llength $args] == 1} {
-            return -code error "incorrect arguments to peer create command"
-          }
-          $self._t peer create [lindex $args 1]._t {*}[lrange $args 2 end]
-        }
         names {
           set names [list]
           foreach name [$self._t peer names] {
@@ -1234,9 +1234,11 @@ proc ctext::clearHighlightClasses {win} {
   array unset ar
 
   # Delete the associated tags
-  foreach tag [$win tag names] {
-    if {[string index $tag 0] eq "_"} {
-      $win tag delete $tag
+  if {[winfo exists $win]} {
+    foreach tag [$win tag names] {
+      if {[string index $tag 0] eq "_"} {
+        $win tag delete $tag
+      }
     }
   }
 }
