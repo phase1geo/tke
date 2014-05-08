@@ -893,63 +893,23 @@ proc ctext::commentsParse {win start end pcCom plCom psStr pdStr ptStr} {
       
     # Found a double-quote character
     if {$str == "\""} {
-      lappend dstring $index end
-      for {incr i} {$i < $num_indices} {incr i} {
-        set index [lindex $indices $i]
-        set str   [$win get $index "$index+[lindex $lengths $i]c"]
-        if {$str == "\""} {
-          lset dstring end "$index+1c"
-          break
-        }
-      }
+      commentsParseDStringEnd $win $index indices $num_indices lengths i dstring
         
     # Found a single-quote character
     } elseif {$str == "'"} {
-      lappend sstring $index end
-      for {incr i} {$i < $num_indices} {incr i} {
-        set index [lindex $indices $i]
-        set str   [$win get $index "$index+[lindex $lengths $i]c"]
-        if {$str == "'"} {
-          lset sstring end "$index+1c"
-          break
-        }
-      }
+      commentsParseSStringEnd $win $index indices $num_indices lengths i sstring
         
     # Found a triple-double-quote character string
     } elseif {$str == "\"\"\""} {
-      lappend tstring $index end
-      for {incr i} {$i < $num_indices} {incr i} {
-        set index [lindex $indices $i]
-        set str   [$win get $index "$index+[lindex $lengths $i]c"]
-        if {$str == "\"\"\""} {
-          lset tstring end "$index+3c"
-          break
-        }
-      }
+      commentsParseTStringEnd $win $index indices $num_indices lengths i tstring
       
     # Found a single line comment
     } elseif {($configAr(lcomment_re) ne "") && [regexp {*}$configAr(re_opts) $configAr(lcomment_re) $str]} {
-      lappend lcomment $index "$index lineend"
-      for {incr i} {$i < $num_indices} {incr i} {
-        set nxt_index [lindex $indices $i]
-        if {[$win compare $nxt_index > "$index lineend"]} {
-          incr i -1
-          break
-        }
-      }
+      commentsParseLCommentEnd $win $index indices $num_indices i lcomment
         
     # Found a starting block comment string
     } elseif {($configAr(bcomment_re) ne "") && [regexp {*}$configAr(re_opts) $configAr(bcomment_re) $str]} {
-      lappend ccomment $index end
-      for {incr i} {$i < $num_indices} {incr i} {
-        set index [lindex $indices $i]
-        set str   [$win get $index "$index+[lindex $lengths $i]c"]
-        if {[regexp {*}$configAr(re_opts) $configAr(ecomment_re) $str]} {
-          lset ccomment end "$index+[string length $str]c"
-          break
-        }
-      }
-      
+      commentsParseCCommentEnd $win $index indices $num_indices $configAr(re_opts) $configAr(eccoment_re) lengths i ccoment
     }
 
   }
@@ -987,6 +947,104 @@ proc ctext::commentsParse {win start end pcCom plCom psStr pdStr ptStr} {
   }]
   
   # puts "search_time: $search_time, match_time: $match_time, add_time: $add_time, parse_time: $parse_time"
+
+}
+
+proc ctext::commentsParseSStringEnd {win index pindices num_indices plengths pi psstring} {
+
+  upvar $pindices indices
+  upvar $plengths lengths
+  upvar $pi       i
+  upvar $psstring sstring
+
+  lappend sstring $index end
+
+  for {incr i} {$i < $num_indices} {incr i} {
+    set index [lindex $indices $i]
+    set str   [$win get $index "$index+[lindex $lengths $i]c"]
+    if {$str == "'"} {
+      lset sstring end "$index+1c"
+      break
+    }
+  }
+
+}
+
+proc ctext::commentsParseDStringEnd {win index pindices num_indices plengths pi pdstring} {
+
+  upvar $pindices indices
+  upvar $plengths lengths
+  upvar $pi       i
+  upvar $pdstring dstring
+  
+  lappend dstring $index end
+  
+  for {incr i} {$i < $num_indices} {incr i} {
+    set index [lindex $indices $i]
+    set str   [$win get $index "$index+[lindex $lengths $i]c"]
+    if {$str == "\""} {
+      lset dstring end "$index+1c"
+      break
+    }
+  }
+
+}
+
+proc ctext::commentsParseTStringEnd {win index pindices num_indices plengths pi ptstring} {
+
+  upvar $pindices indices
+  upvar $plengths lengths
+  upvar $pi       i
+  upvar $ptstring tstring
+
+  lappend tstring $index end
+
+  for {incr i} {$i < $num_indices} {incr i} {
+    set index [lindex $indices $i]
+    set str   [$win get $index "$index+[lindex $lengths $i]c"]
+    if {$str == "\"\"\""} {
+      lset tstring end "$index+3c"
+      break
+    }
+  }
+
+}
+
+proc ctext::commentsParseLCommentEnd {win index pindices num_indices pi plcomment} {
+
+  upvar $pindices  indices
+  upvar $pi        i
+  upvar $plcomment lcomment
+ 
+  lappend lcomment $index "$index lineend"
+
+  for {incr i} {$i < $num_indices} {incr i} {
+    set nxt_index [lindex $indices $i]
+    if {[$win compare $nxt_index > "$index lineend"]} {
+      incr i -1
+      break
+    }
+  }
+
+}
+
+proc ctext::commentsParseCCommentEnd {win index pindices num_indices re_opts eccoment_re plengths pi pccoment} {
+
+  upvar $pindices  indices
+  upvar $plengths  lengths
+  upvar $pi        i
+  upvar $pccomment ccomment
+  
+  lappend ccomment $index end
+
+  for {incr i} {$i < $num_indices} {incr i} {
+    set index [lindex $indices $i]
+    set str   [$win get $index "$index+[lindex $lengths $i]c"]
+    if {[regexp {*}$re_opts $ecomment_re $str]} {
+      lset ccomment end "$index+[string length $str]c"
+      break
+    }
+  }
 
 }
 
