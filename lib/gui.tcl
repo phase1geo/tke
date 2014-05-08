@@ -282,7 +282,7 @@ namespace eval gui {
     # Set the warning width to the specified value
     foreach pane [$widgets(nb_pw) panes] {
       foreach tab [$pane tabs] {
-        $tab.tf.txt configure -warnwidth $preferences::prefs(Editor/WarningWidth)
+        $tab.pw.tf.txt configure -warnwidth $preferences::prefs(Editor/WarningWidth)
       }
     }
     
@@ -459,7 +459,7 @@ namespace eval gui {
     foreach file $files {
     
       set tab [lindex $file $files_index(tab)]
-      set txt "$tab.tf.txt" 
+      set txt "$tab.pw.tf.txt" 
       lassign [pane_tb_index_from_tab $tab] pane tb tab_index
       
       set finfo(fname)       [lindex $file $files_index(fname)]
@@ -719,7 +719,7 @@ namespace eval gui {
     # If we have no more tabs and there is another pane, remove this pane
     return [expr {([llength $files] == 1) && \
                   ([lindex $files 0 $files_index(fname)] eq "") && \
-                  ([vim::get_cleaned_content "[lindex [[lindex [$widgets(nb_pw) panes] 0].tbf.tb tabs] 0].tf.txt"] eq "")}]
+                  ([vim::get_cleaned_content "[lindex [[lindex [$widgets(nb_pw) panes] 0].tbf.tb tabs] 0].pw.tf.txt"] eq "")}]
       
   }
   
@@ -850,19 +850,19 @@ namespace eval gui {
       if {![catch "open $fname r" rc]} {
     
         # Read the file contents and insert them
-        $w.tf.txt insert end [string range [read $rc] 0 end-1]
+        $w.pw.tf.txt insert end [string range [read $rc] 0 end-1]
       
         # Close the file
         close $rc
       
         # Change the text to unmodified
-        $w.tf.txt edit modified false
+        $w.pw.tf.txt edit modified false
         
         # Set the insertion mark to the first position
-        $w.tf.txt mark set insert 1.0
+        $w.pw.tf.txt mark set insert 1.0
         
         # Perform an insertion adjust, if necessary
-        vim::adjust_insert $w.tf.txt.t
+        vim::adjust_insert $w.pw.tf.txt.t
       
         file stat $fname stat
         lset file_info $files_index(mtime) $stat(mtime)
@@ -965,7 +965,7 @@ namespace eval gui {
     set tab [lindex $file_info $files_index(tab)]
 
     # Get the text widget at the given index
-    set txt "$tab.tf.txt"
+    set txt "$tab.pw.tf.txt"
 
     # Get the current insertion index
     set insert_index [$txt index insert]
@@ -1138,7 +1138,7 @@ namespace eval gui {
         } else {
           
           # Get the text widget
-          set txt "$tab.tf.txt"
+          set txt "$tab.pw.tf.txt"
           
           # Run the on_save plugins
           plugins::handle_on_save $i
@@ -1223,7 +1223,7 @@ namespace eval gui {
     variable files_index
     
     # Get the indexed text widget 
-    set txt "$tab.tf.txt"
+    set txt "$tab.pw.tf.txt"
     
     # Get the file index
     set index [get_file_index $tab]
@@ -1276,7 +1276,7 @@ namespace eval gui {
     lassign [pane_tb_index_from_tab $tab] pane tb tab_index
     
     # Get the indexed text widget 
-    set txt "$tab.tf.txt"
+    set txt "$tab.pw.tf.txt"
     
     # Get the file index
     set index [get_file_index $tab]
@@ -1689,7 +1689,7 @@ namespace eval gui {
     grid remove $tab.sep
     
     # Put the focus on the text widget
-    focus $tab.tf.txt.t
+    focus $tab.pw.tf.txt.t
      
   }
   
@@ -1731,7 +1731,7 @@ namespace eval gui {
     grid remove $tab.sep
 
     # Put the focus on the text widget
-    focus $tab.tf.txt.t
+    focus $tab.pw.tf.txt.t
 
   }
 
@@ -2208,6 +2208,18 @@ namespace eval gui {
     
   }
   
+  ######################################################################
+  # Toggles the split pane for the current tab.
+  proc toggle_split_pane {} {
+    
+    if {[llength [[current_txt] peer names]] > 0} {
+      hide_split_pane
+    } else {
+      show_split_pane
+    }
+    
+  }
+  
   ########################
   #  PRIVATE PROCEDURES  #
   ########################
@@ -2396,49 +2408,52 @@ namespace eval gui {
     # Create the tab frame
     set tab_frame [ttk::frame $nb.$id]
     
+    # Create the editor pane
+    ttk::panedwindow $tab_frame.pw
+    
     # Create the editor frame
-    ttk::frame $tab_frame.tf
-    ctext $tab_frame.tf.txt -wrap none -undo 1 -autoseparators 1 -insertofftime 0 \
+    $tab_frame.pw add [ttk::frame $tab_frame.pw.tf]
+    ctext $tab_frame.pw.tf.txt -wrap none -undo 1 -autoseparators 1 -insertofftime 0 \
       -highlightcolor yellow -warnwidth $preferences::prefs(Editor/WarningWidth) \
       -linemap_mark_command gui::mark_command -linemap_select_bg orange \
-      -xscrollcommand "utils::set_xscrollbar $tab_frame.tf.hb" \
-      -yscrollcommand "utils::set_yscrollbar $tab_frame.tf.vb"
-    ttk::scrollbar $tab_frame.tf.vb -orient vertical   -command "$tab_frame.tf.txt yview"
-    ttk::scrollbar $tab_frame.tf.hb -orient horizontal -command "$tab_frame.tf.txt xview"
+      -xscrollcommand "utils::set_xscrollbar $tab_frame.pw.tf.hb" \
+      -yscrollcommand "utils::set_yscrollbar $tab_frame.pw.tf.vb"
+    ttk::scrollbar $tab_frame.pw.tf.vb -orient vertical   -command "$tab_frame.pw.tf.txt yview"
+    ttk::scrollbar $tab_frame.pw.tf.hb -orient horizontal -command "$tab_frame.pw.tf.txt xview"
     
-    bind Ctext               <<Modified>>          "gui::text_changed %W"
-    bind $tab_frame.tf.txt.t <FocusIn>             "gui::set_current_tab_from_txt %W"
-    bind $tab_frame.tf.txt.l <ButtonPress-3>       [bind $tab_frame.tf.txt.l <ButtonPress-1>]
-    bind $tab_frame.tf.txt.l <ButtonPress-1>       "gui::select_line %W %y"
-    bind $tab_frame.tf.txt.l <B1-Motion>           "gui::select_lines %W %y"
-    bind $tab_frame.tf.txt.l <Shift-ButtonPress-1> "gui::select_lines %W %y"
-    bind $tab_frame.tf.txt   <<Selection>>         "gui::selection_changed %W"
-    bind $tab_frame.tf.txt   <ButtonPress-1>       "after idle [list gui::update_position $tab_frame]"
-    bind $tab_frame.tf.txt   <B1-Motion>           "gui::update_position $tab_frame"
-    bind $tab_frame.tf.txt   <KeyRelease>          "gui::update_position $tab_frame"
-    bind $tab_frame.tf.txt   <Motion>              "gui::clear_tab_tooltip $tb"
-    bind Text                <<Cut>>               ""
-    bind Text                <<Copy>>              ""
-    bind Text                <<Paste>>             ""
-    bind Text                <Control-d>           ""
-    bind Text                <Control-i>           ""
+    bind Ctext                  <<Modified>>          "gui::text_changed %W"
+    bind $tab_frame.pw.tf.txt.t <FocusIn>             "gui::set_current_tab_from_txt %W"
+    bind $tab_frame.pw.tf.txt.l <ButtonPress-3>       [bind $tab_frame.pw.tf.txt.l <ButtonPress-1>]
+    bind $tab_frame.pw.tf.txt.l <ButtonPress-1>       "gui::select_line %W %y"
+    bind $tab_frame.pw.tf.txt.l <B1-Motion>           "gui::select_lines %W %y"
+    bind $tab_frame.pw.tf.txt.l <Shift-ButtonPress-1> "gui::select_lines %W %y"
+    bind $tab_frame.pw.tf.txt   <<Selection>>         "gui::selection_changed %W"
+    bind $tab_frame.pw.tf.txt   <ButtonPress-1>       "after idle [list gui::update_position %W]"
+    bind $tab_frame.pw.tf.txt   <B1-Motion>           "gui::update_position %W"
+    bind $tab_frame.pw.tf.txt   <KeyRelease>          "gui::update_position %W"
+    bind $tab_frame.pw.tf.txt   <Motion>              "gui::clear_tab_tooltip $tb"
+    bind Text                   <<Cut>>               ""
+    bind Text                   <<Copy>>              ""
+    bind Text                   <<Paste>>             ""
+    bind Text                   <Control-d>           ""
+    bind Text                   <Control-i>           ""
     
     # Move the all bindtag ahead of the Text bindtag
-    set text_index [lsearch [bindtags $tab_frame.tf.txt.t] Text]
-    set all_index  [lsearch [bindtags $tab_frame.tf.txt.t] all]
-    bindtags $tab_frame.tf.txt.t [lreplace [bindtags $tab_frame.tf.txt.t] $all_index $all_index]
-    bindtags $tab_frame.tf.txt.t [linsert  [bindtags $tab_frame.tf.txt.t] $text_index all]
+    set text_index [lsearch [bindtags $tab_frame.pw.tf.txt.t] Text]
+    set all_index  [lsearch [bindtags $tab_frame.pw.tf.txt.t] all]
+    bindtags $tab_frame.pw.tf.txt.t [lreplace [bindtags $tab_frame.pw.tf.txt.t] $all_index $all_index]
+    bindtags $tab_frame.pw.tf.txt.t [linsert  [bindtags $tab_frame.pw.tf.txt.t] $text_index all]
     
-    grid rowconfigure    $tab_frame.tf 0 -weight 1
-    grid columnconfigure $tab_frame.tf 0 -weight 1
-    grid $tab_frame.tf.txt -row 0 -column 0 -sticky news
-    grid $tab_frame.tf.vb  -row 0 -column 1 -sticky ns
-    grid $tab_frame.tf.hb  -row 1 -column 0 -sticky ew
-
+    grid rowconfigure    $tab_frame.pw.tf 0 -weight 1
+    grid columnconfigure $tab_frame.pw.tf 0 -weight 1
+    grid $tab_frame.pw.tf.txt -row 0 -column 0 -sticky news
+    grid $tab_frame.pw.tf.vb  -row 0 -column 1 -sticky ns
+    grid $tab_frame.pw.tf.hb  -row 1 -column 0 -sticky ew
+    
     # Create the Vim command bar
-    vim::bind_command_entry $tab_frame.tf.txt \
+    vim::bind_command_entry $tab_frame.pw.tf.txt \
       [entry $tab_frame.ve -background black -foreground white -insertbackground white \
-        -font [$tab_frame.tf.txt cget -font]]
+        -font [$tab_frame.pw.tf.txt cget -font]]
     
     # Create the search bar
     ttk::frame $tab_frame.sf
@@ -2501,7 +2516,7 @@ namespace eval gui {
     
     grid rowconfigure    $tab_frame 0 -weight 1
     grid columnconfigure $tab_frame 0 -weight 1
-    grid $tab_frame.tf  -row 0 -column 0 -sticky news
+    grid $tab_frame.pw  -row 0 -column 0 -sticky news
     grid $tab_frame.ve  -row 1 -column 0 -sticky ew
     grid $tab_frame.sf  -row 2 -column 0 -sticky ew
     grid $tab_frame.rf  -row 3 -column 0 -sticky ew
@@ -2517,16 +2532,16 @@ namespace eval gui {
     set adjusted_index [$tb index $index]
     
     # Add the text bindings
-    indent::add_bindings      $tab_frame.tf.txt
-    multicursor::add_bindings $tab_frame.tf.txt
-    snippets::add_bindings    $tab_frame.tf.txt
-    vim::set_vim_mode         $tab_frame.tf.txt
+    indent::add_bindings      $tab_frame.pw.tf.txt
+    multicursor::add_bindings $tab_frame.pw.tf.txt
+    snippets::add_bindings    $tab_frame.pw.tf.txt
+    vim::set_vim_mode         $tab_frame.pw.tf.txt
         
     # Apply the appropriate syntax highlighting for the given extension
     if {$initial_language eq ""} {
-      syntax::initialize_language $tab_frame.tf.txt [syntax::get_default_language $title]
+      syntax::initialize_language $tab_frame.pw.tf.txt [syntax::get_default_language $title]
     } else {
-      syntax::initialize_language $tab_frame.tf.txt $initial_language
+      syntax::initialize_language $tab_frame.pw.tf.txt $initial_language
     }
 
     # Add the new tab to the notebook in alphabetical order (if specified) and if
@@ -2556,9 +2571,65 @@ namespace eval gui {
     syntax::set_current_language
 
     # Give the text widget the focus
-    focus $tab_frame.tf.txt.t
+    focus $tab_frame.pw.tf.txt.t
     
     return $tab_frame
+    
+  }
+  
+  ######################################################################
+  # Adds a peer ctext widget to the current widget in the pane just below
+  # the current pane.
+  proc show_split_pane {} {
+    
+    # Get the current paned window
+    set txt [current_txt]
+    set pw  [winfo parent [winfo parent $txt]]
+    set tb  [winfo parent $pw]
+    
+    # Create the editor frame
+    $pw add [ttk::frame $pw.tf2]
+    ctext $pw.tf2.txt -wrap none -undo 1 -autoseparators 1 -insertofftime 0 \
+      -highlightcolor yellow -warnwidth $preferences::prefs(Editor/WarningWidth) \
+      -linemap_mark_command gui::mark_command -linemap_select_bg orange \
+      -xscrollcommand "utils::set_xscrollbar $pw.tf2.hb" \
+      -yscrollcommand "utils::set_yscrollbar $pw.tf2.vb"
+    ttk::scrollbar $pw.tf2.vb -orient vertical   -command "$pw.tf2.txt yview"
+    ttk::scrollbar $pw.tf2.hb -orient horizontal -command "$pw.tf2.txt xview"
+    
+    bind $pw.tf2.txt.t <FocusIn>             "gui::set_current_tab_from_txt %W"
+    bind $pw.tf2.txt.l <ButtonPress-3>       [bind $pw.tf2.txt.l <ButtonPress-1>]
+    bind $pw.tf2.txt.l <ButtonPress-1>       "gui::select_line %W %y"
+    bind $pw.tf2.txt.l <B1-Motion>           "gui::select_lines %W %y"
+    bind $pw.tf2.txt.l <Shift-ButtonPress-1> "gui::select_lines %W %y"
+    bind $pw.tf2.txt   <<Selection>>         "gui::selection_changed %W"
+    bind $pw.tf2.txt   <ButtonPress-1>       "after idle [list gui::update_position %W]"
+    bind $pw.tf2.txt   <B1-Motion>           "gui::update_position %W"
+    bind $pw.tf2.txt   <KeyRelease>          "gui::update_position %W"
+    bind $pw.tf2.txt   <Motion>              "gui::clear_tab_tooltip $tb"
+    
+    # Move the all bindtag ahead of the Text bindtag
+    set text_index [lsearch [bindtags $pw.tf2.txt.t] Text]
+    set all_index  [lsearch [bindtags $pw.tf2.txt.t] all]
+    bindtags $pw.tf2.txt.t [lreplace [bindtags $pw.tf2.txt.t] $all_index $all_index]
+    bindtags $pw.tf2.txt.t [linsert  [bindtags $pw.tf2.txt.t] $text_index all]
+    
+    grid rowconfigure    $pw.tf2 0 -weight 1
+    grid columnconfigure $pw.tf2 0 -weight 1
+    grid $pw.tf2.txt -row 0 -column 0 -sticky news
+    grid $pw.tf2.vb  -row 0 -column 1 -sticky ns
+    grid $pw.tf2.hb  -row 1 -column 0 -sticky ew
+    
+    # Make the two ctext widget peers of each other
+    $txt peer create $pw.tf2.txt
+    
+  }
+  
+  ######################################################################
+  # Removes the split pane
+  proc hide_split_pane {} {
+    
+    # TBD
     
   }
  
@@ -2703,7 +2774,7 @@ namespace eval gui {
     }
     
     # Set the text widget
-    set txt "$tab.tf.txt"
+    set txt "$tab.pw.tf.txt"
     
     # Set the line and row information
     lassign [split [$txt index insert] .] row col
@@ -2745,7 +2816,7 @@ namespace eval gui {
     if {[winfo ismapped $txt]} {
     
       # Get the tab
-      set tab [winfo parent [winfo parent [winfo parent $txt]]]
+      set tab [winfo parent [winfo parent [winfo parent [winfo parent $txt]]]]
     
       # Get the current tab
       set_current_tab $tab 1
@@ -2795,7 +2866,7 @@ namespace eval gui {
     if {![info exists tab_current($pw_current)]} {
       return ""
     } else {
-      return "$tab_current($pw_current).tf.txt"
+      return "$tab_current($pw_current).pw.tf.txt"
     }
     
   }
@@ -2849,12 +2920,12 @@ namespace eval gui {
   ######################################################################
   # Updates the current position information in the information bar based
   # on the current location of the insertion cursor.
-  proc update_position {w} {
+  proc update_position {txt} {
   
     variable widgets
     
     # Get the current position of the insertion cursor
-    lassign [split [$w.tf.txt index insert] .] line column
+    lassign [split [$txt index insert] .] line column
     
     # Update the information widgets
     $widgets(info_label) configure -text [msgcat::mc "Line: %d, Column: %d" $line [expr $column + 1]]

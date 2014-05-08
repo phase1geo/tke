@@ -5,7 +5,8 @@
 
 namespace eval menus {
 
-  variable profile_report [file join $::tke_home profiling_report.log]
+  variable profile_report  [file join $::tke_home profiling_report.log]
+  variable show_split_pane 0
   
   array set profiling_info {}
   
@@ -770,6 +771,11 @@ namespace eval menus {
     
     $mb add separator
     
+    $mb add checkbutton -label [msgcat::mc "Show split pane"] -underline 11 -variable menus::show_split_pane -command "gui::toggle_split_pane"
+    launcher::register [msgcat::mc "Menu: Toggle split pane"] "gui::toggle_split_pane"
+    
+    $mb add separator
+    
     $mb add cascade -label [msgcat::mc "Tabs"] -underline 0 -menu [menu $mb.tabPopup -tearoff 0 -postcommand "menus::view_tabs_posting $mb.tabPopup"]
     
     $mb add separator
@@ -804,6 +810,8 @@ namespace eval menus {
   # menu options to match the current UI state.
   proc view_posting {mb} {
     
+    variable show_split_pane
+    
     if {([gui::tabs_in_pane] < 2) && ([gui::panes] < 2)} {
       $mb entryconfigure [msgcat::mc "Tabs"] -state disabled
     } else {
@@ -811,9 +819,12 @@ namespace eval menus {
     }
 
     if {[gui::current_txt] eq ""} {
-      $mb entryconfigure [msgcat::mc "Set Syntax"] -state disabled
+      $mb entryconfigure [msgcat::mc "Show split pane"] -state disabled
+      $mb entryconfigure [msgcat::mc "Set Syntax"]      -state disabled
     } else {
-      $mb entryconfigure [msgcat::mc "Set Syntax"] -state normal
+      $mb entryconfigure [msgcat::mc "Show split pane"] -state normal
+      $mb entryconfigure [msgcat::mc "Set Syntax"]      -state normal
+      set show_split_pane [expr {[llength [[gui::current_txt] peer names]] > 0}]
     }
     
   }
