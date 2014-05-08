@@ -3,7 +3,7 @@
 # Date:    5/11/2013
 # Brief:   Contains all of the main GUI elements for the editor and
 #          their behavior.
- 
+
 namespace eval gui {
  
   variable curr_id          0
@@ -2408,7 +2408,7 @@ namespace eval gui {
     
     bind Ctext               <<Modified>>          "gui::text_changed %W"
     bind $tab_frame.tf.txt.t <FocusIn>             "gui::set_current_tab_from_txt %W"
-    bind $tab_frame.tf.txt.l <Button-3>            [bind $tab_frame.tf.txt.l <Button-1>]
+    bind $tab_frame.tf.txt.l <ButtonPress-3>       [bind $tab_frame.tf.txt.l <ButtonPress-1>]
     bind $tab_frame.tf.txt.l <ButtonPress-1>       "gui::select_line %W %y"
     bind $tab_frame.tf.txt.l <B1-Motion>           "gui::select_lines %W %y"
     bind $tab_frame.tf.txt.l <Shift-ButtonPress-1> "gui::select_lines %W %y"
@@ -2625,12 +2625,15 @@ namespace eval gui {
   
     variable line_sel_anchor
     
+    # Get the parent window
+    set txt [winfo parent $w]
+    
     # Get the current line from the line sidebar
-    set index [$w index @0,$y]
+    set index [$txt index @0,$y]
     
     # Select the corresponding line in the text widget
-    [winfo parent $w] tag remove sel 1.0 end
-    [winfo parent $w] tag add sel "$index linestart" "$index lineend"
+    $txt tag remove sel 1.0 end
+    $txt tag add sel "$index linestart" "$index lineend"
     
     # Save the selected line to the anchor
     set line_sel_anchor($w) $index
@@ -2643,12 +2646,15 @@ namespace eval gui {
   proc select_lines {w y} {
   
     variable line_sel_anchor
+    
+    # Get the parent window
+    set txt [winfo parent $w]
   
     # Get the current line from the line sidebar
-    set index [$w index @0,$y]
+    set index [$txt index @0,$y]
       
     # Remove the current selection
-    [winfo parent $w] tag remove sel 1.0 end
+    $txt tag remove sel 1.0 end
     
     # If the anchor has not been set, set it now
     if {![info exists line_sel_anchor($w)]} {
@@ -2656,10 +2662,10 @@ namespace eval gui {
     }
   
     # Add the selection between the anchor and this line, inclusive
-    if {[[winfo parent $w] compare $index < $line_sel_anchor($w)]} {
-      [winfo parent $w] tag add sel "$index linestart" "$line_sel_anchor($w) lineend"
+    if {[$txt compare $index < $line_sel_anchor($w)]} {
+      $txt tag add sel "$index linestart" "$line_sel_anchor($w) lineend"
     } else {
-      [winfo parent $w] tag add sel "$line_sel_anchor($w) linestart" "$index lineend"
+      $txt tag add sel "$line_sel_anchor($w) linestart" "$index lineend"
     }
     
   }
