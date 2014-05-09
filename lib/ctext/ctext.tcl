@@ -930,7 +930,7 @@ proc ctext::commentsParse {win start end pcCom plCom psStr pdStr ptStr} {
         
     # Found a starting block comment string
     } elseif {($configAr(bcomment_re) ne "") && [regexp {*}$configAr(re_opts) $configAr(bcomment_re) $str]} {
-      commentsParseCCommentEnd $win $index indices $num_indices $configAr(re_opts) $configAr(eccoment_re) lengths i ccoment
+      commentsParseCCommentEnd $win $index indices $num_indices $configAr(re_opts) $configAr(ecomment_re) lengths i ccomment
     }
 
   }
@@ -1049,7 +1049,7 @@ proc ctext::commentsParseLCommentEnd {win index pindices num_indices pi plcommen
 
 }
 
-proc ctext::commentsParseCCommentEnd {win index pindices num_indices re_opts eccoment_re plengths pi pccoment} {
+proc ctext::commentsParseCCommentEnd {win index pindices num_indices re_opts ecomment_re plengths pi pccomment} {
 
   upvar $pindices  indices
   upvar $plengths  lengths

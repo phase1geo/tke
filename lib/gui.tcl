@@ -19,6 +19,7 @@ namespace eval gui {
   variable file_locked      0
   variable last_opened      [list]
   variable fif_files        [list]
+  variable last_txt         ""
   
   array set widgets         {}
   array set language        {}
@@ -1695,7 +1696,7 @@ namespace eval gui {
     grid remove $tab.sep
     
     # Put the focus on the text widget
-    focus $tab.pw.tf.txt.t
+    set_txt_focus [last_txt_focus]
      
   }
   
@@ -1737,7 +1738,7 @@ namespace eval gui {
     grid remove $tab.sep
 
     # Put the focus on the text widget
-    focus $tab.pw.tf.txt.t
+    set_txt_focus [last_txt_focus]
 
   }
 
@@ -2296,7 +2297,7 @@ namespace eval gui {
     bind [$nb.tbf.tb btag] <ButtonRelease-$::right_click> {
       set gui::pw_current [lsearch [$gui::widgets(nb_pw) panes] [winfo parent [winfo parent [winfo parent %W]]]]
       if {![catch "[winfo parent %W] select @%x,%y"]} {
-        focus [gui::current_txt].t
+        set_txt_focus [last_txt_focus]
       }
     }
     
@@ -2424,7 +2425,7 @@ namespace eval gui {
       -linemap_mark_command gui::mark_command -linemap_select_bg orange \
       -xscrollcommand "utils::set_xscrollbar $tab_frame.pw.tf.hb" \
       -yscrollcommand "utils::set_yscrollbar $tab_frame.pw.tf.vb"
-    ttk::label     $tab_frame.pw.tf.split -image $images(split)
+    ttk::label     $tab_frame.pw.tf.split -image $images(split) -anchor center
     ttk::scrollbar $tab_frame.pw.tf.vb    -orient vertical   -command "$tab_frame.pw.tf.txt yview"
     ttk::scrollbar $tab_frame.pw.tf.hb    -orient horizontal -command "$tab_frame.pw.tf.txt xview"
     
@@ -2580,7 +2581,7 @@ namespace eval gui {
     syntax::set_current_language
 
     # Give the text widget the focus
-    focus $tab_frame.pw.tf.txt.t
+    set_txt_focus $tab_frame.pw.tf.txt
     
     return $tab_frame
     
@@ -2605,7 +2606,7 @@ namespace eval gui {
       -linemap_mark_command gui::mark_command -linemap_select_bg orange -peer $txt \
       -xscrollcommand "utils::set_xscrollbar $pw.tf2.hb" \
       -yscrollcommand "utils::set_yscrollbar $pw.tf2.vb"
-    ttk::label     $pw.tf2.split -image $images(close)
+    ttk::label     $pw.tf2.split -image $images(close) -anchor center
     ttk::scrollbar $pw.tf2.vb    -orient vertical   -command "$pw.tf2.txt yview"
     ttk::scrollbar $pw.tf2.hb    -orient horizontal -command "$pw.tf2.txt xview"
     
@@ -2654,7 +2655,7 @@ namespace eval gui {
     syntax::set_language $language $pw.tf2.txt
 
     # Give the text widget the focus
-    focus $pw.tf2.txt.t
+    set_txt_focus $pw.tf2.txt
     
   }
   
@@ -2676,7 +2677,7 @@ namespace eval gui {
     grid $pw.tf.split
     
     # Set the focus back on the tf text widget
-    focus $pw.tf.txt.t
+    set_txt_focus $pw.tf.txt
     
   }
  
@@ -2835,7 +2836,7 @@ namespace eval gui {
 
     # Finally, set the focus to the text widget
     if {([focus] ne "$txt.t") && !$skip_focus} {
-      focus $txt.t       
+      set_txt_focus $txt
     }
 
   }
@@ -3224,6 +3225,30 @@ namespace eval gui {
     tk_popup $mnu [expr ([winfo rootx $extra] + [winfo reqwidth $extra]) - [winfo reqwidth $mnu]] \
                   [expr [winfo rooty $extra] + [winfo reqheight $extra]]
 
+  }
+  
+  ######################################################################
+  # Sets the focus to the given ctext widget.
+  proc set_txt_focus {txt} {
+  
+    variable last_txt
+    
+    # Set the focus
+    focus $txt.t
+  
+    # Save the last text widget in focus
+    set last_txt $txt
+  
+  }
+  
+  ######################################################################
+  # Returns the path to the ctext widget that last received focus.
+  proc last_txt_focus {} {
+   
+    variable last_txt
+    
+    return $last_txt
+    
   }
 
 }

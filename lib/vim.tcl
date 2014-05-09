@@ -68,16 +68,19 @@ namespace eval vim {
     # Save the entry
     set command_entries($txt.t) $entry
   
-    bind $entry <Return>    "vim::handle_command_return %W $txt"
-    bind $entry <Escape>    "vim::handle_command_escape %W $txt"
-    bind $entry <BackSpace> "vim::handle_command_backspace %W $txt"
+    bind $entry <Return>    "vim::handle_command_return %W"
+    bind $entry <Escape>    "vim::handle_command_escape %W"
+    bind $entry <BackSpace> "vim::handle_command_backspace %W"
   
   }
   
   ######################################################################
   # Handles the command entry text.
-  proc handle_command_return {w txt} {
+  proc handle_command_return {w} {
       
+    # Get the last txt widget that had the focus
+    set txt [gui::last_txt_focus]
+    
     # Get the value from the command field
     set value [$w get]
     
@@ -152,7 +155,7 @@ namespace eval vim {
     
     # Remove the grab and set the focus back to the text widget
     grab release $w
-    focus $txt.t
+    gui::set_txt_focus $txt
     
     # Hide the command entry widget
     grid remove $w 
@@ -199,14 +202,17 @@ namespace eval vim {
   
   ######################################################################
   # Handles an escape key in the command entry widget.
-  proc handle_command_escape {w txt} {
+  proc handle_command_escape {w} {
+    
+    # Get the last text widget that had focus
+    set txt [gui::last_txt_focus]
     
     # Delete the value in the command entry
     $w delete 0 end
     
     # Remove the grab and set the focus back to the text widget
     grab release $w
-    focus $txt.t
+    gui::set_txt_focus $txt
     
     # Hide the command entry widget
     grid remove $w
@@ -215,13 +221,13 @@ namespace eval vim {
   
   ######################################################################
   # Handles a backspace key in the command entry widget.
-  proc handle_command_backspace {w txt} {
+  proc handle_command_backspace {w} {
  
     if {[$w get] eq ""} {
       
       # Remove the grab and set the focus back to the text widget
       grab release $w
-      focus $txt.t
+      gui::set_txt_focus [gui::last_txt_focus]
       
       # Hide the command entry widget
       grid remove $w
@@ -990,13 +996,13 @@ namespace eval vim {
     if {$mode($txt) eq "start"} {
       $txt tag remove sel 1.0 end
       if {$number($txt) ne ""} {
-        if {[utils::compare_indices [$txt index "insert lineend"] [$txt index "insert+$number($txt)c"]] == -1} {
+        if {[$txt compare "insert lineend" < "insert+$number($txt)c"]} {
           $txt mark set insert "insert lineend"
         } else {
           $txt mark set insert "insert+$number($txt)c"
         }
         $txt see insert
-      } elseif {[utils::compare_indices [$txt index "insert lineend"] [$txt index "insert+1c"]] == 1} {
+      } elseif {[$txt compare "insert lineend" > "insert+1c"]} {
         $txt mark set insert "insert+1c"
         $txt see insert
       } else {
@@ -1039,13 +1045,13 @@ namespace eval vim {
     # Move the insertion cursor left one character
     if {$mode($txt) eq "start"} {
       if {$number($txt) ne ""} {
-        if {[utils::compare_indices [$txt index "insert linestart"] [$txt index "insert-$number($txt)c"]] == 1} {
+        if {[$txt compare "insert linestart" > "insert-$number($txt)c"]} {
           $txt mark set insert "insert linestart"
         } else {
           $txt mark set insert "insert-$number($txt)c"
         }
         $txt see insert
-      } elseif {[utils::compare_indices [$txt index "insert linestart"] [$txt index "insert-1c"]] != 1} {
+      } elseif {[$txt compare "insert linestart" <= "insert-1c"]} {
         $txt mark set insert "insert-1c"
         $txt see insert
       } else {
@@ -1310,7 +1316,7 @@ namespace eval vim {
     if {$number ne ""} {
       if {[multicursor::enabled $txt]} {
         multicursor::delete $txt "+${number}c"
-      } elseif {[utils::compare_indices [$txt index "insert+${number}c"] [$txt index "insert lineend"]] == 1} {
+      } elseif {[$txt compare "insert+${number}c" > "insert lineend"]} {
         $txt delete insert "insert lineend"
         if {[$txt index insert] eq [$txt index "insert linestart"]} {
           $txt insert insert " "
