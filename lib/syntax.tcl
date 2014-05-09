@@ -331,7 +331,7 @@ namespace eval syntax {
     
     # Set the menubutton text
     $gui::widgets(info_syntax) configure -text $language
-    
+      
   }
   
   ######################################################################

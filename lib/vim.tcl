@@ -298,6 +298,11 @@ namespace eval vim {
         break
       }
     }
+    bind vimpre$txt <Control-g> {
+      if {[vim::handle_control_g %W]} {
+        break
+      }
+    }
     bind vim$txt <Button-1> {
       %W tag remove sel 1.0 end
       set current [%W index @%x,%y]
@@ -1500,6 +1505,21 @@ namespace eval vim {
       eval [string map {%W $txt} [bind Text <Prior>]]
       adjust_insert $txt
       record "Control-b"
+      return 1
+    }
+    
+    return 0
+    
+  }
+  
+  ######################################################################
+  # If we are in "start" mode, display the current text counts.
+  proc handle_control_g {txt} {
+    
+    variable mode
+    
+    if {$mode($txt) eq "start"} {
+      gui::display_file_counts $txt
       return 1
     }
     
