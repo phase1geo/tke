@@ -121,6 +121,9 @@ namespace eval gui {
     set images(close)    [image create bitmap -file     [file join $::tke_dir lib images close.bmp] \
                                               -maskfile [file join $::tke_dir lib images close.bmp] \
                                               -foreground grey10]
+    set images(split)    [image create bitmap -file     [file join $::tke_dir lib images split.bmp] \
+                                              -maskfile [file join $::tke_dir lib images split.bmp] \
+                                              -foreground grey10]
     set images(logo)     [image create photo  -file     [file join $::tke_dir lib images tke_logo_64.gif]]
     set images(global)   [image create photo  -file     [file join $::tke_dir lib images global.gif]]
     set images(down)     [image create bitmap -file     [file join $::tke_dir lib images down.bmp] \
@@ -1296,6 +1299,9 @@ namespace eval gui {
     # Delete the text frame
     catch { pack forget $tab }
     
+    # Destroy the text frame
+    destroy $tab
+    
     # Display the current pane (if one exists)
     if {[set tab [$tb select]] ne ""} {
       set_current_tab $tab
@@ -2418,8 +2424,9 @@ namespace eval gui {
       -linemap_mark_command gui::mark_command -linemap_select_bg orange \
       -xscrollcommand "utils::set_xscrollbar $tab_frame.pw.tf.hb" \
       -yscrollcommand "utils::set_yscrollbar $tab_frame.pw.tf.vb"
-    ttk::scrollbar $tab_frame.pw.tf.vb -orient vertical   -command "$tab_frame.pw.tf.txt yview"
-    ttk::scrollbar $tab_frame.pw.tf.hb -orient horizontal -command "$tab_frame.pw.tf.txt xview"
+    ttk::label     $tab_frame.pw.tf.split -image $images(split)
+    ttk::scrollbar $tab_frame.pw.tf.vb    -orient vertical   -command "$tab_frame.pw.tf.txt yview"
+    ttk::scrollbar $tab_frame.pw.tf.hb    -orient horizontal -command "$tab_frame.pw.tf.txt xview"
     
     bind Ctext                  <<Modified>>          "gui::text_changed %W"
     bind $tab_frame.pw.tf.txt.t <FocusIn>             "gui::set_current_tab_from_txt %W"
@@ -2432,6 +2439,7 @@ namespace eval gui {
     bind $tab_frame.pw.tf.txt   <B1-Motion>           "gui::update_position %W"
     bind $tab_frame.pw.tf.txt   <KeyRelease>          "gui::update_position %W"
     bind $tab_frame.pw.tf.txt   <Motion>              "gui::clear_tab_tooltip $tb"
+    bind $tab_frame.pw.tf.split <Button-1>            "gui::toggle_split_pane"
     bind Text                   <<Cut>>               ""
     bind Text                   <<Copy>>              ""
     bind Text                   <<Paste>>             ""
@@ -2444,11 +2452,12 @@ namespace eval gui {
     bindtags $tab_frame.pw.tf.txt.t [lreplace [bindtags $tab_frame.pw.tf.txt.t] $all_index $all_index]
     bindtags $tab_frame.pw.tf.txt.t [linsert  [bindtags $tab_frame.pw.tf.txt.t] $text_index all]
     
-    grid rowconfigure    $tab_frame.pw.tf 0 -weight 1
+    grid rowconfigure    $tab_frame.pw.tf 1 -weight 1
     grid columnconfigure $tab_frame.pw.tf 0 -weight 1
-    grid $tab_frame.pw.tf.txt -row 0 -column 0 -sticky news
-    grid $tab_frame.pw.tf.vb  -row 0 -column 1 -sticky ns
-    grid $tab_frame.pw.tf.hb  -row 1 -column 0 -sticky ew
+    grid $tab_frame.pw.tf.txt   -row 0 -column 0 -sticky news -rowspan 2
+    grid $tab_frame.pw.tf.split -row 0 -column 1 -sticky news
+    grid $tab_frame.pw.tf.vb    -row 1 -column 1 -sticky ns
+    grid $tab_frame.pw.tf.hb    -row 2 -column 0 -sticky ew
     
     # Create the Vim command bar
     vim::bind_command_entry $tab_frame.pw.tf.txt \
@@ -2582,20 +2591,23 @@ namespace eval gui {
   # the current pane.
   proc show_split_pane {} {
     
+    variable images
+        
     # Get the current paned window
     set txt [current_txt]
     set pw  [winfo parent [winfo parent $txt]]
     set tb  [winfo parent $pw]
     
     # Create the editor frame
-    $pw add [ttk::frame $pw.tf2]
+    $pw insert 0 [ttk::frame $pw.tf2]
     ctext $pw.tf2.txt -wrap none -undo 1 -autoseparators 1 -insertofftime 0 \
       -highlightcolor yellow -warnwidth $preferences::prefs(Editor/WarningWidth) \
       -linemap_mark_command gui::mark_command -linemap_select_bg orange -peer $txt \
       -xscrollcommand "utils::set_xscrollbar $pw.tf2.hb" \
       -yscrollcommand "utils::set_yscrollbar $pw.tf2.vb"
-    ttk::scrollbar $pw.tf2.vb -orient vertical   -command "$pw.tf2.txt yview"
-    ttk::scrollbar $pw.tf2.hb -orient horizontal -command "$pw.tf2.txt xview"
+    ttk::label     $pw.tf2.split -image $images(close)
+    ttk::scrollbar $pw.tf2.vb    -orient vertical   -command "$pw.tf2.txt yview"
+    ttk::scrollbar $pw.tf2.hb    -orient horizontal -command "$pw.tf2.txt xview"
     
     bind $pw.tf2.txt.t <FocusIn>             "gui::set_current_tab_from_txt %W"
     bind $pw.tf2.txt.l <ButtonPress-3>       [bind $pw.tf2.txt.l <ButtonPress-1>]
@@ -2607,6 +2619,7 @@ namespace eval gui {
     bind $pw.tf2.txt   <B1-Motion>           "gui::update_position %W"
     bind $pw.tf2.txt   <KeyRelease>          "gui::update_position %W"
     bind $pw.tf2.txt   <Motion>              "gui::clear_tab_tooltip $tb"
+    bind $pw.tf2.split <Button-1>            "gui::toggle_split_pane"
     
     # Move the all bindtag ahead of the Text bindtag
     set text_index [lsearch [bindtags $pw.tf2.txt.t] Text]
@@ -2614,11 +2627,12 @@ namespace eval gui {
     bindtags $pw.tf2.txt.t [lreplace [bindtags $pw.tf2.txt.t] $all_index $all_index]
     bindtags $pw.tf2.txt.t [linsert  [bindtags $pw.tf2.txt.t] $text_index all]
     
-    grid rowconfigure    $pw.tf2 0 -weight 1
+    grid rowconfigure    $pw.tf2 1 -weight 1
     grid columnconfigure $pw.tf2 0 -weight 1
-    grid $pw.tf2.txt -row 0 -column 0 -sticky news
-    grid $pw.tf2.vb  -row 0 -column 1 -sticky ns
-    grid $pw.tf2.hb  -row 1 -column 0 -sticky ew
+    grid $pw.tf2.txt   -row 0 -column 0 -sticky news -rowspan 2
+    grid $pw.tf2.split -row 0 -column 1 -sticky news
+    grid $pw.tf2.vb    -row 1 -column 1 -sticky ns
+    grid $pw.tf2.hb    -row 2 -column 0 -sticky ew
     
     # Associate the existing command entry field with this text widget
     vim::bind_command_entry $pw.tf2.txt $tb.ve
@@ -2628,7 +2642,20 @@ namespace eval gui {
     multicursor::add_bindings $pw.tf2.txt
     snippets::add_bindings    $pw.tf2.txt
     vim::set_vim_mode         $pw.tf2.txt
+    
+    # Apply the appropriate syntax highlighting for the given extension
+    set language [syntax::get_current_language $txt]
+    syntax::initialize_language $pw.tf2.txt $language
+    
+    # Hide the split pane button in the other text frame
+    grid remove $pw.tf.split
         
+    # Set the current language
+    syntax::set_language $language $pw.tf2.txt
+
+    # Give the text widget the focus
+    focus $pw.tf2.txt.t
+    
   }
   
   ######################################################################
@@ -2644,6 +2671,12 @@ namespace eval gui {
     
     # Destroy the extra text widget frame
     destroy $pw.tf2
+    
+    # Show the split pane widget in the other text widget frame
+    grid $pw.tf.split
+    
+    # Set the focus back on the tf text widget
+    focus $pw.tf.txt.t
     
   }
  
@@ -2941,12 +2974,29 @@ namespace eval gui {
     # Get the current position of the insertion cursor
     lassign [split [$txt index insert] .] line column
     
-    # Get the last line
-    set last_line [lindex [split [$txt index end-1c] .] 0]
-    
     # Update the information widgets
-    $widgets(info_label) configure -text [msgcat::mc "Line: %d (%d), Column: %d" $line $last_line [expr $column + 1]]
+    $widgets(info_label) configure -text [msgcat::mc "Line: %d, Column: %d" $line [expr $column + 1]]
   
+  }
+  
+  ######################################################################
+  # Display the file count information in the status bar.
+  proc display_file_counts {txt} {
+    
+    variable widgets
+    
+    # Get the current position of the insertion cursor
+    lassign [split [$txt index insert] .] line column
+    
+    # Get the total line count
+    set lines [$txt count -lines 1.0 end]
+    
+    # Get the total character count
+    set chars [$txt count -chars 1.0 end]
+    
+    # Update the information widget
+    $widgets(info_label) configure -text [msgcat::mc "Line: %d, Column: %d, Total Lines: %d, Total Characters: %d" $line [expr $column + 1] $lines $chars]
+    
   }
   
   ######################################################################
