@@ -52,8 +52,8 @@ msgcat::mcmset ja {
   "Close Tab"
   "タブを閉じる"
 
-  "Copyright %d"
-  "著作％dの"
+  "Copyright %d-%d"
+  "著作権％D-％dの"
 
   "Delete tab?"
   "タブを削除しますか？"
@@ -73,11 +73,11 @@ msgcat::mcmset ja {
   "Find:"
   "Find"
 
-  "Global"
-  "グローバル"
-
   "Line: %d, Column: %d"
   "ライン：％dが、カラム：％dの"
+
+  "Line: %d, Column: %d, Total Lines: %d, Total Characters: %d"
+  "行：％d、列％dは、合計行：％dは、合計文字：％D"
 
   "Locked"
   "ロックする"
@@ -97,8 +97,8 @@ msgcat::mcmset ja {
   "Save request"
   "リクエストを保存"
 
-  "Unable to find current file (pane: %s, tab: %s)"
-  "（：％sは、タブ：％sのペイン）に、現在のファイルが見つかりません"
+  "Unable to find current file (tab: %s)"
+  "現在のファイルが見つかりません（ペ：％s）を"
 
   "Untitled"
   "無題"
@@ -179,11 +179,26 @@ msgcat::mcmset ja {
   "Find in files"
   "ファイルから検索"
 
+  "Find marker"
+  "マーカーを見つける"
+
   "Find matching pair"
   "一致するペアを見つける"
 
   "Format Text"
   "テキストをフォーマットする"
+
+  "Goto Last Tab"
+  "後藤最後のタブ"
+
+  "Goto Next Tab"
+  "後藤次のタブ"
+
+  "Goto Other Pane"
+  "後藤他のペイン"
+
+  "Goto Previous Tab"
+  "後藤前のタブ"
 
   "Help"
   "ヘルプ"
@@ -263,6 +278,18 @@ msgcat::mcmset ja {
   "Menu: Find previous occurrence"
   "メニュー：前の発生を検索"
 
+  "Menu: Goto last tab"
+  "メニュー：後藤最後のタブ"
+
+  "Menu: Goto next tab"
+  "メニュー：後藤次のタブ"
+
+  "Menu: Goto other pane"
+  "メニュー：後藤他のペイン"
+
+  "Menu: Goto previous tab"
+  "メニュー：後藤前のタブ"
+
   "Menu: Hide console"
   "メニュー：コンソールを非表示に"
 
@@ -338,11 +365,17 @@ msgcat::mcmset ja {
   "Menu: Show status bar"
   "メニュー：表示するステータスバー"
 
+  "Menu: Sort tabs"
+  "メニュー：ソートタブ"
+
   "Menu: Start profiling"
   "メニュー：スタートプロファイリング"
 
   "Menu: Stop profiling"
   "メニュー：ストッププロファイリング"
+
+  "Menu: Toggle split pane"
+  "メニュー：トグル分割ペイン"
 
   "Menu: Uncomment selected text"
   "メニュー：コメント解除選択したテキスト"
@@ -425,14 +458,23 @@ msgcat::mcmset ja {
   "Show Last Profiling Report"
   "最後のプロファイリングレポートを表示"
 
+  "Show split pane"
+  "分割ペインを表示する"
+
   "Show*Profiling*"
   "表示*プロファイリング*"
+
+  "Sort Tabs"
+  "並べタブ"
 
   "Start Profiling"
   "プロファイリング開始"
 
   "Stop Profiling"
   "プロファイリングを停止"
+
+  "Tabs"
+  "タブ"
 
   "Text"
   "Text"

@@ -52,8 +52,8 @@ msgcat::mcmset es {
   "Close Tab"
   "Close Tab"
 
-  "Copyright %d"
-  "Derechos de autor %d"
+  "Copyright %d-%d"
+  "Derechos Reservados% d-% d"
 
   "Delete tab?"
   "Eliminar ficha?"
@@ -73,11 +73,11 @@ msgcat::mcmset es {
   "Find:"
   "Encontrar:"
 
-  "Global"
-  "Internacional"
-
   "Line: %d, Column: %d"
   "Line: %d, Columna: %d"
+
+  "Line: %d, Column: %d, Total Lines: %d, Total Characters: %d"
+  "Línea:% d, columna% d, Líneas totales:% d, Personajes totales:% d"
 
   "Locked"
   "Bloqueado"
@@ -97,8 +97,8 @@ msgcat::mcmset es {
   "Save request"
   "Memorizar encargo"
 
-  "Unable to find current file (pane: %s, tab: %s)"
-  "No se puede encontrar el archivo actual (panel: %s, tab: %s)"
+  "Unable to find current file (tab: %s)"
+  "No se puede encontrar el archivo actual (pestaña:% s)"
 
   "Untitled"
   "Intitulado"
@@ -179,11 +179,26 @@ msgcat::mcmset es {
   "Find in files"
   "Buscar en archivos..."
 
+  "Find marker"
+  "Marcador"
+
   "Find matching pair"
   "Encuentra pares"
 
   "Format Text"
   "Formato de texto"
+
+  "Goto Last Tab"
+  "Goto Última Tab"
+
+  "Goto Next Tab"
+  "Ir a la siguiente pestaña"
+
+  "Goto Other Pane"
+  "Goto Otro panel"
+
+  "Goto Previous Tab"
+  "Ir a la pestaña anterior"
 
   "Help"
   "Help!"
@@ -263,6 +278,18 @@ msgcat::mcmset es {
   "Menu: Find previous occurrence"
   "Menú: Buscar aparición anterior"
 
+  "Menu: Goto last tab"
+  "Menú: Ir a la última pestaña"
+
+  "Menu: Goto next tab"
+  "Menú: Ir a la siguiente pestaña"
+
+  "Menu: Goto other pane"
+  "Menú: Ir a otro panel"
+
+  "Menu: Goto previous tab"
+  "Menú: Ir a la pestaña anterior"
+
   "Menu: Hide console"
   "Menú: Ocultar la consola"
 
@@ -338,11 +365,17 @@ msgcat::mcmset es {
   "Menu: Show status bar"
   "Menú: Mostrar barra de estado"
 
+  "Menu: Sort tabs"
+  "Menú: Ordenar pestañas"
+
   "Menu: Start profiling"
   "Menú: perfiles inicio"
 
   "Menu: Stop profiling"
   "Menú: perfilación"
+
+  "Menu: Toggle split pane"
+  "Menú: SplitPane Toggle"
 
   "Menu: Uncomment selected text"
   "Menú: Elimine el texto seleccionado"
@@ -425,14 +458,23 @@ msgcat::mcmset es {
   "Show Last Profiling Report"
   "Mostrar último informe Profiling"
 
+  "Show split pane"
+  "Mostrar panel de división"
+
   "Show*Profiling*"
   "Mostrar*Profiling*"
+
+  "Sort Tabs"
+  "Sort Tabs"
 
   "Start Profiling"
   "Comience perfiles"
 
   "Stop Profiling"
   "Detener perfiles"
+
+  "Tabs"
+  "Tablas"
 
   "Text"
   "Text"

@@ -52,8 +52,8 @@ msgcat::mcmset de {
   "Close Tab"
   "Tab schließen"
 
-  "Copyright %d"
-  "Urheberrecht %d"
+  "Copyright %d-%d"
+  "Urheber% d% d-"
 
   "Delete tab?"
   "Löschen Registerkarte?"
@@ -73,11 +73,11 @@ msgcat::mcmset de {
   "Find:"
   "Suchen nach:"
 
-  "Global"
-  "Global"
-
   "Line: %d, Column: %d"
   "Zeile: %d, Spalte: %d"
+
+  "Line: %d, Column: %d, Total Lines: %d, Total Characters: %d"
+  "Line:% d, Spalte:% d, Gesamt Zeilen:% d, Gesamt Zeichen:% d"
 
   "Locked"
   "Lock"
@@ -97,8 +97,8 @@ msgcat::mcmset de {
   "Save request"
   "Speichern Anfrage"
 
-  "Unable to find current file (pane: %s, tab: %s)"
-  "Kann aktuelle Datei (Bereich: %s, tab: %s) zu finden"
+  "Unable to find current file (tab: %s)"
+  "Kann nicht aktuellen Datei (tab:% s)"
 
   "Untitled"
   "Untitled"
@@ -179,11 +179,26 @@ msgcat::mcmset de {
   "Find in files"
   "In Dateien suchen..."
 
+  "Find marker"
+  "Finden Marker"
+
   "Find matching pair"
   "Finden Sie passende Paar"
 
   "Format Text"
   "Formatieren von Text"
+
+  "Goto Last Tab"
+  "Goto Last Tab"
+
+  "Goto Next Tab"
+  "Goto Next Tab"
+
+  "Goto Other Pane"
+  "Goto Andere Pane"
+
+  "Goto Previous Tab"
+  "Zum vorherigen Tab"
 
   "Help"
   "Hilfe"
@@ -263,6 +278,18 @@ msgcat::mcmset de {
   "Menu: Find previous occurrence"
   "Menü: Finden vorherige Vorkommen"
 
+  "Menu: Goto last tab"
+  "Menü: Springen letzten Reiter"
+
+  "Menu: Goto next tab"
+  "Menü: Gehe nächste Register"
+
+  "Menu: Goto other pane"
+  "Menü: Springen anderen Fensterbereich"
+
+  "Menu: Goto previous tab"
+  "Menü: Springen vorherigen Registerkarte"
+
   "Menu: Hide console"
   "Menü: Konsole ausblenden"
 
@@ -338,11 +365,17 @@ msgcat::mcmset de {
   "Menu: Show status bar"
   "Status einblenden"
 
+  "Menu: Sort tabs"
+  "Menü: Sortieren Registerkarten"
+
   "Menu: Start profiling"
   "Menü: Start-Profiling"
 
   "Menu: Stop profiling"
   "Menü: Stop-Profiling"
+
+  "Menu: Toggle split pane"
+  "Menü: Toggle Split-Scheibe"
 
   "Menu: Uncomment selected text"
   "Menü: Entfernen Sie den ausgewählten Text"
@@ -425,14 +458,23 @@ msgcat::mcmset de {
   "Show Last Profiling Report"
   "Zeige die letzten Profiling melden"
 
+  "Show split pane"
+  "Zeigen geteilten Fensters"
+
   "Show*Profiling*"
   "Zeige*Profiling*"
+
+  "Sort Tabs"
+  "Tabs sortieren"
 
   "Start Profiling"
   "Starten Profiling"
 
   "Stop Profiling"
   "Stoppen Profiling"
+
+  "Tabs"
+  "TAB"
 
   "Text"
   "Text"
