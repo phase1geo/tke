@@ -52,8 +52,8 @@ msgcat::mcmset it {
   "Close Tab"
   "Chiudi scheda"
 
-  "Copyright %d"
-  "Copyright% d"
+  "Copyright %d-%d"
+  "Copyright% d,% d"
 
   "Delete tab?"
   "Elimina scheda"
@@ -73,11 +73,11 @@ msgcat::mcmset it {
   "Find:"
   "Trova:"
 
-  "Global"
-  "Globale"
-
   "Line: %d, Column: %d"
   "Line:% d, colonna:% d"
+
+  "Line: %d, Column: %d, Total Lines: %d, Total Characters: %d"
+  "Line:% d, colonna:% d, totale Lines:% d, totale Personaggi:% d"
 
   "Locked"
   "Bloccato"
@@ -97,8 +97,8 @@ msgcat::mcmset it {
   "Save request"
   "Salva richiesta"
 
-  "Unable to find current file (pane: %s, tab: %s)"
-  "Impossibile trovare il file corrente (riquadro:% s, scheda:% s)"
+  "Unable to find current file (tab: %s)"
+  "Impossibile trovare il file corrente (scheda:% s)"
 
   "Untitled"
   "Untitled"
@@ -179,11 +179,26 @@ msgcat::mcmset it {
   "Find in files"
   "Cerca nei file@action:inmenu"
 
+  "Find marker"
+  "EVIDENZIATORI"
+
   "Find matching pair"
   "Trova pair corrispondenti"
 
   "Format Text"
   "Formato testo"
+
+  "Goto Last Tab"
+  "Goto Last Tab"
+
+  "Goto Next Tab"
+  "Goto Tab Avanti"
+
+  "Goto Other Pane"
+  "Goto Altro Pane"
+
+  "Goto Previous Tab"
+  "Vai a scheda precedente"
 
   "Help"
   "Aiuto"
@@ -263,6 +278,18 @@ msgcat::mcmset it {
   "Menu: Find previous occurrence"
   "Menu: Trova occorrenza precedente"
 
+  "Menu: Goto last tab"
+  "Menu: ultima scheda Goto"
+
+  "Menu: Goto next tab"
+  "Menu: Goto scheda successiva"
+
+  "Menu: Goto other pane"
+  "Menu: Goto altro riquadro"
+
+  "Menu: Goto previous tab"
+  "Menu: Goto scheda precedente"
+
   "Menu: Hide console"
   "Menu: Hide console"
 
@@ -338,11 +365,17 @@ msgcat::mcmset it {
   "Menu: Show status bar"
   "Menu: Mostra barra di stato"
 
+  "Menu: Sort tabs"
+  "Menu: Ordina schede"
+
   "Menu: Start profiling"
   "Menu: Start profiling"
 
   "Menu: Stop profiling"
   "Menu: Stop profiling"
+
+  "Menu: Toggle split pane"
+  "Menu: riquadro diviso Toggle"
 
   "Menu: Uncomment selected text"
   "Menu: testo Uncomment selezionato"
@@ -425,14 +458,23 @@ msgcat::mcmset it {
   "Show Last Profiling Report"
   "Mostra ultimo rapporto Profiling"
 
+  "Show split pane"
+  "Mostra riquadro diviso"
+
   "Show*Profiling*"
   "Show * Profiling *"
+
+  "Sort Tabs"
+  "Ordinare Tabs"
 
   "Start Profiling"
   "Inizia Profiling"
 
   "Stop Profiling"
   "Smettere di Profiling"
+
+  "Tabs"
+  "Tabelle"
 
   "Text"
   "Testo"

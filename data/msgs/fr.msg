@@ -52,8 +52,8 @@ msgcat::mcmset fr {
   "Close Tab"
   "Fermer l'onglet"
 
-  "Copyright %d"
-  "Droit d'auteur %d"
+  "Copyright %d-%d"
+  "Droits d&#39;auteur% d-% d"
 
   "Delete tab?"
   "Supprimer onglet?"
@@ -73,11 +73,11 @@ msgcat::mcmset fr {
   "Find:"
   "Find:"
 
-  "Global"
-  "Global"
-
   "Line: %d, Column: %d"
   "Ligne: %d, Colonne: %d"
+
+  "Line: %d, Column: %d, Total Lines: %d, Total Characters: %d"
+  "Ligne:% d, colonne% d, Nombre de lignes:% d, Nombre de caractères:% d"
 
   "Locked"
   "Lock"
@@ -97,8 +97,8 @@ msgcat::mcmset fr {
   "Save request"
   "Enregistrer la demande"
 
-  "Unable to find current file (pane: %s, tab: %s)"
-  "Impossible de trouver le fichier actuel (volet: %s, tab: %s)"
+  "Unable to find current file (tab: %s)"
+  "Impossible de trouver le fichier actuel (onglet:% s)"
 
   "Untitled"
   "Untitled"
@@ -179,11 +179,26 @@ msgcat::mcmset fr {
   "Find in files"
   "Rechercher dans les fichiers"
 
+  "Find marker"
+  "Trouver marqueur"
+
   "Find matching pair"
   "Trouvez paire correspondante"
 
   "Format Text"
   "Format texte"
+
+  "Goto Last Tab"
+  "Goto dernier onglet"
+
+  "Goto Next Tab"
+  "Aller à l&#39;onglet suivant"
+
+  "Goto Other Pane"
+  "Aller Autre volet"
+
+  "Goto Previous Tab"
+  "Aller à l&#39;onglet précédent"
 
   "Help"
   "Aide"
@@ -263,6 +278,18 @@ msgcat::mcmset fr {
   "Menu: Find previous occurrence"
   "Menu: Trouvez occurrence précédente"
 
+  "Menu: Goto last tab"
+  "Menu: dernier onglet Goto"
+
+  "Menu: Goto next tab"
+  "Menu: onglet suivant Aller"
+
+  "Menu: Goto other pane"
+  "Menu: Goto autre volet"
+
+  "Menu: Goto previous tab"
+  "Menu: onglet précédent Goto"
+
   "Menu: Hide console"
   "Menu: Masquer console"
 
@@ -338,11 +365,17 @@ msgcat::mcmset fr {
   "Menu: Show status bar"
   "Barre d'état"
 
+  "Menu: Sort tabs"
+  "Menu: Trier onglets"
+
   "Menu: Start profiling"
   "Menu: profilage de départ"
 
   "Menu: Stop profiling"
   "Menu: Arrêtez le profilage"
+
+  "Menu: Toggle split pane"
+  "Menu: Basculer volet de fractionnement"
 
   "Menu: Uncomment selected text"
   "Menu: Supprimez le texte sélectionné"
@@ -425,14 +458,23 @@ msgcat::mcmset fr {
   "Show Last Profiling Report"
   "Afficher la dernière Profiling Report"
 
+  "Show split pane"
+  "Montrez volet de fractionnement"
+
   "Show*Profiling*"
   "Afficher*Profiling*"
+
+  "Sort Tabs"
+  "Trier les onglets"
 
   "Start Profiling"
   "Démarrer le profilage"
 
   "Stop Profiling"
   "Arrêtez le profilage"
+
+  "Tabs"
+  "Tab"
 
   "Text"
   "Texte"
