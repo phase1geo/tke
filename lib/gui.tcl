@@ -19,7 +19,6 @@ namespace eval gui {
   variable file_locked      0
   variable last_opened      [list]
   variable fif_files        [list]
-  variable last_txt         ""
   
   array set widgets         {}
   array set language        {}
@@ -27,6 +26,8 @@ namespace eval gui {
   array set tab_tip         {}
   array set redo_count      {}
   array set line_sel_anchor {}
+  array set tab_current     {}
+  array set txt_current     {}
 
   array set files_index {
     fname    0
@@ -286,7 +287,9 @@ namespace eval gui {
     # Set the warning width to the specified value
     foreach pane [$widgets(nb_pw) panes] {
       foreach tab [$pane tabs] {
-        $tab.pw.tf.txt configure -warnwidth $preferences::prefs(Editor/WarningWidth)
+        foreach txt_pane [$tab.pw panes] {
+          $txt_pane.txt configure -warnwidth $preferences::prefs(Editor/WarningWidth)
+        }
       }
     }
     
@@ -1226,9 +1229,6 @@ namespace eval gui {
     variable files
     variable files_index
     
-    # Get the indexed text widget 
-    set txt "$tab.pw.tf.txt"
-    
     # Get the file index
     set index [get_file_index $tab]
 
@@ -1278,9 +1278,6 @@ namespace eval gui {
     
     # Get the notebook
     lassign [pane_tb_index_from_tab $tab] pane tb tab_index
-    
-    # Get the indexed text widget 
-    set txt "$tab.pw.tf.txt"
     
     # Get the file index
     set index [get_file_index $tab]
@@ -2822,7 +2819,7 @@ namespace eval gui {
     }
     
     # Set the text widget
-    set txt "$tab.pw.tf.txt"
+    set txt [last_txt_focus $tab]
     
     # Set the line and row information
     lassign [split [$txt index insert] .] row col
@@ -2910,11 +2907,14 @@ namespace eval gui {
   
     variable pw_current
     variable tab_current
+    variable txt_current
 
     if {![info exists tab_current($pw_current)]} {
       return ""
-    } else {
+    } elseif {![info exists txt_current($tab_current($pw_current))]} {
       return "$tab_current($pw_current).pw.tf.txt"
+    } else {
+      return $txt_current($tab_current($pw_current))
     }
     
   }
@@ -3231,23 +3231,31 @@ namespace eval gui {
   # Sets the focus to the given ctext widget.
   proc set_txt_focus {txt} {
   
-    variable last_txt
+    variable txt_current
     
     # Set the focus
     focus $txt.t
   
     # Save the last text widget in focus
-    set last_txt $txt
+    set txt_current([winfo parent [winfo parent [winfo parent $txt]]]) $txt
   
   }
   
   ######################################################################
   # Returns the path to the ctext widget that last received focus.
-  proc last_txt_focus {} {
+  proc last_txt_focus {{tab ""}} {
    
-    variable last_txt
+    variable pw_current
+    variable tab_current
+    variable txt_current
     
-    return $last_txt
+    if {$tab eq ""} {
+      return $txt_current($tab_current($pw_current))
+    } elseif {[info exists txt_current($tab)]} {
+      return $txt_current($tab)
+    } else {
+      return $tab.pw.tf.txt
+    }
     
   }
 
