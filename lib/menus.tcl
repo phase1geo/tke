@@ -755,9 +755,13 @@ namespace eval menus {
   # Adds the view menu commands.
   proc add_view {mb} {
   
-    $mb add checkbutton -label [msgcat::mc "View Sidebar"] -underline 5 -variable preferences::prefs(View/ShowSidebar) -command "gui::change_sidebar_view"
-    launcher::register [msgcat::mc "Menu: Show sidebar"] "set preferences::prefs(View/ShowSidebar) 1; gui::change_sidebar_view"
-    launcher::register [msgcat::mc "Menu: Hide sidebar"] "set preferences::prefs(View/ShowSidebar) 0; gui::change_sidebar_view"
+    if {$preferences::prefs(View/ShowSidebar)} {
+      $mb add command -label [msgcat::mc "Hide Sidebar"] -underline 5 -command "menus::hide_sidebar_view $mb"
+    } else {
+      $mb add command -label [msgcat::mc "Show Sidebar"] -underline 5 -command "menus::show_sidebar_view $mb"
+    }
+    launcher::register [msgcat::mc "Menu: Show sidebar"] "menus::show_sidebar_view $mb"
+    launcher::register [msgcat::mc "Menu: Hide sidebar"] "menus::hide_sidebar_view $mb"
     
     if {![catch "console hide"]} {
       $mb add checkbutton -label [msgcat::mc "View Console"] -underline 5 -variable preferences::prefs(View/ShowConsole) -command "gui::change_console_view"
@@ -854,6 +858,30 @@ namespace eval menus {
     
   }
 
+  ######################################################################
+  # Shows the sidebar panel.
+  proc show_sidebar_view {mb} {
+    
+    # Show the sidebar
+    gui::show_sidebar_view
+    
+    # Convert the menu command into the hide sidebar command
+    $mb entryconfigure [msgcat::mc "Show Sidebar"] -label [msgcat::mc "Hide Sidebar"] -command "menus::hide_sidebar_view $mb"
+    
+  }
+  
+  ######################################################################
+  # Hides the sidebar panel.
+  proc hide_sidebar_view {mb} {
+    
+    # Show the sidebar
+    gui::hide_sidebar_view
+    
+    # Convert the menu command into the hide sidebar command
+    $mb entryconfigure [msgcat::mc "Hide Sidebar"] -label [msgcat::mc "Show Sidebar"] -command "menus::show_sidebar_view $mb"
+    
+  }
+  
   ######################################################################
   # Adds the tools menu commands.
   proc add_tools {mb} {
