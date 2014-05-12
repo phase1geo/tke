@@ -83,12 +83,12 @@
 # If this value is set to 1, the status bar will be displayed on application
 # start; otherwise, the status bar will be hidden on application start.
 
-{View/ShowStatus}            {1}
+{View/ShowStatusBar}         {1}
 
 # If this value is set to 1, the tab bar will be displayed on application start;
 # otherwise, the tab bar will be hidden on application start.
 
-{View/ShowTabs}              {1}
+{View/ShowTabBar}            {1}
 
 # When the number of opened tabs in a notebook exceeds the number of tabs that can
 # be readably displayed, a value of 1 will cause some of the tabs to be "hidden" from

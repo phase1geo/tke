@@ -764,19 +764,38 @@ namespace eval menus {
     launcher::register [msgcat::mc "Menu: Hide sidebar"] "menus::hide_sidebar_view $mb"
     
     if {![catch "console hide"]} {
-      $mb add checkbutton -label [msgcat::mc "View Console"] -underline 5 -variable preferences::prefs(View/ShowConsole) -command "gui::change_console_view"
-      launcher::register [msgcat::mc "Menu: Show console"] "set preferences::prefs(View/ShowConsole) 1; gui::change_console_view"
-      launcher::register [msgcat::mc "Menu: Hide console"] "set preferences::prefs(View/ShowConsole) 0; gui::change_console_view"
+      if {$preferences::prefs(View/ShowConsole)} {
+        $mb add command -label [msgcat::mc "Hide Console"] -underline 5 -command "menus::hide_console_view $mb"
+      } else {
+        $mb add command -label [msgcat::mc "Show Console"] -underline 5 -command "menus::show_console_view $mb"
+      }
+      launcher::register [msgcat::mc "Menu: Show console"] "menus::show_console_view $mb"
+      launcher::register [msgcat::mc "Menu: Hide console"] "menus::hide_console_view $mb"
     }
     
-    $mb add checkbutton -label [msgcat::mc "View Status Bar"] -underline 6 -variable preferences::prefs(View/ShowStatus) -command "gui::change_status_view"
-    launcher::register [msgcat::mc "Menu: Show status bar"] "set preferences::prefs(View/ShowStatus) 1; gui::change_status_view"
-    launcher::register [msgcat::mc "Menu: Hide status bar"] "set preferences::prefs(View/ShowStatus) 0; gui::change_status_view"
+    if {$preferences::prefs(View/ShowTabBar)} {
+      $mb add command -label [msgcat::mc "Hide Tab Bar"] -underline 5 -command "menus::hide_tab_view $mb"
+    } else {
+      $mb add command -label [msgcat::mc "Show Tab Bar"] -underline 5 -command "menus::show_tab_view $mb"
+    }
+    launcher::register [msgcat::mc "Menu: Show Tab Bar"] "menus::show_tab_view $mb"
+    launcher::register [msgcat::mc "Menu: Hide Tab Bar"] "menus::hide_tab_view $mb"
+    
+    if {$preferences::prefs(View/ShowStatusBar)} {
+      $mb add command -label [msgcat::mc "Hide Status Bar"] -underline 12 -command "menus::hide_status_view $mb"
+    } else {
+      $mb add command -label [msgcat::mc "Show Status Bar"] -underline 12 -command "menus::show_status_view $mb"
+    }
+    launcher::register [msgcat::mc "Menu: Show status bar"] "menus::show_status_view $mb"
+    launcher::register [msgcat::mc "Menu: Hide status bar"] "menus::hide_status_view $mb"
     
     $mb add separator
     
-    $mb add checkbutton -label [msgcat::mc "Show split pane"] -underline 11 -variable menus::show_split_pane -command "gui::toggle_split_pane"
-    launcher::register [msgcat::mc "Menu: Toggle split pane"] "gui::toggle_split_pane"
+    $mb add checkbutton -label [msgcat::mc "Split view"] -underline 6 -variable menus::show_split_pane -command "gui::toggle_split_pane"
+    launcher::register [msgcat::mc "Menu: Toggle split view mode"] "gui::toggle_split_pane"
+    
+    $mb add command -label [msgcat::mc "Move to other pane"] -underline 0 -command "gui::move_to_pane"
+    launcher::register [msgcat::mc "Menu: Move to other pane"] "gui::move_to_pane"
     
     $mb add separator
     
@@ -823,11 +842,17 @@ namespace eval menus {
     }
 
     if {[gui::current_txt] eq ""} {
-      $mb entryconfigure [msgcat::mc "Show split pane"] -state disabled
-      $mb entryconfigure [msgcat::mc "Set Syntax"]      -state disabled
+      $mb entryconfigure [msgcat::mc "Split view"]         -state disabled
+      $mb entryconfigure [msgcat::mc "Move to other pane"] -state disabled
+      $mb entryconfigure [msgcat::mc "Set Syntax"]         -state disabled
     } else {
-      $mb entryconfigure [msgcat::mc "Show split pane"] -state normal
-      $mb entryconfigure [msgcat::mc "Set Syntax"]      -state normal
+      $mb entryconfigure [msgcat::mc "Split view"]         -state normal
+      if {[gui::movable_to_other_pane]} {
+        $mb entryconfigure [msgcat::mc "Move to other pane"] -state normal
+      } else {
+        $mb entryconfigure [msgcat::mc "Move to other pane"] -state disabled
+      }
+      $mb entryconfigure [msgcat::mc "Set Syntax"]         -state normal
       set show_split_pane [expr {[llength [[gui::current_txt] peer names]] > 0}]
     }
     
@@ -882,6 +907,78 @@ namespace eval menus {
     
   }
   
+  ######################################################################
+  # Shows the console.
+  proc show_console_view {mb} {
+    
+    # Show the console
+    gui::show_console_view
+    
+    # Convert the menu command into the hide console command
+    $mb entryconfigure [msgcat::mc "Show Console"] -label [msgcat::mc "Hide Console"] -command "menus::hide_console_view $mb"
+    
+  }
+  
+  ######################################################################
+  # Hides the console.
+  proc hide_console_view {mb} {
+    
+    # Show the console
+    gui::hide_console_view
+    
+    # Convert the menu command into the show console command
+    $mb entryconfigure [msgcat::mc "Hide Console"] -label [msgcat::mc "Show Console"] -command "menus::show_console_view $mb"
+    
+  }
+  
+  ######################################################################
+  # Shows the tab bar.
+  proc show_tab_view {mb} {
+    
+    # Show the tab bar
+    gui::show_tab_view
+    
+    # Convert the menu command into the hide tab bar command
+    $mb entryconfigure [msgcat::mc "Show Tab Bar"] -label [msgcat::mc "Hide Tab Bar"] -command "menus::hide_tab_view $mb"
+    
+  }
+    
+  ######################################################################
+  # Hides the tab bar.
+  proc hide_tab_view {mb} {
+      
+    # Show the tab bar
+    gui::hide_tab_view
+      
+    # Convert the menu command into the show tab bar command
+    $mb entryconfigure [msgcat::mc "Hide Tab Bar"] -label [msgcat::mc "Show Tab Bar"] -command "menus::show_tab_view $mb"
+      
+  }
+  
+  ######################################################################
+  # Shows the status bar.
+  proc show_status_view {mb} {
+    
+    # Show the status bar
+    gui::show_status_view
+    
+    # Convert the menu command into the hide status bar command
+    $mb entryconfigure [msgcat::mc "Show Status Bar"] -label [msgcat::mc "Hide Status Bar"] -command "menus::hide_status_view $mb"
+    
+  }
+    
+  ######################################################################
+  # Hides the status bar.
+  proc hide_status_view {mb} {
+      
+    # Show the status bar
+    gui::hide_status_view
+      
+    # Convert the menu command into the show status bar command
+    $mb entryconfigure [msgcat::mc "Hide Status Bar"] -label [msgcat::mc "Show Status Bar"] -command "menus::show_status_view $mb"
+      
+  }
+ 
   ######################################################################
   # Adds the tools menu commands.
   proc add_tools {mb} {

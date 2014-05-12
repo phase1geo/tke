@@ -262,10 +262,25 @@ namespace eval gui {
     }
     
     # Show the console (if necessary)
-    change_console_view
+    if {$preferences::prefs(View/ShowConsole)} {
+      show_console_view
+    } else {
+      hide_console_view
+    }
+    
+    # Show the tabbar (if necessary)
+    if {$preferences::prefs(View/ShowTabBar)} {
+      show_tab_view
+    } else {
+      hide_tab_view
+    }
     
     # Show the status bar (if necessary)
-    change_status_view
+    if {$preferences::prefs(View/ShowStatusBar)} {
+      show_status_view
+    } else {
+      hide_status_view
+    }
 
     # If the user attempts to close the window via the window manager, treat
     # it as an exit request from the menu system.
@@ -318,6 +333,16 @@ namespace eval gui {
     } else {
       $w configure -relief raised
     }
+    
+  }
+  
+  ######################################################################
+  # Returns 1 if the current buffer can be moved to the other pane.
+  proc movable_to_other_pane {} {
+    
+    variable widgets
+    
+    return [expr {([llength [[current_tabbar] tabs]] > 1) || ([llength [$widgets(nb_pw) panes]] > 1)}]
     
   }
   
@@ -382,32 +407,66 @@ namespace eval gui {
   }
   
   ######################################################################
-  # Shows/Hides the console.
-  proc change_console_view {} {
+  # Shows the console.
+  proc show_console_view {} {
     
-    catch {
-      if {$preferences::prefs(View/ShowConsole)} {
-        console show
-      } else {
-        console hide
+    catch { console show }
+    
+  }
+  
+  ######################################################################
+  # Hides the console.
+  proc hide_console_view {} {
+  
+    catch { console hide }
+  
+  }
+  
+  ######################################################################
+  # Shows the tab bar.
+  proc show_tab_view {} {
+    
+    variable widgets
+    
+    foreach nb [$widgets(nb_pw) panes] {
+      if {[lsearch [pack slaves $nb] $nb.tbf] == -1} {
+        pack $nb.tbf -before $nb.tf -fill x
       }
     }
     
   }
   
   ######################################################################
-  # Shows/Hides the status bar.
-  proc change_status_view {} {
+  # Hides the tab bar.
+  proc hide_tab_view {} {
     
     variable widgets
     
-    catch {
-      if {$preferences::prefs(View/ShowStatus)} {
-        grid $widgets(info)
-      } else {
-        grid remove $widgets(info)
+    foreach nb [$widgets(nb_pw) panes] {
+      if {[lsearch [pack slaves $nb] $nb.tbf] != -1} {
+        pack forget $nb.tbf
       }
     }
+    
+  }
+  
+  ######################################################################
+  # Shows the status bar.
+  proc show_status_view {} {
+    
+    variable widgets
+    
+    catch { grid $widgets(info) }
+    
+  }
+  
+  ######################################################################
+  # Hides the status view
+  proc hide_status_view {} {
+    
+    variable widgets
+    
+    catch { grid remove $widgets(info) }
     
   }
   
