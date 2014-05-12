@@ -255,7 +255,11 @@ namespace eval gui {
     menus::create
     
     # Show the sidebar (if necessary)
-    change_sidebar_view
+    if {$preferences::prefs(View/ShowSidebar)} {
+      show_sidebar_view
+    } else {
+      hide_sidebar_view
+    }
     
     # Show the console (if necessary)
     change_console_view
@@ -273,8 +277,8 @@ namespace eval gui {
     poll
   
     # Trace changes to the Appearance/Theme preference variable
-    trace variable preferences::prefs(Editor/WarningWidth)        w gui::handle_warning_width_change
-    trace variable preferences::prefs(View/HideTabs)              w gui::handle_hide_tabs_change    
+    trace variable preferences::prefs(Editor/WarningWidth)    w gui::handle_warning_width_change
+    trace variable preferences::prefs(View/AllowTabScrolling) w gui::handle_allow_tab_scrolling
 
   }
   
@@ -286,7 +290,7 @@ namespace eval gui {
     
     # Set the warning width to the specified value
     foreach pane [$widgets(nb_pw) panes] {
-      foreach tab [$pane tabs] {
+      foreach tab [$nb.tbf.tb tabs] {
         foreach txt_pane [$tab.pw panes] {
           $txt_pane.txt configure -warnwidth $preferences::prefs(Editor/WarningWidth)
         }
@@ -296,8 +300,8 @@ namespace eval gui {
   }
     
   ######################################################################
-  # Handles any changes to the View/HideTabs preference variable.
-  proc handle_hide_tabs_change {name1 name2 op} {
+  # Handles any changes to the View/AllowTabScrolling preference variable.
+  proc handle_allow_tab_scrolling {name1 name2 op} {
     
     variable widgets
     
@@ -358,16 +362,22 @@ namespace eval gui {
   }
   
   ######################################################################
-  # Shows/Hides the sidebar viewer.
-  proc change_sidebar_view {} {
+  # Shows the sidebar viewer.
+  proc show_sidebar_view {} {
     
     variable widgets
     
-    if {$preferences::prefs(View/ShowSidebar)} {
-      $widgets(pw) insert 0 $widgets(sb)
-    } else {
-      catch { $widgets(pw) forget $widgets(sb) }
-    }
+    $widgets(pw) insert 0 $widgets(sb)
+    
+  }
+  
+  ######################################################################
+  # Hides the sidebar viewer.
+  proc hide_sidebar_view {} {
+    
+    variable widgets
+    
+    catch { $widgets(pw) forget $widgets(sb) }
     
   }
   
