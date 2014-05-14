@@ -1258,9 +1258,9 @@ namespace eval menus {
   proc add_help {mb} {
     
     if {[tk windowingsystem] ne "aqua"} {
-      $mb add command -label [msgcat::mc "About tke"] -underline 0 -command "gui::show_about"
+      $mb add command -label [msgcat::mc "About TKE"] -underline 0 -command "gui::show_about"
     }
-    launcher::register [msgcat::mc "Menu: About tke"] "gui::show_about"
+    launcher::register [msgcat::mc "Menu: About TKE"] "gui::show_about"
     
   }
   
