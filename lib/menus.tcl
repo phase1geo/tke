@@ -365,15 +365,43 @@ namespace eval menus {
     
     $mb add cascade -label [msgcat::mc "Format Text"] -menu [menu $mb.formatPopup -tearoff 0 -postcommand "menus::edit_format_posting $mb.formatPopup"]
     
+    $mb add separator
+
+    $mb add cascade -label [msgcat::mc "Preferences"]   -menu [menu $mb.prefPopup -tearoff 0]
+    $mb add cascade -label [msgcat::mc "Menu Bindings"] -menu [menu $mb.bindPopup -tearoff 0]
+    $mb add cascade -label [msgcat::mc "Snippets"]      -menu [menu $mb.snipPopup -tearoff 0]
+    
     # Create formatting menu
     $mb.formatPopup add command -label [msgcat::mc "Selected"] -command "gui::format selected"
     $mb.formatPopup add command -label [msgcat::mc "All"]      -command "gui::format all"
 
-    #$mb add separator
+    # Create preferences menu
+    $mb.prefPopup add command -label [msgcat::mc "View global"] -command "preferences::view_global"
+    launcher::register [msgcat::mc "Menu: View global preferences"] "preferences::view_global"
+    
+    $mb.prefPopup add command -label [msgcat::mc "Edit user"] -command "preferences::edit_user"
+    launcher::register [msgcat::mc "Menu: Edit user preferences"] "preferences::edit_user"
 
-    #$mb add command -label [msgcat::mc "Preferences..."] -underline 3 -command "FOOBAR"
-    #launcher::register [msgcat::mc "FOOBAR"] FOOBAR
-
+    $mb.prefPopup add command -label [msgcat::mc "Set user to global"] -command "preferences::copy_default"
+    launcher::register [msgcat::mc "Menu: Set user preferences to global preferences"] "preferences::copy_default"
+    
+    # Create menu bindings menu
+    $mb.bindPopup add command -label [msgcat::mc "View global"] -command "bindings::view_global"
+    launcher::register [msgcat::mc "Menu: View global menu bindings"] "bindings::view_global"
+    
+    $mb.bindPopup add command -label [msgcat::mc "Edit user"] -command "bindings::edit_user"
+    launcher::register [msgcat::mc "Menu: Edit user menu bindings"] "bindings::edit_user"
+    
+    $mb.bindPopup add command -label [msgcat::mc "Set user to global"] -command "bindings::copy_default"
+    launcher::register [msgcat::mc "Menu: Set user bindings to global bindings"] "bindings::copy_default"
+    
+    # Create snippets menu
+    $mb.snipPopup add command -label [msgcat::mc "Edit snippets"] -command "snippets::add_new_snippet"
+    launcher::register [msgcat::mc "Menu: Edit snippets"] "snippets::add_new_snippet"
+    
+    $mb.snipPopup add command -label [msgcat::mc "Reload all snippets"] -command "snippets::load_directory"
+    launcher::register [msgcat::mc "Menu: Reload all snippets"] "snippets::load_directory"
+    
     # Apply the menu settings for the edit menu
     bindings::apply $mb
   
@@ -803,7 +831,8 @@ namespace eval menus {
     
     $mb add separator
 
-    $mb add cascade -label [msgcat::mc "Set Syntax"] -underline 9 -menu [syntax::create_menu $mb.syntaxMenu]
+    $mb add cascade -label [msgcat::mc "Set Syntax"] -underline 9 -menu [syntax::create_syntax_menu $mb.syntaxMenu]
+    $mb add cascade -label [msgcat::mc "Set Theme"]  -underline 7 -menu [syntax::create_theme_menu $mb.themeMenu]
     
     # Setup the tab popup menu
     $mb.tabPopup add command -label [msgcat::mc "Goto Next Tab"] -underline 5 -command "gui::next_tab"

@@ -19,20 +19,29 @@ namespace eval bindings {
   # Loads the bindings information
   proc load {} {
   
-    variable base_bindings_file
-    variable user_bindings_file
-    
     # Load the menu bindings file
     load_file
     
-    # Add our launcher commands
-    launcher::register [msgcat::mc "Menu Bindings: Edit user menu bindings"] \
-      [list gui::add_file end $user_bindings_file -sidebar 0 -savecommand bindings::load_file]
-    launcher::register [msgcat::mc "Menu Bindings: View global menu bindings"] \
-      [list gui::add_file end $base_bindings_file -sidebar 0 -readonly 1]
-    launcher::register [msgcat::mc "Menu Bindings: Use default menu bindings"] "bindings::copy_default"
-    launcher::register [msgcat::mc "Menu Bindings: Reload menu bindings"] "bindings::load_file"
+  }
   
+  ######################################################################
+  # Adds the global menu bindings file to the editor as a read-only file.
+  proc view_global {} {
+    
+    variable base_bindings_file
+    
+    gui::add_file end $base_bindings_file -sidebar 0 -readonly 1
+    
+  }
+  
+  ######################################################################
+  # Adds the user menu bindings file to the editor.
+  proc edit_user {} {
+    
+    variable user_bindings_file
+    
+    gui::add_file end $user_bindings_file -sidebar 0 -savecommand bindings::load_file
+    
   }
   
   ########################
