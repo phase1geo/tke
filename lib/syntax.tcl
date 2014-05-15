@@ -362,8 +362,10 @@ namespace eval syntax {
     
     # Populate the menu with the available themes
     foreach name [lsort [array names themes]] {
-      $mnu add command -label $name -command "syntax::set_theme $name"
+      $mnu add command -label $name -command [list syntax::set_theme $name]
     }
+    
+    return $mnu
     
   }
   
@@ -377,9 +379,9 @@ namespace eval syntax {
     menu $mnu -tearoff 0
     
     # Populate the menu with the available languages
-    $mnu add command -label "<[msgcat::mc None]>" -command "syntax::set_language <None>"
+    $mnu add command -label "<[msgcat::mc None]>" -command [list syntax::set_language <None>]
     foreach lang [lsort [array names langs]] {
-      $mnu add command -label $lang -command "syntax::set_language $lang"
+      $mnu add command -label $lang -command [list syntax::set_language $lang]
     }
     
     return $mnu
