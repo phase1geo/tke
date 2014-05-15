@@ -22,9 +22,6 @@ namespace eval snippets {
       file mkdir $snippets_dir
     }
     
-    launcher::register [msgcat::mc "Snippets: Add snippet"]         "snippets::add_new_snippet"
-    launcher::register [msgcat::mc "Snippets: Reload all snippets"] "snippets::load_directory"
-    
   }
   
   ######################################################################

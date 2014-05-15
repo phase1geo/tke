@@ -352,8 +352,24 @@ namespace eval syntax {
   }
   
   ######################################################################
+  # Creates a theme selection menu.
+  proc create_theme_menu {mnu} {
+    
+    variable themes
+    
+    # Create the menu
+    menu $mnu -tearoff 0
+    
+    # Populate the menu with the available themes
+    foreach name [lsort [array names themes]] {
+      $mnu add command -label $name -command "syntax::set_theme $name"
+    }
+    
+  }
+  
+  ######################################################################
   # Creates a syntax selection menu.
-  proc create_menu {mnu} {
+  proc create_syntax_menu {mnu} {
     
     variable langs
     
@@ -378,7 +394,7 @@ namespace eval syntax {
     ttk::menubutton $w -menu $w.menu -direction above
 
     # Create the menubutton menu
-    create_menu $w.menu
+    create_syntax_menu $w.menu
 
     return $w
     

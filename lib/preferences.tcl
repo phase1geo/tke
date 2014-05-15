@@ -14,20 +14,30 @@ namespace eval preferences {
   # Loads the preferences file
   proc load {} {
   
-    variable base_preferences_file
-    variable user_preferences_file
-    
     # Load the preferences file contents
     load_file
     
-    # Add our launcher commands
-    launcher::register [msgcat::mc "Preferences: Edit user preferences"] \
-      [list gui::add_file end $user_preferences_file -sidebar 0 -savecommand preferences::load_file]
-    launcher::register [msgcat::mc "Preferences: View global preferences"] \
-      [list gui::add_file end $base_preferences_file -readonly 1 -sidebar 0] 
-    launcher::register [msgcat::mc "Preferences: Use default preferences"] "preferences::copy_default"
-    launcher::register [msgcat::mc "Preferences: Reload preferences"] "preferences::load_file"
+  }
   
+  ######################################################################
+  # Adds the global preferences file as a readonly file.
+  proc view_global {} {
+    
+    variable base_preferences_file
+    
+    gui::add_file end $base_preferences_file -readonly 1 -sidebar 0
+    
+  }
+  
+  ######################################################################
+  # Adds the user preferences file to the editor, auto-reloading the
+  # file when it is saved.
+  proc edit_user {} {
+    
+    variable user_preferences_file
+    
+    gui::add_file end $user_preferences_file -sidebar 0 -savecommand preferences::load_file
+    
   }
   
   ######################################################################
