@@ -1303,6 +1303,11 @@ namespace eval menus {
   # Adds the help menu commands.
   proc add_help {mb} {
     
+    $mb add command -label [msgcat::mc "User Guide"] -underline 0 -command "utils::open_file_externally [file join $::tke_dir doc UserGuide.pdf]"
+    launcher::register [msgcat::mc "Menu: View User Guide"] "utils::open_file_externally [file join $::tke_dir doc UserGuide.pdf]"
+    
+    $mb add separator
+    
     if {[tk windowingsystem] ne "aqua"} {
       $mb add command -label [msgcat::mc "About TKE"] -underline 0 -command "gui::show_about"
     }

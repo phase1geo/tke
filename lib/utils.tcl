@@ -134,5 +134,24 @@ namespace eval utils {
     }
     
   }
+  
+  ######################################################################
+  # Opens the given filename in an external application, using one of the
+  # open terminal commands to determine the proper application to use.
+  proc open_file_externally {fname} {
+    
+    switch -glob $::tcl_platform(os) {
+      Darwin {
+        catch { exec open $fname }
+      }
+      Linux* {
+        catch { exec xdg-open $fname }
+      }
+      *Win* {
+        return -code error "Internal error:  Unable to open $fname in a Windows environment!"
+      }
+    }
+    
+  }
 
 }
