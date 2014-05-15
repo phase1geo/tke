@@ -369,7 +369,7 @@ namespace eval menus {
 
     $mb add cascade -label [msgcat::mc "Preferences"]   -menu [menu $mb.prefPopup -tearoff 0]
     $mb add cascade -label [msgcat::mc "Menu Bindings"] -menu [menu $mb.bindPopup -tearoff 0]
-    $mb add cascade -label [msgcat::mc "Snippets"]      -menu [menu $mb.snipPopup -tearoff 0]
+    $mb add cascade -label [msgcat::mc "Snippets"]      -menu [menu $mb.snipPopup -tearoff 0 -postcommand "menus::edit_snippets_posting $mb.snipPopup"]
     
     # Create formatting menu
     $mb.formatPopup add command -label [msgcat::mc "Selected"] -command "gui::format selected"
@@ -381,6 +381,8 @@ namespace eval menus {
     
     $mb.prefPopup add command -label [msgcat::mc "Edit user"] -command "preferences::edit_user"
     launcher::register [msgcat::mc "Menu: Edit user preferences"] "preferences::edit_user"
+    
+    $mb.prefPopup add separator
 
     $mb.prefPopup add command -label [msgcat::mc "Set user to global"] -command "preferences::copy_default"
     launcher::register [msgcat::mc "Menu: Set user preferences to global preferences"] "preferences::copy_default"
@@ -391,6 +393,8 @@ namespace eval menus {
     
     $mb.bindPopup add command -label [msgcat::mc "Edit user"] -command "bindings::edit_user"
     launcher::register [msgcat::mc "Menu: Edit user menu bindings"] "bindings::edit_user"
+    
+    $mb.bindPopup add separator
     
     $mb.bindPopup add command -label [msgcat::mc "Set user to global"] -command "bindings::copy_default"
     launcher::register [msgcat::mc "Menu: Set user bindings to global bindings"] "bindings::copy_default"
@@ -459,6 +463,19 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Selected"] -state normal
     } else {
       $mb entryconfigure [msgcat::mc "Selected"] -state disabled
+    }
+    
+  }
+  
+  ######################################################################
+  # Called just prior to posting the edit/menu bindings menu option.
+  # Sets the menu option states to match the current UI state.
+  proc edit_snippets_posting {mb} {
+    
+    if {[gui::current_txt] eq ""} {
+      $mb entryconfigure [msgcat::mc "Edit snippets"] -state disabled
+    } else {
+      $mb entryconfigure [msgcat::mc "Edit snippets"] -state normal
     }
     
   }

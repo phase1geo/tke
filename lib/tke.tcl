@@ -7,7 +7,7 @@
 # Usage:   tke [<options>] <file>*
 
 set tke_dir  [file dirname [file dirname [file normalize [info script]]]]
-set tke_home [file join ~ .tke]
+set tke_home [file normalize [file join ~ .tke]]
 
 ######################################################################
 # Returns 1 if we are doing TKE development; otherwise, returns 0.
