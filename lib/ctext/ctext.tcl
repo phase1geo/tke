@@ -298,15 +298,16 @@ proc ctext::setCommentRE {win} {
   set patterns [concat [eval concat $configAr(block_comment_patterns)] $configAr(line_comment_patterns) $configAr(string_patterns)]
   
   if {[llength $patterns] > 0} {
-    append commentRE "|" [string map {{*} {\*} {"} {\"}} [join $patterns |]]
-    append commentRE "|" [string map {{*} {\*} {"} {\"}} \\[join $patterns {|\\}]]
+    set sub_patterns [string map {{*} {\*} {"} {\"} {(} {\(} {)} {\)}} $patterns]
+    append commentRE "|" [join $sub_patterns |]
+    append commentRE "|" {\\} [join $sub_patterns {|\\}]
   }
   
   set bcomments [list]
   set ecomments [list]
   foreach block $configAr(block_comment_patterns) {
-    lappend bcomments [string map {{*} {\*} {"} {\"}} [lindex $block 0]]
-    lappend ecomments [string map {{*} {\*} {"} {\"}} [lindex $block 1]]
+    lappend bcomments [string map {{*} {\*} {"} {\"} {(} {\(} {)} {\)}} [lindex $block 0]]
+    lappend ecomments [string map {{*} {\*} {"} {\"} {(} {\(} {)} {\)}} [lindex $block 1]]
   }
   
   set configAr(comment_re)  $commentRE
@@ -484,7 +485,7 @@ proc ctext::instanceCmd {self cmd args} {
         
         set checkStr "$prevChar[set char]"
         
-        ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$configAr(re_opts) $commentRE $checkStr]
+        ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$configAr(re_opts) -- $commentRE $checkStr]
         ctext::highlightAfterIdle $self $lineStart $lineEnd
         ctext::warnWidthUpdate $self $lineStart $lineEnd
         ctext::linemapUpdate $self
@@ -505,7 +506,7 @@ proc ctext::instanceCmd {self cmd args} {
           }
         }
         
-        ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$configAr(re_opts) $commentRE $data]
+        ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$configAr(re_opts) -- $commentRE $data]
         ctext::highlightAfterIdle $self $lineStart $lineEnd
         ctext::warnWidthUpdate $self $lineStart $lineEnd
         if {[string first "\n" $data] >= 0} {
@@ -584,7 +585,7 @@ proc ctext::instanceCmd {self cmd args} {
       
       set REData [$self._t get $prevSpace $nextSpace]
       
-      ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$configAr(re_opts) $commentRE $REData]
+      ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$configAr(re_opts) -- $commentRE $REData]
       ctext::highlightAfterIdle $self $lineStart $lineEnd
       ctext::warnWidthUpdate $self $lineStart $lineEnd
       
@@ -925,11 +926,11 @@ proc ctext::commentsParse {win start end pcCom plCom psStr pdStr ptStr} {
       commentsParseTStringEnd $win $index indices $num_indices lengths i tstring
       
     # Found a single line comment
-    } elseif {($configAr(lcomment_re) ne "") && [regexp {*}$configAr(re_opts) $configAr(lcomment_re) $str]} {
+    } elseif {($configAr(lcomment_re) ne "") && [regexp {*}$configAr(re_opts) -- $configAr(lcomment_re) $str]} {
       commentsParseLCommentEnd $win $index indices $num_indices i lcomment
         
     # Found a starting block comment string
-    } elseif {($configAr(bcomment_re) ne "") && [regexp {*}$configAr(re_opts) $configAr(bcomment_re) $str]} {
+    } elseif {($configAr(bcomment_re) ne "") && [regexp {*}$configAr(re_opts) -- $configAr(bcomment_re) $str]} {
       commentsParseCCommentEnd $win $index indices $num_indices $configAr(re_opts) $configAr(ecomment_re) lengths i ccomment
     }
 
@@ -1061,7 +1062,7 @@ proc ctext::commentsParseCCommentEnd {win index pindices num_indices re_opts eco
   for {incr i} {$i < $num_indices} {incr i} {
     set index [lindex $indices $i]
     set str   [$win get $index "$index+[lindex $lengths $i]c"]
-    if {[regexp {*}$re_opts $ecomment_re $str]} {
+    if {[regexp {*}$re_opts -- $ecomment_re $str]} {
       lset ccomment end "$index+[string length $str]c"
       break
     }

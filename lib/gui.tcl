@@ -923,7 +923,7 @@ namespace eval gui {
       lset file_info $files_index(buffer)   $opts(-buffer)
       lset file_info $files_index(modified) 0
 
-      if {![catch "open $fname r" rc]} {
+      if {![catch { open $fname r } rc]} {
     
         # Read the file contents and insert them
         $w.pw.tf.txt insert end [string range [read $rc] 0 end-1]

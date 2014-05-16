@@ -16,8 +16,9 @@ if {[file tail $argv0] eq "themer.tcl"} {
 
 namespace eval themer {
   
-  variable theme_dir [file join $::tke_dir data themes]
-  variable tmtheme   ""
+  variable theme_dir      [file join $::tke_dir data themes]
+  variable tmtheme        ""
+  variable write_callback ""
    
   array set widgets     {}
   array set all_scopes  {}
@@ -552,6 +553,7 @@ namespace eval themer {
     variable tmtheme
     variable labels
     variable label_index
+    variable write_callback
     
     # If we don't have a theme name, get one
     if {$tmtheme eq ""} {
@@ -571,6 +573,11 @@ namespace eval themer {
       
       close $rc
       
+      # If we have a write callback routine, call it now
+      if {$write_callback ne ""} {
+        uplevel #0 $write_callback
+      }
+      
     } elseif {[file tail $::argv0] eq "themer.tcl"} {
       
       puts [msgcat::mc "ERROR:  Unable to write %s" [file join $theme_dir $basename.tketheme]]
@@ -586,13 +593,17 @@ namespace eval themer {
   ######################################################################
   # Creates the UI for the importer, automatically populating it with
   # the default values.
-  proc create {} {
+  proc create {{callback ""}} {
     
     variable widgets
     variable labels
     variable label_index
     variable all_scopes
     variable tmtheme
+    variable write_callback
+    
+    # Set the write callback proc
+    set write_callback $callback
     
     # Make it so that the window cannot be resized
     if {[file tail $::argv0] ne "themer.tcl"} {
@@ -824,7 +835,7 @@ namespace eval themer {
   
   ######################################################################
   # Imports the given TextMate theme and displays the result in the UI.
-  proc import_tm {theme} {
+  proc import_tm {theme {callback ""}} {
   
     variable widgets
     variable tmtheme
@@ -834,7 +845,7 @@ namespace eval themer {
     set tmtheme $theme
     
     # Create the UI
-    create
+    create $callback
     
     # Initialize the widgets
     wm title [get_win] [msgcat::mc "Import TextMate Theme"]
@@ -876,7 +887,7 @@ namespace eval themer {
   
   ######################################################################
   # Imports the given tke theme and displays the result in the UI.
-  proc import_tke {theme} {
+  proc import_tke {theme {callback ""}} {
     
     variable widgets
     variable tmtheme
@@ -886,7 +897,7 @@ namespace eval themer {
     set tmtheme $theme
     
     # Create the UI
-    create
+    create $callback
     
     # Initialize UI
     wm title [get_win] [msgcat::mc "Edit theme"]
@@ -901,7 +912,7 @@ namespace eval themer {
   
   ######################################################################
   # Allows the user to create a new theme.
-  proc create_new {} {
+  proc create_new {{callback ""}} {
     
     variable labels
     variable widgets
@@ -912,7 +923,7 @@ namespace eval themer {
     set tmtheme ""
     
     # Create the UI
-    create
+    create $callback
     
     # Initialize the widgets
     wm title [get_win] [msgcat::mc "Create New Theme"]
