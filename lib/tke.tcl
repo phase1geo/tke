@@ -270,7 +270,9 @@ if {[llength $cl_files] > 0} {
 gui::load_session
 
 # This will hide hidden files/directories but provide a button in the dialog boxes to show/hide theme
-catch { tk_getOpenFile foo bar }
-set ::tk::dialog::file::showHiddenBtn 1
-set ::tk::dialog::file::showHiddenVar 0
- 
+catch {
+  catch { tk_getOpenFile foo bar }
+  # set ::tk::dialog::file::showHiddenBtn 1
+  set ::tk::dialog::file::showHiddenVar 0
+} 
+
