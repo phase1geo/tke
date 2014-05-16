@@ -100,17 +100,21 @@ namespace eval syntax {
     variable themes
     variable theme
     
+    # Clear the themes
+    array unset themes
+    array unset theme
+    
     # Load the tke_dir theme files
     set tfiles [glob -nocomplain -directory [file join $::tke_dir data themes] *.tketheme]
     
     # Load the tke_home theme files
-    set tfiles [concat $tfiles [glob -nocomplain -directory [file join $::tke_home themes] *.tketheme]]
+    lappend tfiles {*}[glob -nocomplain -directory [file join $::tke_home themes] *.tketheme]
     
     # Get the theme information
     foreach tfile $tfiles {
       if {![catch { open $tfile r } rc]} {
         set name [file rootname [file tail $tfile]]
-        set themes($name) [read $rc]
+        set themes($name) [list name $name {*}[read $rc]]
         launcher::register [msgcat::mc "Theme:  %s" $name] [list syntax::set_theme $name]
         close $rc
       }
@@ -119,11 +123,15 @@ namespace eval syntax {
     # Sets the current theme
     set_theme $preferences::prefs(Appearance/Theme)
     
-    # Trace changes to the Appearance/Theme preference variable
-    trace variable preferences::prefs(Appearance/Theme) w syntax::handle_theme_change
+    if {[trace info variable preferences::prefs(Appearance/Theme)] eq ""} {
+      
+      # Trace changes to the Appearance/Theme preference variable
+      trace variable preferences::prefs(Appearance/Theme) w syntax::handle_theme_change
     
-    # Trace changes to the Appearance/Colorize preference variable
-    trace variable preferences::prefs(Appearance/Colorize) w syntax::handle_colorize_change
+      # Trace changes to the Appearance/Colorize preference variable
+      trace variable preferences::prefs(Appearance/Colorize) w syntax::handle_colorize_change
+      
+    }
     
   }
   
@@ -352,17 +360,17 @@ namespace eval syntax {
   }
   
   ######################################################################
-  # Creates a theme selection menu.
-  proc create_theme_menu {mnu} {
+  # Repopulates the specified theme selection menu.
+  proc populate_theme_menu {mnu} {
     
     variable themes
     
-    # Create the menu
-    menu $mnu -tearoff 0
+    # Clear the menu
+    $mnu delete 0 end
     
     # Populate the menu with the available themes
     foreach name [lsort [array names themes]] {
-      $mnu add command -label $name -command [list syntax::set_theme $name]
+      $mnu add radiobutton -label $name -variable syntax::theme(name) -value $name -command [list syntax::set_theme $name]
     }
     
     return $mnu
@@ -370,18 +378,18 @@ namespace eval syntax {
   }
   
   ######################################################################
-  # Creates a syntax selection menu.
-  proc create_syntax_menu {mnu} {
+  # Repopulates the specified syntax selection menu.
+  proc populate_syntax_menu {mnu} {
     
     variable langs
     
-    # Create the menu
-    menu $mnu -tearoff 0
+    # Clear the menu
+    $mnu delete 0 end
     
     # Populate the menu with the available languages
-    $mnu add command -label "<[msgcat::mc None]>" -command [list syntax::set_language <None>]
+    $mnu add radiobutton -label "<[msgcat::mc None]>" -variable syntax::lang([gui::current_txt]) -value "<[msgcat::mc None]>" -command [list syntax::set_language <None>]
     foreach lang [lsort [array names langs]] {
-      $mnu add command -label $lang -command [list syntax::set_language $lang]
+      $mnu add radiobutton -label $lang -variable syntax::lang([gui::current_txt]) -value $lang -command [list syntax::set_language $lang]
     }
     
     return $mnu
@@ -396,7 +404,7 @@ namespace eval syntax {
     ttk::menubutton $w -menu $w.menu -direction above
 
     # Create the menubutton menu
-    create_syntax_menu $w.menu
+    menu $w.menu -tearoff 0 -postcommand "syntax::populate_syntax_menu $w.menu"
 
     return $w
     

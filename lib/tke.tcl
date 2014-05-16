@@ -222,7 +222,7 @@ if {([tk appname] ne "tke.tcl") && ([tk windowingsystem] eq "x11")} {
 if {![file exists $tke_home]} {
   mkdir $tke_home
 }
- 
+
 # Load the preferences
 preferences::load
 
@@ -268,3 +268,9 @@ if {[llength $cl_files] > 0} {
 
 # Load the session file
 gui::load_session
+
+# This will hide hidden files/directories but provide a button in the dialog boxes to show/hide theme
+catch { tk_getOpenFile foo bar }
+set ::tk::dialog::file::showHiddenBtn 1
+set ::tk::dialog::file::showHiddenVar 0
+ 

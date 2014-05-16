@@ -65,7 +65,7 @@ namespace eval menus {
       # Add the "About Tke" menu in the application menu
       set appl [menu $mb.apple -tearoff false]
       $mb add cascade -menu $appl
-      $appl add command -label [msgcat::mc "About Tke"] -command gui::show_about
+      $appl add command -label [msgcat::mc "About TKE"] -command gui::show_about
       $appl add separator
 
     }
@@ -400,10 +400,10 @@ namespace eval menus {
     launcher::register [msgcat::mc "Menu: Set user bindings to global bindings"] "bindings::copy_default"
     
     # Create snippets menu
-    $mb.snipPopup add command -label [msgcat::mc "Edit snippets"] -command "snippets::add_new_snippet"
+    $mb.snipPopup add command -label [msgcat::mc "Edit"] -command "snippets::add_new_snippet"
     launcher::register [msgcat::mc "Menu: Edit snippets"] "snippets::add_new_snippet"
     
-    $mb.snipPopup add command -label [msgcat::mc "Reload all snippets"] -command "snippets::load_directory"
+    $mb.snipPopup add command -label [msgcat::mc "Reload"] -command "snippets::load_directory"
     launcher::register [msgcat::mc "Menu: Reload all snippets"] "snippets::load_directory"
     
     # Apply the menu settings for the edit menu
@@ -848,8 +848,8 @@ namespace eval menus {
     
     $mb add separator
 
-    $mb add cascade -label [msgcat::mc "Set Syntax"] -underline 9 -menu [syntax::create_syntax_menu $mb.syntaxMenu]
-    $mb add cascade -label [msgcat::mc "Set Theme"]  -underline 7 -menu [syntax::create_theme_menu $mb.themeMenu]
+    $mb add cascade -label [msgcat::mc "Set Syntax"] -underline 9 -menu [menu $mb.syntaxMenu -tearoff 0 -postcommand "syntax::populate_syntax_menu $mb.syntaxMenu"]
+    $mb add cascade -label [msgcat::mc "Set Theme"]  -underline 7 -menu [menu $mb.themeMenu  -tearoff 0 -postcommand "syntax::populate_theme_menu $mb.themeMenu"]
     
     # Setup the tab popup menu
     $mb.tabPopup add command -label [msgcat::mc "Goto Next Tab"] -underline 5 -command "gui::next_tab"
@@ -1034,11 +1034,11 @@ namespace eval menus {
     
     $mb add cascade -label [msgcat::mc "Theme Creator"] -underline 0 -menu [menu $mb.themer -tearoff 0]
     
-    $mb.themer add command -label [msgcat::mc "Create new..."] -underline 0 -command "themer::create_new"
-    launcher::register [msgcat::mc "Menu: Create new theme"] "themer::create_new"
+    $mb.themer add command -label [msgcat::mc "Create new..."] -underline 0 -command "menus::create_theme_command"
+    launcher::register [msgcat::mc "Menu: Create new theme"] "themer::create_theme_command"
     
-    $mb.themer add command -label [msgcat::mc "Edit..."] -underline 0 -command "menus::edit_tke_command"
-    launcher::register [msgcat::mc "Menu: Edit Tke theme"] "menus::edit_tke_command"
+    $mb.themer add command -label [msgcat::mc "Edit..."] -underline 0 -command "menus::edit_theme_command"
+    launcher::register [msgcat::mc "Menu: Edit Tke theme"] "menus::edit_theme_command"
     
     $mb.themer add command -label [msgcat::mc "Import TextMate theme..."] -underline 0 -command "menus::import_tm_command"
     launcher::register [msgcat::mc "Menu: Import TextMate theme"] "menus::import_tm_command"
@@ -1092,15 +1092,24 @@ namespace eval menus {
   }
   
   ######################################################################
+  # Creates a new theme and reloads the themes.
+  proc create_theme_command {} {
+    
+    # Create a new theme using the theme creation tool
+    themer::create_new syntax::load_themes
+    
+  }
+  
+  ######################################################################
   # Allows the user to select one of the Tke themes to edit and calls
   # up the theme editor.
-  proc edit_tke_command {} {
+  proc edit_theme_command {} {
     
     # Attempt to get the name of an available theme
     if {[set name [themer::get_theme]] ne ""} {
       
       # Call the themer importer for the given tke file
-      themer::import_tke $name
+      themer::import_tke $name syntax::load_themes
       
     }
     
@@ -1115,7 +1124,7 @@ namespace eval menus {
     if {[set name [tk_getOpenFile -filetypes {{TextMate {.tmTheme .tmtheme}}} -initialdir [pwd] -parent . -title "Select TextMate theme"]] ne ""} {
       
       # Call the themer importer for the given TextMate file
-      themer::import_tm $name
+      themer::import_tm $name syntax::load_themes
       
     }
     
@@ -1306,9 +1315,8 @@ namespace eval menus {
     $mb add command -label [msgcat::mc "User Guide"] -underline 0 -command "utils::open_file_externally [file join $::tke_dir doc UserGuide.pdf]"
     launcher::register [msgcat::mc "Menu: View User Guide"] "utils::open_file_externally [file join $::tke_dir doc UserGuide.pdf]"
     
-    $mb add separator
-    
     if {[tk windowingsystem] ne "aqua"} {
+      $mb add separator
       $mb add command -label [msgcat::mc "About TKE"] -underline 0 -command "gui::show_about"
     }
     launcher::register [msgcat::mc "Menu: About TKE"] "gui::show_about"
