@@ -541,15 +541,21 @@ namespace eval plugins {
   ######################################################################
   # Adds menu item, creating all needed cascading menus.
   proc menu_add_item {index mnu action hier type do} {
+
+    # If the type is a separator, we need to run the while loop one more time
+    set force [expr {[lindex $type 0] eq "separator"}]
     
     # Add cascading menus
-    while {[llength [set hier [lassign $hier level]]] > 0} {
+    while {([set hier_len [llength [set hier [lassign $hier level]]]] > 0) || $force} {
       set sub_mnu [string tolower [string map {{ } _} $level]]
       if {![winfo exists $mnu.$sub_mnu]} {
         set new_mnu [menu $mnu.$sub_mnu -tearoff 0 -postcommand "plugins::menu_state $mnu.$sub_mnu $action"]
         $mnu add cascade -label $level -menu $mnu.$sub_mnu
       }
       set mnu $mnu.$sub_mnu
+      if {$hier_len == 0} {
+        set force 0
+      }
     }
     
     # Add menu item
@@ -567,6 +573,9 @@ namespace eval plugins {
         set new_mnu_name "$mnu.[string tolower [string map {{ } _} $level]]"
         set new_mnu [menu $new_mnu_name -tearoff 0 -postcommand "plugins::post_cascade_menu $index $do $new_mnu_name"]
         $mnu add cascade -label $level -menu $new_mnu
+      }
+      separator {
+        $mnu add separator
       }
     }
     
