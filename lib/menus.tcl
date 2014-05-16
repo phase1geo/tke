@@ -361,6 +361,9 @@ namespace eval menus {
     $mb add command -label [msgcat::mc "Paste and Format"] -underline 10 -command "gui::paste_and_format"
     launcher::register [msgcat::mc "Menu: Paste and format text from clipboard"] gui::paste_and_format
     
+    $mb add command -label [msgcat::mc "Select All"] -underline 7 -command "gui::select_all"
+    launcher::register [msgcat::mc "Menu: Select all text"] gui::select_all
+    
     $mb add separator
     
     $mb add cascade -label [msgcat::mc "Format Text"] -menu [menu $mb.formatPopup -tearoff 0 -postcommand "menus::edit_format_posting $mb.formatPopup"]
@@ -403,6 +406,8 @@ namespace eval menus {
     $mb.snipPopup add command -label [msgcat::mc "Edit"] -command "snippets::add_new_snippet"
     launcher::register [msgcat::mc "Menu: Edit snippets"] "snippets::add_new_snippet"
     
+    $mb.snipPopup add separator
+    
     $mb.snipPopup add command -label [msgcat::mc "Reload"] -command "snippets::load_directory"
     launcher::register [msgcat::mc "Menu: Reload all snippets"] "snippets::load_directory"
     
@@ -423,6 +428,7 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Copy"]             -state disabled
       $mb entryconfigure [msgcat::mc "Paste"]            -state disabled
       $mb entryconfigure [msgcat::mc "Paste and Format"] -state disabled
+      $mb entryconfigure [msgcat::mc "Select All"]       -state disabled
       $mb entryconfigure [msgcat::mc "Format Text"]      -state disabled
     } else {
       if {[gui::undoable]} {
@@ -449,6 +455,7 @@ namespace eval menus {
         $mb entryconfigure [msgcat::mc "Paste"]            -state disabled
         $mb entryconfigure [msgcat::mc "Paste and Format"] -state disabled
       }
+      $mb entryconfigure [msgcat::mc "Select All"]  -state normal
       $mb entryconfigure [msgcat::mc "Format Text"] -state normal
     }
     
@@ -473,9 +480,9 @@ namespace eval menus {
   proc edit_snippets_posting {mb} {
     
     if {[gui::current_txt] eq ""} {
-      $mb entryconfigure [msgcat::mc "Edit snippets"] -state disabled
+      $mb entryconfigure [msgcat::mc "Edit"] -state disabled
     } else {
-      $mb entryconfigure [msgcat::mc "Edit snippets"] -state normal
+      $mb entryconfigure [msgcat::mc "Edit"] -state normal
     }
     
   }

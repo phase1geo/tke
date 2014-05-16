@@ -100,9 +100,10 @@ namespace eval syntax {
     variable themes
     variable theme
     
-    # Clear the themes
+    # Clear the themes and unregister any themes from the launcher
     array unset themes
     array unset theme
+    launcher::unregister "Theme:*"
     
     # Load the tke_dir theme files
     set tfiles [glob -nocomplain -directory [file join $::tke_dir data themes] *.tketheme]

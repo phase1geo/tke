@@ -784,6 +784,18 @@ namespace eval gui {
   }
   
   ######################################################################
+  # Selects all of the text in the current text widget.
+  proc select_all {} {
+    
+    # Get the current text widget
+    set txt [current_txt]
+    
+    # Set the selection to include everything
+    $txt tag add sel 1.0 end
+    
+  }
+  
+  ######################################################################
   # Returns true if we have only a single tab that has not been modified
   # or named.
   proc untitled_check {} {
