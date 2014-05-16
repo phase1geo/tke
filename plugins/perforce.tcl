@@ -89,6 +89,31 @@ namespace eval plugins::perforce {
   }
   
   ######################################################################
+  # Reverts the current file.
+  proc revert_file_do {} {
+    
+    # Get the index of the current file being edited
+    if {[set index [api::file::current_file_index]] != -1} {
+      
+      # Get the name of the file
+      set fname [api::file::get_info $index fname]
+      
+      # Perform a Perforce revert operation
+      catch "exec p4 revert $fname" rc
+      
+    }
+    
+  }
+  
+  ######################################################################
+  # This option should always be available.
+  proc revert_file_state {} {
+    
+    return [expr [api::file::current_file_index] != -1]
+    
+  }
+  
+  ######################################################################
   # When the application starts, read the include directory file.
   proc on_start_do {} {
     
@@ -168,7 +193,9 @@ namespace eval plugins::perforce {
 
 plugins::register perforce {
   {menu {checkbutton plugins::perforce::disable_edit} "Perforce Options.Disable edit on open" plugins::perforce::toggle_edit_do plugins::perforce::toggle_edit_state}
-  {menu command "Perforce Options.Edit include directories" plugins::perforce::edit_include_dirs_do plugins::perforce::edit_include_dirs_state}
+  {menu command   "Perforce Options.Edit include directories" plugins::perforce::edit_include_dirs_do plugins::perforce::edit_include_dirs_state}
+  {menu separator "Perforce Options"}
+  {menu command   "Perforce Options.Revert current file"      plugins::perforce::revert_file_do       plugins::perforce::revert_file_state}
   {on_start plugins::perforce::on_start_do}
   {on_save plugins::perforce::on_save_do}
 }

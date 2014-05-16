@@ -116,17 +116,27 @@ namespace eval api {
   namespace eval file {
   
     ######################################################################
+    # Returns the file index of the file being currently edited.  If no
+    # such file exists, returns a value of -1.
+    proc current_file_index {} {
+      
+      return [gui::current_file]
+      
+    }
+    
+    ######################################################################
     # Returns the file information at the given file index.
     #
     # Parameters:
     #   file_index - Unique file identifier that is passed to some plugins.
     #   attr       - File attribute to retrieve.  The following values are
     #                valid for this option:
-    #                  fname - Normalized file name
-    #                  mtime - Last mofication timestamp (in seconds)
-    #                  pane  - Specifies which pane the file tab exists within
-    #                  tab   - Specifies the index of the tab in its pane
-    #                  lock  - Specifies the current lock status of the file
+    #                  fname    - Normalized file name
+    #                  mtime    - Last mofication timestamp (in seconds)
+    #                  lock     - Specifies the current lock status of the file
+    #                  readonly - Specifies if the file is readonly
+    #                  modified - Specifies if the file has been modified since
+    #                             the last save.
     proc get_info {file_index attr} {
       
       return [gui::get_file_info $file_index $attr]
