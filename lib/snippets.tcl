@@ -49,21 +49,23 @@ namespace eval snippets {
       set in_snippet 0
      
       # Do a quick parse of the snippets file
-      foreach line [split $contents \n] {
-        if {[regexp {^\s*snippet\s+(\w+)} $line -> name]} {
-          set in_snippet 1
-          set snippet    ""
-        } elseif {$in_snippet} {
+      foreach line [concat [split $contents \n] ""] {
+        if {$in_snippet} {
           if {[regexp {^\t(.*)$} $line -> txt]} {
             append snippet "[string trimright $txt]\n"
           } else {
             set in_snippet 0
-            set snippets($language,$name) [parse_snippet [string range $snippet 0 end-1]]
-            set snippet    ""
-            array set snip $snippets($language,$name)
-            launcher::register [msgcat::mc "Snippet: %s: %s" $name [string range $snip(raw_string) 0 30]] \
-              [list snippets::insert_snippet_into_current $snippets($language,$name)] 
+            if {![catch { parse_snippet [string range $snippet 0 end-1] } rc]} {
+              set snippets($language,$name) $rc
+              array set snip $snippets($language,$name)
+              launcher::register [msgcat::mc "Snippet: %s: %s" $name [string range $snip(raw_string) 0 30]] \
+                [list snippets::insert_snippet_into_current $snippets($language,$name)] 
+            }
           }
+        }
+        if {[regexp {^snippet\s+(\w+)} $line -> name]} {
+          set in_snippet 1
+          set snippet    ""
         }
         
       }
