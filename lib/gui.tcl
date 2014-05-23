@@ -1987,9 +1987,12 @@ namespace eval gui {
   # Performs a search and replace given the expression, 
   proc do_raw_search_and_replace {sline eline search replace ignore_case all} {
 
+    variable widgets
+    variable lengths
+    
     # Get the current text widget
     set txt [current_txt]
-
+    
     # Clear the selection
     $txt tag remove sel 1.0 end
 
@@ -2007,9 +2010,19 @@ namespace eval gui {
     if {$ignore_case} {
       lappend rs_args -nocase
     }
-
+    
     # Replace the text and re-highlight the changes
-    $txt replace $sline $eline [regsub -all {*}$rs_args $search [$txt get $sline "$eline-1c"] $replace]
+    set i     0
+    set index ""
+    foreach index [$txt search -all -regexp -count gui::lengths {*}$rs_args -- $search $sline $eline] {
+      $txt replace $index "$index+[lindex $lengths $i]c" $replace
+      incr i
+    }
+    if {$index ne ""} {
+      $txt see $index
+      $txt mark set insert $index
+      $widgets(info_label) configure -text "[llength $lengths] substitutions done"
+    }
     $txt highlight $sline $eline
 
     # Make sure that the insertion cursor is valid
