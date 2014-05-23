@@ -2766,11 +2766,11 @@ namespace eval gui {
     variable files
     variable files_index
     variable redo_count
-        
+    
     if {[$txt edit modified]} {
       
       # Get the tab path from the text path
-      set tab [winfo parent [winfo parent $txt]]
+      set tab [winfo parent [winfo parent [winfo parent $txt]]]
       
       # Get the file index for the given text widget
       set file_index [lsearch -index $files_index(tab) $files $tab]
@@ -2782,7 +2782,7 @@ namespace eval gui {
       
         # Get the current notebook
         set tb [lindex [pane_tb_index_from_tab $tab] 1]
-      
+        
         # Change the look of the tab
         if {[string index [set name [string trimleft [$tb tab $tab -text]]] 0] ne "*"} {
           $tb tab $tab -text " * $name"
