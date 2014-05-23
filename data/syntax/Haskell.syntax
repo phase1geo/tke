@@ -21,6 +21,8 @@ strings {{"} {'}}
 
 keywords
 {
+  case class data default deriving do else foreign if import in infix infixl infixr
+  instance let module newtype of then type where __
 }
 
 symbols
@@ -33,6 +35,7 @@ numbers {
 
 punctuation
 {
+  HighlightClassForRegexp {(..|:\::\=|\||<-|->|@|~|=>)}
 }
 
 precompile {}
