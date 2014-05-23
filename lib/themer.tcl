@@ -424,7 +424,7 @@ namespace eval themer {
     set bwidth [msgcat::mcmax "OK" "Cancel"]
     
     ttk::frame  $w.bf
-    ttk::button $w.bf.ok -text [msgcat::mc "OK" -width $bwidth -command {
+    ttk::button $w.bf.ok -text [msgcat::mc "OK"] -width $bwidth -command {
       set ::theme_name [.thrwin.tf.lb get [.thrwin.tf.lb curselection]]
       destroy .thrwin
     }

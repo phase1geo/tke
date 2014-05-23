@@ -474,6 +474,7 @@ namespace eval plugins {
           puts $rc "# NAME         $name"
           puts $rc "# AUTHOR       "
           puts $rc "# DATE         [clock format [clock seconds] -format {%D}]"
+          puts $rc "# VERSION      "
           puts $rc "# INCLUDE      yes"
           puts $rc "# DESCRIPTION  "
           puts $rc "# HEADER_END"
