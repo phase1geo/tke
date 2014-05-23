@@ -226,9 +226,9 @@ namespace eval indent {
         if {[string length $whitespace] > 0} {
           $txt delete $currpos "$currpos+[string length $whitespace]c"
         }
-        set unindent [expr {[regexp "^$uni_re" $rest] ? 1 : 0}]
+        set unindent [expr {[regexp "^$uni_re" $rest] ? $preferences::prefs(Editor/IndentSpaces) : 0}]
         if {$indent_space ne ""} {
-          $txt insert $currpos [string range $indent_space $unindent end]
+          $txt insert $currpos [set indent_space [string range $indent_space $unindent end]]
         }
       }
  
