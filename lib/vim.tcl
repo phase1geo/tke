@@ -58,6 +58,24 @@ namespace eval vim {
     }
     
   }
+  
+  ######################################################################
+  # Returns the current Vim mode for the editor.
+  proc get_mode {txt} {
+    
+    variable mode
+    
+    if {$preferences::prefs(Tools/VimMode)} {
+      if {[info exists mode($txt)] && ($mode($txt) eq "edit")} {
+        return "INSERT MODE"
+      } else {
+        return "COMMAND MODE"
+      }
+    } else {
+      return ""
+    }
+    
+  }
 
   ######################################################################
   # Binds the given entry 

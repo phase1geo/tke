@@ -19,6 +19,7 @@ namespace eval gui {
   variable file_locked      0
   variable last_opened      [list]
   variable fif_files        [list]
+  variable info_clear       ""
   
   array set widgets         {}
   array set language        {}
@@ -192,12 +193,14 @@ namespace eval gui {
 
     # Create the information bar
     set widgets(info)        [ttk::frame .if]
-    set widgets(info_label)  [ttk::label .if.l]
+    set widgets(info_state)  [ttk::label .if.l1]
+    set widgets(info_msg)    [ttk::label .if.l2]
     set widgets(info_syntax) [syntax::create_menubutton .if.syn]
     
     $widgets(info_syntax) configure -state disabled
    
-    pack .if.l   -side left  -padx 2 -pady 2
+    pack .if.l1  -side left  -padx 2 -pady 2
+    pack .if.l2  -side left  -padx 2 -pady 2
     pack .if.syn -side right -padx 2 -pady 2
      
     # Create the configurable response widget
@@ -2021,7 +2024,7 @@ namespace eval gui {
     if {$index ne ""} {
       $txt see $index
       $txt mark set insert $index
-      $widgets(info_label) configure -text "[llength $lengths] substitutions done"
+      set_info_message "[llength $lengths] substitutions done"
     }
     $txt highlight $sline $eline
 
@@ -2081,14 +2084,48 @@ namespace eval gui {
   
   ######################################################################
   # Sets the current information message to the given string.
-  proc set_info_message {msg} {
+  proc set_info_message {msg {clear_delay 3000}} {
   
     variable widgets
+    variable info_clear
     
-    if {[info exists widgets(info_label)]} {
-      $widgets(info_label) configure -text $msg
+    if {[info exists widgets(info_msg)]} {
+      if {$info_clear ne ""} {
+        after cancel $info_clear
+      }
+      $widgets(info_msg) configure -text $msg -foreground black
+      set info_clear [after $clear_delay gui::clear_info_message]
     } else {
       puts $msg
+    }
+    
+  }
+  
+  ######################################################################
+  # Clears the info message.
+  proc clear_info_message {{fade_count 0}} {
+    
+    variable widgets
+    variable info_clear
+    
+    if {$fade_count == 10} {
+      
+      # Clear the text
+      $widgets(info_msg) configure -text ""
+    
+      # Clear the info_clear variable
+      set info_clear ""
+      
+    } else {
+      
+      # Calculate the color
+      set color "#[string repeat [::format {%02x} [expr 25 * $fade_count]] 3]"
+      
+      # Set the foreground color to simulate the fade effect
+      $widgets(info_msg) configure -foreground $color
+      
+      set info_clear [after 100 [list gui::clear_info_message [incr fade_count]]]
+      
     }
     
   }
@@ -2916,8 +2953,7 @@ namespace eval gui {
     set txt [last_txt_focus $tab]
     
     # Set the line and row information
-    lassign [split [$txt index insert] .] row col
-    $widgets(info_label) configure -text [msgcat::mc "Line: %d, Column: %d" $row $col]
+    update_position $txt
     
     # Set the syntax menubutton to the current language
     syntax::update_menubutton $widgets(info_syntax)
@@ -3070,7 +3106,11 @@ namespace eval gui {
     lassign [split [$txt index insert] .] line column
     
     # Update the information widgets
-    $widgets(info_label) configure -text [msgcat::mc "Line: %d, Column: %d" $line [expr $column + 1]]
+    if {[set vim_mode [vim::get_mode $txt]] ne ""} {
+      $widgets(info_state) configure -text [msgcat::mc "Line: %d, Column: %d, %s" $line [expr $column + 1] $vim_mode]
+    } else {
+      $widgets(info_state) configure -text [msgcat::mc "Line: %d, Column: %d" $line [expr $column + 1]]
+    }
   
   }
   
@@ -3090,7 +3130,7 @@ namespace eval gui {
     set chars [$txt count -chars 1.0 end]
     
     # Update the information widget
-    $widgets(info_label) configure -text [msgcat::mc "Line: %d, Column: %d, Total Lines: %d, Total Characters: %d" $line [expr $column + 1] $lines $chars]
+    set_info_message [msgcat::mc "Total Lines: %d, Total Characters: %d" $lines $chars]
     
   }
   

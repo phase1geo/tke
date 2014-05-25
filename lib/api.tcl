@@ -82,11 +82,11 @@ namespace eval api {
   #
   # Parameters:
   #   msg   - Message to display in the information bar
-  #   delay - Specifies the amount of time to wait before displaying the message
-  proc show_info {msg {delay 100}} {
+  #   delay - Specifies the amount of time to wait before clearing the message
+  proc show_info {msg {clear_delay 3000}} {
   
     # Displays the given message
-    after $delay [list gui::set_info_message $msg]
+    gui::set_info_message $msg $clear_delay
   
   }
   
