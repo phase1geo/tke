@@ -30,20 +30,20 @@ namespace eval multicursor {
         }
       }
     }
-    bind mcursor$txt <Control-Button-1> {
+    bind mcursor$txt <Alt-Button-1> {
       multicursor::add_cursor %W [%W index @%x,%y]
     }
-    bind mcursor$txt <Control-Button-3> {
+    bind mcursor$txt <Alt-Button-3> {
       multicursor::add_cursors %W [%W index @%x,%y]
     }
     
     # Handle a column select
-    bind mcursor$txt <Shift-ButtonPress-1> {
+    bind mcursor$txt <Shift-Alt-ButtonPress-1> {
       lassign [split [%W index @%x,%y] .] multicursor::select_start_line multicursor::select_start_column
       %W tag remove sel 1.0 end
       break
     }
-    bind mcursor$txt <Shift-B1-Motion> {
+    bind mcursor$txt <Shift-Alt-B1-Motion> {
       lassign [split [%W index @%x,%y] .] line column
       lassign [split [lindex [%W tag ranges sel] end] .] last_line last_column
       if {($last_line eq "") || ($line != $last_line) || ($column != $last_column)} {
@@ -54,7 +54,7 @@ namespace eval multicursor {
       }
       break
     }
-    bind mcursor$txt <Shift-ButtonRelease-1> {
+    bind mcursor$txt <Shift-Alt-ButtonRelease-1> {
       set multicursor::select_start_line   ""
       set multicursor::select_start_column ""
       break
