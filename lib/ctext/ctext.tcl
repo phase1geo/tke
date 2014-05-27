@@ -340,7 +340,7 @@ proc ctext::highlight {win lineStart lineEnd} {
 proc ctext::highlightAfterIdle {win lineStart lineEnd} {
 
   ctext::getAr $win config configAr
-  
+        
   # If highlighting has been disabled, return immediately
   if {!$configAr(-highlight)} {
     return
@@ -1254,6 +1254,10 @@ proc ctext::update {win} {
 proc ctext::doHighlight {win} {
 
   variable REs
+  
+  if {![winfo exists $win]} {
+    return
+  }
   
   ctext::getAr $win config configAr
   
