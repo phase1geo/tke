@@ -22,7 +22,8 @@ proc get_yes_or_no {question} {
   set answer "x"
   
   while {![regexp {^([yn]?)$} [string tolower $answer] -> answer]} {
-    puts "$question (Y/n)? "
+    puts -nonewline "$question (Y/n)? "
+    flush stdout
     set answer [gets stdin]
   }
   
@@ -52,7 +53,8 @@ set install_dir ""
 while {$install_dir eq ""} {
        
   # Get the installation directory from the user
-  puts "Enter root installation directory: "
+  puts -nonewline "Enter root installation directory (or Control-C to quit): "
+  flush stdout
   set install_dir [file normalize [gets stdin]]
   set lib_dir     [file join $install_dir lib tke]
   set bin_dir     [file join $install_dir bin]
@@ -72,6 +74,7 @@ while {$install_dir eq ""} {
   }
   
   # Output path information to user
+  puts ""
   puts "Library will be installed at: $lib_dir"
   puts "Binary will be installed at:  [file join $bin_dir tke]"
   puts ""
@@ -82,7 +85,7 @@ while {$install_dir eq ""} {
     # Copy directories to lib directory
     if {[file exists $lib_dir]} {
       if {[get_yes_or_no "$lib_dir exists.  Replace"] ne "n"} {
-        file delete $lib_dir
+        file delete -force $lib_dir
         copy_lib_files $lib_dir
       } else {
         set install_dir ""
@@ -103,13 +106,19 @@ while {$install_dir eq ""} {
       puts $rc "#!/bin/sh"
       puts $rc "wish8.5 [file join $lib_dir lib tke.tcl] -- \$@"
       close $rc
+      file attributes [file join $bin_dir tke] -permission r-xr-xr-x
       puts "done."
     } else {
       puts "error."
       puts "  $rc"
     }
 
+  } else {
+    set install_dir ""
   }
   
 }
+
+# Exit the application
+exit
 
