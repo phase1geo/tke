@@ -12,3 +12,8 @@
 
 # TBD
 
+# hg log -r "branch(default) and tag('<tagname>')::" > ChangeLog
+# hg commit
+# hg push
+# hg tag <new tagname>
+# hg archive -r <new tagname> -t tgz ~/projects/release/ptwidgets-<new_version>.tgz
