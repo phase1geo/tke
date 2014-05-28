@@ -5,6 +5,9 @@
 # Date:         5/26/2014
 # Description:  Handles installation of TKE.
 
+# Bring in the version information
+source [file join lib version.tcl]
+
 # Check to make sure that the Tcl version is okay
 puts -nonewline "Tcl version 8.5.x is required...          "
 if {[string range [set version [info patchlevel]] 0 2] ne "8.5"} {
@@ -150,18 +153,10 @@ while {$install_dir eq ""} {
   
 }
 
-# If we are running Gnome, create tke.desktop file in the ~/.local/share/applications directory
+# If we are running on a system with a /usr/share/applications directory, create a tke.desktop file there
 if {[file exists [set app_dir [file join / usr share applications]]]} {
   set app_file [file join $app_dir tke.desktop]
   puts -nonewline "Creating $app_file...  "
-  if {![file writable $app_dir]} {
-    puts "error."
-    puts "  $rc"
-    exit 1
-  }
-  if {![file exists $app_dir]} {
-    file mkdir $app_dir
-  }
   if {![catch "open $app_file w" rc]} {
     puts $rc "\[Desktop Entry\]"
     puts $rc "Name=TKE"
@@ -172,9 +167,17 @@ if {[file exists [set app_dir [file join / usr share applications]]]} {
     close $rc
     puts "done."
   } else {
-    puts "error."
-    puts "  $rc"
-    exit 1
+    puts "not done."
+  }
+}
+
+# If we are running on a system that can use appdata, add the file there
+if {[file exists [set appdata_dir [file join / usr share appdata]]]} {
+  puts -nonewline "Copying tke.appdata.xml to [file join $appdata_dir tke.appdata.xml]...  "
+  if {[catch "file copy tke.appdata.xml $appdata_dir"]} {
+    puts "not done."
+  } else {
+    puts "done."
   }
 }
 

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  
+<!-- Copyright 2014 Trevor Williams <phase1geo@gmail.com> -->
+<application>
+  <id type="desktop">tke.desktop</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-2.0+ and GFDL-1.3</project_license>
+  <name>TKE</name>
+  <summary>Coding editor based on Tcl/Tk</summary>
+  <description>
+    <p>
+      Power Statistics is a program used to view historical and current battery
+      information and will show programs running on your computer using power.
+    </p>
+    <p>Example list:</p>
+    <ul>
+      <li>First item</li>
+      <li>Second item</li>
+    </ul>
+    <p>
+      You probably only need to install this application if you are having problems
+      with your laptop battery, or are trying to work out what programs are using
+      significant amounts of power.
+    </p>
+  </description>
+  <screenshots>
+    <screenshot type="default" width="800" height="600">http://www.hughsie.com/en_US/main.png</screenshot>
+    <screenshot width="800" height="600">http://www.hughsie.com/en_US/preferences.png</screenshot>
+  </screenshots>
+  <url type="homepage">http://tke.sourceforge.net/</url>
+  <updatecontact>phase1geo@gmail.com</updatecontact>
+</application>
