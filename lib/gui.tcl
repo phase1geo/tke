@@ -2303,29 +2303,32 @@ namespace eval gui {
     wm transient .aboutwin .
     wm resizable .aboutwin 0 0
   
-    ttk::label .aboutwin.logo -compound left -image $images(logo) -text " tke" \
+    ttk::frame .aboutwin.f
+    ttk::label .aboutwin.f.logo -compound left -image $images(logo) -text " tke" \
       -font [font create -family Helvetica -size 30 -weight bold]
   
-    ttk::frame .aboutwin.if
-    ttk::label .aboutwin.if.l0 -text [msgcat::mc "Developer:"]
-    ttk::label .aboutwin.if.v0 -text "Trevor Williams"
-    ttk::label .aboutwin.if.l1 -text [msgcat::mc "Email:"]
-    ttk::label .aboutwin.if.v1 -text "phase1geo@gmail.com"
-    ttk::label .aboutwin.if.l2 -text [msgcat::mc "Version:"]
-    ttk::label .aboutwin.if.v2 -text "$::version_major.$::version_minor ($::version_hgid)"
+    ttk::frame .aboutwin.f.if
+    ttk::label .aboutwin.f.if.l0 -text [msgcat::mc "Developer:"]
+    ttk::label .aboutwin.f.if.v0 -text "Trevor Williams"
+    ttk::label .aboutwin.f.if.l1 -text [msgcat::mc "Email:"]
+    ttk::label .aboutwin.f.if.v1 -text "phase1geo@gmail.com"
+    ttk::label .aboutwin.f.if.l2 -text [msgcat::mc "Version:"]
+    ttk::label .aboutwin.f.if.v2 -text "$::version_major.$::version_minor ($::version_hgid)"
   
-    grid .aboutwin.if.l0 -row 0 -column 0 -sticky news
-    grid .aboutwin.if.v0 -row 0 -column 1 -sticky news
-    grid .aboutwin.if.l1 -row 1 -column 0 -sticky news
-    grid .aboutwin.if.v1 -row 1 -column 1 -sticky news
-    grid .aboutwin.if.l2 -row 2 -column 0 -sticky news
-    grid .aboutwin.if.v2 -row 2 -column 1 -sticky news
+    grid .aboutwin.f.if.l0 -row 0 -column 0 -sticky news
+    grid .aboutwin.f.if.v0 -row 0 -column 1 -sticky news
+    grid .aboutwin.f.if.l1 -row 1 -column 0 -sticky news
+    grid .aboutwin.f.if.v1 -row 1 -column 1 -sticky news
+    grid .aboutwin.f.if.l2 -row 2 -column 0 -sticky news
+    grid .aboutwin.f.if.v2 -row 2 -column 1 -sticky news
   
-    ttk::label .aboutwin.copyright -text [msgcat::mc "Copyright %d-%d" 2013 14]
+    ttk::label .aboutwin.f.copyright -text [msgcat::mc "Copyright %d-%d" 2013 14]
   
-    pack .aboutwin.logo      -padx 2 -pady 8 -anchor w
-    pack .aboutwin.if        -padx 2 -pady 2
-    pack .aboutwin.copyright -padx 2 -pady 8
+    pack .aboutwin.f.logo      -padx 2 -pady 8 -anchor w
+    pack .aboutwin.f.if        -padx 2 -pady 2
+    pack .aboutwin.f.copyright -padx 2 -pady 8
+    
+    pack .aboutwin.f
     
   }
   
