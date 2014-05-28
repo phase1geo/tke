@@ -1,0 +1,3 @@
+#!/bin/sh
+
+../MacOS/Wish ../Resources/Scripts/lib/tke.tcl -- $@
