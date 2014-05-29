@@ -10,6 +10,7 @@ source [file join lib version.tcl]
 
 # Check to make sure that the Tcl version is okay
 puts -nonewline "Tcl version 8.5.x is required...          "
+flush stdout
 if {[string range [set version [info patchlevel]] 0 2] ne "8.5"} {
   puts "Not Found! ($version)"
   exit 1
@@ -19,6 +20,7 @@ if {[string range [set version [info patchlevel]] 0 2] ne "8.5"} {
 
 # Make sure that wish8.5 exists
 puts -nonewline "Installation requires wish8.5...          "
+flush stdout
 if {![file exists [set wish85 [file join [file dirname [info nameofexecutable]] wish8.5]]]} {
   puts "Not Found! ($wish85)"
   exit 1
@@ -28,6 +30,7 @@ if {![file exists [set wish85 [file join [file dirname [info nameofexecutable]] 
 
 # Make sure that the Tk package is available on the system
 puts -nonewline "Installation requires the Tk package...   "
+flush stdout
 if {[catch "package require Tk" rc]} {
   puts "Not Found! ($rc)"
   exit 1
@@ -37,6 +40,7 @@ if {[catch "package require Tk" rc]} {
 
 # Make sure that the Tclx package is available on the system
 puts -nonewline "Installation requires the Tclx package... "
+flush stdout
 if {[catch "package require Tclx"]} {
   puts "Not Found! ($rc)"
   exit 1
@@ -66,6 +70,7 @@ proc copy_lib_files {lib_dir} {
   # Copy each of the top-level directories recursively to the new lib directory
   foreach directory [list data doc lib plugins] {
     puts -nonewline "Copying $directory to [file join $lib_dir $directory]...  "
+    flush stdout
     if {[catch "file copy $directory $lib_dir" rc]} {
       puts "error!"
       puts "  $rc"
@@ -134,6 +139,7 @@ while {$install_dir eq ""} {
   
     # Create the file
     puts -nonewline "Creating [file join $bin_dir tke]...  "
+    flush stdout
     if {![catch "open [file join $bin_dir tke] w" rc]} {
       puts $rc "#!/bin/sh"
       puts $rc "$wish85 [file join $lib_dir lib tke.tcl] -- \$@"
@@ -157,6 +163,7 @@ while {$install_dir eq ""} {
 if {[file exists [set app_dir [file join / usr share applications]]]} {
   set app_file [file join $app_dir tke.desktop]
   puts -nonewline "Creating $app_file...  "
+  flush stdout
   if {![catch "open $app_file w" rc]} {
     puts $rc "\[Desktop Entry\]"
     puts $rc "Name=TKE"
@@ -174,6 +181,7 @@ if {[file exists [set app_dir [file join / usr share applications]]]} {
 # If we are running on a system that can use appdata, add the file there
 if {[file exists [set appdata_dir [file join / usr share appdata]]]} {
   puts -nonewline "Copying tke.appdata.xml to [file join $appdata_dir tke.appdata.xml]...  "
+  flush stdout
   if {[catch "file copy tke.appdata.xml $appdata_dir"]} {
     puts "not done."
   } else {
