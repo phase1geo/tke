@@ -151,6 +151,8 @@ proc generate_linux_tarball {tag} {
   
   puts "done."
   
+  puts "tar -czf [file tail $release_dir].tar.gz -C [file dirname $release_dir] $release_dir"
+  
   puts -nonewline "Generating Linux tarball...  "
   flush stdout
   
