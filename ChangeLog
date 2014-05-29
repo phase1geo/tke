@@ -1,6 +1,1667 @@
+changeset:   0:7a307ee9d6bb
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun May 05 08:04:50 2013 -0500
+summary:     Initial comment
+
+changeset:   1:c950d7541045
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun May 12 07:39:59 2013 -0500
+summary:     * Initial add of editor files.
+
+changeset:   2:9fcf5c42e54f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon May 13 00:53:07 2013 -0500
+summary:     * Adding initial code for command launcher.
+
+changeset:   3:b765d1df0a4b
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon May 13 13:06:07 2013 -0500
+summary:     * Adding indentation.
+
+changeset:   4:e4e5a2d27c5f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue May 14 09:02:07 2013 -0500
+summary:     * Adding menu_bindings.dat and preferences.dat default files.
+
+changeset:   5:d5ac1743a70c
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue May 14 17:58:07 2013 -0500
+summary:     * Adding search functionality.
+
+changeset:   6:bcc71c8725c8
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed May 15 09:57:13 2013 -0500
+summary:     * Changing binding file format to display accelerators instead of Tcl bind sequences.
+
+changeset:   7:22b656542e79
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed May 15 17:27:13 2013 -0500
+summary:     * Adding support for formatted pasting.
+
+changeset:   8:8da6779d234a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu May 16 09:37:45 2013 -0500
+summary:     * Working on multicursor support.
+
+changeset:   9:d817a0537a20
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu May 16 17:15:42 2013 -0500
+summary:     * More work on multicursor support.
+
+changeset:   10:2099d6f77dc6
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri May 17 09:14:04 2013 -0500
+summary:     * Adding ctext library.
+
+changeset:   11:06b2c281b7dc
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri May 17 11:34:07 2013 -0500
+summary:     * Enhancing tke.tcl to output X server errors to standard output when attempting a send request.
+
+changeset:   12:56f659470966
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri May 17 15:14:19 2013 -0500
+summary:     * Updates for snippets.
+
+changeset:   13:faa70ea0d0e9
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon May 20 00:50:56 2013 -0500
+summary:     * More work to support snippets.
+
+changeset:   14:6d6769dfc0d3
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon May 20 17:04:19 2013 -0500
+summary:     * More work on snippets (reworking the parser).
+
+changeset:   15:da003554bf9d
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue May 21 09:07:28 2013 -0500
+summary:     * Bug fixes to the snippets namespace.
+
+changeset:   16:b36701cc61c2
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue May 21 11:56:43 2013 -0500
+summary:     * Adding clipboard history feature.
+
+changeset:   17:2b944aed37f3
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue May 21 17:09:21 2013 -0500
+summary:     * Fixing clipboard history issues.
+
+changeset:   18:39cf0a3be04c
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue May 21 17:20:18 2013 -0500
+summary:     * Adding text menu.
+
+changeset:   19:a8e8405c8968
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue May 21 20:54:10 2013 -0500
+summary:     * Adding comment/uncomment menu bindings to default menu_bindings.dat file.
+
+changeset:   20:9210aa39d3fe
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed May 22 02:25:53 2013 -0500
+summary:     * Adding Vim support.
+
+changeset:   21:b05d0f4b14bb
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed May 22 09:12:00 2013 -0500
+summary:     * Adding menu binding to toggle Vim mode.
+
+changeset:   22:7408413b7bc1
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed May 22 16:36:38 2013 -0500
+summary:     * More support for Vim functionality.
+
+changeset:   23:59d442494dfc
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed May 22 20:46:52 2013 -0500
+summary:     * More Vim fixes
+
+changeset:   24:772dedef896b
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu May 23 17:13:40 2013 -0500
+summary:     * Modifying search behavior to highlight all matching items (also improves search performance).
+
+changeset:   25:948a905e7b82
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue May 28 14:41:29 2013 -0500
+summary:     * Adding search and replace capability.
+
+changeset:   26:82ca1dc9170b
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri May 31 17:01:15 2013 -0500
+summary:     * Work in progress.
+
+changeset:   27:c287dcd6df21
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Jun 03 16:06:01 2013 -0500
+summary:     * Fixing more issues with auto-indent.
+
+changeset:   28:dd3c2f43e60b
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Jun 04 14:53:51 2013 -0500
+summary:     * Fixing bindings so that menu options shortcuts work properly.
+
+changeset:   29:f89e4a2228ce
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Jun 04 15:14:01 2013 -0500
+summary:     * Fixing Control-F and Control-B usage.
+
+changeset:   30:1e9421969b4a
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Jun 05 17:19:09 2013 -0500
+summary:     * Adding ability to format selected or all text (not completed).
+
+changeset:   31:94162bbe1b1b
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Jun 06 17:18:44 2013 -0500
+summary:     * Fixing text formatting menu option.
+
+changeset:   32:11c78c53c213
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jun 07 09:25:03 2013 -0500
+summary:     * Adding indent/unindent text tools.
+
+changeset:   33:fd0f8f3e8aaf
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Jun 07 20:24:38 2013 -0500
+summary:     * Adding default menu bindings to indent/unindent menu options.
+
+changeset:   34:0d133f1a9d86
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Jun 08 00:16:28 2013 -0500
+summary:     * Adding symbol launcher functionality.
+
+changeset:   35:8c9eee630573
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Jun 08 12:24:22 2013 -0500
+summary:     * Modifying ctext so that two or more back-to-back insert/delete commands are properly highlighted.
+
+changeset:   36:088e99c80a05
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Jun 10 01:18:17 2013 -0500
+summary:     * Adding percent handling code (not bug-free at this point).
+
+changeset:   37:aed8e5edeefd
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Jun 10 10:13:25 2013 -0500
+summary:     * Fixing remaining issues with Vim percent matching and quote matching.
+
+changeset:   38:73a71a8c9b86
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Jun 10 16:57:56 2013 -0500
+summary:     * Adding the ability to remove a directory from the sidebar.
+
+changeset:   39:de14c3751adb
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Jun 10 22:20:32 2013 -0500
+summary:     * Adding new "Find match pair" menu option to Search menu.
+
+changeset:   40:5234edf78c8b
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Jun 11 16:39:48 2013 -0500
+summary:     * Starting to add support for dynamic syntax highlighting (work in progress).
+
+changeset:   41:814ee2202022
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jun 12 01:23:33 2013 -0500
+summary:     * Fixing issues with syntax highlighting.
+
+changeset:   42:d0b175b9fd30
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jun 12 01:24:02 2013 -0500
+summary:     * Adding C++, SystemVerilog and Tcl syntax highlighting.
+
+changeset:   43:df14d7572fa8
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Jun 12 17:11:14 2013 -0500
+summary:     * Adding theming capability.
+
+changeset:   44:e43747cee15c
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Jun 13 10:41:23 2013 -0500
+summary:     * Removing snippet_lexer.fcl and snippet_parser.tac.
+
+changeset:   45:1ecee61a35a8
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Jun 13 11:07:03 2013 -0500
+summary:     * Fixing syntax error in syntax.syntax file that lead to tke infinitely looping.
+
+changeset:   46:95964313728a
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Jun 13 11:45:37 2013 -0500
+summary:     * Adding cursor color to theme information.
+
+changeset:   47:61997272ca11
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Jun 13 12:46:27 2013 -0500
+summary:     * Changing syntax files to specify a file pattern instead of an extension for syntax highlight matching (allows Makefile syntax highlighting to work properly).
+
+changeset:   48:a82fecb46018
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Jun 13 16:27:25 2013 -0500
+summary:     * Checking in partial fix for properly handling dspace insertion/deletion (work in progress).
+
+changeset:   49:f5ccbc2bafb2
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jun 13 23:40:17 2013 -0500
+summary:     * Fixing rest of dspace handling.
+
+changeset:   50:f4cfbba968e5
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jun 14 00:55:43 2013 -0500
+summary:     * Adding idleFingers theme.
+
+changeset:   51:152223fb004b
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Jun 14 16:04:29 2013 -0500
+summary:     * Adding PHP syntax file.
+
+changeset:   52:543b2eaaf3f1
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Jun 14 16:36:42 2013 -0500
+summary:     * Fixing PHP syntax issue.
+
+changeset:   53:e957678a2e40
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Jun 14 17:15:23 2013 -0500
+summary:     * Adding HelpSystem syntax file.
+
+changeset:   54:f257b0aad7cd
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Jun 17 15:28:07 2013 -0500
+summary:     * Adding new files to sidebar when they are saved.
+
+changeset:   55:b89d471ff3bd
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Jun 17 17:28:01 2013 -0500
+summary:     * Starting to add support for plugins (work in progress).
+
+changeset:   56:b81826e62ce4
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Jun 19 16:06:18 2013 -0500
+summary:     * More work on plugin architecture.
+
+changeset:   57:8b4c8fd0edc7
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Jun 19 17:29:01 2013 -0500
+summary:     * Adding command recording in Vim mode (period character in start mode now replays recording).
+
+changeset:   58:fe973fcaa538
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Jun 21 14:02:13 2013 -0500
+summary:     * Fixing selection issues in Vim mode.
+
+changeset:   59:7ce34a45f935
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Jun 24 11:14:09 2013 -0500
+summary:     * Add NFSMounts preference item.
+
+changeset:   60:9d6802e9a4e7
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Jun 24 11:47:16 2013 -0500
+summary:     * Adding support for NFS mounts and filename replacement.
+
+changeset:   61:a6d209fe0068
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Jun 24 12:04:02 2013 -0500
+summary:     * Adding ability to duplicate a file within the sidebar.
+
+changeset:   62:d659701d5bc8
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Jun 26 20:23:07 2013 -0500
+summary:     * Fixing recording issue with "delete to end of line" and "delete from start of line" Vim functionality.
+
+changeset:   63:5a0333e6ffe8
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jun 27 00:45:54 2013 -0500
+summary:     * Fixing recording support.
+
+changeset:   64:840730a87ee3
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jun 27 22:33:32 2013 -0500
+summary:     * Adding in performance enhancements to syntax highlighting.
+
+changeset:   65:5bf9c85ebfdd
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jun 28 00:05:06 2013 -0500
+summary:     * Re-instituting iteration number from 1 to 600.
+
+changeset:   66:a80ea1651638
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jun 28 01:23:32 2013 -0500
+summary:     * Fixing Tcl syntax error with tk_chooseDirectory.
+
+changeset:   67:3ec62155688a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jun 28 02:02:49 2013 -0500
+summary:     * Fixing syntax errors.
+
+changeset:   68:e7e2c97207e1
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Jun 28 12:00:16 2013 -0500
+summary:     * Fixing various issues with sidebar.
+
+changeset:   69:8389fb7e0a54
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Jun 28 15:49:05 2013 -0500
+summary:     * Fixing issue with double-clicking on a directory in the sidebar.
+
+changeset:   70:d9f3503a6c6a
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Jun 28 17:19:07 2013 -0500
+summary:     * Changing open file, open directory and save as dialogs to use directory of current tab as initial directory.
+
+changeset:   71:28ac2416c00e
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Jul 08 09:19:53 2013 -0500
+summary:     * Adding initial support for multi-language indentation (not completely working).
+
+changeset:   72:c7fef7db6815
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Jul 08 15:14:01 2013 -0500
+summary:     * Fixing issues with moving tabs within a pane.
+
+changeset:   73:97ee63e41ec5
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Jul 08 20:44:42 2013 -0500
+summary:     * Moving plugins directory to top-level of filesystem.
+
+changeset:   74:ff6d2e04ce5d
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jul 09 01:27:21 2013 -0500
+summary:     * More work on plugin infrastructure.
+
+changeset:   75:b9d41bc746fe
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jul 09 08:56:25 2013 -0500
+summary:     * More work on adding plugin support.
+
+changeset:   76:0cfe9c7b6727
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Jul 09 17:26:25 2013 -0500
+summary:     * Adding beginning of a plugin API namespace.
+
+changeset:   77:d5521b87f2a8
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jul 10 02:21:20 2013 -0500
+summary:     * More work on the plugin framework.
+
+changeset:   78:18ba26133504
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jul 10 02:37:57 2013 -0500
+summary:     * Fixing interrupt handler issue.
+
+changeset:   79:1c9c47a21b95
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jul 10 10:06:45 2013 -0500
+summary:     * Fixing tab numbering issue when tabs are deleted.
+
+changeset:   80:b9b56c8ffc45
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jul 10 10:21:09 2013 -0500
+summary:     * Attempting to fix issue when tabs are inserted in the middle of tabs.
+
+changeset:   81:6b7be66b50a0
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jul 11 09:03:44 2013 -0500
+summary:     * Adding support for file locking.
+
+changeset:   82:855188b5c18a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jul 12 00:07:29 2013 -0500
+summary:     * Fixing several bugs created in last commit.
+
+changeset:   83:8b841b68ec5a
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Jul 12 13:17:32 2013 -0500
+summary:     * Adding plugin framework support for command, checkbutton and radiobutton menu actions.
+
+changeset:   84:4db7123e5b8a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jul 12 22:36:44 2013 -0500
+summary:     * Adding tke logo.
+
+changeset:   85:4c8cbdc23723
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Jul 15 23:01:51 2013 -0500
+summary:     * Fixing syntax error when changing themes.
+
+changeset:   86:0ce83e1117d7
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jul 16 00:38:16 2013 -0500
+summary:     * Adding initial support for syntax-specific snippets (not working properly).
+
+changeset:   87:1a2e1be628de
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jul 16 08:17:59 2013 -0500
+summary:     * A few more adjustments to the snippet handler.
+
+changeset:   88:7b2dc6322832
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Jul 16 10:30:21 2013 -0500
+summary:     * Fixing issues with dollar signs in snippets.
+
+changeset:   89:cb5cdbaea407
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jul 17 00:29:02 2013 -0500
+summary:     * Adding profiling menu options.
+
+changeset:   90:24eb8592dfb7
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jul 17 08:59:10 2013 -0500
+summary:     * Starting to implement custom profiling report (work in progress).
+
+changeset:   91:b152d9c05ea5
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Jul 17 17:15:51 2013 -0500
+summary:     * Fixing profiling report generator.
+
+changeset:   92:4c5ac2115fbe
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jul 18 01:53:45 2013 -0500
+summary:     * Correcting output results in profiling report.
+
+changeset:   93:9f39777ceed0
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jul 18 02:11:47 2013 -0500
+summary:     * Making one more performance tweak to doHighlight.
+
+changeset:   94:d7ef21134a8a
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Jul 24 00:32:47 2013 -0500
+summary:     * Fixing syntax highlighting issues with Tcl left square brackets.
+
+changeset:   95:d01f495c8192
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Jul 24 23:01:15 2013 -0500
+summary:     * Make the cursor visible when the 'h' or 'l' keys are typed in Vim mode.
+
+changeset:   96:9fe311929c3a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jul 25 00:21:17 2013 -0500
+summary:     * Changing application title bar to include current filename first
+
+changeset:   97:e31e41880c14
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jul 26 00:51:14 2013 -0500
+summary:     * Adding 's' command to Vim mode to allow setting multiple cursors.
+
+changeset:   98:9da761ddf506
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Jul 26 16:17:07 2013 -0500
+summary:     * Making the insertion cursor viewable when 'o' is entered.
+
+changeset:   99:d58b41b4e3aa
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Aug 01 17:17:56 2013 -0500
+summary:     * Adding support for multicursor alignment.
+
+changeset:   100:0601be29b0cf
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Aug 02 02:05:33 2013 -0500
+summary:     * Adding more support for multicursor Vim mode (still a work in progress).
+
+changeset:   101:8e0a4b5dc307
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Aug 05 22:53:33 2013 -0500
+summary:     * Adding 'S' Vim command to set multiple cursors.
+
+changeset:   102:0b86339858d7
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Aug 05 23:52:38 2013 -0500
+summary:     * Adding initial work on markers.
+
+changeset:   103:1700af6dd2d4
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Aug 06 16:42:02 2013 -0500
+summary:     * More work on marker support.
+
+changeset:   104:e3a46ded49df
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Aug 07 17:00:46 2013 -0500
+summary:     * Adding Vim capability to set multicursors using search.
+
+changeset:   105:1e8f8bc520ae
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Aug 07 17:09:34 2013 -0500
+summary:     * Fixing issue with using marker names in Vim commands.
+
+changeset:   106:8f8ae8461e4e
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Aug 08 09:57:40 2013 -0500
+summary:     * Fixing issue where non-command key is pressed when in start mode (text was inserted instead of ignored).
+
+changeset:   107:0f38f4c59223
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Aug 08 16:46:27 2013 -0500
+summary:     * Changing preferences and menu bindings to use a .tkedat extension.
+
+changeset:   108:6f7cdbfdd3eb
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Aug 09 01:08:16 2013 -0500
+summary:     * Adding warning width feature.
+
+changeset:   109:5c4b59deddff
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Aug 09 17:05:45 2013 -0500
+summary:     * Adjusting the view when performing a line join.
+
+changeset:   110:85991c9f6c57
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Aug 10 00:59:10 2013 -0500
+summary:     * Fixing issue with "Save As" (name wasn't changing in the sidebar).
+
+changeset:   111:bf637f14e186
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Aug 10 01:21:56 2013 -0500
+summary:     * Fixing issue with syntax menubutton not maintaining selected value.
+
+changeset:   112:c854c5317cc8
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Aug 12 23:33:33 2013 -0500
+summary:     * Fixing syntax highlighting issue with end brackets and the first line of the file.
+
+changeset:   113:74a9b363f021
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Aug 13 01:13:05 2013 -0500
+summary:     * Adding proper support for markers.
+
+changeset:   114:cda0646590b6
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Aug 13 15:55:39 2013 -0500
+summary:     * Fixing marker issues.
+
+changeset:   115:14102d5517bf
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Aug 13 16:37:15 2013 -0500
+summary:     * Starting to add plugin support for tab, root, directory and file popups (work in progress).
+
+changeset:   116:339e362a2116
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Aug 14 14:36:36 2013 -0500
+summary:     * Completing support for sidebar and tab plugins.
+
+changeset:   117:189f31e59e50
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Aug 17 10:08:16 2013 -0500
+summary:     * Handling button press motion in Vim mode to adjust the cursor.
+
+changeset:   118:0e5b0c5d363b
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Aug 18 07:51:30 2013 -0500
+summary:     * Converting tab character to spaces as based on a preference value setting.
+
+changeset:   119:c141857a5155
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Aug 19 13:52:28 2013 -0500
+summary:     * Adding options to the gui::add_file and gui::add_new_file procedures.
+
+changeset:   120:d66568e78ab0
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Aug 19 16:27:02 2013 -0500
+summary:     * Adding readonly capability.
+
+changeset:   121:aae44f5ec0e0
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Aug 19 16:33:29 2013 -0500
+summary:     * Updating the add_file API.
+
+changeset:   122:bb1dd8e94f57
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Aug 19 19:57:28 2013 -0500
+summary:     * Adding support for suppressing sidebar inclusion when adding a file.
+
+changeset:   123:511e1416f732
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Aug 19 19:59:46 2013 -0500
+summary:     * Adding new API documentation for the add_file procedural call.
+
+changeset:   124:348f0f7fc721
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Aug 20 22:41:05 2013 -0500
+summary:     * Fixing issue with setting multicursors from a higher line number to a lower line number.
+
+changeset:   125:bce76be0f5ea
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Aug 21 00:35:43 2013 -0500
+summary:     * Adding tooltip support for full filenames in tabs.
+
+changeset:   126:3073f54b21d5
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Aug 21 00:42:15 2013 -0500
+summary:     * Fixing syntax menubutton setting when switching tabs.
+
+changeset:   127:c978acdfc7b8
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Aug 21 17:13:26 2013 -0500
+summary:     * Fixing issue with snippets and left string trimming.
+
+changeset:   128:8e16d5f6e90a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Aug 22 01:41:59 2013 -0500
+summary:     * Adding :r <filename> functionality for inserting the contents of a file in an existing file.
+
+changeset:   129:df1d72ac64a4
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Aug 22 13:20:05 2013 -0500
+summary:     * Fixing API syntax error with add_file.
+
+changeset:   130:a704f4ae4f78
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Aug 22 15:34:14 2013 -0500
+summary:     * Fixing issue with losing syntax highlighting mode when moving tabs to another pane.
+
+changeset:   131:4e1c671c7f97
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Aug 22 19:04:30 2013 -0500
+summary:     * Fixing insertion cursor adjustment when completing edit mode.
+
+changeset:   132:d2774f983139
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Aug 23 17:19:50 2013 -0500
+summary:     * Moving insertion character back one char when we complete 'replace_all' mode.
+
+changeset:   133:bb3a272d72b6
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Aug 23 20:09:10 2013 -0500
+summary:     * Enhancing search capability by moving code to ctext.
+
+changeset:   134:3b50d32e2db8
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Aug 25 23:06:11 2013 -0500
+summary:     * Adding support for filetypes in open/save dialog boxes.
+
+changeset:   135:38c0468db04f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Aug 26 00:53:46 2013 -0500
+summary:     * Fixing extension support in save menus.
+
+changeset:   136:0b2fc6208dfc
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Aug 26 17:16:57 2013 -0500
+summary:     * Adding ability to specify if tabs are allowed in a given language.
+
+changeset:   137:f0a740c7aa36
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Aug 26 20:36:45 2013 -0500
+summary:     * Fixing syntax error in PHP syntax file.
+
+changeset:   138:f6d0bee3e93b
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Aug 27 10:39:09 2013 -0500
+summary:     * Updating some add_file calls to not add the file to the sidebar.
+
+changeset:   139:adc209f4bf73
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Aug 27 11:07:55 2013 -0500
+summary:     * Adding sidebar functionality to close files in directory and the currently selected file.
+
+changeset:   140:6ea4a2c18b73
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Aug 30 23:42:25 2013 -0500
+summary:     * Adding close button to the tabs.
+
+changeset:   141:36700bc041b1
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Aug 30 23:46:40 2013 -0500
+summary:     * Modifying look and feel of the tabs.
+
+changeset:   142:0e85207e80c2
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Aug 31 00:00:18 2013 -0500
+summary:     * Adding sidebar directory refresh menu commands.
+
+changeset:   143:dc9a0103de00
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Aug 31 00:02:30 2013 -0500
+summary:     * Removing recording from 'n' keypress in Vim mode.
+
+changeset:   144:4d3b30af152e
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Aug 31 00:06:00 2013 -0500
+summary:     * Removing tooltips for filenames when the cursor exits the tab area.
+
+changeset:   145:da9d2f342823
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Aug 31 00:20:39 2013 -0500
+summary:     * Removing close button image when the cursor is not in the tab.
+
+changeset:   146:f7b44e93b652
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Sep 02 02:21:22 2013 -0500
+summary:     * Adding support for cascading menus in plugin architecture.
+
+changeset:   147:930c1830f138
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Sep 02 09:51:39 2013 -0500
+summary:     * Changing api::get_home_directory to return the home directory for the calling plugin.
+
+changeset:   148:1c07b1c62e11
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Sep 02 11:26:43 2013 -0500
+summary:     * Adding TKE development support.
+
+changeset:   149:df8264fa96a3
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Sep 03 11:16:44 2013 -0500
+summary:     * Fixing syntax error when exiting.
+
+changeset:   150:d8992d05ee3b
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Sep 03 13:59:19 2013 -0500
+summary:     * Fixing syntax error when a file is reloaded.
+
+changeset:   151:23c0d792b33d
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Sep 04 08:17:24 2013 -0500
+summary:     * Added cancel button to save dialog box on close.
+
+changeset:   152:f80adabbc017
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Sep 09 19:31:31 2013 -0500
+summary:     * Adding reload support such that files are auto-reloaded (no user feedback required) if an unmodified file is changed.
+
+changeset:   153:81e6aa979ba5
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Sep 09 19:38:57 2013 -0500
+summary:     * Lowering width warning tag to be the lowest priority tag.
+
+changeset:   154:c7f2bc6851bf
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Sep 09 19:54:22 2013 -0500
+summary:     * Enhancing launcher to allow all matches to be displayed (with scrollbar).
+
+changeset:   155:5e795bbf88a3
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Sep 10 01:27:44 2013 -0500
+summary:     * Fixing scrollbar flickering issue.
+
+changeset:   156:a4bfaf662eee
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Sep 10 08:52:31 2013 -0500
+summary:     * Adding body to check_indent procedure.  Things are working properly now.
+
+changeset:   157:b7b5e862cf5b
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Sep 11 19:13:23 2013 -0500
+summary:     * Starting work on enhancing the auto-indent functionality.
+
+changeset:   158:be6de46ccbbc
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Sep 12 09:37:40 2013 -0500
+summary:     * Adding the ability to colorize/uncolorize sections of the syntax via the preference file.
+
+changeset:   159:2f4432921cc6
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Sep 12 22:02:27 2013 -0500
+summary:     * Removing unnecessary code from indent.tcl
+
+changeset:   160:b46a16bb6558
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Sep 12 22:49:15 2013 -0500
+summary:     * Updating version.tcl.
+
+changeset:   161:456d1b8af14d
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Sep 12 23:58:17 2013 -0500
+summary:     * Adding About window and adding versioning capability with the 'make commit' command.
+
+changeset:   162:47d0846caac0
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Sep 13 00:02:56 2013 -0500
+summary:     * When an untitled tab is saved, set the syntax based on the saved filename.
+
+changeset:   163:e1d405cef282
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Sep 13 23:47:58 2013 -0500
+summary:     * Fixing format_text syntax errors and enhancing it to work with configurable indent/unindent words.
+
+changeset:   164:2f0b5378253b
+parent:      162:47d0846caac0
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Sep 13 17:28:33 2013 -0500
+summary:     * Allowing environment variables to be used in Vim commands.
+
+changeset:   165:35e7d962b585
+parent:      163:e1d405cef282
+parent:      164:2f0b5378253b
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Sep 13 23:49:16 2013 -0500
+summary:     * Merging vim.tcl.
+
+changeset:   166:b10a568a40b7
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Sep 16 14:21:11 2013 -0500
+summary:     * Adding darker grey color to tabs that are not currently selected.
+
+changeset:   167:907c47329117
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Sep 16 16:17:13 2013 -0500
+summary:     * Adding ability to open a directory from the command-line.
+
+changeset:   168:0953d4d0fc4e
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Sep 16 16:51:37 2013 -0500
+summary:     * Adding sidebar tooltip to root directories.
+
+changeset:   169:5f5fd69ed6be
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Sep 16 17:04:45 2013 -0500
+summary:     * Enhancing version output to include dot version information.
+
+changeset:   170:21256efca120
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Sep 16 17:22:35 2013 -0500
+summary:     * Fixing syntax error.
+
+changeset:   171:de978723e813
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Sep 19 08:37:52 2013 -0500
+summary:     * Fixing several instances where title bar got out of sync with the current tab in the tab bar.
+
+changeset:   172:e80584f6f412
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Sep 20 00:46:07 2013 -0500
+summary:     * Fixing issues with asterisk characters in indentation parser.
+
+changeset:   173:255312053a88
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Sep 20 01:43:05 2013 -0500
+summary:     * Starting to add MacOSX native application support (this currently does not work).
+
+changeset:   174:9ab89adbff80
+parent:      172:e80584f6f412
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Sep 20 14:48:39 2013 -0500
+summary:     * Removing highlight tags when the highlight command is called (so that we are basically re-highlighting the text).
+
+changeset:   175:4e0a8e75534b
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Sep 20 17:08:56 2013 -0500
+summary:     * Adding auto-indent support into multicursor architecture.
+
+changeset:   176:b7ed9d971e72
+parent:      173:255312053a88
+parent:      175:4e0a8e75534b
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Sep 20 19:02:37 2013 -0500
+summary:     * Merging changes from previous commit.
+
+changeset:   177:640f5efe217c
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Sep 24 09:11:41 2013 -0500
+summary:     * Checkpointing work on comment handler (still some work to do but comments procedure is working correctly).
+
+changeset:   178:a1c1a0768c1a
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Sep 24 17:24:01 2013 -0500
+summary:     * More work on comment/string handler.
+
+changeset:   179:4e248d90493b
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Sep 24 20:44:09 2013 -0500
+summary:     * Finishing work on auto-indent correctness.
+
+changeset:   180:54b68cccfb8b
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Sep 25 02:11:18 2013 -0500
+summary:     * Adding code support for Aqua builds (more work needed).
+
+changeset:   181:2c342a3a1065
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Sep 25 09:10:13 2013 -0500
+summary:     * Adding preference support for enabling/disabling auto-indentation.
+
+changeset:   182:e8aed8a70699
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Sep 25 09:30:56 2013 -0500
+summary:     * Adding tk::mac commands in aqua mode.
+
+changeset:   183:33e92f4bae86
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Sep 25 23:22:43 2013 -0500
+summary:     * Attempting to fix issue where '/' character is entered just prior to '*/'.
+
+changeset:   184:e81a189b774c
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Sep 25 23:36:36 2013 -0500
+summary:     * Fixing right-click behavior on MacOSX.
+
+changeset:   185:baa4539172cd
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Sep 25 23:51:28 2013 -0500
+summary:     * Fixing next_tab and previous_tab procedures.
+
+changeset:   186:fb2cd41e59fe
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Sep 26 01:33:07 2013 -0500
+summary:     * Starting to add support for auto-handling preferences changes to auto-indent options.
+
+changeset:   187:b5118aeb11fd
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Sep 27 16:42:27 2013 -0500
+summary:     * Fixing paste and format issues.
+
+changeset:   188:712fbd5e0880
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Sep 27 17:08:16 2013 -0500
+summary:     * Fixing About window in Mac OSX.
+
+changeset:   189:ee5cb4ae90a1
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Sep 29 23:37:16 2013 -0500
+summary:     * Adding support for changing indentation spaces on the fly.
+
+changeset:   190:f1b36889ca0c
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Sep 30 16:57:49 2013 -0500
+summary:     * Starting to add support for tab hiding in tab bars (not complete yet).
+
+changeset:   191:cea839d3bc01
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Oct 01 17:18:13 2013 -0500
+summary:     * Finishing work on tab hiding and revealing.
+
+changeset:   192:ebca03fc57fe
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Oct 01 18:06:41 2013 -0500
+summary:     * Adding View/HideTabs preferences option to control tab behavior.
+
+changeset:   193:b9eaab59b71f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Oct 02 08:38:22 2013 -0500
+summary:     * Fixing bug with MacOSX that caused a file called "" to be added (instead of an "Untitled" file).
+
+changeset:   194:b80c362635ce
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Oct 02 14:59:32 2013 -0500
+summary:     * Adding Sidebar/IgnoreFilePatterns preference option and related functionality.
+
+changeset:   195:3bf8cb6fe163
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Oct 02 16:40:21 2013 -0500
+summary:     * Starting to add support for session saving/loading.
+
+changeset:   196:796898c045dd
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Oct 02 23:27:38 2013 -0500
+summary:     * Completing work on restoring last closed session.
+
+changeset:   197:8c0472759a16
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Oct 03 09:20:04 2013 -0500
+summary:     * Adding initial version of HTML syntax file.
+
+changeset:   198:dd4f4cf48059
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Oct 03 17:31:59 2013 -0500
+summary:     * Adding Perl, Python and HTML syntax highlighting support.
+
+changeset:   199:a9b5713c5665
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Oct 04 01:21:56 2013 -0500
+summary:     * Separating sidebar code from gui namespace and creating its own namespace.
+
+changeset:   200:b6071fd65be0
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Oct 04 14:35:30 2013 -0500
+summary:     * Fixing functionality errors with sidebar changes.
+
+changeset:   201:7b039d042212
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Oct 04 15:01:03 2013 -0500
+summary:     * Fixing bug when closing the application.
+
+changeset:   202:a093f32d084b
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Oct 04 16:32:58 2013 -0500
+summary:     * Fixing multi-line comment issue in ctext.
+
+changeset:   203:0bd1d327bd18
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Oct 06 21:00:00 2013 -0500
+summary:     * Updating/adding new themes.
+
+changeset:   204:7beac4db4ae4
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Oct 07 08:24:46 2013 -0500
+summary:     * Enhancing tm2tke window information a bit.
+
+changeset:   205:665c9a57bb1a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Oct 07 08:34:37 2013 -0500
+summary:     * Fixing some bugs with last checkin.
+
+changeset:   206:c7e072effd1f
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Oct 07 17:05:31 2013 -0500
+summary:     * Renaming tm2tke to themer.
+
+changeset:   207:814a7be13f9f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Oct 08 08:30:57 2013 -0500
+summary:     * Adding reset capability to themer window (still needs work).
+
+changeset:   208:4fc031ab5fb5
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Oct 09 16:40:45 2013 -0500
+summary:     * More enhancements to themer.
+
+changeset:   209:24c3e5e1983c
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Oct 10 08:44:53 2013 -0500
+summary:     * Integrating themer into tke.
+
+changeset:   210:178f974ceca1
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Oct 10 12:19:21 2013 -0500
+summary:     * Adding Ruby and XML parsing support.
+
+changeset:   211:46274f9146de
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Oct 10 12:20:06 2013 -0500
+summary:     * Fixing XML file pattern in syntax file.
+
+changeset:   212:8b354d67f1b7
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Oct 10 12:28:19 2013 -0500
+summary:     * Fixing syntax error.
+
+changeset:   213:aaf78f76d818
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Oct 10 17:18:06 2013 -0500
+summary:     * More work on integration of themer with tke.
+
+changeset:   214:91cfc2d51ce4
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Oct 10 19:09:42 2013 -0500
+summary:     * More fixes/enhancements to themer.
+
+changeset:   215:f4125a4f29a7
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Oct 11 09:48:38 2013 -0500
+summary:     * Adding initial support for internationalization.
+
+changeset:   216:9b42785d75b9
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Oct 11 17:08:20 2013 -0500
+summary:     * Adding msgcat::mc calls.
+
+changeset:   217:ea78615fcda4
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Oct 13 12:40:14 2013 -0500
+summary:     * Fixing syntax errors in sidebar.tcl and gui.tcl
+
+changeset:   218:095b3d23c8b2
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Oct 14 00:38:07 2013 -0500
+summary:     * Fixing issues with lang.tcl.
+
+changeset:   219:20d9fe0c8d4c
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Oct 14 00:46:34 2013 -0500
+summary:     * Adding Japanese translation.
+
+changeset:   220:015ae7b066fa
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Oct 14 01:05:28 2013 -0500
+summary:     * Adding syntax files for shell script and Applescript files.
+
+changeset:   221:bcb78ee268d8
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Oct 14 08:49:09 2013 -0500
+summary:     * A few more enhancements to the lang tool.
+
+changeset:   222:2377c7bfa2f9
+user:        Trevor Williams  <phase1geo@gmail.com>
+date:        Sat Oct 26 08:04:42 2013 -0500
+summary:     * Replacing tablelist5.9 with tablelist5.10
+
+changeset:   223:48ca520ad3dc
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Nov 06 22:47:44 2013 -0600
+summary:     * Escaping parenthesis in search and search/replace match patterns.
+
+changeset:   224:a7d6c754d9a5
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Nov 11 09:36:33 2013 -0600
+summary:     * Subdividing API code into namespaces for better understandability.
+
+changeset:   225:8984f042538a
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Nov 11 11:16:51 2013 -0600
+summary:     * Fixing syntax error.
+
+changeset:   226:126f3c7f3c75
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Nov 13 12:34:59 2013 -0600
+summary:     * Attempting to fix error with "modified" file information not being initialized.
+
+changeset:   227:71ce51517449
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 26 22:11:48 2013 -0600
+summary:     * Changing behavior when adding a tab -- if a single untitled/unmodified tab exists, remove it before adding the new tab
+
+changeset:   228:7e636e6bf9f6
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 26 22:33:15 2013 -0600
+summary:     * Adding ability to change the current working directory via the sidebar.
+
+changeset:   229:c1c41c6b3425
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 26 22:49:56 2013 -0600
+summary:     * Fixing issue in sidebar where selecting a file in view changed the tablelist view.
+
+changeset:   230:fe57d0d5b53c
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 26 23:06:27 2013 -0600
+summary:     * Fixing issue with first tab being deleted when a session was loaded.
+
+changeset:   231:8a5192c978f7
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 26 23:18:21 2013 -0600
+summary:     * Adding 'cd ...' command in the Vim command-line handler.
+
+changeset:   232:1c11f99ae2de
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Nov 29 09:56:58 2013 -0600
+summary:     * Modifying search behavior to only select current match when we are not in Vim non-edit mode.
+
+changeset:   233:ceb42a286da6
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Dec 05 11:36:30 2013 -0600
+summary:     * Fixing issue with deleting and pasting line(s) in Vim mode.
+
+changeset:   234:98067da14c25
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Jan 13 22:17:57 2014 -0600
+summary:     * Adding ability to insert a range of numbers via multicursor and Vim.
+
+changeset:   235:124016ab937e
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jan 14 08:16:14 2014 -0600
+summary:     * Adding support for binary numbers and various value indentifications in insert_numbers procedure.
+
+changeset:   236:7f7fa7521c78
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Jan 14 10:48:58 2014 -0600
+summary:     * Changing number insertion mechanism to use a GUI entry field.
+
+changeset:   237:c635123f1df3
+user:        Trevor Williams  <phase1geo@gmail.com>
+date:        Tue Jan 14 22:52:40 2014 -0600
+summary:     * Adding “Insert enumeration” text menu command
+
+changeset:   238:d0275bf43f16
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jan 16 08:00:02 2014 -0600
+summary:     * Fixing "Open" command in sidebar contextual menus.
+
+changeset:   239:55424e923608
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Jan 18 22:47:13 2014 -0600
+summary:     * Finishing first draft of the "Find in Files" functionality.
+
+changeset:   240:ea8ffbc6026a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Jan 19 07:56:36 2014 -0600
+summary:     * Adding Find/ContextNum preference that sets the amount of contextual lines around a matched line in FIF.
+
+changeset:   241:250d70907bd2
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Jan 19 21:53:57 2014 -0600
+summary:     * Fixing issues with tokensearch widget.
+
+changeset:   242:6ae3b9cf667f
+user:        Trevor Williams  <phase1geo@gmail.com>
+date:        Thu Jan 23 18:44:32 2014 -0600
+summary:     * Fixing syntax error when adding a snippet.
+
+changeset:   243:433966547990
+parent:      241:250d70907bd2
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Jan 24 16:41:15 2014 -0600
+summary:     * Fixing snippets syntax errors.
+
+changeset:   244:c4089fa66b84
+parent:      242:6ae3b9cf667f
+parent:      243:433966547990
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Feb 17 00:00:06 2014 -0600
+summary:     * Merging.
+
+changeset:   245:e7c38b27d087
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Feb 17 00:04:10 2014 -0600
+summary:     * Adding "Close All" file menu command.
+
+changeset:   246:98b15d1515f2
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Feb 18 09:14:08 2014 -0600
+summary:     * Fixing issue with selecting the "File" menu when no files are opened.
+
+changeset:   247:27f1e6ba7e0e
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Feb 18 11:44:58 2014 -0600
+summary:     * If an "Untitled" tab needs to be saved, include "Untitled" in the reminder dialog.
+
+changeset:   248:15e8b84197ea
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Feb 18 12:13:08 2014 -0600
+summary:     * Fixing issues with "File" menu when no tabs are opened.
+
+changeset:   249:f7ff18a99fb1
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Feb 24 21:12:38 2014 -0600
+summary:     * Fixing syntax error when tab is moved to new pane.
+
+changeset:   250:e17d357526cb
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Feb 24 21:43:56 2014 -0600
+summary:     * Adding "Show Console" View menu command.
+
+changeset:   251:3d4ebd6348c9
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Feb 24 22:34:08 2014 -0600
+summary:     * Adding "Show status" command in View menu.
+
+changeset:   252:bb23cb5f2329
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Feb 26 00:02:25 2014 -0600
+summary:     * Adding untested functionality for "Save All" command.
+
+changeset:   253:c7f96ceb6c4b
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Feb 26 07:56:01 2014 -0600
+summary:     * Fixing syntax errors with save_all procedure.
+
+changeset:   254:129567f93d75
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Feb 26 16:31:41 2014 -0600
+summary:     * Changing "New File" and "New Folder" functionality to get user input for name instead of editing cell in sidebar.
+
+changeset:   255:6a6e301ad7b2
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Feb 27 09:32:43 2014 -0600
+summary:     * Updating translation files.
+
+changeset:   256:49e2f72b419e
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Feb 27 09:42:49 2014 -0600
+summary:     * Adding Italian translation file.
+
+changeset:   257:ae8186a2ae01
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Feb 28 13:52:55 2014 -0600
+summary:     * Fixing syntax error in plugins.tcl
+
+changeset:   258:1a99275bc93c
+user:        Trevor Williams  <phase1geo@gmail.com>
+date:        Sat Mar 01 00:48:02 2014 -0600
+summary:     * Adding support for variables/environment variables in entry fields.
+
+changeset:   259:d65e76e81a78
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Mar 01 22:04:21 2014 -0600
+summary:     * Adding "Case sensitivity" button to find, find/replace and find in files.
+
+changeset:   260:b2fa3d0abb3f
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Mar 14 22:08:36 2014 -0500
+summary:     * Fixing issue with single quote syntax highlighting.
+
+changeset:   261:144610baa024
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Mar 14 23:03:50 2014 -0500
+summary:     * Adding initial support for alphabetical tab insertion.
+
+changeset:   262:e5a995967899
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Mar 15 10:54:03 2014 -0500
+summary:     * Adding tab sorting functionality to View menu.
+
+changeset:   263:919b7823d3cd
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Mar 15 11:00:47 2014 -0500
+summary:     * Fixing issue where setting the title when no tabs are opened caused a syntax error.
+
+changeset:   264:9ac7d4d325f4
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Mar 18 13:50:43 2014 -0500
+summary:     * Adding ability to sort items in sidebar folder first.
+
+changeset:   265:0e4c7c8b308b
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Apr 09 21:28:55 2014 -0500
+summary:     * Checkpointing work on adding tabbar to tke.
+
+changeset:   266:78f3086b31a5
+parent:      264:9ac7d4d325f4
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Apr 23 17:30:39 2014 -0500
+summary:     * Lots of updates to fix and improve performance in regards to tab management.
+
+changeset:   267:dbc7d546e119
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Apr 24 08:26:31 2014 -0500
+summary:     * Fixing bugs from previous submission.
+
+changeset:   268:c7cdf9342672
+parent:      265:0e4c7c8b308b
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Apr 24 20:32:24 2014 -0500
+summary:     * More tab work.
+
+changeset:   269:a8fe055a4870
+parent:      268:c7cdf9342672
+parent:      267:dbc7d546e119
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Apr 24 20:45:37 2014 -0500
+summary:     * Merging gui.tcl with TOT.
+
+changeset:   270:88ba61a1f951
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Apr 24 22:23:01 2014 -0500
+summary:     * Several bug fixes.
+
+changeset:   271:f910c4622200
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Apr 25 17:17:43 2014 -0500
+summary:     * More work on integrating new tab bar (lots of bug fixes).
+
+changeset:   272:2386a6ca2088
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Apr 26 08:22:42 2014 -0500
+summary:     * Fixing redraw issues with tabbar widget.
+
+changeset:   273:ff4c733362f3
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Apr 27 00:00:39 2014 -0500
+summary:     * More bug fixes.
+
+changeset:   274:f4c46c1d62f6
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Apr 27 23:46:37 2014 -0500
+summary:     * Adding previous_tab, last_tab and next_pane support to UI (via vim commands at the moment).
+
+changeset:   275:c272fe9ba889
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Apr 28 22:18:09 2014 -0500
+summary:     * Adding better menu posting state support.
+
+changeset:   276:b4535a84d5b1
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Apr 29 08:29:51 2014 -0500
+summary:     * Starting to add code to perform smarter indentation.
+
+changeset:   277:9b43df733254
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu May 01 08:31:34 2014 -0500
+summary:     * Making a small enhancement to the auto-indent code.
+
+changeset:   278:1601e32e012f
+parent:      276:b4535a84d5b1
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Apr 29 09:55:38 2014 -0500
+summary:     * Fixing UI issues when no files are opened.
+
+changeset:   279:fbf23ea7601c
+parent:      277:9b43df733254
+parent:      278:1601e32e012f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu May 01 08:32:24 2014 -0500
+summary:     * Merging GUI changes.
+
+changeset:   280:1e7818b8d352
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri May 02 20:44:29 2014 -0500
+summary:     * tabbar update.
+
+changeset:   281:65d480389610
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue May 06 16:46:07 2014 -0500
+summary:     * Fixing marker issues.
+
+changeset:   282:4090764149d7
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed May 07 08:20:51 2014 -0500
+summary:     * Changing comment structure to support faster comment/string highlighting.
+
+changeset:   283:6b86ea5550cf
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed May 07 13:07:39 2014 -0500
+summary:     * Several optimizations made to comment syntax highlighting.
+
+changeset:   284:44aaeddbe47b
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed May 07 22:17:24 2014 -0500
+summary:     * Fixing issues with setting markers and selecting lines with the line column.
+
+changeset:   285:e07f15c9cbeb
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu May 08 09:26:55 2014 -0500
+summary:     * Initial work on adding split pane behavior (still work to do).
+
+changeset:   286:b9fb1262c752
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu May 08 14:38:12 2014 -0500
+summary:     * More fixes to get split pane to work (pane is being displayed but is running into several issues yet).
+
+changeset:   287:b235709f2b1f
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu May 08 17:23:09 2014 -0500
+summary:     * Adding 2014 to copyright information in about window.
+
+changeset:   288:e40e9ce95a1a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri May 09 08:13:04 2014 -0500
+summary:     * Adding split pane hide and show UI elements.
+
+changeset:   289:3a125821f504
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri May 09 10:56:13 2014 -0500
+summary:     * Fixing syntax highlighting for multiline comments.
+
+changeset:   290:6f4572409145
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat May 10 21:53:35 2014 -0500
+summary:     * Updating translation files.
+
+changeset:   291:534c5daf2696
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat May 10 22:40:24 2014 -0500
+summary:     * Fixing more issues with split pane.
+
+changeset:   292:6e4c73aacf1a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon May 12 08:33:24 2014 -0500
+summary:     * Changing show/hide menu behavior for the sidebar.
+
+changeset:   293:b3d39f6c1746
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon May 12 11:43:30 2014 -0500
+summary:     * Adding show/hide behavior to console, tab bar and status bar.
+
+changeset:   294:01c9236bcf2f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue May 13 22:04:15 2014 -0500
+summary:     * Changing "About tke" menu item to "About TKE" to enhance readability.
+
+changeset:   295:b305dfc083c4
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed May 14 22:14:41 2014 -0500
+summary:     * Adding Preferences, Menu Bindings, Snippets and themes to menu.
+
+changeset:   296:e4e828e57196
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu May 15 08:42:55 2014 -0500
+summary:     * Fixing issue with switching to themes with spaces in their name.
+
+changeset:   297:9d8ff6339f52
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu May 15 15:58:46 2014 -0500
+summary:     * Fixing state issues with snippets menu.
+
+changeset:   298:837d9d8dc175
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu May 15 16:27:17 2014 -0500
+summary:     * Adding some new themes imported from TextMate.
+
+changeset:   299:3b0687068ef6
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu May 15 17:25:50 2014 -0500
+summary:     * Adding User Guide menu option.
+
+changeset:   300:c0cbec216830
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu May 15 19:46:54 2014 -0500
+summary:     * Adding placeholder for TKE User's Guide.
+
+changeset:   301:ce6802db4f7c
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu May 15 22:50:54 2014 -0500
+summary:     * Fixing issues with AppleScript comment syntax.
+
+changeset:   302:f8b8b8a13f5f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu May 15 23:11:06 2014 -0500
+summary:     * Adding "Select All" functionality in edit menu.
+
+changeset:   303:80f6ff51b5ed
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri May 16 10:11:33 2014 -0500
+summary:     * Adding Perforce revert current file command to Perforce plugin.
+
+changeset:   304:5b99adc442d2
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat May 17 22:33:34 2014 -0500
+summary:     * Modifying snippet parser so that back-to-back snippets (and snippets without a blank line at EOF) work.
+
+changeset:   305:2b9de223dc45
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu May 22 21:31:50 2014 -0500
+summary:     * Fixing syntax error in themer code.
+
+changeset:   306:714f329df331
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu May 22 21:49:02 2014 -0500
+summary:     * Fixing issue with formatting text.
+
+changeset:   307:34e1aa391e18
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu May 22 21:58:45 2014 -0500
+summary:     * Fixing text modification indicator.
+
+changeset:   308:d29b99dd1f64
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu May 22 22:13:30 2014 -0500
+summary:     * Completing Haskell syntax highlighting file.
+
+changeset:   309:5751392cf602
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri May 23 16:47:34 2014 -0500
+summary:     * Fixing issues with Vim search and replace.
+
+changeset:   310:9b60e3a9cca9
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat May 24 21:52:26 2014 -0500
+summary:     * Splitting info_label area into an info_state and info_msg area.
+
+changeset:   311:522b32abcc0b
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon May 26 17:06:54 2014 -0500
+summary:     * Updating user guide.
+
+changeset:   312:b8b7c951406a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue May 27 00:19:02 2014 -0500
+summary:     * Adding initial version of install script (untested at this time).
+
+changeset:   313:099e37731fcf
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue May 27 00:38:31 2014 -0500
+summary:     * Fixing a few issues with the installation script.
+
+changeset:   314:feb16bcfac02
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue May 27 09:57:58 2014 -0500
+summary:     * Fixing error when loading from a session file.
+
+changeset:   315:fd22d1f9adec
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue May 27 17:19:35 2014 -0500
+summary:     * Enhancing installation script.
+
+changeset:   316:e3d9b8fa6d21
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Sep 25 21:38:20 2013 -0500
+summary:     * Fixing syntax error when saving user preference file.
+
+changeset:   317:3b5e9aa4731d
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue May 27 23:03:23 2014 -0500
+summary:     * More installation improvements.
+
+changeset:   318:bd6e3fc483b8
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue May 27 23:46:53 2014 -0500
+summary:     * Adding tke executable on Mac OSX platforms (for command-line usage).
+
+changeset:   319:acd703b3e228
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue May 27 23:48:31 2014 -0500
+summary:     * Adding release process to release script.
+
+changeset:   320:9c293f4d905d
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed May 28 17:31:17 2014 -0500
+summary:     * More installation improvements.
+
+changeset:   321:67b2860ffd22
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed May 28 21:54:13 2014 -0500
+summary:     ChangeLog for stable-1.0 release
+
+changeset:   322:5fc22bcf9aa0
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed May 28 21:54:31 2014 -0500
+summary:     Added tag stable-1.0 for changeset 67b2860ffd22
+
 changeset:   323:e8d17a4e3c19
-tag:         stable-1.1
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
 date:        Wed May 28 22:08:55 2014 -0500
 summary:     ChangeLog for stable-1.1 release
+
+changeset:   324:2c4a3143b6d8
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed May 28 22:09:07 2014 -0500
+summary:     Added tag stable-1.1 for changeset e8d17a4e3c19
+
+changeset:   325:f0433c7efa60
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed May 28 22:17:40 2014 -0500
+summary:     ChangeLog for stable-1.2 release
+
+changeset:   326:0b7f17a010f3
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed May 28 22:17:50 2014 -0500
+summary:     Added tag stable-1.2 for changeset f0433c7efa60
+
+changeset:   327:97cf146fc837
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed May 28 22:45:02 2014 -0500
+summary:     Removed tag stable-1.2
+
+changeset:   328:12fc1ecdd8c1
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed May 28 22:45:07 2014 -0500
+summary:     Removed tag stable-1.1
+
+changeset:   329:fb38f275a4bb
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed May 28 22:45:12 2014 -0500
+summary:     Removed tag stable-1.0
 
