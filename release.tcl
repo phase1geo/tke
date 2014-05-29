@@ -23,6 +23,11 @@ proc usage {} {
   puts "  -m    Increment the major revision value"
   puts "  -g    Generate images only using latest tagged value"
   puts ""
+  puts "Note:  If you need to recreate a tag, perform the following prior"
+  puts "       to calling this script:"
+  puts ""
+  puts "       hg tag --remove <tag>"
+  puts ""
   
   exit
   
@@ -224,90 +229,103 @@ proc generate_macosx_dmg {tag} {
   
 }
 
-# Initialize variables that might be overridden on the command-line
-set increment_major 0
-set generate_only   0
-
-# Parse command-line options
-set i 1
-while {$i < $argc} { 
-  puts "i: $i, option: [lindex $argv $i]"
-  switch [lindex $argv $i] {
-    -v      { puts "$version_major.$version_minor" }
-    -m      { set increment_major 1 }
-    -g      { set generate_only 1 }
-    default { usage }
+catch {
+  
+  # Initialize variables that might be overridden on the command-line
+  set increment_major 0
+  set generate_only   0
+   
+  # Parse command-line options
+  set i 1
+  while {$i < $argc} { 
+    switch [lindex $argv $i] {
+      -v      { puts "$version_major.$version_minor"; exit }
+      -m      { set increment_major 1 }
+      -g      { set generate_only 1 }
+      default { usage }
+    }
+    incr i
   }
-  incr i
-}
-
-# Get the latest major/minor tag
-lassign [get_latest_major_minor] major minor
-
-# Update major/minor values and create needed tags 
-if {!$generate_only} {
-  if {$major == 0} {
-    set last_tag ""
-    set major    1
-    set minor    0
-  } else {
-    set last_tag "stable-$major.$minor"
-    if {$increment_major} {
-      incr major 
-      set minor 0
+   
+  # Get the latest major/minor tag
+  lassign [get_latest_major_minor] major minor
+   
+  # Update major/minor values and create needed tags 
+  if {!$generate_only} {
+    if {$major == 0} {
+      set last_tag ""
+      set major    1
+      set minor    0
     } else {
-      incr minor
+      set last_tag "stable-$major.$minor"
+      if {$increment_major} {
+        incr major 
+        set minor 0
+      } else {
+        incr minor
+      }
+    }
+  } else {
+    if {$major == 0} {
+      return -code error "The project must be tagged prior to using the -g option"
     }
   }
-}
-
-# Create next_tag value
-set next_tag "stable-$major.$minor"
-
-if {!$generate_only} {
-  
-  # If a tag hasn't been created yet, just use the default branch to update the
-  # ChangeLog file.
-  generate_changelog $last_tag
-  
-  # Update the version file
-  update_version_file $major $minor
-  
-  # Commit the ChangeLog change
-  puts -nonewline "Committing and pushing ChangeLog...  "
-  flush stdout
-  if {[catch { exec -ignorestderr hg commit -m "ChangeLog for $next_tag release" } rc]} {
-    puts "failed!"
-    puts "  $rc"
-    return -code error "Unable to commit ChangeLog"
+   
+  # Create next_tag value
+  set next_tag "stable-$major.$minor"
+   
+  if {!$generate_only} {
+    
+    # If a tag hasn't been created yet, just use the default branch to update the
+    # ChangeLog file.
+    generate_changelog $last_tag
+    
+    # Update the version file
+    update_version_file $major $minor
+    
+    # Commit the ChangeLog change
+    puts -nonewline "Committing and pushing ChangeLog...  "
+    flush stdout
+    if {[catch { exec -ignorestderr hg commit -m "ChangeLog for $next_tag release" } rc]} {
+      puts "failed!"
+      puts "  $rc"
+      return -code error "Unable to commit ChangeLog"
+    }
+     
+    # Push the ChangeLog change to master
+    if {[catch { exec -ignorestderr hg push } rc]} {
+      puts "failed!"
+      puts "  $rc"
+      return -code error "Unable to push changelist"
+    }
+    puts "done."
+     
+    # Tag the new release
+    puts -nonewline "Tagging repository with $next_tag...  "
+    flush stdout
+    if {[catch { exec -ignorestderr hg tag $next_tag } rc]} {
+      puts "failed!"
+      puts "  $rc"
+      return -code error "Unable to tag repository to $next_tag"
+    }
+    puts "done."
+    
   }
    
-  # Push the ChangeLog change to master
-  if {[catch { exec -ignorestderr hg push } rc]} {
-    puts "failed!"
-    puts "  $rc"
-    return -code error "Unable to push changelist"
-  }
-  puts "done."
+  # Generate the linux tarball
+  generate_linux_tarball $next_tag
    
-  # Tag the new release
-  puts -nonewline "Tagging repository with $next_tag...  "
-  flush stdout
-  if {[catch { exec -ignorestderr hg tag $next_tag } rc]} {
-    puts "failed!"
-    puts "  $rc"
-    return -code error "Unable to tag repository to $next_tag"
+  # Generate the Mac OSX disk image
+  if {$tcl_platform(os) eq "Darwin"} {
+    generate_macosx_dmg $next_tag
   }
-  puts "done."
+   
+  puts "Done!"
+  puts ""
+  puts "Releases are available in: [file normalize [file join ~ projects releases]]"
+  puts ""
+    
+  exit
   
-}
-
-# Generate the linux tarball
-generate_linux_tarball $next_tag
-
-# Generate the Mac OSX disk image
-if {$tcl_platform(os) eq "Darwin"} {
-  generate_macosx_dmg $next_tag
-}
-
-puts "Done!"
+} rc
+puts "ERROR:  $rc"
