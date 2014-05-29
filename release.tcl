@@ -155,7 +155,7 @@ proc generate_linux_tarball {tag} {
   flush stdout
   
   # Generate the tarball
-  if {[catch { exec -ignorestderr tar -czf [file tail $release_dir].tar.gz -C [file dirname $release_dir] $release_dir } rc]} {
+  if {[catch { exec -ignorestderr tar -czf $release_dir.tar.gz -C [file dirname $release_dir] [file tail $release_dir] } rc]} {
     puts "failed!"
     puts "  $rc"
     file delete -force $release_dir
@@ -176,7 +176,7 @@ proc generate_linux_tarball {tag} {
 proc generate_macosx_dmg {tag} {
   
   # Create archive directory
-  set release_dir [create_archive $tag Linux]
+  set release_dir [create_archive $tag MacOSX]
   
   puts -nonewline "Preparing MacOSX release directory...  "
   flush stdout
