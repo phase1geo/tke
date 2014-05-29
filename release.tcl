@@ -82,7 +82,37 @@ proc generate_linux_tarball {tag} {
   # Create archive directory
   set release_dir [create_archive $tag Linux]
   
-  puts "release_dir: $release_dir"
+  puts -nonewline "Preparing release directory...  "
+  flush stdout
+  
+  # Delete the MacOSX directory
+  if {[catch { file delete -force [file join $release_dir MacOSX] } rc]} {
+    puts "failed!"
+    puts "  $rc"
+    file delete -force $release_dir
+    return -code error "Unable to delete MacOSX directory"
+  }
+  
+  # Delete the release.tcl file
+  if {[catch { file delete -force [file join $release_dir release.tcl] } rc]} {
+    puts "failed!"
+    puts "  $rc"
+    file delete -force $release_dir
+    return -code error "Unable to delete release.tcl"
+  }
+  
+  # Generate the tarball
+  if {[catch { exec -ignorestderr tar -czf $release_dir.tar $release_dir } rc]} {
+    puts "failed!"
+    puts "  $rc"
+    file delete -force $release_dir
+    return -code error "Unable to create tar file"
+  }
+  
+  # Finally, delete the release directory
+  file delete -force $release_dir
+  
+  puts "done."
   
 }
 
