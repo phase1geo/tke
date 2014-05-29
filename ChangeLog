@@ -1565,8 +1565,58 @@ date:        Fri May 23 16:47:34 2014 -0500
 summary:     * Fixing issues with Vim search and replace.
 
 changeset:   310:9b60e3a9cca9
-tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
 date:        Sat May 24 21:52:26 2014 -0500
 summary:     * Splitting info_label area into an info_state and info_msg area.
+
+changeset:   311:522b32abcc0b
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon May 26 17:06:54 2014 -0500
+summary:     * Updating user guide.
+
+changeset:   312:b8b7c951406a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue May 27 00:19:02 2014 -0500
+summary:     * Adding initial version of install script (untested at this time).
+
+changeset:   313:099e37731fcf
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue May 27 00:38:31 2014 -0500
+summary:     * Fixing a few issues with the installation script.
+
+changeset:   314:feb16bcfac02
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue May 27 09:57:58 2014 -0500
+summary:     * Fixing error when loading from a session file.
+
+changeset:   315:fd22d1f9adec
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue May 27 17:19:35 2014 -0500
+summary:     * Enhancing installation script.
+
+changeset:   316:e3d9b8fa6d21
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Sep 25 21:38:20 2013 -0500
+summary:     * Fixing syntax error when saving user preference file.
+
+changeset:   317:3b5e9aa4731d
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue May 27 23:03:23 2014 -0500
+summary:     * More installation improvements.
+
+changeset:   318:bd6e3fc483b8
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue May 27 23:46:53 2014 -0500
+summary:     * Adding tke executable on Mac OSX platforms (for command-line usage).
+
+changeset:   319:acd703b3e228
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue May 27 23:48:31 2014 -0500
+summary:     * Adding release process to release script.
+
+changeset:   320:9c293f4d905d
+tag:         tip
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed May 28 17:31:17 2014 -0500
+summary:     * More installation improvements.
 
