@@ -82,7 +82,7 @@ proc generate_linux_tarball {tag} {
   # Create archive directory
   set release_dir [create_archive $tag Linux]
   
-  puts -nonewline "Preparing release directory...  "
+  puts -nonewline "Preparing Linux release directory...  "
   flush stdout
   
   # Delete the MacOSX directory
@@ -101,8 +101,13 @@ proc generate_linux_tarball {tag} {
     return -code error "Unable to delete release.tcl"
   }
   
+  puts "done."
+  
+  puts -nonewline "Generating Linux tarball...  "
+  flush stdout
+  
   # Generate the tarball
-  if {[catch { exec -ignorestderr tar -czf $release_dir.tar $release_dir } rc]} {
+  if {[catch { exec -ignorestderr tar -czf $release_dir.tar.gz $release_dir } rc]} {
     puts "failed!"
     puts "  $rc"
     file delete -force $release_dir
@@ -110,7 +115,11 @@ proc generate_linux_tarball {tag} {
   }
   
   # Finally, delete the release directory
-  file delete -force $release_dir
+  if {[catch { file delete -force $release_dir } rc]} {
+    puts "failed!"
+    puts "  $rc"
+    return -code error "Unable to delete directory"
+  }
   
   puts "done."
   
@@ -118,12 +127,27 @@ proc generate_linux_tarball {tag} {
 
 proc generate_macosx_dmg {tag} {
   
-  # TEMPORARY
-  return
-  
+  # Create archive directory
   set release_dir [create_archive $tag Linux]
   
-  puts "release_dir: $release_dir"
+  puts -nonewline "Preparing MacOSX release directory...  "
+  flush stdout
+  
+  puts "done."
+  
+  puts -nonewline "Generating MacOSX disk image...  "
+  flush stdout
+  
+  # TBD
+  
+  # Finally, delete the release directory
+  if {[catch { file delete -force $release_dir } rc]} {
+    puts "failed!"
+    puts "  $rc"
+    return -code error "Unable to delete directory"
+  }
+  
+  puts "done."
   
 }
 
