@@ -133,12 +133,42 @@ proc generate_macosx_dmg {tag} {
   puts -nonewline "Preparing MacOSX release directory...  "
   flush stdout
   
+  set scripts_dir [file join $release_dir MacOSX Tke.app Contents Resources Scripts]
+  
+  foreach dir [list data doc lib plugins] {
+    
+    # Delete the symbolic link
+    if {[file exists [file join $scripts_dir $dir]]} {
+      if {[catch { file delete -force [file join $scripts_dir $dir] } rc]} {
+        puts "failed!"
+        puts "  $rc"
+        file delete -force $release_dir
+        return -code error "Unable to delete $dir link"
+      }
+    }
+    
+    # Copy the directory
+    if {[catch { file copy -force [file join $release_dir $dir] $scripts_dir } rc]} {
+      puts "failed!"
+      puts "  $rc"
+      file delete -force $release_dir
+      return -code error "Unable to copy $dir directory"
+    }
+    
+  }
+  
   puts "done."
   
   puts -nonewline "Generating MacOSX disk image...  "
   flush stdout
   
-  # TBD
+  # Create the disk image using the hdiutil command-line utility
+  if {[catch { exec -ignorestderr hdiutil create [file join $release_dir.dmg] -srcfolder [file join $release_dir MacOSX Tke.app] } rc]} {
+    puts "failed!"
+    puts "  $rc"
+    file delete -force $release_dir
+    return -code error "Unable to create disk image"
+  }
   
   # Finally, delete the release directory
   if {[catch { file delete -force $release_dir } rc]} {
