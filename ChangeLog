@@ -1690,8 +1690,23 @@ date:        Wed May 28 23:22:18 2014 -0500
 summary:     Added tag stable-1.0 for changeset dfcf6330cdae
 
 changeset:   335:b00834044f44
-tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
 date:        Wed May 28 23:23:31 2014 -0500
+summary:     Removed tag stable-1.0
+
+changeset:   336:4c160b747093
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed May 28 23:29:55 2014 -0500
+summary:     ChangeLog for stable-1.0 release
+
+changeset:   337:a3f77fccef9a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed May 28 23:30:09 2014 -0500
+summary:     Added tag stable-1.0 for changeset 4c160b747093
+
+changeset:   338:f556cf46d2b6
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed May 28 23:33:50 2014 -0500
 summary:     Removed tag stable-1.0
 

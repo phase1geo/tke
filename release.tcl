@@ -155,7 +155,7 @@ proc generate_linux_tarball {tag} {
   flush stdout
   
   # Generate the tarball
-  if {[catch { exec -ignorestderr tar -czf $release_dir.tar.gz $release_dir } rc]} {
+  if {[catch { exec -ignorestderr tar -czf [file tail $release_dir].tar.gz -C [file dirname $release_dir] $release_dir } rc]} {
     puts "failed!"
     puts "  $rc"
     file delete -force $release_dir
