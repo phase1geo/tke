@@ -355,7 +355,7 @@ proc ctext::highlightAfterIdle {win lineStart lineEnd} {
       break
     }
   }
-
+  
   # Perform the highlight in the background
   bgproc::command ctext::highlightAfterIdle$win "ctext::doHighlight $win" -cancelable 1
   
@@ -556,7 +556,7 @@ proc ctext::instanceCmd {self cmd args} {
       set insertPos [$self._t index [lindex $args 0]]
       set prevChar [$self._t get "$insertPos - 1 chars"]
       set nextChar [$self._t get $insertPos]
-      if {$insertPos eq "end"} {
+      if {[lindex $args 0] eq "end"} {
         set lineStart [$self._t index "$insertPos-1c linestart"]
       } else {
         set lineStart [$self._t index "$insertPos linestart"]
@@ -1277,7 +1277,7 @@ proc ctext::doHighlight {win} {
 
   set total_keywords 0 
   set total_regexps  0
-    
+  
   foreach {start end} $linesChanged {
     
     append end " lineend"
