@@ -329,10 +329,17 @@ namespace eval sidebar {
     }
     
     set dir_files [lassign [order_files_dirs $dir_files] dir_file]
+    #puts "DIR_FILES:\n[join $dir_files \n]\n"
+    #puts "TL_FILES:"
+    #foreach child [$widgets(tl) childkeys $parent] {
+    #  puts [$widgets(tl) cellcget $child,name -text]
+    #}
+    #puts ""
     foreach child [$widgets(tl) childkeys $parent] {
       set tl_file [$widgets(tl) cellcget $child,name -text]
       set compare [string compare $tl_file $dir_file]
-      if {$compare == -1} {
+      #puts "compare: $compare, tl_file: $tl_file dir_file: $dir_file"
+      if {($compare == -1) || ($dir_file eq "")} {
         $widgets(tl) delete $child
       } else {
         while {1} {
@@ -345,8 +352,9 @@ namespace eval sidebar {
             }
           }
           set dir_files [lassign $dir_files dir_file]
-          if {$compare == 0} { break }
+          if {($compare == 0) || ($dir_file eq "")} { break }
           set compare [string compare $tl_file $dir_file]
+          #puts "compare: $compare, tl_file: $tl_file dir_file: $dir_file"
         }
       }
     }
@@ -563,7 +571,7 @@ namespace eval sidebar {
       $widgets(tl) expand $selected -partly
     
       # Add a new file to the directory
-      set key [$widgets(tl) insertchild $selected 0 [list $fname 0]]
+      # set key [$widgets(tl) insertchild $selected 0 [list $fname 0]]
     
       # Create an empty file
       gui::add_file end $fname
@@ -598,8 +606,8 @@ namespace eval sidebar {
       # Expand the directory
       $widgets(tl) expand $selected -partly
     
-      # Add a new folder to the directory
-      set key [$widgets(tl) insertchild $selected 0 [list $dname 0]]
+      # Update the directory
+      update_directory $selected
     
     }
     
