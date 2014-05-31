@@ -9,23 +9,44 @@
   <summary>Coding editor based on Tcl/Tk</summary>
   <description>
     <p>
-      Power Statistics is a program used to view historical and current battery
-      information and will show programs running on your computer using power.
+      TKE is a full-featured source code editor written in Tcl/Tk.  It supports
+      the following features:
     </p>
-    <p>Example list:</p>
-    <ul>
-      <li>First item</li>
-      <li>Second item</li>
-    </ul>
     <p>
-      You probably only need to install this application if you are having problems
-      with your laptop battery, or are trying to work out what programs are using
-      significant amounts of power.
+      <ul>
+        <li>Syntax highlighting</li>
+        <li>Multi-cursor support</li>
+        <li>Internationalization support</li>
+        <li>Customizable menu bindings</li>
+        <li>Clipboard history</li>
+        <li>Unlimited undo/redo</li>
+        <li>Language-specific snippet support</li>
+        <li>Auto and smart indentation features</li>
+        <li>Code line bookmarking</li>
+        <li>Line number display</li>
+        <li>Customizable tab stops</li>
+        <li>Text transformation tools</li>
+        <li>Built-in Vim support</li>
+        <li>Expanded Vim functionality</li>
+        <li>Regular expression in-file search/replace</li>
+        <li>Regular expression multi-directory file search</li>
+        <li>Symbolic searching</li>
+        <li>Auto-updating on file changes external to editor</li>
+        <li>File locking support</li>
+        <li>Advanced command launcher</li>
+        <li>File/Directory sidebar</li>
+        <li>Tabbed file support</li>
+        <li>Dual editor panel support</li>
+        <li>Split view support</li>
+        <li>Maximum column width display</li>
+        <li>Automatic session saving</li>
+        <li>Support for NFS-mounted file systems</li>
+        <li>Plugin support</li>
+      </ul>
     </p>
   </description>
   <screenshots>
-    <screenshot type="default" width="800" height="600">http://www.hughsie.com/en_US/main.png</screenshot>
-    <screenshot width="800" height="600">http://www.hughsie.com/en_US/preferences.png</screenshot>
+    <screenshot type="default" width="800" height="600">https://a.fsdn.com/con/app/proj/tke/screenshots/tke_screenshot.jpg/182/137</screenshot>
   </screenshots>
   <url type="homepage">http://tke.sourceforge.net/</url>
   <updatecontact>phase1geo@gmail.com</updatecontact>

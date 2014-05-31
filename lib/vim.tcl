@@ -110,8 +110,8 @@ namespace eval vim {
       w  { gui::save_current }
       w! { gui::save_current }
       wq { gui::save_current; gui::close_current }
-      q  { gui::close_current 0 }
-      q! { gui::close_current 1 }
+      q  { gui::close_current 0; set txt "" }
+      q! { gui::close_current 1; set txt "" }
       e! { gui::update_current }
       n  { gui::next_tab }
       N  { gui::previous_tab }
@@ -171,12 +171,18 @@ namespace eval vim {
       }
     }
     
-    # Remove the grab and set the focus back to the text widget
+    # Remove the grab
     grab release $w
-    gui::set_txt_focus $txt
     
-    # Hide the command entry widget
-    grid remove $w 
+    if {$txt ne ""} {
+      
+      # Set the focus back to the text widget
+      gui::set_txt_focus $txt
+    
+      # Hide the command entry widget
+      grid remove $w 
+      
+    }
   
   }
   
