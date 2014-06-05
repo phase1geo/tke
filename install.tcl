@@ -142,7 +142,7 @@ while {$install_dir eq ""} {
     flush stdout
     if {![catch "open [file join $bin_dir tke] w" rc]} {
       puts $rc "#!/bin/sh"
-      puts $rc "$wish85 [file join $lib_dir lib tke.tcl] -- \$@"
+      puts $rc "$wish85 [file join $lib_dir lib tke.tcl] -name tke -- \$@"
       close $rc
       file attributes [file join $bin_dir tke] -permission rwxr-xr-x
       puts "done."
@@ -167,7 +167,7 @@ if {[file exists [set app_dir [file join / usr share applications]]]} {
   if {![catch "open $app_file w" rc]} {
     puts $rc "\[Desktop Entry\]"
     puts $rc "Name=TKE"
-    puts $rc "Exec=$wish85 [file join $lib_dir lib tke.tcl] -nosb"
+    puts $rc "Exec=$wish85 [file join $lib_dir lib tke.tcl] -name tke -- -nosb"
     puts $rc "Icon=[file join $lib_dir lib images tke_logo_128.gif]"
     puts $rc "Type=Application"
     puts $rc "Categories=Programming"
