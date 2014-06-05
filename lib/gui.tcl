@@ -3120,7 +3120,7 @@ namespace eval gui {
     
     # Update the information widgets
     if {[set vim_mode [vim::get_mode $txt]] ne ""} {
-      $widgets(info_state) configure -text [msgcat::mc "Line: %d, Column: %d, %s" $line [expr $column + 1] $vim_mode]
+      $widgets(info_state) configure -text [msgcat::mc "%s, Line: %d, Column: %d" $vim_mode $line [expr $column + 1]]
     } else {
       $widgets(info_state) configure -text [msgcat::mc "Line: %d, Column: %d" $line [expr $column + 1]]
     }

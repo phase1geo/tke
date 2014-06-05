@@ -195,13 +195,16 @@ if {[tk windowingsystem] eq "aqua"} {
 signal trap TERM handle_signal
 signal trap INT  handle_signal
 
+# Set the application name to tke
+tk appname tke
+
 # Parse the command-line options
 parse_cmdline $argc $argv
 
 # Attempt to add files or raise the existing application
-if {([tk appname] ne "tke.tcl") && ([tk windowingsystem] eq "x11")} {
+if {([tk appname] ne "tke") && ([tk windowingsystem] eq "x11")} {
   if {[llength $cl_files] > 0} {
-    if {![catch "send tke.tcl gui::add_files_and_raise [info hostname] end $cl_files" rc]} {
+    if {![catch "send tke gui::add_files_and_raise [info hostname] end $cl_files" rc]} {
       destroy .
       exit
     } elseif {[regexp {X server} $rc]} {
@@ -209,7 +212,7 @@ if {([tk appname] ne "tke.tcl") && ([tk windowingsystem] eq "x11")} {
     }
     # puts "rc: $rc"
   } else {
-    if {![catch "send tke.tcl gui::raise_window" rc]} {
+    if {![catch "send tke gui::raise_window" rc]} {
       destroy .
       exit
     } elseif {[regexp {X server} $rc]} {
