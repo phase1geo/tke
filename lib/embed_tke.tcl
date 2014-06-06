@@ -19,34 +19,70 @@ package require tooltip
 namespace eval embed_tke {
   
   source [file join [DIR] lib preferences.tcl]
+  source [file join [DIR] lib tkedat.tcl]
   source [file join [DIR] lib gui.tcl] 
   source [file join [DIR] lib vim.tcl]
   source [file join [DIR] lib syntax.tcl]
   source [file join [DIR] lib indent.tcl]
   source [file join [DIR] lib utils.tcl]
+  source [file join [DIR] lib multicursor.tcl]
+  source [file join [DIR] lib snippets.tcl]
+  
+  # Handle launcher requests
+  namespace eval launcher {
+    proc register {args} {}
+    proc unregister {args} {}
+  }
 
-  array set data {}
+  array set data   {}
+  array set images {}
   
   ######################################################################
   # Creates an embeddable TKE widget and returns the pathname to the widget
   proc embed_tke {w args} {
     
     variable data
+    variable images
+    
+    # If this is the first time we have been called, do some initialization
+    if {[array size images] == 0} {
+      
+      # Create images
+      set images(split) \
+        [image create bitmap -file     [file join $::tke_dir lib images split.bmp] \
+                             -maskfile [file join $::tke_dir lib images split.bmp] \
+                             -foreground grey10]
+      set images(close) \
+        [image create bitmap -file     [file join $::tke_dir lib images close.bmp] \
+                             -maskfile [file join $::tke_dir lib images close.bmp] \
+                             -foreground grey10]
+      set images(global) \
+        [image create photo  -file     [file join $::tke_dir lib images global.gif]]
+        
+      # Load the preferences
+      preferences::load
+
+      # Load the snippets
+      snippets::load
+
+      # Load the syntax highlighting information
+      syntax::load
+      
+    }
     
     # Create widget
     ttk::frame $w
     ctext $w.txt -wrap none -undo 1 -autoseparators 1 -insertofftime 0 \
-      -highlightcolor yellow -warnwidth $preferences::prefs(Editor/WarningWidth) \
-      -linemap_mark_command gui::mark_command -linemap_select_bg orange \
-      -xscrollcommand "utils::set_xscrollbar $w.hb" \
-      -yscrollcommand "utils::set_yscrollbar $w.vb"
+      -highlightcolor yellow \
+      -linemap_mark_command gui::mark_command -linemap_select_bg orange
+    #-warnwidth $preferences::prefs(Editor/WarningWidth)
     ttk::label     $w.split -image $images(split) -anchor center
     ttk::scrollbar $w.vb    -orient vertical   -command "$w.txt yview"
     ttk::scrollbar $w.hb    -orient horizontal -command "$w.txt xview"
     
     bind Ctext    <<Modified>>          "gui::text_changed %W"
     bind $w.txt.t <FocusIn>             "gui::set_current_tab_from_txt %W"
-    bind $w.txt.l <ButtonPress-3>       [bind $tab_frame.pw.tf.txt.l <ButtonPress-1>]
+    bind $w.txt.l <ButtonPress-3>       [bind $w.txt.l <ButtonPress-1>]
     bind $w.txt.l <ButtonPress-1>       "gui::select_line %W %y"
     bind $w.txt.l <B1-Motion>           "gui::select_lines %W %y"
     bind $w.txt.l <Shift-ButtonPress-1> "gui::select_lines %W %y"
@@ -54,7 +90,6 @@ namespace eval embed_tke {
     bind $w.txt   <ButtonPress-1>       "after idle [list gui::update_position %W]"
     bind $w.txt   <B1-Motion>           "gui::update_position %W"
     bind $w.txt   <KeyRelease>          "gui::update_position %W"
-    bind $w.txt   <Motion>              "gui::clear_tab_tooltip $tb"
     bind $w.split <Button-1>            "gui::toggle_split_pane"
     bind Text     <<Cut>>               ""
     bind Text     <<Copy>>              ""
