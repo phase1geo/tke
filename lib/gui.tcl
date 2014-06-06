@@ -1408,7 +1408,7 @@ namespace eval gui {
     # Add a new file if we have no more tabs, we are the only pane, and the preference
     # setting is to not close after the last tab is closed.
     if {([llength [$tb tabs]] == 0) && ([llength [$widgets(nb_pw) panes]] == 1) && !$exiting} {
-      if {$preferences::prefs(General/ExitOnLastClose)} {
+      if {$preferences::prefs(General/ExitOnLastClose) || $::cl_exit_on_close} {
         menus::exit_command
       } elseif {$keep_tab} {
         add_new_file end
