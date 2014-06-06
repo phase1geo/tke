@@ -91,15 +91,19 @@ proc version {} {
 # Parse the command-line options
 proc parse_cmdline {argc argv} {
 
-  set ::cl_files   [list]
-  set ::cl_sidebar 1
+  set ::cl_files         [list]
+  set ::cl_sidebar       1
+  set ::cl_exit_on_close 0
+  set ::cl_minimal       0
   
   set i 0
   while {$i < $argc} {
     switch -- [lindex $argv $i] {
-      -h      { usage }
-      -v      { version }
-      -nosb   { set ::cl_sidebar 0 }
+      -h    { usage }
+      -v    { version }
+      -nosb { set ::cl_sidebar 0 }
+      -e    { set ::cl_exit_on_close 1 }
+      -m    { set ::cl_minimal 1 }
       default {
         if {[lindex $argv $i] ne ""} {
           lappend ::cl_files [file normalize [lindex $argv $i]]

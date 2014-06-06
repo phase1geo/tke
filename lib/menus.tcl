@@ -314,8 +314,10 @@ namespace eval menus {
     # Close any open buffers
     gui::close_buffers
       
-    # Save the session information
-    gui::save_session
+    # Save the session information if we are not told to exit on close
+    if {!$::cl_exit_on_close} {
+      gui::save_session
+    }
     
     # Close all of the tabs
     gui::close_all 1
