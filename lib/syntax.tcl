@@ -53,7 +53,7 @@ namespace eval syntax {
       if {![catch "open $sfile r" rc]} {
         set name [file rootname [file tail $sfile]]
         set langs($name) [read $rc]
-        [namespace parent]::launcher::register [msgcat::mc "Syntax:  %s" $name] "syntax::set_language $name"
+        [ns launcher]::register [msgcat::mc "Syntax:  %s" $name] "syntax::set_language $name"
         close $rc
       }
     }
@@ -105,7 +105,7 @@ namespace eval syntax {
     # Clear the themes and unregister any themes from the launcher
     array unset themes
     array unset theme
-    [namespace parent]::launcher::unregister "Theme:*"
+    [ns launcher]::unregister "Theme:*"
     
     # Load the tke_dir theme files
     set tfiles [glob -nocomplain -directory [file join $::tke_dir data themes] *.tketheme]
@@ -118,21 +118,21 @@ namespace eval syntax {
       if {![catch { open $tfile r } rc]} {
         set name [file rootname [file tail $tfile]]
         set themes($name) [list name $name {*}[read $rc]]
-        [namespace parent]::launcher::register [msgcat::mc "Theme:  %s" $name] [list [namespace parent]::syntax::set_theme $name]
+        [ns launcher]::register [msgcat::mc "Theme:  %s" $name] [list [ns syntax]::set_theme $name]
         close $rc
       }
     }
     
     # Sets the current theme
-    set_theme [[namespace parent]::preferences::get Appearance/Theme]
+    set_theme [[ns preferences]::get Appearance/Theme]
     
-    if {[trace info variable [[namespace parent]::preferences::get Appearance/Theme]] eq ""} {
+    if {[trace info variable [[ns preferences]::get Appearance/Theme]] eq ""} {
       
       # Trace changes to the Appearance/Theme preference variable
-      trace variable [[namespace parent]::preferences::get Appearance/Theme] w [namespace parent]::syntax::handle_theme_change
+      trace variable [[ns preferences]::get Appearance/Theme] w [ns syntax]::handle_theme_change
     
       # Trace changes to the Appearance/Colorize preference variable
-      trace variable [[namespace parent]::preferences::get Appearance/Colorize] w [namespace parent]::syntax::handle_colorize_change
+      trace variable [[ns preferences]::get Appearance/Colorize] w [ns syntax]::handle_colorize_change
       
     }
     
@@ -142,7 +142,7 @@ namespace eval syntax {
   # Called whenever the Appearance/Theme preference value is changed.
   proc handle_theme_change {name1 name2 op} {
 
-    set_theme [[namespace parent]::preferences::get Appearance/Theme]
+    set_theme [[ns preferences]::get Appearance/Theme]
 
   }
   
@@ -150,7 +150,7 @@ namespace eval syntax {
   # Called whenever the Appearance/Colorize preference value is changed.
   proc handle_colorize_change {name1 name2 op} {
     
-    set_theme [[namespace parent]::preferences::get Appearance/Theme]
+    set_theme [[ns preferences]::get Appearance/Theme]
     
   }
 
@@ -172,7 +172,7 @@ namespace eval syntax {
       # Remove theme values that aren't in the Appearance/Colorize array
       foreach name [array names theme] {
         if {[info exists colorizers($name)] && \
-            [lsearch [[namespace parent]::preferences::get Appearance/Colorize] $name] == -1} {
+            [lsearch [[ns preferences]::get Appearance/Colorize] $name] == -1} {
           set theme($name) ""
         }
       }
@@ -253,7 +253,7 @@ namespace eval syntax {
     variable lang
     
     # Get the current text widget
-    set txt [[namespace parent]::gui::current_txt]
+    set txt [[ns gui]::current_txt]
     
     if {[info exists lang($txt)]} {
       set_language $lang($txt) $txt
@@ -271,7 +271,7 @@ namespace eval syntax {
     
     # If a text widget wasn't specified, get the current text widget
     if {$txt eq ""} {
-      set txt [[namespace parent]::gui::current_txt]
+      set txt [[ns gui]::current_txt]
     }
     
     # Clear the syntax highlighting for the widget
@@ -287,10 +287,10 @@ namespace eval syntax {
       -warnwidth_bg $theme(warnwidthcolor)
     
     # Set default indent/unindent strings
-    [namespace parent]::indent::set_indent_expressions $txt.t {\{} {\}}
+    [ns indent]::set_indent_expressions $txt.t {\{} {\}}
     
     # Set the snippet set to the current language
-    [namespace parent]::snippets::set_language $language
+    [ns snippets]::set_language $language
 
     # Apply the new syntax highlighting syntax, if one exists for the given language
     if {[info exists langs($language)]} {
@@ -326,7 +326,7 @@ namespace eval syntax {
         
         # Set the indentation namespace for the given text widget to be
         # the indent/unindent expressions for this language
-        [namespace parent]::indent::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent)
+        [ns indent]::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent)
         
       } rc]} {
         tk_messageBox -parent . -type ok -default ok -message [msgcat::mc "Syntax error in %s.syntax file" $language] -detail $rc
@@ -341,7 +341,7 @@ namespace eval syntax {
     $txt highlight 1.0 end
     
     # Set the menubutton text
-    $[namespace parent]::gui::widgets(info_syntax) configure -text $language
+    [set [ns gui]::widgets(info_syntax)] configure -text $language
       
   }
   
@@ -373,7 +373,7 @@ namespace eval syntax {
     
     # Populate the menu with the available themes
     foreach name [lsort [array names themes]] {
-      $mnu add radiobutton -label $name -variable [namespace parent]::syntax::theme(name) -value $name -command [list [namespace parent]::syntax::set_theme $name]
+      $mnu add radiobutton -label $name -variable [ns syntax]::theme(name) -value $name -command [list [ns syntax]::set_theme $name]
     }
     
     return $mnu
@@ -390,11 +390,11 @@ namespace eval syntax {
     $mnu delete 0 end
     
     # Populate the menu with the available languages
-    $mnu add radiobutton -label "<[msgcat::mc None]>" -variable [namespace parent]::syntax::lang([[namespace parent]::gui::current_txt]) \
-      -value "<[msgcat::mc None]>" -command [list [namespace parent]::syntax::set_language <None>]
+    $mnu add radiobutton -label "<[msgcat::mc None]>" -variable [ns syntax]::lang([[ns gui]::current_txt]) \
+      -value "<[msgcat::mc None]>" -command [list [ns syntax]::set_language <None>]
     foreach lang [lsort [array names langs]] {
-      $mnu add radiobutton -label $lang -variable [namespace parent]::syntax::lang([[namespace parent]::gui::current_txt]) \
-        -value $lang -command [list [namespace parent]::syntax::set_language $lang]
+      $mnu add radiobutton -label $lang -variable [ns syntax]::lang([[ns gui]::current_txt]) \
+        -value $lang -command [list [ns syntax]::set_language $lang]
     }
     
     return $mnu
@@ -409,7 +409,7 @@ namespace eval syntax {
     ttk::menubutton $w -menu $w.menu -direction above
 
     # Create the menubutton menu
-    menu $w.menu -tearoff 0 -postcommand "[namespace parent]::syntax::populate_syntax_menu $w.menu"
+    menu $w.menu -tearoff 0 -postcommand "[ns syntax]::populate_syntax_menu $w.menu"
 
     return $w
     
@@ -422,7 +422,7 @@ namespace eval syntax {
     variable lang
     
     # Configures the current language for the specified text widget
-    $w configure -text $lang([[namespace parent]::gui::current_txt])
+    $w configure -text $lang([[ns gui]::current_txt])
     
   }
  
@@ -463,7 +463,7 @@ namespace eval syntax {
     variable lang
     
     # Get the current language
-    if {[set language $lang([[namespace parent]::gui::current_txt])] eq "None"} {
+    if {[set language $lang([[ns gui]::current_txt])] eq "None"} {
       return [list]
     } else {
       array set lang_array $langs($language)

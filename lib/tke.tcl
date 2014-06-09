@@ -64,7 +64,7 @@ set right_click 3
 # Display the usage information to standard output and exits.
 proc usage {} {
 
-  puts "tke [<options>] <file>*"
+  puts "tke \[<options>\] <file>*"
   puts ""
   puts "Options:"
   puts "  -h     Displays usage information"
@@ -72,6 +72,11 @@ proc usage {} {
   puts "  -nosb  Avoids populating the sidebar with the current"
   puts "           directory contents (only valid if no files are"
   puts "           specified)."
+  puts "  -e     Exits the application when the last tab is closed"
+  puts "           (overrides preference setting)"
+  puts "  -m     Creates a minimal editing enviornment (overrides"
+  puts "           preference settings)"
+  puts ""
   
   exit
 

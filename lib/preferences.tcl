@@ -37,7 +37,7 @@ namespace eval preferences {
     
     variable base_preferences_file
     
-    [namespace parent]::gui::add_file end $base_preferences_file -readonly 1 -sidebar 0
+    [ns gui]::add_file end $base_preferences_file -readonly 1 -sidebar 0
     
   }
   
@@ -48,7 +48,7 @@ namespace eval preferences {
     
     variable user_preferences_file
     
-    [namespace parent]::gui::add_file end $user_preferences_file -sidebar 0 -savecommand preferences::load_file
+    [ns gui]::add_file end $user_preferences_file -sidebar 0 -savecommand preferences::load_file
     
   }
   
@@ -63,7 +63,7 @@ namespace eval preferences {
     
     # If the preferences file does not exist, add it from the data directory
     if {[file exists $user_preferences_file]} {
-      if {![catch "[namespace parent]::tkedat::read $base_preferences_file" rc]} {
+      if {![catch "[ns tkedat]::read $base_preferences_file" rc]} {
         array set prefs $rc
       }
     } else {
@@ -71,12 +71,12 @@ namespace eval preferences {
     }
     
     # Check for file differences
-    if {![catch "[namespace parent]::tkedat::read $user_preferences_file" rc]} {
+    if {![catch "[ns tkedat]::read $user_preferences_file" rc]} {
       array set prefs $rc
     }
     
     # Perform environment variable setting from the General/Variables preference option
-    [namespace parent]::utils::set_environment $prefs(General/Variables)
+    [ns utils]::set_environment $prefs(General/Variables)
     
   }
   

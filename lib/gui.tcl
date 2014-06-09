@@ -87,7 +87,7 @@ namespace eval gui {
     }
 
     # Check again after 10 seconds
-    after 10000 [namespace parent]::gui::poll
+    after 10000 [ns gui]::poll
 
   }
   
@@ -305,7 +305,7 @@ namespace eval gui {
   
     if {([llength [$widgets(fif_in) tokenget]] > 0) && \
         ([$widgets(fif_in) entryget] eq "") && \
-        ($widgets(fif_find) get] ne "")} {
+        ([$widgets(fif_find) get] ne "")} {
       set user_exit_status 1
       return 1
     }
@@ -1771,7 +1771,7 @@ namespace eval gui {
     set tab $tab_current($pw_current)
     
     # Update the search binding
-    bind $tab.sf.e <Return> "[namespace parent]::gui::search_start $dir"
+    bind $tab.sf.e <Return> "[ns gui]::search_start $dir"
  
     # Display the search bar and separator
     grid $tab.sf
@@ -1858,7 +1858,7 @@ namespace eval gui {
       
       # Test the regular expression, if it is invalid, let the user know
       if {[catch { regexp $str "" } rc]} {
-        after 100 [list [namespace parent]::gui::set_info_message $rc]
+        after 100 [list [ns gui]::set_info_message $rc]
         return
       }
     
@@ -2040,7 +2040,7 @@ namespace eval gui {
     # Replace the text and re-highlight the changes
     set i     0
     set index ""
-    foreach index [$txt search -all -regexp -count [namespace parent]::gui::lengths {*}$rs_args -- $search $sline $eline] {
+    foreach index [$txt search -all -regexp -count [ns gui]::lengths {*}$rs_args -- $search $sline $eline] {
       $txt replace $index "$index+[lindex $lengths $i]c" $replace
       incr i
     }
@@ -2052,7 +2052,7 @@ namespace eval gui {
     $txt highlight $sline $eline
 
     # Make sure that the insertion cursor is valid
-    [namespace parent]::vim::adjust_insert $txt
+    [ns vim]::adjust_insert $txt
 
   }
   
@@ -2757,24 +2757,24 @@ namespace eval gui {
     $pw insert 0 [ttk::frame $pw.tf2]
     ctext $pw.tf2.txt -wrap none -undo 1 -autoseparators 1 -insertofftime 0 \
       -highlightcolor yellow -warnwidth $preferences::prefs(Editor/WarningWidth) \
-      -linemap_mark_command [namespace parent]::gui::mark_command -linemap_select_bg orange -peer $txt \
+      -linemap_mark_command [ns gui]::mark_command -linemap_select_bg orange -peer $txt \
       -xscrollcommand "utils::set_xscrollbar $pw.tf2.hb" \
       -yscrollcommand "utils::set_yscrollbar $pw.tf2.vb"
     ttk::label     $pw.tf2.split -image $images(close) -anchor center
     ttk::scrollbar $pw.tf2.vb    -orient vertical   -command "$pw.tf2.txt yview"
     ttk::scrollbar $pw.tf2.hb    -orient horizontal -command "$pw.tf2.txt xview"
     
-    bind $pw.tf2.txt.t <FocusIn>             "[namespace parent]::gui::set_current_tab_from_txt %W"
+    bind $pw.tf2.txt.t <FocusIn>             "[ns gui]::set_current_tab_from_txt %W"
     bind $pw.tf2.txt.l <ButtonPress-3>       [bind $pw.tf2.txt.l <ButtonPress-1>]
-    bind $pw.tf2.txt.l <ButtonPress-1>       "[namespace parent]::gui::select_line %W %y"
-    bind $pw.tf2.txt.l <B1-Motion>           "[namespace parent]::gui::select_lines %W %y"
-    bind $pw.tf2.txt.l <Shift-ButtonPress-1> "[namespace parent]::gui::select_lines %W %y"
-    bind $pw.tf2.txt   <<Selection>>         "[namespace parent]::gui::selection_changed %W"
-    bind $pw.tf2.txt   <ButtonPress-1>       "after idle [list [namespace parent]::gui::update_position %W]"
-    bind $pw.tf2.txt   <B1-Motion>           "[namespace parent]::gui::update_position %W"
-    bind $pw.tf2.txt   <KeyRelease>          "[namespace parent]::gui::update_position %W"
-    bind $pw.tf2.txt   <Motion>              "[namespace parent]::gui::clear_tab_tooltip $tb"
-    bind $pw.tf2.split <Button-1>            "[namespace parent]::gui::toggle_split_pane"
+    bind $pw.tf2.txt.l <ButtonPress-1>       "[ns gui]::select_line %W %y"
+    bind $pw.tf2.txt.l <B1-Motion>           "[ns gui]::select_lines %W %y"
+    bind $pw.tf2.txt.l <Shift-ButtonPress-1> "[ns gui]::select_lines %W %y"
+    bind $pw.tf2.txt   <<Selection>>         "[ns gui]::selection_changed %W"
+    bind $pw.tf2.txt   <ButtonPress-1>       "after idle [list [ns gui]::update_position %W]"
+    bind $pw.tf2.txt   <B1-Motion>           "[ns gui]::update_position %W"
+    bind $pw.tf2.txt   <KeyRelease>          "[ns gui]::update_position %W"
+    bind $pw.tf2.txt   <Motion>              "[ns gui]::clear_tab_tooltip $tb"
+    bind $pw.tf2.split <Button-1>            "[ns gui]::toggle_split_pane"
     
     # Move the all bindtag ahead of the Text bindtag
     set text_index [lsearch [bindtags $pw.tf2.txt.t] Text]
@@ -2790,23 +2790,23 @@ namespace eval gui {
     grid $pw.tf2.hb    -row 2 -column 0 -sticky ew
     
     # Associate the existing command entry field with this text widget
-    [namespace parent]::vim::bind_command_entry $pw.tf2.txt $tb.ve
+    [ns vim]::bind_command_entry $pw.tf2.txt $tb.ve
     
     # Add the text bindings
-    [namespace parent]::indent::add_bindings      $pw.tf2.txt
-    [namespace parent]::multicursor::add_bindings $pw.tf2.txt
-    [namespace parent]::snippets::add_bindings    $pw.tf2.txt
-    [namespace parent]::vim::set_vim_mode         $pw.tf2.txt
+    [ns indent]::add_bindings      $pw.tf2.txt
+    [ns multicursor]::add_bindings $pw.tf2.txt
+    [ns snippets]::add_bindings    $pw.tf2.txt
+    [ns vim]::set_vim_mode         $pw.tf2.txt
     
     # Apply the appropriate syntax highlighting for the given extension
-    set language [[namespace parent]::syntax::get_current_language $txt]
-    [namespace parent]::syntax::initialize_language $pw.tf2.txt $language
+    set language [[ns syntax]::get_current_language $txt]
+    [ns syntax]::initialize_language $pw.tf2.txt $language
     
     # Hide the split pane button in the other text frame
     grid remove $pw.tf.split
         
     # Set the current language
-    [namespace parent]::syntax::set_language $language $pw.tf2.txt
+    [ns syntax]::set_language $language $pw.tf2.txt
 
     # Give the text widget the focus
     set_txt_focus $pw.tf2.txt
