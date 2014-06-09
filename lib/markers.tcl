@@ -6,7 +6,9 @@
 ######################################################################
 
 namespace eval markers {
-  
+
+  source [file join $::tke_dir lib ns.tcl]
+    
   variable curr_marker 0
   
   array set markers {}

@@ -4,7 +4,9 @@
 # Brief:   Namespace for general purpose utility procedures
 
 namespace eval utils {
-  
+
+  source [file join $::tke_dir lib ns.tcl]
+    
   array set xignore    {}
   array set xignore_id {}
   array set vars       {}

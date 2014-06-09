@@ -6,6 +6,8 @@
 
 namespace eval bgproc {
 
+  source [file join $::tke_dir lib ns.tcl]
+
   variable last_update     0
   variable update_interval 100
 

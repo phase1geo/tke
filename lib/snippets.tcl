@@ -4,7 +4,9 @@
 # Brief:   Namespace containing functionality to support snippets
 
 namespace eval snippets {
-  
+
+  source [file join $::tke_dir lib ns.tcl]
+    
   variable snippets_dir [file join $::tke_home snippets]
 
   array set widgets  {}

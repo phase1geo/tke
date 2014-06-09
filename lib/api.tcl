@@ -6,6 +6,8 @@
 ###################################################################### 
 
 namespace eval api {
+
+  source [file join $::tke_dir lib ns.tcl]
   
   ######################################################################
   # Returns true if we are doing tke_development.

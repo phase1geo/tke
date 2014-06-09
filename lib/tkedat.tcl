@@ -6,7 +6,9 @@
 ######################################################################
 
 namespace eval tkedat {
-  
+
+  source [file join $::tke_dir lib ns.tcl]
+    
   ######################################################################
   # Reads the given tkedat file, stripping/storing comments and verifying
   # that no Tcl commands are called.

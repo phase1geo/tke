@@ -5,6 +5,8 @@
 
 namespace eval bindings {
 
+  source [file join $::tke_dir lib ns.tcl]
+  
   variable base_bindings_file [file join $::tke_dir data menu_bindings.tkedat]
   variable user_bindings_file [file join $::tke_home menu_bindings.tkedat]
 
