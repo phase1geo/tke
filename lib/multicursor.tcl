@@ -20,84 +20,165 @@ namespace eval multicursor {
     $txt tag configure mcursor -underline 1
 
     # Create multicursor bindings
-    bind mcursor$txt <<Selection>> {
-      set multicursor::selected 0
-      if {[llength [set sel [%W tag ranges sel]]] > 2} {
-        set multicursor::selected 1
-        %W tag remove mcursor 1.0 end
-        set i 0
-        foreach {start end} $sel {
-          %W tag add mcursor $start $end
-          incr i
-        }
-      }
-    }
-    bind mcursor$txt <Alt-Button-1> {
-      multicursor::add_cursor %W [%W index @%x,%y]
-    }
-    bind mcursor$txt <Alt-Button-3> {
-      multicursor::add_cursors %W [%W index @%x,%y]
-    }
-    
-    # Handle a column select
-    bind mcursor$txt <Shift-Alt-ButtonPress-1> {
-      lassign [split [%W index @%x,%y] .] multicursor::select_start_line multicursor::select_start_column
-      %W tag remove sel 1.0 end
-      break
-    }
-    bind mcursor$txt <Shift-Alt-B1-Motion> {
-      lassign [split [%W index @%x,%y] .] line column
-      lassign [split [lindex [%W tag ranges sel] end] .] last_line last_column
-      if {($last_line eq "") || ($line != $last_line) || ($column != $last_column)} {
-        %W tag remove sel 1.0 end
-        for {set i $multicursor::select_start_line} {$i <= $line} {incr i} {
-          %W tag add sel $i.$multicursor::select_start_column $i.$column
-        }
-      }
-      break
-    }
-    bind mcursor$txt <Shift-Alt-ButtonRelease-1> {
-      set multicursor::select_start_line   ""
-      set multicursor::select_start_column ""
-      break
-    }
-    
-    bind mcursor$txt <Key-Delete> {
-      if {![vim::in_vim_mode %W] && [multicursor::delete %W "+1c"]} {
-        break
-      }
-    }
-    bind mcursor$txt <Key-BackSpace> {
-      if {![vim::in_vim_mode %W] && [multicursor::delete %W "-1c"]} {
-        break
-      }
-    }
-    bind mcursor$txt <Return> {
-      if {![vim::in_vim_mode %W] && [multicursor::insert %W "\n" indent::newline]} {
-        break
-      }
-    }
-    bind mcursor$txt <Any-KeyPress> {
-      if {([string compare -length 5 %K "Shift"] != 0) && \
-          ([string compare -length 7 %K "Control"] != 0) && \
-          ![vim::in_vim_mode %W]} {
-        if {[string length %A] == 0} {
-          multicursor::disable %W
-        } elseif {[string is print %A] && [multicursor::insert %W %A indent::check_indent]} {
-          break
-        }
-      }
-    }
-    bind mcursor$txt <Escape> {
-      if {[vim::in_vim_mode %W]} {
-        multicursor::disable %W
-      }
-    }
-    bind mcursor$txt <Button-1> { multicursor::disable %W }
+    bind mcursor$txt <<Selection>>               "[ns multicursor]::handle_selection %W"
+    bind mcursor$txt <Alt-Button-1>              "[ns multicursor]::handle_alt_button1 %W %x %y"
+    bind mcursor$txt <Alt-Button-3>              "[ns multicursor]::handle_alt_button3 %W %x %y"
+    bind mcursor$txt <Shift-Alt-ButtonPress-1>   "[ns multicursor]::handle_shift_alt_buttonpress1 %W %x %y; break"
+    bind mcursor$txt <Shift-Alt-B1-Motion>       "[ns multicursor]::handle_shift_alt_motion %W %x %y; break"
+    bind mcursor$txt <Shift-Alt-ButtonRelease-1> "[ns multicursor]::handle_shift_alt_buttonrelease1 %W %x %y; break"
+    bind mcursor$txt <Key-Delete>                "if {\[[ns multicursor]::handle_delete %W\]} { break }"
+    bind mcursor$txt <Key-BackSpace>             "if {\[[ns multicursor]::handle_backspace %W\]} { break }"
+    bind mcursor$txt <Return>                    "if {\[[ns multicursor]::handle_return %W\]} { break }"
+    bind mcursor$txt <Any-KeyPress>              "if {\[[ns multicursor]::handle_keypress %W %A %K\]} { break }"
+    bind mcursor$txt <Escape>                    "[ns multicursor]::handle_escape %W"
+    bind mcursor$txt <Button-1>                  "[ns multicursor]::disable %W"
     
     # Add the multicursor bindings to the text widget's bindtags
     bindtags $txt.t [linsert [bindtags $txt.t] 2 mcursor$txt]
 
+  }
+  
+  ######################################################################
+  # Handles a selection of the widget in the multicursor mode.
+  proc handle_selection {W} {
+    
+    variable selected
+    
+    set selected 0
+    
+    if {[llength [set sel [$W tag ranges sel]]] > 2} {
+      set selected 1
+      $W tag remove mcursor 1.0 end
+      set i 0
+      foreach {start end} $sel {
+        $W tag add mcursor $start $end
+        incr i
+      }
+    }
+    
+  }
+  
+  ######################################################################
+  # Handles an Alt-Button-1 event when in multicursor mode.
+  proc handle_alt_button1 {W x y} {
+
+    add_cursor $W [$W index @$x,$y]
+    
+  }
+  
+  ######################################################################
+  # Handles an Alt-Button-3 event when in multicursor mode.
+  proc handle_alt_button3 {W x y} {
+    
+    add_cursors $W [$W index @$x,$y]
+    
+  }
+  
+  ######################################################################
+  # Handles a Shift-Alt-Buttonpress-1 event when in multicursor mode.
+  proc handle_shift_alt_buttonpress1 {W x y} {
+    
+    variable select_start_line
+    variable select_start_column
+    
+    lassign [split [$W index @$x,$y] .] select_start_line select_start_column
+    $W tag remove sel 1.0 end
+    
+  }
+  
+  ######################################################################
+  # Handles a Shift-Alt-Button1-Motion event when in multicursor mode.
+  proc handle_shift_alt_motion {W x y} {
+    
+    variable select_start_line
+    variable select_start_column
+    
+    lassign [split [$W index @$x,$y] .] line column
+    lassign [split [lindex [$W tag ranges sel] end] .] last_line last_column
+    
+    if {($last_line eq "") || ($line != $last_line) || ($column != $last_column)} {
+      $W tag remove sel 1.0 end
+      for {set i $select_start_line} {$i <= $line} {incr i} {
+        $W tag add sel $i.$select_start_column $i.$column
+      }
+    }
+    
+  }
+  
+  ######################################################################
+  # Handles a Shift-Alt-Buttonrelease-1 event when in multicursor mode.
+  proc handle_shift_alt_buttonrelease1 {W x y} {
+    
+    variable select_start_line
+    variable select_start_column
+    
+    set select_start_line   ""
+    set select_start_column ""
+      
+  }
+  
+  ######################################################################
+  # Handles a delete key event in multicursor mode.
+  proc handle_delete {W} {
+    
+    if {![[ns vim]::in_vim_mode $W] && [[ns multicursor]::delete $W "+1c"]} {
+      return 1
+    }
+    
+    return 0
+    
+  }
+  
+  ######################################################################
+  # Handles a backspace key event in multicursor mode.
+  proc handle_backspace {W} {
+    
+    if {![[ns vim]::in_vim_mode $W] && [[ns multicursor]::delete $W "-1c"]} {
+      return 1
+    }
+    
+    return 0
+    
+  }
+  
+  ######################################################################
+  # Handles a return key event in multicursor mode.
+  proc handle_return {W} {
+    
+    if {![[ns vim]::in_vim_mode $W] && [[ns multicursor]::insert $W "\n" [ns indent]::newline]} {
+      return 1
+    }
+    
+    return 0
+    
+  }
+  
+  ######################################################################
+  # Handles a keypress event in multicursor mode.
+  proc handle_keypress {W A K} {
+    
+    if {([string compare -length 5 $K "Shift"]   != 0) && \
+        ([string compare -length 7 $K "Control"] != 0) && \
+        ![[ns vim]::in_vim_mode $W]} {
+      if {[string length $A] == 0} {
+        [ns multicursor]::disable $W
+      } elseif {[string is print $A] && [[ns multicursor]::insert $W $A [ns indent]::check_indent]} {
+        return 1
+      }
+    }
+    
+    return 0
+    
+  }
+  
+  ######################################################################
+  # Handles an escape event in multicursor mode.
+  proc handle_escape {W} {
+    
+    if {[[ns vim]::in_vim_mode $W]} {
+      disable $W
+    }
+    
   }
   
   ######################################################################

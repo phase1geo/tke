@@ -38,7 +38,7 @@ namespace eval vim {
   # Enables/disables Vim mode for the specified text widget.
   proc set_vim_mode {txt} {
 
-    if {[[namespace parent]::preferences::get Tools/VimMode]} {
+    if {[[ns preferences]::get Tools/VimMode]} {
       add_bindings $txt
     } else {
       remove_bindings $txt
@@ -53,7 +53,7 @@ namespace eval vim {
     
     variable mode
     
-    if {[[namespace parent]::preferences::get Tools/VimMode] && \
+    if {[[ns preferences]::get Tools/VimMode] && \
         [info exists mode($txt)] && \
         ($mode($txt) ne "edit")} {
       return 1
@@ -69,7 +69,7 @@ namespace eval vim {
     
     variable mode
     
-    if {[[namespace parent]::preferences::get Tools/VimMode]} {
+    if {[[ns preferences]::get Tools/VimMode]} {
       if {[info exists mode($txt)] && ($mode($txt) eq "edit")} {
         return "INSERT MODE"
       } else {
@@ -90,9 +90,9 @@ namespace eval vim {
     # Save the entry
     set command_entries($txt.t) $entry
   
-    bind $entry <Return>    "[namespace parent]::vim::handle_command_return %W"
-    bind $entry <Escape>    "[namespace parent]::vim::handle_command_escape %W"
-    bind $entry <BackSpace> "[namespace parent]::vim::handle_command_backspace %W"
+    bind $entry <Return>    "[ns vim]::handle_command_return %W"
+    bind $entry <Escape>    "[ns vim]::handle_command_escape %W"
+    bind $entry <BackSpace> "[ns vim]::handle_command_backspace %W"
   
   }
   
@@ -101,7 +101,7 @@ namespace eval vim {
   proc handle_command_return {w} {
       
     # Get the last txt widget that had the focus
-    set txt [[namespace parent]::gui::last_txt_focus]
+    set txt [[ns gui]::last_txt_focus]
     
     # Get the value from the command field
     set value [$w get]
@@ -111,19 +111,19 @@ namespace eval vim {
     
     # Execute the command
     switch -- $value {
-      w  { [namespace parent]::gui::save_current }
-      w! { [namespace parent]::gui::save_current }
-      wq { [namespace parent]::gui::save_current; [namespace parent]::gui::close_current }
-      q  { [namespace parent]::gui::close_current 0; set txt "" }
-      q! { [namespace parent]::gui::close_current 1; set txt "" }
-      e! { [namespace parent]::gui::update_current }
-      n  { [namespace parent]::gui::next_tab }
-      N  { [namespace parent]::gui::previous_tab }
-      p  { after idle [namespace parent]::gui::next_pane }
-      e\# { [namespace parent]::gui::last_tab }
+      w  { [ns gui]::save_current }
+      w! { [ns gui]::save_current }
+      wq { [ns gui]::save_current; [ns gui]::close_current }
+      q  { [ns gui]::close_current 0; set txt "" }
+      q! { [ns gui]::close_current 1; set txt "" }
+      e! { [ns gui]::update_current }
+      n  { [ns gui]::next_tab }
+      N  { [ns gui]::previous_tab }
+      p  { after idle [ns gui]::next_pane }
+      e\# { [ns gui]::last_tab }
       m  {
         set line [lindex [split [$txt index insert] .] 0]
-        [namespace parent]::markers::delete_by_line $txt $line
+        [ns markers]::delete_by_line $txt $line
         ctext::linemapClearMark $txt $line
       }
       default {
@@ -131,7 +131,7 @@ namespace eval vim {
           if {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)s/(.*)/(.*)/(g?)$} $value -> from to search replace glob]} {
             set from [get_linenum $txt $from]
             set to   [$txt index "[get_linenum $txt $to] lineend-1c"]
-            [namespace parent]::gui::do_raw_search_and_replace $from $to $search $replace 0 [expr {$glob eq "g"}]
+            [ns gui]::do_raw_search_and_replace $from $to $search $replace 0 [expr {$glob eq "g"}]
           } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)([dy])$} $value -> from to cmd]} {
             set from [get_linenum $txt $from]
             set to   [$txt index "[get_linenum $txt $to] lineend"]
@@ -148,27 +148,27 @@ namespace eval vim {
           } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)c/(.*)/$} $value -> from to search]} {
             set from [get_linenum $txt $from]
             set to   [$txt index "[get_linenum $txt $to] lineend"]
-            [namespace parent]::multicursor::search_and_add_cursors $txt $from $to $search
+            [ns multicursor]::search_and_add_cursors $txt $from $to $search
           } elseif {[regexp {^e\s+(.*)$} $value -> filename]} {
-            [namespace parent]::gui::add_file end [normalize_filename [[namespace parent]::utils::perform_substitutions $filename]]
+            [ns gui]::add_file end [normalize_filename [[ns utils]::perform_substitutions $filename]]
           } elseif {[regexp {^w\s+(.*)$} $value -> filename]} {
-            [namespace parent]::gui::save_current [normalize_filename [[namespace parent]::utils::perform_substitutions $filename]]
+            [ns gui]::save_current [normalize_filename [[ns utils]::perform_substitutions $filename]]
           } elseif {[regexp {^m\s+(.*)$} $value -> marker]} {
             set line [lindex [split [$txt index insert] .] 0]
             if {$marker ne ""} {
-              [namespace parent]::markers::add $txt [$txt index insert] $marker
+              [ns markers]::add $txt [$txt index insert] $marker
               ctext::linemapSetMark $txt $line
             } else {
-              [namespace parent]::markers::delete_by_line $txt $line
+              [ns markers]::delete_by_line $txt $line
               ctext::linemapClearMark $txt $line
             }
           } elseif {[regexp {^r\s+(.*)$} $value -> filename]} {
-            [namespace parent]::vim::insert_file $txt [normalize_filename [[namespace parent]::utils::perform_substitutions $filename]]
+            [ns vim]::insert_file $txt [normalize_filename [[ns utils]::perform_substitutions $filename]]
           } elseif {[regexp {^cd\s+(.*)$} $value -> directory]} {
-            set directory [[namespace parent]::utils::perform_substitutions $directory]
+            set directory [[ns utils]::perform_substitutions $directory]
             if {[file isdirectory $directory]} {
               cd $directory
-              [namespace parent]::gui::set_title
+              [ns gui]::set_title
             }
           }
         }
@@ -181,7 +181,7 @@ namespace eval vim {
     if {$txt ne ""} {
       
       # Set the focus back to the text widget
-      [namespace parent]::gui::set_txt_focus $txt
+      [ns gui]::set_txt_focus $txt
     
       # Hide the command entry widget
       grid remove $w 
@@ -233,14 +233,14 @@ namespace eval vim {
   proc handle_command_escape {w} {
     
     # Get the last text widget that had focus
-    set txt [[namespace parent]::gui::last_txt_focus]
+    set txt [[ns gui]::last_txt_focus]
     
     # Delete the value in the command entry
     $w delete 0 end
     
     # Remove the grab and set the focus back to the text widget
     grab release $w
-    [namespace parent]::gui::set_txt_focus $txt
+    [ns gui]::set_txt_focus $txt
     
     # Hide the command entry widget
     grid remove $w
@@ -255,7 +255,7 @@ namespace eval vim {
       
       # Remove the grab and set the focus back to the text widget
       grab release $w
-      [namespace parent]::gui::set_txt_focus [[namespace parent]::gui::last_txt_focus]
+      [ns gui]::set_txt_focus [[ns gui]::last_txt_focus]
       
       # Hide the command entry widget
       grid remove $w
@@ -274,7 +274,7 @@ namespace eval vim {
       return "1.0"
     } elseif {$char eq "$"} {
       return [$txt index "end linestart"]
-    } elseif {[set index [[namespace parent]::markers::get_index $txt $char]] ne ""} {
+    } elseif {[set index [[ns markers]::get_index $txt $char]] ne ""} {
       return [$txt index "$index linestart"]
     } elseif {[regexp {^\d+$} $char]} {
       return "$char.0"
@@ -303,76 +303,16 @@ namespace eval vim {
     set ignore_modified($txt) 0
     set column($txt.t)        ""
     
-    # Handle any other modifications to the text
-    bind $txt <<Modified>>   {
-      if {[info exists [namespace parent]::vim::ignore_modified(%W)] && [set [namespace parent]::vim::ignore_modified(%W)]} {
-        set [namespace parent]::vim::ignore_modified(%W) 0
-        %W edit modified false
-        break
-      }
-    }
- 
-    bind vim$txt <Escape> {
-      if {[[namespace parent]::vim::handle_escape %W]} {
-        break
-      }
-    }
-    bind vim$txt <Any-Key> {
-      if {[[namespace parent]::vim::handle_any %W %K %A]} {
-        break
-      }
-    }
-    bind vimpre$txt <Control-f> {
-      if {[[namespace parent]::vim::handle_control_f %W]} {
-        break
-      }
-    }
-    bind vimpre$txt <Control-b> {
-      if {[[namespace parent]::vim::handle_control_b %W]} {
-        break
-      }
-    }
-    bind vimpre$txt <Control-g> {
-      if {[[namespace parent]::vim::handle_control_g %W]} {
-        break
-      }
-    }
-    bind vim$txt <Button-1> {
-      %W tag remove sel 1.0 end
-      set current [%W index @%x,%y]
-      # if {($[namespace parent]::vim::mode(%W) ne "edit") && ($current ne [%W index "$current lineend"])} {
-      #   set current [%W index "$current+1c"]
-      # }
-      %W mark set [[namespace parent]::utils::text_anchor %W] $current
-      %W mark set insert $current
-      if {$[namespace parent]::vim::mode(%W) ne "edit"} {
-        [namespace parent]::vim::adjust_insert %W
-      }
-      focus %W
-      break
-    }
-    bind vim$txt <Double-Button-1> {
-      %W tag remove sel 1.0 end
-      set current [%W index @%x,%y]
-      # if {($[namespace parent]::vim::mode(%W) ne "edit") && ($current ne [%W index "$current lineend"])} {
-      #   set current [%W index "$current+1c"]
-      # }
-      %W tag add sel [%W index "$current wordstart"] [%W index "$current wordend"]
-      %W mark set insert [%W index "$current wordstart"]
-      focus %W
-      break
-    }
-    bind vim$txt <B1-Motion> {
-      %W tag remove sel 1.0 end
-      set current [%W index @%x,%y]
-      %W tag add sel [[namespace parent]::utils::text_anchor %W] $current
-      %W mark set insert $current
-      if {$[namespace parent]::vim::mode(%W) ne "edit"} {
-        [namespace parent]::vim::adjust_insert %W
-      }
-      focus %W
-      break
-    }
+    # Add bindings
+    bind $txt       <<Modified>>      "if {\[[ns vim]::handle_modified %W\]} { break }"
+    bind vim$txt    <Escape>          "if {\[[ns vim]::handle_escape %W\]} { break }"
+    bind vim$txt    <Any-Key>         "if {\[[ns vim]::handle_any %W %K %A\]} { break }"
+    bind vim$txt    <Button-1>        "[ns vim]::handle_button1 %W %x %y; break"
+    bind vim$txt    <Double-Button-1> "[ns vim]::handle_double_button1 %W %x %y; break"
+    bind vim$txt    <B1-Motion>       "[ns vim]::handle_motion %W %x %y; break"
+    bind vimpre$txt <Control-f>       "if {\[[ns vim]::handle_control_f %W\]} { break }"
+    bind vimpre$txt <Control-b>       "if {\[[ns vim]::handle_control_b %W\]} { break }"
+    bind vimpre$txt <Control-g>       "if {\[[ns vim]::handle_control_g %W\]} { break }"
     
     # Insert the vimpre binding just prior to all
     set all_index [lsearch [bindtags $txt.t] all]
@@ -385,6 +325,72 @@ namespace eval vim {
     # Put ourselves into start mode
     start_mode $txt.t
  
+  }
+  
+  ######################################################################
+  # Handles a modified event when in Vim mode.
+  proc handle_modified {W} {
+
+    variable ignore_modified
+
+    if {[info exists ignore_modified($W)] && $ignore_modified($W)} {
+      set ignore_modified($W) 0
+      $W edit modified false
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Handles a left-click event when in Vim mode.
+  proc handle_button1 {W x y} {
+    
+    $W tag remove sel 1.0 end
+    
+    set current [$W index @$x,$y]
+    $W mark set [[ns utils]::text_anchor $W] $current
+    $W mark set insert $current
+    
+    if {[set [ns vim]::mode($W)] ne "edit"} {
+      adjust_insert $W
+    }
+    
+    focus $W
+    
+  }
+  
+  ######################################################################
+  # Handles a double-left-click event when in Vim mode.
+  proc handle_double_button1 {W x y} {
+    
+    $W tag remove sel 1.0 end
+    
+    set current [$W index @$x,$y]
+    $W tag add sel [$W index "$current wordstart"] [$W index "$current wordend"]
+    $W mark set insert [$W index "$current wordstart"]
+    
+    focus $W
+    
+  }
+  
+  ######################################################################
+  # Handle left-button hold motion event when in Vim mode.
+  proc handle_motion {W x y} {
+    
+    $W tag remove sel 1.0 end
+    
+    set current [%W index @$x,$y]
+    $W tag add sel [[ns utils]::text_anchor $W] $current
+    $W mark set insert $current
+    
+    if {[set [ns vim]::mode($W)] ne "edit"} {
+      adjust_insert $W
+    }
+    
+    focus $W
+      
   }
   
   ######################################################################
@@ -746,8 +752,8 @@ namespace eval vim {
       $txt see insert
       return 1
     } elseif {$mode($txt) eq "delete"} {
-      if {[[namespace parent]::multicursor::enabled $txt]} {
-        [namespace parent]::multicursor::delete $txt "lineend"
+      if {[[ns multicursor]::enabled $txt]} {
+        [ns multicursor]::delete $txt "lineend"
       } else {
         $txt delete insert "insert lineend"
       }
@@ -775,8 +781,8 @@ namespace eval vim {
       $txt see insert
       return 1
     } elseif {$mode($txt) eq "delete"} {
-      if {[[namespace parent]::multicursor::enabled $txt]} {
-        [namespace parent]::multicursor::delete $txt "linestart"
+      if {[[ns multicursor]::enabled $txt]} {
+        [ns multicursor]::delete $txt "linestart"
       } else {
         $txt delete "insert linestart" insert
       }
@@ -798,7 +804,7 @@ namespace eval vim {
     variable search_dir
     
     if {$mode($txt) eq "start"} {
-      [namespace parent]::gui::search "next"
+      [ns gui]::search "next"
       set search_dir($txt) "next"
       return 1
     }
@@ -816,7 +822,7 @@ namespace eval vim {
     variable search_dir
     
     if {$mode($txt) eq "start"} {
-      [namespace parent]::gui::search "prev"
+      [ns gui]::search "prev"
       set search_dir($txt) "prev"
       return 1
     }
@@ -850,7 +856,7 @@ namespace eval vim {
     variable number
     
     if {$mode($txt) eq "start"} {
-      [namespace parent]::gui::show_match_pair
+      [ns gui]::show_match_pair
       return 1
     }
     
@@ -949,9 +955,9 @@ namespace eval vim {
     variable mode
 
     if {$mode($txt) eq "start"} {
-      if {[[namespace parent]::multicursor::enabled $txt]} {
+      if {[[ns multicursor]::enabled $txt]} {
         $txt tag remove sel 1.0 end
-        [namespace parent]::multicursor::adjust $txt "+1l"
+        [ns multicursor]::adjust $txt "+1l"
       } else {
         do_join $txt
         record "Key-J"
@@ -1002,8 +1008,8 @@ namespace eval vim {
     
     if {$mode($txt) eq "start"} {
       $txt tag remove sel 1.0 end
-      if {[[namespace parent]::multicursor::enabled $txt]} {
-        [namespace parent]::multicursor::adjust $txt "-1l"
+      if {[[ns multicursor]::enabled $txt]} {
+        [ns multicursor]::adjust $txt "-1l"
       }
       return 1
     }
@@ -1052,8 +1058,8 @@ namespace eval vim {
     
     if {$mode($txt) eq "start"} {
       $txt tag remove sel 1.0 end
-      if {[[namespace parent]::multicursor::enabled $txt]} {
-        [namespace parent]::multicursor::adjust $txt "+1c"
+      if {[[ns multicursor]::enabled $txt]} {
+        [ns multicursor]::adjust $txt "+1c"
       }
       return 1
     }
@@ -1101,8 +1107,8 @@ namespace eval vim {
     
     if {$mode($txt) eq "start"} {
       $txt tag remove sel 1.0 end
-      if {[[namespace parent]::multicursor::enabled $txt]} {
-        [namespace parent]::multicursor::adjust $txt "-1c"
+      if {[[ns multicursor]::enabled $txt]} {
+        [ns multicursor]::adjust $txt "-1c"
       }
       return 1
     }
@@ -1135,7 +1141,7 @@ namespace eval vim {
     variable mode
     
     if {$mode($txt) eq "cut"} {
-      if {![[namespace parent]::multicursor::delete $txt " wordend"]} {
+      if {![[ns multicursor]::delete $txt " wordend"]} {
         $txt delete insert "insert wordend"
       }
       edit_mode $txt
@@ -1202,8 +1208,8 @@ namespace eval vim {
     variable mode
     
     if {$mode($txt) eq "start"} {
-      if {[[namespace parent]::multicursor::enabled $txt]} {
-        [namespace parent]::multicursor::adjust $txt "+1c" 1 dspace
+      if {[[ns multicursor]::enabled $txt]} {
+        [ns multicursor]::adjust $txt "+1c" 1 dspace
       }
       $txt mark set insert "insert+1c"
       edit_mode $txt
@@ -1328,7 +1334,7 @@ namespace eval vim {
     variable mode
     
     if {$mode($txt) eq "start"} {
-      [namespace parent]::gui::undo
+      [ns gui]::undo
       adjust_insert $txt
       return 1
     }
@@ -1342,8 +1348,8 @@ namespace eval vim {
   proc do_char_delete {txt number} {
 
     if {$number ne ""} {
-      if {[[namespace parent]::multicursor::enabled $txt]} {
-        [namespace parent]::multicursor::delete $txt "+${number}c"
+      if {[[ns multicursor]::enabled $txt]} {
+        [ns multicursor]::delete $txt "+${number}c"
       } elseif {[$txt compare "insert+${number}c" > "insert lineend"]} {
         $txt delete insert "insert lineend"
         if {[$txt index insert] eq [$txt index "insert linestart"]} {
@@ -1353,8 +1359,8 @@ namespace eval vim {
       } else {
         $txt delete insert "insert+${number}c"
       }
-    } elseif {[[namespace parent]::multicursor::enabled $txt]} {
-      [namespace parent]::multicursor::delete $txt "+1c"
+    } elseif {[[ns multicursor]::enabled $txt]} {
+      [ns multicursor]::delete $txt "+1c"
     } else {
       $txt delete insert
       if {[$txt index insert] eq [$txt index "insert lineend"]} {
@@ -1397,15 +1403,15 @@ namespace eval vim {
     variable number
     
     if {$mode($txt) eq "start"} {
-      if {[[namespace parent]::multicursor::enabled $txt]} {
-        [namespace parent]::multicursor::adjust $txt "+1l" 1 dspace
+      if {[[ns multicursor]::enabled $txt]} {
+        [ns multicursor]::adjust $txt "+1l" 1 dspace
       } else {
         $txt insert "insert lineend" "\n"
       }
       $txt mark set insert "insert+1l"
       $txt see insert
       edit_mode $txt
-      [namespace parent]::indent::newline $txt insert
+      [ns indent]::newline $txt insert
       record_start
       return 1
     }
@@ -1422,14 +1428,14 @@ namespace eval vim {
     variable mode
     
     if {$mode($txt) eq "start"} {
-      if {[[namespace parent]::multicursor::enabled $txt]} {
-        [namespace parent]::multicursor::adjust $txt "-1l" 1 dspace
+      if {[[ns multicursor]::enabled $txt]} {
+        [ns multicursor]::adjust $txt "-1l" 1 dspace
       } else {
         $txt insert "insert linestart" "\n"
       }
       $txt mark set insert "insert-1l"
       edit_mode $txt
-      [namespace parent]::indent::newline $txt insert
+      [ns indent]::newline $txt insert
       record_start
       return 1
     }
@@ -1449,8 +1455,8 @@ namespace eval vim {
       set mode($txt) "quit"
       return 1
     } elseif {$mode($txt) eq "quit"} {
-      [namespace parent]::gui::save_current
-      [namespace parent]::gui::close_current
+      [ns gui]::save_current
+      [ns gui]::close_current
       return 1
     }
     
@@ -1467,9 +1473,9 @@ namespace eval vim {
  
     if {$mode($txt) eq "start"} {
       if {$search_dir($txt) eq "next"} {
-        [namespace parent]::gui::search_next 0
+        [ns gui]::search_next 0
       } else {
-        [namespace parent]::gui::search_prev 0
+        [ns gui]::search_prev 0
       }
       return 1
     }
@@ -1553,7 +1559,7 @@ namespace eval vim {
     variable mode
     
     if {$mode($txt) eq "start"} {
-      [namespace parent]::gui::display_file_counts $txt
+      [ns gui]::display_file_counts $txt
       return 1
     }
     
@@ -1568,7 +1574,7 @@ namespace eval vim {
     variable mode
     
     if {$mode($txt) eq "start"} {
-      [namespace parent]::multicursor::add_cursor $txt [$txt index insert]
+      [ns multicursor]::add_cursor $txt [$txt index insert]
       return 1
     }
     
@@ -1584,7 +1590,7 @@ namespace eval vim {
     variable mode
     
     if {$mode($txt) eq "start"} {
-      [namespace parent]::multicursor::add_cursors $txt [$txt index insert]
+      [ns multicursor]::add_cursors $txt [$txt index insert]
       return 1
     }
     
@@ -1601,7 +1607,7 @@ namespace eval vim {
     variable mode
     
     if {$mode($txt) eq "start"} {
-      [namespace parent]::gui::insert_numbers $txt
+      [ns gui]::insert_numbers $txt
       return 1
     }
     
