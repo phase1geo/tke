@@ -5,6 +5,8 @@
  
 namespace eval indent {
 
+  source [file join $::tke_dir lib ns.tcl]
+  
   array set indent_exprs  {}
   array set widgets       {}
   

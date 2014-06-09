@@ -5,6 +5,8 @@
 #          their behavior.
 
 namespace eval gui {
+
+  source [file join $::tke_dir lib ns.tcl]
  
   variable curr_id          0
   variable files            {}
@@ -85,7 +87,7 @@ namespace eval gui {
     }
 
     # Check again after 10 seconds
-    after 10000 gui::poll
+    after 10000 [namespace parent]::gui::poll
 
   }
   
@@ -167,15 +169,8 @@ namespace eval gui {
         set gui::user_exit_status 1
       }
     }
-    bind $widgets(fif_find) <Escape> "set gui::user_exit_status 0"
-    bind [$widgets(fif_in) entrytag] <Return> {
-      if {([llength [$gui::widgets(fif_in) tokenget]] > 0) && \
-          ([$gui::widgets(fif_in) entryget] eq "") && \
-          ([$gui::widgets(fif_find) get] ne "")} {
-        set gui::user_exit_status 1
-        break
-      }
-    }
+    bind $widgets(fif_find)  <Escape>    "set gui::user_exit_status 0"
+    bind [$widgets(fif_in) entrytag] <Return> "if {[gui::check_fif_for_return]} break"
     bind $widgets(fif_in)    <Escape>    "set gui::user_exit_status 0"
     bind $widgets(fif_case)  <Button-1>  "gui::toggle_labelbutton %W"
     bind $widgets(fif_case)  <Key-space> "gui::toggle_labelbutton %W"
@@ -298,6 +293,24 @@ namespace eval gui {
     trace variable preferences::prefs(Editor/WarningWidth)    w gui::handle_warning_width_change
     trace variable preferences::prefs(View/AllowTabScrolling) w gui::handle_allow_tab_scrolling
     trace variable preferences::prefs(Tools/VimMode)          w gui::handle_vim_mode
+
+  }
+  
+  ######################################################################
+  # Returns 1 if a return key event should cause FOOBAR.
+  proc check_fif_for_return {} {
+  
+    variable widgets
+    variable user_exit_status
+  
+    if {([llength [$widgets(fif_in) tokenget]] > 0) && \
+        ([$widgets(fif_in) entryget] eq "") && \
+        ($widgets(fif_find) get] ne "")} {
+      set user_exit_status 1
+      return 1
+    }
+    
+    return 0
 
   }
   
@@ -1758,7 +1771,7 @@ namespace eval gui {
     set tab $tab_current($pw_current)
     
     # Update the search binding
-    bind $tab.sf.e <Return> "gui::search_start $dir"
+    bind $tab.sf.e <Return> "[namespace parent]::gui::search_start $dir"
  
     # Display the search bar and separator
     grid $tab.sf
@@ -1845,7 +1858,7 @@ namespace eval gui {
       
       # Test the regular expression, if it is invalid, let the user know
       if {[catch { regexp $str "" } rc]} {
-        after 100 [list gui::set_info_message $rc]
+        after 100 [list [namespace parent]::gui::set_info_message $rc]
         return
       }
     
@@ -2027,7 +2040,7 @@ namespace eval gui {
     # Replace the text and re-highlight the changes
     set i     0
     set index ""
-    foreach index [$txt search -all -regexp -count gui::lengths {*}$rs_args -- $search $sline $eline] {
+    foreach index [$txt search -all -regexp -count [namespace parent]::gui::lengths {*}$rs_args -- $search $sline $eline] {
       $txt replace $index "$index+[lindex $lengths $i]c" $replace
       incr i
     }
@@ -2039,7 +2052,7 @@ namespace eval gui {
     $txt highlight $sline $eline
 
     # Make sure that the insertion cursor is valid
-    vim::adjust_insert $txt
+    [namespace parent]::vim::adjust_insert $txt
 
   }
   
@@ -2744,24 +2757,24 @@ namespace eval gui {
     $pw insert 0 [ttk::frame $pw.tf2]
     ctext $pw.tf2.txt -wrap none -undo 1 -autoseparators 1 -insertofftime 0 \
       -highlightcolor yellow -warnwidth $preferences::prefs(Editor/WarningWidth) \
-      -linemap_mark_command gui::mark_command -linemap_select_bg orange -peer $txt \
+      -linemap_mark_command [namespace parent]::gui::mark_command -linemap_select_bg orange -peer $txt \
       -xscrollcommand "utils::set_xscrollbar $pw.tf2.hb" \
       -yscrollcommand "utils::set_yscrollbar $pw.tf2.vb"
     ttk::label     $pw.tf2.split -image $images(close) -anchor center
     ttk::scrollbar $pw.tf2.vb    -orient vertical   -command "$pw.tf2.txt yview"
     ttk::scrollbar $pw.tf2.hb    -orient horizontal -command "$pw.tf2.txt xview"
     
-    bind $pw.tf2.txt.t <FocusIn>             "gui::set_current_tab_from_txt %W"
+    bind $pw.tf2.txt.t <FocusIn>             "[namespace parent]::gui::set_current_tab_from_txt %W"
     bind $pw.tf2.txt.l <ButtonPress-3>       [bind $pw.tf2.txt.l <ButtonPress-1>]
-    bind $pw.tf2.txt.l <ButtonPress-1>       "gui::select_line %W %y"
-    bind $pw.tf2.txt.l <B1-Motion>           "gui::select_lines %W %y"
-    bind $pw.tf2.txt.l <Shift-ButtonPress-1> "gui::select_lines %W %y"
-    bind $pw.tf2.txt   <<Selection>>         "gui::selection_changed %W"
-    bind $pw.tf2.txt   <ButtonPress-1>       "after idle [list gui::update_position %W]"
-    bind $pw.tf2.txt   <B1-Motion>           "gui::update_position %W"
-    bind $pw.tf2.txt   <KeyRelease>          "gui::update_position %W"
-    bind $pw.tf2.txt   <Motion>              "gui::clear_tab_tooltip $tb"
-    bind $pw.tf2.split <Button-1>            "gui::toggle_split_pane"
+    bind $pw.tf2.txt.l <ButtonPress-1>       "[namespace parent]::gui::select_line %W %y"
+    bind $pw.tf2.txt.l <B1-Motion>           "[namespace parent]::gui::select_lines %W %y"
+    bind $pw.tf2.txt.l <Shift-ButtonPress-1> "[namespace parent]::gui::select_lines %W %y"
+    bind $pw.tf2.txt   <<Selection>>         "[namespace parent]::gui::selection_changed %W"
+    bind $pw.tf2.txt   <ButtonPress-1>       "after idle [list [namespace parent]::gui::update_position %W]"
+    bind $pw.tf2.txt   <B1-Motion>           "[namespace parent]::gui::update_position %W"
+    bind $pw.tf2.txt   <KeyRelease>          "[namespace parent]::gui::update_position %W"
+    bind $pw.tf2.txt   <Motion>              "[namespace parent]::gui::clear_tab_tooltip $tb"
+    bind $pw.tf2.split <Button-1>            "[namespace parent]::gui::toggle_split_pane"
     
     # Move the all bindtag ahead of the Text bindtag
     set text_index [lsearch [bindtags $pw.tf2.txt.t] Text]
@@ -2777,23 +2790,23 @@ namespace eval gui {
     grid $pw.tf2.hb    -row 2 -column 0 -sticky ew
     
     # Associate the existing command entry field with this text widget
-    vim::bind_command_entry $pw.tf2.txt $tb.ve
+    [namespace parent]::vim::bind_command_entry $pw.tf2.txt $tb.ve
     
     # Add the text bindings
-    indent::add_bindings      $pw.tf2.txt
-    multicursor::add_bindings $pw.tf2.txt
-    snippets::add_bindings    $pw.tf2.txt
-    vim::set_vim_mode         $pw.tf2.txt
+    [namespace parent]::indent::add_bindings      $pw.tf2.txt
+    [namespace parent]::multicursor::add_bindings $pw.tf2.txt
+    [namespace parent]::snippets::add_bindings    $pw.tf2.txt
+    [namespace parent]::vim::set_vim_mode         $pw.tf2.txt
     
     # Apply the appropriate syntax highlighting for the given extension
-    set language [syntax::get_current_language $txt]
-    syntax::initialize_language $pw.tf2.txt $language
+    set language [[namespace parent]::syntax::get_current_language $txt]
+    [namespace parent]::syntax::initialize_language $pw.tf2.txt $language
     
     # Hide the split pane button in the other text frame
     grid remove $pw.tf.split
         
     # Set the current language
-    syntax::set_language $language $pw.tf2.txt
+    [namespace parent]::syntax::set_language $language $pw.tf2.txt
 
     # Give the text widget the focus
     set_txt_focus $pw.tf2.txt

@@ -5,10 +5,22 @@
 
 namespace eval preferences {
 
+  source [file join $::tke_dir lib ns.tcl]
+  
   variable base_preferences_file [file join $::tke_dir data preferences.tkedat]
   variable user_preferences_file [file join $::tke_home preferences.tkedat]
   
   array set prefs {}
+  
+  ######################################################################
+  # Returns the preference item for the given name.
+  proc get {name} {
+  
+    variable prefs
+    
+    return $prefs($name)
+    
+  }
   
   ######################################################################
   # Loads the preferences file

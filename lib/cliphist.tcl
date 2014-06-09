@@ -7,6 +7,8 @@
 
 namespace eval cliphist {
 
+  source [file join $::tke_dir lib ns.tcl]
+
   variable cliphist_file   [file join $::tke_home cliphist.dat]
   variable history         {}
   variable history_maxsize 10

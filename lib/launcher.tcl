@@ -5,6 +5,8 @@
 
 namespace eval launcher {
 
+  source [file join $::tke_dir lib ns.tcl]
+
   variable launcher_file  [file join $::tke_home launcher.dat]
   variable closed         0
   variable match_commands {}

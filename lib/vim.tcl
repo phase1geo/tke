@@ -8,7 +8,9 @@
 ######################################################################
  
 namespace eval vim {
- 
+
+  source [file join $::tke_dir lib ns.tcl]
+   
   variable record_mode "none"
   variable recording   {}
 
@@ -36,7 +38,7 @@ namespace eval vim {
   # Enables/disables Vim mode for the specified text widget.
   proc set_vim_mode {txt} {
 
-    if {$[namespace parent]::preferences::prefs(Tools/VimMode)} {
+    if {[[namespace parent]::preferences::get Tools/VimMode]} {
       add_bindings $txt
     } else {
       remove_bindings $txt
@@ -51,7 +53,9 @@ namespace eval vim {
     
     variable mode
     
-    if {$[namespace parent]::preferences::prefs(Tools/VimMode) && [info exists mode($txt)] && ($mode($txt) ne "edit")} {
+    if {[[namespace parent]::preferences::get Tools/VimMode] && \
+        [info exists mode($txt)] && \
+        ($mode($txt) ne "edit")} {
       return 1
     } else {
       return 0
@@ -65,7 +69,7 @@ namespace eval vim {
     
     variable mode
     
-    if {$[namespace parent]::preferences::prefs(Tools/VimMode)} {
+    if {[[namespace parent]::preferences::get Tools/VimMode]} {
       if {[info exists mode($txt)] && ($mode($txt) eq "edit")} {
         return "INSERT MODE"
       } else {
@@ -301,7 +305,7 @@ namespace eval vim {
     
     # Handle any other modifications to the text
     bind $txt <<Modified>>   {
-      if {[info exists [namespace parent]::vim::ignore_modified(%W)] && $[namespace parent]::vim::ignore_modified(%W)} {
+      if {[info exists [namespace parent]::vim::ignore_modified(%W)] && [set [namespace parent]::vim::ignore_modified(%W)]} {
         set [namespace parent]::vim::ignore_modified(%W) 0
         %W edit modified false
         break

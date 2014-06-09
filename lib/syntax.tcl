@@ -6,7 +6,9 @@
 ###################################################################### 
  
 namespace eval syntax {
-  
+
+  source [file join $::tke_dir lib ns.tcl]
+    
   variable filetypes
 
   array set langs     {}
@@ -122,15 +124,15 @@ namespace eval syntax {
     }
     
     # Sets the current theme
-    set_theme $[namespace parent]::preferences::prefs(Appearance/Theme)
+    set_theme [[namespace parent]::preferences::get Appearance/Theme]
     
-    if {[trace info variable [namespace parent]::preferences::prefs(Appearance/Theme)] eq ""} {
+    if {[trace info variable [[namespace parent]::preferences::get Appearance/Theme]] eq ""} {
       
       # Trace changes to the Appearance/Theme preference variable
-      trace variable [namespace parent]::preferences::prefs(Appearance/Theme) w [namespace parent]::syntax::handle_theme_change
+      trace variable [[namespace parent]::preferences::get Appearance/Theme] w [namespace parent]::syntax::handle_theme_change
     
       # Trace changes to the Appearance/Colorize preference variable
-      trace variable [namespace parent]::preferences::prefs(Appearance/Colorize) w [namespace parent]::syntax::handle_colorize_change
+      trace variable [[namespace parent]::preferences::get Appearance/Colorize] w [namespace parent]::syntax::handle_colorize_change
       
     }
     
@@ -140,7 +142,7 @@ namespace eval syntax {
   # Called whenever the Appearance/Theme preference value is changed.
   proc handle_theme_change {name1 name2 op} {
 
-    set_theme $[namespace parent]::preferences::prefs(Appearance/Theme)
+    set_theme [[namespace parent]::preferences::get Appearance/Theme]
 
   }
   
@@ -148,7 +150,7 @@ namespace eval syntax {
   # Called whenever the Appearance/Colorize preference value is changed.
   proc handle_colorize_change {name1 name2 op} {
     
-    set_theme $[namespace parent]::preferences::prefs(Appearance/Theme)
+    set_theme [[namespace parent]::preferences::get Appearance/Theme]
     
   }
 
@@ -170,7 +172,7 @@ namespace eval syntax {
       # Remove theme values that aren't in the Appearance/Colorize array
       foreach name [array names theme] {
         if {[info exists colorizers($name)] && \
-            [lsearch $[namespace parent]::preferences::prefs(Appearance/Colorize) $name] == -1} {
+            [lsearch [[namespace parent]::preferences::get Appearance/Colorize] $name] == -1} {
           set theme($name) ""
         }
       }

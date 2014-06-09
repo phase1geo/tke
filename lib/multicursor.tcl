@@ -4,7 +4,9 @@
 # Brief:   Namespace to handle cases where multiple cursor support is needed.
 
 namespace eval multicursor {
-  
+
+  source [file join $::tke_dir lib ns.tcl]
+    
   variable selected            0
   variable select_start_line   ""
   variable select_start_column ""
