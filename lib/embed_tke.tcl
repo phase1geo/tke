@@ -8,13 +8,15 @@
 
 package provide embed_tke 1.0
 
-set tke_dir   [embed_tke::DIR]
+set tke_dir   [file normalize [embed_tke::DIR]]
 set tke_home  [file normalize [file join ~ .tke]]
-set auto_path [concat [file join [embed_tke::DIR] lib] $auto_path]
 
-package require Tclx
-package require ctext
+set auto_path [concat [file join $tke_dir lib] $auto_path]
+
+package require -exact ctext 4.0
 package require tooltip
+
+source [file join $tke_dir lib bgproc.tcl]
 
 namespace eval embed_tke {
   
@@ -33,6 +35,20 @@ namespace eval embed_tke {
   namespace eval launcher {
     proc register {args} {}
     proc unregister {args} {}
+  }
+  
+  namespace eval gui {
+    rename set_current_tab set_current_tab__orig
+    rename set_current_tab_from_txt set_current_tab_from_txt__orig
+    rename update_position update_position__orig
+    rename save_current save_current__orig
+    rename close_current close_current__orig
+    
+    proc set_current_tab {args} {}
+    proc set_current_tab_from_txt {args} {}
+    proc update_position {args} {}
+    proc save_current {args} { puts "Saving" }
+    proc close_current {args} { puts "Closing" }
   }
 
   array set data   {}
@@ -100,7 +116,7 @@ namespace eval embed_tke {
     bind $w.txt   <ButtonPress-1>       "after idle [list [namespace current]::gui::update_position %W]"
     bind $w.txt   <B1-Motion>           "[namespace current]::gui::update_position %W"
     bind $w.txt   <KeyRelease>          "[namespace current]::gui::update_position %W"
-    bind $w.split <Button-1>            "[namespace current]::gui::toggle_split_pane"
+    bind $w.split <Button-1>            "[namespace current]::gui::toggle_split_pane $w.txt"
     bind Text     <<Cut>>               ""
     bind Text     <<Copy>>              ""
     bind Text     <<Paste>>             ""
@@ -116,7 +132,7 @@ namespace eval embed_tke {
     # Create the Vim command bar
     vim::bind_command_entry $w.txt \
       [entry $w.ve -background black -foreground white -insertbackground white \
-        -font [$w.txt cget -font]]
+        -font [$w.txt cget -font]] $w.txt
     
     # Create the search bar
     ttk::frame $w.sf
@@ -160,9 +176,9 @@ namespace eval embed_tke {
     pack $w.rf.glob  -side left -padx 2 -pady 2
     pack $w.rf.close -side left -padx 2 -pady 2
  
-    bind $w.rf.fe    <Return>    "[namespace current]::gui::do_search_and_replace"
-    bind $w.rf.re    <Return>    "[namespace current]::gui::do_search_and_replace"
-    bind $w.rf.glob  <Return>    "[namespace current]::gui::do_search_and_replace"
+    bind $w.rf.fe    <Return>    "[namespace current]::gui::do_search_and_replace $w.txt"
+    bind $w.rf.re    <Return>    "[namespace current]::gui::do_search_and_replace $w.txt"
+    bind $w.rf.glob  <Return>    "[namespace current]::gui::do_search_and_replace $w.txt"
     bind $w.rf.fe    <Escape>    "[namespace current]::gui::close_search_and_replace"
     bind $w.rf.re    <Escape>    "[namespace current]::gui::close_search_and_replace"
     bind $w.rf.case  <Button-1>  "[namespace current]::gui::toggle_labelbutton %W"
@@ -194,13 +210,13 @@ namespace eval embed_tke {
     indent::add_bindings      $w.txt
     multicursor::add_bindings $w.txt
     snippets::add_bindings    $w.txt
-    vim::set_vim_mode         $w.txt
+    vim::set_vim_mode         $w.txt $w.txt
         
     # Apply the appropriate syntax highlighting for the given extension
     syntax::initialize_language $w.txt "<None>"
 
     # Set the current language
-    syntax::set_current_language
+    syntax::set_current_language $w.txt
 
     # Initialize the options array
     foreach opt [array names widget_options] {
@@ -299,8 +315,8 @@ namespace eval embed_tke {
       
       # Set the language
       if {$orig_options($w,option,-language) ne $data($w,option,-language)} {
-        if {[lsearch [FOOBAR] $data($w,option,-language)] != -1} {
-          syntax::set_language $initial_language $w.txt
+        if {[lsearch [syntax::get_languages] $data($w,option,-language)] != -1} {
+          syntax::set_language $data($w,option,-language) $w.txt
         } else {
           return -code error "Unknown language ($data($w,option,-language) specified in embed_tke::configure command"
         }

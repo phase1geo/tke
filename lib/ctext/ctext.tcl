@@ -3,7 +3,7 @@
 # RCS: @(#) $Id: ctext.tcl,v 1.9 2011/04/18 19:49:48 andreas_kupries Exp $
 
 package require Tk
-package provide ctext 3.3
+package provide ctext 4.0
 
 namespace eval ctext {
   array set REs {

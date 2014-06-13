@@ -239,7 +239,7 @@ namespace eval gui {
     }
     $widgets(menu) add separator
     $widgets(menu) add checkbutton -label [msgcat::mc "Locked"] -onvalue 1 -offvalue 0 -variable gui::file_locked -command {
-      gui::set_current_file_lock $gui::file_locked
+      gui::set_current_file_lock {} $gui::file_locked
     }
     $widgets(menu) add separator
     $widgets(menu) add command -label [msgcat::mc "Move to Other Pane"] -command {
@@ -652,7 +652,7 @@ namespace eval gui {
                 add_file end $finfo(fname) \
                   -savecommand $finfo(savecommand) -lock $finfo(lock) -readonly $finfo(readonly) \
                   -sidebar $finfo(sidebar)
-                if {[syntax::get_current_language [current_txt]] ne $finfo(language)} {
+                if {[syntax::get_current_language [current_txt {}]] ne $finfo(language)} {
                   syntax::set_language $finfo(language)
                 }
               } else {
@@ -811,10 +811,10 @@ namespace eval gui {
   
   ######################################################################
   # Selects all of the text in the current text widget.
-  proc select_all {} {
+  proc select_all {tid} {
     
     # Get the current text widget
-    set txt [current_txt]
+    set txt [current_txt $tid]
     
     # Set the selection to include everything
     $txt tag add sel 1.0 end
@@ -894,7 +894,7 @@ namespace eval gui {
     }
         
     # Sets the file lock to the specified value
-    set_current_file_lock $opts(-lock)
+    set_current_file_lock {} $opts(-lock)
     
     # Run any plugins that need to be run when a file is opened
     plugins::handle_on_open [expr [llength $files] - 1]
@@ -1003,7 +1003,7 @@ namespace eval gui {
     }
     
     # Sets the file lock to the specified value
-    set_current_file_lock $opts(-lock)
+    set_current_file_lock {} $opts(-lock)
     
     # Run any plugins that should run when a file is opened
     plugins::handle_on_open [expr [llength $files] - 1]
@@ -1144,7 +1144,7 @@ namespace eval gui {
   
   ######################################################################
   # Saves the current tab filename.
-  proc save_current {{save_as ""}} {
+  proc save_current {tid {save_as ""}} {
   
     variable files
     variable files_index
@@ -1183,7 +1183,7 @@ namespace eval gui {
     }
     
     # Write the file contents
-    puts $rc [vim::get_cleaned_content [current_txt]]
+    puts $rc [vim::get_cleaned_content [current_txt $tid]]
     close $rc
  
     # If the file doesn't have a timestamp, it's a new file so add and highlight it in the sidebar
@@ -1215,7 +1215,7 @@ namespace eval gui {
     set_title
     
     # Change the text to unmodified
-    [current_txt] edit modified false
+    [current_txt $tid] edit modified false
     lset files $file_index $files_index(modified) 0
 
     # If there is a save command, run it now
@@ -1550,7 +1550,7 @@ namespace eval gui {
     }
     
     # Get the title, text and language from the current text widget
-    set txt      [current_txt]
+    set txt      [current_txt {}]
     set file     [lindex $files [current_file]]
     if {[set fname [current_filename]] eq ""} {
       set fname [msgcat::mc "Untitled"]
@@ -1581,7 +1581,7 @@ namespace eval gui {
     lappend files $file
     
     # Add the text, insertion marker and selection
-    set txt [current_txt]
+    set txt [current_txt {}]
     $txt insert end $content
     $txt mark set insert $insert
     
@@ -1607,12 +1607,12 @@ namespace eval gui {
   
   ######################################################################
   # Performs an undo of the current tab.
-  proc undo {} {
+  proc undo {tid} {
   
     variable redo_count
     
     # Get the current textbox
-    set txt [current_txt]
+    set txt [current_txt $tid]
     
     # Perform the undo operation
     catch { $txt edit undo }
@@ -1639,10 +1639,10 @@ namespace eval gui {
   
   ######################################################################
   # This procedure performs an redo operation.
-  proc redo {} {
+  proc redo {tid} {
   
     # Get the current textbox
-    set txt [current_txt]
+    set txt [current_txt $tid]
     
     # Perform the redo operation
     catch { $txt edit redo }
@@ -1651,11 +1651,11 @@ namespace eval gui {
   
   ######################################################################
   # Returns true if there is something in the redo buffer.
-  proc redoable {} {
+  proc redoable {tid} {
     
     variable redo_count
     
-    if {([set txt [current_txt]] ne "") && \
+    if {([set txt [current_txt $tid]] ne "") && \
         [info exists redo_count($txt)] && \
         ($redo_count($txt) > 0)} {
       return 1
@@ -1667,10 +1667,10 @@ namespace eval gui {
   
   ######################################################################
   # Cuts the currently selected text.
-  proc cut {} {
+  proc cut {tid} {
     
     # Perform the cut
-    [current_txt] cut
+    [current_txt $tid] cut
  
     # Add the clipboard contents to history
     cliphist::add_from_clipboard
@@ -1679,10 +1679,10 @@ namespace eval gui {
   
   ##############################################################################
   # This procedure performs a text selection copy operation.
-  proc copy {} {
+  proc copy {tid} {
     
     # Perform the copy
-    [current_txt] copy
+    [current_txt $tid] copy
   
     # Add the clipboard contents to history
     cliphist::add_from_clipboard
@@ -1691,9 +1691,9 @@ namespace eval gui {
   
   ######################################################################
   # Returns true if text is currently selected in the current buffer.
-  proc selected {} {
+  proc selected {tid} {
     
-    if {([set txt [current_txt]] ne "") && \
+    if {([set txt [current_txt $tid]] ne "") && \
         ([llength [$txt tag ranges sel]] > 0)} {
       return 1
     } else {
@@ -1704,17 +1704,17 @@ namespace eval gui {
   
   ##############################################################################
   # This procedure performs a text selection paste operation.
-  proc paste {} {
+  proc paste {tid} {
   
     # Perform the paste
-    [current_txt] paste
+    [current_txt $tid] paste
  
   }
   
   ######################################################################
   # This procedure performs a paste operation, formatting the pasted text
   # to match the code that it is being pasted into.
-  proc paste_and_format {} {
+  proc paste_and_format {tid} {
   
     if {![catch {clipboard get}]} {
       
@@ -1722,13 +1722,13 @@ namespace eval gui {
       set cliplen [string length [clipboard get]]
  
       # Get the position of the insertion cursor
-      set insertpos [[current_txt] index insert]
+      set insertpos [[current_txt $tid] index insert]
  
       # Perform the paste operation
-      paste
+      paste $tid
   
       # Have the indent namespace format the clipboard contents
-      indent::format_text [current_txt].t $insertpos "$insertpos+${cliplen}c"
+      indent::format_text [current_txt $tid].t $insertpos "$insertpos+${cliplen}c"
       
     }
     
@@ -1745,10 +1745,10 @@ namespace eval gui {
   ######################################################################
   # Formats either the selected text (if type is "selected") or the entire
   # file contents (if type is "all").
-  proc format {type} {
+  proc format {tid type} {
     
     # Get the current text widget
-    set txt [current_txt]
+    set txt [current_txt $tid]
     
     if {$type eq "selected"} {
       foreach {endpos startpos} [lreverse [$txt tag ranges sel]] { 
@@ -1762,7 +1762,7 @@ namespace eval gui {
   
   ######################################################################
   # Displays the search bar.
-  proc search {{dir "next"}} {
+  proc search {tid {dir "next"}} {
     
     variable pw_current
     variable tab_current
@@ -1771,7 +1771,7 @@ namespace eval gui {
     set tab $tab_current($pw_current)
     
     # Update the search binding
-    bind $tab.sf.e <Return> "[ns gui]::search_start $dir"
+    bind $tab.sf.e <Return> "[ns gui]::search_start {$tid} $dir"
  
     # Display the search bar and separator
     grid $tab.sf
@@ -1800,7 +1800,7 @@ namespace eval gui {
     grid remove $tab.sep
     
     # Put the focus on the text widget
-    set_txt_focus [last_txt_focus]
+    set_txt_focus [last_txt_focus {}]
      
   }
   
@@ -1842,13 +1842,13 @@ namespace eval gui {
     grid remove $tab.sep
 
     # Put the focus on the text widget
-    set_txt_focus [last_txt_focus]
+    set_txt_focus [last_txt_focus {}]
 
   }
 
   ######################################################################
   # Starts a text search
-  proc search_start {{dir "next"}} {
+  proc search_start {tid {dir "next"}} {
 
     # If the user has specified a new search value, find all occurrences
     if {[set str [[current_search].e get]] ne ""} {
@@ -1863,7 +1863,7 @@ namespace eval gui {
       }
     
       # Get the current text widget
-      set txt [current_txt]
+      set txt [current_txt $tid]
       
       # Gather any search options
       set search_opts [list]
@@ -1886,21 +1886,21 @@ namespace eval gui {
  
     # Select the search term
     if {$dir eq "next"} {
-      search_next 0
+      search_next $tid 0
     } else {
-      search_prev 0
+      search_prev $tid 0
     }
 
   }
  
   ######################################################################
   # Searches for the next occurrence of the search item.
-  proc search_next {app} {
+  proc search_next {tid app} {
     
     variable search_index
  
     # Get the current text widget
-    set txt [current_txt]
+    set txt [current_txt $tid]
     
     # If we are not appending to the selection, clear the selection
     if {!$app} {
@@ -1931,10 +1931,10 @@ namespace eval gui {
   
   ######################################################################
   # Searches for the previous occurrence of the search item.
-  proc search_prev {app} {
+  proc search_prev {tid app} {
     
     # Get the current text widget
-    set txt [current_txt]
+    set txt [current_txt $tid]
     
     # If we are not appending to the selection, clear the selection
     if {!$app} {
@@ -1965,10 +1965,10 @@ namespace eval gui {
   
   ######################################################################
   # Searches for all of the occurrences and selects them all.
-  proc search_all {} {
+  proc search_all {tid} {
     
     # Get the current text widget
-    set txt [current_txt]
+    set txt [current_txt $tid]
     
     # Clear the selection
     $txt tag remove sel 1.0 end
@@ -1991,7 +1991,7 @@ namespace eval gui {
   ######################################################################
   # Performs a search and replace operation based on the GUI element
   # settings.
-  proc do_search_and_replace {} {
+  proc do_search_and_replace {tid} {
 
     variable pw_current
     variable tab_current
@@ -2000,7 +2000,7 @@ namespace eval gui {
     set tab $tab_current($pw_current)
 
     # Perform the search and replace
-    do_raw_search_and_replace 1.0 end [$tab.rf.fe get] [$tab.rf.re get] \
+    do_raw_search_and_replace $tid 1.0 end [$tab.rf.fe get] [$tab.rf.re get] \
       [expr {[$tab.rf.case cget -relief] eq "raised"}] \
       [expr {[$tab.rf.glob cget -relief] eq "sunken"}]
 
@@ -2011,13 +2011,13 @@ namespace eval gui {
 
   ######################################################################
   # Performs a search and replace given the expression, 
-  proc do_raw_search_and_replace {sline eline search replace ignore_case all} {
+  proc do_raw_search_and_replace {tid sline eline search replace ignore_case all} {
 
     variable widgets
     variable lengths
     
     # Get the current text widget
-    set txt [current_txt]
+    set txt [current_txt $tid]
     
     # Clear the selection
     $txt tag remove sel 1.0 end
@@ -2077,7 +2077,7 @@ namespace eval gui {
 
   ######################################################################
   # Sets the file lock to the specified value for the current file.
-  proc set_current_file_lock {lock} {
+  proc set_current_file_lock {tid lock} {
   
     variable files
     variable files_index
@@ -2091,14 +2091,14 @@ namespace eval gui {
     
     # Change the state of the text widget to match the lock value
     if {[lindex $files $file_index $files_index(readonly)]} {
-      [current_tabbar] tab current -compound left -image $images(readonly)
-      [current_txt]    configure -state disabled
+      [current_tabbar]   tab current -compound left -image $images(readonly)
+      [current_txt $tid] configure -state disabled
     } elseif {$lock} {
-      [current_tabbar] tab current -compound left -image $images(lock)
-      [current_txt]    configure -state disabled
+      [current_tabbar]   tab current -compound left -image $images(lock)
+      [current_txt $tid] configure -state disabled
     } else {
-      [current_tabbar] tab current -image ""
-      [current_txt]    configure -state normal
+      [current_tabbar]   tab current -image ""
+      [current_txt $tid] configure -state normal
     }
     
     return 1
@@ -2371,12 +2371,12 @@ namespace eval gui {
   
   ######################################################################
   # Toggles the split pane for the current tab.
-  proc toggle_split_pane {} {
+  proc toggle_split_pane {tid} {
     
-    if {[llength [[current_txt] peer names]] > 0} {
-      hide_split_pane
+    if {[llength [[current_txt $tid] peer names]] > 0} {
+      hide_split_pane $tid
     } else {
-      show_split_pane
+      show_split_pane $tid
     }
     
   }
@@ -2451,7 +2451,7 @@ namespace eval gui {
     bind [$nb.tbf.tb btag] <ButtonRelease-$::right_click> {
       set gui::pw_current [lsearch [$gui::widgets(nb_pw) panes] [winfo parent [winfo parent [winfo parent %W]]]]
       if {![catch "[winfo parent %W] select @%x,%y"]} {
-        set_txt_focus [last_txt_focus]
+        set_txt_focus [last_txt_focus {}]
       }
     }
     
@@ -2594,7 +2594,7 @@ namespace eval gui {
     bind $tab_frame.pw.tf.txt   <B1-Motion>           "gui::update_position %W"
     bind $tab_frame.pw.tf.txt   <KeyRelease>          "gui::update_position %W"
     bind $tab_frame.pw.tf.txt   <Motion>              "gui::clear_tab_tooltip $tb"
-    bind $tab_frame.pw.tf.split <Button-1>            "gui::toggle_split_pane"
+    bind $tab_frame.pw.tf.split <Button-1>            "gui::toggle_split_pane {}"
     bind Text                   <<Cut>>               ""
     bind Text                   <<Copy>>              ""
     bind Text                   <<Paste>>             ""
@@ -2617,7 +2617,7 @@ namespace eval gui {
     # Create the Vim command bar
     vim::bind_command_entry $tab_frame.pw.tf.txt \
       [entry $tab_frame.ve -background black -foreground white -insertbackground white \
-        -font [$tab_frame.pw.tf.txt cget -font]]
+        -font [$tab_frame.pw.tf.txt cget -font]] {}
     
     # Create the search bar
     ttk::frame $tab_frame.sf
@@ -2661,9 +2661,9 @@ namespace eval gui {
     pack $tab_frame.rf.glob  -side left -padx 2 -pady 2
     pack $tab_frame.rf.close -side left -padx 2 -pady 2
  
-    bind $tab_frame.rf.fe    <Return>    "gui::do_search_and_replace"
-    bind $tab_frame.rf.re    <Return>    "gui::do_search_and_replace"
-    bind $tab_frame.rf.glob  <Return>    "gui::do_search_and_replace"
+    bind $tab_frame.rf.fe    <Return>    "gui::do_search_and_replace {}"
+    bind $tab_frame.rf.re    <Return>    "gui::do_search_and_replace {}"
+    bind $tab_frame.rf.glob  <Return>    "gui::do_search_and_replace {}"
     bind $tab_frame.rf.fe    <Escape>    "gui::close_search_and_replace"
     bind $tab_frame.rf.re    <Escape>    "gui::close_search_and_replace"
     bind $tab_frame.rf.case  <Button-1>  "gui::toggle_labelbutton %W"
@@ -2699,7 +2699,7 @@ namespace eval gui {
     indent::add_bindings      $tab_frame.pw.tf.txt
     multicursor::add_bindings $tab_frame.pw.tf.txt
     snippets::add_bindings    $tab_frame.pw.tf.txt
-    vim::set_vim_mode         $tab_frame.pw.tf.txt
+    vim::set_vim_mode         $tab_frame.pw.tf.txt {}
         
     # Apply the appropriate syntax highlighting for the given extension
     if {$initial_language eq ""} {
@@ -2732,7 +2732,7 @@ namespace eval gui {
     set_current_tab $tab_frame
     
     # Set the current language
-    syntax::set_current_language
+    syntax::set_current_language {}
 
     # Give the text widget the focus
     set_txt_focus $tab_frame.pw.tf.txt
@@ -2744,12 +2744,12 @@ namespace eval gui {
   ######################################################################
   # Adds a peer ctext widget to the current widget in the pane just below
   # the current pane.
-  proc show_split_pane {} {
+  proc show_split_pane {tid} {
     
     variable images
         
     # Get the current paned window
-    set txt [current_txt]
+    set txt [current_txt $tid]
     set pw  [winfo parent [winfo parent $txt]]
     set tb  [winfo parent $pw]
     
@@ -2774,7 +2774,7 @@ namespace eval gui {
     bind $pw.tf2.txt   <B1-Motion>           "[ns gui]::update_position %W"
     bind $pw.tf2.txt   <KeyRelease>          "[ns gui]::update_position %W"
     bind $pw.tf2.txt   <Motion>              "[ns gui]::clear_tab_tooltip $tb"
-    bind $pw.tf2.split <Button-1>            "[ns gui]::toggle_split_pane"
+    bind $pw.tf2.split <Button-1>            "[ns gui]::toggle_split_pane {}"
     
     # Move the all bindtag ahead of the Text bindtag
     set text_index [lsearch [bindtags $pw.tf2.txt.t] Text]
@@ -2790,13 +2790,13 @@ namespace eval gui {
     grid $pw.tf2.hb    -row 2 -column 0 -sticky ew
     
     # Associate the existing command entry field with this text widget
-    [ns vim]::bind_command_entry $pw.tf2.txt $tb.ve
+    [ns vim]::bind_command_entry $pw.tf2.txt $tb.ve {}
     
     # Add the text bindings
     [ns indent]::add_bindings      $pw.tf2.txt
     [ns multicursor]::add_bindings $pw.tf2.txt
     [ns snippets]::add_bindings    $pw.tf2.txt
-    [ns vim]::set_vim_mode         $pw.tf2.txt
+    [ns vim]::set_vim_mode         $pw.tf2.txt {}
     
     # Apply the appropriate syntax highlighting for the given extension
     set language [[ns syntax]::get_current_language $txt]
@@ -2815,10 +2815,10 @@ namespace eval gui {
   
   ######################################################################
   # Removes the split pane
-  proc hide_split_pane {} {
+  proc hide_split_pane {tid} {
     
     # Get the current paned window
-    set txt [current_txt]
+    set txt [current_txt $tid]
     set pw  [winfo parent [winfo parent $txt]]
     
     # Delete the extra text widget
@@ -2976,7 +2976,7 @@ namespace eval gui {
     }
     
     # Set the text widget
-    set txt [last_txt_focus $tab]
+    set txt [last_txt_focus {} $tab]
     
     # Set the line and row information
     update_position $txt
@@ -3059,18 +3059,22 @@ namespace eval gui {
 
   ######################################################################
   # Returns the current text widget pathname.
-  proc current_txt {} {
+  proc current_txt {tid} {
   
     variable pw_current
     variable tab_current
     variable txt_current
 
-    if {![info exists tab_current($pw_current)]} {
-      return ""
-    } elseif {![info exists txt_current($tab_current($pw_current))]} {
-      return "$tab_current($pw_current).pw.tf.txt"
+    if {$tid eq ""} {
+      if {![info exists tab_current($pw_current)]} {
+        return ""
+      } elseif {![info exists txt_current($tab_current($pw_current))]} {
+        return "$tab_current($pw_current).pw.tf.txt"
+      } else {
+        return $txt_current($tab_current($pw_current))
+      }
     } else {
-      return $txt_current($tab_current($pw_current))
+      return $tid
     }
     
   }
@@ -3163,12 +3167,12 @@ namespace eval gui {
   ######################################################################
   # Returns the list of procs in the current text widget.  Uses the _procs
   # highlighting to tag to quickly find procs in the widget.
-  proc get_symbol_list {} {
+  proc get_symbol_list {tid} {
     
     variable lengths
     
     # Get current text widget
-    set txt [current_txt]
+    set txt [current_txt $tid]
     
     set proclist [list]
     set lengths  [list]
@@ -3185,10 +3189,10 @@ namespace eval gui {
   
   ######################################################################
   # Returns the list of markers in the current text widget.
-  proc get_marker_list {} {
+  proc get_marker_list {tid} {
     
     # Get the current text widget
-    set txt [current_txt]
+    set txt [current_txt $tid]
     
     # Create a list of marker names and index
     set markers [list]
@@ -3202,10 +3206,10 @@ namespace eval gui {
   
   ######################################################################
   # Jump to the given position.
-  proc jump_to {pos} {
+  proc jump_to {tid pos} {
     
     # Get the current text widget
-    set txt [current_txt]
+    set txt [current_txt $tid]
     
     # Set the current insertion marker and make it viewable.
     $txt mark set insert $pos
@@ -3216,10 +3220,10 @@ namespace eval gui {
   ######################################################################
   # Finds the matching character for the one at the current insertion
   # marker.
-  proc show_match_pair {} {
+  proc show_match_pair {tid} {
   
     # Get the current widget
-    set txt [current_txt]
+    set txt [current_txt $tid]
     
     # If the current character is a matchable character, change the
     # insertion cursor to the matching character.
@@ -3403,18 +3407,22 @@ namespace eval gui {
   
   ######################################################################
   # Returns the path to the ctext widget that last received focus.
-  proc last_txt_focus {{tab ""}} {
+  proc last_txt_focus {tid {tab ""}} {
    
     variable pw_current
     variable tab_current
     variable txt_current
     
-    if {$tab eq ""} {
-      return $txt_current($tab_current($pw_current))
-    } elseif {[info exists txt_current($tab)]} {
-      return $txt_current($tab)
+    if {$tid eq ""} {
+      if {$tab eq ""} {
+        return $txt_current($tab_current($pw_current))
+      } elseif {[info exists txt_current($tab)]} {
+        return $txt_current($tab)
+      } else {
+        return $tab.pw.tf.txt
+      }
     } else {
-      return $tab.pw.tf.txt
+      return $tid
     }
     
   }

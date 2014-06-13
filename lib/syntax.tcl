@@ -248,12 +248,12 @@ namespace eval syntax {
     
   ######################################################################
   # Sets the language of the current tab to the specified language.
-  proc set_current_language {} {
+  proc set_current_language {tid} {
     
     variable lang
     
     # Get the current text widget
-    set txt [[ns gui]::current_txt]
+    set txt [[ns gui]::current_txt $tid]
     
     if {[info exists lang($txt)]} {
       set_language $lang($txt) $txt
@@ -271,7 +271,7 @@ namespace eval syntax {
     
     # If a text widget wasn't specified, get the current text widget
     if {$txt eq ""} {
-      set txt [[ns gui]::current_txt]
+      set txt [[ns gui]::current_txt {}]
     }
     
     # Clear the syntax highlighting for the widget
@@ -341,8 +341,10 @@ namespace eval syntax {
     $txt highlight 1.0 end
     
     # Set the menubutton text
-    [set [ns gui]::widgets(info_syntax)] configure -text $language
-      
+    if {[info exists [ns gui]::widgets(info_syntax)]} {
+      [set [ns gui]::widgets(info_syntax)] configure -text $language
+    }
+    
   }
   
   ######################################################################
@@ -390,10 +392,10 @@ namespace eval syntax {
     $mnu delete 0 end
     
     # Populate the menu with the available languages
-    $mnu add radiobutton -label "<[msgcat::mc None]>" -variable [ns syntax]::lang([[ns gui]::current_txt]) \
+    $mnu add radiobutton -label "<[msgcat::mc None]>" -variable [ns syntax]::lang([[ns gui]::current_txt {}]) \
       -value "<[msgcat::mc None]>" -command [list [ns syntax]::set_language <None>]
     foreach lang [lsort [array names langs]] {
-      $mnu add radiobutton -label $lang -variable [ns syntax]::lang([[ns gui]::current_txt]) \
+      $mnu add radiobutton -label $lang -variable [ns syntax]::lang([[ns gui]::current_txt {}]) \
         -value $lang -command [list [ns syntax]::set_language $lang]
     }
     
@@ -422,7 +424,7 @@ namespace eval syntax {
     variable lang
     
     # Configures the current language for the specified text widget
-    $w configure -text $lang([[ns gui]::current_txt])
+    $w configure -text $lang([[ns gui]::current_txt {}])
     
   }
  
@@ -457,13 +459,13 @@ namespace eval syntax {
   
   ######################################################################
   # Retrieves the extensions for the current text widget.
-  proc get_extensions {} {
+  proc get_extensions {tid} {
     
     variable langs
     variable lang
     
     # Get the current language
-    if {[set language $lang([[ns gui]::current_txt])] eq "None"} {
+    if {[set language $lang([[ns gui]::current_txt $tid])] eq "None"} {
       return [list]
     } else {
       array set lang_array $langs($language)

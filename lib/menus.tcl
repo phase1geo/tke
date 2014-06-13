@@ -239,7 +239,7 @@ namespace eval menus {
     if {[set sfile [gui::current_filename]] eq ""} {
       save_as_command
     } else {
-      gui::save_current $sfile
+      gui::save_current {} $sfile
     }
   
   }
@@ -258,7 +258,7 @@ namespace eval menus {
     }
     
     if {[set sfile [tk_getSaveFile {*}$save_opts -title [msgcat::mc "Save As"] -parent . -initialdir $dirname]] ne ""} {
-      gui::save_current $sfile
+      gui::save_current {} $sfile
     }
   
   }
@@ -268,7 +268,7 @@ namespace eval menus {
   proc lock_command {mb} {
   
     # Lock the current file
-    if {[gui::set_current_file_lock 1]} {
+    if {[gui::set_current_file_lock {} 1]} {
     
       # Set the menu up to display the unlock file menu option
       $mb entryconfigure [msgcat::mc "Lock"] -label [msgcat::mc "Unlock"] -command "menus::unlock_command $mb"
@@ -282,7 +282,7 @@ namespace eval menus {
   proc unlock_command {mb} {
   
     # Unlock the current file
-    if {[gui::set_current_file_lock 0]} {
+    if {[gui::set_current_file_lock {} 0]} {
     
       # Set the menu up to display the lock file menu option
       $mb entryconfigure [msgcat::mc "Unlock"] -label [msgcat::mc "Lock"] -command "menus::lock_command $mb"
@@ -343,28 +343,28 @@ namespace eval menus {
   proc add_edit {mb} {
     
     # Add edit menu commands
-    $mb add command -label [msgcat::mc "Undo"] -underline 0 -command "gui::undo"
-    launcher::register [msgcat::mc "Menu: Undo"] gui::undo
+    $mb add command -label [msgcat::mc "Undo"] -underline 0 -command "gui::undo {}"
+    launcher::register [msgcat::mc "Menu: Undo"] "gui::undo {}"
     
-    $mb add command -label [msgcat::mc "Redo"] -underline 0 -command "gui::redo"
-    launcher::register [msgcat::mc "Menu: Redo"] gui::redo
+    $mb add command -label [msgcat::mc "Redo"] -underline 0 -command "gui::redo {}"
+    launcher::register [msgcat::mc "Menu: Redo"] "gui::redo {}"
     
     $mb add separator
     
-    $mb add command -label [msgcat::mc "Cut"] -underline 0 -command "gui::cut"
-    launcher::register [msgcat::mc "Menu: Cut selected text"] gui::cut
+    $mb add command -label [msgcat::mc "Cut"] -underline 0 -command "gui::cut {}"
+    launcher::register [msgcat::mc "Menu: Cut selected text"] "gui::cut {}"
     
-    $mb add command -label [msgcat::mc "Copy"] -underline 1 -command "gui::copy"
-    launcher::register [msgcat::mc "Menu: Copy selected text"] gui::copy
+    $mb add command -label [msgcat::mc "Copy"] -underline 1 -command "gui::copy {}"
+    launcher::register [msgcat::mc "Menu: Copy selected text"] "gui::copy {}"
     
-    $mb add command -label [msgcat::mc "Paste"] -underline 0 -command "gui::paste"
-    launcher::register [msgcat::mc "Menu: Paste text from clipboard"] gui::paste
+    $mb add command -label [msgcat::mc "Paste"] -underline 0 -command "gui::paste {}"
+    launcher::register [msgcat::mc "Menu: Paste text from clipboard"] "gui::paste {}"
     
-    $mb add command -label [msgcat::mc "Paste and Format"] -underline 10 -command "gui::paste_and_format"
-    launcher::register [msgcat::mc "Menu: Paste and format text from clipboard"] gui::paste_and_format
+    $mb add command -label [msgcat::mc "Paste and Format"] -underline 10 -command "gui::paste_and_format {}"
+    launcher::register [msgcat::mc "Menu: Paste and format text from clipboard"] "gui::paste_and_format {}"
     
-    $mb add command -label [msgcat::mc "Select All"] -underline 7 -command "gui::select_all"
-    launcher::register [msgcat::mc "Menu: Select all text"] gui::select_all
+    $mb add command -label [msgcat::mc "Select All"] -underline 7 -command "gui::select_all {}"
+    launcher::register [msgcat::mc "Menu: Select all text"] "gui::select_all {}"
     
     $mb add separator
     
@@ -377,8 +377,8 @@ namespace eval menus {
     $mb add cascade -label [msgcat::mc "Snippets"]      -menu [menu $mb.snipPopup -tearoff 0 -postcommand "menus::edit_snippets_posting $mb.snipPopup"]
     
     # Create formatting menu
-    $mb.formatPopup add command -label [msgcat::mc "Selected"] -command "gui::format selected"
-    $mb.formatPopup add command -label [msgcat::mc "All"]      -command "gui::format all"
+    $mb.formatPopup add command -label [msgcat::mc "Selected"] -command "gui::format {} selected"
+    $mb.formatPopup add command -label [msgcat::mc "All"]      -command "gui::format {} all"
 
     # Create preferences menu
     $mb.prefPopup add command -label [msgcat::mc "View global"] -command "preferences::view_global"
@@ -405,8 +405,8 @@ namespace eval menus {
     launcher::register [msgcat::mc "Menu: Set user bindings to global bindings"] "bindings::copy_default"
     
     # Create snippets menu
-    $mb.snipPopup add command -label [msgcat::mc "Edit"] -command "snippets::add_new_snippet"
-    launcher::register [msgcat::mc "Menu: Edit snippets"] "snippets::add_new_snippet"
+    $mb.snipPopup add command -label [msgcat::mc "Edit"] -command "snippets::add_new_snippet {}"
+    launcher::register [msgcat::mc "Menu: Edit snippets"] "snippets::add_new_snippet {}"
     
     $mb.snipPopup add separator
     
@@ -423,7 +423,7 @@ namespace eval menus {
   # menu items to match the proper state of the UI.
   proc edit_posting {mb} {
     
-    if {[gui::current_txt] eq ""} {
+    if {[gui::current_txt {}] eq ""} {
       $mb entryconfigure [msgcat::mc "Undo"]             -state disabled
       $mb entryconfigure [msgcat::mc "Redo"]             -state disabled
       $mb entryconfigure [msgcat::mc "Cut"]              -state disabled
@@ -438,12 +438,12 @@ namespace eval menus {
       } else {
         $mb entryconfigure [msgcat::mc "Undo"] -state disabled
       }
-      if {[gui::redoable]} {
+      if {[gui::redoable {}]} {
         $mb entryconfigure [msgcat::mc "Redo"] -state normal
       } else {
         $mb entryconfigure [msgcat::mc "Redo"] -state disabled
       }
-      if {[gui::selected]} {
+      if {[gui::selected {}]} {
         $mb entryconfigure [msgcat::mc "Cut"]  -state normal
         $mb entryconfigure [msgcat::mc "Copy"] -state normal
       } else {
@@ -468,7 +468,7 @@ namespace eval menus {
   # menu option states to match the current UI state.
   proc edit_format_posting {mb} {
     
-    if {[gui::selected]} {
+    if {[gui::selected {}]} {
       $mb entryconfigure [msgcat::mc "Selected"] -state normal
     } else {
       $mb entryconfigure [msgcat::mc "Selected"] -state disabled
@@ -481,7 +481,7 @@ namespace eval menus {
   # Sets the menu option states to match the current UI state.
   proc edit_snippets_posting {mb} {
     
-    if {[gui::current_txt] eq ""} {
+    if {[gui::current_txt {}] eq ""} {
       $mb entryconfigure [msgcat::mc "Edit"] -state disabled
     } else {
       $mb entryconfigure [msgcat::mc "Edit"] -state normal
@@ -494,25 +494,25 @@ namespace eval menus {
   proc add_find {mb} {
     
     # Add find menu commands
-    $mb add command -label [msgcat::mc "Find"] -underline 0 -command "gui::search"
-    launcher::register [msgcat::mc "Menu: Find"] gui::search
+    $mb add command -label [msgcat::mc "Find"] -underline 0 -command "gui::search {}"
+    launcher::register [msgcat::mc "Menu: Find"] "gui::search {}"
     
     $mb add command -label [msgcat::mc "Find and Replace"] -underline 9 -command "gui::search_and_replace"
     launcher::register [msgcat::mc "Menu: Find and Replace"] gui::search_and_replace
     
     $mb add separator
     
-    $mb add command -label [msgcat::mc "Select next occurrence"] -underline 7 -command "gui::search_next 0"
-    launcher::register [msgcat::mc "Menu: Find next occurrence"] "gui::search_next 0"
+    $mb add command -label [msgcat::mc "Select next occurrence"] -underline 7 -command "gui::search_next {} 0"
+    launcher::register [msgcat::mc "Menu: Find next occurrence"] "gui::search_next {}0"
     
-    $mb add command -label [msgcat::mc "Select previous occurrence"] -underline 7 -command "gui::search_previous 0"
-    launcher::register [msgcat::mc "Menu: Find previous occurrence"] "gui::search_previous 0"
+    $mb add command -label [msgcat::mc "Select previous occurrence"] -underline 7 -command "gui::search_prev {} 0"
+    launcher::register [msgcat::mc "Menu: Find previous occurrence"] "gui::search_prev {} 0"
     
-    $mb add command -label [msgcat::mc "Append next occurrence"] -underline 1 -command "gui::search_next 1"
-    launcher::register [msgcat::mc "Menu: Append next occurrence"] "gui::search_next 1"
+    $mb add command -label [msgcat::mc "Append next occurrence"] -underline 1 -command "gui::search_next {} 1"
+    launcher::register [msgcat::mc "Menu: Append next occurrence"] "gui::search_next {} 1"
     
-    $mb add command -label [msgcat::mc "Select all occurrences"] -underline 7 -command "gui::search_all"
-    launcher::register [msgcat::mc "Menu: Select all occurrences"] "gui::search_all"
+    $mb add command -label [msgcat::mc "Select all occurrences"] -underline 7 -command "gui::search_all {}"
+    launcher::register [msgcat::mc "Menu: Select all occurrences"] "gui::search_all {}"
     
     $mb add separator
     
@@ -520,8 +520,8 @@ namespace eval menus {
     
     $mb add separator
     
-    $mb add command -label [msgcat::mc "Find matching pair"] -underline 5 -command "gui::show_match_pair"
-    launcher::register [msgcat::mc "Menu: Find matching character pair"] "gui::show_match_pair"
+    $mb add command -label [msgcat::mc "Find matching pair"] -underline 5 -command "gui::show_match_pair {}"
+    launcher::register [msgcat::mc "Menu: Find matching character pair"] "gui::show_match_pair {}"
     
     $mb add separator
     
@@ -538,7 +538,7 @@ namespace eval menus {
   # items to match the current UI state.
   proc find_posting {mb} {
     
-    if {[set txt [gui::current_txt]] eq ""} {
+    if {[set txt [gui::current_txt {}]] eq ""} {
       $mb entryconfigure [msgcat::mc "Find"]                       -state disabled
       $mb entryconfigure [msgcat::mc "Find and Replace"]           -state disabled
       $mb entryconfigure [msgcat::mc "Select next occurrence"]     -state disabled
@@ -555,7 +555,7 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Append next occurrence"]     -state normal
       $mb entryconfigure [msgcat::mc "Select all occurrences"]     -state normal
       $mb entryconfigure [msgcat::mc "Find matching pair"]         -state normal
-      if {[llength [gui::get_marker_list]] > 0} {
+      if {[llength [gui::get_marker_list {}]] > 0} {
         $mb entryconfigure [msgcat::mc "Find marker"] -state normal
       } else {
         $mb entryconfigure [msgcat::mc "Find marker"] -state disabled
@@ -571,8 +571,8 @@ namespace eval menus {
     # Clear the menu
     $mb delete 0 end
     
-    foreach {marker pos} [gui::get_marker_list] {
-      $mb add command -label $marker -command "gui::jump_to $pos"
+    foreach {marker pos} [gui::get_marker_list {}] {
+      $mb add command -label $marker -command "gui::jump_to {} $pos"
     }
     
   }
@@ -618,7 +618,7 @@ namespace eval menus {
     gui::add_file end Results -sidebar 0 -buffer 1
       
     # Add bindings to allow one-click file opening
-    set txt [gui::current_txt]
+    set txt [gui::current_txt {}]
       
     # Get the last index of the text widget
     set last_line [$txt index end]
@@ -743,7 +743,7 @@ namespace eval menus {
     gui::add_file end [string trim $fname]
     
     # Jump to the line and set the cursor to the beginning of the line
-    set txt [gui::current_txt]
+    set txt [gui::current_txt {}]
     $txt see $linenum.0
     $txt mark set insert $linenum.0
     
@@ -753,25 +753,25 @@ namespace eval menus {
   # Adds the text menu commands.
   proc add_text {mb} {
 
-    $mb add command -label [msgcat::mc "Comment"] -underline 0 -command "texttools::comment"
-    launcher::register [msgcat::mc "Menu: Comment selected text"] "texttools::comment"
+    $mb add command -label [msgcat::mc "Comment"] -underline 0 -command "texttools::comment {}"
+    launcher::register [msgcat::mc "Menu: Comment selected text"] "texttools::comment {}"
 
-    $mb add command -label [msgcat::mc "Uncomment"] -underline 0 -command "texttools::uncomment"
-    launcher::register [msgcat::mc "Menu: Uncomment selected text"] "texttools::uncomment"
+    $mb add command -label [msgcat::mc "Uncomment"] -underline 0 -command "texttools::uncomment {}"
+    launcher::register [msgcat::mc "Menu: Uncomment selected text"] "texttools::uncomment {}"
     
-    $mb add command -label [msgcat::mc "Indent"] -underline 0 -command "texttools::indent"
-    launcher::register [msgcat::mc "Menu: Indent selected text"] "texttools::indent"
+    $mb add command -label [msgcat::mc "Indent"] -underline 0 -command "texttools::indent {}"
+    launcher::register [msgcat::mc "Menu: Indent selected text"] "texttools::indent {}"
     
-    $mb add command -label [msgcat::mc "Unindent"] -underline 1 -command "texttools::unindent"
-    launcher::register [msgcat::mc "Menu: Unindent selected text"] "texttools::unindent"
+    $mb add command -label [msgcat::mc "Unindent"] -underline 1 -command "texttools::unindent {}"
+    launcher::register [msgcat::mc "Menu: Unindent selected text"] "texttools::unindent {}"
     
     $mb add separator
     
-    $mb add command -label [msgcat::mc "Align cursors"] -underline 0 -command "texttools::align"
-    launcher::register [msgcat::mc "Menu: Align cursors"] "texttools::align"
+    $mb add command -label [msgcat::mc "Align cursors"] -underline 0 -command "texttools::align {}"
+    launcher::register [msgcat::mc "Menu: Align cursors"] "texttools::align {}"
     
-    $mb add command -label [msgcat::mc "Insert enumeration"] -underline 7 -command "texttools::insert_enumeration"
-    launcher::register [msgcat::mc "Menu: Insert enumeration"] "texttools::insert_enumeration"
+    $mb add command -label [msgcat::mc "Insert enumeration"] -underline 7 -command "texttools::insert_enumeration {}"
+    launcher::register [msgcat::mc "Menu: Insert enumeration"] "texttools::insert_enumeration {}"
     
     # Apply the menu settings for the text menu
     bindings::apply $mb
@@ -782,7 +782,7 @@ namespace eval menus {
   # Called prior to the text menu posting.
   proc text_posting {mb} {
     
-    if {[set txt [gui::current_txt]] eq ""} {
+    if {[set txt [gui::current_txt {}]] eq ""} {
       $mb entryconfigure [msgcat::mc "Comment"]            -state disabled
       $mb entryconfigure [msgcat::mc "Uncomment"]          -state disabled
       $mb entryconfigure [msgcat::mc "Indent"]             -state disabled
@@ -845,8 +845,8 @@ namespace eval menus {
     
     $mb add separator
     
-    $mb add checkbutton -label [msgcat::mc "Split view"] -underline 6 -variable menus::show_split_pane -command "gui::toggle_split_pane"
-    launcher::register [msgcat::mc "Menu: Toggle split view mode"] "gui::toggle_split_pane"
+    $mb add checkbutton -label [msgcat::mc "Split view"] -underline 6 -variable menus::show_split_pane -command "gui::toggle_split_pane {}"
+    launcher::register [msgcat::mc "Menu: Toggle split view mode"] "gui::toggle_split_pane {}"
     
     $mb add command -label [msgcat::mc "Move to other pane"] -underline 0 -command "gui::move_to_pane"
     launcher::register [msgcat::mc "Menu: Move to other pane"] "gui::move_to_pane"
@@ -896,7 +896,7 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Tabs"] -state normal
     }
 
-    if {[gui::current_txt] eq ""} {
+    if {[gui::current_txt {}] eq ""} {
       $mb entryconfigure [msgcat::mc "Split view"]         -state disabled
       $mb entryconfigure [msgcat::mc "Move to other pane"] -state disabled
       $mb entryconfigure [msgcat::mc "Set Syntax"]         -state disabled
@@ -908,7 +908,7 @@ namespace eval menus {
         $mb entryconfigure [msgcat::mc "Move to other pane"] -state disabled
       }
       $mb entryconfigure [msgcat::mc "Set Syntax"]         -state normal
-      set show_split_pane [expr {[llength [[gui::current_txt] peer names]] > 0}]
+      set show_split_pane [expr {[llength [[gui::current_txt {}] peer names]] > 0}]
     }
     
   }
