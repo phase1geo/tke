@@ -22,24 +22,24 @@ namespace eval vim {
   array set column          {}
   
   ######################################################################
-  # Enables/disables Vim mode for the current text widget.
+  # Enables/disables Vim mode for all text widgets.
   proc set_vim_mode_all {} {
  
     variable command_entries
 
     # Set the Vim mode on all text widgets
     foreach txt [array names command_entries] {
-      set_vim_mode [winfo parent $txt]
+      set_vim_mode [winfo parent $txt] {}  ;# TBD
     }
     
   }
   
   ######################################################################
   # Enables/disables Vim mode for the specified text widget.
-  proc set_vim_mode {txt} {
+  proc set_vim_mode {txt tid} {
 
     if {[[ns preferences]::get Tools/VimMode]} {
-      add_bindings $txt
+      add_bindings $txt $tid
     } else {
       remove_bindings $txt
     }
@@ -83,14 +83,14 @@ namespace eval vim {
 
   ######################################################################
   # Binds the given entry 
-  proc bind_command_entry {txt entry} {
+  proc bind_command_entry {txt entry tid} {
   
     variable command_entries
     
     # Save the entry
     set command_entries($txt.t) $entry
   
-    bind $entry <Return>    "[ns vim]::handle_command_return %W"
+    bind $entry <Return>    "[ns vim]::handle_command_return %W {$tid}"
     bind $entry <Escape>    "[ns vim]::handle_command_escape %W"
     bind $entry <BackSpace> "[ns vim]::handle_command_backspace %W"
   
@@ -98,10 +98,10 @@ namespace eval vim {
   
   ######################################################################
   # Handles the command entry text.
-  proc handle_command_return {w} {
+  proc handle_command_return {w tid} {
       
     # Get the last txt widget that had the focus
-    set txt [[ns gui]::last_txt_focus]
+    set txt [[ns gui]::last_txt_focus $tid]
     
     # Get the value from the command field
     set value [$w get]
@@ -111,11 +111,11 @@ namespace eval vim {
     
     # Execute the command
     switch -- $value {
-      w  { [ns gui]::save_current }
-      w! { [ns gui]::save_current }
-      wq { [ns gui]::save_current; [ns gui]::close_current }
-      q  { [ns gui]::close_current 0; set txt "" }
-      q! { [ns gui]::close_current 1; set txt "" }
+      w  { [ns gui]::save_current $tid }
+      w! { [ns gui]::save_current $tid }
+      wq { [ns gui]::save_current $tid; [ns gui]::close_current }
+      q  { [ns gui]::close_current $tid 0; set txt "" }
+      q! { [ns gui]::close_current $tid 1; set txt "" }
       e! { [ns gui]::update_current }
       n  { [ns gui]::next_tab }
       N  { [ns gui]::previous_tab }
@@ -152,7 +152,7 @@ namespace eval vim {
           } elseif {[regexp {^e\s+(.*)$} $value -> filename]} {
             [ns gui]::add_file end [normalize_filename [[ns utils]::perform_substitutions $filename]]
           } elseif {[regexp {^w\s+(.*)$} $value -> filename]} {
-            [ns gui]::save_current [normalize_filename [[ns utils]::perform_substitutions $filename]]
+            [ns gui]::save_current $tid [normalize_filename [[ns utils]::perform_substitutions $filename]]
           } elseif {[regexp {^m\s+(.*)$} $value -> marker]} {
             set line [lindex [split [$txt index insert] .] 0]
             if {$marker ne ""} {
@@ -286,7 +286,7 @@ namespace eval vim {
   
   ######################################################################
   # Add Vim bindings 
-  proc add_bindings {txt} {
+  proc add_bindings {txt tid} {
     
     variable mode
     variable number
@@ -306,7 +306,7 @@ namespace eval vim {
     # Add bindings
     bind $txt       <<Modified>>      "if {\[[ns vim]::handle_modified %W\]} { break }"
     bind vim$txt    <Escape>          "if {\[[ns vim]::handle_escape %W\]} { break }"
-    bind vim$txt    <Any-Key>         "if {\[[ns vim]::handle_any %W %K %A\]} { break }"
+    bind vim$txt    <Any-Key>         "if {\[[ns vim]::handle_any %W {$tid} %K %A\]} { break }"
     bind vim$txt    <Button-1>        "[ns vim]::handle_button1 %W %x %y; break"
     bind vim$txt    <Double-Button-1> "[ns vim]::handle_double_button1 %W %x %y; break"
     bind vim$txt    <B1-Motion>       "[ns vim]::handle_motion %W %x %y; break"
@@ -381,7 +381,7 @@ namespace eval vim {
     
     $W tag remove sel 1.0 end
     
-    set current [%W index @$x,$y]
+    set current [$W index @$x,$y]
     $W tag add sel [[ns utils]::text_anchor $W] $current
     $W mark set insert $current
     
@@ -640,7 +640,7 @@ namespace eval vim {
   
   ######################################################################
   # Handles any single printable character.
-  proc handle_any {txt keysym char} {
+  proc handle_any {txt tid keysym char} {
 
     variable mode
     variable number
@@ -657,7 +657,7 @@ namespace eval vim {
     }
     
     # If we are not in edit mode
-    if {![catch "handle_$keysym $txt" rc] && $rc} {
+    if {![catch "handle_$keysym $txt {$tid}" rc] && $rc} {
       record_add "Key-$keysym"
       if {$mode($txt) eq "start"} {
         set number($txt) ""
@@ -715,7 +715,7 @@ namespace eval vim {
   ######################################################################
   # If we are in the "start" mode, display the command entry field and
   # give it the focus.
-  proc handle_colon {txt} {
+  proc handle_colon {txt tid} {
   
     variable mode
     variable command_entries
@@ -743,7 +743,7 @@ namespace eval vim {
   # If we are in the "start" mode, move insertion cursor to the end of
   # the current line.  If we are in "delete" mode, delete all of the
   # text from the insertion marker to the end of the line.
-  proc handle_dollar {txt} {
+  proc handle_dollar {txt tid} {
   
     variable mode
     
@@ -772,7 +772,7 @@ namespace eval vim {
   # of the current line.  If we are in "delete" mode, delete all of the
   # text between the beginning of the current line and the current
   # insertion marker.
-  proc handle_asciicircum {txt} {
+  proc handle_asciicircum {txt tid} {
   
     variable mode
     
@@ -798,7 +798,7 @@ namespace eval vim {
   
   ######################################################################
   # If we are in "start" mode, display the search bar.
-  proc handle_slash {txt} {
+  proc handle_slash {txt tid} {
   
     variable mode
     variable search_dir
@@ -816,7 +816,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, display the search bar for doing a
   # a previous search.
-  proc handle_question {txt} {
+  proc handle_question {txt tid} {
     
     variable mode
     variable search_dir
@@ -834,7 +834,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, invokes the buffered command at the current
   # insertion point.
-  proc handle_period {txt} {
+  proc handle_period {txt tid} {
  
     variable mode
  
@@ -850,13 +850,13 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode and the insertion point character has a
   # matching left/right partner, display the partner. 
-  proc handle_percent {txt} {
+  proc handle_percent {txt tid} {
     
     variable mode
     variable number
     
     if {$mode($txt) eq "start"} {
-      [ns gui]::show_match_pair
+      [ns gui]::show_match_pair $tid
       return 1
     }
     
@@ -866,7 +866,7 @@ namespace eval vim {
 
   ######################################################################
   # Handles the i-key when in Vim mode.
-  proc handle_i {txt} {
+  proc handle_i {txt tid} {
     
     variable mode
     
@@ -883,7 +883,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, inserts at the beginning of the current
   # line.
-  proc handle_I {txt} {
+  proc handle_I {txt tid} {
     
     variable mode
     
@@ -900,7 +900,7 @@ namespace eval vim {
   
   ######################################################################
   # If we are in "start" mode, move the insertion cursor down one line.
-  proc handle_j {txt} {
+  proc handle_j {txt tid} {
   
     variable mode
     variable number
@@ -950,7 +950,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, join the next line to the end of the
   # previous line.
-  proc handle_J {txt} {
+  proc handle_J {txt tid} {
 
     variable mode
 
@@ -971,7 +971,7 @@ namespace eval vim {
 
   ######################################################################
   # If we are in "start" mode, move the insertion cursor up one line.
-  proc handle_k {txt} {
+  proc handle_k {txt tid} {
   
     variable mode
     variable number
@@ -1002,7 +1002,7 @@ namespace eval vim {
   ######################################################################
   # If we are in start mode and multicursor is enabled, move all of the
   # cursors up one line.
-  proc handle_K {txt} {
+  proc handle_K {txt tid} {
     
     variable mode
     
@@ -1021,7 +1021,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, move the insertion cursor right one
   # character.
-  proc handle_l {txt} {
+  proc handle_l {txt tid} {
   
     variable mode
     variable number
@@ -1052,7 +1052,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode and multicursor mode is enabled, adjust
   # all of the cursors to the right by one character.
-  proc handle_L {txt} {
+  proc handle_L {txt tid} {
     
     variable mode
     
@@ -1071,7 +1071,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, move the insertion cursor left one
   # character.
-  proc handle_h {txt} {
+  proc handle_h {txt tid} {
   
     variable mode
     variable number
@@ -1101,7 +1101,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode and multicursor mode is enabled, move all
   # cursors to the left by one character.
-  proc handle_H {txt} {
+  proc handle_H {txt tid} {
     
     variable mode
     
@@ -1119,7 +1119,7 @@ namespace eval vim {
   
   ######################################################################
   # If we are in "start" mode, change the state to "cut" mode.
-  proc handle_c {txt} {
+  proc handle_c {txt tid} {
   
     variable mode
     
@@ -1136,7 +1136,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "cut" mode, delete the current word and change to edit
   # mode.
-  proc handle_w {txt} {
+  proc handle_w {txt tid} {
   
     variable mode
     
@@ -1154,7 +1154,7 @@ namespace eval vim {
   
   ######################################################################
   # If we are in "start" mode, go to the last line.
-  proc handle_G {txt} {
+  proc handle_G {txt tid} {
   
     variable mode
     
@@ -1172,7 +1172,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, transition the mode to the delete mode.
   # If we are in the "delete" mode, delete the current line.
-  proc handle_d {txt} {
+  proc handle_d {txt tid} {
     
     variable mode
     variable number
@@ -1203,7 +1203,7 @@ namespace eval vim {
   ######################################################################
   # If we are in the "start" mode, move the insertion cursor ahead by
   # one character and set ourselves into "edit" mode.
-  proc handle_a {txt} {
+  proc handle_a {txt tid} {
   
     variable mode
     
@@ -1223,7 +1223,7 @@ namespace eval vim {
   
   ######################################################################
   # If we are in "start" mode, insert text at the end of the current line.
-  proc handle_A {txt} {
+  proc handle_A {txt tid} {
     
     variable mode
     
@@ -1241,7 +1241,7 @@ namespace eval vim {
   ######################################################################
   # If we are in the "start" mode, set ourselves to yank mode.  If we
   # are in "yank" mode, copy the current line to the clipboard.
-  proc handle_y {txt} {
+  proc handle_y {txt tid} {
   
     variable mode
     variable number
@@ -1284,7 +1284,7 @@ namespace eval vim {
   ######################################################################
   # If we are in the "start" mode, put the contents of the clipboard
   # after the current line.
-  proc handle_p {txt} {
+  proc handle_p {txt tid} {
   
     variable mode
 
@@ -1313,7 +1313,7 @@ namespace eval vim {
   ######################################################################
   # If we are in the "start" mode, put the contents of the clipboard
   # before the current line.
-  proc handle_P {txt} {
+  proc handle_P {txt tid} {
   
     variable mode
 
@@ -1329,12 +1329,12 @@ namespace eval vim {
 
   ######################################################################
   # If we are in "start" mode, undoes the last operation.
-  proc handle_u {txt} {
+  proc handle_u {txt tid} {
   
     variable mode
     
     if {$mode($txt) eq "start"} {
-      [ns gui]::undo
+      [ns gui]::undo $tid
       adjust_insert $txt
       return 1
     }
@@ -1378,7 +1378,7 @@ namespace eval vim {
 
   ######################################################################
   # If we are in "start" mode, deletes the current character.
-  proc handle_x {txt} {
+  proc handle_x {txt tid} {
   
     variable mode
     variable number
@@ -1397,7 +1397,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, add a new line below the current line
   # and transition into "edit" mode.
-  proc handle_o {txt} {
+  proc handle_o {txt tid} {
   
     variable mode
     variable number
@@ -1423,7 +1423,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, add a new line above the current line
   # and transition into "edit" mode.
-  proc handle_O {txt} {
+  proc handle_O {txt tid} {
   
     variable mode
     
@@ -1447,7 +1447,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, set the mode to the "quit" mode.  If we
   # are in "quit" mode, save and exit the current tab.
-  proc handle_Z {txt} {
+  proc handle_Z {txt tid} {
   
     variable mode
     
@@ -1455,7 +1455,7 @@ namespace eval vim {
       set mode($txt) "quit"
       return 1
     } elseif {$mode($txt) eq "quit"} {
-      [ns gui]::save_current
+      [ns gui]::save_current $tid
       [ns gui]::close_current
       return 1
     }
@@ -1466,16 +1466,16 @@ namespace eval vim {
  
   ######################################################################
   # If we are in "start" mode, finds the next occurrence of the search text.
-  proc handle_n {txt} {
+  proc handle_n {txt tid} {
       
     variable mode
     variable search_dir
  
     if {$mode($txt) eq "start"} {
       if {$search_dir($txt) eq "next"} {
-        [ns gui]::search_next 0
+        [ns gui]::search_next $tid 0
       } else {
-        [ns gui]::search_prev 0
+        [ns gui]::search_prev $tid 0
       }
       return 1
     }
@@ -1487,7 +1487,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, replaces the current character with the
   # next character.
-  proc handle_r {txt} {
+  proc handle_r {txt tid} {
  
     variable mode
  
@@ -1504,7 +1504,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, replaces all characters until the escape
   # key is hit.
-  proc handle_R {txt} {
+  proc handle_R {txt tid} {
     
     variable mode
     
@@ -1569,7 +1569,7 @@ namespace eval vim {
   
   ######################################################################
   # If we are in "start" mode, add a cursor.
-  proc handle_s {txt} {
+  proc handle_s {txt tid} {
     
     variable mode
     
@@ -1585,7 +1585,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, add cursors between the current anchor
   # the current line.
-  proc handle_S {txt} {
+  proc handle_S {txt tid} {
     
     variable mode
     
@@ -1602,7 +1602,7 @@ namespace eval vim {
   # If we are in "start" mode, run the gui::insert_numbers procedure to
   # allow the user to potentially insert incrementing numbers into the
   # specified text widget.
-  proc handle_numbersign {txt} {
+  proc handle_numbersign {txt tid} {
     
     variable mode
     

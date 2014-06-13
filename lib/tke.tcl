@@ -20,7 +20,7 @@ proc tke_development {} {
 set auto_path [concat [file join $tke_dir lib] $auto_path]
 
 package require Tclx
-package require ctext
+package require -exact ctext 4.0
 package require -exact tablelist 5.10
 package require tooltip
 package require msgcat

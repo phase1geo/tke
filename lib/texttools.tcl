@@ -10,10 +10,10 @@ namespace eval texttools {
 
   ######################################################################
   # Comments out the currently selected text.
-  proc comment {} {
+  proc comment {tid} {
 
     # Get the current text widget
-    set txt [gui::current_txt]
+    set txt [gui::current_txt $tid]
 
     # Get the selection ranges
     set selected [$txt tag ranges sel]
@@ -35,10 +35,10 @@ namespace eval texttools {
   ######################################################################
   # Uncomments out the currently selected text in the current text
   # widget.
-  proc uncomment {} {
+  proc uncomment {tid} {
 
     # Get the current text widget
-    set txt [gui::current_txt]
+    set txt [gui::current_txt $tid]
 
     # Get the selection ranges
     set selected [$txt tag ranges sel]
@@ -64,10 +64,10 @@ namespace eval texttools {
   ######################################################################
   # Indents the selected text of the current text widget by one
   # indentation level.
-  proc indent {} {
+  proc indent {tid} {
     
     # Get the current text widget
-    set txt [gui::current_txt]
+    set txt [gui::current_txt $tid]
     
     # Get the selection ranges
     set selected [$txt tag ranges sel]
@@ -84,10 +84,10 @@ namespace eval texttools {
   ######################################################################
   # Unindents the selected text of the current text widget by one
   # indentation level.
-  proc unindent {} {
+  proc unindent {tid} {
     
     # Get the current text widget
-    set txt [gui::current_txt]
+    set txt [gui::current_txt $tid]
     
     # Get the selection ranges
     set selected [$txt tag ranges sel]
@@ -105,10 +105,10 @@ namespace eval texttools {
   
   ######################################################################
   # Aligns the current cursors.
-  proc align {} {
+  proc align {tid} {
     
     # Get the current text widget
-    set txt [gui::current_txt]
+    set txt [gui::current_txt $tid]
     
     # Align multicursors
     multicursor::align $txt
@@ -117,10 +117,10 @@ namespace eval texttools {
     
   ######################################################################
   # Inserts an enumeration when in multicursor mode.
-  proc insert_enumeration {} {
+  proc insert_enumeration {tid} {
       
     # Get the current text widget
-    set txt [gui::current_txt]
+    set txt [gui::current_txt $tid]
       
     # Perform the insertion
     gui::insert_numbers $txt

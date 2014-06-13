@@ -16,8 +16,8 @@ namespace eval indent {
  
     variable widgets
     
-    bind indent$txt <Any-Key> "after 2 [list indent::check_indent %W insert]"
-    bind indent$txt <Return>  "after 2 [list indent::newline %W insert]"
+    bind indent$txt <Any-Key> "after 2 [list [ns indent]::check_indent %W insert]"
+    bind indent$txt <Return>  "after 2 [list [ns indent]::newline %W insert]"
     
     # Add the indentation tag into the bindtags list just after Text
     set text_index [lsearch [bindtags $txt.t] Text]
@@ -38,8 +38,8 @@ namespace eval indent {
     
     # If the auto-indent feature was disabled, we are in vim start mode, or
     # the current language doesn't have an indent expression, quit now
-    if {!$preferences::prefs(Editor/EnableAutoIndent) || \
-        [vim::in_vim_mode $txt] || \
+    if {![[ns preferences]::get Editor/EnableAutoIndent] || \
+        [[ns vim]::in_vim_mode $txt] || \
         ($indent_exprs($txt,indent) eq "")} {
       return
     }
@@ -76,8 +76,8 @@ namespace eval indent {
  
     # If the auto-indent feature was disabled, we are in vim start mode,
     # or the current language doesn't have an indent expression, quit now
-    if {!$preferences::prefs(Editor/EnableAutoIndent) || \
-        [vim::in_vim_mode $txt] || \
+    if {![[ns preferences]::get Editor/EnableAutoIndent] || \
+        [[ns vim]::in_vim_mode $txt] || \
         ($indent_exprs($txt,indent) eq "")} {
       return
     }
@@ -101,7 +101,7 @@ namespace eval indent {
       # If the first non-whitespace characters match an unindent pattern,
       # lessen the indentation by one
       if {[regexp [subst {^[join $indent_exprs($txt,unindent) |]}] $rest]} {
-        set indent_space [string range $indent_space $preferences::prefs(Editor/IndentSpaces) end]
+        set indent_space [string range $indent_space [ns preferences]::get Editor/IndentSpaces] end]
       }
       
       # See if we are deleting a multicursor
@@ -129,8 +129,8 @@ namespace eval indent {
   # of text.
   proc get_previous_indent_space {txt index} {
     
-    if {!$preferences::prefs(Editor/EnableAutoIndent) || \
-        [vim::in_vim_mode $txt] || \
+    if {![[ns preferences]::get Editor/EnableAutoIndent] || \
+        [[ns vim]::in_vim_mode $txt] || \
         ([lindex [split $index .] 0] == 1)} {
       return 0
     }
@@ -158,8 +158,8 @@ namespace eval indent {
 
     # If the auto-indent feature was disabled, we are in vim start mode,
     # or the current language doesn't have an indent expression, quit now
-    if {!$preferences::prefs(Editor/EnableAutoIndent) || \
-        [vim::in_vim_mode $txt] || \
+    if {![[ns preferences]::get Editor/EnableAutoIndent] || \
+        [[ns vim]::in_vim_mode $txt] || \
         ($indent_exprs($txt,indent) eq "")} {
       return 0
     }
@@ -184,7 +184,7 @@ namespace eval indent {
       incr i
     }
  
-    return [string repeat " " [expr $indent_level * $preferences::prefs(Editor/IndentSpaces)]]
+    return [string repeat " " [expr $indent_level * [[ns preferences]::get Editor/IndentSpaces]]]
     
   }
  
@@ -197,8 +197,8 @@ namespace eval indent {
  
     # If the auto-indent feature was disabled, we are in vim start mode,
     # or the current language doesn't have an indent expression, quit now
-    if {!$preferences::prefs(Editor/EnableAutoIndent) || \
-        [vim::in_vim_mode $txt] || \
+    if {![[ns preferences]::get Editor/EnableAutoIndent] || \
+        [[ns vim]::in_vim_mode $txt] || \
         ($indent_exprs($txt,indent) eq "")} {
       return
     }
@@ -228,7 +228,7 @@ namespace eval indent {
         if {[string length $whitespace] > 0} {
           $txt delete $currpos "$currpos+[string length $whitespace]c"
         }
-        set unindent [expr {[regexp "^$uni_re" $rest] ? $preferences::prefs(Editor/IndentSpaces) : 0}]
+        set unindent [expr {[regexp "^$uni_re" $rest] ? [[ns preferences]::get Editor/IndentSpaces] : 0}]
         if {$indent_space ne ""} {
           $txt insert $currpos [set indent_space [string range $indent_space $unindent end]]
         }

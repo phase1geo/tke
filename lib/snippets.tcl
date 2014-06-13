@@ -40,7 +40,7 @@ namespace eval snippets {
     array unset snippets $language,*
       
     # Remove any launcher commands that would be associated with this file
-    launcher::unregister [msgcat::mc "Snippet: *"]
+    [ns launcher]::unregister [msgcat::mc "Snippet: *"]
 
     if {![catch "open $sfile r" rc]} {
       
@@ -60,8 +60,8 @@ namespace eval snippets {
             if {![catch { parse_snippet [string range $snippet 0 end-1] } rc]} {
               set snippets($language,$name) $rc
               array set snip $snippets($language,$name)
-              launcher::register [msgcat::mc "Snippet: %s: %s" $name [string range $snip(raw_string) 0 30]] \
-                [list snippets::insert_snippet_into_current $snippets($language,$name)] 
+              [ns launcher]::register [msgcat::mc "Snippet: %s: %s" $name [string range $snip(raw_string) 0 30]] \
+                [list [ns snippets]::insert_snippet_into_current {} $snippets($language,$name)] 
             }
           }
         }
@@ -222,29 +222,29 @@ namespace eval snippets {
     set within($txt.t) 0
     
     # Bind whitespace
-    bind snippet$txt <Key-space> {
-      if {[snippets::check_snippet %W]} {
-        break
-      }
-    }
-    bind snippet$txt <Return> {
-      if {[snippets::check_snippet %W]} {
-        break
-      }
-    }
-    bind snippet$txt <Tab> {
-      if {![snippets::handle_tab %W]} {
-        if {![vim::in_vim_mode %W] && ![syntax::get_tabs_allowed [winfo parent %W]]} {
-          %W insert insert [string repeat " " $preferences::prefs(Editor/SpacesPerTab)]
-          break
-        }
-      } else {
-        break
-      }
-    }
+    bind snippet$txt <Key-space> "if {\[[ns snippets]::check_snippet %W\]} { break }"
+    bind snippet$txt <Return>    "if {\[[ns snippets]::check_snippet %W\]} { break }"
+    bind snippet$txt <Tab>       "if {\[[ns snippets]::handle_tab %W\]} { break }"
     
     bindtags $txt.t [linsert [bindtags $txt.t] 3 snippet$txt]
     
+  }
+  
+  ######################################################################
+  # Handles a tab key event.
+  proc handle_tab {W} {
+  
+    if {![tab_clicked $W]} {
+      if {![[ns vim]::in_vim_mode $W] && ![[ns syntax]::get_tabs_allowed [winfo parent $W]]} {
+        $W insert insert [string repeat " " [[ns preferences]::get Editor/SpacesPerTab]]
+        return 1
+      }
+    } else {
+      return 1
+    }
+    
+    return 0
+  
   }
   
   ######################################################################
@@ -350,15 +350,15 @@ namespace eval snippets {
   ######################################################################
   # Inserts the given snippet into the current text widget, adhering to
   # indentation rules.
-  proc insert_snippet_into_current {snippet} {
+  proc insert_snippet_into_current {tid snippet} {
     
-    insert_snippet [gui::current_txt].t $snippet
+    insert_snippet [gui::current_txt $tid].t $snippet
     
   }
   
   ######################################################################
   # Handles a tab insertion
-  proc handle_tab {txt} {
+  proc tab_clicked {txt} {
     
     variable within
     
@@ -418,12 +418,12 @@ namespace eval snippets {
   # If a snippet file does not exist for the current language, creates
   # an empty snippet file in the user's local snippet directory.  Opens
   # the snippet file for editing.
-  proc add_new_snippet {} {
+  proc add_new_snippet {tid} {
     
     variable snippets_dir
     
     # Get the current language
-    set language [syntax::get_current_language [gui::current_txt]]
+    set language [syntax::get_current_language [gui::current_txt $tid]]
     
     # Get the snippet file name
     set fname [file join $::tke_home snippets $language.snippets]
