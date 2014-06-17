@@ -1,12 +1,23 @@
+To create a translation, run the following command in the ../../lib directory:
+
+wish8.5 lang.tcl <language ISO3066 abbreviation>
+
+Click the "Add Translations" button and when all translations have been
+updated, click the "Update" button to save the file and exit the translation
+tool.
+
+
 The following languages have been translated:
 ---------------------------------------------
 
+Danish                - da.msg
 German                - de.msg
 Spanish               - es.msg
 French                - fr.msg
 Hebrew                - he.msg
 Italian               - it.msg
 Japanese              - ja.msg
+Dutch                 - nl.msg
 Norwegian             - no.msg
 Russian               - ru.msg
 Swedish               - sv.msg
