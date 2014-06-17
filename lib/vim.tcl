@@ -804,7 +804,7 @@ namespace eval vim {
     variable search_dir
     
     if {$mode($txt) eq "start"} {
-      [ns gui]::search "next"
+      [ns gui]::search $tid "next"
       set search_dir($txt) "next"
       return 1
     }
@@ -822,7 +822,7 @@ namespace eval vim {
     variable search_dir
     
     if {$mode($txt) eq "start"} {
-      [ns gui]::search "prev"
+      [ns gui]::search $tid "prev"
       set search_dir($txt) "prev"
       return 1
     }
