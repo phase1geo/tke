@@ -13,7 +13,7 @@ indent
 unindent
 {\}}
 
-lcomments {{#}}
+lcomments {{^[ \t]*#} {;#}}
 
 bcomments {}
 
