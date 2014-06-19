@@ -298,9 +298,13 @@ proc ctext::setCommentRE {win} {
   set patterns [concat [eval concat $configAr(block_comment_patterns)] $configAr(line_comment_patterns) $configAr(string_patterns)]
   
   if {[llength $patterns] > 0} {
-    set sub_patterns [string map {{*} {\*} {"} {\"} {(} {\(} {)} {\)}} $patterns]
-    append commentRE "|" [join $sub_patterns |]
-    append commentRE "|" {\\} [join $sub_patterns {|\\}]
+    # set sub_patterns [string map {{*} {\*} {"} {\"} {(} {\(} {)} {\)}} $patterns]
+    append commentRE "|" [join $patterns |]
+    foreach pattern $patterns {
+      if {[string index $pattern 0] ne "^"} {
+        append commentRE "|" {\\} $pattern
+      }
+    }
   }
   
   set bcomments [list]
