@@ -169,14 +169,14 @@ namespace eval gui {
         set gui::user_exit_status 1
       }
     }
-    bind $widgets(fif_find)  <Escape>    "set gui::user_exit_status 0"
-    bind [$widgets(fif_in) entrytag] <Return> "if {[gui::check_fif_for_return]} break"
-    bind $widgets(fif_in)    <Escape>    "set gui::user_exit_status 0"
-    bind $widgets(fif_case)  <Button-1>  "gui::toggle_labelbutton %W"
-    bind $widgets(fif_case)  <Key-space> "gui::toggle_labelbutton %W"
-    bind $widgets(fif_case)  <Escape>    "set gui::user_exit_status 0"
-    bind $widgets(fif).close <Button-1>  "set gui::user_exit_status 0"
-    bind $widgets(fif).close <Key-space> "set gui::user_exit_status 0"
+    bind $widgets(fif_find)          <Escape>    { set gui::user_exit_status 0 } 
+    bind [$widgets(fif_in) entrytag] <Return>    { if {[gui::check_fif_for_return]} break }
+    bind [$widgets(fif_in) entrytag] <Escape>    { set gui::user_exit_status 0 }
+    bind $widgets(fif_case)          <Button-1>  { gui::toggle_labelbutton %W }
+    bind $widgets(fif_case)          <Key-space> { gui::toggle_labelbutton %W }
+    bind $widgets(fif_case)          <Escape>    { set gui::user_exit_status 0 }
+    bind $widgets(fif).close         <Button-1>  { set gui::user_exit_status 0 }
+    bind $widgets(fif).close         <Key-space> { set gui::user_exit_status 0 }
       
     grid columnconfigure $widgets(fif) 1 -weight 1
     grid $widgets(fif).lf    -row 0 -column 0 -sticky ew -pady 2
