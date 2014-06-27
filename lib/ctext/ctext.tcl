@@ -44,6 +44,7 @@ proc ctext {win args} {
   set ar(-linemap_select_fg) black
   set ar(-linemap_select_bg) yellow
   set ar(-linemap_cursor) left_ptr
+  set ar(-linemap_relief) $ar(-relief)
   set ar(-highlight) 1
   set ar(-warnwidth) ""
   set ar(-warnwidth_bg) red
@@ -62,7 +63,7 @@ proc ctext {win args} {
   
   set ar(ctextFlags) [list -yscrollcommand -linemap -linemapfg -linemapbg \
   -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable -linemap_cursor \
-  -linemap_select_fg -linemap_select_bg -casesensitive -peer]
+  -linemap_select_fg -linemap_select_bg -linemap_relief -casesensitive -peer]
   
   array set ar $args
   
@@ -207,6 +208,14 @@ proc ctext::buildArgParseTable win {
     }
     $self.l config -bg $value
     set configAr(-linemapbg) $value
+    break
+  }
+  
+  lappend argTable any -linemap_relief {
+    if {[catch {$self.l config -relief $value} res]} {
+      return -code error $res
+    }
+    set configAr(-linemap_relief) $value
     break
   }
   
@@ -843,7 +852,7 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
     
   # Otherwise, look for just the single line comments
   } elseif {$line_comments > 0} {
-    
+  
     set commentRE "([join $configAr(line_comment_patterns) |])"
     append commentRE {[^\n\r]*}
     
