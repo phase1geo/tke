@@ -91,8 +91,8 @@ namespace eval vim {
     set command_entries($txt.t) $entry
   
     bind $entry <Return>    "[ns vim]::handle_command_return %W {$tid}"
-    bind $entry <Escape>    "[ns vim]::handle_command_escape %W"
-    bind $entry <BackSpace> "[ns vim]::handle_command_backspace %W"
+    bind $entry <Escape>    "[ns vim]::handle_command_escape %W {$tid}"
+    bind $entry <BackSpace> "[ns vim]::handle_command_backspace %W {$tid}"
   
   }
   
@@ -230,10 +230,10 @@ namespace eval vim {
   
   ######################################################################
   # Handles an escape key in the command entry widget.
-  proc handle_command_escape {w} {
+  proc handle_command_escape {w tid} {
     
     # Get the last text widget that had focus
-    set txt [[ns gui]::last_txt_focus]
+    set txt [[ns gui]::last_txt_focus $tid]
     
     # Delete the value in the command entry
     $w delete 0 end
@@ -249,13 +249,13 @@ namespace eval vim {
   
   ######################################################################
   # Handles a backspace key in the command entry widget.
-  proc handle_command_backspace {w} {
+  proc handle_command_backspace {w tid} {
  
     if {[$w get] eq ""} {
       
       # Remove the grab and set the focus back to the text widget
       grab release $w
-      [ns gui]::set_txt_focus [[ns gui]::last_txt_focus]
+      [ns gui]::set_txt_focus [[ns gui]::last_txt_focus $tid]
       
       # Hide the command entry widget
       grid remove $w

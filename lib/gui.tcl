@@ -297,7 +297,8 @@ namespace eval gui {
   }
   
   ######################################################################
-  # Returns 1 if a return key event should cause FOOBAR.
+  # Returns 1 if a return key event should cause the find in files search
+  # to begin.
   proc check_fif_for_return {} {
   
     variable widgets
@@ -1315,7 +1316,7 @@ namespace eval gui {
         set fname "Untitled"
       }
       set msg "[msgcat::mc Save] $fname?"
-      if {[set answer [tk_messageBox -default yes -type yesnocancel -message $msg -title [msgcat::mc "Save request"]]] eq "yes"} {
+      if {[set answer [tk_messageBox -default yes -type [expr {$exiting ? {yesno} : {yesnocancel}}] -message $msg -title [msgcat::mc "Save request"]]] eq "yes"} {
         save_current
       } elseif {$answer eq "cancel"} {
         return
@@ -1897,8 +1898,8 @@ namespace eval gui {
   # Searches for the next occurrence of the search item.
   proc search_next {tid app} {
     
-    variable search_index
- 
+    set wrapped 0
+    
     # Get the current text widget
     set txt [current_txt $tid]
     
@@ -1913,6 +1914,7 @@ namespace eval gui {
     # We need to wrap on the search item
     if {$startpos eq ""} {
       lassign [$txt tag nextrange _search 1.0] startpos endpos
+      set wrapped 1
     }
 
     # Select the next match
@@ -1922,6 +1924,11 @@ namespace eval gui {
       }
       $txt mark set insert $startpos
       $txt see insert
+      if {$wrapped} {
+        set_info_message "Search wrapped to beginning of file"
+      }
+    } else {
+      set_info_message "No search results found"
     }
     
     # Closes the search interface
@@ -1932,6 +1939,8 @@ namespace eval gui {
   ######################################################################
   # Searches for the previous occurrence of the search item.
   proc search_prev {tid app} {
+    
+    set wrapped 0
     
     # Get the current text widget
     set txt [current_txt $tid]
@@ -1947,6 +1956,7 @@ namespace eval gui {
     # We need to wrap on the search item
     if {$startpos eq ""} {
       lassign [$txt tag prevrange _search end] startpos endpos
+      set wrapped 1
     }
 
     # Select the next match
@@ -1956,6 +1966,11 @@ namespace eval gui {
       }
       $txt mark set insert $startpos
       $txt see insert
+      if {$wrapped} {
+        set_info_message "Search wrapped to end of file"
+      }
+    } else {
+      set_info_message "No search results found"
     }
 
     # Close the search interface
@@ -2416,7 +2431,8 @@ namespace eval gui {
     
     # Add the tabbar frame
     ttk::frame $nb.tbf
-    tabbar::tabbar $nb.tbf.tb -command "gui::set_current_tab_from_tb" -closecommand "gui::close_tab_by_tabbar"
+    tabbar::tabbar $nb.tbf.tb -command "gui::set_current_tab_from_tb" -closecommand "gui::close_tab_by_tabbar" \
+      -background [ttk::style configure "." -background]
     ttk::label $nb.tbf.extra -image $images(down) -padding {4 4 4 4}
     
     grid rowconfigure    $nb.tbf 0 -weight 1
@@ -2577,6 +2593,7 @@ namespace eval gui {
     ctext $tab_frame.pw.tf.txt -wrap none -undo 1 -autoseparators 1 -insertofftime 0 \
       -highlightcolor yellow -warnwidth $preferences::prefs(Editor/WarningWidth) \
       -linemap_mark_command gui::mark_command -linemap_select_bg orange \
+      -linemap_relief flat \
       -xscrollcommand "utils::set_xscrollbar $tab_frame.pw.tf.hb" \
       -yscrollcommand "utils::set_yscrollbar $tab_frame.pw.tf.vb"
     ttk::label     $tab_frame.pw.tf.split -image $images(split) -anchor center

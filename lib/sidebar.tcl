@@ -8,13 +8,20 @@
 
 namespace eval sidebar {
   
-  variable widgets
+  array set widgets {}
+  array set images  {}
   
   ######################################################################
   # Creates the sidebar UI and initializes it.
   proc create {w} {
     
     variable widgets
+    variable images
+    
+    # Create needed images
+    set images(sopen) [image create bitmap -file [file join $::tke_dir lib images sopen.bmp] \
+                                           -maskfile [file join $::tke_dir lib images sopen.bmp] \
+                                           -foreground "yellow"]
     
     # Create the top-level frame
     ttk::frame $w
@@ -23,6 +30,8 @@ namespace eval sidebar {
     set widgets(tl) \
       [tablelist::tablelist $w.tl -columns {0 {} 0 {}} -showlabels 0 -exportselection 0 \
         -treecolumn 0 -forceeditendcommand 1 -expandcommand sidebar::expand_directory \
+        -relief flat -foreground [ttk::style configure "." -foreground] \
+        -background [ttk::style configure "." -background] \
         -editstartcommand  "sidebar::edit_start_command" \
         -editendcommand    "sidebar::edit_end_command" \
         -tooltipaddcommand "sidebar::show_tooltip" \
@@ -155,17 +164,18 @@ namespace eval sidebar {
   proc highlight_filename {fname highlight} {
     
     variable widgets
+    variable images
     
     # Find the main directory containing the file
     if {[set row [$widgets(tl) searchcolumn name $fname -descend -exact]] != -1} {
-      set highlighted [expr {[$widgets(tl) cellcget $row,name -background] eq "yellow"}]
+      set highlighted [expr {[$widgets(tl) cellcget $row,name -image] eq $images(sopen)}]
       if {$highlight} {
         if {!$highlighted} {
           update_root_count $row 1
         }
-        $widgets(tl) cellconfigure $row,name -background yellow
+        $widgets(tl) cellconfigure $row,name -image $images(sopen)
       } else {
-        $widgets(tl) cellconfigure $row,name -background white
+        $widgets(tl) cellconfigure $row,name -image ""
         if {$highlighted} {
           update_root_count $row -1
         }
@@ -252,6 +262,7 @@ namespace eval sidebar {
   proc add_subdirectory {parent dir {movekey ""}} {
     
     variable widgets
+    variable images
     
     if {[file exists $dir]} {
       
@@ -277,7 +288,7 @@ namespace eval sidebar {
           if {![ignore_file $name]} {
             set key [$widgets(tl) insertchild $parent end [list $name 0]]
             if {[gui::file_exists $name]} {
-              $widgets(tl) cellconfigure $key,name -background yellow
+              $widgets(tl) cellconfigure $key,name -image $images(sopen)
               update_root_count $key 1
             }
           }
@@ -318,6 +329,7 @@ namespace eval sidebar {
   proc update_directory {parent} {
     
     variable widgets
+    variable images
     
     # Get the directory contents (removing anything that matches the
     # ignored file patterns)
@@ -348,7 +360,7 @@ namespace eval sidebar {
             if {[file isdirectory $dir_file]} {
               $widgets(tl) collapse $node
             } elseif {[gui::file_exists $dir_file]} {
-              $widgets(tl) cellconfigure $node,name -background "yellow"
+              $widgets(tl) cellconfigure $node,name -image $images(sopen)
             }
           }
           set dir_files [lassign $dir_files dir_file]
@@ -439,7 +451,7 @@ namespace eval sidebar {
       $tbl cellconfigure $row,name -text $new_name
     
       # If this is a displayed file, update the file information
-      if {[$tbl cellcget $row,$col -background] eq "yellow"} {
+      if {[$tbl cellcget $row,name -image] eq $images(sopen)} {
         gui::change_filename $old_name $new_name
       }
       
@@ -481,12 +493,13 @@ namespace eval sidebar {
   proc handle_selection {} {
     
     variable widgets
+    variable images
     
     # Get the current selection
     set selected [$widgets(tl) curselection]
     
     # If the file is currently in the notebook, make it the current tab
-    if {[$widgets(tl) cellcget $selected,name -background] eq "yellow"} {
+    if {[$widgets(tl) cellcget $selected,name -image] eq $images(sopen)} {
       gui::set_current_tab_from_fname [$widgets(tl) cellcget $selected,name -text]
     }
     
@@ -531,14 +544,26 @@ namespace eval sidebar {
     foreach {tablelist::W tablelist::x tablelist::y} [tablelist::convEventFields $W $x $y] {}
     foreach {row col} [split [$widgets(tl) containingcell $tablelist::x $tablelist::y] ,] {}
     
-    if {($row != -1) && [file isfile [$widgets(tl) cellcget $row,name -text]]} {
+    if {$row != -1} {
       
-      # Select the file
-      $widgets(tl) selection clear 0 end
-      $widgets(tl) selection set $row
+      if {[file isfile [$widgets(tl) cellcget $row,name -text]]} {
       
-      # Open the file in the viewer
-      gui::add_file end [$widgets(tl) cellcget $row,name -text]
+        # Select the file
+        $widgets(tl) selection clear 0 end
+        $widgets(tl) selection set $row
+      
+        # Open the file in the viewer
+        gui::add_file end [$widgets(tl) cellcget $row,name -text]
+        
+      } else {
+        
+        if {[$widgets(tl) isexpanded $row]} {
+          $widgets(tl) collapse $row
+        } else {
+          $widgets(tl) expand $row
+        }
+        
+      }
       
     }
     
@@ -618,6 +643,7 @@ namespace eval sidebar {
   proc close_folder_files {} {
     
     variable widgets
+    variable images
     
     # Get the currently selected row
     set selected [$widgets(tl) curselection]
@@ -627,7 +653,7 @@ namespace eval sidebar {
     
     # Close all of the opened children
     foreach child [$widgets(tl) childkeys $selected] {
-      if {[$widgets(tl) cellcget $child,name -background] eq "yellow"} {
+      if {[$widgets(tl) cellcget $child,name -image] eq $images(sopen)} {
         gui::close_file [$widgets(tl) cellcget $child,name -text]
       }
     }
@@ -784,7 +810,7 @@ namespace eval sidebar {
     set selected [$widgets(tl) curselection]
     
     # If the current file is selected, close it
-    if {[$widgets(tl) cellcget $selected,name -background] eq "yellow"} {
+    if {[$widgets(tl) cellcget $selected,name -image] eq $images(sopen)} {
       
       # Close the tab at the current location
       gui::close_file [$widgets(tl) cellcget $selected,name -text]
@@ -852,6 +878,7 @@ namespace eval sidebar {
   proc delete_file {} {
     
     variable widgets
+    variable images
     
     # Get confirmation from the user
     if {[tk_messageBox -parent . -type yesno -default yes -message [msgcat::mc "Delete file?"]] eq "yes"} {
@@ -866,13 +893,13 @@ namespace eval sidebar {
       if {![catch { file delete -force $fname }]} {
 
         # Get the background color before we delete the row
-        set bg [$widgets(tl) cellcget $selected,name -background]
+        set bg [$widgets(tl) cellcget $selected,name -image]
         
         # Delete the row in the table
         $widgets(tl) delete $selected
 
         # Close the tab if the file is currently in the notebook
-        if {$bg eq "yellow"} {
+        if {$bg eq $images(sopen)} {
           gui::close_file $fname
         }
       
@@ -897,6 +924,7 @@ namespace eval sidebar {
   proc get_fif_files {} {
     
     variable widgets
+    variable images
     
     set fif_files [list]
     set odirs     [list]
@@ -910,7 +938,7 @@ namespace eval sidebar {
           lappend odirs $name
         }
       } else {
-        if {[$widgets(tl) cellcget $i,name -background] eq "yellow"} {
+        if {[$widgets(tl) cellcget $i,name -image] eq $images(sopen)} {
           lappend ofiles $name
         }
         lappend fif_files [list $name $name]
