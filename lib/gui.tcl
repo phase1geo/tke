@@ -2593,7 +2593,7 @@ namespace eval gui {
     ctext $tab_frame.pw.tf.txt -wrap none -undo 1 -autoseparators 1 -insertofftime 0 \
       -highlightcolor yellow -warnwidth $preferences::prefs(Editor/WarningWidth) \
       -linemap_mark_command gui::mark_command -linemap_select_bg orange \
-      -linemap_relief flat \
+      -linemap_relief flat -linemap_minwidth 4 \
       -xscrollcommand "utils::set_xscrollbar $tab_frame.pw.tf.hb" \
       -yscrollcommand "utils::set_yscrollbar $tab_frame.pw.tf.vb"
     ttk::label     $tab_frame.pw.tf.split -image $images(split) -anchor center

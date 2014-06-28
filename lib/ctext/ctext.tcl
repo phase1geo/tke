@@ -45,6 +45,7 @@ proc ctext {win args} {
   set ar(-linemap_select_bg) yellow
   set ar(-linemap_cursor) left_ptr
   set ar(-linemap_relief) $ar(-relief)
+  set ar(-linemap_minwidth) 1
   set ar(-highlight) 1
   set ar(-warnwidth) ""
   set ar(-warnwidth_bg) red
@@ -63,7 +64,7 @@ proc ctext {win args} {
   
   set ar(ctextFlags) [list -yscrollcommand -linemap -linemapfg -linemapbg \
   -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable -linemap_cursor \
-  -linemap_select_fg -linemap_select_bg -linemap_relief -casesensitive -peer]
+  -linemap_select_fg -linemap_select_bg -linemap_relief -linemap_minwidth -casesensitive -peer]
   
   array set ar $args
   
@@ -86,7 +87,7 @@ proc ctext {win args} {
   ctext::getAr $win linemap linemapAr
   set linemapAr(id) 0
   
-  text $win.l -font $ar(-font) -width 1 -height 1 \
+  text $win.l -font $ar(-font) -width $ar(-linemap_minwidth) -height 1 \
     -relief $ar(-relief) -fg $ar(-linemapfg) -cursor $ar(-linemap_cursor) \
     -bg $ar(-linemapbg) -takefocus 0
   
@@ -290,6 +291,17 @@ proc ctext::buildArgParseTable win {
   lappend argTable {1 true yes} -casesensitive {
     set configAr(-casesensitive) 1
     set configAr(re_opts) ""
+    break
+  }
+  
+  lappend argTable {any} -linemap_minwidth {
+    if {![string is integer $value]} {
+      return -code error "-linemap_minwidth argument must be an integer value"
+    }
+    if {[$self.l cget -width] < $value} {
+      $self.l configure -width $value
+    }
+    set configAr(-linemap_minwidth) $value
     break
   }
   
@@ -1407,6 +1419,8 @@ proc ctext::linemapUpdate {win args} {
     return
   }
   
+  ctext::getAr $win config configAr
+  
   set pixel 0
   set lastLine {}
   set lineList [list]
@@ -1441,7 +1455,7 @@ proc ctext::linemapUpdate {win args} {
     linemapUpdateOffset $win $lineList
   }
   set endrow [lindex [split [$win._t index end-1c] .] 0]
-  $win.l configure -width [string length $endrow]
+  $win.l configure -width [expr ($configAr(-linemap_minwidth) > [string length $endrow]) ? $configAr(-linemap_minwidth) : [string length $endrow]]
 }
 
 # Updates the warning width, if specified
