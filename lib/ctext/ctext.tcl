@@ -307,7 +307,6 @@ proc ctext::setCommentRE {win} {
   set patterns [concat [eval concat $configAr(block_comment_patterns)] $configAr(line_comment_patterns) $configAr(string_patterns)]
   
   if {[llength $patterns] > 0} {
-    # set sub_patterns [string map {{*} {\*} {"} {\"} {(} {\(} {)} {\)}} $patterns]
     append commentRE "|" [join $patterns |]
     foreach pattern $patterns {
       if {[string index $pattern 0] ne "^"} {
@@ -319,8 +318,8 @@ proc ctext::setCommentRE {win} {
   set bcomments [list]
   set ecomments [list]
   foreach block $configAr(block_comment_patterns) {
-    lappend bcomments [string map {{*} {\*} {"} {\"} {(} {\(} {)} {\)}} [lindex $block 0]]
-    lappend ecomments [string map {{*} {\*} {"} {\"} {(} {\(} {)} {\)}} [lindex $block 1]]
+    lappend bcomments [lindex $block 0]
+    lappend ecomments [lindex $block 1]
   }
   
   set configAr(comment_re)  $commentRE
@@ -834,7 +833,7 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
   set strings        [llength $configAr(string_patterns)]
   set block_comments [llength $configAr(block_comment_patterns)]
   set line_comments  [llength $configAr(line_comment_patterns)]
-
+  
   if {$blocks && [expr ($strings + $block_comments + $line_comments) > 0]} {
     
     set dStr ""
