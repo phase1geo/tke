@@ -2432,7 +2432,7 @@ namespace eval gui {
     # Add the tabbar frame
     ttk::frame $nb.tbf
     tabbar::tabbar $nb.tbf.tb -command "gui::set_current_tab_from_tb" -closecommand "gui::close_tab_by_tabbar" \
-      -background [ttk::style configure "." -background]
+      -background [utils::get_default_background]
     ttk::label $nb.tbf.extra -image $images(down) -padding {4 4 4 4}
     
     grid rowconfigure    $nb.tbf 0 -weight 1
