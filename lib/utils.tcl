@@ -156,4 +156,24 @@ namespace eval utils {
     
   }
 
+  ######################################################################
+  # Returns the default foreground color.
+  proc get_default_foreground {} {
+
+    return [ttk::style lookup TLabel -foreground]
+
+  }
+
+  ######################################################################
+  # Returns the default background color.
+  proc get_default_background {} {
+
+    if {[tk windowingsystem] eq "aqua"} {
+      return #e8e9e8
+    } else {
+      return [ttk::style lookup TLabel -background]
+    }
+
+  }
+
 }

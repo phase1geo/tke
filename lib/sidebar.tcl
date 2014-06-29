@@ -30,8 +30,8 @@ namespace eval sidebar {
     set widgets(tl) \
       [tablelist::tablelist $w.tl -columns {0 {} 0 {}} -showlabels 0 -exportselection 0 \
         -treecolumn 0 -forceeditendcommand 1 -expandcommand sidebar::expand_directory \
-        -relief flat -foreground [ttk::style configure "." -foreground] \
-        -background [ttk::style configure "." -background] \
+        -relief flat \
+        -foreground [utils::get_default_foreground] -background [utils::get_default_background] \
         -editstartcommand  "sidebar::edit_start_command" \
         -editendcommand    "sidebar::edit_end_command" \
         -tooltipaddcommand "sidebar::show_tooltip" \
