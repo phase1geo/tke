@@ -20,25 +20,11 @@ msgcat::mcmset ja {
 
 }
 
-# bindings.tcl
-msgcat::mcmset ja {
-
-  "Menu Bindings: Edit user menu bindings"
-  "メニューバインディング：編集ユーザーメニューバインディング"
-
-  "Menu Bindings: Reload menu bindings"
-  "メニューバインディング：リロードメニューバインディング"
-
-  "Menu Bindings: Use default menu bindings"
-  "メニューバインディング：デフォルトのメニューバインディングを使用して、"
-
-  "Menu Bindings: View global menu bindings"
-  "メニューバインディング：グローバルメニューバインディングを見る"
-
-}
-
 # gui.tcl
 msgcat::mcmset ja {
+
+  "%s, Line: %d, Column: %d"
+  "％sの、ライン：％d、列％dの"
 
   "Close All Tabs"
   "すべてのタブを閉じる"
@@ -70,14 +56,8 @@ msgcat::mcmset ja {
   "File index is out of range"
   "ファイルインデックスが範囲外である"
 
-  "Find:"
-  "Find"
-
   "Line: %d, Column: %d"
   "ライン：％dが、カラム：％dの"
-
-  "Line: %d, Column: %d, Total Lines: %d, Total Characters: %d"
-  "行：％d、列％dは、合計行：％dは、合計文字：％D"
 
   "Locked"
   "ロックする"
@@ -91,11 +71,11 @@ msgcat::mcmset ja {
   "Reload file?"
   "ファイルをリロード？"
 
-  "Replace:"
-  "置換："
-
   "Save request"
   "リクエストを保存"
+
+  "Total Lines: %d, Total Characters: %d"
+  "総行：％dが、合計文字：％D"
 
   "Unable to find current file (tab: %s)"
   "現在のファイルが見つかりません（ペ：％s）を"
@@ -122,10 +102,7 @@ msgcat::mcmset ja {
   "                                  Profiling Report Sorted By (%s)"
   "ソート順プロファイリングレポート（％s）が"
 
-  "About Tke"
-  "TKEについて"
-
-  "About tke"
+  "About TKE"
   "TKEについて"
 
   "Align cursors"
@@ -161,11 +138,11 @@ msgcat::mcmset ja {
   "Edit"
   "編集"
 
+  "Edit user"
+  "ユーザーの編集"
+
   "Edit..."
   "編集"
-
-  "FOOBAR"
-  "Foobar"
 
   "File"
   "ファイル"
@@ -203,6 +180,18 @@ msgcat::mcmset ja {
   "Help"
   "ヘルプ"
 
+  "Hide Console"
+  "コンソールを隠す"
+
+  "Hide Sidebar"
+  "隠すサイドバー"
+
+  "Hide Status Bar"
+  "隠すステータスバー"
+
+  "Hide Tab Bar"
+  "タブバーを非表示"
+
   "Import TextMate theme..."
   "TextMateのテーマをインポート..."
 
@@ -221,7 +210,10 @@ msgcat::mcmset ja {
   "Lock"
   "固定"
 
-  "Menu: About tke"
+  "Menu Bindings"
+  "メニューバインディング"
+
+  "Menu: About TKE"
   "メニュー：TKEについて"
 
   "Menu: Align cursors"
@@ -257,6 +249,15 @@ msgcat::mcmset ja {
   "Menu: Edit Tke theme"
   "メニュー：編集TKEテーマ"
 
+  "Menu: Edit snippets"
+  "メニュー：編集スニペット"
+
+  "Menu: Edit user menu bindings"
+  "メニュー：編集ユーザーメニューバインディング"
+
+  "Menu: Edit user preferences"
+  "メニュー：編集ユーザー設定"
+
   "Menu: Enable Vim mode"
   "メニュー：Vimのモードを有効に"
 
@@ -290,6 +291,9 @@ msgcat::mcmset ja {
   "Menu: Goto previous tab"
   "メニュー：後藤前のタブ"
 
+  "Menu: Hide Tab Bar"
+  "メニュー：タブバーを非表示に"
+
   "Menu: Hide console"
   "メニュー：コンソールを非表示に"
 
@@ -313,6 +317,9 @@ msgcat::mcmset ja {
 
   "Menu: Lock file"
   "メニュー：ロックファイル"
+
+  "Menu: Move to other pane"
+  "メニュー：他のウィンドウに移動"
 
   "Menu: New file"
   "メニュー：新ファイル"
@@ -338,6 +345,9 @@ msgcat::mcmset ja {
   "Menu: Reload all plugins"
   "メニュー：すべてのプラグインを再ロード"
 
+  "Menu: Reload all snippets"
+  "メニュー：すべてのスニペットを再ロード"
+
   "Menu: Restart tke"
   "メニュー：TKEを再起動します"
 
@@ -352,6 +362,18 @@ msgcat::mcmset ja {
 
   "Menu: Select all occurrences"
   "メニュー：すべてのオカレンスを選択"
+
+  "Menu: Select all text"
+  "メニュー：すべてのテキストを選択"
+
+  "Menu: Set user bindings to global bindings"
+  "メニュー：グローバルバインディングに設定し、ユーザーのバインド"
+
+  "Menu: Set user preferences to global preferences"
+  "メニュー：グローバル設定へのユーザープリファレンスを設定"
+
+  "Menu: Show Tab Bar"
+  "メニュー：表示タブバー"
 
   "Menu: Show console"
   "メニュー：表示するコンソール"
@@ -374,8 +396,8 @@ msgcat::mcmset ja {
   "Menu: Stop profiling"
   "メニュー：ストッププロファイリング"
 
-  "Menu: Toggle split pane"
-  "メニュー：トグル分割ペイン"
+  "Menu: Toggle split view mode"
+  "メニュー：トグル分割ビューモード"
 
   "Menu: Uncomment selected text"
   "メニュー：コメント解除選択したテキスト"
@@ -391,6 +413,18 @@ msgcat::mcmset ja {
 
   "Menu: Unlock file"
   "メニュー：ロック解除ファイル"
+
+  "Menu: View User Guide"
+  "メニュー：表示ユーザガイド"
+
+  "Menu: View global menu bindings"
+  "メニュー：表示グローバルメニューバインディング"
+
+  "Menu: View global preferences"
+  "メニュー：表示グローバルプリファレンス"
+
+  "Move to other pane"
+  "他のウィンドウに移動する"
 
   "New"
   "新しい"
@@ -413,8 +447,8 @@ msgcat::mcmset ja {
   "Plugins"
   "プラグイン"
 
-  "Preferences..."
-  "設定..."
+  "Preferences"
+  "選好"
 
   "Profiling started"
   "プロファイリングが開始されました"
@@ -440,6 +474,9 @@ msgcat::mcmset ja {
   "Save As..."
   "名前を付けて保存..."
 
+  "Select All"
+  "すべて選択"
+
   "Select all occurrences"
   "すべてのオカレンスを選択"
 
@@ -455,17 +492,38 @@ msgcat::mcmset ja {
   "Set Syntax"
   "構文を設定"
 
+  "Set Theme"
+  "設定テーマ"
+
+  "Set user to global"
+  "グローバルにユーザーを設定する"
+
+  "Show Console"
+  "コンソールの表示"
+
   "Show Last Profiling Report"
   "最後のプロファイリングレポートを表示"
 
-  "Show split pane"
-  "分割ペインを表示する"
+  "Show Sidebar"
+  "表示するサイドバー"
+
+  "Show Status Bar"
+  "表示ステータスバー"
+
+  "Show Tab Bar"
+  "表示タブバー"
 
   "Show*Profiling*"
   "表示*プロファイリング*"
 
+  "Snippets"
+  "スニペット"
+
   "Sort Tabs"
   "並べタブ"
+
+  "Split view"
+  "2 画面分割表示"
 
   "Start Profiling"
   "プロファイリング開始"
@@ -500,17 +558,14 @@ msgcat::mcmset ja {
   "Unlock"
   "アンロック"
 
+  "User Guide"
+  "マニュアル"
+
   "View"
   "表示"
 
-  "View Console"
-  "ビューコンソール"
-
-  "View Sidebar"
-  "ビューサイドバー"
-
-  "View Status Bar"
-  "ステータス バー"
+  "View global"
+  "グローバルを表示"
 
   "Vim Mode"
   "Vimのモード"
@@ -540,23 +595,6 @@ msgcat::mcmset ja {
 
   "Syntax errors found in selected plugins"
   "構文エラーは、選択したプラグインで発見"
-
-}
-
-# preferences.tcl
-msgcat::mcmset ja {
-
-  "Preferences: Edit user preferences"
-  "初期設定：編集ユーザの嗜好"
-
-  "Preferences: Reload preferences"
-  "設定：リロード嗜好"
-
-  "Preferences: Use default preferences"
-  "環境設定：デフォルトの設定を使用し"
-
-  "Preferences: View global preferences"
-  "環境設定：グローバルプリファレンスを見る"
 
 }
 
@@ -615,12 +653,6 @@ msgcat::mcmset ja {
 
   "Snippet: *"
   "スニペット：*"
-
-  "Snippets: Add snippet"
-  "スニペット：スニペットを追加"
-
-  "Snippets: Reload all snippets"
-  "スニペット：すべてのスニペットをリロード"
 
 }
 
@@ -718,6 +750,12 @@ msgcat::mcmset ja {
 
   "Close"
   "閉じる"
+
+  "Find:"
+  "Find"
+
+  "Replace:"
+  "置換："
 
   "Save"
   "保存"

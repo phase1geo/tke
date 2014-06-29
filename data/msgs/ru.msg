@@ -20,25 +20,11 @@ msgcat::mcmset ru {
 
 }
 
-# bindings.tcl
-msgcat::mcmset ru {
-
-  "Menu Bindings: Edit user menu bindings"
-  "Меню Наручники: привязки меню Edit User"
-
-  "Menu Bindings: Reload menu bindings"
-  "Меню Крепления: Перезагрузка привязки меню"
-
-  "Menu Bindings: Use default menu bindings"
-  "Меню Наручники: привязки Использование меню по умолчанию"
-
-  "Menu Bindings: View global menu bindings"
-  "Меню Наручники: Просмотреть привязки глобального меню"
-
-}
-
 # gui.tcl
 msgcat::mcmset ru {
+
+  "%s, Line: %d, Column: %d"
+  "% С, линия:% д, Колонка:% г"
 
   "Close All Tabs"
   "Закрыть все вкладки"
@@ -70,14 +56,8 @@ msgcat::mcmset ru {
   "File index is out of range"
   "Индекс файла находится вне диапазона"
 
-  "Find:"
-  "Находить"
-
   "Line: %d, Column: %d"
   "Линия:% д, Колонка:% г"
-
-  "Line: %d, Column: %d, Total Lines: %d, Total Characters: %d"
-  "Линия:% д, Колонка:% д, Всего линии:% D, Персонажей:% D"
 
   "Locked"
   "ТРУБА ЗАКРЫТАЯ"
@@ -91,11 +71,11 @@ msgcat::mcmset ru {
   "Reload file?"
   "Перезагрузить файл"
 
-  "Replace:"
-  "Заменить:"
-
   "Save request"
   "Запрос"
+
+  "Total Lines: %d, Total Characters: %d"
+  "Всего линии:% D, Персонажей:% D"
 
   "Unable to find current file (tab: %s)"
   "Не удалось найти текущий файл (закладка:% ы)"
@@ -122,11 +102,8 @@ msgcat::mcmset ru {
   "                                  Profiling Report Sorted By (%s)"
   "Профилирование Сообщить Сортировка по (% ы)"
 
-  "About Tke"
-  "О"
-
-  "About tke"
-  "О"
+  "About TKE"
+  "О ТКЕ"
 
   "Align cursors"
   "Совместите курсоры"
@@ -161,11 +138,11 @@ msgcat::mcmset ru {
   "Edit"
   "Редактировать"
 
+  "Edit user"
+  "Редактирование пользователя"
+
   "Edit..."
   "Правка..."
-
-  "FOOBAR"
-  "FOOBAR"
 
   "File"
   "Файл"
@@ -203,6 +180,18 @@ msgcat::mcmset ru {
   "Help"
   "Помощь"
 
+  "Hide Console"
+  "Скрыть Console"
+
+  "Hide Sidebar"
+  "Скрыть боковую панель"
+
+  "Hide Status Bar"
+  "Панель состояния (Status bar)"
+
+  "Hide Tab Bar"
+  "Скрыть панель вкладок,"
+
   "Import TextMate theme..."
   "Импорт TextMate тема ..."
 
@@ -221,7 +210,10 @@ msgcat::mcmset ru {
   "Lock"
   "шлюз"
 
-  "Menu: About tke"
+  "Menu Bindings"
+  "Меню Наручники"
+
+  "Menu: About TKE"
   "Меню: О ТКЕ"
 
   "Menu: Align cursors"
@@ -257,6 +249,15 @@ msgcat::mcmset ru {
   "Menu: Edit Tke theme"
   "Меню: Редактирование ТКЕ тему"
 
+  "Menu: Edit snippets"
+  "Меню: Редактирование фрагментов"
+
+  "Menu: Edit user menu bindings"
+  "Привязки меню Правка пользователь: Меню"
+
+  "Menu: Edit user preferences"
+  "Предпочтения Редактировать пользовательские: Меню"
+
   "Menu: Enable Vim mode"
   "Меню: Включить режим Vim"
 
@@ -290,6 +291,9 @@ msgcat::mcmset ru {
   "Menu: Goto previous tab"
   "Меню: На предыдущей вкладке"
 
+  "Menu: Hide Tab Bar"
+  "Меню: Скрыть панель вкладок,"
+
   "Menu: Hide console"
   "Меню: Скрыть консоль"
 
@@ -313,6 +317,9 @@ msgcat::mcmset ru {
 
   "Menu: Lock file"
   "Меню: Файл блокировки"
+
+  "Menu: Move to other pane"
+  "Меню: переход к другой панели"
 
   "Menu: New file"
   "Меню: Новый файл"
@@ -338,6 +345,9 @@ msgcat::mcmset ru {
   "Menu: Reload all plugins"
   "Меню: Reload все плагины"
 
+  "Menu: Reload all snippets"
+  "Меню: Reload все фрагменты"
+
   "Menu: Restart tke"
   "Меню: Перезагрузка ТКЕ"
 
@@ -352,6 +362,18 @@ msgcat::mcmset ru {
 
   "Menu: Select all occurrences"
   "Меню: Выберите все вхождения"
+
+  "Menu: Select all text"
+  "Меню: Выбрать весь текст"
+
+  "Menu: Set user bindings to global bindings"
+  "Меню: Установите пользовательские привязки к глобальным привязок"
+
+  "Menu: Set user preferences to global preferences"
+  "Меню: Установите пользовательские предпочтения на глобальные предпочтения"
+
+  "Menu: Show Tab Bar"
+  "Меню: Показать Панель вкладок"
 
   "Menu: Show console"
   "Меню: Показать консоль"
@@ -374,8 +396,8 @@ msgcat::mcmset ru {
   "Menu: Stop profiling"
   "Меню: Стоп профилирование"
 
-  "Menu: Toggle split pane"
-  "Меню: Переключить раскол панели"
+  "Menu: Toggle split view mode"
+  "Меню: Переключить режим разделения вид"
 
   "Menu: Uncomment selected text"
   "Меню: Раскомментируйте выделенный текст"
@@ -391,6 +413,18 @@ msgcat::mcmset ru {
 
   "Menu: Unlock file"
   "Меню: Разблокировать файл"
+
+  "Menu: View User Guide"
+  "Меню: Вид Руководство пользователя"
+
+  "Menu: View global menu bindings"
+  "Меню: Просмотреть глобальную привязки меню"
+
+  "Menu: View global preferences"
+  "Меню: Вид глобальные предпочтения"
+
+  "Move to other pane"
+  "Переместить в другой панели"
 
   "New"
   "Новый"
@@ -413,7 +447,7 @@ msgcat::mcmset ru {
   "Plugins"
   "Плагин"
 
-  "Preferences..."
+  "Preferences"
   "Предпочтения"
 
   "Profiling started"
@@ -440,6 +474,9 @@ msgcat::mcmset ru {
   "Save As..."
   "Сохранить как"
 
+  "Select All"
+  "Выбрать все"
+
   "Select all occurrences"
   "Выберите все вхождения"
 
@@ -455,17 +492,38 @@ msgcat::mcmset ru {
   "Set Syntax"
   "Установите Синтаксис"
 
+  "Set Theme"
+  "Заданную тему"
+
+  "Set user to global"
+  "Установите пользователю глобальной"
+
+  "Show Console"
+  "Показать консоль"
+
   "Show Last Profiling Report"
   "Показать Последний профилирования отчет"
 
-  "Show split pane"
-  "Показать сплит панель"
+  "Show Sidebar"
+  "Показать боковую панель"
+
+  "Show Status Bar"
+  "Панель состояния (Status bar)"
+
+  "Show Tab Bar"
+  "Показать Панель вкладок"
 
   "Show*Profiling*"
   "Показать * Профилирование *"
 
+  "Snippets"
+  "Обрывки"
+
   "Sort Tabs"
   "Сортировка Вкладки"
+
+  "Split view"
+  "Раздельно папки и их содержимое"
 
   "Start Profiling"
   "Запуск профилирования"
@@ -500,17 +558,14 @@ msgcat::mcmset ru {
   "Unlock"
   "Разблокировать"
 
+  "User Guide"
+  "Руководство пользователя"
+
   "View"
   "Просмотр"
 
-  "View Console"
-  "Посмотреть Консоль"
-
-  "View Sidebar"
-  "Посмотреть Sidebar"
-
-  "View Status Bar"
-  "Панель состояния (Status bar)"
+  "View global"
+  "Просмотреть глобальную"
 
   "Vim Mode"
   "Режим Вим"
@@ -540,23 +595,6 @@ msgcat::mcmset ru {
 
   "Syntax errors found in selected plugins"
   "Синтаксические ошибки, найденные в выбранных плагинов"
-
-}
-
-# preferences.tcl
-msgcat::mcmset ru {
-
-  "Preferences: Edit user preferences"
-  "Предпочтения Редактировать пользовательские: Предпочтения"
-
-  "Preferences: Reload preferences"
-  "Предпочтения: Перезагрузка предпочтения"
-
-  "Preferences: Use default preferences"
-  "Предпочтения: Используйте настройки по умолчанию"
-
-  "Preferences: View global preferences"
-  "Предпочтения: Просмотреть глобальную предпочтения"
 
 }
 
@@ -615,12 +653,6 @@ msgcat::mcmset ru {
 
   "Snippet: *"
   "Фрагмент: *"
-
-  "Snippets: Add snippet"
-  "Фрагменты: Добавить фрагмент"
-
-  "Snippets: Reload all snippets"
-  "Фрагменты: Reload все фрагменты"
 
 }
 
@@ -718,6 +750,12 @@ msgcat::mcmset ru {
 
   "Close"
   "Клоуз"
+
+  "Find:"
+  "Находить"
+
+  "Replace:"
+  "Заменить:"
 
   "Save"
   "Сохранить"

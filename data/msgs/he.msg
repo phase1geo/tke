@@ -20,25 +20,11 @@ msgcat::mcmset he {
 
 }
 
-# bindings.tcl
-msgcat::mcmset he {
-
-  "Menu Bindings: Edit user menu bindings"
-  "איגודי תפריט: עריכת האיגודים תפריט משתמש"
-
-  "Menu Bindings: Reload menu bindings"
-  "תפריט איגודי: רענן בתפריט איגודי"
-
-  "Menu Bindings: Use default menu bindings"
-  "תפריט איגודי: להשתמש איגודי תפריט ברירת המחדל"
-
-  "Menu Bindings: View global menu bindings"
-  "תפריט איגודי: הצג את התפריטים הכללית איגודי"
-
-}
-
 # gui.tcl
 msgcat::mcmset he {
+
+  "%s, Line: %d, Column: %d"
+  "%s, קו: %d, עמודה: %d"
 
   "Close All Tabs"
   "לסגור את כל הכרטיסיות"
@@ -70,14 +56,8 @@ msgcat::mcmset he {
   "File index is out of range"
   "קובץ אינדקס נמצא מחוץ לטווח"
 
-  "Find:"
-  "לימצו (limtzo)"
-
   "Line: %d, Column: %d"
   "קו: %d, עמודה: %d"
-
-  "Line: %d, Column: %d, Total Lines: %d, Total Characters: %d"
-  "קו: %d, עמודה: %d, הכולל קווים: %d, סה כ תווים: %d"
 
   "Locked"
   "נעול"
@@ -91,11 +71,11 @@ msgcat::mcmset he {
   "Reload file?"
   "טען מחדש קובץ?"
 
-  "Replace:"
-  "חיפוש והחלפה:"
-
   "Save request"
   "להציל את הבקשה"
+
+  "Total Lines: %d, Total Characters: %d"
+  "שורות סכום כולל: %d, סה כ תווים: %d"
 
   "Unable to find current file (tab: %s)"
   "אין אפשרות למצוא את הקובץ הנוכחי (הכרטיסיה: %s)"
@@ -122,10 +102,7 @@ msgcat::mcmset he {
   "                                  Profiling Report Sorted By (%s)"
   "פרופיל ח ממוין לפי (%s)"
 
-  "About Tke"
-  "לגבי בבית"
-
-  "About tke"
+  "About TKE"
   "לגבי בבית"
 
   "Align cursors"
@@ -161,11 +138,11 @@ msgcat::mcmset he {
   "Edit"
   "עריכה"
 
+  "Edit user"
+  "ערוך משתמש"
+
   "Edit..."
   "עריכה..."
-
-  "FOOBAR"
-  "FOOBAR"
 
   "File"
   "קובץ"
@@ -203,6 +180,18 @@ msgcat::mcmset he {
   "Help"
   "עזרה"
 
+  "Hide Console"
+  "להסתיר את המסוף"
+
+  "Hide Sidebar"
+  "להסתיר את הסרגל הצידי"
+
+  "Hide Status Bar"
+  "הסתר שורת מצב"
+
+  "Hide Tab Bar"
+  "הסתר סרגל הלשוניות"
+
   "Import TextMate theme..."
   "ייבוא TextMate נושא..."
 
@@ -221,7 +210,10 @@ msgcat::mcmset he {
   "Lock"
   "מנעול"
 
-  "Menu: About tke"
+  "Menu Bindings"
+  "תפריט איגודי"
+
+  "Menu: About TKE"
   "תפריט: על בבית"
 
   "Menu: Align cursors"
@@ -257,6 +249,15 @@ msgcat::mcmset he {
   "Menu: Edit Tke theme"
   "תפריט: עריכה בבית השעשועים"
 
+  "Menu: Edit snippets"
+  "תפריט: עריכה גזירים"
+
+  "Menu: Edit user menu bindings"
+  "תפריט: עריכת האיגודים תפריט משתמש"
+
+  "Menu: Edit user preferences"
+  "תפריט: עריכת העדפות משתמש"
+
   "Menu: Enable Vim mode"
   "תפריט: הפעלת מצב Vim"
 
@@ -290,6 +291,9 @@ msgcat::mcmset he {
   "Menu: Goto previous tab"
   "תפריט: Goto הכרטיסיה הקודמת"
 
+  "Menu: Hide Tab Bar"
+  "תפריט: הסתר סרגל הלשוניות"
+
   "Menu: Hide console"
   "תפריט: מסוף הסתר"
 
@@ -313,6 +317,9 @@ msgcat::mcmset he {
 
   "Menu: Lock file"
   "תפריט: הקובץ הנעול"
+
+  "Menu: Move to other pane"
+  "תפריט: לעבור לחלונית אחרת"
 
   "Menu: New file"
   "תפריט: קובץ חדש"
@@ -338,6 +345,9 @@ msgcat::mcmset he {
   "Menu: Reload all plugins"
   "תפריט: רענן כל התוספים"
 
+  "Menu: Reload all snippets"
+  "תפריט: רענן כל מקטעי"
+
   "Menu: Restart tke"
   "תפריט: הפעלה מחדש בבית"
 
@@ -352,6 +362,18 @@ msgcat::mcmset he {
 
   "Menu: Select all occurrences"
   "תפריט: בחר כל המופעים"
+
+  "Menu: Select all text"
+  "תפריט: בחר את כל הטקסט"
+
+  "Menu: Set user bindings to global bindings"
+  "תפריט: מוגדר משתמש איגודי איגודי גלובלית"
+
+  "Menu: Set user preferences to global preferences"
+  "תפריט: להגדיר העדפות המשתמש העדפות גלובלית"
+
+  "Menu: Show Tab Bar"
+  "תפריט: הצג סרגל הלשוניות"
 
   "Menu: Show console"
   "תפריט: מסוף הצג"
@@ -374,8 +396,8 @@ msgcat::mcmset he {
   "Menu: Stop profiling"
   "תפריט: להפסיק. עם הפרופיל"
 
-  "Menu: Toggle split pane"
-  "תפריט: חלונית מפוצל דו-מצבי"
+  "Menu: Toggle split view mode"
+  "תפריט: דו-מצבי תצוגת מצב מפוצל"
 
   "Menu: Uncomment selected text"
   "תפריט: ההערה הטקסט הנבחר"
@@ -391,6 +413,18 @@ msgcat::mcmset he {
 
   "Menu: Unlock file"
   "תפריט: לפתוח את הקובץ"
+
+  "Menu: View User Guide"
+  "תפריט: מדריך למשתמש תצוגת"
+
+  "Menu: View global menu bindings"
+  "תפריט: הצג את התפריטים הכללית איגודי"
+
+  "Menu: View global preferences"
+  "תפריט: העדפות גלובלית"
+
+  "Move to other pane"
+  "לעבור לחלונית אחרת"
 
   "New"
   "חדש"
@@ -413,7 +447,7 @@ msgcat::mcmset he {
   "Plugins"
   "פלאג אין"
 
-  "Preferences..."
+  "Preferences"
   "אפשרויות קבועות"
 
   "Profiling started"
@@ -440,6 +474,9 @@ msgcat::mcmset he {
   "Save As..."
   "שמירה בשם..."
 
+  "Select All"
+  "בחר את כל"
+
   "Select all occurrences"
   "בחר כל המופעים"
 
@@ -455,17 +492,38 @@ msgcat::mcmset he {
   "Set Syntax"
   "תחביר קבע"
 
+  "Set Theme"
+  "ערכת נושא"
+
+  "Set user to global"
+  "הגדרת משתמש גלובלי"
+
+  "Show Console"
+  "הצג המסוף"
+
   "Show Last Profiling Report"
   "הצג דו\"
 
-  "Show split pane"
-  "הצג חלונית מפוצל"
+  "Show Sidebar"
+  "הצג תיבה צידית"
+
+  "Show Status Bar"
+  "הצג שורת מצב"
+
+  "Show Tab Bar"
+  "הצג סרגל הלשוניות"
 
   "Show*Profiling*"
   "הצג * פרופיל *"
 
+  "Snippets"
+  "גזירים"
+
   "Sort Tabs"
   "מיון כרטיסיות"
+
+  "Split view"
+  "תצוגת פיצול"
 
   "Start Profiling"
   "התחל ליצור פרופיל"
@@ -500,17 +558,14 @@ msgcat::mcmset he {
   "Unlock"
   "לבטל את הנעילה"
 
+  "User Guide"
+  "מדריך למשתמש"
+
   "View"
   "תצוגה"
 
-  "View Console"
-  "תצוגת המסוף"
-
-  "View Sidebar"
-  "הסרגל הצידי בתצוגה"
-
-  "View Status Bar"
-  "תצוגה בשורת המצב"
+  "View global"
+  "תצוגה גלובלית"
 
   "Vim Mode"
   "מצב vim"
@@ -540,23 +595,6 @@ msgcat::mcmset he {
 
   "Syntax errors found in selected plugins"
   "שגיאות תחביר נמצאו הפלאגאינים שנבחרו"
-
-}
-
-# preferences.tcl
-msgcat::mcmset he {
-
-  "Preferences: Edit user preferences"
-  "העדפות: עריכת העדפות משתמש"
-
-  "Preferences: Reload preferences"
-  "העדפות: רענן העדפות"
-
-  "Preferences: Use default preferences"
-  "העדפות: להשתמש העדפות ברירת המחדל"
-
-  "Preferences: View global preferences"
-  "העדפות: תצוגת ההעדפות הכללית"
 
 }
 
@@ -615,12 +653,6 @@ msgcat::mcmset he {
 
   "Snippet: *"
   "מקטע: *"
-
-  "Snippets: Add snippet"
-  "גזירים: הוספת מקטע"
-
-  "Snippets: Reload all snippets"
-  "גזירים: רענן כל מקטעי"
 
 }
 
@@ -718,6 +750,12 @@ msgcat::mcmset he {
 
   "Close"
   "סגור"
+
+  "Find:"
+  "לימצו (limtzo)"
+
+  "Replace:"
+  "חיפוש והחלפה:"
 
   "Save"
   "שמור"
