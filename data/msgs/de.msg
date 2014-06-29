@@ -20,25 +20,11 @@ msgcat::mcmset de {
 
 }
 
-# bindings.tcl
-msgcat::mcmset de {
-
-  "Menu Bindings: Edit user menu bindings"
-  "Menu Bindings: Edit Benutzermenü Bindungen"
-
-  "Menu Bindings: Reload menu bindings"
-  "Menu Bindings: Reload Menü Bindungen"
-
-  "Menu Bindings: Use default menu bindings"
-  "Menu Bindings: Use default Menü Bindungen"
-
-  "Menu Bindings: View global menu bindings"
-  "Menu Bindings: Blick globale Menü Bindungen"
-
-}
-
 # gui.tcl
 msgcat::mcmset de {
+
+  "%s, Line: %d, Column: %d"
+  "% S, Zeile:% d, Spalte:% d"
 
   "Close All Tabs"
   "Close All Tabs"
@@ -70,14 +56,8 @@ msgcat::mcmset de {
   "File index is out of range"
   "Datei-Index außerhalb des zulässigen Bereichs"
 
-  "Find:"
-  "Suchen nach:"
-
   "Line: %d, Column: %d"
   "Zeile: %d, Spalte: %d"
-
-  "Line: %d, Column: %d, Total Lines: %d, Total Characters: %d"
-  "Line:% d, Spalte:% d, Gesamt Zeilen:% d, Gesamt Zeichen:% d"
 
   "Locked"
   "Lock"
@@ -91,11 +71,11 @@ msgcat::mcmset de {
   "Reload file?"
   "Datei erneut laden"
 
-  "Replace:"
-  "Ersetzen:"
-
   "Save request"
   "Speichern Anfrage"
+
+  "Total Lines: %d, Total Characters: %d"
+  "TOTAL Lines:% d, Gesamt Zeichen:% d"
 
   "Unable to find current file (tab: %s)"
   "Kann nicht aktuellen Datei (tab:% s)"
@@ -122,11 +102,8 @@ msgcat::mcmset de {
   "                                  Profiling Report Sorted By (%s)"
   "                                Profiling melden Sortiert nach (%s)"
 
-  "About Tke"
-  "Über Tke"
-
-  "About tke"
-  "Über tke"
+  "About TKE"
+  "Über TKE"
 
   "Align cursors"
   "Richten Cursor"
@@ -161,11 +138,11 @@ msgcat::mcmset de {
   "Edit"
   "Bearbeiten"
 
+  "Edit user"
+  "Benutzer bearbeiten"
+
   "Edit..."
   "Bearbeiten"
-
-  "FOOBAR"
-  "Fubar"
 
   "File"
   "Feile"
@@ -203,6 +180,18 @@ msgcat::mcmset de {
   "Help"
   "Hilfe"
 
+  "Hide Console"
+  "Ausblenden Console"
+
+  "Hide Sidebar"
+  "Navigationsbereich ausblenden"
+
+  "Hide Status Bar"
+  "Statusanzeige ausblenden"
+
+  "Hide Tab Bar"
+  "Ausblenden Tab Bar"
+
   "Import TextMate theme..."
   "Importieren TextMate Thema ..."
 
@@ -221,8 +210,11 @@ msgcat::mcmset de {
   "Lock"
   "Sperren"
 
-  "Menu: About tke"
-  "Menü: Über tke"
+  "Menu Bindings"
+  "Menü Bindungen"
+
+  "Menu: About TKE"
+  "Menü: Über TKE"
 
   "Menu: Align cursors"
   "Menü: Richten Cursor"
@@ -257,6 +249,15 @@ msgcat::mcmset de {
   "Menu: Edit Tke theme"
   "Menü: Bearbeiten Tke Thema"
 
+  "Menu: Edit snippets"
+  "Menü: Bearbeiten Snippets"
+
+  "Menu: Edit user menu bindings"
+  "Menü: Bearbeiten Benutzermenü Bindungen"
+
+  "Menu: Edit user preferences"
+  "Menü: Bearbeiten Benutzereinstellungen"
+
   "Menu: Enable Vim mode"
   "Menü: Aktivieren Vim-Modus"
 
@@ -290,6 +291,9 @@ msgcat::mcmset de {
   "Menu: Goto previous tab"
   "Menü: Springen vorherigen Registerkarte"
 
+  "Menu: Hide Tab Bar"
+  "Menü: Hide Tab Bar"
+
   "Menu: Hide console"
   "Menü: Konsole ausblenden"
 
@@ -313,6 +317,9 @@ msgcat::mcmset de {
 
   "Menu: Lock file"
   "Menü: Lock-Datei"
+
+  "Menu: Move to other pane"
+  "Menü: auf andere Fenster verschieben"
 
   "Menu: New file"
   "Menü: Neue Datei"
@@ -338,6 +345,9 @@ msgcat::mcmset de {
   "Menu: Reload all plugins"
   "Menü: alle Plugins neu laden"
 
+  "Menu: Reload all snippets"
+  "Menü: neu laden alle Schnipsel"
+
   "Menu: Restart tke"
   "Menü: Starten tke"
 
@@ -352,6 +362,18 @@ msgcat::mcmset de {
 
   "Menu: Select all occurrences"
   "Menü: Wählen Sie alle Vorkommen"
+
+  "Menu: Select all text"
+  "Gesamten Text auswählen"
+
+  "Menu: Set user bindings to global bindings"
+  "Menü: Einrichten von Benutzer Bindungen zu globalen Bindungen"
+
+  "Menu: Set user preferences to global preferences"
+  "Menü: Legen Sie die Benutzereinstellungen zu globalen Einstellungen"
+
+  "Menu: Show Tab Bar"
+  "Menü: Show Tab Bar"
 
   "Menu: Show console"
   "Menü: Show-Konsole"
@@ -374,8 +396,8 @@ msgcat::mcmset de {
   "Menu: Stop profiling"
   "Menü: Stop-Profiling"
 
-  "Menu: Toggle split pane"
-  "Menü: Toggle Split-Scheibe"
+  "Menu: Toggle split view mode"
+  "Menü: Toggle-Split-Ansicht-Modus"
 
   "Menu: Uncomment selected text"
   "Menü: Entfernen Sie den ausgewählten Text"
@@ -391,6 +413,18 @@ msgcat::mcmset de {
 
   "Menu: Unlock file"
   "Menü: Datei entsperren"
+
+  "Menu: View User Guide"
+  "Menü: Ansicht Benutzerhandbuch"
+
+  "Menu: View global menu bindings"
+  "Menü: Globale Menü Bindungen"
+
+  "Menu: View global preferences"
+  "Menü: Ansicht globalen Einstellungen"
+
+  "Move to other pane"
+  "Um zu einem anderen Fenster"
 
   "New"
   "Neu"
@@ -413,8 +447,8 @@ msgcat::mcmset de {
   "Plugins"
   "Plugins"
 
-  "Preferences..."
-  "Einstellungen..."
+  "Preferences"
+  "Präferenzen"
 
   "Profiling started"
   "Profiling begonnen"
@@ -440,6 +474,9 @@ msgcat::mcmset de {
   "Save As..."
   "Speichern unter..."
 
+  "Select All"
+  "Alle auswählen"
+
   "Select all occurrences"
   "Wählen Sie alle Vorkommen"
 
@@ -455,17 +492,38 @@ msgcat::mcmset de {
   "Set Syntax"
   "Stellen Syntax"
 
+  "Set Theme"
+  "Stellen Theme"
+
+  "Set user to global"
+  "Setzen Anwender weltweit"
+
+  "Show Console"
+  "Konsole einblenden"
+
   "Show Last Profiling Report"
   "Zeige die letzten Profiling melden"
 
-  "Show split pane"
-  "Zeigen geteilten Fensters"
+  "Show Sidebar"
+  "Seitenleiste anzeigen"
+
+  "Show Status Bar"
+  "Status einblenden"
+
+  "Show Tab Bar"
+  "Zeige Tab Bar"
 
   "Show*Profiling*"
   "Zeige*Profiling*"
 
+  "Snippets"
+  "Snippet"
+
   "Sort Tabs"
   "Tabs sortieren"
+
+  "Split view"
+  "Geteilte Ansicht"
 
   "Start Profiling"
   "Starten Profiling"
@@ -500,17 +558,14 @@ msgcat::mcmset de {
   "Unlock"
   "Schalte"
 
+  "User Guide"
+  "Benutzerhandbuch"
+
   "View"
   "Blick"
 
-  "View Console"
-  "Ansicht Console"
-
-  "View Sidebar"
-  "Blick Sidebar"
-
-  "View Status Bar"
-  "Ansicht - Statusleiste"
+  "View global"
+  "Globale"
 
   "Vim Mode"
   "Vim-Modus"
@@ -540,23 +595,6 @@ msgcat::mcmset de {
 
   "Syntax errors found in selected plugins"
   "Syntax Fehler in ausgewählten Plugins gefunden"
-
-}
-
-# preferences.tcl
-msgcat::mcmset de {
-
-  "Preferences: Edit user preferences"
-  "Einstellungen: Edit Benutzereinstellungen"
-
-  "Preferences: Reload preferences"
-  "Einstellungen: Reload Präferenzen"
-
-  "Preferences: Use default preferences"
-  "Einstellungen: Verwenden Sie Standard-Einstellungen"
-
-  "Preferences: View global preferences"
-  "Vorlieben: anzeigen globalen Einstellungen"
 
 }
 
@@ -615,12 +653,6 @@ msgcat::mcmset de {
 
   "Snippet: *"
   "Snippet"
-
-  "Snippets: Add snippet"
-  "Snippets: In Snippet"
-
-  "Snippets: Reload all snippets"
-  "Snippets: Lädt alle Schnipsel"
 
 }
 
@@ -718,6 +750,12 @@ msgcat::mcmset de {
 
   "Close"
   "schließen"
+
+  "Find:"
+  "Suchen nach:"
+
+  "Replace:"
+  "Ersetzen:"
 
   "Save"
   "Speichern"

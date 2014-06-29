@@ -7,27 +7,24 @@ msgcat::mcmset sv {
   "Argument list to api::add_file was not in the form 'filename [<option> <value>]*'"
   "Argument listan till api :: add_file var inte i form &quot;filnamn [ <option><value> ] * &quot;"
 
+  "get_home_directory can only be called within plugin code"
+  "get_home_directory kan bara anropas inom plugin-kod"
+
 }
 
-# bindings.tcl
+# bgproc.tcl
 msgcat::mcmset sv {
 
-  "Menu Bindings: Edit user menu bindings"
-  "Meny Bindningar: Redigera användarmeny bindningar"
-
-  "Menu Bindings: Reload menu bindings"
-  "Meny Bindningar: Ladda meny bindningar"
-
-  "Menu Bindings: Use default menu bindings"
-  "Meny Bindningar: Använd standardmeny bindningar"
-
-  "Menu Bindings: View global menu bindings"
-  "Meny Bindningar: Visa global meny bindningar"
+  "Unable to run system command (%s)"
+  "Det går inte att köra systemet kommandot (% s)"
 
 }
 
 # gui.tcl
 msgcat::mcmset sv {
+
+  "%s, Line: %d, Column: %d"
+  "% S, Rad:% d, Kolumn:% d"
 
   "Close All Tabs"
   "Stäng alla flikar"
@@ -59,17 +56,35 @@ msgcat::mcmset sv {
   "File index is out of range"
   "File index är utanför intervallet"
 
-  "Find:"
-  "Sök i"
-
   "Line: %d, Column: %d"
   "Rad:% d, Kolumn:% d"
 
-  "Line: %d, Column: %d, Total Lines: %d, Total Characters: %d"
-  "Rad:% d, Kolumn:% d, totalt linjer:% d, totalt Tecken:% d"
-
   "Locked"
   "Spärrad"
+
+  "Move to Other Pane"
+  "Flytta till andra Pane"
+
+  "Move*"
+  "Move"
+
+  "Reload file?"
+  "Ladda om filen"
+
+  "Save request"
+  "Spara begäran"
+
+  "Total Lines: %d, Total Characters: %d"
+  "Totalt antal rader:% d, totalt Tecken:% d"
+
+  "Unable to find current file (tab: %s)"
+  "Det gick inte att hitta aktuell fil (flik:% s)"
+
+  "Untitled"
+  "Untitled"
+
+  "Version:"
+  "Version:"
 
 }
 
@@ -87,11 +102,8 @@ msgcat::mcmset sv {
   "                                  Profiling Report Sorted By (%s)"
   "Profilering Rapport Sorterat efter (% s)"
 
-  "About Tke"
-  "Om"
-
-  "About tke"
-  "Om"
+  "About TKE"
+  "Om TKE"
 
   "Align cursors"
   "Rikta markörer"
@@ -126,11 +138,11 @@ msgcat::mcmset sv {
   "Edit"
   "Ändra"
 
+  "Edit user"
+  "Redigera användare"
+
   "Edit..."
   "Redigera..."
-
-  "FOOBAR"
-  "Metavariabel"
 
   "File"
   "File"
@@ -168,6 +180,18 @@ msgcat::mcmset sv {
   "Help"
   "Hjälp"
 
+  "Hide Console"
+  "Dölj konsol"
+
+  "Hide Sidebar"
+  "Dölj sidorad"
+
+  "Hide Status Bar"
+  "Dölj statusrad"
+
+  "Hide Tab Bar"
+  "Hide Tab Bar"
+
   "Import TextMate theme..."
   "Import Textmate tema ..."
 
@@ -186,8 +210,11 @@ msgcat::mcmset sv {
   "Lock"
   "Lock"
 
-  "Menu: About tke"
-  "Meny: Om tke"
+  "Menu Bindings"
+  "Meny Bindningar"
+
+  "Menu: About TKE"
+  "Meny: Om TKE"
 
   "Menu: Align cursors"
   "Meny: Rikta markörer"
@@ -222,6 +249,15 @@ msgcat::mcmset sv {
   "Menu: Edit Tke theme"
   "Meny: Redigera Tke tema"
 
+  "Menu: Edit snippets"
+  "Meny: Redigera snuttar"
+
+  "Menu: Edit user menu bindings"
+  "Meny: Redigera användarmenyns bindningar"
+
+  "Menu: Edit user preferences"
+  "Meny: Redigera användarinställningar"
+
   "Menu: Enable Vim mode"
   "Meny: Aktivera Vim-läge"
 
@@ -255,6 +291,9 @@ msgcat::mcmset sv {
   "Menu: Goto previous tab"
   "Meny: Gå till föregående flik"
 
+  "Menu: Hide Tab Bar"
+  "Meny: Hide Tab Bar"
+
   "Menu: Hide console"
   "Meny: Hide-konsol"
 
@@ -278,6 +317,9 @@ msgcat::mcmset sv {
 
   "Menu: Lock file"
   "Meny: Lås fil"
+
+  "Menu: Move to other pane"
+  "Meny: Flytta till andra rutan"
 
   "Menu: New file"
   "Meny: Ny fil"
@@ -303,6 +345,9 @@ msgcat::mcmset sv {
   "Menu: Reload all plugins"
   "Meny: Ladda alla plugins"
 
+  "Menu: Reload all snippets"
+  "Meny: Ladda alla snuttar"
+
   "Menu: Restart tke"
   "Meny: Omstart tke"
 
@@ -318,6 +363,18 @@ msgcat::mcmset sv {
   "Menu: Select all occurrences"
   "Meny: Välj alla förekomster"
 
+  "Menu: Select all text"
+  "Markera all text"
+
+  "Menu: Set user bindings to global bindings"
+  "Meny: Ställ användar bindningar till globala bindningar"
+
+  "Menu: Set user preferences to global preferences"
+  "Meny: Ange användarinställningar till globala inställningar"
+
+  "Menu: Show Tab Bar"
+  "Meny: Visa Tab Bar"
+
   "Menu: Show console"
   "Meny: Visa konsol"
 
@@ -329,6 +386,189 @@ msgcat::mcmset sv {
 
   "Menu: Show status bar"
   "Visa statusrad"
+
+  "Menu: Sort tabs"
+  "Meny: Sortera flikar"
+
+  "Menu: Start profiling"
+  "Meny: Start profilering"
+
+  "Menu: Stop profiling"
+  "Meny: Stoppa profilering"
+
+  "Menu: Toggle split view mode"
+  "Meny: Växla delad vy läge"
+
+  "Menu: Uncomment selected text"
+  "Meny: Avkommentera markerad text"
+
+  "Menu: Undo"
+  "Meny: Ångra"
+
+  "Menu: Unindent selected text"
+  "Meny: unindent markerad text"
+
+  "Menu: Uninstall plugin"
+  "Meny: Avinstallera plugin"
+
+  "Menu: Unlock file"
+  "Meny: Lås upp fil"
+
+  "Menu: View User Guide"
+  "Meny: Se Användarhandbok"
+
+  "Menu: View global menu bindings"
+  "Meny: Visa global meny bindningar"
+
+  "Menu: View global preferences"
+  "Meny: Visa globala inställningar"
+
+  "Move to other pane"
+  "Flytta till andra rutan"
+
+  "New"
+  "Nytt"
+
+  "Open Directory..."
+  "Öppna katalog"
+
+  "Open File..."
+  "Öppna fil..."
+
+  "Open Recent"
+  "Öppna senaste"
+
+  "Paste"
+  "limma"
+
+  "Paste and Format"
+  "Klistra in och format"
+
+  "Plugins"
+  "Insticksprogram"
+
+  "Preferences"
+  "Favoriter"
+
+  "Profiling started"
+  "Profilering började"
+
+  "Profiling stopped"
+  "Profilering stoppad"
+
+  "Quit"
+  "% quit"
+
+  "Redo"
+  "Återställ"
+
+  "Reload"
+  "Ladda om"
+
+  "Restart tke"
+  "Starta om tke"
+
+  "Save All"
+  "Spara allt"
+
+  "Save As..."
+  "Spara som"
+
+  "Select All"
+  "Markera alla"
+
+  "Select all occurrences"
+  "Välj alla förekomster"
+
+  "Select next occurrence"
+  "Välj nästa förekomst"
+
+  "Select previous occurrence"
+  "Välj föregående förekomst"
+
+  "Selected"
+  "Vald"
+
+  "Set Syntax"
+  "Ställ Syntax"
+
+  "Set Theme"
+  "Ställ tema"
+
+  "Set user to global"
+  "Ställ in användare till global"
+
+  "Show Console"
+  "Visa konsol"
+
+  "Show Last Profiling Report"
+  "Visa Senaste Profilering Rapport"
+
+  "Show Sidebar"
+  "Visa sidorad"
+
+  "Show Status Bar"
+  "Visa statusrad"
+
+  "Show Tab Bar"
+  "Visa Tab Bar"
+
+  "Show*Profiling*"
+  "Visa * Profilering *"
+
+  "Snippets"
+  "Utdrag"
+
+  "Sort Tabs"
+  "Sort Tabs"
+
+  "Split view"
+  "Delad vy"
+
+  "Start Profiling"
+  "Börja Profilering"
+
+  "Stop Profiling"
+  "Stoppa Profilering"
+
+  "Tabs"
+  "Tabbar"
+
+  "Text"
+  "Text"
+
+  "Theme Creator"
+  "Theme Creator"
+
+  "Tools"
+  "Verktyg"
+
+  "Uncomment"
+  "Avkommentera"
+
+  "Undo"
+  "Ord"
+
+  "Unindent"
+  "Unindent"
+
+  "Uninstall..."
+  "avinstallera"
+
+  "Unlock"
+  "Lås upp"
+
+  "User Guide"
+  "User Guide"
+
+  "View"
+  "Visa"
+
+  "View global"
+  "Visa global"
+
+  "Vim Mode"
+  "Vim Läge"
 
 }
 
@@ -343,6 +583,18 @@ msgcat::mcmset sv {
 
   "Enter plugin name"
   "Ange plugin namn"
+
+  "Plugin %s installed"
+  "Plugin% s installerad"
+
+  "Plugin %s uninstalled"
+  "Plugin% s avinstalle"
+
+  "Plugin Errors"
+  "Plugin fel"
+
+  "Syntax errors found in selected plugins"
+  "Syntax fel i utvalda plugins"
 
 }
 
@@ -369,6 +621,52 @@ msgcat::mcmset sv {
 
   "Make Current Working Directory"
   "Gör aktuell katalog"
+
+  "New Directory"
+  "Ny katalog"
+
+  "New File"
+  "Ny fil"
+
+  "Open"
+  "Öppen"
+
+  "Refresh Directory Files"
+  "Refresh register-filer"
+
+  "Remove Parent from Sidebar"
+  "Avlägsna Parent från sidofältet"
+
+  "Remove from Sidebar"
+  "Ta bort från sidofältet"
+
+  "Rename"
+  "Byt namn"
+
+}
+
+# snippets.tcl
+msgcat::mcmset sv {
+
+  "Snippet: %s: %s"
+  "Snippet:% s:% s"
+
+  "Snippet: *"
+  "Fragment: *"
+
+}
+
+# syntax.tcl
+msgcat::mcmset sv {
+
+  "Syntax error in %s.syntax file"
+  "Syntax error in% s.syntax fil"
+
+  "Syntax:  %s"
+  "Syntax:% s"
+
+  "Theme:  %s"
+  "Tema:% s"
 
 }
 
@@ -405,6 +703,18 @@ msgcat::mcmset sv {
   "Import TextMate Theme"
   "Import Textmate tema"
 
+  "Name:"
+  "Namn:"
+
+  "OK"
+  "OK"
+
+  "Reset"
+  "Återställ"
+
+  "Select theme"
+  "Välj temafil"
+
 }
 
 # tke.tcl
@@ -421,6 +731,17 @@ msgcat::mcmset sv {
 
 }
 
+# tkedat.tcl
+msgcat::mcmset sv {
+
+  "Unable to open %s for reading"
+  "Kan inte öppna%1 för läsning."
+
+  "Unable to open %s for writing"
+  "Kunde inte öppna%1 för skrivning"
+
+}
+
 # General
 msgcat::mcmset sv {
 
@@ -429,6 +750,18 @@ msgcat::mcmset sv {
 
   "Close"
   "Stäng"
+
+  "Find:"
+  "Sök i"
+
+  "Replace:"
+  "Ersätt:"
+
+  "Save"
+  "Spara"
+
+  "Save As"
+  "Spara som..."
 
 }
 

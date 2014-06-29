@@ -20,25 +20,11 @@ msgcat::mcmset zh {
 
 }
 
-# bindings.tcl
-msgcat::mcmset zh {
-
-  "Menu Bindings: Edit user menu bindings"
-  "菜单绑定：编辑用户菜单绑定"
-
-  "Menu Bindings: Reload menu bindings"
-  "菜单绑定：刷新菜单绑定"
-
-  "Menu Bindings: Use default menu bindings"
-  "菜单绑定：使用默认的菜单绑定"
-
-  "Menu Bindings: View global menu bindings"
-  "菜单绑定：查看全局菜单绑定"
-
-}
-
 # gui.tcl
 msgcat::mcmset zh {
+
+  "%s, Line: %d, Column: %d"
+  "％s的，行数：％d，列数：％d"
 
   "Close All Tabs"
   "關閉全部的頁籤"
@@ -70,14 +56,8 @@ msgcat::mcmset zh {
   "File index is out of range"
   "文件索引超出范围"
 
-  "Find:"
-  "查找"
-
   "Line: %d, Column: %d"
   "行数：％d，列数：％d"
-
-  "Line: %d, Column: %d, Total Lines: %d, Total Characters: %d"
-  "行数：％d，列数：％d，行总数：％d个，总字符数：％d"
 
   "Locked"
   "已锁定"
@@ -91,11 +71,11 @@ msgcat::mcmset zh {
   "Reload file?"
   "重装文件？"
 
-  "Replace:"
-  "替换:"
-
   "Save request"
   "保存请求"
+
+  "Total Lines: %d, Total Characters: %d"
+  "行总数：％d个，总字符数：％d"
 
   "Unable to find current file (tab: %s)"
   "找不到当前文件（制表：％S）"
@@ -122,11 +102,8 @@ msgcat::mcmset zh {
   "                                  Profiling Report Sorted By (%s)"
   "剖析报告排序方法（％S）"
 
-  "About Tke"
-  "关于"
-
-  "About tke"
-  "关于"
+  "About TKE"
+  "关于将军澳支线"
 
   "Align cursors"
   "游标对齐"
@@ -161,11 +138,11 @@ msgcat::mcmset zh {
   "Edit"
   "编辑"
 
+  "Edit user"
+  "編輯用戶"
+
   "Edit..."
   "編輯..."
-
-  "FOOBAR"
-  "Foobar"
 
   "File"
   "文件"
@@ -203,6 +180,18 @@ msgcat::mcmset zh {
   "Help"
   "帮助"
 
+  "Hide Console"
+  "隐藏控制台"
+
+  "Hide Sidebar"
+  "隐藏边栏"
+
+  "Hide Status Bar"
+  "隐藏状态栏"
+
+  "Hide Tab Bar"
+  "隐藏标签栏"
+
   "Import TextMate theme..."
   "进口TextMate的主题..."
 
@@ -221,7 +210,10 @@ msgcat::mcmset zh {
   "Lock"
   "鎖定"
 
-  "Menu: About tke"
+  "Menu Bindings"
+  "菜单绑定"
+
+  "Menu: About TKE"
   "菜单：关于将军澳支线"
 
   "Menu: Align cursors"
@@ -257,6 +249,15 @@ msgcat::mcmset zh {
   "Menu: Edit Tke theme"
   "菜单：编辑将军澳支线主题"
 
+  "Menu: Edit snippets"
+  "菜单：编辑片段"
+
+  "Menu: Edit user menu bindings"
+  "菜单：编辑用户菜单绑定"
+
+  "Menu: Edit user preferences"
+  "菜单：编辑用户首选项"
+
   "Menu: Enable Vim mode"
   "菜单：启动Vim的模式"
 
@@ -290,6 +291,9 @@ msgcat::mcmset zh {
   "Menu: Goto previous tab"
   "菜单：跳转到前一个标签"
 
+  "Menu: Hide Tab Bar"
+  "菜单：隐藏标签栏"
+
   "Menu: Hide console"
   "菜单：隐藏控制台"
 
@@ -313,6 +317,9 @@ msgcat::mcmset zh {
 
   "Menu: Lock file"
   "菜单：文件锁定"
+
+  "Menu: Move to other pane"
+  "菜单：移动到另一个窗格"
 
   "Menu: New file"
   "菜单：新建文件"
@@ -338,6 +345,9 @@ msgcat::mcmset zh {
   "Menu: Reload all plugins"
   "菜单：重新载入所有插件"
 
+  "Menu: Reload all snippets"
+  "菜单：刷新所有片段"
+
   "Menu: Restart tke"
   "菜单：重新启动将军澳支线"
 
@@ -352,6 +362,18 @@ msgcat::mcmset zh {
 
   "Menu: Select all occurrences"
   "菜单：选择所有出现"
+
+  "Menu: Select all text"
+  "菜单：选择所有文本"
+
+  "Menu: Set user bindings to global bindings"
+  "菜单：设置用户绑定到全局绑定"
+
+  "Menu: Set user preferences to global preferences"
+  "菜单：设置用户首选项，以全局首选项"
+
+  "Menu: Show Tab Bar"
+  "菜单：显示标签栏"
 
   "Menu: Show console"
   "菜单：显示控制台"
@@ -374,8 +396,8 @@ msgcat::mcmset zh {
   "Menu: Stop profiling"
   "菜单：停止剖析"
 
-  "Menu: Toggle split pane"
-  "菜单：切换分割窗格"
+  "Menu: Toggle split view mode"
+  "菜单：切换分割视图模式"
 
   "Menu: Uncomment selected text"
   "菜单：取消对选定的文本"
@@ -391,6 +413,18 @@ msgcat::mcmset zh {
 
   "Menu: Unlock file"
   "菜单：文件解锁"
+
+  "Menu: View User Guide"
+  "菜单：查看用户指南"
+
+  "Menu: View global menu bindings"
+  "菜单：查看全局菜单绑定"
+
+  "Menu: View global preferences"
+  "菜单：检视全球首选项"
+
+  "Move to other pane"
+  "移动到另一个窗格"
 
   "New"
   "新建"
@@ -413,8 +447,8 @@ msgcat::mcmset zh {
   "Plugins"
   "插件"
 
-  "Preferences..."
-  "偏好設定..."
+  "Preferences"
+  "首选项"
 
   "Profiling started"
   "分析开始"
@@ -440,6 +474,9 @@ msgcat::mcmset zh {
   "Save As..."
   "保存为"
 
+  "Select All"
+  "全选"
+
   "Select all occurrences"
   "选择所有事件"
 
@@ -455,17 +492,38 @@ msgcat::mcmset zh {
   "Set Syntax"
   "设置语法"
 
+  "Set Theme"
+  "设置主题"
+
+  "Set user to global"
+  "设置用户对全球"
+
+  "Show Console"
+  "显示控制台"
+
   "Show Last Profiling Report"
   "显示最后剖析报告"
 
-  "Show split pane"
-  "显示拆分窗格"
+  "Show Sidebar"
+  "显示侧边栏"
+
+  "Show Status Bar"
+  "显示状态"
+
+  "Show Tab Bar"
+  "显示标签栏"
 
   "Show*Profiling*"
   "显示*评测*"
 
+  "Snippets"
+  "片段"
+
   "Sort Tabs"
   "分类标签"
+
+  "Split view"
+  "分割顯示"
 
   "Start Profiling"
   "开始分析"
@@ -500,17 +558,14 @@ msgcat::mcmset zh {
   "Unlock"
   "解锁用户"
 
+  "User Guide"
+  "用户指南"
+
   "View"
   "查看"
 
-  "View Console"
-  "查看控制台"
-
-  "View Sidebar"
-  "查看侧边栏"
-
-  "View Status Bar"
-  "狀態列"
+  "View global"
+  "查看全球"
 
   "Vim Mode"
   "Vim的模式"
@@ -540,23 +595,6 @@ msgcat::mcmset zh {
 
   "Syntax errors found in selected plugins"
   "在选定的外挂，发现语法错误"
-
-}
-
-# preferences.tcl
-msgcat::mcmset zh {
-
-  "Preferences: Edit user preferences"
-  "首选项：修改用户首选项"
-
-  "Preferences: Reload preferences"
-  "喜好：刷新喜好"
-
-  "Preferences: Use default preferences"
-  "首选项：使用默认的首选项"
-
-  "Preferences: View global preferences"
-  "喜好：查看全球首选项"
 
 }
 
@@ -615,12 +653,6 @@ msgcat::mcmset zh {
 
   "Snippet: *"
   "片段"
-
-  "Snippets: Add snippet"
-  "片段：添加片段"
-
-  "Snippets: Reload all snippets"
-  "片段：刷新所有片段"
 
 }
 
@@ -718,6 +750,12 @@ msgcat::mcmset zh {
 
   "Close"
   "关闭"
+
+  "Find:"
+  "查找"
+
+  "Replace:"
+  "替换:"
 
   "Save"
   "保存"

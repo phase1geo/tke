@@ -20,25 +20,11 @@ msgcat::mcmset no {
 
 }
 
-# bindings.tcl
-msgcat::mcmset no {
-
-  "Menu Bindings: Edit user menu bindings"
-  "Meny Bindinger: Edit brukermenyen bindinger"
-
-  "Menu Bindings: Reload menu bindings"
-  "Meny Bindinger: Last meny bindinger"
-
-  "Menu Bindings: Use default menu bindings"
-  "Meny Bindinger: Bruk standard meny bindinger"
-
-  "Menu Bindings: View global menu bindings"
-  "Meny Bindinger: Vis global meny bindinger"
-
-}
-
 # gui.tcl
 msgcat::mcmset no {
+
+  "%s, Line: %d, Column: %d"
+  "% S, Line:% d, Kolonne:% d"
 
   "Close All Tabs"
   "Lukk alle faner"
@@ -70,14 +56,8 @@ msgcat::mcmset no {
   "File index is out of range"
   "File indeksen er utenfor rekkevidde"
 
-  "Find:"
-  "Søk"
-
   "Line: %d, Column: %d"
   "Linje:% d, Kolonne:% d"
-
-  "Line: %d, Column: %d, Total Lines: %d, Total Characters: %d"
-  "Linje:% d, Kolonne:% d, Totalt antall linjer:% d, Totalt antall tegn:% d"
 
   "Locked"
   "låst"
@@ -91,11 +71,11 @@ msgcat::mcmset no {
   "Reload file?"
   "Last filen?"
 
-  "Replace:"
-  "bytt"
-
   "Save request"
   "Be"
+
+  "Total Lines: %d, Total Characters: %d"
+  "Totalt antall linjer:% d, Totalt antall tegn:% d"
 
   "Unable to find current file (tab: %s)"
   "Å finne aktuelle filen klarer (tab:% s)"
@@ -122,11 +102,8 @@ msgcat::mcmset no {
   "                                  Profiling Report Sorted By (%s)"
   "Profilering Rapporter Sorted By (% s)"
 
-  "About Tke"
+  "About TKE"
   "Om TKE"
-
-  "About tke"
-  "Om tke"
 
   "Align cursors"
   "Juster pekere"
@@ -161,11 +138,11 @@ msgcat::mcmset no {
   "Edit"
   "Edit"
 
+  "Edit user"
+  "Rediger bruker"
+
   "Edit..."
   "Edit"
-
-  "FOOBAR"
-  "Foo"
 
   "File"
   "Fil"
@@ -203,6 +180,18 @@ msgcat::mcmset no {
   "Help"
   "Help!"
 
+  "Hide Console"
+  "Skjul Console"
+
+  "Hide Sidebar"
+  "Skjul Sidebar"
+
+  "Hide Status Bar"
+  "Skjul Status Bar"
+
+  "Hide Tab Bar"
+  "Skjul Tab Bar"
+
   "Import TextMate theme..."
   "Import Textmate tema ..."
 
@@ -221,7 +210,10 @@ msgcat::mcmset no {
   "Lock"
   "Lås"
 
-  "Menu: About tke"
+  "Menu Bindings"
+  "Meny Bindinger"
+
+  "Menu: About TKE"
   "Meny: Om TKE"
 
   "Menu: Align cursors"
@@ -257,6 +249,15 @@ msgcat::mcmset no {
   "Menu: Edit Tke theme"
   "Meny: Rediger TKE tema"
 
+  "Menu: Edit snippets"
+  "Meny: Rediger tekstutdrag"
+
+  "Menu: Edit user menu bindings"
+  "Meny: Rediger brukermeny bindinger"
+
+  "Menu: Edit user preferences"
+  "Meny: Rediger brukerpreferanser"
+
   "Menu: Enable Vim mode"
   "Meny: Aktiver Vim-modus"
 
@@ -290,6 +291,9 @@ msgcat::mcmset no {
   "Menu: Goto previous tab"
   "Meny: Goto forrige kategori"
 
+  "Menu: Hide Tab Bar"
+  "Meny: Hide Tab Bar"
+
   "Menu: Hide console"
   "Meny: Skjul konsoll"
 
@@ -313,6 +317,9 @@ msgcat::mcmset no {
 
   "Menu: Lock file"
   "Meny: Lock file"
+
+  "Menu: Move to other pane"
+  "Meny: Flytt til annen rute"
 
   "Menu: New file"
   "Meny: Ny fil"
@@ -338,6 +345,9 @@ msgcat::mcmset no {
   "Menu: Reload all plugins"
   "Meny: Last alle plugins"
 
+  "Menu: Reload all snippets"
+  "Meny: Last alle snutter"
+
   "Menu: Restart tke"
   "Meny: Restart tke"
 
@@ -352,6 +362,18 @@ msgcat::mcmset no {
 
   "Menu: Select all occurrences"
   "Meny: Velg alle forekomster"
+
+  "Menu: Select all text"
+  "Meny: Velg all tekst"
+
+  "Menu: Set user bindings to global bindings"
+  "Meny: Sett bruker bindinger til globale bindinger"
+
+  "Menu: Set user preferences to global preferences"
+  "Meny: Sett brukerinnstillinger til globale preferanser"
+
+  "Menu: Show Tab Bar"
+  "Meny: Vis Tab Bar"
 
   "Menu: Show console"
   "Meny: Vis konsoll"
@@ -374,8 +396,8 @@ msgcat::mcmset no {
   "Menu: Stop profiling"
   "Meny: Stopp profilering"
 
-  "Menu: Toggle split pane"
-  "Meny: Toggle delte vinduet"
+  "Menu: Toggle split view mode"
+  "Meny: Toggle split view-modus"
 
   "Menu: Uncomment selected text"
   "Meny: uncomment markert tekst"
@@ -392,6 +414,18 @@ msgcat::mcmset no {
   "Menu: Unlock file"
   "Meny: Lås opp fil"
 
+  "Menu: View User Guide"
+  "Meny: Se Brukerhåndbok"
+
+  "Menu: View global menu bindings"
+  "Meny: Vis global meny bindinger"
+
+  "Menu: View global preferences"
+  "Meny: Vis globale preferanser"
+
+  "Move to other pane"
+  "Flytt til annen rute"
+
   "New"
   "Ny"
 
@@ -405,17 +439,15 @@ msgcat::mcmset no {
   "Åpne sist"
 
   "Paste"
-  "Wij willen u informeren dat uw rekening is toegankelijk vanaf een onbevoegde computer.
-
-Kunt u terecht op https://www.ing.nl en bevestigen dat u de eigenaar bent van het rekening."
+  "Wij willen u informeren dat uw rekening is toegankelijk vanaf een onbevoegde computer"
 
   "Paste and Format"
   "Lim og Format"
 
   "Plugins"
-  "Plugins"
-
   "Preferences..."
+
+  "Preferences"
   "Innstillinger"
 
   "Profiling started"
@@ -431,16 +463,19 @@ Kunt u terecht op https://www.ing.nl en bevestigen dat u de eigenaar bent van he
   "gjøre om"
 
   "Reload"
-  "Reload"
+  "Restart tke"
 
   "Restart tke"
-  "Restart tke"
+  "Save All"
 
   "Save All"
   "Lagre alle"
 
   "Save As..."
   "Lagre som ..."
+
+  "Select All"
+  "Merk alt"
 
   "Select all occurrences"
   "Velg alle forekomster"
@@ -457,17 +492,38 @@ Kunt u terecht op https://www.ing.nl en bevestigen dat u de eigenaar bent van he
   "Set Syntax"
   "Sett Syntax"
 
+  "Set Theme"
+  "Sett Tema"
+
+  "Set user to global"
+  "Sett brukeren til global"
+
+  "Show Console"
+  "Vis Console"
+
   "Show Last Profiling Report"
   "Vis Siste Profiling Rapporter"
 
-  "Show split pane"
-  "Vis delte vinduet"
+  "Show Sidebar"
+  "Vis Sidebar"
+
+  "Show Status Bar"
+  "Vis statuslinje"
+
+  "Show Tab Bar"
+  "Vis Tab Bar"
 
   "Show*Profiling*"
   "Show * Profilering *"
 
+  "Snippets"
+  "Tekstutdrag"
+
   "Sort Tabs"
   "Sorter Tabs"
+
+  "Split view"
+  "Delt visning"
 
   "Start Profiling"
   "Begynn Profilering"
@@ -488,7 +544,7 @@ Kunt u terecht op https://www.ing.nl en bevestigen dat u de eigenaar bent van he
   "Redskap"
 
   "Uncomment"
-  "Uncomment"
+  "Undo"
 
   "Undo"
   "angre"
@@ -500,19 +556,16 @@ Kunt u terecht op https://www.ing.nl en bevestigen dat u de eigenaar bent van he
   "avinstallere"
 
   "Unlock"
-  "Lås"
+  "Oppheve låsing"
+
+  "User Guide"
+  "Bruksanvisning"
 
   "View"
   "Vis"
 
-  "View Console"
-  "Vis Console"
-
-  "View Sidebar"
-  "Vis Sidebar"
-
-  "View Status Bar"
-  "statuslinje"
+  "View global"
+  "Vis global"
 
   "Vim Mode"
   "Vim Mode"
@@ -542,23 +595,6 @@ msgcat::mcmset no {
 
   "Syntax errors found in selected plugins"
   "Syntaksfeil som finnes i utvalgte plugins"
-
-}
-
-# preferences.tcl
-msgcat::mcmset no {
-
-  "Preferences: Edit user preferences"
-  "Preferanser: Edit brukerpreferanser"
-
-  "Preferences: Reload preferences"
-  "Innstillinger: Last preferanser"
-
-  "Preferences: Use default preferences"
-  "Innstillinger: Bruk standard preferanser"
-
-  "Preferences: View global preferences"
-  "Preferanser: Vis globale preferanser"
 
 }
 
@@ -617,12 +653,6 @@ msgcat::mcmset no {
 
   "Snippet: *"
   "Tekstutdrag: *"
-
-  "Snippets: Add snippet"
-  "Tekstutdrag: Legg snippet"
-
-  "Snippets: Reload all snippets"
-  "Tekstutdrag: Last alle snutter"
 
 }
 
@@ -720,6 +750,12 @@ msgcat::mcmset no {
 
   "Close"
   "Lukk"
+
+  "Find:"
+  "Søk"
+
+  "Replace:"
+  "bytt"
 
   "Save"
   "lagre"
