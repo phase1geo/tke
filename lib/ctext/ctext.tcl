@@ -24,7 +24,7 @@ proc ctext {win args} {
     "invalid number of arguments given to ctext (uneven number after window) : $args"
   }
   
-  frame $win -class Ctext
+  frame $win -class Ctext -padx 1 -pady 1
   
   set tmp [text .__ctextTemp]
   
@@ -34,13 +34,16 @@ proc ctext {win args} {
   set ar(-bg) [$tmp cget -background]
   set ar(-font) [$tmp cget -font]
   set ar(-relief) [$tmp cget -relief]
+  set ar(-unhighlightcolor) [$win cget -bg]
   destroy $tmp
   set ar(-yscrollcommand) ""
+  set ar(-highlightcolor) "yellow"
   set ar(-linemap) 1
   set ar(-linemapfg) $ar(-fg)
   set ar(-linemapbg) $ar(-bg)
   set ar(-linemap_mark_command) {}
   set ar(-linemap_markable) 1
+  set ar(-linemap_show_current) 1
   set ar(-linemap_select_fg) black
   set ar(-linemap_select_bg) yellow
   set ar(-linemap_cursor) left_ptr
@@ -63,7 +66,8 @@ proc ctext {win args} {
   set ar(comment_re)             ""
   
   set ar(ctextFlags) [list -yscrollcommand -linemap -linemapfg -linemapbg \
-  -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable -linemap_cursor \
+  -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable \
+  -linemap_show_current -linemap_cursor -highlightcolor \
   -linemap_select_fg -linemap_select_bg -linemap_relief -linemap_minwidth -casesensitive -peer]
   
   array set ar $args
@@ -88,14 +92,16 @@ proc ctext {win args} {
   set linemapAr(id) 0
   
   text $win.l -font $ar(-font) -width $ar(-linemap_minwidth) -height 1 \
-    -relief $ar(-relief) -fg $ar(-linemapfg) -cursor $ar(-linemap_cursor) \
-    -bg $ar(-linemapbg) -takefocus 0
+    -relief $ar(-relief) -bd 0 -fg $ar(-linemapfg) -cursor $ar(-linemap_cursor) \
+    -bg $ar(-linemapbg) -takefocus 0 -highlightthickness 0
+  frame $win.f -width 1 -bd 0 -relief flat -bg $ar(-warnwidth_bg)
   
   set topWin [winfo toplevel $win]
   bindtags $win.l [list $win.l $topWin all]
   
   if {$ar(-linemap) == 1} {
     grid $win.l -sticky ns -row 0 -column 0
+    grid $win.f -sticky ns -row 0 -column 1
   }
   
   set args [concat $args [list -yscrollcommand \
@@ -103,19 +109,27 @@ proc ctext {win args} {
   
   #escape $win, because it could have a space
   if {$ar(-peer) eq ""} {
-    text $win.t -font $ar(-font) {*}$args
+    text $win.t -font $ar(-font) -bd 0 -highlightthickness 0 {*}$args
   } else {
     # TBD - We should probably verify that -peer is a ctext widget path
-    $ar(-peer)._t peer create $win.t -font $ar(-font) {*}$args
+    $ar(-peer)._t peer create $win.t -font $ar(-font) -bd 0 -highlightthickness 0 {*}$args
   }
   
-  grid $win.t -row 0 -column 1 -sticky news
-  grid rowconfigure $win 0 -weight 100
-  grid columnconfigure $win 1 -weight 100
+  frame $win.t.w -width 1 -bd 0 -relief flat -bg $ar(-warnwidth_bg)
+  
+  if {$ar(-warnwidth) ne ""} {
+    place $win.t.w -x [font measure [$win.t cget -font] -displayof . [string repeat "m" $ar(-warnwidth)]] -relheight 1.0
+  }
+  
+  grid $win.t -row 0 -column 2 -sticky news
+  grid rowconfigure    $win 0 -weight 100
+  grid columnconfigure $win 2 -weight 100
   
   bind $win.t <Configure>         [list ctext::linemapUpdate $win]
   bind $win.l <ButtonPress-1>     [list ctext::linemapToggleMark $win %y]
   bind $win.t <KeyRelease-Return> [list ctext::linemapUpdate $win]
+  bind $win.t <FocusIn>           [list ctext::handleFocusIn $win]
+  bind $win.t <FocusOut>          [list ctext::handleFocusOut $win]
   rename $win __ctextJunk$win
   rename $win.t $win._t
   
@@ -241,7 +255,11 @@ proc ctext::buildArgParseTable win {
   
   lappend argTable any -warnwidth {
     set configAr(-warnwidth) $value
-    ctext::warnWidthUpdate $self 1.0 [$self._t index end]
+    if {$value eq ""} {
+      place forget $self.t.w
+    } else {
+      place $self.t.w -x [font measure [$self.t cget -font] -displayof . [string repeat "m" $value]] -relheight 1.0
+    }
     break
   }
   
@@ -250,7 +268,16 @@ proc ctext::buildArgParseTable win {
       return -code error $res
     }
     set configAr(-warnwidth_bg) $value
-    ctext::warnWidthUpdate $self 1.0 [$self._t index end]
+    $self.t.w configure -bg $value
+    $self.f   configure -bg $value
+    break
+  }
+
+  lappend argTable any -highlightcolor {
+    if {[catch {winfo rgb $self $value} res]} {
+      return -code error $res
+    }
+    set configAr(-highlightcolor) $value
     break
   }
   
@@ -261,6 +288,16 @@ proc ctext::buildArgParseTable win {
   
   lappend argTable {1 true yes} -linemap_markable {
     set configAr(-linemap_markable) 1
+    break
+  }
+  
+  lappend argTable {0 false no} -linemap_show_current {
+    set configAr(-linemap_show_current) 0
+    break
+  }
+  
+  lappend argTable {1 true yes} -linemap_show_current {
+    set configAr(-linemap_show_current) 1
     break
   }
   
@@ -383,6 +420,22 @@ proc ctext::highlightAfterIdle {win lineStart lineEnd} {
   # Perform the highlight in the background
   bgproc::command ctext::highlightAfterIdle$win "ctext::doHighlight $win" -cancelable 1
   
+}
+
+proc ctext::handleFocusIn {win} {
+  
+  ctext::getAr $win config configAr
+  
+  __ctextJunk$win configure -bg $configAr(-highlightcolor)
+    
+}
+
+proc ctext::handleFocusOut {win} {
+  
+  ctext::getAr $win config configAr
+  
+  __ctextJunk$win configure -bg $configAr(-unhighlightcolor)
+    
 }
 
 proc ctext::instanceCmd {self cmd args} {
@@ -511,7 +564,6 @@ proc ctext::instanceCmd {self cmd args} {
         
         ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$configAr(re_opts) -- $commentRE $checkStr]
         ctext::highlightAfterIdle $self $lineStart $lineEnd
-        ctext::warnWidthUpdate $self $lineStart $lineEnd
         ctext::linemapUpdate $self
       } elseif {$argsLength == 2} {
         #now deal with delete n.n ?n.n?
@@ -532,7 +584,6 @@ proc ctext::instanceCmd {self cmd args} {
         
         ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$configAr(re_opts) -- $commentRE $data]
         ctext::highlightAfterIdle $self $lineStart $lineEnd
-        ctext::warnWidthUpdate $self $lineStart $lineEnd
         if {[string first "\n" $data] >= 0} {
           ctext::linemapUpdate $self
         }
@@ -545,18 +596,12 @@ proc ctext::instanceCmd {self cmd args} {
     fastdelete {
       eval \$self._t delete $args
       ctext::modified $self 1
-      if {[llength $args] == 1} {
-        ctext::warnWidthUpdate $self [$self._t index [lindex $args 0]] [$self._t index [lindex $args 0]]
-      } else {
-        ctext::warnWidthUpdate $self [$self._t index [lindex $args 0]] [$self._t index [lindex $args 1]]
-      }
       ctext::linemapUpdate $self
     }
     
     fastinsert {
       eval \$self._t insert $args
       ctext::modified $self 1
-      ctext::warnWidthUpdate $self 1.0 [$self._t index end]
       ctext::linemapUpdate $self
     }
     
@@ -611,7 +656,6 @@ proc ctext::instanceCmd {self cmd args} {
       
       ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$configAr(re_opts) -- $commentRE $REData]
       ctext::highlightAfterIdle $self $lineStart $lineEnd
-      ctext::warnWidthUpdate $self $lineStart $lineEnd
       
       switch -- $data {
         "\}" {
@@ -1456,34 +1500,6 @@ proc ctext::linemapUpdate {win args} {
   }
   set endrow [lindex [split [$win._t index end-1c] .] 0]
   $win.l configure -width [expr ($configAr(-linemap_minwidth) > [string length $endrow]) ? $configAr(-linemap_minwidth) : [string length $endrow]]
-}
-
-# Updates the warning width, if specified
-proc ctext::warnWidthUpdate {win start end} {
-
-  ctext::getAr $win config configAr
-  
-  # If the warning width has not been specified, skip this step
-  if {$configAr(-warnwidth) eq ""} {
-    $win._t tag delete warnWidth
-    return
-  }
-  
-  # Check the width of each line and
-  set currRow [lindex [split $start .] 0]
-  set lastRow [lindex [split $end .] 0]
-  while {1} {
-    $win._t tag remove warnWidth $currRow.0 $currRow.end
-    $win._t tag add warnWidth $currRow.$configAr(-warnwidth) $currRow.end
-    if {[incr currRow] > $lastRow} {
-      break
-    }
-  }
-  
-  # Configure the background to a new color
-  $win._t tag configure warnWidth -background $configAr(-warnwidth_bg)
-  $win._t tag lower warnWidth
-  
 }
 
 # Starting with Tk 8.5 the text widget allows smooth scrolling; this
