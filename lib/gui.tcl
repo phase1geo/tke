@@ -1879,9 +1879,7 @@ namespace eval gui {
       ctext::addSearchClassForRegexp $txt search black yellow $str $search_opts
       
       # Make the search tag lower in priority than the selection tag
-      # but higher in priority than the warnWidth tag
       $txt tag lower _search sel
-      $txt tag raise _search warnWidth
 
     }
  
@@ -2601,7 +2599,7 @@ namespace eval gui {
     ttk::scrollbar $tab_frame.pw.tf.hb    -orient horizontal -command "$tab_frame.pw.tf.txt xview"
     
     bind Ctext                  <<Modified>>          "gui::text_changed %W"
-    bind $tab_frame.pw.tf.txt.t <FocusIn>             "gui::set_current_tab_from_txt %W"
+    bind $tab_frame.pw.tf.txt.t <FocusIn>             "+gui::set_current_tab_from_txt %W"
     bind $tab_frame.pw.tf.txt.l <ButtonPress-3>       [bind $tab_frame.pw.tf.txt.l <ButtonPress-1>]
     bind $tab_frame.pw.tf.txt.l <ButtonPress-1>       "gui::select_line %W %y"
     bind $tab_frame.pw.tf.txt.l <B1-Motion>           "gui::select_lines %W %y"
@@ -2781,7 +2779,7 @@ namespace eval gui {
     ttk::scrollbar $pw.tf2.vb    -orient vertical   -command "$pw.tf2.txt yview"
     ttk::scrollbar $pw.tf2.hb    -orient horizontal -command "$pw.tf2.txt xview"
     
-    bind $pw.tf2.txt.t <FocusIn>             "[ns gui]::set_current_tab_from_txt %W"
+    bind $pw.tf2.txt.t <FocusIn>             "+[ns gui]::set_current_tab_from_txt %W"
     bind $pw.tf2.txt.l <ButtonPress-3>       [bind $pw.tf2.txt.l <ButtonPress-1>]
     bind $pw.tf2.txt.l <ButtonPress-1>       "[ns gui]::select_line %W %y"
     bind $pw.tf2.txt.l <B1-Motion>           "[ns gui]::select_lines %W %y"

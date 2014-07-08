@@ -1409,6 +1409,11 @@ namespace eval tabbar {
         # Delete the tab from the canvas
         $w.c delete t[lindex $data($w,pages) $index 1 0]
         
+        # If we are deleting the last_tab, clear it
+        if {$index == $data($w,last_tab)} {
+          set data($w,last_tab) -1
+        }
+        
         # Delete the page from the list
         set data($w,pages) [lreplace $data($w,pages) $index $index]
         
@@ -1436,7 +1441,14 @@ namespace eval tabbar {
         
         # Delete the tabs from the canvas
         for {set i $first_index} {$i <= $last_index} {incr i} {
+          
           $w.c delete t[lindex $data($w,pages) $i 1 0]
+          
+          # If we are deleting the last_tab, clear it
+          if {$index == $data($w,last_tab)} {
+            set data($w,last_tab) -1
+          }
+        
         }
         
         # Delete the pages from the list
