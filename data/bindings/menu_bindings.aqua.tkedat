@@ -1,0 +1,40 @@
+# File menu bindings
+{.menubar.file/New}                        Cmd-N
+{.menubar.file/Open File...}               Cmd-O
+{.menubar.file/Open Directory...}          Cmd-Shift-O
+{.menubar.file/Save}                       Cmd-S
+{.menubar.file/Save As...}                 Cmd-Shift-S
+{.menubar.file/Lock}                       Cmd-L
+{.menubar.file/Close}                      Cmd-W
+{.menubar.file/Quit}                       Cmd-Q
+
+# Edit menu bindings
+{.menubar.edit/Undo}                       Cmd-Z
+{.menubar.edit/Redo}                       Cmd-R
+{.menubar.edit/Cut}                        Cmd-X
+{.menubar.edit/Copy}                       Cmd-C
+{.menubar.edit/Paste}                      Cmd-V
+{.menubar.edit/Paste and Format}           Cmd-Shift-V
+
+# Find menu bindings
+{.menubar.find/Find}                       Cmd-F
+{.menubar.find/Find and Replace}           Cmd-Shift-F
+{.menubar.find/Select next occurrence}     Alt-N
+{.menubar.find/Select previous occurrence} Alt-P
+{.menubar.find/Append next occurrence}     Alt-D
+{.menubar.find/Select all occurrences}     Alt-A
+{.menubar.find/Find Matching Pair}         Ctrl-P
+
+# Text menu bindings
+{.menubar.text/Comment}                    Ctrl-I
+{.menubar.text/Uncomment}                  Ctrl-Shift-I
+{.menubar.text/Indent}                     Ctrl-[
+{.menubar.text/Unindent}                   Ctrl-]
+{.menubar.text/Align cursors}              Ctrl-A
+
+# View menu bindings
+{.menubar.view/View Sidebar}               Cmd=-K
+
+# Tools menu bindings
+{.menubar.tools/Launcher}                  Ctrl-Space
+{.menubar.tools/Vim Mode}                  Ctrl-M
