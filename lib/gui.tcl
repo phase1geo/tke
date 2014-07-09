@@ -1164,7 +1164,7 @@ namespace eval gui {
     } elseif {([lindex $files $file_index $files_index(fname)] eq "") || \
                [lindex $files $file_index $files_index(buffer)]} {
       set save_opts [list]
-      if {[llength [set extensions [syntax::get_extensions]]] > 0} {
+      if {[llength [set extensions [syntax::get_extensions $tid]]] > 0} {
         lappend save_opts -defaultextension [lindex $extensions 0]
       }
       if {[set sfile [tk_getSaveFile {*}$save_opts -parent . -title [msgcat::mc "Save As"] -initialdir [pwd]]] eq ""} {

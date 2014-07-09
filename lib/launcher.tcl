@@ -413,7 +413,7 @@ namespace eval launcher {
     
       # Check to see if this is a symbol lookup
       if {$str eq "@"} {
-        array unset command [get_command_name * launcher::symbol_okay]
+        array unset commands [get_command_name * launcher::symbol_okay]
         foreach {procedure pos} [gui::get_symbol_list {}] {
           lappend matches [register_temp "@$procedure" "gui::jump_to {} $pos" $procedure launcher::symbol_okay]
           lappend match_types 2
@@ -422,7 +422,7 @@ namespace eval launcher {
       
       # Check to see if this is a marker lookup
       if {$str eq "-"} {
-        array unset command [get_command_name * launcher::marker_okay]
+        array unset commands [get_command_name * launcher::marker_okay]
         foreach {marker pos} [gui::get_marker_list {}] {
           lappend matches [register_temp "-$marker" "gui::jump_to {} $pos" $marker launcher::marker_okay]
           lappend match_types 2
@@ -452,12 +452,16 @@ namespace eval launcher {
     # Get the precise match (if one exists)
     set results [list]
     foreach {name value} [array get commands [get_command_name * *]] {
+      puts "name: $name, value: $value"
       if {[lindex $value $command_values(search_str)] eq "$mode$str"} {
+        puts "name: $name"
         if {[eval [lindex $name $command_names(validate_cmd)]]} {
           lappend results [list $name $value]
         }
       }
     }
+    
+    puts "results: $results"
 
     # Sort the results by relevance
     sort_match_results $results 1
@@ -578,6 +582,8 @@ namespace eval launcher {
     variable match_types
     variable commands
     variable last_calc
+    
+    puts "In handle_calculation, str: $str"
 
     set last_command_name [get_command_name $last_calc launcher::calc_okay]
 
@@ -585,6 +591,7 @@ namespace eval launcher {
     if {![catch "expr $str" rc]} {
 
       set curr_command_name [get_command_name $rc launcher::calc_okay]
+      puts "rc: $rc, curr_command_name: $curr_command_name"
 
       # Change the command to the updated command
       set value $commands($last_command_name)
@@ -595,6 +602,8 @@ namespace eval launcher {
       # Add this to the list of valid results
       lappend matches     $curr_command_name
       lappend match_types 2
+      
+      puts "matches: $matches"
 
     }
 
