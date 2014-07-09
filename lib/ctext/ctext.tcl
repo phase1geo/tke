@@ -1408,20 +1408,20 @@ proc ctext::linemapToggleMark {win y} {
   
   ctext::getAr $win linemap linemapAr
   
-  set markChar [$win.l index @0,$y]
-  set line     [lindex [split $markChar .] 0]
+  set lline [lindex [split [set lmarkChar [$win.l index @0,$y]] .] 0]
+  set tline [lindex [split [set tmarkChar [$win.t index @0,$y]] .] 0]
   
-  if {[set lmark [lsearch -inline -glob [$win.t tag names $line.0] lmark*]] ne ""} {
+  if {[set lmark [lsearch -inline -glob [$win.t tag names $tline.0] lmark*]] ne ""} {
     #It's already marked, so unmark it.
-    $win.l tag remove lmark $line.0 $line.end
+    $win.l tag remove lmark $lline.0 $lline.end
     $win.t tag delete $lmark
     ctext::linemapUpdate $win
     set type unmarked
   } else {
     set lmark "lmark[incr linemapAr(id)]"
     #This means that the line isn't toggled, so toggle it.
-    $win.t tag add $lmark $markChar [$win.t index "$markChar lineend"]
-    $win.l tag add lmark $markChar [$win.l index "$markChar lineend"]
+    $win.t tag add $lmark $tmarkChar [$win.t index "$tmarkChar lineend"]
+    $win.l tag add lmark $lmarkChar [$win.l index "$lmarkChar lineend"]
     $win.l tag configure lmark -foreground $configAr(-linemap_select_fg) \
       -background $configAr(-linemap_select_bg)
     set type marked
@@ -1459,6 +1459,7 @@ proc ctext::linemapClearMark {win line} {
 
 #args is here because -yscrollcommand may call it
 proc ctext::linemapUpdate {win args} {
+
   if {[winfo exists $win.l] != 1} {
     return
   }
