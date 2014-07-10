@@ -354,7 +354,7 @@ namespace eval gui {
   # Handles any changes to the General/WindowTheme preference value.
   proc handle_window_theme {theme} {
     
-    puts "In gui"
+    # TBD
     
   }
   

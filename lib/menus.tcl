@@ -79,8 +79,6 @@ namespace eval menus {
   # Handles any changes to the General/WindowTheme preference variable.
   proc handle_window_theme {theme} {
     
-    puts "In menus"
-    
     set foreground [utils::get_default_foreground]
     set background [utils::get_default_background]
     
