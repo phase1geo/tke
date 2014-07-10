@@ -272,7 +272,7 @@ namespace eval menus {
   
     # Get some of the save options
     set save_opts [list]
-    if {[llength [set extensions [syntax::get_extensions]]] > 0} {
+    if {[llength [set extensions [syntax::get_extensions {}]]] > 0} {
       lappend save_opts -defaultextension [lindex $extensions 0]
     }
     
@@ -961,12 +961,9 @@ namespace eval menus {
   # Shows the sidebar panel.
   proc show_sidebar_view {mb} {
     
-    # Show the sidebar
-    gui::show_sidebar_view
-    
     # Convert the menu command into the hide sidebar command
-    catch {
-      $mb entryconfigure [msgcat::mc "Show Sidebar"] -label [msgcat::mc "Hide Sidebar"] -command "menus::hide_sidebar_view $mb"
+    if {![catch {$mb entryconfigure [msgcat::mc "Show Sidebar"] -label [msgcat::mc "Hide Sidebar"] -command "menus::hide_sidebar_view $mb"}]} {
+      gui::show_sidebar_view
     }
     
   }
@@ -975,12 +972,9 @@ namespace eval menus {
   # Hides the sidebar panel.
   proc hide_sidebar_view {mb} {
     
-    # Show the sidebar
-    gui::hide_sidebar_view
-    
     # Convert the menu command into the hide sidebar command
-    catch {
-      $mb entryconfigure [msgcat::mc "Hide Sidebar"] -label [msgcat::mc "Show Sidebar"] -command "menus::show_sidebar_view $mb"
+    if {![catch {$mb entryconfigure [msgcat::mc "Hide Sidebar"] -label [msgcat::mc "Show Sidebar"] -command "menus::show_sidebar_view $mb"}]} {
+      gui::hide_sidebar_view
     }
     
   }
@@ -989,12 +983,9 @@ namespace eval menus {
   # Shows the console.
   proc show_console_view {mb} {
     
-    # Show the console
-    gui::show_console_view
-    
     # Convert the menu command into the hide console command
-    catch {
-      $mb entryconfigure [msgcat::mc "Show Console"] -label [msgcat::mc "Hide Console"] -command "menus::hide_console_view $mb"
+    if {![catch {$mb entryconfigure [msgcat::mc "Show Console"] -label [msgcat::mc "Hide Console"] -command "menus::hide_console_view $mb"}]} {
+      gui::show_console_view
     }
     
   }
@@ -1003,12 +994,9 @@ namespace eval menus {
   # Hides the console.
   proc hide_console_view {mb} {
     
-    # Show the console
-    gui::hide_console_view
-    
     # Convert the menu command into the show console command
-    catch {
-      $mb entryconfigure [msgcat::mc "Hide Console"] -label [msgcat::mc "Show Console"] -command "menus::show_console_view $mb"
+    if {![catch {$mb entryconfigure [msgcat::mc "Hide Console"] -label [msgcat::mc "Show Console"] -command "menus::show_console_view $mb"}]} {
+      gui::hide_console_view
     }
     
   }
@@ -1017,12 +1005,9 @@ namespace eval menus {
   # Shows the tab bar.
   proc show_tab_view {mb} {
     
-    # Show the tab bar
-    gui::show_tab_view
-    
     # Convert the menu command into the hide tab bar command
-    catch {
-      $mb entryconfigure [msgcat::mc "Show Tab Bar"] -label [msgcat::mc "Hide Tab Bar"] -command "menus::hide_tab_view $mb"
+    if {![catch {$mb entryconfigure [msgcat::mc "Show Tab Bar"] -label [msgcat::mc "Hide Tab Bar"] -command "menus::hide_tab_view $mb"}]} {
+      gui::show_tab_view
     }
     
   }
@@ -1031,12 +1016,9 @@ namespace eval menus {
   # Hides the tab bar.
   proc hide_tab_view {mb} {
       
-    # Show the tab bar
-    gui::hide_tab_view
-      
     # Convert the menu command into the show tab bar command
-    catch {
-      $mb entryconfigure [msgcat::mc "Hide Tab Bar"] -label [msgcat::mc "Show Tab Bar"] -command "menus::show_tab_view $mb"
+    if {![catch {$mb entryconfigure [msgcat::mc "Hide Tab Bar"] -label [msgcat::mc "Show Tab Bar"] -command "menus::show_tab_view $mb"}]} {
+      gui::hide_tab_view
     }
       
   }
@@ -1045,12 +1027,9 @@ namespace eval menus {
   # Shows the status bar.
   proc show_status_view {mb} {
     
-    # Show the status bar
-    gui::show_status_view
-    
     # Convert the menu command into the hide status bar command
-    catch {
-      $mb entryconfigure [msgcat::mc "Show Status Bar"] -label [msgcat::mc "Hide Status Bar"] -command "menus::hide_status_view $mb"
+    if {![catch {$mb entryconfigure [msgcat::mc "Show Status Bar"] -label [msgcat::mc "Hide Status Bar"] -command "menus::hide_status_view $mb"}]} {
+      gui::show_status_view
     }
     
   }
@@ -1059,12 +1038,9 @@ namespace eval menus {
   # Hides the status bar.
   proc hide_status_view {mb} {
       
-    # Show the status bar
-    gui::hide_status_view
-      
     # Convert the menu command into the show status bar command
-    catch {
-      $mb entryconfigure [msgcat::mc "Hide Status Bar"] -label [msgcat::mc "Show Status Bar"] -command "menus::show_status_view $mb"
+    if {![catch {$mb entryconfigure [msgcat::mc "Hide Status Bar"] -label [msgcat::mc "Show Status Bar"] -command "menus::show_status_view $mb"}]} {
+      gui::hide_status_view
     }
       
   }
