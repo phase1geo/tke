@@ -350,6 +350,18 @@ namespace eval gui {
     
   }
   
+  ######################################################################
+  # Handles any changes to the General/WindowTheme preference value.
+  proc handle_window_theme {theme} {
+    
+    switch $theme {
+      dark {
+      }
+      default {
+      }
+    }
+    
+  }
   
   ######################################################################
   # Toggles the specified labelbutton.

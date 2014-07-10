@@ -49,6 +49,7 @@ source [file join $tke_dir lib api.tcl]
 source [file join $tke_dir lib markers.tcl]
 source [file join $tke_dir lib tkedat.tcl]
 source [file join $tke_dir lib themer.tcl]
+source [file join $tke_dir lib themes.tcl]
 
 if {[tk windowingsystem] eq "aqua"} {
   source [file join $tke_dir lib windowlist.tcl]
@@ -235,6 +236,9 @@ if {![file exists $tke_home]} {
   mkdir $tke_home
 }
 
+# Initialize the themes
+themes::initialize
+
 # Load the preferences
 preferences::load
 
@@ -251,9 +255,9 @@ cliphist::load
 syntax::load
 
 # Set the tk style to clam
-if {[tk windowingsystem] eq "x11"} {
-  ttk::style theme use clam
-}
+#if {[tk windowingsystem] eq "x11"} {
+#  ttk::style theme use clam
+#}
 
 # Set the delay to 1 second
 tooltip::tooltip delay 1000
