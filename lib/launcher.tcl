@@ -452,17 +452,13 @@ namespace eval launcher {
     # Get the precise match (if one exists)
     set results [list]
     foreach {name value} [array get commands [get_command_name * *]] {
-      puts "name: $name, value: $value"
       if {[lindex $value $command_values(search_str)] eq "$mode$str"} {
-        puts "name: $name"
         if {[eval [lindex $name $command_names(validate_cmd)]]} {
           lappend results [list $name $value]
         }
       }
     }
     
-    puts "results: $results"
-
     # Sort the results by relevance
     sort_match_results $results 1
 
@@ -474,7 +470,7 @@ namespace eval launcher {
 
     # Get all of the fuzzy matches
     sort_match_results [get_match_results $mode*[join [split $str {}] *]*] 1
-      
+    
   }
 
   ############################################################################
@@ -581,32 +577,29 @@ namespace eval launcher {
     variable matches
     variable match_types
     variable commands
+    variable command_values
     variable last_calc
     
-    puts "In handle_calculation, str: $str"
-
     set last_command_name [get_command_name $last_calc launcher::calc_okay]
 
     # Check to see if the string is a valid Tcl expression
     if {![catch "expr $str" rc]} {
 
       set curr_command_name [get_command_name $rc launcher::calc_okay]
-      puts "rc: $rc, curr_command_name: $curr_command_name"
 
       # Change the command to the updated command
-      set value $commands($last_command_name)
+      set command_value $commands($last_command_name)
+      lset command_value $command_values(description) $rc
       array unset commands $last_command_name
-      set commands($curr_command_name) $value
+      set commands($curr_command_name) $command_value
       set last_calc $rc
 
       # Add this to the list of valid results
       lappend matches     $curr_command_name
       lappend match_types 2
       
-      puts "matches: $matches"
-
     }
-
+    
   }
 
   ############################################################################
