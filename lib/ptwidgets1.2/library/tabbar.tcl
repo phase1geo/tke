@@ -11,6 +11,7 @@ namespace eval tabbar {
   array set data {}
   
   array set widget_options {
+    -activebackground       {activeBackground       Background}
     -anchor                 {anchor                 Anchor}
     -background             {background             Background}
     -bg                     -background
@@ -85,6 +86,7 @@ namespace eval tabbar {
     if {[array size data] == 0} {
       
       # Initialize default options
+      option add *Tabbar.activeBackground    grey90    widgetDefault
       option add *Tabbar.anchor              center    widgetDefault
       option add *Tabbar.background          grey90    widgetDefault
       option add *Tabbar.borderColor         grey50    widgetDefault
@@ -918,7 +920,7 @@ namespace eval tabbar {
       set tabid [lindex $data($w,pages) $page_index 1 0]
       array set opts [lindex $data($w,pages) $page_index 1 2]
       if {$page_index == $data($w,current)} {
-        $w.c itemconfigure f$tabid -fill $data($w,option,-background) -outline $data($w,option,-background)
+        $w.c itemconfigure f$tabid -fill $data($w,option,-activebackground) -outline $data($w,option,-activebackground)
         if {$data($w,option,-closeshow) eq "current"} {
           $w.c itemconfigure c$tabid -state normal
         }
