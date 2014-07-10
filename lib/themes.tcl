@@ -81,15 +81,15 @@ namespace eval themes {
           -selectbackground [list !focus   $colors(-darkest)] \
           -selectforeground [list !focus   white]
     
-#        ttk::style configure TButton \
-#          -anchor center -width -11 -padding 5 -relief raised -background $colors(-lighter) -foreground $colors(-frame)
-#        ttk::style map TButton \
-#          -background  [list disabled  $colors(-lighter) \
-#                             pressed   $colors(-darker) \
-#                             active    $colors(-dark)] \
-#          -lightcolor  [list pressed   $colors(-darker)] \
-#          -darkcolor   [list pressed   $colors(-darker)] \
-#          -bordercolor [list alternate "#000000"]
+        ttk::style configure TButton \
+          -anchor center -width -11 -padding 5 -relief raised -background $colors(-lighter) -foreground $colors(-frame)
+        ttk::style map TButton \
+          -background  [list disabled  $colors(-lighter) \
+                             pressed   $colors(-darker) \
+                             active    $colors(-dark)] \
+          -lightcolor  [list pressed   $colors(-darker)] \
+          -darkcolor   [list pressed   $colors(-darker)] \
+          -bordercolor [list alternate "#000000"]
           
 #        ttk::style configure DButton \
 #          -anchor center -width -11 -padding 5 -relief sunken -background $colors(-darker) -foreground $colors(-frame)
@@ -143,6 +143,16 @@ namespace eval themes {
 #                            active   $colors(-lighter)] \
 #          -lightcolor [list pressed  $colors(-darker)] \
 #          -darkcolor  [list pressed  $colors(-darker)]
+        
+        ttk::style configure TMenuButton \
+          -width -11 -padding 5 -relief raised -background $colors(-lighter) -foreground $colors(-frame)
+        ttk::style map TMenuButton \
+          -background  [list disabled  $colors(-lighter) \
+                             pressed   $colors(-darker) \
+                             active    $colors(-dark)] \
+          -lightcolor  [list pressed   $colors(-darker)] \
+          -darkcolor   [list pressed   $colors(-darker)] \
+          -bordercolor [list alternate "#000000"]
 
         ttk::style configure TEntry -padding 1 -insertwidth 1 -foreground black
         ttk::style map TEntry \

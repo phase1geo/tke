@@ -25,10 +25,13 @@ namespace eval menus {
     set background [utils::get_default_background]
   
     set mb [menu .menubar -foreground $foreground -background $background -relief flat -tearoff false]
-    . configure -menu $mb
+    
+    if {([tk windowingsystem] eq "aqua") || $preferences::prefs(View/ShowMenubar)} {
+      . configure -menu $mb
+    }
   
     # Add the file menu
-    $mb add cascade -label [msgcat::mc "File"] -menu [menu $mb.file -tearoff false -postcommand "menus::file_posting $mb.file"] 
+    $mb add cascade -label [msgcat::mc "File"] -menu [menu $mb.file -relief flat -tearoff false -postcommand "menus::file_posting $mb.file"] 
     add_file $mb.file
     
     # Add the edit menu
@@ -953,7 +956,7 @@ namespace eval menus {
     }
     
   }
-
+  
   ######################################################################
   # Shows the sidebar panel.
   proc show_sidebar_view {mb} {
@@ -962,7 +965,9 @@ namespace eval menus {
     gui::show_sidebar_view
     
     # Convert the menu command into the hide sidebar command
-    $mb entryconfigure [msgcat::mc "Show Sidebar"] -label [msgcat::mc "Hide Sidebar"] -command "menus::hide_sidebar_view $mb"
+    catch {
+      $mb entryconfigure [msgcat::mc "Show Sidebar"] -label [msgcat::mc "Hide Sidebar"] -command "menus::hide_sidebar_view $mb"
+    }
     
   }
   
@@ -974,7 +979,9 @@ namespace eval menus {
     gui::hide_sidebar_view
     
     # Convert the menu command into the hide sidebar command
-    $mb entryconfigure [msgcat::mc "Hide Sidebar"] -label [msgcat::mc "Show Sidebar"] -command "menus::show_sidebar_view $mb"
+    catch {
+      $mb entryconfigure [msgcat::mc "Hide Sidebar"] -label [msgcat::mc "Show Sidebar"] -command "menus::show_sidebar_view $mb"
+    }
     
   }
   
@@ -986,7 +993,9 @@ namespace eval menus {
     gui::show_console_view
     
     # Convert the menu command into the hide console command
-    $mb entryconfigure [msgcat::mc "Show Console"] -label [msgcat::mc "Hide Console"] -command "menus::hide_console_view $mb"
+    catch {
+      $mb entryconfigure [msgcat::mc "Show Console"] -label [msgcat::mc "Hide Console"] -command "menus::hide_console_view $mb"
+    }
     
   }
   
@@ -998,7 +1007,9 @@ namespace eval menus {
     gui::hide_console_view
     
     # Convert the menu command into the show console command
-    $mb entryconfigure [msgcat::mc "Hide Console"] -label [msgcat::mc "Show Console"] -command "menus::show_console_view $mb"
+    catch {
+      $mb entryconfigure [msgcat::mc "Hide Console"] -label [msgcat::mc "Show Console"] -command "menus::show_console_view $mb"
+    }
     
   }
   
@@ -1010,7 +1021,9 @@ namespace eval menus {
     gui::show_tab_view
     
     # Convert the menu command into the hide tab bar command
-    $mb entryconfigure [msgcat::mc "Show Tab Bar"] -label [msgcat::mc "Hide Tab Bar"] -command "menus::hide_tab_view $mb"
+    catch {
+      $mb entryconfigure [msgcat::mc "Show Tab Bar"] -label [msgcat::mc "Hide Tab Bar"] -command "menus::hide_tab_view $mb"
+    }
     
   }
     
@@ -1022,7 +1035,9 @@ namespace eval menus {
     gui::hide_tab_view
       
     # Convert the menu command into the show tab bar command
-    $mb entryconfigure [msgcat::mc "Hide Tab Bar"] -label [msgcat::mc "Show Tab Bar"] -command "menus::show_tab_view $mb"
+    catch {
+      $mb entryconfigure [msgcat::mc "Hide Tab Bar"] -label [msgcat::mc "Show Tab Bar"] -command "menus::show_tab_view $mb"
+    }
       
   }
   
@@ -1034,7 +1049,9 @@ namespace eval menus {
     gui::show_status_view
     
     # Convert the menu command into the hide status bar command
-    $mb entryconfigure [msgcat::mc "Show Status Bar"] -label [msgcat::mc "Hide Status Bar"] -command "menus::hide_status_view $mb"
+    catch {
+      $mb entryconfigure [msgcat::mc "Show Status Bar"] -label [msgcat::mc "Hide Status Bar"] -command "menus::hide_status_view $mb"
+    }
     
   }
     
@@ -1046,7 +1063,9 @@ namespace eval menus {
     gui::hide_status_view
       
     # Convert the menu command into the show status bar command
-    $mb entryconfigure [msgcat::mc "Hide Status Bar"] -label [msgcat::mc "Show Status Bar"] -command "menus::show_status_view $mb"
+    catch {
+      $mb entryconfigure [msgcat::mc "Hide Status Bar"] -label [msgcat::mc "Show Status Bar"] -command "menus::show_status_view $mb"
+    }
       
   }
  
