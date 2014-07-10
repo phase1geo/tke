@@ -924,6 +924,8 @@ namespace eval sidebar {
     
     variable widgets
     
+    puts "In sidebar"
+    
     set foreground [utils::get_default_foreground]
     set background [utils::get_default_background]
     

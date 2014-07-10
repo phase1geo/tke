@@ -20,8 +20,11 @@ namespace eval menus {
   
     # Load the menu bindings
     bindings::load
+    
+    set foreground [utils::get_default_foreground]
+    set background [utils::get_default_background]
   
-    set mb [menu .menubar -tearoff false]
+    set mb [menu .menubar -foreground $foreground -background $background -relief flat -tearoff false]
     . configure -menu $mb
   
     # Add the file menu
@@ -70,6 +73,21 @@ namespace eval menus {
 
     }
 
+  }
+  
+  ######################################################################
+  # Handles any changes to the General/WindowTheme preference variable.
+  proc handle_window_theme {theme} {
+    
+    puts "In menus"
+    
+    set foreground [utils::get_default_foreground]
+    set background [utils::get_default_background]
+    
+    if {[winfo exists .menubar] && ([tk windowingsystem] ne "aqua")} {
+      .menubar configure -foreground $foreground -background $background
+    }
+  
   }
   
   ########################
