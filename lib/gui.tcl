@@ -1576,11 +1576,6 @@ namespace eval gui {
     # Create a new tab
     set w [insert_tab $index [file tail $fname] $language]
         
-    # Update the file components to include position change information
-    lset file $files_index(tab)      $w
-    lset file $files_index(modified) 0
-    lappend files $file
-    
     # Add the text, insertion marker and selection
     set txt [current_txt {}]
     $txt insert end $content
@@ -1593,6 +1588,11 @@ namespace eval gui {
     if {[llength $select] > 0} {
       $txt tag add sel {*}$select
     }
+    
+    # Update the file components to include position change information
+    lset file $files_index(tab)      $w
+    lset file $files_index(modified) 0
+    lappend files $file
     
     # If the text widget was not in a modified state, force it to be so now
     if {!$modified} {
