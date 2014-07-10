@@ -30,7 +30,7 @@ namespace eval sidebar {
     set widgets(tl) \
       [tablelist::tablelist $w.tl -columns {0 {} 0 {}} -showlabels 0 -exportselection 0 \
         -treecolumn 0 -forceeditendcommand 1 -expandcommand sidebar::expand_directory \
-        -relief flat \
+        -relief flat -highlightthickness 0 \
         -foreground [utils::get_default_foreground] -background [utils::get_default_background] \
         -editstartcommand  "sidebar::edit_start_command" \
         -editendcommand    "sidebar::edit_end_command" \
@@ -916,6 +916,22 @@ namespace eval sidebar {
     # Update all of the top-level directories
     update_directory_recursively root
 
+  }
+  
+  ######################################################################
+  # Handle any changes to the General/WindowTheme preference variable.
+  proc handle_window_theme {theme} {
+    
+    variable widgets
+    
+    set foreground [utils::get_default_foreground]
+    set background [utils::get_default_background]
+    
+    # Configure the tablelist widget
+    if {[info exists widgets(tl)]} {
+      $widgets(tl) configure -foreground $foreground -background $background
+    }
+    
   }
   
   ######################################################################

@@ -8,9 +8,12 @@
 ######################################################################
 
 if {[file tail $argv0] eq "themer.tcl"} {
+  
   set tke_dir [file dirname [file dirname [file normalize $argv0]]]
   
   package require msgcat
+  
+  source [file join $tke_dir utils.tcl]
   
 }
 
@@ -116,103 +119,6 @@ namespace eval themer {
   }
    
   ######################################################################
-  # Converts an RGB value into an HSV value.
-  proc rgb_to_hsv {r g b} {
-   
-    set sorted [lsort -real [list $r $g $b]]
-    set temp [lindex $sorted 0]
-    set v [lindex $sorted 2]
-   
-    set bottom [expr {$v-$temp}]
-    if {$bottom == 0} {
-      set h 0
-      set s 0
-      set v $v
-    } else {
-      if {$v == $r} {
-        set top [expr {$g-$b}]
-        if {$g >= $b} {
-          set angle 0
-        } else {
-          set angle 360
-        }
-      } elseif {$v == $g} {
-        set top [expr {$b-$r}]
-        set angle 120
-      } elseif {$v == $b} {
-        set top [expr {$r-$g}]
-        set angle 240
-      }
-      set h [expr { round( 60 * ( double($top) / $bottom ) + $angle ) }]
-    }
-   
-    if {$v == 0} {
-      set s 0
-    } else {
-      set s [expr { round( 255 - 255 * ( double($temp) / $v ) ) }]
-    }
-   
-    return [list $h $s $v]
-   
-  }
-   
-  ######################################################################
-  # Converts an HSV value into an RGB value.
-  proc hsv_to_rgb {h s v} {
-   
-    set hi [expr { int( double($h) / 60 ) % 6 }]
-    set f  [expr { double($h) / 60 - $hi }]
-    set s  [expr { double($s)/255 }]
-    set v  [expr { double($v)/255 }]
-    set p  [expr { double($v) * (1 - $s) }]
-    set q  [expr { double($v) * (1 - $f * $s) }]
-    set t  [expr { double($v) * (1 - (1 - $f) * $s) }]
-   
-    switch -- $hi {
-      0 {
-        set r $v
-        set g $t
-        set b $p
-      }
-      1 {
-        set r $q
-        set g $v
-        set b $p
-      }
-      2 {
-        set r $p
-        set g $v
-        set b $t
-      }
-      3 {
-        set r $p
-        set g $q
-        set b $v
-      }
-      4 {
-        set r $t
-        set g $p
-        set b $v
-      }
-      5 {
-        set r $v
-        set g $p
-        set b $q
-      }
-      default {
-        error "Wrong hi value in hsv_to_rgb procedure! This should never happen!"
-      }
-    }
-   
-    set r [expr {round($r*255)}]
-    set g [expr {round($g*255)}]
-    set b [expr {round($b*255)}]
-   
-    return [list $r $g $b]
-   
-  }
-   
-  ######################################################################
   # Creates the warnwidthcolor color from the given background color
   # by darkening (if the HSV value is a lighter color) or lightening
   # (if the HSV value is a darker color) the color just a bit.
@@ -220,7 +126,7 @@ namespace eval themer {
    
     # Convert the color to an HSV value
     foreach {r g b} [winfo rgb [get_win] $color] {}
-    set hsv [rgb_to_hsv [expr $r >> 8] [expr $g >> 8] [expr $b >> 8]]
+    set hsv [utils::rgb_to_hsv [expr $r >> 8] [expr $g >> 8] [expr $b >> 8]]
    
     # Lighten it if value is closer to black
     if {[lindex $hsv 2] < 0x80} {
@@ -232,7 +138,7 @@ namespace eval themer {
     }
    
     # Convert the HSV value back to an RGB value
-    set rgb [eval "hsv_to_rgb $hsv"]
+    set rgb [utils::hsv_to_rgb {*}$hsv]
    
     return [eval "format {#%02x%02x%02x} $rgb"]
    
