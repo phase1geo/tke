@@ -2183,8 +2183,13 @@ namespace eval gui {
       if {$info_clear ne ""} {
         after cancel $info_clear
       }
-      $widgets(info_msg) configure -text $msg -foreground black
-      set info_clear [after $clear_delay gui::clear_info_message]
+      lassign [winfo rgb . [set foreground [utils::get_default_foreground]]] fr fg fb
+      lassign [winfo rgb . [utils::get_default_background]] br bg bb
+      $widgets(info_msg) configure -text $msg -foreground $foreground
+      set info_clear [after $clear_delay \
+                       [list gui::clear_info_message \
+                         [expr $fr >> 8] [expr $fg >> 8] [expr $fb >> 8] \
+                         [expr $br >> 8] [expr $bg >> 8] [expr $bb >> 8]]]
     } else {
       puts $msg
     }
@@ -2193,7 +2198,7 @@ namespace eval gui {
   
   ######################################################################
   # Clears the info message.
-  proc clear_info_message {{fade_count 0}} {
+  proc clear_info_message {fr fg fb br bg bb {fade_count 0}} {
     
     variable widgets
     variable info_clear
@@ -2209,12 +2214,15 @@ namespace eval gui {
     } else {
       
       # Calculate the color
-      set color "#[string repeat [::format {%02x} [expr 25 * $fade_count]] 3]"
+      set color [::format {#%02x%02x%02x} \
+                  [expr $fr - ((($fr - $br) / 10) * $fade_count)] \
+                  [expr $fg - ((($fg - $bg) / 10) * $fade_count)] \
+                  [expr $fb - ((($fb - $bb) / 10) * $fade_count)]]
       
       # Set the foreground color to simulate the fade effect
       $widgets(info_msg) configure -foreground $color
       
-      set info_clear [after 100 [list gui::clear_info_message [incr fade_count]]]
+      set info_clear [after 100 [list gui::clear_info_message $fr $fg $fb $br $bg $bb [incr fade_count]]]
       
     }
     
