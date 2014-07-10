@@ -105,6 +105,47 @@ namespace eval gui {
     wm title . "$tab_name \[[lindex [split [info hostname] .] 0]:[pwd]\]"
       
   }
+  
+  ######################################################################
+  # Creates all images.
+  proc create_images {} {
+    
+    variable images
+    
+    # Delete any previously created images that we will be recreating
+    if {[array size images] > 0} {
+      foreach name [list lock readonly close split] {
+        image delete $images($name)
+      }
+    }
+    
+    set foreground [utils::get_default_foreground]
+    
+    switch $preferences::prefs(General/WindowTheme) {
+      dark {
+        set lock     grey10
+        set readonly grey30
+      }
+      default {
+        set lock     grey10
+        set readonly grey30
+      }
+    }
+    
+    set images(lock)     [image create bitmap -file     [file join $::tke_dir lib images lock.bmp] \
+                                              -maskfile [file join $::tke_dir lib images lock.bmp] \
+                                              -foreground $lock]
+    set images(readonly) [image create bitmap -file     [file join $::tke_dir lib images lock.bmp] \
+                                              -maskfile [file join $::tke_dir lib images lock.bmp] \
+                                              -foreground $readonly]
+    set images(close)    [image create bitmap -file     [file join $::tke_dir lib images close.bmp] \
+                                              -maskfile [file join $::tke_dir lib images close.bmp] \
+                                              -foreground $foreground]
+    set images(split)    [image create bitmap -file     [file join $::tke_dir lib images split.bmp] \
+                                              -maskfile [file join $::tke_dir lib images split.bmp] \
+                                              -foreground $foreground]
+    
+  }
 
   ######################################################################
   # Create the main GUI interface.
@@ -117,18 +158,7 @@ namespace eval gui {
     wm iconphoto . [image create photo -file [file join $::tke_dir lib images tke_logo_128.gif]]
     
     # Create images
-    set images(lock)     [image create bitmap -file     [file join $::tke_dir lib images lock.bmp] \
-                                              -maskfile [file join $::tke_dir lib images lock.bmp] \
-                                              -foreground grey10]
-    set images(readonly) [image create bitmap -file     [file join $::tke_dir lib images lock.bmp] \
-                                              -maskfile [file join $::tke_dir lib images lock.bmp] \
-                                              -foreground grey30]
-    set images(close)    [image create bitmap -file     [file join $::tke_dir lib images close.bmp] \
-                                              -maskfile [file join $::tke_dir lib images close.bmp] \
-                                              -foreground grey10]
-    set images(split)    [image create bitmap -file     [file join $::tke_dir lib images split.bmp] \
-                                              -maskfile [file join $::tke_dir lib images split.bmp] \
-                                              -foreground grey10]
+    create_images
     set images(logo)     [image create photo  -file     [file join $::tke_dir lib images tke_logo_64.gif]]
     set images(global)   [image create photo  -file     [file join $::tke_dir lib images global.gif]]
     set images(down)     [image create bitmap -file     [file join $::tke_dir lib images down.bmp] \
@@ -354,7 +384,24 @@ namespace eval gui {
   # Handles any changes to the General/WindowTheme preference value.
   proc handle_window_theme {theme} {
     
-    # TBD
+    variable widgets
+    
+    if {[info exists widgets(nb_pw)]} {
+
+      # Get the default background and foreground colors
+      set background [utils::get_default_background]
+      set foreground [utils::get_default_foreground]
+    
+      # Update all of the images
+      create_images
+    
+      # Update all of the tabbars
+      foreach nb [$widgets(nb_pw) panes] {
+        $nb.tbf.tb configure -background $background
+        # $nb.pw.tf.split -style BButton -image $images(split) -anchor center -command "gui::toggle_split_pane {}"
+      }
+
+    }
     
   }
   
@@ -2601,7 +2648,7 @@ namespace eval gui {
       -linemap_relief flat -linemap_minwidth 4 \
       -xscrollcommand "utils::set_xscrollbar $tab_frame.pw.tf.hb" \
       -yscrollcommand "utils::set_yscrollbar $tab_frame.pw.tf.vb"
-    ttk::label     $tab_frame.pw.tf.split -image $images(split) -anchor center
+    ttk::button    $tab_frame.pw.tf.split -style BButton -image $images(split) -command "gui::toggle_split_pane {}"
     ttk::scrollbar $tab_frame.pw.tf.vb    -orient vertical   -command "$tab_frame.pw.tf.txt yview"
     ttk::scrollbar $tab_frame.pw.tf.hb    -orient horizontal -command "$tab_frame.pw.tf.txt xview"
     
@@ -2616,7 +2663,6 @@ namespace eval gui {
     bind $tab_frame.pw.tf.txt   <B1-Motion>           "gui::update_position %W"
     bind $tab_frame.pw.tf.txt   <KeyRelease>          "gui::update_position %W"
     bind $tab_frame.pw.tf.txt   <Motion>              "gui::clear_tab_tooltip $tb"
-    bind $tab_frame.pw.tf.split <Button-1>            "gui::toggle_split_pane {}"
     bind Text                   <<Cut>>               ""
     bind Text                   <<Copy>>              ""
     bind Text                   <<Paste>>             ""
