@@ -162,8 +162,6 @@ namespace eval utils {
 
     return [ttk::style configure "." -foreground]
     
-    return [ttk::style lookup TLabel -foreground]
-
   }
 
   ######################################################################
@@ -172,12 +170,6 @@ namespace eval utils {
 
     return [ttk::style configure "." -background]
     
-    if {[tk windowingsystem] eq "aqua"} {
-      return #e8e9e8
-    } else {
-      return [ttk::style lookup TLabel -background]
-    }
-
   }
 
   ######################################################################
