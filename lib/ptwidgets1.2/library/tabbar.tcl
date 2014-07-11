@@ -12,7 +12,6 @@ namespace eval tabbar {
   
   array set widget_options {
     -activebackground       {activeBackground       Background}
-    -activeforeground       {activeForeground       Foreground}
     -anchor                 {anchor                 Anchor}
     -background             {background             Background}
     -bg                     -background
@@ -31,7 +30,6 @@ namespace eval tabbar {
     -height                 {height                 Height}
     -history                {history                History}
     -inactivebackground     {inactiveBackground     Background}
-    -inactiveforeground     {inactiveForeground     Foreground}
     -margin                 {margin                 Margin}
     -maxtabwidth            {maxTabWidth            TabWidth}
     -mintabwidth            {minTabWidth            TabWidth}
@@ -89,7 +87,6 @@ namespace eval tabbar {
       
       # Initialize default options
       option add *Tabbar.activeBackground    grey90    widgetDefault
-      option add *Tabbar.activeForeground    black     widgetDefault
       option add *Tabbar.anchor              center    widgetDefault
       option add *Tabbar.background          grey90    widgetDefault
       option add *Tabbar.borderColor         grey50    widgetDefault
@@ -100,7 +97,6 @@ namespace eval tabbar {
       option add *Tabbar.disabledForeground  grey50    widgetDefault
       option add *Tabbar.foreground          black     widgetDefault
       option add *Tabbar.inactiveBackground  grey70    widgetDefault
-      option add *Tabbar.inactiveForeground  black     widgetDefault
       option add *Tabbar.height              25        widgetDefault
       option add *Tabbar.history             1         widgetDefault
       option add *Tabbar.margin              0         widgetDefault
@@ -110,17 +106,17 @@ namespace eval tabbar {
       option add *Tabbar.width               500       widgetDefault
       option add *Tabbar.xScrollIncrement    100       widgetDefault
       
-      # Create any images
-      set imgdir [file join [DIR] library images]
-      set data(images,close) [image create bitmap -file [file join $imgdir close.bmp] -maskfile [file join $imgdir close.bmp]]
-      set data(images,left)  [image create bitmap -file [file join $imgdir left.bmp]  -maskfile [file join $imgdir left.bmp]]
-      set data(images,right) [image create bitmap -file [file join $imgdir right.bmp] -maskfile [file join $imgdir right.bmp]]
-      
     }
     
+    # Create any images
+    set imgdir [file join [DIR] library images]
+    set data($w,image,close) [image create bitmap -file [file join $imgdir close.bmp] -maskfile [file join $imgdir close.bmp] -foreground black]
+    set data($w,image,left)  [image create bitmap -file [file join $imgdir left.bmp]  -maskfile [file join $imgdir left.bmp]  -foreground black]
+    set data($w,image,right) [image create bitmap -file [file join $imgdir right.bmp] -maskfile [file join $imgdir right.bmp] -foreground black]
+      
     # Set the scroll button images
-    # $w.sl configure -image $data(images,left)
-    # $w.sr configure -image $data(images,right)
+    # $w.sl configure -image $data(image,left)
+    # $w.sr configure -image $data(image,right)
     
     # Initialize variables
     set data($w,pages)       [list]
@@ -167,16 +163,13 @@ namespace eval tabbar {
     
     variable data
     
+    # If the data array is empty, destroy the images
+    foreach {name value} [array get data $w,image,*] {
+      image delete $value
+    }
+    
     # Delete all of the information associated with the window
     array unset data $w,*
-    
-    # If the data array is empty, destroy the images
-    if {[llength [array names data *,pages]] == 0} {
-      foreach {name value} [array get data images,*] {
-        image delete $value
-      }
-      array unset data
-    }
     
   }
   
@@ -629,7 +622,7 @@ namespace eval tabbar {
     set cid ""
     if {$data($w,option,-close) ne ""} {
       if {[set closeimage $data($w,option,-closeimage)] eq ""} {
-        set closeimage $data(images,close)
+        set closeimage $data($w,image,close)
       }
       if {$data($w,option,-close) eq "left"} {
         set cid [$w.c create image $x0 $y0 -anchor w -image $closeimage -tags [list t$id c$id]]
@@ -758,7 +751,7 @@ namespace eval tabbar {
     
     # If any options have changed that will require a complete redraw, do it now
     foreach opt [list -close -closeimage -closeshow -font -state -padx -pady -height -margin -anchor \
-                      -activebackground -activeforeground -inactivebackground -inactiveforeground] {
+                      -activebackground -inactivebackground] {
       if {$orig_opts($w,option,$opt) ne $data($w,option,$opt)} {
         redraw_all_tabs $w
         return
@@ -768,6 +761,13 @@ namespace eval tabbar {
     if {$orig_opts($w,option,-bordercolor) ne $data($w,option,-bordercolor)} {
       foreach page $data($w,pages) {
         $w.c itemconfigure b[lindex $page 1 0] -outline $data($w,option,-bordercolor)
+      }
+    }
+    
+    if {$orig_opts($w,option,-foreground) ne $data($w,option,-foreground)} {
+      foreach page $data($w,pages) {
+        $w.c itemconfigure x[lindex $page 1 0] -fill $data($w,option,-foreground)
+        $w.c itemconfigure c[lindex $page 1 0] -image $data($w,image,close)
       }
     }
     
@@ -917,17 +917,15 @@ namespace eval tabbar {
     # Display the tabs so that they represent the current state (if the current state has changed)
     foreach page_index $data($w,tab_order) {
       set tabid [lindex $data($w,pages) $page_index 1 0]
+      $w.c itemconfigure c$tabid -image $data($w,image,close)
       array set opts [lindex $data($w,pages) $page_index 1 2]
       if {$page_index == $data($w,current)} {
         $w.c itemconfigure f$tabid -fill $data($w,option,-activebackground) -outline $data($w,option,-activebackground)
-        $w.c itemconfigure x$tabid -fill $data($w,option,-activeforeground)
-        # $w.c itemconfigure c$tabid -
         if {$data($w,option,-closeshow) eq "current"} {
           $w.c itemconfigure c$tabid -state normal
         }
       } else {
         $w.c itemconfigure f$tabid -fill $data($w,option,-inactivebackground) -outline $data($w,option,-inactivebackground)
-        $w.c itemconfigure x$tabid -fill $data($w,option,-inactiveforeground)
         if {$data($w,option,-closeshow) eq "current"} {
           $w.c itemconfigure c$tabid -state hidden
         }
@@ -1182,7 +1180,7 @@ namespace eval tabbar {
     } else {
       
       # Save the original contents
-      set orig_options [array get data $w,option,*]
+      array set orig_options [array get data $w,option,*]
       
       # Parse the arguments
       foreach {name value} $args {
@@ -1190,6 +1188,15 @@ namespace eval tabbar {
           set data($w,option,$name) $value
         } else {
           return -code error "Illegal option given to the tabbar::configure command ($name)"
+        }
+      }
+      
+      # If the foreground has changed, update the images
+      if {$orig_options($w,option,-foreground) ne $data($w,option,-foreground)} {
+        foreach name [list close left right] {
+          set img [file join [DIR] library images $name.bmp]
+          image delete $data($w,image,$name)
+          set data($w,image,$name) [image create bitmap -file $img -maskfile $img -foreground $data($w,option,-foreground)]
         }
       }
       
@@ -1201,9 +1208,9 @@ namespace eval tabbar {
         -disabledforeground $data($w,option,-disabledforeground)
       $w.sr configure -bg $data($w,option,-background) -fg $data($w,option,-foreground) -relief flat \
         -disabledforeground $data($w,option,-disabledforeground)
-      
+        
       # Check the options for redraw candidates
-      check_all_for_redraw $w $orig_options
+      check_all_for_redraw $w [array get orig_options]
       
       # Redraw the widget to match the new configuration
       redraw $w

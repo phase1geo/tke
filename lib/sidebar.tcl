@@ -29,7 +29,7 @@ namespace eval sidebar {
     # Add the file tree elements
     set widgets(tl) \
       [tablelist::tablelist $w.tl -columns {0 {} 0 {}} -showlabels 0 -exportselection 0 \
-        -treecolumn 0 -forceeditendcommand 1 -expandcommand sidebar::expand_directory \
+        -treecolumn 0 -treestyle aqua -forceeditendcommand 1 -expandcommand sidebar::expand_directory \
         -relief flat -highlightthickness 0 \
         -foreground [utils::get_default_foreground] -background [utils::get_default_background] \
         -editstartcommand  "sidebar::edit_start_command" \
