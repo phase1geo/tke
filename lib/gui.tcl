@@ -114,7 +114,7 @@ namespace eval gui {
     
     # Delete any previously created images that we will be recreating
     if {[array size images] > 0} {
-      foreach name [list lock readonly close split] {
+      foreach name [list lock readonly close split down] {
         image delete $images($name)
       }
     }
@@ -144,6 +144,9 @@ namespace eval gui {
     set images(split)    [image create bitmap -file     [file join $::tke_dir lib images split.bmp] \
                                               -maskfile [file join $::tke_dir lib images split.bmp] \
                                               -foreground $foreground]
+    set images(down)     [image create bitmap -file     [file join $::tke_dir lib images down.bmp] \
+                                              -maskfile [file join $::tke_dir lib images down.bmp] \
+                                              -foreground $foreground]
     
   }
 
@@ -159,10 +162,8 @@ namespace eval gui {
     
     # Create images
     create_images
-    set images(logo)     [image create photo  -file     [file join $::tke_dir lib images tke_logo_64.gif]]
-    set images(global)   [image create photo  -file     [file join $::tke_dir lib images global.gif]]
-    set images(down)     [image create bitmap -file     [file join $::tke_dir lib images down.bmp] \
-                                              -maskfile [file join $::tke_dir lib images down.bmp]]
+    set images(logo)   [image create photo -file [file join $::tke_dir lib images tke_logo_64.gif]]
+    set images(global) [image create photo -file [file join $::tke_dir lib images global.gif]]
     
     # Create the panedwindow
     set widgets(pw) [ttk::panedwindow .pw -orient horizontal]
@@ -385,6 +386,7 @@ namespace eval gui {
   proc handle_window_theme {theme} {
     
     variable widgets
+    variable images
     
     if {[info exists widgets(nb_pw)]} {
 
@@ -394,11 +396,11 @@ namespace eval gui {
       
       switch $theme {
         dark {
-          set abg grey40
-          set ibg $bg
+          set abg $bg
+          set ibg grey10
         }
         default {
-          set abg grey90
+          set abg $bg
           set ibg grey70
         }
       }
@@ -408,8 +410,8 @@ namespace eval gui {
     
       # Update all of the tabbars
       foreach nb [$widgets(nb_pw) panes] {
-        $nb.tbf.tb configure -background $bg -activebackground $abg -activeforeground $fg \
-          -inactivebackground $ibg -inactiveforeground $fg
+        $nb.tbf.tb    configure -background $bg -foreground $fg -activebackground $abg -inactivebackground $ibg
+        $nb.tbf.extra configure -image $images(down)
         # $nb.pw.tf.split -style BButton -image $images(split) -anchor center -command "gui::toggle_split_pane {}"
       }
 
