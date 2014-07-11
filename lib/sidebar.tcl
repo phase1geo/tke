@@ -36,10 +36,8 @@ namespace eval sidebar {
         -editendcommand    "sidebar::edit_end_command" \
         -tooltipaddcommand "sidebar::show_tooltip" \
         -tooltipdelcommand "sidebar::hide_tooltip" \
-        -xscrollcommand    "utils::set_xscrollbar $w.hb" \
         -yscrollcommand    "utils::set_yscrollbar $w.vb"]
     ttk::scrollbar $w.vb -orient vertical   -command "$widgets(tl) yview"
-    ttk::scrollbar $w.hb -orient horizontal -command "$widgets(tl) xview"
     
     $widgets(tl) columnconfigure 0 -name name   -editable 0 -formatcommand "sidebar::format_name"
     $widgets(tl) columnconfigure 1 -name ocount -editable 0 -hide 1
@@ -52,7 +50,6 @@ namespace eval sidebar {
     grid columnconfigure $w 0 -weight 1
     grid $w.tl -row 0 -column 0 -sticky news
     grid $w.vb -row 0 -column 1 -sticky ns
-    grid $w.hb -row 1 -column 0 -sticky ew
     
     # Create directory popup
     set widgets(dirmenu) [menu $w.dirPopupMenu -tearoff 0]
