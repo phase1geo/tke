@@ -389,15 +389,27 @@ namespace eval gui {
     if {[info exists widgets(nb_pw)]} {
 
       # Get the default background and foreground colors
-      set background [utils::get_default_background]
-      set foreground [utils::get_default_foreground]
+      set bg [utils::get_default_background]
+      set fg [utils::get_default_foreground]
+      
+      switch $theme {
+        dark {
+          set abg grey40
+          set ibg $bg
+        }
+        default {
+          set abg grey90
+          set ibg grey70
+        }
+      }
     
       # Update all of the images
       create_images
     
       # Update all of the tabbars
       foreach nb [$widgets(nb_pw) panes] {
-        $nb.tbf.tb configure -background $background
+        $nb.tbf.tb configure -background $bg -activebackground $abg -activeforeground $fg \
+          -inactivebackground $ibg -inactiveforeground $fg
         # $nb.pw.tf.split -style BButton -image $images(split) -anchor center -command "gui::toggle_split_pane {}"
       }
 
@@ -2536,7 +2548,7 @@ namespace eval gui {
     
     # Handle tooltips
     bind [$nb.tbf.tb btag] <Motion> { gui::handle_notebook_motion [winfo parent %W] %x %y }
-
+    
   }
   
   ######################################################################

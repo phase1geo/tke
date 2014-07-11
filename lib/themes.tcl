@@ -8,7 +8,7 @@
 namespace eval themes {
   
   array set themes {
-    dark {"#303030" "#909090"}
+    dark {"#303030" "#b0b0b0"}
   }
   
   ######################################################################
@@ -63,16 +63,17 @@ namespace eval themes {
       ttk::style theme settings $name {
         
         ttk::style configure "." \
-          -background $colors(-frame) \
-          -foreground $colors(-lighter) \
-          -bordercolor $colors(-darkest) \
-          -darkcolor $colors(-dark) \
-          -lightcolor $colors(-lighter) \
-          -troughcolor $colors(-darker) \
-          -selectbackground $colors(-selectbg) \
-          -selectforeground $colors(-selectfg) \
+          -background        $colors(-frame) \
+          -foreground        $colors(-lighter) \
+          -bordercolor       $colors(-darkest) \
+          -darkcolor         $colors(-dark) \
+          -lightcolor        $colors(-lighter) \
+          -troughcolor       $colors(-darker) \
+          -arrowcolor        $colors(-lighter) \
+          -selectbackground  $colors(-selectbg) \
+          -selectforeground  $colors(-selectfg) \
           -selectborderwidth 0 \
-          -font TkDefaultFont
+          -font              TkDefaultFont
 
         ttk::style map "." \
           -background       [list disabled $colors(-frame) \
@@ -180,7 +181,7 @@ namespace eval themes {
   
   ######################################################################
   # Handles any changes to the General/WindowTheme preference variable.
-  proc handle_theme_change {name1 name2 op} {
+  proc handle_theme_change {{name1 ""} {name2 ""} {op ""}} {
     
     variable themes
     

@@ -254,16 +254,14 @@ cliphist::load
 # Load the syntax highlighting information
 syntax::load
 
-# Set the tk style to clam
-#if {[tk windowingsystem] eq "x11"} {
-#  ttk::style theme use clam
-#}
-
 # Set the delay to 1 second
 tooltip::tooltip delay 1000
 
 # Create GUI
 gui::create
+
+# Update the UI
+themes::handle_theme_change
 
 # Run any plugins that are required at application start
 plugins::handle_on_start
