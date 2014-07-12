@@ -114,7 +114,7 @@ namespace eval gui {
     
     # Delete any previously created images that we will be recreating
     if {[array size images] > 0} {
-      foreach name [list lock readonly close split down] {
+      foreach name [list lock readonly close split down global] {
         image delete $images($name)
       }
     }
@@ -125,10 +125,12 @@ namespace eval gui {
       dark {
         set lock     $foreground
         set readonly grey70
+        set images(global) [image create photo -file [file join $::tke_dir lib images global_dark.gif]]
       }
       default {
         set lock     $foreground
         set readonly grey30
+        set images(global) [image create photo -file [file join $::tke_dir lib images global.gif]]
       }
     }
     
@@ -162,8 +164,7 @@ namespace eval gui {
     
     # Create images
     create_images
-    set images(logo)   [image create photo -file [file join $::tke_dir lib images tke_logo_64.gif]]
-    set images(global) [image create photo -file [file join $::tke_dir lib images global.gif]]
+    set images(logo) [image create photo -file [file join $::tke_dir lib images tke_logo_64.gif]]
     
     # Create the panedwindow
     set widgets(pw) [ttk::panedwindow .pw -orient horizontal]
@@ -428,6 +429,7 @@ namespace eval gui {
           $tab.pw.tf.split  configure -image $images(split)
           $tab.sf.close     configure -image $images(close)
           $tab.rf.close     configure -image $images(close)
+          $tab.rf.glob      configure -image $images(global)
           if {[winfo exists $tab.pw.tf2.split]} {
             $tab.pw.tf2.split configure -image $images(close)
           }
