@@ -123,11 +123,11 @@ namespace eval gui {
     
     switch $preferences::prefs(General/WindowTheme) {
       dark {
-        set lock     grey10
-        set readonly grey30
+        set lock     $foreground
+        set readonly grey70
       }
       default {
-        set lock     grey10
+        set lock     $foreground
         set readonly grey30
       }
     }
@@ -391,28 +391,47 @@ namespace eval gui {
     if {[info exists widgets(nb_pw)]} {
 
       # Get the default background and foreground colors
-      set bg [utils::get_default_background]
-      set fg [utils::get_default_foreground]
+      set bg  [utils::get_default_background]
+      set fg  [utils::get_default_foreground]
+      set ibg [expr {($theme eq "dark") ? "grey10" : "grey70"}]
       
-      switch $theme {
-        dark {
-          set abg $bg
-          set ibg grey10
-        }
-        default {
-          set abg $bg
-          set ibg grey70
+      # Store the readonly/lock status of each tab
+      array set tab_status [list]
+      foreach nb [$widgets(nb_pw) panes] {
+        for {set i 0} {$i < [llength [$nb.tbf.tb tabs]]} {incr i} {
+          if {[$nb.tbf.tb tab $i -image] eq $images(readonly)} {
+            set tab_status($nb.tbf.tb,$i,readonly) 1
+          } elseif {[$nb.tbf.tb tab $i -image] eq $images(lock)} {
+            set tab_status($nb.tbf.tb,$i,lock) 1
+          }
         }
       }
-    
+      
       # Update all of the images
       create_images
     
+      # Update the lock/readonly images in the tabs
+      foreach name [array names tab_status] {
+        lassign [split $name ,] tb i type
+        $tb tab $i -image $images($type)
+      }
+
+      # Update the find in file close button
+      $widgets(fif).close configure -image $images(close)
+      
       # Update all of the tabbars
       foreach nb [$widgets(nb_pw) panes] {
-        $nb.tbf.tb    configure -background $bg -foreground $fg -activebackground $abg -inactivebackground $ibg
+        $nb.tbf.tb    configure -background $bg -foreground $fg -activebackground $bg -inactivebackground $ibg
         $nb.tbf.extra configure -image $images(down)
-        # $nb.pw.tf.split -style BButton -image $images(split) -anchor center -command "gui::toggle_split_pane {}"
+        set tabs [$nb.tbf.tb tabs]
+        foreach tab $tabs {
+          $tab.pw.tf.split  configure -image $images(split)
+          $tab.sf.close     configure -image $images(close)
+          $tab.rf.close     configure -image $images(close)
+          if {[winfo exists $tab.pw.tf2.split]} {
+            $tab.pw.tf2.split configure -image $images(close)
+          }
+        }
       }
 
     }
