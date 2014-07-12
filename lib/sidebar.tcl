@@ -493,11 +493,13 @@ namespace eval sidebar {
     variable images
     
     # Get the current selection
-    set selected [$widgets(tl) curselection]
+    if {[llength [set selected [$widgets(tl) curselection]]]} {
     
-    # If the file is currently in the notebook, make it the current tab
-    if {[$widgets(tl) cellcget $selected,name -image] eq $images(sopen)} {
-      gui::set_current_tab_from_fname [$widgets(tl) cellcget $selected,name -text]
+      # If the file is currently in the notebook, make it the current tab
+      if {[$widgets(tl) cellcget $selected,name -image] eq $images(sopen)} {
+        gui::set_current_tab_from_fname [$widgets(tl) cellcget $selected,name -text]
+      }
+      
     }
     
   }
