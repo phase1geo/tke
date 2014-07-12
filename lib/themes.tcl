@@ -67,7 +67,6 @@ namespace eval themes {
           -foreground        $colors(-lighter) \
           -bordercolor       $colors(-darkest) \
           -darkcolor         $colors(-dark) \
-          -lightcolor        $colors(-lighter) \
           -troughcolor       $colors(-darker) \
           -arrowcolor        $colors(-lighter) \
           -selectbackground  $colors(-selectbg) \
@@ -87,7 +86,7 @@ namespace eval themes {
         ttk::style map TButton \
           -background  [list disabled  $colors(-lighter) \
                              pressed   $colors(-darker) \
-                             active    $colors(-dark)] \
+                             active    $colors(-lightframe)] \
           -lightcolor  [list pressed   $colors(-darker)] \
           -darkcolor   [list pressed   $colors(-darker)] \
           -bordercolor [list alternate "#000000"]
@@ -117,7 +116,7 @@ namespace eval themes {
         ttk::style map BButton \
           -background  [list disabled  $colors(-frame) \
                              pressed   $colors(-darker) \
-                             active    $colors(-dark)] \
+                             active    $colors(-lightframe)] \
           -lightcolor  [list pressed   $colors(-darker)] \
           -darkcolor   [list pressed   $colors(-darker)] \
           -bordercolor [list alternate "#000000"]
@@ -145,12 +144,12 @@ namespace eval themes {
 #          -lightcolor [list pressed  $colors(-darker)] \
 #          -darkcolor  [list pressed  $colors(-darker)]
         
-        ttk::style configure TMenuButton \
-          -width -11 -padding 5 -relief raised -background $colors(-lighter) -foreground $colors(-frame)
-        ttk::style map TMenuButton \
-          -background  [list disabled  $colors(-lighter) \
-                             pressed   $colors(-darker) \
-                             active    $colors(-dark)] \
+        ttk::style configure TMenubutton \
+          -width 0 -padding 0 -relief flat -background $colors(-frame) -foreground $colors(-lighter)
+        ttk::style map TMenubutton \
+          -background  [list disabled  $colors(-frame) \
+                             pressed   $colors(-lightframe) \
+                             active    $colors(-lightframe)] \
           -lightcolor  [list pressed   $colors(-darker)] \
           -darkcolor   [list pressed   $colors(-darker)] \
           -bordercolor [list alternate "#000000"]
@@ -163,12 +162,15 @@ namespace eval themes {
           -lightcolor  [list focus    "#6f9dc6"] \
           -darkcolor   [list focus    "#6f9dc6"]
             
+        ttk::style map TScrollbar \
+          -background  [list disabled $colors(-frame) \
+                             active   $colors(-lightframe)]
           
         ttk::style configure TLabelframe \
           -labeloutside true -labelmargins {0 0 0 4} \
           -borderwidth 2 -relief raised
     
-        ttk::style configure Sash -sashthickness 6 -gripcount 10
+        ttk::style configure Sash -sashthickness 5 -gripcount 10
         
       }
       

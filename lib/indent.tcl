@@ -101,7 +101,7 @@ namespace eval indent {
       # If the first non-whitespace characters match an unindent pattern,
       # lessen the indentation by one
       if {[regexp [subst {^[join $indent_exprs($txt,unindent) |]}] $rest]} {
-        set indent_space [string range $indent_space [ns preferences]::get Editor/IndentSpaces] end]
+        set indent_space [string range $indent_space [[ns preferences]::get Editor/IndentSpaces] end]
       }
       
       # See if we are deleting a multicursor
