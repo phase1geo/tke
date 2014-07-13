@@ -10,15 +10,20 @@ tool.
 The following languages have been translated:
 ---------------------------------------------
 
+Czech                 - cs.msg
 Danish                - da.msg
 German                - de.msg
+Greek                 - el.msg
 Spanish               - es.msg
 French                - fr.msg
 Hebrew                - he.msg
+Hungarian             - hu.msg
 Italian               - it.msg
 Japanese              - ja.msg
 Dutch                 - nl.msg
 Norwegian             - no.msg
+Polish                - pl.msg
+Portugese             - pt.msg
 Russian               - ru.msg
 Swedish               - sv.msg
 Chinese (Traditional) - zh.msg
