@@ -1,0 +1,43 @@
+filepatterns
+{*.coffee *.litcoffee}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+indent
+{}
+  
+unindent
+{}
+
+lcomments {{//}}
+
+bcomments {{{/\*} {\*/}}}
+
+strings {{"} {'}}
+
+keywords
+{
+  and catch class do else extends false finally for function if in is isnt new no not of off on
+  or super switch then this true try unless until when while yes
+}
+
+symbols {}
+
+numbers
+{
+  HighlightClassForRegexp {\m[0-9]+|[0-9]+\.[0-9e]+|0x[0-9a-fA-F]+|Infinity|NaN}
+}
+
+punctuation
+{
+  HighlightClassForRegexp {[][\{\};:,()#=.@&!?<>%|^~+*/-]}
+}
+
+precompile
+{}
+
+miscellaneous {}

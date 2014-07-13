@@ -1,0 +1,767 @@
+# api.tcl
+msgcat::mcmset pt {
+
+  "Argument list to api::add_file was not an even key/value pair"
+  "Lista de argumentos a api :: add_file não era um par ainda de chave / valor"
+
+  "Argument list to api::add_file was not in the form 'filename [<option> <value>]*'"
+  "Lista de argumentos a api :: add_file não estava no nome do arquivo forma &#39;[ <option><value> ] * &#39;"
+
+  "get_home_directory can only be called within plugin code"
+  "get_home_directory só pode ser chamado no código do plugin"
+
+}
+
+# bgproc.tcl
+msgcat::mcmset pt {
+
+  "Unable to run system command (%s)"
+  "Não é possível executar comandos do sistema (% s)"
+
+}
+
+# gui.tcl
+msgcat::mcmset pt {
+
+  "%s, Line: %d, Column: %d"
+  "% S, linha% d, coluna% d"
+
+  "Close All Tabs"
+  "Fechar todas as guias"
+
+  "Close Other Tab(s)"
+  "Fechar Outros Tab (s)"
+
+  "Close Other*"
+  "Feche os outros separadores"
+
+  "Close Tab"
+  "Fechar a Página"
+
+  "Copyright %d-%d"
+  "Copyright% d-% d"
+
+  "Delete tab?"
+  "Excluir guia?"
+
+  "Developer:"
+  "Desenvolvedor"
+
+  "Email:"
+  "E-mail:"
+
+  "File attribute (%s) does not exist"
+  "Atributo do arquivo (% s) não existe"
+
+  "File index is out of range"
+  "Índice arquivo está fora do intervalo"
+
+  "Line: %d, Column: %d"
+  "Linha:% d, coluna% d"
+
+  "Locked"
+  "Bloqueado"
+
+  "Move to Other Pane"
+  "Mover para outro painel"
+
+  "Move*"
+  "Mudar"
+
+  "Reload file?"
+  "Actualizar o Ficheiro"
+
+  "Save request"
+  "Salvar Pedido"
+
+  "Total Lines: %d, Total Characters: %d"
+  "Total de linhas:% d, Total Personagens:% d"
+
+  "Unable to find current file (tab: %s)"
+  "Não foi possível localizar o arquivo atual (guia:% s)"
+
+  "Untitled"
+  "Untitled"
+
+  "Version:"
+  "Versão:"
+
+}
+
+# markers.tcl
+msgcat::mcmset pt {
+
+  "Marker name:"
+  "Nome do marcador:"
+
+}
+
+# menus.tcl
+msgcat::mcmset pt {
+
+  "                                  Profiling Report Sorted By (%s)"
+  "Profiling Relatório Ordenado por (% s)"
+
+  "About TKE"
+  "Sobre TKE"
+
+  "Align cursors"
+  "Alinhe cursores"
+
+  "All"
+  "Tudo"
+
+  "Append next occurrence"
+  "Acrescente próxima ocorrência"
+
+  "Clear All"
+  "Limpar Tudo"
+
+  "Close All"
+  "Fechar Tudo"
+
+  "Comment"
+  "Comentário"
+
+  "Copy"
+  "Copiar"
+
+  "Create new..."
+  "Criar uma nova"
+
+  "Create..."
+  "Criar..."
+
+  "Cut"
+  "Cortar"
+
+  "Edit"
+  "Editar"
+
+  "Edit user"
+  "Editar usuário"
+
+  "Edit..."
+  "Editar..."
+
+  "File"
+  "Arquivo"
+
+  "Find"
+  "Encontrar"
+
+  "Find and Replace"
+  "Localizar e substituir"
+
+  "Find in files"
+  "Procurar nos Ficheiros..."
+
+  "Find marker"
+  "Encontre marcador"
+
+  "Find matching pair"
+  "Encontre par combinando"
+
+  "Format Text"
+  "Text Format"
+
+  "Goto Last Tab"
+  "Ir à última guia"
+
+  "Goto Next Tab"
+  "Ir à Próxima Tab"
+
+  "Goto Other Pane"
+  "Outros Pane Goto"
+
+  "Goto Previous Tab"
+  "Ir à aba anterior"
+
+  "Help"
+  "Ajuda"
+
+  "Hide Console"
+  "Ocultar Console"
+
+  "Hide Sidebar"
+  "Esconder a Barra Lateral"
+
+  "Hide Status Bar"
+  "Ocultar Barra de Status"
+
+  "Hide Tab Bar"
+  "Esconder Tab Bar"
+
+  "Import TextMate theme..."
+  "Importação tema TextMate ..."
+
+  "Indent"
+  "Avançar"
+
+  "Insert enumeration"
+  "Insira enumeração"
+
+  "Install..."
+  "Instalação"
+
+  "Launcher"
+  "Lançador"
+
+  "Lock"
+  "Fixar"
+
+  "Menu Bindings"
+  "Ligações de Menu"
+
+  "Menu: About TKE"
+  "Menu: Sobre TKE"
+
+  "Menu: Align cursors"
+  "Menu: Alinhe cursores"
+
+  "Menu: Append next occurrence"
+  "Menu: Anexar próxima ocorrência"
+
+  "Menu: Close all tabs"
+  "Fechar todas as guias"
+
+  "Menu: Close current tab"
+  "Menu: guia atual Fechar"
+
+  "Menu: Comment selected text"
+  "Menu: Comentário texto selecionado"
+
+  "Menu: Copy selected text"
+  "Menu: Copiar texto selecionado"
+
+  "Menu: Create new plugin"
+  "Menu: Criar novo plugin"
+
+  "Menu: Create new theme"
+  "Criar um Novo Tema..."
+
+  "Menu: Cut selected text"
+  "Menu: Cortar um texto selecionado"
+
+  "Menu: Disable Vim mode"
+  "Menu: modo Disable Vim"
+
+  "Menu: Edit Tke theme"
+  "Menu: Editar tema Tke"
+
+  "Menu: Edit snippets"
+  "Menu: Editar trechos"
+
+  "Menu: Edit user menu bindings"
+  "Ligações do menu Editar usuário: Menu"
+
+  "Menu: Edit user preferences"
+  "Editar preferências de usuário: Menu"
+
+  "Menu: Enable Vim mode"
+  "Menu: Ative o modo Vim"
+
+  "Menu: Find"
+  "Menu: Encontre"
+
+  "Menu: Find and Replace"
+  "Localizar e substituir"
+
+  "Menu: Find in files"
+  "Procurar nos Ficheiros"
+
+  "Menu: Find matching character pair"
+  "Menu: Encontre correspondência par de caracteres"
+
+  "Menu: Find next occurrence"
+  "Menu: Encontre próxima ocorrência"
+
+  "Menu: Find previous occurrence"
+  "Menu: Encontre ocorrência anterior"
+
+  "Menu: Goto last tab"
+  "Menu: Ir à última guia"
+
+  "Menu: Goto next tab"
+  "Menu: Ir à guia ao lado"
+
+  "Menu: Goto other pane"
+  "Menu: outro painel Goto"
+
+  "Menu: Goto previous tab"
+  "Menu: Ir à guia anterior"
+
+  "Menu: Hide Tab Bar"
+  "Menu: Esconder Tab Bar"
+
+  "Menu: Hide console"
+  "Menu: Esconder consola"
+
+  "Menu: Hide sidebar"
+  "Menu: ocultar barra lateral"
+
+  "Menu: Hide status bar"
+  "Menu: Ocultar barra de status"
+
+  "Menu: Import TextMate theme"
+  "Menu: tema Import TextMate"
+
+  "Menu: Indent selected text"
+  "Menu: Recuo texto selecionado"
+
+  "Menu: Insert enumeration"
+  "Menu: Inserir enumeração"
+
+  "Menu: Install plugin"
+  "Menu: Instalar plug-in"
+
+  "Menu: Lock file"
+  "Menu: arquivo de bloqueio"
+
+  "Menu: Move to other pane"
+  "Menu: Mover para outro painel"
+
+  "Menu: New file"
+  "Menu: Novo arquivo"
+
+  "Menu: Open directory"
+  "Menu: Abrir diretório"
+
+  "Menu: Open file"
+  "Menu: Abrir arquivo"
+
+  "Menu: Paste and format text from clipboard"
+  "Menu: Colar e formato de texto da área de transferência"
+
+  "Menu: Paste text from clipboard"
+  "Colar texto da área de transferência"
+
+  "Menu: Quit application"
+  "Menu: Sair da aplicação"
+
+  "Menu: Redo"
+  "Menu: Refazer"
+
+  "Menu: Reload all plugins"
+  "Menu: Atualizar todos os plugins"
+
+  "Menu: Reload all snippets"
+  "Menu: Atualizar todos os trechos"
+
+  "Menu: Restart tke"
+  "Menu: Restart tke"
+
+  "Menu: Save all files"
+  "Menu: Salve todos os arquivos"
+
+  "Menu: Save file"
+  "Menu: Salve o arquivo"
+
+  "Menu: Save file as"
+  "Menu: Salvar arquivo como"
+
+  "Menu: Select all occurrences"
+  "Menu: Selecione todas as ocorrências"
+
+  "Menu: Select all text"
+  "Seleccionar Todo o Texto"
+
+  "Menu: Set user bindings to global bindings"
+  "Menu: Define ligações de usuários para ligações globais"
+
+  "Menu: Set user preferences to global preferences"
+  "Menu: Definir as preferências do usuário para preferências globais"
+
+  "Menu: Show Tab Bar"
+  "Menu: Visualizar Tab Bar"
+
+  "Menu: Show console"
+  "Menu: Visualizar consola"
+
+  "Menu: Show last profiling report"
+  "Menu: Mostrar último relatório de profiling"
+
+  "Menu: Show sidebar"
+  "Menu: Mostrar barra lateral"
+
+  "Menu: Show status bar"
+  "Barra de Estado"
+
+  "Menu: Sort tabs"
+  "Menu: Ordenação de guias"
+
+  "Menu: Start profiling"
+  "Menu: Iniciar profiling"
+
+  "Menu: Stop profiling"
+  "Menu: Pare de perfis"
+
+  "Menu: Toggle split view mode"
+  "Menu: Alterna modo de exibição de divisão"
+
+  "Menu: Uncomment selected text"
+  "Menu: Descomente texto selecionado"
+
+  "Menu: Undo"
+  "Menu: Desfazer"
+
+  "Menu: Unindent selected text"
+  "Menu: texto selecionado Unindent"
+
+  "Menu: Uninstall plugin"
+  "Menu: Desinstalar Plugin"
+
+  "Menu: Unlock file"
+  "Menu: Desbloquear arquivo"
+
+  "Menu: View User Guide"
+  "Menu: Ver Guia do Usuário"
+
+  "Menu: View global menu bindings"
+  "Menu: Ver ligações de menu global"
+
+  "Menu: View global preferences"
+  "Menu: Exibir preferências globais"
+
+  "Move to other pane"
+  "Mover para outro painel"
+
+  "New"
+  "Novo"
+
+  "Open Directory..."
+  "Abrir diretório..."
+
+  "Open File..."
+  "Abrir um Ficheiro..."
+
+  "Open Recent"
+  "Abrir um Recente"
+
+  "Paste"
+  "Colar"
+
+  "Paste and Format"
+  "Colar formato"
+
+  "Plugins"
+  "Plugins"
+
+  "Preferences"
+  "Preferências"
+
+  "Profiling started"
+  "Profiling começou"
+
+  "Profiling stopped"
+  "Profiling parado"
+
+  "Quit"
+  "Desistir"
+
+  "Redo"
+  "Refazer"
+
+  "Reload"
+  "Recarregar"
+
+  "Restart tke"
+  "Restart tke"
+
+  "Save All"
+  "Gravar Tudo"
+
+  "Save As..."
+  "Salvar como..."
+
+  "Select All"
+  "Selecionar tudo"
+
+  "Select all occurrences"
+  "Selecione todas as ocorrências"
+
+  "Select next occurrence"
+  "Selecione próxima ocorrência"
+
+  "Select previous occurrence"
+  "Selecione ocorrência anterior"
+
+  "Selected"
+  "Selecionado"
+
+  "Set Syntax"
+  "Definir Sintaxe"
+
+  "Set Theme"
+  "Definir Tema"
+
+  "Set user to global"
+  "Definir usuário mundial"
+
+  "Show Console"
+  "Mostrar Console"
+
+  "Show Last Profiling Report"
+  "Mostrar Último Relatório Profiling"
+
+  "Show Sidebar"
+  "Mostrar a Barra Lateral"
+
+  "Show Status Bar"
+  "Barra de Estado"
+
+  "Show Tab Bar"
+  "Barra de Páginas"
+
+  "Show*Profiling*"
+  "Show * Profiling *"
+
+  "Snippets"
+  "Trechos"
+
+  "Sort Tabs"
+  "Sort Tabs"
+
+  "Split view"
+  "Vista Dividida"
+
+  "Start Profiling"
+  "Comece Profiling"
+
+  "Stop Profiling"
+  "Pare Profiling"
+
+  "Tabs"
+  "Guias"
+
+  "Text"
+  "Texto"
+
+  "Theme Creator"
+  "Theme Creator"
+
+  "Tools"
+  "Ferramentas"
+
+  "Uncomment"
+  "Descomente"
+
+  "Undo"
+  "Anular"
+
+  "Unindent"
+  "Unindent"
+
+  "Uninstall..."
+  "Desinstalação..."
+
+  "Unlock"
+  "Unlock"
+
+  "User Guide"
+  "Guia do Usuário"
+
+  "View"
+  "Vista"
+
+  "View global"
+  "Visão global"
+
+  "Vim Mode"
+  "Modo Vim"
+
+}
+
+# plugins.tcl
+msgcat::mcmset pt {
+
+  "ERROR:  Plugin name is not valid (only alphanumeric and underscores are allowed)"
+  "ERRO: Plugin nome não é válido (apenas caracteres alfanuméricos e sublinhados são permitidos)"
+
+  "ERROR:  Unable to write plugin file"
+  "ERRO: Não é possível gravar o arquivo de plug-in"
+
+  "Enter plugin name"
+  "Digite o nome do plugin"
+
+  "Plugin %s installed"
+  "Plugin% s instalado"
+
+  "Plugin %s uninstalled"
+  "Plugin% s desinstalado"
+
+  "Plugin Errors"
+  "Erros Plugin"
+
+  "Syntax errors found in selected plugins"
+  "Os erros de sintaxe encontrados em plugins selecionados"
+
+}
+
+# sidebar.tcl
+msgcat::mcmset pt {
+
+  "Add Parent Directory"
+  "Directório pai"
+
+  "Close Directory Files"
+  "Fechar Arquivos Diretório"
+
+  "Delete"
+  "Excluir"
+
+  "Delete directory?"
+  "Excluir diretório?"
+
+  "Delete file?"
+  "Excluir arquivo"
+
+  "Duplicate"
+  "Duplicação"
+
+  "Make Current Working Directory"
+  "Faça diretório de trabalho atual"
+
+  "New Directory"
+  "Novo Diretório"
+
+  "New File"
+  "Novo arquivo"
+
+  "Open"
+  "Abrir"
+
+  "Refresh Directory Files"
+  "Atualizar arquivos do diretório"
+
+  "Remove Parent from Sidebar"
+  "Remover Pai de Sidebar"
+
+  "Remove from Sidebar"
+  "Retire do Sidebar"
+
+  "Rename"
+  "Renomear"
+
+}
+
+# snippets.tcl
+msgcat::mcmset pt {
+
+  "Snippet: %s: %s"
+  "Trecho:% s:% s"
+
+  "Snippet: *"
+  "﻿Trecho"
+
+}
+
+# syntax.tcl
+msgcat::mcmset pt {
+
+  "Syntax error in %s.syntax file"
+  "Erro de sintaxe no arquivo de s.syntax%"
+
+  "Syntax:  %s"
+  "Sintaxe:% s"
+
+  "Theme:  %s"
+  "Tema:% s"
+
+}
+
+# themer.tcl
+msgcat::mcmset pt {
+
+  "Create"
+  "Criar"
+
+  "Create New Theme"
+  "Criar um Novo Tema..."
+
+  "Create custom"
+  "Criar personalizado"
+
+  "ERROR:  Unable to read %s"
+  "ERRO: Não foi possível ler% s"
+
+  "ERROR:  Unable to write %s"
+  "ERRO: Não foi possível gravar% s"
+
+  "Edit theme"
+  "Editar tema"
+
+  "Enter theme name"
+  "Digite o nome do tema"
+
+  "Error:  Theme is not a supported theme"
+  "Erro: Tema não é um tema apoiado"
+
+  "Import"
+  "Importe"
+
+  "Import TextMate Theme"
+  "Importação TextMate Tema"
+
+  "Name:"
+  "Nome:"
+
+  "OK"
+  "OK"
+
+  "Reset"
+  "Reset"
+
+  "Select theme"
+  "Seleccione o Ficheiro do Tema"
+
+}
+
+# tke.tcl
+msgcat::mcmset pt {
+
+  "ERROR:  %s"
+  "ERRO:% s"
+
+  "Edit theme?"
+  "Edite tema?"
+
+  "Import TextMate theme?"
+  "Importe tema TextMate?"
+
+}
+
+# tkedat.tcl
+msgcat::mcmset pt {
+
+  "Unable to open %s for reading"
+  "Não foi possível abrir o ficheiro%1 para leitura."
+
+  "Unable to open %s for writing"
+  "Não foi possível abrir%1 para escrita"
+
+}
+
+# General
+msgcat::mcmset pt {
+
+  "Cancel"
+  "Cancelar"
+
+  "Close"
+  "Fecho"
+
+  "Find:"
+  "Encontrar"
+
+  "Replace:"
+  "Substituir:"
+
+  "Save"
+  "Salvar"
+
+  "Save As"
+  "Salvar como"
+
+}
+

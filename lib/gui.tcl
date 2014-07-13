@@ -1247,6 +1247,7 @@ namespace eval gui {
     
     # If a save_as name is specified, change the filename
     if {$save_as ne ""} {
+      sidebar::highlight_filename [lindex $files $file_index $files_index(fname)] 0
       lset files $file_index $files_index(fname) $save_as
     
     # If the current file doesn't have a filename, allow the user to set it
