@@ -29,7 +29,11 @@ namespace eval vim {
 
     # Set the Vim mode on all text widgets
     foreach txt [array names command_entries] {
-      set_vim_mode [winfo parent $txt] {}  ;# TBD
+      if {[winfo exists $txt]} {
+        set_vim_mode [winfo parent $txt] {}  ;# TBD
+      } else {
+        unset command_entries($txt)
+      }
     }
     
   }
