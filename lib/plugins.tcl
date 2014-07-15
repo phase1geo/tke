@@ -4,20 +4,21 @@
 # Brief:   Namespace to support the plugin framework.
 #
 # List of available plugin actions:
-#  menu        - Adds a menu to the main menubar
-#  tab_popup   - Adds items to the tab popup menu
-#  root_popup  - Adds items to a root directory sidebar popup menu
-#  dir_popup   - Adds items to a non-root directory sidebar popup menu
-#  file_popup  - Adds items to a file sidebar popup menu
-#  writeplugin - Writes local plugin information to a save file (saves data between sessions)
-#  readplugin  - Reads local plugin information from a save file
-#  on_start    - Runs when the editor is started
-#  on_open     - Runs when a tab is opened
-#  on_focusin  - Runs when a tab receives focus
-#  on_close    - Runs when a tab is closed
-#  on_quit     - Runs when the editor is exited
-#  on_reload   - Takes action when the plugin is reloaded
-#  on_save     - Runs prior to a file being saved
+#  menu         - Adds a menu to the main menubar
+#  tab_popup    - Adds items to the tab popup menu
+#  root_popup   - Adds items to a root directory sidebar popup menu
+#  dir_popup    - Adds items to a non-root directory sidebar popup menu
+#  file_popup   - Adds items to a file sidebar popup menu
+#  text_binding - Adds one or more bindings to a created text field.
+#  write_plugin - Writes local plugin information to a save file (saves data between sessions)
+#  read_plugin  - Reads local plugin information from a save file
+#  on_start     - Runs when the editor is started
+#  on_open      - Runs when a tab is opened
+#  on_focusin   - Runs when a tab receives focus
+#  on_close     - Runs when a tab is closed
+#  on_quit      - Runs when the editor is exited
+#  on_reload    - Takes action when the plugin is reloaded
+#  on_save      - Runs prior to a file being saved
 
 namespace eval plugins {
 
@@ -179,7 +180,7 @@ namespace eval plugins {
       }
       
       # Allow any plugins that need to write configuration information now
-      foreach action [array names registry *,action,writeplugin,*] {
+      foreach action [array names registry *,action,write_plugin,*] {
         lassign [split $action ,] i
         if {$registry($i,selected)} {
           if {[catch "[lindex $registry($action) 0]" status]} {
@@ -235,7 +236,7 @@ namespace eval plugins {
               incr i
             }
             if {($i < $registry_size) && $registry($i,selected) && ([lsearch $bad_sources $i] == -1)} {
-              foreach action [array names registry $i,action,readplugin,*] {
+              foreach action [array names registry $i,action,read_plugin,*] {
                 if {[catch "[lindex $registry($action) 0] $suboption {$value}" status]} {
                   handle_status_error $i $status
                   lappend bad_sources $i
@@ -276,7 +277,7 @@ namespace eval plugins {
     set registry($index,status) $status
     
     # Set the current information message
-    after 100 [list gui::set_info_message "ERROR: [lindex [split $status \n] 0]"]
+    gui::set_info_message "ERROR: [lindex [split $status \n] 0]"
     
   }
   
@@ -773,6 +774,29 @@ namespace eval plugins {
     
     # Add the menu items
     menu_add $mnu file_popup
+    
+  }
+  
+  ######################################################################
+  # Creates a bindtag on behalf of the user for the given text widget
+  # and calls the associated procedure to have the bindings added.
+  proc handle_text_bindings {txt} {
+    
+    variable registry
+    
+    puts "In handle_text_bindings, txt: $txt"
+    
+    set btags      [bindtags $txt]
+    set pre_index  [lsearch -exact $btags Text]
+    set post_index [lsearch -exact $btags .]
+    
+    foreach entry [find_registry_entries "text_binding"] {
+      set bt "plugin__$registry([lindex $entry 0],name)__[lindex $entry 1]"
+      bindtags $txt [linsert $btags [expr {([lindex $entry 1] eq "pretext") ? $pre_index : $post_index}] $bt]
+      if {[catch "[lindex $entry 2] $bt" status]} {
+        handle_status_error [lindex $entry 0] $status
+      }
+    }
     
   }
   

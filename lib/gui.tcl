@@ -2811,10 +2811,11 @@ namespace eval gui {
     set adjusted_index [$tb index $index]
     
     # Add the text bindings
-    indent::add_bindings      $txt
-    multicursor::add_bindings $txt
-    snippets::add_bindings    $txt
-    vim::set_vim_mode         $txt {}
+    indent::add_bindings          $txt
+    multicursor::add_bindings     $txt
+    snippets::add_bindings        $txt
+    vim::set_vim_mode             $txt {}
+    plugins::handle_text_bindings $txt
         
     # Apply the appropriate syntax highlighting for the given extension
     if {$initial_language eq ""} {
@@ -2909,10 +2910,11 @@ namespace eval gui {
     [ns vim]::bind_command_entry $txt2 $tb.ve {}
     
     # Add the text bindings
-    [ns indent]::add_bindings      $txt2
-    [ns multicursor]::add_bindings $txt2
-    [ns snippets]::add_bindings    $txt2
-    [ns vim]::set_vim_mode         $txt2 {}
+    [ns indent]::add_bindings          $txt2
+    [ns multicursor]::add_bindings     $txt2
+    [ns snippets]::add_bindings        $txt2
+    [ns vim]::set_vim_mode             $txt2 {}
+    [ns plugins]::handle_text_bindings $txt2
     
     # Apply the appropriate syntax highlighting for the given extension
     set language [[ns syntax]::get_current_language $txt]
