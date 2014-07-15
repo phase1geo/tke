@@ -427,6 +427,8 @@ namespace eval sidebar {
   # Ends the edit process.
   proc edit_end_command {tbl row col value} {
     
+    variable images
+    
     # Get the current pathname
     set old_name [$tbl cellcget $row,name -text]
     
@@ -804,6 +806,7 @@ namespace eval sidebar {
   proc close_file {} {
     
     variable widgets
+    variable images
     
     # Get the current selection
     set selected [$widgets(tl) curselection]
@@ -952,6 +955,7 @@ namespace eval sidebar {
         if {[$widgets(tl) isexpanded $i] || ([$widgets(tl) parentkey $i] eq "root")} {
           lappend odirs $name
         }
+        lappend fif_files [list $name $name]
       } else {
         if {[$widgets(tl) cellcget $i,name -image] eq $images(sopen)} {
           lappend ofiles $name

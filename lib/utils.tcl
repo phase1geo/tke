@@ -269,4 +269,20 @@ namespace eval utils {
    
   }
   
+  ######################################################################
+  # Automatically adjusts the given color by a value equal to diff such
+  # that if color is a darker color, the value will be lightened and if
+  # color is a lighter color, the value will be darkened.
+  proc auto_adjust_color {color diff} {
+    
+    # Create the lighter version of the primary color
+    lassign [winfo rgb . $color] r g b
+    lassign [rgb_to_hsv [expr $r >> 8] [expr $g >> 8] [expr $b >> 8]] hue saturation value
+    set value [expr ($value < 128) ? ($value + $diff) : ($value - $diff)]
+    set rgb   [hsv_to_rgb $hue $saturation $value]
+      
+    return [format {#%02x%02x%02x} {*}$rgb]
+
+  }
+  
 }
