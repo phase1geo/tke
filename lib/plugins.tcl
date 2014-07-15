@@ -784,17 +784,16 @@ namespace eval plugins {
     
     variable registry
     
-    puts "In handle_text_bindings, txt: $txt"
-    
-    set btags      [bindtags $txt]
+    set btags      [bindtags $txt.t]
     set pre_index  [lsearch -exact $btags Text]
     set post_index [lsearch -exact $btags .]
     
     foreach entry [find_registry_entries "text_binding"] {
-      set bt "plugin__$registry([lindex $entry 0],name)__[lindex $entry 1]"
-      bindtags $txt [linsert $btags [expr {([lindex $entry 1] eq "pretext") ? $pre_index : $post_index}] $bt]
-      if {[catch "[lindex $entry 2] $bt" status]} {
-        handle_status_error [lindex $entry 0] $status
+      lassign $entry index type name cmd
+      set bt "plugin__$registry($index,name)__$name"
+      bindtags $txt.t [linsert $btags [expr {($type eq "pretext") ? $pre_index : $post_index}] $bt]
+      if {[catch "$cmd $bt" status]} {
+        handle_status_error $index $status
       }
     }
     

@@ -23,6 +23,6 @@ namespace eval plugins::text_binding {
 }
 
 plugins::register text_binding {
-  text_binding pretext  foobar plugins::text_binding::do_foobar
-  text_binding posttext barfoo plugins::text_binding::do_barfoo
+  {text_binding pretext  foobar plugins::text_binding::do_foobar}
+  {text_binding posttext barfoo plugins::text_binding::do_barfoo}
 }
