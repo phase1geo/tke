@@ -621,7 +621,7 @@ namespace eval menus {
       
       # Perform egrep operation (test)
       if {[array size files] > 0} {
-        bgproc::system find_in_files "egrep -a -H -C$preferences::prefs(Find/ContextNum) -n $rsp(egrep_opts) -s $rsp(find) [lsort [array names files]]" -killable 1 \
+        bgproc::system find_in_files "egrep -a -H -C$preferences::prefs(Find/ContextNum) -n $rsp(egrep_opts) -s {$rsp(find)} [lsort [array names files]]" -killable 1 \
           -callback "menus::find_in_files_callback [list $rsp(find)] [array size files]"
       } else {
         gui::set_info_message "No files found in specified directories"
