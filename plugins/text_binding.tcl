@@ -2,7 +2,7 @@
 # NAME         text_binding
 # AUTHOR       Trevor Williams  (phase1geo@gmail.com)
 # DATE         08/14/2013
-# INCLUDE      yes
+# INCLUDE      no
 # DESCRIPTION  Tests the text binding plugin capabilities
 # HEADER_END
 

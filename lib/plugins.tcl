@@ -31,6 +31,7 @@ namespace eval plugins {
   
   array set registry     {}
   array set prev_sourced {}
+  array set bound_tags   {}
   
   ######################################################################
   # Procedure that is called be each plugin that registers all of the
@@ -392,7 +393,7 @@ namespace eval plugins {
         handle_status_error $index $status
         set registry($index,selected) 0
       } else {
-        after 100 [list gui::set_info_message [msgcat::mc "Plugin %s installed" $registry($index,name)]]
+        gui::set_info_message [msgcat::mc "Plugin %s installed" $registry($index,name)]
         set registry($index,sourced)  1
         set registry($index,selected) 1
         handle_reloading $index
@@ -400,7 +401,7 @@ namespace eval plugins {
       
     # Otherwise, just mark the plugin as being selected
     } else {
-      after 100 [list gui::set_info_message [msgcat::mc "Plugin %s installed" $registry($index,name)]]
+      gui::set_info_message [msgcat::mc "Plugin %s installed" $registry($index,name)]
       set registry($index,selected) 1
     }
     
@@ -433,7 +434,7 @@ namespace eval plugins {
     foreach name $plugins {
       launcher::unregister "`PLUGIN:$name"
     }
-  
+    
   }
   
   ######################################################################
@@ -452,7 +453,7 @@ namespace eval plugins {
     add_all_menus
     
     # Display the uninstall message
-    after 100 [list gui::set_info_message [msgcat::mc "Plugin %s uninstalled" $registry($index,name)]]
+    gui::set_info_message [msgcat::mc "Plugin %s uninstalled" $registry($index,name)]
     
   }
   
@@ -783,17 +784,26 @@ namespace eval plugins {
   proc handle_text_bindings {txt} {
     
     variable registry
+    variable bound_tags
     
-    set btags      [bindtags $txt.t]
-    set pre_index  [lsearch -exact $btags Text]
-    set post_index [lsearch -exact $btags .]
+    set ctags       [bindtags $txt]
+    set cpre_index  [expr [lsearch -exact $ctags $txt] + 1]
+    set cpost_index [lsearch -exact $ctags .]
+    
+    set ttags       [bindtags $txt.t]
+    set tpre_index  [expr [lsearch -exact $ttags $txt.t] + 1]
+    set tpost_index [lsearch -exact $ttags .]
     
     foreach entry [find_registry_entries "text_binding"] {
       lassign $entry index type name cmd
       set bt "plugin__$registry($index,name)__$name"
-      bindtags $txt.t [linsert $btags [expr {($type eq "pretext") ? $pre_index : $post_index}] $bt]
-      if {[catch "$cmd $bt" status]} {
-        handle_status_error $index $status
+      bindtags $txt   [linsert $ctags [expr {($type eq "pretext") ? $cpre_index : $cpost_index}] $bt]
+      bindtags $txt.t [linsert $ttags [expr {($type eq "pretext") ? $tpre_index : $tpost_index}] $bt]
+      if {![info exists bound_tags($bt)]} {
+        if {[catch "$cmd $bt" status]} {
+          handle_status_error $index $status
+        }
+        set bound_tags($bt) 1
       }
     }
     

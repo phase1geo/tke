@@ -394,7 +394,7 @@ namespace eval gui {
       # Get the default background and foreground colors
       set bg  [utils::get_default_background]
       set fg  [utils::get_default_foreground]
-      set ibg [expr {($theme eq "dark") ? "grey10" : "grey70"}]
+      set ibg [expr {($theme eq "dark") ? "grey5" : "grey70"}]
       
       # Store the readonly/lock status of each tab
       array set tab_status [list]
