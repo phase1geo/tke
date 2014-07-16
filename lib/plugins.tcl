@@ -19,6 +19,7 @@
 #  on_quit      - Runs when the editor is exited
 #  on_reload    - Takes action when the plugin is reloaded
 #  on_save      - Runs prior to a file being saved
+#  on_uninstall - Runs when the plugin is uninstalled by the user.  Allows UI cleanup, etc.
 
 namespace eval plugins {
 
@@ -386,10 +387,13 @@ namespace eval plugins {
     # Delete all plugin menu items
     delete_all_menus
     
+    # Delete all plugin text bindings
+    delete_all_text_bindings
+    
     # Source the file if it hasn't been previously sourced
     if {$registry($index,sourced) == 0} {
       handle_resourcing $index
-      if {[catch "source $registry($index,file)" status]} {
+      if {[catch "uplevel #0 [list source $registry($index,file)]" status]} {
         handle_status_error $index $status
         set registry($index,selected) 0
       } else {
@@ -407,6 +411,9 @@ namespace eval plugins {
     
     # Add all of the plugins
     add_all_menus
+    
+    # Add all of the text bindings
+    add_all_text_bindings
   
   }
   
@@ -443,14 +450,23 @@ namespace eval plugins {
   
     variable registry
     
+    # Call "on_uninstall" command, if it exists
+    handle_on_uninstall $index
+      
     # Delete all plugin menu items
     delete_all_menus
+    
+    # Delete all text bindings
+    delete_all_text_bindings
     
     # Unselect the plugin
     set registry($index,selected) 0
     
     # Add all of the plugins
     add_all_menus
+    
+    # Add all of the text bindings
+    add_all_text_bindings
     
     # Display the uninstall message
     gui::set_info_message [msgcat::mc "Plugin %s uninstalled" $registry($index,name)]
@@ -631,8 +647,12 @@ namespace eval plugins {
       
       # Delete all of the plugin items
       foreach entry $entries {
-        lassign $entry index hier
-        if {[menu_delete_item $mnu [lrange [split [string tolower [string map {{ } _} $hier]] .] 0 end-1]]} {
+        lassign $entry index type hier
+        set hier [split [string tolower [string map {{ } _} $hier]] .]
+        if {$type ne "cascade"} {
+          set hier [lrange $hier 0 end-1]
+        }
+        if {[menu_delete_item $mnu $hier]} {
           $mnu delete last
         }
       }
@@ -697,6 +717,16 @@ namespace eval plugins {
   }
   
   ######################################################################
+  # Adds all of the text bindings to all open text widgets.
+  proc add_all_text_bindings {} {
+    
+    foreach txt [gui::get_all_texts] {
+      handle_text_bindings $txt
+    }
+    
+  }
+  
+  ######################################################################
   # Deletes all plugins from their respective menus.
   proc delete_all_menus {} {
     
@@ -705,6 +735,28 @@ namespace eval plugins {
     foreach {action mnu} [array get menus] {
       menu_delete $mnu $action
     }
+    
+  }
+  
+  ######################################################################
+  # Deletes all text bindings that were previously created.
+  proc delete_all_text_bindings {} {
+    
+    variable bound_tags
+    
+    foreach {bt txts} [array get bound_tags] {
+      foreach txt $txts {
+        if {[set index [lsearch -exact [set btags [bindtags $txt]] $bt]] != -1} {
+          bindtags $txt [lreplace $btags $index $index]
+        }
+        if {[set index [lsearch -exact [set btags [bindtags $txt.t]] $bt]] != -1} {
+          bindtags $txt.t [lreplace $btags $index $index]
+        }
+      }
+    }
+    
+    # Delete all of the bound tags
+    array unset bound_tags
     
   }
   
@@ -803,7 +855,9 @@ namespace eval plugins {
         if {[catch "$cmd $bt" status]} {
           handle_status_error $index $status
         }
-        set bound_tags($bt) 1
+        set bound_tags($bt) $txt
+      } else {
+        lappend bound_tags($bt) $txt
       }
     }
     
@@ -871,6 +925,21 @@ namespace eval plugins {
     # Finally, write the plugin information file
     write_config
   
+  }
+  
+  ######################################################################
+  # Called when a plugin is uninstalled.
+  proc handle_on_uninstall {index} {
+    
+    variable registry
+    
+    # If the given event contains an "on_uninstall" action, run it.
+    foreach {name action} [array get registry $index,action,on_uninstall,*] {
+      if {[catch "{*}$action" status]} {
+        handle_status_error $index $status
+      }
+    }
+    
   }
   
 }
