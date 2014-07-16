@@ -2492,6 +2492,27 @@ namespace eval gui {
     
   }
   
+  ######################################################################
+  # Returns a list of all of the text widgets in the tool.
+  proc get_all_texts {} {
+    
+    variable widgets
+    
+    set txts [list]
+    
+    foreach nb [$widgets(nb_pw) panes] {
+      foreach tab [$nb.tbf.tb tabs] {
+        lappend txts $tab.pw.tf.txt
+        if {[winfo exists $tab.pw.tf2.txt]} {
+          lappend txts $tab.pw.tf2.txt
+        }
+      }
+    }
+    
+    return $txts
+    
+  }
+  
   ########################
   #  PRIVATE PROCEDURES  #
   ########################

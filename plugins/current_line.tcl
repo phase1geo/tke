@@ -57,8 +57,21 @@ namespace eval plugins::current_line {
     
   }
   
+  proc do_uninstall {} {
+    
+    variable configured
+    
+    foreach txt [array names configured] {
+      $txt tag delete current_line
+    }
+    
+    array unset configured
+    
+  }
+  
 }
 
 plugins::register current_line {
   {text_binding pretext cline plugins::current_line::do_cline}
+  {on_uninstall plugins::current_line::do_uninstall}
 }
