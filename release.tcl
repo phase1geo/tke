@@ -68,7 +68,7 @@ proc generate_changelog {tag} {
       return -code error "Unable to generate ChangeLog"
     }
   } else {
-    if {[catch { exec -ignorestderr hg log -r "branch(default) and tag('$tag')" > ChangeLog } rc]} {
+    if {[catch { exec -ignorestderr hg log -r "tag('$tag'):" > ChangeLog } rc]} {
       puts "failed!"
       puts "  $rc"
       return -code error "Unable to generate ChangeLog"
