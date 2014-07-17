@@ -1426,6 +1426,7 @@ namespace eval gui {
     variable widgets
     variable files
     variable files_index
+    variable pw_current
     
     # Get the file index
     set index [get_file_index $tab]
@@ -1449,8 +1450,9 @@ namespace eval gui {
 
     # If we have no more tabs and there is another pane, remove this pane
     if {([llength [$w tabs]] == 0) && ([llength [$widgets(nb_pw) panes]] > 1)} {
-      $widgets(nb_pw) forget $pane
+      $widgets(nb_pw) forget $pw_current
       set pw_current 0
+      set w          [lindex [$widgets(nb_pw) panes] 0].tbf.tb
     }
     
     # Add a new file if we have no more tabs, we are the only pane, and the preference
@@ -1507,6 +1509,7 @@ namespace eval gui {
     if {([llength [$tb tabs]] == 0) && ([llength [$widgets(nb_pw) panes]] > 1)} {
       $widgets(nb_pw) forget $pane
       set pw_current 0
+      set tb         [lindex [$widgets(nb_pw) panes] 0].tbf.tb
     }
     
     # Add a new file if we have no more tabs, we are the only pane, and the preference
@@ -2546,10 +2549,15 @@ namespace eval gui {
     # Create editor notebook
     $widgets(nb_pw) add [set nb [ttk::frame $widgets(nb_pw).nb[incr curr_notebook]]] -weight 1
     
+    # Figure out colors to apply to notebook
+    set bg  [utils::get_default_background]
+    set fg  [utils::get_default_foreground]
+    set ibg [expr {($preferences::prefs(General/WindowTheme) eq "dark") ? "grey5" : "grey70"}]
+
     # Add the tabbar frame
     ttk::frame $nb.tbf
     tabbar::tabbar $nb.tbf.tb -command "gui::set_current_tab_from_tb" -closecommand "gui::close_tab_by_tabbar" \
-      -background [utils::get_default_background]
+      -background $bg -foreground $fg -activebackground $bg -inactivebackground $ibg
     ttk::label $nb.tbf.extra -image $images(down) -padding {4 4 4 4}
     
     grid rowconfigure    $nb.tbf 0 -weight 1
