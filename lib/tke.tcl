@@ -50,6 +50,7 @@ source [file join $tke_dir lib markers.tcl]
 source [file join $tke_dir lib tkedat.tcl]
 source [file join $tke_dir lib themer.tcl]
 source [file join $tke_dir lib themes.tcl]
+source [file join $tke_dir lib favorites.tcl]
 
 if {[tk windowingsystem] eq "aqua"} {
   source [file join $tke_dir lib windowlist.tcl]
@@ -75,7 +76,7 @@ proc usage {} {
   puts "           specified)."
   puts "  -e     Exits the application when the last tab is closed"
   puts "           (overrides preference setting)"
-  puts "  -m     Creates a minimal editing enviornment (overrides"
+  puts "  -m     Creates a minimal editing environment (overrides"
   puts "           preference settings)"
   puts ""
   
@@ -253,6 +254,9 @@ cliphist::load
 
 # Load the syntax highlighting information
 syntax::load
+
+# Load the favorites information
+favorites::load
 
 # Set the delay to 1 second
 tooltip::tooltip delay 1000
