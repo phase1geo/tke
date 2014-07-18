@@ -7,20 +7,20 @@
 
 namespace eval favorites {
   
-  variable favorites_file [file join $::tke_home favorites.tkedat]
-  variable files
+  variable favorites_file [file join $::tke_home favorites.dat]
+  variable items
   
   ######################################################################
   # Loads the favorite information file into memory.
   proc load {} {
     
     variable favorites_file
-    variable files
+    variable items
     
-    set files [list]
+    set items [list]
     
     if {![catch "open $favorites_file r" rc]} {
-      set files [::read $rc]
+      set items [::read $rc]
       close $rc
     }
     
@@ -31,11 +31,13 @@ namespace eval favorites {
   proc store {} {
     
     variable favorites_file
-    variable files
+    variable items
     
     if {![catch "open $favorites_file w" rc]} {
-      foreach file $files {
-        puts $rc $file
+      puts "items: $items"
+      foreach item $items {
+        puts "item: $item"
+        puts $rc [list $item]
       }
       close $rc
     }
@@ -46,22 +48,82 @@ namespace eval favorites {
   # Adds a file to the list of favorites.
   proc add {fname} {
     
-    variable files
+    variable items
     
     # Only add the file if it currently does not exist
-    if {[lsearch -index 0 $files $fname] == -1} {
-      lappend files [list $fname [FOOBAR]]
+    if {[lsearch -index 0 $items $fname] == -1} {
+      lappend items [list $fname [info hostname]]
+      store
+      return 1
     }
+    
+    return 0
+    
+  }
+  
+  ######################################################################
+  # Removes the given filename from the list of favorites.
+  proc remove {fname} {
+    
+    variable items
+    
+    # Only remove the file it it currently exists in the list
+    if {[set index [lsearch -index 0 $items $fname]] != -1} {
+      set items [lreplace $items $index $index]
+      store
+      return 1
+    }
+    
+    return 0
     
   }
   
   ######################################################################
   # Returns the normalized filenames based on the current host.
-  proc get_files {} {
+  proc get_list {} {
     
-    variable files
+    variable items
     
-    return $files
+    set item_list [list]
+    
+    foreach item $items {
+      lappend item_list [lindex $item 0]
+    }
+    
+    return [lsort $item_list]
+    
+  }
+  
+  ######################################################################
+  # Returns 1 if the given filename is marked as a favorite.
+  proc is_favorite {fname} {
+    
+    variable items
+    
+    return [expr [lsearch -index 0 $items $fname] != -1]
+    
+  }
+  
+  ######################################################################
+  # Displays the launcher with favorited files/directories.
+  proc launcher {} {
+    
+    # Add favorites to launcher
+    foreach item [get_list] {
+      if {[file isdirectory $item]} {
+        launcher::register_temp "`FAVORITE:$item" "sidebar::add_directory $item" $item
+      } else {
+        launcher::register_temp "`FAVORITE:$item" "gui::add_file end $item" $item
+      }
+    }
+    
+    # Display the launcher in FAVORITE: mode
+    launcher::launch "`FAVORITE:"
+    
+    # Unregister the favorites
+    foreach item [get_list] {
+      launcher::unregister "`FAVORITE:$item"
+    }
     
   }
   

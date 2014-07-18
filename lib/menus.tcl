@@ -111,6 +111,10 @@ namespace eval menus {
     launcher::register [msgcat::mc "Menu: Open directory"] menus::open_dir_command
     
     $mb add cascade -label [msgcat::mc "Open Recent"] -menu [menu $mb.recent -tearoff false -postcommand "menus::file_recent_posting $mb.recent"]
+    launcher::register [msgcat::mc "Menu: Open Recent"] menus::launcher
+    
+    $mb add cascade -label [msgcat::mc "Open Favorite"] -menu [menu $mb.favorites -tearoff false -postcommand "menus::file_favorites_posting $mb.favorites"]
+    launcher::register [msgcat::mc "Menu: Open Favorite"] favorites::launcher
     
     $mb add separator
     
@@ -128,6 +132,10 @@ namespace eval menus {
     $mb add command -label [msgcat::mc "Lock"] -underline 0 -command "menus::lock_command $mb"
     launcher::register [msgcat::mc "Menu: Lock file"] "menus::lock_command $mb"
     launcher::register [msgcat::mc "Menu: Unlock file"] "menus::unlock_command $mb"
+    
+    $mb add command -label [msgcat::mc "Favorite"] -underline 0 -command "menus::favorite_command $mb"
+    launcher::register [msgcat::mc "Menu: Favorite file"] "menus::favorite_command $mb"
+    launcher::register [msgcat::mc "Menu: Unfavorite file"] "menus::unfavorite_command $mb"
     
     $mb add separator
     
@@ -153,13 +161,17 @@ namespace eval menus {
   # Called prior to the file menu posting.
   proc file_posting {mb} {
   
-    # Get the current readonly status
+    # Get the current file index (if one exists)
     if {[set file_index [gui::current_file]] != -1} {
 
+      # Get the current readonly status
       set readonly [gui::get_file_info $file_index readonly]
     
       # Get the current file lock status
       set file_lock [expr $readonly || [gui::get_file_info [gui::current_file] lock]]
+      
+      # Get the current favorite status
+      set favorite [favorites::is_favorite [gui::get_file_info $file_index fname]]
     
       # Configure the Lock/Unlock menu item    
       if {$file_lock && ![catch "$mb index Lock" index]} {
@@ -169,6 +181,13 @@ namespace eval menus {
         }
       } elseif {!$file_lock && ![catch "$mb index Unlock" index]} {
         $mb entryconfigure $index -label [msgcat::mc "Lock"] -state normal -command "menus::lock_command $mb"
+      }
+      
+      # Configure the Favorite/Unfavorite menu item
+      if {$favorite && ![catch "$mb index Favorite" index]} {
+        $mb entryconfigure $index -label [msgcat::mc "Unfavorite"] -state normal -command "menus::unfavorite_command $mb"
+      } elseif {!$favorite && ![catch "$mb index Unfavorite" index]} {
+        $mb entryconfigure $index -label [msgcat::mc "Favorite"] -state normal -command "menus::favorite_command $mb"
       }
 
       # Make sure that the file-specific items are enabled
@@ -185,6 +204,7 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Save As..."] -state disabled
       $mb entryconfigure [msgcat::mc "Save All"]   -state disabled
       $mb entryconfigure [msgcat::mc "Lock"]       -state disabled
+      $mb entryconfigure [msgcat::mc "Favorite"]   -state disabled
       $mb entryconfigure [msgcat::mc "Close"]      -state disabled
       $mb entryconfigure [msgcat::mc "Close All"]  -state disabled
 
@@ -196,11 +216,18 @@ namespace eval menus {
     } else {
       $mb entryconfigure [msgcat::mc "Open Recent"] -state normal
     }
+    
+    # Configure the Open Favorite menu
+    if {[llength [favorites::get_list]] == 0} {
+      $mb entryconfigure [msgcat::mc "Open Favorite"] -state disabled
+    } else {
+      $mb entryconfigure [msgcat::mc "Open Favorite"] -state normal
+    }
 
   }
   
   ######################################################################
-  # Sets up the "Open Recent" menu item prior to it being posted.
+  # Sets up the "Open Recent" menu prior to it being posted.
   proc file_recent_posting {mb} {
   
     # Clear the menu
@@ -215,6 +242,24 @@ namespace eval menus {
     
   }
 
+  ######################################################################
+  # Updates the "Open Favorite" menu prior to it being posted.
+  proc file_favorites_posting {mb} {
+    
+    # Clear the menu
+    $mb delete 0 end
+    
+    # Populate the menu with the filenames from the favorite list
+    foreach path [favorites::get_list] {
+      if {[file isdirectory $path]} {
+        $mb add command -label [file tail $path] -command "sidebar::add_directory $path"
+      } else {
+        $mb add command -label [file tail $path] -command "gui::add_file end $path"
+      }
+    }
+    
+  }
+  
   ######################################################################
   # Implements the "create new file" command.
   proc new_command {} {
@@ -308,6 +353,43 @@ namespace eval menus {
       
     }
   
+  }
+  
+  ######################################################################
+  # Marks the current file as a favorite.
+  proc favorite_command {mb} {
+    
+    # Get the current file index (if one exists)
+    if {[set file_index [gui::current_file]] != -1} {
+      
+      # Add the file as a favorite
+      if {[favorites::add [gui::get_file_info $file_index fname]]} {
+      
+        # Set the menu up to display the unfavorite file menu option
+        $mb entryconfigure [msgcat::mc "Favorite"] -label [msgcat::mc "Unfavorite"] -command "menus::unfavorite_command $mb"
+      
+      }
+      
+    }
+    
+  }
+  
+  ######################################################################
+  # Marks the current file as not favorited.
+  proc unfavorite_command {mb} {
+    
+    # Get the current file index (if one exists)
+    if {[set file_index [gui::current_file]] != -1} {
+      
+      # Remove the file as a favorite
+      if {[favorites::remove [gui::get_file_info $file_index fname]]} {
+      
+        $mb entryconfigure [msgcat::mc "Unfavorite"] -label [msgcat::mc "Favorite"] -command "menus::favorite_command $mb"
+      
+      }
+      
+    }
+    
   }
   
   ######################################################################
@@ -1344,6 +1426,25 @@ namespace eval menus {
       $mb add command -label [msgcat::mc "About TKE"] -underline 0 -command "gui::show_about"
     }
     launcher::register [msgcat::mc "Menu: About TKE"] "gui::show_about"
+    
+  }
+  
+  ######################################################################
+  # Displays the launcher with recently opened files.
+  proc launcher {} {
+    
+    # Add favorites to launcher
+    foreach fname [lrange [gui::get_last_opened] 0 [expr $preferences::prefs(View/ShowRecentlyOpened) - 1]] {
+      launcher::register_temp "`RECENT:$fname" "gui::add_file end $fname" $fname
+    }
+    
+    # Display the launcher in RECENT: mode
+    launcher::launch "`RECENT:"
+    
+    # Unregister the recents
+    foreach fname [lrange [gui::get_last_opened] 0 [expr $preferences::prefs(View/ShowRecentlyOpened) - 1]] {
+      launcher::unregister "`RECENT:$fname"
+    }
     
   }
   

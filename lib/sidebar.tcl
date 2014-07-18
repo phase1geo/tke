@@ -52,106 +52,212 @@ namespace eval sidebar {
     grid $w.vb -row 0 -column 1 -sticky ns
     
     # Create directory popup
-    set widgets(dirmenu) [menu $w.dirPopupMenu -tearoff 0]
-    $widgets(dirmenu) add command -label [msgcat::mc "New File"] -command {
-      sidebar::add_file_to_folder
-    }
-    $widgets(dirmenu) add command -label [msgcat::mc "New Directory"] -command {
-      sidebar::add_folder_to_folder
-    }
-    $widgets(dirmenu) add separator
-    $widgets(dirmenu) add command -label [msgcat::mc "Close Directory Files"] -command {
-      sidebar::close_folder_files
-    }
-    $widgets(dirmenu) add separator
-    $widgets(dirmenu) add command -label [msgcat::mc "Rename"] -command {
-      sidebar::rename_folder
-    }
-    $widgets(dirmenu) add command -label [msgcat::mc "Delete"] -command {
-      sidebar::delete_folder
-    }
-    $widgets(dirmenu) add separator
-    $widgets(dirmenu) add command -label [msgcat::mc "Remove from Sidebar"] -command {
-      sidebar::remove_folder
-    }
-    $widgets(dirmenu) add command -label [msgcat::mc "Remove Parent from Sidebar"] -command {
-      sidebar::remove_parent_folder
-    }
-    $widgets(dirmenu) add separator
-    $widgets(dirmenu) add command -label [msgcat::mc "Make Current Working Directory"] -command {
-      sidebar::set_current_working_directory
-    }
-    $widgets(dirmenu) add command -label [msgcat::mc "Refresh Directory Files"] -command {
-      sidebar::refresh_directory_files
-    }
-    
-    # Add plugins to sidebar directory popup
-    plugins::handle_dir_popup $widgets(dirmenu)
-    
-    # Create a root directory popup
-    set widgets(rootmenu) [menu $w.rootPopupMenu -tearoff 0]
-    $widgets(rootmenu) add command -label [msgcat::mc "New File"] -command {
-      sidebar::add_file_to_folder
-    }
-    $widgets(rootmenu) add command -label [msgcat::mc "New Directory"] -command {
-      sidebar::add_folder_to_folder
-    }
-    $widgets(rootmenu) add separator
-    $widgets(rootmenu) add command -label [msgcat::mc "Close Directory Files"] -command {
-      sidebar::close_folder_files
-    }
-    $widgets(rootmenu) add separator
-    $widgets(rootmenu) add command -label [msgcat::mc "Rename"] -command {
-      sidebar::rename_folder
-    }
-    $widgets(rootmenu) add command -label [msgcat::mc "Delete"] -command {
-      sidebar::delete_folder
-    }
-    $widgets(rootmenu) add separator
-    $widgets(rootmenu) add command -label [msgcat::mc "Remove from Sidebar"] -command {
-      sidebar::remove_folder
-    } 
-    $widgets(rootmenu) add command -label [msgcat::mc "Add Parent Directory"] -command {
-      sidebar::add_parent_directory
-    }
-    $widgets(rootmenu) add separator
-    $widgets(rootmenu) add command -label [msgcat::mc "Make Current Working Directory"] -command {
-      sidebar::set_current_working_directory
-    }
-    $widgets(rootmenu) add command -label [msgcat::mc "Refresh Directory Files"] -command {
-      sidebar::refresh_directory_files
-    }
-    
-    # Add plugins to sidebar root popup
-    plugins::handle_root_popup $widgets(rootmenu)
-    
-    # Create file popup
-    set widgets(filemenu) [menu $w.filePopupMenu -tearoff 0]
-    $widgets(filemenu) add command -label [msgcat::mc "Open"] -command {
-      sidebar::open_file
-    }
-    $widgets(filemenu) add separator
-    $widgets(filemenu) add command -label [msgcat::mc "Close"] -command {
-      sidebar::close_file
-    }
-    $widgets(filemenu) add separator
-    $widgets(filemenu) add command -label [msgcat::mc "Rename"] -command {
-      sidebar::rename_file
-    }
-    $widgets(filemenu) add command -label [msgcat::mc "Duplicate"] -command {
-      sidebar::duplicate_file
-    }
-    $widgets(filemenu) add command -label [msgcat::mc "Delete"] -command {
-      sidebar::delete_file
-    }
-    
-    # Add plugins to sidebar file popup
-    plugins::handle_file_popup $widgets(filemenu)
+    set widgets(menu) [menu $w.popupMenu -tearoff 0 -postcommand "sidebar::menu_post"]
     
     # Handle traces
     trace variable preferences::prefs(Sidebar/IgnoreFilePatterns) w sidebar::handle_ignore_file_patterns
     
     return $w
+    
+  }
+  
+  ######################################################################
+  # Handles the contents of the sidebar popup menu prior to it being posted.
+  proc menu_post {} {
+    
+    variable widgets
+    
+    # Get the current index
+    set row [$widgets(tl) curselection]
+    
+    if {[$widgets(tl) parentkey $row] eq "root"} {
+      setup_root_menu $row
+    } elseif {[file isdirectory [$widgets(tl) cellcget $row,name -text]]} {
+      setup_dir_menu $row
+    } else {
+      setup_file_menu $row
+    }
+    
+  }
+  
+  ######################################################################
+  # Sets up the popup menu to be suitable for the given directory.
+  proc setup_dir_menu {index} {
+    
+    variable widgets
+    
+    # Clear the menu
+    $widgets(menu) delete 0 end
+    
+    $widgets(menu) add command -label [msgcat::mc "New File"] -command {
+      sidebar::add_file_to_folder
+    }
+    $widgets(menu) add command -label [msgcat::mc "New Directory"] -command {
+      sidebar::add_folder_to_folder
+    }
+    
+    $widgets(menu) add separator
+    
+    $widgets(menu) add command -label [msgcat::mc "Close Directory Files"] -command {
+      sidebar::close_folder_files
+    }
+    
+    $widgets(menu) add separator
+    
+    $widgets(menu) add command -label [msgcat::mc "Rename"] -command {
+      sidebar::rename_folder
+    }
+    $widgets(menu) add command -label [msgcat::mc "Delete"] -command {
+      sidebar::delete_folder
+    }
+    
+    $widgets(menu) add separator
+    
+    if {[favorites::is_favorite [$widgets(tl) cellcget $index,name -text]]} {
+      $widgets(menu) add command -label [msgcat::mc "Unfavorite"] -command {
+        sidebar::unfavorite
+      }
+    } else {
+      $widgets(menu) add command -label [msgcat::mc "Favorite"] -command {
+        sidebar::favorite
+      }
+    }
+    
+    $widgets(menu) add separator
+    
+    $widgets(menu) add command -label [msgcat::mc "Remove from Sidebar"] -command {
+      sidebar::remove_folder
+    }
+    $widgets(menu) add command -label [msgcat::mc "Remove Parent from Sidebar"] -command {
+      sidebar::remove_parent_folder
+    }
+    
+    $widgets(menu) add separator
+    
+    $widgets(menu) add command -label [msgcat::mc "Make Current Working Directory"] -command {
+      sidebar::set_current_working_directory
+    }
+    $widgets(menu) add command -label [msgcat::mc "Refresh Directory Files"] -command {
+      sidebar::refresh_directory_files
+    }
+    
+    # Add plugins to sidebar directory popup
+    plugins::handle_dir_popup $widgets(menu)
+    
+  }
+  
+  ######################################################################
+  # Sets up the given menu for a root directory item.
+  proc setup_root_menu {index} {
+    
+    variable widgets
+    
+    # Clear the menu
+    $widgets(menu) delete 0 end
+    
+    $widgets(menu) add command -label [msgcat::mc "New File"] -command {
+      sidebar::add_file_to_folder
+    }
+    $widgets(menu) add command -label [msgcat::mc "New Directory"] -command {
+      sidebar::add_folder_to_folder
+    }
+    
+    $widgets(menu) add separator
+    
+    $widgets(menu) add command -label [msgcat::mc "Close Directory Files"] -command {
+      sidebar::close_folder_files
+    }
+    
+    $widgets(menu) add separator
+    
+    $widgets(menu) add command -label [msgcat::mc "Rename"] -command {
+      sidebar::rename_folder
+    }
+    $widgets(menu) add command -label [msgcat::mc "Delete"] -command {
+      sidebar::delete_folder
+    }
+    
+    $widgets(menu) add separator
+    
+    if {[favorites::is_favorite [$widgets(tl) cellcget $index,name -text]]} {
+      $widgets(menu) add command -label [msgcat::mc "Unfavorite"] -command {
+        sidebar::unfavorite
+      }
+    } else {
+      $widgets(menu) add command -label [msgcat::mc "Favorite"] -command {
+        sidebar::favorite
+      }
+    }
+    
+    $widgets(menu) add separator
+    
+    $widgets(menu) add command -label [msgcat::mc "Remove from Sidebar"] -command {
+      sidebar::remove_folder
+    } 
+    $widgets(menu) add command -label [msgcat::mc "Add Parent Directory"] -command {
+      sidebar::add_parent_directory
+    }
+    
+    $widgets(menu) add separator
+    
+    $widgets(menu) add command -label [msgcat::mc "Make Current Working Directory"] -command {
+      sidebar::set_current_working_directory
+    }
+    $widgets(menu) add command -label [msgcat::mc "Refresh Directory Files"] -command {
+      sidebar::refresh_directory_files
+    }
+    
+    # Add plugins to sidebar root popup
+    plugins::handle_root_popup $widgets(menu)
+    
+  }
+  
+  ######################################################################
+  # Sets up the file popup menu for the currently selected row.
+  proc setup_file_menu {index} {
+    
+    variable widgets
+    
+    # Delete the menu contents
+    $widgets(menu) delete 0 end
+    
+    # Create file popup
+    $widgets(menu) add command -label [msgcat::mc "Open"] -command {
+      sidebar::open_file
+    }
+    
+    $widgets(menu) add separator
+    
+    $widgets(menu) add command -label [msgcat::mc "Close"] -command {
+      sidebar::close_file
+    }
+    
+    $widgets(menu) add separator
+    
+    $widgets(menu) add command -label [msgcat::mc "Rename"] -command {
+      sidebar::rename_file
+    }
+    $widgets(menu) add command -label [msgcat::mc "Duplicate"] -command {
+      sidebar::duplicate_file
+    }
+    $widgets(menu) add command -label [msgcat::mc "Delete"] -command {
+      sidebar::delete_file
+    }
+   
+    $widgets(menu) add separator
+    
+    if {[favorites::is_favorite [$widgets(tl) cellcget $index,name -text]]} {
+      $widgets(menu) add command -label [msgcat::mc "Unfavorite"] -command {
+        sidebar::unfavorite
+      }
+    } else {
+      $widgets(menu) add command -label [msgcat::mc "Favorite"] -command {
+        sidebar::favorite
+      }
+    }
+    
+    # Add plugins to sidebar file popup
+    plugins::handle_file_popup $widgets(menu)
     
   }
   
@@ -523,14 +629,14 @@ namespace eval sidebar {
       handle_selection
       
       # Select the appropriate menu to display and display it
-      if {[$widgets(tl) parentkey $row] eq "root"} {
-        set mnu $widgets(rootmenu)
-      } elseif {[file isdirectory [$widgets(tl) cellcget $row,name -text]]} {
-        set mnu $widgets(dirmenu)
-      } else {
-        set mnu $widgets(filemenu)
-      }
-      tk_popup $mnu [expr [winfo rootx $W] + $x] [expr [winfo rooty $W] + $y]
+#      if {[$widgets(tl) parentkey $row] eq "root"} {
+#        set mnu $widgets(rootmenu)
+#      } elseif {[file isdirectory [$widgets(tl) cellcget $row,name -text]]} {
+#        set mnu $widgets(dirmenu)
+#      } else {
+#        set mnu $widgets(filemenu)
+#      }
+      tk_popup $widgets(menu) [expr [winfo rootx $W] + $x] [expr [winfo rooty $W] + $y]
       
     }
     
@@ -701,6 +807,34 @@ namespace eval sidebar {
       }
       
     }
+    
+  }
+  
+  ######################################################################
+  # Causes the currently selected folder/file to become a favorite.
+  proc favorite {} {
+    
+    variable widgets
+    
+    # Get the currently selected row
+    set selected [$widgets(tl) curselection]
+    
+    # Set the folder to be a favorite
+    favorites::add [$widgets(tl) cellcget $selected,name -text]
+      
+  }
+  
+  ######################################################################
+  # Causes the currently selected folder/file to become a non-favorite.
+  proc unfavorite {} {
+    
+    variable widgets
+    
+    # Get the currently selected row
+    set selected [$widgets(tl) curselection]
+    
+    # Remove the folder from the favorites list
+    favorites::remove [$widgets(tl) cellcget $selected,name -text]
     
   }
   
@@ -961,6 +1095,13 @@ namespace eval sidebar {
           lappend ofiles $name
         }
         lappend fif_files [list $name $name]
+      }
+    }
+    
+    # Add the favorites list
+    foreach favorite [favorites::get_list] {
+      if {[lsearch -index 1 $fif_files $favorite] == -1} {
+        lappend fif_files [list $favorite $favorite]
       }
     }
     
