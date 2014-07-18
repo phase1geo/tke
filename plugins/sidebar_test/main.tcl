@@ -1,11 +1,3 @@
-# HEADER_BEGIN
-# NAME         sidebar_test
-# AUTHOR       Trevor Williams  (phase1geo@gmail.com)
-# DATE         08/14/2013
-# INCLUDE      no
-# DESCRIPTION  Tests the sidebar plugin capabilities
-# HEADER_END
-
 namespace eval plugins::sidebar_test {
   
   ######################################################################

@@ -1,12 +1,3 @@
-# HEADER_BEGIN
-# NAME         todo
-# AUTHOR       Trevor Williams  (phase1geo@gmail.com)
-# DATE         09/31/2013
-# INCLUDE      yes
-# DESCRIPTION  Provides an ability to maintain and edit
-#             todo list functionality.
-# HEADER_END
-
 namespace eval plugins::todo {
   
   variable todo_lists {}

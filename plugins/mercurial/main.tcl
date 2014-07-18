@@ -1,11 +1,3 @@
-# HEADER_BEGIN
-# NAME         mercurial
-# AUTHOR       Trevor Williams  (phase1geo@gmail.com)
-# DATE         6/18/2013
-# INCLUDE      yes
-# DESCRIPTION  Provides several often used Mercurial commands in the menu bar.
-# HEADER_END
-
 namespace eval plugins::mercurial {
   
   variable enabled 0

@@ -1,0 +1,6 @@
+name        {current_line}
+author      {Trevor Williams}
+email       {phase1geo@gmail.com}
+version     {1.0}
+include     {yes}
+description {Adds a current line indicator to the text widget.}

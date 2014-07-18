@@ -1,0 +1,6 @@
+name        {todo}
+author      {Trevor Williams}
+email       {phase1geo@gmail.com}
+version     {1.0}
+include     {yes}
+description {Provides an ability to maintain and edit todo list functionality.}
