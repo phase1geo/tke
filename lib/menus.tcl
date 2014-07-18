@@ -252,9 +252,9 @@ namespace eval menus {
     # Populate the menu with the filenames from the favorite list
     foreach path [favorites::get_list] {
       if {[file isdirectory $path]} {
-        $mb add command -label [file tail $path] -command "sidebar::add_directory $path"
+        $mb add command -label $path -command "sidebar::add_directory $path"
       } else {
-        $mb add command -label [file tail $path] -command "gui::add_file end $path"
+        $mb add command -label $path -command "gui::add_file end $path"
       }
     }
     

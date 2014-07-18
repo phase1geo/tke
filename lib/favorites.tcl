@@ -24,6 +24,11 @@ namespace eval favorites {
       close $rc
     }
     
+    # Add a normalized
+    for {set i 0} {$i < [llength $items]} {incr i} {
+      lset items $i 2 [gui::normalize {*}[lrange [lindex $items $i] 0 1]]
+    }
+    
   }
   
   ######################################################################
@@ -34,10 +39,8 @@ namespace eval favorites {
     variable items
     
     if {![catch "open $favorites_file w" rc]} {
-      puts "items: $items"
       foreach item $items {
-        puts "item: $item"
-        puts $rc [list $item]
+        puts $rc [list [list {*}[lrange $item 0 1] ""]]
       }
       close $rc
     }
@@ -51,8 +54,8 @@ namespace eval favorites {
     variable items
     
     # Only add the file if it currently does not exist
-    if {[lsearch -index 0 $items $fname] == -1} {
-      lappend items [list $fname [info hostname]]
+    if {[lsearch -index 2 $items $fname] == -1} {
+      lappend items [list [info hostname] $fname [gui::normalize [info hostname] $fname]]
       store
       return 1
     }
@@ -67,8 +70,8 @@ namespace eval favorites {
     
     variable items
     
-    # Only remove the file it it currently exists in the list
-    if {[set index [lsearch -index 0 $items $fname]] != -1} {
+    # Only remove the file if it currently exists in the list
+    if {[set index [lsearch -index 2 $items $fname]] != -1} {
       set items [lreplace $items $index $index]
       store
       return 1
@@ -87,7 +90,7 @@ namespace eval favorites {
     set item_list [list]
     
     foreach item $items {
-      lappend item_list [lindex $item 0]
+      lappend item_list [lindex $item 2]
     }
     
     return [lsort $item_list]
@@ -100,7 +103,7 @@ namespace eval favorites {
     
     variable items
     
-    return [expr [lsearch -index 0 $items $fname] != -1]
+    return [expr [lsearch -index 2 $items $fname] != -1]
     
   }
   
