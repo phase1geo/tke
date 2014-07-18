@@ -1,11 +1,3 @@
-# HEADER_BEGIN
-# NAME         perforce
-# AUTHOR       Trevor Williams  (phase1geo@gmail.com)
-# DATE         07/10/2013
-# INCLUDE      yes
-# DESCRIPTION  Performs a Perforce edit (or add) when a file is opened.
-# HEADER_END
-
 namespace eval plugins::perforce {
   
   variable disable_edit 0

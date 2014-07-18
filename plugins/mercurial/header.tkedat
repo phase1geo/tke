@@ -1,0 +1,6 @@
+name        {mercurial}
+author      {Trevor Williams}
+email       {phase1geo@gmail.com}
+version     {1.0}
+include     {yes}
+description {Provides several often used Mercurial commands in the menu bar.}

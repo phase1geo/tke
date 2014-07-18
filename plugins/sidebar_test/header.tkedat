@@ -1,0 +1,6 @@
+name         {sidebar_test}
+author       {Trevor Williams}
+email        {phase1geo@gmail.com}
+version      {1.0}
+include      {no}
+description  {Tests the sidebar plugin capabilities.}

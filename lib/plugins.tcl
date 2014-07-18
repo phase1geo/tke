@@ -66,65 +66,24 @@ namespace eval plugins {
     
     set registry_size 0
     
-    foreach plugin [glob -nocomplain -directory [file join $::tke_dir plugins] *.tcl] {
-    
-      if {![catch "open $plugin r" rc]} {
+    foreach plugin [glob -nocomplain -directory [file join $::tke_dir plugins] -types d *] {
+      
+      # Read the header information
+      if {![catch { tkedat::read [file join $plugin header.tkedat] } rc]} {
         
-        # Read in the contents of the file and close it
-        set contents [read $rc]
-        close $rc
+        array set header $rc
         
-        # Initialize a new array storing the contents
-        array set info [list \
-          $registry_size,selected    0 \
-          $registry_size,sourced     0 \
-          $registry_size,status      "" \
-          $registry_size,file        $plugin \
-          $registry_size,name        "" \
-          $registry_size,category    "" \
-          $registry_size,author      "" \
-          $registry_size,date        "" \
-          $registry_size,version     "" \
-          $registry_size,description "" \
-        ]
-        
-        # Initialize a few parsing variables
-        set parse          0
-        set in_description 0
-        
-        # Parse the file contents
-        foreach line [split $contents \n] {
-          if {[regexp {^\s*#(.*)} $line -> comment]} {
-            if {[regexp {^\s*HEADER_BEGIN} $comment]} {
-              set parse 1
-            } elseif {[regexp {^\s*HEADER_END} $comment]} {
-              break
-            } elseif {$parse} {
-              if {[regexp {^\s*NAME\s*(.*)$}              $comment -> info($registry_size,name)]} {
-                set in_description 0 
-              } elseif {[regexp {^\s*CATEGORY\s*(.*)$}    $comment -> info($registry_size,category)]} {
-                set in_description 0
-              } elseif {[regexp {^\s*AUTHOR\s*(.*)$}      $comment -> info($registry_size,author)]} {
-                set in_description 0
-              } elseif {[regexp {^\s*DATE\s*(.*)$}        $comment -> info($registry_size,date)]} {
-                set in_description 0
-              } elseif {[regexp {^\s*VERSION\s*(.*)$}     $comment -> info($registry_size,version)]} {
-                set in_description 0
-              } elseif {[regexp {^\s*INCLUDE\s*(.*)$}     $comment -> include]} {
-                set in_description 0
-              } elseif {[regexp {^\s*DESCRIPTION\s*(.*)$} $comment -> info($registry_size,description)]} {
-                set in_description 1
-              } elseif {$in_description} {
-                append info($registry_size,DESCRIPTION) [string trim $comment]
-              }
-            }
-          }
-        } 
-        
-        # Add this information to the registry if is valid and included
-        if {($info($registry_size,name) ne "") && ([string trim $include] eq "yes")} {
-          array set registry [array get info]
-          array unset info
+        # Store this information if the name is specified and it should be included
+        if {[info exists header(name)] && ($header(name) ne "") && [info exists header(include)] && ($header(include) eq "yes")} {
+          set registry($registry_size,selected)    0
+          set registry($registry_size,sourced)     0
+          set registry($registry_size,status)      ""
+          set registry($registry_size,file)        [file join $plugin main.tcl]
+          set registry($registry_size,name)        $header(name)
+          set registry($registry_size,author)      [expr {[info exists header(author)]      ? $header(author)      : ""}]
+          set registry($registry_size,email)       [expr {[info exists header(email)]       ? $header(email)       : ""}]
+          set registry($registry_size,version)     [expr {[info exists header(version)]     ? $header(version)     : ""}]
+          set registry($registry_size,description) [expr {[info exists header(description)] ? $header(description) : ""}]
           incr registry_size
         }
         
@@ -162,6 +121,9 @@ namespace eval plugins {
     
     # Load plugin header information
     load
+    
+    # Tell the user that the plugins have been successfully reloaded
+    gui::set_info_message [msgcat::mc "Plugins successfully reloaded"]
     
   }
   

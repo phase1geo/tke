@@ -1,11 +1,3 @@
-# HEADER_BEGIN
-# NAME         current_line
-# AUTHOR       Trevor Williams  (phase1geo@gmail.com)
-# DATE         07/15/2014
-# INCLUDE      yes
-# DESCRIPTION  Adds a current line indicator to the text widget.
-# HEADER_END
-
 namespace eval plugins::current_line {
   
   array set configured {}
