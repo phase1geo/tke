@@ -443,42 +443,65 @@ namespace eval plugins {
     
     if {[gui::user_response_get [msgcat::mc "Enter plugin name"] name]} {
     
-      if {[regexp {^[a-zA-Z0-9_]+$} $name]} {
-      
-        set fname [file join $::tke_dir plugins $name.tcl]
-    
-        if {![catch "open $fname w" rc]} {
-        
-          # Create the file contents
-          puts $rc "# HEADER_BEGIN"
-          puts $rc "# NAME         $name"
-          puts $rc "# AUTHOR       "
-          puts $rc "# DATE         [clock format [clock seconds] -format {%D}]"
-          puts $rc "# VERSION      "
-          puts $rc "# INCLUDE      yes"
-          puts $rc "# DESCRIPTION  "
-          puts $rc "# HEADER_END"
-          puts $rc ""
-          puts $rc "namespace eval plugins::$name {"
-          puts $rc ""
-          puts $rc "}"
-          puts $rc ""
-          puts $rc "plugins::register $name {"
-          puts $rc ""
-          puts $rc "}"
-          close $rc
-          
-          # Add the new file to the editor
-          gui::add_file end $fname -savecommand plugins::reload 
-          
-        } else {
-          gui::set_info_message [msgcat::mc "ERROR:  Unable to write plugin file"]
-        }
-
-      } else {
+      if {![regexp {^[a-zA-Z0-9_]+$} $name]} {
         gui::set_info_message [msgcat::mc "ERROR:  Plugin name is not valid (only alphanumeric and underscores are allowed)"]
+        return
       }
-            
+      
+      set dirname [file join $::tke_dir plugins $name]
+      
+      if {[file exists $dirname]} {
+        gui::set_info_message [msgcat::mc "ERROR:  Plugin name already exists"]
+        return
+      }
+      
+      # Create the plugin directory
+      if {[catch { file mkdir $dirname }]} {
+        gui::set_info_message [msgcat::mc "ERROR:  Unable to create plugin directory"]
+        return
+      }
+    
+      # Create the filenames
+      set header  [file join $dirname header.tkedat]
+      set main    [file join $dirname main.tcl]
+        
+      # Create the main file
+      if {[catch "open $main w" rc]} {
+        gui::set_info_message [msgcat::mc "ERROR:  Unable to write plugin files"]
+        return
+      }
+          
+      # Create the main file
+      puts $rc "namespace eval plugins::$name {"
+      puts $rc ""
+      puts $rc "}"
+      puts $rc ""
+      puts $rc "plugins::register $name {"
+      puts $rc ""
+      puts $rc "}"
+      close $rc
+          
+      # Add the new file to the editor
+      gui::add_file end $main -savecommand plugins::reload 
+          
+      # Create the header file
+      if {[catch "open $header w" rc]} {
+        gui::set_info_message [msgcat::mc "ERROR:  Unable to write plugin files"]
+        return
+      }
+          
+      # Create the header file
+      puts $rc "name         {$name}"
+      puts $rc "author       {}"
+      puts $rc "email        {}"
+      puts $rc "version      {1.0}"
+      puts $rc "include      {yes}"
+      puts $rc "description  {}"
+      close $rc
+      
+      # Add the file to the editor
+      gui::add_file end $header -savecommand plugins::reload
+          
     }
     
   }
