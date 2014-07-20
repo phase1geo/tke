@@ -19,6 +19,7 @@ namespace eval gui {
   variable lengths          {}
   variable user_exit_status ""
   variable file_locked      0
+  variable file_favorited   0
   variable last_opened      [list]
   variable fif_files        [list]
   variable info_clear       ""
@@ -273,6 +274,9 @@ namespace eval gui {
     $widgets(menu) add checkbutton -label [msgcat::mc "Locked"] -onvalue 1 -offvalue 0 -variable gui::file_locked -command {
       gui::set_current_file_lock {} $gui::file_locked
     }
+    $widgets(menu) add checkbutton -label [msgcat::mc "Favorited"] -onvalue 1 -offvalue 0 -variable gui::file_favorited -command {
+      gui::set_current_file_favorite {} $gui::file_favorited
+    }
     $widgets(menu) add separator
     $widgets(menu) add command -label [msgcat::mc "Move to Other Pane"] -command {
       gui::move_to_pane
@@ -470,6 +474,7 @@ namespace eval gui {
     variable files
     variable files_index
     variable file_locked
+    variable file_favorited
     
     # Get the current file index
     set file_index [current_file]
@@ -479,6 +484,9 @@ namespace eval gui {
 
     # Set the file_locked variable
     set file_locked [expr $readonly || [lindex $files $file_index $files_index(lock)]]
+    
+    # Set the file_favorited variable
+    set file_favorited [favorites::is_favorite [lindex $files $file_index $files_index(fname)]]
     
     # Get the current tabbar
     set tb [current_tabbar]
@@ -1407,7 +1415,7 @@ namespace eval gui {
       }
       set msg "[msgcat::mc Save] $fname?"
       if {[set answer [tk_messageBox -default yes -type [expr {$exiting ? {yesno} : {yesnocancel}}] -message $msg -title [msgcat::mc "Save request"]]] eq "yes"} {
-        save_current
+        save_current {}
       } elseif {$answer eq "cancel"} {
         return
       }
@@ -2209,6 +2217,26 @@ namespace eval gui {
     
     return 1
   
+  }
+  
+  ######################################################################
+  # Set or clear the favorite status of the current file.
+  proc set_current_file_favorite {tid favorite} {
+    
+    variable files
+    variable files_index
+    
+    # Get the current file index
+    set file_index [current_file]
+    set fname      [lindex $files $file_index $files_index(fname)]
+    
+    # Add or remove the file from the favorites list
+    if {$favorite} {
+      favorites::add $fname
+    } else {
+      favorites::remove $fname
+    }
+    
   }
   
   ######################################################################
