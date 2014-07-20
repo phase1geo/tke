@@ -158,11 +158,11 @@ namespace eval indent {
 
     # If the auto-indent feature was disabled, we are in vim start mode,
     # or the current language doesn't have an indent expression, quit now
-    if {![[ns preferences]::get Editor/EnableAutoIndent] || \
-        [[ns vim]::in_vim_mode $txt] || \
-        ($indent_exprs($txt,indent) eq "")} {
-      return 0
-    }
+    #if {![[ns preferences]::get Editor/EnableAutoIndent] || \
+    #    [[ns vim]::in_vim_mode $txt] || \
+    #    ($indent_exprs($txt,indent) eq "")} {
+    #  return 0
+    #}
  
     # Initialize the indent_space
     set indent_level 0
@@ -195,11 +195,8 @@ namespace eval indent {
   
     variable indent_exprs
  
-    # If the auto-indent feature was disabled, we are in vim start mode,
-    # or the current language doesn't have an indent expression, quit now
-    if {![[ns preferences]::get Editor/EnableAutoIndent] || \
-        [[ns vim]::in_vim_mode $txt] || \
-        ($indent_exprs($txt,indent) eq "")} {
+    # If the current language doesn't have an indent expression, quit now
+    if {$indent_exprs($txt,indent) eq ""} {
       return
     }
  
@@ -222,21 +219,22 @@ namespace eval indent {
     
       # Get the current line
       set line [$txt get $currpos "$currpos lineend"]
- 
+      
       # Remove the leading whitespace and modify it to match the current indentation level
       if {[regexp {^(\s*)(.*)} $line -> whitespace rest]} {
         if {[string length $whitespace] > 0} {
           $txt delete $currpos "$currpos+[string length $whitespace]c"
         }
-        set unindent [expr {[regexp "^$uni_re" $rest] ? [[ns preferences]::get Editor/IndentSpaces] : 0}]
+        set unindent_match ""
+        set unindent       [expr {[regexp "^($uni_re)" $rest -> unindent_match] ? [[ns preferences]::get Editor/IndentSpaces] : 0}]
         if {$indent_space ne ""} {
           $txt insert $currpos [set indent_space [string range $indent_space $unindent end]]
         }
+        append indent_space [get_indent_space $txt "$currpos+[expr [string length $unindent_match] + [string length $indent_space]]c" "$currpos lineend"]
+      } else {
+        append indent_space [get_indent_space $txt $currpos "$currpos lineend"]
       }
- 
-      # Update the indentation level based on the current line
-      append indent_space [get_indent_space $txt $currpos "$currpos lineend"]
-      
+          
       # Increment the starting position to the next line
       set currpos [$txt index "$currpos+1l linestart"]
  
@@ -244,7 +242,7 @@ namespace eval indent {
  
     # Perform syntax highlighting
     [winfo parent $txt] highlight $startpos $endpos
- 
+    
   }
  
   ######################################################################
