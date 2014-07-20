@@ -843,7 +843,16 @@ namespace eval vim {
     variable mode
  
     if {$mode($txt) eq "start"} {
+      set start_index [$txt index insert]
       playback $txt
+      set end_index [$txt index insert]
+      if {$start_index != $end_index} {
+        if {[$txt compare $start_index < $end_index]} {
+          $txt highlight $start_index $end_index
+        } else {
+          $txt highlight $end_index $start_index
+        }
+      }
       return 1
     }
  
