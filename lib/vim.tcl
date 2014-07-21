@@ -1280,6 +1280,34 @@ namespace eval vim {
   }
   
   ######################################################################
+  # Handles a paste operation from the menu (or keyboard shortcut).
+  proc handle_paste {txt} {
+    
+    variable mode
+    
+    if {[[ns preferences]::get Tools/VimMode] && [info exists mode($txt.t)]} {
+      
+      # If we are not currently in edit mode, temporarily set ourselves to edit mode
+      if {$mode($txt.t) ne "edit"} {
+        record_add "Key-i"
+      }
+      
+      # Add the characters
+      foreach c [split [clipboard get] {}] {
+        record_add [utils::string_to_keysym $c]
+      }
+      
+      # If we were in command mode, escape out of edit mode
+      if {$mode($txt.t) ne "edit"} {
+        record_add "Escape"
+        record_stop
+      }
+      
+    }
+    
+  }
+  
+  ######################################################################
   # Pastes the contents of the given clip to the text widget after the
   # current line.
   proc do_post_paste {txt clip} {

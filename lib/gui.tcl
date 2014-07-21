@@ -1810,6 +1810,9 @@ namespace eval gui {
   
     # Perform the paste
     [current_txt $tid] paste
+    
+    # Handle the Vim paste
+    vim::handle_paste [current_txt $tid]
  
   }
   
