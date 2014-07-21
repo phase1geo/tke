@@ -36,6 +36,7 @@ proc ctext {win args} {
   set ar(-relief) [$tmp cget -relief]
   set ar(-unhighlightcolor) [$win cget -bg]
   destroy $tmp
+  set ar(-xscrollcommand) ""
   set ar(-yscrollcommand) ""
   set ar(-highlightcolor) "yellow"
   set ar(-linemap) 1
@@ -65,7 +66,7 @@ proc ctext {win args} {
   set ar(line_comment_patterns)  [list]
   set ar(comment_re)             ""
   
-  set ar(ctextFlags) [list -yscrollcommand -linemap -linemapfg -linemapbg \
+  set ar(ctextFlags) [list -xscrollcommand -yscrollcommand -linemap -linemapfg -linemapbg \
   -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable \
   -linemap_show_current -linemap_cursor -highlightcolor \
   -linemap_select_fg -linemap_select_bg -linemap_relief -linemap_minwidth -casesensitive -peer]
@@ -104,8 +105,8 @@ proc ctext {win args} {
     grid $win.f -sticky ns -row 0 -column 1
   }
   
-  set args [concat $args [list -yscrollcommand \
-    [list ctext::event:yscroll $win $ar(-yscrollcommand)]]]
+  set args [concat $args [list -yscrollcommand [list ctext::event:yscroll $win $ar(-yscrollcommand)]] \
+                         [list -xscrollcommand [list ctext::event:xscroll $win $ar(-xscrollcommand)]]]
   
   #escape $win, because it could have a space
   if {$ar(-peer) eq ""} {
@@ -143,6 +144,40 @@ proc ctext {win args} {
   ctext::buildArgParseTable $win
   
   return $win
+}
+
+proc ctext::event:xscroll {win clientData args} {
+  
+  if {$clientData == ""} {
+    return
+  }
+  
+  uplevel \#0 $clientData $args
+  
+  ctext::getAr $win config configAr
+  
+  lassign $args first last
+  
+  if {$first > 0} {
+    set first_line [lindex [split [$win.t index @0,0] .] 0]
+    set last_line  [lindex [split [$win.t index @0,[winfo height $win.t]] .] 0]
+    set longest    0
+    for {set i $first_line} {$i <= $last_line} {incr i} {
+      if {[set len [string length [$win.t get $i.0 $i.end]]] > $longest} {
+        set longest $len
+      }
+    }
+    set missing [expr round( ($longest * 7) * $first )] 
+  } else {
+    set missing 0
+  }
+  
+  # Width is calculated by multiplying the longest line with the length of a single character
+  set newx [expr ($configAr(-warnwidth) * 7) - $missing]
+  
+  # Move the vertical bar
+  place $win.t.w -x $newx -relheight 1.0
+  
 }
 
 proc ctext::event:yscroll {win clientData args} {
@@ -194,6 +229,17 @@ proc ctext::buildArgParseTable win {
     grid forget $self.l
     grid columnconfigure $self 0 -minsize 0
     set configAr(-linemap) 0
+    break
+  }
+  
+  lappend argTable any -xscrollcommand {
+    set cmd [list $self._t config -xscrollcommand \
+    [list ctext::event:xscroll $self $value]]
+    
+    if {[catch $cmd res]} {
+      return $res
+    }
+    set configAr(-xscrollcommand) $value
     break
   }
   
@@ -469,8 +515,10 @@ proc ctext::instanceCmd {self cmd args} {
       
       if {0 == [llength $args]} {
         set res [$self._t configure]
-        set del [lsearch -glob $res -yscrollcommand*]
-        set res [lreplace $res $del $del]
+        foreach opt [list -xscrollcommand* -yscrollcommand*] {
+          set del [lsearch -glob $res $opt]
+          set res [lreplace $res $del $del]
+        }
         foreach flag $configAr(ctextFlags) {
           lappend res [list $flag [set configAr($flag)]]
         }
