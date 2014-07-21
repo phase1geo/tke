@@ -163,7 +163,7 @@ proc ctext::event:xscroll {win clientData args} {
     set last_line  [lindex [split [$win.t index @0,[winfo height $win.t]] .] 0]
     set longest    0
     for {set i $first_line} {$i <= $last_line} {incr i} {
-      if {[set len [string length [$win.t get $i.0 $i.end]]] > $longest} {
+      if {[set len [lindex [split [$win.t index $i.end] .] 1]] > $longest} {
         set longest $len
       }
     }
