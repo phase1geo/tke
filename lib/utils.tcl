@@ -10,6 +10,43 @@ namespace eval utils {
   array set xignore    {}
   array set xignore_id {}
   array set vars       {}
+  
+  array set c2k_map {
+    { } Key-space
+    !   Key-exclam
+    \"  Key-quotedbl
+    \#  Key-numbersign
+    \$  Key-dollar
+    %   Key-percent
+    &   Key-ampersand
+    '   Key-quoteright
+    (   Key-parenleft
+    )   Key-parenright
+    *   Key-asterisk
+    +   Key-plus
+    ,   Key-comma
+    -   Key-minus
+    .   Key-period
+    /   Key-slash
+    :   Key-colon
+    \;  Key-semicolon
+    <   Key-less
+    =   Key-equal
+    >   Key-greater
+    ?   Key-question
+    @   Key-at
+    \[  Key-bracketleft
+    \\  Key-backslash
+    \]  Key-bracketright
+    ^   Key-asciicircum
+    _   Key-underscore
+    `   Key-quoteleft
+    \{  Key-braceleft
+    |   Key-bar
+    \}  Key-braceright
+    ~   Key-asciitilde
+    \n  Return
+  }
 
   ##########################################################
   # Useful process for debugging.
@@ -283,6 +320,17 @@ namespace eval utils {
       
     return [format {#%02x%02x%02x} {*}$rgb]
 
+  }
+  
+  ######################################################################
+  # Converts a character to its associated keysym.  Note:  Only printable
+  # string values are supported.
+  proc string_to_keysym {str} {
+    
+    variable c2k_map
+    
+    return [string map [array get c2k_map] $str]
+    
   }
   
 }

@@ -17,6 +17,11 @@ namespace eval plugins::current_line {
     
     variable configured
     
+    # If the text window no longer exists, exit now
+    if {![winfo exists $txt]} {
+      return
+    }
+    
     # Configure the current line, if has not been configured yet
     if {![info exists configured($txt)]} {
       $txt tag configure current_line -background [utils::auto_adjust_color [$txt cget -background] 25]
