@@ -326,12 +326,12 @@ namespace eval plugins {
       if {!$registry($i,selected)} {
         set name $registry($i,name)
         lappend plugins $name
-        launcher::register_temp "`PLUGIN:$name" "plugins::install_item $i" $name
+        launcher::register_temp "`PLUGIN:$name" "plugins::install_item $i" $name "plugins::show_detail $i"
       }
     }
     
     # Display the launcher in PLUGIN: mode
-    launcher::launch "`PLUGIN:"
+    launcher::launch "`PLUGIN:" 1
     
     # Unregister the plugins
     foreach name $plugins {
@@ -432,6 +432,22 @@ namespace eval plugins {
     
     # Display the uninstall message
     gui::set_info_message [msgcat::mc "Plugin %s uninstalled" $registry($index,name)]
+    
+  }
+  
+  ######################################################################
+  # Displays plugin information into the given text widget.
+  proc show_detail {index txt} {
+    
+    variable registry
+    
+    $txt tag configure bold -underline 1
+    
+    $txt insert end "Version:\n" bold
+    $txt insert end "$registry($index,version)\n"
+    $txt insert end "\n"
+    $txt insert end "Description:\n" bold
+    $txt insert end $registry($index,description)
     
   }
   

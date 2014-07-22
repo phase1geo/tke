@@ -23,12 +23,13 @@ namespace eval launcher {
     validate_cmd 1
   }
   array set command_values {
-    description   0
-    command       1
-    auto_register 2
-    temporary     3
-    count         4
-    search_str    5
+    description    0
+    command        1
+    auto_register  2
+    temporary      3
+    count          4
+    search_str     5
+    detail_command 6
   }
 
   ######################################################################
@@ -63,7 +64,7 @@ namespace eval launcher {
   
   ######################################################################
   # Launches the command launcher.
-  proc launch {{mode ""}} {
+  proc launch {{mode ""} {show_detail 0}} {
   
     variable widgets
     variable closed
@@ -76,9 +77,10 @@ namespace eval launcher {
       wm overrideredirect $widgets(win) 1
       wm transient        $widgets(win) .
 
-      set widgets(entry) [ttk::entry $widgets(win).entry -width 50 -validate key -validatecommand "launcher::lookup %P $mode" -invalidcommand {bell}]
+      set widgets(entry) [ttk::entry $widgets(win).entry -width 50 -validate key -validatecommand "launcher::lookup %P {$mode} $show_detail" -invalidcommand {bell}]
       
-      set widgets(lf) [ttk::frame $widgets(win).lf]
+      set widgets(mf) [ttk::frame $widgets(win).mf]
+      set widgets(lf) [ttk::frame $widgets(win).mf.lf]
       set widgets(lb) [listbox $widgets(lf).lb -exportselection 0 -bg white -height 0 \
         -yscrollcommand "utils::set_yscrollbar $widgets(lf).vb" -listvariable launcher::match_commands]
       ttk::scrollbar $widgets(lf).vb -orient vertical -command "$widgets(lb) yview"
@@ -87,7 +89,18 @@ namespace eval launcher {
       grid columnconfigure $widgets(lf) 0 -weight 1
       grid $widgets(lf).lb -row 0 -column 0 -sticky news
       grid $widgets(lf).vb -row 0 -column 1 -sticky ns
-
+      
+      set widgets(txt) [text $widgets(win).mf.txt -width 50 -height 10 -relief flat -wrap word \
+                          -fg [utils::get_default_foreground] -bg [utils::get_default_background] -state disabled]
+      
+      grid rowconfigure    $widgets(mf) 0 -weight 1
+      grid columnconfigure $widgets(mf) 0 -weight 1
+      grid $widgets(lf)  -row 0 -column 0 -sticky news
+      grid $widgets(txt) -row 0 -column 1 -sticky news
+      
+      # Hide the text widget
+      grid remove $widgets(txt)
+      
       pack $widgets(entry) -fill x
 
       # Bind the escape key to exit the window
@@ -126,7 +139,7 @@ namespace eval launcher {
       
       # If we are running in a mode, display the default results
       if {$mode ne ""} {
-        lookup "" $mode
+        lookup "" $mode $show_detail
       }
 
       # Wait for the window to be destroyed
@@ -142,52 +155,68 @@ namespace eval launcher {
           grab -global $old_grab
         }
       }
-
+      
     }
   
   }
   
   ############################################################################
   # Moves the currently selected command up by one row.
-  proc move_up {lb} {
+  proc move_up {} {
 
-    set selected [$lb curselection]
+    variable widgets
+    
+    set selected [$widgets(lb) curselection]
 
     if {$selected > 0} {
-      select $lb [expr $selected - 1]
+      select [expr $selected - 1]
     }
 
   }
 
   ############################################################################
   # Moves the currently selected command down by one row.
-  proc move_down {lb} {
+  proc move_down {} {
+    
+    variable widgets
 
-    set selected [$lb curselection]
+    set selected [$widgets(lb) curselection]
 
-    if {$selected < [expr [$lb size] - 1]} {
-      select $lb [expr $selected + 1]
+    if {$selected < [expr [$widgets(lb) size] - 1]} {
+      select [expr $selected + 1]
     }
 
   }
   
   ############################################################################
   # Selects the current row within the selection table.
-  proc select {lb row} {
-
-    # Get the currently selected row
-    set curr_sel [$lb curselection]
-
+  proc select {row} {
+    
+    variable widgets
+    variable commands
+    variable command_values
+    variable matches
+    
     # Set the selection
-    $lb selection clear 0 end
-    $lb selection set $row $row
-    $lb see $row
+    $widgets(lb) selection clear 0 end
+    $widgets(lb) selection set $row $row
+    $widgets(lb) see $row
+    
+    # If the text widget is shown, clear it and display the current detail information
+    if {[lsearch [grid slaves $widgets(mf)] $widgets(txt)] != -1} {
+      $widgets(txt) configure -state normal
+      $widgets(txt) delete 1.0 end
+      if {[set detail_command [lindex $commands([lindex $matches $row]) $command_values(detail_command)]] ne ""} {
+        uplevel #0 "$detail_command $widgets(txt)"
+      }
+      $widgets(txt) configure -state disabled
+    }
 
   }
   
   ######################################################################
   # Adds a new command that is registered for use by the widget.
-  proc register {name command {validate_cmd "launcher::okay"} {auto_register 0}} {
+  proc register {name command {detail_command ""} {validate_cmd "launcher::okay"} {auto_register 0}} {
 
     variable commands
     variable read_commands
@@ -214,12 +243,13 @@ namespace eval launcher {
 
     # Create the command list
     set command_value [lrepeat [array size command_values] ""]
-    lset command_value $command_values(description)   $name
-    lset command_value $command_values(command)       $command
-    lset command_value $command_values(auto_register) $auto_register
-    lset command_value $command_values(temporary)     0
-    lset command_value $command_values(count)         $count
-    lset command_value $command_values(search_str)    $search_str
+    lset command_value $command_values(description)    $name
+    lset command_value $command_values(command)        $command
+    lset command_value $command_values(auto_register)  $auto_register
+    lset command_value $command_values(temporary)      0
+    lset command_value $command_values(count)          $count
+    lset command_value $command_values(search_str)     $search_str
+    lset command_value $command_values(detail_command) $detail_command
 
     # Populate the command in the lookup table
     set commands($command_name) $command_value
@@ -229,7 +259,7 @@ namespace eval launcher {
   ############################################################################
   # Adds a new command that is registered for use by the widget but will not
   # be saved.
-  proc register_temp {name command description {validate_cmd "launcher::okay"}} {
+  proc register_temp {name command description {detail_command ""} {validate_cmd "launcher::okay"}} {
 
     variable commands
     variable command_names
@@ -240,12 +270,13 @@ namespace eval launcher {
 
     # Create the command value list
     set command_value [lrepeat [array size command_values] ""]
-    lset command_value $command_values(description)   $description
-    lset command_value $command_values(command)       $command
-    lset command_value $command_values(auto_register) 0
-    lset command_value $command_values(temporary)     1
-    lset command_value $command_values(count)         0
-    lset command_value $command_values(search_str)    $name
+    lset command_value $command_values(description)    $description
+    lset command_value $command_values(command)        $command
+    lset command_value $command_values(auto_register)  0
+    lset command_value $command_values(temporary)      1
+    lset command_value $command_values(count)          0
+    lset command_value $command_values(search_str)     $name
+    lset command_value $command_values(detail_command) $detail_command
 
     # Populate the command in the lookup table
     set commands($command_name) $command_value
@@ -313,7 +344,7 @@ namespace eval launcher {
   
   ######################################################################
   # Called whenever the user enters a value
-  proc lookup {value {mode ""}} {
+  proc lookup {value mode show_detail} {
 
     variable widgets
     variable commands
@@ -340,6 +371,11 @@ namespace eval launcher {
         } else {
           $widgets(lb) configure -height $match_num
         }
+        
+        # If we need to show detail, display the text widget
+        if {$show_detail} {
+          grid $widgets(txt)
+        }
 
         # Update the table
         set match_commands [list]
@@ -348,16 +384,16 @@ namespace eval launcher {
         }
 
         # Bind up/down and return keys
-        bind $widgets(win) <Up>     "launcher::move_up   $widgets(lb)"
-        bind $widgets(win) <Down>   "launcher::move_down $widgets(lb)"
-        bind $widgets(win) <Return> "launcher::execute   $widgets(lb)"
+        bind $widgets(win) <Up>     "launcher::move_up"
+        bind $widgets(win) <Down>   "launcher::move_down"
+        bind $widgets(win) <Return> "launcher::execute"
 
         # Set tablelist selection to the first entry
-        select $widgets(lb) 0
+        select 0
 
         # Pack the listbox, if it isn't already
-        if {[catch "pack info $widgets(lf)"]} {    
-          pack $widgets(lf) -fill both -expand yes
+        if {[catch "pack info $widgets(mf)"]} {    
+          pack $widgets(mf) -fill both -expand yes
         }
 
       } else {
@@ -415,7 +451,7 @@ namespace eval launcher {
       if {$str eq "@"} {
         array unset commands [get_command_name * launcher::symbol_okay]
         foreach {procedure pos} [gui::get_symbol_list {}] {
-          lappend matches [register_temp "@$procedure" "gui::jump_to {} $pos" $procedure launcher::symbol_okay]
+          lappend matches [register_temp "@$procedure" "gui::jump_to {} $pos" $procedure "" launcher::symbol_okay]
           lappend match_types 2
         }
       }
@@ -424,7 +460,7 @@ namespace eval launcher {
       if {$str eq "-"} {
         array unset commands [get_command_name * launcher::marker_okay]
         foreach {marker pos} [gui::get_marker_list {}] {
-          lappend matches [register_temp "-$marker" "gui::jump_to {} $pos" $marker launcher::marker_okay]
+          lappend matches [register_temp "-$marker" "gui::jump_to {} $pos" $marker "" launcher::marker_okay]
           lappend match_types 2
         }
       }
@@ -520,8 +556,9 @@ namespace eval launcher {
 
   ############################################################################
   # Executes the selected command, saving usage information.
-  proc execute {lb} {
+  proc execute {} {
 
+    variable widgets
     variable matches
     variable match_types
     variable commands
@@ -531,7 +568,7 @@ namespace eval launcher {
     variable closed
 
     # Get the current selection
-    set row [$lb curselection]
+    set row [$widgets(lb) curselection]
 
     # Retrieve the command name
     set command_name [lindex $matches $row]
@@ -619,6 +656,6 @@ namespace eval launcher {
   }
   
   # Register the calculator
-  register_temp "" launcher::copy_calculation "" launcher::calc_okay
+  register_temp "" launcher::copy_calculation "" "" launcher::calc_okay
   
 }
