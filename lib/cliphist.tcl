@@ -39,7 +39,7 @@ namespace eval cliphist {
           set in_history 0
           lappend history $clipping
           set name [string range [lindex [split $clipping \n] 0] 0 30]
-          launcher::register_temp "!$name" [list cliphist::add_to_clipboard $clipping] $name
+          launcher::register_temp "!$name" [list cliphist::add_to_clipboard $clipping] $name "cliphist::add_detail {$clipping}"
         }
       }
       
@@ -86,7 +86,7 @@ namespace eval cliphist {
 
       # Register the clipping to the launcher
       set name [string range [lindex [split $str \n] 0] 0 30]
-      launcher::register_temp "!$name" [list cliphist::add_to_clipboard $str] $name
+      launcher::register_temp "!$name" [list cliphist::add_to_clipboard $str] $name "cliphist::add_detail {$str}"
 
       # Trim the history to meet the maxsize requirement, if necessary
       if {[llength $history] > $history_maxsize} {
@@ -101,6 +101,14 @@ namespace eval cliphist {
 
     }
 
+  }
+  
+  ######################################################################
+  # Adds the given string to the text widget.
+  proc add_detail {str txt} {
+    
+    $txt insert end $str
+    
   }
 
   ######################################################################
