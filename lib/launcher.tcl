@@ -11,6 +11,7 @@ namespace eval launcher {
   variable closed         0
   variable match_commands {}
   variable last_calc      ""
+  variable last_str       ""
   
   array set read_commands {}
   array set commands      {}
@@ -21,15 +22,15 @@ namespace eval launcher {
   array set command_names {
     name         0
     validate_cmd 1
+    temporary    2
   }
   array set command_values {
     description    0
     command        1
     auto_register  2
-    temporary      3
-    count          4
-    search_str     5
-    detail_command 6
+    count          3
+    search_str     4
+    detail_command 5
   }
 
   ######################################################################
@@ -81,7 +82,7 @@ namespace eval launcher {
       
       set widgets(mf) [ttk::frame $widgets(win).mf]
       set widgets(lf) [ttk::frame $widgets(win).mf.lf]
-      set widgets(lb) [listbox $widgets(lf).lb -exportselection 0 -bg white -height 0 \
+      set widgets(lb) [listbox $widgets(lf).lb -exportselection 0 -bg white -height 0 -width 35 \
         -yscrollcommand "utils::set_yscrollbar $widgets(lf).vb" -listvariable launcher::match_commands]
       ttk::scrollbar $widgets(lf).vb -orient vertical -command "$widgets(lb) yview"
       
@@ -155,6 +156,9 @@ namespace eval launcher {
           grab -global $old_grab
         }
       }
+      
+      # Destroy temporary registrations
+      remove_temporary
       
     }
   
@@ -231,7 +235,7 @@ namespace eval launcher {
     # Create default values
     set count        0
     set search_str   ""
-    set command_name [get_command_name $name $validate_cmd]
+    set command_name [get_command_name $name $validate_cmd 0]
 
     # Update the commands array
     if {[llength [array names commands $command_name]] == 0} {
@@ -246,7 +250,6 @@ namespace eval launcher {
     lset command_value $command_values(description)    $name
     lset command_value $command_values(command)        $command
     lset command_value $command_values(auto_register)  $auto_register
-    lset command_value $command_values(temporary)      0
     lset command_value $command_values(count)          $count
     lset command_value $command_values(search_str)     $search_str
     lset command_value $command_values(detail_command) $detail_command
@@ -266,14 +269,13 @@ namespace eval launcher {
     variable command_values
     
     # Create the command name list
-    set command_name [get_command_name $name $validate_cmd]
+    set command_name [get_command_name $name $validate_cmd 1]
 
     # Create the command value list
     set command_value [lrepeat [array size command_values] ""]
     lset command_value $command_values(description)    $description
     lset command_value $command_values(command)        $command
     lset command_value $command_values(auto_register)  0
-    lset command_value $command_values(temporary)      1
     lset command_value $command_values(count)          0
     lset command_value $command_values(search_str)     $name
     lset command_value $command_values(detail_command) $detail_command
@@ -281,23 +283,36 @@ namespace eval launcher {
     # Populate the command in the lookup table
     set commands($command_name) $command_value
     
+    puts "register_temp: ($command_name) = ($command_value)"
+    
     return $command_name
 
   }
   
   ######################################################################
   # Unregisters launcher commands that match the given pattern.
-  proc unregister {pattern} {
+  proc unregister {name_pattern {command_pattern *} {temp_pattern *}} {
   
     variable commands
     
-    array unset commands [get_command_name $pattern *]
+    puts "unregister: $name_pattern"
+    
+    array unset commands [get_command_name $name_pattern $command_pattern $temp_pattern]
     
   }
     
   ######################################################################
+  # Removes all of the temporary registrations.
+  proc remove_temporary {} {
+    
+    # Unregister all temporary registrations
+    unregister * * 1
+    
+  }
+  
+  ######################################################################
   # Returns the command name given the specified values.
-  proc get_command_name {name validate_cmd} {
+  proc get_command_name {name validate_cmd temporary} {
 
     variable command_names
 
@@ -305,6 +320,7 @@ namespace eval launcher {
     set command_name [lrepeat [array size command_names] ""]
     lset command_name $command_names(name)         [string tolower $name]
     lset command_name $command_names(validate_cmd) $validate_cmd
+    lset command_name $command_names(temporary)    $temporary
 
     return $command_name
 
@@ -337,6 +353,14 @@ namespace eval launcher {
   ######################################################################
   # Validate command for markers.
   proc marker_okay {} {
+    
+    return 1
+    
+  }
+  
+  ######################################################################
+  # Validate command for clipboard history.
+  proc clip_okay {} {
     
     return 1
     
@@ -399,7 +423,7 @@ namespace eval launcher {
       } else {
 
         # Remove the results frame
-        pack forget $widgets(lf)
+        pack forget $widgets(mf)
 
         # Unbind up and down arrows
         bind $widgets(win) <Up>     ""
@@ -411,7 +435,7 @@ namespace eval launcher {
     } else {
 
       # Remove the results frame
-      pack forget $widgets(lf)
+      pack forget $widgets(mf)
 
       # Unbind up and down arrows
       bind $widgets(win) <Up>     ""
@@ -435,6 +459,7 @@ namespace eval launcher {
     variable matches
     variable match_types
     variable curr_states
+    variable last_str
     variable last_url
 
     set matches     [list]
@@ -444,32 +469,51 @@ namespace eval launcher {
       
       # Check to see if this is a calculation
       if {[regexp {[]0-9a-zA-Z',{}_ ()*/%&|^~:+<>-]+} $str]} {
+        register_temp "" launcher::copy_calculation "" "" launcher::calc_okay
         handle_calculation $str
+      } elseif {[regexp {[]0-9a-zA-Z',{}_ ()*/%&|^~:+<>-]+} $last_str]} {
+        unregister * launcher::calc_okay 1
       }
     
       # Check to see if this is a symbol lookup
       if {$str eq "@"} {
-        array unset commands [get_command_name * launcher::symbol_okay]
+        array unset commands [get_command_name * launcher::symbol_okay 0]
         foreach {procedure pos} [gui::get_symbol_list {}] {
           lappend matches [register_temp "@$procedure" "gui::jump_to {} $pos" $procedure "" launcher::symbol_okay]
           lappend match_types 2
         }
+      } elseif {$last_str eq "@"} {
+        unregister * launcher::symbol_okay 1
       }
       
       # Check to see if this is a marker lookup
       if {$str eq "-"} {
-        array unset commands [get_command_name * launcher::marker_okay]
+        array unset commands [get_command_name * launcher::marker_okay 0]
         foreach {marker pos} [gui::get_marker_list {}] {
           lappend matches [register_temp "-$marker" "gui::jump_to {} $pos" $marker "" launcher::marker_okay]
           lappend match_types 2
         }
+      } elseif {$last_str eq "-"} {
+        unregister * launcher::marker_okay 1
       }
-    
+      
+      # Check to see if this is a clipboard history lookup
+      if {$str eq "!"} {
+        array unset commands [get_command_name * launcher::clip_okay 0]
+        foreach hist [cliphist::get_history] {
+          set name [lindex [split $hist \n] 0]
+          lappend matches [register_temp "!$name" [list cliphist::add_to_clipboard $str] $name [list cliphist::add_detail $str] launcher::clip_okay]
+          lappend match_types 2
+        }
+      } elseif {$last_str eq "!"} {
+        unregister * launcher::clip_okay 1
+      }
+      
 #      # Check to see if this is a URL
 #      if {[regexp {(\S+\.[[:alpha:]][[:alpha:]]+)$} $str -> url]} {
 #
-#        set last_command_name [get_command_name $top launcher::url_okay $last_url]
-#        set curr_command_name [get_command_name $top launcher::url_okay $url]
+#        set last_command_name [get_command_name $last_url launcher::url_okay 0]
+#        set curr_command_name [get_command_name $url launcher::url_okay 0]
 #      
 #        # Change the command to the updated command
 #        set value $commands($last_command_name)
@@ -487,7 +531,7 @@ namespace eval launcher {
  
     # Get the precise match (if one exists)
     set results [list]
-    foreach {name value} [array get commands [get_command_name * *]] {
+    foreach {name value} [array get commands [get_command_name * * *]] {
       if {[lindex $value $command_values(search_str)] eq "$mode$str"} {
         if {[eval [lindex $name $command_names(validate_cmd)]]} {
           lappend results [list $name $value]
@@ -507,6 +551,9 @@ namespace eval launcher {
     # Get all of the fuzzy matches
     sort_match_results [get_match_results $mode*[join [split $str {}] *]*] 1
     
+    # Save the last entered string
+    set last_str $str
+    
   }
 
   ############################################################################
@@ -521,9 +568,15 @@ namespace eval launcher {
 
     set results [list]
 
-    foreach {name value} [array get commands [get_command_name $pattern *]] {
-      if {[lsearch $matches $name] == -1} {
+    puts "In get_match_results, matches: $matches, pattern: $pattern ([get_command_name $pattern * *])"
+    puts ""
+    puts [array get commands [get_command_name * * 1]]
+    
+    foreach {name value} [array get commands [get_command_name $pattern * *]] {
+      puts "  name: $name"
+      if {[lsearch -exact $matches $name] == -1} {
         set validate_cmd [lindex $name $command_names(validate_cmd)]
+        puts "    NEW!  ($validate_cmd)"
         if {[eval $validate_cmd]} {
           if {$validate_cmd ne "launcher::okay"} {
             lset value $command_values(count) [expr [lindex $value $command_values(count)] + 1000000]
@@ -617,12 +670,12 @@ namespace eval launcher {
     variable command_values
     variable last_calc
     
-    set last_command_name [get_command_name $last_calc launcher::calc_okay]
+    set last_command_name [get_command_name $last_calc launcher::calc_okay 1]
 
     # Check to see if the string is a valid Tcl expression
     if {![catch "expr $str" rc]} {
 
-      set curr_command_name [get_command_name $rc launcher::calc_okay]
+      set curr_command_name [get_command_name $rc launcher::calc_okay 1]
 
       # Change the command to the updated command
       set command_value $commands($last_command_name)
@@ -649,13 +702,13 @@ namespace eval launcher {
     # Clear the clipboard and add the calculation
     clipboard clear
     clipboard append $last_calc
+    
+    # Add the clipboard content to the clipboard history manager
+    cliphist::add_from_clipboard
 
     # Clear the last command so that we don't have the calculated value stuck in memory
     set last_command ""
 
   }
-  
-  # Register the calculator
-  register_temp "" launcher::copy_calculation "" "" launcher::calc_okay
   
 }

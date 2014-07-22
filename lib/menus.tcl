@@ -1138,6 +1138,9 @@ namespace eval menus {
     # Add tools menu commands
     $mb add command -label [msgcat::mc "Launcher"] -underline 0 -command "launcher::launch"
     
+    $mb add command -label [msgcat::mc "Clipboard History"] -underline 0 -command "cliphist::show_cliphist"
+    launcher::register [msgcat::mc "Menu: Show clipboard history"] "cliphist::show_cliphist"
+    
     $mb add cascade -label [msgcat::mc "Theme Creator"] -underline 0 -menu [menu $mb.themer -tearoff 0]
     
     $mb.themer add command -label [msgcat::mc "Create new..."] -underline 0 -command "menus::create_theme_command"
