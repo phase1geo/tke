@@ -145,6 +145,7 @@ namespace eval vim {
               $txt delete $from $to
               adjust_insert $txt.t
             }
+            cliphist::add_from_clipboard
           } elseif {[regexp {^(\d+|[.^$]|\w+)$} $value]} {
             $txt mark set insert [get_linenum $txt $value]
             adjust_insert $txt.t
@@ -1203,6 +1204,7 @@ namespace eval vim {
         clipboard append [$txt get "insert linestart" "insert lineend"]
         $txt delete "insert linestart" "insert linestart+1l"
       }
+      cliphist::add_from_clipboard
       start_mode $txt
       record_add "Key-d"
       record_stop
@@ -1269,6 +1271,7 @@ namespace eval vim {
       } else {
         clipboard append [$txt get "insert linestart" "insert lineend"]
       }
+      cliphist::add_from_clipboard
       start_mode $txt
       record_add "Key-y"
       record_stop
