@@ -319,25 +319,17 @@ namespace eval plugins {
     variable registry
     variable registry_size
     
-    set plugins [list]
-    
     # Add registries to launcher
     for {set i 0} {$i < $registry_size} {incr i} {
       if {!$registry($i,selected)} {
         set name $registry($i,name)
-        lappend plugins $name
-        launcher::register_temp "`PLUGIN:$name" "plugins::install_item $i" $name "plugins::show_detail $i"
+        launcher::register_temp "`PLUGIN:$name" "plugins::install_item $i" $name 0 "plugins::show_detail $i"
       }
     }
     
     # Display the launcher in PLUGIN: mode
     launcher::launch "`PLUGIN:" 1
     
-    # Unregister the plugins
-    foreach name $plugins {
-      launcher::unregister "`PLUGIN:$name"
-    }
-  
   }
   
   ######################################################################
@@ -386,23 +378,15 @@ namespace eval plugins {
     variable registry
     variable registry_size
     
-    set plugins [list]
-    
     for {set i 0} {$i < $registry_size} {incr i} {
       if {$registry($i,selected)} {
         set name $registry($i,name)
-        lappend plugins $name
         launcher::register_temp "`PLUGIN:$name" "plugins::uninstall_item $i" $name
       }
     }
     
     # Display the launcher in PLUGIN: mode
     launcher::launch "`PLUGIN:"
-    
-    # Unregister the plugins
-    foreach name $plugins {
-      launcher::unregister "`PLUGIN:$name"
-    }
     
   }
   
@@ -443,10 +427,9 @@ namespace eval plugins {
     
     $txt tag configure bold -underline 1
     
-    $txt insert end "Version:\n" bold
-    $txt insert end "$registry($index,version)\n"
-    $txt insert end "\n"
-    $txt insert end "Description:\n" bold
+    $txt insert end "Version:\n\n" bold
+    $txt insert end "$registry($index,version)\n\n\n"
+    $txt insert end "Description:\n\n" bold
     $txt insert end $registry($index,description)
     
   }
