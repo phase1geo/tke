@@ -60,7 +60,7 @@ namespace eval launcher {
       }
       close $rc
     }
-  
+    
   }
   
   ######################################################################
@@ -78,7 +78,7 @@ namespace eval launcher {
       wm overrideredirect $widgets(win) 1
       wm transient        $widgets(win) .
 
-      set widgets(entry) [ttk::entry $widgets(win).entry -width 50 -validate key -validatecommand "launcher::lookup %P {$mode} $show_detail" -invalidcommand {bell}]
+      set widgets(entry) [ttk::entry $widgets(win).entry -font [font create -size 12] -width 50 -validate key -validatecommand "launcher::lookup %P {$mode} $show_detail" -invalidcommand {bell}]
       
       set widgets(mf) [ttk::frame $widgets(win).mf]
       set widgets(lf) [ttk::frame $widgets(win).mf.lf]
@@ -91,8 +91,10 @@ namespace eval launcher {
       grid $widgets(lf).lb -row 0 -column 0 -sticky news
       grid $widgets(lf).vb -row 0 -column 1 -sticky ns
       
-      set widgets(txt) [text $widgets(win).mf.txt -width 50 -height 10 -relief flat -wrap word \
-                          -fg [utils::get_default_foreground] -bg [utils::get_default_background] -state disabled]
+      # Create a special font for the text widget
+      set widgets(txt) [text $widgets(win).mf.txt -font [font create -size 7] -width 60 -height 15 \
+                          -relief flat -wrap word -state disabled \
+                          -fg [utils::get_default_foreground] -bg [utils::get_default_background]]
       
       grid rowconfigure    $widgets(mf) 0 -weight 1
       grid columnconfigure $widgets(mf) 0 -weight 1
@@ -247,7 +249,7 @@ namespace eval launcher {
 
     # Create the command list
     set command_value [lrepeat [array size command_values] ""]
-    lset command_value $command_values(description)    $name
+    lset command_value $command_values(description)    [string trim $name]
     lset command_value $command_values(command)        $command
     lset command_value $command_values(auto_register)  $auto_register
     lset command_value $command_values(count)          $count
@@ -262,7 +264,7 @@ namespace eval launcher {
   ############################################################################
   # Adds a new command that is registered for use by the widget but will not
   # be saved.
-  proc register_temp {name command description {detail_command ""} {validate_cmd "launcher::okay"}} {
+  proc register_temp {name command description {order 0x7fffffff} {detail_command ""} {validate_cmd "launcher::okay"}} {
 
     variable commands
     variable command_names
@@ -273,17 +275,15 @@ namespace eval launcher {
 
     # Create the command value list
     set command_value [lrepeat [array size command_values] ""]
-    lset command_value $command_values(description)    $description
+    lset command_value $command_values(description)    [string trim $description]
     lset command_value $command_values(command)        $command
     lset command_value $command_values(auto_register)  0
-    lset command_value $command_values(count)          0
+    lset command_value $command_values(count)          [expr 0x7fffffff - $order]
     lset command_value $command_values(search_str)     $name
     lset command_value $command_values(detail_command) $detail_command
 
     # Populate the command in the lookup table
     set commands($command_name) $command_value
-    
-    puts "register_temp: ($command_name) = ($command_value)"
     
     return $command_name
 
@@ -294,8 +294,6 @@ namespace eval launcher {
   proc unregister {name_pattern {command_pattern *} {temp_pattern *}} {
   
     variable commands
-    
-    puts "unregister: $name_pattern"
     
     array unset commands [get_command_name $name_pattern $command_pattern $temp_pattern]
     
@@ -469,7 +467,7 @@ namespace eval launcher {
       
       # Check to see if this is a calculation
       if {[regexp {[]0-9a-zA-Z',{}_ ()*/%&|^~:+<>-]+} $str]} {
-        register_temp "" launcher::copy_calculation "" "" launcher::calc_okay
+        register_temp "" launcher::copy_calculation "" 0 "" launcher::calc_okay
         handle_calculation $str
       } elseif {[regexp {[]0-9a-zA-Z',{}_ ()*/%&|^~:+<>-]+} $last_str]} {
         unregister * launcher::calc_okay 1
@@ -478,34 +476,40 @@ namespace eval launcher {
       # Check to see if this is a symbol lookup
       if {$str eq "@"} {
         array unset commands [get_command_name * launcher::symbol_okay 0]
+        set i 0
         foreach {procedure pos} [gui::get_symbol_list {}] {
-          lappend matches [register_temp "@$procedure" "gui::jump_to {} $pos" $procedure "" launcher::symbol_okay]
+          lappend matches [register_temp "@$procedure" "gui::jump_to {} $pos" $procedure $i "" launcher::symbol_okay]
           lappend match_types 2
+          incr i
         }
       } elseif {$last_str eq "@"} {
         unregister * launcher::symbol_okay 1
       }
       
       # Check to see if this is a marker lookup
-      if {$str eq "-"} {
+      if {$str eq ","} {
         array unset commands [get_command_name * launcher::marker_okay 0]
+        set i 0
         foreach {marker pos} [gui::get_marker_list {}] {
-          lappend matches [register_temp "-$marker" "gui::jump_to {} $pos" $marker "" launcher::marker_okay]
+          lappend matches [register_temp ",$marker" "gui::jump_to {} $pos" $marker $i "" launcher::marker_okay]
           lappend match_types 2
+          incr i
         }
-      } elseif {$last_str eq "-"} {
+      } elseif {$last_str eq ","} {
         unregister * launcher::marker_okay 1
       }
       
       # Check to see if this is a clipboard history lookup
-      if {$str eq "!"} {
+      if {$str eq "#"} {
         array unset commands [get_command_name * launcher::clip_okay 0]
-        foreach hist [cliphist::get_history] {
-          set name [lindex [split $hist \n] 0]
-          lappend matches [register_temp "!$name" [list cliphist::add_to_clipboard $str] $name [list cliphist::add_detail $str] launcher::clip_okay]
+        set i 0
+        foreach strs [cliphist::get_history] {
+          lassign $strs name str
+          lappend matches [register_temp "#$name" [list cliphist::add_to_clipboard $str] $name $i [list cliphist::add_detail $str] launcher::clip_okay]
           lappend match_types 2
+          incr i
         }
-      } elseif {$last_str eq "!"} {
+      } elseif {$last_str eq "#"} {
         unregister * launcher::clip_okay 1
       }
       
@@ -543,13 +547,13 @@ namespace eval launcher {
     sort_match_results $results 1
 
     # Get exact matches that match the beginning of the statement
-    sort_match_results [get_match_results $mode$str*] 0
+    sort_match_results [get_match_results \{?$mode$str.*] 0
 
     # Get all of the exact matches within the string
-    sort_match_results [get_match_results $mode*$str*] 0
+    sort_match_results [get_match_results \{?$mode.*$str.*] 0
 
     # Get all of the fuzzy matches
-    sort_match_results [get_match_results $mode*[join [split $str {}] *]*] 1
+    sort_match_results [get_match_results \{?$mode.*[join [split $str {}] .*].*] 1
     
     # Save the last entered string
     set last_str $str
@@ -559,7 +563,7 @@ namespace eval launcher {
   ############################################################################
   # Searches the list of commands that match the top widget and the given search
   # pattern.
-  proc get_match_results {pattern} {
+  proc get_match_results {regex_pattern} {
 
     variable commands
     variable command_names
@@ -568,15 +572,10 @@ namespace eval launcher {
 
     set results [list]
 
-    puts "In get_match_results, matches: $matches, pattern: $pattern ([get_command_name $pattern * *])"
-    puts ""
-    puts [array get commands [get_command_name * * 1]]
-    
-    foreach {name value} [array get commands [get_command_name $pattern * *]] {
-      puts "  name: $name"
+    foreach name [array name commands -regexp [get_command_name $regex_pattern * *]] {
+      set value $commands($name)
       if {[lsearch -exact $matches $name] == -1} {
         set validate_cmd [lindex $name $command_names(validate_cmd)]
-        puts "    NEW!  ($validate_cmd)"
         if {[eval $validate_cmd]} {
           if {$validate_cmd ne "launcher::okay"} {
             lset value $command_values(count) [expr [lindex $value $command_values(count)] + 1000000]

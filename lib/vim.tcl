@@ -760,6 +760,8 @@ namespace eval vim {
       if {[[ns multicursor]::enabled $txt]} {
         [ns multicursor]::delete $txt "lineend"
       } else {
+        clipboard clear
+        clipboard append [$txt get insert "insert lineend"]
         $txt delete insert "insert lineend"
       }
       start_mode $txt
@@ -789,6 +791,8 @@ namespace eval vim {
       if {[[ns multicursor]::enabled $txt]} {
         [ns multicursor]::delete $txt "linestart"
       } else {
+        clipboard clear
+        clipboard append [$txt get "insert linestart" insert]
         $txt delete "insert linestart" insert
       }
       start_mode $txt
@@ -1204,7 +1208,6 @@ namespace eval vim {
         clipboard append [$txt get "insert linestart" "insert lineend"]
         $txt delete "insert linestart" "insert linestart+1l"
       }
-      cliphist::add_from_clipboard
       start_mode $txt
       record_add "Key-d"
       record_stop
@@ -1334,6 +1337,7 @@ namespace eval vim {
 
     if {$mode($txt) eq "start"} {
       do_post_paste $txt [set clip [clipboard get]]
+      cliphist::add_from_clipboard
       record "Key-p"
       return 1
     }
@@ -1363,6 +1367,7 @@ namespace eval vim {
 
     if {$mode($txt) eq "start"} {
       do_pre_paste $txt [set clip [clipboard get]]
+      cliphist::add_from_clipboard
       record "Key-P"
       return 1
     }

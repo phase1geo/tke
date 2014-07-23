@@ -76,21 +76,25 @@ namespace eval cliphist {
     # Get the clipboard content
     set str [string map {\{ \\\{} [clipboard get]]
 
-    # If the string doesn't exist in history, add it
-    if {[set index [lsearch -exact $hist $str]] == -1} {
+    if {[string trim $str] ne ""} {
+          
+      # If the string doesn't exist in history, add it
+      if {[set index [lsearch -exact $hist $str]] == -1} {
 
-      # Append the string to the history file
-      lappend hist $str
+        # Append the string to the history file
+        lappend hist $str
       
-      # Trim the history to meet the maxsize requirement, if necessary
-      if {[llength $hist] > $hist_maxsize} {
-        set hist [lrange $hist 1 end]
+        # Trim the history to meet the maxsize requirement, if necessary
+        if {[llength $hist] > $hist_maxsize} {
+          set hist [lrange $hist 1 end]
+        }
+
+      # Otherwise, move the current string to the beginning of the history
+      } else {
+
+        set hist [linsert [lreplace $hist $index $index] end $str]
+          
       }
-
-    # Otherwise, move the current string to the beginning of the history
-    } else {
-
-      set hist [linsert [lreplace $hist $index $index] end $str]
           
     }
 
@@ -112,7 +116,7 @@ namespace eval cliphist {
 
     # Add the string to the clipboard
     clipboard clear
-    clipboard append $str
+    clipboard append [string map {\\\{ \{} $str]
 
     # Insert the string in the current text widget
     gui::paste_and_format {}
@@ -120,12 +124,25 @@ namespace eval cliphist {
   }
   
   ######################################################################
-  # Returns the clipboard history as a list of strings.
+  # Returns the clipboard history as a list of string pairs where the
+  # first item is the value to use in the listbox while the second pair
+  # should be used in the full detail.
   proc get_history {} {
     
     variable hist
-        
-    return [lreverse $hist]
+            
+    set items [list]
+            
+    foreach item [lreverse $hist] {
+      set lines [split $item \n]
+      set short [lindex $lines 0]
+      if {[llength $lines] > 1} {
+        append short "  ..."
+      }
+      lappend items [list [string map {\\\{ \{} $short] [string map {\\\{ \{} $item]]
+    }
+                    
+    return $items
     
   }
   
@@ -135,12 +152,12 @@ namespace eval cliphist {
     
     variable hist
     
-    set clips [list]
-    
     # Add temporary registries to launcher
-    foreach str [lreverse $hist] {
-      lappend clips [set name [lindex [split $str \n] 0]]
-      launcher::register_temp "`CLIPHIST:$name" [list cliphist::add_to_clipboard $str] $name [list cliphist::add_detail $str]
+    set i 0
+    foreach strs [get_history] {
+      lassign $strs name str
+      launcher::register_temp "`CLIPHIST:$name" [list cliphist::add_to_clipboard $str] $name $i [list cliphist::add_detail $str]
+      incr i
     }
     
     # Display the launcher in CLIPHIST: mode
