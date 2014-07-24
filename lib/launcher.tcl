@@ -507,10 +507,10 @@ namespace eval launcher {
         }
         default {
           unregister * * 1
-          if {[handle_calculation $str]} {
+          if {([string first {[} $str] == -1) && [handle_calculation $str]} {
             # Nothing more to do
           } elseif {[regexp {^((https?://)?[a-z0-9\-]+\.[a-z0-9\-\.]+(?:/|(?:/[a-zA-Z0-9!#\$%&'\*\+,\-\.:;=\?@\[\]_~]+)*))$} $str -> url]} {
-            lappend matches     [register_temp "" [list launcher::show_url $url] "Launch $url" 0 "" launcher::url_okay]
+            lappend matches     [register_temp "" [list launcher::open_url_and_bookmark $url] "Launch $url" 0 "" launcher::url_okay]
             lappend match_types 2
           }
         }
@@ -529,7 +529,7 @@ namespace eval launcher {
     }
     
     # Make the string regular expression friendly
-    set tmpstr [string map {{.} {\.} {*} {\*} {+} {\+} {?} {\?}} $str]
+    set tmpstr [string map {{.} {\.} {*} {\*} {+} {\+} {?} {\?} {[} {\[}} $str]
     
     # Sort the results by relevance
     sort_match_results $results 1
@@ -541,7 +541,7 @@ namespace eval launcher {
     sort_match_results [get_match_results \{?$mode.*$tmpstr.*] 0
 
     # Get all of the fuzzy matches
-    sort_match_results [get_match_results \{?$mode.*[join [string map {{.} {\\\.} {*} {\\\*} {+} {\\\+} {?} {\\\?}} [split $str {}]] .*].*] 1
+    sort_match_results [get_match_results \{?$mode.*[join [string map {{.} {\\\.} {*} {\\\*} {+} {\\\+} {?} {\\\?} {[} {\\\[}} [split $str {}]] .*].*] 1
     
   }
 
@@ -684,9 +684,21 @@ namespace eval launcher {
   }
         
   ######################################################################
+  # Displays the given URL and bookmarks it.
+  proc open_url_and_bookmark {url} {
+    
+    # Open the URL in the local browser
+    show_url $url
+    
+    # Add the URL to the bookmark list
+    register "Open bookmarked $url" [list launcher::open_url $url]
+    
+  }
+        
+  ######################################################################
   # Shows the given URL and adds it to the URL history if it does not
   # exist.
-  proc show_url {url} {
+  proc open_url {url} {
     
     # If the URL did not contain the http portion, add it so that the external launcher knows
     # this is a URL.
@@ -694,8 +706,9 @@ namespace eval launcher {
       set url "http://$url"
     }
           
+    # Displays the URL in the local browser
     utils::open_file_externally $url
-    
+          
   }
   
 }
