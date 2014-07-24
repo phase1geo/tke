@@ -57,6 +57,10 @@
 
 {Appearance/Colorize}        {keywords comments strings numbers punctuation precompile miscellaneous}
 
+# Specifies the point size of the font used in the editor window
+
+{Appearance/EditorFontSize}  {10}
+
 # Specifies the number of characters to allow on a line before additional characters
 # are flagged with a warning character.
 
@@ -159,6 +163,10 @@
 # normal mode.
 
 {Tools/VimMode}              {0}
+
+# Specifies the number of elements to keep in the clipboard history buffer.
+
+{Tools/ClipboardHistoryDepth} {10}
 
 # This option is only valid when we are running in developer mode.  Specifies
 # how the profile report will be displayed.  Valid values are:

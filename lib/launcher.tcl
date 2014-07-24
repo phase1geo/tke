@@ -461,12 +461,10 @@ namespace eval launcher {
     variable command_names
     variable command_values
     variable matches
-    variable match_types
     variable curr_states
     variable last_url
 
-    set matches     [list]
-    set match_types [list]
+    set matches [list]
     
     if {$mode eq ""} {
       
@@ -477,7 +475,6 @@ namespace eval launcher {
             set i 0
             foreach {procedure pos} [gui::get_symbol_list {}] {
               lappend matches [register_temp "@$procedure" "gui::jump_to {} $pos" $procedure $i "" launcher::symbol_okay]
-              lappend match_types 2
               incr i
             }
           }
@@ -488,7 +485,6 @@ namespace eval launcher {
             set i 0
             foreach {marker pos} [gui::get_marker_list {}] {
               lappend matches [register_temp ",$marker" "gui::jump_to {} $pos" $marker $i "" launcher::marker_okay]
-              lappend match_types 2
               incr i
             }
           }
@@ -500,7 +496,6 @@ namespace eval launcher {
             foreach strs [cliphist::get_history] {
               lassign $strs name str
               lappend matches [register_temp "#$name" [list cliphist::add_to_clipboard $str] $name $i [list cliphist::add_detail $str] launcher::clip_okay]
-              lappend match_types 2
               incr i
             }
           }
@@ -510,8 +505,7 @@ namespace eval launcher {
           if {([string first {[} $str] == -1) && [handle_calculation $str]} {
             # Nothing more to do
           } elseif {[regexp {^((https?://)?[a-z0-9\-]+\.[a-z0-9\-\.]+(?:/|(?:/[a-zA-Z0-9!#\$%&'\*\+,\-\.:;=\?@\[\]_~]+)*))$} $str -> url]} {
-            lappend matches     [register_temp "" [list launcher::open_url_and_bookmark $url] "Launch $url" 0 "" launcher::url_okay]
-            lappend match_types 2
+            lappend matches [register_temp "" [list launcher::open_url_and_bookmark $url] "Launch $url" 0 "" launcher::url_okay]
           }
         }
       }
@@ -576,17 +570,15 @@ namespace eval launcher {
 
   ############################################################################
   # Sorts the results by last accessed time and appends the sorted results
-  # to the matches and match_types lists.
+  # to the matches list.
   proc sort_match_results {results type} {
 
     variable command_values
     variable matches
-    variable match_types
 
     # Sort the results by relevance
     foreach result [lsort -integer -index [list 1 $command_values(count)] -decreasing $results] {
-      lappend matches     [lindex $result 0]
-      lappend match_types $type
+      lappend matches [lindex $result 0]
     }
 
   }
@@ -597,7 +589,6 @@ namespace eval launcher {
 
     variable widgets
     variable matches
-    variable match_types
     variable commands
     variable command_values
     variable widgets
@@ -649,13 +640,11 @@ namespace eval launcher {
   proc handle_calculation {str} {
 
     variable matches
-    variable match_types
     
     # Check to see if the string is a valid Tcl expression
     if {![catch "expr $str" rc]} {
 
-      lappend matches     [register_temp "" [list launcher::copy_calculation $rc] "Copy $rc to clipboard" 0 "" launcher::calc_okay]
-      lappend match_types 2
+      lappend matches [register_temp "" [list launcher::copy_calculation $rc] "Copy $rc to clipboard" 0 "" launcher::calc_okay]
             
       return 1
             

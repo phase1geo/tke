@@ -66,7 +66,7 @@ namespace eval themer {
   }
   
   # Add trace to the labels array
-  trace add variable themer::labels write themer::handle_label_change 
+  trace variable themer::labels w themer::handle_label_change 
   
   #############################################################
   # Called whenever a menu item is selected inthe scope menu.

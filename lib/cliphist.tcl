@@ -11,7 +11,6 @@ namespace eval cliphist {
 
   variable cliphist_file [file join $::tke_home cliphist.dat]
   variable hist          {}
-  variable hist_maxsize  10
 
   ######################################################################
   # Load the contents of the saved clipboard history.
@@ -43,6 +42,9 @@ namespace eval cliphist {
       
     }
 
+    # Handle any changes to the clipboard history depth
+    trace variable preferences::prefs(Tools/ClipboardHistoryDepth) w cliphist::handle_cliphist_depth
+    
   }
 
   ######################################################################
@@ -71,7 +73,6 @@ namespace eval cliphist {
   proc add_from_clipboard {} {
 
     variable hist
-    variable hist_maxsize
 
     # Get the clipboard content
     set str [string map {\{ \\\{} [clipboard get]]
@@ -85,7 +86,7 @@ namespace eval cliphist {
         lappend hist $str
       
         # Trim the history to meet the maxsize requirement, if necessary
-        if {[llength $hist] > $hist_maxsize} {
+        if {[llength $hist] > [preferences::get Tools/ClipboardHistoryDepth]} {
           set hist [lrange $hist 1 end]
         }
 
@@ -172,6 +173,18 @@ namespace eval cliphist {
     variable hist
     
     return [format {  -%s } [join $hist "\n  -"]]
+    
+  }
+                  
+  ######################################################################
+  # Handles any changes to the clipboard history depth preference value.
+  proc handle_cliphist_depth {name1 name2 op} {
+    
+    variable hist
+    
+    if {[set diff [expr [llength $hist] - [preferences::get Tools/ClipboardHistoryDepth]]] > 0} {
+      set hist [lrange $hist $diff end]
+    }
     
   }
   
