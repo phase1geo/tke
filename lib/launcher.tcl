@@ -10,8 +10,6 @@ namespace eval launcher {
   variable launcher_file  [file join $::tke_home launcher.dat]
   variable closed         0
   variable match_commands {}
-  variable last_calc      ""
-  variable last_str       ""
   
   array set read_commands {}
   array set commands      {}
@@ -365,6 +363,14 @@ namespace eval launcher {
   }
   
   ######################################################################
+  # Validate command for URL launching.
+  proc url_okay {} {
+    
+    return 1
+    
+  }
+  
+  ######################################################################
   # Called whenever the user enters a value
   proc lookup {value mode show_detail} {
 
@@ -457,7 +463,6 @@ namespace eval launcher {
     variable matches
     variable match_types
     variable curr_states
-    variable last_str
     variable last_url
 
     set matches     [list]
@@ -465,72 +470,52 @@ namespace eval launcher {
     
     if {$mode eq ""} {
       
-      # Check to see if this is a calculation
-      if {[regexp {[]0-9a-zA-Z',{}_ ()*/%&|^~:+<>-]+} $str]} {
-        register_temp "" launcher::copy_calculation "" 0 "" launcher::calc_okay
-        handle_calculation $str
-      } elseif {[regexp {[]0-9a-zA-Z',{}_ ()*/%&|^~:+<>-]+} $last_str]} {
-        unregister * launcher::calc_okay 1
+      switch [string index $str 0] {
+        "@" {
+          if {[llength [array names commands [get_command_name * launcher::symbol_okay 1]]] == 0} {
+            unregister * * 1
+            set i 0
+            foreach {procedure pos} [gui::get_symbol_list {}] {
+              lappend matches [register_temp "@$procedure" "gui::jump_to {} $pos" $procedure $i "" launcher::symbol_okay]
+              lappend match_types 2
+              incr i
+            }
+          }
+        }
+        "," {
+          if {[llength [array names commands [get_command_name * launcher::marker_okay 1]]] == 0} {
+            unregister * * 1
+            set i 0
+            foreach {marker pos} [gui::get_marker_list {}] {
+              lappend matches [register_temp ",$marker" "gui::jump_to {} $pos" $marker $i "" launcher::marker_okay]
+              lappend match_types 2
+              incr i
+            }
+          }
+        }
+        "#" {
+          if {[llength [array names commands [get_command_name * launcher::clip_okay 1]]] == 0} {
+            unregister * * 1
+            set i 0
+            foreach strs [cliphist::get_history] {
+              lassign $strs name str
+              lappend matches [register_temp "#$name" [list cliphist::add_to_clipboard $str] $name $i [list cliphist::add_detail $str] launcher::clip_okay]
+              lappend match_types 2
+              incr i
+            }
+          }
+        }
+        default {
+          unregister * * 1
+          if {[handle_calculation $str]} {
+            # Nothing more to do
+          } elseif {[regexp {^((https?://)?[a-z0-9\-]+\.[a-z0-9\-\.]+(?:/|(?:/[a-zA-Z0-9!#\$%&'\*\+,\-\.:;=\?@\[\]_~]+)*))$} $str -> url]} {
+            lappend matches     [register_temp "" [list launcher::show_url $url] "Launch $url" 0 "" launcher::url_okay]
+            lappend match_types 2
+          }
+        }
       }
     
-      # Check to see if this is a symbol lookup
-      if {$str eq "@"} {
-        array unset commands [get_command_name * launcher::symbol_okay 0]
-        set i 0
-        foreach {procedure pos} [gui::get_symbol_list {}] {
-          lappend matches [register_temp "@$procedure" "gui::jump_to {} $pos" $procedure $i "" launcher::symbol_okay]
-          lappend match_types 2
-          incr i
-        }
-      } elseif {$last_str eq "@"} {
-        unregister * launcher::symbol_okay 1
-      }
-      
-      # Check to see if this is a marker lookup
-      if {$str eq ","} {
-        array unset commands [get_command_name * launcher::marker_okay 0]
-        set i 0
-        foreach {marker pos} [gui::get_marker_list {}] {
-          lappend matches [register_temp ",$marker" "gui::jump_to {} $pos" $marker $i "" launcher::marker_okay]
-          lappend match_types 2
-          incr i
-        }
-      } elseif {$last_str eq ","} {
-        unregister * launcher::marker_okay 1
-      }
-      
-      # Check to see if this is a clipboard history lookup
-      if {$str eq "#"} {
-        array unset commands [get_command_name * launcher::clip_okay 0]
-        set i 0
-        foreach strs [cliphist::get_history] {
-          lassign $strs name str
-          lappend matches [register_temp "#$name" [list cliphist::add_to_clipboard $str] $name $i [list cliphist::add_detail $str] launcher::clip_okay]
-          lappend match_types 2
-          incr i
-        }
-      } elseif {$last_str eq "#"} {
-        unregister * launcher::clip_okay 1
-      }
-      
-#      # Check to see if this is a URL
-#      if {[regexp {(\S+\.[[:alpha:]][[:alpha:]]+)$} $str -> url]} {
-#
-#        set last_command_name [get_command_name $last_url launcher::url_okay 0]
-#        set curr_command_name [get_command_name $url launcher::url_okay 0]
-#      
-#        # Change the command to the updated command
-#        set value $commands($last_command_name)
-#        array unset commands $last_command_name
-#        set commands($curr_command_name) $value
-#        set last_url $url
-#
-#        # Add this to the list of matches
-#        lappend matches     $curr_command_name
-#        lappend match_types 2
-#
-#      }
-
     }
  
     # Get the precise match (if one exists)
@@ -543,20 +528,20 @@ namespace eval launcher {
       }
     }
     
+    # Make the string regular expression friendly
+    set tmpstr [string map {{.} {\.} {*} {\*} {+} {\+} {?} {\?}} $str]
+    
     # Sort the results by relevance
     sort_match_results $results 1
 
     # Get exact matches that match the beginning of the statement
-    sort_match_results [get_match_results \{?$mode$str.*] 0
+    sort_match_results [get_match_results \{?$mode$tmpstr.*] 0
 
     # Get all of the exact matches within the string
-    sort_match_results [get_match_results \{?$mode.*$str.*] 0
+    sort_match_results [get_match_results \{?$mode.*$tmpstr.*] 0
 
     # Get all of the fuzzy matches
-    sort_match_results [get_match_results \{?$mode.*[join [split $str {}] .*].*] 1
-    
-    # Save the last entered string
-    set last_str $str
+    sort_match_results [get_match_results \{?$mode.*[join [string map {{.} {\\\.} {*} {\\\*} {+} {\\\+} {?} {\\\?}} [split $str {}]] .*].*] 1
     
   }
 
@@ -571,7 +556,7 @@ namespace eval launcher {
     variable matches
 
     set results [list]
-
+          
     foreach name [array name commands -regexp [get_command_name $regex_pattern * *]] {
       set value $commands($name)
       if {[lsearch -exact $matches $name] == -1} {
@@ -665,42 +650,30 @@ namespace eval launcher {
 
     variable matches
     variable match_types
-    variable commands
-    variable command_values
-    variable last_calc
     
-    set last_command_name [get_command_name $last_calc launcher::calc_okay 1]
-
     # Check to see if the string is a valid Tcl expression
     if {![catch "expr $str" rc]} {
 
-      set curr_command_name [get_command_name $rc launcher::calc_okay 1]
-
-      # Change the command to the updated command
-      set command_value $commands($last_command_name)
-      lset command_value $command_values(description) $rc
-      array unset commands $last_command_name
-      set commands($curr_command_name) $command_value
-      set last_calc $rc
-
-      # Add this to the list of valid results
-      lappend matches     $curr_command_name
+      lappend matches     [register_temp "" [list launcher::copy_calculation $rc] "Copy $rc to clipboard" 0 "" launcher::calc_okay]
       lappend match_types 2
-      
+            
+      return 1
+            
     }
+          
+    return 0
     
   }
 
   ############################################################################
   # Copies the current calculation to the clipboard.
-  proc copy_calculation {} {
+  proc copy_calculation {value} {
 
-    variable last_calc
     variable last_command
 
     # Clear the clipboard and add the calculation
     clipboard clear
-    clipboard append $last_calc
+    clipboard append $value
     
     # Add the clipboard content to the clipboard history manager
     cliphist::add_from_clipboard
@@ -708,6 +681,21 @@ namespace eval launcher {
     # Clear the last command so that we don't have the calculated value stuck in memory
     set last_command ""
 
+  }
+        
+  ######################################################################
+  # Shows the given URL and adds it to the URL history if it does not
+  # exist.
+  proc show_url {url} {
+    
+    # If the URL did not contain the http portion, add it so that the external launcher knows
+    # this is a URL.
+    if {[string range $url 0 3] ne "http"} {
+      set url "http://$url"
+    }
+          
+    utils::open_file_externally $url
+    
   }
   
 }
