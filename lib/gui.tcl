@@ -186,13 +186,13 @@ namespace eval gui {
     pack $widgets(nb_pw) -fill both -expand yes
     
     # Create the find_in_files widget
-    set widgets(fif)      [ttk::frame .fif]
+    set widgets(fif)       [ttk::frame .fif]
     ttk::label $widgets(fif).lf -text "Find: "
-    set widgets(fif_find) [ttk::entry $widgets(fif).ef]
-    set widgets(fif_case) [ttk::label $widgets(fif).case -text "Aa" -relief raised]
+    set widgets(fif_find)  [ttk::entry $widgets(fif).ef]
+    set widgets(fif_case)  [ttk::label $widgets(fif).case -text "Aa" -relief raised]
     ttk::label $widgets(fif).li -text "In: "
-    set widgets(fif_in)   [tokenentry::tokenentry $widgets(fif).ti -font [$widgets(fif_find) cget -font]]
-    ttk::label $widgets(fif).close -image $images(close)
+    set widgets(fif_in)    [tokenentry::tokenentry $widgets(fif).ti -font [$widgets(fif_find) cget -font]]
+    set widgets(fif_close) [ttk::label $widgets(fif).close -image $images(close)]
     
     tooltip::tooltip $widgets(fif_case) "Case sensitivity"
     
@@ -208,8 +208,8 @@ namespace eval gui {
     bind $widgets(fif_case)          <Button-1>  { gui::toggle_labelbutton %W }
     bind $widgets(fif_case)          <Key-space> { gui::toggle_labelbutton %W }
     bind $widgets(fif_case)          <Escape>    { set gui::user_exit_status 0 }
-    bind $widgets(fif).close         <Button-1>  { set gui::user_exit_status 0 }
-    bind $widgets(fif).close         <Key-space> { set gui::user_exit_status 0 }
+    bind $widgets(fif_close)         <Button-1>  { set gui::user_exit_status 0 }
+    bind $widgets(fif_close)         <Key-space> { set gui::user_exit_status 0 }
       
     grid columnconfigure $widgets(fif) 1 -weight 1
     grid $widgets(fif).lf    -row 0 -column 0 -sticky ew -pady 2
@@ -326,9 +326,10 @@ namespace eval gui {
     poll
   
     # Trace changes to the Appearance/Theme preference variable
-    trace variable preferences::prefs(Editor/WarningWidth)    w gui::handle_warning_width_change
-    trace variable preferences::prefs(View/AllowTabScrolling) w gui::handle_allow_tab_scrolling
-    trace variable preferences::prefs(Tools/VimMode)          w gui::handle_vim_mode
+    trace variable preferences::prefs(Editor/WarningWidth)       w gui::handle_warning_width_change
+    trace variable preferences::prefs(View/AllowTabScrolling)    w gui::handle_allow_tab_scrolling
+    trace variable preferences::prefs(Tools/VimMode)             w gui::handle_vim_mode
+    trace variable preferences::prefs(Appearance/EditorFontSize) w gui::handle_editor_font_size
 
   }
   
@@ -398,7 +399,7 @@ namespace eval gui {
       # Get the default background and foreground colors
       set bg  [utils::get_default_background]
       set fg  [utils::get_default_foreground]
-      set ibg [expr {($theme eq "dark") ? "grey5" : "grey70"}]
+      set abg [utils::auto_adjust_color $bg 30]
       
       # Store the readonly/lock status of each tab
       array set tab_status [list]
@@ -422,11 +423,12 @@ namespace eval gui {
       }
 
       # Update the find in file close button
-      $widgets(fif).close configure -image $images(close)
+      $widgets(fif_close) configure -image $images(close)
+      $widgets(fif_in)    configure -background $fg
       
       # Update all of the tabbars
       foreach nb [$widgets(nb_pw) panes] {
-        $nb.tbf.tb    configure -background $bg -foreground $fg -activebackground $bg -inactivebackground $ibg
+        $nb.tbf.tb    configure -background $bg -foreground $fg -activebackground $abg -inactivebackground $bg
         $nb.tbf.extra configure -image $images(down)
         set tabs [$nb.tbf.tb tabs]
         foreach tab $tabs {
@@ -441,6 +443,15 @@ namespace eval gui {
       }
 
     }
+    
+  }
+  
+  ######################################################################
+  # Updates all of the font sizes in the text window to the given.
+  proc handle_editor_font_size {name1 name2 op} {
+    
+    # Update the size of the editor_font
+    font configure editor_font -size [preferences::get Appearance/EditorFontSize]
     
   }
   
@@ -2583,12 +2594,12 @@ namespace eval gui {
     # Figure out colors to apply to notebook
     set bg  [utils::get_default_background]
     set fg  [utils::get_default_foreground]
-    set ibg [expr {($preferences::prefs(General/WindowTheme) eq "dark") ? "grey5" : "grey70"}]
+    set abg [utils::auto_adjust_color $bg 30]
 
     # Add the tabbar frame
     ttk::frame $nb.tbf
     tabbar::tabbar $nb.tbf.tb -command "gui::set_current_tab_from_tb" -closecommand "gui::close_tab_by_tabbar" \
-      -background $bg -foreground $fg -activebackground $bg -inactivebackground $ibg
+      -background $bg -foreground $fg -activebackground $abg -inactivebackground $bg
     ttk::label $nb.tbf.extra -image $images(down) -padding {4 4 4 4}
     
     grid rowconfigure    $nb.tbf 0 -weight 1
@@ -2758,6 +2769,13 @@ namespace eval gui {
     ttk::button    $tab_frame.pw.tf.split -style BButton -image $images(split) -command "gui::toggle_split_pane {}"
     ttk::scrollbar $tab_frame.pw.tf.vb    -orient vertical   -command "$txt yview"
     ttk::scrollbar $tab_frame.pw.tf.hb    -orient horizontal -command "$txt xview"
+    
+    # Create the editor font if it does not currently exist
+    if {[lsearch [font names] editor_font] == -1} {
+      font create editor_font -family [font configure [$txt cget -font] -family] -size [preferences::get Appearance/EditorFontSize]
+    }
+    
+    $txt configure -font editor_font
     
     bind Ctext  <<Modified>>          "gui::text_changed %W"
     bind $txt.t <FocusIn>             "+gui::set_current_tab_from_txt %W"
@@ -2932,7 +2950,7 @@ namespace eval gui {
     
     # Create the editor frame
     $pw insert 0 [ttk::frame $pw.tf2]
-    ctext $txt2 -wrap none -undo 1 -autoseparators 1 -insertofftime 0 \
+    ctext $txt2 -wrap none -undo 1 -autoseparators 1 -insertofftime 0 -font editor_font \
       -highlightcolor yellow -warnwidth $preferences::prefs(Editor/WarningWidth) \
       -linemap_mark_command [ns gui]::mark_command -linemap_select_bg orange -peer $txt \
       -xscrollcommand "utils::set_xscrollbar $pw.tf2.hb" \

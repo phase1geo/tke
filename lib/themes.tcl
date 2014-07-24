@@ -154,7 +154,7 @@ namespace eval themes {
           -darkcolor   [list pressed   $colors(-darker)] \
           -bordercolor [list alternate "#000000"]
 
-        ttk::style configure TEntry -padding 1 -insertwidth 1 -foreground black
+        ttk::style configure TEntry -padding 1 -insertwidth 1 -fieldbackground $colors(-lighter) -foreground black
         ttk::style map TEntry \
           -background  [list readonly $colors(-frame)] \
           -foreground  [list readonly $colors(-lighter)] \
