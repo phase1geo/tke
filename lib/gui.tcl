@@ -278,6 +278,10 @@ namespace eval gui {
       gui::set_current_file_favorite {} $gui::file_favorited
     }
     $widgets(menu) add separator
+    $widgets(menu) add command -label [msgcat::mc "Show in Sidebar"] -command {
+      gui::show_current_in_sidebar
+    }
+    $widgets(menu) add separator
     $widgets(menu) add command -label [msgcat::mc "Move to Other Pane"] -command {
       gui::move_to_pane
     }
@@ -424,7 +428,7 @@ namespace eval gui {
 
       # Update the find in file close button
       $widgets(fif_close) configure -image $images(close)
-      $widgets(fif_in)    configure -background $fg
+      # $widgets(fif_in)    configure -background $fg
       
       # Update all of the tabbars
       foreach nb [$widgets(nb_pw) panes] {
@@ -2254,6 +2258,18 @@ namespace eval gui {
   }
   
   ######################################################################
+  # Shows the current file in the sidebar.
+  proc show_current_in_sidebar {} {
+    
+    variable files
+    variable files_index
+    
+    # Display the file in the sidebar
+    sidebar::show_file [lindex $files [current_file] $files_index(fname)]
+    
+  }
+  
+  ######################################################################
   # Sets the current information message to the given string.
   proc set_info_message {msg {clear_delay 3000}} {
   
@@ -2629,12 +2645,6 @@ namespace eval gui {
       set gui::pw_current [lsearch [$gui::widgets(nb_pw) panes] [winfo parent [winfo parent [winfo parent %W]]]]
       if {![catch "[winfo parent %W] select @%x,%y"]} {
         tk_popup $gui::widgets(menu) %X %Y
-      }
-    }
-    bind [$nb.tbf.tb btag] <ButtonRelease-$::right_click> {
-      set gui::pw_current [lsearch [$gui::widgets(nb_pw) panes] [winfo parent [winfo parent [winfo parent %W]]]]
-      if {![catch "[winfo parent %W] select @%x,%y"]} {
-        set_txt_focus [last_txt_focus {}]
       }
     }
     

@@ -59,7 +59,7 @@
 
 # Specifies the point size of the font used in the editor window
 
-{Appearance/EditorFontSize}  {10}
+{Appearance/EditorFontSize}  {9}
 
 # Specifies the number of characters to allow on a line before additional characters
 # are flagged with a warning character.

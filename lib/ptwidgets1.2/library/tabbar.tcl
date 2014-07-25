@@ -453,17 +453,22 @@ namespace eval tabbar {
     # Get the page index
     set page_index [page_index $w $tab_index]
     
-    # Call the tab selection proc
-    select $w $page_index
-    
     # Get the close ID
     set close_id [close_tag $w $page_index]
     
-    # If the current item is not the close button, start a move operation
+    # If the current item is not the close button
     if {[lsearch [$w.c itemcget current -tags] $close_id] == -1} {
+      
+      # Start the move operation
       set data($w,moveto_index) $tab_index
       set data($w,last_x)       $x
       $w.c raise [tab_tag $w $page_index]
+      
+      # Make the current tab look current
+      set data($w,last_current) $data($w,current)
+      set data($w,current)      $page_index
+      redraw $w
+    
     } else {
       set data($w,moveto_index) ""
     }
@@ -508,6 +513,7 @@ namespace eval tabbar {
       set data($w,tab_order)    [lreplace $data($w,tab_order) $other_index $other_index]
       set data($w,tab_order)    [linsert  $data($w,tab_order) $data($w,moveto_index) $tmp]
       set data($w,moveto_index) $other_index
+      set data($w,last_current) -1
       
     }
       
@@ -574,19 +580,20 @@ namespace eval tabbar {
       $w.c move $tab_tag [expr ($data($w,tab_width) * $data($w,moveto_index)) - $x0] 0
       
       # Move the page in the pages index
-      set page                  [lindex   $data($w,pages) $page_index]
-      set data($w,pages)        [lreplace $data($w,pages) $page_index $page_index]
-      set data($w,pages)        [linsert  $data($w,pages) $data($w,moveto_index) $page]
-      set data($w,moveto_index) ""
+      set page           [lindex   $data($w,pages) $page_index]
+      set data($w,pages) [lreplace $data($w,pages) $page_index $page_index]
+      set data($w,pages) [linsert  $data($w,pages) $data($w,moveto_index) $page]
       
       # Update the tab order to match
       update_tab_order $w
       
-      # If the user has specified a command to run for the selection, run it now
-      if {$data($w,option,-command) ne ""} {
-        uplevel #0 $data($w,option,-command) $w [lindex $page 0]
-      }
+      # Select the current tab
+      set data($w,current) $data($w,last_current)
+      select $w $data($w,moveto_index)
 
+      # Clear the moveto_index
+      set data($w,moveto_index) ""
+      
     }
     
   }
@@ -1525,6 +1532,11 @@ namespace eval tabbar {
           # Make sure that the tab is in view
           make_current_viewable $w
       
+          # If the user has specified a command to run for the selection, run it now
+          if {$data($w,option,-command) ne ""} {
+            uplevel #0 $data($w,option,-command) $w [lindex $data($w,pages) $index 0]
+          }
+          
         }
       
       }

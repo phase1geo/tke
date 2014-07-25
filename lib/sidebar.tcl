@@ -37,7 +37,7 @@ namespace eval sidebar {
         -tooltipaddcommand "sidebar::show_tooltip" \
         -tooltipdelcommand "sidebar::hide_tooltip" \
         -yscrollcommand    "utils::set_yscrollbar $w.vb"]
-    ttk::scrollbar $w.vb -orient vertical   -command "$widgets(tl) yview"
+    ttk::scrollbar $w.vb -orient vertical -command "$widgets(tl) yview"
     
     $widgets(tl) columnconfigure 0 -name name   -editable 0 -formatcommand "sidebar::format_name"
     $widgets(tl) columnconfigure 1 -name ocount -editable 0 -hide 1
@@ -1115,6 +1115,48 @@ namespace eval sidebar {
     lappend fif_files [list {Current Directory} [pwd]]
     
     return [lsort -index 0 $fif_files]
+    
+  }
+  
+  ######################################################################
+  # Recursively expands the tablelist to show the given filename.
+  proc show_file_helper {parent fdir} {
+    
+    variable widgets
+    
+    foreach child [$widgets(tl) childkeys $parent] {
+      set dir [$widgets(tl) cellcget $child,name -text]
+      if {[string compare -length [string length $dir] $fdir $dir] == 0} {
+        $widgets(tl) expand $child -partly
+        if {$fdir ne $dir} {
+          show_file_helper $child $fdir
+        }
+        return 1
+      }
+    }
+    
+    return 0
+    
+  }
+  
+  ######################################################################
+  # Shows the given filename in the sidebar browser.  Adds parent
+  # directory if the file does not exist in the sidebar.
+  proc show_file {fname} {
+    
+    variable widgets
+    
+    # Show the file in the sidebar
+    if {![show_file_helper root [file dirname $fname]]} {
+      add_directory [file dirname $fname]
+    }
+    
+    # Put the file into view
+    if {[set row [$widgets(tl) searchcolumn name $fname -descend -exact]] != -1} {
+      $widgets(tl) selection clear 0 end
+      $widgets(tl) selection set $row
+      $widgets(tl) see $row
+    }
     
   }
   
