@@ -61,6 +61,14 @@
 
 {Appearance/EditorFontSize}  {9}
 
+# Specifies the point size of the font used in the command launcher entry field.
+
+{Appearance/CommandLauncherEntryFontSize} {12}
+  
+# Specifies the point size of the font used in the command launcher preview field.
+
+{Appearance/CommandLauncherPreviewFontSize} {6}
+
 # Specifies the number of characters to allow on a line before additional characters
 # are flagged with a warning character.
 

@@ -30,7 +30,7 @@ namespace eval launcher {
     search_str     4
     detail_command 5
   }
-
+  
   ######################################################################
   # Loads the launcher functionality.
   proc load {} {
@@ -42,7 +42,11 @@ namespace eval launcher {
       array set read_commands [read $rc]
       close $rc
     }
-  
+    
+    # Add preferences traces
+    trace variable preferences::prefs(Appearance/CommandLauncherEntryFontSize)   w launcher::handle_entry_font_size
+    trace variable preferences::prefs(Appearance/CommandLauncherPreviewFontSize) w launcher::handle_preview_font_size
+
   }
   
   ######################################################################
@@ -76,8 +80,15 @@ namespace eval launcher {
       wm overrideredirect $widgets(win) 1
       wm transient        $widgets(win) .
 
-      set widgets(entry) [ttk::entry $widgets(win).entry -font [font create -size 12] -width 50 -validate key -validatecommand "launcher::lookup %P {$mode} $show_detail" -invalidcommand {bell}]
+      set widgets(entry) [ttk::entry $widgets(win).entry -width 50 -validate key -validatecommand "launcher::lookup %P {$mode} $show_detail" -invalidcommand {bell}]
       
+      if {[lsearch [font names] launcher_entry] == -1} {
+        font create launcher_entry -family [font configure [$widgets(entry) cget -font] -family] \
+          -size [preferences::get Appearance/CommandLauncherEntryFontSize]
+      }
+      
+      $widgets(entry) configure -font launcher_entry
+  
       set widgets(mf) [ttk::frame $widgets(win).mf]
       set widgets(lf) [ttk::frame $widgets(win).mf.lf]
       set widgets(lb) [listbox $widgets(lf).lb -exportselection 0 -bg white -height 0 -width 35 \
@@ -93,6 +104,13 @@ namespace eval launcher {
       set widgets(txt) [text $widgets(win).mf.txt -font [font create -size 7] -width 60 -height 15 \
                           -relief flat -wrap word -state disabled \
                           -fg [utils::get_default_foreground] -bg [utils::get_default_background]]
+                          
+      if {[lsearch [font names] launcher_preview] == -1} {
+        font create launcher_preview -family [font configure [$widgets(txt) cget -font] -family] \
+          -size [preferences::get Appearance/CommandLauncherPreviewFontSize]
+      }
+      
+      $widgets(txt) configure -font launcher_preview
       
       grid rowconfigure    $widgets(mf) 0 -weight 1
       grid columnconfigure $widgets(mf) 0 -weight 1
@@ -162,6 +180,22 @@ namespace eval launcher {
       
     }
   
+  }
+  
+  ######################################################################
+  # Handles any changes to the entry font size preferences variable.
+  proc handle_entry_font_size {name1 name2 op} {
+    
+    font configure launcher_entry -size [preferences::get Appearance/CommandLauncherEntryFontSize]
+    
+  }
+  
+  ######################################################################
+  # Handles any changes to the preview font size preferences variable.
+  proc handle_preview_font_size {name1 name2 op} {
+    
+    font configure launcher_preview -size [preferences::get Appearance/CommandLauncherPreviewFontSize]
+    
   }
   
   ############################################################################
