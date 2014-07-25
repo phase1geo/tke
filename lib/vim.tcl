@@ -135,7 +135,7 @@ namespace eval vim {
           if {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)s/(.*)/(.*)/(g?)$} $value -> from to search replace glob]} {
             set from [get_linenum $txt $from]
             set to   [$txt index "[get_linenum $txt $to] lineend-1c"]
-            [ns gui]::do_raw_search_and_replace $from $to $search $replace 0 [expr {$glob eq "g"}]
+            [ns gui]::do_raw_search_and_replace $tid $from $to $search $replace 0 [expr {$glob eq "g"}]
           } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)([dy])$} $value -> from to cmd]} {
             set from [get_linenum $txt $from]
             set to   [$txt index "[get_linenum $txt $to] lineend"]
