@@ -83,7 +83,7 @@ namespace eval utils {
   proc set_yscrollbar {sb first last} {
         
     # If everything is displayed, hide the scrollbar
-    if {($first == 0) && ($last == 1)} {
+    if {($first == 0) && (($last == 1) || ($last == 0))} {
       grid remove $sb
     } else {
       grid $sb
