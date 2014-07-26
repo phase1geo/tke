@@ -1,4 +1,4 @@
-######################################################################
+ ######################################################################
 # Name:    sidebar.tcl
 # Author:  Trevor Williams  (phase1geo@gmail.com)
 # Date:    10/03/2013
@@ -24,7 +24,7 @@ namespace eval sidebar {
                                            -foreground "yellow"]
     
     # Create the top-level frame
-    ttk::frame $w
+    set widgets(frame) [ttk::frame $w]
     
     # Add the file tree elements
     set widgets(tl) \
@@ -37,7 +37,7 @@ namespace eval sidebar {
         -tooltipaddcommand "sidebar::show_tooltip" \
         -tooltipdelcommand "sidebar::hide_tooltip" \
         -yscrollcommand    "utils::set_yscrollbar $w.vb"]
-    ttk::scrollbar $w.vb -orient vertical -command "$widgets(tl) yview"
+    set widgets(sb) [ttk::scrollbar $w.vb -orient vertical -command "$widgets(tl) yview"]
     
     $widgets(tl) columnconfigure 0 -name name   -editable 0 -formatcommand "sidebar::format_name"
     $widgets(tl) columnconfigure 1 -name ocount -editable 0 -hide 1
@@ -45,6 +45,10 @@ namespace eval sidebar {
     bind $widgets(tl)           <<TablelistSelect>>     "sidebar::handle_selection"
     bind [$widgets(tl) bodytag] <Button-$::right_click> "sidebar::handle_right_click %W %x %y"
     bind [$widgets(tl) bodytag] <Double-Button-1>       "sidebar::handle_double_click %W %x %y"
+    bind [$widgets(tl) bodytag] <FocusIn>               "sidebar::unhide_scrollbar"
+    bind [$widgets(tl) bodytag] <FocusOut>              "sidebar::hide_scrollbar"
+    bind $widgets(frame)        <Enter>                 "sidebar::unhide_scrollbar"
+    bind $widgets(frame)        <Leave>                 "sidebar::hide_scrollbar"
     
     grid rowconfigure    $w 0 -weight 1
     grid columnconfigure $w 0 -weight 1
@@ -58,6 +62,34 @@ namespace eval sidebar {
     trace variable preferences::prefs(Sidebar/IgnoreFilePatterns) w sidebar::handle_ignore_file_patterns
     
     return $w
+    
+  }
+  
+  ######################################################################
+  # Hides the given scrollbar.
+  proc hide_scrollbar {} {
+    
+    variable widgets
+    
+    # Set the yscrollcommand to the normal kind
+    $widgets(tl) configure -yscrollcommand "$widgets(sb) set"
+    
+    # Hide the sidebar
+    grid remove $widgets(sb)
+    
+  }
+  
+  ######################################################################
+  # Unhides the given scrollbar (if it needs to be displayed).
+  proc unhide_scrollbar {} {
+    
+    variable widgets
+    
+    # Set the yscrollcommand to the auto-hide version
+    $widgets(tl) configure -yscrollcommand "utils::set_yscrollbar $widgets(sb)"
+    
+    # Run the set_yscrollbar command
+    utils::set_yscrollbar $widgets(sb) {*}[$widgets(sb) get]
     
   }
   
