@@ -403,11 +403,11 @@ proc ctext::setCommentRE {win} {
   
   if {[llength $patterns] > 0} {
     append commentRE "|" [join $patterns |]
-    foreach pattern $patterns {
-      if {[string index $pattern 0] ne "^"} {
-        append commentRE "|" {\\} $pattern
-      }
-    }
+#    foreach pattern $patterns {
+#      if {[string index $pattern 0] ne "^"} {
+#        append commentRE "|" {\\} $pattern
+#      }
+#    }
   }
   
   set bcomments [list]
@@ -482,6 +482,17 @@ proc ctext::handleFocusOut {win} {
   
   __ctextJunk$win configure -bg $configAr(-unhighlightcolor)
     
+}
+
+# Returns 1 if the character at the given index is escaped; otherwise, returns 0.
+proc ctext::isEscaped {win index} {
+  
+  if {[regexp {^(\\*)} [string reverse [$win get "$index linestart" $index]] -> escapes]} {
+    return [expr [string length $escapes] % 2]
+  }
+  
+  return 0
+  
 }
 
 proc ctext::instanceCmd {self cmd args} {
@@ -707,13 +718,13 @@ proc ctext::instanceCmd {self cmd args} {
       
       switch -- $data {
         "\}" {
-          ctext::matchPair $self "\\\{" "\\\}" "\\"
+          ctext::matchPair $self "\\\{" "\\\}" 1
         }
         "\]" {
-          ctext::matchPair $self "\\\[" "\\\]" "\\"
+          ctext::matchPair $self "\\\[" "\\\]" 1
         }
         "\)" {
-          ctext::matchPair $self "\\(" "\\)" ""
+          ctext::matchPair $self "\\(" "\\)" 0
         }
         "\"" {
           ctext::matchQuote $self
@@ -796,11 +807,8 @@ proc ctext::tag:blink {win count {afterTriggered 0}} {
   }
 }
 
-proc ctext::matchPair {win str1 str2 escape} {
-  set prevChar [$win get "insert - 2 chars"]
-  
-  if {[string equal $prevChar $escape]} {
-    #The char that we thought might be the end is actually escaped.
+proc ctext::matchPair {win str1 str2 check_escape} {
+  if {$check_escape && [isEscaped $win "insert-1c"]} {
     return
   }
   
@@ -827,7 +835,7 @@ proc ctext::matchPair {win str1 str2 escape} {
     set prevChar [$win get "$found - 1 chars"]
     set pos $found
     
-    if {[string equal $prevChar $escape]} {
+    if {$check_escape && [isEscaped $win "$found - 1c"]} {
       continue
     } elseif {[string equal $char [subst $str2]]} {
       incr count
@@ -854,10 +862,11 @@ proc ctext::matchQuote {win} {
   set endQuote [$win index insert]
   set start [$win index "insert - 1 chars"]
   
-  if {[$win get "$start - 1 chars"] == "\\"} {
-    #the quote really isn't the end
+  # The quote really isn't the end if it is escaped
+  if {[isEscaped $win $start]} {
     return
   }
+  
   set lastFound ""
   while 1 {
     set startQuote [$win search -backwards \" $start]
@@ -874,7 +883,7 @@ proc ctext::matchQuote {win} {
     set start [$win index "$startQuote - 1 chars"]
     set prevChar [$win get $start]
     
-    if {$prevChar == "\\"} {
+    if {[isEscaped $win $start]} {
       continue
     }
     break
@@ -964,7 +973,9 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
     # Handle single line comments in the given range
     set i 0
     foreach index [$win search -all -count lengths -regexp {*}$configAr(re_opts) -- $commentRE $start $end] {
-      lappend lcomment $index "$index+[lindex $lengths $i]c"
+      if {![isEscaped $win $index]} {
+        lappend lcomment $index "$index+[lindex $lengths $i]c"
+      }
       incr i
     }
     
@@ -1028,26 +1039,32 @@ proc ctext::commentsParse {win start end pcCom plCom psStr pdStr ptStr} {
       
     set index [lindex $indices $i]
     set str   [$win get $index "$index+[lindex $lengths $i]c"]
+        
+        
+    # Only handle the comment if it is not escaped
+    if {![isEscaped $win $index]} {
       
-    # Found a double-quote character
-    if {$str == "\""} {
-      commentsParseDStringEnd $win $index indices $num_indices lengths i dstring
+      # Found a double-quote character
+      if {$str == "\""} {
+        commentsParseDStringEnd $win $index indices $num_indices lengths i dstring
+          
+      # Found a single-quote character
+      } elseif {$str == "'"} {
+        commentsParseSStringEnd $win $index indices $num_indices lengths i sstring
+          
+      # Found a triple-double-quote character string
+      } elseif {$str == "\"\"\""} {
+        commentsParseTStringEnd $win $index indices $num_indices lengths i tstring
         
-    # Found a single-quote character
-    } elseif {$str == "'"} {
-      commentsParseSStringEnd $win $index indices $num_indices lengths i sstring
-        
-    # Found a triple-double-quote character string
-    } elseif {$str == "\"\"\""} {
-      commentsParseTStringEnd $win $index indices $num_indices lengths i tstring
-      
-    # Found a single line comment
-    } elseif {($configAr(lcomment_re) ne "") && [regexp {*}$configAr(re_opts) -- $configAr(lcomment_re) $str]} {
-      commentsParseLCommentEnd $win $index indices $num_indices i lcomment
-        
-    # Found a starting block comment string
-    } elseif {($configAr(bcomment_re) ne "") && [regexp {*}$configAr(re_opts) -- $configAr(bcomment_re) $str]} {
-      commentsParseCCommentEnd $win $index indices $num_indices $configAr(re_opts) $configAr(ecomment_re) lengths i ccomment
+      # Found a single line comment
+      } elseif {($configAr(lcomment_re) ne "") && [regexp {*}$configAr(re_opts) -- $configAr(lcomment_re) $str]} {
+        commentsParseLCommentEnd $win $index indices $num_indices i lcomment
+          
+      # Found a starting block comment string
+      } elseif {($configAr(bcomment_re) ne "") && [regexp {*}$configAr(re_opts) -- $configAr(bcomment_re) $str]} {
+        commentsParseCCommentEnd $win $index indices $num_indices $configAr(re_opts) $configAr(ecomment_re) lengths i ccomment
+      }
+          
     }
 
   }
@@ -1099,10 +1116,12 @@ proc ctext::commentsParseSStringEnd {win index pindices num_indices plengths pi 
 
   for {incr i} {$i < $num_indices} {incr i} {
     set index [lindex $indices $i]
-    set str   [$win get $index "$index+[lindex $lengths $i]c"]
-    if {$str == "'"} {
-      lset sstring end "$index+1c"
-      break
+    if {![isEscaped $win $index]} {
+      set str [$win get $index "$index+[lindex $lengths $i]c"]
+      if {$str == "'"} {
+        lset sstring end "$index+1c"
+        break
+      }
     }
   }
 
@@ -1119,10 +1138,12 @@ proc ctext::commentsParseDStringEnd {win index pindices num_indices plengths pi 
   
   for {incr i} {$i < $num_indices} {incr i} {
     set index [lindex $indices $i]
-    set str   [$win get $index "$index+[lindex $lengths $i]c"]
-    if {$str == "\""} {
-      lset dstring end "$index+1c"
-      break
+    if {![isEscaped $win $index]} {
+      set str [$win get $index "$index+[lindex $lengths $i]c"]
+      if {$str == "\""} {
+        lset dstring end "$index+1c"
+        break
+      }
     }
   }
 
@@ -1139,10 +1160,12 @@ proc ctext::commentsParseTStringEnd {win index pindices num_indices plengths pi 
 
   for {incr i} {$i < $num_indices} {incr i} {
     set index [lindex $indices $i]
-    set str   [$win get $index "$index+[lindex $lengths $i]c"]
-    if {$str == "\"\"\""} {
-      lset tstring end "$index+3c"
-      break
+    if {![isEscaped $win $index]} {
+      set str [$win get $index "$index+[lindex $lengths $i]c"]
+      if {$str == "\"\"\""} {
+        lset tstring end "$index+3c"
+        break
+      }
     }
   }
 
@@ -1177,10 +1200,12 @@ proc ctext::commentsParseCCommentEnd {win index pindices num_indices re_opts eco
 
   for {incr i} {$i < $num_indices} {incr i} {
     set index [lindex $indices $i]
-    set str   [$win get $index "$index+[lindex $lengths $i]c"]
-    if {[regexp {*}$re_opts -- $ecomment_re $str]} {
-      lset ccomment end "$index+[string length $str]c"
-      break
+    if {![isEscaped $win $index]} {
+      set str [$win get $index "$index+[lindex $lengths $i]c"]
+      if {[regexp {*}$re_opts -- $ecomment_re $str]} {
+        lset ccomment end "$index+[string length $str]c"
+        break
+      }
     }
   }
 
