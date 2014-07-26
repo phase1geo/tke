@@ -30,7 +30,7 @@ namespace eval indent {
   
   ######################################################################
   # Checks the given text prior to the insertion marker to see if it
-  # matches the indent or unindent expressions.  Increment/decrement
+  # matches the unindent expressions.  Increment/decrement
   # accordingly.
   proc check_indent {txt index} {
     
@@ -58,7 +58,7 @@ namespace eval indent {
     # If the current word matches an unindent pattern and there is only
     # whitespace prior to the unindent word, replace the whitespace with the
     # appropriate indentation space.
-    if {[lsearch -exact $indent_exprs($txt,unindent) $word] != -1} {
+    if {[regexp [subst {^[join $indent_exprs($txt,unindent) |]}] $word]} {
       set line [$txt get "$index linestart" $wordStart]
       if {($line ne "") && ([string trim $line] eq "")} {
         $txt replace "$index linestart" $wordStart [get_indent_space $txt 1.0 $index]
@@ -156,14 +156,6 @@ namespace eval indent {
  
     variable indent_exprs
 
-    # If the auto-indent feature was disabled, we are in vim start mode,
-    # or the current language doesn't have an indent expression, quit now
-    #if {![[ns preferences]::get Editor/EnableAutoIndent] || \
-    #    [[ns vim]::in_vim_mode $txt] || \
-    #    ($indent_exprs($txt,indent) eq "")} {
-    #  return 0
-    #}
- 
     # Initialize the indent_space
     set indent_level 0
   
@@ -174,7 +166,7 @@ namespace eval indent {
     # Get the indentation level based on the indent/unindent words found
     set i 0
     foreach index [$txt search -all -count lengths -regexp -- $all_re $start $end] {
-      if {[ctext::inCommentString $txt $index] || \
+      if {[ctext::inCommentString $txt $index] || [ctext::isEscaped $txt $index] || \
           (([lindex [split $index .] 1] > 0) && ([$txt get "$index-1c"] eq {\\}))} {
         incr i
         continue
@@ -225,8 +217,13 @@ namespace eval indent {
         if {[string length $whitespace] > 0} {
           $txt delete $currpos "$currpos+[string length $whitespace]c"
         }
-        set unindent_match ""
-        set unindent       [expr {[regexp "^($uni_re)" $rest -> unindent_match] ? [[ns preferences]::get Editor/IndentSpaces] : 0}]
+        if {[regexp "^(\\\\)*($uni_re)" $rest -> escapes unindent_match] && \
+            ![expr [string length $escapes] % 2]} {
+          set unindent [[ns preferences]::get Editor/IndentSpaces]
+        } else {
+          set unindent_match ""
+          set unindent       0
+        }
         if {$indent_space ne ""} {
           $txt insert $currpos [set indent_space [string range $indent_space $unindent end]]
         }
