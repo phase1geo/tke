@@ -539,7 +539,7 @@ namespace eval launcher {
           if {([string first {[} $str] == -1) && [handle_calculation $str]} {
             # Nothing more to do
           } elseif {[regexp {^((https?://)?[a-z0-9\-]+\.[a-z0-9\-\.]+(?:/|(?:/[a-zA-Z0-9!#\$%&'\*\+,\-\.:;=\?@\[\]_~]+)*))$} $str -> url]} {
-            lappend matches [register_temp "" [list launcher::open_url_and_bookmark $url] "Launch $url" 0 "" launcher::url_okay]
+            lappend matches [register_temp "" [list launcher::open_url_and_bookmark $url] "Open URL $url" 0 "" launcher::url_okay]
           }
         }
       }
@@ -711,10 +711,10 @@ namespace eval launcher {
   proc open_url_and_bookmark {url} {
     
     # Open the URL in the local browser
-    show_url $url
+    open_url $url
     
     # Add the URL to the bookmark list
-    register "Open bookmarked $url" [list launcher::open_url $url]
+    register "Open bookmarked URL $url" [list launcher::open_url $url]
     
   }
         

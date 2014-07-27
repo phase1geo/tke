@@ -63,16 +63,61 @@ namespace eval preferences {
     
     # If the preferences file does not exist, add it from the data directory
     if {[file exists $user_preferences_file]} {
-      if {![catch "[ns tkedat]::read $base_preferences_file" rc]} {
+      
+      # Get the file status information for both the base and user files
+      file stat $base_preferences_file base_stat
+      file stat $user_preferences_file user_stat
+      
+      # Read the user preferences file
+      if {![catch "[ns tkedat]::read $user_preferences_file" rc]} {
+        array set user_prefs $rc
+      }
+      
+      # If the base preferences file was changed since the user file has changed, see if the
+      # user file needs to be updated and update it if necessary
+      if {$base_stat(mtime) > $user_stat(mtime)} {
+
+        # Read both the base the preferences file
+        if {![catch "[ns tkedat]::read $base_preferences_file" rc]} {
+          array set base_prefs $rc
+        }
+        
+        # If the preferences are different between the base and user, update the user
+        if {[lsort [array names base_prefs]] ne [lsort [array names user_prefs]]} {
+          
+          # Copy only the members in the user preferences that are in the base preferences
+          # (omit the comments)
+          foreach name [array names user_prefs] {
+            if {[info exists base_prefs($name)] && ([string first ",comment" $name] == -1)} {
+              set base_prefs($name) $user_prefs($name)
+            }
+          }
+          
+          # Write the base_prefs array to the user preferences file
+          if {![catch {[ns tkedat]::write $user_preferences_file [array get base_prefs]} rc]} {
+            array set prefs [array get base_prefs]
+          }
+          
+        # Otherwise, assign the user preferences to the 
+        } else {
+          array set prefs [array get user_prefs]
+        }
+        
+      # Otherwise, just use the user preferences file
+      } else {
+        array set prefs [array get user_prefs]
+      }
+        
+    } else {
+        
+      # Copy the base preferences to the user preferences file
+      copy_default 0
+       
+      # Read the contents of the user file
+      if {![catch "[ns tkedat]::read $user_preferences_file" rc]} {
         array set prefs $rc
       }
-    } else {
-      copy_default 0
-    }
-    
-    # Check for file differences
-    if {![catch "[ns tkedat]::read $user_preferences_file" rc]} {
-      array set prefs $rc
+        
     }
     
     # Perform environment variable setting from the General/Variables preference option

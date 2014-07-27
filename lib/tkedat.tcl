@@ -55,15 +55,15 @@ namespace eval tkedat {
 
       array set content $contents
       
-      foreach {key value} $contents {
-        if {![regexp {,comment$} $key]} {
-          if {[info exists content($key,comment)]} {
-            foreach comment $content($key,comment) {
-              puts $rc "$comment\n"
+      foreach name [lsort [array names content]] {
+        if {![regexp {,comment$} $name]} {
+          if {[info exists content($name,comment)]} {
+            foreach comment $content($name,comment) {
+              puts $rc "# $comment"
             }
-            puts $rc "\n"
+            # puts $rc "\n"
           }
-          puts $rc "{$key} {$value}"
+          puts $rc "{$name} {$content($name)}\n"
         }
       }
       

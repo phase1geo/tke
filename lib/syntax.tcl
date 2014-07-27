@@ -126,16 +126,10 @@ namespace eval syntax {
     # Sets the current theme
     set_theme [[ns preferences]::get Appearance/Theme]
     
-    if {[trace info variable [[ns preferences]::get Appearance/Theme]] eq ""} {
+    # Trace changes to syntax preference values
+    trace variable [ns preferences]::prefs(Appearance/Theme)    w [ns syntax]::handle_theme_change
+    trace variable [ns preferences]::prefs(Appearance/Colorize) w [ns syntax]::handle_colorize_change
       
-      # Trace changes to the Appearance/Theme preference variable
-      trace variable [[ns preferences]::get Appearance/Theme] w [ns syntax]::handle_theme_change
-    
-      # Trace changes to the Appearance/Colorize preference variable
-      trace variable [[ns preferences]::get Appearance/Colorize] w [ns syntax]::handle_colorize_change
-      
-    }
-    
   }
   
   ######################################################################
