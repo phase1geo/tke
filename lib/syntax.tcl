@@ -335,6 +335,9 @@ namespace eval syntax {
     # Re-highlight
     $txt highlight 1.0 end
     
+    # Generate a <<ThemeChanged>> event on the text widget
+    event generate $txt <<ThemeChanged>>
+    
     # Set the menubutton text
     if {[info exists [ns gui]::widgets(info_syntax)]} {
       [set [ns gui]::widgets(info_syntax)] configure -text $language
