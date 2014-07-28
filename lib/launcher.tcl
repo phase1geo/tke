@@ -405,6 +405,14 @@ namespace eval launcher {
   }
   
   ######################################################################
+  # Validate command for snippet insertion.
+  proc snip_okay {} {
+    
+    return 1
+    
+  }
+  
+  ######################################################################
   # Called whenever the user enters a value
   proc lookup {value mode show_detail} {
 
@@ -530,6 +538,17 @@ namespace eval launcher {
             foreach strs [cliphist::get_history] {
               lassign $strs name str
               lappend matches [register_temp "#$name" [list cliphist::add_to_clipboard $str] $name $i [list cliphist::add_detail $str] launcher::clip_okay]
+              incr i
+            }
+          }
+        }
+        ":" {
+          if {[llength [array names commands [get_command_name * launcher::snip_okay 1]]] == 0} {
+            unregister * * 1
+            set i 0
+            foreach snippet [snippets::get_current_snippets] {
+              lassign $snippet name value
+              lappend matches [register_temp ":$name" [list snippets::insert_snippet_into_current {} $value] $name $i "" launcher::snip_okay]
               incr i
             }
           }

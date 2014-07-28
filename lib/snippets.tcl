@@ -59,9 +59,9 @@ namespace eval snippets {
             set in_snippet 0
             if {![catch { parse_snippet [string range $snippet 0 end-1] } rc]} {
               set snippets($language,$name) $rc
-              array set snip $snippets($language,$name)
-              [ns launcher]::register [msgcat::mc "Snippet: %s: %s" $name [string range $snip(raw_string) 0 30]] \
-                [list [ns snippets]::insert_snippet_into_current {} $snippets($language,$name)] 
+#              array set snip $snippets($language,$name)
+#              [ns launcher]::register [msgcat::mc "Snippet: %s: %s" $name [string range $snip(raw_string) 0 30]] \
+#                [list [ns snippets]::insert_snippet_into_current {} $snippets($language,$name)] 
             }
           }
         }
@@ -208,7 +208,7 @@ namespace eval snippets {
       
     }
     
-    return [list raw_string $raw_string tabs $tabs dynamics $dynamics]   
+    return [list raw_string $raw_string tabs $tabs dynamics $dynamics snippet $snippet]   
     
   }
   
@@ -435,6 +435,54 @@ namespace eval snippets {
     
     # Add the snippet file to the editor
     gui::add_file end $fname -sidebar 0 -savecommand [list snippets::set_language $language]
+    
+  }
+  
+  ######################################################################
+  # Returns the list of snippets
+  proc get_current_snippets {} {
+    
+    variable snippets
+    
+    # Get the current language
+    set language [syntax::get_current_language [gui::current_txt {}]]
+    
+    set names [list]
+    
+    foreach name [array names snippets $language,*] {
+      lappend names [list [lindex [split $name ,] 1] $snippets($name)]
+    }
+    
+    return $names
+    
+  }
+  
+  ######################################################################
+  # Displays all of the available snippets in the current editor in the
+  # command launcher.
+  proc show_snippets {} {
+    
+    # Add temporary registries to launcher
+    set i 0
+    foreach snippet [get_current_snippets] {
+      lassign $snippet name value
+      array set snip $value
+      launcher::register_temp "`SNIPPET:$name" \
+        [list [ns snippets]::insert_snippet_into_current {} $value] \
+        $name $i [list snippets::add_detail $snip(snippet)]
+      incr i
+    }
+    
+    # Display the launcher in SNIPPET: mode
+    launcher::launch "`SNIPPET:" 1
+    
+  }
+  
+  ######################################################################
+  # Adds the given detail
+  proc add_detail {str txt} {
+    
+    $txt insert end $str
     
   }
   

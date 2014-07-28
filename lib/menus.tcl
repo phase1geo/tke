@@ -469,6 +469,7 @@ namespace eval menus {
     
     $mb add separator
     
+    $mb add cascade -label [msgcat::mc "Insert Text"] -menu [menu $mb.insertPopup -tearoff 0 -postcommand "menus::edit_insert_posting $mb.insertPopup"]
     $mb add cascade -label [msgcat::mc "Format Text"] -menu [menu $mb.formatPopup -tearoff 0 -postcommand "menus::edit_format_posting $mb.formatPopup"]
     
     $mb add separator
@@ -477,12 +478,22 @@ namespace eval menus {
     $mb add cascade -label [msgcat::mc "Menu Bindings"] -menu [menu $mb.bindPopup -tearoff 0]
     $mb add cascade -label [msgcat::mc "Snippets"]      -menu [menu $mb.snipPopup -tearoff 0 -postcommand "menus::edit_snippets_posting $mb.snipPopup"]
     
+    # Create insertion menu
+    $mb.insertPopup add command -label [msgcat::mc "From Clipboard"] -command "cliphist::show_cliphist"
+    launcher::register [msgcat::mc "Menu: Insert from clipboard"] "cliphist::show_cliphist"
+    
+    $mb.insertPopup add command -label [msgcat::mc "Snippet"] -command "snippets::show_snippets"
+    launcher::register [msgcat::mc "Menu: Insert snippet"] "snippets::show_snippets"
+    
     # Create formatting menu
     $mb.formatPopup add command -label [msgcat::mc "Selected"] -command "gui::format {} selected"
+    launcher::register [msgcat::mc "Menu: Format selected text"] "gui::format {} selected"
+    
     $mb.formatPopup add command -label [msgcat::mc "All"]      -command "gui::format {} all"
+    launcher::register [msgcat::mc "Menu: Format all text"] "gui::format {} selected"
 
     # Create preferences menu
-    $mb.prefPopup add command -label [msgcat::mc "View global"] -command "preferences::view_global"
+    $mb.prefPopup add command -label [msgcat::mc "View base"] -command "preferences::view_global"
     launcher::register [msgcat::mc "Menu: View global preferences"] "preferences::view_global"
     
     $mb.prefPopup add command -label [msgcat::mc "Edit user"] -command "preferences::edit_user"
@@ -490,7 +501,7 @@ namespace eval menus {
     
     $mb.prefPopup add separator
 
-    $mb.prefPopup add command -label [msgcat::mc "Set user to global"] -command "preferences::copy_default"
+    $mb.prefPopup add command -label [msgcat::mc "Reset user to base"] -command "preferences::copy_default"
     launcher::register [msgcat::mc "Menu: Set user preferences to global preferences"] "preferences::copy_default"
     
     # Create menu bindings menu
@@ -532,6 +543,7 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Paste"]            -state disabled
       $mb entryconfigure [msgcat::mc "Paste and Format"] -state disabled
       $mb entryconfigure [msgcat::mc "Select All"]       -state disabled
+      $mb entryconfigure [msgcat::mc "Insert Text"]      -state disabled
       $mb entryconfigure [msgcat::mc "Format Text"]      -state disabled
     } else {
       if {[gui::undoable]} {
@@ -559,7 +571,27 @@ namespace eval menus {
         $mb entryconfigure [msgcat::mc "Paste and Format"] -state disabled
       }
       $mb entryconfigure [msgcat::mc "Select All"]  -state normal
+      $mb entryconfigure [msgcat::mc "Insert Text"] -state normal
       $mb entryconfigure [msgcat::mc "Format Text"] -state normal
+    }
+    
+  }
+  
+  ######################################################################
+  # Called just prior to posting the edit/insert menu option.  Sets the
+  # menu option states to match the current UI state.
+  proc edit_insert_posting {mb} {
+    
+    if {[llength [cliphist::get_history]] > 0} {
+      $mb entryconfigure [msgcat::mc "From Clipboard"] -state normal
+    } else {
+      $mb entryconfigure [msgcat::mc "From Clipboard"] -state disabled  
+    }
+    
+    if {[llength [snippets::get_current_snippets]] > 0} {
+      $mb entryconfigure [msgcat::mc "Snippet"] -state normal
+    } else {
+      $mb entryconfigure [msgcat::mc "Snippet"] -state disabled
     }
     
   }
@@ -1137,9 +1169,6 @@ namespace eval menus {
   
     # Add tools menu commands
     $mb add command -label [msgcat::mc "Launcher"] -underline 0 -command "launcher::launch"
-    
-    $mb add command -label [msgcat::mc "Clipboard History"] -underline 0 -command "cliphist::show_cliphist"
-    launcher::register [msgcat::mc "Menu: Show clipboard history"] "cliphist::show_cliphist"
     
     $mb add cascade -label [msgcat::mc "Theme Creator"] -underline 0 -menu [menu $mb.themer -tearoff 0]
     
