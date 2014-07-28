@@ -338,14 +338,28 @@ namespace eval sidebar {
       }
       update_directory $row
       return
+      
     } else {
+      
+      set sub_added 0
+      
+      # Add the subdirectory if the parent already exists
       foreach child [$widgets(tl) childkeys root] {
         set name [$widgets(tl) cellcget $child,name -text]
         if {[string compare -length $dirlen $name $dir] == 0} {
-          add_subdirectory root $dir $child
-          return
+          if {!$sub_added} {
+            add_subdirectory root $dir $child
+            set sub_added 1
+          } else {
+            $widgets(tl) delete $child
+          }
         }
       }
+      
+      if {$sub_added} {
+        return
+      }
+      
     }
     
     # Recursively add directories to the sidebar
