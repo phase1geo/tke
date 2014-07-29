@@ -782,6 +782,8 @@ namespace eval menus {
         incr i
       }
       
+      bind $txt <Key-space> { if {[menus::find_in_files_handle_space %W]} break }
+      
     } else {
       
       $txt insert end "ERROR: $data\n\n\n"
@@ -864,10 +866,7 @@ namespace eval menus {
   ######################################################################
   # Handles a left-click on a matched pattern in the given text widget.
   # Causes the matching file to be opened and we jump to the matching line.
-  proc find_in_files_handle_click {W x y} {
-    
-    # Get the index of the clicked line
-    set index [$W index @$x,$y]
+  proc find_in_files_handle_selection {W index} {
     
     # Get the line number from the beginning of the line
     regexp {^\s*(\d+)} [$W get "$index linestart" $index] -> linenum
@@ -883,6 +882,34 @@ namespace eval menus {
     set txt [gui::current_txt {}]
     $txt see $linenum.0
     $txt mark set insert $linenum.0
+    
+  }
+  
+  ######################################################################
+  # Handles a left-click on a matched pattern in the given text widget.
+  proc find_in_files_handle_click {W x y} {
+    
+    find_in_files_handle_selection $W [$W index @$x,$y]
+    
+  }
+  
+  ######################################################################
+  # Handles a space bar key hit on a matched pattern in the given text
+  # widget.
+  proc find_in_files_handle_space {W} {
+    
+    # Get the current insertion index
+    set insert [$W index insert]
+    
+    # Check to see if the space bar was hit inside of a tag
+    foreach {first last} [$W tag ranges fif] {
+      if {[$W compare $first <= $insert] && [$W compare $insert < $last]} {
+        find_in_files_handle_selection $W [$W index insert]
+        return 1
+      }
+    }
+    
+    return 0
     
   }
   
