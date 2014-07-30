@@ -1,16 +1,16 @@
-namespace eval plugins::current_line {
+namespace eval current_line {
   
   array set configured {}
   
   proc do_cline {tag} {
     
-    bind $tag <FocusIn>        "plugins::current_line::update_line %W"
-    bind $tag <FocusOut>       "plugins::current_line::remove_line %W"
-    bind $tag <<Modified>>     "after idle [list plugins::current_line::update_line %W]"
-    bind $tag <ButtonPress-1>  "after idle [list plugins::current_line::update_line %W]"
-    bind $tag <B1-Motion>      "after idle [list plugins::current_line::update_line %W]"
-    bind $tag <KeyPress>       "after idle [list plugins::current_line::update_line %W]"
-    bind $tag <<ThemeChanged>> "plugins::current_line::update_color %W"
+    bind $tag <FocusIn>        "current_line::update_line %W"
+    bind $tag <FocusOut>       "current_line::remove_line %W"
+    bind $tag <<Modified>>     "after idle [list current_line::update_line %W]"
+    bind $tag <ButtonPress-1>  "after idle [list current_line::update_line %W]"
+    bind $tag <B1-Motion>      "after idle [list current_line::update_line %W]"
+    bind $tag <KeyPress>       "after idle [list current_line::update_line %W]"
+    bind $tag <<ThemeChanged>> "current_line::update_color %W"
     
   }
   
@@ -88,6 +88,6 @@ namespace eval plugins::current_line {
 }
 
 plugins::register current_line {
-  {text_binding pretext cline plugins::current_line::do_cline}
-  {on_uninstall plugins::current_line::do_uninstall}
+  {text_binding pretext cline current_line::do_cline}
+  {on_uninstall current_line::do_uninstall}
 }

@@ -11,17 +11,17 @@ namespace eval api {
   
   ######################################################################
   # Returns true if we are doing tke_development.
-  proc tke_development {} {
+  proc tke_development {interp pname} {
     
     return [::tke_development]
     
   }
   
-  if {[tke_development]} {
+  if {[::tke_development]} {
     
     ######################################################################
     # Returns the pathname to the TKE directory.
-    proc get_tke_directory {} {
+    proc get_tke_directory {interp pname} {
       
       return $::tke_dir
       
@@ -34,9 +34,9 @@ namespace eval api {
   #
   # Parameters:
   #   none
-  proc get_images_directory {} {
+  proc get_images_directory {interp pname} {
     
-    return [file join $::tke_dir plugins images]
+    return [::safe::interpFindInAccessPath $interp [file join $::tke_dir plugins images]]
     
   }
   
@@ -45,24 +45,15 @@ namespace eval api {
   #
   # Parameters:
   #   none
-  proc get_home_directory {} {
+  proc get_home_directory {interp pname} {
     
-    # Get the name of the plugin
-    if {[regexp {plugins::(.*)$} [uplevel {namespace current}] -> name]} {
+    # Figure out the home directory
+    set home [file join $::tke_home plugins $pname]
       
-      # Figure out the home directory
-      set home [file join $::tke_home plugins $name]
+    # If the home directory does not exist, create it
+    file mkdir $home
       
-      # If the home directory does not exist, create it
-      file mkdir $home
-      
-      return $home
-      
-    } else {
-      
-      return -code error [msgcat::mc "get_home_directory can only be called within plugin code"]
-      
-    }
+    return [::safe::interpFindInAccessPath $interp $home]
     
   }
   
@@ -72,7 +63,7 @@ namespace eval api {
   # Parameters:
   #   host  - Name of the host that contains the filename
   #   fname - Name of the file to normalize
-  proc normalize_filename {host fname} {
+  proc normalize_filename {interp pname host fname} {
     
     return [gui::normalize $host $fname]
     
@@ -85,7 +76,7 @@ namespace eval api {
   # Parameters:
   #   msg   - Message to display in the information bar
   #   delay - Specifies the amount of time to wait before clearing the message
-  proc show_info {msg {clear_delay 3000}} {
+  proc show_info {interp pname msg {clear_delay 3000}} {
   
     # Displays the given message
     gui::set_info_message $msg $clear_delay
@@ -107,7 +98,7 @@ namespace eval api {
   # Returns:
   #   Returns 1 if the user provided input; otherwise, returns 0 to
   #   indicate that the user cancelled the input operation.
-  proc get_user_input {msg pvar {allow_vars 1}} {
+  proc get_user_input {interp pname msg pvar {allow_vars 1}} {
     
     upvar $pvar var
     
@@ -120,7 +111,7 @@ namespace eval api {
     ######################################################################
     # Returns the file index of the file being currently edited.  If no
     # such file exists, returns a value of -1.
-    proc current_file_index {} {
+    proc current_file_index {interp pname} {
       
       return [gui::current_file]
       
@@ -139,7 +130,7 @@ namespace eval api {
     #                  readonly - Specifies if the file is readonly
     #                  modified - Specifies if the file has been modified since
     #                             the last save.
-    proc get_info {file_index attr} {
+    proc get_info {interp pname file_index attr} {
       
       return [gui::get_file_info $file_index $attr]
       
@@ -171,7 +162,7 @@ namespace eval api {
     #   -saveas (0|1)           If set to 0 (default), the file will be saved to the
     #                           current file; otherwise, the file will always force a
     #                           save as dialog to be displayed when saving.
-    proc add {args} {
+    proc add {interp pname args} {
      
       if {([llength $args] == 0) || ([string index [lindex $args 0] 0] eq "-")} {
         if {[expr [llength $args] % 2] == 1} {
@@ -199,7 +190,7 @@ namespace eval api {
     #   index - Unique value that is passed to the on_reload save command.
     #   name  - Name of the variable to store
     #   value - Variable value to store
-    proc save_variable {index name value} {
+    proc save_variable {interp pname index name value} {
       
       plugins::save_data $index $name $value
       
@@ -213,7 +204,7 @@ namespace eval api {
     #   index - Unique value that is passed to the on_reload retrieve command.
     #   name  - Name of the variable to get the value of.  If the named variable
     #           could not be found), an empty string is returned.
-    proc load_variable {index name} {
+    proc load_variable {interp pname index name} {
       
       return [plugins::restore_data $index $name]
       

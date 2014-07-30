@@ -76,8 +76,12 @@ namespace eval plugins {
         # Store this information if the name is specified and it should be included
         if {[info exists header(name)] && ($header(name) ne "") && [info exists header(include)] && ($header(include) eq "yes")} {
           set registry($registry_size,selected)    0
-          set registry($registry_size,sourced)     0
           set registry($registry_size,status)      ""
+          set registry($registry_size,interp)      ""
+          set registry($registry_size,wins)        [list]
+          set registry($registry_size,files)       [list]
+          set registry($registry_size,images)      [list]
+          set registry($registry_size,menus)       [list]
           set registry($registry_size,file)        [file join $plugin main.tcl]
           set registry($registry_size,name)        $header(name)
           set registry($registry_size,author)      [expr {[info exists header(author)]      ? $header(author)      : ""}]
@@ -108,7 +112,8 @@ namespace eval plugins {
     
     catch { array unset prev_sourced }
     for {set i 0} {$i < $registry_size} {incr i} {
-      if {$registry($i,selected) && $registry($i,sourced)} {
+      if {$registry($i,selected) && ($registry($i,interp) ne "")} {
+        destroy_interpreter $i
         foreach action [array names registry $i,action,on_reload,*] {
           set prev_sourced($registry($i,name)) $registry($action)
         }
@@ -147,7 +152,7 @@ namespace eval plugins {
       foreach action [array names registry *,action,write_plugin,*] {
         lassign [split $action ,] i
         if {$registry($i,selected)} {
-          if {[catch "[lindex $registry($action) 0]" status]} {
+          if {[catch "$registry($i,interp) eval [lindex $registry($action) 0]" status]} {
             handle_status_error $i $status
           } else {
             foreach pair $status {
@@ -185,11 +190,13 @@ namespace eval plugins {
             if {$i < $registry_size} {
               set registry($i,selected) 1
               handle_resourcing $i
-              if {[catch "uplevel #0 [list source $registry($i,file)]" status]} {
+              set interpreter [create_interpreter $i]
+              if {[catch "uplevel #0 [list interp eval $interpreter source $registry($i,file)]" status]} {
                 handle_status_error $i $status
                 lappend bad_sources $i
+                interp delete $interpreter
               } else {
-                set registry($i,sourced) 1
+                set registry($i,interp) $interpreter
                 handle_reloading $i
               }
             }
@@ -201,7 +208,7 @@ namespace eval plugins {
             }
             if {($i < $registry_size) && $registry($i,selected) && ([lsearch $bad_sources $i] == -1)} {
               foreach action [array names registry $i,action,read_plugin,*] {
-                if {[catch "[lindex $registry($action) 0] $suboption {$value}" status]} {
+                if {[catch "$registry($i,interp) eval [lindex $registry($action) 0] $suboption {$value}" status]} {
                   handle_status_error $i $status
                   lappend bad_sources $i
                 }
@@ -246,6 +253,391 @@ namespace eval plugins {
   }
   
   ######################################################################
+  # Creates a widget on behalf of the plugin, records and returns its value.
+  proc create_widget {index widget win args} {
+
+    variable registry
+
+    # Create the widget
+    $widget $win {*}$args
+
+    # Allow the interpreter to do things with the element
+    $registry($index,interp) alias $win $win
+
+    # Record the widget
+    lappend registry($index,wins) [list $win 1]
+
+    return $win
+
+  }
+
+  ######################################################################
+  # Destroys the specified widget (if it was created by the interpreter
+  # specified by index.
+  proc interp_destroy {index win} {
+
+    variable registry
+
+    if {[set win_index [lsearch $registry($index,wins) [list $win 1]]] != -1} {
+      set registry($index,wins) [lreplace $registry($index,wins) $win_index $win_index]
+      catch { destroy $win }
+    }
+
+  }
+  
+  ######################################################################
+  # Binds an event to a widget owned by the slave interpreter.
+  proc interp_bind {index tag args} {
+  
+    variable registry
+    
+    switch [llength $args] {
+      1 { return [bind $tag [lindex $args 0]] }
+      2 { 
+        if {[string index [lindex $args 1] 0] eq "+"} {
+          return [bind $tag [lindex $args 0] [list +interp eval $registry($index,interp) [lrange [lindex $args 1] 1 end]]]
+        } else {
+          return [bind $tag [lindex $args 0] [list interp eval $registry($index,interp) [lindex $args 1]]]
+        }
+      }
+    }
+    
+  }
+  
+  ######################################################################
+  # Executes a safe winfo command.
+  proc interp_winfo {index subcmd args} {
+  
+    variable registry
+    
+    switch $subcmd {
+      atom -
+      atomname -
+      cells -
+      children -
+      class -
+      colormapfull -
+      depth -
+      exists -
+      fpixels -
+      geometry -
+      height -
+      id -
+      ismapped -
+      manager -
+      name -
+      pixels -
+      pointerx -
+      pointerxy -
+      pointery -
+      reqheight -
+      reqwidth -
+      rgb -
+      rootx -
+      rooty -
+      screen -
+      screencells -
+      screendepth -
+      screenheight -
+      screenmmheight -
+      screenmmwidth -
+      screenvisual -
+      screenwidth -
+      viewable -
+      visual -
+      visualsavailable -
+      vrootheight -
+      vrootwidth -
+      vrootx -
+      vrooty -
+      width -
+      x -
+      y {
+        if {[lsearch -index 0 $registry($index,wins) [lindex $args 0]] != -1} {
+          return [winfo $subcmd {*}$args]
+        } else {
+          return ""
+        }
+      }
+      containing -
+      parent -
+      pathname -
+      toplevel {
+        set win [winfo $subcmd {*}$args]
+        if {[lsearch -index 0 $registry($index,wins) $win] != -1} {
+          return $win
+        } else {
+          return ""
+        }
+      }
+      default {
+        return ""
+      }
+    }
+  
+  }
+  
+  ######################################################################
+  # Executes a safe wm command.
+  proc interp_wm {index subcmd win args} {
+  
+    variable registry
+    
+    if {[lsearch $registry($index,wins) [list $win 1]] != -1} {
+      return [wm $subcmd $win {*}$args]
+    } else {
+      return ""
+    }
+    
+  }
+  
+  ######################################################################
+  # Executes a safe image command.
+  proc interp_image {index subcmd args} {
+  
+    variable registry
+    
+    switch $subcmd {
+      
+      create {      
+        # Find any -file or -maskfile options and convert the filename and check it
+        set i 0
+        while {$i < [llength $args]} {
+          switch [lindex $args $i] {
+            -file -
+            -maskfile {
+              if {[catch {::safe::TranslatePath $registry($index,interp) [lindex $args [incr i]]} fname]} {
+                return -code error "Apermission error"
+              }
+              if {[lsearch [lindex [::safe::interpConfigure $registry($index,interp) -accessPath] 1] [file dirname $fname]] == -1} {
+                return -code error "Bpermission error"
+              }
+              lset args $i $fname
+            }  
+          }
+          incr i
+        }
+      
+        # Create the image
+        set img [image create {*}$args]
+        
+        # Create an alias for the image so that it can be used in cget/configure calls
+        $registry($index,interp) alias $img plugins::interp_image_cmd $index $img
+      
+        # Hang onto the generated image
+        lappend registry($index,images) $img
+      
+        return $img
+      }
+      
+      delete {
+        foreach name $args {
+          if {[set img_index [lsearch $registry($index,images) $name]] != -1} {
+            set registry($index,images) [lreplace $registry($index,images) $img_index $img_index]
+            image delete $name
+          }
+        }
+      }
+      
+      default {
+        return [image $subcmd {*}$args]
+      } 
+
+    }
+  
+  }
+  
+  ######################################################################
+  # Handles a call to manipulate the image.
+  proc interp_image_cmd {index img cmd args} {
+  
+    variable registry
+    
+    # Probably unnecessary, but it can't hurt to check that the image is part of this plugin
+    if {[lsearch $registry($index,images) $img] == -1} {
+      return -code error "Cpermission error"
+    }
+    
+    switch $cmd {
+      cget {
+        switch [lindex $args 0] {
+          -file -
+          -maskfile {
+            set fname [$img cget [lindex $args 0]]
+            return [file join [::safe::interpFindInAccessPath $registry($index,interp) [file dirname $fname]] [file tail $fname]]
+          }
+        }
+      }
+      configure {
+        set i 0
+        while {$i < [llength $args]} {
+          switch [lindex $args $i] {
+            -file -
+            -maskfile {
+              if {[catch {::safe::TranslatePath $registry($index,interp) [lindex $args [incr i]]} fname]} {
+                return -code error "Dpermission error"
+              }
+              if {[lsearch [lindex [::safe::interpConfigure $registry($index,interp) -accessPath] 1] [file dirname $fname]] == -1} {
+                return -code error "Epermission error"
+              }
+              lset args $i $fname
+            }
+          }
+          incr i
+        }
+        return [$img configure {*}$args]
+      }
+    }
+    
+  }
+  
+  ######################################################################
+  # Executes the open command.
+  proc interp_open {index fname args} {
+  
+    variable registry
+    
+    # Translate the given filename back to a real directory name
+    if {[catch {::safe::TranslatePath $registry($index,interp) $fname} fname]} {
+      return -code error "Fpermission error"
+    }
+    
+    # Make sure that the file being opened is within an acceptable directory
+    if {[lsearch [lindex [::safe::interpConfigure $registry($index,interp) -accessPath] 1] [file dirname $fname]] == -1} {
+      return -code error "Gpermission error"
+    }
+    
+    # Open the file
+    if {[catch { open $fname {*}$args } rc]} {
+      return -code error $rc
+    }
+    
+    # Add the file descriptor to the registry
+    lappend $registry($index,files) $rc
+    
+    return $rc
+  
+  }
+  
+  ######################################################################
+  # Executes the close commands.
+  proc interp_close {index channel} {
+  
+    variable registry
+    
+    if {[lsearch $registry($index,files) $channel] != -1} {
+      close $channel
+    }
+    
+  }
+
+  ######################################################################
+  # Executes the flush commands.
+  proc interp_flush {index channel} {
+  
+    variable registry
+    
+    if {[lsearch $registry($index,files) $channel] != -1} {
+      flush $channel
+    }
+    
+  }
+
+  ######################################################################
+  # Creates and sets up a safe interpreter for a plugin.
+  proc create_interpreter {index} {
+
+    variable registry
+    
+    # Get the registry name
+    set pname $registry($index,name)
+    
+    # Setup the access paths
+    lappend access_path $::tcl_library
+    lappend access_path [file join $::tke_home plugins $pname]
+    lappend access_path [file join $::tke_dir  plugins $pname]
+    lappend access_path [file join $::tke_dir  plugins images]
+
+    # Create the interpreter
+    set interp [::safe::interpCreate -nested true -accessPath $access_path]
+    
+    # Create Tcl command aliases
+    foreach cmd [list open close flush] {
+      $interp alias $cmd plugins::interp_$cmd $index
+    }
+    
+    # Create raw ttk widget aliases
+    foreach widget [list canvas listbox menu text toplevel ttk::button ttk::checkbutton ttk::combobox \
+                         ttk::entry ttk::frame ttk::label ttk::labelframe ttk::menubutton ttk::notebook \
+                         ttk::panedwindow ttk::progressbar ttk::radiobutton ttk::scale ttk::scrollbar \
+                         ttk::separator ttk::spinbox ttk::treeview] {
+      $interp alias $widget plugins::create_widget $index $widget
+    }
+
+    # Create Tk commands
+    foreach cmd [list clipboard event focus font grid pack place tk_messageBox] {
+      $interp alias $cmd $cmd
+    }
+
+    # Specialized Tk commands
+    $interp alias destroy plugins::interp_destroy $index
+    $interp alias bind    plugins::interp_bind $index
+    $interp alias winfo   plugins::interp_winfo $index
+    $interp alias wm      plugins::interp_wm $index
+    $interp alias image   plugins::interp_image $index
+
+    # Recursively add all commands that are within the api namespace
+    foreach pattern [list ::api::* {*}[join [namespace children ::api]::* {::* }]] {
+      foreach cmd [info commands $pattern] {
+        if {$cmd ne "::api::ns"} {
+          $interp alias $cmd $cmd $interp $pname
+        }
+      }
+    }
+    
+    # Create TKE command aliases
+    $interp alias plugins::register        plugins::register
+    $interp alias utils::auto_adjust_color utils::auto_adjust_color  ;# TEMPORARY
+    
+    return $interp
+    
+  }
+  
+  ######################################################################
+  # Destroys the interpreter at the given index.
+  proc destroy_interpreter {index} {
+  
+    variable registry
+    
+    # Destroy any existing windows
+    foreach win $registry($index,wins) {
+      catch { destroy $win }
+    }
+    set registry($index,wins) [list]
+    
+    # Close any opened files
+    foreach channel $registry($index,files) {
+      catch { close $channel }
+    }
+    set registry($index,files) [list]
+    
+    # Destroy any images
+    foreach img $registry($index,images) {
+      catch { image delete $img }
+    }
+    set registry($index,images) [list]
+
+    # Menus will be destroyed separately    
+    set registry($index,menus) [list]
+
+    # Finally, destroy the interpreter
+    catch { ::safe::interpDelete $registry($index,interp) }
+    
+    set registry($index,interp) ""
+    
+  }
+  
+  ######################################################################
   # Called when a plugin is sourced.  Checks to see if the plugin wants
   # to be called to save data when it is resourced (data will otherwise
   # be lost once the plugin has been resourced.
@@ -257,7 +649,7 @@ namespace eval plugins {
     set name $registry($index,name)
     
     if {$registry($index,selected) && [info exists prev_sourced($name)]} {
-      if {[catch "[lindex $prev_sourced($name) 0] $index" status]} {
+      if {[catch "$registry($index,interp) eval [lindex $prev_sourced($name) 0] $index" status]} {
         handle_status_error $index $status
       }
     }
@@ -275,7 +667,7 @@ namespace eval plugins {
     set name $registry($index,name)
     
     if {$registry($index,selected) && [info exists prev_sourced($name)]} {
-      if {[catch "[lindex $prev_sourced($name) 1] $index" status]} {
+      if {[catch "$registry($index,interp) eval [lindex $prev_sourced($name) 1] $index" status]} {
         handle_status_error $index $status
       }
     }
@@ -345,15 +737,17 @@ namespace eval plugins {
     delete_all_text_bindings
     
     # Source the file if it hasn't been previously sourced
-    if {$registry($index,sourced) == 0} {
+    if {$registry($index,interp) eq ""} {
       handle_resourcing $index
-      if {[catch "uplevel #0 [list source $registry($index,file)]" status]} {
+      set interpreter [create_interpreter $index]
+      if {[catch "uplevel #0 [list interp eval $interpreter source $registry($index,file)]" status]} {
         handle_status_error $index $status
         set registry($index,selected) 0
+        interp delete $interpreter
       } else {
         gui::set_info_message [msgcat::mc "Plugin %s installed" $registry($index,name)]
-        set registry($index,sourced)  1
         set registry($index,selected) 1
+        set registry($index,interp)   $interpreter
         handle_reloading $index
       }
       
@@ -404,6 +798,9 @@ namespace eval plugins {
     
     # Delete all text bindings
     delete_all_text_bindings
+    
+    # Destroy the interpreter
+    destroy_interpreter $index
     
     # Unselect the plugin
     set registry($index,selected) 0
@@ -545,6 +942,8 @@ namespace eval plugins {
   # Adds menu item, creating all needed cascading menus.
   proc menu_add_item {index mnu action hier type do} {
 
+    variable registry
+    
     # If the type is a separator, we need to run the while loop one more time
     set force [expr {[lindex $type 0] eq "separator"}]
     
@@ -553,6 +952,8 @@ namespace eval plugins {
       set sub_mnu [string tolower [string map {{ } _} $level]]
       if {![winfo exists $mnu.$sub_mnu]} {
         set new_mnu [menu $mnu.$sub_mnu -tearoff 0 -postcommand "plugins::menu_state $mnu.$sub_mnu $action"]
+        lappend registry($index,menus) $new_mnu
+        $registry($index,interp) alias $new_mnu $new_mnu
         $mnu add cascade -label $level -menu $mnu.$sub_mnu
       }
       set mnu $mnu.$sub_mnu
@@ -575,6 +976,8 @@ namespace eval plugins {
       cascade {
         set new_mnu_name "$mnu.[string tolower [string map {{ } _} $level]]"
         set new_mnu [menu $new_mnu_name -tearoff 0 -postcommand "plugins::post_cascade_menu $index $do $new_mnu_name"]
+        lappend registry($index,menus) $new_mnu
+        $registry($index,interp) alias $new_mnu $new_mnu
         $mnu add cascade -label $level -menu $new_mnu
       }
       separator {
@@ -588,11 +991,13 @@ namespace eval plugins {
   # Handles a cascade menu post command.
   proc post_cascade_menu {index do mnu} {
     
+    variable registry
+    
     # Recursively delete all of the items in the given menu
     menu_delete_cascade $mnu
     
     # Call the plugins do command to populate the menu
-    if {[catch "$do $mnu" status]} {
+    if {[catch "$registry($index,interp) eval $do $mnu" status]} {
       handle_status_error $index $status
     }
     
@@ -668,6 +1073,7 @@ namespace eval plugins {
   # Updates the plugin menu state of the given menu.
   proc menu_state {mnu action} {
   
+    variable registry
     variable menus
     
     set mnu_index 0
@@ -675,7 +1081,7 @@ namespace eval plugins {
       lassign $entry index type hier do state
       set entry_mnu "$menus($action).[string tolower [string map {{ } _} [join [lrange [split $hier .] 0 end-1] .]]]"
       if {$mnu eq $entry_mnu} {
-        if {[catch "$state" status]} {
+        if {[catch "$registry($index,interp) eval $state" status]} {
           handle_status_error $index $status
         } elseif {$status} {
           $mnu entryconfigure $mnu_index -state normal
@@ -835,8 +1241,11 @@ namespace eval plugins {
       set bt "plugin__$registry($index,name)__$name"
       bindtags $txt   [linsert $ctags [expr {($type eq "pretext") ? $cpre_index : $cpost_index}] $bt]
       bindtags $txt.t [linsert $ttags [expr {($type eq "pretext") ? $tpre_index : $tpost_index}] $bt]
+      $registry($index,interp) alias $txt $txt
+      $registry($index,interp) alias $txt.t $txt.t
+      lappend registry($index,wins) [list $txt 0] [list $txt.t 0]
       if {![info exists bound_tags($bt)]} {
-        if {[catch "$cmd $bt" status]} {
+        if {[catch "$registry($index,interp) eval $cmd $bt" status]} {
           handle_status_error $index $status
         }
         set bound_tags($bt) $txt
@@ -851,8 +1260,10 @@ namespace eval plugins {
   # Generically handles the given event.
   proc handle_event {event args} {
     
+    variable registry
+    
     foreach entry [find_registry_entries $event] {
-      if {[catch "[lindex $entry 1] $args" status]} {
+      if {[catch "$registry([lindex $entry 0],interp) eval [lindex $entry 1] $args" status]} {
         handle_status_error [lindex $entry 0] $status
       }
     }
@@ -919,7 +1330,7 @@ namespace eval plugins {
     
     # If the given event contains an "on_uninstall" action, run it.
     foreach {name action} [array get registry $index,action,on_uninstall,*] {
-      if {[catch "{*}$action" status]} {
+      if {[catch "$registry($index,interp) eval {*}$action" status]} {
         handle_status_error $index $status
       }
     }
