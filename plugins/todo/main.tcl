@@ -37,11 +37,9 @@ namespace eval plugins::todo {
     
     # If we are a TKE developer, add the TKE development todo list
     if {[api::tke_development]} {
-      if {[file exists [set devel_fname [file join [api::get_tke_directory] data todo.list]]]} {
-        if {![catch "open [file join [api::get_tke_directory] data todo.list] r" rc]} {
-          lappend todo_lists [read $rc]
-          close $rc
-        }
+      if {![catch "open [file join [api::get_tke_directory] data todo.list] r" rc]} {
+        lappend todo_lists [read $rc]
+        close $rc
       } else {
         lappend todo_lists [list "TKE Development" [list]]
       }
