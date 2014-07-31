@@ -82,12 +82,14 @@ namespace eval plugins {
           set registry($registry_size,files)       [list]
           set registry($registry_size,images)      [list]
           set registry($registry_size,menus)       [list]
+          set registry($registry_size,tgntd)       0
           set registry($registry_size,file)        [file join $plugin main.tcl]
           set registry($registry_size,name)        $header(name)
-          set registry($registry_size,author)      [expr {[info exists header(author)]      ? $header(author)      : ""}]
-          set registry($registry_size,email)       [expr {[info exists header(email)]       ? $header(email)       : ""}]
-          set registry($registry_size,version)     [expr {[info exists header(version)]     ? $header(version)     : ""}]
-          set registry($registry_size,description) [expr {[info exists header(description)] ? $header(description) : ""}]
+          set registry($registry_size,author)      [expr {[info exists header(author)]         ? $header(author)         : ""}]
+          set registry($registry_size,email)       [expr {[info exists header(email)]          ? $header(email)          : ""}]
+          set registry($registry_size,version)     [expr {[info exists header(version)]        ? $header(version)        : ""}]
+          set registry($registry_size,description) [expr {[info exists header(description)]    ? $header(description)    : ""}]
+          set registry($registry_size,treqd)       [expr {[info exists header(trust_required)] ? ([string compare -nocase $header(trust_required) "yes"] == 0) : 0}]
           incr registry_size
         }
         
@@ -139,32 +141,13 @@ namespace eval plugins {
     variable registry
     variable registry_size
     
-    if {![catch "open [file join $::tke_home plugins.dat] w" rc]} {
-      
-      # Write the selected plugins
-      for {set i 0} {$i < $registry_size} {incr i} {
-        if {$registry($i,selected)} {
-          puts $rc "selected_plugin = $registry($i,name)"
-        }
-      }
-      
-      # Allow any plugins that need to write configuration information now
-      foreach action [array names registry *,action,write_plugin,*] {
-        lassign [split $action ,] i
-        if {$registry($i,selected)} {
-          if {[catch "$registry($i,interp) eval [lindex $registry($action) 0]" status]} {
-            handle_status_error $i $status
-          } else {
-            foreach pair $status {
-              puts $rc "$registry($i,name).[lindex $pair 0] = [lindex $pair 1]"
-            }
-          }
-        }
-      }  
-      
-      close $rc
-      
+    # Create the array to store in the plugins.tkedat file
+    for {set i 0} {$i < $registry_size} {incr i} {
+      set plugins($registry($i,name)) [list selected $registry($i,selected) trust_granted $registry($i,tgntd)]
     }
+    
+    # Store the data
+    tkedat::write [file join $::tke_home plugins.tkedat] [array get plugins]
     
   }
   
@@ -177,51 +160,31 @@ namespace eval plugins {
 
     set bad_sources [list]
     
-    if {![catch "open [file join $::tke_home plugins.dat] r" rc]} {
+    # Read the plugins file
+    if {![catch { tkedat::read [file join $::tke_home plugins.tkedat] } rc]} {
+    
+      array set plugins $rc
       
-      foreach line [split [read $rc] \n] {
-        
-        if {[regexp {^(\S+)\s*=\s*(.*)$} $line -> option value]} {
-          if {$option eq "selected_plugin"} {
-            set i 0
-            while {($i < $registry_size) && ($registry($i,name) ne $value)} {
-              incr i
+      for {set i 0} {$i < $registry_size} {incr i} {
+        if {[info exists plugins($registry($i,name))]} {
+          array set data $plugins($registry($i,name))
+          if {$data(selected)} {
+            set registry($i,selected) 1
+            set registry($i,tgntd)    1
+            handle_resourcing $i
+            set interpreter [create_interpreter $i]
+            if {[catch "uplevel #0 [list interp eval $interpreter source $registry($i,file)]" status]} {
+              handle_status_error $i $status
+              lappend bad_sources $i
+              interp delete $interpreter
+            } else {
+              set registry($i,interp) $interpreter
+              handle_reloading $i
             }
-            if {$i < $registry_size} {
-              set registry($i,selected) 1
-              handle_resourcing $i
-              set interpreter [create_interpreter $i]
-              if {[catch "uplevel #0 [list interp eval $interpreter source $registry($i,file)]" status]} {
-                handle_status_error $i $status
-                lappend bad_sources $i
-                interp delete $interpreter
-              } else {
-                set registry($i,interp) $interpreter
-                handle_reloading $i
-              }
-            }
-            
-          } elseif {[regexp {^(\w+)\.(.*)$} $option -> prefix suboption]} {
-            set i 0
-            while {($i < $registry_size) && ($registry($i,name) ne $prefix)} {
-              incr i
-            }
-            if {($i < $registry_size) && $registry($i,selected) && ([lsearch $bad_sources $i] == -1)} {
-              foreach action [array names registry $i,action,read_plugin,*] {
-                if {[catch "$registry($i,interp) eval [lindex $registry($action) 0] $suboption {$value}" status]} {
-                  handle_status_error $i $status
-                  lappend bad_sources $i
-                }
-              }
-            }
-            
-          }
-          
+          }          
         }
         
       }
-      
-      close $rc
       
     }
     
@@ -561,6 +524,11 @@ namespace eval plugins {
     # Create the interpreter
     set interp [::safe::interpCreate -nested true -accessPath $access_path]
     
+    # If trust was granted to us, mark the interpreter as trusted
+    if {$registry($index,tgntd)} {
+      interp marktrusted $registry($index,interp)
+    }
+    
     # Create Tcl command aliases
     foreach cmd [list open close flush] {
       $interp alias $cmd plugins::interp_$cmd $index
@@ -738,6 +706,18 @@ namespace eval plugins {
     
     # Source the file if it hasn't been previously sourced
     if {$registry($index,interp) eq ""} {
+      if {$registry($index,treqd) && !$registry($index,tgntd)} {
+        set answer [tk_dialog .installwin "Plugin Trust Requested" \
+          "The $registry($index,name) plugin requires permission to view/modify your system.  Grant permission?" \
+          "" "Grant" "Reject" "Grant" "Always grant from developer"]
+        switch $answer {
+          "Grant"  { set registry($index,tgntd) 1 }
+          "Reject" { set registry($index,tgntd) 0 }
+          default  {
+            set registry($index,tgntd) 1
+          }
+        }
+      }
       handle_resourcing $index
       set interpreter [create_interpreter $index]
       if {[catch "uplevel #0 [list interp eval $interpreter source $registry($index,file)]" status]} {
@@ -965,13 +945,15 @@ namespace eval plugins {
     # Add menu item
     switch [lindex $type 0] {
       command {
-        $mnu add command -label $level -command $do
+        $mnu add command -label $level -command "$registry($index,interp) eval $do"
       }
       checkbutton {
-        $mnu add checkbutton -label $level -variable [lindex $type 1] -command $do
+        $mnu add checkbutton -label $level -variable [lindex $type 1] \
+          -command "$registry($index,interp) eval $do"
       }
       radiobutton {
-        $mnu add radiobutton -label $level -variable [lindex $type 1] -value [lindex $type 2] -command $do
+        $mnu add radiobutton -label $level -variable [lindex $type 1] \
+          -value [lindex $type 2] -command "$registry($index,interp) eval $do"
       }
       cascade {
         set new_mnu_name "$mnu.[string tolower [string map {{ } _} $level]]"

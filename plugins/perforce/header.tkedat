@@ -1,6 +1,7 @@
-name        {perforce}
-author      {Trevor Williams}
-email       {phase1geo@gmail.com}
-version     {1.0}
-include     {yes}
-description {Performs a Perforce edit (or add) when a file is opened.}
+name           {perforce}
+author         {Trevor Williams}
+email          {phase1geo@gmail.com}
+version        {1.0}
+include        {yes}
+trust_required {yes}
+description    {Performs a Perforce edit (or add) when a file is opened.}

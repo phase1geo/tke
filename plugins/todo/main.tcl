@@ -1,4 +1,4 @@
-namespace eval plugins::todo {
+namespace eval todo {
   
   variable todo_lists {}
   variable user_input ""
@@ -135,12 +135,12 @@ namespace eval plugins::todo {
         
         # Create the todo menu item contents
         if {[lindex $todo 1]} {
-          $todo_menu add command -label "Mark as not done" -command "plugins::todo::mark_todo_as $list_index $todo_index 0"
+          $todo_menu add command -label "Mark as not done" -command "todo::mark_todo_as $list_index $todo_index 0"
         } else {
-          $todo_menu add command -label "Mark as done" -command "plugins::todo::mark_todo_as $list_index $todo_index 1"
+          $todo_menu add command -label "Mark as done" -command "todo::mark_todo_as $list_index $todo_index 1"
         }
         $todo_menu add separator
-        $todo_menu add command -label "Delete" -command "plugins::todo::delete_todo $list_index $todo_index"
+        $todo_menu add command -label "Delete" -command "todo::delete_todo $list_index $todo_index"
         
         incr todo_index
         
@@ -150,9 +150,9 @@ namespace eval plugins::todo {
       if {$todo_index > 0} {
         $list_menu add separator
       }
-      $list_menu add command -label "Create new todo" -command "plugins::todo::create_new_todo $list_index"
+      $list_menu add command -label "Create new todo" -command "todo::create_new_todo $list_index"
       $list_menu add separator
-      $list_menu add command -label "Delete list" -command "plugins::todo::delete_list $list_index"
+      $list_menu add command -label "Delete list" -command "todo::delete_list $list_index"
       
       incr list_index
       
@@ -162,7 +162,7 @@ namespace eval plugins::todo {
     if {$list_index > 0} {
       $mnu add separator
     }
-    $mnu add command -label "Create new list" -command "plugins::todo::create_new_list"
+    $mnu add command -label "Create new list" -command "todo::create_new_list"
     
   }
   
@@ -174,7 +174,7 @@ namespace eval plugins::todo {
     variable user_input
     
     # Get the new list name from the user
-    if {[api::get_user_input "TODO List Name:" plugins::todo::user_input]} {
+    if {[api::get_user_input "TODO List Name:" todo::user_input]} {
       
       # Append the todo list to the list of todos
       lappend todo_lists [list $user_input [list]]
@@ -208,7 +208,7 @@ namespace eval plugins::todo {
     variable user_input
     
     # Get the new todo from the user
-    if {[api::get_user_input "TODO Description:" plugins::todo::user_input]} {
+    if {[api::get_user_input "TODO Description:" todo::user_input]} {
     
       # Get the list of todos
       set todos [lindex $todo_lists $list_index 1]
@@ -263,7 +263,7 @@ namespace eval plugins::todo {
 }
 
 plugins::register todo {
-  {on_start plugins::todo::on_start_do}
-  {on_reload plugins::todo::on_reload_save plugins::todo::on_reload_restore}
-  {menu cascade "ToDo Lists" plugins::todo::add_lists_do}
+  {on_start todo::on_start_do}
+  {on_reload todo::on_reload_save todo::on_reload_restore}
+  {menu cascade "ToDo Lists" todo::add_lists_do}
 }
