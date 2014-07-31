@@ -31,6 +31,7 @@ namespace eval plugins {
   variable file_popup    ""
   
   array set registry     {}
+  array set plugins      {}
   array set prev_sourced {}
   array set bound_tags   {}
   
@@ -140,6 +141,7 @@ namespace eval plugins {
     
     variable registry
     variable registry_size
+    variable plugins
     
     # Create the array to store in the plugins.tkedat file
     for {set i 0} {$i < $registry_size} {incr i} {
@@ -147,7 +149,7 @@ namespace eval plugins {
     }
     
     # Store the data
-    tkedat::write [file join $::tke_home plugins.tkedat] [array get plugins]
+    catch { tkedat::write [file join $::tke_home plugins.tkedat] [array get plugins] }
     
   }
   
@@ -157,6 +159,7 @@ namespace eval plugins {
     
     variable registry
     variable registry_size
+    variable plugins
 
     set bad_sources [list]
     
@@ -170,7 +173,7 @@ namespace eval plugins {
           array set data $plugins($registry($i,name))
           if {$data(selected)} {
             set registry($i,selected) 1
-            set registry($i,tgntd)    1
+            set registry($i,tgntd)    $data(trust_granted)
             handle_resourcing $i
             set interpreter [create_interpreter $i]
             if {[catch "uplevel #0 [list interp eval $interpreter source $registry($i,file)]" status]} {
@@ -220,12 +223,26 @@ namespace eval plugins {
   proc create_widget {index widget win args} {
 
     variable registry
+    
+    set command_args [list \
+      -command -postcommand -validatecommand -invalidcommand -xscrollcommand \
+      -yscrollcommand \
+    ]
+    
+    # Substitute any commands with the appropriate interpreter eval statement
+    set opts [list]
+    foreach {opt value} $args {
+      if {[lsearch $command_args $opt] != -1} {
+        set value "$registry($index,interp) eval $value"
+      }
+      lappend opts $opt $value
+    }
 
     # Create the widget
-    $widget $win {*}$args
+    $widget $win {*}$opts
 
     # Allow the interpreter to do things with the element
-    $registry($index,interp) alias $win $win
+    $registry($index,interp) alias $win plugins::handle_widget $index $win
 
     # Record the widget
     lappend registry($index,wins) [list $win 1]
@@ -233,7 +250,67 @@ namespace eval plugins {
     return $win
 
   }
-
+  
+  ######################################################################
+  # Handles any widget calls to cget/configure commands.
+  proc handle_widget {index win cmd args} {
+    
+    variable registry
+    
+    set command_args [list \
+      -command -postcommand -validatecommand -invalidcommand -xscrollcommand \
+      -yscrollcommand \
+    ]
+    
+    switch $cmd {
+      cget {
+        set opt [lindex $args 0]
+        if {[lsearch $command_args $opt] != -1} {
+          return [lrange [$win cget $opt] 2 end]
+        } else {
+          return [$win cget $opt]
+        }
+        break
+      }
+      configure {
+        set retval [list]
+        switch [llength $args] {
+          0 {
+            foreach {opt value} [$win configure] {
+              if {[lsearch $command_args $opt] != -1} {
+                lset value 3 [lrange [lindex $value 3] 2 end]
+              }
+              lappend retval $opt $value
+            }
+            return $retval
+            break
+          }
+          1 {
+            set opt    [lindex $args 0]
+            set retval [$win configure $opt]
+            if {[lsearch $command_args $opt] != -1} {
+              lset retval 3 [lrange [lindex $retval 3] 2 end]
+            }
+            return $retval
+          }
+          default {
+            foreach {opt value} $args {
+              if {[lsearch $command_args $opt] != -1} {
+                set value "$registry($index,interp) eval $value"
+              }
+              lappend retval $opt $value
+            }
+            return [$win configure {*}$retval]
+          }
+        }
+      }
+      default {
+        return [$win $cmd {*}$args]
+      }
+    }
+    
+  }
+  
   ######################################################################
   # Destroys the specified widget (if it was created by the interpreter
   # specified by index.
