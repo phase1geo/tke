@@ -224,6 +224,8 @@ namespace eval plugins {
 
     variable registry
     
+    puts "In create_widget, index: $index, widget: $widget, win: $win, args: $args"
+    
     set command_args [list \
       -command -postcommand -validatecommand -invalidcommand -xscrollcommand \
       -yscrollcommand \
@@ -257,6 +259,8 @@ namespace eval plugins {
     
     variable registry
     
+    puts "In handle_widget, index: $index, win: $win, cmd: $cmd, args: $args"
+    
     set command_args [list \
       -command -postcommand -validatecommand -invalidcommand -xscrollcommand \
       -yscrollcommand \
@@ -270,26 +274,32 @@ namespace eval plugins {
         } else {
           return [$win cget $opt]
         }
-        break
+      }
+      entrycget {
+        lassign $args entry_index opt
+        if {[lsearch $command_args $opt] != -1} {
+          return [lrange [$win entrycget $entry_index $opt] 2 end]
+        } else {
+          return [$win entrycget $entry_index $opt]
+        }
       }
       configure {
         set retval [list]
         switch [llength $args] {
           0 {
-            foreach {opt value} [$win configure] {
-              if {[lsearch $command_args $opt] != -1} {
-                lset value 3 [lrange [lindex $value 3] 2 end]
+            foreach opt [$win configure] {
+              if {[lsearch $command_args [lindex $opt 0]] != -1} {
+                lset opt 4 [lrange [lindex $opt 4] 2 end]
               }
-              lappend retval $opt $value
+              lappend retval $opt
             }
             return $retval
-            break
           }
           1 {
             set opt    [lindex $args 0]
             set retval [$win configure $opt]
             if {[lsearch $command_args $opt] != -1} {
-              lset retval 3 [lrange [lindex $retval 3] 2 end]
+              lset retval 4 [lrange [lindex $retval 4] 2 end]
             }
             return $retval
           }
@@ -303,6 +313,48 @@ namespace eval plugins {
             return [$win configure {*}$retval]
           }
         }
+      }
+      entryconfigure {
+        set retval [list]
+        set args [lassign $args entry_index]
+        switch [llength $args] {
+          0 {
+            foreach opt [$win entryconfigure $entry_index] {
+              if {[lsearch $command_args [lindex $opt 0]] != -1} {
+                lset opt 4 [lrange [lindex $opt 4] 2 end]
+              }
+              lappend retval $opt
+            }
+            return $retval
+          }
+          1 {
+            set opt    [lindex $args 0]
+            set retval [$win entryconfigure $entry_index $opt]
+            if {[lsearch $command_args $opt] != -1} {
+              lset retval 4 [lrange [lindex $retval 4 2 end]
+            }
+            return $retval
+          }
+          default {
+            foreach {opt value} $args {
+              if {lsearch $command_args $opt] != -1} {
+                set value "$registry($index,interp) eval $value"
+              }
+              lappend retval $opt $value
+            }
+            return [$win entryconfigure $entry_index {*}$retval]
+          }
+        }
+      }
+      add {
+        set args [lassign $args retval]
+        foreach {opt value} $args {
+          if {[lsearch $command_args $opt] != -1} {
+            set value "$registry($index,interp) eval $value"
+          }
+          lappend retval $opt $value
+        }
+        return [$win add {*}$retval]
       }
       default {
         return [$win $cmd {*}$args]
@@ -915,8 +967,8 @@ namespace eval plugins {
       }
     
       # Create the filenames
-      set header  [file join $dirname header.tkedat]
-      set main    [file join $dirname main.tcl]
+      set header [file join $dirname header.tkedat]
+      set main   [file join $dirname main.tcl]
         
       # Create the main file
       if {[catch "open $main w" rc]} {
@@ -944,12 +996,13 @@ namespace eval plugins {
       }
           
       # Create the header file
-      puts $rc "name         {$name}"
-      puts $rc "author       {}"
-      puts $rc "email        {}"
-      puts $rc "version      {1.0}"
-      puts $rc "include      {yes}"
-      puts $rc "description  {}"
+      puts $rc "name           {$name}"
+      puts $rc "author         {}"
+      puts $rc "email          {}"
+      puts $rc "version        {1.0}"
+      puts $rc "include        {yes}"
+      puts $rc "trust_required {no}"
+      puts $rc "description    {}"
       close $rc
       
       # Add the file to the editor
@@ -1010,7 +1063,7 @@ namespace eval plugins {
       if {![winfo exists $mnu.$sub_mnu]} {
         set new_mnu [menu $mnu.$sub_mnu -tearoff 0 -postcommand "plugins::menu_state $mnu.$sub_mnu $action"]
         lappend registry($index,menus) $new_mnu
-        $registry($index,interp) alias $new_mnu $new_mnu
+        $registry($index,interp) alias $new_mnu plugins::handle_widget $index $new_mnu
         $mnu add cascade -label $level -menu $mnu.$sub_mnu
       }
       set mnu $mnu.$sub_mnu
@@ -1036,7 +1089,7 @@ namespace eval plugins {
         set new_mnu_name "$mnu.[string tolower [string map {{ } _} $level]]"
         set new_mnu [menu $new_mnu_name -tearoff 0 -postcommand "plugins::post_cascade_menu $index $do $new_mnu_name"]
         lappend registry($index,menus) $new_mnu
-        $registry($index,interp) alias $new_mnu $new_mnu
+        $registry($index,interp) alias $new_mnu plugins::handle_widget $index $new_mnu
         $mnu add cascade -label $level -menu $new_mnu
       }
       separator {
