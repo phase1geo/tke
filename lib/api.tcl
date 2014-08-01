@@ -96,13 +96,20 @@ namespace eval api {
   #                will be returned.
   #
   # Returns:
-  #   Returns 1 if the user provided input; otherwise, returns 0 to
-  #   indicate that the user cancelled the input operation.
+  #   Returns a list containing two elements.  The first element is set to a
+  #   1 if the user provided input; otherwise, returns 0 to indicate that the
+  #   user cancelled the input operation.  The second item is the user provided
+  #   value (if the first value is set to 1).
   proc get_user_input {interp pname msg pvar {allow_vars 1}} {
     
-    upvar $pvar var
+    set var ""
     
-    return [gui::user_response_get $msg var $allow_vars]
+    if {[gui::user_response_get $msg var $allow_vars]} {
+      $interp eval set $pvar $var
+      return 1
+    }
+    
+    return 0
     
   }
   

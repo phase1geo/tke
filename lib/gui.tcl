@@ -2331,7 +2331,6 @@ namespace eval gui {
     
     variable widgets
     
-    # Create a reference to the storage variable
     upvar $pvar var
     
     # Initialize the widget
@@ -2523,6 +2522,8 @@ namespace eval gui {
   proc insert_numbers {txt} {
     
     if {[multicursor::enabled $txt]} {
+      
+      set var1 ""
       
       # Get the number string from the user
       if {[user_response_get "Starting number:" var1]} {
