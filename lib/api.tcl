@@ -36,7 +36,13 @@ namespace eval api {
   #   none
   proc get_images_directory {interp pname} {
     
-    return [::safe::interpFindInAccessPath $interp [file join $::tke_dir plugins images]]
+    set img_dir [file join $::tke_dir plugins images]
+    
+    if {[$interp issafe]} {
+      return [::safe::interpFindInAccessPath $interp $img_dir]
+    } else {
+      return $img_dir
+    }
     
   }
   
@@ -53,7 +59,11 @@ namespace eval api {
     # If the home directory does not exist, create it
     file mkdir $home
       
-    return [::safe::interpFindInAccessPath $interp $home]
+    if {[$interp issafe]} {
+      return [::safe::interpFindInAccessPath $interp $home]
+    } else {
+      return $home
+    }
     
   }
   
@@ -105,7 +115,7 @@ namespace eval api {
     set var ""
     
     if {[gui::user_response_get $msg var $allow_vars]} {
-      $interp eval set $pvar $var
+      $interp eval set $pvar [list $var]
       return 1
     }
     

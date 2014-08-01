@@ -30,14 +30,14 @@ namespace eval todo {
     set todo_lists [list]
     
     # Read each list file from the home directory and store the contents into todo_lists
-    if {![catch "open [file join [api::get_home_directory] all.list] r" rc]} {
+    if {![catch { open [file join [api::get_home_directory] all.list] r } rc]} {
       set todo_lists [read $rc]
       close $rc
     }
     
     # If we are a TKE developer, add the TKE development todo list
     if {[api::tke_development]} {
-      if {![catch "open [file join [api::get_tke_directory] data todo.list] r" rc]} {
+      if {![catch { open [file join [api::get_tke_directory] data todo.list] r } rc]} {
         lappend todo_lists [read $rc]
         close $rc
       } else {
@@ -55,7 +55,7 @@ namespace eval todo {
     
     # If we are doing TKE development, write that todo list and remove it from all.list
     if {[api::tke_development]} {
-      if {![catch "open [file join [api::get_tke_directory] data todo.list] w" rc]} {
+      if {![catch { open [file join [api::get_tke_directory] data todo.list] w } rc]} {
         puts $rc [lindex $todo_lists end]
         close $rc
       }
@@ -65,7 +65,7 @@ namespace eval todo {
     }
     
     # Write the file contents
-    if {![catch "open [file join [api::get_home_directory] all.list] w" rc]} {
+    if {![catch { open [file join [api::get_home_directory] all.list] w } rc]} {
       puts $rc $temp_todo_lists
       close $rc
     }
@@ -192,11 +192,11 @@ namespace eval todo {
     
     variable todo_lists
     
-    # Delete the list file
-    file delete -force [file join [api::get_home_directory] [lindex $todo_lists $list_index 0].list]
-
     # Delete the todo list at the given index
     set todo_lists [lreplace $todo_lists $list_index $list_index]
+    
+    # Save the updated todo_lists variable
+    save_todo_lists
     
   }
   
