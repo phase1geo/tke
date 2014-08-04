@@ -8,6 +8,35 @@ namespace eval interpreter {
   array set interps {}
   
   ######################################################################
+  # Check the given file's accessibility (the file should be translated
+  # prior to calling this procedure).
+  proc check_file_access {pname fname} {
+  
+    variable interps
+    
+    if {[$interps($pname,interp) issafe]} {
+    
+      # Normalize the file name
+      set fname [file normalize $fname]
+  
+      # Verify that the directory is within the access paths
+      foreach access_dir [lindex [::safe::interpConfigure $interps($pname,interp) -accessPath] 1] {
+        if {[string compare -length [string length $access_dir] $access_dir $fname] == 0} {
+          return $fname
+        }
+      }
+  
+      return ""
+      
+    } else {
+    
+      return $fname
+      
+    }
+
+  }
+  
+  ######################################################################
   # Checks to make sure that the given directory is within the allowed
   # directory paths.  Returns the name of the file if the directory is
   # okay to process; otherwise, returns the empty string.
@@ -17,20 +46,13 @@ namespace eval interpreter {
     
     # We only need to check the file if we are in safe mode.
     if {[$interps($pname,interp) issafe]} {
-      
+    
       # Translate the directory
       if {[catch {::safe::TranslatePath $interps($pname,interp) $fname} fname]} {
         return ""
       }
-    
-      # Verify that the directory is within the access paths
-      foreach access_dir [lindex [::safe::interpConfigure $interps($pname,interp) -accessPath] 1] {
-        if {[string compare -length [string length $access_dir] $access_dir $fname] == 0} {
-          return $fname
-        }
-      }
-    
-      return ""
+      
+      return [check_file_access $pname $fname]
       
     } else {
       
@@ -280,25 +302,23 @@ namespace eval interpreter {
       width -
       x -
       y {
-        if {[lsearch -index 0 $interps($pname,wins) [lindex $args 0]] != -1} {
-          return [winfo $subcmd {*}$args]
-        } else {
-          return ""
+        if {[lsearch -index 0 $interps($pname,wins) [lindex $args 0]] == -1} {
+          return -code error 
         }
+        return [winfo $subcmd {*}$args]
       }
       containing -
       parent -
       pathname -
       toplevel {
         set win [winfo $subcmd {*}$args]
-        if {[lsearch -index 0 $interps($pname,wins) $win] != -1} {
-          return $win
-        } else {
-          return ""
+        if {[lsearch -index 0 $interps($pname,wins) $win] == -1} {
+          return -code error "permission error"
         }
+        return $win
       }
       default {
-        return ""
+        return -code error "permission error"
       }
     }
   
@@ -432,15 +452,9 @@ namespace eval interpreter {
   
     variable interps
     
-    # If the interpreter is safe-guarded, translate the path and make sure that the file is within
-    # an acceptable directory.
-    if {[$interps($pname,interp) issafe]} {
-      
-      # Make sure that the given filename is valid
-      if {[set fname [check_file $pname $fname]] eq ""} {
-        return -code error "permission error"
-      }
-    
+    # Make sure that the given filename is valid
+    if {[set fname [check_file $pname $fname]] eq ""} {
+      return -code error "permission error"
     }
     
     # Open the file
@@ -500,6 +514,8 @@ namespace eval interpreter {
   # Executes the file command.
   proc file_command {pname subcmd args} {
     
+    variable interps
+    
     switch $subcmd {
       
       atime -
@@ -537,21 +553,47 @@ namespace eval interpreter {
         if {[llength $fnames] > 0} {
           return [file delete {*}$opts {*}$fnames]
         } else {
-          return ""
+          return -code error "permission error"
         }
       }
       
-      dirname -
+      dirname {
+        if {[set fname [check_file $pname [lindex $args 0]]] eq ""} {
+          return -code error "permission error"
+        }
+        if {[set fname [check_file_access $pname [file dirname $fname]]] eq ""} {
+          return -code error "permission error"
+        }
+        return [::safe::interpFindInAccessPath $interps($pname,interp) $fname]
+      }
+      
+      mkdir {
+        set dnames [list]
+        foreach arg $args {
+          if {[set dname [check_file $pname $arg]] ne ""} {
+            lappend dnames $dname
+          }
+        }
+        if {[llength $dnames] > 0} {
+          return [file mkdir {*}$dnames]
+        } else {
+          return -code error "permission error"
+        }
+      }
+      
       join -
       extension -
-      root -
+      rootname -
       tail -
-      pathname -
+      separator -
       split {
         return [file $subcmd {*}$args]
       }
       
       default {
+        if {![$interps($pname,interp) issafe]} {
+          return [file $subcmd {*}$args]
+        }
         return -code error "file command $subcmd is not allowed by a plugin"
       }
     }
@@ -569,7 +611,9 @@ namespace eval interpreter {
     lappend access_path [file join $::tke_home plugins $pname]
     lappend access_path [file join $::tke_dir  plugins $pname]
     lappend access_path [file join $::tke_dir  plugins images]
-
+    
+    puts "IN interps::create, pname: $pname, trust_granted: $trust_granted"
+    
     # Create the interpreter
     if {$trust_granted} {
       set interp [interp create]
@@ -577,8 +621,11 @@ namespace eval interpreter {
       set interp [::safe::interpCreate -nested true -accessPath $access_path]
     }
     
-    # Save the interpreter
+    # Save the interpreter and initialize the structure
     set interps($pname,interp) $interp
+    set interps($pname,wins)   [list]
+    set interps($pname,files)  [list]
+    set interps($pname,images) [list]
     
     # If we are in development mode, share standard output for debug purposes
     if {[::tke_development]} {
@@ -586,7 +633,7 @@ namespace eval interpreter {
     }
     
     # Create Tcl command aliases
-    foreach cmd [list open close flush exec file] {
+    foreach cmd [list close exec file flush open] {
       $interp alias $cmd interpreter::${cmd}_command $pname
     }
     

@@ -112,11 +112,12 @@ namespace eval plugins {
     catch { array unset prev_sourced }
     for {set i 0} {$i < $registry_size} {incr i} {
       if {$registry($i,selected) && ($registry($i,interp) ne "")} {
-        interpreter::destroy $registry($i,name)
-        set registry($i,interp) ""
         foreach action [array names registry $i,action,on_reload,*] {
           set prev_sourced($registry($i,name)) $registry($action)
         }
+        handle_resourcing $i
+        interpreter::destroy $registry($i,name)
+        set registry($i,interp) ""
       }  
     }
     
@@ -157,29 +158,30 @@ namespace eval plugins {
     variable registry
     variable registry_size
     variable plugins
-
+    variable prev_sourced
+    
     set bad_sources [list]
     
     # Read the plugins file
     if {![catch { tkedat::read [file join $::tke_home plugins.tkedat] } rc]} {
-    
+      
       array set plugins $rc
       
       for {set i 0} {$i < $registry_size} {incr i} {
         if {[info exists plugins($registry($i,name))]} {
           array set data $plugins($registry($i,name))
-          if {$data(selected)} {
+          if {$data(selected) || [info exists prev_sourced($registry($i,name))]} {
             set registry($i,selected) 1
             set registry($i,tgntd)    $data(trust_granted)
-            handle_resourcing $i
             set interpreter [interpreter::create $registry($i,name) $data(trust_granted)]
-            if {[catch "uplevel #0 [list interp eval $interpreter source $registry($i,file)]" status]} {
+            if {[catch "interp eval $interpreter source $registry($i,file)" status]} {
               handle_status_error $i $status
               lappend bad_sources $i
               interpreter::destroy $registry($i,name)
             } else {
               set registry($i,interp) $interpreter
               handle_reloading $i
+              add_all_text_bindings
             }
           }          
         }
@@ -209,6 +211,11 @@ namespace eval plugins {
     
     # Save the status
     set registry($index,status) $status
+    
+    # If we are doing development, send the full error info to standard output
+    if {[::tke_development]} {
+      puts $::errorInfo
+    }
     
     # Set the current information message
     gui::set_info_message "ERROR: [lindex [split $status \n] 0]"
@@ -328,7 +335,6 @@ namespace eval plugins {
           }
         }
       }
-      handle_resourcing $index
       set interpreter [interpreter::create $registry($index,name) $registry($index,tgntd)]
       if {[catch "uplevel #0 [list interp eval $interpreter source $registry($index,file)]" status]} {
         handle_status_error $index $status
@@ -458,7 +464,7 @@ namespace eval plugins {
       }
           
       # Create the main file
-      puts $rc "namespace eval plugins::$name {"
+      puts $rc "namespace eval $name {"
       puts $rc ""
       puts $rc "}"
       puts $rc ""
