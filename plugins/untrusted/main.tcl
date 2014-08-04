@@ -258,6 +258,12 @@ namespace eval untrusted {
       expr { [llength [glob -directory [file join [api::get_home_directory] foobar] *]] > 0 }
     } { file delete -force [file join [api::get_home_directory] foobar] }
     
+    # Verify that glob works properly with -tails option
+    test glob-3 { expr { [lsort [glob -directory [api::get_plugin_directory] -tails *]] eq [list header.tkedat main.tcl] } }
+    
+    # Verify that glob works properly with the -path option
+    test glob-4 { expr { [llength [glob -path [api::get_plugin_directory] *]] > 0 } }
+    
   }
   
   proc handle_store {index} {
