@@ -262,7 +262,7 @@ namespace eval todo {
   
 }
 
-plugins::register todo {
+api::register todo {
   {on_start todo::on_start_do}
   {on_reload todo::on_reload_save todo::on_reload_restore}
   {menu cascade "ToDo Lists" todo::add_lists_do}

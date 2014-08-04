@@ -612,8 +612,6 @@ namespace eval interpreter {
     lappend access_path [file join $::tke_dir  plugins $pname]
     lappend access_path [file join $::tke_dir  plugins images]
     
-    puts "IN interps::create, pname: $pname, trust_granted: $trust_granted"
-    
     # Create the interpreter
     if {$trust_granted} {
       set interp [interp create]
@@ -632,9 +630,11 @@ namespace eval interpreter {
       interp share {} stdout $interp
     }
     
-    # Create Tcl command aliases
-    foreach cmd [list close exec file flush open] {
-      $interp alias $cmd interpreter::${cmd}_command $pname
+    # Create Tcl command aliases if we are running in untrusted mode
+    if {!$trust_granted} {
+      foreach cmd [list close exec file flush open] {
+        $interp alias $cmd interpreter::${cmd}_command $pname
+      }
     }
     
     # Create raw ttk widget aliases
@@ -665,8 +665,8 @@ namespace eval interpreter {
     }
     
     # Create TKE command aliases
-    $interp alias plugins::register        plugins::register
-    $interp alias utils::auto_adjust_color utils::auto_adjust_color  ;# TEMPORARY
+    $interp alias api::register          plugins::register
+    $interp alias api::auto_adjust_color utils::auto_adjust_color  ;# TEMPORARY
     
     return $interp
     

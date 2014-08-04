@@ -236,6 +236,13 @@ namespace eval untrusted {
     
   }
   
+  proc test_exec {} {
+    
+    # Verify that exec statements are never allowed
+    test exec-0 { catch { exec whoami } }
+    
+  }
+  
   proc handle_store {index} {
   
   }
@@ -250,6 +257,7 @@ namespace eval untrusted {
     puts "----------------------------------"
     
     test_file
+    test_exec
     
     puts "----------------------------------"
     puts "Passed: $passed, Failed: $failed, Total: [expr $passed + $failed]"
@@ -259,6 +267,6 @@ namespace eval untrusted {
   
 }
 
-plugins::register untrusted {
+api::register untrusted {
   {on_reload untrusted::handle_store untrusted::handle_restore}
 }
