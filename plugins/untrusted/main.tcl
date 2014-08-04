@@ -243,6 +243,16 @@ namespace eval untrusted {
     
   }
   
+  proc test_glob {} {
+    
+    # Verify that we cannot perform a glob on an untrusted directory
+    test glob-0 { catch { glob -directory [file join ~] * } }
+    
+    # Verify that we can perform a glob on a trusted directory
+    test glob-1 { expr { [llength [glob -directory [api::get_plugin_directory] *]] > 0 } }
+    
+  }
+  
   proc handle_store {index} {
   
   }
@@ -258,6 +268,7 @@ namespace eval untrusted {
     
     test_file
     test_exec
+    test_glob
     
     puts "----------------------------------"
     puts "Passed: $passed, Failed: $failed, Total: [expr $passed + $failed]"

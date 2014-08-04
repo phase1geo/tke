@@ -601,6 +601,42 @@ namespace eval interpreter {
   }
   
   ######################################################################
+  # Executes the glob command.
+  proc glob_command {pname args} {
+    
+    variable interps
+    
+    set i        0
+    set new_args [list]
+    
+    # Parse the options
+    while {$i < [llength $args]} {
+      switch -exact [set opt [lindex $args $i]] {
+        -directory -
+        -path {
+          if {[set dname [check_file $pname [lindex $args [incr i]]]] eq ""} {
+            return -code error "permission error"
+          }
+          lappend new_args $opt $dname
+        }
+        default {
+          lappend new_args $opt
+        }
+      } 
+      incr i
+    }
+    
+    # Encode the returned filenames
+    set fnames [list]
+    foreach fname [glob {*}$new_args] {
+      lappend fnames [file join [::safe::interpFindInAccessPath $interps($pname,interp) [file dirname $fname]] [file tail $fname]]
+    }
+    
+    return $fnames
+    
+  }
+  
+  ######################################################################
   # Creates and sets up a safe interpreter for a plugin.
   proc create {pname trust_granted} {
 
@@ -632,7 +668,7 @@ namespace eval interpreter {
     
     # Create Tcl command aliases if we are running in untrusted mode
     if {!$trust_granted} {
-      foreach cmd [list close exec file flush open] {
+      foreach cmd [list close exec file flush glob open] {
         $interp alias $cmd interpreter::${cmd}_command $pname
       }
     }
