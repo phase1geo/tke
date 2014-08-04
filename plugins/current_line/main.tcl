@@ -23,7 +23,7 @@ namespace eval current_line {
     }
     
     # Configure the current_line tag
-    $txt tag configure current_line -background [utils::auto_adjust_color [$txt cget -background] 25]
+    $txt tag configure current_line -background [api::auto_adjust_color [$txt cget -background] 25]
     $txt tag lower     current_line
     
     # Specify that we have been previously configured
@@ -87,7 +87,7 @@ namespace eval current_line {
   
 }
 
-plugins::register current_line {
+api::register current_line {
   {text_binding pretext cline current_line::do_cline}
   {on_uninstall current_line::do_uninstall}
 }

@@ -98,7 +98,7 @@ namespace eval plugins::mercurial {
   
 }
 
-plugins::register mercurial {
+api::register mercurial {
   {menu command "Mercurial Commands.Display hg status output" plugins::mercurial::status_do plugins::mercurial::status_state}
   {menu command "Mercurial Commands.Commit current files"     plugins::mercurial::commit_do plugins::mercurial::commit_state}
   {menu command "Mercurial Commands.Push changelists"         plugins::mercurial::push_do   plugins::mercurial::push_state}

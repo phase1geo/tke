@@ -517,13 +517,13 @@ namespace eval menus {
     launcher::register [msgcat::mc "Menu: Set user bindings to global bindings"] "bindings::copy_default"
     
     # Create snippets menu
-    $mb.snipPopup add command -label [msgcat::mc "Edit"] -command "snippets::add_new_snippet {}"
-    launcher::register [msgcat::mc "Menu: Edit snippets"] "snippets::add_new_snippet {}"
+    $mb.snipPopup add command -label [msgcat::mc "Edit current"] -command "snippets::add_new_snippet {}"
+    launcher::register [msgcat::mc "Menu: Edit current snippets"] "snippets::add_new_snippet {}"
     
     $mb.snipPopup add separator
     
-    $mb.snipPopup add command -label [msgcat::mc "Reload"] -command "snippets::load_directory"
-    launcher::register [msgcat::mc "Menu: Reload all snippets"] "snippets::load_directory"
+    $mb.snipPopup add command -label [msgcat::mc "Reload current"] -command "snippets::reload_snippets"
+    launcher::register [msgcat::mc "Menu: Reload current snippets"] "snippets::reload_snippets"
     
     # Apply the menu settings for the edit menu
     bindings::apply $mb
