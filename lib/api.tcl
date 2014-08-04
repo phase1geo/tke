@@ -17,18 +17,20 @@ namespace eval api {
     
   }
   
-  if {[::tke_development]} {
+  ######################################################################
+  # Returns the pathname to the TKE directory.
+  proc get_plugin_directory {interp pname} {
+      
+    set plugin_dir [file join $::tke_dir plugins $pname]
     
-    ######################################################################
-    # Returns the pathname to the TKE directory.
-    proc get_tke_directory {interp pname} {
-      
-      return $::tke_dir
-      
+    if {[$interp issafe]} {
+      return [::safe::interpFindInAccessPath $interp $plugin_dir]
+    } else {
+      return $plugin_dir
     }
-    
+      
   }
-  
+    
   ######################################################################
   # Returns the pathname to the tke plugin images directory.
   #
@@ -181,16 +183,50 @@ namespace eval api {
     #                           save as dialog to be displayed when saving.
     proc add {interp pname args} {
      
+      # If no filename is given, add a new file to the editor
       if {([llength $args] == 0) || ([string index [lindex $args 0] 0] eq "-")} {
+        
+        # If we have an odd number of arguments, we have an error condition
         if {[expr [llength $args] % 2] == 1} {
           return -code error [msgcat::mc "Argument list to api::add_file was not an even key/value pair"]
         }
-        gui::add_new_file end {*}$args
+        
+        # If the -savecommand option was given, wrap it in an interp eval call
+        # so that we don't execute the command in the master interpreter.
+        array set opts $args
+        if {[info exists opts(-savecommand)]} {
+          set opts(-savecommand) "$interp eval $opts(-savecommand)"
+        }
+        
+        # Finally, add the new file
+        gui::add_new_file end {*}[array get opts]
+        
+      # Otherwise, add the given file to the editor if it is okay to do so
       } else {
+        
+        # If we have an even number of arguments, we have an error condition
         if {[expr [llength $args] % 2] == 0} {
           return -code error [msgcat::mc "Argument list to api::add_file was not in the form 'filename [<option> <value>]*'"]
         }
-        gui::add_file end {*}$args
+        
+        # Separate the filename from the options
+        array set opts [lassign $args fname]
+        
+        # Check to make sure that the file is safe to add to the editor, and
+        # if it is, create the normalized pathname of the filename.
+        if {[set fname [interpreter::check_file $pname $fname]] eq ""} {
+          return -code error "permission error"
+        }
+        
+        # If the -savecommand option was given, wrap it in an interp eval call
+        # so that we don't execute the command in the master interpreter.
+        if {[info exists opts(-savecommand)]} {
+          set opts(-savecommand) "$interp eval $opts(-savecommand)"
+        }
+        
+        # Finally, add the file to the editor
+        gui::add_file end $fname {*}[array get opts]
+        
       }
       
     }
