@@ -251,6 +251,13 @@ namespace eval untrusted {
     # Verify that we can perform a glob on a trusted directory
     test glob-1 { expr { [llength [glob -directory [api::get_plugin_directory] *]] > 0 } }
     
+    # Verify that we can perform a glob on a trusted subdirectory
+    test glob-2 {
+      file mkdir [file join [api::get_home_directory] foobar]
+      close [open [file join [api::get_home_directory] foobar a.txt] w]
+      expr { [llength [glob -directory [file join [api::get_home_directory] foobar] *]] > 0 }
+    } { file delete -force [file join [api::get_home_directory] foobar] }
+    
   }
   
   proc handle_store {index} {

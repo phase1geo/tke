@@ -63,6 +63,25 @@ namespace eval interpreter {
   }
   
   ######################################################################
+  # Encodes the given filename, replacing the lower portion of the filename
+  # with the appropriate encoded symbol which matches a value in the safe
+  # interpreter directory list.
+  proc encode_file {pname fname} {
+  
+    variable interps
+    
+    foreach access_dir [lindex [::safe::interpConfigure $interps($pname,interp) -accessPath] 1] {
+      set access_len [string length $access_dir]
+      if {[string compare -length $access_len $access_dir $fname] == 0} {
+        return [file join [::safe::interpFindInAccessPath $interps($pname,interp) $access_dir] [string range $fname [expr $access_len + 1] end]]
+      }
+    }
+    
+    return ""
+  
+  }
+  
+  ######################################################################
   # Adds a ctext widget to the list of wins (however, destroying the
   # interpreter will not destroy the ctext widgets).
   proc add_ctext {pname txt} {
@@ -416,7 +435,7 @@ namespace eval interpreter {
           -file -
           -maskfile {
             set fname [$img cget [lindex $args 0]]
-            return [file join [::safe::interpFindInAccessPath $interps($pname,interp) [file dirname $fname]] [file tail $fname]]
+            return [encode_file $pname $fname]
           }
         }
         
@@ -564,7 +583,7 @@ namespace eval interpreter {
         if {[set fname [check_file_access $pname [file dirname $fname]]] eq ""} {
           return -code error "permission error"
         }
-        return [::safe::interpFindInAccessPath $interps($pname,interp) $fname]
+        return [encode_file $pname $fname]
       }
       
       mkdir {
@@ -629,7 +648,11 @@ namespace eval interpreter {
     # Encode the returned filenames
     set fnames [list]
     foreach fname [glob {*}$new_args] {
-      lappend fnames [file join [::safe::interpFindInAccessPath $interps($pname,interp) [file dirname $fname]] [file tail $fname]]
+      if {[set ename [encode_file $pname $fname]] eq ""} {
+        lappend fnames $fname
+      } else {
+        lappend fnames $ename
+      }
     }
     
     return $fnames
