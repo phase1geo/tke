@@ -30,41 +30,42 @@ proc ctext {win args} {
   
   ctext::getAr $win config ar
   
-  set ar(-fg) [$tmp cget -foreground]
-  set ar(-bg) [$tmp cget -background]
-  set ar(-font) [$tmp cget -font]
-  set ar(-relief) [$tmp cget -relief]
-  set ar(-unhighlightcolor) [$win cget -bg]
+  set ar(-fg)                    [$tmp cget -foreground]
+  set ar(-bg)                    [$tmp cget -background]
+  set ar(-font)                  [$tmp cget -font]
+  set ar(-relief)                [$tmp cget -relief]
+  set ar(-unhighlightcolor)      [$win cget -bg]
   destroy $tmp
-  set ar(-xscrollcommand) ""
-  set ar(-yscrollcommand) ""
-  set ar(-highlightcolor) "yellow"
-  set ar(-linemap) 1
-  set ar(-linemapfg) $ar(-fg)
-  set ar(-linemapbg) $ar(-bg)
-  set ar(-linemap_mark_command) {}
-  set ar(-linemap_markable) 1
-  set ar(-linemap_show_current) 1
-  set ar(-linemap_select_fg) black
-  set ar(-linemap_select_bg) yellow
-  set ar(-linemap_cursor) left_ptr
-  set ar(-linemap_relief) $ar(-relief)
-  set ar(-linemap_minwidth) 1
-  set ar(-highlight) 1
-  set ar(-warnwidth) ""
-  set ar(-warnwidth_bg) red
-  set ar(-casesensitive) 1
-  set ar(-peer) ""
-  set ar(re_opts) ""
-  set ar(win) $win
-  set ar(modified) 0
-  set ar(commentsAfterId) ""
-  set ar(blinkAfterId) ""
-  set ar(lastUpdate) 0
+  set ar(-xscrollcommand)        ""
+  set ar(-yscrollcommand)        ""
+  set ar(-highlightcolor)        "yellow"
+  set ar(-linemap)               1
+  set ar(-linemapfg)             $ar(-fg)
+  set ar(-linemapbg)             $ar(-bg)
+  set ar(-linemap_mark_command)  {}
+  set ar(-linemap_markable)      1
+  set ar(-linemap_show_current)  1
+  set ar(-linemap_select_fg)     black
+  set ar(-linemap_select_bg)     yellow
+  set ar(-linemap_cursor)        left_ptr
+  set ar(-linemap_relief)        $ar(-relief)
+  set ar(-linemap_minwidth)      1
+  set ar(-highlight)             1
+  set ar(-warnwidth)             ""
+  set ar(-warnwidth_bg)          red
+  set ar(-casesensitive)         1
+  set ar(-peer)                  ""
+  set ar(re_opts)                ""
+  set ar(win)                    $win
+  set ar(modified)               0
+  set ar(commentsAfterId)        ""
+  set ar(blinkAfterId)           ""
+  set ar(lastUpdate)             0
   set ar(block_comment_patterns) [list]
   set ar(string_patterns)        [list]
   set ar(line_comment_patterns)  [list]
   set ar(comment_re)             ""
+  set ar(gutters)                [list]
   
   set ar(ctextFlags) [list -xscrollcommand -yscrollcommand -linemap -linemapfg -linemapbg \
   -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable \
@@ -773,6 +774,34 @@ proc ctext::instanceCmd {self cmd args} {
         #Tk 8.4 has other edit subcommands that I don't want to emulate.
         return [uplevel 1 [linsert $args 0 $self._t $cmd]]
       }
+    }
+    
+    addgutter {
+      set name       [lindex $args 0]
+      set value_list [lindex $args 1]
+      
+      ctext::getAr $self config ar
+      
+      set ar(gutters) [list $name $value_list]
+    }
+    
+    gutter {
+      set name [lindex $args 0]
+      if {[set index [lsearch -exact -index 0 $ar(gutters) $name]] != -1} {
+        if {[llength $args] == 1} {
+          return [lindex $ar(gutters) $index 1]
+        } else {
+          lset ar(gutters) $index 1 [lindex $args 1]
+        }
+      }
+    }
+    
+    gutters {
+      set names [list]
+      foreach gutter $ar(gutters) {
+        lappend names [lindex $gutter 0]
+      }
+      return $names
     }
     
     default {
@@ -1572,8 +1601,8 @@ proc ctext::linemapUpdate {win args} {
   if {[llength $lineList] > 0} {
     linemapUpdateOffset $win $lineList
   }
-  set endrow [lindex [split [$win._t index end-1c] .] 0]
-  $win.l configure -width [expr ($configAr(-linemap_minwidth) > [string length $endrow]) ? $configAr(-linemap_minwidth) : [string length $endrow]]
+  set lwidth [string length [lindex [split [$win._t index end-1c] .] 0]]
+  $win.l configure -width [expr (($configAr(-linemap_minwidth) > $lwidth) ? $configAr(-linemap_minwidth) : $lwidth) + [llength $configAr(gutters)]]
 }
 
 # Starting with Tk 8.5 the text widget allows smooth scrolling; this
