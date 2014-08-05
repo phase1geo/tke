@@ -1855,10 +1855,19 @@ namespace eval gui {
   }
   
   ######################################################################
-  # Returns true if there is something in the paste buffer.
-  proc pastable {} {
+  # Returns true if there is something in the paste buffer and the current
+  # editor is editable.
+  proc pastable {tid} {
     
-    return [expr {![catch {clipboard get} contents] && ($contents ne "")}]
+    return [expr {![catch {clipboard get} contents] && ($contents ne "") && [editable $tid]}]
+    
+  }
+  
+  ######################################################################
+  # Returns true if the current editor is editable.
+  proc editable {tid} {
+    
+    return [expr {[[current_txt $tid] cget -state] eq "normal"}]
     
   }
   
@@ -1867,8 +1876,21 @@ namespace eval gui {
   # file contents (if type is "all").
   proc format {tid type} {
     
+    variable files
+    variable files_index
+    
     # Get the current text widget
     set txt [current_txt $tid]
+    
+    # Get the locked/readonly status
+    set file_index [current_file]
+    set readonly   [expr [lindex $files $file_index $files_index(lock)] || \
+                         [lindex $files $file_index $files_index(readonly)]]
+                         
+    # If the file is locked or readonly, set the state so that it can be modified
+    if {$readonly} {
+      $txt configure -state normal
+    }
     
     if {$type eq "selected"} {
       foreach {endpos startpos} [lreverse [$txt tag ranges sel]] { 
@@ -1876,6 +1898,23 @@ namespace eval gui {
       }
     } else {
       indent::format_text $txt.t 1.0 end
+    }
+    
+    # If the file is locked or readonly, clear the modified state and reset the text state
+    # back to disabled
+    if {$readonly} {
+      
+      # Clear the modified state and reset the state
+      $txt edit modified false
+      $txt configure -state disabled
+       
+      # Change the tab text
+      [current_tabbar] tab current -text " [file tail [lindex $files $file_index $files_index(fname)]]"
+      set_title
+    
+      # Change the text to unmodified
+      lset files $file_index $files_index(modified) 0
+
     }
     
   }
