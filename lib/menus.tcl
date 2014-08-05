@@ -563,7 +563,7 @@ namespace eval menus {
         $mb entryconfigure [msgcat::mc "Cut"]  -state disabled
         $mb entryconfigure [msgcat::mc "Copy"] -state disabled
       }
-      if {[gui::pastable]} {
+      if {[gui::pastable {}]} {
         $mb entryconfigure [msgcat::mc "Paste"]            -state normal
         $mb entryconfigure [msgcat::mc "Paste and Format"] -state normal
       } else {
@@ -571,7 +571,11 @@ namespace eval menus {
         $mb entryconfigure [msgcat::mc "Paste and Format"] -state disabled
       }
       $mb entryconfigure [msgcat::mc "Select All"]  -state normal
-      $mb entryconfigure [msgcat::mc "Insert Text"] -state normal
+      if {[gui::editable {}]} {
+        $mb entryconfigure [msgcat::mc "Insert Text"] -state normal
+      } else {
+        $mb entryconfigure [msgcat::mc "Insert Text"] -state disabled
+      }
       $mb entryconfigure [msgcat::mc "Format Text"] -state normal
     }
     
