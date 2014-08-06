@@ -10,8 +10,6 @@
 #  dir_popup    - Adds items to a non-root directory sidebar popup menu
 #  file_popup   - Adds items to a file sidebar popup menu
 #  text_binding - Adds one or more bindings to a created text field.
-#  write_plugin - Writes local plugin information to a save file (saves data between sessions)
-#  read_plugin  - Reads local plugin information from a save file
 #  on_start     - Runs when the editor is started
 #  on_open      - Runs when a tab is opened
 #  on_focusin   - Runs when a tab receives focus
