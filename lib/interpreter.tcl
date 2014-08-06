@@ -497,8 +497,9 @@ namespace eval interpreter {
   
     variable interps
     
-    if {[lsearch $interps($pname,files) $channel] != -1} {
+    if {[set index [lsearch $interps($pname,files) $channel]] != -1} {
       close $channel
+      set interps($pname,files) [lreplace $interps($pname,files) $index $index]
     }
     
   }
@@ -694,6 +695,7 @@ namespace eval interpreter {
       foreach cmd [list close exec file flush glob open] {
         $interp alias $cmd interpreter::${cmd}_command $pname
       }
+      $interp hide exit my_exit
     }
     
     # Create raw ttk widget aliases
