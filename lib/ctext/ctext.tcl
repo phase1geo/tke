@@ -777,12 +777,79 @@ proc ctext::instanceCmd {self cmd args} {
     }
     
     addgutter {
-      set name       [lindex $args 0]
-      set value_list [lindex $args 1]
-      
+      set value_list [lassign $args name]
       ctext::getAr $self config ar
-      
-      set ar(gutters) [list $name $value_list]
+      lappend ar(gutters) [list $name $value_list]
+      foreach value $value_list {
+        set gutter_tag "gutter:$name:[lindex $value 0]"
+        $self.l tag configure $gutter_tag {*}[lindex $value 1]
+      }
+      ctext::linemapUpdate $self
+    }
+    
+    delgutter {
+      set name [lindex $args 0]
+      ctext::getAr $self config ar
+      if {[set index [lsearch -index 0 $ar(gutters) $name]] != -1} {
+        set gutter_tags [list]
+        foreach value [lindex $ar(gutters) $index 1] {
+          lappend gutter_tags "gutter:$name:[lindex $value 0]"
+        }
+        $self._t tag delete {*}$gutter_tags
+      }
+    }
+    
+    setgutter {
+      set args [lassign $args gutter_name]
+      set update_needed 0
+      foreach {symbol line_num} $args {
+        set gutter_tag "gutter:$gutter_name:$symbol"
+        if {[set curr_tag [lsearch -inline -glob [$self._t tag names $line_num.0] gutter:$gutter_name:*]] ne ""} {
+          if {$curr_tag ne $gutter_tag} {
+            $self._t tag delete $curr_tag
+            $self._t tag add $gutter_tag $line_num.0 $line_num.1
+            set update_needed 1
+          }
+        } else {
+          $self._t tag add $gutter_tag $line_num.0 $line_num.1
+          set update_needed 1
+        }
+      }
+      if {$update_needed} {
+        ctext::linemapUpdate $self
+      }
+    }
+    
+    getgutter {
+      set gutter_name [lindex $args 0]
+      set symbols     [list]
+      ctext::getAr $self config ar
+      if {[set gutter_index [lsearch -index 0 $ar(gutters) $gutter_name]] != -1} {
+        foreach value [lindex $ar(gutters) $gutter_index 1] {
+          set symbol     [lindex $value 0]
+          set gutter_tag "gutter:$gutter_name:$symbol"
+          foreach {first last} [$self._t tag ranges $gutter_tag] {
+            lappend symbols $symbol [lindex [split $first .] 0]
+          }
+        }
+      }
+      return $symbols
+    }
+    
+    cleargutter {
+      set last [lassign $args gutter_name first]
+      ctext::getAr $self config ar
+      if {[set gutter_index [lsearch -index 0 $ar(gutters) $gutter_name]] != -1} {
+        if {$last eq ""} {
+          foreach value [lindex $ar(gutters) $gutter_index] {
+            $self._t tag remove gutter:$gutter_name:[lindex $value 0] $first.0
+          }
+        } else {
+          foreach value [lindex $ar(gutters) $gutter_index] {
+            $self._t tag remove gutter:$gutter_name:[lindex $value 0] $first.0 $last.1
+          }
+        }
+      }
     }
     
     gutter {
@@ -1586,15 +1653,22 @@ proc ctext::linemapUpdate {win args} {
   
   $win.l delete 1.0 end
   set lastLine {}
+  set gutter_width  [expr ([llength $configAr(gutters)] > 0) ? ([llength $configAr(gutters)] + 1) : 0]
+  set gutter_string [string repeat " " $gutter_width]
   foreach line $lineList {
     if {$line == $lastLine} {
-      $win.l insert end "\n"
+      $win.l insert end "$gutter_string\n"
     } else {
       if {[lsearch -glob [$win.t tag names $line.0] lmark*] != -1} {
-        $win.l insert end "$line\n" lmark
+        $win.l insert end "$gutter_string$line\n" lmark
       } else {
-        $win.l insert end "$line\n"
+        $win.l insert end "$gutter_string$line\n"
       }
+    }
+    foreach gutter_tag [lsearch -inline -all -glob [$win._t tag names $line.0] gutter:*] {
+      lassign [split $gutter_tag :] dummy gutter_name gutter_sym
+      set gutter_index [lsearch -index 0 $configAr(gutters) $gutter_name]
+      $win.l replace $line.$gutter_index $line.[expr $gutter_index + 1] $gutter_sym $gutter_tag
     }
     set lastLine $line
   }
@@ -1602,9 +1676,9 @@ proc ctext::linemapUpdate {win args} {
     linemapUpdateOffset $win $lineList
   }
   set lwidth [string length [lindex [split [$win._t index end-1c] .] 0]]
-  $win.l configure -width [expr (($configAr(-linemap_minwidth) > $lwidth) ? $configAr(-linemap_minwidth) : $lwidth) + [llength $configAr(gutters)]]
+  $win.l configure -width [expr (($configAr(-linemap_minwidth) > $lwidth) ? $configAr(-linemap_minwidth) : $lwidth) + $gutter_width]
 }
-
+ 
 # Starting with Tk 8.5 the text widget allows smooth scrolling; this
 # code calculates the offset for the line numbering text widget and
 # scrolls by the specified amount of pixels

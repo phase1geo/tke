@@ -468,7 +468,7 @@ namespace eval plugins {
       puts $rc ""
       puts $rc "}"
       puts $rc ""
-      puts $rc "plugins::register $name {"
+      puts $rc "api::register $name {"
       puts $rc ""
       puts $rc "}"
       close $rc
