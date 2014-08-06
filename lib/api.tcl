@@ -181,6 +181,11 @@ namespace eval api {
     #   -saveas (0|1)           If set to 0 (default), the file will be saved to the
     #                           current file; otherwise, the file will always force a
     #                           save as dialog to be displayed when saving.
+    #
+    #   -gutters <list>         Creates a gutter in the editor.  The contents of list are as follows:
+    #                             {name {{symbol_name {symbol_tag_options+}}+}}+
+    #                           For a list of valid symbol_tag_options, see the options available for
+    #                           tags in a text widget.
     proc add {interp pname args} {
      
       # If no filename is given, add a new file to the editor
@@ -228,6 +233,12 @@ namespace eval api {
         gui::add_file end $fname {*}[array get opts]
         
       }
+      
+      # Allow the plugin to manipulate the ctext widget
+      set txt [gui::current_txt {}]
+      $interp alias $txt $txt
+      
+      return $txt
       
     }
     

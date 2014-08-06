@@ -43,6 +43,7 @@ namespace eval gui {
     sidebar  6
     modified 7
     buffer   8
+    gutters  9
   }
   
   #######################
@@ -959,6 +960,10 @@ namespace eval gui {
   # -readonly    <bool>     Set if file should not be saveable.
   # -sidebar     <bool>     Specifies if file/directory should be added to the sidebar.
   # -buffer      <bool>     If true, treats contents as a temporary buffer.
+  # -gutters     <list>     Creates a gutter in the editor.  The contents of list are as follows:
+  #                           {name {{symbol_name {symbol_tag_options+}}+}}+
+  #                         For a list of valid symbol_tag_options, see the options available for
+  #                         tags in a text widget.
   proc add_new_file {index args} {
   
     variable files
@@ -972,6 +977,7 @@ namespace eval gui {
       -readonly    0 \
       -sidebar     $::cl_sidebar \
       -buffer      0 \
+      -gutters     [list] \
     ]
     array set opts $args
     
@@ -984,7 +990,7 @@ namespace eval gui {
     set index [adjust_insert_tab_index $index "Untitled"]
     
     # Get the current index
-    set w [insert_tab $index [msgcat::mc "Untitled"]]
+    set w [insert_tab $index [msgcat::mc "Untitled"] $opts(-gutters)]
     
     # Create the file info structure
     set file_info [lrepeat [array size files_index] ""]
@@ -997,10 +1003,11 @@ namespace eval gui {
     lset file_info $files_index(sidebar)  $opts(-sidebar)
     lset file_info $files_index(buffer)   $opts(-buffer)
     lset file_info $files_index(modified) 0
+    lset file_info $files_index(gutters)  $opts(-gutters)
  
     # Add the file information to the files list
     lappend files $file_info
-
+    
     # Add the file's directory to the sidebar and highlight it
     if {$opts(-sidebar)} {
       sidebar::add_directory [pwd]
@@ -1024,6 +1031,10 @@ namespace eval gui {
   # -readonly    <bool>     Set if file should not be saveable.
   # -sidebar     <bool>     Specifies if file/directory should be added to the sidebar.
   # -buffer      <bool>     If true, treats the text widget as a temporary buffer.
+  # -gutters     <list>     Creates a gutter in the editor.  The contents of list are as follows:
+  #                           {name {{symbol_name {symbol_tag_options+}}+}}+
+  #                         For a list of valid symbol_tag_options, see the options available for
+  #                         tags in a text widget.
   proc add_file {index fname args} {
   
     variable widgets
@@ -1040,6 +1051,7 @@ namespace eval gui {
       -readonly    0
       -sidebar     1
       -buffer      0
+      -gutters     {}
     }
     array set opts $args
 
@@ -1060,7 +1072,7 @@ namespace eval gui {
       set index [adjust_insert_tab_index $index [file tail $fname]]
     
       # Add the tab to the editor frame
-      set w [insert_tab $index [file tail $fname]]
+      set w [insert_tab $index [file tail $fname] $opts(-gutters)]
       
       # Create the file information
       set file_info [lrepeat [array size files_index] ""]
@@ -1073,6 +1085,7 @@ namespace eval gui {
       lset file_info $files_index(sidebar)  $opts(-sidebar)
       lset file_info $files_index(buffer)   $opts(-buffer)
       lset file_info $files_index(modified) 0
+      lset file_info $files_index(gutters)  $opts(-gutters)
 
       if {![catch { open $fname r } rc]} {
     
@@ -1666,7 +1679,7 @@ namespace eval gui {
       set panes [$widgets(nb_pw) panes]
     }
     
-    # Get the title, text and language from the current text widget
+    # Get the relevant information from the current text widget
     set txt      [current_txt {}]
     set file     [lindex $files [current_file]]
     if {[set fname [current_filename]] eq ""} {
@@ -1677,6 +1690,13 @@ namespace eval gui {
     set select   [$txt tag ranges sel]
     set modified [lindex $file $files_index(modified)]
     set language [syntax::get_current_language $txt]
+    
+    # Collect the gutter symbols
+    array set symbols {}
+    foreach gutter [lindex $file $files_index(gutters)] {
+      set gutter_name [lindex $gutter 0]
+      set symbols($gutter_name) [$txt getgutter $gutter_name]
+    }
     
     # Delete the current tab
     close_current 1
@@ -1690,12 +1710,17 @@ namespace eval gui {
     set index [adjust_insert_tab_index end [file tail $fname]]
     
     # Create a new tab
-    set w [insert_tab $index [file tail $fname] $language]
+    set w [insert_tab $index [file tail $fname] [lindex $file $files_index(gutters)] $language]
         
     # Add the text, insertion marker and selection
     set txt [current_txt {}]
     $txt insert end $content
     $txt mark set insert $insert
+    
+    # Add the gutter symbols
+    foreach {name symbol_list} [array get symbols] {
+      $txt setgutter $name {*}$symbol_list
+    }
     
     # Perform an insertion adjust, if necessary
     vim::adjust_insert $txt.t
@@ -2784,7 +2809,7 @@ namespace eval gui {
    
   ######################################################################
   # Inserts a new tab into the editor tab notebook.
-  proc insert_tab {index title {initial_language ""}} {
+  proc insert_tab {index title gutters {initial_language ""}} {
   
     variable widgets
     variable curr_id
@@ -2954,6 +2979,11 @@ namespace eval gui {
       syntax::initialize_language $txt [syntax::get_default_language $title]
     } else {
       syntax::initialize_language $txt $initial_language
+    }
+    
+    # Add any gutters
+    foreach gutter $gutters {
+      $txt addgutter {*}$gutter
     }
 
     # Add the new tab to the notebook in alphabetical order (if specified) and if

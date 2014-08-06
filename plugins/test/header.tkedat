@@ -1,0 +1,7 @@
+name           {test}
+author         {}
+email          {}
+version        {1.0}
+include        {yes}
+trust_required {no}
+description    {}
