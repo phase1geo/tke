@@ -82,8 +82,25 @@ namespace eval api {
   }
   
   ######################################################################
+  # Registers the given description and command in the command launcher.
+  proc register_launcher {interp pname description command} {
+    
+    launcher::register "Plugin: $description" "$interp eval $command"
+    
+  }
+  
+  ######################################################################
+  # Unregisters a previously registered command launcher with the same
+  # description.
+  proc unregister_launcher {interp pname description} {
+    
+    launcher::unregister "Plugin: $description"
+    
+  }
+  
+  ######################################################################
   # Invokes the given menu path.
-  proc invoke_menu {menu_path} {
+  proc invoke_menu {interp pname menu_path} {
     
     # Get the menu path
     set menu_path [split $menu_path /]

@@ -10,7 +10,7 @@
 #  dir_popup    - Adds items to a non-root directory sidebar popup menu
 #  file_popup   - Adds items to a file sidebar popup menu
 #  text_binding - Adds one or more bindings to a created text field.
-#  on_start     - Runs when the editor is started
+#  on_start     - Runs when the editor is started or when the plugin is installed
 #  on_open      - Runs when a tab is opened
 #  on_focusin   - Runs when a tab receives focus
 #  on_close     - Runs when a tab is closed
@@ -343,12 +343,14 @@ namespace eval plugins {
         set registry($index,selected) 1
         set registry($index,interp)   $interpreter
         handle_reloading $index
+        run_on_start_after_install $index
       }
       
     # Otherwise, just mark the plugin as being selected
     } else {
       gui::set_info_message [msgcat::mc "Plugin %s installed" $registry($index,name)]
       set registry($index,selected) 1
+      run_on_start_after_install $index
     }
     
     # Add all of the plugins
@@ -357,6 +359,23 @@ namespace eval plugins {
     # Add all of the text bindings
     add_all_text_bindings
   
+  }
+  
+  ######################################################################
+  # This procedure is called in the install_item procedure and causes any
+  # on_start actions associated with the plugin to be called when the plugin
+  # is installed.
+  proc run_on_start_after_install {index} {
+    
+    variable registry
+    
+    # If the given event contains an "on_uninstall" action, run it.
+    foreach {name action} [array get registry $index,action,on_start,*] {
+      if {[catch "$registry($index,interp) eval {*}$action" status]} {
+        handle_status_error $index $status
+      }
+    }
+    
   }
   
   ######################################################################
@@ -398,6 +417,7 @@ namespace eval plugins {
     
     # Unselect the plugin
     set registry($index,selected) 0
+    set registry($index,interp)   ""
     
     # Add all of the plugins
     add_all_menus
@@ -869,8 +889,9 @@ namespace eval plugins {
   # Called whenever the application is started.
   proc handle_on_start {} {
     
+    # Handle an application start
     handle_event "on_start" 
-    
+      
   }
   
   ######################################################################

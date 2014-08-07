@@ -1,0 +1,7 @@
+name           {code_view}
+author         {Trevor Williams}
+email          {phase1geo@gmail.com}
+version        {1.0}
+include        {yes}
+trust_required {no}
+description    {Workflow plugin that locks the current editor and formats the text for easier non-destructive viewing of code.}
