@@ -10,7 +10,6 @@ namespace eval bindings {
   variable base_bindings_file [file join $::tke_dir data bindings menu_bindings.[tk windowingsystem].tkedat]
   variable user_bindings_file [file join $::tke_home menu_bindings.[tk windowingsystem].tkedat]
 
-  array set menus         {}
   array set menu_bindings {}
   
   #######################
@@ -59,11 +58,10 @@ namespace eval bindings {
     variable base_bindings_file
     variable user_bindings_file
     variable menu_bindings
-    variable menus
     
     if {[file exists $user_bindings_file]} {
       remove_all_bindings
-      if {![catch "tkedat::read $base_bindings_file" rc]} {
+      if {![catch "tkedat::read $base_bindings_file 0" rc]} {
         array set menu_bindings $rc
       }
     } else {
@@ -71,11 +69,9 @@ namespace eval bindings {
       copy_default 0
     }
     
-    if {![catch "tkedat::read $user_bindings_file" rc]} {
+    if {![catch "tkedat::read $user_bindings_file 0" rc]} {
       array set menu_bindings $rc
-      foreach mnu [array names menus] {
-        apply $mnu
-      }
+      apply_all_bindings
     } else {
       array unset menu_bindings
     }
@@ -84,45 +80,37 @@ namespace eval bindings {
 
   ######################################################################
   # Applies the current bindings from the configuration file.
-  proc apply {mnu} {
+  proc apply_all_bindings {} {
 
     variable menu_bindings
-    variable menus
+    variable bound_menus
     
-    # Add the menu to the list of menus
-    set menus($mnu) 1
+    array unset bound_menus
     
-    # Iterate through the menu items
-    for {set i 0} {$i <= [$mnu index end]} {incr i} {
-      set type [$mnu type $i]
-      if {($type eq "command") || ($type eq "checkbutton")} {
-        set label [$mnu entrycget $i -label]
-        if {[info exists menu_bindings($mnu/$label)]} {
-          $mnu entryconfigure $i -accelerator $menu_bindings($mnu/$label)
-          bind all [accelerator_to_sequence $menu_bindings($mnu/$label)] "$mnu invoke $i; break"
+    foreach {mnu binding} [array get menu_bindings] {
+      set menu_list [split $mnu /]
+      if {![catch { menus::get_menu [lrange $menu_list 0 end-1] } mnu]} {
+        if {![catch { $mnu index [msgcat::mc [lindex $menu_list end]] } menu_index] && ($menu_index ne "none")} {
+          set bound_menus($mnu) [list $menu_index $binding]
+          $mnu entryconfigure $menu_index -accelerator $binding
+          bind all [accelerator_to_sequence $binding] "menus::invoke $mnu $menu_index; break"
         }
       }
     }
-  
+    
   }
   
   ######################################################################
   # Removes all of the menu bindings.
   proc remove_all_bindings {} {
   
-    variable menus
     variable menu_bindings
+    variable bound_menus
     
-    foreach mnu [array names menus] {
-      for {set i 0} {$i <= [$mnu index end]} {incr i} {
-        if {[$mnu type $i] eq "command"} {
-          set label [$mnu entrycget $i -label]
-          if {[info exists menu_bindings($mnu/$label)]} {
-            $mnu entryconfigure $i -accelerator ""
-            bind all <$menu_bindings($mnu/$label)> ""
-          }
-        }
-      }
+    # Delete all of the accelerators and bindings
+    foreach {mnu data} [array get bound_menus] {
+      $mnu entryconfigure [lindex $data 0] -accelerator ""
+      bind all <[lindex $data 1]> ""
     }
    
     # Delete the menu_bindings array

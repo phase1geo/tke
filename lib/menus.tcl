@@ -15,12 +15,44 @@ namespace eval menus {
   #######################
   
   ######################################################################
+  # Returns the menu associated with the given menu path.  The menu path
+  # should be a list where each menu item is the name of the menu within
+  # the path.  The final menu in the path should not be included in the
+  # path.
+  proc get_menu {menu_path} {
+    
+    set parent .menubar
+    
+    foreach mnu $menu_path {
+      if {([set mnu_index [$parent index [msgcat::mc $mnu]]] eq "none") || ([$parent type $mnu_index] ne "cascade")} {
+        return -code error "Invalid menu path specified"
+      }
+      set parent [$parent entrycget $mnu_index -menu]
+    }
+    
+    return $parent
+    
+  }
+  
+  ######################################################################
+  # Invokes the given index in the given menu, executing the menu's postcommand
+  # if one exists.
+  proc invoke {mnu index} {
+    
+    # If the menu contains a postcommand, execute it first
+    if {[$mnu cget -postcommand] ne ""} {
+      eval [$mnu cget -postcommand]
+    }
+    
+    # Next, invoke the menu
+    $mnu invoke $index
+    
+  }
+  
+  ######################################################################
   # Creates the main menu.
   proc create {} {
   
-    # Load the menu bindings
-    bindings::load
-    
     set foreground [utils::get_default_foreground]
     set background [utils::get_default_background]
   
@@ -76,6 +108,9 @@ namespace eval menus {
 
     }
 
+    # Load and apply the menu bindings
+    bindings::load
+    
   }
   
   ######################################################################
@@ -152,9 +187,6 @@ namespace eval menus {
     }
     launcher::register [msgcat::mc "Menu: Quit application"] menus::exit_command
 
-    # Apply the menu settings for the current menu
-    bindings::apply $mb
-  
   }
   
   ######################################################################
@@ -525,9 +557,6 @@ namespace eval menus {
     $mb.snipPopup add command -label [msgcat::mc "Reload current"] -command "snippets::reload_snippets"
     launcher::register [msgcat::mc "Menu: Reload current snippets"] "snippets::reload_snippets"
     
-    # Apply the menu settings for the edit menu
-    bindings::apply $mb
-  
   }
   
   ######################################################################
@@ -664,9 +693,6 @@ namespace eval menus {
     
     $mb add command -label [msgcat::mc "Find in files"] -underline 5 -command "menus::find_in_files"
     launcher::register [msgcat::mc "Menu: Find in files"] "menus::find_in_files"
-    
-    # Apply the menu settings for the find menu
-    bindings::apply $mb
     
   }
   
@@ -941,9 +967,6 @@ namespace eval menus {
     $mb add command -label [msgcat::mc "Insert enumeration"] -underline 7 -command "texttools::insert_enumeration {}"
     launcher::register [msgcat::mc "Menu: Insert enumeration"] "texttools::insert_enumeration {}"
     
-    # Apply the menu settings for the text menu
-    bindings::apply $mb
-
   }
   
   ######################################################################
@@ -1046,9 +1069,6 @@ namespace eval menus {
     $mb.tabPopup add command -label [msgcat::mc "Sort Tabs"] -underline 0 -command "gui::sort_tabs"
     launcher::register [msgcat::mc "Menu: Sort tabs"] "gui::sort_tabs"
     
-    # Apply the menu settings for the current menu
-    bindings::apply $mb
-  
   }
   
   ######################################################################
@@ -1239,9 +1259,6 @@ namespace eval menus {
       
     }
    
-    # Apply the menu bindings for the tools menu
-    bindings::apply $mb
-  
   }
   
   ######################################################################
