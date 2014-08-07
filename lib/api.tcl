@@ -82,6 +82,21 @@ namespace eval api {
   }
   
   ######################################################################
+  # Invokes the given menu path.
+  proc invoke_menu {menu_path} {
+    
+    # Get the menu path
+    set menu_path [split $menu_path /]
+    
+    # Get the parent menu
+    set parent [menus::get_menu [lrange $menu_path 0 end-1]]
+    
+    # Invoke the menu entry in the parent
+    menus::invoke $parent [lindex $menu_path end]
+    
+  }
+  
+  ######################################################################
   # Displays the given message string in the information bar.  The
   # message must not contain any newline characters.
   #

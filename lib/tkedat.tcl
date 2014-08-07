@@ -12,7 +12,7 @@ namespace eval tkedat {
   ######################################################################
   # Reads the given tkedat file, stripping/storing comments and verifying
   # that no Tcl commands are called.
-  proc read {fname} {
+  proc read {fname {include_comments 1}} {
     
     array set contents [list]
     
@@ -28,7 +28,9 @@ namespace eval tkedat {
                   ![regexp {\[.*\]} $line] && \
                   ([llength $line] == 2)} {
           set contents([lindex $line 0]) [lindex $line 1]
-          set contents([lindex $line 0],comment) $comments
+          if {$include_comments} {
+            set contents([lindex $line 0],comment) $comments
+          }
           set comments [list]
         }
         
