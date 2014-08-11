@@ -220,34 +220,14 @@ namespace eval api {
     #                           tags in a text widget.
     proc add {interp pname args} {
      
+      set fname ""
+      array set opts [list]
+      
       # If no filename is given, add a new file to the editor
-      if {([llength $args] == 0) || ([string index [lindex $args 0] 0] eq "-")} {
+      if {([llength $args] > 0) && ([string index [lindex $args 0] 0] ne "-")} {
         
-        # If we have an odd number of arguments, we have an error condition
-        if {[expr [llength $args] % 2] == 1} {
-          return -code error [msgcat::mc "Argument list to api::add_file was not an even key/value pair"]
-        }
-        
-        # If the -savecommand option was given, wrap it in an interp eval call
-        # so that we don't execute the command in the master interpreter.
-        array set opts $args
-        if {[info exists opts(-savecommand)]} {
-          set opts(-savecommand) "$interp eval $opts(-savecommand)"
-        }
-        
-        # Finally, add the new file
-        gui::add_new_file end {*}[array get opts]
-        
-      # Otherwise, add the given file to the editor if it is okay to do so
-      } else {
-        
-        # If we have an even number of arguments, we have an error condition
-        if {[expr [llength $args] % 2] == 0} {
-          return -code error [msgcat::mc "Argument list to api::add_file was not in the form 'filename [<option> <value>]*'"]
-        }
-        
-        # Separate the filename from the options
-        array set opts [lassign $args fname]
+        # Peel the filename from the rest of the arguments
+        set args [lassign $args fname]
         
         # Check to make sure that the file is safe to add to the editor, and
         # if it is, create the normalized pathname of the filename.
@@ -255,17 +235,55 @@ namespace eval api {
           return -code error "permission error"
         }
         
-        # If the -savecommand option was given, wrap it in an interp eval call
-        # so that we don't execute the command in the master interpreter.
-        if {[info exists opts(-savecommand)]} {
-          set opts(-savecommand) "$interp eval $opts(-savecommand)"
-        }
+      }
         
-        # Finally, add the file to the editor
-        gui::add_file end $fname {*}[array get opts]
+      # If we have an odd number of arguments, we have an error condition
+      if {[expr [llength $args] % 2] == 1} {
+        return -code error [msgcat::mc "Argument list to api::add_file was not an even key/value pair"]
+      }
         
+      # Get the options
+      array set opts $args
+      
+      # If the -savecommand option was given, wrap it in an interp eval call
+      # so that we don't execute the command in the master interpreter.
+      if {[info exists opts(-savecommand)]} {
+        set opts(-savecommand) "$interp eval $opts(-savecommand)"
       }
       
+      # Change out the gutter commands with interpreter versions
+      if {[info exists opts(-gutters)]} {
+        set new_gutters [list]
+        foreach gutter $opts(-gutters) {
+          set new_sym [list]
+          foreach {symname sym symopts} [lassign $gutter gutter_name] {
+            set new_symopts [list]
+            foreach {symopt symval} $symopts {
+              switch $symopt {
+                "-onenter" -
+                "-onleave" -
+                "-onclick" {
+                  lappend new_symopts $symopt "$interp eval $symval"
+                }
+                default {
+                  lappend new_symopts $symopt $symval
+                }
+              }
+            }
+            lappend new_sym $symname $sym $new_symopts
+          }
+          lappend new_gutters [list $gutter_name {*}$new_sym]
+        }
+        set opts(-gutters) $new_gutters
+      }
+        
+      # Finally, add the new file
+      if {$fname eq ""} {
+        gui::add_new_file end {*}[array get opts]
+      } else {
+        gui::add_file end $fname {*}[array get opts]
+      }
+        
       # Allow the plugin to manipulate the ctext widget
       set txt [gui::current_txt {}]
       $interp alias $txt $txt

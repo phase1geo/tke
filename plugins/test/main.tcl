@@ -1,8 +1,13 @@
 namespace eval test {
   
   proc on_start {} {
-    set txt [api::file::add [file join [api::get_plugin_directory] main.tcl] -gutters {{test {\u2665 {-foreground red}} {$ {-foreground green}}}}]
-    $txt setgutter test \u2665 2 \u2665 3 $ 6
+    set txt [api::file::add [file join [api::get_plugin_directory] main.tcl] \
+      -gutters {{test heart \u2665 {-fg red -onenter test::gutter_on_enter} dollar $ {-fg green}}}]
+    $txt setgutter test heart {2 3} dollar 6
+  }
+  
+  proc gutter_on_enter {txt} {
+    puts "HERE!"
   }
 
 }
