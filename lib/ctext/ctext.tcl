@@ -777,54 +777,60 @@ proc ctext::instanceCmd {self cmd args} {
     }
     
     addgutter {
-      set value_list [lassign $args name]
+      set value_list  [lassign $args gutter_name]
+      set gutter_tags [list]
       ctext::getAr $self config ar
-      lappend ar(gutters) [list $name $value_list]
-      foreach {sym opts} $value_list {
-        set gutter_tag "gutter:$name:[string index $sym 0]"
+      foreach {name sym opts} $value_list {
+        set gutter_tag "gutter:$gutter_name:$name:$sym"
         array set sym_opts $opts
         if {[info exists sym_opts(-fg)]} {
           $self.l tag configure $gutter_tag -foreground $sym_opts(-fg)
         }
         if {[info exists sym_opts(-onenter)]} {
-          $self.l tag bind $gutter_tag <Enter> $sym_opts(-onhover)
+          $self.l tag bind $gutter_tag <Enter> "$sym_opts(-onenter) $self"
         }
         if {[info exists sym_opts(-onleave)]} {
-          $self.l tag bind $gutter_tag <Leave> $sym_opts(-onleave)
+          $self.l tag bind $gutter_tag <Leave> "$sym_opts(-onleave) $self"
         }
         if {[info exists sym_opts(-onclick)]} {
-          $self.l tag bind $gutter_tag <Button-1> $sym_opts(-onclick)
+          $self.l tag bind $gutter_tag <Button-1> "$sym_opts(-onclick) $self"
         }
+        lappend gutter_tags $gutter_tag
+        array unset sym_opts
       }
+      lappend ar(gutters) [list $gutter_name $gutter_tags]
       ctext::linemapUpdate $self
     }
     
     delgutter {
-      set name [lindex $args 0]
+      set gutter_name [lindex $args 0]
       ctext::getAr $self config ar
-      if {[set index [lsearch -index 0 $ar(gutters) $name]] != -1} {
-        set gutter_tags [list]
-        foreach {sym sym_opts} [lindex $ar(gutters) $index 1] {
-          lappend gutter_tags "gutter:$name:$sym"
-        }
-        $self._t tag delete {*}$gutter_tags
+      if {[set index [lsearch -index 0 $ar(gutters) $gutter_name]] != -1} {
+        $self._t tag delete {*}[lindex $ar(gutters) $index 1]
+        set ar(gutters) [lreplace $ar(gutters) $index $index]
       }
     }
     
     setgutter {
       set args [lassign $args gutter_name]
       set update_needed 0
-      foreach {symbol line_num} $args {
-        set gutter_tag "gutter:$gutter_name:$symbol"
-        if {[set curr_tag [lsearch -inline -glob [$self._t tag names $line_num.0] gutter:$gutter_name:*]] ne ""} {
-          if {$curr_tag ne $gutter_tag} {
-            $self._t tag delete $curr_tag
-            $self._t tag add $gutter_tag $line_num.0 $line_num.1
-            set update_needed 1
+      ctext::getAr $self config ar
+      if {[set gutter_index [lsearch -index 0 $ar(gutters) $gutter_name]] != -1} {
+        foreach {name line_nums} $args {
+          if {[set gutter_tag [lsearch -inline -glob [lindex $ar(gutters) $gutter_index 1] gutter:$gutter_name:$name:*]] != -1} {
+            foreach line_num $line_nums {
+              if {[set curr_tag [lsearch -inline -glob [$self._t tag names $line_num.0] gutter:$gutter_name:*]] ne ""} {
+                if {$curr_tag ne $gutter_tag} {
+                  $self._t tag delete $curr_tag
+                  $self._t tag add $gutter_tag $line_num.0 $line_num.1
+                  set update_needed 1
+                }
+              } else {
+                $self._t tag add $gutter_tag $line_num.0 $line_num.1
+                set update_needed 1
+              }
+            }
           }
-        } else {
-          $self._t tag add $gutter_tag $line_num.0 $line_num.1
-          set update_needed 1
         }
       }
       if {$update_needed} {
@@ -837,12 +843,12 @@ proc ctext::instanceCmd {self cmd args} {
       set symbols     [list]
       ctext::getAr $self config ar
       if {[set gutter_index [lsearch -index 0 $ar(gutters) $gutter_name]] != -1} {
-        foreach value [lindex $ar(gutters) $gutter_index 1] {
-          set symbol     [lindex $value 0]
-          set gutter_tag "gutter:$gutter_name:$symbol"
+        foreach gutter_tag [lindex $ar(gutters) $gutter_index 1] {
+          set lines      [list]
           foreach {first last} [$self._t tag ranges $gutter_tag] {
-            lappend symbols $symbol [lindex [split $first .] 0]
+            lappend lines [lindex [split $first .] 0]
           }
+          lappend symbols $name $lines
         }
       }
       return $symbols
@@ -853,12 +859,12 @@ proc ctext::instanceCmd {self cmd args} {
       ctext::getAr $self config ar
       if {[set gutter_index [lsearch -index 0 $ar(gutters) $gutter_name]] != -1} {
         if {$last eq ""} {
-          foreach value [lindex $ar(gutters) $gutter_index] {
-            $self._t tag remove gutter:$gutter_name:[lindex $value 0] $first.0
+          foreach gutter_tag [lindex $ar(gutters) $gutter_index 1] {
+            $self._t tag remove $gutter_tag $first.0
           }
         } else {
-          foreach value [lindex $ar(gutters) $gutter_index] {
-            $self._t tag remove gutter:$gutter_name:[lindex $value 0] $first.0 $last.1
+          foreach gutter_tag [lindex $ar(gutters) $gutter_index 1] {
+            $self._t tag remove $gutter_tag $first.0 $last.1
           }
         }
       }
@@ -1678,7 +1684,7 @@ proc ctext::linemapUpdate {win args} {
       }
     }
     foreach gutter_tag [lsearch -inline -all -glob [$win._t tag names $line.0] gutter:*] {
-      lassign [split $gutter_tag :] dummy gutter_name gutter_sym
+      lassign [split $gutter_tag :] dummy gutter_name gutter_symname gutter_sym
       set gutter_index [lsearch -index 0 $configAr(gutters) $gutter_name]
       $win.l replace $line.$gutter_index $line.[expr $gutter_index + 1] $gutter_sym $gutter_tag
     }
