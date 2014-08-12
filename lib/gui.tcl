@@ -1695,7 +1695,7 @@ namespace eval gui {
     array set symbols {}
     foreach gutter [lindex $file $files_index(gutters)] {
       set gutter_name [lindex $gutter 0]
-      set symbols($gutter_name) [$txt getgutter $gutter_name]
+      set symbols($gutter_name) [$txt gutter get $gutter_name]
     }
     
     # Delete the current tab
@@ -1719,7 +1719,7 @@ namespace eval gui {
     
     # Add the gutter symbols
     foreach {name symbol_list} [array get symbols] {
-      $txt setgutter $name {*}$symbol_list
+      $txt gutter set $name {*}$symbol_list
     }
     
     # Perform an insertion adjust, if necessary
@@ -2983,7 +2983,7 @@ namespace eval gui {
     
     # Add any gutters
     foreach gutter $gutters {
-      $txt addgutter {*}$gutter
+      $txt gutter create {*}$gutter
     }
 
     # Add the new tab to the notebook in alphabetical order (if specified) and if

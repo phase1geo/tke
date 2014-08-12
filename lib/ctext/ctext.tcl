@@ -497,6 +497,7 @@ proc ctext::isEscaped {win index} {
 }
 
 proc ctext::instanceCmd {self cmd args} {
+  
   #slightly different than the RE used in ctext::comments
   ctext::getAr $self config configAr
   
@@ -776,123 +777,142 @@ proc ctext::instanceCmd {self cmd args} {
       }
     }
     
-    addgutter {
-      set value_list  [lassign $args gutter_name]
-      set gutter_tags [list]
-      ctext::getAr $self config ar
-      foreach {name sym opts} $value_list {
-        set gutter_tag "gutter:$gutter_name:$name:$sym"
-        array set sym_opts $opts
-        if {[info exists sym_opts(-fg)]} {
-          $self.l tag configure $gutter_tag -foreground $sym_opts(-fg)
+    gutter {
+      set args [lassign $args subcmd]
+      switch -glob $subcmd {
+        create {
+          set value_list  [lassign $args gutter_name]
+          set gutter_tags [list]
+          ctext::getAr $self config ar
+          foreach {name sym opts} $value_list {
+            set gutter_tag "gutter:$gutter_name:$name:$sym"
+            array set sym_opts $opts
+            if {[info exists sym_opts(-fg)]} {
+              $self.l tag configure $gutter_tag -foreground $sym_opts(-fg)
+            }
+            if {[info exists sym_opts(-onenter)]} {
+              $self.l tag bind $gutter_tag <Enter> "$sym_opts(-onenter) $self"
+            }
+            if {[info exists sym_opts(-onleave)]} {
+              $self.l tag bind $gutter_tag <Leave> "$sym_opts(-onleave) $self"
+            }
+            if {[info exists sym_opts(-onclick)]} {
+              $self.l tag bind $gutter_tag <Button-1> "$sym_opts(-onclick) $self"
+            }
+            lappend gutter_tags $gutter_tag
+            array unset sym_opts
+          }
+          lappend ar(gutters) [list $gutter_name $gutter_tags]
+          ctext::linemapUpdate $self
         }
-        if {[info exists sym_opts(-onenter)]} {
-          $self.l tag bind $gutter_tag <Enter> "$sym_opts(-onenter) $self"
+        del* {
+          set gutter_name [lindex $args 0]
+          ctext::getAr $self config ar
+          if {[set index [lsearch -index 0 $ar(gutters) $gutter_name]] != -1} {
+            $self._t tag delete {*}[lindex $ar(gutters) $index 1]
+            set ar(gutters) [lreplace $ar(gutters) $index $index]
+          }
         }
-        if {[info exists sym_opts(-onleave)]} {
-          $self.l tag bind $gutter_tag <Leave> "$sym_opts(-onleave) $self"
-        }
-        if {[info exists sym_opts(-onclick)]} {
-          $self.l tag bind $gutter_tag <Button-1> "$sym_opts(-onclick) $self"
-        }
-        lappend gutter_tags $gutter_tag
-        array unset sym_opts
-      }
-      lappend ar(gutters) [list $gutter_name $gutter_tags]
-      ctext::linemapUpdate $self
-    }
-    
-    delgutter {
-      set gutter_name [lindex $args 0]
-      ctext::getAr $self config ar
-      if {[set index [lsearch -index 0 $ar(gutters) $gutter_name]] != -1} {
-        $self._t tag delete {*}[lindex $ar(gutters) $index 1]
-        set ar(gutters) [lreplace $ar(gutters) $index $index]
-      }
-    }
-    
-    setgutter {
-      set args [lassign $args gutter_name]
-      set update_needed 0
-      ctext::getAr $self config ar
-      if {[set gutter_index [lsearch -index 0 $ar(gutters) $gutter_name]] != -1} {
-        foreach {name line_nums} $args {
-          if {[set gutter_tag [lsearch -inline -glob [lindex $ar(gutters) $gutter_index 1] gutter:$gutter_name:$name:*]] != -1} {
-            foreach line_num $line_nums {
-              if {[set curr_tag [lsearch -inline -glob [$self._t tag names $line_num.0] gutter:$gutter_name:*]] ne ""} {
-                if {$curr_tag ne $gutter_tag} {
-                  $self._t tag delete $curr_tag
-                  $self._t tag add $gutter_tag $line_num.0 $line_num.1
-                  set update_needed 1
+        set {
+          set args [lassign $args gutter_name]
+          set update_needed 0
+          ctext::getAr $self config ar
+          if {[set gutter_index [lsearch -index 0 $ar(gutters) $gutter_name]] != -1} {
+            foreach {name line_nums} $args {
+              if {[set gutter_tag [lsearch -inline -glob [lindex $ar(gutters) $gutter_index 1] gutter:$gutter_name:$name:*]] != -1} {
+                foreach line_num $line_nums {
+                  if {[set curr_tag [lsearch -inline -glob [$self._t tag names $line_num.0] gutter:$gutter_name:*]] ne ""} {
+                    if {$curr_tag ne $gutter_tag} {
+                      $self._t tag delete $curr_tag
+                      $self._t tag add $gutter_tag $line_num.0 $line_num.1
+                      set update_needed 1
+                    }
+                  } else {
+                    $self._t tag add $gutter_tag $line_num.0 $line_num.1
+                    set update_needed 1
+                  }
                 }
-              } else {
-                $self._t tag add $gutter_tag $line_num.0 $line_num.1
-                set update_needed 1
+              }
+            }
+          }
+          if {$update_needed} {
+            ctext::linemapUpdate $self
+          }
+        }
+        get {
+          set gutter_name [lindex $args 0]
+          set symbols     [list]
+          ctext::getAr $self config ar
+          if {[set gutter_index [lsearch -index 0 $ar(gutters) $gutter_name]] != -1} {
+            foreach gutter_tag [lindex $ar(gutters) $gutter_index 1] {
+              set lines [list]
+              foreach {first last} [$self._t tag ranges $gutter_tag] {
+                lappend lines [lindex [split $first .] 0]
+              }
+              lappend symbols [lindex [split $gutter_tag :] 2] $lines
+            }
+          }
+          return $symbols
+        }
+        clear {
+          set last [lassign $args gutter_name first]
+          ctext::getAr $self config ar
+          if {[set gutter_index [lsearch -index 0 $ar(gutters) $gutter_name]] != -1} {
+            if {$last eq ""} {
+              foreach gutter_tag [lindex $ar(gutters) $gutter_index 1] {
+                $self._t tag remove $gutter_tag $first.0
+              }
+            } else {
+              foreach gutter_tag [lindex $ar(gutters) $gutter_index 1] {
+                $self._t tag remove $gutter_tag $first.0 $last.1
               }
             }
           }
         }
-      }
-      if {$update_needed} {
-        ctext::linemapUpdate $self
-      }
-    }
-    
-    getgutter {
-      set gutter_name [lindex $args 0]
-      set symbols     [list]
-      ctext::getAr $self config ar
-      if {[set gutter_index [lsearch -index 0 $ar(gutters) $gutter_name]] != -1} {
-        foreach gutter_tag [lindex $ar(gutters) $gutter_index 1] {
-          set lines      [list]
-          foreach {first last} [$self._t tag ranges $gutter_tag] {
-            lappend lines [lindex [split $first .] 0]
+        cget {
+          lassign $args gutter_name sym_name opt
+          ctext::getAr $self config ar
+          if {[set index [lsearch -exact -index 0 $ar(gutters) $gutter_name]] == -1} {
+            return -code error "Unable to find gutter name ($gutter_name)"
           }
-          lappend symbols $name $lines
-        }
-      }
-      return $symbols
-    }
-    
-    cleargutter {
-      set last [lassign $args gutter_name first]
-      ctext::getAr $self config ar
-      if {[set gutter_index [lsearch -index 0 $ar(gutters) $gutter_name]] != -1} {
-        if {$last eq ""} {
-          foreach gutter_tag [lindex $ar(gutters) $gutter_index 1] {
-            $self._t tag remove $gutter_tag $first.0
+          if {[set gutter_tag [lsearch -inline -glob [lindex $ar(gutters) $index 1] "gutter:$gutter_name:$sym_name:*"]] == -1} {
+            return -code error "Unknown symbol ($sym_name) specified"
           }
-        } else {
-          foreach gutter_tag [lindex $ar(gutters) $gutter_index 1] {
-            $self._t tag remove $gutter_tag $first.0 $last.1
+          switch $opt {
+            -fg      { return [$self.l tag cget $gutter_tag -foreground] }
+            -onenter { return [lrange [$self.l tag bind $gutter_tag <Enter>] 0 end-1] }
+            -onleave { return [lrange [$self.l tag bind $gutter_tag <Leave>] 0 end-1] }
+            -onclick { return [lrange [$self.l tag bind $gutter_tag <Button-1>] 0 end-1] }
+            default  {
+              return -code error "Unknown gutter option ($opt) specified"
+            }
           }
         }
-      }
-    }
-    
-    gutter {
-      set name [lindex $args 0]
-      if {[set index [lsearch -exact -index 0 $ar(gutters) $name]] != -1} {
-        if {[llength $args] == 1} {
-          return [lindex $ar(gutters) $index 1]
-        } else {
+        conf* {
+          set name [lindex $args 0]
+          ctext::getAr $self config ar
+          if {[set index [lsearch -exact -index 0 $ar(gutters) $name]] == -1} {
+            return -code error "Unable to find gutter name ($name)"
+          }
           lset ar(gutters) $index 1 [lindex $args 1]
         }
+        names {
+          ctext::getAr $self config ar
+          set names [list]
+          foreach gutter $ar(gutters) {
+            lappend names [lindex $gutter 0]
+          }
+          return $names
+        }
       }
-    }
-    
-    gutters {
-      set names [list]
-      foreach gutter $ar(gutters) {
-        lappend names [lindex $gutter 0]
-      }
-      return $names
     }
     
     default {
       return [uplevel 1 [linsert $args 0 $self._t $cmd]]
     }
+    
   }
+  
 }
 
 proc ctext::tag:blink {win count {afterTriggered 0}} {
