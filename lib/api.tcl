@@ -256,7 +256,7 @@ namespace eval api {
         set new_gutters [list]
         foreach gutter $opts(-gutters) {
           set new_sym [list]
-          foreach {symname sym symopts} [lassign $gutter gutter_name] {
+          foreach {symname symopts} [lassign $gutter gutter_name] {
             set new_symopts [list]
             foreach {symopt symval} $symopts {
               switch $symopt {
@@ -270,7 +270,7 @@ namespace eval api {
                 }
               }
             }
-            lappend new_sym $symname $sym $new_symopts
+            lappend new_sym $symname $new_symopts
           }
           lappend new_gutters [list $gutter_name {*}$new_sym]
         }
