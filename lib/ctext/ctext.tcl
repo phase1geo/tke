@@ -784,9 +784,10 @@ proc ctext::instanceCmd {self cmd args} {
           set value_list  [lassign $args gutter_name]
           set gutter_tags [list]
           ctext::getAr $self config ar
-          foreach {name sym opts} $value_list {
-            set gutter_tag "gutter:$gutter_name:$name:$sym"
+          foreach {name opts} $value_list {
             array set sym_opts $opts
+            set sym        [expr {[info exists sym_opts(-symbol)] ? $sym_opts(-symbol) : ""}]
+            set gutter_tag "gutter:$gutter_name:$name:$sym"
             if {[info exists sym_opts(-fg)]} {
               $self.l tag configure $gutter_tag -foreground $sym_opts(-fg)
             }
@@ -805,12 +806,33 @@ proc ctext::instanceCmd {self cmd args} {
           lappend ar(gutters) [list $gutter_name $gutter_tags]
           ctext::linemapUpdate $self
         }
-        del* {
-          set gutter_name [lindex $args 0]
+        destroy {
+          set gutter_name    [lindex $args 0]
           ctext::getAr $self config ar
           if {[set index [lsearch -index 0 $ar(gutters) $gutter_name]] != -1} {
             $self._t tag delete {*}[lindex $ar(gutters) $index 1]
             set ar(gutters) [lreplace $ar(gutters) $index $index]
+            ctext::linemapUpdate $self
+          }
+        }
+        del* {
+          lassign $args gutter_name sym_list
+          set update_needed 0
+          ctext::getAr $self config ar
+          if {[set gutter_index [lsearch -index 0 $ar(gutters) $gutter_name]] == -1} {
+            return -code error "Unable to find gutter name ($gutter_name)"
+          }
+          foreach symname $sym_list {
+            set gutters [lindex $ar(gutters) $gutter_index 1]
+            if {[set index [lsearch -glob $gutters "gutter:$gutter_name:$symname:*"]] != -1} {
+              $self._t tag delete [lindex $gutters $index]
+              set gutters [lreplace $gutters $index $index]
+              lset ar(gutters) $gutter_index 1 $gutters
+              set update_needed 1
+            }
+          }
+          if {$update_needed} {
+            ctext::linemapUpdate $self
           }
         }
         set {
@@ -858,6 +880,7 @@ proc ctext::instanceCmd {self cmd args} {
           set last [lassign $args gutter_name first]
           ctext::getAr $self config ar
           if {[set gutter_index [lsearch -index 0 $ar(gutters) $gutter_name]] != -1} {
+            puts "first: $first, last: $last, gutter_index: $gutter_index"
             if {$last eq ""} {
               foreach gutter_tag [lindex $ar(gutters) $gutter_index 1] {
                 $self._t tag remove $gutter_tag $first.0
@@ -867,6 +890,7 @@ proc ctext::instanceCmd {self cmd args} {
                 $self._t tag remove $gutter_tag $first.0 $last.1
               }
             }
+            ctext::linemapUpdate $self
           }
         }
         cget {
@@ -879,6 +903,7 @@ proc ctext::instanceCmd {self cmd args} {
             return -code error "Unknown symbol ($sym_name) specified"
           }
           switch $opt {
+            -symbol  { return [lindex [split $gutter_tag :] 3] }
             -fg      { return [$self.l tag cget $gutter_tag -foreground] }
             -onenter { return [lrange [$self.l tag bind $gutter_tag <Enter>] 0 end-1] }
             -onleave { return [lrange [$self.l tag bind $gutter_tag <Leave>] 0 end-1] }
@@ -889,12 +914,76 @@ proc ctext::instanceCmd {self cmd args} {
           }
         }
         conf* {
-          set name [lindex $args 0]
+          set args [lassign $args gutter_name]
           ctext::getAr $self config ar
-          if {[set index [lsearch -exact -index 0 $ar(gutters) $name]] == -1} {
-            return -code error "Unable to find gutter name ($name)"
+          if {[set index [lsearch -exact -index 0 $ar(gutters) $gutter_name]] == -1} {
+            return -code error "Unable to find gutter name ($gutter_name)"
           }
-          lset ar(gutters) $index 1 [lindex $args 1]
+          if {[llength $args] < 2} {
+            if {[llength $args] == 0} {
+              set match_tag "gutter:$gutter_name:*"
+            } else {
+              set match_tag "gutter:$gutter_name:[lindex $args 0]:*"
+            }
+            foreach gutter_tag [lsearch -inline -all -glob [lindex $ar(gutters) $index 1] $match_tag] {
+              lassign [split $gutter_tag :] dummy1 dummy2 symname sym
+              set symopts [list]
+              if {$sym ne ""} {
+                lappend symopts -symbol $sym
+              }
+              if {[set fg [$self.l tag cget $gutter_tag -foreground]] ne ""} {
+                lappend symopts -fg $fg
+              }
+              if {[set cmd [lrange [$self.l tag bind $gutter_tag <Enter>] 0 end-1]] ne ""} {
+                lappend symopts -onenter $cmd
+              }
+              if {[set cmd [lrange [$self.l tag bind $gutter_tag <Leave>] 0 end-1]] ne ""} {
+                lappend symopts -onleave $cmd
+              }
+              if {[set cmd [lrange [$self.l tag bind $gutter_tag <Button-1>] 0 end-1]] ne ""} {
+                lappend symopts -onclick $cmd
+              }
+              lappend gutters $symname $symopts
+            }
+            return $gutters
+          } else {
+            set args          [lassign $args symname]
+            set update_needed 0
+            if {[set gutter_tag [lsearch -inline -glob [lindex $ar(gutters) $index 1] "gutter:$gutter_name:$symname:*"]] == -1} {
+              return -code error "Unable to find gutter symbol name ($symname)"
+            }
+            foreach {opt value} $args {
+              switch -glob $opt {
+                -sym* {
+                  set ranges [$self._t tag ranges $gutter_tag]
+                  set opts   [$self._t tag configure $gutter_tag]
+                  $self._t tag delete $gutter_tag
+                  set gutter_tag "gutter:$gutter_name:$symname:$value"
+                  $self._t tag configure $gutter_tag {*}$opts
+                  $self._t tag add       $gutter_tag {*}$ranges
+                  set update_needed 1
+                }
+                -fg { 
+                  $self.l tag configure $gutter_tag -foreground $value
+                }
+                -onenter {
+                  $self.l tag bind $gutter_tag <Enter> $value
+                }
+                -onleave {
+                  $self.l tag bind $gutter_tag <Leave> $value
+                }
+                -onclick {
+                  $self.l tag bind $gutter_tag <Button-1> $value
+                }
+                default {
+                  return -code error "Unknown gutter option ($opt) specified"
+                }
+              }
+            }
+            if {$update_needed} {
+              ctext::linemapUpdate $self
+            }
+          }
         }
         names {
           ctext::getAr $self config ar
@@ -1706,6 +1795,9 @@ proc ctext::linemapUpdate {win args} {
     foreach gutter_tag [lsearch -inline -all -glob [$win._t tag names $line.0] gutter:*] {
       lassign [split $gutter_tag :] dummy gutter_name gutter_symname gutter_sym
       set gutter_index [lsearch -index 0 $configAr(gutters) $gutter_name]
+      if {$gutter_sym eq ""} {
+        set gutter_sym " "
+      }
       $win.l replace $line.$gutter_index $line.[expr $gutter_index + 1] $gutter_sym $gutter_tag
     }
     set lastLine $line
