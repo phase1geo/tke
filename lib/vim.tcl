@@ -730,7 +730,9 @@ namespace eval vim {
     if {$mode($txt) eq "start"} {
       
       # Colorize the entry widget to match the look of the associated text widget
-      $command_entries($txt) configure -background [$txt cget -background] -foreground [$txt cget -foreground]
+      $command_entries($txt) configure \
+        -background [$txt cget -background] -foreground [$txt cget -foreground] \
+        -insertbackground [$txt cget -insertbackground] -font [$txt cget -font]
     
       # Show the command entry widget
       grid $command_entries($txt)
