@@ -221,6 +221,7 @@ namespace eval interpreter {
         }
       }
       
+      # Handle adding commands to menus
       add {
         set args [lassign $args retval]
         foreach {opt value} $args {
@@ -230,6 +231,28 @@ namespace eval interpreter {
           lappend retval $opt $value
         }
         return [$win add {*}$retval]
+      }
+      
+      # Handle adding bindings to text/ctext widgets
+      tag {
+        set args [lassign $args subcmd]
+        if {$subcmd eq "bind"} {
+          switch [llength $args] {
+            3 {
+              return [string map [list "$interps($pname,interp) eval " ""] [$win tag bind {*}$args]]
+            }
+            4 {
+              if {[string index [lindex $args end] 0] == "+"} {
+                return [$win tag bind {*}[lrange $args 0 end-1] "+$interps($pname,interp) eval [lindex $args end]"]
+              } else {
+                return [$win tag bind {*}[lrange $args 0 end-1] "$interps($pname,interp) eval [lindex $args end]"]
+              }
+            }
+            default {
+              return [$win tag bind {*}$args]
+            }
+          }
+        }
       }
       
       default {
@@ -702,7 +725,7 @@ namespace eval interpreter {
     foreach widget [list canvas listbox menu text toplevel ttk::button ttk::checkbutton ttk::combobox \
                          ttk::entry ttk::frame ttk::label ttk::labelframe ttk::menubutton ttk::notebook \
                          ttk::panedwindow ttk::progressbar ttk::radiobutton ttk::scale ttk::scrollbar \
-                         ttk::separator ttk::spinbox ttk::treeview] {
+                         ttk::separator ttk::spinbox ttk::treeview ctext tokenentry] {
       $interp alias $widget interpreter::widget_command $pname $widget
     }
 
