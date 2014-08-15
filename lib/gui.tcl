@@ -1845,14 +1845,28 @@ namespace eval gui {
   }
   
   ##############################################################################
-  # This procedure performs a text selection paste operation.
+  # This procedure performs a text selection paste operation.  Returns 1 if the
+  # paste operation was performed on the current text widget; otherwise, returns 0.
   proc paste {tid} {
   
-    # Perform the paste
-    [current_txt $tid] paste
+    # Get the current text widget
+    set txt [current_txt $tid]
     
-    # Handle the Vim paste
-    vim::handle_paste [current_txt $tid]
+    # If the current txt widget has the focus, paste clipboard contents to it and record the
+    # paste with the Vim namespace.
+    if {[focus] eq "$txt.t"} {
+      
+      # Perform the paste
+      $txt paste
+    
+      # Handle the Vim paste
+      vim::handle_paste $txt
+      
+      return 1
+      
+    }
+
+    return 0
  
   }
   
@@ -1870,10 +1884,12 @@ namespace eval gui {
       set insertpos [[current_txt $tid] index insert]
  
       # Perform the paste operation
-      paste $tid
+      if {[paste $tid]} {
   
-      # Have the indent namespace format the clipboard contents
-      indent::format_text [current_txt $tid].t $insertpos "$insertpos+${cliplen}c"
+        # Have the indent namespace format the clipboard contents
+        indent::format_text [current_txt $tid].t $insertpos "$insertpos+${cliplen}c"
+        
+      }
       
     }
     
@@ -2887,9 +2903,7 @@ namespace eval gui {
     grid $tab_frame.pw.tf.hb    -row 2 -column 0 -sticky ew
     
     # Create the Vim command bar
-    vim::bind_command_entry $txt \
-      [entry $tab_frame.ve -background black -foreground white -insertbackground white \
-        -font [$txt cget -font]] {}
+    vim::bind_command_entry $txt [entry $tab_frame.ve] {}
     
     # Create the search bar
     ttk::frame $tab_frame.sf
