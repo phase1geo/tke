@@ -1,6 +1,341 @@
-changeset:   354:7756e70097b1
-tag:         stable-1.0
+changeset:   393:88be2c110ad4
+tag:         stable-1.1
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat May 31 11:37:40 2014 -0500
-summary:     ChangeLog for stable-1.0 release
+date:        Sat Jul 12 22:50:29 2014 -0500
+summary:     ChangeLog for stable-1.1 release
+
+changeset:   394:51afcc915779
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Jul 12 22:50:50 2014 -0500
+summary:     Added tag stable-1.1 for changeset 88be2c110ad4
+
+changeset:   395:dd177d12d281
+parent:      393:88be2c110ad4
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Jul 14 16:38:29 2014 -0500
+summary:     * Fixing syntax errors when finding a string in files that do not exist.
+
+changeset:   396:74682aed5c83
+parent:      394:51afcc915779
+parent:      395:dd177d12d281
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Jul 14 17:46:17 2014 -0500
+summary:     * Merging files.
+
+changeset:   397:3e147e9bbd76
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jul 15 07:33:33 2014 -0500
+summary:     * Fixing issue with file finding with spaces in the search string.
+
+changeset:   398:1ba649eb7734
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jul 15 08:12:54 2014 -0500
+summary:     * Starting to add support for text bindings.
+
+changeset:   399:bc252773ba70
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jul 15 08:13:15 2014 -0500
+summary:     * Adding missing file from previous checkin.
+
+changeset:   400:ecc81d044716
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jul 15 08:33:45 2014 -0500
+summary:     * Fixed issues with creating text bindings via plugin.
+
+changeset:   401:d2b0d1bc7da8
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Jul 15 17:14:29 2014 -0500
+summary:     * Fixing syntax error in sidebar when duplicating a file.
+
+changeset:   402:9803b24f60eb
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jul 16 08:33:21 2014 -0500
+summary:     * Adding "on_uninstall" action to plugins framework.
+
+changeset:   403:085af2e29d27
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Jul 16 17:34:05 2014 -0500
+summary:     * Fixing generation of ChangeLog in release script.
+
+changeset:   404:a1327990725a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jul 17 00:24:02 2014 -0500
+summary:     * Fixing window theming issue with multipanes.
+
+changeset:   405:516cd074a8d0
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Jul 17 17:14:48 2014 -0500
+summary:     * Adding start of favorites functionality.
+
+changeset:   406:a0117d85ef62
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jul 18 00:18:02 2014 -0500
+summary:     * Finishing work on Favorites feature.
+
+changeset:   407:9d7100dfc168
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Jul 18 16:17:43 2014 -0500
+summary:     * Adding code to handle network support for favorites.
+
+changeset:   408:53e94a15e237
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Jul 18 17:16:54 2014 -0500
+summary:     * Switching plugins to use a directory structure instead of being limited to a single file.
+
+changeset:   409:20b4d0a3ce88
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Jul 19 00:30:15 2014 -0500
+summary:     * Updating creating plugin functionality to match new scheme.
+
+changeset:   410:9f84f3bc735a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Jul 20 00:30:18 2014 -0500
+summary:     * Updating UserGuide with Favorite and new plugin structure updates.
+
+changeset:   411:2eb9a4bb91be
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Jul 20 15:30:35 2014 -0500
+summary:     * Fixing highlighting support when the period Vim command is used.
+
+changeset:   412:04ca0be93048
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Jul 20 20:18:58 2014 -0500
+summary:     * Fixing issues with adding pasted items in the Vim record.
+
+changeset:   413:16c4cd8f14e3
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Jul 21 00:14:09 2014 -0500
+summary:     * Initial fix for moving warning width line to the correct position when horizontally scrolling.
+
+changeset:   414:cd3b2fc986b1
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Jul 21 08:06:11 2014 -0500
+summary:     * Small performance enhancement to the xscroll functionality.
+
+changeset:   415:db20f6902398
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jul 22 07:12:51 2014 -0500
+summary:     * Adding support for launcher text viewer to display related, detailed information about the currently selected item.
+
+changeset:   416:4dd67c8b06b7
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Jul 22 17:36:50 2014 -0500
+summary:     * More work on enhanced launcher.
+
+changeset:   417:2080b06410fe
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jul 23 00:39:14 2014 -0500
+summary:     * Several fixes to launcher and clipboard history.
+
+changeset:   418:7f66f461f152
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jul 24 00:55:46 2014 -0500
+summary:     * Fixing calculator support in command launcher.
+
+changeset:   419:50f39c8ff9b3
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jul 24 08:29:34 2014 -0500
+summary:     * A few more tweaks to the command launcher.
+
+changeset:   420:64e524bd4911
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Jul 24 17:36:18 2014 -0500
+summary:     * Fixing colors in various entries to better match theme.
+
+changeset:   421:53f3ae3069ad
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jul 25 01:04:33 2014 -0500
+summary:     * More adjustments to color theme for entry widgets.
+
+changeset:   422:fd584fdd2098
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jul 25 08:15:31 2014 -0500
+summary:     * Adding preferences items to customize command launcher entry and preview font sizes.
+
+changeset:   423:796415158665
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Jul 25 13:58:24 2014 -0500
+summary:     * Fixing issue with search and replace from Vim command mode.
+
+changeset:   424:0572cb6179fd
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Jul 26 11:41:53 2014 -0500
+summary:     * Removing sidebar vertical scrollbar when the sidebar does not have keyboard/mouse focus.
+
+changeset:   425:ebc31cfdaa27
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Jul 26 15:02:59 2014 -0500
+summary:     * Fixing issues with escaping in strings, comments and indentations.
+
+changeset:   426:de67798af821
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Jul 27 00:29:02 2014 -0500
+summary:     * Fixing syntax error in command launcher when launching URLs.
+
+changeset:   427:9eadddd03eeb
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Jul 27 07:56:15 2014 -0500
+summary:     * Fixing highlighting issues with current_line plugin.
+
+changeset:   428:a41b4b379073
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Jul 27 22:32:21 2014 -0500
+summary:     * Updating user guide.
+
+changeset:   429:7a30e66c4f9f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Jul 28 01:19:00 2014 -0500
+summary:     * Fixing issue where a subdirectory was not being removed from the sidebar when its parent existed in a different node.
+
+changeset:   430:42dc0415f2e9
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jul 29 00:00:14 2014 -0500
+summary:     * Handling a space key press within a Find in Files result tag.
+
+changeset:   431:729960683087
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jul 30 01:01:48 2014 -0500
+summary:     * Initial work on getting plugin support to work (more work to do here).
+
+changeset:   432:f3b06815306b
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jul 31 08:54:12 2014 -0500
+summary:     * More fixes to safe interpreter support.
+
+changeset:   433:10d39d6df2f2
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Jul 31 17:28:33 2014 -0500
+summary:     * Adding initial handling for commands.
+
+changeset:   434:358ca9993b1e
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Aug 01 08:28:04 2014 -0500
+summary:     * More work on safe plugin support.
+
+changeset:   435:6836b87f7c9b
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Aug 01 17:38:13 2014 -0500
+summary:     * Splitting out interpreter handling into its own namespace (from plugins) since this code base is growing.
+
+changeset:   436:673dc80ad3c8
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Aug 04 08:05:03 2014 -0500
+summary:     * Adding test suite for untrusted mode (currently passes).
+
+changeset:   437:476e75100675
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Aug 04 10:41:13 2014 -0500
+summary:     * Switch plugins::register to api::register
+
+changeset:   438:d578b72f9bb6
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Aug 04 17:32:57 2014 -0500
+summary:     * Adding glob command to interpreter.
+
+changeset:   439:606bc8d0faa1
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Aug 04 18:33:25 2014 -0500
+summary:     * Fixing issues with glob command handling.
+
+changeset:   440:1a91583e8960
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Aug 04 18:40:30 2014 -0500
+summary:     * Adding more glob tests to untrusted test list.
+
+changeset:   441:45408ce440fb
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Aug 05 14:03:25 2014 -0500
+summary:     * Adding ability to format code in a locked or readonly editor.
+
+changeset:   442:fbfea1637250
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Aug 05 17:27:49 2014 -0500
+summary:     * Starting to add support for gutters (the gutter should be created but will not display anything yet).
+
+changeset:   443:132fba954e5e
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Aug 05 19:45:10 2014 -0500
+summary:     * Deleting closed channel from the interpreter channel list.
+
+changeset:   444:a620a3daf05c
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Aug 06 17:34:07 2014 -0500
+summary:     * Removing write_plugin and read_plugin actions from comments.
+
+changeset:   445:a67dd39e80c8
+parent:      443:132fba954e5e
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Aug 06 17:08:43 2014 -0500
+summary:     * Finishing initial work on supporting gutters.
+
+changeset:   446:7814ba5b1ea2
+parent:      444:a620a3daf05c
+parent:      445:a67dd39e80c8
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Aug 06 17:34:56 2014 -0500
+summary:     * Merging changes.
+
+changeset:   447:cffd7c47b9d6
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Aug 07 08:01:28 2014 -0500
+summary:     * Adding softwareupdate package to library (not being used yet at this point).
+
+changeset:   448:9f8ae43cf1f7
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Aug 07 10:58:21 2014 -0500
+summary:     * Updating menu bindings algorithm.
+
+changeset:   449:b6f1c225e16d
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Aug 07 16:42:32 2014 -0500
+summary:     * Adding register_launcher and unregister_launcher functions to API.
+
+changeset:   450:aed7de335ded
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Aug 08 08:58:56 2014 -0500
+summary:     * A few more modifications to gutter handling.
+
+changeset:   451:124c80343b69
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Aug 11 00:11:40 2014 -0500
+summary:     * Enhancing gutter support.
+
+changeset:   452:a4a414374efc
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Aug 12 08:19:40 2014 -0500
+summary:     * Changing various gutter commands to a singular gutter command with subcommands.
+
+changeset:   453:cf4a2a7bc75f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Aug 13 06:14:26 2014 -0500
+summary:     * Fixing gutter bugs.
+
+changeset:   454:6bb1a3aae8be
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Aug 15 08:22:10 2014 -0500
+summary:     * Handling text/ctext widget "tag bind" command.
+
+changeset:   455:d9ff0ff19298
+parent:      453:cf4a2a7bc75f
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Aug 15 16:55:21 2014 -0500
+summary:     * Fixing pasting issue into text widget when it does not have the focus.
+
+changeset:   456:4cf4c8fc7416
+parent:      454:6bb1a3aae8be
+parent:      455:d9ff0ff19298
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Aug 15 21:15:57 2014 -0500
+summary:     * Merging changes.
+
+changeset:   457:7b3841f7e233
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Aug 16 16:03:19 2014 -0500
+summary:     * Removing softwareupdate package.
+
+changeset:   458:fbcb4ed229c2
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Aug 16 16:06:50 2014 -0500
+summary:     * Removing debug plugins from installation.
 
