@@ -579,15 +579,15 @@ namespace eval plugins {
     # Add menu item
     switch [lindex $type 0] {
       command {
-        $mnu add command -label $level -command "$registry($index,interp) eval $do"
+        $mnu add command -label $level -command [list $registry($index,interp) eval {*}$do]
       }
       checkbutton {
         $mnu add checkbutton -label $level -variable [lindex $type 1] \
-          -command "$registry($index,interp) eval $do"
+          -command [list $registry($index,interp) eval {*}$do]
       }
       radiobutton {
         $mnu add radiobutton -label $level -variable [lindex $type 1] \
-          -value [lindex $type 2] -command "$registry($index,interp) eval $do"
+          -value [lindex $type 2] -command [list $registry($index,interp) eval {*}$do]
       }
       cascade {
         set new_mnu_name "$mnu.[string tolower [string map {{ } _} $level]]"

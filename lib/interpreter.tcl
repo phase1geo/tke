@@ -107,7 +107,7 @@ namespace eval interpreter {
     set opts [list]
     foreach {opt value} $args {
       if {[lsearch $command_args $opt] != -1} {
-        set value "$interps($pname,interp) eval $value"
+        set value [list $interps($pname,interp) eval {*}$value]
       }
       lappend opts $opt $value
     }
@@ -212,7 +212,7 @@ namespace eval interpreter {
           default {
             foreach {opt value} $args {
               if {lsearch $command_args $opt] != -1} {
-                set value "$interps($pname,interp) eval $value"
+                set value [list $interps($pname,interp) eval {*}$value]
               }
               lappend retval $opt $value
             }
@@ -221,20 +221,20 @@ namespace eval interpreter {
         }
       }
       
-      # Handle adding commands to menus
       add {
+        # Handle adding commands to menus
         set args [lassign $args retval]
         foreach {opt value} $args {
           if {[lsearch $command_args $opt] != -1} {
-            set value "$interps($pname,interp) eval $value"
+            set value [list $interps($pname,interp) eval {*}$value]
           }
           lappend retval $opt $value
         }
         return [$win add {*}$retval]
       }
       
-      # Handle adding bindings to text/ctext widgets
       tag {
+        # Handle adding bindings to text/ctext widgets
         set args [lassign $args subcmd]
         if {$subcmd eq "bind"} {
           switch [llength $args] {
@@ -243,9 +243,9 @@ namespace eval interpreter {
             }
             4 {
               if {[string index [lindex $args end] 0] == "+"} {
-                return [$win tag bind {*}[lrange $args 0 end-1] "+$interps($pname,interp) eval [lindex $args end]"]
+                return [$win tag bind {*}[lrange $args 0 end-1] [list +$interps($pname,interp) eval {*}[lindex $args end]]]
               } else {
-                return [$win tag bind {*}[lrange $args 0 end-1] "$interps($pname,interp) eval [lindex $args end]"]
+                return [$win tag bind {*}[lrange $args 0 end-1] [list $interps($pname,interp) eval {*}[lindex $args end]]]
               }
             }
             default {
@@ -594,6 +594,7 @@ namespace eval interpreter {
           }
         }
         if {[llength $fnames] > 0} {
+          puts "file delete $opts $fnames"
           return [file delete {*}$opts {*}$fnames]
         } else {
           return -code error "permission error"
