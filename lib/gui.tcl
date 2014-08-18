@@ -1322,11 +1322,16 @@ namespace eval gui {
       # Add the filename to the most recently opened list
       add_to_recently_opened $fname
       
-      # Add the file's directory to the sidebar
-      sidebar::add_directory [file dirname $fname]
+      # If it is okay to add the file to the sidebar, do it now
+      if {[lindex $files $file_index $files_index(sidebar)]} {
+      
+        # Add the file's directory to the sidebar
+        sidebar::add_directory [file dirname $fname]
     
-      # Highlight the file in the sidebar
-      sidebar::highlight_filename [lindex $files $file_index $files_index(fname)] 1
+        # Highlight the file in the sidebar
+        sidebar::highlight_filename [lindex $files $file_index $files_index(fname)] 1
+        
+      }
       
       # Syntax highlight the file
       syntax::set_language [syntax::get_default_language [lindex $files $file_index $files_index(fname)]]
