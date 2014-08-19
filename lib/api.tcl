@@ -214,6 +214,10 @@ namespace eval api {
     #                           current file; otherwise, the file will always force a
     #                           save as dialog to be displayed when saving.
     #
+    #   -buffer (0|1)           If set to 0 (default, the file will be added as a normal file;
+    #                           however, if set to 1, the file will be treated as a temporary file
+    #                           that will be automatically deleted when the tab is closed.
+    #
     #   -gutters <list>         Creates a gutter in the editor.  The contents of list are as follows:
     #                             {name {{symbol_name {symbol_tag_options+}}+}}+
     #                           For a list of valid symbol_tag_options, see the options available for
