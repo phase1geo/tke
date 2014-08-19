@@ -184,10 +184,10 @@ namespace eval plugins::perforce {
 }
 
 api::register perforce {
-  {menu {checkbutton plugins::perforce::disable_edit} "Perforce Options.Disable edit on open" plugins::perforce::toggle_edit_do plugins::perforce::toggle_edit_state}
-  {menu command   "Perforce Options.Edit include directories" plugins::perforce::edit_include_dirs_do plugins::perforce::edit_include_dirs_state}
+  {menu {checkbutton plugins::perforce::disable_edit} "Perforce Options/Disable edit on open" plugins::perforce::toggle_edit_do plugins::perforce::toggle_edit_state}
+  {menu command   "Perforce Options/Edit include directories" plugins::perforce::edit_include_dirs_do plugins::perforce::edit_include_dirs_state}
   {menu separator "Perforce Options"}
-  {menu command   "Perforce Options.Revert current file"      plugins::perforce::revert_file_do       plugins::perforce::revert_file_state}
+  {menu command   "Perforce Options/Revert current file"      plugins::perforce::revert_file_do       plugins::perforce::revert_file_state}
   {on_start plugins::perforce::on_start_do}
   {on_save plugins::perforce::on_save_do}
 }

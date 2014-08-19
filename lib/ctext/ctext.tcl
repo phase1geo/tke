@@ -696,8 +696,8 @@ proc ctext::instanceCmd {self cmd args} {
       set datalen [string length $data]
       eval \$self._t insert $args
       
-      set nextSpace [ctext::findNextSpace $self._t "insert+${datalen}c"]
-      set lineEnd [$self._t index "insert+${datalen}c lineend"]
+      set nextSpace [ctext::findNextSpace $self._t "${insertPos}+${datalen}c"]
+      set lineEnd [$self._t index "${insertPos}+${datalen}c lineend"]
       
       if {[$self._t compare $prevSpace < $lineStart]} {
         set prevSpace $lineStart

@@ -68,7 +68,7 @@ namespace eval plugins {
     foreach plugin [glob -nocomplain -directory [file join $::tke_dir plugins] -types d *] {
       
       # Read the header information
-      if {![catch { tkedat::read [file join $plugin header.tkedat] } rc]} {
+      if {![catch { tkedat::read [file join $plugin header.tkedat] 0 } rc]} {
         
         array set header $rc
         
@@ -548,7 +548,7 @@ namespace eval plugins {
     # Add each of the entries
     foreach entry $entries {
       lassign $entry index type hier do
-      menu_add_item $index $mnu $action [split $hier .] $type $do
+      menu_add_item $index $mnu $action [split $hier /] $type $do
     }
     
   }
@@ -652,7 +652,7 @@ namespace eval plugins {
       # Delete all of the plugin items
       foreach entry $entries {
         lassign $entry index type hier
-        set hier [split [string tolower [string map {{ } _} $hier]] .]
+        set hier [split [string tolower [string map {{ } _} $hier]] /]
         if {$type ne "cascade"} {
           set hier [lrange $hier 0 end-1]
         }

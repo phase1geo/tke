@@ -19,19 +19,49 @@ namespace eval tkedat {
     if {![catch "open $fname r" rc]} {
       
       set comments [list]
+      set value_ip 0
       
       foreach line [split [::read $rc] \n] {
         
-        if {[regexp {^\s*#(.*)$} $line -> comment]} {
+        if {!$value_ip && [regexp {^\s*#(.*)$} $line -> comment]} {
           lappend comments $comment
-        } elseif {[regexp {\S} [set line [string trim $line]]] && \
-                  ![regexp {\[.*\]} $line] && \
-                  ([llength $line] == 2)} {
-          set contents([lindex $line 0]) [lindex $line 1]
-          if {$include_comments} {
-            set contents([lindex $line 0],comment) $comments
+        } elseif {!$value_ip && [regexp {^\s*(\{.*?\}|\S+)\s+(\{.*?\}|\S+)\s*$} $line -> key value]} {
+          set key   [string map {\{ {} \} {}} $key]
+          set value [string map {\{ {} \} {}} $value]
+          set contents($key) $value
+          if {[regexp {\[.*\]} $contents($key)]} {
+            unset contents($key)
+          } elseif {$include_comments} {
+            set contents($key,comment) $comments
           }
           set comments [list]
+        } elseif {!$value_ip && [regexp {^\s*(\{.*?\}|\S+)\s+\{(.*)$} $line -> key value]} {
+          set key [string map {\{ {} \} {}} $key]
+          if {$include_comments} {
+            set contents($key) "$value\n"
+          } else {
+            set contents($key) [string trim $value]
+          }
+          set value_ip       1
+        } elseif {$value_ip && [regexp {^([^\}]*)$} $line -> value]} {
+          if {$include_comments} {
+            append contents($key) "$value\n"
+          } else {
+            append contents($key) " [string trim $value]"
+          }
+        } elseif {$value_ip && [regexp {^(.*)\}\s*$} $line -> value]} {
+          if {$include_comments} {
+            append contents($key) "$value"
+          } else {
+            append contents($key) " [string trim $value]"
+          }
+          if {[regexp {\[.*\]} [string map {\n { }} $contents($key)]]} {
+            unset contents($key)
+          } elseif {$include_comments} {
+            set contents($key,comment) $comments
+          }
+          set comments [list]
+          set value_ip 0
         }
         
       }
@@ -43,7 +73,7 @@ namespace eval tkedat {
       return -code error [msgcat::mc "Unable to open %s for reading" $fname]
       
     }
-    
+
     return [array get contents]
     
   }

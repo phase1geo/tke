@@ -594,7 +594,6 @@ namespace eval interpreter {
           }
         }
         if {[llength $fnames] > 0} {
-          puts "file delete $opts $fnames"
           return [file delete {*}$opts {*}$fnames]
         } else {
           return -code error "permission error"

@@ -1,0 +1,10 @@
+name           {terminal}
+author         {Trevor Williams}
+email          {phase1geo@gmail.com}
+version        {1.0}
+include        {yes}
+trust_required {yes}
+description    {Provides a terminal within the editor.  To execute a command, click on the
+                Plugins / Terminal / Run Command... option, enter a terminal command in the
+                entry window at the bottom of the screen, the output will be displayed within
+                the Terminal buffer.}
