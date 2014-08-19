@@ -3527,12 +3527,12 @@ namespace eval gui {
     # If the current character is a matchable character, change the
     # insertion cursor to the matching character.
     switch -- [$txt get insert] {
-      "\{" { set index [find_match_brace $txt "\\\}" "\\\{" "\\" -forwards] }
-      "\}" { set index [find_match_brace $txt "\\\{" "\\\}" "\\" -backwards] }
-      "\[" { set index [find_match_brace $txt "\\\]" "\\\[" "\\" -forwards] }
-      "\]" { set index [find_match_brace $txt "\\\[" "\\\]" "\\" -backwards] }
-      "\(" { set index [find_match_brace $txt "\\\)" "\\\(" ""   -forwards] }
-      "\)" { set index [find_match_brace $txt "\\\(" "\\\)" ""   -backwards] }
+      "\{" { set index [find_match_brace $txt "\\\}" "\\\{" -forwards] }
+      "\}" { set index [find_match_brace $txt "\\\{" "\\\}" -backwards] }
+      "\[" { set index [find_match_brace $txt "\\\]" "\\\[" -forwards] }
+      "\]" { set index [find_match_brace $txt "\\\[" "\\\]" -backwards] }
+      "\(" { set index [find_match_brace $txt "\\\)" "\\\(" -forwards] }
+      "\)" { set index [find_match_brace $txt "\\\(" "\\\)" -backwards] }
       "\"" { set index [find_match_quote $txt] }
     }
       
@@ -3547,11 +3547,9 @@ namespace eval gui {
   ######################################################################
   # Finds the matching bracket type and returns it's index if found;
   # otherwise, returns -1.
-  proc find_match_brace {txt str1 str2 escape dir} {
+  proc find_match_brace {txt str1 str2 dir} {
   
-    set prev_char [$txt get "insert-2c"]
-    
-    if {[string equal $prev_char $escape]} {
+    if {[ctext::isEscaped $txt insert]} {
       return -1
     }
     
@@ -3573,14 +3571,13 @@ namespace eval gui {
       
       set last_found $found
       set char       [$txt get $found]
-      set prev_char  [$txt get "$found-1c"]
       if {$dir eq "-forwards"} {
         set pos "$found+1c"
       } else {
         set pos "$found"
       }
       
-      if {[string equal $prev_char $escape]} {
+      if {[ctext::isEscaped $txt $found]} {
         continue
       } elseif {[string equal $char [subst $str2]]} {
         incr count
@@ -3601,19 +3598,19 @@ namespace eval gui {
   proc find_match_quote {txt} {
     
     set end_quote  [$txt index insert]
-    set start      [$txt index "insert-1c"]
     set last_found ""
   
-    if {[$txt get "$start-1c"] eq "\\"} {
+    if {[ctext::isEscaped $txt $end_quote]} {
       return
     }
     
     # Figure out if we need to search forwards or backwards
-    if {[lsearch [$txt tag names $start] _strings] == -1} {
+    if {[lsearch [$txt tag names $end_quote-1c] _dString] == -1} {
       set dir   "-forwards"
       set start [$txt index "insert+1c"]
     } else {
       set dir   "-backwards"
+      set start $end_quote
     }
     
     while {1} {
@@ -3628,10 +3625,13 @@ namespace eval gui {
       }
       
       set last_found $start_quote
-      set start      [$txt index "$start_quote-1c"]
-      set prev_char  [$txt get $start]
+      if {$dir eq "-backwards"} {
+        set start $start_quote
+      } else {
+        set start [$txt index "$start_quote+1c"]
+      }
       
-      if {$prev_char eq "\\"} {
+      if {[ctext::isEscaped $txt $last_found]} {
         continue
       }
       
