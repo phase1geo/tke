@@ -149,14 +149,19 @@
     
     variable note_info
     
-    # Deletes the given list directory
-    if {[file exists [file join [api::get_home_directory] $list_path]]} {
+    # Make sure that the user wants to delete the list
+    if {[tk_messageBox -parent . -message "Delete note list?" -type yesno -default no] eq "yes"} {
+    
+      # Deletes the given list directory
+      if {[file exists [file join [api::get_home_directory] $list_path]]} {
       
-      # Get the notes within the list directory
-      array unset note_info note,[file join $list_path *]
+        # Get the notes within the list directory
+        array unset note_info note,[file join $list_path *]
       
-      # Delete the list directory
-      file delete -force [file join [api::get_home_directory] $list_path]
+        # Delete the list directory
+        file delete -force [file join [api::get_home_directory] $list_path]
+      
+      }
       
     }
     
@@ -225,14 +230,19 @@
     
     variable note_info
     
-    # Delete the note file
-    file delete -force [file join [api::get_home_directory] $note_path]
+    # Make sure that the user wants to delete the note
+    if {[tk_messageBox -parent . -message "Delete note?" -type yesno -default no] eq "yes"} {
     
-    # Delete the note from the note_info list
-    array unset note_info note,$note_path
+      # Delete the note file
+      file delete -force [file join [api::get_home_directory] $note_path]
     
-    # Save the note info
-    save_note_info
+      # Delete the note from the note_info list
+      array unset note_info note,$note_path
+    
+      # Save the note info
+      save_note_info
+      
+    }
     
   }
   
