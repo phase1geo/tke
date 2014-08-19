@@ -720,13 +720,13 @@ proc ctext::instanceCmd {self cmd args} {
       
       switch -- $data {
         "\}" {
-          ctext::matchPair $self "\\\{" "\\\}" 1
+          ctext::matchPair $self "\\\{" "\\\}"
         }
         "\]" {
-          ctext::matchPair $self "\\\[" "\\\]" 1
+          ctext::matchPair $self "\\\[" "\\\]"
         }
         "\)" {
-          ctext::matchPair $self "\\(" "\\)" 0
+          ctext::matchPair $self "\\(" "\\)"
         }
         "\"" {
           ctext::matchQuote $self
@@ -1030,8 +1030,9 @@ proc ctext::tag:blink {win count {afterTriggered 0}} {
   }
 }
 
-proc ctext::matchPair {win str1 str2 check_escape} {
-  if {$check_escape && [isEscaped $win "insert-1c"]} {
+proc ctext::matchPair {win str1 str2} {
+  
+  if {[isEscaped $win "insert-1c"]} {
     return
   }
   
@@ -1058,7 +1059,7 @@ proc ctext::matchPair {win str1 str2 check_escape} {
     set prevChar [$win get "$found - 1 chars"]
     set pos $found
     
-    if {$check_escape && [isEscaped $win "$found - 1c"]} {
+    if {[isEscaped $win $found]} {
       continue
     } elseif {[string equal $char [subst $str2]]} {
       incr count
@@ -1085,8 +1086,9 @@ proc ctext::matchQuote {win} {
   set endQuote [$win index insert]
   set start [$win index "insert - 1 chars"]
   
-  # The quote really isn't the end if it is escaped
-  if {[isEscaped $win $start]} {
+  # The quote really isn't the end if it is escaped or if the previous
+  # character had a string tag associated with it.
+  if {[isEscaped $win $start] || ([lsearch [$win tag names $start] "_dString"] == -1)} {
     return
   }
   
