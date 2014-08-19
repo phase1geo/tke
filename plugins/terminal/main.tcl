@@ -15,10 +15,17 @@ namespace eval terminal {
     if {[api::get_user_input "Enter command:" terminal::user_command]} {
       
       # Add the user command to the text widget
+      $txt configure -state normal
       $txt insert end "prompt> $user_command\n"
+      $txt configure -state disabled
+      
+      # Perform an update
+      update
       
       # Execute the command
+      $txt configure -state normal
       $txt insert end "[exec -ignorestderr {*}$user_command]\n"
+      $txt configure -state disabled
       $txt see end     
       
     }
