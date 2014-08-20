@@ -211,7 +211,7 @@ namespace eval interpreter {
           }
           default {
             foreach {opt value} $args {
-              if {lsearch $command_args $opt] != -1} {
+              if {[lsearch $command_args $opt] != -1} {
                 set value [list $interps($pname,interp) eval {*}$value]
               }
               lappend retval $opt $value
