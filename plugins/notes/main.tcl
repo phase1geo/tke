@@ -156,6 +156,9 @@
     # Save the note info
     save_note_info
     
+    # Let the user know that the note has been deleted
+    api::show_info "List has been moved to $list_name"
+      
   }
   
   ######################################################################
@@ -222,6 +225,13 @@
       # Save the note info
       save_note_info
       
+      # Add command launchers
+      api::register_launcher "Notes: Create note in $user_input" [list notes::create_new_note $user_input]
+      api::register_launcher "Notes: Delete list $user_input"    [list notes::delete_list $user_input]
+      
+      # Let the user know that the note has been deleted
+      api::show_info "List has been created"
+      
     }
     
   }
@@ -238,16 +248,20 @@
       # Deletes the given list directory
       if {[file exists [file join [api::get_home_directory] $list_path]]} {
       
+        # Delete the list directory
+        file delete -force [file join [api::get_home_directory] $list_path]
+      
         # Get the notes within the list directory
         array unset note_info note,[file join $list_path *]
         array unset note_info list,$list_path
+        save_note_info
         
         # Unregister the commands
         api::unregister_launcher "Notes: Create note in $list_path"
         api::unregister_launcher "Notes: Delete list $list_path"
       
-        # Delete the list directory
-        file delete -force [file join [api::get_home_directory] $list_path]
+        # Let the user know that the note has been deleted
+        api::show_info "List has been deleted"
       
       }
       
@@ -278,30 +292,15 @@
     
     variable note_info
     
-    # Get the first line of the note
-    if {![catch { open [file join [api::get_home_directory] $note_name] r } rc]} {
-      
-      # Read the file content
-      set contents [read $rc]
-      close $rc
-      
-      # Get the first line of the file
-      set first_line ""
-      foreach line [split $contents \n] {
-        if {[string trim $line] ne ""} {
-          set first_line [expr {([string length $line] > 50) ? [string range $line 0 50] : $line}]
-          break
-        }
-      }
-      
-      # If the first line has changed, update the note name ane save it
-      if {![info exists note_info(note,$note_name)] || ($note_info(note,$note_name) ne $first_line)} {
-        set note_info(note,$note_name) $first_line
-        save_note_info
-      }
-      
-    }
+    # Get the title of the note
+    set title [get_title [file join [api::get_home_directory] $note_name]]
     
+    # If the first line has changed, update the note name ane save it
+    if {![info exists note_info(note,$note_name)] || ($note_info(note,$note_name) ne $title)} {
+      set note_info(note,$note_name) $title
+      save_note_info
+    }
+      
   }
   
   ######################################################################
@@ -329,6 +328,9 @@
     
       # Save the note info
       save_note_info
+      
+      # Let the user know that the note has been deleted
+      api::show_info "Note has been deleted"
       
     }
     
@@ -363,6 +365,9 @@
     
     # Finally, save the note_info
     save_note_info
+    
+    # Let the user know that the action completed
+    api::show_info "Notes have been rebuilt"
     
   }
   
