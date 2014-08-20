@@ -593,13 +593,11 @@ namespace eval interpreter {
             lappend opts $arg
           } elseif {[set fname [check_file $pname $arg]] ne ""} {
             lappend fnames $fname
+          } else {
+            return -code error "permission error"
           }
         }
-        if {[llength $fnames] > 0} {
-          return [file $subcmd {*}$opts {*}$fnames]
-        } else {
-          return -code error "permission error"
-        }
+        return [file $subcmd {*}$opts {*}$fnames]
       }
       
       dirname {
