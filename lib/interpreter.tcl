@@ -579,9 +579,11 @@ namespace eval interpreter {
         return [file $subcmd $fname {*}[lrange $args 1 end]]
       }
       
-      delete {
-        set opts   [list]
-        set fnames [list]
+      delete -
+      copy -
+      rename {
+        set opts             [list]
+        set fnames           [list]
         set double_dash_seen 0
         foreach arg $args {
           if {!$double_dash_seen && [string index $arg 0] eq "-"} {
@@ -594,7 +596,7 @@ namespace eval interpreter {
           }
         }
         if {[llength $fnames] > 0} {
-          return [file delete {*}$opts {*}$fnames]
+          return [file $subcmd {*}$opts {*}$fnames]
         } else {
           return -code error "permission error"
         }
