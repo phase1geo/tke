@@ -10,14 +10,26 @@
   # Create checkbox images.
   proc on_start_do {} {
     
+    variable note_info
+    
     # Load the note information
-    load_notes
+    load_note_info
+    
+    # Add the command launcher commands
+    api::register_launcher "Notes: Create list" notes::create_new_list
+    
+    # Add create note and delete list commands for each list
+    foreach key [array get note_info list,*] {
+      set list_name [lindex [split $key ,] 1]
+      api::register_launcher "Notes: Create note in $list_name" [list notes::create_new_note $list_name]
+      api::register_launcher "Notes: Delete list $list_name"    [list notes::delete_list $list_name]
+    }
     
   }
   
   ######################################################################
   # Loads the note information from the file.
-  proc load_notes {} {
+  proc load_note_info {} {
     
     variable note_info
     
@@ -67,18 +79,82 @@
   }
   
   ######################################################################
+  # Returns the title to use for the given note file.
+  proc get_title {note_path} {
+    
+    # Get the first line of the note
+    if {[catch { open $note_path r } rc]} {
+      return -code error $rc
+    }
+      
+    # Read the file content
+    set contents [read $rc]
+    close $rc
+      
+    # Get the first line of the file
+    foreach line [split $contents \n] {
+      if {[set line [string trim $line]] ne ""} {
+        return [string range $line 0 50]
+      }
+    }
+      
+  }
+  
+  ######################################################################
   # Creates a note menu and returns it to the calling procedure.
   proc create_note_menu {list_menu note_path} {
+    
+    variable note_info
     
     # Create the menu
     set note_menu [menu $list_menu.[file rootname [file tail $note_path]] -tearoff 0]
     
+    # Create the move_to menu
+    set move_to_mnu [menu $note_menu.move -tearoff 0]
+    
     # Populate the note menu
     $note_menu add command -label "View/Edit" -command [list notes::show_note $note_path]
+    $note_menu add cascade -label "Move to"   -menu $move_to_mnu -state disabled
     $note_menu add separator
     $note_menu add command -label "Delete"    -command [list notes::delete_note $note_path]
     
+    # Create the move to menu if necessary
+    if {[llength [array names note_info list,*]] > 1} {
+      foreach list_key [lsort [array names note_info list,*]] {
+        set list_name [lindex [split $list_key ,] 1]
+        if {[lindex [file split $note_path] 0] ne $list_name} {
+          set list_name [lindex [split $list_key ,] 1]
+          $move_to_mnu add command -label $list_name -command [list notes::move_to_list $list_name $note_path]
+        }
+      }
+      $note_menu entryconfigure "Move to" -state normal
+    }
+      
     return $note_menu
+    
+  }
+  
+  ######################################################################
+  # Moves the given note path to the given list.
+  proc move_to_list {list_name note_path} {
+    
+    variable note_info
+    
+    # First, let's actually copy the note file
+    file copy [file join [api::get_home_directory] $note_path] [file join [api::get_home_directory] $list_name]
+    
+    # Then let's delete the original
+    file delete -force [file join [api::get_home_directory] $note_path]
+    
+    # Now let's remove the note from the original list
+    set title $note_info(note,$note_path)
+    unset note_info(note,$note_path)
+    
+    # Add the note to the new list
+    set note_info(note,[file join $list_name [file tail note_path]]) $title
+    
+    # Save the note info
+    save_note_info
     
   }
   
@@ -89,31 +165,29 @@
     variable note_info
     
     # Get the lists
-    foreach list_path [glob -nocomplain -directory [api::get_home_directory] *] {
+    foreach list_key [array names note_info list,*] {
+        
+      # Get the list name
+      set list_name [lindex [split $list_key ,] 1]
       
-      # If this is a directory, it is a list
-      if {[file isdirectory $list_path]} {
+      # Create the list menu item
+      set list_menu [menu $mnu.[string map {{ } _} [string tolower $list_name]] -tearoff 0]
+      $mnu add cascade -label $list_name -menu $list_menu
         
-        # Create the list menu item
-        set list_menu [menu $mnu.[string map {{ } _} [string tolower [file tail $list_path]]] -tearoff 0]
-        $mnu add cascade -label [file tail $list_path] -menu $list_menu
-        
-        # Now grab all of the notes within the list directory and add them to the list
-        foreach note_path [glob -nocomplain -directory $list_path *.note] {
-          set short_path [file join [file tail $list_path] [file tail $note_path]]
-          $list_menu add cascade -label $note_info(note,$short_path) -menu [create_note_menu $list_menu $short_path]
-        }
-        
-        # Add the remaining items to the list menu
-        if {[$list_menu index end] ne "none"} {
-          $list_menu add separator
-        }
-        $list_menu add command -label "Create new note" -command [list notes::create_new_note [file tail $list_path]]
-        $list_menu add separator
-        $list_menu add command -label "Delete list" -command [list notes::delete_list [file tail $list_path]]
-        
+      # Now grab all of the notes within the list directory and add them to the list
+      foreach note_key [array names note_info note,[file join $list_name *]] {
+        set note_path [lindex [split $note_key ,] 1]
+        $list_menu add cascade -label $note_info($note_key) -menu [create_note_menu $list_menu $note_path]
       }
-      
+        
+      # Add the remaining items to the list menu
+      if {[$list_menu index end] ne "none"} {
+        $list_menu add separator
+      }
+      $list_menu add command -label "Create new note" -command [list notes::create_new_note $list_name]
+      $list_menu add separator
+      $list_menu add command -label "Delete list" -command [list notes::delete_list $list_name]
+        
     }
     
     # Add items to the menu
@@ -121,6 +195,8 @@
       $mnu add separator 
     }
     $mnu add command -label "Create new list" -command "notes::create_new_list"
+    $mnu add separator
+    $mnu add command -label "Rebuild notes" -command "notes::rebuild"
       
   }
   
@@ -129,6 +205,7 @@
   proc create_new_list {} {
       
     variable user_input
+    variable note_info
       
     # Get the new list name from the user
     if {[api::get_user_input "Notes List Name:" notes::user_input]} {
@@ -138,6 +215,12 @@
       
       # Create a directory with the given list name
       file mkdir $list_path
+      
+      # Add the list to the note_info array
+      set note_info(list,$user_input) 1
+      
+      # Save the note info
+      save_note_info
       
     }
     
@@ -157,6 +240,11 @@
       
         # Get the notes within the list directory
         array unset note_info note,[file join $list_path *]
+        array unset note_info list,$list_path
+        
+        # Unregister the commands
+        api::unregister_launcher "Notes: Create note in $list_path"
+        api::unregister_launcher "Notes: Delete list $list_path"
       
         # Delete the list directory
         file delete -force [file join [api::get_home_directory] $list_path]
@@ -243,6 +331,38 @@
       save_note_info
       
     }
+    
+  }
+  
+  ######################################################################
+  # Rebuilds the all.list based on the contents of the notes directory.
+  proc rebuild {} {
+    
+    variable note_info
+    
+    # Delete the current contents of note_info
+    array unset note_info
+    
+    array set note_info {
+      id 0
+    }
+    
+    # Rebuild the note_info list
+    foreach list_path [glob -nocomplain -directory [api::get_home_directory] *] {
+      if {[file isdirectory $list_path]} {
+        set list_name [file tail $list_path]
+        set note_info(list,$list_name) 1
+        foreach note_path [glob -nocomplain -directory $list_path *] {
+          set note_info(note,[file join $list_name [file tail $note_path]]) [get_title $note_path]
+          if {[regexp {n(\d+)\.note} $note_path -> id] && ($note_info(id) < $id)} {
+            set note_info(id) $id
+          }
+        }
+      } 
+    }
+    
+    # Finally, save the note_info
+    save_note_info
     
   }
   
