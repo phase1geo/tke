@@ -21,9 +21,26 @@
     # Add create note and delete list commands for each list
     foreach key [array get note_info list,*] {
       set list_name [lindex [split $key ,] 1]
-      api::register_launcher "Notes: Create note in $list_name" [list notes::create_new_note $list_name]
-      api::register_launcher "Notes: Delete list $list_name"    [list notes::delete_list $list_name]
+      add_launchers $list_name
     }
+    
+  }
+  
+  ######################################################################
+  # Adds list launchers to command launcher.
+  proc add_launchers {list_name} {
+    
+    api::register_launcher "Notes: Create note in $list_name" [list notes::create_new_note $list_name]
+    api::register_launcher "Notes: Delete list $list_name"    [list notes::delete_list $list_name]
+    
+  }
+  
+  ######################################################################
+  # Removes list launchers to command launcher.
+  proc remove_launchers {list_name} {
+    
+    api::unregister_launcher "Notes: Create note in $list_name"
+    api::unregister_launcher "Notes: Delete list $list_name"
     
   }
   
@@ -226,11 +243,10 @@
       save_note_info
       
       # Add command launchers
-      api::register_launcher "Notes: Create note in $user_input" [list notes::create_new_note $user_input]
-      api::register_launcher "Notes: Delete list $user_input"    [list notes::delete_list $user_input]
+      add_launchers $user_input
       
       # Let the user know that the note has been deleted
-      api::show_info "List has been created"
+      api::show_info "List $user_input has been created"
       
     }
     
@@ -238,7 +254,7 @@
  
   ######################################################################
   # Deletes the entire list at the given index.
-  proc delete_list {list_path} {
+  proc delete_list {list_name} {
     
     variable note_info
     
@@ -246,22 +262,21 @@
     if {[tk_messageBox -parent . -message "Delete note list?" -type yesno -default no] eq "yes"} {
     
       # Deletes the given list directory
-      if {[file exists [file join [api::get_home_directory] $list_path]]} {
+      if {[file exists [file join [api::get_home_directory] $list_name]]} {
       
         # Delete the list directory
-        file delete -force [file join [api::get_home_directory] $list_path]
+        file delete -force [file join [api::get_home_directory] $list_name]
       
         # Get the notes within the list directory
-        array unset note_info note,[file join $list_path *]
-        array unset note_info list,$list_path
+        array unset note_info note,[file join $list_name *]
+        array unset note_info list,$list_name
         save_note_info
         
         # Unregister the commands
-        api::unregister_launcher "Notes: Create note in $list_path"
-        api::unregister_launcher "Notes: Delete list $list_path"
+        remove_launchers $list_name
       
         # Let the user know that the note has been deleted
-        api::show_info "List has been deleted"
+        api::show_info "List $list_name has been deleted"
       
       }
       
@@ -345,6 +360,11 @@
     # Delete the current contents of note_info
     array unset note_info
     
+    # Remove command launchers
+    api::unregister_launcher "Notes: Create note in *"
+    api::unregister_launcher "Notes: Delete list *"
+    
+    # Initialize the note_info
     array set note_info {
       id 0
     }
