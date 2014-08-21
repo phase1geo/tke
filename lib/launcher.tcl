@@ -186,7 +186,9 @@ namespace eval launcher {
   # Handles any changes to the entry font size preferences variable.
   proc handle_entry_font_size {name1 name2 op} {
     
-    font configure launcher_entry -size [preferences::get Appearance/CommandLauncherEntryFontSize]
+    if {[lsearch [font names] launcher_entry] != -1} {
+      font configure launcher_entry -size [preferences::get Appearance/CommandLauncherEntryFontSize]
+    }
     
   }
   
@@ -194,7 +196,9 @@ namespace eval launcher {
   # Handles any changes to the preview font size preferences variable.
   proc handle_preview_font_size {name1 name2 op} {
     
-    font configure launcher_preview -size [preferences::get Appearance/CommandLauncherPreviewFontSize]
+    if {[lsearch [font names] launcher_preview] != -1} {
+      font configure launcher_preview -size [preferences::get Appearance/CommandLauncherPreviewFontSize]
+    }
     
   }
   

@@ -178,7 +178,7 @@ namespace eval gui {
     $widgets(pw) add [ttk::frame $widgets(pw).tf]
       
     # Create the notebook panedwindow
-    set widgets(nb_pw) [ttk::panedwindow $widgets(pw).tf.nbpw -orient $preferences::prefs(View/PaneOrientation)]
+    set widgets(nb_pw) [ttk::panedwindow $widgets(pw).tf.nbpw -orient horizontal]
       
     # Add notebook
     add_notebook
@@ -380,7 +380,9 @@ namespace eval gui {
     
     variable widgets
     
-    # TBD
+    foreach pane [$widgets(nb_pw) panes] {
+      $pane.tbf.tb configure -mintabwidth [expr {$preferences::prefs(View/AllowTabScrolling) ? [lindex [$pane.tbf.tb configure -mintabwidth] 3] : 1}]
+    }
         
   }
   
@@ -608,16 +610,6 @@ namespace eval gui {
     
     catch { grid remove $widgets(info) }
     
-  }
-  
-  ######################################################################
-  # Changes the pane orientation.
-  proc change_pane_orientation {} {
-  
-    variable widgets
-    
-    $widgets(nb_pw) configure -orient $preferences::prefs(View/PaneOrientation)
-  
   }
   
   ######################################################################
