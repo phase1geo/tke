@@ -445,7 +445,7 @@ namespace eval menus {
   proc exit_command {} {
     
     # Close any open buffers
-    gui::close_buffers
+    # gui::close_buffers
       
     # Save the session information if we are not told to exit on close
     if {!$::cl_exit_on_close} {
