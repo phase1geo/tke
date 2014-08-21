@@ -107,6 +107,12 @@ namespace eval plugins {
     variable registry_size
     variable prev_sourced
     
+    # Delete all plugin menu items
+    delete_all_menus
+    
+    # Delete all plugin text bindings
+    delete_all_text_bindings
+    
     catch { array unset prev_sourced }
     for {set i 0} {$i < $registry_size} {incr i} {
       if {$registry($i,selected) && ($registry($i,interp) ne "")} {
@@ -126,6 +132,12 @@ namespace eval plugins {
     # Load plugin header information
     load
     
+    # Add all of the plugins
+    add_all_menus
+    
+    # Add all of the text bindings
+    add_all_text_bindings
+  
     # Tell the user that the plugins have been successfully reloaded
     gui::set_info_message [msgcat::mc "Plugins successfully reloaded"]
     
@@ -179,7 +191,7 @@ namespace eval plugins {
             } else {
               set registry($i,interp) $interpreter
               handle_reloading $i
-              add_all_text_bindings
+              # add_all_text_bindings
             }
           }          
         }
@@ -482,10 +494,14 @@ namespace eval plugins {
       }
           
       # Create the main file
+      puts $rc "# Plugin namespace"
       puts $rc "namespace eval $name {"
+      puts $rc ""
+      puts $rc "  # INSERT CODE HERE"
       puts $rc ""
       puts $rc "}"
       puts $rc ""
+      puts $rc "# Register all plugin actions"
       puts $rc "api::register $name {"
       puts $rc ""
       puts $rc "}"
