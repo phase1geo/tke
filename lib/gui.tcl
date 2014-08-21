@@ -1606,19 +1606,6 @@ namespace eval gui {
   }
   
   ######################################################################
-  # Closes all buffers.
-  proc close_buffers {} {
-    
-    variable files
-    variable files_index
-    
-    foreach index [lsearch -all -index $files_index(buffer) $files 1] {
-      close_tab [lindex $files $index $files_index(tab)] 1
-    }
-    
-  }
-  
-  ######################################################################
   # Sorts all of the open tabs (in both panes, if both panes are visible)
   # by alphabetical order.
   proc sort_tabs {} {
