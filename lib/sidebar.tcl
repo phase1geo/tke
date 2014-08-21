@@ -130,6 +130,10 @@ namespace eval sidebar {
     
     $widgets(menu) add separator
     
+    $widgets(menu) add command -label [msgcat::mc "Open Directory Files"] -command {
+      sidebar::open_folder_files
+    }
+    
     $widgets(menu) add command -label [msgcat::mc "Close Directory Files"] -command {
       sidebar::close_folder_files
     }
@@ -195,6 +199,10 @@ namespace eval sidebar {
     }
     
     $widgets(menu) add separator
+    
+    $widgets(menu) add command -label [msgcat::mc "Open Directory Files"] -command {
+      sidebar::open_folder_files
+    }
     
     $widgets(menu) add command -label [msgcat::mc "Close Directory Files"] -command {
       sidebar::close_folder_files
@@ -490,16 +498,9 @@ namespace eval sidebar {
     }
     
     set dir_files [lassign [order_files_dirs $dir_files] dir_file]
-    #puts "DIR_FILES:\n[join $dir_files \n]\n"
-    #puts "TL_FILES:"
-    #foreach child [$widgets(tl) childkeys $parent] {
-    #  puts [$widgets(tl) cellcget $child,name -text]
-    #}
-    #puts ""
     foreach child [$widgets(tl) childkeys $parent] {
       set tl_file [$widgets(tl) cellcget $child,name -text]
       set compare [string compare $tl_file $dir_file]
-      #puts "compare: $compare, tl_file: $tl_file dir_file: $dir_file"
       if {($compare == -1) || ($dir_file eq "")} {
         $widgets(tl) delete $child
       } else {
@@ -515,7 +516,6 @@ namespace eval sidebar {
           set dir_files [lassign $dir_files dir_file]
           if {($compare == 0) || ($dir_file eq "")} { break }
           set compare [string compare $tl_file $dir_file]
-          #puts "compare: $compare, tl_file: $tl_file dir_file: $dir_file"
         }
       }
     }
@@ -674,14 +674,7 @@ namespace eval sidebar {
       $widgets(tl) selection set $row
       handle_selection
       
-      # Select the appropriate menu to display and display it
-#      if {[$widgets(tl) parentkey $row] eq "root"} {
-#        set mnu $widgets(rootmenu)
-#      } elseif {[file isdirectory [$widgets(tl) cellcget $row,name -text]]} {
-#        set mnu $widgets(dirmenu)
-#      } else {
-#        set mnu $widgets(filemenu)
-#      }
+      # Display the menu
       tk_popup $widgets(menu) [expr [winfo rootx $W] + $x] [expr [winfo rooty $W] + $y]
       
     }
@@ -792,6 +785,26 @@ namespace eval sidebar {
   }
   
   ######################################################################
+  # Opens all of the files in the current directory.
+  proc open_folder_files {} {
+    
+    variable widgets
+    variable images
+    
+    # Get the currently selected row
+    set selected [$widgets(tl) curselection]
+    
+    # Open all of the children that are not already opened
+    foreach child [$widgets(tl) childkeys $selected] {
+      set name [$widgets(tl) cellcget $child,name -text]
+      if {([$widgets(tl) cellcget $child,name -image] ne $images(sopen)) && [file isfile $name]} {
+        gui::add_file end $name
+      }
+    }
+    
+  }
+      
+  ######################################################################
   # Close all of the open files in the current directory.
   proc close_folder_files {} {
     
@@ -800,9 +813,6 @@ namespace eval sidebar {
     
     # Get the currently selected row
     set selected [$widgets(tl) curselection]
-    
-    # Initialize the number of closed files
-    set closed 0
     
     # Close all of the opened children
     foreach child [$widgets(tl) childkeys $selected] {
