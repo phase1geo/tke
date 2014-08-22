@@ -1,0 +1,25 @@
+var multicursor_8tcl =
+[
+    [ "add_bindings", "multicursor_8tcl.html#a2d60bcc344c3faf6b1c1ba0cd29db1a7", null ],
+    [ "add_cursor", "multicursor_8tcl.html#a61ce152ae70bfb4d1eb15b3b0b275e16", null ],
+    [ "add_cursors", "multicursor_8tcl.html#ae6f5eba300ca6257a9768f437803216d", null ],
+    [ "adjust", "multicursor_8tcl.html#a31098df60b3d4a025d9ce6782243803f", null ],
+    [ "align", "multicursor_8tcl.html#a1c1227854634b5ae8b93b319c86ef6ed", null ],
+    [ "delete", "multicursor_8tcl.html#ad5b0be83d415824b0d5c3a4784a257c0", null ],
+    [ "disable", "multicursor_8tcl.html#acc0adc06a722ffd0809ec7eea2cdec78", null ],
+    [ "enabled", "multicursor_8tcl.html#ac17e4a5deda190ec6a83a14ad533fac6", null ],
+    [ "handle_alt_button1", "multicursor_8tcl.html#abb71f9b14079066d06967b547f0e774e", null ],
+    [ "handle_alt_button3", "multicursor_8tcl.html#a8bbf0fdcdd05e8b413f80eff02d322ce", null ],
+    [ "handle_backspace", "multicursor_8tcl.html#a87e134de3af13c94877ae3602fc12e64", null ],
+    [ "handle_delete", "multicursor_8tcl.html#a8a6cfce5986f06d0b7975864e089d5e6", null ],
+    [ "handle_escape", "multicursor_8tcl.html#a9e2ee38f843a9821a1fb4d0884ac61eb", null ],
+    [ "handle_keypress", "multicursor_8tcl.html#a2c6f51d4e9e907b561d558663e4192e1", null ],
+    [ "handle_return", "multicursor_8tcl.html#abf4732bbc32df18fb594c9aa8e7fb7b3", null ],
+    [ "handle_selection", "multicursor_8tcl.html#a2ea412780af897bcebccc9ec29d5da4e", null ],
+    [ "handle_shift_alt_buttonpress1", "multicursor_8tcl.html#a0cb1eda4651722433a8f5cd11fb5ab08", null ],
+    [ "handle_shift_alt_buttonrelease1", "multicursor_8tcl.html#a9723ff6718b83f982b5cb68eb8c39893", null ],
+    [ "handle_shift_alt_motion", "multicursor_8tcl.html#a0aaf3a5004aa1e8a1e9132b1b71da3ce", null ],
+    [ "insert", "multicursor_8tcl.html#aaa497ae25291be8126a882176ebe65fb", null ],
+    [ "insert_numbers", "multicursor_8tcl.html#adace8af0bd1658773f5a91a4c63fd3a0", null ],
+    [ "search_and_add_cursors", "multicursor_8tcl.html#a5fe60d5d3c6e31e2650908765746c207", null ]
+];
