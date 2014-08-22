@@ -1,0 +1,27 @@
+var searchData=
+[
+  ['mark_5fcommand',['mark_command',['../namespacegui.html#af5d8715fc9e0831ff159f6c3a3168a71',1,'gui']]],
+  ['marker_5fokay',['marker_okay',['../namespacelauncher.html#a911d81a98bff81dbaf73f5f2c94a6505',1,'launcher']]],
+  ['markers',['markers',['../namespacemarkers.html',1,'']]],
+  ['markers_2etcl',['markers.tcl',['../markers_8tcl.html',1,'']]],
+  ['matchpair',['matchPair',['../namespacectext.html#a5e6b2693ec2b606ac1171ae3ac525e1d',1,'ctext']]],
+  ['matchquote',['matchQuote',['../namespacectext.html#a4b844e7c27d04950d60a5b9b72a8585f',1,'ctext']]],
+  ['menu_5fadd',['menu_add',['../namespaceplugins.html#a560ea8da2cc2926a161ef84308eba64f',1,'plugins']]],
+  ['menu_5fadd_5fitem',['menu_add_item',['../namespaceplugins.html#ab46d572499cdefb3dffd490850363d58',1,'plugins']]],
+  ['menu_5fdelete',['menu_delete',['../namespaceplugins.html#a13145756f0d94f7050822a0f7f36f6fa',1,'plugins']]],
+  ['menu_5fdelete_5fcascade',['menu_delete_cascade',['../namespaceplugins.html#a2cf6ebdc8cf69500e993aca4c8b175f5',1,'plugins']]],
+  ['menu_5fdelete_5fitem',['menu_delete_item',['../namespaceplugins.html#a8fdaaca0636885478aa36fcc5ce94eb8',1,'plugins']]],
+  ['menu_5fpost',['menu_post',['../namespacesidebar.html#a2919008ef474f15dc5f21b7326b0b4c5',1,'sidebar']]],
+  ['menu_5fstate',['menu_state',['../namespaceplugins.html#a1e641ab1826f09dc7c3bd6f956efc23c',1,'plugins']]],
+  ['menus',['menus',['../namespacemenus.html',1,'']]],
+  ['menus_2etcl',['menus.tcl',['../menus_8tcl.html',1,'']]],
+  ['minimizefrontwindow',['minimizeFrontWindow',['../namespacewindowlist.html#a7d25c1a5b90184001ef0a408ee1e0c20',1,'windowlist']]],
+  ['modified',['modified',['../namespacectext.html#a4e0163914bdb8f5fe7a55bad9ef30d69',1,'ctext']]],
+  ['motion',['Motion',['../namespace_b_notebook.html#ab11baefee1e393ac89ae84a8684c066d',1,'BNotebook']]],
+  ['movable_5fto_5fother_5fpane',['movable_to_other_pane',['../namespacegui.html#adf2a48e7b4fdb1cf82d411586c84273d',1,'gui']]],
+  ['move_5fdown',['move_down',['../namespacelauncher.html#a5db3d61a5112c47e88aca7d76083e040',1,'launcher']]],
+  ['move_5fto_5fpane',['move_to_pane',['../namespacegui.html#aee5980a46f643e459735893ef9ed7103',1,'gui']]],
+  ['move_5fup',['move_up',['../namespacelauncher.html#a89f38d08786657af0a56806c5510e4f8',1,'launcher']]],
+  ['multicursor',['multicursor',['../namespacemulticursor.html',1,'']]],
+  ['multicursor_2etcl',['multicursor.tcl',['../multicursor_8tcl.html',1,'']]]
+];

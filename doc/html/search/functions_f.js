@@ -1,0 +1,24 @@
+var searchData=
+[
+  ['pane_5ftb_5findex_5ffrom_5ftab',['pane_tb_index_from_tab',['../namespacegui.html#a55735feeabc3b5337566a87db4eab541',1,'gui']]],
+  ['panes',['panes',['../namespacegui.html#a589a4a2beb2d4d13a296d423227939f8',1,'gui']]],
+  ['parse_5fcmdline',['parse_cmdline',['../tke_8tcl.html#ac840dfd4eb03191da4521508da70850a',1,'tke.tcl']]],
+  ['parse_5fsnippet',['parse_snippet',['../namespacesnippets.html#a6be1be23d6c227601cf8c48412794238',1,'snippets']]],
+  ['pastable',['pastable',['../namespacegui.html#a4f86b6b49958df799d1220b71bfceff0',1,'gui']]],
+  ['paste',['paste',['../namespacegui.html#aaf8c04f956be9808e279d9839f23bb89',1,'gui']]],
+  ['paste_5fand_5fformat',['paste_and_format',['../namespacegui.html#ae2b7711f45745b171eb25b92d2851b13',1,'gui']]],
+  ['perform_5fsubstitutions',['perform_substitutions',['../namespaceutils.html#a1e9a4156cea22ee80d216b5a9977a24a',1,'utils']]],
+  ['perform_5ftranslation',['perform_translation',['../namespacelang.html#a90e4278d77eedd66058621c4cdd99335',1,'lang']]],
+  ['perform_5ftranslations',['perform_translations',['../namespacelang.html#a15447b90ee37548b3ded311afe9da789',1,'lang']]],
+  ['playback',['playback',['../namespacevim.html#aa231c062a65729e21e498b6b2d734eab',1,'vim']]],
+  ['poll',['poll',['../namespacegui.html#a0bfaf5f8b31197f8a5e4225413f527de',1,'gui']]],
+  ['pop_5fresource',['pop_resource',['../namespacebgproc.html#abb535213908ad2d9dffa71b18528dc1f',1,'bgproc']]],
+  ['populate_5fsyntax_5fmenu',['populate_syntax_menu',['../namespacesyntax.html#af408da5734cf315789f531e852a6b0dc',1,'syntax']]],
+  ['populate_5ftheme_5fmenu',['populate_theme_menu',['../namespacesyntax.html#a79829638a14e8a018aae2a8cd77b6381',1,'syntax']]],
+  ['populate_5fui',['populate_ui',['../namespacelang.html#a15e2bbb134e4fbb77fd0d1d05022f681',1,'lang']]],
+  ['post_5fcascade_5fmenu',['post_cascade_menu',['../namespaceplugins.html#affb73e12931983ba249c07a8e7802fe7',1,'plugins']]],
+  ['previous_5ftab',['previous_tab',['../namespacegui.html#af06efc281a583135590b7f7dbc5cf248',1,'gui']]],
+  ['printable_5fhist',['printable_hist',['../namespacecliphist.html#a001c756e25ffa9803cb23c098c3a7756',1,'cliphist']]],
+  ['progress_5fdialog',['progress_dialog',['../namespacebgproc.html#a4ef835fd115fa3122c66066b439ad945',1,'bgproc']]],
+  ['push_5fresource',['push_resource',['../namespacebgproc.html#aa7fa7b470f247f53b770f4d85ea23557',1,'bgproc']]]
+];
