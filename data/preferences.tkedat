@@ -89,6 +89,11 @@
 
 {Editor/IndentSpaces}        {2}
 
+# If set to a value of 1, any trailing whitespace will automatically be removed on file save;
+# otherwise, whitespace is preserved.
+
+{Editor/RemoveTrailingWhitespace} {1}
+
 # When searching within a group of files (external to the current file), specifies
 # the number of contextual lines that will be displayed above and below the
 # matched line.
