@@ -3513,6 +3513,8 @@ namespace eval gui {
       "\]" { set index [find_match_brace $txt "\\\[" "\\\]" -backwards] }
       "\(" { set index [find_match_brace $txt "\\\)" "\\\(" -forwards] }
       "\)" { set index [find_match_brace $txt "\\\(" "\\\)" -backwards] }
+      "\<" { set index [find_match_brace $txt "\\\>" "\\\<" -forwards] }
+      "\>" { set index [find_match_brace $txt "\\\<" "\\\>" -backwards] }
       "\"" { set index [find_match_quote $txt] }
     }
 
