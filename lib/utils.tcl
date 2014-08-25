@@ -187,7 +187,7 @@ namespace eval utils {
         catch { exec xdg-open $fname }
       }
       *Win* {
-        return -code error "Internal error:  Unable to open $fname in a Windows environment!"
+        catch { exec os.startfile $fname }
       }
     }
     

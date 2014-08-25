@@ -458,9 +458,10 @@ namespace eval launcher {
         }
 
         # Bind up/down and return keys
-        bind $widgets(win) <Up>     "launcher::move_up"
-        bind $widgets(win) <Down>   "launcher::move_down"
-        bind $widgets(win) <Return> "launcher::execute"
+        bind $widgets(win) <Up>       "launcher::move_up"
+        bind $widgets(win) <Down>     "launcher::move_down"
+        bind $widgets(win) <Return>   "launcher::execute"
+        bind $widgets(win) <Button-1> "launcher::execute"
 
         # Set tablelist selection to the first entry
         select 0
