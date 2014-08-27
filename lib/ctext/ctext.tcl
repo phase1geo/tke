@@ -7,7 +7,7 @@ package provide ctext 4.0
 
 namespace eval ctext {
   array set REs {
-    words  {([^\s\(\{\[\}\]\)\.\t\n\r;\"'\|,<>]+)}
+    words  {([^\s\(\{\[\}\]\)\.\t\n\r;:=\"'\|,<>]+)}
   }
 }
 
