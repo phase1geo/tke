@@ -10,6 +10,15 @@ namespace eval mercurial {
       api::show_info "Mercurial status failed: [lindex [split $rc \n] 0]"
     }
     
+    # Create a buffer
+    set txt [api::file::add "Mercurial Status" -sidebar 0 -buffer 1 -readonly 1]
+    
+    # Send the Mercurial status information
+    $txt configure -state normal
+    $txt delete 1.0 end
+    $txt insert end $rc
+    $txt configure -state disabled
+    
   }
   
   ######################################################################
@@ -33,6 +42,8 @@ namespace eval mercurial {
     
       if {[catch "exec hg commit -m {$msg}" rc]} {
         api::show_info "Mercurial commit failed: [lindex [split $rc \n] 0]"
+      } ese {
+        api::show_info "Mercurial commit successful"
       }
       
     }
@@ -55,6 +66,8 @@ namespace eval mercurial {
     
     if {[catch "exec hg push" rc]} {
       api::show_info "Mercurial push failed: [lindex [split $rc \n] 0]"
+    } else {
+      api::show_info "Mercurial push successful"
     }
     
   }
@@ -75,6 +88,8 @@ namespace eval mercurial {
     
     if {[catch "exec hg pull -u" rc]} {
       api::show_info "Mercurial pull failed: [lindex [split $rc \n] 0]"
+    } else {
+      api::show_info "Mercurial pull successful"
     }
     
   }
@@ -95,6 +110,8 @@ namespace eval mercurial {
     
     if {[catch "exec hg revert -C [api::file::get_info [api::file::current_file_index] fname]" rc]} {
       api::show_info "Mercurial revert failed: [lindex [split $rc \n] 0]"
+    } else {
+      api::show_info "Mercurial revert successful"
     }
     
   }
