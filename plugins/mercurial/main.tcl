@@ -42,7 +42,7 @@ namespace eval mercurial {
     
       if {[catch "exec hg commit -m {$msg}" rc]} {
         api::show_info "Mercurial commit failed: [lindex [split $rc \n] 0]"
-      } ese {
+      } else {
         api::show_info "Mercurial commit successful"
       }
       
