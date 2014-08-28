@@ -1268,7 +1268,6 @@ proc ctext::commentsParse {win start end pcCom plCom psStr pdStr ptStr} {
     set index [lindex $indices $i]
     set str   [$win get $index "$index+[lindex $lengths $i]c"]
 
-
     # Only handle the comment if it is not escaped
     if {![isEscaped $win $index]} {
 

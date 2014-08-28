@@ -1668,5 +1668,129 @@ namespace eval vim {
     return 0
     
   }
+
+  ######################################################################
+  # Moves the specified bracket one word to the right.
+  proc move_bracket_right {txt tid char} {
+
+    if {[set index [$txt search -forwards -- $char insert]] ne ""} {
+      $txt delete $index
+      $txt insert "$index wordend" $char
+    }
+
+  }
   
+  ######################################################################
+  # Inserts or moves the specified bracket pair.
+  proc place_bracket {txt tid left {right ""}} {
+    
+    variable mode
+
+    # Get the current selection
+    if {[llength [set selected [$txt tag ranges sel]]] > 0} {
+      foreach {start end} $selected {
+        $txt insert $end [expr {($right eq "") ? $left : $right}]
+        $txt insert $start $left
+      }
+      return 1
+    }
+
+    # If we are in start mode, add the bracket in the appropriate place
+    if {$mode($txt) eq "start"} {
+      if {($left eq "\"") || ($left eq "'")} {  
+        set tag [expr {($left eq "'") ? "_sString" : "_dString"}]
+        if {[lsearch [$txt tag names insert] $tag] != -1} {
+          move_bracket_right $txt $tid $left
+        } else {
+          $txt insert "insert wordend"   $left
+          $txt insert "insert wordstart" $left 
+        }  
+      } else {
+        set re "(\\$left|\\$right)"
+        if {([set index [$txt search -backwards -regexp -- $re insert]] ne "") && ([$txt get $index] eq $left)} {
+          move_bracket_right $txt $tid $right
+        } else {
+          $txt insert "insert wordend"   $right
+          $txt insert "insert wordstart" $left
+        }
+      }
+      return 1
+    }
+
+    return 0
+    
+  }
+  
+  ######################################################################
+  # If any text is selected, double quotes are placed around all 
+  # selections.  If the insertion cursor is within a completed 
+  # string, the right-most quote of the completed string is moved one 
+  # word to the end; otherwise, the current word is placed within 
+  # double-quotes.
+  proc handle_quotedbl {txt tid} {
+    
+    return [place_bracket $txt $tid \"]
+    
+  }
+  
+  ######################################################################
+  # If any text is selected, single quotes are placed around all 
+  # selections.  If the insertion cursor is within a completed 
+  # single string, the right-most quote of the completed string is moved one 
+  # word to the end; otherwise, the current word is placed within 
+  # single-quotes.
+  proc handle_apostrophe {txt tid} {
+    
+    return [place_bracket $txt $tid ']
+    
+  }
+  
+  ######################################################################
+  # If any text is selected, curly brackets are placed around all 
+  # selections.  If the insertion cursor is within a completed 
+  # bracket sequence, the right-most bracket of the sequence is moved one 
+  # word to the end; otherwise, the current word is placed within 
+  # curly brackets.
+  proc handle_bracketleft {txt tid} {
+    
+    return [place_bracket $txt $tid \[ \]]
+    
+  }
+  
+  ######################################################################
+  # If any text is selected, square brackets are placed around all 
+  # selections.  If the insertion cursor is within a completed 
+  # bracket sequence, the right-most bracket of the sequence is moved one 
+  # word to the end; otherwise, the current word is placed within 
+  # square brackets.
+  proc handle_braceleft {txt tid} {
+    
+    return [place_bracket $txt $tid \{ \}]
+    
+  }
+  
+  ######################################################################
+  # If any text is selected, parenthesis are placed around all 
+  # selections.  If the insertion cursor is within a completed 
+  # parenthetical sequence, the right-most parenthesis of the sequence 
+  # is moved one word to the end; otherwise, the current word is placed 
+  # within parenthesis.
+  proc handle_parenleft {txt tid} {
+    
+    return [place_bracket $txt $tid ( )]
+    
+  }
+  
+  ######################################################################
+  # If any text is selected, angled brackets are placed around all 
+  # selections.  If the insertion cursor is within a completed 
+  # bracket sequence, the right-most bracket of the sequence is moved one 
+  # word to the end; otherwise, the current word is placed within 
+  # angled brackets.
+  proc handle_less {txt tid} {
+    
+    return [place_bracket $txt $tid < >]
+    
+  }
+
 }
