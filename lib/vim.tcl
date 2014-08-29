@@ -1688,7 +1688,7 @@ namespace eval vim {
 
     # Get the current selection
     if {[llength [set selected [$txt tag ranges sel]]] > 0} {
-      foreach {start end} $selected {
+      foreach {end start} [lreverse $selected] {
         $txt insert $end [expr {($right eq "") ? $left : $right}]
         $txt insert $start $left
       }
