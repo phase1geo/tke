@@ -61,7 +61,7 @@ namespace eval bindings {
     
     if {[file exists $user_bindings_file]} {
       remove_all_bindings
-      if {![catch "tkedat::read $base_bindings_file 0" rc]} {
+      if {![catch { tkedat::read $base_bindings_file 0 } rc]} {
         array set menu_bindings $rc
       }
     } else {
@@ -69,7 +69,7 @@ namespace eval bindings {
       copy_default 0
     }
     
-    if {![catch "tkedat::read $user_bindings_file 0" rc]} {
+    if {![catch { tkedat::read $user_bindings_file 0 } rc]} {
       array set menu_bindings $rc
       apply_all_bindings
     } else {

@@ -16,7 +16,7 @@ namespace eval tkedat {
     
     array set contents [list]
     
-    if {![catch "open $fname r" rc]} {
+    if {![catch { open $fname r } rc]} {
       
       set comments [list]
       set value_ip 0
@@ -83,7 +83,7 @@ namespace eval tkedat {
   # back to the file.
   proc write {fname contents} {
 
-    if {![catch "open $fname w" rc]} {
+    if {![catch { open $fname w } rc]} {
 
       array set content $contents
       
@@ -93,7 +93,6 @@ namespace eval tkedat {
             foreach comment $content($name,comment) {
               puts $rc "# $comment"
             }
-            # puts $rc "\n"
           }
           puts $rc "{$name} {$content($name)}\n"
         }

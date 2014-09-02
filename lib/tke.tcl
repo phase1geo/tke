@@ -216,7 +216,7 @@ parse_cmdline $argc $argv
 # Attempt to add files or raise the existing application
 if {([tk appname] ne "tke") && ([tk windowingsystem] eq "x11")} {
   if {[llength $cl_files] > 0} {
-    if {![catch "send tke gui::add_files_and_raise [info hostname] end $cl_files" rc]} {
+    if {![catch { send tke gui::add_files_and_raise [info hostname] end $cl_files } rc]} {
       destroy .
       exit
     } elseif {[regexp {X server} $rc]} {

@@ -50,7 +50,7 @@ namespace eval syntax {
     
     # Get the syntax information from all of the files in the user's syntax directory.
     foreach sfile $sfiles {
-      if {![catch "open $sfile r" rc]} {
+      if {![catch { open $sfile r } rc]} {
         set name [file rootname [file tail $sfile]]
         set langs($name) [read $rc]
         [ns launcher]::register [msgcat::mc "Syntax:  %s" $name] "syntax::set_language $name"
