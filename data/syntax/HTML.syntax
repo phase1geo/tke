@@ -8,7 +8,7 @@ casesensitive
 {0}
 
 indent
-{<[^/>][^>]*[^/]?>}
+{<\\s*(\\w+)[^/>]*>}
   
 unindent
 {</[^>]*>}
