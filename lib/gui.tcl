@@ -714,7 +714,7 @@ namespace eval gui {
     variable pw_current
 
     # Read the state file
-    if {![catch "tkedat::read $session_file" rc]} {
+    if {![catch { tkedat::read $session_file } rc]} {
 
       array set content $rc
 
@@ -1297,7 +1297,7 @@ namespace eval gui {
     plugins::handle_on_save $file_index
 
     # Save the file contents
-    if {[catch "open [lindex $files $file_index $files_index(fname)] w" rc]} {
+    if {[catch { open [lindex $files $file_index $files_index(fname)] w } rc]} {
       tk_messageBox -parent . -title "Error" -type ok -default ok -message "Unable to write file" -detail $rc
       return
     }
@@ -1383,7 +1383,7 @@ namespace eval gui {
           plugins::handle_on_save $i
 
           # Save the file contents
-          if {[catch "open [lindex $files $i $files_index(fname)] w" rc]} {
+          if {[catch { open [lindex $files $i $files_index(fname)] w } rc]} {
             continue
           }
 
