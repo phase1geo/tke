@@ -17,7 +17,7 @@ proc tke_development {} {
   
 }
 
-set auto_path [concat [file join $tke_dir lib] $auto_path]
+set auto_path [list [file join $tke_dir lib] {*}$auto_path]
 
 package require Tclx
 package require -exact ctext 4.0
@@ -235,7 +235,7 @@ if {([tk appname] ne "tke") && ([tk windowingsystem] eq "x11")} {
 
 # Create the ~/.tke directory if it doesn't already exist
 if {![file exists $tke_home]} {
-  mkdir $tke_home
+  file mkdir $tke_home
 }
 
 # Initialize the themes

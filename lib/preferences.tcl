@@ -61,16 +61,23 @@ namespace eval preferences {
     variable prefs
     variable menus
     
+    puts "user_preferences_file: $user_preferences_file"
+
     # If the preferences file does not exist, add it from the data directory
     if {[file exists $user_preferences_file]} {
       
+      puts "HERE!"
+
       # Get the file status information for both the base and user files
       file stat $base_preferences_file base_stat
       file stat $user_preferences_file user_stat
       
       # Read the user preferences file
-      if {![catch "[ns tkedat]::read $user_preferences_file" rc]} {
+      if {![catch { [ns tkedat]::read $user_preferences_file } rc]} {
         array set user_prefs $rc
+        puts "Setting user_prefs!"
+      } else {
+        puts "A rc: $rc"
       }
       
       # If the base preferences file was changed since the user file has changed, see if the
@@ -78,8 +85,11 @@ namespace eval preferences {
       if {$base_stat(mtime) > $user_stat(mtime)} {
 
         # Read both the base the preferences file
-        if {![catch "[ns tkedat]::read $base_preferences_file" rc]} {
+        if {![catch { [ns tkedat]::read $base_preferences_file } rc]} {
           array set base_prefs $rc
+          puts "Setting base_prefs!"
+        } else {
+          puts "rc: $rc"
         }
         
         # If the preferences are different between the base and user, update the user
@@ -114,7 +124,7 @@ namespace eval preferences {
       copy_default 0
        
       # Read the contents of the user file
-      if {![catch "[ns tkedat]::read $user_preferences_file" rc]} {
+      if {![catch { [ns tkedat]::read $user_preferences_file } rc]} {
         array set prefs $rc
       }
         
