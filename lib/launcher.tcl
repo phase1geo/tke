@@ -38,7 +38,7 @@ namespace eval launcher {
     variable launcher_file
     variable read_commands
     
-    if {![catch "open $launcher_file r" rc]} {
+    if {![catch { open $launcher_file r } rc]} {
       array set read_commands [read $rc]
       close $rc
     }
@@ -56,7 +56,7 @@ namespace eval launcher {
     variable launcher_file
     variable commands
     
-    if {![catch "open $launcher_file w" rc]} {
+    if {![catch { open $launcher_file w } rc]} {
       foreach {name value} [array get commands] {
         puts $rc "[list $name] [list $value]"
       }

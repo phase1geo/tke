@@ -19,7 +19,7 @@ namespace eval favorites {
     
     set items [list]
     
-    if {![catch "open $favorites_file r" rc]} {
+    if {![catch { open $favorites_file r } rc]} {
       set items [::read $rc]
       close $rc
     }
@@ -38,7 +38,7 @@ namespace eval favorites {
     variable favorites_file
     variable items
     
-    if {![catch "open $favorites_file w" rc]} {
+    if {![catch { open $favorites_file w } rc]} {
       foreach item $items {
         puts $rc [list [list {*}[lrange $item 0 1] ""]]
       }
