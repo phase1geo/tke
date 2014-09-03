@@ -17,14 +17,10 @@ namespace eval tkedat {
 
     variable bcount
 
-    puts "In bracket_count, line: $line, line_num: $line_num, start_col: $start_col"
-
     while {[regexp -indices -start $start_col {([\{\}])(.*)$} $line -> char]} {
       if {[string index $line [lindex $char 0]] eq "\{"} {
-      	puts "Found \{ at [lindex $char 0]"
         incr bcount
       } else {
-      	puts "Found \} at [lindex $char 0]"
         if {$bcount == 0} {
           return -code error "Bad tkedat format (line: $line_num, col: [lindex $char 0])"
         }
@@ -41,17 +37,17 @@ namespace eval tkedat {
   # Reads the given tkedat file, stripping/storing comments and verifying
   # that no Tcl commands are called.
   proc read {fname {include_comments 1}} {
-    
+
     array set contents [list]
-    
+
     if {![catch { open $fname r } rc]} {
-      
+
       set comments [list]
       set value_ip 0
       set linenum  1
-      
+
       foreach line [split [::read $rc] \n] {
-        
+
         if {!$value_ip && [regexp {^\s*#(.*)$} $line -> comment]} {
 
           lappend comments $comment
@@ -59,7 +55,7 @@ namespace eval tkedat {
         } elseif {!$value_ip && [regexp -indices {^\s*(\{[^\}]*\}|\S+)\s+(\{.*)$} $line -> key value]} {
 
           set key [string map {\{ {} \} {}} [string range $line {*}$key]]
-          
+
           if {[bracket_count $line $linenum [lindex $value 0]] == 0} {
           	set contents($key) [string range [string trim [string range $line {*}$value]] 1 end-1]
             if {[regexp {\[.*\]} $contents($key)]} {
@@ -77,7 +73,7 @@ namespace eval tkedat {
 
           set key [string map {\{ {} \} {}} $key]
           set contents($key) [string trim $value]
-          
+
           if {[regexp {\[.*\]} $contents($key)]} {
             unset contents($key)
           } elseif {$include_comments} {
@@ -105,29 +101,23 @@ namespace eval tkedat {
           }
 
         }
-        
+
         incr linenum
 
       }
-      
-      close $rc
-      
-    } else {
-      
-      return -code error [msgcat::mc "Unable to open %s for reading" $fname]
-      
-    }
 
-    puts "--------------------------------------------------"
-    puts "PARSED CONTENTS:"
-    foreach key [lsort [array names contents]] {
-      puts "  $key: $contents($key)"
+      close $rc
+
+    } else {
+
+      return -code error [msgcat::mc "Unable to open %s for reading" $fname]
+
     }
 
     return [array get contents]
-    
+
   }
-  
+
   ######################################################################
   # Writes the given array to the given tkedat file, adding the comments
   # back to the file.
@@ -136,7 +126,7 @@ namespace eval tkedat {
     if {![catch { open $fname w } rc]} {
 
       array set content $contents
-      
+
       foreach name [lsort [array names content]] {
         if {![regexp {,comment$} $name]} {
           if {[info exists content($name,comment)]} {
@@ -147,15 +137,15 @@ namespace eval tkedat {
           puts $rc "{$name} {$content($name)}\n"
         }
       }
-      
+
       close $rc
-      
+
     } else {
-      
+
       return -code error [msgcat::mc "Unable to open %s for writing" $fname]
-      
+
     }
-    
+
   }
-  
+
 }
