@@ -488,7 +488,7 @@ namespace eval plugins {
       set main   [file join $dirname main.tcl]
         
       # Create the main file
-      if {[catch "open $main w" rc]} {
+      if {[catch { open $main w } rc]} {
         gui::set_info_message [msgcat::mc "ERROR:  Unable to write plugin files"]
         return
       }
@@ -511,7 +511,7 @@ namespace eval plugins {
       gui::add_file end $main -savecommand plugins::reload 
           
       # Create the header file
-      if {[catch "open $header w" rc]} {
+      if {[catch { open $header w } rc]} {
         gui::set_info_message [msgcat::mc "ERROR:  Unable to write plugin files"]
         return
       }

@@ -19,7 +19,7 @@ namespace eval cliphist {
     variable cliphist_file
     variable hist
 
-    if {![catch "open $cliphist_file r" rc]} {
+    if {![catch { open $cliphist_file r } rc]} {
 
       # Read the contents of the file
       set contents [read $rc]
@@ -55,7 +55,7 @@ namespace eval cliphist {
     variable cliphist_file
     variable hist
 
-    if {![catch "open $cliphist_file w" rc]} {
+    if {![catch { open $cliphist_file w } rc]} {
       foreach clipping $hist {
         puts $rc "clipping:"
         foreach line [split $clipping \n] {

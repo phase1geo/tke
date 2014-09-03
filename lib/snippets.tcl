@@ -54,7 +54,7 @@ namespace eval snippets {
     # Remove any launcher commands that would be associated with this file
     [ns launcher]::unregister [msgcat::mc "Snippet: *"]
 
-    if {![catch "open $sfile r" rc]} {
+    if {![catch { open $sfile r } rc]} {
       
       # Read the contents of the snippets file
       set contents [read $rc]

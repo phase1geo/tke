@@ -305,7 +305,7 @@ namespace eval gui {
     if {$preferences::prefs(View/ShowConsole)} {
       show_console_view
     } else {
-      hide_console_view
+      # hide_console_view
     }
 
     # Show the tabbar (if necessary)
@@ -561,6 +561,8 @@ namespace eval gui {
   # Hides the console.
   proc hide_console_view {} {
 
+    puts "Hiding console"
+    exit
     catch { console hide }
 
   }
@@ -892,7 +894,7 @@ namespace eval gui {
       set last_opened [lreplace $last_opened $index $index]
     }
 
-    set last_opened [lrange [concat $fname $last_opened] 0 20]
+    set last_opened [lrange [list $fname {*}$last_opened] 0 20]
 
   }
 

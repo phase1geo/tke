@@ -8,7 +8,33 @@
 namespace eval tkedat {
 
   source [file join $::tke_dir lib ns.tcl]
-    
+
+  variable bcount 0
+
+  ######################################################################
+  # Counts the number of curly brackets found in the given string.
+  proc bracket_count {pstr line start_col} {
+
+    upvar $pstr str
+
+    variable bcount
+
+    while {[regexp -indices -start $start_col {([\{\}])(.*)$} $str -> char]} {
+      if {[string index [lindex $char 0]] eq "\{"} {
+        incr bcount
+      } else {
+        if {$bcount == 0} {
+          return -code error "Bad tkedat format (line: $line, col: [lindex $char 0])"
+        }
+        incr bcount -1
+      }
+      set start_col [expr [lindex $char 0] + 1]
+    }
+
+    return $bcount
+
+  }
+
   ######################################################################
   # Reads the given tkedat file, stripping/storing comments and verifying
   # that no Tcl commands are called.
@@ -20,50 +46,66 @@ namespace eval tkedat {
       
       set comments [list]
       set value_ip 0
+      set linenum  1
       
       foreach line [split [::read $rc] \n] {
         
         if {!$value_ip && [regexp {^\s*#(.*)$} $line -> comment]} {
+
           lappend comments $comment
-        } elseif {!$value_ip && [regexp {^\s*(\{.*?\}|\S+)\s+(\{.*?\}|\S+)\s*$} $line -> key value]} {
-          set key   [string map {\{ {} \} {}} $key]
-          set value [string map {\{ {} \} {}} $value]
-          set contents($key) $value
-          if {[regexp {\[.*\]} $contents($key)]} {
-            unset contents($key)
-          } elseif {$include_comments} {
-            set contents($key,comment) $comments
+
+        } elseif {!$value_ip && [regexp -inline {^\s*(\{.*?\}|\S+)\s+(\{.*)$} $line -> key value] && \
+
+          set key [string map {\{ {} \} {}} [string range $line {*}$key]]
+          set contents($key) [string range [string range $line {*}$value] 1 end]
+
+          puts "key: $key, value: $contents($key)"
+
+          if {[bracket_count $line $linenum [lindex $value 0]] == 0} {
+            if {[regexp {\[.*\]} $contents($key)]} {
+              unset contents($key)
+            } elseif {$include_comments} {
+              set contents($key,comment) $comments
+            }
+            set comments [list]
+          } else {
+            set value_ip 1
           }
-          set comments [list]
-        } elseif {!$value_ip && [regexp {^\s*(\{.*?\}|\S+)\s+\{(.*)$} $line -> key value]} {
+
+        } elseif {!$value_ip && [regexp {^\s*(\{.*?\}|\S+)\s+(\S+)$} $line -> key value]} {
+
           set key [string map {\{ {} \} {}} $key]
           if {$include_comments} {
             set contents($key) "$value\n"
           } else {
             set contents($key) [string trim $value]
           }
-          set value_ip       1
-        } elseif {$value_ip && [regexp {^([^\}]*)$} $line -> value]} {
-          if {$include_comments} {
-            append contents($key) "$value\n"
-          } else {
-            append contents($key) " [string trim $value]"
-          }
-        } elseif {$value_ip && [regexp {^(.*)\}\s*$} $line -> value]} {
-          if {$include_comments} {
-            append contents($key) "$value"
-          } else {
-            append contents($key) " [string trim $value]"
-          }
-          if {[regexp {\[.*\]} [string map {\n { }} $contents($key)]]} {
+          if {[regexp {\[.*\]} $contents($key)]} {
             unset contents($key)
           } elseif {$include_comments} {
             set contents($key,comment) $comments
           }
-          set comments [list]
-          set value_ip 0
+
+        } elseif {$value_ip} {
+
+          if {[bracket_count $line $linenum 0] == 0} {
+            if {$include_comments} {
+              append contents($key) "$line\n"
+            } else {
+              append contents($key) " [string trim $line]"
+            }
+            if {[regexp {\[.*\]} $contents($key)]} {
+              unset contents($key)
+            } elseif {$include_comments} {
+              set contents($key,comment) $comments
+            }
+            set value_ip 0
+          }
+
         }
         
+        incr linenum
+
       }
       
       close $rc
@@ -74,6 +116,7 @@ namespace eval tkedat {
       
     }
 
+    puts "contents: [array get contents]"
     return [array get contents]
     
   }
