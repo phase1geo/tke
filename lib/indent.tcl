@@ -47,7 +47,7 @@ namespace eval indent {
     # If the current line contains an unindent expression, is not within a comment or string,
     # and is preceded in the line by only whitespace, replace the whitespace with the proper
     # indentation whitespace.
-    if {([set uindex [$txt search -regexp -- [join $indent_exprs($txt,unindent) |] "$index linestart" $index]] ne "") && \
+    if {([set uindex [$txt search -regexp -- "[join $indent_exprs($txt,unindent) |]\$" "$index linestart" $index]] ne "") && \
          ![ctext::inCommentString $txt $uindex]} {
       set line [$txt get "$index linestart" $uindex]
       if {($line ne "") && ([string trim $line] eq "")} {
