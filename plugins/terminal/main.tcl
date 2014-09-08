@@ -74,5 +74,5 @@ namespace eval terminal {
 
 api::register terminal {
   {on_start terminal::on_start_do}
-  {menu command "Terminal/Run Command..." terminal::run_command_do termina::run_command_handle_state}
+  {menu command "Terminal/Run Command..." terminal::run_command_do terminal::run_command_handle_state}
 }

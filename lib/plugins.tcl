@@ -563,15 +563,15 @@ namespace eval plugins {
     
     # Add each of the entries
     foreach entry $entries {
-      lassign $entry index type hier do
-      menu_add_item $index $mnu $action [split $hier /] $type $do
+      lassign $entry index type hier do state
+      menu_add_item $index $mnu $action [split $hier /] $type $do $state
     }
     
   }
   
   ######################################################################
   # Adds menu item, creating all needed cascading menus.
-  proc menu_add_item {index mnu action hier type do} {
+  proc menu_add_item {index mnu action hier type do state} {
 
     variable registry
     
@@ -592,18 +592,29 @@ namespace eval plugins {
       }
     }
     
+    # Handle the state
+    if {$state ne ""} {
+      if {[catch "$registry($index,interp) eval $state" status]} {
+        handle_status_error $index $status
+      } elseif {$status} {
+        set state "normal"
+      } else {
+        set state "disabled"
+      }
+    }
+    
     # Add menu item
     switch [lindex $type 0] {
       command {
-        $mnu add command -label $level -command [list $registry($index,interp) eval {*}$do]
+        $mnu add command -label $level -command [list $registry($index,interp) eval {*}$do] -state $state
       }
       checkbutton {
         $mnu add checkbutton -label $level -variable [lindex $type 1] \
-          -command [list $registry($index,interp) eval {*}$do]
+          -command [list $registry($index,interp) eval {*}$do] -state $state
       }
       radiobutton {
         $mnu add radiobutton -label $level -variable [lindex $type 1] \
-          -value [lindex $type 2] -command [list $registry($index,interp) eval {*}$do]
+          -value [lindex $type 2] -command [list $registry($index,interp) eval {*}$do] -state $state
       }
       cascade {
         set new_mnu_name "$mnu.[string tolower [string map {{ } _} $level]]"
