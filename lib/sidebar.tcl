@@ -302,6 +302,48 @@ namespace eval sidebar {
   }
   
   ######################################################################
+  # Returns the sidebar index of the given filename.  If the filename
+  # was not found in the sidebar, return a value of -1.
+  proc get_index {fname} {
+    
+    variable widgets
+    
+    return [$widgets(tl) searchcolumn name $fname -descend -exact]
+    
+  }
+  
+  ######################################################################
+  # Returns the index of the current selection.  If nothing is currently
+  # selected, returns -1.
+  proc get_selected_index {} {
+    
+    variable widgets
+    
+    # Get the current selection
+    set selected [$widgets(tl) curselection]
+    
+    return [expr {($selected eq "") ? -1 : $selected}]
+    
+  }
+  
+  ######################################################################
+  # Returns the information specified by attr for the file at the given
+  # sidebar index.
+  proc get_info {index attr} {
+    
+    variable widgets
+    
+    switch $attr {
+      fname      { return [$widgets(tl) cellcget $index,name -text] }
+      file_index { return [gui::get_file_index [$widgets(tl) cellcget $index,name -text]]}
+      default    {
+        return -code error "Illegal sidebar attribute specified ($attr)"
+      }
+    }
+    
+  }
+  
+  ######################################################################
   # Highlights (or dehighlights) the given filename in the file system
   # sidebar.
   proc highlight_filename {fname highlight} {

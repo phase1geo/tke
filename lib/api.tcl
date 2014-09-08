@@ -166,11 +166,12 @@ namespace eval api {
     #  \param file_index  Unique file identifier that is passed to some plugins.
     #  \param attr        File attribute to retrieve.  The following values are
     #                     valid for this option:
-    #                     - \b fname : Normalized file name
-    #                     - \b mtime : Last mofication timestamp (in seconds)
-    #                     - \b lock : Specifies the current lock status of the file
+    #                     - \b fname    : Normalized file name
+    #                     - \b mtime    : Last mofication timestamp (in seconds)
+    #                     - \b lock     : Specifies the current lock status of the file
     #                     - \b readonly : Specifies if the file is readonly
     #                     - \b modified : Specifies if the file has been modified since the last save.
+    #                     - \b sb_index : Specifies the index of the file in the sidebar.
     proc get_info {interp pname file_index attr} {
       
       return [gui::get_file_info $file_index $attr]
@@ -294,6 +295,36 @@ namespace eval api {
     
   }
   
+  namespace eval sidebar {
+    
+    ######################################################################
+    ## \return Returns the selected sidebar file index.
+    proc get_selected_index {} {
+      
+      return [sidebar::get_selected_index]
+      
+    }
+    
+    ######################################################################
+    ## \return Returns the value for the specified attribute of the
+    #          file/directory in the sidebar with the given index.
+    #
+    #  \param sb_index  Sidebar index of file/directory in the sidebar
+    #  \param attr      Attribute to return the value of.  Valid attribute
+    #                   names are:
+    #                   - \b fname      : Normalized name file or directory
+    #                   - \b file_index : If not set, indicates the file has
+    #                                     not been opened in the editor; otherwise,
+    #                                     specifies the file index of the opened
+    #                                     file.
+    proc get_info {sb_index attr} {
+      
+      return [sidebar::get_info $sb_index $attr]
+      
+    }
+    
+  }
+  
   namespace eval plugin {
   
     ######################################################################
@@ -319,6 +350,18 @@ namespace eval api {
     proc load_variable {interp pname index name} {
       
       return [plugins::restore_data $index $name]
+      
+    }
+    
+  }
+  
+  namespace eval utils {
+    
+    ######################################################################
+    ## Opens the given file in a file browser.
+    proc open_file {fname} {
+      
+      utils::open_file_externally $fname
       
     }
     
