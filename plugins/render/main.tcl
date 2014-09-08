@@ -23,21 +23,21 @@ namespace eval render {
   proc tab_show_in_browser {} {
     
     # Get the filename associated with the current tab
-    show_in_browser [api::file::get_info [api::file::current_file_index] fname]
+    if {[set file_index [api::file::current_file_index]] != -1} {
+      show_in_browser [api::file::get_info $file_index fname]
+    }
     
   }
   
   ######################################################################
   # Handles the state of the associated "Show in browser" menu item.
-  proc handle_tab_show_in_browser {mnu} {
-    
-    puts "In handle_tab_show_in_browser, mnu: $mnu"
+  proc handle_tab_show_in_browser {} {
     
     # Get the filename associated with the current tab
-    if {[is_html [api::file::get_info [api::file::current_file_index] fname]]} {
-      $mnu entryconfigure "Show in browser" -state normal
+    if {[set file_index [api::file::current_file_index]] != -1} {
+      return [is_html [api::file::get_info $file_index fname]]
     } else {
-      $mnu entryconfigure "Show in browser" -state disabled
+      return 0
     }
     
   }
@@ -46,18 +46,20 @@ namespace eval render {
   # Shows the associated tab file contents in the browser.
   proc sb_show_in_browser {} {
     
-    show_in_browser [api::sidebar::get_info [api::sidebar::get_selected_index] fname]
+    if {[set sb_index [api::sidebar::get_selected_index]] != -1} {
+      show_in_browser [api::sidebar::get_info $sb_index fname]
+    }
     
   }
   
   ######################################################################
   # Handles the stat of the associated "Show in browser" menu item.
-  proc handle_sb_show_in_browser {mnu} {
+  proc handle_sb_show_in_browser {} {
     
-    if {[is_html [api::sidebar::get_info [api::sidebar::get_selected_index] fname]]} {
-      $mnu entryconfigure "Show in browser" -state normal
+    if {[set sb_index [api::sidebar::get_selected_index]] != -1} {
+      return [is_html [api::sidebar::get_info $sb_index fname]]
     } else {
-      $mnu entryconfigure "Show in browser" -state disabled
+      return 0
     }
     
   }

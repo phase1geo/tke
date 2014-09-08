@@ -301,7 +301,7 @@ namespace eval api {
     ## \return Returns the selected sidebar file index.
     proc get_selected_index {} {
       
-      return [sidebar::get_selected_index]
+      return [::sidebar::get_selected_index]
       
     }
     
