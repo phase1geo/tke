@@ -52,6 +52,18 @@ namespace eval gui {
   #######################
 
   ######################################################################
+  # Returns the file index based on the given fname.  If the filename
+  # was not found, return an index value of -1.
+  proc get_file_index {fname} {
+    
+    variable files
+    variable files_index
+    
+    return [lsearch -index $files_index(fname) $files $fname]
+    
+  }
+  
+  ######################################################################
   # Polls every 10 seconds to see if any of the loaded files have been
   # updated since the last save.
   proc poll {} {
@@ -526,6 +538,9 @@ namespace eval gui {
     } else {
       $widgets(menu) entryconfigure [msgcat::mc "Locked"] -state normal
     }
+    
+    # Handle plugin states
+    # FOOBAR
 
   }
 
@@ -2462,7 +2477,9 @@ namespace eval gui {
     if {($index < 0) || ($index >= [llength $files])} {
       return -code error [msgcat::mc "File index is out of range"]
     }
-    if {![info exists files_index($attr)]} {
+    if {$attr eq "sb_index"} {
+      return [sidebar::get_index $index]
+    } elseif {![info exists files_index($attr)]} {
       return -code error [msgcat::mc "File attribute (%s) does not exist" $attr]
     }
 
