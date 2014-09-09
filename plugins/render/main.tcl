@@ -5,6 +5,8 @@ namespace eval render {
   # Returns true if the given filename is an HTML file.
   proc is_html {fname} {
     
+    puts "Checking fname: $fname"
+    
     return [expr {([file extension $fname] eq ".html") || ([file extension $fname] eq ".htm")}]
     
   }
@@ -70,4 +72,5 @@ namespace eval render {
 api::register render {
   {tab_popup  command "Show in browser" render::tab_show_in_browser render::handle_tab_show_in_browser}
   {file_popup command "Show in browser" render::sb_show_in_browser  render::handle_sb_show_in_browser}
+  {on_save    render::tab_show_in_browser}
 }
