@@ -648,9 +648,9 @@ namespace eval menus {
   proc edit_snippets_posting {mb} {
 
     if {[gui::current_txt {}] eq ""} {
-      $mb entryconfigure [msgcat::mc "Edit"] -state disabled
+      $mb entryconfigure [msgcat::mc "Edit current"] -state disabled
     } else {
-      $mb entryconfigure [msgcat::mc "Edit"] -state normal
+      $mb entryconfigure [msgcat::mc "Edit current"] -state normal
     }
 
   }
