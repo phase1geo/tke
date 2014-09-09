@@ -506,7 +506,7 @@ namespace eval gui {
     variable files_index
     variable file_locked
     variable file_favorited
-
+    
     # Get the current file index
     set file_index [current_file]
 
@@ -540,7 +540,8 @@ namespace eval gui {
     }
     
     # Handle plugin states
-    # FOOBAR
+    puts "Calling menu_state $widgets(menu) tab_popup"
+    plugins::menu_state $widgets(menu) tab_popup
 
   }
 
