@@ -358,10 +358,12 @@ namespace eval api {
   namespace eval utils {
 
     ######################################################################
-    ## Opens the given file in a file browser.
-    proc open_file {interp pname fname} {
+    ## Opens the given file in a file browser.  If in_background is set to
+    #  a value of 1, the focus will remain in the editor; otherwise, focus
+    #  will be given to the opening application.
+    proc open_file {interp pname fname {in_background 0}} {
 
-      utils::open_file_externally $fname
+      utils::open_file_externally $fname $in_background
 
     }
 

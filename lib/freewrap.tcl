@@ -49,3 +49,5 @@ foreach pkg [list Tclx] {
 puts "A auto_path: $auto_path"
 set auto_path $new_auto_path
 puts "B auto_path: $auto_path"
+
+puts "This is good"

@@ -79,6 +79,8 @@ proc usage {} {
   puts "           (overrides preference setting)"
   puts "  -m     Creates a minimal editing environment (overrides"
   puts "           preference settings)"
+  puts "  -n     Opens a new window without attempting to merge"
+  puts "           with an existing window"
   puts ""
   
   exit
@@ -103,7 +105,7 @@ proc parse_cmdline {argc argv} {
   set ::cl_sidebar       1
   set ::cl_exit_on_close 0
   set ::cl_minimal       0
-  set ::cl_single        0
+  set ::cl_new_win       0
   
   set i 0
   while {$i < $argc} {
@@ -113,7 +115,7 @@ proc parse_cmdline {argc argv} {
       -nosb { set ::cl_sidebar 0 }
       -e    { set ::cl_exit_on_close 1 }
       -m    { set ::cl_minimal 1 }
-      -s    { set ::cl_single 1 }
+      -n    { set ::cl_new_win 1 }
       default {
         if {[lindex $argv $i] ne ""} {
           lappend ::cl_files [file normalize [lindex $argv $i]]
@@ -216,7 +218,7 @@ tk appname tke
 parse_cmdline $argc $argv
 
 # Attempt to add files or raise the existing application
-if {([tk appname] ne "tke") && ([tk windowingsystem] eq "x11") && !$cl_single} {
+if {([tk appname] ne "tke") && ([tk windowingsystem] eq "x11") && !$cl_new_win} {
   if {[llength $cl_files] > 0} {
     if {![catch { send tke gui::add_files_and_raise [info hostname] end $cl_files } rc]} {
       destroy .
