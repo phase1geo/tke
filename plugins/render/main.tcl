@@ -22,10 +22,10 @@ namespace eval render {
   
   ######################################################################
   # Shows the associated tab file contents in the browser.
-  proc tab_show_in_browser {} {
+  proc tab_show_in_browser {{file_index ""}} {
     
     # Get the filename associated with the current tab
-    if {[set file_index [api::file::current_file_index]] != -1} {
+    if {($file_index ne "") || ([set file_index [api::file::current_file_index]] != -1)} {
       show_in_browser [api::file::get_info $file_index fname]
     }
     

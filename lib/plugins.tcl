@@ -719,25 +719,23 @@ namespace eval plugins {
     variable registry
     variable menus
 
-    set mnu_index 0
     foreach entry [find_registry_entries $action] {
       lassign $entry index type hier do state
       set entry_mnu $menus($action)
-      if {[set menu_hier [string tolower [string map {{ } _} [join [lrange [split $hier .] 0 end-1] .]]]] ne ""} {
-        append entry_mnu ".$menu_hier"
+      if {[llength [set hier_list [split $hier .]]] > 1} {
+        append entry_mnu ".[string tolower [string map {{ } _} [join [lrange $hier_list 0 end-1] .]]]"
       }
       if {$mnu eq $entry_mnu} {
         if {[catch "$registry($index,interp) eval $state" status]} {
           handle_status_error $index $status
         } elseif {$status} {
-          puts "mnu: $mnu, mnu_index: $mnu_index"
-          $mnu entryconfigure $mnu_index -state normal
+          puts "mnu: $mnu, mnu_index: [lindex $hier_list end]"
+          $mnu entryconfigure [lindex $hier_list end] -state normal
         } else {
-          $mnu entryconfigure $mnu_index -state disabled
+          $mnu entryconfigure [lindex $hier_list end] -state disabled
         }
         puts "status: $status"
       }
-      incr mnu_index
     }
 
   }
