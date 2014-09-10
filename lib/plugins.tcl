@@ -729,12 +729,10 @@ namespace eval plugins {
         if {[catch "$registry($index,interp) eval $state" status]} {
           handle_status_error $index $status
         } elseif {$status} {
-          puts "mnu: $mnu, mnu_index: [lindex $hier_list end]"
           $mnu entryconfigure [lindex $hier_list end] -state normal
         } else {
           $mnu entryconfigure [lindex $hier_list end] -state disabled
         }
-        puts "status: $status"
       }
     }
 

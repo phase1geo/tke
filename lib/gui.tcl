@@ -540,7 +540,6 @@ namespace eval gui {
     }
     
     # Handle plugin states
-    puts "Calling menu_state $widgets(menu) tab_popup"
     plugins::menu_state $widgets(menu) tab_popup
 
   }
