@@ -2252,18 +2252,18 @@ namespace eval gui {
     }
 
     # Replace the text and re-highlight the changes
-    set i     0
-    set index ""
-    foreach index [$txt search -all -regexp -count [ns gui]::lengths {*}$rs_args -- $search $sline $eline] {
+    set indices [lreverse [$txt search -all -regexp -count [ns gui]::lengths {*}$rs_args -- $search $sline $eline]]
+    set i       [expr [set num_indices [llength $indices]] - 1]
+    foreach index $indices {
       $txt replace $index "$index+[lindex $lengths $i]c" $replace
-      incr i
+      incr i -1
     }
-    if {$index ne ""} {
-      $txt see $index
-      $txt mark set insert $index
-      set_info_message "[llength $lengths] substitutions done"
+    if {$num_indices > 0} {
+      $txt see [lindex $indices 0]
+      $txt mark set insert [lindex $indices 0]
+      $txt highlight $sline $eline
     }
-    $txt highlight $sline $eline
+    set_info_message "$num_indices substitutions done"
 
     # Make sure that the insertion cursor is valid
     [ns vim]::adjust_insert $txt
