@@ -378,9 +378,6 @@ namespace eval sidebar {
     # Get the length of the directory
     set dirlen [string length $dir]
     
-    # Initialize the bgproc updater
-    bgproc::update 1
-    
     # Check to see if the directory root has already been added
     if {[set row [$widgets(tl) searchcolumn name $dir -descend -exact]] != -1} {
       if {![$widgets(tl) isexpanded $row]} {
@@ -492,8 +489,6 @@ namespace eval sidebar {
             }
           }
         }
-        
-        bgproc::update
         
       }
       
