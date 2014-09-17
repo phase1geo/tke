@@ -104,7 +104,12 @@ namespace eval menus {
       set appl [menu $mb.apple -tearoff false]
       $mb add cascade -menu $appl
       $appl add command -label [msgcat::mc "About TKE"] -command gui::show_about
+      launcher::register "Menus: About TKE" gui::show_about
+      
       $appl add separator
+      
+      $appl add command -label [msgcat::mc "Check for Update"] -command specl::check_for_update
+      launcher::register "Menus: Check for Update" specl::check_for_update
 
     }
 
@@ -1504,10 +1509,19 @@ namespace eval menus {
     launcher::register [msgcat::mc "Menu: View User Guide"] "utils::open_file_externally [file join $::tke_dir doc UserGuide.pdf]"
 
     if {[tk windowingsystem] ne "aqua"} {
+      
+      if {![string match *Win* $::tcl_platform(os)]} {
+        $mb add separator
+        $mb add command -label [msgcat::mc "Check for Update"] -underline 0 -command specl::check_for_update
+        launcher::register [msgcat::mc "Menu: Check for Update"] "specl::check_for_update"
+      }
+      
       $mb add separator
       $mb add command -label [msgcat::mc "About TKE"] -underline 0 -command "gui::show_about"
+      launcher::register [msgcat::mc "Menu: About TKE"] "gui::show_about"
+      
     }
-    launcher::register [msgcat::mc "Menu: About TKE"] "gui::show_about"
+    
 
   }
 

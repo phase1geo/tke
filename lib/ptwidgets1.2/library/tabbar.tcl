@@ -36,7 +36,6 @@ namespace eval tabbar {
     -padx                   {padX                   Pad}
     -pady                   {padY                   Pad}
     -relief                 {relief                 Relief}
-    -setgrid                {setGrid                SetGrid}
     -state                  {state                  State}
     -takefocus              {takeFocus              TakeFocus}
     -width                  {width                  Width}
@@ -51,7 +50,6 @@ namespace eval tabbar {
     -pady         3
     -state        normal
     -text         ""
-    -resizable    1
     -movable      1
   }
   
@@ -462,6 +460,7 @@ namespace eval tabbar {
       # Start the move operation
       set data($w,moveto_index) $tab_index
       set data($w,last_x)       $x
+      set data($w,moveto_stop)  0
       $w.c raise [tab_tag $w $page_index]
       
       # Make the current tab look current
@@ -484,16 +483,41 @@ namespace eval tabbar {
     # Get the width of the canvas
     set width [winfo width $w.c]
     
+    # If we no longer have a moveto_index, return immediately
+    if {$data($w,moveto_index) eq ""} {
+      return
+    }
+    
+    # Get the page index of the moveto_index
+    set page_index [page_index $w $data($w,moveto_index)]
+    
+    # Get the tab options of the moveto_index
+    array set tab_opts [tab_opts $w $page_index]
+    
     # Get the index of the tab that we are crossing into
-    if {($data($w,moveto_index) eq "") || \
-        (($data($w,last_x) <= 0) && ($x < 0)) || \
+    if {(($data($w,last_x) <= 0) && ($x < 0)) || \
         (($data($w,last_x) >= $width) && ($x >= $width)) || \
-        [set other_index [tab_index $w $x $y]] == -1} {
+        ($data($w,moveto_stop) == 1) ||
+        ([set other_index [tab_index $w $x $y]] == -1) || \
+        !$tab_opts(-movable)} {
+      return
+    }
+    
+    # Get the page index of the other tab
+    set other_page_index [page_index $w $other_index]
+    
+    # Get the tab options of the other page
+    array set other_tab_opts [tab_opts $w $other_page_index]
+    
+    # If the other tab is not movable, clear the moveto_index
+    # and return immediately
+    if {!$other_tab_opts(-movable)} {
+      set data($w,moveto_stop) 1
       return
     }
     
     # Move the current tab
-    set current_tab [tab_tag $w [page_index $w $data($w,moveto_index)]]
+    set current_tab [tab_tag $w $page_index]
     $w.c move $current_tab [expr $x - $data($w,last_x)] 0
       
     # Move the lower tab
@@ -502,7 +526,7 @@ namespace eval tabbar {
          (($data($w,moveto_index) < $other_index) && ($x > $data($w,last_x))))} {
       
       # Get the tab tag of the tab to evaluate
-      set other_tabid [tab_tag $w [page_index $w $other_index]]
+      set other_tabid [tab_tag $w $other_page_index]
     
       # Move the other tab
       lassign [$w.c coords [string range $other_tabid 1 end]] x0
@@ -593,6 +617,7 @@ namespace eval tabbar {
 
       # Clear the moveto_index
       set data($w,moveto_index) ""
+      set data($w,moveto_stop)  0
       
     }
     
@@ -807,9 +832,9 @@ namespace eval tabbar {
       
       # If the text exceeds the available test area, snip the text
       if {($x1 - $x0) > $text_width} {
-        $w.c insert $tid 0 "..."
+        $w.c insert $tid end "..."
         while {(($x1 - $x0) > $text_width) && ([$w.c itemcget $tid -text] ne "...")} {
-          $w.c dchars $tid 3
+          $w.c dchars $tid [expr [string length [$w.c itemcget $tid -text]] - 4]
           lassign [$w.c bbox $tid] x0 y0 x1 y1
         }
         if {[$w.c itemcget $tid -text] eq "..."} {
@@ -880,8 +905,14 @@ namespace eval tabbar {
     # Get the current width of the tabs
     set tab_width $data($w,tab_width)
     
+    # Get the number of tabs to display
+    set num_tabs [llength $data($w,tab_order)]
+    
+    # Set the tab width to the desired value
+    set data($w,tab_width) [expr $nb_width / (($num_tabs == 0) ? 1 : $num_tabs)]
+    
     # If the tabs can be larger than the maximum width, set their size to the maximum size
-    if {[set data($w,tab_width) [expr $nb_width / ([llength $data($w,tab_order)] + 1)]] > $data($w,option,-maxtabwidth)} {
+    if {($data($w,option,-maxtabwidth) > 0) && ($data($w,tab_width) > $data($w,option,-maxtabwidth))} {
       set data($w,tab_width) $data($w,option,-maxtabwidth)
       
     # If the tab becomes smaller than the minimum width, set it to the minimum value
@@ -915,7 +946,7 @@ namespace eval tabbar {
         resize_text $w $tabid [lindex $page 1 2]
         
         # Move the tab to its proper position
-        $w.c move t$tabid [expr ($i * $data($w,tab_width)) - $tx0] 0
+        $w.c move t$tabid [expr ($i * ($data($w,tab_width) + $data($w,option,-margin))) - $tx0] 0
         
       }
       
@@ -1123,13 +1154,13 @@ namespace eval tabbar {
     set opts [lrange $args 1 end]
     
     switch $cmd {
-      configure { return [tabbar::configure 0 $w {*}$opts] }
+      btag      { return [tabbar::btag $w {*}$opts] }
       cget      { return [tabbar::cget $w {*}$opts] }
+      configure { return [tabbar::configure 0 $w {*}$opts] }
       delete    { tabbar::delete $w {*}$opts }
       index     { return [tabbar::index $w {*}$opts] }
       insert    { return [tabbar::insert $w {*}$opts] }
       select    { tabbar::select $w {*}$opts }
-      btag      { return [tabbar::btag $w {*}$opts] }
       tab       { return [tabbar::tab $w {*}$opts] }
       tabs      { return [tabbar::tabs $w {*}$opts] }
       xview     { return [tabbar::xview $w {*}$opts] }
