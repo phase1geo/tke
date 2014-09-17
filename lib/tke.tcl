@@ -26,6 +26,7 @@ package require tooltip
 package require msgcat
 package require tokenentry
 package require tabbar
+package require specl
 
 source [file join $tke_dir lib version.tcl]
 source [file join $tke_dir lib bnotebook.tcl]

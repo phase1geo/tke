@@ -7,35 +7,101 @@
 # Brief:   Update mechanism for Tcl applications.
 ######################################################################
 
+# Error out if we are running on Windows
+if {[string match $::tcl_platform(os) *Win*]} {
+  error "specl is not available for the Windows platform at this time"
+}
+
 package provide specl 1.2
 
 namespace eval specl {
   
+  variable appname   ""
   variable version   ""
   variable rss_url   ""
   variable icon_path ""
   
   ######################################################################
-  # Checks for updates.  Throws an exception if there was a problem
-  # checking for the update.
-  proc check_for_update {} {
+  # Returns the full, normalized pathname of the specl_version.tcl file.
+  proc get_specl_version_dir {start_dir} {
     
-    variable version
-    variable rss_url
-    variable icon_path
+    set current_dir [file normalize $start_dir]
+    while {($current_dir ne "/") && ![file exists [file join $current_dir specl_version.tcl]]} {
+      set current_dir [file dirname $current_dir]
+    }
+    
+    # If we could not find the specl_version.tcl file, return an error
+    if {$current_dir eq "/"} {
+      return -code error "Unable to find specl_version.tcl file"
+    }
+    
+    return $current_dir
+    
+  }
+  
+  ######################################################################
+  # Loads the specl version file.
+  proc load_specl_version {specl_version_dir} {
     
     # Read the version and URL information
-    if {[catch "source [file join [file dirname $::argv0] specl_version.tcl]" rc]} {
+    if {[catch "source [file join $specl_version_dir specl_version.tcl]" rc]} {
       return -code error $rc
     }
+    
+  }
+  
+  ######################################################################
+  # Returns the installation path.
+  proc get_install_dir {specl_version_dir} {
+    
+    # Initialize the installation path to the current directory
+    set install_dir $specl_version_dir
+    
+    # If we are running on a Mac, find the .app installation directory
+    if {$::tcl_platform(os) eq "Darwin"} {
+      set path [file split $specl_version_dir]
+      if {[set path [file join [lrange $path 0 [lsearch -glob $path *.app]]]] ne ""} {
+        set install_dir $path
+      }
+    }
+    
+    return $install_dir
+    
+  }
+  
+  ######################################################################
+  # Checks for updates.  Throws an exception if there was a problem
+  # checking for the update.
+  proc check_for_update {{cl_args {}} {cleanup_script {}}} {
+    
+    # Allow the UI to update before we proceed
+    update
+    
+    # Loads the specl_version.tcl file
+    set specl_version_dir [get_specl_version_dir [file dirname $::argv0]]
     
     # Get the current file
     array set frame [info frame 0]
     
+    # Get the normalized name of argv0
+    set script_name [file normalize $::argv0]
+    
     # Execute this script
-    if {[catch { exec wish8.5 $frame(file) -- update $version $rss_url [file normalize [file dirname $::argv0]] [pid] [tk appname] $icon_path & } rc]} {
-      return -code error $rc
+    if {[catch { exec -ignorestderr [info nameofexecutable] $frame(file) -- update $specl_version_dir } rc options]} {
+      return
     }
+    
+    # If there is a cleanup script to execute, do it now
+    if {$cleanup_script ne ""} {
+      eval $cleanup_script
+    }
+    
+    # Relaunch the application
+    cd $specl_version_dir
+    exec [info nameofexecutable] $script_name {*}$cl_args &
+    
+    # Exit this application
+    exit
     
   }
   
@@ -51,9 +117,9 @@ namespace eval specl::helpers {
   # Returns the node content found within the given parent node.
   proc get_element {node name} {
     
-    if {[regexp "<$name\(\[^>\]*\)>\(.*\)</$name>" [lindex $node 1] -> attrs content]} {
+    if {[regexp "<$name\(.*?\)>\(.*?\)</$name>" [lindex $node 1] -> attrs content]} {
       return [list [string trim $attrs] [string trim $content]]
-    } elseif {[regexp "<$name\(.*\)/>" [lindex $node 1] -> attrs]} {
+    } elseif {[regexp "<$name\(.*?\)/>" [lindex $node 1] -> attrs]} {
       return [list [string trim [string range $attrs 0 end-1]] ""]
     } else {
       return -code error "Node does not contain element '$name'"
@@ -65,7 +131,7 @@ namespace eval specl::helpers {
   # Returns the data located inside the CDATA element.
   proc get_cdata {node} {
     
-    if {[regexp {<!\[CDATA\[(.*)\]\]>} [lindex $node 1] -> content]} {
+    if {[regexp {<!\[CDATA\[(.*?)\]\]>} [lindex $node 1] -> content]} {
       return [string trim $content]
     } else {
       return -code error "Node does not contain CDATA"
@@ -77,7 +143,7 @@ namespace eval specl::helpers {
   # Searches for and returns the attribute in the specified parent.
   proc get_attr {parent name} {
     
-    if {[regexp "\\m$name\s*=\s*\"(\[^\"\]*)\"" [lindex $parent 0] -> attr]} {
+    if {[regexp "$name\\s*=\\s*\"\(\[^\"]*\)\"" [lindex $parent 0] -> attr]} {
       return $attr
     } else {
       return -code error "Node does not contain attribute '$name'"
@@ -85,26 +151,34 @@ namespace eval specl::helpers {
     
   }
   
+  ######################################################################
+  # Returns a unique pathname in the given directory.
+  proc get_unique_path {dpath fname} {
+    
+    set path  [file join $dpath $fname]
+    set index 0
+    while {[file exists $path]} {
+      set path [file join $dpath "$fname ([incr index])"]
+    }
+    
+    return $path
+    
+  }
+    
 }
   
 namespace eval specl::updater {
   
-  variable version "1.0"
-  
   array set widgets {}
   
   array set data {
-    current_version ""
-    url             ""
-    directory       ""
-    pid             ""
-    appname         ""
-    icon            ""
-    fetch_ncode     ""
-    fetch_content   ""
-    fetch_error     ""
-    stylecount      0
-    cancel          0
+    specl_version_dir ""
+    icon              ""
+    fetch_ncode       ""
+    fetch_content     ""
+    fetch_error       ""
+    stylecount        0
+    cancel            0
   }
 
   ######################################################################
@@ -114,7 +188,7 @@ namespace eval specl::updater {
     variable data
     
     # Get the data from the given URL
-    set token [http::geturl $data(url)]
+    set token [http::geturl "$specl::rss_url/appcast.xml"]
     
     # Set the ncode
     set data(fetch_ncode) [http::ncode $token]
@@ -179,98 +253,175 @@ namespace eval specl::updater {
     # Get the version
     set version [specl::helpers::get_attr $enclosure_node "specl:version"]
     
-    # Get the signature
-    set signature [specl::helpers::get_attr $enclosure_node "specl:dsaSignature"]
+    # Get the file length
+    set length [specl::helpers::get_attr $enclosure_node "length"]
     
-    return [list description $description download_url $download_url version $version signature $signature]
+    # Get the md5 checksum
+    set checksum [specl::helpers::get_attr $enclosure_node "specl:checksum"]
+    
+    return [list description $description download_url $download_url version $version length $length checksum $checksum]
     
   }
   
   ######################################################################
-  # Unpacks the content into the download directory.
-  proc unpack_and_restart {tarball content_list} {
+  # Unpacks the content into the tmp directory.
+  proc check_tarball {tarball content_list} {
     
     variable data
     
-    # TBD
+    array set content $content_list
     
-    puts "Unpacking and restarting..."
+    # Check the file size against the stored data
+    if {[file size $tarball] ne $content(length)} {
+      return -code error "Downloaded tarball is not the expected length"
+    }
+    
+    # Check the md5 checksum against the stored data
+    if {[specl::releaser::get_checksum $tarball] ne $content(checksum)} {
+      return -code error "Downloaded tarball has an incorrect checksum"
+    }
+    
+    # Unpack the tarball into the down directory
+    if {[catch { exec -ignorestderr tar xf $tarball -C [file join / tmp] } rc]} {
+      return -code error $rc
+    }
     
   }
   
   ######################################################################
   # Performs the actual application update.
-  proc do_update {content_list} {
-    
-    puts "In do_update, content_list: $content_list"
+  proc do_download {content_list} {
     
     array set content $content_list
     
-    # Destroy the update window
-    # destroy .updwin
-    
-    puts "HERE A, url: $content(download_url)"
+    # Show the progress bar
+    grid .updwin.pf
     
     # Get the update
-    set token [http::geturl $content(download_url) -progress "specl::updater::gzip_download_progress"]
-    
-    puts "HERE B, token: $token, status: [http::status $token], ncode: [http::ncode $token]"
+    set token [http::geturl $content(download_url) -progress "specl::updater::gzip_download_progress" \
+      -channel [set rc [open [set download [file join / tmp [file tail $content(download_url)]]] w]]]
+      
+    # Close the channel
+    close $rc
     
     # Get the data if the status is okay
     if {([http::status $token] eq "ok") && ([http::ncode $token] == 200)} {
-      set data [http::data $token]
-      unpack_and_restart $data $content_list
+      if {[catch { check_tarball $download $content_list } rc]} {
+        tk_messageBox -parent . -default ok -type ok -message "Downloaded data corrupted" -detail $rc
+      }
+    } else {
+      tk_messageBox -parent . -default ok -type ok -message "Unable to download" -detail "Cannot communicate with download server"
     }
     
     # Clean the token
     http::cleanup $token
     
-    # Delete the window
-    destroy .
+    # Indicate that the download was successful.
+    .updwin.if.info configure -text "Download was successful!\nClick Install and Restart to install the upgrade."
+    
+    # Change the download button to an Install and Restart button
+    grid remove .updwin.bf1
+    grid .updwin.bf2
     
   }
   
   ######################################################################
-  # Called whenever the geturl call for the do_update procedure needs to
-  # update progress.
-  proc gzip_download_progress {token total current} {
-    
-    puts "In gzip_download_progress, total: $total, current: $current"
-    
-  }
-  
-  ######################################################################
-  # Displays a window that shows that we are checking for updates.
-  proc display_check {} {
+  # Installs the downloaded content into the installation directory.
+  proc do_install {content_list} {
     
     variable data
     
-    toplevel     .chkwin
-    wm title     .chkwin "Updating $data(appname)"
-    wm resizable .chkwin 0 0
+    array set content $content_list
     
-    ttk::frame       .chkwin.tf
-    ttk::label       .chkwin.tf.i -image $data(icon)
-    ttk::label       .chkwin.tf.l -text "Checking for updates..."
-    ttk::progressbar .chkwin.tf.pb -orient horizontal -length 200 -mode indeterminate
+    # Get the name of the downloaded directory
+    set app "$specl::appname-$content(version)"
+    set download [file join / tmp $app]
     
-    grid .chkwin.tf.i  -row 0 -column 0 -sticky news -padx 2 -pady 2 -rowspan 2
-    grid .chkwin.tf.l  -row 0 -column 1 -sticky news -padx 2 -pady 2
-    grid .chkwin.tf.pb -row 1 -column 1 -sticky news -padx 2 -pady 2
+    # Get the name of the installation directory
+    set install_dir [specl::get_install_dir $data(specl_version_dir)]
     
-    ttk::frame  .chkwin.bf
-    ttk::button .chkwin.bf.cancel -text "Cancel" -command {
-      set specl::updater::data(cancel) 1
-      destroy .chkwin
+    # Attempt to write a file to the installation directory (to see if su permissions are needed)
+    if {[catch { open [file join $install_dir .specl_test] w } rc]} {
+      lassign [get_username_password] username password
+      set rename_cmd "sudo -A mv $download $install_dir"
+    } else {
+      close $rc
+      set rename_cmd "mv $download $install_dir"
     }
     
-    pack .chkwin.bf.cancel -side right -padx 2 -pady 2
+    # Move the original directory to the trash
+    switch -glob $::tcl_platform(os) {
+      Darwin {
+        set trash_path [specl::helpers::get_unique_path [file join ~ .Trash] [file tail $install_dir]]
+      }
+      Linux* {
+        set trash [file join ~ .local share Trash]
+        if {[info exists ::env(XDG_DATA_HOME)] && \
+            ($::env(XDG_DATA_HOME) ne "") && \
+            [file exists $::env(XDG_DATA_HOME)]} {
+          set trash $::env(XDG_DATA_HOME)
+        }
+        set trash_path [specl::helpers::get_unique_path [file join $trash files] [file tail $install_dir]]
+        if {![catch { open [file join $trash info [file tail $trash_path].trashinfo] w } rc]} {
+          puts $rc "\[Trash Info\]"
+          puts $rc "Path=$install_dir"
+          puts $rc "DeletionDate=[clock format [clock seconds] -format {%Y-%m-%dT%T}]"
+          close $rc
+        }
+      }
+      *Win*  { 
+        if {[file exists [file join C: RECYCLER]]} {
+          set trash_path [file join C: RECYCLER]
+        } elseif {[file exists [file join C: {$Recycle.bin}]]} {
+          set trash_path [file join C: {$Recycle.bin}]
+        } else {
+          tk_messageBox -parent . -default ok -type ok -message "Unable to install" -detail $rc
+          exit 1
+        }
+      }
+      default {
+        tk_messageBox -parent . -default ok -type ok -message "Unable to install" -detail $rc
+        exit 1
+      }
+    }
     
-    pack .chkwin.tf -fill both -expand yes
-    pack .chkwin.bf -fill x
+    # Move the installation directory to the trash
+    if {[catch { file rename -force $install_dir $trash_path } rc]} {
+      tk_messageBox -parent . -default ok -type ok -message "A Unable to install" -detail $rc
+      exit 1
+    }
     
-    # Allow the window to be displayed
-    update
+    # Perform the directory move
+    if {[catch { file rename -force $download $install_dir } rc]} {
+      tk_messageBox -parent . -default ok -type ok -message "B Unable to install" -detail $rc
+      exit 1
+    }
+    
+    exit
+    
+  }
+  
+  ######################################################################
+  # Removes the downloaded content and quit the updater.
+  proc do_cancel_install {content_list} {
+    
+    array set content $content_list
+    
+    # Delete the downloaded content
+    catch { file delete -force [file join / tmp [file rootname [file tail $content(download_url)]]] }
+    
+    # Kill the window and exit the updater
+    destroy .updwin
+    exit 1
+    
+  }
+  
+  ######################################################################
+  # Called whenever the geturl call for the do_download procedure needs to
+  # update progress.
+  proc gzip_download_progress {token total current} {
+    
+    .updwin.pf.pb configure -value [expr int( ($current / $total.0) * 100 )]
     
   }
   
@@ -280,35 +431,65 @@ namespace eval specl::updater {
   proc display_update {content_list} {
     
     variable widgets
+    variable data
     
     array set content $content_list
-
+    
     toplevel     .updwin
-    wm title     .updwin "Update Information"
+    wm title     .updwin "Software Updater"
     wm resizable .updwin 0 0
     
-    ttk::frame     .updwin.tf
-    set widgets(html) [html .updwin.tf.h  -yscrollcommand ".updwin.tf.vb set"]
-    ttk::scrollbar .updwin.tf.vb -orient vertical -command ".updwin.tf.h yview"
+    ttk::frame .updwin.if
+    ttk::label .updwin.if.icon
+    ttk::label .updwin.if.info -text "A new version $content(version) of $specl::appname exists.\nThe latest version available is $specl::version.\nClick Download to upgrade your version."
     
-    grid rowconfigure    .updwin.tf 0 -weight 1
-    grid columnconfigure .updwin.tf 0 -weight 1
-    grid .updwin.tf.h  -row 0 -column 0 -sticky news
-    grid .updwin.tf.vb -row 0 -column 1 -sticky ns
-    
-    ttk::frame  .updwin.bf
-    ttk::button .updwin.bf.write  -text "Show"   -width 6 -command [list $widgets(html) parse -final $content(description)]
-    ttk::button .updwin.bf.update -text "Update" -width 6 -command [list specl::updater::do_update $content_list]
-    ttk::button .updwin.bf.cancel -text "Cancel" -width 6 -command {
-      destroy .updwin
+    if {$data(icon) ne ""} {
+      .updwin.if.icon configure -image $data(icon)
     }
     
-    pack .updwin.bf.write  -side left  -padx 2 -pady 2
-    pack .updwin.bf.cancel -side right -padx 2 -pady 2
-    pack .updwin.bf.update -side right -padx 2 -pady 2
+    pack .updwin.if.icon -side left -padx 2 -pady 2
+    pack .updwin.if.info -side left -padx 2 -pady 2 -fill x
     
-    pack .updwin.tf -fill both -expand yes
-    pack .updwin.bf -fill x
+    ttk::frame       .updwin.pf
+    ttk::progressbar .updwin.pf.pb -mode determinate -length 300
+    ttk::label       .updwin.pf.status
+    
+    pack .updwin.pf.pb     -side left -padx 2 -pady 2 -fill x
+    pack .updwin.pf.status -side left -padx 2 -pady 2
+    
+    ttk::frame     .updwin.hf
+    set widgets(html) [html .updwin.hf.h -width 400 -height 200 -yscrollcommand ".updwin.hf.vb set"]
+    ttk::scrollbar .updwin.hf.vb -orient vertical -command ".updwin.hf.h yview"
+    
+    grid rowconfigure    .updwin.hf 0 -weight 1
+    grid columnconfigure .updwin.hf 0 -weight 1
+    grid .updwin.hf.h  -row 0 -column 0 -sticky news
+    grid .updwin.hf.vb -row 0 -column 1 -sticky ns
+    
+    ttk::frame  .updwin.bf1
+    ttk::button .updwin.bf1.update -text "Download" -width 8 -command [list specl::updater::do_download $content_list]
+    ttk::button .updwin.bf1.cancel -text "Cancel"   -width 8 -command { destroy .updwin; exit 1 }
+    
+    pack .updwin.bf1.cancel -side right -padx 2 -pady 2
+    pack .updwin.bf1.update -side right -padx 2 -pady 2
+    
+    ttk::frame  .updwin.bf2
+    ttk::button .updwin.bf2.install -text "Install and Restart" -command [list specl::updater::do_install $content_list]
+    ttk::button .updwin.bf2.cancel  -text "Cancel" -width 6     -command [list specl::updater::do_cancel_install $content_list]
+    
+    pack .updwin.bf2.cancel  -side right -padx 2 -pady 2
+    pack .updwin.bf2.install -side right -padx 2 -pady 2
+    
+    grid rowconfigure    .updwin 2 -weight 1
+    grid columnconfigure .updwin 0 -weight 1
+    grid .updwin.if  -row 0 -column 0 -sticky news
+    grid .updwin.pf  -row 1 -column 0 -sticky news
+    grid .updwin.hf  -row 2 -column 0 -sticky news
+    grid .updwin.bf1 -row 3 -column 0 -sticky news
+    grid .updwin.bf2 -row 4 -column 0 -sticky news
+    
+    grid remove .updwin.pf
+    grid remove .updwin.bf2
     
     # Tie together some stuff for the HTML widget to handle CSS
     $widgets(html) handler script style specl::updater::style_handler
@@ -316,7 +497,7 @@ namespace eval specl::updater {
     
     # Add the HTML to the HTML widget
     $widgets(html) reset
-    # $widgets(html) parse -final $content(description)
+    catch { $widgets(html) parse -final $content(description) }
     
     # Wait for the window to be closed
     tkwait window .updwin
@@ -340,49 +521,55 @@ namespace eval specl::updater {
   proc image_handler {data} {
     
     regexp {data:image/png;base64,(.*)} $data -> data
+    
     return [image create photo -data $data]
     
   }
   
   ######################################################################
   # Perform the update.
-  proc start {} {
+  proc start_update {} {
     
     variable data
     
-    # Display the 'Checking for updates' window
-    display_check
+    # Load the specl_version.tcl file
+    if {[catch { specl::load_specl_version $data(specl_version_dir) } rc]} {
+      tk_messageBox -parent . -default ok -type ok -message "Unable to update" -detail $rc
+      exit 1
+    }
+    
+    # If an icon path was specified, create the icon image
+    if {$specl::icon_path ne ""} {
+      if {[file exists [set icon_path [file join $data(specl_version_dir) $specl::icon_path]]]} {
+        set data(icon) [image create photo -file $icon_path]
+      }
+    }
     
     # Get the URL
     if {[catch "fetch_url" rc]} {
-      destroy .chkwin
       tk_messageBox -parent . -default ok -type ok -message "Unable to update" -detail $rc
       exit 1
     }
     
     # If there was an issue with the download, display the message to the user.
     if {$data(fetch_content) eq ""} {
-      destroy .chkwin
       tk_messageBox -parent . -default ok -type ok -message "Unable to update" -detail "Error code: $data(fetch_ncode)\n$data(fetch_error)"
       exit 1
     }
     
     # Parse the data
     if {[catch "parse_data" rc]} {
-      destroy .chkwin
       tk_messageBox -parent . -default ok -type ok -message "Unable to parse update" -detail $rc
       exit 1
     }
-    
-    # Destroy the update window
-    destroy .chkwin
     
     # Get the content
     array set content $rc
     
     # If the content does not require an update, tell the user
-    if {$content(version) eq $data(current_version)} {
+    if {$content(version) eq $specl::version} {
       tk_messageBox -parent . -default ok -type ok -message "Application is already up-to-date"
+      exit 1
     } else {
       display_update $rc
     }
@@ -407,9 +594,7 @@ namespace eval specl::releaser {
     item_release_notes  ""
     item_url            ""
     item_length         0
-    item_dsa            ""
-    rss_url             ""
-    icon_path           ""
+    item_checksum       ""
   }
   
   ######################################################################
@@ -429,64 +614,66 @@ namespace eval specl::releaser {
     
     grid columnconfigure .relwin.rf 1 -weight 1
     
-    grid [ttk::label .relwin.rf.l1 -text "Title:"]        -row 0 -column 0 -sticky news -padx 2 -pady 2
-    grid [ttk::entry .relwin.rf.e1]                       -row 0 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
-    grid [ttk::label .relwin.rf.l2 -text "Description:"]  -row 1 -column 0 -sticky news -padx 2 -pady 2
-    grid [text       .relwin.rf.e2 -height 5 -width 60]   -row 1 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
-    grid [ttk::label .relwin.rf.l3 -text "Link:"]         -row 2 -column 0 -sticky news -padx 2 -pady 2
-    grid [ttk::entry .relwin.rf.e3]                       -row 2 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
-    grid [ttk::label .relwin.rf.l4 -text "Language:"]     -row 3 -column 0 -sticky news -padx 2 -pady 2
-    grid [ttk::entry .relwin.rf.e4]                       -row 3 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
-    grid [ttk::label .relwin.rf.l5 -text "RSS URL:"]      -row 4 -column 0 -sticky news -padx 2 -pady 2
-    grid [ttk::entry .relwin.rf.e5]                       -row 4 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
-    grid [ttk::label .relwin.rf.l51 -text "/appcast.xml"] -row 4 -column 2 -sticky news -padx 2 -pady 2
-    grid [ttk::label .relwin.rf.l6 -text "Icon Path:"]    -row 5 -column 0 -sticky news -padx 2 -pady 2
-    grid [ttk::entry .relwin.rf.e6]                       -row 5 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid [ttk::label .relwin.rf.l0 -text "Application Name:"] -row 0 -column 0 -sticky news -padx 2 -pady 2
+    grid [ttk::entry .relwin.rf.e0 -validate key -validatecommand {specl::releaser::update_url 0 %P}] -row 0 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid [ttk::label .relwin.rf.l1 -text "Title:"]        -row 1 -column 0 -sticky news -padx 2 -pady 2
+    grid [ttk::entry .relwin.rf.e1]                       -row 1 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid [ttk::label .relwin.rf.l2 -text "Description:"]  -row 2 -column 0 -sticky news -padx 2 -pady 2
+    grid [text       .relwin.rf.e2 -height 5 -width 60]   -row 2 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid [ttk::label .relwin.rf.l3 -text "Link:"]         -row 3 -column 0 -sticky news -padx 2 -pady 2
+    grid [ttk::entry .relwin.rf.e3]                       -row 3 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid [ttk::label .relwin.rf.l4 -text "Language:"]     -row 4 -column 0 -sticky news -padx 2 -pady 2
+    grid [ttk::entry .relwin.rf.e4]                       -row 4 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid [ttk::label .relwin.rf.l5 -text "RSS URL:"]      -row 5 -column 0 -sticky news -padx 2 -pady 2
+    grid [ttk::entry .relwin.rf.e5]                       -row 5 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid [ttk::label .relwin.rf.l51 -text "/appcast.xml"] -row 5 -column 2 -sticky news -padx 2 -pady 2
+    grid [ttk::label .relwin.rf.l6 -text "Icon Path:"]    -row 6 -column 0 -sticky news -padx 2 -pady 2
+    grid [ttk::entry .relwin.rf.e6]                       -row 6 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
     
     ttk::labelframe .relwin.tf -text "Release Information"
     
     grid rowconfigure    .relwin.tf 2 -weight 1
     grid columnconfigure .relwin.tf 1 -weight 1
     
-    grid [ttk::label .relwin.tf.l1 -text "Version:"]           -row 0 -column 0 -sticky news -padx 2 -pady 2
-    grid [ttk::entry .relwin.tf.e1]                            -row 0 -column 1 -sticky news -padx 2 -pady 2
-    grid [ttk::label .relwin.tf.l2 -text "Title:"]             -row 1 -column 0 -sticky news -padx 2 -pady 2
-    grid [ttk::entry .relwin.tf.e2]                            -row 1 -column 1 -sticky news -padx 2 -pady 2
-    grid [ttk::label .relwin.tf.l3 -text "Description:"]       -row 2 -column 0 -sticky news -padx 2 -pady 2
-    grid [text       .relwin.tf.e3 -height 5 -width 60]        -row 2 -column 1 -sticky news -padx 2 -pady 2
-    grid [ttk::label .relwin.tf.l4 -text "Release Notes URL:"] -row 3 -column 0 -sticky news -padx 2 -pady 2
-    grid [ttk::entry .relwin.tf.e4]                            -row 3 -column 1 -sticky news -padx 2 -pady 2
-    grid [ttk::label .relwin.tf.l5 -text "Download URL:"]      -row 4 -column 0 -sticky news -padx 2 -pady 2
-    grid [ttk::entry .relwin.tf.e5]                            -row 4 -column 1 -sticky news -padx 2 -pady 2
+    grid [ttk::label .relwin.tf.l1  -text "Version:"]           -row 0 -column 0 -sticky news -padx 2 -pady 2
+    grid [ttk::entry .relwin.tf.e1 -validate key -validatecommand {specl::releaser::update_url 1 %P}] -row 0 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid [ttk::label .relwin.tf.l2  -text "Description:"]       -row 2 -column 0 -sticky news -padx 2 -pady 2
+    grid [text       .relwin.tf.e2  -height 5 -width 60]        -row 2 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid [ttk::label .relwin.tf.l3  -text "Release Notes URL:"] -row 3 -column 0 -sticky news -padx 2 -pady 2
+    grid [ttk::entry .relwin.tf.e3]                             -row 3 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid [ttk::label .relwin.tf.l4  -text "Download URL:"]      -row 4 -column 0 -sticky news -padx 2 -pady 2
+    grid [ttk::entry .relwin.tf.e4]                             -row 4 -column 1 -sticky news -padx 2 -pady 2
+    grid [ttk::label .relwin.tf.l41 -text ""]                   -row 4 -column 2 -sticky news -padx 2 -pady 2
     
     ttk::frame  .relwin.bf
     ttk::button .relwin.bf.ok -text "OK" -width 6 -command {
       
       # Get user-provided parameters
+      .relwin.rf.l0 configure -background [expr {([set specl::appname                             [.relwin.rf.e0 get]] eq "") ? "red" : ""}]
       .relwin.rf.l1 configure -background [expr {([set specl::releaser::data(channel_title)       [.relwin.rf.e1 get]] eq "") ? "red" : ""}]
       .relwin.rf.l2 configure -background [expr {([set specl::releaser::data(channel_description) [.relwin.rf.e2 get 1.0 end-1c]] eq "") ? "red" : ""}]
       set specl::releaser::data(channel_link) [.relwin.rf.e3 get]
       .relwin.rf.l4 configure -background [expr {([set specl::releaser::data(channel_language)    [.relwin.rf.e4 get]] eq "") ? "red" : ""}]
-      .relwin.rf.l5 configure -background [expr {([set specl::releaser::data(rss_url)             [.relwin.rf.e5 get]] eq "") ? "red" : ""}]
-      set specl::releaser::data(icon_path) [.relwin.rf.e6 get]
+      .relwin.rf.l5 configure -background [expr {([set specl::rss_url                             [.relwin.rf.e5 get]] eq "") ? "red" : ""}]
+      set specl::icon_path [.relwin.rf.e6 get]
       
       .relwin.tf.l1 configure -background [expr {([set specl::releaser::data(item_version)        [.relwin.tf.e1 get]] eq "") ? "red" : ""}]
-      .relwin.tf.l2 configure -background [expr {([set specl::releaser::data(item_title)          [.relwin.tf.e2 get]] eq "") ? "red" : ""}]
-      .relwin.tf.l3 configure -background [expr {([set specl::releaser::data(item_description)    [.relwin.tf.e3 get 1.0 end-1c]] eq "") ? "red" : ""}]
-      set specl::releaser::data(item_release_notes) [.relwin.tf.e4 get]
-      .relwin.tf.l5 configure -background [expr {([set specl::releaser::data(item_url)            [.relwin.tf.e5 get]] eq "") ? "red" : ""}]
+      .relwin.tf.l2 configure -background [expr {([set specl::releaser::data(item_description)    [.relwin.tf.e2 get 1.0 end-1c]] eq "") ? "red" : ""}]
+      set specl::releaser::data(item_release_notes) [.relwin.tf.e3 get]
+      .relwin.tf.l4 configure -background [expr {([set specl::releaser::data(item_url)            [.relwin.tf.e4 get]] eq "") ? "red" : ""}]
       
       # Check to make sure that the parameters are valid
-      if {($specl::releaser::data(channel_title)       eq "") || \
+      if {($specl::appname                             eq "") || \
+          ($specl::releaser::data(channel_title)       eq "") || \
           ($specl::releaser::data(channel_description) eq "") || \
           ($specl::releaser::data(channel_language)    eq "") || \
           ($specl::releaser::data(item_version)        eq "") || \
-          ($specl::releaser::data(item_title)          eq "") || \
           ($specl::releaser::data(item_description)    eq "") || \
           ($specl::releaser::data(item_url)            eq "") || \
-          ($specl::releaser::data(rss_url)             eq "")} {
+          ($specl::rss_url                             eq "")} {
         tk_messageBox -parent .relwin -default ok -type ok -message "Missing required fields"
       } else {
+        append specl::releaser::data(item_url) [.relwin.tf.l41 cget -text]
         destroy .relwin
       }
       
@@ -504,20 +691,47 @@ namespace eval specl::releaser {
     pack .relwin.bf -fill x
     
     # Fill in known values in the above fields
+    .relwin.rf.e0 insert end $specl::appname
     .relwin.rf.e1 insert end $data(channel_title)
     .relwin.rf.e2 insert end $data(channel_description)
     .relwin.rf.e3 insert end $data(channel_link)
     .relwin.rf.e4 insert end $data(channel_language)
-    .relwin.rf.e5 insert end [file rootname $data(rss_url)]
-    .relwin.rf.e6 insert end $data(icon_path)
+    .relwin.rf.e5 insert end $specl::rss_url
+    .relwin.rf.e6 insert end $specl::icon_path
     
     .relwin.tf.e1 insert end $data(item_version)
-    .relwin.tf.e5 insert end $data(item_url)
+    .relwin.tf.e4 insert end $data(item_url)
+    
+    if {($specl::appname ne "") && ($data(item_version) ne "")} {
+      .relwin.tf.l41 configure -text "/[string tolower $specl::appname]-$data(item_version).tgz"
+    }
     
     # Wait for the window to close
     tkwait window .relwin
     
     return 
+    
+  }
+  
+  ######################################################################
+  # Update the URL tarball name.
+  proc update_url {type value} {
+    
+    variable data
+    
+    set appname [.relwin.rf.e0 get]
+    set version [.relwin.tf.e4 get]
+    
+    switch $type {
+      0 { set appname $value }
+      1 { set version $value }
+    }
+    
+    if {($appname ne "") && ($version ne "")} {
+      .relwin.tf.l41 configure -text "/[string tolower $appname]-$version.tgz"
+    }
+    
+    return 1
     
   }
   
@@ -548,10 +762,8 @@ namespace eval specl::releaser {
   # Read RSS data.
   proc read_rss {} {
     
-    variable data
-    
     # Get the RSS file to read
-    set token [http::geturl $data(rss_url)]
+    set token [http::geturl "$specl::rss_url/appcast.xml"]
     
     # If the request is valid, parse the content
     if {([http::status $token] eq "ok") && ([http::ncode $token] == 200)} {
@@ -571,9 +783,10 @@ namespace eval specl::releaser {
     
     if {![catch "open specl_version.tcl w" rc]} {
       
+      puts $rc "set specl::appname   \"$specl::appname\""
       puts $rc "set specl::version   \"$data(item_version)\""
-      puts $rc "set specl::rss_url   \"$data(rss_url)/appcast.xml\""
-      puts $rc "set specl::icon_path \"$data(icon_path)\""
+      puts $rc "set specl::rss_url   \"$specl::rss_url\""
+      puts $rc "set specl::icon_path \"$specl::icon_path\""
       
       close $rc
       
@@ -601,7 +814,7 @@ namespace eval specl::releaser {
       puts $rc "      <description><!\[CDATA\[$data(item_description)\]\]></description>"
       puts $rc "      <pubDate>[clock format [clock seconds]]</pubDate>"
       puts $rc "      <specl:releaseNotesLink>$data(item_release_notes)</specl:releaseNotesLink>"
-      puts $rc "      <enclosure url=\"$data(item_url)\" specl:version=\"$data(item_version)\" length=\"$data(item_length)\" type=\"application/octet-stream\" specl:dsaSignature=\"$data(item_dsa)\" />"
+      puts $rc "      <enclosure url=\"$data(item_url)\" specl:version=\"$data(item_version)\" length=\"$data(item_length)\" type=\"application/octet-stream\" specl:checksum=\"$data(item_checksum)\" />"
       puts $rc "    </item>"
       puts $rc "  </channel>"
       puts $rc "</rss>"
@@ -613,12 +826,15 @@ namespace eval specl::releaser {
   }
   
   ######################################################################
-  # Returns the DSA signature for the given tarball.
-  proc get_dsa {tarball} {
+  # Returns the MD5 checksum for the given tarball.
+  proc get_checksum {tarball} {
     
-    # TBD
+    # Get the md5 checksum of the tarball file
+    if {[catch { exec -ignorestderr md5sum $tarball } rc]} {
+      return ""
+    }
     
-    return ""
+    return [lindex $rc 0]
     
   }
   
@@ -628,44 +844,49 @@ namespace eval specl::releaser {
     
     variable data
     
-    # Create application name from the current directory
-    set app [file tail [pwd]]
+    # Create application name with version information
+    set app "$specl::appname-$data(item_version)"
     
     # Create a temporary directory for the application files
-    file mkdir [set tmpdir [file join / tmp $app]]
+    set tmpdir [file join / tmp $app]
     
     # Write the version file to the current directory
     write_version
     
+    # Copy the current directory to the /tmp directory
+    file copy -force [pwd] $tmpdir
+    
     # Tarball and gzip the current directory
-    exec -ignorestderr tar czf [set tarball [file join $tmpdir [file tail $data(item_url)]]] [pwd]
+    if {[catch { exec -ignorestderr tar czf [set tarball [file join $tmpdir [file tail $data(item_url)]]] -C [file join / tmp] $app } rc]} {
+      return -code error $rc
+    }
     
     # Figure out the size of the tarball and save it to the item_length item
     set data(item_length) [file size $tarball]
     
-    # Figure out the DSA signature
-    set data(item_dsa) [get_dsa $tarball]
-    
+    # Figure out the md5 checksum
+    set data(item_checksum) [get_checksum $tarball]
+      
     # Write the RSS file
     write_rss $tmpdir
     
+    puts "Upload [file join $tmpdir appcast.xml] to $specl::rss_url/appcast.xml"
+    puts "Upload [file join $tmpdir [file tail $data(item_url)]] to $data(item_url)"
 
   }
   
   ######################################################################
   # Performs a release of the current project.
-  proc start {} {
+  proc start_release {} {
     
     variable data
     
     # Attempt to source the specl_version.tcl file
-    if {[catch "source specl_version.tcl"]} {
+    if {[catch { specl::load_specl_version [pwd] }]} {
       
       # If the specl_version file doesn't exist, initialize the variables
       set data(item_version) "1.0"
-      set data(rss_url)      ""
       set data(item_url)     ""
-      set data(icon_path)    ""
       
     } else {
       
@@ -675,8 +896,6 @@ namespace eval specl::releaser {
       
       set data(item_version) [join $version .]
       set data(item_url)     ""
-      set data(rss_url)      $specl::rss_url
-      set data(icon_path)    $specl::icon_path
       
       # Read the RSS file since it exists
       read_rss
@@ -697,7 +916,7 @@ namespace eval specl::releaser {
 }
 
 # If this is being run as an application, do the following
-if {[file tail $argv0] eq "specl.tcl"} {
+if {[file tail $::argv0] eq "specl.tcl"} {
   
   package require http
   package require Tkhtml 3.0
@@ -745,23 +964,16 @@ if {[file tail $argv0] eq "specl.tcl"} {
           puts "ERROR:  Incorrect arguments passed to specl release command"
           usage
         }
-        specl::releaser::start
+        specl::releaser::start_release
       }
       update  {
         set args [lassign $args arg]
-        if {[llength $args] < 5} {
+        if {[llength $args] != 1} {
           puts "ERROR:  Incorrect arguments passed to specl update command"
           usage
         }
-        set args [lassign $args specl::updater::data(current_version) \
-                                specl::updater::data(url) \
-                                specl::updater::data(directory) \
-                                specl::updater::data(pid) \
-                                specl::updater::data(appname)]
-        if {[llength $args] > 0} {
-          set specl::updater::data(icon) [image create photo -file [lindex $args 0]]
-        }
-        specl::updater::start
+        lassign $args specl::updater::data(specl_version_dir)
+        specl::updater::start_update
       }
       default {
         puts "ERROR:  Unknown command/option ([lindex $args 0])"
