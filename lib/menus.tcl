@@ -1015,7 +1015,7 @@ namespace eval menus {
     launcher::register [msgcat::mc "Menu: Show sidebar"] "menus::show_sidebar_view $mb"
     launcher::register [msgcat::mc "Menu: Hide sidebar"] "menus::hide_sidebar_view $mb"
 
-    #if {![catch "console hide"]} {
+    if {![catch "console hide"]} {
       if {$preferences::prefs(View/ShowConsole)} {
         $mb add command -label [msgcat::mc "Hide Console"] -underline 5 -command "menus::hide_console_view $mb"
       } else {
@@ -1023,7 +1023,7 @@ namespace eval menus {
       }
       launcher::register [msgcat::mc "Menu: Show console"] "menus::show_console_view $mb"
       launcher::register [msgcat::mc "Menu: Hide console"] "menus::hide_console_view $mb"
-    #}
+    }
 
     if {$preferences::prefs(View/ShowTabBar)} {
       $mb add command -label [msgcat::mc "Hide Tab Bar"] -underline 5 -command "menus::hide_tab_view $mb"
