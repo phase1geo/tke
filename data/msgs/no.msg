@@ -4,12 +4,6 @@ msgcat::mcmset no {
   "Argument list to api::add_file was not an even key/value pair"
   "Argument liste til api :: add_file var ikke en enda nøkkel / verdi-par"
 
-  "Argument list to api::add_file was not in the form 'filename [<option> <value>]*'"
-  "Argument liste til api :: add_file var ikke i form filnavn [ <option><value> ] * &#39;"
-
-  "get_home_directory can only be called within plugin code"
-  "get_home_directory kan bare kalles innenfor plugin-kode"
-
 }
 
 # bgproc.tcl
@@ -50,6 +44,9 @@ msgcat::mcmset no {
   "Email:"
   "E-post:"
 
+  "Favorited"
+  "Favoritt"
+
   "File attribute (%s) does not exist"
   "File attributt (% s) eksisterer ikke"
 
@@ -73,6 +70,9 @@ msgcat::mcmset no {
 
   "Save request"
   "Be"
+
+  "Show in Sidebar"
+  "Vis i Sidebar"
 
   "Total Lines: %d, Total Characters: %d"
   "Totalt antall linjer:% d, Totalt antall tegn:% d"
@@ -114,6 +114,9 @@ msgcat::mcmset no {
   "Append next occurrence"
   "Tilføy neste forekomst"
 
+  "Check for Update"
+  "Søk etter oppdateringer"
+
   "Clear All"
   "Fjern alle"
 
@@ -137,6 +140,9 @@ msgcat::mcmset no {
 
   "Edit"
   "Edit"
+
+  "Edit current"
+  "Edit Strøm"
 
   "Edit user"
   "Rediger bruker"
@@ -164,6 +170,9 @@ msgcat::mcmset no {
 
   "Format Text"
   "Formater tekst"
+
+  "From Clipboard"
+  "Fra utklippstavlen"
 
   "Goto Last Tab"
   "Gå Siste Tab"
@@ -198,6 +207,9 @@ msgcat::mcmset no {
   "Indent"
   "innrykk"
 
+  "Insert Text"
+  "Sett inn tekst"
+
   "Insert enumeration"
   "Sett oppregning"
 
@@ -221,6 +233,9 @@ msgcat::mcmset no {
 
   "Menu: Append next occurrence"
   "Meny: Legg ved neste forekomst"
+
+  "Menu: Check for Update"
+  "Meny: Søk etter oppdateringer"
 
   "Menu: Close all tabs"
   "Meny: Lukk alle faner"
@@ -249,8 +264,8 @@ msgcat::mcmset no {
   "Menu: Edit Tke theme"
   "Meny: Rediger TKE tema"
 
-  "Menu: Edit snippets"
-  "Meny: Rediger tekstutdrag"
+  "Menu: Edit current snippets"
+  "Meny: Rediger gjeldende tekstutdrag"
 
   "Menu: Edit user menu bindings"
   "Meny: Rediger brukermeny bindinger"
@@ -260,6 +275,9 @@ msgcat::mcmset no {
 
   "Menu: Enable Vim mode"
   "Meny: Aktiver Vim-modus"
+
+  "Menu: Favorite file"
+  "Meny: Favoritt fil"
 
   "Menu: Find"
   "Meny: Finn"
@@ -278,6 +296,12 @@ msgcat::mcmset no {
 
   "Menu: Find previous occurrence"
   "Meny: Finn forrige forekomst"
+
+  "Menu: Format all text"
+  "Meny: Formater all tekst"
+
+  "Menu: Format selected text"
+  "Meny: Format markert tekst"
 
   "Menu: Goto last tab"
   "Meny: Goto siste kategorien"
@@ -312,6 +336,12 @@ msgcat::mcmset no {
   "Menu: Insert enumeration"
   "Meny: Sett oppregning"
 
+  "Menu: Insert from clipboard"
+  "Meny: Sett inn fra utklippstavlen"
+
+  "Menu: Insert snippet"
+  "Meny: Sett inn tekstutdrag"
+
   "Menu: Install plugin"
   "Meny: Installer plugin"
 
@@ -323,6 +353,12 @@ msgcat::mcmset no {
 
   "Menu: New file"
   "Meny: Ny fil"
+
+  "Menu: Open Favorite"
+  "Meny: Åpne Favoritt"
+
+  "Menu: Open Recent"
+  "Meny: Åpne sist"
 
   "Menu: Open directory"
   "Meny: Åpne telefonboken"
@@ -345,8 +381,8 @@ msgcat::mcmset no {
   "Menu: Reload all plugins"
   "Meny: Last alle plugins"
 
-  "Menu: Reload all snippets"
-  "Meny: Last alle snutter"
+  "Menu: Reload current snippets"
+  "Meny: Last gjeldende tekstutdrag"
 
   "Menu: Restart tke"
   "Meny: Restart tke"
@@ -405,6 +441,9 @@ msgcat::mcmset no {
   "Menu: Undo"
   "Meny: Angre"
 
+  "Menu: Unfavorite file"
+  "Meny: unfavorite fil"
+
   "Menu: Unindent selected text"
   "Meny: Fjern innrykk markert tekst"
 
@@ -431,6 +470,9 @@ msgcat::mcmset no {
 
   "Open Directory..."
   "Open Directory ..."
+
+  "Open Favorite"
+  "Åpne Favoritt"
 
   "Open File..."
   "Åpne fil"
@@ -464,6 +506,12 @@ msgcat::mcmset no {
 
   "Reload"
   "Restart tke"
+
+  "Reload current"
+  "Reload Strøm"
+
+  "Reset user to base"
+  "Tilbakestill bruker å basere"
 
   "Restart tke"
   "Save All"
@@ -516,6 +564,9 @@ msgcat::mcmset no {
   "Show*Profiling*"
   "Show * Profilering *"
 
+  "Snippet"
+  "Snippet"
+
   "Snippets"
   "Tekstutdrag"
 
@@ -564,6 +615,9 @@ msgcat::mcmset no {
   "View"
   "Vis"
 
+  "View base"
+  "Vis basen"
+
   "View global"
   "Vis global"
 
@@ -575,11 +629,17 @@ msgcat::mcmset no {
 # plugins.tcl
 msgcat::mcmset no {
 
+  "ERROR:  Plugin name already exists"
+  "FEIL: Plugin navnet finnes allerede"
+
   "ERROR:  Plugin name is not valid (only alphanumeric and underscores are allowed)"
   "FEIL: Plugin navn er ikke gyldig (bare alfanumerisk og understrek er tillatt)"
 
-  "ERROR:  Unable to write plugin file"
-  "FEIL: Kan ikke skrive pluginfil"
+  "ERROR:  Unable to create plugin directory"
+  "FEIL: Kan ikke opprette plugin katalogen"
+
+  "ERROR:  Unable to write plugin files"
+  "FEIL: Kan ikke skrive plugin-filer"
 
   "Enter plugin name"
   "Skriv inn plugin navn"
@@ -592,6 +652,9 @@ msgcat::mcmset no {
 
   "Plugin Errors"
   "Plugin feil"
+
+  "Plugins successfully reloaded"
+  "Plugins hell reloaded"
 
   "Syntax errors found in selected plugins"
   "Syntaksfeil som finnes i utvalgte plugins"
@@ -630,6 +693,9 @@ msgcat::mcmset no {
 
   "Open"
   "Åpen"
+
+  "Open Directory Files"
+  "Open Directory filer"
 
   "Refresh Directory Files"
   "Oppdater Directory filer"
@@ -751,6 +817,9 @@ msgcat::mcmset no {
   "Close"
   "Lukk"
 
+  "Favorite"
+  "Favoritt"
+
   "Find:"
   "Søk"
 
@@ -762,6 +831,9 @@ msgcat::mcmset no {
 
   "Save As"
   "Lagre som"
+
+  "Unfavorite"
+  "Unfavorite"
 
 }
 

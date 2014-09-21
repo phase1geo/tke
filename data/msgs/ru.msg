@@ -4,12 +4,6 @@ msgcat::mcmset ru {
   "Argument list to api::add_file was not an even key/value pair"
   "Список параметров АНИ :: add_file не было даже пары ключ / значение"
 
-  "Argument list to api::add_file was not in the form 'filename [<option> <value>]*'"
-  "Список параметров АНИ :: add_file не в виде &quot;имя файла [ <option><value> ] * &#39;"
-
-  "get_home_directory can only be called within plugin code"
-  "get_home_directory может быть вызван только в коде плагина"
-
 }
 
 # bgproc.tcl
@@ -50,6 +44,9 @@ msgcat::mcmset ru {
   "Email:"
   "Эл. почта:"
 
+  "Favorited"
+  "В избранном"
+
   "File attribute (%s) does not exist"
   "Атрибут файла (% ы) не существует"
 
@@ -73,6 +70,9 @@ msgcat::mcmset ru {
 
   "Save request"
   "Запрос"
+
+  "Show in Sidebar"
+  "Показать на боковой панели"
 
   "Total Lines: %d, Total Characters: %d"
   "Всего линии:% D, Персонажей:% D"
@@ -114,6 +114,9 @@ msgcat::mcmset ru {
   "Append next occurrence"
   "Добавьте следующее вхождение"
 
+  "Check for Update"
+  "Проверить обновления"
+
   "Clear All"
   "Удалить все"
 
@@ -137,6 +140,9 @@ msgcat::mcmset ru {
 
   "Edit"
   "Редактировать"
+
+  "Edit current"
+  "Редактировать тока"
 
   "Edit user"
   "Редактирование пользователя"
@@ -164,6 +170,9 @@ msgcat::mcmset ru {
 
   "Format Text"
   "Формат"
+
+  "From Clipboard"
+  "Из буфера обмена"
 
   "Goto Last Tab"
   "На Последняя вкладка"
@@ -198,6 +207,9 @@ msgcat::mcmset ru {
   "Indent"
   "Отступ"
 
+  "Insert Text"
+  "Вставить текст"
+
   "Insert enumeration"
   "Вставьте перечисление"
 
@@ -221,6 +233,9 @@ msgcat::mcmset ru {
 
   "Menu: Append next occurrence"
   "Меню: Добавьте следующее вхождение"
+
+  "Menu: Check for Update"
+  "Меню: Проверить обновления"
 
   "Menu: Close all tabs"
   "Меню: Закрыть все вкладки"
@@ -249,8 +264,8 @@ msgcat::mcmset ru {
   "Menu: Edit Tke theme"
   "Меню: Редактирование ТКЕ тему"
 
-  "Menu: Edit snippets"
-  "Меню: Редактирование фрагментов"
+  "Menu: Edit current snippets"
+  "Меню: Редактирование текущие поместив"
 
   "Menu: Edit user menu bindings"
   "Привязки меню Правка пользователь: Меню"
@@ -260,6 +275,9 @@ msgcat::mcmset ru {
 
   "Menu: Enable Vim mode"
   "Меню: Включить режим Vim"
+
+  "Menu: Favorite file"
+  "Меню: Любимое файл"
 
   "Menu: Find"
   "Меню: Найти"
@@ -278,6 +296,12 @@ msgcat::mcmset ru {
 
   "Menu: Find previous occurrence"
   "Меню: Найти предыдущее вхождение"
+
+  "Menu: Format all text"
+  "Меню: Формат весь текст"
+
+  "Menu: Format selected text"
+  "Меню: Формат выделенный текст"
 
   "Menu: Goto last tab"
   "Меню: На последней вкладке"
@@ -312,6 +336,12 @@ msgcat::mcmset ru {
   "Menu: Insert enumeration"
   "Меню: Вставьте перечисление"
 
+  "Menu: Insert from clipboard"
+  "Вставка из буфера обмена"
+
+  "Menu: Insert snippet"
+  "Меню: Вставка фрагмент"
+
   "Menu: Install plugin"
   "Меню: Установите плагин"
 
@@ -323,6 +353,12 @@ msgcat::mcmset ru {
 
   "Menu: New file"
   "Меню: Новый файл"
+
+  "Menu: Open Favorite"
+  "Меню: Open Любимое"
+
+  "Menu: Open Recent"
+  "Меню: Открыть недавние"
 
   "Menu: Open directory"
   "Меню: Open Directory"
@@ -345,8 +381,8 @@ msgcat::mcmset ru {
   "Menu: Reload all plugins"
   "Меню: Reload все плагины"
 
-  "Menu: Reload all snippets"
-  "Меню: Reload все фрагменты"
+  "Menu: Reload current snippets"
+  "Меню: Перезагрузка текущей поместив"
 
   "Menu: Restart tke"
   "Меню: Перезагрузка ТКЕ"
@@ -405,6 +441,9 @@ msgcat::mcmset ru {
   "Menu: Undo"
   "Меню: Отменить"
 
+  "Menu: Unfavorite file"
+  "Меню: Unfavorite файл"
+
   "Menu: Unindent selected text"
   "Меню: Unindent выделенный текст"
 
@@ -431,6 +470,9 @@ msgcat::mcmset ru {
 
   "Open Directory..."
   "Open Directory ..."
+
+  "Open Favorite"
+  "Открыть Любимое"
 
   "Open File..."
   "Открытая линия"
@@ -464,6 +506,12 @@ msgcat::mcmset ru {
 
   "Reload"
   "Перезагрузить"
+
+  "Reload current"
+  "Перезагрузка текущей"
+
+  "Reset user to base"
+  "Сброс пользователю основывать"
 
   "Restart tke"
   "Перезагрузка ТКЕ"
@@ -516,6 +564,9 @@ msgcat::mcmset ru {
   "Show*Profiling*"
   "Показать * Профилирование *"
 
+  "Snippet"
+  "Фрагмента"
+
   "Snippets"
   "Обрывки"
 
@@ -564,6 +615,9 @@ msgcat::mcmset ru {
   "View"
   "Просмотр"
 
+  "View base"
+  "Посмотреть база"
+
   "View global"
   "Просмотреть глобальную"
 
@@ -575,11 +629,17 @@ msgcat::mcmset ru {
 # plugins.tcl
 msgcat::mcmset ru {
 
+  "ERROR:  Plugin name already exists"
+  "ОШИБКА: Плагин именем уже существует"
+
   "ERROR:  Plugin name is not valid (only alphanumeric and underscores are allowed)"
   "ОШИБКА: Плагин имя недопустимо (только буквенно-цифровой и подчеркивания позволяется)"
 
-  "ERROR:  Unable to write plugin file"
-  "ОШИБКА: Невозможно записать файл плагина"
+  "ERROR:  Unable to create plugin directory"
+  "ОШИБКА: Невозможно создать каталог плагинов"
+
+  "ERROR:  Unable to write plugin files"
+  "ОШИБКА: Невозможно записать файлы плагина"
 
   "Enter plugin name"
   "Введите плагин имя"
@@ -592,6 +652,9 @@ msgcat::mcmset ru {
 
   "Plugin Errors"
   "Плагин ошибки"
+
+  "Plugins successfully reloaded"
+  "Плагины успешно перезагружается"
 
   "Syntax errors found in selected plugins"
   "Синтаксические ошибки, найденные в выбранных плагинов"
@@ -630,6 +693,9 @@ msgcat::mcmset ru {
 
   "Open"
   "Открыть"
+
+  "Open Directory Files"
+  "Открытие файлов Каталог"
 
   "Refresh Directory Files"
   "Обновить каталог файлов"
@@ -751,6 +817,9 @@ msgcat::mcmset ru {
   "Close"
   "Клоуз"
 
+  "Favorite"
+  "Любимый"
+
   "Find:"
   "Находить"
 
@@ -762,6 +831,9 @@ msgcat::mcmset ru {
 
   "Save As"
   "Сохранить как"
+
+  "Unfavorite"
+  "Unfavorite"
 
 }
 

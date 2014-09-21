@@ -4,12 +4,6 @@ msgcat::mcmset pl {
   "Argument list to api::add_file was not an even key/value pair"
   "Lista argumentów API :: add_file nie było nawet parę klucz / wartość"
 
-  "Argument list to api::add_file was not in the form 'filename [<option> <value>]*'"
-  "Lista argumentów API :: add_file nie był w formie &quot;plik [ <option><value> ] * &quot;"
-
-  "get_home_directory can only be called within plugin code"
-  "get_home_directory można nazwać tylko w kodzie wtyczki"
-
 }
 
 # bgproc.tcl
@@ -50,6 +44,9 @@ msgcat::mcmset pl {
   "Email:"
   "E-mail:"
 
+  "Favorited"
+  "Jako ulubione"
+
   "File attribute (%s) does not exist"
   "Atrybut pliku (% s) nie istnieje"
 
@@ -73,6 +70,9 @@ msgcat::mcmset pl {
 
   "Save request"
   "Zapisz zlecenie"
+
+  "Show in Sidebar"
+  "Pokaż w pasku bocznym"
 
   "Total Lines: %d, Total Characters: %d"
   "Liczba linii:% d, Liczba znaków:% d"
@@ -114,6 +114,9 @@ msgcat::mcmset pl {
   "Append next occurrence"
   "Dołącz kolejne wystąpienie"
 
+  "Check for Update"
+  "Sprawdź aktualizacje"
+
   "Clear All"
   "Czyść wszystko"
 
@@ -137,6 +140,9 @@ msgcat::mcmset pl {
 
   "Edit"
   "\"
+
+  "Edit current"
+  "Edycja aktualna"
 
   "Edit user"
   "edytuj użytkownika"
@@ -164,6 +170,9 @@ msgcat::mcmset pl {
 
   "Format Text"
   "Formatowanie tekstu"
+
+  "From Clipboard"
+  "Ze schowka"
 
   "Goto Last Tab"
   "Idź Ostatnio Tab"
@@ -198,6 +207,9 @@ msgcat::mcmset pl {
   "Indent"
   "Einzug"
 
+  "Insert Text"
+  "Wstaw stronę"
+
   "Insert enumeration"
   "Włóż wyliczenie"
 
@@ -221,6 +233,9 @@ msgcat::mcmset pl {
 
   "Menu: Append next occurrence"
   "Menu: Dołącz kolejne wystąpienie"
+
+  "Menu: Check for Update"
+  "Sprawdź aktualizacje"
 
   "Menu: Close all tabs"
   "Zamknij wszystkie karty"
@@ -249,8 +264,8 @@ msgcat::mcmset pl {
   "Menu: Edit Tke theme"
   "Menu: Edycja tematu TKE"
 
-  "Menu: Edit snippets"
-  "Menu: Edycja fragmentów"
+  "Menu: Edit current snippets"
+  "Menu: Edycja aktualne fragmenty"
 
   "Menu: Edit user menu bindings"
   "Wiązania Edycja menu użytkownika: menu"
@@ -260,6 +275,9 @@ msgcat::mcmset pl {
 
   "Menu: Enable Vim mode"
   "Menu: Włącz tryb Vima"
+
+  "Menu: Favorite file"
+  "Menu: Ulubiona plik"
 
   "Menu: Find"
   "Menu: Znajdź"
@@ -278,6 +296,12 @@ msgcat::mcmset pl {
 
   "Menu: Find previous occurrence"
   "Menu: Znajdź poprzednie wystąpienie"
+
+  "Menu: Format all text"
+  "Menu: Format cały tekst"
+
+  "Menu: Format selected text"
+  "Menu: Format wybrany tekst"
 
   "Menu: Goto last tab"
   "Menu: Idź Ostatnia zakładka"
@@ -312,6 +336,12 @@ msgcat::mcmset pl {
   "Menu: Insert enumeration"
   "Menu: Wstaw wyliczenie"
 
+  "Menu: Insert from clipboard"
+  "Wstawianie ze schowka"
+
+  "Menu: Insert snippet"
+  "Menu: Wstaw urywek"
+
   "Menu: Install plugin"
   "Menu: Zainstaluj wtyczkę"
 
@@ -323,6 +353,12 @@ msgcat::mcmset pl {
 
   "Menu: New file"
   "Menu: Nowy plik"
+
+  "Menu: Open Favorite"
+  "Menu: Otwórz Ulubione"
+
+  "Menu: Open Recent"
+  "Menu: Otwórz Najnowsze"
 
   "Menu: Open directory"
   "Menu: Otwórz katalog"
@@ -345,8 +381,8 @@ msgcat::mcmset pl {
   "Menu: Reload all plugins"
   "Menu: Odśwież wszystkie wtyczki"
 
-  "Menu: Reload all snippets"
-  "Menu: Odśwież wszystkie fragmenty"
+  "Menu: Reload current snippets"
+  "Menu: Odśwież aktualne fragmenty"
 
   "Menu: Restart tke"
   "Menu: Restart TKE"
@@ -405,6 +441,9 @@ msgcat::mcmset pl {
   "Menu: Undo"
   "Menu: Cofnij"
 
+  "Menu: Unfavorite file"
+  "Menu: Unfavorite plik"
+
   "Menu: Unindent selected text"
   "Menu: wybrane Usuń wcięcie tekstu"
 
@@ -431,6 +470,9 @@ msgcat::mcmset pl {
 
   "Open Directory..."
   "Otwórz katalog"
+
+  "Open Favorite"
+  "Otwórz Ulubione"
 
   "Open File..."
   "Otwórz plik..."
@@ -464,6 +506,12 @@ msgcat::mcmset pl {
 
   "Reload"
   "Reload"
+
+  "Reload current"
+  "Odśwież prądu"
+
+  "Reset user to base"
+  "Zresetować użytkownika do bazy"
 
   "Restart tke"
   "Restart TKE"
@@ -516,6 +564,9 @@ msgcat::mcmset pl {
   "Show*Profiling*"
   "Show * Profilowanie *"
 
+  "Snippet"
+  "Urywek"
+
   "Snippets"
   "Urywki"
 
@@ -564,6 +615,9 @@ msgcat::mcmset pl {
   "View"
   "Widok"
 
+  "View base"
+  "Zobacz podstawa"
+
   "View global"
   "Wyświetl globalne"
 
@@ -575,11 +629,17 @@ msgcat::mcmset pl {
 # plugins.tcl
 msgcat::mcmset pl {
 
+  "ERROR:  Plugin name already exists"
+  "BŁĄD: Plugin nazwie już istnieje"
+
   "ERROR:  Plugin name is not valid (only alphanumeric and underscores are allowed)"
   "BŁĄD: Plugin nazwa nie jest ważna (tylko alfanumeryczne i podkreślenia są dozwolone)"
 
-  "ERROR:  Unable to write plugin file"
-  "BŁĄD: Nie można zapisać pliku plugin"
+  "ERROR:  Unable to create plugin directory"
+  "BŁĄD: Nie można utworzyć katalogu wtyczek"
+
+  "ERROR:  Unable to write plugin files"
+  "BŁĄD: Nie można zapisać plików wtyczek"
 
   "Enter plugin name"
   "Wpisz nazwę wtyczki"
@@ -592,6 +652,9 @@ msgcat::mcmset pl {
 
   "Plugin Errors"
   "Błędy plugin"
+
+  "Plugins successfully reloaded"
+  "Wtyczki pomyślnie załadowany"
 
   "Syntax errors found in selected plugins"
   "Błędy składniowe w wybranych wtyczek znalezionych"
@@ -630,6 +693,9 @@ msgcat::mcmset pl {
 
   "Open"
   "Otwarte"
+
+  "Open Directory Files"
+  "Pliki katalog otwarty"
 
   "Refresh Directory Files"
   "Odśwież pliki katalogu"
@@ -751,6 +817,9 @@ msgcat::mcmset pl {
   "Close"
   "Zamknij"
 
+  "Favorite"
+  "Ulubione"
+
   "Find:"
   "\"
 
@@ -762,6 +831,9 @@ msgcat::mcmset pl {
 
   "Save As"
   "Zapisz jako"
+
+  "Unfavorite"
+  "Unfavorite"
 
 }
 

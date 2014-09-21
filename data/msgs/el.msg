@@ -4,12 +4,6 @@ msgcat::mcmset el {
   "Argument list to api::add_file was not an even key/value pair"
   "Κατάλογος των argument στο api :: add_file δεν ήταν ακόμη ζεύγος κλειδιού / τιμής"
 
-  "Argument list to api::add_file was not in the form 'filename [<option> <value>]*'"
-  "Κατάλογος των argument στο api :: add_file δεν ήταν στο «Όνομα μορφή [ <option><value> ] * &quot;"
-
-  "get_home_directory can only be called within plugin code"
-  "get_home_directory μπορεί να ονομάζεται μόνο στον κωδικό plugin"
-
 }
 
 # bgproc.tcl
@@ -50,6 +44,9 @@ msgcat::mcmset el {
   "Email:"
   "Email:"
 
+  "Favorited"
+  "Αγαπημένο"
+
   "File attribute (%s) does not exist"
   "Χαρακτηριστικό αρχείου (% s) δεν υπάρχει"
 
@@ -73,6 +70,9 @@ msgcat::mcmset el {
 
   "Save request"
   "Αποθηκεύστε το αίτημα"
+
+  "Show in Sidebar"
+  "Εμφάνιση στο Sidebar"
 
   "Total Lines: %d, Total Characters: %d"
   "Σύνολο Lines:% d, Σύνολο Χαρακτήρες:% d"
@@ -114,6 +114,9 @@ msgcat::mcmset el {
   "Append next occurrence"
   "Προσάρτηση επόμενη εμφάνιση"
 
+  "Check for Update"
+  "Έλεγχος για ενημέρωση"
+
   "Clear All"
   "Καθαρισμός όλων"
 
@@ -137,6 +140,9 @@ msgcat::mcmset el {
 
   "Edit"
   "Επεξεργασία"
+
+  "Edit current"
+  "Επεξεργασία ρεύμα"
 
   "Edit user"
   "Επεξεργασία χρήστη"
@@ -164,6 +170,9 @@ msgcat::mcmset el {
 
   "Format Text"
   "Μορφή κειμένου"
+
+  "From Clipboard"
+  "Από το πρόχειρο"
 
   "Goto Last Tab"
   "Μετάβαση Last Tab"
@@ -198,6 +207,9 @@ msgcat::mcmset el {
   "Indent"
   "Εσοχή"
 
+  "Insert Text"
+  "Εισαγωγή ευρετηρίου"
+
   "Insert enumeration"
   "Εισάγετε απαρίθμηση"
 
@@ -221,6 +233,9 @@ msgcat::mcmset el {
 
   "Menu: Append next occurrence"
   "Μενού: Προσάρτηση επόμενη εμφάνιση"
+
+  "Menu: Check for Update"
+  "Μενού: Έλεγχος για ενημέρωση"
 
   "Menu: Close all tabs"
   "Μενού: Κλείσιμο όλων των καρτελών"
@@ -249,8 +264,8 @@ msgcat::mcmset el {
   "Menu: Edit Tke theme"
   "Μενού: Επεξεργασία Tke θέμα"
 
-  "Menu: Edit snippets"
-  "Μενού: Επεξεργασία της δημιουργίας ενός"
+  "Menu: Edit current snippets"
+  "Μενού: Επεξεργαστείτε τις τρέχουσες αποσπάσματα"
 
   "Menu: Edit user menu bindings"
   "Δέστρες μενού χρήστη Edit: Μενού"
@@ -260,6 +275,9 @@ msgcat::mcmset el {
 
   "Menu: Enable Vim mode"
   "Μενού: Ενεργοποίηση λειτουργίας Vim"
+
+  "Menu: Favorite file"
+  "Μενού: Αγαπημένη αρχείο"
 
   "Menu: Find"
   "Μενού: Βρείτε"
@@ -278,6 +296,12 @@ msgcat::mcmset el {
 
   "Menu: Find previous occurrence"
   "Μενού: Βρείτε προηγούμενη εμφάνιση"
+
+  "Menu: Format all text"
+  "Μενού: Διαμόρφωση όλο το κείμενο"
+
+  "Menu: Format selected text"
+  "Μενού: Μορφή επιλεγμένο κείμενο"
 
   "Menu: Goto last tab"
   "Μενού: Μετάβαση στη τελευταία καρτέλα"
@@ -312,6 +336,12 @@ msgcat::mcmset el {
   "Menu: Insert enumeration"
   "Μενού: Εισαγωγή απαρίθμηση"
 
+  "Menu: Insert from clipboard"
+  "Μενού: Εισαγωγή από το πρόχειρο"
+
+  "Menu: Insert snippet"
+  "Μενού: Εισαγωγή απόσπασμα"
+
   "Menu: Install plugin"
   "Μενού: Εγκατάσταση plugin"
 
@@ -323,6 +353,12 @@ msgcat::mcmset el {
 
   "Menu: New file"
   "Μενού: Νέο αρχείο"
+
+  "Menu: Open Favorite"
+  "Μενού: Άνοιγμα Αγαπημένα"
+
+  "Menu: Open Recent"
+  "Μενού: Άνοιγμα πρόσφατου"
 
   "Menu: Open directory"
   "Μενού: Άνοιγμα τηλεφωνικού καταλόγου"
@@ -345,8 +381,8 @@ msgcat::mcmset el {
   "Menu: Reload all plugins"
   "Μενού: Ανανέωση όλα τα plugins"
 
-  "Menu: Reload all snippets"
-  "Μενού: Ανανέωση όλων των αποσπασμάτων"
+  "Menu: Reload current snippets"
+  "Μενού: Ανανέωση τρέχουσας αποσπάσματα"
 
   "Menu: Restart tke"
   "Μενού: Επανεκκίνηση ΤΚΕ"
@@ -405,6 +441,9 @@ msgcat::mcmset el {
   "Menu: Undo"
   "Μενού: Αναίρεση"
 
+  "Menu: Unfavorite file"
+  "Μενού: Μη αγαπημένα αρχείο"
+
   "Menu: Unindent selected text"
   "Μενού: Κατάργηση εσοχής επιλεγμένο κείμενο"
 
@@ -431,6 +470,9 @@ msgcat::mcmset el {
 
   "Open Directory..."
   "Άνοιγμα καταλόγου"
+
+  "Open Favorite"
+  "Open Αγαπημένα"
 
   "Open File..."
   "Άνοιγμα αρχείου..."
@@ -464,6 +506,12 @@ msgcat::mcmset el {
 
   "Reload"
   "Επαναφόρτωση"
+
+  "Reload current"
+  "Τρέχουσα Ανανέωση"
+
+  "Reset user to base"
+  "Επαναφορά του χρήστη να βασιστεί"
 
   "Restart tke"
   "Επανεκκίνηση ΤΚΕ"
@@ -516,6 +564,9 @@ msgcat::mcmset el {
   "Show*Profiling*"
   "Show * Profiling *"
 
+  "Snippet"
+  "Απόσπασμα"
+
   "Snippets"
   "Αποσπάσματα"
 
@@ -564,6 +615,9 @@ msgcat::mcmset el {
   "View"
   "Προβολή"
 
+  "View base"
+  "Προβολή βάση"
+
   "View global"
   "Προβολή παγκόσμια"
 
@@ -575,11 +629,17 @@ msgcat::mcmset el {
 # plugins.tcl
 msgcat::mcmset el {
 
+  "ERROR:  Plugin name already exists"
+  "ΣΦΑΛΜΑ: Plugin όνομα υπάρχει ήδη"
+
   "ERROR:  Plugin name is not valid (only alphanumeric and underscores are allowed)"
   "ΣΦΑΛΜΑ: Plugin όνομα δεν είναι έγκυρο (μόνο αλφαριθμητικά και οι κάτω παύλες)"
 
-  "ERROR:  Unable to write plugin file"
-  "ΣΦΑΛΜΑ: Αδύνατη η εγγραφή plugin αρχείο"
+  "ERROR:  Unable to create plugin directory"
+  "ΣΦΑΛΜΑ: Δεν είναι δυνατή η δημιουργία του καταλόγου plugin"
+
+  "ERROR:  Unable to write plugin files"
+  "ΣΦΑΛΜΑ: Δεν είναι για να γράψει plugin αρχεία"
 
   "Enter plugin name"
   "Πληκτρολογήστε το όνομα του plugin"
@@ -592,6 +652,9 @@ msgcat::mcmset el {
 
   "Plugin Errors"
   "Plugin Λάθη"
+
+  "Plugins successfully reloaded"
+  "Plugins reloaded με επιτυχία"
 
   "Syntax errors found in selected plugins"
   "Συντακτικά λάθη τα βρείτε σε επιλεγμένα plugins"
@@ -630,6 +693,9 @@ msgcat::mcmset el {
 
   "Open"
   "Ανοιχτό"
+
+  "Open Directory Files"
+  "Αρχεία Open Directory"
 
   "Refresh Directory Files"
   "Ανανέωση Κατάλογος αρχείων"
@@ -751,6 +817,9 @@ msgcat::mcmset el {
   "Close"
   "Κλείσιμο"
 
+  "Favorite"
+  "Αγαπημένο"
+
   "Find:"
   "Find"
 
@@ -762,6 +831,9 @@ msgcat::mcmset el {
 
   "Save As"
   "Αποθήκευση ως"
+
+  "Unfavorite"
+  "Μη αγαπημένα"
 
 }
 

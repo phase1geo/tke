@@ -4,12 +4,6 @@ msgcat::mcmset fr {
   "Argument list to api::add_file was not an even key/value pair"
   "Argument list d'api::add_file n'était pas une paire même clé/valeur"
 
-  "Argument list to api::add_file was not in the form 'filename [<option> <value>]*'"
-  "Argument list d'api::add_file n'était pas sous la forme 'filename [<option> <value>]*'"
-
-  "get_home_directory can only be called within plugin code"
-  "get_home_directory ne peut être appelée dans le code du plugin"
-
 }
 
 # bgproc.tcl
@@ -50,6 +44,9 @@ msgcat::mcmset fr {
   "Email:"
   "Adresse électronique:"
 
+  "Favorited"
+  "Ajouté aux favoris"
+
   "File attribute (%s) does not exist"
   "attribut du fichier (%s) n'existe pas"
 
@@ -73,6 +70,9 @@ msgcat::mcmset fr {
 
   "Save request"
   "Enregistrer la demande"
+
+  "Show in Sidebar"
+  "Afficher dans la barre latérale"
 
   "Total Lines: %d, Total Characters: %d"
   "Nombre de lignes:% d, Nombre de caractères:% d"
@@ -114,6 +114,9 @@ msgcat::mcmset fr {
   "Append next occurrence"
   "Ajouter occurrence suivante"
 
+  "Check for Update"
+  "Vérifier les mises à jour"
+
   "Clear All"
   "Effacer tout"
 
@@ -137,6 +140,9 @@ msgcat::mcmset fr {
 
   "Edit"
   "Modification"
+
+  "Edit current"
+  "Modifier l'actuelle..."
 
   "Edit user"
   "Modifier l’utilisateur"
@@ -164,6 +170,9 @@ msgcat::mcmset fr {
 
   "Format Text"
   "Format texte"
+
+  "From Clipboard"
+  "Correctif pour le presse-papiers"
 
   "Goto Last Tab"
   "Goto dernier onglet"
@@ -198,6 +207,9 @@ msgcat::mcmset fr {
   "Indent"
   "Retrait"
 
+  "Insert Text"
+  "insertion de texte"
+
   "Insert enumeration"
   "Insérez énumération"
 
@@ -221,6 +233,9 @@ msgcat::mcmset fr {
 
   "Menu: Append next occurrence"
   "Menu: Ajoute occurrence suivante"
+
+  "Menu: Check for Update"
+  "Vérifier les mises à jour"
 
   "Menu: Close all tabs"
   "Menu: Fermez tous les onglets"
@@ -249,8 +264,8 @@ msgcat::mcmset fr {
   "Menu: Edit Tke theme"
   "Menu: thème Modifier Tke"
 
-  "Menu: Edit snippets"
-  "Menu: Modifier extraits"
+  "Menu: Edit current snippets"
+  "Menu: Modifier extraits actuelles"
 
   "Menu: Edit user menu bindings"
   "fixations du menu utilisateur Edition: Menu"
@@ -260,6 +275,9 @@ msgcat::mcmset fr {
 
   "Menu: Enable Vim mode"
   "Menu: Activer le mode Vim"
+
+  "Menu: Favorite file"
+  "Menu: Fichier favoris"
 
   "Menu: Find"
   "Menu: Trouvez"
@@ -278,6 +296,12 @@ msgcat::mcmset fr {
 
   "Menu: Find previous occurrence"
   "Menu: Trouvez occurrence précédente"
+
+  "Menu: Format all text"
+  "Menu: Format tout le texte"
+
+  "Menu: Format selected text"
+  "Menu: Format texte sélectionné"
 
   "Menu: Goto last tab"
   "Menu: dernier onglet Goto"
@@ -312,6 +336,12 @@ msgcat::mcmset fr {
   "Menu: Insert enumeration"
   "Menu: Insérez énumération"
 
+  "Menu: Insert from clipboard"
+  "Insérer depuis le presse-papiers"
+
+  "Menu: Insert snippet"
+  "Menu: Insérer extrait"
+
   "Menu: Install plugin"
   "Menu: Installer l&#39;extension"
 
@@ -323,6 +353,12 @@ msgcat::mcmset fr {
 
   "Menu: New file"
   "Menu: Nouveau fichier"
+
+  "Menu: Open Favorite"
+  "Menu: Open favoris"
+
+  "Menu: Open Recent"
+  "Menu: Ouvrir récent"
 
   "Menu: Open directory"
   "Menu: Ouvert répertoire"
@@ -345,8 +381,8 @@ msgcat::mcmset fr {
   "Menu: Reload all plugins"
   "Menu: Recharger tous les plugins"
 
-  "Menu: Reload all snippets"
-  "Menu: Recharger tous les extraits"
+  "Menu: Reload current snippets"
+  "Menu: Recharger extraits actuelles"
 
   "Menu: Restart tke"
   "Menu: Redémarrez TKE"
@@ -405,6 +441,9 @@ msgcat::mcmset fr {
   "Menu: Undo"
   "Menu: Annuler"
 
+  "Menu: Unfavorite file"
+  "Menu: fichier Unfavorite"
+
   "Menu: Unindent selected text"
   "Menu: Unindent texte sélectionné"
 
@@ -431,6 +470,9 @@ msgcat::mcmset fr {
 
   "Open Directory..."
   "Dossier principal..."
+
+  "Open Favorite"
+  "Ouvrir favoris"
 
   "Open File..."
   "Ouvrir un fichier..."
@@ -464,6 +506,12 @@ msgcat::mcmset fr {
 
   "Reload"
   "Recharger"
+
+  "Reload current"
+  "Recharger courant"
+
+  "Reset user to base"
+  "Réinitialiser utilisateur de fonder"
 
   "Restart tke"
   "Redémarrez TKE"
@@ -516,6 +564,9 @@ msgcat::mcmset fr {
   "Show*Profiling*"
   "Afficher*Profiling*"
 
+  "Snippet"
+  "Snippet"
+
   "Snippets"
   "Snippets"
 
@@ -564,6 +615,9 @@ msgcat::mcmset fr {
   "View"
   "Affichage"
 
+  "View base"
+  "Voir la base"
+
   "View global"
   "Voir mondial"
 
@@ -575,11 +629,17 @@ msgcat::mcmset fr {
 # plugins.tcl
 msgcat::mcmset fr {
 
+  "ERROR:  Plugin name already exists"
+  "ERREUR: Plugin nom existe déjà"
+
   "ERROR:  Plugin name is not valid (only alphanumeric and underscores are allowed)"
   "ERREUR: Nom du plugin n'est pas valide (uniquement des caractères alphanumériques et des tirets sont autorisés)"
 
-  "ERROR:  Unable to write plugin file"
-  "ERREUR: Impossible d'écrire le fichier de plugin"
+  "ERROR:  Unable to create plugin directory"
+  "Erreur: Impossible de créer le répertoire de plug-in"
+
+  "ERROR:  Unable to write plugin files"
+  "ERREUR: impossible d&#39;écrire des fichiers plugins"
 
   "Enter plugin name"
   "Entrez le nom du plug-in"
@@ -592,6 +652,9 @@ msgcat::mcmset fr {
 
   "Plugin Errors"
   "Erreurs de plugins"
+
+  "Plugins successfully reloaded"
+  "Plugins rechargé avec succès"
 
   "Syntax errors found in selected plugins"
   "Les erreurs de syntaxe trouvées dans les plugins sélectionnés"
@@ -630,6 +693,9 @@ msgcat::mcmset fr {
 
   "Open"
   "Ouvrir"
+
+  "Open Directory Files"
+  "Open Files Annuaire"
 
   "Refresh Directory Files"
   "Actualiser fichiers d'un répertoire"
@@ -751,6 +817,9 @@ msgcat::mcmset fr {
   "Close"
   "Fermer"
 
+  "Favorite"
+  "Favori"
+
   "Find:"
   "Find:"
 
@@ -762,6 +831,9 @@ msgcat::mcmset fr {
 
   "Save As"
   "Enregistrer sous"
+
+  "Unfavorite"
+  "Unfavorite"
 
 }
 

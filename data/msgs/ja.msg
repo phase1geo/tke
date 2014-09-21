@@ -4,12 +4,6 @@ msgcat::mcmset ja {
   "Argument list to api::add_file was not an even key/value pair"
   "APIへの引数リスト:: ADD_FILEもキー/値のペアではなかった"
 
-  "Argument list to api::add_file was not in the form 'filename [<option> <value>]*'"
-  "APIへの引数リスト:: ADD_FILE、フォーム &#39;ファイル名ではありませんでした[ <option><value> ] * &#39;"
-
-  "get_home_directory can only be called within plugin code"
-  "get_home_directoryのみプラグインのコード内で呼び出すことができます"
-
 }
 
 # bgproc.tcl
@@ -50,6 +44,9 @@ msgcat::mcmset ja {
   "Email:"
   "メール"
 
+  "Favorited"
+  "お気に入り"
+
   "File attribute (%s) does not exist"
   "ファイル属性（％s）は存在しません"
 
@@ -73,6 +70,9 @@ msgcat::mcmset ja {
 
   "Save request"
   "リクエストを保存"
+
+  "Show in Sidebar"
+  "サイドバーで表示"
 
   "Total Lines: %d, Total Characters: %d"
   "総行：％dが、合計文字：％D"
@@ -114,6 +114,9 @@ msgcat::mcmset ja {
   "Append next occurrence"
   "次のオカレンスを追加"
 
+  "Check for Update"
+  "アップデートの確認"
+
   "Clear All"
   "すべてクリア"
 
@@ -137,6 +140,9 @@ msgcat::mcmset ja {
 
   "Edit"
   "編集"
+
+  "Edit current"
+  "編集現在"
 
   "Edit user"
   "ユーザーの編集"
@@ -164,6 +170,9 @@ msgcat::mcmset ja {
 
   "Format Text"
   "テキストをフォーマットする"
+
+  "From Clipboard"
+  "クリップボードから"
 
   "Goto Last Tab"
   "後藤最後のタブ"
@@ -198,6 +207,9 @@ msgcat::mcmset ja {
   "Indent"
   "インデント"
 
+  "Insert Text"
+  "テキストの挿入"
+
   "Insert enumeration"
   "列挙型を挿入"
 
@@ -221,6 +233,9 @@ msgcat::mcmset ja {
 
   "Menu: Append next occurrence"
   "メニュー：次のオカレンスを追加"
+
+  "Menu: Check for Update"
+  "アップデートの確認"
 
   "Menu: Close all tabs"
   "すべてのタブを閉じる"
@@ -249,8 +264,8 @@ msgcat::mcmset ja {
   "Menu: Edit Tke theme"
   "メニュー：編集TKEテーマ"
 
-  "Menu: Edit snippets"
-  "メニュー：編集スニペット"
+  "Menu: Edit current snippets"
+  "メニュー：現在のスニペットを編集"
 
   "Menu: Edit user menu bindings"
   "メニュー：編集ユーザーメニューバインディング"
@@ -260,6 +275,9 @@ msgcat::mcmset ja {
 
   "Menu: Enable Vim mode"
   "メニュー：Vimのモードを有効に"
+
+  "Menu: Favorite file"
+  "メニュー：好きなファイル"
 
   "Menu: Find"
   "メニュー：見つける"
@@ -278,6 +296,12 @@ msgcat::mcmset ja {
 
   "Menu: Find previous occurrence"
   "メニュー：前の発生を検索"
+
+  "Menu: Format all text"
+  "メニュー：すべてのテキストの書式設定"
+
+  "Menu: Format selected text"
+  "メニュー：選択したテキストのフォーマット"
 
   "Menu: Goto last tab"
   "メニュー：後藤最後のタブ"
@@ -312,6 +336,12 @@ msgcat::mcmset ja {
   "Menu: Insert enumeration"
   "メニュー：列挙型を挿入します"
 
+  "Menu: Insert from clipboard"
+  "クリップボードからの挿入"
+
+  "Menu: Insert snippet"
+  "メニュー：挿入スニペット"
+
   "Menu: Install plugin"
   "メニュー：インストールプラグイン"
 
@@ -323,6 +353,12 @@ msgcat::mcmset ja {
 
   "Menu: New file"
   "メニュー：新ファイル"
+
+  "Menu: Open Favorite"
+  "メニュー：オープン好き"
+
+  "Menu: Open Recent"
+  "メニュー：最近のオープン"
 
   "Menu: Open directory"
   "メニュー：オープンディレクトリ"
@@ -345,8 +381,8 @@ msgcat::mcmset ja {
   "Menu: Reload all plugins"
   "メニュー：すべてのプラグインを再ロード"
 
-  "Menu: Reload all snippets"
-  "メニュー：すべてのスニペットを再ロード"
+  "Menu: Reload current snippets"
+  "メニュー：現在のスニペットを再読み込み"
 
   "Menu: Restart tke"
   "メニュー：TKEを再起動します"
@@ -405,6 +441,9 @@ msgcat::mcmset ja {
   "Menu: Undo"
   "メニュー：元に戻す"
 
+  "Menu: Unfavorite file"
+  "メニュー：気に入らないファイル"
+
   "Menu: Unindent selected text"
   "メニュー：インデント解除選択したテキスト"
 
@@ -431,6 +470,9 @@ msgcat::mcmset ja {
 
   "Open Directory..."
   "ディレクトリを開きます。..."
+
+  "Open Favorite"
+  "オープン好き"
 
   "Open File..."
   "ファイルを開く"
@@ -464,6 +506,12 @@ msgcat::mcmset ja {
 
   "Reload"
   "再読み込み"
+
+  "Reload current"
+  "現在の再読み込み"
+
+  "Reset user to base"
+  "ベースにユーザーのリセット"
 
   "Restart tke"
   "TKEを再起動します"
@@ -516,6 +564,9 @@ msgcat::mcmset ja {
   "Show*Profiling*"
   "表示*プロファイリング*"
 
+  "Snippet"
+  "スニペット"
+
   "Snippets"
   "スニペット"
 
@@ -564,6 +615,9 @@ msgcat::mcmset ja {
   "View"
   "表示"
 
+  "View base"
+  "ビュー·ベース"
+
   "View global"
   "グローバルを表示"
 
@@ -575,11 +629,17 @@ msgcat::mcmset ja {
 # plugins.tcl
 msgcat::mcmset ja {
 
+  "ERROR:  Plugin name already exists"
+  "エラー：プラグイン名がすでに存在"
+
   "ERROR:  Plugin name is not valid (only alphanumeric and underscores are allowed)"
   "ERROR：プラグイン名が有効ではありません（英数字とアンダースコアは許可されています）"
 
-  "ERROR:  Unable to write plugin file"
-  "ERROR：プラグインファイルを書き込むことができません"
+  "ERROR:  Unable to create plugin directory"
+  "エラー：プラグインディレクトリを作成できません"
+
+  "ERROR:  Unable to write plugin files"
+  "エラー：プラグインファイルを書き込むことができません"
 
   "Enter plugin name"
   "プラグイン名を入力してください"
@@ -592,6 +652,9 @@ msgcat::mcmset ja {
 
   "Plugin Errors"
   "プラグインエラー"
+
+  "Plugins successfully reloaded"
+  "プラグインが正常にリロード"
 
   "Syntax errors found in selected plugins"
   "構文エラーは、選択したプラグインで発見"
@@ -630,6 +693,9 @@ msgcat::mcmset ja {
 
   "Open"
   "オープン"
+
+  "Open Directory Files"
+  "オープンディレクトリのファイル"
 
   "Refresh Directory Files"
   "リフレッシュディレクトリファイル"
@@ -751,6 +817,9 @@ msgcat::mcmset ja {
   "Close"
   "閉じる"
 
+  "Favorite"
+  "お気に入り"
+
   "Find:"
   "Find"
 
@@ -762,6 +831,9 @@ msgcat::mcmset ja {
 
   "Save As"
   "名前を付けて保存"
+
+  "Unfavorite"
+  "気に入らない"
 
 }
 

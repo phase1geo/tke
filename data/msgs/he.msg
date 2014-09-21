@@ -4,12 +4,6 @@ msgcat::mcmset he {
   "Argument list to api::add_file was not an even key/value pair"
   "רשימת כדי api::add_file לא היה זוג ואפילו מפתח/ערך"
 
-  "Argument list to api::add_file was not in the form 'filename [<option> <value>]*'"
-  "רשימת כדי api::add_file לא היה בדמות ' [שם קובץ<option><value>]*'</value>"
-
-  "get_home_directory can only be called within plugin code"
-  "get_home_directory יכול להיקרא רק בתוך תוסף קוד"
-
 }
 
 # bgproc.tcl
@@ -50,6 +44,9 @@ msgcat::mcmset he {
   "Email:"
   "דוא\"
 
+  "Favorited"
+  "שורי"
+
   "File attribute (%s) does not exist"
   "תכונת הקובץ (%s) לא קיים"
 
@@ -73,6 +70,9 @@ msgcat::mcmset he {
 
   "Save request"
   "להציל את הבקשה"
+
+  "Show in Sidebar"
+  "הצג בסרגל הצידי"
 
   "Total Lines: %d, Total Characters: %d"
   "שורות סכום כולל: %d, סה כ תווים: %d"
@@ -114,6 +114,9 @@ msgcat::mcmset he {
   "Append next occurrence"
   "צרף המופע הבא"
 
+  "Check for Update"
+  "הסימון עבור עדכון"
+
   "Clear All"
   "לנקות את כל"
 
@@ -137,6 +140,9 @@ msgcat::mcmset he {
 
   "Edit"
   "עריכה"
+
+  "Edit current"
+  "עריכת הנוכחי"
 
   "Edit user"
   "ערוך משתמש"
@@ -164,6 +170,9 @@ msgcat::mcmset he {
 
   "Format Text"
   "עיצוב טקסט"
+
+  "From Clipboard"
+  "מהלוח"
 
   "Goto Last Tab"
   "הכרטיסיה האחרונה גוטו"
@@ -198,6 +207,9 @@ msgcat::mcmset he {
   "Indent"
   "כניסה"
 
+  "Insert Text"
+  "הוספת טקסט"
+
   "Insert enumeration"
   "הוספת ספירה"
 
@@ -221,6 +233,9 @@ msgcat::mcmset he {
 
   "Menu: Append next occurrence"
   "תפריט: הוספה המופע הבא"
+
+  "Menu: Check for Update"
+  "תפריט: בדוק אם יש עדכון"
 
   "Menu: Close all tabs"
   "תפריט: לסגור את כל הכרטיסיות"
@@ -249,8 +264,8 @@ msgcat::mcmset he {
   "Menu: Edit Tke theme"
   "תפריט: עריכה בבית השעשועים"
 
-  "Menu: Edit snippets"
-  "תפריט: עריכה גזירים"
+  "Menu: Edit current snippets"
+  "תפריט: עריכה מקטעי הנוכחי"
 
   "Menu: Edit user menu bindings"
   "תפריט: עריכת האיגודים תפריט משתמש"
@@ -260,6 +275,9 @@ msgcat::mcmset he {
 
   "Menu: Enable Vim mode"
   "תפריט: הפעלת מצב Vim"
+
+  "Menu: Favorite file"
+  "תפריט: קובץ מועדפים"
 
   "Menu: Find"
   "תפריט: למצוא"
@@ -278,6 +296,12 @@ msgcat::mcmset he {
 
   "Menu: Find previous occurrence"
   "תפריט: חיפוש המופע הקודם"
+
+  "Menu: Format all text"
+  "תפריט: לעצב כל הטקסט"
+
+  "Menu: Format selected text"
+  "תפריט: לעצב טקסט שנבחר"
 
   "Menu: Goto last tab"
   "תפריט: Goto הכרטיסיה האחרונה"
@@ -312,6 +336,12 @@ msgcat::mcmset he {
   "Menu: Insert enumeration"
   "תפריט: הוספה ספירה"
 
+  "Menu: Insert from clipboard"
+  "תפריט: הוספה מהלוח"
+
+  "Menu: Insert snippet"
+  "תפריט: הוספה גזיר"
+
   "Menu: Install plugin"
   "תפריט: להתקין תוסף"
 
@@ -323,6 +353,12 @@ msgcat::mcmset he {
 
   "Menu: New file"
   "תפריט: קובץ חדש"
+
+  "Menu: Open Favorite"
+  "תפריט: פתוח האהוב"
+
+  "Menu: Open Recent"
+  "תפריט: פתח לאחרונה"
 
   "Menu: Open directory"
   "תפריט: המדריך הפתוח"
@@ -345,8 +381,8 @@ msgcat::mcmset he {
   "Menu: Reload all plugins"
   "תפריט: רענן כל התוספים"
 
-  "Menu: Reload all snippets"
-  "תפריט: רענן כל מקטעי"
+  "Menu: Reload current snippets"
+  "תפריט: רענן מקטעי הנוכחי"
 
   "Menu: Restart tke"
   "תפריט: הפעלה מחדש בבית"
@@ -405,6 +441,9 @@ msgcat::mcmset he {
   "Menu: Undo"
   "תפריט: לבטל"
 
+  "Menu: Unfavorite file"
+  "תפריט: קובץ Unfavorite"
+
   "Menu: Unindent selected text"
   "תפריט: הקטנת כניסת הטקסט הנבחר"
 
@@ -431,6 +470,9 @@ msgcat::mcmset he {
 
   "Open Directory..."
   "המדריך הפתוח..."
+
+  "Open Favorite"
+  "מועדפים פתוח"
 
   "Open File..."
   "פתיחת קובץ..."
@@ -464,6 +506,12 @@ msgcat::mcmset he {
 
   "Reload"
   "טען מחדש"
+
+  "Reload current"
+  "רענן זרם"
+
+  "Reset user to base"
+  "איפוס משתמש לבסיס"
 
   "Restart tke"
   "הפעל מחדש בבית"
@@ -516,6 +564,9 @@ msgcat::mcmset he {
   "Show*Profiling*"
   "הצג * פרופיל *"
 
+  "Snippet"
+  "גזיר"
+
   "Snippets"
   "גזירים"
 
@@ -564,6 +615,9 @@ msgcat::mcmset he {
   "View"
   "תצוגה"
 
+  "View base"
+  "תצוגת הבסיס"
+
   "View global"
   "תצוגה גלובלית"
 
@@ -575,11 +629,17 @@ msgcat::mcmset he {
 # plugins.tcl
 msgcat::mcmset he {
 
+  "ERROR:  Plugin name already exists"
+  "שגיאה: שם התוסף כבר קיים"
+
   "ERROR:  Plugin name is not valid (only alphanumeric and underscores are allowed)"
   "שגיאה: שם התוסף אינו חוקי (רק אלפאנומרי מקפים תחתונים המותר)"
 
-  "ERROR:  Unable to write plugin file"
-  "שגיאה: אין אפשרות לכתוב את הקובץ תוסף"
+  "ERROR:  Unable to create plugin directory"
+  "שגיאה: אין אפשרות ליצור ספריית התוספים"
+
+  "ERROR:  Unable to write plugin files"
+  "שגיאה: אין אפשרות לכתוב קבצים תוסף"
 
   "Enter plugin name"
   "הזן שם התוסף"
@@ -592,6 +652,9 @@ msgcat::mcmset he {
 
   "Plugin Errors"
   "תוסף שגיאות"
+
+  "Plugins successfully reloaded"
+  "תוספים בהצלחה-נטען מחדש"
 
   "Syntax errors found in selected plugins"
   "שגיאות תחביר נמצאו הפלאגאינים שנבחרו"
@@ -630,6 +693,9 @@ msgcat::mcmset he {
 
   "Open"
   "Open"
+
+  "Open Directory Files"
+  "קבצי הספריה פתוחה"
 
   "Refresh Directory Files"
   "רענון קבצי הספריה"
@@ -751,6 +817,9 @@ msgcat::mcmset he {
   "Close"
   "סגור"
 
+  "Favorite"
+  "מועדף"
+
   "Find:"
   "לימצו (limtzo)"
 
@@ -762,6 +831,9 @@ msgcat::mcmset he {
 
   "Save As"
   "שמירה בשם"
+
+  "Unfavorite"
+  "Unfavorite"
 
 }
 

@@ -4,12 +4,6 @@ msgcat::mcmset zh {
   "Argument list to api::add_file was not an even key/value pair"
   "参数列表API :: ADD_FILE是不是连键/值对"
 
-  "Argument list to api::add_file was not in the form 'filename [<option> <value>]*'"
-  "参数列表API :: ADD_FILE是不是在窗体的文件名[ <option><value> ] *&#39;"
-
-  "get_home_directory can only be called within plugin code"
-  "get_home_directory只能在插件代码中调用"
-
 }
 
 # bgproc.tcl
@@ -50,6 +44,9 @@ msgcat::mcmset zh {
   "Email:"
   "电子邮件："
 
+  "Favorited"
+  "评选"
+
   "File attribute (%s) does not exist"
   "文件属性（％s）不存在"
 
@@ -73,6 +70,9 @@ msgcat::mcmset zh {
 
   "Save request"
   "保存请求"
+
+  "Show in Sidebar"
+  "显示在侧栏"
 
   "Total Lines: %d, Total Characters: %d"
   "行总数：％d个，总字符数：％d"
@@ -114,6 +114,9 @@ msgcat::mcmset zh {
   "Append next occurrence"
   "追加下一个出现"
 
+  "Check for Update"
+  "检查更新"
+
   "Clear All"
   "全部清除"
 
@@ -137,6 +140,9 @@ msgcat::mcmset zh {
 
   "Edit"
   "编辑"
+
+  "Edit current"
+  "编辑当前"
 
   "Edit user"
   "編輯用戶"
@@ -164,6 +170,9 @@ msgcat::mcmset zh {
 
   "Format Text"
   "设置文本格式"
+
+  "From Clipboard"
+  "从剪贴板"
 
   "Goto Last Tab"
   "转到最后一个标签页"
@@ -198,6 +207,9 @@ msgcat::mcmset zh {
   "Indent"
   "縮排"
 
+  "Insert Text"
+  "插入文字"
+
   "Insert enumeration"
   "将枚举"
 
@@ -221,6 +233,9 @@ msgcat::mcmset zh {
 
   "Menu: Append next occurrence"
   "菜单：追加下一个出现"
+
+  "Menu: Check for Update"
+  "菜单：检查更新"
 
   "Menu: Close all tabs"
   "关闭全部标签页"
@@ -249,8 +264,8 @@ msgcat::mcmset zh {
   "Menu: Edit Tke theme"
   "菜单：编辑将军澳支线主题"
 
-  "Menu: Edit snippets"
-  "菜单：编辑片段"
+  "Menu: Edit current snippets"
+  "菜单：编辑当前片段"
 
   "Menu: Edit user menu bindings"
   "菜单：编辑用户菜单绑定"
@@ -260,6 +275,9 @@ msgcat::mcmset zh {
 
   "Menu: Enable Vim mode"
   "菜单：启动Vim的模式"
+
+  "Menu: Favorite file"
+  "菜单：最喜欢的文件"
 
   "Menu: Find"
   "菜单：查找"
@@ -278,6 +296,12 @@ msgcat::mcmset zh {
 
   "Menu: Find previous occurrence"
   "菜单：查找上一个匹配"
+
+  "Menu: Format all text"
+  "菜单：格式化所有文字"
+
+  "Menu: Format selected text"
+  "菜单：格式选定的文本"
 
   "Menu: Goto last tab"
   "菜单：转到最后一个标签页"
@@ -312,6 +336,12 @@ msgcat::mcmset zh {
   "Menu: Insert enumeration"
   "菜单：将枚举"
 
+  "Menu: Insert from clipboard"
+  "通过剪贴板插入内容"
+
+  "Menu: Insert snippet"
+  "菜单：插入片段"
+
   "Menu: Install plugin"
   "菜单：安装插件"
 
@@ -323,6 +353,12 @@ msgcat::mcmset zh {
 
   "Menu: New file"
   "菜单：新建文件"
+
+  "Menu: Open Favorite"
+  "菜单：打开收藏"
+
+  "Menu: Open Recent"
+  "菜单：打开最近"
 
   "Menu: Open directory"
   "菜单：打开目录"
@@ -345,8 +381,8 @@ msgcat::mcmset zh {
   "Menu: Reload all plugins"
   "菜单：重新载入所有插件"
 
-  "Menu: Reload all snippets"
-  "菜单：刷新所有片段"
+  "Menu: Reload current snippets"
+  "菜单：刷新当前片段"
 
   "Menu: Restart tke"
   "菜单：重新启动将军澳支线"
@@ -405,6 +441,9 @@ msgcat::mcmset zh {
   "Menu: Undo"
   "菜单：撤消"
 
+  "Menu: Unfavorite file"
+  "菜单：不喜欢的文件"
+
   "Menu: Unindent selected text"
   "菜单：取消缩进选定的文本"
 
@@ -431,6 +470,9 @@ msgcat::mcmset zh {
 
   "Open Directory..."
   "开放目录..."
+
+  "Open Favorite"
+  "打开收藏"
 
   "Open File..."
   "開啟檔案"
@@ -464,6 +506,12 @@ msgcat::mcmset zh {
 
   "Reload"
   "重新加载"
+
+  "Reload current"
+  "刷新电流"
+
+  "Reset user to base"
+  "重设用户基础"
 
   "Restart tke"
   "重新启动TKE"
@@ -516,6 +564,9 @@ msgcat::mcmset zh {
   "Show*Profiling*"
   "显示*评测*"
 
+  "Snippet"
+  "片段"
+
   "Snippets"
   "片段"
 
@@ -564,6 +615,9 @@ msgcat::mcmset zh {
   "View"
   "查看"
 
+  "View base"
+  "查看基地"
+
   "View global"
   "查看全球"
 
@@ -575,11 +629,17 @@ msgcat::mcmset zh {
 # plugins.tcl
 msgcat::mcmset zh {
 
+  "ERROR:  Plugin name already exists"
+  "错误：插件名称已存在"
+
   "ERROR:  Plugin name is not valid (only alphanumeric and underscores are allowed)"
   "错误：插件名称无效（字母数字和下划线是允许的）"
 
-  "ERROR:  Unable to write plugin file"
-  "错误：无法写入插件文件"
+  "ERROR:  Unable to create plugin directory"
+  "错误：无法创建插件目录"
+
+  "ERROR:  Unable to write plugin files"
+  "错误：无法写入文件的插件"
 
   "Enter plugin name"
   "输入插件名称"
@@ -592,6 +652,9 @@ msgcat::mcmset zh {
 
   "Plugin Errors"
   "插件错误"
+
+  "Plugins successfully reloaded"
+  "插件重新加载成功"
 
   "Syntax errors found in selected plugins"
   "在选定的外挂，发现语法错误"
@@ -630,6 +693,9 @@ msgcat::mcmset zh {
 
   "Open"
   "打开"
+
+  "Open Directory Files"
+  "打开目录文件"
 
   "Refresh Directory Files"
   "刷新目录文件"
@@ -751,6 +817,9 @@ msgcat::mcmset zh {
   "Close"
   "关闭"
 
+  "Favorite"
+  "我的最愛"
+
   "Find:"
   "查找"
 
@@ -762,6 +831,9 @@ msgcat::mcmset zh {
 
   "Save As"
   "保存为"
+
+  "Unfavorite"
+  "不喜欢的"
 
 }
 
