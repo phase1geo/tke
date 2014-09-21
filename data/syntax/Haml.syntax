@@ -1,0 +1,51 @@
+filepatterns
+{*.html.haml}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+indent
+{}
+  
+unindent
+{}
+
+lcomments {{-#}}
+
+bcomments {}
+
+strings {{"} {'}}
+
+keywords
+{
+  end true false each do case when surround precede succeed action_view
+  block_is_haml capture_haml defined escape_once find_and_preserve haml_concat haml_indent haml_tag
+  html_attrs html_escape init_haml_helpers is_haml list_of non_haml page_class preserve
+  register_tilt_filter remove_filter tab_down tab_up with_raw_haml_concat with_tabs
+}
+
+symbols {
+  def
+}
+
+numbers {}
+
+punctuation
+{
+  HighlightClassForRegexp {[][/&|?=~><@#%\{\}()-]|!!!}
+}
+
+precompile {}
+
+miscellaneous {
+  HighlightClass {
+    :class :id :cdata :coffee :css :erb :escaped :javascript :less :markdown :maruku :plain :preserve
+    :ruby :sass :scss :textile
+  }
+}
+
+
+

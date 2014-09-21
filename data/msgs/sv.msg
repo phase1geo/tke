@@ -4,12 +4,6 @@ msgcat::mcmset sv {
   "Argument list to api::add_file was not an even key/value pair"
   "Argument listan till api :: add_file var inte en ens nyckel / värde-par"
 
-  "Argument list to api::add_file was not in the form 'filename [<option> <value>]*'"
-  "Argument listan till api :: add_file var inte i form &quot;filnamn [ <option><value> ] * &quot;"
-
-  "get_home_directory can only be called within plugin code"
-  "get_home_directory kan bara anropas inom plugin-kod"
-
 }
 
 # bgproc.tcl
@@ -50,6 +44,9 @@ msgcat::mcmset sv {
   "Email:"
   "E-post:"
 
+  "Favorited"
+  "Favorit"
+
   "File attribute (%s) does not exist"
   "File attribut (% s) finns inte"
 
@@ -73,6 +70,9 @@ msgcat::mcmset sv {
 
   "Save request"
   "Spara begäran"
+
+  "Show in Sidebar"
+  "Show i Sidebar"
 
   "Total Lines: %d, Total Characters: %d"
   "Totalt antal rader:% d, totalt Tecken:% d"
@@ -114,6 +114,9 @@ msgcat::mcmset sv {
   "Append next occurrence"
   "Bifoga nästa förekomst"
 
+  "Check for Update"
+  "Leta efter uppdatering"
+
   "Clear All"
   "Avmarkera alla"
 
@@ -137,6 +140,9 @@ msgcat::mcmset sv {
 
   "Edit"
   "Ändra"
+
+  "Edit current"
+  "Redigera Ström"
 
   "Edit user"
   "Redigera användare"
@@ -164,6 +170,9 @@ msgcat::mcmset sv {
 
   "Format Text"
   "Formatera text"
+
+  "From Clipboard"
+  "Från Urklipp"
 
   "Goto Last Tab"
   "Goto Last Tab"
@@ -198,6 +207,9 @@ msgcat::mcmset sv {
   "Indent"
   "Indrag"
 
+  "Insert Text"
+  "Infoga text"
+
   "Insert enumeration"
   "Sätt uppräkning"
 
@@ -221,6 +233,9 @@ msgcat::mcmset sv {
 
   "Menu: Append next occurrence"
   "Meny: Bifoga nästa förekomst"
+
+  "Menu: Check for Update"
+  "Meny: Leta efter uppdatering"
 
   "Menu: Close all tabs"
   "Meny: Stäng alla flikar"
@@ -249,8 +264,8 @@ msgcat::mcmset sv {
   "Menu: Edit Tke theme"
   "Meny: Redigera Tke tema"
 
-  "Menu: Edit snippets"
-  "Meny: Redigera snuttar"
+  "Menu: Edit current snippets"
+  "Meny: Redigera nuvarande snuttar"
 
   "Menu: Edit user menu bindings"
   "Meny: Redigera användarmenyns bindningar"
@@ -260,6 +275,9 @@ msgcat::mcmset sv {
 
   "Menu: Enable Vim mode"
   "Meny: Aktivera Vim-läge"
+
+  "Menu: Favorite file"
+  "Meny: Favorit fil"
 
   "Menu: Find"
   "Meny: Sök"
@@ -278,6 +296,12 @@ msgcat::mcmset sv {
 
   "Menu: Find previous occurrence"
   "Meny: Sök föregående förekomst"
+
+  "Menu: Format all text"
+  "Meny: Formatera all text"
+
+  "Menu: Format selected text"
+  "Meny: Format markerad text"
 
   "Menu: Goto last tab"
   "Meny: Gå till sista fliken"
@@ -312,6 +336,12 @@ msgcat::mcmset sv {
   "Menu: Insert enumeration"
   "Meny: Sätt uppräkning"
 
+  "Menu: Insert from clipboard"
+  "Infoga via urklipp"
+
+  "Menu: Insert snippet"
+  "Meny: Infoga snutt"
+
   "Menu: Install plugin"
   "Meny: Installera plugin"
 
@@ -323,6 +353,12 @@ msgcat::mcmset sv {
 
   "Menu: New file"
   "Meny: Ny fil"
+
+  "Menu: Open Favorite"
+  "Meny: Öppna Favorit"
+
+  "Menu: Open Recent"
+  "Meny: Öppna senaste"
 
   "Menu: Open directory"
   "Meny: Öppna telefonboken"
@@ -345,8 +381,8 @@ msgcat::mcmset sv {
   "Menu: Reload all plugins"
   "Meny: Ladda alla plugins"
 
-  "Menu: Reload all snippets"
-  "Meny: Ladda alla snuttar"
+  "Menu: Reload current snippets"
+  "Meny: Ladda nuvarande snuttar"
 
   "Menu: Restart tke"
   "Meny: Omstart tke"
@@ -405,6 +441,9 @@ msgcat::mcmset sv {
   "Menu: Undo"
   "Meny: Ångra"
 
+  "Menu: Unfavorite file"
+  "Meny: Unfavorite fil"
+
   "Menu: Unindent selected text"
   "Meny: unindent markerad text"
 
@@ -431,6 +470,9 @@ msgcat::mcmset sv {
 
   "Open Directory..."
   "Öppna katalog"
+
+  "Open Favorite"
+  "Öppen Favoritspel"
 
   "Open File..."
   "Öppna fil..."
@@ -464,6 +506,12 @@ msgcat::mcmset sv {
 
   "Reload"
   "Ladda om"
+
+  "Reload current"
+  "Ladda nuvarande"
+
+  "Reset user to base"
+  "Återställ användaren att basera"
 
   "Restart tke"
   "Starta om tke"
@@ -516,6 +564,9 @@ msgcat::mcmset sv {
   "Show*Profiling*"
   "Visa * Profilering *"
 
+  "Snippet"
+  "Fragment"
+
   "Snippets"
   "Utdrag"
 
@@ -564,6 +615,9 @@ msgcat::mcmset sv {
   "View"
   "Visa"
 
+  "View base"
+  "Se bas"
+
   "View global"
   "Visa global"
 
@@ -575,11 +629,17 @@ msgcat::mcmset sv {
 # plugins.tcl
 msgcat::mcmset sv {
 
+  "ERROR:  Plugin name already exists"
+  "FEL: Plugin namn finns redan"
+
   "ERROR:  Plugin name is not valid (only alphanumeric and underscores are allowed)"
   "FEL: Plugin namn är inte giltigt (endast alfanumeriska och understreck är tillåtna)"
 
-  "ERROR:  Unable to write plugin file"
-  "FEL: Det går inte att skriva plugin-fil"
+  "ERROR:  Unable to create plugin directory"
+  "FEL: Det går inte att skapa plugin katalog"
+
+  "ERROR:  Unable to write plugin files"
+  "FEL: Det går inte att skriva plugin-filer"
 
   "Enter plugin name"
   "Ange plugin namn"
@@ -592,6 +652,9 @@ msgcat::mcmset sv {
 
   "Plugin Errors"
   "Plugin fel"
+
+  "Plugins successfully reloaded"
+  "Insticksprogram framgångsrikt reloaded"
 
   "Syntax errors found in selected plugins"
   "Syntax fel i utvalda plugins"
@@ -630,6 +693,9 @@ msgcat::mcmset sv {
 
   "Open"
   "Öppen"
+
+  "Open Directory Files"
+  "Open Directory filer"
 
   "Refresh Directory Files"
   "Refresh register-filer"
@@ -751,6 +817,9 @@ msgcat::mcmset sv {
   "Close"
   "Stäng"
 
+  "Favorite"
+  "Gunstling"
+
   "Find:"
   "Sök i"
 
@@ -762,6 +831,9 @@ msgcat::mcmset sv {
 
   "Save As"
   "Spara som..."
+
+  "Unfavorite"
+  "Unfavorite"
 
 }
 

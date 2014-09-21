@@ -4,12 +4,6 @@ msgcat::mcmset cs {
   "Argument list to api::add_file was not an even key/value pair"
   "Argument seznam API :: add_file nebyl ani klíč / hodnota pár"
 
-  "Argument list to api::add_file was not in the form 'filename [<option> <value>]*'"
-  "Argument seznam API :: add_file nebylo ve tvaru &quot;název souboru [ <option><value> ] * &quot;"
-
-  "get_home_directory can only be called within plugin code"
-  "get_home_directory lze volat pouze v rámci plugin kódu"
-
 }
 
 # bgproc.tcl
@@ -50,6 +44,9 @@ msgcat::mcmset cs {
   "Email:"
   "E-mail:"
 
+  "Favorited"
+  "Oblíbené"
+
   "File attribute (%s) does not exist"
   "Atribut souboru (% s) neexistuje"
 
@@ -73,6 +70,9 @@ msgcat::mcmset cs {
 
   "Save request"
   "Uložte žádost"
+
+  "Show in Sidebar"
+  "Zobrazit v postranním panelu"
 
   "Total Lines: %d, Total Characters: %d"
   "Celkem Linky:% d, celkem znaky:% d"
@@ -114,6 +114,9 @@ msgcat::mcmset cs {
   "Append next occurrence"
   "Připojit další výskyt"
 
+  "Check for Update"
+  "Zkontrolujte, zda aktualizaci"
+
   "Clear All"
   "Vymazat vše"
 
@@ -137,6 +140,9 @@ msgcat::mcmset cs {
 
   "Edit"
   "Upravit"
+
+  "Edit current"
+  "Upravit stávající"
 
   "Edit user"
   "Upravit uživatele"
@@ -164,6 +170,9 @@ msgcat::mcmset cs {
 
   "Format Text"
   "Formát textu"
+
+  "From Clipboard"
+  "Ze schránky"
 
   "Goto Last Tab"
   "Jdi Last Tab"
@@ -198,6 +207,9 @@ msgcat::mcmset cs {
   "Indent"
   "Zvětšit odsazení"
 
+  "Insert Text"
+  "Vložit text"
+
   "Insert enumeration"
   "Vložte výčet"
 
@@ -221,6 +233,9 @@ msgcat::mcmset cs {
 
   "Menu: Append next occurrence"
   "Menu: Připojit další výskyt"
+
+  "Menu: Check for Update"
+  "Menu: Zkontrolujte, zda aktualizaci"
 
   "Menu: Close all tabs"
   "Zavřít vše"
@@ -249,8 +264,8 @@ msgcat::mcmset cs {
   "Menu: Edit Tke theme"
   "Menu: Úpravy TKE téma"
 
-  "Menu: Edit snippets"
-  "Menu: Úpravy úryvky"
+  "Menu: Edit current snippets"
+  "Menu: Úpravy aktuální úryvky"
 
   "Menu: Edit user menu bindings"
   "Vázání Edit Uživatelské menu: Menu"
@@ -260,6 +275,9 @@ msgcat::mcmset cs {
 
   "Menu: Enable Vim mode"
   "Menu: Povolit režim Vim"
+
+  "Menu: Favorite file"
+  "Menu: Oblíbený soubor"
 
   "Menu: Find"
   "Menu: Hledat"
@@ -278,6 +296,12 @@ msgcat::mcmset cs {
 
   "Menu: Find previous occurrence"
   "Menu: Najít předchozí výskyt"
+
+  "Menu: Format all text"
+  "Menu: Formátování celý text"
+
+  "Menu: Format selected text"
+  "Nabídka: Formát vybraného textu"
 
   "Menu: Goto last tab"
   "Menu: Jdi Poslední záložka"
@@ -312,6 +336,12 @@ msgcat::mcmset cs {
   "Menu: Insert enumeration"
   "Menu: Vložte výčet"
 
+  "Menu: Insert from clipboard"
+  "Menu: Vložit ze schránky"
+
+  "Menu: Insert snippet"
+  "Menu: Vložit úryvek"
+
   "Menu: Install plugin"
   "Menu: Instalace plugin"
 
@@ -323,6 +353,12 @@ msgcat::mcmset cs {
 
   "Menu: New file"
   "Menu: Nový soubor"
+
+  "Menu: Open Favorite"
+  "Menu: Open Oblíbené"
+
+  "Menu: Open Recent"
+  "Menu: Otevřít poslední"
 
   "Menu: Open directory"
   "Menu: Open directory"
@@ -345,8 +381,8 @@ msgcat::mcmset cs {
   "Menu: Reload all plugins"
   "Menu: Znovu načíst všechny pluginy"
 
-  "Menu: Reload all snippets"
-  "Menu: Znovu načíst všechny úryvky"
+  "Menu: Reload current snippets"
+  "Menu: Znovu načíst aktuální úryvky"
 
   "Menu: Restart tke"
   "Menu: Restart TKE"
@@ -405,6 +441,9 @@ msgcat::mcmset cs {
   "Menu: Undo"
   "Menu: Undo"
 
+  "Menu: Unfavorite file"
+  "Menu: Unfavorite soubor"
+
   "Menu: Unindent selected text"
   "Menu: Unindent vybraný text"
 
@@ -431,6 +470,9 @@ msgcat::mcmset cs {
 
   "Open Directory..."
   "Open Directory ..."
+
+  "Open Favorite"
+  "Otevřená Oblíbené"
 
   "Open File..."
   "Volný sloupec"
@@ -464,6 +506,12 @@ msgcat::mcmset cs {
 
   "Reload"
   "Načíst znovu"
+
+  "Reload current"
+  "Reload proud"
+
+  "Reset user to base"
+  "Obnovit uživatele založit"
 
   "Restart tke"
   "Restart TKE"
@@ -516,6 +564,9 @@ msgcat::mcmset cs {
   "Show*Profiling*"
   "Ukázat * Profilování *"
 
+  "Snippet"
+  "úryvek"
+
   "Snippets"
   "Snippet"
 
@@ -564,6 +615,9 @@ msgcat::mcmset cs {
   "View"
   "Náhled"
 
+  "View base"
+  "Zobrazit základna"
+
   "View global"
   "Zobrazit globální"
 
@@ -575,11 +629,17 @@ msgcat::mcmset cs {
 # plugins.tcl
 msgcat::mcmset cs {
 
+  "ERROR:  Plugin name already exists"
+  "Chyba: Plugin názvem již existuje"
+
   "ERROR:  Plugin name is not valid (only alphanumeric and underscores are allowed)"
   "ERROR: Plugin název není platný (pouze alfanumerické a podtržítka jsou povoleny)"
 
-  "ERROR:  Unable to write plugin file"
-  "CHYBA: Nelze zapsat plugin soubor"
+  "ERROR:  Unable to create plugin directory"
+  "CHYBA: Nelze vytvořit plugin adresář"
+
+  "ERROR:  Unable to write plugin files"
+  "Chyba: Nelze zapsat plugin soubory"
 
   "Enter plugin name"
   "Zadejte plugin jméno"
@@ -592,6 +652,9 @@ msgcat::mcmset cs {
 
   "Plugin Errors"
   "Plugin chyby"
+
+  "Plugins successfully reloaded"
+  "Pluginy úspěšně reloaded"
 
   "Syntax errors found in selected plugins"
   "Syntaktické chyby nalezené ve vybraných pluginů"
@@ -630,6 +693,9 @@ msgcat::mcmset cs {
 
   "Open"
   "Open"
+
+  "Open Directory Files"
+  "Open Directory soubory"
 
   "Refresh Directory Files"
   "Obnovit soubory adresáře"
@@ -751,6 +817,9 @@ msgcat::mcmset cs {
   "Close"
   "Zavřít"
 
+  "Favorite"
+  "oblíbená položka"
+
   "Find:"
   "Find"
 
@@ -762,6 +831,9 @@ msgcat::mcmset cs {
 
   "Save As"
   "Uložit jako"
+
+  "Unfavorite"
+  "Unfavorite"
 
 }
 

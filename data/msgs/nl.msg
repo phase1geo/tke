@@ -4,12 +4,6 @@ msgcat::mcmset nl {
   "Argument list to api::add_file was not an even key/value pair"
   "Lijst met argumenten om api :: add_file was niet een even sleutel / waarde paar"
 
-  "Argument list to api::add_file was not in the form 'filename [<option> <value>]*'"
-  "Lijst met argumenten om api :: add_file was niet in de vorm &#39;bestandsnaam [ <option><value> ] * &#39;"
-
-  "get_home_directory can only be called within plugin code"
-  "get_home_directory kan alleen binnen plugin code worden genoemd"
-
 }
 
 # bgproc.tcl
@@ -50,6 +44,9 @@ msgcat::mcmset nl {
   "Email:"
   "E-mail"
 
+  "Favorited"
+  "Favoriet"
+
   "File attribute (%s) does not exist"
   "Dossierattributen (% s) bestaat niet"
 
@@ -73,6 +70,9 @@ msgcat::mcmset nl {
 
   "Save request"
   "Sparen verzoek"
+
+  "Show in Sidebar"
+  "Show in Sidebar"
 
   "Total Lines: %d, Total Characters: %d"
   "Totaal Lijnen:% d, Total Characters:% d"
@@ -114,6 +114,9 @@ msgcat::mcmset nl {
   "Append next occurrence"
   "Voeg volgende voorkomen"
 
+  "Check for Update"
+  "Zoek naar nieuwe versies"
+
   "Clear All"
   "Alles wissen"
 
@@ -137,6 +140,9 @@ msgcat::mcmset nl {
 
   "Edit"
   "Bewerken"
+
+  "Edit current"
+  "Huidige bewerken"
 
   "Edit user"
   "gebruiker veranderen"
@@ -164,6 +170,9 @@ msgcat::mcmset nl {
 
   "Format Text"
   "Tekst opmaken"
+
+  "From Clipboard"
+  "Van klembord"
 
   "Goto Last Tab"
   "Goto Last Tab"
@@ -198,6 +207,9 @@ msgcat::mcmset nl {
   "Indent"
   "Inspringen"
 
+  "Insert Text"
+  "Index invoegen"
+
   "Insert enumeration"
   "Plaats opsomming"
 
@@ -221,6 +233,9 @@ msgcat::mcmset nl {
 
   "Menu: Append next occurrence"
   "Menu: Append volgende voorkomen"
+
+  "Menu: Check for Update"
+  "Menu: Check for Update"
 
   "Menu: Close all tabs"
   "Menu: Sluit alle tabbladen"
@@ -249,8 +264,8 @@ msgcat::mcmset nl {
   "Menu: Edit Tke theme"
   "Menu: Bewerken Tke thema"
 
-  "Menu: Edit snippets"
-  "Menu: Bewerken snippets"
+  "Menu: Edit current snippets"
+  "Menu: Bewerken huidige flarden"
 
   "Menu: Edit user menu bindings"
   "Menu: menu Gebruiker bewerken bindingen"
@@ -260,6 +275,9 @@ msgcat::mcmset nl {
 
   "Menu: Enable Vim mode"
   "Menu: Enable Vim modus"
+
+  "Menu: Favorite file"
+  "Menu: Favoriete bestand"
 
   "Menu: Find"
   "Menu: Zoek"
@@ -278,6 +296,12 @@ msgcat::mcmset nl {
 
   "Menu: Find previous occurrence"
   "Menu: Zoek vorige exemplaar"
+
+  "Menu: Format all text"
+  "Menu: Formatteer alle tekst"
+
+  "Menu: Format selected text"
+  "Menu: Format geselecteerde tekst"
 
   "Menu: Goto last tab"
   "Menu: Ga naar laatste tabblad"
@@ -312,6 +336,12 @@ msgcat::mcmset nl {
   "Menu: Insert enumeration"
   "Menu: Invoegen opsomming"
 
+  "Menu: Insert from clipboard"
+  "Invoegen vanaf klembord"
+
+  "Menu: Insert snippet"
+  "Menu: snippet Insert"
+
   "Menu: Install plugin"
   "Menu: Installeer plugin"
 
@@ -323,6 +353,12 @@ msgcat::mcmset nl {
 
   "Menu: New file"
   "Menu: Nieuw bestand"
+
+  "Menu: Open Favorite"
+  "Menu: Open Favoriete"
+
+  "Menu: Open Recent"
+  "Menu: Recent geopend"
 
   "Menu: Open directory"
   "Menu: Open directory"
@@ -345,8 +381,8 @@ msgcat::mcmset nl {
   "Menu: Reload all plugins"
   "Menu: Reload alle plugins"
 
-  "Menu: Reload all snippets"
-  "Menu: Reload alle fragmenten"
+  "Menu: Reload current snippets"
+  "Menu: Reload huidige flarden"
 
   "Menu: Restart tke"
   "Menu: Restart TKE"
@@ -405,6 +441,9 @@ msgcat::mcmset nl {
   "Menu: Undo"
   "Menu: Ongedaan maken"
 
+  "Menu: Unfavorite file"
+  "Menu: Unfavorite bestand"
+
   "Menu: Unindent selected text"
   "Menu: laten terugspringen geselecteerde tekst"
 
@@ -431,6 +470,9 @@ msgcat::mcmset nl {
 
   "Open Directory..."
   "Map openen"
+
+  "Open Favorite"
+  "Open Favorite"
 
   "Open File..."
   "Bestand openen..."
@@ -464,6 +506,12 @@ msgcat::mcmset nl {
 
   "Reload"
   "Herladen"
+
+  "Reload current"
+  "Reload huidige"
+
+  "Reset user to base"
+  "Reset gebruiker te baseren"
 
   "Restart tke"
   "Herstart TKE"
@@ -516,6 +564,9 @@ msgcat::mcmset nl {
   "Show*Profiling*"
   "Tonen * Profiling *"
 
+  "Snippet"
+  "Snippet"
+
   "Snippets"
   "Snippets"
 
@@ -564,6 +615,9 @@ msgcat::mcmset nl {
   "View"
   "Bekijken"
 
+  "View base"
+  "Bekijk base"
+
   "View global"
   "Bekijk globale"
 
@@ -575,11 +629,17 @@ msgcat::mcmset nl {
 # plugins.tcl
 msgcat::mcmset nl {
 
+  "ERROR:  Plugin name already exists"
+  "FOUT: Plugin naam al bestaat"
+
   "ERROR:  Plugin name is not valid (only alphanumeric and underscores are allowed)"
   "FOUT: Plugin naam is niet geldig (alleen alfanumerieke en underscores zijn toegestaan)"
 
-  "ERROR:  Unable to write plugin file"
-  "FOUT: Kan plugin bestand te schrijven"
+  "ERROR:  Unable to create plugin directory"
+  "FOUT: Kan plugin directory"
+
+  "ERROR:  Unable to write plugin files"
+  "FOUT: Kan plugin bestanden weg te schrijven"
 
   "Enter plugin name"
   "Voer plugin naam"
@@ -592,6 +652,9 @@ msgcat::mcmset nl {
 
   "Plugin Errors"
   "Plugin fouten"
+
+  "Plugins successfully reloaded"
+  "Plugins succes vernieuwd"
 
   "Syntax errors found in selected plugins"
   "Syntax fouten gevonden in geselecteerde plugins"
@@ -630,6 +693,9 @@ msgcat::mcmset nl {
 
   "Open"
   "Openen"
+
+  "Open Directory Files"
+  "Open Directory Bestanden"
 
   "Refresh Directory Files"
   "Vernieuwen Directory Bestanden"
@@ -751,6 +817,9 @@ msgcat::mcmset nl {
   "Close"
   "Sluiten"
 
+  "Favorite"
+  "Favoriet"
+
   "Find:"
   "ontdekken"
 
@@ -762,6 +831,9 @@ msgcat::mcmset nl {
 
   "Save As"
   "Opslaan als"
+
+  "Unfavorite"
+  "Unfavorite"
 
 }
 

@@ -1,0 +1,42 @@
+filepatterns
+{*.sh}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+indent
+{}
+  
+unindent
+{}
+
+lcomments {{^[ \t]*#}}
+
+bcomments {}
+
+strings {{"} {'} {`}}
+
+keywords
+{
+  until while for do done in if then elif else fi case esac select coproc parallel function alias
+  declare typeset export readonly local wait disown kill
+}
+
+symbols {}
+
+numbers {
+  HighlightClassForRegexp {[0-9]+}
+}
+
+punctuation
+{
+  HighlightClassForRegexp {[][=+~|>$:@^,%*?<&;!\{\}()]}
+}
+
+precompile {}
+
+miscellaneous {}
+

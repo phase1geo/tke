@@ -4,12 +4,6 @@ msgcat::mcmset es {
   "Argument list to api::add_file was not an even key/value pair"
   "Lista de argumentos para api::add_file no era un par aun clave/valor"
 
-  "Argument list to api::add_file was not in the form 'filename [<option> <value>]*'"
-  "Lista de argumentos para api::add_file no estaba en la forma 'nombre de archivo [<option> <value>]*'"
-
-  "get_home_directory can only be called within plugin code"
-  "get_home_directory sólo se puede llamar al código Plugin"
-
 }
 
 # bgproc.tcl
@@ -50,6 +44,9 @@ msgcat::mcmset es {
   "Email:"
   "Correo electrónico:"
 
+  "Favorited"
+  "Los favoritos"
+
   "File attribute (%s) does not exist"
   "Atributo de archivo (%s) no existe"
 
@@ -73,6 +70,9 @@ msgcat::mcmset es {
 
   "Save request"
   "Memorizar encargo"
+
+  "Show in Sidebar"
+  "Mostrar en Sidebar"
 
   "Total Lines: %d, Total Characters: %d"
   "Líneas totales:% d, Personajes totales:% d"
@@ -114,6 +114,9 @@ msgcat::mcmset es {
   "Append next occurrence"
   "Anexar siguiente aparición"
 
+  "Check for Update"
+  "Buscar actualización"
+
   "Clear All"
   "Limpiar todo"
 
@@ -137,6 +140,9 @@ msgcat::mcmset es {
 
   "Edit"
   "Edición"
+
+  "Edit current"
+  "Editar actual"
 
   "Edit user"
   "Editar usuario"
@@ -164,6 +170,9 @@ msgcat::mcmset es {
 
   "Format Text"
   "Formato de texto"
+
+  "From Clipboard"
+  "Desde el portapapeles"
 
   "Goto Last Tab"
   "Goto Última Tab"
@@ -198,6 +207,9 @@ msgcat::mcmset es {
   "Indent"
   "Indentar"
 
+  "Insert Text"
+  "Insertar texto"
+
   "Insert enumeration"
   "Inserte enumeración"
 
@@ -221,6 +233,9 @@ msgcat::mcmset es {
 
   "Menu: Append next occurrence"
   "Menú: Anexar siguiente aparición"
+
+  "Menu: Check for Update"
+  "Buscar actualización"
 
   "Menu: Close all tabs"
   "¿Cerramos todas las pestañas?"
@@ -249,8 +264,8 @@ msgcat::mcmset es {
   "Menu: Edit Tke theme"
   "Menú: Editar Tke tema"
 
-  "Menu: Edit snippets"
-  "Menú: Editar fragmentos"
+  "Menu: Edit current snippets"
+  "Menú: Editar fragmentos actuales"
 
   "Menu: Edit user menu bindings"
   "Enlaces del menú Editar usuario: Menu"
@@ -260,6 +275,9 @@ msgcat::mcmset es {
 
   "Menu: Enable Vim mode"
   "Menú: Habilitar el modo Vim"
+
+  "Menu: Favorite file"
+  "Menú: Archivo favorito"
 
   "Menu: Find"
   "Menú: Buscar"
@@ -278,6 +296,12 @@ msgcat::mcmset es {
 
   "Menu: Find previous occurrence"
   "Menú: Buscar aparición anterior"
+
+  "Menu: Format all text"
+  "Menú: Formato todo el texto"
+
+  "Menu: Format selected text"
+  "Menú: Formato de texto seleccionado"
 
   "Menu: Goto last tab"
   "Menú: Ir a la última pestaña"
@@ -312,6 +336,12 @@ msgcat::mcmset es {
   "Menu: Insert enumeration"
   "Menú: Insertar enumeración"
 
+  "Menu: Insert from clipboard"
+  "Insertar mediante el Portapapeles"
+
+  "Menu: Insert snippet"
+  "Menú: Insertar fragmento"
+
   "Menu: Install plugin"
   "Menú: Instalar Plugin"
 
@@ -323,6 +353,12 @@ msgcat::mcmset es {
 
   "Menu: New file"
   "Menú: Nuevo archivo"
+
+  "Menu: Open Favorite"
+  "Menú: Abrir favorita"
+
+  "Menu: Open Recent"
+  "Menú: Abrir reciente"
 
   "Menu: Open directory"
   "Menú: Abrir el listín telefónico"
@@ -345,8 +381,8 @@ msgcat::mcmset es {
   "Menu: Reload all plugins"
   "Menú: Actualizar todos los plugins"
 
-  "Menu: Reload all snippets"
-  "Menú: Actualizar todos los fragmentos"
+  "Menu: Reload current snippets"
+  "Menú: Actualizar fragmentos actuales"
 
   "Menu: Restart tke"
   "Menú: Reinicie tke"
@@ -405,6 +441,9 @@ msgcat::mcmset es {
   "Menu: Undo"
   "Menú: Deshacer"
 
+  "Menu: Unfavorite file"
+  "Menú: archivo unfavorite"
+
   "Menu: Unindent selected text"
   "Menú: texto seleccionado Unindent"
 
@@ -431,6 +470,9 @@ msgcat::mcmset es {
 
   "Open Directory..."
   "Abra Directorio ..."
+
+  "Open Favorite"
+  "Abrir favorita"
 
   "Open File..."
   "Columna abierta..."
@@ -464,6 +506,12 @@ msgcat::mcmset es {
 
   "Reload"
   "Reload"
+
+  "Reload current"
+  "Actual Reload"
+
+  "Reset user to base"
+  "Reiniciar usuario basar"
 
   "Restart tke"
   "Reiniciar tke"
@@ -516,6 +564,9 @@ msgcat::mcmset es {
   "Show*Profiling*"
   "Mostrar*Profiling*"
 
+  "Snippet"
+  "De fragmentos"
+
   "Snippets"
   "Fragmentos"
 
@@ -564,6 +615,9 @@ msgcat::mcmset es {
   "View"
   "Vista"
 
+  "View base"
+  "Vista de la base"
+
   "View global"
   "Ver mundial"
 
@@ -575,11 +629,17 @@ msgcat::mcmset es {
 # plugins.tcl
 msgcat::mcmset es {
 
+  "ERROR:  Plugin name already exists"
+  "ERROR: nombre Plugin ya existe"
+
   "ERROR:  Plugin name is not valid (only alphanumeric and underscores are allowed)"
   "ERROR: Nombre del Plugin no es válido (sólo caracteres alfanuméricos y guiones están permitidos)"
 
-  "ERROR:  Unable to write plugin file"
-  "ERROR: No se puede escribir archivo plugin"
+  "ERROR:  Unable to create plugin directory"
+  "ERROR: No se puede crear el directorio de plugins"
+
+  "ERROR:  Unable to write plugin files"
+  "ERROR: No se puede escribir archivos de plugin"
 
   "Enter plugin name"
   "Ingrese nombre del plugin"
@@ -592,6 +652,9 @@ msgcat::mcmset es {
 
   "Plugin Errors"
   "Errores Plugin"
+
+  "Plugins successfully reloaded"
+  "Plugins recargado con éxito"
 
   "Syntax errors found in selected plugins"
   "Los errores de sintaxis encontrados en plugins seleccionados"
@@ -630,6 +693,9 @@ msgcat::mcmset es {
 
   "Open"
   "Abierto"
+
+  "Open Directory Files"
+  "Abrir archivos Directorio"
 
   "Refresh Directory Files"
   "Actualizar los archivos de directorio"
@@ -751,6 +817,9 @@ msgcat::mcmset es {
   "Close"
   "Cerrar"
 
+  "Favorite"
+  "Favorito"
+
   "Find:"
   "Encontrar:"
 
@@ -762,6 +831,9 @@ msgcat::mcmset es {
 
   "Save As"
   "Guardar como"
+
+  "Unfavorite"
+  "Unfavorite"
 
 }
 

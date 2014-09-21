@@ -4,12 +4,6 @@ msgcat::mcmset hu {
   "Argument list to api::add_file was not an even key/value pair"
   "Argumentumlista API :: add_file nem volt még kulcs / érték párt"
 
-  "Argument list to api::add_file was not in the form 'filename [<option> <value>]*'"
-  "Argumentumlista API :: add_file nem volt formában &quot;fájlnév [ <option><value> ] * &quot;"
-
-  "get_home_directory can only be called within plugin code"
-  "get_home_directory nevezhető a plugin-kód"
-
 }
 
 # bgproc.tcl
@@ -50,6 +44,9 @@ msgcat::mcmset hu {
   "Email:"
   "E-mail:"
 
+  "Favorited"
+  "Kedvencek"
+
   "File attribute (%s) does not exist"
   "Fájl attribútum (% s) nem létezik"
 
@@ -73,6 +70,9 @@ msgcat::mcmset hu {
 
   "Save request"
   "Mentés kérése"
+
+  "Show in Sidebar"
+  "Show Sidebar"
 
   "Total Lines: %d, Total Characters: %d"
   "Teljes sorok:% d, Total karakterek:% d"
@@ -114,6 +114,9 @@ msgcat::mcmset hu {
   "Append next occurrence"
   "Adja hozzá a következő esemény"
 
+  "Check for Update"
+  "Ellenőrizze a Frissítés"
+
   "Clear All"
   "Minden törlése"
 
@@ -137,6 +140,9 @@ msgcat::mcmset hu {
 
   "Edit"
   "Szerkesztés"
+
+  "Edit current"
+  "A jelenlegi módosítása..."
 
   "Edit user"
   "Felhasználó szerkesztése"
@@ -164,6 +170,9 @@ msgcat::mcmset hu {
 
   "Format Text"
   "Szöveg formázása"
+
+  "From Clipboard"
+  "A vágólapról"
 
   "Goto Last Tab"
   "Ugrás az utolsó lap"
@@ -198,6 +207,9 @@ msgcat::mcmset hu {
   "Indent"
   "Behúzás"
 
+  "Insert Text"
+  "Szöveg beszúrása"
+
   "Insert enumeration"
   "Helyezze felsorolás"
 
@@ -221,6 +233,9 @@ msgcat::mcmset hu {
 
   "Menu: Append next occurrence"
   "Menü: hozzáfűzése következő előfordulását"
+
+  "Menu: Check for Update"
+  "Menü: Frissítés keresése"
 
   "Menu: Close all tabs"
   "Összes fül bezárása"
@@ -249,8 +264,8 @@ msgcat::mcmset hu {
   "Menu: Edit Tke theme"
   "Menü: Szerkesztés TKE téma"
 
-  "Menu: Edit snippets"
-  "Menü: Edit töredék"
+  "Menu: Edit current snippets"
+  "Menü: szerkesztése jelenlegi töredék"
 
   "Menu: Edit user menu bindings"
   "Menü: Felhasználói menü szerkesztése kötések"
@@ -260,6 +275,9 @@ msgcat::mcmset hu {
 
   "Menu: Enable Vim mode"
   "Menü: engedélyezése Vim mód"
+
+  "Menu: Favorite file"
+  "Menü: Kedvenc fájl"
 
   "Menu: Find"
   "Menü: Keresés"
@@ -278,6 +296,12 @@ msgcat::mcmset hu {
 
   "Menu: Find previous occurrence"
   "Menü: Find korábbi előfordulása"
+
+  "Menu: Format all text"
+  "Menü: Formátum minden szöveg"
+
+  "Menu: Format selected text"
+  "Menü: Formátum kijelölt szöveg"
 
   "Menu: Goto last tab"
   "Menü: Ugrás az utolsó lapra"
@@ -312,6 +336,12 @@ msgcat::mcmset hu {
   "Menu: Insert enumeration"
   "Menü: Helyezze felsorolás"
 
+  "Menu: Insert from clipboard"
+  "Beszúrás a vágólapról"
+
+  "Menu: Insert snippet"
+  "Menü: Beszúrás részlet"
+
   "Menu: Install plugin"
   "Menü: Install bővítmény"
 
@@ -323,6 +353,12 @@ msgcat::mcmset hu {
 
   "Menu: New file"
   "Menü: Új fájl"
+
+  "Menu: Open Favorite"
+  "Menü: Open Favorite"
+
+  "Menu: Open Recent"
+  "Menü: Open Recent"
 
   "Menu: Open directory"
   "Menü: Open Directory"
@@ -345,8 +381,8 @@ msgcat::mcmset hu {
   "Menu: Reload all plugins"
   "Menü: Minden újratöltése plugins"
 
-  "Menu: Reload all snippets"
-  "Menü: Reload minden töredék"
+  "Menu: Reload current snippets"
+  "Menü: Frissíti az aktuális töredék"
 
   "Menu: Restart tke"
   "Menü: Restart TKE"
@@ -405,6 +441,9 @@ msgcat::mcmset hu {
   "Menu: Undo"
   "Menü: Visszavonás"
 
+  "Menu: Unfavorite file"
+  "Menü: Unfavorite fájl"
+
   "Menu: Unindent selected text"
   "Menü: behúzásának megszüntetése kijelölt szöveg"
 
@@ -431,6 +470,9 @@ msgcat::mcmset hu {
 
   "Open Directory..."
   "Felső szintű könyvtár:"
+
+  "Open Favorite"
+  "Nyílt Favorite"
 
   "Open File..."
   "Fájl megnyitása..."
@@ -464,6 +506,12 @@ msgcat::mcmset hu {
 
   "Reload"
   "Újratölt"
+
+  "Reload current"
+  "Reload áram"
+
+  "Reset user to base"
+  "Reset Felhasználói alapozni"
 
   "Restart tke"
   "Újraindítás TKE"
@@ -516,6 +564,9 @@ msgcat::mcmset hu {
   "Show*Profiling*"
   "Megjelenítése * Profiling *"
 
+  "Snippet"
+  "Töredék"
+
   "Snippets"
   "Snippets"
 
@@ -564,6 +615,9 @@ msgcat::mcmset hu {
   "View"
   "Megjelenítés"
 
+  "View base"
+  "Nézet alap"
+
   "View global"
   "Tekintse meg a globális"
 
@@ -575,11 +629,17 @@ msgcat::mcmset hu {
 # plugins.tcl
 msgcat::mcmset hu {
 
+  "ERROR:  Plugin name already exists"
+  "ERROR: Plugin már létezik"
+
   "ERROR:  Plugin name is not valid (only alphanumeric and underscores are allowed)"
   "ERROR: Plugin neve nem érvényes (csak alfanumerikus és aláhúzás megengedett)"
 
-  "ERROR:  Unable to write plugin file"
-  "HIBA: Nem lehet írni bővítmény fájlt"
+  "ERROR:  Unable to create plugin directory"
+  "HIBA: Nem sikerült létrehozni a plugin könyvtárban"
+
+  "ERROR:  Unable to write plugin files"
+  "HIBA: Nem lehet írni a plugin fájlok"
 
   "Enter plugin name"
   "Adja meg a bővítmény név"
@@ -592,6 +652,9 @@ msgcat::mcmset hu {
 
   "Plugin Errors"
   "Plugin hibák"
+
+  "Plugins successfully reloaded"
+  "Plugins sikeresen reloaded"
 
   "Syntax errors found in selected plugins"
   "Syntax hibát talált a kiválasztott plugins"
@@ -630,6 +693,9 @@ msgcat::mcmset hu {
 
   "Open"
   "Nyissa"
+
+  "Open Directory Files"
+  "Open Directory fájlok"
 
   "Refresh Directory Files"
   "Frissítés Directory fájlok"
@@ -751,6 +817,9 @@ msgcat::mcmset hu {
   "Close"
   "Bezárás"
 
+  "Favorite"
+  "Kedvenc"
+
   "Find:"
   "felfedez"
 
@@ -762,6 +831,9 @@ msgcat::mcmset hu {
 
   "Save As"
   "Mentés másként"
+
+  "Unfavorite"
+  "Unfavorite"
 
 }
 
