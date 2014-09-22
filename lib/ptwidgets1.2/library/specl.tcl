@@ -848,7 +848,8 @@ namespace eval specl::releaser {
     set app "$specl::appname-$data(item_version)"
     
     # Create a temporary directory for the application files
-    set tmpdir [file join / tmp $app]
+    set tmp    [file join / tmp]
+    set tmpdir [file join $tmp $app]
     
     # Write the version file to the current directory
     write_version
@@ -857,7 +858,7 @@ namespace eval specl::releaser {
     file copy -force [pwd] $tmpdir
     
     # Tarball and gzip the current directory
-    if {[catch { exec -ignorestderr tar czf [set tarball [file join $tmpdir [file tail $data(item_url)]]] -C [file join / tmp] $app } rc]} {
+    if {[catch { exec -ignorestderr tar czf [set tarball [file join $tmp [file tail $data(item_url)]]] -C $tmp $app } rc]} {
       return -code error $rc
     }
     
@@ -868,10 +869,10 @@ namespace eval specl::releaser {
     set data(item_checksum) [get_checksum $tarball]
       
     # Write the RSS file
-    write_rss $tmpdir
+    write_rss $tmp
     
-    puts "Upload [file join $tmpdir appcast.xml] to $specl::rss_url/appcast.xml"
-    puts "Upload [file join $tmpdir [file tail $data(item_url)]] to $data(item_url)"
+    puts "Upload [file join $tmp appcast.xml] to $specl::rss_url/appcast.xml"
+    puts "Upload [file join $tmp [file tail $data(item_url)]] to $data(item_url)"
 
   }
   
