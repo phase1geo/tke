@@ -1510,7 +1510,7 @@ namespace eval vim {
       return 1
     } elseif {$mode($txt) eq "quit"} {
       [ns gui]::save_current $tid
-      [ns gui]::close_current
+      [ns gui]::close_current $tid
       return 1
     }
     
