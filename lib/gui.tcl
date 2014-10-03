@@ -275,7 +275,7 @@ namespace eval gui {
     # Create tab popup
     set widgets(menu) [menu $widgets(nb_pw).popupMenu -tearoff 0 -postcommand gui::setup_tab_popup_menu]
     $widgets(menu) add command -label [msgcat::mc "Close Tab"] -command {
-      gui::close_current
+      gui::close_current {}
     }
     $widgets(menu) add command -label [msgcat::mc "Close Other Tab(s)"] -command {
       gui::close_others
@@ -1438,7 +1438,7 @@ namespace eval gui {
   # modified state of text widget.  If force is set to 0 and the text
   # widget is modified, the user will be questioned if they want to save
   # the contents of the file prior to closing the tab.
-  proc close_current {{force 0} {exiting 0}} {
+  proc close_current {tid {force 0} {exiting 0}} {
 
     variable pw_current
     variable files
@@ -1457,7 +1457,7 @@ namespace eval gui {
       }
       set msg "[msgcat::mc Save] $fname?"
       if {[set answer [tk_messageBox -default yes -type [expr {$exiting ? {yesno} : {yesnocancel}}] -message $msg -title [msgcat::mc "Save request"]]] eq "yes"} {
-        save_current {}
+        save_current $tid
       } elseif {$answer eq "cancel"} {
         return
       }
@@ -1587,7 +1587,7 @@ namespace eval gui {
       foreach tab [lreverse [$nb.tbf.tb tabs]] {
         if {($nb ne $current_pw) || ($tab ne [$nb.tbf.tb select])} {
           set_current_tab $tab
-          close_current
+          close_current {}
         }
       }
     }
@@ -1603,7 +1603,7 @@ namespace eval gui {
     foreach nb [lreverse [$widgets(nb_pw) panes]] {
       foreach tab [lreverse [$nb.tbf.tb tabs]] {
         set_current_tab $tab
-        close_current 0 $exiting
+        close_current {} 0 $exiting
       }
     }
 
@@ -1700,7 +1700,7 @@ namespace eval gui {
     }
 
     # Delete the current tab
-    close_current 1
+    close_current {} 1
 
     # Get the name of the other pane if it exists
     if {[llength [$widgets(nb_pw) panes]] == 2} {
