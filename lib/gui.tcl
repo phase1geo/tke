@@ -24,6 +24,7 @@ namespace eval gui {
   variable fif_files        [list]
   variable info_clear       ""
   variable trailing_ws_re   {[\ \t]+$}
+  variable case_sensitive   1
 
   array set widgets         {}
   array set language        {}
@@ -55,14 +56,14 @@ namespace eval gui {
   # Returns the file index based on the given fname.  If the filename
   # was not found, return an index value of -1.
   proc get_file_index {fname} {
-    
+
     variable files
     variable files_index
-    
+
     return [lsearch -index $files_index(fname) $files $fname]
-    
+
   }
-  
+
   ######################################################################
   # Polls every 10 seconds to see if any of the loaded files have been
   # updated since the last save.
@@ -203,7 +204,7 @@ namespace eval gui {
     set widgets(fif)       [ttk::frame .fif]
     ttk::label $widgets(fif).lf -text "Find: "
     set widgets(fif_find)  [ttk::entry $widgets(fif).ef]
-    set widgets(fif_case)  [ttk::label $widgets(fif).case -text "Aa" -relief raised]
+    set widgets(fif_case)  [ttk::checkbutton $widgets(fif).case -text "Aa" -variable gui::case_sensitive]
     ttk::label $widgets(fif).li -text "In: "
     set widgets(fif_in)    [tokenentry::tokenentry $widgets(fif).ti -font [$widgets(fif_find) cget -font]]
     set widgets(fif_close) [ttk::label $widgets(fif).close -image $images(close)]
@@ -219,8 +220,6 @@ namespace eval gui {
     bind $widgets(fif_find)          <Escape>    { set gui::user_exit_status 0 }
     bind [$widgets(fif_in) entrytag] <Return>    { if {[gui::check_fif_for_return]} break }
     bind [$widgets(fif_in) entrytag] <Escape>    { set gui::user_exit_status 0 }
-    bind $widgets(fif_case)          <Button-1>  { gui::toggle_labelbutton %W }
-    bind $widgets(fif_case)          <Key-space> { gui::toggle_labelbutton %W }
     bind $widgets(fif_case)          <Escape>    { set gui::user_exit_status 0 }
     bind $widgets(fif_close)         <Button-1>  { set gui::user_exit_status 0 }
     bind $widgets(fif_close)         <Key-space> { set gui::user_exit_status 0 }
@@ -506,7 +505,7 @@ namespace eval gui {
     variable files_index
     variable file_locked
     variable file_favorited
-    
+
     # Get the current file index
     set file_index [current_file]
 
@@ -538,7 +537,7 @@ namespace eval gui {
     } else {
       $widgets(menu) entryconfigure [msgcat::mc "Locked"] -state normal
     }
-    
+
     # Handle plugin states
     plugins::menu_state $widgets(menu) tab_popup
 
@@ -2052,6 +2051,8 @@ namespace eval gui {
   # Starts a text search
   proc search_start {tid {dir "next"}} {
 
+    variable case_sensitive
+
     # If the user has specified a new search value, find all occurrences
     if {[set str [[current_search].e get]] ne ""} {
 
@@ -2069,7 +2070,7 @@ namespace eval gui {
 
       # Gather any search options
       set search_opts [list]
-      if {[[current_search].case cget -relief] eq "raised"} {
+      if {!$case_sensitive} {
         lappend search_opts -nocase
       }
 
@@ -2209,14 +2210,14 @@ namespace eval gui {
 
     variable pw_current
     variable tab_current
+    variable case_sensitive
 
     # Get the current tab frame
     set tab $tab_current($pw_current)
 
     # Perform the search and replace
     do_raw_search_and_replace $tid 1.0 end [$tab.rf.fe get] [$tab.rf.re get] \
-      [expr {[$tab.rf.case cget -relief] eq "raised"}] \
-      [expr {[$tab.rf.glob cget -relief] eq "sunken"}]
+      !$case_sensitive [expr {[$tab.rf.glob cget -relief] eq "sunken"}]
 
     # Close the search and replace bar
     close_search_and_replace
@@ -2493,6 +2494,7 @@ namespace eval gui {
 
     variable widgets
     variable fif_files
+    variable case_sensitive
 
     upvar $prsp_list rsp_list
 
@@ -2549,7 +2551,7 @@ namespace eval gui {
 
     # Figure out any search options
     set egrep_opts [list]
-    if {[$widgets(fif_case) cget -relief] eq "raised"} {
+    if {!$case_sensitive} {
       lappend egrep_opts -i
     }
 
@@ -2836,6 +2838,7 @@ namespace eval gui {
     variable language
     variable pw_current
     variable images
+    variable case_sensitive
 
     # Get the unique tab ID
     set id [incr curr_id]
@@ -2910,11 +2913,11 @@ namespace eval gui {
     vim::bind_command_entry $txt [entry $tab_frame.ve] {}
 
     # Create the search bar
-    ttk::frame $tab_frame.sf
-    ttk::label $tab_frame.sf.l1    -text [msgcat::mc "Find:"]
-    ttk::entry $tab_frame.sf.e
-    ttk::label $tab_frame.sf.case  -text "Aa" -relief raised
-    ttk::label $tab_frame.sf.close -image $images(close)
+    ttk::frame       $tab_frame.sf
+    ttk::label       $tab_frame.sf.l1    -text [msgcat::mc "Find:"]
+    ttk::entry       $tab_frame.sf.e
+    ttk::checkbutton $tab_frame.sf.case  -text "Aa" -variable gui::case_sensitive
+    ttk::label       $tab_frame.sf.close -image $images(close)
 
     tooltip::tooltip $tab_frame.sf.case "Case sensitivity"
 
@@ -2924,21 +2927,19 @@ namespace eval gui {
     pack $tab_frame.sf.case  -side right -padx 2 -pady 2
 
     bind $tab_frame.sf.e     <Escape>    "gui::close_search"
-    bind $tab_frame.sf.case  <Button-1>  "gui::toggle_labelbutton %W"
-    bind $tab_frame.sf.case  <Key-space> "gui::toggle_labelbutton %W"
     bind $tab_frame.sf.case  <Escape>    "gui::close_search"
     bind $tab_frame.sf.close <Button-1>  "gui::close_search"
     bind $tab_frame.sf.close <Key-space> "gui::close_search"
 
     # Create the search/replace bar
-    ttk::frame $tab_frame.rf
-    ttk::label $tab_frame.rf.fl    -text [msgcat::mc "Find:"]
-    ttk::entry $tab_frame.rf.fe
-    ttk::label $tab_frame.rf.rl    -text [msgcat::mc "Replace:"]
-    ttk::entry $tab_frame.rf.re
-    ttk::label $tab_frame.rf.case  -text "Aa" -relief raised
-    ttk::label $tab_frame.rf.glob  -image $images(global) -relief raised
-    ttk::label $tab_frame.rf.close -image $images(close)
+    ttk::frame       $tab_frame.rf
+    ttk::label       $tab_frame.rf.fl    -text [msgcat::mc "Find:"]
+    ttk::entry       $tab_frame.rf.fe
+    ttk::label       $tab_frame.rf.rl    -text [msgcat::mc "Replace:"]
+    ttk::entry       $tab_frame.rf.re
+    ttk::checkbutton $tab_frame.rf.case  -text "Aa" -variable gui::case_sensitive
+    ttk::label       $tab_frame.rf.glob  -image $images(global) -relief raised
+    ttk::label       $tab_frame.rf.close -image $images(close)
 
     tooltip::tooltip $tab_frame.rf.case "Case sensitivity"
     tooltip::tooltip $tab_frame.rf.glob "Replace globally"
@@ -2956,8 +2957,6 @@ namespace eval gui {
     bind $tab_frame.rf.glob  <Return>    "gui::do_search_and_replace {}"
     bind $tab_frame.rf.fe    <Escape>    "gui::close_search_and_replace"
     bind $tab_frame.rf.re    <Escape>    "gui::close_search_and_replace"
-    bind $tab_frame.rf.case  <Button-1>  "gui::toggle_labelbutton %W"
-    bind $tab_frame.rf.case  <Key-space> "gui::toggle_labelbutton %W"
     bind $tab_frame.rf.case  <Escape>    "gui::close_search_and_replace"
     bind $tab_frame.rf.glob  <Button-1>  "gui::toggle_labelbutton %W"
     bind $tab_frame.rf.glob  <Key-space> "gui::toggle_labelbutton %W"
