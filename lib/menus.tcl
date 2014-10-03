@@ -433,7 +433,7 @@ namespace eval menus {
   # Closes the current tab.
   proc close_command {} {
 
-    gui::close_current
+    gui::close_current {}
 
   }
 
