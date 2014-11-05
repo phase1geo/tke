@@ -2988,6 +2988,7 @@ namespace eval gui {
     indent::add_bindings          $txt
     multicursor::add_bindings     $txt
     snippets::add_bindings        $txt
+    completer::add_bindings       $txt
     vim::set_vim_mode             $txt {}
     plugins::handle_text_bindings $txt
 
@@ -3092,6 +3093,7 @@ namespace eval gui {
     [ns indent]::add_bindings          $txt2
     [ns multicursor]::add_bindings     $txt2
     [ns snippets]::add_bindings        $txt2
+    [ns completer]::add_bindings       $txt2
     [ns vim]::set_vim_mode             $txt2 {}
     [ns plugins]::handle_text_bindings $txt2
 

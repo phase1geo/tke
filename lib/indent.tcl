@@ -84,6 +84,9 @@ namespace eval indent {
     # Get the current line
     set line [$txt get $index "$index lineend"]
 
+    # Create an index to restore the insertion cursor, if necessary
+    set restore_insert ""
+
     # Remove any leading whitespace and update indentation level
     # (if the first non-whitespace char is a closing bracket)
     if {[regexp {^( *)(.*)} $line -> whitespace rest] && ($rest ne "")} {
@@ -91,6 +94,8 @@ namespace eval indent {
       # If the first non-whitespace characters match an unindent pattern,
       # lessen the indentation by one
       if {[regexp [subst {^[join $indent_exprs($txt,unindent) |]}] $rest]} {
+        $txt insert insert "$indent_space\n"
+        set restore_insert [$txt index insert-1c]
         set indent_space [string range $indent_space [[ns preferences]::get Editor/IndentSpaces] end]
       }
 
@@ -110,6 +115,11 @@ namespace eval indent {
     # Insert leading whitespace to match current indentation level
     if {$indent_space ne ""} {
       $txt insert $index $indent_space
+    }
+
+    # If we need to restore the insertion cursor, do it now
+    if {$restore_insert ne ""} {
+      $txt mark set insert $restore_insert
     }
 
   }
