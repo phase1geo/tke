@@ -68,7 +68,7 @@
 # Specifies the point size of the font used in the command launcher preview field.
 
 {Appearance/CommandLauncherPreviewFontSize} {6}
-
+ 
 # Specifies the number of characters to allow on a line before additional characters
 # are flagged with a warning character.
 
@@ -77,12 +77,23 @@
 # Specifies the number of spaces that will be inserted when the tab character is
 # entered in edit mode.
 
-{Editor/SpacesPerTab}        {4}
+{Editor/SpacesPerTab}        {2}
 
 # If set to a value of 1, auto-indentation is enabled.  If set to a value of 0,
 # disables auto-indentation feature.
 
 {Editor/EnableAutoIndent}    {1}
+
+# Contains a list of characters that the editor will automatically match when its matching
+# opening character is inserted.  The valid values are as follows:
+#   square - Inserts a matching square bracket ([])
+#   curly  - Inserts a matching curly bracket ({})
+#   angled - Inserts a matching angled bracket (<>)
+#   paren  - Inserts a matching parenthesis (())
+#   double - Inserts a matching double-quote (")
+#   single - Inserts a matching single-quote (')
+
+{Editor/AutoMatchChars}      {square curly angled paren double single}
 
 # Specifies the number of spaces that will be automatically inserted when an
 # auto-indent event occurs.
