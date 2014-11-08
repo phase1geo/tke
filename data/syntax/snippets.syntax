@@ -1,5 +1,8 @@
 filepatterns
 {*.snippets}
+
+matchcharsallowed
+{curly square paren double single}
  
 tabsallowed
 {1}

@@ -7,7 +7,9 @@ namespace eval completer {
   
   source [file join $::tke_dir lib ns.tcl]
 
-  array set complete {}
+  array set pref_complete    {}
+  array set complete         {}
+  array set lang_match_chars {}
 
   trace add variable [ns preferences]::prefs(Editor/AutoMatchChars) write [ns completer]::handle_auto_match_chars
   
@@ -15,10 +17,11 @@ namespace eval completer {
   # Handles any changes to the Editor/AutoMatchChars preference value.
   proc handle_auto_match_chars {name1 name2 op} {
 
-    variable complete
-
-    # Reset the completer array
-    array set complete {
+    variable pref_complete
+    variable lang_match_chars
+    
+    # Populate the pref_complete array with the values from the preferences file
+    array set pref_complete {
       square 0
       curly  0
       angled 0
@@ -26,13 +29,48 @@ namespace eval completer {
       double 0
       single 0
     }
-
+    
     foreach value [[ns preferences]::get Editor/AutoMatchChars] {
-      set complete($value) 1
+      set pref_complete($value) 1
+    }
+
+    # Update all text widgets
+    foreach txt [array names lang_match_chars] {
+      set_auto_match_chars $txt $lang_match_chars($txt)
     }
 
   }
+  
+  ######################################################################
+  # Sets the auto-match characters based on the current language.
+  proc set_auto_match_chars {txt matchchars} {
+    
+    variable lang_match_chars
+    variable pref_complete
+    variable complete
 
+    # Save the language-specific match characters
+    set lang_match_chars($txt) $matchchars
+    
+    # Initialize the complete array for the given text widget
+    array set complete [list \
+      $txt,square 0 \
+      $txt,curly  0 \
+      $txt,angled 0 \
+      $txt,paren  0 \
+      $txt,double 0 \
+      $txt,single 0 \
+    ]
+      
+    # Combine the language-specific match chars with preference chars
+    foreach match_char $lang_match_chars($txt) {
+      if {$pref_complete($match_char)} {
+        set complete($txt,$match_char) 1
+      }
+    }
+      
+  }
+ 
   ######################################################################
   # Adds bindings to the given text widget.
   proc add_bindings {txt} {
@@ -61,7 +99,7 @@ namespace eval completer {
     
     variable complete
 
-    if {$complete(square)} {
+    if {$complete($txt,square) && ![ctext::inCommentString $txt insert-1c]} {
       if {$side eq "right"} {
         if {[$txt get insert] eq "\]"} {
           $txt mark set insert "insert+1c"
@@ -84,7 +122,7 @@ namespace eval completer {
 
     variable complete
     
-    if {$complete(curly)} {
+    if {$complete($txt,curly) && ![ctext::inCommentString $txt insert-1c]} {
       if {$side eq "right"} {
         if {[$txt get insert] eq "\}"} {
           $txt mark set insert "insert+1c"
@@ -107,7 +145,7 @@ namespace eval completer {
 
     variable complete
     
-    if {$complete(angled)} {
+    if {$complete($txt,angled) && ![ctext::inCommentString $txt insert-1c]} {
       if {$side eq "right"} {
         if {[$txt get insert] eq ">"} {
           $txt mark set insert "insert+1c"
@@ -130,7 +168,7 @@ namespace eval completer {
 
     variable complete
     
-    if {$complete(paren)} {
+    if {$complete($txt,paren) && ![ctext::inCommentString $txt insert-1c]} {
       if {$side eq "right"} {
         if {[$txt get insert] eq ")"} {
           $txt mark set insert "insert+1c"
@@ -153,7 +191,7 @@ namespace eval completer {
 
     variable complete
 
-    if {$complete(double)} {
+    if {$complete($txt,double) && ![ctext::inCommentString $txt insert-1c]} {
       if {[ctext::inCommentString $txt insert]} {
         if {[$txt get insert] eq "\""} {
           $txt mark set insert "insert+1c"
@@ -176,7 +214,7 @@ namespace eval completer {
 
     variable complete
 
-    if {$complete(single)} {
+    if {$complete($txt,single) && ![ctext::inCommentString $txt insert-1c]} {
       if {[ctext::inCommentString $txt insert]} {
         if {[$txt get insert] eq "'"} {
           $txt mark set insert "insert+1c"
@@ -199,35 +237,37 @@ namespace eval completer {
 
     variable complete
 
-    switch [$txt get insert-1c insert+1c] {
-      "\[\]" {
-        if {$complete(square)} {
-          $txt delete insert
+    if {![ctext::inCommentString $txt insert-2c]} {
+      switch [$txt get insert-1c insert+1c] {
+        "\[\]" {
+          if {$complete($txt,square)} {
+            $txt delete insert
+          }
         }
-      }
-      "\{\}" {
-        if {$complete(curly)} {
-         $txt delete insert
+        "\{\}" {
+          if {$complete($txt,curly)} {
+           $txt delete insert
+          }
         }
-      }
-      "<>" {
-        if {$complete(angled)} {
-          $txt delete insert
+        "<>" {
+          if {$complete($txt,angled)} {
+            $txt delete insert
+          }
         }
-      }
-      "()" {
-        if {$complete(paren)} {
-          $txt delete insert
+        "()" {
+          if {$complete($txt,paren)} {
+            $txt delete insert
+          }
         }
-      }
-      "\"\"" {
-        if {$complete(double)} {
-          $txt delete insert
+        "\"\"" {
+          if {$complete($txt,double)} {
+            $txt delete insert
+          }
         }
-      }
-      "''" {
-        if {$complete(single)} {
-          $txt delete insert
+        "''" {
+          if {$complete($txt,single)} {
+            $txt delete insert
+          }
         }
       }
     }
