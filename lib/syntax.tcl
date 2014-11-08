@@ -286,7 +286,7 @@ namespace eval syntax {
     
     # Set the snippet set to the current language
     [ns snippets]::set_language $language
-
+    
     # Apply the new syntax highlighting syntax, if one exists for the given language
     if {[info exists langs($language)]} {
       
@@ -323,6 +323,9 @@ namespace eval syntax {
         # the indent/unindent expressions for this language
         [ns indent]::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent)
         
+        # Set the completer options for the given languate
+        [ns completer]::set_auto_match_chars $txt.t $lang_array(matchcharsallowed)
+
       } rc]} {
         tk_messageBox -parent . -type ok -default ok -message [msgcat::mc "Syntax error in %s.syntax file" $language] -detail $rc
       }

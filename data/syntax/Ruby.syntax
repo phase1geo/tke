@@ -1,6 +1,9 @@
 filepatterns
 {*.rb}
 
+matchcharsallowed
+{curly square paren double single}
+
 tabsallowed
 {0}
 

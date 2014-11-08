@@ -1,6 +1,9 @@
 filepatterns
 {*.htm *.html}
 
+matchcharsallowed
+{paren angled double single}
+
 tabsallowed
 {0}
 

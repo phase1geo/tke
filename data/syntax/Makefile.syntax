@@ -1,6 +1,9 @@
 filepatterns
 {Makefile makefile Makefile.* makefile.*}
 
+matchcharsallowed
+{curly paren double single}
+
 tabsallowed
 {1}
 

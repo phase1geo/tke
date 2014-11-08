@@ -1,6 +1,9 @@
 filepatterns
 {*.py}
 
+matchcharsallowed
+{square paren double single}
+
 tabsallowed
 {0}
 

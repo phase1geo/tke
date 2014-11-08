@@ -1,6 +1,9 @@
 filepatterns
 {*.syntax}
 
+matchcharsallowed
+{curly}
+
 tabsallowed
 {0}
 
@@ -21,8 +24,8 @@ strings {}
 
 keywords
 {
-  filepatterns tabsallowed casesensitive indent unindent keywords symbols lcomments bcomments
-  strings numbers punctuation precompile miscellaneous 
+  filepatterns matchcharsallowed tabsallowed casesensitive indent unindent keywords symbols
+  lcomments bcomments strings numbers punctuation precompile miscellaneous 
   HighlightClass
   HighlightClassForSpecialChars
   HighlightClassForRegexp

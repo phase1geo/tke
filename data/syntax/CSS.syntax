@@ -1,6 +1,9 @@
 filepatterns
 {*.css}
 
+matchcharsallowed
+{curly paren double single}
+
 tabsallowed
 {0}
 

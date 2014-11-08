@@ -1,6 +1,9 @@
 filepatterns
 {*.tketheme}
 
+matchcharsallowed
+{curly double single}
+
 tabsallowed
 {0}
 
