@@ -1,341 +1,508 @@
-changeset:   393:88be2c110ad4
-tag:         stable-1.1
+changeset:   459:599da644e4fb
+tag:         stable-1.2
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Jul 12 22:50:29 2014 -0500
-summary:     ChangeLog for stable-1.1 release
+date:        Sat Aug 16 16:10:30 2014 -0500
+files:       ChangeLog lib/version.tcl
+description:
+ChangeLog for stable-1.2 release
 
-changeset:   394:51afcc915779
+
+changeset:   460:325f9fd45ddc
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Jul 12 22:50:50 2014 -0500
-summary:     Added tag stable-1.1 for changeset 88be2c110ad4
+date:        Sat Aug 16 16:10:41 2014 -0500
+files:       .hgtags
+description:
+Added tag stable-1.2 for changeset 599da644e4fb
 
-changeset:   395:dd177d12d281
-parent:      393:88be2c110ad4
+
+changeset:   461:bda7d15311af
+parent:      459:599da644e4fb
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Mon Jul 14 16:38:29 2014 -0500
-summary:     * Fixing syntax errors when finding a string in files that do not exist.
+date:        Mon Aug 18 17:21:24 2014 -0500
+files:       lib/gui.tcl lib/interpreter.tcl lib/plugins.tcl lib/version.tcl plugins/notes/header.tkedat plugins/notes/main.tcl
+description:
+* Fixing case where -sidebar 0 files were being added to sidebar when file was saved.
+* Adding new notes plugin.
+* Attempting to cleanup code to better handle obfuscated filenames.
 
-changeset:   396:74682aed5c83
-parent:      394:51afcc915779
-parent:      395:dd177d12d281
+
+changeset:   462:76ab15283395
+parent:      460:325f9fd45ddc
+parent:      461:bda7d15311af
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Jul 14 17:46:17 2014 -0500
-summary:     * Merging files.
+date:        Mon Aug 18 20:30:14 2014 -0500
+description:
+* Merging files.
 
-changeset:   397:3e147e9bbd76
+
+changeset:   463:5dd24ea48b7e
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Jul 15 07:33:33 2014 -0500
-summary:     * Fixing issue with file finding with spaces in the search string.
+date:        Tue Aug 19 00:14:05 2014 -0500
+files:       lib/api.tcl lib/ctext/ctext.tcl lib/interpreter.tcl lib/plugins.tcl lib/tkedat.tcl lib/version.tcl plugins/mercurial/main.tcl plugins/perforce/main.tcl plugins/terminal/header.tkedat plugins/terminal/main.tcl
+description:
+* Adding initial version of Terminal plugin (more work to do here but basic functionality exists).
+* Adding -buffer option to api::file::add documentation.
+* Fixing issue with highlighting pasted text (when text is short enough).
+* Removing debug output from interpreter namespace.
+* Changing menu action separator from the period character to the slash character.
+* Enhancing tkedat parser to allow multiline values.
 
-changeset:   398:1ba649eb7734
+
+changeset:   464:e1b4d72cb002
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Jul 15 08:12:54 2014 -0500
-summary:     * Starting to add support for text bindings.
+date:        Tue Aug 19 07:48:30 2014 -0500
+files:       lib/ctext/ctext.tcl lib/gui.tcl lib/version.tcl
+description:
+* Fixing issues with bracket and string auto-highlighting.
+* Fixing issues with bracket and string highlighting via the match bracket/quote command.
 
-changeset:   399:bc252773ba70
+
+changeset:   465:ecfb689d85ff
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Jul 15 08:13:15 2014 -0500
-summary:     * Adding missing file from previous checkin.
+date:        Tue Aug 19 07:56:03 2014 -0500
+files:       lib/version.tcl plugins/terminal/main.tcl
+description:
+* Small improvements to terminal plugin.
 
-changeset:   400:ecc81d044716
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Jul 15 08:33:45 2014 -0500
-summary:     * Fixed issues with creating text bindings via plugin.
 
-changeset:   401:d2b0d1bc7da8
+changeset:   466:fb9d9cdd0e6e
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Tue Jul 15 17:14:29 2014 -0500
-summary:     * Fixing syntax error in sidebar when duplicating a file.
+date:        Tue Aug 19 17:32:00 2014 -0500
+files:       lib/version.tcl plugins/notes/main.tcl
+description:
+* Small tweaks to notes plugin to prompt user when a list or note is being deleted.
 
-changeset:   402:9803b24f60eb
+
+changeset:   467:37ef44b96d75
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jul 16 08:33:21 2014 -0500
-summary:     * Adding "on_uninstall" action to plugins framework.
+date:        Wed Aug 20 00:53:58 2014 -0500
+files:       lib/interpreter.tcl lib/version.tcl plugins/notes/main.tcl
+description:
+* Reworking notes plugin for better performance and improved features
 
-changeset:   403:085af2e29d27
+
+changeset:   468:28c8b847a338
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Aug 20 08:40:20 2014 -0500
+files:       lib/interpreter.tcl lib/version.tcl plugins/notes/main.tcl
+description:
+* Fixes and small enhancements to the Notes plugin.
+* Adding support for safe file copy and file rename commands.
+
+
+changeset:   469:0312697d93ae
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Jul 16 17:34:05 2014 -0500
-summary:     * Fixing generation of ChangeLog in release script.
+date:        Wed Aug 20 17:44:33 2014 -0500
+files:       lib/interpreter.tcl lib/version.tcl
+description:
+* Changing file delete, copy and rename to error if any of the files/directories are not in a safe interpreter.
 
-changeset:   404:a1327990725a
+
+changeset:   470:4b8dd753ea13
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Jul 17 00:24:02 2014 -0500
-summary:     * Fixing window theming issue with multipanes.
+date:        Wed Aug 20 22:32:20 2014 -0500
+files:       lib/plugins.tcl lib/version.tcl plugins/notes/main.tcl
+description:
+* Fixing menu and text bindings between plugin reloads.
+* Fixing notes plugin command launcher functionality.
+* Adding a few lines of documentation to the generated plugin main.tcl
 
-changeset:   405:516cd074a8d0
+
+changeset:   471:06bfc047e565
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Aug 20 23:30:34 2014 -0500
+files:       lib/version.tcl plugins/terminal/main.tcl
+description:
+* Enhancing Terminal plugin.
+
+
+changeset:   472:e02df039c9e6
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu Jul 17 17:14:48 2014 -0500
-summary:     * Adding start of favorites functionality.
+date:        Thu Aug 21 14:41:32 2014 -0500
+files:       data/preferences.tkedat lib/gui.tcl lib/launcher.tcl lib/sidebar.tcl lib/version.tcl plugins/mercurial/main.tcl
+description:
+* Removed PaneOrientation preference item.
+* Fixing support of AllowTabScrolling preference item.
+* Fixing bug with changing user preference before launcher has been run.
+* Adding "Open Directory Files" menu item in sidebar for directories (opens all files within the directory).
+* Cleaning up code in sidebar namespace.
+* Adding "Revert current file" in Mercurial plugin.
 
-changeset:   406:a0117d85ef62
+
+changeset:   473:0ece571a86c8
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Jul 18 00:18:02 2014 -0500
-summary:     * Finishing work on Favorites feature.
+date:        Thu Aug 21 18:58:39 2014 -0500
+files:       lib/gui.tcl lib/menus.tcl lib/version.tcl
+description:
+* Fixing issue with tool not closing properly when buffers exist in tabs.
 
-changeset:   407:9d7100dfc168
+
+changeset:   474:735858e124af
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Aug 21 21:32:16 2014 -0500
+files:       doc/Doxyfile doc/html/api_8tcl.html doc/html/api_8tcl.js doc/html/api_8tcl_source.html doc/html/bc_s.png doc/html/bdwn.png doc/html/bgproc_8tcl.html doc/html/bgproc_8tcl.js doc/html/bgproc_8tcl_source.html doc/html/bindings_8tcl.html doc/html/bindings_8tcl.js doc/html/bindings_8tcl_source.html doc/html/bnotebook_8tcl.html doc/html/bnotebook_8tcl.js doc/html/bnotebook_8tcl_source.html doc/html/cliphist_8tcl.html doc/html/cliphist_8tcl.js doc/html/cliphist_8tcl_source.html doc/html/closed.png doc/html/commit_8tcl.html doc/html/commit_8tcl_source.html doc/html/ctext_8tcl.html doc/html/ctext_8tcl.js doc/html/ctext_8tcl_source.html doc/html/dir_97aefd0d527b934f1d99a682da8fe6a9.html doc/html/dir_97aefd0d527b934f1d99a682da8fe6a9.js doc/html/dir_e196ed0cf7506b8e7c50ce2798d828dd.html doc/html/dir_e196ed0cf7506b8e7c50ce2798d828dd.js doc/html/doxygen.css doc/html/doxygen.png doc/html/dynsections.js doc/html/embed__tke_8tcl.html doc/html/embed__tke_8tcl.js doc/html/embed__tke_8tcl_source.html doc/html/favorites_8tcl.html doc/html/favorites_8tcl.js doc/html/favorites_8tcl_source.html doc/html/files.html doc/html/files.js doc/html/ftv2blank.png doc/html/ftv2doc.png doc/html/ftv2folderclosed.png doc/html/ftv2folderopen.png doc/html/ftv2lastnode.png doc/html/ftv2link.png doc/html/ftv2mlastnode.png doc/html/ftv2mnode.png doc/html/ftv2node.png doc/html/ftv2plastnode.png doc/html/ftv2pnode.png doc/html/ftv2splitbar.png doc/html/ftv2vertline.png doc/html/globals.html doc/html/globals_func.html doc/html/gui_8tcl.html doc/html/gui_8tcl.js doc/html/gui_8tcl_source.html doc/html/indent_8tcl.html doc/html/indent_8tcl.js doc/html/indent_8tcl_source.html doc/html/index.html doc/html/interpreter_8tcl.html doc/html/interpreter_8tcl.js doc/html/interpreter_8tcl_source.html doc/html/jquery.js doc/html/lang_8tcl.html doc/html/lang_8tcl.js doc/html/lang_8tcl_source.html doc/html/launcher_8tcl.html doc/html/launcher_8tcl.js doc/html/launcher_8tcl_source.html doc/html/markers_8tcl.html doc/html/markers_8tcl.js doc/html/markers_8tcl_source.html doc/html/menus_8tcl.html doc/html/menus_8tcl.js doc/html/menus_8tcl_source.html doc/html/multicursor_8tcl.html doc/html/multicursor_8tcl.js doc/html/multicursor_8tcl_source.html doc/html/namespace_b_notebook.html doc/html/namespaceapi.html doc/html/namespaceapi.js doc/html/namespaceapi_1_1file.html doc/html/namespaceapi_1_1plugin.html doc/html/namespacebgproc.html doc/html/namespacebindings.html doc/html/namespacecliphist.html doc/html/namespacectext.html doc/html/namespaceembed__tke.html doc/html/namespaceembed__tke.js doc/html/namespaceembed__tke_1_1gui.html doc/html/namespaceembed__tke_1_1launcher.html doc/html/namespacefavorites.html doc/html/namespacegui.html doc/html/namespaceimg.html doc/html/namespaceindent.html doc/html/namespaceinterpreter.html doc/html/namespacelang.html doc/html/namespacelauncher.html doc/html/namespacemarkers.html doc/html/namespacemembers.html doc/html/namespacemembers_b.html doc/html/namespacemembers_c.html doc/html/namespacemembers_d.html doc/html/namespacemembers_dup.js doc/html/namespacemembers_e.html doc/html/namespacemembers_f.html doc/html/namespacemembers_func.html doc/html/namespacemembers_func.js doc/html/namespacemembers_func_b.html doc/html/namespacemembers_func_c.html doc/html/namespacemembers_func_d.html doc/html/namespacemembers_func_e.html doc/html/namespacemembers_func_f.html doc/html/namespacemembers_func_g.html doc/html/namespacemembers_func_h.html doc/html/namespacemembers_func_i.html doc/html/namespacemembers_func_j.html doc/html/namespacemembers_func_k.html doc/html/namespacemembers_func_l.html doc/html/namespacemembers_func_m.html doc/html/namespacemembers_func_n.html doc/html/namespacemembers_func_o.html doc/html/namespacemembers_func_p.html doc/html/namespacemembers_func_q.html doc/html/namespacemembers_func_r.html doc/html/namespacemembers_func_s.html doc/html/namespacemembers_func_t.html doc/html/namespacemembers_func_u.html doc/html/namespacemembers_func_v.html doc/html/namespacemembers_func_w.html doc/html/namespacemembers_g.html doc/html/namespacemembers_h.html doc/html/namespacemembers_i.html doc/html/namespacemembers_j.html doc/html/namespacemembers_k.html doc/html/namespacemembers_l.html doc/html/namespacemembers_m.html doc/html/namespacemembers_n.html doc/html/namespacemembers_o.html doc/html/namespacemembers_p.html doc/html/namespacemembers_q.html doc/html/namespacemembers_r.html doc/html/namespacemembers_s.html doc/html/namespacemembers_t.html doc/html/namespacemembers_u.html doc/html/namespacemembers_v.html doc/html/namespacemembers_w.html doc/html/namespacemenus.html doc/html/namespacemulticursor.html doc/html/namespaceplugins.html doc/html/namespacepreferences.html doc/html/namespaces.html doc/html/namespaces.js doc/html/namespacesidebar.html doc/html/namespacesnippets.html doc/html/namespacesyntax.html doc/html/namespacetexttools.html doc/html/namespacethemer.html doc/html/namespacethemes.html doc/html/namespacetk.html doc/html/namespacetk.js doc/html/namespacetk_1_1mac.html doc/html/namespacetkedat.html doc/html/namespaceutils.html doc/html/namespacevim.html doc/html/namespacewindowlist.html doc/html/nav_f.png doc/html/nav_g.png doc/html/nav_h.png doc/html/navtree.css doc/html/navtree.js doc/html/navtreeindex0.js doc/html/navtreeindex1.js doc/html/navtreeindex2.js doc/html/navtreeindex3.js doc/html/ns_8tcl.html doc/html/ns_8tcl.js doc/html/ns_8tcl_source.html doc/html/open.png doc/html/plugins_8tcl.html doc/html/plugins_8tcl.js doc/html/plugins_8tcl_source.html doc/html/preferences_8tcl.html doc/html/preferences_8tcl.js doc/html/preferences_8tcl_source.html doc/html/resize.js doc/html/restart_8tcl.html doc/html/restart_8tcl_source.html doc/html/search/all_0.html doc/html/search/all_0.js doc/html/search/all_1.html doc/html/search/all_1.js doc/html/search/all_10.html doc/html/search/all_10.js doc/html/search/all_11.html doc/html/search/all_11.js doc/html/search/all_12.html doc/html/search/all_12.js doc/html/search/all_13.html doc/html/search/all_13.js doc/html/search/all_14.html doc/html/search/all_14.js doc/html/search/all_15.html doc/html/search/all_15.js doc/html/search/all_16.html doc/html/search/all_16.js doc/html/search/all_2.html doc/html/search/all_2.js doc/html/search/all_3.html doc/html/search/all_3.js doc/html/search/all_4.html doc/html/search/all_4.js doc/html/search/all_5.html doc/html/search/all_5.js doc/html/search/all_6.html doc/html/search/all_6.js doc/html/search/all_7.html doc/html/search/all_7.js doc/html/search/all_8.html doc/html/search/all_8.js doc/html/search/all_9.html doc/html/search/all_9.js doc/html/search/all_a.html doc/html/search/all_a.js doc/html/search/all_b.html doc/html/search/all_b.js doc/html/search/all_c.html doc/html/search/all_c.js doc/html/search/all_d.html doc/html/search/all_d.js doc/html/search/all_e.html doc/html/search/all_e.js doc/html/search/all_f.html doc/html/search/all_f.js doc/html/search/close.png doc/html/search/files_0.html doc/html/search/files_0.js doc/html/search/files_1.html doc/html/search/files_1.js doc/html/search/files_10.html doc/html/search/files_10.js doc/html/search/files_2.html doc/html/search/files_2.js doc/html/search/files_3.html doc/html/search/files_3.js doc/html/search/files_4.html doc/html/search/files_4.js doc/html/search/files_5.html doc/html/search/files_5.js doc/html/search/files_6.html doc/html/search/files_6.js doc/html/search/files_7.html doc/html/search/files_7.js doc/html/search/files_8.html doc/html/search/files_8.js doc/html/search/files_9.html doc/html/search/files_9.js doc/html/search/files_a.html doc/html/search/files_a.js doc/html/search/files_b.html doc/html/search/files_b.js doc/html/search/files_c.html doc/html/search/files_c.js doc/html/search/files_d.html doc/html/search/files_d.js doc/html/search/files_e.html doc/html/search/files_e.js doc/html/search/files_f.html doc/html/search/files_f.js doc/html/search/functions_0.html doc/html/search/functions_0.js doc/html/search/functions_1.html doc/html/search/functions_1.js doc/html/search/functions_10.html doc/html/search/functions_10.js doc/html/search/functions_11.html doc/html/search/functions_11.js doc/html/search/functions_12.html doc/html/search/functions_12.js doc/html/search/functions_13.html doc/html/search/functions_13.js doc/html/search/functions_14.html doc/html/search/functions_14.js doc/html/search/functions_15.html doc/html/search/functions_15.js doc/html/search/functions_16.html doc/html/search/functions_16.js doc/html/search/functions_2.html doc/html/search/functions_2.js doc/html/search/functions_3.html doc/html/search/functions_3.js doc/html/search/functions_4.html doc/html/search/functions_4.js doc/html/search/functions_5.html doc/html/search/functions_5.js doc/html/search/functions_6.html doc/html/search/functions_6.js doc/html/search/functions_7.html doc/html/search/functions_7.js doc/html/search/functions_8.html doc/html/search/functions_8.js doc/html/search/functions_9.html doc/html/search/functions_9.js doc/html/search/functions_a.html doc/html/search/functions_a.js doc/html/search/functions_b.html doc/html/search/functions_b.js doc/html/search/functions_c.html doc/html/search/functions_c.js doc/html/search/functions_d.html doc/html/search/functions_d.js doc/html/search/functions_e.html doc/html/search/functions_e.js doc/html/search/functions_f.html doc/html/search/functions_f.js doc/html/search/mag_sel.png doc/html/search/namespaces_0.html doc/html/search/namespaces_0.js doc/html/search/namespaces_1.html doc/html/search/namespaces_1.js doc/html/search/namespaces_2.html doc/html/search/namespaces_2.js doc/html/search/namespaces_3.html doc/html/search/namespaces_3.js doc/html/search/namespaces_4.html doc/html/search/namespaces_4.js doc/html/search/namespaces_5.html doc/html/search/namespaces_5.js doc/html/search/namespaces_6.html doc/html/search/namespaces_6.js doc/html/search/namespaces_7.html doc/html/search/namespaces_7.js doc/html/search/namespaces_8.html doc/html/search/namespaces_8.js doc/html/search/namespaces_9.html doc/html/search/namespaces_9.js doc/html/search/namespaces_a.html doc/html/search/namespaces_a.js doc/html/search/namespaces_b.html doc/html/search/namespaces_b.js doc/html/search/namespaces_c.html doc/html/search/namespaces_c.js doc/html/search/namespaces_d.html doc/html/search/namespaces_d.js doc/html/search/namespaces_e.html doc/html/search/namespaces_e.js doc/html/search/nomatches.html doc/html/search/search.css doc/html/search/search.js doc/html/search/search_l.png doc/html/search/search_m.png doc/html/search/search_r.png doc/html/sidebar_8tcl.html doc/html/sidebar_8tcl.js doc/html/sidebar_8tcl_source.html doc/html/snippets_8tcl.html doc/html/snippets_8tcl.js doc/html/snippets_8tcl_source.html doc/html/sync_off.png doc/html/sync_on.png doc/html/syntax_8tcl.html doc/html/syntax_8tcl.js doc/html/syntax_8tcl_source.html doc/html/tab_a.png doc/html/tab_b.png doc/html/tab_h.png doc/html/tab_s.png doc/html/tabs.css doc/html/texttools_8tcl.html doc/html/texttools_8tcl.js doc/html/texttools_8tcl_source.html doc/html/themer_8tcl.html doc/html/themer_8tcl.js doc/html/themer_8tcl_source.html doc/html/themes_8tcl.html doc/html/themes_8tcl.js doc/html/themes_8tcl_source.html doc/html/tke_8tcl.html doc/html/tke_8tcl.js doc/html/tke_8tcl_source.html doc/html/tke_logo_128.gif doc/html/tkedat_8tcl.html doc/html/tkedat_8tcl.js doc/html/tkedat_8tcl_source.html doc/html/utils_8tcl.html doc/html/utils_8tcl.js doc/html/utils_8tcl_source.html doc/html/version_8tcl.html doc/html/version_8tcl_source.html doc/html/vim_8tcl.html doc/html/vim_8tcl.js doc/html/vim_8tcl_source.html doc/html/windowlist_8tcl.html doc/html/windowlist_8tcl.js doc/html/windowlist_8tcl_source.html lib/api.tcl lib/version.tcl
+description:
+* Adding Doxygen output and configuration file.
+
+
+changeset:   475:e3a54f485bbf
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Aug 24 23:11:33 2014 -0500
+files:       lib/launcher.tcl lib/utils.tcl lib/version.tcl
+description:
+* Adding button-1 binding to command launcher.
+* Adding ability to open files externally within Windows.
+
+
+changeset:   476:634b0e3ab695
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Aug 25 00:10:18 2014 -0500
+files:       data/preferences.tkedat lib/gui.tcl lib/version.tcl
+description:
+* Adding feature to automatically remove trailing whitespace on save.
+
+
+changeset:   477:1c07bba1386e
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Aug 25 00:39:01 2014 -0500
+files:       lib/ctext/ctext.tcl lib/gui.tcl lib/version.tcl
+description:
+* Adding ability to bracket match angled brackets.
+
+
+changeset:   478:9360b3b06188
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Aug 25 00:50:29 2014 -0500
+files:       lib/menus.tcl lib/version.tcl
+description:
+* Excluding files matching ignored file patterns from find in file searching.
+
+
+changeset:   479:9a1aedb0dc36
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Aug 27 01:38:47 2014 -0500
+files:       data/syntax/CSS.syntax data/syntax/JSON.syntax lib/ctext/ctext.tcl plugins/mercurial/main.tcl
+description:
+Adding CSS and JSON syntax files.  Enhancing the Mercurial plugin.
+
+
+changeset:   480:0dbc12b8303b
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Aug 27 01:39:57 2014 -0500
+files:       plugins/mercurial/main.tcl
+description:
+Fixing Mercurial plugin bug
+
+
+changeset:   481:098a7331b5fd
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Aug 27 21:48:21 2014 -0500
+files:       doc/UserGuide.pdf lib/ctext/ctext.tcl lib/version.tcl lib/vim.tcl
+description:
+* Adding single quote, double quote, and bracket insertion enhancements.
+* Updated user guide for these feature enhancements.
+
+
+changeset:   482:d1e8235906cc
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Aug 29 00:26:19 2014 -0500
+files:       lib/version.tcl lib/vim.tcl
+description:
+* Fixing bracket insertion to work when we have multiple selections.
+
+
+changeset:   483:6728b6405b2f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Sep 01 13:59:57 2014 -0500
+files:       data/syntax/HTML.syntax lib/version.tcl
+description:
+* Fixing HTML indentation to ignore tags that are self-escaped.
+
+
+changeset:   484:f4aa7dce7137
+parent:      482:d1e8235906cc
+user:        Trevor Williams (phase1geo@gmail.com)
+date:        Tue Sep 02 01:01:03 2014 -0500
+files:       lib/ctext/pkgIndex.tcl lib/preferences.tcl lib/ptwidgets1.2/pkgIndex.tcl lib/tke.tcl
+description:
+* Fixing various issues with whitespace in filenames.
+* Checkpointing work in Windows.
+
+
+changeset:   485:e0d549ac4f1a
+parent:      484:f4aa7dce7137
+parent:      483:6728b6405b2f
+user:        Trevor Williams (phase1geo@gmail.com)
+date:        Tue Sep 02 01:02:01 2014 -0500
+description:
+* Merging files.
+
+
+changeset:   486:85be131f89cb
+user:        Trevor Williams (phase1geo@gmail.com)
+date:        Tue Sep 02 08:01:19 2014 -0500
+files:       data/bindings/menu_bindings.win.tkedat data/bindings/menu_bindings.win32.tkedat lib/bindings.tcl lib/gui.tcl lib/preferences.tcl lib/syntax.tcl lib/tke.tcl lib/tkedat.tcl
+description:
+* Fixing more issues surrounding whitespaces in file names.
+* Changing menu_bindings.win.tkedat to menu_bindings.win32.tkedat
+
+
+changeset:   487:507eb5fa35b2
+user:        Trevor Williams (phase1geo@gmail.com)
+date:        Wed Sep 03 01:26:08 2014 -0500
+files:       lib/cliphist.tcl lib/favorites.tcl lib/gui.tcl lib/launcher.tcl lib/menus.tcl lib/plugins.tcl lib/snippets.tcl lib/tkedat.tcl lib/version.tcl
+description:
+* Fixing more issues with file paths with spaces.
+* Attempting to fix parsing issues with tkedat (more work to do).
+
+
+changeset:   488:de25495bdc48
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Sep 03 09:10:08 2014 -0500
+files:       lib/tkedat.tcl lib/version.tcl
+description:
+* Attempting to fix tkedat parsing issues.
+
+
+changeset:   489:3c5951de068c
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Fri Jul 18 16:17:43 2014 -0500
-summary:     * Adding code to handle network support for favorites.
+date:        Wed Sep 03 09:59:16 2014 -0500
+files:       lib/ctext/pkgIndex.tcl lib/tkedat.tcl lib/version.tcl
+description:
+* Removing debugging output.
+* Cleaning up ctext/pkgIndex.tcl
 
-changeset:   408:53e94a15e237
+
+changeset:   490:13e536e20290
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Fri Jul 18 17:16:54 2014 -0500
-summary:     * Switching plugins to use a directory structure instead of being limited to a single file.
+date:        Wed Sep 03 17:04:38 2014 -0500
+files:       lib/indent.tcl lib/version.tcl
+description:
+* Fixing issue with unindenting HTML and SystemVerilog -like syntaxes.
 
-changeset:   409:20b4d0a3ce88
+
+changeset:   491:451a14e05da7
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Jul 19 00:30:15 2014 -0500
-summary:     * Updating creating plugin functionality to match new scheme.
+date:        Thu Sep 04 19:25:27 2014 -0500
+files:       lib/indent.tcl lib/version.tcl
+description:
+* Fixing bug in auto-indent code caused by previous checkin.
 
-changeset:   410:9f84f3bc735a
+
+changeset:   492:f00b8c06de90
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Jul 20 00:30:18 2014 -0500
-summary:     * Updating UserGuide with Favorite and new plugin structure updates.
+date:        Sun Sep 07 23:44:12 2014 -0500
+files:       lib/api.tcl lib/gui.tcl lib/plugins.tcl lib/sidebar.tcl lib/version.tcl plugins/render/header.tkedat plugins/render/main.tcl
+description:
+* Working on adding new "render" plugin.
+* Adding API support for new render plugin.
 
-changeset:   411:2eb9a4bb91be
+
+changeset:   493:6dc662db2780
+user:        Trevor Williams (phase1geo@gmail.com)
+date:        Mon Sep 08 00:04:51 2014 -0500
+files:       freewrap.files lib/freewrap.tcl
+description:
+* Adding initial versions of freewrap files (work in progress).
+
+
+changeset:   494:2232854d3e48
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Jul 20 15:30:35 2014 -0500
-summary:     * Fixing highlighting support when the period Vim command is used.
+date:        Mon Sep 08 08:57:06 2014 -0500
+files:       lib/api.tcl lib/plugins.tcl lib/version.tcl plugins/render/main.tcl plugins/terminal/main.tcl
+description:
+* Fixing menu state handling for menus.
 
-changeset:   412:04ca0be93048
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Jul 20 20:18:58 2014 -0500
-summary:     * Fixing issues with adding pasted items in the Vim record.
 
-changeset:   413:16c4cd8f14e3
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Jul 21 00:14:09 2014 -0500
-summary:     * Initial fix for moving warning width line to the correct position when horizontally scrolling.
-
-changeset:   414:cd3b2fc986b1
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Jul 21 08:06:11 2014 -0500
-summary:     * Small performance enhancement to the xscroll functionality.
-
-changeset:   415:db20f6902398
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Jul 22 07:12:51 2014 -0500
-summary:     * Adding support for launcher text viewer to display related, detailed information about the currently selected item.
-
-changeset:   416:4dd67c8b06b7
+changeset:   495:3d7bb8f0df11
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Tue Jul 22 17:36:50 2014 -0500
-summary:     * More work on enhanced launcher.
+date:        Mon Sep 08 10:22:50 2014 -0500
+files:       lib/api.tcl lib/plugins.tcl lib/version.tcl
+description:
+* Fixing issues with sidebar API procedures.
 
-changeset:   417:2080b06410fe
+
+changeset:   496:75be71f7bda4
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jul 23 00:39:14 2014 -0500
-summary:     * Several fixes to launcher and clipboard history.
+date:        Tue Sep 09 01:04:30 2014 -0500
+files:       lib/menus.tcl lib/version.tcl
+description:
+* Fixing syntax error when posting snippets menu.
 
-changeset:   418:7f66f461f152
+
+changeset:   497:1c395d28256d
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Jul 24 00:55:46 2014 -0500
-summary:     * Fixing calculator support in command launcher.
+date:        Tue Sep 09 08:19:33 2014 -0500
+files:       lib/gui.tcl lib/plugins.tcl lib/version.tcl plugins/render/main.tcl
+description:
+* Attempting to fix issue with tab popup menu state handling (still work to do here).
 
-changeset:   419:50f39c8ff9b3
+
+changeset:   498:312fef703495
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Jul 24 08:29:34 2014 -0500
-summary:     * A few more tweaks to the command launcher.
+date:        Wed Sep 10 07:37:53 2014 -0500
+files:       lib/plugins.tcl lib/tke.tcl lib/version.tcl plugins/render/main.tcl
+description:
+* Fixing menu state in tab popup menu.
+* Adding -s option to cause TKE to not attempt to merge to an existing window.
+* Fixing bug in render plugin when saving.
 
-changeset:   420:64e524bd4911
+
+changeset:   499:cd246aa59c62
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Sep 10 08:40:59 2014 -0500
+files:       lib/api.tcl lib/freewrap.tcl lib/gui.tcl lib/plugins.tcl lib/tke.tcl lib/utils.tcl lib/version.tcl plugins/render/main.tcl
+description:
+* Fixing several issues with render plugin (it is basically working as needed now).
+* Adding "in_background" option to the open_file_externally utility procedure.
+* Changing -s option to tke to -n option and documenting in the usage notes.
+* Removing unnecessary debug output.
+
+
+changeset:   500:ac71d55559a9
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Sep 11 20:20:58 2014 -0500
+files:       lib/gui.tcl lib/version.tcl
+description:
+* Fixing search and replace when multiple matches exist in the same line.
+
+
+changeset:   501:b637112cb131
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Sep 15 08:20:08 2014 -0500
+files:       lib/sidebar.tcl lib/version.tcl
+description:
+* Removing bgproc::update calls in sidebar to improve performance.
+
+
+changeset:   502:975fd19ade19
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Sep 17 08:19:02 2014 -0500
+files:       lib/menus.tcl lib/ptwidgets1.2/library/specl.tcl lib/ptwidgets1.2/library/tabbar.tcl lib/tke.tcl lib/version.tcl specl_version.tcl
+description:
+* Updating specl and tabbar ptwidget libraries.
+* Adding "Check for Update" menu item (this is not currently functional at this point).
+
+
+changeset:   503:785f1b97b8e7
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Sep 18 08:11:22 2014 -0500
+files:       lib/menus.tcl lib/version.tcl
+description:
+* Hiding the console menu item if a console is not supported.
+
+
+changeset:   504:5b971866d7db
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Sep 21 00:02:25 2014 -0500
+files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg data/syntax/Bash.syntax data/syntax/Haml.syntax lib/version.tcl
+description:
+* Adding Bash and Haml syntax files.
+* Updating all translations.
+
+
+changeset:   505:e55ca138d4a8
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Sep 21 20:05:41 2014 -0500
+files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl specl_version.tcl
+description:
+* Fixing tarballing issue in specl.
+
+
+changeset:   506:71b339f9dbf8
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Sep 22 07:55:31 2014 -0500
+files:       lib/gui.tcl lib/menus.tcl lib/version.tcl lib/vim.tcl
+description:
+* Fixing bug with close without saving.
+
+
+changeset:   507:af190e31c60c
+parent:      505:e55ca138d4a8
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu Jul 24 17:36:18 2014 -0500
-summary:     * Fixing colors in various entries to better match theme.
+date:        Fri Oct 03 13:45:04 2014 -0500
+files:       lib/gui.tcl lib/version.tcl
+description:
+* Changing case-sensitive button to a checkbutton for improved understanding (defaulting to case-sensitive).
 
-changeset:   421:53f3ae3069ad
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Jul 25 01:04:33 2014 -0500
-summary:     * More adjustments to color theme for entry widgets.
 
-changeset:   422:fd584fdd2098
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Jul 25 08:15:31 2014 -0500
-summary:     * Adding preferences items to customize command launcher entry and preview font sizes.
-
-changeset:   423:796415158665
+changeset:   508:97f5762a3d5c
+parent:      507:af190e31c60c
+parent:      506:71b339f9dbf8
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Fri Jul 25 13:58:24 2014 -0500
-summary:     * Fixing issue with search and replace from Vim command mode.
+date:        Fri Oct 03 13:45:53 2014 -0500
+files:       lib/gui.tcl
+description:
+* Merging files.
 
-changeset:   424:0572cb6179fd
+
+changeset:   509:5715a046a975
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Jul 26 11:41:53 2014 -0500
-summary:     * Removing sidebar vertical scrollbar when the sidebar does not have keyboard/mouse focus.
+date:        Sun Oct 05 17:13:50 2014 -0500
+files:       lib/version.tcl release.tcl
+description:
+* Adding -v option to hg log calls when creating Changelog file.
 
-changeset:   425:ebc31cfdaa27
+
+changeset:   510:4c8a654d1e69
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Jul 26 15:02:59 2014 -0500
-summary:     * Fixing issues with escaping in strings, comments and indentations.
+date:        Tue Nov 04 21:44:47 2014 -0600
+files:       data/preferences.tkedat lib/gui.tcl lib/indent.tcl lib/tke.tcl lib/version.tcl
+description:
+* Adding auto-bracket-match functionality.
 
-changeset:   426:de67798af821
+
+changeset:   511:88146676176f
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Jul 27 00:29:02 2014 -0500
-summary:     * Fixing syntax error in command launcher when launching URLs.
+date:        Tue Nov 04 21:45:15 2014 -0600
+files:       lib/completer.tcl lib/version.tcl
+description:
+* Adding file that was missed in the previous checkin.
 
-changeset:   427:9eadddd03eeb
+
+changeset:   512:19df5fde75e9
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Jul 27 07:56:15 2014 -0500
-summary:     * Fixing highlighting issues with current_line plugin.
+date:        Thu Nov 06 08:04:30 2014 -0600
+files:       lib/gui.tcl lib/version.tcl
+description:
+* Fixing order between vim and completer bindings such that completers won't be activated unless vim
+  is in edit mode.
 
-changeset:   428:a41b4b379073
+
+changeset:   513:ab1ced4082ff
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Jul 27 22:32:21 2014 -0500
-summary:     * Updating user guide.
+date:        Fri Nov 07 23:17:54 2014 -0600
+files:       data/syntax/AppleScript.syntax data/syntax/Bash.syntax data/syntax/C++.syntax data/syntax/CSS.syntax data/syntax/CoffeeScript.syntax data/syntax/HTML.syntax data/syntax/Haml.syntax data/syntax/Haskell.syntax data/syntax/HelpSystem.syntax data/syntax/JSON.syntax data/syntax/JavaScript.syntax data/syntax/Makefile.syntax data/syntax/PHP.syntax data/syntax/Perl.syntax data/syntax/Python.syntax data/syntax/Ruby.syntax data/syntax/ShellScript.syntax data/syntax/SystemVerilog.syntax data/syntax/Tcl.syntax data/syntax/XML.syntax data/syntax/snippets.syntax data/syntax/syntax.syntax data/syntax/tkeData.syntax data/syntax/tkeTheme.syntax lib/completer.tcl lib/syntax.tcl lib/version.tcl
+description:
+* Adding matchcharsallowed attribute to syntax files to specify which
+  types of characters can be automatically matched for the given language.
+* Merging syntax-specific and user-preference match_chars information.
+* Avoid auto-inserting match characters when the insertion cursor is in a
+  string or a comment.
 
-changeset:   429:7a30e66c4f9f
+
+changeset:   514:144ec13a19dc
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Jul 28 01:19:00 2014 -0500
-summary:     * Fixing issue where a subdirectory was not being removed from the sidebar when its parent existed in a different node.
+date:        Sun Nov 09 23:33:20 2014 -0600
+files:       lib/menus.tcl lib/version.tcl
+description:
+* Removing "Check for Updates".
 
-changeset:   430:42dc0415f2e9
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Jul 29 00:00:14 2014 -0500
-summary:     * Handling a space key press within a Find in Files result tag.
 
-changeset:   431:729960683087
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jul 30 01:01:48 2014 -0500
-summary:     * Initial work on getting plugin support to work (more work to do here).
-
-changeset:   432:f3b06815306b
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Jul 31 08:54:12 2014 -0500
-summary:     * More fixes to safe interpreter support.
-
-changeset:   433:10d39d6df2f2
+changeset:   515:f3001d1b0b4c
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu Jul 31 17:28:33 2014 -0500
-summary:     * Adding initial handling for commands.
+date:        Mon Nov 10 19:47:29 2014 -0600
+files:       lib/completer.tcl lib/version.tcl
+description:
+* Fixing issue with single/double quote completers within strings.
 
-changeset:   434:358ca9993b1e
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Aug 01 08:28:04 2014 -0500
-summary:     * More work on safe plugin support.
 
-changeset:   435:6836b87f7c9b
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Fri Aug 01 17:38:13 2014 -0500
-summary:     * Splitting out interpreter handling into its own namespace (from plugins) since this code base is growing.
-
-changeset:   436:673dc80ad3c8
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Aug 04 08:05:03 2014 -0500
-summary:     * Adding test suite for untrusted mode (currently passes).
-
-changeset:   437:476e75100675
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Mon Aug 04 10:41:13 2014 -0500
-summary:     * Switch plugins::register to api::register
-
-changeset:   438:d578b72f9bb6
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Mon Aug 04 17:32:57 2014 -0500
-summary:     * Adding glob command to interpreter.
-
-changeset:   439:606bc8d0faa1
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Aug 04 18:33:25 2014 -0500
-summary:     * Fixing issues with glob command handling.
-
-changeset:   440:1a91583e8960
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Aug 04 18:40:30 2014 -0500
-summary:     * Adding more glob tests to untrusted test list.
-
-changeset:   441:45408ce440fb
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Tue Aug 05 14:03:25 2014 -0500
-summary:     * Adding ability to format code in a locked or readonly editor.
-
-changeset:   442:fbfea1637250
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Tue Aug 05 17:27:49 2014 -0500
-summary:     * Starting to add support for gutters (the gutter should be created but will not display anything yet).
-
-changeset:   443:132fba954e5e
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Aug 05 19:45:10 2014 -0500
-summary:     * Deleting closed channel from the interpreter channel list.
-
-changeset:   444:a620a3daf05c
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Aug 06 17:34:07 2014 -0500
-summary:     * Removing write_plugin and read_plugin actions from comments.
-
-changeset:   445:a67dd39e80c8
-parent:      443:132fba954e5e
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Aug 06 17:08:43 2014 -0500
-summary:     * Finishing initial work on supporting gutters.
-
-changeset:   446:7814ba5b1ea2
-parent:      444:a620a3daf05c
-parent:      445:a67dd39e80c8
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Aug 06 17:34:56 2014 -0500
-summary:     * Merging changes.
-
-changeset:   447:cffd7c47b9d6
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Aug 07 08:01:28 2014 -0500
-summary:     * Adding softwareupdate package to library (not being used yet at this point).
-
-changeset:   448:9f8ae43cf1f7
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu Aug 07 10:58:21 2014 -0500
-summary:     * Updating menu bindings algorithm.
-
-changeset:   449:b6f1c225e16d
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu Aug 07 16:42:32 2014 -0500
-summary:     * Adding register_launcher and unregister_launcher functions to API.
-
-changeset:   450:aed7de335ded
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Aug 08 08:58:56 2014 -0500
-summary:     * A few more modifications to gutter handling.
-
-changeset:   451:124c80343b69
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Aug 11 00:11:40 2014 -0500
-summary:     * Enhancing gutter support.
-
-changeset:   452:a4a414374efc
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Aug 12 08:19:40 2014 -0500
-summary:     * Changing various gutter commands to a singular gutter command with subcommands.
-
-changeset:   453:cf4a2a7bc75f
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Aug 13 06:14:26 2014 -0500
-summary:     * Fixing gutter bugs.
-
-changeset:   454:6bb1a3aae8be
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Aug 15 08:22:10 2014 -0500
-summary:     * Handling text/ctext widget "tag bind" command.
-
-changeset:   455:d9ff0ff19298
-parent:      453:cf4a2a7bc75f
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Fri Aug 15 16:55:21 2014 -0500
-summary:     * Fixing pasting issue into text widget when it does not have the focus.
-
-changeset:   456:4cf4c8fc7416
-parent:      454:6bb1a3aae8be
-parent:      455:d9ff0ff19298
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Aug 15 21:15:57 2014 -0500
-summary:     * Merging changes.
-
-changeset:   457:7b3841f7e233
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Aug 16 16:03:19 2014 -0500
-summary:     * Removing softwareupdate package.
-
-changeset:   458:fbcb4ed229c2
+changeset:   516:2256498e223e
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Aug 16 16:06:50 2014 -0500
-summary:     * Removing debug plugins from installation.
+date:        Mon Nov 10 19:49:18 2014 -0600
+files:       doc/UserGuide.pdf lib/version.tcl
+description:
+* Updating user guide.
+
 
