@@ -191,7 +191,7 @@ namespace eval completer {
 
     variable complete
 
-    if {$complete($txt,double) && ![ctext::inCommentString $txt insert-1c]} {
+    if {$complete($txt,double)} {
       if {[ctext::inCommentString $txt insert]} {
         if {[$txt get insert] eq "\""} {
           $txt mark set insert "insert+1c"
@@ -214,7 +214,7 @@ namespace eval completer {
 
     variable complete
 
-    if {$complete($txt,single) && ![ctext::inCommentString $txt insert-1c]} {
+    if {$complete($txt,single)} {
       if {[ctext::inCommentString $txt insert]} {
         if {[$txt get insert] eq "'"} {
           $txt mark set insert "insert+1c"
