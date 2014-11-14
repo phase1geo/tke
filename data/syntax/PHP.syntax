@@ -35,16 +35,16 @@ symbols {
 }
 
 numbers {
-  HighlightClassForRegexp {\m(0b[0-1]+|[1-9][0-9]*|0[0-7]+|0x[0-9a-fA-F]+)}
+  HighlightClassForRegexp {\m(0b[0-1]+|[1-9][0-9]*|0[0-7]+|0x[0-9a-fA-F]+)} {}
   HighlightClass          {
     TRUE FALSE True False true false
     PHP_INT_SIZE PHP_INT_MAX NAN NULL
     __LINE__ __FILE__ __DIR__ __FUNCTION__ __CLASS__ __TRAIT__ __METHOD__ __NAMESPACE__
-  }
+  } {}
 }
 
 punctuation {
-  HighlightClassForRegexp {[][\{\}()<>?;^:!=+*/%,&|.~`-]}
+  HighlightClassForRegexp {[][\{\}()<>?;^:!=+*/%,&|.~`-]} {}
 }
 
 precompile {}
@@ -58,9 +58,9 @@ miscellaneous {
     gmp_testbit gmp_clrbit set_error_handler error_reporting popen proc_open shell_exec array_unique is_a
     count register_tick_function unregister_tick_function phpinfo fopen file is_file get_included_files readfile
     virtual
-  }
+  } {}
   HighlightClass {
     $GLOBALS $_GET $_REQUEST $_POST $_COOKIE $php_errormsg
-  }
-  HighlightClassWithOnlyCharStart \$
+  } {}
+  HighlightClassWithOnlyCharStart \$ {}
 }

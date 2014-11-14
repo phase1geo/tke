@@ -31,12 +31,12 @@ keywords
 symbols {}
 
 numbers {
-  HighlightClassForRegexp {[0-9]+}
+  HighlightClassForRegexp {[0-9]+} {}
 }
 
 punctuation
 {
-  HighlightClassForRegexp {[][=+~|>$:@^,%*?<&;!\{\}()]}
+  HighlightClassForRegexp {[][=+~|>$:@^,%*?<&;!\{\}()]} {}
 }
 
 precompile {}

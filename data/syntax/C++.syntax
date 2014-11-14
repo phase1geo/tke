@@ -48,17 +48,17 @@ symbols {}
 
 numbers
 {
-  HighlightClassForRegexp {\m[0-9]+}
+  HighlightClassForRegexp {\m[0-9]+} {}
 }
 
 punctuation
 {
-  HighlightClassForRegexp {[][\{\};:,()#=.@&!?<>%|^~+*/-]}
+  HighlightClassForRegexp {[][\{\};:,()#=.@&!?<>%|^~+*/-]} {}
 }
 
 precompile
 {
-  HighlightClassWithOnlyCharStart {#}
+  HighlightClassWithOnlyCharStart {#} {}
 }
 
 miscellaneous {}

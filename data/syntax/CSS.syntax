@@ -59,12 +59,12 @@ symbols {}
 
 numbers
 {
-  HighlightClassForRegexp {\m([0-9]+|#[0-9a-fA-F]+|[0-9]+%|[0-9]*\.[0-9]+)}
+  HighlightClassForRegexp {\m([0-9]+|#[0-9a-fA-F]+|[0-9]+%|[0-9]*\.[0-9]+)} {}
 }
 
 punctuation
 {
-  HighlightClassForRegexp {[][\{\};:,.>+~*^$=]}
+  HighlightClassForRegexp {[][\{\};:,.>+~*^$=]} {}
 }
 
 precompile {}

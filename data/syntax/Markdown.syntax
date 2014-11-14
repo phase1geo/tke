@@ -1,0 +1,40 @@
+filepatterns
+{}
+
+matchcharsallowed
+{}
+
+tabsallowed
+{1}
+
+casesensitive
+{1}
+
+indent
+{}
+  
+unindent
+{}
+
+lcomments {}
+
+bcomments {}
+
+strings {}
+
+keywords {}
+
+symbols {}
+
+numbers {}
+
+punctuation {}
+
+precompile {}
+
+miscellaneous {
+  HighlightClassForRegexp {(\*\*|__)(\S|\S\S|\S.+\S)\1}      {bold}
+  HighlightClassForRegexp {([^*]\*|[^_]_)(\S|\S\S|\S.+\S)\1} {italics}
+  HighlightClassForRegexp {^#{1,6}.*$}                       {large}
+}
+
