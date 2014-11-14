@@ -52,22 +52,22 @@ symbols {}
 
 numbers
 {
-  HighlightClassForRegexp {\m[0-9]+|\m[0-9]*'[sS]?[hHdDoObB]\s*[0-9a-fA-F_]+}
+  HighlightClassForRegexp {\m[0-9]+|\m[0-9]*'[sS]?[hHdDoObB]\s*[0-9a-fA-F_]+} {}
 }
 
 punctuation
 {
-  HighlightClassForRegexp {[][\{\};:,()#=.@&!?<>%|^~+*/-]}
+  HighlightClassForRegexp {[][\{\};:,()#=.@&!?<>%|^~+*/-]} {}
 }
 
 precompile
 {
-  HighlightClassForRegexp {#line|`\w+}
+  HighlightClassForRegexp {#line|`\w+} {}
 }
 
 miscellaneous
 {
-  HighlightClassWithOnlyCharStart \$
-  HighlightClassForRegexp         {#line|`\w+}
+  HighlightClassWithOnlyCharStart \$ {}
+  HighlightClassForRegexp         {#line|`\w+} {}
 }
 

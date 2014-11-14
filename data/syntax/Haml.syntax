@@ -38,7 +38,7 @@ numbers {}
 
 punctuation
 {
-  HighlightClassForRegexp {[][/&|?=~><@#%\{\}()-]|!!!}
+  HighlightClassForRegexp {[][/&|?=~><@#%\{\}()-]|!!!} {}
 }
 
 precompile {}
@@ -47,7 +47,7 @@ miscellaneous {
   HighlightClass {
     :class :id :cdata :coffee :css :erb :escaped :javascript :less :markdown :maruku :plain :preserve
     :ruby :sass :scss :textile
-  }
+  } {}
 }
 
 

@@ -34,13 +34,13 @@ symbols {}
 numbers {}
 
 punctuation {
-  HighlightClassForRegexp {[\{\};:()=%/$+?,*]}
+  HighlightClassForRegexp {[\{\};:()=%/$+?,*]} {}
 }
 
 precompile {}
  
 miscellaneous {
-  HighlightClassForRegexp {\t[^\n\r]+}
-  HighlightClassForRegexp {@[^\n\r]+}
-  HighlightClassForRegexp {$\([^\)]*\)}
+  HighlightClassForRegexp {\t[^\n\r]+}  {}
+  HighlightClassForRegexp {@[^\n\r]+}   {}
+  HighlightClassForRegexp {$\([^\)]*\)} {}
 }

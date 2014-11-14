@@ -35,12 +35,12 @@ symbols {
 
 numbers
 {
-  HighlightClassForRegexp {\m[0-9]+|[0-9]+\.[0-9e]+|0x[0-9a-fA-F]+|Infinity|NaN}
+  HighlightClassForRegexp {\m[0-9]+|[0-9]+\.[0-9e]+|0x[0-9a-fA-F]+|Infinity|NaN} {}
 }
 
 punctuation
 {
-  HighlightClassForRegexp {[][\{\};:,()#=.@&!?<>%|^~+*/-]}
+  HighlightClassForRegexp {[][\{\};:,()#=.@&!?<>%|^~+*/-]} {}
 }
 
 precompile

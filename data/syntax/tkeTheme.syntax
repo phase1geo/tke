@@ -38,7 +38,7 @@ numbers {}
 
 punctuation
 {
-  HighlightClassForRegexp {[\{\}]}
+  HighlightClassForRegexp {[\{\}]} {}
 }
 
 precompile {}

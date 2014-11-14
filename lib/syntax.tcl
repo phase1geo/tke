@@ -298,10 +298,10 @@ namespace eval syntax {
         $txt configure -casesensitive $lang_array(casesensitive)
         
         # Add the language keywords
-        ctext::addHighlightClass $txt keywords $theme(keywords) $lang_array(keywords)
+        ctext::addHighlightClass $txt keywords $theme(keywords) "" $lang_array(keywords)
         
         # Add the language symbols
-        ctext::addHighlightClass $txt symbols  $theme(keywords) $lang_array(symbols)
+        ctext::addHighlightClass $txt symbols  $theme(keywords) "" $lang_array(symbols)
         
         # Add the rest of the sections
         set_language_section $txt punctuation   $lang_array(punctuation)
@@ -317,7 +317,7 @@ namespace eval syntax {
         ctext::setStringPatterns       $txt $lang_array(strings)   $theme(strings)
 
         # Add the FIXME
-        ctext::addHighlightClassForRegexp $txt fixme $theme(miscellaneous) {FIXME}
+        ctext::addHighlightClassForRegexp $txt fixme $theme(miscellaneous) "" {FIXME}
         
         # Set the indentation namespace for the given text widget to be
         # the indent/unindent expressions for this language
@@ -356,9 +356,9 @@ namespace eval syntax {
     
     set i 0
     
-    foreach {type syntax} $section_list {
+    foreach {type syntax modifiers} $section_list {
       if {$syntax ne ""} {
-        ctext::add$type $txt $section$i $theme($section) $syntax
+        ctext::add$type $txt $section$i $theme($section) $modifiers $syntax
       }
       incr i
     }

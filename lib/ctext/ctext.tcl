@@ -1438,12 +1438,38 @@ proc ctext::commentsParseCCommentEnd {win index pindices num_indices re_opts eco
 
 }
 
-proc ctext::addHighlightClass {win class color keywords} {
+proc ctext::add_font_opt {win class modifiers popts} {
+  
+  upvar $popts opts
+
+  if {[llength $modifiers] > 0} {
+    
+    array set font_opts [font configure [$win cget -font]]
+
+    foreach modifier $modifiers {
+      switch $modifier {
+        "bold"       { set font_opts(-weight)     "bold" }
+        "italics"    { set font_opts(-slant)      "italic" }
+        "underline"  { set font_opts(-underline)  1 }
+        "overstrike" { set font_opts(-overstrike) 1 }
+        "large"      { set font_opts(-size)       [expr $font_opts(-size) + 2] }
+      }
+    }
+
+    lappend opts -font [font create font$win$class {*}[array get font_opts]]
+    
+  }
+  
+}
+
+proc ctext::addHighlightClass {win class color modifiers keywords} {
   set ref [ctext::getAr $win highlight ar]
 
-  set color_opts [expr {($color eq "") ? [list] : [list -foreground $color]}]
+  set opts [expr {($color eq "") ? [list] : [list -foreground $color]}]
+  add_font_opt $win $class $modifiers opts
+  
   foreach word $keywords {
-    set ar($word) [list _$class $color_opts [list]]
+    set ar($word) [list _$class $opts [list]]
   }
   $win tag configure _$class
 
@@ -1451,11 +1477,13 @@ proc ctext::addHighlightClass {win class color keywords} {
   set classesAr(_$class) [list $ref $keywords]
 }
 
-proc ctext::addHighlightClassForRegexp {win class color re} {
+proc ctext::addHighlightClassForRegexp {win class color modifiers re} {
   set ref [ctext::getAr $win highlightRegexp ar]
 
-  set color_opts [expr {($color eq "") ? [list] : [list -foreground $color]}]
-  set ar(_$class) [list $re $color_opts [list]]
+  set opts [expr {($color eq "") ? [list] : [list -foreground $color]}]
+  add_font_opt $win $class $modifiers opts
+  
+  set ar(_$class) [list $re $opts [list]]
 
   $win tag configure _$class
 
@@ -1464,11 +1492,13 @@ proc ctext::addHighlightClassForRegexp {win class color re} {
 }
 
 #For things like $blah
-proc ctext::addHighlightClassWithOnlyCharStart {win class color char} {
+proc ctext::addHighlightClassWithOnlyCharStart {win class color modifiers char} {
   set ref [ctext::getAr $win highlightCharStart ar]
 
-  set color_opts [expr {($color eq "") ? [list] : [list -foreground $color]}]
-  set ar($char) [list _$class $color_opts [list]]
+  set opts [expr {($color eq "") ? [list] : [list -foreground $color]}]
+  add_font_opt $win $class $modifiers opts
+  
+  set ar($char) [list _$class $opts [list]]
 
   $win tag configure _$class
 
@@ -1476,10 +1506,13 @@ proc ctext::addHighlightClassWithOnlyCharStart {win class color char} {
   set classesAr(_$class) [list $ref $char]
 }
 
-proc ctext::addSearchClassForRegexp {win class fgcolor bgcolor re {re_opts ""}} {
+proc ctext::addSearchClassForRegexp {win class fgcolor bgcolor modifiers re {re_opts ""}} {
   set ref [ctext::getAr $win highlightRegexp ar]
 
-  set ar(_$class) [list $re [list -foreground $fgcolor -background $bgcolor] $re_opts]
+  set opts [list -foreground $fgcolor -background $bgcolor]
+  add_font_opt $win $class $modifiers opts
+  
+  set ar(_$class) [list $re $opts $re_opts]
 
   ctext::getAr $win classes classesAr
   set classesAr(_$class) [list $ref _$class]
@@ -1587,9 +1620,6 @@ proc ctext::findPreviousSpace {win index} {
 }
 
 proc ctext::clearHighlightClasses {win} {
-  #no need to catch, because array unset doesn't complain
-  #puts [array exists ::ctext::highlight$win]
-
   ctext::getAr $win highlight ar
   array unset ar
 

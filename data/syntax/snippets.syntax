@@ -39,5 +39,5 @@ punctuation {}
 precompile {}
 
 miscellaneous {
-  HighlightClassForRegexp {^\t.*$}
+  HighlightClassForRegexp {^\t.*$} {}
 }

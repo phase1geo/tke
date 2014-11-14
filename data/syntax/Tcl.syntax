@@ -44,12 +44,12 @@ symbols
 
 numbers
 {
-  HighlightClassForRegexp {\m[0-9]+}
+  HighlightClassForRegexp {\m[0-9]+} {}
 }
 
 punctuation
 {
-  HighlightClassForRegexp {[][\{\}]}
+  HighlightClassForRegexp {[][\{\}]} {}
 }
 
 precompile {}
@@ -64,7 +64,7 @@ miscellaneous
     ttk::labelframe ttk::menubutton ttk::notebook ttk::panedwindow
     ttk::progressbar ttk::radiobutton ttk::scale ttk::scrollbar ttk::separator
     ttk::sizegrip ttk::treeview
-  }
+  } {}
   HighlightClass {
     -text -command -yscrollcommand -xscrollcommand -background -foreground -fg
     -bg -highlightbackground -y -x -highlightcolor -relief -width -height -wrap
@@ -75,8 +75,8 @@ miscellaneous
     -variable -regexp -backwards -forwards -bd -pady -ipady -state -row -column
     -cursor -highlightcolors -linemap -menu -tearoff -displayof -cursor -underline
     -tags -tag -weight -sticky -rowspan -columnspan
-  }
-  HighlightClassForRegexp {\.[a-zA-Z0-9\_\-]+}
-  HighlightClassWithOnlyCharStart \$
+  } {}
+  HighlightClassForRegexp {\.[a-zA-Z0-9\_\-]+} {}
+  HighlightClassWithOnlyCharStart \$ {}
 }
 
