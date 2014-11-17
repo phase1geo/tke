@@ -2078,7 +2078,7 @@ namespace eval gui {
       catch { ctext::deleteHighlightClass $txt search }
 
       # Create a highlight class for the given search string
-      ctext::addSearchClassForRegexp $txt search black yellow $str $search_opts
+      ctext::addSearchClassForRegexp $txt search black yellow "" $str $search_opts
 
       # Make the search tag lower in priority than the selection tag
       $txt tag lower _search sel
