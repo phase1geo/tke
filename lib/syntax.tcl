@@ -308,8 +308,6 @@ namespace eval syntax {
         set_language_section $txt numbers       $lang_array(numbers)
         set_language_section $txt precompile    $lang_array(precompile)
         set_language_section $txt miscellaneous $lang_array(miscellaneous)
-        # set_language_section $txt strings       $lang_array(strings)
-        # set_language_section $txt comments      $lang_array(lcomments)
         
         # Add the comments and strings
         ctext::setBlockCommentPatterns $txt $lang_array(bcomments) $theme(comments)
@@ -323,7 +321,7 @@ namespace eval syntax {
         # the indent/unindent expressions for this language
         [ns indent]::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent)
         
-        # Set the completer options for the given languate
+        # Set the completer options for the given language
         [ns completer]::set_auto_match_chars $txt.t $lang_array(matchcharsallowed)
 
       } rc]} {
