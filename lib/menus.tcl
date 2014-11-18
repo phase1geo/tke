@@ -1507,8 +1507,8 @@ namespace eval menus {
   # Adds the help menu commands.
   proc add_help {mb} {
 
-    $mb add command -label [msgcat::mc "User Guide"] -underline 0 -command "utils::open_file_externally [file join $::tke_dir doc UserGuide.pdf]"
-    launcher::register [msgcat::mc "Menu: View User Guide"] "utils::open_file_externally [file join $::tke_dir doc UserGuide.pdf]"
+    $mb add command -label [msgcat::mc "User Guide"] -underline 0 -command [list utils::open_file_externally [file join $::tke_dir doc UserGuide.pdf]]
+    launcher::register [msgcat::mc "Menu: View User Guide"] [list utils::open_file_externally [file join $::tke_dir doc UserGuide.pdf]]
 
     if {[tk windowingsystem] ne "aqua"} {
       
@@ -1535,7 +1535,7 @@ namespace eval menus {
 
     # Add favorites to launcher
     foreach fname [lrange [gui::get_last_opened] 0 [expr $preferences::prefs(View/ShowRecentlyOpened) - 1]] {
-      launcher::register_temp "`RECENT:$fname" "gui::add_file end $fname" $fname
+      launcher::register_temp "`RECENT:$fname" [list gui::add_file end $fname] $fname
     }
 
     # Display the launcher in RECENT: mode
