@@ -451,14 +451,18 @@ namespace eval specl::updater {
     
     ttk::frame .updwin.if
     ttk::label .updwin.if.icon
-    ttk::label .updwin.if.info -text "A new version $content(version) of $specl::appname exists.\nThe latest version available is $specl::version.\nClick Download to upgrade your version."
+    ttk::label .updwin.if.title -text "A new version of $specl::appname is available!"
+    ttk::label .updwin.if.info  -text "Version ($content(version)) is ready for installation.\nYou are currently using version ($specl::version).\nClick Download to update your version."
     
     if {$data(icon) ne ""} {
       .updwin.if.icon configure -image $data(icon)
     }
     
-    pack .updwin.if.icon -side left -padx 2 -pady 2
-    pack .updwin.if.info -side left -padx 2 -pady 2 -fill x
+    grid rowconfigure    .updwin.if 1 -weight 1
+    grid columnconfigure .updwin.if 1 -weight 1
+    grid .updwin.if.icon  -row 0 -column 0 -padx 2 -pady 2 -rowspan 2
+    grid .updwin.if.title -row 0 -column 1 -padx 2 -pady 2
+    grid .updwin.if.info  -row 1 -column 1 -padx 2 -pady 2
     
     ttk::frame       .updwin.pf
     ttk::progressbar .updwin.pf.pb -mode determinate -length 300
@@ -578,7 +582,7 @@ namespace eval specl::updater {
     
     # If the content does not require an update, tell the user
     if {$content(version) eq $specl::version} {
-      tk_messageBox -parent . -default ok -type ok -message "Application is already up-to-date"
+      tk_messageBox -parent . -default ok -type ok -message "Application is already up-to-date!"
       exit 1
     } else {
       display_update $rc
