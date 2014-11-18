@@ -1,5 +1,5 @@
 set specl::appname   "tke"
 set specl::version   "1.3b"
-set specl::release   "3"
+set specl::release   "4"
 set specl::rss_url   "http://tke.sourceforge.net/releases"
 set specl::icon_path "lib/images/tke_logo_64.gif"

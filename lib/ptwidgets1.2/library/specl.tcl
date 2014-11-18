@@ -114,6 +114,9 @@ namespace eval specl {
   
 namespace eval specl::helpers {
   
+  array set xignore    {}
+  array set xignore_id {}
+  
   ######################################################################
   # Returns the node content found within the given parent node.
   proc get_element {node name} {
@@ -163,6 +166,59 @@ namespace eval specl::helpers {
     }
     
     return $path
+    
+  }
+  
+  ###########################################################################
+  # Performs the set operation on a given yscrollbar.
+  proc set_yscrollbar {sb first last} {
+        
+    # If everything is displayed, hide the scrollbar
+    if {($first == 0) && (($last == 1) || ($last == 0))} {
+      grid remove $sb
+    } else {
+      grid $sb
+      $sb set $first $last
+    }
+
+  }
+  
+  ######################################################################
+  # Performs the set operation on a given xscrollbar.
+  proc set_xscrollbar {sb first last} {
+    
+    variable xignore
+    variable xignore_id
+    
+    if {($first == 0) && ($last == 1)} {
+      grid remove $sb
+      set_xignore $sb 1 0
+      set xignore_id($sb) [after 1000 [list specl::helpers::set_xignore $sb 0 1]]
+    } else {
+      if {![info exists xignore($sb)] || !$xignore($sb)} {
+        grid $sb
+        $sb set $first $last
+      }
+      set_xignore $sb 0 0
+    }
+    
+  }
+  
+  ######################################################################
+  # Clears the xignore and xignore_id values.
+  proc set_xignore {sb value auto} {
+  
+    variable xignore
+    variable xignore_id
+        
+    # Clear the after (if it exists)
+    if {[info exists xignore_id($sb)]} {
+      after cancel $xignore_id($sb)
+      unset xignore_id($sb)
+    }
+    
+    # Set the xignore value to the specified value
+    set xignore($sb) $value
     
   }
     
@@ -301,6 +357,9 @@ namespace eval specl::updater {
     # Show the progress bar
     grid .updwin.pf
     
+    # Display the current status
+    .updwin.pf.status configure -text "Downloading..."
+    
     # Get the update
     set token [http::geturl $content(download_url) -progress "specl::updater::gzip_download_progress" \
       -channel [set rc [open [set download [file join / tmp [file tail $content(download_url)]]] w]]]
@@ -310,22 +369,49 @@ namespace eval specl::updater {
     
     # Get the data if the status is okay
     if {([http::status $token] eq "ok") && ([http::ncode $token] == 200)} {
+      
+      .updwin.pf.status configure -text "Verifying..."
+      update idletasks
+      
       if {[catch { check_tarball $download $content_list } rc]} {
-        tk_messageBox -parent . -default ok -type ok -message "Downloaded data corrupted" -detail $rc
+        
+        # Display the error information
+        .updwin.if.title configure -text "Downloaded data corrupted"
+        .updwin.if.info  configure -text $rc
+        
+        # Change the download button to a Close button
+        grid remove .updwin.pf
+        grid remove .updwin.bf1
+        grid .updwin.bf3
+        
+      } else {
+        
+        # Indicate that the download was successful.
+       .updwin.if.title configure -text "Download was successful!"
+       .updwin.if.info  configure -text "Click \"Install and Restart\" to install the update."
+    
+       # Change the download button to an Install and Restart button
+       grid remove .updwin.pf
+       grid remove .updwin.bf1
+       grid .updwin.bf2
+    
       }
+      
     } else {
-      tk_messageBox -parent . -default ok -type ok -message "Unable to download" -detail "Cannot communicate with download server"
+      
+      # Display the error information
+      .updwin.if.title configure -text "Unable to download"
+      .updwin.if.info  configure -text "Cannot communicate with download server"
+        
+      # Change the download button to a Close button
+      grid remove .updwin.pf
+      grid remove .updwin.bf1
+      grid .updwin.bf3
+        
     }
     
     # Clean the token
     http::cleanup $token
-    
-    # Indicate that the download was successful.
-    .updwin.if.info configure -text "Download was successful!\nClick Install and Restart to install the upgrade."
-    
-    # Change the download button to an Install and Restart button
-    grid remove .updwin.bf1
-    grid .updwin.bf2
     
   }
   
@@ -447,12 +533,17 @@ namespace eval specl::updater {
     
     toplevel     .updwin
     wm title     .updwin "Software Updater"
+    wm geometry  .updwin 500x400
     wm resizable .updwin 0 0
+    
+    set msg "Version ($content(version)) is ready for installation. "
+    append msg "You are currently\nusing version ($specl::version). "
+    append msg "Click Download to update your version."
     
     ttk::frame .updwin.if
     ttk::label .updwin.if.icon
-    ttk::label .updwin.if.title -text "A new version of $specl::appname is available!"
-    ttk::label .updwin.if.info  -text "Version ($content(version)) is ready for installation.\nYou are currently using version ($specl::version).\nClick Download to update your version."
+    ttk::label .updwin.if.title -text "A new version of $specl::appname is available!" -font TkHeadingFont
+    ttk::label .updwin.if.info  -text $msg
     
     if {$data(icon) ne ""} {
       .updwin.if.icon configure -image $data(icon)
@@ -472,13 +563,17 @@ namespace eval specl::updater {
     pack .updwin.pf.status -side left -padx 2 -pady 2
     
     ttk::frame     .updwin.hf
-    set widgets(html) [html .updwin.hf.h -width 400 -height 200 -yscrollcommand ".updwin.hf.vb set"]
-    ttk::scrollbar .updwin.hf.vb -orient vertical -command ".updwin.hf.h yview"
+    set widgets(html) [html .updwin.hf.h -width 400 -height 200 \
+      -xscrollcommand "specl::helpers::set_xscrollbar .updwin.hf.hb" \
+      -yscrollcommand "specl::helpers::set_yscrollbar .updwin.hf.vb"]
+    ttk::scrollbar .updwin.hf.vb -orient vertical   -command ".updwin.hf.h yview"
+    ttk::scrollbar .updwin.hf.hb -orient horizontal -command ".updwin.hf.h xview"
     
     grid rowconfigure    .updwin.hf 0 -weight 1
     grid columnconfigure .updwin.hf 0 -weight 1
     grid .updwin.hf.h  -row 0 -column 0 -sticky news
     grid .updwin.hf.vb -row 0 -column 1 -sticky ns
+    grid .updwin.hf.hb -row 1 -column 0 -sticky ew
     
     ttk::frame  .updwin.bf1
     ttk::button .updwin.bf1.update -text "Download" -width 8 -command [list specl::updater::do_download $content_list]
@@ -494,6 +589,11 @@ namespace eval specl::updater {
     pack .updwin.bf2.cancel  -side right -padx 2 -pady 2
     pack .updwin.bf2.install -side right -padx 2 -pady 2
     
+    ttk::frame  .updwin.bf3
+    ttk::button .updwin.bf3.close -text "Close" -width 6 -command [list specl::updater::do_cancel_install $content_list]
+    
+    pack .updwin.bf3.close -side right -padx 2 -pady 2
+    
     grid rowconfigure    .updwin 2 -weight 1
     grid columnconfigure .updwin 0 -weight 1
     grid .updwin.if  -row 0 -column 0 -sticky news
@@ -501,9 +601,11 @@ namespace eval specl::updater {
     grid .updwin.hf  -row 2 -column 0 -sticky news
     grid .updwin.bf1 -row 3 -column 0 -sticky news
     grid .updwin.bf2 -row 4 -column 0 -sticky news
+    grid .updwin.bf3 -row 5 -column 0 -sticky news
     
     grid remove .updwin.pf
     grid remove .updwin.bf2
+    grid remove .updwin.bf3
     
     # Tie together some stuff for the HTML widget to handle CSS
     $widgets(html) handler script style specl::updater::style_handler
