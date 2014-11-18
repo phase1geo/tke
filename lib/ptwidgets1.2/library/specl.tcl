@@ -18,6 +18,7 @@ namespace eval specl {
   
   variable appname   ""
   variable version   ""
+  variable release   1
   variable rss_url   ""
   variable icon_path ""
   
@@ -251,15 +252,18 @@ namespace eval specl::updater {
     set download_url [specl::helpers::get_attr $enclosure_node "url"]
     
     # Get the version
-    set version [specl::helpers::get_attr $enclosure_node "specl:version"]
+    set version [specl::helpers::get_attr $enclosure_node "version"]
+    
+    # Get the release number
+    set release [specl::helpers::get_attr $enclosure_node "release"]
     
     # Get the file length
     set length [specl::helpers::get_attr $enclosure_node "length"]
     
     # Get the md5 checksum
-    set checksum [specl::helpers::get_attr $enclosure_node "specl:checksum"]
+    set checksum [specl::helpers::get_attr $enclosure_node "checksum"]
     
-    return [list description $description download_url $download_url version $version length $length checksum $checksum]
+    return [list description $description download_url $download_url version $version release $release length $length checksum $checksum]
     
   }
   
@@ -355,18 +359,24 @@ namespace eval specl::updater {
         set trash_path [specl::helpers::get_unique_path [file join ~ .Trash] [file tail $install_dir]]
       }
       Linux* {
-        set trash [file join ~ .local share Trash]
-        if {[info exists ::env(XDG_DATA_HOME)] && \
-            ($::env(XDG_DATA_HOME) ne "") && \
-            [file exists $::env(XDG_DATA_HOME)]} {
-          set trash $::env(XDG_DATA_HOME)
-        }
-        set trash_path [specl::helpers::get_unique_path [file join $trash files] [file tail $install_dir]]
-        if {![catch { open [file join $trash info [file tail $trash_path].trashinfo] w } rc]} {
-          puts $rc "\[Trash Info\]"
-          puts $rc "Path=$install_dir"
-          puts $rc "DeletionDate=[clock format [clock seconds] -format {%Y-%m-%dT%T}]"
-          close $rc
+        if {[catch { exec -ignorestderr gvfs-trash [file tail $install_dir] }]} {
+          if {[file exists [set trash [file join ~ .local share Trash]]]} {
+            if {[info exists ::env(XDG_DATA_HOME)] && \
+                ($::env(XDG_DATA_HOME) ne "") && \
+                [file exists $::env(XDG_DATA_HOME)]} {
+              set trash $::env(XDG_DATA_HOME)
+            }
+            set trash_path [specl::helpers::get_unique_path [file join $trash files] [file tail $install_dir]]
+            if {![catch { open [file join $trash info [file tail $trash_path].trashinfo] w } rc]} {
+              puts $rc "\[Trash Info\]"
+              puts $rc "Path=$install_dir"
+              puts $rc "DeletionDate=[clock format [clock seconds] -format {%Y-%m-%dT%T}]"
+              close $rc
+            }
+          } else {
+            tk_messageBox -parent . -default ok -type ok -message "Unable to install" -detail "Unable to trash old library files"
+            exit 1
+          }
         }
       }
       *Win*  { 
@@ -589,6 +599,7 @@ namespace eval specl::releaser {
     channel_link        ""
     channel_language    "en"
     item_version        ""
+    item_release        0
     item_title          ""
     item_description    ""
     item_release_notes  ""
@@ -766,8 +777,10 @@ namespace eval specl::releaser {
     set token [http::geturl "$specl::rss_url/appcast.xml"]
     
     # If the request is valid, parse the content
-    if {([http::status $token] eq "ok") && ([http::ncode $token] == 200)} {
+    if {([set status [http::status $token]] eq "ok") && ([set ncode [http::ncode $token]] == 200)} {
       parse_rss [http::data $token] 
+    } else {
+      puts "Warning:  Unable to fetch RSS information, status: $status, ncode: $ncode"
     }
     
     # Cleanup the request
@@ -785,6 +798,7 @@ namespace eval specl::releaser {
       
       puts $rc "set specl::appname   \"$specl::appname\""
       puts $rc "set specl::version   \"$data(item_version)\""
+      puts $rc "set specl::release   \"$data(item_release)\""
       puts $rc "set specl::rss_url   \"$specl::rss_url\""
       puts $rc "set specl::icon_path \"$specl::icon_path\""
       
@@ -814,7 +828,7 @@ namespace eval specl::releaser {
       puts $rc "      <description><!\[CDATA\[$data(item_description)\]\]></description>"
       puts $rc "      <pubDate>[clock format [clock seconds]]</pubDate>"
       puts $rc "      <specl:releaseNotesLink>$data(item_release_notes)</specl:releaseNotesLink>"
-      puts $rc "      <enclosure url=\"$data(item_url)\" specl:version=\"$data(item_version)\" length=\"$data(item_length)\" type=\"application/octet-stream\" specl:checksum=\"$data(item_checksum)\" />"
+      puts $rc "      <enclosure url=\"$data(item_url)\" version=\"$data(item_version)\" release=\"$data(item_release)\" length=\"$data(item_length)\" type=\"application/octet-stream\" checksum=\"$data(item_checksum)\" />"
       puts $rc "    </item>"
       puts $rc "  </channel>"
       puts $rc "</rss>"
@@ -883,19 +897,20 @@ namespace eval specl::releaser {
     variable data
     
     # Attempt to source the specl_version.tcl file
-    if {[catch { specl::load_specl_version [pwd] }]} {
+    if {[catch { specl::load_specl_version [pwd] } rc]} {
       
       # If the specl_version file doesn't exist, initialize the variables
       set data(item_version) "1.0"
+      set data(item_release) 1
       set data(item_url)     ""
       
     } else {
       
       # Create the new version
-      set version [split $specl::version .]
-      lset version end [expr [lindex $version end] + 1]
+      set version $specl::version
       
       set data(item_version) [join $version .]
+      set data(item_release) [expr $specl::release + 1]
       set data(item_url)     ""
       
       # Read the RSS file since it exists

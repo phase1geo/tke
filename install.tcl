@@ -68,7 +68,7 @@ proc copy_lib_files {lib_dir} {
   file mkdir $lib_dir
   
   # Copy each of the top-level directories recursively to the new lib directory
-  foreach directory [list data doc lib plugins] {
+  foreach directory [list data doc lib plugins specl_version.tcl] {
     puts -nonewline "Copying $directory to [file join $lib_dir $directory]...  "
     flush stdout
     if {[catch "file copy $directory $lib_dir" rc]} {
