@@ -768,8 +768,61 @@ namespace eval specl::releaser {
     item_url            ""
     item_length         0
     item_checksum       ""
+    cl_noui             0
+    cl_version          ""
+    cl_desc_file        ""
+    cl_tarball          ""
+    cl_directory        ""
+    cl_verbose          1
   }
   
+  ######################################################################
+  # Parses the command-line arguments to the release command.
+  proc parse_args {cl_args} {
+
+    variable data
+
+    if {[llength $cl_args] > 0} {
+
+      # Parse the release arguments
+      while {[llength $cl_args] > 0} {
+        set args [lassign $cl_args arg]
+        switch -exact -- $arg {
+          -noui   { set data(cl_noui) 1 }
+          -q      { set data(cl_verbose) 0 }
+          -n      { set cl_args [lassign $cl_args data(cl_version)] }
+          -f      { set cl_args [lassign $cl_args data(cl_desc_file)] }
+          -t      { set cl_args [lassign $cl_args data(cl_tarball)] }
+          -d      { set cl_args [lassign $cl_args data(cl_directory)] }
+          default { return 0 }
+        }
+      }
+
+      # Check to make sure that all of the necessary arguments were set
+      if {$cl_noui && (($data(cl_version) eq "") || ($data(cl_desc_file) eq ""))} {
+        return 0
+      } elseif {($data(cl_tarball) ne "") && ![file exists $data(cl_tarball)]} {
+        return 0
+      } elseif {($data(cl_directory) ne "") && ![file exists $data(cl_directory)]} {
+        return 0
+      }
+
+      # Handle the description file
+      if {[string range $data(cl_desc_file) 0 6] eq "http://"} {
+        set data(item_release_notes) $data(cl_desc_file)
+      } elseif {![catch { open $data(cl_desc_file) r } rc]} {
+        set data(item_description) [read $rc]
+        close $rc
+      } else {
+        return 0
+      }
+
+    }
+
+    return 1
+
+  }
+
   ######################################################################
   # Gets the release information from the user from a form.
   proc get_release_info {} {
@@ -1107,40 +1160,53 @@ namespace eval specl::releaser {
     set app "$specl::appname-$data(item_version)"
     
     # Create a temporary directory for the application files
-    set tmp    [file join / tmp]
+    if {$data(cl_directory) ne ""} {
+      set tmp $data(cl_directory)
+    } else {
+      set tmp [file join / tmp]
+    }
     set tmpdir [file join $tmp $app]
     
     # Write the version file to the current directory
-    puts -nonewline "Writing specl_version.tcl ............."; flush stdout
+    if {$data(cl_verbose)} { puts -nonewline "Writing specl_version.tcl ............."; flush stdout }
     write_version
-    puts "  Done!"
+    if {$data(cl_verbose)} { puts "  Done!" }
     
-    # Copy the current directory to the /tmp directory
-    puts -nonewline "Copying current directory to /tmp ....."; flush stdout
-    file copy -force [pwd] $tmpdir
-    puts "  Done!"
+    # If the tarball was not specified on the command-line, generate it
+    if {$data(cl_tarball) eq ""} {
+
+      # Copy the current directory to the /tmp directory
+      if {$data(cl_verbose)} { puts -nonewline "Copying current directory to /tmp ....."; flush stdout }
+      file copy -force [pwd] $tmpdir
+      if {$data(cl_verbose)} { puts "  Done!" }
     
-    # Tarball and gzip the current directory
-    puts -nonewline "Tarballing directory .................."; flush stdout
-    if {[catch { exec -ignorestderr tar czf [set tarball [file join $tmp [file tail $data(item_url)]]] -C $tmp $app } rc]} {
-      puts "  Failed!"
-      return -code error $rc
+      # Tarball and gzip the current directory
+      if {$data(cl_verbose)} { puts -nonewline "Tarballing directory .................."; flush stdout }
+      if {[catch { exec -ignorestderr tar czf [set tarball [file join $tmp [file tail $data(item_url)]]] -C $tmp $app } rc]} {
+        if {$data(cl_verbose)} { puts "  Failed!" }
+        return -code error $rc
+      }
+      if {$data(cl_verbose)} { puts "  Done!" }
+
+    # Otherwise, just use the given tarball
+    } else {
+
+      set tarball $data(cl_tarball)
+
     }
-    puts "  Done!"
     
     # Figure out the size of the tarball and save it to the item_length item
     set data(item_length) [file size $tarball]
     
     # Figure out the md5 checksum
-    puts -nonewline "Calculate checksum ...................."; flush stdout
+    if {$data(cl_verbose)} { puts -nonewline "Calculate checksum ...................."; flush stdout }
     set data(item_checksum) [get_checksum $tarball]
-    puts "  Done!"
+    if {$data(cl_verbose)} { puts "  Done!" }
       
     # Write the RSS file
-    puts -nonewline "Writing RSS appcast file .............."; flush stdout
+    if {$data(cl_verbose)} { puts -nonewline "Writing RSS appcast file .............."; flush stdout }
     write_rss $tmp
-    puts "  Done!"
-    puts ""
+    if {$data(cl_verbose)} { puts "  Done!\n" }
     
     puts "Upload [file join $tmp appcast.xml] to $specl::rss_url/appcast.xml"
     puts "Upload [file join $tmp [file tail $data(item_url)]] to $data(item_url)"
@@ -1177,7 +1243,9 @@ namespace eval specl::releaser {
     }
     
     # Get the release information from the user
-    get_release_info
+    if {!$data(cl_noui)} {
+      get_release_info
+    }
     
     # Create the necessary files
     create_files
@@ -1228,33 +1296,30 @@ if {[file tail $::argv0] eq "specl.tcl"} {
   
   # Parse command-line arguments
   set args $argv
-  while {[llength $args] > 0} {
-    switch -exact -- [lindex $args 0] {
-      -h      { usage }
-      -v      { puts $specl::version; exit }
-      release {
-        set args [lassign $args arg]
-        if {[llength $args] != 0} {
-          puts "ERROR:  Incorrect arguments passed to specl release command"
-          usage
-        }
-        specl::releaser::start_release
-      }
-      update  {
-        set args [lassign $args arg]
-        if {[llength $args] != 1} {
-          puts "ERROR:  Incorrect arguments passed to specl update command"
-          usage
-        }
-        lassign $args specl::updater::data(specl_version_dir)
-        specl::updater::start_update
-      }
-      default {
-        puts "ERROR:  Unknown command/option ([lindex $args 0])"
+  switch -exact -- [lindex $args 0] {
+    -h      { usage }
+    -v      { puts $specl::version; exit }
+    release {
+      set args [lassign $args arg]
+      if {![specl::releaser::parse_args $args]} {
+        puts "ERROR:  Incorrect arguments passed to specl release command"
         usage
       }
+      specl::releaser::start_release
     }
-    set args [lassign $args arg]
+    update  {
+      set args [lassign $args arg]
+      if {[llength $args] != 1} {
+        puts "ERROR:  Incorrect arguments passed to specl update command"
+        usage
+      }
+      lassign $args specl::updater::data(specl_version_dir)
+      specl::updater::start_update
+    }
+    default {
+      puts "ERROR:  Unknown command/option ([lindex $args 0])"
+      usage
+    }
   }
   
 }
