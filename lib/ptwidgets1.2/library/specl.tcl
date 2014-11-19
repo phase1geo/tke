@@ -16,11 +16,12 @@ package provide specl 1.2
 
 namespace eval specl {
   
-  variable appname   ""
-  variable version   ""
-  variable release   1
-  variable rss_url   ""
-  variable icon_path ""
+  variable appname      ""
+  variable version      ""
+  variable release      1
+  variable rss_url      ""
+  variable download_url ""
+  variable icon_path    ""
   
   ######################################################################
   # Returns the full, normalized pathname of the specl_version.tcl file.
@@ -241,6 +242,8 @@ namespace eval specl::helpers {
     
 }
   
+###################################################  UPDATER  ###################################################
+
 namespace eval specl::updater {
   
   array set widgets {}
@@ -300,10 +303,8 @@ namespace eval specl::updater {
 
       if {[specl::helpers::get_attr $release_node "index"] >= $specl::release} {
 
-        # Get the title (if one exists)
-        if {[catch { specl::helpers::get_element $release_node "title" } title_text] || ([set title [lindex $title_text 1]] eq "")} {
-          set title "<h2>Version ($version) Release Notes</h2>"
-        }
+        # Set the title
+        set title "<h2>Version ($version) Release Notes</h2>"
 
         # Get any release notes
         if {![catch { specl::helpers::get_element $release_node "specl:releaseNotesLink" } release_link] && \
@@ -337,8 +338,7 @@ namespace eval specl::updater {
         if {$first} {
           
           # Set the description
-          set description "$title<br>$curr_description"
-
+          set description    "$title<br>$curr_description"
           set latest_version $version
           set latest_release $release
           
@@ -751,8 +751,11 @@ namespace eval specl::updater {
   
 }
 
+###################################################  RELEASER  ###################################################
+
 namespace eval specl::releaser {
   
+  array set widgets {}
   array set data {
     channel_title       ""
     channel_description ""
@@ -760,7 +763,6 @@ namespace eval specl::releaser {
     channel_language    "en"
     item_version        ""
     item_release        0
-    item_title          ""
     item_description    ""
     item_release_notes  ""
     item_url            ""
@@ -772,6 +774,7 @@ namespace eval specl::releaser {
   # Gets the release information from the user from a form.
   proc get_release_info {} {
     
+    variable widgets
     variable data
     
     toplevel .relwin
@@ -781,73 +784,74 @@ namespace eval specl::releaser {
       exit
     }
     
-    ttk::labelframe .relwin.rf -text "RSS Information"
+    set widgets(nb) [ttk::notebook .relwin.nb]
+
+    $widgets(nb) add [ttk::frame .relwin.nb.rf] -text "General"
     
-    grid columnconfigure .relwin.rf 1 -weight 1
+    set widgets(appname_label)       [ttk::label .relwin.nb.rf.l0 -text "Application Name:"]
+    set widgets(appname)             [ttk::entry .relwin.nb.rf.e0 -validate key -validatecommand {specl::releaser::update_url 0 %P}]
+    set widgets(general_title_label) [ttk::label .relwin.nb.rf.l1 -text "Title:"]
+    set widgets(general_title)       [ttk::entry .relwin.nb.rf.e1]
+    set widgets(general_desc_label)  [ttk::label .relwin.nb.rf.l2 -text "Description:"]
+    set widgets(general_desc)        [text       .relwin.nb.rf.e2 -height 5 -width 60]
+    set widgets(general_link_label)  [ttk::label .relwin.nb.rf.l3 -text "Link:"]
+    set widgets(general_link)        [ttk::entry .relwin.nb.rf.e3]
+    set widgets(language_label)      [ttk::label .relwin.nb.rf.l4 -text "Language:"]
+    set widgets(language)            [ttk::entry .relwin.nb.rf.e4]
+    set widgets(rss_url_label)       [ttk::label .relwin.nb.rf.l5 -text "RSS URL:"]
+    set widgets(rss_url)             [ttk::entry .relwin.nb.rf.e5]
+    set widgets(rss_url_suffix)      [ttk::label .relwin.nb.rf.l51 -text "/appcast.xml"]
+    set widgets(download_url_label)  [ttk::label .relwin.nb.rf.l6  -text "Default Download URL:"]
+    set widgets(download_url)        [ttk::entry .relwin.nb.rf.e6]
+    set widgets(icon_path_label)     [ttk::label .relwin.nb.rf.l7  -text "Icon Path:"]
+    set widgets(icon_path)           [ttk::entry .relwin.nb.rf.e7]
+      
+    grid columnconfigure .relwin.nb.rf 1 -weight 1
+    grid $widgets(appname_label)       -row 0 -column 0 -sticky news -padx 2 -pady 2
+    grid $widgets(appname)             -row 0 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid $widgets(general_title_label) -row 1 -column 0 -sticky news -padx 2 -pady 2
+    grid $widgets(general_title)       -row 1 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid $widgets(general_desc_label)  -row 2 -column 0 -sticky news -padx 2 -pady 2
+    grid $widgets(general_desc)        -row 2 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid $widgets(general_link_label)  -row 3 -column 0 -sticky news -padx 2 -pady 2
+    grid $widgets(general_link)        -row 3 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid $widgets(language_label)      -row 4 -column 0 -sticky news -padx 2 -pady 2
+    grid $widgets(language)            -row 4 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid $widgets(rss_url_label)       -row 5 -column 0 -sticky news -padx 2 -pady 2
+    grid $widgets(rss_url)             -row 5 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid $widgets(rss_url_suffix)      -row 5 -column 2 -sticky news -padx 2 -pady 2
+    grid $widgets(download_url_label)  -row 6 -column 0 -sticky news -padx 2 -pady 2
+    grid $widgets(download_url)        -row 6 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid $widgets(icon_path_label)     -row 7 -column 0 -sticky news -padx 2 -pady 2
+    grid $widgets(icon_path)           -row 7 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
     
-    grid [ttk::label .relwin.rf.l0 -text "Application Name:"] -row 0 -column 0 -sticky news -padx 2 -pady 2
-    grid [ttk::entry .relwin.rf.e0 -validate key -validatecommand {specl::releaser::update_url 0 %P}] -row 0 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
-    grid [ttk::label .relwin.rf.l1 -text "Title:"]        -row 1 -column 0 -sticky news -padx 2 -pady 2
-    grid [ttk::entry .relwin.rf.e1]                       -row 1 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
-    grid [ttk::label .relwin.rf.l2 -text "Description:"]  -row 2 -column 0 -sticky news -padx 2 -pady 2
-    grid [text       .relwin.rf.e2 -height 5 -width 60]   -row 2 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
-    grid [ttk::label .relwin.rf.l3 -text "Link:"]         -row 3 -column 0 -sticky news -padx 2 -pady 2
-    grid [ttk::entry .relwin.rf.e3]                       -row 3 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
-    grid [ttk::label .relwin.rf.l4 -text "Language:"]     -row 4 -column 0 -sticky news -padx 2 -pady 2
-    grid [ttk::entry .relwin.rf.e4]                       -row 4 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
-    grid [ttk::label .relwin.rf.l5 -text "RSS URL:"]      -row 5 -column 0 -sticky news -padx 2 -pady 2
-    grid [ttk::entry .relwin.rf.e5]                       -row 5 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
-    grid [ttk::label .relwin.rf.l51 -text "/appcast.xml"] -row 5 -column 2 -sticky news -padx 2 -pady 2
-    grid [ttk::label .relwin.rf.l6 -text "Icon Path:"]    -row 6 -column 0 -sticky news -padx 2 -pady 2
-    grid [ttk::entry .relwin.rf.e6]                       -row 6 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
+    $widgets(nb) add [ttk::frame .relwin.nb.tf] -text "Release"
     
-    ttk::labelframe .relwin.tf -text "Release Information"
-    
-    grid rowconfigure    .relwin.tf 2 -weight 1
-    grid columnconfigure .relwin.tf 1 -weight 1
-    
-    grid [ttk::label .relwin.tf.l1  -text "Version:"]           -row 0 -column 0 -sticky news -padx 2 -pady 2
-    grid [ttk::entry .relwin.tf.e1 -validate key -validatecommand {specl::releaser::update_url 1 %P}] -row 0 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
-    grid [ttk::label .relwin.tf.l2  -text "Description:"]       -row 2 -column 0 -sticky news -padx 2 -pady 2
-    grid [text       .relwin.tf.e2  -height 5 -width 60]        -row 2 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
-    grid [ttk::label .relwin.tf.l3  -text "Release Notes URL:"] -row 3 -column 0 -sticky news -padx 2 -pady 2
-    grid [ttk::entry .relwin.tf.e3]                             -row 3 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
-    grid [ttk::label .relwin.tf.l4  -text "Download URL:"]      -row 4 -column 0 -sticky news -padx 2 -pady 2
-    grid [ttk::entry .relwin.tf.e4]                             -row 4 -column 1 -sticky news -padx 2 -pady 2
-    grid [ttk::label .relwin.tf.l41 -text ""]                   -row 4 -column 2 -sticky news -padx 2 -pady 2
+    set widgets(item_version_label) [ttk::label .relwin.nb.tf.l1  -text "Version:"]
+    set widgets(item_version)       [ttk::entry .relwin.nb.tf.e1 -validate key -validatecommand {specl::releaser::update_url 1 %P}]
+    set widgets(item_desc_label)    [ttk::label .relwin.nb.tf.l2  -text "Description:"]
+    set widgets(item_desc)          [text       .relwin.nb.tf.e2  -height 5 -width 60]
+    set widgets(item_notes_label)   [ttk::label .relwin.nb.tf.l3  -text "Release Notes URL:"]
+    set widgets(item_notes)         [ttk::entry .relwin.nb.tf.e3]
+    set widgets(item_url_label)     [ttk::label .relwin.nb.tf.l4  -text "Download URL:"]
+    set widgets(item_url)           [ttk::entry .relwin.nb.tf.e4]
+    set widgets(item_url_suffix)    [ttk::label .relwin.nb.tf.l41 -text ""]
+
+    grid rowconfigure    .relwin.nb.tf 2 -weight 1
+    grid columnconfigure .relwin.nb.tf 1 -weight 1
+    grid $widgets(item_version_label) -row 0 -column 0 -sticky news -padx 2 -pady 2
+    grid $widgets(item_version)       -row 0 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid $widgets(item_desc_label)    -row 2 -column 0 -sticky news -padx 2 -pady 2
+    grid $widgets(item_desc)          -row 2 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid $widgets(item_notes_label)   -row 3 -column 0 -sticky news -padx 2 -pady 2
+    grid $widgets(item_notes)         -row 3 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid $widgets(item_url_label)     -row 4 -column 0 -sticky news -padx 2 -pady 2
+    grid $widgets(item_url)           -row 4 -column 1 -sticky news -padx 2 -pady 2
+    grid $widgets(item_url_suffix)    -row 4 -column 2 -sticky news -padx 2 -pady 2
     
     ttk::frame  .relwin.bf
     ttk::button .relwin.bf.ok -text "OK" -width 6 -command {
-      
-      # Get user-provided parameters
-      .relwin.rf.l0 configure -background [expr {([set specl::appname                             [.relwin.rf.e0 get]] eq "") ? "red" : ""}]
-      .relwin.rf.l1 configure -background [expr {([set specl::releaser::data(channel_title)       [.relwin.rf.e1 get]] eq "") ? "red" : ""}]
-      .relwin.rf.l2 configure -background [expr {([set specl::releaser::data(channel_description) [.relwin.rf.e2 get 1.0 end-1c]] eq "") ? "red" : ""}]
-      set specl::releaser::data(channel_link) [.relwin.rf.e3 get]
-      .relwin.rf.l4 configure -background [expr {([set specl::releaser::data(channel_language)    [.relwin.rf.e4 get]] eq "") ? "red" : ""}]
-      .relwin.rf.l5 configure -background [expr {([set specl::rss_url                             [.relwin.rf.e5 get]] eq "") ? "red" : ""}]
-      set specl::icon_path [.relwin.rf.e6 get]
-      
-      .relwin.tf.l1 configure -background [expr {([set specl::releaser::data(item_version)        [.relwin.tf.e1 get]] eq "") ? "red" : ""}]
-      .relwin.tf.l2 configure -background [expr {([set specl::releaser::data(item_description)    [.relwin.tf.e2 get 1.0 end-1c]] eq "") ? "red" : ""}]
-      set specl::releaser::data(item_release_notes) [.relwin.tf.e3 get]
-      .relwin.tf.l4 configure -background [expr {([set specl::releaser::data(item_url)            [.relwin.tf.e4 get]] eq "") ? "red" : ""}]
-      
-      # Check to make sure that the parameters are valid
-      if {($specl::appname                             eq "") || \
-          ($specl::releaser::data(channel_title)       eq "") || \
-          ($specl::releaser::data(channel_description) eq "") || \
-          ($specl::releaser::data(channel_language)    eq "") || \
-          ($specl::releaser::data(item_version)        eq "") || \
-          ($specl::releaser::data(item_description)    eq "") || \
-          ($specl::releaser::data(item_url)            eq "") || \
-          ($specl::rss_url                             eq "")} {
-        tk_messageBox -parent .relwin -default ok -type ok -message "Missing required fields"
-      } else {
-        append specl::releaser::data(item_url) [.relwin.tf.l41 cget -text]
-        destroy .relwin
-      }
-      
+      specl::releaser::handle_okay
     }
     ttk::button .relwin.bf.cancel -text "Cancel" -width 6 -command {
       destroy .relwin
@@ -857,24 +861,32 @@ namespace eval specl::releaser {
     pack .relwin.bf.cancel -side right -padx 2 -pady 2
     pack .relwin.bf.ok     -side right -padx 2 -pady 2
     
-    pack .relwin.rf -fill x
-    pack .relwin.tf -fill both -expand yes
+    pack .relwin.nb -fill both -expand yes
     pack .relwin.bf -fill x
     
     # Fill in known values in the above fields
-    .relwin.rf.e0 insert end $specl::appname
-    .relwin.rf.e1 insert end $data(channel_title)
-    .relwin.rf.e2 insert end $data(channel_description)
-    .relwin.rf.e3 insert end $data(channel_link)
-    .relwin.rf.e4 insert end $data(channel_language)
-    .relwin.rf.e5 insert end $specl::rss_url
-    .relwin.rf.e6 insert end $specl::icon_path
+    $widgets(appname)       insert end $specl::appname
+    $widgets(general_title) insert end $data(channel_title)
+    $widgets(general_desc)  insert end $data(channel_description)
+    $widgets(general_link)  insert end $data(channel_link)
+    $widgets(language)      insert end $data(channel_language)
+    $widgets(rss_url)       insert end $specl::rss_url
+    $widgets(download_url)  insert end $specl::download_url
+    $widgets(icon_path)     insert end $specl::icon_path
     
-    .relwin.tf.e1 insert end $data(item_version)
-    .relwin.tf.e4 insert end $data(item_url)
-    
+    $widgets(item_version)  insert end $data(item_version)
+    $widgets(item_url)      insert end $data(item_url)
+
     if {($specl::appname ne "") && ($data(item_version) ne "")} {
-      .relwin.tf.l41 configure -text "/[string tolower $specl::appname]-$data(item_version).tgz"
+      $widgets(item_url_suffix) configure -text "/[string tolower $specl::appname]-$data(item_version).tgz"
+    }
+
+    # If the general tab has been setup, change the view to the Release tab
+    if {$specl::appname eq ""} {
+      focus $widgets(appname)
+    } else {
+      $widgets(nb) select 1
+      focus $widgets(item_version)
     }
     
     # Wait for the window to close
@@ -883,15 +895,82 @@ namespace eval specl::releaser {
     return 
     
   }
+
+  ######################################################################
+  # Handles a user click on the Okay button.
+  proc handle_okay {} {
+
+    variable widgets
+
+    # Get user-provided parameters
+    set specl::appname                             [$widgets(appname) get]
+    set specl::releaser::data(channel_title)       [$widgets(general_title) get]
+    set specl::releaser::data(channel_description) [$widgets(general_desc) get 1.0 end-1c]
+    set specl::releaser::data(channel_link)        [$widgets(general_link) get]
+    set specl::releaser::data(channel_language)    [$widgets(language) get]
+    set specl::rss_url                             [$widgets(rss_url) get]
+    set specl::download_url                        [$widgets(download_url) get]
+    set specl::icon_path                           [$widgets(icon_path) get]
+
+    set specl::releaser::data(item_version)        [$widgets(item_version) get]
+    set specl::releaser::data(item_description)    [$widgets(item_desc) get 1.0 end-1c]
+    set specl::releaser::data(item_release_notes)  [$widgets(item_notes) get]
+    set specl::releaser::data(item_url)            [$widgets(item_url) get]
+
+    # Colorize the missing labels
+    $widgets(appname_label)       configure -background [expr {($specl::appname                             eq "") ? "red" : ""}]
+    $widgets(general_title_label) configure -background [expr {($specl::releaser::data(channel_title)       eq "") ? "red" : ""}]
+    $widgets(general_desc_label)  configure -background [expr {($specl::releaser::data(channel_description) eq "") ? "red" : ""}]
+    $widgets(language_label)      configure -background [expr {($specl::releaser::data(channel_language)    eq "") ? "red" : ""}]
+    $widgets(rss_url_label)       configure -background [expr {($specl::rss_url                             eq "") ? "red" : ""}]
+
+    # Set the tab background color to red if any fields are missing
+    if {($specl::appname                             eq "") || \
+        ($specl::releaser::data(channel_title)       eq "") || \
+        ($specl::releaser::data(channel_description) eq "") || \
+        ($specl::releaser::data(channel_language)    eq "") || \
+        ($specl::rss_url                             eq "")} {
+      $widgets(nb) tab 0 -text "!! General !!"
+    } else {
+      $widgets(nb) tab 0 -text "General"
+    }
+    
+    $widgets(item_version_label)  configure -background [expr {($specl::releaser::data(item_version)        eq "") ? "red" : ""}]
+    $widgets(item_desc_label)     configure -background [expr {($specl::releaser::data(item_description)    eq "") ? "red" : ""}]
+    $widgets(item_url_label)      configure -background [expr {($specl::releaser::data(item_url)            eq "") ? "red" : ""}]
+
+    # Set the tab background color to red if any fields are missing
+    if {($specl::releaser::data(item_version)        eq "") || \
+        ($specl::releaser::data(item_description)    eq "") || \
+        ($specl::releaser::data(item_url)            eq "")} {
+      $widgets(nb) tab 1 -text "!! Release !!"
+    } else {
+      $widgets(nb) tab 1 -text "Release"
+    }
+
+    # Check to make sure that the parameters are valid
+    if {([$widgets(nb) tab 0 -text] eq "!! General !!") ||
+        ([$widgets(nb) tab 1 -text] eq "!! Release !!")} {
+      tk_messageBox -parent .relwin -default ok -type ok -message "Missing required fields"
+    } else {
+      append specl::releaser::data(item_url) [$widgets(item_url_suffix) cget -text]
+      destroy .relwin
+    }
+
+    # Allow the UI to update
+    update idletasks
+
+  }
   
   ######################################################################
   # Update the URL tarball name.
   proc update_url {type value} {
     
+    variable widgets
     variable data
     
-    set appname [.relwin.rf.e0 get]
-    set version [.relwin.tf.e4 get]
+    set appname [$widgets(appname) get]
+    set version [$widgets(item_version) get]
     
     switch $type {
       0 { set appname $value }
@@ -899,7 +978,7 @@ namespace eval specl::releaser {
     }
     
     if {($appname ne "") && ($version ne "")} {
-      .relwin.tf.l41 configure -text "/[string tolower $appname]-$version.tgz"
+      $widgets(item_url_suffix) configure -text "/[string tolower $appname]-$version.tgz"
     }
     
     return 1
@@ -959,11 +1038,12 @@ namespace eval specl::releaser {
     
     if {![catch "open specl_version.tcl w" rc]} {
       
-      puts $rc "set specl::appname   \"$specl::appname\""
-      puts $rc "set specl::version   \"$data(item_version)\""
-      puts $rc "set specl::release   \"$data(item_release)\""
-      puts $rc "set specl::rss_url   \"$specl::rss_url\""
-      puts $rc "set specl::icon_path \"$specl::icon_path\""
+      puts $rc "set specl::appname      \"$specl::appname\""
+      puts $rc "set specl::version      \"$data(item_version)\""
+      puts $rc "set specl::release      \"$data(item_release)\""
+      puts $rc "set specl::rss_url      \"$specl::rss_url\""
+      puts $rc "set specl::download_url \"$specl::download_url\""
+      puts $rc "set specl::icon_path    \"$specl::icon_path\""
       
       close $rc
       
@@ -988,7 +1068,6 @@ namespace eval specl::releaser {
       puts $rc "    <language>$data(channel_language)</language>"
       puts $rc "    <releases>"
       puts $rc "      <release index=\"$data(item_release)\" version=\"$data(item_version)\">"
-      puts $rc "        <title>$data(item_title)</title>"
       puts $rc "        <description><!\[CDATA\[$data(item_description)\]\]></description>"
       puts $rc "        <pubDate>[clock format [clock seconds]]</pubDate>"
       puts $rc "        <specl:releaseNotesLink>$data(item_release_notes)</specl:releaseNotesLink>"
@@ -1032,27 +1111,40 @@ namespace eval specl::releaser {
     set tmpdir [file join $tmp $app]
     
     # Write the version file to the current directory
+    puts -nonewline "Writing specl_version.tcl ............."; flush stdout
     write_version
+    puts "  Done!"
     
     # Copy the current directory to the /tmp directory
+    puts -nonewline "Copying current directory to /tmp ....."; flush stdout
     file copy -force [pwd] $tmpdir
+    puts "  Done!"
     
     # Tarball and gzip the current directory
+    puts -nonewline "Tarballing directory .................."; flush stdout
     if {[catch { exec -ignorestderr tar czf [set tarball [file join $tmp [file tail $data(item_url)]]] -C $tmp $app } rc]} {
+      puts "  Failed!"
       return -code error $rc
     }
+    puts "  Done!"
     
     # Figure out the size of the tarball and save it to the item_length item
     set data(item_length) [file size $tarball]
     
     # Figure out the md5 checksum
+    puts -nonewline "Calculate checksum ...................."; flush stdout
     set data(item_checksum) [get_checksum $tarball]
+    puts "  Done!"
       
     # Write the RSS file
+    puts -nonewline "Writing RSS appcast file .............."; flush stdout
     write_rss $tmp
+    puts "  Done!"
+    puts ""
     
     puts "Upload [file join $tmp appcast.xml] to $specl::rss_url/appcast.xml"
     puts "Upload [file join $tmp [file tail $data(item_url)]] to $data(item_url)"
+    puts ""
 
   }
   
@@ -1077,7 +1169,7 @@ namespace eval specl::releaser {
       
       set data(item_version) [join $version .]
       set data(item_release) [expr $specl::release + 1]
-      set data(item_url)     ""
+      set data(item_url)     $specl::download_url
       
       # Read the RSS file since it exists
       read_rss
