@@ -108,7 +108,7 @@ namespace eval menus {
       
       $appl add separator
       
-      if {[::tke_development]} {
+      if {$::env(TKE_UPDATER_ENABLED)} {
         $appl add command -label [msgcat::mc "Check for Update"] -command specl::check_for_update
         launcher::register "Menus: Check for Update" specl::check_for_update
       }
@@ -1512,7 +1512,7 @@ namespace eval menus {
 
     if {[tk windowingsystem] ne "aqua"} {
       
-      if {[::tke_development]} {
+      if {$::env(TKE_UPDATER_ENABLED)} {
         if {![string match *Win* $::tcl_platform(os)]} {
           $mb add separator
           $mb add command -label [msgcat::mc "Check for Update"] -underline 0 -command specl::check_for_update
