@@ -119,16 +119,33 @@ namespace eval specl::helpers {
   
   ######################################################################
   # Returns the node content found within the given parent node.
-  proc get_element {node name} {
+  proc get_elements {node name} {
     
-    if {[regexp "<$name\(.*?\)>\(.*?\)</$name>" [lindex $node 1] -> attrs content]} {
-      return [list [string trim $attrs] [string trim $content]]
-    } elseif {[regexp "<$name\(.*?\)/>" [lindex $node 1] -> attrs]} {
-      return [list [string trim [string range $attrs 0 end-1]] ""]
-    } else {
-      return -code error "Node does not contain element '$name'"
+    set node_content [lindex $node 1]
+    set elements     [list]
+
+    while {1} {
+      if {[regexp "<$name\(.*?\)>\(.*?\)</$name>\(.*\)\$" $node_content -> attrs content node_content]} {
+        lappend elements [list [string trim $attrs] [string trim $content]]
+      } elseif {[regexp "<$name\(.*?\)/>\(.*\)\$" $node_content -> attrs node_content]} {
+        lappend elements [list [string trim [string range $attrs 0 end-1]] ""]
+      } else {
+        break
+      }
     }
+
+    return $elements
     
+  }
+
+  ######################################################################
+  # Returns a single element node.
+  proc get_element {node name} {
+
+    set elements [get_elements $node $name]
+
+    return [lindex $elements 0]
+
   }
   
   ######################################################################
@@ -269,57 +286,93 @@ namespace eval specl::updater {
     
     variable data
     
-    # Get the contents of the 'item' node
-    set item_node [specl::helpers::get_element [list "" $data(fetch_content)] "item"]
+    set first       1
+    set description ""
     
-    # Get any release notes
-    if {![catch { specl::helpers::get_element $item_node "specl:releaseNotesLink" } release_link] && \
-        ([lindex $release_link 1] ne "")} {
+    # Get the contents of the 'releases' node
+    set releases_node [specl::helpers::get_element [list "" $data(fetch_content)] "releases"]
+    
+    # Get the contents of the next 'release' node
+    foreach release_node [specl::helpers::get_elements $releases_node "release"] {
+    
+      set release [specl::helpers::get_attr $release_node "index"]
+      set version [specl::helpers::get_attr $release_node "version"]
+
+      if {[specl::helpers::get_attr $release_node "index"] >= $specl::release} {
+
+        # Get the title (if one exists)
+        if {[catch { specl::helpers::get_element $release_node "title" } title_text] || ([set title [lindex $title_text 1]] eq "")} {
+          set title "<h2>Version ($version) Release Notes</h2>"
+        }
+
+        # Get any release notes
+        if {![catch { specl::helpers::get_element $release_node "specl:releaseNotesLink" } release_link] && \
+            ([lindex $release_link 1] ne "")} {
+         
+          # Retrieve the release notes from the given link
+          set token [http::geturl [lindex $release_link 1]]
+         
+          # Get the HTML description
+          if {([http::status $token] eq "ok") && ([http::ncode $token] == 200)} {
+            set curr_description [http::data $token]
+          } else {
+            set curr_description "No description available"
+          }
+         
+          # Cleanup the HTTP token
+          http::cleanup $token
+         
+        # Otherwise, attempt to get the description from the embedded description
+        } elseif {![catch { specl::helpers::get_element $release_node "description" } description_node]} {
+         
+          # Remove the CDATA around the description
+          if {[catch { specl::helpers::get_cdata $description_node } curr_description]} {
+            set curr_description "No description available"
+          }
+         
+        } else {
+          set curr_description "No description available"
+        }
       
-      # Retrieve the release notes from the given link
-      set token [http::geturl [lindex $release_link 1]]
-      
-      # Get the HTML description
-      if {([http::status $token] eq "ok") && ([http::ncode $token] == 200)} {
-        set description [http::data $token]
-      } else {
-        set description "<h1>No description available</h1>"
+        if {$first} {
+          
+          # Set the description
+          set description "$title<br>$curr_description"
+
+          set latest_version $version
+          set latest_release $release
+          
+          # Get the download information
+          set download_node [specl::helpers::get_element $release_node "download"]
+           
+          # Get the download URL
+          set download_url [specl::helpers::get_attr $download_node "url"]
+           
+          # Get the file length
+          set length [specl::helpers::get_attr $download_node "length"]
+           
+          # Get the md5 checksum
+          set checksum [specl::helpers::get_attr $download_node "checksum"]
+          
+          set first 0
+          
+        } else {
+          
+          # Append to the current description
+          append description "<br><hr>$title<br>$curr_description"
+          
+        }
+        
       }
       
-      # Cleanup the HTTP token
-      http::cleanup $token
-      
-    # Otherwise, attempt to get the description from the embedded description
-    } elseif {![catch { specl::helpers::get_element $item_node "description" } description_node]} {
-      
-      # Remove the CDATA around the description
-      if {[catch { specl::helpers::get_cdata $description_node } description]} {
-        set description "<h1>No description available</h1>"
-      }
-      
-    } else {
-      set description "<h1>No description available</h1>"
     }
     
-    # Get the enclosure information
-    set enclosure_node [specl::helpers::get_element $item_node "enclosure"]
-    
-    # Get the download URL
-    set download_url [specl::helpers::get_attr $enclosure_node "url"]
-    
-    # Get the version
-    set version [specl::helpers::get_attr $enclosure_node "version"]
-    
-    # Get the release number
-    set release [specl::helpers::get_attr $enclosure_node "release"]
-    
-    # Get the file length
-    set length [specl::helpers::get_attr $enclosure_node "length"]
-    
-    # Get the md5 checksum
-    set checksum [specl::helpers::get_attr $enclosure_node "checksum"]
-    
-    return [list description $description download_url $download_url version $version release $release length $length checksum $checksum]
+    return [list description  $description \
+                 download_url $download_url \
+                 version      $latest_version \
+                 release      $latest_release \
+                 length       $length \
+                 checksum     $checksum]
     
   }
   
@@ -371,6 +424,7 @@ namespace eval specl::updater {
     if {([http::status $token] eq "ok") && ([http::ncode $token] == 200)} {
       
       .updwin.pf.status configure -text "Verifying..."
+      # .updwin.pf.pb     configure -mode indeterminate
       update idletasks
       
       if {[catch { check_tarball $download $content_list } rc]} {
@@ -584,13 +638,13 @@ namespace eval specl::updater {
     
     ttk::frame  .updwin.bf2
     ttk::button .updwin.bf2.install -text "Install and Restart" -command [list specl::updater::do_install $content_list]
-    ttk::button .updwin.bf2.cancel  -text "Cancel" -width 6     -command [list specl::updater::do_cancel_install $content_list]
+    ttk::button .updwin.bf2.cancel  -text "Cancel" -width 8     -command [list specl::updater::do_cancel_install $content_list]
     
     pack .updwin.bf2.cancel  -side right -padx 2 -pady 2
     pack .updwin.bf2.install -side right -padx 2 -pady 2
     
     ttk::frame  .updwin.bf3
-    ttk::button .updwin.bf3.close -text "Close" -width 6 -command [list specl::updater::do_cancel_install $content_list]
+    ttk::button .updwin.bf3.close -text "Close" -width 8 -command [list specl::updater::do_cancel_install $content_list]
     
     pack .updwin.bf3.close -side right -padx 2 -pady 2
     
@@ -873,6 +927,9 @@ namespace eval specl::releaser {
     # Get the RSS language
     set data(channel_language) [lindex [specl::helpers::get_element $channel_node "language"] 1]
     
+    # Get the releases node
+    set data(other_releases) [lindex [specl::helpers::get_element $channel_node "releases"] 1]
+
   }
   
   ######################################################################
@@ -929,13 +986,16 @@ namespace eval specl::releaser {
       puts $rc "    <link>$data(channel_link)</link>"
       puts $rc "    <description>$data(channel_description)</description>"
       puts $rc "    <language>$data(channel_language)</language>"
-      puts $rc "    <item>"
-      puts $rc "      <title>$data(item_title)</title>"
-      puts $rc "      <description><!\[CDATA\[$data(item_description)\]\]></description>"
-      puts $rc "      <pubDate>[clock format [clock seconds]]</pubDate>"
-      puts $rc "      <specl:releaseNotesLink>$data(item_release_notes)</specl:releaseNotesLink>"
-      puts $rc "      <enclosure url=\"$data(item_url)\" version=\"$data(item_version)\" release=\"$data(item_release)\" length=\"$data(item_length)\" type=\"application/octet-stream\" checksum=\"$data(item_checksum)\" />"
-      puts $rc "    </item>"
+      puts $rc "    <releases>"
+      puts $rc "      <release index=\"$data(item_release)\" version=\"$data(item_version)\">"
+      puts $rc "        <title>$data(item_title)</title>"
+      puts $rc "        <description><!\[CDATA\[$data(item_description)\]\]></description>"
+      puts $rc "        <pubDate>[clock format [clock seconds]]</pubDate>"
+      puts $rc "        <specl:releaseNotesLink>$data(item_release_notes)</specl:releaseNotesLink>"
+      puts $rc "        <download url=\"$data(item_url)\" length=\"$data(item_length)\" type=\"application/octet-stream\" checksum=\"$data(item_checksum)\" />"
+      puts $rc "      </release>"
+      puts $rc "      $data(other_releases)"
+      puts $rc "    </releases>"
       puts $rc "  </channel>"
       puts $rc "</rss>"
       
