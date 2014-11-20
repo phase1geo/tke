@@ -617,7 +617,7 @@ namespace eval specl::updater {
     pack .updwin.pf.status -side left -padx 2 -pady 2
     
     ttk::frame     .updwin.hf
-    set widgets(html) [html .updwin.hf.h -width 400 -height 200 \
+    set widgets(html) [text .updwin.hf.h -width 400 -height 200 \
       -xscrollcommand "specl::helpers::set_xscrollbar .updwin.hf.hb" \
       -yscrollcommand "specl::helpers::set_yscrollbar .updwin.hf.vb"]
     ttk::scrollbar .updwin.hf.vb -orient vertical   -command ".updwin.hf.h yview"
@@ -661,13 +661,9 @@ namespace eval specl::updater {
     grid remove .updwin.bf2
     grid remove .updwin.bf3
     
-    # Tie together some stuff for the HTML widget to handle CSS
-    $widgets(html) handler script style specl::updater::style_handler
-    $widgets(html) configure -imagecmd specl::updater::image_handler
-    
     # Add the HTML to the HTML widget
-    $widgets(html) reset
-    catch { $widgets(html) parse -final $content(description) }
+    HMinit_win $widgets(html)
+    HMparse_html $content(description) "HMrender $widgets(html)"
     
     # Wait for the window to be closed
     tkwait window .updwin
@@ -737,7 +733,7 @@ namespace eval specl::updater {
     array set content $rc
     
     # If the content does not require an update, tell the user
-    if {$content(version) eq $specl::version} {
+    if {$content(release) <= $specl::release} {
       tk_messageBox -parent . -default ok -type ok -message "Application is already up-to-date!"
       exit 1
     } else {
@@ -1261,7 +1257,9 @@ namespace eval specl::releaser {
 if {[file tail $::argv0] eq "specl.tcl"} {
   
   package require http
-  package require Tkhtml 3.0
+  # package require Tkhtml 3.0
+
+  source [file join [file dirname $::argv0] .. common htmllib.tcl]
 
   # Make the theme be clam
   ttk::style theme use clam
