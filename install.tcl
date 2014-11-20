@@ -48,19 +48,6 @@ if {[catch "package require Tclx"]} {
   puts "Found"
 }
 
-# Check to see if the Tkhtml 3.0 package is available
-set tkhtml_available 0
-puts -nonewline "Checking for Tkhtml 3.0 package...        "
-flush stdout
-if {[catch "package require Tkhtml 3.0"]} {
-  puts "Not Found"
-  puts "  Warning:  Missing the Tkhtml 3.0 package will mean that the \"Check for Updates\""
-  puts "            feature will not be disabled."
-} else {
-  puts "Found"
-  set tkhtml_available 1
-}
-
 proc get_yes_or_no {question} {
 
   set answer "x"
@@ -155,9 +142,6 @@ while {$install_dir eq ""} {
     flush stdout
     if {![catch "open [file join $bin_dir tke] w" rc]} {
       puts $rc "#!/bin/sh"
-      puts $rc ""
-      puts $rc "# Enable/disable \"Check for Updates\" feature"
-      puts $rc "export TKE_UPDATER_ENABLED=$::tkhtml_available"
       puts $rc ""
       puts $rc "$wish85 [file join $lib_dir lib tke.tcl] -name tke -- \$@"
       close $rc
