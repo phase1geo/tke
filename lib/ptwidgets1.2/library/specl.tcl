@@ -478,7 +478,7 @@ namespace eval specl::updater {
     array set content $content_list
     
     # Get the name of the downloaded directory
-    set app "$specl::appname-$content(version)"
+    set app      "$specl::appname-$content(version)"
     set download [file join / tmp $app]
     
     # Get the name of the installation directory
