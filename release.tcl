@@ -181,9 +181,9 @@ proc generate_macosx_dmg {tag} {
   puts -nonewline "Preparing MacOSX release directory...  "
   flush stdout
   
-  set scripts_dir [file join $release_dir MacOSX Tke.app Contents Resources Scripts]
+  set scripts_dir [file join $release_dir MacOSX Tke.app Contents Resources Scripts tke]
   
-  foreach dir [list data doc lib plugins] {
+  foreach dir [list data doc lib plugins specl_version.tcl] {
     
     # Delete the symbolic link
     if {[file exists [file join $scripts_dir $dir]]} {
