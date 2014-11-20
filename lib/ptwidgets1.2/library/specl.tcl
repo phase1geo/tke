@@ -1257,7 +1257,6 @@ namespace eval specl::releaser {
 if {[file tail $::argv0] eq "specl.tcl"} {
   
   package require http
-  # package require Tkhtml 3.0
 
   source [file join [file dirname $::argv0] .. common htmllib.tcl]
 

@@ -106,13 +106,6 @@ namespace eval menus {
       $appl add command -label [msgcat::mc "About TKE"] -command gui::show_about
       launcher::register "Menus: About TKE" gui::show_about
       
-      $appl add separator
-      
-      if {$::env(TKE_UPDATER_ENABLED)} {
-        $appl add command -label [msgcat::mc "Check for Update"] -command specl::check_for_update
-        launcher::register "Menus: Check for Update" specl::check_for_update
-      }
-
     }
 
     # Load and apply the menu bindings
@@ -1510,22 +1503,17 @@ namespace eval menus {
     $mb add command -label [msgcat::mc "User Guide"] -underline 0 -command [list utils::open_file_externally [file join $::tke_dir doc UserGuide.pdf]]
     launcher::register [msgcat::mc "Menu: View User Guide"] [list utils::open_file_externally [file join $::tke_dir doc UserGuide.pdf]]
 
+    if {![string match *Win* $::tcl_platform(os)]} {
+      $mb add separator
+      $mb add command -label [msgcat::mc "Check for Update"] -underline 0 -command specl::check_for_update
+      launcher::register [msgcat::mc "Menu: Check for Update"] "specl::check_for_update"
+    }
+      
     if {[tk windowingsystem] ne "aqua"} {
-      
-      if {$::env(TKE_UPDATER_ENABLED)} {
-        if {![string match *Win* $::tcl_platform(os)]} {
-          $mb add separator
-          $mb add command -label [msgcat::mc "Check for Update"] -underline 0 -command specl::check_for_update
-          launcher::register [msgcat::mc "Menu: Check for Update"] "specl::check_for_update"
-        }
-      }
-      
       $mb add separator
       $mb add command -label [msgcat::mc "About TKE"] -underline 0 -command "gui::show_about"
       launcher::register [msgcat::mc "Menu: About TKE"] "gui::show_about"
-      
     }
-    
 
   }
 
