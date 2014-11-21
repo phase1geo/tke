@@ -424,7 +424,6 @@ namespace eval specl::updater {
     if {([http::status $token] eq "ok") && ([http::ncode $token] == 200)} {
       
       .updwin.pf.status configure -text "Verifying..."
-      # .updwin.pf.pb     configure -mode indeterminate
       update idletasks
       
       if {[catch { check_tarball $download $content_list } rc]} {
