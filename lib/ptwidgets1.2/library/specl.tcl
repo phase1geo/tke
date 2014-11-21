@@ -239,6 +239,42 @@ namespace eval specl::helpers {
     set xignore($sb) $value
     
   }
+
+  ######################################################################
+  # Opens the given filename in an external application, using one of the
+  # open terminal commands to determine the proper application to use.
+  proc open_file_externally {fname {in_background 0}} {
+    
+    set opts ""
+    
+    switch -glob $::tcl_platform(os) {
+      Darwin {
+        if {$in_background} {
+          set opts "-g"
+        }
+        catch { exec open {*}$opts $fname }
+      }
+      Linux* {
+        catch { exec xdg-open $fname }
+      }
+      *Win* {
+        catch { exec os.startfile $fname }
+      }
+    }
+    
+  }
+
+  ######################################################################
+  # Initializes the given text widget to render HTML via htmllib.
+  proc HMinitialize {win} {
+
+    # Initialize the text widget to display HTML
+    HMinit_win $win
+
+    # Set <ul> symbols
+    HMset_state $win -symbols [string repeat \u2022\u2023\u25e6\u2043 5]
+
+  }
     
 }
   
@@ -661,8 +697,11 @@ namespace eval specl::updater {
     grid remove .updwin.bf3
     
     # Add the HTML to the HTML widget
-    HMinit_win $widgets(html)
+    specl::helpers::HMinitialize $widgets(html)
     HMparse_html $content(description) "HMrender $widgets(html)"
+
+    # Configure the text widget to be disabled
+    $widgets(html) configure -state disabled
     
     # Wait for the window to be closed
     tkwait window .updwin
@@ -880,7 +919,7 @@ namespace eval specl::releaser {
     set widgets(item_version_label) [ttk::label .relwin.nb.tf.l1  -text "Version:"]
     set widgets(item_version)       [ttk::entry .relwin.nb.tf.e1 -validate key -validatecommand {specl::releaser::update_url 1 %P}]
     set widgets(item_desc_label)    [ttk::label .relwin.nb.tf.l2  -text "Description:"]
-    set widgets(item_desc)          [text       .relwin.nb.tf.e2  -height 5 -width 60]
+    set widgets(item_desc)          [text       .relwin.nb.tf.e2  -height 5 -width 60 -wrap word]
     set widgets(item_notes_label)   [ttk::label .relwin.nb.tf.l3  -text "Release Notes URL:"]
     set widgets(item_notes)         [ttk::entry .relwin.nb.tf.e3]
     set widgets(item_url_label)     [ttk::label .relwin.nb.tf.l4  -text "Download URL:"]
@@ -898,18 +937,22 @@ namespace eval specl::releaser {
     grid $widgets(item_url_label)     -row 4 -column 0 -sticky news -padx 2 -pady 2
     grid $widgets(item_url)           -row 4 -column 1 -sticky news -padx 2 -pady 2
     grid $widgets(item_url_suffix)    -row 4 -column 2 -sticky news -padx 2 -pady 2
-    
+
     ttk::frame  .relwin.bf
-    ttk::button .relwin.bf.ok -text "OK" -width 6 -command {
+    ttk::button .relwin.bf.preview -text "Preview" -width 7 -command {
+      specl::releaser::handle_preview
+    }
+    ttk::button .relwin.bf.ok -text "OK" -width 7 -command {
       specl::releaser::handle_okay
     }
-    ttk::button .relwin.bf.cancel -text "Cancel" -width 6 -command {
+    ttk::button .relwin.bf.cancel -text "Cancel"  -width 7 -command {
       destroy .relwin
       exit 1
     }
     
-    pack .relwin.bf.cancel -side right -padx 2 -pady 2
-    pack .relwin.bf.ok     -side right -padx 2 -pady 2
+    pack .relwin.bf.preview -side left -padx 2 -pady 2
+    pack .relwin.bf.cancel  -side right -padx 2 -pady 2
+    pack .relwin.bf.ok      -side right -padx 2 -pady 2
     
     pack .relwin.nb -fill both -expand yes
     pack .relwin.bf -fill x
@@ -944,6 +987,58 @@ namespace eval specl::releaser {
     
     return 
     
+  }
+
+  ######################################################################
+  # Handles the preview of the release notes.
+  proc handle_preview {} {
+
+    variable widgets
+
+    if {![winfo exists .prevwin]} {
+
+      toplevel     .prevwin
+      wm title     .prevwin "Release Preview"
+      wm geometry  .prevwin 500x400
+      wm resizable .prevwin 0 0
+
+      ttk::frame     .prevwin.f
+      text           .prevwin.f.t  -yscrollcommand {specl::helpers::set_yscrollbar .prevwin.f.vb}
+      ttk::scrollbar .prevwin.f.vb -orient vertical -command {.prevwin.f.t yview}
+
+      grid rowconfigure    .prevwin.f 0 -weight 1
+      grid columnconfigure .prevwin.f 0 -weight 1
+      grid .prevwin.f.t  -row 0 -column 0 -sticky news
+      grid .prevwin.f.vb -row 0 -column 1 -sticky ns
+
+      ttk::frame  .prevwin.bf
+      ttk::button .prevwin.bf.refresh -text "Refresh" -width 7 -command {
+        .prevwin.f.t configure -state normal
+        HMreset_win .prevwin.f.t
+        HMparse_html [$specl::releaser::widgets(item_desc) get 1.0 end-1c] "HMrender .prevwin.f.t"
+        .prevwin.f.t configure -state disabled
+      }
+
+      pack .prevwin.bf.refresh -side right -padx 2 -pady 2
+
+      pack .prevwin.f  -fill both -expand yes
+      pack .prevwin.bf -fill x
+
+      # Render the HTML
+      specl::helpers::HMinitialize .prevwin.f.t
+      HMparse_html [$specl::releaser::widgets(item_desc) get 1.0 end-1c] "HMrender .prevwin.f.t"
+
+      # Disable the text widget
+      .prevwin.f.t configure -state disabled
+
+    } else {
+
+      # This will be called when the preview button is clicked in the main window while
+      # this window is still open, so let's just reset and re-render the HTML.
+      .prevwin.bf.refresh invoke
+
+    }
+
   }
 
   ######################################################################
@@ -1260,7 +1355,28 @@ if {[file tail $::argv0] eq "specl.tcl"} {
   package require Tk
   package require http
 
+  # Install the htmllib
   source [file join [file dirname $::argv0] .. common htmllib.tcl]
+
+  ######################################################################
+  # START OF HTMLLIB CUSTOMIZATION
+  ######################################################################
+
+  # Create behavior of links when cursor rolls over them and when link
+  # is clicked.
+  array unset HMevents {}
+
+  # Override symbols used in links
+  # TBD - HMset_state $win -symbols [lrepeat "\x2022\x2023\x25e6\x2043" 5]
+
+  # Handles a click on a link
+  proc HMlink_callback {win href} {
+    specl::helpers::open_file_externally $href
+  }
+
+  ######################################################################
+  # END OF HTMLLIB CUSTOMIZATION
+  ######################################################################
 
   # Make the theme be clam
   ttk::style theme use clam
