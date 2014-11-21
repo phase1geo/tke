@@ -10,7 +10,18 @@
 # Usage:   tclsh8.5 release.tcl
 ######################################################################
 
+# Create a specl namespace so that we can generate an updated version of specl_version.tcl
+namespace eval specl {
+  variable appname
+  variable version
+  variable release
+  variable rss_url
+  variable download_url
+  variable icon_path
+}
+
 source [file join lib version.tcl]
+source specl_version.tcl
 
 proc usage {} {
   
@@ -21,7 +32,8 @@ proc usage {} {
   puts "  -h    Display this help information"
   puts "  -v    Display current tool version"
   puts "  -m    Increment the major revision value"
-  puts "  -g    Generate images only using latest tagged value"
+  puts "  -g    Generate images only, using latest tagged value"
+  puts "  -f    Name of file containing release notes"
   puts ""
   puts "Note:  If you need to recreate a tag, perform the following prior"
   puts "       to calling this script:"
@@ -58,8 +70,7 @@ proc get_latest_major_minor {} {
 
 proc generate_changelog {tag} {
   
-  puts -nonewline "Generating ChangeLog...  "
-  flush stdout
+  puts -nonewline "Generating ChangeLog...  "; flush stdout
   
   if {$tag eq ""} {
     if {[catch { exec -ignorestderr hg log -v -r "branch(default)" > ChangeLog } rc]} {
@@ -79,11 +90,11 @@ proc generate_changelog {tag} {
   
 }
 
-proc update_version_file {major minor} {
+proc update_version_files {major minor} {
   
-  puts -nonewline "Updating version file...  "
-  flush stdout
+  puts -nonewline "Updating version file...  "; flush stdout
   
+  # Update the lib/version file
   if {![catch { open [file join lib version.tcl] w } rc]} {
     
     puts $rc "set version_major \"$major\""
@@ -92,8 +103,6 @@ proc update_version_file {major minor} {
     
     close $rc  
     
-    puts "done."
-    
   } else {
     
     puts "failed!"
@@ -101,13 +110,37 @@ proc update_version_file {major minor} {
     return -code error "Unable to update version file"
     
   }
+
+  puts "done."
+  puts -nonewline "Updating specl version file...  "; flush stdout
   
+  # Update the specl file
+  if {![catch { open specl_version.tcl w } rc]} {
+
+    puts $rc "set specl::appname      \"$specl::appname\""
+    puts $rc "set specl::version      \"$major.$minor\""
+    puts $rc "set specl::release      \"[expr $specl::release + 1]\""
+    puts $rc "set specl::rss_url      \"$specl::rss_url\""
+    puts $rc "set specl::download_url \"$specl::rss_url\""
+    puts $rc "set specl::icon_path    \"$specl::icon_path\""
+
+    close $rc
+
+  } else {
+
+    puts "failed!"
+    puts "  $rc"
+    return -code error "Unable to update specl_version file"
+
+  }
+  
+  puts "done."
+    
 }
 
 proc create_archive {tag type} {
   
-  puts -nonewline "Generating $type archive...  "
-  flush stdout
+  puts -nonewline "Generating $type archive...  "; flush stdout
   
   # Calculate release directory name
   set release_dir [file normalize [file join ~ projects releases tke-[string range $tag 7 end]]]
@@ -130,8 +163,7 @@ proc generate_linux_tarball {tag} {
   # Create archive directory
   set release_dir [create_archive $tag Linux]
   
-  puts -nonewline "Preparing Linux release directory...  "
-  flush stdout
+  puts -nonewline "Preparing Linux release directory...  "; flush stdout
   
   # Delete the MacOSX directory
   if {[catch { file delete -force [file join $release_dir MacOSX] } rc]} {
@@ -151,11 +183,10 @@ proc generate_linux_tarball {tag} {
   
   puts "done."
   
-  puts -nonewline "Generating Linux tarball...  "
-  flush stdout
-  
+  puts -nonewline "Generating Linux tarball...  "; flush stdout
+
   # Generate the tarball
-  if {[catch { exec -ignorestderr tar -czf $release_dir.tar.gz -C [file dirname $release_dir] [file tail $release_dir] } rc]} {
+  if {[catch { exec -ignorestderr tar -czf $release_dir.tgz -C [file dirname $release_dir] [file tail $release_dir] } rc]} {
     puts "failed!"
     puts "  $rc"
     file delete -force $release_dir
@@ -178,8 +209,7 @@ proc generate_macosx_dmg {tag} {
   # Create archive directory
   set release_dir [create_archive $tag MacOSX]
   
-  puts -nonewline "Preparing MacOSX release directory...  "
-  flush stdout
+  puts -nonewline "Preparing MacOSX release directory...  "; flush stdout
   
   set scripts_dir [file join $release_dir MacOSX Tke.app Contents Resources Scripts tke]
   
@@ -207,8 +237,7 @@ proc generate_macosx_dmg {tag} {
   
   puts "done."
   
-  puts -nonewline "Generating MacOSX disk image...  "
-  flush stdout
+  puts -nonewline "Generating MacOSX disk image...  "; flush stdout
   
   # Create the disk image using the hdiutil command-line utility
   if {[catch { exec -ignorestderr hdiutil create [file join $release_dir.dmg] -srcfolder [file join $release_dir MacOSX Tke.app] } rc]} {
@@ -234,6 +263,7 @@ catch {
   # Initialize variables that might be overridden on the command-line
   set increment_major 0
   set generate_only   0
+  set release_notes   ""
    
   # Parse command-line options
   set i 1
@@ -242,6 +272,7 @@ catch {
       -v      { puts "$version_major.$version_minor"; exit }
       -m      { set increment_major 1 }
       -g      { set generate_only 1 }
+      -f      { incr i; set release_notes [lindex $argv $i] }
       default { usage }
     }
     incr i
@@ -280,12 +311,11 @@ catch {
     # ChangeLog file.
     generate_changelog $last_tag
     
-    # Update the version file
-    update_version_file $major $minor
+    # Update the version and specl_version files
+    update_version_files $major $minor
     
     # Commit the ChangeLog change
-    puts -nonewline "Committing and pushing ChangeLog...  "
-    flush stdout
+    puts -nonewline "Committing and pushing ChangeLog...  "; flush stdout
     if {[catch { exec -ignorestderr hg commit -m "ChangeLog for $next_tag release" } rc]} {
       puts "failed!"
       puts "  $rc"
@@ -301,8 +331,7 @@ catch {
     puts "done."
      
     # Tag the new release
-    puts -nonewline "Tagging repository with $next_tag...  "
-    flush stdout
+    puts -nonewline "Tagging repository with $next_tag...  "; flush stdout
     if {[catch { exec -ignorestderr hg tag $next_tag } rc]} {
       puts "failed!"
       puts "  $rc"
@@ -319,10 +348,30 @@ catch {
   if {$tcl_platform(os) eq "Darwin"} {
     generate_macosx_dmg $next_tag
   }
+
+  # Generate the appcast.xml file
+  puts -nonewline "Generating specl appcast.xml file...  "; flush stdout
+
+  set    specl_cmd "[info nameofexecutable] [file join lib ptwidgets1.2 library specl.tcl] -- release"
+  append specl_cmd " -q -n $major.$minor -t [file join ~ projects releases tke-$major.$minor.tgz]"
+  append specl_cmd " -d [file join ~ projects releases]"
+
+  # If a release notes file was provided, skip the UI and pass the release notes
+  if {($release_notes ne "") && [file exists $release_notes]} {
+    append specl_cmd " -noui -f $release_notes"
+  }
+
+  if {[catch { exec -ignorestderr $specl_cmd } rc]} {
+    puts "failed!"
+    puts "  $rc"
+    return -code error "Unable to generate specl release information"
+  }
+  puts "done."
    
   puts "Done!"
   puts ""
   puts "Releases are available in: [file normalize [file join ~ projects releases]]"
+  puts "Upload appcast.xml file to $specl::rss_url"
   puts ""
     
   exit

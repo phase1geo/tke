@@ -74,11 +74,53 @@ description:
 
 
 changeset:   526:fa7107022b99
-tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
 date:        Wed Nov 19 08:25:31 2014 -0600
 files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
 description:
 * Adding support for release command-line arguments.
+
+
+changeset:   527:f5f6234c1b22
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Nov 19 21:20:32 2014 -0600
+files:       ChangeLog lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   528:4798a8ec0de8
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Nov 19 21:20:47 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset f5f6234c1b22
+
+
+changeset:   529:a48a8fd9c5a2
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Nov 20 00:19:10 2014 -0600
+files:       MacOSX/Tke.app/Contents/Resources/Scripts/AppMain.tcl MacOSX/Tke.app/Contents/Resources/Scripts/data MacOSX/Tke.app/Contents/Resources/Scripts/lib MacOSX/Tke.app/Contents/Resources/Scripts/plugins MacOSX/Tke.app/Contents/Resources/Scripts/tke/data MacOSX/Tke.app/Contents/Resources/Scripts/tke/doc MacOSX/Tke.app/Contents/Resources/Scripts/tke/lib MacOSX/Tke.app/Contents/Resources/Scripts/tke/plugins MacOSX/Tke.app/Contents/Resources/Scripts/tke/specl_version.tcl lib/ptwidgets1.2/common/htmllib.tcl lib/ptwidgets1.2/library/specl.tcl lib/version.tcl release.tcl
+description:
+* Replacing Tkhtml with htmllib for HTML renderer.
+* Modifying MacOSX build and file system structure to help with updates.
+
+
+changeset:   530:e80f9e10faae
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Nov 20 01:37:34 2014 -0600
+files:       MacOSX/Tke.app/Contents/Resources/Scripts/AppMain.tcl install.tcl lib/menus.tcl lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+description:
+* Several fixes for MacOSX "Check for Update" functionality (still work in progress).
+* Move "Check for Update" on MacOSX from apple menu to help menu.
+
+
+changeset:   531:880b7b7785f8
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Nov 20 19:32:23 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
 
 
