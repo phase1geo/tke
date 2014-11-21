@@ -781,7 +781,7 @@ namespace eval specl::releaser {
 
       # Parse the release arguments
       while {[llength $cl_args] > 0} {
-        set args [lassign $cl_args arg]
+        set cl_args [lassign $cl_args arg]
         switch -exact -- $arg {
           -noui   { set data(cl_noui) 1 }
           -q      { set data(cl_verbose) 0 }
@@ -794,7 +794,7 @@ namespace eval specl::releaser {
       }
 
       # Check to make sure that all of the necessary arguments were set
-      if {$cl_noui && (($data(cl_version) eq "") || ($data(cl_desc_file) eq ""))} {
+      if {$data(cl_noui) && (($data(cl_version) eq "") || ($data(cl_desc_file) eq ""))} {
         return 0
       } elseif {($data(cl_tarball) ne "") && ![file exists $data(cl_tarball)]} {
         return 0
@@ -803,13 +803,15 @@ namespace eval specl::releaser {
       }
 
       # Handle the description file
-      if {[string range $data(cl_desc_file) 0 6] eq "http://"} {
-        set data(item_release_notes) $data(cl_desc_file)
-      } elseif {![catch { open $data(cl_desc_file) r } rc]} {
-        set data(item_description) [read $rc]
-        close $rc
-      } else {
-        return 0
+      if {$data(cl_desc_file) ne ""} {
+        if {[string range $data(cl_desc_file) 0 6] eq "http://"} {
+          set data(item_release_notes) $data(cl_desc_file)
+        } elseif {![catch { open $data(cl_desc_file) r } rc]} {
+          set data(item_description) [read $rc]
+          close $rc
+        } else {
+          return 0
+        }
       }
 
     }
@@ -903,7 +905,7 @@ namespace eval specl::releaser {
     }
     ttk::button .relwin.bf.cancel -text "Cancel" -width 6 -command {
       destroy .relwin
-      exit
+      exit 1
     }
     
     pack .relwin.bf.cancel -side right -padx 2 -pady 2
@@ -1255,6 +1257,7 @@ namespace eval specl::releaser {
 # If this is being run as an application, do the following
 if {[file tail $::argv0] eq "specl.tcl"} {
   
+  package require Tk
   package require http
 
   source [file join [file dirname $::argv0] .. common htmllib.tcl]
@@ -1289,7 +1292,7 @@ if {[file tail $::argv0] eq "specl.tcl"} {
     puts "ERROR:  No arguments supplied to specl command"
     usage
   }
-  
+
   # Parse command-line arguments
   set args $argv
   switch -exact -- [lindex $args 0] {
