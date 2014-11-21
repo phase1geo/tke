@@ -161,10 +161,10 @@ proc HMinit_win {win {win2 {} } } {
 	$win tag configure nowrap -wrap none
 	$win tag configure rindent -rmargin $var(S_tab)c
 	$win tag configure strike -overstrike 1
-	$win tag configure mark -foreground red		;# list markers
+	$win tag configure mark -foreground black		;# list markers
 	$win tag configure list -spacing1 3p -spacing3 3p		;# regular lists
 	$win tag configure compact -spacing1 0p		;# compact lists
-	$win tag configure link -borderwidth 2 -foreground blue	;# hypertext links
+	$win tag configure link -foreground blue -underline 1	;# hypertext links
 
 
 	HMset_indent $win $var(S_tab)
@@ -455,7 +455,9 @@ proc HMtag_li {win param text} {
 	set level $var(level)
 	incr level -1
 	set x [string index $var(S_symbols)+-+-+-+-" $level]
-	catch {set x [incr var(count$level)]}
+        if {[info exists var(count$level)]} {
+	  catch { set x [incr var(count$level)]. }
+        }
 	catch {set x $var(menu)}
 
 	if {[info exists var(divert)]} {
@@ -712,7 +714,7 @@ proc HMlink_callback {win href} {
 
 # extract a value from parameter list (this needs a re-do)
 # returns "1" if the keyword is found, "0" otherwise
-#   param:  A parameter list.  It should alredy have been processed to
+#   param:  A parameter list.  It should already have been processed to
 #           remove any entity references
 #   key:    The parameter name
 #   val:    The variable to put the value into (use key as default)
