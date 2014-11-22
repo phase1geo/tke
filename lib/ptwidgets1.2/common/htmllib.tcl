@@ -89,7 +89,7 @@ array set HMtag_map {
 	samp   {family courier}		
 	strong {weight bold}		
 	tt     {family courier}
-	u	 {Tunderline underline}
+	u      {Tunderline underline}
 	ul     {indent 1}
 	var    {style italic}
 }
@@ -99,7 +99,7 @@ array set HMtag_map {
 array set HMtag_map {
 	center {Tcenter center}
 	strike {Tstrike strike}
-	u	   {Tunderline underline}
+	u      {Tunderline underline}
 }
 
 # initial values

@@ -276,6 +276,78 @@ namespace eval specl::helpers {
 
   }
     
+  ######################################################################
+  # Handles the creation of an image.
+  proc HMhandle_image {win handle src speed} {
+
+    set tfile   ""
+
+    # If the file is from the web, download it
+    if {[string first "http" $src] == 0} {
+      set tfile [file join / tmp tmp.[pid]]
+      set outfl [open $tfile w]
+      http::geturl $src -channel $outfl
+      close $outfl
+      set src $tfile
+    }
+
+    # Load the GIF information
+    set depth 0
+    if {![catch { gifblock::gif.load blocks $tfile } rc]} {
+      set depth [llength [set gc_blocks [lsearch -all [gifblock::gif.blocknames blocks] {Graphic Control}]]]
+    }
+
+    # Create the image from the file
+    if {$depth == 0} {
+      if {[catch { image create photo -file $src } img_list]} {
+        puts $::errorInfo
+        return
+      }
+    } else {
+      for {set i 0} {$i < $depth} {incr i} {
+        if {![catch { image create photo -file $tfile -format "gif -index $i" } img]} {
+          lappend img_list [list $img [expr [gifblock::gif.get blocks [lindex $gc_blocks $i] {delay time}] * 10]]
+        }
+      }
+    }
+
+    # Delete the temporary file if set
+    if {$tfile ne ""} {
+      file delete $tfile
+    }
+
+    # If this is an animated GIF, display the next image in the series after the given period of time
+    if {[llength $img_list] > 1} {
+      after [lindex $img_list 0 1] [list specl::helpers::HMcycle_image $handle 1 $img_list]
+    }
+
+    # Display the image
+    HMgot_image $handle [lindex $img_list 0 0]
+
+  }
+
+  ######################################################################
+  # Handles an animated GIF.
+  proc HMcycle_image {handle pos img_list} {
+
+    if {[winfo exists $handle]} {
+
+      lassign [lindex $img_list $pos] img delay
+
+      # Display the image
+      HMgot_image $handle $img
+
+      # Increment the position
+      incr pos
+      if {$pos >= [llength $img_list]} { set pos 0 }
+
+      # Cycle again
+      after $delay [list specl::helpers::HMcycle_image $handle $pos $img_list]
+
+    }
+
+  }
+
 }
   
 ###################################################  UPDATER  ###################################################
@@ -705,18 +777,6 @@ namespace eval specl::updater {
     
     # Wait for the window to be closed
     tkwait window .updwin
-    
-  }
-  
-  ######################################################################
-  # Handles any styling information to the HTML widget.
-  proc style_handler {attr tagcontents} {
-    
-    variable data
-    variable widgets
-    
-    set id "author.[format %.4d [incr data(stylecount)]]"
-    $widgets(html) style -id $id.9999 $tagcontents
     
   }
   
@@ -1355,8 +1415,9 @@ if {[file tail $::argv0] eq "specl.tcl"} {
   package require Tk
   package require http
 
-  # Install the htmllib
+  # Install the htmllib and gifblock
   source [file join [file dirname $::argv0] .. common htmllib.tcl]
+  source [file join [file dirname $::argv0] .. common gifblock.tcl]
 
   ######################################################################
   # START OF HTMLLIB CUSTOMIZATION
@@ -1372,6 +1433,11 @@ if {[file tail $::argv0] eq "specl.tcl"} {
   # Handles a click on a link
   proc HMlink_callback {win href} {
     specl::helpers::open_file_externally $href
+  }
+
+  # Handles an image
+  proc HMset_image {win handle src {speed 0}} {
+    specl::helpers::HMhandle_image $win $handle $src $speed
   }
 
   ######################################################################
