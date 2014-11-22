@@ -278,9 +278,12 @@ namespace eval specl::helpers {
     
   ######################################################################
   # Handles the creation of an image.
-  proc HMhandle_image {win handle src speed} {
+  proc HMhandle_image {win handle src} {
 
-    set tfile   ""
+    variable animation_ids
+
+    # Initialize tfile to indicate that it was not used
+    set tfile ""
 
     # If the file is from the web, download it
     if {[string first "http" $src] == 0} {
@@ -318,7 +321,7 @@ namespace eval specl::helpers {
 
     # If this is an animated GIF, display the next image in the series after the given period of time
     if {[llength $img_list] > 1} {
-      after [lindex $img_list 0 1] [list specl::helpers::HMcycle_image $handle 1 $img_list]
+      set animation_ids($handle) [after [lindex $img_list 0 1] [list specl::helpers::HMcycle_image $handle 1 $img_list]]
     }
 
     # Display the image
@@ -329,6 +332,8 @@ namespace eval specl::helpers {
   ######################################################################
   # Handles an animated GIF.
   proc HMcycle_image {handle pos img_list} {
+
+    variable animation_ids
 
     if {[winfo exists $handle]} {
 
@@ -342,9 +347,25 @@ namespace eval specl::helpers {
       if {$pos >= [llength $img_list]} { set pos 0 }
 
       # Cycle again
-      after $delay [list specl::helpers::HMcycle_image $handle $pos $img_list]
+      set animation_ids($handle) [after $delay [list specl::helpers::HMcycle_image $handle $pos $img_list]]
 
     }
+
+  }
+
+  ######################################################################
+  # Cancels all animations for the current window.
+  proc HMcancel_animations {} {
+
+    variable animation_ids
+
+    # Cancel all of the outstanding IDs
+    foreach {handle id} [array get animation_ids] {
+      after cancel $id
+    }
+
+    # Clear all of the IDs
+    array unset animation_ids
 
   }
 
@@ -1073,6 +1094,7 @@ namespace eval specl::releaser {
 
       ttk::frame  .prevwin.bf
       ttk::button .prevwin.bf.refresh -text "Refresh" -width 7 -command {
+        specl::helpers::HMcancel_animations
         .prevwin.f.t configure -state normal
         HMreset_win .prevwin.f.t
         HMparse_html [$specl::releaser::widgets(item_desc) get 1.0 end-1c] "HMrender .prevwin.f.t"
@@ -1436,8 +1458,8 @@ if {[file tail $::argv0] eq "specl.tcl"} {
   }
 
   # Handles an image
-  proc HMset_image {win handle src {speed 0}} {
-    specl::helpers::HMhandle_image $win $handle $src $speed
+  proc HMset_image {win handle src} {
+    specl::helpers::HMhandle_image $win $handle $src
   }
 
   ######################################################################

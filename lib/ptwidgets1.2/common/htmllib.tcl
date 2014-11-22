@@ -582,9 +582,6 @@ proc HMtag_img {win param text} {
 	HMextract_param $param alt
 	set alt [HMmap_esc $alt]
 
-	set speed 0
-	HMextract_param $param speed
-
 	# get the border width
 	set border 1
 	HMextract_param $param border
@@ -638,7 +635,7 @@ proc HMtag_img {win param text} {
 	set src ""
 	HMextract_param $param src
 
-	HMset_image $win $label $src $speed
+	HMset_image $win $label $src
 
 	return $label	;# used by the forms package for input_image types
 }
@@ -1927,64 +1924,6 @@ proc HMlink_callback {win href} {
 
     HMparse_html "<HTML><BODY><H2>links not implemented</H2></BODY></HTML>" "HMrender $win"
 }
-
-if {[string first "TclPoint" $argv0] >= 0} {
- ################################################################
- # proc HMset_image {win handle src}--
- #    Acquire image data, create a Tcl image object, 
- #    and return the image handle.
- #
- # Arguments
- #   win         The text window in which the html is rendered.
- #   handle      A handle to return to the html library with the image handle
- #   src         The description of the image from: <IMG src=XX> 
- #   speed 	 Optional value for a list of images that will cycle.
- #               Only used in TclPoint.
- # 
- # Results
- #   Loads an image from a local file.  Does not download images
- #   Invokes HMgot_image with the handle for the image created.
-
- proc HMset_image {win handle src {speed {0}}} {
-     # puts "TclPoint HMset_image was invoked with WIN: $win HANDLE: $handle SRC: $src SPEED: $speed"
-
-     global PointerState tcl_platform
-     upvar #0 HM$win var
-
-
-     # In a real application this would parse the src, and load the 
-     #  appropriate image data.
-     
-     set imgSrc [lindex $src 0]
-
-     set fail [catch {image create photo -file $imgSrc} img]
-     
-     if {$fail} {
-          global errorInfo
-          puts "$errorInfo"
-         return
-	 }
-
-     if {[llength $src] > 1} {
-	 after $speed [list cycleImage $img 1 $speed $src]
-     }
-
-     HMgot_image $handle $img
-
-     return ""
- }
-
-proc cycleImage {img posit speed lst} {
-    global PointerState
-
-    set flname [lindex $lst $posit]
-    incr posit;
-    if {$posit >= [llength $lst]} {set posit 0}
-    $img configure -file [file join $PointerState(pageDir) $flname]
-    after $speed [list cycleImage $img $posit $speed $lst]
-}
-}
-
 
 if {[string first "htmlview" $argv0] >= 0} {
 
