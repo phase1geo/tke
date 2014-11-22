@@ -61,6 +61,36 @@ package require http 2
 
 # These are Defined in HTML 2.0
 
+  ##########################################################
+  # Useful process for debugging.
+  proc HMstacktrace {} {
+
+    set stack "Stack trace:\n"
+    for {set i 1} {$i < [info level]} {incr i} {
+      set lvl [info level -$i]
+      set pname [lindex $lvl 0]
+      if {[namespace which -command $pname] eq ""} {
+        for {set j [expr $i + 1]} {$j < [info level]} {incr j} {
+          if {[namespace which -command [lindex [info level -$j] 0]] ne ""} {
+            set pname "[namespace qualifiers [lindex [info level -$j] 0]]::$pname"
+            break
+          }
+        }
+      }
+      append stack [string repeat " " $i]$pname
+      foreach value [lrange $lvl 1 end] arg [info args $pname] {
+        if {$value eq ""} {
+          info default $pname $arg value
+        }
+        append stack " $arg='$value'"
+      }
+      append stack \n
+    }
+
+    return $stack
+
+  }
+
 array set HMtag_map {
 	large	{size 18}
 	large2	{size 22}
@@ -105,7 +135,7 @@ array set HMtag_map {
 # initial values
 
 set HMtag_map(hmstart) {
-	family times   weight medium   style r   size 14
+	family times   weight medium   style r   size 12
 	Tcenter ""   Tlink ""   Tnowrap ""   Tunderline ""   list list
 	fill 1   indent "" counter 0 adjust 0
 }
@@ -157,14 +187,14 @@ proc HMinit_win {win {win2 {} } } {
 	upvar #0 HM$win2 var
 
 	$win tag configure underline -underline 1
-	$win tag configure center -justify center
-	$win tag configure nowrap -wrap none
-	$win tag configure rindent -rmargin $var(S_tab)c
-	$win tag configure strike -overstrike 1
-	$win tag configure mark -foreground black		;# list markers
-	$win tag configure list -spacing1 3p -spacing3 3p		;# regular lists
-	$win tag configure compact -spacing1 0p		;# compact lists
-	$win tag configure link -foreground blue -underline 1	;# hypertext links
+	$win tag configure center    -justify center
+	$win tag configure nowrap    -wrap none
+	$win tag configure rindent   -rmargin $var(S_tab)c
+	$win tag configure strike    -overstrike 1
+	$win tag configure mark      -foreground black              ;# list markers
+	$win tag configure list      -spacing1 3p -spacing3 3p      ;# regular lists
+	$win tag configure compact   -spacing1 0p                   ;# compact lists
+	$win tag configure link      -foreground blue -underline 1  ;# hypertext links
 
 
 	HMset_indent $win $var(S_tab)
@@ -362,7 +392,7 @@ proc HMrender {win tag not param text} {
 		set win [lindex $var(divert) end]
 		upvar #0 HM$win var
 	}
-# puts "TEXT: $text"
+# puts "TEXT: ($text)"
 # puts "TAGS: $tags"
 # puts "TST:	$win insert $var(S_insert) $text $tags"
 	$win insert $var(S_insert) $text $tags
@@ -608,7 +638,7 @@ proc HMtag_img {win param text} {
 		label $label 
 	}
 
-	$label configure -relief ridge -fg orange -text $alt
+	$label configure -text $alt
 	catch {$label configure -bd $border}
 	$win window create $var(S_insert) -align $align -window $item -pady 2 -padx 2
 
@@ -868,7 +898,7 @@ proc HMparse_html {html {cmd HMtest_parse} {start hmstart}} {
 	set exp <(/?)([HMcl ^$w>]+)[HMcl $w]*([HMcl ^>]*)>
 	set sub "\}\n$cmd {\\2} {\\1} {\\3} \{"
 	regsub -all $exp $html $sub html
- 	eval "$cmd {$start} {} {} \{ $html \}"
+ 	eval "$cmd {$start} {} {} \{$html\}"
 	eval "$cmd {$start} / {} {}"
 }
 
