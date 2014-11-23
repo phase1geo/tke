@@ -92,10 +92,10 @@ package require http 2
   }
 
 array set HMtag_map {
-	large	{size 18}
-	large2	{size 22}
-	large3	{size 20}
-	large4	{size 18}
+	large	{size 16}
+	large2	{size 20}
+	large3	{size 22}
+	large4	{size 16}
 	b      {weight bold}
 	blockquote	{style italic indent 1 Trindent rindent}
 	bq		{style italic indent 1 Trindent rindent}
@@ -105,19 +105,22 @@ array set HMtag_map {
 	dir    {indent 1}
 	dl     {indent 1}
 	em     {style italic}
-	h1     {size 24 weight bold}
-	h2     {size 22}		
-	h3     {size 20}	
-	h4     {size 18}
-	h5     {size 16}
+	h1     {size 22 weight bold}
+	h2     {size 20}		
+	h3     {size 18}	
+	h4     {size 16}
+	h5     {size 14}
 	h6     {style italic}
 	i      {style italic}
 	kbd    {family courier weight bold}
-	menu     {indent 1}
+	menu   {indent 1}
 	ol     {indent 1}
 	pre    {fill 0 family courier Tnowrap nowrap}
 	samp   {family courier}		
+        small  {size 10}
 	strong {weight bold}		
+        sub    {Tsubscript subscript}
+        sup    {Tsuperscript superscript}
 	tt     {family courier}
 	u      {Tunderline underline}
 	ul     {indent 1}
@@ -186,16 +189,17 @@ proc HMinit_win {win {win2 {} } } {
 	}
 	upvar #0 HM$win2 var
 
-	$win tag configure underline -underline 1
-	$win tag configure center    -justify center
-	$win tag configure nowrap    -wrap none
-	$win tag configure rindent   -rmargin $var(S_tab)c
-	$win tag configure strike    -overstrike 1
-	$win tag configure mark      -foreground black              ;# list markers
-	$win tag configure list      -spacing1 3p -spacing3 3p      ;# regular lists
-	$win tag configure compact   -spacing1 0p                   ;# compact lists
-	$win tag configure link      -foreground blue -underline 1  ;# hypertext links
-
+	$win tag configure underline   -underline 1
+	$win tag configure center      -justify center
+	$win tag configure nowrap      -wrap none
+	$win tag configure rindent     -rmargin $var(S_tab)c
+	$win tag configure strike      -overstrike 1
+	$win tag configure mark        -foreground black              ;# list markers
+	$win tag configure list        -spacing1 3p -spacing3 3p      ;# regular lists
+	$win tag configure compact     -spacing1 0p                   ;# compact lists
+	$win tag configure link        -foreground blue -underline 1  ;# hypertext links
+        $win tag configure subscript   -offset -3
+        $win tag configure superscript -offset 3
 
 	HMset_indent $win $var(S_tab)
 	$win configure -wrap word
