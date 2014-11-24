@@ -940,6 +940,7 @@ namespace eval specl::releaser {
     cl_version          ""
     cl_desc_file        ""
     cl_verbose          1
+    cl_directory        ""
   }
   
   # Add OS-specific variables
@@ -975,12 +976,15 @@ namespace eval specl::releaser {
             set data(item_file,$os) [set data(cl_file,$os) $fname]
             set data(item_val,$os)  1
           }
+          -d      { set cl_args [lassign $cl_args data(cl_directory)] }
           default { return 0 }
         }
       }
 
       # Check to make sure that all of the necessary arguments were set
       if {$data(cl_noui) && (($data(cl_version) eq "") || ($data(cl_desc_file) eq ""))} {
+        return 0
+      } elseif {($data(cl_directory) ne "") && (![file exists $data(cl_directory)] || ![file isdirectory $data(cl_directory)])} {
         return 0
       } else {
         foreach os $specl::oses {
@@ -1065,36 +1069,38 @@ namespace eval specl::releaser {
     
     $widgets(nb) add [ttk::frame .relwin.nb.tf] -text "Release"
     
-    set widgets(item_version_label) [ttk::label .relwin.nb.tf.l1  -text "Version:"]
-    set widgets(item_version)       [ttk::entry .relwin.nb.tf.e1]
-    set widgets(item_desc_label)    [ttk::label .relwin.nb.tf.l2  -text "Description:"]
-    set widgets(item_desc)          [text       .relwin.nb.tf.e2  -height 5 -width 60 -wrap word]
-    set widgets(item_notes_label)   [ttk::label .relwin.nb.tf.l3  -text "Release Notes URL:"]
-    set widgets(item_notes)         [ttk::entry .relwin.nb.tf.e3]
+    set widgets(item_version_label) [ttk::label .relwin.nb.tf.l0  -text "Version:"]
+    set widgets(item_version)       [ttk::entry .relwin.nb.tf.e0]
+    set widgets(item_desc_label)    [ttk::label .relwin.nb.tf.l1  -text "Description:"]
+    set widgets(item_desc)          [text       .relwin.nb.tf.e1  -height 5 -width 60 -wrap word]
+    set widgets(item_notes_label)   [ttk::label .relwin.nb.tf.l2  -text "Release Notes URL:"]
+    set widgets(item_notes)         [ttk::entry .relwin.nb.tf.e2]
     
     array set full_os {linux Linux mac MacOSX win Windows}
-    set row 4
+    set row 3
     foreach os $specl::oses {
-      set widgets(item_file_cb,$os)  [ttk::checkbutton .relwin.nb.tf.l${row}  -text "$full_os($os) Installation Package:" -variable specl::releaser::data(item_val,$os)]
-      set widgets(item_file,$os)     [ttk::entry       .relwin.nb.tf.e${row}  -validate key -validatecommand [list specl::releaser::handle_file_entry $os %P]]
-      set widgets(item_file_btn,$os) [ttk::button      .relwin.nb.tf.l${row}2 -text "Browse..." -command "specl::releaser::handle_browse $os"]
+      set widgets(item_file_cb,$os)    [ttk::checkbutton .relwin.nb.tf.cb${row} -variable specl::releaser::data(item_val,$os)]
+      set widgets(item_file_label,$os) [ttk::label       .relwin.nb.tf.l${row}  -text "$full_os($os) Installation Package:"]
+      set widgets(item_file,$os)       [ttk::entry       .relwin.nb.tf.e${row}  -validate key -validatecommand [list specl::releaser::handle_file_entry $os %P]]
+      set widgets(item_file_btn,$os)   [ttk::button      .relwin.nb.tf.l${row}2 -text "Browse..." -command "specl::releaser::handle_browse $os"]
       incr row
     }
 
-    grid rowconfigure    .relwin.nb.tf 2 -weight 1
-    grid columnconfigure .relwin.nb.tf 1 -weight 1
-    grid $widgets(item_version_label) -row 0 -column 0 -sticky news -padx 2 -pady 2
-    grid $widgets(item_version)       -row 0 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
-    grid $widgets(item_desc_label)    -row 2 -column 0 -sticky news -padx 2 -pady 2
-    grid $widgets(item_desc)          -row 2 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
-    grid $widgets(item_notes_label)   -row 3 -column 0 -sticky news -padx 2 -pady 2
-    grid $widgets(item_notes)         -row 3 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid rowconfigure    .relwin.nb.tf 1 -weight 1
+    grid columnconfigure .relwin.nb.tf 2 -weight 1
+    grid $widgets(item_version_label) -row 0 -column 0 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid $widgets(item_version)       -row 0 -column 2 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid $widgets(item_desc_label)    -row 1 -column 0 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid $widgets(item_desc)          -row 1 -column 2 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid $widgets(item_notes_label)   -row 2 -column 0 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid $widgets(item_notes)         -row 2 -column 2 -sticky news -padx 2 -pady 2 -columnspan 2
     
-    set row 4
+    set row 3
     foreach os $specl::oses {
-      grid $widgets(item_file_cb,$os)  -row $row -column 0 -sticky news -padx 2 -pady 2
-      grid $widgets(item_file,$os)     -row $row -column 1 -sticky news -padx 2 -pady 2
-      grid $widgets(item_file_btn,$os) -row $row -column 2 -sticky news -padx 2 -pady 2
+      grid $widgets(item_file_cb,$os)    -row $row -column 0 -sticky news -padx 2 -pady 2
+      grid $widgets(item_file_label,$os) -row $row -column 1 -sticky news -padx 2 -pady 2
+      grid $widgets(item_file,$os)       -row $row -column 2 -sticky news -padx 2 -pady 2
+      grid $widgets(item_file_btn,$os)   -row $row -column 3 -sticky news -padx 2 -pady 2
       incr row
     }
 
@@ -1157,14 +1163,14 @@ namespace eval specl::releaser {
     
     if {$value ne ""} {
       if {[file exists $value] && [file isfile $value]} {
-        $widgets(item_file_cb,$os) configure -background green
-        set data(file_ok_eid,$os) [after 1000 [list $widgets($item_file_cb,$os) configure -background ""]]
+        $widgets(item_file_label,$os) configure -background green
+        set data(file_ok_eid,$os) [after 1000 [list $widgets(item_file_label,$os) configure -background ""]]
       } else {
         catch { after cancel $specl::releaser::data(file_ok_eid,$os) }
-        $widgets(item_file_cb,$os) configure -background red
+        $widgets(item_file_label,$os) configure -background red
       }
     } else {
-      $widgets(item_file_cb,$os) configure -background ""
+      $widgets(item_file_label,$os) configure -background ""
     }
     
     return 1
@@ -1289,20 +1295,20 @@ namespace eval specl::releaser {
     set release_tab_warning 0
     foreach os $specl::oses {
       incr valids $data(item_val,$os)
-    }
-    
-    foreach os $specl::oses {
-      if {($valids == [llength $specl::oses]) || (($data(item_val,$os) && ($data(item_file,$os) ne ""))} {
-        $widgets(item_file_cb,$os) configure -background "red"
+      if {[$widgets(item_file_label,$os) cget -background] eq "red"} {
         set release_tab_warning 1
       }
     }
+    
+    if {$valids == 0} {
+      foreach os $specl::oses {
+        $widgets(item_file_label,$os) configure -background "red"
+      }
+      set release_tab_warning 1
+    }
 
     # Set the tab background color to red if any fields are missing
-    if {($data(item_version)     eq "") || \
-        ($data(item_description) eq "") || \
-        $release_tab_warning} {
-        ($data(item_file)        eq "")} {
+    if {($data(item_version) eq "") || ($data(item_description) eq "") || $release_tab_warning} {
       $widgets(nb) tab 1 -text "!! Release !!"
     } else {
       $widgets(nb) tab 1 -text "Release"
@@ -1410,7 +1416,9 @@ namespace eval specl::releaser {
       puts $rc "        <downloads>"
       
       foreach os $specl::oses {
-        puts $rc "        <download os=\"$os\" url=\"$data(item_url,$os)\" length=\"$data(item_length,$os)\" type=\"application/octet-stream\" checksum=\"$data(item_checksum,$os)\" />"
+        if {$data(item_val,$os)} {
+          puts $rc "        <download os=\"$os\" url=\"$data(item_url,$os)\" length=\"$data(item_length,$os)\" type=\"application/octet-stream\" checksum=\"$data(item_checksum,$os)\" />"
+        }
       }
       
       puts $rc "        </downloads>"
@@ -1427,11 +1435,11 @@ namespace eval specl::releaser {
   }
   
   ######################################################################
-  # Returns the MD5 checksum for the given tarball.
-  proc get_checksum {tarball} {
+  # Returns the MD5 checksum for the given bundle.
+  proc get_checksum {bundle} {
     
     # Get the md5 checksum of the tarball file
-    if {[catch { exec -ignorestderr md5sum $tarball } rc]} {
+    if {[catch { exec -ignorestderr md5sum $bundle } rc]} {
       return ""
     }
     
@@ -1445,8 +1453,12 @@ namespace eval specl::releaser {
     
     variable data
     
-    # Create application name with version information
-    set app "$specl::appname-$data(item_version)"
+    # Create a temporary directory for the application files
+    if {$data(cl_directory) ne ""} {
+      set tmp $data(cl_directory)
+    } else {
+      set tmp [file join / tmp]
+    }
     
     # Write the version file to the current directory
     if {$data(cl_verbose)} { puts -nonewline "Writing specl_version.tcl ............."; flush stdout }
@@ -1466,7 +1478,7 @@ namespace eval specl::releaser {
         if {$data(cl_verbose)} { puts "  Done!" }
         
         # Create the item URL
-        set data(item_url,$os) [file join $data(download_url) [file tail $data(item_file,$os)]]
+        set data(item_url,$os) [file join $specl::download_url [file tail $data(item_file,$os)]]
         
       }
       

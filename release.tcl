@@ -354,7 +354,8 @@ catch {
 
   # Setup general specl arguments
   set    specl_cmd "[info nameofexecutable] [file join lib ptwidgets1.2 library specl.tcl] -- release"
-  append specl_cmd " -q -n $major.$minor -b linux,[file join ~ projects releases tke-$major.$minor.tgz]"
+  append specl_cmd " -q -n $major.$minor -d [file join ~ projects releases]"
+  append specl_cmd " -b linux,[file join ~ projects releases tke-$major.$minor.tgz]"
   
   # Add MacOSX bundle
   if {$tcl_platform(os) eq "Darwin"} {
