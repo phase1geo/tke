@@ -352,9 +352,14 @@ catch {
   # Generate the appcast.xml file
   puts -nonewline "Generating specl appcast.xml file...  "; flush stdout
 
+  # Setup general specl arguments
   set    specl_cmd "[info nameofexecutable] [file join lib ptwidgets1.2 library specl.tcl] -- release"
-  append specl_cmd " -q -n $major.$minor -t [file join ~ projects releases tke-$major.$minor.tgz]"
-  append specl_cmd " -d [file join ~ projects releases]"
+  append specl_cmd " -q -n $major.$minor -b linux,[file join ~ projects releases tke-$major.$minor.tgz]"
+  
+  # Add MacOSX bundle
+  if {$tcl_platform(os) eq "Darwin"} {
+    append specl_cmd " -b mac,[file join ~ projects releases tke-$major.$minor.dmg"
+  }
 
   # If a release notes file was provided, skip the UI and pass the release notes
   if {($release_notes ne "") && [file exists $release_notes]} {
