@@ -1505,8 +1505,8 @@ namespace eval menus {
 
     if {![string match *Win* $::tcl_platform(os)]} {
       $mb add separator
-      $mb add command -label [msgcat::mc "Check for Update"] -underline 0 -command specl::check_for_update
-      launcher::register [msgcat::mc "Menu: Check for Update"] "specl::check_for_update"
+      $mb add command -label [msgcat::mc "Check for Update"] -underline 0 -command "specl::check_for_update 0"
+      launcher::register [msgcat::mc "Menu: Check for Update"] "specl::check_for_update 0"
     }
       
     if {[tk windowingsystem] ne "aqua"} {

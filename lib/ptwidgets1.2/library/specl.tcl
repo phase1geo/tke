@@ -22,6 +22,7 @@ namespace eval specl {
   variable rss_url      ""
   variable download_url ""
   variable icon_path    ""
+  variable oses         {linux mac win}
   
   ######################################################################
   # Returns the full, normalized pathname of the specl_version.tcl file.
@@ -74,7 +75,7 @@ namespace eval specl {
   ######################################################################
   # Checks for updates.  Throws an exception if there was a problem
   # checking for the update.
-  proc check_for_update {{cl_args {}} {cleanup_script {}}} {
+  proc check_for_update {on_start {cl_args {}} {cleanup_script {}}} {
     
     # Allow the UI to update before we proceed
     update
@@ -89,7 +90,7 @@ namespace eval specl {
     set script_name [file normalize $::argv0]
     
     # Execute this script
-    if {[catch { exec -ignorestderr [info nameofexecutable] $frame(file) -- update $specl_version_dir } rc options]} {
+    if {[catch { exec -ignorestderr [info nameofexecutable] $frame(file) -- update $on_start $specl_version_dir } rc options]} {
       return
     }
     
@@ -379,6 +380,7 @@ namespace eval specl::updater {
   
   array set data {
     specl_version_dir ""
+    cl_quiet          0
     icon              ""
     fetch_ncode       ""
     fetch_content     ""
@@ -418,8 +420,11 @@ namespace eval specl::updater {
     
     variable data
     
-    set first       1
-    set description ""
+    set first        1
+    set description  ""
+    set download_url ""
+    set length       0
+    set checksum     ""
     
     # Get the contents of the 'releases' node
     set releases_node [specl::helpers::get_element [list "" $data(fetch_content)] "releases"]
@@ -466,22 +471,42 @@ namespace eval specl::updater {
       
         if {$first} {
           
+          # Get the current OS
+          switch -glob $::tcl_platform(os) {
+            Linux*  { set my_os "linux" }
+            Darwin  { set my_os "mac" }
+            *Win*   { set my_os "win" }
+            default {
+              return -code error "Unable to find installation bundle"
+            }
+          }
+          
           # Set the description
           set description    "$title<br>$curr_description"
           set latest_version $version
           set latest_release $release
           
+          # Get the downloads node
+          set downloads_node [specl::helpers::get_element $release_node "downloads"]
+          
           # Get the download information
-          set download_node [specl::helpers::get_element $release_node "download"]
+          foreach download_node [specl::helpers::get_elements $downloads_node "download"] {
+          
+            # Get the OS
+            if {[specl::helpers::get_attr $download_node "os"] ne $my_os} {
+              continue
+            }
+            
+            # Get the download URL
+            set download_url [specl::helpers::get_attr $download_node "url"]
            
-          # Get the download URL
-          set download_url [specl::helpers::get_attr $download_node "url"]
+            # Get the file length
+            set length [specl::helpers::get_attr $download_node "length"]
            
-          # Get the file length
-          set length [specl::helpers::get_attr $download_node "length"]
-           
-          # Get the md5 checksum
-          set checksum [specl::helpers::get_attr $download_node "checksum"]
+            # Get the md5 checksum
+            set checksum [specl::helpers::get_attr $download_node "checksum"]
+              
+          }
           
           set first 0
           
@@ -507,25 +532,46 @@ namespace eval specl::updater {
   
   ######################################################################
   # Unpacks the content into the tmp directory.
-  proc check_tarball {tarball content_list} {
+  proc check_bundle {bundle content_list} {
     
     variable data
     
     array set content $content_list
     
     # Check the file size against the stored data
-    if {[file size $tarball] ne $content(length)} {
-      return -code error "Downloaded tarball is not the expected length"
+    if {[file size $bundle] ne $content(length)} {
+      return -code error "Downloaded bundle is not the expected length"
     }
     
     # Check the md5 checksum against the stored data
     if {[specl::releaser::get_checksum $tarball] ne $content(checksum)} {
-      return -code error "Downloaded tarball has an incorrect checksum"
+      return -code error "Downloaded bundle has an incorrect checksum"
     }
     
-    # Unpack the tarball into the down directory
-    if {[catch { exec -ignorestderr tar xf $tarball -C [file join / tmp] } rc]} {
-      return -code error $rc
+    set fname [file tail $bundle]
+    set ext   [file extension $fname]
+    set root  [file rootname $fname]
+    
+    # If the bundle is a tarball, unpack it into the tmp directory
+    if {$ext eq ".tgz"} {
+      if {[catch { exec -ignorestderr tar xf $bundle -C [file join / tmp] } rc]} {
+        return -code error $rc
+      }
+    } elseif {$ext eq ".gz"} {
+      if {[catch { exec -ignorestderr gzip -d $bundle } rc]} {
+        return -code error $rc
+      }
+    } elseif {$ext eq ".bz2"} {
+      if {[catch { exec -ignorestderr bunzip2 $bundle } rc]} {
+        return -code error $rc
+      }
+    }
+    
+    # If the file needs to be untar'ed do it now
+    if {[file extension $root] eq ".tar"} {
+      if {[catch { exec -ignorestderr tar xf $root -C [file join / tmp] } rc]} {
+        return -code error $rc
+      }
     }
     
   }
@@ -555,7 +601,7 @@ namespace eval specl::updater {
       .updwin.pf.status configure -text "Verifying..."
       update idletasks
       
-      if {[catch { check_tarball $download $content_list } rc]} {
+      if {[catch { check_bundle $download $content_list } rc]} {
         
         # Display the error information
         .updwin.if.title configure -text "Downloaded data corrupted"
@@ -695,11 +741,27 @@ namespace eval specl::updater {
   }
   
   ######################################################################
+  # Returns the size string for the given number of bytes
+  proc get_size_string {bytes} {
+    
+    if {[set mbs [expr $bytes.0 / pow(2,20)]] > 1} {
+      return [format {%.1f MB} $mbs]
+    } else {
+      return [format {%.1f KB} [expr $bytes.0 / pow(2,10)]]
+    }
+    
+  }
+  
+  ######################################################################
   # Called whenever the geturl call for the do_download procedure needs to
   # update progress.
   proc gzip_download_progress {token total current} {
     
+    # Update the progress bar
     .updwin.pf.pb configure -value [expr int( ($current / $total.0) * 100 )]
+    
+    # Update the download progress display
+    .updwin.pf.info configure -text "[get_size_string $current] of [get_size_string $total]"
     
   }
   
@@ -740,9 +802,11 @@ namespace eval specl::updater {
     ttk::frame       .updwin.pf
     ttk::progressbar .updwin.pf.pb -mode determinate -length 300
     ttk::label       .updwin.pf.status
+    ttk::label       .updwin.pf.info
     
-    pack .updwin.pf.pb     -side left -padx 2 -pady 2 -fill x
-    pack .updwin.pf.status -side left -padx 2 -pady 2
+    grid .updwin.pf.pb     -row 0 -column 0 -sticky ew -padx 2 -pady 2
+    grid .updwin.pf.status -row 0 -column 1 -sticky ew -padx 2 -pady 2
+    grid .updwin.pf.info   -row 1 -column 0 -sticky ew -padx 2 -pady 2
     
     ttk::frame     .updwin.hf
     set widgets(html) [text .updwin.hf.h -width 400 -height 200 \
@@ -802,16 +866,6 @@ namespace eval specl::updater {
   }
   
   ######################################################################
-  # Handles any images in the HTML.
-  proc image_handler {data} {
-    
-    regexp {data:image/png;base64,(.*)} $data -> data
-    
-    return [image create photo -data $data]
-    
-  }
-  
-  ######################################################################
   # Perform the update.
   proc start_update {} {
     
@@ -853,7 +907,9 @@ namespace eval specl::updater {
     
     # If the content does not require an update, tell the user
     if {$content(release) <= $specl::release} {
-      tk_messageBox -parent . -default ok -type ok -message "Application is already up-to-date!"
+      if {!$data(cl_quiet)} {
+        tk_messageBox -parent . -default ok -type ok -message "Application is already up-to-date!"
+      }
       exit 1
     } else {
       display_update $rc
@@ -880,15 +936,22 @@ namespace eval specl::releaser {
     item_release        0
     item_description    ""
     item_release_notes  ""
-    item_url            ""
-    item_length         0
-    item_checksum       ""
     cl_noui             0
     cl_version          ""
     cl_desc_file        ""
-    cl_tarball          ""
     cl_directory        ""
     cl_verbose          1
+  }
+  
+  # Add OS-specific variables
+  foreach os $specl::oses {
+    set data(item_val,$os)      0
+    set data(item_file,$os)     ""
+    set data(item_url,$os)      ""
+    set data(item_length,$os)   0
+    set data(item_checksum,$os) ""
+    set data(cl_file,$os)       ""
+    set data(file_ok_eid,$os)   ""
   }
   
   ######################################################################
@@ -907,7 +970,12 @@ namespace eval specl::releaser {
           -q      { set data(cl_verbose) 0 }
           -n      { set cl_args [lassign $cl_args data(cl_version)] }
           -f      { set cl_args [lassign $cl_args data(cl_desc_file)] }
-          -t      { set cl_args [lassign $cl_args data(cl_tarball)] }
+          -b      {
+            set cl_args [lassign $cl_args bundle]
+            lassign [split $bundle ,] os fname
+            set data(item_file,$os) [set data(cl_file,$os) $fname]
+            set data(item_val,$os)  1
+          }
           -d      { set cl_args [lassign $cl_args data(cl_directory)] }
           default { return 0 }
         }
@@ -916,10 +984,14 @@ namespace eval specl::releaser {
       # Check to make sure that all of the necessary arguments were set
       if {$data(cl_noui) && (($data(cl_version) eq "") || ($data(cl_desc_file) eq ""))} {
         return 0
-      } elseif {($data(cl_tarball) ne "") && ![file exists $data(cl_tarball)]} {
-        return 0
       } elseif {($data(cl_directory) ne "") && ![file exists $data(cl_directory)]} {
         return 0
+      } else {
+        foreach os $specl::oses {
+          if {($data(cl_file,$os) ne "") && ![file exists $data(cl_file,$os)]} {
+            return 0
+          }
+        }
       }
 
       # Handle the description file
@@ -959,7 +1031,7 @@ namespace eval specl::releaser {
     $widgets(nb) add [ttk::frame .relwin.nb.rf] -text "General"
     
     set widgets(appname_label)       [ttk::label .relwin.nb.rf.l0 -text "Application Name:"]
-    set widgets(appname)             [ttk::entry .relwin.nb.rf.e0 -validate key -validatecommand {specl::releaser::update_url 0 %P}]
+    set widgets(appname)             [ttk::entry .relwin.nb.rf.e0]
     set widgets(general_title_label) [ttk::label .relwin.nb.rf.l1 -text "Title:"]
     set widgets(general_title)       [ttk::entry .relwin.nb.rf.e1]
     set widgets(general_desc_label)  [ttk::label .relwin.nb.rf.l2 -text "Description:"]
@@ -998,14 +1070,18 @@ namespace eval specl::releaser {
     $widgets(nb) add [ttk::frame .relwin.nb.tf] -text "Release"
     
     set widgets(item_version_label) [ttk::label .relwin.nb.tf.l1  -text "Version:"]
-    set widgets(item_version)       [ttk::entry .relwin.nb.tf.e1 -validate key -validatecommand {specl::releaser::update_url 1 %P}]
+    set widgets(item_version)       [ttk::entry .relwin.nb.tf.e1]
     set widgets(item_desc_label)    [ttk::label .relwin.nb.tf.l2  -text "Description:"]
     set widgets(item_desc)          [text       .relwin.nb.tf.e2  -height 5 -width 60 -wrap word]
     set widgets(item_notes_label)   [ttk::label .relwin.nb.tf.l3  -text "Release Notes URL:"]
     set widgets(item_notes)         [ttk::entry .relwin.nb.tf.e3]
-    set widgets(item_url_label)     [ttk::label .relwin.nb.tf.l4  -text "Download URL:"]
-    set widgets(item_url)           [ttk::entry .relwin.nb.tf.e4]
-    set widgets(item_url_suffix)    [ttk::label .relwin.nb.tf.l41 -text ""]
+    
+    array set full_os {linux Linux mac MacOSX win Windows}
+    foreach os $specl::oses {
+      set widgets(item_file_cb,$os)  [ttk::checkbutton .relwin.nb.tf.l4  -text "$full_os($os) Installation Package:" -textvariable specl::releaser::data(item_val,$os)]
+      set widgets(item_file,$os)     [ttk::entry       .relwin.nb.tf.e4  -validate key -validatecommand [list specl::releaser::handle_file_entry $os %P]
+      set widgets(item_file_btn,$os) [ttk::button      .relwin.nb.tf.l42 -text "Browse..." -command "specl::releaser::handle_browse $os"]
+    }
 
     grid rowconfigure    .relwin.nb.tf 2 -weight 1
     grid columnconfigure .relwin.nb.tf 1 -weight 1
@@ -1015,9 +1091,14 @@ namespace eval specl::releaser {
     grid $widgets(item_desc)          -row 2 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
     grid $widgets(item_notes_label)   -row 3 -column 0 -sticky news -padx 2 -pady 2
     grid $widgets(item_notes)         -row 3 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
-    grid $widgets(item_url_label)     -row 4 -column 0 -sticky news -padx 2 -pady 2
-    grid $widgets(item_url)           -row 4 -column 1 -sticky news -padx 2 -pady 2
-    grid $widgets(item_url_suffix)    -row 4 -column 2 -sticky news -padx 2 -pady 2
+    
+    set row 4
+    foreach os $specl::oses {
+      grid $widgets(item_file_cb,$os)  -row $row -column 0 -sticky news -padx 2 -pady 2
+      grid $widgets(item_file,$os)     -row $row -column 1 -sticky news -padx 2 -pady 2
+      grid $widgets(item_file_btn,$os) -row $row -column 2 -sticky news -padx 2 -pady 2
+      incr row
+    }
 
     ttk::frame  .relwin.bf
     ttk::button .relwin.bf.preview -text "Preview" -width 7 -command {
@@ -1049,10 +1130,9 @@ namespace eval specl::releaser {
     $widgets(icon_path)     insert end $specl::icon_path
     
     $widgets(item_version)  insert end $data(item_version)
-    $widgets(item_url)      insert end $data(item_url)
-
-    if {($specl::appname ne "") && ($data(item_version) ne "")} {
-      $widgets(item_url_suffix) configure -text "/[string tolower $specl::appname]-$data(item_version).tgz"
+    
+    foreach os $specl::oses {
+      $widgets(item_file,$os) insert end $data(cl_file,$os)
     }
 
     # If the general tab has been setup, change the view to the Release tab
@@ -1070,6 +1150,44 @@ namespace eval specl::releaser {
     
   }
 
+  ######################################################################
+  # Handles changes to the item_file entry field.
+  proc handle_file_entry {os value} {
+    
+    variable widgets
+    variable data
+    
+    if {$value ne ""} {
+      if {[file exists $value] && [file isfile $value]} {
+        $widgets(item_file_cb,$os) configure -background green
+        set data(file_ok_eid,$os) [after 1000 [list $widgets($item_file_cb,$os) configure -background ""]]
+      } else {
+        catch { after cancel $specl::releaser::data(file_ok_eid,$os) }
+        $widgets(item_file_cb,$os) configure -background red
+      }
+    } else {
+      $widgets(item_file_cb,$os) configure -background ""
+    }
+    
+    return 1
+    
+  }
+  
+  ######################################################################
+  # Handles a click on the file browser.  Allows the user to choose
+  # an installation filename which will be populated in the entry field.
+  proc handle_browse {os} {
+    
+    variable widgets
+    
+    array set full_os {linux Linux mac MacOSX win Windows}
+    
+    if {[set data(item_file,$os) [tk_getOpenFile -title "Select $full_os($os) Installation Package" -initialdir [pwd]]] ne ""} {
+      $widgets(item_file,$os) configure -text $data(item_file,$os)
+    }
+    
+  }
+  
   ######################################################################
   # Handles the preview of the release notes.
   proc handle_preview {} {
@@ -1128,48 +1246,65 @@ namespace eval specl::releaser {
   proc handle_okay {} {
 
     variable widgets
+    variable data
 
     # Get user-provided parameters
-    set specl::appname                             [$widgets(appname) get]
-    set specl::releaser::data(channel_title)       [$widgets(general_title) get]
-    set specl::releaser::data(channel_description) [$widgets(general_desc) get 1.0 end-1c]
-    set specl::releaser::data(channel_link)        [$widgets(general_link) get]
-    set specl::releaser::data(channel_language)    [$widgets(language) get]
-    set specl::rss_url                             [$widgets(rss_url) get]
-    set specl::download_url                        [$widgets(download_url) get]
-    set specl::icon_path                           [$widgets(icon_path) get]
+    set specl::appname            [$widgets(appname) get]
+    set data(channel_title)       [$widgets(general_title) get]
+    set data(channel_description) [$widgets(general_desc) get 1.0 end-1c]
+    set data(channel_link)        [$widgets(general_link) get]
+    set data(channel_language)    [$widgets(language) get]
+    set specl::rss_url            [$widgets(rss_url) get]
+    set specl::download_url       [$widgets(download_url) get]
+    set specl::icon_path          [$widgets(icon_path) get]
 
-    set specl::releaser::data(item_version)        [$widgets(item_version) get]
-    set specl::releaser::data(item_description)    [$widgets(item_desc) get 1.0 end-1c]
-    set specl::releaser::data(item_release_notes)  [$widgets(item_notes) get]
-    set specl::releaser::data(item_url)            [$widgets(item_url) get]
+    set data(item_version)        [$widgets(item_version) get]
+    set data(item_description)    [$widgets(item_desc) get 1.0 end-1c]
+    set data(item_release_notes)  [$widgets(item_notes) get]
+    
+    foreach os $specl::oses {
+      set data(item_file,$os) [$widgets(item_file,$os) get]
+    }
 
     # Colorize the missing labels
-    $widgets(appname_label)       configure -background [expr {($specl::appname                             eq "") ? "red" : ""}]
-    $widgets(general_title_label) configure -background [expr {($specl::releaser::data(channel_title)       eq "") ? "red" : ""}]
-    $widgets(general_desc_label)  configure -background [expr {($specl::releaser::data(channel_description) eq "") ? "red" : ""}]
-    $widgets(language_label)      configure -background [expr {($specl::releaser::data(channel_language)    eq "") ? "red" : ""}]
-    $widgets(rss_url_label)       configure -background [expr {($specl::rss_url                             eq "") ? "red" : ""}]
+    $widgets(appname_label)       configure -background [expr {($specl::appname            eq "") ? "red" : ""}]
+    $widgets(general_title_label) configure -background [expr {($data(channel_title)       eq "") ? "red" : ""}]
+    $widgets(general_desc_label)  configure -background [expr {($data(channel_description) eq "") ? "red" : ""}]
+    $widgets(language_label)      configure -background [expr {($data(channel_language)    eq "") ? "red" : ""}]
+    $widgets(rss_url_label)       configure -background [expr {($specl::rss_url            eq "") ? "red" : ""}]
 
     # Set the tab background color to red if any fields are missing
-    if {($specl::appname                             eq "") || \
-        ($specl::releaser::data(channel_title)       eq "") || \
-        ($specl::releaser::data(channel_description) eq "") || \
-        ($specl::releaser::data(channel_language)    eq "") || \
-        ($specl::rss_url                             eq "")} {
+    if {($specl::appname            eq "") || \
+        ($data(channel_title)       eq "") || \
+        ($data(channel_description) eq "") || \
+        ($data(channel_language)    eq "") || \
+        ($specl::rss_url            eq "")} {
       $widgets(nb) tab 0 -text "!! General !!"
     } else {
       $widgets(nb) tab 0 -text "General"
     }
     
-    $widgets(item_version_label)  configure -background [expr {($specl::releaser::data(item_version)        eq "") ? "red" : ""}]
-    $widgets(item_desc_label)     configure -background [expr {($specl::releaser::data(item_description)    eq "") ? "red" : ""}]
-    $widgets(item_url_label)      configure -background [expr {($specl::releaser::data(item_url)            eq "") ? "red" : ""}]
+    $widgets(item_version_label) configure -background [expr {($data(item_version)     eq "") ? "red" : ""}]
+    $widgets(item_desc_label)    configure -background [expr {($data(item_description) eq "") ? "red" : ""}]
+    
+    set valids              0
+    set release_tab_warning 0
+    foreach os $specl::oses {
+      incr valids $data(item_val,$os)
+    }
+    
+    foreach os $specl::oses {
+      if {($valids == [llength $specl::oses]) || (($data(item_val,$os) && ($data(item_file,$os) ne ""))} {
+        $widgets(item_file_cb,$os) configure -background "red"
+        set release_tab_warning 1
+      }
+    }
 
     # Set the tab background color to red if any fields are missing
-    if {($specl::releaser::data(item_version)        eq "") || \
-        ($specl::releaser::data(item_description)    eq "") || \
-        ($specl::releaser::data(item_url)            eq "")} {
+    if {($data(item_version)     eq "") || \
+        ($data(item_description) eq "") || \
+        $release_tab_warning} {
+        ($data(item_file)        eq "")} {
       $widgets(nb) tab 1 -text "!! Release !!"
     } else {
       $widgets(nb) tab 1 -text "Release"
@@ -1180,36 +1315,12 @@ namespace eval specl::releaser {
         ([$widgets(nb) tab 1 -text] eq "!! Release !!")} {
       tk_messageBox -parent .relwin -default ok -type ok -message "Missing required fields"
     } else {
-      append specl::releaser::data(item_url) [$widgets(item_url_suffix) cget -text]
       destroy .relwin
     }
 
     # Allow the UI to update
     update idletasks
 
-  }
-  
-  ######################################################################
-  # Update the URL tarball name.
-  proc update_url {type value} {
-    
-    variable widgets
-    variable data
-    
-    set appname [$widgets(appname) get]
-    set version [$widgets(item_version) get]
-    
-    switch $type {
-      0 { set appname $value }
-      1 { set version $value }
-    }
-    
-    if {($appname ne "") && ($version ne "")} {
-      $widgets(item_url_suffix) configure -text "/[string tolower $appname]-$version.tgz"
-    }
-    
-    return 1
-    
   }
   
   ######################################################################
@@ -1298,7 +1409,13 @@ namespace eval specl::releaser {
       puts $rc "        <description><!\[CDATA\[$data(item_description)\]\]></description>"
       puts $rc "        <pubDate>[clock format [clock seconds]]</pubDate>"
       puts $rc "        <specl:releaseNotesLink>$data(item_release_notes)</specl:releaseNotesLink>"
-      puts $rc "        <download url=\"$data(item_url)\" length=\"$data(item_length)\" type=\"application/octet-stream\" checksum=\"$data(item_checksum)\" />"
+      puts $rc "        <downloads>"
+      
+      foreach os $specl::oses {
+        puts $rc "        <download os=\"$os\" url=\"$data(item_url,$os)\" length=\"$data(item_length,$os)\" type=\"application/octet-stream\" checksum=\"$data(item_checksum,$os)\" />"
+      }
+      
+      puts $rc "        </downloads>"
       puts $rc "      </release>"
       puts $rc "      $data(other_releases)"
       puts $rc "    </releases>"
@@ -1333,49 +1450,29 @@ namespace eval specl::releaser {
     # Create application name with version information
     set app "$specl::appname-$data(item_version)"
     
-    # Create a temporary directory for the application files
-    if {$data(cl_directory) ne ""} {
-      set tmp $data(cl_directory)
-    } else {
-      set tmp [file join / tmp]
-    }
-    set tmpdir [file join $tmp $app]
-    
     # Write the version file to the current directory
     if {$data(cl_verbose)} { puts -nonewline "Writing specl_version.tcl ............."; flush stdout }
     write_version
     if {$data(cl_verbose)} { puts "  Done!" }
     
-    # If the tarball was not specified on the command-line, generate it
-    if {$data(cl_tarball) eq ""} {
-
-      # Copy the current directory to the /tmp directory
-      if {$data(cl_verbose)} { puts -nonewline "Copying current directory to /tmp ....."; flush stdout }
-      file copy -force [pwd] $tmpdir
-      if {$data(cl_verbose)} { puts "  Done!" }
-    
-      # Tarball and gzip the current directory
-      if {$data(cl_verbose)} { puts -nonewline "Tarballing directory .................."; flush stdout }
-      if {[catch { exec -ignorestderr tar czf [set tarball [file join $tmp [file tail $data(item_url)]]] -C $tmp $app } rc]} {
-        if {$data(cl_verbose)} { puts "  Failed!" }
-        return -code error $rc
+    foreach os $specl::oses {
+      
+      if {$data(item_val,$os)} {
+        
+        # Figure out the size of the tarball and save it to the item_length item
+        set data(item_length) [file size $data(item_file,$os)]
+      
+        # Figure out the md5 checksum
+        if {$data(cl_verbose)} { puts -nonewline "Calculate checksum ...................."; flush stdout }
+        set data(item_checksum) [get_checksum $data(item_file,$os)]
+        if {$data(cl_verbose)} { puts "  Done!" }
+        
+        # Create the item URL
+        set data(item_url,$os) [file join $data(download_url) [file tail $data(item_file,$os)]]
+        
       }
-      if {$data(cl_verbose)} { puts "  Done!" }
-
-    # Otherwise, just use the given tarball
-    } else {
-
-      set tarball $data(cl_tarball)
-
+      
     }
-    
-    # Figure out the size of the tarball and save it to the item_length item
-    set data(item_length) [file size $tarball]
-    
-    # Figure out the md5 checksum
-    if {$data(cl_verbose)} { puts -nonewline "Calculate checksum ...................."; flush stdout }
-    set data(item_checksum) [get_checksum $tarball]
-    if {$data(cl_verbose)} { puts "  Done!" }
       
     # Write the RSS file
     if {$data(cl_verbose)} { puts -nonewline "Writing RSS appcast file .............."; flush stdout }
@@ -1383,7 +1480,13 @@ namespace eval specl::releaser {
     if {$data(cl_verbose)} { puts "  Done!\n" }
     
     puts "Upload [file join $tmp appcast.xml] to $specl::rss_url/appcast.xml"
-    puts "Upload [file join $tmp [file tail $data(item_url)]] to $data(item_url)"
+    
+    foreach os $specl::oses {
+      if {$data(item_val,$os)} {
+        puts "Upload $data(item_file,$os) to $data(item_url,$os)"
+      }
+    }
+    
     puts ""
 
   }
@@ -1400,16 +1503,12 @@ namespace eval specl::releaser {
       # If the specl_version file doesn't exist, initialize the variables
       set data(item_version) "1.0"
       set data(item_release) 1
-      set data(item_url)     ""
       
     } else {
       
-      # Create the new version
-      set version $specl::version
-      
-      set data(item_version) [join $version .]
+      # Initialize variables from specl_version file
+      set data(item_version) $specl::version
       set data(item_release) [expr $specl::release + 1]
-      set data(item_url)     $specl::download_url
       
       # Read the RSS file since it exists
       read_rss
@@ -1516,7 +1615,7 @@ if {[file tail $::argv0] eq "specl.tcl"} {
         puts "ERROR:  Incorrect arguments passed to specl update command"
         usage
       }
-      lassign $args specl::updater::data(specl_version_dir)
+      lassign $args specl::updater::data(cl_quiet) specl::updater::data(specl_version_dir)
       specl::updater::start_update
     }
     default {
