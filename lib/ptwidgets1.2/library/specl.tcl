@@ -939,7 +939,6 @@ namespace eval specl::releaser {
     cl_noui             0
     cl_version          ""
     cl_desc_file        ""
-    cl_directory        ""
     cl_verbose          1
   }
   
@@ -976,15 +975,12 @@ namespace eval specl::releaser {
             set data(item_file,$os) [set data(cl_file,$os) $fname]
             set data(item_val,$os)  1
           }
-          -d      { set cl_args [lassign $cl_args data(cl_directory)] }
           default { return 0 }
         }
       }
 
       # Check to make sure that all of the necessary arguments were set
       if {$data(cl_noui) && (($data(cl_version) eq "") || ($data(cl_desc_file) eq ""))} {
-        return 0
-      } elseif {($data(cl_directory) ne "") && ![file exists $data(cl_directory)]} {
         return 0
       } else {
         foreach os $specl::oses {
@@ -1077,10 +1073,12 @@ namespace eval specl::releaser {
     set widgets(item_notes)         [ttk::entry .relwin.nb.tf.e3]
     
     array set full_os {linux Linux mac MacOSX win Windows}
+    set row 4
     foreach os $specl::oses {
-      set widgets(item_file_cb,$os)  [ttk::checkbutton .relwin.nb.tf.l4  -text "$full_os($os) Installation Package:" -textvariable specl::releaser::data(item_val,$os)]
-      set widgets(item_file,$os)     [ttk::entry       .relwin.nb.tf.e4  -validate key -validatecommand [list specl::releaser::handle_file_entry $os %P]
-      set widgets(item_file_btn,$os) [ttk::button      .relwin.nb.tf.l42 -text "Browse..." -command "specl::releaser::handle_browse $os"]
+      set widgets(item_file_cb,$os)  [ttk::checkbutton .relwin.nb.tf.l${row}  -text "$full_os($os) Installation Package:" -variable specl::releaser::data(item_val,$os)]
+      set widgets(item_file,$os)     [ttk::entry       .relwin.nb.tf.e${row}  -validate key -validatecommand [list specl::releaser::handle_file_entry $os %P]]
+      set widgets(item_file_btn,$os) [ttk::button      .relwin.nb.tf.l${row}2 -text "Browse..." -command "specl::releaser::handle_browse $os"]
+      incr row
     }
 
     grid rowconfigure    .relwin.nb.tf 2 -weight 1
