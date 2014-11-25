@@ -544,7 +544,7 @@ namespace eval specl::updater {
     }
     
     # Check the md5 checksum against the stored data
-    if {[specl::releaser::get_checksum $tarball] ne $content(checksum)} {
+    if {[specl::releaser::get_checksum $bundle] ne $content(checksum)} {
       return -code error "Downloaded bundle has an incorrect checksum"
     }
     
@@ -1478,7 +1478,7 @@ namespace eval specl::releaser {
         if {$data(cl_verbose)} { puts "  Done!" }
         
         # Create the item URL
-        set data(item_url,$os) "$specl::download_url [file tail $data(item_file,$os)]"
+        set data(item_url,$os) "$specl::download_urltarball/[file tail $data(item_file,$os)]"
         
       }
       
