@@ -1470,15 +1470,15 @@ namespace eval specl::releaser {
       if {$data(item_val,$os)} {
         
         # Figure out the size of the tarball and save it to the item_length item
-        set data(item_length) [file size $data(item_file,$os)]
+        set data(item_length,$os) [file size $data(item_file,$os)]
       
         # Figure out the md5 checksum
         if {$data(cl_verbose)} { puts -nonewline "Calculate checksum ...................."; flush stdout }
-        set data(item_checksum) [get_checksum $data(item_file,$os)]
+        set data(item_checksum,$os) [get_checksum $data(item_file,$os)]
         if {$data(cl_verbose)} { puts "  Done!" }
         
         # Create the item URL
-        set data(item_url,$os) [file join $specl::download_url [file tail $data(item_file,$os)]]
+        set data(item_url,$os) "$specl::download_url [file tail $data(item_file,$os)]"
         
       }
       
@@ -1621,7 +1621,7 @@ if {[file tail $::argv0] eq "specl.tcl"} {
     }
     update  {
       set args [lassign $args arg]
-      if {[llength $args] != 1} {
+      if {[llength $args] != 2} {
         puts "ERROR:  Incorrect arguments passed to specl update command"
         usage
       }
