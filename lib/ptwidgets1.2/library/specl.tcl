@@ -658,8 +658,9 @@ namespace eval specl::updater {
     array set content $content_list
     
     # Get the name of the downloaded directory
-    set app      "$specl::appname-$content(version)"
-    set download [file join / tmp $app]
+    set app        "$specl::appname-$content(version)"
+    set download   [file join / tmp $app]
+    set trash_path ""
     
     # Get the name of the installation directory
     set install_dir [specl::get_install_dir $data(specl_version_dir)]
@@ -679,7 +680,7 @@ namespace eval specl::updater {
         set trash_path [specl::helpers::get_unique_path [file join ~ .Trash] [file tail $install_dir]]
       }
       Linux* {
-        if {[catch { exec -ignorestderr gvfs-trash [file tail $install_dir] }]} {
+        if {[catch { exec -ignorestderr gvfs-trash $install_dir }]} {
           if {[file exists [set trash [file join ~ .local share Trash]]]} {
             if {[info exists ::env(XDG_DATA_HOME)] && \
                 ($::env(XDG_DATA_HOME) ne "") && \
@@ -716,9 +717,11 @@ namespace eval specl::updater {
     }
     
     # Move the installation directory to the trash
-    if {[catch { file rename -force $install_dir $trash_path } rc]} {
-      tk_messageBox -parent . -default ok -type ok -message "A Unable to install" -detail $rc
-      exit 1
+    if {$trash_path ne ""} {
+      if {[catch { file rename -force $install_dir $trash_path } rc]} {
+        tk_messageBox -parent . -default ok -type ok -message "A Unable to install" -detail $rc
+        exit 1
+      }
     }
     
     # Perform the directory move
