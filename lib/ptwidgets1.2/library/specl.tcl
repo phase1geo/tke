@@ -1606,7 +1606,7 @@ namespace eval specl::releaser {
     
     foreach os $specl::oses {
       
-      if {$data(item_val,$os)} {
+      if {$data(item_val,$os) || ($data(item_prev,$os) && ($data(item_file,$os) ne ""))} {
         
         # Figure out the size of the tarball and save it to the item_length item
         set data(item_length,$os) [file size $data(item_file,$os)]
