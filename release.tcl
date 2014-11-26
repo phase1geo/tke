@@ -241,7 +241,7 @@ proc run_specl {type major minor release_notes} {
   set specl_cmd "[info nameofexecutable] [file join lib ptwidgets1.2 library specl.tcl] -- release $type"
   
   # Setup specl arguments
-  append specl_cmd " -q -n $major.$minor -d [file normalize [file join ~ projects releases]]"
+  append specl_cmd " -n $major.$minor -d [file normalize [file join ~ projects releases]]"
   
   # Add Linux bundle
   if {[string match Linux* $::tcl_platform(os)] || ($::tcl_platform(os) eq "Darwin")} {
