@@ -334,6 +334,9 @@ catch {
     # Update the version and specl_version files
     update_version_files $major $minor
     
+    # Initialize the appcast.xml file
+    run_specl new $major $minor $release_notes
+  
     # Commit the ChangeLog change
     puts -nonewline "Committing and pushing ChangeLog...  "; flush stdout
     if {[catch { exec -ignorestderr hg commit -m "ChangeLog for $next_tag release" } rc]} {
@@ -360,9 +363,6 @@ catch {
     puts "done."
     
   }
-  
-  # Initialize the appcast.xml file
-  run_specl new $major $minor $release_notes
   
   # Generate the linux tarball
   generate_linux_tarball $next_tag
