@@ -704,11 +704,19 @@ Added tag stable-1.4 for changeset 9ba7fda088a0
 
 
 changeset:   604:b2d0ceded11d
-tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
 date:        Tue Nov 25 23:05:21 2014 -0600
 files:       .hgtags
 description:
 Removed tag stable-1.4
+
+
+changeset:   605:060b3b527db9
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 23:05:44 2014 -0600
+files:       ChangeLog lib/version.tcl release.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
 
 
