@@ -1,18 +1,18 @@
-changeset:   562:00fea0d88d28
-tag:         stable-1.4
+changeset:   564:bde69db8fae8
+tag:         stable-1.5
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Nov 24 20:51:32 2014 -0600
-files:       ChangeLog lib/ptwidgets1.2/library/specl.tcl specl_version.tcl
+date:        Tue Nov 25 21:02:14 2014 -0600
+files:       ChangeLog lib/ptwidgets1.2/library/specl.tcl lib/version.tcl release.tcl specl_version.tcl
 description:
-ChangeLog for stable-1.4 release
+ChangeLog for stable-1.5 release
 
 
-changeset:   563:d78e9be8a8c5
+changeset:   565:2dab3ce9314f
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Nov 24 20:51:41 2014 -0600
+date:        Tue Nov 25 21:02:23 2014 -0600
 files:       .hgtags
 description:
-Added tag stable-1.4 for changeset 00fea0d88d28
+Added tag stable-1.5 for changeset bde69db8fae8
 
 

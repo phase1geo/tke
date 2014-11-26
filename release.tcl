@@ -244,23 +244,27 @@ proc run_specl {type major minor release_notes} {
   append specl_cmd " -q -n $major.$minor -d [file normalize [file join ~ projects releases]]"
   
   # Add Linux bundle
-  if {[string match Linux* $tcl_platform(os)] || ($tcl_platform(os) eq "Darwin")} {
+  if {[string match Linux* $::tcl_platform(os)] || ($::tcl_platform(os) eq "Darwin")} {
     append specl_cmd " -b linux,[file normalize [file join ~ projects releases tke-$major.$minor.tgz]]"
   }
   
   # Add MacOSX bundle
-  if {$tcl_platform(os) eq "Darwin"} {
+  if {$::tcl_platform(os) eq "Darwin"} {
     append specl_cmd " -b mac,[file normalize [file join ~ projects releases tke-$major.$minor.dmg]]"
   }
   
   # Add Windows bundle
-  if {[string match *Win* $tcl_platform(os)] && 0} {
+  if {[string match *Win* $::tcl_platform(os)] && 0} {
     append specl_cmd " -b win,[file normalize [file join ~ projects releases tke-$major.$minor.exe]]"
   }
 
   # If a release notes file was provided, skip the UI and pass the release notes
-  if {($release_notes ne "") && [file exists $release_notes]} {
-    append specl_cmd " -noui -f $release_notes"
+  if {$type eq "new"} {
+    if {($release_notes ne "") && [file exists $release_notes]} {
+      append specl_cmd " -noui -f $release_notes"
+    }
+  } else {
+    append specl_cmd " -noui"
   }
 
   # Run the specl command
