@@ -435,7 +435,7 @@ namespace eval specl::updater {
       set release [specl::helpers::get_attr $release_node "index"]
       set version [specl::helpers::get_attr $release_node "version"]
 
-      if {[specl::helpers::get_attr $release_node "index"] > $specl::release} {
+      if {$release > $specl::release} {
 
         # Set the title
         set title "<h2>Version ($version) Release Notes</h2>"
@@ -516,6 +516,12 @@ namespace eval specl::updater {
           append description "<br><hr>$title<br>$curr_description"
           
         }
+        
+      # If we are up-to-date, just return the version/release information
+      } elseif {$first} {
+        
+        set latest_version $version
+        set latest_release $release
         
       }
       
