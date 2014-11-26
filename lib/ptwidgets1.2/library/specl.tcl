@@ -1436,7 +1436,7 @@ namespace eval specl::releaser {
           
           set data(item_version)       [specl::helpers::get_attr $release_node "version"]
           set data(item_release)       [specl::helpers::get_attr $release_node "index"]
-          set data(item_release_notes) [specl::helpers::get_element $release_node "specl:releaseNotesLink"]
+          set data(item_release_notes) [lindex [specl::helpers::get_element $release_node "specl:releaseNotesLink"] 1]
           set description_node         [specl::helpers::get_element $release_node "description"]
           set data(item_description)   [specl::helpers::get_cdata $description_node]
           
