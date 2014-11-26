@@ -112,29 +112,6 @@ proc update_version_files {major minor} {
   }
 
   puts "done."
-  puts -nonewline "Updating specl version file...  "; flush stdout
-  
-  # Update the specl file
-  if {![catch { open specl_version.tcl w } rc]} {
-
-    puts $rc "set specl::appname      \"$specl::appname\""
-    puts $rc "set specl::version      \"$major.$minor\""
-    puts $rc "set specl::release      \"[expr $specl::release + 1]\""
-    puts $rc "set specl::rss_url      \"$specl::rss_url\""
-    puts $rc "set specl::download_url \"$specl::rss_url\""
-    puts $rc "set specl::icon_path    \"$specl::icon_path\""
-
-    close $rc
-
-  } else {
-
-    puts "failed!"
-    puts "  $rc"
-    return -code error "Unable to update specl_version file"
-
-  }
-  
-  puts "done."
     
 }
 
@@ -258,6 +235,45 @@ proc generate_macosx_dmg {tag} {
   
 }
 
+proc run_specl {type major minor release_notes} {
+  
+  # Create a new release via specl
+  set specl_cmd "[info nameofexecutable] [file join lib ptwidgets1.2 library specl.tcl] -- release $type"
+  
+  # Setup specl arguments
+  append specl_cmd " -q -n $major.$minor -d [file normalize [file join ~ projects releases]]"
+  
+  # Add Linux bundle
+  if {[string match Linux* $tcl_platform(os)] || ($tcl_platform(os) eq "Darwin")} {
+    append specl_cmd " -b linux,[file normalize [file join ~ projects releases tke-$major.$minor.tgz]]"
+  }
+  
+  # Add MacOSX bundle
+  if {$tcl_platform(os) eq "Darwin"} {
+    append specl_cmd " -b mac,[file normalize [file join ~ projects releases tke-$major.$minor.dmg]]"
+  }
+  
+  # Add Windows bundle
+  if {[string match *Win* $tcl_platform(os)] && 0} {
+    append specl_cmd " -b win,[file normalize [file join ~ projects releases tke-$major.$minor.exe]]"
+  }
+
+  # If a release notes file was provided, skip the UI and pass the release notes
+  if {($release_notes ne "") && [file exists $release_notes]} {
+    append specl_cmd " -noui -f $release_notes"
+  }
+
+  # Run the specl command
+  if {[catch { exec -ignorestderr {*}$specl_cmd } rc]} {
+    if {$type ne "new"} {
+      puts "failed!"
+      puts "  $rc"
+    }
+    return -code error "Unable to generate specl release information"
+  }
+  
+}
+   
 catch {
   
   # Initialize variables that might be overridden on the command-line
@@ -340,7 +356,10 @@ catch {
     puts "done."
     
   }
-   
+  
+  # Initialize the appcast.xml file
+  run_specl new $major $minor $release_notes
+  
   # Generate the linux tarball
   generate_linux_tarball $next_tag
    
@@ -351,29 +370,9 @@ catch {
 
   # Generate the appcast.xml file
   puts -nonewline "Generating specl appcast.xml file...  "; flush stdout
-
-  # Setup general specl arguments
-  set    specl_cmd "[info nameofexecutable] [file join lib ptwidgets1.2 library specl.tcl] -- release"
-  append specl_cmd " -q -n $major.$minor -d [file normalize [file join ~ projects releases]]"
-  append specl_cmd " -b linux,[file normalize [file join ~ projects releases tke-$major.$minor.tgz]]"
-  
-  # Add MacOSX bundle
-  if {$tcl_platform(os) eq "Darwin"} {
-    append specl_cmd " -b mac,[file normalize [file join ~ projects releases tke-$major.$minor.dmg]]"
-  }
-
-  # If a release notes file was provided, skip the UI and pass the release notes
-  if {($release_notes ne "") && [file exists $release_notes]} {
-    append specl_cmd " -noui -f $release_notes"
-  }
-
-  if {[catch { exec -ignorestderr {*}$specl_cmd } rc]} {
-    puts "failed!"
-    puts "  $rc"
-    return -code error "Unable to generate specl release information"
-  }
+  run_specl edit $major $minor $release_notes
   puts "done."
-   
+
   puts "Done!"
   puts ""
   puts "Releases are available in: [file normalize [file join ~ projects releases]]"
