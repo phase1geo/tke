@@ -1048,9 +1048,7 @@ namespace eval specl::releaser {
       }
 
       # Check to make sure that all of the necessary arguments were set
-      if {$data(cl_noui) && (($data(cl_version) eq "") || ($data(cl_desc_file) eq ""))} {
-        return 0
-      } elseif {($data(cl_directory) ne "") && (![file exists $data(cl_directory)] || ![file isdirectory $data(cl_directory)])} {
+      if {($data(cl_directory) ne "") && (![file exists $data(cl_directory)] || ![file isdirectory $data(cl_directory)])} {
         return 0
       } else {
         foreach os $specl::oses {
@@ -1481,7 +1479,7 @@ namespace eval specl::releaser {
     if {($type eq "edit") && [file exists $local_appcast]} {
       
       # Read the content from the appcast file
-      if {![catch { open $appcast r } rc]} {
+      if {![catch { open $local_appcast r } rc]} {
         set content [read $rc]
         close $rc
         parse_rss $type $content
@@ -1742,7 +1740,7 @@ if {[file tail $::argv0] eq "specl.tcl"} {
     puts "  update   Called by clients to update the project to the latest release"
     puts ""
     
-    exit
+    exit 1
     
   }
   
