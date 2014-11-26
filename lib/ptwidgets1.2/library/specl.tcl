@@ -435,7 +435,7 @@ namespace eval specl::updater {
       set release [specl::helpers::get_attr $release_node "index"]
       set version [specl::helpers::get_attr $release_node "version"]
 
-      if {[specl::helpers::get_attr $release_node "index"] >= $specl::release} {
+      if {[specl::helpers::get_attr $release_node "index"] > $specl::release} {
 
         # Set the title
         set title "<h2>Version ($version) Release Notes</h2>"
@@ -947,11 +947,11 @@ namespace eval specl::releaser {
   # Add OS-specific variables
   foreach os $specl::oses {
     set data(item_val,$os)      0
+    set data(item_prev,$os)     0
     set data(item_file,$os)     ""
     set data(item_url,$os)      ""
     set data(item_length,$os)   0
     set data(item_checksum,$os) ""
-    set data(item_download,$os) ""
     set data(cl_file,$os)       ""
     set data(file_ok_eid,$os)   ""
   }
@@ -1355,7 +1355,7 @@ namespace eval specl::releaser {
     set valids              0
     set release_tab_warning 0
     foreach os $specl::oses {
-      if {$data(item_val,$os) || ($data(item_download,$os) ne "")} {
+      if {$data(item_val,$os) || ($data(item_prev,$os) ne "")} {
         incr valids 1
       }
       if {[$widgets(item_file_label,$os) cget -background] eq "red"} {
@@ -1439,7 +1439,13 @@ namespace eval specl::releaser {
           set downloads_node [specl::helpers::get_element $release_node "downloads"]
           foreach download_node [specl::helpers::get_elements $downloads_node "download"] {
             set os [specl::helpers::get_attr $download_node "os"]
-            set data(item_download,$os) "<download [lindex $download_node 0]/>"
+            set data(item_prev,$os)     1
+            set data(item_url,$os)      [specl::helpers::get_attr $download_node "url"]
+            set data(item_length,$os)   [specl::helpers::get_attr $download_node "length"]
+            set data(item_checksum,$os) [specl::helpers::get_attr $download_node "checksum"]
+            if {[file exists [set item_file [file join $data(cl_directory) [file tail $data(item_url,$os)]]]]} {
+              set data(item_file,$os) $item_file
+            }
           }
           
           set first 0
@@ -1453,7 +1459,7 @@ namespace eval specl::releaser {
       }
       
     }
-
+ 
   }
   
   ######################################################################
@@ -1541,10 +1547,8 @@ namespace eval specl::releaser {
       puts $rc "        <downloads>"
       
       foreach os $specl::oses {
-        if {$data(item_val,$os)} {
+        if {$data(item_val,$os) || $data(item_prev,$os)} {
           puts $rc "          <download os=\"$os\" url=\"$data(item_url,$os)\" length=\"$data(item_length,$os)\" type=\"application/octet-stream\" checksum=\"$data(item_checksum,$os)\" />"
-        } elseif {$data(item_download,$os) ne ""} {
-          puts $rc "          $data(item_download,$os)"
         }
       }
       

@@ -488,9 +488,33 @@ Added tag stable-1.4 for changeset 72ac2fd905ea
 
 
 changeset:   577:01d6cc977470
-tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
 date:        Tue Nov 25 21:30:35 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   578:2c75c6b087c0
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 21:31:12 2014 -0600
+files:       ChangeLog specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   579:7d4ddf1c8f42
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 21:31:20 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset 2c75c6b087c0
+
+
+changeset:   580:51238ae2b3cb
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 22:06:04 2014 -0600
 files:       .hgtags
 description:
 Removed tag stable-1.4
