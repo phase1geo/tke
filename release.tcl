@@ -99,7 +99,7 @@ proc update_version_files {major minor} {
     
     puts $rc "set version_major \"$major\""
     puts $rc "set version_minor \"$minor\""
-    puts $rc "set version_hgid  \"$::version_hgid\""
+    puts $rc "set version_hgid  \"[expr $::version_hgid + 1]\""
     
     close $rc  
     
