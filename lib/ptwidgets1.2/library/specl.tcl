@@ -89,8 +89,15 @@ namespace eval specl {
     # Get the normalized name of argv0
     set script_name [file normalize $::argv0]
     
+    # Create update arguments
+    if {$on_start} {
+      set update_args "-q"
+    }
+    lappend update_args -t [ttk::style theme use]
+    lappend update_args $specl_version_dir
+    
     # Execute this script
-    if {[catch { exec -ignorestderr [info nameofexecutable] $frame(file) -- update $on_start $specl_version_dir } rc options]} {
+    if {[catch { exec -ignorestderr [info nameofexecutable] $frame(file) -- update {*}$update_args } rc options]} {
       return
     }
     
@@ -381,6 +388,7 @@ namespace eval specl::updater {
   array set data {
     specl_version_dir ""
     cl_quiet          0
+    cl_theme          ""
     icon              ""
     fetch_ncode       ""
     fetch_content     ""
@@ -389,6 +397,40 @@ namespace eval specl::updater {
     cancel            0
   }
 
+  ######################################################################
+  # Parses the given arguments to the update command.
+  proc parse_args {cl_args} {
+    
+    variable data
+    
+    # Parse the release arguments
+    while {[llength $cl_args] > 0} {
+      set cl_args [lassign $cl_args arg]
+      switch -exact -- $arg {
+        -q      { set data(cl_quiet) 1 }
+        -t      {
+          set cl_args [lassign $cl_args data(cl_theme)]
+          catch { ttk::style theme use $data(cl_theme) }
+        }
+        default {
+          if {$data(specl_version_dir) eq ""} {
+            set data(specl_version_dir) $arg
+          } else {
+            return 0
+          }
+        }
+      }
+    }
+    
+    # Check to make sure that the user specified the version directory
+    if {$data(specl_version_dir) eq ""} {
+      return 0
+    }
+    
+    return 1
+    
+  }
+  
   ######################################################################
   # Fetches the application RSS feed sheet from the stored URL.
   proc fetch_url {} {
@@ -950,6 +992,49 @@ namespace eval specl::updater {
   }
   
   ######################################################################
+  # Displays the up-to-date window.
+  proc display_up_to_date {} {
+    
+    variable data
+    
+    toplevel     .utdwin
+    wm title     .utdwin ""
+    wm resizable .utdwin 0 0
+    
+    # Create text
+    set msg "Your version of $specl::appname ($specl::version) is the latest available!"
+    
+    # Create a 32 by 32 version of the icon
+    if {$data(icon) ne ""} {
+      ttk::label .utdwin.l -compound left -image [set new_icon [image_scale $data(icon) 32 32]] -text $msg
+    } else {
+      ttk::label .utdwin.l -text $msg
+    }
+    
+    ttk::button .utdwin.b -text "OK" -width 6 -default active -command {
+      destroy .utdwin
+    }
+    
+    pack .utdwin.l -fill x -padx 2 -pady 2
+    pack .utdwin.b         -padx 2 -pady 2
+    
+    # Grab the focus
+    ::tk::SetFocusGrab .utdwin .utdwin.b
+    
+    # Wait for the window to be closed
+    tkwait window .utdwin
+    
+    # Release the grab
+    ::tk::RestoreFocusGrab .utdwin .utdwin.b
+    
+    # Delete the 32 by 32 icon, if it was created
+    if {[info exists new_icon]} {
+      image delete $new_icon
+    }
+    
+  }
+  
+  ######################################################################
   # Perform the update.
   proc start_update {} {
     
@@ -992,7 +1077,7 @@ namespace eval specl::updater {
     # If the content does not require an update, tell the user
     if {$content(release) <= $specl::release} {
       if {!$data(cl_quiet)} {
-        tk_messageBox -parent . -default ok -type ok -message "Application is already up-to-date!"
+        display_up_to_date
       }
       exit 1
     } else {
@@ -1771,6 +1856,7 @@ if {[file tail $::argv0] eq "specl.tcl"} {
   # Install the htmllib and gifblock
   source [file join [file dirname $::argv0] .. common htmllib.tcl]
   source [file join [file dirname $::argv0] .. common gifblock.tcl]
+  source [file join [file dirname $::argv0] .. common resize.tcl]
 
   ######################################################################
   # START OF HTMLLIB CUSTOMIZATION
@@ -1857,11 +1943,10 @@ if {[file tail $::argv0] eq "specl.tcl"} {
     }
     update  {
       set args [lassign $args arg]
-      if {[llength $args] != 2} {
+      if {![specl::updater::parse_args $args]} {
         puts "ERROR:  Incorrect arguments passed to specl update command"
         usage
       }
-      lassign $args specl::updater::data(cl_quiet) specl::updater::data(specl_version_dir)
       specl::updater::start_update
     }
     default {
