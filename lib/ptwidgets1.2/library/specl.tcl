@@ -671,7 +671,7 @@ namespace eval specl::updater {
     
     grid rowconfigure    .passwin.f 2 -weight 1
     grid columnconfigure .passwin.f 1 -weight 1
-    grid .passwin.f.l1 -row 0 -column 0 -sticky news -padx 2 -pady 2
+    grid .passwin.f.l1 -row 0 -column 0 -sticky news -padx 2 -pady 2 -columnspan 2
     grid .passwin.f.l2 -row 1 -column 0 -sticky ew   -padx 2 -pady 2
     grid .passwin.f.e  -row 1 -column 1 -sticky ew   -padx 2 -pady 2
     
@@ -743,22 +743,25 @@ namespace eval specl::updater {
       }
       Linux* {
         if {[catch { exec -ignorestderr gvfs-trash $install_dir }]} {
-          if {[file exists [set trash [file join ~ .local share Trash]]]} {
-            if {[info exists ::env(XDG_DATA_HOME)] && \
-                ($::env(XDG_DATA_HOME) ne "") && \
-                [file exists $::env(XDG_DATA_HOME)]} {
-              set trash $::env(XDG_DATA_HOME)
+          set password [get_password]
+          if {[catch { exec -ignorestderr sudo -S gvfs-trash $install_dir << "$password\n"}]} {
+            if {[file exists [set trash [file join ~ .local share Trash]]]} {
+              if {[info exists ::env(XDG_DATA_HOME)] && \
+                  ($::env(XDG_DATA_HOME) ne "") && \
+                  [file exists $::env(XDG_DATA_HOME)]} {
+                set trash $::env(XDG_DATA_HOME)
+              }
+              set trash_path [specl::helpers::get_unique_path [file join $trash files] [file tail $install_dir]]
+              if {![catch { open [file join $trash info [file tail $trash_path].trashinfo] w } rc]} {
+                puts $rc "\[Trash Info\]"
+                puts $rc "Path=$install_dir"
+                puts $rc "DeletionDate=[clock format [clock seconds] -format {%Y-%m-%dT%T}]"
+                close $rc
+              }
+            } else {
+              tk_messageBox -parent . -default ok -type ok -message "Unable to install" -detail "Unable to trash old library files"
+              exit 1
             }
-            set trash_path [specl::helpers::get_unique_path [file join $trash files] [file tail $install_dir]]
-            if {![catch { open [file join $trash info [file tail $trash_path].trashinfo] w } rc]} {
-              puts $rc "\[Trash Info\]"
-              puts $rc "Path=$install_dir"
-              puts $rc "DeletionDate=[clock format [clock seconds] -format {%Y-%m-%dT%T}]"
-              close $rc
-            }
-          } else {
-            tk_messageBox -parent . -default ok -type ok -message "Unable to install" -detail "Unable to trash old library files"
-            exit 1
           }
         }
       }
@@ -781,7 +784,9 @@ namespace eval specl::updater {
     # Move the installation directory to the trash
     if {[info exists trash_path]} {
       if {[catch { file rename -force $install_dir $trash_path } rc]} {
-        set password [get_password]
+        if {![info exists password]} {
+          set password [get_password]
+        }
         if {[catch { exec -ignorestderr sudo -S mv $install_dir $trash_path << "$password\n" } rc]} {
           tk_messageBox -parent . -default ok -type ok -message "A Unable to install" -detail $rc
           exit 1
