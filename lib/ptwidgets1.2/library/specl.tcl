@@ -650,6 +650,66 @@ namespace eval specl::updater {
   }
   
   ######################################################################
+  # Returns the password entered from the user.
+  proc run_command_with_password {cmd} {
+    
+    variable run_status
+    
+    set run_status 0
+    
+    toplevel     .passwin
+    wm title     .passwin "Enter root password"
+    wm resizable .passwin 0 0
+    wm transient .passwin .updwin
+    
+    ttk::frame .passwin.f
+    ttk::label .passwin.f.l1 -text "$specl::appname requires administrative privileges\nto install the latest update"
+    ttk::label .passwin.f.l2 -text "Root password: "
+    ttk::entry .passwin.f.e  -show \u2022
+    
+    grid rowconfigure    .passwin.f 2 -weight 1
+    grid columnconfigure .passwin.f 1 -weight 1
+    grid .passwin.f.l1 -row 0 -column 0 -sticky news -padx 2 -pady 2
+    grid .passwin.f.l2 -row 1 -column 0 -sticky ew   -padx 2 -pady 2
+    grid .passwin.f.e  -row 1 -column 1 -sticky ew   -padx 2 -pady 2
+    
+    ttk::frame  .passwin.bf
+    ttk::button .passwin.bf.ok     -text "OK"     -width 6 -command "specl::updater::run_command {$cmd}; destroy .passwin"
+    ttk::button .passwin.bf.cancel -text "Cancel" -width 6 -command "destroy .passwin"
+    
+    pack .passwin.bf.cancel -side right -padx 2 -pady 2
+    pack .passwin.bf.ok     -side right -padx 2 -pady 2
+    
+    pack .passwin.f  -fill x -expand yes
+    pack .passwin.bf -fill x
+    
+    # Grab and focus on the window
+    ::tk::SetFocusGrab .passwin .passwin.e
+    
+    # Wait for the window to be closed
+    tkwait window .passwin
+    
+    # Release the grab and focus
+    ::tk::RestoreFocusGrab .passwin .passwin.e
+    
+    return $run_status
+    
+  }
+  
+  ######################################################################
+  # Runs the given command with the user's password.
+  proc run_command {cmd} {
+    
+    variable run_status
+    
+    if {[catch { exec sudo -S {*}$cmd << "[.passwin.f.e get]\n" }]} {
+      set run_status 0 
+    }
+    
+    set run_status 1
+    
+  }
+  ######################################################################
   # Installs the downloaded content into the installation directory.
   proc do_install {content_list} {
     
@@ -664,15 +724,6 @@ namespace eval specl::updater {
     
     # Get the name of the installation directory
     set install_dir [specl::get_install_dir $data(specl_version_dir)]
-    
-    # Attempt to write a file to the installation directory (to see if su permissions are needed)
-    if {[catch { open [file join $install_dir .specl_test] w } rc]} {
-      lassign [get_username_password] username password
-      set rename_cmd "sudo -A mv $download $install_dir"
-    } else {
-      close $rc
-      set rename_cmd "mv $download $install_dir"
-    }
     
     # Move the original directory to the trash
     switch -glob $::tcl_platform(os) {
@@ -726,8 +777,10 @@ namespace eval specl::updater {
     
     # Perform the directory move
     if {[catch { file rename -force $download $install_dir } rc]} {
-      tk_messageBox -parent . -default ok -type ok -message "B Unable to install" -detail $rc
-      exit 1
+      if {![run_command_with_password "mv $download $install_dir"]} {
+        tk_messageBox -parent . -default ok -type ok -message "B Unable to install" -detail $rc
+        exit 1
+      }
     }
     
     exit
