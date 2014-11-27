@@ -808,9 +808,43 @@ Added tag stable-1.4 for changeset 78417cc38104
 
 
 changeset:   617:ff1a567399be
-tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
 date:        Wed Nov 26 23:23:27 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   618:31140b5d131d
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Nov 26 23:27:24 2014 -0600
+files:       ChangeLog lib/ptwidgets1.2/library/specl.tcl lib/version.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   619:29c88c4c13ef
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Nov 26 23:27:37 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset 31140b5d131d
+
+
+changeset:   620:cc5c76bbab72
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Nov 27 01:11:43 2014 -0600
+files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+description:
+* Adding custom up-to-date window.
+* Adding argument parse for the update command.
+* Integrating image_scale procedure from common directory.
+
+
+changeset:   621:fe84307fd30c
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Nov 27 01:13:39 2014 -0600
 files:       .hgtags
 description:
 Removed tag stable-1.4
