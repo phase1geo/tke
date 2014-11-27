@@ -736,9 +736,33 @@ Added tag stable-1.4 for changeset 8fa80089305f
 
 
 changeset:   608:47cc833eddd8
-tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
 date:        Tue Nov 25 23:32:50 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   609:7d745315416b
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 23:33:15 2014 -0600
+files:       ChangeLog lib/ptwidgets1.2/library/specl.tcl lib/version.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   610:587d575d71f2
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 23:33:24 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset 7d745315416b
+
+
+changeset:   611:d895f860378e
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 23:41:46 2014 -0600
 files:       .hgtags
 description:
 Removed tag stable-1.4
