@@ -651,11 +651,11 @@ namespace eval specl::updater {
   
   ######################################################################
   # Returns the password entered from the user.
-  proc run_command_with_password {cmd} {
+  proc get_password {} {
     
-    variable run_status
+    variable temp_password
     
-    set run_status 0
+    set temp_password ""
     
     toplevel     .passwin
     wm title     .passwin "Enter root password"
@@ -665,7 +665,9 @@ namespace eval specl::updater {
     ttk::frame .passwin.f
     ttk::label .passwin.f.l1 -text "$specl::appname requires administrative privileges\nto install the latest update"
     ttk::label .passwin.f.l2 -text "Root password: "
-    ttk::entry .passwin.f.e  -show \u2022
+    ttk::entry .passwin.f.e  -show \u2022 -validate key -validatecommand "specl::updater::validate_password %P"
+    
+    bind .passwin.f.e <Return> ".passwin.bf.ok invoke"
     
     grid rowconfigure    .passwin.f 2 -weight 1
     grid columnconfigure .passwin.f 1 -weight 1
@@ -674,8 +676,13 @@ namespace eval specl::updater {
     grid .passwin.f.e  -row 1 -column 1 -sticky ew   -padx 2 -pady 2
     
     ttk::frame  .passwin.bf
-    ttk::button .passwin.bf.ok     -text "OK"     -width 6 -command "specl::updater::run_command {$cmd}; destroy .passwin"
-    ttk::button .passwin.bf.cancel -text "Cancel" -width 6 -command "destroy .passwin"
+    ttk::button .passwin.bf.ok     -text "OK"     -width 6 -command {
+      set specl::updater::temp_password [.passwin.f.e get]
+      destroy .passwin
+    } -state disabled -default active
+    ttk::button .passwin.bf.cancel -text "Cancel" -width 6 -command {
+      destroy .passwin
+    }
     
     pack .passwin.bf.cancel -side right -padx 2 -pady 2
     pack .passwin.bf.ok     -side right -padx 2 -pady 2
@@ -692,23 +699,28 @@ namespace eval specl::updater {
     # Release the grab and focus
     ::tk::RestoreFocusGrab .passwin .passwin.e
     
-    return $run_status
+    # Get the returned password and then clear the namespace variable for protection
+    set password $temp_password
+    set temp_password ""
+    
+    return $password
     
   }
   
   ######################################################################
-  # Runs the given command with the user's password.
-  proc run_command {cmd} {
+  # Validate the given password value.
+  proc validate_password {value} {
     
-    variable run_status
-    
-    if {[catch { exec sudo -S {*}$cmd << "[.passwin.f.e get]\n" }]} {
-      set run_status 0 
+    if {$value eq ""} {
+      .passwin.bf.ok configure -state disabled
+    } else {
+      .passwin.bf.ok configure -state normal
     }
     
-    set run_status 1
+    return 1
     
   }
+  
   ######################################################################
   # Installs the downloaded content into the installation directory.
   proc do_install {content_list} {
@@ -718,9 +730,8 @@ namespace eval specl::updater {
     array set content $content_list
     
     # Get the name of the downloaded directory
-    set app        "$specl::appname-$content(version)"
-    set download   [file join / tmp $app]
-    set trash_path ""
+    set app      "$specl::appname-$content(version)"
+    set download [file join / tmp $app]
     
     # Get the name of the installation directory
     set install_dir [specl::get_install_dir $data(specl_version_dir)]
@@ -768,16 +779,22 @@ namespace eval specl::updater {
     }
     
     # Move the installation directory to the trash
-    if {$trash_path ne ""} {
+    if {[info exists trash_path]} {
       if {[catch { file rename -force $install_dir $trash_path } rc]} {
-        tk_messageBox -parent . -default ok -type ok -message "A Unable to install" -detail $rc
-        exit 1
+        set password [get_password]
+        if {[catch { exec -ignorestderr sudo -S mv $install_dir $trash_path << "$password\n" } rc]} {
+          tk_messageBox -parent . -default ok -type ok -message "A Unable to install" -detail $rc
+          exit 1
+        }
       }
     }
     
     # Perform the directory move
     if {[catch { file rename -force $download $install_dir } rc]} {
-      if {![run_command_with_password "mv $download $install_dir"]} {
+      if {![info exists password]} {
+        set password [get_password]
+      }
+      if {[catch { exec -ignorestderr sudo -S mv $download $install_dir << "$password\n" } rc]} {
         tk_messageBox -parent . -default ok -type ok -message "B Unable to install" -detail $rc
         exit 1
       }
