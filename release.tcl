@@ -267,6 +267,8 @@ proc run_specl {type major minor release_notes} {
     append specl_cmd " -noui"
   }
   
+  puts $specl_cmd
+
   # Run the specl command
   if {[catch { exec -ignorestderr {*}$specl_cmd } rc]} {
     if {$type ne "new"} {
