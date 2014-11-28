@@ -21,7 +21,6 @@ namespace eval specl {
   variable release      1
   variable rss_url      ""
   variable download_url ""
-  variable icon_path    ""
   variable oses         {linux mac win}
   
   ######################################################################
@@ -137,12 +136,17 @@ namespace eval specl::helpers {
       if {[regexp "<$name\(.*?\)>\(.*?\)</$name>\(.*\)\$" $node_content -> attrs content node_content]} {
         lappend elements [list [string trim $attrs] [string trim $content]]
       } elseif {[regexp "<$name\(.*?\)/>\(.*\)\$" $node_content -> attrs node_content]} {
-        lappend elements [list [string trim [string range $attrs 0 end-1]] ""]
+        lappend elements [list [string trim $attrs] ""]
       } else {
         break
       }
     }
 
+    # Make sure that we find at least one element; otherwise, flag an error
+    if {[llength $elements] == 0} {
+      return -code error "Unable to find element node $name"
+    }
+    
     return $elements
     
   }
@@ -386,15 +390,26 @@ namespace eval specl::updater {
   array set widgets {}
   
   array set data {
-    specl_version_dir ""
-    cl_quiet          0
-    cl_theme          ""
-    icon              ""
-    fetch_ncode       ""
-    fetch_content     ""
-    fetch_error       ""
-    stylecount        0
-    cancel            0
+    specl_version_dir  ""
+    cl_quiet           0
+    cl_theme           ""
+    icon               ""
+    fetch_ncode        ""
+    fetch_content      ""
+    fetch_error        ""
+    stylecount         0
+    cancel             0
+    ui,icon_path       ""
+    ui,icon_side       left
+    ui,win_width       500
+    ui,win_height      400
+    ui,win_title       "Software Updater"
+    ui,win_resizable   1
+    ui,utd_title       "You are up-to-date!"
+    ui,utd_message     "Your version of {APPNAME} ({CURVERSION}) is the latest available."
+    ui,upd_title       "A new version is available!"
+    ui,upd_message     "Version ({NEWVERSION}) is ready for installation. You are currently\nusing version ({CURVERSION}). Click Download to update your version."
+    ui,upd_desc_height 200
   }
 
   ######################################################################
@@ -467,6 +482,7 @@ namespace eval specl::updater {
     set download_url ""
     set length       0
     set checksum     ""
+    set num_updates  0
     
     # Get the contents of the 'releases' node
     set releases_node [specl::helpers::get_element [list "" $data(fetch_content)] "releases"]
@@ -559,6 +575,8 @@ namespace eval specl::updater {
           
         }
         
+        incr num_updates
+        
       # If we are up-to-date, just return the version/release information
       } elseif {$first} {
         
@@ -574,7 +592,8 @@ namespace eval specl::updater {
                  version      $latest_version \
                  release      $latest_release \
                  length       $length \
-                 checksum     $checksum]
+                 checksum     $checksum \
+                 num_updates  $num_updates]
     
   }
   
@@ -613,6 +632,21 @@ namespace eval specl::updater {
       if {[catch { exec -ignorestderr bunzip2 $bundle } rc]} {
         return -code error $rc
       }
+    } elseif {$ext eq ".dmg"} {
+      if {[catch { file mkdir [set mountpoint [file join / tmp $root] } rc]} {
+        return -code error $rc
+      }
+      if {[catch { exec -ignorestderr hdiutil attach $bundle -mountpoint $mountpoint -nobrowse } rc]} {
+        return -code error $rc
+      }
+      set appname [glob -directory $mountpoint *.app]
+      if {[catch { file rename $appname [file join / tmp [file tail $appname]] } rc]} {
+        return -code error $rc
+      }
+      if {[catch { exec -ignorestderr hdiutil detach $mountpoint } rc]} {
+        return -code error $rc
+      }
+      catch { file delete -force $mountpoint }
     }
     
     # If the file needs to be untar'ed do it now
@@ -782,6 +816,7 @@ namespace eval specl::updater {
     switch -glob $::tcl_platform(os) {
       Darwin {
         set trash_path [specl::helpers::get_unique_path [file join ~ .Trash] [file tail $install_dir]]
+        set download   [file join / tmp [file tail $install_dir]]
       }
       Linux* {
         if {[catch { exec -ignorestderr gvfs-trash $install_dir }]} {
@@ -901,32 +936,36 @@ namespace eval specl::updater {
     
     array set content $content_list
     
-    toplevel     .updwin
-    wm title     .updwin "Software Updater"
-    wm geometry  .updwin 500x400
-    wm resizable .updwin 0 0
+    # Initialize information
+    set title       [transform_text $data(ui,upd_title)   $content(version) $content(num_updates)]
+    set msg         [transform_text $data(ui,upd_message) $content(version) $content(num_updates)]
+    set icon_column [expr {($data(ui,icon_side) eq "right") ? 2 : 0}]
     
-    set msg "Version ($content(version)) is ready for installation. "
-    append msg "You are currently\nusing version ($specl::version). "
-    append msg "Click Download to update your version."
+    toplevel     .updwin
+    wm title     .updwin [transform_text $data(ui,win_title) $content(version) $content(num_updates)]
+    wm geometry  .updwin $data(ui,win_width)x$data(ui,win_height)
+    if {!$data(ui,win_resizable)} {
+      wm resizable .updwin 0 0
+    }
     
     ttk::frame .updwin.if
     ttk::label .updwin.if.icon
-    ttk::label .updwin.if.title -text "A new version of $specl::appname is available!" -font TkHeadingFont
+    ttk::label .updwin.if.title -text $title -font TkHeadingFont
     ttk::label .updwin.if.info  -text $msg
     
-    if {$data(icon) ne ""} {
-      .updwin.if.icon configure -image $data(icon)
+    # If there is an icon, create it and assign it to the icon label
+    if {$data(ui,icon_path) ne ""} {
+      .updwin.if.icon configure -image [set icon [image create photo -file $data(ui,icon_path)]]
     }
     
     grid rowconfigure    .updwin.if 1 -weight 1
     grid columnconfigure .updwin.if 1 -weight 1
-    grid .updwin.if.icon  -row 0 -column 0 -padx 2 -pady 2 -rowspan 2
-    grid .updwin.if.title -row 0 -column 1 -padx 2 -pady 2
-    grid .updwin.if.info  -row 1 -column 1 -padx 2 -pady 2
+    grid .updwin.if.icon  -row 0 -column $icon_column -padx 2 -pady 2 -rowspan 2
+    grid .updwin.if.title -row 0 -column 1            -padx 2 -pady 2
+    grid .updwin.if.info  -row 1 -column 1            -padx 2 -pady 2
     
     ttk::frame       .updwin.pf
-    ttk::progressbar .updwin.pf.pb -mode determinate -length 300
+    ttk::progressbar .updwin.pf.pb -mode determinate -length [expr $data(ui,win_width) - 100]
     ttk::label       .updwin.pf.status
     ttk::label       .updwin.pf.info
     
@@ -935,7 +974,7 @@ namespace eval specl::updater {
     grid .updwin.pf.info   -row 1 -column 0 -sticky ew -padx 2 -pady 2
     
     ttk::frame     .updwin.hf
-    set widgets(html) [text .updwin.hf.h -width 400 -height 200 \
+    set widgets(html) [text .updwin.hf.h -width $data(ui,win_width) -height $data(ui,upd_desc_height) \
       -xscrollcommand "specl::helpers::set_xscrollbar .updwin.hf.hb" \
       -yscrollcommand "specl::helpers::set_yscrollbar .updwin.hf.vb"]
     ttk::scrollbar .updwin.hf.vb -orient vertical   -command ".updwin.hf.h yview"
@@ -989,34 +1028,55 @@ namespace eval specl::updater {
     # Wait for the window to be closed
     tkwait window .updwin
     
+    # Delete the icon
+    if {[info exists icon]} {
+      image delete $icon
+    }
+    
   }
   
   ######################################################################
   # Displays the up-to-date window.
-  proc display_up_to_date {} {
+  proc display_up_to_date {content_list} {
     
     variable data
+    
+    array set content $content_list
     
     toplevel     .utdwin
     wm title     .utdwin ""
     wm resizable .utdwin 0 0
     
     # Create text
-    set msg "Your version of $specl::appname ($specl::version) is the latest available!"
+    set title       [transform_text $data(ui,utd_title)   $content(version) $content(num_updates)]
+    set msg         [transform_text $data(ui,utd_message) $content(version) $content(num_updates)]
+    set icon_column [expr {($data(ui,icon_side) eq "right") ? 2 : 0}]
     
-    # Create a 32 by 32 version of the icon
-    if {$data(icon) ne ""} {
-      ttk::label .utdwin.l -compound left -image [set new_icon [image_scale $data(icon) 32 32]] -text $msg
-    } else {
-      ttk::label .utdwin.l -text $msg
+    ttk::frame .utdwin.f
+    ttk::label .utdwin.f.icon
+    ttk::label .utdwin.f.title -text $title -font TkHeadingFont
+    ttk::label .utdwin.f.msg   -text $msg
+    
+    # If there is an icon, create it and assign it to the icon label
+    if {$data(ui,icon_path) ne ""} {
+      .utdwin.f.icon configure -image [set icon [image create photo -file $data(ui,icon_path)]]
     }
     
-    ttk::button .utdwin.b -text "OK" -width 6 -default active -command {
+    grid rowconfigure    .utdwin.f 1 -weight 1
+    grid columnconfigure .utdwin.f 1 -weight 1
+    grid .utdwin.f.icon  -row 0 -column $icon_column -sticky news -padx 2 -pady 2 -rowspan 2
+    grid .utdwin.f.title -row 0 -column 1            -sticky ew   -padx 2 -pady 2
+    grid .utdwin.f.msg   -row 1 -column 1            -sticky news -padx 2 -pady 2
+    
+    ttk::frame  .utdwin.bf
+    ttk::button .utdwin.bf.ok -text "OK" -width 6 -default active -command {
       destroy .utdwin
     }
     
-    pack .utdwin.l -fill x -padx 2 -pady 2
-    pack .utdwin.b         -padx 2 -pady 2
+    pack .utdwin.bf.ok -padx 2 -pady 2
+    
+    pack .utdwin.f  -fill x
+    pack .utdwin.bf -fill x
     
     # Grab the focus
     ::tk::SetFocusGrab .utdwin .utdwin.b
@@ -1027,9 +1087,72 @@ namespace eval specl::updater {
     # Release the grab
     ::tk::RestoreFocusGrab .utdwin .utdwin.b
     
-    # Delete the 32 by 32 icon, if it was created
-    if {[info exists new_icon]} {
-      image delete $new_icon
+    # Delete the icon
+    if {[info exists icon]} {
+      image delete $icon
+    }
+    
+  }
+  
+  ######################################################################
+  # Loads the specl_customize.xml file, if it exists.
+  proc load_customizations {} {
+    
+    variable data
+    
+    if {![catch { open [file join $data(specl_version_dir) specl_customize.xml] r } rc]} {
+      
+      # Read the data
+      set contents [read $rc]
+      close $rc
+      
+      # Parse the customization XML
+      if {![catch { specl::helpers::get_element [list "" $contents] "customizations" } custom_node]} {
+      
+        # Get window customizations
+        if {![catch { specl::helpers::get_element $custom_node "window" } window_node]} {
+          foreach attr [list width height resizable] {
+            if {![catch { specl::helpers::get_attr $window_node $attr } value]} {
+              set data(ui,win_$attr) $value
+            }
+          }
+          if {![catch { specl::helpers::get_element $window_node "title" } title_node]} {
+            set data(ui,win_title) [lindex $title_node 1]
+          }
+        }
+         
+        # Get icon information
+        if {![catch { specl::helpers::get_element $custom_node "icon" } icon_node]} {
+          foreach attr [list path size] {
+            if {![catch { specl::helpers::get_attr $icon_node $attr } value]} {
+              set data(ui,icon_$attr) $value
+            }
+          }
+        }
+         
+        # Get update window information
+        if {![catch { specl::helpers::get_element $custom_node "update" } update_node]} {
+          if {[catch { specl::helpers::get_attr $update_node "description_height" } value]} {
+            set data(ui,upd_desc_height) $value
+          }
+          foreach name [list title message] {
+            if {![catch { specl::helpers::get_element $update_node $name } node]} {
+              set data(ui,upd_$name) [lindex $node 1]
+            }
+          }
+        }
+         
+        # Get up-to-date window information
+        if {![catch { specl::helpers::get_element $custom_node "uptodate" } uptodate_node]} {
+          foreach name [list title message] { 
+            if {![catch { specl::helpers::get_element $update_node $name } node]} {
+              set data(ui,utd_$name) [lindex $node 1]
+            }
+          }
+        }
+        
+      }
+      
     }
     
   }
@@ -1046,12 +1169,8 @@ namespace eval specl::updater {
       exit 1
     }
     
-    # If an icon path was specified, create the icon image
-    if {$specl::icon_path ne ""} {
-      if {[file exists [set icon_path [file join $data(specl_version_dir) $specl::icon_path]]]} {
-        set data(icon) [image create photo -file $icon_path]
-      }
-    }
+    # Load the customization file if it exists
+    catch { load_customizations }
     
     # Get the URL
     if {[catch "fetch_url" rc]} {
@@ -1077,7 +1196,7 @@ namespace eval specl::updater {
     # If the content does not require an update, tell the user
     if {$content(release) <= $specl::release} {
       if {!$data(cl_quiet)} {
-        display_up_to_date
+        display_up_to_date $rc
       }
       exit 1
     } else {
@@ -1086,6 +1205,21 @@ namespace eval specl::updater {
     
     # Stop the application
     exit
+    
+  }
+  
+  ######################################################################
+  # Transforms the given text string by substituting keywords with values.
+  proc transform_text {txt new_version num_updates} {
+    
+    variable data
+    
+    set txt [regsub -all -- \{APPNAME\}    $txt $specl::appname]
+    set txt [regsub -all -- \{CURVERSION\} $txt $specl::version]
+    set txt [regsub -all -- \{NEWVERSION\} $txt $new_version]
+    set txt [regsub -all -- \{UPDATES\}    $txt $num_updates]
+    
+    return $txt
     
   }
   
@@ -1270,8 +1404,6 @@ namespace eval specl::releaser {
     set widgets(rss_url_label)       [ttk::label .relwin.nb.rf.l5 -text "RSS URL:"]
     set widgets(rss_url)             [ttk::entry .relwin.nb.rf.e5]
     set widgets(rss_url_suffix)      [ttk::label .relwin.nb.rf.l51 -text "/appcast.xml"]
-    set widgets(icon_path_label)     [ttk::label .relwin.nb.rf.l7  -text "Icon Path:"]
-    set widgets(icon_path)           [ttk::entry .relwin.nb.rf.e7]
       
     grid columnconfigure .relwin.nb.rf 1 -weight 1
     grid $widgets(appname_label)       -row 0 -column 0 -sticky news -padx 2 -pady 2
@@ -1287,8 +1419,6 @@ namespace eval specl::releaser {
     grid $widgets(rss_url_label)       -row 5 -column 0 -sticky news -padx 2 -pady 2
     grid $widgets(rss_url)             -row 5 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
     grid $widgets(rss_url_suffix)      -row 5 -column 2 -sticky news -padx 2 -pady 2
-    grid $widgets(icon_path_label)     -row 6 -column 0 -sticky news -padx 2 -pady 2
-    grid $widgets(icon_path)           -row 6 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
     
     $widgets(nb) add [ttk::frame .relwin.nb.tf] -text "Release"
     
@@ -1357,7 +1487,6 @@ namespace eval specl::releaser {
     $widgets(general_link)  insert end $data(channel_link)
     $widgets(language)      insert end $data(channel_language)
     $widgets(rss_url)       insert end $specl::rss_url
-    $widgets(icon_path)     insert end $specl::icon_path
     
     $widgets(item_version)      insert end $data(item_version)
     $widgets(item_desc)         insert end $data(item_description)
@@ -1487,7 +1616,6 @@ namespace eval specl::releaser {
     set data(channel_link)        [$widgets(general_link) get]
     set data(channel_language)    [$widgets(language) get]
     set specl::rss_url            [$widgets(rss_url) get]
-    set specl::icon_path          [$widgets(icon_path) get]
     set data(item_version)        [$widgets(item_version) get]
     set data(item_description)    [$widgets(item_desc) get 1.0 end-1c]
     set data(item_release_notes)  [$widgets(item_notes) get]
@@ -1683,7 +1811,6 @@ namespace eval specl::releaser {
       puts $rc "set specl::release      \"$data(item_release)\""
       puts $rc "set specl::rss_url      \"$specl::rss_url\""
       puts $rc "set specl::download_url \"$data(item_download_url)\""
-      puts $rc "set specl::icon_path    \"$specl::icon_path\""
       
       close $rc
       
