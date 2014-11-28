@@ -842,9 +842,50 @@ description:
 
 
 changeset:   621:fe84307fd30c
-tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
 date:        Thu Nov 27 01:13:39 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   622:b5e27f422252
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Nov 27 01:14:49 2014 -0600
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   623:78e2952581fd
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Nov 27 01:14:58 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset b5e27f422252
+
+
+changeset:   624:0b6ebbc25a64
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Nov 28 01:39:29 2014 -0600
+files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl specl_customize.xml specl_version.tcl
+description:
+* Adding customization capability.
+* Adding DMG file extension handling.
+
+
+changeset:   625:bab862f76e19
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Nov 28 10:46:16 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.5
+
+
+changeset:   626:378e835e4fce
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Nov 28 10:48:14 2014 -0600
 files:       .hgtags
 description:
 Removed tag stable-1.4
