@@ -243,19 +243,23 @@ proc run_specl {type major minor release_notes} {
   # Setup specl arguments
   append specl_cmd " -n $major.$minor -d [file normalize [file join ~ projects releases]]"
   
-  # Add Linux bundle
-  if {[string match Linux* $::tcl_platform(os)] || ($::tcl_platform(os) eq "Darwin")} {
-    append specl_cmd " -b linux,[file normalize [file join ~ projects releases tke-$major.$minor.tgz]]"
-  }
+  if {$type eq "edit"} {
+
+    # Add Linux bundle
+    if {[string match Linux* $::tcl_platform(os)] || ($::tcl_platform(os) eq "Darwin")} {
+      append specl_cmd " -b linux,[file normalize [file join ~ projects releases tke-$major.$minor.tgz]]"
+    }
   
-  # Add MacOSX bundle
-  if {$::tcl_platform(os) eq "Darwin"} {
-    append specl_cmd " -b mac,[file normalize [file join ~ projects releases tke-$major.$minor.dmg]]"
-  }
+    # Add MacOSX bundle
+    if {$::tcl_platform(os) eq "Darwin"} {
+      append specl_cmd " -b mac,[file normalize [file join ~ projects releases tke-$major.$minor.dmg]]"
+    }
   
-  # Add Windows bundle
-  if {[string match *Win* $::tcl_platform(os)] && 0} {
-    append specl_cmd " -b win,[file normalize [file join ~ projects releases tke-$major.$minor.exe]]"
+    # Add Windows bundle
+    if {[string match *Win* $::tcl_platform(os)] && 0} {
+      append specl_cmd " -b win,[file normalize [file join ~ projects releases tke-$major.$minor.exe]]"
+    }
+
   }
 
   # If a release notes file was provided, skip the UI and pass the release notes
