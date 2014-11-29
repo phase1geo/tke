@@ -26,7 +26,7 @@ namespace eval specl {
   ######################################################################
   # Returns the full, normalized pathname of the specl_version.tcl file.
   proc get_specl_version_dir {start_dir} {
-    
+
     set current_dir [file normalize $start_dir]
     while {($current_dir ne "/") && ![file exists [file join $current_dir specl_version.tcl]]} {
       set current_dir [file dirname $current_dir]
@@ -34,9 +34,20 @@ namespace eval specl {
     
     # If we could not find the specl_version.tcl file, return an error
     if {$current_dir eq "/"} {
-      return -code error "Unable to find specl_version.tcl file"
-    }
+
+      # If we are running Mac OSX, the specl_version.tcl file could be in one of the child
+      # directories under start_dir, check to see if this is the case
+      if {$::tcl_platform(os) eq "Darwin"} {
+        if {![catch { exec -ignorestderr find $start_dir -name specl_version.tcl } rc] && ([set current_dir [string trim $rc]] ne "")} {
+          return [file dirname $current_dir]
+        }
+      }
     
+      # Otherwise, specify that we could not find the specl_version.tcl file
+      return -code error "Unable to find specl_version.tcl file"
+
+    }
+
     return $current_dir
     
   }
@@ -62,7 +73,7 @@ namespace eval specl {
     # If we are running on a Mac, find the .app installation directory
     if {$::tcl_platform(os) eq "Darwin"} {
       set path [file split $specl_version_dir]
-      if {[set path [file join [lrange $path 0 [lsearch -glob $path *.app]]]] ne ""} {
+      if {[set path [file join {*}[lrange $path 0 [lsearch -glob $path *.app]]]] ne ""} {
         set install_dir $path
       }
     }
@@ -142,11 +153,6 @@ namespace eval specl::helpers {
       }
     }
 
-    # Make sure that we find at least one element; otherwise, flag an error
-    if {[llength $elements] == 0} {
-      return -code error "Unable to find element node $name"
-    }
-    
     return $elements
     
   }
@@ -155,7 +161,9 @@ namespace eval specl::helpers {
   # Returns a single element node.
   proc get_element {node name} {
 
-    set elements [get_elements $node $name]
+    if {[llength [set elements [get_elements $node $name]]] == 0} {
+      return -code error "Unable to find element node $name"
+    }
 
     return [lindex $elements 0]
 
@@ -633,14 +641,14 @@ namespace eval specl::updater {
         return -code error $rc
       }
     } elseif {$ext eq ".dmg"} {
-      if {[catch { file mkdir [set mountpoint [file join / tmp $root] } rc]} {
+      if {[catch { file mkdir [set mountpoint [file join / tmp $root]] } rc]} {
         return -code error $rc
       }
       if {[catch { exec -ignorestderr hdiutil attach $bundle -mountpoint $mountpoint -nobrowse } rc]} {
         return -code error $rc
       }
       set appname [glob -directory $mountpoint *.app]
-      if {[catch { file rename $appname [file join / tmp [file tail $appname]] } rc]} {
+      if {[catch { file copy -force $appname [file join / tmp [file tail $appname]] } rc]} {
         return -code error $rc
       }
       if {[catch { exec -ignorestderr hdiutil detach $mountpoint } rc]} {
@@ -737,7 +745,7 @@ namespace eval specl::updater {
     wm title     .passwin "Enter root password"
     wm resizable .passwin 0 0
     wm transient .passwin .updwin
-    
+
     ttk::frame .passwin.f
     ttk::label .passwin.f.l1 -text "$specl::appname requires administrative privileges\nto install the latest update"
     ttk::label .passwin.f.l2 -text "Root password: "
@@ -766,6 +774,9 @@ namespace eval specl::updater {
     pack .passwin.f  -fill x -expand yes
     pack .passwin.bf -fill x
     
+    # Center the password window over the update window
+    ::tk::PlaceWindow .passwin widget .updwin
+
     # Grab and focus on the window
     ::tk::SetFocusGrab .passwin .passwin.e
     
@@ -1024,7 +1035,15 @@ namespace eval specl::updater {
 
     # Configure the text widget to be disabled
     $widgets(html) configure -state disabled
-    
+
+    # Center the window on the screen
+    set wx [expr ([winfo screenwidth  .updwin] / 2) - ($data(ui,win_width)  / 2)]
+    set wy [expr ([winfo screenheight .updwin] / 2) - ($data(ui,win_height) / 2)]
+    wm geometry .updwin +$wx+$wy
+
+    # Raise the window to the top
+    wm attributes .updwin -topmost 1
+     
     # Wait for the window to be closed
     tkwait window .updwin
     
@@ -1718,7 +1737,7 @@ namespace eval specl::releaser {
       
       # Get the last release information and all other releases
       set releases_node [specl::helpers::get_element $channel_node "releases"]
-      
+
       set first                1
       set data(other_releases) ""
       foreach release_node [specl::helpers::get_elements $releases_node "release"] {
