@@ -285,6 +285,14 @@ namespace eval specl::helpers {
   }
 
   ######################################################################
+  # Creates a bold font and returns its value.
+  proc set_bold_font {win} {
+
+    $win configure -font [font create {*}[font actual [$win cget -font]] -weight bold]
+
+  }
+
+  ######################################################################
   # Initializes the given text widget to render HTML via htmllib.
   proc HMinitialize {win} {
 
@@ -410,7 +418,7 @@ namespace eval specl::updater {
     ui,icon_path         ""
     ui,icon_side         left
     ui,utd_win_width     400
-    ui,utd_win_height    100
+    ui,utd_win_height    120
     ui,utd_title         "You are up-to-date!"
     ui,utd_message       "Your version of {APPNAME} ({CURVERSION}) is the latest available."
     ui,upd_win_width     500
@@ -963,8 +971,11 @@ namespace eval specl::updater {
     
     ttk::frame .updwin.if
     ttk::label .updwin.if.icon
-    ttk::label .updwin.if.title -text $title -font TkHeadingFont
+    ttk::label .updwin.if.title -text $title
     ttk::label .updwin.if.info  -text $msg
+
+    # Set the title font to a bold font
+    set_bold_font .updwin.if.title
     
     # If there is an icon, create it and assign it to the icon label
     if {$data(ui,icon_path) ne ""} {
@@ -1076,8 +1087,11 @@ namespace eval specl::updater {
     
     ttk::frame .utdwin.f
     ttk::label .utdwin.f.icon
-    ttk::label .utdwin.f.title -text $title -font TkHeadingFont
+    ttk::label .utdwin.f.title -text $title
     ttk::label .utdwin.f.msg   -text $msg
+    
+    # Set the title font to a bold font
+    set_bold_font .utdwin.f.title
     
     # If there is an icon, create it and assign it to the icon label
     if {$data(ui,icon_path) ne ""} {
@@ -1086,9 +1100,9 @@ namespace eval specl::updater {
     
     grid rowconfigure    .utdwin.f 1 -weight 1
     grid columnconfigure .utdwin.f 1 -weight 1
-    grid .utdwin.f.icon  -row 0 -column $icon_column -padx 2 -pady 2 -rowspan 2
+    grid .utdwin.f.icon  -row 0 -column $icon_column -padx 2 -pady 2 -sticky new -rowspan 2
     grid .utdwin.f.title -row 0 -column 1            -padx 2 -pady 2
-    grid .utdwin.f.msg   -row 1 -column 1            -padx 2 -pady 2
+    grid .utdwin.f.msg   -row 1 -column 1            -padx 2 -pady 2 -sticky n
     
     ttk::frame  .utdwin.bf
     ttk::button .utdwin.bf.ok -text "OK" -width 6 -default active -command {
@@ -1097,16 +1111,16 @@ namespace eval specl::updater {
     
     pack .utdwin.bf.ok -padx 2 -pady 2
     
-    pack .utdwin.f  -fill x
+    pack .utdwin.f  -fill both -expand yes
     pack .utdwin.bf -fill x
     
     # Center the window on the screen
-    set wx [expr ([winfo screenwidth  .updwin] / 2) - ($data(ui,utd_win_width)  / 2)]
-    set wy [expr ([winfo screenheight .updwin] / 2) - ($data(ui,utd_win_height) / 2)]
+    set wx [expr ([winfo screenwidth  .utdwin] / 2) - ($data(ui,utd_win_width)  / 2)]
+    set wy [expr ([winfo screenheight .utdwin] / 2) - ($data(ui,utd_win_height) / 2)]
     wm geometry .utdwin +$wx+$wy
 
     # Raise the window to the top
-    wm attributes .updwin -topmost 1
+    wm attributes .utdwin -topmost 1
      
     # Grab the focus
     ::tk::SetFocusGrab .utdwin .utdwin.b
