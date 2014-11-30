@@ -995,9 +995,42 @@ Added tag stable-1.4 for changeset df0299c2d54a
 
 
 changeset:   640:1d4c9c07dda2
-tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
 date:        Sat Nov 29 00:45:34 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   641:a3d2fdeac29e
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 29 00:45:52 2014 -0600
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   642:f0b982b15e7f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 29 00:46:09 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset a3d2fdeac29e
+
+
+changeset:   643:57436c09f18a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 29 23:00:33 2014 -0600
+files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+description:
+* Fixing more issues with MacOSX installations.
+* Restructuring customization window.
+
+
+changeset:   644:d4db26d6afa5
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 29 23:01:51 2014 -0600
 files:       .hgtags
 description:
 Removed tag stable-1.4
