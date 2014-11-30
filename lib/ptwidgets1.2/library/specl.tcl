@@ -286,9 +286,9 @@ namespace eval specl::helpers {
 
   ######################################################################
   # Creates a bold font and returns its value.
-  proc set_bold_font {win} {
+  proc bold_font {} {
 
-    $win configure -font [font create {*}[font actual [$win cget -font]] -weight bold]
+    return [font create {*}[font actual TkDefaultFont] -weight bold]
 
   }
 
@@ -971,12 +971,9 @@ namespace eval specl::updater {
     
     ttk::frame .updwin.if
     ttk::label .updwin.if.icon
-    ttk::label .updwin.if.title -text $title
+    ttk::label .updwin.if.title -text $title -font [specl::helpers::bold_font]
     ttk::label .updwin.if.info  -text $msg
 
-    # Set the title font to a bold font
-    set_bold_font .updwin.if.title
-    
     # If there is an icon, create it and assign it to the icon label
     if {$data(ui,icon_path) ne ""} {
       .updwin.if.icon configure -image [set icon [image create photo -file $data(ui,icon_path)]]
@@ -1087,11 +1084,8 @@ namespace eval specl::updater {
     
     ttk::frame .utdwin.f
     ttk::label .utdwin.f.icon
-    ttk::label .utdwin.f.title -text $title
+    ttk::label .utdwin.f.title -text $title -font [specl::helpers::bold_font]
     ttk::label .utdwin.f.msg   -text $msg
-    
-    # Set the title font to a bold font
-    set_bold_font .utdwin.f.title
     
     # If there is an icon, create it and assign it to the icon label
     if {$data(ui,icon_path) ne ""} {
