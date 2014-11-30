@@ -110,7 +110,7 @@ namespace eval specl {
     if {[catch { exec -ignorestderr [info nameofexecutable] $frame(file) -- update {*}$update_args } rc options]} {
       return
     }
-    
+
     # If there is a cleanup script to execute, do it now
     if {$cleanup_script ne ""} {
       eval $cleanup_script
@@ -398,26 +398,28 @@ namespace eval specl::updater {
   array set widgets {}
   
   array set data {
-    specl_version_dir  ""
-    cl_quiet           0
-    cl_theme           ""
-    icon               ""
-    fetch_ncode        ""
-    fetch_content      ""
-    fetch_error        ""
-    stylecount         0
-    cancel             0
-    ui,icon_path       ""
-    ui,icon_side       left
-    ui,win_width       500
-    ui,win_height      400
-    ui,win_title       "Software Updater"
-    ui,win_resizable   1
-    ui,utd_title       "You are up-to-date!"
-    ui,utd_message     "Your version of {APPNAME} ({CURVERSION}) is the latest available."
-    ui,upd_title       "A new version is available!"
-    ui,upd_message     "Version ({NEWVERSION}) is ready for installation. You are currently\nusing version ({CURVERSION}). Click Download to update your version."
-    ui,upd_desc_height 200
+    specl_version_dir    ""
+    cl_quiet             0
+    cl_theme             ""
+    icon                 ""
+    fetch_ncode          ""
+    fetch_content        ""
+    fetch_error          ""
+    stylecount           0
+    cancel               0
+    ui,icon_path         ""
+    ui,icon_side         left
+    ui,utd_win_width     400
+    ui,utd_win_height    100
+    ui,utd_title         "You are up-to-date!"
+    ui,utd_message       "Your version of {APPNAME} ({CURVERSION}) is the latest available."
+    ui,upd_win_width     500
+    ui,upd_win_height    400
+    ui,upd_win_title     "Software Updater"
+    ui,upd_win_resizable 1
+    ui,upd_title         "A new version is available!"
+    ui,upd_message       "Version ({NEWVERSION}) is ready for installation. You are currently\nusing version ({CURVERSION}). Click Download to update your version."
+    ui,upd_desc_height   200
   }
 
   ######################################################################
@@ -654,7 +656,7 @@ namespace eval specl::updater {
       if {[catch { exec -ignorestderr hdiutil detach $mountpoint } rc]} {
         return -code error $rc
       }
-      catch { file delete -force $mountpoint }
+      catch { file delete -force $mountpoint $bundle }
     }
     
     # If the file needs to be untar'ed do it now
@@ -954,7 +956,7 @@ namespace eval specl::updater {
     
     toplevel     .updwin
     wm title     .updwin [transform_text $data(ui,win_title) $content(version) $content(num_updates)]
-    wm geometry  .updwin $data(ui,win_width)x$data(ui,win_height)
+    wm geometry  .updwin $data(ui,upd_win_width)x$data(ui,upd_win_height)
     if {!$data(ui,win_resizable)} {
       wm resizable .updwin 0 0
     }
@@ -976,7 +978,7 @@ namespace eval specl::updater {
     grid .updwin.if.info  -row 1 -column 1            -padx 2 -pady 2
     
     ttk::frame       .updwin.pf
-    ttk::progressbar .updwin.pf.pb -mode determinate -length [expr $data(ui,win_width) - 100]
+    ttk::progressbar .updwin.pf.pb -mode determinate -length [expr $data(ui,upd_win_width) - 120]
     ttk::label       .updwin.pf.status
     ttk::label       .updwin.pf.info
     
@@ -985,7 +987,7 @@ namespace eval specl::updater {
     grid .updwin.pf.info   -row 1 -column 0 -sticky ew -padx 2 -pady 2
     
     ttk::frame     .updwin.hf
-    set widgets(html) [text .updwin.hf.h -width $data(ui,win_width) -height $data(ui,upd_desc_height) \
+    set widgets(html) [text .updwin.hf.h -width $data(ui,upd_win_width) -height $data(ui,upd_desc_height) \
       -xscrollcommand "specl::helpers::set_xscrollbar .updwin.hf.hb" \
       -yscrollcommand "specl::helpers::set_yscrollbar .updwin.hf.vb"]
     ttk::scrollbar .updwin.hf.vb -orient vertical   -command ".updwin.hf.h yview"
@@ -1037,8 +1039,8 @@ namespace eval specl::updater {
     $widgets(html) configure -state disabled
 
     # Center the window on the screen
-    set wx [expr ([winfo screenwidth  .updwin] / 2) - ($data(ui,win_width)  / 2)]
-    set wy [expr ([winfo screenheight .updwin] / 2) - ($data(ui,win_height) / 2)]
+    set wx [expr ([winfo screenwidth  .updwin] / 2) - ($data(ui,upd_win_width)  / 2)]
+    set wy [expr ([winfo screenheight .updwin] / 2) - ($data(ui,upd_win_height) / 2)]
     wm geometry .updwin +$wx+$wy
 
     # Raise the window to the top
@@ -1064,8 +1066,9 @@ namespace eval specl::updater {
     
     toplevel     .utdwin
     wm title     .utdwin ""
+    wm geometry  .utdwin $data(ui,utd_win_width)x$data(ui,utd_win_height)
     wm resizable .utdwin 0 0
-    
+
     # Create text
     set title       [transform_text $data(ui,utd_title)   $content(version) $content(num_updates)]
     set msg         [transform_text $data(ui,utd_message) $content(version) $content(num_updates)]
@@ -1083,9 +1086,9 @@ namespace eval specl::updater {
     
     grid rowconfigure    .utdwin.f 1 -weight 1
     grid columnconfigure .utdwin.f 1 -weight 1
-    grid .utdwin.f.icon  -row 0 -column $icon_column -sticky news -padx 2 -pady 2 -rowspan 2
-    grid .utdwin.f.title -row 0 -column 1            -sticky ew   -padx 2 -pady 2
-    grid .utdwin.f.msg   -row 1 -column 1            -sticky news -padx 2 -pady 2
+    grid .utdwin.f.icon  -row 0 -column $icon_column -padx 2 -pady 2 -rowspan 2
+    grid .utdwin.f.title -row 0 -column 1            -padx 2 -pady 2
+    grid .utdwin.f.msg   -row 1 -column 1            -padx 2 -pady 2
     
     ttk::frame  .utdwin.bf
     ttk::button .utdwin.bf.ok -text "OK" -width 6 -default active -command {
@@ -1097,6 +1100,14 @@ namespace eval specl::updater {
     pack .utdwin.f  -fill x
     pack .utdwin.bf -fill x
     
+    # Center the window on the screen
+    set wx [expr ([winfo screenwidth  .updwin] / 2) - ($data(ui,utd_win_width)  / 2)]
+    set wy [expr ([winfo screenheight .updwin] / 2) - ($data(ui,utd_win_height) / 2)]
+    wm geometry .utdwin +$wx+$wy
+
+    # Raise the window to the top
+    wm attributes .updwin -topmost 1
+     
     # Grab the focus
     ::tk::SetFocusGrab .utdwin .utdwin.b
     
@@ -1128,18 +1139,6 @@ namespace eval specl::updater {
       # Parse the customization XML
       if {![catch { specl::helpers::get_element [list "" $contents] "customizations" } custom_node]} {
       
-        # Get window customizations
-        if {![catch { specl::helpers::get_element $custom_node "window" } window_node]} {
-          foreach attr [list width height resizable] {
-            if {![catch { specl::helpers::get_attr $window_node $attr } value]} {
-              set data(ui,win_$attr) $value
-            }
-          }
-          if {![catch { specl::helpers::get_element $window_node "title" } title_node]} {
-            set data(ui,win_title) [lindex $title_node 1]
-          }
-        }
-         
         # Get icon information
         if {![catch { specl::helpers::get_element $custom_node "icon" } icon_node]} {
           foreach attr [list path size] {
@@ -1154,7 +1153,17 @@ namespace eval specl::updater {
           if {[catch { specl::helpers::get_attr $update_node "description_height" } value]} {
             set data(ui,upd_desc_height) $value
           }
-          foreach name [list title message] {
+          if {![catch { specl::helpers::get_element $update_node "window" } window_node]} {
+            foreach name [list width height resizable] {
+              if {![catch { specl::helpers::get_attr $window_node $name } value]} {
+                set data(ui,upd_win_$name) $value
+              }
+            }
+            if {![catch { specl::helpers::get_element $window_node "title" } title_node]} {
+              set data(ui,upd_win_title) [lindex $title_node 1]
+            }
+          }
+          foreach name [list win_width win_height win_title win_resizable title message] {
             if {![catch { specl::helpers::get_element $update_node $name } node]} {
               set data(ui,upd_$name) [lindex $node 1]
             }
@@ -1163,8 +1172,15 @@ namespace eval specl::updater {
          
         # Get up-to-date window information
         if {![catch { specl::helpers::get_element $custom_node "uptodate" } uptodate_node]} {
+          if {![catch { specl::helpers::get_element $uptodate_node "window" } window_node]} {
+            foreach name [list width height] {
+              if {[catch { specl::helpers::get_attr $window_node $name } value]} {
+                set data(ui,upd_win_$name) $value
+              }
+            }
+          }
           foreach name [list title message] { 
-            if {![catch { specl::helpers::get_element $update_node $name } node]} {
+            if {![catch { specl::helpers::get_element $uptodate_node $name } node]} {
               set data(ui,utd_$name) [lindex $node 1]
             }
           }
@@ -1882,12 +1898,20 @@ namespace eval specl::releaser {
   # Returns the MD5 checksum for the given bundle.
   proc get_checksum {bundle} {
     
-    # Get the md5 checksum of the tarball file
-    if {[catch { exec -ignorestderr md5sum $bundle } rc]} {
-      return ""
+    # On Mac OSX, the md5sum executable is just called "md5" and its output is a bit different
+    if {$::tcl_platform(os) eq "Darwin"} {
+      if {[catch { exec -ignorestderr md5 $bundle } rc]} {
+        return ""
+      }
+      return [lindex $rc 3]
+
+    # Otherwise, use the normal md5sum
+    } else {
+      if {[catch { exec -ignorestderr md5sum $bundle } rc]} {
+        return ""
+      }
+      return [lindex $rc 0]
     }
-    
-    return [lindex $rc 0]
     
   }
   
