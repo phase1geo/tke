@@ -1028,9 +1028,33 @@ description:
 
 
 changeset:   644:d4db26d6afa5
-tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
 date:        Sat Nov 29 23:01:51 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   645:98e70f7db3bd
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 29 23:04:17 2014 -0600
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   646:41405b4a64c4
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 29 23:04:32 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset 98e70f7db3bd
+
+
+changeset:   647:3c5fdc89a868
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 29 23:11:04 2014 -0600
 files:       .hgtags
 description:
 Removed tag stable-1.4
