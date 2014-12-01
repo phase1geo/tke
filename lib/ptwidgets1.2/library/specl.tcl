@@ -139,15 +139,21 @@ namespace eval specl::helpers {
   ######################################################################
   # Returns the node content found within the given parent node.
   proc get_elements {node name} {
-    
+
     set node_content [lindex $node 1]
     set elements     [list]
 
     while {1} {
-      if {[regexp "<$name\(.*?\)>\(.*?\)</$name>\(.*\)\$" $node_content -> attrs content node_content]} {
-        lappend elements [list [string trim $attrs] [string trim $content]]
-      } elseif {[regexp "<$name\(.*?\)/>\(.*\)\$" $node_content -> attrs node_content]} {
-        lappend elements [list [string trim $attrs] ""]
+      if {[regexp {^\s*<(\w+)(.*?)>(.*?)</\1>(.*)$} $node_content -> nname attrs content node_content]} {
+        if {$name eq $nname} {
+          lappend elements [list [string trim $attrs] [string trim $content]]
+        }
+      } elseif {[regexp {^\s*<(\w+)(.*?)/>(.*)$} $node_content -> nname attrs node_content]} {
+        if {$name eq $nname} {
+          lappend elements [list [string trim $attrs] ""]
+        }
+      } elseif {[regexp {^\s*<\?.*?\?>(.*)$} $node_content -> node_content]} {
+        continue
       } else {
         break
       }
@@ -409,6 +415,7 @@ namespace eval specl::updater {
     specl_version_dir    ""
     cl_quiet             0
     cl_theme             ""
+    cl_test_type         ""
     icon                 ""
     fetch_ncode          ""
     fetch_content        ""
@@ -444,6 +451,12 @@ namespace eval specl::updater {
         -t      {
           set cl_args [lassign $cl_args data(cl_theme)]
           catch { ttk::style theme use $data(cl_theme) }
+        }
+        -test   {
+          set cl_args [lassign $cl_args data(cl_test_type)]
+          if {($data(cl_test_type) ne "update") && ($data(cl_test_type) ne "uptodate")} {
+            return 0
+          }
         }
         default {
           if {$data(specl_version_dir) eq ""} {
@@ -680,6 +693,13 @@ namespace eval specl::updater {
   # Performs the actual application update.
   proc do_download {content_list} {
     
+    variable data
+
+    # If we are in test mode, return now
+    if {$data(cl_test_type) ne ""} {
+      return
+    }
+
     array set content $content_list
     
     # Show the progress bar
@@ -958,15 +978,17 @@ namespace eval specl::updater {
     array set content $content_list
     
     # Initialize information
-    set title       [transform_text $data(ui,upd_title)   $content(version) $content(num_updates)]
-    set msg         [transform_text $data(ui,upd_message) $content(version) $content(num_updates)]
+    set title       [transform_text $data(ui,upd_title)   $content_list]
+    set msg         [transform_text $data(ui,upd_message) $content_list]
     set icon_column [expr {($data(ui,icon_side) eq "right") ? 2 : 0}]
     
     toplevel     .updwin
-    wm title     .updwin [transform_text $data(ui,win_title) $content(version) $content(num_updates)]
+    wm title     .updwin [transform_text $data(ui,upd_win_title) $content_list]
     wm geometry  .updwin $data(ui,upd_win_width)x$data(ui,upd_win_height)
-    if {!$data(ui,win_resizable)} {
+    if {!$data(ui,upd_win_resizable)} {
       wm resizable .updwin 0 0
+    } else {
+      wm minsize .updwin $data(ui,upd_win_width) $data(ui,upd_win_height)
     }
     
     ttk::frame .updwin.if
@@ -995,7 +1017,7 @@ namespace eval specl::updater {
     grid .updwin.pf.info   -row 1 -column 0 -sticky ew -padx 2 -pady 2
     
     ttk::frame     .updwin.hf
-    set widgets(html) [text .updwin.hf.h -width $data(ui,upd_win_width) -height $data(ui,upd_desc_height) \
+    set widgets(html) [text .updwin.hf.h \
       -xscrollcommand "specl::helpers::set_xscrollbar .updwin.hf.hb" \
       -yscrollcommand "specl::helpers::set_yscrollbar .updwin.hf.vb"]
     ttk::scrollbar .updwin.hf.vb -orient vertical   -command ".updwin.hf.h yview"
@@ -1078,8 +1100,8 @@ namespace eval specl::updater {
     wm resizable .utdwin 0 0
 
     # Create text
-    set title       [transform_text $data(ui,utd_title)   $content(version) $content(num_updates)]
-    set msg         [transform_text $data(ui,utd_message) $content(version) $content(num_updates)]
+    set title       [transform_text $data(ui,utd_title)   $content_list]
+    set msg         [transform_text $data(ui,utd_message) $content_list]
     set icon_column [expr {($data(ui,icon_side) eq "right") ? 2 : 0}]
     
     ttk::frame .utdwin.f
@@ -1149,7 +1171,7 @@ namespace eval specl::updater {
       
         # Get icon information
         if {![catch { specl::helpers::get_element $custom_node "icon" } icon_node]} {
-          foreach attr [list path size] {
+          foreach attr [list path side] {
             if {![catch { specl::helpers::get_attr $icon_node $attr } value]} {
               set data(ui,icon_$attr) $value
             }
@@ -1158,9 +1180,6 @@ namespace eval specl::updater {
          
         # Get update window information
         if {![catch { specl::helpers::get_element $custom_node "update" } update_node]} {
-          if {[catch { specl::helpers::get_attr $update_node "description_height" } value]} {
-            set data(ui,upd_desc_height) $value
-          }
           if {![catch { specl::helpers::get_element $update_node "window" } window_node]} {
             foreach name [list width height resizable] {
               if {![catch { specl::helpers::get_attr $window_node $name } value]} {
@@ -1171,7 +1190,7 @@ namespace eval specl::updater {
               set data(ui,upd_win_title) [lindex $title_node 1]
             }
           }
-          foreach name [list win_width win_height win_title win_resizable title message] {
+          foreach name [list title message] {
             if {![catch { specl::helpers::get_element $update_node $name } node]} {
               set data(ui,upd_$name) [lindex $node 1]
             }
@@ -1182,8 +1201,8 @@ namespace eval specl::updater {
         if {![catch { specl::helpers::get_element $custom_node "uptodate" } uptodate_node]} {
           if {![catch { specl::helpers::get_element $uptodate_node "window" } window_node]} {
             foreach name [list width height] {
-              if {[catch { specl::helpers::get_attr $window_node $name } value]} {
-                set data(ui,upd_win_$name) $value
+              if {![catch { specl::helpers::get_attr $window_node $name } value]} {
+                set data(ui,utd_win_$name) $value
               }
             }
           }
@@ -1215,35 +1234,61 @@ namespace eval specl::updater {
     # Load the customization file if it exists
     catch { load_customizations }
     
-    # Get the URL
-    if {[catch "fetch_url" rc]} {
-      tk_messageBox -parent . -default ok -type ok -message "Unable to update" -detail $rc
-      exit 1
-    }
+    # If we are running in live mode, fetch the appcast data and parse it
+    if {$data(cl_test_type) eq ""} {
+
+      # Get the URL
+      if {[catch "fetch_url" rc]} {
+        tk_messageBox -parent . -default ok -type ok -message "Unable to update" -detail $rc
+        exit 1
+      }
     
-    # If there was an issue with the download, display the message to the user.
-    if {$data(fetch_content) eq ""} {
-      tk_messageBox -parent . -default ok -type ok -message "Unable to update" -detail "Error code: $data(fetch_ncode)\n$data(fetch_error)"
-      exit 1
-    }
+      # If there was an issue with the download, display the message to the user.
+      if {$data(fetch_content) eq ""} {
+        tk_messageBox -parent . -default ok -type ok -message "Unable to update" -detail "Error code: $data(fetch_ncode)\n$data(fetch_error)"
+        exit 1
+      }
     
-    # Parse the data
-    if {[catch "parse_data" rc]} {
-      tk_messageBox -parent . -default ok -type ok -message "Unable to parse update" -detail $rc
-      exit 1
-    }
+      # Parse the data
+      if {[catch "parse_data" rc]} {
+        tk_messageBox -parent . -default ok -type ok -message "Unable to parse update" -detail $rc
+        exit 1
+      }
+
+      # Get the content
+      array set content $rc
     
-    # Get the content
-    array set content $rc
-    
-    # If the content does not require an update, tell the user
-    if {$content(release) <= $specl::release} {
-      if {!$data(cl_quiet)} {
+      # If the content does not require an update, tell the user
+      if {$content(release) <= $specl::release} {
+        if {!$data(cl_quiet)} {
+          display_up_to_date $rc
+        }
+        exit 1
+      } else {
+        display_update $rc
+      }
+
+    } else {
+
+      set    sample_text "<h2>Version (3.4) Release Notes</h2><br>"
+      append sample_text "This is some sample text describing this release.<br><br>"
+      append sample_text "<b>New Features</b>"
+      append sample_text "<ul>"
+      append sample_text "<li>Feature 1</li>"
+      append sample_text "<li>Feature 2</li>"
+      append sample_text "<li>Feature 3</li>"
+      append sample_text "</ul>"
+
+      set rc [list description $sample_text download_url "" version "3.4" release 10 \
+                   length 7042856 checksum foobar num_updates  1]
+
+      # Display the desired window
+      if {$data(cl_test_type) eq "update"} {
+        display_update $rc
+      } else {
         display_up_to_date $rc
       }
-      exit 1
-    } else {
-      display_update $rc
+
     }
     
     # Stop the application
@@ -1253,14 +1298,17 @@ namespace eval specl::updater {
   
   ######################################################################
   # Transforms the given text string by substituting keywords with values.
-  proc transform_text {txt new_version num_updates} {
+  proc transform_text {txt content_list} {
     
     variable data
-    
+
+    array set content $content_list
+
     set txt [regsub -all -- \{APPNAME\}    $txt $specl::appname]
     set txt [regsub -all -- \{CURVERSION\} $txt $specl::version]
-    set txt [regsub -all -- \{NEWVERSION\} $txt $new_version]
-    set txt [regsub -all -- \{UPDATES\}    $txt $num_updates]
+    set txt [regsub -all -- \{NEWVERSION\} $txt $content(version)]
+    set txt [regsub -all -- \{UPDATES\}    $txt $content(num_updates)]
+    set txt [regsub -all -- \{FILE_SIZE\}  $txt [get_size_string $content(length)]]
     
     return $txt
     
@@ -2030,6 +2078,7 @@ if {[file tail $::argv0] eq "specl.tcl"} {
   
   package require Tk
   package require http
+  package require msgcat
 
   # Install the htmllib and gifblock
   source [file join [file dirname $::argv0] .. common htmllib.tcl]
