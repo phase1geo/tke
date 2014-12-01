@@ -862,7 +862,7 @@ namespace eval specl::updater {
       Linux* {
         if {[catch { exec -ignorestderr gvfs-trash $install_dir }]} {
           set password [get_password]
-          if {[catch { exec -ignorestderr sudo -S gvfs-trash $install_dir << "$password\n"}]} {
+          if {[catch { exec -ignorestderr sudo -S -k gvfs-trash $install_dir << "$password\n"}]} {
             if {[file exists [set trash [file join ~ .local share Trash]]]} {
               if {[info exists ::env(XDG_DATA_HOME)] && \
                   ($::env(XDG_DATA_HOME) ne "") && \
@@ -906,7 +906,7 @@ namespace eval specl::updater {
         if {![info exists password]} {
           set password [get_password]
         }
-        if {[catch { exec -ignorestderr sudo -S mv $install_dir $trash_path << "$password\n" } rc]} {
+        if {[catch { exec -ignorestderr sudo -S -k mv $install_dir $trash_path << "$password\n" } rc]} {
           tk_messageBox -parent . -default ok -type ok -message [msgcat::mc "Unable to install"] -detail $rc
           exit 1
         }
@@ -918,7 +918,7 @@ namespace eval specl::updater {
       if {![info exists password]} {
         set password [get_password]
       }
-      if {[catch { exec -ignorestderr sudo -S mv $download $install_dir << "$password\n" } rc]} {
+      if {[catch { exec -ignorestderr sudo -S -k mv $download $install_dir << "$password\n" } rc]} {
         tk_messageBox -parent . -default ok -type ok -message [msgcat::mc "Unable to install"] -detail $rc
         exit 1
       }
