@@ -706,7 +706,7 @@ namespace eval specl::updater {
     grid .updwin.pf
     
     # Display the current status
-    .updwin.pf.status configure -text "Downloading..."
+    .updwin.pf.status configure -text [msgcat::mc "Downloading..."]
     
     # Get the update
     set token [http::geturl $content(download_url) -progress "specl::updater::gzip_download_progress" \
@@ -718,13 +718,13 @@ namespace eval specl::updater {
     # Get the data if the status is okay
     if {([http::status $token] eq "ok") && ([http::ncode $token] == 200)} {
       
-      .updwin.pf.status configure -text "Verifying..."
+      .updwin.pf.status configure -text [msgcat::mc "Verifying..."]
       update idletasks
       
       if {[catch { check_bundle $download $content_list } rc]} {
         
         # Display the error information
-        .updwin.if.title configure -text "Downloaded data corrupted"
+        .updwin.if.title configure -text [msgcat::mc "Downloaded data corrupted"]
         .updwin.if.info  configure -text $rc
         
         # Change the download button to a Close button
@@ -735,8 +735,8 @@ namespace eval specl::updater {
       } else {
         
         # Indicate that the download was successful.
-       .updwin.if.title configure -text "Download was successful!"
-       .updwin.if.info  configure -text "Click \"Install and Restart\" to install the update."
+       .updwin.if.title configure -text [msgcat::mc "Download was successful!"]
+       .updwin.if.info  configure -text [msgcat::mc "Click \"Install and Restart\" to install the update."]
     
        # Change the download button to an Install and Restart button
        grid remove .updwin.pf
@@ -748,8 +748,8 @@ namespace eval specl::updater {
     } else {
       
       # Display the error information
-      .updwin.if.title configure -text "Unable to download"
-      .updwin.if.info  configure -text "Cannot communicate with download server"
+      .updwin.if.title configure -text [msgcat::mc "Unable to download"]
+      .updwin.if.info  configure -text [msgcat::mc "Cannot communicate with download server"]
         
       # Change the download button to a Close button
       grid remove .updwin.pf
@@ -877,7 +877,8 @@ namespace eval specl::updater {
                 close $rc
               }
             } else {
-              tk_messageBox -parent . -default ok -type ok -message "Unable to install" -detail "Unable to trash old library files"
+              tk_messageBox -parent . -default ok -type ok -message [msgcat::mc "Unable to install"] \
+                -detail [msgcat::mc "Unable to trash old library files"]
               exit 1
             }
           }
@@ -889,12 +890,12 @@ namespace eval specl::updater {
         } elseif {[file exists [file join C: {$Recycle.bin}]]} {
           set trash_path [file join C: {$Recycle.bin}]
         } else {
-          tk_messageBox -parent . -default ok -type ok -message "Unable to install" -detail $rc
+          tk_messageBox -parent . -default ok -type ok -message [msgcat::mc "Unable to install"] -detail $rc
           exit 1
         }
       }
       default {
-        tk_messageBox -parent . -default ok -type ok -message "Unable to install" -detail $rc
+        tk_messageBox -parent . -default ok -type ok -message [msgcat::mc "Unable to install"] -detail $rc
         exit 1
       }
     }
@@ -906,7 +907,7 @@ namespace eval specl::updater {
           set password [get_password]
         }
         if {[catch { exec -ignorestderr sudo -S mv $install_dir $trash_path << "$password\n" } rc]} {
-          tk_messageBox -parent . -default ok -type ok -message "A Unable to install" -detail $rc
+          tk_messageBox -parent . -default ok -type ok -message [msgcat::mc "Unable to install"] -detail $rc
           exit 1
         }
       }
@@ -918,7 +919,7 @@ namespace eval specl::updater {
         set password [get_password]
       }
       if {[catch { exec -ignorestderr sudo -S mv $download $install_dir << "$password\n" } rc]} {
-        tk_messageBox -parent . -default ok -type ok -message "B Unable to install" -detail $rc
+        tk_messageBox -parent . -default ok -type ok -message [msgcat::mc "Unable to install"] -detail $rc
         exit 1
       }
     }
@@ -963,7 +964,7 @@ namespace eval specl::updater {
     .updwin.pf.pb configure -value [expr int( ($current / $total.0) * 100 )]
     
     # Update the download progress display
-    .updwin.pf.info configure -text "[get_size_string $current] of [get_size_string $total]"
+    .updwin.pf.info configure -text [msgcat::mc "%s of %s" [get_size_string $current] [get_size_string $total]]
     
   }
   
@@ -984,13 +985,18 @@ namespace eval specl::updater {
     
     toplevel     .updwin
     wm title     .updwin [transform_text $data(ui,upd_win_title) $content_list]
-    wm geometry  .updwin $data(ui,upd_win_width)x$data(ui,upd_win_height)
     if {!$data(ui,upd_win_resizable)} {
       wm resizable .updwin 0 0
     } else {
       wm minsize .updwin $data(ui,upd_win_width) $data(ui,upd_win_height)
     }
+    wm attributes .updwin -topmost 1
     
+    # Set the window geometry
+    set wx [expr ([winfo screenwidth  .updwin] / 2) - ($data(ui,upd_win_width)  / 2)]
+    set wy [expr ([winfo screenheight .updwin] / 2) - ($data(ui,upd_win_height) / 2)]
+    wm geometry  .updwin $data(ui,upd_win_width)x$data(ui,upd_win_height)+$wx+$wy
+
     ttk::frame .updwin.if
     ttk::label .updwin.if.icon
     ttk::label .updwin.if.title -text $title -font [specl::helpers::bold_font]
@@ -1030,21 +1036,21 @@ namespace eval specl::updater {
     grid .updwin.hf.hb -row 1 -column 0 -sticky ew
     
     ttk::frame  .updwin.bf1
-    ttk::button .updwin.bf1.update -text "Download" -width 8 -command [list specl::updater::do_download $content_list]
-    ttk::button .updwin.bf1.cancel -text "Cancel"   -width 8 -command { destroy .updwin; exit 1 }
+    ttk::button .updwin.bf1.update -text [msgcat::mc "Download"] -width 8 -command [list specl::updater::do_download $content_list]
+    ttk::button .updwin.bf1.cancel -text [msgcat::mc "Cancel"]   -width 8 -command { destroy .updwin; exit 1 }
     
     pack .updwin.bf1.cancel -side right -padx 2 -pady 2
     pack .updwin.bf1.update -side right -padx 2 -pady 2
     
     ttk::frame  .updwin.bf2
-    ttk::button .updwin.bf2.install -text "Install and Restart" -command [list specl::updater::do_install $content_list]
-    ttk::button .updwin.bf2.cancel  -text "Cancel" -width 8     -command [list specl::updater::do_cancel_install $content_list]
+    ttk::button .updwin.bf2.install -text [msgcat::mc "Install and Restart"] -command [list specl::updater::do_install $content_list]
+    ttk::button .updwin.bf2.cancel  -text [msgcat::mc "Cancel"] -width 8     -command [list specl::updater::do_cancel_install $content_list]
     
     pack .updwin.bf2.cancel  -side right -padx 2 -pady 2
     pack .updwin.bf2.install -side right -padx 2 -pady 2
     
     ttk::frame  .updwin.bf3
-    ttk::button .updwin.bf3.close -text "Close" -width 8 -command [list specl::updater::do_cancel_install $content_list]
+    ttk::button .updwin.bf3.close -text [msgcat::mc "Close"] -width 8 -command [list specl::updater::do_cancel_install $content_list]
     
     pack .updwin.bf3.close -side right -padx 2 -pady 2
     
@@ -1068,14 +1074,6 @@ namespace eval specl::updater {
     # Configure the text widget to be disabled
     $widgets(html) configure -state disabled
 
-    # Center the window on the screen
-    set wx [expr ([winfo screenwidth  .updwin] / 2) - ($data(ui,upd_win_width)  / 2)]
-    set wy [expr ([winfo screenheight .updwin] / 2) - ($data(ui,upd_win_height) / 2)]
-    wm geometry .updwin +$wx+$wy
-
-    # Raise the window to the top
-    wm attributes .updwin -topmost 1
-     
     # Wait for the window to be closed
     tkwait window .updwin
     
@@ -1094,10 +1092,15 @@ namespace eval specl::updater {
     
     array set content $content_list
     
-    toplevel     .utdwin
-    wm title     .utdwin ""
-    wm geometry  .utdwin $data(ui,utd_win_width)x$data(ui,utd_win_height)
-    wm resizable .utdwin 0 0
+    toplevel      .utdwin
+    wm title      .utdwin ""
+    wm resizable  .utdwin 0 0
+    wm attributes .utdwin -topmost 1
+
+    # Set the window geometry
+    set wx [expr ([winfo screenwidth  .utdwin] / 2) - ($data(ui,utd_win_width)  / 2)]
+    set wy [expr ([winfo screenheight .utdwin] / 2) - ($data(ui,utd_win_height) / 2)]
+    wm geometry .utdwin $data(ui,utd_win_width)x$data(ui,utd_win_height)+$wx+$wy
 
     # Create text
     set title       [transform_text $data(ui,utd_title)   $content_list]
@@ -1121,7 +1124,7 @@ namespace eval specl::updater {
     grid .utdwin.f.msg   -row 1 -column 1            -padx 2 -pady 2 -sticky n
     
     ttk::frame  .utdwin.bf
-    ttk::button .utdwin.bf.ok -text "OK" -width 6 -default active -command {
+    ttk::button .utdwin.bf.ok -text [msgcat::mc "OK"] -width 6 -default active -command {
       destroy .utdwin
     }
     
@@ -1130,14 +1133,6 @@ namespace eval specl::updater {
     pack .utdwin.f  -fill both -expand yes
     pack .utdwin.bf -fill x
     
-    # Center the window on the screen
-    set wx [expr ([winfo screenwidth  .utdwin] / 2) - ($data(ui,utd_win_width)  / 2)]
-    set wy [expr ([winfo screenheight .utdwin] / 2) - ($data(ui,utd_win_height) / 2)]
-    wm geometry .utdwin +$wx+$wy
-
-    # Raise the window to the top
-    wm attributes .utdwin -topmost 1
-     
     # Grab the focus
     ::tk::SetFocusGrab .utdwin .utdwin.b
     
@@ -1227,7 +1222,7 @@ namespace eval specl::updater {
     
     # Load the specl_version.tcl file
     if {[catch { specl::load_specl_version $data(specl_version_dir) } rc]} {
-      tk_messageBox -parent . -default ok -type ok -message "Unable to update" -detail $rc
+      tk_messageBox -parent . -default ok -type ok -message [msgcat::mc "Unable to update"] -detail $rc
       exit 1
     }
     
@@ -1239,19 +1234,19 @@ namespace eval specl::updater {
 
       # Get the URL
       if {[catch "fetch_url" rc]} {
-        tk_messageBox -parent . -default ok -type ok -message "Unable to update" -detail $rc
+        tk_messageBox -parent . -default ok -type ok -message [msgcat::mc "Unable to update"] -detail $rc
         exit 1
       }
     
       # If there was an issue with the download, display the message to the user.
       if {$data(fetch_content) eq ""} {
-        tk_messageBox -parent . -default ok -type ok -message "Unable to update" -detail "Error code: $data(fetch_ncode)\n$data(fetch_error)"
+        tk_messageBox -parent . -default ok -type ok -message [msgcat::mc "Unable to update"] -detail [msgcat::mc "Error code: %s\%s" $data(fetch_ncode) $data(fetch_error)]
         exit 1
       }
     
       # Parse the data
       if {[catch "parse_data" rc]} {
-        tk_messageBox -parent . -default ok -type ok -message "Unable to parse update" -detail $rc
+        tk_messageBox -parent . -default ok -type ok -message [msgcat::mc "Unable to parse update"] -detail $rc
         exit 1
       }
 
@@ -1304,13 +1299,20 @@ namespace eval specl::updater {
 
     array set content $content_list
 
-    set txt [regsub -all -- \{APPNAME\}    $txt $specl::appname]
-    set txt [regsub -all -- \{CURVERSION\} $txt $specl::version]
-    set txt [regsub -all -- \{NEWVERSION\} $txt $content(version)]
-    set txt [regsub -all -- \{UPDATES\}    $txt $content(num_updates)]
-    set txt [regsub -all -- \{FILE_SIZE\}  $txt [get_size_string $content(length)]]
-    
-    return $txt
+    # Create text map
+    set text_map(APPNAME)    $specl::appname
+    set text_map(CURVERSION) $specl::version
+    set text_map(NEWVERSION) $content(version)
+    set text_map(UPDATES)    $content(num_updates)
+    set text_map(FILESIZE)   [get_size_string $content(length)]
+
+    set values [list]
+    while {[regexp "\(.*\){\([join [array names text_map] |]\)}\(.*\)" $txt -> before key after]} {
+      set txt "$before%s$after"
+      lappend values $text_map($key)
+    }
+
+    return [msgcat::mc $txt {*}$values]
     
   }
   
