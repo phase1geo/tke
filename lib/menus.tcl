@@ -1504,9 +1504,10 @@ namespace eval menus {
     launcher::register [msgcat::mc "Menu: View User Guide"] [list utils::open_file_externally [file join $::tke_dir doc UserGuide.pdf]]
 
     if {![string match *Win* $::tcl_platform(os)]} {
+      set check_cmd "specl::check_for_update 0 [expr [tke_development] ? $specl::RTYPE_DEVEL : $specl::RTYPE_STABLE"
       $mb add separator
-      $mb add command -label [msgcat::mc "Check for Update"] -underline 0 -command "specl::check_for_update 0"
-      launcher::register [msgcat::mc "Menu: Check for Update"] "specl::check_for_update 0"
+      $mb add command -label [msgcat::mc "Check for Update"] -underline 0 -command $check_cmd
+      launcher::register [msgcat::mc "Menu: Check for Update"] $check_cmd
     }
       
     if {[tk windowingsystem] ne "aqua"} {
