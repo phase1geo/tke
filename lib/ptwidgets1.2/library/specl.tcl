@@ -1475,20 +1475,26 @@ namespace eval specl::releaser {
             set data(item_val,$os)  1
           }
           -d      { set cl_args [lassign $cl_args data(cl_directory)] }
-          default { return 0 }
+          -r      { set cl_args [lassign $cl_args data(cl_release_type)] }
+          default { puts "HERE A"; return 0 }
         }
       }
 
       # Check to make sure that all of the necessary arguments were set
       if {($data(cl_directory) ne "") && (![file exists $data(cl_directory)] || ![file isdirectory $data(cl_directory)])} {
+        puts "HERE B"
         return 0
       } else {
         foreach os $specl::oses {
           if {($data(cl_file,$os) ne "") && ![file exists $data(cl_file,$os)]} {
+            puts "HERE C"
             return 0
           }
         }
       }
+
+      # Handle the version value
+      set data(item_version) $data(cl_version)
 
       # Handle the description file
       if {$data(cl_desc_file) ne ""} {
@@ -1498,8 +1504,16 @@ namespace eval specl::releaser {
           set data(item_description) [read $rc]
           close $rc
         } else {
+          puts "HERE D"
           return 0
         }
+      }
+
+      # Handle the release type
+      switch $data(cl_release_type) {
+        "stable" { set data(item_release_type) $specl::RTYPE_STABLE }
+        "devel"  { set data(item_release_type) $specl::RTYPE_DEVEL }
+        default  { puts "HERE E"; return 0 }
       }
 
     }
