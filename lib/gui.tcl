@@ -2568,6 +2568,13 @@ namespace eval gui {
 
     variable images
 
+    # Generate the version string
+    if {$::version_point == 0} {
+      set version_str "$::version_major.$::version_minor ($::version_hgid)"
+    } else {
+      set version_str "$::version_major.$::version_minor.$::version_point ($::version_hgid)"
+    }
+
     toplevel     .aboutwin
     wm title     .aboutwin ""
     wm transient .aboutwin .
@@ -2583,7 +2590,7 @@ namespace eval gui {
     ttk::label .aboutwin.f.if.l1 -text [msgcat::mc "Email:"]
     ttk::label .aboutwin.f.if.v1 -text "phase1geo@gmail.com"
     ttk::label .aboutwin.f.if.l2 -text [msgcat::mc "Version:"]
-    ttk::label .aboutwin.f.if.v2 -text "$::version_major.$::version_minor ($::version_hgid)"
+    ttk::label .aboutwin.f.if.v2 -text $version_str
 
     grid .aboutwin.f.if.l0 -row 0 -column 0 -sticky news
     grid .aboutwin.f.if.v0 -row 0 -column 1 -sticky news
