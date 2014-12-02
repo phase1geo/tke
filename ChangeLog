@@ -1124,9 +1124,60 @@ Added tag stable-1.4 for changeset b93879e5cadc
 
 
 changeset:   656:0e46572e6bb4
-tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
 date:        Sun Nov 30 00:05:15 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   657:43cc6295ba1f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Nov 30 00:06:10 2014 -0600
+files:       ChangeLog lib/ptwidgets1.2/library/specl.tcl lib/version.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   658:9543a63d91f4
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Nov 30 00:06:21 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset 43cc6295ba1f
+
+
+changeset:   659:cd2a0fb39bd9
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Nov 30 22:08:07 2014 -0600
+files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl specl_customize.xml
+description:
+* Adding -test option to update command for testing customization settings.
+* Fixing bugs in UI customization parser.
+* Fixing issue with XML parser.
+
+
+changeset:   660:615bc4b434c2
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Nov 30 23:41:08 2014 -0600
+files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+description:
+* Adding multi-lingual support to update window.
+* Fixing geometry setting to eliminate window redrawing.
+
+
+changeset:   661:2af1903a28b5
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Nov 30 23:51:17 2014 -0600
+files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+description:
+* Adding -k option to sudo to cause the timestamp to get removed from sudo commands.
+
+
+changeset:   662:76e72169ec1b
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Dec 01 20:17:15 2014 -0600
 files:       .hgtags
 description:
 Removed tag stable-1.4

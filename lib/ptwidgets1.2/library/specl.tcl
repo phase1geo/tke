@@ -16,6 +16,10 @@ package provide specl 1.2
 
 namespace eval specl {
   
+  # Values to pass to the second argument of the check_for_update procedure.
+  variable RTYPE_STABLE 1
+  variable RTYPE_DEVEL  3
+  
   variable appname      ""
   variable version      ""
   variable release      1
@@ -85,7 +89,7 @@ namespace eval specl {
   ######################################################################
   # Checks for updates.  Throws an exception if there was a problem
   # checking for the update.
-  proc check_for_update {on_start {cl_args {}} {cleanup_script {}}} {
+  proc check_for_update {on_start release_type {cl_args {}} {cleanup_script {}}} {
     
     # Allow the UI to update before we proceed
     update
@@ -103,7 +107,7 @@ namespace eval specl {
     if {$on_start} {
       set update_args "-q"
     }
-    lappend update_args -t [ttk::style theme use]
+    lappend update_args -t [ttk::style theme use] -r $release_type
     lappend update_args $specl_version_dir
     
     # Execute this script
@@ -416,12 +420,14 @@ namespace eval specl::updater {
     cl_quiet             0
     cl_theme             ""
     cl_test_type         ""
+    cl_release_type      $specl::RTYPE_STABLE
     icon                 ""
     fetch_ncode          ""
     fetch_content        ""
     fetch_error          ""
     stylecount           0
     cancel               0
+    translation_dir      ""
     ui,icon_path         ""
     ui,icon_side         left
     ui,utd_win_width     400
@@ -448,6 +454,7 @@ namespace eval specl::updater {
       set cl_args [lassign $cl_args arg]
       switch -exact -- $arg {
         -q      { set data(cl_quiet) 1 }
+        -r      { set cl_args [lassign $cl_args data(cl_release_type)] }
         -t      {
           set cl_args [lassign $cl_args data(cl_theme)]
           catch { ttk::style theme use $data(cl_theme) }
@@ -523,96 +530,103 @@ namespace eval specl::updater {
     
       set release [specl::helpers::get_attr $release_node "index"]
       set version [specl::helpers::get_attr $release_node "version"]
+      set rtype   [specl::helpers::get_attr $release_node "type"]
 
-      if {$release > $specl::release} {
+      if {[expr $rtype & $data(cl_release_type)]} {
+        
+        if {$release > $specl::release} {
 
-        # Set the title
-        set title "<h2>Version ($version) Release Notes</h2>"
+          # Set the title
+          set title "<h2>Version ($version) Release Notes</h2>"
 
-        # Get any release notes
-        if {![catch { specl::helpers::get_element $release_node "specl:releaseNotesLink" } release_link] && \
-            ([lindex $release_link 1] ne "")} {
+          # Get any release notes
+          if {![catch { specl::helpers::get_element $release_node "specl:releaseNotesLink" } release_link] && \
+              ([lindex $release_link 1] ne "")} {
          
-          # Retrieve the release notes from the given link
-          set token [http::geturl [lindex $release_link 1]]
+            # Retrieve the release notes from the given link
+            set token [http::geturl [lindex $release_link 1]]
          
-          # Get the HTML description
-          if {([http::status $token] eq "ok") && ([http::ncode $token] == 200)} {
-            set curr_description [http::data $token]
+            # Get the HTML description
+            if {([http::status $token] eq "ok") && ([http::ncode $token] == 200)} {
+              set curr_description [http::data $token]
+            } else {
+              set curr_description "No description available"
+            }
+         
+            # Cleanup the HTTP token
+            http::cleanup $token
+         
+          # Otherwise, attempt to get the description from the embedded description
+          } elseif {![catch { specl::helpers::get_element $release_node "description" } description_node]} {
+         
+            # Remove the CDATA around the description
+            if {[catch { specl::helpers::get_cdata $description_node } curr_description]} {
+              set curr_description "No description available"
+            }
+         
           } else {
             set curr_description "No description available"
           }
-         
-          # Cleanup the HTTP token
-          http::cleanup $token
-         
-        # Otherwise, attempt to get the description from the embedded description
-        } elseif {![catch { specl::helpers::get_element $release_node "description" } description_node]} {
-         
-          # Remove the CDATA around the description
-          if {[catch { specl::helpers::get_cdata $description_node } curr_description]} {
-            set curr_description "No description available"
-          }
-         
-        } else {
-          set curr_description "No description available"
-        }
       
-        if {$first} {
-          
-          # Get the current OS
-          switch -glob $::tcl_platform(os) {
-            Linux*  { set my_os "linux" }
-            Darwin  { set my_os "mac" }
-            *Win*   { set my_os "win" }
-            default {
-              return -code error "Unable to find installation bundle"
-            }
-          }
-          
-          # Set the description
-          set description    "$title<br>$curr_description"
-          set latest_version $version
-          set latest_release $release
-          
-          # Get the downloads node
-          set downloads_node [specl::helpers::get_element $release_node "downloads"]
-          
-          # Get the download information
-          foreach download_node [specl::helpers::get_elements $downloads_node "download"] {
-          
-            # Get the OS
-            if {[specl::helpers::get_attr $download_node "os"] ne $my_os} {
-              continue
+          if {$first} {
+            
+            # Get the current OS
+            switch -glob $::tcl_platform(os) {
+              Linux*  { set my_os "linux" }
+              Darwin  { set my_os "mac" }
+              *Win*   { set my_os "win" }
+              default {
+                return -code error "Unable to find installation bundle"
+              }
             }
             
-            # Get the download URL
-            set download_url [specl::helpers::get_attr $download_node "url"]
-           
-            # Get the file length
-            set length [specl::helpers::get_attr $download_node "length"]
-           
-            # Get the md5 checksum
-            set checksum [specl::helpers::get_attr $download_node "checksum"]
+            # Set the description
+            set description    "$title<br>$curr_description"
+            set latest_version $version
+            set latest_release $release
+            set latest_rtype   $rtype
+            
+            # Get the downloads node
+            set downloads_node [specl::helpers::get_element $release_node "downloads"]
+            
+            # Get the download information
+            foreach download_node [specl::helpers::get_elements $downloads_node "download"] {
+            
+              # Get the OS
+              if {[specl::helpers::get_attr $download_node "os"] ne $my_os} {
+                continue
+              }
               
+              # Get the download URL
+              set download_url [specl::helpers::get_attr $download_node "url"]
+             
+              # Get the file length
+              set length [specl::helpers::get_attr $download_node "length"]
+             
+              # Get the md5 checksum
+              set checksum [specl::helpers::get_attr $download_node "checksum"]
+                
+            }
+            
+            set first 0
+            
+          } else {
+          
+            # Append to the current description
+            append description "<br><hr>$title<br>$curr_description"
+          
           }
-          
-          set first 0
-          
-        } else {
-          
-          # Append to the current description
-          append description "<br><hr>$title<br>$curr_description"
-          
+        
+          incr num_updates
+        
+        # If we are up-to-date, just return the version/release information
+        } elseif {$first} {
+        
+          set latest_version $version
+          set latest_release $release
+          set latest_release $rtype
+        
         }
-        
-        incr num_updates
-        
-      # If we are up-to-date, just return the version/release information
-      } elseif {$first} {
-        
-        set latest_version $version
-        set latest_release $release
         
       }
       
@@ -622,6 +636,7 @@ namespace eval specl::updater {
                  download_url $download_url \
                  version      $latest_version \
                  release      $latest_release \
+                 rtype        $latest_rtype \
                  length       $length \
                  checksum     $checksum \
                  num_updates  $num_updates]
@@ -1163,6 +1178,13 @@ namespace eval specl::updater {
       
       # Parse the customization XML
       if {![catch { specl::helpers::get_element [list "" $contents] "customizations" } custom_node]} {
+        
+        # Get translation directory
+        if {![catch { specl::helpers::get_element $custom_node "translations" } trans_node]} {
+          if {![catch { specl::helpers::get_attr $trans_node "dir"} value]} {
+            set data(translation_dir) $value
+          }
+        }
       
         # Get icon information
         if {![catch { specl::helpers::get_element $custom_node "icon" } icon_node]} {
@@ -1220,14 +1242,19 @@ namespace eval specl::updater {
     
     variable data
     
+    # Load the customization file if it exists
+    catch { load_customizations }
+    
+    # If a translation directory was specified, load it
+    if {$data(translation_dir) ne ""} {
+      catch { msgcat::mcload $data(translation_dir) }
+    }
+    
     # Load the specl_version.tcl file
     if {[catch { specl::load_specl_version $data(specl_version_dir) } rc]} {
       tk_messageBox -parent . -default ok -type ok -message [msgcat::mc "Unable to update"] -detail $rc
       exit 1
     }
-    
-    # Load the customization file if it exists
-    catch { load_customizations }
     
     # If we are running in live mode, fetch the appcast data and parse it
     if {$data(cl_test_type) eq ""} {
@@ -1305,6 +1332,7 @@ namespace eval specl::updater {
     set text_map(NEWVERSION) $content(version)
     set text_map(UPDATES)    $content(num_updates)
     set text_map(FILESIZE)   [get_size_string $content(length)]
+    set text_map(RELTYPE)    $content(rtype)
 
     set values [list]
     while {[regexp "\(.*\){\([join [array names text_map] |]\)}\(.*\)" $txt -> before key after]} {
@@ -1329,9 +1357,10 @@ namespace eval specl::releaser {
     channel_link        ""
     channel_language    "en"
     item_version        ""
-    item_release        0
-    item_description    ""
+    item_release_index  0
+    item_release_type   1
     item_release_notes  ""
+    item_description    ""
     item_download_url   ""
     cl_noui             0
     cl_version          ""
@@ -1515,17 +1544,21 @@ namespace eval specl::releaser {
     
     $widgets(nb) add [ttk::frame .relwin.nb.tf] -text "Release"
     
-    set widgets(item_version_label)      [ttk::label .relwin.nb.tf.l0  -text "Version:"]
-    set widgets(item_version)            [ttk::entry .relwin.nb.tf.e0]
-    set widgets(item_desc_label)         [ttk::label .relwin.nb.tf.l1  -text "Description:"]
-    set widgets(item_desc)               [text       .relwin.nb.tf.e1  -height 5 -width 60 -wrap word]
-    set widgets(item_notes_label)        [ttk::label .relwin.nb.tf.l2  -text "Release Notes URL:"]
-    set widgets(item_notes)              [ttk::entry .relwin.nb.tf.e2]
-    set widgets(item_download_url_label) [ttk::label .relwin.nb.tf.l3  -text "Download Directory URL:"]
-    set widgets(item_download_url)       [ttk::entry .relwin.nb.tf.e3]
+    set widgets(item_version_label)      [ttk::label       .relwin.nb.tf.l0  -text "Version:"]
+    set widgets(item_version)            [ttk::entry       .relwin.nb.tf.e0]
+    set widgets(item_rtype_label)        [ttk::label       .relwin.nb.tf.l1  -text "Release Type:"]
+    set widgets(item_rtype_frame)        [ttk::frame       .relwin.nb.tf.rf]
+    set widgets(item_rtype_stable)       [ttk::radiobutton .relwin.nb.tf.rf.rbs -text "Stable"      -variable specl::releaser::data(item_release_type) -value 1]
+    set widgets(item_rtype_devel)        [ttk::radiobutton .relwin.nb.tf.rf.rbd -text "Development" -variable specl::releaser::data(item_release_type) -value 2]
+    set widgets(item_desc_label)         [ttk::label       .relwin.nb.tf.l2  -text "Description:"]
+    set widgets(item_desc)               [text             .relwin.nb.tf.e2  -height 5 -width 60 -wrap word]
+    set widgets(item_notes_label)        [ttk::label       .relwin.nb.tf.l3  -text "Release Notes URL:"]
+    set widgets(item_notes)              [ttk::entry       .relwin.nb.tf.e3]
+    set widgets(item_download_url_label) [ttk::label       .relwin.nb.tf.l4  -text "Download Directory URL:"]
+    set widgets(item_download_url)       [ttk::entry       .relwin.nb.tf.e4]
     
     array set full_os {linux Linux mac MacOSX win Windows}
-    set row 4
+    set row 5
     foreach os $specl::oses {
       set widgets(item_file_cb,$os)    [ttk::checkbutton .relwin.nb.tf.cb${row} -variable specl::releaser::data(item_val,$os)]
       set widgets(item_file_label,$os) [ttk::label       .relwin.nb.tf.l${row}  -text "$full_os($os) Installation Package:"]
@@ -1533,19 +1566,24 @@ namespace eval specl::releaser {
       set widgets(item_file_btn,$os)   [ttk::button      .relwin.nb.tf.l${row}2 -text "Browse..." -command "specl::releaser::handle_browse $os"]
       incr row
     }
+    
+    pack $widgets(item_rtype_stable) -side left -padx 2
+    pack $widgets(item_rtype_devel)  -side left -padx 2
 
     grid rowconfigure    .relwin.nb.tf 1 -weight 1
     grid columnconfigure .relwin.nb.tf 2 -weight 1
     grid $widgets(item_version_label)      -row 0 -column 0 -sticky news -padx 2 -pady 2 -columnspan 2
     grid $widgets(item_version)            -row 0 -column 2 -sticky news -padx 2 -pady 2 -columnspan 2
-    grid $widgets(item_desc_label)         -row 1 -column 0 -sticky news -padx 2 -pady 2 -columnspan 2
-    grid $widgets(item_desc)               -row 1 -column 2 -sticky news -padx 2 -pady 2 -columnspan 2
-    grid $widgets(item_notes_label)        -row 2 -column 0 -sticky news -padx 2 -pady 2 -columnspan 2
-    grid $widgets(item_notes)              -row 2 -column 2 -sticky news -padx 2 -pady 2 -columnspan 2
-    grid $widgets(item_download_url_label) -row 3 -column 0 -sticky news -padx 2 -pady 2 -columnspan 2
-    grid $widgets(item_download_url)       -row 3 -column 2 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid $widgets(item_rtype_label)        -row 1 -column 0 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid $widgets(item_rtype_frame)        -row 1 -column 2 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid $widgets(item_desc_label)         -row 2 -column 0 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid $widgets(item_desc)               -row 2 -column 2 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid $widgets(item_notes_label)        -row 3 -column 0 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid $widgets(item_notes)              -row 3 -column 2 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid $widgets(item_download_url_label) -row 4 -column 0 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid $widgets(item_download_url)       -row 4 -column 2 -sticky news -padx 2 -pady 2 -columnspan 2
     
-    set row 4
+    set row 5
     foreach os $specl::oses {
       grid $widgets(item_file_cb,$os)    -row $row -column 0 -sticky news -padx 2 -pady 2
       grid $widgets(item_file_label,$os) -row $row -column 1 -sticky news -padx 2 -pady 2
@@ -1787,8 +1825,11 @@ namespace eval specl::releaser {
     
     variable data
     
+    # Get RSS node
+    set rss_node [specl::helpers::get_element [list "" $content] "rss"]
+    
     # Get channel node
-    set channel_node [specl::helpers::get_element [list "" $content] "channel"]
+    set channel_node [specl::helpers::get_element $rss_node "channel"]
     
     # Get the RSS title
     set data(channel_title) [lindex [specl::helpers::get_element $channel_node "title"] 1]
@@ -1819,7 +1860,8 @@ namespace eval specl::releaser {
         if {$first} {
           
           set data(item_version)       [specl::helpers::get_attr $release_node "version"]
-          set data(item_release)       [specl::helpers::get_attr $release_node "index"]
+          set data(item_release_index) [specl::helpers::get_attr $release_node "index"]
+          set data(item_release_type)  [specl::helpers::get_attr $release_node "type"]
           set data(item_release_notes) [lindex [specl::helpers::get_element $release_node "specl:releaseNotesLink"] 1]
           set description_node         [specl::helpers::get_element $release_node "description"]
           set data(item_description)   [specl::helpers::get_cdata $description_node]
@@ -1901,7 +1943,7 @@ namespace eval specl::releaser {
       
       puts $rc "set specl::appname      \"$specl::appname\""
       puts $rc "set specl::version      \"$data(item_version)\""
-      puts $rc "set specl::release      \"$data(item_release)\""
+      puts $rc "set specl::release      \"$data(item_release_index)\""
       puts $rc "set specl::rss_url      \"$specl::rss_url\""
       puts $rc "set specl::download_url \"$data(item_download_url)\""
       
@@ -1927,7 +1969,7 @@ namespace eval specl::releaser {
       puts $rc "    <description>$data(channel_description)</description>"
       puts $rc "    <language>$data(channel_language)</language>"
       puts $rc "    <releases>"
-      puts $rc "      <release index=\"$data(item_release)\" version=\"$data(item_version)\">"
+      puts $rc "      <release index=\"$data(item_release_index)\" type=\"$data(item_release_type)\" version=\"$data(item_version)\">"
       puts $rc "        <description><!\[CDATA\[$data(item_description)\]\]></description>"
       puts $rc "        <pubDate>[clock format [clock seconds]]</pubDate>"
       puts $rc "        <specl:releaseNotesLink>$data(item_release_notes)</specl:releaseNotesLink>"
@@ -2039,20 +2081,20 @@ namespace eval specl::releaser {
     if {[catch { specl::load_specl_version [pwd] } rc]} {
       
       # If the specl_version file doesn't exist, initialize the variables
-      set data(item_version)      "1.0"
-      set data(item_release)      1
-      set data(item_download_url) ""
+      set data(item_version)       "1.0"
+      set data(item_release_index) 1
+      set data(item_download_url)  ""
       
     } else {
       
       # Initialize variables from specl_version file
-      set data(item_version)      $specl::version
-      set data(item_release)      $specl::release
-      set data(item_download_url) $specl::download_url
+      set data(item_version)       $specl::version
+      set data(item_release_index) $specl::release
+      set data(item_download_url)  $specl::download_url
       
       # If we are creating a new release, increment the release number
       if {$type eq "new"} {
-        incr data(item_release)
+        incr data(item_release_index)
       }
       
       # Read the RSS file since it exists

@@ -1,4 +1,5 @@
 <?xml version="1.0" ?>
 <customizations>
+  <translations dir="data/msgs"/>
   <icon path="lib/images/tke_logo_64.gif"/>
 </customizations>
