@@ -134,9 +134,15 @@ proc update_version_files {major minor point} {
 proc create_archive {tag type} {
   
   puts -nonewline "Generating $type archive...  "; flush stdout
+
+  if {[string index $tag 0] eq "s"} {
+    set version [string range $tag 7 end]
+  } else {
+    set version [string range $tag 6 end]
+  }
   
   # Calculate release directory name
-  set release_dir [file normalize [file join ~ projects releases tke-[string range $tag 7 end]]]
+  set release_dir [file normalize [file join ~ projects releases tke-$version]]
   
   # Create archive
   if {[catch { exec -ignorestderr hg archive -r $tag $release_dir } rc]} {
@@ -331,48 +337,51 @@ catch {
    
   # Get the latest major/minor tag
   lassign [get_latest_major_minor_point] major minor point
+
+  puts "major: $major, minor: $minor, point: $point"
    
   # Recreate last_tag
+  if {$major == 0} {
+    set last_tag ""
+  } elseif {$point == 0} {
+    set last_tag "stable-$major.$minor"
+  } else {
+    set last_tag "devel-$major.$minor.$point"
+  }
+   
+  # Update major/minor/point values and create next_tag value
   if {!$generate_only} {
-    if {$major == 0} {
-      set last_tag ""
-    } elseif {$point == 0} {
-      set last_tag "stable-$major.$minor"
+    if {$release_type eq "stable"} {
+      if {$major == 0} {
+        set major 1
+        set minor 0
+        set point 0
+      } elseif {$increment_major} {
+        incr major
+        set minor
+      } else {
+        incr minor
+      }
+      set next_tag "stable-$major.$minor"
     } else {
-      set last_tag "devel-$major.$minor.$point"
+      if {$major == 0} {
+        set major 1
+        set minor 0
+        set point 0
+      } elseif {$increment_major} {
+        incr major
+        set minor 0
+        set point 0
+      } else {
+        incr point
+      }
+      set next_tag "devel-$major.$minor.$point"
     }
   } else {
     if {$major == 0} {
       return -code error "The project must be tagged prior to using the -g option"
     }
-  }
-   
-  # Update major/minor/point values and create next_tag value
-  if {$release_type eq "stable"} {
-    if {$major == 0} {
-      set major 1
-      set minor 0
-      set point 0
-    } elseif {$increment_major} {
-      incr major
-      set minor
-    } else {
-      incr minor
-    }
-    set next_tag "stable-$major.$minor"
-  } else {
-    if {$major == 0} {
-      set major 1
-      set minor 0
-      set point 0
-    } elseif {$increment_major} {
-      incr major
-      set minor 0
-      set point 0
-    } else {
-      incr point
-    }
-    set next_tag "devel-$major.$minor.$point"
+    set next_tag $last_tag
   }
    
   if {!$generate_only} {
@@ -424,7 +433,7 @@ catch {
 
   # Generate the appcast.xml file
   puts -nonewline "Generating specl appcast.xml file...  "; flush stdout
-  run_specl edit $major $minor $release_notes
+  run_specl edit $major $minor $point $release_notes $release_type
   puts "done."
 
   puts "Done!"
