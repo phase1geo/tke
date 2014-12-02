@@ -338,8 +338,6 @@ catch {
   # Get the latest major/minor tag
   lassign [get_latest_major_minor_point] major minor point
 
-  puts "major: $major, minor: $minor, point: $point"
-   
   # Recreate last_tag
   if {$major == 0} {
     set last_tag ""
