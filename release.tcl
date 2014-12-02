@@ -17,7 +17,6 @@ namespace eval specl {
   variable release
   variable rss_url
   variable download_url
-  variable icon_path
 }
 
 source [file join lib version.tcl]
@@ -34,6 +33,7 @@ proc usage {} {
   puts "  -m    Increment the major revision value"
   puts "  -g    Generate images only, using latest tagged value"
   puts "  -f    Name of file containing release notes"
+  puts "  -s    Generate a stable release (Defaults to generating a development release)"
   puts ""
   puts "Note:  If you need to recreate a tag, perform the following prior"
   puts "       to calling this script:"
@@ -45,11 +45,12 @@ proc usage {} {
   
 }
 
-proc get_latest_major_minor {} {
+proc get_latest_major_minor_point {} {
   
   if {![catch "exec -ignorestderr hg tags" rc]} {
     set last_major 0
     set last_minor 0
+    set last_point 0
     foreach line [split $rc \n] {
       if {[regexp {^stable-(\d+)\.(\d+)$} [lindex $line 0] -> major minor]} {
         if {$major > $last_major} {
@@ -59,9 +60,23 @@ proc get_latest_major_minor {} {
           set last_major $major
           set last_minor $minor
         }
+      } elseif {[regexp {^devel-(\d+)\.(\d+)\.(\d+)$} [lindex $line 0] -> major minor point]} {
+        if {$major > $last_major} {
+          set last_major $major
+          set last_minor $minor
+          set last_point $point
+        } elseif {($major == $last_major) && ($minor > $last_minor)} {
+          set last_major $major
+          set last_minor $minor
+          set last_point $point
+        } elseif {($major == $last_major) && ($minor == $last_minor) && ($point > $last_point)} {
+          set last_major $major
+          set last_minor $minor
+          set last_point $point
+        }
       }
     }
-    return [list $last_major $last_minor]
+    return [list $last_major $last_minor $last_point]
   }
   
   return -code error "Unable to retrieve latest tag"
@@ -90,7 +105,7 @@ proc generate_changelog {tag} {
   
 }
 
-proc update_version_files {major minor} {
+proc update_version_files {major minor point} {
   
   puts -nonewline "Updating version file...  "; flush stdout
   
@@ -99,6 +114,7 @@ proc update_version_files {major minor} {
     
     puts $rc "set version_major \"$major\""
     puts $rc "set version_minor \"$minor\""
+    puts $rc "set version_point \"$point\""
     puts $rc "set version_hgid  \"[expr $::version_hgid + 1]\""
     
     close $rc  
@@ -235,29 +251,36 @@ proc generate_macosx_dmg {tag} {
   
 }
 
-proc run_specl {type major minor release_notes} {
+proc run_specl {type major minor point release_notes release_type} {
   
   # Create a new release via specl
   set specl_cmd "[info nameofexecutable] [file join lib ptwidgets1.2 library specl.tcl] -- release $type"
   
+  # Create version name
+  if {$release_type eq "stable"} {
+    set version "$major.$minor"
+  } else {
+    set version "$major.$minor.$point"
+  }
+
   # Setup specl arguments
-  append specl_cmd " -n $major.$minor -d [file normalize [file join ~ projects releases]]"
+  append specl_cmd " -n $version -r $release_type -d [file normalize [file join ~ projects releases]]"
   
   if {$type eq "edit"} {
 
     # Add Linux bundle
     if {[string match Linux* $::tcl_platform(os)] || ($::tcl_platform(os) eq "Darwin")} {
-      append specl_cmd " -b linux,[file normalize [file join ~ projects releases tke-$major.$minor.tgz]]"
+      append specl_cmd " -b linux,[file normalize [file join ~ projects releases tke-$version.tgz]]"
     }
   
     # Add MacOSX bundle
     if {$::tcl_platform(os) eq "Darwin"} {
-      append specl_cmd " -b mac,[file normalize [file join ~ projects releases tke-$major.$minor.dmg]]"
+      append specl_cmd " -b mac,[file normalize [file join ~ projects releases tke-$version.dmg]]"
     }
   
     # Add Windows bundle
     if {[string match *Win* $::tcl_platform(os)] && 0} {
-      append specl_cmd " -b win,[file normalize [file join ~ projects releases tke-$major.$minor.exe]]"
+      append specl_cmd " -b win,[file normalize [file join ~ projects releases tke-$version.exe]]"
     }
 
   }
@@ -289,6 +312,7 @@ catch {
   # Initialize variables that might be overridden on the command-line
   set increment_major 0
   set generate_only   0
+  set release_type    "devel"
   set release_notes   ""
    
   # Parse command-line options
@@ -299,28 +323,23 @@ catch {
       -m      { set increment_major 1 }
       -g      { set generate_only 1 }
       -f      { incr i; set release_notes [lindex $argv $i] }
+      -s      { set release_type "stable" }
       default { usage }
     }
     incr i
   }
    
   # Get the latest major/minor tag
-  lassign [get_latest_major_minor] major minor
+  lassign [get_latest_major_minor_point] major minor point
    
-  # Update major/minor values and create needed tags 
+  # Recreate last_tag
   if {!$generate_only} {
     if {$major == 0} {
       set last_tag ""
-      set major    1
-      set minor    0
-    } else {
+    } elseif {$point == 0} {
       set last_tag "stable-$major.$minor"
-      if {$increment_major} {
-        incr major 
-        set minor 0
-      } else {
-        incr minor
-      }
+    } else {
+      set last_tag "devel-$major.$minor.$point"
     }
   } else {
     if {$major == 0} {
@@ -328,8 +347,33 @@ catch {
     }
   }
    
-  # Create next_tag value
-  set next_tag "stable-$major.$minor"
+  # Update major/minor/point values and create next_tag value
+  if {$release_type eq "stable"} {
+    if {$major == 0} {
+      set major 1
+      set minor 0
+      set point 0
+    } elseif {$increment_major} {
+      incr major
+      set minor
+    } else {
+      incr minor
+    }
+    set next_tag "stable-$major.$minor"
+  } else {
+    if {$major == 0} {
+      set major 1
+      set minor 0
+      set point 0
+    } elseif {$increment_major} {
+      incr major
+      set minor 0
+      set point 0
+    } else {
+      incr point
+    }
+    set next_tag "devel-$major.$minor.$point"
+  }
    
   if {!$generate_only} {
     
@@ -338,10 +382,10 @@ catch {
     generate_changelog $last_tag
     
     # Update the version and specl_version files
-    update_version_files $major $minor
+    update_version_files $major $minor $point
     
     # Initialize the appcast.xml file
-    run_specl new $major $minor $release_notes
+    run_specl new $major $minor $point $release_notes $release_type
   
     # Commit the ChangeLog change
     puts -nonewline "Committing and pushing ChangeLog...  "; flush stdout

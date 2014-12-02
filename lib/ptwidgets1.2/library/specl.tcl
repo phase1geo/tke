@@ -18,7 +18,7 @@ namespace eval specl {
   
   # Values to pass to the second argument of the check_for_update procedure.
   variable RTYPE_STABLE 1
-  variable RTYPE_DEVEL  3
+  variable RTYPE_DEVEL  2
   
   variable appname      ""
   variable version      ""
@@ -523,7 +523,9 @@ namespace eval specl::updater {
     set num_updates  0
     
     # Get the contents of the 'releases' node
-    set releases_node [specl::helpers::get_element [list "" $data(fetch_content)] "releases"]
+    set rss_node      [specl::helpers::get_element [list "" $data(fetch_content)] "rss"]
+    set channel_node  [specl::helpers::get_element $rss_node "channel"]
+    set releases_node [specl::helpers::get_element $channel_node "releases"]
     
     # Get the contents of the next 'release' node
     foreach release_node [specl::helpers::get_elements $releases_node "release"] {
@@ -540,7 +542,7 @@ namespace eval specl::updater {
           set title "<h2>Version ($version) Release Notes</h2>"
 
           # Get any release notes
-          if {![catch { specl::helpers::get_element $release_node "specl:releaseNotesLink" } release_link] && \
+          if {![catch { specl::helpers::get_element $release_node "releaseNotesLink" } release_link] && \
               ([lindex $release_link 1] ne "")} {
          
             # Retrieve the release notes from the given link
@@ -584,7 +586,6 @@ namespace eval specl::updater {
             set description    "$title<br>$curr_description"
             set latest_version $version
             set latest_release $release
-            set latest_rtype   $rtype
             
             # Get the downloads node
             set downloads_node [specl::helpers::get_element $release_node "downloads"]
@@ -624,7 +625,8 @@ namespace eval specl::updater {
         
           set latest_version $version
           set latest_release $release
-          set latest_release $rtype
+
+          break
         
         }
         
@@ -636,7 +638,6 @@ namespace eval specl::updater {
                  download_url $download_url \
                  version      $latest_version \
                  release      $latest_release \
-                 rtype        $latest_rtype \
                  length       $length \
                  checksum     $checksum \
                  num_updates  $num_updates]
@@ -1332,7 +1333,7 @@ namespace eval specl::updater {
     set text_map(NEWVERSION) $content(version)
     set text_map(UPDATES)    $content(num_updates)
     set text_map(FILESIZE)   [get_size_string $content(length)]
-    set text_map(RELTYPE)    $content(rtype)
+    set text_map(RELTYPE)    [expr {($data(cl_release_type) == $specl::RTYPE_STABLE) ? "stable" : "development"}]
 
     set values [list]
     while {[regexp "\(.*\){\([join [array names text_map] |]\)}\(.*\)" $txt -> before key after]} {
@@ -1367,6 +1368,7 @@ namespace eval specl::releaser {
     cl_desc_file        ""
     cl_verbose          1
     cl_directory        ""
+    cl_release_type     "stable"
   }
   
   # Add OS-specific variables
@@ -1404,6 +1406,7 @@ namespace eval specl::releaser {
             set data(item_val,$os)  1
           }
           -d      { set cl_args [lassign $cl_args data(cl_directory)] }
+          -r      { set cl_args [lassign $cl_args data(cl_release_type)] }
           default { return 0 }
         }
       }
@@ -1421,6 +1424,9 @@ namespace eval specl::releaser {
         }
       }
 
+      # Handle the version value
+      set data(item_version) $data(cl_version)
+
       # Handle the description file
       if {$data(cl_desc_file) ne ""} {
         if {[string range $data(cl_desc_file) 0 6] eq "http://"} {
@@ -1431,6 +1437,13 @@ namespace eval specl::releaser {
         } else {
           return 0
         }
+      }
+
+      # Handle the release type
+      switch $data(cl_release_type) {
+        "stable" { set data(item_release_type) $specl::RTYPE_STABLE }
+        "devel"  { set data(item_release_type) $specl::RTYPE_DEVEL }
+        default  { return 0 }
       }
 
     }
@@ -1548,8 +1561,8 @@ namespace eval specl::releaser {
     set widgets(item_version)            [ttk::entry       .relwin.nb.tf.e0]
     set widgets(item_rtype_label)        [ttk::label       .relwin.nb.tf.l1  -text "Release Type:"]
     set widgets(item_rtype_frame)        [ttk::frame       .relwin.nb.tf.rf]
-    set widgets(item_rtype_stable)       [ttk::radiobutton .relwin.nb.tf.rf.rbs -text "Stable"      -variable specl::releaser::data(item_release_type) -value 1]
-    set widgets(item_rtype_devel)        [ttk::radiobutton .relwin.nb.tf.rf.rbd -text "Development" -variable specl::releaser::data(item_release_type) -value 2]
+    set widgets(item_rtype_stable)       [ttk::radiobutton .relwin.nb.tf.rf.rbs -text "Stable"      -variable specl::releaser::data(item_release_type) -value $specl::RTYPE_STABLE]
+    set widgets(item_rtype_devel)        [ttk::radiobutton .relwin.nb.tf.rf.rbd -text "Development" -variable specl::releaser::data(item_release_type) -value $specl::RTYPE_DEVEL]
     set widgets(item_desc_label)         [ttk::label       .relwin.nb.tf.l2  -text "Description:"]
     set widgets(item_desc)               [text             .relwin.nb.tf.e2  -height 5 -width 60 -wrap word]
     set widgets(item_notes_label)        [ttk::label       .relwin.nb.tf.l3  -text "Release Notes URL:"]
@@ -1862,7 +1875,7 @@ namespace eval specl::releaser {
           set data(item_version)       [specl::helpers::get_attr $release_node "version"]
           set data(item_release_index) [specl::helpers::get_attr $release_node "index"]
           set data(item_release_type)  [specl::helpers::get_attr $release_node "type"]
-          set data(item_release_notes) [lindex [specl::helpers::get_element $release_node "specl:releaseNotesLink"] 1]
+          set data(item_release_notes) [lindex [specl::helpers::get_element $release_node "releaseNotesLink"] 1]
           set description_node         [specl::helpers::get_element $release_node "description"]
           set data(item_description)   [specl::helpers::get_cdata $description_node]
           
@@ -1972,7 +1985,7 @@ namespace eval specl::releaser {
       puts $rc "      <release index=\"$data(item_release_index)\" type=\"$data(item_release_type)\" version=\"$data(item_version)\">"
       puts $rc "        <description><!\[CDATA\[$data(item_description)\]\]></description>"
       puts $rc "        <pubDate>[clock format [clock seconds]]</pubDate>"
-      puts $rc "        <specl:releaseNotesLink>$data(item_release_notes)</specl:releaseNotesLink>"
+      puts $rc "        <releaseNotesLink>$data(item_release_notes)</releaseNotesLink>"
       puts $rc "        <downloads>"
       
       foreach os $specl::oses {
@@ -2081,14 +2094,18 @@ namespace eval specl::releaser {
     if {[catch { specl::load_specl_version [pwd] } rc]} {
       
       # If the specl_version file doesn't exist, initialize the variables
-      set data(item_version)       "1.0"
+      if {$data(item_version) eq ""} {
+        set data(item_version) "1.0"
+      }
       set data(item_release_index) 1
       set data(item_download_url)  ""
       
     } else {
       
       # Initialize variables from specl_version file
-      set data(item_version)       $specl::version
+      if {$data(item_version) eq ""} {
+        set data(item_version) $specl::version
+      }
       set data(item_release_index) $specl::release
       set data(item_download_url)  $specl::download_url
       
