@@ -1255,11 +1255,19 @@ Removed tag stable-1.4
 
 
 changeset:   672:260eb6c3af1c
-tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
 date:        Tue Dec 02 00:32:50 2014 -0600
 files:       .hgtags
 description:
 Removed tag devel-1.3.1
+
+
+changeset:   673:6f7180280f56
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Dec 02 00:35:28 2014 -0600
+files:       ChangeLog lib/version.tcl release.tcl
+description:
+* Removing debug output from release script.
 
 
