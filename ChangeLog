@@ -1,5 +1,1212 @@
+changeset:   517:9cfb3eb3410b
+tag:         stable-1.3
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Nov 10 21:08:08 2014 -0600
+files:       ChangeLog lib/version.tcl
+description:
+ChangeLog for stable-1.3 release
+
+
+changeset:   518:17fff01dd9a2
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Nov 10 21:09:05 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.3 for changeset 9cfb3eb3410b
+
+
+changeset:   519:7141d3708eac
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Nov 14 08:24:33 2014 -0600
+files:       data/syntax/AppleScript.syntax data/syntax/Bash.syntax data/syntax/C++.syntax data/syntax/CSS.syntax data/syntax/CoffeeScript.syntax data/syntax/HTML.syntax data/syntax/Haml.syntax data/syntax/Haskell.syntax data/syntax/HelpSystem.syntax data/syntax/JSON.syntax data/syntax/JavaScript.syntax data/syntax/Makefile.syntax data/syntax/Markdown.syntax data/syntax/PHP.syntax data/syntax/Perl.syntax data/syntax/Python.syntax data/syntax/Ruby.syntax data/syntax/ShellScript.syntax data/syntax/SystemVerilog.syntax data/syntax/Tcl.syntax data/syntax/XML.syntax data/syntax/snippets.syntax data/syntax/syntax.syntax data/syntax/tkeData.syntax data/syntax/tkeTheme.syntax lib/ctext/ctext.tcl lib/syntax.tcl lib/version.tcl
+description:
+* Initial work on adding Markdown support (bold and headers now work).
+
+
+changeset:   520:0e0268782489
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Nov 17 00:05:05 2014 -0600
+files:       data/syntax/Markdown.syntax lib/gui.tcl lib/syntax.tcl lib/version.tcl
+description:
+* Fixing search highlighting.
+
+
+changeset:   521:857458961c8b
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Nov 17 22:12:18 2014 -0600
+files:       install.tcl lib/ptwidgets1.2/library/specl.tcl lib/version.tcl specl_version.tcl
+description:
+* Fixing various issues with specl Linux support.
+
+
+changeset:   522:f3765bcec29e
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Nov 17 23:18:59 2014 -0600
+files:       lib/menus.tcl lib/ptwidgets1.2/library/specl.tcl lib/version.tcl specl_version.tcl
+description:
+* Fixing issue with spaces in file names when displaying an external file in a browser.
+* Attempting to enhance the UI for the updater window.
+
+
+changeset:   523:3a58ae27ff00
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 18 00:49:01 2014 -0600
+files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl specl_version.tcl
+description:
+* UI updates to specl updater.
+
+
+changeset:   524:9e6a653dcfe0
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 18 21:24:52 2014 -0600
+files:       install.tcl lib/menus.tcl lib/ptwidgets1.2/library/specl.tcl lib/version.tcl specl_version.tcl
+description:
+* Adding installation check for Tkhtml package and disabling "Check for Updates" if it doesn't exist.
+* Adding support for multiple updates in specl.
+
+
+changeset:   525:76098871b619
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 18 23:40:00 2014 -0600
+files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl specl_version.tcl
+description:
+* Several UI enhancements to release tool.
+
+
+changeset:   526:fa7107022b99
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Nov 19 08:25:31 2014 -0600
+files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+description:
+* Adding support for release command-line arguments.
+
+
+changeset:   527:f5f6234c1b22
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Nov 19 21:20:32 2014 -0600
+files:       ChangeLog lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   528:4798a8ec0de8
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Nov 19 21:20:47 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset f5f6234c1b22
+
+
+changeset:   529:a48a8fd9c5a2
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Nov 20 00:19:10 2014 -0600
+files:       MacOSX/Tke.app/Contents/Resources/Scripts/AppMain.tcl MacOSX/Tke.app/Contents/Resources/Scripts/data MacOSX/Tke.app/Contents/Resources/Scripts/lib MacOSX/Tke.app/Contents/Resources/Scripts/plugins MacOSX/Tke.app/Contents/Resources/Scripts/tke/data MacOSX/Tke.app/Contents/Resources/Scripts/tke/doc MacOSX/Tke.app/Contents/Resources/Scripts/tke/lib MacOSX/Tke.app/Contents/Resources/Scripts/tke/plugins MacOSX/Tke.app/Contents/Resources/Scripts/tke/specl_version.tcl lib/ptwidgets1.2/common/htmllib.tcl lib/ptwidgets1.2/library/specl.tcl lib/version.tcl release.tcl
+description:
+* Replacing Tkhtml with htmllib for HTML renderer.
+* Modifying MacOSX build and file system structure to help with updates.
+
+
+changeset:   530:e80f9e10faae
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Nov 20 01:37:34 2014 -0600
+files:       MacOSX/Tke.app/Contents/Resources/Scripts/AppMain.tcl install.tcl lib/menus.tcl lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+description:
+* Several fixes for MacOSX "Check for Update" functionality (still work in progress).
+* Move "Check for Update" on MacOSX from apple menu to help menu.
+
+
+changeset:   531:880b7b7785f8
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Nov 20 19:32:23 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   532:1c154c93cb53
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Nov 20 19:33:53 2014 -0600
+files:       ChangeLog lib/ptwidgets1.2/library/specl.tcl release.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   533:9873b18d723a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Nov 20 19:34:10 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset 1c154c93cb53
+
+
+changeset:   534:75ec5d28783e
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Nov 20 19:35:38 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   535:0ed483f1983a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Nov 20 19:35:42 2014 -0600
+files:       ChangeLog specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   536:c4d0dfd5ffb1
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Nov 20 19:35:50 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset 0ed483f1983a
+
+
+changeset:   537:52697abf8253
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Nov 20 20:15:26 2014 -0600
+files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+description:
+* Fixing issues with running specl release command with command-line options.
+
+
+changeset:   538:32a8ac1e07b9
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Nov 21 01:29:16 2014 -0600
+files:       lib/ptwidgets1.2/common/htmllib.tcl lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+description:
+* Making visual changes/improvements to HTML renderer.
+
+
+changeset:   539:60359623a929
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 22 08:44:50 2014 -0600
+files:       lib/ptwidgets1.2/common/gifblock.tcl lib/ptwidgets1.2/common/htmllib.tcl lib/ptwidgets1.2/library/specl.tcl lib/version.tcl specl_version.tcl
+description:
+* Lots of enhancements to HTML viewer.
+
+
+changeset:   540:219345e47e2d
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 22 11:18:33 2014 -0600
+files:       lib/ptwidgets1.2/common/htmllib.tcl lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+description:
+* Fixing refresh issues with GIF animations.
+* Cleaning up code.
+
+
+changeset:   541:7b41ed86b4bd
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 22 12:08:39 2014 -0600
+files:       lib/ptwidgets1.2/common/htmllib.tcl lib/version.tcl
+description:
+* Fixing issues with a space being inserted at the beginning and end of a document.
+
+
+changeset:   542:6aee0513a37c
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 22 20:41:15 2014 -0600
+files:       lib/ptwidgets1.2/common/htmllib.tcl lib/version.tcl
+description:
+* Adding subscript (<sub>) and superscript (<sup>) tag support to htmllib.
+* Adjusting default font sizes down 2 pixels to conform to normal text changes.
+
+
+changeset:   543:46e9d78ca095
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Nov 23 23:18:49 2014 -0600
+files:       lib/menus.tcl lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+description:
+* Initial adding support for multiple OS types.
+* Adding download progress information to update window.
+* Adding support for "on_start" update checking.
+
+
+changeset:   544:445878405091
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Nov 23 23:38:07 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   545:1f72e2458834
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Nov 23 23:39:16 2014 -0600
+files:       ChangeLog lib/ptwidgets1.2/library/specl.tcl release.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   546:e56563243ba5
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Nov 23 23:39:25 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset 1f72e2458834
+
+
+changeset:   547:05896bc144e6
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Nov 24 08:12:21 2014 -0600
+files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl release.tcl specl_version.tcl
+description:
+* Fixing issues with creating a release.
+
+
+changeset:   548:15590c0d9a1f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Nov 24 19:47:18 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   549:bedb8665aeee
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Nov 24 19:47:25 2014 -0600
+files:       ChangeLog specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   550:4220ff967b35
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Nov 24 19:47:32 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset bedb8665aeee
+
+
+changeset:   551:7a70233605f9
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Nov 24 19:54:17 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   552:b56272fe9342
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Nov 24 19:54:39 2014 -0600
+files:       ChangeLog release.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   553:7e11bc680c01
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Nov 24 19:54:46 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset b56272fe9342
+
+
+changeset:   554:efe234819606
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Nov 24 20:39:03 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   555:b4c0fcdf5b6c
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Nov 24 20:39:10 2014 -0600
+files:       ChangeLog lib/ptwidgets1.2/library/specl.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   556:025494691392
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Nov 24 20:39:15 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset b4c0fcdf5b6c
+
+
+changeset:   557:facd90eab9b8
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Nov 24 20:48:47 2014 -0600
+files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl specl_version.tcl
+description:
+* Fixing specl issues.
+
+
+changeset:   558:290f24e97696
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Nov 24 20:50:03 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   559:b0f1ffa9f8ce
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Nov 24 20:50:17 2014 -0600
+files:       ChangeLog specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   560:de93c0701ea1
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Nov 24 20:50:24 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset b0f1ffa9f8ce
+
+
+changeset:   561:e14ee903ce25
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Nov 24 20:51:27 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   562:00fea0d88d28
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Nov 24 20:51:32 2014 -0600
+files:       ChangeLog lib/ptwidgets1.2/library/specl.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   563:d78e9be8a8c5
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Nov 24 20:51:41 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset 00fea0d88d28
+
+
+changeset:   564:bde69db8fae8
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 21:02:14 2014 -0600
+files:       ChangeLog lib/ptwidgets1.2/library/specl.tcl lib/version.tcl release.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.5 release
+
+
+changeset:   565:2dab3ce9314f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 21:02:23 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.5 for changeset bde69db8fae8
+
+
+changeset:   566:2393656651db
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 21:04:12 2014 -0600
+files:       ChangeLog lib/version.tcl release.tcl
+description:
+ChangeLog for stable-1.6 release
+
+
+changeset:   567:d100747c7dda
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 21:04:35 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.5
+
+
+changeset:   568:9b5ac172fe99
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 21:04:42 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   569:67ff8880968c
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 21:05:22 2014 -0600
+files:       ChangeLog lib/version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   570:92ebeaa188e6
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 21:05:28 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset 67ff8880968c
+
+
+changeset:   571:9812ba5c9819
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 21:14:47 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   572:5e0139acdfdc
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 21:16:35 2014 -0600
+files:       ChangeLog release.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   573:91c5c23922a9
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 21:16:44 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset 5e0139acdfdc
+
+
+changeset:   574:2fb9cb6f3394
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 21:21:57 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   575:72ac2fd905ea
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 21:23:13 2014 -0600
+files:       ChangeLog specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   576:334f03ae5711
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 21:23:20 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset 72ac2fd905ea
+
+
+changeset:   577:01d6cc977470
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 21:30:35 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   578:2c75c6b087c0
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 21:31:12 2014 -0600
+files:       ChangeLog specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   579:7d4ddf1c8f42
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 21:31:20 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset 2c75c6b087c0
+
+
+changeset:   580:51238ae2b3cb
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 22:06:04 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   581:e2bfa20a6644
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 22:06:37 2014 -0600
+files:       ChangeLog lib/ptwidgets1.2/library/specl.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   582:e9c90947dc92
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 22:06:44 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset e2bfa20a6644
+
+
+changeset:   583:d73d6a78d721
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 22:20:28 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   584:eb8efd1ac598
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 22:20:51 2014 -0600
+files:       ChangeLog lib/ptwidgets1.2/library/specl.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   585:bd8ae85dfc22
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 22:20:59 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset eb8efd1ac598
+
+
+changeset:   586:c3a9a54735d0
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 22:23:07 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   587:bc0cff44d2b9
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 22:23:28 2014 -0600
+files:       ChangeLog specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   588:c4483781cc9d
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 22:23:33 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset bc0cff44d2b9
+
+
+changeset:   589:10d0d57943d4
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 22:26:14 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   590:966670d40ed9
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 22:26:38 2014 -0600
+files:       ChangeLog lib/ptwidgets1.2/library/specl.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   591:a700d1622ba1
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 22:26:45 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset 966670d40ed9
+
+
+changeset:   592:f8e7f1e8dd03
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 22:29:46 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   593:66e1e0c3acf1
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 22:30:41 2014 -0600
+files:       ChangeLog release.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   594:7acf7d3d1cea
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 22:31:05 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset 66e1e0c3acf1
+
+
+changeset:   595:68346f6b8c78
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 22:34:28 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   596:99e48cb8999e
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 22:34:49 2014 -0600
+files:       ChangeLog release.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   597:93f655628726
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 22:34:54 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset 99e48cb8999e
+
+
+changeset:   598:7411f4653747
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 22:38:34 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   599:666b6c8b55d4
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 22:45:48 2014 -0600
+files:       ChangeLog lib/ptwidgets1.2/library/specl.tcl release.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   600:6540dcec50b2
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 22:45:57 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset 666b6c8b55d4
+
+
+changeset:   601:229d6f324ba7
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 22:55:32 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   602:9ba7fda088a0
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 22:55:50 2014 -0600
+files:       ChangeLog lib/ptwidgets1.2/library/specl.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   603:7f56cb5b3154
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 22:55:55 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset 9ba7fda088a0
+
+
+changeset:   604:b2d0ceded11d
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 23:05:21 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   605:060b3b527db9
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 23:05:44 2014 -0600
+files:       ChangeLog lib/version.tcl release.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   606:8fa80089305f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 23:23:21 2014 -0600
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   607:fc1326c69ee7
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 23:23:27 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset 8fa80089305f
+
+
+changeset:   608:47cc833eddd8
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 23:32:50 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   609:7d745315416b
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 23:33:15 2014 -0600
+files:       ChangeLog lib/ptwidgets1.2/library/specl.tcl lib/version.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   610:587d575d71f2
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 23:33:24 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset 7d745315416b
+
+
+changeset:   611:d895f860378e
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 25 23:41:46 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   612:7e9a2b186728
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Nov 26 22:39:09 2014 -0600
+files:       ChangeLog lib/ptwidgets1.2/library/specl.tcl lib/version.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   613:f71676328cb6
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Nov 26 22:39:19 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset 7e9a2b186728
+
+
+changeset:   614:65bcfde1d9b8
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Nov 26 23:13:42 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   615:78417cc38104
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Nov 26 23:14:22 2014 -0600
+files:       ChangeLog lib/ptwidgets1.2/library/specl.tcl lib/version.tcl release.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   616:3fc21aff23b1
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Nov 26 23:14:30 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset 78417cc38104
+
+
+changeset:   617:ff1a567399be
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Nov 26 23:23:27 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   618:31140b5d131d
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Nov 26 23:27:24 2014 -0600
+files:       ChangeLog lib/ptwidgets1.2/library/specl.tcl lib/version.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   619:29c88c4c13ef
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Nov 26 23:27:37 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset 31140b5d131d
+
+
+changeset:   620:cc5c76bbab72
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Nov 27 01:11:43 2014 -0600
+files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+description:
+* Adding custom up-to-date window.
+* Adding argument parse for the update command.
+* Integrating image_scale procedure from common directory.
+
+
+changeset:   621:fe84307fd30c
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Nov 27 01:13:39 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   622:b5e27f422252
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Nov 27 01:14:49 2014 -0600
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   623:78e2952581fd
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Nov 27 01:14:58 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset b5e27f422252
+
+
+changeset:   624:0b6ebbc25a64
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Nov 28 01:39:29 2014 -0600
+files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl specl_customize.xml specl_version.tcl
+description:
+* Adding customization capability.
+* Adding DMG file extension handling.
+
+
+changeset:   625:bab862f76e19
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Nov 28 10:46:16 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.5
+
+
+changeset:   626:378e835e4fce
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Nov 28 10:48:14 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   627:174e0cc7ae3d
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Nov 28 10:52:01 2014 -0600
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   628:d19d95b1781d
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Nov 28 10:52:09 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset 174e0cc7ae3d
+
+
+changeset:   629:6c26151e9014
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Nov 28 10:59:35 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   630:36eb8cb07f55
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Nov 28 11:02:25 2014 -0600
+files:       ChangeLog lib/version.tcl release.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   631:baeae649acf9
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Nov 28 11:02:38 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset 36eb8cb07f55
+
+
+changeset:   632:640332029d7a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 29 00:23:33 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.5
+
+
+changeset:   633:eea9f0cdecba
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 29 00:24:24 2014 -0600
+files:       ChangeLog lib/ptwidgets1.2/library/specl.tcl lib/ptwidgets1.2/library/specl_version.tcl lib/version.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.5 release
+
+
+changeset:   634:7db728aba97d
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 29 00:24:38 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.5 for changeset eea9f0cdecba
+
+
+changeset:   635:c5701b1bb7d9
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 29 00:41:38 2014 -0600
+files:       lib/version.tcl release.tcl
+description:
+* Adding specl_customize.xml for Mac OSX builds.
+
+
+changeset:   636:76541e271b14
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 29 00:42:33 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.5
+
+
+changeset:   637:9896d333ec44
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 29 00:42:38 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   638:df0299c2d54a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 29 00:43:06 2014 -0600
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   639:ffddd01bb21b
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 29 00:43:26 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset df0299c2d54a
+
+
+changeset:   640:1d4c9c07dda2
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 29 00:45:34 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   641:a3d2fdeac29e
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 29 00:45:52 2014 -0600
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   642:f0b982b15e7f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 29 00:46:09 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset a3d2fdeac29e
+
+
+changeset:   643:57436c09f18a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 29 23:00:33 2014 -0600
+files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+description:
+* Fixing more issues with MacOSX installations.
+* Restructuring customization window.
+
+
+changeset:   644:d4db26d6afa5
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 29 23:01:51 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   645:98e70f7db3bd
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 29 23:04:17 2014 -0600
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   646:41405b4a64c4
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 29 23:04:32 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset 98e70f7db3bd
+
+
+changeset:   647:3c5fdc89a868
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 29 23:11:04 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   648:1d98f7c89cba
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 29 23:12:34 2014 -0600
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   649:bc37847d8b99
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 29 23:12:46 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset 1d98f7c89cba
+
+
+changeset:   650:a3621d8b5d4e
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 29 23:40:05 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   651:1ddcf26e1408
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 29 23:41:01 2014 -0600
+files:       ChangeLog lib/ptwidgets1.2/library/specl.tcl lib/version.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   652:4e0293d43f37
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 29 23:41:10 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset 1ddcf26e1408
+
+
+changeset:   653:db5bfdac5d40
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 29 23:42:35 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   654:b93879e5cadc
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 29 23:43:07 2014 -0600
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   655:1d5b98697839
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 29 23:43:13 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset b93879e5cadc
+
+
+changeset:   656:0e46572e6bb4
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Nov 30 00:05:15 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   657:43cc6295ba1f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Nov 30 00:06:10 2014 -0600
+files:       ChangeLog lib/ptwidgets1.2/library/specl.tcl lib/version.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   658:9543a63d91f4
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Nov 30 00:06:21 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset 43cc6295ba1f
+
+
+changeset:   659:cd2a0fb39bd9
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Nov 30 22:08:07 2014 -0600
+files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl specl_customize.xml
+description:
+* Adding -test option to update command for testing customization settings.
+* Fixing bugs in UI customization parser.
+* Fixing issue with XML parser.
+
+
+changeset:   660:615bc4b434c2
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Nov 30 23:41:08 2014 -0600
+files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+description:
+* Adding multi-lingual support to update window.
+* Fixing geometry setting to eliminate window redrawing.
+
+
+changeset:   661:2af1903a28b5
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Nov 30 23:51:17 2014 -0600
+files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+description:
+* Adding -k option to sudo to cause the timestamp to get removed from sudo commands.
+
+
+changeset:   662:76e72169ec1b
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Dec 01 20:17:15 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   663:38f640a1d3a4
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Dec 01 20:24:15 2014 -0600
+files:       ChangeLog lib/menus.tcl lib/ptwidgets1.2/library/specl.tcl lib/version.tcl specl_customize.xml specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   664:c75aab723e4c
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Dec 01 20:24:23 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset 38f640a1d3a4
+
+
+changeset:   665:69a3c6d64296
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Dec 01 23:35:25 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
 changeset:   666:76f3dffdb3c3
-tag:         devel-1.3.1
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
 date:        Tue Dec 02 00:00:12 2014 -0600
 files:       ChangeLog install.tcl lib/gui.tcl lib/menus.tcl lib/ptwidgets1.2/library/specl.tcl lib/version.tcl release.tcl specl_customize.xml specl_version.tcl
@@ -8,11 +1215,51 @@ ChangeLog for devel-1.3.1 release
 
 
 changeset:   667:d5a081f87193
-tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
 date:        Tue Dec 02 00:00:21 2014 -0600
 files:       .hgtags
 description:
 Added tag devel-1.3.1 for changeset 76f3dffdb3c3
+
+
+changeset:   668:db6f372bee9d
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Dec 02 00:27:37 2014 -0600
+files:       ChangeLog lib/ptwidgets1.2/library/specl.tcl lib/version.tcl release.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.4 release
+
+
+changeset:   669:1813bcf750a9
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Dec 02 00:27:47 2014 -0600
+files:       .hgtags
+description:
+Added tag stable-1.4 for changeset db6f372bee9d
+
+
+changeset:   670:12f42a33fa1a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Dec 02 00:31:13 2014 -0600
+files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+description:
+* Removing unnecessary debug output.
+
+
+changeset:   671:6cd075dd9bac
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Dec 02 00:32:22 2014 -0600
+files:       .hgtags
+description:
+Removed tag stable-1.4
+
+
+changeset:   672:260eb6c3af1c
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Dec 02 00:32:50 2014 -0600
+files:       .hgtags
+description:
+Removed tag devel-1.3.1
 
 
