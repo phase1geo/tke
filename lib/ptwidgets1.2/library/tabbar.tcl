@@ -1459,7 +1459,9 @@ namespace eval tabbar {
         $w.c delete t[lindex $data($w,pages) $index 1 0]
         
         # If we are deleting the last_tab, clear it
-        if {$index == $data($w,last_tab)} {
+        if {$index < $data($w,last_tab)} {
+          incr data($w,last_tab) -1
+        } elseif {$index == $data($w,last_tab)} {
           set data($w,last_tab) -1
         }
         
@@ -1494,7 +1496,9 @@ namespace eval tabbar {
           $w.c delete t[lindex $data($w,pages) $i 1 0]
           
           # If we are deleting the last_tab, clear it
-          if {$index == $data($w,last_tab)} {
+          if {$index < $data($w,last_tab)} {
+            incr data($w,last_tab) -1
+          } elseif {$index == $data($w,last_tab)} {
             set data($w,last_tab) -1
           }
         
