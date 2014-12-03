@@ -14,6 +14,7 @@ if {[catch "open version.tcl w" rc]} {
 } else {
   puts $rc "set version_major \"$version_major\""
   puts $rc "set version_minor \"$version_minor\""
+  puts $rc "set version_point \"$version_point\""
   puts $rc "set version_hgid  \"[string range $id 0 end-1]\""
   close $rc
 }

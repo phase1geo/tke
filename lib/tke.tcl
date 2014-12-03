@@ -250,6 +250,15 @@ themes::initialize
 # Load the preferences
 preferences::load
 
+# If we need to check for updates on start, do that now
+if {[preferences::get General/UpdateCheckOnStart]} {
+  if {[preferences::get General/UpdateReleaseType] eq "devel"} {
+    specl::check_for_update 1 [expr $specl::RTYPE_STABLE | $specl::RTYPE_DEVEL]
+  } else {
+    specl::check_for_update 1 $specl::RTYPE_STABLE
+  }
+}
+
 # Load the plugins
 plugins::load
 

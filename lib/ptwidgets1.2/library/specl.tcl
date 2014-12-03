@@ -110,6 +110,8 @@ namespace eval specl {
     lappend update_args -t [ttk::style theme use] -r $release_type
     lappend update_args $specl_version_dir
     
+    # puts "[info nameofexecutable] $frame(file) -- update $update_args"
+    
     # Execute this script
     if {[catch { exec -ignorestderr [info nameofexecutable] $frame(file) -- update {*}$update_args } rc options]} {
       return
@@ -515,12 +517,14 @@ namespace eval specl::updater {
     
     variable data
     
-    set first        1
-    set description  ""
-    set download_url ""
-    set length       0
-    set checksum     ""
-    set num_updates  0
+    set first          1
+    set description    ""
+    set download_url   ""
+    set length         0
+    set checksum       ""
+    set num_updates    0
+    set latest_version ""
+    set latest_release -1 
     
     # Get the contents of the 'releases' node
     set rss_node      [specl::helpers::get_element [list "" $data(fetch_content)] "rss"]
@@ -1189,7 +1193,10 @@ namespace eval specl::updater {
       
         # Get icon information
         if {![catch { specl::helpers::get_element $custom_node "icon" } icon_node]} {
-          foreach attr [list path side] {
+          if {![catch { specl::helpers::get_attr $icon_node path } value]} {
+            set data(ui,icon_path) [file join $data(specl_version_dir) $value]
+          }
+          foreach attr [list side] {
             if {![catch { specl::helpers::get_attr $icon_node $attr } value]} {
               set data(ui,icon_$attr) $value
             }

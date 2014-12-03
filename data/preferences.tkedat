@@ -28,6 +28,18 @@
 
 {General/WindowTheme}        {light}
 
+# If set to a value of 1, a check for application updates will occur when the application
+# is started.  A value of 0 will not perform the update check on start.
+
+{General/UpdateCheckOnStart} {0}
+
+# Setting this to a value of "devel" will update the application with any development releases.
+# Setting this to a value of "stable" will only update the application with stable releases.  It
+# is recommended that non-developers keep this value at "stable".  Setting it to "devel" may affect
+# the tool stability.
+
+{General/UpdateReleaseType} {stable}
+
 # Specifies the current theme that is used in the code editor.  Each
 # theme contains setting for syntax highlight coloring schemes, background
 # color and selection background/foreground colors.  The following
