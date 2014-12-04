@@ -16,11 +16,28 @@ Added tag devel-1.3.2 for changeset 6f3080aafe15
 
 
 changeset:   680:69c042ee6d71
-tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
 date:        Wed Dec 03 08:30:27 2014 -0600
 files:       lib/ptwidgets1.2/common/Markdown_1.0.1/License.text lib/ptwidgets1.2/common/Markdown_1.0.1/Markdown Readme.text lib/ptwidgets1.2/common/Markdown_1.0.1/Markdown.pl lib/version.tcl
 description:
 * Adding Markdown library for specl use.
+
+
+changeset:   681:5437c8409aaf
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Dec 03 21:24:58 2014 -0600
+files:       ChangeLog lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+description:
+* Adding Markdown support to specl.
+
+
+changeset:   682:e11e3b6ed3db
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Dec 03 22:48:46 2014 -0600
+files:       lib/completer.tcl lib/ctext/ctext.tcl lib/version.tcl
+description:
+* Attempting to fix inCommentString function to be correct.
+* Attempting to enhance completer functionality to not add closing character when appropriate.
 
 
