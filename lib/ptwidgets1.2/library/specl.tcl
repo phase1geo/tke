@@ -1370,6 +1370,7 @@ namespace eval specl::releaser {
     item_release_notes  ""
     item_description    ""
     item_download_url   ""
+    item_markdown       0
     cl_noui             0
     cl_version          ""
     cl_desc_file        ""
@@ -1583,13 +1584,14 @@ namespace eval specl::releaser {
     set widgets(item_rtype_devel)        [ttk::radiobutton .relwin.nb.tf.rf.rbd -text "Development" -variable specl::releaser::data(item_release_type) -value $specl::RTYPE_DEVEL]
     set widgets(item_desc_label)         [ttk::label       .relwin.nb.tf.l2  -text "Description:"]
     set widgets(item_desc)               [text             .relwin.nb.tf.e2  -height 5 -width 60 -wrap word]
-    set widgets(item_notes_label)        [ttk::label       .relwin.nb.tf.l3  -text "Release Notes URL:"]
-    set widgets(item_notes)              [ttk::entry       .relwin.nb.tf.e3]
-    set widgets(item_download_url_label) [ttk::label       .relwin.nb.tf.l4  -text "Download Directory URL:"]
-    set widgets(item_download_url)       [ttk::entry       .relwin.nb.tf.e4]
+    set widgets(item_markdown_cb)        [ttk::checkbutton .relwin.nb.tf.cb3 -text "Enable Markdown" -variable specl::releaser::data(item_markdown)]
+    set widgets(item_notes_label)        [ttk::label       .relwin.nb.tf.l4  -text "Release Notes URL:"]
+    set widgets(item_notes)              [ttk::entry       .relwin.nb.tf.e4]
+    set widgets(item_download_url_label) [ttk::label       .relwin.nb.tf.l5  -text "Download Directory URL:"]
+    set widgets(item_download_url)       [ttk::entry       .relwin.nb.tf.e5]
     
     array set full_os {linux Linux mac MacOSX win Windows}
-    set row 5
+    set row 6
     foreach os $specl::oses {
       set widgets(item_file_cb,$os)    [ttk::checkbutton .relwin.nb.tf.cb${row} -variable specl::releaser::data(item_val,$os)]
       set widgets(item_file_label,$os) [ttk::label       .relwin.nb.tf.l${row}  -text "$full_os($os) Installation Package:"]
@@ -1609,12 +1611,13 @@ namespace eval specl::releaser {
     grid $widgets(item_rtype_frame)        -row 1 -column 2 -sticky news -padx 2 -pady 2 -columnspan 2
     grid $widgets(item_desc_label)         -row 2 -column 0 -sticky news -padx 2 -pady 2 -columnspan 2
     grid $widgets(item_desc)               -row 2 -column 2 -sticky news -padx 2 -pady 2 -columnspan 2
-    grid $widgets(item_notes_label)        -row 3 -column 0 -sticky news -padx 2 -pady 2 -columnspan 2
-    grid $widgets(item_notes)              -row 3 -column 2 -sticky news -padx 2 -pady 2 -columnspan 2
-    grid $widgets(item_download_url_label) -row 4 -column 0 -sticky news -padx 2 -pady 2 -columnspan 2
-    grid $widgets(item_download_url)       -row 4 -column 2 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid $widgets(item_markdown_cb)        -row 3 -column 2 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid $widgets(item_notes_label)        -row 4 -column 0 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid $widgets(item_notes)              -row 4 -column 2 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid $widgets(item_download_url_label) -row 5 -column 0 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid $widgets(item_download_url)       -row 5 -column 2 -sticky news -padx 2 -pady 2 -columnspan 2
     
-    set row 5
+    set row 6
     foreach os $specl::oses {
       grid $widgets(item_file_cb,$os)    -row $row -column 0 -sticky news -padx 2 -pady 2
       grid $widgets(item_file_label,$os) -row $row -column 1 -sticky news -padx 2 -pady 2
@@ -1672,6 +1675,36 @@ namespace eval specl::releaser {
     return 
     
   }
+  
+  ######################################################################
+  # Returns the HTML item description, performing Markdown conversion,
+  # if specified.
+  proc get_item_description {} {
+    
+    variable widgets
+    variable data
+    
+    # Get the content from the description
+    set content [$widgets(item_desc) get 1.0 end-1c]
+    
+    # If we need to run markdown, do it now
+    if {$data(item_markdown)} {
+      
+      # Create the Markdown command
+      set md_cmd "perl [file join [file dirname $::argv0] .. common Markdown_1.0.1 Markdown.pl]"
+        
+      # Run the file through the markdown processor
+      if {![catch { exec -ignorestderr {*}$md_cmd << $content } rc]} {
+        set content $rc
+      } else {
+        tk_messageBox -parent .relwin -icon warning -title "Markdown Error" -detail $rc -default ok -type ok
+      }
+        
+    }
+    
+    return $content
+
+  }
 
   ######################################################################
   # Handles changes to the item_file entry field.
@@ -1716,7 +1749,8 @@ namespace eval specl::releaser {
   proc handle_preview {} {
 
     variable widgets
-
+    variable data
+    
     if {![winfo exists .prevwin]} {
 
       toplevel     .prevwin
@@ -1738,7 +1772,7 @@ namespace eval specl::releaser {
         specl::helpers::HMcancel_animations
         .prevwin.f.t configure -state normal
         HMreset_win .prevwin.f.t
-        HMparse_html [$specl::releaser::widgets(item_desc) get 1.0 end-1c] "HMrender .prevwin.f.t"
+        HMparse_html [specl::releaser::get_item_description] "HMrender .prevwin.f.t"
         .prevwin.f.t configure -state disabled
       }
 
@@ -1746,10 +1780,10 @@ namespace eval specl::releaser {
 
       pack .prevwin.f  -fill both -expand yes
       pack .prevwin.bf -fill x
-
+      
       # Render the HTML
       specl::helpers::HMinitialize .prevwin.f.t
-      HMparse_html [$specl::releaser::widgets(item_desc) get 1.0 end-1c] "HMrender .prevwin.f.t"
+      HMparse_html [get_item_description] "HMrender .prevwin.f.t"
 
       # Disable the text widget
       .prevwin.f.t configure -state disabled
@@ -1779,7 +1813,7 @@ namespace eval specl::releaser {
     set data(channel_language)    [$widgets(language) get]
     set specl::rss_url            [$widgets(rss_url) get]
     set data(item_version)        [$widgets(item_version) get]
-    set data(item_description)    [$widgets(item_desc) get 1.0 end-1c]
+    set data(item_description)    [get_item_description]
     set data(item_release_notes)  [$widgets(item_notes) get]
     set data(item_download_url)   [$widgets(item_download_url) get]
     
