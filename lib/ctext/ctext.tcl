@@ -426,8 +426,9 @@ proc ctext::setCommentRE {win} {
 }
 
 proc ctext::inCommentString {win index} {
-  set names [$win tag names $index]
-  return [expr [lsearch -regexp $names {_([cl]Comment|[sdt]String)}] != -1]
+  set prev_in [expr [lsearch -regexp [$win tag names $index-1c] {_([cl]Comment|[sdt]String)}] != -1]
+  set curr_in [expr [lsearch -regexp [$win tag names $index]    {_([cl]Comment|[sdt]String)}] != -1]
+  return [expr $curr_in && $prev_in]
 }
 
 proc ctext::commentsAfterIdle {win start end block} {
