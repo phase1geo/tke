@@ -94,12 +94,27 @@ namespace eval completer {
   }
   
   ######################################################################
+  # Returns true if a closing character should be automatically added.
+  proc add_closing {txt} {
+    
+    # Get the character at the insertion cursor
+    set ch [$txt get insert]
+    
+    if {[string is space $ch] || ($ch eq "\}") || ($ch eq "\)") || ($ch eq ">") || ($ch eq "]")} {
+      return 1
+    }
+    
+    return 0
+    
+  }
+  
+  ######################################################################
   # Handles a square bracket.
   proc add_square {txt side} {
     
     variable complete
 
-    if {$complete($txt,square) && ![ctext::inCommentString $txt insert-1c]} {
+    if {$complete($txt,square) && ![ctext::inCommentString $txt insert]} {
       if {$side eq "right"} {
         if {[$txt get insert] eq "\]"} {
           $txt mark set insert "insert+1c"
@@ -107,7 +122,9 @@ namespace eval completer {
         }
       } else {
         set ins [$txt index insert]
-        $txt insert insert "\]"
+        if {[add_closing $txt]} {
+          $txt insert insert "\]"
+        }
         $txt mark set insert $ins
       }
     }
@@ -122,7 +139,7 @@ namespace eval completer {
 
     variable complete
     
-    if {$complete($txt,curly) && ![ctext::inCommentString $txt insert-1c]} {
+    if {$complete($txt,curly) && ![ctext::inCommentString $txt insert]} {
       if {$side eq "right"} {
         if {[$txt get insert] eq "\}"} {
           $txt mark set insert "insert+1c"
@@ -130,7 +147,9 @@ namespace eval completer {
         }
       } else {
         set ins [$txt index insert]
-        $txt insert insert "\}"
+        if {[add_closing $txt]} {
+          $txt insert insert "\}"
+        }
         $txt mark set insert $ins
       }
     }
@@ -145,7 +164,7 @@ namespace eval completer {
 
     variable complete
     
-    if {$complete($txt,angled) && ![ctext::inCommentString $txt insert-1c]} {
+    if {$complete($txt,angled) && ![ctext::inCommentString $txt insert]} {
       if {$side eq "right"} {
         if {[$txt get insert] eq ">"} {
           $txt mark set insert "insert+1c"
@@ -153,7 +172,9 @@ namespace eval completer {
         }
       } else {
         set ins [$txt index insert]
-        $txt insert insert ">"
+        if {[add_closing $txt]} {
+          $txt insert insert ">"
+        }
         $txt mark set insert $ins
       }
     }
@@ -168,7 +189,7 @@ namespace eval completer {
 
     variable complete
     
-    if {$complete($txt,paren) && ![ctext::inCommentString $txt insert-1c]} {
+    if {$complete($txt,paren) && ![ctext::inCommentString $txt insert]} {
       if {$side eq "right"} {
         if {[$txt get insert] eq ")"} {
           $txt mark set insert "insert+1c"
@@ -176,7 +197,9 @@ namespace eval completer {
         }
       } else {
         set ins [$txt index insert]
-        $txt insert insert ")"
+        if {[add_closing $txt]} {
+          $txt insert insert ")"
+        }
         $txt mark set insert $ins
       }
     }
