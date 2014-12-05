@@ -93,7 +93,11 @@ proc usage {} {
 # Displays version information to standard output and exits.
 proc version {} {
 
-  puts "$::version_major.$::version_minor ($::version_hgid)"
+  if {$::version_point == 0} {
+    puts "$::version_major.$::version_minor ($::version_hgid)"
+  } else {
+    puts "$::version_major.$::version_minor.$::version_point ($::version_hgid)"
+  }
   
   exit
   
