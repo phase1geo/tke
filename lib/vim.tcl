@@ -687,6 +687,17 @@ namespace eval vim {
         record_stop
       }
       return 1
+      
+    # Remove all text within the current character
+    } elseif {$mode($txt) eq "changein"} {
+      if {([set start_index [$txt search -backwards $char insert 1.0]] ne "") && \
+          ([set end_index   [$txt search -forwards  $char insert end]] ne "")} {
+        $txt delete $start_index+1c $end_index
+        edit_mode $txt
+      } else {
+        start_mode $txt
+      }
+      return 1
     }
     
     return 0
@@ -896,6 +907,9 @@ namespace eval vim {
     if {$mode($txt) eq "start"} {
       edit_mode $txt
       record_start
+      return 1
+    } elseif {$mode($txt) eq "change"} {
+      set mode($txt) "changein"
       return 1
     }
     
@@ -1141,13 +1155,13 @@ namespace eval vim {
   }
   
   ######################################################################
-  # If we are in "start" mode, change the state to "cut" mode.
+  # If we are in "start" mode, change the state to "change" mode.
   proc handle_c {txt tid} {
   
     variable mode
     
     if {$mode($txt) eq "start"} {
-      set mode($txt) "cut"
+      set mode($txt) "change"
       record_start
       return 1
     }
@@ -1157,13 +1171,13 @@ namespace eval vim {
   }
   
   ######################################################################
-  # If we are in "cut" mode, delete the current word and change to edit
+  # If we are in "change" mode, delete the current word and change to edit
   # mode.
   proc handle_w {txt tid} {
   
     variable mode
     
-    if {$mode($txt) eq "cut"} {
+    if {$mode($txt) eq "change"} {
       if {![[ns multicursor]::delete $txt " wordend"]} {
         $txt delete insert "insert wordend"
       }

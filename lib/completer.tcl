@@ -48,7 +48,7 @@ namespace eval completer {
     variable lang_match_chars
     variable pref_complete
     variable complete
-
+    
     # Save the language-specific match characters
     set lang_match_chars($txt) $matchchars
     
@@ -91,6 +91,10 @@ namespace eval completer {
     set text_index [lsearch [bindtags $txt.t] Text]
     bindtags $txt.t [linsert [bindtags $txt.t] $text_index comp$txt]
     
+    # Make sure that the complete array is initialized for the text widget
+    # in case there is no language
+    set_auto_match_chars $txt.t {}
+      
   }
   
   ######################################################################
