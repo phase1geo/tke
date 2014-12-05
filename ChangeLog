@@ -1,43 +1,44 @@
-changeset:   678:6f3080aafe15
-tag:         devel-1.3.2
+changeset:   683:52243fa96239
+tag:         devel-1.3.3
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Dec 02 22:14:32 2014 -0600
+date:        Thu Dec 04 00:17:50 2014 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.3.2 release
+ChangeLog for devel-1.3.3 release
 
 
-changeset:   679:691159cbfb70
+changeset:   684:e387e59ae4b4
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Dec 02 22:14:40 2014 -0600
+date:        Thu Dec 04 00:17:56 2014 -0600
 files:       .hgtags
 description:
-Added tag devel-1.3.2 for changeset 6f3080aafe15
+Added tag devel-1.3.3 for changeset 52243fa96239
 
 
-changeset:   680:69c042ee6d71
+changeset:   685:353ee74a3bb3
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Dec 03 08:30:27 2014 -0600
-files:       lib/ptwidgets1.2/common/Markdown_1.0.1/License.text lib/ptwidgets1.2/common/Markdown_1.0.1/Markdown Readme.text lib/ptwidgets1.2/common/Markdown_1.0.1/Markdown.pl lib/version.tcl
+date:        Thu Dec 04 20:38:07 2014 -0600
+files:       lib/tke.tcl lib/version.tcl release.tcl
 description:
-* Adding Markdown library for specl use.
+* Fixing -v option to tke
+* Fixing release script to generate proper ChangeLog based on release type.
 
 
-changeset:   681:5437c8409aaf
+changeset:   686:30ea7bd0a7ac
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Dec 03 21:24:58 2014 -0600
-files:       ChangeLog lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+date:        Thu Dec 04 21:48:48 2014 -0600
+files:       lib/completer.tcl lib/version.tcl lib/vim.tcl
 description:
-* Adding Markdown support to specl.
+* Fixing bug with completer when language doesn't specify completions.
+* Adding 'ci<char>' functionality to vim.
 
 
-changeset:   682:e11e3b6ed3db
+changeset:   687:139fc36e89bf
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Dec 03 22:48:46 2014 -0600
-files:       lib/completer.tcl lib/ctext/ctext.tcl lib/version.tcl
+date:        Fri Dec 05 00:28:33 2014 -0600
+files:       lib/gui.tcl lib/version.tcl lib/vim.tcl
 description:
-* Attempting to fix inCommentString function to be correct.
-* Attempting to enhance completer functionality to not add closing character when appropriate.
+* Starting to add support for single cursor visual mode.
 
 
