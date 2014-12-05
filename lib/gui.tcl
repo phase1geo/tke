@@ -3437,7 +3437,7 @@ namespace eval gui {
   proc update_position {txt} {
 
     variable widgets
-
+    
     # Get the current position of the insertion cursor
     lassign [split [$txt index insert] .] line column
 

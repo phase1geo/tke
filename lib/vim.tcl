@@ -74,8 +74,10 @@ namespace eval vim {
     variable mode
     
     if {[[ns preferences]::get Tools/VimMode]} {
-      if {[info exists mode($txt)] && ($mode($txt) eq "edit")} {
+      if {[info exists mode($txt.t)] && ($mode($txt.t) eq "edit")} {
         return "INSERT MODE"
+      } elseif {[info exists mode($txt.t)] && ($mode($txt.t) eq "visual")} {
+        return "VISUAL MODE"
       } else {
         return "COMMAND MODE"
       }
@@ -450,6 +452,10 @@ namespace eval vim {
     # to the undo stack.
     if {$mode($txt) eq "edit"} {
       $txt edit separator
+
+    # If we are coming from visual mode, clear the selection
+    } elseif {$mode($txt) eq "visual"} {
+      $txt tag remove sel 1.0 end
     }
     
     # If were in the edit or replace_all state, move the insertion cursor back
@@ -468,6 +474,16 @@ namespace eval vim {
     # Adjust the insertion marker
     adjust_insert $txt
  
+  }
+  
+  ######################################################################
+  # Set the current mode to the "visual" mode.
+  proc visual_mode {txt} {
+    
+    variable mode
+    
+    set mode($txt) "visual"
+    
   }
   
   ######################################################################
@@ -713,8 +729,8 @@ namespace eval vim {
     variable mode
     variable number
     
-    if {$mode($txt) eq "start"} {
-      if {($num eq "0") && ($number($txt) eq "")} {
+    if {($mode($txt) eq "start") || ($mode($txt) eq "visual")} {
+      if {($mode($txt) eq "start") && ($num eq "0") && ($number($txt) eq "")} {
         $txt mark set insert "insert linestart"
         $txt see insert
       } else {
@@ -1015,8 +1031,12 @@ namespace eval vim {
     variable column
     
     # Move the insertion cursor up one line
-    if {$mode($txt) eq "start"} {
-      $txt tag remove sel 1.0 end
+    if {($mode($txt) eq "start") || ($mode($txt) eq "visual")} {
+      if {$mode($txt) eq "start"} {
+        $txt tag remove sel 1.0 end
+      } else {
+        set last_index [$txt index insert]
+      }
       lassign [split [$txt index insert] .] row col
       if {$column($txt) ne ""} {
         set col $column($txt)
@@ -1028,6 +1048,9 @@ namespace eval vim {
         $txt mark set insert "$row.$col"
         adjust_insert $txt
         $txt see insert
+      }
+      if {$mode($txt) eq "visual"} {
+        $txt tag add sel insert $last_index
       }
       return 1
     }
@@ -1064,7 +1087,13 @@ namespace eval vim {
     variable number
     
     # Move the insertion cursor right one character
-    if {$mode($txt) eq "start"} {
+    if {($mode($txt) eq "start") || ($mode($txt) eq "visual")} {
+      if {$mode($txt) eq "visual"} {
+        lassign [$txt tag prevrange sel insert] start_sel end_sel
+        if {$start_sel eq ""} {
+          set start_sel [set end_sel [$txt index insert]]
+        }
+      }
       $txt tag remove sel 1.0 end
       if {$number($txt) ne ""} {
         if {[$txt compare "insert lineend" < "insert+$number($txt)c"]} {
@@ -1078,6 +1107,13 @@ namespace eval vim {
         $txt see insert
       } else {
         bell
+      }
+      if {$mode($txt) eq "visual"} {
+        if {[$txt compare $end_sel < insert]} {
+          $txt tag add sel $start_sel insert
+        } else {
+          $txt tag add sel insert $end_sel
+        }
       }
       return 1
     }
@@ -1114,7 +1150,14 @@ namespace eval vim {
     variable number
     
     # Move the insertion cursor left one character
-    if {$mode($txt) eq "start"} {
+    if {($mode($txt) eq "start") || ($mode($txt) eq "visual")} {
+      if {$mode($txt) eq "visual"} {
+        lassign [$txt tag prevrange sel insert] start_sel end_sel
+        if {$start_sel eq ""} {
+          set start_sel [set end_sel [$txt index insert]]
+        }
+      }
+      $txt tag remove sel 1.0 end
       if {$number($txt) ne ""} {
         if {[$txt compare "insert linestart" > "insert-$number($txt)c"]} {
           $txt mark set insert "insert linestart"
@@ -1127,6 +1170,13 @@ namespace eval vim {
         $txt see insert
       } else {
         bell
+      }
+      if {$mode($txt) eq "visual"} {
+        if {[$txt compare insert < $start_sel]} {
+          $txt tag add sel insert $end_sel
+        } else {
+          $txt tag add sel $start_sel insert
+        }
       }
       return 1
     }
@@ -1585,7 +1635,22 @@ namespace eval vim {
     return 0
     
   }
+  
+  ######################################################################
+  # If we are in "start" mode, puts the mode into "visual" mode.
+  proc handle_v {txt tid} {
     
+    variable mode
+    
+    if {$mode($txt) eq "start"} {
+      visual_mode $txt
+      return 1
+    }
+    
+    return 0
+    
+  }
+  
   ######################################################################
   # If we are in "start" mode, move the cursor down by 1 page.
   proc handle_control_f {txt} {
