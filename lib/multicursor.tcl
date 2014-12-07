@@ -383,7 +383,13 @@ namespace eval multicursor {
   }
   
   ######################################################################
-  # Handles the deletion key.
+  # Handles the deletion key.  The value of suffix defines what text will
+  # be deleted.  The following is a listing of valid values for suffix:
+  # - line      = Delete the entire line of the cursor.
+  # - linestart = Delete the line from the start to the current cursor.
+  # - lineend   = Delete the line from the current cursor to the end of the line.
+  # - -#type    = Delete # of types prior to the cursor to the cursor.
+  # - +#type    = Delete from the cursor to # of types after the cursor.
   proc delete {txt suffix} {
     
     variable selected
@@ -396,6 +402,11 @@ namespace eval multicursor {
           $txt tag add mcursor $start
         }
         set selected 0
+      } elseif {$suffix eq "line"} {
+        foreach {start end} [$txt tag ranges mcursor] {
+          $txt delete "$start linestart" "$start lineend"
+          $txt tag add mcursor "$start linestart"
+        }
       } elseif {$suffix eq "linestart"} {
         foreach {start end} [$txt tag ranges mcursor] {
           $txt delete "$start linestart" $start
