@@ -6,7 +6,7 @@
 #          support.  The Vim commands supported are not meant to be
 #          a complete representation of its functionality.
 ######################################################################
- 
+
 namespace eval vim {
 
   source [file join $::tke_dir lib ns.tcl]
@@ -20,6 +20,7 @@ namespace eval vim {
   array set search_dir      {}
   array set ignore_modified {}
   array set column          {}
+  array set select_anchors  {}
   
   ######################################################################
   # Enables/disables Vim mode for all text widgets.
@@ -236,6 +237,23 @@ namespace eval vim {
   }
   
   ######################################################################
+  # Adjust the current selection if we are in visual mode.
+  proc adjust_select {txt index} {
+    
+    variable select_anchors
+    
+    # Get the anchor for the given selection
+    set anchor [lindex $select_anchors($txt) $index]
+    
+    if {[$txt compare $anchor < insert]} {
+      $txt tag add sel $anchor insert
+    } else {
+      $txt tag add sel insert $anchor
+    }
+    
+  }
+  
+  ######################################################################
   # Handles an escape key in the command entry widget.
   proc handle_command_escape {w tid} {
     
@@ -299,16 +317,18 @@ namespace eval vim {
     variable number
     variable ignore_modified
     variable column
+    variable select_anchors
     
     # Change the cursor to the block cursor
     $txt configure -blockcursor true
     
     # Put ourselves into start mode
-    set mode($txt.t)          "start"
-    set number($txt.t)        ""
-    set search_dir($txt.t)    "next"
-    set ignore_modified($txt) 0
-    set column($txt.t)        ""
+    set mode($txt.t)           "start"
+    set number($txt.t)         ""
+    set search_dir($txt.t)     "next"
+    set ignore_modified($txt)  0
+    set column($txt.t)         ""
+    set select_anchors($txt.t) [list]
     
     # Add bindings
     bind $txt       <<Modified>>      "if {\[[ns vim]::handle_modified %W\]} { break }"
@@ -481,8 +501,16 @@ namespace eval vim {
   proc visual_mode {txt} {
     
     variable mode
+    variable select_anchors
     
+    # Set the current mode
     set mode($txt) "visual"
+    
+    # Clear the current selection
+    $txt tag remove sel 1.0 end
+    
+    # Initialize the select range
+    set select_anchors($txt) [$txt index insert]
     
   }
   
@@ -575,6 +603,7 @@ namespace eval vim {
   # the lineend spot.
   proc adjust_insert {txt} {
   
+    variable mode
     variable ignore_modified
     
     # Remove any existing dspace characters
@@ -590,6 +619,11 @@ namespace eval vim {
     # Make sure that lineend is never the insertion point
     } elseif {[$txt index insert] eq [$txt index "insert lineend"]} {
       $txt mark set insert "insert-1c"
+    }
+    
+    # Adjust the selection (if we are in visual mode)
+    if {$mode($txt) eq "visual"} {
+      adjust_select $txt 0
     }
     
   }
@@ -687,7 +721,7 @@ namespace eval vim {
     } elseif {[string is integer $keysym] && [handle_number $txt $char]} {
       record_add "Key-$keysym"
       return 1
-    } elseif {$mode($txt) eq "start"} {
+    } elseif {($mode($txt) eq "start") || ($mode($txt) eq "visual")} {
       return 1
     }
     
@@ -960,7 +994,7 @@ namespace eval vim {
     variable column
     
     # Move the insertion cursor down one line
-    if {$mode($txt) eq "start"} {
+    if {($mode($txt) eq "start") || ($mode($txt) eq "visual")} {
       $txt tag remove sel 1.0 end
       lassign [split [$txt index insert] .] row col
       if {$column($txt) ne ""} {
@@ -1032,11 +1066,7 @@ namespace eval vim {
     
     # Move the insertion cursor up one line
     if {($mode($txt) eq "start") || ($mode($txt) eq "visual")} {
-      if {$mode($txt) eq "start"} {
-        $txt tag remove sel 1.0 end
-      } else {
-        set last_index [$txt index insert]
-      }
+      $txt tag remove sel 1.0 end
       lassign [split [$txt index insert] .] row col
       if {$column($txt) ne ""} {
         set col $column($txt)
@@ -1048,9 +1078,6 @@ namespace eval vim {
         $txt mark set insert "$row.$col"
         adjust_insert $txt
         $txt see insert
-      }
-      if {$mode($txt) eq "visual"} {
-        $txt tag add sel insert $last_index
       }
       return 1
     }
@@ -1088,12 +1115,6 @@ namespace eval vim {
     
     # Move the insertion cursor right one character
     if {($mode($txt) eq "start") || ($mode($txt) eq "visual")} {
-      if {$mode($txt) eq "visual"} {
-        lassign [$txt tag prevrange sel insert] start_sel end_sel
-        if {$start_sel eq ""} {
-          set start_sel [set end_sel [$txt index insert]]
-        }
-      }
       $txt tag remove sel 1.0 end
       if {$number($txt) ne ""} {
         if {[$txt compare "insert lineend" < "insert+$number($txt)c"]} {
@@ -1101,19 +1122,14 @@ namespace eval vim {
         } else {
           $txt mark set insert "insert+$number($txt)c"
         }
+        adjust_insert $txt
         $txt see insert
       } elseif {[$txt compare "insert lineend" > "insert+1c"]} {
         $txt mark set insert "insert+1c"
+        adjust_insert $txt
         $txt see insert
       } else {
         bell
-      }
-      if {$mode($txt) eq "visual"} {
-        if {[$txt compare $end_sel < insert]} {
-          $txt tag add sel $start_sel insert
-        } else {
-          $txt tag add sel insert $end_sel
-        }
       }
       return 1
     }
@@ -1129,7 +1145,7 @@ namespace eval vim {
     
     variable mode
     
-    if {$mode($txt) eq "start"} {
+    if {($mode($txt) eq "start") || ($mode($txt) eq "visual")} {
       $txt tag remove sel 1.0 end
       if {[[ns multicursor]::enabled $txt]} {
         [ns multicursor]::adjust $txt "+1c"
@@ -1151,12 +1167,6 @@ namespace eval vim {
     
     # Move the insertion cursor left one character
     if {($mode($txt) eq "start") || ($mode($txt) eq "visual")} {
-      if {$mode($txt) eq "visual"} {
-        lassign [$txt tag prevrange sel insert] start_sel end_sel
-        if {$start_sel eq ""} {
-          set start_sel [set end_sel [$txt index insert]]
-        }
-      }
       $txt tag remove sel 1.0 end
       if {$number($txt) ne ""} {
         if {[$txt compare "insert linestart" > "insert-$number($txt)c"]} {
@@ -1164,19 +1174,14 @@ namespace eval vim {
         } else {
           $txt mark set insert "insert-$number($txt)c"
         }
+        adjust_insert $txt
         $txt see insert
       } elseif {[$txt compare "insert linestart" <= "insert-1c"]} {
         $txt mark set insert "insert-1c"
+        adjust_insert $txt
         $txt see insert
       } else {
         bell
-      }
-      if {$mode($txt) eq "visual"} {
-        if {[$txt compare insert < $start_sel]} {
-          $txt tag add sel insert $end_sel
-        } else {
-          $txt tag add sel $start_sel insert
-        }
       }
       return 1
     }
@@ -1205,7 +1210,79 @@ namespace eval vim {
   }
   
   ######################################################################
-  # If we are in "start" mode, change the state to "change" mode.
+  # Returns the index of the beginning next/previous word.  If num is
+  # given a value > 1, the procedure will return the beginning index of
+  # the next/previous num'th word.  If no word was found, return the index
+  # of the current word.
+  proc get_word {txt dir {num 1}} {
+    
+    # If the direction is 'next', search forward
+    if {$dir eq "next"} {
+      
+      # Get the end of the current word (this will be the beginning of the next word)
+      set curr_index [$txt index "insert wordend"]
+      
+      # Use a brute-force method of finding the next word
+      while {[$txt compare $curr_index < end]} {
+        if {![string is space [$txt get $curr_index]]} {
+          if {[incr num -1] == 0} {
+            return [$txt index "$curr_index wordstart"]
+          }
+        }
+        set curr_index [$txt index "$curr_index wordend"]
+      }
+      
+      return [$txt index "$curr_index wordstart"]
+      
+    } else {
+      
+      # Get the index of the current word
+      set curr_index [$txt index "insert wordstart"]
+      
+      while {[$txt compare $curr_index > 1.0]} {
+        if {![string is space [$txt get $curr_index]] && \
+             [$txt compare $curr_index != insert]} {
+          if {[incr num -1] == 0} {
+            return $curr_index
+          }
+        }
+        set curr_index [$txt index "$curr_index-1c wordstart"]
+      }
+      
+      return $curr_index
+      
+    }
+    
+  }
+  
+  ######################################################################
+  # If we are in "start" mode, move the insertion cursor to the beginning
+  # of previous word.
+  proc handle_b {txt tid} {
+    
+    variable mode
+    variable number
+    
+    if {($mode($txt) eq "start") || ($mode($txt) eq "visual")} {
+      $txt tag remove sel 1.0 end
+      if {$number($txt) ne ""} {
+        $txt mark set insert [get_word $txt prev $number($txt)]
+      } else {
+        $txt mark set insert [get_word $txt prev]
+      }
+      adjust_insert $txt
+      $txt see insert
+      return 1
+    }
+    
+    return 0
+    
+  }
+  
+  ######################################################################
+  # If we are in "start" mode, change the state to "change" mode.  If
+  # we are in the "change" mode, delete the current line and put ourselves
+  # into edit mode.
   proc handle_c {txt tid} {
   
     variable mode
@@ -1213,6 +1290,29 @@ namespace eval vim {
     if {$mode($txt) eq "start"} {
       set mode($txt) "change"
       record_start
+      return 1
+    } elseif {$mode($txt) eq "change"} {
+      if {![[ns multicursor]::delete $txt "line"]} {
+        $txt delete "insert linestart" "insert lineend"
+      }
+      edit_mode $txt
+      return 1
+    }
+    
+    return 0
+    
+  }
+  
+  ######################################################################
+  # If we are in "start" mode, delete from the insertion cursor to the
+  # end of the line and put ourselves into "edit" mode.
+  proc handle_C {txt tid} {
+    
+    variable mode
+    
+    if {$mode($txt) eq "start"} {
+      $txt delete insert "insert lineend"
+      edit_mode $txt
       return 1
     }
     
@@ -1226,8 +1326,19 @@ namespace eval vim {
   proc handle_w {txt tid} {
   
     variable mode
+    variable number
     
-    if {$mode($txt) eq "change"} {
+    if {($mode($txt) eq "start") || ($mode($txt) eq "visual")} {
+      $txt tag remove sel 1.0 end
+      if {$number($txt) ne ""} {
+        $txt mark set insert [get_word $txt next $number($txt)]
+      } else {
+        $txt mark set insert [get_word $txt next]
+      }
+      adjust_insert $txt
+      $txt see insert
+      return 1
+    } elseif {$mode($txt) eq "change"} {
       if {![[ns multicursor]::delete $txt " wordend"]} {
         $txt delete insert "insert wordend"
       }
