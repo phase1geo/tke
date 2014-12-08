@@ -1214,13 +1214,13 @@ namespace eval vim {
   # given a value > 1, the procedure will return the beginning index of
   # the next/previous num'th word.  If no word was found, return the index
   # of the current word.
-  proc get_word {txt dir {num 1}} {
+  proc get_word {txt dir {num 1} {start insert}} {
     
     # If the direction is 'next', search forward
     if {$dir eq "next"} {
       
       # Get the end of the current word (this will be the beginning of the next word)
-      set curr_index [$txt index "insert wordend"]
+      set curr_index [$txt index "$start wordend"]
       
       # Use a brute-force method of finding the next word
       while {[$txt compare $curr_index < end]} {
@@ -1237,11 +1237,11 @@ namespace eval vim {
     } else {
       
       # Get the index of the current word
-      set curr_index [$txt index "insert wordstart"]
+      set curr_index [$txt index "$start wordstart"]
       
       while {[$txt compare $curr_index > 1.0]} {
         if {![string is space [$txt get $curr_index]] && \
-             [$txt compare $curr_index != insert]} {
+             [$txt compare $curr_index != $start]} {
           if {[incr num -1] == 0} {
             return $curr_index
           }
@@ -1345,8 +1345,14 @@ namespace eval vim {
       $txt see insert
       return 1
     } elseif {$mode($txt) eq "change"} {
-      if {![[ns multicursor]::delete $txt " wordend"]} {
-        $txt delete insert "insert wordend"
+      if {($number($txt) ne "") && ($number($txt) > 1)} {
+        if {![[ns multicursor]::delete $txt "word" $number($txt)]} {
+          $txt delete insert "[get_word $txt next [expr $number($txt) - 1]] wordend"
+        }
+      } else {
+        if {![[ns multicursor]::delete $txt " wordend"]} {
+          $txt delete insert "insert wordend"
+        }
       }
       edit_mode $txt
       return 1

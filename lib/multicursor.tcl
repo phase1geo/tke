@@ -386,12 +386,13 @@ namespace eval multicursor {
   # Handles the deletion key.  The value of suffix defines what text will
   # be deleted.  The following is a listing of valid values for suffix:
   # - selected  = Forces selected text to be deleted (by default this is detected)
-  # - line      = Delete the entire line of the cursor.
+  # - line      = Delete the entire line of the current cursor.
+  # - word      = Delete the number of words from the current cursor.
   # - linestart = Delete the line from the start to the current cursor.
   # - lineend   = Delete the line from the current cursor to the end of the line.
   # - -#type    = Delete # of types prior to the cursor to the cursor.
   # - +#type    = Delete from the cursor to # of types after the cursor.
-  proc delete {txt suffix} {
+  proc delete {txt suffix {num 1}} {
     
     variable selected
     
@@ -407,6 +408,11 @@ namespace eval multicursor {
         foreach {start end} [$txt tag ranges mcursor] {
           $txt delete "$start linestart" "$start lineend"
           $txt tag add mcursor "$start linestart"
+        }
+      } elseif {$suffix eq "word"} {
+        foreach {start end} [$txt tag ranges mcursor] {
+          $txt delete $start "[[ns vim]::get_word $txt next [expr $num - 1] $start] wordend"
+          $txt tag add mcursor $start
         }
       } elseif {$suffix eq "linestart"} {
         foreach {start end} [$txt tag ranges mcursor] {
