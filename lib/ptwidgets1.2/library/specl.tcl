@@ -828,13 +828,13 @@ namespace eval specl::updater {
     ::tk::PlaceWindow .passwin widget .updwin
 
     # Grab and focus on the window
-    ::tk::SetFocusGrab .passwin .passwin.e
+    ::tk::SetFocusGrab .passwin .passwin.f.e
     
     # Wait for the window to be closed
     tkwait window .passwin
     
     # Release the grab and focus
-    ::tk::RestoreFocusGrab .passwin .passwin.e
+    ::tk::RestoreFocusGrab .passwin .passwin.f.e
     
     # Get the returned password and then clear the namespace variable for protection
     set password $temp_password
