@@ -385,6 +385,7 @@ namespace eval multicursor {
   ######################################################################
   # Handles the deletion key.  The value of suffix defines what text will
   # be deleted.  The following is a listing of valid values for suffix:
+  # - selected  = Forces selected text to be deleted (by default this is detected)
   # - line      = Delete the entire line of the cursor.
   # - linestart = Delete the line from the start to the current cursor.
   # - lineend   = Delete the line from the current cursor to the end of the line.
@@ -396,7 +397,7 @@ namespace eval multicursor {
     
     # Only perform this if multiple cursors
     if {[enabled $txt]} {
-      if {$selected} {
+      if {$selected || ($suffix eq "selected")} {
         foreach {start end} [$txt tag ranges mcursor] {
           $txt delete $start $end
           $txt tag add mcursor $start

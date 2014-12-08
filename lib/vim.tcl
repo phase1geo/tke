@@ -1291,6 +1291,12 @@ namespace eval vim {
       set mode($txt) "change"
       record_start
       return 1
+    } elseif {$mode($txt) eq "visual"} {
+      if {![[ns multicursor]::delete $txt "selected"]} {
+        $txt delete sel.first sel.last
+      }
+      edit_mode $txt
+      return 1
     } elseif {$mode($txt) eq "change"} {
       if {![[ns multicursor]::delete $txt "line"]} {
         $txt delete "insert linestart" "insert lineend"
@@ -1344,6 +1350,27 @@ namespace eval vim {
       }
       edit_mode $txt
       return 1
+    } elseif {$mode($txt) eq "yank"} {
+      clipboard clear
+      if {$number($txt) ne ""} {
+        clipboard append [$txt get "insert wordstart" "[get_word $txt next [expr $number($txt) - 1]] wordend"]
+      } else {
+        clipboard append [$txt get "insert wordstart" "insert wordend"]
+      }
+      start_mode $txt
+      return 1
+    } elseif {$mode($txt) eq "delete"} {
+      clipboard clear
+      if {$number($txt) ne ""} {
+        set word [get_word $txt next [expr $number($txt) - 1]]
+        clipboard append [$txt get "insert wordstart" "$word wordend"]
+        $txt delete "insert wordstart" "$word wordend"
+      } else {
+        clipboard append [$txt get "insert wordstart" "insert wordend"]
+        $txt delete "insert wordstart" "insert wordend"
+      }
+      start_mode $txt
+      return 1
     }
     
     return 0
@@ -1355,11 +1382,16 @@ namespace eval vim {
   proc handle_G {txt tid} {
   
     variable mode
+    variable number
     
-    if {$mode($txt) eq "start"} {
-      $txt mark set insert "end linestart"
+    if {($mode($txt) eq "start") || ($mode($txt) eq "visual")} {
+      if {$number($txt) ne ""} {
+        $txt mark set insert [get_linenum $txt $number($txt)]
+      } else {
+        $txt mark set insert "end linestart"
+      }
       adjust_insert $txt
-      $txt see end
+      $txt see insert
       return 1
     }
     
@@ -1447,12 +1479,18 @@ namespace eval vim {
     if {$mode($txt) eq "start"} {
       set mode($txt) "yank"
       return 1
+    } elseif {$mode($txt) eq "visual"} {
+      clipboard clear
+      clipboard append [$txt get sel.first sel.last]
+      cliphist::add_from_clipboard
+      start_mode $txt
+      return 1
     } elseif {$mode($txt) eq "yank"} {
       clipboard clear
       if {($number($txt) ne "") && ($number($txt) > 1)} {
-        clipboard append [$txt get "insert linestart" "insert linestart+[expr $number($txt) - 1]l lineend"]
+        clipboard append [$txt get "insert linestart" "insert linestart+[expr $number($txt) - 1]l lineend"]\n
       } else {
-        clipboard append [$txt get "insert linestart" "insert lineend"]
+        clipboard append [$txt get "insert linestart" "insert lineend"]\n
       }
       cliphist::add_from_clipboard
       start_mode $txt
@@ -1498,9 +1536,14 @@ namespace eval vim {
   # current line.
   proc do_post_paste {txt clip} {
     
-    # $txt insert "insert+1l linestart" "$clip\n"
-    $txt insert "insert lineend" "\n$clip"
-    $txt mark set insert "insert+1l linestart"
+    if {[string first \n $clip] != -1} {
+      set clip [string trimright $clip]
+      $txt insert "insert lineend" "\n$clip"
+      $txt mark set insert "insert+1l linestart"
+    } else {
+      $txt insert "insert+1c" $clip
+      $txt mark set insert "insert+[string length $clip]c"
+    }
     $txt see insert
     
     # Create a marker in the text history
@@ -1531,7 +1574,12 @@ namespace eval vim {
   # in the text widget.
   proc do_pre_paste {txt clip} {
     
-    $txt insert "insert linestart" "$clip\n"
+    if {[string first \n $clip] != -1} {
+      set clip [string trimright $clip]
+      $txt insert "insert linestart" "$clip\n"
+    } else {
+      $txt insert "insert-1c"
+    }
     
     # Create a marker in the text history
     $txt edit separator
@@ -1982,5 +2030,98 @@ namespace eval vim {
     return [place_bracket $txt $tid < >]
     
   }
+  
+  ######################################################################
+  # If we are in "start" or "visual" mode, moves the insertion cursor to the first
+  # non-whitespace character in the next line.
+  proc handle_Return {txt tid} {
+    
+    variable mode
+    
+    if {($mode($txt) eq "start") || ($mode($txt) eq "visual")} {
+      $txt mark set insert "insert+1l linestart"
+      if {[string is space [$txt get insert]]} {
+        set next_word [get_word $txt next]
+        if {[$txt compare $next_word < "insert lineend"]} {
+          $txt mark set insert $next_word
+        } else {
+          $txt mark set insert "insert lineend"
+        }
+      }
+      adjust_insert $txt
+      $txt see insert
+      return 1
+    }
+    
+    return 0
+    
+  }
+  
+  ######################################################################
+  # If we are in "start" or "visual" mode, moves the insertion cursor to the first
+  # non-whitespace character in the previous line.
+  proc handle_minus {txt tid} {
+    
+    variable mode
+    
+    if {($mode($txt) eq "start") || ($mode($txt) eq "visual")} {
+      $txt mark set insert "insert-1l linestart"
+      if {[string is space [$txt get insert]]} {
+        set next_word [get_word $txt next]
+        if {[$txt compare $next_word < "insert lineend"]} {
+          $txt mark set insert $next_word
+        } else {
+          $txt mark set insert "insert lineend"
+        }
+      }
+      adjust_insert $txt
+      $txt see insert
+      return 1
+    }
+    
+    return 0
+    
+  }
 
+  ######################################################################
+  # If we are in "start" or "visual" mode, move the cursor to the given
+  # column of the current line.
+  proc handle_bar {txt tid} {
+    
+    variable mode
+    variable number
+    
+    if {(($mode($txt) eq "start") || ($mode($txt) eq "visual")) && ($number($txt) ne "")} {
+      $txt mark set insert [lindex [split [$txt index insert] .] 0].$number($txt)
+      adjust_insert $txt
+      $txt see insert
+      return 1
+    }
+    
+    return 0
+    
+  }
+  
+  ######################################################################
+  # If we are in "start" mode, change the case of the current character.
+  proc handle_asciitilde {txt tid} {
+    
+    variable mode
+    
+    if {$mode($txt) eq "start"} {
+      set ins  [$txt index insert]
+      set char [$txt get insert]
+      if {[string is lower $char]} {
+        $txt replace insert insert+1c [string toupper $char]
+      } else {
+        $txt replace insert insert+1c [string tolower $char]
+      }
+      $txt mark set insert $ins
+      return 1
+    }
+    
+    return 0
+    
+  }
+  
 }
