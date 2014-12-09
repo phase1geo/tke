@@ -430,6 +430,7 @@ namespace eval specl::updater {
     stylecount           0
     cancel               0
     translation_dir      ""
+    password_attempts    0
     ui,icon_path         ""
     ui,icon_side         left
     ui,utd_win_width     400
@@ -443,6 +444,11 @@ namespace eval specl::updater {
     ui,upd_title         "A new version is available!"
     ui,upd_message       "Version ({NEWVERSION}) is ready for installation. You are currently\nusing version ({CURVERSION}). Click Download to update your version."
     ui,upd_desc_height   200
+    ui,pwd_win_title     "Enter root password"
+    ui,pwd_win_width     300
+    ui,pwd_win_height    120
+    ui,pwd_max_attempts  3
+    ui,pwd_message       "{APPNAME} requires administrative privileges\nto install the latest update"
   }
 
   ######################################################################
@@ -463,7 +469,9 @@ namespace eval specl::updater {
         }
         -test   {
           set cl_args [lassign $cl_args data(cl_test_type)]
-          if {($data(cl_test_type) ne "update") && ($data(cl_test_type) ne "uptodate")} {
+          if {($data(cl_test_type) ne "update") && \
+              ($data(cl_test_type) ne "uptodate") && \
+              ($data(cl_test_type) ne "password")} {
             return 0
           }
         }
@@ -785,35 +793,55 @@ namespace eval specl::updater {
   
   ######################################################################
   # Returns the password entered from the user.
-  proc get_password {} {
+  proc get_password {content_list} {
     
+    variable data
     variable temp_password
     
     set temp_password ""
     
+    # Create text
+    set msg [transform_text $data(ui,pwd_message) $content_list]
+    
     toplevel     .passwin
-    wm title     .passwin "Enter root password"
+    wm title     .passwin [transform_text $data(ui,pwd_win_title) $content_list]
     wm resizable .passwin 0 0
-    wm transient .passwin .updwin
+    
+    if {$data(cl_test_type) eq ""} {
+      wm transient .passwin .updwin
+    }
+
+    # Set the window geometry
+    set wx [expr ([winfo screenwidth  .passwin] / 2) - ($data(ui,pwd_win_width)  / 2)]
+    set wy [expr ([winfo screenheight .passwin] / 2) - ($data(ui,pwd_win_height) / 2)]
+    wm geometry .passwin $data(ui,pwd_win_width)x$data(ui,pwd_win_height)+$wx+$wy
 
     ttk::frame .passwin.f
-    ttk::label .passwin.f.l1 -text "$specl::appname requires administrative privileges\nto install the latest update"
+    ttk::label .passwin.f.l1 -text $msg -justify center -anchor center
     ttk::label .passwin.f.l2 -text "Root password: "
+    ttk::label .passwin.f.l3 -text " "
     ttk::entry .passwin.f.e  -show \u2022 -validate key -validatecommand "specl::updater::validate_password %P"
+    ttk::label .passwin.f.l4 -text " "
     
     bind .passwin.f.e <Return> ".passwin.bf.ok invoke"
     
     grid rowconfigure    .passwin.f 2 -weight 1
-    grid columnconfigure .passwin.f 1 -weight 1
-    grid .passwin.f.l1 -row 0 -column 0 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid columnconfigure .passwin.f 2 -weight 1
+    grid .passwin.f.l1 -row 0 -column 0 -sticky news -padx 2 -pady 2 -columnspan 4
     grid .passwin.f.l2 -row 1 -column 0 -sticky ew   -padx 2 -pady 2
-    grid .passwin.f.e  -row 1 -column 1 -sticky ew   -padx 2 -pady 2
+    grid .passwin.f.l3 -row 1 -column 1 -sticky ew   -padx 2 -pady 2
+    grid .passwin.f.e  -row 1 -column 2 -sticky ew   -padx 2 -pady 2
+    grid .passwin.f.l4 -row 1 -column 3 -sticky ew   -padx 2 -pady 2
+    
+    # Hide the error message and shake text
+    grid remove .passwin.f.l3
     
     ttk::frame  .passwin.bf
-    ttk::button .passwin.bf.ok     -text "OK"     -width 6 -command {
-      set specl::updater::temp_password [.passwin.f.e get]
-      destroy .passwin
-    } -state disabled -default active
+    ttk::button .passwin.bf.ok -text "OK" -width 6 -command {
+      if {[specl::updater::password_check specl::updater::temp_password]} {
+        destroy .passwin
+      }
+    } -state disabled
     ttk::button .passwin.bf.cancel -text "Cancel" -width 6 -command {
       destroy .passwin
     }
@@ -821,7 +849,7 @@ namespace eval specl::updater {
     pack .passwin.bf.cancel -side right -padx 2 -pady 2
     pack .passwin.bf.ok     -side right -padx 2 -pady 2
     
-    pack .passwin.f  -fill x -expand yes
+    pack .passwin.f  -fill both -expand yes
     pack .passwin.bf -fill x
     
     # Center the password window over the update window
@@ -849,13 +877,72 @@ namespace eval specl::updater {
   proc validate_password {value} {
     
     if {$value eq ""} {
-      .passwin.bf.ok configure -state disabled
+      .passwin.bf.ok configure -state disabled -default normal
     } else {
-      .passwin.bf.ok configure -state normal
+      .passwin.bf.ok configure -state normal -default active
     }
     
     return 1
     
+  }
+  
+  ######################################################################
+  # Checks to see if the current password is valid.  If it is valid,
+  # returns a value of 1.  If it is invalid, select the text and shake the
+  # entry field.
+  proc password_check {ppassword} {
+    
+    variable data
+    
+    upvar $ppassword password
+    
+    # Check the password
+    if {[catch { run_admin_cmd -l [.passwin.f.e get] }]} {
+        
+      # If we have not exceeded the number of bad attempts, reshow the window
+      if {($data(ui,pwd_max_attempts) == 0) || \
+          ([incr data(password_attempts)] < $data(ui,pwd_max_attempts))} {
+      
+        # Select the bad password
+        .passwin.f.e selection range 0 end
+        
+        # Shake the entry field
+        for {set i 0} {$i < 2} {incr i} {
+          grid        .passwin.f.l3
+          grid remove .passwin.f.l4
+          update idletasks
+          after 50
+          grid remove .passwin.f.l3
+          grid        .passwin.f.l4
+          update idletasks
+          after 50
+        }
+        
+        return 0
+        
+      } else {
+        
+        set password ""
+    
+        return 1
+        
+      }
+      
+    }
+       
+    # Grab the password and return it
+    set password [.passwin.f.e get]
+      
+    return 1
+      
+  }
+  
+  ######################################################################
+  # Runs the given command with administrative privileges.
+  proc run_admin_cmd {cmd password} {
+    
+    exec -ignorestderr sudo -S -k {*}$cmd << "$password\n" 2>@1
+      
   }
   
   ######################################################################
@@ -881,8 +968,8 @@ namespace eval specl::updater {
       }
       Linux* {
         if {[catch { exec -ignorestderr gvfs-trash $install_dir }]} {
-          set password [get_password]
-          if {[catch { exec -ignorestderr sudo -S -k gvfs-trash $install_dir << "$password\n"}]} {
+          set password [get_password $content_list]
+          if {[catch { run_admin_cmd "gvfs-trash $install_dir" $password }]} {
             if {[file exists [set trash [file join ~ .local share Trash]]]} {
               if {[info exists ::env(XDG_DATA_HOME)] && \
                   ($::env(XDG_DATA_HOME) ne "") && \
@@ -926,7 +1013,7 @@ namespace eval specl::updater {
         if {![info exists password]} {
           set password [get_password]
         }
-        if {[catch { exec -ignorestderr sudo -S -k mv $install_dir $trash_path << "$password\n" } rc]} {
+        if {[catch { run_admin_cmd "mv $install_dir $trash_path" $password } rc]} {
           tk_messageBox -parent . -default ok -type ok -message [msgcat::mc "Unable to install"] -detail $rc
           exit 1
         }
@@ -938,7 +1025,7 @@ namespace eval specl::updater {
       if {![info exists password]} {
         set password [get_password]
       }
-      if {[catch { exec -ignorestderr sudo -S -k mv $download $install_dir << "$password\n" } rc]} {
+      if {[catch { run_admin_cmd "mv $download $install_dir" $password } rc]} {
         tk_messageBox -parent . -default ok -type ok -message [msgcat::mc "Unable to install"] -detail $rc
         exit 1
       }
@@ -1116,7 +1203,7 @@ namespace eval specl::updater {
     wm title      .utdwin ""
     wm resizable  .utdwin 0 0
     wm attributes .utdwin -topmost 1
-
+ 
     # Set the window geometry
     set wx [expr ([winfo screenwidth  .utdwin] / 2) - ($data(ui,utd_win_width)  / 2)]
     set wy [expr ([winfo screenheight .utdwin] / 2) - ($data(ui,utd_win_height) / 2)]
@@ -1238,6 +1325,30 @@ namespace eval specl::updater {
           }
         }
         
+        # Get password window information
+        if {![catch { specl::helpers::get_element $custom_node "password" } password_node]} {
+          foreach name [list max_attempts] {
+            if {![catch { specl::helpers::get_attr $password_node $name } value]} {
+              set data(ui,pwd_$name) $value
+            }
+          }
+          if {![catch { specl::helpers::get_element $password_node "window" } window_node]} {
+            foreach name [list width height] {
+              if {![catch { specl::helpers::get_attr $window_node $name } value]} {
+                set data(ui,pwd_win_$name) $value
+              }
+            }
+            if {![catch { specl::helpers::get_element $window_node "title" } title_node]} {
+              set data(ui,pwd_win_title) [lindex $title_node 1]
+            }
+          }
+          foreach name [list title message] {
+            if {![catch { specl::helpers::get_element $password_node $name } node]} {
+              set data(ui,pwd_$name) [lindex $node 1]
+            }
+          }
+        }
+        
       }
       
     }
@@ -1313,10 +1424,10 @@ namespace eval specl::updater {
                    length 7042856 checksum foobar num_updates  1]
 
       # Display the desired window
-      if {$data(cl_test_type) eq "update"} {
-        display_update $rc
-      } else {
-        display_up_to_date $rc
+      switch $data(cl_test_type) {
+        "update"   { display_update $rc }
+        "uptodate" { display_up_to_date $rc }
+        "password" { get_password $rc }
       }
 
     }
