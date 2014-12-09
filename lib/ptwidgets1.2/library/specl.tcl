@@ -823,7 +823,11 @@ namespace eval specl::updater {
     ttk::entry .passwin.f.e  -show \u2022 -validate key -validatecommand "specl::updater::validate_password %P"
     ttk::label .passwin.f.l4 -text " "
     
-    bind .passwin.f.e <Return> ".passwin.bf.ok invoke"
+    bind .passwin.f.e <Return> {
+      .passwin.bf.ok state pressed
+      update idletasks
+      .passwin.bf.ok invoke
+    }
     
     grid rowconfigure    .passwin.f 2 -weight 1
     grid columnconfigure .passwin.f 2 -weight 1
@@ -899,6 +903,9 @@ namespace eval specl::updater {
     # Check the password
     if {[catch { run_admin_cmd -l [.passwin.f.e get] }]} {
         
+      # Make sure the OK button is normalized
+      .passwin.bf.ok state !pressed
+      
       # If we have not exceeded the number of bad attempts, reshow the window
       if {($data(ui,pwd_max_attempts) == 0) || \
           ([incr data(password_attempts)] < $data(ui,pwd_max_attempts))} {
@@ -930,6 +937,9 @@ namespace eval specl::updater {
       
     }
        
+    # Make sure the OK button is normalized
+    .passwin.bf.ok state !pressed
+      
     # Grab the password and return it
     set password [.passwin.f.e get]
       
