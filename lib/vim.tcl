@@ -8,7 +8,7 @@
 ######################################################################
 
 namespace eval vim {
-
+  
   source [file join $::tke_dir lib ns.tcl]
    
   variable record_mode "none"
@@ -1420,10 +1420,10 @@ namespace eval vim {
     } elseif {$mode($txt) eq "delete"} {
       clipboard clear
       if {$number($txt) ne ""} {
-        clipboard append [$txt get "insert linestart" "insert linestart+[expr $number($txt) - 1]l lineend"]
+        clipboard append [$txt get "insert linestart" "insert linestart+[expr $number($txt) - 1]l lineend"]\n
         $txt delete "insert linestart" "insert linestart+$number($txt)l"
       } else {
-        clipboard append [$txt get "insert linestart" "insert lineend"]
+        clipboard append [$txt get "insert linestart" "insert lineend"]\n
         $txt delete "insert linestart" "insert linestart+1l"
       }
       start_mode $txt
@@ -1542,8 +1542,10 @@ namespace eval vim {
   # current line.
   proc do_post_paste {txt clip} {
     
-    if {[string first \n $clip] != -1} {
-      set clip [string trimright $clip]
+    if {[set nl_index [string last \n $clip]] != -1} {
+      if {[expr ([string length $clip] - 1) == $nl_index]} {
+        set clip [string replace $clip $nl_index $nl_index]
+      }
       $txt insert "insert lineend" "\n$clip"
       $txt mark set insert "insert+1l linestart"
     } else {
@@ -1580,8 +1582,10 @@ namespace eval vim {
   # in the text widget.
   proc do_pre_paste {txt clip} {
     
-    if {[string first \n $clip] != -1} {
-      set clip [string trimright $clip]
+    if {[set nl_index [string last \n $clip]] != -1} {
+      if {[expr ([string length $clip] - 1) == $nl_index]} {
+        set clip [string replace $clip $nl_index $nl_index]
+      }
       $txt insert "insert linestart" "$clip\n"
     } else {
       $txt insert "insert-1c"
