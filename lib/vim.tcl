@@ -157,6 +157,20 @@ namespace eval vim {
             set from [get_linenum $txt $from]
             set to   [$txt index "[get_linenum $txt $to] lineend"]
             [ns multicursor]::search_and_add_cursors $txt $from $to $search
+          } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)w(!)?\s+(.*)$} $value -> from to overwrite fname]} {
+            set from [get_linenum $txt $from]
+            set to   [get_linenum $txt $to]
+            if {($overwrite eq "") && [file exists $fname]} {
+              [ns gui]::set_info_message "Filename $fname already exists"
+            } else {
+              if {[catch { open $fname w } rc]} {
+                [ns gui]::set_info_message "Unable to open $fname for writing"
+              } else {
+                puts $rc [$txt get "$from linestart" "$to lineend"]
+                close $rc
+                [ns gui]::set_info_message "File $fname successfully written"
+              }
+            }
           } elseif {[regexp {^e\s+(.*)$} $value -> filename]} {
             [ns gui]::add_file end [normalize_filename [[ns utils]::perform_substitutions $filename]]
           } elseif {[regexp {^w\s+(.*)$} $value -> filename]} {
@@ -1018,14 +1032,26 @@ namespace eval vim {
   ######################################################################
   # Performs a join operation.
   proc do_join {txt} {
+    
+    variable number
+    
+    set lines [expr {($number($txt) ne "") ? $number($txt) : 1}]
 
-    # Perform a line join with the current line, trimming whitespace
-    set line [string trimleft [$txt get "insert+1l linestart" "insert+1l lineend"]]
-    $txt delete "insert+1l linestart" "insert+2l linestart"
-    set index [$txt index "insert lineend"]
-    if {$line ne ""} {
-      $txt insert "insert lineend" " [string trimleft $line]"
+    while {$lines > 0} {
+      
+      # Perform a line join with the current line, trimming whitespace
+      set line [string trimleft [$txt get "insert+1l linestart" "insert+1l lineend"]]
+      $txt delete "insert+1l linestart" "insert+2l linestart"
+      set index [$txt index "insert lineend"]
+      if {$line ne ""} {
+        $txt insert "insert lineend" " [string trimleft $line]"
+      }
+      
+      incr lines -1
+      
     }
+    
+    # Set the insertion cursor and make it viewable
     $txt mark set insert $index
     $txt see insert
 
@@ -1140,15 +1166,20 @@ namespace eval vim {
   
   ######################################################################
   # If we are in "start" mode and multicursor mode is enabled, adjust
-  # all of the cursors to the right by one character.
+  # all of the cursors to the right by one character.  If we are only
+  # in "start" mode, jump the insertion cursor to the bottom line.
   proc handle_L {txt tid} {
     
     variable mode
     
     if {($mode($txt) eq "start") || ($mode($txt) eq "visual")} {
-      $txt tag remove sel 1.0 end
       if {[[ns multicursor]::enabled $txt]} {
+        $txt tag remove sel 1.0 end
         [ns multicursor]::adjust $txt "+1c"
+      } elseif {$mode($txt) eq "start"} {
+        $txt mark set insert @0,[winfo height $txt]
+        adjust_insert $txt
+        $txt see insert
       }
       return 1
     }
@@ -1192,15 +1223,20 @@ namespace eval vim {
   
   ######################################################################
   # If we are in "start" mode and multicursor mode is enabled, move all
-  # cursors to the left by one character.
+  # cursors to the left by one character.  Otherwise, if we are just in
+  # "start" mode, jump to the top line of the editor.
   proc handle_H {txt tid} {
     
     variable mode
     
     if {$mode($txt) eq "start"} {
-      $txt tag remove sel 1.0 end
       if {[[ns multicursor]::enabled $txt]} {
+        $txt tag remove sel 1.0 end
         [ns multicursor]::adjust $txt "-1c"
+      } else {
+        $txt mark set insert @0,0
+        adjust_insert $txt
+        $txt see insert
       }
       return 1
     }
@@ -2134,4 +2170,20 @@ namespace eval vim {
     
   }
   
+  ######################################################################
+  # If we are in "start" mode, move the cursor to the start of the middle
+  # line.
+  proc handle_M {txt tid} {
+    
+    variable mode
+    
+    if {$mode($txt) eq "start"} {
+      $txt mark set insert @0,[expr [winfo height $txt] / 2]
+      adjust_insert $txt
+      return 1
+    }
+    
+    return 0
+    
+  }
 }
