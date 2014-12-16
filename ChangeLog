@@ -1,67 +1,27 @@
-changeset:   693:df2ca3f7c508
-tag:         devel-1.3.5
+changeset:   701:59919fa56760
+tag:         devel-1.3.6
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Dec 07 21:14:42 2014 -0600
-files:       ChangeLog lib/version.tcl specl_version.tcl
-description:
-ChangeLog for devel-1.3.5 release
-
-
-changeset:   694:4ea1134ac5a4
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Dec 07 21:14:50 2014 -0600
-files:       .hgtags
-description:
-Added tag devel-1.3.5 for changeset df2ca3f7c508
-
-
-changeset:   695:a4f187cad10c
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Dec 07 21:20:54 2014 -0600
-files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
-description:
-* Fixing focus issue in specl password window.
-
-
-changeset:   696:5db97ef90050
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Dec 09 00:08:49 2014 -0600
-files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl lib/vim.tcl
-description:
-* Fixing Vim 'yy' and 'dd' command behavior.
-* Updating to latest version of specl which contains improvements to password handling.
-
-
-changeset:   697:737b734ccc15
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Dec 09 00:10:20 2014 -0600
+date:        Tue Dec 09 08:35:16 2014 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
 ChangeLog for devel-1.3.6 release
 
 
-changeset:   698:6c40c41a9a0a
+changeset:   702:1ffef64495cc
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Dec 09 00:10:27 2014 -0600
+date:        Tue Dec 09 08:35:27 2014 -0600
 files:       .hgtags
 description:
-Added tag devel-1.3.6 for changeset 737b734ccc15
+Added tag devel-1.3.6 for changeset 59919fa56760
 
 
-changeset:   699:acc4dc9c157b
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Dec 09 08:33:03 2014 -0600
-files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
-description:
-* Setting the "OK" button to the pressed state when invoked via the Return key in the password window.
-
-
-changeset:   700:14944e80faf9
+changeset:   703:5eaf7780fa5e
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Dec 09 08:33:27 2014 -0600
-files:       .hgtags
+date:        Tue Dec 16 00:01:09 2014 -0600
+files:       lib/version.tcl lib/vim.tcl
 description:
-Removed tag devel-1.3.6
+* Adding Vim support for saving a list of lines to a file.
+* Adding H, M and L commands to Vim mode to move cursor to top, middle and bottom lines.
 
 
