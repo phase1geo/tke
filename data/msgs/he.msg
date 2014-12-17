@@ -65,6 +65,9 @@ msgcat::mcmset he {
   "Move*"
   "תנועה"
 
+  "Release Type:"
+  "סוג פרסום:"
+
   "Reload file?"
   "טען מחדש קובץ?"
 

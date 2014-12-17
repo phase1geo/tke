@@ -65,6 +65,9 @@ msgcat::mcmset ja {
   "Move*"
   "ムーブ"
 
+  "Release Type:"
+  "リリースの種類:"
+
   "Reload file?"
   "ファイルをリロード？"
 

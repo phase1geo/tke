@@ -65,6 +65,9 @@ msgcat::mcmset de {
   "Move*"
   "Move"
 
+  "Release Type:"
+  "Release-Typ:"
+
   "Reload file?"
   "Datei erneut laden"
 

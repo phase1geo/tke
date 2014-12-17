@@ -58,10 +58,6 @@ namespace eval menus {
 
     set mb [menu .menubar -foreground $foreground -background $background -relief flat -tearoff false]
 
-    if {([tk windowingsystem] eq "aqua") || $preferences::prefs(View/ShowMenubar)} {
-      . configure -menu $mb
-    }
-
     # Add the file menu
     $mb add cascade -label [msgcat::mc "File"] -menu [menu $mb.file -relief flat -tearoff false -postcommand "menus::file_posting $mb.file"]
     add_file $mb.file
@@ -99,13 +95,14 @@ namespace eval menus {
 
       # Add the window menu with the windowlist package
       windowlist::windowMenu $mb
-
-      # Add the "About Tke" menu in the application menu
-      set appl [menu $mb.apple -tearoff false]
-      $mb add cascade -menu $appl
-      $appl add command -label [msgcat::mc "About TKE"] -command gui::show_about
+      
+      # Add the launcher command to show the about window
       launcher::register "Menus: About TKE" gui::show_about
       
+    }
+
+    if {([tk windowingsystem] eq "aqua") || $preferences::prefs(View/ShowMenubar)} {
+      . configure -menu $mb
     }
 
     # Load and apply the menu bindings
