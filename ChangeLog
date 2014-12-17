@@ -1,27 +1,47 @@
-changeset:   701:59919fa56760
-tag:         devel-1.3.6
+changeset:   705:88f0532873a0
+tag:         devel-1.3.7
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Dec 09 08:35:16 2014 -0600
+date:        Tue Dec 16 00:03:17 2014 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.3.6 release
+ChangeLog for devel-1.3.7 release
 
 
-changeset:   702:1ffef64495cc
+changeset:   706:558678913e2c
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Dec 09 08:35:27 2014 -0600
+date:        Tue Dec 16 23:24:36 2014 -0600
+files:       MacOSX/Tke.app/Contents/Info.plist doc/UserGuide.pdf lib/gui.tcl lib/launcher.tcl lib/menus.tcl lib/tke.tcl lib/version.tcl
+description:
+* Fixing About window display on Mac OS X.
+* Updating User Guide.
+* Converting Info.plist to an XML representation.
+
+
+changeset:   707:3176e9fb18d1
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Dec 16 23:30:55 2014 -0600
+files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg doc/UserGuide.pdf lib/version.tcl
+description:
+* Updating translations.
+* Updating user documentation.
+
+
+changeset:   708:5d427ec58f68
+parent:      705:88f0532873a0
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Dec 16 00:03:35 2014 -0600
 files:       .hgtags
 description:
-Added tag devel-1.3.6 for changeset 59919fa56760
+Added tag devel-1.3.7 for changeset 88f0532873a0
 
 
-changeset:   703:5eaf7780fa5e
+changeset:   709:01fddc364f41
 tag:         tip
+parent:      708:5d427ec58f68
+parent:      707:3176e9fb18d1
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Dec 16 00:01:09 2014 -0600
-files:       lib/version.tcl lib/vim.tcl
+date:        Tue Dec 16 23:43:37 2014 -0600
 description:
-* Adding Vim support for saving a list of lines to a file.
-* Adding H, M and L commands to Vim mode to move cursor to top, middle and bottom lines.
+* Merging files.
 
 
