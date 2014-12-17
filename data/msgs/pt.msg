@@ -65,6 +65,9 @@ msgcat::mcmset pt {
   "Move*"
   "Mudar"
 
+  "Release Type:"
+  "Tipo lançamento:"
+
   "Reload file?"
   "Actualizar o Ficheiro"
 

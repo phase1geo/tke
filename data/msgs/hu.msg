@@ -65,6 +65,9 @@ msgcat::mcmset hu {
   "Move*"
   "hat"
 
+  "Release Type:"
+  "Kiadás típusa:"
+
   "Reload file?"
   "A fájl újratöltése"
 
