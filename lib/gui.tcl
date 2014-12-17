@@ -2574,11 +2574,18 @@ namespace eval gui {
     } else {
       set version_str "$::version_major.$::version_minor.$::version_point ($::version_hgid)"
     }
+    
+    if {[[ns preferences]::get General/UpdateReleaseType] eq "devel"} {
+      set release_type "Development"
+    } else {
+      set release_type "Stable"
+    }
 
     toplevel     .aboutwin
     wm title     .aboutwin ""
     wm transient .aboutwin .
     wm resizable .aboutwin 0 0
+    wm geometry  .aboutwin 300x250
 
     ttk::frame .aboutwin.f
     ttk::label .aboutwin.f.logo -compound left -image $images(logo) -text " tke" \
@@ -2591,13 +2598,17 @@ namespace eval gui {
     ttk::label .aboutwin.f.if.v1 -text "phase1geo@gmail.com"
     ttk::label .aboutwin.f.if.l2 -text [msgcat::mc "Version:"]
     ttk::label .aboutwin.f.if.v2 -text $version_str
+    ttk::label .aboutwin.f.if.l3 -text [msgcat::mc "Release Type:"]
+    ttk::label .aboutwin.f.if.v3 -text $release_type
 
-    grid .aboutwin.f.if.l0 -row 0 -column 0 -sticky news
-    grid .aboutwin.f.if.v0 -row 0 -column 1 -sticky news
-    grid .aboutwin.f.if.l1 -row 1 -column 0 -sticky news
-    grid .aboutwin.f.if.v1 -row 1 -column 1 -sticky news
-    grid .aboutwin.f.if.l2 -row 2 -column 0 -sticky news
-    grid .aboutwin.f.if.v2 -row 2 -column 1 -sticky news
+    grid .aboutwin.f.if.l0 -row 0 -column 0 -sticky news -padx 2 -pady 2
+    grid .aboutwin.f.if.v0 -row 0 -column 1 -sticky news -padx 2 -pady 2
+    grid .aboutwin.f.if.l1 -row 1 -column 0 -sticky news -padx 2 -pady 2
+    grid .aboutwin.f.if.v1 -row 1 -column 1 -sticky news -padx 2 -pady 2
+    grid .aboutwin.f.if.l2 -row 2 -column 0 -sticky news -padx 2 -pady 2
+    grid .aboutwin.f.if.v2 -row 2 -column 1 -sticky news -padx 2 -pady 2
+    grid .aboutwin.f.if.l3 -row 3 -column 0 -sticky news -padx 2 -pady 2
+    grid .aboutwin.f.if.v3 -row 3 -column 1 -sticky news -padx 2 -pady 2
 
     ttk::label .aboutwin.f.copyright -text [msgcat::mc "Copyright %d-%d" 2013 14]
 
@@ -2605,7 +2616,10 @@ namespace eval gui {
     pack .aboutwin.f.if        -padx 2 -pady 2
     pack .aboutwin.f.copyright -padx 2 -pady 8
 
-    pack .aboutwin.f
+    pack .aboutwin.f -fill both -expand yes
+    
+    # Center the window in the editor window
+    ::tk::PlaceWindow .aboutwin widget .
 
   }
 
