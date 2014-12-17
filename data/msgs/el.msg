@@ -65,6 +65,9 @@ msgcat::mcmset el {
   "Move*"
   "Μετακίνηση *"
 
+  "Release Type:"
+  "ΔΕΛΤΙΟ ΤΥΠΟΥ:"
+
   "Reload file?"
   "Επαναφόρτωση αρχείου"
 

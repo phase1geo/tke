@@ -65,6 +65,9 @@ msgcat::mcmset sv {
   "Move*"
   "Move"
 
+  "Release Type:"
+  "Utgivningstyp:"
+
   "Reload file?"
   "Ladda om filen"
 

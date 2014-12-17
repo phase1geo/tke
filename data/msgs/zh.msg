@@ -65,6 +65,9 @@ msgcat::mcmset zh {
   "Move*"
   "移动"
 
+  "Release Type:"
+  "释放"
+
   "Reload file?"
   "重装文件？"
 

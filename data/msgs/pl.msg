@@ -65,6 +65,9 @@ msgcat::mcmset pl {
   "Move*"
   "Przenieś"
 
+  "Release Type:"
+  "Typ Release:"
+
   "Reload file?"
   "Wczytaj plik na nowo"
 

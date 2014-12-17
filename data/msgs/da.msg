@@ -65,6 +65,9 @@ msgcat::mcmset da {
   "Move*"
   "bevæge"
 
+  "Release Type:"
+  "Release Type:"
+
   "Reload file?"
   "Genindlæs fil"
 

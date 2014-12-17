@@ -65,6 +65,9 @@ msgcat::mcmset no {
   "Move*"
   "flytte"
 
+  "Release Type:"
+  "Versjonstypen:"
+
   "Reload file?"
   "Last filen?"
 
