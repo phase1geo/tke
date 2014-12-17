@@ -8,7 +8,6 @@ namespace eval launcher {
   source [file join $::tke_dir lib ns.tcl]
 
   variable launcher_file  [file join $::tke_home launcher.dat]
-  variable closed         0
   variable match_commands {}
   
   array set read_commands {}
@@ -70,7 +69,6 @@ namespace eval launcher {
   proc launch {{mode ""} {show_detail 0}} {
   
     variable widgets
-    variable closed
   
     if {![winfo exists .lwin]} {
 
@@ -123,57 +121,26 @@ namespace eval launcher {
       pack $widgets(entry) -fill x
 
       # Bind the escape key to exit the window
-      set closed 0
-      bind $widgets(win) <Destroy>  "set launcher::closed 1"
-      bind $widgets(win) <Escape>   "set launcher::closed 1"
-      bind $widgets(win) <FocusOut> "set launcher::closed 1"
-
+      # bind $widgets(win) <Destroy>  "set launcher::closed 1"
+      bind $widgets(win) <Escape>   "destroy $widgets(win)"
+      bind $widgets(win) <FocusOut> "destroy $widgets(win)"
+      
       # Position the window in the center of the main window
-      wm withdraw $widgets(win)
-      update idletasks
-      set x [expr (([winfo width  .] / 2) - ([winfo reqwidth  $widgets(win)] / 2)) + [winfo x .]]
-      set y [expr (([winfo height .] / 4) - ([winfo reqheight $widgets(win)] / 2)) + [winfo y .]]
-      if {$x < 0} {
-        set x 0
-      }
-      if {$y < 0} {
-        set y 0
-      }
-      wm geometry  $widgets(win) +$x+$y
-      wm deiconify $widgets(win)
-
+      ::tk::PlaceWindow $widgets(win) widget .
+      
       # Get current focus and grab
-      set old_focus [focus]
-      set old_grab  [grab current $widgets(win)]
-      if {$old_grab ne ""} {
-        set grab_status [grab status $old_grab]
-      }
-
-      # Make sure the entry field is given focus
-      if {[tk windowingsystem] eq "aqua"} {
-        focus -force $widgets(entry)
-      } else {
-        focus $widgets(entry)
-      }
+      ::tk::SetFocusGrab $widgets(win) $widgets(entry)
       
       # If we are running in a mode, display the default results
       if {$mode ne ""} {
         lookup "" $mode $show_detail
       }
-
+      
       # Wait for the window to be destroyed
-      vwait launcher::closed
-
+      tkwait window $widgets(win)
+      
       # Reset the original focus and grab
-      catch {focus $old_focus}
-      catch {destroy $widgets(win)}
-      if {$old_grab ne ""} {
-        if {$grab_status ne "global"} {
-          grab $old_grab
-        } else {
-          grab -global $old_grab
-        }
-      }
+      ::tk::RestoreFocusGrab $widgets(win) $widgets(entry)
       
       # Destroy temporary registrations
       remove_temporary
@@ -479,7 +446,7 @@ namespace eval launcher {
         # Unbind up and down arrows
         bind $widgets(win) <Up>     ""
         bind $widgets(win) <Down>   ""
-        bind $widgets(win) <Return> "set launcher::closed 1"
+        bind $widgets(win) <Return> "destroy $widgets(win)"
 
       }
 
@@ -491,7 +458,7 @@ namespace eval launcher {
       # Unbind up and down arrows
       bind $widgets(win) <Up>     ""
       bind $widgets(win) <Down>   ""
-      bind $widgets(win) <Return> "set launcher::closed 1"
+      bind $widgets(win) <Return> "destroy $widgets(win)"
 
     }
 
@@ -651,7 +618,6 @@ namespace eval launcher {
     variable command_values
     variable widgets
     variable last_command
-    variable closed
 
     # Get the current selection
     set row [$widgets(lb) curselection]
@@ -672,9 +638,9 @@ namespace eval launcher {
     # Store the last command and type
     set last_command $command_name
 
-    # Cause the window to close
-    set closed 1
-
+    # Destroy the widget
+    destroy $widgets(win)
+    
     # Execute the associated command
     after 1 [list launcher::execute_helper [lindex $commands($command_name) $command_values(command)]]
 
