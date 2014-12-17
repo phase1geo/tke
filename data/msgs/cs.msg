@@ -65,6 +65,9 @@ msgcat::mcmset cs {
   "Move*"
   "přesunout"
 
+  "Release Type:"
+  "Vydání typ:"
+
   "Reload file?"
   "Obnovit soubor?"
 

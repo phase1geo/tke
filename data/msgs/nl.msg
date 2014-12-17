@@ -65,6 +65,9 @@ msgcat::mcmset nl {
   "Move*"
   "Move"
 
+  "Release Type:"
+  "Release Type:"
+
   "Reload file?"
   "Opnieuw laden"
 

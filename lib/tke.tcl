@@ -210,6 +210,14 @@ if {[tk windowingsystem] eq "aqua"} {
   
   # Change the right_click
   set ::right_click 2
+  
+  ######################################################################
+  # Mapping the about window.
+  proc tkAboutDialog {} {
+    
+    gui::show_about
+    
+  }
 
 }
 

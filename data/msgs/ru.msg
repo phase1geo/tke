@@ -65,6 +65,9 @@ msgcat::mcmset ru {
   "Move*"
   "Переезд"
 
+  "Release Type:"
+  "Тип релиза:"
+
   "Reload file?"
   "Перезагрузить файл"
 
