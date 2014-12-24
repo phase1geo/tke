@@ -69,14 +69,12 @@ namespace eval launcher {
   proc launch {{mode ""} {show_detail 0}} {
   
     variable widgets
-  
-    if {![winfo exists .lwin]} {
 
+    if {![winfo exists .lwin]} {
+      
       set widgets(win) .lwin
 
-      toplevel            $widgets(win) -class Dialog -bg black -bd 2
-      wm overrideredirect $widgets(win) 1
-      wm transient        $widgets(win) .
+      ttk::frame $widgets(win) -borderwidth 2
 
       set widgets(entry) [ttk::entry $widgets(win).entry -width 50 -validate key -validatecommand "launcher::lookup %P {$mode} $show_detail" -invalidcommand {bell}]
       
@@ -121,34 +119,39 @@ namespace eval launcher {
       pack $widgets(entry) -fill x
 
       # Bind the escape key to exit the window
-      # bind $widgets(win) <Destroy>  "set launcher::closed 1"
+      bind $widgets(win) <Destroy>  "launcher::handle_win_destroy"
       bind $widgets(win) <Escape>   "destroy $widgets(win)"
       bind $widgets(win) <FocusOut> "destroy $widgets(win)"
-      
+
       # Position the window in the center of the main window
-      ::tk::PlaceWindow $widgets(win) widget .
-      
+      place $widgets(win) -relx 0.4 -rely 0.25
+
       # Get current focus and grab
       ::tk::SetFocusGrab $widgets(win) $widgets(entry)
-      
+
       # If we are running in a mode, display the default results
       if {$mode ne ""} {
         lookup "" $mode $show_detail
       }
-      
-      # Wait for the window to be destroyed
-      tkwait window $widgets(win)
-      
-      # Reset the original focus and grab
-      ::tk::RestoreFocusGrab $widgets(win) $widgets(entry)
-      
-      # Destroy temporary registrations
-      remove_temporary
-      
+
     }
-  
+      
   }
   
+  ######################################################################
+  # Called when the launcher window is destroyed.
+  proc handle_win_destroy {} {
+
+    variable widgets
+
+    # Reset the original focus and grab
+    ::tk::RestoreFocusGrab $widgets(win) $widgets(entry)
+      
+    # Destroy temporary registrations
+    remove_temporary
+
+  }
+
   ######################################################################
   # Handles any changes to the entry font size preferences variable.
   proc handle_entry_font_size {name1 name2 op} {
@@ -425,10 +428,10 @@ namespace eval launcher {
         }
 
         # Bind up/down and return keys
-        bind $widgets(win) <Up>       "launcher::move_up"
-        bind $widgets(win) <Down>     "launcher::move_down"
-        bind $widgets(win) <Return>   "launcher::execute"
-        bind $widgets(win) <Button-1> "launcher::execute"
+        bind $widgets(entry) <Up>       "launcher::move_up"
+        bind $widgets(entry) <Down>     "launcher::move_down"
+        bind $widgets(entry) <Return>   "launcher::execute"
+        bind $widgets(lb)    <Button-1> "launcher::execute"
 
         # Set tablelist selection to the first entry
         select 0
@@ -444,9 +447,9 @@ namespace eval launcher {
         pack forget $widgets(mf)
 
         # Unbind up and down arrows
-        bind $widgets(win) <Up>     ""
-        bind $widgets(win) <Down>   ""
-        bind $widgets(win) <Return> "destroy $widgets(win)"
+        bind $widgets(entry) <Up>     ""
+        bind $widgets(entry) <Down>   ""
+        bind $widgets(entry) <Return> "destroy $widgets(win)"
 
       }
 
@@ -456,9 +459,9 @@ namespace eval launcher {
       pack forget $widgets(mf)
 
       # Unbind up and down arrows
-      bind $widgets(win) <Up>     ""
-      bind $widgets(win) <Down>   ""
-      bind $widgets(win) <Return> "destroy $widgets(win)"
+      bind $widgets(entry) <Up>     ""
+      bind $widgets(entry) <Down>   ""
+      bind $widgets(entry) <Return> "destroy $widgets(win)"
 
     }
 

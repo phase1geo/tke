@@ -1507,6 +1507,28 @@ proc ctext::addHighlightClassWithOnlyCharStart {win class color modifiers char} 
   set classesAr(_$class) [list $ref $char]
 }
 
+proc ctext::addSearchClass {win class fgcolor bgcolor modifiers str} {
+  set ref [ctext::getAr $win highlight ar]
+  
+  set opts [list -foreground $fgcolor -background $bgcolor]
+  add_font_opt $win $class $modifiers opts
+  
+  set ar(_$class) [list $str $opts]
+  
+  ctext::getAr $win classes classesAr
+  set classesAr(_$class) [list $ref _$class]
+  
+  # Perform the search
+  set i 0
+  foreach res [$win._t search -count lengths -all -- $str 1.0 end] {
+    set wordEnd [$win._t index "$res + [lindex $lengths $i] chars"]
+    $win._t tag add _$class $res $wordEnd
+    incr i
+  }
+  $win._t tag configure _$class -foreground $fgcolor -background $bgcolor
+  
+}
+
 proc ctext::addSearchClassForRegexp {win class fgcolor bgcolor modifiers re {re_opts ""}} {
   set ref [ctext::getAr $win highlightRegexp ar]
 
