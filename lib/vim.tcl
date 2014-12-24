@@ -2186,4 +2186,25 @@ namespace eval vim {
     return 0
     
   }
+  
+  ######################################################################
+  # If we are in "start" mode, search for all occurences of the current
+  # word.
+  proc handle_asterisk {txt tid} {
+    
+    variable mode
+    
+    if {$mode($txt) eq "start"} {
+      set word [$txt get "insert wordstart" "insert wordend"]
+      catch { ctext::deleteHighlightClass [winfo parent $txt] search }
+      ctext::addSearchClass [winfo parent $txt] search black yellow "" $word
+      $txt tag lower _search sel
+      gui::search_next $tid 0
+      return 1
+    }
+    
+    return 0
+    
+  }
+  
 }

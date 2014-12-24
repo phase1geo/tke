@@ -87,9 +87,11 @@ namespace eval sidebar {
     
     # Set the yscrollcommand to the auto-hide version
     $widgets(tl) configure -yscrollcommand "utils::set_yscrollbar $widgets(sb)"
-    
+
     # Run the set_yscrollbar command
-    utils::set_yscrollbar $widgets(sb) {*}[$widgets(sb) get]
+    if {[llength [set sb_get [$widgets(sb) get]]] == 2} {
+      utils::set_yscrollbar $widgets(sb) {*}$sb_get
+    }
     
   }
   
