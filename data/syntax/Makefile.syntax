@@ -39,8 +39,14 @@ punctuation {
 
 precompile {}
  
-miscellaneous {
+miscellaneous1 {
   HighlightClassForRegexp {\t[^\n\r]+}  {}
+}
+
+miscellaneous2 {
   HighlightClassForRegexp {@[^\n\r]+}   {}
+}
+
+miscellaneous3 {
   HighlightClassForRegexp {$\([^\)]*\)} {}
 }

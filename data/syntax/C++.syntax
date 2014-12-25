@@ -61,5 +61,8 @@ precompile
   HighlightClassWithOnlyCharStart {#} {}
 }
 
-miscellaneous {}
+miscellaneous1 {}
  
+miscellaneous2 {}
+
+miscellaneous3 {}

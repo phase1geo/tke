@@ -34,7 +34,8 @@ keywords
 
 symbols
 {
-  filepatterns keywords symbols lcomments ccomments strings numbers punctuation precompile miscellaneous 
+  filepatterns keywords symbols lcomments ccomments strings numbers punctuation
+  precompile miscellaneous1 miscellaneous2 miscellaneous3
 }
 
 numbers {}
@@ -46,5 +47,8 @@ punctuation
 
 precompile {}
 
-miscellaneous {}
+miscellaneous1 {}
 
+miscellaneous2 {}
+
+miscellaneous3 {}

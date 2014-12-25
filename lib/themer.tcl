@@ -39,13 +39,21 @@ namespace eval themer {
     keyword              keywords
     string               strings
     entity               punctuation
+    entity.name.tag      punctuation
     punctuation          punctuation
     meta.preprocessor.c  precompile
     other.preprocessor.c precompile
     constant             numbers
     constant.numeric     numbers
-    variable.other       miscellaneous
-    meta.tag             miscellaneous
+    meta.tag             miscellaneous1
+    support              miscellaneous1
+    support.function     miscellaneous1
+    support.type         miscellaneous1
+    variable             miscellaneous2
+    variable.other       miscellaneous2
+    variable.parameter   miscellaneous2
+    storage              miscellaneous3
+    constant.other       miscellaneous3
   }
    
   array set labels {
@@ -62,7 +70,9 @@ namespace eval themer {
     numbers          {""       1 "-foreground" ""}
     punctuation      {""       1 "-foreground" ""}
     precompile       {""       1 "-foreground" ""}
-    miscellaneous    {""       1 "-foreground" ""}
+    miscellaneous1   {""       1 "-foreground" ""}
+    miscellaneous2   {""       1 "-foreground" ""}
+    miscellaneous3   {""       1 "-foreground" ""}
   }
   
   # Add trace to the labels array
@@ -473,8 +483,8 @@ namespace eval themer {
     
     if {![catch { open [file join $theme_dir $basename.tketheme] w } rc]} {
       
-      foreach {lbl info} [array get labels] {
-        puts $rc [format "%-16s \"%s\"" $lbl [string tolower [lindex $info $label_index(color)]]]
+      foreach lbl [lsort [array names labels]] {
+        puts $rc [format "%-16s \"%s\"" $lbl [string tolower [lindex $labels($lbl) $label_index(color)]]]
       }
       
       close $rc
@@ -571,7 +581,7 @@ namespace eval themer {
     $widgets(txt) tag add keywords       4.2 4.6 5.4 5.7 6.4 6.10
     $widgets(txt) tag add numbers        5.12 5.15
     $widgets(txt) tag add strings        6.12 6.21
-    $widgets(txt) tag add miscellaneous  6.4 6.10
+    $widgets(txt) tag add miscellaneous1 6.4 6.10
     $widgets(txt) tag add punctuation    4.14 4.19 5.10 5.11 5.15 5.16 6.10 6.11 6.21 6.22 6.26 6.28
     $widgets(txt) tag add warnwidthcolor 6.25 6.28
     $widgets(txt) tag add cursor         4.2 4.3
@@ -849,7 +859,9 @@ namespace eval themer {
     lset labels(numbers)          $label_index(color) "orange"
     lset labels(punctuation)      $label_index(color) "white"
     lset labels(precompile)       $label_index(color) "yellow"
-    lset labels(miscellaneous)    $label_index(color) "pink"
+    lset labels(miscellaneous1)   $label_index(color) "pink"
+    lset labels(miscellaneous2)   $label_index(color) "gold"
+    lset labels(miscellaneous3)   $label_index(color) "copper"
     lset labels(warnwidthcolor)   $label_index(color) [create_warn_width_color "black"]
 
   }

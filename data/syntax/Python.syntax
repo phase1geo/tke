@@ -46,8 +46,11 @@ punctuation
 
 precompile {}
 
-miscellaneous
+miscellaneous1
 {
   HighlightClassWithOnlyCharStart \$ {}
 }
 
+miscellaneous2 {}
+
+miscellaneous3 {}

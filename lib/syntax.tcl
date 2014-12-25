@@ -304,10 +304,12 @@ namespace eval syntax {
         ctext::addHighlightClass $txt symbols  $theme(keywords) "" $lang_array(symbols)
         
         # Add the rest of the sections
-        set_language_section $txt punctuation   $lang_array(punctuation)
-        set_language_section $txt numbers       $lang_array(numbers)
-        set_language_section $txt precompile    $lang_array(precompile)
-        set_language_section $txt miscellaneous $lang_array(miscellaneous)
+        set_language_section $txt punctuation    $lang_array(punctuation)
+        set_language_section $txt numbers        $lang_array(numbers)
+        set_language_section $txt precompile     $lang_array(precompile)
+        set_language_section $txt miscellaneous1 $lang_array(miscellaneous1)
+        set_language_section $txt miscellaneous2 $lang_array(miscellaneous2)
+        set_language_section $txt miscellaneous3 $lang_array(miscellaneous3)
         
         # Add the comments and strings
         ctext::setBlockCommentPatterns $txt $lang_array(bcomments) $theme(comments)
@@ -315,7 +317,7 @@ namespace eval syntax {
         ctext::setStringPatterns       $txt $lang_array(strings)   $theme(strings)
 
         # Add the FIXME
-        ctext::addHighlightClassForRegexp $txt fixme $theme(miscellaneous) "" {FIXME}
+        ctext::addHighlightClassForRegexp $txt fixme $theme(miscellaneous1) "" {FIXME}
         
         # Set the indentation namespace for the given text widget to be
         # the indent/unindent expressions for this language
