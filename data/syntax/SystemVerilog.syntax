@@ -65,9 +65,14 @@ precompile
   HighlightClassForRegexp {#line|`\w+} {}
 }
 
-miscellaneous
+miscellaneous1
 {
   HighlightClassWithOnlyCharStart \$ {}
+}
+
+miscellaneous2
+{
   HighlightClassForRegexp         {#line|`\w+} {}
 }
 
+miscellaneous3 {}

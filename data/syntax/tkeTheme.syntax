@@ -25,13 +25,13 @@ strings {{"}}
 keywords
 {
   background foreground selectbackground selectforeground highlightcolor cursor warnwidthcolor
-  keywords comments strings numbers punctuation precompile miscellaneous
+  keywords comments strings numbers punctuation precompile miscellaneous1 miscellaneous2 miscellaneous3
 }
 
 symbols
 {
   background foreground selectbackground selectforeground highlightcolor cursor warnwidthcolor
-  keywords comments strings numbers punctuation precompile miscellaneous
+  keywords comments strings numbers punctuation precompile miscellaneous1 miscellaneous2 miscellaneous3
 }
 
 numbers {}
@@ -43,4 +43,8 @@ punctuation
 
 precompile {}
 
-miscellaneous {}
+miscellaneous1 {}
+
+miscellaneous2 {}
+
+miscellaneous3 {}

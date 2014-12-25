@@ -38,6 +38,11 @@ punctuation {}
 
 precompile {}
 
-miscellaneous {
+miscellaneous1
+{
   HighlightClassForRegexp {^\t.*$} {}
 }
+
+miscellaneous2 {}
+
+miscellaneous3 {}

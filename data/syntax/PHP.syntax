@@ -49,7 +49,7 @@ punctuation {
 
 precompile {}
  
-miscellaneous {
+miscellaneous1 {
   HighlightClass {
     is_nan substr substr_replace isset print_r printf array_values array_diff sort opendir readdir closedir
     array_merge range is_null call_user_func call_user_func_array usort empty eval exit list create_function
@@ -59,8 +59,14 @@ miscellaneous {
     count register_tick_function unregister_tick_function phpinfo fopen file is_file get_included_files readfile
     virtual
   } {}
+}
+
+miscellaneous2 {
   HighlightClass {
     $GLOBALS $_GET $_REQUEST $_POST $_COOKIE $php_errormsg
   } {}
+}
+
+miscellaneous3 {
   HighlightClassWithOnlyCharStart \$ {}
 }

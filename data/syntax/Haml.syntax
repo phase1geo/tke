@@ -43,12 +43,13 @@ punctuation
 
 precompile {}
 
-miscellaneous {
+miscellaneous1 {
   HighlightClass {
     :class :id :cdata :coffee :css :erb :escaped :javascript :less :markdown :maruku :plain :preserve
     :ruby :sass :scss :textile
   } {}
 }
 
+miscellaneous2 {}
 
-
+miscellaneous3 {}

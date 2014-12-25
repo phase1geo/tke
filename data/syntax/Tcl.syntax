@@ -54,7 +54,7 @@ punctuation
 
 precompile {}
 
-miscellaneous
+miscellaneous1
 {
   HighlightClass {
     ctext button label text frame toplevel scrollbar checkbutton canvas
@@ -65,6 +65,10 @@ miscellaneous
     ttk::progressbar ttk::radiobutton ttk::scale ttk::scrollbar ttk::separator
     ttk::sizegrip ttk::treeview
   } {}
+}
+
+miscellaneous2
+{
   HighlightClass {
     -text -command -yscrollcommand -xscrollcommand -background -foreground -fg
     -bg -highlightbackground -y -x -highlightcolor -relief -width -height -wrap
@@ -76,7 +80,10 @@ miscellaneous
     -cursor -highlightcolors -linemap -menu -tearoff -displayof -cursor -underline
     -tags -tag -weight -sticky -rowspan -columnspan
   } {}
+}
+
+miscellaneous3
+{
   HighlightClassForRegexp {\.[a-zA-Z0-9\_\-]+} {}
   HighlightClassWithOnlyCharStart \$ {}
 }
-

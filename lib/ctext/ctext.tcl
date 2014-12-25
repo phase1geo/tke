@@ -1464,6 +1464,7 @@ proc ctext::add_font_opt {win class modifiers popts} {
 }
 
 proc ctext::addHighlightClass {win class color modifiers keywords} {
+  
   set ref [ctext::getAr $win highlight ar]
 
   set opts [expr {($color eq "") ? [list] : [list -foreground $color]}]
@@ -1476,9 +1477,11 @@ proc ctext::addHighlightClass {win class color modifiers keywords} {
 
   ctext::getAr $win classes classesAr
   set classesAr(_$class) [list $ref $keywords]
+  
 }
 
 proc ctext::addHighlightClassForRegexp {win class color modifiers re} {
+  
   set ref [ctext::getAr $win highlightRegexp ar]
 
   set opts [expr {($color eq "") ? [list] : [list -foreground $color]}]
@@ -1490,10 +1493,12 @@ proc ctext::addHighlightClassForRegexp {win class color modifiers re} {
 
   ctext::getAr $win classes classesAr
   set classesAr(_$class) [list $ref _$class]
+  
 }
 
 #For things like $blah
 proc ctext::addHighlightClassWithOnlyCharStart {win class color modifiers char} {
+  
   set ref [ctext::getAr $win highlightCharStart ar]
 
   set opts [expr {($color eq "") ? [list] : [list -foreground $color]}]
@@ -1505,9 +1510,11 @@ proc ctext::addHighlightClassWithOnlyCharStart {win class color modifiers char} 
 
   ctext::getAr $win classes classesAr
   set classesAr(_$class) [list $ref $char]
+  
 }
 
 proc ctext::addSearchClass {win class fgcolor bgcolor modifiers str} {
+  
   set ref [ctext::getAr $win highlight ar]
   
   set opts [list -foreground $fgcolor -background $bgcolor]
@@ -1530,6 +1537,7 @@ proc ctext::addSearchClass {win class fgcolor bgcolor modifiers str} {
 }
 
 proc ctext::addSearchClassForRegexp {win class fgcolor bgcolor modifiers re {re_opts ""}} {
+  
   set ref [ctext::getAr $win highlightRegexp ar]
 
   set opts [list -foreground $fgcolor -background $bgcolor]
@@ -1552,6 +1560,7 @@ proc ctext::addSearchClassForRegexp {win class fgcolor bgcolor modifiers re {re_
 }
 
 proc ctext::deleteHighlightClass {win classToDelete} {
+  
   ctext::getAr $win classes classesAr
 
   if {![info exists classesAr(_$classToDelete)]} {
@@ -1569,9 +1578,11 @@ proc ctext::deleteHighlightClass {win classToDelete} {
   }
   unset classesAr(_$classToDelete)
   $win tag delete _$classToDelete 1.0 end
+  
 }
 
 proc ctext::getHighlightClasses win {
+  
   ctext::getAr $win classes classesAr
 
   set classes [list]
@@ -1580,6 +1591,7 @@ proc ctext::getHighlightClasses win {
   }
 
   return $classes
+  
 }
 
 proc ctext::findNextChar {win index char} {
