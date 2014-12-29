@@ -16,13 +16,13 @@ namespace eval indent {
 
     variable widgets
 
-    bind indent$txt <Any-Key> "after 2 [list [ns indent]::check_indent %W insert]"
-    bind indent$txt <Return>  "after 2 [list [ns indent]::newline %W insert]"
+    bind indent$txt <Any-Key> "[ns indent]::check_indent %W insert"
+    bind indent$txt <Return>  "[ns indent]::newline %W insert"
 
     # Add the indentation tag into the bindtags list just after Text
     set text_index [lsearch [bindtags $txt.t] Text]
     bindtags $txt.t [linsert [bindtags $txt.t] [expr $text_index + 1] indent$txt]
-
+    
     # Add the text item to the list of widgets
     set widgets($txt.t) 1
 
@@ -150,31 +150,33 @@ namespace eval indent {
   }
 
   ######################################################################
+  # This procedure counts the number of tags in the given range.
+  proc get_tag_count {txt tag start end} {
+    
+    # Initialize the indent_level
+    set count 0
+    
+    # Count all tags that are not within comments or are escaped
+    while {[set range [$txt tag nextrange $tag $start $end]] ne ""} {
+      lassign $range index start
+      if {![ctext::inCommentString $txt $index] && ![ctext::isEscaped $txt $index]} {
+        incr count
+      }
+    }
+    
+    return $count
+    
+  }
+  
+  ######################################################################
   # This procedure is called to get the indentation level of the given
   # index.
   proc get_indent_space {txt start end} {
 
     variable indent_exprs
-
-    # Initialize the indent_space
-    set indent_level 0
-
-    # Create the regular expression
-    set all_re [join [concat $indent_exprs($txt,indent) $indent_exprs($txt,unindent)] |]
-    set ind_re [subst {^([join $indent_exprs($txt,indent) |])$}]
-
-    # Get the indentation level based on the indent/unindent words found
-    set i 0
-    foreach index [$txt search -all -count lengths -regexp -- $all_re $start $end] {
-      if {[ctext::inCommentString $txt $index] || [ctext::isEscaped $txt $index] || \
-          (([lindex [split $index .] 1] > 0) && ([$txt get "$index-1c"] eq {\\}))} {
-        incr i
-        continue
-      }
-      set word [$txt get $index "$index+[lindex $lengths $i]c"]
-      incr indent_level [expr {[regexp $ind_re $word] ? 1 : -1}]
-      incr i
-    }
+    
+    # Get the current indentation level
+    set indent_level [expr [get_tag_count $txt _indent $start $end] - [get_tag_count $txt _unindent $start $end]] 
 
     return [string repeat " " [expr $indent_level * [[ns preferences]::get Editor/IndentSpaces]]]
 
