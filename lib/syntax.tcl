@@ -291,7 +291,7 @@ namespace eval syntax {
     if {[info exists langs($language)]} {
       
       if {[catch {
-        
+          
         array set lang_array $langs($language)
           
         # Set the case sensitivity
@@ -318,9 +318,13 @@ namespace eval syntax {
 
         # Add the FIXME
         ctext::addHighlightClassForRegexp $txt fixme $theme(miscellaneous1) "" {FIXME}
-        
+          
         # Set the indentation namespace for the given text widget to be
         # the indent/unindent expressions for this language
+        ctext::addHighlightClassForRegexp $txt indent   "" "" [join $lang_array(indent) |]
+        ctext::addHighlightClassForRegexp $txt unindent "" "" [join $lang_array(unindent) |]
+        
+        # TBD - Leave this in for now
         [ns indent]::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent)
         
         # Set the completer options for the given language

@@ -7,7 +7,7 @@
 namespace eval gui {
 
   source [file join $::tke_dir lib ns.tcl]
-
+  
   variable curr_id          0
   variable files            {}
   variable pw_index         0
@@ -575,8 +575,6 @@ namespace eval gui {
   # Hides the console.
   proc hide_console_view {} {
 
-    puts "Hiding console"
-    exit
     catch { console hide }
 
   }
