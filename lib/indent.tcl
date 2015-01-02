@@ -159,8 +159,8 @@ namespace eval indent {
     # Count all tags that are not within comments or are escaped
     while {[set range [$txt tag nextrange $tag $start $end]] ne ""} {
       lassign $range index start
-      if {![ctext::inCommentString $txt $index] && ![ctext::isEscaped $txt $index]} {
-        incr count
+      if {![ctext::inCommentString $txt $index]} {
+        incr count [expr [llength [$txt get $index $start]] - [ctext::isEscaped $txt $index]]
       }
     }
     
