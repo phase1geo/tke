@@ -1487,7 +1487,7 @@ proc ctext::addHighlightKeywords {win keywords type value} {
   }
 
   foreach word $keywords {
-    set ar(keyword,$type,$word) _$value
+    set ar(keyword,$type,$word) $value
   }
  
 }
@@ -1688,13 +1688,20 @@ proc ctext::doHighlight {win start end} {
   ctext::getAr $win classes   classesAr
   ctext::getAr $win highlight highlightAr
 
+  puts "classes: [array get classesAr]"
+  puts "highlight: [array get highlightAr]"
+
   set twin "$win._t"
  
+  catch {
+  # Handle word-based matching
   set i 0
   foreach res [$twin search -count lengths -regexp {*}$configAr(re_opts) -all -- $REs(words) $start $end] {
     set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
     set word    [$twin get $res $wordEnd]
+    puts "  word: $word"
     if {[info exists highlightAr(keyword,class,$word)]} {
+      puts "HERE! ($highlightAr(keyword,class,$word))"
       $twin tag add $highlightAr(keyword,class,$word) $res $wordEnd
     } elseif {[info exists highlightAr(charstart,class,[set firstOfWord [string index $word 0]])]} {
       $twin tag add $highlightAr(charstart,class,$firstOfWord) $res $wordEnd
@@ -1716,7 +1723,10 @@ proc ctext::doHighlight {win start end} {
     }
     incr i
   }
+  } rc
+  puts "rc: $rc"
 
+  # Handle regular expression matching
   foreach {name re_info} [array get highlightAr *regexp,*,*] {
     lassign [split $name ,] dummy type value
     lassign $re_info re re_opts

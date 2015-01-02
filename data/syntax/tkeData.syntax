@@ -18,25 +18,7 @@ unindent
 
 lcomments {{#}}
 
-bcomments {}
-
-strings {}
-
-keywords {}
-
-symbols {}
-
-numbers {}
-
 punctuation
 {
-  HighlightClassForRegexp {[\{\}]} {}
+  HighlightRegexp {[\{\}]} {}
 }
-
-precompile {}
-
-miscellaneous1 {}
-
-miscellaneous2 {}
-
-miscellaneous3 {}

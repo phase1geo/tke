@@ -5,7 +5,7 @@
 #          their behavior.
 
 namespace eval gui {
-
+ 
   source [file join $::tke_dir lib ns.tcl]
   
   variable curr_id          0
@@ -3495,10 +3495,7 @@ namespace eval gui {
     set proclist [list]
     set lengths  [list]
     foreach {startpos endpos} [$txt tag ranges _symbols] {
-      if {[set pos [$txt search -regexp -count gui::lengths -- {\S+} $endpos]] eq ""} {
-        break
-      }
-      lappend proclist [$txt get $pos "$pos+${gui::lengths}c"] $pos
+      lappend proclist [$txt get $startpos $endpos] $startpos
     }
 
     return $proclist
