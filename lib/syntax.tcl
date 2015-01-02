@@ -553,7 +553,7 @@ namespace eval syntax {
   proc get_syntax_symbol {txt startpos endpos} {
 
     if {[lindex [split $startpos .] 1] == 0} {
-      return [list symbols $startpos $endpos]
+      return [list symbols: $startpos $endpos]
     }
 
     return ""
@@ -565,8 +565,9 @@ namespace eval syntax {
   # specified with startpos/endpos.
   proc get_prefixed_symbol {txt startpos endpos} {
 
+    set type [$txt get $startpos $endpos]
     if {[set startpos [$txt search -count lengths -regexp -- {\w+} $endpos]] ne ""} {
-      return [list symbols $startpos [$txt index "$startpos+[lindex $lengths 0]c"]]
+      return [list symbols:$type $startpos [$txt index "$startpos+[lindex $lengths 0]c"]]
     }
 
     return ""

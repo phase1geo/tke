@@ -119,9 +119,9 @@ namespace eval launcher {
       pack $widgets(entry) -fill x
 
       # Bind the escape key to exit the window
-      bind $widgets(win) <Destroy>  "launcher::handle_win_destroy"
-      bind $widgets(win) <Escape>   "destroy $widgets(win)"
-      bind $widgets(win) <FocusOut> "destroy $widgets(win)"
+      bind $widgets(win)   <Destroy>  "launcher::handle_win_destroy"
+      bind $widgets(entry) <Escape>   "destroy $widgets(win)"
+      bind $widgets(win)   <FocusOut> "destroy $widgets(win)"
 
       # Position the window in the center of the main window
       place $widgets(win) -relx 0.4 -rely 0.25
@@ -431,6 +431,7 @@ namespace eval launcher {
         bind $widgets(entry) <Up>       "launcher::move_up"
         bind $widgets(entry) <Down>     "launcher::move_down"
         bind $widgets(entry) <Return>   "launcher::execute"
+        bind $widgets(entry) <Escape>   "destroy $widgets(win)"
         bind $widgets(lb)    <Button-1> "launcher::execute"
 
         # Set tablelist selection to the first entry
@@ -450,6 +451,7 @@ namespace eval launcher {
         bind $widgets(entry) <Up>     ""
         bind $widgets(entry) <Down>   ""
         bind $widgets(entry) <Return> "destroy $widgets(win)"
+        bind $widgets(entry) <Escape> "destroy $widgets(win)"
 
       }
 
@@ -462,6 +464,7 @@ namespace eval launcher {
       bind $widgets(entry) <Up>     ""
       bind $widgets(entry) <Down>   ""
       bind $widgets(entry) <Return> "destroy $widgets(win)"
+      bind $widgets(entry) <Escape> "destroy $widgets(win)"
 
     }
 
