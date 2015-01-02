@@ -298,10 +298,12 @@ namespace eval syntax {
         $txt configure -casesensitive $lang_array(casesensitive)
         
         # Add the language keywords
-        ctext::addHighlightClass $txt keywords $theme(keywords) "" $lang_array(keywords)
+        ctext::addHighlightClass $txt keywords $theme(keywords)
+        ctext::addHighlightKeywords $txt $lang_array(keywords) class keywords
         
         # Add the language symbols
-        ctext::addHighlightClass $txt symbols  $theme(keywords) "" $lang_array(symbols)
+        ctext::addHighlightClass $txt symbols $theme(keywords)
+        ctext::addHighlightKeywords $txt $lang_array(symbols) class symbols
         
         # Add the rest of the sections
         set_language_section $txt punctuation    $lang_array(punctuation)
@@ -317,12 +319,15 @@ namespace eval syntax {
         ctext::setStringPatterns       $txt $lang_array(strings)   $theme(strings)
 
         # Add the FIXME
-        ctext::addHighlightClassForRegexp $txt fixme $theme(miscellaneous1) "" {FIXME}
+        ctext::addHighlightClass $txt fixme $theme(miscellaneous1)
+        ctext::addHighlightKeyword $txt FIXME class fixme
           
         # Set the indentation namespace for the given text widget to be
         # the indent/unindent expressions for this language
-        ctext::addHighlightClassForRegexp $txt indent   "" "" [join $lang_array(indent) |]
-        ctext::addHighlightClassForRegexp $txt unindent "" "" [join $lang_array(unindent) |]
+        ctext::addHighlightClass $txt indent ""
+        ctext::addHighlightClass $txt unindent ""
+        ctext::addHighlightRegexp $txt [join $lang_array(indent) |] class indent
+        ctext::addHighlightRegexp $txt [join $lang_array(unindent) |] class unindent
         
         # TBD - Leave this in for now
         [ns indent]::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent)
@@ -362,6 +367,7 @@ namespace eval syntax {
     
     foreach {type syntax modifiers} $section_list {
       if {$syntax ne ""} {
+        ctext::addHighlightClass $txt $section$i $theme($section) "" $modifiers $syntax
         ctext::add$type $txt $section$i $theme($section) $modifiers $syntax
       }
       incr i

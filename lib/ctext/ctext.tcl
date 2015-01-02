@@ -145,6 +145,7 @@ proc ctext {win args} {
   ctext::buildArgParseTable $win
 
   return $win
+  
 }
 
 proc ctext::event:xscroll {win clientData args} {
@@ -182,15 +183,19 @@ proc ctext::event:xscroll {win clientData args} {
 }
 
 proc ctext::event:yscroll {win clientData args} {
+  
   ctext::linemapUpdate $win
 
   if {$clientData == ""} {
     return
   }
+  
   uplevel \#0 $clientData $args
+  
 }
 
 proc ctext::event:Destroy {win dWin} {
+  
   if {![string equal $win $dWin]} {
     return
   }
@@ -202,15 +207,17 @@ proc ctext::event:Destroy {win dWin} {
 
   bgproc::killall ctext::*
 
-  catch {rename $win {}}
+  catch { rename $win {} }
   interp alias {} $win.t {}
   ctext::clearHighlightClasses $win
   array unset [ctext::getAr $win config ar]
+    
 }
 
 # This stores the arg table within the config array for each instance.
 # It's used by the configure instance command.
 proc ctext::buildArgParseTable win {
+    
   set argTable [list]
 
   lappend argTable any -linemap_mark_command {
@@ -1450,67 +1457,74 @@ proc ctext::add_font_opt {win class modifiers popts} {
   
 }
 
-proc ctext::addHighlightClass {win class color modifiers keywords} {
+proc ctext::addHighlightClass {win class fgcolor {bgcolor ""} {font_opts ""}} {
   
-  set ref [ctext::getAr $win highlight ar]
+  set opts [list]
 
-  set opts [expr {($color eq "") ? [list] : [list -foreground $color]}]
-  add_font_opt $win $class $modifiers opts
-  
-  foreach word $keywords {
-    set ar($word) _$class
+  if {$fgcolor ne ""} {
+    lappend opts -foreground $fgcolor
   }
+  if {$bgcolor ne ""} {
+    lappend opts -background $bgcolor
+  }
+  if {$font_opts ne ""} {
+    add_font_opt $win $class $font_opts opts
+  }
+            
   $win tag configure _$class {*}$opts
-
+            
   ctext::getAr $win classes classesAr
-  set classesAr(_$class) [list $ref $keywords]
-  
+  set classesAr(_$class) 1
+            
+}
+                
+proc ctext::addHighlightKeywords {win keywords type value} {
+            
+  ctext::getAr $win highlight ar
+            
+  if {$type eq "class"} {
+    set value _$value
+  }
+
+  foreach word $keywords {
+    set ar(keyword,$type,$word) _$value
+  }
+ 
 }
 
-proc ctext::addHighlightClassForRegexp {win class color modifiers re} {
+proc ctext::addHighlightRegexp {win re type value} {
   
-  set ref [ctext::getAr $win highlightRegexp ar]
+  ctext::getAr $win highlight ar
+  ctext::getAr $win config    configAr
+            
+  if {$type eq "class"} {
+    set value _$value
+  }
 
-  set opts [expr {($color eq "") ? [list] : [list -foreground $color]}]
-  add_font_opt $win $class $modifiers opts
-  
-  set ar(_$class) [list $re [list]]
+  set ar(regexp,$type,$value) [list $re $configAr(re_opts)]
 
-  $win tag configure _$class {*}$opts
-
-  ctext::getAr $win classes classesAr
-  set classesAr(_$class) [list $ref _$class]
-  
 }
 
-#For things like $blah
-proc ctext::addHighlightClassWithOnlyCharStart {win class color modifiers char} {
+# For things like $blah
+proc ctext::addHighlightWithOnlyCharStart {win char type value} {
   
-  set ref [ctext::getAr $win highlightCharStart ar]
+  ctext::getAr $win highlight ar
+            
+  if {$type eq "class"} {
+    set value _$value
+  }
 
-  set opts [expr {($color eq "") ? [list] : [list -foreground $color]}]
-  add_font_opt $win $class $modifiers opts
-  
-  set ar($char) _$class
+  set ar(charstart,$type,$char) $value
 
-  $win tag configure _$class {*}$opts
-
-  ctext::getAr $win classes classesAr
-  set classesAr(_$class) [list $ref $char]
-  
 }
 
 proc ctext::addSearchClass {win class fgcolor bgcolor modifiers str} {
   
-  set ref [ctext::getAr $win highlight ar]
+  addHighlightClass $win $class $fgcolor $bgcolor $modifiers
+              
+  ctext::getAr $win highlight ar
   
-  set opts [list -foreground $fgcolor -background $bgcolor]
-  add_font_opt $win $class $modifiers opts
-  
-  set ar(_$class) [list $str]
-  
-  ctext::getAr $win classes classesAr
-  set classesAr(_$class) [list $ref _$class]
+  set ar(searchword,class,$str) _$class
   
   # Perform the search
   set i 0
@@ -1519,21 +1533,21 @@ proc ctext::addSearchClass {win class fgcolor bgcolor modifiers str} {
     $win._t tag add _$class $res $wordEnd
     incr i
   }
-  $win._t tag configure _$class -foreground $fgcolor -background $bgcolor
   
 }
 
 proc ctext::addSearchClassForRegexp {win class fgcolor bgcolor modifiers re {re_opts ""}} {
   
-  set ref [ctext::getAr $win highlightRegexp ar]
+  addHighlightClass $win $class $fgcolor $bgcolor $modifiers
 
-  set opts [list -foreground $fgcolor -background $bgcolor]
-  add_font_opt $win $class $modifiers opts
-  
-  set ar(_$class) [list $re $re_opts]
+  ctext::getAr $win highlight ar
+  ctext::getAr $win config    configAr
+                
+  if {$re_opts ne ""} {
+    set re_opts $configAr(re_opts)
+  }
 
-  ctext::getAr $win classes classesAr
-  set classesAr(_$class) [list $ref _$class]
+  set ar(searchregexp,class,_$class) [list $re $re_opts]
 
   # Perform the search
   set i 0
@@ -1542,28 +1556,21 @@ proc ctext::addSearchClassForRegexp {win class fgcolor bgcolor modifiers re {re_
     $win._t tag add _$class $res $wordEnd
     incr i
   }
-  $win._t tag configure _$class -foreground $fgcolor -background $bgcolor
 
 }
 
 proc ctext::deleteHighlightClass {win classToDelete} {
   
-  ctext::getAr $win classes classesAr
+  ctext::getAr $win highlight ar
+  ctext::getAr $win classes   classesAr
 
   if {![info exists classesAr(_$classToDelete)]} {
     return -code error "$classToDelete doesn't exist"
   }
 
-  foreach {ref keyList} [set classesAr(_$classToDelete)] {
-    upvar #0 $ref refAr
-    foreach key $keyList {
-      if {![info exists refAr($key)]} {
-        continue
-      }
-      unset refAr($key)
-    }
-  }
+  array unset ar *,class,*
   unset classesAr(_$classToDelete)
+                
   $win tag delete _$classToDelete 1.0 end
   
 }
@@ -1642,13 +1649,8 @@ proc ctext::findPreviousSpace {win index} {
 }
 
 proc ctext::clearHighlightClasses {win} {
+                
   ctext::getAr $win highlight ar
-  array unset ar
-
-  ctext::getAr $win highlightRegexp ar
-  array unset ar
-
-  ctext::getAr $win highlightCharStart ar
   array unset ar
 
   ctext::getAr $win classes ar
@@ -1662,6 +1664,7 @@ proc ctext::clearHighlightClasses {win} {
       }
     }
   }
+ 
 }
 
 proc ctext::doHighlight {win start end} {
@@ -1682,34 +1685,56 @@ proc ctext::doHighlight {win start end} {
   # set linesChanged [$win tag ranges lineChanged]
   # $win tag delete lineChanged
 
+  ctext::getAr $win classes   classesAr
   ctext::getAr $win highlight highlightAr
-  ctext::getAr $win highlightRegexp highlightRegexpAr
-  ctext::getAr $win highlightCharStart highlightCharStartAr
 
   set twin "$win._t"
-
+ 
   set i 0
   foreach res [$twin search -count lengths -regexp {*}$configAr(re_opts) -all -- $REs(words) $start $end] {
     set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
     set word    [$twin get $res $wordEnd]
-    if {[info exists highlightAr($word)]} {
-      $twin tag add $highlightAr($word) $res $wordEnd
-    } elseif {[info exists highlightCharStartAr([set firstOfWord [string index $word 0]])]} {
-      $twin tag add $highlightCharStartAr($firstOfWord) $res $wordEnd
+    if {[info exists highlightAr(keyword,class,$word)]} {
+      $twin tag add $highlightAr(keyword,class,$word) $res $wordEnd
+    } elseif {[info exists highlightAr(charstart,class,[set firstOfWord [string index $word 0]])]} {
+      $twin tag add $highlightAr(charstart,class,$firstOfWord) $res $wordEnd
+    } elseif {[info exists highlightAr(keyword,command,$word)] && \
+              ([set retval [uplevel #0 $highlightAr(keyword,command,$word) $win $res $wordEnd]] ne "") && \
+              [info exists classesAr([lindex $retval 0])]} {
+      $twin tag add {*}$retval
+    } elseif {[info exists highlightAr(charstart,command,$firstOfWord)] && \
+              ([set retval [uplevel #0 $highlightAr(charstart,command,$firstOfWord) $win $res $wordEnd]] ne "") && \
+              [info exists classesAr([lindex $retval 0])]} {
+      $twin tag add {*}$retval
+    }
+    if {[info exists highlightAr(searchword,class,$word)]} {
+      $twin tag add $highlightAr(searchword,class,$word) $res $wordEnd
+    } elseif {[info exists highlightAr(searchword,command,$word)] && \
+              ([set retval [uplevel #0 $highlightAr(searchword,command,$word) $win $res $wordEnd]] ne "") && \
+              [info exists classesAr([lindex $retval 0])]} {
+      $twin tag add {*}$retval
     }
     incr i
   }
 
-  foreach {tagClass tagInfo} [array get highlightRegexpAr] {
-    lassign $tagInfo re re_opts
-    if {$re_opts eq ""} {
-      set re_opts $configAr(re_opts)
-    }
+  foreach {name re_info} [array get highlightAr *regexp,*,*] {
+    lassign [split $name ,] dummy type value
+    lassign $re_info re re_opts
     set i 0
-    foreach res [$twin search -count lengths -regexp {*}$re_opts -all -- $re $start $end] {
-      set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
-      $twin tag add $tagClass $res $wordEnd
-      incr i
+    if {$type eq "class"} {
+      foreach res [$twin search -count lengths -regexp {*}$re_opts -all -- $re $start $end] {
+        set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
+        $twin tag add $value $res $wordEnd
+        incr i
+      }  
+    } else {
+      foreach res [$twin search -count lengths -regexp {*}$re_opts -all -- $re $start $end] {
+        set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
+        if {([set retval [uplevel #0 $value $win $res $wordEnd]] ne "") && [info exists classesAr([lindex $retval 0])]} {
+          $twin tag add {*}$retval
+        }
+        incr i
+      }  
     }
   }
 
