@@ -11,17 +11,39 @@ namespace eval syntax {
     
   variable filetypes
 
+  array set lang_template {
+    filepatterns      {}
+    matchcharsallowed {}
+    tabsallowed       0
+    casesensitive     0
+    indent            {}
+    unindent          {}
+    lcomments         {}
+    bcomments         {}
+    strings           {}
+    keywords          {}
+    symbols           {}
+    numbers           {}
+    punctuation       {}
+    precompile        {}
+    miscellaneous1    {}
+    miscellaneous2    {}
+    miscellaneous3    {}
+    advanced          {}
+  }
   array set langs     {}
   array set themes    {}
   array set theme     {}
   array set colorizers {
-    keywords      1
-    comments      1
-    strings       1
-    numbers       1
-    punctuation   1
-    precompile    1
-    miscellaneous 1
+    keywords       1
+    comments       1
+    strings        1
+    numbers        1
+    punctuation    1
+    precompile     1
+    miscellaneous1 1
+    miscellaneous2 1
+    miscellaneous3 1
   }
   
   ######################################################################
@@ -41,6 +63,7 @@ namespace eval syntax {
   proc load_syntax {} {
     
     variable langs
+    variable lang_template
     
     # Load the tke_dir syntax files
     set sfiles [glob -nocomplain -directory [file join $::tke_dir data syntax] *.syntax]
@@ -50,11 +73,13 @@ namespace eval syntax {
     
     # Get the syntax information from all of the files in the user's syntax directory.
     foreach sfile $sfiles {
+      set name [file rootname [file tail $sfile]]
+      array set lang_array [array get lang_template]
       if {![catch { open $sfile r } rc]} {
-        set name [file rootname [file tail $sfile]]
-        set langs($name) [read $rc]
-        [ns launcher]::register [msgcat::mc "Syntax:  %s" $name] "syntax::set_language $name"
+        array set lang_array [read $rc]
         close $rc
+        set langs($name) [array get lang_array]
+        [ns launcher]::register [msgcat::mc "Syntax:  %s" $name] "syntax::set_language $name"
       }
     }
     
@@ -293,6 +318,7 @@ namespace eval syntax {
       if {[catch {
           
         array set lang_array $langs($language)
+        puts "lang_array: [array get lang_array]"
           
         # Set the case sensitivity
         $txt configure -casesensitive $lang_array(casesensitive)
@@ -301,17 +327,15 @@ namespace eval syntax {
         ctext::addHighlightClass $txt keywords $theme(keywords)
         ctext::addHighlightKeywords $txt $lang_array(keywords) class keywords
         
-        # Add the language symbols
-        ctext::addHighlightClass $txt symbols $theme(keywords)
-        ctext::addHighlightKeywords $txt $lang_array(symbols) class symbols
-        
         # Add the rest of the sections
+        set_language_section $txt symbols        $lang_array(symbols)
         set_language_section $txt punctuation    $lang_array(punctuation)
         set_language_section $txt numbers        $lang_array(numbers)
         set_language_section $txt precompile     $lang_array(precompile)
         set_language_section $txt miscellaneous1 $lang_array(miscellaneous1)
         set_language_section $txt miscellaneous2 $lang_array(miscellaneous2)
         set_language_section $txt miscellaneous3 $lang_array(miscellaneous3)
+        set_language_section $txt advanced       $lang_array(advanced)
         
         # Add the comments and strings
         ctext::setBlockCommentPatterns $txt $lang_array(bcomments) $theme(comments)
@@ -320,7 +344,7 @@ namespace eval syntax {
 
         # Add the FIXME
         ctext::addHighlightClass $txt fixme $theme(miscellaneous1)
-        ctext::addHighlightKeyword $txt FIXME class fixme
+        ctext::addHighlightKeywords $txt FIXME class fixme
           
         # Set the indentation namespace for the given text widget to be
         # the indent/unindent expressions for this language
@@ -365,12 +389,31 @@ namespace eval syntax {
     
     set i 0
     
-    foreach {type syntax modifiers} $section_list {
-      if {$syntax ne ""} {
-        ctext::addHighlightClass $txt $section$i $theme($section) "" $modifiers $syntax
-        ctext::add$type $txt $section$i $theme($section) $modifiers $syntax
+    switch $section {
+      "advanced" -
+      "symbols" {
+        while {[llength $section_list]} {
+          set section_list [lassign $section_list type]
+          if {$type eq "HighlightClass"} {
+            if {$section eq "advanced"} {
+              set section_list [lassign $section_list name color modifiers]
+              ctext::addHighlightClass $txt $name $theme($color) "" $modifiers
+            }
+          } else {
+            set section_list [lassign $section_list syntax command]
+            ctext::add$type $txt $syntax command $command
+          }
+        }
       }
-      incr i
+      default {
+        foreach {type syntax modifiers} $section_list {
+          if {$syntax ne ""} {
+            ctext::addHighlightClass $txt $section$i $theme($section) "" $modifiers
+            ctext::add$type $txt $syntax class $section$i
+            incr i
+          }
+        }
+      }
     }
     
   }
@@ -500,6 +543,18 @@ namespace eval syntax {
       return $lang_array(tabsallowed)
     }
     
+  }
+
+  ######################################################################
+  # Returns the information for Tcl proc symbols.
+  proc get_tcl_proc_symbol {txt startpos endpos} {
+
+    if {[set startpos [$txt search -regexp -- {\S+} "$startpos+4c" $endpos]] ne ""} {
+      return [list "" $startpos $endpos]
+    }
+
+    return ""
+
   }
   
 }

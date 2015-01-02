@@ -25,24 +25,25 @@ strings {}
 keywords
 {
   filepatterns matchcharsallowed tabsallowed casesensitive indent unindent keywords symbols
-  lcomments bcomments strings numbers punctuation precompile miscellaneous 
+  lcomments bcomments strings numbers punctuation precompile miscellaneous1 miscellaneous2
+  miscellaneous3 advanced
   HighlightClass
-  HighlightClassForSpecialChars
-  HighlightClassForRegexp
-  HighlightClassWithOnlyCharStart
+  HighlightKeywords
+  HighlightRegexp
+  HighlightWithOnlyCharStart
 }
 
 symbols
 {
   filepatterns keywords symbols lcomments ccomments strings numbers punctuation
-  precompile miscellaneous1 miscellaneous2 miscellaneous3
+  precompile miscellaneous1 miscellaneous2 miscellaneous3 advanced
 }
 
 numbers {}
 
 punctuation
 {
-  HighlightClassForRegexp {[\{\}]} {}
+  HighlightRegexp {[\{\}]} {}
 }
 
 precompile {}
@@ -52,3 +53,5 @@ miscellaneous1 {}
 miscellaneous2 {}
 
 miscellaneous3 {}
+
+advanced {}

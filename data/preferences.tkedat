@@ -65,9 +65,11 @@
 #  - numbers
 #  - punctuation
 #  - precompile
-#  - miscellaneous
+#  - miscellaneous1
+#  - miscellaneous2
+#  - miscellaneous3
 
-{Appearance/Colorize}        {keywords comments strings numbers punctuation precompile miscellaneous}
+{Appearance/Colorize}        {keywords comments strings numbers punctuation precompile miscellaneous1 miscellaneous2 miscellaneous3}
 
 # Specifies the point size of the font used in the editor window
 
