@@ -32,12 +32,10 @@ punctuation {}
 
 precompile {}
 
-miscellaneous1 {
-  HighlightClassForRegexp {(?p)(\*\*|__)(\S|\S\S|\S.+\S)\1}  {bold}
-  HighlightClassForRegexp {([^*]\*|[^_]_)(\S|\S\S|\S.+\S)\1} {italics}
-  HighlightClassForRegexp {^#{1,6}.*$}                       {large}
+advanced {
+  HighlightClass bold    none {bold}
+  HighlightClass italics none {italics}
+  HighlightClass large   none {large}
+  
+  HighlightRegexp {^#{1,6}.*$} {}
 }
-
-miscellaneous2 {}
-
-miscellaneous3 {}

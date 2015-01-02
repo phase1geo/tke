@@ -48,31 +48,27 @@ keywords
   within 
 }
 
-symbols {}
-
 numbers
 {
-  HighlightClassForRegexp {\m[0-9]+|\m[0-9]*'[sS]?[hHdDoObB]\s*[0-9a-fA-F_]+} {}
+  HighlightRegexp {\m[0-9]+|\m[0-9]*'[sS]?[hHdDoObB]\s*[0-9a-fA-F_]+} {}
 }
 
 punctuation
 {
-  HighlightClassForRegexp {[][\{\};:,()#=.@&!?<>%|^~+*/-]} {}
+  HighlightRegexp {[][\{\};:,()#=.@&!?<>%|^~+*/-]} {}
 }
 
 precompile
 {
-  HighlightClassForRegexp {#line|`\w+} {}
+  HighlightRegexp {#line|`\w+} {}
 }
 
 miscellaneous1
 {
-  HighlightClassWithOnlyCharStart \$ {}
+  HighlightWithOnlyCharStart \$ {}
 }
 
 miscellaneous2
 {
-  HighlightClassForRegexp         {#line|`\w+} {}
+  HighlightRegexp {#line|`\w+} {}
 }
-
-miscellaneous3 {}

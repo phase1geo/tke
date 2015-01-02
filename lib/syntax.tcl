@@ -318,7 +318,6 @@ namespace eval syntax {
       if {[catch {
           
         array set lang_array $langs($language)
-        puts "lang_array: [array get lang_array]"
           
         # Set the case sensitivity
         $txt configure -casesensitive $lang_array(casesensitive)
@@ -388,7 +387,7 @@ namespace eval syntax {
     variable theme
     
     set i 0
-    
+
     switch $section {
       "advanced" -
       "symbols" {
@@ -401,7 +400,11 @@ namespace eval syntax {
             }
           } else {
             set section_list [lassign $section_list syntax command]
-            ctext::add$type $txt $syntax command $command
+            if {$command ne ""} {
+              ctext::add$type $txt $syntax command $command
+            } else {
+              ctext::add$type $txt $syntax class [expr {($section eq "symbols") ? "symbols" : "none"}]
+            }
           }
         }
       }
@@ -546,11 +549,24 @@ namespace eval syntax {
   }
 
   ######################################################################
-  # Returns the information for Tcl proc symbols.
-  proc get_tcl_proc_symbol {txt startpos endpos} {
+  # Returns the information for syntax-file symbols.
+  proc get_syntax_symbol {txt startpos endpos} {
 
-    if {[set startpos [$txt search -regexp -- {\S+} "$startpos+4c" $endpos]] ne ""} {
-      return [list "" $startpos $endpos]
+    if {[lindex [split $startpos .] 1] == 0} {
+      return [list symbols $startpos $endpos]
+    }
+
+    return ""
+
+  }
+
+  ######################################################################
+  # Returns the information for symbols that are preceded by the word
+  # specified with startpos/endpos.
+  proc get_prefixed_symbol {txt startpos endpos} {
+
+    if {[set startpos [$txt search -count lengths -regexp -- {\w+} $endpos]] ne ""} {
+      return [list symbols $startpos [$txt index "$startpos+[lindex $lengths 0]c"]]
     }
 
     return ""

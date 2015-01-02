@@ -34,28 +34,22 @@ keywords
 
 symbols
 {
-  HighlightClass sub
+  HighlightKeywords {sub} syntax::get_prefixed_symbol
 }
 
 numbers
 {
-  HighlightClassForRegexp {\m([0-9]+|[0-9]+\.[0-9]+|0x[0-9a-fA-F]+)} {}
+  HighlightRegexp {\m([0-9]+|[0-9]+\.[0-9]+|0x[0-9a-fA-F]+)} {}
 }
 
 punctuation
 {
-  HighlightClassForRegexp {[][\{\}\(\);+*/%\.<>=!?:&\|\^~-]} {}
+  HighlightRegexp {[][\{\}\(\);+*/%\.<>=!?:&\|\^~-]} {}
 }
 
-precompile {}
- 
 miscellaneous1
 {
-  HighlightClassWithOnlyCharStart \$ {}
-  HighlightClassWithOnlyCharStart \@ {}
-  HighlightClassWithOnlyCharStart \% {}
+  HighlightWithOnlyCharStart \$ {}
+  HighlightWithOnlyCharStart \@ {}
+  HighlightWithOnlyCharStart \% {}
 }
-
-miscellaneous2 {}
-
-miscellaneous3 {}

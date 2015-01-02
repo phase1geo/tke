@@ -28,7 +28,7 @@ keywords
   filename flush for foreach format gets glob global history http if incr info interp
   join lappend lassign lindex linsert list llength load lrange lrepeat lreplace lreverse
   lsearch lset lsort mathfunc mathop memory msgcat namespace open package parray pid
-  pkg::create pkg_mkIndex platform platform::shell puts pwd read refchan regexp
+  pkg::create pkg_mkIndex platform platform::shell proc puts pwd read refchan regexp
   registry regsub rename return scan seek set socket source split string subst switch
   tcl_endOfWord tcl_findLibrary tcl_startOfNextWord tcl_startOfPreviousWord tcl_wordBreakAfter
   tcl_wordBreakBefore tcltest tell time tm trace unknown unload unset update uplevel upvar
@@ -37,7 +37,7 @@ keywords
 
 symbols
 {
-  HighlightRegexp {\mproc\s+\S+} syntax::get_tcl_proc_symbol
+  HighlightKeywords {proc} syntax::get_prefixed_symbol
 }
 
 numbers

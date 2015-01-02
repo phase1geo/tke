@@ -637,6 +637,7 @@ namespace eval launcher {
 
     # Store the relevance by using the new execution count and the entered search string
     set commands($command_name) $command_value
+    set command [lindex $commands($command_name) $command_values(command)]
 
     # Store the last command and type
     set last_command $command_name
@@ -645,7 +646,7 @@ namespace eval launcher {
     destroy $widgets(win)
     
     # Execute the associated command
-    after 1 [list launcher::execute_helper [lindex $commands($command_name) $command_values(command)]]
+    after 1 [list launcher::execute_helper $command]
 
   }
 

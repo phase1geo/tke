@@ -16,8 +16,6 @@ indent
 unindent
 {</[^>]*>}
  
-lcomments {}
-
 bcomments {{{<!--} {-->}} {{<!\[CDATA\[} {\]\]>}}}
 
 strings {{"}}
@@ -40,21 +38,7 @@ keywords
   /var
 }
 
-symbols
-{}
-
-numbers {}
-
 punctuation
 {
-  HighlightClassForRegexp {[<>&;=/]} {}
+  HighlightRegexp {[<>&;=/]} {}
 }
-
-precompile {}
-
-miscellaneous1 {}
-
-miscellaneous2 {}
-
-miscellaneous3 {}
-

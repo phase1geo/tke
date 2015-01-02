@@ -31,12 +31,12 @@ keywords
 }
 
 symbols {
-  function
+  HighlightKeywords {function} syntax::get_prefixed_symbol
 }
 
 numbers {
-  HighlightClassForRegexp {\m(0b[0-1]+|[1-9][0-9]*|0[0-7]+|0x[0-9a-fA-F]+)} {}
-  HighlightClass          {
+  HighlightRegexp   {\m(0b[0-1]+|[1-9][0-9]*|0[0-7]+|0x[0-9a-fA-F]+)} {}
+  HighlightKeywords {
     TRUE FALSE True False true false
     PHP_INT_SIZE PHP_INT_MAX NAN NULL
     __LINE__ __FILE__ __DIR__ __FUNCTION__ __CLASS__ __TRAIT__ __METHOD__ __NAMESPACE__
@@ -44,13 +44,11 @@ numbers {
 }
 
 punctuation {
-  HighlightClassForRegexp {[][\{\}()<>?;^:!=+*/%,&|.~`-]} {}
+  HighlightRegexp {[][\{\}()<>?;^:!=+*/%,&|.~`-]} {}
 }
 
-precompile {}
- 
 miscellaneous1 {
-  HighlightClass {
+  HighlightKeywords {
     is_nan substr substr_replace isset print_r printf array_values array_diff sort opendir readdir closedir
     array_merge range is_null call_user_func call_user_func_array usort empty eval exit list create_function
     import_request_variables setcookie time gettype is_array is_float is_int is_object is_string define constant
@@ -62,11 +60,11 @@ miscellaneous1 {
 }
 
 miscellaneous2 {
-  HighlightClass {
+  HighlightKeywords {
     $GLOBALS $_GET $_REQUEST $_POST $_COOKIE $php_errormsg
   } {}
 }
 
 miscellaneous3 {
-  HighlightClassWithOnlyCharStart \$ {}
+  HighlightWithOnlyCharStart \$ {}
 }
