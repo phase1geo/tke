@@ -235,6 +235,7 @@ proc generate_macosx_dmg {tag} {
   }
   
   puts "done."
+  exit
   
   puts -nonewline "Generating MacOSX disk image...  "; flush stdout
   
