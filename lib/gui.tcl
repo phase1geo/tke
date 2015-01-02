@@ -3493,10 +3493,15 @@ namespace eval gui {
     set txt [current_txt $tid]
 
     set proclist [list]
-    set lengths  [list]
-    puts "symbol_list: [$txt tag ranges _symbols]"
-    foreach {startpos endpos} [$txt tag ranges _symbols] {
-      lappend proclist [$txt get $startpos $endpos] $startpos
+    foreach tag [$txt tag names] {
+      if {[string range $tag 0 8] eq "_symbols:"} {
+        if {[set type [string range $tag 9 end]] ne ""} {
+          append type ": "
+        }
+        foreach {startpos endpos} [$txt tag ranges $tag] {
+          lappend proclist "$type[$txt get $startpos $endpos]" $startpos
+        }
+      }
     }
 
     return $proclist
