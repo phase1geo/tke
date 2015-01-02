@@ -18,10 +18,6 @@ unindent
 
 lcomments {{#}}
 
-bcomments {}
-
-strings {}
-
 keywords
 {
   snippet
@@ -29,20 +25,10 @@ keywords
 
 symbols
 {
-  snippet
+  HighlightKeywords {snippet} syntax::get_prefixed_symbol
 }
-
-numbers {}
-
-punctuation {}
-
-precompile {}
 
 miscellaneous1
 {
-  HighlightClassForRegexp {^\t.*$} {}
+  HighlightRegexp {^\t.*$} {}
 }
-
-miscellaneous2 {}
-
-miscellaneous3 {}

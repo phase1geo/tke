@@ -18,10 +18,6 @@ unindent
 
 lcomments {{#}}
 
-bcomments {}
-
-strings {}
-
 keywords
 {
   include sinclude .SECONDEXPANSION .RECIPEPREFIX .PHONY .SUFFIXES .DEFAULT .PRECIOUS .INTERMEDIATE .SECONDARY
@@ -29,24 +25,18 @@ keywords
   override define endef undefine ifeq else endif ifneq ifdef ifndef export unexport private
 }
 
-symbols {}
-
-numbers {}
-
 punctuation {
-  HighlightClassForRegexp {[\{\};:()=%/$+?,*]} {}
+  HighlightRegexp {[\{\};:()=%/$+?,*]} {}
 }
 
-precompile {}
- 
 miscellaneous1 {
-  HighlightClassForRegexp {\t[^\n\r]+}  {}
+  HighlightRegexp {\t[^\n\r]+}  {}
 }
 
 miscellaneous2 {
-  HighlightClassForRegexp {@[^\n\r]+}   {}
+  HighlightRegexp {@[^\n\r]+}   {}
 }
 
 miscellaneous3 {
-  HighlightClassForRegexp {$\([^\)]*\)} {}
+  HighlightRegexp {$\([^\)]*\)} {}
 }

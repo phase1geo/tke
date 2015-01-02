@@ -22,25 +22,12 @@ bcomments {{{/\*} {\*/}}}
 
 strings {{"} {'}}
 
-keywords {}
-
-symbols {}
-
 numbers
 {
-  HighlightClassForRegexp {\m[0-9]+|[0-9]+\.[0-9e]+|0x[0-9a-fA-F]+|Infinity|NaN} {}
+  HighlightRegexp {\m[0-9]+|[0-9]+\.[0-9e]+|0x[0-9a-fA-F]+|Infinity|NaN} {}
 }
 
 punctuation
 {
-  HighlightClassForRegexp {[][\{\};:,()#=.@&!?<>%|^~+*/-]} {}
+  HighlightRegexp {[][\{\};:,()#=.@&!?<>%|^~+*/-]} {}
 }
-
-precompile
-{}
-
-miscellaneous1 {}
-
-miscellaneous2 {}
-
-miscellaneous3 {}

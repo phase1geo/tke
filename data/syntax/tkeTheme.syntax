@@ -18,8 +18,6 @@ unindent
 
 lcomments {{#}}
 
-bcomments {}
-
 strings {{"}}
 
 keywords
@@ -30,21 +28,13 @@ keywords
 
 symbols
 {
-  background foreground selectbackground selectforeground highlightcolor cursor warnwidthcolor
-  keywords comments strings numbers punctuation precompile miscellaneous1 miscellaneous2 miscellaneous3
+  HighlightKeywords {
+    background foreground selectbackground selectforeground highlightcolor cursor warnwidthcolor
+    keywords comments strings numbers punctuation precompile miscellaneous1 miscellaneous2 miscellaneous3
+  } {}
 }
-
-numbers {}
 
 punctuation
 {
-  HighlightClassForRegexp {[\{\}]} {}
+  HighlightRegexp {[\{\}]} {}
 }
-
-precompile {}
-
-miscellaneous1 {}
-
-miscellaneous2 {}
-
-miscellaneous3 {}

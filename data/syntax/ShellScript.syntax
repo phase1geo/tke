@@ -10,40 +10,16 @@ tabsallowed
 casesensitive
 {1}
 
-indent
-{}
-  
-unindent
-{}
-
 lcomments {{#}}
-
-bcomments {}
 
 strings {{"}}
 
-keywords
-{
-}
-
-symbols
-{
-}
-
 numbers
 {
-  HighlightClassForRegexp {\m[0-9]+} {}
+  HighlightRegexp {\m[0-9]+} {}
 }
 
 punctuation
 {
-  HighlightClassForRegexp {[][\{\}]} {}
+  HighlightRegexp {[][\{\}]} {}
 }
-
-precompile {}
-
-miscellaneous1 {}
-
-miscellaneous2 {}
-
-miscellaneous3 {}

@@ -10,15 +10,7 @@ tabsallowed
 casesensitive
 {1}
 
-indent
-{}
-  
-unindent
-{}
-
 lcomments {{#}}
-
-bcomments {}
 
 strings {{"} {'} {"""}}
 
@@ -31,26 +23,20 @@ keywords
 
 symbols
 {
-  HighlightClass def
+  HighlightKeywords {def} syntax::get_prefixed_symbol
 }
 
 numbers
 {
-  HighlightClassForRegexp {\m([0-9]+|[0-9]+\.[0-9]+)} {}
+  HighlightRegexp {\m([0-9]+|[0-9]+\.[0-9]+)} {}
 }
 
 punctuation
 {
-  HighlightClassForRegexp {[][\{\};:,()=.@&!?<>%|^~+*/-]} {}
+  HighlightRegexp {[][\{\};:,()=.@&!?<>%|^~+*/-]} {}
 }
-
-precompile {}
 
 miscellaneous1
 {
-  HighlightClassWithOnlyCharStart \$ {}
+  HighlightWithOnlyCharStart \$ {}
 }
-
-miscellaneous2 {}
-
-miscellaneous3 {}

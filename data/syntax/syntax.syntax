@@ -35,8 +35,11 @@ keywords
 
 symbols
 {
-  filepatterns keywords symbols lcomments ccomments strings numbers punctuation
-  precompile miscellaneous1 miscellaneous2 miscellaneous3 advanced
+  HighlightKeywords {
+    filepatterns matchcharsallowed tabsallowed casesensitive indent unindent lcomments bcomments
+    strings symbols numbers punctuation precompile miscellaneous1 miscellaneous2 miscellaneous3
+    advanced
+  } syntax::get_syntax_symbol
 }
 
 numbers {}

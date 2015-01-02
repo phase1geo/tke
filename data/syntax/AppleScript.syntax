@@ -10,12 +10,6 @@ tabsallowed
 casesensitive
 {1}
 
-indent
-{}
-  
-unindent
-{}
-
 lcomments {{--} {#}}
 
 bcomments {{{(\*} {\*)}}}
@@ -36,23 +30,18 @@ keywords
 
 symbols
 {
-  script on property
+  HighlightKeywords {
+    script on property
+  } syntax::get_prefixed_symbol
 }
 
 numbers
 {
-  HighlightClassForRegexp {\m([0-9]+|[0-9]+\.[0-9]+)} {}
+  HighlightRegexp {\m([0-9]+|[0-9]+\.[0-9]+)} {}
 }
 
 punctuation
 {
-  HighlightClassForRegexp {[][\{\},:*/+-]} {}
+  HighlightRegexp {[][\{\},:*/+-]} {}
 }
 
-precompile {}
-
-miscellaneous1 {}
-
-miscellaneous2 {}
-
-miscellaneous3 {}

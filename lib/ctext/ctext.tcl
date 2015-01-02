@@ -1471,7 +1471,9 @@ proc ctext::addHighlightClass {win class fgcolor {bgcolor ""} {font_opts ""}} {
     add_font_opt $win $class $font_opts opts
   }
             
-  $win tag configure _$class {*}$opts
+  if {[llength $opts] > 0} {
+    $win tag configure _$class {*}$opts
+  }
             
   ctext::getAr $win classes classesAr
   set classesAr(_$class) 1
@@ -1688,43 +1690,34 @@ proc ctext::doHighlight {win start end} {
   ctext::getAr $win classes   classesAr
   ctext::getAr $win highlight highlightAr
 
-  puts "classes: [array get classesAr]"
-  puts "highlight: [array get highlightAr]"
-
   set twin "$win._t"
  
-  catch {
   # Handle word-based matching
   set i 0
   foreach res [$twin search -count lengths -regexp {*}$configAr(re_opts) -all -- $REs(words) $start $end] {
-    set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
-    set word    [$twin get $res $wordEnd]
-    puts "  word: $word"
+    set wordEnd     [$twin index "$res + [lindex $lengths $i] chars"]
+    set word        [$twin get $res $wordEnd]
+    set firstOfWord [string index $word 0]
     if {[info exists highlightAr(keyword,class,$word)]} {
-      puts "HERE! ($highlightAr(keyword,class,$word))"
       $twin tag add $highlightAr(keyword,class,$word) $res $wordEnd
-    } elseif {[info exists highlightAr(charstart,class,[set firstOfWord [string index $word 0]])]} {
+    } elseif {[info exists highlightAr(charstart,class,$firstOfWord)]} {
       $twin tag add $highlightAr(charstart,class,$firstOfWord) $res $wordEnd
-    } elseif {[info exists highlightAr(keyword,command,$word)] && \
-              ([set retval [uplevel #0 $highlightAr(keyword,command,$word) $win $res $wordEnd]] ne "") && \
-              [info exists classesAr([lindex $retval 0])]} {
-      $twin tag add {*}$retval
+    }
+    if {[info exists highlightAr(keyword,command,$word)] && \
+        ([set retval [uplevel #0 $highlightAr(keyword,command,$word) $win $res $wordEnd]] ne "")} {
+      $twin tag add _[lindex $retval 0] {*}[lrange $retval 1 2]
     } elseif {[info exists highlightAr(charstart,command,$firstOfWord)] && \
-              ([set retval [uplevel #0 $highlightAr(charstart,command,$firstOfWord) $win $res $wordEnd]] ne "") && \
-              [info exists classesAr([lindex $retval 0])]} {
-      $twin tag add {*}$retval
+              ([set retval [uplevel #0 $highlightAr(charstart,command,$firstOfWord) $win $res $wordEnd]] ne "")} {
+      $twin tag add _[lindex $retval 0] {*}[lrange $retval 1 2]
     }
     if {[info exists highlightAr(searchword,class,$word)]} {
       $twin tag add $highlightAr(searchword,class,$word) $res $wordEnd
     } elseif {[info exists highlightAr(searchword,command,$word)] && \
-              ([set retval [uplevel #0 $highlightAr(searchword,command,$word) $win $res $wordEnd]] ne "") && \
-              [info exists classesAr([lindex $retval 0])]} {
-      $twin tag add {*}$retval
+              ([set retval [uplevel #0 $highlightAr(searchword,command,$word) $win $res $wordEnd]] ne "")} {
+      $twin tag add _[lindex $retval 0] {*}[lrange $retval 1 2]
     }
     incr i
   }
-  } rc
-  puts "rc: $rc"
 
   # Handle regular expression matching
   foreach {name re_info} [array get highlightAr *regexp,*,*] {
@@ -1740,8 +1733,8 @@ proc ctext::doHighlight {win start end} {
     } else {
       foreach res [$twin search -count lengths -regexp {*}$re_opts -all -- $re $start $end] {
         set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
-        if {([set retval [uplevel #0 $value $win $res $wordEnd]] ne "") && [info exists classesAr([lindex $retval 0])]} {
-          $twin tag add {*}$retval
+        if {[set retval [uplevel #0 [list $value $win $res $wordEnd]]] ne ""} {
+          $twin tag add _[lindex $retval 0] {*}[lrange $retval 1 2]
         }
         incr i
       }  

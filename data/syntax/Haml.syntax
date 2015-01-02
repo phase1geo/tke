@@ -10,15 +10,7 @@ tabsallowed
 casesensitive
 {1}
 
-indent
-{}
-  
-unindent
-{}
-
 lcomments {{-#}}
-
-bcomments {}
 
 strings {{"} {'}}
 
@@ -31,25 +23,18 @@ keywords
 }
 
 symbols {
-  def
+  HighlightKeywords {def} syntax::get_prefixed_symbol
 }
-
-numbers {}
 
 punctuation
 {
-  HighlightClassForRegexp {[][/&|?=~><@#%\{\}()-]|!!!} {}
+  HighlightRegexp {[][/&|?=~><@#%\{\}()-]|!!!} {}
 }
 
-precompile {}
-
 miscellaneous1 {
-  HighlightClass {
+  HighlightKeywords {
     :class :id :cdata :coffee :css :erb :escaped :javascript :less :markdown :maruku :plain :preserve
     :ruby :sass :scss :textile
   } {}
 }
 
-miscellaneous2 {}
-
-miscellaneous3 {}

@@ -3494,6 +3494,7 @@ namespace eval gui {
 
     set proclist [list]
     set lengths  [list]
+    puts "symbol_list: [$txt tag ranges _symbols]"
     foreach {startpos endpos} [$txt tag ranges _symbols] {
       lappend proclist [$txt get $startpos $endpos] $startpos
     }
