@@ -1,12 +1,16 @@
 #!/bin/sh
 
+# Run the script from the release directory
+cd `dirname $1`
+
 # Initialize variables
-release_dir=$1
-source=${release_dir}/MacOSX/Tke.app
+tke_dir=`basename $1`
+applicationName=Tke
+source=${tke_dir}/MacOSX/Tke.app
 title="TKE"
-size=`expr $2 + 500`
+size=$(expr `du -s -k ${tke_dir}/MacOSX | cut -f 1` \* 2)
 backgroundImage=background.png
-finalDMGName=${release_dir}.dmg
+finalDMGName=${tke_dir}.dmg
 
 # Create the DMG as a read/write image
 hdiutil create -srcfolder "${source}" -volname "${title}" -fs HFS+ \
@@ -19,7 +23,7 @@ device=$(hdiutil attach -readwrite -noverify -noautoopen "pack.temp.dmg" | \
 # Store the background image in the .background directory
 chmod -Rf go-w /Volumes/"${title}"
 mkdir /Volumes/"${title}"/.background
-cp ${release_dir}/MacOSX/image/${backgroundImage} /Volumes/"${title}"/.background
+cp ${tke_dir}/MacOSX/images/${backgroundImage} /Volumes/"${title}"/.background
 
 # Run Applescript
 echo '
@@ -32,7 +36,7 @@ echo '
            set the bounds of container window to {400, 100, 885, 430}
            set theViewOptions to the icon view options of container window
            set arrangement of theViewOptions to not arranged
-           set icon size of theViewOptions to 72
+           set icon size of theViewOptions to 128
            set background picture of theViewOptions to file ".background:'${backgroundImage}'"
            make new alias file at container window to POSIX file "/Applications" with properties {name:"Applications"}
            set position of item "'${applicationName}'" of container window to {100, 100}
@@ -49,5 +53,5 @@ chmod -Rf go-w /Volumes/"${title}"
 sync
 sync
 hdiutil detach ${device}
-hdiutil convert "/pack.temp.dmg" -format UDZO -imagekey zlib-level=9 -o "${finalDMGName}"
-rm -f /pack.temp.dmg
+hdiutil convert "pack.temp.dmg" -format UDZO -imagekey zlib-level=9 -o "${finalDMGName}"
+rm -f pack.temp.dmg
