@@ -186,6 +186,7 @@ namespace eval syntax {
     if {[info exists themes($theme_name)]} {
       
       # Set the current theme array
+      array set theme [list none ""]
       array set theme $themes($theme_name)
       
       # Remove theme values that aren't in the Appearance/Colorize array
@@ -574,4 +575,35 @@ namespace eval syntax {
 
   }
   
+  ######################################################################
+  # Returns the information for the given Markdown header string.
+  proc get_markdown_header {txt startpos endpos} {
+    
+    if {[regexp {(#{1,6})[^#]+} [$txt get $startpos $endpos] all hashes]} {
+      set num [string length $hashes]
+      return [list h$num [$txt index "$startpos+${num}c"] [$txt index "$startpos+[string length $all]c"]]
+    }
+    
+    return ""
+    
+  }
+  
+  ######################################################################
+  # Returns the information for the given Markdown emphasis string.
+  proc get_markdown_emphasis {txt startpos endpos} {
+    
+    set first [$txt get "$startpos-2c" "$startpos+1c"]
+    
+    if {[string index $first 1] ne "\\"} {
+      if {[string index $first 1] ne [string index $first 2]} {
+        return [list italics [$txt index "$startpos+1c"] [$txt index "$endpos-1c"]]
+      } elseif {[string index $first 0] ne "\\"} {
+        return [list bold [$txt index "$startpos+1c"] [$txt index "$endpos-1c"]]
+      }
+    }
+    
+    return ""
+    
+  }
+
 }
