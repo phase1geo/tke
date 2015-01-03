@@ -91,9 +91,33 @@ Added tag devel-1.4.1 for changeset 15da01d2f14d
 
 
 changeset:   726:bf4182b3e1ca
-tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
 date:        Fri Jan 02 21:53:49 2015 -0600
+files:       .hgtags
+description:
+Removed tag devel-1.4.1
+
+
+changeset:   727:68e8babf6a03
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jan 02 21:55:36 2015 -0600
+files:       ChangeLog MacOSX/images/background.png dmg.sh lib/version.tcl release.tcl specl_version.tcl
+description:
+ChangeLog for devel-1.4.1 release
+
+
+changeset:   728:6d095d6abc24
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jan 02 21:55:44 2015 -0600
+files:       .hgtags
+description:
+Added tag devel-1.4.1 for changeset 68e8babf6a03
+
+
+changeset:   729:2fecf1a037e4
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jan 02 22:08:07 2015 -0600
 files:       .hgtags
 description:
 Removed tag devel-1.4.1
