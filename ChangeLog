@@ -66,12 +66,36 @@ description:
 
 
 changeset:   723:e2f3bf4eb269
-tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
 date:        Fri Jan 02 11:14:19 2015 -0600
 files:       lib/gui.tcl lib/launcher.tcl lib/syntax.tcl lib/version.tcl
 description:
 * Fixing issues with not being able to dismiss launcher when escape key is pressed.
 * Adding symbol type support to symbol list display in the launcher.
+
+
+changeset:   724:15da01d2f14d
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jan 02 12:26:04 2015 -0600
+files:       ChangeLog dmg.sh lib/version.tcl release.tcl specl_version.tcl
+description:
+ChangeLog for devel-1.4.1 release
+
+
+changeset:   725:e5d560d754bf
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jan 02 12:26:09 2015 -0600
+files:       .hgtags
+description:
+Added tag devel-1.4.1 for changeset 15da01d2f14d
+
+
+changeset:   726:bf4182b3e1ca
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jan 02 21:53:49 2015 -0600
+files:       .hgtags
+description:
+Removed tag devel-1.4.1
 
 
