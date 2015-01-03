@@ -139,9 +139,33 @@ Added tag devel-1.4.1 for changeset cc44d7431dd2
 
 
 changeset:   732:0b9aaa73f423
-tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
 date:        Fri Jan 02 22:10:25 2015 -0600
+files:       .hgtags
+description:
+Removed tag devel-1.4.1
+
+
+changeset:   733:948df8999646
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jan 02 22:10:45 2015 -0600
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for devel-1.4.1 release
+
+
+changeset:   734:6a4256c765c0
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jan 02 22:10:58 2015 -0600
+files:       .hgtags
+description:
+Added tag devel-1.4.1 for changeset 948df8999646
+
+
+changeset:   735:224bf266295b
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jan 02 22:20:54 2015 -0600
 files:       .hgtags
 description:
 Removed tag devel-1.4.1

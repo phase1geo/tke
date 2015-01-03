@@ -21,7 +21,6 @@ device=$(hdiutil attach -readwrite -noverify -noautoopen "pack.temp.dmg" | \
          egrep '^/dev/' | sed 1q | awk '{print $1}')
 
 # Store the background image in the .background directory
-chmod -Rf go-w /Volumes/"${title}"
 mkdir /Volumes/"${title}"/.background
 cp ${tke_dir}/MacOSX/images/${backgroundImage} /Volumes/"${title}"/.background
 
