@@ -1447,7 +1447,12 @@ proc ctext::add_font_opt {win class modifiers popts} {
         "italics"    { set font_opts(-slant)      "italic" }
         "underline"  { set font_opts(-underline)  1 }
         "overstrike" { set font_opts(-overstrike) 1 }
-        "large"      { set font_opts(-size)       [expr $font_opts(-size) + 2] }
+        "h6"         { set font_opts(-size)       [expr $font_opts(-size) + 1] }
+        "h5"         { set font_opts(-size)       [expr $font_opts(-size) + 2] }
+        "h4"         { set font_opts(-size)       [expr $font_opts(-size) + 3] }
+        "h3"         { set font_opts(-size)       [expr $font_opts(-size) + 4] }
+        "h2"         { set font_opts(-size)       [expr $font_opts(-size) + 5] }
+        "h1"         { set font_opts(-size)       [expr $font_opts(-size) + 6] }
       }
     }
 

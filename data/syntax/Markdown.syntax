@@ -35,7 +35,13 @@ precompile {}
 advanced {
   HighlightClass bold    none {bold}
   HighlightClass italics none {italics}
-  HighlightClass large   none {large}
+  HighlightClass h1      none {h1}
+  HighlightClass h2      none {h2}
+  HighlightClass h3      none {h3}
+  HighlightClass h4      none {h4}
+  HighlightClass h5      none {h5}
+  HighlightClass h6      none {h6}
   
-  HighlightRegexp {^#{1,6}.*$} {}
+  HighlightRegexp {^#.*$}               syntax::get_markdown_header
+  HighlightRegexp {(\*[^*]+\*|_[^_]+_)} syntax::get_markdown_emphasis
 }
