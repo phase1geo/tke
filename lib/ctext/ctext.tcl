@@ -1700,16 +1700,16 @@ proc ctext::doHighlight {win start end} {
   # Handle word-based matching
   set i 0
   foreach res [$twin search -count lengths -regexp {*}$configAr(re_opts) -all -- $REs(words) $start $end] {
-    set wordEnd     [$twin index "$res + [lindex $lengths $i] chars"]
-    set word        [$twin get $res $wordEnd]
-    set firstOfWord [string index $word 0]
+    set wordEnd      [$twin index "$res + [lindex $lengths $i] chars"]
+    set word         [$twin get $res $wordEnd]
+    set firstOfWord  [string index $word 0]
     if {[info exists highlightAr(keyword,class,$word)]} {
       $twin tag add $highlightAr(keyword,class,$word) $res $wordEnd
     } elseif {[info exists highlightAr(charstart,class,$firstOfWord)]} {
       $twin tag add $highlightAr(charstart,class,$firstOfWord) $res $wordEnd
     }
     if {[info exists highlightAr(keyword,command,$word)] && \
-        ([set retval [uplevel #0 $highlightAr(keyword,command,$word) $win $res $wordEnd]] ne "")} {
+        ([set retval [uplevel #0 $highlightAr(keyword,command,$word) $win $res $wordEnd restart_from]] ne "")} {
       $twin tag add _[lindex $retval 0] {*}[lrange $retval 1 2]
     } elseif {[info exists highlightAr(charstart,command,$firstOfWord)] && \
               ([set retval [uplevel #0 $highlightAr(charstart,command,$firstOfWord) $win $res $wordEnd]] ne "")} {
@@ -1736,13 +1736,20 @@ proc ctext::doHighlight {win start end} {
         incr i
       }  
     } else {
-      foreach res [$twin search -count lengths -regexp {*}$re_opts -all -- $re $start $end] {
+      set indices [$twin search -count lengths -regexp {*}$re_opts -all -- $re $start $end]
+      while {[llength $indices]} {
+        set indices [lassign $indices res]
         set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
-        if {[set retval [uplevel #0 [list $value $win $res $wordEnd]]] ne ""} {
-          $twin tag add _[lindex $retval 0] {*}[lrange $retval 1 2]
-        }
         incr i
-      }  
+        set restart_from ""
+        foreach {sub_class sub_start sub_end} [uplevel #0 [list $value $win $res $wordEnd restart_from]] {
+          $twin tag add _$sub_class $sub_start $sub_end
+        }
+        if {$restart_from ne ""} {
+          set i       0
+          set indices [$twin search -count lengths -regexp {*}$re_opts -all -- $re $restart_from $end]
+        }
+      }
     }
   }
 
