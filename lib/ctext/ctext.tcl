@@ -1508,6 +1508,8 @@ proc ctext::addHighlightRegexp {win re type value} {
     set value _$value
   }
 
+  lappend ar(regexps) "regexp,$type,$value"
+  
   set ar(regexp,$type,$value) [list $re $configAr(re_opts)]
 
 }
@@ -1677,6 +1679,7 @@ proc ctext::clearHighlightClasses {win} {
 proc ctext::doHighlight {win start end} {
 
   variable REs
+  variable restart_from
 
   if {![winfo exists $win]} {
     return
@@ -1709,7 +1712,7 @@ proc ctext::doHighlight {win start end} {
       $twin tag add $highlightAr(charstart,class,$firstOfWord) $res $wordEnd
     }
     if {[info exists highlightAr(keyword,command,$word)] && \
-        ([set retval [uplevel #0 $highlightAr(keyword,command,$word) $win $res $wordEnd restart_from]] ne "")} {
+        ([set retval [uplevel #0 $highlightAr(keyword,command,$word) $win $res $wordEnd]] ne "")} {
       $twin tag add _[lindex $retval 0] {*}[lrange $retval 1 2]
     } elseif {[info exists highlightAr(charstart,command,$firstOfWord)] && \
               ([set retval [uplevel #0 $highlightAr(charstart,command,$firstOfWord) $win $res $wordEnd]] ne "")} {
@@ -1725,29 +1728,31 @@ proc ctext::doHighlight {win start end} {
   }
 
   # Handle regular expression matching
-  foreach {name re_info} [array get highlightAr *regexp,*,*] {
-    lassign [split $name ,] dummy type value
-    lassign $re_info re re_opts
-    set i 0
-    if {$type eq "class"} {
-      foreach res [$twin search -count lengths -regexp {*}$re_opts -all -- $re $start $end] {
-        set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
-        $twin tag add $value $res $wordEnd
-        incr i
-      }  
-    } else {
-      set indices [$twin search -count lengths -regexp {*}$re_opts -all -- $re $start $end]
-      while {[llength $indices]} {
-        set indices [lassign $indices res]
-        set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
-        incr i
-        set restart_from ""
-        foreach {sub_class sub_start sub_end} [uplevel #0 [list $value $win $res $wordEnd restart_from]] {
-          $twin tag add _$sub_class $sub_start $sub_end
-        }
-        if {$restart_from ne ""} {
-          set i       0
-          set indices [$twin search -count lengths -regexp {*}$re_opts -all -- $re $restart_from $end]
+  if {[info exists highlightAr(regexps)]} {
+    foreach name $highlightAr(regexps) {
+      lassign [split $name ,] dummy type value
+      lassign $highlightAr($name) re re_opts
+      set i 0
+      if {$type eq "class"} {
+        foreach res [$twin search -count lengths -regexp {*}$re_opts -all -- $re $start $end] {
+          set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
+          $twin tag add $value $res $wordEnd
+          incr i
+        }  
+      } else {
+        set indices [$twin search -count lengths -regexp {*}$re_opts -all -- $re $start $end]
+        while {[llength $indices]} {
+          set indices [lassign $indices res]
+          set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
+          incr i
+          set restart_from ""
+          foreach {sub_class sub_start sub_end} [uplevel #0 [list $value $win $res $wordEnd ctext::restart_from]] {
+            $twin tag add _$sub_class $sub_start $sub_end
+          }
+          if {$restart_from ne ""} {
+            set i       0
+            set indices [$twin search -count lengths -regexp {*}$re_opts -all -- $re $restart_from $end]
+          }
         }
       }
     }

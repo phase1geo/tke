@@ -1,6 +1,6 @@
 filepatterns
 {*.md}
-
+ 
 matchcharsallowed
 {}
 
@@ -33,16 +33,22 @@ punctuation {}
 precompile {}
 
 advanced {
-  HighlightClass bold    none {bold}
-  HighlightClass italics none {italics}
-  HighlightClass h1      none {h1}
-  HighlightClass h2      none {h2}
-  HighlightClass h3      none {h3}
-  HighlightClass h4      none {h4}
-  HighlightClass h5      none {h5}
-  HighlightClass h6      none {h6}
+  HighlightClass bold    none           {bold}
+  HighlightClass italics none           {italics}
+  HighlightClass h1      none           {h1}
+  HighlightClass h2      none           {h2}
+  HighlightClass h3      none           {h3}
+  HighlightClass h4      none           {h4}
+  HighlightClass h5      none           {h5}
+  HighlightClass h6      none           {h6}
+  HighlightClass link    miscellaneous1 {underline}
+  HighlightClass code    precompile     {code}
+  HighlightClass ccode   precompile     {code}
  
-  HighlightRegexp {^#.*$}                syntax::get_markdown_header
-  HighlightRegexp {([*_]{2})(?=\S).+?\1} syntax::get_markdown_bold
-  HighlightRegexp {[*_]}                 syntax::get_markdown_italics
+  HighlightRegexp {``.+?``}                  syntax::get_markdown_ccode
+  HighlightRegexp {`.+?`}                    syntax::get_markdown_code
+  HighlightRegexp {^#.*$}                    syntax::get_markdown_header
+  HighlightRegexp {([*_]{2})(?=\S).+?\1}     syntax::get_markdown_bold
+  HighlightRegexp {([*_])(?=\S).+?\1}        syntax::get_markdown_italics
+  HighlightRegexp {\[.+?\](\[.*?\]|\(.*?\))} syntax::get_markdown_link 
 }

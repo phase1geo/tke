@@ -387,8 +387,6 @@ namespace eval syntax {
     
     variable theme
     
-    set i 0
-
     switch $section {
       "advanced" -
       "symbols" {
@@ -410,12 +408,13 @@ namespace eval syntax {
         }
       }
       default {
+        set i 0
         foreach {type syntax modifiers} $section_list {
           if {$syntax ne ""} {
             ctext::addHighlightClass $txt $section$i $theme($section) "" $modifiers
             ctext::add$type $txt $syntax class $section$i
-            incr i
           }
+          incr i
         }
       }
     }
@@ -576,6 +575,41 @@ namespace eval syntax {
   }
   
   ######################################################################
+  # Returns the information for the given Markdown code string.
+  proc get_markdown_ccode {txt startpos endpos prestart_from} {
+    
+    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-3c"] ne "\\")} {
+      $txt tag remove _code $startpos $endpos
+      return [list ccode [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] \
+                   codemarkers $startpos [$txt index "$startpos+2c"] \
+                   codemarkers [$txt index "$endpos-2c"] $endpos]
+    }
+    
+    return ""
+    
+  }
+  
+  ######################################################################
+  # Returns the information for the given Markdown code string.
+  proc get_markdown_code {txt startpos endpos prestart_from} {
+  
+    upvar $prestart_from restart_from
+  
+    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-2c"] ne "\\")} {
+      if {([lsearch [$txt tag names $startpos]    _codemarkers] == -1) && \
+          ([lsearch [$txt tag names "$endpos-1c"] _codemarkers] == -1)} {
+        return [list code [$txt index "$startpos+1c"] [$txt index "$endpos-1c"]]
+      } else {
+        set restart_from [$txt index "$startpos+2c"]
+        return ""
+      }
+    }
+    
+    return ""
+  
+  }
+  
+  ######################################################################
   # Returns the information for the given Markdown header string.
   proc get_markdown_header {txt startpos endpos prestart_from} {
     
@@ -592,9 +626,8 @@ namespace eval syntax {
   # Returns the information for the given Markdown bold string.
   proc get_markdown_bold {txt startpos endpos prestart_from} {
     
-    puts "In get_markdown_bold, word: [$txt get $startpos $endpos]"
-    
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-3c"] ne "\\")} {
+      $txt tag remove _italics $startpos $endpos
       return [list bold        [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] \
                    boldmarkers $startpos [$txt index "$startpos+2c"] \
                    boldmarkers [$txt index "$endpos-2c"] $endpos]
@@ -610,21 +643,10 @@ namespace eval syntax {
     
     upvar $prestart_from restart_from
     
-    puts "In get_markdown_italics, word: [$txt get $startpos $endpos]"
-    
-    set prev_char [expr {($startpos ne "1.0") ? [$txt get "$startpos-1c"] : ""}]
-    
-    if {$prev_char ne "\\"} {
-      if {[lsearch [$txt tag names $startpos] boldmarkers] == -1} {
-        while {1} {
-          set res [$txt search -exact -- [$txt get $startpos] "$startpos+1c"]
-          if {[lsearch [$txt tag names $res] boldmarkers] != -1} {
-            break
-          } elseif {[$txt get "$res-1c"] ne "\\"} {
-            set restart_from [$txt index "$res+1c"]
-            return [list italics [$txt index "$startpos+1c"] [$txt index "$res-1c"]]
-          }
-        }
+    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-2c"] ne "\\")} {
+      if {([lsearch [$txt tag names $startpos]    _boldmarkers] == -1) && \
+          ([lsearch [$txt tag names "$endpos-1c"] _boldmarkers] == -1)} {
+        return [list italics [$txt index "$startpos+1c"] [$txt index "$endpos-1c"]] 
       } else {
         set restart_from [$txt index "$startpos+2c"]
         return ""
@@ -635,4 +657,18 @@ namespace eval syntax {
     
   }
 
-}
+  ######################################################################
+  # Returns the information for the given Markdown link string.
+  proc get_markdown_link {txt startpos endpos prestart_from} {
+  
+    if {[$txt get "$startpos-1c"] ne "\\"} {
+      if {[regexp {^\[(.+?)\](\[.*?\]|\(.*?\))} [$txt get $startpos $endpos] -> label url]} {
+        return [list link [$txt index "$startpos+1c"] [$txt index "$startpos+[expr [string length $label] + 1]c"]]
+      }
+    }
+    
+    return ""
+  
+  }
+  
+} 
