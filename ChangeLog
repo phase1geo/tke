@@ -163,11 +163,59 @@ Added tag devel-1.4.1 for changeset 948df8999646
 
 
 changeset:   735:224bf266295b
-tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
 date:        Fri Jan 02 22:20:54 2015 -0600
 files:       .hgtags
 description:
 Removed tag devel-1.4.1
+
+
+changeset:   736:a0e55d746ced
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jan 02 22:21:32 2015 -0600
+files:       ChangeLog MacOSX/images/background.png dmg.sh lib/version.tcl specl_version.tcl
+description:
+ChangeLog for devel-1.4.1 release
+
+
+changeset:   737:99255ee0bd4c
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jan 02 22:21:40 2015 -0600
+files:       .hgtags
+description:
+Added tag devel-1.4.1 for changeset a0e55d746ced
+
+
+changeset:   738:8309e151f63b
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jan 02 23:32:10 2015 -0600
+files:       data/syntax/Markdown.syntax lib/ctext/ctext.tcl lib/syntax.tcl lib/version.tcl
+description:
+* Checkpointing Markdown work.
+
+
+changeset:   739:90b80c3eadf5
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jan 02 23:32:47 2015 -0600
+files:       .hgtags
+description:
+Removed tag devel-1.4.1
+
+
+changeset:   740:93028cf917c7
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Jan 05 09:11:08 2015 -0600
+files:       data/syntax/Markdown.syntax lib/ctext/ctext.tcl lib/syntax.tcl lib/version.tcl
+description:
+* Checkpointing syntax highlighting work for Markdown.
+
+
+changeset:   741:9c0d67d96964
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jan 06 01:12:06 2015 -0600
+files:       data/syntax/Markdown.syntax lib/ctext/ctext.tcl lib/syntax.tcl lib/version.tcl
+description:
+* Completing initial support for Markdown syntax highlighting.
 
 
