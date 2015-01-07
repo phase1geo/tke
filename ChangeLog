@@ -8,11 +8,37 @@ ChangeLog for devel-1.4.1 release
 
 
 changeset:   743:cd62b0d606ec
-tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
 date:        Tue Jan 06 01:19:36 2015 -0600
 files:       .hgtags
 description:
 Added tag devel-1.4.1 for changeset e878bce81bc1
+
+
+changeset:   744:34a5c92b8cc6
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jan 06 01:25:35 2015 -0600
+files:       ChangeLog lib/version.tcl
+description:
+* Adding missing files.
+
+
+changeset:   745:da1381cddd05
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jan 06 21:12:55 2015 -0600
+files:       data/syntax/Tcl.syntax lib/ctext/ctext.tcl lib/sidebar.tcl lib/version.tcl
+description:
+* Fixing sidebar selection color.
+* Fixing syntax errors in ctext.
+* Enhancing Tcl syntax description.
+
+
+changeset:   746:81fbf655d3c9
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jan 07 00:24:46 2015 -0600
+files:       lib/ctext/ctext.tcl lib/version.tcl
+description:
+* Adding support for line number gutter resizing.
 
 
