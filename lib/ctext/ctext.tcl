@@ -1869,6 +1869,8 @@ proc ctext::linemapUpdate {win args} {
   set linenum_width [expr ($configAr(-linemap_minwidth) > $line_width) ? $configAr(-linemap_minwidth) : $line_width]
   set gutter_width  [expr ([llength $configAr(gutters)] > 0) ? ([llength $configAr(gutters)] + 1) : 0]
   set full_width    [expr $linenum_width + $gutter_width]
+  set lmark_pos     [expr ($gutter_width * 2) + 1]
+  set lsize_pos     [expr ($gutter_width * 2) + 3]
 
   $win.l delete 1.0 end
 
@@ -1878,14 +1880,12 @@ proc ctext::linemapUpdate {win args} {
     } else {
       set line_content [list [format "%-*s" $linenum_width $line] [list] "0" [list] "\n"]
     }
-    set ltags        [$win.t tag names $line.0]
+    set ltags [$win.t tag names $line.0]
     if {[lsearch -glob $ltags lmark*] != -1} {
-      set index        [expr [llength $line_content] - 4]
-      set line_content [lreplace $line_content $index $index lmark]
+      lset line_content $lmark_pos lmark]
     }
     if {[set lsizes [lsearch -inline -glob -all $ltags lsize*]] ne ""} {
-      set index        [expr [llength $line_content] - 2]
-      set line_content [lreplace $line_content $index $index [lindex [lsort $lsizes] 0]]
+      lset line_content $lsize_pos [lindex [lsort $lsizes] 0]
     }
     foreach gutter_tag [lsearch -inline -all -glob [$win._t tag names $line.0] gutter:*] {
       lassign [split $gutter_tag :] dummy gutter_name gutter_symname gutter_sym
