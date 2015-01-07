@@ -73,8 +73,9 @@ miscellaneous2
     -expand -type -message -title -offset -in -after -yscroll -xscroll -forward
     -regexp -count -exact -padx -ipadx -filetypes -all -from -to -label -value
     -variable -regexp -backwards -forwards -bd -pady -ipady -state -row -column
-    -cursor -highlightcolors -linemap -menu -tearoff -displayof -cursor -underline
-    -tags -tag -weight -sticky -rowspan -columnspan
+    -highlightthickness -linemap -menu -tearoff -displayof -cursor -underline
+    -tags -tag -weight -sticky -rowspan -columnspan -setgrid -borderwidth -exportselection
+    -selectforeground -selectborderwidth -selectbackground
   } {}
 }
 
