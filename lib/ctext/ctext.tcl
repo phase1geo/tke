@@ -1576,8 +1576,12 @@ proc ctext::deleteHighlightClass {win classToDelete} {
   if {![info exists classesAr(_$classToDelete)]} {
     return -code error "$classToDelete doesn't exist"
   }
+  
+  if {[set index [lsearch $ar(regexps) regexp,class,_$classToDelete]] != -1} {
+    set ar(regexps) [lreplace $ar(regexps) $index $index]
+  }
 
-  array unset ar *,class,*
+  array unset ar *,class,_$classToDelete
   unset classesAr(_$classToDelete)
                 
   $win tag delete _$classToDelete 1.0 end
