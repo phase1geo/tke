@@ -66,6 +66,7 @@ proc ctext {win args} {
   set ar(line_comment_patterns)  [list]
   set ar(comment_re)             ""
   set ar(gutters)                [list]
+  set ar(sizetags)               {h1 lsize1 h2 lsize2 h3 lsize3 h4 lsize4 h5 lsize5 h6 lsize6}
 
   set ar(ctextFlags) [list -xscrollcommand -yscrollcommand -linemap -linemapfg -linemapbg \
   -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable \
@@ -95,7 +96,7 @@ proc ctext {win args} {
 
   text $win.l -font $ar(-font) -width $ar(-linemap_minwidth) -height 1 \
     -relief $ar(-relief) -bd 0 -fg $ar(-linemapfg) -cursor $ar(-linemap_cursor) \
-    -bg $ar(-linemapbg) -takefocus 0 -highlightthickness 0
+    -bg $ar(-linemapbg) -takefocus 0 -highlightthickness 0 -wrap none
   frame $win.f -width 1 -bd 0 -relief flat -bg $ar(-warnwidth_bg)
 
   set topWin [winfo toplevel $win]
@@ -1441,22 +1442,33 @@ proc ctext::add_font_opt {win class modifiers popts} {
     
     array set font_opts [font configure [$win cget -font]]
 
+    ctext::getAr $win highlight ar
+
+    set lsize 0
+
     foreach modifier $modifiers {
       switch $modifier {
         "bold"       { set font_opts(-weight)     "bold" }
         "italics"    { set font_opts(-slant)      "italic" }
         "underline"  { set font_opts(-underline)  1 }
         "overstrike" { set font_opts(-overstrike) 1 }
-        "h6"         { set font_opts(-size)       [expr $font_opts(-size) + 1] }
-        "h5"         { set font_opts(-size)       [expr $font_opts(-size) + 2] }
-        "h4"         { set font_opts(-size)       [expr $font_opts(-size) + 3] }
-        "h3"         { set font_opts(-size)       [expr $font_opts(-size) + 4] }
-        "h2"         { set font_opts(-size)       [expr $font_opts(-size) + 5] }
-        "h1"         { set font_opts(-size)       [expr $font_opts(-size) + 6] }
+        "h6"         { set font_opts(-size) [expr $font_opts(-size) + 1]; set lsize 6 }
+        "h5"         { set font_opts(-size) [expr $font_opts(-size) + 2]; set lsize 5 }
+        "h4"         { set font_opts(-size) [expr $font_opts(-size) + 3]; set lsize 4 }
+        "h3"         { set font_opts(-size) [expr $font_opts(-size) + 4]; set lsize 3 }
+        "h2"         { set font_opts(-size) [expr $font_opts(-size) + 5]; set lsize 2 }
+        "h1"         { set font_opts(-size) [expr $font_opts(-size) + 6]; set lsize 1 }
       }
     }
 
-    lappend opts -font [font create font$win$class {*}[array get font_opts]]
+    set font [font create font$win$class {*}[array get font_opts]]
+
+    if {$lsize != 0} {
+      set ar(lsize,$class) "lsize$lsize"
+      $win.l tag configure $ar(lsize,$class) -font $font
+    }
+
+    lappend opts -font $font
     
   }
   
@@ -1680,6 +1692,21 @@ proc ctext::clearHighlightClasses {win} {
  
 }
 
+proc ctext::handle_lsize {win class startpos endpos} {
+
+  ctext::getAr $win highlight ar
+
+  if {[info exists ar(lsize,$class)]} {
+    set startline [lindex [split $startpos .] 0]
+    set endline   [lindex [split $startpos .] 0]
+    for {set line $startline} {$line <= $endline} {incr line} {
+      $win tag add $ar(lsize,$class) $line.0
+    }
+    linemapUpdate $win
+  }
+
+}
+
 proc ctext::doHighlight {win start end} {
 
   variable REs
@@ -1718,15 +1745,18 @@ proc ctext::doHighlight {win start end} {
     if {[info exists highlightAr(keyword,command,$word)] && \
         ([set retval [uplevel #0 $highlightAr(keyword,command,$word) $win $res $wordEnd]] ne "")} {
       $twin tag add _[lindex $retval 0] {*}[lrange $retval 1 2]
+      handle_lsize $win {*}[lrange $retval 0 2]
     } elseif {[info exists highlightAr(charstart,command,$firstOfWord)] && \
               ([set retval [uplevel #0 $highlightAr(charstart,command,$firstOfWord) $win $res $wordEnd]] ne "")} {
       $twin tag add _[lindex $retval 0] {*}[lrange $retval 1 2]
+      handle_lsize $win {*}[lrange $retval 0 2]
     }
     if {[info exists highlightAr(searchword,class,$word)]} {
       $twin tag add $highlightAr(searchword,class,$word) $res $wordEnd
     } elseif {[info exists highlightAr(searchword,command,$word)] && \
               ([set retval [uplevel #0 $highlightAr(searchword,command,$word) $win $res $wordEnd]] ne "")} {
       $twin tag add _[lindex $retval 0] {*}[lrange $retval 1 2]
+      handle_lsize $win {*}[lrange $retval 0 2]
     }
     incr i
   }
@@ -1752,6 +1782,7 @@ proc ctext::doHighlight {win start end} {
           set restart_from ""
           foreach {sub_class sub_start sub_end} [uplevel #0 [list $value $win $res $wordEnd ctext::restart_from]] {
             $twin tag add _$sub_class $sub_start $sub_end
+            handle_lsize $win $sub_class $sub_start $sub_end
           }
           if {$restart_from ne ""} {
             set i       0
@@ -1832,51 +1863,47 @@ proc ctext::linemapUpdate {win args} {
 
   ctext::getAr $win config configAr
 
-  set pixel 0
-  set lastLine {}
-  set lineList [list]
-  set fontMetrics [font metrics [$win._t cget -font]]
-  set incrBy [expr {1 + ([lindex $fontMetrics 5] / 2)}]
-
-  while {$pixel < [winfo height $win.l]} {
-    set idx [$win._t index @0,$pixel]
-    if {$idx != $lastLine} {
-      set line [lindex [split $idx .] 0]
-      set lastLine $idx
-      lappend lineList $line
-    }
-    incr pixel $incrBy
-  }
+  set first_line    [lindex [split [$win.t index @0,0] .] 0]
+  set last_line     [lindex [split [$win.t index @0,[winfo height $win.t]] .] 0]
+  set line_width    [string length [lindex [split [$win._t index end-1c] .] 0]]
+  set linenum_width [expr ($configAr(-linemap_minwidth) > $line_width) ? $configAr(-linemap_minwidth) : $line_width]
+  set gutter_width  [expr ([llength $configAr(gutters)] > 0) ? ([llength $configAr(gutters)] + 1) : 0]
+  set full_width    [expr $linenum_width + $gutter_width]
 
   $win.l delete 1.0 end
-  set lastLine {}
-  set gutter_width  [expr ([llength $configAr(gutters)] > 0) ? ([llength $configAr(gutters)] + 1) : 0]
-  set gutter_string [string repeat " " $gutter_width]
-  foreach line $lineList {
-    if {$line == $lastLine} {
-      $win.l insert end "$gutter_string\n"
+
+  for {set line $first_line} {$line <= $last_line} {incr line} {
+    if {$gutter_width > 0} {
+      set line_content [concat [lrepeat $gutter_width " " [list]] [format "%-*s" $linenum_width $line] [list] "0" [list] "\n"]
     } else {
-      if {[lsearch -glob [$win.t tag names $line.0] lmark*] != -1} {
-        $win.l insert end "$gutter_string$line\n" lmark
-      } else {
-        $win.l insert end "$gutter_string$line\n"
-      }
+      set line_content [list [format "%-*s" $linenum_width $line] [list] "0" [list] "\n"]
+    }
+    set ltags        [$win.t tag names $line.0]
+    if {[lsearch -glob $ltags lmark*] != -1} {
+      set index        [expr [llength $line_content] - 4]
+      set line_content [lreplace $line_content $index $index lmark]
+    }
+    if {[set lsizes [lsearch -inline -glob -all $ltags lsize*]] ne ""} {
+      set index        [expr [llength $line_content] - 2]
+      set line_content [lreplace $line_content $index $index [lindex [lsort $lsizes] 0]]
     }
     foreach gutter_tag [lsearch -inline -all -glob [$win._t tag names $line.0] gutter:*] {
       lassign [split $gutter_tag :] dummy gutter_name gutter_symname gutter_sym
-      set gutter_index [lsearch -index 0 $configAr(gutters) $gutter_name]
-      if {$gutter_sym eq ""} {
-        set gutter_sym " "
+      if {$gutter_sym ne ""} {
+        set gutter_index [expr [lsearch -index 0 $configAr(gutters) $gutter_name] * 2]
+        set line_content [lreplace $line_content $gutter_index [expr $gutter_index + 1] $gutter_sym $gutter_tag]
       }
-      $win.l replace $line.$gutter_index $line.[expr $gutter_index + 1] $gutter_sym $gutter_tag
     }
-    set lastLine $line
+    $win.l insert end {*}$line_content
   }
-  if {[llength $lineList] > 0} {
-    linemapUpdateOffset $win $lineList
+
+  linemapUpdateOffset $win $first_line $last_line
+
+  # Resize the linemap window, if necessary
+  if {[$win.l cget -width] != $full_width} {
+    $win.l configure -width $full_width
   }
-  set lwidth [string length [lindex [split [$win._t index end-1c] .] 0]]
-  $win.l configure -width [expr (($configAr(-linemap_minwidth) > $lwidth) ? $configAr(-linemap_minwidth) : $lwidth) + $gutter_width]
+
 }
 
 # Starting with Tk 8.5 the text widget allows smooth scrolling; this
@@ -1886,14 +1913,14 @@ proc ctext::linemapUpdate {win args} {
 if {![catch {
   package require Tk 8.5
 }]} {
-  proc ctext::linemapUpdateOffset {win lineList} {
+  proc ctext::linemapUpdateOffset {win first_line last_line} {
     # reset view for line numbering widget
     $win.l yview 0.0
 
     # find the first line that is visible and calculate the
     # corresponding line in the line numbers widget
     set lline 1
-    foreach line $lineList {
+    for {set line $first_line} {$line <= $last_line} {incr line} {
       set tystart [lindex [$win.t bbox $line.0] 1]
       if {$tystart != ""} {
         break
