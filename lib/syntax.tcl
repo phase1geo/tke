@@ -9,7 +9,7 @@ namespace eval syntax {
 
   source [file join $::tke_dir lib ns.tcl]
     
-  variable filetypes
+  variable filetypes {}
 
   array set lang_template {
     filepatterns      {}
@@ -64,6 +64,7 @@ namespace eval syntax {
     
     variable langs
     variable lang_template
+    variable filetypes
     
     # Load the tke_dir syntax files
     set sfiles [glob -nocomplain -directory [file join $::tke_dir data syntax] *.syntax]
@@ -73,50 +74,75 @@ namespace eval syntax {
     
     # Get the syntax information from all of the files in the user's syntax directory.
     foreach sfile $sfiles {
-      set name [file rootname [file tail $sfile]]
-      array set lang_array [array get lang_template]
-      if {![catch { open $sfile r } rc]} {
-        array set lang_array [read $rc]
-        close $rc
-        set langs($name) [array get lang_array]
-        [ns launcher]::register [msgcat::mc "Syntax:  %s" $name] "syntax::set_language $name"
-      }
+      add_syntax $sfile
     }
-    
-    # Calculate the filetypes array
-    create_filetypes
     
   }
   
   ######################################################################
-  # Generates the filetypes list.
-  proc create_filetypes {} {
+  # Adds the given syntax file to the total list.
+  proc add_syntax {sfile} {
     
     variable langs
+    variable lang_template
     variable filetypes
     
-    # Calculate the filetypes array
-    set filetypes [list]
-    foreach {name syntax_list} [array get langs] {
-      array set lang_array $syntax_list
+    # Get the name of the syntax
+    set name [file rootname [file tail $sfile]]
+    
+    # Initialize the language array
+    array set lang_array [array get lang_template]
+    
+    # Read the file
+    if {![catch { open $sfile r } rc]} {
+        
+      # Read in the file information
+      array set lang_array [read $rc]
+      close $rc
+        
+      # Format the extension information
       set extensions [list]
       foreach pattern $lang_array(filepatterns) {
         if {[regexp {^\.\w+$} [set extension [file extension $pattern]]]} {
           lappend extensions $extension
         }
       }
-      lappend syntax_list extensions $extensions
-      set langs($name) $syntax_list
+      set lang_array(extensions) $extensions
       if {[llength $extensions] > 0} {
         lappend filetypes [list "$name Files" $extensions TEXT]
       }
+      
+      # Sort the filetypes by name
+      set filetypes [lsort -index 0 $filetypes]
+        
+      # Add the language and the command launcher
+      set langs($name) [array get lang_array]
+      [ns launcher]::register [msgcat::mc "Syntax:  %s" $name] "syntax::set_language $name"
+      
     }
     
-    # Sort the filetypes by name
-    set filetypes [lsort -index 0 $filetypes]
+  }
+  
+  ######################################################################
+  # Deletes the given syntax file from the total list.
+  proc delete_syntax {sfile} {
     
-    # Add an "All Files" to the beginning of the filetypes list
-    set filetypes [list [list "All Files" "*"] {*}$filetypes]
+    variable langs
+    variable filetypes
+    
+    # Get the name of the syntax
+    set name [file rootname [file tail $sfile]]
+    
+    # Delete the syntax
+    if {[set index [lsearch -index 0 $filetypes $name]] != -1} {
+      set filetypes [lreplace $filetypes $index $index]
+    }
+    
+    # Delete the langs
+    unset langs($name)
+    
+    # Unregister the language with the launcher
+    [ns launcher]::unregister [msgcat::mc "Syntax:  %s" $name]
     
   }
   
@@ -510,6 +536,9 @@ namespace eval syntax {
   proc get_filetypes {} {
     
     variable filetypes
+    
+    # Add an "All Files" to the beginning of the filetypes list
+    set filetypes [list [list "All Files" "*"] {*}$filetypes]
     
     return $filetypes
     

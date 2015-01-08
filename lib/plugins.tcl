@@ -18,6 +18,7 @@
 #  on_reload    - Takes action when the plugin is reloaded
 #  on_save      - Runs prior to a file being saved
 #  on_uninstall - Runs when the plugin is uninstalled by the user.  Allows UI cleanup, etc.
+#  syntax       - Adds the given syntax file to the list of available syntaxes
 
 namespace eval plugins {
 
@@ -112,6 +113,9 @@ namespace eval plugins {
 
     # Delete all plugin text bindings
     delete_all_text_bindings
+    
+    # Delete all plugin syntax registrations
+    delete_all_syntax
 
     catch { array unset prev_sourced }
     for {set i 0} {$i < $registry_size} {incr i} {
@@ -137,6 +141,9 @@ namespace eval plugins {
 
     # Add all of the text bindings
     add_all_text_bindings
+    
+    # Add all of the syntaxes
+    add_all_syntax
 
     # Tell the user that the plugins have been successfully reloaded
     gui::set_info_message [msgcat::mc "Plugins successfully reloaded"]
@@ -330,6 +337,9 @@ namespace eval plugins {
 
     # Delete all plugin text bindings
     delete_all_text_bindings
+    
+    # Delete all syntax
+    delete_all_syntax
 
     # Source the file if it hasn't been previously sourced
     if {$registry($index,interp) eq ""} {
@@ -370,6 +380,9 @@ namespace eval plugins {
 
     # Add all of the text bindings
     add_all_text_bindings
+    
+    # Add all syntaxes
+    add_all_syntax
 
   }
 
@@ -423,6 +436,9 @@ namespace eval plugins {
 
     # Delete all text bindings
     delete_all_text_bindings
+    
+    # Delete all syntax
+    delete_all_syntax
 
     # Destroy the interpreter
     interpreter::destroy $registry($index,name)
@@ -436,6 +452,9 @@ namespace eval plugins {
 
     # Add all of the text bindings
     add_all_text_bindings
+    
+    # Add all of the syntaxes
+    add_all_syntax
 
     # Display the uninstall message
     gui::set_info_message [msgcat::mc "Plugin %s uninstalled" $registry($index,name)]
@@ -761,6 +780,17 @@ namespace eval plugins {
   }
 
   ######################################################################
+  # Adds all of the syntax files.
+  proc add_all_syntax {} {
+    
+    foreach entry [find_registry_entries "syntax"] {
+      lassign $entry index type sfile
+      syntax::add_syntax $sfile
+    }
+    
+  }
+  
+  ######################################################################
   # Deletes all plugins from their respective menus.
   proc delete_all_menus {} {
 
@@ -794,6 +824,17 @@ namespace eval plugins {
 
   }
 
+  ######################################################################
+  # Removes the given syntax files.
+  proc delete_all_syntax {} {
+    
+    foreach entry [find_registry_entries "syntax"] {
+      lassign $entry index type sfile
+      syntax::delete_syntax $sfile
+    }
+    
+  }
+  
   ######################################################################
   # Called when the plugin menu is created.
   proc handle_plugin_menu {mnu} {
