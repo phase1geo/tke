@@ -66,7 +66,11 @@ proc ctext {win args} {
   set ar(line_comment_patterns)  [list]
   set ar(comment_re)             ""
   set ar(gutters)                [list]
-  set ar(sizetags)               {h1 lsize1 h2 lsize2 h3 lsize3 h4 lsize4 h5 lsize5 h6 lsize6}
+  set ar(matchChar,curly)        1
+  set ar(matchChar,square)       1
+  set ar(matchChar,paren)        1
+  set ar(matchChar,angled)       1
+  set ar(matchChar,double)       1
 
   set ar(ctextFlags) [list -xscrollcommand -yscrollcommand -linemap -linemapfg -linemapbg \
   -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable \
@@ -729,19 +733,29 @@ proc ctext::instanceCmd {self cmd args} {
 
       switch -- $data {
         "\}" {
-          ctext::matchPair $self "\\\{" "\\\}"
+          if {$configAr(matchChar,curly)} {
+            ctext::matchPair $self "\\\{" "\\\}"
+          }
         }
         "\]" {
-          ctext::matchPair $self "\\\[" "\\\]"
+          if {$configAr(matchChar,square)} {
+            ctext::matchPair $self "\\\[" "\\\]"
+          }
         }
         "\)" {
-          ctext::matchPair $self "\\(" "\\)"
+          if {$configAr(matchChar,paren)} {
+            ctext::matchPair $self "\\(" "\\)"
+          }
         }
         "\>" {
-          ctext::matchPair $self "\\<" "\\>"
+          if {$configAr(matchChar,angled)} {
+            ctext::matchPair $self "\\<" "\\>"
+          }
         }
         "\"" {
-          ctext::matchQuote $self
+          if {$configAr(matchChar,double)} {
+            ctext::matchQuote $self
+          }
         }
       }
       ctext::modified $self 1
@@ -1013,6 +1027,22 @@ proc ctext::instanceCmd {self cmd args} {
 
   }
 
+}
+
+proc ctext::setAutoMatchChars {win matchChars} {
+  
+  ctext::getAr $win config configAr
+  
+  # Clear the matchChars
+  foreach name [array names configAr matchChar,*] {
+    set configAr($name) 0
+  }
+  
+  # Set the matchChars
+  foreach matchChar $matchChars {
+    set configAr(matchChar,$matchChar) 1
+  }
+  
 }
 
 proc ctext::tag:blink {win count {afterTriggered 0}} {
@@ -1445,6 +1475,7 @@ proc ctext::add_font_opt {win class modifiers popts} {
     ctext::getAr $win highlight ar
 
     set lsize 0
+    set click 0
 
     foreach modifier $modifiers {
       switch $modifier {
@@ -1458,17 +1489,22 @@ proc ctext::add_font_opt {win class modifiers popts} {
         "h3"         { set font_opts(-size) [expr $font_opts(-size) + 4]; set lsize 3 }
         "h2"         { set font_opts(-size) [expr $font_opts(-size) + 5]; set lsize 2 }
         "h1"         { set font_opts(-size) [expr $font_opts(-size) + 6]; set lsize 1 }
+        "click"      { set click 1 }
       }
     }
 
     set font [font create font$win$class {*}[array get font_opts]]
 
-    if {$lsize != 0} {
+    if {$lsize} {
       set ar(lsize,$class) "lsize$lsize"
       $win.l tag configure $ar(lsize,$class) -font $font
     }
 
     lappend opts -font $font
+    
+    if {$click} {
+      set ar(click,$class) $opts
+    }
     
   }
   
@@ -1692,10 +1728,21 @@ proc ctext::clearHighlightClasses {win} {
  
 }
 
-proc ctext::handle_lsize {win class startpos endpos} {
+proc ctext::handle_tag {win class startpos endpos cmd} {
 
   ctext::getAr $win highlight ar
-
+  
+  # Add the tag and possible binding
+  if {[info exists ar(click,$class)]} {
+    set tag _$class[incr ar(click_index)]
+    $win tag add       $tag $startpos $endpos
+    $win tag configure $tag {*}$ar(click,$class)
+    $win tag bind      $tag <Button-3> $cmd
+  } else {
+    $win tag add _$class $startpos $endpos
+  }
+  
+  # Add the lsize
   if {[info exists ar(lsize,$class)]} {
     set startline [lindex [split $startpos .] 0]
     set endline   [lindex [split $startpos .] 0]
@@ -1744,19 +1791,16 @@ proc ctext::doHighlight {win start end} {
     }
     if {[info exists highlightAr(keyword,command,$word)] && \
         ([set retval [uplevel #0 $highlightAr(keyword,command,$word) $win $res $wordEnd]] ne "")} {
-      $twin tag add _[lindex $retval 0] {*}[lrange $retval 1 2]
-      handle_lsize $win {*}[lrange $retval 0 2]
+      handle_tag $win {*}[lrange $retval 0 3]
     } elseif {[info exists highlightAr(charstart,command,$firstOfWord)] && \
               ([set retval [uplevel #0 $highlightAr(charstart,command,$firstOfWord) $win $res $wordEnd]] ne "")} {
-      $twin tag add _[lindex $retval 0] {*}[lrange $retval 1 2]
-      handle_lsize $win {*}[lrange $retval 0 2]
+      handle_tag $win {*}[lrange $retval 0 3]
     }
     if {[info exists highlightAr(searchword,class,$word)]} {
       $twin tag add $highlightAr(searchword,class,$word) $res $wordEnd
     } elseif {[info exists highlightAr(searchword,command,$word)] && \
               ([set retval [uplevel #0 $highlightAr(searchword,command,$word) $win $res $wordEnd]] ne "")} {
-      $twin tag add _[lindex $retval 0] {*}[lrange $retval 1 2]
-      handle_lsize $win {*}[lrange $retval 0 2]
+      handle_tag $win {*}[lrange $retval 0 3]
     }
     incr i
   }
@@ -1780,9 +1824,8 @@ proc ctext::doHighlight {win start end} {
           set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
           incr i
           set restart_from ""
-          foreach {sub_class sub_start sub_end} [uplevel #0 [list $value $win $res $wordEnd ctext::restart_from]] {
-            $twin tag add _$sub_class $sub_start $sub_end
-            handle_lsize $win $sub_class $sub_start $sub_end
+          foreach {sub_class sub_start sub_end sub_cmd} [uplevel #0 [list $value $win $res $wordEnd ctext::restart_from]] {
+            handle_tag $win $sub_class $sub_start $sub_end $sub_cmd
           }
           if {$restart_from ne ""} {
             set i       0

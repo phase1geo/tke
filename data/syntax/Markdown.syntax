@@ -41,7 +41,7 @@ advanced {
   HighlightClass h4      none           {h4}
   HighlightClass h5      none           {h5}
   HighlightClass h6      none           {h6}
-  HighlightClass link    miscellaneous1 {underline}
+  HighlightClass link    miscellaneous1 {underline click}
   HighlightClass code    precompile     {code}
   HighlightClass ccode   precompile     {code}
  
