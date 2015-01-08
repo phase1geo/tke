@@ -783,9 +783,11 @@ namespace eval plugins {
   # Adds all of the syntax files.
   proc add_all_syntax {} {
     
+    variable registry
+    
     foreach entry [find_registry_entries "syntax"] {
       lassign $entry index type sfile
-      syntax::add_syntax $sfile
+      syntax::add_syntax $sfile $registry($index,interp)
     }
     
   }

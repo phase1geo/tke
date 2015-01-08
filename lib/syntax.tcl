@@ -81,7 +81,7 @@ namespace eval syntax {
   
   ######################################################################
   # Adds the given syntax file to the total list.
-  proc add_syntax {sfile} {
+  proc add_syntax {sfile {interp ""}} {
     
     variable langs
     variable lang_template
@@ -114,6 +114,9 @@ namespace eval syntax {
       
       # Sort the filetypes by name
       set filetypes [lsort -index 0 $filetypes]
+      
+      # Add the interpreter
+      set lang_array(interp) $interp
         
       # Add the language and the command launcher
       set langs($name) [array get lang_array]
@@ -346,6 +349,13 @@ namespace eval syntax {
           
         array set lang_array $langs($language)
           
+        # Get the command prefix
+        if {$lang_array(interp) ne ""} {
+          set cmd_prefix "$lang_array(interp) eval"
+        } else {
+          set cmd_prefix ""
+        }
+          
         # Set the case sensitivity
         $txt configure -casesensitive $lang_array(casesensitive)
         
@@ -354,14 +364,14 @@ namespace eval syntax {
         ctext::addHighlightKeywords $txt $lang_array(keywords) class keywords
         
         # Add the rest of the sections
-        set_language_section $txt symbols        $lang_array(symbols)
+        set_language_section $txt symbols        $lang_array(symbols) $cmd_prefix
         set_language_section $txt punctuation    $lang_array(punctuation)
         set_language_section $txt numbers        $lang_array(numbers)
         set_language_section $txt precompile     $lang_array(precompile)
         set_language_section $txt miscellaneous1 $lang_array(miscellaneous1)
         set_language_section $txt miscellaneous2 $lang_array(miscellaneous2)
         set_language_section $txt miscellaneous3 $lang_array(miscellaneous3)
-        set_language_section $txt advanced       $lang_array(advanced)
+        set_language_section $txt advanced       $lang_array(advanced) $cmd_prefix
         
         # Add the comments and strings
         ctext::setBlockCommentPatterns $txt $lang_array(bcomments) $theme(comments)
@@ -410,7 +420,7 @@ namespace eval syntax {
   
   ######################################################################
   # Adds syntax highlighting for a given type
-  proc set_language_section {txt section section_list} {
+  proc set_language_section {txt section section_list {cmd_prefix ""}} {
     
     variable theme
     
@@ -427,7 +437,7 @@ namespace eval syntax {
           } else {
             set section_list [lassign $section_list syntax command]
             if {$command ne ""} {
-              ctext::add$type $txt $syntax command $command
+              ctext::add$type $txt $syntax command [string trim "$cmd_prefix $command"]
             } else {
               ctext::add$type $txt $syntax class [expr {($section eq "symbols") ? "symbols" : "none"}]
             }
