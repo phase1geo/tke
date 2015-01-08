@@ -357,6 +357,7 @@ namespace eval syntax {
         [ns indent]::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent)
         
         # Set the completer options for the given language
+        ctext::setAutoMatchChars $txt $lang_array(matchcharsallowed)
         [ns completer]::set_auto_match_chars $txt.t $lang_array(matchcharsallowed)
 
       } rc]} {
@@ -553,7 +554,7 @@ namespace eval syntax {
   proc get_syntax_symbol {txt startpos endpos} {
 
     if {[lindex [split $startpos .] 1] == 0} {
-      return [list symbols: $startpos $endpos]
+      return [list symbols: $startpos $endpos [list]]
     }
 
     return ""
@@ -567,7 +568,7 @@ namespace eval syntax {
 
     set type [$txt get $startpos $endpos]
     if {[set startpos [$txt search -count lengths -regexp -- {\w+} $endpos]] ne ""} {
-      return [list symbols:$type $startpos [$txt index "$startpos+[lindex $lengths 0]c"]]
+      return [list symbols:$type $startpos [$txt index "$startpos+[lindex $lengths 0]c"] [list]]
     }
 
     return ""
@@ -580,9 +581,9 @@ namespace eval syntax {
     
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-3c"] ne "\\")} {
       $txt tag remove _code $startpos $endpos
-      return [list ccode [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] \
-                   codemarkers $startpos [$txt index "$startpos+2c"] \
-                   codemarkers [$txt index "$endpos-2c"] $endpos]
+      return [list ccode [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] [list] \
+                   codemarkers $startpos [$txt index "$startpos+2c"] [list] \
+                   codemarkers [$txt index "$endpos-2c"] $endpos [list]]
     }
     
     return ""
@@ -598,7 +599,7 @@ namespace eval syntax {
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-2c"] ne "\\")} {
       if {([lsearch [$txt tag names $startpos]    _codemarkers] == -1) && \
           ([lsearch [$txt tag names "$endpos-1c"] _codemarkers] == -1)} {
-        return [list code [$txt index "$startpos+1c"] [$txt index "$endpos-1c"]]
+        return [list code [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]]
       } else {
         set restart_from [$txt index "$startpos+2c"]
         return ""
@@ -615,7 +616,7 @@ namespace eval syntax {
     
     if {[regexp {(#{1,6})[^#]+} [$txt get $startpos $endpos] all hashes]} {
       set num [string length $hashes]
-      return [list h$num [$txt index "$startpos+${num}c"] [$txt index "$startpos+[string length $all]c"]]
+      return [list h$num [$txt index "$startpos+${num}c"] [$txt index "$startpos+[string length $all]c"] [list]]
     }
     
     return ""
@@ -628,9 +629,9 @@ namespace eval syntax {
     
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-3c"] ne "\\")} {
       $txt tag remove _italics $startpos $endpos
-      return [list bold        [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] \
-                   boldmarkers $startpos [$txt index "$startpos+2c"] \
-                   boldmarkers [$txt index "$endpos-2c"] $endpos]
+      return [list bold        [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] [list] \
+                   boldmarkers $startpos [$txt index "$startpos+2c"] [list] \
+                   boldmarkers [$txt index "$endpos-2c"] $endpos [list]]
     }
     
     return ""
@@ -646,7 +647,7 @@ namespace eval syntax {
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-2c"] ne "\\")} {
       if {([lsearch [$txt tag names $startpos]    _boldmarkers] == -1) && \
           ([lsearch [$txt tag names "$endpos-1c"] _boldmarkers] == -1)} {
-        return [list italics [$txt index "$startpos+1c"] [$txt index "$endpos-1c"]] 
+        return [list italics [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]] 
       } else {
         set restart_from [$txt index "$startpos+2c"]
         return ""
@@ -662,8 +663,9 @@ namespace eval syntax {
   proc get_markdown_link {txt startpos endpos prestart_from} {
   
     if {[$txt get "$startpos-1c"] ne "\\"} {
-      if {[regexp {^\[(.+?)\](\[.*?\]|\(.*?\))} [$txt get $startpos $endpos] -> label url]} {
-        return [list link [$txt index "$startpos+1c"] [$txt index "$startpos+[expr [string length $label] + 1]c"]]
+      if {[regexp {^\[(.+?)\](\[.*?\]|\((.*?)\))} [$txt get $startpos $endpos] -> label dummy url]} {
+        set cmd "utils::open_file_externally [lindex $url 0]"
+        return [list link [$txt index "$startpos+1c"] [$txt index "$startpos+[expr [string length $label] + 1]c"] $cmd]
       }
     }
     
