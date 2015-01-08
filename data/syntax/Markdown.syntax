@@ -45,10 +45,11 @@ advanced {
   HighlightClass code    precompile     {code}
   HighlightClass ccode   precompile     {code}
  
-  HighlightRegexp {``.+?``}                  syntax::get_markdown_ccode
-  HighlightRegexp {`.+?`}                    syntax::get_markdown_code
-  HighlightRegexp {^#.*$}                    syntax::get_markdown_header
-  HighlightRegexp {([*_]{2})(?=\S).+?\1}     syntax::get_markdown_bold
-  HighlightRegexp {([*_])(?=\S).+?\1}        syntax::get_markdown_italics
-  HighlightRegexp {\[.+?\](\[.*?\]|\(.*?\))} syntax::get_markdown_link 
+  HighlightRegexp {``.+?``}                     syntax::get_markdown_ccode
+  HighlightRegexp {`.+?`}                       syntax::get_markdown_code
+  HighlightRegexp {^#.*$}                       syntax::get_markdown_header
+  HighlightRegexp {([*_]{2})(?=\S).+?\1}        syntax::get_markdown_bold
+  HighlightRegexp {([*_])(?=\S).+?\1}           syntax::get_markdown_italics
+  HighlightRegexp {\[.+?\](\s*\[.*?\]|\(.*?\))} syntax::get_markdown_link 
+  HighlightRegexp {^\s*\[.+?\]:\s+\S+}          syntax::get_markdown_linkref
 }
