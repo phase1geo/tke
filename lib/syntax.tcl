@@ -661,16 +661,52 @@ namespace eval syntax {
   ######################################################################
   # Returns the information for the given Markdown link string.
   proc get_markdown_link {txt startpos endpos prestart_from} {
-  
+    
     if {[$txt get "$startpos-1c"] ne "\\"} {
-      if {[regexp {^\[(.+?)\](\[.*?\]|\((.*?)\))} [$txt get $startpos $endpos] -> label dummy url]} {
-        set cmd "utils::open_file_externally [lindex $url 0]"
+      if {[regexp {^\[(.+?)\](\s*\[(.*?)\]|\((.*?)\))} [$txt get $startpos $endpos] -> label ref linkref url]} {
+        if {[string index [string trim $ref] 0] eq "\["} {
+          if {$linkref eq ""} {
+            set cmd "syntax::handle_markdown_reflink_click $txt [string tolower $label]" 
+          } else {
+            set cmd "syntax::handle_markdown_reflink_click $txt [string tolower $linkref]"
+          }
+        } else {
+          set cmd "utils::open_file_externally [lindex $url 0]"
+        }
         return [list link [$txt index "$startpos+1c"] [$txt index "$startpos+[expr [string length $label] + 1]c"] $cmd]
       }
     }
     
     return ""
   
+  }
+  
+  ######################################################################
+  # Returns the information for the given Markdown link reference.
+  proc get_markdown_linkref {txt startpos endpos prestart_from} {
+    
+    variable markdown_linkrefs
+    
+    if {[$txt get "$startpos-1c"] ne "\\"} {
+      if {[regexp {^\s*\[(.+?)\]:\s+(\S+)} [$txt get $startpos $endpos] -> linkref url]} {
+        set markdown_linkrefs($txt,[string tolower $linkref]) $url
+      }
+    }
+    
+    return ""
+    
+  }
+  
+  ######################################################################
+  # Handles a user click on a references link.
+  proc handle_markdown_reflink_click {txt ref} {
+    
+    variable markdown_linkrefs
+    
+    if {[info exists markdown_linkrefs($txt,$ref)]} {
+      utils::open_file_externally $markdown_linkrefs($txt,$ref)
+    }
+    
   }
   
 } 
