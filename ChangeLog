@@ -1,44 +1,76 @@
-changeset:   742:e878bce81bc1
-tag:         devel-1.4.1
+changeset:   747:2c9228081a0c
+tag:         devel-1.4.2
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Jan 06 01:19:31 2015 -0600
+date:        Wed Jan 07 00:27:02 2015 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.4.1 release
+ChangeLog for devel-1.4.2 release
 
 
-changeset:   743:cd62b0d606ec
+changeset:   748:db0ffdbc1fc7
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Jan 06 01:19:36 2015 -0600
+date:        Wed Jan 07 00:27:07 2015 -0600
 files:       .hgtags
 description:
-Added tag devel-1.4.1 for changeset e878bce81bc1
+Added tag devel-1.4.2 for changeset 2c9228081a0c
 
 
-changeset:   744:34a5c92b8cc6
+changeset:   749:89bd880049bf
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Jan 06 01:25:35 2015 -0600
-files:       ChangeLog lib/version.tcl
-description:
-* Adding missing files.
-
-
-changeset:   745:da1381cddd05
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Jan 06 21:12:55 2015 -0600
-files:       data/syntax/Tcl.syntax lib/ctext/ctext.tcl lib/sidebar.tcl lib/version.tcl
-description:
-* Fixing sidebar selection color.
-* Fixing syntax errors in ctext.
-* Enhancing Tcl syntax description.
-
-
-changeset:   746:81fbf655d3c9
-tag:         tip
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jan 07 00:24:46 2015 -0600
+date:        Wed Jan 07 09:03:00 2015 -0600
 files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Adding support for line number gutter resizing.
+* Adding a few optimizations to the line number renderer.
+
+
+changeset:   750:55189cc683f1
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jan 07 23:32:51 2015 -0600
+files:       data/syntax/Markdown.syntax lib/ctext/ctext.tcl lib/syntax.tcl lib/version.tcl
+description:
+* Adding "click" support to ctext.
+* Adding auto-match char configurability to ctext.
+
+
+changeset:   751:5c6cd482948a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jan 08 00:30:49 2015 -0600
+files:       data/syntax/Markdown.syntax lib/syntax.tcl lib/version.tcl
+description:
+* Adding support for clickable referenced links in Markdown.
+
+
+changeset:   752:c413bc102135
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jan 08 00:40:03 2015 -0600
+files:       lib/completer.tcl lib/version.tcl
+description:
+* Causing matching character to blink in completer when its matching character is entered.
+
+
+changeset:   753:e70b1dc4a3f2
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jan 08 01:43:09 2015 -0600
+files:       lib/api.tcl lib/plugins.tcl lib/syntax.tcl lib/version.tcl
+description:
+* Checkpointing work on adding a language via plugin.
+
+
+changeset:   754:7f1ca20c7e04
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jan 08 09:42:40 2015 -0600
+files:       lib/plugins.tcl lib/syntax.tcl lib/version.tcl
+description:
+* Adding hook to allow a plugin procedure to be called for a syntax highlight command.
+
+
+changeset:   755:a7883b539004
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jan 09 00:39:51 2015 -0600
+files:       lib/ctext/ctext.tcl lib/plugins.tcl lib/syntax.tcl lib/version.tcl plugins/markdown_color/Markdown_color.syntax plugins/markdown_color/header.tkedat plugins/markdown_color/main.tcl
+description:
+* Adding markdown_color plugin as an example plugin.
+* Fixing bugs associated with syntax plugins.
 
 
