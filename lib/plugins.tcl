@@ -786,7 +786,8 @@ namespace eval plugins {
     variable registry
     
     foreach entry [find_registry_entries "syntax"] {
-      lassign $entry index type sfile
+      lassign $entry index sfile
+      set sfile [file join $::tke_dir plugins $registry($index,name) $sfile]
       syntax::add_syntax $sfile $registry($index,interp)
     }
     
@@ -831,7 +832,7 @@ namespace eval plugins {
   proc delete_all_syntax {} {
     
     foreach entry [find_registry_entries "syntax"] {
-      lassign $entry index type sfile
+      lassign $entry index sfile
       syntax::delete_syntax $sfile
     }
     

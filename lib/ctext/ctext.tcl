@@ -1474,15 +1474,16 @@ proc ctext::add_font_opt {win class modifiers popts} {
 
     ctext::getAr $win highlight ar
 
-    set lsize 0
-    set click 0
+    set lsize     0
+    set click     0
+    set name_list [list 0 0 0 0]
 
     foreach modifier $modifiers {
       switch $modifier {
-        "bold"       { set font_opts(-weight)     "bold" }
-        "italics"    { set font_opts(-slant)      "italic" }
-        "underline"  { set font_opts(-underline)  1 }
-        "overstrike" { set font_opts(-overstrike) 1 }
+        "bold"       { set font_opts(-weight)     "bold";   lset name_list 0 1 }
+        "italics"    { set font_opts(-slant)      "italic"; lset name_list 1 1 }
+        "underline"  { set font_opts(-underline)  1;        lset name_list 2 1 }
+        "overstrike" { set font_opts(-overstrike) 1;        lset name_list 3 1 }
         "h6"         { set font_opts(-size) [expr $font_opts(-size) + 1]; set lsize 6 }
         "h5"         { set font_opts(-size) [expr $font_opts(-size) + 2]; set lsize 5 }
         "h4"         { set font_opts(-size) [expr $font_opts(-size) + 3]; set lsize 4 }
@@ -1493,14 +1494,17 @@ proc ctext::add_font_opt {win class modifiers popts} {
       }
     }
 
-    set font [font create font$win$class {*}[array get font_opts]]
+    set fontname ctext-[join $name_list ""]$lsize
+    if {[lsearch [font names] $fontname] == -1} {
+      font create $fontname {*}[array get font_opts]
+    }
 
     if {$lsize} {
       set ar(lsize,$class) "lsize$lsize"
-      $win.l tag configure $ar(lsize,$class) -font $font
+      $win.l tag configure $ar(lsize,$class) -font $fontname
     }
 
-    lappend opts -font $font
+    lappend opts -font $fontname
     
     if {$click} {
       set ar(click,$class) $opts
@@ -1790,17 +1794,17 @@ proc ctext::doHighlight {win start end} {
       $twin tag add $highlightAr(charstart,class,$firstOfWord) $res $wordEnd
     }
     if {[info exists highlightAr(keyword,command,$word)] && \
-        ([set retval [uplevel #0 $highlightAr(keyword,command,$word) $win $res $wordEnd]] ne "")} {
-      handle_tag $win {*}[lrange $retval 0 3]
+        ![catch { {*}$highlightAr(keyword,command,$word) $win $res $wordEnd } retval] && ([llength $retval] == 4)} {
+      handle_tag $win {*}$retval
     } elseif {[info exists highlightAr(charstart,command,$firstOfWord)] && \
-              ([set retval [uplevel #0 $highlightAr(charstart,command,$firstOfWord) $win $res $wordEnd]] ne "")} {
-      handle_tag $win {*}[lrange $retval 0 3]
+              ![catch { {*}$highlightAr(charstart,command,$firstOfWord) $win $res $wordEnd } retval] && ([llength $retval] == 4)} {
+      handle_tag $win {*}$retval
     }
     if {[info exists highlightAr(searchword,class,$word)]} {
       $twin tag add $highlightAr(searchword,class,$word) $res $wordEnd
     } elseif {[info exists highlightAr(searchword,command,$word)] && \
-              ([set retval [uplevel #0 $highlightAr(searchword,command,$word) $win $res $wordEnd]] ne "")} {
-      handle_tag $win {*}[lrange $retval 0 3]
+              ![catch { {*}$highlightAr(searchword,command,$word) $win $res $wordEnd } retval] && ([llength $retval] == 4)} {
+      handle_tag $win {*}$retval
     }
     incr i
   }
@@ -1823,13 +1827,16 @@ proc ctext::doHighlight {win start end} {
           set indices [lassign $indices res]
           set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
           incr i
-          set restart_from ""
-          foreach {sub_class sub_start sub_end sub_cmd} [uplevel #0 [list $value $win $res $wordEnd ctext::restart_from]] {
-            handle_tag $win $sub_class $sub_start $sub_end $sub_cmd
-          }
-          if {$restart_from ne ""} {
-            set i       0
-            set indices [$twin search -count lengths -regexp {*}$re_opts -all -- $re $restart_from $end]
+          if {![catch { {*}$value $win $res $wordEnd } retval] && ([llength $retval] == 2)} {
+            foreach sub [lindex $retval 0] {
+              if {[llength $sub] == 4} {
+                handle_tag $win {*}$sub
+              }
+            }
+            if {[set restart_from [lindex $retval 1]] ne ""} {
+              set i       0
+              set indices [$twin search -count lengths -regexp {*}$re_opts -all -- $re $restart_from $end]
+            }
           }
         }
       }

@@ -76,6 +76,9 @@ namespace eval syntax {
     foreach sfile $sfiles {
       add_syntax $sfile
     }
+
+    # Add all of the syntax plugins
+    plugins::add_all_syntax
     
   }
   
@@ -86,7 +89,7 @@ namespace eval syntax {
     variable langs
     variable lang_template
     variable filetypes
-    
+
     # Get the name of the syntax
     set name [file rootname [file tail $sfile]]
     
@@ -352,6 +355,7 @@ namespace eval syntax {
         # Get the command prefix
         if {$lang_array(interp) ne ""} {
           set cmd_prefix "$lang_array(interp) eval"
+          $lang_array(interp) alias $txt $txt
         } else {
           set cmd_prefix ""
         }
@@ -616,13 +620,13 @@ namespace eval syntax {
   
   ######################################################################
   # Returns the information for the given Markdown code string.
-  proc get_markdown_ccode {txt startpos endpos prestart_from} {
+  proc get_markdown_ccode {txt startpos endpos} {
     
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-3c"] ne "\\")} {
       $txt tag remove _code $startpos $endpos
-      return [list ccode [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] [list] \
-                   codemarkers $startpos [$txt index "$startpos+2c"] [list] \
-                   codemarkers [$txt index "$endpos-2c"] $endpos [list]]
+      return [list [list [list ccode [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] [list]] \
+                         [list codemarkers $startpos [$txt index "$startpos+2c"] [list]] \
+                         [list codemarkers [$txt index "$endpos-2c"] $endpos [list]]] ""]
     }
     
     return ""
@@ -631,17 +635,14 @@ namespace eval syntax {
   
   ######################################################################
   # Returns the information for the given Markdown code string.
-  proc get_markdown_code {txt startpos endpos prestart_from} {
-  
-    upvar $prestart_from restart_from
+  proc get_markdown_code {txt startpos endpos} {
   
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-2c"] ne "\\")} {
       if {([lsearch [$txt tag names $startpos]    _codemarkers] == -1) && \
           ([lsearch [$txt tag names "$endpos-1c"] _codemarkers] == -1)} {
-        return [list code [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]]
+        return [list [list [list code [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]]] ""]
       } else {
-        set restart_from [$txt index "$startpos+2c"]
-        return ""
+        return [list [list] [$txt index "$startpos+2c"]
       }
     }
     
@@ -651,11 +652,11 @@ namespace eval syntax {
   
   ######################################################################
   # Returns the information for the given Markdown header string.
-  proc get_markdown_header {txt startpos endpos prestart_from} {
+  proc get_markdown_header {txt startpos endpos} {
     
     if {[regexp {(#{1,6})[^#]+} [$txt get $startpos $endpos] all hashes]} {
       set num [string length $hashes]
-      return [list h$num [$txt index "$startpos+${num}c"] [$txt index "$startpos+[string length $all]c"] [list]]
+      return [list [list [list h$num [$txt index "$startpos+${num}c"] [$txt index "$startpos+[string length $all]c"] [list]]] ""]
     }
     
     return ""
@@ -664,13 +665,13 @@ namespace eval syntax {
   
   ######################################################################
   # Returns the information for the given Markdown bold string.
-  proc get_markdown_bold {txt startpos endpos prestart_from} {
+  proc get_markdown_bold {txt startpos endpos} {
     
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-3c"] ne "\\")} {
       $txt tag remove _italics $startpos $endpos
-      return [list bold        [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] [list] \
-                   boldmarkers $startpos [$txt index "$startpos+2c"] [list] \
-                   boldmarkers [$txt index "$endpos-2c"] $endpos [list]]
+      return [list [list [list bold        [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] [list]] \
+                         [list boldmarkers $startpos [$txt index "$startpos+2c"] [list]] \
+                         [list boldmarkers [$txt index "$endpos-2c"] $endpos [list]]] ""]
     }
     
     return ""
@@ -679,17 +680,14 @@ namespace eval syntax {
   
   ######################################################################
   # Returns the information for the given Markdown italics string.
-  proc get_markdown_italics {txt startpos endpos prestart_from} {
-    
-    upvar $prestart_from restart_from
+  proc get_markdown_italics {txt startpos endpos} {
     
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-2c"] ne "\\")} {
       if {([lsearch [$txt tag names $startpos]    _boldmarkers] == -1) && \
           ([lsearch [$txt tag names "$endpos-1c"] _boldmarkers] == -1)} {
-        return [list italics [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]] 
+        return [list [list [list italics [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]]] ""]
       } else {
-        set restart_from [$txt index "$startpos+2c"]
-        return ""
+        return [list [list] [$txt index "$startpos+2c"]]
       }
     }
     
@@ -699,7 +697,7 @@ namespace eval syntax {
 
   ######################################################################
   # Returns the information for the given Markdown link string.
-  proc get_markdown_link {txt startpos endpos prestart_from} {
+  proc get_markdown_link {txt startpos endpos} {
     
     if {[$txt get "$startpos-1c"] ne "\\"} {
       if {[regexp {^\[(.+?)\](\s*\[(.*?)\]|\((.*?)\))} [$txt get $startpos $endpos] -> label ref linkref url]} {
@@ -712,7 +710,7 @@ namespace eval syntax {
         } else {
           set cmd "utils::open_file_externally [lindex $url 0]"
         }
-        return [list link [$txt index "$startpos+1c"] [$txt index "$startpos+[expr [string length $label] + 1]c"] $cmd]
+        return [list [list [list link [$txt index "$startpos+1c"] [$txt index "$startpos+[expr [string length $label] + 1]c"] $cmd]] ""]
       }
     }
     
@@ -722,7 +720,7 @@ namespace eval syntax {
   
   ######################################################################
   # Returns the information for the given Markdown link reference.
-  proc get_markdown_linkref {txt startpos endpos prestart_from} {
+  proc get_markdown_linkref {txt startpos endpos} {
     
     variable markdown_linkrefs
     
