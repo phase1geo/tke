@@ -1751,12 +1751,12 @@ namespace eval gui {
   proc undo {tid} {
 
     variable redo_count
-
+    
     # Get the current textbox
     set txt [current_txt $tid]
 
-    # Perform the undo operation
-    catch { $txt edit undo }
+    # Perform the undo operation from Vim perspective
+    vim::undo $txt.t
 
     # Increment the redo stack count
     incr redo_count($txt)
@@ -1785,8 +1785,8 @@ namespace eval gui {
     # Get the current textbox
     set txt [current_txt $tid]
 
-    # Perform the redo operation
-    catch { $txt edit redo }
+    # Perform the redo operation from Vim perspective
+    vim::redo $txt.t
 
   }
 
