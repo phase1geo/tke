@@ -231,7 +231,9 @@ namespace eval completer {
         }
       } else {
         set ins [$txt index insert]
-        $txt insert insert "\""
+        if {![ctext::inCommentString $txt end-1c]} {
+          $txt insert insert "\""
+        }
         $txt mark set insert $ins
       }
     }
@@ -254,7 +256,9 @@ namespace eval completer {
         }
       } else {
         set ins [$txt index insert]
-        $txt insert insert "'"
+        if {![ctext::inCommentString $txt end-1c]} {
+          $txt insert insert "'"
+        }
         $txt mark set insert $ins
       }
     }
