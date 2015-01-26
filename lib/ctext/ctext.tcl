@@ -55,6 +55,9 @@ proc ctext {win args} {
   set ar(-warnwidth_bg)          red
   set ar(-casesensitive)         1
   set ar(-peer)                  ""
+  set ar(-undo)                  0
+  set ar(-maxundo)               0
+  set ar(-autoseparators)        0
   set ar(re_opts)                ""
   set ar(win)                    $win
   set ar(modified)               0
@@ -71,9 +74,6 @@ proc ctext {win args} {
   set ar(matchChar,paren)        1
   set ar(matchChar,angled)       1
   set ar(matchChar,double)       1
-  set ar(-undo)                  0
-  set ar(-maxundo)               0
-  set ar(-autoseparators)        0
   set ar(undo_hist)              [list]
   set ar(redo_hist)              [list]
   set ar(undo_last)              ""
@@ -408,6 +408,33 @@ proc ctext::buildArgParseTable win {
     break
   }
 
+  lappend argTable {0 false no} -undo {
+    set configAr(-undo) 0
+    break
+  }
+
+  lappend argTable {1 true yes} -undo {
+    set configAr(-undo) 1
+    break
+  }
+
+  lappend argTable {any} -maxundo {
+    if {![string is integer $value]} {
+      return -code error "-maxundo argument must be an integer value"
+    }
+    set configAr(-maxundo) $value
+  }
+
+  lappend argTable {0 false no} -autoseparators {
+    set configAr(-autoseparators) 0
+    break
+  }
+
+  lappend argTable {1 true yes} -autoseparators {
+    set configAr(-autoseparators) 1
+    break
+  }
+
   ctext::getAr $win config ar
   set ar(argTable) $argTable
 }
@@ -519,8 +546,20 @@ proc ctext::isEscaped {win index} {
 proc ctext::undo_insert {win insert_pos str_len} {
   
   ctext::getAr $win config configAr
+
+  puts "In ctext::undo_insert, -undo: $configAr(-undo)"
+
+  if {!$configAr(-undo)} {
+    return
+  }
   
-  lappend configAr(undo_hist) [list delete $insert_pos [$txt index "$insert_pos+${str_len}c"]]
+  lappend configAr(undo_hist) [list delete $insert_pos [$win index "$insert_pos+${str_len}c"] [$win index insert]]
+
+  # Adjust the undo history list if we exceed the maximum undo history size
+  if {($configAr(-maxundo) > 0) && ($configAr(-maxundo) < [llength $configAr(undo_hist)])} {
+    set configAr(undo_hist) [lrange $configAr(undo_hist) 1 end]
+  }
+
   set configAr(redo_hist) [list]
   
 }
@@ -528,8 +567,18 @@ proc ctext::undo_insert {win insert_pos str_len} {
 proc ctext::undo_delete {win start_pos end_pos} {
   
   ctext::getAr $win config configAr
+
+  if {!$configAr(-undo)} {
+    return
+  }
   
-  lappend configAr(undo_hist) [list insert $start_pos [$txt get $start_pos $end_pos]]
+  lappend configAr(undo_hist) [list insert $start_pos [$win get $start_pos $end_pos] [$win index insert]]
+
+  # Adjust the undo history list if we exceed the maximum undo history size
+  if {($configAr(-maxundo) > 0) && ($configAr(-maxundo) < [llength $configAr(undo_hist)])} {
+    set configAr(undo_hist) [lrange $configAr(undo_hist) 1 end]
+  }
+
   set configAr(redo_hist) [list]
   
 }
@@ -537,26 +586,34 @@ proc ctext::undo_delete {win start_pos end_pos} {
 proc ctext::undo {win} {
   
   ctext::getAr $win config configAr
+
+  puts "In ctext::undo, undo_hist: [llength $configAr(undo_hist)]"
+
+  if {[llength $configAr(undo_hist)] > 0} {
   
-  lassign [lindex $configAr(undo_hist) end] cmd val1 val2
-  set configAr(undo_hist) [lreplace $configAr(undo_hist) end end]
+    lassign [lindex $configAr(undo_hist) end] cmd val1 val2 cursor
+    set configAr(undo_hist) [lreplace $configAr(undo_hist) end end]
   
-  switch $cmd {
-    insert {
-      $txt._t insert $val1 $val2
-      $txt._t mark set insert $val2
-      $txt._t see insert
-      lappend configAr(redo_hist) [list delete $val1 [$txt index "$val1+[string length $val2]c"]]
+    switch $cmd {
+      insert {
+        $win._t insert $val1 $val2
+        set val2 [$win index "$val1+[string length $val2]c"]
+        lappend configAr(redo_hist) [list delete $val1 $val2]]
+      }
+      delete {
+        $win._t delete $val1 $val2
+        lappend configAr(redo_hist) [list insert $val1 [$win get $val1 $val2]]
+      }
     }
-    delete {
-      $txt._t delete $val1 $val2
-      $txt._t mark set insert
-      $txt._t see insert
-      lappend configAr(redo_hist) [list insert $val1 [$txt get $val1 $val2]]
-    }
+
+    $win highlight "$val1 linestart" "$val2 lineend"
+
+    $win._t mark set insert $cursor
+    $win._t see insert
+
+    ctext::modified $win 1
+
   }
-  
-  ctext::modified $win 1
   
 }
 
@@ -564,25 +621,31 @@ proc ctext::redo {win} {
   
   ctext::getAr $win config configAr
   
-  lassign [lindex $configAr(redo_hist) end] cmd val1 val2
-  set configAr(redo_hist) [lreplace $configAr(redo_hist) end end]
+  if {[llength $configAr(redo_hist)] > 0} {
+
+    lassign [lindex $configAr(redo_hist) end] cmd val1 val2 cursor
+    set configAr(redo_hist) [lreplace $configAr(redo_hist) end end]
   
-  switch $cmd {
-    insert {
-      $txt._t insert $val1 $val2
-      $txt._t mark set insert $val2
-      $txt._t see insert
-      lappend configAr(undo_hist) [list delete $val1 [$txt index "$val1+[string length $val2]c"]]
+    switch $cmd {
+      insert {
+        $win._t insert $val1 $val2
+        set val2 [$win index "$val1+[string length $val2]c"]
+        lappend configAr(undo_hist) [list delete $val1 $val2]]
+      }
+      delete {
+        $win._t delete $val1 $val2
+        lappend configAr(undo_hist) [list insert $val1 [$win get $val1 $val2]]
+      }
     }
-    delete {
-      $txt._t delete $val1 $val2
-      $txt._t mark set insert
-      $txt._t see insert
-      lappend configAr(undo_hist) [list insert $val1 [$txt get $val1 $val2]]
-    }
+  
+    $win highlight "$val1 linestart" "$val2 lineend"
+
+    $win._t mark set insert $cursor
+    $win._t see insert
+
+    ctext::modified $win 1
+
   }
-  
-  ctext::modified $win 1
   
 }
 
@@ -669,6 +732,7 @@ proc ctext::instanceCmd {self cmd args} {
       if {[catch {$self.t get sel.first sel.last} data] == 0} {
         clipboard clear -displayof $self.t
         clipboard append -displayof $self.t $data
+        ctext::undo_delete $self [$self.t index sel.first] [$self.t index sel.last]
         $self delete [$self.t index sel.first] [$self.t index sel.last]
         ctext::modified $self 1
       }
@@ -684,9 +748,9 @@ proc ctext::instanceCmd {self cmd args} {
         set deletePos [lindex $args 0]
         set prevChar [$self._t get $deletePos]
 
-        $self._t delete $deletePos
+        ctext::undo_delete $self $deletePos [$self._t index "$deletePos+1c"]
         
-        ctext::undo_delete $self $deletePos [$self._t index "$delete_pos+1c"]
+        $self._t delete $deletePos
         
         set char [$self._t get $deletePos]
 
@@ -728,9 +792,10 @@ proc ctext::instanceCmd {self cmd args} {
 
         set lineStart [$self._t index "$deleteStartPos linestart"]
         set lineEnd [$self._t index "$deleteEndPos + 1 chars lineend"]
-        eval \$self._t delete $args
         
         ctext::undo_delete $self $deleteStartPos $deleteEndPos
+
+        eval \$self._t delete $args
 
         foreach tag [$self._t tag names] {
           if {![regexp {^_([lc]Comment|[sdt]String)$} $tag] && ([string index $tag 0] eq "_")} {
@@ -789,9 +854,10 @@ proc ctext::instanceCmd {self cmd args} {
       set prevSpace [ctext::findPreviousSpace $self._t ${insertPos}-1c]
       set data [lindex $args 1]
       set datalen [string length $data]
-      eval \$self._t insert $args
       
-      ctext::undo_insert $self
+      ctext::undo_insert $self $insertPos $datalen
+
+      eval \$self._t insert $args
 
       set nextSpace [ctext::findNextSpace $self._t "${insertPos}+${datalen}c"]
       set lineEnd [$self._t index "${insertPos}+${datalen}c lineend"]
@@ -847,6 +913,7 @@ proc ctext::instanceCmd {self cmd args} {
     }
 
     paste {
+      ctext::undo_insert $self [$txt index insert] [clipboard get]
       tk_textPaste $self
       ctext::modified $self 1
     }
@@ -882,9 +949,9 @@ proc ctext::instanceCmd {self cmd args} {
           return -code error "invalid arg(s) to $self edit modified: $args"
         }
       } elseif {"undo" == $subCmd} {
-        undo $self
+        ctext::undo $self
       } elseif {"redo" == $subCmd} {
-        redo $self
+        ctext::redo $self
       } elseif {"undoable" == $subCmd} {
         return [expr [llength $ar(undo_hist)] > 0]
       } elseif {"redoable" == $subCmd} {

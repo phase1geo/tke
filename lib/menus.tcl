@@ -572,7 +572,7 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Insert Text"]      -state disabled
       $mb entryconfigure [msgcat::mc "Format Text"]      -state disabled
     } else {
-      if {[gui::undoable]} {
+      if {[gui::undoable {}]} {
         $mb entryconfigure [msgcat::mc "Undo"] -state normal
       } else {
         $mb entryconfigure [msgcat::mc "Undo"] -state disabled

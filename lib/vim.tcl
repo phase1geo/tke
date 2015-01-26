@@ -21,7 +21,6 @@ namespace eval vim {
   array set ignore_modified {}
   array set column          {}
   array set select_anchors  {}
-  array set cursor_hist     {}
   
   ######################################################################
   # Enables/disables Vim mode for all text widgets.
@@ -333,7 +332,6 @@ namespace eval vim {
     variable ignore_modified
     variable column
     variable select_anchors
-    variable cursor_hist
     
     # Change the cursor to the block cursor
     $txt configure -blockcursor true
@@ -345,9 +343,6 @@ namespace eval vim {
     set ignore_modified($txt)    0
     set column($txt.t)           ""
     set select_anchors($txt.t)   [list]
-    set cursor_hist($txt.t,last) ""
-    set cursor_hist($txt.t,undo) [list]
-    set cursor_hist($txt.t,redo) [list]
     
     # Add bindings
     bind $txt       <<Modified>>      "if {\[[ns vim]::handle_modified %W\]} { break }"
@@ -448,8 +443,6 @@ namespace eval vim {
   # Remove the Vim bindings on the text widget.
   proc remove_bindings {txt} {
     
-    variable cursor_hist
-    
     # Remove the vim* bindings from the widget
     if {[set index [lsearch [bindtags $txt.t] vim$txt]] != -1} {
       bindtags $txt.t [lreplace [bindtags $txt.t] $index $index]
@@ -466,11 +459,6 @@ namespace eval vim {
     # Change the cursor to the insertion cursor and turn autoseparators on
     $txt configure -blockcursor false -autoseparators 1
     
-    # Delete the cursor history
-    set cursor_hist($txt,last) ""
-    set cursor_hist($txt,undo) [list]
-    set cursor_hist($txt,redo) [list]
-    
   }
   
   ######################################################################
@@ -482,9 +470,6 @@ namespace eval vim {
     # Set the mode to the edit mode
     set mode($txt) "edit"
     
-    # Add undo separator
-    add_cursor_hist $txt
- 
     # Set the blockcursor to false
     $txt configure -blockcursor false
  
@@ -520,11 +505,6 @@ namespace eval vim {
     # Adjust the insertion marker
     adjust_insert $txt
     
-    # Add a separator if we were in edit mode
-    if {$mode($txt) ne "start"} {
-      add_separator $txt
-    }
- 
     # Set the current mode to the start mode
     set mode($txt) "start"
     
@@ -694,110 +674,6 @@ namespace eval vim {
     append str [$txt get $last_startpos "end-1c"]
     
     return $str
-    
-  }
-  
-  ######################################################################
-  # Adds a cursor to the cursor history (undo buffer is not affected).
-  proc add_cursor_hist {txt} {
-    
-    variable record_mode
-    variable cursor_hist
-    
-    if {$record_mode ne "playback"} {
-      
-      # Get the current cursor position
-      set current [$txt index insert]
-      
-      # If the last cursor has not been previously saved, save it
-      if {$cursor_hist($txt,last) ne ""} {
-        lappend cursor_hist($txt,undo) [list $current ""]
-      }
-      
-      # Save the last cursor position
-      set cursor_hist($txt,last) $current
-      
-    }
-    
-  }
-  
-  ######################################################################
-  # Adds a separator to the undo history.
-  proc add_separator {txt} {
-    
-    variable record_mode
-    variable cursor_hist
-    
-    if {$record_mode ne "playback"} {
-      
-      # Add the separator
-      $txt edit separator
-      
-      # Update the cursor history
-      lappend cursor_hist($txt,undo) [list [$txt index insert] $cursor_hist($txt,last)]
-      set cursor_hist($txt,redo)     [list]
-      set cursor_hist($txt,last)     ""
-      
-      puts "separator, cursor_hist($txt,undo): $cursor_hist($txt,undo)"
-      
-    }
-    
-  }
-  
-  ######################################################################
-  # Performs undo operation.
-  proc undo {txt} {
-    
-    variable cursor_hist
-    
-    if {[llength $cursor_hist($txt,undo)] > 0} {
-      
-      set cursor_list [lindex $cursor_hist($txt,undo) end]
-      set cursor_hist($txt,undo) [lreplace $cursor_hist($txt,undo) end end]
-      lappend cursor_hist($txt,redo) [lreverse $cursor_list]
-      
-      puts "undo-1 cursor_list: $cursor_list, $cursor_hist($txt,undo)"
-      
-      # Perform the undo operation if the previous change was not a cursor move only
-      if {[lindex $cursor_list 1] ne ""} {
-        catch { $txt edit undo }
-      }
-    
-      # Set the cursor, adjust it and make it viewable
-      $txt mark set insert [lindex $cursor_list 1]
-      adjust_insert $txt
-      $txt see insert
-      
-    }
-    
-  }
-  
-  ######################################################################
-  # Performs redo operation.
-  proc redo {txt} {
-    
-    variable cursor_hist
-    
-    if {[llength $cursor_hist($txt,redo)] > 0} {
-      
-      # Get the redo cursor information and move it to the undo history
-      set cursor_list [lindex $cursor_hist($txt,redo) end]
-      set cursor_hist($txt,redo) [lreplace $cursor_hist($txt,redo) end end]
-      lappend cursor_hist($txt,undo) [lreverse $cursor_list]
-      
-      puts "redo-0 cursor_list: $cursor_list, $cursor_hist($txt,undo)"
-      
-      # Perform the redo operation
-      if {[lindex $cursor_list 0] ne ""} {
-        catch { $txt edit redo }
-      }
-    
-      # Set the cursor, adjust it and make it viewable
-      $txt mark set insert [lindex $cursor_list 0]
-      adjust_insert $txt
-      $txt see insert
-      
-    }
     
   }
   
@@ -1178,9 +1054,6 @@ namespace eval vim {
     # Set the insertion cursor and make it viewable
     $txt mark set insert $index
     $txt see insert
-
-    # Create a separator in the text history
-    add_separator $txt
 
   }
 
@@ -1576,7 +1449,6 @@ namespace eval vim {
     if {$mode($txt) eq "start"} {
       set mode($txt) "delete"
       record_start
-      add_cursor_hist $txt
       return 1
     } elseif {$mode($txt) eq "delete"} {
       clipboard clear
@@ -1703,8 +1575,6 @@ namespace eval vim {
   # current line.
   proc do_post_paste {txt clip} {
     
-    add_cursor_hist $txt
-    
     if {[set nl_index [string last \n $clip]] != -1} {
       if {[expr ([string length $clip] - 1) == $nl_index]} {
         set clip [string replace $clip $nl_index $nl_index]
@@ -1716,9 +1586,6 @@ namespace eval vim {
       $txt mark set insert "insert+[string length $clip]c"
     }
     $txt see insert
-    
-    # Create a marker in the text history
-    add_separator $txt
     
   }
   
@@ -1745,8 +1612,6 @@ namespace eval vim {
   # in the text widget.
   proc do_pre_paste {txt clip} {
     
-    add_cursor_hist $txt
-    
     if {[set nl_index [string last \n $clip]] != -1} {
       if {[expr ([string length $clip] - 1) == $nl_index]} {
         set clip [string replace $clip $nl_index $nl_index]
@@ -1755,9 +1620,6 @@ namespace eval vim {
     } else {
       $txt insert "insert-1c"
     }
-    
-    # Create a marker in the text history
-    add_separator $txt
     
   }
   
@@ -1799,9 +1661,6 @@ namespace eval vim {
   # Performs a single character delete.
   proc do_char_delete {txt number} {
     
-    # Create a separator
-    add_cursor_hist $txt
-
     if {$number ne ""} {
       if {[[ns multicursor]::enabled $txt]} {
         [ns multicursor]::delete $txt "+${number}c"
@@ -1825,9 +1684,6 @@ namespace eval vim {
         $txt mark set insert "insert-1c"
       }
     }
-
-    # Create a separator in the text history
-    add_separator $txt
 
   }
 
@@ -2044,7 +1900,6 @@ namespace eval vim {
     variable mode
     
     if {$mode($txt) eq "start"} {
-      add_cursor_hist $txt
       if {[llength [set selected [$txt tag ranges sel]]] > 0} {
         foreach {end_range start_range} [lreverse $selected] {
           set str [$txt get "$end_range+1l linestart" "$end_range+l2 linestart"]
@@ -2056,7 +1911,6 @@ namespace eval vim {
         $txt delete "insert+1l linestart" "insert+2l linestart"
         $txt insert "insert linestart" $str
       }
-      add_separator $txt
       return 1
     }
     
@@ -2071,7 +1925,6 @@ namespace eval vim {
     variable mode
     
     if {$mode($txt) eq "start"} {
-      add_cursor_hist $txt
       if {[llength [set selected [$txt tag ranges sel]]] > 0} {
         foreach {end_range start_range} [lreverse $selected] {
           set str [$txt get "$start_range-1l linestart" "$start_range linestart"]
@@ -2086,7 +1939,6 @@ namespace eval vim {
         }
         $txt insert "insert+1l linestart" $str
       }
-      add_separator $txt
       return 1
     }
     

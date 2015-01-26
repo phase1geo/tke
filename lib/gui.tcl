@@ -1750,31 +1750,22 @@ namespace eval gui {
   # Performs an undo of the current tab.
   proc undo {tid} {
 
-    variable redo_count
-    
     # Get the current textbox
     set txt [current_txt $tid]
 
     # Perform the undo operation from Vim perspective
-    vim::undo $txt.t
-
-    # Increment the redo stack count
-    incr redo_count($txt)
+    $txt edit undo
 
   }
 
   ######################################################################
   # Returns true if there is something in the undo buffer.
-  proc undoable {} {
+  proc undoable {tid} {
 
-    variable files
-    variable files_index
+    # Get the current textbox
+    set txt [current_txt $tid]
 
-    if {[set index [current_file]] != -1} {
-      return [lindex $files $index $files_index(modified)]
-    } else {
-      return 0
-    }
+    return [$txt edit undoable]
 
   }
 
@@ -1786,7 +1777,7 @@ namespace eval gui {
     set txt [current_txt $tid]
 
     # Perform the redo operation from Vim perspective
-    vim::redo $txt.t
+    $txt edit redo
 
   }
 
@@ -1794,15 +1785,10 @@ namespace eval gui {
   # Returns true if there is something in the redo buffer.
   proc redoable {tid} {
 
-    variable redo_count
+    # Get the current textbox
+    set txt [current_txt $tid]
 
-    if {([set txt [current_txt $tid]] ne "") && \
-        [info exists redo_count($txt)] && \
-        ($redo_count($txt) > 0)} {
-      return 1
-    } else {
-      return 0
-    }
+    return [$txt edit redoable]
 
   }
 
