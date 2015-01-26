@@ -71,11 +71,18 @@ proc ctext {win args} {
   set ar(matchChar,paren)        1
   set ar(matchChar,angled)       1
   set ar(matchChar,double)       1
+  set ar(-undo)                  0
+  set ar(-maxundo)               0
+  set ar(-autoseparators)        0
+  set ar(undo_hist)              [list]
+  set ar(redo_hist)              [list]
+  set ar(undo_last)              ""
 
   set ar(ctextFlags) [list -xscrollcommand -yscrollcommand -linemap -linemapfg -linemapbg \
   -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable \
   -linemap_show_current -linemap_cursor -highlightcolor \
-  -linemap_select_fg -linemap_select_bg -linemap_relief -linemap_minwidth -casesensitive -peer]
+  -linemap_select_fg -linemap_select_bg -linemap_relief -linemap_minwidth -casesensitive -peer \
+  -undo -maxundo -autoseparators]
 
   array set ar $args
 
@@ -509,6 +516,76 @@ proc ctext::isEscaped {win index} {
 
 }
 
+proc ctext::undo_insert {win insert_pos str_len} {
+  
+  ctext::getAr $win config configAr
+  
+  lappend configAr(undo_hist) [list delete $insert_pos [$txt index "$insert_pos+${str_len}c"]]
+  set configAr(redo_hist) [list]
+  
+}
+
+proc ctext::undo_delete {win start_pos end_pos} {
+  
+  ctext::getAr $win config configAr
+  
+  lappend configAr(undo_hist) [list insert $start_pos [$txt get $start_pos $end_pos]]
+  set configAr(redo_hist) [list]
+  
+}
+
+proc ctext::undo {win} {
+  
+  ctext::getAr $win config configAr
+  
+  lassign [lindex $configAr(undo_hist) end] cmd val1 val2
+  set configAr(undo_hist) [lreplace $configAr(undo_hist) end end]
+  
+  switch $cmd {
+    insert {
+      $txt._t insert $val1 $val2
+      $txt._t mark set insert $val2
+      $txt._t see insert
+      lappend configAr(redo_hist) [list delete $val1 [$txt index "$val1+[string length $val2]c"]]
+    }
+    delete {
+      $txt._t delete $val1 $val2
+      $txt._t mark set insert
+      $txt._t see insert
+      lappend configAr(redo_hist) [list insert $val1 [$txt get $val1 $val2]]
+    }
+  }
+  
+  ctext::modified $win 1
+  
+}
+
+proc ctext::redo {win} {
+  
+  ctext::getAr $win config configAr
+  
+  lassign [lindex $configAr(redo_hist) end] cmd val1 val2
+  set configAr(redo_hist) [lreplace $configAr(redo_hist) end end]
+  
+  switch $cmd {
+    insert {
+      $txt._t insert $val1 $val2
+      $txt._t mark set insert $val2
+      $txt._t see insert
+      lappend configAr(undo_hist) [list delete $val1 [$txt index "$val1+[string length $val2]c"]]
+    }
+    delete {
+      $txt._t delete $val1 $val2
+      $txt._t mark set insert
+      $txt._t see insert
+      lappend configAr(undo_hist) [list insert $val1 [$txt get $val1 $val2]]
+    }
+  }
+  
+  ctext::modified $win 1
+  
+}
+
 proc ctext::instanceCmd {self cmd args} {
 
   #slightly different than the RE used in ctext::comments
@@ -608,6 +685,9 @@ proc ctext::instanceCmd {self cmd args} {
         set prevChar [$self._t get $deletePos]
 
         $self._t delete $deletePos
+        
+        ctext::undo_delete $self $deletePos [$self._t index "$delete_pos+1c"]
+        
         set char [$self._t get $deletePos]
 
         set prevSpace [ctext::findPreviousSpace $self._t $deletePos]
@@ -649,6 +729,8 @@ proc ctext::instanceCmd {self cmd args} {
         set lineStart [$self._t index "$deleteStartPos linestart"]
         set lineEnd [$self._t index "$deleteEndPos + 1 chars lineend"]
         eval \$self._t delete $args
+        
+        ctext::undo_delete $self $deleteStartPos $deleteEndPos
 
         foreach tag [$self._t tag names] {
           if {![regexp {^_([lc]Comment|[sdt]String)$} $tag] && ([string index $tag 0] eq "_")} {
@@ -708,6 +790,8 @@ proc ctext::instanceCmd {self cmd args} {
       set data [lindex $args 1]
       set datalen [string length $data]
       eval \$self._t insert $args
+      
+      ctext::undo_insert $self
 
       set nextSpace [ctext::findNextSpace $self._t "${insertPos}+${datalen}c"]
       set lineEnd [$self._t index "${insertPos}+${datalen}c lineend"]
@@ -797,6 +881,14 @@ proc ctext::instanceCmd {self cmd args} {
         } else {
           return -code error "invalid arg(s) to $self edit modified: $args"
         }
+      } elseif {"undo" == $subCmd} {
+        undo $self
+      } elseif {"redo" == $subCmd} {
+        redo $self
+      } elseif {"undoable" == $subCmd} {
+        return [expr [llength $ar(undo_hist)] > 0]
+      } elseif {"redoable" == $subCmd} {
+        return [expr [llength $ar(redo_hist)] > 0]
       } else {
         #Tk 8.4 has other edit subcommands that I don't want to emulate.
         return [uplevel 1 [linsert $args 0 $self._t $cmd]]
