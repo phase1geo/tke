@@ -546,7 +546,7 @@ proc ctext::undo_insert {win insert_pos str_len cursor} {
   
   ctext::getAr $win config configAr
 
-  puts "In ctext::undo_insert, -undo: $configAr(-undo)"
+  puts "In ctext::undo_insert, insert_pos: $insert_pos, str_len: $str_len, cursor: $cursor, -undo: $configAr(-undo)"
 
   if {!$configAr(-undo)} {
     return
@@ -560,7 +560,7 @@ proc ctext::undo_insert {win insert_pos str_len cursor} {
     if {($cmd eq "delete") && ($val2 == $insert_pos)} {
       lset configAr(undo_hist) end 2 $end_pos
       set configAr(redo_hist) [list]
-      puts "B undo_hist: $configAr(undo_hist)"
+      puts "  B undo_hist: $configAr(undo_hist)"
       return
     }
   }
@@ -574,13 +574,15 @@ proc ctext::undo_insert {win insert_pos str_len cursor} {
 
   set configAr(redo_hist) [list]
   
-  puts "A undo_hist: $configAr(undo_hist)"
+  puts "  A undo_hist: $configAr(undo_hist)"
   
 }
 
 proc ctext::undo_delete {win start_pos end_pos} {
   
   ctext::getAr $win config configAr
+
+  puts "In ctext::undo_delete, start_pos: $start_pos, end_pos: $end_pos, -undo: $configAr(-undo)"
 
   if {!$configAr(-undo)} {
     return
@@ -595,7 +597,7 @@ proc ctext::undo_delete {win start_pos end_pos} {
       lset configAr(undo_hist) end 1 $start_pos
       lset configAr(undo_hist) end 2 "$str$val2"
       set configAr(redo_hist) [list]
-      puts "B undo_hist: $configAr(undo_hist)"
+      puts "  D undo_hist: $configAr(undo_hist)"
       return
     }
   }
@@ -609,7 +611,7 @@ proc ctext::undo_delete {win start_pos end_pos} {
 
   set configAr(redo_hist) [list]
   
-  puts "A undo_hist: $configAr(undo_hist)"
+  puts "  C undo_hist: $configAr(undo_hist)"
   
 }
 
@@ -619,7 +621,8 @@ proc ctext::undo {win} {
 
   if {[llength $configAr(undo_hist)] > 0} {
   
-    set i 0
+    set i           0
+    set last_cursor 1.0
     
     foreach element [lreverse $configAr(undo_hist)] {
       
@@ -633,15 +636,18 @@ proc ctext::undo {win} {
         insert {
           $win._t insert "$val1+1c" $val2
           set val2 [$win index "$val1+[string length $val2]c"]
-          lappend configAr(redo_hist) [list delete $val1 $val2]]
+          lappend configAr(redo_hist) [list delete $val1 $val2 $val1 $sep]
         }  
         delete {
+          set str [$win get $val1 $val2]
           $win._t delete $val1 $val2
-          lappend configAr(redo_hist) [list insert $val1 [$win get $val1 $val2]]
+          lappend configAr(redo_hist) [list insert $val1 $str [$win index "$val1+[string length $str]c"] $sep]
         }
       }
 
       $win highlight "$val1 linestart" "$val2 lineend"
+      
+      set last_cursor $cursor
       
       incr i
       
@@ -649,10 +655,14 @@ proc ctext::undo {win} {
 
     set configAr(undo_hist) [lreplace $configAr(undo_hist) end-[expr $i - 1] end]
     
-    $win._t mark set insert $cursor
+    $win._t mark set insert $last_cursor
     $win._t see insert
 
     ctext::modified $win 1
+    
+    puts "In ctext::undo"
+    puts "  undo: $configAr(undo_hist)"
+    puts "  redo: $configAr(redo_hist)"
 
   }
   
@@ -666,27 +676,29 @@ proc ctext::redo {win} {
 
     set i 0
     
-    foreach element [lreverse $config(redo_hist)] {
+    foreach element [lreverse $configAr(redo_hist)] {
       
       lassign $element cmd val1 val2 cursor sep
       
-      if {($i > 0) && $sep} {
-        break
-      }
-      
       switch $cmd {
         insert {
+          puts "Inserting $val2 at $val1"
           $win._t insert "$val1+1c" $val2
           set val2 [$win index "$val1+[string length $val2]c"]
-          lappend configAr(undo_hist) [list delete $val1 $val2]]
+          lappend configAr(undo_hist) [list delete $val1 $val2 $val1 $sep]
         }
         delete {
+          set str [$win get $val1 $val2]
           $win._t delete $val1 $val2
-          lappend configAr(undo_hist) [list insert $val1 [$win get $val1 $val2]]
+          lappend configAr(undo_hist) [list insert $val1 $str [$win index "$val1+[string length $str]c"] $sep]
         }
       }
   
       $win highlight "$val1 linestart" "$val2 lineend"
+      
+      if {$sep} {
+        break
+      }
       
       incr i
       
@@ -698,6 +710,10 @@ proc ctext::redo {win} {
     $win._t see insert
 
     ctext::modified $win 1
+
+    puts "In ctext::redo"
+    puts "  undo: $configAr(undo_hist)"
+    puts "  redo: $configAr(redo_hist)"
 
   }
   
@@ -802,7 +818,7 @@ proc ctext::instanceCmd {self cmd args} {
         set deletePos [lindex $args 0]
         set prevChar [$self._t get $deletePos]
 
-        ctext::undo_delete $self $deletePos [$self._t index "$deletePos+1c"]
+        ctext::undo_delete $self [$self._t index $deletePos] [$self._t index "$deletePos+1c"]
         
         $self._t delete $deletePos
         
@@ -847,7 +863,7 @@ proc ctext::instanceCmd {self cmd args} {
         set lineStart [$self._t index "$deleteStartPos linestart"]
         set lineEnd [$self._t index "$deleteEndPos + 1 chars lineend"]
         
-        ctext::undo_delete $self $deleteStartPos $deleteEndPos
+        ctext::undo_delete $self [$self._t index $deleteStartPos] [$self._t index $deleteEndPos]
 
         eval \$self._t delete $args
 
