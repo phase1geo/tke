@@ -2,7 +2,7 @@ filepatterns
 {*.v *.sv *.vg}
 
 matchcharsallowed
-{curly square paren double single}
+{curly square paren double}
 
 tabsallowed
 {0}

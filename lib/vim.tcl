@@ -470,6 +470,9 @@ namespace eval vim {
     # Set the mode to the edit mode
     set mode($txt) "edit"
     
+    # Add separator
+    $txt edit separator
+    
     # Set the blockcursor to false
     $txt configure -blockcursor false
  
@@ -504,6 +507,11 @@ namespace eval vim {
     
     # Adjust the insertion marker
     adjust_insert $txt
+    
+    # Add a separator if we were in edit mode
+    if {$mode($txt) ne "start"} {
+      $txt edit separator
+    }
     
     # Set the current mode to the start mode
     set mode($txt) "start"
@@ -1054,6 +1062,9 @@ namespace eval vim {
     # Set the insertion cursor and make it viewable
     $txt mark set insert $index
     $txt see insert
+    
+    # Create a separator
+    $txt edit separator
 
   }
 
@@ -1449,6 +1460,7 @@ namespace eval vim {
     if {$mode($txt) eq "start"} {
       set mode($txt) "delete"
       record_start
+      $txt edit separator
       return 1
     } elseif {$mode($txt) eq "delete"} {
       clipboard clear
@@ -1575,6 +1587,9 @@ namespace eval vim {
   # current line.
   proc do_post_paste {txt clip} {
     
+    # Create a separator
+    $txt edit separator
+    
     if {[set nl_index [string last \n $clip]] != -1} {
       if {[expr ([string length $clip] - 1) == $nl_index]} {
         set clip [string replace $clip $nl_index $nl_index]
@@ -1586,6 +1601,9 @@ namespace eval vim {
       $txt mark set insert "insert+[string length $clip]c"
     }
     $txt see insert
+    
+    # Create a separator
+    $txt edit separator
     
   }
   
@@ -1612,6 +1630,8 @@ namespace eval vim {
   # in the text widget.
   proc do_pre_paste {txt clip} {
     
+    $txt edit separator
+    
     if {[set nl_index [string last \n $clip]] != -1} {
       if {[expr ([string length $clip] - 1) == $nl_index]} {
         set clip [string replace $clip $nl_index $nl_index]
@@ -1620,6 +1640,9 @@ namespace eval vim {
     } else {
       $txt insert "insert-1c"
     }
+    
+    # Create separator
+    $txt edit separator
     
   }
   
@@ -1661,6 +1684,9 @@ namespace eval vim {
   # Performs a single character delete.
   proc do_char_delete {txt number} {
     
+    # Create separator
+    $txt edit separator
+    
     if {$number ne ""} {
       if {[[ns multicursor]::enabled $txt]} {
         [ns multicursor]::delete $txt "+${number}c"
@@ -1684,6 +1710,9 @@ namespace eval vim {
         $txt mark set insert "insert-1c"
       }
     }
+    
+    # Create separator
+    $txt edit separator
 
   }
 
@@ -1900,6 +1929,7 @@ namespace eval vim {
     variable mode
     
     if {$mode($txt) eq "start"} {
+      $txt edit separator
       if {[llength [set selected [$txt tag ranges sel]]] > 0} {
         foreach {end_range start_range} [lreverse $selected] {
           set str [$txt get "$end_range+1l linestart" "$end_range+l2 linestart"]
@@ -1911,6 +1941,7 @@ namespace eval vim {
         $txt delete "insert+1l linestart" "insert+2l linestart"
         $txt insert "insert linestart" $str
       }
+      $txt edit separator
       return 1
     }
     
@@ -1925,6 +1956,7 @@ namespace eval vim {
     variable mode
     
     if {$mode($txt) eq "start"} {
+      $txt edit separator
       if {[llength [set selected [$txt tag ranges sel]]] > 0} {
         foreach {end_range start_range} [lreverse $selected] {
           set str [$txt get "$start_range-1l linestart" "$start_range linestart"]
@@ -1939,6 +1971,7 @@ namespace eval vim {
         }
         $txt insert "insert+1l linestart" $str
       }
+      $txt edit separator
       return 1
     }
     
