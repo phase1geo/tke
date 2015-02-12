@@ -1,76 +1,94 @@
-changeset:   747:2c9228081a0c
-tag:         devel-1.4.2
+changeset:   756:8615aa66c407
+tag:         devel-1.4.3
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jan 07 00:27:02 2015 -0600
+date:        Fri Jan 09 00:47:39 2015 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.4.2 release
+ChangeLog for devel-1.4.3 release
 
 
-changeset:   748:db0ffdbc1fc7
+changeset:   757:3a32d1b66ae5
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jan 07 00:27:07 2015 -0600
+date:        Fri Jan 09 00:47:44 2015 -0600
 files:       .hgtags
 description:
-Added tag devel-1.4.2 for changeset 2c9228081a0c
+Added tag devel-1.4.3 for changeset 8615aa66c407
 
 
-changeset:   749:89bd880049bf
+changeset:   758:c62316969fc8
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jan 07 09:03:00 2015 -0600
-files:       lib/ctext/ctext.tcl lib/version.tcl
+date:        Mon Jan 19 08:37:48 2015 -0600
+files:       lib/gui.tcl lib/version.tcl lib/vim.tcl
 description:
-* Adding a few optimizations to the line number renderer.
+* More work on improved undo/redo support.
+* Adding ability to bubble lines (Control-J/K).
 
 
-changeset:   750:55189cc683f1
+changeset:   759:2b185c753513
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jan 07 23:32:51 2015 -0600
-files:       data/syntax/Markdown.syntax lib/ctext/ctext.tcl lib/syntax.tcl lib/version.tcl
-description:
-* Adding "click" support to ctext.
-* Adding auto-match char configurability to ctext.
-
-
-changeset:   751:5c6cd482948a
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Jan 08 00:30:49 2015 -0600
-files:       data/syntax/Markdown.syntax lib/syntax.tcl lib/version.tcl
-description:
-* Adding support for clickable referenced links in Markdown.
-
-
-changeset:   752:c413bc102135
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Jan 08 00:40:03 2015 -0600
+date:        Fri Jan 23 08:38:50 2015 -0600
 files:       lib/completer.tcl lib/version.tcl
 description:
-* Causing matching character to blink in completer when its matching character is entered.
+* Making double and single string completer more intelligent.
 
 
-changeset:   753:e70b1dc4a3f2
+changeset:   760:bbf1f2aadfe7
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Jan 08 01:43:09 2015 -0600
-files:       lib/api.tcl lib/plugins.tcl lib/syntax.tcl lib/version.tcl
+date:        Sun Jan 25 23:14:14 2015 -0600
+files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Checkpointing work on adding a language via plugin.
+* Initial attempt to add undo/redo capability to ctext widget.
 
 
-changeset:   754:7f1ca20c7e04
+changeset:   761:f2f726522474
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Jan 08 09:42:40 2015 -0600
-files:       lib/plugins.tcl lib/syntax.tcl lib/version.tcl
+date:        Mon Jan 26 00:58:35 2015 -0600
+files:       lib/ctext/ctext.tcl lib/gui.tcl lib/menus.tcl lib/version.tcl lib/vim.tcl
 description:
-* Adding hook to allow a plugin procedure to be called for a syntax highlight command.
+* Checkpointing work on undo/redo support in ctext.
 
 
-changeset:   755:a7883b539004
+changeset:   762:6bb07feeca6b
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Jan 26 09:14:20 2015 -0600
+files:       lib/ctext/ctext.tcl lib/version.tcl
+description:
+* Checkpointing work on undo/redo.
+
+
+changeset:   763:5a0b84e12f27
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Feb 04 00:58:41 2015 -0600
+files:       data/syntax/SystemVerilog.syntax lib/ctext/ctext.tcl lib/tablelist5.10/CHANGES.txt lib/tablelist5.10/COPYRIGHT.txt lib/tablelist5.10/README.txt lib/tablelist5.10/demos/browse.tcl lib/tablelist5.10/demos/browseTree.tcl lib/tablelist5.10/demos/browseTree_tile.tcl lib/tablelist5.10/demos/browse_tile.tcl lib/tablelist5.10/demos/bwidget.tcl lib/tablelist5.10/demos/bwidget_tile.tcl lib/tablelist5.10/demos/checked.gif lib/tablelist5.10/demos/clsdFolder.gif lib/tablelist5.10/demos/comp.xbm lib/tablelist5.10/demos/config.tcl lib/tablelist5.10/demos/config_tile.tcl lib/tablelist5.10/demos/dirViewer.tcl lib/tablelist5.10/demos/dirViewer_tile.tcl lib/tablelist5.10/demos/embeddedWindows.tcl lib/tablelist5.10/demos/embeddedWindows_tile.tcl lib/tablelist5.10/demos/file.gif lib/tablelist5.10/demos/images.tcl lib/tablelist5.10/demos/iwidgets.tcl lib/tablelist5.10/demos/iwidgets_tile.tcl lib/tablelist5.10/demos/leaf.xbm lib/tablelist5.10/demos/miscWidgets.tcl lib/tablelist5.10/demos/miscWidgets_tile.tcl lib/tablelist5.10/demos/open.gif lib/tablelist5.10/demos/openFolder.gif lib/tablelist5.10/demos/option.tcl lib/tablelist5.10/demos/option_tile.tcl lib/tablelist5.10/demos/styles.tcl lib/tablelist5.10/demos/styles_tile.tcl lib/tablelist5.10/demos/tileWidgets.tcl lib/tablelist5.10/demos/unchecked.gif lib/tablelist5.10/doc/adwaita.png lib/tablelist5.10/doc/ambiance.png lib/tablelist5.10/doc/aqua.png lib/tablelist5.10/doc/arrowStyles.png lib/tablelist5.10/doc/baghira.png lib/tablelist5.10/doc/browse.png lib/tablelist5.10/doc/browseTree.png lib/tablelist5.10/doc/bwidget.png lib/tablelist5.10/doc/config.png lib/tablelist5.10/doc/dirViewer.png lib/tablelist5.10/doc/dust.png lib/tablelist5.10/doc/dustSand.png lib/tablelist5.10/doc/embeddedWindows.png lib/tablelist5.10/doc/embeddedWindows_tile.png lib/tablelist5.10/doc/gtk.png lib/tablelist5.10/doc/index.html lib/tablelist5.10/doc/klearlooks.png lib/tablelist5.10/doc/mint.png lib/tablelist5.10/doc/newWave.png lib/tablelist5.10/doc/oxygen1.png lib/tablelist5.10/doc/oxygen2.png lib/tablelist5.10/doc/phase.png lib/tablelist5.10/doc/plastik.png lib/tablelist5.10/doc/plastique.png lib/tablelist5.10/doc/radiance.png lib/tablelist5.10/doc/styles.png lib/tablelist5.10/doc/tablelist.html lib/tablelist5.10/doc/tablelistBWidget.html lib/tablelist5.10/doc/tablelistBinding.html lib/tablelist5.10/doc/tablelistColSort.html lib/tablelist5.10/doc/tablelistCombobox.html lib/tablelist5.10/doc/tablelistCtext.html lib/tablelist5.10/doc/tablelistIwidgets.html lib/tablelist5.10/doc/tablelistMentry.html lib/tablelist5.10/doc/tablelistThemes.html lib/tablelist5.10/doc/tablelistTile.html lib/tablelist5.10/doc/tablelistTkCore.html lib/tablelist5.10/doc/tablelistWidget.html lib/tablelist5.10/doc/tileWidgets.png lib/tablelist5.10/doc/ubuntu.png lib/tablelist5.10/doc/vistaAero.png lib/tablelist5.10/doc/vistaClassic.png lib/tablelist5.10/doc/win7Aero.png lib/tablelist5.10/doc/win7Classic.png lib/tablelist5.10/doc/winnative.png lib/tablelist5.10/doc/winxpBlue.png lib/tablelist5.10/doc/winxpOlive.png lib/tablelist5.10/doc/winxpSilver.png lib/tablelist5.10/pkgIndex.tcl lib/tablelist5.10/scripts/mwutil.tcl lib/tablelist5.10/scripts/repair.tcl lib/tablelist5.10/scripts/tablelistBind.tcl lib/tablelist5.10/scripts/tablelistConfig.tcl lib/tablelist5.10/scripts/tablelistEdit.tcl lib/tablelist5.10/scripts/tablelistImages.tcl lib/tablelist5.10/scripts/tablelistMove.tcl lib/tablelist5.10/scripts/tablelistSort.tcl lib/tablelist5.10/scripts/tablelistThemes.tcl lib/tablelist5.10/scripts/tablelistUtil.tcl lib/tablelist5.10/scripts/tablelistWidget.tcl lib/tablelist5.10/scripts/tclIndex lib/tablelist5.10/tablelist.tcl lib/tablelist5.10/tablelistPublic.tcl lib/tablelist5.10/tablelist_tile.tcl lib/tablelist5.13/CHANGES.txt lib/tablelist5.13/COPYRIGHT.txt lib/tablelist5.13/README.txt lib/tablelist5.13/demos/browse.tcl lib/tablelist5.13/demos/browseTree.tcl lib/tablelist5.13/demos/browseTree_tile.tcl lib/tablelist5.13/demos/browse_tile.tcl lib/tablelist5.13/demos/bwidget.tcl lib/tablelist5.13/demos/bwidget_tile.tcl lib/tablelist5.13/demos/checked.gif lib/tablelist5.13/demos/clsdFolder.gif lib/tablelist5.13/demos/comp.xbm lib/tablelist5.13/demos/config.tcl lib/tablelist5.13/demos/config_tile.tcl lib/tablelist5.13/demos/dirViewer.tcl lib/tablelist5.13/demos/dirViewer_tile.tcl lib/tablelist5.13/demos/embeddedWindows.tcl lib/tablelist5.13/demos/embeddedWindows_tile.tcl lib/tablelist5.13/demos/file.gif lib/tablelist5.13/demos/images.tcl lib/tablelist5.13/demos/iwidgets.tcl lib/tablelist5.13/demos/iwidgets_tile.tcl lib/tablelist5.13/demos/leaf.xbm lib/tablelist5.13/demos/miscWidgets.tcl lib/tablelist5.13/demos/miscWidgets_tile.tcl lib/tablelist5.13/demos/open.gif lib/tablelist5.13/demos/openFolder.gif lib/tablelist5.13/demos/option.tcl lib/tablelist5.13/demos/option_tile.tcl lib/tablelist5.13/demos/styles.tcl lib/tablelist5.13/demos/styles_tile.tcl lib/tablelist5.13/demos/tileWidgets.tcl lib/tablelist5.13/demos/unchecked.gif lib/tablelist5.13/doc/adwaita.png lib/tablelist5.13/doc/ambiance.png lib/tablelist5.13/doc/aqua.png lib/tablelist5.13/doc/arrowStyles.png lib/tablelist5.13/doc/baghira.png lib/tablelist5.13/doc/browse.png lib/tablelist5.13/doc/browseTree.png lib/tablelist5.13/doc/bwidget.png lib/tablelist5.13/doc/config.png lib/tablelist5.13/doc/dirViewer.png lib/tablelist5.13/doc/dust.png lib/tablelist5.13/doc/dustSand.png lib/tablelist5.13/doc/embeddedWindows.png lib/tablelist5.13/doc/embeddedWindows_tile.png lib/tablelist5.13/doc/gtk.png lib/tablelist5.13/doc/index.html lib/tablelist5.13/doc/klearlooks.png lib/tablelist5.13/doc/mate.png lib/tablelist5.13/doc/mint.png lib/tablelist5.13/doc/newWave.png lib/tablelist5.13/doc/oxygen1.png lib/tablelist5.13/doc/oxygen2.png lib/tablelist5.13/doc/phase.png lib/tablelist5.13/doc/plastik.png lib/tablelist5.13/doc/plastique.png lib/tablelist5.13/doc/radiance.png lib/tablelist5.13/doc/styles.png lib/tablelist5.13/doc/stylesheet.css lib/tablelist5.13/doc/tablelist.html lib/tablelist5.13/doc/tablelistBWidget.html lib/tablelist5.13/doc/tablelistBinding.html lib/tablelist5.13/doc/tablelistColSort.html lib/tablelist5.13/doc/tablelistCombobox.html lib/tablelist5.13/doc/tablelistCtext.html lib/tablelist5.13/doc/tablelistIwidgets.html lib/tablelist5.13/doc/tablelistMentry.html lib/tablelist5.13/doc/tablelistThemes.html lib/tablelist5.13/doc/tablelistTile.html lib/tablelist5.13/doc/tablelistTkCore.html lib/tablelist5.13/doc/tablelistWidget.html lib/tablelist5.13/doc/tileWidgets.png lib/tablelist5.13/doc/ubuntu.png lib/tablelist5.13/doc/vistaAero.png lib/tablelist5.13/doc/vistaClassic.png lib/tablelist5.13/doc/win7Aero.png lib/tablelist5.13/doc/win7Classic.png lib/tablelist5.13/doc/winnative.png lib/tablelist5.13/doc/winxpBlue.png lib/tablelist5.13/doc/winxpOlive.png lib/tablelist5.13/doc/winxpSilver.png lib/tablelist5.13/pkgIndex.tcl lib/tablelist5.13/scripts/mwutil.tcl lib/tablelist5.13/scripts/pencil.cur lib/tablelist5.13/scripts/repair.tcl lib/tablelist5.13/scripts/tablelistBind.tcl lib/tablelist5.13/scripts/tablelistConfig.tcl lib/tablelist5.13/scripts/tablelistEdit.tcl lib/tablelist5.13/scripts/tablelistImages.tcl lib/tablelist5.13/scripts/tablelistMove.tcl lib/tablelist5.13/scripts/tablelistSort.tcl lib/tablelist5.13/scripts/tablelistThemes.tcl lib/tablelist5.13/scripts/tablelistUtil.tcl lib/tablelist5.13/scripts/tablelistWidget.tcl lib/tablelist5.13/scripts/tclIndex lib/tablelist5.13/tablelist.tcl lib/tablelist5.13/tablelistPublic.tcl lib/tablelist5.13/tablelist_tile.tcl lib/tke.tcl lib/version.tcl lib/vim.tcl
+description:
+* Upgrading tablelist widget from 5.10 to 5.13.
+* Checkpointing work on new undo/redo mechanism (not ready for testing yet).
+
+
+changeset:   764:d0a9b854d767
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Feb 11 21:04:16 2015 -0600
+files:       lib/ctext/ctext.tcl lib/gui.tcl lib/version.tcl
+description:
+* Fixing issues with bracket matching to skip matching brackets in strings or comments.
+
+
+changeset:   765:1517308cf15d
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Feb 12 01:33:01 2015 -0600
+files:       lib/ctext/ctext.tcl lib/gui.tcl lib/version.tcl lib/vim.tcl
+description:
+* Lots of fixes to undo/redo mechanism.
+
+
+changeset:   766:6508dd5ebab6
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Jan 09 00:39:51 2015 -0600
-files:       lib/ctext/ctext.tcl lib/plugins.tcl lib/syntax.tcl lib/version.tcl plugins/markdown_color/Markdown_color.syntax plugins/markdown_color/header.tkedat plugins/markdown_color/main.tcl
+date:        Thu Feb 12 08:51:06 2015 -0600
+files:       data/preferences.tkedat lib/ctext/ctext.tcl lib/gui.tcl lib/tkedat.tcl lib/version.tcl lib/vim.tcl
 description:
-* Adding markdown_color plugin as an example plugin.
-* Fixing bugs associated with syntax plugins.
+* Fixing a few issues surrounding undo.
+* Adding Editor/MaxUndo option to preferences file.
+* Fixing spacing issues in tkedat file writing.
 
 
