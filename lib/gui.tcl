@@ -137,7 +137,7 @@ namespace eval gui {
 
     set foreground [utils::get_default_foreground]
 
-    switch $preferences::prefs(General/WindowTheme) {
+    switch [preferences::get General/WindowTheme] {
       dark {
         set lock     $foreground
         set readonly grey70
@@ -306,28 +306,28 @@ namespace eval gui {
     menus::create
 
     # Show the sidebar (if necessary)
-    if {$preferences::prefs(View/ShowSidebar)} {
+    if {[preferences::get View/ShowSidebar]} {
       show_sidebar_view
     } else {
       hide_sidebar_view
     }
 
     # Show the console (if necessary)
-    if {$preferences::prefs(View/ShowConsole)} {
+    if {[preferences::get View/ShowConsole]} {
       show_console_view
     } else {
       # hide_console_view
     }
 
     # Show the tabbar (if necessary)
-    if {$preferences::prefs(View/ShowTabBar)} {
+    if {[preferences::get View/ShowTabBar]} {
       show_tab_view
     } else {
       hide_tab_view
     }
 
     # Show the status bar (if necessary)
-    if {$preferences::prefs(View/ShowStatusBar)} {
+    if {[preferences::get View/ShowStatusBar]} {
       show_status_view
     } else {
       hide_status_view
@@ -344,6 +344,7 @@ namespace eval gui {
 
     # Trace changes to the Appearance/Theme preference variable
     trace variable preferences::prefs(Editor/WarningWidth)       w gui::handle_warning_width_change
+    trace variable preferences::prefs(Editor/MaxUndo)            w gui::handle_max_undo
     trace variable preferences::prefs(View/AllowTabScrolling)    w gui::handle_allow_tab_scrolling
     trace variable preferences::prefs(Tools/VimMode)             w gui::handle_vim_mode
     trace variable preferences::prefs(Appearance/EditorFontSize) w gui::handle_editor_font_size
@@ -379,7 +380,7 @@ namespace eval gui {
     foreach pane [$widgets(nb_pw) panes] {
       foreach tab [$pane.tbf.tb tabs] {
         foreach txt_pane [$tab.pw panes] {
-          $txt_pane.txt configure -warnwidth $preferences::prefs(Editor/WarningWidth)
+          $txt_pane.txt configure -warnwidth [preferences::get Editor/WarningWidth]
         }
       }
     }
@@ -387,13 +388,30 @@ namespace eval gui {
   }
 
   ######################################################################
+  # Handles any preference changes to the Editor/MaxUndo setting.
+  proc handle_max_undo {name1 name2 op} {
+    
+    variable widgets
+    
+    # Set the max_undo to the specified value
+    foreach pane [$widgets(nb_pw) panes] {
+      foreach tab [$pane.tbf.tb tabs] {
+        foreach txt_pane [$tab.pw panes] {
+          $txt_pane.txt configure -maxundo [preferences::get Editor/WarningWidth]
+        }
+      }
+    }
+
+  }
+  
+  ######################################################################
   # Handles any changes to the View/AllowTabScrolling preference variable.
   proc handle_allow_tab_scrolling {name1 name2 op} {
 
     variable widgets
 
     foreach pane [$widgets(nb_pw) panes] {
-      $pane.tbf.tb configure -mintabwidth [expr {$preferences::prefs(View/AllowTabScrolling) ? [lindex [$pane.tbf.tb configure -mintabwidth] 3] : 1}]
+      $pane.tbf.tb configure -mintabwidth [expr {[preferences::get View/AllowTabScrolling] ? [lindex [$pane.tbf.tb configure -mintabwidth] 3] : 1}]
     }
 
   }
@@ -736,7 +754,7 @@ namespace eval gui {
       wm geometry . $content(Geometry)
 
       # If we are supposed to load the last saved session, do it now
-      if {$preferences::prefs(General/LoadLastSession) && \
+      if {[preferences::get General/LoadLastSession] && \
           ([llength $files] == 1) && \
           ([lindex $files 0 $files_index(fname)] eq "") && \
           [info exists content(FileInfo)]} {
@@ -1153,7 +1171,7 @@ namespace eval gui {
 
     # If the host does not match our host, handle the NFS mount normalization
     if {$host ne [info hostname]} {
-      array set nfs_mounts $preferences::prefs(NFSMounts)
+      array set nfs_mounts [preferences::get NFSMounts]
       if {[info exists nfs_mounts($host)]} {
         lassign $nfs_mounts($host) mount_dir shortcut
         set shortcut_len [string length $shortcut]
@@ -1506,7 +1524,7 @@ namespace eval gui {
     # Add a new file if we have no more tabs, we are the only pane, and the preference
     # setting is to not close after the last tab is closed.
     if {([llength [$w tabs]] == 0) && ([llength [$widgets(nb_pw) panes]] == 1)} {
-      if {$preferences::prefs(General/ExitOnLastClose)} {
+      if {[preferences::get General/ExitOnLastClose]} {
         menus::exit_command
       } else {
         add_new_file end
@@ -1563,7 +1581,7 @@ namespace eval gui {
     # Add a new file if we have no more tabs, we are the only pane, and the preference
     # setting is to not close after the last tab is closed.
     if {([llength [$tb tabs]] == 0) && ([llength [$widgets(nb_pw) panes]] == 1) && !$exiting} {
-      if {$preferences::prefs(General/ExitOnLastClose) || $::cl_exit_on_close} {
+      if {[preferences::get General/ExitOnLastClose] || $::cl_exit_on_close} {
         menus::exit_command
       } elseif {$keep_tab} {
         add_new_file end
@@ -2814,7 +2832,7 @@ namespace eval gui {
   # inserted into the current notebook in alphabetical order.
   proc adjust_insert_tab_index {index title} {
 
-    if {$preferences::prefs(View/OpenTabsAlphabetically) && ($index eq "end")} {
+    if {[preferences::get View/OpenTabsAlphabetically] && ($index eq "end")} {
 
       set sorted_index 0
 
@@ -2868,7 +2886,8 @@ namespace eval gui {
     # Create the editor frame
     $tab_frame.pw add [ttk::frame $tab_frame.pw.tf]
     ctext $txt -wrap none -undo 1 -autoseparators 1 -insertofftime 0 \
-      -highlightcolor yellow -warnwidth $preferences::prefs(Editor/WarningWidth) \
+      -highlightcolor yellow -warnwidth [preferences::get Editor/WarningWidth] \
+      -maxundo [preferences::get Editor/MaxUndo] \
       -linemap_mark_command gui::mark_command -linemap_select_bg orange \
       -linemap_relief flat -linemap_minwidth 4 \
       -xscrollcommand "utils::set_xscrollbar $tab_frame.pw.tf.hb" \
@@ -3011,7 +3030,7 @@ namespace eval gui {
 
     # Add the new tab to the notebook in alphabetical order (if specified) and if
     # the given index is "end"
-    if {$preferences::prefs(View/OpenTabsAlphabetically) && ($index eq "end")} {
+    if {[preferences::get View/OpenTabsAlphabetically] && ($index eq "end")} {
       set added 0
       foreach t [$tb tabs] {
         if {[string compare " $title" [$tb tab $t -text]] == -1} {
@@ -3058,7 +3077,8 @@ namespace eval gui {
     # Create the editor frame
     $pw insert 0 [ttk::frame $pw.tf2]
     ctext $txt2 -wrap none -undo 1 -autoseparators 1 -insertofftime 0 -font editor_font \
-      -highlightcolor yellow -warnwidth $preferences::prefs(Editor/WarningWidth) \
+      -highlightcolor yellow -warnwidth [preferences::get Editor/WarningWidth] \
+      -maxundo [preferences::get Editor/MaxUndo] \
       -linemap_mark_command [ns gui]::mark_command -linemap_select_bg orange -peer $txt \
       -xscrollcommand "utils::set_xscrollbar $pw.tf2.hb" \
       -yscrollcommand "utils::set_yscrollbar $pw.tf2.vb"
@@ -3746,7 +3766,7 @@ namespace eval gui {
     # Clean up the text from Vim
     set str [vim::get_cleaned_content $txt]
 
-    if {$preferences::prefs(Editor/RemoveTrailingWhitespace)} {
+    if {[preferences::get Editor/RemoveTrailingWhitespace]} {
       regsub -all -lineanchor -- $trailing_ws_re $str {} str
     }
 

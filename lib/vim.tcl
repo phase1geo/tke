@@ -1795,13 +1795,13 @@ namespace eval vim {
     variable mode
     
     if {$mode($txt) eq "start"} {
+      edit_mode $txt
       if {[[ns multicursor]::enabled $txt]} {
         [ns multicursor]::adjust $txt "-1l" 1 dspace
       } else {
         $txt insert "insert linestart" "\n"
       }
       $txt mark set insert "insert-1l"
-      edit_mode $txt
       [ns indent]::newline $txt insert
       record_start
       return 1

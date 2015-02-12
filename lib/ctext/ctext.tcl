@@ -422,6 +422,8 @@ proc ctext::buildArgParseTable win {
       return -code error "-maxundo argument must be an integer value"
     }
     set configAr(-maxundo) $value
+    set configAr(undo_hist) [lrange $configAr(undo_hist) $value end]
+    set configAr(redo_hist) [lrange $configAr(redo_hist) $value end]
   }
 
   lappend argTable {0 false no} -autoseparators {
@@ -546,7 +548,7 @@ proc ctext::undo_insert {win insert_pos str_len cursor} {
   
   ctext::getAr $win config configAr
 
-  puts "In ctext::undo_insert, insert_pos: $insert_pos, str_len: $str_len, cursor: $cursor, -undo: $configAr(-undo)"
+#  puts "In ctext::undo_insert, insert_pos: $insert_pos, str_len: $str_len, cursor: $cursor, -undo: $configAr(-undo)"
 
   if {!$configAr(-undo)} {
     return
@@ -556,14 +558,12 @@ proc ctext::undo_insert {win insert_pos str_len cursor} {
   
   # Combine elements, if possible
   if {[llength $configAr(undo_hist)] > 0} {
-    puts "  undo_hist: $configAr(undo_hist)"
     lassign [lindex $configAr(undo_hist) end] cmd val1 val2 hcursor sep
-    puts "  cmd: $cmd, val1: $val1, val2: $val2, hcursor: $hcursor, sep: $sep, insert_pos: $insert_pos, auto: $configAr(-autoseparators)"
     if {$sep == 0} {
       if {($cmd eq "delete") && ($val2 == $insert_pos)} {
         lset configAr(undo_hist) end 2 $end_pos
         set configAr(redo_hist) [list]
-        puts "  B undo_hist: $configAr(undo_hist)"
+#        puts "  B undo_hist: $configAr(undo_hist)"
         return
       }
     }
@@ -578,7 +578,7 @@ proc ctext::undo_insert {win insert_pos str_len cursor} {
 
   set configAr(redo_hist) [list]
   
-  puts "  A undo_hist: $configAr(undo_hist)"
+#  puts "  A undo_hist: $configAr(undo_hist)"
   
 }
 
@@ -586,7 +586,7 @@ proc ctext::undo_delete {win start_pos end_pos} {
   
   ctext::getAr $win config configAr
 
-  puts "In ctext::undo_delete, start_pos: $start_pos, end_pos: $end_pos, -undo: $configAr(-undo)"
+#  puts "In ctext::undo_delete, start_pos: $start_pos, end_pos: $end_pos, -undo: $configAr(-undo)"
 
   if {!$configAr(-undo)} {
     return
@@ -597,7 +597,6 @@ proc ctext::undo_delete {win start_pos end_pos} {
   # Combine elements, if possible
   if {[llength $configAr(undo_hist)] > 0} {
     lassign [lindex $configAr(undo_hist) end] cmd val1 val2 cursor sep
-    puts "preD, cmd: $cmd, val1: $val1, end_pos: $end_pos"
     if {$sep == 0} {
       if {$cmd eq "insert"} {
         if {$val1 == $end_pos} {
@@ -607,12 +606,12 @@ proc ctext::undo_delete {win start_pos end_pos} {
           lset configAr(undo_hist) end 2 "$val2$str"
         }
         set configAr(redo_hist) [list]
-        puts "  D undo_hist: $configAr(undo_hist)"
+#        puts "  D undo_hist: $configAr(undo_hist)"
         return
       } elseif {($cmd eq "delete") && ($val2 == $end_pos)} {
         lset configAr(undo_hist) end 2 $start_pos
         lset configAr(redo_hist) [list]
-        puts "  E undo_hist: $configAr(undo_hist)"
+#        puts "  E undo_hist: $configAr(undo_hist)"
         return
       }
     }
@@ -627,7 +626,7 @@ proc ctext::undo_delete {win start_pos end_pos} {
 
   set configAr(redo_hist) [list]
   
-  puts "  C undo_hist: $configAr(undo_hist)"
+#  puts "  C undo_hist: $configAr(undo_hist)"
   
 }
 
@@ -675,10 +674,11 @@ proc ctext::undo {win} {
     $win._t see insert
 
     ctext::modified $win 1
+    ctext::linemapUpdate $win
     
-    puts "In ctext::undo"
-    puts "  undo: $configAr(undo_hist)"
-    puts "  redo: $configAr(redo_hist)"
+#    puts "In ctext::undo"
+#    puts "  undo: $configAr(undo_hist)"
+#    puts "  redo: $configAr(redo_hist)"
 
   }
   
@@ -731,10 +731,11 @@ proc ctext::redo {win} {
     $win._t see insert
 
     ctext::modified $win 1
+    ctext::linemapUpdate $win
 
-    puts "In ctext::redo"
-    puts "  undo: $configAr(undo_hist)"
-    puts "  redo: $configAr(redo_hist)"
+#    puts "In ctext::redo"
+#    puts "  undo: $configAr(undo_hist)"
+#    puts "  redo: $configAr(redo_hist)"
 
   }
   
@@ -1008,6 +1009,7 @@ proc ctext::instanceCmd {self cmd args} {
       ctext::undo_insert $self [$self._t index insert] [string length [clipboard get]] [$self._t index insert]
       tk_textPaste $self
       ctext::modified $self 1
+      ctext::linemapUpdate $self
     }
 
     peer {
