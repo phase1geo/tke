@@ -131,10 +131,10 @@ namespace eval tkedat {
         if {![regexp {,comment$} $name]} {
           if {[info exists content($name,comment)]} {
             foreach comment $content($name,comment) {
-              puts $rc "# $comment"
+              puts $rc "#$comment"
             }
           }
-          puts $rc "{$name} {$content($name)}\n"
+          puts $rc "\n{$name} {$content($name)}\n"
         }
       }
 
