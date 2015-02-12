@@ -1754,7 +1754,7 @@ namespace eval gui {
     set txt [current_txt $tid]
 
     # Perform the undo operation from Vim perspective
-    $txt edit undo
+    vim::undo $txt.t
 
   }
 
@@ -1777,7 +1777,7 @@ namespace eval gui {
     set txt [current_txt $tid]
 
     # Perform the redo operation from Vim perspective
-    $txt edit redo
+    vim::redo $txt.t
 
   }
 
