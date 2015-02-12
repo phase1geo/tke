@@ -1334,7 +1334,7 @@ proc ctext::matchPair {win str1 str2} {
     set prevChar [$win get "$found - 1 chars"]
     set pos $found
 
-    if {[isEscaped $win $found]} {
+    if {[isEscaped $win $found] || [inCommentString $win $found]} {
       continue
     } elseif {[string equal $char [subst $str2]]} {
       incr count
