@@ -3587,7 +3587,7 @@ namespace eval gui {
         set pos "$found"
       }
 
-      if {[ctext::isEscaped $txt $found]} {
+      if {[ctext::isEscaped $txt $found] || [ctext::inCommentString $txt $found]} {
         continue
       } elseif {[string equal $char [subst $str2]]} {
         incr count
