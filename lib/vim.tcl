@@ -1665,14 +1665,41 @@ namespace eval vim {
   }
 
   ######################################################################
+  # Performs an undo operation.
+  proc undo {txt} {
+    
+    # Perform the undo operation
+    $txt edit undo
+    
+    # Adjusts the insertion cursor if we are in Vim mode
+    if {[in_vim_mode $txt]} {
+      adjust_insert $txt
+    }
+    
+  }
+  
+  ######################################################################
+  # Performs a redo operation.
+  proc redo {txt} {
+    
+    # Performs the redo operation
+    $txt edit redo
+    
+    # Adjusts the insertion cursor if we are in Vim mode
+    if {[in_vim_mode $txt]} {
+      adjust_insert $txt
+    }
+    
+  }
+  
+  ######################################################################
   # If we are in "start" mode, undoes the last operation.
   proc handle_u {txt tid} {
   
     variable mode
     
     if {$mode($txt) eq "start"} {
-      [ns gui]::undo $tid
-      adjust_insert $txt
+      undo $txt
       return 1
     }
     
@@ -1743,6 +1770,7 @@ namespace eval vim {
     variable number
     
     if {$mode($txt) eq "start"} {
+      edit_mode $txt
       if {[[ns multicursor]::enabled $txt]} {
         [ns multicursor]::adjust $txt "+1l" 1 dspace
       } else {
@@ -1750,7 +1778,6 @@ namespace eval vim {
       }
       $txt mark set insert "insert+1l"
       $txt see insert
-      edit_mode $txt
       [ns indent]::newline $txt insert
       record_start
       return 1

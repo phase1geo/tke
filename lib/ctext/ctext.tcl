@@ -556,12 +556,16 @@ proc ctext::undo_insert {win insert_pos str_len cursor} {
   
   # Combine elements, if possible
   if {[llength $configAr(undo_hist)] > 0} {
-    lassign [lindex $configAr(undo_hist) end] cmd val1 val2 cursor sep
-    if {($cmd eq "delete") && ($val2 == $insert_pos)} {
-      lset configAr(undo_hist) end 2 $end_pos
-      set configAr(redo_hist) [list]
-      puts "  B undo_hist: $configAr(undo_hist)"
-      return
+    puts "  undo_hist: $configAr(undo_hist)"
+    lassign [lindex $configAr(undo_hist) end] cmd val1 val2 hcursor sep
+    puts "  cmd: $cmd, val1: $val1, val2: $val2, hcursor: $hcursor, sep: $sep, insert_pos: $insert_pos, auto: $configAr(-autoseparators)"
+    if {$sep == 0} {
+      if {($cmd eq "delete") && ($val2 == $insert_pos)} {
+        lset configAr(undo_hist) end 2 $end_pos
+        set configAr(redo_hist) [list]
+        puts "  B undo_hist: $configAr(undo_hist)"
+        return
+      }
     }
   }
   
@@ -593,12 +597,24 @@ proc ctext::undo_delete {win start_pos end_pos} {
   # Combine elements, if possible
   if {[llength $configAr(undo_hist)] > 0} {
     lassign [lindex $configAr(undo_hist) end] cmd val1 val2 cursor sep
-    if {($cmd eq "insert") && ($val1 == $end_pos)} {
-      lset configAr(undo_hist) end 1 $start_pos
-      lset configAr(undo_hist) end 2 "$str$val2"
-      set configAr(redo_hist) [list]
-      puts "  D undo_hist: $configAr(undo_hist)"
-      return
+    puts "preD, cmd: $cmd, val1: $val1, end_pos: $end_pos"
+    if {$sep == 0} {
+      if {$cmd eq "insert"} {
+        if {$val1 == $end_pos} {
+          lset configAr(undo_hist) end 1 $start_pos
+          lset configAr(undo_hist) end 2 "$str$val2"
+        } elseif {$val1 == $start_pos} {
+          lset configAr(undo_hist) end 2 "$val2$str"
+        }
+        set configAr(redo_hist) [list]
+        puts "  D undo_hist: $configAr(undo_hist)"
+        return
+      } elseif {($cmd eq "delete") && ($val2 == $end_pos)} {
+        lset configAr(undo_hist) end 2 $start_pos
+        lset configAr(redo_hist) [list]
+        puts "  E undo_hist: $configAr(undo_hist)"
+        return
+      }
     }
   }
   
@@ -634,14 +650,14 @@ proc ctext::undo {win} {
       
       switch $cmd {
         insert {
-          $win._t insert "$val1+1c" $val2
+          $win._t insert $val1 $val2
           set val2 [$win index "$val1+[string length $val2]c"]
-          lappend configAr(redo_hist) [list delete $val1 $val2 $val1 $sep]
+          lappend configAr(redo_hist) [list delete $val1 $val2 $cursor $sep]
         }  
         delete {
           set str [$win get $val1 $val2]
           $win._t delete $val1 $val2
-          lappend configAr(redo_hist) [list insert $val1 $str [$win index "$val1+[string length $str]c"] $sep]
+          lappend configAr(redo_hist) [list insert $val1 $str $cursor $sep]
         }
       }
 
@@ -682,25 +698,30 @@ proc ctext::redo {win} {
       
       switch $cmd {
         insert {
-          puts "Inserting $val2 at $val1"
-          $win._t insert "$val1+1c" $val2
+          $win._t insert $val1 $val2
           set val2 [$win index "$val1+[string length $val2]c"]
-          lappend configAr(undo_hist) [list delete $val1 $val2 $val1 $sep]
+          lappend configAr(undo_hist) [list delete $val1 $val2 $cursor $sep]
+          if {$cursor != $val2} {
+            set cursor $val2
+          }
         }
         delete {
           set str [$win get $val1 $val2]
           $win._t delete $val1 $val2
-          lappend configAr(undo_hist) [list insert $val1 $str [$win index "$val1+[string length $str]c"] $sep]
+          lappend configAr(undo_hist) [list insert $val1 $str $cursor $sep]
+          if {$cursor != $val1} {
+            set cursor $val1
+          }
         }
       }
   
       $win highlight "$val1 linestart" "$val2 lineend"
       
+      incr i
+      
       if {$sep} {
         break
       }
-      
-      incr i
       
     }
 
@@ -984,7 +1005,7 @@ proc ctext::instanceCmd {self cmd args} {
     }
 
     paste {
-      ctext::undo_insert $self [$txt index insert] [clipboard get]
+      ctext::undo_insert $self [$self._t index insert] [string length [clipboard get]] [$self._t index insert]
       tk_textPaste $self
       ctext::modified $self 1
     }
