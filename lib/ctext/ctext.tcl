@@ -549,7 +549,7 @@ proc ctext::undo_insert {win insert_pos str_len cursor} {
   ctext::getAr $win config configAr
 
 #  puts "In ctext::undo_insert, insert_pos: $insert_pos, str_len: $str_len, cursor: $cursor, -undo: $configAr(-undo)"
-
+ 
   if {!$configAr(-undo)} {
     return
   }
@@ -566,10 +566,11 @@ proc ctext::undo_insert {win insert_pos str_len cursor} {
 #        puts "  B undo_hist: $configAr(undo_hist)"
         return
       }
+      lset configAr(undo_hist) end 4 $configAr(-autoseparators)
     }
   }
   
-  lappend configAr(undo_hist) [list delete $insert_pos $end_pos $cursor $configAr(-autoseparators)]
+  lappend configAr(undo_hist) [list delete $insert_pos $end_pos $cursor 0]
 
   # Adjust the undo history list if we exceed the maximum undo history size
   if {($configAr(-maxundo) > 0) && ($configAr(-maxundo) < [llength $configAr(undo_hist)])} {
@@ -602,22 +603,26 @@ proc ctext::undo_delete {win start_pos end_pos} {
         if {$val1 == $end_pos} {
           lset configAr(undo_hist) end 1 $start_pos
           lset configAr(undo_hist) end 2 "$str$val2"
+          set configAr(redo_hist) [list]
+#          puts "  D1 undo_hist: $configAr(undo_hist)"
+          return
         } elseif {$val1 == $start_pos} {
           lset configAr(undo_hist) end 2 "$val2$str"
+          set configAr(redo_hist) [list]
+#          puts "  D2 undo_hist: $configAr(undo_hist)"
+          return
         }
-        set configAr(redo_hist) [list]
-#        puts "  D undo_hist: $configAr(undo_hist)"
-        return
       } elseif {($cmd eq "delete") && ($val2 == $end_pos)} {
         lset configAr(undo_hist) end 2 $start_pos
         lset configAr(redo_hist) [list]
 #        puts "  E undo_hist: $configAr(undo_hist)"
         return
       }
+      lset configAr(undo_hist) end 4 $configAr(-autoseparators)
     }
   }
   
-  lappend configAr(undo_hist) [list insert $start_pos $str [$win index insert] $configAr(-autoseparators)]
+  lappend configAr(undo_hist) [list insert $start_pos $str [$win index insert] 0]
   
   # Adjust the undo history list if we exceed the maximum undo history size
   if {($configAr(-maxundo) > 0) && ($configAr(-maxundo) < [llength $configAr(undo_hist)])} {

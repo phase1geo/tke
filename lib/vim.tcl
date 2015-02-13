@@ -1043,6 +1043,9 @@ namespace eval vim {
     
     variable number
     
+    # Create a separator
+    $txt edit separator
+
     set lines [expr {($number($txt) ne "") ? $number($txt) : 1}]
 
     while {$lines > 0} {
@@ -1713,7 +1716,7 @@ namespace eval vim {
     
     # Create separator
     $txt edit separator
-    
+
     if {$number ne ""} {
       if {[[ns multicursor]::enabled $txt]} {
         [ns multicursor]::delete $txt "+${number}c"
@@ -1737,6 +1740,9 @@ namespace eval vim {
         $txt mark set insert "insert-1c"
       }
     }
+    
+    # Adjust the cursor
+    adjust_cursor $txt
     
     # Create separator
     $txt edit separator
