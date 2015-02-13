@@ -1032,7 +1032,7 @@ namespace eval vim {
       }
       return 1
     }
-    
+   
     return 0
     
   }
@@ -1052,7 +1052,7 @@ namespace eval vim {
       
       # Perform a line join with the current line, trimming whitespace
       set line [string trimleft [$txt get "insert+1l linestart" "insert+1l lineend"]]
-      $txt delete "insert+1l linestart" "insert+2l linestart"
+      $txt delete "insert lineend" "insert+1l lineend"
       set index [$txt index "insert lineend"]
       if {$line ne ""} {
         $txt insert "insert lineend" " [string trimleft $line]"
@@ -1966,12 +1966,12 @@ namespace eval vim {
       if {[llength [set selected [$txt tag ranges sel]]] > 0} {
         foreach {end_range start_range} [lreverse $selected] {
           set str [$txt get "$end_range+1l linestart" "$end_range+l2 linestart"]
-          $txt delete "$end_range+1l linestart" "$end_range+1l lineend"
+          $txt delete "$end_range lineend" "$end_range+1l lineend"
           $txt insert "$start_range linestart" $str
         }
       } else {
         set str [$txt get "insert+1l linestart" "insert+2l linestart"]
-        $txt delete "insert+1l linestart" "insert+2l linestart"
+        $txt delete "insert lineend" "insert+1l lineend"
         $txt insert "insert linestart" $str
       }
       $txt edit separator
