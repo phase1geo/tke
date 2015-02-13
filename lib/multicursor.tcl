@@ -438,7 +438,7 @@ namespace eval multicursor {
         }
       } else {
         foreach {end start} [lreverse [$txt tag ranges mcursor]] {
-          if {[$txt compare "$start$suffix" > "$start lineend"]} {
+          if {[$txt compare "$start$suffix" >= "$start lineend"]} {
             $txt delete $start "$start lineend"
             $txt tag add mcursor "$start-1c"
           } else {
