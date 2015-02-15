@@ -160,7 +160,11 @@ namespace eval indent {
     while {[set range [$txt tag nextrange $tag $start $end]] ne ""} {
       lassign $range index start
       if {![ctext::inCommentString $txt $index]} {
-        incr count [expr [string length [$txt get $index $start]] - [ctext::isEscaped $txt $index]]
+        if {[string is alnum [set tag_str [$txt get $index $start]]]} {
+          incr count [expr 1 - [ctext::isEscaped $txt $index]]
+        } else {
+          incr count [expr [string length $tag_str] - [ctext::isEscaped $txt $index]]
+        }
       }
     }
     
