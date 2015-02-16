@@ -393,8 +393,11 @@ namespace eval syntax {
         ctext::addHighlightRegexp $txt [join $lang_array(indent) |] class indent
         ctext::addHighlightRegexp $txt [join $lang_array(unindent) |] class unindent
         
-        # TBD - Leave this in for now
+        # Set the indent/unindent regular expressions
         [ns indent]::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent)
+          
+        # Update the UI based on the indentation settings
+        [ns gui]::update_auto_indent $txt
         
         # Set the completer options for the given language
         ctext::setAutoMatchChars $txt $lang_array(matchcharsallowed)

@@ -495,6 +495,12 @@ namespace eval menus {
 
     $mb add command -label [msgcat::mc "Select All"] -underline 7 -command "gui::select_all {}"
     launcher::register [msgcat::mc "Menu: Select all text"] "gui::select_all {}"
+    
+    $mb add separator
+    
+    $mb add command -label [msgcat::mc "Enable Auto-Indent"] -underline 12 -command "gui::set_current_auto_indent {} 1" 
+    launcher::register [msgcat::mc "Menu: Enable auto-indent"]  "gui::set_current_auto_indent {} 1"
+    launcher::register [msgcat::mc "Menu: Disable auto-indent"] "gui::set_current_auto_indent {} 0"
 
     $mb add separator
 
@@ -569,6 +575,8 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Paste"]            -state disabled
       $mb entryconfigure [msgcat::mc "Paste and Format"] -state disabled
       $mb entryconfigure [msgcat::mc "Select All"]       -state disabled
+      catch { $mb entryconfigure [msgcat::mc "Enable Auto-Indent"]  -state disabled }
+      catch { $mb entryconfigure [msgcat::mc "Disable Auto-Indent"] -state disabled }
       $mb entryconfigure [msgcat::mc "Insert Text"]      -state disabled
       $mb entryconfigure [msgcat::mc "Format Text"]      -state disabled
     } else {
@@ -597,6 +605,12 @@ namespace eval menus {
         $mb entryconfigure [msgcat::mc "Paste and Format"] -state disabled
       }
       $mb entryconfigure [msgcat::mc "Select All"]  -state normal
+      set auto_indent_state [expr {[indent::is_auto_indent_available [gui::current_txt {}]] ? "normal" : "disabled"}]
+      if {[indent::get_auto_indent [gui::current_txt {}]] && ![catch "$mb index {Enable Auto-Indent}" index]} {
+        $mb entryconfigure $index -label [msgcat::mc "Disable Auto-Indent"] -underline 13 -state $auto_indent_state -command "gui::set_current_auto_indent {} 0"
+      } elseif {![indent::get_auto_indent [gui::current_txt {}]] && ![catch "$mb index {Disable Auto-Indent}" index]} {
+        $mb entryconfigure $index -label [msgcat::mc "Enable Auto-Indent"] -underline 12 -state $auto_indent_state -command "gui::set_current_auto_indent {} 1"
+      }
       if {[gui::editable {}]} {
         $mb entryconfigure [msgcat::mc "Insert Text"] -state normal
       } else {

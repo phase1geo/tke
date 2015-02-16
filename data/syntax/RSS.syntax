@@ -1,0 +1,57 @@
+filepatterns
+{*.rss}
+
+matchcharsallowed
+{paren angled double single}
+
+tabsallowed
+{0}
+
+casesensitive
+{0}
+
+indent
+{<[^/>](.*?[^/])?>}
+  
+unindent
+{</.+?>}
+
+bcomments {{{<!--} {-->}} {{<!\[CDATA\[} {\]\]>}}}
+
+strings {{"}}
+
+keywords
+{
+  author /author
+  category /category channel /channel cloud /cloud comments /comments copyright /copyright
+  description /description docs /docs
+  enclosure /enclosure
+  generator /generator guid /guid
+  image /image item /item
+  itunes:author /itunes:author itunes:category /itunes:category itunes:image /itunes:image
+  itunes:duration /itunes:duration itunes:explicit /itunes:explicit itunes:isClosedCaptioned /itunes:isClosedCaptioned
+  itunes:order /itunes:order itunes:complete /itunes:complete itunes:new-feed-url /itunes:new-feed-url
+  itunes:owner /itunes:owner itunes:subtitle /itunes:subtitle itunes:summary /itunes:summary
+  language /language lastBuildDate /lastBuildDate link /link
+  managingEditor /managingEditor
+  pubDate /pubDate
+  rating /rating rss /rss
+  skipDays /skipDays skipHours /skipHours source /source
+  textInput /textInput title /title ttl /ttl
+  url /url
+  webMaster /webMaster
+}
+
+punctuation
+{
+  HighlightRegexp {[<>&;=/]} {}
+}
+
+advanced
+{
+  HighlightClass tag       keywords       {}
+  HighlightClass attribute miscellaneous2 {}
+  
+  HighlightRegexp {<[^>\s]+} syntax::get_xml_tag
+  HighlightRegexp {\S+=}     syntax::get_xml_attribute
+}
