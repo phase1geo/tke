@@ -346,7 +346,7 @@ namespace eval vim {
     
     # Add bindings
     bind $txt       <<Modified>>      "if {\[[ns vim]::handle_modified %W\]} { break }"
-    bind vim$txt    <Escape>          "if {\[[ns vim]::handle_escape %W\]} { break }"
+    bind vim$txt    <Escape>          "if {\[[ns vim]::handle_escape %W {$tid}\]} { break }"
     bind vim$txt    <Any-Key>         "if {\[[ns vim]::handle_any %W {$tid} %K %A\]} { break }"
     bind vim$txt    <Button-1>        "[ns vim]::handle_button1 %W %x %y; break"
     bind vim$txt    <Double-Button-1> "[ns vim]::handle_double_button1 %W %x %y; break"
@@ -687,7 +687,7 @@ namespace eval vim {
   
   ######################################################################
   # Handles the escape-key when in Vim mode.
-  proc handle_escape {txt} {
+  proc handle_escape {txt tid} {
     
     variable mode
     variable number
@@ -705,6 +705,12 @@ namespace eval vim {
       
       # If were in start mode, clear the recording buffer
       record_clear
+      
+      # Clear the any selections
+      $txt tag remove sel 1.0 end
+      
+      # Clear any searches
+      gui::clear_search $tid
       
     }
     

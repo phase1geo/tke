@@ -137,7 +137,7 @@ proc ctext {win args} {
   grid $win.t -row 0 -column 2 -sticky news
   grid rowconfigure    $win 0 -weight 100
   grid columnconfigure $win 2 -weight 100
-
+  
   bind $win.t <Configure>         [list ctext::linemapUpdate $win]
   bind $win.l <ButtonPress-1>     [list ctext::linemapToggleMark $win %y]
   bind $win.t <KeyRelease-Return> [list ctext::linemapUpdate $win]
@@ -1792,6 +1792,7 @@ proc ctext::addHighlightClass {win class fgcolor {bgcolor ""} {font_opts ""}} {
             
   if {[llength $opts] > 0} {
     $win tag configure _$class {*}$opts
+    $win tag lower _$class sel
   }
             
   ctext::getAr $win classes classesAr
@@ -1869,6 +1870,8 @@ proc ctext::addSearchClassForRegexp {win class fgcolor bgcolor modifiers re {re_
   if {$re_opts ne ""} {
     set re_opts $configAr(re_opts)
   }
+  
+  lappend ar(regexps) "searchregexp,class,_$class"
 
   set ar(searchregexp,class,_$class) [list $re $re_opts]
 

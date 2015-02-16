@@ -11,10 +11,10 @@ casesensitive
 {0}
 
 indent
-{<[^/>][^>]*[^/]?>}
+{<[^/>](.*?[^/])?>}
   
 unindent
-{</[^>]*>}
+{</.+?>}
  
 bcomments {{{<!--} {-->}} {{<!\[CDATA\[} {\]\]>}}}
 
@@ -23,4 +23,12 @@ strings {{"}}
 punctuation
 {
   HighlightRegexp {[<>&;=/]} {}
+}
+
+advanced
+{
+  HighlightClass tag       keywords       {}
+  HighlightClass attribute miscellaneous2 {}
+  
+  HighlightRegexp {<.*?>} syntax::get_xml_tag
 }

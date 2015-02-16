@@ -2048,6 +2048,18 @@ namespace eval gui {
     set_txt_focus [last_txt_focus {}]
 
   }
+  
+  ######################################################################
+  # Clears the current search text.
+  proc clear_search {tid} {
+    
+    # Get the currently selected text widget
+    set txt [current_txt $tid]
+    
+    # Clear the highlight class
+    catch { ctext::deleteHighlightClass $txt search }
+    
+  }
 
   ######################################################################
   # Starts a text search
@@ -2077,13 +2089,10 @@ namespace eval gui {
       }
 
       # Clear the search highlight class
-      catch { ctext::deleteHighlightClass $txt search }
+      clear_search $tid
 
       # Create a highlight class for the given search string
       ctext::addSearchClassForRegexp $txt search black yellow "" $str $search_opts
-
-      # Make the search tag lower in priority than the selection tag
-      $txt tag lower _search sel
 
     }
 
