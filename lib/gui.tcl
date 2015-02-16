@@ -236,6 +236,7 @@ namespace eval gui {
     set widgets(info)        [ttk::frame .if]
     set widgets(info_state)  [ttk::label .if.l1]
     set widgets(info_msg)    [ttk::label .if.l2]
+    set widgets(info_indent) [ttk::label .if.l3]
     set widgets(info_syntax) [syntax::create_menubutton .if.syn]
 
     $widgets(info_syntax) configure -state disabled
@@ -243,6 +244,7 @@ namespace eval gui {
     pack .if.l1  -side left  -padx 2 -pady 2
     pack .if.l2  -side left  -padx 2 -pady 2
     pack .if.syn -side right -padx 2 -pady 2
+    pack .if.l3  -side right -padx 2 -pady 2
 
     # Create the configurable response widget
     set widgets(ursp)       [ttk::frame .rf]
@@ -712,6 +714,7 @@ namespace eval gui {
       set finfo(sidebar)     [lindex $file $files_index(sidebar)]
       set finfo(language)    [syntax::get_current_language $txt]
       set finfo(buffer)      [lindex $file $files_index(buffer)]
+      set finfo(indent)      [indent::get_auto_indent $txt]
       set finfo(modified)    0
 
       lappend content(FileInfo) [array get finfo]
@@ -794,6 +797,7 @@ namespace eval gui {
                 if {[syntax::get_current_language [current_txt {}]] ne $finfo(language)} {
                   syntax::set_language $finfo(language)
                 }
+                set_current_auto_indent {} $finfo(indent)
               } else {
                 set set_tab 0
               }
@@ -2352,6 +2356,37 @@ namespace eval gui {
   }
 
   ######################################################################
+  # Sets auto-indent for the current editor to the given value.
+  proc set_current_auto_indent {tid value} {
+    
+    variable widgets
+    
+    # Get the current text widget
+    set txt [current_txt $tid]
+    
+    # Set the auto-indent mode
+    indent::set_auto_indent $txt $value
+    
+    # Update the UI
+    update_auto_indent $txt
+    
+  }
+  
+  ######################################################################
+  # Updates the UI to indicate the current auto-indent mode.
+  proc update_auto_indent {txt} {
+    
+    variable widgets
+    
+    if {[indent::get_auto_indent $txt]} {
+      $widgets(info_indent) configure -text "  IND  "
+    } else {
+      $widgets(info_indent) configure -text ""
+    }
+    
+  }
+  
+  ######################################################################
   # Shows the current file in the sidebar.
   proc show_current_in_sidebar {} {
 
@@ -3031,7 +3066,7 @@ namespace eval gui {
     } else {
       syntax::initialize_language $txt $initial_language
     }
-
+    
     # Add any gutters
     foreach gutter $gutters {
       $txt gutter create {*}$gutter
@@ -3316,6 +3351,9 @@ namespace eval gui {
 
     # Set the syntax menubutton to the current language
     syntax::update_menubutton $widgets(info_syntax)
+    
+    # Update the indentation indicator
+    update_auto_indent $txt
 
     # Set the application title bar
     set_title

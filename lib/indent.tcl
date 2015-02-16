@@ -8,13 +8,10 @@ namespace eval indent {
   source [file join $::tke_dir lib ns.tcl]
 
   array set indent_exprs  {}
-  array set widgets       {}
 
   ######################################################################
   # Adds indentation bindings for the given text widget.
   proc add_bindings {txt} {
-
-    variable widgets
 
     bind indent$txt <Any-Key> "[ns indent]::check_indent %W insert"
     bind indent$txt <Return>  "[ns indent]::newline %W insert"
@@ -23,11 +20,44 @@ namespace eval indent {
     set text_index [lsearch [bindtags $txt.t] Text]
     bindtags $txt.t [linsert [bindtags $txt.t] [expr $text_index + 1] indent$txt]
     
-    # Add the text item to the list of widgets
-    set widgets($txt.t) 1
-
   }
 
+  ######################################################################
+  # Sets the auto-indent mode for the given text widget.
+  proc set_auto_indent {txt value} {
+    
+    variable indent_exprs
+    
+    if {$indent_exprs($txt.t,indent) ne ""} {
+      set indent_exprs($txt.t,enabled) $value
+    }
+    
+  }
+  
+  ######################################################################
+  # Returns the value of the auto-indent indicator for the given text widget.
+  proc get_auto_indent {txt} {
+    
+    variable indent_exprs
+    
+    if {![info exists indent_exprs($txt.t,enabled)]} {
+      return 0
+    } else {
+      return $indent_exprs($txt.t,enabled)
+    }
+    
+  }
+  
+  ######################################################################
+  # Returns true if auto-indentation is available; otherwise, returns false.
+  proc is_auto_indent_available {txt} {
+    
+    variable indent_exprs
+    
+    return [expr {$indent_exprs($txt.t,indent) ne ""}]
+    
+  }
+  
   ######################################################################
   # Checks the given text prior to the insertion marker to see if it
   # matches the unindent expressions.  Increment/decrement
@@ -38,9 +68,7 @@ namespace eval indent {
 
     # If the auto-indent feature was disabled, we are in vim start mode, or
     # the current language doesn't have an indent expression, quit now
-    if {![[ns preferences]::get Editor/EnableAutoIndent] || \
-        [[ns vim]::in_vim_mode $txt] || \
-        ($indent_exprs($txt,indent) eq "")} {
+    if {!$indent_exprs($txt,enabled) || [[ns vim]::in_vim_mode $txt]} {
       return
     }
 
@@ -66,9 +94,7 @@ namespace eval indent {
 
     # If the auto-indent feature was disabled, we are in vim start mode,
     # or the current language doesn't have an indent expression, quit now
-    if {![[ns preferences]::get Editor/EnableAutoIndent] || \
-        [[ns vim]::in_vim_mode $txt] || \
-        ($indent_exprs($txt,indent) eq "")} {
+    if {!$indent_exprs($txt,enabled) || [[ns vim]::in_vim_mode $txt]} {
       return
     }
 
@@ -129,7 +155,9 @@ namespace eval indent {
   # of text.
   proc get_previous_indent_space {txt index} {
 
-    if {![[ns preferences]::get Editor/EnableAutoIndent] || \
+    variable indent_exprs
+    
+    if {!$indent_exprs($txt,enabled) || \
         [[ns vim]::in_vim_mode $txt] || \
         ([lindex [split $index .] 0] == 1)} {
       return 0
@@ -189,8 +217,8 @@ namespace eval indent {
 
     variable indent_exprs
 
-    # If the current language doesn't have an indent expression, quit now
-    if {$indent_exprs($txt,indent) eq ""} {
+    # If the current language doesn't have indentation enabled, quit now
+    if {!$indent_exprs($txt,enabled)} {
       return
     }
 
@@ -253,7 +281,8 @@ namespace eval indent {
     # Set the indentation expressions
     set indent_exprs($txt,indent)   $indent
     set indent_exprs($txt,unindent) $unindent
-
+    set indent_exprs($txt,enabled)  [expr {($indent ne "") && [[ns preferences]::get Editor/EnableAutoIndent]}]
+    
   }
 
 }
