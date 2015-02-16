@@ -153,18 +153,16 @@ namespace eval indent {
   # This procedure counts the number of tags in the given range.
   proc get_tag_count {txt tag start end} {
     
+    variable indent_exprs
+    
     # Initialize the indent_level
     set count 0
     
     # Count all tags that are not within comments or are escaped
-    while {[set range [$txt tag nextrange $tag $start $end]] ne ""} {
+    while {[set range [$txt tag nextrange _$tag $start $end]] ne ""} {
       lassign $range index start
       if {![ctext::inCommentString $txt $index]} {
-        if {[string is alnum [set tag_str [$txt get $index $start]]]} {
-          incr count [expr 1 - [ctext::isEscaped $txt $index]]
-        } else {
-          incr count [expr [string length $tag_str] - [ctext::isEscaped $txt $index]]
-        }
+        incr count [expr [regexp -all $indent_exprs($txt,$tag) [$txt get $index $start]] - [ctext::isEscaped $txt $index]]
       }
     }
     
@@ -177,10 +175,8 @@ namespace eval indent {
   # index.
   proc get_indent_space {txt start end} {
 
-    variable indent_exprs
-    
     # Get the current indentation level
-    set indent_level [expr [get_tag_count $txt _indent $start $end] - [get_tag_count $txt _unindent $start $end]] 
+    set indent_level [expr [get_tag_count $txt indent $start $end] - [get_tag_count $txt unindent $start $end]] 
 
     return [string repeat " " [expr $indent_level * [[ns preferences]::get Editor/IndentSpaces]]]
 

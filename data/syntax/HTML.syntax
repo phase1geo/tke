@@ -11,11 +11,11 @@ casesensitive
 {0}
 
 indent
-{<\\s*(\\w+)[^/>]*>}
+{<[^/>](.*?[^/])?>}
   
 unindent
-{</[^>]*>}
- 
+{</.+?>}
+
 bcomments {{{<!--} {-->}} {{<!\[CDATA\[} {\]\]>}}}
 
 strings {{"}}
@@ -41,4 +41,11 @@ keywords
 punctuation
 {
   HighlightRegexp {[<>&;=/]} {}
+}
+
+advanced
+{
+  HighlightClass attribute miscellaneous2 {}
+  
+  HighlightRegexp {\S+=} syntax::get_xml_attribute
 }

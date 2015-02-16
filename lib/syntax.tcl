@@ -746,4 +746,31 @@ namespace eval syntax {
     
   }
   
+  ######################################################################
+  # Parses an XML tag.
+  proc get_xml_tag {txt startpos endpos} {
+    
+    set str [$txt get $startpos $endpos]
+    
+    if {[regexp -indices -start 1 -- {(\S+)} $str -> tag]} {
+      set start [expr [lindex $tag 1] + 1]
+      lappend retval [list tag [$txt index "$startpos+1c"] [$txt index "$startpos+${start}c"] [list]]
+      while {[regexp -indices -start $start {(\S+)=} $str -> attribute]} {
+        set start [expr [lindex $attribute 1] + 1]
+        lappend retval [list attribute [$txt index "$startpos+[lindex $attribute 0]c"] [$txt index "$startpos+${start}c"] [list]]
+      }
+    }
+    
+    return [list $retval ""]
+    
+  }
+  
+  ######################################################################
+  # Returns the XML attribute to highlight.
+  proc get_xml_attribute {txt startpos endpos} {
+    
+    return [list [list [list attribute $startpos [$txt index "$endpos-1c"] [list]]] ""]
+    
+  }
+  
 } 
