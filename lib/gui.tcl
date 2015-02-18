@@ -797,7 +797,9 @@ namespace eval gui {
                 if {[syntax::get_current_language [current_txt {}]] ne $finfo(language)} {
                   syntax::set_language $finfo(language)
                 }
-                set_current_auto_indent {} $finfo(indent)
+                if {[info exists finfo(indent)]} {
+                  set_current_auto_indent {} $finfo(indent)
+                }
               } else {
                 set set_tab 0
               }
