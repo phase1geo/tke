@@ -1,26 +1,34 @@
-changeset:   777:bfb9ae4c64ec
-tag:         devel-1.4.6
+changeset:   780:a2c0931215c0
+tag:         devel-1.4.7
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Feb 17 00:25:54 2015 -0600
+date:        Tue Feb 17 20:33:01 2015 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.4.6 release
+ChangeLog for devel-1.4.7 release
 
 
-changeset:   778:52a0729a3df2
+changeset:   781:4044260ca13d
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Feb 17 00:26:01 2015 -0600
+date:        Tue Feb 17 20:33:07 2015 -0600
 files:       .hgtags
 description:
-Added tag devel-1.4.6 for changeset bfb9ae4c64ec
+Added tag devel-1.4.7 for changeset a2c0931215c0
 
 
-changeset:   779:b66527fd338c
+changeset:   782:4d12bca0c9ac
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Feb 18 08:32:36 2015 -0600
+files:       lib/version.tcl lib/vim.tcl
+description:
+* Fixing bug in o-command in Vim which could place the insertion cursor in the wrong place.
+
+
+changeset:   783:71bbc14b7f9a
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Feb 17 20:32:23 2015 -0600
-files:       lib/ctext/ctext.tcl lib/version.tcl
+date:        Wed Feb 18 08:50:47 2015 -0600
+files:       lib/gui.tcl lib/version.tcl
 description:
-* Fixing issue with clearing search.
+* Fixing issues with lack of indent information in session save file.
 
 
