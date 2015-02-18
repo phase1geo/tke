@@ -1783,12 +1783,15 @@ namespace eval vim {
     
     if {$mode($txt) eq "start"} {
       edit_mode $txt
+      set insert [$txt index insert]
       if {[[ns multicursor]::enabled $txt]} {
         [ns multicursor]::adjust $txt "+1l" 1 dspace
       } else {
         $txt insert "insert lineend" "\n"
       }
-      $txt mark set insert "insert+1l"
+      if {$insert == [$txt index insert]} {
+        $txt mark set insert "insert+1l"
+      }
       $txt see insert
       [ns indent]::newline $txt insert
       record_start
