@@ -1894,7 +1894,7 @@ proc ctext::deleteHighlightClass {win classToDelete} {
     return -code error "$classToDelete doesn't exist"
   }
   
-  if {[set index [lsearch $ar(regexps) regexp,class,_$classToDelete]] != -1} {
+  if {[set index [lsearch -glob $ar(regexps) *regexp,class,_$classToDelete]] != -1} {
     set ar(regexps) [lreplace $ar(regexps) $index $index]
   }
 
