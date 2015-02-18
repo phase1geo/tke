@@ -1,55 +1,26 @@
-changeset:   771:6ab77ec2f317
-tag:         devel-1.4.5
+changeset:   777:bfb9ae4c64ec
+tag:         devel-1.4.6
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Feb 13 08:47:22 2015 -0600
+date:        Tue Feb 17 00:25:54 2015 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.4.5 release
+ChangeLog for devel-1.4.6 release
 
 
-changeset:   772:c2c677fcb761
+changeset:   778:52a0729a3df2
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Feb 13 08:47:26 2015 -0600
+date:        Tue Feb 17 00:26:01 2015 -0600
 files:       .hgtags
 description:
-Added tag devel-1.4.5 for changeset 6ab77ec2f317
+Added tag devel-1.4.6 for changeset bfb9ae4c64ec
 
 
-changeset:   773:e392f18951e6
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Feb 15 07:47:11 2015 -0600
-files:       lib/indent.tcl lib/version.tcl
-description:
-* Fixing indentation for languages like SystemVerilog.
-
-
-changeset:   774:80936e03ded6
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Feb 15 23:55:32 2015 -0600
-files:       data/syntax/HTML.syntax data/syntax/XML.syntax lib/ctext/ctext.tcl lib/gui.tcl lib/indent.tcl lib/syntax.tcl lib/version.tcl lib/vim.tcl
-description:
-* Fixing search highlighting and selection to take precedence over other syntax highlighting.
-* Fixing issues related to search highlighting when the file is modified.
-* Adding feature to Vim mode where hitting the Escape key will clear search and selection when we are in command mode.
-* Fixing auto-indent for languages with indent/unindent syntax greater than a single character.
-* Enhancing XML/HTML syntax highlighting.
-
-
-changeset:   775:caa212679005
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Feb 16 16:35:50 2015 -0600
-files:       data/syntax/RSS.syntax lib/gui.tcl lib/indent.tcl lib/menus.tcl lib/syntax.tcl lib/version.tcl
-description:
-* Adding syntax for RSS.
-* Adding ability to enable/disable auto-indentation on a per-editor basis.
-
-
-changeset:   776:6f6de56fdc9d
+changeset:   779:b66527fd338c
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Feb 17 00:22:22 2015 -0600
-files:       doc/UserGuide.pdf lib/version.tcl
+date:        Tue Feb 17 20:32:23 2015 -0600
+files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Updating user guide.
+* Fixing issue with clearing search.
 
 
