@@ -548,8 +548,6 @@ proc ctext::undo_insert {win insert_pos str_len cursor} {
   
   ctext::getAr $win config configAr
 
-#  puts "In ctext::undo_insert, insert_pos: $insert_pos, str_len: $str_len, cursor: $cursor, -undo: $configAr(-undo)"
- 
   if {!$configAr(-undo)} {
     return
   }
@@ -563,14 +561,13 @@ proc ctext::undo_insert {win insert_pos str_len cursor} {
       if {($cmd eq "delete") && ($val2 == $insert_pos)} {
         lset configAr(undo_hist) end 2 $end_pos
         set configAr(redo_hist) [list]
-#        puts "  B undo_hist: $configAr(undo_hist)"
         return
       }
       lset configAr(undo_hist) end 4 $configAr(-autoseparators)
     }
   }
   
-  lappend configAr(undo_hist) [list delete $insert_pos $end_pos $cursor 0]
+  lappend configAr(undo_hist) [list d $insert_pos $end_pos $cursor 0]
 
   # Adjust the undo history list if we exceed the maximum undo history size
   if {($configAr(-maxundo) > 0) && ($configAr(-maxundo) < [llength $configAr(undo_hist)])} {
@@ -579,15 +576,11 @@ proc ctext::undo_insert {win insert_pos str_len cursor} {
 
   set configAr(redo_hist) [list]
   
-#  puts "  A undo_hist: $configAr(undo_hist)"
-  
 }
 
 proc ctext::undo_delete {win start_pos end_pos} {
   
   ctext::getAr $win config configAr
-
-#  puts "In ctext::undo_delete, start_pos: $start_pos, end_pos: $end_pos, -undo: $configAr(-undo)"
 
   if {!$configAr(-undo)} {
     return
@@ -604,25 +597,22 @@ proc ctext::undo_delete {win start_pos end_pos} {
           lset configAr(undo_hist) end 1 $start_pos
           lset configAr(undo_hist) end 2 "$str$val2"
           set configAr(redo_hist) [list]
-#          puts "  D1 undo_hist: $configAr(undo_hist)"
           return
         } elseif {$val1 == $start_pos} {
           lset configAr(undo_hist) end 2 "$val2$str"
           set configAr(redo_hist) [list]
-#          puts "  D2 undo_hist: $configAr(undo_hist)"
           return
         }
       } elseif {($cmd eq "delete") && ($val2 == $end_pos)} {
         lset configAr(undo_hist) end 2 $start_pos
         lset configAr(redo_hist) [list]
-#        puts "  E undo_hist: $configAr(undo_hist)"
         return
       }
       lset configAr(undo_hist) end 4 $configAr(-autoseparators)
     }
   }
   
-  lappend configAr(undo_hist) [list insert $start_pos $str [$win index insert] 0]
+  lappend configAr(undo_hist) [list i $start_pos $str [$win index insert] 0]
   
   # Adjust the undo history list if we exceed the maximum undo history size
   if {($configAr(-maxundo) > 0) && ($configAr(-maxundo) < [llength $configAr(undo_hist)])} {
@@ -630,8 +620,6 @@ proc ctext::undo_delete {win start_pos end_pos} {
   }
 
   set configAr(redo_hist) [list]
-  
-#  puts "  C undo_hist: $configAr(undo_hist)"
   
 }
 
@@ -653,15 +641,15 @@ proc ctext::undo {win} {
       }
       
       switch $cmd {
-        insert {
+        i {
           $win._t insert $val1 $val2
           set val2 [$win index "$val1+[string length $val2]c"]
-          lappend configAr(redo_hist) [list delete $val1 $val2 $cursor $sep]
+          lappend configAr(redo_hist) [list d $val1 $val2 $cursor $sep]
         }  
-        delete {
+        d {
           set str [$win get $val1 $val2]
           $win._t delete $val1 $val2
-          lappend configAr(redo_hist) [list insert $val1 $str $cursor $sep]
+          lappend configAr(redo_hist) [list i $val1 $str $cursor $sep]
         }
       }
 
@@ -681,10 +669,6 @@ proc ctext::undo {win} {
     ctext::modified $win 1
     ctext::linemapUpdate $win
     
-#    puts "In ctext::undo"
-#    puts "  undo: $configAr(undo_hist)"
-#    puts "  redo: $configAr(redo_hist)"
-
   }
   
 }
@@ -702,18 +686,18 @@ proc ctext::redo {win} {
       lassign $element cmd val1 val2 cursor sep
       
       switch $cmd {
-        insert {
+        i {
           $win._t insert $val1 $val2
           set val2 [$win index "$val1+[string length $val2]c"]
-          lappend configAr(undo_hist) [list delete $val1 $val2 $cursor $sep]
+          lappend configAr(undo_hist) [list d $val1 $val2 $cursor $sep]
           if {$cursor != $val2} {
             set cursor $val2
           }
         }
-        delete {
+        d {
           set str [$win get $val1 $val2]
           $win._t delete $val1 $val2
-          lappend configAr(undo_hist) [list insert $val1 $str $cursor $sep]
+          lappend configAr(undo_hist) [list i $val1 $str $cursor $sep]
           if {$cursor != $val1} {
             set cursor $val1
           }
@@ -737,10 +721,6 @@ proc ctext::redo {win} {
 
     ctext::modified $win 1
     ctext::linemapUpdate $win
-
-#    puts "In ctext::redo"
-#    puts "  undo: $configAr(undo_hist)"
-#    puts "  redo: $configAr(redo_hist)"
 
   }
   
