@@ -1,34 +1,28 @@
-changeset:   780:a2c0931215c0
-tag:         devel-1.4.7
+changeset:   784:27c7aa3d7736
+tag:         devel-1.4.8
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Feb 17 20:33:01 2015 -0600
+date:        Wed Feb 18 08:51:57 2015 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.4.7 release
+ChangeLog for devel-1.4.8 release
 
 
-changeset:   781:4044260ca13d
+changeset:   785:3d43bf6097c5
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Feb 17 20:33:07 2015 -0600
+date:        Wed Feb 18 08:52:07 2015 -0600
 files:       .hgtags
 description:
-Added tag devel-1.4.7 for changeset a2c0931215c0
+Added tag devel-1.4.8 for changeset 27c7aa3d7736
 
 
-changeset:   782:4d12bca0c9ac
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Feb 18 08:32:36 2015 -0600
-files:       lib/version.tcl lib/vim.tcl
-description:
-* Fixing bug in o-command in Vim which could place the insertion cursor in the wrong place.
-
-
-changeset:   783:71bbc14b7f9a
+changeset:   786:bb416dbb9321
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Feb 18 08:50:47 2015 -0600
-files:       lib/gui.tcl lib/version.tcl
+date:        Wed Feb 18 21:42:29 2015 -0600
+files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
 description:
-* Fixing issues with lack of indent information in session save file.
+* Fixing text_transform procedure to work properly when multiple transformations are required.
+* Fixing password checker to work properly on Linux.
+* Fixing installation directory trashing on Linux.
 
 
