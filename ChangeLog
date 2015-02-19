@@ -1,28 +1,26 @@
-changeset:   784:27c7aa3d7736
-tag:         devel-1.4.8
+changeset:   787:caf5dd4a933c
+tag:         devel-1.4.9
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Feb 18 08:51:57 2015 -0600
+date:        Wed Feb 18 21:43:46 2015 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.4.8 release
+ChangeLog for devel-1.4.9 release
 
 
-changeset:   785:3d43bf6097c5
+changeset:   788:d54f98930935
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Feb 18 08:52:07 2015 -0600
+date:        Wed Feb 18 21:43:53 2015 -0600
 files:       .hgtags
 description:
-Added tag devel-1.4.8 for changeset 27c7aa3d7736
+Added tag devel-1.4.9 for changeset caf5dd4a933c
 
 
-changeset:   786:bb416dbb9321
+changeset:   789:66f3f6fd7925
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Feb 18 21:42:29 2015 -0600
-files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+date:        Thu Feb 19 00:19:24 2015 -0600
+files:       lib/version.tcl lib/vim.tcl
 description:
-* Fixing text_transform procedure to work properly when multiple transformations are required.
-* Fixing password checker to work properly on Linux.
-* Fixing installation directory trashing on Linux.
+* Fixing issue with the use of Shift, Control and Alt keys in the vim::handle_any procedure.
 
 
