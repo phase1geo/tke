@@ -902,7 +902,7 @@ namespace eval specl::updater {
     
     # Check the password
     if {[catch { run_admin_cmd -l [.passwin.f.e get] }]} {
-        
+      
       # Make sure the OK button is normalized
       .passwin.bf.ok state !pressed
       
@@ -936,7 +936,7 @@ namespace eval specl::updater {
       }
       
     }
-       
+    
     # Make sure the OK button is normalized
     .passwin.bf.ok state !pressed
       
@@ -951,8 +951,50 @@ namespace eval specl::updater {
   # Runs the given command with administrative privileges.
   proc run_admin_cmd {cmd password} {
     
-    exec -ignorestderr sudo -S -k {*}$cmd << "$password\n" 2>@1
+    # Execute the command
+    exec -ignorestderr sudo -S {*}$cmd << "$password\n" 2>@1
+    
+    # Remove the timestamp
+    exec -ignorestderr sudo -k
       
+  }
+  
+  ######################################################################
+  # Performs a more 'manual' trash operation when the gvfs-trash script
+  # cannot be found.
+  proc linux_manual_trash {install_dir} {
+    
+    if {[file exists [set trash [file join ~ .local share Trash]]]} {
+      
+      if {[info exists ::env(XDG_DATA_HOME)] && ($::env(XDG_DATA_HOME) ne "") && [file exists $::env(XDG_DATA_HOME)]} {
+        set trash $::env(XDG_DATA_HOME)
+      }
+      
+      set trash_path [specl::helpers::get_unique_path [file join $trash files] [file tail $install_dir]]
+      
+      if {![catch { open [file join $trash info [file tail $trash_path].trashinfo] w } rc]} {
+        puts $rc "\[Trash Info\]"
+        puts $rc "Path=$install_dir"
+        puts $rc "DeletionDate=[clock format [clock seconds] -format {%Y-%m-%dT%T}]"
+        close $rc
+      }
+      
+      return $trash_path
+      
+    } elseif {[file exists [set trash [file join ~ .Trash]]]} {
+      
+      set trash_path [specl::helpers::get_unique_path [file join $trash files] [file tail $install_dir]]
+      
+      return $trash_path
+      
+    } else {
+      
+      tk_messageBox -parent . -default ok -type ok -message [msgcat::mc "Unable to install"] \
+                    -detail [msgcat::mc "Unable to trash old library files"]
+      exit 1
+      
+    }
+    
   }
   
   ######################################################################
@@ -977,28 +1019,15 @@ namespace eval specl::updater {
         set download   [file join / tmp [file tail $install_dir]]
       }
       Linux* {
-        if {[catch { exec -ignorestderr gvfs-trash $install_dir }]} {
-          set password [get_password $content_list]
-          if {[catch { run_admin_cmd "gvfs-trash $install_dir" $password }]} {
-            if {[file exists [set trash [file join ~ .local share Trash]]]} {
-              if {[info exists ::env(XDG_DATA_HOME)] && \
-                  ($::env(XDG_DATA_HOME) ne "") && \
-                  [file exists $::env(XDG_DATA_HOME)]} {
-                set trash $::env(XDG_DATA_HOME)
-              }
-              set trash_path [specl::helpers::get_unique_path [file join $trash files] [file tail $install_dir]]
-              if {![catch { open [file join $trash info [file tail $trash_path].trashinfo] w } rc]} {
-                puts $rc "\[Trash Info\]"
-                puts $rc "Path=$install_dir"
-                puts $rc "DeletionDate=[clock format [clock seconds] -format {%Y-%m-%dT%T}]"
-                close $rc
-              }
-            } else {
-              tk_messageBox -parent . -default ok -type ok -message [msgcat::mc "Unable to install"] \
-                -detail [msgcat::mc "Unable to trash old library files"]
-              exit 1
+        if {![catch { exec -ignorestderr which gvfs-trash }]} {
+          if {[catch { exec -ignorestderr gvfs-trash $install_dir }]} {
+            set password [get_password $content_list]
+            if {[catch { run_admin_cmd "gvfs-trash $install_dir" $password }]} {
+              set trash_path [linux_manual_trash $install_dir]
             }
           }
+        } else {
+          set trash_path [linux_manual_trash $install_dir]
         }
       }
       *Win*  { 
@@ -1464,7 +1493,7 @@ namespace eval specl::updater {
     set text_map(RELTYPE)    [expr {($data(cl_release_type) == $specl::RTYPE_STABLE) ? "stable" : "development"}]
 
     set values [list]
-    while {[regexp "\(.*\){\([join [array names text_map] |]\)}\(.*\)" $txt -> before key after]} {
+    while {[regexp "^\(.*?\){\([join [array names text_map] |]\)}\(.*\)\$" $txt -> before key after]} {
       set txt "$before%s$after"
       lappend values $text_map($key)
     }
