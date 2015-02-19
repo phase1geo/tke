@@ -347,7 +347,7 @@ namespace eval vim {
     # Add bindings
     bind $txt       <<Modified>>      "if {\[[ns vim]::handle_modified %W\]} { break }"
     bind vim$txt    <Escape>          "if {\[[ns vim]::handle_escape %W {$tid}\]} { break }"
-    bind vim$txt    <Any-Key>         "if {\[[ns vim]::handle_any %W {$tid} %K %A\]} { break }"
+    bind vim$txt    <Key>             "if {\[[ns vim]::handle_any %W {$tid} %K %A\]} { break }"
     bind vim$txt    <Button-1>        "[ns vim]::handle_button1 %W %x %y; break"
     bind vim$txt    <Double-Button-1> "[ns vim]::handle_double_button1 %W %x %y; break"
     bind vim$txt    <B1-Motion>       "[ns vim]::handle_motion %W %x %y; break"
@@ -729,8 +729,8 @@ namespace eval vim {
     variable number
     variable column
     
-    # If the keysym is the shift key, stop
-    if {($keysym eq "Shift_L") || ($keysym eq "Shift_R") || ($keysym eq "Alt")} {
+    # If the key does not have a printable char representation, quit now
+    if {$char eq ""} {
       return 1
     }
     
