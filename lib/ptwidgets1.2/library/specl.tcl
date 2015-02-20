@@ -1019,7 +1019,7 @@ namespace eval specl::updater {
         set download   [file join / tmp [file tail $install_dir]]
       }
       Linux* {
-        if {![catch { exec -ignorestderr which gvfs-trash }]} {
+        if {![catch { exec -ignorestderr which gvfs-trash 2>@1 }]} {
           if {[catch { exec -ignorestderr gvfs-trash $install_dir }]} {
             set password [get_password $content_list]
             if {[catch { run_admin_cmd "gvfs-trash $install_dir" $password }]} {
