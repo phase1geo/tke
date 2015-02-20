@@ -75,7 +75,10 @@ proc ctext {win args} {
   set ar(matchChar,angled)       1
   set ar(matchChar,double)       1
   set ar(undo_hist)              [list]
+  set ar(undo_sep)               [list]
+  set ar(undo_sep_last)          -1
   set ar(redo_hist)              [list]
+  set ar(redo_sep)               [list]
 
   set ar(ctextFlags) [list -xscrollcommand -yscrollcommand -linemap -linemapfg -linemapbg \
   -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable \
@@ -422,8 +425,7 @@ proc ctext::buildArgParseTable win {
       return -code error "-maxundo argument must be an integer value"
     }
     set configAr(-maxundo) $value
-    set configAr(undo_hist) [lrange $configAr(undo_hist) $value end]
-    set configAr(redo_hist) [lrange $configAr(redo_hist) $value end]
+    ctext::undo_manage $self
   }
 
   lappend argTable {0 false no} -autoseparators {
@@ -544,6 +546,66 @@ proc ctext::isEscaped {win index} {
 
 }
 
+proc ctext::undo_separator {win} {
+  
+  ctext::getAr $win config configAr
+  
+  # If a separator is being added (and it was not already added), add it
+  if {![lindex $configAr(undo_hist) end 4]} {
+  
+    # Set the separator bit
+    lset configAr(undo_hist) end 4 1
+  
+    # Get the last index of the undo history list
+    set last_index [expr [llength $configAr(undo_hist)] - 1]
+    
+    # Add the separator
+    if {$configAr(undo_sep_last) == -1} {
+      lappend configAr(undo_sep) $last_index
+    } else {
+      lappend configAr(undo_sep) [expr $last_index - $configAr(undo_sep_last)]
+    }
+    
+    # Set the last separator index
+    set configAr(undo_sep_last) $last_index
+  
+  }
+  
+  # If the number of separators exceeds the maximum length, shorten the undo history list
+  ctext::undo_manage $win
+      
+}
+
+proc ctext::undo_manage {win} {
+  
+  ctext::getAr $win config configAr
+  
+  # If we need to make the undo history list shorter
+  if {($configAr(-maxundo) > 0) && ([set to_remove [expr [llength $configAr(undo_sep)] - $configAr(-maxundo)]] > 0)} {
+    
+    # Get the separators to remove
+    set index [lindex $configAr(undo_sep) 0]
+    for {set i 1} {$i < $to_remove} {incr i} {
+      incr index [lindex $configAr(undo_sep) $i]
+    }
+    
+    # Reset the last separator index
+    incr configAr(undo_sep_last) [expr 0 - ($index + 1)]
+    
+    # Set the separator size
+    set  configAr(undo_sep) [lreplace $configAr(undo_sep) 0 [expr $to_remove - 1]]
+    lset configAr(undo_sep) 0 [expr [lindex $configAr(undo_sep) 0] - 1]
+    
+    # Shorten the undo history list
+    set configAr(undo_hist) [lreplace $configAr(undo_hist) 0 $index]
+    
+  }
+  
+#  puts "A undo_hist: $configAr(undo_hist)"
+#  puts "  undo_sep_last: $configAr(undo_sep_last), undo_sep: $configAr(undo_sep)"
+  
+}
+
 proc ctext::undo_insert {win insert_pos str_len cursor} {
   
   ctext::getAr $win config configAr
@@ -558,22 +620,21 @@ proc ctext::undo_insert {win insert_pos str_len cursor} {
   if {[llength $configAr(undo_hist)] > 0} {
     lassign [lindex $configAr(undo_hist) end] cmd val1 val2 hcursor sep
     if {$sep == 0} {
-      if {($cmd eq "delete") && ($val2 == $insert_pos)} {
+      if {($cmd eq "d") && ($val2 == $insert_pos)} {
         lset configAr(undo_hist) end 2 $end_pos
         set configAr(redo_hist) [list]
         return
       }
-      lset configAr(undo_hist) end 4 $configAr(-autoseparators)
+      if {$configAr(-autoseparators)} {
+        ctext::undo_separator $win
+      }
     }
   }
   
+  # Add to the undo history
   lappend configAr(undo_hist) [list d $insert_pos $end_pos $cursor 0]
 
-  # Adjust the undo history list if we exceed the maximum undo history size
-  if {($configAr(-maxundo) > 0) && ($configAr(-maxundo) < [llength $configAr(undo_hist)])} {
-    set configAr(undo_hist) [lassign $configAr(undo_hist) temp]
-  }
-
+  # Clear the redo history
   set configAr(redo_hist) [list]
   
 }
@@ -592,7 +653,7 @@ proc ctext::undo_delete {win start_pos end_pos} {
   if {[llength $configAr(undo_hist)] > 0} {
     lassign [lindex $configAr(undo_hist) end] cmd val1 val2 cursor sep
     if {$sep == 0} {
-      if {$cmd eq "insert"} {
+      if {$cmd eq "i"} {
         if {$val1 == $end_pos} {
           lset configAr(undo_hist) end 1 $start_pos
           lset configAr(undo_hist) end 2 "$str$val2"
@@ -603,22 +664,21 @@ proc ctext::undo_delete {win start_pos end_pos} {
           set configAr(redo_hist) [list]
           return
         }
-      } elseif {($cmd eq "delete") && ($val2 == $end_pos)} {
+      } elseif {($cmd eq "d") && ($val2 == $end_pos)} {
         lset configAr(undo_hist) end 2 $start_pos
         lset configAr(redo_hist) [list]
         return
       }
-      lset configAr(undo_hist) end 4 $configAr(-autoseparators)
+      if {$configAr(-autoseparators)} {
+        ctext::undo_separator $win
+      }
     }
   }
   
+  # Add to the undo history
   lappend configAr(undo_hist) [list i $start_pos $str [$win index insert] 0]
   
-  # Adjust the undo history list if we exceed the maximum undo history size
-  if {($configAr(-maxundo) > 0) && ($configAr(-maxundo) < [llength $configAr(undo_hist)])} {
-    set configAr(undo_hist) [lassign $configAr(undo_hist) temp]
-  }
-
+  # Clear the redo history
   set configAr(redo_hist) [list]
   
 }
@@ -663,6 +723,14 @@ proc ctext::undo {win} {
 
     set configAr(undo_hist) [lreplace $configAr(undo_hist) end-[expr $i - 1] end]
     
+    # Update undo separators
+    set configAr(undo_sep)      [lreplace $configAr(undo_sep) end end]
+    set configAr(undo_sep_last) [expr [llength $configAr(undo_hist)] - 1]
+    
+#    puts "B undo_hist: $configAr(undo_hist)"
+#    puts "  redo_hist: $configAr(redo_hist)"
+#    puts "  undo_sep_last: $configAr(undo_sep_last), undo_sep: $configAr(undo_sep)"
+  
     $win._t mark set insert $last_cursor
     $win._t see insert
 
@@ -715,6 +783,17 @@ proc ctext::redo {win} {
     }
 
     set configAr(redo_hist) [lreplace $configAr(redo_hist) end-[expr $i - 1] end]
+    
+    # Update undo separator structures
+    if {$configAr(undo_sep_last) == -1} {
+      lappend configAr(undo_sep) [expr $i - 1]
+    } else {
+      lappend configAr(undo_sep) $i
+    }
+    set configAr(undo_sep_last) [expr [llength $configAr(undo_hist)] - $i]
+  
+#    puts "C undo_hist: $configAr(undo_hist)"
+#    puts "  undo_sep_last: $configAr(undo_sep_last), undo_sep: $configAr(undo_sep)"
   
     $win._t mark set insert $cursor
     $win._t see insert
@@ -1037,7 +1116,7 @@ proc ctext::instanceCmd {self cmd args} {
         return [expr [llength $ar(redo_hist)] > 0]
       } elseif {"separator" == $subCmd} {
         if {[llength $configAr(undo_hist)] > 0} {
-          lset configAr(undo_hist) end 4 1
+          ctext::undo_separator $self
         }
       } else {
         #Tk 8.4 has other edit subcommands that I don't want to emulate.
