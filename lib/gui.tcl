@@ -5,9 +5,9 @@
 #          their behavior.
 
 namespace eval gui {
- 
+
   source [file join $::tke_dir lib ns.tcl]
-  
+
   variable curr_id          0
   variable files            {}
   variable pw_index         0
@@ -392,20 +392,20 @@ namespace eval gui {
   ######################################################################
   # Handles any preference changes to the Editor/MaxUndo setting.
   proc handle_max_undo {name1 name2 op} {
-    
+
     variable widgets
-    
+
     # Set the max_undo to the specified value
     foreach pane [$widgets(nb_pw) panes] {
       foreach tab [$pane.tbf.tb tabs] {
         foreach txt_pane [$tab.pw panes] {
-          $txt_pane.txt configure -maxundo [preferences::get Editor/WarningWidth]
+          $txt_pane.txt configure -maxundo [preferences::get Editor/MaxUndo]
         }
       }
     }
 
   }
-  
+
   ######################################################################
   # Handles any changes to the View/AllowTabScrolling preference variable.
   proc handle_allow_tab_scrolling {name1 name2 op} {
@@ -2054,17 +2054,17 @@ namespace eval gui {
     set_txt_focus [last_txt_focus {}]
 
   }
-  
+
   ######################################################################
   # Clears the current search text.
   proc clear_search {tid} {
-    
+
     # Get the currently selected text widget
     set txt [current_txt $tid]
-    
+
     # Clear the highlight class
     catch { ctext::deleteHighlightClass $txt search }
-    
+
   }
 
   ######################################################################
@@ -2360,34 +2360,34 @@ namespace eval gui {
   ######################################################################
   # Sets auto-indent for the current editor to the given value.
   proc set_current_auto_indent {tid value} {
-    
+
     variable widgets
-    
+
     # Get the current text widget
     set txt [current_txt $tid]
-    
+
     # Set the auto-indent mode
     indent::set_auto_indent $txt $value
-    
+
     # Update the UI
     update_auto_indent $txt
-    
+
   }
-  
+
   ######################################################################
   # Updates the UI to indicate the current auto-indent mode.
   proc update_auto_indent {txt} {
-    
+
     variable widgets
-    
+
     if {[indent::get_auto_indent $txt]} {
       $widgets(info_indent) configure -text "  IND  "
     } else {
       $widgets(info_indent) configure -text ""
     }
-    
+
   }
-  
+
   ######################################################################
   # Shows the current file in the sidebar.
   proc show_current_in_sidebar {} {
@@ -2622,7 +2622,7 @@ namespace eval gui {
     } else {
       set version_str "$::version_major.$::version_minor.$::version_point ($::version_hgid)"
     }
-    
+
     if {[[ns preferences]::get General/UpdateReleaseType] eq "devel"} {
       set release_type "Development"
     } else {
@@ -2665,7 +2665,7 @@ namespace eval gui {
     pack .aboutwin.f.copyright -padx 2 -pady 8
 
     pack .aboutwin.f -fill both -expand yes
-    
+
     # Center the window in the editor window
     ::tk::PlaceWindow .aboutwin widget .
 
@@ -3068,7 +3068,7 @@ namespace eval gui {
     } else {
       syntax::initialize_language $txt $initial_language
     }
-    
+
     # Add any gutters
     foreach gutter $gutters {
       $txt gutter create {*}$gutter
@@ -3353,7 +3353,7 @@ namespace eval gui {
 
     # Set the syntax menubutton to the current language
     syntax::update_menubutton $widgets(info_syntax)
-    
+
     # Update the indentation indicator
     update_auto_indent $txt
 
@@ -3504,7 +3504,7 @@ namespace eval gui {
   proc update_position {txt} {
 
     variable widgets
-    
+
     # Get the current position of the insertion cursor
     lassign [split [$txt index insert] .] line column
 
