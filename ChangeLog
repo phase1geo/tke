@@ -1,26 +1,35 @@
-changeset:   787:caf5dd4a933c
-tag:         devel-1.4.9
+changeset:   790:2523924556a1
+tag:         devel-1.4.10
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Feb 18 21:43:46 2015 -0600
+date:        Thu Feb 19 08:00:43 2015 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.4.9 release
+ChangeLog for devel-1.4.10 release
 
 
-changeset:   788:d54f98930935
+changeset:   791:4b8580f3ff9c
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Feb 18 21:43:53 2015 -0600
+date:        Thu Feb 19 08:00:48 2015 -0600
 files:       .hgtags
 description:
-Added tag devel-1.4.9 for changeset caf5dd4a933c
+Added tag devel-1.4.10 for changeset 2523924556a1
 
 
-changeset:   789:66f3f6fd7925
+changeset:   792:efc0b91f0cfe
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Feb 19 08:23:46 2015 -0600
+files:       lib/ctext/ctext.tcl lib/version.tcl
+description:
+* Shortening undo/redo commands to a single character to reduce memory overhead.
+
+
+changeset:   793:8598bfe6bf3e
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Feb 19 00:19:24 2015 -0600
-files:       lib/version.tcl lib/vim.tcl
+date:        Fri Feb 20 08:56:13 2015 -0600
+files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Fixing issue with the use of Shift, Control and Alt keys in the vim::handle_any procedure.
+* Adding proper support for MaxUndo in ctext.
+* Optimizing memory for undo/redo data support.
 
 
