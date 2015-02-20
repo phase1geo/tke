@@ -75,10 +75,11 @@ proc ctext {win args} {
   set ar(matchChar,angled)       1
   set ar(matchChar,double)       1
   set ar(undo_hist)              [list]
-  set ar(undo_sep)               [list]
+  set ar(undo_hist_size)         0
   set ar(undo_sep_last)          -1
+  set ar(undo_sep_next)          -1
+  set ar(undo_sep_size)          0
   set ar(redo_hist)              [list]
-  set ar(redo_sep)               [list]
 
   set ar(ctextFlags) [list -xscrollcommand -yscrollcommand -linemap -linemapfg -linemapbg \
   -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable \
@@ -140,7 +141,7 @@ proc ctext {win args} {
   grid $win.t -row 0 -column 2 -sticky news
   grid rowconfigure    $win 0 -weight 100
   grid columnconfigure $win 2 -weight 100
-  
+
   bind $win.t <Configure>         [list ctext::linemapUpdate $win]
   bind $win.l <ButtonPress-1>     [list ctext::linemapToggleMark $win %y]
   bind $win.t <KeyRelease-Return> [list ctext::linemapUpdate $win]
@@ -159,7 +160,7 @@ proc ctext {win args} {
   ctext::buildArgParseTable $win
 
   return $win
-  
+
 }
 
 proc ctext::event:xscroll {win clientData args} {
@@ -197,19 +198,19 @@ proc ctext::event:xscroll {win clientData args} {
 }
 
 proc ctext::event:yscroll {win clientData args} {
-  
+
   ctext::linemapUpdate $win
 
   if {$clientData == ""} {
     return
   }
-  
+
   uplevel \#0 $clientData $args
-  
+
 }
 
 proc ctext::event:Destroy {win dWin} {
-  
+
   if {![string equal $win $dWin]} {
     return
   }
@@ -225,13 +226,13 @@ proc ctext::event:Destroy {win dWin} {
   interp alias {} $win.t {}
   ctext::clearHighlightClasses $win
   array unset [ctext::getAr $win config ar]
-    
+
 }
 
 # This stores the arg table within the config array for each instance.
 # It's used by the configure instance command.
 proc ctext::buildArgParseTable win {
-    
+
   set argTable [list]
 
   lappend argTable any -linemap_mark_command {
@@ -476,16 +477,16 @@ proc ctext::inCommentString {win index} {
 }
 
 proc ctext::commentsAfterIdle {win start end block} {
-  
+
   ctext::getAr $win config configAr
 
 #   if {"" eq $configAr(commentsAfterId)} {
 #     set configAr(commentsAfterId) [after idle \
 #     [list ctext::comments $win $start $end $block [set afterTriggered 1]]]
-#   } 
-  
+#   }
+
   ctext::comments $win $start $end $block
-  
+
 }
 
 proc ctext::highlight {win lineStart lineEnd} {
@@ -512,7 +513,7 @@ proc ctext::highlightAfterIdle {win lineStart lineEnd} {
 #       break
 #     }
 #   }
- 
+
   # Perform the highlight in the background
   ctext::doHighlight $win $lineStart $lineEnd
   # bgproc::command ctext::highlightAfterIdle$win "ctext::doHighlight $win" -cancelable 1
@@ -547,75 +548,80 @@ proc ctext::isEscaped {win index} {
 }
 
 proc ctext::undo_separator {win} {
-  
+
   ctext::getAr $win config configAr
-  
+
   # If a separator is being added (and it was not already added), add it
   if {![lindex $configAr(undo_hist) end 4]} {
-  
-    # Set the separator bit
-    lset configAr(undo_hist) end 4 1
-  
+
+    # Set the separator
+    lset configAr(undo_hist) end 4 -1
+
     # Get the last index of the undo history list
-    set last_index [expr [llength $configAr(undo_hist)] - 1]
-    
+    set last_index [expr $configAr(undo_hist_size) - 1]
+
     # Add the separator
-    if {$configAr(undo_sep_last) == -1} {
-      lappend configAr(undo_sep) $last_index
+    if {$configAr(undo_sep_next) == -1} {
+      set configAr(undo_sep_next) $last_index
     } else {
-      lappend configAr(undo_sep) [expr $last_index - $configAr(undo_sep_last)]
+      lset configAr(undo_hist) $configAr(undo_sep_last) 4 [expr $last_index - $configAr(undo_sep_last)]
     }
-    
+
     # Set the last separator index
     set configAr(undo_sep_last) $last_index
-  
+
+    # Increment the separator size
+    incr configAr(undo_sep_size)
+
   }
-  
+
   # If the number of separators exceeds the maximum length, shorten the undo history list
   ctext::undo_manage $win
-      
+
 }
 
 proc ctext::undo_manage {win} {
-  
+
   ctext::getAr $win config configAr
-  
+
   # If we need to make the undo history list shorter
-  if {($configAr(-maxundo) > 0) && ([set to_remove [expr [llength $configAr(undo_sep)] - $configAr(-maxundo)]] > 0)} {
-    
+  if {($configAr(-maxundo) > 0) && ([set to_remove [expr $configAr(undo_sep_size) - $configAr(-maxundo)]] > 0)} {
+
     # Get the separators to remove
-    set index [lindex $configAr(undo_sep) 0]
+    set index $configAr(undo_sep_next)
     for {set i 1} {$i < $to_remove} {incr i} {
-      incr index [lindex $configAr(undo_sep) $i]
+      incr index [lindex $configAr(undo_hist) $index 4]
     }
-    
+
+    # Set the next separator index
+    set configAr(undo_sep_next) [expr [lindex $configAr(undo_hist) $index 4] - 1]
+
     # Reset the last separator index
-    incr configAr(undo_sep_last) [expr 0 - ($index + 1)]
-    
+    set configAr(undo_sep_last) [expr $configAr(undo_sep_last) - ($index + 1)]
+
     # Set the separator size
-    set  configAr(undo_sep) [lreplace $configAr(undo_sep) 0 [expr $to_remove - 1]]
-    lset configAr(undo_sep) 0 [expr [lindex $configAr(undo_sep) 0] - 1]
-    
+    incr configAr(undo_sep_size) [expr 0 - $to_remove]
+
     # Shorten the undo history list
     set configAr(undo_hist) [lreplace $configAr(undo_hist) 0 $index]
-    
+
+    # Set the undo history size
+    incr configAr(undo_hist_size) [expr 0 - ($index + 1)]
+
   }
-  
-#  puts "A undo_hist: $configAr(undo_hist)"
-#  puts "  undo_sep_last: $configAr(undo_sep_last), undo_sep: $configAr(undo_sep)"
-  
+
 }
 
 proc ctext::undo_insert {win insert_pos str_len cursor} {
-  
+
   ctext::getAr $win config configAr
 
   if {!$configAr(-undo)} {
     return
   }
-  
+
   set end_pos [$win index "$insert_pos+${str_len}c"]
-  
+
   # Combine elements, if possible
   if {[llength $configAr(undo_hist)] > 0} {
     lassign [lindex $configAr(undo_hist) end] cmd val1 val2 hcursor sep
@@ -630,25 +636,26 @@ proc ctext::undo_insert {win insert_pos str_len cursor} {
       }
     }
   }
-  
+
   # Add to the undo history
   lappend configAr(undo_hist) [list d $insert_pos $end_pos $cursor 0]
+  incr configAr(undo_hist_size)
 
   # Clear the redo history
   set configAr(redo_hist) [list]
-  
+
 }
 
 proc ctext::undo_delete {win start_pos end_pos} {
-  
+
   ctext::getAr $win config configAr
 
   if {!$configAr(-undo)} {
     return
   }
-  
+
   set str [$win get $start_pos $end_pos]
-  
+
   # Combine elements, if possible
   if {[llength $configAr(undo_hist)] > 0} {
     lassign [lindex $configAr(undo_hist) end] cmd val1 val2 cursor sep
@@ -674,38 +681,39 @@ proc ctext::undo_delete {win start_pos end_pos} {
       }
     }
   }
-  
+
   # Add to the undo history
   lappend configAr(undo_hist) [list i $start_pos $str [$win index insert] 0]
-  
+  incr configAr(undo_hist_size)
+
   # Clear the redo history
   set configAr(redo_hist) [list]
-  
+
 }
 
 proc ctext::undo {win} {
-  
+
   ctext::getAr $win config configAr
 
   if {[llength $configAr(undo_hist)] > 0} {
-  
+
     set i           0
     set last_cursor 1.0
-    
+
     foreach element [lreverse $configAr(undo_hist)] {
-      
+
       lassign $element cmd val1 val2 cursor sep
-  
+
       if {($i > 0) && $sep} {
         break
       }
-      
+
       switch $cmd {
         i {
           $win._t insert $val1 $val2
           set val2 [$win index "$val1+[string length $val2]c"]
           lappend configAr(redo_hist) [list d $val1 $val2 $cursor $sep]
-        }  
+        }
         d {
           set str [$win get $val1 $val2]
           $win._t delete $val1 $val2
@@ -714,45 +722,43 @@ proc ctext::undo {win} {
       }
 
       $win highlight "$val1 linestart" "$val2 lineend"
-      
+
       set last_cursor $cursor
-      
+
       incr i
-      
+
     }
 
     set configAr(undo_hist) [lreplace $configAr(undo_hist) end-[expr $i - 1] end]
-    
-    # Update undo separators
-    set configAr(undo_sep)      [lreplace $configAr(undo_sep) end end]
-    set configAr(undo_sep_last) [expr [llength $configAr(undo_hist)] - 1]
-    
-#    puts "B undo_hist: $configAr(undo_hist)"
-#    puts "  redo_hist: $configAr(redo_hist)"
-#    puts "  undo_sep_last: $configAr(undo_sep_last), undo_sep: $configAr(undo_sep)"
-  
+    incr configAr(undo_hist_size) [expr 0 - $i]
+
+    # Update undo separator info
+    set configAr(undo_sep_next) [expr ($configAr(undo_hist_size) == 0) ? -1 : $configAr(undo_sep_next)]
+    set configAr(undo_sep_last) [expr $configAr(undo_hist_size) - 1]
+    incr configAr(undo_sep_size) -1
+
     $win._t mark set insert $last_cursor
     $win._t see insert
 
     ctext::modified $win 1
     ctext::linemapUpdate $win
-    
+
   }
-  
+
 }
 
 proc ctext::redo {win} {
-  
+
   ctext::getAr $win config configAr
-  
+
   if {[llength $configAr(redo_hist)] > 0} {
 
     set i 0
-    
+
     foreach element [lreverse $configAr(redo_hist)] {
-      
+
       lassign $element cmd val1 val2 cursor sep
-      
+
       switch $cmd {
         i {
           $win._t insert $val1 $val2
@@ -771,30 +777,25 @@ proc ctext::redo {win} {
           }
         }
       }
-  
+
       $win highlight "$val1 linestart" "$val2 lineend"
-      
+
       incr i
-      
+
       if {$sep} {
         break
       }
-      
+
     }
 
     set configAr(redo_hist) [lreplace $configAr(redo_hist) end-[expr $i - 1] end]
-    
+
     # Update undo separator structures
-    if {$configAr(undo_sep_last) == -1} {
-      lappend configAr(undo_sep) [expr $i - 1]
-    } else {
-      lappend configAr(undo_sep) $i
-    }
-    set configAr(undo_sep_last) [expr [llength $configAr(undo_hist)] - $i]
-  
-#    puts "C undo_hist: $configAr(undo_hist)"
-#    puts "  undo_sep_last: $configAr(undo_sep_last), undo_sep: $configAr(undo_sep)"
-  
+    incr configAr(undo_hist_size) $i
+    set configAr(undo_sep_next) [expr ($configAr(undo_sep_next) == -1) ? [expr $configAr(undo_hist_size) - 1] : $configAr(undo_sep_next)]
+    set configAr(undo_sep_last) [expr $configAr(undo_hist_size) - 1]
+    incr configAr(undo_sep_size)
+
     $win._t mark set insert $cursor
     $win._t see insert
 
@@ -802,7 +803,7 @@ proc ctext::redo {win} {
     ctext::linemapUpdate $win
 
   }
-  
+
 }
 
 proc ctext::instanceCmd {self cmd args} {
@@ -905,9 +906,9 @@ proc ctext::instanceCmd {self cmd args} {
         set prevChar [$self._t get $deletePos]
 
         ctext::undo_delete $self [$self._t index $deletePos] [$self._t index "$deletePos+1c"]
-        
+
         $self._t delete $deletePos
-        
+
         set char [$self._t get $deletePos]
 
         set prevSpace [ctext::findPreviousSpace $self._t $deletePos]
@@ -948,7 +949,7 @@ proc ctext::instanceCmd {self cmd args} {
 
         set lineStart [$self._t index "$deleteStartPos linestart"]
         set lineEnd [$self._t index "$deleteEndPos + 1 chars lineend"]
-        
+
         ctext::undo_delete $self [$self._t index $deleteStartPos] [$self._t index $deleteEndPos]
 
         eval \$self._t delete $args
@@ -1011,7 +1012,7 @@ proc ctext::instanceCmd {self cmd args} {
       set data [lindex $args 1]
       set datalen [string length $data]
       set cursor  [$self._t index insert]
-      
+
       eval \$self._t insert $args
 
       ctext::undo_insert $self $insertPos $datalen $cursor
@@ -1351,19 +1352,19 @@ proc ctext::instanceCmd {self cmd args} {
 }
 
 proc ctext::setAutoMatchChars {win matchChars} {
-  
+
   ctext::getAr $win config configAr
-  
+
   # Clear the matchChars
   foreach name [array names configAr matchChar,*] {
     set configAr($name) 0
   }
-  
+
   # Set the matchChars
   foreach matchChar $matchChars {
     set configAr(matchChar,$matchChar) 1
   }
-  
+
 }
 
 proc ctext::tag:blink {win count {afterTriggered 0}} {
@@ -1786,11 +1787,11 @@ proc ctext::commentsParseCCommentEnd {win index pindices num_indices re_opts eco
 }
 
 proc ctext::add_font_opt {win class modifiers popts} {
-  
+
   upvar $popts opts
 
   if {[llength $modifiers] > 0} {
-    
+
     array set font_opts [font configure [$win cget -font]]
 
     ctext::getAr $win highlight ar
@@ -1826,17 +1827,17 @@ proc ctext::add_font_opt {win class modifiers popts} {
     }
 
     lappend opts -font $fontname
-    
+
     if {$click} {
       set ar(click,$class) $opts
     }
-    
+
   }
-  
+
 }
 
 proc ctext::addHighlightClass {win class fgcolor {bgcolor ""} {font_opts ""}} {
-  
+
   set opts [list]
 
   if {$fgcolor ne ""} {
@@ -1848,21 +1849,21 @@ proc ctext::addHighlightClass {win class fgcolor {bgcolor ""} {font_opts ""}} {
   if {$font_opts ne ""} {
     add_font_opt $win $class $font_opts opts
   }
-            
+
   if {[llength $opts] > 0} {
     $win tag configure _$class {*}$opts
     $win tag lower _$class sel
   }
-            
+
   ctext::getAr $win classes classesAr
   set classesAr(_$class) 1
-            
+
 }
-                
+
 proc ctext::addHighlightKeywords {win keywords type value} {
-            
+
   ctext::getAr $win highlight ar
-            
+
   if {$type eq "class"} {
     set value _$value
   }
@@ -1870,29 +1871,29 @@ proc ctext::addHighlightKeywords {win keywords type value} {
   foreach word $keywords {
     set ar(keyword,$type,$word) $value
   }
- 
+
 }
 
 proc ctext::addHighlightRegexp {win re type value} {
-  
+
   ctext::getAr $win highlight ar
   ctext::getAr $win config    configAr
-            
+
   if {$type eq "class"} {
     set value _$value
   }
 
   lappend ar(regexps) "regexp,$type,$value"
-  
+
   set ar(regexp,$type,$value) [list $re $configAr(re_opts)]
 
 }
 
 # For things like $blah
 proc ctext::addHighlightWithOnlyCharStart {win char type value} {
-  
+
   ctext::getAr $win highlight ar
-            
+
   if {$type eq "class"} {
     set value _$value
   }
@@ -1902,13 +1903,13 @@ proc ctext::addHighlightWithOnlyCharStart {win char type value} {
 }
 
 proc ctext::addSearchClass {win class fgcolor bgcolor modifiers str} {
-  
+
   addHighlightClass $win $class $fgcolor $bgcolor $modifiers
-              
+
   ctext::getAr $win highlight ar
-  
+
   set ar(searchword,class,$str) _$class
-  
+
   # Perform the search
   set i 0
   foreach res [$win._t search -count lengths -all -- $str 1.0 end] {
@@ -1916,20 +1917,20 @@ proc ctext::addSearchClass {win class fgcolor bgcolor modifiers str} {
     $win._t tag add _$class $res $wordEnd
     incr i
   }
-  
+
 }
 
 proc ctext::addSearchClassForRegexp {win class fgcolor bgcolor modifiers re {re_opts ""}} {
-  
+
   addHighlightClass $win $class $fgcolor $bgcolor $modifiers
 
   ctext::getAr $win highlight ar
   ctext::getAr $win config    configAr
-                
+
   if {$re_opts ne ""} {
     set re_opts $configAr(re_opts)
   }
-  
+
   lappend ar(regexps) "searchregexp,class,_$class"
 
   set ar(searchregexp,class,_$class) [list $re $re_opts]
@@ -1945,27 +1946,27 @@ proc ctext::addSearchClassForRegexp {win class fgcolor bgcolor modifiers re {re_
 }
 
 proc ctext::deleteHighlightClass {win classToDelete} {
-  
+
   ctext::getAr $win highlight ar
   ctext::getAr $win classes   classesAr
 
   if {![info exists classesAr(_$classToDelete)]} {
     return -code error "$classToDelete doesn't exist"
   }
-  
+
   if {[set index [lsearch -glob $ar(regexps) *regexp,class,_$classToDelete]] != -1} {
     set ar(regexps) [lreplace $ar(regexps) $index $index]
   }
 
   array unset ar *,class,_$classToDelete
   unset classesAr(_$classToDelete)
-                
+
   $win tag delete _$classToDelete 1.0 end
-  
+
 }
 
 proc ctext::getHighlightClasses win {
-  
+
   ctext::getAr $win classes classesAr
 
   set classes [list]
@@ -1974,7 +1975,7 @@ proc ctext::getHighlightClasses win {
   }
 
   return $classes
-  
+
 }
 
 proc ctext::findNextChar {win index char} {
@@ -2038,7 +2039,7 @@ proc ctext::findPreviousSpace {win index} {
 }
 
 proc ctext::clearHighlightClasses {win} {
-                
+
   ctext::getAr $win highlight ar
   array unset ar
 
@@ -2053,13 +2054,13 @@ proc ctext::clearHighlightClasses {win} {
       }
     }
   }
- 
+
 }
 
 proc ctext::handle_tag {win class startpos endpos cmd} {
 
   ctext::getAr $win highlight ar
-  
+
   # Add the tag and possible binding
   if {[info exists ar(click,$class)]} {
     set tag _$class[incr ar(click_index)]
@@ -2069,7 +2070,7 @@ proc ctext::handle_tag {win class startpos endpos cmd} {
   } else {
     $win tag add _$class $startpos $endpos
   }
-  
+
   # Add the lsize
   if {[info exists ar(lsize,$class)]} {
     set startline [lindex [split $startpos .] 0]
@@ -2105,7 +2106,7 @@ proc ctext::doHighlight {win start end} {
   ctext::getAr $win highlight highlightAr
 
   set twin "$win._t"
- 
+
   # Handle word-based matching
   set i 0
   foreach res [$twin search -count lengths -regexp {*}$configAr(re_opts) -all -- $REs(words) $start $end] {
@@ -2144,7 +2145,7 @@ proc ctext::doHighlight {win start end} {
           set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
           $twin tag add $value $res $wordEnd
           incr i
-        }  
+        }
       } else {
         set indices [$twin search -count lengths -regexp {*}$re_opts -all -- $re $start $end]
         while {[llength $indices]} {
