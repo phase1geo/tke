@@ -598,8 +598,11 @@ namespace eval vim {
     # Set the record mode to playback
     set record_mode "playback"
     
+    puts "Replaying"
+    
     # Replay the recording buffer
     foreach event $recording {
+      puts "  event: $event"
       eval "event generate $txt <$event>"
     }
     
@@ -629,7 +632,7 @@ namespace eval vim {
     variable ignore_modified
     
     # Remove any existing dspace characters
-    cleanup_dspace [winfo parent $txt]
+    remove_dspace [winfo parent $txt]
     
     # If the current line contains nothing, add a dummy space so that the
     # block cursor doesn't look dumb.
@@ -651,8 +654,8 @@ namespace eval vim {
   }
   
   ######################################################################
-  # Cleans up the dspace.
-  proc cleanup_dspace {w} {
+  # Removes dspace characters.
+  proc remove_dspace {w} {
 
     variable ignore_modified
       
@@ -665,6 +668,19 @@ namespace eval vim {
 
   }
  
+  ######################################################################
+  # Removes the dspace tag from the current index (if it is set).
+  proc cleanup_dspace {w} {
+    
+    variable ignore_modified
+    
+    if {[lsearch [$w tag names insert] dspace] != -1} {
+      set ignore_modified($w) 1
+      $w tag remove dspace insert
+    }
+    
+  }
+  
   ######################################################################
   # Returns the contents of the given text widget without the injected
   # dspaces.
@@ -1501,6 +1517,7 @@ namespace eval vim {
       if {[[ns multicursor]::enabled $txt]} {
         [ns multicursor]::adjust $txt "+1c" 1 dspace
       }
+      cleanup_dspace $txt
       $txt mark set insert "insert+1c"
       edit_mode $txt
       record_start
