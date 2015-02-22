@@ -1119,6 +1119,14 @@ proc ctext::instanceCmd {self cmd args} {
         if {[llength $configAr(undo_hist)] > 0} {
           ctext::undo_separator $self
         }
+      } elseif {"reset" == $subCmd} {
+        set ar(undo_hist)      [list]
+        set ar(undo_hist_size) 0
+        set ar(undo_seq_next)  -1
+        set ar(undo_seq_last)  -1
+        set ar(undo_seq_size)  0
+        set ar(redo_hist)      [list]
+        set ar(modified)       false
       } else {
         #Tk 8.4 has other edit subcommands that I don't want to emulate.
         return [uplevel 1 [linsert $args 0 $self._t $cmd]]

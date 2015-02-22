@@ -1127,7 +1127,7 @@ namespace eval gui {
         close $rc
 
         # Change the text to unmodified
-        $w.pw.tf.txt edit modified false
+        $w.pw.tf.txt edit reset
 
         # Set the insertion mark to the first position
         $w.pw.tf.txt mark set insert 1.0
@@ -1261,7 +1261,7 @@ namespace eval gui {
       set_title
 
       # Change the text to unmodified
-      $txt edit modified false
+      $txt edit reset
       lset files $file_index $files_index(modified) 0
 
       # Set the insertion mark to the first position
