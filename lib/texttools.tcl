@@ -72,17 +72,13 @@ namespace eval texttools {
     lassign [syntax::get_comments $txt] icomment lcomments bcomments
 
     # Get the comment syntax to remove
-    if {[llength $icomment] == 1} {
-      set comment [join $lcomments |]
-    } else {
-      set comment [join [eval concat $bcomments] |]
-    }
+    set comments [join [eval concat $lcomments $bcomments] |]
 
     # Strip out comment syntax
     foreach {endpos startpos} [lreverse $selected] {
       set linestart $startpos
       foreach line [split [$txt get $startpos $endpos] \n] {
-        while {[regexp -indices -- ".*($comment)" $line -> com]} {
+        while {[regexp -indices -- ".*($comments)" $line -> com]} {
           set delstart [$txt index "$linestart+[lindex $com 0]c"]
           set delend   [$txt index "$linestart+[expr [lindex $com 1] + 1]c"]
           $txt delete $delstart $delend
