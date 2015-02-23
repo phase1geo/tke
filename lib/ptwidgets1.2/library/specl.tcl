@@ -1709,6 +1709,7 @@ namespace eval specl::releaser {
     set widgets(rss_url)             [ttk::entry .relwin.nb.rf.e5]
     set widgets(rss_url_suffix)      [ttk::label .relwin.nb.rf.l51 -text "/appcast.xml"]
       
+    grid rowconfigure    .relwin.nb.rf 2 -weight 1
     grid columnconfigure .relwin.nb.rf 1 -weight 1
     grid $widgets(appname_label)       -row 0 -column 0 -sticky news -padx 2 -pady 2
     grid $widgets(appname)             -row 0 -column 1 -sticky news -padx 2 -pady 2 -columnspan 2
