@@ -12,9 +12,11 @@ casesensitive
 
 indent
 {<[^/>](.*?[^/])?>}
-  
+
 unindent
 {</.+?>}
+
+icomment {{<!--} {-->}}
 
 bcomments {{{<!--} {-->}} {{<!\[CDATA\[} {\]\]>}}}
 
@@ -51,7 +53,7 @@ advanced
 {
   HighlightClass tag       keywords       {}
   HighlightClass attribute miscellaneous2 {}
-  
+
   HighlightRegexp {<[^>\s]+} syntax::get_xml_tag
   HighlightRegexp {\S+=}     syntax::get_xml_attribute
 }

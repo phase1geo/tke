@@ -12,9 +12,11 @@ casesensitive
 
 indent
 {\{}
-  
+
 unindent
 {\}}
+
+icomment {{#}}
 
 lcomments {{^[ \t]*#}}
 
@@ -25,7 +27,7 @@ strings {}
 keywords
 {
   filepatterns matchcharsallowed tabsallowed casesensitive indent unindent keywords symbols
-  lcomments bcomments strings numbers punctuation precompile miscellaneous1 miscellaneous2
+  icomment lcomments bcomments strings numbers punctuation precompile miscellaneous1 miscellaneous2
   miscellaneous3 advanced
   HighlightClass
   HighlightKeywords
@@ -36,7 +38,7 @@ keywords
 symbols
 {
   HighlightKeywords {
-    filepatterns matchcharsallowed tabsallowed casesensitive indent unindent lcomments bcomments
+    filepatterns matchcharsallowed tabsallowed casesensitive indent unindent icomment lcomments bcomments
     strings symbols numbers punctuation precompile miscellaneous1 miscellaneous2 miscellaneous3
     advanced
   } syntax::get_syntax_symbol

@@ -10,6 +10,8 @@ tabsallowed
 casesensitive
 {1}
 
+icomment {{#}}
+
 lcomments {{^[ \t]*#}}
 
 strings {{"} {'} {`}}
@@ -28,4 +30,4 @@ punctuation
 {
   HighlightRegexp {[][=+~|>$:@^,%*?<&;!\{\}()]} {}
 }
- 
+

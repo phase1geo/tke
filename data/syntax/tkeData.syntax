@@ -16,6 +16,8 @@ indent
 unindent
 {\}}
 
+icomment {{#}}
+
 lcomments {{#}}
 
 punctuation

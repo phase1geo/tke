@@ -12,9 +12,11 @@ casesensitive
 
 indent
 {\{}
-  
+
 unindent
 {\}}
+
+icomment {{//}}
 
 lcomments {{//}}
 
@@ -28,7 +30,7 @@ keywords
   struct union enum enumdef structdef typedef uniondef sizeof
   void char double float int long short signed unsigned
   auto extern register static const volatile
-  
+
   class public private protected new delete
 
   free malloc abort abs acos asctime asin assert atan atan2 atexit atof atoi atol bsearch

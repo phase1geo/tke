@@ -16,6 +16,8 @@ indent
 unindent
 {end endtask endfunction endcase endmodule endgenerate}
 
+icomment {{//}}
+
 lcomments {{//}}
 
 bcomments {{{/\*} {\*/}}}
@@ -32,10 +34,10 @@ keywords
   rnmos rpmos rtran rtranif0 rtranif1 scalered signed small specify specparam strong0 strong1
   supply0 supply1 table task time tran tranif0 tranif1 tri tri0 tri1 triand trior trireg
   vectored wait wand weak0 weak1 while wire wor xnor xor
-  
+
   automatic cell config design endconfig endgenerate generate genvar instance liblist library
   localparam noshowcancelled pulsestyle_onevent pulsestyle_ondetect showcancelled use
-  
+
   alias always_comb always_ff always_latch assert assume bind bins binsof bit before break byte
   chandle char class clocking const constraint context continue cover covergroup coverpoint
   cross dist do endclass endclocking endgroup endinterface endpackage endprogram endproperty
@@ -45,7 +47,7 @@ keywords
   program property protected pure rand randc randcase randomize randsequence ref return scalared
   sequence shortint shortreal solve static struct super tagged this throughout timeprecision
   timeunit type typedef type_option. union unique unsigned virtual void wait_order wildcard with
-  within 
+  within
 }
 
 numbers

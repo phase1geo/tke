@@ -8,9 +8,9 @@
 ######################################################################
 
 namespace eval vim {
-  
+
   source [file join $::tke_dir lib ns.tcl]
-   
+
   variable record_mode "none"
   variable recording   {}
 
@@ -21,11 +21,11 @@ namespace eval vim {
   array set ignore_modified {}
   array set column          {}
   array set select_anchors  {}
-  
+
   ######################################################################
   # Enables/disables Vim mode for all text widgets.
   proc set_vim_mode_all {} {
- 
+
     variable command_entries
 
     # Set the Vim mode on all text widgets
@@ -36,9 +36,9 @@ namespace eval vim {
         unset command_entries($txt)
       }
     }
-    
+
   }
-  
+
   ######################################################################
   # Enables/disables Vim mode for the specified text widget.
   proc set_vim_mode {txt tid} {
@@ -48,16 +48,16 @@ namespace eval vim {
     } else {
       remove_bindings $txt
     }
-    
+
   }
-  
+
   ######################################################################
   # Returns 1 if we are currently in non-edit vim mode; otherwise,
   # returns 0.
   proc in_vim_mode {txt} {
-    
+
     variable mode
-    
+
     if {[[ns preferences]::get Tools/VimMode] && \
         [info exists mode($txt)] && \
         ($mode($txt) ne "edit")} {
@@ -65,15 +65,15 @@ namespace eval vim {
     } else {
       return 0
     }
-    
+
   }
-  
+
   ######################################################################
   # Returns the current Vim mode for the editor.
   proc get_mode {txt} {
-    
+
     variable mode
-    
+
     if {[[ns preferences]::get Tools/VimMode]} {
       if {[info exists mode($txt.t)] && ($mode($txt.t) eq "edit")} {
         return "INSERT MODE"
@@ -85,37 +85,37 @@ namespace eval vim {
     } else {
       return ""
     }
-    
+
   }
 
   ######################################################################
-  # Binds the given entry 
+  # Binds the given entry
   proc bind_command_entry {txt entry tid} {
-  
+
     variable command_entries
-    
+
     # Save the entry
     set command_entries($txt.t) $entry
-  
+
     bind $entry <Return>    "[ns vim]::handle_command_return %W {$tid}"
     bind $entry <Escape>    "[ns vim]::handle_command_escape %W {$tid}"
     bind $entry <BackSpace> "[ns vim]::handle_command_backspace %W {$tid}"
-  
+
   }
-  
+
   ######################################################################
   # Handles the command entry text.
   proc handle_command_return {w tid} {
-      
+
     # Get the last txt widget that had the focus
     set txt [[ns gui]::last_txt_focus $tid]
-    
+
     # Get the value from the command field
     set value [$w get]
-    
+
     # Delete the value in the command entry
     $w delete 0 end
-    
+
     # Execute the command
     switch -- $value {
       w  { [ns gui]::save_current $tid }
@@ -196,27 +196,27 @@ namespace eval vim {
         }
       }
     }
-    
+
     # Remove the grab
     grab release $w
-    
+
     if {$txt ne ""} {
-      
+
       # Set the focus back to the text widget
       [ns gui]::set_txt_focus $txt
-    
+
       # Hide the command entry widget
-      grid remove $w 
-      
+      grid remove $w
+
     }
-  
+
   }
-  
+
   ######################################################################
   # Normalizes the given filename string, performing any environment
   # variable substitutions.
   proc normalize_filename {file_str} {
-    
+
     while {[regexp -indices {(\$(\w+))} $file_str -> str var]} {
       set var [string range $file_str {*}$var]
       if {[info exists ::env($var)]} {
@@ -225,88 +225,88 @@ namespace eval vim {
         return -code error "Environment variable $var does not exist"
       }
     }
-    
+
     return [file normalize $file_str]
-    
+
   }
-  
+
   ######################################################################
   # Inserts the given file contents beneath the current insertion line.
   proc insert_file {txt filename} {
-    
+
     if {![catch "open $filename r" rc]} {
-      
+
       # Read the contents of the file and close the file
       set contents [read $rc]
       close $rc
-      
+
       # Insert the file contents beneath the current insertion line
       $txt insert "insert lineend" "\n$contents"
-      
+
       # Adjust the insert cursor
       adjust_insert $txt
-      
+
     }
-    
+
   }
-  
+
   ######################################################################
   # Adjust the current selection if we are in visual mode.
   proc adjust_select {txt index} {
-    
+
     variable select_anchors
-    
+
     # Get the anchor for the given selection
     set anchor [lindex $select_anchors($txt) $index]
-    
+
     if {[$txt compare $anchor < insert]} {
       $txt tag add sel $anchor insert
     } else {
       $txt tag add sel insert $anchor
     }
-    
+
   }
-  
+
   ######################################################################
   # Handles an escape key in the command entry widget.
   proc handle_command_escape {w tid} {
-    
+
     # Get the last text widget that had focus
     set txt [[ns gui]::last_txt_focus $tid]
-    
+
     # Delete the value in the command entry
     $w delete 0 end
-    
+
     # Remove the grab and set the focus back to the text widget
     grab release $w
     [ns gui]::set_txt_focus $txt
-    
+
     # Hide the command entry widget
     grid remove $w
-    
+
   }
-  
+
   ######################################################################
   # Handles a backspace key in the command entry widget.
   proc handle_command_backspace {w tid} {
- 
+
     if {[$w get] eq ""} {
-      
+
       # Remove the grab and set the focus back to the text widget
       grab release $w
       [ns gui]::set_txt_focus [[ns gui]::last_txt_focus $tid]
-      
+
       # Hide the command entry widget
       grid remove $w
-      
+
     }
-  
+
   }
- 
+
   ######################################################################
   # Returns the line number based on the given line number character.
   proc get_linenum {txt char} {
-    
+
     if {$char eq "."} {
       return [$txt index "insert linestart"]
     } elseif {$char eq "^"} {
@@ -320,22 +320,22 @@ namespace eval vim {
     } else {
       return -code error "$char is not a valid marker name"
     }
-    
+
   }
-  
+
   ######################################################################
-  # Add Vim bindings 
+  # Add Vim bindings
   proc add_bindings {txt tid} {
-    
+
     variable mode
     variable number
     variable ignore_modified
     variable column
     variable select_anchors
-    
+
     # Change the cursor to the block cursor
     $txt configure -blockcursor true
-    
+
     # Put ourselves into start mode
     set mode($txt.t)             "start"
     set number($txt.t)           ""
@@ -343,7 +343,7 @@ namespace eval vim {
     set ignore_modified($txt)    0
     set column($txt.t)           ""
     set select_anchors($txt.t)   [list]
-    
+
     # Add bindings
     bind $txt       <<Modified>>      "if {\[[ns vim]::handle_modified %W\]} { break }"
     bind vim$txt    <Escape>          "if {\[[ns vim]::handle_escape %W {$tid}\]} { break }"
@@ -356,23 +356,23 @@ namespace eval vim {
     bind vimpre$txt <Control-g>       "if {\[[ns vim]::handle_control_g %W\]} { break }"
     bind vimpre$txt <Control-j>       "if {\[[ns vim]::handle_control_j %W\]} { break }"
     bind vimpre$txt <Control-k>       "if {\[[ns vim]::handle_control_k %W\]} { break }"
-    
+
     # Insert the vimpre binding just prior to all
     set all_index [lsearch [bindtags $txt.t] all]
     bindtags $txt.t [linsert [bindtags $txt.t] $all_index vimpre$txt]
-    
-    # Insert the vim binding just prior to Text    
+
+    # Insert the vim binding just prior to Text
     set text_index [lsearch [bindtags $txt.t] Text]
     bindtags $txt.t [linsert [bindtags $txt.t] $text_index vim$txt]
-    
+
     # Put ourselves into start mode
     start_mode $txt.t
-    
+
     # Set autoseparator mode to false
     $txt configure -autoseparators 0
- 
+
   }
-  
+
   ######################################################################
   # Handles a modified event when in Vim mode.
   proc handle_modified {W} {
@@ -392,109 +392,109 @@ namespace eval vim {
   ######################################################################
   # Handles a left-click event when in Vim mode.
   proc handle_button1 {W x y} {
-    
+
     $W tag remove sel 1.0 end
-    
+
     set current [$W index @$x,$y]
     $W mark set [[ns utils]::text_anchor $W] $current
     $W mark set insert $current
-    
+
     if {[set [ns vim]::mode($W)] ne "edit"} {
       adjust_insert $W
     }
-    
+
     focus $W
-    
+
   }
-  
+
   ######################################################################
   # Handles a double-left-click event when in Vim mode.
   proc handle_double_button1 {W x y} {
-    
+
     $W tag remove sel 1.0 end
-    
+
     set current [$W index @$x,$y]
     $W tag add sel [$W index "$current wordstart"] [$W index "$current wordend"]
     $W mark set insert [$W index "$current wordstart"]
-    
+
     focus $W
-    
+
   }
-  
+
   ######################################################################
   # Handle left-button hold motion event when in Vim mode.
   proc handle_motion {W x y} {
-    
+
     $W tag remove sel 1.0 end
-    
+
     set current [$W index @$x,$y]
     $W tag add sel [[ns utils]::text_anchor $W] $current
     $W mark set insert $current
-    
+
     if {[set [ns vim]::mode($W)] ne "edit"} {
       adjust_insert $W
     }
-    
+
     focus $W
-      
+
   }
-  
+
   ######################################################################
   # Remove the Vim bindings on the text widget.
   proc remove_bindings {txt} {
-    
+
     # Remove the vim* bindings from the widget
     if {[set index [lsearch [bindtags $txt.t] vim$txt]] != -1} {
       bindtags $txt.t [lreplace [bindtags $txt.t] $index $index]
     }
-    
+
     # Remove the vimpre* bindings from the widget
     if {[set index [lsearch [bindtags $txt.t] vimpre$txt]] != -1} {
       bindtags $txt.t [lreplace [bindtags $txt.t] $index $index]
     }
-    
+
     # Move $txt.t <<Modified>> binding back to $txt
     bind $txt <<Modified>> ""
-    
+
     # Change the cursor to the insertion cursor and turn autoseparators on
     $txt configure -blockcursor false -autoseparators 1
-    
+
   }
-  
+
   ######################################################################
   # Set the current mode to the "edit" mode.
   proc edit_mode {txt} {
-    
+
     variable mode
-    
+
     # Set the mode to the edit mode
     set mode($txt) "edit"
-    
+
     # Add separator
     $txt edit separator
-    
+
     # Set the blockcursor to false
     $txt configure -blockcursor false
- 
+
     # If the current cursor is on a dummy space, remove it
     set tags [$txt tag names insert]
     if {([lsearch $tags "dspace"] != -1) && ([lsearch $tags "mcursor"] == -1)} {
       $txt delete insert
     }
- 
+
   }
- 
+
   ######################################################################
   # Set the current mode to the "start" mode.
   proc start_mode {txt} {
- 
+
     variable mode
-    
+
     # If we are coming from visual mode, clear the selection
     if {$mode($txt) eq "visual"} {
       $txt tag remove sel 1.0 end
     }
-    
+
     # If were in the edit or replace_all state, move the insertion cursor back
     # one character.
     if {(($mode($txt) eq "edit") || ($mode($txt) eq "replace_all")) && \
@@ -504,158 +504,158 @@ namespace eval vim {
 
     # Set the blockcursor to true
     $txt configure -blockcursor true
-    
+
     # Adjust the insertion marker
     adjust_insert $txt
-    
+
     # Add a separator if we were in edit mode
     if {$mode($txt) ne "start"} {
       $txt edit separator
     }
-    
+
     # Set the current mode to the start mode
     set mode($txt) "start"
-    
+
   }
-  
+
   ######################################################################
   # Set the current mode to the "visual" mode.
   proc visual_mode {txt} {
-    
+
     variable mode
     variable select_anchors
-    
+
     # Set the current mode
     set mode($txt) "visual"
-    
+
     # Clear the current selection
     $txt tag remove sel 1.0 end
-    
+
     # Initialize the select range
     set select_anchors($txt) [$txt index insert]
-    
+
   }
-  
+
   ######################################################################
   # Starts recording keystrokes.
   proc record_start {} {
-    
+
     variable record_mode
     variable recording
-    
+
     if {$record_mode eq "none"} {
       set record_mode "record"
       set recording   [list]
     }
-    
+
   }
-  
+
   ######################################################################
   # Stops recording keystrokes.
   proc record_stop {} {
-    
+
     variable record_mode
-    
+
     if {$record_mode eq "record"} {
       set record_mode "none"
     }
-    
+
   }
-  
+
   ######################################################################
   # Records a signal event and stops recording.
   proc record {event} {
-    
+
     variable record_mode
     variable recording
-    
+
     if {$record_mode eq "none"} {
       set recording $event
     }
-    
+
   }
-  
+
   ######################################################################
   # Adds an event to the recording buffer if we are in record mode.
   proc record_add {event} {
-    
+
     variable record_mode
     variable recording
-    
+
     if {$record_mode eq "record"} {
       lappend recording $event
     }
-    
+
   }
-  
+
   ######################################################################
   # Plays back the record buffer.
   proc playback {txt} {
-    
+
     variable record_mode
     variable recording
 
     # Set the record mode to playback
     set record_mode "playback"
-    
+
     # Replay the recording buffer
     foreach event $recording {
       eval "event generate $txt <$event>"
     }
-    
+
     # Set the record mode to none
     set record_mode "none"
-    
+
   }
-  
+
   ######################################################################
   # Stops recording and clears the recording array.
   proc record_clear {} {
-    
+
     variable record_mode
     variable recording
-    
+
     set record_mode "none"
     set recording   [list]
-    
+
   }
-  
+
   ######################################################################
   # Adjust the insertion marker so that it never is allowed to sit on
   # the lineend spot.
   proc adjust_insert {txt} {
-  
+
     variable mode
     variable ignore_modified
-    
+
     # Remove any existing dspace characters
     remove_dspace [winfo parent $txt]
-    
+
     # If the current line contains nothing, add a dummy space so that the
     # block cursor doesn't look dumb.
     if {[$txt index "insert linestart"] eq [$txt index "insert lineend"]} {
       set ignore_modified([winfo parent $txt]) 1
       $txt fastinsert insert " " dspace
       $txt mark set insert "insert-1c"
-      
+
     # Make sure that lineend is never the insertion point
     } elseif {[$txt index insert] eq [$txt index "insert lineend"]} {
       $txt mark set insert "insert-1c"
     }
-    
+
     # Adjust the selection (if we are in visual mode)
     if {$mode($txt) eq "visual"} {
       adjust_select $txt 0
     }
-    
+
   }
-  
+
   ######################################################################
   # Removes dspace characters.
   proc remove_dspace {w} {
 
     variable ignore_modified
-      
+
     foreach {endpos startpos} [lreverse [$w tag ranges dspace]] {
       if {[lsearch [$w tag names $startpos] "mcursor"] == -1} {
         set ignore_modified($w) 1
@@ -664,76 +664,76 @@ namespace eval vim {
     }
 
   }
- 
+
   ######################################################################
   # Removes the dspace tag from the current index (if it is set).
   proc cleanup_dspace {w} {
-    
+
     variable ignore_modified
-    
+
     if {[lsearch [$w tag names insert] dspace] != -1} {
       set ignore_modified($w) 1
       $w tag remove dspace insert
     }
-    
+
   }
-  
+
   ######################################################################
   # Returns the contents of the given text widget without the injected
   # dspaces.
   proc get_cleaned_content {txt} {
-  
+
     set str ""
     set last_startpos 1.0
-    
+
     # Remove any dspace characters
     foreach {startpos endpos} [$txt tag ranges dspace] {
       append str [$txt get $last_startpos $startpos]
       set last_startpos $endpos
     }
-    
+
     append str [$txt get $last_startpos "end-1c"]
-    
+
     return $str
-    
+
   }
-  
+
   ######################################################################
   # Handles the escape-key when in Vim mode.
   proc handle_escape {txt tid} {
-    
+
     variable mode
     variable number
-    
+
     if {$mode($txt) ne "start"} {
-      
+
       # Add to the recording if we are doing so
       record_add Escape
       record_stop
-      
+
       # Set the mode to start
       start_mode $txt
-      
+
     } else {
-      
+
       # If were in start mode, clear the recording buffer
       record_clear
-      
+
       # Clear the any selections
       $txt tag remove sel 1.0 end
-      
+
       # Clear any searches
       gui::clear_search $tid
-      
+
     }
-    
+
     # Clear the current number string
     set number($txt) ""
 
     return 1
-    
+
   }
-  
+
   ######################################################################
   # Handles any single printable character.
   proc handle_any {txt tid keysym char} {
@@ -741,17 +741,17 @@ namespace eval vim {
     variable mode
     variable number
     variable column
-    
+
     # If the key does not have a printable char representation, quit now
     if {$char eq ""} {
-      return 1
+      return 0
     }
-    
+
     # If the keysym is neither j or k, clear the column
     if {($keysym ne "j") && ($keysym ne "k")} {
       set column($txt) ""
     }
-    
+
     # If we are not in edit mode
     if {![catch "handle_$keysym $txt {$tid}" rc] && $rc} {
       record_add "Key-$keysym"
@@ -765,7 +765,7 @@ namespace eval vim {
     } elseif {($mode($txt) eq "start") || ($mode($txt) eq "visual")} {
       return 1
     }
-    
+
     record_add "Key-$keysym"
 
     # Append the text to the insertion buffer
@@ -778,7 +778,7 @@ namespace eval vim {
         record_stop
       }
       return 1
-      
+
     # Remove all text within the current character
     } elseif {$mode($txt) eq "changein"} {
       if {([set start_index [$txt search -backwards $char insert 1.0]] ne "") && \
@@ -790,20 +790,20 @@ namespace eval vim {
       }
       return 1
     }
-    
+
     return 0
-        
+
   }
-  
+
   ######################################################################
   # If we are in "start" mode, the number is 0 and the current number
   # is empty, set the insertion cursor to the beginning of the line;
   # otherwise, append the number current to number value.
   proc handle_number {txt num} {
-  
+
     variable mode
     variable number
-    
+
     if {($mode($txt) eq "start") || ($mode($txt) eq "visual")} {
       if {($mode($txt) eq "start") && ($num eq "0") && ($number($txt) eq "")} {
         $txt mark set insert "insert linestart"
@@ -814,51 +814,51 @@ namespace eval vim {
       }
       return 1
     }
-    
+
     return 0
-  
+
   }
-  
+
   ######################################################################
   # If we are in the "start" mode, display the command entry field and
   # give it the focus.
   proc handle_colon {txt tid} {
-  
+
     variable mode
     variable command_entries
-    
+
     # If we are in the "start" mode, bring up the command entry widget
     # and give it the focus.
     if {$mode($txt) eq "start"} {
-      
+
       # Colorize the entry widget to match the look of the associated text widget
       $command_entries($txt) configure \
         -background [$txt cget -background] -foreground [$txt cget -foreground] \
         -insertbackground [$txt cget -insertbackground] -font [$txt cget -font]
-    
+
       # Show the command entry widget
       grid $command_entries($txt)
-      
+
       # Set the focus and grab on the widget
       grab $command_entries($txt)
       focus $command_entries($txt)
-      
+
       return 1
-      
+
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in the "start" mode, move insertion cursor to the end of
   # the current line.  If we are in "delete" mode, delete all of the
   # text from the insertion marker to the end of the line.
   proc handle_dollar {txt tid} {
-  
+
     variable mode
-    
+
     if {$mode($txt) eq "start"} {
       $txt mark set insert "insert lineend-1c"
       $txt see insert
@@ -876,20 +876,20 @@ namespace eval vim {
       record_stop
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in the "start" mode, move insertion cursor to the beginning
   # of the current line.  If we are in "delete" mode, delete all of the
   # text between the beginning of the current line and the current
   # insertion marker.
   proc handle_asciicircum {txt tid} {
-  
+
     variable mode
-    
+
     if {$mode($txt) eq "start"} {
       $txt mark set insert "insert linestart"
       $txt see insert
@@ -907,53 +907,53 @@ namespace eval vim {
       record_stop
       return 1
     }
-    
+
     return 0
 
   }
-  
+
   ######################################################################
   # If we are in "start" mode, display the search bar.
   proc handle_slash {txt tid} {
-  
+
     variable mode
     variable search_dir
-    
+
     if {$mode($txt) eq "start"} {
       [ns gui]::search $tid "next"
       set search_dir($txt) "next"
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in "start" mode, display the search bar for doing a
   # a previous search.
   proc handle_question {txt tid} {
-    
+
     variable mode
     variable search_dir
-    
+
     if {$mode($txt) eq "start"} {
       [ns gui]::search $tid "prev"
       set search_dir($txt) "prev"
       return 1
     }
-    
+
     return 0
-    
+
   }
- 
+
   ######################################################################
   # If we are in "start" mode, invokes the buffered command at the current
   # insertion point.
   proc handle_period {txt tid} {
- 
+
     variable mode
- 
+
     if {$mode($txt) eq "start"} {
       set start_index [$txt index insert]
       playback $txt
@@ -967,34 +967,34 @@ namespace eval vim {
       }
       return 1
     }
- 
+
     return 0
-      
+
   }
- 
+
   ######################################################################
   # If we are in "start" mode and the insertion point character has a
-  # matching left/right partner, display the partner. 
+  # matching left/right partner, display the partner.
   proc handle_percent {txt tid} {
-    
+
     variable mode
     variable number
-    
+
     if {$mode($txt) eq "start"} {
       [ns gui]::show_match_pair $tid
       return 1
     }
-    
+
     return 0
-    
+
   }
 
   ######################################################################
   # Handles the i-key when in Vim mode.
   proc handle_i {txt tid} {
-    
+
     variable mode
-    
+
     if {$mode($txt) eq "start"} {
       edit_mode $txt
       record_start
@@ -1003,37 +1003,37 @@ namespace eval vim {
       set mode($txt) "changein"
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in "start" mode, inserts at the beginning of the current
   # line.
   proc handle_I {txt tid} {
-    
+
     variable mode
-    
+
     if {$mode($txt) eq "start"} {
       $txt mark set insert "insert linestart"
       edit_mode $txt
       record_start
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in "start" mode, move the insertion cursor down one line.
   proc handle_j {txt tid} {
-  
+
     variable mode
     variable number
     variable column
-    
+
     # Move the insertion cursor down one line
     if {($mode($txt) eq "start") || ($mode($txt) eq "visual")} {
       $txt tag remove sel 1.0 end
@@ -1051,24 +1051,24 @@ namespace eval vim {
       }
       return 1
     }
-   
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # Performs a join operation.
   proc do_join {txt} {
-    
+
     variable number
-    
+
     # Create a separator
     $txt edit separator
 
     set lines [expr {($number($txt) ne "") ? $number($txt) : 1}]
 
     while {$lines > 0} {
-      
+
       # Perform a line join with the current line, trimming whitespace
       set line [string trimleft [$txt get "insert+1l linestart" "insert+1l lineend"]]
       $txt delete "insert lineend" "insert+1l lineend"
@@ -1076,15 +1076,15 @@ namespace eval vim {
       if {$line ne ""} {
         $txt insert "insert lineend" " [string trimleft $line]"
       }
-      
+
       incr lines -1
-      
+
     }
-    
+
     # Set the insertion cursor and make it viewable
     $txt mark set insert $index
     $txt see insert
-    
+
     # Create a separator
     $txt edit separator
 
@@ -1115,11 +1115,11 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, move the insertion cursor up one line.
   proc handle_k {txt tid} {
-  
+
     variable mode
     variable number
     variable column
-    
+
     # Move the insertion cursor up one line
     if {($mode($txt) eq "start") || ($mode($txt) eq "visual")} {
       $txt tag remove sel 1.0 end
@@ -1137,18 +1137,18 @@ namespace eval vim {
       }
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in start mode and multicursor is enabled, move all of the
   # cursors up one line.
   proc handle_K {txt tid} {
-    
+
     variable mode
-    
+
     if {$mode($txt) eq "start"} {
       $txt tag remove sel 1.0 end
       if {[[ns multicursor]::enabled $txt]} {
@@ -1156,19 +1156,19 @@ namespace eval vim {
       }
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in "start" mode, move the insertion cursor right one
   # character.
   proc handle_l {txt tid} {
-  
+
     variable mode
     variable number
-    
+
     # Move the insertion cursor right one character
     if {($mode($txt) eq "start") || ($mode($txt) eq "visual")} {
       $txt tag remove sel 1.0 end
@@ -1189,19 +1189,19 @@ namespace eval vim {
       }
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in "start" mode and multicursor mode is enabled, adjust
   # all of the cursors to the right by one character.  If we are only
   # in "start" mode, jump the insertion cursor to the bottom line.
   proc handle_L {txt tid} {
-    
+
     variable mode
-    
+
     if {($mode($txt) eq "start") || ($mode($txt) eq "visual")} {
       if {[[ns multicursor]::enabled $txt]} {
         $txt tag remove sel 1.0 end
@@ -1213,19 +1213,19 @@ namespace eval vim {
       }
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in "start" mode, move the insertion cursor left one
   # character.
   proc handle_h {txt tid} {
-  
+
     variable mode
     variable number
-    
+
     # Move the insertion cursor left one character
     if {($mode($txt) eq "start") || ($mode($txt) eq "visual")} {
       $txt tag remove sel 1.0 end
@@ -1246,19 +1246,19 @@ namespace eval vim {
       }
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in "start" mode and multicursor mode is enabled, move all
   # cursors to the left by one character.  Otherwise, if we are just in
   # "start" mode, jump to the top line of the editor.
   proc handle_H {txt tid} {
-    
+
     variable mode
-    
+
     if {$mode($txt) eq "start"} {
       if {[[ns multicursor]::enabled $txt]} {
         $txt tag remove sel 1.0 end
@@ -1270,24 +1270,24 @@ namespace eval vim {
       }
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # Returns the index of the beginning next/previous word.  If num is
   # given a value > 1, the procedure will return the beginning index of
   # the next/previous num'th word.  If no word was found, return the index
   # of the current word.
   proc get_word {txt dir {num 1} {start insert}} {
-    
+
     # If the direction is 'next', search forward
     if {$dir eq "next"} {
-      
+
       # Get the end of the current word (this will be the beginning of the next word)
       set curr_index [$txt index "$start wordend"]
-      
+
       # Use a brute-force method of finding the next word
       while {[$txt compare $curr_index < end]} {
         if {![string is space [$txt get $curr_index]]} {
@@ -1297,14 +1297,14 @@ namespace eval vim {
         }
         set curr_index [$txt index "$curr_index wordend"]
       }
-      
+
       return [$txt index "$curr_index wordstart"]
-      
+
     } else {
-      
+
       # Get the index of the current word
       set curr_index [$txt index "$start wordstart"]
-      
+
       while {[$txt compare $curr_index > 1.0]} {
         if {![string is space [$txt get $curr_index]] && \
              [$txt compare $curr_index != $start]} {
@@ -1314,21 +1314,21 @@ namespace eval vim {
         }
         set curr_index [$txt index "$curr_index-1c wordstart"]
       }
-      
+
       return $curr_index
-      
+
     }
-    
+
   }
-  
+
   ######################################################################
   # If we are in "start" mode, move the insertion cursor to the beginning
   # of previous word.
   proc handle_b {txt tid} {
-    
+
     variable mode
     variable number
-    
+
     if {($mode($txt) eq "start") || ($mode($txt) eq "visual")} {
       $txt tag remove sel 1.0 end
       if {$number($txt) ne ""} {
@@ -1340,19 +1340,19 @@ namespace eval vim {
       $txt see insert
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in "start" mode, change the state to "change" mode.  If
   # we are in the "change" mode, delete the current line and put ourselves
   # into edit mode.
   proc handle_c {txt tid} {
-  
+
     variable mode
-    
+
     if {$mode($txt) eq "start"} {
       set mode($txt) "change"
       record_start
@@ -1370,36 +1370,36 @@ namespace eval vim {
       edit_mode $txt
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in "start" mode, delete from the insertion cursor to the
   # end of the line and put ourselves into "edit" mode.
   proc handle_C {txt tid} {
-    
+
     variable mode
-    
+
     if {$mode($txt) eq "start"} {
       $txt delete insert "insert lineend"
       edit_mode $txt
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in "change" mode, delete the current word and change to edit
   # mode.
   proc handle_w {txt tid} {
-  
+
     variable mode
     variable number
-    
+
     if {($mode($txt) eq "start") || ($mode($txt) eq "visual")} {
       $txt tag remove sel 1.0 end
       if {$number($txt) ne ""} {
@@ -1444,18 +1444,18 @@ namespace eval vim {
       start_mode $txt
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in "start" mode, go to the last line.
   proc handle_G {txt tid} {
-  
+
     variable mode
     variable number
-    
+
     if {($mode($txt) eq "start") || ($mode($txt) eq "visual")} {
       if {$number($txt) ne ""} {
         $txt mark set insert [get_linenum $txt $number($txt)]
@@ -1466,19 +1466,19 @@ namespace eval vim {
       $txt see insert
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in "start" mode, transition the mode to the delete mode.
   # If we are in the "delete" mode, delete the current line.
   proc handle_d {txt tid} {
-    
+
     variable mode
     variable number
-    
+
     if {$mode($txt) eq "start"} {
       set mode($txt) "delete"
       record_start
@@ -1498,18 +1498,18 @@ namespace eval vim {
       record_stop
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in the "start" mode, move the insertion cursor ahead by
   # one character and set ourselves into "edit" mode.
   proc handle_a {txt tid} {
-  
+
     variable mode
-    
+
     if {$mode($txt) eq "start"} {
       if {[[ns multicursor]::enabled $txt]} {
         [ns multicursor]::adjust $txt "+1c" 1 dspace
@@ -1520,36 +1520,36 @@ namespace eval vim {
       record_start
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in "start" mode, insert text at the end of the current line.
   proc handle_A {txt tid} {
-    
+
     variable mode
-    
+
     if {$mode($txt) eq "start"} {
       $txt mark set insert "insert lineend"
       edit_mode $txt
       record_start
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in the "start" mode, set ourselves to yank mode.  If we
   # are in "yank" mode, copy the current line to the clipboard.
   proc handle_y {txt tid} {
-  
+
     variable mode
     variable number
-    
+
     if {$mode($txt) eq "start"} {
       set mode($txt) "yank"
       return 1
@@ -1572,47 +1572,47 @@ namespace eval vim {
       record_stop
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # Handles a paste operation from the menu (or keyboard shortcut).
   proc handle_paste {txt} {
-    
+
     variable mode
-    
+
     if {[[ns preferences]::get Tools/VimMode] && [info exists mode($txt.t)]} {
-      
+
       # If we are not currently in edit mode, temporarily set ourselves to edit mode
       if {$mode($txt.t) ne "edit"} {
         record_add "Key-i"
       }
-      
+
       # Add the characters
       foreach c [split [clipboard get] {}] {
         record_add [utils::string_to_keysym $c]
       }
-      
+
       # If we were in command mode, escape out of edit mode
       if {$mode($txt.t) ne "edit"} {
         record_add "Escape"
         record_stop
       }
-      
+
     }
-    
+
   }
-  
+
   ######################################################################
   # Pastes the contents of the given clip to the text widget after the
   # current line.
   proc do_post_paste {txt clip} {
-    
+
     # Create a separator
     $txt edit separator
-    
+
     if {[set nl_index [string last \n $clip]] != -1} {
       if {[expr ([string length $clip] - 1) == $nl_index]} {
         set clip [string replace $clip $nl_index $nl_index]
@@ -1624,17 +1624,17 @@ namespace eval vim {
       $txt mark set insert "insert+[string length $clip]c"
     }
     $txt see insert
-    
+
     # Create a separator
     $txt edit separator
-    
+
   }
-  
+
   ######################################################################
   # If we are in the "start" mode, put the contents of the clipboard
   # after the current line.
   proc handle_p {txt tid} {
-  
+
     variable mode
 
     if {$mode($txt) eq "start"} {
@@ -1643,18 +1643,18 @@ namespace eval vim {
       record "Key-p"
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # Pastes the contents of the given clip prior to the current line
   # in the text widget.
   proc do_pre_paste {txt clip} {
-    
+
     $txt edit separator
-    
+
     if {[set nl_index [string last \n $clip]] != -1} {
       if {[expr ([string length $clip] - 1) == $nl_index]} {
         set clip [string replace $clip $nl_index $nl_index]
@@ -1663,17 +1663,17 @@ namespace eval vim {
     } else {
       $txt insert "insert-1c"
     }
-    
+
     # Create separator
     $txt edit separator
-    
+
   }
-  
+
   ######################################################################
   # If we are in the "start" mode, put the contents of the clipboard
   # before the current line.
   proc handle_P {txt tid} {
-  
+
     variable mode
 
     if {$mode($txt) eq "start"} {
@@ -1682,58 +1682,58 @@ namespace eval vim {
       record "Key-P"
       return 1
     }
-    
+
     return 0
-  
+
   }
 
   ######################################################################
   # Performs an undo operation.
   proc undo {txt} {
-    
+
     # Perform the undo operation
     $txt edit undo
-    
+
     # Adjusts the insertion cursor if we are in Vim mode
     if {[in_vim_mode $txt]} {
       adjust_insert $txt
     }
-    
+
   }
-  
+
   ######################################################################
   # Performs a redo operation.
   proc redo {txt} {
-    
+
     # Performs the redo operation
     $txt edit redo
-    
+
     # Adjusts the insertion cursor if we are in Vim mode
     if {[in_vim_mode $txt]} {
       adjust_insert $txt
     }
-    
+
   }
-  
+
   ######################################################################
   # If we are in "start" mode, undoes the last operation.
   proc handle_u {txt tid} {
-  
+
     variable mode
-    
+
     if {$mode($txt) eq "start"} {
       undo $txt
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # Performs a single character delete.
   proc do_char_delete {txt number} {
-    
+
     # Create separator
     $txt edit separator
 
@@ -1760,10 +1760,10 @@ namespace eval vim {
         $txt mark set insert "insert-1c"
       }
     }
-    
+
     # Adjust the cursor
     adjust_cursor $txt
-    
+
     # Create separator
     $txt edit separator
 
@@ -1772,29 +1772,29 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, deletes the current character.
   proc handle_x {txt tid} {
-  
+
     variable mode
     variable number
-    
+
     if {$mode($txt) eq "start"} {
       do_char_delete $txt $number($txt)
       record_add "Key-x"
       record_stop
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in "start" mode, add a new line below the current line
   # and transition into "edit" mode.
   proc handle_o {txt tid} {
-  
+
     variable mode
     variable number
-    
+
     if {$mode($txt) eq "start"} {
       edit_mode $txt
       set insert [$txt index insert]
@@ -1811,18 +1811,18 @@ namespace eval vim {
       record_start
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in "start" mode, add a new line above the current line
   # and transition into "edit" mode.
   proc handle_O {txt tid} {
-  
+
     variable mode
-    
+
     if {$mode($txt) eq "start"} {
       edit_mode $txt
       if {[[ns multicursor]::enabled $txt]} {
@@ -1835,18 +1835,18 @@ namespace eval vim {
       record_start
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in "start" mode, set the mode to the "quit" mode.  If we
   # are in "quit" mode, save and exit the current tab.
   proc handle_Z {txt tid} {
-  
+
     variable mode
-    
+
     if {$mode($txt) eq "start"} {
       set mode($txt) "quit"
       return 1
@@ -1855,18 +1855,18 @@ namespace eval vim {
       [ns gui]::close_current $tid
       return 1
     }
-    
+
     return 0
-    
+
   }
- 
+
   ######################################################################
   # If we are in "start" mode, finds the next occurrence of the search text.
   proc handle_n {txt tid} {
-      
+
     variable mode
     variable search_dir
- 
+
     if {$mode($txt) eq "start"} {
       if {$search_dir($txt) eq "next"} {
         [ns gui]::search_next $tid 0
@@ -1875,115 +1875,115 @@ namespace eval vim {
       }
       return 1
     }
-    
+
     return 0
-    
+
   }
- 
+
   ######################################################################
   # If we are in "start" mode, replaces the current character with the
   # next character.
   proc handle_r {txt tid} {
- 
+
     variable mode
- 
+
     if {$mode($txt) eq "start"} {
       set mode($txt) "replace"
       record_start
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in "start" mode, replaces all characters until the escape
   # key is hit.
   proc handle_R {txt tid} {
-    
+
     variable mode
-    
+
     if {$mode($txt) eq "start"} {
       set mode($txt) "replace_all"
       record_start
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in "start" mode, puts the mode into "visual" mode.
   proc handle_v {txt tid} {
-    
+
     variable mode
-    
+
     if {$mode($txt) eq "start"} {
       visual_mode $txt
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in "start" mode, move the cursor down by 1 page.
   proc handle_control_f {txt} {
-    
+
     variable mode
-    
+
     if {$mode($txt) eq "start"} {
       eval [string map {%W $txt} [bind Text <Next>]]
       adjust_insert $txt
       record "Control-f"
       return 1
     }
-    
+
     return 0
-    
+
   }
- 
+
   ######################################################################
   # If we are in "start" mode, move the cursor up by 1 page.
   proc handle_control_b {txt} {
-    
+
     variable mode
-    
+
     if {$mode($txt) eq "start"} {
       eval [string map {%W $txt} [bind Text <Prior>]]
       adjust_insert $txt
       record "Control-b"
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in "start" mode, display the current text counts.
   proc handle_control_g {txt} {
-    
+
     variable mode
-    
+
     if {$mode($txt) eq "start"} {
       [ns gui]::display_file_counts $txt
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in "start" mode, move the current line or selection down one line.
   proc handle_control_j {txt} {
-    
+
     variable mode
-    
+
     if {$mode($txt) eq "start"} {
       $txt edit separator
       if {[llength [set selected [$txt tag ranges sel]]] > 0} {
@@ -2000,17 +2000,17 @@ namespace eval vim {
       $txt edit separator
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in "start" mode, move the current line or selection up one line.
   proc handle_control_k {txt} {
-    
+
     variable mode
-    
+
     if {$mode($txt) eq "start"} {
       $txt edit separator
       if {[llength [set selected [$txt tag ranges sel]]] > 0} {
@@ -2030,57 +2030,57 @@ namespace eval vim {
       $txt edit separator
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in "start" mode, add a cursor.
   proc handle_s {txt tid} {
-    
+
     variable mode
-    
+
     if {$mode($txt) eq "start"} {
       [ns multicursor]::add_cursor $txt [$txt index insert]
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in "start" mode, add cursors between the current anchor
   # the current line.
   proc handle_S {txt tid} {
-    
+
     variable mode
-    
+
     if {$mode($txt) eq "start"} {
       [ns multicursor]::add_cursors $txt [$txt index insert]
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in "start" mode, run the gui::insert_numbers procedure to
   # allow the user to potentially insert incrementing numbers into the
   # specified text widget.
   proc handle_numbersign {txt tid} {
-    
+
     variable mode
-    
+
     if {$mode($txt) eq "start"} {
       [ns gui]::insert_numbers $txt
       return 1
     }
-    
+
     return 0
-    
+
   }
 
   ######################################################################
@@ -2093,11 +2093,11 @@ namespace eval vim {
     }
 
   }
-  
+
   ######################################################################
   # Inserts or moves the specified bracket pair.
   proc place_bracket {txt tid left {right ""}} {
-    
+
     variable mode
 
     # Get the current selection
@@ -2111,14 +2111,14 @@ namespace eval vim {
 
     # If we are in start mode, add the bracket in the appropriate place
     if {$mode($txt) eq "start"} {
-      if {($left eq "\"") || ($left eq "'")} {  
+      if {($left eq "\"") || ($left eq "'")} {
         set tag [expr {($left eq "'") ? "_sString" : "_dString"}]
         if {[lsearch [$txt tag names insert] $tag] != -1} {
           move_bracket_right $txt $tid $left
         } else {
           $txt insert "insert wordend"   $left
-          $txt insert "insert wordstart" $left 
-        }  
+          $txt insert "insert wordstart" $left
+        }
       } else {
         set re "(\\$left|\\$right)"
         if {([set index [$txt search -backwards -regexp -- $re insert]] ne "") && ([$txt get $index] eq $left)} {
@@ -2132,88 +2132,88 @@ namespace eval vim {
     }
 
     return 0
-    
+
   }
-  
+
   ######################################################################
-  # If any text is selected, double quotes are placed around all 
-  # selections.  If the insertion cursor is within a completed 
-  # string, the right-most quote of the completed string is moved one 
-  # word to the end; otherwise, the current word is placed within 
+  # If any text is selected, double quotes are placed around all
+  # selections.  If the insertion cursor is within a completed
+  # string, the right-most quote of the completed string is moved one
+  # word to the end; otherwise, the current word is placed within
   # double-quotes.
   proc handle_quotedbl {txt tid} {
-    
+
     return [place_bracket $txt $tid \"]
-    
+
   }
-  
+
   ######################################################################
-  # If any text is selected, single quotes are placed around all 
-  # selections.  If the insertion cursor is within a completed 
-  # single string, the right-most quote of the completed string is moved one 
-  # word to the end; otherwise, the current word is placed within 
+  # If any text is selected, single quotes are placed around all
+  # selections.  If the insertion cursor is within a completed
+  # single string, the right-most quote of the completed string is moved one
+  # word to the end; otherwise, the current word is placed within
   # single-quotes.
   proc handle_apostrophe {txt tid} {
-    
+
     return [place_bracket $txt $tid ']
-    
+
   }
-  
+
   ######################################################################
-  # If any text is selected, curly brackets are placed around all 
-  # selections.  If the insertion cursor is within a completed 
-  # bracket sequence, the right-most bracket of the sequence is moved one 
-  # word to the end; otherwise, the current word is placed within 
+  # If any text is selected, curly brackets are placed around all
+  # selections.  If the insertion cursor is within a completed
+  # bracket sequence, the right-most bracket of the sequence is moved one
+  # word to the end; otherwise, the current word is placed within
   # curly brackets.
   proc handle_bracketleft {txt tid} {
-    
+
     return [place_bracket $txt $tid \[ \]]
-    
+
   }
-  
+
   ######################################################################
-  # If any text is selected, square brackets are placed around all 
-  # selections.  If the insertion cursor is within a completed 
-  # bracket sequence, the right-most bracket of the sequence is moved one 
-  # word to the end; otherwise, the current word is placed within 
+  # If any text is selected, square brackets are placed around all
+  # selections.  If the insertion cursor is within a completed
+  # bracket sequence, the right-most bracket of the sequence is moved one
+  # word to the end; otherwise, the current word is placed within
   # square brackets.
   proc handle_braceleft {txt tid} {
-    
+
     return [place_bracket $txt $tid \{ \}]
-    
+
   }
-  
+
   ######################################################################
-  # If any text is selected, parenthesis are placed around all 
-  # selections.  If the insertion cursor is within a completed 
-  # parenthetical sequence, the right-most parenthesis of the sequence 
-  # is moved one word to the end; otherwise, the current word is placed 
+  # If any text is selected, parenthesis are placed around all
+  # selections.  If the insertion cursor is within a completed
+  # parenthetical sequence, the right-most parenthesis of the sequence
+  # is moved one word to the end; otherwise, the current word is placed
   # within parenthesis.
   proc handle_parenleft {txt tid} {
-    
+
     return [place_bracket $txt $tid ( )]
-    
+
   }
-  
+
   ######################################################################
-  # If any text is selected, angled brackets are placed around all 
-  # selections.  If the insertion cursor is within a completed 
-  # bracket sequence, the right-most bracket of the sequence is moved one 
-  # word to the end; otherwise, the current word is placed within 
+  # If any text is selected, angled brackets are placed around all
+  # selections.  If the insertion cursor is within a completed
+  # bracket sequence, the right-most bracket of the sequence is moved one
+  # word to the end; otherwise, the current word is placed within
   # angled brackets.
   proc handle_less {txt tid} {
-    
+
     return [place_bracket $txt $tid < >]
-    
+
   }
-  
+
   ######################################################################
   # If we are in "start" or "visual" mode, moves the insertion cursor to the first
   # non-whitespace character in the next line.
   proc handle_Return {txt tid} {
-    
+
     variable mode
-    
+
     if {($mode($txt) eq "start") || ($mode($txt) eq "visual")} {
       $txt mark set insert "insert+1l linestart"
       if {[string is space [$txt get insert]]} {
@@ -2228,18 +2228,18 @@ namespace eval vim {
       $txt see insert
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in "start" or "visual" mode, moves the insertion cursor to the first
   # non-whitespace character in the previous line.
   proc handle_minus {txt tid} {
-    
+
     variable mode
-    
+
     if {($mode($txt) eq "start") || ($mode($txt) eq "visual")} {
       $txt mark set insert "insert-1l linestart"
       if {[string is space [$txt get insert]]} {
@@ -2254,36 +2254,36 @@ namespace eval vim {
       $txt see insert
       return 1
     }
-    
+
     return 0
-    
+
   }
 
   ######################################################################
   # If we are in "start" or "visual" mode, move the cursor to the given
   # column of the current line.
   proc handle_bar {txt tid} {
-    
+
     variable mode
     variable number
-    
+
     if {(($mode($txt) eq "start") || ($mode($txt) eq "visual")) && ($number($txt) ne "")} {
       $txt mark set insert [lindex [split [$txt index insert] .] 0].$number($txt)
       adjust_insert $txt
       $txt see insert
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in "start" mode, change the case of the current character.
   proc handle_asciitilde {txt tid} {
-    
+
     variable mode
-    
+
     if {$mode($txt) eq "start"} {
       set ins  [$txt index insert]
       set char [$txt get insert]
@@ -2295,35 +2295,35 @@ namespace eval vim {
       $txt mark set insert $ins
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in "start" mode, move the cursor to the start of the middle
   # line.
   proc handle_M {txt tid} {
-    
+
     variable mode
-    
+
     if {$mode($txt) eq "start"} {
       $txt mark set insert @0,[expr [winfo height $txt] / 2]
       adjust_insert $txt
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in "start" mode, search for all occurences of the current
   # word.
   proc handle_asterisk {txt tid} {
-    
+
     variable mode
-    
+
     if {$mode($txt) eq "start"} {
       set word [$txt get "insert wordstart" "insert wordend"]
       catch { ctext::deleteHighlightClass [winfo parent $txt] search }
@@ -2332,9 +2332,9 @@ namespace eval vim {
       gui::search_next $tid 0
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
 }

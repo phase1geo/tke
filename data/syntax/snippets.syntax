@@ -3,7 +3,7 @@ filepatterns
 
 matchcharsallowed
 {curly square paren double single}
- 
+
 tabsallowed
 {1}
 
@@ -15,6 +15,8 @@ indent
 
 unindent
 {\}}
+
+icomment {{#}}
 
 lcomments {{#}}
 

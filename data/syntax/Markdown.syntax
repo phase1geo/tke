@@ -1,6 +1,6 @@
 filepatterns
 {*.md}
- 
+
 matchcharsallowed
 {}
 
@@ -9,28 +9,6 @@ tabsallowed
 
 casesensitive
 {1}
-
-indent
-{}
-  
-unindent
-{}
-
-lcomments {}
-
-bcomments {}
-
-strings {}
-
-keywords {}
-
-symbols {}
-
-numbers {}
-
-punctuation {}
-
-precompile {}
 
 advanced {
   HighlightClass bold    none           {bold}
@@ -44,12 +22,12 @@ advanced {
   HighlightClass link    miscellaneous1 {underline click}
   HighlightClass code    precompile     {code}
   HighlightClass ccode   precompile     {code}
- 
+
   HighlightRegexp {``.+?``}                     syntax::get_markdown_ccode
   HighlightRegexp {`.+?`}                       syntax::get_markdown_code
   HighlightRegexp {^#.*$}                       syntax::get_markdown_header
   HighlightRegexp {([*_]{2})(?=\S).+?\1}        syntax::get_markdown_bold
   HighlightRegexp {([*_])(?=\S).+?\1}           syntax::get_markdown_italics
-  HighlightRegexp {\[.+?\](\s*\[.*?\]|\(.*?\))} syntax::get_markdown_link 
+  HighlightRegexp {\[.+?\](\s*\[.*?\]|\(.*?\))} syntax::get_markdown_link
   HighlightRegexp {^\s*\[.+?\]:\s+\S+}          syntax::get_markdown_linkref
 }
