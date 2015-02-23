@@ -1,9 +1,11 @@
 var plugins_8tcl =
 [
     [ "add_all_menus", "plugins_8tcl.html#add5a429857d2c1d7ca5c596a69994570", null ],
+    [ "add_all_syntax", "plugins_8tcl.html#a176a44f32ab0d09fa4c1242e07be1ad9", null ],
     [ "add_all_text_bindings", "plugins_8tcl.html#ab25aeddf7498852b3458aeb66a55898e", null ],
     [ "create_new_plugin", "plugins_8tcl.html#a4edca8e564e3932fb68dd04bb03033ec", null ],
     [ "delete_all_menus", "plugins_8tcl.html#a45d5be043f7f7b55adcbda0d639fc3d0", null ],
+    [ "delete_all_syntax", "plugins_8tcl.html#a0bb12ae1b66c5fdb081dcb3b3e67b599", null ],
     [ "delete_all_text_bindings", "plugins_8tcl.html#a94f11e6ba11af7fe9a51dfae377e51d2", null ],
     [ "find_registry_entries", "plugins_8tcl.html#a751b8ece956fd6dcb1ca891b7acc0844", null ],
     [ "handle_dir_popup", "plugins_8tcl.html#ac54d95deebc0496606f3f296d60cb34e", null ],
@@ -27,7 +29,7 @@ var plugins_8tcl =
     [ "install_item", "plugins_8tcl.html#ab016e3a2a84de030df5a91579c3b9374", null ],
     [ "load", "plugins_8tcl.html#a6cbf50a8f6180f8ee3f167e8a8ba99b9", null ],
     [ "menu_add", "plugins_8tcl.html#a560ea8da2cc2926a161ef84308eba64f", null ],
-    [ "menu_add_item", "plugins_8tcl.html#ab46d572499cdefb3dffd490850363d58", null ],
+    [ "menu_add_item", "plugins_8tcl.html#a8ab1babaacba14be069ea3c2f8f0c9a4", null ],
     [ "menu_delete", "plugins_8tcl.html#a13145756f0d94f7050822a0f7f36f6fa", null ],
     [ "menu_delete_cascade", "plugins_8tcl.html#a2cf6ebdc8cf69500e993aca4c8b175f5", null ],
     [ "menu_delete_item", "plugins_8tcl.html#a8fdaaca0636885478aa36fcc5ce94eb8", null ],

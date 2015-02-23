@@ -6,5 +6,6 @@ var searchData=
   ['view_5fposting',['view_posting',['../namespacemenus.html#a529007f0283f2e81ff31d344010c7f6c',1,'menus']]],
   ['view_5ftabs_5fposting',['view_tabs_posting',['../namespacemenus.html#ab82ebc3369d96177ec1cec0df7d3ba19',1,'menus']]],
   ['vim',['vim',['../namespacevim.html',1,'']]],
-  ['vim_2etcl',['vim.tcl',['../vim_8tcl.html',1,'']]]
+  ['vim_2etcl',['vim.tcl',['../vim_8tcl.html',1,'']]],
+  ['visual_5fmode',['visual_mode',['../namespacevim.html#a5832daa8f34d3d24fc05527e869debd8',1,'vim']]]
 ];

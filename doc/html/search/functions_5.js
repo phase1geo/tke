@@ -19,6 +19,8 @@ var searchData=
   ['find_5fmatch_5fbrace',['find_match_brace',['../namespacegui.html#a4eb04bf3ca30c82644703aeae0eae502',1,'gui']]],
   ['find_5fmatch_5fquote',['find_match_quote',['../namespacegui.html#aedfb9a804c1d170022f42e01cfbda222',1,'gui']]],
   ['find_5fmatches',['find_matches',['../namespacelauncher.html#ab689aecefaabfb3c578e59cfca014744',1,'launcher']]],
+  ['find_5fpackage',['find_package',['../freewrap_8tcl.html#ab2e18e451127222e69d631df099553be',1,'freewrap.tcl']]],
+  ['find_5fpackage_5fhelper',['find_package_helper',['../freewrap_8tcl.html#a7ef592f048b40bcd24b50006ecb3d475',1,'freewrap.tcl']]],
   ['find_5fposting',['find_posting',['../namespacemenus.html#ae15109cd944d517b51714c65893a4155',1,'menus']]],
   ['find_5fregistry_5fentries',['find_registry_entries',['../namespaceplugins.html#a751b8ece956fd6dcb1ca891b7acc0844',1,'plugins']]],
   ['findnextchar',['findNextChar',['../namespacectext.html#a8117f9361aa84edfac0b9140a16619f2',1,'ctext']]],

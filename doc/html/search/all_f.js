@@ -10,6 +10,7 @@ var searchData=
   ['perform_5fsubstitutions',['perform_substitutions',['../namespaceutils.html#a1e9a4156cea22ee80d216b5a9977a24a',1,'utils']]],
   ['perform_5ftranslation',['perform_translation',['../namespacelang.html#a90e4278d77eedd66058621c4cdd99335',1,'lang']]],
   ['perform_5ftranslations',['perform_translations',['../namespacelang.html#a15447b90ee37548b3ded311afe9da789',1,'lang']]],
+  ['place_5fbracket',['place_bracket',['../namespacevim.html#a403870a6a4002c4e0e47d807203a9555',1,'vim']]],
   ['playback',['playback',['../namespacevim.html#aa231c062a65729e21e498b6b2d734eab',1,'vim']]],
   ['plugins',['plugins',['../namespaceplugins.html',1,'']]],
   ['plugins_2etcl',['plugins.tcl',['../plugins_8tcl.html',1,'']]],

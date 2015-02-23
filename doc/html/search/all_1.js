@@ -9,5 +9,6 @@ var searchData=
   ['bindings_2etcl',['bindings.tcl',['../bindings_8tcl.html',1,'']]],
   ['bnotebook',['BNotebook',['../namespace_b_notebook.html',1,'']]],
   ['bnotebook_2etcl',['bnotebook.tcl',['../bnotebook_8tcl.html',1,'']]],
+  ['bracket_5fcount',['bracket_count',['../namespacetkedat.html#a69c41274d4e9c4d29b3b7304fbc10d74',1,'tkedat']]],
   ['buildargparsetable',['buildArgParseTable',['../namespacectext.html#a12c3ee880b1e883903c3bb346242d1ba',1,'ctext']]]
 ];

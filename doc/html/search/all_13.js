@@ -14,6 +14,7 @@ var searchData=
   ['themes',['themes',['../namespacethemes.html',1,'']]],
   ['themes_2etcl',['themes.tcl',['../themes_8tcl.html',1,'']]],
   ['tk',['tk',['../namespacetk.html',1,'']]],
+  ['tkaboutdialog',['tkAboutDialog',['../tke_8tcl.html#a545b2b95d0c259508bd4db1451462691',1,'tke.tcl']]],
   ['tke_2etcl',['tke.tcl',['../tke_8tcl.html',1,'']]],
   ['tke_5fdevelopment',['tke_development',['../namespaceapi.html#ad92668593904387911fcccb8b9c211a0',1,'api::tke_development()'],['../tke_8tcl.html#a882c494f41d83dd5645eff929e4120de',1,'tke_development():&#160;tke.tcl']]],
   ['tkedat',['tkedat',['../namespacetkedat.html',1,'']]],
