@@ -77,6 +77,9 @@ msgcat::mcmset hu {
   "Show in Sidebar"
   "Show Sidebar"
 
+  "Tcl/Tk Version:"
+  "Tcl/Tk-verzió:"
+
   "Total Lines: %d, Total Characters: %d"
   "Teljes sorok:% d, Total karakterek:% d"
 
@@ -141,6 +144,9 @@ msgcat::mcmset hu {
   "Cut"
   "Kivágás"
 
+  "Disable Auto-Indent"
+  "Megbénít kocsi-rovátka"
+
   "Edit"
   "Szerkesztés"
 
@@ -152,6 +158,9 @@ msgcat::mcmset hu {
 
   "Edit..."
   "Szerkesztés..."
+
+  "Enable Auto-Indent"
+  "Engedélyezi a kocsi-rovátka"
 
   "File"
   "Fájl"
@@ -264,6 +273,9 @@ msgcat::mcmset hu {
   "Menu: Disable Vim mode"
   "Menü: Disable Vim mód"
 
+  "Menu: Disable auto-indent"
+  "Menü: Megbénít kocsi-rovátka"
+
   "Menu: Edit Tke theme"
   "Menü: Szerkesztés TKE téma"
 
@@ -278,6 +290,9 @@ msgcat::mcmset hu {
 
   "Menu: Enable Vim mode"
   "Menü: engedélyezése Vim mód"
+
+  "Menu: Enable auto-indent"
+  "Menü: Képessé tesz kocsi-rovátka"
 
   "Menu: Favorite file"
   "Menü: Kedvenc fájl"

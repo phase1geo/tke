@@ -77,6 +77,9 @@ msgcat::mcmset el {
   "Show in Sidebar"
   "Εμφάνιση στο Sidebar"
 
+  "Tcl/Tk Version:"
+  "Έκδοση Tcl/Tk:"
+
   "Total Lines: %d, Total Characters: %d"
   "Σύνολο Lines:% d, Σύνολο Χαρακτήρες:% d"
 
@@ -141,6 +144,9 @@ msgcat::mcmset el {
   "Cut"
   "Αποκοπή"
 
+  "Disable Auto-Indent"
+  "Απενεργοποίηση Auto-Indent"
+
   "Edit"
   "Επεξεργασία"
 
@@ -152,6 +158,9 @@ msgcat::mcmset el {
 
   "Edit..."
   "Επεξεργασία..."
+
+  "Enable Auto-Indent"
+  "Ενεργοποίηση Auto-Indent"
 
   "File"
   "Αρχείο"
@@ -264,6 +273,9 @@ msgcat::mcmset el {
   "Menu: Disable Vim mode"
   "Μενού: απενεργοποίηση λειτουργίας Vim"
 
+  "Menu: Disable auto-indent"
+  "Μενού: Αχρηστεύω αυτο-εντομή"
+
   "Menu: Edit Tke theme"
   "Μενού: Επεξεργασία Tke θέμα"
 
@@ -278,6 +290,9 @@ msgcat::mcmset el {
 
   "Menu: Enable Vim mode"
   "Μενού: Ενεργοποίηση λειτουργίας Vim"
+
+  "Menu: Enable auto-indent"
+  "Μενού: Ενεργοποίηση auto-indent"
 
   "Menu: Favorite file"
   "Μενού: Αγαπημένη αρχείο"

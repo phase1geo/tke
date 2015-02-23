@@ -77,6 +77,9 @@ msgcat::mcmset pl {
   "Show in Sidebar"
   "Pokaż w pasku bocznym"
 
+  "Tcl/Tk Version:"
+  "Wersji Tcl/Tk:"
+
   "Total Lines: %d, Total Characters: %d"
   "Liczba linii:% d, Liczba znaków:% d"
 
@@ -141,6 +144,9 @@ msgcat::mcmset pl {
   "Cut"
   "\"
 
+  "Disable Auto-Indent"
+  "Wyłącz Auto wcięcie"
+
   "Edit"
   "\"
 
@@ -152,6 +158,9 @@ msgcat::mcmset pl {
 
   "Edit..."
   "Edytuj..."
+
+  "Enable Auto-Indent"
+  "Włącz Automatyczne wcięcie"
 
   "File"
   "Plik"
@@ -264,6 +273,9 @@ msgcat::mcmset pl {
   "Menu: Disable Vim mode"
   "Menu: Tryb Wyłącz Vim"
 
+  "Menu: Disable auto-indent"
+  "Menu: Wyłącz auto wcięcie"
+
   "Menu: Edit Tke theme"
   "Menu: Edycja tematu TKE"
 
@@ -278,6 +290,9 @@ msgcat::mcmset pl {
 
   "Menu: Enable Vim mode"
   "Menu: Włącz tryb Vima"
+
+  "Menu: Enable auto-indent"
+  "Menu: Włącz Automatyczne wcięcie"
 
   "Menu: Favorite file"
   "Menu: Ulubiona plik"

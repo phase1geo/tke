@@ -77,6 +77,9 @@ msgcat::mcmset he {
   "Show in Sidebar"
   "הצג בסרגל הצידי"
 
+  "Tcl/Tk Version:"
+  "Tcl/Tk גרסה:"
+
   "Total Lines: %d, Total Characters: %d"
   "שורות סכום כולל: %d, סה כ תווים: %d"
 
@@ -141,6 +144,9 @@ msgcat::mcmset he {
   "Cut"
   "לחתוך"
 
+  "Disable Auto-Indent"
+  "אל תאפשר כניסה אוטומטית"
+
   "Edit"
   "עריכה"
 
@@ -152,6 +158,9 @@ msgcat::mcmset he {
 
   "Edit..."
   "עריכה..."
+
+  "Enable Auto-Indent"
+  "הפעלת כניסה אוטומטית"
 
   "File"
   "קובץ"
@@ -264,6 +273,9 @@ msgcat::mcmset he {
   "Menu: Disable Vim mode"
   "תפריט: בטל את מצב Vim"
 
+  "Menu: Disable auto-indent"
+  "תפריט: Disable auto-הסט פנימה..."
+
   "Menu: Edit Tke theme"
   "תפריט: עריכה בבית השעשועים"
 
@@ -278,6 +290,9 @@ msgcat::mcmset he {
 
   "Menu: Enable Vim mode"
   "תפריט: הפעלת מצב Vim"
+
+  "Menu: Enable auto-indent"
+  "תפריט: לאפשר כניסה אוטומטית"
 
   "Menu: Favorite file"
   "תפריט: קובץ מועדפים"
