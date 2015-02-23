@@ -1,35 +1,80 @@
-changeset:   790:2523924556a1
-tag:         devel-1.4.10
+changeset:   794:46a2582df233
+tag:         devel-1.4.11
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Feb 19 08:00:43 2015 -0600
+date:        Fri Feb 20 09:03:19 2015 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.4.10 release
+ChangeLog for devel-1.4.11 release
 
 
-changeset:   791:4b8580f3ff9c
+changeset:   795:030df006b9c5
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Feb 19 08:00:48 2015 -0600
+date:        Fri Feb 20 09:03:25 2015 -0600
 files:       .hgtags
 description:
-Added tag devel-1.4.10 for changeset 2523924556a1
+Added tag devel-1.4.11 for changeset 46a2582df233
 
 
-changeset:   792:efc0b91f0cfe
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Feb 19 08:23:46 2015 -0600
-files:       lib/ctext/ctext.tcl lib/version.tcl
+changeset:   796:cb723455bfbf
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Feb 20 15:46:03 2015 -0600
+files:       lib/ctext/ctext.tcl lib/gui.tcl lib/version.tcl
 description:
-* Shortening undo/redo commands to a single character to reduce memory overhead.
+* Optimizing new ctext separator handling.
+* Fixing issue with changing MaxUndo in preferences file (it was not impacting the editor when changed).
 
 
-changeset:   793:8598bfe6bf3e
+changeset:   797:a2bb8d2b0d7e
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Feb 20 17:41:06 2015 -0600
+files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+description:
+* Keeping 'which' command standard error output from being displayed to terminal.
+
+
+changeset:   798:cbd14625d7c3
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Feb 22 17:07:07 2015 -0600
+files:       lib/ctext/ctext.tcl lib/gui.tcl lib/version.tcl lib/vim.tcl
+description:
+* Adding support for "edit reset" command in ctext.
+* Resetting undo/redo after loading a file into an editor (to keep it from deleting all text in the file).
+* Fixing issue where a Vim append command could cause the first character to be deleted.
+
+
+changeset:   799:c3d541e693db
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Feb 22 20:36:15 2015 -0600
+files:       lib/gui.tcl lib/version.tcl lib/vim.tcl
+description:
+* Adding Tcl/Tk version information into "About" window.
+* Removing debug output.
+
+
+changeset:   800:fd4382f1a8cf
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Feb 22 21:32:10 2015 -0600
+files:       doc/Doxyfile doc/html/api_8tcl.html doc/html/api_8tcl.js doc/html/api_8tcl_source.html doc/html/arrowdown.png doc/html/arrowright.png doc/html/bgproc_8tcl.html doc/html/bgproc_8tcl_source.html doc/html/bindings_8tcl.html doc/html/bindings_8tcl_source.html doc/html/bnotebook_8tcl.html doc/html/bnotebook_8tcl_source.html doc/html/cliphist_8tcl.html doc/html/cliphist_8tcl_source.html doc/html/commit_8tcl.html doc/html/commit_8tcl_source.html doc/html/completer_8tcl.html doc/html/completer_8tcl.js doc/html/completer_8tcl_source.html doc/html/ctext_8tcl.html doc/html/ctext_8tcl.js doc/html/ctext_8tcl_source.html doc/html/dir_97aefd0d527b934f1d99a682da8fe6a9.html doc/html/dir_97aefd0d527b934f1d99a682da8fe6a9.js doc/html/dir_e196ed0cf7506b8e7c50ce2798d828dd.html doc/html/doc.png doc/html/doxygen.css doc/html/doxygen.png doc/html/embed__tke_8tcl.html doc/html/embed__tke_8tcl_source.html doc/html/favorites_8tcl.html doc/html/favorites_8tcl_source.html doc/html/files.html doc/html/folderclosed.png doc/html/folderopen.png doc/html/freewrap_8tcl.html doc/html/freewrap_8tcl.js doc/html/freewrap_8tcl_source.html doc/html/globals.html doc/html/globals_func.html doc/html/gui_8tcl.html doc/html/gui_8tcl.js doc/html/gui_8tcl_source.html doc/html/indent_8tcl.html doc/html/indent_8tcl.js doc/html/indent_8tcl_source.html doc/html/index.html doc/html/interpreter_8tcl.html doc/html/interpreter_8tcl_source.html doc/html/jquery.js doc/html/lang_8tcl.html doc/html/lang_8tcl_source.html doc/html/launcher_8tcl.html doc/html/launcher_8tcl.js doc/html/launcher_8tcl_source.html doc/html/main.html doc/html/markers_8tcl.html doc/html/markers_8tcl_source.html doc/html/menus_8tcl.html doc/html/menus_8tcl_source.html doc/html/multicursor_8tcl.html doc/html/multicursor_8tcl.js doc/html/multicursor_8tcl_source.html doc/html/namespace_b_notebook.html doc/html/namespaceapi.html doc/html/namespaceapi.js doc/html/namespaceapi_1_1file.html doc/html/namespaceapi_1_1plugin.html doc/html/namespaceapi_1_1sidebar.html doc/html/namespaceapi_1_1utils.html doc/html/namespacebgproc.html doc/html/namespacebindings.html doc/html/namespacecliphist.html doc/html/namespacecompleter.html doc/html/namespacectext.html doc/html/namespaceembed__tke.html doc/html/namespaceembed__tke_1_1gui.html doc/html/namespaceembed__tke_1_1launcher.html doc/html/namespacefavorites.html doc/html/namespacegui.html doc/html/namespaceimg.html doc/html/namespaceindent.html doc/html/namespaceinterpreter.html doc/html/namespacelang.html doc/html/namespacelauncher.html doc/html/namespacemarkers.html doc/html/namespacemembers.html doc/html/namespacemembers_b.html doc/html/namespacemembers_c.html doc/html/namespacemembers_d.html doc/html/namespacemembers_e.html doc/html/namespacemembers_f.html doc/html/namespacemembers_func.html doc/html/namespacemembers_func_b.html doc/html/namespacemembers_func_c.html doc/html/namespacemembers_func_d.html doc/html/namespacemembers_func_e.html doc/html/namespacemembers_func_f.html doc/html/namespacemembers_func_g.html doc/html/namespacemembers_func_h.html doc/html/namespacemembers_func_i.html doc/html/namespacemembers_func_j.html doc/html/namespacemembers_func_k.html doc/html/namespacemembers_func_l.html doc/html/namespacemembers_func_m.html doc/html/namespacemembers_func_n.html doc/html/namespacemembers_func_o.html doc/html/namespacemembers_func_p.html doc/html/namespacemembers_func_q.html doc/html/namespacemembers_func_r.html doc/html/namespacemembers_func_s.html doc/html/namespacemembers_func_t.html doc/html/namespacemembers_func_u.html doc/html/namespacemembers_func_v.html doc/html/namespacemembers_func_w.html doc/html/namespacemembers_g.html doc/html/namespacemembers_h.html doc/html/namespacemembers_i.html doc/html/namespacemembers_j.html doc/html/namespacemembers_k.html doc/html/namespacemembers_l.html doc/html/namespacemembers_m.html doc/html/namespacemembers_n.html doc/html/namespacemembers_o.html doc/html/namespacemembers_p.html doc/html/namespacemembers_q.html doc/html/namespacemembers_r.html doc/html/namespacemembers_s.html doc/html/namespacemembers_t.html doc/html/namespacemembers_u.html doc/html/namespacemembers_v.html doc/html/namespacemembers_vars.html doc/html/namespacemembers_w.html doc/html/namespacemenus.html doc/html/namespacemulticursor.html doc/html/namespaceplugins.html doc/html/namespacepreferences.html doc/html/namespaces.html doc/html/namespaces.js doc/html/namespacesidebar.html doc/html/namespacesnippets.html doc/html/namespacesyntax.html doc/html/namespacetexttools.html doc/html/namespacethemer.html doc/html/namespacethemes.html doc/html/namespacetk.html doc/html/namespacetk_1_1mac.html doc/html/namespacetkedat.html doc/html/namespaceutils.html doc/html/namespacevim.html doc/html/namespacewindowlist.html doc/html/navtree.css doc/html/navtree.js doc/html/navtreedata.js doc/html/navtreeindex0.js doc/html/navtreeindex1.js doc/html/navtreeindex2.js doc/html/navtreeindex3.js doc/html/ns_8tcl.html doc/html/ns_8tcl_source.html doc/html/plugins_8tcl.html doc/html/plugins_8tcl.js doc/html/plugins_8tcl_source.html doc/html/preferences_8tcl.html doc/html/preferences_8tcl_source.html doc/html/restart_8tcl.html doc/html/restart_8tcl_source.html doc/html/search/all_0.html doc/html/search/all_0.js doc/html/search/all_1.html doc/html/search/all_1.js doc/html/search/all_10.html doc/html/search/all_11.html doc/html/search/all_11.js doc/html/search/all_12.html doc/html/search/all_12.js doc/html/search/all_13.html doc/html/search/all_13.js doc/html/search/all_14.html doc/html/search/all_14.js doc/html/search/all_15.html doc/html/search/all_15.js doc/html/search/all_16.html doc/html/search/all_2.html doc/html/search/all_2.js doc/html/search/all_3.html doc/html/search/all_3.js doc/html/search/all_4.html doc/html/search/all_5.html doc/html/search/all_5.js doc/html/search/all_6.html doc/html/search/all_6.js doc/html/search/all_7.html doc/html/search/all_7.js doc/html/search/all_8.html doc/html/search/all_8.js doc/html/search/all_9.html doc/html/search/all_a.html doc/html/search/all_b.html doc/html/search/all_b.js doc/html/search/all_c.html doc/html/search/all_c.js doc/html/search/all_d.html doc/html/search/all_e.html doc/html/search/all_e.js doc/html/search/all_f.html doc/html/search/all_f.js doc/html/search/files_0.html doc/html/search/files_1.html doc/html/search/files_10.html doc/html/search/files_2.html doc/html/search/files_2.js doc/html/search/files_3.html doc/html/search/files_4.html doc/html/search/files_4.js doc/html/search/files_5.html doc/html/search/files_6.html doc/html/search/files_7.html doc/html/search/files_8.html doc/html/search/files_9.html doc/html/search/files_a.html doc/html/search/files_b.html doc/html/search/files_c.html doc/html/search/files_d.html doc/html/search/files_e.html doc/html/search/files_f.html doc/html/search/functions_0.html doc/html/search/functions_0.js doc/html/search/functions_1.html doc/html/search/functions_1.js doc/html/search/functions_10.html doc/html/search/functions_11.html doc/html/search/functions_11.js doc/html/search/functions_12.html doc/html/search/functions_12.js doc/html/search/functions_13.html doc/html/search/functions_13.js doc/html/search/functions_14.html doc/html/search/functions_14.js doc/html/search/functions_15.html doc/html/search/functions_15.js doc/html/search/functions_16.html doc/html/search/functions_2.html doc/html/search/functions_2.js doc/html/search/functions_3.html doc/html/search/functions_3.js doc/html/search/functions_4.html doc/html/search/functions_5.html doc/html/search/functions_5.js doc/html/search/functions_6.html doc/html/search/functions_6.js doc/html/search/functions_7.html doc/html/search/functions_7.js doc/html/search/functions_8.html doc/html/search/functions_8.js doc/html/search/functions_9.html doc/html/search/functions_a.html doc/html/search/functions_b.html doc/html/search/functions_b.js doc/html/search/functions_c.html doc/html/search/functions_c.js doc/html/search/functions_d.html doc/html/search/functions_e.html doc/html/search/functions_e.js doc/html/search/functions_f.html doc/html/search/functions_f.js doc/html/search/namespaces_0.html doc/html/search/namespaces_0.js doc/html/search/namespaces_1.html doc/html/search/namespaces_2.html doc/html/search/namespaces_2.js doc/html/search/namespaces_3.html doc/html/search/namespaces_4.html doc/html/search/namespaces_5.html doc/html/search/namespaces_6.html doc/html/search/namespaces_7.html doc/html/search/namespaces_8.html doc/html/search/namespaces_9.html doc/html/search/namespaces_a.html doc/html/search/namespaces_b.html doc/html/search/namespaces_c.html doc/html/search/namespaces_d.html doc/html/search/namespaces_e.html doc/html/search/search.css doc/html/search/search.js doc/html/search/searchdata.js doc/html/sidebar_8tcl.html doc/html/sidebar_8tcl.js doc/html/sidebar_8tcl_source.html doc/html/snippets_8tcl.html doc/html/snippets_8tcl_source.html doc/html/splitbar.png doc/html/syntax_8tcl.html doc/html/syntax_8tcl.js doc/html/syntax_8tcl_source.html doc/html/tabs.css doc/html/texttools_8tcl.html doc/html/texttools_8tcl_source.html doc/html/themer_8tcl.html doc/html/themer_8tcl_source.html doc/html/themes_8tcl.html doc/html/themes_8tcl_source.html doc/html/tke_8tcl.html doc/html/tke_8tcl.js doc/html/tke_8tcl_source.html doc/html/tkedat_8tcl.html doc/html/tkedat_8tcl.js doc/html/tkedat_8tcl_source.html doc/html/utils_8tcl.html doc/html/utils_8tcl.js doc/html/utils_8tcl_source.html doc/html/version_8tcl.html doc/html/version_8tcl_source.html doc/html/vim_8tcl.html doc/html/vim_8tcl.js doc/html/vim_8tcl_source.html doc/html/windowlist_8tcl.html doc/html/windowlist_8tcl_source.html lib/version.tcl
+description:
+* Updating development documentation files.
+
+
+changeset:   801:3ffe35da5843
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Feb 22 22:24:10 2015 -0600
+files:       data/msgs/README data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/update.tcl data/msgs/zh.msg data/syntax/Tcl.syntax lib/lang.tcl lib/version.tcl
+description:
+* Updating translations.
+* Adding translation update script to the msgs directory.
+* Fixing syntax issue with lang.tcl script.
+
+
+changeset:   802:fe544e2dbf7b
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Feb 20 08:56:13 2015 -0600
-files:       lib/ctext/ctext.tcl lib/version.tcl
+date:        Sun Feb 22 22:59:06 2015 -0600
+files:       doc/UserGuide.pdf lib/version.tcl
 description:
-* Adding proper support for MaxUndo in ctext.
-* Optimizing memory for undo/redo data support.
+* Updating UserGuide.
 
 
