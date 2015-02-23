@@ -2648,6 +2648,8 @@ namespace eval gui {
     ttk::label .aboutwin.f.if.v2 -text $version_str
     ttk::label .aboutwin.f.if.l3 -text [msgcat::mc "Release Type:"]
     ttk::label .aboutwin.f.if.v3 -text $release_type
+    ttk::label .aboutwin.f.if.l4 -text [msgcat::mc "Tcl/Tk Version:"]
+    ttk::label .aboutwin.f.if.v4 -text [info patchlevel]
 
     grid .aboutwin.f.if.l0 -row 0 -column 0 -sticky news -padx 2 -pady 2
     grid .aboutwin.f.if.v0 -row 0 -column 1 -sticky news -padx 2 -pady 2
@@ -2657,6 +2659,8 @@ namespace eval gui {
     grid .aboutwin.f.if.v2 -row 2 -column 1 -sticky news -padx 2 -pady 2
     grid .aboutwin.f.if.l3 -row 3 -column 0 -sticky news -padx 2 -pady 2
     grid .aboutwin.f.if.v3 -row 3 -column 1 -sticky news -padx 2 -pady 2
+    grid .aboutwin.f.if.l4 -row 4 -column 0 -sticky news -padx 2 -pady 2
+    grid .aboutwin.f.if.v4 -row 4 -column 1 -sticky news -padx 2 -pady 2
 
     ttk::label .aboutwin.f.copyright -text [msgcat::mc "Copyright %d-%d" 2013 14]
 

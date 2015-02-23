@@ -598,11 +598,8 @@ namespace eval vim {
     # Set the record mode to playback
     set record_mode "playback"
     
-    puts "Replaying"
-    
     # Replay the recording buffer
     foreach event $recording {
-      puts "  event: $event"
       eval "event generate $txt <$event>"
     }
     
