@@ -2662,7 +2662,7 @@ namespace eval gui {
     grid .aboutwin.f.if.l4 -row 4 -column 0 -sticky news -padx 2 -pady 2
     grid .aboutwin.f.if.v4 -row 4 -column 1 -sticky news -padx 2 -pady 2
 
-    ttk::label .aboutwin.f.copyright -text [msgcat::mc "Copyright %d-%d" 2013 14]
+    ttk::label .aboutwin.f.copyright -text [msgcat::mc "Copyright %d-%d" 2013 15]
 
     pack .aboutwin.f.logo      -padx 2 -pady 8 -anchor w
     pack .aboutwin.f.if        -padx 2 -pady 2
