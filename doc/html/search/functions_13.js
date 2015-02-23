@@ -6,6 +6,7 @@ var searchData=
   ['text_5fanchor',['text_anchor',['../namespaceutils.html#ac71da0a72a12bce0a4da53391b3b0786',1,'utils']]],
   ['text_5fchanged',['text_changed',['../namespacegui.html#aa9b402fb4725cd7013a80c3931a8f5fe',1,'gui']]],
   ['text_5fposting',['text_posting',['../namespacemenus.html#aafc8578dc2390e4f2a4522ee08ce141e',1,'menus']]],
+  ['tkaboutdialog',['tkAboutDialog',['../tke_8tcl.html#a545b2b95d0c259508bd4db1451462691',1,'tke.tcl']]],
   ['tke_5fdevelopment',['tke_development',['../namespaceapi.html#ad92668593904387911fcccb8b9c211a0',1,'api::tke_development()'],['../tke_8tcl.html#a882c494f41d83dd5645eff929e4120de',1,'tke_development():&#160;tke.tcl']]],
   ['toggle_5flabelbutton',['toggle_labelbutton',['../namespacegui.html#af3efb3fd89d7b239bfc3b596ae833e2d',1,'gui']]],
   ['toggle_5fsplit_5fpane',['toggle_split_pane',['../namespacegui.html#af1cf4ef650889e0c4fa180e314b8628f',1,'gui']]],

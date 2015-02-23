@@ -5,6 +5,7 @@ var namespaces =
     [ "bindings", "namespacebindings.html", null ],
     [ "BNotebook", "namespace_b_notebook.html", null ],
     [ "cliphist", "namespacecliphist.html", null ],
+    [ "completer", "namespacecompleter.html", null ],
     [ "ctext", "namespacectext.html", null ],
     [ "embed_tke", "namespaceembed__tke.html", "namespaceembed__tke" ],
     [ "favorites", "namespacefavorites.html", null ],

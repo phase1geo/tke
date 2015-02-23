@@ -11,6 +11,7 @@ var launcher_8tcl =
     [ "handle_calculation", "launcher_8tcl.html#a9a2ee8a65127c82e8c0bc4f58b9fc2aa", null ],
     [ "handle_entry_font_size", "launcher_8tcl.html#a5e1ca474f68b614fc499337c00f3f99f", null ],
     [ "handle_preview_font_size", "launcher_8tcl.html#ae5a9d02257d6cc5aaba83a7ecfb7e9ac", null ],
+    [ "handle_win_destroy", "launcher_8tcl.html#a978b32062f16b49f0ca47bb4110f0885", null ],
     [ "launch", "launcher_8tcl.html#ab87a2f5ffadc360dbc5afebe7ef37cd3", null ],
     [ "load", "launcher_8tcl.html#ab45db1b527689aec9f9ae8ae495aab8d", null ],
     [ "lookup", "launcher_8tcl.html#a8ff9d9ba5b233298aee1f471682803e5", null ],

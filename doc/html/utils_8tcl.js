@@ -4,7 +4,7 @@ var utils_8tcl =
     [ "get_default_background", "utils_8tcl.html#a175f71dd5ac8ba87e6f926e628b318c8", null ],
     [ "get_default_foreground", "utils_8tcl.html#ac8d1a83a1463da5378b6d7f4259c0e5c", null ],
     [ "hsv_to_rgb", "utils_8tcl.html#a6ba72039b659afee4217fe215246d42c", null ],
-    [ "open_file_externally", "utils_8tcl.html#a3529cb8ed43d326bb661d1f29628cfdf", null ],
+    [ "open_file_externally", "utils_8tcl.html#aa80202a063e637943b8d62cd33c72465", null ],
     [ "perform_substitutions", "utils_8tcl.html#a1e9a4156cea22ee80d216b5a9977a24a", null ],
     [ "rgb_to_hsv", "utils_8tcl.html#aa14d7ce515ce67f2861d3a11fc9b0361", null ],
     [ "set_environment", "utils_8tcl.html#abaa85e99460f66facb8b45bb7b740224", null ],
