@@ -12,9 +12,11 @@ casesensitive
 
 indent
 {\{}
-  
+
 unindent
 {\}}
+
+icomment {{#}}
 
 lcomments {{#}}
 

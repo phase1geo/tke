@@ -95,10 +95,10 @@ namespace eval menus {
 
       # Add the window menu with the windowlist package
       windowlist::windowMenu $mb
-      
+
       # Add the launcher command to show the about window
       launcher::register "Menus: About TKE" gui::show_about
-      
+
     }
 
     if {([tk windowingsystem] eq "aqua") || $preferences::prefs(View/ShowMenubar)} {
@@ -438,16 +438,11 @@ namespace eval menus {
   }
 
   ######################################################################
-  # Exits the application.
-  proc exit_command {} {
-
-    # Close any open buffers
-    # gui::close_buffers
+  # Cleans up the application to prepare it for being exited.
+  proc exit_cleanup {} {
 
     # Save the session information if we are not told to exit on close
-    if {!$::cl_exit_on_close} {
-      gui::save_session
-    }
+    gui::save_session
 
     # Close all of the tabs
     gui::close_all 1
@@ -462,6 +457,15 @@ namespace eval menus {
     if {[::tke_development]} {
       stop_profiling_command .menubar.tools 0
     }
+
+  }
+
+  ######################################################################
+  # Exits the application.
+  proc exit_command {} {
+
+    # Clean up the application
+    exit_cleanup
 
     # Destroy the interface
     destroy .
@@ -495,10 +499,10 @@ namespace eval menus {
 
     $mb add command -label [msgcat::mc "Select All"] -underline 7 -command "gui::select_all {}"
     launcher::register [msgcat::mc "Menu: Select all text"] "gui::select_all {}"
-    
+
     $mb add separator
-    
-    $mb add command -label [msgcat::mc "Enable Auto-Indent"] -underline 12 -command "gui::set_current_auto_indent {} 1" 
+
+    $mb add command -label [msgcat::mc "Enable Auto-Indent"] -underline 12 -command "gui::set_current_auto_indent {} 1"
     launcher::register [msgcat::mc "Menu: Enable auto-indent"]  "gui::set_current_auto_indent {} 1"
     launcher::register [msgcat::mc "Menu: Disable auto-indent"] "gui::set_current_auto_indent {} 0"
 
@@ -994,10 +998,15 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Align cursors"]      -state disabled
       $mb entryconfigure [msgcat::mc "Insert enumeration"] -state disabled
     } else {
-      $mb entryconfigure [msgcat::mc "Comment"]            -state normal
-      $mb entryconfigure [msgcat::mc "Uncomment"]          -state normal
-      $mb entryconfigure [msgcat::mc "Indent"]             -state normal
-      $mb entryconfigure [msgcat::mc "Unindent"]           -state normal
+      if {[lindex [syntax::get_comments [gui::current_txt {}]] 0] eq ""} {
+        $mb entryconfigure [msgcat::mc "Comment"]   -state disabled
+        $mb entryconfigure [msgcat::mc "Uncomment"] -state disabled
+      } else {
+        $mb entryconfigure [msgcat::mc "Comment"]   -state normal
+        $mb entryconfigure [msgcat::mc "Uncomment"] -state normal
+      }
+      $mb entryconfigure [msgcat::mc "Indent"]   -state normal
+      $mb entryconfigure [msgcat::mc "Unindent"] -state normal
       if {[multicursor::enabled $txt]} {
         $mb entryconfigure [msgcat::mc "Align cursors"]      -state normal
         $mb entryconfigure [msgcat::mc "Insert enumeration"] -state normal
@@ -1516,15 +1525,15 @@ namespace eval menus {
 
     if {![string match *Win* $::tcl_platform(os)]} {
       if {[preferences::get General/UpdateReleaseType] eq "devel"} {
-        set check_cmd "specl::check_for_update 0 [expr $specl::RTYPE_STABLE | $specl::RTYPE_DEVEL]"
+        set check_cmd "specl::check_for_update 0 [expr $specl::RTYPE_STABLE | $specl::RTYPE_DEVEL] {} menus::exit_cleanup"
       } else {
-        set check_cmd "specl::check_for_update 0 $specl::RTYPE_STABLE"
+        set check_cmd "specl::check_for_update 0 $specl::RTYPE_STABLE {} menus::exit_cleanup"
       }
       $mb add separator
       $mb add command -label [msgcat::mc "Check for Update"] -underline 0 -command $check_cmd
       launcher::register [msgcat::mc "Menu: Check for Update"] $check_cmd
     }
-      
+
     if {[tk windowingsystem] ne "aqua"} {
       $mb add separator
       $mb add command -label [msgcat::mc "About TKE"] -underline 0 -command "gui::show_about"

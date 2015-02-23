@@ -12,9 +12,11 @@ casesensitive
 
 indent
 {<[^/>](.*?[^/])?>}
-  
+
 unindent
 {</.+?>}
+
+icomment {{<!--} {-->}}
 
 bcomments {{{<!--} {-->}} {{<!\[CDATA\[} {\]\]>}}}
 
@@ -46,6 +48,6 @@ punctuation
 advanced
 {
   HighlightClass attribute miscellaneous2 {}
-  
+
   HighlightRegexp {\S+=} syntax::get_xml_attribute
 }
