@@ -1,6 +1,6 @@
-To create a translation, run the following command in the ../../lib directory:
+To create a translation, run the following command:
 
-wish8.5 lang.tcl <language ISO3066 abbreviation>
+tclsh8.5 update.tcl
 
 Click the "Add Translations" button and when all translations have been
 updated, click the "Update" button to save the file and exit the translation

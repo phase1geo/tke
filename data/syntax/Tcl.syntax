@@ -42,7 +42,7 @@ symbols
 
 numbers
 {
-  HighlightRegexp {\m[0-9]+} {}
+  HighlightRegexp {\m([0-9]+|[0-9]+\.[0-9]*)} {}
 }
 
 punctuation
@@ -81,6 +81,6 @@ miscellaneous2
 
 miscellaneous3
 {
-  HighlightRegexp {\.[a-zA-Z0-9\_\-]+} {}
+  HighlightRegexp {\m(\.[a-zA-Z0-9\_\-]+)+} {}
   HighlightWithOnlyCharStart \$ {}
 }

@@ -10,7 +10,7 @@ set tke_dir [file dirname [file dirname [file normalize $argv0]]]
 
 lappend auto_path [file join $tke_dir lib]
 
-package require -exact tablelist 5.10
+package require -exact tablelist 5.13
 package require http
  
 array set tablelistopts {

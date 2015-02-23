@@ -77,6 +77,9 @@ msgcat::mcmset ru {
   "Show in Sidebar"
   "Показать на боковой панели"
 
+  "Tcl/Tk Version:"
+  "Версия Tcl/Tk:"
+
   "Total Lines: %d, Total Characters: %d"
   "Всего линии:% D, Персонажей:% D"
 
@@ -141,6 +144,9 @@ msgcat::mcmset ru {
   "Cut"
   "Вырезать"
 
+  "Disable Auto-Indent"
+  "Отключить авто отступ"
+
   "Edit"
   "Редактировать"
 
@@ -152,6 +158,9 @@ msgcat::mcmset ru {
 
   "Edit..."
   "Правка..."
+
+  "Enable Auto-Indent"
+  "Включить Авто отступ"
 
   "File"
   "Файл"
@@ -264,6 +273,9 @@ msgcat::mcmset ru {
   "Menu: Disable Vim mode"
   "Меню: Режим Отключить Вим"
 
+  "Menu: Disable auto-indent"
+  "Меню: Отключить авто отступ"
+
   "Menu: Edit Tke theme"
   "Меню: Редактирование ТКЕ тему"
 
@@ -278,6 +290,9 @@ msgcat::mcmset ru {
 
   "Menu: Enable Vim mode"
   "Меню: Включить режим Vim"
+
+  "Menu: Enable auto-indent"
+  "Меню: Включить Авто отступ"
 
   "Menu: Favorite file"
   "Меню: Любимое файл"

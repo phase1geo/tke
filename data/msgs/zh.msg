@@ -77,6 +77,9 @@ msgcat::mcmset zh {
   "Show in Sidebar"
   "显示在侧栏"
 
+  "Tcl/Tk Version:"
+  "Tcl/Tk 版本："
+
   "Total Lines: %d, Total Characters: %d"
   "行总数：％d个，总字符数：％d"
 
@@ -141,6 +144,9 @@ msgcat::mcmset zh {
   "Cut"
   "剪切"
 
+  "Disable Auto-Indent"
+  "禁用自动缩进"
+
   "Edit"
   "编辑"
 
@@ -152,6 +158,9 @@ msgcat::mcmset zh {
 
   "Edit..."
   "編輯..."
+
+  "Enable Auto-Indent"
+  "启用自动缩进"
 
   "File"
   "文件"
@@ -264,6 +273,9 @@ msgcat::mcmset zh {
   "Menu: Disable Vim mode"
   "菜单：禁用Vim的模式"
 
+  "Menu: Disable auto-indent"
+  "菜单： 禁用自动缩进"
+
   "Menu: Edit Tke theme"
   "菜单：编辑将军澳支线主题"
 
@@ -278,6 +290,9 @@ msgcat::mcmset zh {
 
   "Menu: Enable Vim mode"
   "菜单：启动Vim的模式"
+
+  "Menu: Enable auto-indent"
+  "菜单： 启用自动缩进"
 
   "Menu: Favorite file"
   "菜单：最喜欢的文件"

@@ -77,6 +77,9 @@ msgcat::mcmset nl {
   "Show in Sidebar"
   "Show in Sidebar"
 
+  "Tcl/Tk Version:"
+  "Tcl/Tk versie:"
+
   "Total Lines: %d, Total Characters: %d"
   "Totaal Lijnen:% d, Total Characters:% d"
 
@@ -141,6 +144,9 @@ msgcat::mcmset nl {
   "Cut"
   "Knip"
 
+  "Disable Auto-Indent"
+  "Uitschakelen van Auto-streepje"
+
   "Edit"
   "Bewerken"
 
@@ -152,6 +158,9 @@ msgcat::mcmset nl {
 
   "Edit..."
   "Bewerken..."
+
+  "Enable Auto-Indent"
+  "Inschakelen automatische inspringing"
 
   "File"
   "Bestand"
@@ -264,6 +273,9 @@ msgcat::mcmset nl {
   "Menu: Disable Vim mode"
   "Menu: Uitschakelen Vim modus"
 
+  "Menu: Disable auto-indent"
+  "Menu: Uitschakelen auto-streepje"
+
   "Menu: Edit Tke theme"
   "Menu: Bewerken Tke thema"
 
@@ -278,6 +290,9 @@ msgcat::mcmset nl {
 
   "Menu: Enable Vim mode"
   "Menu: Enable Vim modus"
+
+  "Menu: Enable auto-indent"
+  "Menu: Inschakelen auto-streepje"
 
   "Menu: Favorite file"
   "Menu: Favoriete bestand"

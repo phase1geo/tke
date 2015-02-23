@@ -77,6 +77,9 @@ msgcat::mcmset sv {
   "Show in Sidebar"
   "Show i Sidebar"
 
+  "Tcl/Tk Version:"
+  "Tcl/Tk Version:"
+
   "Total Lines: %d, Total Characters: %d"
   "Totalt antal rader:% d, totalt Tecken:% d"
 
@@ -141,6 +144,9 @@ msgcat::mcmset sv {
   "Cut"
   "Klipp ut"
 
+  "Disable Auto-Indent"
+  "Inaktivera Auto-strecksatsen"
+
   "Edit"
   "Ändra"
 
@@ -152,6 +158,9 @@ msgcat::mcmset sv {
 
   "Edit..."
   "Redigera..."
+
+  "Enable Auto-Indent"
+  "Aktivera Auto-strecksatsen"
 
   "File"
   "File"
@@ -264,6 +273,9 @@ msgcat::mcmset sv {
   "Menu: Disable Vim mode"
   "Meny: Inaktivera Vim-läge"
 
+  "Menu: Disable auto-indent"
+  "Menyn: Inaktivera auto-strecksatsen"
+
   "Menu: Edit Tke theme"
   "Meny: Redigera Tke tema"
 
@@ -278,6 +290,9 @@ msgcat::mcmset sv {
 
   "Menu: Enable Vim mode"
   "Meny: Aktivera Vim-läge"
+
+  "Menu: Enable auto-indent"
+  "Meny: Aktiverar auto indrag"
 
   "Menu: Favorite file"
   "Meny: Favorit fil"

@@ -77,6 +77,9 @@ msgcat::mcmset cs {
   "Show in Sidebar"
   "Zobrazit v postranním panelu"
 
+  "Tcl/Tk Version:"
+  "Tcl/Tk verze:"
+
   "Total Lines: %d, Total Characters: %d"
   "Celkem Linky:% d, celkem znaky:% d"
 
@@ -141,6 +144,9 @@ msgcat::mcmset cs {
   "Cut"
   "Snížit"
 
+  "Disable Auto-Indent"
+  "Zakázat automatické odsazení"
+
   "Edit"
   "Upravit"
 
@@ -152,6 +158,9 @@ msgcat::mcmset cs {
 
   "Edit..."
   "Upravit..."
+
+  "Enable Auto-Indent"
+  "Povolit automatické odsazení"
 
   "File"
   "Soubor"
@@ -264,6 +273,9 @@ msgcat::mcmset cs {
   "Menu: Disable Vim mode"
   "Menu: Vypnutí režimu Vim"
 
+  "Menu: Disable auto-indent"
+  "Nabídka: Zakázat automatické odsazení"
+
   "Menu: Edit Tke theme"
   "Menu: Úpravy TKE téma"
 
@@ -278,6 +290,9 @@ msgcat::mcmset cs {
 
   "Menu: Enable Vim mode"
   "Menu: Povolit režim Vim"
+
+  "Menu: Enable auto-indent"
+  "Nabídka: Povolit automatické odsazení"
 
   "Menu: Favorite file"
   "Menu: Oblíbený soubor"

@@ -77,6 +77,9 @@ msgcat::mcmset es {
   "Show in Sidebar"
   "Mostrar en Sidebar"
 
+  "Tcl/Tk Version:"
+  "Versión de Tcl/Tk:"
+
   "Total Lines: %d, Total Characters: %d"
   "Líneas totales:% d, Personajes totales:% d"
 
@@ -141,6 +144,9 @@ msgcat::mcmset es {
   "Cut"
   "Cortar"
 
+  "Disable Auto-Indent"
+  "Desactivar Auto-guión"
+
   "Edit"
   "Edición"
 
@@ -152,6 +158,9 @@ msgcat::mcmset es {
 
   "Edit..."
   "Edición..."
+
+  "Enable Auto-Indent"
+  "Habilitar Auto-guión"
 
   "File"
   "Expediente"
@@ -264,6 +273,9 @@ msgcat::mcmset es {
   "Menu: Disable Vim mode"
   "Menú: Desactive el modo Vim"
 
+  "Menu: Disable auto-indent"
+  "Menú: Desactivar auto-guión"
+
   "Menu: Edit Tke theme"
   "Menú: Editar Tke tema"
 
@@ -278,6 +290,9 @@ msgcat::mcmset es {
 
   "Menu: Enable Vim mode"
   "Menú: Habilitar el modo Vim"
+
+  "Menu: Enable auto-indent"
+  "Menú: Activar auto-guión"
 
   "Menu: Favorite file"
   "Menú: Archivo favorito"

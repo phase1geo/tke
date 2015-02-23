@@ -77,6 +77,9 @@ msgcat::mcmset ja {
   "Show in Sidebar"
   "サイドバーで表示"
 
+  "Tcl/Tk Version:"
+  "Tcl/Tk のバージョン:"
+
   "Total Lines: %d, Total Characters: %d"
   "総行：％dが、合計文字：％D"
 
@@ -141,6 +144,9 @@ msgcat::mcmset ja {
   "Cut"
   "CUT"
 
+  "Disable Auto-Indent"
+  "自動インデントを無効にします。"
+
   "Edit"
   "編集"
 
@@ -152,6 +158,9 @@ msgcat::mcmset ja {
 
   "Edit..."
   "編集"
+
+  "Enable Auto-Indent"
+  "自動インデントを有効にします。"
 
   "File"
   "ファイル"
@@ -264,6 +273,9 @@ msgcat::mcmset ja {
   "Menu: Disable Vim mode"
   "メニュー：Vimのモードを無効にします"
 
+  "Menu: Disable auto-indent"
+  "メニュー： 自動インデントを無効にします。"
+
   "Menu: Edit Tke theme"
   "メニュー：編集TKEテーマ"
 
@@ -278,6 +290,9 @@ msgcat::mcmset ja {
 
   "Menu: Enable Vim mode"
   "メニュー：Vimのモードを有効に"
+
+  "Menu: Enable auto-indent"
+  "メニュー： 自動インデントを有効にします。"
 
   "Menu: Favorite file"
   "メニュー：好きなファイル"

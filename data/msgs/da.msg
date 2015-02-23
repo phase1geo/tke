@@ -77,6 +77,9 @@ msgcat::mcmset da {
   "Show in Sidebar"
   "Vis i Sidebar"
 
+  "Tcl/Tk Version:"
+  "Tcl/Tk Version:"
+
   "Total Lines: %d, Total Characters: %d"
   "Samlet Lines:% d, alt Tegn:% d"
 
@@ -141,6 +144,9 @@ msgcat::mcmset da {
   "Cut"
   "Klip"
 
+  "Disable Auto-Indent"
+  "Deaktiver Auto-led"
+
   "Edit"
   "Rediger"
 
@@ -152,6 +158,9 @@ msgcat::mcmset da {
 
   "Edit..."
   "Rediger..."
+
+  "Enable Auto-Indent"
+  "Aktivere Auto-led"
 
   "File"
   "Filer"
@@ -264,6 +273,9 @@ msgcat::mcmset da {
   "Menu: Disable Vim mode"
   "Menu: Disable Vim-tilstand"
 
+  "Menu: Disable auto-indent"
+  "Menu: Deaktiver auto-led"
+
   "Menu: Edit Tke theme"
   "Menu: Rediger Tke tema"
 
@@ -278,6 +290,9 @@ msgcat::mcmset da {
 
   "Menu: Enable Vim mode"
   "Menu: Aktiver Vim-tilstand"
+
+  "Menu: Enable auto-indent"
+  "Menu: Aktiver auto-led"
 
   "Menu: Favorite file"
   "Menu: Favorit fil"
