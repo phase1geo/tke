@@ -1754,7 +1754,7 @@ namespace eval specl::releaser {
     pack $widgets(item_rtype_stable) -side left -padx 2
     pack $widgets(item_rtype_devel)  -side left -padx 2
 
-    grid rowconfigure    .relwin.nb.tf 1 -weight 1
+    grid rowconfigure    .relwin.nb.tf 2 -weight 1
     grid columnconfigure .relwin.nb.tf 2 -weight 1
     grid $widgets(item_version_label)      -row 0 -column 0 -sticky news -padx 2 -pady 2 -columnspan 2
     grid $widgets(item_version)            -row 0 -column 2 -sticky news -padx 2 -pady 2 -columnspan 2
