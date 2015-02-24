@@ -1,79 +1,26 @@
-changeset:   803:7b4f638bc60b
-tag:         devel-1.4.12
+changeset:   812:61c2fd1a8bf7
+tag:         devel-1.4.13
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Feb 22 23:01:43 2015 -0600
-files:       ChangeLog lib/version.tcl specl_version.tcl
-description:
-ChangeLog for devel-1.4.12 release
-
-
-changeset:   804:96d1db397f88
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Feb 22 23:01:48 2015 -0600
-files:       .hgtags
-description:
-Added tag devel-1.4.12 for changeset 7b4f638bc60b
-
-
-changeset:   805:fed46abe5c83
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Feb 22 23:04:25 2015 -0600
-files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
-description:
-* Fixing specl UI issue.
-
-
-changeset:   806:f04a7f630853
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Feb 22 23:27:47 2015 -0600
-files:       lib/gui.tcl lib/version.tcl
-description:
-* Updating copyright date range.
-
-
-changeset:   807:e7983bd71308
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Mon Feb 23 14:06:32 2015 -0600
-files:       data/syntax/AppleScript.syntax data/syntax/Bash.syntax data/syntax/C++.syntax data/syntax/CSS.syntax data/syntax/CoffeeScript.syntax data/syntax/HTML.syntax data/syntax/Haml.syntax data/syntax/Haskell.syntax data/syntax/HelpSystem.syntax data/syntax/JSON.syntax data/syntax/JavaScript.syntax data/syntax/Makefile.syntax data/syntax/Markdown.syntax data/syntax/PHP.syntax data/syntax/Perl.syntax data/syntax/Python.syntax data/syntax/RSS.syntax data/syntax/Ruby.syntax data/syntax/ShellScript.syntax data/syntax/SystemVerilog.syntax data/syntax/Tcl.syntax data/syntax/XML.syntax data/syntax/snippets.syntax data/syntax/syntax.syntax data/syntax/tkeData.syntax data/syntax/tkeTheme.syntax lib/menus.tcl lib/syntax.tcl lib/texttools.tcl lib/version.tcl lib/vim.tcl
-description:
-* Disabling comment/uncomment for syntaxes that don't support comments
-* Enhancing comment/uncomment functionality to be fully syntax aware and to support block comments when the syntax doesn't support single-line comments.
-* Saving application state prior to exiting the application when upgrading.
-* Saving session when exit on close preference item is true.
-* Adding icomment syntax key to allow a syntax to specify its comment string to insert.
-* Fixing Vim mode to allow keys like arrow keys to work in edit mode.
-
-
-changeset:   808:8040fdd3d31f
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Mon Feb 23 14:28:43 2015 -0600
-files:       lib/texttools.tcl lib/version.tcl
-description:
-* Removing both single and multi-line comments with "Uncomment" menu item.
-
-
-changeset:   809:69272160ef62
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Feb 23 20:42:46 2015 -0600
-files:       doc/UserGuide.pdf doc/html/api_8tcl.html doc/html/api_8tcl_source.html doc/html/bgproc_8tcl.html doc/html/bgproc_8tcl_source.html doc/html/bindings_8tcl.html doc/html/bindings_8tcl_source.html doc/html/bnotebook_8tcl.html doc/html/bnotebook_8tcl_source.html doc/html/cliphist_8tcl.html doc/html/cliphist_8tcl_source.html doc/html/commit_8tcl.html doc/html/commit_8tcl_source.html doc/html/completer_8tcl.html doc/html/completer_8tcl_source.html doc/html/ctext_8tcl.html doc/html/ctext_8tcl_source.html doc/html/dir_97aefd0d527b934f1d99a682da8fe6a9.html doc/html/dir_e196ed0cf7506b8e7c50ce2798d828dd.html doc/html/embed__tke_8tcl.html doc/html/embed__tke_8tcl_source.html doc/html/favorites_8tcl.html doc/html/favorites_8tcl_source.html doc/html/files.html doc/html/freewrap_8tcl.html doc/html/freewrap_8tcl_source.html doc/html/globals.html doc/html/globals_func.html doc/html/gui_8tcl.html doc/html/gui_8tcl_source.html doc/html/indent_8tcl.html doc/html/indent_8tcl_source.html doc/html/index.html doc/html/interpreter_8tcl.html doc/html/interpreter_8tcl_source.html doc/html/lang_8tcl.html doc/html/lang_8tcl_source.html doc/html/launcher_8tcl.html doc/html/launcher_8tcl_source.html doc/html/markers_8tcl.html doc/html/markers_8tcl_source.html doc/html/menus_8tcl.html doc/html/menus_8tcl.js doc/html/menus_8tcl_source.html doc/html/multicursor_8tcl.html doc/html/multicursor_8tcl_source.html doc/html/namespace_b_notebook.html doc/html/namespaceapi.html doc/html/namespaceapi_1_1file.html doc/html/namespaceapi_1_1plugin.html doc/html/namespaceapi_1_1sidebar.html doc/html/namespaceapi_1_1utils.html doc/html/namespacebgproc.html doc/html/namespacebindings.html doc/html/namespacecliphist.html doc/html/namespacecompleter.html doc/html/namespacectext.html doc/html/namespaceembed__tke.html doc/html/namespaceembed__tke_1_1gui.html doc/html/namespaceembed__tke_1_1launcher.html doc/html/namespacefavorites.html doc/html/namespacegui.html doc/html/namespaceimg.html doc/html/namespaceindent.html doc/html/namespaceinterpreter.html doc/html/namespacelang.html doc/html/namespacelauncher.html doc/html/namespacemarkers.html doc/html/namespacemembers.html doc/html/namespacemembers_b.html doc/html/namespacemembers_c.html doc/html/namespacemembers_d.html doc/html/namespacemembers_e.html doc/html/namespacemembers_f.html doc/html/namespacemembers_func.html doc/html/namespacemembers_func_b.html doc/html/namespacemembers_func_c.html doc/html/namespacemembers_func_d.html doc/html/namespacemembers_func_e.html doc/html/namespacemembers_func_f.html doc/html/namespacemembers_func_g.html doc/html/namespacemembers_func_h.html doc/html/namespacemembers_func_i.html doc/html/namespacemembers_func_j.html doc/html/namespacemembers_func_k.html doc/html/namespacemembers_func_l.html doc/html/namespacemembers_func_m.html doc/html/namespacemembers_func_n.html doc/html/namespacemembers_func_o.html doc/html/namespacemembers_func_p.html doc/html/namespacemembers_func_q.html doc/html/namespacemembers_func_r.html doc/html/namespacemembers_func_s.html doc/html/namespacemembers_func_t.html doc/html/namespacemembers_func_u.html doc/html/namespacemembers_func_v.html doc/html/namespacemembers_func_w.html doc/html/namespacemembers_g.html doc/html/namespacemembers_h.html doc/html/namespacemembers_i.html doc/html/namespacemembers_j.html doc/html/namespacemembers_k.html doc/html/namespacemembers_l.html doc/html/namespacemembers_m.html doc/html/namespacemembers_n.html doc/html/namespacemembers_o.html doc/html/namespacemembers_p.html doc/html/namespacemembers_q.html doc/html/namespacemembers_r.html doc/html/namespacemembers_s.html doc/html/namespacemembers_t.html doc/html/namespacemembers_u.html doc/html/namespacemembers_v.html doc/html/namespacemembers_w.html doc/html/namespacemenus.html doc/html/namespacemulticursor.html doc/html/namespaceplugins.html doc/html/namespacepreferences.html doc/html/namespaces.html doc/html/namespacesidebar.html doc/html/namespacesnippets.html doc/html/namespacesyntax.html doc/html/namespacetexttools.html doc/html/namespacethemer.html doc/html/namespacethemes.html doc/html/namespacetk.html doc/html/namespacetk_1_1mac.html doc/html/namespacetkedat.html doc/html/namespaceutils.html doc/html/namespacevim.html doc/html/namespacewindowlist.html doc/html/navtreedata.js doc/html/navtreeindex1.js doc/html/navtreeindex2.js doc/html/navtreeindex3.js doc/html/ns_8tcl.html doc/html/ns_8tcl_source.html doc/html/plugins_8tcl.html doc/html/plugins_8tcl_source.html doc/html/preferences_8tcl.html doc/html/preferences_8tcl_source.html doc/html/restart_8tcl.html doc/html/restart_8tcl_source.html doc/html/search/all_4.js doc/html/search/all_6.js doc/html/search/all_7.js doc/html/search/functions_4.js doc/html/search/functions_6.js doc/html/search/functions_7.js doc/html/sidebar_8tcl.html doc/html/sidebar_8tcl_source.html doc/html/snippets_8tcl.html doc/html/snippets_8tcl_source.html doc/html/syntax_8tcl.html doc/html/syntax_8tcl.js doc/html/syntax_8tcl_source.html doc/html/texttools_8tcl.html doc/html/texttools_8tcl_source.html doc/html/themer_8tcl.html doc/html/themer_8tcl_source.html doc/html/themes_8tcl.html doc/html/themes_8tcl_source.html doc/html/tke_8tcl.html doc/html/tke_8tcl_source.html doc/html/tkedat_8tcl.html doc/html/tkedat_8tcl_source.html doc/html/utils_8tcl.html doc/html/utils_8tcl_source.html doc/html/version_8tcl.html doc/html/version_8tcl_source.html doc/html/vim_8tcl.html doc/html/vim_8tcl_source.html doc/html/windowlist_8tcl.html doc/html/windowlist_8tcl_source.html lib/version.tcl
-description:
-* Updating documentation.
-
-
-changeset:   810:80dde04e5133
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Feb 23 20:46:05 2015 -0600
-files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
-description:
-* Fixing syntax error in specl.tcl.
-
-
-changeset:   811:9e5f09a2255a
-tag:         tip
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Feb 23 21:34:34 2015 -0600
+date:        Mon Feb 23 21:38:07 2015 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
 ChangeLog for devel-1.4.13 release
+
+
+changeset:   813:012bf3c7f229
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Feb 23 21:38:13 2015 -0600
+files:       .hgtags
+description:
+Added tag devel-1.4.13 for changeset 61c2fd1a8bf7
+
+
+changeset:   814:431246bb271d
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Feb 24 08:48:41 2015 -0600
+files:       lib/ctext/ctext.tcl lib/version.tcl
+description:
+* Adding scrolling support to line number/gutter area.
 
 
