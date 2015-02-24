@@ -1125,9 +1125,9 @@ proc ctext::instanceCmd {self cmd args} {
       } elseif {"reset" == $subCmd} {
         set ar(undo_hist)      [list]
         set ar(undo_hist_size) 0
-        set ar(undo_seq_next)  -1
-        set ar(undo_seq_last)  -1
-        set ar(undo_seq_size)  0
+        set ar(undo_sep_next)  -1
+        set ar(undo_sep_last)  -1
+        set ar(undo_sep_size)  0
         set ar(redo_hist)      [list]
         set ar(modified)       false
       } else {
