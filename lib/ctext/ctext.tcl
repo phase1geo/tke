@@ -2268,7 +2268,7 @@ proc ctext::linemapUpdate {win args} {
     }
     set ltags [$win.t tag names $line.0]
     if {[lsearch -glob $ltags lmark*] != -1} {
-      lset line_content $lmark_pos lmark]
+      lset line_content $lmark_pos lmark
     }
     if {[set lsizes [lsearch -inline -glob -all $ltags lsize*]] ne ""} {
       lset line_content $lsize_pos [lindex [lsort $lsizes] 0]
