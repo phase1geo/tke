@@ -61,11 +61,19 @@ description:
 
 
 changeset:   810:80dde04e5133
-tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
 date:        Mon Feb 23 20:46:05 2015 -0600
 files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
 description:
 * Fixing syntax error in specl.tcl.
+
+
+changeset:   811:9e5f09a2255a
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Feb 23 21:34:34 2015 -0600
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for devel-1.4.13 release
 
 
