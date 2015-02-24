@@ -3,6 +3,7 @@ var syntax_8tcl =
     [ "add_syntax", "syntax_8tcl.html#a383469d6b4e6daa348f15c1a62be9aa0", null ],
     [ "create_menubutton", "syntax_8tcl.html#a5ab0c33f27934127c0b8f4d9c703beda", null ],
     [ "delete_syntax", "syntax_8tcl.html#a68cab2a9aa3d0dd60c2c0cc431e7e105", null ],
+    [ "get_comments", "syntax_8tcl.html#a5e9a9d64eed2c768dd20202128887461", null ],
     [ "get_current_language", "syntax_8tcl.html#ad7dfc1fc7b77f868dace0121bab618b7", null ],
     [ "get_default_language", "syntax_8tcl.html#aaccedd1dc6422835635e679b3af2f1fa", null ],
     [ "get_extensions", "syntax_8tcl.html#a0d3bece34cc25f2f212d947203d14019", null ],

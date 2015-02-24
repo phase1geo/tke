@@ -17,6 +17,7 @@ var menus_8tcl =
     [ "edit_posting", "menus_8tcl.html#a754b690bc6f116f772bc80a344c481f1", null ],
     [ "edit_snippets_posting", "menus_8tcl.html#a9e0defbbed2fac38e09c93f03f733430", null ],
     [ "edit_theme_command", "menus_8tcl.html#aca1a3bfc3f4a5753a872fba704bc2ec2", null ],
+    [ "exit_cleanup", "menus_8tcl.html#a5769976353e3cd085f2b671a82ead23c", null ],
     [ "exit_command", "menus_8tcl.html#a11de88137315bb551c3d91f5998cdc1d", null ],
     [ "favorite_command", "menus_8tcl.html#af14983680a548a9cf23887757f7d588f", null ],
     [ "file_favorites_posting", "menus_8tcl.html#a1fd433483111561575bcd46ecdc780cb", null ],
