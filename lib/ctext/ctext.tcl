@@ -142,11 +142,14 @@ proc ctext {win args} {
   grid rowconfigure    $win 0 -weight 100
   grid columnconfigure $win 2 -weight 100
 
-  bind $win.t <Configure>         [list ctext::linemapUpdate $win]
-  bind $win.l <ButtonPress-1>     [list ctext::linemapToggleMark $win %y]
-  bind $win.t <KeyRelease-Return> [list ctext::linemapUpdate $win]
-  bind $win.t <FocusIn>           [list ctext::handleFocusIn $win]
-  bind $win.t <FocusOut>          [list ctext::handleFocusOut $win]
+  bind $win.t <Configure>         "ctext::linemapUpdate $win"
+  bind $win.l <ButtonPress-1>     "ctext::linemapToggleMark $win %y"
+  bind $win.l <MouseWheel>        "event generate $win.t <MouseWheel> -delta %D"
+  bind $win.l <4>                 "event generate $win.t <4>"
+  bind $win.l <5>                 "event generate $win.t <5>"
+  bind $win.t <KeyRelease-Return> "ctext::linemapUpdate $win"
+  bind $win.t <FocusIn>           "ctext::handleFocusIn $win"
+  bind $win.t <FocusOut>          "ctext::handleFocusOut $win"
   rename $win __ctextJunk$win
   rename $win.t $win._t
 
