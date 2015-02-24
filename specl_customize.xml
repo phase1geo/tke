@@ -2,7 +2,7 @@
 <customizations>
   <translations dir="data/msgs"/>
   <icon path="lib/images/tke_logo_64.gif"/>
-  <update>
+  <uptodate>
     <title>Running the latest {RELTYPE} release!</title>
-  </update>
+  </uptodate>
 </customizations>
