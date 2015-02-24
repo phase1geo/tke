@@ -19,6 +19,7 @@ var searchData=
   ['exec_5fcommand',['exec_command',['../namespaceinterpreter.html#a3c380c82d5b8f7c4178e7cbbd45d7180',1,'interpreter']]],
   ['execute',['execute',['../namespacelauncher.html#affde9be087a56735f18ce769753aa277',1,'launcher']]],
   ['execute_5fhelper',['execute_helper',['../namespacelauncher.html#a0c86a0de26b15596bd6866babafc0dc5',1,'launcher']]],
+  ['exit_5fcleanup',['exit_cleanup',['../namespacemenus.html#a5769976353e3cd085f2b671a82ead23c',1,'menus']]],
   ['exit_5fcommand',['exit_command',['../namespacemenus.html#a11de88137315bb551c3d91f5998cdc1d',1,'menus']]],
   ['expand_5fdirectory',['expand_directory',['../namespacesidebar.html#a9fa17aafc61252bbb125a7ba6f813161',1,'sidebar']]]
 ];

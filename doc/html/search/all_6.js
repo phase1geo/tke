@@ -10,6 +10,7 @@ var searchData=
   ['get_5fcleaned_5fcontent',['get_cleaned_content',['../namespacevim.html#aca8a4968a2bc4e1b502b7285d8aa4fa9',1,'vim']]],
   ['get_5fcommand_5fname',['get_command_name',['../namespacelauncher.html#aa22236396e14d59255c44300d16fdcd8',1,'launcher']]],
   ['get_5fcommand_5foutput',['get_command_output',['../namespacebgproc.html#a01c4bab93862bd4aa1286d05263b884d',1,'bgproc']]],
+  ['get_5fcomments',['get_comments',['../namespacesyntax.html#a5e9a9d64eed2c768dd20202128887461',1,'syntax']]],
   ['get_5fcurrent_5flanguage',['get_current_language',['../namespacesyntax.html#ad7dfc1fc7b77f868dace0121bab618b7',1,'syntax']]],
   ['get_5fcurrent_5fsnippets',['get_current_snippets',['../namespacesnippets.html#a22e23ef1c8be9eebf46d786b30e0909f',1,'snippets']]],
   ['get_5fdefault_5fbackground',['get_default_background',['../namespaceutils.html#a175f71dd5ac8ba87e6f926e628b318c8',1,'utils']]],

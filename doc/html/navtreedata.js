@@ -22,8 +22,8 @@ var NAVTREEINDEX =
 [
 "api_8tcl.html",
 "gui_8tcl.html#aad7d105a95f93a859ecba64656b1b7d1",
-"namespacemembers.html",
-"themer_8tcl.html#a8c5ccd516d1ac0c000f377712c52725c"
+"namespacemarkers.html",
+"themer_8tcl.html#a7d9c8fcb6483f12c57c2c8b0a7bcbf31"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
