@@ -1053,7 +1053,7 @@ namespace eval specl::updater {
     if {[info exists trash_path]} {
       if {[catch { file rename -force $install_dir $trash_path } rc]} {
         if {![info exists password]} {
-          set password [get_password]
+          set password [get_password $content_list]
         }
         if {[catch { run_admin_cmd "mv $install_dir $trash_path" $password } rc]} {
           tk_messageBox -parent . -default ok -type ok -message [msgcat::mc "Unable to install"] -detail $rc
@@ -1065,7 +1065,7 @@ namespace eval specl::updater {
     # Perform the directory move
     if {[catch { file rename -force $download $install_dir } rc]} {
       if {![info exists password]} {
-        set password [get_password]
+        set password [get_password $content_list]
       }
       if {[catch { run_admin_cmd "mv $download $install_dir" $password } rc]} {
         tk_messageBox -parent . -default ok -type ok -message [msgcat::mc "Unable to install"] -detail $rc
