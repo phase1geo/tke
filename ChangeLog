@@ -16,11 +16,73 @@ Added tag devel-1.4.13 for changeset 61c2fd1a8bf7
 
 
 changeset:   814:431246bb271d
-tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
 date:        Tue Feb 24 08:48:41 2015 -0600
 files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
 * Adding scrolling support to line number/gutter area.
+
+
+changeset:   815:d1ec2b538554
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Feb 24 08:52:43 2015 -0600
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for devel-1.4.14 release
+
+
+changeset:   816:5cceaf0bdf51
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Feb 24 08:52:47 2015 -0600
+files:       .hgtags
+description:
+Added tag devel-1.4.14 for changeset d1ec2b538554
+
+
+changeset:   817:9932c1d6d66e
+parent:      815:d1ec2b538554
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Feb 24 10:27:09 2015 -0600
+files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl specl_customize.xml
+description:
+* Fixing update title message.
+* Disabling download button in software updater after it has been clicked.
+* Change update test mode to change the UI state when the Download button has been clicked.
+
+
+changeset:   818:c89e0d6ee527
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Feb 24 13:23:49 2015 -0600
+files:       lib/ctext/ctext.tcl lib/version.tcl
+description:
+* Fixing syntax error in ctext widget that cleared a marker indicator.
+
+
+changeset:   819:45d347eeab36
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Feb 24 16:22:51 2015 -0600
+files:       lib/ctext/ctext.tcl lib/version.tcl
+description:
+* Fixing syntax issue in ctext "edit reset" command.
+
+
+changeset:   820:b3e48fa7e082
+parent:      816:5cceaf0bdf51
+user:        Trevor Williams  <phase1geo@gmail.com>
+date:        Tue Feb 24 18:05:38 2015 -0600
+files:       .hgtags
+description:
+Backout changeset 5cceaf0bdf513e754f3ba34edd0e082190d43498
+
+
+changeset:   821:7b77a0d650db
+tag:         tip
+parent:      820:b3e48fa7e082
+parent:      819:45d347eeab36
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Feb 24 18:06:08 2015 -0600
+files:       lib/version.tcl
+description:
+Merging.
 
 
