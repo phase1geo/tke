@@ -1125,9 +1125,9 @@ proc ctext::instanceCmd {self cmd args} {
       } elseif {"reset" == $subCmd} {
         set ar(undo_hist)      [list]
         set ar(undo_hist_size) 0
-        set ar(undo_seq_next)  -1
-        set ar(undo_seq_last)  -1
-        set ar(undo_seq_size)  0
+        set ar(undo_sep_next)  -1
+        set ar(undo_sep_last)  -1
+        set ar(undo_sep_size)  0
         set ar(redo_hist)      [list]
         set ar(modified)       false
       } else {
@@ -2268,7 +2268,7 @@ proc ctext::linemapUpdate {win args} {
     }
     set ltags [$win.t tag names $line.0]
     if {[lsearch -glob $ltags lmark*] != -1} {
-      lset line_content $lmark_pos lmark]
+      lset line_content $lmark_pos lmark
     }
     if {[set lsizes [lsearch -inline -glob -all $ltags lsize*]] ne ""} {
       lset line_content $lsize_pos [lindex [lsort $lsizes] 0]
