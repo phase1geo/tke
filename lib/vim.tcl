@@ -743,8 +743,8 @@ namespace eval vim {
     variable column
 
     # If the key does not have a printable char representation, quit now
-    if {$char eq ""} {
-      return 0
+    if {($keysym eq "Shift_L") || ($keysym eq "Shift_R") || ($keysym eq "Alt") || ($keysym eq "??")} {
+      return 1
     }
 
     # If the keysym is neither j or k, clear the column
