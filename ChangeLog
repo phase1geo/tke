@@ -1,88 +1,50 @@
-changeset:   812:61c2fd1a8bf7
-tag:         devel-1.4.13
+changeset:   822:bc9aff171483
+tag:         devel-1.4.14
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Feb 23 21:38:07 2015 -0600
-files:       ChangeLog lib/version.tcl specl_version.tcl
-description:
-ChangeLog for devel-1.4.13 release
-
-
-changeset:   813:012bf3c7f229
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Feb 23 21:38:13 2015 -0600
-files:       .hgtags
-description:
-Added tag devel-1.4.13 for changeset 61c2fd1a8bf7
-
-
-changeset:   814:431246bb271d
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Feb 24 08:48:41 2015 -0600
-files:       lib/ctext/ctext.tcl lib/version.tcl
-description:
-* Adding scrolling support to line number/gutter area.
-
-
-changeset:   815:d1ec2b538554
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Feb 24 08:52:43 2015 -0600
+date:        Tue Feb 24 19:35:37 2015 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
 ChangeLog for devel-1.4.14 release
 
 
-changeset:   816:5cceaf0bdf51
+changeset:   823:45fba61dd3e8
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Feb 24 08:52:47 2015 -0600
+date:        Tue Feb 24 19:35:40 2015 -0600
 files:       .hgtags
 description:
-Added tag devel-1.4.14 for changeset d1ec2b538554
+Added tag devel-1.4.14 for changeset bc9aff171483
 
 
-changeset:   817:9932c1d6d66e
-parent:      815:d1ec2b538554
+changeset:   824:f888f5eced3d
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Tue Feb 24 10:27:09 2015 -0600
-files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl specl_customize.xml
+date:        Wed Feb 25 09:46:57 2015 -0600
+files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
 description:
-* Fixing update title message.
-* Disabling download button in software updater after it has been clicked.
-* Change update test mode to change the UI state when the Download button has been clicked.
+* Fixing syntax error in specl updater.
 
 
-changeset:   818:c89e0d6ee527
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Tue Feb 24 13:23:49 2015 -0600
-files:       lib/ctext/ctext.tcl lib/version.tcl
+changeset:   825:55d5f18a8629
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Feb 25 22:28:14 2015 -0600
+files:       MacOSX/Tke.app/Contents/MacOS/Wish MacOSX/Tke.app/Contents/MacOS/Wish Shell lib/version.tcl
 description:
-* Fixing syntax error in ctext widget that cleared a marker indicator.
+* Updating Wish and Wish Shell applications to 8.5.17 from 8.5.15.
 
 
-changeset:   819:45d347eeab36
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Tue Feb 24 16:22:51 2015 -0600
-files:       lib/ctext/ctext.tcl lib/version.tcl
+changeset:   826:73106f18549f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Feb 26 08:15:16 2015 -0600
+files:       lib/version.tcl lib/vim.tcl
 description:
-* Fixing syntax issue in ctext "edit reset" command.
+* Another attempt to fix the issues with Shift, Control, Alt, Command keys on Mac.
 
 
-changeset:   820:b3e48fa7e082
-parent:      816:5cceaf0bdf51
-user:        Trevor Williams  <phase1geo@gmail.com>
-date:        Tue Feb 24 18:05:38 2015 -0600
-files:       .hgtags
-description:
-Backout changeset 5cceaf0bdf513e754f3ba34edd0e082190d43498
-
-
-changeset:   821:7b77a0d650db
+changeset:   827:2feb1f7c59e7
 tag:         tip
-parent:      820:b3e48fa7e082
-parent:      819:45d347eeab36
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Feb 24 18:06:08 2015 -0600
-files:       lib/version.tcl
+date:        Thu Mar 05 00:16:14 2015 -0600
+files:       lib/version.tcl lib/vim.tcl
 description:
-Merging.
+* Fixing issue with Shift, Control and Alt handling in Vim mode.
 
 
