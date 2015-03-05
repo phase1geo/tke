@@ -741,9 +741,12 @@ namespace eval vim {
     variable mode
     variable number
     variable column
-
+    
     # If the key does not have a printable char representation, quit now
-    if {($keysym eq "Shift_L") || ($keysym eq "Shift_R") || ($keysym eq "Alt") || ($keysym eq "??")} {
+    if {([string compare -length 5 $keysym "Shift"]   == 0) || \
+        ([string compare -length 7 $keysym "Control"] == 0) || \
+        ([string compare -length 3 $keysym "Alt"]     == 0) || \
+        ($keysym eq "??")} {
       return 1
     }
 
