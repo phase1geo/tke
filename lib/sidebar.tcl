@@ -704,8 +704,8 @@ namespace eval sidebar {
     
     variable widgets
     
-    foreach {tablelist::W tablelist::x tablelist::y} [tablelist::convEventFields $W $x $y] {}
-    foreach {row col} [split [$widgets(tl) containingcell $tablelist::x $tablelist::y] ,] {}
+    lassign [tablelist::convEventFields $W $x $y] W x y
+    lassign [split [$widgets(tl) containingcell $x $y] ,] row col
     
     if {$row != -1} {
       
@@ -727,8 +727,8 @@ namespace eval sidebar {
     
     variable widgets
     
-    foreach {tablelist::W tablelist::x tablelist::y} [tablelist::convEventFields $W $x $y] {}
-    foreach {row col} [split [$widgets(tl) containingcell $tablelist::x $tablelist::y] ,] {}
+    lassign [tablelist::convEventFields $W $x $y] W x y
+    lassign [split [$widgets(tl) containingcell $x $y] ,] row col
     
     if {$row != -1} {
       
