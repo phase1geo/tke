@@ -1566,8 +1566,10 @@ namespace eval vim {
       clipboard clear
       if {($number($txt) ne "") && ($number($txt) > 1)} {
         clipboard append [$txt get "insert linestart" "insert linestart+[expr $number($txt) - 1]l lineend"]\n
+        multicursor::copy $txt "insert linestart" "insert linestart+[expr $number($txt) - 1]l lineend"
       } else {
         clipboard append [$txt get "insert linestart" "insert lineend"]\n
+        multicursor::copy $txt "insert linestart" "insert lineend"
       }
       cliphist::add_from_clipboard
       start_mode $txt
@@ -1613,21 +1615,42 @@ namespace eval vim {
   # current line.
   proc do_post_paste {txt clip} {
 
+    variable number
+    
     # Create a separator
     $txt edit separator
-
+    
     if {[set nl_index [string last \n $clip]] != -1} {
       if {[expr ([string length $clip] - 1) == $nl_index]} {
         set clip [string replace $clip $nl_index $nl_index]
       }
-      $txt insert "insert lineend" "\n$clip"
-      $txt mark set insert "insert+1l linestart"
+      if {$number($txt) ne ""} {
+        for {set i 0} {$i < $number($txt)} {incr i} {
+          $txt insert "insert lineend" "\n$clip"
+          multicursor::paste $txt "insert+1l linestart"
+          $txt mark set insert "insert+1l linestart"
+        }
+      } else {
+        $txt insert "insert lineend" "\n$clip"
+        multicursor::paste $txt "insert+1l linestart"
+        $txt mark set insert "insert+1l linestart"
+      }
     } else {
-      $txt insert "insert+1c" $clip
-      $txt mark set insert "insert+[string length $clip]c"
+      if {$number($txt) ne ""} {
+        for {set i 0} {$i < $number($txt)} {incr i} {
+          $txt insert "insert+1c" $clip
+          multicursor::paste $txt "insert+1c"
+          $txt mark set insert "insert+[string length $clip]c"
+        }
+      } else {
+        $txt insert "insert+1c" $clip
+        multicursor::paste $txt "insert+1c"
+        $txt mark set insert "insert+[string length $clip]c"
+      }
     }
+    adjust_insert $txt
     $txt see insert
-
+    
     # Create a separator
     $txt edit separator
 
@@ -1656,16 +1679,35 @@ namespace eval vim {
   # in the text widget.
   proc do_pre_paste {txt clip} {
 
+    variable number
+    
     $txt edit separator
 
     if {[set nl_index [string last \n $clip]] != -1} {
       if {[expr ([string length $clip] - 1) == $nl_index]} {
         set clip [string replace $clip $nl_index $nl_index]
       }
-      $txt insert "insert linestart" "$clip\n"
+      if {$number($txt) ne ""} {
+        for {set i 0} {$i < $number($txt)} {incr i} {
+          $txt insert "insert linestart" "$clip\n"
+          multicursor::paste $txt "insert linestart"
+        }
+      } else {
+        $txt insert "insert linestart" "$clip\n"
+        multicursor::paste $txt "insert linestart"
+      }
     } else {
-      $txt insert "insert-1c"
+      if {$number($txt) ne ""} {
+        for {set i 0} {$i < $number($txt)} {incr i} {
+          $txt insert "insert-1c"
+          multicursor::paste $txt "insert-1c"
+        }
+      } else {
+        $txt insert "insert-1c"
+        multicursor::paste $txt "insert-1c"
+      }
     }
+    adjust_insert $txt
 
     # Create separator
     $txt edit separator
