@@ -10,7 +10,9 @@ namespace eval multicursor {
   variable selected            0
   variable select_start_line   ""
   variable select_start_column ""
-  variable cursor anchor       ""
+  variable cursor_anchor       ""
+  
+  array set copy_cursors {}
    
   ######################################################################
   # Adds bindings for multicursor support to the supplied text widget.
@@ -598,6 +600,45 @@ namespace eval multicursor {
       $txt insert [join $cursor .] [string repeat " " [expr $max_col - [lindex $cursor 1]]]
     }
     
+  }
+  
+  ######################################################################
+  # Copies any multicursors found in the given text block.
+  proc copy {txt start end} {
+    
+    variable copy_cursors
+    
+    # Current index
+    set current $start
+    
+    # Initialize copy cursor information
+    set copy_cursors($txt,offsets) [list]
+    set copy_cursors($txt,value)   [clipboard get]
+    
+    # Get the mcursor offsets from start
+    while {[set index [$txt tag nextrange mcursor $current $end]] ne ""} {
+      lappend copy_cursors($txt,offsets) [$txt count -chars $start [lindex $index 0]]
+      set current [$txt index "[lindex $index 0]+1c"]
+    }
+    
+  }
+  
+  ######################################################################
+  # Adds multicursors to the given pasted text.
+  proc paste {txt start} {
+    
+    variable copy_cursors
+    
+    # Only perform the operation if the stored value matches the clipboard contents
+    if {[info exists copy_cursors($txt,value)] && ($copy_cursors($txt,value) eq [clipboard get])} {
+      
+      # Add the mcursors
+      foreach offset $copy_cursors($txt,offsets) {
+        $txt tag add mcursor "$start+${offset}c"
+      }
+      
+    }
+      
   }
    
 }
