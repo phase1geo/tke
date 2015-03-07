@@ -63,43 +63,54 @@ namespace eval gui {
     return [lsearch -index $files_index(fname) $files $fname]
 
   }
+  
+  ######################################################################
+  # Checks to see if the given file is newer than the file within the
+  # editor.  If it is newer, prompt the user to update the file.
+  proc check_file {index} {
+    
+    variable files
+    variable files_index
+    
+    set fname [lindex $files $index $files_index(fname)]
+    if {$fname ne ""} {
+      set mtime [lindex $files $index $files_index(mtime)]
+      if {[file exists $fname]} {
+        file stat $fname stat
+        if {$mtime != $stat(mtime)} {
+          if {[lindex $files $index $files_index(modified)]} {
+            set answer [tk_messageBox -parent . -icon question -message [msgcat::mc "Reload file?"] \
+              -detail $fname -type yesno -default yes]
+            if {$answer eq "yes"} {
+              update_file $index
+            }
+          } else {
+            update_file $index
+          }
+          lset files $index $files_index(mtime) $stat(mtime)
+        }
+      } elseif {$mtime ne ""} {
+        set answer [tk_messageBox -parent . -icon question -message [msgcat::mc "Delete tab?"] \
+          -detail $fname -type yesno -default yes]
+        if {$answer eq "yes"} {
+          close_tab [lindex $files $index $files_index(tab)]
+        }
+      }
+    }
+      
+  }
 
   ######################################################################
   # Polls every 10 seconds to see if any of the loaded files have been
   # updated since the last save.
   proc poll {} {
 
-    variable pw_current
     variable files
     variable files_index
-
+    
     # Check the modification of every file in the files list
     for {set i 0} {$i < [llength $files]} {incr i} {
-      set fname [lindex $files $i $files_index(fname)]
-      if {$fname ne ""} {
-        set mtime [lindex $files $i $files_index(mtime)]
-        if {[file exists $fname]} {
-          file stat $fname stat
-          if {$mtime != $stat(mtime)} {
-            if {[lindex $files $i $files_index(modified)]} {
-              set answer [tk_messageBox -parent . -icon question -message [msgcat::mc "Reload file?"] \
-                -detail $fname -type yesno -default yes]
-              if {$answer eq "yes"} {
-                update_file $i
-              }
-            } else {
-              update_file $i
-            }
-            lset files $i $files_index(mtime) $stat(mtime)
-          }
-        } elseif {$mtime ne ""} {
-          set answer [tk_messageBox -parent . -icon question -message [msgcat::mc "Delete tab?"] \
-            -detail $fname -type yesno -default yes]
-          if {$answer eq "yes"} {
-            close_tab [lindex $files $i $files_index(tab)]
-          }
-        }
-      }
+      check_file $i  
     }
 
     # Check again after 10 seconds
@@ -342,7 +353,7 @@ namespace eval gui {
     }
 
     # Start polling on the files
-    poll
+    # poll
 
     # Trace changes to the Appearance/Theme preference variable
     trace variable preferences::prefs(Editor/WarningWidth)       w gui::handle_warning_width_change
@@ -3363,6 +3374,9 @@ namespace eval gui {
 
     # Set the application title bar
     set_title
+    
+    # Check to see if the file has changed
+    catch { check_file [current_file] }
 
     # Finally, set the focus to the text widget
     if {([focus] ne "$txt.t") && !$skip_focus} {
