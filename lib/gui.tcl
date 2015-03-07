@@ -94,10 +94,12 @@ namespace eval gui {
           -detail $fname -type yesno -default yes]
         if {$answer eq "yes"} {
           close_tab [lindex $files $index $files_index(tab)]
+        } else {
+          lset files $index $files_index(mtime) ""
         }
       }
     }
-      
+    
   }
 
   ######################################################################
@@ -1585,7 +1587,7 @@ namespace eval gui {
 
     # Display the current pane (if one exists)
     if {[set tab [$tb select]] ne ""} {
-      set_current_tab $tab
+      set_current_tab $tab 0 $exiting
     }
 
     # If we have no more tabs and there is another pane, remove this pane
@@ -1619,7 +1621,7 @@ namespace eval gui {
     foreach nb [lreverse [$widgets(nb_pw) panes]] {
       foreach tab [lreverse [$nb.tbf.tb tabs]] {
         if {($nb ne $current_pw) || ($tab ne [$nb.tbf.tb select])} {
-          set_current_tab $tab
+          set_current_tab $tab 0 1
           close_current {}
         }
       }
@@ -1635,7 +1637,7 @@ namespace eval gui {
 
     foreach nb [lreverse [$widgets(nb_pw) panes]] {
       foreach tab [lreverse [$nb.tbf.tb tabs]] {
-        set_current_tab $tab
+        set_current_tab $tab 0 1
         close_current {} 0 $exiting
       }
     }
@@ -3330,7 +3332,7 @@ namespace eval gui {
 
   ######################################################################
   # Make the specified tab the current tab.
-  proc set_current_tab {tab {skip_focus 0}} {
+  proc set_current_tab {tab {skip_focus 0} {skip_check 0}} {
 
     variable widgets
     variable pw_current
@@ -3376,7 +3378,9 @@ namespace eval gui {
     set_title
     
     # Check to see if the file has changed
-    catch { check_file [current_file] }
+    if {!$skip_check} {
+      catch { check_file [current_file] }
+    }
 
     # Finally, set the focus to the text widget
     if {([focus] ne "$txt.t") && !$skip_focus} {
