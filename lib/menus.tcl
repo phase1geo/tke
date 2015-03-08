@@ -694,6 +694,14 @@ namespace eval menus {
 
     $mb add command -label [msgcat::mc "Select all occurrences"] -underline 7 -command "gui::search_all {}"
     launcher::register [msgcat::mc "Menu: Select all occurrences"] "gui::search_all {}"
+    
+    $mb add separator
+    
+    $mb add command -label [msgcat::mc "Jump backward"] -underline 5 -command "gui::jump_to_cursor {} -1 1"
+    launcher::register [msgcat::mc "Menu: Jump backward"] "gui::jump_to_cursor {} -1 1"
+
+    $mb add command -label [msgcat::mc "Jump forward"] -underline 5 -command "gui::jump_to_cursor {} 1 1"
+    launcher::register [msgcat::mc "Menu: Jump forward"] "gui::jump_to_cursor {} 1 1"
 
     $mb add separator
 
@@ -723,6 +731,8 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Select previous occurrence"] -state disabled
       $mb entryconfigure [msgcat::mc "Append next occurrence"]     -state disabled
       $mb entryconfigure [msgcat::mc "Select all occurrences"]     -state disabled
+      $mb entryconfigure [msgcat::mc "Jump backward"]              -state disabled
+      $mb entryconfigure [msgcat::mc "Jump forward"]               -state disabled
       $mb entryconfigure [msgcat::mc "Find marker"]                -state disabled
       $mb entryconfigure [msgcat::mc "Find matching pair"]         -state disabled
     } else {
@@ -732,7 +742,17 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Select previous occurrence"] -state normal
       $mb entryconfigure [msgcat::mc "Append next occurrence"]     -state normal
       $mb entryconfigure [msgcat::mc "Select all occurrences"]     -state normal
-      $mb entryconfigure [msgcat::mc "Find matching pair"]         -state normal
+      if {[gui::jump_to_cursor {} -1 0]} {
+        $mb entryconfigure [msgcat::mc "Jump backward"] -state normal
+      } else {
+        $mb entryconfigure [msgcat::mc "Jump backward"] -state disabled
+      }
+      if {[gui::jump_to_cursor {} 1 0]} {
+        $mb entryconfigure [msgcat::mc "Jump forward"] -state normal
+      } else {
+        $mb entryconfigure [msgcat::mc "Jump forward"] -state disabled
+      }
+      $mb entryconfigure [msgcat::mc "Find matching pair"] -state normal
       if {[llength [gui::get_marker_list {}]] > 0} {
         $mb entryconfigure [msgcat::mc "Find marker"] -state normal
       } else {

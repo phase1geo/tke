@@ -3,7 +3,7 @@
 # RCS: @(#) $Id: ctext.tcl,v 1.9 2011/04/18 19:49:48 andreas_kupries Exp $
 
 package require Tk
-package provide ctext 4.0
+package provide ctext 5.0
 
 namespace eval ctext {
   array set REs {
@@ -694,6 +694,24 @@ proc ctext::undo_delete {win start_pos end_pos} {
 
 }
 
+proc ctext::undo_get_cursor_hist {win} {
+  
+  ctext::getAr $win config configAr
+  
+  set cursors [list]
+  set index   $configAr(undo_sep_next)
+  set sep     0
+  
+  while {$sep != -1} {
+    lassign [lindex $configAr(undo_hist) $index] cmd val1 val2 cursor sep
+    lappend cursors $cursor
+    incr index $sep
+  }
+  
+  return $cursors
+  
+}
+
 proc ctext::undo {win} {
 
   ctext::getAr $win config configAr
@@ -1115,7 +1133,7 @@ proc ctext::instanceCmd {self cmd args} {
       } elseif {"redo" == $subCmd} {
         ctext::redo $self
       } elseif {"undoable" == $subCmd} {
-        return [expr [llength $ar(undo_hist)] > 0]
+        return [expr $ar(undo_hist_size) > 0]
       } elseif {"redoable" == $subCmd} {
         return [expr [llength $ar(redo_hist)] > 0]
       } elseif {"separator" == $subCmd} {
@@ -1130,6 +1148,8 @@ proc ctext::instanceCmd {self cmd args} {
         set ar(undo_sep_size)  0
         set ar(redo_hist)      [list]
         set ar(modified)       false
+      } elseif {"cursorhist" == $subCmd} {
+        return [ctext::undo_get_cursor_hist $self]
       } else {
         #Tk 8.4 has other edit subcommands that I don't want to emulate.
         return [uplevel 1 [linsert $args 0 $self._t $cmd]]
