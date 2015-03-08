@@ -130,6 +130,11 @@
 
 {Find/ContextNum}            {3}
 
+# When using the "Jump Backward" or "Jump Forward" find functions, this value determines the
+# minimum line distance to use to perform the jump.
+
+{Find/JumpDistance}          {2}
+
 # If this value is set to 1, the menubar will be displayed on application start,
 # If this value is set to 0, the menubar will be hidden on application start.
 # This option is only valid when not running as a Mac application.

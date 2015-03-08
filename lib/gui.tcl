@@ -30,10 +30,10 @@ namespace eval gui {
   array set language        {}
   array set images          {}
   array set tab_tip         {}
-  array set redo_count      {}
   array set line_sel_anchor {}
   array set tab_current     {}
   array set txt_current     {}
+  array set cursor_hist     {}
 
   array set files_index {
     fname    0
@@ -3228,7 +3228,7 @@ namespace eval gui {
 
     variable files
     variable files_index
-    variable redo_count
+    variable cursor_hist
 
     if {[$txt edit modified]} {
 
@@ -3253,9 +3253,9 @@ namespace eval gui {
         }
 
       }
-
-      # Clear the redo_count value
-      set redo_count($txt) 0
+      
+      # Clear the cursor history
+      array unset cursor_hist $txt,*
 
     }
 
@@ -3843,6 +3843,52 @@ namespace eval gui {
 
     return $str
 
+  }
+  
+  ######################################################################
+  # Jumps to the next cursor as specified by direction.
+  proc jump_to_cursor {tid dir jump} {
+    
+    variable cursor_hist
+    
+    # Get the current text widget
+    set txt [current_txt $tid]
+    
+    # Get the index of the cursor in the cursor hist to use
+    if {![info exists cursor_hist($txt,hist)]} {
+      set cursor_hist($txt,hist)  [$txt edit cursorhist]
+      set cursor_hist($txt,index) [llength $cursor_hist($txt,hist)]
+    }
+    
+    set index  $cursor_hist($txt,index)
+    set length [llength $cursor_hist($txt,hist)]
+    set diff   [preferences::get Find/JumpDistance]
+    
+    if {$index == $length} {
+      set last_line [lindex [split [$txt index insert] .] 0]
+    } else {
+      set last_line [lindex [split [lindex $cursor_hist($txt,hist) $index] .] 0]
+    }
+    
+    # Get the cursor index
+    while {([incr index $dir] >= 0) && ($index < $length)} {
+      set cursor     [lindex $cursor_hist($txt,hist) $index]
+      set index_line [lindex [split $cursor .] 0]
+      if {[expr abs( $index_line - $last_line ) >= $diff]} {
+        if {$jump} {
+          set cursor_hist($txt,index) $index
+          $txt mark set insert "$cursor linestart"
+          $txt see insert
+          if {[vim::in_vim_mode $txt.t]} {
+            vim::adjust_insert $txt.t
+          }
+        }
+        return 1
+      }
+    }
+    
+    return 0
+    
   }
 
 }
