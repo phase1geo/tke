@@ -3359,6 +3359,9 @@ namespace eval gui {
         pack forget $slave
       }
       pack [$tb select] -in $tf -fill both -expand yes
+      
+      # Update the preferences
+      preferences::update_prefs
 
     }
 

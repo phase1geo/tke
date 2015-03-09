@@ -421,7 +421,7 @@ namespace eval sidebar {
   # Figure out if the given file should be ignored.
   proc ignore_file {fname} {
 
-    foreach pattern $preferences::prefs(Sidebar/IgnoreFilePatterns) {
+    foreach pattern [preferences::get Sidebar/IgnoreFilePatterns] {
       if {[string match $pattern $fname]} {
         return 1
       }
@@ -438,7 +438,7 @@ namespace eval sidebar {
     set contents [lsort $contents]
     
     # If we need to show the folders at the top, handle this
-    if {$preferences::prefs(Sidebar/FoldersAtTop)} {
+    if {[preferences::get Sidebar/FoldersAtTop]} {
       set tmp_dirs  [list]
       set tmp_files [list]
       foreach name $contents {
@@ -589,7 +589,7 @@ namespace eval sidebar {
     
     # If the user wants us to auto-remove when the open file count reaches 0,
     # remove it from the sidebar
-    if {$preferences::prefs(Sidebar/RemoveRootAfterLastClose) && ($ocount == 0)} {
+    if {[preferences::get Sidebar/RemoveRootAfterLastClose] && ($ocount == 0)} {
       $widgets(tl) delete $descendant
     }
     
