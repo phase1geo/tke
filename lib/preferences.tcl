@@ -157,6 +157,7 @@ namespace eval preferences {
     if {$language ne ""} {
       set languages $language
     } else {
+      set languages [list]
       foreach lang_file [glob -nocomplain -directory $::tke_home -tails preferences.*.tkedat] {
         if {[regexp {preferences\.(.*)\.tkedat} $lang_file -> lang]} {
           lappend languages $lang
@@ -164,12 +165,9 @@ namespace eval preferences {
       }
     }
     
-    puts "languages: $languages"
-    
     # Save off settings from each language
     foreach lang $languages {
       if {![catch { [ns tkedat]::read [file join $::tke_home preferences.$lang.tkedat] } rc]} {
-        puts "Saving to loaded_prefs($lang)"
         set loaded_prefs($lang) $rc
       }
     }
