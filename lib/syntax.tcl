@@ -230,14 +230,18 @@ namespace eval syntax {
         }
       }
 
-      # Iterate through our tab list and update there
-      foreach txt [array names lang] {
-        if {[winfo exists $txt]} {
-          set_language $lang($txt) $txt
-        } else {
-          unset lang($txt)
-        }
+      # Update the current tab
+      if {[set txt [[ns gui]::current_txt {}]] ne ""} {
+        set_language $lang($txt) $txt
       }
+      
+      #foreach txt [array names lang] {
+      #  if {[winfo exists $txt]} {
+      #    set_language $lang($txt) $txt
+      #  } else {
+      #    unset lang($txt)
+      #  }
+      #}
 
     }
 

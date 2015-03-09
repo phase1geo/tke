@@ -101,7 +101,7 @@ namespace eval menus {
 
     }
 
-    if {([tk windowingsystem] eq "aqua") || $preferences::prefs(View/ShowMenubar)} {
+    if {([tk windowingsystem] eq "aqua") || [preferences::get View/ShowMenubar]} {
       . configure -menu $mb
     }
 
@@ -240,7 +240,7 @@ namespace eval menus {
     }
 
     # Configure the Open Recent menu
-    if {($preferences::prefs(View/ShowRecentlyOpened) == 0) || ([llength [gui::get_last_opened]] == 0)} {
+    if {([preferences::get View/ShowRecentlyOpened] == 0) || ([llength [gui::get_last_opened]] == 0)} {
       $mb entryconfigure [msgcat::mc "Open Recent"] -state disabled
     } else {
       $mb entryconfigure [msgcat::mc "Open Recent"] -state normal
@@ -263,8 +263,8 @@ namespace eval menus {
     $mb delete 0 end
 
     # Populate the menu with the filenames and a "Clear All" menu option
-    foreach fname [lrange [gui::get_last_opened] 0 [expr $preferences::prefs(View/ShowRecentlyOpened) - 1]] {
-      $mb add command -label [file tail $fname] -command "gui::add_file end $fname"
+    foreach fname [lrange [gui::get_last_opened] 0 [expr [preferences::get View/ShowRecentlyOpened] - 1]] {
+      $mb add command -label [file tail $fname] -command "puts \"Adding $fname\"; gui::add_file end $fname"
     }
     $mb add separator
     $mb add command -label [msgcat::mc "Clear All"] -command "gui::clear_last_opened"
@@ -513,7 +513,7 @@ namespace eval menus {
 
     $mb add separator
 
-    $mb add cascade -label [msgcat::mc "Preferences"]   -menu [menu $mb.prefPopup -tearoff 0]
+    $mb add cascade -label [msgcat::mc "Preferences"]   -menu [menu $mb.prefPopup -tearoff 0 -postcommand "menus::edit_preferences_posting $mb.prefPopup"]
     $mb add cascade -label [msgcat::mc "Menu Bindings"] -menu [menu $mb.bindPopup -tearoff 0]
     $mb add cascade -label [msgcat::mc "Snippets"]      -menu [menu $mb.snipPopup -tearoff 0 -postcommand "menus::edit_snippets_posting $mb.snipPopup"]
 
@@ -532,36 +532,39 @@ namespace eval menus {
     launcher::register [msgcat::mc "Menu: Format all text"] "gui::format {} selected"
 
     # Create preferences menu
-    $mb.prefPopup add command -label [msgcat::mc "View base"] -command "preferences::view_global"
+    $mb.prefPopup add command -label [msgcat::mc "View Base"] -command "preferences::view_global"
     launcher::register [msgcat::mc "Menu: View global preferences"] "preferences::view_global"
 
-    $mb.prefPopup add command -label [msgcat::mc "Edit user"] -command "preferences::edit_user"
+    $mb.prefPopup add command -label [msgcat::mc "Edit User"] -command "preferences::edit_user"
     launcher::register [msgcat::mc "Menu: Edit user preferences"] "preferences::edit_user"
+    
+    $mb.prefPopup add command -label [msgcat::mc "Edit Language"] -command "preferences::edit_language"
+    launcher::register [msgcat::mc "Menu: Edit language preferences"] "preferences::edit_language"
 
     $mb.prefPopup add separator
 
-    $mb.prefPopup add command -label [msgcat::mc "Reset user to base"] -command "preferences::copy_default"
+    $mb.prefPopup add command -label [msgcat::mc "Reset User to Base"] -command "preferences::copy_default"
     launcher::register [msgcat::mc "Menu: Set user preferences to global preferences"] "preferences::copy_default"
 
     # Create menu bindings menu
-    $mb.bindPopup add command -label [msgcat::mc "View global"] -command "bindings::view_global"
+    $mb.bindPopup add command -label [msgcat::mc "View Global"] -command "bindings::view_global"
     launcher::register [msgcat::mc "Menu: View global menu bindings"] "bindings::view_global"
 
-    $mb.bindPopup add command -label [msgcat::mc "Edit user"] -command "bindings::edit_user"
+    $mb.bindPopup add command -label [msgcat::mc "Edit User"] -command "bindings::edit_user"
     launcher::register [msgcat::mc "Menu: Edit user menu bindings"] "bindings::edit_user"
 
     $mb.bindPopup add separator
 
-    $mb.bindPopup add command -label [msgcat::mc "Set user to global"] -command "bindings::copy_default"
+    $mb.bindPopup add command -label [msgcat::mc "Set User to Global"] -command "bindings::copy_default"
     launcher::register [msgcat::mc "Menu: Set user bindings to global bindings"] "bindings::copy_default"
 
     # Create snippets menu
-    $mb.snipPopup add command -label [msgcat::mc "Edit current"] -command "snippets::add_new_snippet {}"
+    $mb.snipPopup add command -label [msgcat::mc "Edit Current"] -command "snippets::add_new_snippet {}"
     launcher::register [msgcat::mc "Menu: Edit current snippets"] "snippets::add_new_snippet {}"
 
     $mb.snipPopup add separator
 
-    $mb.snipPopup add command -label [msgcat::mc "Reload current"] -command "snippets::reload_snippets"
+    $mb.snipPopup add command -label [msgcat::mc "Reload Current"] -command "snippets::reload_snippets"
     launcher::register [msgcat::mc "Menu: Reload current snippets"] "snippets::reload_snippets"
 
   }
@@ -656,6 +659,19 @@ namespace eval menus {
     }
 
   }
+  
+  ######################################################################
+  # Called just prior to posting the edit/preferences menu option.  Sets
+  # the menu option states to match the current UI state.
+  proc edit_preferences_posting {mb} {
+    
+    if {[gui::current_txt {}] eq ""} {
+      $mb entryconfigure [msgcat::mc "Edit Language"] -state disabled
+    } else {
+      $mb entryconfigure [msgcat::mc "Edit Language"] -state normal
+    }
+    
+  }
 
   ######################################################################
   # Called just prior to posting the edit/menu bindings menu option.
@@ -663,9 +679,9 @@ namespace eval menus {
   proc edit_snippets_posting {mb} {
 
     if {[gui::current_txt {}] eq ""} {
-      $mb entryconfigure [msgcat::mc "Edit current"] -state disabled
+      $mb entryconfigure [msgcat::mc "Edit Current"] -state disabled
     } else {
-      $mb entryconfigure [msgcat::mc "Edit current"] -state normal
+      $mb entryconfigure [msgcat::mc "Edit Current"] -state normal
     }
 
   }
@@ -802,7 +818,7 @@ namespace eval menus {
 
       # Perform egrep operation (test)
       if {[array size files] > 0} {
-        bgproc::system find_in_files "egrep -a -H -C$preferences::prefs(Find/ContextNum) -n $rsp(egrep_opts) -s {$rsp(find)} [lsort [array names files]]" -killable 1 \
+        bgproc::system find_in_files "egrep -a -H -C[preferences::get Find/ContextNum] -n $rsp(egrep_opts) -s {$rsp(find)} [lsort [array names files]]" -killable 1 \
           -callback "menus::find_in_files_callback [list $rsp(find)] [array size files]"
       } else {
         gui::set_info_message "No files found in specified directories"
@@ -1042,7 +1058,7 @@ namespace eval menus {
   # Adds the view menu commands.
   proc add_view {mb} {
 
-    if {$preferences::prefs(View/ShowSidebar)} {
+    if {[preferences::get View/ShowSidebar]} {
       $mb add command -label [msgcat::mc "Hide Sidebar"] -underline 5 -command "menus::hide_sidebar_view $mb"
     } else {
       $mb add command -label [msgcat::mc "Show Sidebar"] -underline 5 -command "menus::show_sidebar_view $mb"
@@ -1051,7 +1067,7 @@ namespace eval menus {
     launcher::register [msgcat::mc "Menu: Hide sidebar"] "menus::hide_sidebar_view $mb"
 
     if {![catch "console hide"]} {
-      if {$preferences::prefs(View/ShowConsole)} {
+      if {[preferences::get View/ShowConsole]} {
         $mb add command -label [msgcat::mc "Hide Console"] -underline 5 -command "menus::hide_console_view $mb"
       } else {
         $mb add command -label [msgcat::mc "Show Console"] -underline 5 -command "menus::show_console_view $mb"
@@ -1060,7 +1076,7 @@ namespace eval menus {
       launcher::register [msgcat::mc "Menu: Hide console"] "menus::hide_console_view $mb"
     }
 
-    if {$preferences::prefs(View/ShowTabBar)} {
+    if {[preferences::get View/ShowTabBar]} {
       $mb add command -label [msgcat::mc "Hide Tab Bar"] -underline 5 -command "menus::hide_tab_view $mb"
     } else {
       $mb add command -label [msgcat::mc "Show Tab Bar"] -underline 5 -command "menus::show_tab_view $mb"
@@ -1068,7 +1084,7 @@ namespace eval menus {
     launcher::register [msgcat::mc "Menu: Show Tab Bar"] "menus::show_tab_view $mb"
     launcher::register [msgcat::mc "Menu: Hide Tab Bar"] "menus::hide_tab_view $mb"
 
-    if {$preferences::prefs(View/ShowStatusBar)} {
+    if {[preferences::get View/ShowStatusBar]} {
       $mb add command -label [msgcat::mc "Hide Status Bar"] -underline 12 -command "menus::hide_status_view $mb"
     } else {
       $mb add command -label [msgcat::mc "Show Status Bar"] -underline 12 -command "menus::show_status_view $mb"
@@ -1365,7 +1381,7 @@ namespace eval menus {
     if {[$mb entrycget [msgcat::mc "Start Profiling"] -state] eq "normal"} {
 
       # Turn on procedure profiling
-      profile {*}$preferences::prefs(Tools/ProfileReportOptions) on
+      profile {*}[preferences::get Tools/ProfileReportOptions] on
 
       # Indicate that profiling mode is on
       $mb entryconfigure [msgcat::mc "Start Profiling"] -state disabled
@@ -1393,7 +1409,7 @@ namespace eval menus {
 
       # Generate a report file
       generate_profile_report
-      # set sortby $preferences::prefs(Tools/ProfileReportSortby)
+      # set sortby [preferences::get Tools/ProfileReportSortby]
       # profrep profiling_info $sortby $profile_report "Profiling Information Sorted by $sortby"
 
       # Indicate that profiling has completed
@@ -1469,7 +1485,7 @@ namespace eval menus {
     }
 
     # Sort the information
-    switch $preferences::prefs(Tools/ProfileReportSortby) {
+    switch [preferences::get Tools/ProfileReportSortby] {
       "calls"         { set info_list [lsort -decreasing -integer -index 1 $info_list] }
       "real"          { set info_list [lsort -decreasing -integer -index 2 $info_list] }
       "cpu"           { set info_list [lsort -decreasing -integer -index 3 $info_list] }
@@ -1482,7 +1498,7 @@ namespace eval menus {
     if {![catch "open $profile_report w" rc]} {
 
       puts $rc "=============================================================================================================="
-      puts $rc [msgcat::mc "                                  Profiling Report Sorted By (%s)" $preferences::prefs(Tools/ProfileReportSortby)]
+      puts $rc [msgcat::mc "                                  Profiling Report Sorted By (%s)" [preferences::get Tools/ProfileReportSortby]]
       puts $rc "=============================================================================================================="
       puts $rc [format "%-50s  %10s  %10s  %10s  %10s  %10s" "Procedure" "Calls" "Real" "CPU" "Real/Calls" "CPU/Calls"]
       puts $rc "=============================================================================================================="
@@ -1567,7 +1583,7 @@ namespace eval menus {
   proc launcher {} {
 
     # Add favorites to launcher
-    foreach fname [lrange [gui::get_last_opened] 0 [expr $preferences::prefs(View/ShowRecentlyOpened) - 1]] {
+    foreach fname [lrange [gui::get_last_opened] 0 [expr [preferences::get View/ShowRecentlyOpened] - 1]] {
       launcher::register_temp "`RECENT:$fname" [list gui::add_file end $fname] $fname
     }
 
@@ -1575,7 +1591,7 @@ namespace eval menus {
     launcher::launch "`RECENT:"
 
     # Unregister the recents
-    foreach fname [lrange [gui::get_last_opened] 0 [expr $preferences::prefs(View/ShowRecentlyOpened) - 1]] {
+    foreach fname [lrange [gui::get_last_opened] 0 [expr [preferences::get View/ShowRecentlyOpened] - 1]] {
       launcher::unregister "`RECENT:$fname"
     }
 
