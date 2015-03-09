@@ -1,27 +1,58 @@
-changeset:   830:374558351d9c
-tag:         stable-1.5
+changeset:   833:bdde1e331def
+tag:         devel-1.5.1
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Mar 05 21:53:35 2015 -0600
+date:        Fri Mar 06 00:36:19 2015 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for stable-1.5 release
+ChangeLog for devel-1.5.1 release
 
 
-changeset:   831:d3678ea2e8ce
+changeset:   834:6ff782ebd20e
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Mar 05 21:53:40 2015 -0600
+date:        Fri Mar 06 00:36:24 2015 -0600
 files:       .hgtags
 description:
-Added tag stable-1.5 for changeset 374558351d9c
+Added tag devel-1.5.1 for changeset bdde1e331def
 
 
-changeset:   832:b0bffd2a34fa
+changeset:   835:240315545183
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Mar 06 14:17:05 2015 -0600
+files:       lib/sidebar.tcl lib/version.tcl
+description:
+* Fixing issues with right-click in sidebar.
+
+
+changeset:   836:52dac58389aa
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Mar 06 21:36:55 2015 -0600
+files:       lib/gui.tcl lib/version.tcl
+description:
+* Changing file update mechanism to update on focusin events instead of a polling mechanism.
+
+
+changeset:   837:58f5338e12ca
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Mar 06 23:04:24 2015 -0600
+files:       lib/gui.tcl lib/version.tcl
+description:
+* Fixing issues with event-based file update scheme.
+
+
+changeset:   838:148ffded48d8
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Mar 07 23:05:57 2015 -0600
+files:       data/preferences.tkedat lib/ctext/ctext.tcl lib/ctext/pkgIndex.tcl lib/gui.tcl lib/menus.tcl lib/tke.tcl lib/version.tcl
+description:
+* Adding "Jump Forward" and "Jump Backward" find capability.
+
+
+changeset:   839:2b677b34b157
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Mar 06 00:33:14 2015 -0600
-files:       lib/multicursor.tcl lib/version.tcl lib/vim.tcl
+date:        Mon Mar 09 08:28:16 2015 -0500
+files:       lib/gui.tcl lib/menus.tcl lib/preferences.tcl lib/sidebar.tcl lib/syntax.tcl lib/version.tcl
 description:
-* Adding ability to paste a given number of times in Vim mode.
-* Adding multicursor copy/paste support.
+* Adding initial support for language-specific preferences.
 
 
