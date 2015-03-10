@@ -1,58 +1,51 @@
-changeset:   833:bdde1e331def
-tag:         devel-1.5.1
+changeset:   840:27a20f86cbe9
+tag:         devel-1.5.2
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Mar 06 00:36:19 2015 -0600
+date:        Mon Mar 09 08:29:47 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.5.1 release
+ChangeLog for devel-1.5.2 release
 
 
-changeset:   834:6ff782ebd20e
+changeset:   841:c1e03e0a9487
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Mar 06 00:36:24 2015 -0600
+date:        Mon Mar 09 08:29:52 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.5.1 for changeset bdde1e331def
+Added tag devel-1.5.2 for changeset 27a20f86cbe9
 
 
-changeset:   835:240315545183
+changeset:   842:3a776845c5aa
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Fri Mar 06 14:17:05 2015 -0600
-files:       lib/sidebar.tcl lib/version.tcl
+date:        Mon Mar 09 10:07:47 2015 -0500
+files:       lib/preferences.tcl lib/version.tcl
 description:
-* Fixing issues with right-click in sidebar.
+* Fixing syntax issue with glob command that causes failures when no language-specific preference files are found.
 
 
-changeset:   836:52dac58389aa
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Mar 06 21:36:55 2015 -0600
-files:       lib/gui.tcl lib/version.tcl
+changeset:   843:126fd9dce4e1
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Mar 09 10:10:51 2015 -0500
+files:       lib/preferences.tcl lib/version.tcl
 description:
-* Changing file update mechanism to update on focusin events instead of a polling mechanism.
+* Fixing another syntax error in preferences.tcl
+* Removing unused debug information.
 
 
-changeset:   837:58f5338e12ca
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Mar 06 23:04:24 2015 -0600
-files:       lib/gui.tcl lib/version.tcl
+changeset:   844:acd4d9952100
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Mar 09 16:38:45 2015 -0500
+files:       lib/bnotebook.tcl lib/tke.tcl lib/version.tcl
 description:
-* Fixing issues with event-based file update scheme.
+* Removing unused bnotebook namespace.
 
 
-changeset:   838:148ffded48d8
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Mar 07 23:05:57 2015 -0600
-files:       data/preferences.tkedat lib/ctext/ctext.tcl lib/ctext/pkgIndex.tcl lib/gui.tcl lib/menus.tcl lib/tke.tcl lib/version.tcl
-description:
-* Adding "Jump Forward" and "Jump Backward" find capability.
-
-
-changeset:   839:2b677b34b157
+changeset:   845:cbcf5e95cc09
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Mar 09 08:28:16 2015 -0500
-files:       lib/gui.tcl lib/menus.tcl lib/preferences.tcl lib/sidebar.tcl lib/syntax.tcl lib/version.tcl
+date:        Tue Mar 10 00:16:57 2015 -0500
+files:       lib/gui.tcl lib/preferences.tcl lib/syntax.tcl lib/tke.tcl lib/version.tcl
 description:
-* Adding initial support for language-specific preferences.
+* Improving performance for language-specific options.
 
 
