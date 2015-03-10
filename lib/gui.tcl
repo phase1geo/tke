@@ -752,7 +752,7 @@ namespace eval gui {
   ######################################################################
   # Loads the geometry information (if it exists) and changes the current
   # window geometry to match the read value.
-  proc load_session {} {
+  proc load_session {tid} {
 
     variable widgets
     variable session_file
@@ -811,7 +811,7 @@ namespace eval gui {
                   syntax::set_language $finfo(language)
                 }
                 if {[info exists finfo(indent)]} {
-                  set_current_auto_indent {} $finfo(indent)
+                  set_current_auto_indent $tid $finfo(indent)
                 }
               } else {
                 set set_tab 0

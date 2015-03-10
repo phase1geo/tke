@@ -32,14 +32,24 @@ namespace eval preferences {
     variable prefs
     
     # Load the user prefs
-    array set prefs $loaded_prefs(user)
+    array set temp_prefs $loaded_prefs(user)
     
     # Load language-specific preferences
     if {([set txt [[ns gui]::current_txt {}]] ne "") && \
         ([set language [[ns syntax]::get_current_language $txt]] ne "None") && \
         [info exists loaded_prefs($language)]} {
-      array set prefs $loaded_prefs($language)
+      array set temp_prefs $loaded_prefs($language)
     }
+    
+    # Remove any preferences that have not changed value
+    foreach {name value} [array get temp_prefs] {
+      if {[info exists prefs($name)] && ($prefs($name) eq $temp_prefs($name))} {
+        unset temp_prefs($name)
+      }
+    }
+    
+    # Set the preferences
+    array set prefs [array get temp_prefs]
     
   }
   

@@ -312,7 +312,7 @@ if {[llength $cl_files] > 0} {
 }
 
 # Load the session file
-gui::load_session
+gui::load_session {}
 
 # This will hide hidden files/directories but provide a button in the dialog boxes to show/hide theme
 catch {
