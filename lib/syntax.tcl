@@ -232,7 +232,7 @@ namespace eval syntax {
 
       # Update the current tab
       if {[set txt [[ns gui]::current_txt {}]] ne ""} {
-        set_language $lang($txt) $txt
+        set_language $lang($txt) $txt 0
       }
       
       #foreach txt [array names lang] {
@@ -320,22 +320,24 @@ namespace eval syntax {
 
   ######################################################################
   # Sets the language of the given text widget to the given language.
-  proc set_language {language {txt ""}} {
+  proc set_language {language {txt ""} {highlight 1}} {
 
     variable langs
     variable theme
     variable lang
-
+    
     # If a text widget wasn't specified, get the current text widget
     if {$txt eq ""} {
       set txt [[ns gui]::current_txt {}]
     }
 
     # Clear the syntax highlighting for the widget
-    ctext::clearHighlightClasses   $txt
-    ctext::setBlockCommentPatterns $txt {}
-    ctext::setLineCommentPatterns  $txt {}
-    ctext::setStringPatterns       $txt {}
+    if {$highlight} {
+      ctext::clearHighlightClasses   $txt
+      ctext::setBlockCommentPatterns $txt {}
+      ctext::setLineCommentPatterns  $txt {}
+      ctext::setStringPatterns       $txt {}
+    }
 
     # Set the text background color to the current theme
     $txt configure -background $theme(background) -foreground $theme(foreground) \
@@ -418,7 +420,9 @@ namespace eval syntax {
     set lang($txt) $language
 
     # Re-highlight
-    $txt highlight 1.0 end
+    if {$highlight} {
+      $txt highlight 1.0 end
+    }
 
     # Generate a <<ThemeChanged>> event on the text widget
     event generate $txt <<ThemeChanged>>
