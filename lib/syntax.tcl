@@ -12,29 +12,31 @@ namespace eval syntax {
   variable filetypes {}
 
   array set lang_template {
-    filepatterns      {}
-    matchcharsallowed {}
-    tabsallowed       0
-    casesensitive     0
-    indent            {}
-    unindent          {}
-    icomment          {}
-    lcomments         {}
-    bcomments         {}
-    strings           {}
-    keywords          {}
-    symbols           {}
-    numbers           {}
-    punctuation       {}
-    precompile        {}
-    miscellaneous1    {}
-    miscellaneous2    {}
-    miscellaneous3    {}
-    advanced          {}
+    filepatterns       {}
+    matchcharsallowed  {}
+    tabsallowed        0
+    casesensitive      0
+    indent             {}
+    unindent           {}
+    icomment           {}
+    lcomments          {}
+    bcomments          {}
+    strings            {}
+    keywords           {}
+    symbols            {}
+    numbers            {}
+    punctuation        {}
+    precompile         {}
+    miscellaneous1     {}
+    miscellaneous2     {}
+    miscellaneous3     {}
+    advanced           {}
   }
-  array set langs     {}
-  array set themes    {}
-  array set theme     {}
+  array set langs      {}
+  array set curr_lang  {}
+  array set themes     {}
+  array set theme      {}
+  array set curr_theme {}
   array set colorizers {
     keywords       1
     comments       1
@@ -213,7 +215,8 @@ namespace eval syntax {
 
     variable themes
     variable theme
-    variable lang
+    variable curr_lang
+    variable curr_theme
     variable colorizers
 
     if {[info exists themes($theme_name)]} {
@@ -231,18 +234,11 @@ namespace eval syntax {
       }
 
       # Update the current tab
-      if {[set txt [[ns gui]::current_txt {}]] ne ""} {
-        set_language $lang($txt) $txt 0
+      if {([set txt [[ns gui]::current_txt {}]] ne "") && (![info exists curr_theme($txt)] || ($curr_theme($txt) ne $theme_name))} {
+        set curr_theme($txt) $theme_name
+        set_language $curr_lang($txt) $txt 0
       }
       
-      #foreach txt [array names lang] {
-      #  if {[winfo exists $txt]} {
-      #    set_language $lang($txt) $txt
-      #  } else {
-      #    unset lang($txt)
-      #  }
-      #}
-
     }
 
     return 0
@@ -283,10 +279,10 @@ namespace eval syntax {
   # Retrieves the language of the current text widget.
   proc get_current_language {txt} {
 
-    variable lang
+    variable curr_lang
 
-    if {[info exists lang($txt)]} {
-      return $lang($txt)
+    if {[info exists curr_lang($txt)]} {
+      return $curr_lang($txt)
     }
 
     return "None"
@@ -297,9 +293,9 @@ namespace eval syntax {
   # Initializes the language for the given text widget.
   proc initialize_language {txt language} {
 
-    variable lang
+    variable curr_lang
 
-    set lang($txt) $language
+    set curr_lang($txt) $language
 
   }
 
@@ -307,13 +303,13 @@ namespace eval syntax {
   # Sets the language of the current tab to the specified language.
   proc set_current_language {tid} {
 
-    variable lang
+    variable curr_lang
 
     # Get the current text widget
     set txt [[ns gui]::current_txt $tid]
 
-    if {[info exists lang($txt)]} {
-      set_language $lang($txt) $txt
+    if {[info exists curr_lang($txt)]} {
+      set_language $curr_lang($txt) $txt
     }
 
   }
@@ -324,7 +320,7 @@ namespace eval syntax {
 
     variable langs
     variable theme
-    variable lang
+    variable curr_lang
     
     # If a text widget wasn't specified, get the current text widget
     if {$txt eq ""} {
@@ -417,7 +413,7 @@ namespace eval syntax {
     }
 
     # Save the language
-    set lang($txt) $language
+    set curr_lang($txt) $language
 
     # Re-highlight
     if {$highlight} {
@@ -502,10 +498,10 @@ namespace eval syntax {
     $mnu delete 0 end
 
     # Populate the menu with the available languages
-    $mnu add radiobutton -label "<[msgcat::mc None]>" -variable [ns syntax]::lang([[ns gui]::current_txt {}]) \
+    $mnu add radiobutton -label "<[msgcat::mc None]>" -variable [ns syntax]::curr_lang([[ns gui]::current_txt {}]) \
       -value "<[msgcat::mc None]>" -command [list [ns syntax]::set_language <None>]
     foreach lang [lsort [array names langs]] {
-      $mnu add radiobutton -label $lang -variable [ns syntax]::lang([[ns gui]::current_txt {}]) \
+      $mnu add radiobutton -label $lang -variable [ns syntax]::curr_lang([[ns gui]::current_txt {}]) \
         -value $lang -command [list [ns syntax]::set_language $lang]
     }
 
@@ -531,10 +527,10 @@ namespace eval syntax {
   # Updates the menubutton with the current language.
   proc update_menubutton {w} {
 
-    variable lang
+    variable curr_lang
 
     # Configures the current language for the specified text widget
-    $w configure -text $lang([[ns gui]::current_txt {}])
+    $w configure -text $curr_lang([[ns gui]::current_txt {}])
 
   }
 
@@ -548,10 +544,10 @@ namespace eval syntax {
   proc get_indentation_expressions {} {
 
     variable langs
-    variable lang
+    variable curr_lang
 
     # Get the language array for the current language.
-    array set lang_array $langs($lang)
+    array set lang_array $langs($curr_lang)
 
     return [list $lang_array(indent) $lang_array(unindent)]
 
@@ -575,10 +571,10 @@ namespace eval syntax {
   proc get_extensions {tid} {
 
     variable langs
-    variable lang
+    variable curr_lang
 
     # Get the current language
-    if {[set language $lang([[ns gui]::current_txt $tid])] eq "None"} {
+    if {[set language $curr_lang([[ns gui]::current_txt $tid])] eq "None"} {
       return [list]
     } else {
       array set lang_array $langs($language)
@@ -592,10 +588,10 @@ namespace eval syntax {
   proc get_tabs_allowed {txt} {
 
     variable langs
-    variable lang
+    variable curr_lang
 
     # Get the current language
-    if {[set language $lang($txt)] eq "None"} {
+    if {[set language $curr_lang($txt)] eq "None"} {
       return 1
     } else {
       array set lang_array $langs($language)
@@ -609,10 +605,10 @@ namespace eval syntax {
   proc get_comments {txt} {
 
     variable langs
-    variable lang
+    variable curr_lang
 
     # Get the current language
-    if {[set language $lang($txt)] eq "None"} {
+    if {[set language $curr_lang($txt)] eq "None"} {
       return [list [list] [list] [list]]
     } else {
       array set lang_array $langs($language)
