@@ -773,8 +773,12 @@ namespace eval vim {
 
     # Append the text to the insertion buffer
     if {[string equal -length 7 $mode($txt) "replace"]} {
-      $txt replace insert "insert+1c" $char
-      $txt highlight "insert linestart" "insert lineend"
+      if {[[ns multicursor]::enabled $txt]} {
+        [ns multicursor]::replace $txt $char [ns indent]::check_indent
+      } else {
+        $txt replace insert "insert+1c" $char
+        $txt highlight "insert linestart" "insert lineend"
+      }
       if {$mode($txt) eq "replace"} {
         $txt mark set insert "insert-1c"
         start_mode $txt

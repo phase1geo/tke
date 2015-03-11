@@ -471,19 +471,45 @@ namespace eval multicursor {
         }
         set selected 0
       }
-      set i 1
       foreach {end start} [lreverse [$txt tag ranges mcursor]] {
         $txt insert $start $value
         if {$indent_cmd ne ""} {
           $indent_cmd $txt [$txt index $start+1c]
         }
-        incr i
       }
       return 1
     }
     
     return 0
   
+  }
+  
+  ######################################################################
+  # Handle the replacement of a given character.
+  proc replace {txt value {indent_cmd ""}} {
+    
+    variable selected
+    
+    # Replace the current insertion cursor with the given value
+    if {[enabled $txt]} {
+      if {$selected} {
+        return [insert $txt $value $indent_cmd]
+      } else {
+        set strlen [string length $value]
+        foreach {end start} [lreverse [$txt tag ranges mcursor]] {
+          $txt replace $start "$start+${strlen}c" $value
+          $txt tag add mcursor $start "$start+1c"
+          $txt highlight "$start linestart" "$start lineend"
+          if {$indent_cmd ne ""} {
+            $indent_cmd $txt [$txt index "$start+${strlen}c"]
+          }
+        }
+        return 1
+      }
+    }
+    
+    return 0
+    
   }
   
   ######################################################################
