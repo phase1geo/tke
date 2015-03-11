@@ -780,7 +780,11 @@ namespace eval vim {
         $txt highlight "insert linestart" "insert lineend"
       }
       if {$mode($txt) eq "replace"} {
-        $txt mark set insert "insert-1c"
+        if {[[ns multicursor]::enabled $txt]} {
+          [ns multicursor]::adjust $txt -1c
+        } else {
+          $txt mark set insert "insert-1c"
+        }
         start_mode $txt
         record_stop
       }
