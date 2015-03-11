@@ -495,13 +495,12 @@ namespace eval multicursor {
       if {$selected} {
         return [insert $txt $value $indent_cmd]
       } else {
-        set strlen [string length $value]
         foreach {end start} [lreverse [$txt tag ranges mcursor]] {
-          $txt replace $start "$start+${strlen}c" $value
-          $txt tag add mcursor $start "$start+1c"
+          $txt replace $start "$start+1c" $value
+          $txt tag add mcursor "$start+1c"
           $txt highlight "$start linestart" "$start lineend"
           if {$indent_cmd ne ""} {
-            $indent_cmd $txt [$txt index "$start+${strlen}c"]
+            $indent_cmd $txt [$txt index "$start+1c"]
           }
         }
         return 1
