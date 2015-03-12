@@ -177,7 +177,7 @@ namespace eval multicursor {
   # Handles an escape event in multicursor mode.
   proc handle_escape {W} {
     
-    if {[[ns vim]::in_vim_mode $W]} {
+    if {[[ns vim]::get_edit_mode $W] eq ""} {
       disable $W
     }
     

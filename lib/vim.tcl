@@ -50,6 +50,22 @@ namespace eval vim {
     }
 
   }
+  
+  ######################################################################
+  # Returns the current edit mode type (insert or replace).
+  proc get_edit_mode {txt} {
+    
+    variable mode
+    
+    if {$mode($txt) eq "edit"} {
+      return "insert"
+    } elseif {[string equal -length 7 $mode($txt) "replace"]} {
+      return "replace"
+    } else {
+      return ""
+    }
+    
+  }
 
   ######################################################################
   # Returns 1 if we are currently in non-edit vim mode; otherwise,
@@ -499,7 +515,11 @@ namespace eval vim {
     # one character.
     if {(($mode($txt) eq "edit") || ($mode($txt) eq "replace_all")) && \
         ([$txt index insert] ne [$txt index "insert linestart"])} {
-      $txt mark set insert "insert-1c"
+      if {[[ns multicursor]::enabled $txt]} {
+        [ns multicursor]::adjust $txt -1c
+      } else {
+        $txt mark set insert "insert-1c"
+      }
     }
 
     # Set the blockcursor to true
