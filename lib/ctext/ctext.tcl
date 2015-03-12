@@ -1022,17 +1022,17 @@ proc ctext::instanceCmd {self cmd args} {
       }
 
       set insertPos [$self._t index [lindex $args 0]]
-      set prevChar [$self._t get "$insertPos - 1 chars"]
-      set nextChar [$self._t get $insertPos]
+      set prevChar  [$self._t get "$insertPos - 1 chars"]
+      set nextChar  [$self._t get $insertPos]
       if {[lindex $args 0] eq "end"} {
         set lineStart [$self._t index "$insertPos-1c linestart"]
       } else {
         set lineStart [$self._t index "$insertPos linestart"]
       }
       set prevSpace [ctext::findPreviousSpace $self._t ${insertPos}-1c]
-      set data [lindex $args 1]
-      set datalen [string length $data]
-      set cursor  [$self._t index insert]
+      set data      [lindex $args 1]
+      set datalen   [string length $data]
+      set cursor    [$self._t index insert]
 
       eval \$self._t insert $args
 
@@ -1087,6 +1087,70 @@ proc ctext::instanceCmd {self cmd args} {
           }
         }
       }
+      
+      ctext::modified $self 1
+      ctext::linemapUpdate $self
+    }
+    
+    replace {
+      if {[llength $args] < 3} {
+        return -code error "please use at least 3 arguments to $self replace"
+      }
+      
+      set startPos [$self._t index [lindex $args 0]]
+      set endPos   [$self._t index [lindex $args 1]]
+      set data     [lindex $args 2]
+      set datalen  [string length $data]
+      set cursor   [$self._t index insert]
+ 
+      ctext::undo_delete $self $startPos $endPos
+      
+      eval \$self._t replace $args
+      
+      ctext::undo_insert $self $startPos $datalen $cursor
+      
+      set lineStart [$self._t index "$startPos linestart"]
+      set lineEnd   [$self._t index "$startPos+[expr $datalen + 1]c lineend"]
+      
+      foreach tag [$self._t tag names] {
+        if {![regexp {^_([lc]Comment|[sdt]String)$} $tag] && ([string index $tag 0] eq "_")} {
+          $self._t tag remove $tag $lineStart $lineEnd
+        }
+      }
+      
+      set REData [$self._t get $lineStart $lineEnd]
+
+      ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$configAr(re_opts) -- $commentRE $REData]
+      ctext::highlightAfterIdle $self $lineStart $lineEnd
+      
+      switch -- $data {
+        "\}" {
+          if {$configAr(matchChar,curly)} {
+            ctext::matchPair $self "\\\{" "\\\}"
+          }
+        }
+        "\]" {
+          if {$configAr(matchChar,square)} {
+            ctext::matchPair $self "\\\[" "\\\]"
+          }
+        }
+        "\)" {
+          if {$configAr(matchChar,paren)} {
+            ctext::matchPair $self "\\(" "\\)"
+          }
+        }
+        "\>" {
+          if {$configAr(matchChar,angled)} {
+            ctext::matchPair $self "\\<" "\\>"
+          }
+        }
+        "\"" {
+          if {$configAr(matchChar,double)} {
+            ctext::matchQuote $self
+          }
+        }
+      }
+      
       ctext::modified $self 1
       ctext::linemapUpdate $self
     }
