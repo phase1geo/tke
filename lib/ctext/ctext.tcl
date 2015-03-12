@@ -912,7 +912,7 @@ proc ctext::instanceCmd {self cmd args} {
         clipboard append -displayof $self.t $data
         ctext::undo_delete $self [$self.t index sel.first] [$self.t index sel.last]
         $self delete [$self.t index sel.first] [$self.t index sel.last]
-        ctext::modified $self 1
+        ctext::modified $self 1 "delete [$self.t index sel.first] [$self.t index sel.last]"
       }
     }
 
@@ -923,10 +923,10 @@ proc ctext::instanceCmd {self cmd args} {
 
       #first deal with delete n.n
       if {$argsLength == 1} {
-        set deletePos [lindex $args 0]
-        set prevChar [$self._t get $deletePos]
+        set deletePos [$self._t index [lindex $args 0]]
+        set prevChar  [$self._t get $deletePos]
 
-        ctext::undo_delete $self [$self._t index $deletePos] [$self._t index "$deletePos+1c"]
+        ctext::undo_delete $self $deletePos [$self._t index "$deletePos+1c"]
 
         $self._t delete $deletePos
 
@@ -961,6 +961,7 @@ proc ctext::instanceCmd {self cmd args} {
         ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$configAr(re_opts) -- $commentRE $checkStr]
         ctext::highlightAfterIdle $self $lineStart $lineEnd
         ctext::linemapUpdate $self
+        ctext::modified $self 1 "delete $deletePos 1"
       } elseif {$argsLength == 2} {
         #now deal with delete n.n ?n.n?
         set deleteStartPos [lindex $args 0]
@@ -986,21 +987,22 @@ proc ctext::instanceCmd {self cmd args} {
         if {[string first "\n" $data] >= 0} {
           ctext::linemapUpdate $self
         }
+        ctext::modified $self 1 "delete $deleteStartPos [string length $data]"
       } else {
         return -code error "invalid argument(s) sent to $self delete: $args"
       }
-      ctext::modified $self 1
     }
 
     fastdelete {
       eval \$self._t delete $args
-      ctext::modified $self 1
+      set chars [expr ([llength $args] == 1) ? 1 : [$self._t count -chars {*}[lrange $args 0 1]]]
+      ctext::modified $self 1 "delete [$self._t index [lindex $args 0]] $chars"
       ctext::linemapUpdate $self
     }
 
     fastinsert {
       eval \$self._t insert $args
-      ctext::modified $self 1
+      ctext::modified $self 1 "insert [$self._t index [lindex $args 0]] [string length [lindex $args 1]]"
       ctext::linemapUpdate $self
     }
 
@@ -1088,7 +1090,7 @@ proc ctext::instanceCmd {self cmd args} {
         }
       }
       
-      ctext::modified $self 1
+      ctext::modified $self 1 "insert [$self._t index [lindex $args 0]] [string length [lindex $args 1]]"
       ctext::linemapUpdate $self
     }
     
@@ -1151,14 +1153,17 @@ proc ctext::instanceCmd {self cmd args} {
         }
       }
       
-      ctext::modified $self 1
+      ctext::modified $self 1 "delete $startPos [$self._t count -chars $startPos $endPos]"
+      ctext::modified $self 1 "insert $startPos [string length [lindex $args 2]]"
       ctext::linemapUpdate $self
     }
 
     paste {
-      ctext::undo_insert $self [$self._t index insert] [string length [clipboard get]] [$self._t index insert]
+      set insertPos [$self._t index insert]
+      set datalen   [string length [clipboard get]]
+      ctext::undo_insert $self $insertPos $datalen [$self._t index insert]
       tk_textPaste $self
-      ctext::modified $self 1
+      ctext::modified $self 1 "insert $insertPos $datalen"
       ctext::linemapUpdate $self
     }
 
@@ -2422,9 +2427,12 @@ if {![catch {
   proc ctext::linemapUpdateOffset {args} {}
 }
 
-proc ctext::modified {win value} {
+proc ctext::modified {win value {data ""}} {
+  
   ctext::getAr $win config ar
   set ar(modified) $value
-  event generate $win <<Modified>>
+  event generate $win <<Modified>> -data $data
+  
   return $value
+  
 }
