@@ -1,51 +1,67 @@
-changeset:   840:27a20f86cbe9
-tag:         devel-1.5.2
+changeset:   846:7dd6e14eea8f
+tag:         devel-1.5.3
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Mar 09 08:29:47 2015 -0500
+date:        Tue Mar 10 00:18:50 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.5.2 release
+ChangeLog for devel-1.5.3 release
 
 
-changeset:   841:c1e03e0a9487
+changeset:   847:f08f70c769c3
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Mar 09 08:29:52 2015 -0500
+date:        Tue Mar 10 00:18:56 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.5.2 for changeset 27a20f86cbe9
+Added tag devel-1.5.3 for changeset 7dd6e14eea8f
 
 
-changeset:   842:3a776845c5aa
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Mon Mar 09 10:07:47 2015 -0500
-files:       lib/preferences.tcl lib/version.tcl
+changeset:   848:95b8316ed6fd
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Mar 10 08:34:17 2015 -0500
+files:       lib/syntax.tcl lib/version.tcl
 description:
-* Fixing syntax issue with glob command that causes failures when no language-specific preference files are found.
+* Making another tweak to improve tab switching.
 
 
-changeset:   843:126fd9dce4e1
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Mon Mar 09 10:10:51 2015 -0500
-files:       lib/preferences.tcl lib/version.tcl
+changeset:   849:af65cefa4ae1
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Mar 11 09:27:08 2015 -0500
+files:       lib/multicursor.tcl lib/version.tcl lib/vim.tcl
 description:
-* Fixing another syntax error in preferences.tcl
-* Removing unused debug information.
+* Checkpointing work on supporting 'r' and 'R' commands in multicursor mode.
 
 
-changeset:   844:acd4d9952100
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Mon Mar 09 16:38:45 2015 -0500
-files:       lib/bnotebook.tcl lib/tke.tcl lib/version.tcl
+changeset:   850:d1ba59c34eb0
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Mar 11 09:38:00 2015 -0500
+files:       lib/multicursor.tcl lib/version.tcl lib/vim.tcl
 description:
-* Removing unused bnotebook namespace.
+* More fixes to command 'r' and 'R' multicursor support.
 
 
-changeset:   845:cbcf5e95cc09
+changeset:   851:6e09e4d97b10
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Mar 11 22:47:15 2015 -0500
+files:       lib/multicursor.tcl lib/version.tcl lib/vim.tcl
+description:
+* Completing support for multicursor replacement.
+
+
+changeset:   852:fdf28b73b57d
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Mar 11 23:36:25 2015 -0500
+files:       lib/ctext/ctext.tcl lib/version.tcl
+description:
+* Adding full replace support to ctext widget.
+
+
+changeset:   853:2d8920656613
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 10 00:16:57 2015 -0500
-files:       lib/gui.tcl lib/preferences.tcl lib/syntax.tcl lib/tke.tcl lib/version.tcl
+date:        Thu Mar 12 01:19:35 2015 -0500
+files:       lib/ctext/ctext.tcl lib/version.tcl plugins/changebar/header.tkedat plugins/changebar/main.tcl
 description:
-* Improving performance for language-specific options.
+* Adding ctext support for command, start position and data length in %d field of Modified virtual event.
+* Starting work on changebar plugin (lots of work to do here).
 
 
