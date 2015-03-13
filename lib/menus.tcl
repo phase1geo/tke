@@ -1570,11 +1570,22 @@ namespace eval menus {
       launcher::register [msgcat::mc "Menu: Check for Update"] $check_cmd
     }
 
+    $mb add separator
+    $mb add command -label [msgcat::mc "Send Feedback"] -underline 5 -command "menus::help_feedback_command"
+    launcher::register [msgcat::mc "Menu: Send Feedback"] "menus::help_feedback_command"
+
     if {[tk windowingsystem] ne "aqua"} {
-      $mb add separator
       $mb add command -label [msgcat::mc "About TKE"] -underline 0 -command "gui::show_about"
       launcher::register [msgcat::mc "Menu: About TKE"] "gui::show_about"
     }
+
+  }
+
+  ######################################################################
+  # Generates an e-mail compose window to provide feedback.
+  proc help_feedback_command {} {
+
+    utils::open_file_externally "mailto:phase1geo@gmail.com?subject=Feedback for TKE" 1
 
   }
 
