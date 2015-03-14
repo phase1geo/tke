@@ -172,6 +172,8 @@ namespace eval api {
     #                     - \b readonly : Specifies if the file is readonly
     #                     - \b modified : Specifies if the file has been modified since the last save.
     #                     - \b sb_index : Specifies the index of the file in the sidebar.
+    #                     - \b txt      : Specifies the text widget associated with the file
+    #                     - \b current  : Returns 1 if the file is the current file being edited
     proc get_info {interp pname file_index attr} {
 
       return [gui::get_file_info $file_index $attr]

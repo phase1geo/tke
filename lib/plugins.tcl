@@ -919,9 +919,9 @@ namespace eval plugins {
       lassign $entry index type name cmd
       set bt "plugin__$registry($index,name)__$name"
       bindtags $txt   [linsert $ctags [expr {($type eq "pretext") ? $cpre_index : $cpost_index}] $bt]
-      bindtags $txt.t [linsert $ttags [expr {($type eq "pretext") ? $tpre_index : $tpost_index}] $bt]
+      # bindtags $txt.t [linsert $ttags [expr {($type eq "pretext") ? $tpre_index : $tpost_index}] $bt]
       $registry($index,interp) alias $txt $txt
-      $registry($index,interp) alias $txt.t $txt.t
+      # $registry($index,interp) alias $txt.t $txt.t
       interpreter::add_ctext $registry($index,name) $txt
       if {![info exists bound_tags($bt)]} {
         if {[catch "$registry($index,interp) eval $cmd $bt" status]} {

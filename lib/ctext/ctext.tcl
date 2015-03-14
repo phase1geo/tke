@@ -908,11 +908,12 @@ proc ctext::instanceCmd {self cmd args} {
 
     cut {
       if {[catch {$self.t get sel.first sel.last} data] == 0} {
+        set lines [$self.t count -lines sel.first sel.last]
         clipboard clear -displayof $self.t
         clipboard append -displayof $self.t $data
         ctext::undo_delete $self [$self.t index sel.first] [$self.t index sel.last]
         $self delete [$self.t index sel.first] [$self.t index sel.last]
-        ctext::modified $self 1 "delete [$self.t index sel.first] [$self.t index sel.last]"
+        ctext::modified $self 1 "delete [$self.t index sel.first] [string length $data] $lines"
       }
     }
 
@@ -936,7 +937,8 @@ proc ctext::instanceCmd {self cmd args} {
         set nextSpace [ctext::findNextSpace $self._t $deletePos]
 
         set lineStart [$self._t index "$deletePos linestart"]
-        set lineEnd [$self._t index "$deletePos + 1 chars lineend"]
+        set lineEnd   [$self._t index "$deletePos + 1 chars lineend"]
+        set lines     [$self._t count -lines $lineStart $lineEnd]
 
         #This pattern was used in 3.1.  We may want to investigate using it again
         #eventually to reduce flicker.  It caused a bug with some patterns.
@@ -961,11 +963,12 @@ proc ctext::instanceCmd {self cmd args} {
         ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$configAr(re_opts) -- $commentRE $checkStr]
         ctext::highlightAfterIdle $self $lineStart $lineEnd
         ctext::linemapUpdate $self
-        ctext::modified $self 1 "delete $deletePos 1"
+        ctext::modified $self 1 "delete $deletePos 1 $lines"
       } elseif {$argsLength == 2} {
         #now deal with delete n.n ?n.n?
         set deleteStartPos [lindex $args 0]
-        set deleteEndPos [lindex $args 1]
+        set deleteEndPos   [lindex $args 1]
+        set lines          [$self._t count -lines $deleteStartPos $deleteEndPos]
 
         set data [$self._t get $deleteStartPos $deleteEndPos]
 
@@ -987,22 +990,31 @@ proc ctext::instanceCmd {self cmd args} {
         if {[string first "\n" $data] >= 0} {
           ctext::linemapUpdate $self
         }
-        ctext::modified $self 1 "delete $deleteStartPos [string length $data]"
+        ctext::modified $self 1 "delete $deleteStartPos [string length $data] $lines"
       } else {
         return -code error "invalid argument(s) sent to $self delete: $args"
       }
     }
-
+    
     fastdelete {
+      if {[llength $args] == 1} {
+        set chars 1
+        set lines [$self._t count -lines "[lindex $args 0] linestart" "[lindex $args 0]+1c lineend"]
+      } else {
+        set chars [$self._t count -chars {*}[lrange $args 0 1]]
+        set lines [$self._t count -lines {*}[lrange $args 0 1]]
+      }
       eval \$self._t delete $args
-      set chars [expr ([llength $args] == 1) ? 1 : [$self._t count -chars {*}[lrange $args 0 1]]]
-      ctext::modified $self 1 "delete [$self._t index [lindex $args 0]] $chars"
+      ctext::modified $self 1 "delete [$self._t index [lindex $args 0]] $chars $lines"
       ctext::linemapUpdate $self
     }
 
     fastinsert {
       eval \$self._t insert $args
-      ctext::modified $self 1 "insert [$self._t index [lindex $args 0]] [string length [lindex $args 1]]"
+      set startPos [$self._t index [lindex $args 0]]
+      set chars    [string length [lindex $args 1]]
+      set lines    [$self._t count -lines $startPos "$startPos+${chars}c"]
+      ctext::modified $self 1 "insert $startPos $chars $lines"
       ctext::linemapUpdate $self
     }
 
@@ -1041,7 +1053,8 @@ proc ctext::instanceCmd {self cmd args} {
       ctext::undo_insert $self $insertPos $datalen $cursor
 
       set nextSpace [ctext::findNextSpace $self._t "${insertPos}+${datalen}c"]
-      set lineEnd [$self._t index "${insertPos}+${datalen}c lineend"]
+      set lineEnd   [$self._t index "${insertPos}+${datalen}c lineend"]
+      set lines     [$self._t count -lines $lineStart $lineEnd]
 
       if {[$self._t compare $prevSpace < $lineStart]} {
         set prevSpace $lineStart
@@ -1090,7 +1103,7 @@ proc ctext::instanceCmd {self cmd args} {
         }
       }
       
-      ctext::modified $self 1 "insert [$self._t index [lindex $args 0]] [string length [lindex $args 1]]"
+      ctext::modified $self 1 "insert $insertPos $datalen $lines"
       ctext::linemapUpdate $self
     }
     
@@ -1099,11 +1112,13 @@ proc ctext::instanceCmd {self cmd args} {
         return -code error "please use at least 3 arguments to $self replace"
       }
       
-      set startPos [$self._t index [lindex $args 0]]
-      set endPos   [$self._t index [lindex $args 1]]
-      set data     [lindex $args 2]
-      set datalen  [string length $data]
-      set cursor   [$self._t index insert]
+      set startPos    [$self._t index [lindex $args 0]]
+      set endPos      [$self._t index [lindex $args 1]]
+      set data        [lindex $args 2]
+      set datalen     [string length $data]
+      set cursor      [$self._t index insert]
+      set deleteChars [$self._t count -chars $startPos $endPos]
+      set deleteLines [$self._t count -lines $startPos $endPos]
  
       ctext::undo_delete $self $startPos $endPos
       
@@ -1111,8 +1126,9 @@ proc ctext::instanceCmd {self cmd args} {
       
       ctext::undo_insert $self $startPos $datalen $cursor
       
-      set lineStart [$self._t index "$startPos linestart"]
-      set lineEnd   [$self._t index "$startPos+[expr $datalen + 1]c lineend"]
+      set lineStart   [$self._t index "$startPos linestart"]
+      set lineEnd     [$self._t index "$startPos+[expr $datalen + 1]c lineend"]
+      set insertLines [$self._t count -lines $lineStart $lineEnd]
       
       foreach tag [$self._t tag names] {
         if {![regexp {^_([lc]Comment|[sdt]String)$} $tag] && ([string index $tag 0] eq "_")} {
@@ -1153,8 +1169,8 @@ proc ctext::instanceCmd {self cmd args} {
         }
       }
       
-      ctext::modified $self 1 "delete $startPos [$self._t count -chars $startPos $endPos]"
-      ctext::modified $self 1 "insert $startPos [string length [lindex $args 2]]"
+      ctext::modified $self 1 "delete $startPos $deleteChars $deleteLines"
+      ctext::modified $self 1 "insert $startPos $datalen $insertLines"
       ctext::linemapUpdate $self
     }
 
@@ -1163,7 +1179,7 @@ proc ctext::instanceCmd {self cmd args} {
       set datalen   [string length [clipboard get]]
       ctext::undo_insert $self $insertPos $datalen [$self._t index insert]
       tk_textPaste $self
-      ctext::modified $self 1 "insert $insertPos $datalen"
+      ctext::modified $self 1 "insert $insertPos $datalen [$self._t count -lines $insertPos \"$insertPos+${datalen}c\""
       ctext::linemapUpdate $self
     }
 
@@ -1291,14 +1307,14 @@ proc ctext::instanceCmd {self cmd args} {
             foreach {name line_nums} $args {
               if {[set gutter_tag [lsearch -inline -glob [lindex $ar(gutters) $gutter_index 1] gutter:$gutter_name:$name:*]] != -1} {
                 foreach line_num $line_nums {
-                  if {[set curr_tag [lsearch -inline -glob [$self._t tag names $line_num.0] gutter:$gutter_name:*]] ne ""} {
+                  if {[set curr_tag [lsearch -inline -glob [$self._t tag names $line_num.end] gutter:$gutter_name:*]] ne ""} {
                     if {$curr_tag ne $gutter_tag} {
                       $self._t tag delete $curr_tag
-                      $self._t tag add $gutter_tag $line_num.0 $line_num.1
+                      $self._t tag add $gutter_tag $line_num.end
                       set update_needed 1
                     }
                   } else {
-                    $self._t tag add $gutter_tag $line_num.0 $line_num.1
+                    $self._t tag add $gutter_tag $line_num.end
                     set update_needed 1
                   }
                 }
@@ -1310,19 +1326,37 @@ proc ctext::instanceCmd {self cmd args} {
           }
         }
         get {
-          set gutter_name [lindex $args 0]
-          set symbols     [list]
-          ctext::getAr $self config ar
-          if {[set gutter_index [lsearch -index 0 $ar(gutters) $gutter_name]] != -1} {
-            foreach gutter_tag [lindex $ar(gutters) $gutter_index 1] {
+          if {[llength $args] == 1} {
+            set gutter_name [lindex $args 0]
+            set symbols     [list]
+            ctext::getAr $self config ar
+            if {[set gutter_index [lsearch -index 0 $ar(gutters) $gutter_name]] != -1} {
+              foreach gutter_tag [lindex $ar(gutters) $gutter_index 1] {
+                set lines [list]
+                foreach {first last} [$self._t tag ranges $gutter_tag] {
+                  lappend lines [lindex [split $first .] 0]
+                }
+                lappend symbols [lindex [split $gutter_tag :] 2] $lines
+              }
+            }
+            return $symbols
+          } elseif {[llength $args] == 2} {
+            set gutter_name [lindex $args 0]
+            if {[string is integer [lindex $args 1]]} {
+              set line_num [lindex $args 1]
+              if {[set tag [lsearch -inline -glob [$self._t tag names $line_num.end] gutter:$gutter_name:*]] ne ""} {
+                return [lindex [split $tag :] 2]
+              } else {
+                return ""
+              }
+            } else {
               set lines [list]
-              foreach {first last} [$self._t tag ranges $gutter_tag] {
+              foreach {first last} [$self._t tag ranges [lindex $args 1]] {
                 lappend lines [lindex [split $first .] 0]
               }
-              lappend symbols [lindex [split $gutter_tag :] 2] $lines
+              return $lines
             }
           }
-          return $symbols
         }
         clear {
           set last [lassign $args gutter_name first]
@@ -1330,11 +1364,11 @@ proc ctext::instanceCmd {self cmd args} {
           if {[set gutter_index [lsearch -index 0 $ar(gutters) $gutter_name]] != -1} {
             if {$last eq ""} {
               foreach gutter_tag [lindex $ar(gutters) $gutter_index 1] {
-                $self._t tag remove $gutter_tag $first.0
+                $self._t tag remove $gutter_tag $first.end
               }
             } else {
               foreach gutter_tag [lindex $ar(gutters) $gutter_index 1] {
-                $self._t tag remove $gutter_tag $first.0 $last.1
+                $self._t tag remove $gutter_tag $first.end [$self._t index $last.end+1c]
               }
             }
             ctext::linemapUpdate $self
@@ -1543,6 +1577,7 @@ proc ctext::matchPair {win str1 str2} {
   $win tag add __ctext_blink $startPair
   $win tag add __ctext_blink $endPair
   ctext::tag:blink $win 0
+  
 }
 
 proc ctext::matchQuote {win} {
@@ -2283,9 +2318,9 @@ proc ctext::linemapToggleMark {win y} {
   set lline [lindex [split [set lmarkChar [$win.l index @0,$y]] .] 0]
   set tline [lindex [split [set tmarkChar [$win.t index @0,$y]] .] 0]
 
-  if {[set lmark [lsearch -inline -glob [$win.t tag names $tline.0] lmark*]] ne ""} {
+  if {[set lmark [lsearch -inline -glob [$win.t tag names $tline.end] lmark*]] ne ""} {
     #It's already marked, so unmark it.
-    $win.l tag remove lmark $lline.0 $lline.end
+    $win.l tag remove lmark $lline.end
     $win.t tag delete $lmark
     ctext::linemapUpdate $win
     set type unmarked
@@ -2307,12 +2342,12 @@ proc ctext::linemapToggleMark {win y} {
 
 proc ctext::linemapSetMark {win line} {
 
-  if {[lsearch -inline -glob [$win.t tag names $line.0] lmark*] eq ""} {
+  if {[lsearch -inline -glob [$win.t tag names $line.end] lmark*] eq ""} {
     ctext::getAr $win config configAr
     ctext::getAr $win linemap linemapAr
     set lmark "lmark[incr linemapAr(id)]"
-    $win.t tag add $lmark $line.0 [$win.t index "$line.0 lineend"]
-    $win.l tag add lmark $line.0 [$win.l index "$line.0 lineend"]
+    $win.t tag add $lmark $line.end [$win.t index "$line.0 lineend"]
+    $win.l tag add lmark $line.end [$win.l index "$line.0 lineend"]
     $win.l tag configure lmark -foreground $configAr(-linemap_select_fg) \
       -background $configAr(-linemap_select_bg)
   }
@@ -2321,9 +2356,9 @@ proc ctext::linemapSetMark {win line} {
 
 proc ctext::linemapClearMark {win line} {
 
-  if {[set lmark [lsearch -inline -glob [$win.t tag names $line.0] lmark*]] ne ""} {
+  if {[set lmark [lsearch -inline -glob [$win.t tag names $line.end] lmark*]] ne ""} {
     $win.t tag delete $lmark
-    $win.l tag remove lmark $line.0 $line.end
+    $win.l tag remove lmark $line.end
     ctext::linemapUpdate $win
   }
 
@@ -2342,30 +2377,30 @@ proc ctext::linemapUpdate {win args} {
   set last_line     [lindex [split [$win.t index @0,[winfo height $win.t]] .] 0]
   set line_width    [string length [lindex [split [$win._t index end-1c] .] 0]]
   set linenum_width [expr ($configAr(-linemap_minwidth) > $line_width) ? $configAr(-linemap_minwidth) : $line_width]
-  set gutter_width  [expr ([llength $configAr(gutters)] > 0) ? ([llength $configAr(gutters)] + 1) : 0]
+  set gutter_width  [llength $configAr(gutters)]
   set full_width    [expr $linenum_width + $gutter_width]
-  set lmark_pos     [expr ($gutter_width * 2) + 1]
+  set lmark_pos     1
   set lsize_pos     [expr ($gutter_width * 2) + 3]
 
   $win.l delete 1.0 end
 
   for {set line $first_line} {$line <= $last_line} {incr line} {
     if {$gutter_width > 0} {
-      set line_content [concat [lrepeat $gutter_width " " [list]] [format "%-*s" $linenum_width $line] [list] "0" [list] "\n"]
+      set line_content [list [format "%-*s" $linenum_width $line] [list] {*}[lrepeat $gutter_width " " [list]] "0" [list] "\n"]
     } else {
       set line_content [list [format "%-*s" $linenum_width $line] [list] "0" [list] "\n"]
     }
-    set ltags [$win.t tag names $line.0]
+    set ltags [$win.t tag names $line.end]
     if {[lsearch -glob $ltags lmark*] != -1} {
       lset line_content $lmark_pos lmark
     }
     if {[set lsizes [lsearch -inline -glob -all $ltags lsize*]] ne ""} {
       lset line_content $lsize_pos [lindex [lsort $lsizes] 0]
     }
-    foreach gutter_tag [lsearch -inline -all -glob [$win._t tag names $line.0] gutter:*] {
+    foreach gutter_tag [lsearch -inline -all -glob $ltags gutter:*] {
       lassign [split $gutter_tag :] dummy gutter_name gutter_symname gutter_sym
       if {$gutter_sym ne ""} {
-        set gutter_index [expr [lsearch -index 0 $configAr(gutters) $gutter_name] * 2]
+        set gutter_index [expr ([lsearch -index 0 $configAr(gutters) $gutter_name] * 2) + 2]
         set line_content [lreplace $line_content $gutter_index [expr $gutter_index + 1] $gutter_sym $gutter_tag]
       }
     }
