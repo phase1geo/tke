@@ -990,7 +990,7 @@ proc ctext::instanceCmd {self cmd args} {
         if {[string first "\n" $data] >= 0} {
           ctext::linemapUpdate $self
         }
-        ctext::modified $self 1 "delete $deleteStartPos [string length $data] $lines"
+        ctext::modified $self 1 "delete [$self._t index $deleteStartPos] [string length $data] $lines"
       } else {
         return -code error "invalid argument(s) sent to $self delete: $args"
       }

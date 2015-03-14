@@ -737,11 +737,11 @@ namespace eval plugins {
 
     variable registry
     variable menus
-
+    
     foreach entry [find_registry_entries $action] {
       lassign $entry index type hier do state
       set entry_mnu $menus($action)
-      if {[llength [set hier_list [split $hier .]]] > 1} {
+      if {[llength [set hier_list [split $hier /]]] > 1} {
         append entry_mnu ".[string tolower [string map {{ } _} [join [lrange $hier_list 0 end-1] .]]]"
       }
       if {$mnu eq $entry_mnu} {
