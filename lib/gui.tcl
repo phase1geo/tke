@@ -715,7 +715,7 @@ namespace eval gui {
     foreach file $files {
 
       set tab [lindex $file $files_index(tab)]
-      set txt "$tab.pw.tf.txt"
+      set txt [get_txt_from_tab $tab]
       lassign [pane_tb_index_from_tab $tab] pane tb tab_index
 
       set finfo(fname)       [lindex $file $files_index(fname)]
@@ -991,7 +991,7 @@ namespace eval gui {
     # If we have no more tabs and there is another pane, remove this pane
     return [expr {([llength $files] == 1) && \
                   ([lindex $files 0 $files_index(fname)] eq "") && \
-                  ([vim::get_cleaned_content "[lindex [[lindex [$widgets(nb_pw) panes] 0].tbf.tb tabs] 0].pw.tf.txt"] eq "")}]
+                  ([vim::get_cleaned_content [get_txt_from_tab [lindex [[lindex [$widgets(nb_pw) panes] 0].tbf.tb tabs] 0]]] eq "")}]
 
   }
 
@@ -1133,20 +1133,22 @@ namespace eval gui {
 
       if {![catch { open $fname r } rc]} {
 
+        set txt [get_txt_from_tab $w]
+        
         # Read the file contents and insert them
-        $w.pw.tf.txt insert end [string range [read $rc] 0 end-1]
+        $txt insert end [string range [read $rc] 0 end-1]
 
         # Close the file
         close $rc
 
         # Change the text to unmodified
-        $w.pw.tf.txt edit reset
+        $txt edit reset
 
         # Set the insertion mark to the first position
-        $w.pw.tf.txt mark set insert 1.0
+        $txt mark set insert 1.0
 
         # Perform an insertion adjust, if necessary
-        vim::adjust_insert $w.pw.tf.txt.t
+        vim::adjust_insert $txt.t
 
         file stat $fname stat
         lset file_info $files_index(mtime) $stat(mtime)
@@ -1249,7 +1251,7 @@ namespace eval gui {
     set tab [lindex $file_info $files_index(tab)]
 
     # Get the text widget at the given index
-    set txt "$tab.pw.tf.txt"
+    set txt [get_txt_from_tab $tab]
 
     # Get the current insertion index
     set insert_index [$txt index insert]
@@ -1428,7 +1430,7 @@ namespace eval gui {
         } else {
 
           # Get the text widget
-          set txt "$tab.pw.tf.txt"
+          set txt [get_txt_from_tab $tab]
 
           # Run the on_save plugins
           plugins::handle_on_save $i
@@ -2541,6 +2543,10 @@ namespace eval gui {
     }
     if {$attr eq "sb_index"} {
       return [sidebar::get_index $index]
+    } elseif {$attr eq "txt"} {
+      return [get_txt_from_tab [lindex $files $index $files_index(tab)]]
+    } elseif {$attr eq "current"} {
+      return [expr {[get_txt_from_tab [lindex $files $index $files_index(tab)]] eq [current_txt {}]}]
     } elseif {![info exists files_index($attr)]} {
       return -code error [msgcat::mc "File attribute (%s) does not exist" $attr]
     }
@@ -2738,9 +2744,9 @@ namespace eval gui {
 
       foreach nb [$widgets(nb_pw) panes] {
         foreach tab [$nb.tbf.tb tabs] {
-          lappend txts $tab.pw.tf.txt
-          if {[winfo exists $tab.pw.tf2.txt]} {
-            lappend txts $tab.pw.tf2.txt
+          lappend txts [get_txt_from_tab $tab]
+          if {[winfo exists [get_txt2_from_tab $tab]]} {
+            lappend txts [get_txt2_from_tab $tab]
           }
         }
       }
@@ -3329,6 +3335,22 @@ namespace eval gui {
     }
 
   }
+  
+  ######################################################################
+  # Returns the main text widget from the given tab.
+  proc get_txt_from_tab {tab} {
+    
+    return "$tab.pw.tf.txt"
+    
+  }
+  
+  ######################################################################
+  # Returns the secondary text widget from the given tab.
+  proc get_txt2_from_tab {tab} {
+    
+    return "$tab.pw.tf2.txt"
+    
+  }
 
   ######################################################################
   # Make the specified tab the current tab.
@@ -3467,7 +3489,7 @@ namespace eval gui {
       if {![info exists tab_current($pw_current)]} {
         return ""
       } elseif {![info exists txt_current($tab_current($pw_current))]} {
-        return "$tab_current($pw_current).pw.tf.txt"
+        return [get_txt_from_tab $tab_current($pw_current)]
       } else {
         return $txt_current($tab_current($pw_current))
       }
@@ -3822,7 +3844,7 @@ namespace eval gui {
       } elseif {[info exists txt_current($tab)]} {
         return $txt_current($tab)
       } else {
-        return $tab.pw.tf.txt
+        return [get_txt_from_tab $tab]
       }
     } else {
       return $tid
