@@ -19,7 +19,7 @@ namespace eval changebar {
   proc create {txt} {
     
     # Create the gutter
-    $txt gutter create changebar added {-symbol "|" -fg green} changed {-symbol "|" -fg yellow}
+    $txt gutter create changebar added {-symbol "+" -fg green} changed {-symbol "|" -fg yellow}
     
   }
   
@@ -32,7 +32,12 @@ namespace eval changebar {
     set txt [api::file::get_info $file_index txt]
     
     # Set the enabled term to 0
-    set data($txt,enabled) 0
+    # set data($txt,enabled) 0
+    set data($txt,enabled) 1
+    set data($txt,empty)   0
+    
+    # TEMPORARY
+    create $txt
     
   }
   
@@ -70,6 +75,8 @@ namespace eval changebar {
     
     variable data
     
+    puts "In text_modified, txt: $txt, mod_data: $mod_data"
+    
     if {$data($txt,enabled)} {
       
       lassign $mod_data cmd pos chars lines
@@ -77,9 +84,16 @@ namespace eval changebar {
       if {$lines == 0} {
         set_changed $txt $pos
       } elseif {$cmd eq "insert"} {
-        set_added $txt $pos $lines
+        if {$data($txt,empty)} {
+          set_added $txt $pos $lines
+        } else {
+          puts "HERE!!!"
+          set_added $txt [$txt index $pos+${chars}c] $lines
+        }
       } elseif {[$txt compare 1.0 == "end-1c"]} {
         set_added $txt $pos 1
+        set data($txt,empty) 1
+        puts "Setting empty"
       }
       
     }
@@ -99,6 +113,8 @@ namespace eval changebar {
   
   # Marks the given line as added
   proc set_added {txt pos num_lines} {
+    
+    puts "In set_added, txt: $txt, pos: $pos, num_lines: $num_lines"
     
     set start_line [lindex [split $pos .] 0]
     set lines      [list]
@@ -147,8 +163,22 @@ namespace eval changebar {
   
   proc do_clear {} {
     
+    variable data
+    
+    set txt [current_txt]
+    
     # Clear the changebar symbols for the current text widget
-    [current_txt] gutter clear 1 [lindex [split [$txt index end] .] 0]
+    $txt gutter clear changebar 1 [lindex [split [$txt index end] .] 0]
+    
+    # Reset
+#    if {[$txt compare 1.0 == "end-1c"]} {
+ #     set_added $txt $pos 1
+  #    set data($txt,empty) 1
+   # } else {
+    #  set data($txt,empty) 0
+    #}
+    
+    set data($txt,empty) 0
     
   }
   
