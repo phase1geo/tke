@@ -34,6 +34,18 @@ namespace eval plugins {
   array set plugins      {}
   array set prev_sourced {}
   array set bound_tags   {}
+  array set menu_vars    {}
+
+  ######################################################################
+  # Handles any changes to plugin menu variables.
+  proc handle_menu_variable {index name1 name2 op} {
+
+    variable registry
+    variable menu_vars
+
+    $registry($index,interp) eval set $name2 $menu_vars($name2)
+
+  }
 
   ######################################################################
   # Procedure that is called be each plugin that registers all of the
@@ -114,7 +126,7 @@ namespace eval plugins {
 
     # Delete all plugin text bindings
     delete_all_text_bindings
-    
+
     # Delete all plugin syntax registrations
     delete_all_syntax
 
@@ -142,7 +154,7 @@ namespace eval plugins {
 
     # Add all of the text bindings
     add_all_text_bindings
-    
+
     # Add all of the syntaxes
     add_all_syntax
 
@@ -338,7 +350,7 @@ namespace eval plugins {
 
     # Delete all plugin text bindings
     delete_all_text_bindings
-    
+
     # Delete all syntax
     delete_all_syntax
 
@@ -381,7 +393,7 @@ namespace eval plugins {
 
     # Add all of the text bindings
     add_all_text_bindings
-    
+
     # Add all syntaxes
     add_all_syntax
 
@@ -437,7 +449,7 @@ namespace eval plugins {
 
     # Delete all text bindings
     delete_all_text_bindings
-    
+
     # Delete all syntax
     delete_all_syntax
 
@@ -453,7 +465,7 @@ namespace eval plugins {
 
     # Add all of the text bindings
     add_all_text_bindings
-    
+
     # Add all of the syntaxes
     add_all_syntax
 
@@ -594,6 +606,7 @@ namespace eval plugins {
   proc menu_add_item {index mnu action hier type do state} {
 
     variable registry
+    variable menu_vars
 
     # If the type is a separator, we need to run the while loop one more time
     set force [expr {[lindex $type 0] eq "separator"}]
@@ -630,12 +643,16 @@ namespace eval plugins {
         $mnu add command -label $level -command [list $registry($index,interp) eval {*}$do] -state $state
       }
       checkbutton {
-        $mnu add checkbutton -label $level -variable [lindex $type 1] \
+        set menu_vars([lindex $type 1]) [$registry($index,interp) eval set [lindex $type 1]]
+        $mnu add checkbutton -label $level -variable plugins::menu_vars([lindex $type 1]) \
           -command [list $registry($index,interp) eval {*}$do] -state $state
+        trace variable plugins::menu_vars([lindex $type 1]) w "plugins::handle_menu_variable $index"
       }
       radiobutton {
-        $mnu add radiobutton -label $level -variable [lindex $type 1] \
+        set menu_vars([lindex $type 1]) [$registry($index,interp) eval set [lindex $type 1]]
+        $mnu add radiobutton -label $level -variable plugins::menu_vars([lindex $type 1]) \
           -value [lindex $type 2] -command [list $registry($index,interp) eval {*}$do] -state $state
+        trace variable plugins::menu_vars([lindex $type 1]) w "plugins::handle_menu_variable $index"
       }
       cascade {
         set new_mnu_name "$mnu.[string tolower [string map {{ } _} $level]]"
@@ -738,7 +755,7 @@ namespace eval plugins {
 
     variable registry
     variable menus
-    
+
     foreach entry [find_registry_entries $action] {
       lassign $entry index type hier do state
       set entry_mnu $menus($action)
@@ -783,17 +800,17 @@ namespace eval plugins {
   ######################################################################
   # Adds all of the syntax files.
   proc add_all_syntax {} {
-    
+
     variable registry
-    
+
     foreach entry [find_registry_entries "syntax"] {
       lassign $entry index sfile
       set sfile [file join $::tke_dir plugins $registry($index,name) $sfile]
       syntax::add_syntax $sfile $registry($index,interp)
     }
-    
+
   }
-  
+
   ######################################################################
   # Deletes all plugins from their respective menus.
   proc delete_all_menus {} {
@@ -831,14 +848,14 @@ namespace eval plugins {
   ######################################################################
   # Removes the given syntax files.
   proc delete_all_syntax {} {
-    
+
     foreach entry [find_registry_entries "syntax"] {
       lassign $entry index sfile
       syntax::delete_syntax $sfile
     }
-    
+
   }
-  
+
   ######################################################################
   # Called when the plugin menu is created.
   proc handle_plugin_menu {mnu} {
@@ -990,13 +1007,13 @@ namespace eval plugins {
     handle_event "on_close" $file_index
 
   }
-  
+
   ######################################################################
   # Called whenever a tab is updated.
   proc handle_on_update {file_index} {
-    
+
     handle_event "on_update" $file_index
-    
+
   }
 
   ######################################################################
