@@ -537,7 +537,7 @@ namespace eval menus {
 
     $mb.prefPopup add command -label [msgcat::mc "Edit User"] -command "preferences::edit_user"
     launcher::register [msgcat::mc "Menu: Edit user preferences"] "preferences::edit_user"
-    
+
     $mb.prefPopup add command -label [msgcat::mc "Edit Language"] -command "preferences::edit_language"
     launcher::register [msgcat::mc "Menu: Edit language preferences"] "preferences::edit_language"
 
@@ -659,18 +659,18 @@ namespace eval menus {
     }
 
   }
-  
+
   ######################################################################
   # Called just prior to posting the edit/preferences menu option.  Sets
   # the menu option states to match the current UI state.
   proc edit_preferences_posting {mb} {
-    
+
     if {[gui::current_txt {}] eq ""} {
       $mb entryconfigure [msgcat::mc "Edit Language"] -state disabled
     } else {
       $mb entryconfigure [msgcat::mc "Edit Language"] -state normal
     }
-    
+
   }
 
   ######################################################################
@@ -710,9 +710,9 @@ namespace eval menus {
 
     $mb add command -label [msgcat::mc "Select all occurrences"] -underline 7 -command "gui::search_all {}"
     launcher::register [msgcat::mc "Menu: Select all occurrences"] "gui::search_all {}"
-    
+
     $mb add separator
-    
+
     $mb add command -label [msgcat::mc "Jump backward"] -underline 5 -command "gui::jump_to_cursor {} -1 1"
     launcher::register [msgcat::mc "Menu: Jump backward"] "gui::jump_to_cursor {} -1 1"
 
@@ -1014,6 +1014,11 @@ namespace eval menus {
 
     $mb add separator
 
+    $mb add command -label [msgcat::mc "Replace line with script"] -command "texttools::replace_line_with_script {}"
+    launcher::register [msgcat::mc "Menu: Replace line with script"] "texttools::replace_line_with_script {}"
+
+    $mb add separator
+
     $mb add command -label [msgcat::mc "Align cursors"] -underline 0 -command "texttools::align {}"
     launcher::register [msgcat::mc "Menu: Align cursors"] "texttools::align {}"
 
@@ -1027,12 +1032,13 @@ namespace eval menus {
   proc text_posting {mb} {
 
     if {[set txt [gui::current_txt {}]] eq ""} {
-      $mb entryconfigure [msgcat::mc "Comment"]            -state disabled
-      $mb entryconfigure [msgcat::mc "Uncomment"]          -state disabled
-      $mb entryconfigure [msgcat::mc "Indent"]             -state disabled
-      $mb entryconfigure [msgcat::mc "Unindent"]           -state disabled
-      $mb entryconfigure [msgcat::mc "Align cursors"]      -state disabled
-      $mb entryconfigure [msgcat::mc "Insert enumeration"] -state disabled
+      $mb entryconfigure [msgcat::mc "Comment"]                  -state disabled
+      $mb entryconfigure [msgcat::mc "Uncomment"]                -state disabled
+      $mb entryconfigure [msgcat::mc "Indent"]                   -state disabled
+      $mb entryconfigure [msgcat::mc "Unindent"]                 -state disabled
+      $mb entryconfigure [msgcat::mc "Replace line with script"] -state disabled
+      $mb entryconfigure [msgcat::mc "Align cursors"]            -state disabled
+      $mb entryconfigure [msgcat::mc "Insert enumeration"]       -state disabled
     } else {
       if {[lindex [syntax::get_comments [gui::current_txt {}]] 0] eq ""} {
         $mb entryconfigure [msgcat::mc "Comment"]   -state disabled
@@ -1043,6 +1049,11 @@ namespace eval menus {
       }
       $mb entryconfigure [msgcat::mc "Indent"]   -state normal
       $mb entryconfigure [msgcat::mc "Unindent"] -state normal
+      if {[texttools::current_line_empty {}]} {
+        $mb entryconfigure [msgcat::mc "Replace line with script"] -state disabled
+      } else {
+        $mb entryconfigure [msgcat::mc "Replace line with script"] -state normal
+      }
       if {[multicursor::enabled $txt]} {
         $mb entryconfigure [msgcat::mc "Align cursors"]      -state normal
         $mb entryconfigure [msgcat::mc "Insert enumeration"] -state normal
