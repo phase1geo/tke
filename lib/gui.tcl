@@ -1285,6 +1285,9 @@ namespace eval gui {
 
       # Make the insertion mark visible
       $txt see $insert_index
+      
+      # Allow plugins to be run on update
+      plugins::handle_on_update $file_index
 
     }
 

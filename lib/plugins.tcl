@@ -14,6 +14,7 @@
 #  on_open      - Runs when a tab is opened
 #  on_focusin   - Runs when a tab receives focus
 #  on_close     - Runs when a tab is closed
+#  on_update    - Runs when a tab is updated
 #  on_quit      - Runs when the editor is exited
 #  on_reload    - Takes action when the plugin is reloaded
 #  on_save      - Runs prior to a file being saved
@@ -988,6 +989,14 @@ namespace eval plugins {
 
     handle_event "on_close" $file_index
 
+  }
+  
+  ######################################################################
+  # Called whenever a tab is updated.
+  proc handle_on_update {file_index} {
+    
+    handle_event "on_update" $file_index
+    
   }
 
   ######################################################################

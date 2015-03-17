@@ -1388,7 +1388,7 @@ proc ctext::instanceCmd {self cmd args} {
               }
             } else {
               foreach gutter_tag [lindex $ar(gutters) $gutter_index 1] {
-                $self._t tag remove $gutter_tag $first.0
+                $self._t tag remove $gutter_tag $first.0 [$self._t index $last.0+1c]
               }
             }
             ctext::linemapUpdate $self
