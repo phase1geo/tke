@@ -34,7 +34,6 @@ namespace eval changebar {
     # Set the enabled term to 0
     # set data($txt,enabled) 0
     set data($txt,enabled) 1
-    set data($txt,empty)   0
     
     # TEMPORARY
     create $txt
@@ -51,6 +50,13 @@ namespace eval changebar {
     
   }
     
+  # Handles a file update
+  proc do_update {file_index} {
+    
+    do_clear
+    
+  }
+  
   # Removes the gutter
   proc do_uninstall {} {
     
@@ -75,25 +81,16 @@ namespace eval changebar {
     
     variable data
     
-    puts "In text_modified, txt: $txt, mod_data: $mod_data"
-    
     if {$data($txt,enabled)} {
       
       lassign $mod_data cmd pos chars lines
-       
+      
       if {$lines == 0} {
         set_changed $txt $pos
       } elseif {$cmd eq "insert"} {
-        if {$data($txt,empty)} {
-          set_added $txt $pos $lines
-        } else {
-          puts "HERE!!!"
-          set_added $txt [$txt index $pos+${chars}c] $lines
-        }
+        set_added $txt [$txt index $pos+${chars}c] $lines
       } elseif {[$txt compare 1.0 == "end-1c"]} {
         set_added $txt $pos 1
-        set data($txt,empty) 1
-        puts "Setting empty"
       }
       
     }
@@ -114,13 +111,11 @@ namespace eval changebar {
   # Marks the given line as added
   proc set_added {txt pos num_lines} {
     
-    puts "In set_added, txt: $txt, pos: $pos, num_lines: $num_lines"
-    
-    set start_line [lindex [split $pos .] 0]
+    set last_line [lindex [split $pos .] 0]
     set lines      [list]
     
     for {set i 0} {$i < $num_lines} {incr i} {
-      lappend lines [expr $start_line + $i]
+      lappend lines [expr $last_line - $i]
     }
     
     $txt gutter set changebar added $lines
@@ -169,16 +164,6 @@ namespace eval changebar {
     
     # Clear the changebar symbols for the current text widget
     $txt gutter clear changebar 1 [lindex [split [$txt index end] .] 0]
-    
-    # Reset
-#    if {[$txt compare 1.0 == "end-1c"]} {
- #     set_added $txt $pos 1
-  #    set data($txt,empty) 1
-   # } else {
-    #  set data($txt,empty) 0
-    #}
-    
-    set data($txt,empty) 0
     
   }
   
@@ -237,6 +222,7 @@ api::register changebar {
   {on_open changebar::do_open}
   {on_close changebar::do_close}
   {on_uninstall changebar::do_uninstall}
+  {on_update changebar::do_update}
   {menu {checkbutton changebar::data(enabled)} "Change Bars/Enable" changebar::do_enable changebar::handle_state_enable}
   {menu separator "Change Bars"}
   {menu command "Change Bars/Clear"         changebar::do_clear     changebar::handle_state_clear}
