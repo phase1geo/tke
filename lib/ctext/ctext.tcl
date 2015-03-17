@@ -695,21 +695,21 @@ proc ctext::undo_delete {win start_pos end_pos} {
 }
 
 proc ctext::undo_get_cursor_hist {win} {
-  
+
   ctext::getAr $win config configAr
-  
+
   set cursors [list]
   set index   $configAr(undo_sep_next)
   set sep     0
-  
+
   while {$sep != -1} {
     lassign [lindex $configAr(undo_hist) $index] cmd val1 val2 cursor sep
     lappend cursors $cursor
     incr index $sep
   }
-  
+
   return $cursors
-  
+
 }
 
 proc ctext::undo {win} {
@@ -828,21 +828,21 @@ proc ctext::redo {win} {
 }
 
 proc ctext::handleInsertAt0 {win startpos datalen} {
-  
+
   if {[lindex [split $startpos .] 1] == 0} {
-    
+
     set endpos  [$win index "$startpos+${datalen}c"]
     set alltags [$win tag names $endpos]
     set tags    [lsearch -inline -all -glob $alltags gutter:*]
     lappend tags {*}[lsearch -inline -all -glob $alltags lmark*]
-    
+
     foreach tag $tags {
-      $win tag add $tag $startpos 
+      $win tag add $tag $startpos
       $win tag remove $tag $endpos
     }
-    
+
   }
-  
+
 }
 
 proc ctext::instanceCmd {self cmd args} {
@@ -1013,7 +1013,7 @@ proc ctext::instanceCmd {self cmd args} {
         return -code error "invalid argument(s) sent to $self delete: $args"
       }
     }
-    
+
     fastdelete {
       if {[llength $args] == 1} {
         set chars 1
@@ -1071,7 +1071,7 @@ proc ctext::instanceCmd {self cmd args} {
 
       ctext::undo_insert $self $insertPos $datalen $cursor
       ctext::handleInsertAt0 $self._t $insertPos $datalen
-        
+
       set nextSpace [ctext::findNextSpace $self._t "${insertPos}+${datalen}c"]
       set lineEnd   [$self._t index "${insertPos}+${datalen}c lineend"]
       set lines     [$self._t count -lines $lineStart $lineEnd]
@@ -1122,16 +1122,16 @@ proc ctext::instanceCmd {self cmd args} {
           }
         }
       }
-      
+
       ctext::modified $self 1 "insert $insertPos $datalen $lines"
       ctext::linemapUpdate $self
     }
-    
+
     replace {
       if {[llength $args] < 3} {
         return -code error "please use at least 3 arguments to $self replace"
       }
-      
+
       set startPos    [$self._t index [lindex $args 0]]
       set endPos      [$self._t index [lindex $args 1]]
       set data        [lindex $args 2]
@@ -1139,28 +1139,28 @@ proc ctext::instanceCmd {self cmd args} {
       set cursor      [$self._t index insert]
       set deleteChars [$self._t count -chars $startPos $endPos]
       set deleteLines [$self._t count -lines $startPos $endPos]
- 
+
       ctext::undo_delete $self $startPos $endPos
-      
+
       eval \$self._t replace $args
-      
+
       ctext::undo_insert $self $startPos $datalen $cursor
-      
+
       set lineStart   [$self._t index "$startPos linestart"]
       set lineEnd     [$self._t index "$startPos+[expr $datalen + 1]c lineend"]
       set insertLines [$self._t count -lines $lineStart $lineEnd]
-      
+
       foreach tag [$self._t tag names] {
         if {![regexp {^_([lc]Comment|[sdt]String)$} $tag] && ([string index $tag 0] eq "_")} {
           $self._t tag remove $tag $lineStart $lineEnd
         }
       }
-      
+
       set REData [$self._t get $lineStart $lineEnd]
 
       ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$configAr(re_opts) -- $commentRE $REData]
       ctext::highlightAfterIdle $self $lineStart $lineEnd
-      
+
       switch -- $data {
         "\}" {
           if {$configAr(matchChar,curly)} {
@@ -1188,7 +1188,7 @@ proc ctext::instanceCmd {self cmd args} {
           }
         }
       }
-      
+
       ctext::modified $self 1 "delete $startPos $deleteChars $deleteLines"
       ctext::modified $self 1 "insert $startPos $datalen $insertLines"
       ctext::linemapUpdate $self
@@ -1199,7 +1199,7 @@ proc ctext::instanceCmd {self cmd args} {
       set datalen   [string length [clipboard get]]
       ctext::undo_insert $self $insertPos $datalen [$self._t index insert]
       tk_textPaste $self
-      ctext::modified $self 1 "insert $insertPos $datalen [$self._t count -lines $insertPos \"$insertPos+${datalen}c\""
+      ctext::modified $self 1 "insert $insertPos $datalen [$self._t count -lines $insertPos \"$insertPos+${datalen}c\"]"
       ctext::linemapUpdate $self
     }
 
@@ -1597,7 +1597,7 @@ proc ctext::matchPair {win str1 str2} {
   $win tag add __ctext_blink $startPair
   $win tag add __ctext_blink $endPair
   ctext::tag:blink $win 0
-  
+
 }
 
 proc ctext::matchQuote {win} {
@@ -2483,11 +2483,11 @@ if {![catch {
 }
 
 proc ctext::modified {win value {data ""}} {
-  
+
   ctext::getAr $win config ar
   set ar(modified) $value
   event generate $win <<Modified>> -data $data
-  
+
   return $value
-  
+
 }

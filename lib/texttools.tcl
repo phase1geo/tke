@@ -149,6 +149,35 @@ namespace eval texttools {
   }
 
   ######################################################################
+  # Replaces the current line with the output contents of it as a script.
+  proc replace_line_with_script {tid} {
+
+    # Get the current text widget
+    set txt [gui::current_txt $tid]
+
+    # Get the current line
+    set cmd [$txt get "insert linestart" "insert lineend"]
+
+    # Execute the line text
+    catch { exec -ignorestderr {*}$cmd } rc
+
+    # Replace the line with the given text
+    $txt replace "insert linestart" "insert lineend" $rc
+
+  }
+
+  ######################################################################
+  # Returns true if the current line is empty; otherwise, returns false.
+  proc current_line_empty {tid} {
+
+    # Get the current text widget
+    set txt [gui::current_txt $tid]
+
+    return [expr {[$txt get "insert linestart" "insert lineend"] eq ""}]
+
+  }
+
+  ######################################################################
   # Aligns the current cursors.
   proc align {tid} {
 
