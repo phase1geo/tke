@@ -63,15 +63,15 @@ namespace eval gui {
     return [lsearch -index $files_index(fname) $files $fname]
 
   }
-  
+
   ######################################################################
   # Checks to see if the given file is newer than the file within the
   # editor.  If it is newer, prompt the user to update the file.
   proc check_file {index} {
-    
+
     variable files
     variable files_index
-    
+
     set fname [lindex $files $index $files_index(fname)]
     if {$fname ne ""} {
       set mtime [lindex $files $index $files_index(mtime)]
@@ -99,7 +99,7 @@ namespace eval gui {
         }
       }
     }
-    
+
   }
 
   ######################################################################
@@ -109,10 +109,10 @@ namespace eval gui {
 
     variable files
     variable files_index
-    
+
     # Check the modification of every file in the files list
     for {set i 0} {$i < [llength $files]} {incr i} {
-      check_file $i  
+      check_file $i
     }
 
     # Check again after 10 seconds
@@ -1134,7 +1134,7 @@ namespace eval gui {
       if {![catch { open $fname r } rc]} {
 
         set txt [get_txt_from_tab $w]
-        
+
         # Read the file contents and insert them
         $txt insert end [string range [read $rc] 0 end-1]
 
@@ -1285,7 +1285,7 @@ namespace eval gui {
 
       # Make the insertion mark visible
       $txt see $insert_index
-      
+
       # Allow plugins to be run on update
       plugins::handle_on_update $file_index
 
@@ -3262,7 +3262,7 @@ namespace eval gui {
         }
 
       }
-      
+
       # Clear the cursor history
       array unset cursor_hist $txt,*
 
@@ -3338,21 +3338,21 @@ namespace eval gui {
     }
 
   }
-  
+
   ######################################################################
   # Returns the main text widget from the given tab.
   proc get_txt_from_tab {tab} {
-    
+
     return "$tab.pw.tf.txt"
-    
+
   }
-  
+
   ######################################################################
   # Returns the secondary text widget from the given tab.
   proc get_txt2_from_tab {tab} {
-    
+
     return "$tab.pw.tf2.txt"
-    
+
   }
 
   ######################################################################
@@ -3384,7 +3384,7 @@ namespace eval gui {
         pack forget $slave
       }
       pack [$tb select] -in $tf -fill both -expand yes
-      
+
       # Update the preferences
       preferences::update_prefs
 
@@ -3404,7 +3404,7 @@ namespace eval gui {
 
     # Set the application title bar
     set_title
-    
+
     # Check to see if the file has changed
     if {!$skip_check} {
       catch { check_file [current_file] }
@@ -3776,7 +3776,6 @@ namespace eval gui {
 
     if {$type eq "marked"} {
       if {![markers::add $win $tag]} {
-        puts "HERE"
         ctext::linemapClearMark $win [lindex [split [$win index $tag.first] .] 0]
       }
     } else {
@@ -3873,32 +3872,32 @@ namespace eval gui {
     return $str
 
   }
-  
+
   ######################################################################
   # Jumps to the next cursor as specified by direction.
   proc jump_to_cursor {tid dir jump} {
-    
+
     variable cursor_hist
-    
+
     # Get the current text widget
     set txt [current_txt $tid]
-    
+
     # Get the index of the cursor in the cursor hist to use
     if {![info exists cursor_hist($txt,hist)]} {
       set cursor_hist($txt,hist)  [$txt edit cursorhist]
       set cursor_hist($txt,index) [llength $cursor_hist($txt,hist)]
     }
-    
+
     set index  $cursor_hist($txt,index)
     set length [llength $cursor_hist($txt,hist)]
     set diff   [preferences::get Find/JumpDistance]
-    
+
     if {$index == $length} {
       set last_line [lindex [split [$txt index insert] .] 0]
     } else {
       set last_line [lindex [split [lindex $cursor_hist($txt,hist) $index] .] 0]
     }
-    
+
     # Get the cursor index
     while {([incr index $dir] >= 0) && ($index < $length)} {
       set cursor     [lindex $cursor_hist($txt,hist) $index]
@@ -3915,9 +3914,9 @@ namespace eval gui {
         return 1
       }
     }
-    
+
     return 0
-    
+
   }
 
 }
