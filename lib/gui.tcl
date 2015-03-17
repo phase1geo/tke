@@ -3773,6 +3773,7 @@ namespace eval gui {
 
     if {$type eq "marked"} {
       if {![markers::add $win $tag]} {
+        puts "HERE"
         ctext::linemapClearMark $win [lindex [split [$win index $tag.first] .] 0]
       }
     } else {
