@@ -45,46 +45,58 @@ namespace eval snippets {
     variable snippets_dir
     variable snippets
     
+    puts "In set_language, language: $language"
+    
     # Create language-specific snippets filename
-    set sfile [file join $snippets_dir $language.snippets]
+    set lfile [file join $snippets_dir $language.snippets]
+    set ufile [file join $snippets_dir user.snippets]
 
+    # Remove any launcher commands that would be associated with this file
+    [ns launcher]::unregister [msgcat::mc "Snippet: *"]
+    
+  }
+    
+  ######################################################################
+  # Parses snippets for the given language.  
+  proc parse_snippets {language} {
+    
     # Clear the snippets for the given file
     array unset snippets $language,*
       
-    # Remove any launcher commands that would be associated with this file
-    [ns launcher]::unregister [msgcat::mc "Snippet: *"]
+    foreach sfile [list $ufile $lfile] {
 
-    if {![catch { open $sfile r } rc]} {
-      
-      # Read the contents of the snippets file
-      set contents [read $rc]
-      close $rc
-      
-      set in_snippet 0
-     
-      # Do a quick parse of the snippets file
-      foreach line [concat [split $contents \n] ""] {
-        if {$in_snippet} {
-          if {[regexp {^\t(.*)$} $line -> txt]} {
-            append snippet "[string trimright $txt]\n"
-          } else {
-            set in_snippet 0
-            if {![catch { parse_snippet [string range $snippet 0 end-1] } rc]} {
-              set snippets($language,$name) $rc
-#              array set snip $snippets($language,$name)
-#              [ns launcher]::register [msgcat::mc "Snippet: %s: %s" $name [string range $snip(raw_string) 0 30]] \
-#                [list [ns snippets]::insert_snippet_into_current {} $snippets($language,$name)] 
+      if {![catch { open $sfile r } rc]} {
+        
+        # Read the contents of the snippets file
+        set contents [read $rc]
+        close $rc
+        
+        set in_snippet 0
+       
+        # Do a quick parse of the snippets file
+        foreach line [concat [split $contents \n] ""] {
+          if {$in_snippet} {
+            if {[regexp {^\t(.*)$} $line -> txt]} {
+              append snippet "[string trimright $txt]\n"
+            } else {
+              set in_snippet 0
+              if {![catch { parse_snippet [string range $snippet 0 end-1] } rc]} {
+                set snippets($language,$name) $rc
+              }
             }
           }
-        }
-        if {[regexp {^snippet\s+(\w+)} $line -> name]} {
-          set in_snippet 1
-          set snippet    ""
+          if {[regexp {^snippet\s+(\w+)} $line -> name]} {
+            set in_snippet 1
+            set snippet    ""
+          }
+          
         }
         
       }
       
     }
+    
+    puts "snippets: [array get snippets]"
     
   }
   
@@ -234,8 +246,8 @@ namespace eval snippets {
     set within($txt.t) 0
     
     # Bind whitespace
-    bind snippet$txt <Key-space> "if {\[[ns snippets]::check_snippet %W\]} { break }"
-    bind snippet$txt <Return>    "if {\[[ns snippets]::check_snippet %W\]} { break }"
+    bind snippet$txt <Key-space> "if {\[[ns snippets]::check_snippet %W %K\]} { break }"
+    bind snippet$txt <Return>    "if {\[[ns snippets]::check_snippet %W %K\]} { break }"
     bind snippet$txt <Tab>       "if {\[[ns snippets]::handle_tab %W\]} { break }"
     
     bindtags $txt.t [linsert [bindtags $txt.t] 3 snippet$txt]
@@ -263,10 +275,15 @@ namespace eval snippets {
   # Checks the text widget to see if a snippet name was just typed in
   # the text widget.  If it was, delete the string and replace it with
   # the snippet string.
-  proc check_snippet {txt} {
+  proc check_snippet {txt keysym} {
     
     variable snippets
     variable within
+    
+    # If the given key symbol is not one of the snippet completers, stop now
+    if {[lsearch [[ns preferences]::get Editor/SnippetCompleters] [string tolower $keysym]] == -1} {
+      return 0
+    }
     
     # Get the last word
     set last_word [string trim [$txt get "insert-1c wordstart" "insert-1c wordend"]]
@@ -276,6 +293,7 @@ namespace eval snippets {
       return 0
     }
     
+    puts "last_word: $last_word, exists: [array names snippets *,$last_word]"
     # If the snippet exists, perform the replacement.
     if {[llength [set snippet [array names snippets *,$last_word]]] == 1} {
       
@@ -378,7 +396,7 @@ namespace eval snippets {
       traverse_snippet $txt
       return 1
     } else {
-      return [check_snippet $txt]
+      return [check_snippet $txt Tab]
     }
     
   }
@@ -430,15 +448,21 @@ namespace eval snippets {
   # If a snippet file does not exist for the current language, creates
   # an empty snippet file in the user's local snippet directory.  Opens
   # the snippet file for editing.
-  proc add_new_snippet {tid} {
+  proc add_new_snippet {tid type} {
     
     variable snippets_dir
     
-    # Get the current language
-    set language [syntax::get_current_language [gui::current_txt $tid]]
+    if {[set txt [gui::current_txt $tid]] ne ""} {
+      set language [syntax::get_current_language $txt]
+    } else {
+      set language ""
+    }
     
-    # Get the snippet file name
-    set fname [file join $::tke_home snippets $language.snippets]
+    if {$type eq "user"} {
+      set fname [file join $snippets_dir user.snippets]
+    } else {
+      set fname [file join $snippets_dir $language.snippets]
+    }
     
     # If the snippet file does not exist, create the file
     if {![file exists $fname]} {
@@ -446,7 +470,11 @@ namespace eval snippets {
     }
     
     # Add the snippet file to the editor
-    gui::add_file end $fname -sidebar 0 -savecommand [list snippets::set_language $language]
+    if {$language eq "snippets"} {
+      gui::add_file end $fname -sidebar 0 -savecommand [list snippets::set_language $language]
+    } else {
+      gui::add_file end $fname -sidebar 0
+    }
     
   }
   
