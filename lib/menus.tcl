@@ -559,13 +559,16 @@ namespace eval menus {
     launcher::register [msgcat::mc "Menu: Set user bindings to global bindings"] "bindings::copy_default"
 
     # Create snippets menu
-    $mb.snipPopup add command -label [msgcat::mc "Edit Current"] -command "snippets::add_new_snippet {}"
-    launcher::register [msgcat::mc "Menu: Edit current snippets"] "snippets::add_new_snippet {}"
+    $mb.snipPopup add command -label [msgcat::mc "Edit User"] -command "snippets::add_new_snippet {} user"
+    launcher::register [msgcat::mc "Menu Edit user snippets"] "snippets::add_new_snippet {} user"
+    
+    $mb.snipPopup add command -label [msgcat::mc "Edit Language"] -command "snippets::add_new_snippet {} lang"
+    launcher::register [msgcat::mc "Menu: Edit language snippets"] "snippets::add_new_snippet {} lang"
 
     $mb.snipPopup add separator
 
-    $mb.snipPopup add command -label [msgcat::mc "Reload Current"] -command "snippets::reload_snippets"
-    launcher::register [msgcat::mc "Menu: Reload current snippets"] "snippets::reload_snippets"
+    $mb.snipPopup add command -label [msgcat::mc "Reload"] -command "snippets::reload_snippets"
+    launcher::register [msgcat::mc "Menu: Reload snippets"] "snippets::reload_snippets"
 
   }
 
@@ -678,10 +681,12 @@ namespace eval menus {
   # Sets the menu option states to match the current UI state.
   proc edit_snippets_posting {mb} {
 
+    $mb entryconfigure [msgcat::mc "Edit User"] -state normal
+    
     if {[gui::current_txt {}] eq ""} {
-      $mb entryconfigure [msgcat::mc "Edit Current"] -state disabled
+      $mb entryconfigure [msgcat::mc "Edit Language"] -state disabled
     } else {
-      $mb entryconfigure [msgcat::mc "Edit Current"] -state normal
+      $mb entryconfigure [msgcat::mc "Edit Language"] -state normal
     }
 
   }

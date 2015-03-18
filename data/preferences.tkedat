@@ -124,6 +124,11 @@
 
 {Editor/MaxUndo}             {0}
 
+# Specifies which characters will cause a snippet completion check to occur for characters
+# immediately proceding the given character.  The valid values are:  space, tab, return
+
+{Editor/SnippetCompleters}   {space tab return}
+
 # When searching within a group of files (external to the current file), specifies
 # the number of contextual lines that will be displayed above and below the
 # matched line.
