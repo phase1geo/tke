@@ -3682,31 +3682,38 @@ namespace eval gui {
       return -1
     }
 
-    set search_re  "[set str1]|[set str2]"
-    set count      1
-    set pos        [$txt index [expr {($dir eq "-forwards") ? "insert+1c" : "insert"}]]
-    set last_found ""
-
+    set search_re "[set str1]|[set str2]"
+    set count     1
+    set pos       [$txt index [expr {($dir eq "-forwards") ? "insert+1c" : "insert"}]]
+    
+    # Calculate the endpos
+    if {[set incomstr [ctext::inCommentString $txt $pos srange]]} {
+      if {$dir eq "-forwards"} {
+        set endpos [lindex $srange 1]
+      } else {
+        set endpos [lindex $srange 0]
+      }
+    } else {
+      if {$dir eq "-forwards"} {
+        set endpos "end"
+      } else {
+        set endpos "1.0"
+      }
+    }
+    
+    puts "endpos: $endpos, incomstr: $incomstr, dir: $dir, pos: $pos"
+      
     while {1} {
-
-      set found [$txt search $dir -regexp $search_re $pos]
-
-      if {($found eq "") || \
-          (($dir eq "-forwards")  && [$txt compare $found < $pos]) || \
-          (($dir eq "-backwards") && [$txt compare $found > $pos]) || \
-          (($last_found ne "") && [$txt compare $found == $last_found])} {
+  
+      if {[set found [$txt search $dir -regexp -- $search_re $pos $endpos]] eq ""} {
+        puts "done"
         return -1
       }
-
-      set last_found $found
-      set char       [$txt get $found]
-      if {$dir eq "-forwards"} {
-        set pos "$found+1c"
-      } else {
-        set pos "$found"
-      }
-
-      if {[ctext::isEscaped $txt $found] || [ctext::inCommentString $txt $found]} {
+      
+      set char [$txt get $found]
+      set pos  [expr {($dir eq "-forwards") ? "$found+1c" : $found}]
+ 
+      if {[ctext::isEscaped $txt $found] || (!$incomstr && [ctext::inCommentString $txt $found])} {
         continue
       } elseif {[string equal $char [subst $str2]]} {
         incr count
@@ -3716,7 +3723,9 @@ namespace eval gui {
           return $found
         }
       }
-
+      
+      puts "found: $found, count: $count"
+  
     }
 
   }
