@@ -474,12 +474,11 @@ proc ctext::setCommentRE {win} {
 }
 
 proc ctext::inCommentString {win index {prange ""}} {
-  
+
   set prev_in [expr {[set prev_tag [lsearch -inline -regexp [$win tag names $index-1c] {_([cl]Comment|[sdt]String)}]] ne ""}]
   set curr_in [expr {[set curr_tag [lsearch -inline -regexp [$win tag names $index]    {_([cl]Comment|[sdt]String)}]] ne ""}]
-  
+
   if {$prange eq ""} {
-    puts "prev_tag: $prev_tag, curr_tag: $curr_tag"
     return [expr $curr_in && $prev_in]
   } elseif {$curr_in && $prev_in} {
     upvar $prange range
@@ -488,7 +487,7 @@ proc ctext::inCommentString {win index {prange ""}} {
   } else {
     return 0
   }
-  
+
 }
 
 proc ctext::commentsAfterIdle {win start end block} {
