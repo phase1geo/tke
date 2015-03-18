@@ -3685,7 +3685,7 @@ namespace eval gui {
     set search_re "[set str1]|[set str2]"
     set count     1
     set pos       [$txt index [expr {($dir eq "-forwards") ? "insert+1c" : "insert"}]]
-    
+
     # Calculate the endpos
     if {[set incomstr [ctext::inCommentString $txt $pos srange]]} {
       if {$dir eq "-forwards"} {
@@ -3700,19 +3700,20 @@ namespace eval gui {
         set endpos "1.0"
       }
     }
-    
-    puts "endpos: $endpos, incomstr: $incomstr, dir: $dir, pos: $pos"
-      
+
     while {1} {
-  
+
       if {[set found [$txt search $dir -regexp -- $search_re $pos $endpos]] eq ""} {
-        puts "done"
         return -1
       }
-      
+
       set char [$txt get $found]
-      set pos  [expr {($dir eq "-forwards") ? "$found+1c" : $found}]
- 
+      if {$dir eq "-forwards"} {
+        set pos "$found+1c"
+      } else {
+        set pos $found
+      }
+
       if {[ctext::isEscaped $txt $found] || (!$incomstr && [ctext::inCommentString $txt $found])} {
         continue
       } elseif {[string equal $char [subst $str2]]} {
@@ -3723,9 +3724,7 @@ namespace eval gui {
           return $found
         }
       }
-      
-      puts "found: $found, count: $count"
-  
+
     }
 
   }
