@@ -6,105 +6,133 @@
 namespace eval snippets {
 
   source [file join $::tke_dir lib ns.tcl]
-    
+
   variable snippets_dir [file join $::tke_home snippets]
 
-  array set widgets  {}
-  array set snippets {}
-  array set within   {}
-  
+  array set widgets    {}
+  array set snippets   {}
+  array set timestamps {}
+  array set within     {}
+
   ######################################################################
   # Loads the snippet information.
   proc load {} {
-  
+
     variable snippets_dir
-    
+
     # If the snippets directory does not exist, create it
     if {![file exists $snippets_dir]} {
       file mkdir $snippets_dir
     }
-    
+
   }
-  
+
   ######################################################################
   # Reloads the current snippet.
   proc reload_snippets {} {
-    
+
     # Get the current language
     set language [syntax::get_current_language [gui::current_txt $tid]]
-    
+
     # Reload the snippet file for the current language
     set_language $language
-    
+
   }
-  
+
   ######################################################################
   # Load the snippets file.
   proc set_language {language} {
-    
+
     variable snippets_dir
     variable snippets
-    
-    puts "In set_language, language: $language"
-    
-    # Create language-specific snippets filename
-    set lfile [file join $snippets_dir $language.snippets]
-    set ufile [file join $snippets_dir user.snippets]
+    variable timestamps
+
+    # Remove all of the current snippets
+    array unset snippets current,*
 
     # Remove any launcher commands that would be associated with this file
     [ns launcher]::unregister [msgcat::mc "Snippet: *"]
-    
+
+    foreach lang [list user $language] {
+
+      # Create language-specific snippets filename if it exists
+      if {[file exists [set sfile [file join $snippets_dir $lang.snippets]]]} {
+
+        # Get the file status
+        file stat $sfile fstat
+
+        # Check to see if the language file timestamp has been updated
+        if {![info exists timestamps($lang)] || ($fstat(mtime) > $timestamps($lang))} {
+          set timestamps($lang) $fstat(mtime)
+          parse_snippets $lang
+        }
+
+        # Add the files to the current snippets array
+        foreach name [array names snippets $lang,*] {
+          set snippets(current,[lindex [split $name ,] 1]) $snippets($name)
+        }
+
+      }
+
+    }
+
   }
-    
+
   ######################################################################
-  # Parses snippets for the given language.  
+  # Parses snippets for the given language.
   proc parse_snippets {language} {
-    
+
+    variable snippets_dir
+    variable snippets
+
     # Clear the snippets for the given file
     array unset snippets $language,*
-      
-    foreach sfile [list $ufile $lfile] {
 
-      if {![catch { open $sfile r } rc]} {
-        
-        # Read the contents of the snippets file
-        set contents [read $rc]
-        close $rc
-        
-        set in_snippet 0
-       
-        # Do a quick parse of the snippets file
-        foreach line [concat [split $contents \n] ""] {
-          if {$in_snippet} {
-            if {[regexp {^\t(.*)$} $line -> txt]} {
-              append snippet "[string trimright $txt]\n"
-            } else {
-              set in_snippet 0
-              if {![catch { parse_snippet [string range $snippet 0 end-1] } rc]} {
-                set snippets($language,$name) $rc
-              }
+    # Create snippet file name
+    set sfile [file join $snippets_dir $language.snippets]
+
+    if {![catch { open $sfile r } rc]} {
+
+      # Read the contents of the snippets file
+      set contents [read $rc]
+      close $rc
+
+      set in_snippet 0
+
+      # Do a quick parse of the snippets file
+      foreach line [concat [split $contents \n] ""] {
+        if {$in_snippet} {
+          if {[regexp {^\t(.*)$} $line -> txt]} {
+            append snippet "[string trimright $txt]\n"
+          } else {
+            set in_snippet 0
+            if {![catch { parse_snippet [string range $snippet 0 end-1] } rc]} {
+              set snippets($language,$name) $rc
             }
           }
-          if {[regexp {^snippet\s+(\w+)} $line -> name]} {
-            set in_snippet 1
-            set snippet    ""
-          }
-          
         }
-        
+        if {[regexp {^snippet\s+(\w+)} $line -> name]} {
+          set in_snippet 1
+          set snippet    ""
+        }
+
       }
-      
+
     }
-    
-    puts "snippets: [array get snippets]"
-    
+
+    # If the language being parsed is
+    if {$language eq "snippets"} {
+      puts "Setting language to snippets"
+      set_language snippets
+    }
+
   }
-  
+
   ######################################################################
   # Returns a list array containing the information obtained from parsing
   # the given snippet.
   proc parse_snippet {snippet} {
-    
+
     set in_dollar  0
     set in_tick    0
     set in_escape  0
@@ -114,13 +142,13 @@ namespace eval snippets {
     set raw_string ""
     set tabs       [list]
     set dynamics   [list]
-    
+
     set i 0
     while {$i < [string length $snippet]} {
-      
+
       # Get the current character
       set char [string index $snippet $i]
-      
+
       # We have found a dollar sign
       if {!$in_escape && !$in_tick && ($char eq "\$")} {
 
@@ -134,28 +162,28 @@ namespace eval snippets {
             incr from_start [string length $tabstop_string($number)]
           }
           incr i [string length $number]
-          
+
         # Handle a single variable substitution
         } elseif {[regexp {^(\w+)} [string range $snippet [expr $i + 1] end] -> varname]} {
-          
+
           lappend dynamics [list var $varname $from_start ""]
           incr i [string length $varname]
-          
+
         } else {
           incr i
-          
+
           # Handle a more complex dollar operator
           if {[string index $snippet $i] eq "\{"} {
             incr in_dollar
             incr i
-          
+
             # Start handling a complex tab stop
             if {[regexp {^(\d+):} [string range $snippet $i end] -> number]} {
               set dollar($in_dollar,string)  ""
               set dollar($in_dollar,start)   $from_start
               set dollar($in_dollar,tabstop) $number
               incr i [string length $number]
-              
+
             # Handle a tab stop mirror
             } elseif {[regexp {^(\d+)/(.*)/(.*)/(.*)} [string range $snippet $i end] -> number expr format opts]} {
               set dollar($in_dollar,string)  ""
@@ -163,14 +191,14 @@ namespace eval snippets {
               set dollar($in_dollar,tabstop) $number
               set dollar($in_dollar,regsub)  [list $expr $format $opts]
               incr i [expr [string length $number] + [string length $expr] + [string length $format] + [string length $opts] + 3]
-              
-            # Start handling a complex variable substitution  
+
+            # Start handling a complex variable substitution
             } elseif {[regexp {^(\w+):} [string range $snippet $i end] -> varname]} {
               set dollar($in_dollar,string)  ""
               set dollar($in_dollar,start)   $from_start
               set dollar($in_dollar,varname) $varname
               incr i [string length $varname]
-              
+
             # Handle a variable with regular expression substitution
             } elseif {[regexp {^(\w+)/(.*)/(.*)/(.*)} [string range $snippet $i end] -> varname expr format opts]} {
               set dollar($in_dollar,string)  ""
@@ -179,11 +207,11 @@ namespace eval snippets {
               set dollar($in_dollar,regsub)  [list $expr $format $opts]
               incr i [expr [string length $varname] + [string length $expr] + [string length $format] + [string length $opts] + 3]
             }
-            
+
           }
-          
+
         }
-        
+
       # We have found an unescaped right brace
       } elseif {$in_dollar && !$in_escape && ($char eq "\}")} {
         if {[info exists dollar($in_dollar,varname)]} {
@@ -194,7 +222,7 @@ namespace eval snippets {
         }
         array unset dollar $in_dollar,*
         incr in_dollar -1
-        
+
       # We have found a tick, se we are either starting or stopping a shell command
       } elseif {!$in_escape && ($char eq "`")} {
         if {$in_tick} {
@@ -204,23 +232,23 @@ namespace eval snippets {
           set in_tick    1
           set sub_string ""
         }
-        
+
       # We have found an escape character
       } elseif {!$in_escape && ($char eq "\\")} {
         set in_escape 1
-        
+
       # We are in a shell command
       } elseif {$in_tick} {
         append shell_str $char
         set in_escape 0
-        
+
       # We are in a dollar sign expression
       } elseif {$in_dollar} {
         append dollar($in_dollar,string) $char
         append raw_string $char
         set in_escape 0
         incr from_start
-        
+
       # This is just a raw expression
       } else {
         append raw_string [expr {($char eq "\$") ? "\$" : $char}]
@@ -229,35 +257,35 @@ namespace eval snippets {
       }
 
       incr i
-      
+
     }
-    
-    return [list raw_string $raw_string tabs $tabs dynamics $dynamics snippet $snippet]   
-    
+
+    return [list raw_string $raw_string tabs $tabs dynamics $dynamics snippet $snippet]
+
   }
-  
+
   ######################################################################
   # Adds the text widget bindings.
   proc add_bindings {txt} {
-    
+
     variable within
-    
+
     # Initialize the within array
     set within($txt.t) 0
-    
+
     # Bind whitespace
     bind snippet$txt <Key-space> "if {\[[ns snippets]::check_snippet %W %K\]} { break }"
     bind snippet$txt <Return>    "if {\[[ns snippets]::check_snippet %W %K\]} { break }"
     bind snippet$txt <Tab>       "if {\[[ns snippets]::handle_tab %W\]} { break }"
-    
+
     bindtags $txt.t [linsert [bindtags $txt.t] 3 snippet$txt]
-    
+
   }
-  
+
   ######################################################################
   # Handles a tab key event.
   proc handle_tab {W} {
-  
+
     if {![tab_clicked $W]} {
       if {![[ns vim]::in_vim_mode $W] && ![[ns syntax]::get_tabs_allowed [winfo parent $W]]} {
         $W insert insert [string repeat " " [[ns preferences]::get Editor/SpacesPerTab]]
@@ -266,74 +294,73 @@ namespace eval snippets {
     } else {
       return 1
     }
-    
+
     return 0
-  
+
   }
-  
+
   ######################################################################
   # Checks the text widget to see if a snippet name was just typed in
   # the text widget.  If it was, delete the string and replace it with
   # the snippet string.
   proc check_snippet {txt keysym} {
-    
+
     variable snippets
     variable within
-    
+
     # If the given key symbol is not one of the snippet completers, stop now
     if {[lsearch [[ns preferences]::get Editor/SnippetCompleters] [string tolower $keysym]] == -1} {
       return 0
     }
-    
+
     # Get the last word
     set last_word [string trim [$txt get "insert-1c wordstart" "insert-1c wordend"]]
-        
+
     # If the last word is not a valid word, stop now
     if {![regexp {^[a-zA-Z0-9_]+$} $last_word]} {
       return 0
     }
-    
-    puts "last_word: $last_word, exists: [array names snippets *,$last_word]"
+
     # If the snippet exists, perform the replacement.
-    if {[llength [set snippet [array names snippets *,$last_word]]] == 1} {
-      
+    if {[info exists snippets(current,$last_word)]} {
+
       # Delete the last_word
       $txt delete "insert-1c wordstart" "insert-1c wordend"
-      
+
       # Insert the new text in its place
-      insert_snippet $txt $snippets($snippet)
-      
+      insert_snippet $txt $snippets(current,$last_word)
+
       # Make sure that the whitespace character is not inserted into the widget
       return 1
-      
+
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # Inserts the given snippet into the text widget, adhering to indentation.
   proc insert_snippet {txt snippet} {
-  
+
     variable tabpoints
     variable within
-    
+
     # Assign the snippet array information to an array
     array set snip $snippet
-    
+
     # Initialize the tabpoints counter
     set tabpoints($txt) 1
     set within($txt)    0
     set insert_index    [$txt index insert]
     set current_line    [$txt get "insert linestart" "insert lineend"]
-    
+
     # Insert the raw string into the text widget
     [winfo parent $txt] insert insert $snip(raw_string)
-    
+
     # Create a tag for the inserted text
     $txt tag add snippet_raw $insert_index "$insert_index+[string length $snip(raw_string)]c"
-    
+
     # Create the tab point selection tags
     foreach tab $snip(tabs) {
       $txt tag add [lindex $tab 0] "$insert_index+[lindex $tab 1]c" "$insert_index+[lindex $tab 2]c"
@@ -371,45 +398,45 @@ namespace eval snippets {
 
     # Delete the snippet_raw tag
     $txt tag delete snippet_raw
-    
+
     # Start to traverse the snippet
     traverse_snippet $txt
-    
+
   }
-  
+
   ######################################################################
   # Inserts the given snippet into the current text widget, adhering to
   # indentation rules.
   proc insert_snippet_into_current {tid snippet} {
-    
+
     insert_snippet [gui::current_txt $tid].t $snippet
-    
+
   }
-  
+
   ######################################################################
   # Handles a tab insertion
   proc tab_clicked {txt} {
-    
+
     variable within
-    
+
     if {$within($txt)} {
       traverse_snippet $txt
       return 1
     } else {
       return [check_snippet $txt Tab]
     }
-    
+
   }
-  
+
   ######################################################################
   # Moves the insertion cursor or selection to the next position in the
   # snippet.
   proc traverse_snippet {txt} {
-  
+
     variable tabpoints
     variable within
     variable tabstart
-    
+
     # Update any mirrored tab points
     if {[info exists tabstart($txt)]} {
       set mirrored_value [$txt get $tabstart($txt) insert]
@@ -438,70 +465,59 @@ namespace eval snippets {
       set tabstart($txt) [lindex $range 0]
       set within($txt)   0
     }
-    
+
     # Increment the tabpoint
     incr tabpoints($txt)
-    
+
   }
-  
+
   ######################################################################
   # If a snippet file does not exist for the current language, creates
   # an empty snippet file in the user's local snippet directory.  Opens
   # the snippet file for editing.
   proc add_new_snippet {tid type} {
-    
+
     variable snippets_dir
-    
-    if {[set txt [gui::current_txt $tid]] ne ""} {
-      set language [syntax::get_current_language $txt]
-    } else {
-      set language ""
-    }
-    
+
     if {$type eq "user"} {
-      set fname [file join $snippets_dir user.snippets]
+      set fname    [file join $snippets_dir user.snippets]
+      set language "user"
     } else {
-      set fname [file join $snippets_dir $language.snippets]
+      set fname    [file join $snippets_dir $language.snippets]
+      set language [syntax::get_current_language [gui::current_txt $tid]]
     }
-    
+
     # If the snippet file does not exist, create the file
     if {![file exists $fname]} {
       exec touch $fname
     }
-    
+
     # Add the snippet file to the editor
-    if {$language eq "snippets"} {
-      gui::add_file end $fname -sidebar 0 -savecommand [list snippets::set_language $language]
-    } else {
-      gui::add_file end $fname -sidebar 0
-    }
-    
+    gui::add_file end $fname -sidebar 0 -savecommand [list snippets::set_language $language]
+
   }
-  
+
   ######################################################################
   # Returns the list of snippets
   proc get_current_snippets {} {
-    
+
     variable snippets
-    
-    # Get the current language
-    set language [syntax::get_current_language [gui::current_txt {}]]
-    
+
     set names [list]
-    
-    foreach name [array names snippets $language,*] {
+
+    foreach name [array names snippets current,*] {
       lappend names [list [lindex [split $name ,] 1] $snippets($name)]
     }
-    
+
     return $names
-    
+
   }
-  
+
   ######################################################################
   # Displays all of the available snippets in the current editor in the
   # command launcher.
   proc show_snippets {} {
-    
+
     # Add temporary registries to launcher
     set i 0
     foreach snippet [get_current_snippets] {
@@ -512,18 +528,18 @@ namespace eval snippets {
         $name $i [list snippets::add_detail $snip(snippet)]
       incr i
     }
-    
+
     # Display the launcher in SNIPPET: mode
     launcher::launch "`SNIPPET:" 1
-    
+
   }
-  
+
   ######################################################################
   # Adds the given detail
   proc add_detail {str txt} {
-    
+
     $txt insert end $str
-    
+
   }
-  
+
 }
