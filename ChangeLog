@@ -1,67 +1,113 @@
-changeset:   846:7dd6e14eea8f
-tag:         devel-1.5.3
+changeset:   854:66e717ddc48a
+tag:         devel-1.5.4
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 10 00:18:50 2015 -0500
+date:        Thu Mar 12 01:21:39 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.5.3 release
+ChangeLog for devel-1.5.4 release
 
 
-changeset:   847:f08f70c769c3
+changeset:   855:97c9200ff852
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 10 00:18:56 2015 -0500
+date:        Thu Mar 12 01:21:43 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.5.3 for changeset 7dd6e14eea8f
+Added tag devel-1.5.4 for changeset 66e717ddc48a
 
 
-changeset:   848:95b8316ed6fd
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 10 08:34:17 2015 -0500
-files:       lib/syntax.tcl lib/version.tcl
+changeset:   856:960af81f3e53
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Mar 13 16:26:31 2015 -0500
+files:       lib/menus.tcl lib/version.tcl
 description:
-* Making another tweak to improve tab switching.
+* Adding "Send Feedback" item to Help menu.
 
 
-changeset:   849:af65cefa4ae1
+changeset:   857:cbc3d71ae9de
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Mar 11 09:27:08 2015 -0500
-files:       lib/multicursor.tcl lib/version.tcl lib/vim.tcl
+date:        Sat Mar 14 08:24:34 2015 -0500
+files:       lib/api.tcl lib/ctext/ctext.tcl lib/gui.tcl lib/plugins.tcl lib/version.tcl plugins/changebar/main.tcl
 description:
-* Checkpointing work on supporting 'r' and 'R' commands in multicursor mode.
+* More work on changebar plugin (still a work in progress).
+* More framework fixes to support changebar.
 
 
-changeset:   850:d1ba59c34eb0
+changeset:   858:a450b061b08b
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Mar 11 09:38:00 2015 -0500
-files:       lib/multicursor.tcl lib/version.tcl lib/vim.tcl
+date:        Sat Mar 14 13:43:58 2015 -0500
+files:       lib/ctext/ctext.tcl lib/plugins.tcl lib/version.tcl plugins/changebar/main.tcl
 description:
-* More fixes to command 'r' and 'R' multicursor support.
+* Checkpointing more work on the changebar feature.
+* Fixing menu issues in plugin framework.
 
 
-changeset:   851:6e09e4d97b10
+changeset:   859:da0e9c137407
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Mar 11 22:47:15 2015 -0500
-files:       lib/multicursor.tcl lib/version.tcl lib/vim.tcl
+date:        Tue Mar 17 08:41:41 2015 -0500
+files:       lib/ctext/ctext.tcl lib/gui.tcl lib/version.tcl
 description:
-* Completing support for multicursor replacement.
+* Checkpointing work on gutters.
 
 
-changeset:   852:fdf28b73b57d
+changeset:   860:b4d35085bf04
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Mar 11 23:36:25 2015 -0500
-files:       lib/ctext/ctext.tcl lib/version.tcl
+date:        Tue Mar 17 09:43:38 2015 -0500
+files:       lib/ctext/ctext.tcl lib/gui.tcl lib/plugins.tcl lib/version.tcl plugins/changebar/main.tcl
 description:
-* Adding full replace support to ctext widget.
+* More enhancements to changebar plugin.
+* Fixing gutter clear issue.
+* Adding on_update plugin event handler.
 
 
-changeset:   853:2d8920656613
+changeset:   861:f7c09527cd1c
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Mar 17 13:52:45 2015 -0500
+files:       lib/gui.tcl lib/plugins.tcl lib/version.tcl plugins/changebar/main.tcl plugins/perforce/main.tcl plugins/todo/main.tcl
+description:
+* Fixing support for checkbutton and radiobutton menu item variables.
+* Other various fixes.
+
+
+changeset:   862:27fb8038fc29
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Mar 17 17:34:01 2015 -0500
+files:       lib/ctext/ctext.tcl lib/menus.tcl lib/texttools.tcl lib/version.tcl
+description:
+* Adding 'Replace line with script' command to the Text menu.
+* Fixing syntax error in ctext.
+
+
+changeset:   863:152abf754f82
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Mar 17 20:19:13 2015 -0500
+files:       data/preferences.tkedat lib/menus.tcl lib/snippets.tcl lib/version.tcl
+description:
+* Added snippet preference to allow user to specify character(s) that will cause a snippet completion check to occur.
+* Working on adding support for user snippets (in progress).
+
+
+changeset:   864:dbf580da396c
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Mar 18 00:51:14 2015 -0500
+files:       lib/snippets.tcl lib/version.tcl
+description:
+* Fixing snippets changes.
+
+
+changeset:   865:4fcb682e6b87
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Mar 18 09:18:40 2015 -0500
+files:       lib/ctext/ctext.tcl lib/gui.tcl lib/version.tcl
+description:
+* Checkpointing work on matching brackets within a string/comment (work in progress).
+
+
+changeset:   866:d1af5f93dd6e
 tag:         tip
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Mar 12 01:19:35 2015 -0500
-files:       lib/ctext/ctext.tcl lib/version.tcl plugins/changebar/header.tkedat plugins/changebar/main.tcl
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Mar 18 17:59:13 2015 -0500
+files:       lib/ctext/ctext.tcl lib/gui.tcl lib/version.tcl
 description:
-* Adding ctext support for command, start position and data length in %d field of Modified virtual event.
-* Starting work on changebar plugin (lots of work to do here).
+* Fixing issues with bracket matching within string/comment.
 
 
