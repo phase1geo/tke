@@ -150,11 +150,11 @@ msgcat::mcmset cs {
   "Edit"
   "Upravit"
 
-  "Edit current"
-  "Upravit stávající"
+  "Edit Language"
+  "Upravit jazyk"
 
-  "Edit user"
-  "Upravit uživatele"
+  "Edit User"
+  "Přidat Uživatele"
 
   "Edit..."
   "Upravit..."
@@ -228,6 +228,12 @@ msgcat::mcmset cs {
   "Install..."
   "nainstalovat"
 
+  "Jump backward"
+  "Skok vzad"
+
+  "Jump forward"
+  "Skok vpřed"
+
   "Launcher"
   "spouštěč"
 
@@ -236,6 +242,9 @@ msgcat::mcmset cs {
 
   "Menu Bindings"
   "Vázání Menu"
+
+  "Menu Edit user snippets"
+  "Menu Edit user fragmenty"
 
   "Menu: About TKE"
   "Menu: O TKE"
@@ -279,8 +288,11 @@ msgcat::mcmset cs {
   "Menu: Edit Tke theme"
   "Menu: Úpravy TKE téma"
 
-  "Menu: Edit current snippets"
-  "Menu: Úpravy aktuální úryvky"
+  "Menu: Edit language preferences"
+  "Nabídka: Edit jazykové předvolby"
+
+  "Menu: Edit language snippets"
+  "Nabídka: Upravit jazyk fragmenty"
 
   "Menu: Edit user menu bindings"
   "Vázání Edit Uživatelské menu: Menu"
@@ -363,6 +375,12 @@ msgcat::mcmset cs {
   "Menu: Install plugin"
   "Menu: Instalace plugin"
 
+  "Menu: Jump backward"
+  "Nabídka: Skok vzad"
+
+  "Menu: Jump forward"
+  "Nabídka: Skok vpřed"
+
   "Menu: Lock file"
   "Menu: Lock soubor"
 
@@ -399,8 +417,11 @@ msgcat::mcmset cs {
   "Menu: Reload all plugins"
   "Menu: Znovu načíst všechny pluginy"
 
-  "Menu: Reload current snippets"
-  "Menu: Znovu načíst aktuální úryvky"
+  "Menu: Reload snippets"
+  "Nabídka: Reload fragmenty"
+
+  "Menu: Replace line with script"
+  "Nabídka: Nahradit řádek skriptu"
 
   "Menu: Restart tke"
   "Menu: Restart TKE"
@@ -420,11 +441,20 @@ msgcat::mcmset cs {
   "Menu: Select all text"
   "Menu: Vyberte celý text"
 
+  "Menu: Send Bug Report"
+  "Nabídka: Odeslat hlášení o chybě"
+
+  "Menu: Send Feedback"
+  "Nabídka: Odeslat názor"
+
   "Menu: Set user bindings to global bindings"
   "Menu: Nastavení uživatelských vazby na globální vazby"
 
   "Menu: Set user preferences to global preferences"
   "Menu: Nastavení uživatelských předvoleb na globální preference"
+
+  "Menu: Show Diagnostic Logfile"
+  "Nabídka: Show diagnostického protokolu"
 
   "Menu: Show Tab Bar"
   "Menu: Show Tab Bar"
@@ -525,11 +555,11 @@ msgcat::mcmset cs {
   "Reload"
   "Načíst znovu"
 
-  "Reload current"
-  "Reload proud"
+  "Replace line with script"
+  "Nahradit řádek skriptu"
 
-  "Reset user to base"
-  "Obnovit uživatele založit"
+  "Reset User to Base"
+  "Obnovit uživatelské základny"
 
   "Restart tke"
   "Restart TKE"
@@ -555,17 +585,26 @@ msgcat::mcmset cs {
   "Selected"
   "Vybrané"
 
+  "Send Bug Report"
+  "Odeslat hlášení o chybě"
+
+  "Send Feedback"
+  "Odeslat názor"
+
   "Set Syntax"
   "Nastavit syntaxe"
 
   "Set Theme"
   "Set Theme"
 
-  "Set user to global"
-  "Nastavit uživateli globální"
+  "Set User to Global"
+  "Nastavit uživatele do globální"
 
   "Show Console"
   "Zobrazit Console"
+
+  "Show Diagnostic Logfile"
+  "Zobrazit diagnostického protokolu"
 
   "Show Last Profiling Report"
   "Zobrazit poslední profilování zprávu"
@@ -633,10 +672,10 @@ msgcat::mcmset cs {
   "View"
   "Náhled"
 
-  "View base"
-  "Zobrazit základna"
+  "View Base"
+  "Zobrazit základnu"
 
-  "View global"
+  "View Global"
   "Zobrazit globální"
 
   "Vim Mode"
@@ -732,9 +771,6 @@ msgcat::mcmset cs {
 # snippets.tcl
 msgcat::mcmset cs {
 
-  "Snippet: %s: %s"
-  "Úryvek:% s:% s"
-
   "Snippet: *"
   "úryvek"
 
@@ -803,9 +839,6 @@ msgcat::mcmset cs {
 
 # tke.tcl
 msgcat::mcmset cs {
-
-  "ERROR:  %s"
-  "CHYBA:% s"
 
   "Edit theme?"
   "Upravit téma?"

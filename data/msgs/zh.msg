@@ -150,10 +150,10 @@ msgcat::mcmset zh {
   "Edit"
   "编辑"
 
-  "Edit current"
-  "编辑当前"
+  "Edit Language"
+  "编辑语言"
 
-  "Edit user"
+  "Edit User"
   "編輯用戶"
 
   "Edit..."
@@ -228,6 +228,12 @@ msgcat::mcmset zh {
   "Install..."
   "安装"
 
+  "Jump backward"
+  "往後跳"
+
+  "Jump forward"
+  "往前跳"
+
   "Launcher"
   "发射台"
 
@@ -236,6 +242,9 @@ msgcat::mcmset zh {
 
   "Menu Bindings"
   "菜单绑定"
+
+  "Menu Edit user snippets"
+  "菜单编辑用户代码片段"
 
   "Menu: About TKE"
   "菜单：关于将军澳支线"
@@ -279,8 +288,11 @@ msgcat::mcmset zh {
   "Menu: Edit Tke theme"
   "菜单：编辑将军澳支线主题"
 
-  "Menu: Edit current snippets"
-  "菜单：编辑当前片段"
+  "Menu: Edit language preferences"
+  "菜单: 编辑语言首选项"
+
+  "Menu: Edit language snippets"
+  "菜单: 编辑语言片段"
 
   "Menu: Edit user menu bindings"
   "菜单：编辑用户菜单绑定"
@@ -363,6 +375,12 @@ msgcat::mcmset zh {
   "Menu: Install plugin"
   "菜单：安装插件"
 
+  "Menu: Jump backward"
+  "菜单： 向后跳"
+
+  "Menu: Jump forward"
+  "菜单： 向前跳转"
+
   "Menu: Lock file"
   "菜单：文件锁定"
 
@@ -399,8 +417,11 @@ msgcat::mcmset zh {
   "Menu: Reload all plugins"
   "菜单：重新载入所有插件"
 
-  "Menu: Reload current snippets"
-  "菜单：刷新当前片段"
+  "Menu: Reload snippets"
+  "菜单： 重新加载代码片段"
+
+  "Menu: Replace line with script"
+  "菜单： 用脚本替换行"
 
   "Menu: Restart tke"
   "菜单：重新启动将军澳支线"
@@ -420,11 +441,20 @@ msgcat::mcmset zh {
   "Menu: Select all text"
   "菜单：选择所有文本"
 
+  "Menu: Send Bug Report"
+  "菜单： 发送错误报告"
+
+  "Menu: Send Feedback"
+  "菜单： 发送反馈"
+
   "Menu: Set user bindings to global bindings"
   "菜单：设置用户绑定到全局绑定"
 
   "Menu: Set user preferences to global preferences"
   "菜单：设置用户首选项，以全局首选项"
+
+  "Menu: Show Diagnostic Logfile"
+  "菜单: 显示诊断日志文件"
 
   "Menu: Show Tab Bar"
   "菜单：显示标签栏"
@@ -525,11 +555,11 @@ msgcat::mcmset zh {
   "Reload"
   "重新加载"
 
-  "Reload current"
-  "刷新电流"
+  "Replace line with script"
+  "用脚本替换行"
 
-  "Reset user to base"
-  "重设用户基础"
+  "Reset User to Base"
+  "将用户重置为基地"
 
   "Restart tke"
   "重新启动TKE"
@@ -555,17 +585,26 @@ msgcat::mcmset zh {
   "Selected"
   "选定"
 
+  "Send Bug Report"
+  "发送报告"
+
+  "Send Feedback"
+  "发送 feedback"
+
   "Set Syntax"
   "设置语法"
 
   "Set Theme"
   "设置主题"
 
-  "Set user to global"
-  "设置用户对全球"
+  "Set User to Global"
+  "设置的用户到全球"
 
   "Show Console"
   "显示控制台"
+
+  "Show Diagnostic Logfile"
+  "显示诊断日志文件"
 
   "Show Last Profiling Report"
   "显示最后剖析报告"
@@ -633,10 +672,10 @@ msgcat::mcmset zh {
   "View"
   "查看"
 
-  "View base"
-  "查看基地"
+  "View Base"
+  "视图基础"
 
-  "View global"
+  "View Global"
   "查看全球"
 
   "Vim Mode"
@@ -732,9 +771,6 @@ msgcat::mcmset zh {
 # snippets.tcl
 msgcat::mcmset zh {
 
-  "Snippet: %s: %s"
-  "片段：％S：％s的"
-
   "Snippet: *"
   "片段"
 
@@ -803,9 +839,6 @@ msgcat::mcmset zh {
 
 # tke.tcl
 msgcat::mcmset zh {
-
-  "ERROR:  %s"
-  "错误：％s"
 
   "Edit theme?"
   "编辑主题？"

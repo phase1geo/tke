@@ -150,11 +150,11 @@ msgcat::mcmset ja {
   "Edit"
   "編集"
 
-  "Edit current"
-  "編集現在"
+  "Edit Language"
+  "言語を編集します。"
 
-  "Edit user"
-  "ユーザーの編集"
+  "Edit User"
+  "ユーザーを編集"
 
   "Edit..."
   "編集"
@@ -228,6 +228,12 @@ msgcat::mcmset ja {
   "Install..."
   "インストール"
 
+  "Jump backward"
+  "後方ジャンプします。"
+
+  "Jump forward"
+  "前方ジャンプします。"
+
   "Launcher"
   "ランチャー"
 
@@ -236,6 +242,9 @@ msgcat::mcmset ja {
 
   "Menu Bindings"
   "メニューバインディング"
+
+  "Menu Edit user snippets"
+  "メニュー編集ユーザー スニペット"
 
   "Menu: About TKE"
   "メニュー：TKEについて"
@@ -279,8 +288,11 @@ msgcat::mcmset ja {
   "Menu: Edit Tke theme"
   "メニュー：編集TKEテーマ"
 
-  "Menu: Edit current snippets"
-  "メニュー：現在のスニペットを編集"
+  "Menu: Edit language preferences"
+  "メニュー: 編集言語の設定"
+
+  "Menu: Edit language snippets"
+  "メニュー: 編集言語のスニペット"
 
   "Menu: Edit user menu bindings"
   "メニュー：編集ユーザーメニューバインディング"
@@ -363,6 +375,12 @@ msgcat::mcmset ja {
   "Menu: Install plugin"
   "メニュー：インストールプラグイン"
 
+  "Menu: Jump backward"
+  "メニュー: 移動後方"
+
+  "Menu: Jump forward"
+  "ジャンプ メニュー。"
+
   "Menu: Lock file"
   "メニュー：ロックファイル"
 
@@ -399,8 +417,11 @@ msgcat::mcmset ja {
   "Menu: Reload all plugins"
   "メニュー：すべてのプラグインを再ロード"
 
-  "Menu: Reload current snippets"
-  "メニュー：現在のスニペットを再読み込み"
+  "Menu: Reload snippets"
+  "メニュー： リロード スニペット"
+
+  "Menu: Replace line with script"
+  "メニュー： スクリプトの行を置き換えます"
 
   "Menu: Restart tke"
   "メニュー：TKEを再起動します"
@@ -420,11 +441,20 @@ msgcat::mcmset ja {
   "Menu: Select all text"
   "メニュー：すべてのテキストを選択"
 
+  "Menu: Send Bug Report"
+  "メニュー: バグ レポートを送信"
+
+  "Menu: Send Feedback"
+  "メニュー： フィードバックを送信"
+
   "Menu: Set user bindings to global bindings"
   "メニュー：グローバルバインディングに設定し、ユーザーのバインド"
 
   "Menu: Set user preferences to global preferences"
   "メニュー：グローバル設定へのユーザープリファレンスを設定"
+
+  "Menu: Show Diagnostic Logfile"
+  "メニュー： 表示診断ログファイル"
 
   "Menu: Show Tab Bar"
   "メニュー：表示タブバー"
@@ -525,11 +555,11 @@ msgcat::mcmset ja {
   "Reload"
   "再読み込み"
 
-  "Reload current"
-  "現在の再読み込み"
+  "Replace line with script"
+  "スクリプトの行を置き換えます"
 
-  "Reset user to base"
-  "ベースにユーザーのリセット"
+  "Reset User to Base"
+  "ユーザー ベースにリセットします。"
 
   "Restart tke"
   "TKEを再起動します"
@@ -555,17 +585,26 @@ msgcat::mcmset ja {
   "Selected"
   "選択"
 
+  "Send Bug Report"
+  "バグ報告を送る"
+
+  "Send Feedback"
+  "﻿フィードバックを送る"
+
   "Set Syntax"
   "構文を設定"
 
   "Set Theme"
   "設定テーマ"
 
-  "Set user to global"
-  "グローバルにユーザーを設定する"
+  "Set User to Global"
+  "グローバルに設定されているユーザー"
 
   "Show Console"
   "コンソールの表示"
+
+  "Show Diagnostic Logfile"
+  "診断ログ ファイルを表示します。"
 
   "Show Last Profiling Report"
   "最後のプロファイリングレポートを表示"
@@ -633,11 +672,11 @@ msgcat::mcmset ja {
   "View"
   "表示"
 
-  "View base"
-  "ビュー·ベース"
+  "View Base"
+  "ビュー ベース"
 
-  "View global"
-  "グローバルを表示"
+  "View Global"
+  "グローバル ビュー"
 
   "Vim Mode"
   "Vimのモード"
@@ -732,9 +771,6 @@ msgcat::mcmset ja {
 # snippets.tcl
 msgcat::mcmset ja {
 
-  "Snippet: %s: %s"
-  "スニペットた：％s：％sの"
-
   "Snippet: *"
   "スニペット：*"
 
@@ -803,9 +839,6 @@ msgcat::mcmset ja {
 
 # tke.tcl
 msgcat::mcmset ja {
-
-  "ERROR:  %s"
-  "ERROR：％sは"
 
   "Edit theme?"
   "テーマを編集？"

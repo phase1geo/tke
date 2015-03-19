@@ -150,11 +150,11 @@ msgcat::mcmset sv {
   "Edit"
   "Ändra"
 
-  "Edit current"
-  "Redigera Ström"
+  "Edit Language"
+  "Redigera språk"
 
-  "Edit user"
-  "Redigera användare"
+  "Edit User"
+  "Redigera medlem"
 
   "Edit..."
   "Redigera..."
@@ -228,6 +228,12 @@ msgcat::mcmset sv {
   "Install..."
   "Installera"
 
+  "Jump backward"
+  "Hoppa bakåt"
+
+  "Jump forward"
+  "Hoppa framåt"
+
   "Launcher"
   "Launcher"
 
@@ -236,6 +242,9 @@ msgcat::mcmset sv {
 
   "Menu Bindings"
   "Meny Bindningar"
+
+  "Menu Edit user snippets"
+  "Menyn Redigera användare snuttar"
 
   "Menu: About TKE"
   "Meny: Om TKE"
@@ -279,8 +288,11 @@ msgcat::mcmset sv {
   "Menu: Edit Tke theme"
   "Meny: Redigera Tke tema"
 
-  "Menu: Edit current snippets"
-  "Meny: Redigera nuvarande snuttar"
+  "Menu: Edit language preferences"
+  "Meny: Redigera språkinställningar"
+
+  "Menu: Edit language snippets"
+  "Meny: Redigera språk snuttar"
 
   "Menu: Edit user menu bindings"
   "Meny: Redigera användarmenyns bindningar"
@@ -363,6 +375,12 @@ msgcat::mcmset sv {
   "Menu: Install plugin"
   "Meny: Installera plugin"
 
+  "Menu: Jump backward"
+  "Meny: Hoppa bakåt"
+
+  "Menu: Jump forward"
+  "Meny: Hoppa framåt"
+
   "Menu: Lock file"
   "Meny: Lås fil"
 
@@ -399,8 +417,11 @@ msgcat::mcmset sv {
   "Menu: Reload all plugins"
   "Meny: Ladda alla plugins"
 
-  "Menu: Reload current snippets"
-  "Meny: Ladda nuvarande snuttar"
+  "Menu: Reload snippets"
+  "Meny: Reload snuttar"
+
+  "Menu: Replace line with script"
+  "Meny: Ersätta linje med skript"
 
   "Menu: Restart tke"
   "Meny: Omstart tke"
@@ -420,11 +441,20 @@ msgcat::mcmset sv {
   "Menu: Select all text"
   "Markera all text"
 
+  "Menu: Send Bug Report"
+  "Meny: Skicka felrapport"
+
+  "Menu: Send Feedback"
+  "Meny: Skicka Feedback"
+
   "Menu: Set user bindings to global bindings"
   "Meny: Ställ användar bindningar till globala bindningar"
 
   "Menu: Set user preferences to global preferences"
   "Meny: Ange användarinställningar till globala inställningar"
+
+  "Menu: Show Diagnostic Logfile"
+  "Meny: Visa diagnostisk loggfil"
 
   "Menu: Show Tab Bar"
   "Meny: Visa Tab Bar"
@@ -525,11 +555,11 @@ msgcat::mcmset sv {
   "Reload"
   "Ladda om"
 
-  "Reload current"
-  "Ladda nuvarande"
+  "Replace line with script"
+  "Ersätta linje med skript"
 
-  "Reset user to base"
-  "Återställ användaren att basera"
+  "Reset User to Base"
+  "Återställa användare till Base"
 
   "Restart tke"
   "Starta om tke"
@@ -555,17 +585,26 @@ msgcat::mcmset sv {
   "Selected"
   "Vald"
 
+  "Send Bug Report"
+  "Skicka felrapport."
+
+  "Send Feedback"
+  "Sänd feedback"
+
   "Set Syntax"
   "Ställ Syntax"
 
   "Set Theme"
   "Ställ tema"
 
-  "Set user to global"
-  "Ställ in användare till global"
+  "Set User to Global"
+  "Ställa in användare till Global"
 
   "Show Console"
   "Visa konsol"
+
+  "Show Diagnostic Logfile"
+  "Visa diagnostisk loggfil"
 
   "Show Last Profiling Report"
   "Visa Senaste Profilering Rapport"
@@ -633,11 +672,11 @@ msgcat::mcmset sv {
   "View"
   "Visa"
 
-  "View base"
-  "Se bas"
+  "View Base"
+  "Visa Base"
 
-  "View global"
-  "Visa global"
+  "View Global"
+  "Visa globala"
 
   "Vim Mode"
   "Vim Läge"
@@ -732,9 +771,6 @@ msgcat::mcmset sv {
 # snippets.tcl
 msgcat::mcmset sv {
 
-  "Snippet: %s: %s"
-  "Snippet:% s:% s"
-
   "Snippet: *"
   "Fragment: *"
 
@@ -803,9 +839,6 @@ msgcat::mcmset sv {
 
 # tke.tcl
 msgcat::mcmset sv {
-
-  "ERROR:  %s"
-  "FEL:% s"
 
   "Edit theme?"
   "Redigera tema?"

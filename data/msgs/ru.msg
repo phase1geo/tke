@@ -150,11 +150,11 @@ msgcat::mcmset ru {
   "Edit"
   "Редактировать"
 
-  "Edit current"
-  "Редактировать тока"
+  "Edit Language"
+  "Редактировать Язык"
 
-  "Edit user"
-  "Редактирование пользователя"
+  "Edit User"
+  "Редактировать страницу пользователя"
 
   "Edit..."
   "Правка..."
@@ -228,6 +228,12 @@ msgcat::mcmset ru {
   "Install..."
   "Устанавливать"
 
+  "Jump backward"
+  "Перейти назад"
+
+  "Jump forward"
+  "Прыжок вперед"
+
   "Launcher"
   "Пусковая установка"
 
@@ -236,6 +242,9 @@ msgcat::mcmset ru {
 
   "Menu Bindings"
   "Меню Наручники"
+
+  "Menu Edit user snippets"
+  "Меню редактирования пользователем фрагментов"
 
   "Menu: About TKE"
   "Меню: О ТКЕ"
@@ -279,8 +288,11 @@ msgcat::mcmset ru {
   "Menu: Edit Tke theme"
   "Меню: Редактирование ТКЕ тему"
 
-  "Menu: Edit current snippets"
-  "Меню: Редактирование текущие поместив"
+  "Menu: Edit language preferences"
+  "Меню: Edit языковых предпочтений"
+
+  "Menu: Edit language snippets"
+  "Меню: Фрагменты языка Edit"
 
   "Menu: Edit user menu bindings"
   "Привязки меню Правка пользователь: Меню"
@@ -363,6 +375,12 @@ msgcat::mcmset ru {
   "Menu: Install plugin"
   "Меню: Установите плагин"
 
+  "Menu: Jump backward"
+  "Меню: Прыжок назад"
+
+  "Menu: Jump forward"
+  "Меню: Прыжок вперед"
+
   "Menu: Lock file"
   "Меню: Файл блокировки"
 
@@ -399,8 +417,11 @@ msgcat::mcmset ru {
   "Menu: Reload all plugins"
   "Меню: Reload все плагины"
 
-  "Menu: Reload current snippets"
-  "Меню: Перезагрузка текущей поместив"
+  "Menu: Reload snippets"
+  "Меню: Перезагрузка фрагментов"
+
+  "Menu: Replace line with script"
+  "Меню: Замените строку скрипта"
 
   "Menu: Restart tke"
   "Меню: Перезагрузка ТКЕ"
@@ -420,11 +441,20 @@ msgcat::mcmset ru {
   "Menu: Select all text"
   "Меню: Выбрать весь текст"
 
+  "Menu: Send Bug Report"
+  "Меню: Отправить отчет об ошибке"
+
+  "Menu: Send Feedback"
+  "Меню: Отправить отзыв"
+
   "Menu: Set user bindings to global bindings"
   "Меню: Установите пользовательские привязки к глобальным привязок"
 
   "Menu: Set user preferences to global preferences"
   "Меню: Установите пользовательские предпочтения на глобальные предпочтения"
+
+  "Menu: Show Diagnostic Logfile"
+  "Меню: Шоу диагностический лог"
 
   "Menu: Show Tab Bar"
   "Меню: Показать Панель вкладок"
@@ -525,11 +555,11 @@ msgcat::mcmset ru {
   "Reload"
   "Перезагрузить"
 
-  "Reload current"
-  "Перезагрузка текущей"
+  "Replace line with script"
+  "Замените строку скрипта"
 
-  "Reset user to base"
-  "Сброс пользователю основывать"
+  "Reset User to Base"
+  "Восстановить базу пользователя"
 
   "Restart tke"
   "Перезагрузка ТКЕ"
@@ -555,17 +585,26 @@ msgcat::mcmset ru {
   "Selected"
   "Выбранный"
 
+  "Send Bug Report"
+  "Отправить отчет об ошибке"
+
+  "Send Feedback"
+  "Отправить отзыв"
+
   "Set Syntax"
   "Установите Синтаксис"
 
   "Set Theme"
   "Заданную тему"
 
-  "Set user to global"
-  "Установите пользователю глобальной"
+  "Set User to Global"
+  "Задать пользователя для глобальной"
 
   "Show Console"
   "Показать консоль"
+
+  "Show Diagnostic Logfile"
+  "Показать файл журнала диагностики"
 
   "Show Last Profiling Report"
   "Показать Последний профилирования отчет"
@@ -633,11 +672,11 @@ msgcat::mcmset ru {
   "View"
   "Просмотр"
 
-  "View base"
-  "Посмотреть база"
+  "View Base"
+  "Просмотр базы"
 
-  "View global"
-  "Просмотреть глобальную"
+  "View Global"
+  "Вид глобальной"
 
   "Vim Mode"
   "Режим Вим"
@@ -732,9 +771,6 @@ msgcat::mcmset ru {
 # snippets.tcl
 msgcat::mcmset ru {
 
-  "Snippet: %s: %s"
-  "Фрагмент:% S:% с"
-
   "Snippet: *"
   "Фрагмент: *"
 
@@ -803,9 +839,6 @@ msgcat::mcmset ru {
 
 # tke.tcl
 msgcat::mcmset ru {
-
-  "ERROR:  %s"
-  "ОШИБКА:% с"
 
   "Edit theme?"
   "Редактировать тему?"

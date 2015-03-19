@@ -457,6 +457,9 @@ namespace eval menus {
     if {[::tke_development]} {
       stop_profiling_command .menubar.tools 0
     }
+    
+    # Stop the logger
+    logger::on_exit
 
   }
 
@@ -1323,9 +1326,14 @@ namespace eval menus {
       $mb add command -label [msgcat::mc "Stop Profiling"] -underline 1 -command "menus::stop_profiling_command $mb 1" -state disabled
       launcher::register [msgcat::mc "Menu: Stop profiling"] "menus::stop_profiling_command $mb 1"
 
-      $mb add command -label [msgcat::mc "Show Last Profiling Report"] -underline 1 -command "menus::show_last_profiling_report"
+      $mb add command -label [msgcat::mc "Show Last Profiling Report"] -underline 5 -command "menus::show_last_profiling_report"
       launcher::register [msgcat::mc "Menu: Show last profiling report"] "menus::show_last_profiling_report"
-
+      
+      $mb add separator
+      
+      $mb add command -label [msgcat::mc "Show Diagnostic Logfile"] -underline 5 -command "logger::view_log"
+      launcher::register [msgcat::mc "Menu: Show Diagnostic Logfile"] "logger::view_log"
+      
       $mb add separator
 
       $mb add command -label [msgcat::mc "Restart tke"] -underline 0 -command "menus::restart_command"
@@ -1587,10 +1595,15 @@ namespace eval menus {
     }
 
     $mb add separator
+    
     $mb add command -label [msgcat::mc "Send Feedback"] -underline 5 -command "menus::help_feedback_command"
     launcher::register [msgcat::mc "Menu: Send Feedback"] "menus::help_feedback_command"
+    
+    $mb add command -label [msgcat::mc "Send Bug Report"] -underline 5 -command "menus::help_submit_report"
+    launcher::register [msgcat::mc "Menu: Send Bug Report"] "menus::help_submit_report"
 
     if {[tk windowingsystem] ne "aqua"} {
+      $mb add separator
       $mb add command -label [msgcat::mc "About TKE"] -underline 0 -command "gui::show_about"
       launcher::register [msgcat::mc "Menu: About TKE"] "gui::show_about"
     }
@@ -1603,6 +1616,20 @@ namespace eval menus {
 
     utils::open_file_externally "mailto:phase1geo@gmail.com?subject=Feedback for TKE" 1
 
+  }
+  
+  ######################################################################
+  proc help_submit_report {} {
+    
+    # Retrieve the contents of the diagnostic logfile
+    set log_content [logger::get_log]
+    
+    # Create the message body
+    set body "Add bug description:\n\n\n\n\n$log_content"
+    
+    # Send an e-mail with the logfile contents
+    utils::open_file_externally "mailto:phase1geo@gmail.com?subject=Bug Report for TKE&body=$body" 
+    
   }
 
   ######################################################################
