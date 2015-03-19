@@ -1,113 +1,30 @@
-changeset:   854:66e717ddc48a
-tag:         devel-1.5.4
+changeset:   867:e08dc7d2861f
+tag:         devel-1.5.5
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Mar 12 01:21:39 2015 -0500
+date:        Wed Mar 18 20:21:49 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.5.4 release
+ChangeLog for devel-1.5.5 release
 
 
-changeset:   855:97c9200ff852
+changeset:   868:264ebd95e880
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Mar 12 01:21:43 2015 -0500
+date:        Wed Mar 18 20:21:53 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.5.4 for changeset 66e717ddc48a
+Added tag devel-1.5.5 for changeset e08dc7d2861f
 
 
-changeset:   856:960af81f3e53
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Fri Mar 13 16:26:31 2015 -0500
-files:       lib/menus.tcl lib/version.tcl
-description:
-* Adding "Send Feedback" item to Help menu.
-
-
-changeset:   857:cbc3d71ae9de
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Mar 14 08:24:34 2015 -0500
-files:       lib/api.tcl lib/ctext/ctext.tcl lib/gui.tcl lib/plugins.tcl lib/version.tcl plugins/changebar/main.tcl
-description:
-* More work on changebar plugin (still a work in progress).
-* More framework fixes to support changebar.
-
-
-changeset:   858:a450b061b08b
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Mar 14 13:43:58 2015 -0500
-files:       lib/ctext/ctext.tcl lib/plugins.tcl lib/version.tcl plugins/changebar/main.tcl
-description:
-* Checkpointing more work on the changebar feature.
-* Fixing menu issues in plugin framework.
-
-
-changeset:   859:da0e9c137407
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 17 08:41:41 2015 -0500
-files:       lib/ctext/ctext.tcl lib/gui.tcl lib/version.tcl
-description:
-* Checkpointing work on gutters.
-
-
-changeset:   860:b4d35085bf04
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 17 09:43:38 2015 -0500
-files:       lib/ctext/ctext.tcl lib/gui.tcl lib/plugins.tcl lib/version.tcl plugins/changebar/main.tcl
-description:
-* More enhancements to changebar plugin.
-* Fixing gutter clear issue.
-* Adding on_update plugin event handler.
-
-
-changeset:   861:f7c09527cd1c
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Tue Mar 17 13:52:45 2015 -0500
-files:       lib/gui.tcl lib/plugins.tcl lib/version.tcl plugins/changebar/main.tcl plugins/perforce/main.tcl plugins/todo/main.tcl
-description:
-* Fixing support for checkbutton and radiobutton menu item variables.
-* Other various fixes.
-
-
-changeset:   862:27fb8038fc29
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Tue Mar 17 17:34:01 2015 -0500
-files:       lib/ctext/ctext.tcl lib/menus.tcl lib/texttools.tcl lib/version.tcl
-description:
-* Adding 'Replace line with script' command to the Text menu.
-* Fixing syntax error in ctext.
-
-
-changeset:   863:152abf754f82
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 17 20:19:13 2015 -0500
-files:       data/preferences.tkedat lib/menus.tcl lib/snippets.tcl lib/version.tcl
-description:
-* Added snippet preference to allow user to specify character(s) that will cause a snippet completion check to occur.
-* Working on adding support for user snippets (in progress).
-
-
-changeset:   864:dbf580da396c
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Mar 18 00:51:14 2015 -0500
-files:       lib/snippets.tcl lib/version.tcl
-description:
-* Fixing snippets changes.
-
-
-changeset:   865:4fcb682e6b87
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Mar 18 09:18:40 2015 -0500
-files:       lib/ctext/ctext.tcl lib/gui.tcl lib/version.tcl
-description:
-* Checkpointing work on matching brackets within a string/comment (work in progress).
-
-
-changeset:   866:d1af5f93dd6e
+changeset:   869:baa37f71a88d
 tag:         tip
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Mar 18 17:59:13 2015 -0500
-files:       lib/ctext/ctext.tcl lib/gui.tcl lib/version.tcl
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Mar 18 23:58:36 2015 -0500
+files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg data/preferences.tkedat lib/logger.tcl lib/menus.tcl lib/tke.tcl lib/version.tcl lib/vim.tcl
 description:
-* Fixing issues with bracket matching within string/comment.
+* Adding support for diagnostic logging.
+* Updating languages.
+* Adding "Show Diagnostic Logfile" option to Tools menu when running in development mode.
+* Adding "Send Bug Report" option to Help menu.
+* Sending all error information to the diagnostic logfile now.
 
 
