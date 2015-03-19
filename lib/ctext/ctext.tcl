@@ -58,6 +58,7 @@ proc ctext {win args} {
   set ar(-undo)                  0
   set ar(-maxundo)               0
   set ar(-autoseparators)        0
+  set ar(-diff_mode)             0
   set ar(re_opts)                ""
   set ar(win)                    $win
   set ar(modified)               0
@@ -85,7 +86,7 @@ proc ctext {win args} {
   -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable \
   -linemap_show_current -linemap_cursor -highlightcolor \
   -linemap_select_fg -linemap_select_bg -linemap_relief -linemap_minwidth -casesensitive -peer \
-  -undo -maxundo -autoseparators]
+  -undo -maxundo -autoseparators -diff_mode]
 
   array set ar $args
 
