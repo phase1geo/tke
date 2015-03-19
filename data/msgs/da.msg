@@ -150,11 +150,11 @@ msgcat::mcmset da {
   "Edit"
   "Rediger"
 
-  "Edit current"
-  "Redigér nuværende..."
+  "Edit Language"
+  "Rediger sprog"
 
-  "Edit user"
-  "Rediger bruger"
+  "Edit User"
+  "Rediger bruger."
 
   "Edit..."
   "Rediger..."
@@ -228,6 +228,12 @@ msgcat::mcmset da {
   "Install..."
   "Installer"
 
+  "Jump backward"
+  "Hoppe baglæns"
+
+  "Jump forward"
+  "Spring frem"
+
   "Launcher"
   "Launcher"
 
@@ -236,6 +242,9 @@ msgcat::mcmset da {
 
   "Menu Bindings"
   "Menu Bindinger"
+
+  "Menu Edit user snippets"
+  "Menuen Rediger bruger snippets"
 
   "Menu: About TKE"
   "Menu: About TKE"
@@ -279,8 +288,11 @@ msgcat::mcmset da {
   "Menu: Edit Tke theme"
   "Menu: Rediger Tke tema"
 
-  "Menu: Edit current snippets"
-  "Menu: Rediger aktuel uddrag"
+  "Menu: Edit language preferences"
+  "Menu: Rediger sprogindstillinger"
+
+  "Menu: Edit language snippets"
+  "Menu: Rediger sprog uddrag"
 
   "Menu: Edit user menu bindings"
   "Menu: Rediger brugermenuskærmene bindinger"
@@ -363,6 +375,12 @@ msgcat::mcmset da {
   "Menu: Install plugin"
   "Menu: Installer plugin"
 
+  "Menu: Jump backward"
+  "Menu: Hoppe baglæns"
+
+  "Menu: Jump forward"
+  "Menu: Hop fremad"
+
   "Menu: Lock file"
   "Menu: Lås fil"
 
@@ -399,8 +417,11 @@ msgcat::mcmset da {
   "Menu: Reload all plugins"
   "Menu: Opdater alle plugins"
 
-  "Menu: Reload current snippets"
-  "Menu: Genindlæs nuværende uddrag"
+  "Menu: Reload snippets"
+  "Menu: Reload snippets"
+
+  "Menu: Replace line with script"
+  "Menu: Erstatningsslangen med script"
 
   "Menu: Restart tke"
   "Menu: Genstart tke"
@@ -420,11 +441,20 @@ msgcat::mcmset da {
   "Menu: Select all text"
   "Markér al tekst"
 
+  "Menu: Send Bug Report"
+  "Menu: Send fejlrapport"
+
+  "Menu: Send Feedback"
+  "Menu: Send Feedback"
+
   "Menu: Set user bindings to global bindings"
   "Menu: Indstil brugernes bindinger til globale bindinger"
 
   "Menu: Set user preferences to global preferences"
   "Menu: Indstil brugerindstillinger til globale præferencer"
+
+  "Menu: Show Diagnostic Logfile"
+  "Menu: Vis diagnostisk logfil"
 
   "Menu: Show Tab Bar"
   "Menu: Vis fanebladslinje"
@@ -525,11 +555,11 @@ msgcat::mcmset da {
   "Reload"
   "Opdater"
 
-  "Reload current"
-  "Reload strøm"
+  "Replace line with script"
+  "Erstatte linje med script"
 
-  "Reset user to base"
-  "Nulstil brugeren at basere"
+  "Reset User to Base"
+  "Nulstille bruger til Base"
 
   "Restart tke"
   "Genstart TKE"
@@ -555,17 +585,26 @@ msgcat::mcmset da {
   "Selected"
   "Valgt"
 
+  "Send Bug Report"
+  "Send fejlrapport."
+
+  "Send Feedback"
+  "Send Feedback"
+
   "Set Syntax"
   "Set Syntaks"
 
   "Set Theme"
   "Set Theme"
 
-  "Set user to global"
-  "Indstil bruger til global"
+  "Set User to Global"
+  "Sæt brugeren til Global"
 
   "Show Console"
   "Vis Console"
+
+  "Show Diagnostic Logfile"
+  "Vis diagnostisk logfil"
 
   "Show Last Profiling Report"
   "Vis Seneste Profiling Report"
@@ -633,11 +672,11 @@ msgcat::mcmset da {
   "View"
   "Vis"
 
-  "View base"
-  "Vis basen"
+  "View Base"
+  "Se Base"
 
-  "View global"
-  "Se global"
+  "View Global"
+  "Se globale"
 
   "Vim Mode"
   "Vim-tilstand"
@@ -732,9 +771,6 @@ msgcat::mcmset da {
 # snippets.tcl
 msgcat::mcmset da {
 
-  "Snippet: %s: %s"
-  "Snippet:% s:% s"
-
   "Snippet: *"
   "Uddragsvisning: *"
 
@@ -803,9 +839,6 @@ msgcat::mcmset da {
 
 # tke.tcl
 msgcat::mcmset da {
-
-  "ERROR:  %s"
-  "FEJL:% s"
 
   "Edit theme?"
   "Rediger tema?"

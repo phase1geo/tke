@@ -53,6 +53,7 @@ source [file join $tke_dir lib tkedat.tcl]
 source [file join $tke_dir lib themer.tcl]
 source [file join $tke_dir lib themes.tcl]
 source [file join $tke_dir lib favorites.tcl]
+source [file join $tke_dir lib logger.tcl]
 
 if {[tk windowingsystem] eq "aqua"} {
   source [file join $tke_dir lib windowlist.tcl]
@@ -139,17 +140,11 @@ proc handle_signal {} {
   # Kill the GUI
   catch { destroy . }
   
+  # Exit the logger
+  logger::on_exit
+  
   # Exit the application
   exit
-
-}
-
-######################################################################
-# Handle any background errors.
-proc bgerror {msg} {
-
-  puts [msgcat::mc "ERROR:  %s" $msg]
-  puts $::errorInfo
 
 }
 
@@ -224,100 +219,109 @@ if {[tk windowingsystem] eq "aqua"} {
 signal trap TERM handle_signal
 signal trap INT  handle_signal
 
-# Set the application name to tke
-tk appname tke
-
-# Parse the command-line options
-parse_cmdline $argc $argv
-
-# Attempt to add files or raise the existing application
-if {([tk appname] ne "tke") && ([tk windowingsystem] eq "x11") && !$cl_new_win} {
-  if {[llength $cl_files] > 0} {
-    if {![catch { send tke gui::add_files_and_raise [info hostname] end $cl_files } rc]} {
-      destroy .
-      exit
-    } elseif {[regexp {X server} $rc]} {
-      puts $rc
-    }
-    # puts "rc: $rc"
-  } else {
-    if {![catch "send tke gui::raise_window" rc]} {
-      destroy .
-      exit
-    } elseif {[regexp {X server} $rc]} {
-      puts $rc
-    }
-  }
-}
-
-# Create the ~/.tke directory if it doesn't already exist
-if {![file exists $tke_home]} {
-  file mkdir $tke_home
-}
-
-# Initialize the themes
-themes::initialize
-
-# Load the preferences
-preferences::load
-
-# If we need to check for updates on start, do that now
-if {[preferences::get General/UpdateCheckOnStart]} {
-  if {[preferences::get General/UpdateReleaseType] eq "devel"} {
-    specl::check_for_update 1 [expr $specl::RTYPE_STABLE | $specl::RTYPE_DEVEL]
-  } else {
-    specl::check_for_update 1 $specl::RTYPE_STABLE
-  }
-}
-
-# Load the plugins
-plugins::load
-
-# Load the snippets
-snippets::load
-
-# Load the clipboard history
-cliphist::load
-
-# Load the syntax highlighting information
-syntax::load
-
-# Load the favorites information
-favorites::load
-
-# Set the delay to 1 second
-tooltip::tooltip delay 1000
-
-# Create GUI
-gui::create
-
-# Update the UI
-themes::handle_theme_change
-
-# Run any plugins that are required at application start
-plugins::handle_on_start
-
-# Populate the GUI with the command-line filelist (if specified)
-if {[llength $cl_files] > 0} {
-  foreach cl_file $cl_files {
-    set name [file normalize $cl_file]
-    if {[file isdirectory $name]} {
-      sidebar::add_directory $name
+if {[catch {
+  
+  # Set the application name to tke
+  tk appname tke
+   
+  # Parse the command-line options
+  parse_cmdline $argc $argv
+   
+  # Attempt to add files or raise the existing application
+  if {([tk appname] ne "tke") && ([tk windowingsystem] eq "x11") && !$cl_new_win} {
+    if {[llength $cl_files] > 0} {
+      if {![catch { send tke gui::add_files_and_raise [info hostname] end $cl_files } rc]} {
+        destroy .
+        exit
+      } elseif {[regexp {X server} $rc]} {
+        puts $rc
+      }
+      # puts "rc: $rc"
     } else {
-      gui::add_file end $name
+      if {![catch "send tke gui::raise_window" rc]} {
+        destroy .
+        exit
+      } elseif {[regexp {X server} $rc]} {
+        puts $rc
+      }
     }
   }
-} else {
-  gui::add_new_file end
+   
+  # Create the ~/.tke directory if it doesn't already exist
+  if {![file exists $tke_home]} {
+    file mkdir $tke_home
+  }
+   
+  # Initialize the themes
+  themes::initialize
+   
+  # Load the preferences
+  preferences::load
+    
+  # Initialize the diagnostic logger
+  logger::initialize
+   
+  # If we need to check for updates on start, do that now
+  if {[preferences::get General/UpdateCheckOnStart]} {
+    if {[preferences::get General/UpdateReleaseType] eq "devel"} {
+      specl::check_for_update 1 [expr $specl::RTYPE_STABLE | $specl::RTYPE_DEVEL]
+    } else {
+      specl::check_for_update 1 $specl::RTYPE_STABLE
+    }
+  }
+   
+  # Load the plugins
+  plugins::load
+   
+  # Load the snippets
+  snippets::load
+   
+  # Load the clipboard history
+  cliphist::load
+   
+  # Load the syntax highlighting information
+  syntax::load
+   
+  # Load the favorites information
+  favorites::load
+   
+  # Set the delay to 1 second
+  tooltip::tooltip delay 1000
+   
+  # Create GUI
+  gui::create
+   
+  # Update the UI
+  themes::handle_theme_change
+   
+  # Run any plugins that are required at application start
+  plugins::handle_on_start
+   
+  # Populate the GUI with the command-line filelist (if specified)
+  if {[llength $cl_files] > 0} {
+    foreach cl_file $cl_files {
+      set name [file normalize $cl_file]
+      if {[file isdirectory $name]} {
+        sidebar::add_directory $name
+      } else {
+        gui::add_file end $name
+      }
+    }
+  } else {
+    gui::add_new_file end
+  }
+   
+  # Load the session file
+  gui::load_session {}
+   
+  # This will hide hidden files/directories but provide a button in the dialog boxes to show/hide theme
+  catch {
+    catch { tk_getOpenFile foo bar }
+    # set ::tk::dialog::file::showHiddenBtn 1
+    set ::tk::dialog::file::showHiddenVar 0
+  } 
+  
+} rc]} {
+  bgerror $rc
 }
-
-# Load the session file
-gui::load_session {}
-
-# This will hide hidden files/directories but provide a button in the dialog boxes to show/hide theme
-catch {
-  catch { tk_getOpenFile foo bar }
-  # set ::tk::dialog::file::showHiddenBtn 1
-  set ::tk::dialog::file::showHiddenVar 0
-} 
 

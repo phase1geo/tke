@@ -150,10 +150,10 @@ msgcat::mcmset de {
   "Edit"
   "Bearbeiten"
 
-  "Edit current"
-  "Aktuellen Bearbeitungs"
+  "Edit Language"
+  "Sprachen bearbeiten"
 
-  "Edit user"
+  "Edit User"
   "Benutzer bearbeiten"
 
   "Edit..."
@@ -228,6 +228,12 @@ msgcat::mcmset de {
   "Install..."
   "installieren"
 
+  "Jump backward"
+  "Rückwärts springen"
+
+  "Jump forward"
+  "Vorwärts springen"
+
   "Launcher"
   "Launcher"
 
@@ -236,6 +242,9 @@ msgcat::mcmset de {
 
   "Menu Bindings"
   "Menü Bindungen"
+
+  "Menu Edit user snippets"
+  "Menü Bearbeiten Benutzer Ausschnitte"
 
   "Menu: About TKE"
   "Menü: Über TKE"
@@ -279,8 +288,11 @@ msgcat::mcmset de {
   "Menu: Edit Tke theme"
   "Menü: Bearbeiten Tke Thema"
 
-  "Menu: Edit current snippets"
-  "Menü: Bearbeiten Sie die Snippets"
+  "Menu: Edit language preferences"
+  "Menü: Bearbeiten-Spracheinstellungen"
+
+  "Menu: Edit language snippets"
+  "Menü: Bearbeiten-Sprache-Ausschnitte"
 
   "Menu: Edit user menu bindings"
   "Menü: Bearbeiten Benutzermenü Bindungen"
@@ -363,6 +375,12 @@ msgcat::mcmset de {
   "Menu: Install plugin"
   "Menü: Plugin installieren"
 
+  "Menu: Jump backward"
+  "Menü: Rückwärts springen"
+
+  "Menu: Jump forward"
+  "Menü: Sprung nach vorn"
+
   "Menu: Lock file"
   "Menü: Lock-Datei"
 
@@ -399,8 +417,11 @@ msgcat::mcmset de {
   "Menu: Reload all plugins"
   "Menü: alle Plugins neu laden"
 
-  "Menu: Reload current snippets"
-  "Menü: laden Aktuelle Snippets"
+  "Menu: Reload snippets"
+  "Menü: Reload Ausschnitte"
+
+  "Menu: Replace line with script"
+  "Menü: Ersetze Zeile mit Skript"
 
   "Menu: Restart tke"
   "Menü: Starten tke"
@@ -420,11 +441,20 @@ msgcat::mcmset de {
   "Menu: Select all text"
   "Gesamten Text auswählen"
 
+  "Menu: Send Bug Report"
+  "Menü: Send-Bug-Report"
+
+  "Menu: Send Feedback"
+  "Menü: Feedback senden"
+
   "Menu: Set user bindings to global bindings"
   "Menü: Einrichten von Benutzer Bindungen zu globalen Bindungen"
 
   "Menu: Set user preferences to global preferences"
   "Menü: Legen Sie die Benutzereinstellungen zu globalen Einstellungen"
+
+  "Menu: Show Diagnostic Logfile"
+  "Menü: Show Diagnose Logfile"
 
   "Menu: Show Tab Bar"
   "Menü: Show Tab Bar"
@@ -525,11 +555,11 @@ msgcat::mcmset de {
   "Reload"
   "Neu laden"
 
-  "Reload current"
-  "Reload Strom"
+  "Replace line with script"
+  "Ersetze Zeile mit Skript"
 
-  "Reset user to base"
-  "Reset User zur Basis"
+  "Reset User to Base"
+  "Benutzer auf Basis zurücksetzen"
 
   "Restart tke"
   "Starten tke"
@@ -555,17 +585,26 @@ msgcat::mcmset de {
   "Selected"
   "Ausgewählt"
 
+  "Send Bug Report"
+  "Fehlerbericht senden"
+
+  "Send Feedback"
+  "Schicken Sie Feedback"
+
   "Set Syntax"
   "Stellen Syntax"
 
   "Set Theme"
   "Stellen Theme"
 
-  "Set user to global"
-  "Setzen Anwender weltweit"
+  "Set User to Global"
+  "Set User an globale"
 
   "Show Console"
   "Konsole einblenden"
+
+  "Show Diagnostic Logfile"
+  "Diagnostische Logfile zeigen"
 
   "Show Last Profiling Report"
   "Zeige die letzten Profiling melden"
@@ -633,11 +672,11 @@ msgcat::mcmset de {
   "View"
   "Blick"
 
-  "View base"
-  "View Basis"
+  "View Base"
+  "Ansicht Base"
 
-  "View global"
-  "Globale"
+  "View Global"
+  "Ansicht Global"
 
   "Vim Mode"
   "Vim-Modus"
@@ -732,9 +771,6 @@ msgcat::mcmset de {
 # snippets.tcl
 msgcat::mcmset de {
 
-  "Snippet: %s: %s"
-  "Snippet: %s: %s"
-
   "Snippet: *"
   "Snippet"
 
@@ -803,9 +839,6 @@ msgcat::mcmset de {
 
 # tke.tcl
 msgcat::mcmset de {
-
-  "ERROR:  %s"
-  "ERROR:  %s"
 
   "Edit theme?"
   "Thema bearbeiten?"

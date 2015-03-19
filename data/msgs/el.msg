@@ -150,10 +150,10 @@ msgcat::mcmset el {
   "Edit"
   "Επεξεργασία"
 
-  "Edit current"
-  "Επεξεργασία ρεύμα"
+  "Edit Language"
+  "Επεξεργασία Γλώσσας"
 
-  "Edit user"
+  "Edit User"
   "Επεξεργασία χρήστη"
 
   "Edit..."
@@ -228,6 +228,12 @@ msgcat::mcmset el {
   "Install..."
   "εγκαθιστώ"
 
+  "Jump backward"
+  "Άλμα προς τα πίσω"
+
+  "Jump forward"
+  "Άλμα προς τα εμπρός"
+
   "Launcher"
   "Προωθητής"
 
@@ -236,6 +242,9 @@ msgcat::mcmset el {
 
   "Menu Bindings"
   "Δέστρες Μενού"
+
+  "Menu Edit user snippets"
+  "Επεξεργασία μενού χρήστη αποσπάσματα"
 
   "Menu: About TKE"
   "Μενού: Σχετικά με ΤΚΕ"
@@ -279,8 +288,11 @@ msgcat::mcmset el {
   "Menu: Edit Tke theme"
   "Μενού: Επεξεργασία Tke θέμα"
 
-  "Menu: Edit current snippets"
-  "Μενού: Επεξεργαστείτε τις τρέχουσες αποσπάσματα"
+  "Menu: Edit language preferences"
+  "Μενού: Προτιμήσεις γλώσσας επεξεργασία"
+
+  "Menu: Edit language snippets"
+  "Μενού: Επεξεργασία γλώσσα αποσπάσματα"
 
   "Menu: Edit user menu bindings"
   "Δέστρες μενού χρήστη Edit: Μενού"
@@ -363,6 +375,12 @@ msgcat::mcmset el {
   "Menu: Install plugin"
   "Μενού: Εγκατάσταση plugin"
 
+  "Menu: Jump backward"
+  "Μενού: Άλμα προς τα πίσω"
+
+  "Menu: Jump forward"
+  "Μενού: Άλμα προς τα εμπρός"
+
   "Menu: Lock file"
   "Μενού: Αρχείο Lock"
 
@@ -399,8 +417,11 @@ msgcat::mcmset el {
   "Menu: Reload all plugins"
   "Μενού: Ανανέωση όλα τα plugins"
 
-  "Menu: Reload current snippets"
-  "Μενού: Ανανέωση τρέχουσας αποσπάσματα"
+  "Menu: Reload snippets"
+  "Μενού: Νέα φόρτωση αποσπάσματα"
+
+  "Menu: Replace line with script"
+  "Μενού: Αντικαταστήστε την γραμμή με σενάριο"
 
   "Menu: Restart tke"
   "Μενού: Επανεκκίνηση ΤΚΕ"
@@ -420,11 +441,20 @@ msgcat::mcmset el {
   "Menu: Select all text"
   "Επιλογή όλου του κειμένου"
 
+  "Menu: Send Bug Report"
+  "Μενού: Στείλετε αναφορά σφάλματος"
+
+  "Menu: Send Feedback"
+  "Μενού: Αποστολή σχολίων"
+
   "Menu: Set user bindings to global bindings"
   "Μενού: Ορισμός δέστρες χρήστη για την παγκόσμια συνδέσεις"
 
   "Menu: Set user preferences to global preferences"
   "Μενού: Ορισμός προτιμήσεων χρήστη στις παγκόσμιες προτιμήσεις"
+
+  "Menu: Show Diagnostic Logfile"
+  "Μενού: Διαγνωστικά Logfile Εμφάνιση"
 
   "Menu: Show Tab Bar"
   "Μενού: Εμφάνιση Γραμμήκαρτελών"
@@ -525,11 +555,11 @@ msgcat::mcmset el {
   "Reload"
   "Επαναφόρτωση"
 
-  "Reload current"
-  "Τρέχουσα Ανανέωση"
+  "Replace line with script"
+  "Αντικαταστήστε την γραμμή με σενάριο"
 
-  "Reset user to base"
-  "Επαναφορά του χρήστη να βασιστεί"
+  "Reset User to Base"
+  "Ξαναρυθμίζω χρήστη στη βάση"
 
   "Restart tke"
   "Επανεκκίνηση ΤΚΕ"
@@ -555,17 +585,26 @@ msgcat::mcmset el {
   "Selected"
   "Επιλεγμ."
 
+  "Send Bug Report"
+  "Στείλτε την αναφορά σφαλμάτων"
+
+  "Send Feedback"
+  "Αποστολή Σχολίων"
+
   "Set Syntax"
   "Ορισμός Σύνταξη"
 
   "Set Theme"
   "Ορισμός Θέμα"
 
-  "Set user to global"
-  "Ορισμός χρήστη στην παγκόσμια"
+  "Set User to Global"
+  "Χρήστη που ορίζεται στην παγκόσμια"
 
   "Show Console"
   "Εμφάνιση Console"
+
+  "Show Diagnostic Logfile"
+  "Εμφάνιση διαγνωστικό Logfile"
 
   "Show Last Profiling Report"
   "Εμφάνιση Τελευταία Έκθεση Profiling"
@@ -633,11 +672,11 @@ msgcat::mcmset el {
   "View"
   "Προβολή"
 
-  "View base"
-  "Προβολή βάση"
+  "View Base"
+  "Προβολή βάσης"
 
-  "View global"
-  "Προβολή παγκόσμια"
+  "View Global"
+  "Παγκόσμια προβολή"
 
   "Vim Mode"
   "Λειτουργία Vim"
@@ -732,9 +771,6 @@ msgcat::mcmset el {
 # snippets.tcl
 msgcat::mcmset el {
 
-  "Snippet: %s: %s"
-  "Απόσπασμα:% s:% s"
-
   "Snippet: *"
   "Απόσπασμα: *"
 
@@ -803,9 +839,6 @@ msgcat::mcmset el {
 
 # tke.tcl
 msgcat::mcmset el {
-
-  "ERROR:  %s"
-  "ΣΦΑΛΜΑ:% s"
 
   "Edit theme?"
   "Επεξεργαστείτε το θέμα;"

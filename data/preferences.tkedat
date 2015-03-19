@@ -239,3 +239,9 @@
 # the <remote base directory> directory on the remote machine.
 
 {NFSMounts}                  {}
+
+# If specified to a non-empty string, specifies an alternative directory to store
+# any diagnostic output from the application.  If this value is set to the empty string,
+# the default directory will be the ~/.tke/logs directory.
+
+{Debug/LogDirectory}         {}

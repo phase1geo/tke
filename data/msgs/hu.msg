@@ -150,10 +150,10 @@ msgcat::mcmset hu {
   "Edit"
   "Szerkesztés"
 
-  "Edit current"
-  "A jelenlegi módosítása..."
+  "Edit Language"
+  "Nyelvre"
 
-  "Edit user"
+  "Edit User"
   "Felhasználó szerkesztése"
 
   "Edit..."
@@ -228,6 +228,12 @@ msgcat::mcmset hu {
   "Install..."
   "telepít"
 
+  "Jump backward"
+  "Ugrás hátra"
+
+  "Jump forward"
+  "Ugrás elõre"
+
   "Launcher"
   "Rakétaindító állvány"
 
@@ -236,6 +242,9 @@ msgcat::mcmset hu {
 
   "Menu Bindings"
   "Menü Bindings"
+
+  "Menu Edit user snippets"
+  "Menü Szerkesztés felhasználói mozaik"
 
   "Menu: About TKE"
   "Menü: Körülbelül TKE"
@@ -279,8 +288,11 @@ msgcat::mcmset hu {
   "Menu: Edit Tke theme"
   "Menü: Szerkesztés TKE téma"
 
-  "Menu: Edit current snippets"
-  "Menü: szerkesztése jelenlegi töredék"
+  "Menu: Edit language preferences"
+  "Menü: Szerkesztés nyelvi beállításai"
+
+  "Menu: Edit language snippets"
+  "Menü: Szerkesztés nyelvi mozaik"
 
   "Menu: Edit user menu bindings"
   "Menü: Felhasználói menü szerkesztése kötések"
@@ -363,6 +375,12 @@ msgcat::mcmset hu {
   "Menu: Install plugin"
   "Menü: Install bővítmény"
 
+  "Menu: Jump backward"
+  "Menü: Ugrás hátra"
+
+  "Menu: Jump forward"
+  "Menü: Ugrás előre"
+
   "Menu: Lock file"
   "Menü: Lock fájl"
 
@@ -399,8 +417,11 @@ msgcat::mcmset hu {
   "Menu: Reload all plugins"
   "Menü: Minden újratöltése plugins"
 
-  "Menu: Reload current snippets"
-  "Menü: Frissíti az aktuális töredék"
+  "Menu: Reload snippets"
+  "Menü: Reload töredék"
+
+  "Menu: Replace line with script"
+  "Menü: Cseréli vonal script"
 
   "Menu: Restart tke"
   "Menü: Restart TKE"
@@ -420,11 +441,20 @@ msgcat::mcmset hu {
   "Menu: Select all text"
   "Az összes szöveg kijelölése"
 
+  "Menu: Send Bug Report"
+  "Menü: Küldése hibajelentés"
+
+  "Menu: Send Feedback"
+  "Menü: Vonatkozó visszajelzés küldése"
+
   "Menu: Set user bindings to global bindings"
   "Menü: Állítsa be a felhasználó kötések a globális kötés"
 
   "Menu: Set user preferences to global preferences"
   "Menü: Állítsa be a felhasználói preferenciák globális beállítások"
+
+  "Menu: Show Diagnostic Logfile"
+  "Menü: Térkép diagnosztikai Logfile"
 
   "Menu: Show Tab Bar"
   "Menü: Show Tab Bar"
@@ -525,11 +555,11 @@ msgcat::mcmset hu {
   "Reload"
   "Újratölt"
 
-  "Reload current"
-  "Reload áram"
+  "Replace line with script"
+  "Helyettesít a vonal kézírás"
 
-  "Reset user to base"
-  "Reset Felhasználói alapozni"
+  "Reset User to Base"
+  "Reset a felhasználói bázis"
 
   "Restart tke"
   "Újraindítás TKE"
@@ -555,17 +585,26 @@ msgcat::mcmset hu {
   "Selected"
   "Szelekció"
 
+  "Send Bug Report"
+  "Hibajelentés küldése."
+
+  "Send Feedback"
+  "Visszajelzés küldése"
+
   "Set Syntax"
   "Beállítása Syntax"
 
   "Set Theme"
   "Set Theme"
 
-  "Set user to global"
-  "Állítsa be a felhasználó a globális"
+  "Set User to Global"
+  "Állítsa be a felhasználó, a globális"
 
   "Show Console"
   "Megjelenítése Console"
+
+  "Show Diagnostic Logfile"
+  "Diagnosztikai naplófájl megjelenítése"
 
   "Show Last Profiling Report"
   "Az utolsó Profiling jelentés"
@@ -633,11 +672,11 @@ msgcat::mcmset hu {
   "View"
   "Megjelenítés"
 
-  "View base"
-  "Nézet alap"
+  "View Base"
+  "Alap nézet"
 
-  "View global"
-  "Tekintse meg a globális"
+  "View Global"
+  "Globális nézet"
 
   "Vim Mode"
   "Vim Mode"
@@ -732,9 +771,6 @@ msgcat::mcmset hu {
 # snippets.tcl
 msgcat::mcmset hu {
 
-  "Snippet: %s: %s"
-  "Részlet:% s:% s"
-
   "Snippet: *"
   "Töredék: *"
 
@@ -803,9 +839,6 @@ msgcat::mcmset hu {
 
 # tke.tcl
 msgcat::mcmset hu {
-
-  "ERROR:  %s"
-  "HIBA:% s"
 
   "Edit theme?"
   "Szerkesztés témát?"

@@ -617,6 +617,9 @@ namespace eval vim {
 
     # Set the record mode to playback
     set record_mode "playback"
+    
+    # Log for debug
+    logger::log $recording
 
     # Replay the recording buffer
     foreach event $recording {

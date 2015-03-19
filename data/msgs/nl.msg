@@ -150,11 +150,11 @@ msgcat::mcmset nl {
   "Edit"
   "Bewerken"
 
-  "Edit current"
-  "Huidige bewerken"
+  "Edit Language"
+  "Bewerk Taal"
 
-  "Edit user"
-  "gebruiker veranderen"
+  "Edit User"
+  "Order bewerken"
 
   "Edit..."
   "Bewerken..."
@@ -228,6 +228,12 @@ msgcat::mcmset nl {
   "Install..."
   "Installatie"
 
+  "Jump backward"
+  "Spring achteruit"
+
+  "Jump forward"
+  "Spring vooruit"
+
   "Launcher"
   "Launcher"
 
@@ -236,6 +242,9 @@ msgcat::mcmset nl {
 
   "Menu Bindings"
   "Menu Bindingen"
+
+  "Menu Edit user snippets"
+  "Menu bewerken gebruiker fragmenten"
 
   "Menu: About TKE"
   "Menu: Over TKE"
@@ -279,8 +288,11 @@ msgcat::mcmset nl {
   "Menu: Edit Tke theme"
   "Menu: Bewerken Tke thema"
 
-  "Menu: Edit current snippets"
-  "Menu: Bewerken huidige flarden"
+  "Menu: Edit language preferences"
+  "Menu: Bewerken taalvoorkeuren"
+
+  "Menu: Edit language snippets"
+  "Menu: Bewerken taal fragmenten"
 
   "Menu: Edit user menu bindings"
   "Menu: menu Gebruiker bewerken bindingen"
@@ -363,6 +375,12 @@ msgcat::mcmset nl {
   "Menu: Install plugin"
   "Menu: Installeer plugin"
 
+  "Menu: Jump backward"
+  "Menu: Achteruit springen"
+
+  "Menu: Jump forward"
+  "Menu: Sprong voorwaarts"
+
   "Menu: Lock file"
   "Menu: Lock file"
 
@@ -399,8 +417,11 @@ msgcat::mcmset nl {
   "Menu: Reload all plugins"
   "Menu: Reload alle plugins"
 
-  "Menu: Reload current snippets"
-  "Menu: Reload huidige flarden"
+  "Menu: Reload snippets"
+  "Menu: Reload fragmenten"
+
+  "Menu: Replace line with script"
+  "Menu: Regel vervangen door script"
 
   "Menu: Restart tke"
   "Menu: Restart TKE"
@@ -420,11 +441,20 @@ msgcat::mcmset nl {
   "Menu: Select all text"
   "Alle tekst selecteren"
 
+  "Menu: Send Bug Report"
+  "Menu: Send bugreport"
+
+  "Menu: Send Feedback"
+  "Menu: Feedback verzenden"
+
   "Menu: Set user bindings to global bindings"
   "Menu: Stel gebruiker bindingen aan de mondiale bindingen"
 
   "Menu: Set user preferences to global preferences"
   "Menu: Stel gebruikersvoorkeuren tot wereldwijde voorkeuren"
+
+  "Menu: Show Diagnostic Logfile"
+  "Menu: Toon diagnostische Logfile"
 
   "Menu: Show Tab Bar"
   "Menu: Show Tab Bar"
@@ -525,11 +555,11 @@ msgcat::mcmset nl {
   "Reload"
   "Herladen"
 
-  "Reload current"
-  "Reload huidige"
+  "Replace line with script"
+  "Regel vervangen door script"
 
-  "Reset user to base"
-  "Reset gebruiker te baseren"
+  "Reset User to Base"
+  "Reset gebruiker naar Base"
 
   "Restart tke"
   "Herstart TKE"
@@ -555,17 +585,26 @@ msgcat::mcmset nl {
   "Selected"
   "Geselecteerd"
 
+  "Send Bug Report"
+  "Bugrapport verzenden."
+
+  "Send Feedback"
+  "Feedback verzenden"
+
   "Set Syntax"
   "Stel Syntax"
 
   "Set Theme"
   "Serie Thema"
 
-  "Set user to global"
-  "Stel de gebruiker aan de mondiale"
+  "Set User to Global"
+  "Gebruiker instellen naar globaal"
 
   "Show Console"
   "Show Console"
+
+  "Show Diagnostic Logfile"
+  "Toon diagnostische Logfile"
 
   "Show Last Profiling Report"
   "Toon Laatste Profiling Report"
@@ -633,11 +672,11 @@ msgcat::mcmset nl {
   "View"
   "Bekijken"
 
-  "View base"
-  "Bekijk base"
+  "View Base"
+  "Weergave Base"
 
-  "View global"
-  "Bekijk globale"
+  "View Global"
+  "Weergave Global"
 
   "Vim Mode"
   "Vim Mode"
@@ -732,9 +771,6 @@ msgcat::mcmset nl {
 # snippets.tcl
 msgcat::mcmset nl {
 
-  "Snippet: %s: %s"
-  "Snippet:% s:% s"
-
   "Snippet: *"
   "Snippet: *"
 
@@ -803,9 +839,6 @@ msgcat::mcmset nl {
 
 # tke.tcl
 msgcat::mcmset nl {
-
-  "ERROR:  %s"
-  "FOUT:% s"
 
   "Edit theme?"
   "Bewerk thema?"

@@ -150,10 +150,10 @@ msgcat::mcmset he {
   "Edit"
   "עריכה"
 
-  "Edit current"
-  "עריכת הנוכחי"
+  "Edit Language"
+  "עריכת שפה"
 
-  "Edit user"
+  "Edit User"
   "ערוך משתמש"
 
   "Edit..."
@@ -228,6 +228,12 @@ msgcat::mcmset he {
   "Install..."
   "להתקין..."
 
+  "Jump backward"
+  "לקפוץ אחורה"
+
+  "Jump forward"
+  "לקפוץ קדימה"
+
   "Launcher"
   "משגר"
 
@@ -236,6 +242,9 @@ msgcat::mcmset he {
 
   "Menu Bindings"
   "תפריט איגודי"
+
+  "Menu Edit user snippets"
+  "תפריט עריכה משתמש גזירים"
 
   "Menu: About TKE"
   "תפריט: על בבית"
@@ -279,8 +288,11 @@ msgcat::mcmset he {
   "Menu: Edit Tke theme"
   "תפריט: עריכה בבית השעשועים"
 
-  "Menu: Edit current snippets"
-  "תפריט: עריכה מקטעי הנוכחי"
+  "Menu: Edit language preferences"
+  "תפריט: עריכת העדפות שפה"
+
+  "Menu: Edit language snippets"
+  "תפריט: עריכה בשפה גזירים"
 
   "Menu: Edit user menu bindings"
   "תפריט: עריכת האיגודים תפריט משתמש"
@@ -363,6 +375,12 @@ msgcat::mcmset he {
   "Menu: Install plugin"
   "תפריט: להתקין תוסף"
 
+  "Menu: Jump backward"
+  "תפריט: לקפוץ אחורה"
+
+  "Menu: Jump forward"
+  "תפריט: לקפוץ קדימה"
+
   "Menu: Lock file"
   "תפריט: הקובץ הנעול"
 
@@ -399,8 +417,11 @@ msgcat::mcmset he {
   "Menu: Reload all plugins"
   "תפריט: רענן כל התוספים"
 
-  "Menu: Reload current snippets"
-  "תפריט: רענן מקטעי הנוכחי"
+  "Menu: Reload snippets"
+  "תפריט: רענן גזירים"
+
+  "Menu: Replace line with script"
+  "תפריט: להחליף שורת תסריט"
 
   "Menu: Restart tke"
   "תפריט: הפעלה מחדש בבית"
@@ -420,11 +441,20 @@ msgcat::mcmset he {
   "Menu: Select all text"
   "תפריט: בחר את כל הטקסט"
 
+  "Menu: Send Bug Report"
+  "תפריט: שליחת באג ח"
+
+  "Menu: Send Feedback"
+  "תפריט: שלח משוב"
+
   "Menu: Set user bindings to global bindings"
   "תפריט: מוגדר משתמש איגודי איגודי גלובלית"
 
   "Menu: Set user preferences to global preferences"
   "תפריט: להגדיר העדפות המשתמש העדפות גלובלית"
+
+  "Menu: Show Diagnostic Logfile"
+  "תפריט: הצג יומן האבחון"
 
   "Menu: Show Tab Bar"
   "תפריט: הצג סרגל הלשוניות"
@@ -525,10 +555,10 @@ msgcat::mcmset he {
   "Reload"
   "טען מחדש"
 
-  "Reload current"
-  "רענן זרם"
+  "Replace line with script"
+  "להחליף שורת תסריט"
 
-  "Reset user to base"
+  "Reset User to Base"
   "איפוס משתמש לבסיס"
 
   "Restart tke"
@@ -555,17 +585,26 @@ msgcat::mcmset he {
   "Selected"
   "נבחרת"
 
+  "Send Bug Report"
+  "לשלוח דיווח הבאג"
+
+  "Send Feedback"
+  "שלח משוב"
+
   "Set Syntax"
   "תחביר קבע"
 
   "Set Theme"
   "ערכת נושא"
 
-  "Set user to global"
+  "Set User to Global"
   "הגדרת משתמש גלובלי"
 
   "Show Console"
   "הצג המסוף"
+
+  "Show Diagnostic Logfile"
+  "הצג יומן האבחון"
 
   "Show Last Profiling Report"
   "הצג דו\"
@@ -633,10 +672,10 @@ msgcat::mcmset he {
   "View"
   "תצוגה"
 
-  "View base"
+  "View Base"
   "תצוגת הבסיס"
 
-  "View global"
+  "View Global"
   "תצוגה גלובלית"
 
   "Vim Mode"
@@ -732,9 +771,6 @@ msgcat::mcmset he {
 # snippets.tcl
 msgcat::mcmset he {
 
-  "Snippet: %s: %s"
-  "מקטע: % s: %s"
-
   "Snippet: *"
   "מקטע: *"
 
@@ -803,9 +839,6 @@ msgcat::mcmset he {
 
 # tke.tcl
 msgcat::mcmset he {
-
-  "ERROR:  %s"
-  "שגיאה: %s"
 
   "Edit theme?"
   "לערוך דירוג?"
