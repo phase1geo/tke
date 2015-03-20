@@ -2459,33 +2459,23 @@ proc ctext::linemapDiffUpdate {win first last linenum_width gutter_items} {
   ctext::getAr $win config configAr
 
   set lsize_pos [expr 2 + [llength $gutter_items] + 1]
-  set diff_tags [lsort [concat diff:A:$first: diff:B:$first: [lsearch -inline -all -glob [$win.t tag names] diff:*]]]
-  set currlineA 0
-  set currlineB 0
-
-  puts "diff_tags: $diff_tags"
 
   # Calculate the starting line numbers for both files
-  foreach which [list A B] {
-    set diff_tag [lindex $diff_tags [expr [lsearch $diff_tags diff:$which:$first:] - 1]]
-    lassign [split $diff_tag :] dummy diff_which start
-    if {$diff_which eq $which} {
-      set currline$which [expr ($start + [$win count -lines [lindex [$win tag ranges $diff_tag] 0] $first.0]) - 1]
-      puts "A currlineA: $currlineA, currlineB: $currlineB"
-    }
+  array set currline {A 0 B 0}
+  foreach diff_tag [lsearch -inline -all -glob [$win.t tag names $first.0] diff:*] {
+    lassign [split $diff_tag :] dummy index type start
+    set currline($index) [expr ($start + [$win count -lines [lindex [$win tag ranges $diff_tag] 0] $first.0]) - 1]
   }
-
-  puts "currlineA: $currlineA, currlineB: $currlineB"
 
   for {set line $first} {$line <= $last} {incr line} {
     set ltags [$win.t tag names $line.0]
     set lineA ""
-    if {[lsearch -glob $ltags diff:A:*] != -1} {
-      set lineA [incr currlineA]
+    if {[lsearch -glob $ltags diff:A:S:*] != -1} {
+      set lineA [incr currline(A)]
     }
     set lineB ""
-    if {[lsearch -glob $ltags diff:B:*] != -1} {
-      set lineB [incr currlineB]
+    if {[lsearch -glob $ltags diff:B:S:*] != -1} {
+      set lineB [incr currline(B)]
     }
     set line_content [list [format "%-*s %-*s" $linenum_width $lineA $linenum_width $lineB] [list] {*}$gutter_items "0" [list] "\n"]
     if {[lsearch -glob $ltags lmark*] != -1} {
