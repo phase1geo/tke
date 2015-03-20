@@ -117,7 +117,7 @@ proc ctext {win args} {
   set topWin [winfo toplevel $win]
   bindtags $win.l [list $win.l $topWin all]
 
-  if {$ar(-linemap) == 1} {
+  if {$ar(-linemap)} {
     grid $win.l -sticky ns -row 0 -column 0
     grid $win.f -sticky ns -row 0 -column 1
   }
@@ -144,7 +144,7 @@ proc ctext {win args} {
   grid $win.l -row 0 -column 0 -sticky ns
   grid $win.f -row 0 -column 1 -sticky ns
   grid $win.t -row 0 -column 2 -sticky news
-  
+
   # Hide the linemap and separator if we are specified to do so
   if {$ar(-linemap) == 0} {
     grid remove $win.l
@@ -2414,7 +2414,7 @@ proc ctext::linemapClearMark {win line} {
 }
 
 #args is here because -yscrollcommand may call it
-proc ctext::linemapUpdate {win args} {
+proc ctext::linemapUpdate {win} {
 
   if {![winfo exists $win.l]} {
     return
@@ -2425,13 +2425,10 @@ proc ctext::linemapUpdate {win args} {
   set first_line    [lindex [split [$win.t index @0,0] .] 0]
   set last_line     [lindex [split [$win.t index @0,[winfo height $win.t]] .] 0]
   set line_width    [string length [lindex [split [$win._t index end-1c] .] 0]]
-  set linenum_width [expr ($configAr(-linemap_minwidth) > $line_width) ? $configAr(-linemap_minwidth) : $line_width]
+  set linenum_width [expr max( $configAr(-linemap_minwidth), $line_width )]
   set gutter_width  [llength $configAr(gutters)]
-  set full_width    [expr $linenum_width + $gutter_width]
-  set lmark_pos     1
-  set line_items    [expr $configAr(-linemap) ? 2 : 0]
-  set lsize_pos     [expr ($gutter_width * 2) + $line_items + 1]
-  
+  set full_width    [expr $linenum_width + ($configAr(-diff_mode) ? ($linenum_width + 1) : 0) + $gutter_width]
+
   if {$gutter_width > 0} {
     set gutter_items [lrepeat $gutter_width " " [list]]
   } else {
@@ -2440,17 +2437,87 @@ proc ctext::linemapUpdate {win args} {
 
   $win.l delete 1.0 end
 
-  for {set line $first_line} {$line <= $last_line} {incr line} {
+  if {$configAr(-diff_mode)} {
+    linemapDiffUpdate $win $first_line $last_line $linenum_width $gutter_items
+  } elseif {$configAr(-linemap)} {
+    linemapLineUpdate $win $first_line $last_line $linenum_width $gutter_items
+  } elseif {$gutter_width > 0} {
+    linemapGutterUpdate $win $first_line $last_line $linenum_width $gutter_items
+  }
+
+  linemapUpdateOffset $win $first_line $last_line
+
+  # Resize the linemap window, if necessary
+  if {[$win.l cget -width] != $full_width} {
+    $win.l configure -width $full_width
+  }
+
+}
+
+proc ctext::linemapDiffUpdate {win first last linenum_width gutter_items} {
+
+  ctext::getAr $win config configAr
+
+  set lsize_pos [expr 2 + [llength $gutter_items] + 1]
+  set diff_tags [lsort [concat diff:A:$first: diff:B:$first: [lsearch -inline -all -glob [$win.t tag names] diff:*]]]
+  set currlineA 0
+  set currlineB 0
+
+  puts "diff_tags: $diff_tags"
+
+  # Calculate the starting line numbers for both files
+  foreach which [list A B] {
+    set diff_tag [lindex $diff_tags [expr [lsearch $diff_tags diff:$which:$first:] - 1]]
+    lassign [split $diff_tag :] dummy diff_which start
+    if {$diff_which eq $which} {
+      set currline$which [expr ($start + [$win count -lines [lindex [$win tag ranges $diff_tag] 0] $first.0]) - 1]
+      puts "A currlineA: $currlineA, currlineB: $currlineB"
+    }
+  }
+
+  puts "currlineA: $currlineA, currlineB: $currlineB"
+
+  for {set line $first} {$line <= $last} {incr line} {
     set ltags [$win.t tag names $line.0]
-    if {$configAr(-linemap)} {
-      set line_content [list [format "%-*s" $linenum_width $line] [list] {*}$gutter_items "0" [list] "\n"]
-      if {[lsearch -glob $ltags lmark*] != -1} {
-        lset line_content $lmark_pos lmark
+    set lineA ""
+    if {[lsearch -glob $ltags diff:A:*] != -1} {
+      set lineA [incr currlineA]
+    }
+    set lineB ""
+    if {[lsearch -glob $ltags diff:B:*] != -1} {
+      set lineB [incr currlineB]
+    }
+    set line_content [list [format "%-*s %-*s" $linenum_width $lineA $linenum_width $lineB] [list] {*}$gutter_items "0" [list] "\n"]
+    if {[lsearch -glob $ltags lmark*] != -1} {
+      lset line_content 1 lmark
+    }
+    if {[set lsizes [lsearch -inline -glob -all $ltags lsize*]] ne ""} {
+      lset line_content $lsize_pos [lindex [lsort $lsizes] 0]
+    }
+    foreach gutter_tag [lsearch -inline -all -glob $ltags gutter:*] {
+      lassign [split $gutter_tag :] dummy gutter_name gutter_symname gutter_sym
+      if {$gutter_sym ne ""} {
+        set gutter_index [expr ([lsearch -index 0 $configAr(gutters) $gutter_name] * 2) + 2]
+        lset line_content $gutter_index            $gutter_sym
+        lset line_content [expr $gutter_index + 1] $gutter_tag
       }
-    } elseif {$configAr(-diff_mode)} {
-      set line_content [list [format "%-*s %-*s" $linenum_width $line $linenum_width $line] [list] {*}$gutter_items "0" [list] "\n"]
-    } else {
-      set line_content [list {*}$gutter_items "0" [list] "\n"]
+    }
+    $win.l insert end {*}$line_content
+  }
+
+}
+
+proc ctext::linemapLineUpdate {win first last linenum_width gutter_items} {
+
+  ctext::getAr $win config configAr
+
+  set lsize_pos [expr 2 + [llength $gutter_items] + 1]
+
+  for {set line $first} {$line <= $last} {incr line} {
+    set ltags [$win.t tag names $line.0]
+    set line_content [list [format "%-*s" $linenum_width $line] [list] {*}$gutter_items "0" [list] "\n"]
+    if {[lsearch -glob $ltags lmark*] != -1} {
+      lset line_content $lmark_pos lmark
     }
     if {[set lsizes [lsearch -inline -glob -all $ltags lsize*]] ne ""} {
       lset line_content $lsize_pos [lindex [lsort $lsizes] 0]
@@ -2466,11 +2533,29 @@ proc ctext::linemapUpdate {win args} {
     $win.l insert end {*}$line_content
   }
 
-  linemapUpdateOffset $win $first_line $last_line
+}
 
-  # Resize the linemap window, if necessary
-  if {[$win.l cget -width] != $full_width} {
-    $win.l configure -width $full_width
+proc ctext::linemapGutterUpdate {win first last linenum_width gutter_items} {
+
+  ctext::getAr $win config configAr
+
+  set lsize_pos [expr [llength $gutter_items] + 1]
+
+  for {set line $first} {$line <= $last} {incr line} {
+    set ltags [$win.t tag names $line.0]
+    set line_content [list {*}$gutter_items "0" [list] "\n"]
+    if {[set lsizes [lsearch -inline -glob -all $ltags lsize*]] ne ""} {
+      lset line_content $lsize_pos [lindex [lsort $lsizes] 0]
+    }
+    foreach gutter_tag [lsearch -inline -all -glob $ltags gutter:*] {
+      lassign [split $gutter_tag :] dummy gutter_name gutter_symname gutter_sym
+      if {$gutter_sym ne ""} {
+        set gutter_index [expr ([lsearch -index 0 $configAr(gutters) $gutter_name] * 2) + $line_items]
+        lset line_content $gutter_index            $gutter_sym
+        lset line_content [expr $gutter_index + 1] $gutter_tag
+      }
+    }
+    $win.l insert end {*}$line_content
   }
 
 }
