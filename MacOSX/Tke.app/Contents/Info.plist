@@ -59,8 +59,8 @@
 	<key>CFBundleExecutable</key>
 	<string>Wish</string>
 	<key>CFBundleGetInfoString</key>
-	<string>Tke 1.4,
-Copyright © 2013-2014 Trevor Williams</string>
+	<string>Tke 1.6,
+Copyright © 2013-2015 Trevor Williams</string>
 	<key>CFBundleIconFile</key>
 	<string>Tke.icns</string>
 	<key>CFBundleIdentifier</key>
@@ -91,11 +91,11 @@ Copyright © 2013-2014 Trevor Williams</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.4</string>
+	<string>1.6</string>
 	<key>CFBundleSignature</key>
 	<string>WiSH</string>
 	<key>CFBundleVersion</key>
-	<string>1.4</string>
+	<string>1.6</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.5.0</string>
 	<key>LSRequiresCarbon</key>
