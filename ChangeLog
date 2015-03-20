@@ -1,30 +1,47 @@
-changeset:   867:e08dc7d2861f
-tag:         devel-1.5.5
+changeset:   870:7516fd4bbe15
+tag:         devel-1.5.6
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Mar 18 20:21:49 2015 -0500
+date:        Wed Mar 18 23:59:50 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.5.5 release
+ChangeLog for devel-1.5.6 release
 
 
-changeset:   868:264ebd95e880
+changeset:   871:ed6a84cde15d
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Mar 18 20:21:53 2015 -0500
+date:        Wed Mar 18 23:59:54 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.5.5 for changeset e08dc7d2861f
+Added tag devel-1.5.6 for changeset 7516fd4bbe15
 
 
-changeset:   869:baa37f71a88d
+changeset:   872:94c26e4fecfa
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Mar 19 17:12:48 2015 -0500
+files:       lib/ctext/ctext.tcl lib/version.tcl
+description:
+* Adding -diff_mode option to ctext.
+
+
+changeset:   873:9eb3b01905ec
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Mar 19 22:39:36 2015 -0500
+files:       MacOSX/Tke.app/Contents/Info.plist lib/version.tcl
+description:
+* Updating Info.plist version from 1.4 to 1.6.
+
+
+changeset:   874:6d77af9953a1
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Mar 18 23:58:36 2015 -0500
-files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg data/preferences.tkedat lib/logger.tcl lib/menus.tcl lib/tke.tcl lib/version.tcl lib/vim.tcl
+date:        Fri Mar 20 01:31:27 2015 -0500
+files:       data/preferences.tkedat lib/ctext/ctext.tcl lib/gui.tcl lib/menus.tcl lib/snippets.tcl lib/syntax.tcl lib/version.tcl
 description:
-* Adding support for diagnostic logging.
-* Updating languages.
-* Adding "Show Diagnostic Logfile" option to Tools menu when running in development mode.
-* Adding "Send Bug Report" option to Help menu.
-* Sending all error information to the diagnostic logfile now.
+* Adding "Show/Hide Line Numbers" menu item and preference option.
+* Fixing syntax error in snippets::add_new_snippet procedure.
+* Changing linemap foreground color to match the warning width color to make line numbers more subdued.
+* Attempting to fix syntax error in ctext paste operation.
+* Adding ability to show/hide linemap in ctext.
+* More optimizations to linemap update procedure (and adding initial diff_mode view to linemap).
 
 
