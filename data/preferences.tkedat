@@ -166,6 +166,11 @@
 
 {View/ShowTabBar}            {1}
 
+# If this value is set to 1, the line numbers will be displayed on application start;
+# otherwise, the line numbers will be hidden on application start.
+
+{View/ShowLineNumbers}       {1}
+
 # When the number of opened tabs in a notebook exceeds the number of tabs that can
 # be readably displayed, a value of 1 will cause some of the tabs to be "hidden" from
 # view, allowing their display via scrolling buttons and a dropdown menu.  If this

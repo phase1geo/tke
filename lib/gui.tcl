@@ -661,6 +661,15 @@ namespace eval gui {
   }
 
   ######################################################################
+  # Shows the line numbers.
+  proc set_line_number_view {tid value} {
+    
+    # Show the line numbers in the current editor
+    [current_txt $tid] configure -linemap $value 
+    
+  }
+  
+  ######################################################################
   # Changes the given filename to the new filename in the file list and
   # updates the tab name to match the new name.
   proc change_filename {old_name new_name} {
@@ -2960,6 +2969,7 @@ namespace eval gui {
     ctext $txt -wrap none -undo 1 -autoseparators 1 -insertofftime 0 \
       -highlightcolor yellow -warnwidth [preferences::get Editor/WarningWidth] \
       -maxundo [preferences::get Editor/MaxUndo] \
+      -linemap [preferences::get View/ShowLineNumbers] \
       -linemap_mark_command gui::mark_command -linemap_select_bg orange \
       -linemap_relief flat -linemap_minwidth 4 \
       -xscrollcommand "utils::set_xscrollbar $tab_frame.pw.tf.hb" \
@@ -3151,6 +3161,7 @@ namespace eval gui {
     ctext $txt2 -wrap none -undo 1 -autoseparators 1 -insertofftime 0 -font editor_font \
       -highlightcolor yellow -warnwidth [preferences::get Editor/WarningWidth] \
       -maxundo [preferences::get Editor/MaxUndo] \
+      -linemap [preferences::get View/ShowLineNumbers] \
       -linemap_mark_command [ns gui]::mark_command -linemap_select_bg orange -peer $txt \
       -xscrollcommand "utils::set_xscrollbar $pw.tf2.hb" \
       -yscrollcommand "utils::set_yscrollbar $pw.tf2.vb"

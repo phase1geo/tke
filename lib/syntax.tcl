@@ -339,7 +339,7 @@ namespace eval syntax {
     $txt configure -background $theme(background) -foreground $theme(foreground) \
       -selectbackground $theme(selectbackground) -selectforeground $theme(selectforeground) \
       -insertbackground $theme(cursor) -highlightcolor $theme(highlightcolor) \
-      -linemapbg $theme(background) -linemapfg $theme(foreground) \
+      -linemapbg $theme(background) -linemapfg $theme(warnwidthcolor) \
       -warnwidth_bg $theme(warnwidthcolor)
 
     # Set default indent/unindent strings

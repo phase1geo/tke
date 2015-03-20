@@ -479,16 +479,11 @@ namespace eval snippets {
 
     variable snippets_dir
 
-    if {$type eq "user"} {
-      set fname    [file join $snippets_dir user.snippets]
-      set language "user"
-    } else {
-      set fname    [file join $snippets_dir $language.snippets]
-      set language [syntax::get_current_language [gui::current_txt $tid]]
-    }
+    # Set the language
+    set language [expr {($type eq "user") ? "user" : [syntax::get_current_language [gui::current_txt $tid]]}]
 
     # If the snippet file does not exist, create the file
-    if {![file exists $fname]} {
+    if {![file exists [set fname [file join $snippets_dir $language.snippets]]]} {
       exec touch $fname
     }
 
