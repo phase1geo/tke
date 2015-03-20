@@ -139,9 +139,17 @@ proc ctext {win args} {
     place $win.t.w -x [font measure [$win.t cget -font] -displayof . [string repeat "m" $ar(-warnwidth)]] -relheight 1.0
   }
 
-  grid $win.t -row 0 -column 2 -sticky news
   grid rowconfigure    $win 0 -weight 100
   grid columnconfigure $win 2 -weight 100
+  grid $win.l -row 0 -column 0 -sticky ns
+  grid $win.f -row 0 -column 1 -sticky ns
+  grid $win.t -row 0 -column 2 -sticky news
+  
+  # Hide the linemap and separator if we are specified to do so
+  if {$ar(-linemap) == 0} {
+    grid remove $win.l
+    grid remove $win.f
+  }
 
   bind $win.t <Configure>         "ctext::linemapUpdate $win"
   bind $win.l <ButtonPress-1>     "ctext::linemapToggleMark $win %y"
@@ -245,17 +253,25 @@ proc ctext::buildArgParseTable win {
   }
 
   lappend argTable {1 true yes} -linemap {
-    grid $self.l -sticky ns -row 0 -column 0
-    grid columnconfigure $self 0 \
-    -minsize [winfo reqwidth $self.l]
     set configAr(-linemap) 1
+    catch {
+      grid $self.l
+      grid $self.f
+    }
+    ctext::linemapUpdate $self
     break
   }
 
   lappend argTable {0 false no} -linemap {
-    grid forget $self.l
-    grid columnconfigure $self 0 -minsize 0
     set configAr(-linemap) 0
+    if {[llength $configAr(gutters)] == 0} {
+      catch {
+        grid remove $self.l
+        grid remove $self.f
+      }
+    } else {
+      ctext::linemapUpdate $self
+    }
     break
   }
 
@@ -1211,7 +1227,8 @@ proc ctext::instanceCmd {self cmd args} {
       set datalen   [string length [clipboard get]]
       ctext::undo_insert $self $insertPos $datalen [$self._t index insert]
       tk_textPaste $self
-      ctext::modified $self 1 "insert $insertPos $datalen [$self._t count -lines $insertPos \"$insertPos+${datalen}c\"]"
+      set lines     [$self._t count -lines $insertPos "$insertPos+${datalen}c"]
+      ctext::modified $self 1 "insert $insertPos $datalen $lines"
       ctext::linemapUpdate $self
     }
 
@@ -2399,7 +2416,7 @@ proc ctext::linemapClearMark {win line} {
 #args is here because -yscrollcommand may call it
 proc ctext::linemapUpdate {win args} {
 
-  if {[winfo exists $win.l] != 1} {
+  if {![winfo exists $win.l]} {
     return
   }
 
@@ -2412,19 +2429,28 @@ proc ctext::linemapUpdate {win args} {
   set gutter_width  [llength $configAr(gutters)]
   set full_width    [expr $linenum_width + $gutter_width]
   set lmark_pos     1
-  set lsize_pos     [expr ($gutter_width * 2) + 3]
+  set line_items    [expr $configAr(-linemap) ? 2 : 0]
+  set lsize_pos     [expr ($gutter_width * 2) + $line_items + 1]
+  
+  if {$gutter_width > 0} {
+    set gutter_items [lrepeat $gutter_width " " [list]]
+  } else {
+    set gutter_items ""
+  }
 
   $win.l delete 1.0 end
 
   for {set line $first_line} {$line <= $last_line} {incr line} {
-    if {$gutter_width > 0} {
-      set line_content [list [format "%-*s" $linenum_width $line] [list] {*}[lrepeat $gutter_width " " [list]] "0" [list] "\n"]
-    } else {
-      set line_content [list [format "%-*s" $linenum_width $line] [list] "0" [list] "\n"]
-    }
     set ltags [$win.t tag names $line.0]
-    if {[lsearch -glob $ltags lmark*] != -1} {
-      lset line_content $lmark_pos lmark
+    if {$configAr(-linemap)} {
+      set line_content [list [format "%-*s" $linenum_width $line] [list] {*}$gutter_items "0" [list] "\n"]
+      if {[lsearch -glob $ltags lmark*] != -1} {
+        lset line_content $lmark_pos lmark
+      }
+    } elseif {$configAr(-diff_mode)} {
+      set line_content [list [format "%-*s %-*s" $linenum_width $line $linenum_width $line] [list] {*}$gutter_items "0" [list] "\n"]
+    } else {
+      set line_content [list {*}$gutter_items "0" [list] "\n"]
     }
     if {[set lsizes [lsearch -inline -glob -all $ltags lsize*]] ne ""} {
       lset line_content $lsize_pos [lindex [lsort $lsizes] 0]
@@ -2432,8 +2458,9 @@ proc ctext::linemapUpdate {win args} {
     foreach gutter_tag [lsearch -inline -all -glob $ltags gutter:*] {
       lassign [split $gutter_tag :] dummy gutter_name gutter_symname gutter_sym
       if {$gutter_sym ne ""} {
-        set gutter_index [expr ([lsearch -index 0 $configAr(gutters) $gutter_name] * 2) + 2]
-        set line_content [lreplace $line_content $gutter_index [expr $gutter_index + 1] $gutter_sym $gutter_tag]
+        set gutter_index [expr ([lsearch -index 0 $configAr(gutters) $gutter_name] * 2) + $line_items]
+        lset line_content $gutter_index            $gutter_sym
+        lset line_content [expr $gutter_index + 1] $gutter_tag
       }
     }
     $win.l insert end {*}$line_content

@@ -1102,7 +1102,7 @@ namespace eval menus {
     }
     launcher::register [msgcat::mc "Menu: Show Tab Bar"] "menus::show_tab_view $mb"
     launcher::register [msgcat::mc "Menu: Hide Tab Bar"] "menus::hide_tab_view $mb"
-
+    
     if {[preferences::get View/ShowStatusBar]} {
       $mb add command -label [msgcat::mc "Hide Status Bar"] -underline 12 -command "menus::hide_status_view $mb"
     } else {
@@ -1110,6 +1110,16 @@ namespace eval menus {
     }
     launcher::register [msgcat::mc "Menu: Show status bar"] "menus::show_status_view $mb"
     launcher::register [msgcat::mc "Menu: Hide status bar"] "menus::hide_status_view $mb"
+
+    $mb add separator
+    
+    if {[preferences::get View/ShowLineNumbers]} {
+      $mb add command -label [msgcat::mc "Hide Line Numbers"] -underline 5 -command "menus::hide_line_numbers $mb"
+    } else {
+      $mb add command -label [msgcat::mc "Show Line Numbers"] -underline 5 -command "menus::show_line_numbers $mb"
+    }
+    launcher::register [msgcat::mc "Menu: Show Line Numbers"] "menus::show_line_numbers $mb"
+    launcher::register [msgcat::mc "Menu: Hide Line Numbers"] "menus::hide_line_numbers $mb"
 
     $mb add separator
 
@@ -1154,7 +1164,7 @@ namespace eval menus {
   proc view_posting {mb} {
 
     variable show_split_pane
-
+    
     if {([gui::tabs_in_pane] < 2) && ([gui::panes] < 2)} {
       $mb entryconfigure [msgcat::mc "Tabs"] -state disabled
     } else {
@@ -1162,10 +1172,14 @@ namespace eval menus {
     }
 
     if {[gui::current_txt {}] eq ""} {
+      catch { $mb entryconfigure [msgcat::mc "Show Line Numbers"]  -state disabled }
+      catch { $mb entryconfigure [msgcat::mc "Hide Line Numbers"]  -state disabled }
       $mb entryconfigure [msgcat::mc "Split view"]         -state disabled
       $mb entryconfigure [msgcat::mc "Move to other pane"] -state disabled
       $mb entryconfigure [msgcat::mc "Set Syntax"]         -state disabled
     } else {
+      catch { $mb entryconfigure [msgcat::mc "Show Line Numbers"]  -state normal }
+      catch { $mb entryconfigure [msgcat::mc "Hide Line Numbers"]  -state normal }
       $mb entryconfigure [msgcat::mc "Split view"]         -state normal
       if {[gui::movable_to_other_pane]} {
         $mb entryconfigure [msgcat::mc "Move to other pane"] -state normal
@@ -1268,6 +1282,7 @@ namespace eval menus {
     }
 
   }
+  
 
   ######################################################################
   # Shows the status bar.
@@ -1289,6 +1304,28 @@ namespace eval menus {
       gui::hide_status_view
     }
 
+  }
+  
+  ######################################################################
+  # Shows the line numbers in the editor.
+  proc show_line_numbers {mb} {
+    
+    # Convert the menu command into the hide line numbers command
+    if {![catch {$mb entryconfigure [msgcat::mc "Show Line Numbers"] -label [msgcat::mc "Hide Line Numbers"] -command "menus::hide_line_numbers $mb"}]} {
+      gui::set_line_number_view {} 1
+    }
+    
+  }
+   
+  ######################################################################
+  # Hides the line numbers in the editor.
+  proc hide_line_numbers {mb} {
+    
+    # Convert the menu command into the hide line numbers command
+    if {![catch {$mb entryconfigure [msgcat::mc "Hide Line Numbers"] -label [msgcat::mc "Show Line Numbers"] -command "menus::show_line_numbers $mb"}]} {
+      gui::set_line_number_view {} 0
+    }
+    
   }
 
   ######################################################################
