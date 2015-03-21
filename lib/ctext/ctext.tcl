@@ -117,11 +117,6 @@ proc ctext {win args} {
   set topWin [winfo toplevel $win]
   bindtags $win.l [list $win.l $topWin all]
 
-  if {$ar(-linemap)} {
-    grid $win.l -sticky ns -row 0 -column 0
-    grid $win.f -sticky ns -row 0 -column 1
-  }
-
   set args [concat $args [list -yscrollcommand [list ctext::event:yscroll $win $ar(-yscrollcommand)]] \
                          [list -xscrollcommand [list ctext::event:xscroll $win $ar(-xscrollcommand)]]]
 
@@ -146,7 +141,7 @@ proc ctext {win args} {
   grid $win.t -row 0 -column 2 -sticky news
 
   # Hide the linemap and separator if we are specified to do so
-  if {$ar(-linemap) == 0} {
+  if {!$ar(-linemap) && !$ar(-linemap_markable)} {
     grid remove $win.l
     grid remove $win.f
   }
@@ -264,7 +259,7 @@ proc ctext::buildArgParseTable win {
 
   lappend argTable {0 false no} -linemap {
     set configAr(-linemap) 0
-    if {[llength $configAr(gutters)] == 0} {
+    if {([llength $configAr(gutters)] == 0) && !$configAr(-linemap_markable)} {
       catch {
         grid remove $self.l
         grid remove $self.f
@@ -727,13 +722,17 @@ proc ctext::undo_get_cursor_hist {win} {
   ctext::getAr $win config configAr
 
   set cursors [list]
-  set index   $configAr(undo_sep_next)
-  set sep     0
-
-  while {$sep != -1} {
-    lassign [lindex $configAr(undo_hist) $index] cmd val1 val2 cursor sep
-    lappend cursors $cursor
-    incr index $sep
+  
+  if {[set index $configAr(undo_sep_next)] != -1} {
+    
+    set sep 0
+  
+    while {$sep != -1} {
+      lassign [lindex $configAr(undo_hist) $index] cmd val1 val2 cursor sep
+      lappend cursors $cursor
+      incr index $sep
+    }
+    
   }
 
   return $cursors
@@ -2399,7 +2398,10 @@ proc ctext::linemapSetMark {win line} {
     $win.l tag add lmark $line.0
     $win.l tag configure lmark -foreground $configAr(-linemap_select_fg) \
       -background $configAr(-linemap_select_bg)
+    return $lmark
   }
+  
+  return ""
 
 }
 
@@ -2427,7 +2429,6 @@ proc ctext::linemapUpdate {win} {
   set line_width    [string length [lindex [split [$win._t index end-1c] .] 0]]
   set linenum_width [expr max( $configAr(-linemap_minwidth), $line_width )]
   set gutter_width  [llength $configAr(gutters)]
-  set full_width    [expr $linenum_width + ($configAr(-diff_mode) ? ($linenum_width + 1) : 0) + $gutter_width]
 
   if {$gutter_width > 0} {
     set gutter_items [lrepeat $gutter_width " " [list]]
@@ -2439,10 +2440,16 @@ proc ctext::linemapUpdate {win} {
 
   if {$configAr(-diff_mode)} {
     linemapDiffUpdate $win $first_line $last_line $linenum_width $gutter_items
+    set full_width [expr ($linenum_width * 2) + 1 + $gutter_width]
   } elseif {$configAr(-linemap)} {
     linemapLineUpdate $win $first_line $last_line $linenum_width $gutter_items
+    set full_width [expr $linenum_width + $gutter_width]
   } elseif {$gutter_width > 0} {
     linemapGutterUpdate $win $first_line $last_line $linenum_width $gutter_items
+    set full_width [expr $configAr(-linemap_markable) + $gutter_width]
+  } elseif {$configAr(-linemap_markable)} {
+    linemapMarkUpdate $win $first_line $last_line
+    set full_width $gutter_width
   }
 
   linemapUpdateOffset $win $first_line $last_line
@@ -2507,7 +2514,43 @@ proc ctext::linemapLineUpdate {win first last linenum_width gutter_items} {
     set ltags [$win.t tag names $line.0]
     set line_content [list [format "%-*s" $linenum_width $line] [list] {*}$gutter_items "0" [list] "\n"]
     if {[lsearch -glob $ltags lmark*] != -1} {
-      lset line_content $lmark_pos lmark
+      lset line_content 1 lmark
+    }
+    if {[set lsizes [lsearch -inline -glob -all $ltags lsize*]] ne ""} {
+      lset line_content $lsize_pos [lindex [lsort $lsizes] 0]
+    }
+    foreach gutter_tag [lsearch -inline -all -glob $ltags gutter:*] {
+      lassign [split $gutter_tag :] dummy gutter_name gutter_symname gutter_sym
+      if {$gutter_sym ne ""} {
+        set gutter_index [expr ([lsearch -index 0 $configAr(gutters) $gutter_name] * 2) + 2]
+        lset line_content $gutter_index            $gutter_sym
+        lset line_content [expr $gutter_index + 1] $gutter_tag
+      }
+    }
+    $win.l insert end {*}$line_content
+  }
+
+}
+
+proc ctext::linemapGutterUpdate {win first last linenum_width gutter_items} {
+
+  ctext::getAr $win config configAr
+
+  if {$configAr(-linemap_markable)} {
+    set line_template [list " " [list] {*}$gutter_items "0" [list] "\n"]
+    set line_items    2
+  } else {
+    set line_template [list {*}$gutter_items "0" [list] "\n"]
+    set line_items    0
+  }
+
+  set lsize_pos [expr [llength $gutter_items] + $line_items + 1]
+  
+  for {set line $first} {$line <= $last} {incr line} {
+    set ltags [$win.t tag names $line.0]
+    set line_content [list " " [list] {*}$gutter_items "0" [list] "\n"]
+    if {[lsearch -glob $ltags lmark*] != -1} {
+      lset line_content 1 lmark
     }
     if {[set lsizes [lsearch -inline -glob -all $ltags lsize*]] ne ""} {
       lset line_content $lsize_pos [lindex [lsort $lsizes] 0]
@@ -2525,29 +2568,20 @@ proc ctext::linemapLineUpdate {win first last linenum_width gutter_items} {
 
 }
 
-proc ctext::linemapGutterUpdate {win first last linenum_width gutter_items} {
-
-  ctext::getAr $win config configAr
-
-  set lsize_pos [expr [llength $gutter_items] + 1]
-
+proc ctext::linemapMarkUpdate {win first last} {
+  
   for {set line $first} {$line <= $last} {incr line} {
     set ltags [$win.t tag names $line.0]
-    set line_content [list {*}$gutter_items "0" [list] "\n"]
-    if {[set lsizes [lsearch -inline -glob -all $ltags lsize*]] ne ""} {
-      lset line_content $lsize_pos [lindex [lsort $lsizes] 0]
+    set line_content [list " " [list] "0" [list] "\n"]
+    if {[lsearch -glob $ltags lmark*] != -1} {
+      lset line_content 1 lmark
     }
-    foreach gutter_tag [lsearch -inline -all -glob $ltags gutter:*] {
-      lassign [split $gutter_tag :] dummy gutter_name gutter_symname gutter_sym
-      if {$gutter_sym ne ""} {
-        set gutter_index [expr ([lsearch -index 0 $configAr(gutters) $gutter_name] * 2) + $line_items]
-        lset line_content $gutter_index            $gutter_sym
-        lset line_content [expr $gutter_index + 1] $gutter_tag
-      }
+    if {[set lsizes [lsearch -inline -glob -all $ltags lsize*]] ne ""} {
+      lset line_content 3 [lindex [lsort $lsizes] 0]
     }
     $win.l insert end {*}$line_content
   }
-
+  
 }
 
 # Starting with Tk 8.5 the text widget allows smooth scrolling; this

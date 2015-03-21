@@ -729,7 +729,7 @@ namespace eval menus {
 
     $mb add separator
 
-    $mb add cascade -label [msgcat::mc "Find marker"] -underline 5 -menu [menu $mb.markerPopup -tearoff 0 -postcommand "menus::find_marker_posting $mb.markerPopup"]
+    $mb add cascade -label [msgcat::mc "Markers"] -underline 5 -menu [menu $mb.markerPopup -tearoff 0 -postcommand "menus::find_marker_posting $mb.markerPopup"]
 
     $mb add separator
 
@@ -740,6 +740,11 @@ namespace eval menus {
 
     $mb add command -label [msgcat::mc "Find in files"] -underline 5 -command "menus::find_in_files"
     launcher::register [msgcat::mc "Menu: Find in files"] "menus::find_in_files"
+    
+    # Add marker popup launchers
+    launcher::register [msgcat::mc "Menu: Create marker at current line"] "gui::create_current_marker {}"
+    launcher::register [msgcat::mc "Menu: Remove marker from current line"] "gui::remove_current_marker {}"
+    launcher::register [msgcat::mc "Menu: Remove all markers"] "gui::remove_all_markers {}"
 
   }
 
@@ -757,7 +762,7 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Select all occurrences"]     -state disabled
       $mb entryconfigure [msgcat::mc "Jump backward"]              -state disabled
       $mb entryconfigure [msgcat::mc "Jump forward"]               -state disabled
-      $mb entryconfigure [msgcat::mc "Find marker"]                -state disabled
+      $mb entryconfigure [msgcat::mc "Markers"]                    -state disabled
       $mb entryconfigure [msgcat::mc "Find matching pair"]         -state disabled
     } else {
       $mb entryconfigure [msgcat::mc "Find"]                       -state normal
@@ -777,11 +782,7 @@ namespace eval menus {
         $mb entryconfigure [msgcat::mc "Jump forward"] -state disabled
       }
       $mb entryconfigure [msgcat::mc "Find matching pair"] -state normal
-      if {[llength [gui::get_marker_list {}]] > 0} {
-        $mb entryconfigure [msgcat::mc "Find marker"] -state normal
-      } else {
-        $mb entryconfigure [msgcat::mc "Find marker"] -state disabled
-      }
+      $mb entryconfigure [msgcat::mc "Markers"] -state normal
     }
 
   }
@@ -793,7 +794,17 @@ namespace eval menus {
     # Clear the menu
     $mb delete 0 end
 
-    foreach {marker pos} [gui::get_marker_list {}] {
+    # Populate the markerPopup menu
+    $mb add command -label [msgcat::mc "Create at current line"] -underline 0 -command "gui::create_current_marker {}" 
+    $mb add separator
+    $mb add command -label [msgcat::mc "Remove from current line"] -underline 0 -command "gui::remove_current_marker {}" 
+    $mb add command -label [msgcat::mc "Remove all markers"] -underline 7 -command "gui::remove_all_markers {}"
+    
+    if {[llength [set markers [gui::get_marker_list {}]]] > 0} {
+      $mb add separator
+    }
+
+    foreach {marker pos} $markers {
       $mb add command -label $marker -command "gui::jump_to {} $pos"
     }
 
