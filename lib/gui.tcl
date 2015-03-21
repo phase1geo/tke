@@ -3625,6 +3625,57 @@ namespace eval gui {
   }
 
   ######################################################################
+  # Create a marker at the current insertion cursor line of the current
+  # editor.
+  proc create_current_marker {tid} {
+    
+    # Get the current text widget
+    set txt [current_txt $tid]
+    
+    # Get the current line
+    set line [lindex [split [$txt index insert] .] 0]
+    
+    # Add the marker at the current line
+    if {[set tag [ctext::linemapSetMark $txt $line]] ne ""} {
+      if {![markers::add $txt $tag]} {
+        ctext::linemapClearMark $txt $line
+      }
+    }
+    
+  }
+  
+  ######################################################################
+  # Removes all markers placed at the current line.
+  proc remove_current_marker {tid} {
+    
+    # Get the current text widget
+    set txt [current_txt $tid]
+    
+    # Get the current line number
+    set line [lindex [split [$txt index insert] .] 0]
+    
+    # Remove all markers at the current line
+    markers::delete_by_line $txt $line
+    ctext::linemapClearMark $txt $line
+    
+  }
+  
+  ######################################################################
+  # Removes all of the markers from the current editor.
+  proc remove_all_markers {tid} {
+    
+    # Get the current text widget
+    set txt [current_txt $tid]
+    
+    foreach name [markers::get_all_names $txt] {
+      set line [lindex [split [markers::get_index $txt $name] .] 0]
+      markers::delete_by_name $txt $name
+      ctext::linemapClearMark $txt $line
+    }
+    
+  }
+  
+  ######################################################################
   # Returns the list of markers in the current text widget.
   proc get_marker_list {tid} {
 

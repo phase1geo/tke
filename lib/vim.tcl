@@ -134,21 +134,17 @@ namespace eval vim {
 
     # Execute the command
     switch -- $value {
-      w  { [ns gui]::save_current $tid }
-      w! { [ns gui]::save_current $tid }
-      wq { [ns gui]::save_current $tid; [ns gui]::close_current }
-      q  { [ns gui]::close_current $tid 0; set txt "" }
-      q! { [ns gui]::close_current $tid 1; set txt "" }
-      e! { [ns gui]::update_current }
-      n  { [ns gui]::next_tab }
-      N  { [ns gui]::previous_tab }
-      p  { after idle [ns gui]::next_pane }
+      w   { [ns gui]::save_current $tid }
+      w!  { [ns gui]::save_current $tid }
+      wq  { [ns gui]::save_current $tid; [ns gui]::close_current }
+      q   { [ns gui]::close_current $tid 0; set txt "" }
+      q!  { [ns gui]::close_current $tid 1; set txt "" }
+      e!  { [ns gui]::update_current }
+      n   { [ns gui]::next_tab }
+      N   { [ns gui]::previous_tab }
+      p   { after idle [ns gui]::next_pane }
       e\# { [ns gui]::last_tab }
-      m  {
-        set line [lindex [split [$txt index insert] .] 0]
-        [ns markers]::delete_by_line $txt $line
-        ctext::linemapClearMark $txt $line
-      }
+      m   { [ns gui]::remove_current_marker $tid }
       default {
         catch {
           if {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)s/(.*)/(.*)/(g?)$} $value -> from to search replace glob]} {
@@ -194,8 +190,9 @@ namespace eval vim {
           } elseif {[regexp {^m\s+(.*)$} $value -> marker]} {
             set line [lindex [split [$txt index insert] .] 0]
             if {$marker ne ""} {
-              [ns markers]::add $txt [$txt index insert] $marker
-              ctext::linemapSetMark $txt $line
+              if {[set tag [ctext::linemapSetMark $txt $line]] ne ""} {
+                [ns markers]::add $txt $tag $marker
+              }
             } else {
               [ns markers]::delete_by_line $txt $line
               ctext::linemapClearMark $txt $line

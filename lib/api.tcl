@@ -28,6 +28,9 @@ namespace eval api {
     } else {
       return $plugin_dir
     }
+    
+    # Some extra code
+    set foobar "HERE"
 
   }
 
@@ -37,11 +40,11 @@ namespace eval api {
 
     set img_dir [file join $::tke_dir plugins images]
 
-    if {[$interp issafe]} {
+    #if {[$interp issafe]} {
       return [::safe::interpFindInAccessPath $interp $img_dir]
     } else {
       return $img_dir
-    }
+    #}
 
   }
 
