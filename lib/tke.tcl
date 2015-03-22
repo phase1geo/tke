@@ -54,6 +54,7 @@ source [file join $tke_dir lib themer.tcl]
 source [file join $tke_dir lib themes.tcl]
 source [file join $tke_dir lib favorites.tcl]
 source [file join $tke_dir lib logger.tcl]
+source [file join $tke_dir lib diff.tcl]
 
 if {[tk windowingsystem] eq "aqua"} {
   source [file join $tke_dir lib windowlist.tcl]

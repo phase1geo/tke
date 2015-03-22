@@ -59,6 +59,8 @@ proc ctext {win args} {
   set ar(-maxundo)               0
   set ar(-autoseparators)        0
   set ar(-diff_mode)             0
+  set ar(-diffsubbg)             "pink"
+  set ar(-diffaddbg)             "light green"
   set ar(re_opts)                ""
   set ar(win)                    $win
   set ar(modified)               0
@@ -454,6 +456,22 @@ proc ctext::buildArgParseTable win {
     break
   }
 
+  lappend argTable {any} -diffsubbg {
+    set configAr(-diffsubbg) $value
+    foreach tag [lsearch -inline -all -glob [$self._t tag names] diff:B:D:*] {
+      $self._t tag configure $tag -background $value
+    }
+    break
+  }
+  
+  lappend argTable {any} -diffaddbg {
+    set configAr(-diffaddbg) $value
+    foreach tag [lsearch -inline -all -glob [$self._t tag names] diff:A:D:*] {
+      $self._t tag configure $tag -background $value
+    }
+    break
+  }
+  
   ctext::getAr $win config ar
   set ar(argTable) $argTable
 }
@@ -1039,6 +1057,87 @@ proc ctext::instanceCmd {self cmd args} {
       } else {
         return -code error "invalid argument(s) sent to $self delete: $args"
       }
+    }
+    
+    diff {
+      set args [lassign $args subcmd]
+      if {!$configAr(-diff_mode)} {
+        return -code error "diff $subcmd called when -diff_mode is false"
+      }
+      switch -glob $subcmd {
+        add {
+          if {[llength $args] != 2} {
+            return -code error "diff add takes two arguments:  startline linecount"
+          }
+          
+          lassign $args tline count
+          
+          # Get the current diff:A tag
+          set tag [lsearch -inline -glob [$self._t tag names $tline.0] diff:A:*]
+           
+          # Get the beginning and ending position
+          lassign [$self._t tag ranges $tag] start_pos end_pos
+           
+          # Get the line number embedded in the tag
+          set fline [expr [lindex [split $tag :] 3] + [$self._t count -lines $start_pos $tline.0]]
+           
+          # Replace the diff:B tag
+          $self._t tag remove $tag $tline.0 $end_pos
+           
+          # Add new tags
+          set pos [$self._t index "$tline.0+${count}l linestart"]
+          $self._t tag add diff:A:D:$fline $tline.0 $pos
+          $self._t tag add diff:A:S:$fline $pos $end_pos
+           
+          # Colorize the *D* tag
+          $self._t tag configure diff:A:D:$fline -background $configAr(-diffaddbg)
+          $self._t tag raise diff:A:D:$fline
+        }
+        reset {
+          foreach name [lsearch -inline -all -glob [$self._t tag names] diff:*] {
+            $self._t tag delete $name
+          }
+          $self._t tag add diff:A:S:1 1.0 end
+          $self._t tag add diff:B:S:1 1.0 end
+        }
+        sub {
+          if {[llength $args] != 3} {
+            return -code error "diff sub takes three arguments:  startline linecount str"
+          }
+          
+          lassign $args tline count str
+          
+          # Get the current diff: tags
+          set tagA [lsearch -inline -glob [$self._t tag names $tline.0] diff:A:*]
+          set tagB [lsearch -inline -glob [$self._t tag names $tline.0] diff:B:*]
+          
+          # Get the beginning and ending positions
+          lassign [$self._t tag ranges $tagA] start_posA end_posA
+          lassign [$self._t tag ranges $tagB] start_posB end_posB
+          
+          # Get the line number embedded in the tag
+          set fline [expr [lindex [split $tagB :] 3] + [$self._t count -lines $start_posB $tline.0]]
+          
+          # Remove the diff: tags
+          $self._t tag remove $tagA $start_posA $end_posA
+          $self._t tag remove $tagB $start_posB $end_posB
+          
+          # Insert the string
+          $self._t insert $tline.0 $str
+          
+          # Add the tags
+          set pos [$self._t index "$tline.0+${count}l linestart"]
+          $self._t tag add $tagA $start_posA [$self._t index "$end_posA+${count}l linestart"]
+          $self._t tag add $tagB $start_posB $tline.0
+          $self._t tag add diff:B:D:$fline $tline.0 $pos
+          $self._t tag add diff:B:S:$fline $pos [$self._t index "$end_posB+${count}l linestart"]
+          
+          # Colorize the *D* tag
+          $self._t tag configure diff:B:D:$fline -background $configAr(-diffsubbg)
+          $self._t tag raise diff:B:D:$fline
+        }
+      }
+      ctext::linemapUpdate $self
     }
 
     fastdelete {
@@ -2471,9 +2570,12 @@ proc ctext::linemapDiffUpdate {win first last linenum_width gutter_items} {
   array set currline {A 0 B 0}
   foreach diff_tag [lsearch -inline -all -glob [$win.t tag names $first.0] diff:*] {
     lassign [split $diff_tag :] dummy index type start
-    set currline($index) [expr ($start + [$win count -lines [lindex [$win tag ranges $diff_tag] 0] $first.0]) - 1]
+    set currline($index) [expr $start - 1]
+    if {$type eq "S"} {
+      incr currline($index) [$win count -lines [lindex [$win tag ranges $diff_tag] 0] $first.0]
+    }
   }
-
+  
   for {set line $first} {$line <= $last} {incr line} {
     set ltags [$win.t tag names $line.0]
     set lineA ""
