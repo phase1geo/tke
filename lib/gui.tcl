@@ -46,6 +46,7 @@ namespace eval gui {
     modified 7
     buffer   8
     gutters  9
+    diffcmd  10
   }
 
   #######################
@@ -1043,7 +1044,7 @@ namespace eval gui {
     set index [adjust_insert_tab_index $index "Untitled"]
 
     # Get the current index
-    set w [insert_tab $index [msgcat::mc "Untitled"] $opts(-gutters)]
+    set w [insert_tab $index [msgcat::mc "Untitled"] 0 $opts(-gutters)]
 
     # Create the file info structure
     set file_info [lrepeat [array size files_index] ""]
@@ -1057,6 +1058,7 @@ namespace eval gui {
     lset file_info $files_index(buffer)   $opts(-buffer)
     lset file_info $files_index(modified) 0
     lset file_info $files_index(gutters)  $opts(-gutters)
+    lset file_info $files_index(diffcmd)  ""
 
     # Add the file information to the files list
     lappend files $file_info
@@ -1088,6 +1090,7 @@ namespace eval gui {
   #                           {name {{symbol_name {symbol_tag_options+}}+}}+
   #                         For a list of valid symbol_tag_options, see the options available for
   #                         tags in a text widget.
+  # -diff        <cmd>      Specifies diff command to execute after file has been loaded.      
   proc add_file {index fname args} {
 
     variable widgets
@@ -1105,6 +1108,7 @@ namespace eval gui {
       -sidebar     1
       -buffer      0
       -gutters     {}
+      -diff        ""
     }
     array set opts $args
 
@@ -1125,7 +1129,7 @@ namespace eval gui {
       set index [adjust_insert_tab_index $index [file tail $fname]]
 
       # Add the tab to the editor frame
-      set w [insert_tab $index [file tail $fname] $opts(-gutters)]
+      set w [insert_tab $index [file tail $fname] [expr {$opts(-diff) ne ""}] $opts(-gutters)]
 
       # Create the file information
       set file_info [lrepeat [array size files_index] ""]
@@ -1139,6 +1143,7 @@ namespace eval gui {
       lset file_info $files_index(buffer)   $opts(-buffer)
       lset file_info $files_index(modified) 0
       lset file_info $files_index(gutters)  $opts(-gutters)
+      lset file_info $files_index(diffcmd)  $opts(-diff)
 
       if {![catch { open $fname r } rc]} {
 
@@ -1760,7 +1765,7 @@ namespace eval gui {
     set index [adjust_insert_tab_index end [file tail $fname]]
 
     # Create a new tab
-    set w [insert_tab $index [file tail $fname] [lindex $file $files_index(gutters)] $language]
+    set w [insert_tab $index [file tail $fname] [expr {[lindex $file $files_index(diffcmd)] ne ""}] [lindex $file $files_index(gutters)] $language]
 
     # Add the text, insertion marker and selection
     set txt [current_txt {}]
@@ -2935,7 +2940,7 @@ namespace eval gui {
 
   ######################################################################
   # Inserts a new tab into the editor tab notebook.
-  proc insert_tab {index title gutters {initial_language ""}} {
+  proc insert_tab {index title diff gutters {initial_language ""}} {
 
     variable widgets
     variable curr_id
@@ -2969,6 +2974,7 @@ namespace eval gui {
     ctext $txt -wrap none -undo 1 -autoseparators 1 -insertofftime 0 \
       -highlightcolor yellow -warnwidth [preferences::get Editor/WarningWidth] \
       -maxundo [preferences::get Editor/MaxUndo] \
+      -diff_mode $diff \
       -linemap [preferences::get View/ShowLineNumbers] \
       -linemap_mark_command gui::mark_command -linemap_select_bg orange \
       -linemap_relief flat -linemap_minwidth 4 \
