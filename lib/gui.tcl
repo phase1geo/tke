@@ -1100,6 +1100,8 @@ namespace eval gui {
     variable tab_current
     variable last_opened
 
+    puts "In add_file, index: $index, fname: $fname, args: $args"
+    
     # Handle arguments
     array set opts {
       -savecommand ""
@@ -1170,6 +1172,12 @@ namespace eval gui {
 
         # Add the file to the list of recently opened files
         gui::add_to_recently_opened $fname
+        
+        # If a diff command was specified, run and parse it now
+        if {$opts(-diff) ne ""} {
+          puts "Parsing unified diff, txt: $txt, diff: $opts(-diff)"
+          diff::parse_unified_diff $txt $opts(-diff)
+        }
 
       } else {
 

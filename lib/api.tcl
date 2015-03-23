@@ -216,6 +216,10 @@ namespace eval api {
     #       however, if set to 1, the file will be treated as a temporary file
     #       that will be automatically deleted when the tab is closed.
     #
+    #   -diff \e command
+    #     * Specifies the difference command to execute.
+    #     * If this option is specifed, a difference will be shown in the current tab.
+    #
     #   -gutters \e list
     #     * Creates a gutter in the editor.  The contents of list are as follows:
     #       \code {name {{symbol_name {symbol_tag_options+}}+}}+ \endcode
