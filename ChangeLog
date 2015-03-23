@@ -1,47 +1,88 @@
-changeset:   870:7516fd4bbe15
-tag:         devel-1.5.6
+changeset:   875:859dfe2090f8
+tag:         devel-1.5.7
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Mar 18 23:59:50 2015 -0500
+date:        Fri Mar 20 01:33:13 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.5.6 release
+ChangeLog for devel-1.5.7 release
 
 
-changeset:   871:ed6a84cde15d
+changeset:   876:dc4914cb6cc6
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Mar 18 23:59:54 2015 -0500
+date:        Fri Mar 20 01:33:18 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.5.6 for changeset 7516fd4bbe15
+Added tag devel-1.5.7 for changeset 859dfe2090f8
 
 
-changeset:   872:94c26e4fecfa
+changeset:   877:51d454528ce2
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu Mar 19 17:12:48 2015 -0500
-files:       lib/ctext/ctext.tcl lib/version.tcl
+date:        Fri Mar 20 16:31:23 2015 -0500
+files:       lib/ctext/ctext.tcl lib/test.tcl lib/version.tcl
 description:
-* Adding -diff_mode option to ctext.
+* Improving support for the linemap update.
+* Adding test script for diff mode.
 
 
-changeset:   873:9eb3b01905ec
+changeset:   878:e1075781d31e
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Mar 20 16:46:27 2015 -0500
+files:       lib/ctext/ctext.tcl lib/test.tcl lib/version.tcl
+description:
+* Fixing issues with linemapDiffUpdate procedure.
+* Updating test script.
+
+
+changeset:   879:c6eb14ac3fc2
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Mar 20 17:03:07 2015 -0500
+files:       lib/api.tcl lib/test.tcl lib/version.tcl
+description:
+* More work on test script.
+
+
+changeset:   880:94db913a6696
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Mar 19 22:39:36 2015 -0500
-files:       MacOSX/Tke.app/Contents/Info.plist lib/version.tcl
+date:        Sat Mar 21 00:01:22 2015 -0500
+files:       lib/api.tcl
 description:
-* Updating Info.plist version from 1.4 to 1.6.
+* Undoing previous checkin.
 
 
-changeset:   874:6d77af9953a1
+changeset:   881:1793697f6e1e
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Mar 21 11:46:46 2015 -0500
+files:       lib/api.tcl lib/ctext/ctext.tcl lib/gui.tcl lib/menus.tcl lib/test.tcl lib/version.tcl lib/vim.tcl
+description:
+* Corrupting API (temporarily).
+* Fixing support for markers when line number is hidden.
+* Enhancing marker menu to allow for creating and removing markers from the menu.
+* Enhancing diff mode test script (more work to do here).
+
+
+changeset:   882:c083d4cfbfbf
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Mar 21 11:47:34 2015 -0500
+files:       lib/api.tcl lib/version.tcl
+description:
+* Fixing API.
+
+
+changeset:   883:71b1e3ac6d40
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Mar 22 15:34:43 2015 -0500
+files:       lib/ctext/ctext.tcl lib/diff.tcl lib/gui.tcl lib/test.tcl lib/tke.tcl lib/version.tcl
+description:
+* Integrating diff mode into the ctext widget.
+* Creating new diff namespace to handle diff output parsing and handling.
+
+
+changeset:   884:16f0efb674bc
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Mar 20 01:31:27 2015 -0500
-files:       data/preferences.tkedat lib/ctext/ctext.tcl lib/gui.tcl lib/menus.tcl lib/snippets.tcl lib/syntax.tcl lib/version.tcl
+date:        Mon Mar 23 00:30:25 2015 -0500
+files:       lib/api.tcl lib/gui.tcl lib/version.tcl plugins/mercurial/main.tcl
 description:
-* Adding "Show/Hide Line Numbers" menu item and preference option.
-* Fixing syntax error in snippets::add_new_snippet procedure.
-* Changing linemap foreground color to match the warning width color to make line numbers more subdued.
-* Attempting to fix syntax error in ctext paste operation.
-* Adding ability to show/hide linemap in ctext.
-* More optimizations to linemap update procedure (and adding initial diff_mode view to linemap).
+* Working on integrating diff into Mercurial plugin (work in progress).
 
 
