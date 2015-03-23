@@ -32,6 +32,31 @@ namespace eval mercurial {
   }
   
   ######################################################################
+  # Displays the difference between the current working copy and the
+  # previous version.
+  proc diff_do {} {
+    
+    # Get the filename
+    set fname [api::file::get_info [api::file::current_file_index] fname]
+    
+    puts "In diff_do, fname: $fname"
+    
+    # Display the difference
+    api::file::add $fname -diff "hg diff $fname"
+    
+  }
+  
+  ######################################################################
+  # Returns 1 or 0 depending on whether the diff command can be executed.
+  proc diff_state {} {
+    
+    variable enabled
+    
+    return $enabled
+    
+  }
+  
+  ######################################################################
   # Performs an 'hg commit' command and displays it to a scratch file.
   proc commit_do {} {
     
@@ -138,6 +163,7 @@ namespace eval mercurial {
 
 api::register mercurial {
   {menu command "Mercurial Commands/Display hg status output" mercurial::status_do mercurial::status_state}
+  {menu command "Mercurial Commands/Display diff"             mercurial::diff_do   mercurial::diff_state}
   {menu command "Mercurial Commands/Commit current files"     mercurial::commit_do mercurial::commit_state}
   {menu command "Mercurial Commands/Push changelists"         mercurial::push_do   mercurial::push_state}
   {menu command "Mercurial Commands/Pull changelists"         mercurial::pull_do   mercurial::pull_state}
