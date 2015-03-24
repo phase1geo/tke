@@ -147,6 +147,11 @@ namespace eval menus {
 
     $mb add cascade -label [msgcat::mc "Open Favorite"] -menu [menu $mb.favorites -tearoff false -postcommand "menus::file_favorites_posting $mb.favorites"]
     launcher::register [msgcat::mc "Menu: Open Favorite"] favorites::launcher
+    
+    $mb add separator
+    
+    $mb add command -label [msgcat::mc "Show File Difference"] -underline 3 -command "menus::show_file_diff"
+    launcher::register [msgcat::mc "Menu: Show file difference"] menus::show_file_diff
 
     $mb add separator
 
@@ -220,22 +225,24 @@ namespace eval menus {
       }
 
       # Make sure that the file-specific items are enabled
-      $mb entryconfigure [msgcat::mc "Save"]       -state normal
-      $mb entryconfigure [msgcat::mc "Save As..."] -state normal
-      $mb entryconfigure [msgcat::mc "Save All"]   -state normal
-      $mb entryconfigure [msgcat::mc "Close"]      -state normal
-      $mb entryconfigure [msgcat::mc "Close All"]  -state normal
+      $mb entryconfigure [msgcat::mc "Show File Difference"] -state normal
+      $mb entryconfigure [msgcat::mc "Save"]                 -state normal
+      $mb entryconfigure [msgcat::mc "Save As..."]           -state normal
+      $mb entryconfigure [msgcat::mc "Save All"]             -state normal
+      $mb entryconfigure [msgcat::mc "Close"]                -state normal
+      $mb entryconfigure [msgcat::mc "Close All"]            -state normal
 
     } else {
 
       # Disable file menu items associated with current tab (since one doesn't currently exist)
-      $mb entryconfigure [msgcat::mc "Save"]       -state disabled
-      $mb entryconfigure [msgcat::mc "Save As..."] -state disabled
-      $mb entryconfigure [msgcat::mc "Save All"]   -state disabled
-      $mb entryconfigure [msgcat::mc "Lock"]       -state disabled
-      $mb entryconfigure [msgcat::mc "Favorite"]   -state disabled
-      $mb entryconfigure [msgcat::mc "Close"]      -state disabled
-      $mb entryconfigure [msgcat::mc "Close All"]  -state disabled
+      $mb entryconfigure [msgcat::mc "Show File Difference"] -state disabled
+      $mb entryconfigure [msgcat::mc "Save"]                 -state disabled
+      $mb entryconfigure [msgcat::mc "Save As..."]           -state disabled
+      $mb entryconfigure [msgcat::mc "Save All"]             -state disabled
+      $mb entryconfigure [msgcat::mc "Lock"]                 -state disabled
+      $mb entryconfigure [msgcat::mc "Favorite"]             -state disabled
+      $mb entryconfigure [msgcat::mc "Close"]                -state disabled
+      $mb entryconfigure [msgcat::mc "Close All"]            -state disabled
 
     }
 
@@ -325,6 +332,18 @@ namespace eval menus {
 
   }
 
+  ######################################################################
+  # Displays the difference of the current file.
+  proc show_file_diff {} {
+    
+    # Get the current filename
+    set fname [gui::current_filename]
+    
+    # Display the current file as a difference
+    gui::add_file end $fname -diff 1
+    
+  }
+  
   ######################################################################
   # Saves the current tab file.
   proc save_command {} {

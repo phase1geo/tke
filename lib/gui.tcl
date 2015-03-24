@@ -46,7 +46,7 @@ namespace eval gui {
     modified 7
     buffer   8
     gutters  9
-    diffcmd  10
+    diff     10
   }
 
   #######################
@@ -144,7 +144,7 @@ namespace eval gui {
 
     # Delete any previously created images that we will be recreating
     if {[array size images] > 0} {
-      foreach name [list lock readonly close split down global] {
+      foreach name [list lock readonly diff close split down global] {
         image delete $images($name)
       }
     }
@@ -155,11 +155,13 @@ namespace eval gui {
       dark {
         set lock     $foreground
         set readonly grey70
+        set diff     $foreground
         set images(global) [image create photo -file [file join $::tke_dir lib images global_dark.gif]]
       }
       default {
         set lock     $foreground
         set readonly grey30
+        set diff     $foreground
         set images(global) [image create photo -file [file join $::tke_dir lib images global.gif]]
       }
     }
@@ -170,6 +172,9 @@ namespace eval gui {
     set images(readonly) [image create bitmap -file     [file join $::tke_dir lib images lock.bmp] \
                                               -maskfile [file join $::tke_dir lib images lock.bmp] \
                                               -foreground $readonly]
+    set images(diff)     [image create bitmap -file     [file join $::tke_dir lib images diff.bmp] \
+                                              -maskfile [file join $::tke_dir lib images diff.bmp] \
+                                              -foreground $diff]
     set images(close)    [image create bitmap -file     [file join $::tke_dir lib images close.bmp] \
                                               -maskfile [file join $::tke_dir lib images close.bmp] \
                                               -foreground $foreground]
@@ -245,7 +250,7 @@ namespace eval gui {
     grid $widgets(fif).close -row 0 -column 3 -sticky news -padx 2 -pady 2
     grid $widgets(fif).li    -row 1 -column 0 -sticky ew -pady 2
     grid $widgets(fif).ti    -row 1 -column 1 -sticky ew -pady 2 -columnspan 2
-
+    
     # Create the information bar
     set widgets(info)        [ttk::frame .if]
     set widgets(info_state)  [ttk::label .if.l1]
@@ -462,6 +467,8 @@ namespace eval gui {
             set tab_status($nb.tbf.tb,$i,readonly) 1
           } elseif {[$nb.tbf.tb tab $i -image] eq $images(lock)} {
             set tab_status($nb.tbf.tb,$i,lock) 1
+          } elseif {[$nb.tbf.tb tab $i -image] eq $images(diff)} {
+            set tab_status($nb.tbf.tb,$i,diff) 1
           }
         }
       }
@@ -469,7 +476,7 @@ namespace eval gui {
       # Update all of the images
       create_images
 
-      # Update the lock/readonly images in the tabs
+      # Update the lock/readonly/diff images in the tabs
       foreach name [array names tab_status] {
         lassign [split $name ,] tb i type
         $tb tab $i -image $images($type)
@@ -734,6 +741,7 @@ namespace eval gui {
       set finfo(tab)         $tab_index
       set finfo(lock)        [lindex $file $files_index(lock)]
       set finfo(readonly)    [lindex $file $files_index(readonly)]
+      set finfo(diff)        [lindex $file $files_index(diff)]
       set finfo(sidebar)     [lindex $file $files_index(sidebar)]
       set finfo(language)    [syntax::get_current_language $txt]
       set finfo(buffer)      [lindex $file $files_index(buffer)]
@@ -816,7 +824,7 @@ namespace eval gui {
               if {[file exists $finfo(fname)]} {
                 add_file end $finfo(fname) \
                   -savecommand $finfo(savecommand) -lock $finfo(lock) -readonly $finfo(readonly) \
-                  -sidebar $finfo(sidebar)
+                  -diff $finfo(diff) -sidebar $finfo(sidebar)
                 if {[syntax::get_current_language [current_txt {}]] ne $finfo(language)} {
                   syntax::set_language $finfo(language)
                 }
@@ -1058,7 +1066,7 @@ namespace eval gui {
     lset file_info $files_index(buffer)   $opts(-buffer)
     lset file_info $files_index(modified) 0
     lset file_info $files_index(gutters)  $opts(-gutters)
-    lset file_info $files_index(diffcmd)  ""
+    lset file_info $files_index(diff)     0
 
     # Add the file information to the files list
     lappend files $file_info
@@ -1090,7 +1098,7 @@ namespace eval gui {
   #                           {name {{symbol_name {symbol_tag_options+}}+}}+
   #                         For a list of valid symbol_tag_options, see the options available for
   #                         tags in a text widget.
-  # -diff        <cmd>      Specifies diff command to execute after file has been loaded.      
+  # -diff        <bool>     Specifies if we need to do a diff of the file.
   proc add_file {index fname args} {
 
     variable widgets
@@ -1100,8 +1108,6 @@ namespace eval gui {
     variable tab_current
     variable last_opened
 
-    puts "In add_file, index: $index, fname: $fname, args: $args"
-    
     # Handle arguments
     array set opts {
       -savecommand ""
@@ -1110,7 +1116,7 @@ namespace eval gui {
       -sidebar     1
       -buffer      0
       -gutters     {}
-      -diff        ""
+      -diff        0
     }
     array set opts $args
 
@@ -1118,9 +1124,18 @@ namespace eval gui {
     if {[untitled_check]} {
       close_tab $tab_current($pw_current) 0 0
     }
+    
+    # Check to see if the file is already loaded
+    set file_index -1
+    foreach findex [lsearch -all -index $files_index(fname) $files $fname] {
+      if {[lindex $files $files_index(diff)] == $opts(-diff)} {
+        set file_index $findex
+        break
+      }
+    }
 
     # If the file is already loaded, display the tab
-    if {[set file_index [lsearch -index $files_index(fname) $files $fname]] != -1} {
+    if {$file_index != -1} {
 
       set_current_tab [lindex $files $file_index $files_index(tab)]
 
@@ -1131,7 +1146,7 @@ namespace eval gui {
       set index [adjust_insert_tab_index $index [file tail $fname]]
 
       # Add the tab to the editor frame
-      set w [insert_tab $index [file tail $fname] [expr {$opts(-diff) ne ""}] $opts(-gutters)]
+      set w [insert_tab $index [file tail $fname] $opts(-diff) $opts(-gutters)]
 
       # Create the file information
       set file_info [lrepeat [array size files_index] ""]
@@ -1140,12 +1155,12 @@ namespace eval gui {
       lset file_info $files_index(save_cmd) $opts(-savecommand)
       lset file_info $files_index(tab)      $w
       lset file_info $files_index(lock)     0
-      lset file_info $files_index(readonly) $opts(-readonly)
+      lset file_info $files_index(readonly) [expr $opts(-readonly) || $opts(-diff)]
       lset file_info $files_index(sidebar)  $opts(-sidebar)
       lset file_info $files_index(buffer)   $opts(-buffer)
       lset file_info $files_index(modified) 0
       lset file_info $files_index(gutters)  $opts(-gutters)
-      lset file_info $files_index(diffcmd)  $opts(-diff)
+      lset file_info $files_index(diff)     $opts(-diff)
 
       if {![catch { open $fname r } rc]} {
 
@@ -1174,10 +1189,7 @@ namespace eval gui {
         gui::add_to_recently_opened $fname
         
         # If a diff command was specified, run and parse it now
-        if {$opts(-diff) ne ""} {
-          puts "Parsing unified diff, txt: $txt, diff: $opts(-diff)"
-          diff::parse_unified_diff $txt $opts(-diff)
-        }
+        diff::show_diff {}
 
       } else {
 
@@ -1773,7 +1785,7 @@ namespace eval gui {
     set index [adjust_insert_tab_index end [file tail $fname]]
 
     # Create a new tab
-    set w [insert_tab $index [file tail $fname] [expr {[lindex $file $files_index(diffcmd)] ne ""}] [lindex $file $files_index(gutters)] $language]
+    set w [insert_tab $index [file tail $fname] [lindex $file $files_index(diff)] [lindex $file $files_index(gutters)] $language]
 
     # Add the text, insertion marker and selection
     set txt [current_txt {}]
@@ -2362,7 +2374,10 @@ namespace eval gui {
     lset files $file_index $files_index(lock) $lock
 
     # Change the state of the text widget to match the lock value
-    if {[lindex $files $file_index $files_index(readonly)]} {
+    if {[lindex $files $file_index $files_index(diff)]} {
+      [current_tabbar]   tab current -compound left -image $images(diff)
+      [current_txt $tid] configure -state disabled
+    } elseif {[lindex $files $file_index $files_index(readonly)]} {
       [current_tabbar]   tab current -compound left -image $images(readonly)
       [current_txt $tid] configure -state disabled
     } elseif {$lock} {
@@ -3084,22 +3099,62 @@ namespace eval gui {
     bind $tab_frame.rf.close <Button-1>  "gui::close_search_and_replace"
     bind $tab_frame.rf.close <Key-space> "gui::close_search_and_replace"
 
+    # Create the diff bar
+    if {$diff} {
+      
+      ttk::frame  $tab_frame.df
+      diff::create_cvs_menubutton $txt $tab_frame.df.mb
+      ttk::frame  $tab_frame.df.vf
+      diff::create_v1_menubutton {} $tab_frame.df.vf.v1
+      diff::create_v2_menubutton {} $tab_frame.df.vf.v2
+      ttk::frame  $tab_frame.df.ff
+      ttk::entry  $tab_frame.df.ff.e
+      ttk::button $tab_frame.df.ff.b -text "Browse..." -command gui::browse_filesystem
+      ttk::button $tab_frame.df.show -text "Show Diff" -command "diff::show_diff {}"
+       
+      grid rowconfigure    $tab_frame.df.vf 0 -weight 1
+      grid columnconfigure $tab_frame.df.vf 2 -weight 1
+      grid $tab_frame.df.vf.v1 -row 0 -column 0 -sticky ew -padx 2
+      grid $tab_frame.df.vf.v2 -row 0 -column 1 -sticky ew -padx 2
+       
+      grid rowconfigure    $tab_frame.df.ff 0 -weight 1
+      grid columnconfigure $tab_frame.df.ff 0 -weight 1
+      grid $tab_frame.df.ff.e -row 0 -column 0 -sticky ew -padx 2
+      grid $tab_frame.df.ff.b -row 0 -column 1 -sticky ew -padx 2
+       
+      grid rowconfigure    $tab_frame.df 0 -weight 1
+      grid columnconfigure $tab_frame.df 2 -weight 1
+      grid $tab_frame.df.mb   -row 0 -column 0 -sticky ew -padx 2
+      grid $tab_frame.df.vf   -row 0 -column 1 -sticky ew
+      grid $tab_frame.df.ff   -row 0 -column 2 -sticky ew
+      grid $tab_frame.df.show -row 0 -column 3 -sticky ew -padx 2
+       
+      grid remove $tab_frame.df.ff
+      
+      ttk::separator $tab_frame.sep2 -orient horizontal
+      
+    }
+    
     # Create separator between search and information bar
-    ttk::separator $tab_frame.sep -orient horizontal
+    ttk::separator $tab_frame.sep1 -orient horizontal
 
     grid rowconfigure    $tab_frame 0 -weight 1
     grid columnconfigure $tab_frame 0 -weight 1
-    grid $tab_frame.pw  -row 0 -column 0 -sticky news
-    grid $tab_frame.ve  -row 1 -column 0 -sticky ew
-    grid $tab_frame.sf  -row 2 -column 0 -sticky ew
-    grid $tab_frame.rf  -row 3 -column 0 -sticky ew
-    grid $tab_frame.sep -row 4 -column 0 -sticky ew
+    grid $tab_frame.pw   -row 0 -column 0 -sticky news
+    grid $tab_frame.ve   -row 1 -column 0 -sticky ew
+    grid $tab_frame.sf   -row 2 -column 0 -sticky ew
+    grid $tab_frame.rf   -row 3 -column 0 -sticky ew
+    grid $tab_frame.sep1 -row 4 -column 0 -sticky ew
+    if {$diff} {
+      grid $tab_frame.df   -row 5 -column 0 -sticky ew
+      grid $tab_frame.sep2 -row 6 -column 0 -sticky ew
+    }
 
     # Hide the vim command entry, search bar, search/replace bar and search separator
     grid remove $tab_frame.ve
     grid remove $tab_frame.sf
     grid remove $tab_frame.rf
-    grid remove $tab_frame.sep
+    grid remove $tab_frame.sep1
 
     # Get the adjusted index
     set adjusted_index [$tb index $index]
