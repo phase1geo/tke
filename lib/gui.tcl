@@ -2036,7 +2036,7 @@ namespace eval gui {
 
     # Display the search bar and separator
     grid $tab.sf
-    grid $tab.sep
+    grid $tab.sep1
 
     # Clear the search entry
     $tab.sf.e delete 0 end
@@ -2058,7 +2058,7 @@ namespace eval gui {
 
     # Hide the search frame
     grid remove $tab.sf
-    grid remove $tab.sep
+    grid remove $tab.sep1
 
     # Put the focus on the text widget
     set_txt_focus [last_txt_focus {}]
@@ -2077,7 +2077,7 @@ namespace eval gui {
 
     # Display the search bar and separator
     grid $tab.rf
-    grid $tab.sep
+    grid $tab.sep1
 
     # Clear the search entry
     $tab.rf.fe delete 0 end
@@ -2100,7 +2100,7 @@ namespace eval gui {
 
     # Hide the search and replace bar
     grid remove $tab.rf
-    grid remove $tab.sep
+    grid remove $tab.sep1
 
     # Put the focus on the text widget
     set_txt_focus [last_txt_focus {}]
