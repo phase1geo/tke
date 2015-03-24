@@ -32,6 +32,71 @@ namespace eval diff {
   }
   
   ######################################################################
+  # Attempts to determine the default CVS that is used to manage the
+  # current file.
+  proc get_default_cvs {} {
+    
+    # Get the current filename
+    set fname [current_filename]
+    
+    # Check each of the CVS
+    foreach cvs [file Perforce Mercurial Git Subversion CVS] {
+      if {[check_for_[string to lower $cvs] $fname]} {
+        return $cvs
+      }
+    }
+    
+    return "diff"
+    
+  }
+  
+  ######################################################################
+  # Check to see if the given filename is managed by Perforce.
+  proc check_for_perforce {fname} {
+    
+    return [expr {![catch { exec p4 filelog $fname }]}]
+    
+  }
+  
+  ######################################################################
+  # Check to see if the given filename is managed by Mercurial.
+  proc check_for_mercurial {fname} {
+    
+    return [expr {![catch { exec hg status $fname }]}]
+    
+  }
+  
+  ######################################################################
+  # Check to see if the given filename is managed by Git.
+  proc check_for_git {fname} {
+    
+    # TBD
+    
+    return 0
+    
+  }
+  
+  ######################################################################
+  # Check to see if the given filename is managed by Subversion.
+  proc check_for_subversion {fname} {
+    
+    # TBD
+    
+    return 0
+    
+  }
+  
+  ######################################################################
+  # Check to see if the given filename is managed by CVS.
+  proc check_for_cvs {fname} {
+    
+    # TBD
+    
+    return 0
+    
+  }
+  
+  ######################################################################
   # Sets the cvs version value to diff and display the file difference
   # frame.
   proc update_diff_frame {txt df} {
@@ -221,8 +286,46 @@ namespace eval diff {
     # Get the current text widget
     set txt [[ns gui]::current_txt $tid]
     
+    # Get the current filename
+    set fname [current_filename]
+    
+    # If the currently selected version is not current, get the file command
+    if {$data($txt,v2) ne "Current"} {
+      set fname [get_[string tolower $data($txt,cvs)]_file_cmd $txt $fname]
+    }
+      
+    # Execute the file open and update the text widget
+    if {![catch { open $fname r } rc]} {
+      $txt configure -state normal
+      $txt delete 1.0 end
+      $txt insert end [read $rc]
+      $txt configure -state disabled
+    }
+      
     # Set the menubutton text
     $mb configure -text $data($txt,v2)
+    
+  }
+  
+  ######################################################################
+  # Returns the Perforce command to execute in an open command to retrieve the
+  # file contents of the given file version.
+  proc get_perforce_file_cmd {txt fname} {
+    
+    variable data
+    
+    return "|p4 print $fname#$data($txt,v2)"
+    
+  }
+  
+  ######################################################################
+  # Returns the Mercurial command to execute in an open command to retrieve the
+  # file contents of the given file version.
+  proc get_mercurial_file_cmd {txt fname} {
+    
+    variable data
+    
+    return "|hg cat -r $data($txt,v2) $fname"
     
   }
   
