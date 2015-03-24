@@ -1,45 +1,28 @@
-changeset:   885:01bad82a071c
-tag:         devel-1.5.8
+changeset:   890:d8c7f0f780ae
+tag:         devel-1.5.9
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Mar 23 00:32:18 2015 -0500
+date:        Tue Mar 24 00:51:34 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.5.8 release
+ChangeLog for devel-1.5.9 release
 
 
-changeset:   886:c6332757d72d
+changeset:   891:9c6f98c8b14b
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Mar 23 00:32:23 2015 -0500
+date:        Tue Mar 24 00:51:39 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.5.8 for changeset 01bad82a071c
+Added tag devel-1.5.9 for changeset d8c7f0f780ae
 
 
-changeset:   887:7f1d515bb74f
-parent:      885:01bad82a071c
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Mon Mar 23 17:20:47 2015 -0500
-files:       lib/images/diff.bmp lib/version.tcl
-description:
-* Adding diff bitmap image.
-
-
-changeset:   888:e84b23165132
-parent:      886:c6332757d72d
-parent:      887:7f1d515bb74f
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Mar 23 19:49:56 2015 -0500
-description:
-* Merging.
-
-
-changeset:   889:4df1e988bb75
+changeset:   892:f9e335854817
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 24 00:49:50 2015 -0500
-files:       lib/diff.tcl lib/gui.tcl lib/menus.tcl lib/version.tcl
+date:        Tue Mar 24 08:39:29 2015 -0500
+files:       lib/diff.tcl lib/gui.tcl lib/version.tcl
 description:
-* More work on integrating diff mode into UI.
-* Adding support for Mercurial differencing (placeholders for Perforce, Git, Subversion, CVS and file diff'ing)
+* Fixing syntax error that kept file searching from working.
+* Adding code to view non-current version of file in diff view.
+* Adding code to automatically determine VCS used to manage a given file (not integrated at this point).
 
 
