@@ -1095,6 +1095,10 @@ proc ctext::instanceCmd {self cmd args} {
         }
         reset {
           foreach name [lsearch -inline -all -glob [$self._t tag names] diff:*] {
+            lassign [split $name :] dummy which type
+            if {($which eq "B") && ($type eq "D")} {
+              $self._t delete {*}[$self._t tag ranges $name]
+            }
             $self._t tag delete $name
           }
           $self._t tag add diff:A:S:1 1.0 end

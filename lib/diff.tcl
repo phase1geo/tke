@@ -185,7 +185,11 @@ namespace eval diff {
     variable data
     
     if {![catch { exec p4 filelog $fname } rc]} {
-      # TBD
+      foreach line [split $rc \n] {
+        if {[regexp {^\.\.\.\s+#(\d+)} $line -> version]} {
+          lappend data($txt,versions) $version
+        }
+      }
     }
     
   }
@@ -356,9 +360,10 @@ namespace eval diff {
     
     # Parse and display the difference
     if {$data($txt,v2) eq "Current"} {
-      parse_unified_diff $txt "p4 diff ${fname}#$data($txt,v1) $fname"
+      set ::env(P4DIFF) ""
+      parse_unified_diff $txt "p4 diff -du ${fname}#$data($txt,v1)"
     } else {
-      parse_unified_diff $txt "p4 diff2 ${fname}#$data($txt,v1) ${fname}#$data($txt,v2)"
+      parse_unified_diff $txt "p4 diff2 -u ${fname}#$data($txt,v1) ${fname}#$data($txt,v2)"
     }
       
   }
@@ -390,6 +395,9 @@ namespace eval diff {
     if {[catch { exec -ignorestderr {*}$cmd } rc]} {
       return -code error "ERROR:  Diff command failed, $rc"
     }
+
+    # Open the UI for editing
+    $txt configure -state normal
     
     # Reset the diff output
     $txt diff reset
@@ -436,6 +444,9 @@ namespace eval diff {
         incr tline
       }
     }
+
+    # Disable the text window from editing
+    $txt configure -state disabled
     
   }
   
