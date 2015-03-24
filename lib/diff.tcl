@@ -212,6 +212,23 @@ namespace eval diff {
   }
   
   ######################################################################
+  # Retrieves all available versions of the current file in the Git
+  # repository.
+  proc get_git_versions {txt fname} {
+
+    variable data
+
+    if {![catch { exec git log $fname } rc]} {
+      foreach line [split $rc \n] {
+        if {[regexp {commit\s+([0-9a-fA-F]+)} $line -> version]} {
+          lappend data($txt,versions) $version
+        }
+      }
+    }
+
+  }
+
+  ######################################################################
   # Adds the starting version menu items.
   proc add_v1 {tid mnu} {
     
@@ -344,11 +361,14 @@ namespace eval diff {
     
     # Get the current filename
     set fname [[ns gui]::current_filename]
+
+    # If the CVS has not been set, attempt to figure it out
+    if {![info exists data($txt,cvs)] || ($data($txt,cvs) eq "")} {
+      set data($txt,cvs) [get_default_cvs]
+    }
     
     # Displays the difference data
-    if {[info exists data($txt,cvs)] && ($data($txt,cvs) ne "")} {
-      show_[string tolower $data($txt,cvs)]_diff $txt $fname
-    }
+    show_[string tolower $data($txt,cvs)]_diff $txt $fname
     
   }
   
@@ -381,6 +401,46 @@ namespace eval diff {
       parse_unified_diff $txt "hg diff -r $data($txt,v1) -r $data($txt,v2) $fname"
     }
     
+  }
+
+  ######################################################################
+  # Display the Git diff information in the viewer.
+  proc show_git_diff {txt fname} {
+
+    variable data
+
+    # TBD
+
+  }
+  
+  ######################################################################
+  # Display the Subversion diff information in the viewer.
+  proc show_subversion_diff {txt fname} {
+
+    variable data
+
+    # TBD
+
+  }
+  
+  ######################################################################
+  # Display the Subversion diff information in the viewer.
+  proc show_cvs_diff {txt fname} {
+
+    variable data
+
+    # TBD
+
+  }
+  
+  ######################################################################
+  # Display the Subversion diff information in the viewer.
+  proc show_diff_diff {txt fname} {
+
+    variable data
+
+    # TBD
+
   }
     
   ######################################################################
