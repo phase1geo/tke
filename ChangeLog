@@ -1,28 +1,44 @@
-changeset:   890:d8c7f0f780ae
-tag:         devel-1.5.9
+changeset:   893:16d15c5c4b59
+tag:         devel-1.5.10
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 24 00:51:34 2015 -0500
+date:        Tue Mar 24 08:40:25 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.5.9 release
+ChangeLog for devel-1.5.10 release
 
 
-changeset:   891:9c6f98c8b14b
+changeset:   894:b1683e91424f
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 24 00:51:39 2015 -0500
+date:        Tue Mar 24 08:40:30 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.5.9 for changeset d8c7f0f780ae
+Added tag devel-1.5.10 for changeset 16d15c5c4b59
 
 
-changeset:   892:f9e335854817
+changeset:   895:ec769213b02d
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Mar 24 11:02:10 2015 -0500
+files:       lib/ctext/ctext.tcl lib/diff.tcl lib/version.tcl
+description:
+* Fixing issues with Perforce diff.
+* Fixing diff reset command to remove added sub lines.
+
+
+changeset:   896:0017bb08bf36
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Mar 24 17:20:57 2015 -0500
+files:       lib/diff.tcl lib/version.tcl
+description:
+* Updates to diff.
+
+
+changeset:   897:82970e059a47
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 24 08:39:29 2015 -0500
-files:       lib/diff.tcl lib/gui.tcl lib/version.tcl
+date:        Wed Mar 25 01:03:46 2015 -0500
+files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Fixing syntax error that kept file searching from working.
-* Adding code to view non-current version of file in diff view.
-* Adding code to automatically determine VCS used to manage a given file (not integrated at this point).
+* Adding -bg gutter symbol option.
+* Cleaning up ctext namespace.
 
 
