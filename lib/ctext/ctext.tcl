@@ -44,7 +44,6 @@ proc ctext {win args} {
   set ar(-linemapbg)             $ar(-bg)
   set ar(-linemap_mark_command)  {}
   set ar(-linemap_markable)      1
-  set ar(-linemap_show_current)  1
   set ar(-linemap_select_fg)     black
   set ar(-linemap_select_bg)     yellow
   set ar(-linemap_cursor)        left_ptr
@@ -86,9 +85,9 @@ proc ctext {win args} {
 
   set ar(ctextFlags) [list -xscrollcommand -yscrollcommand -linemap -linemapfg -linemapbg \
   -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable \
-  -linemap_show_current -linemap_cursor -highlightcolor \
+  -linemap_cursor -highlightcolor \
   -linemap_select_fg -linemap_select_bg -linemap_relief -linemap_minwidth -casesensitive -peer \
-  -undo -maxundo -autoseparators -diff_mode]
+  -undo -maxundo -autoseparators -diff_mode -diffsubbg -diffaddbg]
 
   array set ar $args
 
@@ -374,16 +373,6 @@ proc ctext::buildArgParseTable win {
 
   lappend argTable {1 true yes} -linemap_markable {
     set configAr(-linemap_markable) 1
-    break
-  }
-
-  lappend argTable {0 false no} -linemap_show_current {
-    set configAr(-linemap_show_current) 0
-    break
-  }
-
-  lappend argTable {1 true yes} -linemap_show_current {
-    set configAr(-linemap_show_current) 1
     break
   }
 
@@ -1403,6 +1392,9 @@ proc ctext::instanceCmd {self cmd args} {
             array set sym_opts $opts
             set sym        [expr {[info exists sym_opts(-symbol)] ? $sym_opts(-symbol) : ""}]
             set gutter_tag "gutter:$gutter_name:$name:$sym"
+            if {[info exists sym_opts(-bg)]} {
+              $self.l tag configure $gutter_tag -background $sym_opts(-bg)
+            }
             if {[info exists sym_opts(-fg)]} {
               $self.l tag configure $gutter_tag -foreground $sym_opts(-fg)
             }
@@ -1536,6 +1528,7 @@ proc ctext::instanceCmd {self cmd args} {
           }
           switch $opt {
             -symbol  { return [lindex [split $gutter_tag :] 3] }
+            -bg      { return [$self.l tag cget $gutter_tag -background] }
             -fg      { return [$self.l tag cget $gutter_tag -foreground] }
             -onenter { return [lrange [$self.l tag bind $gutter_tag <Enter>] 0 end-1] }
             -onleave { return [lrange [$self.l tag bind $gutter_tag <Leave>] 0 end-1] }
@@ -1562,6 +1555,9 @@ proc ctext::instanceCmd {self cmd args} {
               set symopts [list]
               if {$sym ne ""} {
                 lappend symopts -symbol $sym
+              }
+              if {[set bg [$self.l tag cget $gutter_tag -background]] ne ""} {
+                lappend symopts -bg $bg
               }
               if {[set fg [$self.l tag cget $gutter_tag -foreground]] ne ""} {
                 lappend symopts -fg $fg
@@ -1594,6 +1590,9 @@ proc ctext::instanceCmd {self cmd args} {
                   $self._t tag configure $gutter_tag {*}$opts
                   $self._t tag add       $gutter_tag {*}$ranges
                   set update_needed 1
+                }
+                -bg {
+                  $self.l tag configure $gutter_tag -background $value
                 }
                 -fg {
                   $self.l tag configure $gutter_tag -foreground $value
