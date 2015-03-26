@@ -120,8 +120,6 @@ namespace eval diff {
     
     set names [list]
     
-    puts [namespace children]
-    
     foreach name [namespace children] {
       lappend names [${name}::name]
     }
