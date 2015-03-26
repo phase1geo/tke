@@ -6,36 +6,36 @@
 ######################################################################
 
 namespace eval themes {
-  
+
   array set themes {
     dark {"#303030" "#b0b0b0"}
   }
-  
+
   ######################################################################
   # Initializes the themes list.
   proc initialize {} {
-    
+
     variable themes
-    
+
     # Add a few styles to the default (light) theme
     ttk::style theme settings clam {
-      
+
       # BButton
       ttk::style configure BButton [ttk::style configure TButton]
       ttk::style configure BButton -anchor center -padding 2 -relief flat
       ttk::style map       BButton [ttk::style map TButton]
       ttk::style layout    BButton [ttk::style layout TButton]
-      
+
     }
-    
+
     # Add the light theme colors
     array set themes [list light [list [ttk::style configure "." -background] [ttk::style configure "." -foreground]]]
-    
+
     foreach name [array names themes] {
-      
+
       # Get the primary and secondary colors for the given theme
       lassign $themes($name) primary secondary
-      
+
       # Create the lighter version of the primary color
       lassign [winfo rgb . $primary] r g b
       set hsv [utils::rgb_to_hsv [expr $r >> 8] [expr $g >> 8] [expr $b >> 8]]
@@ -57,11 +57,11 @@ namespace eval themes {
         -selectbg   "#4a6984" \
         -selectfg   "#ffffff" \
       ]
-      
+
       ttk::style theme create $name -parent clam
-      
+
       ttk::style theme settings $name {
-        
+
         ttk::style configure "." \
           -background        $colors(-frame) \
           -foreground        $colors(-lighter) \
@@ -80,7 +80,7 @@ namespace eval themes {
           -foreground       [list disabled $colors(-disabledfg)] \
           -selectbackground [list !focus   $colors(-darkest)] \
           -selectforeground [list !focus   white]
-    
+
         ttk::style configure TButton \
           -anchor center -width -11 -padding 5 -relief raised -background $colors(-lighter) -foreground $colors(-frame)
         ttk::style map TButton \
@@ -90,7 +90,7 @@ namespace eval themes {
           -lightcolor  [list pressed   $colors(-darker)] \
           -darkcolor   [list pressed   $colors(-darker)] \
           -bordercolor [list alternate "#000000"]
-          
+
 #        ttk::style configure DButton \
 #          -anchor center -width -11 -padding 5 -relief sunken -background $colors(-darker) -foreground $colors(-frame)
 #        ttk::style map DButton \
@@ -110,7 +110,7 @@ namespace eval themes {
 #          -lightcolor  [list pressed   $colors(-darker)] \
 #          -darkcolor   [list pressed   $colors(-darker)] \
 #          -bordercolor [list alternate "#000000"]
-    
+
         ttk::style configure BButton \
           -anchor center -padding 2 -relief flat -background $colors(-frame) -foreground $colors(-frame)
         ttk::style map BButton \
@@ -143,7 +143,7 @@ namespace eval themes {
 #                            active   $colors(-lighter)] \
 #          -lightcolor [list pressed  $colors(-darker)] \
 #          -darkcolor  [list pressed  $colors(-darker)]
-        
+
         ttk::style configure TMenubutton \
           -width 0 -padding 0 -relief flat -background $colors(-frame) -foreground $colors(-lighter)
         ttk::style map TMenubutton \
@@ -162,41 +162,44 @@ namespace eval themes {
           -bordercolor [list focus    $colors(-selectbg)] \
           -lightcolor  [list focus    "#6f9dc6"] \
           -darkcolor   [list focus    "#6f9dc6"]
-            
+
         ttk::style map TScrollbar \
           -background  [list disabled $colors(-frame) \
                              active   $colors(-lightframe)]
-          
+
         ttk::style configure TLabelframe \
           -labeloutside true -labelmargins {0 0 0 4} \
           -borderwidth 2 -relief raised
-    
+
+        ttk::style configure TSpinbox \
+          -relief flat -background $colors(-frame) -foreground $colors(-lighter)
+
         ttk::style configure Sash -sashthickness 5 -gripcount 10
-        
+
       }
-      
+
     }
-    
+
     # Watch for any changes to the General/WindowTheme preference value
     trace variable preferences::prefs(General/WindowTheme) w "themes::handle_theme_change"
-  
+
   }
-  
+
   ######################################################################
   # Handles any changes to the General/WindowTheme preference variable.
   proc handle_theme_change {{name1 ""} {name2 ""} {op ""}} {
-    
+
     variable themes
-    
+
     set theme $preferences::prefs(General/WindowTheme)
-    
+
     if {[info exists themes($theme)]} {
       ttk::style theme use         $theme
       menus::handle_window_theme   $theme
       gui::handle_window_theme     $theme
       sidebar::handle_window_theme $theme
     }
-    
+
   }
-  
+
 }
