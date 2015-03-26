@@ -238,7 +238,7 @@ namespace eval syntax {
         set curr_theme($txt) $theme_name
         set_language $curr_lang($txt) $txt 0
       }
-      
+
     }
 
     return 0
@@ -321,7 +321,7 @@ namespace eval syntax {
     variable langs
     variable theme
     variable curr_lang
-    
+
     # If a text widget wasn't specified, get the current text widget
     if {$txt eq ""} {
       set txt [[ns gui]::current_txt {}]
@@ -340,7 +340,9 @@ namespace eval syntax {
       -selectbackground $theme(selectbackground) -selectforeground $theme(selectforeground) \
       -insertbackground $theme(cursor) -highlightcolor $theme(highlightcolor) \
       -linemapbg $theme(background) -linemapfg $theme(warnwidthcolor) \
-      -warnwidth_bg $theme(warnwidthcolor)
+      -warnwidth_bg $theme(warnwidthcolor) \
+      -diffaddbg [utils::auto_mix_colors $theme(background) g 30] \
+      -diffsubbg [utils::auto_mix_colors $theme(background) r 30]
 
     # Set default indent/unindent strings
     [ns indent]::set_indent_expressions $txt.t {\{} {\}}

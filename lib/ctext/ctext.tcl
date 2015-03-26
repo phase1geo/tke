@@ -452,7 +452,7 @@ proc ctext::buildArgParseTable win {
     }
     break
   }
-  
+
   lappend argTable {any} -diffaddbg {
     set configAr(-diffaddbg) $value
     foreach tag [lsearch -inline -all -glob [$self._t tag names] diff:A:D:*] {
@@ -460,7 +460,7 @@ proc ctext::buildArgParseTable win {
     }
     break
   }
-  
+
   ctext::getAr $win config ar
   set ar(argTable) $argTable
 }
@@ -729,17 +729,17 @@ proc ctext::undo_get_cursor_hist {win} {
   ctext::getAr $win config configAr
 
   set cursors [list]
-  
+
   if {[set index $configAr(undo_sep_next)] != -1} {
-    
+
     set sep 0
-  
+
     while {$sep != -1} {
       lassign [lindex $configAr(undo_hist) $index] cmd val1 val2 cursor sep
       lappend cursors $cursor
       incr index $sep
     }
-    
+
   }
 
   return $cursors
@@ -1047,7 +1047,7 @@ proc ctext::instanceCmd {self cmd args} {
         return -code error "invalid argument(s) sent to $self delete: $args"
       }
     }
-    
+
     diff {
       set args [lassign $args subcmd]
       if {!$configAr(-diff_mode)} {
@@ -1058,35 +1058,35 @@ proc ctext::instanceCmd {self cmd args} {
           if {[llength $args] != 2} {
             return -code error "diff add takes two arguments:  startline linecount"
           }
-          
+
           lassign $args tline count
-          
+
           # Get the current diff:A tag
           set tag [lsearch -inline -glob [$self._t tag names $tline.0] diff:A:*]
-           
+
           # Get the beginning and ending position
           lassign [$self._t tag ranges $tag] start_pos end_pos
-           
+
           # Get the line number embedded in the tag
           set fline [expr [lindex [split $tag :] 3] + [$self._t count -lines $start_pos $tline.0]]
-           
+
           # Replace the diff:B tag
           $self._t tag remove $tag $tline.0 $end_pos
-           
+
           # Add new tags
           set pos [$self._t index "$tline.0+${count}l linestart"]
           $self._t tag add diff:A:D:$fline $tline.0 $pos
           $self._t tag add diff:A:S:$fline $pos $end_pos
-           
+
           # Colorize the *D* tag
           $self._t tag configure diff:A:D:$fline -background $configAr(-diffaddbg)
-          $self._t tag raise diff:A:D:$fline
+          $self._t tag lower diff:A:D:$fline
         }
         reset {
           foreach name [lsearch -inline -all -glob [$self._t tag names] diff:*] {
             lassign [split $name :] dummy which type
-            if {($which eq "B") && ($type eq "D")} {
-              $self._t delete {*}[$self._t tag ranges $name]
+            if {($which eq "B") && ($type eq "D") && ([llength [set ranges [$self._t tag ranges $name]]] > 0)} {
+              $self._t delete {*}$ranges
             }
             $self._t tag delete $name
           }
@@ -1097,37 +1097,40 @@ proc ctext::instanceCmd {self cmd args} {
           if {[llength $args] != 3} {
             return -code error "diff sub takes three arguments:  startline linecount str"
           }
-          
+
           lassign $args tline count str
-          
+
           # Get the current diff: tags
           set tagA [lsearch -inline -glob [$self._t tag names $tline.0] diff:A:*]
           set tagB [lsearch -inline -glob [$self._t tag names $tline.0] diff:B:*]
-          
+
           # Get the beginning and ending positions
           lassign [$self._t tag ranges $tagA] start_posA end_posA
           lassign [$self._t tag ranges $tagB] start_posB end_posB
-          
+
           # Get the line number embedded in the tag
           set fline [expr [lindex [split $tagB :] 3] + [$self._t count -lines $start_posB $tline.0]]
-          
+
           # Remove the diff: tags
           $self._t tag remove $tagA $start_posA $end_posA
           $self._t tag remove $tagB $start_posB $end_posB
-          
-          # Insert the string
-          $self._t insert $tline.0 $str
-          
-          # Add the tags
+
+          # Calculate the end position of the change
           set pos [$self._t index "$tline.0+${count}l linestart"]
+
+          # Insert the string and highlight it
+          $self._t insert $tline.0 $str
+          $self highlight $tline.0 $pos
+
+          # Add the tags
           $self._t tag add $tagA $start_posA [$self._t index "$end_posA+${count}l linestart"]
           $self._t tag add $tagB $start_posB $tline.0
           $self._t tag add diff:B:D:$fline $tline.0 $pos
           $self._t tag add diff:B:S:$fline $pos [$self._t index "$end_posB+${count}l linestart"]
-          
+
           # Colorize the *D* tag
           $self._t tag configure diff:B:D:$fline -background $configAr(-diffsubbg)
-          $self._t tag raise diff:B:D:$fline
+          $self._t tag lower diff:B:D:$fline
         }
       }
       ctext::linemapUpdate $self
@@ -2502,7 +2505,7 @@ proc ctext::linemapSetMark {win line} {
       -background $configAr(-linemap_select_bg)
     return $lmark
   }
-  
+
   return ""
 
 }
@@ -2578,7 +2581,7 @@ proc ctext::linemapDiffUpdate {win first last linenum_width gutter_items} {
       incr currline($index) [$win count -lines [lindex [$win tag ranges $diff_tag] 0] $first.0]
     }
   }
-  
+
   for {set line $first} {$line <= $last} {incr line} {
     set ltags [$win.t tag names $line.0]
     set lineA ""
@@ -2650,7 +2653,7 @@ proc ctext::linemapGutterUpdate {win first last linenum_width gutter_items} {
   }
 
   set lsize_pos [expr [llength $gutter_items] + $line_items + 1]
-  
+
   for {set line $first} {$line <= $last} {incr line} {
     set ltags [$win.t tag names $line.0]
     set line_content [list " " [list] {*}$gutter_items "0" [list] "\n"]
@@ -2674,7 +2677,7 @@ proc ctext::linemapGutterUpdate {win first last linenum_width gutter_items} {
 }
 
 proc ctext::linemapMarkUpdate {win first last} {
-  
+
   for {set line $first} {$line <= $last} {incr line} {
     set ltags [$win.t tag names $line.0]
     set line_content [list " " [list] "0" [list] "\n"]
@@ -2686,7 +2689,7 @@ proc ctext::linemapMarkUpdate {win first last} {
     }
     $win.l insert end {*}$line_content
   }
-  
+
 }
 
 # Starting with Tk 8.5 the text widget allows smooth scrolling; this
