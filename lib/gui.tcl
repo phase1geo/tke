@@ -1189,7 +1189,9 @@ namespace eval gui {
         gui::add_to_recently_opened $fname
         
         # If a diff command was specified, run and parse it now
-        diff::show_diff {}
+        if {$opts(-diff)} {
+          diff::show $txt
+        }
 
       } else {
 
@@ -3101,38 +3103,8 @@ namespace eval gui {
 
     # Create the diff bar
     if {$diff} {
-      
-      ttk::frame  $tab_frame.df
-      diff::create_cvs_menubutton $txt $tab_frame.df.mb
-      ttk::frame  $tab_frame.df.vf
-      diff::create_v1_menubutton {} $tab_frame.df.vf.v1
-      diff::create_v2_menubutton {} $tab_frame.df.vf.v2
-      ttk::frame  $tab_frame.df.ff
-      ttk::entry  $tab_frame.df.ff.e
-      ttk::button $tab_frame.df.ff.b -text "Browse..." -command gui::browse_filesystem
-      ttk::button $tab_frame.df.show -text "Show Diff" -command "diff::show_diff {}"
-       
-      grid rowconfigure    $tab_frame.df.vf 0 -weight 1
-      grid columnconfigure $tab_frame.df.vf 2 -weight 1
-      grid $tab_frame.df.vf.v1 -row 0 -column 0 -sticky ew -padx 2
-      grid $tab_frame.df.vf.v2 -row 0 -column 1 -sticky ew -padx 2
-       
-      grid rowconfigure    $tab_frame.df.ff 0 -weight 1
-      grid columnconfigure $tab_frame.df.ff 0 -weight 1
-      grid $tab_frame.df.ff.e -row 0 -column 0 -sticky ew -padx 2
-      grid $tab_frame.df.ff.b -row 0 -column 1 -sticky ew -padx 2
-       
-      grid rowconfigure    $tab_frame.df 0 -weight 1
-      grid columnconfigure $tab_frame.df 2 -weight 1
-      grid $tab_frame.df.mb   -row 0 -column 0 -sticky ew -padx 2
-      grid $tab_frame.df.vf   -row 0 -column 1 -sticky ew
-      grid $tab_frame.df.ff   -row 0 -column 2 -sticky ew
-      grid $tab_frame.df.show -row 0 -column 3 -sticky ew -padx 2
-       
-      grid remove $tab_frame.df.ff
-      
+      diff::create_diff_bar $txt $tab_frame.df
       ttk::separator $tab_frame.sep2 -orient horizontal
-      
     }
     
     # Create separator between search and information bar

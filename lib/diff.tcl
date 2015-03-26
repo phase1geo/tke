@@ -9,151 +9,200 @@ namespace eval diff {
     
   array set data {}
   
-  ######################################################################
-  # Creates the menubutton for the CVS in the diff bar.
-  proc create_cvs_menubutton {txt win} {
+  proc create_diff_bar {txt win} {
     
-    # Create menubutton
-    ttk::menubutton $win -text "Select Version System" -menu $win.mnu -direction above
+    variable data
     
-    # Create the menu
-    menu $win.mnu -tearoff 0
+    set data($txt,win) $win
     
-    # Get the associated diff frame
-    set df [winfo parent $win]
+    ttk::frame      $win
+    ttk::label      $win.l1   -text "Version System: "
+    ttk::menubutton $win.cvs  -menu $win.cvsMenu -direction above
+    ttk::button     $win.show -text "Update" -command "diff::show $txt"
     
-    # Create menu
-    foreach cvs [list Perforce Mercurial Git Subversion CVS diff] {
-      $win.mnu add radiobutton -label $cvs -variable [ns diff]::data($txt,cvs) -value $cvs -command [list [ns diff]::update_diff_frame $txt $df]
+    # Create the version frame
+    ttk::frame      $win.vf
+    ttk::label      $win.vf.l1 -text "Start Version: "
+    ttk::menubutton $win.vf.v1 -menu $win.v1Menu -direction above
+    ttk::label      $win.vf.l2 -text "End Version: "
+    ttk::menubutton $win.vf.v2 -menu $win.v2Menu -direction above
+    
+    grid rowconfigure    $win.vf 0 -weight 1
+    grid columnconfigure $win.vf 2 -weight 1
+    grid $win.vf.l1 -row 0 -column 0 -sticky ew -padx 2
+    grid $win.vf.v1 -row 0 -column 1 -sticky ew -padx 2
+    grid $win.vf.l2 -row 0 -column 2 -sticky ew -padx 2
+    grid $win.vf.v2 -row 0 -column 3 -sticky ew -padx 2
+       
+    # Create the file frame
+    ttk::frame  $win.ff
+    ttk::label  $win.ff.l1 -text "Filename: "
+    ttk::entry  $win.ff.e
+       
+    grid rowconfigure    $win.ff 0 -weight 1
+    grid columnconfigure $win.ff 1 -weight 1
+    grid $win.ff.l1 -row 0 -column 0 -sticky ew -padx 2
+    grid $win.ff.e  -row 0 -column 1 -sticky ew -padx 2
+       
+    grid rowconfigure    $win 0 -weight 1
+    grid columnconfigure $win 3 -weight 1
+    grid $win
+    grid $win.l1   -row 0 -column 0 -sticky ew -padx 2
+    grid $win.cvs  -row 0 -column 1 -sticky ew -padx 2
+    grid $win.vf   -row 0 -column 2 -sticky ew
+    grid $win.ff   -row 0 -column 3 -sticky ew
+    grid $win.show -row 0 -column 4 -sticky ew -padx 2
+       
+    # Hide the version frame, file frame and update button until they are valid
+    grid remove $win.vf
+    grid remove $win.ff
+    grid remove $win.show
+    
+    # When text widget is destroyed delete our data
+    bind $win <Destroy> "diff::destroy $txt"
+    
+    # Create and populate the CVS menu
+    menu $win.cvsMenu -tearoff 0
+    
+    foreach cvs [get_cvs_names] {
+      $win.cvsMenu add radiobutton -label $cvs -variable [ns diff]::data($txt,cvs) -value $cvs -command [list [ns diff]::update_diff_frame $txt]
     }
     
-    return $win
+    # Create the V1 menu
+    menu $win.v1Menu -tearoff 0 -postcommand [list [ns diff]::add_v1 $txt]
+    
+    # Create the V2 menu
+    menu $win.v2Menu -tearoff 0 -postcommand [list [ns diff]::add_v2 $txt]
+      
+  }
+  
+  ######################################################################
+  # Deletes all data associated with the given text widget.
+  proc destroy {txt} {
+    
+    variable data
+    
+    array unset data $txt,*
+    
+  }
+  
+  ######################################################################
+  # Performs the difference command and displays it in the text widget.
+  proc show {txt} {
+    
+    variable data
+    
+    # Get the current filename
+    set fname [[ns gui]::current_filename]
+
+    # If the CVS has not been set, attempt to figure it out
+    if {![info exists data($txt,cvs)] || ($data($txt,cvs) eq "")} {
+      set_default_cvs $txt
+    }
+    
+    # Displays the difference data
+    if {[[string tolower $data($txt,cvs)]::is_cvs]} {
+      [string tolower $data($txt,cvs)]::show_diff $txt $data($txt,v1) $data($txt,v2) $fname
+    }
+    
+    # Hide the update button
+    grid remove $data($txt,win).show
+    
+  }
+  
+  ######################################################################
+  # PRIVATE PROCEDURES
+  ######################################################################
+  
+  ######################################################################
+  # Gets a sorted list of all available CVS names.
+  proc get_cvs_names {} {
+    
+    set names [list]
+    
+    puts [namespace children]
+    
+    foreach name [namespace children] {
+      lappend names [${name}::name]
+    }
+    
+    return [lsort $names]
     
   }
   
   ######################################################################
   # Attempts to determine the default CVS that is used to manage the
-  # current file.
-  proc get_default_cvs {} {
-    
-    # Get the current filename
-    set fname [current_filename]
-    
-    # Check each of the CVS
-    foreach cvs [file Perforce Mercurial Git Subversion CVS] {
-      if {[check_for_[string to lower $cvs] $fname]} {
-        return $cvs
-      }
-    }
-    
-    return "diff"
-    
-  }
-  
-  ######################################################################
-  # Check to see if the given filename is managed by Perforce.
-  proc check_for_perforce {fname} {
-    
-    return [expr {![catch { exec p4 filelog $fname }]}]
-    
-  }
-  
-  ######################################################################
-  # Check to see if the given filename is managed by Mercurial.
-  proc check_for_mercurial {fname} {
-    
-    return [expr {![catch { exec hg status $fname }]}]
-    
-  }
-  
-  ######################################################################
-  # Check to see if the given filename is managed by Git.
-  proc check_for_git {fname} {
-    
-    # TBD
-    
-    return 0
-    
-  }
-  
-  ######################################################################
-  # Check to see if the given filename is managed by Subversion.
-  proc check_for_subversion {fname} {
-    
-    # TBD
-    
-    return 0
-    
-  }
-  
-  ######################################################################
-  # Check to see if the given filename is managed by CVS.
-  proc check_for_cvs {fname} {
-    
-    # TBD
-    
-    return 0
-    
-  }
-  
-  ######################################################################
-  # Sets the cvs version value to diff and display the file difference
-  # frame.
-  proc update_diff_frame {txt df} {
+  # current file and updates the UI elements to match.
+  proc set_default_cvs {txt} {
     
     variable data
     
+    # Get the current filename
+    set fname [[ns gui]::current_filename]
+    
+    set data($txt,cvs) "diff"
+    
+    # Check each of the CVS
+    foreach cvs [get_cvs_names] {
+      if {[[string tolower $cvs]::handles $fname]} {
+        set data($txt,cvs) $cvs
+        break
+      }
+    }
+    
+    # Update the UI to match the selected CVS
+    update_diff_frame $txt
+    
+  }
+  
+  ######################################################################
+  # Called whenever the CVS value is changed.
+  proc update_diff_frame {txt} {
+    
+    variable data
+    
+    set win $data($txt,win)
+    
     if {$data($txt,cvs) eq "diff"} {
       
-      grid remove $df.vf
-      grid $df.ff
-      focus $df.ff.e
+      # Remove the version frame
+      grid remove $win.vf
+      
+      # Display the file frame and update button
+      grid $win.ff
+      grid $win.show
+      
+      # Set keyboard focus to the entry widget
+      focus $win.ff.e
       
     } else {
       
-      grid remove $df.ff
-      grid $df.vf
-      focus $df.vf.v1
+      grid remove $win.ff
       
       # Get all of the versions available for the file
       get_versions $txt
       
-      # Configure the menu buttons
-      $df.vf.v1 configure -text [lindex $data($txt,versions) 1]
-      $df.vf.v2 configure -text [lindex $data($txt,versions) 0]
+      if {[llength $data($txt,versions)] > 1} {
+        
+        # Show the version frame and update button
+        grid $win.vf
+        grid $win.show
+         
+        # Configure the menu buttons
+        $win.vf.v1 configure -text [lindex $data($txt,versions) 1]
+        $win.vf.v2 configure -text [lindex $data($txt,versions) 0]
+        
+      } else {
+        
+        grid remove $win.vf
+        grid remove $win.show
+        
+      }
       
     }
     
     # Set the menubutton name
-    $df.mb configure -text $data($txt,cvs)
-    
-  }
-  
-  ######################################################################
-  # Creates the menubutton for the version-1 selection in the diff bar.
-  proc create_v1_menubutton {tid win} {
-    
-    # Create the menubutton
-    ttk::menubutton $win -text "Start Version" -menu $win.mnu -direction above
-    
-    # Create the menu
-    menu $win.mnu -tearoff 0 -postcommand [list [ns diff]::add_v1 $tid $win.mnu]
-    
-    return $win
-    
-  }
-  
-  ######################################################################
-  # Creates the menubutton for the version-1 selection in the diff bar.
-  proc create_v2_menubutton {tid win} {
-    
-    # Create the menubutton
-    ttk::menubutton $win -text "End Version" -menu $win.mnu -direction above
-    
-    # Create the menu
-    menu $win.mnu -tearoff 0 -postcommand [list [ns diff]::add_v2 $tid $win.mnu]
-    
-    return $win
+    $win.cvs configure -text $data($txt,cvs)
     
   }
   
@@ -163,11 +212,8 @@ namespace eval diff {
     
     variable data
     
-    # Clear the versions
-    set data($txt,versions) "Current"
-    
     # Get the versions
-    get_[string tolower $data($txt,cvs)]_versions $txt [[ns gui]::current_filename]
+    set data($txt,versions) [list "Current" {*}[[string tolower $data($txt,cvs)]::versions [[ns gui]::current_filename]]]
     
     # Set the version 2 value to the current value
     set data($txt,v2) "Current"
@@ -178,67 +224,13 @@ namespace eval diff {
   }
   
   ######################################################################
-  # Retrieves all available versions of the current file in the Perforce
-  # repository.
-  proc get_perforce_versions {txt fname} {
-    
-    variable data
-    
-    if {![catch { exec p4 filelog $fname } rc]} {
-      foreach line [split $rc \n] {
-        if {[regexp {^\.\.\.\s+#(\d+)} $line -> version]} {
-          lappend data($txt,versions) $version
-        }
-      }
-    }
-    
-  }
-  
-  ######################################################################
-  # Retrieves all available versions of the current file in the Mercurial
-  # repository.
-  proc get_mercurial_versions {txt fname} {
-    
-    variable data
-    
-    if {![catch { exec hg log $fname } rc]} {
-      foreach line [split $rc \n] {
-        if {[regexp {changeset:\s+(\d+):} $line -> version]} {
-          lappend data($txt,versions) $version
-        }
-      }
-    }
-    
-  }
-  
-  ######################################################################
-  # Retrieves all available versions of the current file in the Git
-  # repository.
-  proc get_git_versions {txt fname} {
-
-    variable data
-
-    if {![catch { exec git log $fname } rc]} {
-      foreach line [split $rc \n] {
-        if {[regexp {commit\s+([0-9a-fA-F]+)} $line -> version]} {
-          lappend data($txt,versions) $version
-        }
-      }
-    }
-
-  }
-
-  ######################################################################
   # Adds the starting version menu items.
-  proc add_v1 {tid mnu} {
+  proc add_v1 {txt} {
     
     variable data
-    
-    # Get the current txt widget
-    set txt [[ns gui]::current_txt $tid]
     
     # Get the menubutton from the menu
-    set mb [winfo parent $mnu]
+    set mnu $data($txt,win).v1Menu
     
     # Clear the menu
     $mnu delete 0 end
@@ -246,7 +238,7 @@ namespace eval diff {
     # Add the items to the menu
     foreach version $data($txt,versions) {
       if {$version ne "Current"} {
-        $mnu add radiobutton -label $version -variable [ns diff]::data($txt,v1) -value $version -command [list [ns diff]::handle_v1 $tid $mb]
+        $mnu add radiobutton -label $version -variable [ns diff]::data($txt,v1) -value $version -command [list [ns diff]::handle_v1 $txt]
       }
     }
     
@@ -256,12 +248,9 @@ namespace eval diff {
   # If the version of the ending version is less than or equal to the new
   # starting version, adjust the ending version to be one version newer
   # than the starting version.
-  proc handle_v1 {tid mb} {
+  proc handle_v1 {txt} {
     
     variable data
-    
-    # Get the current txt widget
-    set txt [[ns gui]::current_txt $tid]
     
     # Adjust version 2, if necessary
     if {$data($txt,v1) >= $data($txt,v2)} {
@@ -270,21 +259,21 @@ namespace eval diff {
     }
     
     # Set the menubutton text
-    $mb configure -text $data($txt,v1)
+    $data($txt,win).vf.v1 configure -text $data($txt,v1)
+    
+    # Make sure the update button is visible
+    grid $data($txt,win).show
     
   }
   
   ######################################################################
   # Adds the ending version menu items.
-  proc add_v2 {tid mnu} {
+  proc add_v2 {txt} {
     
     variable data
     
-    # Get the current txt widget
-    set txt [[ns gui]::current_txt $tid]
-    
     # Get the menubutton from the menu
-    set mb [winfo parent $mnu]
+    set mnu $data($txt,win).v2Menu
     
     # Clear the menu
     $mnu delete 0 end
@@ -292,7 +281,7 @@ namespace eval diff {
     # Add the items to the menu
     foreach version $data($txt,versions) {
       if {($version eq "current") || ($version > $data($txt,v1))} {
-        $mnu add radiobutton -label $version -variable [ns diff]::data($txt,v2) -value $version -command [list [ns diff]::handle_v2 $tid $mb]
+        $mnu add radiobutton -label $version -variable [ns diff]::data($txt,v2) -value $version -command [list [ns diff]::handle_v2 $txt]
       }
     }
     
@@ -300,19 +289,16 @@ namespace eval diff {
   
   ######################################################################
   # Handles a change to the V2 widget.
-  proc handle_v2 {tid mb} {
+  proc handle_v2 {txt} {
     
     variable data
     
-    # Get the current text widget
-    set txt [[ns gui]::current_txt $tid]
-    
     # Get the current filename
-    set fname [current_filename]
+    set fname [[ns gui]::current_filename]
     
     # If the currently selected version is not current, get the file command
     if {$data($txt,v2) ne "Current"} {
-      set fname [get_[string tolower $data($txt,cvs)]_file_cmd $txt $fname]
+      set fname [[string tolower $data($txt,cvs)]::get_file_cmd $data($txt,v2) $fname]
     }
       
     # Execute the file open and update the text widget
@@ -324,125 +310,13 @@ namespace eval diff {
     }
       
     # Set the menubutton text
-    $mb configure -text $data($txt,v2)
+    $data($txt,win).vf.v2 configure -text $data($txt,v2)
+    
+    # Make sure the update button is visible
+    grid $data($txt,win).show
     
   }
   
-  ######################################################################
-  # Returns the Perforce command to execute in an open command to retrieve the
-  # file contents of the given file version.
-  proc get_perforce_file_cmd {txt fname} {
-    
-    variable data
-    
-    return "|p4 print $fname#$data($txt,v2)"
-    
-  }
-  
-  ######################################################################
-  # Returns the Mercurial command to execute in an open command to retrieve the
-  # file contents of the given file version.
-  proc get_mercurial_file_cmd {txt fname} {
-    
-    variable data
-    
-    return "|hg cat -r $data($txt,v2) $fname"
-    
-  }
-  
-  ######################################################################
-  # Performs the difference command and displays it in the text widget.
-  proc show_diff {tid} {
-    
-    variable data
-    
-    # Get the current text widget
-    set txt [[ns gui]::current_txt $tid]
-    
-    # Get the current filename
-    set fname [[ns gui]::current_filename]
-
-    # If the CVS has not been set, attempt to figure it out
-    if {![info exists data($txt,cvs)] || ($data($txt,cvs) eq "")} {
-      set data($txt,cvs) [get_default_cvs]
-    }
-    
-    # Displays the difference data
-    show_[string tolower $data($txt,cvs)]_diff $txt $fname
-    
-  }
-  
-  ######################################################################
-  # Display the perforce diff information in the viewer.
-  proc show_perforce_diff {txt fname} {
-    
-    variable data
-    
-    # Parse and display the difference
-    if {$data($txt,v2) eq "Current"} {
-      set ::env(P4DIFF) ""
-      parse_unified_diff $txt "p4 diff -du ${fname}#$data($txt,v1)"
-    } else {
-      parse_unified_diff $txt "p4 diff2 -u ${fname}#$data($txt,v1) ${fname}#$data($txt,v2)"
-    }
-      
-  }
-  
-  ######################################################################
-  # Display the Mercurial diff information in the viewer.
-  proc show_mercurial_diff {txt fname} {
-    
-    variable data
-    
-    # Parse and display the difference
-    if {$data($txt,v2) eq "Current"} {
-      parse_unified_diff $txt "hg diff -r $data($txt,v1) $fname"
-    } else {
-      parse_unified_diff $txt "hg diff -r $data($txt,v1) -r $data($txt,v2) $fname"
-    }
-    
-  }
-
-  ######################################################################
-  # Display the Git diff information in the viewer.
-  proc show_git_diff {txt fname} {
-
-    variable data
-
-    # TBD
-
-  }
-  
-  ######################################################################
-  # Display the Subversion diff information in the viewer.
-  proc show_subversion_diff {txt fname} {
-
-    variable data
-
-    # TBD
-
-  }
-  
-  ######################################################################
-  # Display the Subversion diff information in the viewer.
-  proc show_cvs_diff {txt fname} {
-
-    variable data
-
-    # TBD
-
-  }
-  
-  ######################################################################
-  # Display the Subversion diff information in the viewer.
-  proc show_diff_diff {txt fname} {
-
-    variable data
-
-    # TBD
-
-  }
-    
   ######################################################################
   # Executes the given diff command that produces diff output in unified
   # format.  Updates the specified text widget with the result.  The
@@ -507,6 +381,177 @@ namespace eval diff {
 
     # Disable the text window from editing
     $txt configure -state disabled
+    
+  }
+  
+  ######################################################################
+  # CVS TOOL NAMESPACES
+  ######################################################################
+  
+  ######################################################################
+  # Handles Perforce commands
+  namespace eval perforce {
+    
+    proc name {} {
+      return "Perforce"
+    }
+    
+    proc is_cvs {} {
+      return 1
+    }
+    
+    proc handles {fname} {
+      return [expr {![catch { exec p4 filelog $fname }]}]
+    }
+    
+    proc versions {fname} {
+      set versions [list]
+      if {![catch { exec p4 filelog $fname } rc]} {
+        foreach line [split $rc \n] {
+          if {[regexp {^\.\.\.\s+#(\d+)} $line -> version]} {
+            lappend versions $version
+          }
+        }
+      }
+      return $versions
+    }
+    
+    proc get_file_cmd {version fname} {
+      return "|p4 print $fname#$version"
+    }
+    
+    proc show_diff {txt v1 v2 fname} {
+      if {$v2 eq "Current"} {
+        set ::env(P4DIFF) ""
+        diff::parse_unified_diff $txt "p4 diff -du ${fname}#$v1"
+      } else {
+        diff::parse_unified_diff $txt "p4 diff2 -u ${fname}#$v1 ${fname}#$v2"
+      }
+    }
+    
+  }
+  
+  ######################################################################
+  # Handles Mercurial commands
+  namespace eval mercurial {
+    
+    proc name {} {
+      return "Mercurial"  
+    }
+    
+    proc is_cvs {} {
+      return 1
+    }
+    
+    proc handles {fname} {
+      return [expr {![catch { exec hg status $fname }]}]
+    }
+    
+    proc versions {fname} {
+      set versions [list]
+      if {![catch { exec hg log $fname } rc]} {
+        foreach line [split $rc \n] {
+          if {[regexp {changeset:\s+(\d+):} $line -> version]} {
+            lappend versions $version
+          }
+        }
+      }
+      return $versions
+    }
+    
+    proc get_file_cmd {version fname} {
+      return "|hg cat -r $version $fname"
+    }
+    
+    proc show_diff {txt v1 v2 fname} {
+      if {$v2 eq "Current"} {
+        diff::parse_unified_diff $txt "hg diff -r $v1 $fname"
+      } else {
+        diff::parse_unified_diff $txt "hg diff -r $v1 -r $v2 $fname"
+      }
+    }
+    
+  }
+  
+  ######################################################################
+  # Handles Subversion commands
+  namespace eval subversion {
+    
+    proc name {} {
+      return "Subversion"
+    }
+    
+    proc is_cvs {} {
+      return 1
+    }
+    
+    proc handles {fname} {
+      return 0
+    }
+    
+    proc versions {fname} {
+      return [list]
+    }
+    
+    proc get_file_cmd {version fname} {
+      return ""
+    }
+    
+    proc show_diff {txt v1 v2 fname} {
+      # TBD
+    }
+    
+  }
+  
+  ######################################################################
+  # Handles CVS commands
+  namespace eval cvs {
+    
+    proc name {} {
+      return "CVS"
+    }
+    
+    proc is_cvs {} {
+      return 1
+    }
+    
+    proc handles {fname} {
+      return 0
+    }
+    
+    proc versions {fname} {
+      return [list]
+    }
+    
+    proc get_file_cmd {version fname} {
+      return ""
+    }
+    
+    proc show_diff {txt v1 v2 fname} {
+      # TBD
+    }
+    
+  }
+  
+  ######################################################################
+  # Handles diff commands
+  namespace eval diff {
+    
+    proc name {} {
+      return "diff"
+    }
+    
+    proc is_cvs {} {
+      return 0
+    }
+    
+    proc handles {fname} {
+      return 0
+    }
+    
+    proc show_diff {fname1 fname2} {
+      diff::parse_unified_diff $txt "diff $fname1 $fname2"
+    }
     
   }
   
