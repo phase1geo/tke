@@ -1,44 +1,29 @@
-changeset:   893:16d15c5c4b59
-tag:         devel-1.5.10
+changeset:   898:68991ac71658
+tag:         devel-1.5.11
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 24 08:40:25 2015 -0500
+date:        Wed Mar 25 01:05:21 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.5.10 release
+ChangeLog for devel-1.5.11 release
 
 
-changeset:   894:b1683e91424f
+changeset:   899:2f67408b321c
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 24 08:40:30 2015 -0500
+date:        Wed Mar 25 01:05:25 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.5.10 for changeset 16d15c5c4b59
+Added tag devel-1.5.11 for changeset 68991ac71658
 
 
-changeset:   895:ec769213b02d
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Tue Mar 24 11:02:10 2015 -0500
-files:       lib/ctext/ctext.tcl lib/diff.tcl lib/version.tcl
-description:
-* Fixing issues with Perforce diff.
-* Fixing diff reset command to remove added sub lines.
-
-
-changeset:   896:0017bb08bf36
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Tue Mar 24 17:20:57 2015 -0500
-files:       lib/diff.tcl lib/version.tcl
-description:
-* Updates to diff.
-
-
-changeset:   897:82970e059a47
+changeset:   900:4dca5376f244
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Mar 25 01:03:46 2015 -0500
-files:       lib/ctext/ctext.tcl lib/version.tcl
+date:        Thu Mar 26 01:45:14 2015 -0500
+files:       lib/api.tcl lib/diff.tcl lib/gui.tcl lib/utils.tcl lib/version.tcl
 description:
-* Adding -bg gutter symbol option.
-* Cleaning up ctext namespace.
+* Restructure diff namespace.
+* Cleaning up appearance of diff bar and rearranging its code.
+* Modifying utils::set_environment to allow preference variables to affect actual environment variables.
+* Updating documentation in api::file::add procedure.
 
 
