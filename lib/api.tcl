@@ -212,13 +212,14 @@ namespace eval api {
     #       save as dialog to be displayed when saving.
     #
     #   -buffer (0|1)
-    #     * If set to 0 (default, the file will be added as a normal file;
+    #     * If set to 0 (default), the file will be added as a normal file;
     #       however, if set to 1, the file will be treated as a temporary file
     #       that will be automatically deleted when the tab is closed.
     #
-    #   -diff \e command
-    #     * Specifies the difference command to execute.
-    #     * If this option is specifed, a difference will be shown in the current tab.
+    #   -diff (0|1)
+    #     * If set to 0 (default), the file will be added as an editable file;
+    #       however, if set to 1, the file will be inserted as a difference viewer,
+    #       allowing the user to view file differences visually within the editor.
     #
     #   -gutters \e list
     #     * Creates a gutter in the editor.  The contents of list are as follows:

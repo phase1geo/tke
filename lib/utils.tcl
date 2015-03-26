@@ -172,6 +172,9 @@ namespace eval utils {
       set vars([string toupper [lindex $var_pair 0]]) [perform_substitutions [lindex $var_pair 1]]
     }
     
+    # Set the environment
+    array set ::env [array get vars]
+    
   }
   
   ######################################################################
