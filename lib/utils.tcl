@@ -331,6 +331,19 @@ namespace eval utils {
   }
   
   ######################################################################
+  # Adjusts the hue of the given color by the value of difference.
+  proc auto_mix_colors {color hue} {
+    
+    # Create the lighter version of the primary color
+    lassign [winfo rgb . $color] r g b
+    lassign [rgb_to_hsv [expr $r >> 8] [expr $g >> 8] [expr $b >> 8]] orig_hue saturation value
+    set rgb [hsv_to_rgb $hue $saturation $value]
+      
+    return [format {#%02x%02x%02x} {*}$rgb]
+    
+  }
+  
+  ######################################################################
   # Converts a character to its associated keysym.  Note:  Only printable
   # string values are supported.
   proc string_to_keysym {str} {
