@@ -22,9 +22,9 @@ namespace eval diff {
 
     # Create the version frame
     ttk::frame   $win.vf
-    ttk::label   $win.vf.l1 -text "    Start Version: "
+    ttk::label   $win.vf.l1 -text "    Start: "
     ttk::spinbox $win.vf.v1 -textvariable [ns diff]::data($txt,v1) -state readonly -command "[ns diff]::handle_v1 $txt"
-    ttk::label   $win.vf.l2 -text "    End Version: "
+    ttk::label   $win.vf.l2 -text "    End: "
     ttk::spinbox $win.vf.v2 -textvariable [ns diff]::data($txt,v2) -state readonly -command "[ns diff]::handle_v2 $txt"
 
     grid rowconfigure    $win.vf 0 -weight 1
@@ -35,37 +35,53 @@ namespace eval diff {
     grid $win.vf.v2 -row 0 -column 3 -sticky ew -padx 2
 
     # Create the file frame
-    ttk::frame  $win.ff
-    ttk::label  $win.ff.l1 -text "    Filename: "
-    ttk::entry  $win.ff.e
+    ttk::frame             $win.ff
+    wmarkentry::wmarkentry $win.ff.e -watermark "Enter starting file"
 
     grid rowconfigure    $win.ff 0 -weight 1
-    grid columnconfigure $win.ff 1 -weight 1
-    grid $win.ff.l1 -row 0 -column 0 -sticky ew -padx 2
-    grid $win.ff.e  -row 0 -column 1 -sticky ew -padx 2
+    grid columnconfigure $win.ff 0 -weight 1
+    grid $win.ff.e -row 0 -column 0 -sticky ew -padx 2
+    
+    # Create the command frame
+    ttk::frame $win.cf
+    wmarkentry::wmarkentry $win.cf.e -watermark "Enter difference command"
 
+    grid rowconfigure    $win.cf 0 -weight 1
+    grid columnconfigure $win.cf 0 -weight 1
+    grid $win.cf.e -row 0 -column 0 -sticky ew -padx 2
+    
     grid rowconfigure    $win 0 -weight 1
     grid columnconfigure $win 3 -weight 1
     grid $win
-    grid $win.l1   -row 0 -column 0 -sticky ew -padx 2
-    grid $win.cvs  -row 0 -column 1 -sticky ew -padx 2
-    grid $win.vf   -row 0 -column 2 -sticky ew
-    grid $win.ff   -row 0 -column 3 -sticky ew
-    grid $win.show -row 0 -column 4 -sticky ew -padx 2
+    grid $win.l1   -row 0 -column 0 -sticky ew -padx 2 -pady 2
+    grid $win.cvs  -row 0 -column 1 -sticky ew -padx 2 -pady 2
+    grid $win.vf   -row 0 -column 2 -sticky ew         -pady 2
+    grid $win.ff   -row 0 -column 3 -sticky ew         -pady 2
+    grid $win.cf   -row 0 -column 4 -sticky ew         -pady 2
+    grid $win.show -row 0 -column 5 -sticky ew -padx 2 -pady 2
 
     # Hide the version frame, file frame and update button until they are valid
     grid remove $win.vf
     grid remove $win.ff
+    grid remove $win.cf
     grid remove $win.show
 
     # When text widget is destroyed delete our data
     bind $win <Destroy> "diff::destroy $txt"
 
-    # Create and populate the CVS menu
+    # Create the CVS menu
     menu $win.cvsMenu -tearoff 0
 
-    foreach cvs [get_cvs_names] {
-      $win.cvsMenu add radiobutton -label $cvs -variable [ns diff]::data($txt,cvs) -value $cvs -command [list [ns diff]::update_diff_frame $txt]
+    # Populate the CVS menu
+    set first 1
+    foreach type [list cvs file command] {
+      if {!$first} {
+        $win.cvsMenu add separator
+      }
+      foreach name [get_cvs_names $type] {
+        $win.cvsMenu add radiobutton -label $name -variable [ns diff]::data($txt,cvs) -value $name -command "[ns diff]::update_diff_frame $txt"
+      }
+      set first 0
     }
 
   }
@@ -93,14 +109,44 @@ namespace eval diff {
     if {![info exists data($txt,cvs)] || ($data($txt,cvs) eq "")} {
       set_default_cvs $txt
     }
+    
+    # Get the CVS namespace name
+    set cvs_ns [string tolower $data($txt,cvs)]
+    
+    # If the V2 file changed, replace the current file with the new content
+    if {[info exists data($txt,last_v2)] && ($data($txt,v2) ne $data($txt,last_v2))} {
+      
+      set v2_fname $fname
+    
+      # If the currently selected version is not current, get the file command
+      if {$data($txt,v2) ne "Current"} {
+        set v2_fname [${cvs_ns}::get_file_cmd $data($txt,v2) $fname]
+      }
 
-    # Displays the difference data
-    if {[[string tolower $data($txt,cvs)]::is_cvs]} {
-      [string tolower $data($txt,cvs)]::show_diff $txt $data($txt,v1) $data($txt,v2) $fname
+      # Execute the file open and update the text widget
+      if {![catch { open $v2_fname r } rc]} {
+        $txt configure -state normal
+        $txt delete 1.0 end
+        $txt insert end [read $rc]
+        $txt configure -state disabled
+      }
+      
+      # Save the last V2
+      set data($txt,last_v2) $data($txt,v2)
+      
     }
 
-    # Hide the update button
-    grid remove $data($txt,win).show
+    # Displays the difference data
+    switch [${cvs_ns}::type] {
+      cvs     { ${cvs_ns}::show_diff $txt $data($txt,v1) $data($txt,v2) $fname }
+      file    { ${cvs_ns}::show_diff $txt [$data($txt,win).ff.e get] $fname }
+      command { ${cvs_ns}::show_diff $txt [$data($txt,win).cf.e get] }
+    }
+
+    # Hide the update button if we are in cvs mode
+    if {$cvs_ns eq "cvs"} {
+      grid remove $data($txt,win).show
+    }
 
   }
 
@@ -110,12 +156,14 @@ namespace eval diff {
 
   ######################################################################
   # Gets a sorted list of all available CVS names.
-  proc get_cvs_names {} {
+  proc get_cvs_names {type} {
 
     set names [list]
 
     foreach name [namespace children] {
-      lappend names [${name}::name]
+      if {[${name}::type] eq $type} {
+        lappend names [${name}::name]
+      }
     }
 
     return [lsort $names]
@@ -135,7 +183,7 @@ namespace eval diff {
     set data($txt,cvs) "diff"
 
     # Check each of the CVS
-    foreach cvs [get_cvs_names] {
+    foreach cvs [get_cvs_names cvs] {
       if {[[string tolower $cvs]::handles $fname]} {
         set data($txt,cvs) $cvs
         break
@@ -155,39 +203,67 @@ namespace eval diff {
 
     set win $data($txt,win)
 
-    if {$data($txt,cvs) eq "diff"} {
+    switch [[string tolower $data($txt,cvs)]::type] {
+      
+      cvs {
+        
+        # Remove the file and command frames from view
+        grid remove $win.ff
+        grid remove $win.cf
 
-      # Remove the version frame
-      grid remove $win.vf
+        # Get all of the versions available for the file
+        get_versions $txt
 
-      # Display the file frame and update button
-      grid $win.ff
-      grid $win.show
+        if {[llength $data($txt,versions)] > 1} {
 
-      # Set keyboard focus to the entry widget
-      focus $win.ff.e
+          # Show the version frame and update button
+          grid $win.vf
+          grid $win.show
 
-    } else {
+          # Configure the spinboxes buttons
+          $win.vf.v1 configure -values [lreverse [lrange $data($txt,versions) 1 end]]
+          $win.vf.v2 configure -values [lindex $data($txt,versions) 0]
 
-      grid remove $win.ff
+        } else {
 
-      # Get all of the versions available for the file
-      get_versions $txt
+          grid remove $win.vf
+          grid remove $win.show
 
-      if {[llength $data($txt,versions)] > 1} {
+        } 
+        
+      }
+      
+      file {
+        
+        # Remove the version and command frames
+        grid columnconfigure $win 4 -weight 0
+        grid remove $win.vf
+        grid remove $win.cf
 
-        # Show the version frame and update button
-        grid $win.vf
+        # Display the file frame and update button
+        grid columnconfigure $win 3 -weight 1
+        grid $win.ff
         grid $win.show
 
-        # Configure the spinboxes buttons
-        $win.vf.v1 configure -values $data($txt,versions)
-        $win.vf.v2 configure -values $data($txt,versions)
+        # Set keyboard focus to the entry widget
+        focus $win.ff.e.e
 
-      } else {
-
+      }
+      
+      command {
+        
+        # Remove the version and file frames
+        grid columnconfigure $win 3 -weight 0
         grid remove $win.vf
-        grid remove $win.show
+        grid remove $win.ff
+
+        # Display the command frame and update button
+        grid columnconfigure $win 4 -weight 1
+        grid $win.cf
+        grid $win.show
+
+        # Set keyboard focus to the entry widget
+        focus $win.cf.e.e
 
       }
 
@@ -223,15 +299,17 @@ namespace eval diff {
 
     variable data
 
+    # Find the current V1 version in the versions list
+    set index [lsearch $data($txt,versions) $data($txt,v1)]
+    
     # Adjust version 2, if necessary
     if {$data($txt,v1) >= $data($txt,v2)} {
-      set index         [lsearch $data($txt,versions) $data($txt,v1)]
       set data($txt,v2) [lindex $data($txt,versions) [expr $index - 1]]
     }
 
-    # Set the menubutton text
-    # $data($txt,win).vf.v1 configure -text $data($txt,v1)
-
+    # Update V2 available versions
+    $data($txt,win).vf.v2 configure -values [lreverse [lrange $data($txt,versions) 0 [expr $index - 1]]]
+    
     # Make sure the update button is visible
     grid $data($txt,win).show
 
@@ -242,25 +320,6 @@ namespace eval diff {
   proc handle_v2 {txt} {
 
     variable data
-
-    # Get the current filename
-    set fname [[ns gui]::current_filename]
-
-    # If the currently selected version is not current, get the file command
-    if {$data($txt,v2) ne "Current"} {
-      set fname [[string tolower $data($txt,cvs)]::get_file_cmd $data($txt,v2) $fname]
-    }
-
-    # Execute the file open and update the text widget
-    if {![catch { open $fname r } rc]} {
-      $txt configure -state normal
-      $txt delete 1.0 end
-      $txt insert end [read $rc]
-      $txt configure -state disabled
-    }
-
-    # Set the menubutton text
-    # $data($txt,win).vf.v2 configure -text $data($txt,v2)
 
     # Make sure the update button is visible
     grid $data($txt,win).show
@@ -276,9 +335,7 @@ namespace eval diff {
   proc parse_unified_diff {txt cmd} {
 
     # Execute the difference command
-    if {[catch { exec -ignorestderr {*}$cmd } rc]} {
-      return -code error "ERROR:  Diff command failed, $rc"
-    }
+    catch { exec -ignorestderr {*}$cmd } rc
 
     # Open the UI for editing
     $txt configure -state normal
@@ -346,8 +403,8 @@ namespace eval diff {
       return "Perforce"
     }
 
-    proc is_cvs {} {
-      return 1
+    proc type {} {
+      return "cvs"
     }
 
     proc handles {fname} {
@@ -389,8 +446,8 @@ namespace eval diff {
       return "Mercurial"
     }
 
-    proc is_cvs {} {
-      return 1
+    proc type {} {
+      return "cvs"
     }
 
     proc handles {fname} {
@@ -431,8 +488,8 @@ namespace eval diff {
       return "Subversion"
     }
 
-    proc is_cvs {} {
-      return 1
+    proc type {} {
+      return "cvs"
     }
 
     proc handles {fname} {
@@ -461,8 +518,8 @@ namespace eval diff {
       return "CVS"
     }
 
-    proc is_cvs {} {
-      return 1
+    proc type {} {
+      return "cvs"
     }
 
     proc handles {fname} {
@@ -491,18 +548,40 @@ namespace eval diff {
       return "diff"
     }
 
-    proc is_cvs {} {
-      return 0
+    proc type {} {
+      return "file"
     }
 
     proc handles {fname} {
       return 0
     }
 
-    proc show_diff {fname1 fname2} {
-      diff::parse_unified_diff $txt "diff $fname1 $fname2"
+    proc show_diff {txt fname1 fname2} {
+      diff::parse_unified_diff $txt "diff -u $fname1 $fname2"
     }
 
+  }
+  
+  ######################################################################
+  # Handles custom commands
+  namespace eval custom {
+    
+    proc name {} {
+      return "custom"
+    }
+    
+    proc type {} {
+      return "command"
+    }
+    
+    proc handles {fname} {
+      return 0
+    }
+    
+    proc show_diff {txt command} {
+      diff::parse_unified_diff $txt $command
+    }
+    
   }
 
 }
