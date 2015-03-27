@@ -26,12 +26,14 @@ namespace eval themer {
   array set widgets     {}
   array set all_scopes  {}
   array set orig_labels {}
+  array set show_vars   {}
   
   array set label_index {
-    color   0
-    setable 1
-    tagpos  2
-    scope   3
+    color      0
+    tagpos     1
+    scope      2
+    background 3
+    show       4
   }
   
   array set scope_map {
@@ -57,59 +59,56 @@ namespace eval themer {
   }
    
   array set labels {
-    background       {""       1 ""            ""}
-    foreground       {""       1 ""            ""}
-    warnwidthcolor   {""       0 "-background" ""}
-    selectbackground {"blue"   0 ""            ""}
-    selectforeground {"white"  0 ""            ""}
-    highlightcolor   {"yellow" 0 ""            ""}
-    cursor           {""       1 "-background" ""}
-    keywords         {""       1 "-foreground" ""}
-    comments         {""       1 "-foreground" ""}
-    strings          {""       1 "-foreground" ""}
-    numbers          {""       1 "-foreground" ""}
-    punctuation      {""       1 "-foreground" ""}
-    precompile       {""       1 "-foreground" ""}
-    miscellaneous1   {""       1 "-foreground" ""}
-    miscellaneous2   {""       1 "-foreground" ""}
-    miscellaneous3   {""       1 "-foreground" ""}
+    background       {""       ""            "" 1 1}
+    foreground       {""       ""            "" 0 1}
+    linenumcolor     {""       ""            "" 0 1}
+    warnwidthcolor   {""       ""            "" 0 1}
+    diffsubcolor     {""       ""            "" 1 0}
+    diffaddcolor     {""       ""            "" 1 0}
+    selectbackground {"blue"   ""            "" 0 1}
+    selectforeground {"white"  ""            "" 0 1}
+    highlightcolor   {"yellow" ""            "" 0 1}
+    cursor           {""       "-background" "" 0 1}
+    keywords         {""       "-foreground" "" 0 1}
+    comments         {""       "-foreground" "" 0 1}
+    strings          {""       "-foreground" "" 0 1}
+    numbers          {""       "-foreground" "" 0 1}
+    punctuation      {""       "-foreground" "" 0 1}
+    precompile       {""       "-foreground" "" 0 1}
+    miscellaneous1   {""       "-foreground" "" 0 1}
+    miscellaneous2   {""       "-foreground" "" 0 1}
+    miscellaneous3   {""       "-foreground" "" 0 1}
   }
   
   # Add trace to the labels array
   trace variable themer::labels w themer::handle_label_change 
   
   #############################################################
-  # Called whenever a menu item is selected inthe scope menu.
+  # Called whenever a menu item is selected in the scope menu.
   proc handle_label_change {name1 lbl op} {
   
     variable labels
     variable label_index
     variable widgets
     
-    # If the label is setable by the user, update the buttons and labels
-    if {[lindex $labels($lbl) $label_index(setable)]} {
-      
-      # Get the color from the label
-      set color [lindex $labels($lbl) $label_index(color)]
+    # Get the color from the label
+    set color [lindex $labels($lbl) $label_index(color)]
        
-      # Set the button and label
-      $widgets(l:$lbl) configure -foreground ""
-      $widgets(b:$lbl) configure -text [lindex $labels($lbl) $label_index(scope)]
+    # Set the button and label
+    $widgets(b:$lbl) configure -text [lindex $labels($lbl) $label_index(scope)]
        
-      # Set the image
-      if {$lbl eq "background"} {
-        lset labels(warnwidthcolor) $label_index(color) [create_warn_width_color $color]
-        foreach {l info} [array get labels] {
-          if {[lindex $info $label_index(setable)] && ([set color [lindex $info $label_index(color)]] ne "")} {
-            set_button_image $l $color
-          }
+    # Set the image
+    if {$lbl eq "background"} {
+      # lset labels(warnwidthcolor) $label_index(color) [create_warn_width_color $color]
+      foreach {l info} [array get labels] {
+        if {[set color [lindex $info $label_index(color)]] ne ""} {
+          set_button_image $l $color
         }
-      } else {
-        set_button_image $lbl $color
       }
-    
+    } else {
+      set_button_image $lbl $color
     }
-  
+    
     # Highlight the sample textbox
     highlight
       
@@ -128,32 +127,6 @@ namespace eval themer {
    
   }
    
-  ######################################################################
-  # Creates the warnwidthcolor color from the given background color
-  # by darkening (if the HSV value is a lighter color) or lightening
-  # (if the HSV value is a darker color) the color just a bit.
-  proc create_warn_width_color {color} {
-   
-    # Convert the color to an HSV value
-    foreach {r g b} [winfo rgb [get_win] $color] {}
-    set hsv [utils::rgb_to_hsv [expr $r >> 8] [expr $g >> 8] [expr $b >> 8]]
-   
-    # Lighten it if value is closer to black
-    if {[lindex $hsv 2] < 0x80} {
-      lset hsv 2 [expr [lindex $hsv 2] + 40]
-   
-    # Otherwise, darken the color to white
-    } else {
-      lset hsv 2 [expr [lindex $hsv 2] - 40]
-    }
-   
-    # Convert the HSV value back to an RGB value
-    set rgb [utils::hsv_to_rgb {*}$hsv]
-   
-    return [eval "format {#%02x%02x%02x} $rgb"]
-   
-  }
-  
   ######################################################################
   # Sets the image for the type button.
   proc set_button_image {lbl color} {
@@ -250,7 +223,7 @@ namespace eval themer {
                 if {$scope_types eq ""} {
                   lset labels(background)     $label_index(color) $color
                   lset labels(background)     $label_index(scope) "background"
-                  lset labels(warnwidthcolor) $label_index(color) [create_warn_width_color $color]
+                  lset labels(warnwidthcolor) $label_index(color) [utils::auto_adjust_color $color 40]
                   set all_scopes(background) $color
                 }
               } elseif {$caret} {
@@ -365,7 +338,7 @@ namespace eval themer {
     
     # Get the theme names
     foreach theme [lsort [glob -tails -directory [file join $::tke_dir data themes] *.tketheme]] {
-      $w.tf.lb insert end $theme
+      $w.tf.lb insert end [file rootname $theme]
     }
     $w.tf.lb selection set 0
 
@@ -383,7 +356,7 @@ namespace eval themer {
     ::tk::RestoreFocusGrab $w $w
     
     if {$::theme_name ne ""} {
-      return [file join $::tke_dir data themes $::theme_name]
+      return [file join $::tke_dir data themes ${::theme_name}.tketheme]
     } else {
       return ""
     }
@@ -517,6 +490,7 @@ namespace eval themer {
     variable all_scopes
     variable tmtheme
     variable write_callback
+    variable show_vars
     
     # Set the write callback proc
     set write_callback $callback
@@ -534,28 +508,47 @@ namespace eval themer {
     # Create top-left frame
     ttk::frame [get_path].tf.lf
     
+    # Add background colors
     incr i
-    foreach lbl [lsort [array names labels]] {
+    for {set j 1} {$j >= 0} {incr j -1} {
       
-      if {[lindex $labels($lbl) $label_index(setable)]} {
-      
-        # Create the label and menubutton
-        set widgets(l:$lbl) [ttk::label [get_path].tf.lf.l$lbl -text "[string totitle $lbl]:"]
-        set widgets(b:$lbl) [ttk::label [get_path].tf.lf.b$lbl -anchor w -relief raised]
-        
-        bind $widgets(b:$lbl) <Button-1> "themer::show_menu $lbl"
-      
-        # Create menu
-        set widgets(m:$lbl) [menu [get_path].tf.lf.b$lbl.mnu -tearoff 0]
-        
-        # Add custom command so that we don't get an error when parsing
-        $widgets(m:$lbl) add command -label [msgcat::mc "Create custom"]
-      
-        # Add them to the grid
-        grid $widgets(l:$lbl) -row $i -column 0 -sticky news -padx 2 -pady 2
-        grid $widgets(b:$lbl) -row $i -column 1 -sticky news -padx 2 -pady 2
-      
+      if {$j == 0} {
+        ttk::separator [get_path].tf.lf.sep -orient horizontal
+        grid [get_path].tf.lf.sep -row $i -column 0 -sticky news -padx 2 -pady 2 -columnspan 2
         incr i
+      }
+      
+      foreach lbl [lsort [array names labels]] {
+        
+        if {[lindex $labels($lbl) $label_index(background)] == $j} {
+          
+          # Create the label and menubutton
+          if {$j} {
+            set widgets(l:$lbl) [ttk::radiobutton [get_path].tf.lf.l$lbl -text "[string totitle $lbl]:" -variable themer::show_vars(background) -value $lbl]
+            if {[lindex $labels($lbl) $label_index(show)]} {
+              set show_vars(background) $lbl
+            }
+          } else {
+            set widgets(l:$lbl) [ttk::checkbutton [get_path].tf.lf.l$lbl -text "[string totitle $lbl]:" -variable themer::show_vars($lbl)]
+            set show_vars($lbl) [lindex $labels($lbl) $label_index(show)]
+          }
+          set widgets(b:$lbl) [ttk::label [get_path].tf.lf.b$lbl -anchor w -relief raised]
+            
+          bind $widgets(b:$lbl) <Button-1> "themer::show_menu $lbl"
+           
+          # Create menu
+          set widgets(m:$lbl) [menu [get_path].tf.lf.b$lbl.mnu -tearoff 0]
+            
+          # Add custom command so that we don't get an error when parsing
+          $widgets(m:$lbl) add command -label [msgcat::mc "Create custom"]
+           
+          # Add them to the grid
+          grid $widgets(l:$lbl) -row $i -column 0 -sticky news -padx 2 -pady 2
+          grid $widgets(b:$lbl) -row $i -column 1 -sticky news -padx 2 -pady 2
+           
+          incr i
+            
+        }
         
       }
       
@@ -563,8 +556,17 @@ namespace eval themer {
     
     # Create the top-right frame
     ttk::labelframe [get_path].tf.rf -text "Sample Text"
-    set widgets(txt) [text [get_path].tf.rf.txt -height 10 -width 40]
+    set widgets(gutter) [text  [get_path].tf.rf.gut   -relief flat -bd 0 -width 4  -height 10 -highlightthickness 0]
+    set widgets(vr)     [frame [get_path].tf.rf.vr    -relief flat -bd 0 -width 1]
+    set widgets(txt)    [text  [get_path].tf.rf.txt   -relief flat -bd 0 -width 40 -height 10 -highlightthickness 0]
+    set widgets(warn)   [frame [get_path].tf.rf.txt.w -relief flat -bd 0 -width 1]
     
+    # Insert line numbers into gutter
+    for {set i 167} {$i < 197} {incr i} {
+      $widgets(gutter) insert end "$i\n"
+    }
+    
+    # Insert sample text
     $widgets(txt) insert end "#ifdef DFN\n"
     $widgets(txt) insert end "\n"
     $widgets(txt) insert end "  // Some sort of comment\n"
@@ -583,14 +585,20 @@ namespace eval themer {
     $widgets(txt) tag add strings        6.12 6.21
     $widgets(txt) tag add miscellaneous1 6.4 6.10
     $widgets(txt) tag add punctuation    4.14 4.19 5.10 5.11 5.15 5.16 6.10 6.11 6.21 6.22 6.26 6.28
-    $widgets(txt) tag add warnwidthcolor 6.25 6.28
     $widgets(txt) tag add cursor         4.2 4.3
     
-    # Disable the text widget
-    $widgets(txt) configure -state disabled
-
-    pack $widgets(txt) -fill both -expand yes
-
+    # Disable the text widgets
+    $widgets(gutter) configure -state disabled
+    $widgets(txt)    configure -state disabled
+    
+    grid rowconfigure    [get_path].tf.rf 0 -weight 1
+    grid columnconfigure [get_path].tf.rf 2 -weight 1
+    grid $widgets(gutter) -row 0 -column 0 -sticky ns
+    grid $widgets(vr)     -row 0 -column 1 -sticky ns
+    grid $widgets(txt)    -row 0 -column 2 -sticky news
+    
+    place $widgets(warn) -x [font measure [$widgets(txt) cget -font] -displayof . [string repeat "m" 30]] -relheight 1.0
+    
     grid [get_path].tf.lf -row 0 -column 0 -sticky news -padx 2 -pady 2
     grid [get_path].tf.rf -row 0 -column 1 -sticky news -padx 2 -pady 2
     
@@ -698,6 +706,11 @@ namespace eval themer {
     variable all_scopes
     variable tmtheme
     
+    # Colorize the gutter
+    if {[set color [lindex $labels(linenumcolor) $label_index(color)]] ne ""} {
+      $widgets(gutter) configure -foreground $color
+    }
+    
     # Colorize all of the foreground tags and the menu
     foreach {lbl info} [array get labels] {
       if {[set pos [lindex $info $label_index(tagpos)]] ne ""} {
@@ -710,23 +723,28 @@ namespace eval themer {
       $widgets(txt) configure -foreground $color
     }
     if {[set color [lindex $labels(background) $label_index(color)]] ne ""} {
-      $widgets(txt) configure -background $color
+      $widgets(gutter) configure -background $color 
+      $widgets(txt)    configure -background $color
+    }
+    
+    # Colorize the vr and warn frames
+    if {[set color [lindex $labels(warnwidthcolor) $label_index(color)]] ne ""} {
+      $widgets(vr)   configure -background $color
+      $widgets(warn) configure -background $color
     }
     
     # Colorize the menubuttons and menus
     if {$tmtheme ne ""} {
       foreach {lbl info} [array get labels] {
-        if {[lindex $info $label_index(setable)]} {
-          set mnu $widgets(m:$lbl)
-          if {[set color [lindex $labels(background) $label_index(color)]] ne ""} {
-            $mnu configure -background $color
-          }
-          if {[set color [lindex $info $label_index(color)]] ne ""} {
-            $mnu entryconfigure [msgcat::mc "Create custom"] -foreground $color
-          }
-          foreach scope [array names all_scopes] {
-            catch { $mnu entryconfigure $scope -foreground $all_scopes($scope) }
-          }
+        set mnu $widgets(m:$lbl)
+        if {[set color [lindex $labels(background) $label_index(color)]] ne ""} {
+          $mnu configure -background $color
+        }
+        if {[set color [lindex $info $label_index(color)]] ne ""} {
+          $mnu entryconfigure [msgcat::mc "Create custom"] -foreground $color
+        }
+        foreach scope [array names all_scopes] {
+          catch { $mnu entryconfigure $scope -foreground $all_scopes($scope) }
         }
       }
     }
@@ -861,8 +879,11 @@ namespace eval themer {
     lset labels(precompile)       $label_index(color) "yellow"
     lset labels(miscellaneous1)   $label_index(color) "pink"
     lset labels(miscellaneous2)   $label_index(color) "gold"
-    lset labels(miscellaneous3)   $label_index(color) "copper"
-    lset labels(warnwidthcolor)   $label_index(color) [create_warn_width_color "black"]
+    lset labels(miscellaneous3)   $label_index(color) "silver"
+    lset labels(linenumcolor)     $label_index(color) [utils::auto_adjust_color "black" 40]
+    lset labels(warnwidthcolor)   $label_index(color) [utils::auto_adjust_color "black" 40]
+    lset labels(diffsubcolor)     $label_index(color) [utils::auto_mix_colors "black" r 30]
+    lset labels(diffaddcolor)     $label_index(color) [utils::auto_mix_colors "black" g 30]
 
   }
 
