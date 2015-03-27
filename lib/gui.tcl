@@ -3985,7 +3985,8 @@ namespace eval gui {
   }
 
   ######################################################################
-  # Jumps to the next cursor as specified by direction.
+  # Jumps to the next cursor as specified by direction.  Returns a boolean
+  # value of true if a jump occurs (or can occur).
   proc jump_to_cursor {tid dir jump} {
 
     variable cursor_hist
@@ -4028,6 +4029,48 @@ namespace eval gui {
 
     return 0
 
+  }
+  
+  ######################################################################
+  # Jumps to the next difference in the specified direction.  Returns
+  # a boolean value of true if a jump occurs (or can occur).
+  proc jump_to_difference {tid dir jump} {
+    
+    # Get the current text widget
+    set txt [current_txt $tid]
+    
+    # Get the list of ranges
+    if {[llength [set ranges [$txt diff ranges both]]] > 0} {
+      
+      if {$jump} {
+    
+        # Get the list of difference ranges
+        if {$dir == 1} {
+          set index [$txt index @0,[winfo height $txt]]
+          foreach {start end} $ranges {
+            if {[$txt compare $start > $index]} {
+              $txt see $start
+            }
+          }
+          $txt see [lindex $ranges 0]
+        } else {
+          set index [$txt index @0,0]
+          foreach {end start} [lreverse $ranges] {
+            if {[$txt compare $start < $index]} {
+              $txt see $start
+            }
+          }
+          $txt see [lindex $ranges end-1]
+        }
+        
+      }
+      
+      return 1
+      
+    }
+    
+    return 0
+    
   }
 
 }

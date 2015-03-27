@@ -747,6 +747,14 @@ namespace eval menus {
     launcher::register [msgcat::mc "Menu: Jump forward"] "gui::jump_to_cursor {} 1 1"
 
     $mb add separator
+    
+    $mb add command -label [msgcat::mc "Next difference"] -underline 0 -command "gui::jump_to_difference {} 1 1"
+    launcher::register [msgcat::mc "Menu: Goto next difference"] "gui::jump_to_difference {} 1 1"
+    
+    $mb add command -label [msgcat::mc "Previous difference"] -underline 0 -command "gui::jump_to_difference {} -1 1"
+    launcher::register [msgcat::mc "Menu: Goto previous difference"] "gui::jump_to_difference {} -1 1"
+    
+    $mb add separator
 
     $mb add cascade -label [msgcat::mc "Markers"] -underline 5 -menu [menu $mb.markerPopup -tearoff 0 -postcommand "menus::find_marker_posting $mb.markerPopup"]
 
@@ -781,6 +789,8 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Select all occurrences"]     -state disabled
       $mb entryconfigure [msgcat::mc "Jump backward"]              -state disabled
       $mb entryconfigure [msgcat::mc "Jump forward"]               -state disabled
+      $mb entryconfigure [msgcat::mc "Next difference"]            -state disabled
+      $mb entryconfigure [msgcat::mc "Previous difference"]        -state disabled
       $mb entryconfigure [msgcat::mc "Markers"]                    -state disabled
       $mb entryconfigure [msgcat::mc "Find matching pair"]         -state disabled
     } else {
@@ -799,6 +809,13 @@ namespace eval menus {
         $mb entryconfigure [msgcat::mc "Jump forward"] -state normal
       } else {
         $mb entryconfigure [msgcat::mc "Jump forward"] -state disabled
+      }
+      if {[gui::jump_to_difference {} 1 0]} {
+        $mb entryconfigure [msgcat::mc "Next difference"]     -state normal
+        $mb entryconfigure [msgcat::mc "Previous difference"] -state normal
+      } else {
+        $mb entryconfigure [msgcat::mc "Next difference"]     -state disabled
+        $mb entryconfigure [msgcat::mc "Previous difference"] -state disabled
       }
       $mb entryconfigure [msgcat::mc "Find matching pair"] -state normal
       $mb entryconfigure [msgcat::mc "Markers"] -state normal
