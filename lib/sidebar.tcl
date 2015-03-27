@@ -271,6 +271,12 @@ namespace eval sidebar {
     
     $widgets(menu) add separator
     
+    $widgets(menu) add command -label [msgcat::mc "Show Difference"] -command {
+      sidebar::show_file_diff
+    }
+    
+    $widgets(menu) add separator
+    
     $widgets(menu) add command -label [msgcat::mc "Close"] -command {
       sidebar::close_file
     }
@@ -1031,6 +1037,20 @@ namespace eval sidebar {
       
   }
  
+  ######################################################################
+  # Opens the file difference view for the currently selected file.
+  proc show_file_diff {} {
+    
+    variable widgets
+    
+    # Get the current selection
+    set selected [$widgets(tl) curselection]
+    
+    # Add the file to the notebook in difference view
+    gui::add_file end [$widgets(tl) cellcget $selected,name -text] -diff 1
+    
+  }
+  
   ######################################################################
   # Closes the currently selected file in the notebook.
   proc close_file {} {
