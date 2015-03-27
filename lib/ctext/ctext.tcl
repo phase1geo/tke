@@ -1082,6 +1082,26 @@ proc ctext::instanceCmd {self cmd args} {
           $self._t tag configure diff:A:D:$fline -background $configAr(-diffaddbg)
           $self._t tag lower diff:A:D:$fline
         }
+        ranges {
+          if {[llength $args] != 1} {
+            return -code error "diff ranges takes one argument:  type"
+          }
+          if {[lsearch [list add sub both] [lindex $args 0]] == -1} {
+            return -code error "diff ranges argument must be add, sub or both"
+          }
+          set ranges [list]
+          if {[lsearch [list add both] [lindex $args 0]] != -1} {
+            foreach tag [lsearch -inline -all -glob [$self._t tag names] diff:B:D:*] {
+              lappend ranges {*}[$self._t tag ranges $tag]
+            }
+          }
+          if {[lsearch [list sub both] [lindex $args 0]] != -1} {
+            foreach tag [lsearch -inline -all -glob [$self._t tag names] diff:A:D:*] {
+              lappend ranges {*}[$self._t tag ranges $tag]
+            }
+          }
+          return [lsort -dictionary $ranges]
+        }
         reset {
           foreach name [lsearch -inline -all -glob [$self._t tag names] diff:*] {
             lassign [split $name :] dummy which type
