@@ -25,6 +25,7 @@ package require -exact tablelist 5.13
 package require tooltip
 package require msgcat
 package require tokenentry
+package require wmarkentry
 package require tabbar
 package require specl
 
