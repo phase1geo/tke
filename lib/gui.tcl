@@ -1128,7 +1128,7 @@ namespace eval gui {
     # Check to see if the file is already loaded
     set file_index -1
     foreach findex [lsearch -all -index $files_index(fname) $files $fname] {
-      if {[lindex $files $files_index(diff)] == $opts(-diff)} {
+      if {[lindex $files $findex $files_index(diff)] == $opts(-diff)} {
         set file_index $findex
         break
       }
