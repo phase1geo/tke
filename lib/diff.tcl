@@ -583,5 +583,78 @@ namespace eval diff {
     }
     
   }
+  
+  ######################################################################
+  # DIFFERENCE MAP WIDGET
+  ######################################################################
+  
+  ######################################################################
+  # Creates the difference map which is basically a colored scrollbar.
+  proc map {win txt args} {
+    
+    variable data
+    
+    array set opts {
+      -command ""
+    }
+    array set opts $args
+    
+    # Get the background color
+    set bg  [utils::get_default_background]
+    set abg [utils::auto_adjust_color $bg 50]
+    
+    # Create the canvas
+    set data($txt,canvas) [canvas $win -width 15 -relief flat -bd 1 -highlightthickness 0 -bg $bg]
+    
+    # Create the slider
+    set data($txt,slider) [$win create rectangle 0 0 15 15 -fill $abg]
+    
+    # Create slider bindings
+    $data($txt,canvas) bind $data($txt,slider) <B1-Motion> [list [ns diff]::map_slider_move %W %x %y $opts(-command)]
+    
+    rename ::$win $win
+    interp alias {} ::$win {} [ns diff]::map_command $txt
+    
+    return $win
+    
+  }
+  
+  ######################################################################
+  # Executes map commands.
+  proc map_command {txt args} {
+    
+    variable data
+    
+    set args [lassign $args cmd]
+    
+    switch $cmd {
+      set {
+        lassign $args first last
+        set height [winfo height $data($txt,canvas)]
+        set y1     [expr int( $height * $first )]
+        set y2     [expr int( $height * $last )]
+        
+        # Adjust the size and position of the slider
+        $data($txt,canvas) coords $data($txt,slider) 0 $y1 15 $y2
+      }
+      default {
+        return -code error "difference map called with invalid command ($cmd)"
+      }
+    }
+    
+  }
+  
+  ######################################################################
+  # Moves the slider to the cursor position and calls the given command
+  # with the positional information.
+  proc map_slider_move {W x y cmd} {
+    
+    variable data
+    
+    # TBD
+    
+    puts "In map_slider_move, W: $W, x: $x, y: $y, cmd: $cmd"
+    
+  }
 
 }

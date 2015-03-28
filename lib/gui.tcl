@@ -360,9 +360,6 @@ namespace eval gui {
       menus::exit_command
     }
 
-    # Start polling on the files
-    # poll
-
     # Trace changes to the Appearance/Theme preference variable
     trace variable preferences::prefs(Editor/WarningWidth)       w gui::handle_warning_width_change
     trace variable preferences::prefs(Editor/MaxUndo)            w gui::handle_max_undo
@@ -501,6 +498,8 @@ namespace eval gui {
           }
         }
       }
+      
+      # TBD - We need to adjust the appearance of the diff map widgets (if they exist)
 
     }
 
@@ -3006,8 +3005,12 @@ namespace eval gui {
       -xscrollcommand "utils::set_xscrollbar $tab_frame.pw.tf.hb" \
       -yscrollcommand "utils::set_yscrollbar $tab_frame.pw.tf.vb"
     ttk::button    $tab_frame.pw.tf.split -style BButton -image $images(split) -command "gui::toggle_split_pane {}"
-    ttk::scrollbar $tab_frame.pw.tf.vb    -orient vertical   -command "$txt yview"
     ttk::scrollbar $tab_frame.pw.tf.hb    -orient horizontal -command "$txt xview"
+    if {$diff} {
+      diff::map $tab_frame.pw.tf.vb $txt -command "$txt yview"
+    } else {
+      ttk::scrollbar $tab_frame.pw.tf.vb -orient vertical   -command "$txt yview"
+    }
 
     # Create the editor font if it does not currently exist
     if {[lsearch [font names] editor_font] == -1} {
