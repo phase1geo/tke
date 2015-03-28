@@ -173,6 +173,16 @@ namespace eval themes {
 
         ttk::style configure TSpinbox \
           -relief flat -background $colors(-frame) -foreground $colors(-lighter)
+          
+        ttk::style configure TCheckbutton \
+          -relief flat -padding 2 -background $colors(-frame) -foreground $colors(-lighter)
+        ttk::style map TCheckbutton \
+          -background  [list disabled  $colors(-lighter) \
+                             pressed   $colors(-darker) \
+                             active    $colors(-lightframe)] \
+          -lightcolor  [list pressed   $colors(-darker)] \
+          -darkcolor   [list pressed   $colors(-darker)] \
+          -bordercolor [list alternate "#000000"]
 
         ttk::style configure Sash -sashthickness 5 -gripcount 10
 

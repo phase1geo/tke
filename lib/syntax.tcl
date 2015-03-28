@@ -176,7 +176,7 @@ namespace eval syntax {
     # Get the theme information
     foreach tfile $tfiles {
       if {![catch { open $tfile r } rc]} {
-        set name [file rootname [file tail $tfile]]
+        set name          [file rootname [file tail $tfile]]
         set themes($name) [list name $name {*}[read $rc]]
         [ns launcher]::register [msgcat::mc "Theme:  %s" $name] [list [ns syntax]::set_theme $name]
         close $rc
@@ -337,12 +337,11 @@ namespace eval syntax {
 
     # Set the text background color to the current theme
     $txt configure -background $theme(background) -foreground $theme(foreground) \
-      -selectbackground $theme(selectbackground) -selectforeground $theme(selectforeground) \
-      -insertbackground $theme(cursor) -highlightcolor $theme(highlightcolor) \
-      -linemapbg $theme(background) -linemapfg $theme(warnwidthcolor) \
-      -warnwidth_bg $theme(warnwidthcolor) \
-      -diffaddbg [utils::auto_mix_colors $theme(background) g 30] \
-      -diffsubbg [utils::auto_mix_colors $theme(background) r 30]
+      -selectbackground $theme(select_background) -selectforeground $theme(select_foreground) \
+      -insertbackground $theme(cursor) -highlightcolor $theme(border_highlight) \
+      -linemapbg $theme(background) -linemapfg $theme(line_number) \
+      -warnwidth_bg $theme(warning_width) \
+      -diffaddbg $theme(difference_add) -diffsubbg $theme(difference_sub)
 
     # Set default indent/unindent strings
     [ns indent]::set_indent_expressions $txt.t {\{} {\}}

@@ -616,7 +616,7 @@ namespace eval vim {
     set record_mode "playback"
     
     # Log for debug
-    logger::log $recording
+    logger::log "insert: [$txt index insert], recording: $recording"
 
     # Replay the recording buffer
     foreach event $recording {
