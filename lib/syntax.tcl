@@ -218,7 +218,7 @@ namespace eval syntax {
     variable curr_lang
     variable curr_theme
     variable colorizers
-
+    
     if {[info exists themes($theme_name)]} {
 
       # Set the current theme array
