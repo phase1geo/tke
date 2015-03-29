@@ -1091,12 +1091,12 @@ proc ctext::instanceCmd {self cmd args} {
           }
           set ranges [list]
           if {[lsearch [list add both] [lindex $args 0]] != -1} {
-            foreach tag [lsearch -inline -all -glob [$self._t tag names] diff:B:D:*] {
+            foreach tag [lsearch -inline -all -glob [$self._t tag names] diff:A:D:*] {
               lappend ranges {*}[$self._t tag ranges $tag]
             }
           }
           if {[lsearch [list sub both] [lindex $args 0]] != -1} {
-            foreach tag [lsearch -inline -all -glob [$self._t tag names] diff:A:D:*] {
+            foreach tag [lsearch -inline -all -glob [$self._t tag names] diff:B:D:*] {
               lappend ranges {*}[$self._t tag ranges $tag]
             }
           }
