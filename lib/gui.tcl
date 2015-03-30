@@ -1204,7 +1204,7 @@ namespace eval gui {
     }
 
     # Add the file's directory to the sidebar and highlight it
-    if {$opts(-sidebar)} {
+    if {$opts(-sidebar) && !$opts(-diff)} {
       sidebar::add_directory [file dirname [file normalize $fname]]
       sidebar::highlight_filename $fname 1
     }
@@ -3008,6 +3008,7 @@ namespace eval gui {
     ttk::scrollbar $tab_frame.pw.tf.hb    -orient horizontal -command "$txt xview"
     if {$diff} {
       diff::map $tab_frame.pw.tf.vb $txt -command "$txt yview"
+      $txt configure -yscrollcommand "$tab_frame.pw.tf.vb set"
     } else {
       ttk::scrollbar $tab_frame.pw.tf.vb -orient vertical   -command "$txt yview"
     }
