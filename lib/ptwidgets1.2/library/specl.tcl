@@ -176,7 +176,7 @@ namespace eval specl::helpers {
   # Searches for and returns the attribute in the specified parent.
   proc get_attr {parent name} {
 
-    return [dom::element get_attribute $parent $name]
+    return [dom::element getAttribute $parent $name]
 
   }
 
@@ -2322,6 +2322,8 @@ namespace eval specl::releaser {
 
 # If this is being run as an application, do the following
 if {[file tail $::argv0] eq "specl.tcl"} {
+  
+  lappend auto_path [file join [file dirname $::argv0] .. common]
 
   package require Tk
   package require http
