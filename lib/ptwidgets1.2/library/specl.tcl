@@ -146,26 +146,9 @@ namespace eval specl::helpers {
   # Returns the node content found within the given parent node.
   proc get_elements {node name} {
 
-    set node_content [lindex $node 1]
-    set elements     [list]
-
-    while {1} {
-      if {[regexp {^\s*<(\w+)(.*?)>(.*?)</\1>(.*)$} $node_content -> nname attrs content node_content]} {
-        if {$name eq $nname} {
-          lappend elements [list [string trim $attrs] [string trim $content]]
-        }
-      } elseif {[regexp {^\s*<(\w+)(.*?)/>(.*)$} $node_content -> nname attrs node_content]} {
-        if {$name eq $nname} {
-          lappend elements [list [string trim $attrs] ""]
-        }
-      } elseif {[regexp {^\s*<\?.*?\?>(.*)$} $node_content -> node_content]} {
-        continue
-      } else {
-        break
-      }
-    }
-
-    return $elements
+    set ref [dom::document getElementsByTagName $node $name]
+    
+    return [set $ref]
 
   }
 
@@ -185,11 +168,7 @@ namespace eval specl::helpers {
   # Returns the data located inside the CDATA element.
   proc get_cdata {node} {
 
-    if {[regexp {<!\[CDATA\[(.*?)\]\]>} [lindex $node 1] -> content]} {
-      return [string trim $content]
-    } else {
-      return -code error "Node does not contain CDATA"
-    }
+    return [dom::node cget [dom::node cget [dom::node cget $node -firstChild] -nextSibling] -nodeValue]
 
   }
 
@@ -197,11 +176,7 @@ namespace eval specl::helpers {
   # Searches for and returns the attribute in the specified parent.
   proc get_attr {parent name} {
 
-    if {[regexp "$name\\s*=\\s*\"\(\[^\"]*\)\"" [lindex $parent 0] -> attr]} {
-      return $attr
-    } else {
-      return -code error "Node does not contain attribute '$name'"
-    }
+    return [dom::element get_attribute $parent $name]
 
   }
 
@@ -533,9 +508,14 @@ namespace eval specl::updater {
     set num_updates    0
     set latest_version ""
     set latest_release -1
+    
+    # Parse the DOM
+    if {[catch { dom::parse $data(fetch_content) } dom]} {
+      return -code error "Unable to parse fetched contents: $dom"
+    }
 
     # Get the contents of the 'releases' node
-    set rss_node      [specl::helpers::get_element [list "" $data(fetch_content)] "rss"]
+    set rss_node      [specl::helpers::get_element $dom "rss"]
     set channel_node  [specl::helpers::get_element $rss_node "channel"]
     set releases_node [specl::helpers::get_element $channel_node "releases"]
 
@@ -2346,11 +2326,13 @@ if {[file tail $::argv0] eq "specl.tcl"} {
   package require Tk
   package require http
   package require msgcat
+  package require xml
 
   # Install the htmllib and gifblock
   source [file join [file dirname $::argv0] .. common htmllib.tcl]
   source [file join [file dirname $::argv0] .. common gifblock.tcl]
   source [file join [file dirname $::argv0] .. common resize.tcl]
+  source [file join [file dirname $::argv0] .. common Tclxml3.2 dom.tcl]
 
   ######################################################################
   # START OF HTMLLIB CUSTOMIZATION

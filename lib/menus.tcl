@@ -1665,7 +1665,7 @@ namespace eval menus {
   proc add_help {mb} {
 
     $mb add command -label [msgcat::mc "User Guide"] -underline 0 -command "menus::help_user_guide"
-    launcher::register [msgcat::mc "Menu: View User Guide"] -underline 0 -command "menus::help_user_guide"
+    launcher::register [msgcat::mc "Menu: View User Guide"] "menus::help_user_guide"
 
     if {![string match *Win* $::tcl_platform(os)]} {
       if {[preferences::get General/UpdateReleaseType] eq "devel"} {
