@@ -1,29 +1,140 @@
-changeset:   898:68991ac71658
-tag:         devel-1.5.11
+changeset:   901:b8be9d9ac15b
+tag:         devel-1.5.12
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Mar 25 01:05:21 2015 -0500
+date:        Thu Mar 26 01:46:48 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.5.11 release
+ChangeLog for devel-1.5.12 release
 
 
-changeset:   899:2f67408b321c
+changeset:   902:584f6477eac5
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Mar 25 01:05:25 2015 -0500
+date:        Thu Mar 26 01:47:03 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.5.11 for changeset 68991ac71658
+Added tag devel-1.5.12 for changeset b8be9d9ac15b
 
 
-changeset:   900:4dca5376f244
+changeset:   903:0650f93d8959
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Mar 26 09:45:20 2015 -0500
+files:       lib/diff.tcl lib/utils.tcl lib/version.tcl
+description:
+* Removing unused output from diff.
+* Adding auto_mix_colors procedure to utils (not working properly at this point).
+
+
+changeset:   904:b217be16cc8b
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Mar 26 17:18:08 2015 -0500
+files:       lib/ctext/ctext.tcl lib/diff.tcl lib/syntax.tcl lib/themes.tcl lib/utils.tcl lib/version.tcl
+description:
+* Adding new auto_mix_color procedure to utils.
+* Temporarily setting difference background colors to be automatically generated colors (these colors will be changeable in the theme manager eventually).
+* Switching over to spinboxes from menubuttons for version selectors (work to be done here).
+* Attempting to theme spinboxes but there is more work to be done here.
+
+
+changeset:   905:9120ed1afcad
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Mar 26 21:39:37 2015 -0500
+files:       lib/diff.tcl lib/tke.tcl lib/version.tcl
+description:
+* Adding wmarkentry package.
+* Fixing UI issues in diff view.
+* Fixing file diff and command diff.
+
+
+changeset:   906:60ae97bb2600
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Mar 26 21:50:15 2015 -0500
+files:       lib/sidebar.tcl lib/version.tcl
+description:
+* Adding "Show File Difference" option to sidebar contextual menu for files.
+
+
+changeset:   907:9ac82bd5091d
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Mar 26 22:06:19 2015 -0500
+files:       lib/gui.tcl lib/version.tcl
+description:
+* Fixing bug with displaying diff file twice in the same editor.
+
+
+changeset:   908:c7850df9008c
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Mar 26 23:40:14 2015 -0500
+files:       lib/ctext/ctext.tcl lib/gui.tcl lib/menus.tcl lib/version.tcl
+description:
+* Adding "Next difference" and "Previous difference" menu options.
+* Adding diff ranges command to ctext widget.
+
+
+changeset:   909:ab9e8c3ec147
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Mar 27 09:26:17 2015 -0500
+files:       lib/themer.tcl lib/version.tcl
+description:
+* Checkpointing work on enhancing themer.
+
+
+changeset:   910:193947714a64
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Mar 27 17:43:49 2015 -0500
+files:       lib/themer.tcl lib/version.tcl
+description:
+* More work on themer.
+
+
+changeset:   911:bc67de32b938
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Mar 27 22:16:47 2015 -0500
+files:       data/themes/Cool Glow.tketheme data/themes/Fluidvision.tketheme data/themes/Juicy.tketheme data/themes/Made of Code.tketheme data/themes/Monokai.tketheme data/themes/Notebook.tketheme data/themes/Ruby Blue.tketheme data/themes/choco.tketheme data/themes/default.tketheme data/themes/idleFingers.tketheme data/themes/minimal_Theme.tketheme data/themes/oscuro.tketheme data/themes/yellowStone.tketheme lib/syntax.tcl lib/themer.tcl lib/themes.tcl lib/version.tcl lib/vim.tcl
+description:
+* Updating themes.
+* Completing rework on themer.
+* Integrating new themes into syntax namespace.
+* Fixing look of checkbuttons in UI.
+
+
+changeset:   912:768b8ea6fdbf
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Mar 27 23:21:12 2015 -0500
+files:       data/themes/Cool Glow.tketheme lib/syntax.tcl lib/version.tcl
+description:
+* Updates.
+
+
+changeset:   913:8ab946ee9a37
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Mar 28 00:40:01 2015 -0500
+files:       lib/diff.tcl lib/gui.tcl lib/version.tcl
+description:
+* Checkpointing work on new difference map widget.
+
+
+changeset:   914:838e12489025
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Mar 29 00:06:28 2015 -0500
+files:       lib/ctext/ctext.tcl lib/diff.tcl lib/version.tcl
+description:
+* Fixing diff ranges command.
+* Adding difference scrollbar.
+
+
+changeset:   915:4183ce3cba3e
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Mar 26 01:45:14 2015 -0500
-files:       lib/api.tcl lib/diff.tcl lib/gui.tcl lib/utils.tcl lib/version.tcl
+date:        Mon Mar 30 00:16:52 2015 -0500
+files:       doc/UserGuide.epub doc/UserGuide.pdf doc/html/api_8tcl.html doc/html/api_8tcl_source.html doc/html/bgproc_8tcl.html doc/html/bgproc_8tcl_source.html doc/html/bindings_8tcl.html doc/html/bindings_8tcl_source.html doc/html/cliphist_8tcl.html doc/html/cliphist_8tcl_source.html doc/html/commit_8tcl.html doc/html/commit_8tcl_source.html doc/html/completer_8tcl.html doc/html/completer_8tcl_source.html doc/html/ctext_8tcl.html doc/html/ctext_8tcl_source.html doc/html/diff_8tcl.html doc/html/diff_8tcl_source.html doc/html/doxygen.css doc/html/doxygen.png doc/html/embed__tke_8tcl.html doc/html/embed__tke_8tcl_source.html doc/html/favorites_8tcl.html doc/html/favorites_8tcl_source.html doc/html/files.html doc/html/freewrap_8tcl.html doc/html/freewrap_8tcl_source.html doc/html/gui_8tcl.html doc/html/gui_8tcl_source.html doc/html/indent_8tcl.html doc/html/indent_8tcl_source.html doc/html/index.html doc/html/interpreter_8tcl.html doc/html/interpreter_8tcl_source.html doc/html/lang_8tcl.html doc/html/lang_8tcl_source.html doc/html/launcher_8tcl.html doc/html/launcher_8tcl_source.html doc/html/logger_8tcl.html doc/html/logger_8tcl_source.html doc/html/main.html doc/html/markers_8tcl.html doc/html/markers_8tcl_source.html doc/html/menus_8tcl.html doc/html/menus_8tcl_source.html doc/html/multicursor_8tcl.html doc/html/multicursor_8tcl_source.html doc/html/namespacebgproc.html doc/html/namespacecompleter.html doc/html/namespacectext.html doc/html/namespacediff.html doc/html/namespaceembed__tke.html doc/html/namespaceembed__tke_1_1gui.html doc/html/namespaceembed__tke_1_1launcher.html doc/html/namespacefavorites.html doc/html/namespaceinterpreter.html doc/html/namespacelogger.html doc/html/namespacemarkers.html doc/html/namespacemembers.html doc/html/namespacemembers_vars.html doc/html/namespacemulticursor.html doc/html/namespaceplugins.html doc/html/namespacepreferences.html doc/html/namespaces.html doc/html/namespacesidebar.html doc/html/namespacesnippets.html doc/html/namespacesyntax.html doc/html/namespacetexttools.html doc/html/namespacethemes.html doc/html/namespacetkedat.html doc/html/namespacewindowlist.html doc/html/ns_8tcl.html doc/html/ns_8tcl_source.html doc/html/plugins_8tcl.html doc/html/plugins_8tcl_source.html doc/html/preferences_8tcl.html doc/html/preferences_8tcl_source.html doc/html/restart_8tcl.html doc/html/restart_8tcl_source.html doc/html/search/all_62.html doc/html/search/all_64.html doc/html/search/all_6c.html doc/html/search/all_74.html doc/html/search/files_62.html doc/html/search/files_64.html doc/html/search/files_6c.html doc/html/search/files_74.html doc/html/search/namespaces_62.html doc/html/search/namespaces_64.html doc/html/search/namespaces_6c.html doc/html/search/search.css doc/html/search/search.js doc/html/sidebar_8tcl.html doc/html/sidebar_8tcl_source.html doc/html/snippets_8tcl.html doc/html/snippets_8tcl_source.html doc/html/syntax_8tcl.html doc/html/syntax_8tcl_source.html doc/html/tabs.css doc/html/test_8tcl.html doc/html/test_8tcl_source.html doc/html/texttools_8tcl.html doc/html/texttools_8tcl_source.html doc/html/themer_8tcl.html doc/html/themer_8tcl_source.html doc/html/themes_8tcl.html doc/html/themes_8tcl_source.html doc/html/tke_8tcl.html doc/html/tke_8tcl_source.html doc/html/tkedat_8tcl.html doc/html/tkedat_8tcl_source.html doc/html/tree.html doc/html/utils_8tcl.html doc/html/utils_8tcl_source.html doc/html/version_8tcl.html doc/html/version_8tcl_source.html doc/html/vim_8tcl.html doc/html/vim_8tcl_source.html doc/html/windowlist_8tcl.html doc/html/windowlist_8tcl_source.html lib/diff.tcl lib/menus.tcl lib/themes.tcl lib/utils.tcl lib/version.tcl
 description:
-* Restructure diff namespace.
-* Cleaning up appearance of diff bar and rearranging its code.
-* Modifying utils::set_environment to allow preference variables to affect actual environment variables.
-* Updating documentation in api::file::add procedure.
+* Fixing issue with ttk::spinbox usage on older 8.5 builds.
+* Fixing current working directory issues with difference creation.
+* Adding Subversion and CVS support (CVS support not working quite yet).
+* Adding epub version of UserGuide.
+* Changing 'View User Guide' to display epub version by default, followed by the pdf if the epub opening fails.
+* Adjusting ttk::spinbox look to match difference control panel better.
+* Returning value from open_file_externally so that the calling code can determine if the command worked or not.
+* Updated development documentation.
 
 
