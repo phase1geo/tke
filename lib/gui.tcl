@@ -4043,7 +4043,7 @@ namespace eval gui {
     set txt [current_txt $tid]
     
     # Get the list of ranges
-    if {[llength [set ranges [$txt diff ranges both]]] > 0} {
+    if {[$txt cget -diff_mode] && ([llength [set ranges [$txt diff ranges both]]] > 0)} {
       
       if {$jump} {
     
