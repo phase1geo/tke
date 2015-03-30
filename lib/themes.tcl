@@ -172,7 +172,7 @@ namespace eval themes {
           -borderwidth 2 -relief raised
 
         ttk::style configure TSpinbox \
-          -relief flat -background $colors(-frame) -foreground $colors(-lighter)
+          -relief flat -padding 2 -background $colors(-frame) -foreground $colors(-lighter) -fieldbackground $colors(-frame)
           
         ttk::style configure TCheckbutton \
           -relief flat -padding 2 -background $colors(-frame) -foreground $colors(-lighter)

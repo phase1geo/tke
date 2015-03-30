@@ -8,6 +8,16 @@ namespace eval diff {
   source [file join $::tke_dir lib ns.tcl]
 
   array set data {}
+  
+  # Check to see if the ttk::spinbox command exists
+  if {[catch { ttk::spinbox .__tmp }]} {
+    set data(sb)      "spinbox"
+    set data(sb_opts) "-relief flat -buttondownrelief flat -buttonuprelief flat"
+  } else {
+    set data(sb)      "ttk::spinbox"
+    set data(sb_opts) ""
+    destroy .__tmp
+  }
 
   proc create_diff_bar {txt win} {
 
@@ -21,11 +31,11 @@ namespace eval diff {
     ttk::button     $win.show -text "Update" -command "[ns diff]::show $txt"
 
     # Create the version frame
-    ttk::frame   $win.vf
-    ttk::label   $win.vf.l1 -text "    Start: "
-    ttk::spinbox $win.vf.v1 -textvariable [ns diff]::data($txt,v1) -state readonly -command "[ns diff]::handle_v1 $txt"
-    ttk::label   $win.vf.l2 -text "    End: "
-    ttk::spinbox $win.vf.v2 -textvariable [ns diff]::data($txt,v2) -state readonly -command "[ns diff]::handle_v2 $txt"
+    ttk::frame $win.vf
+    ttk::label $win.vf.l1 -text "    Start: "
+    $data(sb)  $win.vf.v1 {*}$data(sb_opts) -textvariable [ns diff]::data($txt,v1) -state readonly -command "[ns diff]::handle_v1 $txt"
+    ttk::label $win.vf.l2 -text "    End: "
+    $data(sb)  $win.vf.v2 {*}$data(sb_opts) -textvariable [ns diff]::data($txt,v2) -state readonly -command "[ns diff]::handle_v2 $txt"
 
     grid rowconfigure    $win.vf 0 -weight 1
     grid columnconfigure $win.vf 2 -weight 1
@@ -101,9 +111,18 @@ namespace eval diff {
   proc show {txt} {
 
     variable data
+    
+    # Get the current working directory
+    set cwd [pwd]
 
     # Get the current filename
     set fname [[ns gui]::current_filename]
+    
+    # Set the current working directory to the directory of the file
+    cd [file dirname $fname]
+    
+    # Set fname to the tail of fname
+    set fname [file tail $fname]
 
     # If the CVS has not been set, attempt to figure it out
     if {![info exists data($txt,cvs)] || ($data($txt,cvs) eq "")} {
@@ -147,6 +166,9 @@ namespace eval diff {
     if {$cvs_ns eq "cvs"} {
       grid remove $data($txt,win).show
     }
+    
+    # Reset the current working directory
+    cd $cwd
 
   }
 
@@ -161,7 +183,7 @@ namespace eval diff {
     set names [list]
 
     foreach name [namespace children] {
-      if {[${name}::type] eq $type} {
+      if {([${name}::type] eq $type) && ([${name}::name] ne "CVS")} {
         lappend names [${name}::name]
       }
     }
@@ -176,9 +198,9 @@ namespace eval diff {
   proc set_default_cvs {txt} {
 
     variable data
-
+    
     # Get the current filename
-    set fname [[ns gui]::current_filename]
+    set fname [file tail [[ns gui]::current_filename]]
 
     set data($txt,cvs) "diff"
 
@@ -189,7 +211,7 @@ namespace eval diff {
         break
       }
     }
-
+    
     # Update the UI to match the selected CVS
     update_diff_frame $txt
 
@@ -333,7 +355,7 @@ namespace eval diff {
   # Additionally, the file that is in the editor must be the same version
   # that is associated with the '+++' file in the diff output.
   proc parse_unified_diff {txt cmd} {
-
+    
     # Execute the difference command
     catch { exec -ignorestderr {*}$cmd } rc
 
@@ -496,19 +518,31 @@ namespace eval diff {
     }
 
     proc handles {fname} {
-      return 0
+      return [expr {![catch { exec svn log $fname }]}]
     }
 
     proc versions {fname} {
-      return [list]
+      set versions [list]
+      if {![catch { exec svn log $fname } rc]} {
+        foreach line [split $rc \n] {
+          if {[regexp {^r(\d+)\s*\|} $line -> version]} {
+            lappend versions $version
+          }
+        }
+      }
+      return $versions
     }
 
     proc get_file_cmd {version fname} {
-      return ""
+      return "|svn cat -r $version $fname"
     }
 
     proc show_diff {txt v1 v2 fname} {
-      # TBD
+      if {$v2 eq "Current"} {
+        diff::parse_unified_diff $txt "svn diff -r $v1 $fname"
+      } else {
+        diff::parse_unified_diff $txt "svn diff -r $v1:$v2 $fname"
+      }
     }
 
   }
@@ -526,19 +560,31 @@ namespace eval diff {
     }
 
     proc handles {fname} {
-      return 0
+      return [expr {![catch { exec cvs log $fname }]}]
     }
 
     proc versions {fname} {
-      return [list]
+      set versions [list]
+      if {![catch { exec cvs log $fname } rc]} {
+        foreach line [split $rc \n] {
+          if {[regexp {^revision\s+(.*)$} $line -> version]} {
+            lappend versions $version
+          }
+        }
+      }
+      return $versions
     }
 
     proc get_file_cmd {version fname} {
-      return ""
+      return "|cvs update -p -r $version $fname"
     }
 
     proc show_diff {txt v1 v2 fname} {
-      # TBD
+      if {$v2 eq "Current"} {
+        diff::parse_unified_diff $txt "cvs diff -u -r $v1 $fname"
+      } else {
+        diff::parse_unified_diff $txt "cvs diff -u -r $v1 -r $v2 $fname"
+      }
     }
 
   }
