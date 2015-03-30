@@ -180,6 +180,7 @@ namespace eval utils {
   ######################################################################
   # Opens the given filename in an external application, using one of the
   # open terminal commands to determine the proper application to use.
+  # Returns true if the file/command failed to open; otherwise, returns 0.
   proc open_file_externally {fname {in_background 0}} {
 
     set opts ""
@@ -189,13 +190,13 @@ namespace eval utils {
         if {$in_background} {
           set opts "-g"
         }
-        catch { exec open {*}$opts $fname }
+        return [catch { exec open {*}$opts $fname }]
       }
       Linux* {
-        catch { exec xdg-open $fname }
+        return [catch { exec xdg-open $fname }]
       }
       *Win* {
-        catch { exec os.startfile $fname }
+        return [catch { exec os.startfile $fname }]
       }
     }
 

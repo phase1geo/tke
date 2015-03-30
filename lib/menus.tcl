@@ -1664,8 +1664,8 @@ namespace eval menus {
   # Adds the help menu commands.
   proc add_help {mb} {
 
-    $mb add command -label [msgcat::mc "User Guide"] -underline 0 -command [list utils::open_file_externally [file join $::tke_dir doc UserGuide.pdf]]
-    launcher::register [msgcat::mc "Menu: View User Guide"] [list utils::open_file_externally [file join $::tke_dir doc UserGuide.pdf]]
+    $mb add command -label [msgcat::mc "User Guide"] -underline 0 -command "menus::help_user_guide"
+    launcher::register [msgcat::mc "Menu: View User Guide"] -underline 0 -command "menus::help_user_guide"
 
     if {![string match *Win* $::tcl_platform(os)]} {
       if {[preferences::get General/UpdateReleaseType] eq "devel"} {
@@ -1692,6 +1692,17 @@ namespace eval menus {
       launcher::register [msgcat::mc "Menu: About TKE"] "gui::show_about"
     }
 
+  }
+  
+  ######################################################################
+  # Displays the User Guide.  First, attempts to show the epub version.
+  # If that fails, display the pdf version.
+  proc help_user_guide {} {
+    
+    if {[utils::open_file_externally "[file join $::tke_dir doc UserGuide.epub]"]} {
+      utils::open_file_externally "[file join $::tke_dir doc UserGuide.pdf]"
+    }
+    
   }
 
   ######################################################################
