@@ -65,12 +65,20 @@ description:
 
 
 changeset:   924:9df014f6cc67
-tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
 date:        Tue Mar 31 00:04:23 2015 -0500
 files:       lib/diff.tcl lib/gui.tcl lib/menus.tcl lib/version.tcl
 description:
 * Allowing difference widgets to be affected by window theme changes.
 * Fixing bug in menus that stopped the file menu from being visible.
+
+
+changeset:   925:3d515573fcd9
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Mar 31 00:10:00 2015 -0500
+files:       ChangeLog lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+description:
+* Fixing parsing issue with releaser.
 
 

@@ -163,6 +163,14 @@ namespace eval specl::helpers {
     return [lindex $elements 0]
 
   }
+  
+  ######################################################################
+  # Returns the data located inside the node text element.
+  proc get_text {node} {
+    
+    return [dom::node cget [dom::node cget $node -firstChild] -nodeValue]
+    
+  }
 
   ######################################################################
   # Returns the data located inside the CDATA element.
@@ -534,11 +542,12 @@ namespace eval specl::updater {
           set title "<h2>Version ($version) Release Notes</h2>"
 
           # Get any release notes
-          if {![catch { specl::helpers::get_element $release_node "releaseNotesLink" } release_link] && \
-              ([lindex $release_link 1] ne "")} {
+          if {![catch { specl::helpers::get_element $release_node "releaseNotesLink" } release_link_node] && \
+              ![catch { specl::helpers::get_text $release_link_node } release_link] && \
+              ($release_link ne "")} {
 
             # Retrieve the release notes from the given link
-            set token [http::geturl [lindex $release_link 1]]
+            set token [http::geturl $release_link]
 
             # Get the HTML description
             if {([http::status $token] eq "ok") && ([http::ncode $token] == 200)} {
@@ -2030,7 +2039,7 @@ namespace eval specl::releaser {
     if {[catch { dom::parse $content } dom]} {
       return -code error "Unable to parse RSS contents: $dom"
     }
-
+    
     # Get RSS node
     set rss_node [specl::helpers::get_element $dom "rss"]
 
@@ -2038,21 +2047,21 @@ namespace eval specl::releaser {
     set channel_node [specl::helpers::get_element $rss_node "channel"]
 
     # Get the RSS title
-    set data(channel_title) [lindex [specl::helpers::get_element $channel_node "title"] 1]
+    set data(channel_title) [specl::helpers::get_text [specl::helpers::get_element $channel_node "title"]]
 
     # Get the RSS link
-    set data(channel_link) [lindex [specl::helpers::get_element $channel_node "link"] 1]
+    set data(channel_link) [specl::helpers::get_text [specl::helpers::get_element $channel_node "link"]]
 
     # Get the RSS description
-    set data(channel_description) [lindex [specl::helpers::get_element $channel_node "description"] 1]
+    set data(channel_description) [specl::helpers::get_text [specl::helpers::get_element $channel_node "description"]]
 
     # Get the RSS language
-    set data(channel_language) [lindex [specl::helpers::get_element $channel_node "language"] 1]
+    set data(channel_language) [specl::helpers::get_text [specl::helpers::get_element $channel_node "language"]]
 
     if {$type eq "new"} {
 
       # Get the releases node
-      set data(other_releases) [lindex [specl::helpers::get_element $channel_node "releases"] 1]
+      set data(other_releases) [specl::helpers::get_text [specl::helpers::get_element $channel_node "releases"]]
 
     } else {
 
@@ -2068,7 +2077,7 @@ namespace eval specl::releaser {
           set data(item_version)       [specl::helpers::get_attr $release_node "version"]
           set data(item_release_index) [specl::helpers::get_attr $release_node "index"]
           set data(item_release_type)  [specl::helpers::get_attr $release_node "type"]
-          set data(item_release_notes) [lindex [specl::helpers::get_element $release_node "releaseNotesLink"] 1]
+          set data(item_release_notes) [specl::helpers::get_text [specl::helpers::get_element $release_node "releaseNotesLink"]]
           set description_node         [specl::helpers::get_element $release_node "description"]
           set data(item_description)   [specl::helpers::get_cdata $description_node]
 
@@ -2106,7 +2115,7 @@ namespace eval specl::releaser {
   proc read_rss {type} {
 
     variable data
-
+    
     # Get the filename of the local appcast.xml file
     set local_appcast [file join $data(cl_directory) appcast.xml]
 
@@ -2285,7 +2294,7 @@ namespace eval specl::releaser {
   proc start_release {type} {
 
     variable data
-
+    
     # Attempt to source the specl_version.tcl file
     if {[catch { specl::load_specl_version [pwd] } rc]} {
 
