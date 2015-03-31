@@ -557,6 +557,9 @@ namespace eval gui {
 
     # Set the file_locked variable
     set file_locked [expr $readonly || [lindex $files $file_index $files_index(lock)]]
+    
+    # Get the difference mode
+    set diff_mode [lindex $files $file_index $files_index(diff)]
 
     # Set the file_favorited variable
     set file_favorited [favorites::is_favorite $fname]
@@ -575,17 +578,17 @@ namespace eval gui {
     } else {
       $widgets(menu) entryconfigure [msgcat::mc "Move*"] -state disabled
     }
-    if {$readonly} {
+    if {$readonly || $diff_mode} {
       $widgets(menu) entryconfigure [msgcat::mc "Locked"] -state disabled
     } else {
       $widgets(menu) entryconfigure [msgcat::mc "Locked"] -state normal
     }
-    if {$fname ne ""} {
-      $widgets(menu) entryconfigure [msgcat::mc "Favorited"]       -state normal
-      $widgets(menu) entryconfigure [msgcat::mc "Show in Sidebar"] -state normal
-    } else {
+    if {$fname eq ""} {
       $widgets(menu) entryconfigure [msgcat::mc "Favorited"]       -state disabled
       $widgets(menu) entryconfigure [msgcat::mc "Show in Sidebar"] -state disabled
+    } else {
+      $widgets(menu) entryconfigure [msgcat::mc "Show in Sidebar"] -state normal
+      $widgets(menu) entryconfigure [msgcat::mc "Favorited"]       -state [expr {$diff_mode ? "disabled" : "normal"}]
     }
 
     # Handle plugin states
@@ -719,7 +722,14 @@ namespace eval gui {
     variable files
     variable files_index
 
-    return [expr {[lsearch -index $files_index(fname) $files $fname] != -1}]
+    # Attempt to find the file index for the given filename and check the diff bit
+    foreach index [lsearch -all -index $files_index(fname) $files $fname] {
+      if {[lindex $files $index $files_index(diff)] == 0} {
+        return 1
+      }
+    }
+    
+    return 0
 
   }
 
@@ -1377,12 +1387,15 @@ namespace eval gui {
 
     # If a save_as name is specified, change the filename
     if {$save_as ne ""} {
-      sidebar::highlight_filename [lindex $files $file_index $files_index(fname)] 0
+      if {[lindex $files $file_index $files_index(diff)] == 0} {
+        sidebar::highlight_filename [lindex $files $file_index $files_index(fname)] 0
+      }
       lset files $file_index $files_index(fname) $save_as
 
     # If the current file doesn't have a filename, allow the user to set it
     } elseif {([lindex $files $file_index $files_index(fname)] eq "") || \
-               [lindex $files $file_index $files_index(buffer)]} {
+               [lindex $files $file_index $files_index(buffer)] || \
+               [lindex $files $file_index $files_index(diff)]} {
       set save_opts [list]
       if {[llength [set extensions [syntax::get_extensions $tid]]] > 0} {
         lappend save_opts -defaultextension [lindex $extensions 0]
@@ -1463,7 +1476,9 @@ namespace eval gui {
     for {set i 0} {$i < [llength $files]} {incr i} {
 
       # If the file needs to be saved, do it
-      if {[lindex $files $i $files_index(modified)] && ![lindex $files $i $files_index(buffer)]} {
+      if { [lindex $files $i $files_index(modified)] && \
+          ![lindex $files $i $files_index(buffer)]   && \
+          ![lindex $files $i $files_index(diff)]} {
 
         set tab  [lindex $files $i $files_index(tab)]
 
@@ -1533,8 +1548,9 @@ namespace eval gui {
     set file_index [current_file]
 
     # If the file needs to be saved, do it now
-    if {[lindex $files $file_index $files_index(modified)] && \
-        ![lindex $files $file_index $files_index(buffer)] && \
+    if { [lindex $files $file_index $files_index(modified)] && \
+        ![lindex $files $file_index $files_index(buffer)]  && \
+        ![lindex $files $file_index $files_index(diff)]    && \
         !$force} {
       set fname [file tail [lindex $files $file_index $files_index(fname)]]
       if {$fname eq ""} {
@@ -1567,7 +1583,9 @@ namespace eval gui {
     set index [get_file_index $tab]
 
     # Unhighlight the file in the file browser
-    sidebar::highlight_filename [lindex $files $index $files_index(fname)] 0
+    if {[lindex $files $index $files_index(diff)] == 0} {
+      sidebar::highlight_filename [lindex $files $index $files_index(fname)] 0
+    }
 
     # Run the close event for this file
     plugins::handle_on_close $index
@@ -1617,8 +1635,10 @@ namespace eval gui {
     # Get the file index
     set index [get_file_index $tab]
 
-    # Unhighlight the file in the file browser
-    sidebar::highlight_filename [lindex $files $index $files_index(fname)] 0
+    # Unhighlight the file in the file browser (if the file was not a difference view)
+    if {[lindex $files $index $files_index(diff)] == 0} {
+      sidebar::highlight_filename [lindex $files $index $files_index(fname)] 0
+    }
 
     # Run the close event for this file
     plugins::handle_on_close $index
@@ -1829,7 +1849,9 @@ namespace eval gui {
     }
 
     # Highlight the file in the sidebar
-    sidebar::highlight_filename $fname 1
+    if {[lindex $file $files_index(diff)] == 0} {
+      sidebar::highlight_filename $fname 1
+    }
 
   }
 
