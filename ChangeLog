@@ -8,11 +8,19 @@ ChangeLog for devel-1.5.14 release
 
 
 changeset:   928:3648c40be030
-tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
 date:        Tue Mar 31 08:55:22 2015 -0500
 files:       .hgtags
 description:
 Added tag devel-1.5.14 for changeset 94c593e8bd4e
+
+
+changeset:   929:1287a0f33d17
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Mar 31 09:21:10 2015 -0500
+files:       ChangeLog lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+description:
+* More fixes for new XML parser.
 
 
