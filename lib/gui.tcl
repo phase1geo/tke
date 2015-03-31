@@ -499,7 +499,8 @@ namespace eval gui {
         }
       }
       
-      # TBD - We need to adjust the appearance of the diff map widgets (if they exist)
+      # We need to adjust the appearance of the diff map widgets (if they exist)
+      diff::handle_window_theme $theme
 
     }
 
