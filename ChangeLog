@@ -74,11 +74,19 @@ description:
 
 
 changeset:   925:3d515573fcd9
-tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
 date:        Tue Mar 31 00:10:00 2015 -0500
 files:       ChangeLog lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
 description:
 * Fixing parsing issue with releaser.
+
+
+changeset:   926:3dd521396260
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Mar 31 08:54:34 2015 -0500
+files:       ChangeLog lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+description:
+* Fixing RSS parsing issues in specl.
 
 
