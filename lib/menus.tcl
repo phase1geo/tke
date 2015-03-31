@@ -197,15 +197,18 @@ namespace eval menus {
 
     # Get the current file index (if one exists)
     if {[set file_index [gui::current_file]] != -1} {
+      
+      # Get the current filename
+      set fname [gui::get_file_info $file_index fname]
 
       # Get the current readonly status
       set readonly [gui::get_file_info $file_index readonly]
 
       # Get the current file lock status
-      set file_lock [expr $readonly || [gui::get_file_info [gui::current_file] lock]]
+      set file_lock [expr $readonly || [gui::get_file_info $file_index lock]]
 
       # Get the current favorite status
-      set favorite [favorites::is_favorite [gui::get_file_info $file_index fname]]
+      set favorite [favorites::is_favorite $fname]
 
       # Configure the Lock/Unlock menu item
       if {$file_lock && ![catch "$mb index Lock" index]} {
@@ -218,14 +221,23 @@ namespace eval menus {
       }
 
       # Configure the Favorite/Unfavorite menu item
-      if {$favorite && ![catch "$mb index Favorite" index]} {
-        $mb entryconfigure $index -label [msgcat::mc "Unfavorite"] -state normal -command "menus::unfavorite_command $mb"
-      } elseif {!$favorite && ![catch "$mb index Unfavorite" index]} {
+      if {$favorite} {
+        if {![catch "$mb index Favorite" index]} {
+          $mb entryconfigure $index -label [msgcat::mc "Unfavorite"] -command "menus::unfavorite_command $mb"
+        }
+        $mb entryconfigure [msgcat::mc "Unfavorite"] -state [expr {($fname ne "") ? "normal" : "disabled"}]
+      } elseif {![catch "$mb index Unfavorite" index]} {
         $mb entryconfigure $index -label [msgcat::mc "Favorite"] -state normal -command "menus::favorite_command $mb"
       }
-
+      
       # Make sure that the file-specific items are enabled
-      $mb entryconfigure [msgcat::mc "Show File Difference"] -state normal
+      if {$fname ne ""} {
+        $mb entryconfigure $index -state normal
+        $mb entryconfigure [msgcat::mc "Show File Difference"] -state normal
+      } else {
+        $mb entryconfigure $index -state disabled
+        $mb entryconfigure [msgcat::mc "Show File Difference"] -state disabled
+      }
       $mb entryconfigure [msgcat::mc "Save"]                 -state normal
       $mb entryconfigure [msgcat::mc "Save As..."]           -state normal
       $mb entryconfigure [msgcat::mc "Save All"]             -state normal

@@ -548,7 +548,10 @@ namespace eval gui {
 
     # Get the current file index
     set file_index [current_file]
-
+    
+    # Get the filename of the current file
+    set fname [lindex $files $file_index $files_index(fname)]
+ 
     # Get the readonly variable
     set readonly [lindex $files $file_index $files_index(readonly)]
 
@@ -556,7 +559,7 @@ namespace eval gui {
     set file_locked [expr $readonly || [lindex $files $file_index $files_index(lock)]]
 
     # Set the file_favorited variable
-    set file_favorited [favorites::is_favorite [lindex $files $file_index $files_index(fname)]]
+    set file_favorited [favorites::is_favorite $fname]
 
     # Get the current tabbar
     set tb [current_tabbar]
@@ -576,6 +579,13 @@ namespace eval gui {
       $widgets(menu) entryconfigure [msgcat::mc "Locked"] -state disabled
     } else {
       $widgets(menu) entryconfigure [msgcat::mc "Locked"] -state normal
+    }
+    if {$fname ne ""} {
+      $widgets(menu) entryconfigure [msgcat::mc "Favorited"]       -state normal
+      $widgets(menu) entryconfigure [msgcat::mc "Show in Sidebar"] -state normal
+    } else {
+      $widgets(menu) entryconfigure [msgcat::mc "Favorited"]       -state disabled
+      $widgets(menu) entryconfigure [msgcat::mc "Show in Sidebar"] -state disabled
     }
 
     # Handle plugin states
