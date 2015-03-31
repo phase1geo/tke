@@ -511,7 +511,7 @@ namespace eval specl::updater {
     
     # Parse the DOM
     if {[catch { dom::parse $data(fetch_content) } dom]} {
-      return -code error "Unable to parse fetched contents: $dom"
+      return -code error "Unable to parse RSS contents: $dom"
     }
 
     # Get the contents of the 'releases' node
@@ -625,6 +625,9 @@ namespace eval specl::updater {
       }
 
     }
+
+    # Delete the DOM
+    dom::destroy $dom
 
     return [list description  $description \
                  download_url $download_url \
@@ -2023,9 +2026,13 @@ namespace eval specl::releaser {
   proc parse_rss {type content} {
 
     variable data
+    
+    if {[catch { dom::parse $content } dom]} {
+      return -code error "Unable to parse RSS contents: $dom"
+    }
 
     # Get RSS node
-    set rss_node [specl::helpers::get_element [list "" $content] "rss"]
+    set rss_node [specl::helpers::get_element $dom "rss"]
 
     # Get channel node
     set channel_node [specl::helpers::get_element $rss_node "channel"]
@@ -2088,6 +2095,9 @@ namespace eval specl::releaser {
       }
 
     }
+    
+    # Delete the DOM
+    dom::destroy $dom
 
   }
 
