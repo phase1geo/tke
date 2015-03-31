@@ -11,8 +11,11 @@ namespace eval diff {
   
   # Check to see if the ttk::spinbox command exists
   if {[catch { ttk::spinbox .__tmp }]} {
+    set bg            [utils::get_default_background]
+    set fg            [utils::get_default_foreground]
     set data(sb)      "spinbox"
-    set data(sb_opts) "-relief flat -buttondownrelief flat -buttonuprelief flat"
+    set data(sb_opts) "-relief flat -buttondownrelief flat -buttonuprelief flat -background $bg -foreground $fg"
+    puts "sb_opts: $data(sb_opts)"
   } else {
     set data(sb)      "ttk::spinbox"
     set data(sb_opts) ""
@@ -94,6 +97,31 @@ namespace eval diff {
       set first 0
     }
 
+  }
+  
+  ######################################################################
+  # Handles changes to the windowing theme.
+  proc handle_window_theme {theme} {
+    
+    variable data
+    
+    # Get the default background and foreground colors
+    set bg  [utils::get_default_background]
+    set fg  [utils::get_default_foreground]
+    set abg [utils::auto_adjust_color $bg 30]
+    
+    # Update the spinboxes (if we are not using ttk::spinbox)
+    if {$data(sb) eq "spinbox"} {
+      foreach win [array names data *,win] {
+        $data($win).vf.v1 configure -background $bg -foreground $fg
+      }
+    }
+    
+    # Update the difference maps
+    foreach win [array names data *,canvas] {
+      $data($win) configure -background $bg
+    }
+    
   }
 
   ######################################################################

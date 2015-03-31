@@ -234,13 +234,7 @@ namespace eval menus {
       }
       
       # Make sure that the file-specific items are enabled
-      if {$fname ne ""} {
-        $mb entryconfigure $index -state normal
-        $mb entryconfigure [msgcat::mc "Show File Difference"] -state normal
-      } else {
-        $mb entryconfigure $index -state disabled
-        $mb entryconfigure [msgcat::mc "Show File Difference"] -state disabled
-      }
+      $mb entryconfigure [msgcat::mc "Show File Difference"] -state [expr {($fname ne "") ? "normal" : "disabled"}]
       $mb entryconfigure [msgcat::mc "Save"]                 -state normal
       $mb entryconfigure [msgcat::mc "Save As..."]           -state normal
       $mb entryconfigure [msgcat::mc "Save All"]             -state normal
