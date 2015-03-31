@@ -2060,9 +2060,11 @@ namespace eval specl::releaser {
 
     if {$type eq "new"} {
 
-      # Get the releases node
-      set data(other_releases) [specl::helpers::get_text [specl::helpers::get_element $channel_node "releases"]]
-
+      set data(other_releases) ""
+      foreach release_node [specl::helpers::get_elements $channel_node "release"] {
+        append data(other_releases) [dom::serialize $release_node -method xml -indent 1]
+      }
+        
     } else {
 
       # Get the last release information and all other releases
@@ -2097,7 +2099,7 @@ namespace eval specl::releaser {
 
         } else {
 
-          append data(other_releases) "<release [lindex $release_node 0]>[lindex $release_node 1]</release>"
+          append data(other_releases) [dom::serialize $release_node -method xml -indent 1]
 
         }
 
