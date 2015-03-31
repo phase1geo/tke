@@ -206,6 +206,9 @@ namespace eval menus {
 
       # Get the current file lock status
       set file_lock [expr $readonly || [gui::get_file_info $file_index lock]]
+      
+      # Get the current difference mode
+      set diff_mode [gui::get_file_info $file_index diff]
 
       # Get the current favorite status
       set favorite [favorites::is_favorite $fname]
@@ -225,7 +228,7 @@ namespace eval menus {
         if {![catch "$mb index Favorite" index]} {
           $mb entryconfigure $index -label [msgcat::mc "Unfavorite"] -command "menus::unfavorite_command $mb"
         }
-        $mb entryconfigure [msgcat::mc "Unfavorite"] -state [expr {($fname ne "") ? "normal" : "disabled"}]
+        $mb entryconfigure [msgcat::mc "Unfavorite"] -state [expr {(($fname ne "") && !$diff_mode) ? "normal" : "disabled"}]
       } elseif {![catch "$mb index Unfavorite" index]} {
         $mb entryconfigure $index -label [msgcat::mc "Favorite"] -state normal -command "menus::favorite_command $mb"
       }
