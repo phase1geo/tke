@@ -1,26 +1,26 @@
-changeset:   927:94c593e8bd4e
-tag:         devel-1.5.14
+changeset:   930:85e050870a92
+tag:         devel-1.5.15
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 31 08:55:18 2015 -0500
+date:        Tue Mar 31 09:21:44 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.5.14 release
+ChangeLog for devel-1.5.15 release
 
 
-changeset:   928:3648c40be030
+changeset:   931:f43c3f413990
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 31 08:55:22 2015 -0500
+date:        Tue Mar 31 09:21:48 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.5.14 for changeset 94c593e8bd4e
+Added tag devel-1.5.15 for changeset 85e050870a92
 
 
-changeset:   929:1287a0f33d17
+changeset:   932:c6ec18a36583
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 31 09:21:10 2015 -0500
-files:       ChangeLog lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+date:        Tue Mar 31 19:50:57 2015 -0500
+files:       lib/sidebar.tcl lib/themes.tcl lib/utils.tcl lib/version.tcl
 description:
-* More fixes for new XML parser.
+* Fixing window color scheme handling for both dark and light modes.
 
 
