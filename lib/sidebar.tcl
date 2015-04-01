@@ -33,6 +33,7 @@ namespace eval sidebar {
         -relief flat -highlightthickness 0 \
         -foreground [utils::get_default_foreground] -background [utils::get_default_background] \
         -selectforeground [utils::get_default_background] -selectbackground [utils::get_default_foreground] \
+        -selectborderwidth 0 \
         -editstartcommand  "sidebar::edit_start_command" \
         -editendcommand    "sidebar::edit_end_command" \
         -tooltipaddcommand "sidebar::show_tooltip" \
@@ -1176,12 +1177,13 @@ namespace eval sidebar {
     
     variable widgets
     
-    set foreground [utils::get_default_foreground]
-    set background [utils::get_default_background]
+    set fg  [utils::get_default_foreground]
+    set bg  [utils::get_default_background]
+    set abg [utils::auto_adjust_color $bg 30]
     
     # Configure the tablelist widget
     if {[info exists widgets(tl)]} {
-      $widgets(tl) configure -foreground $foreground -background $background
+      $widgets(tl) configure -foreground $fg -background $bg -selectbackground $abg -selectforeground $fg
     }
     
   }

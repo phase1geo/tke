@@ -29,20 +29,18 @@ namespace eval themes {
     }
 
     # Add the light theme colors
-    array set themes [list light [list [ttk::style configure "." -background] [ttk::style configure "." -foreground]]]
+    array set themes [list \
+      light [list [ttk::style configure "." -background] [ttk::style configure "." -foreground]] \
+    ]
 
     foreach name [array names themes] {
 
       # Get the primary and secondary colors for the given theme
       lassign $themes($name) primary secondary
 
-      # Create the lighter version of the primary color
-      lassign [winfo rgb . $primary] r g b
-      set hsv [utils::rgb_to_hsv [expr $r >> 8] [expr $g >> 8] [expr $b >> 8]]
-      lset hsv 2 [expr [lindex $hsv 2] + 25]
-      set rgb [utils::hsv_to_rgb {*}$hsv]
-      set light_primary [format {#%02x%02x%02x} {*}$rgb]
-
+      # Create the slightly different version of the primary color
+      set light_primary [utils::auto_adjust_color $primary 25]
+      
       # Create colors palette
       array set colors [list \
         -disabledfg "#999999" \
@@ -82,7 +80,7 @@ namespace eval themes {
           -selectforeground [list !focus   white]
 
         ttk::style configure TButton \
-          -anchor center -width -11 -padding 5 -relief raised -background $colors(-lighter) -foreground $colors(-frame)
+          -anchor center -width -11 -padding 5 -relief raised -background $colors(-frame) -foreground $colors(-lighter)
         ttk::style map TButton \
           -background  [list disabled  $colors(-lighter) \
                              pressed   $colors(-darker) \
@@ -168,8 +166,7 @@ namespace eval themes {
                              active   $colors(-lightframe)]
 
         ttk::style configure TLabelframe \
-          -labeloutside true -labelmargins {0 0 0 4} \
-          -borderwidth 2 -relief raised
+          -labeloutside true -labelmargins {0 0 0 4} -borderwidth 2 -relief raised
 
         ttk::style configure TSpinbox \
           -relief flat -padding 2 -background $colors(-frame) -foreground $colors(-lighter) -fieldbackground $colors(-frame)

@@ -263,6 +263,8 @@ namespace eval utils {
   # Converts an HSV value into an RGB value.
   proc hsv_to_rgb {h s v} {
 
+    puts "In hsv_to_rgb, hsv: $h, $s, $v"
+    
     set hi [expr { int( double($h) / 60 ) % 6 }]
     set f  [expr { double($h) / 60 - $hi }]
     set s  [expr { double($s)/255 }]
@@ -306,6 +308,8 @@ namespace eval utils {
         error "Wrong hi value in hsv_to_rgb procedure! This should never happen!"
       }
     }
+    
+    puts "In hsv_to_rgb, rgb: $r, $g, $b"
 
     set r [expr {round($r*255)}]
     set g [expr {round($g*255)}]
@@ -319,13 +323,20 @@ namespace eval utils {
   # Automatically adjusts the given color by a value equal to diff such
   # that if color is a darker color, the value will be lightened and if
   # color is a lighter color, the value will be darkened.
-  proc auto_adjust_color {color diff} {
+  proc auto_adjust_color {color diff {mode "auto"}} {
 
     # Create the lighter version of the primary color
+    puts "color: $color"
     lassign [winfo rgb . $color] r g b
+    puts "rgb: $r, $g, $b"
     lassign [rgb_to_hsv [expr $r >> 8] [expr $g >> 8] [expr $b >> 8]] hue saturation value
-    set value [expr ($value < 128) ? ($value + $diff) : ($value - $diff)]
-    set rgb   [hsv_to_rgb $hue $saturation $value]
+    puts "hsv: $hue, $saturation, $value"
+    switch $mode {
+      "auto"   { set value [expr ($value < 128) ? ($value + $diff) : ($value - $diff)] }
+      "manual" { set value [expr $value + $diff] }
+    }
+    set rgb [hsv_to_rgb $hue $saturation $value]
+    puts "New rgb: $rgb"
 
     return [format {#%02x%02x%02x} {*}$rgb]
 
@@ -341,7 +352,7 @@ namespace eval utils {
     set r [expr $r / 256]
     set g [expr $g / 256]
     set b [expr $b / 256]
-
+    
     switch $type {
       r {
         if {[set odiff [expr 255 - ($r + $diff)]] >= 0} {
