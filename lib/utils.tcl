@@ -263,8 +263,6 @@ namespace eval utils {
   # Converts an HSV value into an RGB value.
   proc hsv_to_rgb {h s v} {
 
-    puts "In hsv_to_rgb, hsv: $h, $s, $v"
-    
     set hi [expr { int( double($h) / 60 ) % 6 }]
     set f  [expr { double($h) / 60 - $hi }]
     set s  [expr { double($s)/255 }]
@@ -309,8 +307,6 @@ namespace eval utils {
       }
     }
     
-    puts "In hsv_to_rgb, rgb: $r, $g, $b"
-
     set r [expr {round($r*255)}]
     set g [expr {round($g*255)}]
     set b [expr {round($b*255)}]
@@ -326,17 +322,13 @@ namespace eval utils {
   proc auto_adjust_color {color diff {mode "auto"}} {
 
     # Create the lighter version of the primary color
-    puts "color: $color"
     lassign [winfo rgb . $color] r g b
-    puts "rgb: $r, $g, $b"
     lassign [rgb_to_hsv [expr $r >> 8] [expr $g >> 8] [expr $b >> 8]] hue saturation value
-    puts "hsv: $hue, $saturation, $value"
     switch $mode {
       "auto"   { set value [expr ($value < 128) ? ($value + $diff) : ($value - $diff)] }
       "manual" { set value [expr $value + $diff] }
     }
     set rgb [hsv_to_rgb $hue $saturation $value]
-    puts "New rgb: $rgb"
 
     return [format {#%02x%02x%02x} {*}$rgb]
 
