@@ -51,11 +51,18 @@ namespace eval embed_tke {
     proc close_current {args} { puts "Closing" }
   }
 
+  variable right_click 3
+  
   array set data   {}
   array set images {}
   
   array set widget_options {
     -language {language Language}
+  }
+  
+  # On Mac, the right-click button is button 2
+  if {[tk windowingsystem] eq "aqua"} {
+    set right_click 2
   }
   
   ######################################################################
@@ -65,6 +72,7 @@ namespace eval embed_tke {
     variable data
     variable images
     variable widget_options
+    variable right_click
     
     # If this is the first time we have been called, do some initialization
     if {[array size images] == 0} {
@@ -106,22 +114,22 @@ namespace eval embed_tke {
     ttk::scrollbar $w.vb    -orient vertical   -command "$w.txt yview"
     ttk::scrollbar $w.hb    -orient horizontal -command "$w.txt xview"
     
-    bind Ctext    <<Modified>>          "[namespace current]::gui::text_changed %W"
-    bind $w.txt.t <FocusIn>             "[namespace current]::gui::set_current_tab_from_txt %W"
-    bind $w.txt.l <ButtonPress-3>       [bind $w.txt.l <ButtonPress-1>]
-    bind $w.txt.l <ButtonPress-1>       "[namespace current]::gui::select_line %W %y"
-    bind $w.txt.l <B1-Motion>           "[namespace current]::gui::select_lines %W %y"
-    bind $w.txt.l <Shift-ButtonPress-1> "[namespace current]::gui::select_lines %W %y"
-    bind $w.txt   <<Selection>>         "[namespace current]::gui::selection_changed %W"
-    bind $w.txt   <ButtonPress-1>       "after idle [list [namespace current]::gui::update_position %W]"
-    bind $w.txt   <B1-Motion>           "[namespace current]::gui::update_position %W"
-    bind $w.txt   <KeyRelease>          "[namespace current]::gui::update_position %W"
-    bind $w.split <Button-1>            "[namespace current]::gui::toggle_split_pane $w.txt"
-    bind Text     <<Cut>>               ""
-    bind Text     <<Copy>>              ""
-    bind Text     <<Paste>>             ""
-    bind Text     <Control-d>           ""
-    bind Text     <Control-i>           ""
+    bind Ctext    <<Modified>>               "[namespace current]::gui::text_changed %W"
+    bind $w.txt.t <FocusIn>                  "[namespace current]::gui::set_current_tab_from_txt %W"
+    bind $w.txt.l <ButtonPress-$right_click> [bind $w.txt.l <ButtonPress-1>]
+    bind $w.txt.l <ButtonPress-1>            "[namespace current]::gui::select_line %W %y"
+    bind $w.txt.l <B1-Motion>                "[namespace current]::gui::select_lines %W %y"
+    bind $w.txt.l <Shift-ButtonPress-1>      "[namespace current]::gui::select_lines %W %y"
+    bind $w.txt   <<Selection>>              "[namespace current]::gui::selection_changed %W"
+    bind $w.txt   <ButtonPress-1>            "after idle [list [namespace current]::gui::update_position %W]"
+    bind $w.txt   <B1-Motion>                "[namespace current]::gui::update_position %W"
+    bind $w.txt   <KeyRelease>               "[namespace current]::gui::update_position %W"
+    bind $w.split <Button-1>                 "[namespace current]::gui::toggle_split_pane $w.txt"
+    bind Text     <<Cut>>                    ""
+    bind Text     <<Copy>>                   ""
+    bind Text     <<Paste>>                  ""
+    bind Text     <Control-d>                ""
+    bind Text     <Control-i>                ""
     
     # Move the all bindtag ahead of the Text bindtag
     set text_index [lsearch [bindtags $w.txt.t] Text]

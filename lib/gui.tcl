@@ -60,7 +60,7 @@ namespace eval gui {
 
     variable files
     variable files_index
-
+ 
     return [lsearch -index $files_index(fname) $files $fname]
 
   }
@@ -69,7 +69,7 @@ namespace eval gui {
   # Checks to see if the given file is newer than the file within the
   # editor.  If it is newer, prompt the user to update the file.
   proc check_file {index} {
-
+    
     variable files
     variable files_index
 
@@ -1342,6 +1342,11 @@ namespace eval gui {
       # Make the insertion mark visible
       $txt see $insert_index
 
+      # If a diff command was specified, run and parse it now
+      if {[lindex $files $file_index $files_index(diff)]} {
+        diff::show $txt
+      }
+
       # Allow plugins to be run on update
       plugins::handle_on_update $file_index
 
@@ -2061,6 +2066,9 @@ namespace eval gui {
 
     variable pw_current
     variable tab_current
+    
+    # Get the current text widget
+    set txt [current_txt $tid]
 
     # Get the current text frame
     set tab $tab_current($pw_current)
@@ -2074,6 +2082,11 @@ namespace eval gui {
 
     # Clear the search entry
     $tab.sf.e delete 0 end
+    
+    # If a line or less is selected, populate the search bar with it
+    if {([llength [set ranges [$txt tag ranges sel]]] == 2) && ([$txt count -lines {*}$ranges] == 0)} {
+      $tab.sf.e insert end [$txt get {*}$ranges]
+    }
 
     # Place the focus on the search bar
     focus $tab.sf.e
@@ -3053,22 +3066,22 @@ namespace eval gui {
 
     $txt configure -font editor_font
 
-    bind Ctext  <<Modified>>          "gui::text_changed %W"
-    bind $txt.t <FocusIn>             "+gui::set_current_tab_from_txt %W"
-    bind $txt.l <ButtonPress-3>       [bind $txt.l <ButtonPress-1>]
-    bind $txt.l <ButtonPress-1>       "gui::select_line %W %y"
-    bind $txt.l <B1-Motion>           "gui::select_lines %W %y"
-    bind $txt.l <Shift-ButtonPress-1> "gui::select_lines %W %y"
-    bind $txt   <<Selection>>         "gui::selection_changed $txt"
-    bind $txt   <ButtonPress-1>       "after idle [list gui::update_position $txt]"
-    bind $txt   <B1-Motion>           "gui::update_position $txt"
-    bind $txt   <KeyRelease>          "gui::update_position $txt"
-    bind $txt   <Motion>              "gui::clear_tab_tooltip $tb"
-    bind Text   <<Cut>>               ""
-    bind Text   <<Copy>>              ""
-    bind Text   <<Paste>>             ""
-    bind Text   <Control-d>           ""
-    bind Text   <Control-i>           ""
+    bind Ctext  <<Modified>>                 "gui::text_changed %W"
+    bind $txt.t <FocusIn>                    "+gui::set_current_tab_from_txt %W"
+    bind $txt.l <ButtonPress-$::right_click> [bind $txt.l <ButtonPress-1>]
+    bind $txt.l <ButtonPress-1>              "gui::select_line %W %y"
+    bind $txt.l <B1-Motion>                  "gui::select_lines %W %y"
+    bind $txt.l <Shift-ButtonPress-1>        "gui::select_lines %W %y"
+    bind $txt   <<Selection>>                "gui::selection_changed $txt"
+    bind $txt   <ButtonPress-1>              "after idle [list gui::update_position $txt]"
+    bind $txt   <B1-Motion>                  "gui::update_position $txt"
+    bind $txt   <KeyRelease>                 "gui::update_position $txt"
+    bind $txt   <Motion>                     "gui::clear_tab_tooltip $tb"
+    bind Text   <<Cut>>                      ""
+    bind Text   <<Copy>>                     ""
+    bind Text   <<Paste>>                    ""
+    bind Text   <Control-d>                  ""
+    bind Text   <Control-i>                  ""
 
     # Move the all bindtag ahead of the Text bindtag
     set text_index [lsearch [bindtags $txt.t] Text]
@@ -3247,17 +3260,17 @@ namespace eval gui {
     ttk::scrollbar $pw.tf2.vb    -orient vertical   -command "$txt2 yview"
     ttk::scrollbar $pw.tf2.hb    -orient horizontal -command "$txt2 xview"
 
-    bind $txt2.t       <FocusIn>             "+[ns gui]::set_current_tab_from_txt %W"
-    bind $txt2.l       <ButtonPress-3>       [bind $txt2.l <ButtonPress-1>]
-    bind $txt2.l       <ButtonPress-1>       "[ns gui]::select_line %W %y"
-    bind $txt2.l       <B1-Motion>           "[ns gui]::select_lines %W %y"
-    bind $txt2.l       <Shift-ButtonPress-1> "[ns gui]::select_lines %W %y"
-    bind $txt2         <<Selection>>         "[ns gui]::selection_changed $txt2"
-    bind $txt2         <ButtonPress-1>       "after idle [list [ns gui]::update_position $txt2]"
-    bind $txt2         <B1-Motion>           "[ns gui]::update_position $txt2"
-    bind $txt2         <KeyRelease>          "[ns gui]::update_position $txt2"
-    bind $txt2         <Motion>              "[ns gui]::clear_tab_tooltip $tb"
-    bind $pw.tf2.split <Button-1>            "[ns gui]::toggle_split_pane {}"
+    bind $txt2.t       <FocusIn>                    "+[ns gui]::set_current_tab_from_txt %W"
+    bind $txt2.l       <ButtonPress-$::right_click> [bind $txt2.l <ButtonPress-1>]
+    bind $txt2.l       <ButtonPress-1>              "[ns gui]::select_line %W %y"
+    bind $txt2.l       <B1-Motion>                  "[ns gui]::select_lines %W %y"
+    bind $txt2.l       <Shift-ButtonPress-1>        "[ns gui]::select_lines %W %y"
+    bind $txt2         <<Selection>>                "[ns gui]::selection_changed $txt2"
+    bind $txt2         <ButtonPress-1>              "after idle [list [ns gui]::update_position $txt2]"
+    bind $txt2         <B1-Motion>                  "[ns gui]::update_position $txt2"
+    bind $txt2         <KeyRelease>                 "[ns gui]::update_position $txt2"
+    bind $txt2         <Motion>                     "[ns gui]::clear_tab_tooltip $tb"
+    bind $pw.tf2.split <Button-1>                   "[ns gui]::toggle_split_pane {}"
 
     # Move the all bindtag ahead of the Text bindtag
     set text_index [lsearch [bindtags $txt2.t] Text]
@@ -4087,6 +4100,7 @@ namespace eval gui {
           foreach {start end} $ranges {
             if {[$txt compare $start > $index]} {
               $txt see $start
+              return 1
             }
           }
           $txt see [lindex $ranges 0]
@@ -4095,6 +4109,7 @@ namespace eval gui {
           foreach {end start} [lreverse $ranges] {
             if {[$txt compare $start < $index]} {
               $txt see $start
+              return 1
             }
           }
           $txt see [lindex $ranges end-1]
