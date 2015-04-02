@@ -1,26 +1,37 @@
-changeset:   930:85e050870a92
-tag:         devel-1.5.15
+changeset:   933:231d46099fea
+tag:         devel-1.5.16
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 31 09:21:44 2015 -0500
+date:        Wed Apr 01 08:53:35 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.5.15 release
+ChangeLog for devel-1.5.16 release
 
 
-changeset:   931:f43c3f413990
+changeset:   934:5a126dc588c6
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 31 09:21:48 2015 -0500
+date:        Wed Apr 01 08:53:40 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.5.15 for changeset 85e050870a92
+Added tag devel-1.5.16 for changeset 231d46099fea
 
 
-changeset:   932:c6ec18a36583
+changeset:   935:f75f4fa243a0
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Apr 01 09:39:55 2015 -0500
+files:       lib/utils.tcl lib/version.tcl
+description:
+* Removing unnecessary debug output.
+
+
+changeset:   936:c38aa9024892
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 31 19:50:57 2015 -0500
-files:       lib/sidebar.tcl lib/themes.tcl lib/utils.tcl lib/version.tcl
+date:        Thu Apr 02 07:57:11 2015 -0500
+files:       lib/diff.tcl lib/embed_tke.tcl lib/gui.tcl lib/multicursor.tcl lib/version.tcl
 description:
-* Fixing window color scheme handling for both dark and light modes.
+* Fixing typo in diff that kept the "Update" button from disappearing when it should have.
+* Fixing right click to work properly on Mac OSX.
+* Fixing issue where a difference view was not updated when a file change occurred.
+* When a line or less is selected, performing a search will auto-load the selected text into the search field.
 
 
