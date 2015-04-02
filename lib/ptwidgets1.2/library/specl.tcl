@@ -2349,7 +2349,7 @@ if {[file tail $::argv0] eq "specl.tcl"} {
   package require Tk
   package require http
   package require msgcat
-  package require xml
+  package require -exact xml 3.2
 
   # Install the htmllib and gifblock
   source [file join [file dirname $::argv0] .. common htmllib.tcl]
