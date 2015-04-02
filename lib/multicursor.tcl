@@ -24,7 +24,7 @@ namespace eval multicursor {
     # Create multicursor bindings
     bind mcursor$txt <<Selection>>               "[ns multicursor]::handle_selection %W"
     bind mcursor$txt <Alt-Button-1>              "[ns multicursor]::handle_alt_button1 %W %x %y"
-    bind mcursor$txt <Alt-Button-3>              "[ns multicursor]::handle_alt_button3 %W %x %y"
+    bind mcursor$txt <Alt-Button-$::right_click> "[ns multicursor]::handle_alt_button3 %W %x %y"
     bind mcursor$txt <Shift-Alt-ButtonPress-1>   "[ns multicursor]::handle_shift_alt_buttonpress1 %W %x %y; break"
     bind mcursor$txt <Shift-Alt-B1-Motion>       "[ns multicursor]::handle_shift_alt_motion %W %x %y; break"
     bind mcursor$txt <Shift-Alt-ButtonRelease-1> "[ns multicursor]::handle_shift_alt_buttonrelease1 %W %x %y; break"

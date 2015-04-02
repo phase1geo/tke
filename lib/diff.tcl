@@ -191,7 +191,7 @@ namespace eval diff {
     }
 
     # Hide the update button if we are in cvs mode
-    if {$cvs_ns eq "cvs"} {
+    if {[${cvs_ns}::type] eq "cvs"} {
       grid remove $data($txt,win).show
     }
     
