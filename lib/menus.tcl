@@ -59,7 +59,7 @@ namespace eval menus {
     set mb [menu .menubar -foreground $foreground -background $background -relief flat -tearoff false]
 
     # Add the file menu
-    $mb add cascade -label [msgcat::mc "File"] -menu [menu $mb.file -relief flat -tearoff false -postcommand "menus::file_posting $mb.file"]
+    $mb add cascade -label [msgcat::mc "File"] -menu [menu $mb.file -tearoff false -postcommand "menus::file_posting $mb.file"]
     add_file $mb.file
 
     # Add the edit menu
@@ -563,9 +563,6 @@ namespace eval menus {
     launcher::register [msgcat::mc "Menu: Format all text"] "gui::format {} selected"
 
     # Create preferences menu
-    $mb.prefPopup add command -label [msgcat::mc "View Base"] -command "preferences::view_global"
-    launcher::register [msgcat::mc "Menu: View global preferences"] "preferences::view_global"
-
     $mb.prefPopup add command -label [msgcat::mc "Edit User"] -command "preferences::edit_user"
     launcher::register [msgcat::mc "Menu: Edit user preferences"] "preferences::edit_user"
 
@@ -574,15 +571,22 @@ namespace eval menus {
 
     $mb.prefPopup add separator
 
+    $mb.prefPopup add command -label [msgcat::mc "View Base"] -command "preferences::view_global"
+    launcher::register [msgcat::mc "Menu: View global preferences"] "preferences::view_global"
+
+    $mb.prefPopup add separator
+
     $mb.prefPopup add command -label [msgcat::mc "Reset User to Base"] -command "preferences::copy_default"
     launcher::register [msgcat::mc "Menu: Set user preferences to global preferences"] "preferences::copy_default"
 
     # Create menu bindings menu
-    $mb.bindPopup add command -label [msgcat::mc "View Global"] -command "bindings::view_global"
-    launcher::register [msgcat::mc "Menu: View global menu bindings"] "bindings::view_global"
-
     $mb.bindPopup add command -label [msgcat::mc "Edit User"] -command "bindings::edit_user"
     launcher::register [msgcat::mc "Menu: Edit user menu bindings"] "bindings::edit_user"
+
+    $mb.bindPopup add separator
+
+    $mb.bindPopup add command -label [msgcat::mc "View Global"] -command "bindings::view_global"
+    launcher::register [msgcat::mc "Menu: View global menu bindings"] "bindings::view_global"
 
     $mb.bindPopup add separator
 

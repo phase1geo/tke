@@ -2,10 +2,12 @@
 {File/New}                        Ctrl-N
 {File/Open File...}               Ctrl-O
 {File/Open Directory...}          Ctrl-Shift-O
+{File/Show File Difference}       Ctrl-D
 {File/Save}                       Ctrl-S
 {File/Save As...}                 Ctrl-Shift-S
 {File/Lock}                       Ctrl-L
 {File/Close}                      Ctrl-W
+{File/Close All}                  Ctrl-Shift-W 
 {File/Quit}                       Ctrl-Q
 
 # Edit menu bindings
