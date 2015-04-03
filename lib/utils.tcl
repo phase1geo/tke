@@ -193,7 +193,7 @@ namespace eval utils {
         return [catch { exec open {*}$opts $fname }]
       }
       Linux* {
-        return [catch { exec xdg-open $fname }]
+        return [catch { exec -ignorestderr xdg-open $fname }]
       }
       *Win* {
         return [catch { exec os.startfile $fname }]
