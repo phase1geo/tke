@@ -3,6 +3,7 @@
 # Date:     3/23/2015
 # Brief:    Contains namespace which handles displaying file version differences
 
+
 namespace eval diff {
 
   source [file join $::tke_dir lib ns.tcl]
@@ -197,6 +198,17 @@ namespace eval diff {
     # Reset the current working directory
     cd $cwd
 
+  }
+  
+  ######################################################################
+  # Returns true if the specified text widget is eligible for a file
+  # update.
+  proc updateable {txt} {
+    
+    variable data
+    
+    return [expr $data($txt,v2) eq "Current"]
+    
   }
 
   ######################################################################
