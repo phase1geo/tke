@@ -1308,6 +1308,14 @@ namespace eval gui {
 
     # Get the text widget at the given index
     set txt [get_txt_from_tab $tab]
+    
+    # Get the diff value
+    set diff [lindex $file_info $files_index(diff)]
+    
+    # If the editor is a difference view and is not updateable, stop now
+    if {$diff && ![diff::updateable $txt]} {
+      return
+    }
 
     # Get the current insertion index
     set insert_index [$txt index insert]
@@ -1343,7 +1351,7 @@ namespace eval gui {
       $txt see $insert_index
 
       # If a diff command was specified, run and parse it now
-      if {[lindex $files $file_index $files_index(diff)]} {
+      if {$diff} {
         diff::show $txt
       }
 
