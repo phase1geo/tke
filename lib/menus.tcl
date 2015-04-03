@@ -1723,6 +1723,8 @@ namespace eval menus {
   }
   
   ######################################################################
+  # Generates an e-mail compose window to provide a bug report.  Appends
+  # the diagnostic logfile information to the bug report.
   proc help_submit_report {} {
     
     # Retrieve the contents of the diagnostic logfile
