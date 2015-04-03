@@ -1,37 +1,51 @@
-changeset:   933:231d46099fea
-tag:         devel-1.5.16
+changeset:   937:a54ecef0fb98
+tag:         devel-1.5.17
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Apr 01 08:53:35 2015 -0500
+date:        Thu Apr 02 07:58:24 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.5.16 release
+ChangeLog for devel-1.5.17 release
 
 
-changeset:   934:5a126dc588c6
+changeset:   938:47456903c1bb
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Apr 01 08:53:40 2015 -0500
+date:        Thu Apr 02 07:58:29 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.5.16 for changeset 231d46099fea
+Added tag devel-1.5.17 for changeset a54ecef0fb98
 
 
-changeset:   935:f75f4fa243a0
+changeset:   939:77ef0bb50d16
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Apr 01 09:39:55 2015 -0500
-files:       lib/utils.tcl lib/version.tcl
+date:        Thu Apr 02 10:09:33 2015 -0500
+files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
 description:
-* Removing unnecessary debug output.
+* Fixing bug with loading XML (need to make sure that version 3.2 is required).
 
 
-changeset:   936:c38aa9024892
+changeset:   940:aa6a71b277d0
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Apr 02 20:50:43 2015 -0500
+files:       lib/api.tcl lib/sidebar.tcl lib/version.tcl
+description:
+* Adding return value in open_file API.
+* Changing default width of sidebar to be a bit wider.
+
+
+changeset:   941:ee42a4e357f5
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Apr 02 20:54:57 2015 -0500
+files:       lib/diff.tcl lib/version.tcl
+description:
+* Removing debug output.
+
+
+changeset:   942:aa65e5f4d92c
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Apr 02 07:57:11 2015 -0500
-files:       lib/diff.tcl lib/embed_tke.tcl lib/gui.tcl lib/multicursor.tcl lib/version.tcl
+date:        Thu Apr 02 21:08:52 2015 -0500
+files:       lib/diff.tcl lib/gui.tcl lib/version.tcl
 description:
-* Fixing typo in diff that kept the "Update" button from disappearing when it should have.
-* Fixing right click to work properly on Mac OSX.
-* Fixing issue where a difference view was not updated when a file change occurred.
-* When a line or less is selected, performing a search will auto-load the selected text into the search field.
+* First attempt to keep difference view from updating if file changes.
 
 
