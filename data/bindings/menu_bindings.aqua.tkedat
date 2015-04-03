@@ -2,10 +2,12 @@
 {File/New}                        Cmd-N
 {File/Open File...}               Cmd-O
 {File/Open Directory...}          Cmd-Shift-O
+{File/Show File Difference}       Cmd-D
 {File/Save}                       Cmd-S
 {File/Save As...}                 Cmd-Shift-S
 {File/Lock}                       Cmd-L
 {File/Close}                      Cmd-W
+{File/Close All}                  Cmd-Shift-W
 {File/Quit}                       Cmd-Q
 
 # Edit menu bindings

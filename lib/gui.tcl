@@ -131,11 +131,11 @@ namespace eval gui {
     } else {
       set tab_name ""
     }
-
+ 
     wm title . "$tab_name \[[lindex [split [info hostname] .] 0]:[pwd]\]"
 
   }
-
+ 
   ######################################################################
   # Creates all images.
   proc create_images {} {
@@ -3100,7 +3100,9 @@ namespace eval gui {
     grid rowconfigure    $tab_frame.pw.tf 1 -weight 1
     grid columnconfigure $tab_frame.pw.tf 0 -weight 1
     grid $tab_frame.pw.tf.txt   -row 0 -column 0 -sticky news -rowspan 2
-    grid $tab_frame.pw.tf.split -row 0 -column 1 -sticky news
+    if {!$diff} {
+      grid $tab_frame.pw.tf.split -row 0 -column 1 -sticky news
+    }
     grid $tab_frame.pw.tf.vb    -row 1 -column 1 -sticky ns
     grid $tab_frame.pw.tf.hb    -row 2 -column 0 -sticky ew
 

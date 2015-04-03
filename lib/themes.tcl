@@ -161,9 +161,11 @@ namespace eval themes {
           -lightcolor  [list focus    "#6f9dc6"] \
           -darkcolor   [list focus    "#6f9dc6"]
 
+        ttk::style configure TScrollbar \
+          -relief flat -troughcolor $colors(-lightframe) ;# -background $colors(-frame) -troughcolor $colors(-frame)
         ttk::style map TScrollbar \
           -background  [list disabled $colors(-frame) \
-                             active   $colors(-lightframe)]
+                             active   $colors(-frame)]
 
         ttk::style configure TLabelframe \
           -labeloutside true -labelmargins {0 0 0 4} -borderwidth 2 -relief raised
@@ -180,7 +182,7 @@ namespace eval themes {
           -lightcolor  [list pressed   $colors(-darker)] \
           -darkcolor   [list pressed   $colors(-darker)] \
           -bordercolor [list alternate "#000000"]
-
+          
         ttk::style configure Sash -sashthickness 5 -gripcount 10
 
       }

@@ -3,7 +3,6 @@
 # Date:     3/23/2015
 # Brief:    Contains namespace which handles displaying file version differences
 
-
 namespace eval diff {
 
   source [file join $::tke_dir lib ns.tcl]
@@ -161,7 +160,7 @@ namespace eval diff {
     set cvs_ns [string tolower $data($txt,cvs)]
     
     # If the V2 file changed, replace the current file with the new content
-    if {[info exists data($txt,last_v2)] && ($data($txt,v2) ne $data($txt,last_v2))} {
+    if {![info exists data($txt,last_v2)] || ($data($txt,v2) ne $data($txt,last_v2))} {
       
       set v2_fname $fname
     
@@ -169,7 +168,7 @@ namespace eval diff {
       if {$data($txt,v2) ne "Current"} {
         set v2_fname [${cvs_ns}::get_file_cmd $data($txt,v2) $fname]
       }
-
+      
       # Execute the file open and update the text widget
       if {![catch { open $v2_fname r } rc]} {
         $txt configure -state normal
@@ -202,12 +201,12 @@ namespace eval diff {
   
   ######################################################################
   # Returns true if the specified text widget is eligible for a file
-  # update.
+  # update via the gui::update_file command.
   proc updateable {txt} {
     
     variable data
     
-    return [expr $data($txt,v2) eq "Current"]
+    return [expr {$data($txt,v2) eq "Current"}]
     
   }
 
