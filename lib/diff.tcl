@@ -15,7 +15,6 @@ namespace eval diff {
     set fg            [utils::get_default_foreground]
     set data(sb)      "spinbox"
     set data(sb_opts) "-relief flat -buttondownrelief flat -buttonuprelief flat -background $bg -foreground $fg"
-    puts "sb_opts: $data(sb_opts)"
   } else {
     set data(sb)      "ttk::spinbox"
     set data(sb_opts) ""
