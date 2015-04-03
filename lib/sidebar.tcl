@@ -33,7 +33,7 @@ namespace eval sidebar {
         -relief flat -highlightthickness 0 \
         -foreground [utils::get_default_foreground] -background [utils::get_default_background] \
         -selectforeground [utils::get_default_background] -selectbackground [utils::get_default_foreground] \
-        -selectborderwidth 0 \
+        -selectborderwidth 0 -width 30 \
         -editstartcommand  "sidebar::edit_start_command" \
         -editendcommand    "sidebar::edit_end_command" \
         -tooltipaddcommand "sidebar::show_tooltip" \
