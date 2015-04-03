@@ -370,7 +370,7 @@ namespace eval api {
     #  will be given to the opening application.
     proc open_file {interp pname fname {in_background 0}} {
 
-      utils::open_file_externally $fname $in_background
+      return [utils::open_file_externally $fname $in_background]
 
     }
 
