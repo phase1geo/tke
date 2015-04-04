@@ -1,6 +1,7 @@
 # Plugin namespace
 namespace eval changebar {
 
+  # Contains all data stored for this
   array set data {
     enabled 0
   }
@@ -142,9 +143,10 @@ namespace eval changebar {
 
     variable data
 
-    set txt [current_txt]
-
-    if {[info exists data($txt,enabled)]} {
+    if {[set txt [current_txt]] ne ""} {
+      if {![info exists data($txt,enabled)]} {
+        set data($txt,enabled) 0
+      }
       set data(enabled) $data([current_txt],enabled)
       return 1
     } else {
@@ -167,8 +169,10 @@ namespace eval changebar {
   proc handle_state_clear {} {
 
     variable data
+    
+    set txt [current_txt]
 
-    if {[set txt [current_txt]] ne ""} {
+    if {[info exists data($txt,enabled)]} {
       return $data($txt,enabled)
     } else {
       return 0
@@ -178,15 +182,35 @@ namespace eval changebar {
 
   proc do_goto_next {} {
 
-    # TBD
+    set txt   [current_txt]
+    set lines [lsort -integer [concat [$txt gutter get changebar changed] [$txt gutter get changebar added]]]
+    api::log "lines: $lines"
+    
+    if {[llength $lines] > 0} {
+      
+      set index [$txt index @0,[winfo height $txt]]
+       
+      foreach {start end} $lines {
+        if {[$txt compare $start.0 > $index]} {
+          $txt see $start.0
+          return
+        }
+      }
+       
+      $txt see [lindex $lines 0].0
+      
+    }
 
+    
   }
 
   proc handle_state_goto_next {} {
 
     variable data
+    
+    set txt [current_txt]
 
-    if {[set txt [current_txt]] ne ""} {
+    if {[info exists data($txt,enabled)]} {
       return $data($txt,enabled)
     } else {
       return 0
@@ -196,20 +220,56 @@ namespace eval changebar {
 
   proc do_goto_prev {} {
 
-    # TBD
+    set txt   [current_txt]
+    set lines [lsort -integer [concat [$txt gutter get changebar changed] [$txt gutter get changebar added]]]
+    
+    if {[llength $lines] > 0} {
+      
+      set index [$txt index @0,0]
+       
+      foreach {end start} [lreverse $lines] {
+        if {[$txt compare $start.0 < $index]} {
+          $txt see $start.0
+          return 1
+        }
+      }
+       
+      $txt see [lindex $lines end-1].0
+      
+    }
 
   }
 
   proc handle_state_goto_prev {} {
 
     variable data
+    
+    set txt [current_txt]
 
-    if {[set txt [current_txt]] ne ""} {
+    if {[info exists data($txt,enabled)]} {
       return $data($txt,enabled)
     } else {
       return 0
     }
 
+  }
+  
+  proc on_reload {index} {
+    
+    variable data
+    
+    api::plugin::save_variable $index "data" [array get data]
+    api::log [array get data]
+    
+  }
+  
+  proc on_restore {index} {
+    
+    variable data
+    
+    array set data [api::plugin::load_variable $index "data"]
+    api::log [array get data]
+    
   }
 
 }
@@ -220,6 +280,8 @@ api::register changebar {
   {on_close changebar::do_close}
   {on_uninstall changebar::do_uninstall}
   {on_update changebar::do_update}
+  {on_reload changebar::do_reload}
+  {on_restore changebar::do_restore}
   {menu {checkbutton changebar::data(enabled)} "Change Bars/Enable" changebar::do_enable changebar::handle_state_enable}
   {menu separator "Change Bars"}
   {menu command "Change Bars/Clear"         changebar::do_clear     changebar::handle_state_clear}

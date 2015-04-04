@@ -205,7 +205,7 @@ namespace eval plugins {
             set registry($i,tgntd)    $data(trust_granted)
             set interpreter [interpreter::create $registry($i,name) $data(trust_granted)]
             if {[catch "interp eval $interpreter source $registry($i,file)" status]} {
-              handle_status_error $i $status
+              handle_status_error "read_config" $i $status
               lappend bad_sources $i
               interpreter::destroy $registry($i,name)
             } else {
@@ -235,12 +235,15 @@ namespace eval plugins {
 
   ######################################################################
   # Handles an error when sourcing a plugin file.
-  proc handle_status_error {index status} {
+  proc handle_status_error {procname index status} {
 
     variable registry
 
     # Save the status
     set registry($index,status) $status
+    
+    # Get the name of the plugin
+    set name $registry($index,name)
 
     # If we are doing development, send the full error info to standard output
     if {[::tke_development]} {
@@ -248,7 +251,7 @@ namespace eval plugins {
     }
 
     # Set the current information message
-    gui::set_info_message "ERROR: [lindex [split $status \n] 0]"
+    gui::set_info_message "ERROR ($name,$procname): [lindex [split $status \n] 0]"
 
   }
 
@@ -265,7 +268,7 @@ namespace eval plugins {
 
     if {$registry($index,selected) && [info exists prev_sourced($name)]} {
       if {[catch "$registry($index,interp) eval [lindex $prev_sourced($name) 0] $index" status]} {
-        handle_status_error $index $status
+        handle_status_error "handle_resourcing" $index $status
       }
     }
 
@@ -283,7 +286,7 @@ namespace eval plugins {
 
     if {$registry($index,selected) && [info exists prev_sourced($name)]} {
       if {[catch "$registry($index,interp) eval [lindex $prev_sourced($name) 1] $index" status]} {
-        handle_status_error $index $status
+        handle_status_error "handle_reloading" $index $status
       }
     }
 
@@ -370,7 +373,7 @@ namespace eval plugins {
       }
       set interpreter [interpreter::create $registry($index,name) $registry($index,tgntd)]
       if {[catch "uplevel #0 [list interp eval $interpreter source $registry($index,file)]" status]} {
-        handle_status_error $index $status
+        handle_status_error "install_item" $index $status
         set registry($index,selected) 0
         interpreter::destroy $registry($index,name)
       } else {
@@ -410,7 +413,7 @@ namespace eval plugins {
     # If the given event contains an "on_uninstall" action, run it.
     foreach {name action} [array get registry $index,action,on_start,*] {
       if {[catch "$registry($index,interp) eval {*}$action" status]} {
-        handle_status_error $index $status
+        handle_status_error "run_on_start" $index $status
       }
     }
 
@@ -628,7 +631,7 @@ namespace eval plugins {
     # Handle the state
     if {$state ne ""} {
       if {[catch "$registry($index,interp) eval $state" status]} {
-        handle_status_error $index $status
+        handle_status_error "menu_add_item" $index $status
         set state "disabled"
       } elseif {$status} {
         set state "normal"
@@ -678,7 +681,7 @@ namespace eval plugins {
 
     # Call the plugins do command to populate the menu
     if {[catch "$registry($index,interp) eval $do $mnu" status]} {
-      handle_status_error $index $status
+      handle_status_error "post_cascade_menu" $index $status
     }
 
   }
@@ -764,7 +767,7 @@ namespace eval plugins {
       }
       if {$mnu eq $entry_mnu} {
         if {[catch "$registry($index,interp) eval $state" status]} {
-          handle_status_error $index $status
+          handle_status_error "menu_state" $index $status
         } elseif {$status} {
           $mnu entryconfigure [lindex $hier_list end] -state normal
         } else {
@@ -943,7 +946,7 @@ namespace eval plugins {
       interpreter::add_ctext $registry($index,name) $txt
       if {![info exists bound_tags($bt)]} {
         if {[catch "$registry($index,interp) eval $cmd $bt" status]} {
-          handle_status_error $index $status
+          handle_status_error "handle_text_bindings" $index $status
         }
         set bound_tags($bt) $txt
       } else {
@@ -961,7 +964,7 @@ namespace eval plugins {
 
     foreach entry [find_registry_entries $event] {
       if {[catch "$registry([lindex $entry 0],interp) eval [lindex $entry 1] $args" status]} {
-        handle_status_error [lindex $entry 0] $status
+        handle_status_error "handle_event" [lindex $entry 0] $status
       }
     }
 
@@ -1004,8 +1007,21 @@ namespace eval plugins {
   # Called whenever a tab is closed.
   proc handle_on_close {file_index} {
 
+    variable registry
+    variable bound_tags
+    
     handle_event "on_close" $file_index
 
+    # Delete the list of bound tags
+    set txt [gui::get_file_info $file_index txt]
+    foreach entry [find_registry_entries "text_binding"] {
+      lassign $entry index type name cmd
+      set bt "plugin__$registry($index,name)__$name"
+      if {[set findex [lsearch $bound_tags($bt) $txt]] != -1} {
+        set bound_tags($bt) [lreplace $bound_tags($bt) $findex $findex]
+      }
+    }
+    
   }
 
   ######################################################################
@@ -1037,7 +1053,7 @@ namespace eval plugins {
     # If the given event contains an "on_uninstall" action, run it.
     foreach {name action} [array get registry $index,action,on_uninstall,*] {
       if {[catch "$registry($index,interp) eval {*}$action" status]} {
-        handle_status_error $index $status
+        handle_status_error "on_uninstall" $index $status
       }
     }
 

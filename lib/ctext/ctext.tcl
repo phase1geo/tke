@@ -1516,6 +1516,7 @@ proc ctext::instanceCmd {self cmd args} {
                 return ""
               }
             } else {
+              puts "In gutter get, gutter_name: $gutter_name, name: [lindex $args 1]"
               set lines [list]
               foreach {first last} [$self._t tag ranges [lindex $args 1]] {
                 lappend lines [lindex [split $first .] 0]

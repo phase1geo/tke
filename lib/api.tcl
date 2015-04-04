@@ -107,6 +107,16 @@ namespace eval api {
     menus::invoke $parent [lindex $menu_path end]
 
   }
+  
+  ######################################################################
+  # Logs the given information in the diagnostic logfile and standard
+  # output.
+  proc log {interp pname msg} {
+    
+    # Send the given string to the logger
+    logger::log $msg
+    
+  }
 
   ######################################################################
   ## Displays the given message string in the information bar.  The
