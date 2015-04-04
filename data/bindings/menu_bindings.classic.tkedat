@@ -25,6 +25,10 @@
 {Find/Select previous occurrence} Alt-P
 {Find/Append next occurrence}     Alt-D
 {Find/Select all occurrences}     Alt-A
+{Find/Jump backward}              Ctrl-Left
+{Find/Jump forward}               Ctrl-Right
+{Find/Next difference}            Ctrl-Down
+{Find/Previous difference}        Ctrl-Up
 {Find/Find matching pair}         Ctrl-P
 
 # Text menu bindings
