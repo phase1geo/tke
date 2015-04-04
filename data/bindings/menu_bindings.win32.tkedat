@@ -30,6 +30,7 @@
 {Find/Next difference}            Ctrl-Down
 {Find/Previous difference}        Ctrl-Up
 {Find/Find matching pair}         Ctrl-P
+{Find/Find in files}              Alt-F
 
 # Text menu bindings
 {Text/Comment}                    Ctrl-I
