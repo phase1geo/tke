@@ -1,51 +1,104 @@
-changeset:   937:a54ecef0fb98
-tag:         devel-1.5.17
+changeset:   943:b2f9029714e0
+tag:         devel-1.5.18
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Apr 02 07:58:24 2015 -0500
+date:        Thu Apr 02 21:09:47 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.5.17 release
+ChangeLog for devel-1.5.18 release
 
 
-changeset:   938:47456903c1bb
+changeset:   944:5fe4f8aff7f3
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Apr 02 07:58:29 2015 -0500
+date:        Thu Apr 02 21:09:51 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.5.17 for changeset a54ecef0fb98
+Added tag devel-1.5.18 for changeset b2f9029714e0
 
 
-changeset:   939:77ef0bb50d16
+changeset:   945:d02479028c7c
+parent:      943:b2f9029714e0
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu Apr 02 10:09:33 2015 -0500
-files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+date:        Thu Apr 02 22:44:51 2015 -0500
+files:       lib/menus.tcl lib/utils.tcl lib/version.tcl
 description:
-* Fixing bug with loading XML (need to make sure that version 3.2 is required).
+* Fixing xdg-open call on Linux.
 
 
-changeset:   940:aa6a71b277d0
+changeset:   946:882b72eebf8e
+parent:      944:5fe4f8aff7f3
+parent:      945:d02479028c7c
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Apr 02 20:50:43 2015 -0500
-files:       lib/api.tcl lib/sidebar.tcl lib/version.tcl
+date:        Fri Apr 03 01:13:46 2015 -0500
 description:
-* Adding return value in open_file API.
-* Changing default width of sidebar to be a bit wider.
+Merging changes.
 
 
-changeset:   941:ee42a4e357f5
+changeset:   947:d24098fc63c5
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Apr 02 20:54:57 2015 -0500
-files:       lib/diff.tcl lib/version.tcl
+date:        Fri Apr 03 14:53:24 2015 -0500
+files:       data/bindings/menu_bindings.aqua.tkedat data/bindings/menu_bindings.classic.tkedat data/bindings/menu_bindings.win32.tkedat data/bindings/menu_bindings.x11.tkedat lib/diff.tcl lib/gui.tcl lib/menus.tcl lib/themes.tcl lib/version.tcl
 description:
-* Removing debug output.
+* Adding default menu bindings for "Show File Difference" and "Close All" commands.
+* Fixing scrollbar colors to be more muted based on windowing theme.
+* Reorganizing Preferences and Menu Bindings submenus.
+* Removing split window button in difference view.
+* Fixing issues with updating a difference view when the shown file is not Current.
 
 
-changeset:   942:aa65e5f4d92c
+changeset:   948:62f8d7975380
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Apr 04 00:14:19 2015 -0500
+files:       lib/api.tcl lib/ctext/ctext.tcl lib/plugins.tcl lib/version.tcl plugins/changebar/main.tcl
+description:
+* Adding log API command for debugging purposes.
+* Adding error information when a plugin has an issue.
+* Fixing bug in plugin with bad bound_tags information.
+* Fixing bugs in changebar plugin, adding "Goto Next" and "Goto Previous" functionality (not verified to work yet).
+
+
+changeset:   949:c3214724eb8a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Apr 04 18:38:45 2015 -0500
+files:       data/bindings/menu_bindings.aqua.tkedat data/bindings/menu_bindings.classic.tkedat data/bindings/menu_bindings.win32.tkedat data/bindings/menu_bindings.x11.tkedat lib/bindings.tcl lib/version.tcl
+description:
+* Fixing bindings for arrows.
+* Adding default menu bindings for "Jump forward", "Jump backward", "Next difference" and "Previous difference".
+
+
+changeset:   950:2aacefd0bffb
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Apr 04 18:40:46 2015 -0500
+files:       data/bindings/menu_bindings.classic.tkedat data/bindings/menu_bindings.win32.tkedat data/bindings/menu_bindings.x11.tkedat lib/version.tcl
+description:
+* Adding default menu binding for "Find in files".
+
+
+changeset:   951:edd823a464d0
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Apr 04 22:01:37 2015 -0500
+files:       lib/ctext/ctext.tcl lib/plugins.tcl lib/version.tcl plugins/changebar/main.tcl
+description:
+* Fixing issue with plugins::menu_delete that caused the Plugins menu to be corrupted after a reload.
+* Fixing gutter get command in ctext widget.
+* Fixing issues with changebar plugin.
+
+
+changeset:   952:debd1c70c522
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Apr 04 22:20:25 2015 -0500
+files:       doc/UserGuide.epub doc/UserGuide.pdf lib/api.tcl lib/plugins.tcl lib/version.tcl
+description:
+* Sending handle_status_error information to the diagnostic logfile.
+* Changing api::log procedure to send data to standard output instead of diagnostic logfile.
+* Updating user guide.
+
+
+changeset:   953:2b9b27bdc0b4
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Apr 02 21:08:52 2015 -0500
-files:       lib/diff.tcl lib/gui.tcl lib/version.tcl
+date:        Sat Apr 04 23:16:17 2015 -0500
+files:       lib/gui.tcl lib/sidebar.tcl lib/version.tcl
 description:
-* First attempt to keep difference view from updating if file changes.
+* Saving sidebar session information to session file.
 
 
