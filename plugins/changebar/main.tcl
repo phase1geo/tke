@@ -21,7 +21,7 @@ namespace eval changebar {
 
     # Create the gutter
     $txt gutter create changebar added {-symbol "+" -fg green} changed {-symbol "|" -fg yellow}
-
+    
   }
 
   # Adds the gutter
@@ -163,7 +163,7 @@ namespace eval changebar {
 
     # Clear the changebar symbols for the current text widget
     $txt gutter clear changebar 1 [lindex [split [$txt index end] .] 0]
-
+    
   }
 
   proc handle_state_clear {} {
@@ -184,23 +184,23 @@ namespace eval changebar {
 
     set txt   [current_txt]
     set lines [lsort -integer [concat [$txt gutter get changebar changed] [$txt gutter get changebar added]]]
-    api::log "lines: $lines"
     
     if {[llength $lines] > 0} {
       
       set index [$txt index @0,[winfo height $txt]]
        
-      foreach {start end} $lines {
-        if {[$txt compare $start.0 > $index]} {
-          $txt see $start.0
+      foreach line $lines {
+        if {[$txt compare $line.0 > $index]} {
+          $txt see $line.0
           return
         }
       }
        
+      api::show_info "Starting at the beginning of the file"
+      
       $txt see [lindex $lines 0].0
       
     }
-
     
   }
 
@@ -220,6 +220,7 @@ namespace eval changebar {
 
   proc do_goto_prev {} {
 
+    
     set txt   [current_txt]
     set lines [lsort -integer [concat [$txt gutter get changebar changed] [$txt gutter get changebar added]]]
     
@@ -227,17 +228,19 @@ namespace eval changebar {
       
       set index [$txt index @0,0]
        
-      foreach {end start} [lreverse $lines] {
-        if {[$txt compare $start.0 < $index]} {
-          $txt see $start.0
+      foreach line [lreverse $lines] {
+        if {[$txt compare $line.0 < $index]} {
+          $txt see $line.0
           return 1
         }
       }
        
+      api::show_info "Starting at the end of the file"
+      
       $txt see [lindex $lines end-1].0
       
     }
-
+    
   }
 
   proc handle_state_goto_prev {} {
@@ -254,21 +257,19 @@ namespace eval changebar {
 
   }
   
-  proc on_reload {index} {
+  proc do_store {index} {
     
     variable data
     
     api::plugin::save_variable $index "data" [array get data]
-    api::log [array get data]
     
   }
   
-  proc on_restore {index} {
+  proc do_restore {index} {
     
     variable data
     
     array set data [api::plugin::load_variable $index "data"]
-    api::log [array get data]
     
   }
 
@@ -280,8 +281,7 @@ api::register changebar {
   {on_close changebar::do_close}
   {on_uninstall changebar::do_uninstall}
   {on_update changebar::do_update}
-  {on_reload changebar::do_reload}
-  {on_restore changebar::do_restore}
+  {on_reload changebar::do_store changebar::do_restore}
   {menu {checkbutton changebar::data(enabled)} "Change Bars/Enable" changebar::do_enable changebar::handle_state_enable}
   {menu separator "Change Bars"}
   {menu command "Change Bars/Clear"         changebar::do_clear     changebar::handle_state_clear}
