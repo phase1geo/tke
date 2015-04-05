@@ -109,12 +109,13 @@ namespace eval api {
   }
   
   ######################################################################
-  # Logs the given information in the diagnostic logfile and standard
-  # output.
+  ## Logs the given information in the diagnostic logfile and standard
+  #  output.
+  #
+  # \param msg  Message to display.
   proc log {interp pname msg} {
     
-    # Send the given string to the logger
-    logger::log $msg
+    puts $msg
     
   }
 

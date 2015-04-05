@@ -249,6 +249,9 @@ namespace eval plugins {
     if {[::tke_development]} {
       puts $::errorInfo
     }
+    
+    # Log the error information in the diagnostic logfile
+    logger::log $::errorInfo
 
     # Set the current information message
     gui::set_info_message "ERROR ($name,$procname): [lindex [split $status \n] 0]"
