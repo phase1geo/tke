@@ -675,7 +675,7 @@ namespace eval plugins {
   proc post_cascade_menu {index do mnu} {
 
     variable registry
-
+    
     # Recursively delete all of the items in the given menu
     menu_delete_cascade $mnu
 
@@ -715,40 +715,26 @@ namespace eval plugins {
     variable menus
 
     # Get the list of menu entries
-    if {[llength [set entries [find_registry_entries $action]]] > 0} {
+    if {[llength [find_registry_entries $action]] > 0} {
 
-      # Delete all of the plugin items
-      foreach entry $entries {
-        lassign $entry index type hier
-        set hier [split [string tolower [string map {{ } _} $hier]] /]
-        if {$type ne "cascade"} {
-          set hier [lrange $hier 0 end-1]
-        }
-        if {[menu_delete_item $mnu $hier]} {
-          $mnu delete last
+      while {1} {
+        switch [$mnu type last] {
+          "separator" {
+            $mnu delete last
+            return
+          }
+          "cascade" {
+            menu_delete_cascade [$mnu entrycget last -menu]
+            destroy [$mnu entrycget last -menu]
+            $mnu delete last
+          }
+          default {
+            $mnu delete last
+          }
         }
       }
 
-      # Delete the last separator
-      $mnu delete last
-
     }
-
-  }
-
-  ######################################################################
-  # Deletes one upper level
-  proc menu_delete_item {mnu hier} {
-
-    while {[llength $hier] > 0} {
-      if {![winfo exists $mnu.[join $hier .]]} {
-        return 0
-      }
-      catch { destroy $mnu.[join $hier .] }
-      set hier [lrange $hier 0 end-1]
-    }
-
-    return 1
 
   }
 
