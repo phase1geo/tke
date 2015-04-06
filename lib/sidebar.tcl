@@ -12,6 +12,40 @@ namespace eval sidebar {
   array set images  {}
   
   ######################################################################
+  # Returns a list containing information that the sidebar will save to the
+  # session file.
+  proc save_session {} {
+    
+    variable widgets
+    
+    set dirs [list]
+    foreach child [$widgets(tl) childkeys root] {
+      lappend dirs [list name [$widgets(tl) cellcget $child,name -text]]
+    }
+    
+    return [list directories $dirs]
+    
+  }
+  
+  ######################################################################
+  # Loads the given information into the sidebar from the session file.
+  proc load_session {data} {
+    
+    # Get the session information
+    array set content {
+      directories {}
+    }
+    array set content $data
+    
+    # Load the session
+    foreach dir_list $content(directories) {
+      array set dir $dir_list
+      add_directory $dir(name)
+    }
+    
+  }
+  
+  ######################################################################
   # Creates the sidebar UI and initializes it.
   proc create {w} {
     
