@@ -160,6 +160,7 @@ namespace eval bindings {
       |         "bar"
       \}        "braceright"
       ~         "asciitilde"
+      Space     "space"
     }
     
     # If we are on a Mac, convert the Cmd string to the Command string
@@ -182,10 +183,14 @@ namespace eval bindings {
       } elseif {$value eq "Shift"} {
         set shifted 1
       } else {
-        if {$shifted} {
-          append sequence [string toupper $value]
+        if {[string length $value] == 1} {
+          if {$shifted} {
+            append sequence [string toupper $value]
+          } else {
+            append sequence [string tolower $value]
+          }
         } else {
-          append sequence [string tolower $value]
+          append sequence $value
         }
       }
     }

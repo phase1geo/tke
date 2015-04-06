@@ -747,6 +747,7 @@ namespace eval gui {
     # Gather content to save
     set content(Geometry)                [wm geometry .]
     set content(CurrentWorkingDirectory) [pwd]
+    set content(Sidebar)                 [sidebar::save_session]
 
     # Gather the current tab info
     foreach file $files {
@@ -801,6 +802,15 @@ namespace eval gui {
 
     # Read the state file
     if {![catch { tkedat::read $session_file } rc]} {
+      
+      array set content [list \
+        Geometry                [wm geometry .] \
+        CurrentWorkingDirectory [pwd] \
+        Sidebar                 [list] \
+        FileInfo                [list] \
+        CurrentTabs             [list] \
+        LastOpened              "" \
+      ]
 
       array set content $rc
 
@@ -810,14 +820,16 @@ namespace eval gui {
       # If we are supposed to load the last saved session, do it now
       if {[preferences::get General/LoadLastSession] && \
           ([llength $files] == 1) && \
-          ([lindex $files 0 $files_index(fname)] eq "") && \
-          [info exists content(FileInfo)]} {
+          ([lindex $files 0 $files_index(fname)] eq "")} {
 
+          # Load the session information into the sidebar
+        sidebar::load_session $content(Sidebar)
+        
         # Set the current working directory to the saved value
         if {[file exists $content(CurrentWorkingDirectory)]} {
           cd $content(CurrentWorkingDirectory)
         }
-
+        
         # Put the list in order
         set ordered     [lrepeat 2 [lrepeat [llength $content(FileInfo)] ""]]
         set second_pane 0
@@ -828,12 +840,12 @@ namespace eval gui {
           set second_pane [expr $finfo(pane) == 2]
           incr i
         }
-
+ 
         # If the second pane is necessary, create it now
         if {[llength $content(CurrentTabs)] == 2} {
           add_notebook
         }
-
+ 
         # Add the tabs (in order) to each of the panes and set the current tab in each pane
         for {set pane 0} {$pane < [llength $content(CurrentTabs)]} {incr pane} {
           set pw_current $pane
@@ -860,11 +872,11 @@ namespace eval gui {
             set_current_tab [lindex [[lindex [$widgets(nb_pw) panes] $pane].tbf.tb tabs] [lindex $content(CurrentTabs) $pane]]
           }
         }
-
+          
+        # Restore the "last_opened" list
+        set last_opened $content(LastOpened)
+        
       }
-
-      # Restore the "last_opened" list
-      set last_opened $content(LastOpened)
 
     }
 
