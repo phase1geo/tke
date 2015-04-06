@@ -1,51 +1,29 @@
-changeset:   937:a54ecef0fb98
-tag:         devel-1.5.17
+changeset:   954:6d1c8f408083
+tag:         devel-1.5.19
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Apr 02 07:58:24 2015 -0500
+date:        Sat Apr 04 23:20:14 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.5.17 release
+ChangeLog for devel-1.5.19 release
 
 
-changeset:   938:47456903c1bb
+changeset:   955:abd291355fea
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Apr 02 07:58:29 2015 -0500
+date:        Sat Apr 04 23:20:19 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.5.17 for changeset a54ecef0fb98
+Added tag devel-1.5.19 for changeset 6d1c8f408083
 
 
-changeset:   939:77ef0bb50d16
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu Apr 02 10:09:33 2015 -0500
-files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
-description:
-* Fixing bug with loading XML (need to make sure that version 3.2 is required).
-
-
-changeset:   940:aa6a71b277d0
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Apr 02 20:50:43 2015 -0500
-files:       lib/api.tcl lib/sidebar.tcl lib/version.tcl
-description:
-* Adding return value in open_file API.
-* Changing default width of sidebar to be a bit wider.
-
-
-changeset:   941:ee42a4e357f5
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Apr 02 20:54:57 2015 -0500
-files:       lib/diff.tcl lib/version.tcl
-description:
-* Removing debug output.
-
-
-changeset:   942:aa65e5f4d92c
+changeset:   956:5af0d9ddf5ae
 tag:         tip
+parent:      948:62f8d7975380
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Apr 02 21:08:52 2015 -0500
-files:       lib/diff.tcl lib/gui.tcl lib/version.tcl
+date:        Mon Apr 06 00:21:40 2015 -0500
+files:       lib/diff.tcl lib/ptwidgets1.2/library/wmarkentry.tcl lib/version.tcl
 description:
-* First attempt to keep difference view from updating if file changes.
+* Adding support for FocusIn in the wmarkentry widget.
+* Fixing delete command in wmarkentry.
+* Enhancing file difference and custom difference functionality.
 
 
