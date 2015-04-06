@@ -1,47 +1,26 @@
-changeset:   954:6d1c8f408083
-tag:         devel-1.5.19
+changeset:   959:e1599a623a14
+tag:         devel-1.5.20
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Apr 04 23:20:14 2015 -0500
-files:       ChangeLog lib/version.tcl specl_version.tcl
-description:
-ChangeLog for devel-1.5.19 release
-
-
-changeset:   955:abd291355fea
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Apr 04 23:20:19 2015 -0500
-files:       .hgtags
-description:
-Added tag devel-1.5.19 for changeset 6d1c8f408083
-
-
-changeset:   956:5af0d9ddf5ae
-parent:      948:62f8d7975380
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Apr 06 00:21:40 2015 -0500
-files:       lib/diff.tcl lib/ptwidgets1.2/library/wmarkentry.tcl lib/version.tcl
-description:
-* Adding support for FocusIn in the wmarkentry widget.
-* Fixing delete command in wmarkentry.
-* Enhancing file difference and custom difference functionality.
-
-
-changeset:   957:e3b37d839da7
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Apr 06 00:22:42 2015 -0500
+date:        Mon Apr 06 00:31:33 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
 ChangeLog for devel-1.5.20 release
 
 
-changeset:   958:221e723eb0d1
-tag:         tip
-parent:      957:e3b37d839da7
-parent:      955:abd291355fea
+changeset:   960:f4c5738f81be
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Apr 06 00:29:27 2015 -0500
-files:       ChangeLog lib/version.tcl specl_version.tcl
+date:        Mon Apr 06 00:31:38 2015 -0500
+files:       .hgtags
 description:
-* Merging.
+Added tag devel-1.5.20 for changeset e1599a623a14
+
+
+changeset:   961:b32dba375c01
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Apr 06 08:48:50 2015 -0500
+files:       lib/diff.tcl lib/version.tcl
+description:
+* Changing behavior of difference control bar to adjust v1 down when v2 is adjusted at or below v1.
 
 
