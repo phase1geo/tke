@@ -48,7 +48,10 @@ namespace eval diff {
 
     # Create the file frame
     ttk::frame             $win.ff
-    wmarkentry::wmarkentry $win.ff.e -watermark "Enter starting file"
+    wmarkentry::wmarkentry $win.ff.e -watermark "Enter starting file" \
+      -validate key -validatecommand "[ns diff]::handle_file_entry $win %P"
+      
+    bind [$win.ff.e entrytag] <Return> "puts HERE; [ns diff]::show $txt"
 
     grid rowconfigure    $win.ff 0 -weight 1
     grid columnconfigure $win.ff 0 -weight 1
@@ -57,6 +60,8 @@ namespace eval diff {
     # Create the command frame
     ttk::frame $win.cf
     wmarkentry::wmarkentry $win.cf.e -watermark "Enter difference command"
+
+    bind [$win.cf.e entrytag] <Return> "[ns diff]::show $txt"
 
     grid rowconfigure    $win.cf 0 -weight 1
     grid columnconfigure $win.cf 0 -weight 1
@@ -96,6 +101,20 @@ namespace eval diff {
       set first 0
     }
 
+  }
+  
+  ######################################################################
+  # Handles any changes to the file entry window.
+  proc handle_file_entry {win value} {
+    
+    if {[file exists $value] && [file isfile $value]} {
+      grid $win.show
+    } else {
+      grid remove $win.show
+    }
+    
+    return 1
+    
   }
   
   ######################################################################
@@ -189,10 +208,8 @@ namespace eval diff {
       command { ${cvs_ns}::show_diff $txt [$data($txt,win).cf.e get] }
     }
 
-    # Hide the update button if we are in cvs mode
-    if {[${cvs_ns}::type] eq "cvs"} {
-      grid remove $data($txt,win).show
-    }
+    # Hide the update button
+    grid remove $data($txt,win).show
     
     # Reset the current working directory
     cd $cwd
@@ -299,14 +316,17 @@ namespace eval diff {
         grid columnconfigure $win 4 -weight 0
         grid remove $win.vf
         grid remove $win.cf
+        grid remove $win.show
 
         # Display the file frame and update button
         grid columnconfigure $win 3 -weight 1
         grid $win.ff
-        grid $win.show
+        
+        # Clear the filename
+        $win.ff.e delete 0 end
 
         # Set keyboard focus to the entry widget
-        focus $win.ff.e.e
+        focus $win.ff.e
 
       }
       

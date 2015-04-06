@@ -142,6 +142,9 @@ namespace eval wmarkentry {
     # Setup bindings
     if {[llength [bind WMarkEntryEntry]] == 0} {
     
+      bind $w <FocusIn>       {
+        wmarkentry::focus_in %W
+      }
       bind WMarkEntryEntry <Left>          {
   	if {[wmarkentry::handle_text_movement [winfo parent %W]]} {
           break
@@ -231,6 +234,23 @@ namespace eval wmarkentry {
 
     return $w
 
+  }
+  
+  ###########################################################################
+  # Handles a FocusIn event on the widget.
+  proc focus_in {w} {
+    
+    variable options
+    variable state
+    
+    # If the widget is disabled, don't continue
+    if {$state($w) eq "disabled"} {
+      return
+    }
+    
+    # Set the focus to the text field
+    focus $w.e
+    
   }
   
   ###########################################################################
@@ -567,7 +587,7 @@ namespace eval wmarkentry {
     set retval [eval "$w.e delete $args"]
     
     # Handle any needed state changes
-    handle_state $w 1
+    handle_state $w 0
   
   }
   
