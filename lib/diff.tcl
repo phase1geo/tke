@@ -299,7 +299,7 @@ namespace eval diff {
 
           # Configure the spinboxes buttons
           $win.vf.v1 configure -values [lreverse [lrange $data($txt,versions) 1 end]]
-          $win.vf.v2 configure -values [lindex $data($txt,versions) 0]
+          $win.vf.v2 configure -values [lreverse [lrange $data($txt,versions) 0 end-1]]
 
         } else {
 
@@ -387,9 +387,6 @@ namespace eval diff {
       set data($txt,v2) [lindex $data($txt,versions) [expr $index - 1]]
     }
 
-    # Update V2 available versions
-    $data($txt,win).vf.v2 configure -values [lreverse [lrange $data($txt,versions) 0 [expr $index - 1]]]
-    
     # Make sure the update button is visible
     grid $data($txt,win).show
 
@@ -400,6 +397,14 @@ namespace eval diff {
   proc handle_v2 {txt} {
 
     variable data
+    
+    # Find the current V2 version in the versions list
+    set index [lsearch $data($txt,versions) $data($txt,v2)]
+    
+    # Adjust version 1, if necessary
+    if {$data($txt,v1) >= $data($txt,v2)} {
+      set data($txt,v1) [lindex $data($txt,versions) [expr $index + 1]]
+    }
 
     # Make sure the update button is visible
     grid $data($txt,win).show
