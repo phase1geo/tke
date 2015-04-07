@@ -83,7 +83,7 @@ namespace eval menus {
     add_tools $mb.tools
 
     # Add the plugins menu
-    $mb add cascade -label [msgcat::mc "Plugins"] -menu [menu $mb.plugins -tearoff false]
+    $mb add cascade -label [msgcat::mc "Plugins"] -menu [menu $mb.plugins -tearoff false -postcommand "menus::plugins_posting $mb.plugins"]
     add_plugins $mb.plugins
 
     # Add the help menu
@@ -147,9 +147,9 @@ namespace eval menus {
 
     $mb add cascade -label [msgcat::mc "Open Favorite"] -menu [menu $mb.favorites -tearoff false -postcommand "menus::file_favorites_posting $mb.favorites"]
     launcher::register [msgcat::mc "Menu: Open Favorite"] favorites::launcher
-    
+
     $mb add separator
-    
+
     $mb add command -label [msgcat::mc "Show File Difference"] -underline 3 -command "menus::show_file_diff"
     launcher::register [msgcat::mc "Menu: Show file difference"] menus::show_file_diff
 
@@ -197,7 +197,7 @@ namespace eval menus {
 
     # Get the current file index (if one exists)
     if {[set file_index [gui::current_file]] != -1} {
-      
+
       # Get the current filename
       set fname [gui::get_file_info $file_index fname]
 
@@ -206,7 +206,7 @@ namespace eval menus {
 
       # Get the current file lock status
       set file_lock [expr $readonly || [gui::get_file_info $file_index lock]]
-      
+
       # Get the current difference mode
       set diff_mode [gui::get_file_info $file_index diff]
 
@@ -232,7 +232,7 @@ namespace eval menus {
       } elseif {![catch "$mb index Unfavorite" index]} {
         $mb entryconfigure $index -label [msgcat::mc "Favorite"] -state normal -command "menus::favorite_command $mb"
       }
-      
+
       # Make sure that the file-specific items are enabled
       $mb entryconfigure [msgcat::mc "Show File Difference"] -state [expr {($fname ne "") ? "normal" : "disabled"}]
       $mb entryconfigure [msgcat::mc "Save"]                 -state normal
@@ -344,15 +344,15 @@ namespace eval menus {
   ######################################################################
   # Displays the difference of the current file.
   proc show_file_diff {} {
-    
+
     # Get the current filename
     set fname [gui::current_filename]
-    
+
     # Display the current file as a difference
     gui::add_file end $fname -diff 1
-    
+
   }
-  
+
   ######################################################################
   # Saves the current tab file.
   proc save_command {} {
@@ -485,7 +485,7 @@ namespace eval menus {
     if {[::tke_development]} {
       stop_profiling_command .menubar.tools 0
     }
-    
+
     # Stop the logger
     logger::on_exit
 
@@ -596,7 +596,7 @@ namespace eval menus {
     # Create snippets menu
     $mb.snipPopup add command -label [msgcat::mc "Edit User"] -command "snippets::add_new_snippet {} user"
     launcher::register [msgcat::mc "Menu Edit user snippets"] "snippets::add_new_snippet {} user"
-    
+
     $mb.snipPopup add command -label [msgcat::mc "Edit Language"] -command "snippets::add_new_snippet {} lang"
     launcher::register [msgcat::mc "Menu: Edit language snippets"] "snippets::add_new_snippet {} lang"
 
@@ -717,7 +717,7 @@ namespace eval menus {
   proc edit_snippets_posting {mb} {
 
     $mb entryconfigure [msgcat::mc "Edit User"] -state normal
-    
+
     if {[gui::current_txt {}] eq ""} {
       $mb entryconfigure [msgcat::mc "Edit Language"] -state disabled
     } else {
@@ -760,13 +760,13 @@ namespace eval menus {
     launcher::register [msgcat::mc "Menu: Jump forward"] "gui::jump_to_cursor {} 1 1"
 
     $mb add separator
-    
+
     $mb add command -label [msgcat::mc "Next difference"] -underline 0 -command "gui::jump_to_difference {} 1 1"
     launcher::register [msgcat::mc "Menu: Goto next difference"] "gui::jump_to_difference {} 1 1"
-    
+
     $mb add command -label [msgcat::mc "Previous difference"] -underline 0 -command "gui::jump_to_difference {} -1 1"
     launcher::register [msgcat::mc "Menu: Goto previous difference"] "gui::jump_to_difference {} -1 1"
-    
+
     $mb add separator
 
     $mb add cascade -label [msgcat::mc "Markers"] -underline 5 -menu [menu $mb.markerPopup -tearoff 0 -postcommand "menus::find_marker_posting $mb.markerPopup"]
@@ -780,7 +780,7 @@ namespace eval menus {
 
     $mb add command -label [msgcat::mc "Find in files"] -underline 5 -command "menus::find_in_files"
     launcher::register [msgcat::mc "Menu: Find in files"] "menus::find_in_files"
-    
+
     # Add marker popup launchers
     launcher::register [msgcat::mc "Menu: Create marker at current line"] "gui::create_current_marker {}"
     launcher::register [msgcat::mc "Menu: Remove marker from current line"] "gui::remove_current_marker {}"
@@ -844,11 +844,11 @@ namespace eval menus {
     $mb delete 0 end
 
     # Populate the markerPopup menu
-    $mb add command -label [msgcat::mc "Create at current line"] -underline 0 -command "gui::create_current_marker {}" 
+    $mb add command -label [msgcat::mc "Create at current line"] -underline 0 -command "gui::create_current_marker {}"
     $mb add separator
-    $mb add command -label [msgcat::mc "Remove from current line"] -underline 0 -command "gui::remove_current_marker {}" 
+    $mb add command -label [msgcat::mc "Remove from current line"] -underline 0 -command "gui::remove_current_marker {}"
     $mb add command -label [msgcat::mc "Remove all markers"] -underline 7 -command "gui::remove_all_markers {}"
-    
+
     if {[llength [set markers [gui::get_marker_list {}]]] > 0} {
       $mb add separator
     }
@@ -1162,7 +1162,7 @@ namespace eval menus {
     }
     launcher::register [msgcat::mc "Menu: Show Tab Bar"] "menus::show_tab_view $mb"
     launcher::register [msgcat::mc "Menu: Hide Tab Bar"] "menus::hide_tab_view $mb"
-    
+
     if {[preferences::get View/ShowStatusBar]} {
       $mb add command -label [msgcat::mc "Hide Status Bar"] -underline 12 -command "menus::hide_status_view $mb"
     } else {
@@ -1172,7 +1172,7 @@ namespace eval menus {
     launcher::register [msgcat::mc "Menu: Hide status bar"] "menus::hide_status_view $mb"
 
     $mb add separator
-    
+
     if {[preferences::get View/ShowLineNumbers]} {
       $mb add command -label [msgcat::mc "Hide Line Numbers"] -underline 5 -command "menus::hide_line_numbers $mb"
     } else {
@@ -1224,7 +1224,7 @@ namespace eval menus {
   proc view_posting {mb} {
 
     variable show_split_pane
-    
+
     if {([gui::tabs_in_pane] < 2) && ([gui::panes] < 2)} {
       $mb entryconfigure [msgcat::mc "Tabs"] -state disabled
     } else {
@@ -1342,7 +1342,7 @@ namespace eval menus {
     }
 
   }
-  
+
 
   ######################################################################
   # Shows the status bar.
@@ -1365,27 +1365,27 @@ namespace eval menus {
     }
 
   }
-  
+
   ######################################################################
   # Shows the line numbers in the editor.
   proc show_line_numbers {mb} {
-    
+
     # Convert the menu command into the hide line numbers command
     if {![catch {$mb entryconfigure [msgcat::mc "Show Line Numbers"] -label [msgcat::mc "Hide Line Numbers"] -command "menus::hide_line_numbers $mb"}]} {
       gui::set_line_number_view {} 1
     }
-    
+
   }
-   
+
   ######################################################################
   # Hides the line numbers in the editor.
   proc hide_line_numbers {mb} {
-    
+
     # Convert the menu command into the hide line numbers command
     if {![catch {$mb entryconfigure [msgcat::mc "Hide Line Numbers"] -label [msgcat::mc "Show Line Numbers"] -command "menus::show_line_numbers $mb"}]} {
       gui::set_line_number_view {} 0
     }
-    
+
   }
 
   ######################################################################
@@ -1425,12 +1425,12 @@ namespace eval menus {
 
       $mb add command -label [msgcat::mc "Show Last Profiling Report"] -underline 5 -command "menus::show_last_profiling_report"
       launcher::register [msgcat::mc "Menu: Show last profiling report"] "menus::show_last_profiling_report"
-      
+
       $mb add separator
-      
+
       $mb add command -label [msgcat::mc "Show Diagnostic Logfile"] -underline 5 -command "logger::view_log"
       launcher::register [msgcat::mc "Menu: Show Diagnostic Logfile"] "logger::view_log"
-      
+
       $mb add separator
 
       $mb add command -label [msgcat::mc "Restart tke"] -underline 0 -command "menus::restart_command"
@@ -1674,6 +1674,14 @@ namespace eval menus {
   }
 
   ######################################################################
+  # Called when the plugins menu needs to be posted.
+  proc plugins_posting {mb} {
+
+    # TBD
+
+  }
+
+  ######################################################################
   # Adds the help menu commands.
   proc add_help {mb} {
 
@@ -1692,10 +1700,10 @@ namespace eval menus {
     }
 
     $mb add separator
-    
+
     $mb add command -label [msgcat::mc "Send Feedback"] -underline 5 -command "menus::help_feedback_command"
     launcher::register [msgcat::mc "Menu: Send Feedback"] "menus::help_feedback_command"
-    
+
     $mb add command -label [msgcat::mc "Send Bug Report"] -underline 5 -command "menus::help_submit_report"
     launcher::register [msgcat::mc "Menu: Send Bug Report"] "menus::help_submit_report"
 
@@ -1706,16 +1714,16 @@ namespace eval menus {
     }
 
   }
-  
+
   ######################################################################
   # Displays the User Guide.  First, attempts to show the epub version.
   # If that fails, display the pdf version.
   proc help_user_guide {} {
-    
+
     if {[utils::open_file_externally "[file join $::tke_dir doc UserGuide.epub]"]} {
       utils::open_file_externally "[file join $::tke_dir doc UserGuide.pdf]"
     }
-    
+
   }
 
   ######################################################################
@@ -1725,21 +1733,21 @@ namespace eval menus {
     utils::open_file_externally "mailto:phase1geo@gmail.com?subject=Feedback for TKE" 1
 
   }
-  
+
   ######################################################################
   # Generates an e-mail compose window to provide a bug report.  Appends
   # the diagnostic logfile information to the bug report.
   proc help_submit_report {} {
-    
+
     # Retrieve the contents of the diagnostic logfile
     set log_content [logger::get_log]
-    
+
     # Create the message body
     set body "Add bug description:\n\n\n\n\n$log_content"
-    
+
     # Send an e-mail with the logfile contents
-    utils::open_file_externally "mailto:phase1geo@gmail.com?subject=Bug Report for TKE&body=$body" 
-    
+    utils::open_file_externally "mailto:phase1geo@gmail.com?subject=Bug Report for TKE&body=$body"
+
   }
 
   ######################################################################

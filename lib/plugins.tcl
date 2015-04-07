@@ -241,7 +241,7 @@ namespace eval plugins {
 
     # Save the status
     set registry($index,status) $status
-    
+
     # Get the name of the plugin
     set name $registry($index,name)
 
@@ -249,7 +249,7 @@ namespace eval plugins {
     if {[::tke_development]} {
       puts $::errorInfo
     }
-    
+
     # Log the error information in the diagnostic logfile
     logger::log $::errorInfo
 
@@ -678,7 +678,7 @@ namespace eval plugins {
   proc post_cascade_menu {index do mnu} {
 
     variable registry
-    
+
     # Recursively delete all of the items in the given menu
     menu_delete_cascade $mnu
 
@@ -747,6 +747,7 @@ namespace eval plugins {
 
     variable registry
     variable menus
+    variable menu_vars
 
     foreach entry [find_registry_entries $action] {
       lassign $entry index type hier do state
@@ -761,6 +762,10 @@ namespace eval plugins {
           $mnu entryconfigure [lindex $hier_list end] -state normal
         } else {
           $mnu entryconfigure [lindex $hier_list end] -state disabled
+        }
+        switch [lindex $type 0] {
+          checkbutton { set menu_vars([lindex $type 1]) [$registry($index,interp) eval set [lindex $type 1]] }
+          radiobutton { set menu_vars([lindex $type 1]) [$registry($index,interp) eval set [lindex $type 1]] }
         }
       }
     }
@@ -998,7 +1003,7 @@ namespace eval plugins {
 
     variable registry
     variable bound_tags
-    
+
     handle_event "on_close" $file_index
 
     # Delete the list of bound tags
@@ -1010,7 +1015,7 @@ namespace eval plugins {
         set bound_tags($bt) [lreplace $bound_tags($bt) $findex $findex]
       }
     }
-    
+
   }
 
   ######################################################################

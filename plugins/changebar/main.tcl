@@ -21,7 +21,7 @@ namespace eval changebar {
 
     # Create the gutter
     $txt gutter create changebar added {-symbol "+" -fg green} changed {-symbol "|" -fg yellow}
-    
+
   }
 
   # Adds the gutter
@@ -42,8 +42,11 @@ namespace eval changebar {
 
     variable data
 
+    # Get the associated text widget
+    set txt [api::file::get_info $file_index txt]
+
     # Get the current text
-    unset data([current_txt],enabled)
+    unset data($txt,enabled)
 
   }
 
@@ -147,7 +150,7 @@ namespace eval changebar {
       if {![info exists data($txt,enabled)]} {
         set data($txt,enabled) 0
       }
-      set data(enabled) $data([current_txt],enabled)
+      set data(enabled) $data($txt,enabled)
       return 1
     } else {
       return 0
@@ -163,13 +166,13 @@ namespace eval changebar {
 
     # Clear the changebar symbols for the current text widget
     $txt gutter clear changebar 1 [lindex [split [$txt index end] .] 0]
-    
+
   }
 
   proc handle_state_clear {} {
 
     variable data
-    
+
     set txt [current_txt]
 
     if {[info exists data($txt,enabled)]} {
@@ -184,30 +187,30 @@ namespace eval changebar {
 
     set txt   [current_txt]
     set lines [lsort -integer [concat [$txt gutter get changebar changed] [$txt gutter get changebar added]]]
-    
+
     if {[llength $lines] > 0} {
-      
+
       set index [$txt index @0,[winfo height $txt]]
-       
+
       foreach line $lines {
         if {[$txt compare $line.0 > $index]} {
           $txt see $line.0
           return
         }
       }
-       
+
       api::show_info "Starting at the beginning of the file"
-      
+
       $txt see [lindex $lines 0].0
-      
+
     }
-    
+
   }
 
   proc handle_state_goto_next {} {
 
     variable data
-    
+
     set txt [current_txt]
 
     if {[info exists data($txt,enabled)]} {
@@ -220,33 +223,33 @@ namespace eval changebar {
 
   proc do_goto_prev {} {
 
-    
+
     set txt   [current_txt]
     set lines [lsort -integer [concat [$txt gutter get changebar changed] [$txt gutter get changebar added]]]
-    
+
     if {[llength $lines] > 0} {
-      
+
       set index [$txt index @0,0]
-       
+
       foreach line [lreverse $lines] {
         if {[$txt compare $line.0 < $index]} {
           $txt see $line.0
           return 1
         }
       }
-       
+
       api::show_info "Starting at the end of the file"
-      
+
       $txt see [lindex $lines end-1].0
-      
+
     }
-    
+
   }
 
   proc handle_state_goto_prev {} {
 
     variable data
-    
+
     set txt [current_txt]
 
     if {[info exists data($txt,enabled)]} {
@@ -256,21 +259,21 @@ namespace eval changebar {
     }
 
   }
-  
+
   proc do_store {index} {
-    
+
     variable data
-    
+
     api::plugin::save_variable $index "data" [array get data]
-    
+
   }
-  
+
   proc do_restore {index} {
-    
+
     variable data
-    
+
     array set data [api::plugin::load_variable $index "data"]
-    
+
   }
 
 }
