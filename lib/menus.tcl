@@ -1689,14 +1689,9 @@ namespace eval menus {
     launcher::register [msgcat::mc "Menu: View User Guide"] "menus::help_user_guide"
 
     if {![string match *Win* $::tcl_platform(os)]} {
-      if {[preferences::get General/UpdateReleaseType] eq "devel"} {
-        set check_cmd "specl::check_for_update 0 [expr $specl::RTYPE_STABLE | $specl::RTYPE_DEVEL] {} menus::exit_cleanup"
-      } else {
-        set check_cmd "specl::check_for_update 0 $specl::RTYPE_STABLE {} menus::exit_cleanup"
-      }
       $mb add separator
-      $mb add command -label [msgcat::mc "Check for Update"] -underline 0 -command $check_cmd
-      launcher::register [msgcat::mc "Menu: Check for Update"] $check_cmd
+      $mb add command -label [msgcat::mc "Check for Update"] -underline 0 -command "menus::check_for_update"
+      launcher::register [msgcat::mc "Menu: Check for Update"] "menus::check_for_update"
     }
 
     $mb add separator
@@ -1724,6 +1719,18 @@ namespace eval menus {
       utils::open_file_externally "[file join $::tke_dir doc UserGuide.pdf]"
     }
 
+  }
+  
+  ######################################################################
+  # Checks for an application update.
+  proc check_for_update {} {
+    
+    if {[preferences::get General/UpdateReleaseType] eq "devel"} {
+      specl::check_for_update 0 [expr $specl::RTYPE_STABLE | $specl::RTYPE_DEVEL] {} menus::exit_cleanup
+    } else {
+      specl::check_for_update 0 $specl::RTYPE_STABLE {} menus::exit_cleanup
+    }
+      
   }
 
   ######################################################################

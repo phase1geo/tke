@@ -14,6 +14,8 @@ if {[string match $::tcl_platform(os) *Win*]} {
 
 package provide specl 1.2
 
+catch { source [file join [specl::DIR] common bgproc.tcl] }
+
 namespace eval specl {
 
   # Values to pass to the second argument of the check_for_update procedure.
@@ -113,21 +115,31 @@ namespace eval specl {
     # puts "[info nameofexecutable] $frame(file) -- update $update_args"
 
     # Execute this script
-    if {[catch { exec -ignorestderr [info nameofexecutable] $frame(file) -- update {*}$update_args } rc options]} {
-      return
+    bgproc::system updater [list [info nameofexecutable] $frame(file) -name "TKE Updater" -- update {*}$update_args] \
+      -callback [list specl::complete_update $script_name $specl_version_dir $cl_args]
+    
+  }
+  
+  
+  ######################################################################
+  # Called on completion of the update operation.
+  proc complete_update {script_name specl_version_dir cl_args err data} {
+    
+    if {!$err} {
+
+      # If there is a cleanup script to execute, do it now
+      if {$cleanup_script ne ""} {
+        eval $cleanup_script
+      }
+
+      # Relaunch the application
+      cd $specl_version_dir
+      exec [info nameofexecutable] $script_name {*}$cl_args &
+
+      # Exit this application
+      exit
+      
     }
-
-    # If there is a cleanup script to execute, do it now
-    if {$cleanup_script ne ""} {
-      eval $cleanup_script
-    }
-
-    # Relaunch the application
-    cd $specl_version_dir
-    exec [info nameofexecutable] $script_name {*}$cl_args &
-
-    # Exit this application
-    exit
 
   }
 
@@ -1116,7 +1128,7 @@ namespace eval specl::updater {
 
     variable widgets
     variable data
-
+    
     array set content $content_list
 
     # Initialize information
@@ -1237,6 +1249,7 @@ namespace eval specl::updater {
     wm title      .utdwin ""
     wm resizable  .utdwin 0 0
     wm attributes .utdwin -topmost 1
+    wm 
 
     # Set the window geometry
     set wx [expr ([winfo screenwidth  .utdwin] / 2) - ($data(ui,utd_win_width)  / 2)]
