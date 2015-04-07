@@ -1,26 +1,27 @@
-changeset:   959:e1599a623a14
-tag:         devel-1.5.20
+changeset:   962:5a056a53a011
+tag:         devel-1.5.21
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Apr 06 00:31:33 2015 -0500
+date:        Mon Apr 06 08:49:25 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.5.20 release
+ChangeLog for devel-1.5.21 release
 
 
-changeset:   960:f4c5738f81be
+changeset:   963:77baff4bff0e
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Apr 06 00:31:38 2015 -0500
+date:        Mon Apr 06 08:49:30 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.5.20 for changeset e1599a623a14
+Added tag devel-1.5.21 for changeset 5a056a53a011
 
 
-changeset:   961:b32dba375c01
+changeset:   964:d99fdf471880
 tag:         tip
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Apr 06 08:48:50 2015 -0500
-files:       lib/diff.tcl lib/version.tcl
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Apr 06 22:48:19 2015 -0500
+files:       lib/menus.tcl lib/plugins.tcl lib/version.tcl plugins/changebar/main.tcl
 description:
-* Changing behavior of difference control bar to adjust v1 down when v2 is adjusted at or below v1.
+* Fixing issue with on_close event handling in changebar plugin.
+* Fixing checkbutton and radiobutton state value.
 
 
