@@ -1,27 +1,26 @@
-changeset:   962:5a056a53a011
-tag:         devel-1.5.21
+changeset:   965:82dcc4d62101
+tag:         devel-1.5.22
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Apr 06 08:49:25 2015 -0500
+date:        Mon Apr 06 23:37:55 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.5.21 release
+ChangeLog for devel-1.5.22 release
 
 
-changeset:   963:77baff4bff0e
+changeset:   966:173ac0f65dca
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Apr 06 08:49:30 2015 -0500
+date:        Mon Apr 06 23:37:59 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.5.21 for changeset 5a056a53a011
+Added tag devel-1.5.22 for changeset 82dcc4d62101
 
 
-changeset:   964:d99fdf471880
+changeset:   967:b9e6e1a3d029
 tag:         tip
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Mon Apr 06 22:48:19 2015 -0500
-files:       lib/menus.tcl lib/plugins.tcl lib/version.tcl plugins/changebar/main.tcl
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Apr 07 01:44:20 2015 -0500
+files:       lib/menus.tcl lib/ptwidgets1.2/common/bgproc.tcl lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
 description:
-* Fixing issue with on_close event handling in changebar plugin.
-* Fixing checkbutton and radiobutton state value.
+* Enhancing specl library.
 
 
