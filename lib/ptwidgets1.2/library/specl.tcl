@@ -823,6 +823,8 @@ namespace eval specl::updater {
 
     if {$data(cl_test_type) eq ""} {
       wm transient .passwin .updwin
+    } else {
+      wm protocol .passwin WM_DELETE_WINDOW {}
     }
 
     # Set the window geometry
@@ -1151,6 +1153,7 @@ namespace eval specl::updater {
       wm minsize .updwin $data(ui,upd_win_width) $data(ui,upd_win_height)
     }
     wm attributes .updwin -topmost 1
+    wm protocol   .updwin WM_DELETE_WINDOW {}
 
     # Set the window geometry
     set wx [expr ([winfo screenwidth  .updwin] / 2) - ($data(ui,upd_win_width)  / 2)]
@@ -1256,7 +1259,7 @@ namespace eval specl::updater {
     wm title      .utdwin ""
     wm resizable  .utdwin 0 0
     wm attributes .utdwin -topmost 1
-    wm 
+    wm protocol   .utdwin WM_DELETE_WINDOW {}
 
     # Set the window geometry
     set wx [expr ([winfo screenwidth  .utdwin] / 2) - ($data(ui,utd_win_width)  / 2)]
