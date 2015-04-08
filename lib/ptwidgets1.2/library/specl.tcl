@@ -117,6 +117,11 @@ namespace eval specl {
     # Execute this script
     bgproc::system updater [list [info nameofexecutable] $frame(file) -name "TKE Updater" -- update {*}$update_args] \
       -callback [list specl::complete_update $script_name $specl_version_dir $cl_args]
+      
+    # If this is on startup, wait for the update to complete before moving on
+    if {$on_start} {
+      bgproc::synchronize updater
+    }
     
   }
   
@@ -124,6 +129,8 @@ namespace eval specl {
   ######################################################################
   # Called on completion of the update operation.
   proc complete_update {script_name specl_version_dir cl_args err data} {
+    
+    puts "In complete_update, script_name: $script_name, specl_version_dir: $specl_version_dir, cl_args: $cl_args, err: $err, data: $data"
     
     if {!$err} {
 
