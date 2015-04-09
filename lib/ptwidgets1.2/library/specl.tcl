@@ -28,6 +28,8 @@ namespace eval specl {
   variable rss_url      ""
   variable download_url ""
   variable oses         {linux mac win}
+  
+  variable test_mode    ""
 
   ######################################################################
   # Returns the full, normalized pathname of the specl_version.tcl file.
@@ -87,12 +89,31 @@ namespace eval specl {
     return $install_dir
 
   }
+  
+  ######################################################################
+  # Sets the current test mode to one of the following values:
+  # - uptodate      = Starts up-to-date window (no networking involved)
+  # - update        = Starts update window (no networking involved)
+  # - password      = Starts password window for testing
+  # - full-uptodate = Runs updater normally but forces the up-to-date window to be used
+  # - full-update   = Runs updater normally but forces the update window to be used
+  proc set_test_mode {mode} {
+    
+    variable test_mode
+    
+    if {[lsearch [list "" "uptodate" "update" "password" "full-uptodate" "full-update"] $mode] != -1} {
+      set test_mode $mode
+    }
+    
+  }
 
   ######################################################################
   # Checks for updates.  Throws an exception if there was a problem
   # checking for the update.
   proc check_for_update {on_start release_type {cl_args {}} {cleanup_script {}}} {
 
+    variable test_mode
+    
     # Allow the UI to update before we proceed
     update
 
@@ -108,6 +129,9 @@ namespace eval specl {
     # Create update arguments
     if {$on_start} {
       set update_args "-q"
+    }
+    if {$test_mode ne ""} {
+      lappend update_args -test $test_mode
     }
     lappend update_args -t [ttk::style theme use] -r $release_type
     lappend update_args $specl_version_dir
@@ -125,14 +149,15 @@ namespace eval specl {
     
   }
   
-  
   ######################################################################
   # Called on completion of the update operation.
   proc complete_update {script_name specl_version_dir cl_args err data} {
     
-    puts "In complete_update, script_name: $script_name, specl_version_dir: $specl_version_dir, cl_args: $cl_args, err: $err, data: $data"
+    variable test_mode
     
-    if {!$err} {
+    # puts "In complete_update, script_name: $script_name, specl_version_dir: $specl_version_dir, cl_args: $cl_args, err: $err, data: $data"
+    
+    if {!$err && ($test_mode eq "")} {
 
       # If there is a cleanup script to execute, do it now
       if {$cleanup_script ne ""} {
@@ -472,7 +497,9 @@ namespace eval specl::updater {
         -test   {
           set cl_args [lassign $cl_args data(cl_test_type)]
           if {($data(cl_test_type) ne "update") && \
+              ($data(cl_test_type) ne "full-update") && \
               ($data(cl_test_type) ne "uptodate") && \
+              ($data(cl_test_type) ne "full-uptodate") && \
               ($data(cl_test_type) ne "password")} {
             return 0
           }
@@ -745,8 +772,8 @@ namespace eval specl::updater {
     # Disable the Download button
     .updwin.bf1.download configure -state disabled
 
-    # If we are in test mode, return now
-    if {$data(cl_test_type) ne ""} {
+    # If we are in non-full test mode, return now
+    if {[string range $data(cl_test_type) 0 4] ne "full-"} {
       return
     }
 
@@ -1016,72 +1043,81 @@ namespace eval specl::updater {
   proc do_install {content_list} {
 
     variable data
-
+    
     array set content $content_list
-
+  
     # Get the name of the downloaded directory
     set app      "$specl::appname-$content(version)"
     set download [file join / tmp $app]
+  
+    if {$data(cl_test_type) eq ""} {
 
-    # Get the name of the installation directory
-    set install_dir [specl::get_install_dir $data(specl_version_dir)]
-
-    # Move the original directory to the trash
-    switch -glob $::tcl_platform(os) {
-      Darwin {
-        set trash_path [specl::helpers::get_unique_path [file join ~ .Trash] [file tail $install_dir]]
-        set download   [file join / tmp [file tail $install_dir]]
-      }
-      Linux* {
-        if {![catch { exec -ignorestderr which gvfs-trash 2>@1 }]} {
-          if {[catch { exec -ignorestderr gvfs-trash $install_dir }]} {
-            set password [get_password $content_list]
-            if {[catch { run_admin_cmd "gvfs-trash $install_dir" $password }]} {
-              set trash_path [linux_manual_trash $install_dir]
-            }
-          }
-        } else {
-          set trash_path [linux_manual_trash $install_dir]
+      # Get the name of the installation directory
+      set install_dir [specl::get_install_dir $data(specl_version_dir)]
+  
+      # Move the original directory to the trash
+      switch -glob $::tcl_platform(os) {
+        Darwin {
+          set trash_path [specl::helpers::get_unique_path [file join ~ .Trash] [file tail $install_dir]]
+          set download   [file join / tmp [file tail $install_dir]]
         }
-      }
-      *Win*  {
-        if {[file exists [file join C: RECYCLER]]} {
-          set trash_path [file join C: RECYCLER]
-        } elseif {[file exists [file join C: {$Recycle.bin}]]} {
-          set trash_path [file join C: {$Recycle.bin}]
-        } else {
+        Linux* {
+          if {![catch { exec -ignorestderr which gvfs-trash 2>@1 }]} {
+            if {[catch { exec -ignorestderr gvfs-trash $install_dir }]} {
+              set password [get_password $content_list]
+              if {[catch { run_admin_cmd "gvfs-trash $install_dir" $password }]} {
+                set trash_path [linux_manual_trash $install_dir]
+              }
+            }
+          } else {
+            set trash_path [linux_manual_trash $install_dir]
+          }
+        }
+        *Win*  {
+          if {[file exists [file join C: RECYCLER]]} {
+            set trash_path [file join C: RECYCLER]
+          } elseif {[file exists [file join C: {$Recycle.bin}]]} {
+            set trash_path [file join C: {$Recycle.bin}]
+          } else {
+            tk_messageBox -parent . -default ok -type ok -message [msgcat::mc "Unable to install"] -detail $rc
+            exit 1
+          }
+        }
+        default {
           tk_messageBox -parent . -default ok -type ok -message [msgcat::mc "Unable to install"] -detail $rc
           exit 1
         }
       }
-      default {
-        tk_messageBox -parent . -default ok -type ok -message [msgcat::mc "Unable to install"] -detail $rc
-        exit 1
+  
+      # Move the installation directory to the trash
+      if {[info exists trash_path]} {
+        if {[catch { file rename -force $install_dir $trash_path } rc]} {
+          if {![info exists password]} {
+            set password [get_password $content_list]
+          }
+          if {[catch { run_admin_cmd "mv $install_dir $trash_path" $password } rc]} {
+            tk_messageBox -parent . -default ok -type ok -message [msgcat::mc "Unable to install"] -detail $rc
+            exit 1
+          }
+        }
       }
-    }
-
-    # Move the installation directory to the trash
-    if {[info exists trash_path]} {
-      if {[catch { file rename -force $install_dir $trash_path } rc]} {
+  
+      # Perform the directory move
+      if {[catch { file rename -force $download $install_dir } rc]} {
         if {![info exists password]} {
           set password [get_password $content_list]
         }
-        if {[catch { run_admin_cmd "mv $install_dir $trash_path" $password } rc]} {
+        if {[catch { run_admin_cmd "mv $download $install_dir" $password } rc]} {
           tk_messageBox -parent . -default ok -type ok -message [msgcat::mc "Unable to install"] -detail $rc
           exit 1
         }
       }
-    }
-
-    # Perform the directory move
-    if {[catch { file rename -force $download $install_dir } rc]} {
-      if {![info exists password]} {
-        set password [get_password $content_list]
-      }
-      if {[catch { run_admin_cmd "mv $download $install_dir" $password } rc]} {
-        tk_messageBox -parent . -default ok -type ok -message [msgcat::mc "Unable to install"] -detail $rc
-        exit 1
-      }
+      
+    } else {
+      
+      # Just delete the download directory since we are just testing
+      file delete -force $download
+      
     }
 
     exit
@@ -1256,7 +1292,6 @@ namespace eval specl::updater {
     wm title      .utdwin ""
     wm resizable  .utdwin 0 0
     wm attributes .utdwin -topmost 1
-    wm 
 
     # Set the window geometry
     set wx [expr ([winfo screenwidth  .utdwin] / 2) - ($data(ui,utd_win_width)  / 2)]
@@ -1430,7 +1465,12 @@ namespace eval specl::updater {
     }
 
     # If we are running in live mode, fetch the appcast data and parse it
-    if {$data(cl_test_type) eq ""} {
+    if {($data(cl_test_type) eq "") || ([string range $data(cl_test_type) 0 4] eq "full-")} {
+      
+      # If we are testing the update path, set the release to force one to occur (last release)
+      if {$data(cl_test_type) eq "full-update"} {
+        incr specl::release -1
+      }
 
       # Get the URL
       if {[catch "fetch_url" rc]} {
@@ -1452,6 +1492,11 @@ namespace eval specl::updater {
 
       # Get the content
       array set content $rc
+      
+      # If we are testing the up-to-date path, set the release to force it to occur (current release)
+      if {$data(cl_test_type) eq "full-uptodate"} {
+        set specl::release $content(release)
+      }
 
       # If the content does not require an update, tell the user
       if {$content(release) <= $specl::release} {
