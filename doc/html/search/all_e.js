@@ -1,6 +1,7 @@
 var searchData=
 [
   ['okay',['okay',['../namespacelauncher.html#adcd835e1d5e54f09794b5cb88a7d0f46',1,'launcher']]],
+  ['on_5fexit',['on_exit',['../namespacelogger.html#a760fb91d0e27e0db38c58113d867f947',1,'logger']]],
   ['open_5fcommand',['open_command',['../namespaceinterpreter.html#acb870a205c701ebec5c516e5eb8bd745',1,'interpreter::open_command()'],['../namespacemenus.html#aacb15eb761f66fa6bf63d5194071ffdd',1,'menus::open_command()']]],
   ['open_5fdir_5fcommand',['open_dir_command',['../namespacemenus.html#ad75ee4cfb5b6d0c17891b53899f0da95',1,'menus']]],
   ['open_5ffile',['open_file',['../namespaceapi_1_1utils.html#a70b0c8e15296575c5e2dcdd7b7f68bd1',1,'api::utils::open_file()'],['../namespacesidebar.html#a8f0c217b4c62b28334de1304b0bfd41a',1,'sidebar::open_file()']]],

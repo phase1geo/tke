@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['vim',['vim',['../namespacevim.html',1,'']]]
+  ['utils',['utils',['../namespaceutils.html',1,'']]]
 ];

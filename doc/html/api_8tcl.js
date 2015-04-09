@@ -11,6 +11,7 @@ var api_8tcl =
     [ "get_user_input", "api_8tcl.html#a9939e105adae875c1a666e9ce2edec65", null ],
     [ "invoke_menu", "api_8tcl.html#abaf2e15fda1463ac72225e2d8af92455", null ],
     [ "load_variable", "api_8tcl.html#a7a4564142ddc0d3f912be67c0b59ff59", null ],
+    [ "log", "api_8tcl.html#a7175b052a0145793dd4e16f3a09f875a", null ],
     [ "normalize_filename", "api_8tcl.html#a721c189f06523428e19bf94ceb165a7b", null ],
     [ "open_file", "api_8tcl.html#a70b0c8e15296575c5e2dcdd7b7f68bd1", null ],
     [ "register_launcher", "api_8tcl.html#a7d613353a404aa8653113b181c28ecfb", null ],

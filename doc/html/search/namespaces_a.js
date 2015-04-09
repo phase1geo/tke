@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['sidebar',['sidebar',['../namespacesidebar.html',1,'']]],
-  ['snippets',['snippets',['../namespacesnippets.html',1,'']]],
-  ['syntax',['syntax',['../namespacesyntax.html',1,'']]]
+  ['plugins',['plugins',['../namespaceplugins.html',1,'']]],
+  ['preferences',['preferences',['../namespacepreferences.html',1,'']]]
 ];
