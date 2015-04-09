@@ -1211,7 +1211,9 @@ namespace eval gui {
         $txt mark set insert 1.0
 
         # Perform an insertion adjust, if necessary
-        vim::adjust_insert $txt.t
+        if {[vim::in_vim_mode $txt.t]} {
+          vim::adjust_insert $txt.t
+        }
 
         file stat $fname stat
         lset file_info $files_index(mtime) $stat(mtime)
@@ -1357,7 +1359,9 @@ namespace eval gui {
 
       # Set the insertion mark to the first position
       $txt mark set insert $insert_index
-      vim::adjust_insert $txt.t
+      if {[vim::in_vim_mode $txt.t]} {
+        vim::adjust_insert $txt.t
+      }
 
       # Make the insertion mark visible
       $txt see $insert_index
@@ -1855,7 +1859,9 @@ namespace eval gui {
     }
 
     # Perform an insertion adjust, if necessary
-    vim::adjust_insert $txt.t
+    if {[vim::in_vim_mode $txt.t]} {
+      vim::adjust_insert $txt.t
+    }
 
     # Add the selection (if it exists)
     if {[llength $select] > 0} {
@@ -2403,7 +2409,9 @@ namespace eval gui {
     set_info_message "$num_indices substitutions done"
 
     # Make sure that the insertion cursor is valid
-    [ns vim]::adjust_insert $txt
+    if {[[ns vim]::in_vim_mode $txt]} {
+      [ns vim]::adjust_insert $txt
+    }
 
   }
 

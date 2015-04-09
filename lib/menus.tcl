@@ -942,7 +942,9 @@ namespace eval menus {
     }
 
     # Adjust the Vim insert cursor
-    vim::adjust_insert $txt.t
+    if {[vim::in_vim_mode $txt.t]} {
+      vim::adjust_insert $txt.t
+    }
 
     # Make sure that the beginning of the inserted text is in view
     $txt see end
