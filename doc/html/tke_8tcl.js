@@ -1,6 +1,5 @@
 var tke_8tcl =
 [
-    [ "bgerror", "tke_8tcl.html#acc1f7a774950e7272ed4b833362017d9", null ],
     [ "handle_signal", "tke_8tcl.html#a8557ba360aa742348d96c5dbbb6465c8", null ],
     [ "OpenDocument", "tke_8tcl.html#a531a41432a6dd5b23544e76788ccb3a2", null ],
     [ "parse_cmdline", "tke_8tcl.html#ac840dfd4eb03191da4521508da70850a", null ],

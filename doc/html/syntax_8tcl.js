@@ -32,7 +32,7 @@ var syntax_8tcl =
     [ "populate_syntax_menu", "syntax_8tcl.html#af408da5734cf315789f531e852a6b0dc", null ],
     [ "populate_theme_menu", "syntax_8tcl.html#a79829638a14e8a018aae2a8cd77b6381", null ],
     [ "set_current_language", "syntax_8tcl.html#a06a1e060fe15796baae8554c00b20b3d", null ],
-    [ "set_language", "syntax_8tcl.html#ae8d37c274231bf23a13e43208148f685", null ],
+    [ "set_language", "syntax_8tcl.html#abea2d8dcd3b7c0a0cdf8d98de6c14b07", null ],
     [ "set_language_section", "syntax_8tcl.html#aa6a8144f08b069c7b897467e354ebd90", null ],
     [ "set_theme", "syntax_8tcl.html#a3b2c699a0eba3a8153b9f43a369e5668", null ],
     [ "update_menubutton", "syntax_8tcl.html#a8560e146cd7c367b42a6bb39e693f40e", null ]

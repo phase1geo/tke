@@ -11,6 +11,7 @@ var vim_8tcl =
     [ "do_pre_paste", "vim_8tcl.html#a4c6f4b8112f9d3c2b1cfc88e3cf3a826", null ],
     [ "edit_mode", "vim_8tcl.html#a39f06137a840272e13d95bedf2757a4c", null ],
     [ "get_cleaned_content", "vim_8tcl.html#aca8a4968a2bc4e1b502b7285d8aa4fa9", null ],
+    [ "get_edit_mode", "vim_8tcl.html#a181d45afdfd1f3ffc9a1f1252ac1e90a", null ],
     [ "get_linenum", "vim_8tcl.html#a2459afec74f77589f5adaa76600106e3", null ],
     [ "get_mode", "vim_8tcl.html#aa2966942f1ca4527eb69bfb269eaf54f", null ],
     [ "get_word", "vim_8tcl.html#a8bbe06181e15c1a2fbb995eefd8af241", null ],

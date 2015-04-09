@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['markers',['markers',['../namespacemarkers.html',1,'']]],
-  ['menus',['menus',['../namespacemenus.html',1,'']]],
-  ['multicursor',['multicursor',['../namespacemulticursor.html',1,'']]]
+  ['lang',['lang',['../namespacelang.html',1,'']]],
+  ['launcher',['launcher',['../namespacelauncher.html',1,'']]],
+  ['logger',['logger',['../namespacelogger.html',1,'']]]
 ];

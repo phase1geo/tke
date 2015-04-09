@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="tke_logo_128.gif"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">TKE
-   &#160;<span id="projectnumber">1.5</span>
+   &#160;<span id="projectnumber">1.6</span>
    </div>
    <div id="projectbrief">Advanced editor written in Tcl/Tk</div>
   </td>
@@ -180,6 +180,9 @@ $(document).ready(function(){initNavTree('namespacemembers_func_g.html','');});
 <li>get_current_snippets()
 : <a class="el" href="namespacesnippets.html#a22e23ef1c8be9eebf46d786b30e0909f">snippets</a>
 </li>
+<li>get_cvs_names()
+: <a class="el" href="namespacediff.html#ae6d8a6e667722236ae66ca3815df29fb">diff</a>
+</li>
 <li>get_default_background()
 : <a class="el" href="namespaceutils.html#a175f71dd5ac8ba87e6f926e628b318c8">utils</a>
 </li>
@@ -189,11 +192,20 @@ $(document).ready(function(){initNavTree('namespacemembers_func_g.html','');});
 <li>get_default_language()
 : <a class="el" href="namespacesyntax.html#aaccedd1dc6422835635e679b3af2f1fa">syntax</a>
 </li>
+<li>get_edit_mode()
+: <a class="el" href="namespacevim.html#a181d45afdfd1f3ffc9a1f1252ac1e90a">vim</a>
+</li>
 <li>get_extensions()
 : <a class="el" href="namespacesyntax.html#a0d3bece34cc25f2f212d947203d14019">syntax</a>
 </li>
 <li>get_fif_files()
 : <a class="el" href="namespacesidebar.html#a7c237c8f4a2bf9457cf9f4dcbf462d4a">sidebar</a>
+</li>
+<li>get_file_cmd()
+: <a class="el" href="namespacediff_1_1cvs.html#ac145b50006ec7f4976fdacff9f4bd7eb">diff::cvs</a>
+, <a class="el" href="namespacediff_1_1mercurial.html#a2b8c99d3d9cdfc652b5ca5fa6a1f7d44">diff::mercurial</a>
+, <a class="el" href="namespacediff_1_1perforce.html#a8ec653dbc644a9e63deb8fc850ec40d5">diff::perforce</a>
+, <a class="el" href="namespacediff_1_1subversion.html#a9ac9a7de8ad74b1c8225f24c3480b0b0">diff::subversion</a>
 </li>
 <li>get_file_index()
 : <a class="el" href="namespacegui.html#a29e5fd2b9eb2f94d3ceec2ec8cc0346c">gui</a>
@@ -203,6 +215,9 @@ $(document).ready(function(){initNavTree('namespacemembers_func_g.html','');});
 </li>
 <li>get_filetypes()
 : <a class="el" href="namespacesyntax.html#ac1fab4570b385b273782845f8e8e74e8">syntax</a>
+</li>
+<li>get_header()
+: <a class="el" href="namespacelogger.html#a5229489be0b1f7d0e69520c5dddc2a8a">logger</a>
 </li>
 <li>get_history()
 : <a class="el" href="namespacecliphist.html#a176d9148d825d3b634fc69584109b860">cliphist</a>
@@ -239,6 +254,9 @@ $(document).ready(function(){initNavTree('namespacemembers_func_g.html','');});
 </li>
 <li>get_list()
 : <a class="el" href="namespacefavorites.html#a4bf9c6bc256c24e194596b1e78d96c20">favorites</a>
+</li>
+<li>get_log()
+: <a class="el" href="namespacelogger.html#a669f13b758010765a6380227cbf197bc">logger</a>
 </li>
 <li>get_markdown_bold()
 : <a class="el" href="namespacesyntax.html#a9cf3d1e6a75e711b028dc83c8312d95a">syntax</a>
@@ -310,8 +328,17 @@ $(document).ready(function(){initNavTree('namespacemembers_func_g.html','');});
 <li>get_theme()
 : <a class="el" href="namespacethemer.html#a0a655106b5b5d200f001f9562cabe5d3">themer</a>
 </li>
+<li>get_txt2_from_tab()
+: <a class="el" href="namespacegui.html#aa33621d4b85f804a6b2cb8256925dc2e">gui</a>
+</li>
+<li>get_txt_from_tab()
+: <a class="el" href="namespacegui.html#a30e9607b451183a81a3de1cdea34abc2">gui</a>
+</li>
 <li>get_user_input()
 : <a class="el" href="namespaceapi.html#a9939e105adae875c1a666e9ce2edec65">api</a>
+</li>
+<li>get_versions()
+: <a class="el" href="namespacediff.html#a6ba62f6906310cb43cff688db8106342">diff</a>
 </li>
 <li>get_win()
 : <a class="el" href="namespacethemer.html#ad38ff5828905999db9b0015f07e0a402">themer</a>
@@ -340,7 +367,7 @@ $(document).ready(function(){initNavTree('namespacemembers_func_g.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Mon Feb 23 2015 20:31:34 for TKE by
+    <li class="footer">Generated on Thu Apr 9 2015 07:45:57 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>

@@ -5,6 +5,7 @@ var multicursor_8tcl =
     [ "add_cursors", "multicursor_8tcl.html#ae6f5eba300ca6257a9768f437803216d", null ],
     [ "adjust", "multicursor_8tcl.html#a31098df60b3d4a025d9ce6782243803f", null ],
     [ "align", "multicursor_8tcl.html#a1c1227854634b5ae8b93b319c86ef6ed", null ],
+    [ "copy", "multicursor_8tcl.html#a50084f489358ada48b7a376d46eccd34", null ],
     [ "delete", "multicursor_8tcl.html#a58fa409bcc6ef0701eb9b0ffac1efc65", null ],
     [ "disable", "multicursor_8tcl.html#acc0adc06a722ffd0809ec7eea2cdec78", null ],
     [ "enabled", "multicursor_8tcl.html#ac17e4a5deda190ec6a83a14ad533fac6", null ],
@@ -21,5 +22,7 @@ var multicursor_8tcl =
     [ "handle_shift_alt_motion", "multicursor_8tcl.html#a0aaf3a5004aa1e8a1e9132b1b71da3ce", null ],
     [ "insert", "multicursor_8tcl.html#aaa497ae25291be8126a882176ebe65fb", null ],
     [ "insert_numbers", "multicursor_8tcl.html#adace8af0bd1658773f5a91a4c63fd3a0", null ],
+    [ "paste", "multicursor_8tcl.html#a2691b79260978ceb9243fc7d96411d47", null ],
+    [ "replace", "multicursor_8tcl.html#a6793c34d7afe523fb17a83695d1493e8", null ],
     [ "search_and_add_cursors", "multicursor_8tcl.html#a5fe60d5d3c6e31e2650908765746c207", null ]
 ];

@@ -25,7 +25,7 @@ var searchData=
   ['add_5ffrom_5fclipboard',['add_from_clipboard',['../namespacecliphist.html#ac344c656fd7a37aeb948b4d6d69fec3e',1,'cliphist']]],
   ['add_5fhelp',['add_help',['../namespacemenus.html#a6c6820ac4445acf3de5f15a3fe26c3e9',1,'menus']]],
   ['add_5fnew_5ffile',['add_new_file',['../namespacegui.html#ad078db7812672f2bce3e00d4382d064a',1,'gui']]],
-  ['add_5fnew_5fsnippet',['add_new_snippet',['../namespacesnippets.html#ab4a986d2d61eeef89c152ae6240c2219',1,'snippets']]],
+  ['add_5fnew_5fsnippet',['add_new_snippet',['../namespacesnippets.html#a54d9c580c77a16a7447357a9cbc3f31c',1,'snippets']]],
   ['add_5fnotebook',['add_notebook',['../namespacegui.html#a6342f4fe2ad2749423056333261a84ea',1,'gui']]],
   ['add_5fparen',['add_paren',['../namespacecompleter.html#aecc874a8dd9333398e72c11be4e49f61',1,'completer']]],
   ['add_5fparent_5fdirectory',['add_parent_directory',['../namespacesidebar.html#a45b55b578be5bce95266afd328607936',1,'sidebar']]],
@@ -51,5 +51,6 @@ var searchData=
   ['adjust_5fselect',['adjust_select',['../namespacevim.html#a544d599aae711df165dca4ce7860cded',1,'vim']]],
   ['align',['align',['../namespacemulticursor.html#a1c1227854634b5ae8b93b319c86ef6ed',1,'multicursor::align()'],['../namespacetexttools.html#a94e78597f9fd24046a4041e57de1210d',1,'texttools::align()']]],
   ['apply_5fall_5fbindings',['apply_all_bindings',['../namespacebindings.html#a376f0da53fe0d132a0fbedfe2ba0c2d7',1,'bindings']]],
-  ['auto_5fadjust_5fcolor',['auto_adjust_color',['../namespaceutils.html#a4a0dc30dd50862ab232707ae3cae22ef',1,'utils']]]
+  ['auto_5fadjust_5fcolor',['auto_adjust_color',['../namespaceutils.html#adfc92fa14a2507314f09aef8c3524586',1,'utils']]],
+  ['auto_5fmix_5fcolors',['auto_mix_colors',['../namespaceutils.html#a8c3b435ab26715ea69ffd020a52be918',1,'utils']]]
 ];
