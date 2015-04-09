@@ -283,7 +283,7 @@ namespace eval bgproc {
     if {![lindex $resources($resource) 0 2] || ([llength $resources($resource)] == 1)} {
 
       # Start the executable in the background
-      if {[catch "open {| $cmd} r" cmd_id]} {
+      if {[catch "open {| $cmd 2>@1} r" cmd_id]} {
         if {$callback ne ""} {
           if {[catch "$callback 1 [list $cmd_id]" rc]} {
             bgerror $rc
