@@ -1,18 +1,26 @@
-changeset:   982:0efbdff3ac18
-tag:         devel-1.5.26
+changeset:   984:5a38086202b8
+tag:         devel-1.5.27
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Apr 09 08:09:52 2015 -0500
+date:        Thu Apr 09 08:15:57 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.5.26 release
+ChangeLog for devel-1.5.27 release
 
 
-changeset:   983:2ea65b868c34
-tag:         tip
+changeset:   985:940f57b00c1b
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Apr 09 08:10:00 2015 -0500
+date:        Thu Apr 09 08:16:05 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.5.26 for changeset 0efbdff3ac18
+Added tag devel-1.5.27 for changeset 5a38086202b8
+
+
+changeset:   986:c61d0ef331cc
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Apr 09 08:21:04 2015 -0500
+files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+description:
+* Another specl fix.
 
 
