@@ -773,7 +773,7 @@ namespace eval specl::updater {
     .updwin.bf1.download configure -state disabled
 
     # If we are in non-full test mode, return now
-    if {[string range $data(cl_test_type) 0 4] ne "full-"} {
+    if {($data(cl_test_type) ne "") && [string range $data(cl_test_type) 0 4] ne "full-"} {
       return
     }
 
