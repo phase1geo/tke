@@ -1,26 +1,62 @@
-changeset:   965:82dcc4d62101
-tag:         devel-1.5.22
+changeset:   968:bc8ca9e8d82c
+tag:         devel-1.5.23
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Apr 06 23:37:55 2015 -0500
+date:        Tue Apr 07 01:46:36 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.5.22 release
+ChangeLog for devel-1.5.23 release
 
 
-changeset:   966:173ac0f65dca
+changeset:   969:df081603a9f9
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Apr 06 23:37:59 2015 -0500
+date:        Tue Apr 07 01:46:40 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.5.22 for changeset 82dcc4d62101
+Added tag devel-1.5.23 for changeset bc8ca9e8d82c
 
 
-changeset:   967:b9e6e1a3d029
+changeset:   970:dd2fb08ca9c7
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Apr 07 21:55:55 2015 -0500
+files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+description:
+* Updates to specl.
+
+
+changeset:   971:536f7e98fcff
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Apr 09 01:02:11 2015 -0500
+files:       lib/bgproc.tcl lib/ptwidgets1.2/common/bgproc.tcl lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+description:
+* Fixing specl issues introduced in the last submission.
+
+
+changeset:   972:c3aa40a4e47d
+parent:      970:dd2fb08ca9c7
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Apr 07 22:25:45 2015 -0500
+files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+description:
+* Fixing syntax error in specl.
+* Disabling close button in specl windows.
+
+
+changeset:   973:3c7452adbe8f
+parent:      971:536f7e98fcff
+parent:      972:c3aa40a4e47d
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Apr 09 01:10:02 2015 -0500
+files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+description:
+* Merging.
+
+
+changeset:   974:c32bea15ae46
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Apr 07 01:44:20 2015 -0500
-files:       lib/menus.tcl lib/ptwidgets1.2/common/bgproc.tcl lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+date:        Thu Apr 09 01:19:12 2015 -0500
+files:       lib/gui.tcl lib/menus.tcl lib/version.tcl
 description:
-* Enhancing specl library.
+* Fixing issues when Vim mode is disabled on application start.
 
 
