@@ -356,9 +356,11 @@ catch {
         set point 0
       } elseif {$increment_major} {
         incr major
-        set minor
+        set minor 0
+        set point 0
       } else {
         incr minor
+        set point 0
       }
       set next_tag "stable-$major.$minor"
     } else {
