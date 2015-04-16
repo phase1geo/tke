@@ -8,6 +8,8 @@
 
 namespace eval sidebar {
   
+  variable last_opened {}
+  
   array set widgets {}
   array set images  {}
   
@@ -17,13 +19,14 @@ namespace eval sidebar {
   proc save_session {} {
     
     variable widgets
+    variable last_opened
     
     set dirs [list]
     foreach child [$widgets(tl) childkeys root] {
       lappend dirs [list name [$widgets(tl) cellcget $child,name -text]]
     }
     
-    return [list directories $dirs]
+    return [list directories $dirs last_opened $last_opened]
     
   }
   
@@ -31,17 +34,60 @@ namespace eval sidebar {
   # Loads the given information into the sidebar from the session file.
   proc load_session {data} {
     
+    variable widgets
+    variable last_opened
+    
     # Get the session information
     array set content {
       directories {}
+      last_opened {}
     }
     array set content $data
     
-    # Load the session
-    foreach dir_list $content(directories) {
-      array set dir $dir_list
-      add_directory $dir(name)
+    # Add the last_opened directories to the saved list
+    set last_opened $content(last_opened)
+    
+    # Add the session directories (if the sidebar is currently empty)
+    if {[llength [$widgets(tl) childkeys root]] == 0} {
+      foreach dir_list $content(directories) {
+        array set dir $dir_list
+        add_directory $dir(name)
+      }
     }
+    
+  }
+  
+  ######################################################################
+  # Adds the given directory to the list of most recently opened directories.
+  proc add_to_recently_opened {sdir} {
+ 
+    variable last_opened
+
+    if {[set index [lsearch $last_opened $sdir]] != -1} {
+      set last_opened [lreplace $last_opened $index $index]
+    }
+
+    set last_opened [lrange [list $sdir {*}$last_opened] 0 20]
+
+  }
+  
+  ######################################################################
+  # Returns the list of last opened directories.
+  proc get_last_opened {} {
+    
+    variable last_opened
+    
+    return $last_opened
+    
+  }
+  
+  ######################################################################
+  # Clears the last opened directory list.
+  proc clear_last_opened {} {
+    
+    variable last_opened
+    
+    set last_opened [list]
     
   }
   
@@ -418,7 +464,11 @@ namespace eval sidebar {
   proc add_directory {dir} {
     
     variable widgets
+    variable recently_added
     
+    # Add the directory to the list of most recently opened
+    add_to_recently_opened $dir
+      
     # Get the length of the directory
     set dirlen [string length $dir]
     

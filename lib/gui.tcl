@@ -817,14 +817,17 @@ namespace eval gui {
       # Put the state information into the rest of the GUI
       wm geometry . $content(Geometry)
 
+      # Restore the "last_opened" list
+      set last_opened $content(LastOpened)
+        
+      # Load the session information into the sidebar
+      sidebar::load_session $content(Sidebar)
+        
       # If we are supposed to load the last saved session, do it now
       if {[preferences::get General/LoadLastSession] && \
           ([llength $files] == 1) && \
           ([lindex $files 0 $files_index(fname)] eq "")} {
 
-          # Load the session information into the sidebar
-        sidebar::load_session $content(Sidebar)
-        
         # Set the current working directory to the saved value
         if {[file exists $content(CurrentWorkingDirectory)]} {
           cd $content(CurrentWorkingDirectory)
@@ -873,9 +876,6 @@ namespace eval gui {
           }
         }
           
-        # Restore the "last_opened" list
-        set last_opened $content(LastOpened)
-        
       }
 
     }

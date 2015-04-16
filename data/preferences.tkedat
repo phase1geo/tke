@@ -179,9 +179,9 @@
 
 {View/AllowTabScrolling}     {1}
 
-# Displays the specified number of most recently opened files.  This value can be
-# set to any value between 0 and 20, inclusive.  A value of zero will disable the
-# "Open Recent" menu item.
+# Displays the specified number of most recently opened directories and files each.
+# This value can be set to any value between 0 and 20, inclusive.  A value of zero
+# will disable the "Open Recent" menu item.
 
 {View/ShowRecentlyOpened}    {10}
 
