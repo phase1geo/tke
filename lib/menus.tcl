@@ -256,7 +256,7 @@ namespace eval menus {
     }
 
     # Configure the Open Recent menu
-    if {([preferences::get View/ShowRecentlyOpened] == 0) || ([llength [gui::get_last_opened]] == 0)} {
+    if {([preferences::get View/ShowRecentlyOpened] == 0) || (([llength [gui::get_last_opened]] == 0) && ([llength [sidebar::get_last_opened]] == 0))} {
       $mb entryconfigure [msgcat::mc "Open Recent"] -state disabled
     } else {
       $mb entryconfigure [msgcat::mc "Open Recent"] -state normal
@@ -278,13 +278,34 @@ namespace eval menus {
     # Clear the menu
     $mb delete 0 end
 
-    # Populate the menu with the filenames and a "Clear All" menu option
-    foreach fname [lrange [gui::get_last_opened] 0 [expr [preferences::get View/ShowRecentlyOpened] - 1]] {
-      $mb add command -label [file tail $fname] -command "puts \"Adding $fname\"; gui::add_file end $fname"
+    # Populate the menu with the directories
+    if {[llength [set sdirs [sidebar::get_last_opened]]] > 0} {
+      foreach sdir [lrange $sdirs 0 [expr [preferences::get View/ShowRecentlyOpened] - 1]] {
+        $mb add command -label $sdir -command [list sidebar::add_directory $sdir]
+      }
+      $mb add separator
     }
-    $mb add separator
-    $mb add command -label [msgcat::mc "Clear All"] -command "gui::clear_last_opened"
+    
+    # Populate the menu with the filenames
+    if {[llength [set fnames [gui::get_last_opened]]] > 0} {
+      foreach fname [lrange $fnames 0 [expr [preferences::get View/ShowRecentlyOpened] - 1]] {
+        $mb add command -label $fname -command [list gui::add_file end $fname]
+      }
+      $mb add separator
+    }
+    
+    # Add "Clear All" menu option
+    $mb add command -label [msgcat::mc "Clear All"] -command "menus::clear_last_opened"
 
+  }
+  
+  ######################################################################
+  # Clears the last opened files and directories.
+  proc clear_last_opened {} {
+    
+    sidebar::clear_last_opened
+    gui::clear_last_opened
+    
   }
 
   ######################################################################
@@ -1762,8 +1783,13 @@ namespace eval menus {
   ######################################################################
   # Displays the launcher with recently opened files.
   proc launcher {} {
+    
+    # Add recent directories to launcher
+    foreach sdir [lrange [sidebar::get_last_opened] 0 [expr [preferences::get View/ShowRecentlyOpened] - 1]] {
+      launcher::register_temp "`RECENT:$sdir" [list sidebar::add_directory $sdir] $sdir
+    }
 
-    # Add favorites to launcher
+    # Add recent files to launcher
     foreach fname [lrange [gui::get_last_opened] 0 [expr [preferences::get View/ShowRecentlyOpened] - 1]] {
       launcher::register_temp "`RECENT:$fname" [list gui::add_file end $fname] $fname
     }
@@ -1772,6 +1798,9 @@ namespace eval menus {
     launcher::launch "`RECENT:"
 
     # Unregister the recents
+    foreach sdir [lrange [sidebar::get_last_opened] 0 [expr [preferences::get View/ShowRecentlyOpened] - 1]] {
+      launcher::unregister "`RECENT:$sdir"
+    }
     foreach fname [lrange [gui::get_last_opened] 0 [expr [preferences::get View/ShowRecentlyOpened] - 1]] {
       launcher::unregister "`RECENT:$fname"
     }
