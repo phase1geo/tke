@@ -51,7 +51,7 @@ namespace eval diff {
     wmarkentry::wmarkentry $win.ff.e -watermark "Enter starting file" \
       -validate key -validatecommand "[ns diff]::handle_file_entry $win %P"
       
-    bind [$win.ff.e entrytag] <Return> "puts HERE; [ns diff]::show $txt"
+    bind [$win.ff.e entrytag] <Return> "[ns diff]::show $txt"
 
     grid rowconfigure    $win.ff 0 -weight 1
     grid columnconfigure $win.ff 0 -weight 1
@@ -224,6 +224,31 @@ namespace eval diff {
     variable data
     
     return [expr {$data($txt,v2) eq "Current"}]
+    
+  }
+
+  ######################################################################
+  # Sets the V1 widget to the version found for the current difference view line.
+  proc find_current_version {txt fname lnum} {
+    
+    variable data
+    
+    # Get the CVS namespace name
+    set cvs_ns [string tolower $data($txt,cvs)]
+    
+    if {[${cvs_ns}::type] eq "cvs"} {
+      
+      if {[set v1 [${cvs_ns}::find_version $fname $data($txt,v2) [lindex [split [$txt index sel.first] .] 0]]] ne ""} {
+        
+        # Set version 1 to the found value
+        set data($txt,v1) $v1
+        
+        # Display the update button
+        grid $data($txt,win).show
+        
+      }
+      
+    }
     
   }
 
@@ -478,7 +503,7 @@ namespace eval diff {
     map_configure $txt
 
   }
-
+  
   ######################################################################
   # CVS TOOL NAMESPACES
   ######################################################################
@@ -523,6 +548,23 @@ namespace eval diff {
         diff::parse_unified_diff $txt "p4 diff2 -u ${fname}#$v1 ${fname}#$v2"
       }
     }
+    
+    proc find_version {fname v2 lnum} {
+      if {$v2 eq "Current"} {
+        if {![catch { exec p4 annotate $fname } rc]} {
+          if {[regexp {^(\d+):} [lindex [split $rc \n] $lnum] -> version]} {
+            return $version
+          }
+        }
+      } else {
+        if {![catch { exec p4 annotate ${fname}#$v2 } rc]} {
+          if {[regexp {^(\d+):} [lindex [split $rc \n] $lnum] -> version]} {
+            return $version
+          }
+        }
+      }
+      return ""
+    }
 
   }
 
@@ -564,6 +606,23 @@ namespace eval diff {
       } else {
         diff::parse_unified_diff $txt "hg diff -r $v1 -r $v2 $fname"
       }
+    }
+    
+    proc find_version {fname v2 lnum} {
+      if {$v2 eq "Current"} {
+        if {![catch { exec hg annotate $fname } rc]} {
+          if {[regexp "^\\s*(\\d+):" [lindex [split $rc \n] [expr $lnum - 1]] -> version]} {
+            return $version
+          }
+        }
+      } else {
+        if {![catch { exec hg annotate -r $v2 $fname } rc]} {
+          if {[regexp "^\\s*(\\d+):" [lindex [split $rc \n] [expr $lnum - 1]] -> version]} {
+            return $version
+          }
+        }
+      }
+      return ""
     }
 
   }
@@ -608,6 +667,23 @@ namespace eval diff {
       }
     }
 
+    proc find_version {fname v2 lnum} {
+      if {$v2 eq "Current"} {
+        if {![catch { exec svn annotate $fname } rc]} {
+          if {[regexp {^\s*(\d+)} [lindex [split $rc \n] [expr $lnum - 1]] -> version]} {
+            return $version
+          }
+        }
+      } else {
+        if {![catch { exec svn annotate -r $v2 $fname } rc]} {
+          if {[regexp {^\s*(\d+)} [lindex [split $rc \n] [expr $lnum - 1]] -> version]} {
+            return $version
+          }
+        }
+      }
+      return ""
+    }
+    
   }
 
   ######################################################################
@@ -647,6 +723,22 @@ namespace eval diff {
         diff::parse_unified_diff $txt "cvs diff -u -r $v1 $fname"
       } else {
         diff::parse_unified_diff $txt "cvs diff -u -r $v1 -r $v2 $fname"
+      }
+    }
+    
+    proc find_version {fname v2 lnum} {
+      if {$v2 eq "Current"} {
+        if {![catch { exec cvs annotate $fname } rc]} {
+          if {[regexp {^(\S+)} [lindex [split $rc \n] [expr $lnum - 2]] -> version]} {
+            return $version
+          }
+        }
+      } else {
+        if {![catch { exec cvs annotate -r $v2 $fname } rc]} {
+          if {[regexp {^(\S+)} [lindex [split $rc \n] [expr $lnum - 2]] -> version]} {
+            return $version
+          }
+        }
       }
     }
 

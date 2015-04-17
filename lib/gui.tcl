@@ -4154,6 +4154,26 @@ namespace eval gui {
     return 0
     
   }
+  
+  ######################################################################
+  # Finds the last version that caused the currently selected line to be
+  # changed.  Returns true if this can be accomplished; otherwise, returns
+  # false.
+  proc show_difference_line_change {tid show} {
+    
+    # Get the current text widget
+    set txt [current_txt $tid]
+    
+    if {[$txt cget -diff_mode] && ![catch { $txt index sel.first } rc]} {
+      if {$show} {
+        diff::find_current_version $txt [current_filename] [lindex [split $rc .] 0]
+      }
+      return 1
+    }
+    
+    return 0
+    
+  }
 
 }
 
