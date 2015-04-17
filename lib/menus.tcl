@@ -787,6 +787,9 @@ namespace eval menus {
 
     $mb add command -label [msgcat::mc "Previous difference"] -underline 0 -command "gui::jump_to_difference {} -1 1"
     launcher::register [msgcat::mc "Menu: Goto previous difference"] "gui::jump_to_difference {} -1 1"
+    
+    $mb add command -label [msgcat::mc "Show selected line change"] -underline 19 -command "gui::show_difference_line_change {} 1"
+    launcher::register [msgcat::mc "Menu: Show selected line change"] "gui::show_difference_line_change {} 1"
 
     $mb add separator
 
@@ -825,6 +828,7 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Jump forward"]               -state disabled
       $mb entryconfigure [msgcat::mc "Next difference"]            -state disabled
       $mb entryconfigure [msgcat::mc "Previous difference"]        -state disabled
+      $mb entryconfigure [msgcat::mc "Show selected line change"]  -state disabled
       $mb entryconfigure [msgcat::mc "Markers"]                    -state disabled
       $mb entryconfigure [msgcat::mc "Find matching pair"]         -state disabled
     } else {
@@ -845,11 +849,16 @@ namespace eval menus {
         $mb entryconfigure [msgcat::mc "Jump forward"] -state disabled
       }
       if {[gui::jump_to_difference {} 1 0]} {
-        $mb entryconfigure [msgcat::mc "Next difference"]     -state normal
-        $mb entryconfigure [msgcat::mc "Previous difference"] -state normal
+        $mb entryconfigure [msgcat::mc "Next difference"]           -state normal
+        $mb entryconfigure [msgcat::mc "Previous difference"]       -state normal
       } else {
-        $mb entryconfigure [msgcat::mc "Next difference"]     -state disabled
-        $mb entryconfigure [msgcat::mc "Previous difference"] -state disabled
+        $mb entryconfigure [msgcat::mc "Next difference"]           -state disabled
+        $mb entryconfigure [msgcat::mc "Previous difference"]       -state disabled
+      }
+      if {[gui::show_difference_line_change {} 0]} {
+        $mb entryconfigure [msgcat::mc "Show selected line change"] -state normal
+      } else {
+        $mb entryconfigure [msgcat::mc "Show selected line change"] -state disabled
       }
       $mb entryconfigure [msgcat::mc "Find matching pair"] -state normal
       $mb entryconfigure [msgcat::mc "Markers"] -state normal
