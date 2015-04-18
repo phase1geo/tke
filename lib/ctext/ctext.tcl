@@ -1082,6 +1082,20 @@ proc ctext::instanceCmd {self cmd args} {
           $self._t tag configure diff:A:D:$fline -background $configAr(-diffaddbg)
           $self._t tag lower diff:A:D:$fline
         }
+        line {
+          if {[llength $args] != 2} {
+            return -code error "diff line takes two arguments:  txtline type"
+          }
+          if {[set type_index [lsearch [list add sub] [lindex $args 1]]] == -1} {
+            return -code error "diff line second argument must be add or sub"
+          }
+          set tag [lsearch -inline -glob [$self._t tag names [lindex $args 0].0] diff:[lindex [list B A] $type_index]:*]
+          lassign [split $tag :] dummy index type line
+          if {$type eq "S"} {
+            incr line [$self._t count -lines [lindex [$self._t tag ranges $tag] 0] [lindex $args 0].0]
+          }
+          return $line
+        }
         ranges {
           if {[llength $args] != 1} {
             return -code error "diff ranges takes one argument:  type"

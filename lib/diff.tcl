@@ -238,13 +238,16 @@ namespace eval diff {
     
     if {[${cvs_ns}::type] eq "cvs"} {
       
-      if {[set v1 [${cvs_ns}::find_version $fname $data($txt,v2) [lindex [split [$txt index sel.first] .] 0]]] ne ""} {
+      if {[set v2 [${cvs_ns}::find_version $fname $data($txt,v2) [$txt diff line [lindex [split [$txt index sel.first] .] 0] add]]] ne ""} {
         
-        # Set version 1 to the found value
-        set data($txt,v1) $v1
+        # Set version 2 to the found value
+        set data($txt,v2) $v2
         
-        # Display the update button
-        grid $data($txt,win).show
+        # Set version 1 to the previous value
+        set data($txt,v1) [lindex $data($txt,versions) [expr [lsearch $data($txt,versions) $v2] + 1]]
+        
+        # Show the file
+        show $txt
         
       }
       
