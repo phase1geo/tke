@@ -1,27 +1,55 @@
-changeset:   994:205e338f9235
-tag:         stable-1.6
+changeset:   997:cfc032d11505
+tag:         devel-1.6.1
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Apr 09 23:52:33 2015 -0500
+date:        Wed Apr 15 22:15:04 2015 -0500
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for devel-1.6.1 release
+
+
+changeset:   998:61e8815f59e5
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Apr 15 22:15:09 2015 -0500
 files:       .hgtags
 description:
-Removed tag stable-1.6
+Added tag devel-1.6.1 for changeset cfc032d11505
 
 
-changeset:   995:a12044e97f8a
+changeset:   999:eb70c23929d1
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Apr 09 23:52:42 2015 -0500
-files:       .hgtags
+date:        Thu Apr 16 23:13:04 2015 -0500
+files:       lib/diff.tcl lib/gui.tcl lib/menus.tcl lib/version.tcl
 description:
-Added tag stable-1.6 for changeset 205e338f9235
+* Working on support for the "Find last change at the current line" feature (work in progress).
 
 
-changeset:   996:5566046d85de
+changeset:   1000:eacd09799f18
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Apr 18 00:05:55 2015 -0500
+files:       lib/ctext/ctext.tcl lib/diff.tcl lib/version.tcl
+description:
+* Adding diff line command to ctext widget.
+* More work on line change feature.
+
+
+changeset:   1001:4dca37b72ba5
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Apr 19 21:23:20 2015 -0500
+files:       lib/gui.tcl lib/ptwidgets1.2/library/tabbar.tcl lib/version.tcl
+description:
+* Fixing tabbar image padding when image on the left-hand side.
+* Adding tabbar "scrolled" command which returns true/false to indicate scrollability attribute.
+* Making tabbar dropdown visible on application start if tabs require it.
+* Adding tab images to tabbar dropdown menu.
+
+
+changeset:   1002:d474272487f2
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Apr 15 22:14:02 2015 -0500
-files:       data/preferences.tkedat lib/gui.tcl lib/menus.tcl lib/sidebar.tcl lib/version.tcl
+date:        Sun Apr 19 23:34:43 2015 -0500
+files:       lib/launcher.tcl lib/version.tcl
 description:
-* Adding support for recent directory recall.
-* Fixing issue where recent files/directories would not be available in some instances.
+* Adding support for mouse-dragging the command launcher to a new position in the window.
+* Improving look of command launcher window.
 
 
