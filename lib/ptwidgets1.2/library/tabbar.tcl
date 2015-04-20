@@ -671,7 +671,7 @@ namespace eval tabbar {
     # Add the text and/or image
     if {($opts(-compound) ne "") && ($opts(-image) ne "")} {
       if {$opts(-compound) eq "left"} {
-        $w.c create image $x0 $y0 -anchor w -image $opts(-image) -tags [list i$id t$id]
+        $w.c create image [incr x0 $opts(-padx)] $y0 -anchor w -image $opts(-image) -tags [list i$id t$id]
         incr x0 [expr [image width $opts(-image)] + $opts(-padx)]
         lappend resizable [$w.c create text $x1 $y0 -anchor e -text $opts(-text) -fill $data($w,option,-foreground) -tags [list x$id t$id]]
       } else {
@@ -1160,6 +1160,7 @@ namespace eval tabbar {
       delete    { tabbar::delete $w {*}$opts }
       index     { return [tabbar::index $w {*}$opts] }
       insert    { return [tabbar::insert $w {*}$opts] }
+      scrolled  { return [tabbar::scrolled $w {*}$opts] }
       select    { tabbar::select $w {*}$opts }
       tab       { return [tabbar::tab $w {*}$opts] }
       tabs      { return [tabbar::tabs $w {*}$opts] }
@@ -1526,6 +1527,15 @@ namespace eval tabbar {
       
     }
     
+  }
+  
+  ######################################################################
+  # Returns true if the widget is currently in the scrolled state; otherwise,
+  # returns false.
+  proc scrolled {w args} {
+    
+    return [expr [lsearch [grid slaves $w] $w.sl] != -1]
+
   }
   
   ######################################################################
