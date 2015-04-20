@@ -2948,6 +2948,11 @@ namespace eval gui {
 
     bind $nb.tbf.tb <<TabbarScrollEnabled>>  "grid $nb.tbf.extra"
     bind $nb.tbf.tb <<TabbarScrollDisabled>> "grid remove $nb.tbf.extra"
+    bind $nb.tbf.tb <Map> {
+      if {[%W scrolled]} {
+        grid [winfo parent %W].extra
+      }
+    }
 
     # Handle tooltips
     bind [$nb.tbf.tb btag] <Motion> { gui::handle_notebook_motion [winfo parent %W] %x %y }
@@ -3999,7 +4004,7 @@ namespace eval gui {
         set shown [lassign $shown tmp]
       }
       if {[$tb tab $tab -state] ne "hidden"} {
-        $mnu add command -label [$tb tab $tab -text] -command "gui::set_current_tab $tab"
+        $mnu add command -compound left -image [$tb tab $tab -image] -label [$tb tab $tab -text] -command "gui::set_current_tab $tab"
       }
       incr i
     }
