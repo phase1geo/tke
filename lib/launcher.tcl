@@ -10,6 +10,7 @@ namespace eval launcher {
   variable launcher_file  [file join $::tke_home launcher.dat]
   variable match_commands {}
   
+  array set move_info     {}
   array set read_commands {}
   array set commands      {}
   array set widgets       {}
@@ -74,10 +75,12 @@ namespace eval launcher {
       
       set widgets(win) .lwin
 
-      ttk::frame $widgets(win) -borderwidth 2
+      frame $widgets(win) -borderwidth 2 -bg grey90 -padx 5 -pady 5
 
-      set widgets(entry) [ttk::entry $widgets(win).entry -width 50 -validate key -validatecommand "launcher::lookup %P {$mode} $show_detail" -invalidcommand {bell}]
-      
+      set widgets(entry) [entry $widgets(win).entry -bg white -width 50 -validate key \
+        -highlightthickness 0 -relief flat \
+        -validatecommand "launcher::lookup %P {$mode} $show_detail" -invalidcommand {bell}]
+        
       if {[lsearch [font names] launcher_entry] == -1} {
         font create launcher_entry -family [font configure [$widgets(entry) cget -font] -family] \
           -size [preferences::get Appearance/CommandLauncherEntryFontSize]
@@ -86,8 +89,9 @@ namespace eval launcher {
       $widgets(entry) configure -font launcher_entry
   
       set widgets(mf) [ttk::frame $widgets(win).mf]
+      frame $widgets(mf).spcr -height 5 -bg grey90 -borderwidth 0
       set widgets(lf) [ttk::frame $widgets(win).mf.lf]
-      set widgets(lb) [listbox $widgets(lf).lb -exportselection 0 -bg white -height 0 -width 35 \
+      set widgets(lb) [listbox $widgets(lf).lb -exportselection 0 -bg white -height 0 -width 35 -borderwidth 0 \
         -yscrollcommand "utils::set_yscrollbar $widgets(lf).vb" -listvariable launcher::match_commands]
       ttk::scrollbar $widgets(lf).vb -orient vertical -command "$widgets(lb) yview"
       
@@ -108,10 +112,11 @@ namespace eval launcher {
       
       $widgets(txt) configure -font launcher_preview
       
-      grid rowconfigure    $widgets(mf) 0 -weight 1
+      grid rowconfigure    $widgets(mf) 1 -weight 1
       grid columnconfigure $widgets(mf) 0 -weight 1
-      grid $widgets(lf)  -row 0 -column 0 -sticky news
-      grid $widgets(txt) -row 0 -column 1 -sticky news
+      grid $widgets(mf).spcr -row 0 -column 0 -sticky ew -columnspan 2
+      grid $widgets(lf)      -row 1 -column 0 -sticky news
+      grid $widgets(txt)     -row 1 -column 1 -sticky news
       
       # Hide the text widget
       grid remove $widgets(txt)
@@ -119,9 +124,12 @@ namespace eval launcher {
       pack $widgets(entry) -fill x
 
       # Bind the escape key to exit the window
-      bind $widgets(win)   <Destroy>  "launcher::handle_win_destroy"
-      bind $widgets(entry) <Escape>   "destroy $widgets(win)"
-      bind $widgets(win)   <FocusOut> "destroy $widgets(win)"
+      bind $widgets(win)   <Destroy>         "launcher::handle_win_destroy"
+      bind $widgets(win)   <ButtonPress-1>   "launcher::handle_win_press %X %Y"
+      bind $widgets(win)   <B1-Motion>       "launcher::handle_win_motion %X %Y"
+      bind $widgets(win)   <ButtonRelease-1> "launcher::handle_win_release %X %Y"
+      bind $widgets(entry) <Escape>          "destroy $widgets(win)"
+      bind $widgets(entry) <FocusOut>        "destroy $widgets(win)"
 
       # Position the window in the center of the main window
       place $widgets(win) -relx 0.4 -rely 0.25
@@ -151,7 +159,61 @@ namespace eval launcher {
     remove_temporary
 
   }
-
+  
+  ######################################################################
+  # Handles a left mouse press event on the frame.
+  proc handle_win_press {x y} {
+    
+    variable move_info
+    
+    set move_info(last_x) $x
+    set move_info(last_y) $y
+    
+  }
+  
+  ######################################################################
+  # Handles a left-click motion mouse event on the launcher window border.
+  proc handle_win_motion {x y} {
+    
+    variable widgets
+    variable move_info   
+    
+    if {![info exists move_info(last_x)]} {
+      return
+    }
+    
+    set newx [expr [winfo x $widgets(win)] + ($x - $move_info(last_x))]
+    set newy [expr [winfo y $widgets(win)] + ($y - $move_info(last_y))]
+    
+    puts "newx: $newx, newy: $newy"
+    
+    # If the new coordinates are valid, allow the move
+    if {($newx > 0) && (($newx + [winfo width $widgets(win)]) < [winfo width .]) && \
+        ($newy > 0) && (($newy + [winfo height $widgets(win)]) < [winfo height .])} {
+        
+      place configure $widgets(win) -x $newx -y $newy -relx 0.0 -rely 0.0
+      
+      set move_info(last_x) $x
+      set move_info(last_y) $y
+    
+    } else {
+      
+      array unset move_info
+      
+    }
+    
+  }
+  
+  ######################################################################
+  # Handles a mouse left-button release event.
+  proc handle_win_release {x y} {
+    
+    variable move_info
+    
+    array unset move_info
+    
+  }
+  
   ######################################################################
   # Handles any changes to the entry font size preferences variable.
   proc handle_entry_font_size {name1 name2 op} {
