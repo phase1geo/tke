@@ -748,6 +748,7 @@ namespace eval gui {
     set content(Geometry)                [wm geometry .]
     set content(CurrentWorkingDirectory) [pwd]
     set content(Sidebar)                 [sidebar::save_session]
+    set content(Launcher)                [launcher::save_session]   
 
     # Gather the current tab info
     foreach file $files {
@@ -807,6 +808,7 @@ namespace eval gui {
         Geometry                [wm geometry .] \
         CurrentWorkingDirectory [pwd] \
         Sidebar                 [list] \
+        Launcher                [list] \
         FileInfo                [list] \
         CurrentTabs             [list] \
         LastOpened              "" \
@@ -822,6 +824,9 @@ namespace eval gui {
         
       # Load the session information into the sidebar
       sidebar::load_session $content(Sidebar)
+      
+      # Load the session information into the launcher
+      launcher::load_session $content(Launcher)
         
       # If we are supposed to load the last saved session, do it now
       if {[preferences::get General/LoadLastSession] && \
@@ -1225,6 +1230,9 @@ namespace eval gui {
         # If a diff command was specified, run and parse it now
         if {$opts(-diff)} {
           diff::show $txt
+          if {[[ns preferences]::get View/ShowDifferenceInOtherPane]} {
+            move_to_pane
+          }
         }
 
       } else {
@@ -1249,7 +1257,7 @@ namespace eval gui {
 
     # Run any plugins that should run when a file is opened
     plugins::handle_on_open [expr [llength $files] - 1]
-
+    
   }
 
   ######################################################################
@@ -1825,6 +1833,7 @@ namespace eval gui {
     set insert   [$txt index insert]
     set select   [$txt tag ranges sel]
     set modified [lindex $file $files_index(modified)]
+    set diff     [lindex $file $files_index(diff)]
     set language [syntax::get_current_language $txt]
 
     # Collect the gutter symbols
@@ -1848,14 +1857,29 @@ namespace eval gui {
     # Create a new tab
     set w [insert_tab $index [file tail $fname] [lindex $file $files_index(diff)] [lindex $file $files_index(gutters)] $language]
 
-    # Add the text, insertion marker and selection
+    # Get the current text widget
     set txt [current_txt {}]
-    $txt insert end $content
-    $txt mark set insert $insert
+    
+    # Update the file components to include position change information
+    lset file $files_index(tab)      $w
+    lset file $files_index(modified) 0
+    lappend files $file
 
-    # Add the gutter symbols
-    foreach {name symbol_list} [array get symbols] {
-      $txt gutter set $name {*}$symbol_list
+    if {$diff} {
+      
+      diff::show $txt 1
+      
+    } else {
+    
+      # Add the text, insertion marker and selection
+      $txt insert end $content
+      $txt mark set insert $insert
+  
+      # Add the gutter symbols
+      foreach {name symbol_list} [array get symbols] {
+        $txt gutter set $name {*}$symbol_list
+      }
+      
     }
 
     # Perform an insertion adjust, if necessary
@@ -1867,12 +1891,7 @@ namespace eval gui {
     if {[llength $select] > 0} {
       $txt tag add sel {*}$select
     }
-
-    # Update the file components to include position change information
-    lset file $files_index(tab)      $w
-    lset file $files_index(modified) 0
-    lappend files $file
-
+    
     # If the text widget was not in a modified state, force it to be so now
     if {!$modified} {
       $txt edit modified false
@@ -1881,7 +1900,7 @@ namespace eval gui {
     }
 
     # Highlight the file in the sidebar
-    if {[lindex $file $files_index(diff)] == 0} {
+    if {!$diff} {
       sidebar::highlight_filename $fname 1
     }
 

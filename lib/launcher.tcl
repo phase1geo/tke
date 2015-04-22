@@ -32,6 +32,35 @@ namespace eval launcher {
   }
   
   ######################################################################
+  # Saves command launcher information to the session file.
+  proc save_session {} {
+    
+    variable move_info
+    
+    if {[info exists move_info(save_x)]} {
+      return [list win_posx $move_info(save_x) win_posy $move_info(save_y)]
+    } else {
+      return [list]
+    }
+    
+  }
+  
+  ######################################################################
+  # Loads session information for command launcher.
+  proc load_session {data} {
+    
+    variable move_info
+    
+    array set opts $data
+    
+    if {[info exists opts(win_posx)]} {
+      set move_info(save_x) $opts(win_posx)
+      set move_info(save_y) $opts(win_posy)
+    }
+    
+  }
+  
+  ######################################################################
   # Loads the launcher functionality.
   proc load {} {
   
@@ -44,8 +73,9 @@ namespace eval launcher {
     }
     
     # Add preferences traces
-    trace variable preferences::prefs(Appearance/CommandLauncherEntryFontSize)   w launcher::handle_entry_font_size
-    trace variable preferences::prefs(Appearance/CommandLauncherPreviewFontSize) w launcher::handle_preview_font_size
+    trace variable preferences::prefs(Appearance/CommandLauncherEntryFontSize)        w launcher::handle_entry_font_size
+    trace variable preferences::prefs(Appearance/CommandLauncherPreviewFontSize)      w launcher::handle_preview_font_size
+    trace variable preferences::prefs(Appearance/CommandLauncherRememberLastPosition) w launcher::handle_last_position
 
   }
   
@@ -70,6 +100,7 @@ namespace eval launcher {
   proc launch {{mode ""} {show_detail 0}} {
   
     variable widgets
+    variable move_info
 
     if {![winfo exists .lwin]} {
       
@@ -89,7 +120,7 @@ namespace eval launcher {
       $widgets(entry) configure -font launcher_entry
   
       set widgets(mf) [ttk::frame $widgets(win).mf]
-      frame $widgets(mf).spcr -height 5 -bg grey90 -borderwidth 0
+      frame $widgets(mf).spcr -height 5 -bg white -borderwidth 0
       set widgets(lf) [ttk::frame $widgets(win).mf.lf]
       set widgets(lb) [listbox $widgets(lf).lb -exportselection 0 -bg white -height 0 -width 35 -borderwidth 0 \
         -yscrollcommand "utils::set_yscrollbar $widgets(lf).vb" -listvariable launcher::match_commands]
@@ -132,7 +163,11 @@ namespace eval launcher {
       bind $widgets(entry) <FocusOut>        "destroy $widgets(win)"
 
       # Position the window in the center of the main window
-      place $widgets(win) -relx 0.4 -rely 0.25
+      if {[info exists move_info(save_x)]} {
+        place $widgets(win) -x $move_info(save_x) -y $move_info(save_y)
+      } else {
+        place $widgets(win) -relx 0.4 -rely 0.25
+      }
 
       # Get current focus and grab
       ::tk::SetFocusGrab $widgets(win) $widgets(entry)
@@ -185,10 +220,8 @@ namespace eval launcher {
     set newx [expr [winfo x $widgets(win)] + ($x - $move_info(last_x))]
     set newy [expr [winfo y $widgets(win)] + ($y - $move_info(last_y))]
     
-    puts "newx: $newx, newy: $newy"
-    
     # If the new coordinates are valid, allow the move
-    if {($newx > 0) && (($newx + [winfo width $widgets(win)]) < [winfo width .]) && \
+    if {($newx > 0) && (($newx + [winfo width  $widgets(win)]) < [winfo width .]) && \
         ($newy > 0) && (($newy + [winfo height $widgets(win)]) < [winfo height .])} {
         
       place configure $widgets(win) -x $newx -y $newy -relx 0.0 -rely 0.0
@@ -208,9 +241,17 @@ namespace eval launcher {
   # Handles a mouse left-button release event.
   proc handle_win_release {x y} {
     
+    variable widgets
     variable move_info
     
     array unset move_info
+    
+    # Save the command launcher position if we are supposed to
+    if {[[ns preferences]::get Appearance/CommandLauncherRememberLastPosition]} {
+      array set opts [place info $widgets(win)]
+      set move_info(save_x) $opts(-x)
+      set move_info(save_y) $opts(-y)
+    }
     
   }
   
@@ -230,6 +271,19 @@ namespace eval launcher {
     
     if {[lsearch [font names] launcher_preview] != -1} {
       font configure launcher_preview -size [preferences::get Appearance/CommandLauncherPreviewFontSize]
+    }
+    
+  }
+  
+  ######################################################################
+  # Handles a change to the RememberLastPosition preference value.
+  proc handle_last_position {name1 name2 op} {
+    
+    variable move_info
+    
+    if {[[ns preferences]::get Appearance/CommandLauncherRememberLastPosition] == 0} {
+      unset move_info(save_x)
+      unset move_info(save_y)
     }
     
   }

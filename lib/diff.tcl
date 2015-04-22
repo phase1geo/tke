@@ -154,7 +154,7 @@ namespace eval diff {
 
   ######################################################################
   # Performs the difference command and displays it in the text widget.
-  proc show {txt} {
+  proc show {txt {force_update 0}} {
 
     variable data
     
@@ -179,7 +179,7 @@ namespace eval diff {
     set cvs_ns [string tolower $data($txt,cvs)]
     
     # If the V2 file changed, replace the current file with the new content
-    if {![info exists data($txt,last_v2)] || ($data($txt,v2) ne $data($txt,last_v2))} {
+    if {![info exists data($txt,last_v2)] || ($data($txt,v2) ne $data($txt,last_v2)) || $force_update} {
       
       set v2_fname $fname
     

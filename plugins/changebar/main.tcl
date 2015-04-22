@@ -46,7 +46,7 @@ namespace eval changebar {
     set txt [api::file::get_info $file_index txt]
 
     # Get the current text
-    unset data($txt,enabled)
+    catch { unset data($txt,enabled) }
 
   }
 
