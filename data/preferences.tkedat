@@ -82,6 +82,13 @@
 # Specifies the point size of the font used in the command launcher preview field.
 
 {Appearance/CommandLauncherPreviewFontSize} {6}
+
+# If set to a value of 1, the command launcher will be positioned at the last position the
+# command launcher was moved to.  If this value is 0, the command launcher will always be
+# positioned approximately a quarter of the way down in the middle of the window regardless of
+# its position being previously moved.
+
+{Appearance/CommandLauncherRememberLastPosition} {1}
  
 # Specifies the number of characters to allow on a line before additional characters
 # are flagged with a warning character.
@@ -170,6 +177,11 @@
 # otherwise, the line numbers will be hidden on application start.
 
 {View/ShowLineNumbers}       {1}
+
+# If this value is set to 1, displaying a difference view of a file will automatically
+# display it in the other editor pane.
+
+{View/ShowDifferenceInOtherPane} {0}
 
 # When the number of opened tabs in a notebook exceeds the number of tabs that can
 # be readably displayed, a value of 1 will cause some of the tabs to be "hidden" from
