@@ -1,55 +1,30 @@
-changeset:   997:cfc032d11505
-tag:         devel-1.6.1
+changeset:   1003:490d2c883071
+tag:         devel-1.6.2
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Apr 15 22:15:04 2015 -0500
+date:        Sun Apr 19 23:38:02 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.6.1 release
+ChangeLog for devel-1.6.2 release
 
 
-changeset:   998:61e8815f59e5
+changeset:   1004:e4573a924e8b
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Apr 15 22:15:09 2015 -0500
+date:        Sun Apr 19 23:38:06 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.6.1 for changeset cfc032d11505
+Added tag devel-1.6.2 for changeset 490d2c883071
 
 
-changeset:   999:eb70c23929d1
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Apr 16 23:13:04 2015 -0500
-files:       lib/diff.tcl lib/gui.tcl lib/menus.tcl lib/version.tcl
-description:
-* Working on support for the "Find last change at the current line" feature (work in progress).
-
-
-changeset:   1000:eacd09799f18
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Apr 18 00:05:55 2015 -0500
-files:       lib/ctext/ctext.tcl lib/diff.tcl lib/version.tcl
-description:
-* Adding diff line command to ctext widget.
-* More work on line change feature.
-
-
-changeset:   1001:4dca37b72ba5
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Apr 19 21:23:20 2015 -0500
-files:       lib/gui.tcl lib/ptwidgets1.2/library/tabbar.tcl lib/version.tcl
-description:
-* Fixing tabbar image padding when image on the left-hand side.
-* Adding tabbar "scrolled" command which returns true/false to indicate scrollability attribute.
-* Making tabbar dropdown visible on application start if tabs require it.
-* Adding tab images to tabbar dropdown menu.
-
-
-changeset:   1002:d474272487f2
+changeset:   1005:247ac637e896
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Apr 19 23:34:43 2015 -0500
-files:       lib/launcher.tcl lib/version.tcl
+date:        Wed Apr 22 00:57:11 2015 -0500
+files:       data/preferences.tkedat lib/diff.tcl lib/gui.tcl lib/launcher.tcl lib/version.tcl plugins/changebar/main.tcl
 description:
-* Adding support for mouse-dragging the command launcher to a new position in the window.
-* Improving look of command launcher window.
+* Adding Appearance/CommandLauncherRememberLastPosition preference item.
+* Adding View/ShowDifferenceInOtherPane preference item.
+* Fixing issues with moving a difference view to the other pane.
+* Changing look of command launcher to remove grey color between entry and list widgets.
+* Fixing syntax issue in changebar plugin.
 
 
