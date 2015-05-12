@@ -1,30 +1,26 @@
-changeset:   1003:490d2c883071
-tag:         devel-1.6.2
+changeset:   1006:e2396853f503
+tag:         devel-1.6.3
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Apr 19 23:38:02 2015 -0500
+date:        Wed Apr 22 00:58:03 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.6.2 release
+ChangeLog for devel-1.6.3 release
 
 
-changeset:   1004:e4573a924e8b
+changeset:   1007:e151c465b650
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Apr 19 23:38:06 2015 -0500
+date:        Wed Apr 22 00:58:08 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.6.2 for changeset 490d2c883071
+Added tag devel-1.6.3 for changeset e2396853f503
 
 
-changeset:   1005:247ac637e896
+changeset:   1008:c958ede22bcc
 tag:         tip
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Apr 22 00:57:11 2015 -0500
-files:       data/preferences.tkedat lib/diff.tcl lib/gui.tcl lib/launcher.tcl lib/version.tcl plugins/changebar/main.tcl
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon May 11 21:30:11 2015 -0500
+files:       lib/gui.tcl lib/version.tcl lib/vim.tcl
 description:
-* Adding Appearance/CommandLauncherRememberLastPosition preference item.
-* Adding View/ShowDifferenceInOtherPane preference item.
-* Fixing issues with moving a difference view to the other pane.
-* Changing look of command launcher to remove grey color between entry and list widgets.
-* Fixing syntax issue in changebar plugin.
+* Adding basic Vim macro support.
 
 
