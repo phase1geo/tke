@@ -11,9 +11,6 @@ namespace eval vim {
 
   source [file join $::tke_dir lib ns.tcl]
 
-  variable record_mode "none"
-  variable recording   {}
-
   array set command_entries {}
   array set mode            {}
   array set number          {}
@@ -21,6 +18,15 @@ namespace eval vim {
   array set ignore_modified {}
   array set column          {}
   array set select_anchors  {}
+
+  array set recording {
+    curr_reg ""
+  }
+
+  foreach reg [list a b c d e f g h i j k l m n o p q r s t u v w x y z auto] {
+    set recording($reg,mode)   "none"
+    set recording($reg,events) [list]
+  }
 
   ######################################################################
   # Enables/disables Vim mode for all text widgets.
@@ -50,21 +56,23 @@ namespace eval vim {
     }
 
   }
-  
+
   ######################################################################
   # Returns the current edit mode type (insert or replace).
   proc get_edit_mode {txt} {
-    
+
     variable mode
-    
-    if {$mode($txt) eq "edit"} {
-      return "insert"
-    } elseif {[string equal -length 7 $mode($txt) "replace"]} {
-      return "replace"
-    } else {
-      return ""
+
+    if {[info exists mode($txt)]} {
+      if {$mode($txt) eq "edit"} {
+        return "insert"
+      } elseif {[string equal -length 7 $mode($txt) "replace"]} {
+        return "replace"
+      }
     }
-    
+
+    return ""
+
   }
 
   ######################################################################
@@ -95,6 +103,8 @@ namespace eval vim {
         return "INSERT MODE"
       } elseif {[info exists mode($txt.t)] && ($mode($txt.t) eq "visual")} {
         return "VISUAL MODE"
+      } elseif {[info exists mode($txt.t)] && ($mode($txt.t) eq "record")} {
+        return "RECORD MODE"
       } else {
         return "COMMAND MODE"
       }
@@ -345,6 +355,7 @@ namespace eval vim {
     variable ignore_modified
     variable column
     variable select_anchors
+    variable recording
 
     # Change the cursor to the block cursor
     $txt configure -blockcursor true
@@ -554,89 +565,102 @@ namespace eval vim {
   }
 
   ######################################################################
-  # Starts recording keystrokes.
-  proc record_start {} {
+  # Set the current mode to the "record" mode.
+  proc record_mode {txt reg} {
 
-    variable record_mode
+    variable mode
+
+    # Set our mode to record
+    set mode($txt) "record"
+
+    # Start the recording for the given register
+    record_start $reg
+
+  }
+
+  ######################################################################
+  # Starts recording keystrokes.
+  proc record_start {{reg auto}} {
+
     variable recording
 
-    if {$record_mode eq "none"} {
-      set record_mode "record"
-      set recording   [list]
+    if {$recording($reg,mode) eq "none"} {
+      set recording($reg,mode)   "record"
+      set recording($reg,events) [list]
+      if {$reg ne "auto"} {
+        set recording(curr_reg) $reg
+        gui::set_record_mode 1
+      }
     }
 
   }
 
   ######################################################################
   # Stops recording keystrokes.
-  proc record_stop {} {
+  proc record_stop {{reg auto}} {
 
-    variable record_mode
+    variable recording
 
-    if {$record_mode eq "record"} {
-      set record_mode "none"
+    if {$recording($reg,mode) eq "record"} {
+      set recording($reg,mode) "none"
+      if {$reg ne "auto"} {
+        gui::set_record_mode 0
+      }
     }
 
   }
 
   ######################################################################
   # Records a signal event and stops recording.
-  proc record {event} {
+  proc record {event {reg auto}} {
 
-    variable record_mode
     variable recording
 
-    if {$record_mode eq "none"} {
-      set recording $event
+    if {$recording($reg,mode) eq "none"} {
+      set recording($reg,events) $event
     }
 
   }
 
   ######################################################################
   # Adds an event to the recording buffer if we are in record mode.
-  proc record_add {event} {
+  proc record_add {event {reg auto}} {
 
-    variable record_mode
     variable recording
 
-    if {$record_mode eq "record"} {
-      lappend recording $event
+    if {$recording($reg,mode) eq "record"} {
+      lappend recording($reg,events) $event
     }
 
   }
 
   ######################################################################
   # Plays back the record buffer.
-  proc playback {txt} {
+  proc playback {txt {reg auto}} {
 
-    variable record_mode
     variable recording
 
     # Set the record mode to playback
-    set record_mode "playback"
-    
-    # Log for debug
-    logger::log "insert: [$txt index insert], recording: $recording"
+    set recording($reg,mode) "playback"
 
     # Replay the recording buffer
-    foreach event $recording {
+    foreach event $recording($reg,events) {
       eval "event generate $txt <$event>"
     }
 
     # Set the record mode to none
-    set record_mode "none"
+    set recording($reg,mode) "none"
 
   }
 
   ######################################################################
   # Stops recording and clears the recording array.
-  proc record_clear {} {
+  proc record_clear {{reg auto}} {
 
-    variable record_mode
     variable recording
 
-    set record_mode "none"
-    set recording   [list]
+    set recording($reg,mode)   "none"
+    set recording($reg,events) [list]
 
   }
 
@@ -724,6 +748,13 @@ namespace eval vim {
 
     variable mode
     variable number
+    variable recording
+
+    # Add this keysym to the current recording buffer (if one exists)
+    set curr_reg $recording(curr_reg)
+    if {($curr_reg ne "") && ($recording($curr_reg,mode) eq "record")} {
+      record_add Escape $curr_reg
+    }
 
     if {$mode($txt) ne "start"} {
 
@@ -736,7 +767,7 @@ namespace eval vim {
 
     } else {
 
-      # If were in start mode, clear the recording buffer
+      # If were in start mode, clear the auto recording buffer
       record_clear
 
       # Clear the any selections
@@ -761,13 +792,39 @@ namespace eval vim {
     variable mode
     variable number
     variable column
-    
+    variable recording
+
     # If the key does not have a printable char representation, quit now
     if {([string compare -length 5 $keysym "Shift"]   == 0) || \
         ([string compare -length 7 $keysym "Control"] == 0) || \
         ([string compare -length 3 $keysym "Alt"]     == 0) || \
         ($keysym eq "??")} {
       return 1
+    }
+
+    # Handle a character when recording a macro
+    if {$mode($txt) eq "record_reg"} {
+      start_mode $txt
+      if {[regexp {^[a-z]$} $keysym]} {
+        record_start $keysym
+        return 1
+      }
+    } elseif {$mode($txt) eq "playback_reg"} {
+      start_mode $txt
+      if {[regexp {^[a-z]$} $keysym]} {
+        playback $txt $keysym
+        return 1
+      } elseif {$keysym eq "at"} {
+        if {$recording(curr_reg) ne ""} {
+          playback $txt $recording(curr_reg)
+        }
+        return 1
+      }
+    } elseif {($mode($txt) ne "start") || ($keysym ne "q")} {
+      set curr_reg $recording(curr_reg)
+      if {($curr_reg ne "") && ($recording($curr_reg,mode) eq "record")} {
+        record_add "Key-$keysym" $curr_reg
+      }
     }
 
     # If the keysym is neither j or k, clear the column
@@ -785,10 +842,11 @@ namespace eval vim {
     } elseif {[string is integer $keysym] && [handle_number $txt $char]} {
       record_add "Key-$keysym"
       return 1
-    } elseif {($mode($txt) eq "start") || ($mode($txt) eq "visual")} {
+    } elseif {($mode($txt) eq "start") || ($mode($txt) eq "visual") || ($mode($txt) eq "record")} {
       return 1
     }
 
+    # Add the keysym to the auto recording
     record_add "Key-$keysym"
 
     # Append the text to the insertion buffer
@@ -1644,10 +1702,10 @@ namespace eval vim {
   proc do_post_paste {txt clip} {
 
     variable number
-    
+
     # Create a separator
     $txt edit separator
-    
+
     if {[set nl_index [string last \n $clip]] != -1} {
       if {[expr ([string length $clip] - 1) == $nl_index]} {
         set clip [string replace $clip $nl_index $nl_index]
@@ -1678,7 +1736,7 @@ namespace eval vim {
     }
     adjust_insert $txt
     $txt see insert
-    
+
     # Create a separator
     $txt edit separator
 
@@ -1708,7 +1766,7 @@ namespace eval vim {
   proc do_pre_paste {txt clip} {
 
     variable number
-    
+
     $txt edit separator
 
     if {[set nl_index [string last \n $clip]] != -1} {
@@ -2403,6 +2461,45 @@ namespace eval vim {
       ctext::addSearchClass [winfo parent $txt] search black yellow "" $word
       $txt tag lower _search sel
       gui::search_next $tid 0
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # If we are in "start" mode, sets the current mode to "record" mode.
+  proc handle_q {txt tid} {
+
+    variable mode
+    variable recording
+
+    if {$mode($txt) eq "start"} {
+      set curr_reg $recording(curr_reg)
+      if {($curr_reg ne "") && ($recording($curr_reg,mode) eq "record")} {
+        record_stop $curr_reg
+      } else {
+        set mode($txt) "record_reg"
+      }
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # If we are in "start" mode, replays the register specified with the
+  # next character.  If we are in "replay_reg" mode, playback the current
+  # register again.
+  proc handle_at {txt tid} {
+
+    variable mode
+    variable recording
+
+    if {$mode($txt) eq "start"} {
+      set mode($txt) "playback_reg"
       return 1
     }
 

@@ -60,7 +60,7 @@ namespace eval gui {
 
     variable files
     variable files_index
- 
+
     return [lsearch -index $files_index(fname) $files $fname]
 
   }
@@ -69,7 +69,7 @@ namespace eval gui {
   # Checks to see if the given file is newer than the file within the
   # editor.  If it is newer, prompt the user to update the file.
   proc check_file {index} {
-    
+
     variable files
     variable files_index
 
@@ -131,11 +131,11 @@ namespace eval gui {
     } else {
       set tab_name ""
     }
- 
+
     wm title . "$tab_name \[[lindex [split [info hostname] .] 0]:[pwd]\]"
 
   }
- 
+
   ######################################################################
   # Creates all images.
   proc create_images {} {
@@ -250,12 +250,13 @@ namespace eval gui {
     grid $widgets(fif).close -row 0 -column 3 -sticky news -padx 2 -pady 2
     grid $widgets(fif).li    -row 1 -column 0 -sticky ew -pady 2
     grid $widgets(fif).ti    -row 1 -column 1 -sticky ew -pady 2 -columnspan 2
-    
+
     # Create the information bar
     set widgets(info)        [ttk::frame .if]
     set widgets(info_state)  [ttk::label .if.l1]
     set widgets(info_msg)    [ttk::label .if.l2]
-    set widgets(info_indent) [ttk::label .if.l3]
+    set widgets(info_record) [ttk::label .if.l3]
+    set widgets(info_indent) [ttk::label .if.l4]
     set widgets(info_syntax) [syntax::create_menubutton .if.syn]
 
     $widgets(info_syntax) configure -state disabled
@@ -263,6 +264,7 @@ namespace eval gui {
     pack .if.l1  -side left  -padx 2 -pady 2
     pack .if.l2  -side left  -padx 2 -pady 2
     pack .if.syn -side right -padx 2 -pady 2
+    pack .if.l4  -side right -padx 2 -pady 2
     pack .if.l3  -side right -padx 2 -pady 2
 
     # Create the configurable response widget
@@ -498,7 +500,7 @@ namespace eval gui {
           }
         }
       }
-      
+
       # We need to adjust the appearance of the diff map widgets (if they exist)
       diff::handle_window_theme $theme
 
@@ -549,16 +551,16 @@ namespace eval gui {
 
     # Get the current file index
     set file_index [current_file]
-    
+
     # Get the filename of the current file
     set fname [lindex $files $file_index $files_index(fname)]
- 
+
     # Get the readonly variable
     set readonly [lindex $files $file_index $files_index(readonly)]
 
     # Set the file_locked variable
     set file_locked [expr $readonly || [lindex $files $file_index $files_index(lock)]]
-    
+
     # Get the difference mode
     set diff_mode [lindex $files $file_index $files_index(diff)]
 
@@ -684,12 +686,12 @@ namespace eval gui {
   ######################################################################
   # Shows the line numbers.
   proc set_line_number_view {tid value} {
-    
+
     # Show the line numbers in the current editor
-    [current_txt $tid] configure -linemap $value 
-    
+    [current_txt $tid] configure -linemap $value
+
   }
-  
+
   ######################################################################
   # Changes the given filename to the new filename in the file list and
   # updates the tab name to match the new name.
@@ -729,7 +731,7 @@ namespace eval gui {
         return 1
       }
     }
-    
+
     return 0
 
   }
@@ -748,7 +750,7 @@ namespace eval gui {
     set content(Geometry)                [wm geometry .]
     set content(CurrentWorkingDirectory) [pwd]
     set content(Sidebar)                 [sidebar::save_session]
-    set content(Launcher)                [launcher::save_session]   
+    set content(Launcher)                [launcher::save_session]
 
     # Gather the current tab info
     foreach file $files {
@@ -803,7 +805,7 @@ namespace eval gui {
 
     # Read the state file
     if {![catch { tkedat::read $session_file } rc]} {
-      
+
       array set content [list \
         Geometry                [wm geometry .] \
         CurrentWorkingDirectory [pwd] \
@@ -821,13 +823,13 @@ namespace eval gui {
 
       # Restore the "last_opened" list
       set last_opened $content(LastOpened)
-        
+
       # Load the session information into the sidebar
       sidebar::load_session $content(Sidebar)
-      
+
       # Load the session information into the launcher
       launcher::load_session $content(Launcher)
-        
+
       # If we are supposed to load the last saved session, do it now
       if {[preferences::get General/LoadLastSession] && \
           ([llength $files] == 1) && \
@@ -837,7 +839,7 @@ namespace eval gui {
         if {[file exists $content(CurrentWorkingDirectory)]} {
           cd $content(CurrentWorkingDirectory)
         }
-        
+
         # Put the list in order
         set ordered     [lrepeat 2 [lrepeat [llength $content(FileInfo)] ""]]
         set second_pane 0
@@ -848,12 +850,12 @@ namespace eval gui {
           set second_pane [expr $finfo(pane) == 2]
           incr i
         }
- 
+
         # If the second pane is necessary, create it now
         if {[llength $content(CurrentTabs)] == 2} {
           add_notebook
         }
- 
+
         # Add the tabs (in order) to each of the panes and set the current tab in each pane
         for {set pane 0} {$pane < [llength $content(CurrentTabs)]} {incr pane} {
           set pw_current $pane
@@ -880,7 +882,7 @@ namespace eval gui {
             set_current_tab [lindex [[lindex [$widgets(nb_pw) panes] $pane].tbf.tb tabs] [lindex $content(CurrentTabs) $pane]]
           }
         }
-          
+
       }
 
     }
@@ -1161,7 +1163,7 @@ namespace eval gui {
     if {[untitled_check]} {
       close_tab $tab_current($pw_current) 0 0
     }
-    
+
     # Check to see if the file is already loaded
     set file_index -1
     foreach findex [lsearch -all -index $files_index(fname) $files $fname] {
@@ -1226,7 +1228,7 @@ namespace eval gui {
 
         # Add the file to the list of recently opened files
         gui::add_to_recently_opened $fname
-        
+
         # If a diff command was specified, run and parse it now
         if {$opts(-diff)} {
           diff::show $txt
@@ -1257,7 +1259,7 @@ namespace eval gui {
 
     # Run any plugins that should run when a file is opened
     plugins::handle_on_open [expr [llength $files] - 1]
-    
+
   }
 
   ######################################################################
@@ -1330,10 +1332,10 @@ namespace eval gui {
 
     # Get the text widget at the given index
     set txt [get_txt_from_tab $tab]
-    
+
     # Get the diff value
     set diff [lindex $file_info $files_index(diff)]
-    
+
     # If the editor is a difference view and is not updateable, stop now
     if {$diff && ![diff::updateable $txt]} {
       return
@@ -1859,27 +1861,27 @@ namespace eval gui {
 
     # Get the current text widget
     set txt [current_txt {}]
-    
+
     # Update the file components to include position change information
     lset file $files_index(tab)      $w
     lset file $files_index(modified) 0
     lappend files $file
 
     if {$diff} {
-      
+
       diff::show $txt 1
-      
+
     } else {
-    
+
       # Add the text, insertion marker and selection
       $txt insert end $content
       $txt mark set insert $insert
-  
+
       # Add the gutter symbols
       foreach {name symbol_list} [array get symbols] {
         $txt gutter set $name {*}$symbol_list
       }
-      
+
     }
 
     # Perform an insertion adjust, if necessary
@@ -1891,7 +1893,7 @@ namespace eval gui {
     if {[llength $select] > 0} {
       $txt tag add sel {*}$select
     }
-    
+
     # If the text widget was not in a modified state, force it to be so now
     if {!$modified} {
       $txt edit modified false
@@ -2111,7 +2113,7 @@ namespace eval gui {
 
     variable pw_current
     variable tab_current
-    
+
     # Get the current text widget
     set txt [current_txt $tid]
 
@@ -2127,7 +2129,7 @@ namespace eval gui {
 
     # Clear the search entry
     $tab.sf.e delete 0 end
-    
+
     # If a line or less is selected, populate the search bar with it
     if {([llength [set ranges [$txt tag ranges sel]]] == 2) && ([$txt count -lines {*}$ranges] == 0)} {
       $tab.sf.e insert end [$txt get {*}$ranges]
@@ -2520,6 +2522,20 @@ namespace eval gui {
 
     # Update the UI
     update_auto_indent $txt
+
+  }
+
+  ######################################################################
+  # Sets the current Vim recording state in the UI.
+  proc set_record_mode {value} {
+
+    variable widgets
+
+    if {$value} {
+      $widgets(info_record) configure -text "  REC  "
+    } else {
+      $widgets(info_record) configure -text ""
+    }
 
   }
 
@@ -3210,7 +3226,7 @@ namespace eval gui {
       diff::create_diff_bar $txt $tab_frame.df
       ttk::separator $tab_frame.sep2 -orient horizontal
     }
-    
+
     # Create separator between search and information bar
     ttk::separator $tab_frame.sep1 -orient horizontal
 
@@ -3773,53 +3789,53 @@ namespace eval gui {
   # Create a marker at the current insertion cursor line of the current
   # editor.
   proc create_current_marker {tid} {
-    
+
     # Get the current text widget
     set txt [current_txt $tid]
-    
+
     # Get the current line
     set line [lindex [split [$txt index insert] .] 0]
-    
+
     # Add the marker at the current line
     if {[set tag [ctext::linemapSetMark $txt $line]] ne ""} {
       if {![markers::add $txt $tag]} {
         ctext::linemapClearMark $txt $line
       }
     }
-    
+
   }
-  
+
   ######################################################################
   # Removes all markers placed at the current line.
   proc remove_current_marker {tid} {
-    
+
     # Get the current text widget
     set txt [current_txt $tid]
-    
+
     # Get the current line number
     set line [lindex [split [$txt index insert] .] 0]
-    
+
     # Remove all markers at the current line
     markers::delete_by_line $txt $line
     ctext::linemapClearMark $txt $line
-    
+
   }
-  
+
   ######################################################################
   # Removes all of the markers from the current editor.
   proc remove_all_markers {tid} {
-    
+
     # Get the current text widget
     set txt [current_txt $tid]
-    
+
     foreach name [markers::get_all_names $txt] {
       set line [lindex [split [markers::get_index $txt $name] .] 0]
       markers::delete_by_name $txt $name
       ctext::linemapClearMark $txt $line
     }
-    
+
   }
-  
+
   ######################################################################
   # Returns the list of markers in the current text widget.
   proc get_marker_list {tid} {
@@ -4134,20 +4150,20 @@ namespace eval gui {
     return 0
 
   }
-  
+
   ######################################################################
   # Jumps to the next difference in the specified direction.  Returns
   # a boolean value of true if a jump occurs (or can occur).
   proc jump_to_difference {tid dir jump} {
-    
+
     # Get the current text widget
     set txt [current_txt $tid]
-    
+
     # Get the list of ranges
     if {[$txt cget -diff_mode] && ([llength [set ranges [$txt diff ranges both]]] > 0)} {
-      
+
       if {$jump} {
-    
+
         # Get the list of difference ranges
         if {$dir == 1} {
           set index [$txt index @0,[winfo height $txt]]
@@ -4168,35 +4184,35 @@ namespace eval gui {
           }
           $txt see [lindex $ranges end-1]
         }
-        
+
       }
-      
+
       return 1
-      
+
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # Finds the last version that caused the currently selected line to be
   # changed.  Returns true if this can be accomplished; otherwise, returns
   # false.
   proc show_difference_line_change {tid show} {
-    
+
     # Get the current text widget
     set txt [current_txt $tid]
-    
+
     if {[$txt cget -diff_mode] && ![catch { $txt index sel.first } rc]} {
       if {$show} {
         diff::find_current_version $txt [current_filename] [lindex [split $rc .] 0]
       }
       return 1
     }
-    
+
     return 0
-    
+
   }
 
 }
