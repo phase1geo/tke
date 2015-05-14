@@ -511,13 +511,6 @@ proc ctext::inCommentString {win index {prange ""}} {
 
 proc ctext::commentsAfterIdle {win start end block} {
 
-  ctext::getAr $win config configAr
-
-#   if {"" eq $configAr(commentsAfterId)} {
-#     set configAr(commentsAfterId) [after idle \
-#     [list ctext::comments $win $start $end $block [set afterTriggered 1]]]
-#   }
-
   ctext::comments $win $start $end $block
 
 }
@@ -537,19 +530,8 @@ proc ctext::highlightAfterIdle {win lineStart lineEnd} {
     return
   }
 
-  # Set the lineChanged tag on all lines to highlight
-#   set currRow [lindex [split $lineStart .] 0]
-#   set lastRow [lindex [split $lineEnd .] 0]
-#   while {1} {
-#     $win tag add lineChanged $currRow.0 $currRow.end
-#     if {[incr currRow] > $lastRow} {
-#       break
-#     }
-#   }
-
   # Perform the highlight in the background
   ctext::doHighlight $win $lineStart $lineEnd
-  # bgproc::command ctext::highlightAfterIdle$win "ctext::doHighlight $win" -cancelable 1
 
 }
 
@@ -985,24 +967,13 @@ proc ctext::instanceCmd {self cmd args} {
 
         set char [$self._t get $deletePos]
 
-        set prevSpace [ctext::findPreviousSpace $self._t $deletePos]
-        set nextSpace [ctext::findNextSpace $self._t $deletePos]
-
-        set lineStart [$self._t index "$deletePos linestart"]
-        set lineEnd   [$self._t index "$deletePos + 1 chars lineend"]
-        set lines     [$self._t count -lines $lineStart $lineEnd]
-
-        #This pattern was used in 3.1.  We may want to investigate using it again
-        #eventually to reduce flicker.  It caused a bug with some patterns.
-        #if {[string equal $prevChar "#"] || [string equal $char "#"]} {
-        #	set removeStart $lineStart
-        #	set removeEnd $lineEnd
-        #} else {
-        #	set removeStart $prevSpace
-        #	set removeEnd $nextSpace
-        #}
+        set prevSpace   [ctext::findPreviousSpace $self._t $deletePos]
+        set nextSpace   [ctext::findNextSpace $self._t $deletePos]
+        set lineStart   [$self._t index "$deletePos linestart"]
+        set lineEnd     [$self._t index "$deletePos + 1 chars lineend"]
+        set lines       [$self._t count -lines $lineStart $lineEnd]
         set removeStart $lineStart
-        set removeEnd $lineEnd
+        set removeEnd   $lineEnd
 
         foreach tag [$self._t tag names] {
           if {![regexp {^_([lc]Comment|[sdt]String)$} $tag] && ([string index $tag 0] eq "_")} {
@@ -1246,9 +1217,7 @@ proc ctext::instanceCmd {self cmd args} {
         }
       }
 
-      set REData [$self._t get $prevSpace $nextSpace]
-
-      ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$configAr(re_opts) -- $commentRE $REData]
+      ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$configAr(re_opts) -- $commentRE $data]
       ctext::highlightAfterIdle $self $lineStart $lineEnd
 
       switch -- $data {
@@ -1833,8 +1802,11 @@ proc ctext::setLineCommentPatterns {win patterns {color "khaki"}} {
 }
 
 proc ctext::setStringPatterns {win patterns {color "green"}} {
+  
   ctext::getAr $win config configAr
+  
   set configAr(string_patterns) $patterns
+  
   if {[llength $patterns] > 0} {
     $win tag configure _sString -foreground $color
     $win tag configure _dString -foreground $color
@@ -1844,7 +1816,9 @@ proc ctext::setStringPatterns {win patterns {color "green"}} {
     catch { $win tag delete _dString }
     catch { $win tag delete _tString }
   }
+  
   setCommentRE $win
+  
 }
 
 proc ctext::comments {win start end blocks {afterTriggered 0}} {
@@ -1879,7 +1853,7 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
 
     set commentRE "([join $configAr(line_comment_patterns) |])"
     append commentRE {[^\n\r]*}
-
+    
     set lcomment [list]
 
     # Handle single line comments in the given range
@@ -2750,11 +2724,8 @@ if {![catch {
       incr lline
     }
 
-    # return in case the line numbers text widget is not up to
-    # date
-    if {[catch {
-      set lystart [lindex [$win.l bbox $lline.0] 1]
-    }]} {
+    # return in case the line numbers text widget is not up-to-date
+    if {[catch { set lystart [lindex [$win.l bbox $lline.0] 1] }]} {
       return
     }
 
