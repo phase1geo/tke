@@ -278,7 +278,7 @@ namespace eval themer {
 
     # Save the labels array to orig_labels
     array set orig_labels [array get labels]
-
+    
   }
 
   ######################################################################
@@ -903,7 +903,6 @@ namespace eval themer {
 
     # Set the label colors to red
     foreach l [array names widgets l:*] {
-      $widgets($l) configure -foreground "red"
       $widgets(b:[lindex [split $l :] 1]) configure -compound left
     }
 
