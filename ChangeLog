@@ -1,26 +1,27 @@
-changeset:   1006:e2396853f503
-tag:         devel-1.6.3
+changeset:   1009:652cf72464d4
+tag:         devel-1.6.4
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Apr 22 00:58:03 2015 -0500
+date:        Mon May 11 21:36:53 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.6.3 release
+ChangeLog for devel-1.6.4 release
 
 
-changeset:   1007:e151c465b650
+changeset:   1010:a8e7cdbc0c4c
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Apr 22 00:58:08 2015 -0500
+date:        Mon May 11 21:36:57 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.6.3 for changeset e2396853f503
+Added tag devel-1.6.4 for changeset 652cf72464d4
 
 
-changeset:   1008:c958ede22bcc
+changeset:   1011:69c8250b5d64
 tag:         tip
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Mon May 11 21:30:11 2015 -0500
-files:       lib/gui.tcl lib/version.tcl lib/vim.tcl
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed May 13 21:43:55 2015 -0500
+files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Adding basic Vim macro support.
+* Greatly increasing performance of editing within strings and comments.
+* Code cleanup within the ctext widget.
 
 
