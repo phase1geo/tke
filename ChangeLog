@@ -1,27 +1,52 @@
-changeset:   1009:652cf72464d4
-tag:         devel-1.6.4
+changeset:   1012:154204f033de
+tag:         devel-1.6.5
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon May 11 21:36:53 2015 -0500
+date:        Wed May 13 21:44:38 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.6.4 release
+ChangeLog for devel-1.6.5 release
 
 
-changeset:   1010:a8e7cdbc0c4c
+changeset:   1013:320492e04db2
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon May 11 21:36:57 2015 -0500
+date:        Wed May 13 21:44:42 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.6.4 for changeset 652cf72464d4
+Added tag devel-1.6.5 for changeset 154204f033de
 
 
-changeset:   1011:69c8250b5d64
+changeset:   1014:a64aba8b5050
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu May 14 09:13:54 2015 -0500
+files:       data/themes/Aurora.tketheme lib/themer.tcl lib/version.tcl
+description:
+* Fixing syntax error in themer.
+* Adding Aurora color theme.
+
+
+changeset:   1015:0b752dd86f9e
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu May 14 21:27:47 2015 -0500
+files:       lib/ctext/ctext.tcl lib/version.tcl lib/vim.tcl
+description:
+* Fixing string/comment handling optimization.
+* Optimizing multi-line Vim pasting.
+
+
+changeset:   1016:ad333a162634
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu May 14 22:05:25 2015 -0500
+files:       lib/gui.tcl lib/version.tcl
+description:
+* Changing gui::match_pair to default to searching for the previous open curly bracket if the cursor is not on a matchable character.
+
+
+changeset:   1017:d4df684a1ee9
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed May 13 21:43:55 2015 -0500
-files:       lib/ctext/ctext.tcl lib/version.tcl
+date:        Thu May 14 23:12:21 2015 -0500
+files:       data/syntax/Java.syntax lib/version.tcl
 description:
-* Greatly increasing performance of editing within strings and comments.
-* Code cleanup within the ctext widget.
+* Adding Java syntax file.
 
 
