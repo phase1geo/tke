@@ -1,0 +1,50 @@
+filepatterns
+{*.java *.j}
+
+matchcharsallowed
+{curly paren square double single}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+indent
+{\{}
+
+unindent
+{\}}
+
+icomment {{//}}
+
+lcomments {{//}}
+
+bcomments {{{/\*} {\*/}}}
+
+strings {{"} {'}}
+
+keywords
+{
+  abstract assert boolean break byte case catch char class const continue default do double
+  else enum extends final finally float for if goto implements import instanceof int interface
+  long native new package private protected public return short static strictfp super switch synchronized
+  this throw throws transient try void volatile while
+}
+
+numbers
+{
+  HighlightRegexp {\m([0-9_]+|0x[0-9a-fA-F_]+|0[0-7]+|0[bB][01_]+|[0-9]*\.[0-9]*)[lL]?} {}
+}
+
+punctuation
+{
+  HighlightRegexp {[][();,.\{\}]} {}
+}
+
+miscellaneous1
+{
+  HighlightKeywords {
+    false null true
+  } {}
+}
