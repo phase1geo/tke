@@ -1067,7 +1067,6 @@ namespace eval vim {
   proc handle_percent {txt tid} {
 
     variable mode
-    variable number
 
     if {$mode($txt) eq "start"} {
       [ns gui]::show_match_pair $tid
@@ -1706,33 +1705,21 @@ namespace eval vim {
     # Create a separator
     $txt edit separator
 
+    # Get the number of pastes that we need to perform
+    set num [expr {($number($txt) ne "") ? $number($txt) : 1}]
+    
     if {[set nl_index [string last \n $clip]] != -1} {
       if {[expr ([string length $clip] - 1) == $nl_index]} {
         set clip [string replace $clip $nl_index $nl_index]
       }
-      if {$number($txt) ne ""} {
-        for {set i 0} {$i < $number($txt)} {incr i} {
-          $txt insert "insert lineend" "\n$clip"
-          multicursor::paste $txt "insert+1l linestart"
-          $txt mark set insert "insert+1l linestart"
-        }
-      } else {
-        $txt insert "insert lineend" "\n$clip"
-        multicursor::paste $txt "insert+1l linestart"
-        $txt mark set insert "insert+1l linestart"
-      }
+      $txt insert "insert lineend" [string repeat "\n$clip" $num]
+      multicursor::paste $txt "insert+${num}l linestart"
+      $txt mark set insert "insert+${num}l linestart"
     } else {
-      if {$number($txt) ne ""} {
-        for {set i 0} {$i < $number($txt)} {incr i} {
-          $txt insert "insert+1c" $clip
-          multicursor::paste $txt "insert+1c"
-          $txt mark set insert "insert+[string length $clip]c"
-        }
-      } else {
-        $txt insert "insert+1c" $clip
-        multicursor::paste $txt "insert+1c"
-        $txt mark set insert "insert+[string length $clip]c"
-      }
+      set clip [string repeat $clip $num]
+      $txt insert "insert+1c" $clip
+      multicursor::paste $txt "insert+1c"
+      $txt mark set insert "insert+[string length $clip]c"
     }
     adjust_insert $txt
     $txt see insert
@@ -1768,30 +1755,19 @@ namespace eval vim {
     variable number
 
     $txt edit separator
+    
+    # Calculate the number of clips to pre-paste
+    set num [expr {($number($txt) ne "") ? $number($txt) : 1}]
 
     if {[set nl_index [string last \n $clip]] != -1} {
       if {[expr ([string length $clip] - 1) == $nl_index]} {
         set clip [string replace $clip $nl_index $nl_index]
       }
-      if {$number($txt) ne ""} {
-        for {set i 0} {$i < $number($txt)} {incr i} {
-          $txt insert "insert linestart" "$clip\n"
-          multicursor::paste $txt "insert linestart"
-        }
-      } else {
-        $txt insert "insert linestart" "$clip\n"
-        multicursor::paste $txt "insert linestart"
-      }
+      $txt insert "insert linestart" [string repeat "$clip\n" $num]
+      multicursor::paste $txt "insert linestart"
     } else {
-      if {$number($txt) ne ""} {
-        for {set i 0} {$i < $number($txt)} {incr i} {
-          $txt insert "insert-1c"
-          multicursor::paste $txt "insert-1c"
-        }
-      } else {
-        $txt insert "insert-1c"
-        multicursor::paste $txt "insert-1c"
-      }
+      $txt insert "insert-1c" [string repeat $clip $num]
+      multicursor::paste $txt "insert-1c"
     }
     adjust_insert $txt
 

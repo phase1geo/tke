@@ -1216,8 +1216,10 @@ proc ctext::instanceCmd {self cmd args} {
           $self._t tag remove $tag $prevSpace $nextSpace
         }
       }
+      
+      set re_data [$self._t get $prevSpace "$insertPos+${datalen}c"]
 
-      ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$configAr(re_opts) -- $commentRE $data]
+      ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$configAr(re_opts) -- $commentRE $re_data]
       ctext::highlightAfterIdle $self $lineStart $lineEnd
 
       switch -- $data {
