@@ -3877,6 +3877,7 @@ namespace eval gui {
     # If the current character is a matchable character, change the
     # insertion cursor to the matching character.
     switch -- [$txt get insert] {
+      "\}"    { set index [find_match_brace $txt "\\\{" "\\\}" -backwards] }
       "\{"    { set index [find_match_brace $txt "\\\}" "\\\{" -forwards] }
       "\}"    { set index [find_match_brace $txt "\\\{" "\\\}" -backwards] }
       "\["    { set index [find_match_brace $txt "\\\]" "\\\[" -forwards] }
@@ -3886,7 +3887,7 @@ namespace eval gui {
       "\<"    { set index [find_match_brace $txt "\\\>" "\\\<" -forwards] }
       "\>"    { set index [find_match_brace $txt "\\\<" "\\\>" -backwards] }
       "\""    { set index [find_match_quote $txt] }
-      default { set index [find_match_brace $txt "\\\{" "\\\}" -backwards] }
+      default { set index [find_prev_indent $txt] }
     }
 
     # Change the insertion cursor to the matching character
@@ -3962,11 +3963,11 @@ namespace eval gui {
     set last_found ""
 
     if {[ctext::isEscaped $txt $end_quote]} {
-      return
+      return -1
     }
 
-    # Figure out if we need to search forwards or backwards
     if {[lsearch [$txt tag names $end_quote-1c] _dString] == -1} {
+    # Figure out if we need to search forwards or backwards
       set dir   "-forwards"
       set start [$txt index "insert+1c"]
     } else {
@@ -4002,6 +4003,47 @@ namespace eval gui {
 
   }
 
+  ######################################################################
+  # Gets the index of the previous indentation character based on the
+  # location of the insert mark.
+  proc find_prev_indent {txt} {
+    
+    set pos        [$txt index insert]
+    set last_found ""
+    
+    lassign [syntax::get_indentation_expressions $txt] indent unindent
+    
+    if {($indent eq "") || [ctext::isEscaped $txt $pos]} {
+      return -1
+    }
+    
+    # Calculate the endpos
+    if {[set incomstr [ctext::inCommentString $txt $pos srange]]} {
+      set endpos [lindex $srange 0]
+    } else {
+      set endpos "1.0"
+    }
+    
+    set search_re "([join $indent |])"
+    
+    while {1} {
+      
+      if {[set found [$txt search -backwards -regexp -- $search_re $pos $endpos]] eq ""} {
+        return -1
+      }
+
+      set pos $found
+
+      if {[ctext::isEscaped $txt $found] || (!$incomstr && [ctext::inCommentString $txt $found])} {
+        continue
+      }
+      
+      return $found
+      
+    }
+    
+  }
+  
   ######################################################################
   # Handles a mark request when the line is clicked.
   proc mark_command {win type tag} {

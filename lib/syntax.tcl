@@ -542,16 +542,20 @@ namespace eval syntax {
   # expression that matches the string(s) to indicate that an unindentation
   # should occur on the following line.  Both of these expressions come
   # from the syntax file for the current language.
-  proc get_indentation_expressions {} {
+  proc get_indentation_expressions {txt} {
 
     variable langs
     variable curr_lang
 
+    if {![info exists curr_lang($txt)]} {
+      return [list {} {}]
+    }
+    
     # Get the language array for the current language.
-    array set lang_array $langs($curr_lang)
+    array set lang_array $langs($curr_lang($txt))
 
     return [list $lang_array(indent) $lang_array(unindent)]
-
+      
   }
 
   ######################################################################
