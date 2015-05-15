@@ -1,5 +1,5 @@
 filepatterns
-{*.java *.j}
+{*.class *.java *.jar *.jsp *.jad}
 
 matchcharsallowed
 {curly paren square double single}
