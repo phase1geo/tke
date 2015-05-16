@@ -137,6 +137,9 @@ namespace eval sidebar {
     grid $w.tl -row 0 -column 0 -sticky news
     grid $w.vb -row 0 -column 1 -sticky ns
     
+    # On application start, hide the scrollbar
+    hide_scrollbar
+    
     # Create directory popup
     set widgets(menu) [menu $w.popupMenu -tearoff 0 -postcommand "sidebar::menu_post"]
     
