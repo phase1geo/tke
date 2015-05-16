@@ -97,17 +97,21 @@ namespace eval vim {
   proc get_mode {txt} {
 
     variable mode
+    variable recording
 
     if {[[ns preferences]::get Tools/VimMode]} {
-      if {[info exists mode($txt.t)] && ($mode($txt.t) eq "edit")} {
-        return "INSERT MODE"
-      } elseif {[info exists mode($txt.t)] && ($mode($txt.t) eq "visual")} {
-        return "VISUAL MODE"
-      } elseif {[info exists mode($txt.t)] && ($mode($txt.t) eq "record")} {
-        return "RECORD MODE"
-      } else {
-        return "COMMAND MODE"
+      set record ""
+      set curr_reg $recording(curr_reg)
+      if {($curr_reg ne "") && ($recording($curr_reg,mode) eq "record")} {
+        set record ", REC\[ $curr_reg \]"
       }
+      if {[info exists mode($txt.t)]} {
+        switch $mode($txt.t) {
+          "edit"   { return "INSERT MODE$record" }
+          "visual" { return "VISUAL MODE$record" }
+        }
+      }
+      return "COMMAND MODE$record"
     } else {
       return ""
     }
@@ -565,20 +569,6 @@ namespace eval vim {
   }
 
   ######################################################################
-  # Set the current mode to the "record" mode.
-  proc record_mode {txt reg} {
-
-    variable mode
-
-    # Set our mode to record
-    set mode($txt) "record"
-
-    # Start the recording for the given register
-    record_start $reg
-
-  }
-
-  ######################################################################
   # Starts recording keystrokes.
   proc record_start {{reg auto}} {
 
@@ -589,7 +579,6 @@ namespace eval vim {
       set recording($reg,events) [list]
       if {$reg ne "auto"} {
         set recording(curr_reg) $reg
-        gui::set_record_mode 1
       }
     }
 
@@ -603,9 +592,6 @@ namespace eval vim {
 
     if {$recording($reg,mode) eq "record"} {
       set recording($reg,mode) "none"
-      if {$reg ne "auto"} {
-        gui::set_record_mode 0
-      }
     }
 
   }
