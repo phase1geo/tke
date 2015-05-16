@@ -264,8 +264,7 @@ namespace eval gui {
     set widgets(info)        [ttk::frame .if]
     set widgets(info_state)  [ttk::label .if.l1]
     set widgets(info_msg)    [ttk::label .if.l2]
-    set widgets(info_record) [ttk::label .if.l3]
-    set widgets(info_indent) [ttk::label .if.l4]
+    set widgets(info_indent) [ttk::label .if.l3]
     set widgets(info_syntax) [syntax::create_menubutton .if.syn]
 
     $widgets(info_syntax) configure -state disabled
@@ -273,7 +272,6 @@ namespace eval gui {
     pack .if.l1  -side left  -padx 2 -pady 2
     pack .if.l2  -side left  -padx 2 -pady 2
     pack .if.syn -side right -padx 2 -pady 2
-    pack .if.l4  -side right -padx 2 -pady 2
     pack .if.l3  -side right -padx 2 -pady 2
 
     # Create the configurable response widget
@@ -2532,20 +2530,6 @@ namespace eval gui {
 
     # Update the UI
     update_auto_indent $txt
-
-  }
-
-  ######################################################################
-  # Sets the current Vim recording state in the UI.
-  proc set_record_mode {value} {
-
-    variable widgets
-
-    if {$value} {
-      $widgets(info_record) configure -text "  REC  "
-    } else {
-      $widgets(info_record) configure -text ""
-    }
 
   }
 
