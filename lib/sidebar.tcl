@@ -144,7 +144,8 @@ namespace eval sidebar {
     set widgets(menu) [menu $w.popupMenu -tearoff 0 -postcommand "sidebar::menu_post"]
     
     # Handle traces
-    trace variable preferences::prefs(Sidebar/IgnoreFilePatterns) w sidebar::handle_ignore_file_patterns
+    trace variable preferences::prefs(Sidebar/IgnoreFilePatterns) w sidebar::handle_ignore_files
+    trace variable preferences::prefs(Sidebar/IgnoreExecutables)  w sidebar::handle_ignore_files
     
     return $w
     
@@ -515,10 +516,16 @@ namespace eval sidebar {
   # Figure out if the given file should be ignored.
   proc ignore_file {fname} {
 
+    # Ignore the file if it matches any of the ignore patterns
     foreach pattern [preferences::get Sidebar/IgnoreFilePatterns] {
       if {[string match $pattern $fname]} {
         return 1
       }
+    }
+    
+    # Ignore the file if we are told to ignore executables and the file is an executable
+    if {[preferences::get Sidebar/IgnoreExecutables] && [file isfile $fname] && [file executable $fname]} {
+      return 1
     }
     
     return 0
@@ -1250,8 +1257,8 @@ namespace eval sidebar {
   }
 
   ######################################################################
-  # Handle any changes to the ignore file patterns preference variable.
-  proc handle_ignore_file_patterns {name1 name2 op} {
+  # Handle any changes to the ignore file patterns/executables preference variables.
+  proc handle_ignore_files {name1 name2 op} {
 
     # Update all of the top-level directories
     update_directory_recursively root

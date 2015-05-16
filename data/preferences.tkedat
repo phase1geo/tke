@@ -208,6 +208,11 @@
 
 {Sidebar/IgnoreFilePatterns} {}
 
+# If set to a value of 1, does not display any files that are executable on the system
+# in the sidebar.
+
+{Sidebar/IgnoreExecutables}  {0}
+
 # When a file is closed in the editor and the file was last opened file within
 # a "rooted" directory in the sidebar, a value of 1 to this option will automatically
 # remove the "rooted" directory from the sidebar browser; otherwise, a value of 0
