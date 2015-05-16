@@ -144,8 +144,13 @@ namespace eval gui {
 
     # Delete any previously created images that we will be recreating
     if {[array size images] > 0} {
-      foreach name [list lock readonly diff close split down global] {
+      foreach name [list lock readonly diff close split global] {
         image delete $images($name)
+      }
+      foreach name [array names images mnu,*] {
+        if {$images($name) ne ""} {
+          image delete $images($name)
+        }
       }
     }
 
@@ -181,10 +186,14 @@ namespace eval gui {
     set images(split)    [image create bitmap -file     [file join $::tke_dir lib images split.bmp] \
                                               -maskfile [file join $::tke_dir lib images split.bmp] \
                                               -foreground $foreground]
-    set images(down)     [image create bitmap -file     [file join $::tke_dir lib images down.bmp] \
-                                              -maskfile [file join $::tke_dir lib images down.bmp] \
-                                              -foreground $foreground]
 
+    # Menu-readable versions of the tab icons
+    foreach name [list lock readonly diff] {
+      set ifile [lindex [$images($name) configure -file] 4]
+      set images(mnu,$images($name)) [image create bitmap -file $ifile -maskfile $ifile -foreground black]
+    }
+    set images(mnu,) ""
+    
   }
 
   ######################################################################
@@ -488,7 +497,6 @@ namespace eval gui {
       # Update all of the tabbars
       foreach nb [$widgets(nb_pw) panes] {
         $nb.tbf.tb    configure -background $bg -foreground $fg -activebackground $abg -inactivebackground $bg
-        $nb.tbf.extra configure -image $images(down)
         set tabs [$nb.tbf.tb tabs]
         foreach tab $tabs {
           $tab.pw.tf.split  configure -image $images(split)
@@ -841,14 +849,16 @@ namespace eval gui {
         }
 
         # Put the list in order
-        set ordered     [lrepeat 2 [lrepeat [llength $content(FileInfo)] ""]]
-        set second_pane 0
-        set i           0
-        foreach finfo_list $content(FileInfo) {
-          array set finfo $finfo_list
-          lset ordered $finfo(pane) $finfo(tab) $i
-          set second_pane [expr $finfo(pane) == 2]
-          incr i
+        if {[llength $content(FileInfo)] > 0} {
+          set ordered     [lrepeat 2 [lrepeat [llength $content(FileInfo)] ""]]
+          set second_pane 0
+          set i           0
+          foreach finfo_list $content(FileInfo) {
+            array set finfo $finfo_list
+            lset ordered $finfo(pane) $finfo(tab) $i
+            set second_pane [expr $finfo(pane) == 2]
+            incr i
+          }
         }
 
         # If the second pane is necessary, create it now
@@ -2949,19 +2959,17 @@ namespace eval gui {
     ttk::frame $nb.tbf
     tabbar::tabbar $nb.tbf.tb -command "gui::set_current_tab_from_tb" -closecommand "gui::close_tab_by_tabbar" \
       -background $bg -foreground $fg -activebackground $abg -inactivebackground $bg
-    ttk::label $nb.tbf.extra -image $images(down) -padding {4 4 4 4}
 
     grid rowconfigure    $nb.tbf 0 -weight 1
     grid columnconfigure $nb.tbf 0 -weight 1
     grid $nb.tbf.tb    -row 0 -column 0 -sticky news
-    grid $nb.tbf.extra -row 0 -column 1 -sticky news
     grid remove $nb.tbf.tb
-    grid remove $nb.tbf.extra
 
-    bind $nb.tbf.extra <Button-1> "gui::show_tabs $nb"
+    bind [$nb.tbf.tb scrollpath left]  <Button-$::right_click> "gui::show_tabs $nb.tbf.tb left"
+    bind [$nb.tbf.tb scrollpath right] <Button-$::right_click> "gui::show_tabs $nb.tbf.tb right"
 
     # Create popup menu for extra tabs
-    menu $nb.tbf.extra.mnu -tearoff 0
+    menu $nb.tbf.tb.mnu -tearoff 0
 
     ttk::frame $nb.tf
 
@@ -2978,14 +2986,6 @@ namespace eval gui {
       set gui::pw_current [lsearch [$gui::widgets(nb_pw) panes] [winfo parent [winfo parent [winfo parent %W]]]]
       if {![catch "[winfo parent %W] select @%x,%y"]} {
         tk_popup $gui::widgets(menu) %X %Y
-      }
-    }
-
-    bind $nb.tbf.tb <<TabbarScrollEnabled>>  "grid $nb.tbf.extra"
-    bind $nb.tbf.tb <<TabbarScrollDisabled>> "grid remove $nb.tbf.extra"
-    bind $nb.tbf.tb <Map> {
-      if {[%W scrolled]} {
-        grid [winfo parent %W].extra
       }
     }
 
@@ -4060,11 +4060,11 @@ namespace eval gui {
 
   ######################################################################
   # Displays all of the unhidden tabs.
-  proc show_tabs {nb} {
+  proc show_tabs {tb side} {
 
-    set tb    $nb.tbf.tb
-    set extra $nb.tbf.extra
-    set mnu   $extra.mnu
+    variable images
+    
+    set mnu $tb.mnu
 
     # Get the shown tabs
     set shown [$tb xview shown]
@@ -4082,14 +4082,21 @@ namespace eval gui {
         set shown [lassign $shown tmp]
       }
       if {[$tb tab $tab -state] ne "hidden"} {
-        $mnu add command -compound left -image [$tb tab $tab -image] -label [$tb tab $tab -text] -command "gui::set_current_tab $tab"
+        $mnu add command -compound left -image $images(mnu,[$tb tab $tab -image]) -label [$tb tab $tab -text] -command "gui::set_current_tab $tab"
       }
       incr i
     }
 
+    # Figure out where to display the menu
+    if {$side eq "right"} {
+      set x [expr ([winfo rootx $tb] + [winfo width $tb]) - [winfo reqwidth $mnu]]
+    } else {
+      set x [winfo rootx $tb]
+    }
+    set y [expr [winfo rooty $tb] + [winfo height $tb]]
+    
     # Display the menu
-    tk_popup $mnu [expr ([winfo rootx $extra] + [winfo reqwidth $extra]) - [winfo reqwidth $mnu]] \
-                  [expr [winfo rooty $extra] + [winfo reqheight $extra]]
+    tk_popup $mnu $x $y
 
   }
 

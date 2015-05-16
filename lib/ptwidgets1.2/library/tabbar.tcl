@@ -66,8 +66,8 @@ namespace eval tabbar {
     
     # The tab bar will be a canvas
     canvas $w.c  -bg grey90 -takefocus 1 -bd 0 -highlightthickness 0 -relief flat -confine 0
-    label  $w.sl -text " < " -bg grey80 -fg black -disabledforeground grey50 -state disabled -relief flat
-    label  $w.sr -text " > " -bg grey80 -fg black -disabledforeground grey50 -relief flat
+    label  $w.sl -text "\u276e" -bg grey80 -fg black -disabledforeground grey50 -padx 8 -state disabled -relief flat
+    label  $w.sr -text "\u276f" -bg grey80 -fg black -disabledforeground grey50 -padx 8 -relief flat
     
     grid rowconfigure    $w 0 -weight 1
     grid columnconfigure $w 1 -weight 1
@@ -1154,18 +1154,19 @@ namespace eval tabbar {
     set opts [lrange $args 1 end]
     
     switch $cmd {
-      btag      { return [tabbar::btag $w {*}$opts] }
-      cget      { return [tabbar::cget $w {*}$opts] }
-      configure { return [tabbar::configure 0 $w {*}$opts] }
-      delete    { tabbar::delete $w {*}$opts }
-      index     { return [tabbar::index $w {*}$opts] }
-      insert    { return [tabbar::insert $w {*}$opts] }
-      scrolled  { return [tabbar::scrolled $w {*}$opts] }
-      select    { tabbar::select $w {*}$opts }
-      tab       { return [tabbar::tab $w {*}$opts] }
-      tabs      { return [tabbar::tabs $w {*}$opts] }
-      xview     { return [tabbar::xview $w {*}$opts] }
-      default   { return -code error "Unknown tabbar command ($cmd)" }
+      btag       { return [tabbar::btag $w {*}$opts] }
+      cget       { return [tabbar::cget $w {*}$opts] }
+      configure  { return [tabbar::configure 0 $w {*}$opts] }
+      delete     { tabbar::delete $w {*}$opts }
+      index      { return [tabbar::index $w {*}$opts] }
+      insert     { return [tabbar::insert $w {*}$opts] }
+      scrolled   { return [tabbar::scrolled $w {*}$opts] }
+      scrollpath { return [tabbar::scrollpath $w {*}$opts] }
+      select     { tabbar::select $w {*}$opts }
+      tab        { return [tabbar::tab $w {*}$opts] }
+      tabs       { return [tabbar::tabs $w {*}$opts] }
+      xview      { return [tabbar::xview $w {*}$opts] }
+      default    { return -code error "Unknown tabbar command ($cmd)" }
     }
     
   }
@@ -1631,6 +1632,26 @@ namespace eval tabbar {
       }
       
     }
+    
+  }
+  
+  ######################################################################
+  # Returns the path of the left or right scroll widget.
+  proc scrollpath {w args} {
+    
+    # Verify the arguments values
+    if {[llength $args] != 1} {
+      return -code error "Incorrect number of parameters given to the tabbar::scrollpath command"
+    }
+    
+    set type [lindex $args 0]
+    
+    switch $type {
+      "left"  { return $w.sl }
+      "right" { return $w.sr }
+    }
+    
+    return -code error "Bad argument value sent to tabbar::scrollpath command ($type)"
     
   }
   
