@@ -1,52 +1,70 @@
-changeset:   1012:154204f033de
-tag:         devel-1.6.5
+changeset:   1018:bc7e4266668c
+tag:         devel-1.6.6
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed May 13 21:44:38 2015 -0500
+date:        Thu May 14 23:15:04 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.6.5 release
+ChangeLog for devel-1.6.6 release
 
 
-changeset:   1013:320492e04db2
+changeset:   1019:a377d91561f7
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed May 13 21:44:42 2015 -0500
+date:        Thu May 14 23:15:08 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.6.5 for changeset 154204f033de
+Added tag devel-1.6.6 for changeset bc7e4266668c
 
 
-changeset:   1014:a64aba8b5050
+changeset:   1020:22a0978a218a
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu May 14 09:13:54 2015 -0500
-files:       data/themes/Aurora.tketheme lib/themer.tcl lib/version.tcl
-description:
-* Fixing syntax error in themer.
-* Adding Aurora color theme.
-
-
-changeset:   1015:0b752dd86f9e
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu May 14 21:27:47 2015 -0500
-files:       lib/ctext/ctext.tcl lib/version.tcl lib/vim.tcl
-description:
-* Fixing string/comment handling optimization.
-* Optimizing multi-line Vim pasting.
-
-
-changeset:   1016:ad333a162634
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu May 14 22:05:25 2015 -0500
-files:       lib/gui.tcl lib/version.tcl
-description:
-* Changing gui::match_pair to default to searching for the previous open curly bracket if the cursor is not on a matchable character.
-
-
-changeset:   1017:d4df684a1ee9
-tag:         tip
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu May 14 23:12:21 2015 -0500
+date:        Thu May 14 23:24:35 2015 -0500
 files:       data/syntax/Java.syntax lib/version.tcl
 description:
-* Adding Java syntax file.
+* Fixing Java syntax file extension list.
+
+
+changeset:   1021:3b0fcbe7ce67
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri May 15 09:01:57 2015 -0500
+files:       lib/gui.tcl lib/syntax.tcl lib/version.tcl
+description:
+* Changing "Find matching pair" functionality to find indentation character instead of curly bracket.
+
+
+changeset:   1022:ab099a7b20be
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri May 15 22:55:43 2015 -0500
+files:       lib/diff.tcl lib/gui.tcl lib/ptwidgets1.2/library/tabbar.tcl lib/version.tcl
+description:
+* Cleaning up difference view control panel.
+* Fixing display of tab menu for tabs containing images.
+* Replacing tab bar dropdown button with same functionality by right-clicking either of the scroll buttons.
+* Changing default scroll button images with a better graphic.
+* Fixing bug in session load procedure when no tabs were last saved.
+
+
+changeset:   1023:c7cadaf64e2d
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri May 15 23:33:16 2015 -0500
+files:       lib/gui.tcl lib/version.tcl lib/vim.tcl
+description:
+* Removing recording indicator from right side of information bar and moved it just after the Vim mode (also outputting recording buffer in info bar).
+
+
+changeset:   1024:476fa9ba07a0
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri May 15 23:45:32 2015 -0500
+files:       lib/sidebar.tcl lib/version.tcl
+description:
+* Changing sidebar scrollbar to be hidden on application start.
+
+
+changeset:   1025:46fca4b615a1
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat May 16 00:29:09 2015 -0500
+files:       data/preferences.tkedat lib/sidebar.tcl lib/version.tcl
+description:
+* Adding preference item to ignore executable files from the sidebar.
 
 
