@@ -28,16 +28,15 @@ namespace eval diff {
     set data($txt,win) $win
 
     ttk::frame      $win
-    ttk::label      $win.l1   -text "Version System: "
     ttk::menubutton $win.cvs  -menu $win.cvsMenu -direction above
     ttk::button     $win.show -text "Update" -command "[ns diff]::show $txt"
 
     # Create the version frame
     ttk::frame $win.vf
     ttk::label $win.vf.l1 -text "    Start: "
-    $data(sb)  $win.vf.v1 {*}$data(sb_opts) -textvariable [ns diff]::data($txt,v1) -state readonly -command "[ns diff]::handle_v1 $txt"
+    $data(sb)  $win.vf.v1 {*}$data(sb_opts) -textvariable [ns diff]::data($txt,v1) -width 10 -state readonly -command "[ns diff]::handle_v1 $txt"
     ttk::label $win.vf.l2 -text "    End: "
-    $data(sb)  $win.vf.v2 {*}$data(sb_opts) -textvariable [ns diff]::data($txt,v2) -state readonly -command "[ns diff]::handle_v2 $txt"
+    $data(sb)  $win.vf.v2 {*}$data(sb_opts) -textvariable [ns diff]::data($txt,v2) -width 10 -state readonly -command "[ns diff]::handle_v2 $txt"
 
     grid rowconfigure    $win.vf 0 -weight 1
     grid columnconfigure $win.vf 2 -weight 1
@@ -68,14 +67,13 @@ namespace eval diff {
     grid $win.cf.e -row 0 -column 0 -sticky ew -padx 2
     
     grid rowconfigure    $win 0 -weight 1
-    grid columnconfigure $win 3 -weight 1
+    grid columnconfigure $win 2 -weight 1
     grid $win
-    grid $win.l1   -row 0 -column 0 -sticky ew -padx 2 -pady 2
-    grid $win.cvs  -row 0 -column 1 -sticky ew -padx 2 -pady 2
-    grid $win.vf   -row 0 -column 2 -sticky ew         -pady 2
-    grid $win.ff   -row 0 -column 3 -sticky ew         -pady 2
-    grid $win.cf   -row 0 -column 4 -sticky ew         -pady 2
-    grid $win.show -row 0 -column 5 -sticky ew -padx 2 -pady 2
+    grid $win.cvs  -row 0 -column 0 -sticky ew -padx 2 -pady 2
+    grid $win.vf   -row 0 -column 1 -sticky ew         -pady 2
+    grid $win.ff   -row 0 -column 2 -sticky ew         -pady 2
+    grid $win.cf   -row 0 -column 3 -sticky ew         -pady 2
+    grid $win.show -row 0 -column 4 -sticky ew -padx 2 -pady 2
 
     # Hide the version frame, file frame and update button until they are valid
     grid remove $win.vf
