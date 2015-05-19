@@ -23,27 +23,32 @@ namespace eval indent {
   }
 
   ######################################################################
-  # Sets the auto-indent mode for the given text widget.
-  proc set_auto_indent {txt value} {
+  # Sets the indentation mode for the current text widget.
+  proc set_indent_mode {mode} {
     
     variable indent_exprs
     
-    if {$indent_exprs($txt.t,indent) ne ""} {
-      set indent_exprs($txt.t,enabled) $value
-    }
+    # Get the current text widget
+    set txt [[ns gui]::current_txt {}].t
+    
+    # Set the current mode
+    set indent_exprs($txt,mode) $mode
+    
+    # Update the menu button
+    [set [ns gui]::widgets(info_indent)] configure -text $mode
     
   }
   
   ######################################################################
-  # Returns the value of the auto-indent indicator for the given text widget.
-  proc get_auto_indent {txt} {
+  # Returns the value of the indentation mode for the given text widget.
+  proc get_indent_mode {txt} {
     
     variable indent_exprs
     
-    if {![info exists indent_exprs($txt.t,enabled)]} {
-      return 0
+    if {![info exists indent_exprs($txt.t,mode)]} {
+      return "OFF"
     } else {
-      return $indent_exprs($txt.t,enabled)
+      return $indent_exprs($txt.t,mode)
     }
     
   }
@@ -68,7 +73,7 @@ namespace eval indent {
 
     # If the auto-indent feature was disabled, we are in vim start mode, or
     # the current language doesn't have an indent expression, quit now
-    if {!$indent_exprs($txt,enabled) || [[ns vim]::in_vim_mode $txt]} {
+    if {($indent_exprs($txt,mode) eq "OFF") || [[ns vim]::in_vim_mode $txt]} {
       return
     }
 
@@ -94,19 +99,31 @@ namespace eval indent {
 
     # If the auto-indent feature was disabled, we are in vim start mode,
     # or the current language doesn't have an indent expression, quit now
-    if {!$indent_exprs($txt,enabled) || [[ns vim]::in_vim_mode $txt]} {
+    if {($indent_exprs($txt,mode) eq "OFF") || [[ns vim]::in_vim_mode $txt]} {
       return
     }
 
-    # Get the current indentation level
-    set indent_space [get_indent_space $txt 1.0 $index]
-
-    # Check to see if the previous space is greater than the indent space (if so use it instead)
+    # Get the previous space
     set prev_space [get_previous_indent_space $txt $index]
-    if {[string length $prev_space] > [string length $indent_space]} {
+    
+    # If we do not need smart indentation, use the previous space
+    if {$indent_exprs($txt,mode) eq "IND"} {
+      
       set indent_space $prev_space
-    }
+      
+    # Otherwise, do smart indentation
+    } else {
+      
+      # Get the current indentation level
+      set indent_space [get_indent_space $txt 1.0 $index]
 
+      # Check to see if the previous space is greater than the indent space (if so use it instead)
+      if {[string length $prev_space] > [string length $indent_space]} {
+        set indent_space $prev_space
+      }
+      
+    }
+    
     # Get the current line
     set line [$txt get $index "$index lineend"]
 
@@ -157,7 +174,7 @@ namespace eval indent {
 
     variable indent_exprs
     
-    if {!$indent_exprs($txt,enabled) || \
+    if {($indent_exprs($txt,mode) eq "OFF") || \
         [[ns vim]::in_vim_mode $txt] || \
         ([lindex [split $index .] 0] == 1)} {
       return 0
@@ -218,7 +235,7 @@ namespace eval indent {
     variable indent_exprs
 
     # If the current language doesn't have indentation enabled, quit now
-    if {!$indent_exprs($txt,enabled)} {
+    if {$indent_exprs($txt,mode) eq "OFF"} {
       return
     }
 
@@ -281,7 +298,67 @@ namespace eval indent {
     # Set the indentation expressions
     set indent_exprs($txt,indent)   $indent
     set indent_exprs($txt,unindent) $unindent
-    set indent_exprs($txt,enabled)  [expr {($indent ne "") && [[ns preferences]::get Editor/EnableAutoIndent]}]
+    
+    # Set the default indentation mode
+    if {[[ns preferences]::get Editor/EnableAutoIndent]} {
+      if {$indent ne ""} {
+        set indent_exprs($txt,mode) "IND+"
+      } else {
+        set indent_exprs($txt,mode) "IND"
+      }
+    } else {
+      set indent_exprs($txt,mode) "OFF"
+    }
+    
+  }
+  
+  ######################################################################
+  # Repopulates the specified syntax selection menu.
+  proc populate_indent_menu {mnu} {
+
+    variable langs
+    
+    # Clear the menu
+    $mnu delete 0 end
+
+    # Populate the menu with the available languages
+    foreach {lbl mode} [list "No Indent" "OFF" "Auto-Indent" "IND" "Smart Indent" "IND+"] {
+      $mnu add radiobutton -label $lbl -variable [ns indent]::indent_exprs([[ns gui]::current_txt {}].t,mode) \
+        -value $mode -command "[ns indent]::set_indent_mode $mode"
+    }
+    
+    return $mnu
+
+  }
+  
+  ######################################################################
+  # Creates the menubutton to control the indentation mode for the current
+  # editor.
+  proc create_menubutton {w} {
+    
+    # Create the menubutton
+    ttk::menubutton $w -menu $w.menu -direction above
+
+    # Create the menubutton menu
+    menu $w.menu -tearoff 0 -postcommand "[ns indent]::populate_indent_menu $w.menu"
+    
+    return $w
+    
+  }
+  
+  ######################################################################
+  # Updates the menubutton to match the current mode.
+  proc update_menubutton {w} {
+    
+    variable indent_exprs
+    
+    # Get the current text widget
+    set txt [[ns gui]::current_txt {}]
+    
+    # Configure the menubutton
+    if {[info exists indent_exprs($txt.t,mode)]} {
+      $w configure -text $indent_exprs($txt.t,mode)
+    }
     
   }
 

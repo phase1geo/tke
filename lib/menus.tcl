@@ -7,6 +7,7 @@ namespace eval menus {
 
   variable profile_report  [file join $::tke_home profiling_report.log]
   variable show_split_pane 0
+  variable indent_mode     "IND+"
 
   array set profiling_info {}
 
@@ -554,9 +555,7 @@ namespace eval menus {
 
     $mb add separator
 
-    $mb add command -label [msgcat::mc "Enable Auto-Indent"] -underline 12 -command "gui::set_current_auto_indent {} 1"
-    launcher::register [msgcat::mc "Menu: Enable auto-indent"]  "gui::set_current_auto_indent {} 1"
-    launcher::register [msgcat::mc "Menu: Disable auto-indent"] "gui::set_current_auto_indent {} 0"
+    $mb add cascade -label [msgcat::mc "Indent Mode"] -underline 0 -menu [menu $mb.indentPopup -tearoff 0 -postcommand "indent::populate_indent_menu $mb.indentPopup"]
 
     $mb add separator
 
@@ -568,6 +567,16 @@ namespace eval menus {
     $mb add cascade -label [msgcat::mc "Preferences"]   -menu [menu $mb.prefPopup -tearoff 0 -postcommand "menus::edit_preferences_posting $mb.prefPopup"]
     $mb add cascade -label [msgcat::mc "Menu Bindings"] -menu [menu $mb.bindPopup -tearoff 0]
     $mb add cascade -label [msgcat::mc "Snippets"]      -menu [menu $mb.snipPopup -tearoff 0 -postcommand "menus::edit_snippets_posting $mb.snipPopup"]
+    
+    # Create indentation menu
+    $mb.indentPopup add radiobutton -label [msgcat::mc "Indent Off"] -variable menus::indent_mode -value "OFF" -command "gui::set_current_indent_mode {} OFF"
+    launcher::register [msgcat::mc "Menu: Set indent mode to OFF"] "gui::set_current_indent_mode {} OFF"
+    
+    $mb.indentPopup add radiobutton -label [msgcat::mc "Auto-Indent"] -variable menus::indent_mode -value "IND" -command "gui::set_current_indent_mode {} IND"
+    launcher::register [msgcat::mc "Menu: Set indent mode to IND"] "gui::set_current_indent_mode {} IND"
+    
+    $mb.indentPopup add radiobutton -label [msgcat::mc "Smart Indent"] -variable menus::indent_mode -value "IND+" -command "gui::set_current_indent_mode {} IND+"
+    launcher::register [msgcat::mc "Menu: Set indent mode to IND+"] "gui::set_current_indent_mode {} IND+"
 
     # Create insertion menu
     $mb.insertPopup add command -label [msgcat::mc "From Clipboard"] -command "cliphist::show_cliphist"
@@ -641,8 +650,7 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Paste"]            -state disabled
       $mb entryconfigure [msgcat::mc "Paste and Format"] -state disabled
       $mb entryconfigure [msgcat::mc "Select All"]       -state disabled
-      catch { $mb entryconfigure [msgcat::mc "Enable Auto-Indent"]  -state disabled }
-      catch { $mb entryconfigure [msgcat::mc "Disable Auto-Indent"] -state disabled }
+      $mb entryconfigure [msgcat::mc "Indent Mode"]      -state disabled
       $mb entryconfigure [msgcat::mc "Insert Text"]      -state disabled
       $mb entryconfigure [msgcat::mc "Format Text"]      -state disabled
     } else {
@@ -671,12 +679,7 @@ namespace eval menus {
         $mb entryconfigure [msgcat::mc "Paste and Format"] -state disabled
       }
       $mb entryconfigure [msgcat::mc "Select All"]  -state normal
-      set auto_indent_state [expr {[indent::is_auto_indent_available [gui::current_txt {}]] ? "normal" : "disabled"}]
-      if {[indent::get_auto_indent [gui::current_txt {}]] && ![catch "$mb index {Enable Auto-Indent}" index]} {
-        $mb entryconfigure $index -label [msgcat::mc "Disable Auto-Indent"] -underline 13 -state $auto_indent_state -command "gui::set_current_auto_indent {} 0"
-      } elseif {![indent::get_auto_indent [gui::current_txt {}]] && ![catch "$mb index {Disable Auto-Indent}" index]} {
-        $mb entryconfigure $index -label [msgcat::mc "Enable Auto-Indent"] -underline 12 -state $auto_indent_state -command "gui::set_current_auto_indent {} 1"
-      }
+      $mb entryconfigure [msgcat::mc "Indent Mode"] -state normal
       if {[gui::editable {}]} {
         $mb entryconfigure [msgcat::mc "Insert Text"] -state normal
       } else {

@@ -401,7 +401,7 @@ namespace eval syntax {
         [ns indent]::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent)
 
         # Update the UI based on the indentation settings
-        [ns gui]::update_auto_indent $txt
+        # TBD - [ns gui]::update_auto_indent $txt
 
         # Set the completer options for the given language
         ctext::setAutoMatchChars $txt $lang_array(matchcharsallowed)
