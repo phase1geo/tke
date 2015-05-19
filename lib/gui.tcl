@@ -264,7 +264,7 @@ namespace eval gui {
     set widgets(info)        [ttk::frame .if]
     set widgets(info_state)  [ttk::label .if.l1]
     set widgets(info_msg)    [ttk::label .if.l2]
-    set widgets(info_indent) [ttk::label .if.l3]
+    set widgets(info_indent) [indent::create_menubutton .if.ind]
     set widgets(info_syntax) [syntax::create_menubutton .if.syn]
 
     $widgets(info_syntax) configure -state disabled
@@ -272,7 +272,7 @@ namespace eval gui {
     pack .if.l1  -side left  -padx 2 -pady 2
     pack .if.l2  -side left  -padx 2 -pady 2
     pack .if.syn -side right -padx 2 -pady 2
-    pack .if.l3  -side right -padx 2 -pady 2
+    pack .if.ind -side right -padx 2 -pady 2
 
     # Create the configurable response widget
     set widgets(ursp)       [ttk::frame .rf]
@@ -775,7 +775,7 @@ namespace eval gui {
       set finfo(sidebar)     [lindex $file $files_index(sidebar)]
       set finfo(language)    [syntax::get_current_language $txt]
       set finfo(buffer)      [lindex $file $files_index(buffer)]
-      set finfo(indent)      [indent::get_auto_indent $txt]
+      set finfo(indent)      [indent::get_indent_mode $txt]
       set finfo(modified)    0
 
       lappend content(FileInfo) [array get finfo]
@@ -879,7 +879,7 @@ namespace eval gui {
                   syntax::set_language $finfo(language)
                 }
                 if {[info exists finfo(indent)]} {
-                  set_current_auto_indent $tid $finfo(indent)
+                  set_current_indent_mode $tid $finfo(indent)
                 }
               } else {
                 set set_tab 0
@@ -2518,32 +2518,10 @@ namespace eval gui {
 
   ######################################################################
   # Sets auto-indent for the current editor to the given value.
-  proc set_current_auto_indent {tid value} {
-
-    variable widgets
-
-    # Get the current text widget
-    set txt [current_txt $tid]
+  proc set_current_indent_mode {tid value} {
 
     # Set the auto-indent mode
-    indent::set_auto_indent $txt $value
-
-    # Update the UI
-    update_auto_indent $txt
-
-  }
-
-  ######################################################################
-  # Updates the UI to indicate the current auto-indent mode.
-  proc update_auto_indent {txt} {
-
-    variable widgets
-
-    if {[indent::get_auto_indent $txt]} {
-      $widgets(info_indent) configure -text "  IND  "
-    } else {
-      $widgets(info_indent) configure -text ""
-    }
+    indent::set_indent_mode $value
 
   }
 
@@ -3556,7 +3534,7 @@ namespace eval gui {
     syntax::update_menubutton $widgets(info_syntax)
 
     # Update the indentation indicator
-    update_auto_indent $txt
+    indent::update_menubutton $widgets(info_indent)
 
     # Set the application title bar
     set_title
