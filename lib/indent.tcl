@@ -73,7 +73,7 @@ namespace eval indent {
 
     # If the auto-indent feature was disabled, we are in vim start mode, or
     # the current language doesn't have an indent expression, quit now
-    if {($indent_exprs($txt,mode) eq "OFF") || [[ns vim]::in_vim_mode $txt]} {
+    if {($indent_exprs($txt,mode) ne "IND+") || [[ns vim]::in_vim_mode $txt]} {
       return
     }
 
@@ -139,7 +139,9 @@ namespace eval indent {
       if {[regexp [subst {^[join $indent_exprs($txt,unindent) |]}] $rest]} {
         $txt insert insert "$indent_space\n"
         set restore_insert [$txt index insert-1c]
-        set indent_space [string range $indent_space [[ns preferences]::get Editor/IndentSpaces] end]
+        if {$indent_exprs($txt,mode) eq "IND+"} {
+          set indent_space [string range $indent_space [[ns preferences]::get Editor/IndentSpaces] end]
+        }
       }
 
       # See if we are deleting a multicursor
