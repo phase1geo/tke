@@ -1,34 +1,26 @@
-changeset:   1026:6653b9edfe55
-tag:         devel-1.6.7
+changeset:   1030:dd0d44321f85
+tag:         devel-1.6.8
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat May 16 10:09:57 2015 -0500
+date:        Wed May 20 01:06:48 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.6.7 release
+ChangeLog for devel-1.6.8 release
 
 
-changeset:   1027:6e0c8416f343
+changeset:   1031:633a43a1ec82
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat May 16 10:10:02 2015 -0500
+date:        Wed May 20 01:07:01 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.6.7 for changeset 6653b9edfe55
+Added tag devel-1.6.8 for changeset dd0d44321f85
 
 
-changeset:   1028:d95f24c2a2f0
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon May 18 22:30:35 2015 -0500
-files:       lib/gui.tcl lib/indent.tcl lib/menus.tcl lib/syntax.tcl lib/version.tcl
-description:
-* Adding initial support for different indentation modes.
-
-
-changeset:   1029:828fcbddd7da
+changeset:   1032:ce7bbea0486e
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed May 20 00:17:11 2015 -0500
+date:        Wed May 20 09:09:01 2015 -0500
 files:       lib/indent.tcl lib/version.tcl
 description:
-* Fixing issue with auto-indent mode and unindentation characters.
+* Fixing session loading issue with new indentation policies.
 
 
