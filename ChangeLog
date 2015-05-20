@@ -1,70 +1,34 @@
-changeset:   1018:bc7e4266668c
-tag:         devel-1.6.6
+changeset:   1026:6653b9edfe55
+tag:         devel-1.6.7
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu May 14 23:15:04 2015 -0500
+date:        Sat May 16 10:09:57 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.6.6 release
+ChangeLog for devel-1.6.7 release
 
 
-changeset:   1019:a377d91561f7
+changeset:   1027:6e0c8416f343
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu May 14 23:15:08 2015 -0500
+date:        Sat May 16 10:10:02 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.6.6 for changeset bc7e4266668c
+Added tag devel-1.6.7 for changeset 6653b9edfe55
 
 
-changeset:   1020:22a0978a218a
+changeset:   1028:d95f24c2a2f0
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu May 14 23:24:35 2015 -0500
-files:       data/syntax/Java.syntax lib/version.tcl
+date:        Mon May 18 22:30:35 2015 -0500
+files:       lib/gui.tcl lib/indent.tcl lib/menus.tcl lib/syntax.tcl lib/version.tcl
 description:
-* Fixing Java syntax file extension list.
+* Adding initial support for different indentation modes.
 
 
-changeset:   1021:3b0fcbe7ce67
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri May 15 09:01:57 2015 -0500
-files:       lib/gui.tcl lib/syntax.tcl lib/version.tcl
-description:
-* Changing "Find matching pair" functionality to find indentation character instead of curly bracket.
-
-
-changeset:   1022:ab099a7b20be
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri May 15 22:55:43 2015 -0500
-files:       lib/diff.tcl lib/gui.tcl lib/ptwidgets1.2/library/tabbar.tcl lib/version.tcl
-description:
-* Cleaning up difference view control panel.
-* Fixing display of tab menu for tabs containing images.
-* Replacing tab bar dropdown button with same functionality by right-clicking either of the scroll buttons.
-* Changing default scroll button images with a better graphic.
-* Fixing bug in session load procedure when no tabs were last saved.
-
-
-changeset:   1023:c7cadaf64e2d
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri May 15 23:33:16 2015 -0500
-files:       lib/gui.tcl lib/version.tcl lib/vim.tcl
-description:
-* Removing recording indicator from right side of information bar and moved it just after the Vim mode (also outputting recording buffer in info bar).
-
-
-changeset:   1024:476fa9ba07a0
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri May 15 23:45:32 2015 -0500
-files:       lib/sidebar.tcl lib/version.tcl
-description:
-* Changing sidebar scrollbar to be hidden on application start.
-
-
-changeset:   1025:46fca4b615a1
+changeset:   1029:828fcbddd7da
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat May 16 00:29:09 2015 -0500
-files:       data/preferences.tkedat lib/sidebar.tcl lib/version.tcl
+date:        Wed May 20 00:17:11 2015 -0500
+files:       lib/indent.tcl lib/version.tcl
 description:
-* Adding preference item to ignore executable files from the sidebar.
+* Fixing issue with auto-indent mode and unindentation characters.
 
 
