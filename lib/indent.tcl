@@ -8,6 +8,13 @@ namespace eval indent {
   source [file join $::tke_dir lib ns.tcl]
 
   array set indent_exprs  {}
+  array set indent_mode_map {
+    "OFF"  "OFF"
+    "IND"  "IND"
+    "IND+" "IND+"
+    "0"    "OFF"
+    "1"    "IND+"
+  }
 
   ######################################################################
   # Adds indentation bindings for the given text widget.
@@ -27,12 +34,13 @@ namespace eval indent {
   proc set_indent_mode {mode} {
     
     variable indent_exprs
+    variable indent_mode_map
     
     # Get the current text widget
     set txt [[ns gui]::current_txt {}].t
     
     # Set the current mode
-    set indent_exprs($txt,mode) $mode
+    set indent_exprs($txt,mode) $indent_mode_map($mode)
     
     # Update the menu button
     [set [ns gui]::widgets(info_indent)] configure -text $mode
