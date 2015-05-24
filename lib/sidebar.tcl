@@ -465,7 +465,66 @@ namespace eval sidebar {
   
   ######################################################################
   # Adds the given directory which displays within the file browser.
-  proc add_directory {dir} {
+  proc add_directory {dir {parent root}} {
+    
+    variable widgets
+    variable images
+    
+    # Get some needed information
+    if {$parent eq "root"} {
+      add_to_recently_opened $dir
+      set dir_tail [file tail $dir]
+      set dir_path $dir
+    } else {
+      set parent_dir [$widgets(tl) cellcget $parent,name -text]
+      set dir_tail   [lindex [file split $dir] [llength [file split $parent_dir]]]
+      set dir_path   [file join $parent_dir $dir_tail]
+      catch { $widgets(tl) expand $parent -partly }
+    }
+    
+    # If we have hit the end of the path, return the parent
+    if {$dir_tail eq ""} {
+      return $parent
+    }
+    
+    # Search for a match in the parent directory
+    set i     0
+    set index end 
+    foreach child [$widgets(tl) childkeys $parent] {
+      set name [$widgets(tl) cellcget $child,name -text]
+      if {[string compare -length [string length $name] $dir $name] == 0} {
+        return [add_directory $dir $child]
+      }
+      if {($index eq "end") && ([string compare $dir_tail [file tail $name]] < 1)} {
+        set index $i
+      }
+      incr i
+    }
+    
+    # If no match was found, add it at the ordered index
+    set parent [$widgets(tl) insertchild $parent $index [list $dir_path 0]]
+    
+    # Insert the directory contents
+    foreach name [order_files_dirs [glob -nocomplain -directory $dir_path *]] {
+      set child [$widgets(tl) insertchild $parent end [list $name 0]]
+      if {[file isdirectory $name]} {
+        $widgets(tl) collapse $child
+      } elseif {![ignore_file $name]} {
+        if {[gui::file_exists $name]} {
+          $widgets(tl) cellconfigure $child,name -image $images(sopen)
+          update_root_count $child 1
+        }
+      }
+    }
+    
+    # Expand the newly added directory
+    catch { $widgets(tl) expand $parent -partly }
+    
+    return $parent
+    
+  }
+  
+  proc add_directory_old {dir} {
     
     variable widgets
     variable recently_added
@@ -475,6 +534,9 @@ namespace eval sidebar {
       
     # Get the length of the directory
     set dirlen [string length $dir]
+    
+    puts "dir: $dir, names: "
+    puts [join [$widgets(tl) getcolumns name] "  \n"]
     
     # Check to see if the directory root has already been added
     if {[set row [$widgets(tl) searchcolumn name $dir -descend -exact]] != -1} {
@@ -486,14 +548,17 @@ namespace eval sidebar {
       
     } else {
       
+      puts "HERE :("
       set sub_added 0
       
       # Add the subdirectory if the parent already exists
       foreach child [$widgets(tl) childkeys root] {
         set name [$widgets(tl) cellcget $child,name -text]
-        if {[string compare -length $dirlen $name $dir] == 0} {
+        puts "name: $name, dir: $dir, compare: [string compare -length [string length $name] $name $dir]"
+        if {[string compare -length [string length $name] $name $dir] == 0} {
           if {!$sub_added} {
             add_subdirectory root $dir $child
+            puts "root children: [$widgets(tl) childcount root]"
             set sub_added 1
           } else {
             $widgets(tl) delete $child
@@ -1113,8 +1178,20 @@ namespace eval sidebar {
     # Get the currently selected row
     set selected [$widgets(tl) curselection]
     
+    # Get the list of all root children
+    set children [$widgets(tl) childkeys root]
+    
     # Add the parent directory to the sidebar
-    add_directory [file dirname [$widgets(tl) cellcget $selected,name -text]]
+    set parent [add_directory [file dirname [$widgets(tl) cellcget $selected,name -text]]]
+    
+    # Find/move children
+    foreach child $children {
+      if {[set match [$widgets(tl) searchcolumn name [$widgets(tl) cellcget $child,name -text] -parent $parent -exact]] != -1} {
+        set index [$widgets(tl) childindex $match]
+        $widgets(tl) delete $match
+        $widgets(tl) move $child $parent $index
+      }
+    }
     
   }
   
