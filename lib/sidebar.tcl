@@ -468,7 +468,6 @@ namespace eval sidebar {
   proc add_directory {dir {parent root}} {
     
     variable widgets
-    variable images
     
     # Get some needed information
     if {$parent eq "root"} {
@@ -479,7 +478,9 @@ namespace eval sidebar {
       set parent_dir [$widgets(tl) cellcget $parent,name -text]
       set dir_tail   [lindex [file split $dir] [llength [file split $parent_dir]]]
       set dir_path   [file join $parent_dir $dir_tail]
-      catch { $widgets(tl) expand $parent -partly }
+      if {![$widgets(tl) isexpanded $parent]} {
+        $widgets(tl) expand $parent -partly
+      }
     }
     
     # If we have hit the end of the path, return the parent
@@ -504,76 +505,41 @@ namespace eval sidebar {
     # If no match was found, add it at the ordered index
     set parent [$widgets(tl) insertchild $parent $index [list $dir_path 0]]
     
-    # Insert the directory contents
-    foreach name [order_files_dirs [glob -nocomplain -directory $dir_path *]] {
-      set child [$widgets(tl) insertchild $parent end [list $name 0]]
-      if {[file isdirectory $name]} {
-        $widgets(tl) collapse $child
-      } elseif {![ignore_file $name]} {
-        if {[gui::file_exists $name]} {
-          $widgets(tl) cellconfigure $child,name -image $images(sopen)
-          update_root_count $child 1
-        }
-      }
-    }
-    
-    # Expand the newly added directory
-    catch { $widgets(tl) expand $parent -partly }
+    # Add the directory contents
+    add_subdirectory $parent
     
     return $parent
     
   }
   
-  proc add_directory_old {dir} {
+  ######################################################################
+  # Recursively adds the current directory and all subdirectories and files
+  # found within it to the sidebar.
+  proc add_subdirectory {parent} {
     
     variable widgets
-    variable recently_added
+    variable images
     
-    # Add the directory to the list of most recently opened
-    add_to_recently_opened $dir
-      
-    # Get the length of the directory
-    set dirlen [string length $dir]
+    # Get the directory path
+    set dir [$widgets(tl) cellcget $parent,name -text]
     
-    puts "dir: $dir, names: "
-    puts [join [$widgets(tl) getcolumns name] "  \n"]
-    
-    # Check to see if the directory root has already been added
-    if {[set row [$widgets(tl) searchcolumn name $dir -descend -exact]] != -1} {
-      if {![$widgets(tl) isexpanded $row]} {
-        $widgets(tl) expand $row -partly
-      }
-      update_directory $row
-      return
+    # Get the folder contents and sort them
+    foreach name [order_files_dirs [glob -nocomplain -directory $dir *]] {
       
-    } else {
-      
-      puts "HERE :("
-      set sub_added 0
-      
-      # Add the subdirectory if the parent already exists
-      foreach child [$widgets(tl) childkeys root] {
-        set name [$widgets(tl) cellcget $child,name -text]
-        puts "name: $name, dir: $dir, compare: [string compare -length [string length $name] $name $dir]"
-        if {[string compare -length [string length $name] $name $dir] == 0} {
-          if {!$sub_added} {
-            add_subdirectory root $dir $child
-            puts "root children: [$widgets(tl) childcount root]"
-            set sub_added 1
-          } else {
-            $widgets(tl) delete $child
+      if {[file isdirectory $name]} {
+        set child [$widgets(tl) insertchild $parent end [list $name 0]]
+        $widgets(tl) collapse $child
+      } else {
+        if {![ignore_file $name]} {
+          set key [$widgets(tl) insertchild $parent end [list $name 0]]
+          if {[gui::file_exists $name]} {
+            $widgets(tl) cellconfigure $key,name -image $images(sopen)
+            update_root_count $key 1
           }
         }
       }
-      
-      if {$sub_added} {
-        return
-      }
-      
+        
     }
-    
-    # Recursively add directories to the sidebar
-    add_subdirectory root $dir
     
   }
   
@@ -621,49 +587,7 @@ namespace eval sidebar {
     
   }
   
-  ######################################################################
-  # Recursively adds the current directory and all subdirectories and files
-  # found within it to the sidebar.
-  proc add_subdirectory {parent dir {movekey ""}} {
-    
-    variable widgets
-    variable images
-    
-    if {[file exists $dir]} {
-      
-      # Add the directory to the sidebar
-      if {$parent eq "root"} {
-        set parent [$widgets(tl) insertchild $parent end [list $dir 0]]
-      }
-      
-      # Get the folder contents and sort them
-      set folder_contents [order_files_dirs [glob -nocomplain -directory $dir *]]
-      
-      # Add all of the stuff within this directory
-      foreach name $folder_contents {
-        
-        if {[file isdirectory $name]} {
-          if {($movekey ne "") && ([$widgets(tl) cellcget $movekey,name -text] eq $name)} {
-            $widgets(tl) move $movekey $parent end
-          } else {
-            set child [$widgets(tl) insertchild $parent end [list $name 0]]
-            $widgets(tl) collapse $child
-          }
-        } else {
-          if {![ignore_file $name]} {
-            set key [$widgets(tl) insertchild $parent end [list $name 0]]
-            if {[gui::file_exists $name]} {
-              $widgets(tl) cellconfigure $key,name -image $images(sopen)
-              update_root_count $key 1
-            }
-          }
-        }
-        
-      }
-      
-    }
-    
-  }
+
   
   ######################################################################
   # Recursively updates the given directory (if the child directories
@@ -751,6 +675,7 @@ namespace eval sidebar {
     
     # Increment/decrement the descendant row by the given value
     set ocount [expr [$widgets(tl) cellcget $descendant,ocount -text] + $value]
+    puts "ocount: $ocount"
     $widgets(tl) cellconfigure $descendant,ocount -text $ocount
     
     # If the user wants us to auto-remove when the open file count reaches 0,
@@ -769,7 +694,7 @@ namespace eval sidebar {
     $tbl delete [$tbl childkeys $row]
 
     # Add the missing subdirectory
-    add_subdirectory $row [$tbl cellcget $row,name -text]
+    add_subdirectory $row
     
   }
   
@@ -1185,13 +1110,18 @@ namespace eval sidebar {
     set parent [add_directory [file dirname [$widgets(tl) cellcget $selected,name -text]]]
     
     # Find/move children
+    set ocount 0
     foreach child $children {
       if {[set match [$widgets(tl) searchcolumn name [$widgets(tl) cellcget $child,name -text] -parent $parent -exact]] != -1} {
         set index [$widgets(tl) childindex $match]
         $widgets(tl) delete $match
         $widgets(tl) move $child $parent $index
+        incr ocount [$widgets(tl) cellcget $child,ocount -text]
       }
     }
+    
+    # Set the ocount value of the new parent directory
+    $widgets(tl) cellconfigure $parent,ocount -text $ocount
     
   }
   
