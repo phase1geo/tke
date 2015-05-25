@@ -1107,7 +1107,7 @@ namespace eval gui {
     lset file_info $files_index(mtime)    ""
     lset file_info $files_index(save_cmd) $opts(-savecommand)
     lset file_info $files_index(tab)      $w
-    lset file_info $files_index(lock)     0
+    lset file_info $files_index(lock)     $opts(-lock)
     lset file_info $files_index(readonly) $opts(-readonly)
     lset file_info $files_index(sidebar)  $opts(-sidebar)
     lset file_info $files_index(buffer)   $opts(-buffer)
@@ -1123,8 +1123,8 @@ namespace eval gui {
       sidebar::add_directory [pwd]
     }
 
-    # Sets the file lock to the specified value
-    set_current_file_lock {} $opts(-lock)
+    # Set the tab image for the current file
+    set_current_tab_image {}
 
     # Run any plugins that need to be run when a file is opened
     plugins::handle_on_open [expr [llength $files] - 1]
@@ -1201,7 +1201,7 @@ namespace eval gui {
       lset file_info $files_index(mtime)    ""
       lset file_info $files_index(save_cmd) $opts(-savecommand)
       lset file_info $files_index(tab)      $w
-      lset file_info $files_index(lock)     0
+      lset file_info $files_index(lock)     $opts(-lock)
       lset file_info $files_index(readonly) [expr $opts(-readonly) || $opts(-diff)]
       lset file_info $files_index(sidebar)  $opts(-sidebar)
       lset file_info $files_index(buffer)   $opts(-buffer)
@@ -1262,8 +1262,8 @@ namespace eval gui {
       sidebar::highlight_filename $fname 1
     }
 
-    # Sets the file lock to the specified value
-    set_current_file_lock {} $opts(-lock)
+    # Set the tab image for the current file
+    set_current_tab_image {}
 
     # Run any plugins that should run when a file is opened
     plugins::handle_on_open [expr [llength $files] - 1]
@@ -1865,7 +1865,7 @@ namespace eval gui {
     set index [adjust_insert_tab_index end [file tail $fname]]
 
     # Create a new tab
-    set w [insert_tab $index [file tail $fname] [lindex $file $files_index(diff)] [lindex $file $files_index(gutters)] $language]
+    set w [insert_tab $index [file tail $fname] $diff [lindex $file $files_index(gutters)] $language]
 
     # Get the current text widget
     set txt [current_txt {}]
@@ -1911,9 +1911,13 @@ namespace eval gui {
 
     # Highlight the file in the sidebar
     if {!$diff} {
+      sidebar::add_directory [file dirname [file normalize $fname]]
       sidebar::highlight_filename $fname 1
     }
 
+    # Set the tab image for the moved file
+    set_current_tab_image {}
+      
   }
 
   ######################################################################
@@ -2462,10 +2466,10 @@ namespace eval gui {
     return $actual_filenames
 
   }
-
+  
   ######################################################################
   # Sets the file lock to the specified value for the current file.
-  proc set_current_file_lock {tid lock} {
+  proc set_current_tab_image {tid} {
 
     variable files
     variable files_index
@@ -2474,9 +2478,6 @@ namespace eval gui {
     # Get the current file index
     set file_index [current_file]
 
-    # Set the current lock status
-    lset files $file_index $files_index(lock) $lock
-
     # Change the state of the text widget to match the lock value
     if {[lindex $files $file_index $files_index(diff)]} {
       [current_tabbar]   tab current -compound left -image $images(diff)
@@ -2484,7 +2485,7 @@ namespace eval gui {
     } elseif {[lindex $files $file_index $files_index(readonly)]} {
       [current_tabbar]   tab current -compound left -image $images(readonly)
       [current_txt $tid] configure -state disabled
-    } elseif {$lock} {
+    } elseif {[lindex $files $file_index $files_index(lock)]} {
       [current_tabbar]   tab current -compound left -image $images(lock)
       [current_txt $tid] configure -state disabled
     } else {
@@ -2494,6 +2495,24 @@ namespace eval gui {
 
     return 1
 
+  }
+
+  ######################################################################
+  # Sets the file lock to the specified value for the current file.
+  proc set_current_file_lock {tid lock} {
+    
+    variable files
+    variable files_index
+    
+    # Get the current file index
+    set file_index [current_file]
+    
+    # Set the current lock status
+    lset files $file_index $files_index(lock) $lock
+    
+    # Set the tab image to match
+    set_current_tab_image $tid
+    
   }
 
   ######################################################################
