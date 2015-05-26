@@ -438,9 +438,14 @@ namespace eval sidebar {
   }
   
   ######################################################################
-  # Highlights (or dehighlights) the given filename in the file system
-  # sidebar.
-  proc highlight_filename {fname highlight} {
+  # Highlights, dehighlights or must modifies the root count for the given
+  # filename in the file system sidebar.
+  #   highlight_mode:  
+  #     - 0: dehighlight
+  #     - 1: highlight
+  #     - 2: don't change highlight but decrement root count
+  #     - 3: don't change highlight but increment root count
+  proc highlight_filename {fname highlight_mode} {
     
     variable widgets
     variable images
@@ -448,15 +453,17 @@ namespace eval sidebar {
     # Find the main directory containing the file
     if {[set row [$widgets(tl) searchcolumn name $fname -descend -exact]] != -1} {
       set highlighted [expr {[$widgets(tl) cellcget $row,name -image] eq $images(sopen)}]
-      if {$highlight} {
-        if {!$highlighted} {
-          update_root_count $row 1
-        }
-        $widgets(tl) cellconfigure $row,name -image $images(sopen)
-      } else {
-        $widgets(tl) cellconfigure $row,name -image ""
-        if {$highlighted} {
+      switch $highlight_mode {
+        0 { $widgets(tl) cellconfigure $row,name -image "" }
+        1 { $widgets(tl) cellconfigure $row,name -image $images(sopen) }
+      }
+      if {[expr ($highlight_mode % 2) == 0]} {
+        if {$highlighted || ($highlight_mode == 2)} {
           update_root_count $row -1
+        }
+      } else {
+        if {!$highlighted || ($highlight_mode == 3)} {
+          update_root_count $row 1
         }
       }
     }

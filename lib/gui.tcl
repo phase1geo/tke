@@ -1257,9 +1257,9 @@ namespace eval gui {
     }
 
     # Add the file's directory to the sidebar and highlight it
-    if {$opts(-sidebar) && !$opts(-diff)} {
+    if {$opts(-sidebar)} {
       sidebar::add_directory [file dirname [file normalize $fname]]
-      sidebar::highlight_filename $fname 1
+      sidebar::highlight_filename $fname [expr ($opts(-diff) * 2) + 1]
     }
 
     # Set the tab image for the current file
@@ -1433,17 +1433,18 @@ namespace eval gui {
     # Get the current file index
     set file_index [current_file]
 
+    # Get the difference mode of the current file
+    set diff [lindex $files $file_index $files_index(diff)]
+    
     # If a save_as name is specified, change the filename
     if {$save_as ne ""} {
-      if {[lindex $files $file_index $files_index(diff)] == 0} {
-        sidebar::highlight_filename [lindex $files $file_index $files_index(fname)] 0
-      }
+      sidebar::highlight_filename [lindex $files $file_index $files_index(fname)] [expr $diff * 2]
       lset files $file_index $files_index(fname) $save_as
 
     # If the current file doesn't have a filename, allow the user to set it
     } elseif {([lindex $files $file_index $files_index(fname)] eq "") || \
                [lindex $files $file_index $files_index(buffer)] || \
-               [lindex $files $file_index $files_index(diff)]} {
+               $diff]} {
       set save_opts [list]
       if {[llength [set extensions [syntax::get_extensions $tid]]] > 0} {
         lappend save_opts -defaultextension [lindex $extensions 0]
@@ -1484,7 +1485,7 @@ namespace eval gui {
         sidebar::add_directory [file dirname $fname]
 
         # Highlight the file in the sidebar
-        sidebar::highlight_filename [lindex $files $file_index $files_index(fname)] 1
+        sidebar::highlight_filename [lindex $files $file_index $files_index(fname)] [expr ($diff * 2) + 1]
 
       }
 
@@ -1631,9 +1632,8 @@ namespace eval gui {
     set index [get_file_index $tab]
 
     # Unhighlight the file in the file browser
-    if {[lindex $files $index $files_index(diff)] == 0} {
-      sidebar::highlight_filename [lindex $files $index $files_index(fname)] 0
-    }
+    set diff [lindex $files $index $files_index(diff)]
+    sidebar::highlight_filename [lindex $files $index $files_index(fname)] [expr $diff * 2]
 
     # Run the close event for this file
     plugins::handle_on_close $index
@@ -1684,9 +1684,8 @@ namespace eval gui {
     set index [get_file_index $tab]
 
     # Unhighlight the file in the file browser (if the file was not a difference view)
-    if {[lindex $files $index $files_index(diff)] == 0} {
-      sidebar::highlight_filename [lindex $files $index $files_index(fname)] 0
-    }
+    set diff [lindex $files $index $files_index(diff)]
+    sidebar::highlight_filename [lindex $files $index $files_index(fname)] [expr $diff * 2]
 
     # Run the close event for this file
     plugins::handle_on_close $index
@@ -1910,10 +1909,8 @@ namespace eval gui {
     }
 
     # Highlight the file in the sidebar
-    if {!$diff} {
-      sidebar::add_directory [file dirname [file normalize $fname]]
-      sidebar::highlight_filename $fname 1
-    }
+    sidebar::add_directory [file dirname [file normalize $fname]]
+    sidebar::highlight_filename $fname [expr ($diff * 2) + 1]
 
     # Set the tab image for the moved file
     set_current_tab_image {}
