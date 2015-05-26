@@ -469,10 +469,11 @@ namespace eval diff {
     
     variable data
     
-    if {![info exists data($txt,logmode)] || \
-        (!$data($txt,logmode) && ($mode eq "toggle")) || \
-        ($mode eq "on") || \
-        ($data($txt,logmode) && ($mode eq "update"))} {
+    if {[[ns preferences]::get View/ShowDifferenceVersionInfo] &&
+        (![info exists data($txt,logmode)] || \
+         (!$data($txt,logmode) && ($mode eq "toggle")) || \
+         ($mode eq "on") || \
+         ($data($txt,logmode) && ($mode eq "update")))} {
       
       # Get the current filename
       set fname [[ns gui]::current_filename]
