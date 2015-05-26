@@ -1444,7 +1444,7 @@ namespace eval gui {
     # If the current file doesn't have a filename, allow the user to set it
     } elseif {([lindex $files $file_index $files_index(fname)] eq "") || \
                [lindex $files $file_index $files_index(buffer)] || \
-               $diff]} {
+               $diff} {
       set save_opts [list]
       if {[llength [set extensions [syntax::get_extensions $tid]]] > 0} {
         lappend save_opts -defaultextension [lindex $extensions 0]

@@ -183,6 +183,12 @@
 
 {View/ShowDifferenceInOtherPane} {0}
 
+# If this value is set to 1, displays the currently selected file version information
+# in a tooltip-like window above the control bar in a difference view whenever one of
+# the version selection scrollboxes receive input focus.
+
+{View/ShowDifferenceVersionInfo} {1}
+
 # When the number of opened tabs in a notebook exceeds the number of tabs that can
 # be readably displayed, a value of 1 will cause some of the tabs to be "hidden" from
 # view, allowing their display via scrolling buttons and a dropdown menu.  If this
