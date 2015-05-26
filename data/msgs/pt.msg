@@ -120,6 +120,9 @@ msgcat::mcmset pt {
   "Append next occurrence"
   "Acrescente próxima ocorrência"
 
+  "Auto-Indent"
+  "Auto Indentar"
+
   "Check for Update"
   "Procurar atualização agora"
 
@@ -135,6 +138,9 @@ msgcat::mcmset pt {
   "Copy"
   "Copiar"
 
+  "Create at current line"
+  "Criar na linha atual"
+
   "Create new..."
   "Criar uma nova"
 
@@ -143,9 +149,6 @@ msgcat::mcmset pt {
 
   "Cut"
   "Cortar"
-
-  "Disable Auto-Indent"
-  "Desativar Auto-travessão"
 
   "Edit"
   "Editar"
@@ -159,9 +162,6 @@ msgcat::mcmset pt {
   "Edit..."
   "Editar..."
 
-  "Enable Auto-Indent"
-  "Habilitar Auto-travessão"
-
   "File"
   "Arquivo"
 
@@ -173,9 +173,6 @@ msgcat::mcmset pt {
 
   "Find in files"
   "Procurar nos Ficheiros..."
-
-  "Find marker"
-  "Encontre marcador"
 
   "Find matching pair"
   "Encontre par combinando"
@@ -204,6 +201,9 @@ msgcat::mcmset pt {
   "Hide Console"
   "Ocultar Console"
 
+  "Hide Line Numbers"
+  "Esconder os números de linha"
+
   "Hide Sidebar"
   "Esconder a Barra Lateral"
 
@@ -218,6 +218,12 @@ msgcat::mcmset pt {
 
   "Indent"
   "Avançar"
+
+  "Indent Mode"
+  "Modo de travessão"
+
+  "Indent Off"
+  "Travessão fora"
 
   "Insert Text"
   "Inserir um Índice"
@@ -239,6 +245,9 @@ msgcat::mcmset pt {
 
   "Lock"
   "Fixar"
+
+  "Markers"
+  "Marcadores"
 
   "Menu Bindings"
   "Ligações de Menu"
@@ -270,6 +279,9 @@ msgcat::mcmset pt {
   "Menu: Copy selected text"
   "Menu: Copiar texto selecionado"
 
+  "Menu: Create marker at current line"
+  "Menu: Criar marcador na linha atual"
+
   "Menu: Create new plugin"
   "Menu: Criar novo plugin"
 
@@ -281,9 +293,6 @@ msgcat::mcmset pt {
 
   "Menu: Disable Vim mode"
   "Menu: modo Disable Vim"
-
-  "Menu: Disable auto-indent"
-  "Menu: Desativar auto-travessão"
 
   "Menu: Edit Tke theme"
   "Menu: Editar tema Tke"
@@ -302,9 +311,6 @@ msgcat::mcmset pt {
 
   "Menu: Enable Vim mode"
   "Menu: Ative o modo Vim"
-
-  "Menu: Enable auto-indent"
-  "Menu: Enable auto-travessão"
 
   "Menu: Favorite file"
   "Menu: arquivo Favorita"
@@ -336,14 +342,23 @@ msgcat::mcmset pt {
   "Menu: Goto last tab"
   "Menu: Ir à última guia"
 
+  "Menu: Goto next difference"
+  "Menu: Diferença próxima Goto"
+
   "Menu: Goto next tab"
   "Menu: Ir à guia ao lado"
 
   "Menu: Goto other pane"
   "Menu: outro painel Goto"
 
+  "Menu: Goto previous difference"
+  "Menu: Diferença anterior Goto"
+
   "Menu: Goto previous tab"
   "Menu: Ir à guia anterior"
+
+  "Menu: Hide Line Numbers"
+  "Menu: Ocultar números de linha"
 
   "Menu: Hide Tab Bar"
   "Menu: Esconder Tab Bar"
@@ -420,6 +435,12 @@ msgcat::mcmset pt {
   "Menu: Reload snippets"
   "Menu: Trechos de recarga"
 
+  "Menu: Remove all markers"
+  "Menu: Remova todos os marcadores"
+
+  "Menu: Remove marker from current line"
+  "Menu: Remover o marcador de linha atual"
+
   "Menu: Replace line with script"
   "Menu: Substituir a linha com script"
 
@@ -447,6 +468,15 @@ msgcat::mcmset pt {
   "Menu: Send Feedback"
   "Menu: Send Feedback"
 
+  "Menu: Set indent mode to IND"
+  "Menu: Definir modo de travessão IND"
+
+  "Menu: Set indent mode to IND+"
+  "Menu: Definir modo de travessão IND +"
+
+  "Menu: Set indent mode to OFF"
+  "Menu: Definir modo de travessão para OFF"
+
   "Menu: Set user bindings to global bindings"
   "Menu: Define ligações de usuários para ligações globais"
 
@@ -456,14 +486,23 @@ msgcat::mcmset pt {
   "Menu: Show Diagnostic Logfile"
   "Menu: Show diagnóstico Logfile"
 
+  "Menu: Show Line Numbers"
+  "Mostrar os Números de Linha"
+
   "Menu: Show Tab Bar"
   "Menu: Visualizar Tab Bar"
 
   "Menu: Show console"
   "Menu: Visualizar consola"
 
+  "Menu: Show file difference"
+  "Menu: Diferença de arquivo mostrar"
+
   "Menu: Show last profiling report"
   "Menu: Mostrar último relatório de profiling"
+
+  "Menu: Show selected line change"
+  "Menu: Mudança de linha de Show selecionado"
 
   "Menu: Show sidebar"
   "Menu: Mostrar barra lateral"
@@ -516,6 +555,9 @@ msgcat::mcmset pt {
   "New"
   "Novo"
 
+  "Next difference"
+  "Próxima Diferença"
+
   "Open Directory..."
   "Abrir diretório..."
 
@@ -540,6 +582,9 @@ msgcat::mcmset pt {
   "Preferences"
   "Preferências"
 
+  "Previous difference"
+  "Diferença Anterior"
+
   "Profiling started"
   "Profiling começou"
 
@@ -554,6 +599,12 @@ msgcat::mcmset pt {
 
   "Reload"
   "Recarregar"
+
+  "Remove all markers"
+  "Remova todos os marcadores"
+
+  "Remove from current line"
+  "Remover da linha atual"
 
   "Replace line with script"
   "Substituir a linha com script"
@@ -606,8 +657,14 @@ msgcat::mcmset pt {
   "Show Diagnostic Logfile"
   "Mostrar arquivo de log de diagnóstico"
 
+  "Show File Difference"
+  "Mostrar a diferença de arquivo."
+
   "Show Last Profiling Report"
   "Mostrar Último Relatório Profiling"
+
+  "Show Line Numbers"
+  "Mostrar os Números de Linha"
 
   "Show Sidebar"
   "Mostrar a Barra Lateral"
@@ -618,8 +675,14 @@ msgcat::mcmset pt {
   "Show Tab Bar"
   "Barra de Páginas"
 
+  "Show selected line change"
+  "Mostrar a mudança de linha selecionada"
+
   "Show*Profiling*"
   "Show * Profiling *"
+
+  "Smart Indent"
+  "Travessão inteligente"
 
   "Snippet"
   "﻿Trecho"
@@ -765,6 +828,9 @@ msgcat::mcmset pt {
 
   "Rename"
   "Renomear"
+
+  "Show Difference"
+  "Mostrar a diferença"
 
 }
 

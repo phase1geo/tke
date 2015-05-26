@@ -120,6 +120,9 @@ msgcat::mcmset zh {
   "Append next occurrence"
   "追加下一个出现"
 
+  "Auto-Indent"
+  "自动缩进"
+
   "Check for Update"
   "检查更新"
 
@@ -135,6 +138,9 @@ msgcat::mcmset zh {
   "Copy"
   "复制"
 
+  "Create at current line"
+  "在当前行上创建"
+
   "Create new..."
   "新建"
 
@@ -143,9 +149,6 @@ msgcat::mcmset zh {
 
   "Cut"
   "剪切"
-
-  "Disable Auto-Indent"
-  "禁用自动缩进"
 
   "Edit"
   "编辑"
@@ -159,9 +162,6 @@ msgcat::mcmset zh {
   "Edit..."
   "編輯..."
 
-  "Enable Auto-Indent"
-  "启用自动缩进"
-
   "File"
   "文件"
 
@@ -173,9 +173,6 @@ msgcat::mcmset zh {
 
   "Find in files"
   "在文件中查找"
-
-  "Find marker"
-  "標記"
 
   "Find matching pair"
   "找到匹配的一对"
@@ -204,6 +201,9 @@ msgcat::mcmset zh {
   "Hide Console"
   "隐藏控制台"
 
+  "Hide Line Numbers"
+  "隐藏行号"
+
   "Hide Sidebar"
   "隐藏边栏"
 
@@ -218,6 +218,12 @@ msgcat::mcmset zh {
 
   "Indent"
   "縮排"
+
+  "Indent Mode"
+  "缩进模式"
+
+  "Indent Off"
+  "关闭缩进"
 
   "Insert Text"
   "插入文字"
@@ -239,6 +245,9 @@ msgcat::mcmset zh {
 
   "Lock"
   "鎖定"
+
+  "Markers"
+  "标记"
 
   "Menu Bindings"
   "菜单绑定"
@@ -270,6 +279,9 @@ msgcat::mcmset zh {
   "Menu: Copy selected text"
   "菜单：复制选中的文本"
 
+  "Menu: Create marker at current line"
+  "在当前行菜单: 创建标记"
+
   "Menu: Create new plugin"
   "菜单：创建新的插件"
 
@@ -281,9 +293,6 @@ msgcat::mcmset zh {
 
   "Menu: Disable Vim mode"
   "菜单：禁用Vim的模式"
-
-  "Menu: Disable auto-indent"
-  "菜单： 禁用自动缩进"
 
   "Menu: Edit Tke theme"
   "菜单：编辑将军澳支线主题"
@@ -302,9 +311,6 @@ msgcat::mcmset zh {
 
   "Menu: Enable Vim mode"
   "菜单：启动Vim的模式"
-
-  "Menu: Enable auto-indent"
-  "菜单： 启用自动缩进"
 
   "Menu: Favorite file"
   "菜单：最喜欢的文件"
@@ -336,14 +342,23 @@ msgcat::mcmset zh {
   "Menu: Goto last tab"
   "菜单：转到最后一个标签页"
 
+  "Menu: Goto next difference"
+  "菜单： 转到下一个差异"
+
   "Menu: Goto next tab"
   "菜单：转到下一个标签"
 
   "Menu: Goto other pane"
   "菜单：转到另一个窗格"
 
+  "Menu: Goto previous difference"
+  "菜单： 转到上一个差异"
+
   "Menu: Goto previous tab"
   "菜单：跳转到前一个标签"
+
+  "Menu: Hide Line Numbers"
+  "菜单： 隐藏行号"
 
   "Menu: Hide Tab Bar"
   "菜单：隐藏标签栏"
@@ -420,6 +435,12 @@ msgcat::mcmset zh {
   "Menu: Reload snippets"
   "菜单： 重新加载代码片段"
 
+  "Menu: Remove all markers"
+  "菜单： 删除所有标记"
+
+  "Menu: Remove marker from current line"
+  "菜单： 从当前行中删除标记"
+
   "Menu: Replace line with script"
   "菜单： 用脚本替换行"
 
@@ -447,6 +468,15 @@ msgcat::mcmset zh {
   "Menu: Send Feedback"
   "菜单： 发送反馈"
 
+  "Menu: Set indent mode to IND"
+  "菜单： 设置缩进模式向移民局"
+
+  "Menu: Set indent mode to IND+"
+  "菜单： 将缩进模式设置为 IND +"
+
+  "Menu: Set indent mode to OFF"
+  "菜单： 将缩进模式设置为 OFF"
+
   "Menu: Set user bindings to global bindings"
   "菜单：设置用户绑定到全局绑定"
 
@@ -456,14 +486,23 @@ msgcat::mcmset zh {
   "Menu: Show Diagnostic Logfile"
   "菜单: 显示诊断日志文件"
 
+  "Menu: Show Line Numbers"
+  "菜单: 显示行号"
+
   "Menu: Show Tab Bar"
   "菜单：显示标签栏"
 
   "Menu: Show console"
   "菜单：显示控制台"
 
+  "Menu: Show file difference"
+  "菜单: 显示文件差异"
+
   "Menu: Show last profiling report"
   "菜单：显示最近分析报告"
+
+  "Menu: Show selected line change"
+  "菜单： 显示选定行更改"
 
   "Menu: Show sidebar"
   "菜单：显示侧边栏"
@@ -516,6 +555,9 @@ msgcat::mcmset zh {
   "New"
   "新建"
 
+  "Next difference"
+  "下一个差异"
+
   "Open Directory..."
   "开放目录..."
 
@@ -540,6 +582,9 @@ msgcat::mcmset zh {
   "Preferences"
   "首选项"
 
+  "Previous difference"
+  "上一个差异"
+
   "Profiling started"
   "分析开始"
 
@@ -554,6 +599,12 @@ msgcat::mcmset zh {
 
   "Reload"
   "重新加载"
+
+  "Remove all markers"
+  "删除所有标记"
+
+  "Remove from current line"
+  "删除从当前行"
 
   "Replace line with script"
   "用脚本替换行"
@@ -606,8 +657,14 @@ msgcat::mcmset zh {
   "Show Diagnostic Logfile"
   "显示诊断日志文件"
 
+  "Show File Difference"
+  "显示不同"
+
   "Show Last Profiling Report"
   "显示最后剖析报告"
+
+  "Show Line Numbers"
+  "显示数字"
 
   "Show Sidebar"
   "显示侧边栏"
@@ -618,8 +675,14 @@ msgcat::mcmset zh {
   "Show Tab Bar"
   "显示标签栏"
 
+  "Show selected line change"
+  "显示所选的行更改"
+
   "Show*Profiling*"
   "显示*评测*"
+
+  "Smart Indent"
+  "智能缩进"
 
   "Snippet"
   "片段"
@@ -765,6 +828,9 @@ msgcat::mcmset zh {
 
   "Rename"
   "重命名"
+
+  "Show Difference"
+  "显示不同"
 
 }
 

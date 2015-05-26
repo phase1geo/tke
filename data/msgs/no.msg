@@ -120,6 +120,9 @@ msgcat::mcmset no {
   "Append next occurrence"
   "Tilføy neste forekomst"
 
+  "Auto-Indent"
+  "Auto-innrykk"
+
   "Check for Update"
   "Søk etter oppdateringer"
 
@@ -135,6 +138,9 @@ msgcat::mcmset no {
   "Copy"
   "Kopier"
 
+  "Create at current line"
+  "Opprette på gjeldende linje"
+
   "Create new..."
   "Opprett ny ..."
 
@@ -143,9 +149,6 @@ msgcat::mcmset no {
 
   "Cut"
   "Kutt"
-
-  "Disable Auto-Indent"
-  "Deaktivere automatisk innrykk"
 
   "Edit"
   "Edit"
@@ -159,9 +162,6 @@ msgcat::mcmset no {
   "Edit..."
   "Edit"
 
-  "Enable Auto-Indent"
-  "Aktiver automatisk innrykk"
-
   "File"
   "Fil"
 
@@ -173,9 +173,6 @@ msgcat::mcmset no {
 
   "Find in files"
   "Finner i filer"
-
-  "Find marker"
-  "Finn markør"
 
   "Find matching pair"
   "Finn matchende par"
@@ -204,6 +201,9 @@ msgcat::mcmset no {
   "Hide Console"
   "Skjul Console"
 
+  "Hide Line Numbers"
+  "Skjul linjenumre"
+
   "Hide Sidebar"
   "Skjul Sidebar"
 
@@ -218,6 +218,12 @@ msgcat::mcmset no {
 
   "Indent"
   "innrykk"
+
+  "Indent Mode"
+  "Innrykk modus"
+
+  "Indent Off"
+  "Innrykk av"
 
   "Insert Text"
   "Sett inn tekst"
@@ -239,6 +245,9 @@ msgcat::mcmset no {
 
   "Lock"
   "Lås"
+
+  "Markers"
+  "Markører"
 
   "Menu Bindings"
   "Meny Bindinger"
@@ -270,6 +279,9 @@ msgcat::mcmset no {
   "Menu: Copy selected text"
   "Meny: Kopiere merket tekst"
 
+  "Menu: Create marker at current line"
+  "Meny: Opprette markør på gjeldende linje"
+
   "Menu: Create new plugin"
   "Meny: Opprett ny plugin"
 
@@ -281,9 +293,6 @@ msgcat::mcmset no {
 
   "Menu: Disable Vim mode"
   "Meny: Deaktiver Vim-modus"
-
-  "Menu: Disable auto-indent"
-  "Meny: Deaktiver automatisk innrykk"
 
   "Menu: Edit Tke theme"
   "Meny: Rediger TKE tema"
@@ -302,9 +311,6 @@ msgcat::mcmset no {
 
   "Menu: Enable Vim mode"
   "Meny: Aktiver Vim-modus"
-
-  "Menu: Enable auto-indent"
-  "Meny: Aktiverer automatisk innrykk"
 
   "Menu: Favorite file"
   "Meny: Favoritt fil"
@@ -336,14 +342,23 @@ msgcat::mcmset no {
   "Menu: Goto last tab"
   "Meny: Goto siste kategorien"
 
+  "Menu: Goto next difference"
+  "Meny: Goto neste forskjellen"
+
   "Menu: Goto next tab"
   "Meny: Goto neste kategori"
 
   "Menu: Goto other pane"
   "Meny: Goto annen rute"
 
+  "Menu: Goto previous difference"
+  "Meny: Goto tidligere forskjellen"
+
   "Menu: Goto previous tab"
   "Meny: Goto forrige kategori"
+
+  "Menu: Hide Line Numbers"
+  "Meny: Skjul linjenumre"
 
   "Menu: Hide Tab Bar"
   "Meny: Hide Tab Bar"
@@ -420,6 +435,12 @@ msgcat::mcmset no {
   "Menu: Reload snippets"
   "Meny: Reload tekstutdrag"
 
+  "Menu: Remove all markers"
+  "-Menyen: Fjern alle merkene"
+
+  "Menu: Remove marker from current line"
+  "Meny: Fjerne merket fra gjeldende linje"
+
   "Menu: Replace line with script"
   "Meny: Erstatte linje med skript"
 
@@ -447,6 +468,15 @@ msgcat::mcmset no {
   "Menu: Send Feedback"
   "Menyen: Send tilbakemelding"
 
+  "Menu: Set indent mode to IND"
+  "Meny: Angi innrykk-modusen til IND"
+
+  "Menu: Set indent mode to IND+"
+  "Meny: Angi innrykk-modusen til IND +"
+
+  "Menu: Set indent mode to OFF"
+  "Meny: Angi innrykk-modusen til av"
+
   "Menu: Set user bindings to global bindings"
   "Meny: Sett bruker bindinger til globale bindinger"
 
@@ -456,14 +486,23 @@ msgcat::mcmset no {
   "Menu: Show Diagnostic Logfile"
   "Meny: Vis diagnostiske loggfil"
 
+  "Menu: Show Line Numbers"
+  "Meny: Vis linjenumre"
+
   "Menu: Show Tab Bar"
   "Meny: Vis Tab Bar"
 
   "Menu: Show console"
   "Meny: Vis konsoll"
 
+  "Menu: Show file difference"
+  "Meny: Vis fil forskjellen"
+
   "Menu: Show last profiling report"
   "Meny: Vis siste profilering rapport"
+
+  "Menu: Show selected line change"
+  "Meny: Vis valgt linje endring"
 
   "Menu: Show sidebar"
   "Meny: Vis sidebar"
@@ -516,6 +555,9 @@ msgcat::mcmset no {
   "New"
   "Ny"
 
+  "Next difference"
+  "Neste forskjellen"
+
   "Open Directory..."
   "Open Directory ..."
 
@@ -540,6 +582,9 @@ msgcat::mcmset no {
   "Preferences"
   "Innstillinger"
 
+  "Previous difference"
+  "Tidligere forskjellen"
+
   "Profiling started"
   "Profilering i gang"
 
@@ -554,6 +599,12 @@ msgcat::mcmset no {
 
   "Reload"
   "Restart tke"
+
+  "Remove all markers"
+  "Fjerne alle merkene"
+
+  "Remove from current line"
+  "Fjern fra gjeldende linje"
 
   "Replace line with script"
   "Erstatte linje med skript"
@@ -606,8 +657,14 @@ msgcat::mcmset no {
   "Show Diagnostic Logfile"
   "Vise diagnostisk loggfil"
 
+  "Show File Difference"
+  "Vise filen forskjellen"
+
   "Show Last Profiling Report"
   "Vis Siste Profiling Rapporter"
+
+  "Show Line Numbers"
+  "Vis linjenumre"
 
   "Show Sidebar"
   "Vis Sidebar"
@@ -618,8 +675,14 @@ msgcat::mcmset no {
   "Show Tab Bar"
   "Vis Tab Bar"
 
+  "Show selected line change"
+  "Vis valgte linjen endring"
+
   "Show*Profiling*"
   "Show * Profilering *"
+
+  "Smart Indent"
+  "Smart innrykk"
 
   "Snippet"
   "Snippet"
@@ -765,6 +828,9 @@ msgcat::mcmset no {
 
   "Rename"
   "Gi nytt navn"
+
+  "Show Difference"
+  "Vis forskjellen"
 
 }
 

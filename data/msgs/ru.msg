@@ -120,6 +120,9 @@ msgcat::mcmset ru {
   "Append next occurrence"
   "Добавьте следующее вхождение"
 
+  "Auto-Indent"
+  "Авто отступ"
+
   "Check for Update"
   "Проверить обновления"
 
@@ -135,6 +138,9 @@ msgcat::mcmset ru {
   "Copy"
   "Копия"
 
+  "Create at current line"
+  "Создать в текущей строке"
+
   "Create new..."
   "создать новый"
 
@@ -143,9 +149,6 @@ msgcat::mcmset ru {
 
   "Cut"
   "Вырезать"
-
-  "Disable Auto-Indent"
-  "Отключить авто отступ"
 
   "Edit"
   "Редактировать"
@@ -159,9 +162,6 @@ msgcat::mcmset ru {
   "Edit..."
   "Правка..."
 
-  "Enable Auto-Indent"
-  "Включить Авто отступ"
-
   "File"
   "Файл"
 
@@ -173,9 +173,6 @@ msgcat::mcmset ru {
 
   "Find in files"
   "Найти в файлах"
-
-  "Find marker"
-  "Найти маркер"
 
   "Find matching pair"
   "Найти подходящую пару"
@@ -204,6 +201,9 @@ msgcat::mcmset ru {
   "Hide Console"
   "Скрыть Console"
 
+  "Hide Line Numbers"
+  "Скрыть числа"
+
   "Hide Sidebar"
   "Скрыть боковую панель"
 
@@ -218,6 +218,12 @@ msgcat::mcmset ru {
 
   "Indent"
   "Отступ"
+
+  "Indent Mode"
+  "Отступ режим"
+
+  "Indent Off"
+  "Отступ от"
 
   "Insert Text"
   "Вставить текст"
@@ -239,6 +245,9 @@ msgcat::mcmset ru {
 
   "Lock"
   "шлюз"
+
+  "Markers"
+  "Указатели"
 
   "Menu Bindings"
   "Меню Наручники"
@@ -270,6 +279,9 @@ msgcat::mcmset ru {
   "Menu: Copy selected text"
   "Меню: Копировать выделенный текст"
 
+  "Menu: Create marker at current line"
+  "Меню: Создание маркера в текущей строке"
+
   "Menu: Create new plugin"
   "Меню: Создание нового плагина"
 
@@ -281,9 +293,6 @@ msgcat::mcmset ru {
 
   "Menu: Disable Vim mode"
   "Меню: Режим Отключить Вим"
-
-  "Menu: Disable auto-indent"
-  "Меню: Отключить авто отступ"
 
   "Menu: Edit Tke theme"
   "Меню: Редактирование ТКЕ тему"
@@ -302,9 +311,6 @@ msgcat::mcmset ru {
 
   "Menu: Enable Vim mode"
   "Меню: Включить режим Vim"
-
-  "Menu: Enable auto-indent"
-  "Меню: Включить Авто отступ"
 
   "Menu: Favorite file"
   "Меню: Любимое файл"
@@ -336,14 +342,23 @@ msgcat::mcmset ru {
   "Menu: Goto last tab"
   "Меню: На последней вкладке"
 
+  "Menu: Goto next difference"
+  "Меню: Перейти к следующей разница"
+
   "Menu: Goto next tab"
   "Меню: На следующей вкладке"
 
   "Menu: Goto other pane"
   "Меню: На другой панели"
 
+  "Menu: Goto previous difference"
+  "Меню: Перейти к предыдущей разница"
+
   "Menu: Goto previous tab"
   "Меню: На предыдущей вкладке"
+
+  "Menu: Hide Line Numbers"
+  "Меню: Номера строк скрыть"
 
   "Menu: Hide Tab Bar"
   "Меню: Скрыть панель вкладок,"
@@ -420,6 +435,12 @@ msgcat::mcmset ru {
   "Menu: Reload snippets"
   "Меню: Перезагрузка фрагментов"
 
+  "Menu: Remove all markers"
+  "Меню: Удалить все маркеры"
+
+  "Menu: Remove marker from current line"
+  "Меню: Удалить маркер из текущей строки"
+
   "Menu: Replace line with script"
   "Меню: Замените строку скрипта"
 
@@ -447,6 +468,15 @@ msgcat::mcmset ru {
   "Menu: Send Feedback"
   "Меню: Отправить отзыв"
 
+  "Menu: Set indent mode to IND"
+  "Меню: Задать отступ режим IND"
+
+  "Menu: Set indent mode to IND+"
+  "Меню: Задать отступ режим IND +"
+
+  "Menu: Set indent mode to OFF"
+  "Меню: Установите отступ режим OFF"
+
   "Menu: Set user bindings to global bindings"
   "Меню: Установите пользовательские привязки к глобальным привязок"
 
@@ -456,14 +486,23 @@ msgcat::mcmset ru {
   "Menu: Show Diagnostic Logfile"
   "Меню: Шоу диагностический лог"
 
+  "Menu: Show Line Numbers"
+  "Меню: Номера строк шоу"
+
   "Menu: Show Tab Bar"
   "Меню: Показать Панель вкладок"
 
   "Menu: Show console"
   "Меню: Показать консоль"
 
+  "Menu: Show file difference"
+  "Меню: Шоу файла разница"
+
   "Menu: Show last profiling report"
   "Меню: Показать отчет в прошлом профилирования"
+
+  "Menu: Show selected line change"
+  "Меню: Показывать выбранные линии изменения"
 
   "Menu: Show sidebar"
   "Меню: Показать боковой панели"
@@ -516,6 +555,9 @@ msgcat::mcmset ru {
   "New"
   "Новый"
 
+  "Next difference"
+  "Следующая разница"
+
   "Open Directory..."
   "Open Directory ..."
 
@@ -540,6 +582,9 @@ msgcat::mcmset ru {
   "Preferences"
   "Предпочтения"
 
+  "Previous difference"
+  "Предыдущие разница"
+
   "Profiling started"
   "Профилирования начал"
 
@@ -554,6 +599,12 @@ msgcat::mcmset ru {
 
   "Reload"
   "Перезагрузить"
+
+  "Remove all markers"
+  "Удалить все маркеры"
+
+  "Remove from current line"
+  "Удалить из текущей строки"
 
   "Replace line with script"
   "Замените строку скрипта"
@@ -606,8 +657,14 @@ msgcat::mcmset ru {
   "Show Diagnostic Logfile"
   "Показать файл журнала диагностики"
 
+  "Show File Difference"
+  "Показать файл разницы"
+
   "Show Last Profiling Report"
   "Показать Последний профилирования отчет"
+
+  "Show Line Numbers"
+  "Показать номера строк"
 
   "Show Sidebar"
   "Показать боковую панель"
@@ -618,8 +675,14 @@ msgcat::mcmset ru {
   "Show Tab Bar"
   "Показать Панель вкладок"
 
+  "Show selected line change"
+  "Показать выбранные линии изменения"
+
   "Show*Profiling*"
   "Показать * Профилирование *"
+
+  "Smart Indent"
+  "Смарт отступа"
 
   "Snippet"
   "Фрагмента"
@@ -765,6 +828,9 @@ msgcat::mcmset ru {
 
   "Rename"
   "Переименовать"
+
+  "Show Difference"
+  "Показать разницу"
 
 }
 

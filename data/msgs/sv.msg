@@ -120,6 +120,9 @@ msgcat::mcmset sv {
   "Append next occurrence"
   "Bifoga nästa förekomst"
 
+  "Auto-Indent"
+  "Automatisk indentering"
+
   "Check for Update"
   "Leta efter uppdatering"
 
@@ -135,6 +138,9 @@ msgcat::mcmset sv {
   "Copy"
   "Kopiera"
 
+  "Create at current line"
+  "Skapa på aktuell rad"
+
   "Create new..."
   "Skapa nytt"
 
@@ -143,9 +149,6 @@ msgcat::mcmset sv {
 
   "Cut"
   "Klipp ut"
-
-  "Disable Auto-Indent"
-  "Inaktivera Auto-strecksatsen"
 
   "Edit"
   "Ändra"
@@ -159,9 +162,6 @@ msgcat::mcmset sv {
   "Edit..."
   "Redigera..."
 
-  "Enable Auto-Indent"
-  "Aktivera Auto-strecksatsen"
-
   "File"
   "File"
 
@@ -173,9 +173,6 @@ msgcat::mcmset sv {
 
   "Find in files"
   "Sök i filer..."
-
-  "Find marker"
-  "Hitta markör"
 
   "Find matching pair"
   "Hitta matchande par"
@@ -204,6 +201,9 @@ msgcat::mcmset sv {
   "Hide Console"
   "Dölj konsol"
 
+  "Hide Line Numbers"
+  "Dölja radnummer"
+
   "Hide Sidebar"
   "Dölj sidorad"
 
@@ -218,6 +218,12 @@ msgcat::mcmset sv {
 
   "Indent"
   "Indrag"
+
+  "Indent Mode"
+  "Strecksatsen läge"
+
+  "Indent Off"
+  "Indrag av"
 
   "Insert Text"
   "Infoga text"
@@ -239,6 +245,9 @@ msgcat::mcmset sv {
 
   "Lock"
   "Lock"
+
+  "Markers"
+  "Marker"
 
   "Menu Bindings"
   "Meny Bindningar"
@@ -270,6 +279,9 @@ msgcat::mcmset sv {
   "Menu: Copy selected text"
   "Meny: Kopiera markerad text"
 
+  "Menu: Create marker at current line"
+  "Menyn: Skapa markör på aktuell rad"
+
   "Menu: Create new plugin"
   "Meny: Skapa nytt plugin"
 
@@ -281,9 +293,6 @@ msgcat::mcmset sv {
 
   "Menu: Disable Vim mode"
   "Meny: Inaktivera Vim-läge"
-
-  "Menu: Disable auto-indent"
-  "Menyn: Inaktivera auto-strecksatsen"
 
   "Menu: Edit Tke theme"
   "Meny: Redigera Tke tema"
@@ -302,9 +311,6 @@ msgcat::mcmset sv {
 
   "Menu: Enable Vim mode"
   "Meny: Aktivera Vim-läge"
-
-  "Menu: Enable auto-indent"
-  "Meny: Aktiverar auto indrag"
 
   "Menu: Favorite file"
   "Meny: Favorit fil"
@@ -336,14 +342,23 @@ msgcat::mcmset sv {
   "Menu: Goto last tab"
   "Meny: Gå till sista fliken"
 
+  "Menu: Goto next difference"
+  "Meny: Goto nästa skillnaden"
+
   "Menu: Goto next tab"
   "Meny: Gå till nästa flik"
 
   "Menu: Goto other pane"
   "Meny: Gå till andra rutan"
 
+  "Menu: Goto previous difference"
+  "Meny: Gå till föregående skillnad"
+
   "Menu: Goto previous tab"
   "Meny: Gå till föregående flik"
+
+  "Menu: Hide Line Numbers"
+  "Meny: Dölja radnummer"
 
   "Menu: Hide Tab Bar"
   "Meny: Hide Tab Bar"
@@ -420,6 +435,12 @@ msgcat::mcmset sv {
   "Menu: Reload snippets"
   "Meny: Reload snuttar"
 
+  "Menu: Remove all markers"
+  "Menyn: Ta bort alla markörer"
+
+  "Menu: Remove marker from current line"
+  "Menyn: Ta bort markör från aktuell rad"
+
   "Menu: Replace line with script"
   "Meny: Ersätta linje med skript"
 
@@ -447,6 +468,15 @@ msgcat::mcmset sv {
   "Menu: Send Feedback"
   "Meny: Skicka Feedback"
 
+  "Menu: Set indent mode to IND"
+  "Meny: Ange indrag läge till IND"
+
+  "Menu: Set indent mode to IND+"
+  "Meny: Ange indrag läge till IND +"
+
+  "Menu: Set indent mode to OFF"
+  "Meny: Ange indrag läge off"
+
   "Menu: Set user bindings to global bindings"
   "Meny: Ställ användar bindningar till globala bindningar"
 
@@ -456,14 +486,23 @@ msgcat::mcmset sv {
   "Menu: Show Diagnostic Logfile"
   "Meny: Visa diagnostisk loggfil"
 
+  "Menu: Show Line Numbers"
+  "Rad nummer"
+
   "Menu: Show Tab Bar"
   "Meny: Visa Tab Bar"
 
   "Menu: Show console"
   "Meny: Visa konsol"
 
+  "Menu: Show file difference"
+  "Meny: Visa filen skillnaden"
+
   "Menu: Show last profiling report"
   "Meny: Visa senaste profilering rapport"
+
+  "Menu: Show selected line change"
+  "Meny: Visa markerad linje förändring"
 
   "Menu: Show sidebar"
   "Meny: Visa sidebar"
@@ -516,6 +555,9 @@ msgcat::mcmset sv {
   "New"
   "Nytt"
 
+  "Next difference"
+  "Nästa skillnad"
+
   "Open Directory..."
   "Öppna katalog"
 
@@ -540,6 +582,9 @@ msgcat::mcmset sv {
   "Preferences"
   "Favoriter"
 
+  "Previous difference"
+  "Föregående skillnad"
+
   "Profiling started"
   "Profilering började"
 
@@ -554,6 +599,12 @@ msgcat::mcmset sv {
 
   "Reload"
   "Ladda om"
+
+  "Remove all markers"
+  "Ta bort alla markörer"
+
+  "Remove from current line"
+  "Ta bort från aktuell rad"
 
   "Replace line with script"
   "Ersätta linje med skript"
@@ -606,8 +657,14 @@ msgcat::mcmset sv {
   "Show Diagnostic Logfile"
   "Visa diagnostisk loggfil"
 
+  "Show File Difference"
+  "Visa filen skillnaden"
+
   "Show Last Profiling Report"
   "Visa Senaste Profilering Rapport"
+
+  "Show Line Numbers"
+  "Rad nummer"
 
   "Show Sidebar"
   "Visa sidorad"
@@ -618,8 +675,14 @@ msgcat::mcmset sv {
   "Show Tab Bar"
   "Visa Tab Bar"
 
+  "Show selected line change"
+  "Visa markerad rad förändringar"
+
   "Show*Profiling*"
   "Visa * Profilering *"
+
+  "Smart Indent"
+  "Smart strecksatsen"
 
   "Snippet"
   "Fragment"
@@ -765,6 +828,9 @@ msgcat::mcmset sv {
 
   "Rename"
   "Byt namn"
+
+  "Show Difference"
+  "Visa skillnaden"
 
 }
 

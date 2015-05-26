@@ -120,6 +120,9 @@ msgcat::mcmset el {
   "Append next occurrence"
   "Προσάρτηση επόμενη εμφάνιση"
 
+  "Auto-Indent"
+  "Αυτο-εντομή"
+
   "Check for Update"
   "Έλεγχος για ενημέρωση"
 
@@ -135,6 +138,9 @@ msgcat::mcmset el {
   "Copy"
   "Αντιγραφή"
 
+  "Create at current line"
+  "Δημιουργία στην τρέχουσα γραμμή"
+
   "Create new..."
   "Δημιουργία νέου"
 
@@ -143,9 +149,6 @@ msgcat::mcmset el {
 
   "Cut"
   "Αποκοπή"
-
-  "Disable Auto-Indent"
-  "Απενεργοποίηση Auto-Indent"
 
   "Edit"
   "Επεξεργασία"
@@ -159,9 +162,6 @@ msgcat::mcmset el {
   "Edit..."
   "Επεξεργασία..."
 
-  "Enable Auto-Indent"
-  "Ενεργοποίηση Auto-Indent"
-
   "File"
   "Αρχείο"
 
@@ -173,9 +173,6 @@ msgcat::mcmset el {
 
   "Find in files"
   "Αναζήτηση σε αρχεία..."
-
-  "Find marker"
-  "Βρείτε δείκτη"
 
   "Find matching pair"
   "Βρείτε ταιριάζουν ζεύγος"
@@ -204,6 +201,9 @@ msgcat::mcmset el {
   "Hide Console"
   "Απόκρυψη Console"
 
+  "Hide Line Numbers"
+  "Απόκρυψη αριθμών γραμμών"
+
   "Hide Sidebar"
   "Απόκρυψη πλευρικής μπάρας"
 
@@ -218,6 +218,12 @@ msgcat::mcmset el {
 
   "Indent"
   "Εσοχή"
+
+  "Indent Mode"
+  "Εντομή μοντέλο"
+
+  "Indent Off"
+  "Εσοχή από"
 
   "Insert Text"
   "Εισαγωγή ευρετηρίου"
@@ -239,6 +245,9 @@ msgcat::mcmset el {
 
   "Lock"
   "Κλείδωμα"
+
+  "Markers"
+  "Σημεία"
 
   "Menu Bindings"
   "Δέστρες Μενού"
@@ -270,6 +279,9 @@ msgcat::mcmset el {
   "Menu: Copy selected text"
   "Μενού: Αντιγραφή επιλεγμένου κειμένου"
 
+  "Menu: Create marker at current line"
+  "Μενού: Δημιουργία δείκτη στην τρέχουσα γραμμή"
+
   "Menu: Create new plugin"
   "Μενού: Δημιουργία νέου plugin"
 
@@ -281,9 +293,6 @@ msgcat::mcmset el {
 
   "Menu: Disable Vim mode"
   "Μενού: απενεργοποίηση λειτουργίας Vim"
-
-  "Menu: Disable auto-indent"
-  "Μενού: Αχρηστεύω αυτο-εντομή"
 
   "Menu: Edit Tke theme"
   "Μενού: Επεξεργασία Tke θέμα"
@@ -302,9 +311,6 @@ msgcat::mcmset el {
 
   "Menu: Enable Vim mode"
   "Μενού: Ενεργοποίηση λειτουργίας Vim"
-
-  "Menu: Enable auto-indent"
-  "Μενού: Ενεργοποίηση auto-indent"
 
   "Menu: Favorite file"
   "Μενού: Αγαπημένη αρχείο"
@@ -336,14 +342,23 @@ msgcat::mcmset el {
   "Menu: Goto last tab"
   "Μενού: Μετάβαση στη τελευταία καρτέλα"
 
+  "Menu: Goto next difference"
+  "Μενού: Goto επόμενο διαφορά"
+
   "Menu: Goto next tab"
   "Μενού: Μετάβαση στη επόμενη καρτέλα"
 
   "Menu: Goto other pane"
   "Μενού: Μετάβαση άλλες παράθυρο"
 
+  "Menu: Goto previous difference"
+  "Μενού: Προηγούμενη διαφορά Goto"
+
   "Menu: Goto previous tab"
   "Μενού: Μετάβαση στη προηγούμενη καρτέλα"
+
+  "Menu: Hide Line Numbers"
+  "Μενού: Απόκρυψη αριθμών γραμμών"
 
   "Menu: Hide Tab Bar"
   "Μενού: Απόκρυψη Tab Bar"
@@ -420,6 +435,12 @@ msgcat::mcmset el {
   "Menu: Reload snippets"
   "Μενού: Νέα φόρτωση αποσπάσματα"
 
+  "Menu: Remove all markers"
+  "Μενού: Αφαιρέσετε όλα δείκτες"
+
+  "Menu: Remove marker from current line"
+  "Μενού: Κατάργηση δείκτη από τρέχουσα γραμμή"
+
   "Menu: Replace line with script"
   "Μενού: Αντικαταστήστε την γραμμή με σενάριο"
 
@@ -447,6 +468,15 @@ msgcat::mcmset el {
   "Menu: Send Feedback"
   "Μενού: Αποστολή σχολίων"
 
+  "Menu: Set indent mode to IND"
+  "Μενού: Ρυθμίστε την περίπτωση λειτουργία σε IND"
+
+  "Menu: Set indent mode to IND+"
+  "Μενού: Ρυθμίστε την περίπτωση λειτουργία σε IND +"
+
+  "Menu: Set indent mode to OFF"
+  "Μενού: Οριστεί εντομή μοντέλο στο OFF"
+
   "Menu: Set user bindings to global bindings"
   "Μενού: Ορισμός δέστρες χρήστη για την παγκόσμια συνδέσεις"
 
@@ -456,14 +486,23 @@ msgcat::mcmset el {
   "Menu: Show Diagnostic Logfile"
   "Μενού: Διαγνωστικά Logfile Εμφάνιση"
 
+  "Menu: Show Line Numbers"
+  "Μενού: Εμφάνιση αριθμών γραμμών"
+
   "Menu: Show Tab Bar"
   "Μενού: Εμφάνιση Γραμμήκαρτελών"
 
   "Menu: Show console"
   "Μενού: Εμφάνιση κονσόλα"
 
+  "Menu: Show file difference"
+  "Μενού: Εμφάνιση αρχείο διαφορά"
+
   "Menu: Show last profiling report"
   "Μενού: Δείτε την έκθεση του περασμένου προφίλ"
+
+  "Menu: Show selected line change"
+  "Μενού: Αλλαγή γραμμής εμφάνιση επιλεγμένο"
 
   "Menu: Show sidebar"
   "Μενού: Εμφάνιση sidebar"
@@ -516,6 +555,9 @@ msgcat::mcmset el {
   "New"
   "Νέο"
 
+  "Next difference"
+  "Επόμενη διαφορά"
+
   "Open Directory..."
   "Άνοιγμα καταλόγου"
 
@@ -540,6 +582,9 @@ msgcat::mcmset el {
   "Preferences"
   "Προτιμήσεις"
 
+  "Previous difference"
+  "Προηγούμενη διαφορά"
+
   "Profiling started"
   "Profiling ξεκίνησε"
 
@@ -554,6 +599,12 @@ msgcat::mcmset el {
 
   "Reload"
   "Επαναφόρτωση"
+
+  "Remove all markers"
+  "Αφαιρέστε όλα δείκτες"
+
+  "Remove from current line"
+  "Κατάργηση από την τρέχουσα γραμμή"
 
   "Replace line with script"
   "Αντικαταστήστε την γραμμή με σενάριο"
@@ -606,8 +657,14 @@ msgcat::mcmset el {
   "Show Diagnostic Logfile"
   "Εμφάνιση διαγνωστικό Logfile"
 
+  "Show File Difference"
+  "Εμφάνιση αρχείου διαφορά"
+
   "Show Last Profiling Report"
   "Εμφάνιση Τελευταία Έκθεση Profiling"
+
+  "Show Line Numbers"
+  "Εμφάνιση αριθμών γραμμών"
 
   "Show Sidebar"
   "Εμφάνιση πλευρικής μπάρας"
@@ -618,8 +675,14 @@ msgcat::mcmset el {
   "Show Tab Bar"
   "Γραμμή καρτελών"
 
+  "Show selected line change"
+  "Παρουσιάζουν επιλεγμένη γραμμή αλλαγή"
+
   "Show*Profiling*"
   "Show * Profiling *"
+
+  "Smart Indent"
+  "Έξυπνες περίπτωση"
 
   "Snippet"
   "Απόσπασμα"
@@ -765,6 +828,9 @@ msgcat::mcmset el {
 
   "Rename"
   "Μετονομασία"
+
+  "Show Difference"
+  "Εμφάνιση διαφορά"
 
 }
 
