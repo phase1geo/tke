@@ -30,6 +30,7 @@ namespace eval diff {
     ttk::frame      $win
     ttk::menubutton $win.cvs  -menu $win.cvsMenu -direction above
     ttk::button     $win.show -text "Update" -command "[ns diff]::show $txt"
+    message         $txt.log
 
     # Create the version frame
     ttk::frame $win.vf
@@ -37,6 +38,11 @@ namespace eval diff {
     $data(sb)  $win.vf.v1 {*}$data(sb_opts) -textvariable [ns diff]::data($txt,v1) -width 10 -state readonly -command "[ns diff]::handle_v1 $txt"
     ttk::label $win.vf.l2 -text "    End: "
     $data(sb)  $win.vf.v2 {*}$data(sb_opts) -textvariable [ns diff]::data($txt,v2) -width 10 -state readonly -command "[ns diff]::handle_v2 $txt"
+    
+    bind $win.vf.v1 <FocusIn>  "[ns diff]::show_hide_version_log $txt v1 on"
+    bind $win.vf.v1 <FocusOut> "[ns diff]::show_hide_version_log $txt v1 off"
+    bind $win.vf.v2 <FocusIn>  "[ns diff]::show_hide_version_log $txt v2 on"
+    bind $win.vf.v2 <FocusOut> "[ns diff]::show_hide_version_log $txt v2 off"
 
     grid rowconfigure    $win.vf 0 -weight 1
     grid columnconfigure $win.vf 2 -weight 1
@@ -82,7 +88,8 @@ namespace eval diff {
     grid remove $win.show
 
     # When text widget is destroyed delete our data
-    bind $win <Destroy> "diff::destroy $txt"
+    bind $win <Configure> "diff::configure $txt"
+    bind $win <Destroy>   "diff::destroy $txt"
 
     # Create the CVS menu
     menu $win.cvsMenu -tearoff 0
@@ -137,6 +144,18 @@ namespace eval diff {
     foreach win [array names data *,canvas] {
       $data($win) configure -background $bg
     }
+    
+  }
+  
+  ######################################################################
+  # Handles a configure window call to the difference widget.
+  proc configure {txt} {
+    
+    variable data
+    
+    # Remove the log window
+    place forget $txt.log
+    set data($txt,logmode) 0
     
   }
 
@@ -416,6 +435,9 @@ namespace eval diff {
     # Make sure the update button is visible
     grid $data($txt,win).show
 
+    # Update the version log information
+    show_hide_version_log $txt v1 on
+      
   }
 
   ######################################################################
@@ -435,8 +457,50 @@ namespace eval diff {
     # Make sure the update button is visible
     grid $data($txt,win).show
 
+    # Update the version log information
+    show_hide_version_log $txt v2 on
+      
   }
 
+  ######################################################################
+  # Shows/hides the file version information in a tooltip just above the
+  # associated version widget.
+  proc show_hide_version_log {txt widget mode} {
+    
+    variable data
+    
+    if {![info exists data($txt,logmode)] || \
+        (!$data($txt,logmode) && ($mode eq "toggle")) || \
+        ($mode eq "on") || \
+        ($data($txt,logmode) && ($mode eq "update"))} {
+      
+      # Get the current filename
+      set fname [[ns gui]::current_filename]
+       
+      # Get the version information
+      if {[set log [[string tolower $data($txt,cvs)]::get_version_log $fname $data($txt,$widget)]] ne ""} {
+        
+        # Create the message widget
+        $txt.log configure -text $log -width [expr [winfo width $txt] - 10]
+        
+        # Place the message widget
+        place $txt.log -in $txt -x 10 -y [expr [winfo height $txt] - ([winfo reqheight $txt.log] + 10)]
+        
+        set data($txt,logmode) 1
+        
+        return
+        
+      }
+      
+    }
+      
+    # Destroy the message widget
+    place forget $txt.log
+      
+    set data($txt,logmode) 0
+      
+  }
+  
   ######################################################################
   # Executes the given diff command that produces diff output in unified
   # format.  Updates the specified text widget with the result.  The
@@ -567,6 +631,13 @@ namespace eval diff {
       return ""
     }
 
+    proc get_version_log {fname version} {
+      if {![catch { exec p4 filelog $fname#$version } rc]} {
+        return $rc
+      }
+      return ""
+    }
+    
   }
 
   ######################################################################
@@ -622,6 +693,13 @@ namespace eval diff {
             return $version
           }
         }
+      }
+      return ""
+    }
+    
+    proc get_version_log {fname version} {
+      if {![catch { exec hg log -r $version $fname } rc]} {
+        return $rc
       }
       return ""
     }
@@ -685,6 +763,13 @@ namespace eval diff {
       return ""
     }
     
+    proc get_version_log {fname version} {
+      if {![catch { exec svn log -r $version $fname } rc]} {
+        return $rc
+      }
+      return ""
+    }
+    
   }
 
   ######################################################################
@@ -743,6 +828,13 @@ namespace eval diff {
       }
     }
 
+    proc get_version_log {fname version} {
+      if {![catch { exec cvs log -r$version $fname } rc]} {
+        return $rc
+      }
+      return ""
+    }
+    
   }
 
   ######################################################################

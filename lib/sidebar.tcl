@@ -682,7 +682,6 @@ namespace eval sidebar {
     
     # Increment/decrement the descendant row by the given value
     set ocount [expr [$widgets(tl) cellcget $descendant,ocount -text] + $value]
-    puts "ocount: $ocount"
     $widgets(tl) cellconfigure $descendant,ocount -text $ocount
     
     # If the user wants us to auto-remove when the open file count reaches 0,
