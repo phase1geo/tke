@@ -120,6 +120,9 @@ msgcat::mcmset nl {
   "Append next occurrence"
   "Voeg volgende voorkomen"
 
+  "Auto-Indent"
+  "Automatisch inspringen"
+
   "Check for Update"
   "Zoek naar nieuwe versies"
 
@@ -135,6 +138,9 @@ msgcat::mcmset nl {
   "Copy"
   "Kopiëren"
 
+  "Create at current line"
+  "Maken op de huidige regel"
+
   "Create new..."
   "Nieuw aanmaken"
 
@@ -143,9 +149,6 @@ msgcat::mcmset nl {
 
   "Cut"
   "Knip"
-
-  "Disable Auto-Indent"
-  "Uitschakelen van Auto-streepje"
 
   "Edit"
   "Bewerken"
@@ -159,9 +162,6 @@ msgcat::mcmset nl {
   "Edit..."
   "Bewerken..."
 
-  "Enable Auto-Indent"
-  "Inschakelen automatische inspringing"
-
   "File"
   "Bestand"
 
@@ -173,9 +173,6 @@ msgcat::mcmset nl {
 
   "Find in files"
   "Zoeken in bestanden..."
-
-  "Find marker"
-  "Zoek marker"
 
   "Find matching pair"
   "Zoek bijpassende paar"
@@ -204,6 +201,9 @@ msgcat::mcmset nl {
   "Hide Console"
   "Verbergen Console"
 
+  "Hide Line Numbers"
+  "Regelnummers verbergen"
+
   "Hide Sidebar"
   "Zijbalk verbergen"
 
@@ -218,6 +218,12 @@ msgcat::mcmset nl {
 
   "Indent"
   "Inspringen"
+
+  "Indent Mode"
+  "Streepje modus"
+
+  "Indent Off"
+  "Streepje uit"
 
   "Insert Text"
   "Index invoegen"
@@ -239,6 +245,9 @@ msgcat::mcmset nl {
 
   "Lock"
   "Vergrendelen"
+
+  "Markers"
+  "markeerders"
 
   "Menu Bindings"
   "Menu Bindingen"
@@ -270,6 +279,9 @@ msgcat::mcmset nl {
   "Menu: Copy selected text"
   "Menu: Geselecteerde tekst kopiëren"
 
+  "Menu: Create marker at current line"
+  "Menu: Marker op de huidige regel maken"
+
   "Menu: Create new plugin"
   "Menu: Maak een nieuwe plugin"
 
@@ -281,9 +293,6 @@ msgcat::mcmset nl {
 
   "Menu: Disable Vim mode"
   "Menu: Uitschakelen Vim modus"
-
-  "Menu: Disable auto-indent"
-  "Menu: Uitschakelen auto-streepje"
 
   "Menu: Edit Tke theme"
   "Menu: Bewerken Tke thema"
@@ -302,9 +311,6 @@ msgcat::mcmset nl {
 
   "Menu: Enable Vim mode"
   "Menu: Enable Vim modus"
-
-  "Menu: Enable auto-indent"
-  "Menu: Inschakelen auto-streepje"
 
   "Menu: Favorite file"
   "Menu: Favoriete bestand"
@@ -336,14 +342,23 @@ msgcat::mcmset nl {
   "Menu: Goto last tab"
   "Menu: Ga naar laatste tabblad"
 
+  "Menu: Goto next difference"
+  "Menu: Goto volgende verschil"
+
   "Menu: Goto next tab"
   "Menu: Ga naar volgende tabblad"
 
   "Menu: Goto other pane"
   "Menu: Goto andere ruit"
 
+  "Menu: Goto previous difference"
+  "Menu: Goto vorige verschil"
+
   "Menu: Goto previous tab"
   "Menu: Ga naar vorige tabblad"
+
+  "Menu: Hide Line Numbers"
+  "Menu: Verbergen regelnummers"
 
   "Menu: Hide Tab Bar"
   "Menu: Hide Tab Bar"
@@ -420,6 +435,12 @@ msgcat::mcmset nl {
   "Menu: Reload snippets"
   "Menu: Reload fragmenten"
 
+  "Menu: Remove all markers"
+  "Menu: Alle markeringen verwijderen"
+
+  "Menu: Remove marker from current line"
+  "Menu: Marker verwijderen uit de huidige regel"
+
   "Menu: Replace line with script"
   "Menu: Regel vervangen door script"
 
@@ -447,6 +468,15 @@ msgcat::mcmset nl {
   "Menu: Send Feedback"
   "Menu: Feedback verzenden"
 
+  "Menu: Set indent mode to IND"
+  "Menu: Streepje modus instelt op IND"
+
+  "Menu: Set indent mode to IND+"
+  "Menu: Streepje modus instelt op IND +"
+
+  "Menu: Set indent mode to OFF"
+  ": Menureeks streepje modus op OFF"
+
   "Menu: Set user bindings to global bindings"
   "Menu: Stel gebruiker bindingen aan de mondiale bindingen"
 
@@ -456,14 +486,23 @@ msgcat::mcmset nl {
   "Menu: Show Diagnostic Logfile"
   "Menu: Toon diagnostische Logfile"
 
+  "Menu: Show Line Numbers"
+  "Regelnummering tonen"
+
   "Menu: Show Tab Bar"
   "Menu: Show Tab Bar"
 
   "Menu: Show console"
   "Menu: Show console"
+
+  "Menu: Show file difference"
+  "Menu: Toon bestand verschil"
 
   "Menu: Show last profiling report"
   "Menu: Toon laatste profilering rapport"
+
+  "Menu: Show selected line change"
+  "Menu: Toon geselecteerde lijn wijzigen"
 
   "Menu: Show sidebar"
   "Menu: Show sidebar"
@@ -516,6 +555,9 @@ msgcat::mcmset nl {
   "New"
   "Nieuw"
 
+  "Next difference"
+  "Volgend verschil"
+
   "Open Directory..."
   "Map openen"
 
@@ -540,6 +582,9 @@ msgcat::mcmset nl {
   "Preferences"
   "Voorkeuren"
 
+  "Previous difference"
+  "Vorig verschil"
+
   "Profiling started"
   "Profiling begonnen"
 
@@ -554,6 +599,12 @@ msgcat::mcmset nl {
 
   "Reload"
   "Herladen"
+
+  "Remove all markers"
+  "Alle markeringen verwijderen"
+
+  "Remove from current line"
+  "Verwijderen uit de huidige regel"
 
   "Replace line with script"
   "Regel vervangen door script"
@@ -606,8 +657,14 @@ msgcat::mcmset nl {
   "Show Diagnostic Logfile"
   "Toon diagnostische Logfile"
 
+  "Show File Difference"
+  "Toon bestand verschil"
+
   "Show Last Profiling Report"
   "Toon Laatste Profiling Report"
+
+  "Show Line Numbers"
+  "Regelnummering tonen"
 
   "Show Sidebar"
   "Zijbalk tonen"
@@ -618,8 +675,14 @@ msgcat::mcmset nl {
   "Show Tab Bar"
   "Show Tab Bar"
 
+  "Show selected line change"
+  "Toon geselecteerde regel wijzigen"
+
   "Show*Profiling*"
   "Tonen * Profiling *"
+
+  "Smart Indent"
+  "Slimme streepje"
 
   "Snippet"
   "Snippet"
@@ -765,6 +828,9 @@ msgcat::mcmset nl {
 
   "Rename"
   "Hernoem"
+
+  "Show Difference"
+  "Toon verschil"
 
 }
 

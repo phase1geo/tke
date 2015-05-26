@@ -120,6 +120,9 @@ msgcat::mcmset cs {
   "Append next occurrence"
   "Připojit další výskyt"
 
+  "Auto-Indent"
+  "Automatické odsazení"
+
   "Check for Update"
   "Zkontrolujte, zda aktualizaci"
 
@@ -135,6 +138,9 @@ msgcat::mcmset cs {
   "Copy"
   "Kopírovat"
 
+  "Create at current line"
+  "Vytvořit v aktuálním řádku"
+
   "Create new..."
   "Vytvořit nový"
 
@@ -143,9 +149,6 @@ msgcat::mcmset cs {
 
   "Cut"
   "Snížit"
-
-  "Disable Auto-Indent"
-  "Zakázat automatické odsazení"
 
   "Edit"
   "Upravit"
@@ -159,9 +162,6 @@ msgcat::mcmset cs {
   "Edit..."
   "Upravit..."
 
-  "Enable Auto-Indent"
-  "Povolit automatické odsazení"
-
   "File"
   "Soubor"
 
@@ -173,9 +173,6 @@ msgcat::mcmset cs {
 
   "Find in files"
   "Hledat v souborech"
-
-  "Find marker"
-  "Najděte značku"
 
   "Find matching pair"
   "Najít odpovídající dvojice"
@@ -204,6 +201,9 @@ msgcat::mcmset cs {
   "Hide Console"
   "Skrýt konzole"
 
+  "Hide Line Numbers"
+  "Skrýt čísla řádek"
+
   "Hide Sidebar"
   "Skrýt Sidebar"
 
@@ -218,6 +218,12 @@ msgcat::mcmset cs {
 
   "Indent"
   "Zvětšit odsazení"
+
+  "Indent Mode"
+  "Odsadit režim"
+
+  "Indent Off"
+  "Odsadit vypnuto"
 
   "Insert Text"
   "Vložit text"
@@ -239,6 +245,9 @@ msgcat::mcmset cs {
 
   "Lock"
   "Uzamknout"
+
+  "Markers"
+  "Značky"
 
   "Menu Bindings"
   "Vázání Menu"
@@ -270,6 +279,9 @@ msgcat::mcmset cs {
   "Menu: Copy selected text"
   "Menu: Kopírovat vybraný text"
 
+  "Menu: Create marker at current line"
+  "Nabídka: Vytvoření značky na aktuálním řádku"
+
   "Menu: Create new plugin"
   "Menu: Vytvořit nový plugin"
 
@@ -281,9 +293,6 @@ msgcat::mcmset cs {
 
   "Menu: Disable Vim mode"
   "Menu: Vypnutí režimu Vim"
-
-  "Menu: Disable auto-indent"
-  "Nabídka: Zakázat automatické odsazení"
 
   "Menu: Edit Tke theme"
   "Menu: Úpravy TKE téma"
@@ -302,9 +311,6 @@ msgcat::mcmset cs {
 
   "Menu: Enable Vim mode"
   "Menu: Povolit režim Vim"
-
-  "Menu: Enable auto-indent"
-  "Nabídka: Povolit automatické odsazení"
 
   "Menu: Favorite file"
   "Menu: Oblíbený soubor"
@@ -336,14 +342,23 @@ msgcat::mcmset cs {
   "Menu: Goto last tab"
   "Menu: Jdi Poslední záložka"
 
+  "Menu: Goto next difference"
+  "Nabídka: Goto další rozdíl"
+
   "Menu: Goto next tab"
   "Menu: Jdi na další karta"
 
   "Menu: Goto other pane"
   "Menu: Jdi na další podokno"
 
+  "Menu: Goto previous difference"
+  "Nabídka: Goto předchozí rozdíl"
+
   "Menu: Goto previous tab"
   "Menu: Jdi na předchozí kartu"
+
+  "Menu: Hide Line Numbers"
+  "Nabídka: Skrýt čísla řádek"
 
   "Menu: Hide Tab Bar"
   "Menu: Skrýt liště"
@@ -420,6 +435,12 @@ msgcat::mcmset cs {
   "Menu: Reload snippets"
   "Nabídka: Reload fragmenty"
 
+  "Menu: Remove all markers"
+  "Nabídka: Odebrat všechny značky"
+
+  "Menu: Remove marker from current line"
+  "Nabídka: Odstranit značku z aktuálního řádku"
+
   "Menu: Replace line with script"
   "Nabídka: Nahradit řádek skriptu"
 
@@ -447,6 +468,15 @@ msgcat::mcmset cs {
   "Menu: Send Feedback"
   "Nabídka: Odeslat názor"
 
+  "Menu: Set indent mode to IND"
+  "Nabídka: Nastavte režim odsazení na IND"
+
+  "Menu: Set indent mode to IND+"
+  "Nabídka: Nastavte režim odsazení na IND +"
+
+  "Menu: Set indent mode to OFF"
+  "Nabídka: Sada odsazení režim OFF"
+
   "Menu: Set user bindings to global bindings"
   "Menu: Nastavení uživatelských vazby na globální vazby"
 
@@ -456,14 +486,23 @@ msgcat::mcmset cs {
   "Menu: Show Diagnostic Logfile"
   "Nabídka: Show diagnostického protokolu"
 
+  "Menu: Show Line Numbers"
+  "Nabídka: Show čísla řádků"
+
   "Menu: Show Tab Bar"
   "Menu: Show Tab Bar"
 
   "Menu: Show console"
   "Menu: Zobrazit konzole"
 
+  "Menu: Show file difference"
+  "Nabídka: Show souboru rozdílu"
+
   "Menu: Show last profiling report"
   "Menu: Zobrazit report poslední profilování"
+
+  "Menu: Show selected line change"
+  "Nabídka: Show vybrané linie změna"
 
   "Menu: Show sidebar"
   "Menu: Zobrazit sidebar"
@@ -516,6 +555,9 @@ msgcat::mcmset cs {
   "New"
   "Nový"
 
+  "Next difference"
+  "Další rozdíl"
+
   "Open Directory..."
   "Open Directory ..."
 
@@ -540,6 +582,9 @@ msgcat::mcmset cs {
   "Preferences"
   "Preference"
 
+  "Previous difference"
+  "Předchozí rozdíl"
+
   "Profiling started"
   "Profilování začal"
 
@@ -554,6 +599,12 @@ msgcat::mcmset cs {
 
   "Reload"
   "Načíst znovu"
+
+  "Remove all markers"
+  "Odstranit všechny značky"
+
+  "Remove from current line"
+  "Odebrat z aktuálního řádku"
 
   "Replace line with script"
   "Nahradit řádek skriptu"
@@ -606,8 +657,14 @@ msgcat::mcmset cs {
   "Show Diagnostic Logfile"
   "Zobrazit diagnostického protokolu"
 
+  "Show File Difference"
+  "Zobrazit soubor rozdíl"
+
   "Show Last Profiling Report"
   "Zobrazit poslední profilování zprávu"
+
+  "Show Line Numbers"
+  "Zobrazovat čísla řádků"
 
   "Show Sidebar"
   "Zobrazit Sidebar"
@@ -618,8 +675,14 @@ msgcat::mcmset cs {
   "Show Tab Bar"
   "Zobrazit Tab Bar"
 
+  "Show selected line change"
+  "Zobrazit vybranou linku změnu"
+
   "Show*Profiling*"
   "Ukázat * Profilování *"
+
+  "Smart Indent"
+  "Chytré odsazení"
 
   "Snippet"
   "úryvek"
@@ -765,6 +828,9 @@ msgcat::mcmset cs {
 
   "Rename"
   "Odebrat"
+
+  "Show Difference"
+  "Zobrazit rozdíl"
 
 }
 

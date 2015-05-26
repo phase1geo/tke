@@ -120,6 +120,9 @@ msgcat::mcmset hu {
   "Append next occurrence"
   "Adja hozzá a következő esemény"
 
+  "Auto-Indent"
+  "Automatikus behúzás"
+
   "Check for Update"
   "Ellenőrizze a Frissítés"
 
@@ -135,6 +138,9 @@ msgcat::mcmset hu {
   "Copy"
   "Másolás"
 
+  "Create at current line"
+  "Az aktuális sor létrehozása"
+
   "Create new..."
   "ÚJ LÉTREHOZÁSA"
 
@@ -143,9 +149,6 @@ msgcat::mcmset hu {
 
   "Cut"
   "Kivágás"
-
-  "Disable Auto-Indent"
-  "Megbénít kocsi-rovátka"
 
   "Edit"
   "Szerkesztés"
@@ -159,9 +162,6 @@ msgcat::mcmset hu {
   "Edit..."
   "Szerkesztés..."
 
-  "Enable Auto-Indent"
-  "Engedélyezi a kocsi-rovátka"
-
   "File"
   "Fájl"
 
@@ -173,9 +173,6 @@ msgcat::mcmset hu {
 
   "Find in files"
   "Keresés fájlokban..."
-
-  "Find marker"
-  "Keresés marker"
 
   "Find matching pair"
   "Keresés párja"
@@ -204,6 +201,9 @@ msgcat::mcmset hu {
   "Hide Console"
   "Elrejtése Console"
 
+  "Hide Line Numbers"
+  "Sorszámok elrejtése"
+
   "Hide Sidebar"
   "Az oldalsáv elrejtése"
 
@@ -218,6 +218,12 @@ msgcat::mcmset hu {
 
   "Indent"
   "Behúzás"
+
+  "Indent Mode"
+  "Rovátka mód"
+
+  "Indent Off"
+  "Francia le"
 
   "Insert Text"
   "Szöveg beszúrása"
@@ -239,6 +245,9 @@ msgcat::mcmset hu {
 
   "Lock"
   "Zárolás"
+
+  "Markers"
+  "Markerek"
 
   "Menu Bindings"
   "Menü Bindings"
@@ -270,6 +279,9 @@ msgcat::mcmset hu {
   "Menu: Copy selected text"
   "Menü: A kijelölt szöveg másolása"
 
+  "Menu: Create marker at current line"
+  "Menü: Marker létrehozása az aktuális sorhoz"
+
   "Menu: Create new plugin"
   "Menü: Új bővítmény"
 
@@ -281,9 +293,6 @@ msgcat::mcmset hu {
 
   "Menu: Disable Vim mode"
   "Menü: Disable Vim mód"
-
-  "Menu: Disable auto-indent"
-  "Menü: Megbénít kocsi-rovátka"
 
   "Menu: Edit Tke theme"
   "Menü: Szerkesztés TKE téma"
@@ -302,9 +311,6 @@ msgcat::mcmset hu {
 
   "Menu: Enable Vim mode"
   "Menü: engedélyezése Vim mód"
-
-  "Menu: Enable auto-indent"
-  "Menü: Képessé tesz kocsi-rovátka"
 
   "Menu: Favorite file"
   "Menü: Kedvenc fájl"
@@ -336,14 +342,23 @@ msgcat::mcmset hu {
   "Menu: Goto last tab"
   "Menü: Ugrás az utolsó lapra"
 
+  "Menu: Goto next difference"
+  "Menü: Goto következő különbség"
+
   "Menu: Goto next tab"
   "Menü: Ugrás a következő lapra"
 
   "Menu: Goto other pane"
   "Menü: Goto másik panel"
 
+  "Menu: Goto previous difference"
+  "Menü: Goto előző különbség"
+
   "Menu: Goto previous tab"
   "Menü: Ugrás az előző lapra"
+
+  "Menu: Hide Line Numbers"
+  "Menü: Hide sorszámok"
 
   "Menu: Hide Tab Bar"
   "Menü: Hide Tab Bar"
@@ -420,6 +435,12 @@ msgcat::mcmset hu {
   "Menu: Reload snippets"
   "Menü: Reload töredék"
 
+  "Menu: Remove all markers"
+  "Menü: Távolítsa el az összes markerek"
+
+  "Menu: Remove marker from current line"
+  "Menü: Jelölő eltávolítása az aktuális sor"
+
   "Menu: Replace line with script"
   "Menü: Cseréli vonal script"
 
@@ -447,6 +468,15 @@ msgcat::mcmset hu {
   "Menu: Send Feedback"
   "Menü: Vonatkozó visszajelzés küldése"
 
+  "Menu: Set indent mode to IND"
+  "Menü: IND rovátka mód beállítása"
+
+  "Menu: Set indent mode to IND+"
+  "Menü: Rovátka mód beállítása IND +"
+
+  "Menu: Set indent mode to OFF"
+  "Menü: Rovátka mód készlet-hoz távoli"
+
   "Menu: Set user bindings to global bindings"
   "Menü: Állítsa be a felhasználó kötések a globális kötés"
 
@@ -456,14 +486,23 @@ msgcat::mcmset hu {
   "Menu: Show Diagnostic Logfile"
   "Menü: Térkép diagnosztikai Logfile"
 
+  "Menu: Show Line Numbers"
+  "A sorszámok megjelenítése"
+
   "Menu: Show Tab Bar"
   "Menü: Show Tab Bar"
 
   "Menu: Show console"
   "Menü: Show konzol"
 
+  "Menu: Show file difference"
+  "Menü: Térkép fájl különbség"
+
   "Menu: Show last profiling report"
   "Menü: Az utolsó profil jelentés"
+
+  "Menu: Show selected line change"
+  "Menü: Térkép a kiválasztott sor módosítása"
 
   "Menu: Show sidebar"
   "Menü: Show sidebar"
@@ -516,6 +555,9 @@ msgcat::mcmset hu {
   "New"
   "Új"
 
+  "Next difference"
+  "A következő eltérés"
+
   "Open Directory..."
   "Felső szintű könyvtár:"
 
@@ -540,6 +582,9 @@ msgcat::mcmset hu {
   "Preferences"
   "Preferencia"
 
+  "Previous difference"
+  "Az előző eltérés"
+
   "Profiling started"
   "Profilozási kezdődött"
 
@@ -554,6 +599,12 @@ msgcat::mcmset hu {
 
   "Reload"
   "Újratölt"
+
+  "Remove all markers"
+  "Összes jelölőjének eltávolítása"
+
+  "Remove from current line"
+  "Távolítsa el az aktuális sorból"
 
   "Replace line with script"
   "Helyettesít a vonal kézírás"
@@ -606,8 +657,14 @@ msgcat::mcmset hu {
   "Show Diagnostic Logfile"
   "Diagnosztikai naplófájl megjelenítése"
 
+  "Show File Difference"
+  "Térkép fájl különbség"
+
   "Show Last Profiling Report"
   "Az utolsó Profiling jelentés"
+
+  "Show Line Numbers"
+  "A sorszámok megjelenítése"
 
   "Show Sidebar"
   "Az oldalpanel megjelenítése"
@@ -618,8 +675,14 @@ msgcat::mcmset hu {
   "Show Tab Bar"
   "A fülek megjelenítése"
 
+  "Show selected line change"
+  "Megjelenítése a kijelölt sor módosítása"
+
   "Show*Profiling*"
   "Megjelenítése * Profiling *"
+
+  "Smart Indent"
+  "Intelligens francia"
 
   "Snippet"
   "Töredék"
@@ -765,6 +828,9 @@ msgcat::mcmset hu {
 
   "Rename"
   "Átnevezés"
+
+  "Show Difference"
+  "Különbség Térkép"
 
 }
 

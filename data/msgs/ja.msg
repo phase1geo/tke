@@ -120,6 +120,9 @@ msgcat::mcmset ja {
   "Append next occurrence"
   "次のオカレンスを追加"
 
+  "Auto-Indent"
+  "自動インデント"
+
   "Check for Update"
   "アップデートの確認"
 
@@ -135,6 +138,9 @@ msgcat::mcmset ja {
   "Copy"
   "コピー"
 
+  "Create at current line"
+  "現在の行を作成します。"
+
   "Create new..."
   "新しい作成..."
 
@@ -143,9 +149,6 @@ msgcat::mcmset ja {
 
   "Cut"
   "CUT"
-
-  "Disable Auto-Indent"
-  "自動インデントを無効にします。"
 
   "Edit"
   "編集"
@@ -159,9 +162,6 @@ msgcat::mcmset ja {
   "Edit..."
   "編集"
 
-  "Enable Auto-Indent"
-  "自動インデントを有効にします。"
-
   "File"
   "ファイル"
 
@@ -173,9 +173,6 @@ msgcat::mcmset ja {
 
   "Find in files"
   "ファイルから検索"
-
-  "Find marker"
-  "マーカーを見つける"
 
   "Find matching pair"
   "一致するペアを見つける"
@@ -204,6 +201,9 @@ msgcat::mcmset ja {
   "Hide Console"
   "コンソールを隠す"
 
+  "Hide Line Numbers"
+  "行番号を非表示します。"
+
   "Hide Sidebar"
   "隠すサイドバー"
 
@@ -218,6 +218,12 @@ msgcat::mcmset ja {
 
   "Indent"
   "インデント"
+
+  "Indent Mode"
+  "インデント モード"
+
+  "Indent Off"
+  "オフにインデントを設定します。"
 
   "Insert Text"
   "テキストの挿入"
@@ -239,6 +245,9 @@ msgcat::mcmset ja {
 
   "Lock"
   "固定"
+
+  "Markers"
+  "マーカー"
 
   "Menu Bindings"
   "メニューバインディング"
@@ -270,6 +279,9 @@ msgcat::mcmset ja {
   "Menu: Copy selected text"
   "メニュー：コピー選択したテキスト"
 
+  "Menu: Create marker at current line"
+  "メニュー： 現在の行にマーカーを作成します。"
+
   "Menu: Create new plugin"
   "メニュー：新しいプラグインを作成"
 
@@ -281,9 +293,6 @@ msgcat::mcmset ja {
 
   "Menu: Disable Vim mode"
   "メニュー：Vimのモードを無効にします"
-
-  "Menu: Disable auto-indent"
-  "メニュー： 自動インデントを無効にします。"
 
   "Menu: Edit Tke theme"
   "メニュー：編集TKEテーマ"
@@ -302,9 +311,6 @@ msgcat::mcmset ja {
 
   "Menu: Enable Vim mode"
   "メニュー：Vimのモードを有効に"
-
-  "Menu: Enable auto-indent"
-  "メニュー： 自動インデントを有効にします。"
 
   "Menu: Favorite file"
   "メニュー：好きなファイル"
@@ -336,14 +342,23 @@ msgcat::mcmset ja {
   "Menu: Goto last tab"
   "メニュー：後藤最後のタブ"
 
+  "Menu: Goto next difference"
+  "メニュー： 後藤次の相違点"
+
   "Menu: Goto next tab"
   "メニュー：後藤次のタブ"
 
   "Menu: Goto other pane"
   "メニュー：後藤他のペイン"
 
+  "Menu: Goto previous difference"
+  "メニュー： 後藤前の相違点"
+
   "Menu: Goto previous tab"
   "メニュー：後藤前のタブ"
+
+  "Menu: Hide Line Numbers"
+  "メニュー: 非表示にする行番号"
 
   "Menu: Hide Tab Bar"
   "メニュー：タブバーを非表示に"
@@ -420,6 +435,12 @@ msgcat::mcmset ja {
   "Menu: Reload snippets"
   "メニュー： リロード スニペット"
 
+  "Menu: Remove all markers"
+  "メニュー： すべてのマーカーを削除します。"
+
+  "Menu: Remove marker from current line"
+  "メニュー： 現在の行からのマーカーを削除します。"
+
   "Menu: Replace line with script"
   "メニュー： スクリプトの行を置き換えます"
 
@@ -447,6 +468,15 @@ msgcat::mcmset ja {
   "Menu: Send Feedback"
   "メニュー： フィードバックを送信"
 
+  "Menu: Set indent mode to IND"
+  "メニュー: IND をインデント モードを設定します。"
+
+  "Menu: Set indent mode to IND+"
+  "メニュー: IND + のインデント モードを設定します。"
+
+  "Menu: Set indent mode to OFF"
+  "メニュー: インデント モードを OFF に設定します。"
+
   "Menu: Set user bindings to global bindings"
   "メニュー：グローバルバインディングに設定し、ユーザーのバインド"
 
@@ -456,14 +486,23 @@ msgcat::mcmset ja {
   "Menu: Show Diagnostic Logfile"
   "メニュー： 表示診断ログファイル"
 
+  "Menu: Show Line Numbers"
+  "メニュー: 行番号を表示"
+
   "Menu: Show Tab Bar"
   "メニュー：表示タブバー"
 
   "Menu: Show console"
   "メニュー：表示するコンソール"
 
+  "Menu: Show file difference"
+  "メニュー： 表示ファイルの相違点"
+
   "Menu: Show last profiling report"
   "メニュー：ショー最後のプロファイリングレポート"
+
+  "Menu: Show selected line change"
+  "メニュー: 選択した表示線の変更"
 
   "Menu: Show sidebar"
   "メニュー：表示するサイドバー"
@@ -516,6 +555,9 @@ msgcat::mcmset ja {
   "New"
   "新しい"
 
+  "Next difference"
+  "次の相違点"
+
   "Open Directory..."
   "ディレクトリを開きます。..."
 
@@ -540,6 +582,9 @@ msgcat::mcmset ja {
   "Preferences"
   "選好"
 
+  "Previous difference"
+  "前の相違点"
+
   "Profiling started"
   "プロファイリングが開始されました"
 
@@ -554,6 +599,12 @@ msgcat::mcmset ja {
 
   "Reload"
   "再読み込み"
+
+  "Remove all markers"
+  "すべてのマーカーを削除します。"
+
+  "Remove from current line"
+  "現在の行から削除します。"
 
   "Replace line with script"
   "スクリプトの行を置き換えます"
@@ -606,8 +657,14 @@ msgcat::mcmset ja {
   "Show Diagnostic Logfile"
   "診断ログ ファイルを表示します。"
 
+  "Show File Difference"
+  "ファイルの相違点を表示します。"
+
   "Show Last Profiling Report"
   "最後のプロファイリングレポートを表示"
+
+  "Show Line Numbers"
+  "行番号を表示します。"
 
   "Show Sidebar"
   "表示するサイドバー"
@@ -618,8 +675,14 @@ msgcat::mcmset ja {
   "Show Tab Bar"
   "表示タブバー"
 
+  "Show selected line change"
+  "選択した行の変更を表示します。"
+
   "Show*Profiling*"
   "表示*プロファイリング*"
+
+  "Smart Indent"
+  "スマート インデント"
 
   "Snippet"
   "スニペット"
@@ -765,6 +828,9 @@ msgcat::mcmset ja {
 
   "Rename"
   "名前の変更"
+
+  "Show Difference"
+  "違いを示す"
 
 }
 

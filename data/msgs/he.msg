@@ -120,6 +120,9 @@ msgcat::mcmset he {
   "Append next occurrence"
   "צרף המופע הבא"
 
+  "Auto-Indent"
+  "כניסה אוטומטית"
+
   "Check for Update"
   "הסימון עבור עדכון"
 
@@ -135,6 +138,9 @@ msgcat::mcmset he {
   "Copy"
   "להעתיק"
 
+  "Create at current line"
+  "ליצור בקו הנוכחי"
+
   "Create new..."
   "יצירת חדש..."
 
@@ -143,9 +149,6 @@ msgcat::mcmset he {
 
   "Cut"
   "לחתוך"
-
-  "Disable Auto-Indent"
-  "אל תאפשר כניסה אוטומטית"
 
   "Edit"
   "עריכה"
@@ -159,9 +162,6 @@ msgcat::mcmset he {
   "Edit..."
   "עריכה..."
 
-  "Enable Auto-Indent"
-  "הפעלת כניסה אוטומטית"
-
   "File"
   "קובץ"
 
@@ -173,9 +173,6 @@ msgcat::mcmset he {
 
   "Find in files"
   "למצוא קבצים"
-
-  "Find marker"
-  "למצוא את סמן"
 
   "Find matching pair"
   "למצוא זוג תואם"
@@ -204,6 +201,9 @@ msgcat::mcmset he {
   "Hide Console"
   "להסתיר את המסוף"
 
+  "Hide Line Numbers"
+  "הסתר מספרי שורות"
+
   "Hide Sidebar"
   "להסתיר את הסרגל הצידי"
 
@@ -218,6 +218,12 @@ msgcat::mcmset he {
 
   "Indent"
   "כניסה"
+
+  "Indent Mode"
+  "כניסה למצב"
+
+  "Indent Off"
+  "כניסה."
 
   "Insert Text"
   "הוספת טקסט"
@@ -239,6 +245,9 @@ msgcat::mcmset he {
 
   "Lock"
   "מנעול"
+
+  "Markers"
+  "סמנים"
 
   "Menu Bindings"
   "תפריט איגודי"
@@ -270,6 +279,9 @@ msgcat::mcmset he {
   "Menu: Copy selected text"
   "תפריט: העתק טקסט נבחר"
 
+  "Menu: Create marker at current line"
+  "תפריט: ליצור סמן בקו הנוכחי"
+
   "Menu: Create new plugin"
   "תפריט: ליצור תוסף חדש"
 
@@ -281,9 +293,6 @@ msgcat::mcmset he {
 
   "Menu: Disable Vim mode"
   "תפריט: בטל את מצב Vim"
-
-  "Menu: Disable auto-indent"
-  "תפריט: Disable auto-הסט פנימה..."
 
   "Menu: Edit Tke theme"
   "תפריט: עריכה בבית השעשועים"
@@ -302,9 +311,6 @@ msgcat::mcmset he {
 
   "Menu: Enable Vim mode"
   "תפריט: הפעלת מצב Vim"
-
-  "Menu: Enable auto-indent"
-  "תפריט: לאפשר כניסה אוטומטית"
 
   "Menu: Favorite file"
   "תפריט: קובץ מועדפים"
@@ -336,14 +342,23 @@ msgcat::mcmset he {
   "Menu: Goto last tab"
   "תפריט: Goto הכרטיסיה האחרונה"
 
+  "Menu: Goto next difference"
+  "תפריט: ההבדל הבא Goto"
+
   "Menu: Goto next tab"
   "תפריט: הכרטיסייה הבא Goto"
 
   "Menu: Goto other pane"
   "תפריט: Goto חלונית אחרת"
 
+  "Menu: Goto previous difference"
+  "תפריט: Goto ההבדל הקודם"
+
   "Menu: Goto previous tab"
   "תפריט: Goto הכרטיסיה הקודמת"
+
+  "Menu: Hide Line Numbers"
+  "תפריט: מספרי שורות הסתר"
 
   "Menu: Hide Tab Bar"
   "תפריט: הסתר סרגל הלשוניות"
@@ -420,6 +435,12 @@ msgcat::mcmset he {
   "Menu: Reload snippets"
   "תפריט: רענן גזירים"
 
+  "Menu: Remove all markers"
+  "תפריט: להסיר את כל הסמנים"
+
+  "Menu: Remove marker from current line"
+  "תפריט: הסר סמן השורה הנוכחית"
+
   "Menu: Replace line with script"
   "תפריט: להחליף שורת תסריט"
 
@@ -447,6 +468,15 @@ msgcat::mcmset he {
   "Menu: Send Feedback"
   "תפריט: שלח משוב"
 
+  "Menu: Set indent mode to IND"
+  "תפריט: מוגדר מצב כניסה IND"
+
+  "Menu: Set indent mode to IND+"
+  "תפריט: להגדיר מצב כניסה כ IND +"
+
+  "Menu: Set indent mode to OFF"
+  "תפריט: הגדר כניסה למצב כבוי"
+
   "Menu: Set user bindings to global bindings"
   "תפריט: מוגדר משתמש איגודי איגודי גלובלית"
 
@@ -456,14 +486,23 @@ msgcat::mcmset he {
   "Menu: Show Diagnostic Logfile"
   "תפריט: הצג יומן האבחון"
 
+  "Menu: Show Line Numbers"
+  "תפריט: הצג מספרי שורות"
+
   "Menu: Show Tab Bar"
   "תפריט: הצג סרגל הלשוניות"
 
   "Menu: Show console"
   "תפריט: מסוף הצג"
 
+  "Menu: Show file difference"
+  "תפריט: הצג קובץ ההבדל"
+
   "Menu: Show last profiling report"
   "תפריט: הצג פרופיל הדיווח האחרון"
+
+  "Menu: Show selected line change"
+  "תפריט: הצג נבחר ליין צ'יינג"
 
   "Menu: Show sidebar"
   "תפריט: הצג סרגל צידי"
@@ -516,6 +555,9 @@ msgcat::mcmset he {
   "New"
   "חדש"
 
+  "Next difference"
+  "ההבדל הבא"
+
   "Open Directory..."
   "המדריך הפתוח..."
 
@@ -540,6 +582,9 @@ msgcat::mcmset he {
   "Preferences"
   "אפשרויות קבועות"
 
+  "Previous difference"
+  "ההבדל הקודם"
+
   "Profiling started"
   "פרופיל התחיל"
 
@@ -554,6 +599,12 @@ msgcat::mcmset he {
 
   "Reload"
   "טען מחדש"
+
+  "Remove all markers"
+  "להסיר את כל הסמנים"
+
+  "Remove from current line"
+  "להסיר מן השורה הנוכחית"
 
   "Replace line with script"
   "להחליף שורת תסריט"
@@ -606,8 +657,14 @@ msgcat::mcmset he {
   "Show Diagnostic Logfile"
   "הצג יומן האבחון"
 
+  "Show File Difference"
+  "הצג קובץ ההבדל"
+
   "Show Last Profiling Report"
   "הצג דו\"
+
+  "Show Line Numbers"
+  "הצג מספרי שורות"
 
   "Show Sidebar"
   "הצג תיבה צידית"
@@ -618,8 +675,14 @@ msgcat::mcmset he {
   "Show Tab Bar"
   "הצג סרגל הלשוניות"
 
+  "Show selected line change"
+  "להראות שינוי הקו הנבחר"
+
   "Show*Profiling*"
   "הצג * פרופיל *"
+
+  "Smart Indent"
+  "כניסה חכמה"
 
   "Snippet"
   "גזיר"
@@ -765,6 +828,9 @@ msgcat::mcmset he {
 
   "Rename"
   "שינוי שם"
+
+  "Show Difference"
+  "להראות ההבדל"
 
 }
 
