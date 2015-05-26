@@ -1,58 +1,35 @@
-changeset:   1033:a38ed75720c8
-tag:         devel-1.6.9
+changeset:   1040:cfdcac0953ee
+tag:         devel-1.6.10
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed May 20 09:09:36 2015 -0500
+date:        Tue May 26 01:43:51 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.6.9 release
+ChangeLog for devel-1.6.10 release
 
 
-changeset:   1034:466cd97a7376
+changeset:   1041:a545cdbe1ce2
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed May 20 09:09:41 2015 -0500
+date:        Tue May 26 01:43:59 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.6.9 for changeset a38ed75720c8
+Added tag devel-1.6.10 for changeset cfdcac0953ee
 
 
-changeset:   1035:564a07b517a0
+changeset:   1042:68994322189c
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun May 24 00:29:25 2015 -0500
-files:       lib/sidebar.tcl lib/version.tcl
+date:        Tue May 26 09:18:15 2015 -0500
+files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg lib/version.tcl
 description:
-* Reworking add_directory support in sidebar to fix bugs.
+* Updating translations.
 
 
-changeset:   1036:14a0383fd336
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon May 25 10:56:26 2015 -0500
-files:       lib/sidebar.tcl lib/version.tcl
-description:
-* Completing initial rework of some sidebar code.
-
-
-changeset:   1037:9d27de6fdc44
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon May 25 12:12:07 2015 -0500
-files:       lib/gui.tcl lib/version.tcl
-description:
-* Fixing issue with displaying images in tabs when tabs are moved to the other pane.
-
-
-changeset:   1038:ae93561897e3
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon May 25 22:28:24 2015 -0500
-files:       lib/gui.tcl lib/sidebar.tcl lib/version.tcl
-description:
-* Fixing bug with closing file when a difference mode is still opened.
-
-
-changeset:   1039:d1a931ec47ec
+changeset:   1043:5bd84b7812a9
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue May 26 01:42:08 2015 -0500
-files:       lib/diff.tcl lib/sidebar.tcl lib/version.tcl
+date:        Tue May 26 09:35:31 2015 -0500
+files:       data/preferences.tkedat lib/diff.tcl lib/gui.tcl lib/version.tcl
 description:
-* Adding initial support for logfile version display in difference mode.
+* Fixing bug in file saving procedure that was recently introduced.
+* Adding preference item to control file version log information visibility.
 
 
