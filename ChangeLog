@@ -1,26 +1,58 @@
-changeset:   1030:dd0d44321f85
-tag:         devel-1.6.8
+changeset:   1033:a38ed75720c8
+tag:         devel-1.6.9
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed May 20 01:06:48 2015 -0500
+date:        Wed May 20 09:09:36 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.6.8 release
+ChangeLog for devel-1.6.9 release
 
 
-changeset:   1031:633a43a1ec82
+changeset:   1034:466cd97a7376
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed May 20 01:07:01 2015 -0500
+date:        Wed May 20 09:09:41 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.6.8 for changeset dd0d44321f85
+Added tag devel-1.6.9 for changeset a38ed75720c8
 
 
-changeset:   1032:ce7bbea0486e
+changeset:   1035:564a07b517a0
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun May 24 00:29:25 2015 -0500
+files:       lib/sidebar.tcl lib/version.tcl
+description:
+* Reworking add_directory support in sidebar to fix bugs.
+
+
+changeset:   1036:14a0383fd336
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon May 25 10:56:26 2015 -0500
+files:       lib/sidebar.tcl lib/version.tcl
+description:
+* Completing initial rework of some sidebar code.
+
+
+changeset:   1037:9d27de6fdc44
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon May 25 12:12:07 2015 -0500
+files:       lib/gui.tcl lib/version.tcl
+description:
+* Fixing issue with displaying images in tabs when tabs are moved to the other pane.
+
+
+changeset:   1038:ae93561897e3
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon May 25 22:28:24 2015 -0500
+files:       lib/gui.tcl lib/sidebar.tcl lib/version.tcl
+description:
+* Fixing bug with closing file when a difference mode is still opened.
+
+
+changeset:   1039:d1a931ec47ec
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed May 20 09:09:01 2015 -0500
-files:       lib/indent.tcl lib/version.tcl
+date:        Tue May 26 01:42:08 2015 -0500
+files:       lib/diff.tcl lib/sidebar.tcl lib/version.tcl
 description:
-* Fixing session loading issue with new indentation policies.
+* Adding initial support for logfile version display in difference mode.
 
 
