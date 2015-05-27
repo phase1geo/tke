@@ -78,11 +78,10 @@ namespace eval texttools {
     foreach {endpos startpos} [lreverse $selected] {
       set linestart $startpos
       foreach line [split [$txt get $startpos $endpos] \n] {
-        while {[regexp -indices -- ".*($comments)" $line -> com]} {
+        if {[regexp -indices -- "($comments)+?" $line -> com]} {
           set delstart [$txt index "$linestart+[lindex $com 0]c"]
           set delend   [$txt index "$linestart+[expr [lindex $com 1] + 1]c"]
           $txt delete $delstart $delend
-          set line [string replace $line {*}$com]
         }
         set linestart [$txt index "$linestart+1l linestart"]
         incr i
