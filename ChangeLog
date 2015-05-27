@@ -1,35 +1,43 @@
-changeset:   1040:cfdcac0953ee
-tag:         devel-1.6.10
+changeset:   1044:56a90f046a3e
+tag:         devel-1.6.11
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue May 26 01:43:51 2015 -0500
+date:        Tue May 26 09:36:26 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.6.10 release
+ChangeLog for devel-1.6.11 release
 
 
-changeset:   1041:a545cdbe1ce2
+changeset:   1045:583648aee351
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue May 26 01:43:59 2015 -0500
+date:        Tue May 26 09:36:30 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.6.10 for changeset cfdcac0953ee
+Added tag devel-1.6.11 for changeset 56a90f046a3e
 
 
-changeset:   1042:68994322189c
+changeset:   1046:f7a8fc1cda07
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue May 26 09:18:15 2015 -0500
-files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg lib/version.tcl
+date:        Tue May 26 21:58:41 2015 -0500
+files:       lib/ctext/ctext.tcl lib/sidebar.tcl lib/texttools.tcl lib/version.tcl
 description:
-* Updating translations.
+* Fixing Uncomment command to not remove all comments from selected code (just the first).
+* Improving ctext manual insertion within comments/strings.
 
 
-changeset:   1043:5bd84b7812a9
+changeset:   1047:b644d291edbf
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue May 26 22:53:07 2015 -0500
+files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+description:
+* Fixing customization issues with ptwidgets.
+
+
+changeset:   1048:5bf952f40002
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue May 26 09:35:31 2015 -0500
-files:       data/preferences.tkedat lib/diff.tcl lib/gui.tcl lib/version.tcl
+date:        Wed May 27 01:17:39 2015 -0500
+files:       lib/ptwidgets1.2/common/Tclxml3.2/dom.tcl lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
 description:
-* Fixing bug in file saving procedure that was recently introduced.
-* Adding preference item to control file version log information visibility.
+* Fixing issue with losing CDATA around descriptions.
 
 
