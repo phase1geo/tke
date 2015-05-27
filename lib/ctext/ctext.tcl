@@ -1217,9 +1217,10 @@ proc ctext::instanceCmd {self cmd args} {
         }
       }
       
-      set re_data [$self._t get $prevSpace "$insertPos+${datalen}c"]
+      set re_data    [$self._t get $prevSpace "$insertPos+${datalen}c"]
+      set re_pattern [expr {($datalen == 1) ? "($commentRE)\$" : $commentRE}]
 
-      ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$configAr(re_opts) -- $commentRE $re_data]
+      ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$configAr(re_opts) -- $re_pattern $re_data]
       ctext::highlightAfterIdle $self $lineStart $lineEnd
 
       switch -- $data {
@@ -1826,7 +1827,7 @@ proc ctext::setStringPatterns {win patterns {color "green"}} {
 proc ctext::comments {win start end blocks {afterTriggered 0}} {
 
   ctext::getAr $win config configAr
-
+  
   if {$afterTriggered} {
     set configAr(commentsAfterId) ""
   }
