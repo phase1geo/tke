@@ -1354,15 +1354,20 @@ namespace eval specl::updater {
   proc load_customizations {} {
 
     variable data
-
+    
     if {![catch { open [file join $data(specl_version_dir) specl_customize.xml] r } rc]} {
 
       # Read the data
       set contents [read $rc]
       close $rc
 
+      # Parse the XML
+      if {[catch { dom::parse $contents } dom]} {
+        return -code error "Unable to parse RSS contents: $dom"
+      }
+    
       # Parse the customization XML
-      if {![catch { specl::helpers::get_element [list "" $contents] "customizations" } custom_node]} {
+      if {![catch { specl::helpers::get_element $dom "customizations" } custom_node]} {
 
         # Get translation directory
         if {![catch { specl::helpers::get_element $custom_node "translations" } trans_node]} {
@@ -1373,7 +1378,7 @@ namespace eval specl::updater {
 
         # Get icon information
         if {![catch { specl::helpers::get_element $custom_node "icon" } icon_node]} {
-          if {![catch { specl::helpers::get_attr $icon_node path } value]} {
+          if {![catch { specl::helpers::get_attr $icon_node "path" } value]} {
             set data(ui,icon_path) [file join $data(specl_version_dir) $value]
           }
           foreach attr [list side] {
@@ -1392,12 +1397,12 @@ namespace eval specl::updater {
               }
             }
             if {![catch { specl::helpers::get_element $window_node "title" } title_node]} {
-              set data(ui,upd_win_title) [lindex $title_node 1]
+              set data(ui,upd_win_title) [specl::helpers::get_text $title_node]
             }
           }
           foreach name [list title message] {
             if {![catch { specl::helpers::get_element $update_node $name } node]} {
-              set data(ui,upd_$name) [lindex $node 1]
+              set data(ui,upd_$name) [specl::helpers::get_text $node]
             }
           }
         }
@@ -1413,7 +1418,7 @@ namespace eval specl::updater {
           }
           foreach name [list title message] {
             if {![catch { specl::helpers::get_element $uptodate_node $name } node]} {
-              set data(ui,utd_$name) [lindex $node 1]
+              set data(ui,utd_$name) [specl::helpers::get_text $node]
             }
           }
         }
@@ -1432,12 +1437,12 @@ namespace eval specl::updater {
               }
             }
             if {![catch { specl::helpers::get_element $window_node "title" } title_node]} {
-              set data(ui,pwd_win_title) [lindex $title_node 1]
+              set data(ui,pwd_win_title) [specl::helpers::get_text $title_node]
             }
           }
           foreach name [list title message] {
             if {![catch { specl::helpers::get_element $password_node $name } node]} {
-              set data(ui,pwd_$name) [lindex $node 1]
+              set data(ui,pwd_$name) [specl::helpers::get_text $node]
             }
           }
         }
