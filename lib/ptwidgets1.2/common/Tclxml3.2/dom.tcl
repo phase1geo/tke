@@ -35,7 +35,7 @@ namespace eval dom {
 
     variable maxSpecials
     if {![info exists maxSpecials]} {
-	set maxSpecials 10
+	set maxSpecials 4
     }
 
     variable strictDOM 0

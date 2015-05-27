@@ -2138,7 +2138,7 @@ namespace eval specl::releaser {
       foreach release_node [specl::helpers::get_elements $channel_node "release"] {
         append data(other_releases) [dom::serialize $release_node -method xml -indent 1]
       }
-        
+      
     } else {
 
       # Get the last release information and all other releases
@@ -2178,7 +2178,7 @@ namespace eval specl::releaser {
         }
 
       }
-
+      
     }
     
     # Delete the DOM
