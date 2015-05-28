@@ -1,43 +1,42 @@
-changeset:   1044:56a90f046a3e
-tag:         devel-1.6.11
+changeset:   1049:5424851308fd
+tag:         devel-1.6.12
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue May 26 09:36:26 2015 -0500
+date:        Wed May 27 01:19:44 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.6.11 release
+ChangeLog for devel-1.6.12 release
 
 
-changeset:   1045:583648aee351
+changeset:   1050:d6528ec3da87
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue May 26 09:36:30 2015 -0500
+date:        Wed May 27 01:19:50 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.6.11 for changeset 56a90f046a3e
+Added tag devel-1.6.12 for changeset 5424851308fd
 
 
-changeset:   1046:f7a8fc1cda07
+changeset:   1051:0fb60d95adc9
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue May 26 21:58:41 2015 -0500
-files:       lib/ctext/ctext.tcl lib/sidebar.tcl lib/texttools.tcl lib/version.tcl
+date:        Wed May 27 20:23:05 2015 -0500
+files:       lib/gui.tcl lib/version.tcl
 description:
-* Fixing Uncomment command to not remove all comments from selected code (just the first).
-* Improving ctext manual insertion within comments/strings.
+* Removing unnecessary line of code in match_pair procedure.
 
 
-changeset:   1047:b644d291edbf
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue May 26 22:53:07 2015 -0500
-files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+changeset:   1052:82de52386dc2
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed May 27 23:10:19 2015 -0500
+files:       MacOSX/Tke.app/Contents/Info.plist lib/version.tcl
 description:
-* Fixing customization issues with ptwidgets.
+* Updating Info.plist for upcoming 1.7 stable release.
 
 
-changeset:   1048:5bf952f40002
+changeset:   1053:3c7eea91b301
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed May 27 01:17:39 2015 -0500
-files:       lib/ptwidgets1.2/common/Tclxml3.2/dom.tcl lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+date:        Thu May 28 02:11:44 2015 -0500
+files:       lib/ptwidgets1.2/library/tabbar.tcl lib/version.tcl
 description:
-* Fixing issue with losing CDATA around descriptions.
+* Attempting to fix nasty tabbar bug that could cause application to hang.
 
 
