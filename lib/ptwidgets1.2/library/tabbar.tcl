@@ -1471,8 +1471,12 @@ namespace eval tabbar {
         set data($w,pages) [lreplace $data($w,pages) $index $index]
         
         # If current was deleted, reassign current
-        if {$data($w,current) == $index} {
+        if {$index == $data($w,current)} {
           set_current $w
+          
+        # Otherwise, if we deleted tabs before current, decrement current
+        } elseif {$index < $data($w,current)} {
+          incr data($w,current) -1
         }
         
         # Update the tab order
@@ -1512,6 +1516,10 @@ namespace eval tabbar {
         # If current was deleted, reassign current
         if {($first_index <= $data($w,current)) && ($data($w,current) <= $last_index)} {
           set_current $w
+          
+        # Otherwise, if we deleted tabs before current, decrement current
+        } elseif {$first_index < $data($w,current)} {
+          set data($w,current) [expr $data($w,current) - (($last_index - $first_index) + 1)]
         }
         
         # Update the tab order
