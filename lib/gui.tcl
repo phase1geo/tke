@@ -3855,7 +3855,6 @@ namespace eval gui {
     # If the current character is a matchable character, change the
     # insertion cursor to the matching character.
     switch -- [$txt get insert] {
-      "\}"    { set index [find_match_brace $txt "\\\{" "\\\}" -backwards] }
       "\{"    { set index [find_match_brace $txt "\\\}" "\\\{" -forwards] }
       "\}"    { set index [find_match_brace $txt "\\\{" "\\\}" -backwards] }
       "\["    { set index [find_match_brace $txt "\\\]" "\\\[" -forwards] }
