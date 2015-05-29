@@ -9,6 +9,7 @@ var menus_8tcl =
     [ "add_tools", "menus_8tcl.html#a884afea73b037bf553d24ba1cc4a7e4f", null ],
     [ "add_view", "menus_8tcl.html#ad13118289863acabc656624d8b0162a6", null ],
     [ "check_for_update", "menus_8tcl.html#a81c4e210a1a8530059ef9709e7950608", null ],
+    [ "clear_last_opened", "menus_8tcl.html#a27c69cf3beb96c09169113cf932866e0", null ],
     [ "close_all_command", "menus_8tcl.html#a3d3d2c6b9f5a8d8708c5f8a87602a91c", null ],
     [ "close_command", "menus_8tcl.html#a96b7efe8e3c13ef27e4bbfbc405c139f", null ],
     [ "create", "menus_8tcl.html#a192fd1d734637e9bab3306fe3b58dcf5", null ],

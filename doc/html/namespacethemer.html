@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="tke_logo_128.gif"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">TKE
-   &#160;<span id="projectnumber">1.6</span>
+   &#160;<span id="projectnumber">1.7</span>
    </div>
    <div id="projectbrief">Advanced editor written in Tcl/Tk</div>
   </td>
@@ -703,95 +703,95 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="themer_8tcl_source.html#l00969">969</a> of file <a class="el" href="themer_8tcl_source.html">themer.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l00969"></a><span class="lineno">  969</span>&#160;  <span class="keyword">proc</span> create_new {{callback &quot;&quot;}} {
+<p>Definition at line <a class="el" href="themer_8tcl_source.html#l00968">968</a> of file <a class="el" href="themer_8tcl_source.html">themer.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l00968"></a><span class="lineno">  968</span>&#160;  <span class="keyword">proc</span> create_new {{callback &quot;&quot;}} {
 
     </div>
-<div class="line"><a name="l00970"></a><span class="lineno">  970</span>&#160;
+<div class="line"><a name="l00969"></a><span class="lineno">  969</span>&#160;
     </div>
-<div class="line"><a name="l00971"></a><span class="lineno">  971</span>&#160;    <span class="keyword">variable</span> base_labels<span class="comment">
+<div class="line"><a name="l00970"></a><span class="lineno">  970</span>&#160;    <span class="keyword">variable</span> base_labels<span class="comment">
 </span></div>
-<div class="line"><a name="l00972"></a><span class="lineno">  972</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> labels<span class="comment">
+<div class="line"><a name="l00971"></a><span class="lineno">  971</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> labels<span class="comment">
 </span></div>
-<div class="line"><a name="l00973"></a><span class="lineno">  973</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> widgets<span class="comment">
+<div class="line"><a name="l00972"></a><span class="lineno">  972</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> widgets<span class="comment">
 </span></div>
-<div class="line"><a name="l00974"></a><span class="lineno">  974</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> tmtheme<span class="comment">
+<div class="line"><a name="l00973"></a><span class="lineno">  973</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> tmtheme<span class="comment">
 </span></div>
-<div class="line"><a name="l00975"></a><span class="lineno">  975</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> label_index<span class="comment">
+<div class="line"><a name="l00974"></a><span class="lineno">  974</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> label_index<span class="comment">
 </span></div>
-<div class="line"><a name="l00976"></a><span class="lineno">  976</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00975"></a><span class="lineno">  975</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00977"></a><span class="lineno">  977</span>&#160;    <span class="comment"># Clear the theme
+<div class="line"><a name="l00976"></a><span class="lineno">  976</span>&#160;    <span class="comment"># Clear the theme
 </span></div>
-<div class="line"><a name="l00978"></a><span class="lineno">  978</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> tmtheme &quot;&quot;<span class="comment">
+<div class="line"><a name="l00977"></a><span class="lineno">  977</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> tmtheme &quot;&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00979"></a><span class="lineno">  979</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00978"></a><span class="lineno">  978</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00980"></a><span class="lineno">  980</span>&#160;    <span class="comment"># Initialize the labels array
+<div class="line"><a name="l00979"></a><span class="lineno">  979</span>&#160;    <span class="comment"># Initialize the labels array
 </span></div>
-<div class="line"><a name="l00981"></a><span class="lineno">  981</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">array</span> set labels [<span class="keyword">array</span> get base_labels]<span class="comment">
+<div class="line"><a name="l00980"></a><span class="lineno">  980</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">array</span> set labels [<span class="keyword">array</span> get base_labels]<span class="comment">
 </span></div>
-<div class="line"><a name="l00982"></a><span class="lineno">  982</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00981"></a><span class="lineno">  981</span>&#160;<span class="comment"></span>    
     </div>
-<div class="line"><a name="l00983"></a><span class="lineno">  983</span>&#160;    <span class="comment"># Create the UI
+<div class="line"><a name="l00982"></a><span class="lineno">  982</span>&#160;    <span class="comment"># Create the UI
 </span></div>
-<div class="line"><a name="l00984"></a><span class="lineno">  984</span>&#160;<span class="comment"></span><span class="comment">    </span><a class="code" href="namespacethemer.html#a0888da835cb2de1e28db33f45755a60b" title="themer::create">create</a> $callback<span class="comment">
+<div class="line"><a name="l00983"></a><span class="lineno">  983</span>&#160;<span class="comment"></span><span class="comment">    </span><a class="code" href="namespacethemer.html#a0888da835cb2de1e28db33f45755a60b" title="themer::create">create</a> $callback<span class="comment">
 </span></div>
-<div class="line"><a name="l00985"></a><span class="lineno">  985</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00984"></a><span class="lineno">  984</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00986"></a><span class="lineno">  986</span>&#160;    <span class="comment"># Initialize the widgets
+<div class="line"><a name="l00985"></a><span class="lineno">  985</span>&#160;    <span class="comment"># Initialize the widgets
 </span></div>
-<div class="line"><a name="l00987"></a><span class="lineno">  987</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">wm</span> title [<a class="code" href="namespacethemer.html#ad38ff5828905999db9b0015f07e0a402" title="themer::get_win">get_win</a>] [msgcat::mc &quot;Create New Theme&quot;]<span class="comment">
+<div class="line"><a name="l00986"></a><span class="lineno">  986</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">wm</span> title [<a class="code" href="namespacethemer.html#ad38ff5828905999db9b0015f07e0a402" title="themer::get_win">get_win</a>] [msgcat::mc &quot;Create New Theme&quot;]<span class="comment">
 </span></div>
-<div class="line"><a name="l00988"></a><span class="lineno">  988</span>&#160;<span class="comment"></span>    $widgets(action) configure -text [msgcat::mc &quot;Create&quot;]<span class="comment">
+<div class="line"><a name="l00987"></a><span class="lineno">  987</span>&#160;<span class="comment"></span>    $widgets(action) configure -text [msgcat::mc &quot;Create&quot;]<span class="comment">
 </span></div>
-<div class="line"><a name="l00989"></a><span class="lineno">  989</span>&#160;<span class="comment"></span>    <span class="keyword">catch</span> { <span class="keyword">pack</span> forget $widgets(reset)}<span class="comment">
+<div class="line"><a name="l00988"></a><span class="lineno">  988</span>&#160;<span class="comment"></span>    <span class="keyword">catch</span> { <span class="keyword">pack</span> forget $widgets(reset)}<span class="comment">
 </span></div>
-<div class="line"><a name="l00990"></a><span class="lineno">  990</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00989"></a><span class="lineno">  989</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00991"></a><span class="lineno">  991</span>&#160;    <span class="comment"># Initialize the labels array
+<div class="line"><a name="l00990"></a><span class="lineno">  990</span>&#160;    <span class="comment"># Initialize the labels array
 </span></div>
-<div class="line"><a name="l00992"></a><span class="lineno">  992</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">lset</span> labels(background)        $label_index(color) &quot;black&quot;<span class="comment">
+<div class="line"><a name="l00991"></a><span class="lineno">  991</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">lset</span> labels(background)        $label_index(color) &quot;black&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00993"></a><span class="lineno">  993</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(foreground)        $label_index(color) &quot;white&quot;<span class="comment">
+<div class="line"><a name="l00992"></a><span class="lineno">  992</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(foreground)        $label_index(color) &quot;white&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00994"></a><span class="lineno">  994</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(select_background) $label_index(color) &quot;blue&quot;<span class="comment">
+<div class="line"><a name="l00993"></a><span class="lineno">  993</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(select_background) $label_index(color) &quot;blue&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00995"></a><span class="lineno">  995</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(select_foreground) $label_index(color) &quot;white&quot;<span class="comment">
+<div class="line"><a name="l00994"></a><span class="lineno">  994</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(select_foreground) $label_index(color) &quot;white&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00996"></a><span class="lineno">  996</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(border_highlight)  $label_index(color) &quot;yellow&quot;<span class="comment">
+<div class="line"><a name="l00995"></a><span class="lineno">  995</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(border_highlight)  $label_index(color) &quot;yellow&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00997"></a><span class="lineno">  997</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(cursor)            $label_index(color) &quot;grey&quot;<span class="comment">
+<div class="line"><a name="l00996"></a><span class="lineno">  996</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(cursor)            $label_index(color) &quot;grey&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00998"></a><span class="lineno">  998</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(keywords)          $label_index(color) &quot;red&quot;<span class="comment">
+<div class="line"><a name="l00997"></a><span class="lineno">  997</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(keywords)          $label_index(color) &quot;red&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00999"></a><span class="lineno">  999</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(comments)          $label_index(color) &quot;blue&quot;<span class="comment">
+<div class="line"><a name="l00998"></a><span class="lineno">  998</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(comments)          $label_index(color) &quot;blue&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l01000"></a><span class="lineno"> 1000</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(strings)           $label_index(color) &quot;green&quot;<span class="comment">
+<div class="line"><a name="l00999"></a><span class="lineno">  999</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(strings)           $label_index(color) &quot;green&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l01001"></a><span class="lineno"> 1001</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(numbers)           $label_index(color) &quot;orange&quot;<span class="comment">
+<div class="line"><a name="l01000"></a><span class="lineno"> 1000</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(numbers)           $label_index(color) &quot;orange&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l01002"></a><span class="lineno"> 1002</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(punctuation)       $label_index(color) &quot;white&quot;<span class="comment">
+<div class="line"><a name="l01001"></a><span class="lineno"> 1001</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(punctuation)       $label_index(color) &quot;white&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l01003"></a><span class="lineno"> 1003</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(precompile)        $label_index(color) &quot;yellow&quot;<span class="comment">
+<div class="line"><a name="l01002"></a><span class="lineno"> 1002</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(precompile)        $label_index(color) &quot;yellow&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l01004"></a><span class="lineno"> 1004</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(miscellaneous1)    $label_index(color) &quot;pink&quot;<span class="comment">
+<div class="line"><a name="l01003"></a><span class="lineno"> 1003</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(miscellaneous1)    $label_index(color) &quot;pink&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l01005"></a><span class="lineno"> 1005</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(miscellaneous2)    $label_index(color) &quot;gold&quot;<span class="comment">
+<div class="line"><a name="l01004"></a><span class="lineno"> 1004</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(miscellaneous2)    $label_index(color) &quot;gold&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l01006"></a><span class="lineno"> 1006</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(miscellaneous3)    $label_index(color) &quot;green&quot;<span class="comment">
+<div class="line"><a name="l01005"></a><span class="lineno"> 1005</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(miscellaneous3)    $label_index(color) &quot;green&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l01007"></a><span class="lineno"> 1007</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(line_number)       $label_index(color) [<a class="code" href="namespaceutils.html#adfc92fa14a2507314f09aef8c3524586" title="utils::auto_adjust_color">utils::auto_adjust_color</a> &quot;black&quot; 40]<span class="comment">
+<div class="line"><a name="l01006"></a><span class="lineno"> 1006</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(line_number)       $label_index(color) [<a class="code" href="namespaceutils.html#adfc92fa14a2507314f09aef8c3524586" title="utils::auto_adjust_color">utils::auto_adjust_color</a> &quot;black&quot; 40]<span class="comment">
 </span></div>
-<div class="line"><a name="l01008"></a><span class="lineno"> 1008</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(warning_width)     $label_index(color) [<a class="code" href="namespaceutils.html#adfc92fa14a2507314f09aef8c3524586" title="utils::auto_adjust_color">utils::auto_adjust_color</a> &quot;black&quot; 40]<span class="comment">
+<div class="line"><a name="l01007"></a><span class="lineno"> 1007</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(warning_width)     $label_index(color) [<a class="code" href="namespaceutils.html#adfc92fa14a2507314f09aef8c3524586" title="utils::auto_adjust_color">utils::auto_adjust_color</a> &quot;black&quot; 40]<span class="comment">
 </span></div>
-<div class="line"><a name="l01009"></a><span class="lineno"> 1009</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(difference_sub)    $label_index(color) [<a class="code" href="namespaceutils.html#a8c3b435ab26715ea69ffd020a52be918" title="utils::auto_mix_colors">utils::auto_mix_colors</a> &quot;black&quot; r 30]<span class="comment">
+<div class="line"><a name="l01008"></a><span class="lineno"> 1008</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(difference_sub)    $label_index(color) [<a class="code" href="namespaceutils.html#a8c3b435ab26715ea69ffd020a52be918" title="utils::auto_mix_colors">utils::auto_mix_colors</a> &quot;black&quot; r 30]<span class="comment">
 </span></div>
-<div class="line"><a name="l01010"></a><span class="lineno"> 1010</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(difference_add)    $label_index(color) [<a class="code" href="namespaceutils.html#a8c3b435ab26715ea69ffd020a52be918" title="utils::auto_mix_colors">utils::auto_mix_colors</a> &quot;black&quot; g 30]<span class="comment">
+<div class="line"><a name="l01009"></a><span class="lineno"> 1009</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> labels(difference_add)    $label_index(color) [<a class="code" href="namespaceutils.html#a8c3b435ab26715ea69ffd020a52be918" title="utils::auto_mix_colors">utils::auto_mix_colors</a> &quot;black&quot; g 30]<span class="comment">
 </span></div>
-<div class="line"><a name="l01011"></a><span class="lineno"> 1011</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01010"></a><span class="lineno"> 1010</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l01012"></a><span class="lineno"> 1012</span>&#160;  }</div>
+<div class="line"><a name="l01011"></a><span class="lineno"> 1011</span>&#160;  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1616,61 +1616,61 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="themer_8tcl_source.html#l00939">939</a> of file <a class="el" href="themer_8tcl_source.html">themer.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l00939"></a><span class="lineno">  939</span>&#160;  <span class="keyword">proc</span> import_tke {theme {callback &quot;&quot;}} {
+<p>Definition at line <a class="el" href="themer_8tcl_source.html#l00938">938</a> of file <a class="el" href="themer_8tcl_source.html">themer.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l00938"></a><span class="lineno">  938</span>&#160;  <span class="keyword">proc</span> import_tke {theme {callback &quot;&quot;}} {
 
     </div>
-<div class="line"><a name="l00940"></a><span class="lineno">  940</span>&#160;
+<div class="line"><a name="l00939"></a><span class="lineno">  939</span>&#160;
     </div>
-<div class="line"><a name="l00941"></a><span class="lineno">  941</span>&#160;    <span class="keyword">variable</span> base_labels<span class="comment">
+<div class="line"><a name="l00940"></a><span class="lineno">  940</span>&#160;    <span class="keyword">variable</span> base_labels<span class="comment">
 </span></div>
-<div class="line"><a name="l00942"></a><span class="lineno">  942</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> labels<span class="comment">
+<div class="line"><a name="l00941"></a><span class="lineno">  941</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> labels<span class="comment">
 </span></div>
-<div class="line"><a name="l00943"></a><span class="lineno">  943</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> widgets<span class="comment">
+<div class="line"><a name="l00942"></a><span class="lineno">  942</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> widgets<span class="comment">
 </span></div>
-<div class="line"><a name="l00944"></a><span class="lineno">  944</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> tmtheme<span class="comment">
+<div class="line"><a name="l00943"></a><span class="lineno">  943</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> tmtheme<span class="comment">
 </span></div>
-<div class="line"><a name="l00945"></a><span class="lineno">  945</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> all_scopes<span class="comment">
+<div class="line"><a name="l00944"></a><span class="lineno">  944</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> all_scopes<span class="comment">
 </span></div>
-<div class="line"><a name="l00946"></a><span class="lineno">  946</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00945"></a><span class="lineno">  945</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00947"></a><span class="lineno">  947</span>&#160;    <span class="comment"># Set the theme
+<div class="line"><a name="l00946"></a><span class="lineno">  946</span>&#160;    <span class="comment"># Set the theme
 </span></div>
-<div class="line"><a name="l00948"></a><span class="lineno">  948</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> tmtheme $theme<span class="comment">
+<div class="line"><a name="l00947"></a><span class="lineno">  947</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> tmtheme $theme<span class="comment">
 </span></div>
-<div class="line"><a name="l00949"></a><span class="lineno">  949</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00948"></a><span class="lineno">  948</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00950"></a><span class="lineno">  950</span>&#160;    <span class="comment"># Initialize the labels array
+<div class="line"><a name="l00949"></a><span class="lineno">  949</span>&#160;    <span class="comment"># Initialize the labels array
 </span></div>
-<div class="line"><a name="l00951"></a><span class="lineno">  951</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">array</span> set labels [<span class="keyword">array</span> get base_labels]<span class="comment">
+<div class="line"><a name="l00950"></a><span class="lineno">  950</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">array</span> set labels [<span class="keyword">array</span> get base_labels]<span class="comment">
 </span></div>
-<div class="line"><a name="l00952"></a><span class="lineno">  952</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00951"></a><span class="lineno">  951</span>&#160;<span class="comment"></span>    
     </div>
-<div class="line"><a name="l00953"></a><span class="lineno">  953</span>&#160;    <span class="comment"># Create the UI
+<div class="line"><a name="l00952"></a><span class="lineno">  952</span>&#160;    <span class="comment"># Create the UI
 </span></div>
-<div class="line"><a name="l00954"></a><span class="lineno">  954</span>&#160;<span class="comment"></span><span class="comment">    </span><a class="code" href="namespacethemer.html#a0888da835cb2de1e28db33f45755a60b" title="themer::create">create</a> $callback<span class="comment">
+<div class="line"><a name="l00953"></a><span class="lineno">  953</span>&#160;<span class="comment"></span><span class="comment">    </span><a class="code" href="namespacethemer.html#a0888da835cb2de1e28db33f45755a60b" title="themer::create">create</a> $callback<span class="comment">
 </span></div>
-<div class="line"><a name="l00955"></a><span class="lineno">  955</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00954"></a><span class="lineno">  954</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00956"></a><span class="lineno">  956</span>&#160;    <span class="comment"># Initialize UI
+<div class="line"><a name="l00955"></a><span class="lineno">  955</span>&#160;    <span class="comment"># Initialize UI
 </span></div>
-<div class="line"><a name="l00957"></a><span class="lineno">  957</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">wm</span> title [<a class="code" href="namespacethemer.html#ad38ff5828905999db9b0015f07e0a402" title="themer::get_win">get_win</a>] [msgcat::mc &quot;Edit theme&quot;]<span class="comment">
+<div class="line"><a name="l00956"></a><span class="lineno">  956</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">wm</span> title [<a class="code" href="namespacethemer.html#ad38ff5828905999db9b0015f07e0a402" title="themer::get_win">get_win</a>] [msgcat::mc &quot;Edit theme&quot;]<span class="comment">
 </span></div>
-<div class="line"><a name="l00958"></a><span class="lineno">  958</span>&#160;<span class="comment"></span>    $widgets(action) configure -text [msgcat::mc &quot;Save&quot;]<span class="comment">
+<div class="line"><a name="l00957"></a><span class="lineno">  957</span>&#160;<span class="comment"></span>    $widgets(action) configure -text [msgcat::mc &quot;Save&quot;]<span class="comment">
 </span></div>
-<div class="line"><a name="l00959"></a><span class="lineno">  959</span>&#160;<span class="comment"></span>    <span class="keyword">catch</span> { <span class="keyword">pack</span> $widgets(reset) -side left -padx 2 -pady 2}<span class="comment">
+<div class="line"><a name="l00958"></a><span class="lineno">  958</span>&#160;<span class="comment"></span>    <span class="keyword">catch</span> { <span class="keyword">pack</span> $widgets(reset) -side left -padx 2 -pady 2}<span class="comment">
 </span></div>
-<div class="line"><a name="l00960"></a><span class="lineno">  960</span>&#160;<span class="comment"></span>    <span class="keyword">catch</span> { <span class="keyword">pack</span> $widgets(saveas) -side right -padx 2 -pady 2}<span class="comment">
+<div class="line"><a name="l00959"></a><span class="lineno">  959</span>&#160;<span class="comment"></span>    <span class="keyword">catch</span> { <span class="keyword">pack</span> $widgets(saveas) -side right -padx 2 -pady 2}<span class="comment">
 </span></div>
-<div class="line"><a name="l00961"></a><span class="lineno">  961</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00960"></a><span class="lineno">  960</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00962"></a><span class="lineno">  962</span>&#160;    <span class="comment"># Read the theme
+<div class="line"><a name="l00961"></a><span class="lineno">  961</span>&#160;    <span class="comment"># Read the theme
 </span></div>
-<div class="line"><a name="l00963"></a><span class="lineno">  963</span>&#160;<span class="comment"></span><span class="comment">    </span><a class="code" href="namespacethemer.html#a8f87051ab6cd85650985850d67ac2b97" title="themer::read_tketheme">read_tketheme</a> $theme<span class="comment">
+<div class="line"><a name="l00962"></a><span class="lineno">  962</span>&#160;<span class="comment"></span><span class="comment">    </span><a class="code" href="namespacethemer.html#a8f87051ab6cd85650985850d67ac2b97" title="themer::read_tketheme">read_tketheme</a> $theme<span class="comment">
 </span></div>
-<div class="line"><a name="l00964"></a><span class="lineno">  964</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00963"></a><span class="lineno">  963</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l00965"></a><span class="lineno">  965</span>&#160;  }</div>
+<div class="line"><a name="l00964"></a><span class="lineno">  964</span>&#160;  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1742,66 +1742,64 @@ Functions</h2></td></tr>
 </span></div>
 <div class="line"><a name="l00905"></a><span class="lineno">  905</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">foreach</span> l [<span class="keyword">array</span> names widgets l:*] {
       </div>
-<div class="line"><a name="l00906"></a><span class="lineno">  906</span>&#160;      $widgets($l) configure -foreground &quot;red&quot;<span class="comment">
+<div class="line"><a name="l00906"></a><span class="lineno">  906</span>&#160;      $widgets(b:[<span class="keyword">lindex</span> [<span class="keyword">split</span> $l :] 1]) configure -compound left<span class="comment">
 </span></div>
-<div class="line"><a name="l00907"></a><span class="lineno">  907</span>&#160;<span class="comment"></span>      $widgets(b:[<span class="keyword">lindex</span> [<span class="keyword">split</span> $l :] 1]) configure -compound left<span class="comment">
+<div class="line"><a name="l00907"></a><span class="lineno">  907</span>&#160;<span class="comment"></span>    }<span class="comment">
 </span></div>
-<div class="line"><a name="l00908"></a><span class="lineno">  908</span>&#160;<span class="comment"></span>    }<span class="comment">
-</span></div>
-<div class="line"><a name="l00909"></a><span class="lineno">  909</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00908"></a><span class="lineno">  908</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00910"></a><span class="lineno">  910</span>&#160;    <span class="comment"># Read the theme
+<div class="line"><a name="l00909"></a><span class="lineno">  909</span>&#160;    <span class="comment"># Read the theme
 </span></div>
-<div class="line"><a name="l00911"></a><span class="lineno">  911</span>&#160;<span class="comment"></span><span class="comment">    </span><a class="code" href="namespacethemer.html#ab9d57f87f71cad47d93f7bc811cfb56a" title="themer::read_tmtheme">read_tmtheme</a> $theme<span class="comment">
+<div class="line"><a name="l00910"></a><span class="lineno">  910</span>&#160;<span class="comment"></span><span class="comment">    </span><a class="code" href="namespacethemer.html#ab9d57f87f71cad47d93f7bc811cfb56a" title="themer::read_tmtheme">read_tmtheme</a> $theme<span class="comment">
 </span></div>
-<div class="line"><a name="l00912"></a><span class="lineno">  912</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00911"></a><span class="lineno">  911</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00913"></a><span class="lineno">  913</span>&#160;    <span class="comment"># Update the menus
+<div class="line"><a name="l00912"></a><span class="lineno">  912</span>&#160;    <span class="comment"># Update the menus
 </span></div>
-<div class="line"><a name="l00914"></a><span class="lineno">  914</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">foreach</span> mnu [<span class="keyword">array</span> names widgets m:*] {
+<div class="line"><a name="l00913"></a><span class="lineno">  913</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">foreach</span> mnu [<span class="keyword">array</span> names widgets m:*] {
 
       </div>
-<div class="line"><a name="l00915"></a><span class="lineno">  915</span>&#160;
+<div class="line"><a name="l00914"></a><span class="lineno">  914</span>&#160;
       </div>
-<div class="line"><a name="l00916"></a><span class="lineno">  916</span>&#160;      <span class="keyword">set</span> lbl [<span class="keyword">lindex</span> [<span class="keyword">split</span> $mnu :] 1]<span class="comment">
+<div class="line"><a name="l00915"></a><span class="lineno">  915</span>&#160;      <span class="keyword">set</span> lbl [<span class="keyword">lindex</span> [<span class="keyword">split</span> $mnu :] 1]<span class="comment">
 </span></div>
-<div class="line"><a name="l00917"></a><span class="lineno">  917</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00916"></a><span class="lineno">  916</span>&#160;<span class="comment"></span>
       </div>
-<div class="line"><a name="l00918"></a><span class="lineno">  918</span>&#160;      <span class="comment"># Clear the menu
+<div class="line"><a name="l00917"></a><span class="lineno">  917</span>&#160;      <span class="comment"># Clear the menu
 </span></div>
-<div class="line"><a name="l00919"></a><span class="lineno">  919</span>&#160;<span class="comment"></span><span class="comment">      </span>$widgets($mnu) delete 0 end<span class="comment">
+<div class="line"><a name="l00918"></a><span class="lineno">  918</span>&#160;<span class="comment"></span><span class="comment">      </span>$widgets($mnu) delete 0 end<span class="comment">
 </span></div>
-<div class="line"><a name="l00920"></a><span class="lineno">  920</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00919"></a><span class="lineno">  919</span>&#160;<span class="comment"></span>
       </div>
-<div class="line"><a name="l00921"></a><span class="lineno">  921</span>&#160;      <span class="comment"># Add the custom menu
+<div class="line"><a name="l00920"></a><span class="lineno">  920</span>&#160;      <span class="comment"># Add the custom menu
 </span></div>
-<div class="line"><a name="l00922"></a><span class="lineno">  922</span>&#160;<span class="comment"></span><span class="comment">      </span>$widgets($mnu) add command -label [msgcat::mc &quot;Create custom&quot;] -command &quot;themer::create_custom_color $lbl&quot;<span class="comment">
+<div class="line"><a name="l00921"></a><span class="lineno">  921</span>&#160;<span class="comment"></span><span class="comment">      </span>$widgets($mnu) add command -label [msgcat::mc &quot;Create custom&quot;] -command &quot;themer::create_custom_color $lbl&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00923"></a><span class="lineno">  923</span>&#160;<span class="comment"></span>      $widgets($mnu) add separator<span class="comment">
+<div class="line"><a name="l00922"></a><span class="lineno">  922</span>&#160;<span class="comment"></span>      $widgets($mnu) add separator<span class="comment">
 </span></div>
-<div class="line"><a name="l00924"></a><span class="lineno">  924</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00923"></a><span class="lineno">  923</span>&#160;<span class="comment"></span>
       </div>
-<div class="line"><a name="l00925"></a><span class="lineno">  925</span>&#160;      <span class="comment"># Add the scopes to the menu
+<div class="line"><a name="l00924"></a><span class="lineno">  924</span>&#160;      <span class="comment"># Add the scopes to the menu
 </span></div>
-<div class="line"><a name="l00926"></a><span class="lineno">  926</span>&#160;<span class="comment"></span><span class="comment">      </span><span class="keyword">set</span> i 2<span class="comment">
+<div class="line"><a name="l00925"></a><span class="lineno">  925</span>&#160;<span class="comment"></span><span class="comment">      </span><span class="keyword">set</span> i 2<span class="comment">
 </span></div>
-<div class="line"><a name="l00927"></a><span class="lineno">  927</span>&#160;<span class="comment"></span>      <span class="keyword">foreach</span> scope [lsort [<span class="keyword">array</span> names all_scopes]] {
+<div class="line"><a name="l00926"></a><span class="lineno">  926</span>&#160;<span class="comment"></span>      <span class="keyword">foreach</span> scope [lsort [<span class="keyword">array</span> names all_scopes]] {
         </div>
-<div class="line"><a name="l00928"></a><span class="lineno">  928</span>&#160;        $widgets($mnu) add command -label $scope -columnbreak [<span class="keyword">expr</span> ($i % 40) == 39] \
+<div class="line"><a name="l00927"></a><span class="lineno">  927</span>&#160;        $widgets($mnu) add command -label $scope -columnbreak [<span class="keyword">expr</span> ($i % 40) == 39] \
           </div>
-<div class="line"><a name="l00929"></a><span class="lineno">  929</span>&#160;          -command &quot;themer::handle_menu_select $lbl $scope&quot;<span class="comment">
+<div class="line"><a name="l00928"></a><span class="lineno">  928</span>&#160;          -command &quot;themer::handle_menu_select $lbl $scope&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00930"></a><span class="lineno">  930</span>&#160;<span class="comment"></span>        <span class="keyword">incr</span> i<span class="comment">
+<div class="line"><a name="l00929"></a><span class="lineno">  929</span>&#160;<span class="comment"></span>        <span class="keyword">incr</span> i<span class="comment">
 </span></div>
-<div class="line"><a name="l00931"></a><span class="lineno">  931</span>&#160;<span class="comment"></span>      }<span class="comment">
+<div class="line"><a name="l00930"></a><span class="lineno">  930</span>&#160;<span class="comment"></span>      }<span class="comment">
 </span></div>
-<div class="line"><a name="l00932"></a><span class="lineno">  932</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00931"></a><span class="lineno">  931</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00933"></a><span class="lineno">  933</span>&#160;    }<span class="comment">
+<div class="line"><a name="l00932"></a><span class="lineno">  932</span>&#160;    }<span class="comment">
 </span></div>
-<div class="line"><a name="l00934"></a><span class="lineno">  934</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00933"></a><span class="lineno">  933</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l00935"></a><span class="lineno">  935</span>&#160;  }</div>
+<div class="line"><a name="l00934"></a><span class="lineno">  934</span>&#160;  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2170,7 +2168,7 @@ Functions</h2></td></tr>
 </span></div>
 <div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">array</span> set orig_labels [<span class="keyword">array</span> get labels]<span class="comment">
 </span></div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;<span class="comment"></span>    
   </div>
 <div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;  }</div>
 </div><!-- fragment -->
@@ -2406,7 +2404,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacethemer.html">themer</a></li>
-    <li class="footer">Generated on Thu Apr 9 2015 07:45:56 for TKE by
+    <li class="footer">Generated on Thu May 28 2015 20:16:45 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>
