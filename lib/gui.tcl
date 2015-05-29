@@ -1469,7 +1469,7 @@ namespace eval gui {
 
     # Save the file contents
     if {[catch { open [lindex $files $file_index $files_index(fname)] w } rc]} {
-      tk_messageBox -parent . -title "Error" -type ok -default ok -message "Unable to write file" -detail $rc
+      tk_messageBox -parent . -title [msgcat::mc "Error"] -type ok -default ok -message [msgcat::mc "Unable to write file"] -detail $rc
       return
     }
 
@@ -2305,10 +2305,10 @@ namespace eval gui {
       $txt mark set insert $startpos
       $txt see insert
       if {$wrapped} {
-        set_info_message "Search wrapped to beginning of file"
+        set_info_message [msgcat::mc "Search wrapped to beginning of file"]
       }
     } else {
-      set_info_message "No search results found"
+      set_info_message [msgcat::mc "No search results found"]
     }
 
     # Closes the search interface
@@ -2347,10 +2347,10 @@ namespace eval gui {
       $txt mark set insert $startpos
       $txt see insert
       if {$wrapped} {
-        set_info_message "Search wrapped to end of file"
+        set_info_message [msgcat::mc "Search wrapped to end of file"]
       }
     } else {
-      set_info_message "No search results found"
+      set_info_message [msgcat::mc "No search results found"]
     }
 
     # Close the search interface
@@ -2444,7 +2444,7 @@ namespace eval gui {
       $txt mark set insert [lindex $indices 0]
       $txt highlight $sline $eline
     }
-    set_info_message "$num_indices substitutions done"
+    set_info_message [msgcat::mc "%d substitutions done" $num_indices]
 
     # Make sure that the insertion cursor is valid
     if {[[ns vim]::in_vim_mode $txt]} {
@@ -2850,18 +2850,18 @@ namespace eval gui {
       set var1 ""
 
       # Get the number string from the user
-      if {[user_response_get "Starting number:" var1]} {
+      if {[user_response_get [msgcat::mc "Starting number:"] var1]} {
 
         # Insert the numbers (if not successful, output an error to the user)
         if {![multicursor::insert_numbers $txt $var1]} {
-          set_info_message "Unable to successfully parse number string"
+          set_info_message [msgcat::mc "Unable to successfully parse number string"]
         }
 
       }
 
     # Otherwise, display an error message to the user
     } else {
-      set_info_message "Must be in multicursor mode to insert numbers"
+      set_info_message [msgcat::mc "Must be in multicursor mode to insert numbers"]
     }
 
   }

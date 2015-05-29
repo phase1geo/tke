@@ -14,8 +14,31 @@ msgcat::mcmset pt {
 
 }
 
+# diff.tcl
+msgcat::mcmset pt {
+
+  "    End: "
+  "Término:"
+
+  "    Start: "
+  "Início:"
+
+  "Enter difference command"
+  "Digite o comando de diferença"
+
+  "Enter starting file"
+  "Insira o arquivo inicial"
+
+  "Update"
+  "Atualizar"
+
+}
+
 # gui.tcl
 msgcat::mcmset pt {
+
+  "%d substitutions done"
+  "substituições de %d feitas"
 
   "%s, Line: %d, Column: %d"
   "% S, linha% d, coluna% d"
@@ -44,6 +67,9 @@ msgcat::mcmset pt {
   "Email:"
   "E-mail:"
 
+  "Error"
+  "Erro"
+
   "Favorited"
   "Favorito"
 
@@ -65,6 +91,12 @@ msgcat::mcmset pt {
   "Move*"
   "Mudar"
 
+  "Must be in multicursor mode to insert numbers"
+  "Deve estar no modo de multicursor para inserir números"
+
+  "No search results found"
+  "Resultados Encontrados da Pesquisa"
+
   "Release Type:"
   "Tipo lançamento:"
 
@@ -74,8 +106,17 @@ msgcat::mcmset pt {
   "Save request"
   "Salvar Pedido"
 
+  "Search wrapped to beginning of file"
+  "Busca ajustada para início do arquivo."
+
+  "Search wrapped to end of file"
+  "Pesquisa envolto ao final do arquivo"
+
   "Show in Sidebar"
   "Show em Sidebar"
+
+  "Starting number:"
+  "Número de página inicial:"
 
   "Tcl/Tk Version:"
   "Versão do Tcl/Tk:"
@@ -85,6 +126,12 @@ msgcat::mcmset pt {
 
   "Unable to find current file (tab: %s)"
   "Não foi possível localizar o arquivo atual (guia:% s)"
+
+  "Unable to successfully parse number string"
+  "Não é possível analisar com êxito a cadeia numérica"
+
+  "Unable to write file"
+  "não foi possível escrever no arquivo"
 
   "Untitled"
   "Untitled"
@@ -558,6 +605,9 @@ msgcat::mcmset pt {
   "Next difference"
   "Próxima Diferença"
 
+  "No files found in specified directories"
+  "Não há arquivos encontrados em diretórios especificados"
+
   "Open Directory..."
   "Abrir diretório..."
 
@@ -749,6 +799,9 @@ msgcat::mcmset pt {
 # plugins.tcl
 msgcat::mcmset pt {
 
+  "ERROR (%s,%s): %s"
+  "ERRO (%s, %s): %s"
+
   "ERROR:  Plugin name already exists"
   "ERRO: Nome do Plugin já existe"
 
@@ -799,8 +852,14 @@ msgcat::mcmset pt {
   "Delete file?"
   "Excluir arquivo"
 
+  "Directory Name:"
+  "Nome do diretório:"
+
   "Duplicate"
   "Duplicação"
+
+  "File Name:"
+  "Nome do arquivo:"
 
   "Make Current Working Directory"
   "Faça diretório de trabalho atual"
@@ -920,8 +979,16 @@ msgcat::mcmset pt {
   "Unable to open %s for reading"
   "Não foi possível abrir o ficheiro%1 para leitura."
 
-  "Unable to open %s for writing"
-  "Não foi possível abrir%1 para escrita"
+}
+
+# vim.tcl
+msgcat::mcmset pt {
+
+  "File %s successfully written"
+  "Arquivo %s gravado com êxito"
+
+  "Filename %s already exists"
+  "Nome do arquivo %s já existe."
 
 }
 
@@ -948,6 +1015,9 @@ msgcat::mcmset pt {
 
   "Save As"
   "Salvar como"
+
+  "Unable to open %s for writing"
+  "Não foi possível abrir%1 para escrita"
 
   "Unfavorite"
   "Unfavorite"

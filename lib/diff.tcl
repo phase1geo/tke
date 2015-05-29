@@ -29,14 +29,14 @@ namespace eval diff {
 
     ttk::frame      $win
     ttk::menubutton $win.cvs  -menu $win.cvsMenu -direction above
-    ttk::button     $win.show -text "Update" -command "[ns diff]::show $txt"
+    ttk::button     $win.show -text [msgcat::mc "Update"] -command "[ns diff]::show $txt"
     message         $txt.log
 
     # Create the version frame
     ttk::frame $win.vf
-    ttk::label $win.vf.l1 -text "    Start: "
+    ttk::label $win.vf.l1 -text [msgcat::mc "    Start: "]
     $data(sb)  $win.vf.v1 {*}$data(sb_opts) -textvariable [ns diff]::data($txt,v1) -width 10 -state readonly -command "[ns diff]::handle_v1 $txt"
-    ttk::label $win.vf.l2 -text "    End: "
+    ttk::label $win.vf.l2 -text [msgcat::mc "    End: "]
     $data(sb)  $win.vf.v2 {*}$data(sb_opts) -textvariable [ns diff]::data($txt,v2) -width 10 -state readonly -command "[ns diff]::handle_v2 $txt"
     
     bind $win.vf.v1 <FocusIn>  "[ns diff]::show_hide_version_log $txt v1 on"
@@ -53,7 +53,7 @@ namespace eval diff {
 
     # Create the file frame
     ttk::frame             $win.ff
-    wmarkentry::wmarkentry $win.ff.e -watermark "Enter starting file" \
+    wmarkentry::wmarkentry $win.ff.e -watermark [msgcat::mc "Enter starting file"] \
       -validate key -validatecommand "[ns diff]::handle_file_entry $win %P"
       
     bind [$win.ff.e entrytag] <Return> "[ns diff]::show $txt"
@@ -64,7 +64,7 @@ namespace eval diff {
     
     # Create the command frame
     ttk::frame $win.cf
-    wmarkentry::wmarkentry $win.cf.e -watermark "Enter difference command"
+    wmarkentry::wmarkentry $win.cf.e -watermark [msgcat::mc "Enter difference command"]
 
     bind [$win.cf.e entrytag] <Return> "[ns diff]::show $txt"
 

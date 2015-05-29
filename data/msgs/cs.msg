@@ -14,8 +14,31 @@ msgcat::mcmset cs {
 
 }
 
+# diff.tcl
+msgcat::mcmset cs {
+
+  "    End: "
+  "konec"
+
+  "    Start: "
+  "Start"
+
+  "Enter difference command"
+  "Zadejte příkaz rozdíl"
+
+  "Enter starting file"
+  "Zadejte počáteční soubor"
+
+  "Update"
+  "Aktualizovat"
+
+}
+
 # gui.tcl
 msgcat::mcmset cs {
+
+  "%d substitutions done"
+  "%d náhrady provádí"
 
   "%s, Line: %d, Column: %d"
   "% S, řádek% d, sloupec% d"
@@ -44,6 +67,9 @@ msgcat::mcmset cs {
   "Email:"
   "E-mail:"
 
+  "Error"
+  "Chyba"
+
   "Favorited"
   "Oblíbené"
 
@@ -65,6 +91,12 @@ msgcat::mcmset cs {
   "Move*"
   "přesunout"
 
+  "Must be in multicursor mode to insert numbers"
+  "Musí být v multicursor režimu vložit čísla"
+
+  "No search results found"
+  "Nic se nenašlo"
+
   "Release Type:"
   "Vydání typ:"
 
@@ -74,8 +106,17 @@ msgcat::mcmset cs {
   "Save request"
   "Uložte žádost"
 
+  "Search wrapped to beginning of file"
+  "Hledat zabalené na začátku souboru"
+
+  "Search wrapped to end of file"
+  "Hledat zabalené do konce souboru"
+
   "Show in Sidebar"
   "Zobrazit v postranním panelu"
+
+  "Starting number:"
+  "Startovní číslo:"
 
   "Tcl/Tk Version:"
   "Tcl/Tk verze:"
@@ -85,6 +126,12 @@ msgcat::mcmset cs {
 
   "Unable to find current file (tab: %s)"
   "Nelze najít aktuální soubor (karta:% s)"
+
+  "Unable to successfully parse number string"
+  "Nelze úspěšně analyzovat číselné řetězce"
+
+  "Unable to write file"
+  "Nelze zapsat soubor"
 
   "Untitled"
   "Untitled"
@@ -558,6 +605,9 @@ msgcat::mcmset cs {
   "Next difference"
   "Další rozdíl"
 
+  "No files found in specified directories"
+  "Žádné soubory v uvedených adresářích"
+
   "Open Directory..."
   "Open Directory ..."
 
@@ -749,6 +799,9 @@ msgcat::mcmset cs {
 # plugins.tcl
 msgcat::mcmset cs {
 
+  "ERROR (%s,%s): %s"
+  "Chyba (%s, %s): %s"
+
   "ERROR:  Plugin name already exists"
   "Chyba: Plugin názvem již existuje"
 
@@ -799,8 +852,14 @@ msgcat::mcmset cs {
   "Delete file?"
   "Smazat soubor?"
 
+  "Directory Name:"
+  "Název adresáře:"
+
   "Duplicate"
   "Duplicita"
+
+  "File Name:"
+  "&Jméno souboru:"
 
   "Make Current Working Directory"
   "Ujistěte se aktuální pracovní adresář"
@@ -920,8 +979,16 @@ msgcat::mcmset cs {
   "Unable to open %s for reading"
   "Nelze otevřít% s pro čtení"
 
-  "Unable to open %s for writing"
-  "Nelze otevřít% s pro zápis"
+}
+
+# vim.tcl
+msgcat::mcmset cs {
+
+  "File %s successfully written"
+  "Soubor %s úspěšně zapsána"
+
+  "Filename %s already exists"
+  "Název souboru %s již existuje"
 
 }
 
@@ -948,6 +1015,9 @@ msgcat::mcmset cs {
 
   "Save As"
   "Uložit jako"
+
+  "Unable to open %s for writing"
+  "Nelze otevřít% s pro zápis"
 
   "Unfavorite"
   "Unfavorite"

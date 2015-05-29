@@ -14,8 +14,31 @@ msgcat::mcmset el {
 
 }
 
+# diff.tcl
+msgcat::mcmset el {
+
+  "    End: "
+  "ΤΕΛΟΣ"
+
+  "    Start: "
+  "Έναρξη"
+
+  "Enter difference command"
+  "Εισάγετε την εντολή διαφορά"
+
+  "Enter starting file"
+  "Εισαγάγετε το αρχείο εκκίνησης"
+
+  "Update"
+  "Ενημέρωση"
+
+}
+
 # gui.tcl
 msgcat::mcmset el {
+
+  "%d substitutions done"
+  "%d αντικαταστάσεις κάνει"
 
   "%s, Line: %d, Column: %d"
   "% S, γραμμή:% d, Στήλη:% d"
@@ -44,6 +67,9 @@ msgcat::mcmset el {
   "Email:"
   "Email:"
 
+  "Error"
+  "Σφάλμα!"
+
   "Favorited"
   "Αγαπημένο"
 
@@ -65,6 +91,12 @@ msgcat::mcmset el {
   "Move*"
   "Μετακίνηση *"
 
+  "Must be in multicursor mode to insert numbers"
+  "Πρέπει να είναι σε multicursor κατάσταση λειτουργίας για να εισάγετε αριθμούς"
+
+  "No search results found"
+  "Δε βρέθηκαν αποτελέσματα αναζήτησης"
+
   "Release Type:"
   "ΔΕΛΤΙΟ ΤΥΠΟΥ:"
 
@@ -74,8 +106,17 @@ msgcat::mcmset el {
   "Save request"
   "Αποθηκεύστε το αίτημα"
 
+  "Search wrapped to beginning of file"
+  "Αναζήτηση τυλιγμένο στην αρχή του αρχείου"
+
+  "Search wrapped to end of file"
+  "Αναζήτηση τυλιγμένο στο τέλος του αρχείου"
+
   "Show in Sidebar"
   "Εμφάνιση στο Sidebar"
+
+  "Starting number:"
+  "Αρχικό αριθμό:"
 
   "Tcl/Tk Version:"
   "Έκδοση Tcl/Tk:"
@@ -85,6 +126,12 @@ msgcat::mcmset el {
 
   "Unable to find current file (tab: %s)"
   "Ανίκανος να βρει το τρέχον αρχείο (καρτέλα:% s)"
+
+  "Unable to successfully parse number string"
+  "Δυνατό να αναλύσει με επιτυχία αριθμός συμβολοσειρά"
+
+  "Unable to write file"
+  "Δεν είναι δυνατή η εγγραφή αρχείου"
 
   "Untitled"
   "Untitled"
@@ -558,6 +605,9 @@ msgcat::mcmset el {
   "Next difference"
   "Επόμενη διαφορά"
 
+  "No files found in specified directories"
+  "Δεν βρέθηκαν σε καθορισμένους καταλόγους αρχεία"
+
   "Open Directory..."
   "Άνοιγμα καταλόγου"
 
@@ -749,6 +799,9 @@ msgcat::mcmset el {
 # plugins.tcl
 msgcat::mcmset el {
 
+  "ERROR (%s,%s): %s"
+  "ΣΦΆΛΜΑ (%s %s): %s"
+
   "ERROR:  Plugin name already exists"
   "ΣΦΑΛΜΑ: Plugin όνομα υπάρχει ήδη"
 
@@ -799,8 +852,14 @@ msgcat::mcmset el {
   "Delete file?"
   "Διαγραφή αρχείου"
 
+  "Directory Name:"
+  "Όνομα καταλόγου:"
+
   "Duplicate"
   "Αναπαραγωγή"
+
+  "File Name:"
+  "Όνομα αρχείου:"
 
   "Make Current Working Directory"
   "Κάντε τρέχων κατάλογος εργασίας"
@@ -920,8 +979,16 @@ msgcat::mcmset el {
   "Unable to open %s for reading"
   "Αδύνατο το άνοιγμα του%1 για ανάγνωση."
 
-  "Unable to open %s for writing"
-  "Αδύνατο το άνοιγμα του%1 για εγγραφή"
+}
+
+# vim.tcl
+msgcat::mcmset el {
+
+  "File %s successfully written"
+  "Το αρχείο %s με επιτυχία γραπτές"
+
+  "Filename %s already exists"
+  "Υπάρχει ήδη το όνομα του αρχείου %s"
 
 }
 
@@ -948,6 +1015,9 @@ msgcat::mcmset el {
 
   "Save As"
   "Αποθήκευση ως"
+
+  "Unable to open %s for writing"
+  "Αδύνατο το άνοιγμα του%1 για εγγραφή"
 
   "Unfavorite"
   "Μη αγαπημένα"

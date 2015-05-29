@@ -863,7 +863,7 @@ namespace eval sidebar {
     
     # Get the new filename from the user
     set fname ""
-    if {![gui::user_response_get "File Name:" fname]} {
+    if {![gui::user_response_get [msgcat::mc "File Name:"] fname]} {
       return
     }
     
@@ -899,7 +899,7 @@ namespace eval sidebar {
     
     # Get the directory name from the user
     set dname ""
-    if {![gui::user_response_get "Directory Name:" dname]} {
+    if {![gui::user_response_get [msgcat::mc "Directory Name:"] dname]} {
       return
     }
     

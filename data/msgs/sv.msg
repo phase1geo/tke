@@ -14,8 +14,31 @@ msgcat::mcmset sv {
 
 }
 
+# diff.tcl
+msgcat::mcmset sv {
+
+  "    End: "
+  "Slut:"
+
+  "    Start: "
+  "Start:"
+
+  "Enter difference command"
+  "Ange skillnaden kommando"
+
+  "Enter starting file"
+  "Ange start fil"
+
+  "Update"
+  "Uppdatera"
+
+}
+
 # gui.tcl
 msgcat::mcmset sv {
+
+  "%d substitutions done"
+  "%d substitutioner gjort"
 
   "%s, Line: %d, Column: %d"
   "% S, Rad:% d, Kolumn:% d"
@@ -44,6 +67,9 @@ msgcat::mcmset sv {
   "Email:"
   "E-post:"
 
+  "Error"
+  "Fel"
+
   "Favorited"
   "Favorit"
 
@@ -65,6 +91,12 @@ msgcat::mcmset sv {
   "Move*"
   "Move"
 
+  "Must be in multicursor mode to insert numbers"
+  "Måste vara i multicursor läge infoga nummer"
+
+  "No search results found"
+  "Inga sökresultat som hittade"
+
   "Release Type:"
   "Utgivningstyp:"
 
@@ -74,8 +106,17 @@ msgcat::mcmset sv {
   "Save request"
   "Spara begäran"
 
+  "Search wrapped to beginning of file"
+  "Sök insvept till början av filen"
+
+  "Search wrapped to end of file"
+  "Sök insvept till slutet av filen"
+
   "Show in Sidebar"
   "Show i Sidebar"
+
+  "Starting number:"
+  "Sidnummer för första sidan:"
 
   "Tcl/Tk Version:"
   "Tcl/Tk Version:"
@@ -85,6 +126,12 @@ msgcat::mcmset sv {
 
   "Unable to find current file (tab: %s)"
   "Det gick inte att hitta aktuell fil (flik:% s)"
+
+  "Unable to successfully parse number string"
+  "Inte att framgångsrikt parsa nummer sträng"
+
+  "Unable to write file"
+  "Kan inte skriva filen"
 
   "Untitled"
   "Untitled"
@@ -558,6 +605,9 @@ msgcat::mcmset sv {
   "Next difference"
   "Nästa skillnad"
 
+  "No files found in specified directories"
+  "Inga filer Funna i angivna kataloger"
+
   "Open Directory..."
   "Öppna katalog"
 
@@ -749,6 +799,9 @@ msgcat::mcmset sv {
 # plugins.tcl
 msgcat::mcmset sv {
 
+  "ERROR (%s,%s): %s"
+  "FEL (%s, %s): %s"
+
   "ERROR:  Plugin name already exists"
   "FEL: Plugin namn finns redan"
 
@@ -799,8 +852,14 @@ msgcat::mcmset sv {
   "Delete file?"
   "Ta bort"
 
+  "Directory Name:"
+  "namn i katalog"
+
   "Duplicate"
   "Duplicera"
+
+  "File Name:"
+  "Filnamn:"
 
   "Make Current Working Directory"
   "Gör aktuell katalog"
@@ -920,8 +979,16 @@ msgcat::mcmset sv {
   "Unable to open %s for reading"
   "Kan inte öppna%1 för läsning."
 
-  "Unable to open %s for writing"
-  "Kunde inte öppna%1 för skrivning"
+}
+
+# vim.tcl
+msgcat::mcmset sv {
+
+  "File %s successfully written"
+  "Filen %s har skrivit"
+
+  "Filename %s already exists"
+  "Filnamn %s finns redan"
 
 }
 
@@ -948,6 +1015,9 @@ msgcat::mcmset sv {
 
   "Save As"
   "Spara som..."
+
+  "Unable to open %s for writing"
+  "Kunde inte öppna%1 för skrivning"
 
   "Unfavorite"
   "Unfavorite"

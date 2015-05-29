@@ -14,8 +14,31 @@ msgcat::mcmset he {
 
 }
 
+# diff.tcl
+msgcat::mcmset he {
+
+  "    End: "
+  "סיים"
+
+  "    Start: "
+  "התחל"
+
+  "Enter difference command"
+  "הזן הפרש הפקודה"
+
+  "Enter starting file"
+  "הזן קובץ ההתחלה"
+
+  "Update"
+  "עדכן"
+
+}
+
 # gui.tcl
 msgcat::mcmset he {
+
+  "%d substitutions done"
+  "%d החלפות עשה"
 
   "%s, Line: %d, Column: %d"
   "%s, קו: %d, עמודה: %d"
@@ -44,6 +67,9 @@ msgcat::mcmset he {
   "Email:"
   "דוא\"
 
+  "Error"
+  "שגיאה"
+
   "Favorited"
   "שורי"
 
@@ -65,6 +91,12 @@ msgcat::mcmset he {
   "Move*"
   "תנועה"
 
+  "Must be in multicursor mode to insert numbers"
+  "חייב להיות במצב multicursor כדי להוסיף מספרים"
+
+  "No search results found"
+  "תוצאות חיפוש נמצאו"
+
   "Release Type:"
   "סוג פרסום:"
 
@@ -74,8 +106,17 @@ msgcat::mcmset he {
   "Save request"
   "להציל את הבקשה"
 
+  "Search wrapped to beginning of file"
+  "חיפוש עטוף לתחילת הקובץ"
+
+  "Search wrapped to end of file"
+  "חיפוש עטוף כדי בסוף הקובץ"
+
   "Show in Sidebar"
   "הצג בסרגל הצידי"
+
+  "Starting number:"
+  "המספר ההתחלתי:"
 
   "Tcl/Tk Version:"
   "Tcl/Tk גרסה:"
@@ -85,6 +126,12 @@ msgcat::mcmset he {
 
   "Unable to find current file (tab: %s)"
   "אין אפשרות למצוא את הקובץ הנוכחי (הכרטיסיה: %s)"
+
+  "Unable to successfully parse number string"
+  "אין אפשרות לנתח בהצלחה מספר מיתרים"
+
+  "Unable to write file"
+  "אין אפשרות לכתוב את הקובץ"
 
   "Untitled"
   "ללא כותרת"
@@ -558,6 +605,9 @@ msgcat::mcmset he {
   "Next difference"
   "ההבדל הבא"
 
+  "No files found in specified directories"
+  "לא נמצאו בספריות שצוין קבצים"
+
   "Open Directory..."
   "המדריך הפתוח..."
 
@@ -749,6 +799,9 @@ msgcat::mcmset he {
 # plugins.tcl
 msgcat::mcmset he {
 
+  "ERROR (%s,%s): %s"
+  "שגיאה (%s, %s): %s"
+
   "ERROR:  Plugin name already exists"
   "שגיאה: שם התוסף כבר קיים"
 
@@ -799,8 +852,14 @@ msgcat::mcmset he {
   "Delete file?"
   "האם למחוק את הקובץ?"
 
+  "Directory Name:"
+  "שם הספריה:"
+
   "Duplicate"
   "שכפל"
+
+  "File Name:"
+  "שם קובץ"
 
   "Make Current Working Directory"
   "להפוך את הזרם ספריית עבודה"
@@ -920,8 +979,16 @@ msgcat::mcmset he {
   "Unable to open %s for reading"
   "אין אפשרות לפתוח את %s עבור קריאה"
 
-  "Unable to open %s for writing"
-  "אין אפשרות לפתוח את %s עבור כתיבה"
+}
+
+# vim.tcl
+msgcat::mcmset he {
+
+  "File %s successfully written"
+  "הקובץ %s בהצלחה נכתב"
+
+  "Filename %s already exists"
+  "שם הקובץ %s כבר קיים"
 
 }
 
@@ -948,6 +1015,9 @@ msgcat::mcmset he {
 
   "Save As"
   "שמירה בשם"
+
+  "Unable to open %s for writing"
+  "אין אפשרות לפתוח את %s עבור כתיבה"
 
   "Unfavorite"
   "Unfavorite"

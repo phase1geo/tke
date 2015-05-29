@@ -14,8 +14,31 @@ msgcat::mcmset da {
 
 }
 
+# diff.tcl
+msgcat::mcmset da {
+
+  "    End: "
+  "Slutning"
+
+  "    Start: "
+  "Start"
+
+  "Enter difference command"
+  "Angiv forskel kommando"
+
+  "Enter starting file"
+  "Indtast start fil"
+
+  "Update"
+  "Opdater"
+
+}
+
 # gui.tcl
 msgcat::mcmset da {
+
+  "%d substitutions done"
+  "%d erstatninger udført"
 
   "%s, Line: %d, Column: %d"
   "% S, Line:% d, kolonne:% d"
@@ -44,6 +67,9 @@ msgcat::mcmset da {
   "Email:"
   "E-mail:"
 
+  "Error"
+  "Fejl"
+
   "Favorited"
   "Favoriseret"
 
@@ -65,6 +91,12 @@ msgcat::mcmset da {
   "Move*"
   "bevæge"
 
+  "Must be in multicursor mode to insert numbers"
+  "Skal være i multicursor tilstand at indsætte tal"
+
+  "No search results found"
+  "Ingen resultater matcher din søgning!"
+
   "Release Type:"
   "Release Type:"
 
@@ -74,8 +106,17 @@ msgcat::mcmset da {
   "Save request"
   "Spar anmodning"
 
+  "Search wrapped to beginning of file"
+  "Søg ombrydes til begyndelsen af filen"
+
+  "Search wrapped to end of file"
+  "Søg indpakket til slutningen af filen"
+
   "Show in Sidebar"
   "Vis i Sidebar"
+
+  "Starting number:"
+  "Starttal"
 
   "Tcl/Tk Version:"
   "Tcl/Tk Version:"
@@ -85,6 +126,12 @@ msgcat::mcmset da {
 
   "Unable to find current file (tab: %s)"
   "Kunne ikke finde aktuelle fil (fane:% s)"
+
+  "Unable to successfully parse number string"
+  "Ikke kan med held parse nummer streng"
+
+  "Unable to write file"
+  "Kunne ikke skrive filen"
 
   "Untitled"
   "Untitled"
@@ -558,6 +605,9 @@ msgcat::mcmset da {
   "Next difference"
   "Næste forskel"
 
+  "No files found in specified directories"
+  "Ikke findes i angivne mapper filer"
+
   "Open Directory..."
   "Åbn mappe"
 
@@ -749,6 +799,9 @@ msgcat::mcmset da {
 # plugins.tcl
 msgcat::mcmset da {
 
+  "ERROR (%s,%s): %s"
+  "FEJL (%s, %s): %s"
+
   "ERROR:  Plugin name already exists"
   "FEJL: Plugin navn findes allerede"
 
@@ -799,8 +852,14 @@ msgcat::mcmset da {
   "Delete file?"
   "Slet fil"
 
+  "Directory Name:"
+  "vejvisernavn"
+
   "Duplicate"
   "Dupliker"
+
+  "File Name:"
+  "Filnavn"
 
   "Make Current Working Directory"
   "Gør aktuelle arbejdsmappe"
@@ -920,8 +979,16 @@ msgcat::mcmset da {
   "Unable to open %s for reading"
   "Kan ikke åbne%1 for læsning."
 
-  "Unable to open %s for writing"
-  "Kunne ikke åbne%1 til skrivning"
+}
+
+# vim.tcl
+msgcat::mcmset da {
+
+  "File %s successfully written"
+  "Filen %s blev skrevet"
+
+  "Filename %s already exists"
+  "Filnavn %s findes allerede"
 
 }
 
@@ -948,6 +1015,9 @@ msgcat::mcmset da {
 
   "Save As"
   "Gem som"
+
+  "Unable to open %s for writing"
+  "Kunne ikke åbne%1 til skrivning"
 
   "Unfavorite"
   "Unfavorite"
