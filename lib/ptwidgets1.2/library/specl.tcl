@@ -1071,6 +1071,13 @@ namespace eval specl::updater {
                 set trash_path [linux_manual_trash $install_dir]
               }
             }
+          } elseif {![catch { exec -ignorestderr which kioclient 2>@1 }]} {
+            if {[catch { exec -ignorestderr kioclient move $install_dir trash:/ }]} {
+              set password [get_password $content_list]
+              if {[catch { run_admin_cmd "kioclient move [list $install_dir] trash:/" $password }]} {
+                set trash_path [linux_manual_trash $install_dir]
+              }
+            }
           } else {
             set trash_path [linux_manual_trash $install_dir]
           }
