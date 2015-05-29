@@ -209,7 +209,7 @@ namespace eval lang {
     set widgets(xlate) [ttk::button      .bf.xlate -text "Add Translations"]
     set widgets(hide)  [ttk::checkbutton .bf.hide  -text "Hide translated" -variable lang::hide_xlates \
       -command "lang::show_hide_xlates"]
-    ttk::button .bf.upd    -text "Update" -width 6 -command "set ::update_lang 1; set ::update_done 1"
+    set widgets(update) [ttk::button .bf.upd -text "Update" -width 6 -command "set ::update_lang 1; set ::update_done 1"]
     ttk::button .bf.cancel -text "Cancel" -width 6 -command "set ::update_done 1"
     
     pack .bf.xlate  -side left  -padx 2 -pady 2
@@ -340,7 +340,8 @@ namespace eval lang {
     variable widgets
     
     # Disable the "Add Translations" button from being clicked again
-    $widgets(xlate) configure -state disabled
+    $widgets(xlate)  configure -state disabled
+    $widgets(update) configure -state disabled
     
     # Get any selected rows
     set selected [$widgets(tbl) curselection]
@@ -362,7 +363,8 @@ namespace eval lang {
     }
     
     # Enable the 'Add Translations' button
-    $widgets(xlate) configure -state normal
+    $widgets(xlate)  configure -state normal
+    $widgets(update) configure -state normal
     
   }
   

@@ -14,8 +14,31 @@ msgcat::mcmset pl {
 
 }
 
+# diff.tcl
+msgcat::mcmset pl {
+
+  "    End: "
+  "Koniec:"
+
+  "    Start: "
+  "Start:"
+
+  "Enter difference command"
+  "Wprowadź polecenie różnica"
+
+  "Enter starting file"
+  "Wpisz początkowy plik"
+
+  "Update"
+  "Aktualizuj"
+
+}
+
 # gui.tcl
 msgcat::mcmset pl {
+
+  "%d substitutions done"
+  "%d zastępstwa zrobić"
 
   "%s, Line: %d, Column: %d"
   "% S, linia:% d, kolumna:% d"
@@ -44,6 +67,9 @@ msgcat::mcmset pl {
   "Email:"
   "E-mail:"
 
+  "Error"
+  "Błąd"
+
   "Favorited"
   "Jako ulubione"
 
@@ -65,6 +91,12 @@ msgcat::mcmset pl {
   "Move*"
   "Przenieś"
 
+  "Must be in multicursor mode to insert numbers"
+  "Musi być w trybie multicursor, aby wstawić numery"
+
+  "No search results found"
+  "Nie znaleziono żadnych wyników wyszukiwania"
+
   "Release Type:"
   "Typ Release:"
 
@@ -74,8 +106,17 @@ msgcat::mcmset pl {
   "Save request"
   "Zapisz zlecenie"
 
+  "Search wrapped to beginning of file"
+  "Szukaj zawijane do początku pliku"
+
+  "Search wrapped to end of file"
+  "Szukaj zawinięte na końcu pliku"
+
   "Show in Sidebar"
   "Pokaż w pasku bocznym"
+
+  "Starting number:"
+  "Numer startowy:"
 
   "Tcl/Tk Version:"
   "Wersji Tcl/Tk:"
@@ -85,6 +126,12 @@ msgcat::mcmset pl {
 
   "Unable to find current file (tab: %s)"
   "Nie można znaleźć aktualny plik (zakładka:% s)"
+
+  "Unable to successfully parse number string"
+  "Nie można pomyślnie przeanalizować ciąg liczb"
+
+  "Unable to write file"
+  "Nie można zapisać pliku"
 
   "Untitled"
   "\"
@@ -558,6 +605,9 @@ msgcat::mcmset pl {
   "Next difference"
   "Następna różnica"
 
+  "No files found in specified directories"
+  "Nie ma plików znajdujących się w określonych katalogach"
+
   "Open Directory..."
   "Otwórz katalog"
 
@@ -749,6 +799,9 @@ msgcat::mcmset pl {
 # plugins.tcl
 msgcat::mcmset pl {
 
+  "ERROR (%s,%s): %s"
+  "BŁĄD (%s, %s): %s"
+
   "ERROR:  Plugin name already exists"
   "BŁĄD: Plugin nazwie już istnieje"
 
@@ -799,8 +852,14 @@ msgcat::mcmset pl {
   "Delete file?"
   "Usunąć plik?"
 
+  "Directory Name:"
+  "Nazwa katalogu:"
+
   "Duplicate"
   "Duplikuj"
+
+  "File Name:"
+  "Nazwie pliku"
 
   "Make Current Working Directory"
   "Dodać bieżący katalog roboczy"
@@ -920,8 +979,16 @@ msgcat::mcmset pl {
   "Unable to open %s for reading"
   "Nie można otworzyć pliku%1 do odczytu."
 
-  "Unable to open %s for writing"
-  "Nie można otworzyć%1 do zapisu"
+}
+
+# vim.tcl
+msgcat::mcmset pl {
+
+  "File %s successfully written"
+  "Plik %s pomyślnie napisany"
+
+  "Filename %s already exists"
+  "Nazwa pliku %s już istnieje"
 
 }
 
@@ -948,6 +1015,9 @@ msgcat::mcmset pl {
 
   "Save As"
   "Zapisz jako"
+
+  "Unable to open %s for writing"
+  "Nie można otworzyć%1 do zapisu"
 
   "Unfavorite"
   "Unfavorite"

@@ -14,8 +14,31 @@ msgcat::mcmset hu {
 
 }
 
+# diff.tcl
+msgcat::mcmset hu {
+
+  "    End: "
+  "Vége:"
+
+  "    Start: "
+  "Kezdete:"
+
+  "Enter difference command"
+  "Adja meg a differencia parancs"
+
+  "Enter starting file"
+  "Adja meg a kezdő fájl"
+
+  "Update"
+  "Frissítés"
+
+}
+
 # gui.tcl
 msgcat::mcmset hu {
+
+  "%d substitutions done"
+  "%d helyettesítések tenni"
 
   "%s, Line: %d, Column: %d"
   "% S, Sor:% d oszlop:% d"
@@ -44,6 +67,9 @@ msgcat::mcmset hu {
   "Email:"
   "E-mail:"
 
+  "Error"
+  "Hiba"
+
   "Favorited"
   "Kedvencek"
 
@@ -65,6 +91,12 @@ msgcat::mcmset hu {
   "Move*"
   "hat"
 
+  "Must be in multicursor mode to insert numbers"
+  "Számok be multicursor üzemmódban kell lennie"
+
+  "No search results found"
+  "Nincs találat"
+
   "Release Type:"
   "Kiadás típusa:"
 
@@ -74,8 +106,17 @@ msgcat::mcmset hu {
   "Save request"
   "Mentés kérése"
 
+  "Search wrapped to beginning of file"
+  "Keresés becsomagolt fájl elejére"
+
+  "Search wrapped to end of file"
+  "Keresés csomagolva, hogy a fájl vége"
+
   "Show in Sidebar"
   "Show Sidebar"
+
+  "Starting number:"
+  "A kezdő dia száma:"
 
   "Tcl/Tk Version:"
   "Tcl/Tk-verzió:"
@@ -85,6 +126,12 @@ msgcat::mcmset hu {
 
   "Unable to find current file (tab: %s)"
   "Nem található aktuális fájlt (tab:% s)"
+
+  "Unable to successfully parse number string"
+  "Nem lehet elemezni a biztonsági szám karakterlánc"
+
+  "Unable to write file"
+  "Nem lehet írni a fájlt"
 
   "Untitled"
   "Névtelen"
@@ -558,6 +605,9 @@ msgcat::mcmset hu {
   "Next difference"
   "A következő eltérés"
 
+  "No files found in specified directories"
+  "Nem található a megadott könyvtárak fájl"
+
   "Open Directory..."
   "Felső szintű könyvtár:"
 
@@ -749,6 +799,9 @@ msgcat::mcmset hu {
 # plugins.tcl
 msgcat::mcmset hu {
 
+  "ERROR (%s,%s): %s"
+  "HIBA (%s, %s): %s"
+
   "ERROR:  Plugin name already exists"
   "ERROR: Plugin már létezik"
 
@@ -799,8 +852,14 @@ msgcat::mcmset hu {
   "Delete file?"
   "A fájl törlése"
 
+  "Directory Name:"
+  "Könyvtár neve:"
+
   "Duplicate"
   "Megkettőzés"
+
+  "File Name:"
+  "A fájlnév"
 
   "Make Current Working Directory"
   "Legyen aktuális könyvtár"
@@ -920,8 +979,16 @@ msgcat::mcmset hu {
   "Unable to open %s for reading"
   "Nem sikerült megnyitni ezt a fájlt olvasásra:%1."
 
-  "Unable to open %s for writing"
-  "Nem sikerült megnyitni írásra a(z)%1 fájlt."
+}
+
+# vim.tcl
+msgcat::mcmset hu {
+
+  "File %s successfully written"
+  "A(z) %s írása sikeresen"
+
+  "Filename %s already exists"
+  "Fájlnév (% s) már létezik"
 
 }
 
@@ -948,6 +1015,9 @@ msgcat::mcmset hu {
 
   "Save As"
   "Mentés másként"
+
+  "Unable to open %s for writing"
+  "Nem sikerült megnyitni írásra a(z)%1 fájlt."
 
   "Unfavorite"
   "Unfavorite"

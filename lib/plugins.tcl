@@ -254,7 +254,7 @@ namespace eval plugins {
     logger::log $::errorInfo
 
     # Set the current information message
-    gui::set_info_message "ERROR ($name,$procname): [lindex [split $status \n] 0]"
+    gui::set_info_message [msgcat::mc "ERROR (%s,%s): %s" $name $procname [lindex [split $status \n] 0]]
 
   }
 

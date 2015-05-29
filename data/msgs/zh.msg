@@ -14,8 +14,31 @@ msgcat::mcmset zh {
 
 }
 
+# diff.tcl
+msgcat::mcmset zh {
+
+  "    End: "
+  "结束："
+
+  "    Start: "
+  "开始："
+
+  "Enter difference command"
+  "请输入不同的命令"
+
+  "Enter starting file"
+  "输入起始文件"
+
+  "Update"
+  "升级"
+
+}
+
 # gui.tcl
 msgcat::mcmset zh {
+
+  "%d substitutions done"
+  "%d 个换人做"
 
   "%s, Line: %d, Column: %d"
   "％s的，行数：％d，列数：％d"
@@ -44,6 +67,9 @@ msgcat::mcmset zh {
   "Email:"
   "电子邮件："
 
+  "Error"
+  "錯誤"
+
   "Favorited"
   "评选"
 
@@ -65,6 +91,12 @@ msgcat::mcmset zh {
   "Move*"
   "移动"
 
+  "Must be in multicursor mode to insert numbers"
+  "必须在 multicursor 模式下插入数字"
+
+  "No search results found"
+  "个搜索结果"
+
   "Release Type:"
   "释放"
 
@@ -74,8 +106,17 @@ msgcat::mcmset zh {
   "Save request"
   "保存请求"
 
+  "Search wrapped to beginning of file"
+  "搜索到文件的开头包裹"
+
+  "Search wrapped to end of file"
+  "搜索包裹到文件结尾"
+
   "Show in Sidebar"
   "显示在侧栏"
+
+  "Starting number:"
+  "开始点编号:"
 
   "Tcl/Tk Version:"
   "Tcl/Tk 版本："
@@ -85,6 +126,12 @@ msgcat::mcmset zh {
 
   "Unable to find current file (tab: %s)"
   "找不到当前文件（制表：％S）"
+
+  "Unable to successfully parse number string"
+  "无法成功分析数字字符串"
+
+  "Unable to write file"
+  "无法写入文件"
 
   "Untitled"
   "未命名"
@@ -558,6 +605,9 @@ msgcat::mcmset zh {
   "Next difference"
   "下一个差异"
 
+  "No files found in specified directories"
+  "指定的目录中未找到文件"
+
   "Open Directory..."
   "开放目录..."
 
@@ -749,6 +799,9 @@ msgcat::mcmset zh {
 # plugins.tcl
 msgcat::mcmset zh {
 
+  "ERROR (%s,%s): %s"
+  "错误的 s）： %s"
+
   "ERROR:  Plugin name already exists"
   "错误：插件名称已存在"
 
@@ -799,8 +852,14 @@ msgcat::mcmset zh {
   "Delete file?"
   "删除文件？"
 
+  "Directory Name:"
+  "目录名称:"
+
   "Duplicate"
   "复制"
+
+  "File Name:"
+  "文件名："
 
   "Make Current Working Directory"
   "使当前工作目录"
@@ -920,8 +979,16 @@ msgcat::mcmset zh {
   "Unable to open %s for reading"
   "无法打开％s的读取"
 
-  "Unable to open %s for writing"
-  "无法打开％s的写入"
+}
+
+# vim.tcl
+msgcat::mcmset zh {
+
+  "File %s successfully written"
+  "文件 %s 成功地写"
+
+  "Filename %s already exists"
+  "文件名 %s 已存在"
 
 }
 
@@ -948,6 +1015,9 @@ msgcat::mcmset zh {
 
   "Save As"
   "保存为"
+
+  "Unable to open %s for writing"
+  "无法打开％s的写入"
 
   "Unfavorite"
   "不喜欢的"

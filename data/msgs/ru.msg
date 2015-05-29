@@ -14,8 +14,31 @@ msgcat::mcmset ru {
 
 }
 
+# diff.tcl
+msgcat::mcmset ru {
+
+  "    End: "
+  "До :"
+
+  "    Start: "
+  "С :"
+
+  "Enter difference command"
+  "Введите команду разница"
+
+  "Enter starting file"
+  "Введите начальный файл"
+
+  "Update"
+  "Обновить"
+
+}
+
 # gui.tcl
 msgcat::mcmset ru {
+
+  "%d substitutions done"
+  "подстановки %d сделали"
 
   "%s, Line: %d, Column: %d"
   "% С, линия:% д, Колонка:% г"
@@ -44,6 +67,9 @@ msgcat::mcmset ru {
   "Email:"
   "Эл. почта:"
 
+  "Error"
+  "Ошибка"
+
   "Favorited"
   "В избранном"
 
@@ -65,6 +91,12 @@ msgcat::mcmset ru {
   "Move*"
   "Переезд"
 
+  "Must be in multicursor mode to insert numbers"
+  "Должно быть в multicursor режиме, чтобы вставить номера"
+
+  "No search results found"
+  "Результаты не найдены."
+
   "Release Type:"
   "Тип релиза:"
 
@@ -74,8 +106,17 @@ msgcat::mcmset ru {
   "Save request"
   "Запрос"
 
+  "Search wrapped to beginning of file"
+  "Поиск, завернутые в начале файла"
+
+  "Search wrapped to end of file"
+  "Поиск, завернутые в конец файла"
+
   "Show in Sidebar"
   "Показать на боковой панели"
+
+  "Starting number:"
+  "Стартовый номер"
 
   "Tcl/Tk Version:"
   "Версия Tcl/Tk:"
@@ -85,6 +126,12 @@ msgcat::mcmset ru {
 
   "Unable to find current file (tab: %s)"
   "Не удалось найти текущий файл (закладка:% ы)"
+
+  "Unable to successfully parse number string"
+  "Не в состоянии успешно разбирать строку номера"
+
+  "Unable to write file"
+  "Не удается записать файл"
 
   "Untitled"
   "Без имени"
@@ -558,6 +605,9 @@ msgcat::mcmset ru {
   "Next difference"
   "Следующая разница"
 
+  "No files found in specified directories"
+  "Файлы не найдены в указанных каталогах"
+
   "Open Directory..."
   "Open Directory ..."
 
@@ -749,6 +799,9 @@ msgcat::mcmset ru {
 # plugins.tcl
 msgcat::mcmset ru {
 
+  "ERROR (%s,%s): %s"
+  "Ошибка (%s, %s): %s"
+
   "ERROR:  Plugin name already exists"
   "ОШИБКА: Плагин именем уже существует"
 
@@ -799,8 +852,14 @@ msgcat::mcmset ru {
   "Delete file?"
   "Удалить файл?"
 
+  "Directory Name:"
+  "Имя файла"
+
   "Duplicate"
   "Удвоить"
+
+  "File Name:"
+  "&Имя файла:"
 
   "Make Current Working Directory"
   "Сделать текущий рабочий каталог"
@@ -920,8 +979,16 @@ msgcat::mcmset ru {
   "Unable to open %s for reading"
   "Невозможно открыть% с для чтения"
 
-  "Unable to open %s for writing"
-  "Невозможно открыть% с для записи"
+}
+
+# vim.tcl
+msgcat::mcmset ru {
+
+  "File %s successfully written"
+  "Файл %s успешно записаны"
+
+  "Filename %s already exists"
+  "Имя файла %s уже существует"
 
 }
 
@@ -948,6 +1015,9 @@ msgcat::mcmset ru {
 
   "Save As"
   "Сохранить как"
+
+  "Unable to open %s for writing"
+  "Невозможно открыть% с для записи"
 
   "Unfavorite"
   "Unfavorite"

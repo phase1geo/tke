@@ -14,8 +14,31 @@ msgcat::mcmset ja {
 
 }
 
+# diff.tcl
+msgcat::mcmset ja {
+
+  "    End: "
+  "終了日"
+
+  "    Start: "
+  "開始日"
+
+  "Enter difference command"
+  "Difference コマンドを入力してください。"
+
+  "Enter starting file"
+  "開始ファイルを入力してください。"
+
+  "Update"
+  "の編集"
+
+}
+
 # gui.tcl
 msgcat::mcmset ja {
+
+  "%d substitutions done"
+  "%d 個の置換が行われます"
 
   "%s, Line: %d, Column: %d"
   "％sの、ライン：％d、列％dの"
@@ -44,6 +67,9 @@ msgcat::mcmset ja {
   "Email:"
   "メール"
 
+  "Error"
+  "エラー"
+
   "Favorited"
   "お気に入り"
 
@@ -65,6 +91,12 @@ msgcat::mcmset ja {
   "Move*"
   "ムーブ"
 
+  "Must be in multicursor mode to insert numbers"
+  "数字を挿入する multicursor モードでなければなりません"
+
+  "No search results found"
+  "検索結果は見つかりませんでした。"
+
   "Release Type:"
   "リリースの種類:"
 
@@ -74,8 +106,17 @@ msgcat::mcmset ja {
   "Save request"
   "リクエストを保存"
 
+  "Search wrapped to beginning of file"
+  "ファイルの先頭に折り返し検索"
+
+  "Search wrapped to end of file"
+  "ファイルの最後に折り返し検索"
+
   "Show in Sidebar"
   "サイドバーで表示"
+
+  "Starting number:"
+  "開始番号:"
 
   "Tcl/Tk Version:"
   "Tcl/Tk のバージョン:"
@@ -85,6 +126,12 @@ msgcat::mcmset ja {
 
   "Unable to find current file (tab: %s)"
   "現在のファイルが見つかりません（ペ：％s）を"
+
+  "Unable to successfully parse number string"
+  "番号の文字列を正しく解析することができません。"
+
+  "Unable to write file"
+  "ファイルを書き込めません。"
 
   "Untitled"
   "無題"
@@ -558,6 +605,9 @@ msgcat::mcmset ja {
   "Next difference"
   "次の相違点"
 
+  "No files found in specified directories"
+  "ファイルの指定されたディレクトリが見つかりません"
+
   "Open Directory..."
   "ディレクトリを開きます。..."
 
@@ -749,6 +799,9 @@ msgcat::mcmset ja {
 # plugins.tcl
 msgcat::mcmset ja {
 
+  "ERROR (%s,%s): %s"
+  "エラー (%s, %s): %s"
+
   "ERROR:  Plugin name already exists"
   "エラー：プラグイン名がすでに存在"
 
@@ -799,8 +852,14 @@ msgcat::mcmset ja {
   "Delete file?"
   "ファイルを削除しますか？"
 
+  "Directory Name:"
+  "ディレクトリ名:"
+
   "Duplicate"
   "複製"
+
+  "File Name:"
+  "ファイル名"
 
   "Make Current Working Directory"
   "現在の作業ディレクトリを作る"
@@ -920,8 +979,16 @@ msgcat::mcmset ja {
   "Unable to open %s for reading"
   "読み取るための％sを開けません"
 
-  "Unable to open %s for writing"
-  "書き込み用の％sを開けません"
+}
+
+# vim.tcl
+msgcat::mcmset ja {
+
+  "File %s successfully written"
+  "ファイル %s が正常に書き込まれました。"
+
+  "Filename %s already exists"
+  "ファイル名 %s は既に存在します。"
 
 }
 
@@ -948,6 +1015,9 @@ msgcat::mcmset ja {
 
   "Save As"
   "名前を付けて保存"
+
+  "Unable to open %s for writing"
+  "書き込み用の％sを開けません"
 
   "Unfavorite"
   "気に入らない"

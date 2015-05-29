@@ -14,8 +14,31 @@ msgcat::mcmset nl {
 
 }
 
+# diff.tcl
+msgcat::mcmset nl {
+
+  "    End: "
+  "nl-NL End:"
+
+  "    Start: "
+  "Start:"
+
+  "Enter difference command"
+  "Voer verschil opdracht"
+
+  "Enter starting file"
+  "Begin bestand invoeren"
+
+  "Update"
+  "Bijwerken"
+
+}
+
 # gui.tcl
 msgcat::mcmset nl {
+
+  "%d substitutions done"
+  "%d vervangingen gedaan"
 
   "%s, Line: %d, Column: %d"
   "% S, Line:% d, kolom:% d"
@@ -44,6 +67,9 @@ msgcat::mcmset nl {
   "Email:"
   "E-mail"
 
+  "Error"
+  "Fout"
+
   "Favorited"
   "Favoriet"
 
@@ -65,6 +91,12 @@ msgcat::mcmset nl {
   "Move*"
   "Move"
 
+  "Must be in multicursor mode to insert numbers"
+  "Moet in multicursor modus nummers invoegen"
+
+  "No search results found"
+  "﻿Geen resultaten gevonden..."
+
   "Release Type:"
   "Release Type:"
 
@@ -74,8 +106,17 @@ msgcat::mcmset nl {
   "Save request"
   "Sparen verzoek"
 
+  "Search wrapped to beginning of file"
+  "Zoek verpakt aan begin van bestand"
+
+  "Search wrapped to end of file"
+  "Zoek verpakt op einde van het bestand"
+
   "Show in Sidebar"
   "Show in Sidebar"
+
+  "Starting number:"
+  "Begin Pagina Nummer"
 
   "Tcl/Tk Version:"
   "Tcl/Tk versie:"
@@ -85,6 +126,12 @@ msgcat::mcmset nl {
 
   "Unable to find current file (tab: %s)"
   "Kan huidige bestand te vinden (tabblad:% s)"
+
+  "Unable to successfully parse number string"
+  "Kan niet met succes nummer tekenreeks parseren"
+
+  "Unable to write file"
+  "Kan niet schrijven bestand"
 
   "Untitled"
   "Untitled"
@@ -558,6 +605,9 @@ msgcat::mcmset nl {
   "Next difference"
   "Volgend verschil"
 
+  "No files found in specified directories"
+  "Geen bestanden gevonden in de opgegeven mappen"
+
   "Open Directory..."
   "Map openen"
 
@@ -749,6 +799,9 @@ msgcat::mcmset nl {
 # plugins.tcl
 msgcat::mcmset nl {
 
+  "ERROR (%s,%s): %s"
+  "FOUT (%s, %s): %s"
+
   "ERROR:  Plugin name already exists"
   "FOUT: Plugin naam al bestaat"
 
@@ -799,8 +852,14 @@ msgcat::mcmset nl {
   "Delete file?"
   "Bestand verwijderen"
 
+  "Directory Name:"
+  "directory-naam"
+
   "Duplicate"
   "Dupliceren"
+
+  "File Name:"
+  "Bestandsnaam:"
 
   "Make Current Working Directory"
   "Make Current Working Directory"
@@ -920,8 +979,16 @@ msgcat::mcmset nl {
   "Unable to open %s for reading"
   "Het bestand%1 kon niet worden geopend."
 
-  "Unable to open %s for writing"
-  "%1 kon niet worden geopend om naar te schrijven."
+}
+
+# vim.tcl
+msgcat::mcmset nl {
+
+  "File %s successfully written"
+  "Bestand> %s met success geschreven!"
+
+  "Filename %s already exists"
+  "Bestandsnaam %s bestaat al"
 
 }
 
@@ -948,6 +1015,9 @@ msgcat::mcmset nl {
 
   "Save As"
   "Opslaan als"
+
+  "Unable to open %s for writing"
+  "%1 kon niet worden geopend om naar te schrijven."
 
   "Unfavorite"
   "Unfavorite"
