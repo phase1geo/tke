@@ -1,42 +1,52 @@
-changeset:   1049:5424851308fd
-tag:         devel-1.6.12
+changeset:   1054:20350ccbf539
+tag:         devel-1.6.13
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed May 27 01:19:44 2015 -0500
+date:        Thu May 28 02:13:22 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.6.12 release
+ChangeLog for devel-1.6.13 release
 
 
-changeset:   1050:d6528ec3da87
+changeset:   1055:2f4a6cc064dc
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed May 27 01:19:50 2015 -0500
+date:        Thu May 28 02:13:26 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.6.12 for changeset 5424851308fd
+Added tag devel-1.6.13 for changeset 20350ccbf539
 
 
-changeset:   1051:0fb60d95adc9
+changeset:   1056:879658ef2eb9
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed May 27 20:23:05 2015 -0500
-files:       lib/gui.tcl lib/version.tcl
+date:        Thu May 28 19:52:46 2015 -0500
+files:       lib/gui.tcl lib/tke.tcl lib/version.tcl
 description:
-* Removing unnecessary line of code in match_pair procedure.
+* Fixing issue where TKE source directory appeared in sidebar on application start.
 
 
-changeset:   1052:82de52386dc2
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed May 27 23:10:19 2015 -0500
-files:       MacOSX/Tke.app/Contents/Info.plist lib/version.tcl
+changeset:   1057:a0c30394fdb0
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu May 28 20:12:18 2015 -0500
+files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
 description:
-* Updating Info.plist for upcoming 1.7 stable release.
+* Adding improved support for trashing on KDE Linux systems when upgrading.
 
 
-changeset:   1053:3c7eea91b301
+changeset:   1058:5efa0cff0e41
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu May 28 20:17:50 2015 -0500
+files:       doc/Doxyfile doc/html/api_8tcl.html doc/html/api_8tcl_source.html doc/html/bgproc_8tcl.html doc/html/bgproc_8tcl_source.html doc/html/bindings_8tcl.html doc/html/bindings_8tcl_source.html doc/html/cliphist_8tcl.html doc/html/cliphist_8tcl_source.html doc/html/commit_8tcl.html doc/html/commit_8tcl_source.html doc/html/completer_8tcl.html doc/html/completer_8tcl_source.html doc/html/ctext_8tcl.html doc/html/ctext_8tcl_source.html doc/html/diff_8tcl.html doc/html/diff_8tcl.js doc/html/diff_8tcl_source.html doc/html/dir_97aefd0d527b934f1d99a682da8fe6a9.html doc/html/dir_e196ed0cf7506b8e7c50ce2798d828dd.html doc/html/embed__tke_8tcl.html doc/html/embed__tke_8tcl_source.html doc/html/favorites_8tcl.html doc/html/favorites_8tcl_source.html doc/html/files.html doc/html/freewrap_8tcl.html doc/html/freewrap_8tcl_source.html doc/html/globals.html doc/html/globals_func.html doc/html/gui_8tcl.html doc/html/gui_8tcl.js doc/html/gui_8tcl_source.html doc/html/indent_8tcl.html doc/html/indent_8tcl.js doc/html/indent_8tcl_source.html doc/html/index.html doc/html/interpreter_8tcl.html doc/html/interpreter_8tcl_source.html doc/html/lang_8tcl.html doc/html/lang_8tcl_source.html doc/html/launcher_8tcl.html doc/html/launcher_8tcl.js doc/html/launcher_8tcl_source.html doc/html/logger_8tcl.html doc/html/logger_8tcl_source.html doc/html/markers_8tcl.html doc/html/markers_8tcl_source.html doc/html/menus_8tcl.html doc/html/menus_8tcl.js doc/html/menus_8tcl_source.html doc/html/multicursor_8tcl.html doc/html/multicursor_8tcl_source.html doc/html/namespaceapi.html doc/html/namespaceapi_1_1file.html doc/html/namespaceapi_1_1plugin.html doc/html/namespaceapi_1_1sidebar.html doc/html/namespaceapi_1_1utils.html doc/html/namespacebgproc.html doc/html/namespacebindings.html doc/html/namespacecliphist.html doc/html/namespacecompleter.html doc/html/namespacectext.html doc/html/namespacediff.html doc/html/namespacediff_1_1custom.html doc/html/namespacediff_1_1cvs.html doc/html/namespacediff_1_1diff.html doc/html/namespacediff_1_1mercurial.html doc/html/namespacediff_1_1perforce.html doc/html/namespacediff_1_1subversion.html doc/html/namespaceembed__tke.html doc/html/namespaceembed__tke_1_1gui.html doc/html/namespaceembed__tke_1_1launcher.html doc/html/namespacefavorites.html doc/html/namespacegui.html doc/html/namespaceindent.html doc/html/namespaceinterpreter.html doc/html/namespacelang.html doc/html/namespacelauncher.html doc/html/namespacelogger.html doc/html/namespacemarkers.html doc/html/namespacemembers.html doc/html/namespacemembers_b.html doc/html/namespacemembers_c.html doc/html/namespacemembers_d.html doc/html/namespacemembers_e.html doc/html/namespacemembers_f.html doc/html/namespacemembers_func.html doc/html/namespacemembers_func_b.html doc/html/namespacemembers_func_c.html doc/html/namespacemembers_func_d.html doc/html/namespacemembers_func_e.html doc/html/namespacemembers_func_f.html doc/html/namespacemembers_func_g.html doc/html/namespacemembers_func_h.html doc/html/namespacemembers_func_i.html doc/html/namespacemembers_func_j.html doc/html/namespacemembers_func_k.html doc/html/namespacemembers_func_l.html doc/html/namespacemembers_func_m.html doc/html/namespacemembers_func_n.html doc/html/namespacemembers_func_o.html doc/html/namespacemembers_func_p.html doc/html/namespacemembers_func_q.html doc/html/namespacemembers_func_r.html doc/html/namespacemembers_func_s.html doc/html/namespacemembers_func_t.html doc/html/namespacemembers_func_u.html doc/html/namespacemembers_func_v.html doc/html/namespacemembers_func_w.html doc/html/namespacemembers_g.html doc/html/namespacemembers_h.html doc/html/namespacemembers_i.html doc/html/namespacemembers_j.html doc/html/namespacemembers_k.html doc/html/namespacemembers_l.html doc/html/namespacemembers_m.html doc/html/namespacemembers_n.html doc/html/namespacemembers_o.html doc/html/namespacemembers_p.html doc/html/namespacemembers_q.html doc/html/namespacemembers_r.html doc/html/namespacemembers_s.html doc/html/namespacemembers_t.html doc/html/namespacemembers_u.html doc/html/namespacemembers_v.html doc/html/namespacemembers_w.html doc/html/namespacemenus.html doc/html/namespacemulticursor.html doc/html/namespaceplugins.html doc/html/namespacepreferences.html doc/html/namespaces.html doc/html/namespacesidebar.html doc/html/namespacesnippets.html doc/html/namespacesyntax.html doc/html/namespacetexttools.html doc/html/namespacethemer.html doc/html/namespacethemes.html doc/html/namespacetk.html doc/html/namespacetk_1_1mac.html doc/html/namespacetkedat.html doc/html/namespaceutils.html doc/html/namespacevim.html doc/html/namespacewindowlist.html doc/html/navtreedata.js doc/html/navtreeindex0.js doc/html/navtreeindex1.js doc/html/navtreeindex2.js doc/html/navtreeindex3.js doc/html/navtreeindex4.js doc/html/ns_8tcl.html doc/html/ns_8tcl_source.html doc/html/plugins_8tcl.html doc/html/plugins_8tcl_source.html doc/html/preferences_8tcl.html doc/html/preferences_8tcl_source.html doc/html/restart_8tcl.html doc/html/restart_8tcl_source.html doc/html/search/all_0.js doc/html/search/all_11.js doc/html/search/all_12.js doc/html/search/all_14.js doc/html/search/all_2.js doc/html/search/all_5.js doc/html/search/all_6.js doc/html/search/all_7.js doc/html/search/all_b.js doc/html/search/all_f.js doc/html/search/functions_0.js doc/html/search/functions_11.js doc/html/search/functions_12.js doc/html/search/functions_14.js doc/html/search/functions_2.js doc/html/search/functions_5.js doc/html/search/functions_6.js doc/html/search/functions_7.js doc/html/search/functions_b.js doc/html/search/functions_f.js doc/html/sidebar_8tcl.html doc/html/sidebar_8tcl.js doc/html/sidebar_8tcl_source.html doc/html/snippets_8tcl.html doc/html/snippets_8tcl_source.html doc/html/syntax_8tcl.html doc/html/syntax_8tcl.js doc/html/syntax_8tcl_source.html doc/html/test_8tcl.html doc/html/test_8tcl_source.html doc/html/texttools_8tcl.html doc/html/texttools_8tcl_source.html doc/html/themer_8tcl.html doc/html/themer_8tcl_source.html doc/html/themes_8tcl.html doc/html/themes_8tcl_source.html doc/html/tke_8tcl.html doc/html/tke_8tcl_source.html doc/html/tkedat_8tcl.html doc/html/tkedat_8tcl_source.html doc/html/utils_8tcl.html doc/html/utils_8tcl_source.html doc/html/version_8tcl.html doc/html/version_8tcl_source.html doc/html/vim_8tcl.html doc/html/vim_8tcl.js doc/html/vim_8tcl_source.html doc/html/windowlist_8tcl.html doc/html/windowlist_8tcl_source.html lib/version.tcl
+description:
+* Updating development documentation.
+
+
+changeset:   1059:4097baf56866
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu May 28 02:11:44 2015 -0500
-files:       lib/ptwidgets1.2/library/tabbar.tcl lib/version.tcl
+date:        Thu May 28 22:20:48 2015 -0500
+files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg lib/diff.tcl lib/gui.tcl lib/lang.tcl lib/menus.tcl lib/plugins.tcl lib/sidebar.tcl lib/version.tcl lib/vim.tcl
 description:
-* Attempting to fix nasty tabbar bug that could cause application to hang.
+* Fixing translation issues with various strings within the UI.
+* Updating translations.
+* Fixing UI issue with the translation update utility.
 
 
