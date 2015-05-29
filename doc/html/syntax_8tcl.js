@@ -8,7 +8,7 @@ var syntax_8tcl =
     [ "get_default_language", "syntax_8tcl.html#aaccedd1dc6422835635e679b3af2f1fa", null ],
     [ "get_extensions", "syntax_8tcl.html#a0d3bece34cc25f2f212d947203d14019", null ],
     [ "get_filetypes", "syntax_8tcl.html#ac1fab4570b385b273782845f8e8e74e8", null ],
-    [ "get_indentation_expressions", "syntax_8tcl.html#a99fd2f52e320459d9fbae1a8183d994c", null ],
+    [ "get_indentation_expressions", "syntax_8tcl.html#ad17be834483a8b000e84611432bd3f6c", null ],
     [ "get_languages", "syntax_8tcl.html#a7302ead2d20df590d4d857c289dc2d68", null ],
     [ "get_markdown_bold", "syntax_8tcl.html#a9cf3d1e6a75e711b028dc83c8312d95a", null ],
     [ "get_markdown_ccode", "syntax_8tcl.html#a93cad12bc5be0c606fdb7d4ecf5d542e", null ],
