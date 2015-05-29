@@ -64,6 +64,16 @@ namespace eval gui {
     return [lsearch -index $files_index(fname) $files $fname]
 
   }
+  
+  ######################################################################
+  # Returns the number of opened files.
+  proc get_file_num {} {
+    
+    variable files
+    
+    return [llength $files]
+    
+  }
 
   ######################################################################
   # Checks to see if the given file is newer than the file within the
@@ -837,9 +847,7 @@ namespace eval gui {
       launcher::load_session $content(Launcher)
 
       # If we are supposed to load the last saved session, do it now
-      if {[preferences::get General/LoadLastSession] && \
-          ([llength $files] == 1) && \
-          ([lindex $files 0 $files_index(fname)] eq "")} {
+      if {[preferences::get General/LoadLastSession] && ([llength $files] == 0)} {
 
         # Set the current working directory to the saved value
         if {[file exists $content(CurrentWorkingDirectory)]} {
