@@ -1,26 +1,26 @@
-changeset:   1065:af3f7064fc14
-tag:         devel-1.6.15
+changeset:   1068:b87eab463ee0
+tag:         devel-1.6.16
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun May 31 00:32:36 2015 -0500
+date:        Sun May 31 07:46:50 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.6.15 release
+ChangeLog for devel-1.6.16 release
 
 
-changeset:   1066:e2fd710b122b
+changeset:   1069:2ca2e61ecd06
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun May 31 00:32:40 2015 -0500
+date:        Sun May 31 07:46:55 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.6.15 for changeset af3f7064fc14
+Added tag devel-1.6.16 for changeset b87eab463ee0
 
 
-changeset:   1067:5d336f7a3c82
+changeset:   1070:76b35969060e
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun May 31 07:46:14 2015 -0500
+date:        Sun May 31 14:05:07 2015 -0500
 files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
 description:
-* Adding -f option to specl updater for testing purposes.
+* Fixing issues with whitespaces in file pathnames in specl.
 
 
