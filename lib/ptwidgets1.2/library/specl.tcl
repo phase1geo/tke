@@ -242,7 +242,7 @@ namespace eval specl::helpers {
       set path [file join $dpath "$fname ([incr index])"]
     }
 
-    return $path
+    return [file normalize $path]
 
   }
 
