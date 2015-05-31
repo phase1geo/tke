@@ -450,6 +450,7 @@ namespace eval specl::updater {
     cl_theme             ""
     cl_test_type         ""
     cl_release_type      $specl::RTYPE_STABLE
+    cl_force             0
     icon                 ""
     fetch_ncode          ""
     fetch_content        ""
@@ -489,6 +490,7 @@ namespace eval specl::updater {
       set cl_args [lassign $cl_args arg]
       switch -exact -- $arg {
         -q      { set data(cl_quiet) 1 }
+        -f      { set data(cl_force) 1 }
         -r      { set cl_args [lassign $cl_args data(cl_release_type)] }
         -t      {
           set cl_args [lassign $cl_args data(cl_theme)]
@@ -506,7 +508,7 @@ namespace eval specl::updater {
         }
         default {
           if {$data(specl_version_dir) eq ""} {
-            set data(specl_version_dir) $arg
+            set data(specl_version_dir) [file normalize $arg]
           } else {
             return 0
           }
@@ -562,6 +564,7 @@ namespace eval specl::updater {
     set num_updates    0
     set latest_version ""
     set latest_release -1
+    set force          $data(cl_force)
     
     # Parse the DOM
     if {[catch { dom::parse $data(fetch_content) } dom]} {
@@ -582,7 +585,10 @@ namespace eval specl::updater {
 
       if {[expr $rtype & $data(cl_release_type)]} {
 
-        if {$release > $specl::release} {
+        if {($release > $specl::release) || $force} {
+          
+          # Clear force term
+          set force 0
 
           # Set the title
           set title "<h2>Version ($version) Release Notes</h2>"
@@ -1512,10 +1518,11 @@ namespace eval specl::updater {
       # If we are testing the up-to-date path, set the release to force it to occur (current release)
       if {$data(cl_test_type) eq "full-uptodate"} {
         set specl::release $content(release)
+        set data(cl_force) 0
       }
 
       # If the content does not require an update, tell the user
-      if {$content(release) <= $specl::release} {
+      if {($content(release) <= $specl::release) && !$data(cl_force)} {
         if {!$data(cl_quiet)} {
           display_up_to_date $rc
         }
