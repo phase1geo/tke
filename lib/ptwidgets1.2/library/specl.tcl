@@ -1073,7 +1073,7 @@ namespace eval specl::updater {
           if {![catch { exec -ignorestderr which gvfs-trash 2>@1 }]} {
             if {[catch { exec -ignorestderr gvfs-trash $install_dir }]} {
               set password [get_password $content_list]
-              if {[catch { run_admin_cmd "gvfs-trash $install_dir" $password }]} {
+              if {[catch { run_admin_cmd "gvfs-trash [list $install_dir]" $password }]} {
                 set trash_path [linux_manual_trash $install_dir]
               }
             }
@@ -1110,7 +1110,7 @@ namespace eval specl::updater {
           if {![info exists password]} {
             set password [get_password $content_list]
           }
-          if {[catch { run_admin_cmd "mv $install_dir $trash_path" $password } rc]} {
+          if {[catch { run_admin_cmd "mv [list $install_dir] [list $trash_path]" $password } rc]} {
             tk_messageBox -parent . -default ok -type ok -message [msgcat::mc "Unable to install"] -detail $rc
             exit 1
           }
@@ -1122,7 +1122,7 @@ namespace eval specl::updater {
         if {![info exists password]} {
           set password [get_password $content_list]
         }
-        if {[catch { run_admin_cmd "mv $download $install_dir" $password } rc]} {
+        if {[catch { run_admin_cmd "mv [list $download] [list $install_dir]" $password } rc]} {
           tk_messageBox -parent . -default ok -type ok -message [msgcat::mc "Unable to install"] -detail $rc
           exit 1
         }
