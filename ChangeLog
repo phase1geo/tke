@@ -1,42 +1,26 @@
-changeset:   1060:51ee744277f7
-tag:         devel-1.6.14
+changeset:   1065:af3f7064fc14
+tag:         devel-1.6.15
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu May 28 22:46:39 2015 -0500
+date:        Sun May 31 00:32:36 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.6.14 release
+ChangeLog for devel-1.6.15 release
 
 
-changeset:   1061:59e99f89b6d1
+changeset:   1066:e2fd710b122b
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu May 28 22:46:44 2015 -0500
+date:        Sun May 31 00:32:40 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.6.14 for changeset 51ee744277f7
+Added tag devel-1.6.15 for changeset af3f7064fc14
 
 
-changeset:   1062:8aa0dacfe21f
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri May 29 01:11:57 2015 -0500
-files:       doc/UserGuide.epub doc/UserGuide.pdf lib/version.tcl
-description:
-* Updating user guide documentation.
-
-
-changeset:   1063:14f5606a3fea
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat May 30 20:54:33 2015 -0500
-files:       install.tcl lib/version.tcl
-description:
-* Adding additional information in tke.desktop file.
-
-
-changeset:   1064:fb45c381fbb2
+changeset:   1067:5d336f7a3c82
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat May 30 21:15:07 2015 -0500
+date:        Sun May 31 07:46:14 2015 -0500
 files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
 description:
-* Fixing issues with removing files on Linux systems.
+* Adding -f option to specl updater for testing purposes.
 
 
