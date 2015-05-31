@@ -1,26 +1,26 @@
-changeset:   1068:b87eab463ee0
-tag:         devel-1.6.16
+changeset:   1071:f83577f9e65d
+tag:         devel-1.6.17
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun May 31 07:46:50 2015 -0500
+date:        Sun May 31 14:06:44 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.6.16 release
+ChangeLog for devel-1.6.17 release
 
 
-changeset:   1069:2ca2e61ecd06
+changeset:   1072:62f53721cc2f
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun May 31 07:46:55 2015 -0500
+date:        Sun May 31 14:06:58 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.6.16 for changeset b87eab463ee0
+Added tag devel-1.6.17 for changeset f83577f9e65d
 
 
-changeset:   1070:76b35969060e
+changeset:   1073:9e44b448a52f
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun May 31 14:05:07 2015 -0500
-files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+date:        Sun May 31 14:22:42 2015 -0500
+files:       install.tcl lib/version.tcl
 description:
-* Fixing issues with whitespaces in file pathnames in specl.
+* Adding another category to allow TKE to show up in the Programming category under Lubuntu.
 
 
