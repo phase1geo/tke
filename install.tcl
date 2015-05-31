@@ -171,7 +171,8 @@ if {[file exists [set app_dir [file join / usr share applications]]]} {
     puts $rc "Exec=$wish85 [file join $lib_dir lib tke.tcl] -name tke -- -nosb"
     puts $rc "Icon=[file join $lib_dir lib images tke_logo_128.gif]"
     puts $rc "Type=Application"
-    puts $rc "Categories=Programming"
+    puts $rc "Categories=Programming;Utility;TextEditor"
+    puts $rc "GenericName=Programming Text Editor"
     close $rc
     puts "done."
   } else {
