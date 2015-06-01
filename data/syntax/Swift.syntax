@@ -1,0 +1,74 @@
+filepatterns
+{*.swift}
+
+matchcharsallowed
+{curly square paren double single}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+indent
+{\{}
+
+unindent
+{\}}
+
+icomment {{//}}
+
+lcomments {{//}}
+
+bcomments {{{/\*} {\*/}}}
+
+strings {{"}}
+
+keywords
+{
+  break
+  case class continue convenience
+  default do
+  else enum extension
+  fallthrough final for func
+  if import in inout
+  lazy let
+  mutating
+  optional override
+  private protocol public
+  required return
+  self struct super switch
+  typealias
+  var
+  where while
+}
+
+numbers
+{
+  HighlightRegexp {\m([0-9_]+|0x[0-9a-fA-F_]+|0b[01_]+|0o[0-7_]+|[0-9]*\.[0-9]*)} {}
+}
+
+punctuation
+{
+  HighlightRegexp {[][\{\};:,()#=.@&!?<>%|^~+*/-]} {}
+}
+
+miscellaneous1 {
+  HighlightKeywords {
+    append Array assert 
+    Bool Boolean bridgeToObjectiveC 
+    Character containsString count countElements
+    Double
+    false Float
+    init Int Int8 Int16 Int32 Int64
+    keys
+    map
+    nil
+    print println
+    reduce removeValueForKey
+    String
+    true
+    UInt UInt8 UInt16 UInt32 UInt64
+  }
+}
+

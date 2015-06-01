@@ -228,6 +228,12 @@ namespace eval sidebar {
     
     $widgets(menu) add separator
     
+    $widgets(menu) add command -label [msgcat::mc "Copy Pathname"] -command {
+      sidebar::copy_pathname
+    }
+    
+    $widgets(menu) add separator
+    
     $widgets(menu) add command -label [msgcat::mc "Rename"] -command {
       sidebar::rename_folder
     }
@@ -298,6 +304,12 @@ namespace eval sidebar {
     
     $widgets(menu) add separator
     
+    $widgets(menu) add command -label [msgcat::mc "Copy Pathname"] -command {
+      sidebar::copy_pathname
+    }
+    
+    $widgets(menu) add separator
+    
     $widgets(menu) add command -label [msgcat::mc "Rename"] -command {
       sidebar::rename_folder
     }
@@ -356,14 +368,18 @@ namespace eval sidebar {
     
     $widgets(menu) add separator
     
-    $widgets(menu) add command -label [msgcat::mc "Show Difference"] -command {
-      sidebar::show_file_diff
+    $widgets(menu) add command -label [msgcat::mc "Close"] -command {
+      sidebar::close_file
     }
     
     $widgets(menu) add separator
     
-    $widgets(menu) add command -label [msgcat::mc "Close"] -command {
-      sidebar::close_file
+    $widgets(menu) add command -label [msgcat::mc "Show Difference"] -command {
+      sidebar::show_file_diff
+    }
+    
+    $widgets(menu) add command -label [msgcat::mc "Copy Pathname"] -command {
+      sidebar::copy_pathname
     }
     
     $widgets(menu) add separator
@@ -849,6 +865,24 @@ namespace eval sidebar {
       }
       
     }
+    
+  }
+  
+  ######################################################################
+  # Copies the currently selected file/folder pathname to the clipboard.
+  proc copy_pathname {} {
+    
+    variable widgets
+    
+    # Get the currently selected file/directory
+    set selected [$widgets(tl) curselection]
+    
+    # Set the clipboard to the currentl selection
+    clipboard clear
+    clipboard append [$widgets(tl) cellcget $selected,name -text]
+    
+    # Add the clipboard contents to history
+    cliphist::add_from_clipboard
     
   }
   
