@@ -385,6 +385,10 @@ namespace eval gui {
     trace variable preferences::prefs(View/AllowTabScrolling)    w gui::handle_allow_tab_scrolling
     trace variable preferences::prefs(Tools/VimMode)             w gui::handle_vim_mode
     trace variable preferences::prefs(Appearance/EditorFontSize) w gui::handle_editor_font_size
+    
+    # Create general UI bindings
+    bind all <Control-plus>  "[ns gui]::handle_font_change 1"
+    bind all <Control-minus> "[ns gui]::handle_font_change -1"
 
   }
 
@@ -4249,6 +4253,28 @@ namespace eval gui {
     return 0
 
   }
-
+  
+  ######################################################################
+  # Handles a font size change event on the widget that the mouse cursor
+  # is currently hovering over.
+  proc handle_font_change {dir} {
+    
+    # Get the current cursor position
+    lassign [winfo pointerxy .] x y
+    
+    # Get the window containing x and y
+    set win [winfo containing $x $y]
+    
+    # Get the class of the given window
+    switch [winfo class $win] {
+      "Text" -
+      "Listbox" {
+        set curr_size [font configure [$win cget -font] -size]
+        $win configure -font [font configure [$win cget -font] -size [expr $curr_size + $dir]]
+      }
+    }
+    
+  }
+  
 }
 
