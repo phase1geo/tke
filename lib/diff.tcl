@@ -303,6 +303,7 @@ namespace eval diff {
     set fname [file tail [[ns gui]::current_filename]]
 
     set data($txt,cvs) "diff"
+    set data($txt,v2)  "Current"
 
     # Check each of the CVS
     foreach cvs [get_cvs_names cvs] {
