@@ -34,11 +34,19 @@ description:
 
 
 changeset:   1080:e2d685a306c6
-tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
 date:        Wed Jun 03 00:27:11 2015 -0500
 files:       lib/diff.tcl lib/version.tcl
 description:
 * Fixing syntax error when a difference view is brought up for a regular file.
+
+
+changeset:   1081:20a7b310a613
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jun 03 00:29:04 2015 -0500
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for devel-1.7.1 release
 
 
