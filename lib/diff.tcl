@@ -477,9 +477,15 @@ namespace eval diff {
       
       # Get the current filename
       set fname [[ns gui]::current_filename]
+      
+      # Get the current working directory
+      set cwd [pwd]
+      
+      # Set the current working directory to the dirname of fname
+      cd [file dirname $fname]
        
       # Get the version information
-      if {[set log [[string tolower $data($txt,cvs)]::get_version_log $fname $data($txt,$widget)]] ne ""} {
+      if {[set log [[string tolower $data($txt,cvs)]::get_version_log [file tail $fname] $data($txt,$widget)]] ne ""} {
         
         # Create the message widget
         $txt.log configure -text $log -width [expr [winfo width $txt] - 10]
@@ -489,9 +495,15 @@ namespace eval diff {
         
         set data($txt,logmode) 1
         
+        # Return the working directory to the previous directory
+        cd $cwd
+      
         return
         
       }
+      
+      # Return the working directory to the previous directory
+      cd $cwd
       
     }
       
@@ -512,7 +524,7 @@ namespace eval diff {
     
     # Execute the difference command
     catch { exec -ignorestderr {*}$cmd } rc
-
+    
     # Open the UI for editing
     $txt configure -state normal
 
@@ -705,6 +717,73 @@ namespace eval diff {
       return ""
     }
 
+  }
+  
+  ######################################################################
+  # Handles GIT commands
+  namespace eval git {
+    
+    proc name {} {
+      return "Git"
+    }
+    
+    proc type {} {
+      return "cvs"
+    }
+    
+    proc handles {fname} {
+      return [expr {![catch { exec git log -n 1 $fname }]}]
+    }
+    
+    proc versions {fname} {
+      set versions [list]
+      set ::env(PAGER) ""
+      if {![catch { exec git log --abbrev-commit $fname } rc]} {
+        foreach line [split $rc \n] {
+          if {[regexp {^commit ([0-9a-fA-F]+)} $line -> version]} {
+            lappend versions $version
+          }
+        }
+      }
+      return $versions
+    }
+    
+    proc get_file_cmd {version fname} {
+      return "|git show $version:$fname"
+    }
+    
+    proc show_diff {txt v1 v2 fname} {
+      if {$v2 eq "Current"} {
+        diff::parse_unified_diff $txt "git diff $v1 $fname"
+      } else {
+        diff::parse_unified_diff $txt "git diff $v1 $v2 $fname"
+      }
+    }
+    
+    proc find_version {fname v2 lnum} {
+      if {$v2 eq "Current"} {
+        if {![catch { exec git blame $fname } rc]} {
+          if {[regexp {^([0-9a-fA-F]+)} [lindex [split $rc \n] [expr $lnum - 1]] -> version]} {
+            return $version
+          }
+        }
+      } else {
+        if {![catch { exec git blame $v2 $fname } rc]} {
+          if {[regexp {^([0-9a-fA-F]+)} [lindex [split $rc \n] [expr $lnum - 1]] -> version]} {
+            return $version
+          }
+        }
+      }
+      return ""
+    }
+    
+    proc get_version_log {fname version} {
+      if {![catch { exec git log -n 1 $version $fname } rc]} {
+        return $rc
+      }
+      return ""
+    }
+    
   }
 
   ######################################################################
