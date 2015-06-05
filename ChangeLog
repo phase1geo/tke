@@ -1,43 +1,42 @@
-changeset:   1082:d737ca9267d2
-tag:         devel-1.7.1
+changeset:   1087:47bc67826808
+tag:         devel-1.7.2
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jun 03 00:31:23 2015 -0500
+date:        Fri Jun 05 00:06:38 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.7.1 release
+ChangeLog for devel-1.7.2 release
 
 
-changeset:   1083:b81d5e00b458
+changeset:   1088:3582cbd245ab
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jun 03 00:31:34 2015 -0500
+date:        Fri Jun 05 00:06:53 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.7.1 for changeset d737ca9267d2
+Added tag devel-1.7.2 for changeset 47bc67826808
 
 
-changeset:   1084:1be7e03d553c
+changeset:   1089:7c298dfb47fd
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jun 03 08:50:50 2015 -0500
-files:       lib/gui.tcl lib/version.tcl
+date:        Fri Jun 05 01:14:24 2015 -0500
+files:       lib/version.tcl lib/vim.tcl
 description:
-* Adding ability to change the font size of any text or listbox widget using Control-+ or Control-- while hovering over the targetted widget.
+* Adding support for :r !<cmd>, gf, <num>n and <num>?N Vim commands.
 
 
-changeset:   1085:9be913eed874
+changeset:   1090:4e05e0ae2509
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Jun 04 21:16:15 2015 -0500
-files:       data/bindings/menu_bindings.aqua.tkedat data/bindings/menu_bindings.classic.tkedat data/bindings/menu_bindings.win32.tkedat data/bindings/menu_bindings.x11.tkedat lib/menus.tcl lib/texttools.tcl lib/version.tcl
+date:        Fri Jun 05 09:15:16 2015 -0500
+files:       MacOSX/Tke.app/Contents/lib/tkdnd2.8/libtkdnd2.8.dylib MacOSX/Tke.app/Contents/lib/tkdnd2.8/pkgIndex.tcl MacOSX/Tke.app/Contents/lib/tkdnd2.8/tkdnd.tcl MacOSX/Tke.app/Contents/lib/tkdnd2.8/tkdnd_compat.tcl MacOSX/Tke.app/Contents/lib/tkdnd2.8/tkdnd_generic.tcl MacOSX/Tke.app/Contents/lib/tkdnd2.8/tkdnd_macosx.tcl MacOSX/Tke.app/Contents/lib/tkdnd2.8/tkdnd_unix.tcl MacOSX/Tke.app/Contents/lib/tkdnd2.8/tkdnd_windows.tcl lib/tke.tcl lib/version.tcl
 description:
-* Removing Comment and Uncomment Text menu commands and replacing it with a single "Toggle Comment" command.
-* Enhancing comment support to handle multicursors and single cursors (not just selected text).
+* Starting to add code for drag-and-drop support (currently not working on MacOSX).
 
 
-changeset:   1086:7eb367ff5d8d
+changeset:   1091:b035d56103b7
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Jun 05 00:05:38 2015 -0500
-files:       lib/gui.tcl lib/menus.tcl lib/version.tcl lib/vim.tcl
+date:        Fri Jun 05 09:19:31 2015 -0500
+files:       lib/tke.tcl lib/version.tcl
 description:
-* Adding Vim support for :wq!, :wq <file>, :wq! <file>, :cq and ZQ commands.
+* Cleaning up a few things from the last submission.
 
 
