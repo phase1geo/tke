@@ -92,6 +92,96 @@ namespace eval texttools {
     $txt edit separator
 
   }
+  
+  ######################################################################
+  # Handles commenting/uncommenting either the currently selected code
+  # or the current cursor.
+  proc comment_toggle {tid} {
+    
+    # Get the current text widget
+    set txt [gui::current_txt $tid]
+    
+    # Create a separator
+    $txt edit separator
+    
+    # Get the current selection
+    set selected 1
+    if {[llength [set ranges [$txt tag ranges sel]]] == 0} {
+      if {[llength [set mcursors [$txt tag ranges mcursor]]] > 0} {
+        foreach {startpos endpos} $mcursors {
+          lappend ranges [$txt index "$startpos linestart"] [$txt index "$startpos lineend"]
+        }
+      } else {
+        set ranges [list [$txt index "insert linestart"] [$txt index "insert lineend"]]
+      }
+      set selected 0
+    } 
+    
+    # Iterate through each range
+    foreach {endpos startpos} [lreverse $ranges] {
+      if {![do_uncomment $txt $startpos $endpos]} {
+        lassign [syntax::get_comments $txt] icomment lcomments bcomments
+        if {[llength $icomment] == 1} {
+          set i 0
+          foreach line [split [$txt get $startpos $endpos] \n] {
+            if {$i == 0} {
+              $txt insert $startpos "[lindex $icomment 0]"
+              if {$selected} {
+                $txt tag add sel $startpos "$startpos lineend"
+              }
+            } else {
+              $txt insert "$startpos+${i}l linestart" "[lindex $icomment 0]"
+            }
+            incr i
+          }
+        } else {
+          $txt insert $endpos   "[lindex $icomment 1]"
+          $txt insert $startpos "[lindex $icomment 0]"
+          if {$selected} {
+            if {[lindex [split $startpos .] 0] == [lindex [split $endpos .] 0]} {
+              set endpos "$endpos+[expr [string length [lindex $icomment 0]] + [string length [lindex $icomment 1]]]c"
+            } else {
+              set endpos "$endpos+[string length [lindex $icomment 1]]c"
+            }
+            $txt tag add sel $startpos $endpos
+          }
+        }
+      }
+    }
+
+    # Create a separator
+    $txt edit separator
+
+  }
+  
+  ######################################################################
+  # Determines if the given range can be uncommented.  If so, performs
+  # the uncomment and returns 1; otherwise, returns 0.
+  proc do_uncomment {txt startpos endpos} {
+    
+    set retval 0
+    
+    # Get the comment syntax
+    lassign [syntax::get_comments $txt] icomment lcomments bcomments
+    
+    # Get the comment syntax to remove
+    set comments [join [eval concat $lcomments $bcomments] |]
+
+    set linestart $startpos
+    foreach line [split [$txt get $startpos $endpos] \n] {
+      if {[regexp -indices -- "($comments)+?" $line -> com]} {
+        set delstart [$txt index "$linestart+[lindex $com 0]c"]
+        set delend   [$txt index "$linestart+[expr [lindex $com 1] + 1]c"]
+        $txt delete $delstart $delend
+        set retval 1
+      }
+      set linestart [$txt index "$linestart+1l linestart"]
+      incr i
+    }
+    
+    return $retval
+    
+  }
 
   ######################################################################
   # Indents the selected text of the current text widget by one

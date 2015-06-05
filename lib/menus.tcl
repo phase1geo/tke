@@ -1102,12 +1102,9 @@ namespace eval menus {
   ######################################################################
   # Adds the text menu commands.
   proc add_text {mb} {
-
-    $mb add command -label [msgcat::mc "Comment"] -underline 0 -command "texttools::comment {}"
-    launcher::register [msgcat::mc "Menu: Comment selected text"] "texttools::comment {}"
-
-    $mb add command -label [msgcat::mc "Uncomment"] -underline 0 -command "texttools::uncomment {}"
-    launcher::register [msgcat::mc "Menu: Uncomment selected text"] "texttools::uncomment {}"
+ 
+    $mb add command -label [msgcat::mc "Toggle Comment"] -underline 0 -command "texttools::comment_toggle {}"
+    launcher::register [msgcat::mc "Menu: Toggle comment"] "texttools::comment_toggle {}"
 
     $mb add command -label [msgcat::mc "Indent"] -underline 0 -command "texttools::indent {}"
     launcher::register [msgcat::mc "Menu: Indent selected text"] "texttools::indent {}"
@@ -1135,8 +1132,7 @@ namespace eval menus {
   proc text_posting {mb} {
 
     if {[set txt [gui::current_txt {}]] eq ""} {
-      $mb entryconfigure [msgcat::mc "Comment"]                  -state disabled
-      $mb entryconfigure [msgcat::mc "Uncomment"]                -state disabled
+      $mb entryconfigure [msgcat::mc "Toggle Comment"]           -state disabled
       $mb entryconfigure [msgcat::mc "Indent"]                   -state disabled
       $mb entryconfigure [msgcat::mc "Unindent"]                 -state disabled
       $mb entryconfigure [msgcat::mc "Replace line with script"] -state disabled
@@ -1144,11 +1140,9 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Insert enumeration"]       -state disabled
     } else {
       if {[lindex [syntax::get_comments [gui::current_txt {}]] 0] eq ""} {
-        $mb entryconfigure [msgcat::mc "Comment"]   -state disabled
-        $mb entryconfigure [msgcat::mc "Uncomment"] -state disabled
+        $mb entryconfigure [msgcat::mc "Toggle Comment"] -state disabled
       } else {
-        $mb entryconfigure [msgcat::mc "Comment"]   -state normal
-        $mb entryconfigure [msgcat::mc "Uncomment"] -state normal
+        $mb entryconfigure [msgcat::mc "Toggle Comment"] -state normal
       }
       $mb entryconfigure [msgcat::mc "Indent"]   -state normal
       $mb entryconfigure [msgcat::mc "Unindent"] -state normal
