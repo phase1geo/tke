@@ -28,6 +28,8 @@ package require tokenentry
 package require wmarkentry
 package require tabbar
 package require specl
+catch { package require tkdnd } rc
+puts "rc: $rc"
 
 source [file join $tke_dir lib version.tcl]
 source [file join $tke_dir lib utils.tcl]
@@ -247,6 +249,40 @@ if {[catch {
         puts $rc
       }
     }
+  }
+    
+  # Make ourselves a drop source (if Tkdnd is available)
+  catch {
+      
+    tkdnd::drop_target register . DND_Files
+      
+    bind . <<DropEnter>>    ::handle_drop_enter
+    bind . <<DropPosition>> ::handle_drop_position %X %Y
+    bind . <<DropLeave>>    ::handle_drop_leave
+    bind . <<Drop>>         ::handle_drop %D
+      
+    proc handle_drop_enter {} {
+      return "link"
+    }
+      
+    proc handle_drop_position {x y} {
+      return "link"
+    }
+      
+    proc handle_drop_leave {} {
+    }
+      
+    proc handle_drop {files} {
+      foreach fname $files {
+        if {[file isdirectory $fname]} {
+          sidebar::add_directory $fname
+        } else {
+          gui::add_file end $fname
+        }
+      }
+      return "link"
+    }
+      
   }
    
   # Create the ~/.tke directory if it doesn't already exist
