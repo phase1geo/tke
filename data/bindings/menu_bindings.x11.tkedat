@@ -33,8 +33,7 @@
 {Find/Find in files}              Alt-F
 
 # Text menu bindings
-{Text/Comment}                    Ctrl-I
-{Text/Uncomment}                  Ctrl-Shift-I
+{Text/Toggle Comment}             Ctrl-I
 {Text/Indent}                     Ctrl-[
 {Text/Unindent}                   Ctrl-]
 {Text/Align cursors}              Ctrl-A
