@@ -28,8 +28,7 @@ package require tokenentry
 package require wmarkentry
 package require tabbar
 package require specl
-catch { package require tkdnd } rc
-puts "rc: $rc"
+catch { package require tkdnd }
 
 source [file join $tke_dir lib version.tcl]
 source [file join $tke_dir lib utils.tcl]
@@ -251,7 +250,7 @@ if {[catch {
     }
   }
     
-  # Make ourselves a drop source (if Tkdnd is available)
+  # Make ourselves a drop target (if Tkdnd is available)
   catch {
       
     tkdnd::drop_target register . DND_Files
