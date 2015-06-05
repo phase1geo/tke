@@ -1,52 +1,43 @@
-changeset:   1076:5bf60fdc20f5
-tag:         stable-1.7
+changeset:   1082:d737ca9267d2
+tag:         devel-1.7.1
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun May 31 14:28:55 2015 -0500
-files:       ChangeLog lib/version.tcl specl_version.tcl
-description:
-ChangeLog for stable-1.7 release
-
-
-changeset:   1077:d91d13681014
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun May 31 14:30:30 2015 -0500
-files:       .hgtags
-description:
-Added tag stable-1.7 for changeset 5bf60fdc20f5
-
-
-changeset:   1078:bd8b748d34f3
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun May 31 23:42:40 2015 -0500
-files:       MacOSX/Tke.app/Contents/Info.plist data/syntax/Swift.syntax lib/sidebar.tcl lib/version.tcl
-description:
-* Updating Info.plist for 1.8 stable release.
-* Adding Swift syntax file.
-* Adding "Copy Pathname" command to sidebar elements.
-
-
-changeset:   1079:df441edd4d20
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Jun 02 21:59:50 2015 -0500
-files:       lib/diff.tcl lib/version.tcl
-description:
-* Adding support for Git in difference view.
-
-
-changeset:   1080:e2d685a306c6
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jun 03 00:27:11 2015 -0500
-files:       lib/diff.tcl lib/version.tcl
-description:
-* Fixing syntax error when a difference view is brought up for a regular file.
-
-
-changeset:   1081:20a7b310a613
-tag:         tip
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jun 03 00:29:04 2015 -0500
+date:        Wed Jun 03 00:31:23 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
 ChangeLog for devel-1.7.1 release
+
+
+changeset:   1083:b81d5e00b458
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jun 03 00:31:34 2015 -0500
+files:       .hgtags
+description:
+Added tag devel-1.7.1 for changeset d737ca9267d2
+
+
+changeset:   1084:1be7e03d553c
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jun 03 08:50:50 2015 -0500
+files:       lib/gui.tcl lib/version.tcl
+description:
+* Adding ability to change the font size of any text or listbox widget using Control-+ or Control-- while hovering over the targetted widget.
+
+
+changeset:   1085:9be913eed874
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jun 04 21:16:15 2015 -0500
+files:       data/bindings/menu_bindings.aqua.tkedat data/bindings/menu_bindings.classic.tkedat data/bindings/menu_bindings.win32.tkedat data/bindings/menu_bindings.x11.tkedat lib/menus.tcl lib/texttools.tcl lib/version.tcl
+description:
+* Removing Comment and Uncomment Text menu commands and replacing it with a single "Toggle Comment" command.
+* Enhancing comment support to handle multicursors and single cursors (not just selected text).
+
+
+changeset:   1086:7eb367ff5d8d
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jun 05 00:05:38 2015 -0500
+files:       lib/gui.tcl lib/menus.tcl lib/version.tcl lib/vim.tcl
+description:
+* Adding Vim support for :wq!, :wq <file>, :wq! <file>, :cq and ZQ commands.
 
 
