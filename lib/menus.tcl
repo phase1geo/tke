@@ -495,7 +495,7 @@ namespace eval menus {
     gui::save_session
 
     # Close all of the tabs
-    gui::close_all 1
+    gui::close_all 0 1
 
     # Save the clipboard history
     cliphist::save

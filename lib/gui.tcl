@@ -1760,14 +1760,14 @@ namespace eval gui {
 
   ######################################################################
   # Close all of the tabs.
-  proc close_all {{exiting 0}} {
+  proc close_all {{force 0} {exiting 0}} {
 
     variable widgets
 
     foreach nb [lreverse [$widgets(nb_pw) panes]] {
       foreach tab [lreverse [$nb.tbf.tb tabs]] {
         set_current_tab $tab 0 1
-        close_current {} 0 $exiting
+        close_current {} $force $exiting
       }
     }
 

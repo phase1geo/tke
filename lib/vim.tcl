@@ -151,8 +151,10 @@ namespace eval vim {
       w   { [ns gui]::save_current $tid }
       w!  { [ns gui]::save_current $tid }
       wq  { [ns gui]::save_current $tid; [ns gui]::close_current }
+      wq! { [ns gui]::save_current $tid; [ns gui]::close_current }
       q   { [ns gui]::close_current $tid 0; set txt "" }
       q!  { [ns gui]::close_current $tid 1; set txt "" }
+      cq  { [ns gui]::close_all 1 1; [ns menus]::exit_command }
       e!  { [ns gui]::update_current }
       n   { [ns gui]::next_tab }
       N   { [ns gui]::previous_tab }
@@ -183,7 +185,7 @@ namespace eval vim {
             set from [get_linenum $txt $from]
             set to   [$txt index "[get_linenum $txt $to] lineend"]
             [ns multicursor]::search_and_add_cursors $txt $from $to $search
-          } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)w(!)?\s+(.*)$} $value -> from to overwrite fname]} {
+          } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)w(q)?(!)?\s+(.*)$} $value -> from to and_close overwrite fname]} {
             set from [get_linenum $txt $from]
             set to   [get_linenum $txt $to]
             if {($overwrite eq "") && [file exists $fname]} {
@@ -197,10 +199,18 @@ namespace eval vim {
                 [ns gui]::set_info_message [msgcat::mc "File %s successfully written" $fname]
               }
             }
+            if {$and_close ne ""} {
+              [ns gui]::close_current $tid 0
+              set txt ""
+            }
           } elseif {[regexp {^e\s+(.*)$} $value -> filename]} {
             [ns gui]::add_file end [normalize_filename [[ns utils]::perform_substitutions $filename]]
-          } elseif {[regexp {^w\s+(.*)$} $value -> filename]} {
+          } elseif {[regexp {^w(q!?)?\s+(.*)$} $value -> and_close filename]} {
             [ns gui]::save_current $tid [normalize_filename [[ns utils]::perform_substitutions $filename]]
+            if {$and_close ne ""} {
+              [ns gui]::close_current $tid [expr {($and_close eq "q") ? 0 : 1}]
+              set txt ""
+            }
           } elseif {[regexp {^m\s+(.*)$} $value -> marker]} {
             set line [lindex [split [$txt index insert] .] 0]
             if {$marker ne ""} {
@@ -2449,6 +2459,24 @@ namespace eval vim {
 
     return 0
 
+  }
+  
+  ######################################################################
+  # If we are in start mode, do nothing.  If we are in quit mode, close
+  # the current tab without writing the file (same as :q!).
+  proc handle_Q {txt tid} {
+    
+    variable mode
+    
+    if {$mode($txt) eq "start"} {
+      return 1
+    } elseif {$mode($txt) eq "quit"} {
+      [ns gui]::close_current $tid 1
+      return 1
+    }
+    
+    return 0
+    
   }
 
   ######################################################################
