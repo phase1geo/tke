@@ -222,7 +222,11 @@ namespace eval vim {
               ctext::linemapClearMark $txt $line
             }
           } elseif {[regexp {^r\s+(.*)$} $value -> filename]} {
-            [ns vim]::insert_file $txt [normalize_filename [[ns utils]::perform_substitutions $filename]]
+            if {[string index $filename 0] eq "!"} {
+              [ns vim]::insert_file $txt "|[[ns utils]::perform_substitutions [string range $filename 1 end]]"
+            } else {
+              [ns vim]::insert_file $txt [normalize_filename [[ns utils]::perform_substitutions $filename]]
+            }
           } elseif {[regexp {^cd\s+(.*)$} $value -> directory]} {
             set directory [[ns utils]::perform_substitutions $directory]
             if {[file isdirectory $directory]} {
@@ -1301,6 +1305,73 @@ namespace eval vim {
     return 0
 
   }
+  
+  ######################################################################
+  # Returns the string containing the 
+  proc get_filename {txt pos} {
+    
+    # Get the index of pos
+    set index [lindex [split [$txt index $pos] .] 1]
+    
+    # Get the current line
+    set line [$txt get "$pos linestart" "$pos lineend"]
+    
+    # Get the first space
+    set first_space [string last " " $line $index]
+    
+    # Get the last space
+    if {[set last_space [string first " " $line $index]] == -1} {
+      set last_space [string length $line]
+    }
+    
+    return [string range $line [expr $first_space + 1] [expr $last_space - 1]]
+    
+  }
+  
+  ######################################################################
+  # If we are in "goto" mode, edit any filesnames that are found under
+  # any of the cursors.
+  proc handle_f {txt tid} {
+    
+    variable mode
+    
+    if {$mode($txt) eq "start"} {
+      return 1
+    } elseif {$mode($txt) eq "goto"} {
+      if {[[ns multicursor]::enabled $txt]} {
+        foreach {startpos endpos} [$txt tag ranges mcursor] {
+          if {[file exists [set fname [get_filename $txt $startpos]]]} {
+            [ns gui]::add_file end $fname
+          }
+        }
+      } else {
+        if {[file exists [set fname [get_filename $txt insert]]]} {
+          [ns gui]::add_file end $fname
+        }
+      }
+      start_mode $txt
+      return 1
+    }
+    
+    return 0
+    
+  }
+  
+  ######################################################################
+  # If we are in "start" mode, edit any filenames found under any of
+  # the cursors.
+  proc handle_g {txt tid} {
+    
+    variable mode
+    
+    if {$mode($txt) eq "start"} {
+      set mode($txt) "goto"
+      return 1
+    }
+    
+    return 0
+    
+  }
 
   ######################################################################
   # If we are in "start" mode, move the insertion cursor left one
@@ -1969,18 +2040,51 @@ namespace eval vim {
 
     variable mode
     variable search_dir
+    variable number
 
     if {$mode($txt) eq "start"} {
+      set count [expr {($number($txt) ne "") ? $number($txt) : 1}]
       if {$search_dir($txt) eq "next"} {
-        [ns gui]::search_next $tid 0
+        for {set i 0} {$i < $count} {incr i} {
+          [ns gui]::search_next $tid 0
+        }
       } else {
-        [ns gui]::search_prev $tid 0
+        for {set i 0} {$i < $count} {incr i} {
+          [ns gui]::search_prev $tid 0
+        }
       }
       return 1
     }
 
     return 0
 
+  }
+  
+  ######################################################################
+  # If we are in "start" mode, finds the previous occurrence of the
+  # search text.
+  proc handle_N {txt tid} {
+    
+    variable mode
+    variable search_dir
+    variable number
+    
+    if {$mode($txt) eq "start"} {
+      set count [expr {($number($txt) ne "") ? $number($txt) : 1}]
+      if {$search_dir($txt) eq "next"} {
+        for {set i 0} {$i < $count} {incr i} {
+          [ns gui]::search_prev $tid 0
+        }
+      } else {
+        for {set i 0} {$i < $count} {incr i} {
+          [ns gui]::search_next $tid 0
+        }
+      }
+      return 1
+    }
+    
+    return 0
+    
   }
 
   ######################################################################
