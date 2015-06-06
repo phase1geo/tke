@@ -2443,16 +2443,25 @@ namespace eval gui {
       $txt replace $index "$index+[lindex $lengths $i]c" $replace
       incr i -1
     }
+    
     if {$num_indices > 0} {
+      
+      # Set the insertion cursor to the last match and make that line visible
       $txt see [lindex $indices 0]
       $txt mark set insert [lindex $indices 0]
-      $txt highlight $sline $eline
-    }
-    set_info_message [msgcat::mc "%d substitutions done" $num_indices]
-
-    # Make sure that the insertion cursor is valid
-    if {[[ns vim]::in_vim_mode $txt]} {
-      [ns vim]::adjust_insert $txt
+      
+      # Make sure that the insertion cursor is valid
+      if {[[ns vim]::in_vim_mode $txt]} {
+        [ns vim]::adjust_insert $txt
+      }
+      
+      # Specify the number of substitutions that we did
+      set_info_message [msgcat::mc "%d substitutions done" $num_indices]
+      
+    } else {
+      
+      set_info_message [msgcat::mc "No search results found"]
+      
     }
 
   }

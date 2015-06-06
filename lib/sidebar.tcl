@@ -143,12 +143,57 @@ namespace eval sidebar {
     # Create directory popup
     set widgets(menu) [menu $w.popupMenu -tearoff 0 -postcommand "sidebar::menu_post"]
     
+    # Make ourselves a drop target (if Tkdnd is available)
+    catch {
+      
+      tkdnd::drop_target register $widgets(tl) DND_Files
+      
+      bind $widgets(tl) <<DropEnter>>    "sidebar::handle_drop_enter_or_pos %W %X %Y %a %b"
+      bind $widgets(tl) <<DropPosition>> "sidebar::handle_drop_enter_or_pos %W %X %Y %a %b"
+      bind $widgets(tl) <<DropLeave>>    "%W hidetargetmark"
+      bind $widgets(tl) <<Drop>>         "sidebar::handle_drop %W %A %D"
+      
+    }
+    
     # Handle traces
     trace variable preferences::prefs(Sidebar/IgnoreFilePatterns) w sidebar::handle_ignore_files
     trace variable preferences::prefs(Sidebar/IgnoreExecutables)  w sidebar::handle_ignore_files
     
     return $w
     
+  }
+  
+  ######################################################################
+  # Handles a drag-and-drop enter/position event.  Draws UI to show that
+  # the file drop request would be excepted or rejected.
+  proc handle_drop_enter_or_pos {tbl rootx rooty actions buttons} {
+    
+    set y [expr $rooty - [winfo rooty $tbl]]
+    
+    lassign [$tbl targetmarkpos $y] place row
+    
+    $tbl showtargetmark $place $row
+    
+    return "link"
+    
+  }
+  
+  ######################################################################
+  # Handles a drop event.  Adds the given files/directories to the sidebar.
+  proc handle_drop {tbl action files} {
+    
+    foreach fname $files {
+      if {[file isdirectory $fname]} {
+        add_directory $fname
+      } else {
+        gui::add_file end $fname
+      }
+    }
+    
+    $tbl hidetargetmark
+        
+    return "link"
+        
   }
   
   ######################################################################
