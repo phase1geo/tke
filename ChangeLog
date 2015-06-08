@@ -1,42 +1,36 @@
-changeset:   1087:47bc67826808
-tag:         devel-1.7.2
+changeset:   1092:de7ad8ff48e2
+tag:         devel-1.7.3
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Jun 05 00:06:38 2015 -0500
+date:        Fri Jun 05 09:20:49 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.7.2 release
+ChangeLog for devel-1.7.3 release
 
 
-changeset:   1088:3582cbd245ab
+changeset:   1093:23798129e5f9
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Jun 05 00:06:53 2015 -0500
+date:        Fri Jun 05 09:20:57 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.7.2 for changeset 47bc67826808
+Added tag devel-1.7.3 for changeset de7ad8ff48e2
 
 
-changeset:   1089:7c298dfb47fd
+changeset:   1094:862621302fa8
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Jun 05 01:14:24 2015 -0500
-files:       lib/version.tcl lib/vim.tcl
+date:        Sat Jun 06 00:15:25 2015 -0500
+files:       lib/gui.tcl lib/sidebar.tcl lib/tke.tcl lib/version.tcl
 description:
-* Adding support for :r !<cmd>, gf, <num>n and <num>?N Vim commands.
+* Restructuring some code in the search/replace proc.
+* Fixing file/directory drag and drop support to the sidebar (need to improve UI but it works functionally).
 
 
-changeset:   1090:4e05e0ae2509
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Jun 05 09:15:16 2015 -0500
-files:       MacOSX/Tke.app/Contents/lib/tkdnd2.8/libtkdnd2.8.dylib MacOSX/Tke.app/Contents/lib/tkdnd2.8/pkgIndex.tcl MacOSX/Tke.app/Contents/lib/tkdnd2.8/tkdnd.tcl MacOSX/Tke.app/Contents/lib/tkdnd2.8/tkdnd_compat.tcl MacOSX/Tke.app/Contents/lib/tkdnd2.8/tkdnd_generic.tcl MacOSX/Tke.app/Contents/lib/tkdnd2.8/tkdnd_macosx.tcl MacOSX/Tke.app/Contents/lib/tkdnd2.8/tkdnd_unix.tcl MacOSX/Tke.app/Contents/lib/tkdnd2.8/tkdnd_windows.tcl lib/tke.tcl lib/version.tcl
-description:
-* Starting to add code for drag-and-drop support (currently not working on MacOSX).
-
-
-changeset:   1091:b035d56103b7
+changeset:   1095:ec9dfbd5e224
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Jun 05 09:19:31 2015 -0500
-files:       lib/tke.tcl lib/version.tcl
+date:        Sun Jun 07 20:59:40 2015 -0500
+files:       data/themes/Aurora.tketheme data/themes/Cool Glow.tketheme data/themes/Fluidvision.tketheme data/themes/Juicy.tketheme data/themes/Made of Code.tketheme data/themes/Monokai.tketheme data/themes/Notebook.tketheme data/themes/Ruby Blue.tketheme data/themes/choco.tketheme data/themes/default.tketheme data/themes/idleFingers.tketheme data/themes/minimal_Theme.tketheme data/themes/oscuro.tketheme data/themes/yellowStone.tketheme lib/gui.tcl lib/sidebar.tcl lib/version.tcl
 description:
-* Cleaning up a few things from the last submission.
+* Improving UI when a drop may occur in the UI.
+* Changing yellow to orange for current text highlight border color to help make things easier to see in light window themes.
 
 
