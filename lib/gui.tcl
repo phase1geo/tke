@@ -160,6 +160,7 @@ namespace eval gui {
       foreach name [array names images mnu,*] {
         if {$images($name) ne ""} {
           image delete $images($name)
+          unset images($name)
         }
       }
     }
@@ -3109,7 +3110,7 @@ namespace eval gui {
     # Create the editor frame
     $tab_frame.pw add [ttk::frame $tab_frame.pw.tf]
     ctext $txt -wrap none -undo 1 -autoseparators 1 -insertofftime 0 \
-      -highlightcolor yellow -warnwidth [preferences::get Editor/WarningWidth] \
+      -highlightcolor orange -warnwidth [preferences::get Editor/WarningWidth] \
       -maxundo [preferences::get Editor/MaxUndo] \
       -diff_mode $diff \
       -linemap [preferences::get View/ShowLineNumbers] \
@@ -3319,7 +3320,7 @@ namespace eval gui {
     # Create the editor frame
     $pw insert 0 [ttk::frame $pw.tf2]
     ctext $txt2 -wrap none -undo 1 -autoseparators 1 -insertofftime 0 -font editor_font \
-      -highlightcolor yellow -warnwidth [preferences::get Editor/WarningWidth] \
+      -highlightcolor orange -warnwidth [preferences::get Editor/WarningWidth] \
       -maxundo [preferences::get Editor/MaxUndo] \
       -linemap [preferences::get View/ShowLineNumbers] \
       -linemap_mark_command [ns gui]::mark_command -linemap_select_bg orange -peer $txt \

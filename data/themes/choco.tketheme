@@ -1,5 +1,5 @@
 background        "#180c0c"
-border_highlight  "yellow"
+border_highlight  "orange"
 comments          "#679d47"
 cursor            "#a7a7a7"
 difference_add    "#182a0c"
