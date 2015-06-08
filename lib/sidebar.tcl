@@ -101,7 +101,7 @@ namespace eval sidebar {
     # Create needed images
     set images(sopen) [image create bitmap -file [file join $::tke_dir lib images sopen.bmp] \
                                            -maskfile [file join $::tke_dir lib images sopen.bmp] \
-                                           -foreground "yellow"]
+                                           -foreground "orange"]
     
     # Create the top-level frame
     set widgets(frame) [ttk::frame $w]
@@ -110,7 +110,7 @@ namespace eval sidebar {
     set widgets(tl) \
       [tablelist::tablelist $w.tl -columns {0 {} 0 {}} -showlabels 0 -exportselection 0 \
         -treecolumn 0 -treestyle aqua -forceeditendcommand 1 -expandcommand sidebar::expand_directory \
-        -relief flat -highlightthickness 0 \
+        -relief flat -highlightthickness 1 -highlightbackground [utils::get_default_background] \
         -foreground [utils::get_default_foreground] -background [utils::get_default_background] \
         -selectforeground [utils::get_default_background] -selectbackground [utils::get_default_foreground] \
         -selectborderwidth 0 -width 30 \
@@ -150,7 +150,7 @@ namespace eval sidebar {
       
       bind $widgets(tl) <<DropEnter>>    "sidebar::handle_drop_enter_or_pos %W %X %Y %a %b"
       bind $widgets(tl) <<DropPosition>> "sidebar::handle_drop_enter_or_pos %W %X %Y %a %b"
-      bind $widgets(tl) <<DropLeave>>    "%W hidetargetmark"
+      bind $widgets(tl) <<DropLeave>>    "sidebar::handle_drop_leave %W"
       bind $widgets(tl) <<Drop>>         "sidebar::handle_drop %W %A %D"
       
     }
@@ -168,13 +168,21 @@ namespace eval sidebar {
   # the file drop request would be excepted or rejected.
   proc handle_drop_enter_or_pos {tbl rootx rooty actions buttons} {
     
-    set y [expr $rooty - [winfo rooty $tbl]]
+    puts "HERE A"
     
-    lassign [$tbl targetmarkpos $y] place row
-    
-    $tbl showtargetmark $place $row
+    $tbl configure -highlightbackground green 
     
     return "link"
+    
+  }
+  
+  ######################################################################
+  # Handles a drop leave event.
+  proc handle_drop_leave {tbl} {
+    
+    puts "HERE B, bg: [utils::get_default_background]"
+    
+    $tbl configure -highlightbackground [utils::get_default_background]
     
   }
   
@@ -190,7 +198,7 @@ namespace eval sidebar {
       }
     }
     
-    $tbl hidetargetmark
+    handle_drop_leave $tbl
         
     return "link"
         
@@ -1369,7 +1377,8 @@ namespace eval sidebar {
     
     # Configure the tablelist widget
     if {[info exists widgets(tl)]} {
-      $widgets(tl) configure -foreground $fg -background $bg -selectbackground $abg -selectforeground $fg
+      $widgets(tl) configure -foreground $fg -background $bg -selectbackground $abg -selectforeground $fg \
+        -highlightbackground $bg
     }
     
   }
