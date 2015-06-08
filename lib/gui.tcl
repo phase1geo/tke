@@ -25,6 +25,7 @@ namespace eval gui {
   variable info_clear       ""
   variable trailing_ws_re   {[\ \t]+$}
   variable case_sensitive   1
+  variable replace_all      1
 
   array set widgets         {}
   array set language        {}
@@ -154,7 +155,7 @@ namespace eval gui {
 
     # Delete any previously created images that we will be recreating
     if {[array size images] > 0} {
-      foreach name [list lock readonly diff close split global] {
+      foreach name [list lock readonly diff close split] {
         image delete $images($name)
       }
       foreach name [array names images mnu,*] {
@@ -172,13 +173,11 @@ namespace eval gui {
         set lock     $foreground
         set readonly grey70
         set diff     $foreground
-        set images(global) [image create photo -file [file join $::tke_dir lib images global_dark.gif]]
       }
       default {
         set lock     $foreground
         set readonly grey30
         set diff     $foreground
-        set images(global) [image create photo -file [file join $::tke_dir lib images global.gif]]
       }
     }
 
@@ -512,10 +511,9 @@ namespace eval gui {
         $nb.tbf.tb    configure -background $bg -foreground $fg -activebackground $abg -inactivebackground $bg
         set tabs [$nb.tbf.tb tabs]
         foreach tab $tabs {
-          $tab.pw.tf.split  configure -image $images(split)
-          $tab.sf.close     configure -image $images(close)
-          $tab.rf.close     configure -image $images(close)
-          $tab.rf.glob      configure -image $images(global)
+          $tab.pw.tf.split configure -image $images(split)
+          $tab.sf.close    configure -image $images(close)
+          $tab.rf.close    configure -image $images(close)
           if {[winfo exists $tab.pw.tf2.split]} {
             $tab.pw.tf2.split configure -image $images(close)
           }
@@ -2396,13 +2394,13 @@ namespace eval gui {
     variable pw_current
     variable tab_current
     variable case_sensitive
+    variable replace_all
 
     # Get the current tab frame
     set tab $tab_current($pw_current)
 
     # Perform the search and replace
-    do_raw_search_and_replace $tid 1.0 end [$tab.rf.fe get] [$tab.rf.re get] \
-      !$case_sensitive [expr {[$tab.rf.glob cget -relief] eq "sunken"}]
+    do_raw_search_and_replace $tid 1.0 end [$tab.rf.fe get] [$tab.rf.re get] !$case_sensitive $replace_all
 
     # Close the search and replace bar
     close_search_and_replace
@@ -2415,18 +2413,12 @@ namespace eval gui {
 
     variable widgets
     variable lengths
-
+    
     # Get the current text widget
     set txt [current_txt $tid]
 
     # Clear the selection
     $txt tag remove sel 1.0 end
-
-    # Perform the string substitutions
-    if {!$all} {
-      set sline [$txt index "insert linestart"]
-      set eline [$txt index "insert lineend"]
-    }
 
     # Escape any parenthesis in the search string
     set search [string map {{(} {\(} {)} {\)}} $search]
@@ -2436,13 +2428,36 @@ namespace eval gui {
     if {$ignore_case} {
       lappend rs_args -nocase
     }
+    
+    # Get the list of items to replace
+    set indices [$txt search -all -regexp -count [ns gui]::lengths {*}$rs_args -- $search $sline $eline]
+    
+    if {$all} {
+      set indices [lreverse $indices]
+      set lengths [lreverse $lengths]
+    } else {
+      set last_line 0
+      set i         0
+      foreach index $indices {
+        set curr_line [lindex [split $index .] 0]
+        if {$curr_line != $last_line} {
+          lappend new_indices $index
+          lappend new_lengths [lindex $lengths $i]
+          set last_line $curr_line
+        }
+        incr i
+      }
+      set indices [lreverse $new_indices]
+      set lengths [lreverse $new_lengths]
+    }
 
-    # Replace the text and re-highlight the changes
-    set indices [lreverse [$txt search -all -regexp -count [ns gui]::lengths {*}$rs_args -- $search $sline $eline]]
-    set i       [expr [set num_indices [llength $indices]] - 1]
-    foreach index $indices {
+    # Get the number of indices
+    set num_indices [llength $indices]
+    
+    # Replace the text
+    for {set i 0} {$i < $num_indices} {incr i} {
+      set index [lindex $indices $i]
       $txt replace $index "$index+[lindex $lengths $i]c" $replace
-      incr i -1
     }
     
     if {$num_indices > 0} {
@@ -3194,12 +3209,9 @@ namespace eval gui {
     ttk::entry       $tab_frame.rf.fe
     ttk::label       $tab_frame.rf.rl    -text [msgcat::mc "Replace:"]
     ttk::entry       $tab_frame.rf.re
-    ttk::checkbutton $tab_frame.rf.case  -text "Aa" -variable gui::case_sensitive
-    ttk::label       $tab_frame.rf.glob  -image $images(global) -relief raised
+    ttk::checkbutton $tab_frame.rf.case  -text "Aa"  -variable gui::case_sensitive
+    ttk::checkbutton $tab_frame.rf.glob  -text "All" -variable gui::replace_all
     ttk::label       $tab_frame.rf.close -image $images(close)
-
-    tooltip::tooltip $tab_frame.rf.case "Case sensitivity"
-    tooltip::tooltip $tab_frame.rf.glob "Replace globally"
 
     pack $tab_frame.rf.fl    -side left -padx 2 -pady 2
     pack $tab_frame.rf.fe    -side left -padx 2 -pady 2 -fill x -expand yes
@@ -3211,12 +3223,11 @@ namespace eval gui {
 
     bind $tab_frame.rf.fe    <Return>    "gui::do_search_and_replace {}"
     bind $tab_frame.rf.re    <Return>    "gui::do_search_and_replace {}"
+    bind $tab_frame.rf.case  <Return>    "gui::do_search_and_replace {}"
     bind $tab_frame.rf.glob  <Return>    "gui::do_search_and_replace {}"
     bind $tab_frame.rf.fe    <Escape>    "gui::close_search_and_replace"
     bind $tab_frame.rf.re    <Escape>    "gui::close_search_and_replace"
     bind $tab_frame.rf.case  <Escape>    "gui::close_search_and_replace"
-    bind $tab_frame.rf.glob  <Button-1>  "gui::toggle_labelbutton %W"
-    bind $tab_frame.rf.glob  <Key-space> "gui::toggle_labelbutton %W"
     bind $tab_frame.rf.glob  <Escape>    "gui::close_search_and_replace"
     bind $tab_frame.rf.close <Button-1>  "gui::close_search_and_replace"
     bind $tab_frame.rf.close <Key-space> "gui::close_search_and_replace"
