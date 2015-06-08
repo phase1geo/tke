@@ -1,36 +1,28 @@
-changeset:   1092:de7ad8ff48e2
-tag:         devel-1.7.3
+changeset:   1096:3098491d7aad
+tag:         devel-1.7.4
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Jun 05 09:20:49 2015 -0500
+date:        Mon Jun 08 01:13:00 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.7.3 release
+ChangeLog for devel-1.7.4 release
 
 
-changeset:   1093:23798129e5f9
+changeset:   1097:f9aeb0bf993f
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Jun 05 09:20:57 2015 -0500
+date:        Mon Jun 08 01:13:39 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.7.3 for changeset de7ad8ff48e2
+Added tag devel-1.7.4 for changeset 3098491d7aad
 
 
-changeset:   1094:862621302fa8
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Jun 06 00:15:25 2015 -0500
-files:       lib/gui.tcl lib/sidebar.tcl lib/tke.tcl lib/version.tcl
-description:
-* Restructuring some code in the search/replace proc.
-* Fixing file/directory drag and drop support to the sidebar (need to improve UI but it works functionally).
-
-
-changeset:   1095:ec9dfbd5e224
+changeset:   1098:110793bb89fa
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Jun 07 20:59:40 2015 -0500
-files:       data/themes/Aurora.tketheme data/themes/Cool Glow.tketheme data/themes/Fluidvision.tketheme data/themes/Juicy.tketheme data/themes/Made of Code.tketheme data/themes/Monokai.tketheme data/themes/Notebook.tketheme data/themes/Ruby Blue.tketheme data/themes/choco.tketheme data/themes/default.tketheme data/themes/idleFingers.tketheme data/themes/minimal_Theme.tketheme data/themes/oscuro.tketheme data/themes/yellowStone.tketheme lib/gui.tcl lib/sidebar.tcl lib/version.tcl
+date:        Mon Jun 08 08:43:48 2015 -0500
+files:       lib/gui.tcl lib/version.tcl lib/vim.tcl
 description:
-* Improving UI when a drop may occur in the UI.
-* Changing yellow to orange for current text highlight border color to help make things easier to see in light window themes.
+* Enhancing vim search/replace to support i and I options.
+* Removing "global" icon in search/replace control panel and replacing it with an "All" checkbutton.
+* Fixing "all" search/replace model to only replace the first occurrence in a line when this is clear.
 
 
