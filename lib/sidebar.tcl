@@ -101,7 +101,7 @@ namespace eval sidebar {
     # Create needed images
     set images(sopen) [image create bitmap -file [file join $::tke_dir lib images sopen.bmp] \
                                            -maskfile [file join $::tke_dir lib images sopen.bmp] \
-                                           -foreground "orange"]
+                                           -foreground "gold"]
     
     # Create the top-level frame
     set widgets(frame) [ttk::frame $w]
