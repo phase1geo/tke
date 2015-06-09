@@ -102,6 +102,9 @@ namespace eval sidebar {
     set images(sopen) [image create bitmap -file [file join $::tke_dir lib images sopen.bmp] \
                                            -maskfile [file join $::tke_dir lib images sopen.bmp] \
                                            -foreground "gold"]
+                                           
+    set fg [utils::get_default_foreground]
+    set bg [utils::get_default_background]
     
     # Create the top-level frame
     set widgets(frame) [ttk::frame $w]
@@ -110,9 +113,9 @@ namespace eval sidebar {
     set widgets(tl) \
       [tablelist::tablelist $w.tl -columns {0 {} 0 {}} -showlabels 0 -exportselection 0 \
         -treecolumn 0 -treestyle aqua -forceeditendcommand 1 -expandcommand sidebar::expand_directory \
-        -relief flat -highlightthickness 1 -highlightbackground [utils::get_default_background] \
-        -foreground [utils::get_default_foreground] -background [utils::get_default_background] \
-        -selectforeground [utils::get_default_background] -selectbackground [utils::get_default_foreground] \
+        -relief flat -highlightthickness 1 -highlightbackground $bg -highlightcolor $bg \
+        -foreground $fg -background $bg \
+        -selectforeground $bg -selectbackground $fg \
         -selectborderwidth 0 -width 30 \
         -editstartcommand  "sidebar::edit_start_command" \
         -editendcommand    "sidebar::edit_end_command" \
@@ -1378,7 +1381,7 @@ namespace eval sidebar {
     # Configure the tablelist widget
     if {[info exists widgets(tl)]} {
       $widgets(tl) configure -foreground $fg -background $bg -selectbackground $abg -selectforeground $fg \
-        -highlightbackground $bg
+        -highlightbackground $bg -highlightcolor $bg
     }
     
   }
