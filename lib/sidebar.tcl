@@ -116,7 +116,7 @@ namespace eval sidebar {
         -relief flat -highlightthickness 1 -highlightbackground $bg -highlightcolor $bg \
         -foreground $fg -background $bg \
         -selectforeground $bg -selectbackground $fg \
-        -selectborderwidth 0 -width 30 \
+        -selectborderwidth 0 -activestyle none -width 30 \
         -editstartcommand  "sidebar::edit_start_command" \
         -editendcommand    "sidebar::edit_end_command" \
         -tooltipaddcommand "sidebar::show_tooltip" \
