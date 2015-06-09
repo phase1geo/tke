@@ -107,8 +107,9 @@ namespace eval vim {
       }
       if {[info exists mode($txt.t)]} {
         switch $mode($txt.t) {
-          "edit"   { return "INSERT MODE$record" }
-          "visual" { return "VISUAL MODE$record" }
+          "edit"        { return "INSERT MODE$record" }
+          "visual:char" { return "VISUAL MODE$record" }
+          "visual:line" { return "VISUAL LINE MODE$record"}
         }
       }
       return "COMMAND MODE$record"
@@ -1430,7 +1431,7 @@ namespace eval vim {
 
     variable mode
 
-    if {$mode($txt) eq "start"} {
+    if {($mode($txt) eq "start") || ([string range $mode($txt) 0 5] eq "visual")} {
       if {[[ns multicursor]::enabled $txt]} {
         $txt tag remove sel 1.0 end
         [ns multicursor]::adjust $txt "-1c"
@@ -2173,7 +2174,7 @@ namespace eval vim {
 
     variable mode
 
-    if {$mode($txt) eq "start"} {
+    if {($mode($txt) eq "start") || ([string range $mode($txt) 0 5] eq "visual")} {
       eval [string map {%W $txt} [bind Text <Next>]]
       adjust_insert $txt
       record "Control-f"
@@ -2190,7 +2191,7 @@ namespace eval vim {
 
     variable mode
 
-    if {$mode($txt) eq "start"} {
+    if {($mode($txt) eq "start") || ([string range $mode($txt) 0 5] eq "visual")} {
       eval [string map {%W $txt} [bind Text <Prior>]]
       adjust_insert $txt
       record "Control-b"
@@ -2452,7 +2453,7 @@ namespace eval vim {
 
     variable mode
 
-    if {($mode($txt) eq "start") || ($mode($txt) eq "visual")} {
+    if {($mode($txt) eq "start") || ([string range $mode($txt) 0 5] eq "visual")} {
       $txt mark set insert "insert+1l linestart"
       if {[string is space [$txt get insert]]} {
         set next_word [get_word $txt next]
@@ -2478,7 +2479,7 @@ namespace eval vim {
 
     variable mode
 
-    if {($mode($txt) eq "start") || ($mode($txt) eq "visual")} {
+    if {($mode($txt) eq "start") || ([string range $mode($txt) 0 5] eq "visual")} {
       $txt mark set insert "insert-1l linestart"
       if {[string is space [$txt get insert]]} {
         set next_word [get_word $txt next]
@@ -2505,7 +2506,7 @@ namespace eval vim {
     variable mode
     variable number
 
-    if {(($mode($txt) eq "start") || ($mode($txt) eq "visual")) && ($number($txt) ne "")} {
+    if {(($mode($txt) eq "start") || ([string range $mode($txt) 0 5] eq "visual")) && ($number($txt) ne "")} {
       $txt mark set insert [lindex [split [$txt index insert] .] 0].$number($txt)
       adjust_insert $txt
       $txt see insert
@@ -2540,7 +2541,7 @@ namespace eval vim {
     variable mode
     variable number
 
-    if {($mode($txt) eq "start") || ($mode($txt) eq "visual")} {
+    if {($mode($txt) eq "start") || ([string range $mode($txt) 0 5] eq "visual")} {
       if {[llength [set sel_ranges [$txt tag ranges sel]]] > 0} {
         foreach {endpos startpos} [lreverse $sel_ranges] {
           convert_case $txt $startpos [$txt get $startpos $endpos]
@@ -2550,7 +2551,7 @@ namespace eval vim {
         set str       [string range [$txt get insert "insert lineend"] 0 [expr $num_chars - 1]]
         convert_case $txt insert $str
       }
-      if {$mode($txt) eq "visual"} {
+      if {[string range $mode($txt) 0 5] eq "visual"} {
         start_mode $txt
       }
       return 1
@@ -2567,7 +2568,7 @@ namespace eval vim {
 
     variable mode
 
-    if {$mode($txt) eq "start"} {
+    if {($mode($txt) eq "start") || ([string range $mode($txt) 0 5] eq "visual")} {
       $txt mark set insert @0,[expr [winfo height $txt] / 2]
       adjust_insert $txt
       return 1
