@@ -511,6 +511,10 @@ namespace eval gui {
         $nb.tbf.tb    configure -background $bg -foreground $fg -activebackground $abg -inactivebackground $bg
         set tabs [$nb.tbf.tb tabs]
         foreach tab $tabs {
+          $tab.pw.tf.txt configure -bg $bg
+          if {[winfo exists $tab.pw.tf2.txt]} {
+            $tab.pw.tf2.txt configure -bg $bg
+          }
           $tab.pw.tf.split configure -image $images(split)
           $tab.sf.close    configure -image $images(close)
           $tab.rf.close    configure -image $images(close)
@@ -3125,6 +3129,7 @@ namespace eval gui {
     # Create the editor frame
     $tab_frame.pw add [ttk::frame $tab_frame.pw.tf]
     ctext $txt -wrap none -undo 1 -autoseparators 1 -insertofftime 0 \
+      -bg [utils::get_default_background] \
       -highlightcolor orange -warnwidth [preferences::get Editor/WarningWidth] \
       -maxundo [preferences::get Editor/MaxUndo] \
       -diff_mode $diff \
@@ -3331,6 +3336,7 @@ namespace eval gui {
     # Create the editor frame
     $pw insert 0 [ttk::frame $pw.tf2]
     ctext $txt2 -wrap none -undo 1 -autoseparators 1 -insertofftime 0 -font editor_font \
+      -bg [utils::get_default_background] \
       -highlightcolor orange -warnwidth [preferences::get Editor/WarningWidth] \
       -maxundo [preferences::get Editor/MaxUndo] \
       -linemap [preferences::get View/ShowLineNumbers] \
