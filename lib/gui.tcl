@@ -3623,12 +3623,16 @@ namespace eval gui {
   proc set_current_tab_from_txt {txt} {
 
     variable pw_current
-
+    variable txt_current
+    
     if {[winfo ismapped $txt]} {
 
       # Get the tab
       set tab [winfo parent [winfo parent [winfo parent [winfo parent $txt]]]]
 
+      # Set the current text widget to the value of txt
+      set txt_current($tab) [winfo parent $txt]
+      
       # Get the current tab
       set_current_tab $tab 1
 
