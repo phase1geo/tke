@@ -810,7 +810,7 @@ namespace eval vim {
     variable number
     variable column
     variable recording
-
+    
     # If the key does not have a printable char representation, quit now
     if {([string compare -length 5 $keysym "Shift"]   == 0) || \
         ([string compare -length 7 $keysym "Control"] == 0) || \
@@ -1923,7 +1923,7 @@ namespace eval vim {
 
   ######################################################################
   # Performs a single character delete.
-  proc do_char_delete {txt number} {
+  proc do_char_delete_current {txt number} {
 
     # Create separator
     $txt edit separator
@@ -1959,6 +1959,35 @@ namespace eval vim {
     $txt edit separator
 
   }
+  
+  ######################################################################
+  # Performs a single character delete.
+  proc do_char_delete_previous {txt number} {
+
+    # Create separator
+    $txt edit separator
+
+    if {$number ne ""} {
+      if {[[ns multicursor]::enabled $txt]} {
+        [ns multicursor]::delete $txt "-${number}c"
+      } elseif {[$txt compare "insert-${number}c" < "insert linestart"]} {
+        $txt delete "insert linestart" insert
+      } else {
+        $txt delete "insert-${number}c" insert
+      }
+    } elseif {[[ns multicursor]::enabled $txt]} {
+      [ns multicursor]::delete $txt "-1c"
+    } elseif {[$txt compare "insert-1c" >= "insert linestart"] && ([$txt index insert] ne "1.0")} {
+      $txt delete "insert-1c"
+    }
+
+    # Adjust the cursor
+    adjust_cursor $txt
+
+    # Create separator
+    $txt edit separator
+
+  }
 
   ######################################################################
   # If we are in "start" mode, deletes the current character.
@@ -1968,7 +1997,7 @@ namespace eval vim {
     variable number
 
     if {$mode($txt) eq "start"} {
-      do_char_delete $txt $number($txt)
+      do_char_delete_current $txt $number($txt)
       record_add "Key-x"
       record_stop
       return 1
@@ -1976,6 +2005,43 @@ namespace eval vim {
 
     return 0
 
+  }
+  
+  ######################################################################
+  # If we are in "start" mode, deletes the current character (same as
+  # the 'x' command).
+  proc handle_Delete {txt tid} {
+    
+    variable mode
+    variable number
+    
+    if {$mode($txt) eq "start"} {
+      do_char_delete_current $txt $number($txt)
+      record_add "Key-Delete"
+      record_stop
+      return 1
+    }
+    
+    return 0
+    
+  }
+  
+  ######################################################################
+  # If we are in "start" mode, deletes the previous character.
+  proc handle_X {txt tid} {
+    
+    variable mode
+    variable number
+    
+    if {$mode($txt) eq "start"} {
+      do_char_delete_previous $txt $number($txt)
+      record_add "Key-X"
+      record_stop
+      return 1
+    }
+    
+    return 0
+    
   }
 
   ######################################################################
