@@ -1674,6 +1674,30 @@ namespace eval vim {
     return 0
 
   }
+  
+  ######################################################################
+  # If we are in "start" mode, deletes all text from the current
+  # insertion cursor to the end of the line.
+  proc handle_D {txt tid} {
+    
+    variable mode
+    
+    if {$mode($txt) eq "start"} {
+      if {[multicursor::enabled $txt]} {
+        multicursor::delete $txt "lineend"
+      } else {
+        clipboard clear
+        clipboard append [$txt get insert "insert lineend"]
+        $txt delete insert "insert lineend"
+        adjust_insert $txt
+        $txt see insert
+      }
+      return 1
+    }
+    
+    return 0
+    
+  }
 
   ######################################################################
   # If we are in the "start" mode, move the insertion cursor ahead by
