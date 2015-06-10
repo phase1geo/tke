@@ -1,51 +1,36 @@
-changeset:   1099:e28fdc26a5f9
-tag:         devel-1.7.5
+changeset:   1105:df31bbdc643c
+tag:         devel-1.7.6
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Jun 08 08:45:44 2015 -0500
+date:        Tue Jun 09 01:16:18 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.7.5 release
+ChangeLog for devel-1.7.6 release
 
 
-changeset:   1100:8a9950754d92
+changeset:   1106:c4c3f49d005d
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Jun 08 08:45:48 2015 -0500
+date:        Tue Jun 09 01:16:27 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.7.5 for changeset e28fdc26a5f9
+Added tag devel-1.7.6 for changeset df31bbdc643c
 
 
-changeset:   1101:c0457e2bffb1
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Jun 08 23:51:45 2015 -0500
-files:       data/themes/Cool Glow.tketheme data/themes/Fluidvision.tketheme data/themes/Juicy.tketheme data/themes/Made of Code.tketheme data/themes/Monokai.tketheme data/themes/Notebook.tketheme data/themes/Ruby Blue.tketheme data/themes/choco.tketheme data/themes/default.tketheme data/themes/idleFingers.tketheme data/themes/minimal_Theme.tketheme data/themes/oscuro.tketheme data/themes/yellowStone.tketheme lib/gui.tcl lib/sidebar.tcl lib/version.tcl
+changeset:   1107:59a614846178
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Jun 09 17:17:50 2015 -0500
+files:       lib/gui.tcl lib/version.tcl lib/vim.tcl
 description:
-* Adjusting color scheme to use gold (instead of orange) for highlight color.
+* Adding initial (untested) support for visual line mode.
+* Fixing issue with editor background coloring when changing window themes.
 
 
-changeset:   1102:1d8a39dd59dc
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Jun 09 00:10:19 2015 -0500
-files:       lib/sidebar.tcl lib/version.tcl
-description:
-* Removing highlight border in sidebar.
-
-
-changeset:   1103:6a50c6caf602
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Jun 09 00:14:45 2015 -0500
-files:       lib/sidebar.tcl lib/version.tcl
-description:
-* Removing activestyle frame around current sidebar selection.
-
-
-changeset:   1104:d902ec6923b6
+changeset:   1108:da5b4a22e438
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Jun 09 01:14:56 2015 -0500
+date:        Tue Jun 09 18:02:48 2015 -0500
 files:       lib/version.tcl lib/vim.tcl
 description:
-* Adding support for Vim ~ command using a character count value.
-* Adding support for Vim ~ with selection or in visual mode.
+* Completing work on visual line mode.
+* Adding missing cases for visual mode.
 
 
