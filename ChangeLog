@@ -1,36 +1,43 @@
-changeset:   1105:df31bbdc643c
-tag:         devel-1.7.6
+changeset:   1109:34e4f96ef49a
+tag:         devel-1.7.7
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Jun 09 01:16:18 2015 -0500
+date:        Wed Jun 10 00:35:43 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.7.6 release
+ChangeLog for devel-1.7.7 release
 
 
-changeset:   1106:c4c3f49d005d
+changeset:   1110:50d6263edbeb
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Jun 09 01:16:27 2015 -0500
+date:        Wed Jun 10 00:35:47 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.7.6 for changeset df31bbdc643c
+Added tag devel-1.7.7 for changeset 34e4f96ef49a
 
 
-changeset:   1107:59a614846178
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Tue Jun 09 17:17:50 2015 -0500
-files:       lib/gui.tcl lib/version.tcl lib/vim.tcl
-description:
-* Adding initial (untested) support for visual line mode.
-* Fixing issue with editor background coloring when changing window themes.
-
-
-changeset:   1108:da5b4a22e438
-tag:         tip
+changeset:   1111:fc7f15bd17b5
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Jun 09 18:02:48 2015 -0500
+date:        Wed Jun 10 07:33:58 2015 -0500
+files:       lib/gui.tcl lib/version.tcl
+description:
+* Fixing issue with remembering which editor is the current editor for split panes.
+
+
+changeset:   1112:5f73491a344e
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jun 10 08:12:37 2015 -0500
 files:       lib/version.tcl lib/vim.tcl
 description:
-* Completing work on visual line mode.
-* Adding missing cases for visual mode.
+* Adding support for 'X' Vim command functionality.
+* Adding support for 'Del' Vim command functionality.
+
+
+changeset:   1113:57f76b042270
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jun 10 08:27:15 2015 -0500
+files:       lib/version.tcl lib/vim.tcl
+description:
+* Adding support for 'D' Vim command.
 
 
