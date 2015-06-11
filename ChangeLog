@@ -1,43 +1,27 @@
-changeset:   1109:34e4f96ef49a
-tag:         devel-1.7.7
+changeset:   1114:5980c4ad444a
+tag:         devel-1.7.8
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jun 10 00:35:43 2015 -0500
+date:        Wed Jun 10 08:29:19 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.7.7 release
+ChangeLog for devel-1.7.8 release
 
 
-changeset:   1110:50d6263edbeb
+changeset:   1115:8a12210b83c0
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jun 10 00:35:47 2015 -0500
+date:        Wed Jun 10 08:29:24 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.7.7 for changeset 34e4f96ef49a
+Added tag devel-1.7.8 for changeset 5980c4ad444a
 
 
-changeset:   1111:fc7f15bd17b5
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jun 10 07:33:58 2015 -0500
-files:       lib/gui.tcl lib/version.tcl
-description:
-* Fixing issue with remembering which editor is the current editor for split panes.
-
-
-changeset:   1112:5f73491a344e
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jun 10 08:12:37 2015 -0500
-files:       lib/version.tcl lib/vim.tcl
-description:
-* Adding support for 'X' Vim command functionality.
-* Adding support for 'Del' Vim command functionality.
-
-
-changeset:   1113:57f76b042270
+changeset:   1116:6cc628820074
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jun 10 08:27:15 2015 -0500
-files:       lib/version.tcl lib/vim.tcl
+date:        Thu Jun 11 08:25:17 2015 -0500
+files:       lib/api.tcl lib/sidebar.tcl lib/version.tcl plugins/render/main.tcl
 description:
-* Adding support for 'D' Vim command.
+* Adding sidebar support for multi-row selections (allows for batching some sidebar operations).
+* Changing api::sidebar::get_selected_index to api::sidebar::get_selected_indices
 
 
