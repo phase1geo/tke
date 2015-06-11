@@ -317,9 +317,9 @@ namespace eval api {
 
     ######################################################################
     ## \return Returns the selected sidebar file index.
-    proc get_selected_index {interp pname} {
+    proc get_selected_indices {interp pname} {
 
-      return [sidebar::get_selected_index]
+      return [sidebar::get_selected_indices]
 
     }
 

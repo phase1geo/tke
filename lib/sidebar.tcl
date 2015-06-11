@@ -114,7 +114,7 @@ namespace eval sidebar {
       [tablelist::tablelist $w.tl -columns {0 {} 0 {}} -showlabels 0 -exportselection 0 \
         -treecolumn 0 -treestyle aqua -forceeditendcommand 1 -expandcommand sidebar::expand_directory \
         -relief flat -highlightthickness 1 -highlightbackground $bg -highlightcolor $bg \
-        -foreground $fg -background $bg \
+        -foreground $fg -background $bg -selectmode extended \
         -selectforeground $bg -selectbackground $fg \
         -selectborderwidth 0 -activestyle none -width 30 \
         -editstartcommand  "sidebar::edit_start_command" \
@@ -171,8 +171,6 @@ namespace eval sidebar {
   # the file drop request would be excepted or rejected.
   proc handle_drop_enter_or_pos {tbl rootx rooty actions buttons} {
     
-    puts "HERE A"
-    
     $tbl configure -highlightbackground green 
     
     return "link"
@@ -182,8 +180,6 @@ namespace eval sidebar {
   ######################################################################
   # Handles a drop leave event.
   proc handle_drop_leave {tbl} {
-    
-    puts "HERE B, bg: [utils::get_default_background]"
     
     $tbl configure -highlightbackground [utils::get_default_background]
     
@@ -238,94 +234,75 @@ namespace eval sidebar {
   }
   
   ######################################################################
+  # Returns "root", "dir" or "file" to indicate what type of item is
+  # specified at the given row in the sidebar table.
+  proc row_type {row} {
+    
+    variable widgets
+    
+    if {[$widgets(tl) parentkey $row] eq "root"} {
+      return "root"
+    } elseif {[file isdirectory [$widgets(tl) cellcget $row,name -text]]} {
+      return "dir"
+    } else {
+      return "file"
+    }
+    
+  }
+  
+  ######################################################################
   # Handles the contents of the sidebar popup menu prior to it being posted.
   proc menu_post {} {
     
     variable widgets
     
     # Get the current index
-    set row [$widgets(tl) curselection]
-    
-    if {[$widgets(tl) parentkey $row] eq "root"} {
-      setup_root_menu $row
-    } elseif {[file isdirectory [$widgets(tl) cellcget $row,name -text]]} {
-      setup_dir_menu $row
-    } else {
-      setup_file_menu $row
+    switch [row_type anchor] {
+      "root" { setup_root_menu [$widgets(tl) curselection] }
+      "dir"  { setup_dir_menu  [$widgets(tl) curselection] }
+      "file" { setup_file_menu [$widgets(tl) curselection] }
     }
     
   }
   
   ######################################################################
   # Sets up the popup menu to be suitable for the given directory.
-  proc setup_dir_menu {index} {
+  proc setup_dir_menu {rows} {
     
     variable widgets
+    
+    set one_state [expr {([llength $rows] == 1) ? "normal" : "disabled"}]
+    set first_row [lindex $rows 0]
     
     # Clear the menu
     $widgets(menu) delete 0 end
     
-    $widgets(menu) add command -label [msgcat::mc "New File"] -command {
-      sidebar::add_file_to_folder
-    }
-    $widgets(menu) add command -label [msgcat::mc "New Directory"] -command {
-      sidebar::add_folder_to_folder
-    }
-    
+    $widgets(menu) add command -label [msgcat::mc "New File"]      -command [list sidebar::add_file_to_folder $first_row]   -state $one_state
+    $widgets(menu) add command -label [msgcat::mc "New Directory"] -command [list sidebar::add_folder_to_folder $first_row] -state $one_state
     $widgets(menu) add separator
     
-    $widgets(menu) add command -label [msgcat::mc "Open Directory Files"] -command {
-      sidebar::open_folder_files
-    }
-    
-    $widgets(menu) add command -label [msgcat::mc "Close Directory Files"] -command {
-      sidebar::close_folder_files
-    }
-    
+    $widgets(menu) add command -label [msgcat::mc "Open Directory Files"]  -command [list sidebar::open_folder_files $rows]
+    $widgets(menu) add command -label [msgcat::mc "Close Directory Files"] -command [list sidebar::close_folder_files $rows]
     $widgets(menu) add separator
     
-    $widgets(menu) add command -label [msgcat::mc "Copy Pathname"] -command {
-      sidebar::copy_pathname
-    }
-    
+    $widgets(menu) add command -label [msgcat::mc "Copy Pathname"] -command [list sidebar::copy_pathname $first_row] -state $one_state
     $widgets(menu) add separator
-    
-    $widgets(menu) add command -label [msgcat::mc "Rename"] -command {
-      sidebar::rename_folder
-    }
-    $widgets(menu) add command -label [msgcat::mc "Delete"] -command {
-      sidebar::delete_folder
-    }
-    
+    $widgets(menu) add command -label [msgcat::mc "Rename"] -command [list sidebar::rename_folder $first_row] -state $one_state
+    $widgets(menu) add command -label [msgcat::mc "Delete"] -command [list sidebar::delete_folder $first_row] -state $one_state
     $widgets(menu) add separator
-    
-    if {[favorites::is_favorite [$widgets(tl) cellcget $index,name -text]]} {
-      $widgets(menu) add command -label [msgcat::mc "Unfavorite"] -command {
-        sidebar::unfavorite
-      }
+      
+    if {[favorites::is_favorite [$widgets(tl) cellcget $first_row,name -text]]} {
+      $widgets(menu) add command -label [msgcat::mc "Unfavorite"] -command [list sidebar::unfavorite $first_row] -state $one_state
     } else {
-      $widgets(menu) add command -label [msgcat::mc "Favorite"] -command {
-        sidebar::favorite
-      }
+      $widgets(menu) add command -label [msgcat::mc "Favorite"] -command [list sidebar::favorite $first_row] -state $one_state
     }
-    
     $widgets(menu) add separator
     
-    $widgets(menu) add command -label [msgcat::mc "Remove from Sidebar"] -command {
-      sidebar::remove_folder
-    }
-    $widgets(menu) add command -label [msgcat::mc "Remove Parent from Sidebar"] -command {
-      sidebar::remove_parent_folder
-    }
-    
+    $widgets(menu) add command -label [msgcat::mc "Remove from Sidebar"]        -command [list sidebar::remove_folder $rows]
+    $widgets(menu) add command -label [msgcat::mc "Remove Parent from Sidebar"] -command [list sidebar::remove_parent_folder $first_row] -state $one_state
     $widgets(menu) add separator
-    
-    $widgets(menu) add command -label [msgcat::mc "Make Current Working Directory"] -command {
-      sidebar::set_current_working_directory
-    }
-    $widgets(menu) add command -label [msgcat::mc "Refresh Directory Files"] -command {
-      sidebar::refresh_directory_files
-    }
+    $widgets(menu) add command -label [msgcat::mc "Make Current Working Directory"] -command [list sidebar::set_current_working_directory $first_row] -state $one_state
+    $widgets(menu) add command -label [msgcat::mc "Refresh Directory Files"]        -command [list sidebar::refresh_directory_files $rows]
     
     # Add plugins to sidebar directory popup
     plugins::handle_dir_popup $widgets(menu)
@@ -334,74 +311,43 @@ namespace eval sidebar {
   
   ######################################################################
   # Sets up the given menu for a root directory item.
-  proc setup_root_menu {index} {
+  proc setup_root_menu {rows} {
     
     variable widgets
+    
+    set one_state [expr {([llength $rows] == 1) ? "normal" : "disabled"}]
+    set first_row [lindex $rows 0]
     
     # Clear the menu
     $widgets(menu) delete 0 end
     
-    $widgets(menu) add command -label [msgcat::mc "New File"] -command {
-      sidebar::add_file_to_folder
-    }
-    $widgets(menu) add command -label [msgcat::mc "New Directory"] -command {
-      sidebar::add_folder_to_folder
-    }
-    
+    $widgets(menu) add command -label [msgcat::mc "New File"]      -command [list sidebar::add_file_to_folder $first_row]   -state $one_state
+    $widgets(menu) add command -label [msgcat::mc "New Directory"] -command [list sidebar::add_folder_to_folder $first_row] -state $one_state
     $widgets(menu) add separator
     
-    $widgets(menu) add command -label [msgcat::mc "Open Directory Files"] -command {
-      sidebar::open_folder_files
-    }
-    
-    $widgets(menu) add command -label [msgcat::mc "Close Directory Files"] -command {
-      sidebar::close_folder_files
-    }
-    
+    $widgets(menu) add command -label [msgcat::mc "Open Directory Files"]  -command [list sidebar::open_folder_files $rows]
+    $widgets(menu) add command -label [msgcat::mc "Close Directory Files"] -command [list sidebar::close_folder_files $rows]
     $widgets(menu) add separator
     
-    $widgets(menu) add command -label [msgcat::mc "Copy Pathname"] -command {
-      sidebar::copy_pathname
-    }
-    
+    $widgets(menu) add command -label [msgcat::mc "Copy Pathname"] -command [list sidebar::copy_pathname $first_row] -state $one_state
+    $widgets(menu) add separator
+    $widgets(menu) add command -label [msgcat::mc "Rename"] -command [list sidebar::rename_folder $first_row] -state $one_state
+    $widgets(menu) add command -label [msgcat::mc "Delete"] -command [list sidebar::delete_folder $first_row] -state $one_state
     $widgets(menu) add separator
     
-    $widgets(menu) add command -label [msgcat::mc "Rename"] -command {
-      sidebar::rename_folder
-    }
-    $widgets(menu) add command -label [msgcat::mc "Delete"] -command {
-      sidebar::delete_folder
-    }
-    
-    $widgets(menu) add separator
-    
-    if {[favorites::is_favorite [$widgets(tl) cellcget $index,name -text]]} {
-      $widgets(menu) add command -label [msgcat::mc "Unfavorite"] -command {
-        sidebar::unfavorite
-      }
+    if {[favorites::is_favorite [$widgets(tl) cellcget $first_row,name -text]]} {
+      $widgets(menu) add command -label [msgcat::mc "Unfavorite"] -command [list sidebar::unfavorite $first_row] -state $one_state
     } else {
-      $widgets(menu) add command -label [msgcat::mc "Favorite"] -command {
-        sidebar::favorite
-      }
+      $widgets(menu) add command -label [msgcat::mc "Favorite"] -command [list sidebar::favorite $first_row] -state $one_state
     }
-    
+    $widgets(menu) add separator
+      
+    $widgets(menu) add command -label [msgcat::mc "Remove from Sidebar"]  -command [list sidebar::remove_folder $rows]
+    $widgets(menu) add command -label [msgcat::mc "Add Parent Directory"] -command [list sidebar::add_parent_directory $first_row] -state $one_state
     $widgets(menu) add separator
     
-    $widgets(menu) add command -label [msgcat::mc "Remove from Sidebar"] -command {
-      sidebar::remove_folder
-    } 
-    $widgets(menu) add command -label [msgcat::mc "Add Parent Directory"] -command {
-      sidebar::add_parent_directory
-    }
-    
-    $widgets(menu) add separator
-    
-    $widgets(menu) add command -label [msgcat::mc "Make Current Working Directory"] -command {
-      sidebar::set_current_working_directory
-    }
-    $widgets(menu) add command -label [msgcat::mc "Refresh Directory Files"] -command {
-      sidebar::refresh_directory_files
-    }
+    $widgets(menu) add command -label [msgcat::mc "Make Current Working Directory"] -command [list sidebar::set_current_working_directory $first_row] -state $one_state
+    $widgets(menu) add command -label [msgcat::mc "Refresh Directory Files"]        -command [list sidebar::refresh_directory_files $rows]
     
     # Add plugins to sidebar root popup
     plugins::handle_root_popup $widgets(menu)
@@ -409,57 +355,36 @@ namespace eval sidebar {
   }
   
   ######################################################################
-  # Sets up the file popup menu for the currently selected row.
-  proc setup_file_menu {index} {
+  # Sets up the file popup menu for the currently selected rows.
+  proc setup_file_menu {rows} {
     
     variable widgets
+    
+    set one_state [expr {([llength $rows] == 1) ? "normal" : "disabled"}]
+    set first_row [lindex $rows 0]
     
     # Delete the menu contents
     $widgets(menu) delete 0 end
     
     # Create file popup
-    $widgets(menu) add command -label [msgcat::mc "Open"] -command {
-      sidebar::open_file
-    }
-    
+    $widgets(menu) add command -label [msgcat::mc "Open"] -command [list sidebar::open_file $rows]
+    $widgets(menu) add separator
+    $widgets(menu) add command -label [msgcat::mc "Close"] -command [list sidebar::close_file $rows]
     $widgets(menu) add separator
     
-    $widgets(menu) add command -label [msgcat::mc "Close"] -command {
-      sidebar::close_file
-    }
-    
+    $widgets(menu) add command -label [msgcat::mc "Show Difference"] -command [list sidebar::show_file_diff $first_row] -state $one_state
+    $widgets(menu) add command -label [msgcat::mc "Copy Pathname"]   -command [list sidebar::copy_pathname $first_row]  -state $one_state
     $widgets(menu) add separator
     
-    $widgets(menu) add command -label [msgcat::mc "Show Difference"] -command {
-      sidebar::show_file_diff
-    }
-    
-    $widgets(menu) add command -label [msgcat::mc "Copy Pathname"] -command {
-      sidebar::copy_pathname
-    }
-    
+    $widgets(menu) add command -label [msgcat::mc "Rename"]    -command [list sidebar::rename_file $first_row]    -state $one_state
+    $widgets(menu) add command -label [msgcat::mc "Duplicate"] -command [list sidebar::duplicate_file $first_row] -state $one_state
+    $widgets(menu) add command -label [msgcat::mc "Delete"]    -command [list sidebar::delete_file $first_row]    -state $one_state
     $widgets(menu) add separator
-    
-    $widgets(menu) add command -label [msgcat::mc "Rename"] -command {
-      sidebar::rename_file
-    }
-    $widgets(menu) add command -label [msgcat::mc "Duplicate"] -command {
-      sidebar::duplicate_file
-    }
-    $widgets(menu) add command -label [msgcat::mc "Delete"] -command {
-      sidebar::delete_file
-    }
    
-    $widgets(menu) add separator
-    
-    if {[favorites::is_favorite [$widgets(tl) cellcget $index,name -text]]} {
-      $widgets(menu) add command -label [msgcat::mc "Unfavorite"] -command {
-        sidebar::unfavorite
-      }
+    if {[favorites::is_favorite [$widgets(tl) cellcget $first_row,name -text]]} {
+      $widgets(menu) add command -label [msgcat::mc "Unfavorite"] -command [list sidebar::unfavorite $first_row] -state $one_state
     } else {
-      $widgets(menu) add command -label [msgcat::mc "Favorite"] -command {
-        sidebar::favorite
-      }
+      $widgets(menu) add command -label [msgcat::mc "Favorite"] -command [list sidebar::favorite $first_row] -state $one_state
     }
     
     # Add plugins to sidebar file popup
@@ -479,16 +404,14 @@ namespace eval sidebar {
   }
   
   ######################################################################
-  # Returns the index of the current selection.  If nothing is currently
-  # selected, returns -1.
-  proc get_selected_index {} {
+  # Returns the indices of the current selections.  If nothing is currently
+  # selected, returns an empty string.
+  proc get_selected_indices {} {
     
     variable widgets
     
     # Get the current selection
-    set selected [$widgets(tl) curselection]
-    
-    return [expr {($selected eq "") ? -1 : $selected}]
+    return [$widgets(tl) curselection]
     
   }
   
@@ -857,9 +780,17 @@ namespace eval sidebar {
     
     # Get the current selection
     if {[llength [set selected [$widgets(tl) curselection]]]} {
+      
+      # Make sure that all of the selections matches the same type (root, dir, file)
+      set anchor_type [row_type anchor]
+      foreach row $selected {
+        if {[row_type $row] ne $anchor_type} {
+          $widgets(tl) selection clear $row
+        }
+      }
     
       # If the file is currently in the notebook, make it the current tab
-      if {[$widgets(tl) cellcget $selected,name -image] eq $images(sopen)} {
+      if {([llength $selected] == 1) && ([$widgets(tl) cellcget $selected,name -image] eq $images(sopen))} {
         gui::set_current_tab_from_fname [$widgets(tl) cellcget $selected,name -text]
       }
       
@@ -873,21 +804,26 @@ namespace eval sidebar {
     
     variable widgets
     
-    lassign [tablelist::convEventFields $W $x $y] W x y
-    lassign [split [$widgets(tl) containingcell $x $y] ,] row col
+    # If nothing is currently selected, select the row under the cursor
+    if {[llength [$widgets(tl) curselection]] == 0} {
     
-    if {$row != -1} {
+      lassign [tablelist::convEventFields $W $x $y] W x y
+      lassign [split [$widgets(tl) containingcell $x $y] ,] row col
+    
+      if {$row == -1} {
+        return
+      }
       
       # Set the selection to the right-clicked element
       $widgets(tl) selection clear 0 end
       $widgets(tl) selection set $row
       handle_selection
-      
-      # Display the menu
-      tk_popup $widgets(menu) [expr [winfo rootx $W] + $x] [expr [winfo rooty $W] + $y]
-      
+        
     }
-    
+      
+    # Display the menu
+    tk_popup $widgets(menu) [expr [winfo rootx $W] + $x] [expr [winfo rooty $W] + $y]
+      
   }
   
   ######################################################################
@@ -925,17 +861,14 @@ namespace eval sidebar {
   }
   
   ######################################################################
-  # Copies the currently selected file/folder pathname to the clipboard.
-  proc copy_pathname {} {
+  # Copies the given row's file/folder pathname to the clipboard.
+  proc copy_pathname {row} {
     
     variable widgets
     
-    # Get the currently selected file/directory
-    set selected [$widgets(tl) curselection]
-    
     # Set the clipboard to the currentl selection
     clipboard clear
-    clipboard append [$widgets(tl) cellcget $selected,name -text]
+    clipboard append [$widgets(tl) cellcget $row,name -text]
     
     # Add the clipboard contents to history
     cliphist::add_from_clipboard
@@ -943,13 +876,10 @@ namespace eval sidebar {
   }
   
   ######################################################################
-  # Adds a new file to the currently selected folder.
-  proc add_file_to_folder {} {
+  # Adds a new file to the given folder.
+  proc add_file_to_folder {row} {
     
     variable widgets
-    
-    # Get the currently selected row
-    set selected [$widgets(tl) curselection]
     
     # Get the new filename from the user
     set fname ""
@@ -959,17 +889,14 @@ namespace eval sidebar {
     
     # Normalize the pathname
     if {[file pathtype $fname] eq "relative"} {
-      set fname [file normalize [file join [$widgets(tl) cellcget $selected,name -text] $fname]]
+      set fname [file normalize [file join [$widgets(tl) cellcget $row,name -text] $fname]]
     }
     
     # Create the file
     if {![catch { exec touch $fname }]} {
     
       # Expand the directory
-      $widgets(tl) expand $selected -partly
-    
-      # Add a new file to the directory
-      # set key [$widgets(tl) insertchild $selected 0 [list $fname 0]]
+      $widgets(tl) expand $row -partly
     
       # Create an empty file
       gui::add_file end $fname
@@ -979,13 +906,10 @@ namespace eval sidebar {
   }
   
   ######################################################################
-  # Adds a new folder to the currently selected folder.
-  proc add_folder_to_folder {} {
+  # Adds a new folder to the specified folder.
+  proc add_folder_to_folder {row} {
     
     variable widgets
-    
-    # Get the currently selected row
-    set selected [$widgets(tl) curselection]
     
     # Get the directory name from the user
     set dname ""
@@ -995,17 +919,17 @@ namespace eval sidebar {
     
     # Normalize the pathname
     if {[file pathtype $dname] eq "relative"} {
-      set dname [file normalize [file join [$widgets(tl) cellcget $selected,name -text] $dname]]
+      set dname [file normalize [file join [$widgets(tl) cellcget $row,name -text] $dname]]
     }
     
     # Create the directory
     if {![catch { file mkdir $dname }]} {
     
       # Expand the directory
-      $widgets(tl) expand $selected -partly
+      $widgets(tl) expand $row -partly
     
       # Update the directory
-      update_directory $selected
+      update_directory $row
     
     }
     
@@ -1013,53 +937,50 @@ namespace eval sidebar {
   
   ######################################################################
   # Opens all of the files in the current directory.
-  proc open_folder_files {} {
+  proc open_folder_files {rows} {
     
     variable widgets
     variable images
     
-    # Get the currently selected row
-    set selected [$widgets(tl) curselection]
+    foreach row $rows {
     
-    # Open all of the children that are not already opened
-    foreach child [$widgets(tl) childkeys $selected] {
-      set name [$widgets(tl) cellcget $child,name -text]
-      if {([$widgets(tl) cellcget $child,name -image] ne $images(sopen)) && [file isfile $name]} {
-        gui::add_file end $name
+      # Open all of the children that are not already opened
+      foreach child [$widgets(tl) childkeys $row] {
+        set name [$widgets(tl) cellcget $child,name -text]
+        if {([$widgets(tl) cellcget $child,name -image] ne $images(sopen)) && [file isfile $name]} {
+          gui::add_file end $name
+        }
       }
+      
     }
     
   }
       
   ######################################################################
   # Close all of the open files in the current directory.
-  proc close_folder_files {} {
+  proc close_folder_files {rows} {
     
     variable widgets
     variable images
     
-    # Get the currently selected row
-    set selected [$widgets(tl) curselection]
+    foreach row $rows {
     
-    # Close all of the opened children
-    foreach child [$widgets(tl) childkeys $selected] {
-      if {[$widgets(tl) cellcget $child,name -image] eq $images(sopen)} {
-        gui::close_file [$widgets(tl) cellcget $child,name -text]
+      # Close all of the opened children
+      foreach child [$widgets(tl) childkeys $row] {
+        if {[$widgets(tl) cellcget $child,name -image] eq $images(sopen)} {
+          gui::close_file [$widgets(tl) cellcget $child,name -text]
+        }
       }
+      
     }
     
   }
   
   ######################################################################
   # Allows the user to rename the currently selected folder.
-  proc rename_folder {{row ""}} {
+  proc rename_folder {row} {
     
     variable widgets
-    
-    # Get the currently selected row
-    if {$row eq ""} {
-      set row [$widgets(tl) curselection]
-    }
     
     # Make the row editable
     $widgets(tl) cellconfigure $row,name -editable 1
@@ -1068,24 +989,21 @@ namespace eval sidebar {
   }
   
   ######################################################################
-  # Allows the user to delete the currently selected folder.
-  proc delete_folder {} {
+  # Allows the user to delete the folder at the given row.
+  proc delete_folder {row} {
     
     variable widgets
     
     if {[tk_messageBox -parent . -type yesno -default yes -message [msgcat::mc "Delete directory?"]] eq "yes"} {
       
-      # Get the currently selected row
-      set selected [$widgets(tl) curselection]
-      
       # Get the directory pathname
-      set dirpath [$widgets(tl) cellcget $selected,name -text]
+      set dirpath [$widgets(tl) cellcget $row,name -text]
       
       # Delete the folder
       if {![catch { file delete -force $dirpath }]} {
         
         # Remove the directory from the file browser
-        $widgets(tl) delete $selected
+        $widgets(tl) delete $row
         
       }
       
@@ -1094,64 +1012,56 @@ namespace eval sidebar {
   }
   
   ######################################################################
-  # Causes the currently selected folder/file to become a favorite.
-  proc favorite {} {
+  # Causes the given folder/file to become a favorite.
+  proc favorite {row} {
     
     variable widgets
     
-    # Get the currently selected row
-    set selected [$widgets(tl) curselection]
-    
     # Set the folder to be a favorite
-    favorites::add [$widgets(tl) cellcget $selected,name -text]
+    favorites::add [$widgets(tl) cellcget $row,name -text]
       
   }
   
   ######################################################################
-  # Causes the currently selected folder/file to become a non-favorite.
-  proc unfavorite {} {
+  # Causes the given folder/file to become a non-favorite.
+  proc unfavorite {row} {
     
     variable widgets
-    
-    # Get the currently selected row
-    set selected [$widgets(tl) curselection]
     
     # Remove the folder from the favorites list
-    favorites::remove [$widgets(tl) cellcget $selected,name -text]
+    favorites::remove [$widgets(tl) cellcget $row,name -text]
     
   }
   
   ######################################################################
-  # Removes the selected folder from the sidebar.
-  proc remove_folder {} {
+  # Removes the specified folder rows from the sidebar.
+  proc remove_folder {rows} {
     
     variable widgets
     
-    # Get the currently selected row
-    set selected [$widgets(tl) curselection]
+    foreach row [lreverse $rows] {
     
-    # Delete the row and its children
-    $widgets(tl) delete $selected
+      # Delete the row and its children
+      $widgets(tl) delete $row
+      
+    }
     
   }
   
   ######################################################################
-  # Removes the parent(s) of the currently selected folder from the sidebar.
-  proc remove_parent_folder {} {
+  # Removes the parent(s) of the specified folder from the sidebar.
+  proc remove_parent_folder {row} {
     
     variable widgets
-    
-    # Get the currently selected row
-    set selected [$widgets(tl) curselection]
     
     # Find the child index of the ancestor of the root
-    set child $selected
+    set child $row
     while {[set parent [$widgets(tl) parentkey $child]] ne "root"} {
       set child $parent
     }
     
-    # Move the currently selected row to root
-    $widgets(tl) move $selected root [$widgets(tl) childindex $child]
+    # Move the row to root
+    $widgets(tl) move $row root [$widgets(tl) childindex $child]
     
     # Delete the child tree
     $widgets(tl) delete $child
@@ -1160,15 +1070,12 @@ namespace eval sidebar {
   
   ######################################################################
   # Sets the currently selected directory to the working directory.
-  proc set_current_working_directory {} {
+  proc set_current_working_directory {row} {
     
     variable widgets
     
-    # Get the currently selected row
-    set selected [$widgets(tl) curselection]
-    
     # Set the current working directory to the selected pathname
-    cd [$widgets(tl) cellcget $selected,name -text]
+    cd [$widgets(tl) cellcget $row,name -text]
     
     # Update the UI
     gui::set_title
@@ -1176,34 +1083,32 @@ namespace eval sidebar {
   }
   
   ######################################################################
-  # Refreshes the currently selected directory contents.
-  proc refresh_directory_files {} {
+  # Refreshes the specified directory contents.
+  proc refresh_directory_files {rows} {
     
     variable widgets
     
-    # Get the currently selected row
-    set selected [$widgets(tl) curselection]
-    
-    # Do a directory expansion
-    expand_directory $widgets(tl) $selected
+    foreach row [lreverse $rows] {
+      
+      # Do a directory expansion
+      expand_directory $widgets(tl) $row
+      
+    }
     
   }
   
   ######################################################################
   # Adds the parent directory to the sidebar of the currently selected
   # row.
-  proc add_parent_directory {} {
+  proc add_parent_directory {row} {
     
     variable widgets
-    
-    # Get the currently selected row
-    set selected [$widgets(tl) curselection]
     
     # Get the list of all root children
     set children [$widgets(tl) childkeys root]
     
     # Add the parent directory to the sidebar
-    set parent [add_directory [file dirname [$widgets(tl) cellcget $selected,name -text]]]
+    set parent [add_directory [file dirname [$widgets(tl) cellcget $row,name -text]]]
     
     # Find/move children
     set ocount 0
@@ -1223,47 +1128,46 @@ namespace eval sidebar {
   
   ######################################################################
   # Opens the currently selected file in the notebook.
-  proc open_file {} {
+  proc open_file {rows} {
     
     variable widgets
     
-    # Get the current selection
-    set selected [$widgets(tl) curselection]
-    
-    # Add the file to the notebook
-    gui::add_file end [$widgets(tl) cellcget $selected,name -text]
+    foreach row $rows {
+      
+      # Add the file to the notebook
+      gui::add_file end [$widgets(tl) cellcget $row,name -text]
+      
+    }
       
   }
  
   ######################################################################
-  # Opens the file difference view for the currently selected file.
-  proc show_file_diff {} {
+  # Opens the file difference view for the specified file.
+  proc show_file_diff {row} {
     
     variable widgets
     
-    # Get the current selection
-    set selected [$widgets(tl) curselection]
-    
     # Add the file to the notebook in difference view
-    gui::add_file end [$widgets(tl) cellcget $selected,name -text] -diff 1
+    gui::add_file end [$widgets(tl) cellcget $row,name -text] -diff 1
     
   }
   
   ######################################################################
-  # Closes the currently selected file in the notebook.
-  proc close_file {} {
+  # Closes the specified file in the notebook.
+  proc close_file {rows} {
     
     variable widgets
     variable images
     
-    # Get the current selection
-    set selected [$widgets(tl) curselection]
-    
-    # If the current file is selected, close it
-    if {[$widgets(tl) cellcget $selected,name -image] eq $images(sopen)} {
+    foreach row $rows {
       
-      # Close the tab at the current location
-      gui::close_file [$widgets(tl) cellcget $selected,name -text]
+      # If the current file is selected, close it
+      if {[$widgets(tl) cellcget $row,name -image] eq $images(sopen)} {
+        
+        # Close the tab at the current location
+        gui::close_file [$widgets(tl) cellcget $row,name -text]
+        
+      }
       
     }
     
@@ -1272,14 +1176,9 @@ namespace eval sidebar {
   ######################################################################
   # Allow the user to rename the currently selected file in the file
   # browser.
-  proc rename_file {{row ""}} {
+  proc rename_file {row} {
     
     variable widgets
-    
-    # Get the current selection
-    if {$row eq ""} {
-      set row [$widgets(tl) curselection]
-    }
     
     # Make the row editable
     $widgets(tl) cellconfigure $row,name -editable 1
@@ -1288,14 +1187,11 @@ namespace eval sidebar {
   }
   
   ######################################################################
-  # Creates a duplicate of the currently selected file, adds it to the
+  # Creates a duplicate of the specified file, adds it to the
   # sideband and allows the user to modify its name.
-  proc duplicate_file {} {
+  proc duplicate_file {row} {
     
     variable widgets
-    
-    # Get the current selection
-    set row [$widgets(tl) curselection]
     
     # Get the filename of the current selection
     set fname [$widgets(tl) cellcget $row,name -text]
@@ -1324,8 +1220,8 @@ namespace eval sidebar {
   }
   
   ######################################################################
-  # Deletes the currently selected file.
-  proc delete_file {} {
+  # Deletes the specified file.
+  proc delete_file {row} {
     
     variable widgets
     variable images
@@ -1333,20 +1229,17 @@ namespace eval sidebar {
     # Get confirmation from the user
     if {[tk_messageBox -parent . -type yesno -default yes -message [msgcat::mc "Delete file?"]] eq "yes"} {
       
-      # Get the current selection
-      set selected [$widgets(tl) curselection]
-      
       # Get the full pathname
-      set fname [$widgets(tl) cellcget $selected,name -text]
+      set fname [$widgets(tl) cellcget $row,name -text]
       
       # Delete the file
       if {![catch { file delete -force $fname }]} {
 
         # Get the background color before we delete the row
-        set bg [$widgets(tl) cellcget $selected,name -image]
+        set bg [$widgets(tl) cellcget $row,name -image]
         
         # Delete the row in the table
-        $widgets(tl) delete $selected
+        $widgets(tl) delete $row
 
         # Close the tab if the file is currently in the notebook
         if {$bg eq $images(sopen)} {

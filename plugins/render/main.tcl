@@ -70,9 +70,11 @@ namespace eval render {
   # Shows the associated tab file contents in the browser.
   proc sb_show_in_browser {} {
     
-    if {[set sb_index [api::sidebar::get_selected_index]] != -1} {
-      show_in_browser [api::sidebar::get_info $sb_index fname]
-    }
+    # Get the sidebar index
+    set sb_index [lindex [api::sidebar::get_selected_indices] 0]
+    
+    # Display the sidebar item in the browser
+    show_in_browser [api::sidebar::get_info $sb_index fname]
     
   }
   
@@ -80,7 +82,7 @@ namespace eval render {
   # Handles the stat of the associated "Show in browser" menu item.
   proc handle_sb_show_in_browser {} {
     
-    if {[set sb_index [api::sidebar::get_selected_index]] != -1} {
+    if {[llength [set sb_index [api::sidebar::get_selected_indices]]] == 1} {
       return [is_html [api::sidebar::get_info $sb_index fname]]
     } else {
       return 0
