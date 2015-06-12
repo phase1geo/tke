@@ -501,7 +501,7 @@ namespace eval plugins {
 
     set name ""
 
-    if {[gui::user_response_get [msgcat::mc "Enter plugin name"] name]} {
+    if {[gui::get_user_response [msgcat::mc "Enter plugin name"] name]} {
 
       if {![regexp {^[a-zA-Z0-9_]+$} $name]} {
         gui::set_info_message [msgcat::mc "ERROR:  Plugin name is not valid (only alphanumeric and underscores are allowed)"]

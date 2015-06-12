@@ -2652,7 +2652,7 @@ namespace eval gui {
 
   ######################################################################
   # Gets user input from the interface in a generic way.
-  proc user_response_get {msg pvar {allow_vars 1}} {
+  proc get_user_response {msg pvar {allow_vars 1}} {
 
     variable widgets
 
@@ -2661,6 +2661,12 @@ namespace eval gui {
     # Initialize the widget
     $widgets(ursp_label) configure -text $msg
     $widgets(ursp_entry) delete 0 end
+    
+    # If var contains a value, display it and select it
+    if {$var ne ""} {
+      $widgets(ursp_entry) insert end $var
+      $widgets(ursp_entry) selection range 0 end
+    }
 
     # Display the user input widget
     grid $widgets(ursp)
@@ -2681,6 +2687,8 @@ namespace eval gui {
 
     # Wait for the widget to be closed
     vwait gui::user_exit_status
+    
+    puts "A user_exit_status: $gui::user_exit_status"
 
     # Reset the original focus and grab
     catch { focus $old_focus }
@@ -2703,6 +2711,8 @@ namespace eval gui {
     if {$allow_vars} {
       set var [utils::perform_substitutions $var]
     }
+
+    puts "B user_exit_status: $gui::user_exit_status"
 
     return $gui::user_exit_status
 
@@ -2883,7 +2893,7 @@ namespace eval gui {
       set var1 ""
 
       # Get the number string from the user
-      if {[user_response_get [msgcat::mc "Starting number:"] var1]} {
+      if {[get_user_response [msgcat::mc "Starting number:"] var1]} {
 
         # Insert the numbers (if not successful, output an error to the user)
         if {![multicursor::insert_numbers $txt $var1]} {

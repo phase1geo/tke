@@ -151,7 +151,7 @@ namespace eval api {
 
     set var ""
 
-    if {[gui::user_response_get $msg var $allow_vars]} {
+    if {[gui::get_user_response $msg var $allow_vars]} {
       $interp eval set $pvar [list $var]
       return 1
     }
