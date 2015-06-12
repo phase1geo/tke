@@ -16,12 +16,20 @@ Added tag devel-1.7.9 for changeset 248a13da6882
 
 
 changeset:   1119:59c83a4ce0f9
-tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
 date:        Fri Jun 12 08:37:29 2015 -0500
 files:       lib/api.tcl lib/gui.tcl lib/markers.tcl lib/plugins.tcl lib/sidebar.tcl lib/version.tcl
 description:
 * Fixing sidebar issues.
 * Changing file renaming to allow the file to be moved as well as renamed.
+
+
+changeset:   1120:7a2d52c9ec3d
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jun 12 08:39:44 2015 -0500
+files:       ChangeLog lib/gui.tcl lib/version.tcl
+description:
+* Removing debugging output.
 
 
