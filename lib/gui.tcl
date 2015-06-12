@@ -2688,8 +2688,6 @@ namespace eval gui {
     # Wait for the widget to be closed
     vwait gui::user_exit_status
     
-    puts "A user_exit_status: $gui::user_exit_status"
-
     # Reset the original focus and grab
     catch { focus $old_focus }
     catch { grab release $widgets(ursp_entry) }
@@ -2711,8 +2709,6 @@ namespace eval gui {
     if {$allow_vars} {
       set var [utils::perform_substitutions $var]
     }
-
-    puts "B user_exit_status: $gui::user_exit_status"
 
     return $gui::user_exit_status
 
