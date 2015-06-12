@@ -22,7 +22,7 @@ namespace eval markers {
     variable curr_marker
     
     # If the name wasn't specified, ask the user
-    if {($name eq "") && ![gui::user_response_get [msgcat::mc "Marker name:"] name]} {
+    if {($name eq "") && ![gui::get_user_response [msgcat::mc "Marker name:"] name]} {
       return 0
     }
     

@@ -883,7 +883,7 @@ namespace eval sidebar {
     
     # Get the new filename from the user
     set fname ""
-    if {![gui::user_response_get [msgcat::mc "File Name:"] fname]} {
+    if {![gui::get_user_response [msgcat::mc "File Name:"] fname]} {
       return
     }
     
@@ -913,7 +913,7 @@ namespace eval sidebar {
     
     # Get the directory name from the user
     set dname ""
-    if {![gui::user_response_get [msgcat::mc "Directory Name:"] dname]} {
+    if {![gui::get_user_response [msgcat::mc "Directory Name:"] dname]} {
       return
     }
     
@@ -1179,10 +1179,39 @@ namespace eval sidebar {
   proc rename_file {row} {
     
     variable widgets
+    variable images
     
-    # Make the row editable
-    $widgets(tl) cellconfigure $row,name -editable 1
-    $widgets(tl) editcell $row,name
+    # Get the current name
+    set old_name [set fname [$widgets(tl) cellcget $row,name -text]]
+    
+    # Get the new name from the user
+    if {[gui::get_user_response [msgcat::mc "File Name:"] fname]} {
+      
+      # If the value of the cell hasn't changed or is empty, do nothing else.
+      if {($old_name eq $fname) || ($fname eq "")} {
+        return
+      }
+      
+      # Normalize the filename
+      set fname [file normalize $fname]
+      
+      # Perform the rename operation
+      if {![catch { file rename -force $old_name $fname }]} {
+       
+        # If this is a displayed file, update the file information
+        if {[$widgets(tl) cellcget $row,name -image] eq $images(sopen)} {
+          gui::change_filename $old_name $fname
+        }
+        
+        # Add the file directory
+        update_directory [add_directory [file dirname $fname]]
+        
+        # Update the old directory
+        after idle [list sidebar::update_directory [$widgets(tl) parentkey $row]]
+        
+      }
+      
+    }
     
   }
   
