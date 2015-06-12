@@ -1,27 +1,27 @@
-changeset:   1114:5980c4ad444a
-tag:         devel-1.7.8
+changeset:   1117:248a13da6882
+tag:         devel-1.7.9
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jun 10 08:29:19 2015 -0500
+date:        Thu Jun 11 08:27:24 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.7.8 release
+ChangeLog for devel-1.7.9 release
 
 
-changeset:   1115:8a12210b83c0
+changeset:   1118:8ef264d939a3
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jun 10 08:29:24 2015 -0500
+date:        Thu Jun 11 08:27:30 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.7.8 for changeset 5980c4ad444a
+Added tag devel-1.7.9 for changeset 248a13da6882
 
 
-changeset:   1116:6cc628820074
+changeset:   1119:59c83a4ce0f9
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Jun 11 08:25:17 2015 -0500
-files:       lib/api.tcl lib/sidebar.tcl lib/version.tcl plugins/render/main.tcl
+date:        Fri Jun 12 08:37:29 2015 -0500
+files:       lib/api.tcl lib/gui.tcl lib/markers.tcl lib/plugins.tcl lib/sidebar.tcl lib/version.tcl
 description:
-* Adding sidebar support for multi-row selections (allows for batching some sidebar operations).
-* Changing api::sidebar::get_selected_index to api::sidebar::get_selected_indices
+* Fixing sidebar issues.
+* Changing file renaming to allow the file to be moved as well as renamed.
 
 
