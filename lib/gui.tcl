@@ -740,6 +740,27 @@ namespace eval gui {
     }
 
   }
+  
+  ######################################################################
+  # Changes all files that exist in the old directory and renames them
+  # to the new directory.
+  proc change_folder {old_name new_name} {
+    
+    variable files
+    variable files_index
+    
+    set old_list [file split $old_name]
+    set old_len  [llength $old_list]
+    set max      [expr $old_len - 1]
+    
+    for {set i 0} {$i < [llength $files]} {incr i} {
+      set file_list [file split [lindex $files $i $files_index(fname)]]
+      if {[lrange $file_list 0 $max] eq $old_list} {
+        lset files $i $files_index(fname) [file join $new_name {*}[lrange $file_list $old_len end]]
+      }
+    }
+    
+  }
 
   ######################################################################
   # Returns 1 if the given file exists in one of the notebooks.

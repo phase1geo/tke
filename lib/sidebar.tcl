@@ -117,8 +117,6 @@ namespace eval sidebar {
         -foreground $fg -background $bg -selectmode extended \
         -selectforeground $bg -selectbackground $fg \
         -selectborderwidth 0 -activestyle none -width 30 \
-        -editstartcommand  "sidebar::edit_start_command" \
-        -editendcommand    "sidebar::edit_end_command" \
         -tooltipaddcommand "sidebar::show_tooltip" \
         -tooltipdelcommand "sidebar::hide_tooltip" \
         -yscrollcommand    "utils::set_yscrollbar $w.vb"]
@@ -700,58 +698,6 @@ namespace eval sidebar {
   }
   
   ######################################################################
-  # Begins the edit process.
-  proc edit_start_command {tbl row col value} {
-    
-    return $value
-    
-  }
-  
-  ######################################################################
-  # Ends the edit process.
-  proc edit_end_command {tbl row col value} {
-    
-    variable images
-    
-    # Get the current pathname
-    set old_name [$tbl cellcget $row,name -text]
-    
-    # Create the new pathname
-    set new_name [file join [file dirname $old_name] $value]
-
-    # If the value of the cell hasn't changed, do nothing else.
-    if {$old_name eq $new_name} {
-      return $old_name
-    }
-    
-    # Change the cell so that it can't be edited directly
-    $tbl cellconfigure $row,$col -editable 0
-    
-    # Perform the rename operation
-    if {![catch { file rename -force $old_name $new_name }]} {
-    
-      # Place the new value in the filepath cell
-      $tbl cellconfigure $row,name -text $new_name
-    
-      # If this is a displayed file, update the file information
-      if {[$tbl cellcget $row,name -image] eq $images(sopen)} {
-        gui::change_filename $old_name $new_name
-      }
-      
-      # Update the directory
-      after idle [list sidebar::update_directory [$tbl parentkey $row]]
-      
-      return $new_name
-
-    } else {
-      
-      return $old_name
-      
-    }
-    
-  }
-  
-  ######################################################################
   # Displays a tooltip for each root row.
   proc show_tooltip {tbl row col} {
     
@@ -981,10 +927,37 @@ namespace eval sidebar {
   proc rename_folder {row} {
     
     variable widgets
+    variable images
     
-    # Make the row editable
-    $widgets(tl) cellconfigure $row,name -editable 1
-    $widgets(tl) editcell $row,name
+    # Get the current name
+    set old_name [set fname [$widgets(tl) cellcget $row,name -text]]
+    
+    # Get the new name from the user
+    if {[gui::get_user_response [msgcat::mc "Folder Name:"] fname]} {
+      
+      # If the value of the cell hasn't changed or is empty, do nothing else.
+      if {($old_name eq $fname) || ($fname eq "")} {
+        return
+      }
+      
+      # Normalize the folder
+      set fname [file normalize $fname]
+      
+      # Perform the rename operation
+      if {![catch { file rename -force $old_name $fname } rc]} {
+       
+        # If this is a displayed file, update the file information
+        gui::change_folder $old_name $fname
+        
+        # Delete the old directory
+        $widgets(tl) delete $row
+        
+        # Add the file directory
+        update_directory [add_directory $fname]
+        
+      }
+      
+    }
     
   }
   
@@ -1198,10 +1171,8 @@ namespace eval sidebar {
       # Perform the rename operation
       if {![catch { file rename -force $old_name $fname }]} {
        
-        # If this is a displayed file, update the file information
-        if {[$widgets(tl) cellcget $row,name -image] eq $images(sopen)} {
-          gui::change_filename $old_name $fname
-        }
+        # Update the file information (if necessary)
+        gui::change_filename $old_name $fname
         
         # Add the file directory
         update_directory [add_directory [file dirname $fname]]
@@ -1240,10 +1211,6 @@ namespace eval sidebar {
         [$widgets(tl) parentkey $row] [expr [$widgets(tl) childindex $row] + 1] \
         [list $dup_fname 0]]
     
-      # Make the new row editable
-      $widgets(tl) cellconfigure $new_row,name -editable 1
-      $widgets(tl) editcell      $new_row,name
-      
     }
     
   }
