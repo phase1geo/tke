@@ -1,35 +1,35 @@
-changeset:   1117:248a13da6882
-tag:         devel-1.7.9
+changeset:   1121:0acbb4618412
+tag:         devel-1.7.10
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Jun 11 08:27:24 2015 -0500
+date:        Fri Jun 12 08:42:00 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.7.9 release
+ChangeLog for devel-1.7.10 release
 
 
-changeset:   1118:8ef264d939a3
+changeset:   1122:c09c176a823e
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Jun 11 08:27:30 2015 -0500
+date:        Fri Jun 12 08:42:07 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.7.9 for changeset 248a13da6882
+Added tag devel-1.7.10 for changeset 0acbb4618412
 
 
-changeset:   1119:59c83a4ce0f9
+changeset:   1123:4c323be3ad10
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Jun 12 08:37:29 2015 -0500
-files:       lib/api.tcl lib/gui.tcl lib/markers.tcl lib/plugins.tcl lib/sidebar.tcl lib/version.tcl
+date:        Sat Jun 13 00:49:19 2015 -0500
+files:       lib/gui.tcl lib/sidebar.tcl lib/version.tcl
 description:
-* Fixing sidebar issues.
-* Changing file renaming to allow the file to be moved as well as renamed.
+* Changing folder rename function to use entry field.
+* Changing duplicate file function to not put the name into edit mode after creation.
 
 
-changeset:   1120:7a2d52c9ec3d
+changeset:   1124:0ff87ec91742
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Jun 12 08:39:44 2015 -0500
-files:       ChangeLog lib/gui.tcl lib/version.tcl
+date:        Mon Jun 15 08:56:46 2015 -0500
+files:       lib/ctext/ctext.tcl lib/gui.tcl lib/sidebar.tcl lib/version.tcl
 description:
-* Removing debugging output.
+* Adding drag/drop support to editor window.
 
 
