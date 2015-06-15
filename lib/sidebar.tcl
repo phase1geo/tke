@@ -1365,4 +1365,16 @@ namespace eval sidebar {
     
   }
   
+  ######################################################################
+  # If value is set to 1, the sidebar will be transformed into a draggable
+  # mode of operation.  If value is set to 0, the sidebar will return to
+  # normal mode of operation.
+  proc set_draggable {value} {
+    
+    variable widgets
+    
+    $widgets(tl) configure -customdragsource $value
+    
+  }
+  
 }

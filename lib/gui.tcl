@@ -26,6 +26,7 @@ namespace eval gui {
   variable trailing_ws_re   {[\ \t]+$}
   variable case_sensitive   1
   variable replace_all      1
+  variable highlightcolor   ""
 
   array set widgets         {}
   array set language        {}
@@ -2678,10 +2679,13 @@ namespace eval gui {
     variable widgets
 
     upvar $pvar var
-
+    
     # Initialize the widget
     $widgets(ursp_label) configure -text $msg
     $widgets(ursp_entry) delete 0 end
+    
+    # Make the sidebar draggable
+    # sidebar::set_draggable 1
     
     # If var contains a value, display it and select it
     if {$var ne ""} {
@@ -2722,6 +2726,9 @@ namespace eval gui {
 
     # Hide the user input widget
     grid remove $widgets(ursp)
+    
+    # Return the sidebar back to normal mode
+    # sidebar::set_draggable 0
 
     # Get the user response value
     set var [$widgets(ursp_entry) get]
@@ -3300,6 +3307,7 @@ namespace eval gui {
     vim::set_vim_mode             $txt {}
     completer::add_bindings       $txt
     plugins::handle_text_bindings $txt
+    make_drop_target              $txt
 
     # Apply the appropriate syntax highlighting for the given extension
     if {$initial_language eq ""} {
@@ -3407,6 +3415,7 @@ namespace eval gui {
     [ns vim]::set_vim_mode             $txt2 {}
     [ns completer]::add_bindings       $txt2
     [ns plugins]::handle_text_bindings $txt2
+    make_drop_target                   $txt2
 
     # Apply the appropriate syntax highlighting for the given extension
     set language [[ns syntax]::get_current_language $txt]
@@ -3443,6 +3452,97 @@ namespace eval gui {
     # Set the focus back on the tf text widget
     set_txt_focus $pw.tf.txt
 
+  }
+  
+  ######################################################################
+  # Adds the necessary bindings to make the given text widget a drop
+  # target for TkDND.
+  proc make_drop_target {txt} {
+    
+    # Make ourselves a drop target (if Tkdnd is available)
+    catch {
+      
+      tkdnd::drop_target register $txt [list DND_Files DND_Text]
+      
+      bind $txt <<DropEnter>>      "gui::handle_drop_enter_or_pos %W %X %Y %a %b"
+      bind $txt <<DropPosition>>   "gui::handle_drop_enter_or_pos %W %X %Y %a %b"
+      bind $txt <<DropLeave>>      "gui::handle_drop_leave %W"
+      bind $txt <<Drop:DND_Files>> "gui::handle_drop %W %A %m 0 %D"
+      bind $txt <<Drop:DND_Text>>  "gui::handle_drop %W %A %m 1 %D"
+      
+    }
+    
+  }
+  
+  ######################################################################
+  # Handles a drag-and-drop enter/position event.  Draws UI to show that
+  # the file drop request would be excepted or rejected.
+  proc handle_drop_enter_or_pos {txt rootx rooty actions buttons} {
+    
+    variable files
+    variable files_index
+    
+    # If the file is readonly, refuse the drop
+    if {([set index [current_file]] == -1) || \
+        [lindex $files $index $files_index(readonly)] || \
+        [lindex $files $index $files_index(lock)] || \
+        [lindex $files $index $files_index(diff)] } {
+      return "refuse_drop"
+    }
+    
+    # Make sure the text widget has the focus
+    focus -force $txt.t
+    
+    # Set the highlight color to green
+    ctext::set_border_color $txt green
+    
+    # Move the insertion point to the location of rootx/y
+    set x [expr $rootx - [winfo rootx $txt.t]]
+    set y [expr $rooty - [winfo rooty $txt.t]]
+    $txt mark set insert @$x,$y
+    vim::adjust_insert $txt.t
+    
+    return "link"
+    
+  }
+  
+  ######################################################################
+  # Handles a drop leave event.
+  proc handle_drop_leave {txt} {
+    
+    # Set the highlight color to green
+    ctext::set_border_color $txt white
+    
+  }
+  
+  ######################################################################
+  # Handles a drop event.  Adds the given files/directories to the sidebar.
+  proc handle_drop {txt action modifier type data} {
+    
+    # If the data is text or the Alt key modifier is held during the drop, insert the data at the
+    # current insertion point
+    if {$type || ($modifier eq "alt")} {
+      $txt insert insert $data
+      
+    # Otherwise, insert the content of the file(s) after the insertion line
+    } else {
+      set str "\n"
+      foreach ifile $data {
+        if {[file isfile $ifile]} {
+          if {![catch { open $ifile r } rc]} {
+            append str [read $rc]
+            close $rc
+          }
+        }
+      }
+      $txt insert "insert lineend" $str
+    }
+    
+    # Indicate that the drop event has completed
+    handle_drop_leave $txt
+        
+    return "link"
+        
   }
 
   ######################################################################

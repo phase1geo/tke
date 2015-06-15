@@ -551,6 +551,12 @@ proc ctext::handleFocusOut {win} {
 
 }
 
+proc ctext::set_border_color {win color} {
+  
+  __ctextJunk$win configure -bg $color
+  
+}
+
 # Returns 1 if the character at the given index is escaped; otherwise, returns 0.
 proc ctext::isEscaped {win index} {
 
