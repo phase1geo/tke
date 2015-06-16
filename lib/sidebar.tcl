@@ -943,6 +943,9 @@ namespace eval sidebar {
       # Normalize the folder
       set fname [file normalize $fname]
       
+      # Allow any plugins to handle the rename
+      plugins::handle_on_rename $old_name $fname
+      
       # Perform the rename operation
       if {![catch { file rename -force $old_name $fname } rc]} {
        
@@ -971,6 +974,9 @@ namespace eval sidebar {
       
       # Get the directory pathname
       set dirpath [$widgets(tl) cellcget $row,name -text]
+      
+      # Allow any plugins to handle the rename
+      plugins::handle_on_delete $dirpath
       
       # Delete the folder
       if {![catch { file delete -force $dirpath }]} {
@@ -1168,6 +1174,9 @@ namespace eval sidebar {
       # Normalize the filename
       set fname [file normalize $fname]
       
+      # Allow any plugins to handle the rename
+      plugins::handle_on_rename $old_name $fname
+      
       # Perform the rename operation
       if {![catch { file rename -force $old_name $fname }]} {
        
@@ -1211,6 +1220,9 @@ namespace eval sidebar {
         [$widgets(tl) parentkey $row] [expr [$widgets(tl) childindex $row] + 1] \
         [list $dup_fname 0]]
     
+      # Allow any plugins to handle the rename
+      plugins::handle_on_duplicate $fname $dup_fname
+      
     }
     
   }
@@ -1227,6 +1239,9 @@ namespace eval sidebar {
       
       # Get the full pathname
       set fname [$widgets(tl) cellcget $row,name -text]
+      
+      # Allow any plugins to handle the rename
+      plugins::handle_on_delete $fname
       
       # Delete the file
       if {![catch { file delete -force $fname }]} {

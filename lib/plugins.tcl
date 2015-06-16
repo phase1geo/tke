@@ -18,6 +18,9 @@
 #  on_quit      - Runs when the editor is exited
 #  on_reload    - Takes action when the plugin is reloaded
 #  on_save      - Runs prior to a file being saved
+#  on_rename    - Runs when a file/folder is being renamed
+#  on_duplicate - Runs when a file is being duplicated
+#  on_delete    - Runs when a file/folder is being deleted
 #  on_uninstall - Runs when the plugin is uninstalled by the user.  Allows UI cleanup, etc.
 #  syntax       - Adds the given syntax file to the list of available syntaxes
 
@@ -989,6 +992,30 @@ namespace eval plugins {
 
   }
 
+  ######################################################################
+  # Called whenever a file/folder is renamed.
+  proc handle_on_rename {old_fname new_fname} {
+    
+    handle_event "on_rename" $old_fname $new_fname
+    
+  }
+  
+  ######################################################################
+  # Called whenever a file is duplicated.
+  proc handle_on_duplicate {old_fname new_fname} {
+    
+    handle_event "on_duplicate" $old_fname $new_fname
+    
+  }
+  
+  ######################################################################
+  # Called whenever a file/folder is deleted.
+  proc handle_on_delete {fname} {
+    
+    handle_event "on_delete" $fname
+    
+  }
+  
   ######################################################################
   # Called whenever a tab receives focus.
   proc handle_on_focusin {tab} {

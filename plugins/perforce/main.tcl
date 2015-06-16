@@ -158,7 +158,48 @@ namespace eval perforce {
     }
 
   }
-
+  
+  ######################################################################
+  # When a file is renamed, handle it from Perforce's point of view.
+  proc on_rename_do {old_fname new_fname} {
+    
+    if {[included $old_fname]} {
+      
+      # If the new filename exists within a Perforce directory, rename it
+      if {[included $new_fname]} {
+        catch "exec p4 rename $old_fname $new_fname"
+        
+      # Otherwise, delete the old file from the depot
+      } else {
+        catch "exec p4 delete $old_fname"
+      }
+      
+    }
+    
+  }
+  
+  ######################################################################
+  # When a file/folder is deleted, handle it from Perforce's point of
+  # view.
+  proc on_delete_do {fname} {
+    
+    if {[included $fname]} {
+      
+      # Perform the Perforce deletion
+      if {[file isdirectory $fname]} {
+        if {![catch "exec -ignorestderr p4 delete $fname/..."]} {
+          catch "exec touch $fname"
+        }
+      } else {
+        if {![catch "exec p4 delete $fname"]} {
+          catch "exec touch $fname"
+        }
+      }
+      
+    }
+    
+  }
+  
   ######################################################################
   # Handles a writeplugin event.
   proc writeplugin_do {} {
@@ -188,6 +229,8 @@ api::register perforce {
   {menu command   "Perforce Options/Edit include directories" perforce::edit_include_dirs_do perforce::edit_include_dirs_state}
   {menu separator "Perforce Options"}
   {menu command   "Perforce Options/Revert current file"      perforce::revert_file_do       perforce::revert_file_state}
-  {on_start perforce::on_start_do}
-  {on_save  perforce::on_save_do}
+  {on_start     perforce::on_start_do}
+  {on_save      perforce::on_save_do}
+  {on_rename    perforce::on_rename_do}
+  {on_delete    perforce::on_delete_do}
 }
