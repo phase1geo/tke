@@ -1936,7 +1936,6 @@ namespace eval gui {
     # If the text widget was not in a modified state, force it to be so now
     if {!$modified} {
       $txt edit modified false
-      puts "SETTING tab current [file tail $fname]"
       [current_tabbar] tab current -text " [file tail $fname]"
       set_title
     }
@@ -3591,7 +3590,6 @@ namespace eval gui {
 
         # Change the look of the tab
         if {[string index [set name [string trimleft [$tb tab $tab -text]]] 0] ne "*"} {
-          puts "MODIFIED!"
           $tb tab $tab -text " * $name"
           set_title
         }
