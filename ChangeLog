@@ -1,35 +1,35 @@
-changeset:   1121:0acbb4618412
-tag:         devel-1.7.10
+changeset:   1125:71d6d0b499b2
+tag:         devel-1.7.11
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Jun 12 08:42:00 2015 -0500
+date:        Mon Jun 15 08:57:51 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.7.10 release
+ChangeLog for devel-1.7.11 release
 
 
-changeset:   1122:c09c176a823e
+changeset:   1126:a7f933e05f50
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Jun 12 08:42:07 2015 -0500
+date:        Mon Jun 15 08:57:59 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.7.10 for changeset 0acbb4618412
+Added tag devel-1.7.11 for changeset 71d6d0b499b2
 
 
-changeset:   1123:4c323be3ad10
+changeset:   1127:380da680eff3
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Jun 13 00:49:19 2015 -0500
-files:       lib/gui.tcl lib/sidebar.tcl lib/version.tcl
+date:        Tue Jun 16 08:34:06 2015 -0500
+files:       lib/plugins.tcl lib/sidebar.tcl lib/version.tcl plugins/perforce/main.tcl
 description:
-* Changing folder rename function to use entry field.
-* Changing duplicate file function to not put the name into edit mode after creation.
+* Adding plugin support for on_rename, on_duplicate and on_delete events.
 
 
-changeset:   1124:0ff87ec91742
+changeset:   1128:2cb486487d41
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Jun 15 08:56:46 2015 -0500
-files:       lib/ctext/ctext.tcl lib/gui.tcl lib/sidebar.tcl lib/version.tcl
+date:        Wed Jun 17 08:27:35 2015 -0500
+files:       lib/gui.tcl lib/menus.tcl lib/version.tcl
 description:
-* Adding drag/drop support to editor window.
+* Adding "Merge panes" command to View menu.
+* Fixing modified state issue when moving a tab between panes.
 
 
