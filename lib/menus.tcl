@@ -1217,6 +1217,9 @@ namespace eval menus {
 
     $mb add command -label [msgcat::mc "Move to other pane"] -underline 0 -command "gui::move_to_pane"
     launcher::register [msgcat::mc "Menu: Move to other pane"] "gui::move_to_pane"
+    
+    $mb add command -label [msgcat::mc "Merge panes"] -underline 3 -command "gui::merge_panes"
+    launcher::register [msgcat::mc "Menu: Merge panes"] "gui::merge_panes"
 
     $mb add separator
 
@@ -1258,6 +1261,12 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Tabs"] -state disabled
     } else {
       $mb entryconfigure [msgcat::mc "Tabs"] -state normal
+    }
+    
+    if {[gui::panes] < 2} {
+      $mb entryconfigure [msgcat::mc "Merge panes"] -state disabled
+    } else {
+      $mb entryconfigure [msgcat::mc "Merge panes"] -state normal
     }
 
     if {[gui::current_txt {}] eq ""} {

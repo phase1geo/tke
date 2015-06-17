@@ -1906,11 +1906,6 @@ namespace eval gui {
     # Get the current text widget
     set txt [current_txt {}]
 
-    # Update the file components to include position change information
-    lset file $files_index(tab)      $w
-    lset file $files_index(modified) 0
-    lappend files $file
-
     if {$diff} {
 
       diff::show $txt 1
@@ -1941,6 +1936,7 @@ namespace eval gui {
     # If the text widget was not in a modified state, force it to be so now
     if {!$modified} {
       $txt edit modified false
+      puts "SETTING tab current [file tail $fname]"
       [current_tabbar] tab current -text " [file tail $fname]"
       set_title
     }
@@ -1949,9 +1945,33 @@ namespace eval gui {
     sidebar::add_directory [file dirname [file normalize $fname]]
     sidebar::highlight_filename $fname [expr ($diff * 2) + 1]
 
+    # Update the file components to include position change information
+    lset file $files_index(tab)      $w
+    lset file $files_index(modified) 0
+    lappend files $file
+
     # Set the tab image for the moved file
     set_current_tab_image {}
       
+  }
+  
+  ######################################################################
+  # Merges both panes into one.
+  proc merge_panes {} {
+    
+    variable widgets
+    variable pw_current
+    
+    while {[llength [$widgets(nb_pw) panes]] == 2} {
+      
+      # Make the second pane the current pane
+      set pw_current 1
+    
+      # Move the pane
+      move_to_pane
+      
+    }
+    
   }
 
   ######################################################################
@@ -3571,6 +3591,7 @@ namespace eval gui {
 
         # Change the look of the tab
         if {[string index [set name [string trimleft [$tb tab $tab -text]]] 0] ne "*"} {
+          puts "MODIFIED!"
           $tb tab $tab -text " * $name"
           set_title
         }
