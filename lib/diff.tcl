@@ -646,7 +646,7 @@ namespace eval diff {
     }
 
     proc get_version_log {fname version} {
-      if {![catch { exec p4 filelog $fname#$version } rc]} {
+      if {![catch { exec p4 filelog -l -m 1 $fname#$version } rc]} {
         return $rc
       }
       return ""
