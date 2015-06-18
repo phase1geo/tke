@@ -128,7 +128,9 @@ namespace eval bindings {
     # Create character to keysym mapping
     array set mapping {
       Ctrl      "Control-"
-      Alt       "Alt-"
+      Alt       "Mod2-"
+      Cmd       "Mod1-"
+      Super     "Mod1-"
       !         "exclam"
       \"        "quotedbl"
       \#        "numbersign"
@@ -163,19 +165,6 @@ namespace eval bindings {
       Space     "space"
     }
     
-    # If we are on a Mac, convert the Cmd string to the Command string
-    if {[tk windowingsystem] eq "aqua"} {
-      array set mapping {
-        Cmd   "Command-"
-        Super "Command-"
-      }
-    } else {
-      array set mapping {
-        Cmd   "Command-"
-        Super "Meta-"
-      }
-    }
-    
     # Create the sequence
     foreach value [split $accelerator -] {
       if {[info exists mapping($value)]} {
@@ -196,7 +185,7 @@ namespace eval bindings {
     }
     
     append sequence ">"
-
+    
     return $sequence
     
   }

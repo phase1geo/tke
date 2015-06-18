@@ -22,18 +22,18 @@ namespace eval multicursor {
     $txt tag configure mcursor -underline 1
 
     # Create multicursor bindings
-    bind mcursor$txt <<Selection>>               "[ns multicursor]::handle_selection %W"
-    bind mcursor$txt <Alt-Button-1>              "[ns multicursor]::handle_alt_button1 %W %x %y"
-    bind mcursor$txt <Alt-Button-$::right_click> "[ns multicursor]::handle_alt_button3 %W %x %y"
-    bind mcursor$txt <Shift-Alt-ButtonPress-1>   "[ns multicursor]::handle_shift_alt_buttonpress1 %W %x %y; break"
-    bind mcursor$txt <Shift-Alt-B1-Motion>       "[ns multicursor]::handle_shift_alt_motion %W %x %y; break"
-    bind mcursor$txt <Shift-Alt-ButtonRelease-1> "[ns multicursor]::handle_shift_alt_buttonrelease1 %W %x %y; break"
-    bind mcursor$txt <Key-Delete>                "if {\[[ns multicursor]::handle_delete %W\]} { break }"
-    bind mcursor$txt <Key-BackSpace>             "if {\[[ns multicursor]::handle_backspace %W\]} { break }"
-    bind mcursor$txt <Return>                    "if {\[[ns multicursor]::handle_return %W\]} { break }"
-    bind mcursor$txt <Any-KeyPress>              "if {\[[ns multicursor]::handle_keypress %W %A %K\]} { break }"
-    bind mcursor$txt <Escape>                    "[ns multicursor]::handle_escape %W"
-    bind mcursor$txt <Button-1>                  "[ns multicursor]::disable %W"
+    bind mcursor$txt <<Selection>>                "[ns multicursor]::handle_selection %W"
+    bind mcursor$txt <Mod2-Button-1>              "[ns multicursor]::handle_alt_button1 %W %x %y"
+    bind mcursor$txt <Mod2-Button-$::right_click> "[ns multicursor]::handle_alt_button3 %W %x %y"
+    bind mcursor$txt <Shift-Mod2-ButtonPress-1>   "[ns multicursor]::handle_shift_alt_buttonpress1 %W %x %y; break"
+    bind mcursor$txt <Shift-Mod2-B1-Motion>       "[ns multicursor]::handle_shift_alt_motion %W %x %y; break"
+    bind mcursor$txt <Shift-Mod2-ButtonRelease-1> "[ns multicursor]::handle_shift_alt_buttonrelease1 %W %x %y; break"
+    bind mcursor$txt <Key-Delete>                 "if {\[[ns multicursor]::handle_delete %W\]} { break }"
+    bind mcursor$txt <Key-BackSpace>              "if {\[[ns multicursor]::handle_backspace %W\]} { break }"
+    bind mcursor$txt <Return>                     "if {\[[ns multicursor]::handle_return %W\]} { break }"
+    bind mcursor$txt <Any-KeyPress>               "if {\[[ns multicursor]::handle_keypress %W %A %K\]} { break }"
+    bind mcursor$txt <Escape>                     "[ns multicursor]::handle_escape %W"
+    bind mcursor$txt <Button-1>                   "[ns multicursor]::disable %W"
     
     # Add the multicursor bindings to the text widget's bindtags
     bindtags $txt.t [linsert [bindtags $txt.t] 2 mcursor$txt]
