@@ -1,35 +1,43 @@
-changeset:   1125:71d6d0b499b2
-tag:         devel-1.7.11
+changeset:   1129:ee423784a04c
+tag:         devel-1.7.12
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Jun 15 08:57:51 2015 -0500
+date:        Wed Jun 17 08:28:38 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.7.11 release
+ChangeLog for devel-1.7.12 release
 
 
-changeset:   1126:a7f933e05f50
+changeset:   1130:14b21987e60c
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Jun 15 08:57:59 2015 -0500
+date:        Wed Jun 17 08:28:43 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.7.11 for changeset 71d6d0b499b2
+Added tag devel-1.7.12 for changeset ee423784a04c
 
 
-changeset:   1127:380da680eff3
+changeset:   1131:75bdc98971c9
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Jun 16 08:34:06 2015 -0500
-files:       lib/plugins.tcl lib/sidebar.tcl lib/version.tcl plugins/perforce/main.tcl
+date:        Wed Jun 17 08:46:34 2015 -0500
+files:       lib/diff.tcl lib/version.tcl
 description:
-* Adding plugin support for on_rename, on_duplicate and on_delete events.
+* Fixing version command call for Perforce difference view.
 
 
-changeset:   1128:2cb486487d41
+changeset:   1132:ddcf62686b23
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Jun 17 09:54:52 2015 -0500
+files:       lib/gui.tcl lib/version.tcl
+description:
+* Removing unnecessary debug output.
+
+
+changeset:   1133:d864cbf8528e
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jun 17 08:27:35 2015 -0500
-files:       lib/gui.tcl lib/menus.tcl lib/version.tcl
+date:        Thu Jun 18 00:17:39 2015 -0500
+files:       lib/bindings.tcl lib/multicursor.tcl lib/texttools.tcl lib/version.tcl
 description:
-* Adding "Merge panes" command to View menu.
-* Fixing modified state issue when moving a tab between panes.
+* Fixing issues with Alt key bindings on MacOSX.
+* Adding uncommenting support for block comments when the cursor is currently in one.
 
 
