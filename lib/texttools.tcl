@@ -104,6 +104,9 @@ namespace eval texttools {
     # Create a separator
     $txt edit separator
     
+    # Get various comments
+    lassign [syntax::get_comments $txt] icomment lcomments bcomments
+    
     # Get the current selection
     set selected 1
     if {[llength [set ranges [$txt tag ranges sel]]] == 0} {
@@ -111,6 +114,13 @@ namespace eval texttools {
         foreach {startpos endpos} $mcursors {
           lappend ranges [$txt index "$startpos linestart"] [$txt index "$startpos lineend"]
         }
+      } elseif {[lsearch [$txt tag names insert] _cComment] != -1} {
+        lassign [$txt tag prevrange _cComment insert] startpos endpos
+        if {[regexp "^[lindex $bcomments 0 0](.*)[lindex $bcomments 0 1]\$" [$txt get $startpos $endpos] -> str]} {
+          $txt replace $startpos $endpos $str
+          $txt edit separator
+        }
+        return
       } else {
         set ranges [list [$txt index "insert linestart"] [$txt index "insert lineend"]]
       }
@@ -120,7 +130,6 @@ namespace eval texttools {
     # Iterate through each range
     foreach {endpos startpos} [lreverse $ranges] {
       if {![do_uncomment $txt $startpos $endpos]} {
-        lassign [syntax::get_comments $txt] icomment lcomments bcomments
         if {[llength $icomment] == 1} {
           set i 0
           foreach line [split [$txt get $startpos $endpos] \n] {
