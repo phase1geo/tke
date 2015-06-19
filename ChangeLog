@@ -1,43 +1,28 @@
-changeset:   1129:ee423784a04c
-tag:         devel-1.7.12
+changeset:   1134:d8beed81213e
+tag:         devel-1.7.13
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jun 17 08:28:38 2015 -0500
+date:        Thu Jun 18 00:19:16 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.7.12 release
+ChangeLog for devel-1.7.13 release
 
 
-changeset:   1130:14b21987e60c
+changeset:   1135:2bc97c6d28d1
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jun 17 08:28:43 2015 -0500
+date:        Thu Jun 18 00:19:24 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.7.12 for changeset ee423784a04c
+Added tag devel-1.7.13 for changeset d8beed81213e
 
 
-changeset:   1131:75bdc98971c9
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jun 17 08:46:34 2015 -0500
-files:       lib/diff.tcl lib/version.tcl
-description:
-* Fixing version command call for Perforce difference view.
-
-
-changeset:   1132:ddcf62686b23
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Jun 17 09:54:52 2015 -0500
-files:       lib/gui.tcl lib/version.tcl
-description:
-* Removing unnecessary debug output.
-
-
-changeset:   1133:d864cbf8528e
+changeset:   1136:8b6abb2d532a
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Jun 18 00:17:39 2015 -0500
-files:       lib/bindings.tcl lib/multicursor.tcl lib/texttools.tcl lib/version.tcl
+date:        Thu Jun 18 23:20:18 2015 -0500
+files:       data/preferences.tkedat lib/api.tcl lib/gui.tcl lib/menus.tcl lib/sidebar.tcl lib/version.tcl
 description:
-* Fixing issues with Alt key bindings on MacOSX.
-* Adding uncommenting support for block comments when the cursor is currently in one.
+* Adding new "View/ShowFindInFileResultsInOtherPane" preference item.
+* Changing add_file and add_new_file procs to include new -other option to immediately add a file to the other pane.
+* Adding -other option to api::file::add procedure.
 
 
