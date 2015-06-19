@@ -371,7 +371,7 @@ namespace eval menus {
     set fname [gui::current_filename]
 
     # Display the current file as a difference
-    gui::add_file end $fname -diff 1
+    gui::add_file end $fname -diff 1 -other [preferences::get View/ShowDifferenceInOtherPane]
 
   }
 
@@ -936,8 +936,8 @@ namespace eval menus {
     variable txt_cursor
 
     # Add the file to the viewer
-    gui::add_file end Results -sidebar 0 -buffer 1
-
+    gui::add_file end Results -sidebar 0 -buffer 1 -other [preferences::get View/ShowFindInFileResultsInOtherPane]
+    
     # Add bindings to allow one-click file opening
     set txt [gui::current_txt {}]
 

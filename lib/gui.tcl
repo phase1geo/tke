@@ -1110,6 +1110,7 @@ namespace eval gui {
   #                           {name {{symbol_name {symbol_tag_options+}}+}}+
   #                         For a list of valid symbol_tag_options, see the options available for
   #                         tags in a text widget.
+  # -other       <bool>     If true, adds the file to the other pane.
   proc add_new_file {index args} {
 
     variable files
@@ -1124,6 +1125,7 @@ namespace eval gui {
       -sidebar     $::cl_sidebar \
       -buffer      0 \
       -gutters     [list] \
+      -other       0 \
     ]
     array set opts $args
 
@@ -1132,6 +1134,18 @@ namespace eval gui {
       return
     }
 
+    if {$opts(-other)} {
+      
+      # If the other pane does not exist, add it
+      if {[llength [$widgets(nb_pw) panes]] == 1} {
+        add_notebook
+      }
+ 
+      # Set the current pane to the other one
+      set pw_current [expr $pw_current ^ 1]
+      
+    }
+    
     # Adjust the index (if necessary)
     set index [adjust_insert_tab_index $index "Untitled"]
 
@@ -1183,6 +1197,7 @@ namespace eval gui {
   #                         For a list of valid symbol_tag_options, see the options available for
   #                         tags in a text widget.
   # -diff        <bool>     Specifies if we need to do a diff of the file.
+  # -other       <bool>     If true, adds the file to the other editing pane.
   proc add_file {index fname args} {
 
     variable widgets
@@ -1201,6 +1216,7 @@ namespace eval gui {
       -buffer      0
       -gutters     {}
       -diff        0
+      -other       0
     }
     array set opts $args
 
@@ -1222,10 +1238,22 @@ namespace eval gui {
     if {$file_index != -1} {
 
       set_current_tab [lindex $files $file_index $files_index(tab)]
-
+      
     # Otherwise, load the file in a new tab
     } else {
 
+      if {$opts(-other)} {
+        
+        # If the other pane does not exist, add it
+        if {[llength [$widgets(nb_pw) panes]] == 1} {
+          add_notebook
+        }
+   
+        # Set the current pane to the other one
+        set pw_current [expr $pw_current ^ 1]
+        
+      }
+      
       # Adjust the index (if necessary)
       set index [adjust_insert_tab_index $index [file tail $fname]]
 
@@ -1277,9 +1305,6 @@ namespace eval gui {
         # If a diff command was specified, run and parse it now
         if {$opts(-diff)} {
           diff::show $txt
-          if {[[ns preferences]::get View/ShowDifferenceInOtherPane]} {
-            move_to_pane
-          }
         }
 
       } else {

@@ -237,6 +237,12 @@ namespace eval api {
     #       \code {name {{symbol_name {symbol_tag_options+}}+}}+ \endcode
     #       For a list of valid symbol_tag_options, see the options available for
     #       tags in a text widget.
+    #
+    #   -other (0|1)
+    #     * If set to 0 (default), the file will be created in a new tab in the
+    #       current pane; however, if set to 1, the file will be created in a new
+    #       tab in the other pane (the other pane will be created if it does not
+    #       exist).
     proc add {interp pname args} {
 
       set fname ""
