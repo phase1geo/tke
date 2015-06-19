@@ -189,6 +189,11 @@
 
 {View/ShowDifferenceVersionInfo} {1}
 
+# If this value is set to 1, displays the results from a "find in files" operation in the
+# pane that is not the current editing pane.
+
+{View/ShowFindInFileResultsInOtherPane} {0}
+
 # When the number of opened tabs in a notebook exceeds the number of tabs that can
 # be readably displayed, a value of 1 will cause some of the tabs to be "hidden" from
 # view, allowing their display via scrolling buttons and a dropdown menu.  If this
