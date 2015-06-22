@@ -122,7 +122,6 @@ namespace eval snippets {
 
     # If the language being parsed is
     if {$language eq "snippets"} {
-      puts "Setting language to snippets"
       set_language snippets
     }
 
@@ -133,6 +132,8 @@ namespace eval snippets {
   # the given snippet.
   proc parse_snippet {snippet} {
 
+    puts $snippet
+    
     set in_dollar  0
     set in_tick    0
     set in_escape  0
@@ -170,10 +171,12 @@ namespace eval snippets {
           incr i [string length $varname]
 
         } else {
+          
           incr i
-
+          
           # Handle a more complex dollar operator
           if {[string index $snippet $i] eq "\{"} {
+            
             incr in_dollar
             incr i
 
@@ -182,30 +185,32 @@ namespace eval snippets {
               set dollar($in_dollar,string)  ""
               set dollar($in_dollar,start)   $from_start
               set dollar($in_dollar,tabstop) $number
+              set dollar($in_dollar,regsub)  [list]
               incr i [string length $number]
 
             # Handle a tab stop mirror
-            } elseif {[regexp {^(\d+)/(.*)/(.*)/(.*)} [string range $snippet $i end] -> number expr format opts]} {
+            } elseif {[regexp {^(\d+)/(.*?)/(.*?)/([g]*)} [string range $snippet $i end] -> number expr format opts]} {
               set dollar($in_dollar,string)  ""
               set dollar($in_dollar,start)   $from_start
               set dollar($in_dollar,tabstop) $number
               set dollar($in_dollar,regsub)  [list $expr $format $opts]
-              incr i [expr [string length $number] + [string length $expr] + [string length $format] + [string length $opts] + 3]
+              incr i [expr [string length $number] + [string length $expr] + [string length $format] + [string length $opts] + 2]
 
             # Start handling a complex variable substitution
             } elseif {[regexp {^(\w+):} [string range $snippet $i end] -> varname]} {
               set dollar($in_dollar,string)  ""
               set dollar($in_dollar,start)   $from_start
               set dollar($in_dollar,varname) $varname
+              set dollar($in_dollar,regsub)  [list]
               incr i [string length $varname]
 
             # Handle a variable with regular expression substitution
-            } elseif {[regexp {^(\w+)/(.*)/(.*)/(.*)} [string range $snippet $i end] -> varname expr format opts]} {
+            } elseif {[regexp {^(\w+)/(.*?)/(.*?)/([g]*)} [string range $snippet $i end] -> varname expr format opts]} {
               set dollar($in_dollar,string)  ""
               set dollar($in_dollar,start)   $from_start
               set dollar($in_dollar,varname) $varname
               set dollar($in_dollar,regsub)  [list $expr $format $opts]
-              incr i [expr [string length $varname] + [string length $expr] + [string length $format] + [string length $opts] + 3]
+              incr i [expr [string length $varname] + [string length $expr] + [string length $format] + [string length $opts] + 2]
             }
 
           }
@@ -215,10 +220,10 @@ namespace eval snippets {
       # We have found an unescaped right brace
       } elseif {$in_dollar && !$in_escape && ($char eq "\}")} {
         if {[info exists dollar($in_dollar,varname)]} {
-          lappend dynamics [list var $dollar($in_dollar,varname) $dollar($in_dollar,start) $dollar($in_dollar,string)]
+          lappend dynamics [list var $dollar($in_dollar,varname) $dollar($in_dollar,start) $dollar($in_dollar,string) $dollar($in_dollar,regsub)]
         } else {
           set tabstop_string($dollar($in_dollar,tabstop)) $dollar($in_dollar,string)
-          lappend tabs [list snippet_sel_$dollar($in_dollar,tabstop) $dollar($in_dollar,start) [expr $dollar($in_dollar,start) + [string length $dollar($in_dollar,string)]]]
+          lappend tabs [list snippet_sel_$dollar($in_dollar,tabstop) $dollar($in_dollar,start) [expr $dollar($in_dollar,start) + [string length $dollar($in_dollar,string)]] $dollar($in_dollar,regsub)]
         }
         array unset dollar $in_dollar,*
         incr in_dollar -1
@@ -366,7 +371,7 @@ namespace eval snippets {
       $txt tag add [lindex $tab 0] "$insert_index+[lindex $tab 1]c" "$insert_index+[lindex $tab 2]c"
       set within($txt) 1
     }
-
+    
     # Insert the dynamics into the raw string
     foreach dynamic [lreverse $snip(dynamics)] {
       if {[lindex $dynamic 0] eq "var"} {
@@ -382,6 +387,16 @@ namespace eval snippets {
           LINE_NUMBER    { set str [lindex [split [$txt index insert] .] 0] }
           CURRENT_DATE   { set str [clock format [clock seconds] -format "%m/%d/%Y"] }
           default        { set str "" }
+        }
+        if {[lindex $dynamic 4] ne ""} {
+          lassign [lindex $dynamic 4] pattern format opts
+          set regexp_opts [list]
+          if {[string first g $opts] != -1} {
+            lappend regexp_opts "-all"
+          }
+          if {[llength [set matches [regexp -inline {*}$regexp_opts -- $pattern $str]]] > 0} {
+            set str [convert_format $format $opts $matches]
+          }
         }
       } elseif {[lindex $dynamic 0] eq "cmd"} {
         if {[catch "exec sh -c [lindex $dynamic 1]" str]} {
@@ -405,6 +420,89 @@ namespace eval snippets {
   }
 
   ######################################################################
+  # Converts the given format with the matches value and returns the
+  # result as a string.
+  proc convert_format {fmt opts matches} {
+    
+    set str       ""
+    set in_case   ""
+    set in_paren  0
+    set ignore    0
+    set match_len [llength $matches]
+    
+    set i 0
+    while {$i < [string length $fmt]} {
+      
+      set char [string index $fmt $i]
+      
+      # Handle a capture
+      if {!$ignore && [regexp {^\$(\d+)} [string range $fmt $i end] -> var]} {
+        set match [lindex $matches $var]
+        switch $in_case {
+          "l" {
+            append str [string tolower [string index $match 0]]
+            append str [string range $match 1 end]
+            set in_case ""
+          }
+          "L" {
+            append str [string tolower $match]
+          }
+          "u" {
+            append str [string toupper [string index $match 0]]
+            append str [string range $match 1 end]
+          }
+          "U" {
+            append str [string toupper $match]
+          }
+          default {
+            append str $match
+          }
+        }
+        incr i [string length $var]
+        
+      # Handle case folders and escape codes
+      } elseif {!$ignore && ($char eq "\\")} {
+        set char [string index $fmt [incr i]]
+        if {($char eq "u") || ($char eq "l") || ($char eq "U") || ($char eq "L")} {
+          set in_case $char
+        } elseif {$char eq "E"} {
+          set in_case ""
+        } elseif {($char eq "n") || ($char eq "t") || ($char eq "\$")} {
+          append str "\\$char"
+        } else {
+          append str "\\"
+          incr i -1
+        }
+        
+      # Handle start of condition insertion 
+      } elseif {!$ignore && !$in_paren && [regexp {^\(\?(\d+):} [string range $fmt $i end] -> var]} {
+        set in_paren 1
+        set ignore   [expr $var >= $match_len]
+        incr i [expr [string length $var] + 2]
+        
+      # Switch to otherwise portion of an insertion
+      } elseif {$in_paren && ($char eq ":")} {
+        set in_paren 2
+        set ignore   [expr $ignore ^ 1]
+        
+      # We have come to the end of conditional insertion
+      } elseif {$in_paren && ($char eq ")")} {
+        set in_paren 0
+        set ignore   0
+        
+      # Everything else should get appended to str if we are not being ignored
+      } elseif {!$ignore} {
+        append str $char
+      }
+      
+      incr i
+      
+    }
+    
+    return $str
+    
+  }
+  
   # Inserts the given snippet into the current text widget, adhering to
   # indentation rules.
   proc insert_snippet_into_current {tid snippet} {
@@ -538,3 +636,4 @@ namespace eval snippets {
   }
 
 }
+
