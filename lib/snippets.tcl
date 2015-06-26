@@ -132,8 +132,6 @@ namespace eval snippets {
   # the given snippet.
   proc parse_snippet {snippet} {
 
-    puts $snippet
-    
     set in_dollar  0
     set in_tick    0
     set in_escape  0
@@ -366,11 +364,15 @@ namespace eval snippets {
     # Create a tag for the inserted text
     $txt tag add snippet_raw $insert_index "$insert_index+[string length $snip(raw_string)]c"
 
+    puts "tabs: $snip(tabs)"
+    
     # Create the tab point selection tags
     foreach tab $snip(tabs) {
       $txt tag add [lindex $tab 0] "$insert_index+[lindex $tab 1]c" "$insert_index+[lindex $tab 2]c"
       set within($txt) 1
     }
+    
+    puts "dynamics: $snip(dynamics)"
     
     # Insert the dynamics into the raw string
     foreach dynamic [lreverse $snip(dynamics)] {
@@ -394,6 +396,7 @@ namespace eval snippets {
           if {[string first g $opts] != -1} {
             lappend regexp_opts "-all"
           }
+          puts "regexp -inline $regexp_opts -- $pattern $str"
           if {[llength [set matches [regexp -inline {*}$regexp_opts -- $pattern $str]]] > 0} {
             set str [convert_format $format $opts $matches]
           }
@@ -423,6 +426,8 @@ namespace eval snippets {
   # Converts the given format with the matches value and returns the
   # result as a string.
   proc convert_format {fmt opts matches} {
+    
+    puts "In convert_format, fmt: $fmt, opts: $opts, matches: $matches"
     
     set str       ""
     set in_case   ""
@@ -546,18 +551,23 @@ namespace eval snippets {
 
     # Remove the selection
     $txt tag remove sel 1.0 end
+    
+    puts "In traverse_snippet, tabpoints: $tabpoints($txt)"
 
     # Find the current tab point tag
     if {[llength [set range [$txt tag ranges snippet_sel_$tabpoints($txt)]]] == 2} {
+      puts "HERE A"
       $txt tag add sel {*}$range
       $txt tag delete snippet_sel_$tabpoints($txt)
       $txt mark set insert [lindex $range 1]
       set tabstart($txt) [lindex $range 0]
     } elseif {[llength [set range [$txt tag ranges snippet_mark_$tabpoints($txt)]]] == 2} {
+      puts "HERE B"
       $txt mark set insert [lindex $range 0]
       $txt tag delete snippet_mark_$tabpoints($txt)
       set tabstart($txt) [lindex $range 0]
     } elseif {[llength [set range [$txt tag ranges snippet_mark_0]]] == 2} {
+      puts "HERE C"
       $txt mark set insert [lindex $range 0]
       $txt tag delete snippet_mark_0
       set tabstart($txt) [lindex $range 0]
