@@ -50,4 +50,7 @@ puts "A auto_path: $auto_path"
 set auto_path $new_auto_path
 puts "B auto_path: $auto_path"
 
-puts "This is good"
+if {![catch { exec -ignorestderr freewrap [file join [pwd] lib tke.tcl] -debug -f freewrap.files -i tke.ico } rc]} {
+  puts "Worked!"
+}
+

@@ -1,0 +1,14 @@
+set ::DECIMAL 257
+set ::DOLLAR_SIGN 258
+set ::VARNAME 259
+set ::CHAR 260
+set ::LOWER 261
+set ::UPPER 262
+set ::LOWER_BLOCK 263
+set ::UPPER_BLOCK 264
+set ::END_BLOCK 265
+set ::NEWLINE 266
+set ::TAB 267
+set ::OPEN_BRACKET 268
+set ::CLOSE_BRACKET 269
+set ::snip_lval {}

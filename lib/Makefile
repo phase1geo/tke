@@ -1,13 +1,13 @@
-.PHONY: commit
+.PHONY: commit snippets snip_parser.tcl
 
 commit:
 	tclsh8.5 commit.tcl
 	hg commit
 
-snippets: snippets-lex snippets-yacc
+snippets: snip_lexer.tcl snip_parser.tcl
 
-snippets-lex: sniplex.fcl
-	tclsh8.5 ../scripts/fickle.tcl sniplex.fcl
+snip_lexer.tcl: snip_lexer.fcl
+	tclsh8.5 ../scripts/fickle.tcl -P snip_ snip_lexer.fcl
 
-snippets-yacc: snipyacc.tac
-	tclsh8.5 ../scripts/taccle.tcl snipyacc.tac
+snip_parser.tcl:
+	tclsh8.5 ../scripts/taccle.tcl -d -p snip_ snip_parser.tac
