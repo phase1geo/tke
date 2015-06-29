@@ -374,7 +374,7 @@ proc write_scanner_utils {} {
 #   -- from the flex(1) man page"
     }
     puts $::dest "proc ${::p}restart \{new_file\} \{
-    set ${::p}in \$new_file
+    set ::${::p}in \$new_file
     ${::P}_FLUSH_BUFFER
 \}
 "       
