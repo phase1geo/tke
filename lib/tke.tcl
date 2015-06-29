@@ -19,7 +19,9 @@ proc tke_development {} {
 
 set auto_path [list [file join $tke_dir lib] {*}$auto_path]
 
-package require Tclx
+if {$tcl_platform(platform) ne "windows"} {
+  package require Tclx
+}
 package require -exact ctext 5.0
 package require -exact tablelist 5.13
 package require tooltip
@@ -136,91 +138,113 @@ proc parse_cmdline {argc argv} {
   
 }
 
-######################################################################
-# Handles an interrupt or terminate signal
-proc handle_signal {} {
-
-  # Kill the GUI
-  catch { destroy . }
-  
-  # Exit the logger
-  logger::on_exit
-  
-  # Exit the application
-  exit
-
-}
-
-# If we are using aqua, define a few tk::mac procedures that the application can use
-if {[tk windowingsystem] eq "aqua"} {
+if {$tcl_platform(platform) eq "windows"} {
 
   ######################################################################
-  # Called whenever the user opens a document via drag-and-drop or within
-  # the finder.
-  proc ::tk::mac::OpenDocument {args} {
+  # Since we don't use the TclX platform on Windows, we need to supply
+  # our own version of the lassign procedure.
+  proc lassign {items args} {
 
-    # Add the files
-    foreach name $args {
-      if {[file isdirectory $name]} {
-        sidebar::add_directory $name
-      } else {
-        switch -exact -- [string tolower [file extension $name]] {
-          .tmtheme {
-            set ans [tk_messageBox -default yes -icon question -message [msgcat::mc "Import TextMate theme?"] -parent . -type yesnocancel]
-            if {$ans eq "yes"} {
-              themer::import_tm $name
-            } elseif {$ans eq "no"} {
-              gui::add_file end $name
-            } else {
-              return
+    set i 0
+    foreach parg $args {
+      upvar $parg arg
+      set arg [lindex $items $i]
+      incr i
+    }
+
+    return [lrange $items $i end]
+
+  }
+
+} else {
+
+  # If we are using aqua, define a few tk::mac procedures that the application can use
+  if {[tk windowingsystem] eq "aqua"} {
+
+    ######################################################################
+    # Called whenever the user opens a document via drag-and-drop or within
+    # the finder.
+    proc ::tk::mac::OpenDocument {args} {
+
+      # Add the files
+      foreach name $args {
+        if {[file isdirectory $name]} {
+          sidebar::add_directory $name
+        } else {
+          switch -exact -- [string tolower [file extension $name]] {
+            .tmtheme {
+              set ans [tk_messageBox -default yes -icon question -message [msgcat::mc "Import TextMate theme?"] -parent . -type yesnocancel]
+              if {$ans eq "yes"} {
+                themer::import_tm $name
+              } elseif {$ans eq "no"} {
+                gui::add_file end $name
+              } else {
+                return
+              }
             }
-          }
-          .tketheme {
-            set ans [tk_messageBox -default yes -icon question -message [msgcat::mc "Edit theme?"] -parent . -type yesnocancel]
-            if {$ans eq "yes"} {
-              themer::import_tke $name
-            } elseif {$ans eq "no"} {
-              gui::add_file end $name
-            } else {
-              return
+            .tketheme {
+              set ans [tk_messageBox -default yes -icon question -message [msgcat::mc "Edit theme?"] -parent . -type yesnocancel]
+              if {$ans eq "yes"} {
+                themer::import_tke $name
+              } elseif {$ans eq "no"} {
+                gui::add_file end $name
+              } else {
+                return
+              }
             }
-          }
-          default {
-            gui::add_file end $name
+            default {
+              gui::add_file end $name
+            }
           }
         }
       }
+
+      # Make sure that the window is raised
+      ::tk::mac::ReopenApplication
+  
     }
 
-    # Make sure that the window is raised
-    ::tk::mac::ReopenApplication
+    ######################################################################
+    # Called when the application exits.
+    proc ::tk::mac::Quit {} {
+
+      menus::exit_command
+
+    }
   
+    # Change the right_click
+    set ::right_click 2
+  
+    ######################################################################
+    # Mapping the about window.
+    proc tkAboutDialog {} {
+    
+      gui::show_about
+    
+    }
+
   }
 
   ######################################################################
-  # Called when the application exits.
-  proc ::tk::mac::Quit {} {
+  # Handles an interrupt or terminate signal
+  proc handle_signal {} {
 
-    menus::exit_command
+    # Kill the GUI
+    catch { destroy . }
+  
+    # Exit the logger
+    logger::on_exit
+  
+    # Exit the application
+    exit
 
   }
-  
-  # Change the right_click
-  set ::right_click 2
-  
-  ######################################################################
-  # Mapping the about window.
-  proc tkAboutDialog {} {
-    
-    gui::show_about
-    
-  }
+
+  # Set signal handlers on non-Windows platforms
+  signal trap TERM handle_signal
+  signal trap INT  handle_signal
 
 }
-
-# Set signal handlers
-signal trap TERM handle_signal
-signal trap INT  handle_signal
 
 if {[catch {
   
