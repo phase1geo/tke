@@ -12,9 +12,9 @@ set tke_home [file normalize [file join ~ .tke]]
 ######################################################################
 # Returns 1 if we are doing TKE development; otherwise, returns 0.
 proc tke_development {} {
-  
+
   return [info exists ::env(TKE_DEVEL)]
-  
+
 }
 
 set auto_path [list [file join $tke_dir lib] {*}$auto_path]
@@ -89,7 +89,7 @@ proc usage {} {
   puts "  -n     Opens a new window without attempting to merge"
   puts "           with an existing window"
   puts ""
-  
+
   exit
 
 }
@@ -103,9 +103,9 @@ proc version {} {
   } else {
     puts "$::version_major.$::version_minor.$::version_point ($::version_hgid)"
   }
-  
+
   exit
-  
+
 }
 
 ######################################################################
@@ -117,7 +117,7 @@ proc parse_cmdline {argc argv} {
   set ::cl_exit_on_close 0
   set ::cl_minimal       0
   set ::cl_new_win       0
-  
+
   set i 0
   while {$i < $argc} {
     switch -- [lindex $argv $i] {
@@ -135,7 +135,7 @@ proc parse_cmdline {argc argv} {
     }
     incr i
   }
-  
+
 }
 
 if {$tcl_platform(platform) eq "windows"} {
@@ -153,6 +153,16 @@ if {$tcl_platform(platform) eq "windows"} {
     }
 
     return [lrange $items $i end]
+
+  }
+
+  if {![catch { package require winico }]} {
+
+    # Set the icon in the taskbar
+    set ico_id [winico createfrom [file join $::tke_dir lib images tke.ico]]
+
+    # Add the icon to the taskbar
+    winico taskbar modify $ico_id -pos 1
 
   }
 
@@ -201,7 +211,7 @@ if {$tcl_platform(platform) eq "windows"} {
 
       # Make sure that the window is raised
       ::tk::mac::ReopenApplication
-  
+
     }
 
     ######################################################################
@@ -211,16 +221,16 @@ if {$tcl_platform(platform) eq "windows"} {
       menus::exit_command
 
     }
-  
+
     # Change the right_click
     set ::right_click 2
-  
+
     ######################################################################
     # Mapping the about window.
     proc tkAboutDialog {} {
-    
+
       gui::show_about
-    
+
     }
 
   }
@@ -231,10 +241,10 @@ if {$tcl_platform(platform) eq "windows"} {
 
     # Kill the GUI
     catch { destroy . }
-  
+
     # Exit the logger
     logger::on_exit
-  
+
     # Exit the application
     exit
 
@@ -247,13 +257,13 @@ if {$tcl_platform(platform) eq "windows"} {
 }
 
 if {[catch {
-  
+
   # Set the application name to tke
   tk appname tke
-   
+
   # Parse the command-line options
   parse_cmdline $argc $argv
-   
+
   # Attempt to add files or raise the existing application
   if {([tk appname] ne "tke") && ([tk windowingsystem] eq "x11") && !$cl_new_win} {
     if {[llength $cl_files] > 0} {
@@ -273,23 +283,23 @@ if {[catch {
       }
     }
   }
-    
 
-   
+
+
   # Create the ~/.tke directory if it doesn't already exist
   if {![file exists $tke_home]} {
     file mkdir $tke_home
   }
-   
+
   # Initialize the themes
   themes::initialize
-   
+
   # Load the preferences
   preferences::load
-    
+
   # Initialize the diagnostic logger
   logger::initialize
-   
+
   # If we need to check for updates on start, do that now
   if {[preferences::get General/UpdateCheckOnStart]} {
     if {[preferences::get General/UpdateReleaseType] eq "devel"} {
@@ -298,34 +308,34 @@ if {[catch {
       specl::check_for_update 1 $specl::RTYPE_STABLE
     }
   }
-   
+
   # Load the plugins
   plugins::load
-   
+
   # Load the snippets
   snippets::load
-   
+
   # Load the clipboard history
   cliphist::load
-   
+
   # Load the syntax highlighting information
   syntax::load
-   
+
   # Load the favorites information
   favorites::load
-   
+
   # Set the delay to 1 second
   tooltip::tooltip delay 1000
-   
+
   # Create GUI
   gui::create
-   
+
   # Update the UI
   themes::handle_theme_change
-   
+
   # Run any plugins that are required at application start
   plugins::handle_on_start
-   
+
   # Populate the GUI with the command-line filelist (if specified)
   if {[llength $cl_files] > 0} {
     foreach cl_file $cl_files {
@@ -337,22 +347,22 @@ if {[catch {
       }
     }
   }
-   
+
   # Load the session file
   gui::load_session {}
-    
+
   # If the number of loaded files is still zero, add a new blank file
   if {[gui::get_file_num] == 0} {
     gui::add_new_file end
   }
-   
+
   # This will hide hidden files/directories but provide a button in the dialog boxes to show/hide theme
   catch {
     catch { tk_getOpenFile foo bar }
     # set ::tk::dialog::file::showHiddenBtn 1
     set ::tk::dialog::file::showHiddenVar 0
-  } 
-  
+  }
+
 } rc]} {
   bgerror $rc
 }
