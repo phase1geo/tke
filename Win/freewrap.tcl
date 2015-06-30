@@ -82,22 +82,45 @@ proc create_freewrap_files {} {
 
 }
 
-set tke_dir       [file normalize [file join [pwd] ..]]
-set new_auto_path $auto_path
+######################################################################
+# Sets auto_path to include the list of directories for the needed
+# packages.
+proc set_auto_path {} {
 
-foreach pkg [list Tclx] {
-  if {![find_package $pkg]} {
-    error "Unable to find package $pkg in auto_path"
+  puts -nonewline "Setting auto_path...  "
+
+  set new_auto_path $::auto_path
+
+  foreach pkg [list Tclx] {
+    if {![find_package $pkg]} {
+      error "Unable to find package $pkg in auto_path"
+    }
   }
+
+  set ::auto_path $new_auto_path
+
+  puts "Done!"
+
 }
 
-set auto_path $new_auto_path
+######################################################################
+
+# Set the main TKE directory
+set tke_dir [file normalize [file join [pwd] ..]]
+
+# Set the global auto_path to include all needed packages
+set_auto_path
 
 # Create the freewrap.files file with the current directory contents
 create_freewrap_files
 
+# If a tke.exe file already exists, delete it
+if {[file exists tke.exe]} {
+  file delete -force tke.exe
+}
+
 puts -nonewline "Running freewrap...  "
-if {![catch { exec -ignorestderr [file join freewrap664 win64 freewrap.exe] [file join $tke_dir lib tke.tcl] -debug -f freewrap.files -i tke.ico } rc]} {
+if {![catch { exec -ignorestderr [file join freewrap664 win64 freewrap.exe] [file join $tke_dir lib tke.tcl] -debug -f freewrap.files -i [file join $tke_dir lib images tke.ico] -1 } rc]} {
   puts "Success!"
 } else {
   puts "Failed!"
