@@ -59,6 +59,7 @@ proc create_freewrap_files {} {
   set files [list]
 
   puts -nonewline "Creating freewrap.files...  "
+  flush stdout
 
   # Create the freewrap file
   foreach dir [list data doc lib plugins] {
@@ -88,6 +89,7 @@ proc create_freewrap_files {} {
 proc set_auto_path {} {
 
   puts -nonewline "Setting auto_path...  "
+  flush stdout
 
   set new_auto_path $::auto_path
 
@@ -108,6 +110,9 @@ proc set_auto_path {} {
 # Set the main TKE directory
 set tke_dir [file normalize [file join [pwd] ..]]
 
+# Set the releases directory
+set release_dir [file normalize [file join [pwd] .. .. releases]]
+
 # Set the global auto_path to include all needed packages
 set_auto_path
 
@@ -120,6 +125,9 @@ if {[file exists tke.exe]} {
 }
 
 puts -nonewline "Running freewrap...  "
+flush stdout
+
+# Generate the TKE executable using freewrap
 if {![catch { exec -ignorestderr [file join freewrap664 win64 freewrap.exe] [file join $tke_dir lib tke.tcl] -debug -f freewrap.files -i [file join $tke_dir lib images tke.ico] -1 } rc]} {
   puts "Success!"
 } else {
@@ -127,3 +135,7 @@ if {![catch { exec -ignorestderr [file join freewrap664 win64 freewrap.exe] [fil
   puts $rc
 }
 
+puts "Moving tke.exe to $release_dir"
+
+# Move the zipped file to the releases directory
+file rename -force tke.exe [file join $release_dir tke.exe]
