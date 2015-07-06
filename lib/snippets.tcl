@@ -106,9 +106,10 @@ namespace eval snippets {
             append snippet "[string trimright $txt]\n"
           } else {
             set in_snippet 0
-            if {![catch { parse_snippet [string range $snippet 0 end-1] } rc]} {
-              set snippets($language,$name) $rc
-            }
+            set snippets($language,$name) [string range $snippet 0 end-1]
+            #if {![catch { parse_snippet [string range $snippet 0 end-1] } rc]} {
+            #  set snippets($language,$name) $rc
+            #}
           }
         }
         if {[regexp {^snippet\s+(\w+)} $line -> name]} {
@@ -330,8 +331,27 @@ namespace eval snippets {
       # Delete the last_word
       $txt delete "insert-1c wordstart" "insert-1c wordend"
 
+      # Call the snippet parser
+      SNIP__FLUSH_BUFFER
+      snip__scan_string $snippets(current,$last_word)
+      set ::snip_txt    $txt
+      set ::snip_begpos 0
+      set ::snip_endpos 0
+      if {![catch { snip_parse } rc] && ($rc == 0)} {
+        $txt insert insert {*}$::snip_value
+      } else {
+        puts "error: $rc"
+        puts -nonewline "string: "
+        puts [string map {\n {}} $snippets(current,$last_word)]
+        puts "errmsg: $::snip_errmsg"
+        puts "errstr: $::snip_errstr"
+      }
+      
+      # Traverse the inserted snippet
+      traverse_snippet $txt
+      
       # Insert the new text in its place
-      insert_snippet $txt $snippets(current,$last_word)
+      # insert_snippet $txt $snippets(current,$last_word)
 
       # Make sure that the whitespace character is not inserted into the widget
       return 1
@@ -342,6 +362,48 @@ namespace eval snippets {
 
   }
 
+  ######################################################################
+  # Creates a tab stop or tab mirror.
+  proc set_tabstop {txt index {default_value ""}} {
+    
+    variable tabpoints
+    variable within
+    
+    # Indicate that the text widget contains a tabstop
+    set within($txt) 1
+    
+    # Set the lowest tabpoint value
+    if {($index > 0) && (![info exists tabpoints($txt)] || ($tabpoints($txt) > $index))} {
+      set tabpoints($txt) $index
+    }
+    
+    # Get the list of tags
+    set tags [$txt tag names]
+    
+    if {[lsearch -regexp $tags snippet_(sel|mark)_$index] != -1} {
+      if {[lsearch $tags snippet_mirror_$index] == -1} {
+        $txt tag configure snippet_mirror_$index -elide 1
+      }
+      return "snippet_mirror_$index"
+    } else {
+      if {$default_value eq ""} {
+        $txt tag configure snippet_mark_$index -elide 1
+        return "snippet_mark_$index"
+      } else {
+        $txt tag configure snippet_sel_$index -background blue
+        return "snippet_sel_$index"
+      }
+    }
+    
+  }
+  
+  ######################################################################
+  proc get_tabstop {txt index} {
+    
+    return ""
+    
+  }
+  
   ######################################################################
   # Inserts the given snippet into the text widget, adhering to indentation.
   proc insert_snippet {txt snippet} {
@@ -552,22 +614,19 @@ namespace eval snippets {
     # Remove the selection
     $txt tag remove sel 1.0 end
     
-    puts "In traverse_snippet, tabpoints: $tabpoints($txt)"
+    # puts "In traverse_snippet, tabpoints: $tabpoints($txt)"
 
     # Find the current tab point tag
     if {[llength [set range [$txt tag ranges snippet_sel_$tabpoints($txt)]]] == 2} {
-      puts "HERE A"
       $txt tag add sel {*}$range
       $txt tag delete snippet_sel_$tabpoints($txt)
       $txt mark set insert [lindex $range 1]
       set tabstart($txt) [lindex $range 0]
     } elseif {[llength [set range [$txt tag ranges snippet_mark_$tabpoints($txt)]]] == 2} {
-      puts "HERE B"
       $txt mark set insert [lindex $range 0]
       $txt tag delete snippet_mark_$tabpoints($txt)
       set tabstart($txt) [lindex $range 0]
     } elseif {[llength [set range [$txt tag ranges snippet_mark_0]]] == 2} {
-      puts "HERE C"
       $txt mark set insert [lindex $range 0]
       $txt tag delete snippet_mark_0
       set tabstart($txt) [lindex $range 0]

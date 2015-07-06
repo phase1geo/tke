@@ -653,6 +653,8 @@ namespace eval launcher {
             # Nothing more to do
           } elseif {[regexp {^((https?://)?[a-z0-9\-]+\.[a-z0-9\-\.]+(?:/|(?:/[a-zA-Z0-9!#\$%&'\*\+,\-\.:;=\?@\[\]_~]+)*))$} $str -> url]} {
             lappend matches [register_temp "" [list launcher::open_url_and_bookmark $url] "Open URL $url" 0 "" launcher::url_okay]
+          } elseif {[regexp {^[a-zA-Z][a-zA-Z0-9+.-]*:} $str]} {
+            lappend matches [register_temp "" [list launcher::open_uri_and_bookmark $str] "Open URI $str" 0 "" launcher::url_okay]
           }
         }
       }
@@ -824,10 +826,12 @@ namespace eval launcher {
   proc open_url_and_bookmark {url} {
     
     # Open the URL in the local browser
-    open_url $url
+    if {[open_url $url] == 0} {
     
-    # Add the URL to the bookmark list
-    register "Open bookmarked URL $url" [list launcher::open_url $url]
+      # Add the URL to the bookmark list
+      register "Open bookmarked URL $url" [list launcher::open_url $url]
+      
+    }
     
   }
         
@@ -843,8 +847,30 @@ namespace eval launcher {
     }
           
     # Displays the URL in the local browser
-    utils::open_file_externally $url
+    return [utils::open_file_externally $url]
           
+  }
+  
+  ######################################################################
+  # Opens the given URI.
+  proc open_uri_and_bookmark {uri} {
+    
+    # Display the URI
+    if {[open_uri $uri] == 0} {
+      
+      # Add the URI to the bookmark list
+      register "Open bookmarked URI $uri" [list launcher::open_uri $uri]
+      
+    }
+    
+  }
+  
+  ######################################################################
+  # Performs the given URI.
+  proc open_uri {uri} {
+    
+    return [utils::open_file_externally $uri]
+    
   }
   
 }

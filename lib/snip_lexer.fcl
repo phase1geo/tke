@@ -1,15 +1,21 @@
 %{
-source snip_parser.tab.tcl
+source [file join $::tke_dir lib snip_parser.tab.tcl]
 %}
 
 %option stack
 
-WSPACE [ \t\b\f]+
-
 %%
+
+[ \n\t\b\f]+ {
+  set ::snip_lval $snip_text
+  set ::snip_begpos $::snip_endpos
+  incr ::snip_endpos [string length $snip_text]
+  return $::CHAR
+}
 
   # Handle escape sequences
 \\[luLUEnt\$] {
+  puts "Found escape!"
   set ::snip_lval $snip_text
   set ::snip_begpos $::snip_endpos
   incr ::snip_endpos [string length $snip_text]
@@ -22,7 +28,7 @@ WSPACE [ \t\b\f]+
     n       { return $::NEWLINE }
     t       { return $::TAB }
     default {
-      set ::snip_lval [string index $snip_text 1]
+      set ::snip_lval $snip_text
       return $::CHAR
     }
   }
@@ -52,7 +58,7 @@ WSPACE [ \t\b\f]+
 }
 
   # Single character symbols
-[`}\(\):/\?] {
+[`\}\(\):/\?] {
   set ::snip_lval $snip_text
   set ::snip_begpos $::snip_endpos
   incr ::snip_endpos
