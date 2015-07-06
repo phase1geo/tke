@@ -1,11 +1,16 @@
 %{
-source snip_lexer.tcl
+source [file join $::tke_dir lib snip_lexer.tcl]
 
+set snip_txt     ""
 set snip_value   ""
 set snip_errmsg  ""
 set snip_errstr  ""
 set snip_pos     0
 set snip_matches [list]
+
+proc get_retval {args} {
+  return [join $args {}]
+}
 %}
 
 %token DECIMAL DOLLAR_SIGN VARNAME CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB
@@ -19,44 +24,42 @@ main: snippet {
       ;
       
 snippet: snippet text {
-           set _ "$1$2"
+           set _ [concat $1 [list $2 {}]]
          }
        | snippet variable {
-           set _ "$1$2"
+           set _ [concat $1 [list $2 {}]]
          }
        | snippet transform {
-           set _ "$1$2"
+           set _ [concat $1 [list $2 {}]]
          }
        | snippet tabstop {
-           set _ "$1$2"
+           set _ [concat $1 $2]
          }
        | snippet shell {
-           set _ "$1$2"
+           set _ [concat $1 [list $2 {}]]
          }
        | text {
-           set _ $1
+           set _ [list $1 {}]
          }
        | variable {
-           set _ $1
+           set _ [list $1 {}]
          }
        | transform {
-           set _ $1
+           set _ [list $1 {}]
          }
        | tabstop {
-           set _ $1  ;# TBD
+           set _ $1
          }
        | shell {
-           set _ $1
+           set _ [list $1 {}]
          }
          ;
          
 tabstop: DOLLAR_SIGN DECIMAL {
-           # TBD - Add tabstop
-           set _ ""
+           set _ [list " " [snippets::set_tabstop $::snip_txt $2]]
          }
        | DOLLAR_SIGN OPEN_BRACKET DECIMAL ':' value CLOSE_BRACKET {
-           # TBD - Add tabstop
-           set _ $5
+           set _ [list $5 [snippets::set_tabstop $::snip_txt $3 $5]]
          }
          ;
          
@@ -67,6 +70,8 @@ transform: DOLLAR_SIGN OPEN_BRACKET DECIMAL '/' text '/' format '/' text CLOSE_B
                  lappend regexp_opts -all
                }
                set _ [regexp -inline {*}$regexp_opts -- $5 $val]
+             } else {
+               set _ [get_retval $1 $2 $3 $4 $5 $6 $7 $8 $9 $10]
              }
            }
            ;
@@ -79,6 +84,7 @@ variable: DOLLAR_SIGN varname {
           }
         | DOLLAR_SIGN OPEN_BRACKET varname '/' text {
             lappend ::snip_matches [regexp -inline -- $5 $3]
+            puts "snip_matches: $::snip_matches"
           }
           '/' format '/' text CLOSE_BRACKET {
             set ::snip_matches [lreplace $::snip_matches end end]
@@ -87,7 +93,7 @@ variable: DOLLAR_SIGN varname {
           ;
           
 varname: VARNAME {
-           set txt [gui::current_txt]
+           set txt $::snip_txt
            switch $1 {
              SELECTED_TEXT  { set _ [$txt get sel.first sel.last] }
              CLIPBOARD      { set _ [expr {![catch "clipboard get" rc] ? $rc : ""}] }
@@ -104,8 +110,20 @@ varname: VARNAME {
          }
          ;
          
-value: value text {
+value: value CHAR {
          set _ "$1$2"
+       }
+     | value NEWLINE {
+         set _ "$1\\n"
+       }
+     | value TAB {
+         set _ "$1\\t"
+       }
+     | value DECIMAL {
+         set _ "$1$2"
+       }
+     | value '/' {
+         set _ "$1/"
        }
      | value variable {
          set _ "$1$2"
@@ -113,13 +131,31 @@ value: value text {
      | value shell {
          set _ "$1$2"
        }
-     | text {
+     | value tabstop {
+         set _ [concat $1 {} $2]
+       }
+     | CHAR {
          set _ $1
+       }
+     | NEWLINE {
+         set _ "\\n"
+       }
+     | TAB {
+         set _ "\\t"
+       }
+     | DECIMAL {
+         set _ $1
+       }
+     | '/' {
+         set _ "/"
        }
      | variable {
          set _ $1
        }
      | shell {
+         set _ $1
+       }
+     | tabstop {
          set _ $1
        }
        ;
@@ -128,19 +164,43 @@ text: text CHAR {
         set _ "$1$2"
       }
     | text NEWLINE {
-        set _ "$1\n"
+        set _ "$1\\n"
       }
     | text TAB {
-        set _ "$1\t"
+        set _ "$1\\t"
+      }
+    | text DECIMAL {
+        set _ "$1$2"
+      }
+    | text '/' {
+        set _ "$1/"
+      }
+    | text OPEN_BRACKET {
+        set _ "$1$2"
+      }
+    | text CLOSE_BRACKET {
+        set _ "$1$2"
       }
     | CHAR {
         set _ $1
       }
     | NEWLINE {
-        set _ "\n"
+        set _ "\\n"
       }
     | TAB {
-        set _ "\t"
+        set _ "\\t"
+      }
+    | DECIMAL {
+        set _ $1
+      }
+    | '/' {
+        set _ "/"
+      }
+    | OPEN_BRACKET {
+        set _ $1
+      }
+    | CLOSE_BRACKET {
+        set _ $1
       }
       ;
      
