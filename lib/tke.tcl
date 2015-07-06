@@ -157,16 +157,6 @@ if {$tcl_platform(platform) eq "windows"} {
 
   }
 
-  if {![catch { package require winico }]} {
-
-    # Set the icon in the taskbar
-    set ico_id [winico createfrom [file join $::tke_dir lib images tke.ico]]
-
-    # Add the icon to the taskbar
-    winico taskbar modify $ico_id -pos 1
-
-  }
-
 } else {
 
   # If we are using aqua, define a few tk::mac procedures that the application can use
