@@ -869,7 +869,7 @@ namespace eval sidebar {
     }
 
     # Create the file
-    if {![catch { exec touch $fname }]} {
+    if {![catch { file mtime $fname [clock seconds] }]} {
 
       # Expand the directory
       $widgets(tl) expand $row -partly
