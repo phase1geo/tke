@@ -286,7 +286,7 @@ namespace eval menus {
       }
       $mb add separator
     }
-    
+
     # Populate the menu with the filenames
     if {[llength [set fnames [gui::get_last_opened]]] > 0} {
       foreach fname [lrange $fnames 0 [expr [preferences::get View/ShowRecentlyOpened] - 1]] {
@@ -294,19 +294,19 @@ namespace eval menus {
       }
       $mb add separator
     }
-    
+
     # Add "Clear All" menu option
     $mb add command -label [msgcat::mc "Clear All"] -command "menus::clear_last_opened"
 
   }
-  
+
   ######################################################################
   # Clears the last opened files and directories.
   proc clear_last_opened {} {
-    
+
     sidebar::clear_last_opened
     gui::clear_last_opened
-    
+
   }
 
   ######################################################################
@@ -567,14 +567,14 @@ namespace eval menus {
     $mb add cascade -label [msgcat::mc "Preferences"]   -menu [menu $mb.prefPopup -tearoff 0 -postcommand "menus::edit_preferences_posting $mb.prefPopup"]
     $mb add cascade -label [msgcat::mc "Menu Bindings"] -menu [menu $mb.bindPopup -tearoff 0]
     $mb add cascade -label [msgcat::mc "Snippets"]      -menu [menu $mb.snipPopup -tearoff 0 -postcommand "menus::edit_snippets_posting $mb.snipPopup"]
-    
+
     # Create indentation menu
     $mb.indentPopup add radiobutton -label [msgcat::mc "Indent Off"] -variable menus::indent_mode -value "OFF" -command "gui::set_current_indent_mode {} OFF"
     launcher::register [msgcat::mc "Menu: Set indent mode to OFF"] "gui::set_current_indent_mode {} OFF"
-    
+
     $mb.indentPopup add radiobutton -label [msgcat::mc "Auto-Indent"] -variable menus::indent_mode -value "IND" -command "gui::set_current_indent_mode {} IND"
     launcher::register [msgcat::mc "Menu: Set indent mode to IND"] "gui::set_current_indent_mode {} IND"
-    
+
     $mb.indentPopup add radiobutton -label [msgcat::mc "Smart Indent"] -variable menus::indent_mode -value "IND+" -command "gui::set_current_indent_mode {} IND+"
     launcher::register [msgcat::mc "Menu: Set indent mode to IND+"] "gui::set_current_indent_mode {} IND+"
 
@@ -790,7 +790,7 @@ namespace eval menus {
 
     $mb add command -label [msgcat::mc "Previous difference"] -underline 0 -command "gui::jump_to_difference {} -1 1"
     launcher::register [msgcat::mc "Menu: Goto previous difference"] "gui::jump_to_difference {} -1 1"
-    
+
     $mb add command -label [msgcat::mc "Show selected line change"] -underline 19 -command "gui::show_difference_line_change {} 1"
     launcher::register [msgcat::mc "Menu: Show selected line change"] "gui::show_difference_line_change {} 1"
 
@@ -919,8 +919,12 @@ namespace eval menus {
 
       # Perform egrep operation (test)
       if {[array size files] > 0} {
-        bgproc::system find_in_files "egrep -a -H -C[preferences::get Find/ContextNum] -n $rsp(egrep_opts) -s {$rsp(find)} [lsort [array names files]]" -killable 1 \
-          -callback "menus::find_in_files_callback [list $rsp(find)] [array size files]"
+        if {$::tcl_platform(platform) eq "windows"} {
+          menus::find_in_files_callback $rsp(find) [array size files] 0 [utils::egrep $rsp(find) [lsort [array names files]] [preferences::get Find/ContextNum] $rsp(egrep_opts)]
+        } else {
+          bgproc::system find_in_files "egrep -a -H -C[preferences::get Find/ContextNum] -n $rsp(egrep_opts) -s {$rsp(find)} [lsort [array names files]]" -killable 1 \
+            -callback "menus::find_in_files_callback [list $rsp(find)] [array size files]"
+        }
       } else {
         gui::set_info_message [msgcat::mc "No files found in specified directories"]
       }
@@ -937,7 +941,7 @@ namespace eval menus {
 
     # Add the file to the viewer
     gui::add_file end Results -sidebar 0 -buffer 1 -other [preferences::get View/ShowFindInFileResultsInOtherPane]
-    
+
     # Add bindings to allow one-click file opening
     set txt [gui::current_txt {}]
 
@@ -1102,7 +1106,7 @@ namespace eval menus {
   ######################################################################
   # Adds the text menu commands.
   proc add_text {mb} {
- 
+
     $mb add command -label [msgcat::mc "Toggle Comment"] -underline 0 -command "texttools::comment_toggle {}"
     launcher::register [msgcat::mc "Menu: Toggle comment"] "texttools::comment_toggle {}"
 
@@ -1217,7 +1221,7 @@ namespace eval menus {
 
     $mb add command -label [msgcat::mc "Move to other pane"] -underline 0 -command "gui::move_to_pane"
     launcher::register [msgcat::mc "Menu: Move to other pane"] "gui::move_to_pane"
-    
+
     $mb add command -label [msgcat::mc "Merge panes"] -underline 3 -command "gui::merge_panes"
     launcher::register [msgcat::mc "Menu: Merge panes"] "gui::merge_panes"
 
@@ -1262,7 +1266,7 @@ namespace eval menus {
     } else {
       $mb entryconfigure [msgcat::mc "Tabs"] -state normal
     }
-    
+
     if {[gui::panes] < 2} {
       $mb entryconfigure [msgcat::mc "Merge panes"] -state disabled
     } else {
@@ -1758,17 +1762,17 @@ namespace eval menus {
     }
 
   }
-  
+
   ######################################################################
   # Checks for an application update.
   proc check_for_update {} {
-    
+
     if {[preferences::get General/UpdateReleaseType] eq "devel"} {
       specl::check_for_update 0 [expr $specl::RTYPE_STABLE | $specl::RTYPE_DEVEL] {} menus::exit_cleanup
     } else {
       specl::check_for_update 0 $specl::RTYPE_STABLE {} menus::exit_cleanup
     }
-      
+
   }
 
   ######################################################################
@@ -1798,7 +1802,7 @@ namespace eval menus {
   ######################################################################
   # Displays the launcher with recently opened files.
   proc launcher {} {
-    
+
     # Add recent directories to launcher
     foreach sdir [lrange [sidebar::get_last_opened] 0 [expr [preferences::get View/ShowRecentlyOpened] - 1]] {
       launcher::register_temp "`RECENT:$sdir" [list sidebar::add_directory $sdir] $sdir

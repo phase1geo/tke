@@ -196,7 +196,7 @@ namespace eval utils {
         return [catch { exec -ignorestderr xdg-open $fname }]
       }
       *Win* {
-        return [catch { exec os.startfile $fname }]
+        return [catch { exec {*}[auto_execok start] {} [file nativename $fname] }]
       }
     }
 
@@ -306,7 +306,7 @@ namespace eval utils {
         error "Wrong hi value in hsv_to_rgb procedure! This should never happen!"
       }
     }
-    
+
     set r [expr {round($r*255)}]
     set g [expr {round($g*255)}]
     set b [expr {round($b*255)}]
@@ -344,7 +344,7 @@ namespace eval utils {
     set r [expr $r / 256]
     set g [expr $g / 256]
     set b [expr $b / 256]
-    
+
     switch $type {
       r {
         if {[set odiff [expr 255 - ($r + $diff)]] >= 0} {
@@ -387,6 +387,88 @@ namespace eval utils {
     variable c2k_map
 
     return [string map [array get c2k_map] $str]
+
+  }
+
+  ######################################################################
+  # Helper procedure for the egrep utility procedure.  Performs the equivalent
+  # of a POSIX egrep command with the given information.
+  proc egrep_file {pfirst pattern fname context opts} {
+
+    upvar $pfirst first
+
+    set result ""
+    set tail   [file tail $fname]
+
+    # If the file cannot be read, skip the file grep
+    if {[catch { open $fname r } rc]} {
+      return ""
+    }
+
+    # Grab the file contents
+    set lines [split [read $rc] \n]
+    close $rc
+
+    # Initialize some variables
+    set i           0
+    set last_output -1
+    set last_match  -1
+
+    foreach line $lines {
+      if {[regexp {*}$opts -- $pattern $line]} {
+        if {$first} {
+          set first 0
+        } else {
+          append result "--\n"
+        }
+        set j [expr (($i - $last_output) < $context) ? ($last_output + $i) : ($i - $context)]
+        foreach cline [lrange $lines $j [expr $i - 1]] {
+          append result "$tail-[expr $j + 1]-$cline\n"
+          incr j
+        }
+        append result "$tail:[expr $i + 1]:$line\n"
+        set last_match  $i
+        set last_output $i
+      } elseif {($i - $last_match) < $context} {
+        append result "$tail-[expr $i + 1]-$line\n"
+        set last_output $i
+      }
+      incr i
+    }
+
+    return $result
+
+  }
+
+  ######################################################################
+  # Takes a list of files/directories and performs the equivalent of a
+  # POSIX egrep with the given pattern, options and context information.
+  proc egrep {pattern paths context opts} {
+
+    set result ""
+    set first  1
+
+    foreach path $paths {
+
+      # If the pathname is a file, grep the file
+      if {[file type $path] eq "file"} {
+        append result [egrep_file first $pattern $path $context $opts]
+
+      # Otherwise, the pathname is a directory, so grep it
+      } else {
+        foreach fname [glob -directory $path *] {
+          if {[file type $path] eq "file"} {
+            append result [egrep_file first $pattern $fname $context $opts]
+          }
+        }
+      }
+    }
+
+    if {$result eq ""} {
+      return "No results found"
+    } else {
+      return $result
+    }
 
   }
 
