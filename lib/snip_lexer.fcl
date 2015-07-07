@@ -54,6 +54,7 @@ source [file join $::tke_dir lib snip_parser.tab.tcl]
   return $::OPEN_BRACKET
 }
 
+  # Handle the close bracket character
 \} {
   set ::snip_lval $snip_text
   set ::snip_begpos $::snip_endpos
@@ -61,8 +62,24 @@ source [file join $::tke_dir lib snip_parser.tab.tcl]
   return $::CLOSE_BRACKET
 }
 
+  # Handle the open parenthesis character
+\( {
+  set ::snip_lval $snip_text
+  set ::snip_begpos $::snip_endpos
+  incr ::snip_endpos
+  return $::OPEN_PAREN
+}
+
+  # Handle the close parenthesis character
+\) {
+  set ::snip_lval $snip_text
+  set ::snip_begpos $::snip_endpos
+  incr ::snip_endpos
+  return $::CLOSE_PAREN
+}
+
   # Single character symbols
-[`\}\(\):/\?] {
+[`:/\?] {
   set ::snip_lval $snip_text
   set ::snip_begpos $::snip_endpos
   incr ::snip_endpos
@@ -79,7 +96,6 @@ source [file join $::tke_dir lib snip_parser.tab.tcl]
 
   # Variable names
 (CLIPBOARD|CURRENT_LINE|CURRENT_WORD|DIRECTORY|FILEPATH|FILENAME|LINE_INDEX|LINE_NUMBER|CURRENT_DATE) {
-  puts "variable: $snip_text"
   set ::snip_lval $snip_text
   set ::snip_begpos $::snip_endpos
   incr ::snip_endpos [string length $snip_text]

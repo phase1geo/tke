@@ -14,7 +14,7 @@ proc get_retval {args} {
 %}
 
 %token DECIMAL DOLLAR_SIGN VARNAME CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB
-%token OPEN_BRACKET CLOSE_BRACKET
+%token OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN
 
 %%
 
@@ -132,6 +132,18 @@ pattern: pattern CHAR {
        | pattern DECIMAL {
            set _ "$1$2"
          }
+       | pattern DOLLAR_SIGN {
+           set _ "$1\$"
+         }
+       | pattern OPEN_PAREN {
+           set _ "$1\("
+         }
+       | pattern CLOSE_PAREN {
+           set _ "$1)"
+         }
+       | pattern '?' {
+           set _ "?"
+         }
        | CHAR {
            set _ $1
          }
@@ -144,6 +156,18 @@ pattern: pattern CHAR {
        | DECIMAL {
            set _ $1
          }
+       | DOLLAR_SIGN {
+           set _ "\$"
+         }
+       | OPEN_PAREN {
+           set _ "("
+         }         
+       | CLOSE_PAREN {
+           set _ ")"
+         }
+       | '?' {
+           set _ "?"
+         }
          ;
          
 opts: opts CHAR {
@@ -152,9 +176,7 @@ opts: opts CHAR {
     | CHAR {
         set _ $1
       }
-    | {
-        set _ ""
-      }
+    | # empty
       ;
          
 value: value CHAR {
@@ -222,6 +244,15 @@ text: text CHAR {
     | text '/' {
         set _ "$1/"
       }
+    | text OPEN_PAREN {
+        set _ "$1\("
+      }
+    | text CLOSE_PAREN {
+        set _ "$1)"
+      }
+    | text '?' {
+        set _ "$1?"
+      }
     | text OPEN_BRACKET {
         set _ "$1$2"
       }
@@ -242,6 +273,15 @@ text: text CHAR {
       }
     | '/' {
         set _ "/"
+      }
+    | OPEN_PAREN {
+        set _ "("
+      }
+    | CLOSE_PAREN {
+        set _ ")"
+      }
+    | '?' {
+        set _ "?"
       }
     | OPEN_BRACKET {
         set _ $1
@@ -314,14 +354,14 @@ case_fold: LOWER format {
             }
             ;
             
-cond_insert: '(' '?' DECIMAL ':' format ')' {
+cond_insert: OPEN_PAREN '?' DECIMAL ':' format CLOSE_PAREN {
                if {[llength [lindex $::snip_matches end]] <= $3} {
                  set _ $5
                } else {
                  set _ ""
                }
              }
-             '(' '?' DECIMAL ':' format ':' format ')' {
+             OPEN_PAREN '?' DECIMAL ':' format ':' format CLOSE_PAREN {
                if {[llength [lindex $::snip_matches end]] <= $3} {
                  set _ $5
                } else {

@@ -11,4 +11,6 @@ set ::NEWLINE 266
 set ::TAB 267
 set ::OPEN_BRACKET 268
 set ::CLOSE_BRACKET 269
+set ::OPEN_PAREN 270
+set ::CLOSE_PAREN 271
 set ::snip_lval {}

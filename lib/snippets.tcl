@@ -625,6 +625,7 @@ namespace eval snippets {
         $txt mark set insert [lindex $range 1]
         set tabstart($txt) [lindex $range 0]
       } elseif {[llength [set range [$txt tag ranges snippet_mark_$tabpoints($txt)]]] == 2} {
+        $txt delete {*}$range
         $txt mark set insert [lindex $range 0]
         $txt tag delete snippet_mark_$tabpoints($txt)
         set tabstart($txt) [lindex $range 0]
