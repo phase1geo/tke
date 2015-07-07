@@ -53,2575 +53,2526 @@ proc snip_unsetupvalues {numsyms} {
 }
 
 array set ::snip_table {
-  96:264,target 71
+  112:262 shift
   86:260 reduce
-  66:258,target 16
+  66:258,target 31
+  112:263 shift
   86:261 reduce
-  67:?,target 78
+  112:264 shift
   86:262 reduce
-  77:/,target 1
-  62:` reduce
-  103:280,target 104
   86:263 reduce
-  56:257 reduce
-  6:260,target 44
+  56:257 shift
+  6:260,target 55
   17:266,target 30
+  112:266 shift
+  91:( reduce
   86:264 reduce
-  63:266,target 25
-  56:258 reduce
-  33:261,target 42
-  104:263,target 70
+  112:267 shift
+  104:263,target 81
+  91:) reduce
   86:265 reduce
-  56:260 reduce
-  48:/ reduce
+  78:261,target 69
+  56:260 shift
+  120:257,target 80
   86:266 reduce
-  46:/,target 29
+  46:/,target 43
   86:267 reduce
-  3:267,target 46
-  86:268 reduce
+  3:267,target 57
+  65:`,target 34
   26:257 reduce
-  29:268,target 36
-  30:268,target 37
-  86:269 reduce
-  75:268,target 56
+  29:268,target 47
+  30:268,target 48
   15:257,target 28
   26:258 reduce
-  61:257,target 13
+  91:263,target 75
+  61:257,target 21
   15:/,target 27
   26:260 reduce
-  91:/ shift
-  56:266 reduce
-  56:267 reduce
-  34:`,target 50
-  1:258,target 47
-  56:269 reduce
-  27:260,target 40
-  73:260,target 5
+  91:/ reduce
+  56:266 shift
+  56:267 shift
+  34:`,target 61
+  1:258,target 58
+  27:260,target 51
+  73:260,target 17
   26:266 reduce
   26:267 reduce
+  112:282 goto
   24:267,target 3
   26:268 reduce
-  70:267,target 7
-  69:267,target 7
-  33:0,target 42
+  112:283 goto
+  70:267,target 38
+  69:267,target 13
   26:269 reduce
-  85:262,target 52
-  9:268,target 49
-  96:281,target 85
-  82:269,target 9
+  33:0,target 53
+  112:284 goto
+  85:262,target 80
+  126:258,target 98
+  125:(,target 75
+  91:: reduce
+  9:268,target 60
   22:258,target 5
+  123:266,target 83
+  97:264,target 65
+  67:258,target 32
   34:` reduce
   107:( reduce
   107:) reduce
-  7:260,target 45
+  7:260,target 56
   18:266,target 12
   21:/ reduce
-  64:266,target 26
+  64:266,target 35
   21:0 reduce
-  105:263,target 70
-  98:(,target 99
-  80:261,target 68
-  79:261,target 68
+  101:/,target 64
+  80:261,target 79
+  79:261,target 79
+  121:257,target 122
+  117:257 reduce
   107:/ reduce
-  31:268,target 38
-  63:/ reduce
+  31:268,target 49
+  117:258 reduce
   8:` reduce
   16:257,target 11
-  92:263,target 47
+  117:260 reduce
+  92:263,target 81
   92:257 shift
-  62:257,target 27
+  62:257,target 22
+  92:258 shift
   92:260 shift
-  1:/,target 47
-  92:261 reduce
-  92:262 reduce
-  74:/,target 55
-  28:260,target 39
-  92:263 reduce
-  74:260,target 55
+  1:/,target 58
+  92:261 shift
+  92:262 shift
+  74:/,target 16
+  28:260,target 50
+  100:262,target 63
+  92:263 shift
+  74:260,target 16
   62:257 reduce
-  92:264 reduce
-  62:258 reduce
+  117:266 reduce
+  92:264 shift
+  117:267 reduce
+  92:265 reduce
   62:260 reduce
-  39:278,target 52
+  117:268 reduce
   92:266 shift
-  85:),target 52
-  43:/,target 31
   25:267,target 31
+  43:/,target 25
+  117:269 reduce
   107:: reduce
   92:267 shift
-  71:267,target 7
-  92:268 shift
-  86:262,target 53
-  62:`,target 27
+  71:267,target 36
+  112:264,target 82
+  86:262,target 73
   32:257 reduce
-  92:269 shift
+  127:258,target 81
   32:258 reduce
-  32:260 reduce
   12:/,target 10
+  32:260 reduce
+  123:283,target 86
   62:266 reduce
-  37:269,target 9
-  32:261 reduce
-  83:269,target 9
   62:267 reduce
-  32:262 reduce
-  31:`,target 38
   23:258,target 4
-  32:263 reduce
-  62:269 reduce
-  32:264 reduce
-  61:0,target 13
-  32:265 reduce
-  105:280,target 106
-  50:272,target 62
-  32:266 reduce
-  8:260,target 48
+  31:`,target 49
+  124:266,target 100
+  68:258,target 33
+  93::,target 77
+  8:260,target 59
   19:266,target 19
-  92:278 goto
-  65:266,target 40
-  48:` reduce
+  32:266 reduce
+  65:266,target 34
   32:267 reduce
-  106:263,target 70
-  81:261,target 68
+  106:263,target 78
+  81:261,target 79
   32:268 reduce
-  77:( shift
+  29:0,target 47
+  30:0,target 48
   32:269 reduce
-  29:0,target 36
-  30:0,target 37
+  5:267,target 54
   35:/ shift
-  5:267,target 43
-  32:268,target 41
-  77:268,target 8
-  31::,target 38
-  9:( reduce
+  92:283 goto
+  32:268,target 52
+  92:284 goto
   17:257,target 28
-  93:263,target 70
-  63:257,target 25
-  9:) reduce
-  77:/ shift
-  3:258,target 46
-  29:260,target 36
-  30:260,target 37
-  75:260,target 56
+  93:263,target 81
+  63:257,target 88
+  58:282,target 85
+  3:258,target 57
+  29:260,target 47
+  30:260,target 48
+  101:262,target 64
   9:/ reduce
-  0:266,target 6
+  95:(,target 75
   9:0 reduce
+  0:266,target 6
   11:273,target 23
-  35:: shift
   26:267,target 6
-  72:267,target 31
-  87:262,target 69
+  35:: shift
+  72:267,target 37
+  123:257 shift
+  87:262,target 74
+  123:258 shift
+  123:260 shift
   97:257 reduce
+  124:283,target 102
+  123:261 shift
+  122:: shift
   97:258 reduce
+  123:262 shift
   97:260 reduce
-  84:269,target 33
-  54:264,target 71
   24:258,target 3
-  33:(,target 42
-  71:/,target 1
-  9:: reduce
+  125:266,target 83
+  123:263 shift
+  99:264,target 62
+  97:261 reduce
+  70:258,target 38
+  69:258,target 13
+  123:264 shift
+  97:262 reduce
+  71:/,target 36
+  97:263 reduce
+  67:257 reduce
   21:` reduce
-  8:),target 48
-  9:260,target 49
+  123:266 shift
+  97:264 reduce
+  67:258 reduce
+  9:260,target 60
   21:266,target 15
-  66:266,target 16
-  107:263,target 62
+  123:267 shift
+  97:265 reduce
+  67:260 reduce
+  66:266,target 31
+  107:263,target 79
   97:266 reduce
-  82:261,target 68
-  40:/,target 42
-  39:/,target 1
+  82:261,target 79
+  40:/,target 46
+  123:257,target 76
   97:267 reduce
-  97:268 reduce
-  58:`,target 20
+  6:267,target 55
   37:257 shift
-  6:267,target 44
-  97:269 reduce
-  93:280,target 96
-  63:` reduce
-  33:268,target 42
-  37:260 shift
+  33:268,target 53
   18:257,target 12
-  92:( reduce
-  64:257,target 26
-  50:/ shift
+  37:260 shift
+  94:263,target 81
+  92:( shift
+  67:266 reduce
+  64:257,target 35
+  92:) reduce
+  67:267 reduce
+  50:/ reduce
   49:/ reduce
-  27:`,target 40
-  90::,target 60
-  89::,target 59
-  31:260,target 38
+  27:`,target 51
+  67:269 reduce
+  31:260,target 49
+  102:262,target 66
+  76:260,target 72
   37:266 shift
   37:267 shift
-  92:/ shift
-  37:268 shift
-  1:266,target 47
-  87:278,target 84
-  37:269 shift
+  123:282 goto
+  92:/ reduce
+  1:266,target 58
+  123:283 goto
   26:0,target 6
-  27:267,target 40
-  73:267,target 7
-  27::,target 40
-  54:281,target 74
-  39:269,target 9
-  85:269,target 52
+  27:267,target 51
+  123:284 goto
+  73:267,target 17
+  118:(,target 119
+  54:281,target 72
+  125:283,target 86
   25:258,target 2
-  37:278 goto
+  126:266,target 100
+  71:258,target 36
+  37:277 goto
+  92:: reduce
   22:266,target 5
-  92:(,target 47
-  83:261,target 47
-  7:267,target 45
-  34:268,target 50
-  80:268,target 8
-  79:268,target 8
+  92:(,target 75
+  67:266,target 32
+  83:261,target 70
+  124:257,target 97
+  7:267,target 56
+  34:268,target 61
   19:257,target 19
   20:257,target 35
   22:/ reduce
-  65:257,target 40
+  95:263,target 81
+  65:257,target 34
   22:0 reduce
-  29:(,target 36
-  30:(,target 37
-  5:258,target 43
-  73:257 shift
-  32:260,target 41
-  103:262,target 69
-  77:260,target 5
+  67:/,target 32
+  5:258,target 54
+  73:257 reduce
+  32:260,target 52
+  103:262,target 67
+  73:258 reduce
   64:/ reduce
-  5:),target 43
   9:` reduce
-  73:260 shift
-  73:261 shift
-  36:/,target 39
+  73:260 reduce
+  78:),target 69
+  73:261 reduce
   2:266,target 6
-  73:262 shift
-  28:267,target 39
-  74:267,target 55
-  73:263 shift
+  36:/,target 39
+  73:262 reduce
+  28:267,target 50
+  74:267,target 16
+  73:263 reduce
+  55:`,target 45
   43:257 reduce
-  90:262,target 60
-  89:262,target 59
-  73:264 shift
-  43:258 reduce
+  89:262,target 80
+  73:264 reduce
   43:260 reduce
-  73:266 shift
-  73:267 shift
-  41:269,target 33
+  73:266 reduce
+  126:283,target 102
+  73:267 reduce
   0:257,target 3
   24:`,target 3
-  86:269,target 53
-  73:268 shift
   13:257 reduce
   26:258,target 6
-  86::,target 53
-  73:269 shift
+  127:266,target 81
+  86::,target 73
+  72:258,target 37
   13:258 reduce
   13:260 reduce
   43:266 reduce
-  53:272,target 62
+  37:277,target 45
   43:267 reduce
   23:266,target 4
-  68:266,target 6
-  84:261,target 51
-  43:269 reduce
+  68:266,target 33
+  110:263,target 68
+  84:261,target 71
+  73:275 goto
   2:257 shift
   23:0,target 4
-  50:279,target 64
+  125:257,target 76
+  8:267,target 59
   2:260 shift
-  8:267,target 48
   13:266 reduce
-  73:278 goto
   13:267 reduce
-  81:268,target 8
   13:268 reduce
   21:257,target 15
-  96:263,target 70
-  73:281 goto
-  66:257,target 16
-  50:` shift
+  66:257,target 31
+  50:` reduce
   49:` reduce
   13:269 reduce
-  73:282 goto
-  103:278,target 72
-  36:/ shift
-  6:258,target 44
+  123:( shift
+  78:( reduce
+  78:) reduce
+  6:258,target 55
   2:266 shift
-  33:260,target 42
+  36:/ shift
   2:267 shift
-  104:262,target 69
+  33:260,target 53
+  104:262,target 80
+  78:260,target 69
   2:268 shift
   2:269 shift
-  3:266,target 46
-  29:267,target 36
-  30:267,target 37
-  75:267,target 56
-  95:/,target 27
+  3:266,target 57
+  29:267,target 47
+  30:267,target 48
+  78:/ reduce
+  116:264,target 82
+  102:),target 66
+  91:262,target 75
   0:274,target 14
-  42:269,target 32
-  1:257,target 47
+  11:281,target 26
+  1:257,target 58
   104:257 shift
-  87:269,target 9
+  27:258,target 51
   36:: shift
-  2:278 goto
-  27:258,target 40
-  64:/,target 26
-  9:`,target 49
+  104:258 shift
+  73:258,target 17
+  64:/,target 35
+  2:280 goto
+  9:`,target 60
   104:260 shift
-  78:257 shift
+  78:257 reduce
   104:261 shift
-  38:277,target 50
+  78:258 reduce
+  110::,target 68
   104:262 shift
+  78:260 reduce
+  54:272,target 70
   24:266,target 3
   104:263 shift
-  75:),target 56
-  70:266,target 6
-  69:266,target 6
-  33:/,target 42
+  78:261 reduce
+  70:266,target 38
+  69:266,target 13
+  33:/,target 53
   104:264 shift
-  85:261,target 52
-  48:257 reduce
+  85:261,target 79
+  78:: reduce
+  78:262 reduce
+  126:257,target 97
+  78:263 reduce
+  52:`,target 46
+  48:257 shift
   104:266 shift
-  48:258 reduce
-  8:0,target 48
-  9:267,target 49
+  78:264 reduce
+  9:267,target 60
+  8:0,target 59
   104:267 shift
-  48:260 reduce
+  78:265 reduce
+  48:259 shift
   22:` reduce
-  104:268 shift
-  82:268,target 8
+  78:266 reduce
   22:257,target 5
-  104:269 shift
-  9::,target 49
+  97:263,target 65
+  78:267 reduce
+  67:257,target 32
   21:`,target 15
   18:257 reduce
+  83::,target 70
   18:258 reduce
-  104:278,target 84
-  7:258,target 45
+  7:258,target 56
   18:260 reduce
   64:` reduce
-  48:266 reduce
-  34:260,target 50
-  105:262,target 69
-  80:260,target 5
-  79:260,target 5
-  48:267 reduce
+  34:260,target 61
+  80:260,target 78
+  79:260,target 78
   93:( shift
+  48:268 shift
+  93:) reduce
   51:/ reduce
-  48:269 reduce
   7:257 reduce
   19:0,target 19
-  104:278 goto
-  31:267,target 38
   7:258 reduce
+  31:267,target 49
+  112:(,target 75
+  76:267,target 72
   7:260 reduce
   18:266 reduce
-  104:281 goto
-  92:262,target 47
-  7:261 reduce
+  92:262,target 80
   18:267 reduce
-  104:282 goto
-  7:262 reduce
   18:268 reduce
-  7:263 reduce
+  104:283 goto
+  57:281,target 72
   18:269 reduce
-  93:/ shift
-  43:269,target 31
+  104:284 goto
+  93:/ reduce
+  73:275,target 89
+  48:276 goto
   2:257,target 3
-  7:264 reduce
-  7:265 reduce
-  28:258,target 39
+  58:264,target 82
+  28:258,target 50
+  100:261,target 63
+  74:258,target 16
   7:266 reduce
   7:267 reduce
-  40:277,target 53
   7:268 reduce
-  85:(,target 52
+  39:277,target 56
+  85:(,target 75
   7:269 reduce
   25:266,target 30
-  71:266,target 6
-  86:261,target 53
-  54:(,target 67
-  92:/,target 1
-  37:268,target 8
-  83:268,target 8
+  71:266,target 36
+  112:263,target 81
+  86:261,target 73
+  127:257,target 81
+  123:282,target 124
+  92:/,target 76
+  93:: reduce
   23:257,target 4
-  68:257,target 3
-  61:/,target 13
-  6:`,target 44
-  105:278,target 72
-  84:257 shift
-  8:258,target 48
-  65:( reduce
-  106:262,target 69
-  84:260 shift
-  81:260,target 5
+  68:257,target 33
+  110:257 reduce
+  110:258 reduce
+  61:/,target 21
+  6:`,target 55
+  110:260 reduce
+  110:( reduce
+  109:260 shift
+  84:257 reduce
+  8:258,target 59
+  110:261 reduce
+  110:) reduce
+  84:258 reduce
+  110:262 reduce
+  106::,target 78
+  106:262,target 78
+  84:260 reduce
+  81:260,target 78
   23:/ reduce
+  110:263 reduce
   84:261 reduce
-  72:),target 54
   23:0 reduce
-  29:/,target 36
-  30:/,target 37
+  29:/,target 47
+  30:/,target 48
+  110:264 reduce
   84:262 reduce
-  5:266,target 43
-  92:278,target 95
+  5:266,target 54
+  110:265 reduce
   84:263 reduce
   54:257 shift
-  48:`,target 35
-  32:267,target 41
-  103:269,target 9
+  32:267,target 52
+  110:266 reduce
   84:264 reduce
-  77:267,target 7
-  5:0,target 43
-  93:262,target 69
+  54:258 shift
+  5:0,target 54
+  110:267 reduce
+  110:/ reduce
+  93:262,target 80
   84:265 reduce
   54:260 shift
-  84:266 shift
+  84:266 reduce
   65:/ reduce
-  54:261 shift
-  84:267 shift
-  54:262 shift
-  6::,target 44
+  109:269 shift
+  84:267 reduce
   17:`,target 34
-  84:268 shift
-  54:263 shift
-  3:257,target 46
+  3:257,target 57
   24:257 reduce
-  90:269,target 60
-  89:269,target 59
-  84:269 shift
-  80::,target 58
-  79::,target 57
-  54:264 shift
   24:258 reduce
-  29:258,target 36
-  30:258,target 37
+  29:258,target 47
+  30:258,target 48
+  101:261,target 64
   24:260 reduce
   54:266 shift
   54:267 shift
   11:272,target 22
-  54:268 shift
   26:266,target 6
-  72:266,target 30
+  72:266,target 37
   54:269 shift
   16:0,target 11
-  87:261,target 68
+  87:261,target 74
+  110:: reduce
+  54:272 goto
   24:266 reduce
-  53:279,target 64
   24:267 reduce
+  54:274 goto
   24:268 reduce
-  84:268,target 32
-  54:263,target 70
   24:257,target 3
   24:269 reduce
-  70:257,target 3
-  69:257,target 3
-  54:278 goto
-  106:278,target 84
-  54:280 goto
-  8:(,target 48
-  9:258,target 49
+  99:263,target 62
+  70:257,target 38
+  69:257,target 13
+  9:258,target 60
   54:281 goto
-  107:262,target 62
-  82:(,target 67
-  82:260,target 5
-  54:282 goto
+  126:),target 127
+  107:262,target 79
+  82:(,target 75
+  82:260,target 78
   51:` reduce
-  6:266,target 44
-  93:278,target 72
+  124:( shift
+  6:266,target 55
   80:( shift
   79:( shift
-  33:267,target 42
-  104:269,target 9
-  80:) reduce
-  79:) reduce
-  37:/ shift
-  45:269,target 28
+  33:267,target 53
+  78:267,target 69
+  94:262,target 80
   4:257,target 18
-  91:269,target 94
-  57:/,target 23
-  31:258,target 38
-  3:`,target 46
-  90:257 reduce
-  89:257 reduce
-  80:/ shift
-  79:/ shift
-  90:260 reduce
-  89:260 reduce
-  1:265,target 47
-  90:261 reduce
-  89:261 reduce
+  99:),target 62
+  57:/,target 64
+  3:`,target 57
+  31:258,target 49
+  115:260 shift
+  102:261,target 66
+  90:257 shift
+  89:257 shift
+  76:258,target 72
+  89:258 shift
+  103::,target 67
+  89:260 shift
+  89:261 shift
+  57:272,target 70
   26:/,target 6
-  27:266,target 40
-  90:262 reduce
-  89:262 reduce
-  73:266,target 6
-  90:263 reduce
-  89:263 reduce
+  27:266,target 51
+  89:262 shift
+  73:266,target 17
+  89:263 shift
   60:257 reduce
   59:257 reduce
-  45:`,target 28
-  90:264 reduce
-  89:264 reduce
-  60:258 reduce
-  59:258 reduce
-  90:265 reduce
-  89:265 reduce
+  89:264 shift
   60:260 reduce
   59:260 reduce
-  54:280,target 73
-  90:266 reduce
-  89:266 reduce
-  39:268,target 8
-  90:267 reduce
-  89:267 reduce
-  85:268,target 52
-  3::,target 46
+  125:282,target 126
+  89:266 shift
+  115:269 shift
+  89:267 shift
   14:`,target 8
   25:257,target 28
-  90:268 reduce
-  89:268 reduce
-  71:257,target 3
+  124:: shift
+  71:257,target 36
   29:257 reduce
   30:257 reduce
-  90:269 reduce
-  89:269 reduce
-  80:: reduce
-  79:: reduce
-  76::,target 38
+  76::,target 72
   29:258 reduce
   30:258 reduce
   29:260 reduce
   30:260 reduce
   60:266 reduce
   59:266 reduce
-  29:261 reduce
-  30:261 reduce
   60:267 reduce
   59:267 reduce
-  37:260,target 5
   23:` reduce
-  29:262 reduce
-  30:262 reduce
-  83:260,target 5
-  29:263 reduce
-  30:263 reduce
-  60:269 reduce
-  59:269 reduce
+  37:260,target 42
+  83:260,target 70
   13:0,target 9
-  29:264 reduce
-  30:264 reduce
-  7:266,target 45
-  29:265 reduce
-  30:265 reduce
-  105:(,target 67
-  34:267,target 50
+  7:266,target 56
   10:0 accept
   29:266 reduce
   30:266 reduce
-  105:269,target 9
-  80:267,target 7
-  79:267,target 7
+  34:267,target 61
+  80:267,target 84
+  79:267,target 84
   29:267 reduce
   30:267 reduce
+  95:262,target 80
+  65:` reduce
   29:268 reduce
   30:268 reduce
   29:269 reduce
   30:269 reduce
-  52:/ shift
-  46:269,target 29
-  5:257,target 43
-  92:269,target 9
-  32:258,target 41
-  103:261,target 68
-  5:(,target 43
-  28:266,target 39
-  94:/ reduce
-  74:266,target 55
-  94:0 reduce
-  90:261,target 60
-  89:261,target 59
-  85:/,target 52
-  41:268,target 32
-  86:268,target 53
+  94:( shift
+  89:282 goto
+  89:283 goto
+  52:/ reduce
+  46:269,target 43
+  5:257,target 54
+  89:284 goto
+  32:258,target 52
+  103:261,target 67
+  78:(,target 69
+  28:266,target 50
+  74:266,target 16
+  89:261,target 79
+  75:?,target 90
+  85:/,target 96
   26:257,target 6
-  72:257,target 28
-  96:),target 98
-  54:/,target 1
+  127:265,target 81
+  121:257 shift
+  72:257,target 37
+  54:/,target 64
   0:`,target 2
   95:257 shift
+  95:258 shift
+  100::,target 63
   95:260 shift
-  38:260,target 45
-  84:260,target 29
+  38:260,target 49
+  110:262,target 68
+  95:261 shift
+  84:260,target 71
   23:/,target 4
+  95:262 shift
+  95:263 shift
+  80:284,target 87
+  79:284,target 87
   65:257 reduce
-  42:`,target 32
-  8:266,target 48
-  106:269,target 9
-  81:267,target 7
+  8:266,target 59
+  95:264 shift
+  65:258 reduce
+  95:265 shift
+  81:267,target 84
   65:260 reduce
-  96:262,target 69
   95:266 shift
   95:267 shift
   11:`,target 2
   24:/ reduce
-  95:268 shift
   24:0 reduce
-  95:269 shift
-  47:269,target 30
-  6:257,target 44
-  93:269,target 9
-  33:258,target 42
-  104:261,target 68
+  47:269,target 42
+  6:257,target 55
+  33:258,target 53
+  104:261,target 79
+  78:258,target 69
   65:266 reduce
   65:267 reduce
   66:/ reduce
-  65:268 reduce
-  3:265,target 46
-  66:0 reduce
   65:269 reduce
   10:0,target 0
-  29:266,target 36
-  30:266,target 37
-  75:266,target 56
+  29:266,target 47
+  30:266,target 48
+  116:263,target 81
+  102:(,target 66
+  91:261,target 75
   0:273,target 13
-  11:279,target 26
-  65:275 goto
-  87:268,target 8
-  27:257,target 40
-  73:257,target 3
-  68:282,target 75
-  75:(,target 56
-  40:260,target 45
-  39:260,target 5
-  85:260,target 52
-  8:/,target 48
-  9:266,target 49
-  96:278,target 84
-  107:269,target 62
-  82:/,target 1
-  82:267,target 7
-  51:/,target 34
-  48:269,target 35
-  7:257,target 45
-  94:269,target 14
+  11:280,target 25
+  27:257,target 51
+  95:283 goto
+  73:257,target 17
+  95:284 goto
+  39:260,target 42
+  40:260,target 49
+  85:260,target 99
+  81:284,target 87
+  9:266,target 60
+  8:/,target 59
+  96:278,target 109
+  82:267,target 84
+  123:264,target 82
+  97:262,target 65
+  127::,target 81
+  126:257 shift
+  52:` reduce
+  126:258 shift
+  125:( shift
+  93:),target 77
+  51:/,target 41
+  7:257,target 56
+  126:260 shift
   81:( shift
-  34:258,target 50
-  105:261,target 68
+  34:258,target 61
+  126:261 shift
+  80:258,target 77
+  79:258,target 77
+  70:`,target 38
+  69:`,target 13
   38:/ shift
+  126:262 shift
+  126:263 shift
   19:/,target 19
-  94:` reduce
-  31:266,target 38
-  71:257 shift
+  126:264 shift
+  31:266,target 49
+  76:266,target 72
+  71:257 reduce
   38:`,target 2
-  92:261,target 47
-  81:/ shift
-  71:260 shift
-  31:),target 38
-  71:261 shift
-  71:262 shift
-  71:263 shift
-  41:257 shift
-  28:257,target 39
-  74:257,target 55
-  71:264 shift
-  41:260 shift
-  71:266 shift
-  70:282,target 75
-  69:282,target 75
-  71:267 shift
-  71:268 shift
-  41:260,target 29
+  126:266 shift
+  92:261,target 79
+  71:258 reduce
+  126:267 shift
+  71:260 reduce
+  58:263,target 81
+  28:257,target 50
+  41:257 reduce
+  100:260,target 63
+  74:257,target 16
+  41:260 reduce
+  71:266 reduce
+  111:278,target 115
+  71:267 reduce
   11:257 shift
-  86:260,target 53
-  71:269 shift
+  41:260,target 27
+  112:262,target 80
+  86:260,target 73
+  71:269 reduce
   11:258 shift
   11:260 shift
-  41:266 shift
-  41:267 shift
-  37:267,target 7
-  83:267,target 7
-  41:268 shift
-  41:269 shift
+  82:284,target 87
+  41:266 reduce
+  37:267,target 44
+  41:267 reduce
+  108:269,target 29
+  83:267,target 70
+  126:283 goto
+  124:264,target 82
   0:257 shift
   24:` reduce
+  126:284 goto
   0:258 shift
-  105:/,target 1
   0:260 shift
   11:266 shift
-  71:278 goto
-  50:269,target 61
-  49:269,target 33
-  8:257,target 48
+  50:269,target 40
+  49:269,target 39
+  8:257,target 59
   11:267 shift
   11:/ shift
-  95:269,target 97
-  71:280 goto
   11:0 reduce
   11:268 shift
-  106:261,target 68
-  71:281 goto
+  106:261,target 78
+  81:258,target 77
   11:269 shift
-  99:?,target 100
-  72:(,target 54
-  71:282 goto
+  116:),target 118
   66:` reduce
-  5:265,target 43
   11:272 goto
-  32:266,target 41
+  95:( shift
   0:266 shift
   11:273 goto
-  103:268,target 8
-  77:266,target 6
-  53:/ shift
-  5:/,target 43
+  32:266,target 52
+  53:/ reduce
+  5:/,target 54
   0:267 shift
   11:274 goto
-  93:261,target 68
+  93:261,target 79
   0:268 shift
+  78:/,target 69
   0:270 goto
   0:269 shift
   0:271 goto
-  97:`,target 18
-  44:268,target 55
   0:272 goto
-  11:278 goto
-  90:268,target 60
-  89:268,target 59
+  124::,target 125
   0:273 goto
-  11:279 goto
-  29:257,target 36
-  30:257,target 37
-  95:/ shift
-  90:),target 60
-  89:),target 59
-  75:257,target 56
-  47:/,target 30
+  11:280 goto
+  29:257,target 47
+  30:257,target 48
+  101:260,target 64
+  47:/,target 42
   0:274 goto
-  71:282,target 75
-  66:`,target 16
-  72:265,target 54
-  42:260,target 32
-  0:278 goto
+  11:281 goto
+  66:`,target 31
+  102:257 reduce
   16:/,target 11
-  87:260,target 5
-  0:279 goto
-  38:267,target 47
-  27:),target 40
-  84:267,target 31
-  54:262,target 69
+  42:260,target 24
+  102:258 reduce
+  87:260,target 74
+  0:280 goto
+  102:260 reduce
+  76:257 reduce
+  0:281 goto
+  102:261 reduce
+  76:258 reduce
+  102:262 reduce
+  97::,target 65
+  76:260 reduce
+  38:267,target 51
+  109:269,target 114
+  102:263 reduce
+  84:267,target 71
+  76:261 reduce
+  125:264,target 82
+  102:264 reduce
+  99:262,target 62
+  76:262 reduce
+  102:265 reduce
+  76:263 reduce
   46:257 reduce
+  102:266 reduce
+  76:264 reduce
   46:258 reduce
-  51:269,target 34
+  102:267 reduce
+  76:265 reduce
+  51:269,target 41
   46:260 reduce
-  34:0,target 50
-  9:257,target 49
-  96:269,target 9
+  9:257,target 60
+  34:0,target 61
+  76:266 reduce
   38:` shift
-  107:261,target 62
-  35::,target 38
+  126:(,target 75
+  112:( shift
+  107:261,target 79
+  82:258,target 77
+  76:267 reduce
   16:257 reduce
-  6:265,target 44
+  35::,target 38
   16:258 reduce
   25:/ shift
-  33:266,target 42
   16:260 reduce
   25:0 reduce
-  104:268,target 8
+  33:266,target 53
+  78:266,target 69
   46:266 reduce
+  94:261,target 79
   46:267 reduce
   46:269 reduce
   5:257 reduce
+  67:/ reduce
   5:258 reduce
-  91:268,target 32
-  31:257,target 38
+  102:/,target 66
+  99:(,target 62
   5:260 reduce
   16:266 reduce
-  5:261 reduce
+  31:257,target 49
+  102:260,target 66
+  76:257,target 72
+  0:281,target 16
   16:267 reduce
-  5:262 reduce
   0:/ shift
   16:268 reduce
-  5:263 reduce
-  1:264,target 47
   16:269 reduce
-  68:(,target 67
-  5:264 reduce
-  27:265,target 40
-  43:260,target 31
-  5:265 reduce
+  43:260,target 25
   5:266 reduce
   5:267 reduce
   2:/,target 1
-  54:278,target 72
   5:268 reduce
-  75:/,target 56
-  40:267,target 47
-  39:267,target 7
   5:269 reduce
-  85:267,target 52
-  94:`,target 14
-  86:),target 53
+  39:267,target 44
+  40:267,target 51
+  85:267,target 101
+  126:264,target 82
+  86:),target 73
+  44:/,target 26
   11:` shift
-  52:269,target 33
-  97:269,target 18
-  67:? shift
-  63:`,target 25
+  52:269,target 46
+  83:258,target 70
   107:257 reduce
   13:/,target 9
-  7:265,target 45
+  107:258 reduce
   107:260 reduce
   82:257 shift
-  53:` shift
-  34:266,target 50
-  32:`,target 41
+  53:` reduce
+  32:`,target 52
+  34:266,target 61
+  126:( shift
   107:261 reduce
-  105:268,target 8
-  80:266,target 6
-  79:266,target 6
+  82:258 shift
+  80:266,target 83
+  79:266,target 83
+  126:) shift
   107:262 reduce
+  95:261,target 79
   82:( shift
   82:260 shift
   107:263 reduce
   82:261 shift
   40:/ shift
-  39:/ shift
   107:264 reduce
   82:262 shift
   107:265 reduce
   82:263 shift
-  52:257 shift
+  52:257 reduce
   107:266 reduce
-  92:268,target 8
   82:264 shift
-  32:257,target 41
+  52:258 reduce
+  32:257,target 52
   107:267 reduce
-  103:260,target 5
-  82:265 shift
-  77:257,target 3
-  52:260 shift
-  31:0,target 38
-  107:268 reduce
+  103:260,target 67
+  77:257,target 91
+  52:260 reduce
+  31:0,target 49
   82:266 shift
-  107:269 reduce
-  82:/ shift
+  123:(,target 75
   82:267 shift
-  73:282,target 86
-  82:268 shift
-  32::,target 41
   22:257 reduce
-  28:265,target 39
-  82:269 shift
-  74:265,target 55
-  44:259,target 19
+  100:267,target 63
+  44:260,target 26
   22:258 reduce
-  90:260,target 60
-  89:260,target 59
+  89:260,target 78
   22:260 reduce
-  52:266 shift
-  52:267 shift
-  52:268 shift
-  41:267,target 31
-  86:267,target 53
-  52:269 shift
-  96:(,target 67
+  119:?,target 120
+  52:266 reduce
+  85:284,target 103
+  52:267 reduce
+  41:267,target 27
+  86:267,target 73
+  52:269 reduce
+  127:264,target 81
   22:266 reduce
-  82:278 goto
   22:267 reduce
-  53:269,target 66
+  117:`,target 18
+  53:269,target 44
   22:268 reduce
-  82:281 goto
-  68:264,target 71
-  38:258,target 44
   22:269 reduce
+  38:258,target 48
+  110:261,target 68
+  110:),target 68
+  84:258,target 71
   82:282 goto
-  65:(,target 17
+  82:283 goto
   25:` reduce
-  8:265,target 48
-  54:( shift
-  106:268,target 8
-  81:266,target 6
+  82:284 goto
+  80:283,target 86
+  79:283,target 86
+  81:266,target 83
   12:/ reduce
-  96:261,target 68
-  72:/,target 27
+  72:/,target 37
   12:0 reduce
-  9:),target 49
-  96:( shift
-  93:268,target 8
-  41:/,target 54
-  33:257,target 42
-  104:260,target 5
-  96:) shift
-  78:257,target 88
+  67:` reduce
+  83:),target 70
+  33:257,target 53
+  41:/,target 27
+  104:260,target 99
+  78:257,target 69
   54:/ shift
   0:` shift
-  60:`,target 22
-  59:`,target 21
-  44:276,target 21
-  3:264,target 46
-  29:265,target 36
-  30:265,target 37
-  75:265,target 56
-  45:260,target 28
-  91:260,target 29
-  87:257 shift
-  28:`,target 39
-  96:/ shift
+  101:267,target 64
+  45:260,target 60
+  116:262,target 80
+  113:260 reduce
+  91:260,target 75
+  87:257 reduce
+  28:`,target 50
+  87:258 reduce
   0:272,target 12
-  11:278,target 25
-  87:260 shift
-  87:261 shift
-  42:267,target 32
-  87:262 shift
-  87:267,target 7
-  87:263 shift
-  57:257 reduce
-  87:264 shift
-  57:258 reduce
-  68:281,target 74
-  57:260 reduce
-  27:0,target 40
-  87:266 shift
-  54:269,target 9
-  87:267 shift
-  70:264,target 71
-  69:264,target 71
-  40:258,target 44
-  87:268 shift
+  91::,target 75
+  87:260 reduce
+  87:261 reduce
+  42:267,target 24
+  113:269,target 28
+  87:267,target 74
+  87:262 reduce
+  87:263 reduce
+  57:257 shift
+  87:264 reduce
+  57:258 shift
+  87:265 reduce
+  57:260 shift
+  27:0,target 51
+  87:266 reduce
+  54:269,target 69
+  113:269 reduce
+  87:267 reduce
+  40:258,target 48
+  85:258,target 98
   27:257 reduce
-  28::,target 39
-  87:269 shift
   27:258 reduce
-  9:265,target 49
+  81:283,target 86
   27:260 reduce
-  57:266 reduce
-  27:261 reduce
-  107:268,target 62
-  82:266,target 6
-  57:267 reduce
-  27:262 reduce
+  57:266 shift
+  82:266,target 83
+  57:267 shift
+  123:263,target 81
+  97:261,target 65
   40:` shift
-  27:263 reduce
-  57:269 reduce
-  27:264 reduce
-  68:( shift
-  27:265 reduce
-  93:(,target 67
+  57:269 shift
+  93:(,target 75
+  57:272 goto
+  48:268,target 63
   26:/ reduce
   27:266 reduce
-  94:268,target 14
-  87:278 goto
-  34:257,target 50
   26:0 reduce
   27:267 reduce
-  105:260,target 5
-  80:257,target 3
-  79:257,target 3
-  1:( reduce
+  34:257,target 61
+  114:`,target 14
+  80:257,target 76
+  79:257,target 76
+  57:274 goto
   27:268 reduce
-  87:281 goto
-  1:) reduce
   27:269 reduce
-  106:),target 107
-  87:282 goto
-  31:265,target 38
-  68:/ shift
-  46:260,target 29
-  92:260,target 5
-  31:(,target 38
-  68:/,target 1
+  106:),target 78
+  99:/,target 62
+  102:267,target 66
+  76:265,target 72
+  68:/ reduce
+  46:260,target 43
+  92:260,target 99
+  57:281 goto
+  68:/,target 33
   1:/ reduce
-  43:267,target 31
+  43:267,target 25
   1:0 reduce
-  6:),target 44
-  80:),target 58
-  79:),target 57
-  37:/,target 1
-  70:281,target 74
-  69:281,target 74
-  56:`,target 24
-  71:264,target 71
+  114:269,target 14
+  58:262,target 80
+  100:258,target 63
+  55:269,target 45
+  112:261,target 79
+  86:258,target 73
   93:257 shift
+  82:283,target 86
   25:`,target 2
-  37:266,target 6
-  1:: reduce
+  93:258 shift
   12:` reduce
+  37:266,target 43
   93:260 shift
-  83:266,target 6
+  87::,target 74
+  83:266,target 70
+  124:263,target 81
   93:261 shift
   93:262 shift
   93:263 shift
-  63:257 reduce
+  63:257 shift
   93:264 shift
-  63:258 reduce
-  95:268,target 32
-  63:260 reduce
+  93:265 reduce
+  63:259 shift
+  54:` shift
   24:0,target 3
-  106:260,target 5
+  127:( reduce
+  106:260,target 78
   93:266 shift
-  81:257,target 3
+  81:257,target 76
+  127:) reduce
+  116:(,target 75
   93:267 shift
   83:( reduce
-  93:268 shift
-  41:/ shift
+  83:) reduce
   33:257 reduce
-  5:264,target 43
-  93:269 shift
+  41:/ reduce
   33:258 reduce
-  32:265,target 41
-  103:267,target 7
-  47:260,target 30
+  103:267,target 67
+  47:260,target 42
   33:260 reduce
-  93:260,target 5
-  63:266 reduce
-  33:261 reduce
-  63:267 reduce
-  33:262 reduce
-  33:263 reduce
-  83:/ shift
-  63:269 reduce
-  33:264 reduce
-  90:267,target 60
-  89:267,target 59
-  33:265 reduce
-  90:(,target 60
-  89:(,target 59
+  93:260,target 99
+  127:/ reduce
+  83:/ reduce
+  44:267,target 26
+  115:269,target 117
+  89:267,target 84
+  101:258,target 64
+  89:(,target 75
   33:266 reduce
-  93:278 goto
   33:267 reduce
-  93:280 goto
-  71:281,target 74
-  33:268 reduce
   11:269,target 9
-  93:281 goto
-  56:269,target 24
+  33:268 reduce
   33:269 reduce
-  93:282 goto
-  72:264,target 54
-  42:258,target 32
-  96:/,target 1
-  38:266,target 46
-  27:(,target 40
-  84:266,target 30
-  65:/,target 40
-  54:261,target 68
-  3:),target 46
+  103:),target 67
+  63:276 goto
+  58:(,target 75
+  93:283 goto
+  87:258,target 74
+  93:284 goto
+  127:: reduce
+  38:266,target 50
+  84:266,target 71
+  83:: reduce
+  65:/,target 34
+  125:263,target 81
+  99:261,target 62
   26:` reduce
-  34:/,target 50
-  96:268,target 8
-  107:260,target 62
-  82:257,target 3
-  53:`,target 2
+  100:( reduce
+  76:),target 72
+  34:/,target 61
+  100:) reduce
+  107:260,target 79
+  82:257,target 76
+  53:`,target 44
   13:/ reduce
-  9:0,target 49
+  9:0,target 60
   13:0 reduce
-  77:282,target 75
-  6:264,target 44
-  33:265,target 42
-  104:267,target 7
-  48:260,target 35
+  124:257 shift
+  124:258 shift
+  68:` reduce
+  124:260 shift
+  104:267,target 101
+  98:257 shift
+  78:265,target 69
+  48:259,target 19
   22:`,target 5
-  94:260,target 14
-  84::,target 51
+  124:261 shift
+  100:/ reduce
+  97:( reduce
+  94:260,target 99
+  124:262 shift
+  97:) reduce
+  84::,target 71
+  55:/ reduce
   1:` reduce
-  45:267,target 28
-  91:267,target 31
-  68:257 shift
-  0:279,target 16
-  68:260 shift
+  124:263 shift
+  89:284,target 87
+  124:264 shift
+  45:267,target 62
+  91:267,target 75
+  68:257 reduce
+  124:266 shift
+  102:258,target 66
+  68:258 reduce
+  0:280,target 15
+  124:267 shift
+  68:260 reduce
   21:0,target 15
   97:/ reduce
-  68:261 shift
-  1:263,target 47
   12:269,target 10
-  97:0 reduce
-  68:262 shift
-  57:269,target 23
-  27:264,target 40
-  73:264,target 71
-  68:263 shift
-  43:258,target 31
+  57:269,target 74
+  73:264,target 17
   38:257 shift
-  68:264 shift
   38:258 shift
+  100:: reduce
   38:260 shift
-  68:266 shift
-  68:267 shift
-  40:266,target 46
-  39:266,target 6
-  85:266,target 52
-  68:268 shift
-  68:269 shift
-  86:(,target 53
+  68:266 reduce
+  68:267 reduce
+  39:266,target 43
+  40:266,target 50
+  85:266,target 100
+  126:263,target 81
+  68:269 reduce
+  86:(,target 73
   38:266 shift
-  27:( reduce
-  52:268,target 32
+  97:: reduce
   38:267 shift
-  27:) reduce
-  97:268,target 18
-  37:257,target 3
-  83:257,target 3
-  93:/,target 1
+  37:257,target 41
+  124:283 goto
+  108:260,target 29
+  83:257,target 70
+  124:284 goto
+  100:),target 63
+  104:284,target 103
+  93:/,target 77
+  48:276,target 21
   38:272 goto
-  7:264,target 45
-  70:( shift
-  69:( shift
-  68:278 goto
-  105:267,target 7
-  80:265,target 58
-  79:265,target 57
-  68:280 goto
-  50:260,target 58
-  49:260,target 33
-  38:274 goto
+  50:260,target 40
+  49:260,target 39
   27:/ reduce
-  95:260,target 29
-  68:281 goto
+  38:274 goto
+  95:260,target 99
   27:0 reduce
-  68:282 goto
-  62:/,target 27
-  7:`,target 45
-  38:277 goto
-  46:267,target 29
-  107::,target 62
-  92:267,target 7
+  62:/,target 22
+  7:`,target 56
+  46:267,target 43
+  117:269,target 18
+  114:/ reduce
+  107::,target 79
+  92:267,target 101
   38:279 goto
-  70:/ shift
-  69:/ shift
-  31:/,target 38
-  73:281,target 85
-  50:`,target 2
-  49:`,target 33
+  114:0 reduce
+  103:258,target 67
+  70:/ reduce
+  69:/ reduce
+  31:/,target 49
+  38:281 goto
+  69:0 reduce
+  50:`,target 40
+  49:`,target 39
   13:269,target 9
-  58:269,target 20
-  6:0,target 44
+  6:0,target 55
   2:/ shift
-  28:264,target 39
-  74:264,target 55
-  27:: reduce
-  7::,target 45
+  100:266,target 63
+  89:258,target 77
   18:`,target 12
-  41:266,target 30
+  85:283,target 102
+  41:266,target 27
   100:257 reduce
-  86:266,target 53
+  86:266,target 73
+  127:263,target 81
+  100:258 reduce
+  100:260 reduce
   74:257 reduce
+  100:261 reduce
+  74:258 reduce
+  100:262 reduce
   74:260 reduce
-  74:261 reduce
-  68:263,target 70
-  38:257,target 43
+  100:263 reduce
   13:` reduce
-  84:257,target 28
-  74:262 reduce
-  74:263 reduce
-  44:257 shift
-  80:282,target 86
-  79:282,target 86
-  74:264 reduce
-  8:264,target 48
-  74:265 reduce
-  44:259 shift
-  106:267,target 7
-  81:265,target 89
+  38:257,target 47
+  110:260,target 68
+  110:(,target 68
+  109:260,target 113
+  100:264 reduce
+  84:257,target 71
+  100:265 reduce
+  44:257 reduce
+  100:266 reduce
+  80:282,target 93
+  79:282,target 92
+  100:267 reduce
+  44:260 reduce
+  106:267,target 78
   74:266 reduce
-  51:260,target 34
-  96:260,target 5
+  51:260,target 41
+  96:260,target 108
   74:267 reduce
+  55:` reduce
   74:268 reduce
   14:257 reduce
+  92:284,target 103
   84:( reduce
   74:269 reduce
-  9:(,target 49
   14:258 reduce
   84:) reduce
-  47:267,target 30
-  42:/ reduce
+  47:267,target 42
   14:260 reduce
-  93:267,target 7
-  83:(,target 47
-  97:` reduce
-  44:268 shift
-  100:283,target 101
-  3:263,target 46
+  42:/ reduce
+  127:),target 81
+  93:267,target 101
+  83:(,target 70
+  44:266 reduce
+  104:258,target 98
+  44:267 reduce
+  2:280,target 17
   3:257 reduce
   14:269,target 8
-  60:269,target 22
-  59:269,target 21
   3:258 reduce
-  29:264,target 36
-  30:264,target 37
-  90:/,target 60
-  89:/,target 59
-  84:/ shift
-  75:264,target 56
-  45:258,target 28
+  101:266,target 64
+  84:/ reduce
   3:260 reduce
   14:266 reduce
-  3:261 reduce
+  116:261,target 79
+  91:258,target 75
   14:267 reduce
-  3:262 reduce
   0:271,target 11
   14:268 reduce
-  100:283 goto
-  3:263 reduce
   14:269 reduce
-  58:/,target 20
-  44:276 goto
-  42:266,target 32
-  3:264 reduce
-  87:266,target 6
-  3:265 reduce
+  42:266,target 24
+  87:266,target 74
   3:266 reduce
-  104::,target 105
   3:267 reduce
-  68:280,target 79
-  38:274,target 49
   3:268 reduce
-  27:/,target 40
-  54:268,target 8
+  27:/,target 51
+  38:274,target 53
   3:269 reduce
-  70:263,target 70
-  69:263,target 70
-  46:`,target 29
-  40:257,target 43
-  39:257,target 3
-  85:257,target 52
+  46:`,target 43
+  39:257,target 41
+  40:257,target 47
+  111:260,target 108
+  85:257,target 97
   84:: reduce
-  3:0,target 46
-  81:282,target 86
-  9:264,target 49
+  3:0,target 57
+  81:282,target 94
   15:`,target 7
   27:` reduce
-  107:267,target 62
-  82:265,target 90
-  52:260,target 29
-  97:260,target 18
-  105:257 shift
+  107:267,target 79
+  101:( reduce
+  52:260,target 46
+  123:262,target 80
+  101:) reduce
+  97:260,target 65
   14:/ reduce
+  93:284,target 103
   14:0 reduce
-  105:260 shift
+  114:` reduce
   80:257 shift
   79:257 shift
-  48:267,target 35
-  105:261 shift
-  94:267,target 14
-  105:262 shift
+  94:267,target 101
+  80:258 shift
+  79:258 shift
+  70:` reduce
+  69:` reduce
   80:260 shift
   79:260 shift
   14:0,target 8
-  105:263 shift
-  98:( shift
+  101:/ reduce
   80:261 shift
   79:261 shift
-  106:(,target 67
-  105:264 shift
+  106:(,target 78
   80:262 shift
   79:262 shift
-  56:/ reduce
+  56:/ shift
   15:269,target 33
   80:263 shift
   79:263 shift
-  61:269,target 13
-  50:257 shift
+  50:257 reduce
   49:257 reduce
-  31:264,target 38
-  105:266 shift
+  102:266,target 66
   80:264 shift
   79:264 shift
-  50:258 shift
+  76:264,target 72
+  50:258 reduce
   49:258 reduce
-  46:258,target 29
-  105:267 shift
-  80:265 reduce
-  79:265 reduce
-  50:260 shift
+  46:258,target 43
+  92:258,target 98
+  50:260 reduce
   49:260 reduce
-  105:268 shift
   80:266 shift
   79:266 shift
-  105:269 shift
   80:267 shift
   79:267 shift
-  80:268 shift
-  79:268 shift
-  43:266,target 31
+  43:266,target 25
   19:257 reduce
   20:257 shift
-  80:269 shift
-  79:269 shift
-  6:(,target 44
+  114:268,target 14
+  58:261,target 79
   19:258 reduce
-  100:257,target 61
+  100:257,target 63
   19:260 reduce
   20:259 shift
-  80:(,target 67
-  79:(,target 67
-  50:266 shift
+  80:(,target 75
+  79:(,target 75
+  50:266 reduce
   49:266 reduce
-  70:280,target 81
-  69:280,target 80
-  50:267 shift
+  101:: reduce
+  50:267 reduce
   49:267 reduce
-  40:274,target 49
-  71:263,target 70
-  50:269 shift
+  40:274,target 53
+  50:269 reduce
   49:269 reduce
-  41:257,target 28
   8:257 reduce
-  105:278 goto
-  86:257,target 53
+  41:257,target 27
+  112:260,target 78
+  86:257,target 73
   8:258 reduce
-  105:280 goto
-  86:/,target 53
-  50:272 goto
+  86:/,target 73
   8:260 reduce
   19:266 reduce
-  105:281 goto
-  82:282,target 86
-  80:278 goto
-  79:278 goto
-  8:261 reduce
+  82:282,target 95
   19:267 reduce
-  105:282 goto
-  50:274 goto
-  8:262 reduce
   19:268 reduce
-  28:( reduce
-  80:281 goto
-  79:281 goto
-  53:260,target 58
-  8:263 reduce
+  83:265,target 70
+  53:260,target 44
   19:269 reduce
-  28:) reduce
+  124:262,target 80
+  97:),target 65
   80:282 goto
   79:282 goto
-  1:`,target 47
-  8:264 reduce
-  8:265 reduce
-  42:` reduce
+  55:/,target 45
+  1:`,target 58
+  80:283 goto
+  79:283 goto
+  94:284,target 103
+  80:284 goto
+  79:284 goto
+  74:`,target 16
   8:266 reduce
-  50:279 goto
-  50:267,target 60
-  49:267,target 33
+  101::,target 64
+  50:267,target 40
+  49:267,target 39
   8:267 reduce
-  95:267,target 31
-  71:( shift
+  95:267,target 101
   8:268 reduce
   24:/,target 3
+  106:258,target 78
   8:269 reduce
   20:276 goto
   28:/ reduce
-  43:`,target 31
   28:0 reduce
-  5:263,target 43
-  3:( reduce
   16:269,target 11
-  62:269,target 27
-  32:264,target 41
-  3:) reduce
-  103:266,target 6
-  77:264,target 71
-  47:258,target 30
-  1::,target 47
+  103:266,target 67
+  47:258,target 42
+  93:258,target 98
   12:`,target 10
-  71:/ shift
-  74::,target 55
-  90:266,target 60
-  89:266,target 59
+  71:/ reduce
+  44:266,target 26
+  89:266,target 83
   3:/ reduce
-  101:257,target 102
-  85:257 reduce
+  111:260 shift
+  101:257,target 64
+  85:257 shift
   3:0 reduce
-  28:: reduce
-  85:260 reduce
-  71:280,target 82
+  85:258 shift
+  85:260 shift
   11:0,target 1
   11:268,target 8
-  85:261 reduce
+  85:261 shift
   103:(,target 67
-  85:262 reduce
-  72:263,target 54
-  42:257,target 32
-  87:257,target 3
-  85:263 reduce
-  55:257 shift
-  85:264 reduce
-  85:265 reduce
-  55:259 shift
-  85:266 reduce
-  85:267 reduce
-  84:265,target 51
-  54:260,target 5
-  85:268 reduce
-  3:: reduce
+  85:262 shift
+  42:257,target 24
+  113:260,target 28
+  87:257,target 74
+  85:263 shift
+  55:257 reduce
+  85:264 shift
+  55:258 reduce
+  55:260 reduce
+  85:266 shift
+  110:267,target 68
+  110:/,target 68
+  85:267 shift
+  84:265,target 71
+  54:260,target 66
+  125:262,target 80
+  99:260,target 62
   14:` reduce
   25:257 shift
-  85:269 reduce
-  3:(,target 46
   25:258 reduce
+  95:284,target 103
   25:260 shift
-  51:267,target 34
-  96:267,target 7
-  56:` reduce
-  9:/,target 49
-  77:281,target 74
-  6:263,target 44
+  76:(,target 72
+  55:266 reduce
+  51:267,target 41
+  55:267 reduce
+  107:258,target 79
+  55:269 reduce
+  9:/,target 60
+  111:278 goto
   17:269,target 33
-  85:( reduce
-  83:/,target 1
-  63:269,target 25
-  33:264,target 42
+  85:( shift
+  83:/,target 70
   25:266 shift
-  104:266,target 6
-  85:) reduce
-  48:258,target 35
-  43:/ reduce
+  104:266,target 100
+  78:264,target 69
   25:267 shift
-  94:258,target 14
+  43:/ reduce
+  94:258,target 98
   25:268 shift
   25:269 shift
-  55:276 goto
-  52:/,target 65
-  45:266,target 28
-  91:266,target 30
-  85:/ reduce
-  0:278,target 15
+  89:283,target 86
+  52:/,target 46
+  85:283 goto
+  45:266,target 61
+  91:266,target 75
+  85:284 goto
+  71:`,target 36
+  102:257,target 66
+  85:/ shift
   21:/,target 15
-  1:262,target 47
   12:268,target 10
   40:`,target 2
-  27:263,target 40
-  73:263,target 70
-  43:257,target 31
-  32:),target 41
-  85:265,target 52
-  55:259,target 19
-  85:: reduce
-  91:257 shift
-  52:267,target 31
-  97:267,target 18
-  91:260 shift
+  73:263,target 17
+  43:257,target 25
+  114:260,target 14
+  69:0,target 13
+  55:260,target 45
+  126:262,target 80
+  116:257 shift
+  116:258 shift
+  116:260 shift
+  91:257 reduce
+  116:261 shift
+  91:258 reduce
+  52:267,target 46
+  116:262 shift
+  97:267,target 65
+  91:260 reduce
   28:` reduce
+  116:263 shift
+  102:( reduce
+  91:261 reduce
+  116:264 shift
+  102:) reduce
+  100:(,target 63
+  91:262 reduce
+  104:283,target 102
+  91:263 reduce
   61:257 reduce
-  7:263,target 45
   15:/ shift
   18:269,target 12
-  64:269,target 26
-  61:258 reduce
+  116:266 shift
+  91:264 reduce
+  64:269,target 35
   15:0 reduce
-  105:266,target 6
-  80:264,target 71
-  79:264,target 71
+  116:267 shift
+  91:265 reduce
+  80:264,target 82
+  79:264,target 82
   61:260 reduce
-  50:258,target 44
-  49:258,target 33
-  91:266 shift
-  106:/,target 1
-  91:267 shift
-  91:268 shift
+  50:258,target 40
+  49:258,target 39
+  95:258,target 98
+  91:266 reduce
+  71:` reduce
+  106:/,target 78
+  91:267 reduce
+  102:/ reduce
+  99:( reduce
   31:257 reduce
-  91:269 shift
-  57:/ reduce
-  46:266,target 29
-  31:258 reduce
+  99:) reduce
+  57:/ shift
+  46:266,target 43
   3:` reduce
-  92:266,target 6
+  31:258 reduce
+  117:268,target 18
+  92:266,target 100
   31:260 reduce
-  103:257,target 3
-  73:(,target 67
+  103:257,target 67
+  73:(,target 17
   61:266 reduce
-  31:261 reduce
   61:267 reduce
-  31:262 reduce
-  61:268 reduce
-  31:263 reduce
   13:268,target 9
-  61:269 reduce
-  31:264 reduce
-  6:/,target 44
-  28:263,target 39
-  74:263,target 55
-  44:257,target 18
-  31:265 reduce
-  90:257,target 60
-  89:257,target 59
-  80:/,target 1
-  79:/,target 1
+  6:/,target 55
+  100:265,target 63
+  99:/ reduce
+  44:257,target 26
+  115:260,target 113
+  90:257,target 105
+  89:257,target 76
   31:266 reduce
   31:267 reduce
-  55:276,target 36
   31:268 reduce
-  102:: shift
-  31:269 reduce
+  116:283 goto
+  102:: reduce
   11:260,target 5
-  86:265,target 53
-  56:260,target 24
-  48:/,target 35
-  53:267,target 60
+  31:269 reduce
+  116:284 goto
+  112:267,target 84
+  91:),target 75
+  86:265,target 73
+  56:260,target 60
+  127:262,target 81
+  67:`,target 32
+  53:267,target 44
   17:/,target 27
-  97:0,target 18
-  68:262,target 69
-  29:( reduce
-  30:( reduce
-  29:) reduce
-  30:) reduce
-  80:281,target 85
-  79:281,target 85
-  8:263,target 48
+  110:258,target 68
+  99:: reduce
   19:269,target 19
-  28:),target 39
-  66:0,target 16
-  65:269,target 40
-  43:` reduce
-  106:266,target 6
-  81:264,target 71
-  51:258,target 34
-  99:? shift
-  72:( reduce
-  72:) reduce
+  65:269,target 34
+  116:( shift
+  106:266,target 78
+  81:264,target 82
+  51:258,target 41
+  116:) shift
   29:/ reduce
   30:/ reduce
+  92:283,target 102
   29:0 reduce
   30:0 reduce
-  47:266,target 30
-  96:257 shift
-  93:266,target 6
-  104:257,target 3
+  47:266,target 42
+  127:(,target 81
+  93:266,target 100
+  104:257,target 97
   36::,target 40
-  2:278,target 17
   96:260 shift
-  96:261 shift
-  72:/ shift
-  3:262,target 46
+  72:/ reduce
   14:268,target 8
-  96:262 shift
-  29:263,target 36
-  30:263,target 37
-  96:263 shift
-  75:263,target 56
+  101:265,target 64
   66:257 reduce
-  45:257,target 28
-  96:264 shift
-  91:257,target 28
+  45:257,target 59
+  116:260,target 99
+  91:257,target 75
   66:258 reduce
   66:260 reduce
   0:270,target 10
   0:269,target 9
-  96:266 shift
-  29:: reduce
-  30:: reduce
-  103:/,target 1
-  96:267 shift
+  112:284,target 87
+  103:/,target 67
   12:260,target 10
-  96:268 shift
-  57:260,target 23
-  96:269 shift
-  70:(,target 67
-  69:(,target 67
-  68:278,target 72
+  87:265,target 74
+  57:260,target 66
   66:266 reduce
-  72:: reduce
   66:267 reduce
-  54:267,target 7
-  70:262,target 69
-  69:262,target 69
-  66:268 reduce
+  54:267,target 68
+  99:267,target 62
   66:269 reduce
-  3:/,target 46
+  3:/,target 57
   15:` reduce
-  81:281,target 85
-  9:263,target 49
+  76:/,target 72
   21:269,target 15
   96:278 goto
-  66:269,target 16
-  107:266,target 62
-  82:264,target 71
-  97:258,target 18
-  96:281 goto
-  96:282 goto
-  45:/,target 28
-  57:` reduce
-  64:`,target 26
-  48:266,target 35
-  94:266,target 14
+  66:269,target 31
+  107:266,target 79
+  82:264,target 82
+  52:258,target 46
+  123:261,target 79
+  122::,target 123
+  97:258,target 65
+  87:),target 74
+  45:/,target 58
+  93:283,target 102
+  57:` shift
+  64:`,target 35
+  94:266,target 100
   86:( reduce
-  105:257,target 3
   86:) reduce
+  44:/ reduce
   14:/,target 8
-  94:0,target 14
-  33:`,target 42
   15:268,target 32
-  61:268,target 13
-  31:263,target 38
-  46:257,target 29
-  92:257,target 3
+  33:`,target 53
+  102:265,target 66
+  76:263,target 72
+  46:257,target 43
+  117:260,target 18
+  92:257,target 97
   86:/ reduce
-  1:269,target 47
-  87:282,target 86
+  1:269,target 58
   13:260,target 9
-  58:260,target 20
-  32:0,target 41
-  70:278,target 72
-  69:278,target 72
-  33::,target 42
-  71:262,target 69
-  72:257 shift
+  127:257 reduce
+  114:267,target 14
+  58:260,target 78
+  32:0,target 52
+  127:258 reduce
+  127:260 reduce
+  124:(,target 75
+  127:261 reduce
+  127:262 reduce
+  55:267,target 45
+  127:263 reduce
+  127:264 reduce
+  112:258,target 77
+  127:265 reduce
+  72:257 reduce
+  127:266 reduce
   86:: reduce
-  82:281,target 85
+  72:258 reduce
   22:269,target 5
-  72:260 shift
-  83:264,target 47
-  72:261 reduce
+  127:267 reduce
+  72:260 reduce
+  67:269,target 32
+  83:264,target 70
   53:258,target 44
-  72:262 reduce
+  124:261,target 79
+  100:/,target 63
+  97:(,target 65
   29:` reduce
   30:` reduce
-  103:( shift
-  72:263 reduce
+  103:( reduce
   42:257 reduce
-  72:264 reduce
-  42:258 reduce
-  72:265 reduce
-  50:266,target 59
-  49:266,target 33
-  42:260 reduce
+  120:285,target 121
+  103:) reduce
+  94:283,target 102
+  58:( shift
+  50:266,target 40
+  49:266,target 39
   16:/ reduce
-  95:266,target 30
-  72:266 shift
+  42:260 reduce
+  95:266,target 100
+  72:266 reduce
   16:0 reduce
-  106:257,target 3
-  72:267 shift
-  72:268 shift
+  106:257,target 78
+  72:267 reduce
+  72:` reduce
   12:257 reduce
-  72:269 shift
-  5:262,target 43
+  72:269 reduce
   0:/,target 1
   12:258 reduce
   16:268,target 11
-  103:/ shift
-  32:263,target 41
+  103:/ reduce
   12:260 reduce
-  77:263,target 70
-  73:/,target 83
-  58:/ reduce
-  47:257,target 30
+  117:0,target 18
+  103:265,target 67
+  47:257,target 42
   42:266 reduce
-  93:257,target 3
+  93:257,target 97
   42:267 reduce
   2:269,target 9
-  42:269 reduce
   1:257 reduce
-  84:),target 51
-  42:/,target 32
+  84:),target 71
   1:258 reduce
   14:260,target 8
-  90:265,target 60
-  89:265,target 59
-  60:260,target 22
-  59:260,target 21
+  42:/,target 24
+  60:260,target 20
+  59:260,target 23
   1:260 reduce
   12:266 reduce
-  61:`,target 13
-  1:261 reduce
   12:267 reduce
-  1:262 reduce
   12:268 reduce
-  71:278,target 72
-  1:263 reduce
   11:267,target 7
   11:/,target 1
   12:269 reduce
-  56:267,target 24
-  1:264 reduce
-  72:262,target 54
-  30:`,target 37
-  1:265 reduce
-  29:`,target 36
+  56:267,target 62
+  103:: reduce
+  29:`,target 47
+  30:`,target 48
   1:266 reduce
+  92::,target 76
   1:267 reduce
   1:268 reduce
   23:269,target 4
-  68:269,target 9
+  68:269,target 33
   1:269 reduce
-  84:264,target 51
-  31:( reduce
-  31:) reduce
-  28:0,target 39
-  51:266,target 34
-  96:266,target 6
-  29::,target 36
-  30::,target 37
-  107:257,target 62
-  103:257 shift
-  73:( shift
-  103:282,target 75
-  77:280,target 87
-  31:/ reduce
-  6:262,target 44
+  110:266,target 68
+  84:264,target 71
+  54:258,target 48
+  125:261,target 79
+  99:258,target 62
+  28:0,target 50
+  95:283,target 102
+  51:266,target 41
+  107:257,target 79
+  103:257 reduce
+  73:( reduce
+  103:258 reduce
   17:268,target 32
-  103:260 shift
+  31:/ reduce
+  127:/,target 81
+  103:260 reduce
   77:257 shift
-  33:263,target 42
   31:0 reduce
-  103:261 shift
-  48:257,target 35
-  5:( reduce
-  103:262 shift
-  94:257,target 14
-  77:260 shift
-  5:) reduce
-  103:263 shift
-  77:261 shift
-  3:269,target 46
-  103:264 shift
-  77:262 shift
-  77:263 shift
-  73:/ shift
+  103:261 reduce
+  78:263,target 69
+  48:257,target 18
+  103:262 reduce
+  94:257,target 97
+  103:263 reduce
+  3:269,target 57
+  117:/ reduce
+  103:264 reduce
+  94:(,target 75
+  89:282,target 104
+  117:0 reduce
+  103:265 reduce
   47:257 reduce
   15:260,target 29
-  103:266 shift
-  77:264 shift
-  61:260,target 13
+  116:267,target 101
+  103:266 reduce
+  91:265,target 75
+  61:260,target 21
   47:258 reduce
-  103:267 shift
+  103:267 reduce
   47:260 reduce
-  107:),target 62
-  103:268 shift
-  77:266 shift
+  107:),target 79
   5:/ reduce
-  103:269 shift
-  77:267 shift
   5:0 reduce
-  1:261,target 47
   12:267,target 10
-  77:268 shift
-  57:267,target 23
-  31:: reduce
+  57:267,target 68
   17:257 shift
-  27:262,target 40
-  77:269 shift
-  73:262,target 69
-  32:(,target 41
+  73:262,target 17
+  114:258,target 14
   17:260 shift
-  70:/,target 1
-  69:/,target 1
+  114:0,target 14
+  70:/,target 38
+  69:/,target 13
   47:266 reduce
+  38:281,target 55
   47:267 reduce
   24:269,target 3
-  70:269,target 9
-  69:269,target 9
-  7:),target 45
-  85:264,target 52
+  70:269,target 38
+  69:269,target 13
+  85:264,target 82
+  55:258,target 45
   47:269 reduce
   6:257 reduce
-  103:278 goto
-  38:/,target 42
+  126:261,target 79
   6:258 reduce
-  103:280 goto
+  38:/,target 46
   6:260 reduce
   17:266 shift
-  103:281 goto
-  77:278 goto
-  57:`,target 23
-  6:261 reduce
-  5:: reduce
+  57:`,target 2
   16:` reduce
   17:267 shift
-  103:282 goto
-  77:280 goto
-  52:266,target 30
-  6:262 reduce
+  52:266,target 46
   17:268 shift
-  97:266,target 18
-  77:281 goto
-  6:263 reduce
+  97:266,target 65
   17:269 shift
-  77:282 goto
-  6:264 reduce
-  6:265 reduce
   26:`,target 6
-  104:282,target 86
   6:266 reduce
-  7:262,target 45
   18:268,target 12
-  88::,target 93
-  58:` reduce
+  88::,target 38
   6:267 reduce
-  80:263,target 70
-  79:263,target 70
-  50:257,target 57
-  49:257,target 33
+  80:263,target 81
+  79:263,target 81
+  50:257,target 40
+  49:257,target 39
   6:268 reduce
-  95:257,target 28
-  87:( shift
+  95:257,target 97
+  87:( reduce
   6:269 reduce
-  45:/ reduce
+  87:) reduce
+  45:/ shift
+  116:284,target 103
   16:260,target 11
   25:0,target 2
-  62:260,target 27
-  87:/ shift
-  73:278,target 84
+  117:267,target 18
+  92:265,target 76
+  62:260,target 22
+  87:/ reduce
   13:267,target 9
-  58:267,target 20
-  28:262,target 39
-  74:262,target 55
-  83:257 shift
-  83:260 shift
+  58:267,target 84
+  100:264,target 63
+  108:260 reduce
+  83:257 reduce
+  83:258 reduce
+  40:281,target 55
+  83:260 reduce
   25:269,target 33
   83:261 reduce
-  71:269,target 9
+  71:269,target 36
   11:258,target 4
-  86:264,target 53
+  112:266,target 83
+  91:(,target 75
+  86:264,target 73
   83:262 reduce
-  56:258,target 24
+  127:261,target 81
   83:263 reduce
-  53:257 shift
+  53:257 reduce
   83:264 reduce
-  53:258 shift
-  53:260 shift
-  83:266 shift
-  53:266,target 59
-  97:/,target 18
-  83:267 shift
-  68:261,target 68
-  83:268 shift
+  53:258 reduce
+  83:265 reduce
+  53:260 reduce
+  87:: reduce
+  83:266 reduce
+  53:266,target 44
+  108:269 reduce
+  97:/,target 65
+  83:267 reduce
+  110:257,target 68
   23:257 reduce
-  83:269 shift
-  31:` reduce
   23:258 reduce
-  105:282,target 75
+  31:` reduce
   104:( shift
-  50:274,target 63
-  8:262,target 48
   19:268,target 19
   23:260 reduce
-  28:(,target 39
-  66:/,target 16
-  65:268,target 40
-  53:266 shift
-  81:263,target 70
-  53:267 shift
-  51:257,target 34
+  66:/,target 31
+  53:266 reduce
+  106:265,target 78
+  81:263,target 81
+  53:267 reduce
+  51:257,target 41
   17:/ shift
-  96:257,target 3
-  53:269 shift
-  5:269,target 43
+  117:` reduce
+  53:269 reduce
+  5:269,target 54
   35:/,target 37
-  53:272 goto
   17:260,target 29
   23:266 reduce
   104:/ shift
-  83:278 goto
-  63:260,target 25
+  93:265,target 77
+  63:259,target 19
+  54:`,target 2
   23:267 reduce
   60:/ reduce
   59:/ reduce
-  53:274 goto
   5:` reduce
   23:268 reduce
+  58:284,target 87
   23:269 reduce
-  3:261,target 46
   14:267,target 8
-  60:267,target 22
-  59:267,target 21
+  60:267,target 20
+  59:267,target 23
   23:`,target 4
-  29:262,target 36
-  30:262,target 37
-  75:262,target 56
-  85::,target 52
-  53:279 goto
+  101:264,target 64
+  116:258,target 98
   0:268,target 8
+  112:283,target 86
   26:269,target 6
-  72:269,target 33
+  72:269,target 37
   12:258,target 10
-  87:264,target 71
-  57:258,target 23
-  104:: shift
+  87:264,target 74
+  57:258,target 48
   22:0,target 5
-  38:272,target 48
-  54:266,target 6
-  70:261,target 68
-  69:261,target 68
-  32:( reduce
-  106:282,target 86
-  32:) reduce
-  9:262,target 49
+  38:272,target 52
+  54:266,target 67
+  99:266,target 62
+  114:257 reduce
+  114:258 reduce
+  114:260 reduce
   21:268,target 15
-  66:268,target 16
-  107:265,target 62
-  82:263,target 70
-  52:257,target 28
-  97:257,target 18
-  45:` reduce
-  87:(,target 67
-  6:269,target 44
-  93:282,target 75
-  74:( reduce
-  58:257 reduce
-  74:) reduce
-  58:258 reduce
-  32:/ reduce
+  107:265,target 79
+  82:263,target 81
+  52:257,target 46
+  123:260,target 78
+  97:257,target 65
+  118:( shift
+  87:(,target 74
+  6:269,target 55
+  63:276,target 36
+  58:257 shift
+  114:266 reduce
+  58:258 shift
   18:260,target 12
-  64:260,target 26
-  58:260 reduce
+  32:/ reduce
+  114:267 reduce
+  94:265,target 106
+  64:260,target 35
+  58:260 shift
   32:0 reduce
-  6:( reduce
-  94:/,target 14
-  6:) reduce
+  114:268 reduce
+  101:),target 64
+  58:261 shift
+  114:269 reduce
+  58:262 shift
+  58:263 shift
   15:267,target 31
   28:257 reduce
-  61:267,target 13
-  31:262,target 38
+  61:267,target 21
+  58:264 shift
   28:258 reduce
+  102:264,target 66
+  76:262,target 72
   74:/ reduce
   28:260 reduce
-  63:/,target 25
-  58:266 reduce
-  8:`,target 48
-  28:261 reduce
-  58:267 reduce
-  1:268,target 47
-  28:262 reduce
-  87:281,target 85
+  117:258,target 18
+  74:0 reduce
+  58:266 shift
+  8:`,target 59
+  58:267 shift
+  1:268,target 58
   6:/ reduce
-  1:),target 47
-  27:269,target 40
-  28:263 reduce
-  73:269,target 9
-  58:269 reduce
+  27:269,target 51
   6:0 reduce
   13:258,target 9
-  28:264 reduce
-  74:),target 55
-  58:258,target 20
-  32:: reduce
-  32:/,target 41
-  28:265 reduce
+  114:266,target 14
+  58:258,target 77
+  32:/,target 52
   28:266 reduce
-  51:`,target 34
+  51:`,target 41
   28:267 reduce
-  40:272,target 48
-  7:0,target 45
+  7:0,target 56
   28:268 reduce
+  40:272,target 52
+  55:266,target 45
   28:269 reduce
-  71:261,target 68
-  74:: reduce
-  8::,target 48
+  112:257,target 76
   19:`,target 19
   22:268,target 5
-  6:: reduce
   17:` shift
-  83:263,target 47
-  53:257,target 57
-  7:269,target 45
+  83:263,target 70
+  58:282 goto
+  53:257,target 44
+  124:260,target 99
+  98:257,target 110
+  58:283 goto
+  58:284 goto
+  7:269,target 56
   18:0,target 12
   19:260,target 19
   20:259,target 19
-  65:260,target 40
-  60:` reduce
-  59:` reduce
+  95:265,target 107
+  65:260,target 34
   19::,target 19
+  120:257 reduce
   46:/ reduce
-  5:261,target 43
   16:267,target 11
-  62:267,target 27
-  32:262,target 41
-  103:264,target 71
-  94:257 reduce
-  77:262,target 69
-  94:258 reduce
-  94:260 reduce
+  62:267,target 22
+  117:/,target 18
+  103:264,target 67
+  94:257 shift
+  94:258 shift
+  94:260 shift
   2:268,target 8
-  28:269,target 39
-  84:(,target 51
-  74:269,target 55
+  94:261 shift
+  28:269,target 50
+  94:262 shift
+  84:(,target 71
+  74:269,target 16
   14:258,target 8
-  90:264,target 60
-  89:264,target 59
+  94:263 shift
+  89:264,target 82
   64:257 reduce
-  60:258,target 22
-  59:258,target 21
+  94:264 shift
   64:258 reduce
+  94:265 shift
   64:260 reduce
-  94:266 reduce
+  94:266 shift
   0:260,target 5
   11:266,target 6
-  94:267 reduce
-  91:/,target 27
-  56:266,target 24
-  94:268 reduce
-  72:261,target 54
+  94:267 shift
+  91:/,target 75
+  56:266,target 61
   34:257 reduce
-  94:269 reduce
   34:258 reduce
   34:260 reduce
   64:266 reduce
-  60:/,target 22
-  59:/,target 21
-  53:274,target 63
-  5:`,target 43
+  60:/,target 20
+  59:/,target 23
+  5:`,target 54
   23:268,target 4
-  68:268,target 8
   64:267 reduce
+  110:265,target 68
   88:: shift
-  84:263,target 51
-  54:257,target 3
+  84:263,target 71
+  54:257,target 65
+  125:260,target 78
+  105::,target 112
+  99:257,target 62
   64:269 reduce
-  8:269,target 48
+  8:269,target 59
   20:276,target 36
-  28:/,target 39
-  34:266 reduce
+  28:/,target 50
   32:` reduce
-  105:( shift
-  47:`,target 30
-  34:267 reduce
+  34:266 reduce
+  47:`,target 42
   21:260,target 15
-  66:260,target 16
+  34:267 reduce
+  66:260,target 31
   34:268 reduce
-  34:269 reduce
   18:/ reduce
+  34:269 reduce
   18:0 reduce
-  103:281,target 74
-  77:278,target 72
-  6:261,target 44
-  5::,target 43
+  120:285 goto
+  94:283 goto
   16:`,target 11
   17:267,target 31
-  63:267,target 25
-  33:262,target 42
-  104:264,target 71
-  105:/ shift
+  94:284 goto
+  74:` reduce
+  104:264,target 82
+  78::,target 69
+  78:262,target 69
   61:/ reduce
-  3:268,target 46
   6:` reduce
-  61:0 reduce
-  29:269,target 36
-  30:269,target 37
-  75:269,target 56
+  3:268,target 57
+  29:269,target 47
+  30:269,target 48
   15:258,target 7
-  61:258,target 13
+  116:266,target 100
+  91:264,target 75
   15:0,target 7
-  107:(,target 62
-  1:260,target 47
+  107:(,target 79
+  1:260,target 58
   12:266,target 10
-  57:266,target 23
-  27:261,target 40
-  73:261,target 68
-  38:279,target 51
+  57:266,target 67
+  125:257 shift
+  73:261,target 17
+  125:258 shift
+  114:257,target 14
+  125:260 shift
+  114:/,target 14
+  105:: shift
+  99:257 reduce
+  38:279,target 54
+  125:261 shift
+  99:258 reduce
+  54:274,target 71
   24:268,target 3
-  70:268,target 8
-  69:268,target 8
-  7:(,target 45
-  85:263,target 52
-  55:257,target 76
-  81:(,target 67
-  70:257 shift
-  69:257 shift
-  9:269,target 49
-  96:282,target 86
-  33:( reduce
-  70:260 shift
-  69:260 shift
-  33:) reduce
+  125:262 shift
+  99:260 reduce
+  69:268,target 13
+  125:263 shift
+  99:261 reduce
+  85:263,target 81
+  55:257,target 45
+  126:260,target 99
+  125:264 shift
+  99:262 reduce
+  81:(,target 75
+  99:263 reduce
+  70:257 reduce
+  69:257 reduce
+  9:269,target 60
+  125:266 shift
+  99:264 reduce
+  70:258 reduce
+  69:258 reduce
+  125:267 shift
+  99:265 reduce
+  70:260 reduce
+  69:260 reduce
   22:260,target 5
-  70:261 shift
-  69:261 shift
-  87:/,target 92
-  70:262 shift
-  69:262 shift
-  70:263 shift
-  69:263 shift
+  123:267,target 84
+  99:266 reduce
+  97:265,target 65
+  67:260,target 32
+  99:267 reduce
+  87:/,target 74
   46:` reduce
-  40:257 shift
   39:257 shift
-  104:281,target 85
-  70:264 shift
-  69:264 shift
-  40:258 shift
-  7:261,target 45
+  40:257 shift
   18:267,target 12
-  75:( reduce
-  64:267,target 26
-  40:260 shift
+  40:258 shift
+  64:267,target 35
   39:260 shift
-  105:264,target 71
-  80:262,target 69
-  79:262,target 69
-  75:) reduce
-  70:266 shift
-  69:266 shift
-  56:/,target 24
+  40:260 shift
+  80:262,target 80
+  79:262,target 80
+  70:266 reduce
+  69:266 reduce
+  56:/,target 73
   33:/ reduce
-  70:267 shift
-  69:267 shift
+  70:267 reduce
+  69:267 reduce
   33:0 reduce
-  70:268 shift
-  69:268 shift
+  69:268 reduce
   4:268,target 20
-  7:( reduce
-  102::,target 103
-  70:269 shift
-  69:269 shift
-  31:269,target 38
-  7:) reduce
+  116:283,target 102
+  102::,target 66
+  70:269 reduce
+  69:269 reduce
+  31:269,target 49
   16:258,target 11
   25:/,target 27
-  92:264,target 47
-  62:258,target 27
-  40:266 shift
+  117:266,target 18
+  92:264,target 82
   39:266 shift
-  75:/ reduce
-  40:267 shift
+  40:266 shift
   39:267 shift
-  39:268 shift
-  1:0,target 47
-  39:269 shift
+  40:267 shift
+  125:282 goto
+  1:0,target 58
+  125:283 goto
   2:260,target 5
   13:266,target 9
-  58:266,target 20
+  125:284 goto
+  74:0,target 16
+  58:266,target 83
   7:/ reduce
-  28:261,target 39
-  74:261,target 55
-  40:272 goto
+  100:263,target 63
   7:0 reduce
   13:`,target 9
-  70:278 goto
-  69:278 goto
-  33:: reduce
-  75::,target 56
-  70:280 goto
-  69:280 goto
-  40:279,target 51
+  40:272 goto
+  40:279,target 57
   40:274 goto
-  70:281 goto
-  69:281 goto
   25:268,target 32
-  71:268,target 8
-  70:282 goto
-  69:282 goto
   11:257,target 3
-  86:263,target 53
-  56:257,target 24
-  40:277 goto
-  39:278 goto
-  75:: reduce
-  40:279 goto
+  86:263,target 73
+  56:257,target 59
+  39:277 goto
+  127:260,target 81
   12:0,target 10
-  104:(,target 67
+  40:279 goto
+  123:284,target 87
+  40:281 goto
+  104:(,target 75
   23:260,target 4
-  68:260,target 5
-  7:: reduce
+  124:267,target 101
+  68:260,target 33
   18:` reduce
-  105:281,target 74
-  80:278,target 84
-  79:278,target 84
-  8:261,target 48
+  119:? shift
+  75:? shift
   19:267,target 19
-  65:267,target 40
-  106:264,target 71
-  81:262,target 69
-  61:` reduce
-  101:257 shift
-  5:268,target 43
-  90:( reduce
-  89:( reduce
-  77:(,target 67
-  32:269,target 41
-  90:) reduce
-  89:) reduce
-  77:269,target 9
-  75:257 reduce
+  65:267,target 34
+  106:264,target 78
+  81:262,target 80
+  101:257 reduce
+  5:268,target 54
+  101:258 reduce
+  89:( shift
+  32:269,target 52
+  101:260 reduce
   47:/ reduce
-  93:264,target 71
-  63:258,target 25
-  75:260 reduce
-  75:261 reduce
-  84:/,target 27
-  75:262 reduce
-  3:260,target 46
+  101:261 reduce
+  93:264,target 82
+  101:262 reduce
+  101:263 reduce
+  58:283,target 86
+  101:264 reduce
+  84:/,target 71
+  3:260,target 57
   14:266,target 8
-  75:263 reduce
-  60:266,target 22
-  59:266,target 21
-  45:257 reduce
-  29:261,target 36
-  30:261,target 37
-  90:/ reduce
-  89:/ reduce
-  75:264 reduce
-  75:261,target 56
-  45:258 reduce
-  75:265 reduce
-  45:260 reduce
-  75:266 reduce
-  53:/,target 56
+  101:265 reduce
+  60:266,target 20
+  59:266,target 23
+  45:257 shift
+  101:266 reduce
+  101:263,target 64
+  116:257,target 97
+  101:267 reduce
+  45:260 shift
+  53:/,target 44
   0:267,target 7
   11:274,target 24
-  75:267 reduce
+  112:282,target 116
   26:268,target 6
-  75:268 reduce
-  72:268,target 32
+  72:`,target 37
   12:257,target 10
   15:257 shift
-  87:263,target 70
-  75:269 reduce
-  57:257,target 23
+  87:263,target 74
+  57:257,target 65
   15:258 reduce
   15:260 shift
   22:/,target 5
-  45:266 reduce
-  45:267 reduce
+  45:266 shift
+  124:284,target 103
+  45:267 shift
   24:260,target 3
-  70:260,target 5
-  69:260,target 5
-  45:269 reduce
-  33:),target 42
+  125:267,target 84
+  99:265,target 62
+  70:260,target 38
+  69:260,target 13
   4:257 shift
-  90:: reduce
-  89:: reduce
   4:259 shift
   15:266 shift
-  106:281,target 85
-  81:278,target 84
-  9:261,target 49
   15:267 shift
   21:267,target 15
-  72::,target 54
-  66:267,target 16
-  33:` reduce
+  66:267,target 31
   15:268 shift
-  107:264,target 62
-  106:( shift
-  82:262,target 69
+  33:` reduce
+  107:264,target 79
+  106:( reduce
+  82:262,target 80
   15:269 shift
-  106:) shift
-  6:268,target 44
+  123:258,target 77
+  106:) reduce
+  6:268,target 55
   19:/ reduce
-  93:281,target 74
-  33:269,target 42
   19:0 reduce
+  33:269,target 53
   18:258,target 12
-  64:258,target 26
+  94:264,target 82
+  64:258,target 35
   4:268 shift
-  106:/ shift
+  101:(,target 64
+  106:/ reduce
   62:/ reduce
-  4:259,target 19
   7:` reduce
+  4:259,target 19
   15:266,target 30
-  61:266,target 13
-  31:261,target 38
-  107:/,target 62
+  61:266,target 21
+  102:263,target 66
+  76:261,target 72
+  117:257,target 18
+  107:/,target 79
   4:276 goto
-  1:267,target 47
-  1:(,target 47
+  1:267,target 58
+  57:274,target 71
   19:: reduce
-  27:268,target 40
-  106:257 shift
-  73:268,target 8
+  27:268,target 51
+  106:257 reduce
   13:257,target 9
-  74:(,target 55
-  58:257,target 20
-  106:260 shift
+  106:258 reduce
+  58:257,target 76
+  106:260 reduce
   81:257 shift
-  106:261 shift
-  54:282,target 75
-  106:262 shift
+  106:261 reduce
+  81:258 shift
+  125:284,target 87
+  106:: reduce
+  106:262 reduce
   81:260 shift
-  7:/,target 45
-  106:263 shift
+  7:/,target 56
+  106:263 reduce
   81:261 shift
   25:260,target 29
-  106:264 shift
+  126:267,target 101
+  106:264 reduce
   81:262 shift
-  81:/,target 1
-  71:260,target 5
+  71:260,target 36
+  106:265 reduce
   81:263 shift
   51:257 reduce
-  106:266 shift
+  106:266 reduce
   81:264 shift
   51:258 reduce
-  106:267 shift
-  82:278,target 84
-  81:265 shift
+  106:267 reduce
   51:260 reduce
   22:267,target 5
-  106:268 shift
+  92:),target 76
   81:266 shift
-  50:/,target 56
-  49:/,target 33
-  106:269 shift
-  83:262,target 47
+  67:267,target 32
+  50:/,target 40
+  49:/,target 39
+  83:262,target 70
   81:267 shift
-  81:268 shift
+  124:258,target 98
+  68:`,target 33
   21:257 reduce
-  81:269 shift
-  7:268,target 45
+  7:268,target 56
   21:258 reduce
   47:` reduce
-  34:269,target 50
   18:/,target 12
   21:260 reduce
-  80:269,target 9
-  79:269,target 9
+  34:269,target 61
   51:266 reduce
   19:258,target 19
+  95:264,target 82
+  76:( reduce
+  65:258,target 34
   51:267 reduce
-  34:/ reduce
+  76:) reduce
   4:276,target 21
+  34:/ reduce
+  99::,target 62
   51:269 reduce
-  34:0 reduce
   9:257 reduce
-  29:),target 36
-  30:),target 37
-  106:278 goto
-  5:260,target 43
-  8:( reduce
+  34:0 reduce
   9:258 reduce
+  5:260,target 54
   16:266,target 11
-  62:266,target 27
-  32:261,target 41
-  8:) reduce
+  62:266,target 22
   9:260 reduce
   21:266 reduce
-  106:281 goto
-  103:263,target 70
-  81:278 goto
-  77:261,target 68
-  9:261 reduce
+  103:263,target 67
   21:267 reduce
-  106:282 goto
-  9:262 reduce
   21:268 reduce
-  81:281 goto
+  76:/ reduce
   2:267,target 7
-  9:263 reduce
   21:269 reduce
   81:282 goto
-  9:264 reduce
-  28:268,target 39
-  74:268,target 55
-  9:265 reduce
+  28:268,target 50
+  81:283 goto
+  74:268,target 16
   14:257,target 8
-  90:263,target 60
-  89:263,target 59
-  60:257,target 22
-  59:257,target 21
-  8:/ reduce
+  89:263,target 81
+  81:284 goto
+  60:257,target 20
+  59:257,target 23
   9:266 reduce
-  8:0 reduce
+  8:/ reduce
   9:267 reduce
+  8:0 reduce
   9:268 reduce
+  126:284,target 103
   0:258,target 4
   9:269 reduce
   26:260,target 6
-  72:260,target 29
-  37:278,target 41
-  104:/,target 1
-  83:278,target 91
-  76:: shift
+  127:267,target 81
+  72:260,target 37
+  104:/,target 111
+  76:: reduce
   23:267,target 4
-  68:267,target 7
-  84:262,target 51
-  8:: reduce
+  68:267,target 33
+  110:264,target 68
+  84:262,target 71
+  125:258,target 77
+  112:257 shift
   19:` reduce
-  71:(,target 67
-  8:268,target 48
+  112:258 shift
+  8:268,target 59
+  112:260 shift
   86:257 reduce
-  65:275,target 77
-  81:269,target 9
+  112:261 shift
+  86:258 reduce
   21:258,target 15
 }
 
 array set ::snip_rules {
   9,l 271
   11,l 271
-  32,l 277
+  32,l 279
   53,l 280
+  74,l 282
   6,l 271
-  28,l 277
-  50,l 279
-  49,l 278
+  28,l 278
+  50,l 280
+  49,l 280
+  71,l 282
   3,l 271
   25,l 277
-  46,l 278
-  0,l 284
+  46,l 279
+  67,l 282
+  0,l 286
   22,l 277
-  43,l 278
+  43,l 279
+  64,l 282
   18,l 274
-  40,l 278
-  39,l 278
-  61,l 283
+  40,l 279
+  39,l 279
+  61,l 281
   15,l 274
-  36,l 278
-  57,l 281
+  36,l 279
+  57,l 280
+  78,l 283
   12,l 272
-  33,l 277
+  33,l 279
   54,l 280
+  75,l 282
   7,l 271
-  29,l 277
-  30,l 277
+  29,l 278
+  30,l 278
   51,l 280
+  72,l 282
   4,l 271
   26,l 277
-  47,l 278
+  47,l 280
+  68,l 282
   1,l 270
   23,l 277
-  44,l 278
+  44,l 279
+  65,l 282
   19,l 276
   20,l 277
-  41,l 278
+  41,l 279
   62,l 282
   16,l 274
-  37,l 278
-  58,l 281
+  37,l 279
+  58,l 280
+  80,l 285
+  79,l 283
   13,l 272
-  34,l 277
+  34,l 279
   55,l 280
+  76,l 283
   8,l 271
   10,l 271
-  31,l 277
+  31,l 279
   52,l 280
+  73,l 282
   5,l 271
   27,l 277
-  48,l 278
+  48,l 280
+  70,l 282
+  69,l 282
   2,l 271
   24,l 277
-  45,l 278
+  45,l 279
+  66,l 282
   21,l 277
-  42,l 278
+  42,l 279
+  63,l 282
   17,l 275
-  38,l 278
-  60,l 281
-  59,l 281
+  38,l 279
+  60,l 280
+  59,l 280
+  81,l 284
   14,l 273
-  35,l 277
+  35,l 279
   56,l 280
+  77,l 283
 }
 
 array set ::snip_rules {
+  63,dc 2
   12,dc 2
-  26,dc 2
+  77,dc 2
+  26,dc 1
   3,dc 2
-  41,dc 2
+  41,dc 1
   55,dc 1
+  70,dc 1
+  69,dc 1
   18,dc 11
-  33,dc 1
+  33,dc 2
   9,dc 1
-  47,dc 1
-  62,dc 15
+  47,dc 2
+  62,dc 2
   11,dc 1
-  25,dc 2
+  76,dc 2
+  25,dc 1
   2,dc 2
-  40,dc 2
-  39,dc 2
+  40,dc 1
+  39,dc 1
   54,dc 1
+  68,dc 3
   17,dc 0
-  32,dc 1
+  32,dc 2
   8,dc 1
   46,dc 1
-  61,dc 0
+  61,dc 3
   10,dc 1
-  24,dc 2
+  75,dc 2
+  24,dc 1
   1,dc 1
   38,dc 2
   53,dc 2
+  67,dc 2
   16,dc 6
-  31,dc 1
+  31,dc 2
   7,dc 1
   45,dc 1
-  60,dc 3
-  59,dc 3
+  60,dc 1
+  59,dc 1
+  74,dc 1
   23,dc 2
   0,dc 1
   37,dc 2
   52,dc 2
+  66,dc 2
   15,dc 2
+  81,dc 15
   29,dc 1
-  30,dc 1
+  30,dc 0
   6,dc 2
   44,dc 1
-  58,dc 2
+  58,dc 1
+  73,dc 1
   22,dc 2
   36,dc 2
   51,dc 2
+  65,dc 2
   14,dc 10
-  28,dc 1
+  80,dc 0
+  79,dc 3
+  28,dc 2
   5,dc 2
   43,dc 1
-  57,dc 2
+  57,dc 1
+  72,dc 1
   21,dc 2
-  35,dc 1
-  50,dc 3
-  49,dc 1
+  35,dc 2
+  50,dc 2
+  49,dc 2
+  64,dc 2
   13,dc 6
-  27,dc 2
+  78,dc 3
+  27,dc 1
   4,dc 2
-  42,dc 2
+  42,dc 1
   56,dc 1
+  71,dc 1
   19,dc 1
   20,dc 2
-  34,dc 1
-  48,dc 1
+  34,dc 2
+  48,dc 2
 }
 
 array set ::snip_rules {
-  41,line 181
-  7,line 44
-  37,line 169
-  4,line 35
-  34,line 158
+  41,line 193
+  7,line 50
+  37,line 181
+  4,line 38
+  34,line 172
   1,line 24
-  31,line 149
-  27,line 137
-  24,line 128
-  21,line 119
-  17,line 85
-  14,line 77
-  11,line 56
-  61,e 8
-  60,line 244
-  59,line 241
-  56,line 230
-  53,line 221
-  50,line 210
-  49,line 205
-  46,line 196
-  43,line 187
-  9,line 50
-  40,line 178
-  39,line 175
-  6,line 41
-  36,line 166
-  3,line 32
-  33,line 155
-  29,line 143
-  30,line 146
-  26,line 134
-  23,line 125
-  19,line 111
-  20,line 116
-  16,line 85
-  13,line 64
-  10,line 53
-  62,line 260
-  58,line 238
-  55,line 227
-  52,line 218
-  48,line 202
-  45,line 193
-  42,line 184
-  8,line 47
-  38,line 172
-  5,line 38
-  35,line 161
-  2,line 29
-  32,line 152
-  28,line 140
-  25,line 131
-  22,line 122
-  18,line 93
-  15,line 82
-  12,line 61
+  31,line 163
+  27,line 147
+  24,line 138
+  80,line 317
+  79,line 315
+  21,line 129
+  76,line 306
+  17,line 95
+  73,line 295
+  14,line 87
+  70,line 286
+  69,line 283
+  11,line 66
+  66,line 274
+  63,line 265
+  60,line 252
+  59,line 249
+  56,line 240
+  53,line 231
+  50,line 222
+  49,line 219
+  46,line 208
+  43,line 199
+  9,line 58
+  40,line 190
+  39,line 187
+  6,line 46
+  36,line 178
+  3,line 34
+  33,line 169
+  29,line 155
+  30,line 158
+  26,line 144
+  23,line 135
+  78,line 312
+  19,line 121
+  20,line 126
+  75,line 301
+  16,line 95
+  72,line 292
+  13,line 74
+  68,line 280
+  10,line 62
+  65,line 271
+  62,line 262
+  58,line 246
+  55,line 237
+  80,e 8
+  52,line 228
+  48,line 216
+  45,line 205
+  42,line 196
+  8,line 54
+  38,line 184
+  5,line 42
+  35,line 175
+  2,line 30
+  32,line 166
+  28,line 152
+  25,line 141
+  81,line 331
+  22,line 132
+  77,line 309
+  18,line 104
+  74,line 298
+  15,line 92
+  71,line 289
+  12,line 71
+  67,line 277
+  64,line 268
   17,e 6
-  61,line 246
-  57,line 235
-  54,line 224
-  51,line 215
-  47,line 199
-  44,line 190
+  61,line 257
+  57,line 243
+  54,line 234
+  51,line 225
+  47,line 213
+  44,line 202
 }
 
 proc snip_parse {} {
@@ -2687,33 +2638,43 @@ proc snip_parse {} {
        }
                     2 { 
            set _ [concat $1 [list $2 {}]]
+           puts "A ($_)"
           }
                     3 { 
            set _ [concat $1 [list $2 {}]]
+           puts "B ($_)"
           }
                     4 { 
            set _ [concat $1 [list $2 {}]]
+           puts "C ($_)"
           }
                     5 { 
            set _ [concat $1 $2]
+           puts "D ($_)"
           }
                     6 { 
            set _ [concat $1 [list $2 {}]]
+           puts "E ($_)"
           }
                     7 { 
            set _ [list $1 {}]
+           puts "F ($_)"
           }
                     8 { 
            set _ [list $1 {}]
+           puts "G ($_)"
           }
                     9 { 
            set _ [list $1 {}]
+           puts "H ($_)"
           }
                     10 { 
            set _ $1
+           puts "I ($_)"
           }
                     11 { 
            set _ [list $1 {}]
+           puts "J ($_)"
           }
                     12 { 
            set _ [list " " [snippets::set_tabstop $::snip_txt $2]]
@@ -2740,159 +2701,216 @@ proc snip_parse {} {
            }
                     17 { 
             lappend ::snip_matches [regexp -inline -- $5 $3]
-            puts "snip_matches: $::snip_matches"
+            puts "snip_matches: $::snip_matches, pattern ($5)"
            }
                     18 { 
+            puts "format ($8), opts ($10)"
             set ::snip_matches [lreplace $::snip_matches end end]
             set _ $8
            }
                     19 { 
            set txt $::snip_txt
            switch $1 {
-             SELECTED_TEXT  { set _ [$txt get sel.first sel.last] }
-             CLIPBOARD      { set _ [expr {![catch "clipboard get" rc] ? $rc : ""}] }
-             CURRENT_LINE   { set _ [$txt get "insert linestart" "insert lineend"] }
-             CURRENT_WORD   { set _ [$txt get "insert wordstart" "insert wordend"] }
-             DIRECTORY      { set _ [file dirname [gui::current_filename]] }
-             FILEPATH       { set _ [gui::current_filename] }
-             FILENAME       { set _ [file tail [gui::current_filename]] }
-             FILENAME_UPPER { set _ [string toupper [file tail [gui::current_filename]]] }
-             LINE_INDEX     { set _ [lindex [split [$txt index insert] .] 1] }
-             LINE_NUMBER    { set _ [lindex [split [$txt index insert] .] 0] }
-             CURRENT_DATE   { set _ [clock format [clock seconds] -format "%m/%d/%Y"] }
+             SELECTED_TEXT { set _ [$txt get sel.first sel.last] }
+             CLIPBOARD     { set _ [expr {![catch "clipboard get" rc] ? $rc : ""}] }
+             CURRENT_LINE  { set _ [$txt get "insert linestart" "insert lineend"] }
+             CURRENT_WORD  { set _ [$txt get "insert wordstart" "insert wordend"] }
+             DIRECTORY     { set _ [file dirname [gui::current_filename]] }
+             FILEPATH      { set _ [gui::current_filename] }
+             FILENAME      { set _ [file tail [gui::current_filename]] }
+             LINE_INDEX    { set _ [lindex [split [$txt index insert] .] 1] }
+             LINE_NUMBER   { set _ [lindex [split [$txt index insert] .] 0] }
+             CURRENT_DATE  { set _ [clock format [clock seconds] -format "%m/%d/%Y"] }
            }
           }
                     20 { 
-         set _ "$1$2"
-        }
+           set _ "$1$2"
+          }
                     21 { 
-         set _ "$1\\n"
-        }
+           set _ "$1\\n"
+          }
                     22 { 
-         set _ "$1\\t"
-        }
+           set _ "$1\\t"
+          }
                     23 { 
-         set _ "$1$2"
-        }
+           set _ "$1$2"
+          }
                     24 { 
-         set _ "$1/"
-        }
+           set _ $1
+          }
                     25 { 
-         set _ "$1$2"
-        }
+           set _ "\n"
+          }
                     26 { 
-         set _ "$1$2"
-        }
+           set _ "\t"
+          }
                     27 { 
-         set _ [concat $1 {} $2]
-        }
+           set _ $1
+          }
                     28 { 
-         set _ $1
-        }
+        set _ "$1$2"
+       }
                     29 { 
-         set _ "\\n"
-        }
+        set _ $1
+       }
                     30 { 
-         set _ "\\t"
-        }
+        set _ ""
+       }
                     31 { 
-         set _ $1
+         set _ "$1$2"
         }
                     32 { 
-         set _ "/"
+         set _ "$1\\n"
         }
                     33 { 
-         set _ $1
+         set _ "$1\\t"
         }
                     34 { 
-         set _ $1
+         set _ "$1$2"
         }
                     35 { 
-         set _ $1
+         set _ "$1/"
         }
                     36 { 
-        set _ "$1$2"
-       }
+         set _ "$1$2"
+        }
                     37 { 
-        set _ "$1\\n"
-       }
+         set _ "$1$2"
+        }
                     38 { 
-        set _ "$1\\t"
-       }
+         set _ [concat $1 {} $2]
+        }
                     39 { 
-        set _ "$1$2"
-       }
+         set _ $1
+        }
                     40 { 
-        set _ "$1/"
-       }
+         set _ "\\n"
+        }
                     41 { 
-        set _ "$1$2"
-       }
+         set _ "\\t"
+        }
                     42 { 
-        set _ "$1$2"
-       }
+         set _ $1
+        }
                     43 { 
-        set _ $1
-       }
+         set _ "/"
+        }
                     44 { 
-        set _ "\\n"
-       }
+         set _ $1
+        }
                     45 { 
-        set _ "\\t"
-       }
+         set _ $1
+        }
                     46 { 
-        set _ $1
-       }
+         set _ $1
+        }
                     47 { 
-        set _ "/"
+        set _ "$1$2"
        }
                     48 { 
-        set _ $1
+        set _ "$1\\n"
        }
                     49 { 
-        set _ $1
+        set _ "$1\\t"
        }
                     50 { 
+        set _ "$1$2"
+       }
+                    51 { 
+        set _ "$1/"
+       }
+                    52 { 
+        set _ "$1$2"
+       }
+                    53 { 
+        set _ "$1$2"
+       }
+                    54 { 
+        set _ $1
+       }
+                    55 { 
+        set _ "\\n"
+       }
+                    56 { 
+        set _ "\\t"
+       }
+                    57 { 
+        set _ $1
+       }
+                    58 { 
+        set _ "/"
+       }
+                    59 { 
+        set _ $1
+       }
+                    60 { 
+        set _ $1
+       }
+                    61 { 
          set _ [expr {![catch "exec $2" rc] ? $rc : ""}]
         }
-                    51 { 
+                    62 { 
           set _ "$1$2"
          }
-                    52 { 
+                    63 { 
+          set _ "$1\\n"
+         }
+                    64 { 
+          set _ "$1\\t"
+         }
+                    65 { 
           set _ "$1$2"
          }
-                    53 { 
+                    66 { 
           set _ "$1$2"
          }
-                    54 { 
+                    67 { 
+          set _ "$1$2"
+         }
+                    68 { 
+          set _ [lindex $::snip_matches $3]
+         }
+                    69 { 
           set _ $1
          }
-                    55 { 
+                    70 { 
+          set _ "\\n"
+         }
+                    71 { 
+          set _ "\\t"
+         }
+                    72 { 
           set _ $1
          }
-                    56 { 
+                    73 { 
           set _ $1
          }
-                    57 { 
+                    74 { 
+          set _ $1
+         }
+                    75 { 
+          set _ [lindex $::snip_matches $2]
+         }
+                    76 { 
               set _ "[string tolower [string index $2 0]][string range $2 1 end]"
              }
-                    58 { 
+                    77 { 
               set _ [string totitle $2]
              }
-                    59 { 
+                    78 { 
               set _ [string tolower $2]
              }
-                    60 { 
+                    79 { 
               set _ [string toupper $2]
              }
-                    61 { 
+                    80 { 
                if {[llength [lindex $::snip_matches end]] <= $3} {
                  set _ $5
                } else {
                  set _ ""
                }
               }
-                    62 { 
+                    81 { 
                if {[llength [lindex $::snip_matches end]] <= $3} {
                  set _ $5
                } else {
