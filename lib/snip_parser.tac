@@ -25,33 +25,43 @@ main: snippet {
       
 snippet: snippet text {
            set _ [concat $1 [list $2 {}]]
+           puts "A ($_)"
          }
        | snippet variable {
            set _ [concat $1 [list $2 {}]]
+           puts "B ($_)"
          }
        | snippet transform {
            set _ [concat $1 [list $2 {}]]
+           puts "C ($_)"
          }
        | snippet tabstop {
            set _ [concat $1 $2]
+           puts "D ($_)"
          }
        | snippet shell {
            set _ [concat $1 [list $2 {}]]
+           puts "E ($_)"
          }
        | text {
            set _ [list $1 {}]
+           puts "F ($_)"
          }
        | variable {
            set _ [list $1 {}]
+           puts "G ($_)"
          }
        | transform {
            set _ [list $1 {}]
+           puts "H ($_)"
          }
        | tabstop {
            set _ $1
+           puts "I ($_)"
          }
        | shell {
            set _ [list $1 {}]
+           puts "J ($_)"
          }
          ;
          
@@ -63,7 +73,7 @@ tabstop: DOLLAR_SIGN DECIMAL {
          }
          ;
          
-transform: DOLLAR_SIGN OPEN_BRACKET DECIMAL '/' text '/' format '/' text CLOSE_BRACKET {
+transform: DOLLAR_SIGN OPEN_BRACKET DECIMAL '/' pattern '/' format '/' opts CLOSE_BRACKET {
              if {[set val [snippets::get_tabstop $3]] ne ""} {
                set regexp_opts [list]
                if {[string first g $9] != -1} {
@@ -82,11 +92,12 @@ variable: DOLLAR_SIGN varname {
         | DOLLAR_SIGN OPEN_BRACKET varname ':' value CLOSE_BRACKET {
             set _ [expr {($3 eq "") ? $5 : $3}]
           }
-        | DOLLAR_SIGN OPEN_BRACKET varname '/' text {
+        | DOLLAR_SIGN OPEN_BRACKET varname '/' pattern {
             lappend ::snip_matches [regexp -inline -- $5 $3]
-            puts "snip_matches: $::snip_matches"
+            puts "snip_matches: $::snip_matches, pattern ($5)"
           }
-          '/' format '/' text CLOSE_BRACKET {
+          '/' format '/' opts CLOSE_BRACKET {
+            puts "format ($8), opts ($10)"
             set ::snip_matches [lreplace $::snip_matches end end]
             set _ $8
           }
@@ -95,20 +106,56 @@ variable: DOLLAR_SIGN varname {
 varname: VARNAME {
            set txt $::snip_txt
            switch $1 {
-             SELECTED_TEXT  { set _ [$txt get sel.first sel.last] }
-             CLIPBOARD      { set _ [expr {![catch "clipboard get" rc] ? $rc : ""}] }
-             CURRENT_LINE   { set _ [$txt get "insert linestart" "insert lineend"] }
-             CURRENT_WORD   { set _ [$txt get "insert wordstart" "insert wordend"] }
-             DIRECTORY      { set _ [file dirname [gui::current_filename]] }
-             FILEPATH       { set _ [gui::current_filename] }
-             FILENAME       { set _ [file tail [gui::current_filename]] }
-             FILENAME_UPPER { set _ [string toupper [file tail [gui::current_filename]]] }
-             LINE_INDEX     { set _ [lindex [split [$txt index insert] .] 1] }
-             LINE_NUMBER    { set _ [lindex [split [$txt index insert] .] 0] }
-             CURRENT_DATE   { set _ [clock format [clock seconds] -format "%m/%d/%Y"] }
+             SELECTED_TEXT { set _ [$txt get sel.first sel.last] }
+             CLIPBOARD     { set _ [expr {![catch "clipboard get" rc] ? $rc : ""}] }
+             CURRENT_LINE  { set _ [$txt get "insert linestart" "insert lineend"] }
+             CURRENT_WORD  { set _ [$txt get "insert wordstart" "insert wordend"] }
+             DIRECTORY     { set _ [file dirname [gui::current_filename]] }
+             FILEPATH      { set _ [gui::current_filename] }
+             FILENAME      { set _ [file tail [gui::current_filename]] }
+             LINE_INDEX    { set _ [lindex [split [$txt index insert] .] 1] }
+             LINE_NUMBER   { set _ [lindex [split [$txt index insert] .] 0] }
+             CURRENT_DATE  { set _ [clock format [clock seconds] -format "%m/%d/%Y"] }
            }
          }
          ;
+         
+pattern: pattern CHAR {
+           set _ "$1$2"
+         }
+       | pattern NEWLINE {
+           set _ "$1\\n"
+         }
+       | pattern TAB {
+           set _ "$1\\t"
+         }
+       | pattern DECIMAL {
+           set _ "$1$2"
+         }
+       | CHAR {
+           set _ $1
+         }
+       | NEWLINE {
+           set _ "\n"
+         }
+       | TAB {
+           set _ "\t"
+         }
+       | DECIMAL {
+           set _ $1
+         }
+         ;
+         
+opts: opts CHAR {
+        set _ "$1$2"
+      }
+    | CHAR {
+        set _ $1
+      }
+    | {
+        set _ ""
+      }
+      ;
          
 value: value CHAR {
          set _ "$1$2"
@@ -209,7 +256,16 @@ shell: '`' text '`' {
        }
        ;
        
-format: format text {
+format: format CHAR {
+          set _ "$1$2"
+        }
+      | format NEWLINE {
+          set _ "$1\\n"
+        }
+      | format TAB {
+          set _ "$1\\t"
+        }
+      | format DECIMAL {
           set _ "$1$2"
         }
       | format case_fold {
@@ -218,7 +274,19 @@ format: format text {
       | format cond_insert {
           set _ "$1$2"
         }
-      | text {
+      | format DOLLAR_SIGN DECIMAL {
+          set _ [lindex $::snip_matches $3]
+        }
+      | CHAR {
+          set _ $1
+        }
+      | NEWLINE {
+          set _ "\\n"
+        }
+      | TAB {
+          set _ "\\t"
+        }
+      | DECIMAL {
           set _ $1
         }
       | case_fold {
@@ -227,6 +295,9 @@ format: format text {
       | cond_insert {
           set _ $1
         }  
+      | DOLLAR_SIGN DECIMAL {
+          set _ [lindex $::snip_matches $2]
+        }
         ;
         
 case_fold: LOWER format {

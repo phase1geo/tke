@@ -272,9 +272,9 @@ proc snip_lex {} {
             set ::snip_leng [string length $::snip_text]
             set snip__matched_rule 6
         }
-        # rule 7: (CLIPBOARD|CURRENT_LINE|CURRENT_WORD|DIRECTORY|FILEPATH|FILENAME|FILENAME_UPPER|LINE_INDEX|LINE_NUMBER|CURRENT_DATE)
+        # rule 7: (CLIPBOARD|CURRENT_LINE|CURRENT_WORD|DIRECTORY|FILEPATH|FILENAME|LINE_INDEX|LINE_NUMBER|CURRENT_DATE)
         if {$::snip__state_table($snip__current_state) && \
-                [regexp -start $::snip__index -indices -line  -- {\A((CLIPBOARD|CURRENT_LINE|CURRENT_WORD|DIRECTORY|FILEPATH|FILENAME|FILENAME_UPPER|LINE_INDEX|LINE_NUMBER|CURRENT_DATE))} $::snip__buffer snip__match] > 0 && \
+                [regexp -start $::snip__index -indices -line  -- {\A((CLIPBOARD|CURRENT_LINE|CURRENT_WORD|DIRECTORY|FILEPATH|FILENAME|LINE_INDEX|LINE_NUMBER|CURRENT_DATE))} $::snip__buffer snip__match] > 0 && \
                 [lindex $snip__match 1] - $::snip__index + 1 > $::snip_leng} {
             set ::snip_text [string range $::snip__buffer $::snip__index [lindex $snip__match 1]]
             set ::snip_leng [string length $::snip_text]
@@ -306,13 +306,17 @@ set ::snip_lval $snip_text
   return $::CHAR
             }
             1 {
-puts "Found escape!"
+puts -nonewline "Found escape! ("
+  puts -nonewline $snip_text
+  puts -nonewline ","
+  puts -nonewline [string index $snip_text 1]
+  puts ")"
   set ::snip_lval $snip_text
   set ::snip_begpos $::snip_endpos
   incr ::snip_endpos [string length $snip_text]
   switch [string index $snip_text 1] {
     l       { return $::LOWER }
-    u       { return $::UPPER }
+    u       { puts {HERE A}; return $::UPPER }
     L       { return $::LOWER_BLOCK }
     U       { return $::UPPER_BLOCK }
     E       { return $::END_BLOCK }
@@ -355,7 +359,8 @@ set ::snip_lval $snip_text
   return $::DECIMAL
             }
             7 {
-set ::snip_lval $snip_text
+puts "variable: $snip_text"
+  set ::snip_lval $snip_text
   set ::snip_begpos $::snip_endpos
   incr ::snip_endpos [string length $snip_text]
   return $::VARNAME
