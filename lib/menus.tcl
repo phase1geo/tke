@@ -1002,7 +1002,7 @@ namespace eval menus {
     array set fnames    {}
     set index           0
     set matches         0
-
+    
     foreach line [split $data \n] {
       if {[regexp {^(.*?)([:-])(\d+)[:-](.*)$} $line -> fname type linenum content]} {
         set first_separator 1

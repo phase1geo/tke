@@ -548,16 +548,21 @@ namespace eval sidebar {
   # Figure out if the given file should be ignored.
   proc ignore_file {fname} {
 
-    # Ignore the file if it matches any of the ignore patterns
-    foreach pattern [preferences::get Sidebar/IgnoreFilePatterns] {
-      if {[string match $pattern $fname]} {
-        return 1
-      }
+    # If the file is a binary file, ignore it
+    if {[lsearch [fileutil::fileType $fname] "binary"] != -1} {
+      return 1
     }
 
     # Ignore the file if we are told to ignore executables and the file is an executable
     if {[preferences::get Sidebar/IgnoreExecutables] && [file isfile $fname] && [file executable $fname]} {
       return 1
+    }
+
+    # Ignore the file if it matches any of the ignore patterns
+    foreach pattern [preferences::get Sidebar/IgnoreFilePatterns] {
+      if {[string match $pattern $fname]} {
+        return 1
+      }
     }
 
     return 0

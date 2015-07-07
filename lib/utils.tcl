@@ -393,12 +393,9 @@ namespace eval utils {
   ######################################################################
   # Helper procedure for the egrep utility procedure.  Performs the equivalent
   # of a POSIX egrep command with the given information.
-  proc egrep_file {pfirst pattern fname context opts} {
-
-    upvar $pfirst first
+  proc egrep_file {pattern fname context opts} {
 
     set result ""
-    set tail   [file tail $fname]
 
     # If the file cannot be read, skip the file grep
     if {[catch { open $fname r } rc]} {
@@ -416,59 +413,42 @@ namespace eval utils {
 
     foreach line $lines {
       if {[regexp {*}$opts -- $pattern $line]} {
-        if {$first} {
-          set first 0
+        if {($last_output != -1) && (($i - $last_output) < $context)} {
+          set j [expr $last_output + 1]
         } else {
-          append result "--\n"
+          append result "--\n--\n"
+          set j [expr $i - $context]
         }
-        set j [expr (($i - $last_output) < $context) ? ($last_output + $i) : ($i - $context)]
         foreach cline [lrange $lines $j [expr $i - 1]] {
-          append result "$tail-[expr $j + 1]-$cline\n"
+          append result "$fname-[expr $j + 1]-$cline\n"
           incr j
         }
-        append result "$tail:[expr $i + 1]:$line\n"
+        append result "$fname:[expr $i + 1]:$line\n"
         set last_match  $i
         set last_output $i
-      } elseif {($i - $last_match) < $context} {
-        append result "$tail-[expr $i + 1]-$line\n"
+      } elseif {($last_match != -1) && (($i - $last_match) <= $context)} {
+        append result "$fname-[expr $i + 1]-$line\n"
         set last_output $i
       }
       incr i
     }
-
+    
     return $result
 
   }
 
   ######################################################################
-  # Takes a list of files/directories and performs the equivalent of a
-  # POSIX egrep with the given pattern, options and context information.
+  # Takes a list of files and performs the equivalent of a POSIX egrep
+  # with the given pattern, options and context information.
   proc egrep {pattern paths context opts} {
 
     set result ""
-    set first  1
-
+    
     foreach path $paths {
-
-      # If the pathname is a file, grep the file
-      if {[file type $path] eq "file"} {
-        append result [egrep_file first $pattern $path $context $opts]
-
-      # Otherwise, the pathname is a directory, so grep it
-      } else {
-        foreach fname [glob -directory $path *] {
-          if {[file type $path] eq "file"} {
-            append result [egrep_file first $pattern $fname $context $opts]
-          }
-        }
-      }
+      append result [egrep_file $pattern $path $context $opts]
     }
-
-    if {$result eq ""} {
-      return "No results found"
-    } else {
-      return $result
-    }
+    
+    return $result
 
   }
 
