@@ -57,9 +57,9 @@ array set ::snip_table {
   86:260 reduce
   66:258,target 71
   4:/,target 68
-  137:261,target 92
   8:? reduce
   62:` reduce
+  133:285,target 100
   56:257 reduce
   6:260,target 65
   17:266,target 8
@@ -89,44 +89,42 @@ array set ::snip_table {
   61:257,target 49
   15:/,target 10
   26:260 reduce
+  132:260,target 19
   91:/ reduce
   56:266 reduce
   0:275,target 16
   56:267 reduce
   34:`,target 56
+  127:284,target 131
   1:258,target 69
   96::,target 84
   56:269 reduce
   27:260,target 3
-  128:267,target 14
-  73:260,target 21
+  73:260,target 22
   26:266 reduce
   68:284,target 99
   26:267 reduce
-  140:286,target 117
-  139:286,target 101
-  24:267,target 15
+  24:267,target 16
   26:268 reduce
-  70:267,target 23
-  69:267,target 27
+  70:267,target 24
+  69:267,target 28
   33:0,target 55
   26:269 reduce
   26:270 reduce
-  141:270,target 95
   111:264,target 79
   26:271 reduce
-  126:258,target 90
   48:? reduce
   91:: reduce
   9:268,target 73
   36:270,target 63
   36:269,target 63
   82:269,target 41
-  22:258,target 19
+  22:258,target 20
+  123:266,target 15
   97:264,target 85
   67:258,target 58
   34:` reduce
-  138:261,target 92
+  132:/,target 19
   7:260,target 66
   18:266,target 34
   21:/ reduce
@@ -147,6 +145,7 @@ array set ::snip_table {
   92:263,target 94
   92:257 shift
   62:257,target 54
+  133:260,target 91
   117:261 reduce
   92:258 shift
   117:262 reduce
@@ -158,14 +157,14 @@ array set ::snip_table {
   2:258,target 72
   117:264 reduce
   92:262 shift
-  88:271,target 16
-  74:/,target 22
+  88:271,target 17
+  74:/,target 23
   28:260,target 33
-  130:267,target 115
+  129:267,target 14
   117:265 reduce
   100:262,target 87
   92:263 shift
-  74:260,target 22
+  74:260,target 23
   62:257 reduce
   117:266 reduce
   92:264 shift
@@ -179,11 +178,12 @@ array set ::snip_table {
   25:267,target 5
   117:270 reduce
   92:267 shift
-  71:267,target 24
+  71:267,target 25
   21:? reduce
   117:271 reduce
   62:`,target 54
   32:257 reduce
+  127:258,target 90
   92:270 shift
   32:258 reduce
   32:260 reduce
@@ -195,12 +195,10 @@ array set ::snip_table {
   83:269,target 13
   62:267 reduce
   31:`,target 62
-  124:266,target 82
   68:258,target 90
-  140:261,target 92
-  139:261,target 92
   62:269 reduce
   64:283,target 86
+  135:285,target 116
   32:266 reduce
   8:260,target 67
   19:266,target 11
@@ -222,23 +220,24 @@ array set ::snip_table {
   93:263,target 94
   92:285 goto
   63:257,target 52
+  134:260,target 94
   92:286 goto
-  128:/,target 14
   89:271,target 86
   29:260,target 6
   30:260,target 59
-  131:267,target 18
+  131:267,target 115
   101:262,target 88
-  75:260,target 25
+  75:260,target 26
   9:/ reduce
   0:266,target 7
   9:0 reduce
   26:267,target 4
-  72:267,target 20
+  72:267,target 21
+  123:257 reduce
   113:264,target 76
-  87:262,target 17
-  128:258,target 14
-  123:260 shift
+  87:262,target 18
+  123:258 reduce
+  123:260 reduce
   97:257 reduce
   97:258 reduce
   38:270,target 60
@@ -246,33 +245,39 @@ array set ::snip_table {
   35:? reduce
   97:260 reduce
   84:269,target 46
-  24:258,target 15
+  24:258,target 16
+  125:266,target 82
   99:264,target 95
   97:261 reduce
-  70:258,target 23
-  69:258,target 27
-  141:261,target 95
+  70:258,target 24
+  69:258,target 28
   97:262 reduce
-  71:/,target 24
+  71:/,target 25
   97:263 reduce
   67:257 shift
   21:` reduce
+  123:266 reduce
   97:264 reduce
   67:258 shift
   9:260,target 73
   21:266,target 12
+  123:267 reduce
   116::,target 80
   97:265 reduce
   67:260 shift
   66:266,target 73
   29:?,target 6
   30:?,target 59
+  123:268 reduce
   107:263,target 94
   97:266 reduce
   40:/,target 75
   39:/,target 61
-  123:269 shift
+  123:270 reduce
+  123:269 reduce
+  123:257,target 15
   97:267 reduce
+  123:271 reduce
   37:257 reduce
   6:267,target 65
   9:? reduce
@@ -287,9 +292,10 @@ array set ::snip_table {
   120:265,target 93
   119:265,target 92
   94:263,target 94
-  88:0,target 16
+  88:0,target 17
   67:266 shift
   64:257,target 79
+  135:260,target 113
   67:267 shift
   50:/ reduce
   49:/ reduce
@@ -301,9 +307,11 @@ array set ::snip_table {
   4:258,target 68
   91:271,target 83
   31:260,target 62
-  76:260,target 26
+  132:267,target 19
+  76:260,target 27
   37:266 reduce
   0:283,target 19
+  136:/ reduce
   37:267 reduce
   67:274 goto
   37:268 reduce
@@ -312,33 +320,29 @@ array set ::snip_table {
   37:269 reduce
   26:0,target 4
   27:267,target 3
-  73:267,target 21
+  73:267,target 22
   67:276 goto
   37:271 reduce
   114:264,target 77
-  130:258,target 112
+  129:258,target 14
   40:270,target 75
   40:269,target 75
   39:270,target 61
   39:269,target 61
   85:269,target 44
   25:258,target 5
-  126:266,target 96
-  71:258,target 24
+  125:/,target 82
+  71:258,target 25
   67:283 goto
-  136:: shift
+  136:: reduce
   50:? reduce
   49:? reduce
-  137:285,target 100
-  22:266,target 19
+  22:266,target 20
   67:266,target 81
   108:263,target 94
-  124:257,target 82
   35:` reduce
-  128:257 reduce
   7:267,target 66
-  128:258 reduce
-  88:?,target 16
+  88:?,target 17
   64:274,target 84
   34:268,target 56
   128:260 reduce
@@ -349,53 +353,51 @@ array set ::snip_table {
   95:263,target 94
   65:257,target 53
   22:0 reduce
+  136:260,target 95
   67:/,target 78
   73:257 reduce
   32:260,target 58
-  128:266 reduce
+  133:267,target 97
   103:262,target 93
   86:`,target 45
   77:259,target 22
   73:258 reduce
   64:/ shift
   9:` reduce
-  128:267 reduce
   113::,target 76
   73:260 reduce
   26:?,target 4
-  128:268 reduce
   36:/,target 63
   2:266,target 72
-  128:270 reduce
   128:269 reduce
   28:267,target 35
-  128:271 reduce
   100:270,target 87
-  74:267,target 22
+  74:267,target 23
   43:257 shift
   115:264,target 78
   89:262,target 86
   43:258 shift
   22:: reduce
-  131:258,target 18
+  131:258,target 112
   43:260 shift
   73:266 reduce
   73:267 reduce
   0:257,target 4
-  24:`,target 15
+  24:`,target 16
   86:269,target 45
   26:258,target 4
+  127:266,target 96
   73:270 reduce
-  72:258,target 20
+  72:258,target 21
   22:? reduce
   73:271 reduce
   67:283,target 86
   43:266 shift
-  138:285,target 116
   43:267 shift
   68:266,target 96
   43:270 shift
   2:257 reduce
+  125:257,target 82
   43:271 shift
   2:258 reduce
   2:260 reduce
@@ -405,8 +407,8 @@ array set ::snip_table {
   21:257,target 12
   96:263,target 84
   66:257,target 70
-  137:260,target 91
-  47:271,target 35
+  133:284,target 135
+  47:271,target 36
   36:/ reduce
   6:258,target 65
   2:266 reduce
@@ -414,6 +416,7 @@ array set ::snip_table {
   36:0 reduce
   33:260,target 55
   2:267 reduce
+  134:267,target 94
   104:262,target 89
   78:260,target 43
   2:268 reduce
@@ -421,44 +424,54 @@ array set ::snip_table {
   2:269 reduce
   3:266,target 7
   2:271 reduce
+  123:/ reduce
   29:267,target 6
   30:267,target 59
+  134:257 reduce
+  123:0 reduce
   101:270,target 88
   78:/ reduce
-  75:267,target 25
+  75:267,target 26
+  134:258 reduce
   116:264,target 80
   91:262,target 83
+  134:260 reduce
+  132:258,target 19
   0:274,target 15
+  134:261 reduce
+  134:262 reduce
   1:257,target 69
-  141::,target 95
+  134:263 reduce
   104:257 reduce
-  87:270,target 17
-  54:?,target 34
+  87:270,target 18
+  54:?,target 35
   27:258,target 3
-  128:266,target 14
+  134:264 reduce
   104:258 reduce
-  73:258,target 21
+  73:258,target 22
   64:/,target 78
   9:`,target 73
+  134:265 reduce
   104:260 reduce
   78:257 reduce
+  134:266 reduce
   104:261 reduce
   83:`,target 13
   78:258 reduce
-  140:285,target 116
-  139:285,target 100
-  110:280,target 123
+  134:267 reduce
+  110:280,target 124
   104:262 reduce
   78:260 reduce
-  24:266,target 15
+  24:266,target 16
   104:263 reduce
-  70:266,target 23
-  69:266,target 27
+  70:266,target 24
+  69:266,target 28
   36:? reduce
   33:/,target 55
+  134:270 reduce
   111:263,target 79
   104:264 reduce
-  126:257,target 89
+  134:271 reduce
   104:265 reduce
   48:257 reduce
   104:266 reduce
@@ -469,24 +482,25 @@ array set ::snip_table {
   48:260 reduce
   36:268,target 63
   22:` reduce
+  123:? reduce
   78:266 reduce
-  22:257,target 19
+  22:257,target 20
   104:270 reduce
   97:263,target 85
   78:267 reduce
   67:257,target 79
   21:`,target 12
-  138:260,target 113
   104:271 reduce
   18:257 shift
   78:269 reduce
   18:258 reduce
-  48:271,target 31
+  48:271,target 32
   7:258,target 66
   18:260 shift
   64:` shift
   48:266 reduce
   34:260,target 56
+  135:267,target 115
   105:262,target 93
   80:260,target 39
   79:260,target 42
@@ -499,75 +513,57 @@ array set ::snip_table {
   48:271 reduce
   31:267,target 62
   7:258 reduce
-  76:267,target 26
+  76:267,target 27
   7:260 reduce
   18:266 shift
   117:264,target 81
   92:262,target 93
   18:267 shift
+  133:258,target 90
   18:268 shift
   18:269 shift
   18:270 shift
   43:270,target 53
   2:257,target 72
   18:271 shift
-  118:/,target 125
-  88:270,target 16
-  88:269,target 16
+  118:/,target 126
+  88:270,target 17
+  88:269,target 17
   28:258,target 2
-  130:266,target 114
+  129:266,target 14
   100:261,target 87
-  74:258,target 22
+  74:258,target 23
   7:266 reduce
   7:267 reduce
   7:268 reduce
   7:270 reduce
   7:269 reduce
   25:266,target 5
-  71:266,target 24
+  71:266,target 25
   7:271 reduce
   8:?,target 67
-  140:257 shift
-  139:257 shift
-  140:258 shift
-  139:258 shift
-  140:260 shift
-  139:260 shift
+  127:257,target 89
   67:274,target 84
   51:? reduce
   37:268,target 64
-  140:261 shift
-  139:261 shift
   83:268,target 13
   23:257,target 41
-  140:262 shift
-  139:262 shift
-  124:265,target 82
   68:257,target 89
-  140:263 shift
-  140:260,target 113
-  139:263 shift
-  139:260,target 91
   109:257 shift
-  51:?,target 29
-  140:264 shift
-  139:264 shift
+  51:?,target 30
   61:/,target 49
   36:` reduce
   6:`,target 65
   110:260 shift
   84:257 reduce
-  50:271,target 28
-  49:271,target 32
+  50:271,target 29
+  49:271,target 33
   8:258,target 67
-  140:266 shift
-  139:266 shift
   84:258 reduce
   80:`,target 39
   79:`,target 42
   35:260,target 57
-  140:267 shift
-  139:267 shift
+  136:267,target 95
   106:262,target 93
   106::,target 91
   84:260 reduce
@@ -576,9 +572,7 @@ array set ::snip_table {
   20:?,target 31
   29:/,target 6
   30:/,target 59
-  140:270 shift
-  139:270 shift
-  140:271 shift
+  123:` reduce
   78:` reduce
   54:257 reduce
   32:267,target 58
@@ -587,8 +581,10 @@ array set ::snip_table {
   118:264,target 95
   93:262,target 93
   54:260 reduce
+  134:258,target 94
   84:266 reduce
   65:/ reduce
+  110:269 shift
   84:267 reduce
   17:`,target 8
   3:257,target 4
@@ -598,44 +594,37 @@ array set ::snip_table {
   24:258 reduce
   29:258,target 6
   30:258,target 59
-  131:266,target 18
+  131:266,target 114
   101:261,target 88
-  75:258,target 25
+  75:258,target 26
   24:260 reduce
   54:266 reduce
   54:267 reduce
   26:266,target 4
-  72:266,target 20
+  72:266,target 21
   54:270 reduce
   16:0,target 9
-  139:284 goto
   113:263,target 76
-  87:261,target 17
+  87:261,target 18
   54:271 reduce
-  140:285 goto
-  139:285 goto
-  128:257,target 14
   110:280 goto
   24:266 reduce
-  140:286 goto
-  139:286 goto
   24:267 reduce
   38:268,target 60
   24:268 reduce
-  24:257,target 15
+  24:257,target 16
   24:269 reduce
   24:270 reduce
+  125:265,target 82
   99:263,target 94
-  70:257,target 23
-  69:257,target 27
+  70:257,target 24
+  69:257,target 28
   24:271 reduce
-  141:260,target 95
   115:/,target 78
-  51:271,target 29
+  51:271,target 30
   9:258,target 73
   96:271,target 84
   36:260,target 63
-  137:267,target 97
   107:262,target 93
   82:260,target 41
   103:286,target 101
@@ -647,23 +636,25 @@ array set ::snip_table {
   120:264,target 93
   119:264,target 92
   94:262,target 93
-  88:/,target 16
+  88:/,target 17
   37:0 reduce
+  135:258,target 112
+  134::,target 94
   115:257 reduce
-  47:?,target 35
+  47:?,target 36
   45:270,target 53
   4:257,target 68
-  124:/ reduce
   115:258 reduce
   91:270,target 83
   57:/,target 50
   31:258,target 62
+  132:266,target 19
   115:260 reduce
   90:257 shift
   89:257 reduce
   80:/ reduce
   79:/ reduce
-  76:258,target 26
+  76:258,target 27
   0:282,target 18
   115:261 reduce
   89:258 reduce
@@ -677,13 +668,13 @@ array set ::snip_table {
   27:266,target 3
   115:264 reduce
   89:262 reduce
-  73:266,target 21
+  73:266,target 22
   115:265 reduce
   114:263,target 77
   89:263 reduce
   60:257 reduce
   59:257 reduce
-  130:257,target 111
+  129:257,target 14
   115:266 reduce
   89:264 reduce
   60:258 reduce
@@ -701,9 +692,8 @@ array set ::snip_table {
   89:267 reduce
   14:`,target 3
   25:257,target 5
-  124:: reduce
   115:271 reduce
-  71:257,target 24
+  71:257,target 25
   37:? reduce
   29:257 reduce
   30:257 reduce
@@ -713,15 +703,13 @@ array set ::snip_table {
   89:271 reduce
   29:260 reduce
   30:260 reduce
-  137:284,target 138
   60:266 reduce
   59:266 reduce
-  52:271,target 30
+  52:271,target 31
   97:271,target 85
   60:267 reduce
   59:267 reduce
   37:260,target 64
-  138:267,target 115
   108:262,target 93
   83:260,target 13
   60:269 reduce
@@ -742,6 +730,7 @@ array set ::snip_table {
   65:` reduce
   29:268 reduce
   30:268 reduce
+  136:258,target 95
   29:269 reduce
   29:270 reduce
   30:269 reduce
@@ -752,31 +741,30 @@ array set ::snip_table {
   5:257,target 21
   92:270,target 98
   32:258,target 58
-  131:`,target 18
+  133:266,target 96
   103:261,target 92
   28:266,target 34
-  74:266,target 22
+  74:266,target 23
   2:?,target 72
   115:263,target 78
   89:261,target 86
-  131:257,target 18
-  75:?,target 25
+  131:257,target 111
+  75:?,target 26
+  129:0,target 14
   85:/,target 44
   10:? reduce
   26:257,target 4
-  72:257,target 20
-  54:/,target 34
+  131::,target 133
+  72:257,target 21
+  54:/,target 35
   0:`,target 3
   95:257 shift
   95:258 shift
-  53:271,target 33
-  138:: shift
+  53:271,target 34
   100::,target 87
   95:260 shift
   52:? reduce
   38:260,target 60
-  140:267,target 115
-  139:267,target 97
   95:261 shift
   84:260,target 46
   95:262 shift
@@ -793,7 +781,6 @@ array set ::snip_table {
   65:260 reduce
   96:262,target 84
   95:266 shift
-  137:258,target 90
   95:267 shift
   11:`,target 70
   24:/ reduce
@@ -801,7 +788,7 @@ array set ::snip_table {
   35:257 reduce
   24:0 reduce
   95:270 shift
-  47:270,target 35
+  47:270,target 36
   35:258 reduce
   6:257,target 65
   93:270,target 98
@@ -809,6 +796,7 @@ array set ::snip_table {
   79:` reduce
   35:260 reduce
   33:258,target 55
+  134:266,target 94
   104:261,target 89
   78:258,target 43
   65:266 reduce
@@ -820,10 +808,12 @@ array set ::snip_table {
   10:0,target 74
   29:266,target 6
   30:266,target 59
-  75:266,target 25
+  75:266,target 26
+  129:?,target 14
   116:263,target 80
   91:261,target 83
   35:266 reduce
+  132:257,target 19
   35:267 reduce
   0:273,target 14
   35:268 reduce
@@ -832,70 +822,61 @@ array set ::snip_table {
   113:271,target 76
   35:271 reduce
   27:257,target 3
-  73:257,target 21
+  73:257,target 22
   95:284 goto
   111:: reduce
   95:285 goto
   24:? reduce
-  139:284,target 140
   95:286 goto
-  54:271,target 34
+  54:271,target 35
   40:260,target 75
   39:260,target 61
-  141:267,target 95
   111:262,target 79
   85:260,target 44
   10:` reduce
   106:286,target 117
   8:/,target 67
   9:266,target 73
-  72:?,target 20
+  72:?,target 21
   66:? shift
   36:267,target 63
   107:270,target 98
   82:267,target 41
   82:/,target 41
   97:262,target 85
-  138:258,target 112
-  126:257 shift
   93:286,target 101
-  126:258 shift
-  51:/,target 29
-  48:270,target 31
+  51:/,target 30
+  48:270,target 32
   7:257,target 66
   126:260 shift
   94:270,target 98
   34:258,target 56
-  126:261 shift
+  135:266,target 114
   105:261,target 92
   80:258,target 39
   79:258,target 42
   38:/ reduce
   3:282,target 20
-  126:262 shift
   38:0 reduce
   10:?,target 74
-  126:263 shift
   19:/,target 11
   20:/,target 30
-  126:264 shift
   31:266,target 62
-  76:266,target 26
+  76:266,target 27
   71:257 reduce
   38:`,target 60
-  126:266 shift
+  125:/ reduce
   117:263,target 81
   92:261,target 92
   71:258 reduce
-  126:267 shift
+  133:257,target 89
   81:/ reduce
   71:260 reduce
-  126:270 shift
   114:271,target 77
-  88:268,target 16
+  88:268,target 17
   28:257,target 32
   100:260,target 87
-  74:257,target 22
+  74:257,target 23
   37:0,target 64
   71:266 reduce
   10:271,target 74
@@ -905,28 +886,25 @@ array set ::snip_table {
   86:260,target 45
   71:270 reduce
   11:258 reduce
+  125:: reduce
   71:271 reduce
   38:? reduce
   11:260 reduce
+  126:280 goto
   107:286,target 117
+  136:/,target 95
   37:267,target 64
   108:270,target 98
   83:267,target 13
-  124:264,target 82
   0:257 shift
   24:` reduce
-  140:258,target 112
-  139:258,target 90
-  126:284 goto
   0:258 shift
-  126:285 goto
   105:/,target 90
   94:286,target 101
   0:260 shift
   11:266 reduce
-  126:286 goto
-  50:270,target 28
-  49:270,target 32
+  50:270,target 29
+  49:270,target 33
   8:257,target 67
   11:/ reduce
   11:267 reduce
@@ -934,6 +912,7 @@ array set ::snip_table {
   35:258,target 57
   11:0 reduce
   11:268 reduce
+  136:266,target 95
   106:261,target 92
   81:258,target 40
   11:269 reduce
@@ -946,46 +925,56 @@ array set ::snip_table {
   118:263,target 94
   93:261,target 92
   0:268 shift
+  134:257,target 94
+  123:0,target 15
   78:/,target 43
   0:270 shift
   0:269 shift
   0:271 shift
   0:272 goto
-  124::,target 82
+  132:257 reduce
   115:271,target 78
   37:?,target 64
   0:273 goto
   29:257,target 6
   30:257,target 59
+  132:258 reduce
   101:260,target 88
-  75:257,target 25
-  47:/,target 35
+  75:257,target 26
+  47:/,target 36
   0:274 goto
+  132:260 reduce
   0:275 goto
   0:276 goto
   11:271,target 70
   11:? reduce
   16:/,target 9
   113:262,target 76
-  87:260,target 17
+  87:260,target 18
   76:257 reduce
   35:`,target 57
+  132:266 reduce
   108:286,target 117
   76:258 reduce
   0:282 goto
+  132:267 reduce
   97::,target 85
   76:260 reduce
   38:267,target 60
   0:283 goto
+  132:268 reduce
+  110:269,target 123
   84:267,target 46
   132:270 reduce
+  132:269 reduce
+  125:264,target 82
   99:262,target 93
   53:? reduce
-  141:258,target 95
+  132:271 reduce
   46:257 shift
   95:286,target 101
   46:258 shift
-  51:270,target 29
+  51:270,target 30
   46:260 shift
   34:0,target 56
   9:257,target 73
@@ -993,7 +982,6 @@ array set ::snip_table {
   76:266 reduce
   38:` reduce
   36:258,target 63
-  137:266,target 96
   107:261,target 92
   82:258,target 41
   76:267 reduce
@@ -1006,6 +994,7 @@ array set ::snip_table {
   33:266,target 55
   16:260 reduce
   25:0 reduce
+  123:?,target 15
   78:266,target 43
   46:266 shift
   120:263,target 93
@@ -1013,16 +1002,15 @@ array set ::snip_table {
   94:261,target 92
   81:` reduce
   46:267 shift
-  135:257,target 136
+  135:257,target 111
   5:257 shift
   67:/ shift
   116:271,target 80
   5:259 shift
   16:266 reduce
   31:257,target 62
-  76:257,target 26
+  76:257,target 27
   16:267 reduce
-  132:287 goto
   46:274 goto
   0:/ shift
   16:268 reduce
@@ -1033,57 +1021,46 @@ array set ::snip_table {
   16:271 reduce
   43:260,target 50
   114:262,target 77
-  88:260,target 16
+  88:260,target 17
   2:/,target 72
   46:281 goto
   5:268 shift
-  75:/,target 25
+  75:/,target 26
   40:267,target 75
   39:267,target 61
   25:? reduce
   111:270,target 79
   85:267,target 44
   46:283 goto
-  126:264,target 95
-  137:257 shift
-  121::,target 126
+  121::,target 127
   34:?,target 56
-  137:258 shift
   44:/,target 56
   11:` reduce
-  137:260 shift
-  52:270,target 30
-  137:261 shift
+  52:270,target 31
   97:270,target 85
   63:`,target 52
   37:258,target 64
-  138:266,target 114
-  137:262 shift
   108:261,target 92
   83:258,target 13
-  137:263 shift
   107:257 shift
   5:278 goto
-  137:264 shift
   107:258 shift
   0:? shift
   107:260 shift
   82:257 reduce
   34:266,target 56
   32:`,target 58
-  137:266 shift
   107:261 shift
   82:258 reduce
   80:266,target 39
   79:266,target 42
-  137:267 shift
   107:262 shift
   95:261,target 92
   82:260 reduce
+  136:257,target 95
   107:263 shift
   40:/ reduce
   39:/ reduce
-  137:270 shift
   107:264 shift
   40:0 reduce
   39:0 reduce
@@ -1111,25 +1088,22 @@ array set ::snip_table {
   89:260,target 86
   22:260 reduce
   52:266 reduce
+  129:/,target 14
   52:267 reduce
   86:267,target 45
   52:270 reduce
-  137:284 goto
+  127:264,target 95
   52:271 reduce
-  137:285 goto
   22:266 reduce
-  137:286 goto
   40:? reduce
   39:? reduce
   22:267 reduce
-  53:270,target 33
+  53:270,target 34
   22:268 reduce
   68:264,target 95
   38:258,target 60
   22:269 reduce
   22:270 reduce
-  140:266,target 114
-  139:266,target 96
   84:258,target 46
   22:271 reduce
   107:285 goto
@@ -1140,15 +1114,15 @@ array set ::snip_table {
   81:266,target 40
   12:/ reduce
   96:261,target 84
-  72:/,target 20
+  72:/,target 21
   12:0 reduce
-  137:257,target 89
   92:285,target 100
   67:` shift
   117::,target 81
   31:?,target 62
   41:/,target 43
   33:257,target 55
+  134:265,target 94
   104:260,target 89
   78:257,target 43
   54:/ reduce
@@ -1162,7 +1136,6 @@ array set ::snip_table {
   113:258 reduce
   101:267,target 88
   45:260,target 50
-  141:/ reduce
   116:262,target 80
   113:260 reduce
   91:260,target 83
@@ -1179,7 +1152,7 @@ array set ::snip_table {
   87:261 reduce
   113:270,target 76
   113:264 reduce
-  87:267,target 17
+  87:267,target 18
   87:262 reduce
   113:265 reduce
   87:263 reduce
@@ -1192,18 +1165,16 @@ array set ::snip_table {
   57:260 reduce
   27:0,target 3
   87:266 reduce
-  54:270,target 34
+  54:270,target 35
   113:270 reduce
   99:270,target 98
   87:267 reduce
   40:258,target 75
   39:258,target 61
-  141:266,target 95
   113:271 reduce
   111:261,target 79
   85:258,target 44
   27:257 reduce
-  141:: reduce
   87:270 reduce
   54:? reduce
   27:258 reduce
@@ -1217,7 +1188,6 @@ array set ::snip_table {
   97:261,target 85
   40:` reduce
   39:` reduce
-  138:257,target 111
   57:269 reduce
   93:285,target 100
   87:277 goto
@@ -1246,8 +1216,7 @@ array set ::snip_table {
   43:267,target 52
   1:0 reduce
   114:270,target 77
-  88:267,target 16
-  130:264,target 95
+  88:267,target 17
   114::,target 77
   100:258,target 87
   27:?,target 3
@@ -1273,11 +1242,8 @@ array set ::snip_table {
   118:262 shift
   93:260 shift
   83:266,target 13
-  124:263,target 82
   118:263 shift
   93:261 shift
-  140:257,target 111
-  139:257,target 89
   118:264 shift
   93:262 shift
   94:285,target 100
@@ -1290,7 +1256,8 @@ array set ::snip_table {
   118:267 shift
   63:260 reduce
   35:257,target 57
-  24:0,target 15
+  24:0,target 16
+  136:265,target 95
   106:260,target 113
   93:266 shift
   81:257,target 40
@@ -1303,11 +1270,12 @@ array set ::snip_table {
   93:270 shift
   33:258 reduce
   103:267,target 97
-  47:260,target 35
+  47:260,target 36
   33:260 reduce
   118:262,target 93
   93:260,target 91
   63:266 reduce
+  123:/,target 15
   63:267 reduce
   58:278,target 24
   83:/ reduce
@@ -1316,6 +1284,7 @@ array set ::snip_table {
   115:270,target 78
   89:267,target 86
   83:0 reduce
+  131:264,target 95
   101:258,target 88
   33:266 reduce
   33:267 reduce
@@ -1330,7 +1299,7 @@ array set ::snip_table {
   118:285 goto
   113:261,target 76
   96:/,target 84
-  87:258,target 17
+  87:258,target 18
   118:286 goto
   93:284 goto
   108:285,target 116
@@ -1340,12 +1309,12 @@ array set ::snip_table {
   38:266,target 60
   84:266,target 46
   65:/,target 53
+  125:263,target 82
   99:261,target 92
-  141:257,target 95
   84:`,target 46
   111::,target 79
   95:285,target 100
-  24:?,target 15
+  24:?,target 16
   26:` reduce
   34:/,target 56
   83:? reduce
@@ -1354,67 +1323,56 @@ array set ::snip_table {
   82:257,target 41
   9:0,target 73
   13:0 accept
-  124:257 reduce
   103:284,target 118
   17:271,target 8
-  124:258 reduce
   83:0,target 13
-  124:260 reduce
+  124:260 shift
   104:267,target 89
-  48:260,target 31
-  22:`,target 19
-  124:261 reduce
+  48:260,target 32
+  22:`,target 20
   120:262,target 93
   119:262,target 92
   100:/ reduce
   94:260,target 91
-  124:262 reduce
   55:/ shift
   1:` reduce
-  124:263 reduce
-  124:264 reduce
   45:267,target 52
-  124:265 reduce
   116:270,target 80
   91:267,target 83
   68:257 shift
-  124:266 reduce
   68:258 shift
-  124:267 reduce
   68:260 shift
   21:0,target 12
   97:/ reduce
   68:261 shift
   12:269,target 71
   12:270,target 71
-  124:270 reduce
+  124:269 shift
   68:262 shift
   57:269,target 50
-  124:271 reduce
   68:263 shift
   43:258,target 49
   38:257 reduce
-  22::,target 19
+  22::,target 20
   114:261,target 77
-  88:258,target 16
+  88:258,target 17
   68:264 shift
   38:258 reduce
   100:: reduce
   38:260 reduce
   68:266 shift
-  125:280,target 129
   120:/,target 93
   119:/,target 92
   68:267 shift
   40:266,target 75
   39:266,target 61
   85:266,target 44
-  126:263,target 94
   68:270 shift
   55:? shift
   38:266 reduce
   97:: reduce
   38:267 reduce
+  123:271,target 15
   38:268 reduce
   37:257,target 64
   9:?,target 73
@@ -1426,12 +1384,11 @@ array set ::snip_table {
   38:271 reduce
   18:271,target 39
   105:267,target 115
-  50:260,target 28
-  49:260,target 32
+  50:260,target 29
+  49:260,target 33
   27:/ reduce
-  138::,target 139
   95:260,target 91
-  52:?,target 30
+  52:?,target 31
   27:0 reduce
   62:/,target 54
   7:`,target 66
@@ -1444,6 +1401,7 @@ array set ::snip_table {
   92:267,target 97
   68:285 goto
   21:?,target 12
+  133:264,target 95
   103:258,target 90
   70:/ reduce
   69:/ reduce
@@ -1451,44 +1409,43 @@ array set ::snip_table {
   31:/,target 62
   6:0,target 65
   2:/ reduce
-  130:257 shift
+  129:257 reduce
   100:266,target 87
   44:258,target 58
   2:0 reduce
-  130:258 shift
+  129:258 reduce
   115:261,target 78
   89:258,target 86
   130:260 shift
-  129:260 shift
+  129:260 reduce
   18:`,target 7
-  130:261 shift
-  130:262 shift
-  130:263 shift
+  126:280,target 130
   100:257 reduce
   86:266,target 45
-  130:264 shift
+  127:263,target 94
   114:: reduce
   100:258 reduce
   27:? reduce
   100:260 reduce
   74:257 reduce
-  130:266 shift
+  129:266 reduce
   100:261 reduce
   74:258 reduce
-  130:267 shift
+  129:267 reduce
   100:262 reduce
   74:260 reduce
   17:0,target 8
-  124:271,target 82
+  129:268 reduce
   100:263 reduce
   68:263,target 94
   38:257,target 60
-  130:270 shift
-  129:269 shift
+  130:269 shift
+  129:270 reduce
+  129:269 reduce
   110:260,target 122
   100:264 reduce
   84:257,target 46
-  130:271 shift
+  129:271 reduce
   100:265 reduce
   70:? reduce
   69:? reduce
@@ -1501,7 +1458,7 @@ array set ::snip_table {
   44:260 shift
   106:267,target 115
   74:266 reduce
-  51:260,target 29
+  51:260,target 30
   2:? reduce
   116:/,target 80
   100:270 reduce
@@ -1513,43 +1470,40 @@ array set ::snip_table {
   74:270 reduce
   14:258 shift
   74:271 reduce
-  47:267,target 35
+  47:267,target 36
   42:/ shift
   14:260 shift
   118:270,target 98
   93:267,target 97
   44:266 shift
+  134:264,target 94
   104:258,target 89
   44:267 shift
   6:?,target 65
   3:257 shift
   14:270,target 11
   14:269,target 10
-  128:/ reduce
   60:269,target 48
   59:269,target 47
-  130:285 goto
-  128:0 reduce
   101:266,target 88
   89:/,target 86
   84:/ reduce
   45:258,target 49
   3:260 shift
   14:266 shift
-  130:286 goto
   116:261,target 80
   91:258,target 83
   14:267 shift
   44:274 goto
   0:271,target 12
   14:268 shift
-  48:?,target 31
+  48:?,target 32
   14:270 shift
   14:269 shift
   44:276 goto
   4:`,target 68
   14:271 shift
-  87:266,target 17
+  87:266,target 18
   42:: shift
   3:266 shift
   104::,target 89
@@ -1563,27 +1517,32 @@ array set ::snip_table {
   3:269 shift
   3:270 shift
   14:276 goto
+  125:271,target 82
   46:`,target 3
   44:283 goto
   40:257,target 75
   39:257,target 61
   3:271 shift
-  141:265,target 95
   111:260,target 79
   85:257,target 44
   135:257 shift
+  135:258 shift
   21:271,target 12
+  135:260 shift
   66:271,target 76
   14:282 goto
   15:`,target 10
   27:` reduce
-  128:? reduce
+  135:261 shift
   107:267,target 115
-  52:260,target 30
+  52:260,target 31
   14:283 goto
+  135:262 shift
   97:260,target 85
+  135:263 shift
   105:257 shift
   14:/ shift
+  135:264 shift
   118:286,target 117
   105:258 shift
   93:284,target 106
@@ -1591,7 +1550,8 @@ array set ::snip_table {
   105:260 shift
   80:257 reduce
   79:257 reduce
-  48:267,target 31
+  48:267,target 32
+  135:266 shift
   120:270,target 93
   119:270,target 92
   105:261 shift
@@ -1599,6 +1559,8 @@ array set ::snip_table {
   80:258 reduce
   79:258 reduce
   3:282 goto
+  135:264,target 95
+  135:267 shift
   105:258,target 112
   105:262 shift
   80:260 reduce
@@ -1606,12 +1568,13 @@ array set ::snip_table {
   14:0,target 1
   105:263 shift
   101:/ reduce
-  134:?,target 135
+  135:270 shift
   105:264 shift
   56:/ reduce
   2:` reduce
   15:269,target 10
   15:270,target 10
+  135:271 shift
   105:265 reduce
   61:269,target 49
   50:257 reduce
@@ -1636,11 +1599,11 @@ array set ::snip_table {
   43:266,target 51
   19:257 reduce
   20:257 shift
-  88:266,target 16
+  132:`,target 19
+  88:266,target 17
   80:269 reduce
   79:269 reduce
   19:258 reduce
-  130:263,target 94
   100:257,target 87
   19:260 reduce
   20:260 shift
@@ -1657,28 +1620,28 @@ array set ::snip_table {
   49:270 reduce
   8:257 reduce
   86:257,target 45
-  76:?,target 26
+  76:?,target 27
   50:271 reduce
   49:271 reduce
   8:258 reduce
-  131:0,target 18
+  135:285 goto
   86:/,target 45
   8:260 reduce
   19:266 reduce
   20:266 shift
+  135:286 goto
   19:267 reduce
   20:267 shift
-  22:271,target 19
+  22:271,target 20
   19:268 reduce
   20:268 shift
   108:267,target 115
-  53:260,target 33
+  53:260,target 34
   45:?,target 47
   19:269 reduce
   19:270 reduce
   20:270 shift
   20:269 shift
-  124:262,target 82
   55:/,target 68
   1:`,target 69
   19:271 reduce
@@ -1688,66 +1651,53 @@ array set ::snip_table {
   94:284,target 107
   8:266 reduce
   101::,target 88
-  50:267,target 28
-  49:267,target 32
+  50:267,target 29
+  49:267,target 33
   8:267 reduce
   14:?,target 2
   98:? shift
   95:267,target 97
   8:268 reduce
-  24:/,target 15
+  24:/,target 16
+  136:264,target 95
   106:258,target 112
   8:269 reduce
   8:270 reduce
   28:/ shift
   8:271 reduce
   28:0 reduce
-  128:` reduce
   16:269,target 9
   16:270,target 9
-  141:257 reduce
   84:` reduce
   62:269,target 54
-  141:258 reduce
   103:266,target 96
-  47:258,target 35
-  141:260 reduce
+  47:258,target 36
   118:261,target 92
   115:/ reduce
   93:258,target 90
   12:`,target 71
-  141:261 reduce
   71:/ reduce
   2:271,target 72
-  141:262 reduce
-  141:263 reduce
   111:257 reduce
   44:266,target 60
-  141:264 reduce
   111:258 reduce
   89:266,target 86
   3:/ shift
-  141:265 reduce
+  131:263,target 94
   111:260 reduce
   101:257,target 88
   85:257 reduce
-  141:266 reduce
   111:261 reduce
   85:258 reduce
-  141:267 reduce
   111:262 reduce
   85:260 reduce
   11:0,target 70
   11:268,target 70
   111:263 reduce
-  141:270 reduce
-  131:?,target 18
   111:264 reduce
-  141:271 reduce
-  141:/,target 95
   113:260,target 76
   111:265 reduce
-  87:257,target 17
+  87:257,target 18
   55:257 shift
   115:: reduce
   111:266 reduce
@@ -1758,30 +1708,29 @@ array set ::snip_table {
   85:266 reduce
   111:270 reduce
   85:267 reduce
-  54:260,target 34
+  54:260,target 35
+  125:262,target 82
   111:271 reduce
   99:260,target 113
   14:` shift
   25:257 reduce
-  128:`,target 14
   85:269 reduce
   25:258 reduce
   95:284,target 108
   71:? reduce
   25:260 reduce
   55:266 shift
-  51:267,target 29
-  122:269,target 37
+  51:267,target 30
+  122:269,target 38
   96:267,target 84
   55:267 shift
-  137:264,target 95
   107:258,target 112
   3:? shift
   0:?,target 2
   56:` reduce
   55:270 shift
   9:/,target 73
-  73:?,target 21
+  73:?,target 22
   55:271 shift
   17:269,target 8
   17:270,target 8
@@ -1789,7 +1738,7 @@ array set ::snip_table {
   63:269,target 52
   25:266 reduce
   104:266,target 89
-  48:258,target 31
+  48:258,target 32
   25:267 reduce
   120:261,target 93
   119:261,target 92
@@ -1799,27 +1748,27 @@ array set ::snip_table {
   3:271,target 12
   25:269 reduce
   25:270 reduce
-  52:/,target 30
+  52:/,target 31
   25:271 reduce
   45:266,target 51
+  129:/ reduce
   91:266,target 83
+  129:0 reduce
   85:/ reduce
   11:?,target 70
   21:/,target 12
   12:268,target 71
   40:`,target 75
   39:`,target 61
-  128:271,target 14
   43:257,target 48
   114:260,target 77
-  88:257,target 16
-  24:271,target 15
-  70:271,target 23
-  69:271,target 27
+  88:257,target 17
+  24:271,target 16
+  70:271,target 24
+  69:271,target 28
   10:260,target 74
   111:267,target 79
   55:260,target 72
-  126:262,target 93
   116:257 reduce
   43:? shift
   38:0,target 60
@@ -1828,13 +1777,14 @@ array set ::snip_table {
   91:257 reduce
   116:261 reduce
   91:258 reduce
-  52:267,target 30
-  123:269,target 128
+  52:267,target 31
+  123:270,target 15
+  123:269,target 15
   116:262 reduce
   97:267,target 85
   91:260 reduce
   28:` reduce
-  138:264,target 95
+  129:? reduce
   116:263 reduce
   108:258,target 112
   91:261 reduce
@@ -1855,8 +1805,8 @@ array set ::snip_table {
   105:266,target 114
   91:265 reduce
   61:260 reduce
-  50:258,target 28
-  49:258,target 32
+  50:258,target 29
+  49:258,target 33
   95:258,target 90
   91:266 reduce
   116:270 reduce
@@ -1872,17 +1822,18 @@ array set ::snip_table {
   92:266,target 96
   91:271 reduce
   31:260 reduce
+  133:263,target 94
   103:257,target 89
   61:266 reduce
   61:267 reduce
   61:269 reduce
   58:268,target 77
   6:/,target 65
-  130:271,target 132
+  129:271,target 14
   100:265,target 87
   99:/ shift
-  70:?,target 23
-  69:?,target 27
+  70:?,target 24
+  69:?,target 28
   44:257,target 57
   115:260,target 78
   90:257,target 104
@@ -1893,23 +1844,23 @@ array set ::snip_table {
   31:267 reduce
   31:268 reduce
   25:271,target 5
+  125::,target 82
   102:: shift
-  71:271,target 24
+  71:271,target 25
   38:?,target 60
   31:270 reduce
   31:269 reduce
   11:260,target 70
   15:? reduce
   56:260,target 51
-  48:/,target 31
+  48:/,target 32
   31:271 reduce
+  127:262,target 93
   67:`,target 3
-  53:267,target 33
+  53:267,target 34
   17:/,target 8
-  124:270,target 82
+  124:269,target 129
   68:262,target 93
-  140:264,target 95
-  139:264,target 95
   36:`,target 63
   19:269,target 11
   19:270,target 11
@@ -1917,7 +1868,7 @@ array set ::snip_table {
   20:269,target 37
   65:269,target 53
   106:266,target 114
-  51:258,target 29
+  51:258,target 30
   96:258,target 84
   46:283,target 65
   29:/ reduce
@@ -1925,11 +1876,13 @@ array set ::snip_table {
   35:0,target 57
   29:0 reduce
   30:0 reduce
-  47:266,target 35
+  129:` reduce
+  47:266,target 36
   122:260 reduce
   96:257 reduce
   93:266,target 96
   85:` reduce
+  134:263,target 94
   104:257,target 89
   96:258 reduce
   116:/ reduce
@@ -1939,7 +1892,8 @@ array set ::snip_table {
   44:274,target 62
   14:268,target 9
   96:262 reduce
-  131:271,target 18
+  134:/,target 94
+  131:271,target 134
   101:265,target 88
   96:263 reduce
   66:257 shift
@@ -1958,7 +1912,7 @@ array set ::snip_table {
   26:271,target 4
   122:269 reduce
   96:267 reduce
-  72:271,target 20
+  72:271,target 21
   12:260,target 71
   113:267,target 76
   57:260,target 50
@@ -1973,16 +1927,16 @@ array set ::snip_table {
   29:? reduce
   30:? reduce
   66:267 shift
-  54:267,target 34
+  54:267,target 35
+  125:270,target 82
   99:267,target 115
-  141:264,target 95
   111:258,target 79
   66:270 shift
   3:/,target 1
   66:?,target 69
   66:271 shift
   15:` reduce
-  76:/,target 26
+  76:/,target 27
   36:266 reduce
   21:269,target 12
   21:270,target 12
@@ -1990,7 +1944,7 @@ array set ::snip_table {
   66:270,target 75
   36:267 reduce
   107:266,target 114
-  52:258,target 30
+  52:258,target 31
   36:268 reduce
   97:258,target 85
   36:270 reduce
@@ -2002,57 +1956,61 @@ array set ::snip_table {
   118:285,target 116
   57:` reduce
   64:`,target 3
-  48:266,target 31
+  48:266,target 32
   94:266,target 96
+  135:263,target 94
   105:257,target 111
   44:/ shift
   14:/,target 1
   33:`,target 55
   15:268,target 10
+  132:271,target 19
   46:257,target 57
-  131:/ reduce
   117:260,target 81
   92:257,target 89
-  131:0 reduce
   86:/ reduce
   1:270,target 69
   1:269,target 69
   27:271,target 3
-  73:271,target 21
+  73:271,target 22
+  127:257 shift
   114:267,target 77
   58:259,target 22
   32:0,target 58
-  130:262,target 93
-  127:260 reduce
+  127:258 shift
+  127:260 shift
+  127:261 shift
   10:267,target 74
+  127:262 shift
   55:267,target 74
-  126:270,target 98
-  131:/,target 18
+  127:263 shift
+  127:264 shift
+  131:: shift
   72:257 reduce
+  127:266 shift
   72:258 reduce
-  22:269,target 19
-  22:270,target 19
+  22:269,target 20
+  22:270,target 20
+  127:267 shift
   72:260 reduce
   67:269,target 88
   108:266,target 114
-  53:258,target 33
-  127:269 reduce
-  124:261,target 82
+  53:258,target 34
+  127:270 shift
   100:/,target 87
   29:` reduce
   30:` reduce
-  131:? reduce
   7:271,target 66
-  50:266,target 28
-  49:266,target 32
+  50:266,target 29
+  49:266,target 33
   16:/ reduce
   95:266,target 96
   72:266 reduce
   16:0 reduce
+  136:263,target 95
   106:257,target 111
   72:267 reduce
   12:257 reduce
-  132:287,target 133
   72:270 reduce
   46:274,target 62
   0:/,target 1
@@ -2060,8 +2018,8 @@ array set ::snip_table {
   16:268,target 9
   72:271 reduce
   12:260 reduce
-  73:/,target 21
-  47:257,target 35
+  73:/,target 22
+  47:257,target 36
   4:` reduce
   118:260,target 113
   93:257,target 89
@@ -2070,27 +2028,30 @@ array set ::snip_table {
   32:?,target 58
   1:257 reduce
   28:271,target 39
-  74:271,target 22
+  127:284 goto
+  74:271,target 23
   42:/,target 45
   1:258 reduce
   14:260,target 6
+  127:285 goto
   115:267,target 78
   89:265,target 86
   60:260,target 48
   59:260,target 47
   1:260 reduce
   12:266 reduce
+  131:262,target 93
+  127:286 goto
   61:`,target 49
   12:267 reduce
   12:268 reduce
-  126:286,target 101
   11:/,target 70
   11:267,target 70
   12:269 reduce
   12:270 reduce
   56:267,target 51
   12:271 reduce
-  127:269,target 36
+  127:270,target 98
   16:? reduce
   29:`,target 6
   30:`,target 59
@@ -2101,28 +2062,37 @@ array set ::snip_table {
   68:270,target 98
   1:270 reduce
   1:269 reduce
-  54:258,target 34
+  54:258,target 35
   1:271 reduce
+  125:261,target 82
   99:258,target 112
+  133:257 shift
   8:271,target 67
   28:0,target 2
-  51:266,target 29
+  133:258 shift
+  133:260 shift
+  51:266,target 30
+  133:261 shift
   96:266,target 84
   44:` shift
-  137:263,target 94
+  133:262 shift
   107:257,target 111
   5:278,target 24
+  133:263 shift
   103:257 shift
+  133:264 shift
   103:258 shift
   17:268,target 8
   31:/ reduce
   103:260 shift
   77:257 shift
   31:0 reduce
-  131:` reduce
+  134:271,target 94
+  133:266 shift
   104:265,target 89
   103:261 shift
-  48:257,target 31
+  48:257,target 32
+  133:267 shift
   120:260,target 93
   119:260,target 92
   103:262 shift
@@ -2138,7 +2108,7 @@ array set ::snip_table {
   103:264 shift
   29:271,target 6
   30:271,target 59
-  75:271,target 25
+  75:271,target 26
   73:/ reduce
   47:257 reduce
   15:260,target 10
@@ -2149,26 +2119,26 @@ array set ::snip_table {
   47:258 reduce
   103:267 shift
   47:260 reduce
+  127:286,target 101
   103:270 shift
   12:267,target 71
   57:267,target 50
   17:257 reduce
-  128:270,target 14
-  128:269,target 14
+  128:269,target 37
   17:258 reduce
   114:258,target 77
   17:260 reduce
-  70:/,target 23
-  69:/,target 27
+  70:/,target 24
+  69:/,target 28
   68:286,target 101
   47:266 reduce
   47:267 reduce
-  24:269,target 15
-  24:270,target 15
+  24:269,target 16
+  24:270,target 16
   117:: reduce
-  88:`,target 16
-  70:270,target 23
-  69:270,target 27
+  88:`,target 17
+  70:270,target 24
+  69:270,target 28
   31:? reduce
   10:258,target 74
   115::,target 78
@@ -2177,24 +2147,26 @@ array set ::snip_table {
   47:270 reduce
   6:257 reduce
   28:?,target 31
-  126:261,target 92
+  133:284 goto
   47:271 reduce
   38:/,target 60
   6:258 reduce
+  133:285 goto
   6:260 reduce
   9:271,target 73
   17:266 reduce
+  133:286 goto
   77:278 goto
   57:`,target 50
   16:` reduce
   17:267 reduce
-  52:266,target 30
+  52:266,target 31
   17:268 reduce
+  123:268,target 15
   97:266,target 85
   73:? reduce
   17:269 reduce
   17:270 reduce
-  138:263,target 94
   108:257,target 111
   103:284 goto
   17:271 reduce
@@ -2204,9 +2176,10 @@ array set ::snip_table {
   6:266 reduce
   18:268,target 36
   6:267 reduce
+  135:271,target 136
   105:265,target 90
-  50:257,target 28
-  49:257,target 32
+  50:257,target 29
+  49:257,target 33
   6:268 reduce
   95:257,target 89
   6:270 reduce
@@ -2215,41 +2188,35 @@ array set ::snip_table {
   4:270,target 68
   4:269,target 68
   31:271,target 62
-  138:257 shift
-  76:271,target 26
+  76:271,target 27
   16:260,target 9
   25:0,target 5
-  138:258 shift
   117:267,target 81
   62:260,target 54
-  138:260 shift
-  138:261 shift
-  138:262 shift
-  138:263 shift
+  133:262,target 93
+  132:/ reduce
+  132:0 reduce
   108:257 shift
-  138:264 shift
-  130:270,target 98
-  129:269,target 131
+  130:269,target 132
+  129:270,target 14
+  129:269,target 14
   108:258 shift
   100:264,target 87
-  124:/,target 82
   115:258,target 78
   108:260 shift
   83:257 reduce
-  138:266 shift
   108:261 shift
   83:258 reduce
-  138:267 shift
   108:262 shift
   83:260 reduce
   25:269,target 5
   25:270,target 5
   108:263 shift
-  71:270,target 24
+  71:270,target 25
   11:258,target 70
-  138:270 shift
   108:264 shift
   56:258,target 51
+  127:261,target 92
   108:265 shift
   53:257 reduce
   108:266 shift
@@ -2258,30 +2225,30 @@ array set ::snip_table {
   53:260 reduce
   45:? shift
   83:266 reduce
-  53:266,target 33
+  53:266,target 34
   108:270 shift
   97:/,target 85
   83:267 reduce
   68:261,target 92
-  140:263,target 94
-  139:263,target 94
   109:257,target 121
   83:268 reduce
   23:257 shift
   83:270 reduce
   83:269 reduce
   31:` reduce
+  132:? reduce
   83:271 reduce
   19:268,target 11
   20:268,target 36
   23:259 shift
   66:/,target 87
   53:266 reduce
+  136:271,target 95
   106:265,target 91
   53:267 reduce
-  51:257,target 29
+  51:257,target 30
   17:/ reduce
-  122:260,target 37
+  122:260,target 38
   96:257,target 84
   85:`,target 44
   17:0 reduce
@@ -2290,39 +2257,35 @@ array set ::snip_table {
   53:271 reduce
   35:/,target 57
   32:271,target 58
-  138:285 goto
   17:260,target 8
-  138:286 goto
   118:267,target 115
   104:/ reduce
   63:260,target 52
+  134:262,target 94
   60:/ reduce
   59:/ reduce
-  130:286,target 117
   14:267,target 8
   108:285 goto
   60:267,target 48
   59:267,target 47
-  131:270,target 18
-  131:269,target 18
+  131:270,target 98
   108:286 goto
   101:264,target 88
   116:258,target 80
   0:268,target 9
   26:269,target 4
   26:270,target 4
-  72:270,target 20
+  72:270,target 21
   12:258,target 71
   113:266,target 76
-  87:264,target 17
+  87:264,target 18
   57:258,target 50
   23:278 goto
   104:: reduce
   17:? reduce
-  22:0,target 19
-  54:266,target 34
+  22:0,target 20
+  54:266,target 35
   99:266,target 114
-  141:263,target 95
   114:257 reduce
   111:257,target 79
   114:258 reduce
@@ -2334,8 +2297,8 @@ array set ::snip_table {
   114:262 reduce
   107:265,target 119
   88:260 reduce
-  52:257,target 30
-  123:260,target 127
+  52:257,target 31
+  123:260,target 15
   114:263 reduce
   97:257,target 85
   114:264 reduce
@@ -2353,9 +2316,12 @@ array set ::snip_table {
   64:260,target 80
   58:259 shift
   32:0 reduce
+  135:262,target 93
+  132:` reduce
   88:266 reduce
   114:270 reduce
   88:267 reduce
+  131:286,target 117
   114:271 reduce
   88:268 reduce
   15:267,target 10
@@ -2365,10 +2331,11 @@ array set ::snip_table {
   88:269 reduce
   61:267,target 49
   28:258 reduce
-  132:270,target 94
+  132:270,target 19
+  132:269,target 19
   88:271 reduce
   74:/ reduce
-  53:?,target 33
+  53:?,target 34
   28:260 shift
   117:258,target 81
   63:/,target 52
@@ -2379,12 +2346,11 @@ array set ::snip_table {
   6:/ reduce
   27:269,target 3
   27:270,target 3
-  73:270,target 21
+  73:270,target 22
   6:0 reduce
-  22:?,target 19
+  22:?,target 20
   114:266,target 77
   32:/,target 58
-  130:261,target 92
   28:266 shift
   28:267 shift
   7:0,target 66
@@ -2395,15 +2361,15 @@ array set ::snip_table {
   28:270 shift
   32:? reduce
   28:271 shift
-  112:257,target 124
+  112:257,target 125
   19:`,target 11
   20:`,target 40
   58:278 goto
-  22:268,target 19
+  22:268,target 20
   17:` reduce
   108:265,target 120
-  53:257,target 33
-  124:260,target 82
+  53:257,target 34
+  124:260,target 128
   74:? reduce
   7:269,target 66
   7:270,target 66
@@ -2416,6 +2382,7 @@ array set ::snip_table {
   65:260,target 53
   60:` reduce
   59:` reduce
+  136:262,target 95
   120:257 reduce
   119:257 reduce
   46:/ shift
@@ -2423,7 +2390,7 @@ array set ::snip_table {
   120:258 reduce
   119:258 reduce
   62:267,target 54
-  133:270,target 134
+  133:270,target 98
   120:260 reduce
   119:260 reduce
   117:/,target 81
@@ -2446,7 +2413,7 @@ array set ::snip_table {
   119:264 reduce
   94:262 shift
   88:/ reduce
-  74:270,target 22
+  74:270,target 23
   14:258,target 5
   120:265 reduce
   119:265 reduce
@@ -2457,6 +2424,7 @@ array set ::snip_table {
   64:257 shift
   60:258,target 48
   59:258,target 47
+  131:261,target 92
   120:266 reduce
   119:266 reduce
   94:264 shift
@@ -2465,7 +2433,6 @@ array set ::snip_table {
   120:267 reduce
   119:267 reduce
   64:260 shift
-  126:285,target 100
   94:266 shift
   0:260,target 6
   11:266,target 70
@@ -2480,18 +2447,17 @@ array set ::snip_table {
   113:257,target 76
   94:270 shift
   34:258 reduce
-  136::,target 137
-  50:?,target 28
-  49:?,target 32
+  136::,target 95
+  50:?,target 29
+  49:?,target 33
   34:260 reduce
   64:266 shift
   60:/,target 48
   59:/,target 47
   64:267 shift
-  140:271,target 141
   78:`,target 43
-  54:257,target 34
-  125:260,target 122
+  54:257,target 35
+  125:260,target 82
   105::,target 90
   99:257,target 111
   64:269 shift
@@ -2510,18 +2476,19 @@ array set ::snip_table {
   64:274 goto
   34:268 reduce
   4:0,target 68
-  137:262,target 93
   34:270 reduce
   34:269 reduce
   18:/ shift
   64:276 goto
   34:271 reduce
   18:0 reduce
+  133:286,target 101
   77:278,target 42
   16:`,target 9
   17:267,target 8
   94:284 goto
   63:267,target 52
+  134:270,target 94
   104:264,target 89
   94:285 goto
   120:258,target 93
@@ -2538,52 +2505,63 @@ array set ::snip_table {
   29:270,target 6
   30:269,target 59
   30:270,target 59
-  75:270,target 25
+  75:270,target 26
   15:258,target 10
   116:266,target 80
   91:264,target 83
   61:258,target 49
   15:0,target 10
   0:276,target 17
+  127:285,target 100
   1:260,target 69
   12:266,target 71
   57:266,target 50
-  128:268,target 14
+  125:257 reduce
+  125:258 reduce
   114:257,target 77
-  125:260 shift
+  125:260 reduce
   114:/,target 77
   105:: reduce
   99:257 shift
   68:285,target 100
   18:? shift
+  125:261 reduce
   99:258 shift
-  24:268,target 15
+  24:268,target 16
+  125:262 reduce
   99:260 shift
   10:257,target 74
-  141:271,target 95
+  125:263 reduce
   111:265,target 79
   99:261 shift
   55:257,target 70
-  126:260,target 91
+  126:260,target 122
+  125:264 reduce
   99:262 shift
+  125:265 reduce
   99:263 shift
   70:257 reduce
   69:257 reduce
   9:269,target 73
   9:270,target 73
+  125:266 reduce
   99:264 shift
   70:258 reduce
   69:258 reduce
   36:271,target 63
   4:?,target 68
+  125:267 reduce
   70:260 reduce
   69:260 reduce
-  22:260,target 19
+  22:260,target 20
+  123:267,target 15
   99:266 shift
   97:265,target 85
   67:260,target 80
-  138:262,target 93
+  132:0,target 19
+  125:270 reduce
   99:267 shift
+  125:271 reduce
   46:` shift
   40:257 reduce
   39:257 reduce
@@ -2594,6 +2572,7 @@ array set ::snip_table {
   64:267,target 82
   40:260 reduce
   39:260 reduce
+  135:270,target 98
   105:264,target 95
   70:266 reduce
   69:266 reduce
@@ -2613,13 +2592,12 @@ array set ::snip_table {
   31:269,target 62
   10:258 reduce
   15:?,target 10
-  76:270,target 26
+  76:270,target 27
   70:271 reduce
   69:271 reduce
   10:260 reduce
   16:258,target 9
   25:/,target 5
-  125:280 goto
   120:/ reduce
   119:/ reduce
   117:266,target 81
@@ -2627,6 +2605,7 @@ array set ::snip_table {
   62:258,target 54
   40:266 reduce
   39:266 reduce
+  133:261,target 92
   75:/ reduce
   44:`,target 3
   40:267 reduce
@@ -2642,6 +2621,7 @@ array set ::snip_table {
   40:271 reduce
   39:271 reduce
   7:/ reduce
+  129:268,target 14
   100:263,target 87
   7:0 reduce
   10:266 reduce
@@ -2656,34 +2636,39 @@ array set ::snip_table {
   10:271 reduce
   11:257,target 70
   56:257,target 51
-  127:260,target 36
+  127:260,target 91
   120:: reduce
   119:: reduce
   33:? reduce
   12:0,target 71
   67:276,target 85
   37:271,target 64
+  132:?,target 19
   83:271,target 13
   23:259,target 22
-  124:267,target 82
   68:260,target 91
   18:` reduce
-  140:262,target 93
-  139:262,target 93
-  131:257 reduce
+  131:257 shift
   75:? reduce
-  131:258 reduce
+  135:286,target 117
+  131:258 shift
   19:267,target 11
   20:267,target 35
-  131:260 reduce
+  131:260 shift
   111:/,target 79
   65:267,target 53
+  136:270,target 95
+  131:261 shift
   106:264,target 95
   7:? reduce
+  131:262 shift
+  129:`,target 14
   61:` reduce
+  131:263 shift
   101:257 reduce
   46:281,target 67
   5:268,target 23
+  131:264 shift
   101:258 reduce
   32:270,target 58
   32:269,target 58
@@ -2691,33 +2676,30 @@ array set ::snip_table {
   75:257 reduce
   47:/ reduce
   17:258,target 8
-  131:266 reduce
+  131:266 shift
   118:266,target 114
   101:261 reduce
   93:264,target 95
   75:258 reduce
   63:258,target 52
   1:?,target 69
-  131:267 reduce
+  134:261,target 94
+  131:267 shift
   101:262 reduce
   75:260 reduce
-  131:268 reduce
   101:263 reduce
-  74:?,target 22
-  131:270 reduce
-  131:269 reduce
-  130:285,target 116
-  128:0,target 14
+  74:?,target 23
+  131:270 shift
   101:264 reduce
   84:/,target 46
   3:260,target 6
   14:266,target 7
-  131:271 reduce
+  134:/ reduce
+  131:271 shift
   101:265 reduce
   60:266,target 48
   59:266,target 47
   45:257 shift
-  131:268,target 18
   101:266 reduce
   101:263,target 88
   89:/ reduce
@@ -2727,7 +2709,7 @@ array set ::snip_table {
   45:260 shift
   43:?,target 47
   75:266 reduce
-  53:/,target 33
+  53:/,target 34
   0:267,target 8
   101:270 reduce
   75:267 reduce
@@ -2736,43 +2718,45 @@ array set ::snip_table {
   12:257,target 71
   15:257 reduce
   113:265,target 76
-  87:263,target 17
+  87:263,target 18
   75:270 reduce
   57:257,target 50
   12:?,target 71
   15:258 reduce
-  128:260,target 14
+  128:260,target 37
   75:271 reduce
   15:260 reduce
-  22:/,target 19
+  22:/,target 20
   45:266 shift
   45:267 shift
   38:271,target 60
-  24:260,target 15
-  70:260,target 23
-  69:260,target 27
+  24:260,target 16
+  134:: reduce
+  125:267,target 82
+  70:260,target 24
+  69:260,target 28
   47:? reduce
   45:270 shift
   4:257 reduce
-  141:262,target 95
   89:: reduce
   45:271 shift
   4:258 reduce
+  131:285 goto
   4:260 reduce
   10:`,target 74
   15:266 reduce
+  131:286 goto
   15:267 reduce
   21:267,target 12
   66:267,target 74
   33:` reduce
   15:268 reduce
-  137:270,target 98
-  134:? shift
   107:264,target 95
   40:0,target 75
   39:0,target 61
   15:269 reduce
   15:270 reduce
+  123:258,target 15
   15:271 reduce
   6:268,target 65
   19:/ reduce
@@ -2791,30 +2775,42 @@ array set ::snip_table {
   94:264,target 95
   64:258,target 58
   4:268 reduce
-  128:?,target 14
+  135:261,target 92
   4:270 reduce
   4:269 reduce
   14:283,target 29
   106:/ reduce
   4:271 reduce
+  131:285,target 116
   62:/ reduce
   4:260,target 68
   7:` reduce
   15:266,target 10
+  136:257 reduce
   61:266,target 49
+  136:258 reduce
+  132:268,target 19
+  136:260 reduce
   117:257,target 81
+  136:261 reduce
   1:267,target 69
+  136:262 reduce
   27:268,target 3
+  136:263 reduce
   106:257 shift
+  136:264 reduce
   114:265,target 77
   106:258 shift
   58:257,target 21
-  130:260,target 113
-  129:260,target 127
+  136:265 reduce
+  130:260,target 128
+  129:260,target 14
   106:260 shift
   81:257 reduce
+  136:266 reduce
   106:261 shift
   81:258 reduce
+  136:267 reduce
   106:: reduce
   106:262 shift
   81:260 reduce
@@ -2824,31 +2820,29 @@ array set ::snip_table {
   19:? reduce
   20:? shift
   106:263 shift
-  71:?,target 24
+  71:?,target 25
   25:260,target 5
-  126:267,target 97
+  136:270 reduce
   106:264 shift
   81:/,target 40
-  71:260,target 24
+  71:260,target 25
+  136:271 reduce
   106:265 reduce
   51:257 reduce
   106:266 shift
   51:258 reduce
-  137:286,target 101
   106:267 shift
   51:260 reduce
   40:?,target 75
   39:?,target 61
-  22:267,target 19
+  22:267,target 20
   81:266 reduce
   67:267,target 82
-  50:/,target 28
-  49:/,target 32
-  138:270,target 98
+  50:/,target 29
+  49:/,target 33
   108:264,target 95
   106:270 shift
   81:267 reduce
-  124:258,target 82
   106:271 reduce
   21:257 reduce
   81:269 reduce
@@ -2866,6 +2860,7 @@ array set ::snip_table {
   65:258,target 53
   51:267 reduce
   37:`,target 64
+  136:261,target 95
   34:/ reduce
   51:270 reduce
   34:0 reduce
@@ -2899,24 +2894,23 @@ array set ::snip_table {
   59:257,target 47
   8:/ reduce
   9:266 reduce
-  131:260,target 18
+  131:260,target 113
   8:0 reduce
   9:267 reduce
   9:268 reduce
-  126:284,target 130
   0:258,target 5
   9:269 reduce
   9:270 reduce
   9:271 reduce
   26:260,target 4
-  72:260,target 20
+  127:267,target 97
+  72:260,target 21
   121:: shift
   34:? reduce
-  138:286,target 117
   104:/,target 89
   68:267,target 97
-  140:270,target 98
-  139:270,target 98
+  123:`,target 15
+  125:258,target 82
   112:257 shift
   19:` reduce
   20:` shift
@@ -2948,19 +2942,19 @@ array set ::snip_rules {
   25,l 279
   46,l 281
   67,l 282
-  0,l 288
+  0,l 287
   88,l 284
   22,l 279
   43,l 281
   64,l 282
   85,l 284
-  18,l 276
+  18,l 277
   40,l 281
   39,l 281
   61,l 282
   82,l 284
-  15,l 276
-  36,l 280
+  15,l 275
+  36,l 279
   57,l 282
   78,l 284
   12,l 274
@@ -2984,8 +2978,8 @@ array set ::snip_rules {
   44,l 281
   65,l 282
   86,l 284
-  19,l 278
-  20,l 279
+  19,l 276
+  20,l 278
   41,l 281
   62,l 282
   83,l 284
@@ -3003,7 +2997,7 @@ array set ::snip_rules {
   31,l 279
   52,l 281
   73,l 282
-  94,l 287
+  94,l 286
   5,l 273
   27,l 279
   48,l 281
@@ -3019,7 +3013,7 @@ array set ::snip_rules {
   42,l 281
   63,l 282
   84,l 284
-  17,l 277
+  17,l 276
   38,l 280
   60,l 282
   59,l 282
@@ -3041,7 +3035,7 @@ array set ::snip_rules {
   55,dc 2
   70,dc 1
   69,dc 1
-  18,dc 11
+  18,dc 0
   84,dc 1
   33,dc 1
   9,dc 1
@@ -3056,7 +3050,7 @@ array set ::snip_rules {
   39,dc 2
   54,dc 1
   68,dc 1
-  17,dc 0
+  17,dc 6
   83,dc 1
   32,dc 1
   8,dc 1
@@ -3068,10 +3062,10 @@ array set ::snip_rules {
   90,dc 2
   89,dc 2
   1,dc 1
-  38,dc 0
+  38,dc 1
   53,dc 1
   67,dc 1
-  16,dc 6
+  16,dc 2
   82,dc 3
   31,dc 1
   7,dc 1
@@ -3082,28 +3076,28 @@ array set ::snip_rules {
   23,dc 2
   0,dc 1
   88,dc 1
-  37,dc 1
+  37,dc 2
   52,dc 1
   66,dc 1
-  15,dc 2
+  15,dc 9
   81,dc 2
   29,dc 1
   30,dc 1
-  95,dc 15
+  95,dc 8
   6,dc 2
   44,dc 2
   58,dc 2
   73,dc 1
   22,dc 2
   87,dc 1
-  36,dc 2
+  36,dc 1
   51,dc 1
   65,dc 1
   14,dc 10
   80,dc 2
   79,dc 2
-  28,dc 1
-  94,dc 0
+  28,dc 2
+  94,dc 6
   5,dc 2
   43,dc 2
   57,dc 2
@@ -3122,111 +3116,110 @@ array set ::snip_rules {
   42,dc 2
   56,dc 2
   71,dc 1
-  19,dc 1
-  20,dc 2
+  19,dc 11
+  20,dc 1
   85,dc 1
   34,dc 1
   48,dc 1
 }
 
 array set ::snip_rules {
-  41,line 191
+  41,line 195
   7,line 50
-  37,line 179
-  93,line 355
+  37,line 181
+  93,line 359
   4,line 38
-  34,line 168
-  90,line 346
-  89,line 341
+  34,line 170
+  90,line 350
+  89,line 345
   1,line 24
-  31,line 159
-  86,line 332
-  27,line 147
-  83,line 323
-  24,line 138
-  80,line 314
-  79,line 311
-  21,line 129
-  76,line 302
-  17,line 95
-  73,line 289
+  31,line 161
+  86,line 336
+  27,line 149
+  83,line 327
+  24,line 140
+  80,line 318
+  79,line 315
+  21,line 131
+  76,line 306
+  17,line 102
+  73,line 293
   14,line 87
-  70,line 280
-  69,line 277
+  70,line 284
+  69,line 281
   11,line 66
-  66,line 268
-  63,line 259
-  60,line 250
-  59,line 247
-  56,line 238
-  53,line 227
-  50,line 218
-  49,line 215
-  46,line 206
-  43,line 197
+  66,line 272
+  18,e 6
+  63,line 263
+  60,line 254
+  59,line 251
+  56,line 242
+  53,line 231
+  50,line 222
+  49,line 219
+  46,line 210
+  43,line 201
   9,line 58
-  40,line 188
-  39,line 185
-  95,line 371
+  40,line 192
+  39,line 189
+  95,line 375
   6,line 46
   36,line 176
-  92,line 352
+  92,line 356
   3,line 34
-  33,line 165
-  88,line 338
-  29,line 153
-  30,line 156
-  85,line 329
-  26,line 144
-  82,line 320
-  23,line 135
-  78,line 308
-  19,line 121
+  33,line 167
+  88,line 342
+  29,line 155
+  30,line 158
+  85,line 333
+  26,line 146
+  82,line 324
+  23,line 137
+  78,line 312
+  19,line 109
   20,line 126
-  75,line 297
-  16,line 95
-  72,line 286
+  75,line 301
+  16,line 99
+  72,line 290
   13,line 74
-  68,line 274
+  68,line 278
   10,line 62
-  65,line 265
-  62,line 256
-  58,line 244
-  55,line 235
-  52,line 224
-  48,line 212
-  45,line 203
-  42,line 194
+  65,line 269
+  62,line 260
+  58,line 248
+  55,line 239
+  52,line 228
+  48,line 216
+  45,line 207
+  42,line 198
   8,line 54
-  38,line 180
-  94,line 357
+  38,line 184
+  94,line 368
   5,line 42
-  35,line 171
-  94,e 6
-  91,line 349
+  35,line 173
+  91,line 353
   2,line 30
-  32,line 162
-  87,line 335
-  28,line 150
-  84,line 326
-  25,line 141
-  81,line 317
-  22,line 132
-  77,line 305
-  18,line 104
-  74,line 292
-  15,line 92
-  71,line 283
+  32,line 164
+  87,line 339
+  28,line 152
+  84,line 330
+  25,line 143
+  81,line 321
+  22,line 134
+  77,line 309
+  18,line 102
+  74,line 296
+  15,line 94
+  71,line 287
   12,line 71
-  67,line 271
-  64,line 262
-  17,e 6
-  61,line 253
-  57,line 241
-  54,line 230
-  51,line 221
-  47,line 209
-  44,line 200
+  67,line 275
+  64,line 266
+  61,line 257
+  57,line 245
+  54,line 234
+  51,line 225
+  47,line 213
+  44,line 204
 }
 
 proc snip_parse {} {
@@ -3348,21 +3341,26 @@ proc snip_parse {} {
              }
             }
                     15 { 
+             if {[set val [snippets::get_tabstop $3]] ne ""} {
+               set _ [regexp -inline -- $5 $val]
+             } else {
+               set _ [get_retval $1 $2 $3 $4 $5 $6 $7 $8 $9 $10]
+             }
+            }
+                    16 { 
             set _ $2
            }
-                    16 { 
+                    17 { 
             set _ [expr {($3 eq "") ? $5 : $3}]
            }
-                    17 { 
-            lappend ::snip_matches [regexp -inline -- $5 $3]
-            puts "snip_matches: $::snip_matches, pattern ($5)"
-           }
                     18 { 
-            puts "format ($8), opts ($10)"
+            lappend ::snip_matches [regexp -inline -- $5 $3]
+           }
+                    19 { 
             set ::snip_matches [lreplace $::snip_matches end end]
             set _ $8
            }
-                    19 { 
+                    20 { 
            set txt $::snip_txt
            switch $1 {
              SELECTED_TEXT { set _ [$txt get sel.first sel.last] }
@@ -3377,58 +3375,58 @@ proc snip_parse {} {
              CURRENT_DATE  { set _ [clock format [clock seconds] -format "%m/%d/%Y"] }
            }
           }
-                    20 { 
-           set _ "$1$2"
-          }
                     21 { 
-           set _ "$1\\n"
+           set _ "$1$2"
           }
                     22 { 
-           set _ "$1\\t"
+           set _ "$1\\n"
           }
                     23 { 
-           set _ "$1$2"
+           set _ "$1\\t"
           }
                     24 { 
-           set _ "$1\$"
+           set _ "$1$2"
           }
                     25 { 
-           set _ "$1\("
+           set _ "$1\$"
           }
                     26 { 
-           set _ "$1)"
+           set _ "$1\("
           }
                     27 { 
-           set _ "?"
+           set _ "$1)"
           }
                     28 { 
-           set _ $1
-          }
-                    29 { 
-           set _ "\n"
-          }
-                    30 { 
-           set _ "\t"
-          }
-                    31 { 
-           set _ $1
-          }
-                    32 { 
-           set _ "\$"
-          }
-                    33 { 
-           set _ "("
-          }
-                    34 { 
-           set _ ")"
-          }
-                    35 { 
            set _ "?"
           }
+                    29 { 
+           set _ $1
+          }
+                    30 { 
+           set _ "\n"
+          }
+                    31 { 
+           set _ "\t"
+          }
+                    32 { 
+           set _ $1
+          }
+                    33 { 
+           set _ "\$"
+          }
+                    34 { 
+           set _ "("
+          }
+                    35 { 
+           set _ ")"
+          }
                     36 { 
+           set _ "?"
+          }
+                    37 { 
         set _ "$1$2"
        }
-                    37 { 
+                    38 { 
         set _ $1
        }
                     39 { 

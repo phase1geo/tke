@@ -322,17 +322,12 @@ set ::snip_lval $snip_text
   return $::CHAR
             }
             1 {
-puts -nonewline "Found escape! ("
-  puts -nonewline $snip_text
-  puts -nonewline ","
-  puts -nonewline [string index $snip_text 1]
-  puts ")"
-  set ::snip_lval $snip_text
+set ::snip_lval $snip_text
   set ::snip_begpos $::snip_endpos
   incr ::snip_endpos [string length $snip_text]
   switch [string index $snip_text 1] {
     l       { return $::LOWER }
-    u       { puts {HERE A}; return $::UPPER }
+    u       { return $::UPPER }
     L       { return $::LOWER_BLOCK }
     U       { return $::UPPER_BLOCK }
     E       { return $::END_BLOCK }

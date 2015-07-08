@@ -84,6 +84,13 @@ transform: DOLLAR_SIGN OPEN_BRACKET DECIMAL '/' pattern '/' format '/' opts CLOS
                set _ [get_retval $1 $2 $3 $4 $5 $6 $7 $8 $9 $10]
              }
            }
+         | DOLLAR_SIGN OPEN_BRACKET DECIMAL '/' pattern '/' format '/' CLOSE_BRACKET {
+             if {[set val [snippets::get_tabstop $3]] ne ""} {
+               set _ [regexp -inline -- $5 $val]
+             } else {
+               set _ [get_retval $1 $2 $3 $4 $5 $6 $7 $8 $9 $10]
+             }
+           }
            ;
 
 variable: DOLLAR_SIGN varname {
@@ -94,10 +101,8 @@ variable: DOLLAR_SIGN varname {
           }
         | DOLLAR_SIGN OPEN_BRACKET varname '/' pattern {
             lappend ::snip_matches [regexp -inline -- $5 $3]
-            puts "snip_matches: $::snip_matches, pattern ($5)"
           }
           '/' format '/' opts CLOSE_BRACKET {
-            puts "format ($8), opts ($10)"
             set ::snip_matches [lreplace $::snip_matches end end]
             set _ $8
           }
@@ -176,7 +181,6 @@ opts: opts CHAR {
     | CHAR {
         set _ $1
       }
-    | # empty
       ;
          
 value: value CHAR {
@@ -361,7 +365,7 @@ cond_insert: OPEN_PAREN '?' DECIMAL ':' format CLOSE_PAREN {
                  set _ ""
                }
              }
-             OPEN_PAREN '?' DECIMAL ':' format ':' format CLOSE_PAREN {
+           | OPEN_PAREN '?' DECIMAL ':' format ':' format CLOSE_PAREN {
                if {[llength [lindex $::snip_matches end]] <= $3} {
                  set _ $5
                } else {
