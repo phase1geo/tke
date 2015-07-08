@@ -328,38 +328,56 @@ namespace eval snippets {
     # If the snippet exists, perform the replacement.
     if {[info exists snippets(current,$last_word)]} {
 
-      # Delete the last_word
-      $txt delete "insert-1c wordstart" "insert-1c wordend"
-
       # Call the snippet parser
-      SNIP__FLUSH_BUFFER
-      snip__scan_string $snippets(current,$last_word)
-      set ::snip_txt    $txt
-      set ::snip_begpos 0
-      set ::snip_endpos 0
-      if {![catch { snip_parse } rc] && ($rc == 0)} {
-        $txt insert insert {*}$::snip_value
-      } else {
-        puts "error: $rc"
-        puts -nonewline "string: "
-        puts [string map {\n {}} $snippets(current,$last_word)]
-        puts "errmsg: $::snip_errmsg"
-        puts "errstr: $::snip_errstr"
+      if {[set result [parse_snippet_new $snippets(current,$last_word)]] ne ""} {
+        
+        # Delete the last_word
+        $txt delete "insert-1c wordstart" "insert-1c wordend"
+
+        # Insert the text
+        $txt insert insert {*}$result
+        
+        # Traverse the inserted snippet
+        traverse_snippet $txt
+      
+        # Make sure that the whitespace character is not inserted into the widget
+        return 1
+
       }
       
-      # Traverse the inserted snippet
-      traverse_snippet $txt
-      
-      # Insert the new text in its place
-      # insert_snippet $txt $snippets(current,$last_word)
-
-      # Make sure that the whitespace character is not inserted into the widget
-      return 1
-
     }
 
     return 0
 
+  }
+  
+  ######################################################################
+  # Parses the given snippet string and returns
+  proc parse_snippet_new {str} {
+    
+    # Flush the parsing buffer
+    SNIP__FLUSH_BUFFER
+    
+    # Insert the string to scan
+    snip__scan_string $str
+    
+    # Initialize some values
+    set ::snip_txt    $txt
+    set ::snip_begpos 0
+    set ::snip_endpos 0
+    
+    # Parse the string
+    if {[catch { snip_parse } rc] || ($rc != 0)} {
+      puts "error: $rc"
+      puts -nonewline "string: "
+      puts [string map {\n {}} $snippets(current,$last_word)]
+      puts "errmsg: $::snip_errmsg"
+      puts "errstr: $::snip_errstr"
+      return ""
+    }
+    
+    return $::snip_value
+      
   }
 
   ######################################################################
