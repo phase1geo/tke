@@ -1,16 +1,42 @@
 %{
 source [file join $::tke_dir lib snip_lexer.tcl]
 
-set snip_txt     ""
-set snip_value   ""
-set snip_errmsg  ""
-set snip_errstr  ""
-set snip_pos     0
-set snip_matches [list]
+set snip_txt    ""
+set snip_value  ""
+set snip_errmsg ""
+set snip_errstr ""
+set snip_pos    0
 
 proc get_retval {args} {
   return [join $args {}]
 }
+
+proc parse_format {str matches} {
+
+  FORMAT__FLUSH_BUFFER
+
+  # Insert the string to scan
+  format__scan_string $str
+
+  # Initialize some values
+  set ::format_txt     $::snip_txt
+  set ::format_begpos  0
+  set ::format_endpos  0
+  set ::format_matches $matches
+
+  # Parse the string
+  if {[catch { format_parse } rc] || ($rc != 0)} {
+    puts "ERROR-format: $::format_errmsg"
+    puts -nonewline "line: "
+    puts [string map {\n {}} $str]
+    puts "      $::format_errstr"
+    return ""
+  }
+
+  return $::format_value
+
+}
+
 %}
 
 %token DECIMAL DOLLAR_SIGN VARNAME CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB
@@ -22,7 +48,7 @@ main: snippet {
         set ::snip_value $1
       }
       ;
-      
+
 snippet: snippet text {
            set _ [concat $1 [list $2 {}]]
            puts "A ($_)"
@@ -64,7 +90,7 @@ snippet: snippet text {
            puts "J ($_)"
          }
          ;
-         
+
 tabstop: DOLLAR_SIGN DECIMAL {
            set _ [list " " [snippets::set_tabstop $::snip_txt $2]]
          }
@@ -72,21 +98,21 @@ tabstop: DOLLAR_SIGN DECIMAL {
            set _ [list $5 [snippets::set_tabstop $::snip_txt $3 $5]]
          }
          ;
-         
+
 transform: DOLLAR_SIGN OPEN_BRACKET DECIMAL '/' pattern '/' format '/' opts CLOSE_BRACKET {
              if {[set val [snippets::get_tabstop $3]] ne ""} {
                set regexp_opts [list]
                if {[string first g $9] != -1} {
                  lappend regexp_opts -all
                }
-               set _ [regexp -inline {*}$regexp_opts -- $5 $val]
+               set _ [parse_format $7 [regexp -inline {*}$regexp_opts -- $5 $val]]
              } else {
                set _ [get_retval $1 $2 $3 $4 $5 $6 $7 $8 $9 $10]
              }
            }
          | DOLLAR_SIGN OPEN_BRACKET DECIMAL '/' pattern '/' format '/' CLOSE_BRACKET {
              if {[set val [snippets::get_tabstop $3]] ne ""} {
-               set _ [regexp -inline -- $5 $val]
+               set _ [parse_format $7 [regexp -inline -- $5 $val]]
              } else {
                set _ [get_retval $1 $2 $3 $4 $5 $6 $7 $8 $9 $10]
              }
@@ -99,15 +125,18 @@ variable: DOLLAR_SIGN varname {
         | DOLLAR_SIGN OPEN_BRACKET varname ':' value CLOSE_BRACKET {
             set _ [expr {($3 eq "") ? $5 : $3}]
           }
-        | DOLLAR_SIGN OPEN_BRACKET varname '/' pattern {
-            lappend ::snip_matches [regexp -inline -- $5 $3]
+        | DOLLAR_SIGN OPEN_BRACKET varname '/' pattern '/' format '/' opts CLOSE_BRACKET {
+            set regexp_opts [list]
+            if {[string first g $9] != -1} {
+              lappend regexp_opts "-all"
+            }
+            set _ [parse_format $7 [regexp -inline {*}$regexp_opts -- $5 $3]]
           }
-          '/' format '/' opts CLOSE_BRACKET {
-            set ::snip_matches [lreplace $::snip_matches end end]
-            set _ $8
+        | DOLLAR_SIGN OPEN_BRACKET varname '/' pattern '/' format '/' CLOSE_BRACKET {
+            set _ [parse_format $7 [regexp -inline {*}$regexp_opts -- $5 $3]]
           }
           ;
-          
+
 varname: VARNAME {
            set txt $::snip_txt
            switch $1 {
@@ -124,7 +153,7 @@ varname: VARNAME {
            }
          }
          ;
-         
+
 pattern: pattern CHAR {
            set _ "$1$2"
          }
@@ -166,7 +195,7 @@ pattern: pattern CHAR {
          }
        | OPEN_PAREN {
            set _ "("
-         }         
+         }
        | CLOSE_PAREN {
            set _ ")"
          }
@@ -174,7 +203,7 @@ pattern: pattern CHAR {
            set _ "?"
          }
          ;
-         
+
 opts: opts CHAR {
         set _ "$1$2"
       }
@@ -182,7 +211,7 @@ opts: opts CHAR {
         set _ $1
       }
       ;
-         
+
 value: value CHAR {
          set _ "$1$2"
        }
@@ -257,6 +286,9 @@ text: text CHAR {
     | text '?' {
         set _ "$1?"
       }
+    | text ':' {
+        set _ "$1:"
+      }
     | text OPEN_BRACKET {
         set _ "$1$2"
       }
@@ -287,6 +319,9 @@ text: text CHAR {
     | '?' {
         set _ "?"
       }
+    | ':' {
+        set _ ":"
+      }
     | OPEN_BRACKET {
         set _ $1
       }
@@ -294,12 +329,12 @@ text: text CHAR {
         set _ $1
       }
       ;
-     
+
 shell: '`' text '`' {
          set _ [expr {![catch "exec $2" rc] ? $rc : ""}]
        }
        ;
-       
+
 format: format CHAR {
           set _ "$1$2"
         }
@@ -319,7 +354,7 @@ format: format CHAR {
           set _ "$1$2"
         }
       | format DOLLAR_SIGN DECIMAL {
-          set _ [lindex $::snip_matches $3]
+          set _ "$1\$$3"
         }
       | CHAR {
           set _ $1
@@ -338,42 +373,34 @@ format: format CHAR {
         }
       | cond_insert {
           set _ $1
-        }  
+        }
       | DOLLAR_SIGN DECIMAL {
-          set _ [lindex $::snip_matches $2]
+          set _ "\$$2"
         }
         ;
-        
+
 case_fold: LOWER format {
-              set _ "[string tolower [string index $2 0]][string range $2 1 end]"
+              set _ "$1$2"
             }
           | UPPER format {
-              set _ [string totitle $2]
+              set _ "$1$2"
             }
           | LOWER_BLOCK format END_BLOCK {
-              set _ [string tolower $2]
+              set _ "$1$2$3"
             }
           | UPPER_BLOCK format END_BLOCK {
-              set _ [string toupper $2]
+              set _ "$1$2$3"
             }
             ;
-            
+
 cond_insert: OPEN_PAREN '?' DECIMAL ':' format CLOSE_PAREN {
-               if {[llength [lindex $::snip_matches end]] <= $3} {
-                 set _ $5
-               } else {
-                 set _ ""
-               }
+               set _ [get_retval $1 $2 $3 $4 $5 $6]
              }
            | OPEN_PAREN '?' DECIMAL ':' format ':' format CLOSE_PAREN {
-               if {[llength [lindex $::snip_matches end]] <= $3} {
-                 set _ $5
-               } else {
-                 set _ $7
-               }
+               set _ [get_retval $1 $2 $3 $4 $5 $6 $7 $8]
              }
              ;
-      
+
 %%
 
 rename snip_error snip_error_orig

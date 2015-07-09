@@ -874,7 +874,10 @@ namespace eval sidebar {
     }
 
     # Create the file
-    if {![catch { file mtime $fname [clock seconds] }]} {
+    if {![catch { open $fname w } rc]} {
+
+      # Close the file
+      close $rc
 
       # Expand the directory
       $widgets(tl) expand $row -partly
