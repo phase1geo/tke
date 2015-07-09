@@ -170,12 +170,12 @@ namespace eval snippets {
           incr i [string length $varname]
 
         } else {
-          
+
           incr i
-          
+
           # Handle a more complex dollar operator
           if {[string index $snippet $i] eq "\{"} {
-            
+
             incr in_dollar
             incr i
 
@@ -329,75 +329,74 @@ namespace eval snippets {
     if {[info exists snippets(current,$last_word)]} {
 
       # Call the snippet parser
-      if {[set result [parse_snippet_new $snippets(current,$last_word)]] ne ""} {
-        
+      if {[set result [parse_snippet_new $txt $snippets(current,$last_word)]] ne ""} {
+
         # Delete the last_word
         $txt delete "insert-1c wordstart" "insert-1c wordend"
 
         # Insert the text
         $txt insert insert {*}$result
-        
+
         # Traverse the inserted snippet
         traverse_snippet $txt
-      
+
         # Make sure that the whitespace character is not inserted into the widget
         return 1
 
       }
-      
+
     }
 
     return 0
 
   }
-  
+
   ######################################################################
   # Parses the given snippet string and returns
-  proc parse_snippet_new {str} {
-    
+  proc parse_snippet_new {txt str} {
+
     # Flush the parsing buffer
     SNIP__FLUSH_BUFFER
-    
+
     # Insert the string to scan
     snip__scan_string $str
-    
+
     # Initialize some values
     set ::snip_txt    $txt
     set ::snip_begpos 0
     set ::snip_endpos 0
-    
+
     # Parse the string
     if {[catch { snip_parse } rc] || ($rc != 0)} {
-      puts "error: $rc"
-      puts -nonewline "string: "
-      puts [string map {\n {}} $snippets(current,$last_word)]
-      puts "errmsg: $::snip_errmsg"
-      puts "errstr: $::snip_errstr"
+      puts "ERROR-snippet: $::snip_errmsg"
+      puts -nonewline "line: "
+      puts [string map {\n {}} $str]
+      puts "      $::snip_errstr"
       return ""
     }
-    
+
     return $::snip_value
-      
+
   }
 
   ######################################################################
   # Creates a tab stop or tab mirror.
   proc set_tabstop {txt index {default_value ""}} {
-    
+
     variable tabpoints
     variable within
-    
+
     # Indicate that the text widget contains a tabstop
     set within($txt) 1
-    
+
     # Set the lowest tabpoint value
     if {($index > 0) && (![info exists tabpoints($txt)] || ($tabpoints($txt) > $index))} {
       set tabpoints($txt) $index
     }
-    
+
     # Get the list of tags
     set tags [$txt tag names]
-    
+
     if {[lsearch -regexp $tags snippet_(sel|mark)_$index] != -1} {
       if {[lsearch $tags snippet_mirror_$index] == -1} {
         $txt tag configure snippet_mirror_$index -elide 1
@@ -412,16 +411,16 @@ namespace eval snippets {
         return "snippet_sel_$index"
       }
     }
-    
+
   }
-  
+
   ######################################################################
   proc get_tabstop {txt index} {
-    
+
     return ""
-    
+
   }
-  
+
   ######################################################################
   # Inserts the given snippet into the text widget, adhering to indentation.
   proc insert_snippet {txt snippet} {
@@ -445,15 +444,15 @@ namespace eval snippets {
     $txt tag add snippet_raw $insert_index "$insert_index+[string length $snip(raw_string)]c"
 
     puts "tabs: $snip(tabs)"
-    
+
     # Create the tab point selection tags
     foreach tab $snip(tabs) {
       $txt tag add [lindex $tab 0] "$insert_index+[lindex $tab 1]c" "$insert_index+[lindex $tab 2]c"
       set within($txt) 1
     }
-    
+
     puts "dynamics: $snip(dynamics)"
-    
+
     # Insert the dynamics into the raw string
     foreach dynamic [lreverse $snip(dynamics)] {
       if {[lindex $dynamic 0] eq "var"} {
@@ -506,20 +505,20 @@ namespace eval snippets {
   # Converts the given format with the matches value and returns the
   # result as a string.
   proc convert_format {fmt opts matches} {
-    
+
     puts "In convert_format, fmt: $fmt, opts: $opts, matches: $matches"
-    
+
     set str       ""
     set in_case   ""
     set in_paren  0
     set ignore    0
     set match_len [llength $matches]
-    
+
     set i 0
     while {$i < [string length $fmt]} {
-      
+
       set char [string index $fmt $i]
-      
+
       # Handle a capture
       if {!$ignore && [regexp {^\$(\d+)} [string range $fmt $i end] -> var]} {
         set match [lindex $matches $var]
@@ -544,7 +543,7 @@ namespace eval snippets {
           }
         }
         incr i [string length $var]
-        
+
       # Handle case folders and escape codes
       } elseif {!$ignore && ($char eq "\\")} {
         set char [string index $fmt [incr i]]
@@ -558,36 +557,36 @@ namespace eval snippets {
           append str "\\"
           incr i -1
         }
-        
-      # Handle start of condition insertion 
+
+      # Handle start of condition insertion
       } elseif {!$ignore && !$in_paren && [regexp {^\(\?(\d+):} [string range $fmt $i end] -> var]} {
         set in_paren 1
         set ignore   [expr $var >= $match_len]
         incr i [expr [string length $var] + 2]
-        
+
       # Switch to otherwise portion of an insertion
       } elseif {$in_paren && ($char eq ":")} {
         set in_paren 2
         set ignore   [expr $ignore ^ 1]
-        
+
       # We have come to the end of conditional insertion
       } elseif {$in_paren && ($char eq ")")} {
         set in_paren 0
         set ignore   0
-        
+
       # Everything else should get appended to str if we are not being ignored
       } elseif {!$ignore} {
         append str $char
       }
-      
+
       incr i
-      
+
     }
-    
+
     return $str
-    
+
   }
-  
+
   # Inserts the given snippet into the current text widget, adhering to
   # indentation rules.
   proc insert_snippet_into_current {tid snippet} {
@@ -619,7 +618,7 @@ namespace eval snippets {
     variable tabpoints
     variable within
     variable tabstart
-    
+
     if {[info exists tabpoints($txt)]} {
 
       # Update any mirrored tab points
@@ -630,12 +629,12 @@ namespace eval snippets {
           $txt insert $startpos $mirrored_value
         }
       }
-  
+
       # Remove the selection
       $txt tag remove sel 1.0 end
-       
+
       # puts "In traverse_snippet, tabpoints: $tabpoints($txt)"
-  
+
       # Find the current tab point tag
       if {[llength [set range [$txt tag ranges snippet_sel_$tabpoints($txt)]]] == 2} {
         $txt tag add sel {*}$range
@@ -653,10 +652,10 @@ namespace eval snippets {
         set tabstart($txt) [lindex $range 0]
         set within($txt)   0
       }
-  
+
       # Increment the tabpoint
       incr tabpoints($txt)
-      
+
     }
 
   }
@@ -674,7 +673,9 @@ namespace eval snippets {
 
     # If the snippet file does not exist, create the file
     if {![file exists [set fname [file join $snippets_dir $language.snippets]]]} {
-      file mtime $fname [clock seconds]
+      if {![catch { open $fname w } rc]} {
+        close $rc
+      }
     }
 
     # Add the snippet file to the editor
