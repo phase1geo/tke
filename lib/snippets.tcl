@@ -311,6 +311,7 @@ namespace eval snippets {
 
     variable snippets
     variable within
+    variable tabpoints
 
     # If the given key symbol is not one of the snippet completers, stop now
     if {[lsearch [[ns preferences]::get Editor/SnippetCompleters] [string tolower $keysym]] == -1} {
@@ -327,6 +328,9 @@ namespace eval snippets {
 
     # If the snippet exists, perform the replacement.
     if {[info exists snippets(current,$last_word)]} {
+
+      # Initialize tabpoints
+      set tabpoints($txt) 1
 
       # Call the snippet parser
       if {[set result [parse_snippet_new $txt $snippets(current,$last_word)]] ne ""} {
@@ -368,10 +372,11 @@ namespace eval snippets {
 
     # Parse the string
     if {[catch { snip_parse } rc] || ($rc != 0)} {
-      puts "ERROR-snippet: $::snip_errmsg"
+      puts "ERROR-snippet: $::snip_errmsg ($rc)"
       puts -nonewline "line: "
       puts [string map {\n {}} $str]
       puts "      $::snip_errstr"
+      puts "$::errorInfo"
       return ""
     }
 
@@ -386,11 +391,13 @@ namespace eval snippets {
     variable tabpoints
     variable within
 
+    puts "In set_tabstop, txt: $txt, index: $index"
+
     # Indicate that the text widget contains a tabstop
     set within($txt) 1
 
     # Set the lowest tabpoint value
-    if {($index > 0) && (![info exists tabpoints($txt)] || ($tabpoints($txt) > $index))} {
+    if {($index > 0) && ($tabpoints($txt) > $index)} {
       set tabpoints($txt) $index
     }
 
@@ -619,6 +626,8 @@ namespace eval snippets {
     variable within
     variable tabstart
 
+    puts "In traverse_snippet, tabpoints exist: [info exists tabpoints($txt)]"
+
     if {[info exists tabpoints($txt)]} {
 
       # Update any mirrored tab points
@@ -633,7 +642,7 @@ namespace eval snippets {
       # Remove the selection
       $txt tag remove sel 1.0 end
 
-      # puts "In traverse_snippet, tabpoints: $tabpoints($txt)"
+      puts "In traverse_snippet, tabpoints: $tabpoints($txt)"
 
       # Find the current tab point tag
       if {[llength [set range [$txt tag ranges snippet_sel_$tabpoints($txt)]]] == 2} {

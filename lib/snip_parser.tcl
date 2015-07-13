@@ -25,7 +25,7 @@ proc parse_format {str matches} {
 
   # Parse the string
   if {[catch { format_parse } rc] || ($rc != 0)} {
-    puts "ERROR: $::format_errmsg"
+    puts "ERROR-format: $::format_errmsg ($rc)"
     puts -nonewline "line: "
     puts [string map {\n {}} $str]
     puts "      $::format_errstr"
@@ -3302,103 +3302,103 @@ array set ::snip_rules {
 }
 
 array set ::snip_rules {
-  41,line 224
-  96,line 399
-  7,line 76
-  37,line 210
-  93,line 388
-  4,line 64
-  34,line 199
-  90,line 377
-  89,line 374
+  41,line 214
+  96,line 389
+  7,line 70
+  37,line 200
+  93,line 378
+  4,line 61
+  34,line 189
+  90,line 367
+  89,line 364
   1,line 50
-  31,line 190
-  86,line 365
-  27,line 178
-  83,line 356
-  24,line 169
-  80,line 347
-  79,line 344
-  21,line 160
-  76,line 331
-  17,line 128
-  73,line 322
-  14,line 113
-  70,line 313
-  69,line 310
-  11,line 92
-  66,line 301
-  63,line 292
-  60,line 283
-  59,line 280
-  56,line 271
-  53,line 260
-  50,line 251
-  49,line 248
-  46,line 239
-  43,line 230
-  9,line 84
-  40,line 221
-  39,line 218
-  95,line 394
-  6,line 72
-  36,line 205
-  92,line 385
-  3,line 60
-  33,line 196
-  88,line 371
-  29,line 184
-  30,line 187
-  85,line 362
-  26,line 175
-  82,line 353
-  23,line 166
-  78,line 341
-  19,line 138
-  20,line 155
-  75,line 328
-  16,line 125
-  72,line 319
-  13,line 100
-  68,line 307
-  10,line 88
-  65,line 298
-  62,line 289
-  58,line 277
-  55,line 268
-  52,line 257
-  48,line 245
-  45,line 236
-  42,line 227
-  97,line 402
-  8,line 80
-  38,line 213
-  94,line 391
-  5,line 68
-  35,line 202
-  91,line 380
-  2,line 56
-  32,line 193
-  87,line 368
-  28,line 181
-  84,line 359
-  25,line 172
-  81,line 350
-  22,line 163
-  77,line 336
-  18,line 135
-  74,line 325
-  15,line 120
-  71,line 316
-  12,line 97
-  67,line 304
-  64,line 295
-  61,line 286
-  57,line 274
-  54,line 263
-  51,line 254
-  47,line 242
-  44,line 233
+  31,line 180
+  86,line 355
+  27,line 168
+  83,line 346
+  24,line 159
+  80,line 337
+  79,line 334
+  21,line 150
+  76,line 321
+  17,line 118
+  73,line 312
+  14,line 103
+  70,line 303
+  69,line 300
+  11,line 82
+  66,line 291
+  63,line 282
+  60,line 273
+  59,line 270
+  56,line 261
+  53,line 250
+  50,line 241
+  49,line 238
+  46,line 229
+  43,line 220
+  9,line 76
+  40,line 211
+  39,line 208
+  95,line 384
+  6,line 67
+  36,line 195
+  92,line 375
+  3,line 58
+  33,line 186
+  88,line 361
+  29,line 174
+  30,line 177
+  85,line 352
+  26,line 165
+  82,line 343
+  23,line 156
+  78,line 331
+  19,line 128
+  20,line 145
+  75,line 318
+  16,line 115
+  72,line 309
+  13,line 90
+  68,line 297
+  10,line 79
+  65,line 288
+  62,line 279
+  58,line 267
+  55,line 258
+  52,line 247
+  48,line 235
+  45,line 226
+  42,line 217
+  97,line 392
+  8,line 73
+  38,line 203
+  94,line 381
+  5,line 64
+  35,line 192
+  91,line 370
+  2,line 55
+  32,line 183
+  87,line 358
+  28,line 171
+  84,line 349
+  25,line 162
+  81,line 340
+  22,line 153
+  77,line 326
+  18,line 125
+  74,line 315
+  15,line 110
+  71,line 306
+  12,line 87
+  67,line 294
+  64,line 285
+  61,line 276
+  57,line 264
+  54,line 253
+  51,line 244
+  47,line 232
+  44,line 223
 }
 
 proc snip_parse {} {
@@ -3464,43 +3464,33 @@ proc snip_parse {} {
        }
                     2 { 
            set _ [concat $1 [list $2 {}]]
-           puts "A ($_)"
           }
                     3 { 
            set _ [concat $1 [list $2 {}]]
-           puts "B ($_)"
           }
                     4 { 
            set _ [concat $1 [list $2 {}]]
-           puts "C ($_)"
           }
                     5 { 
            set _ [concat $1 $2]
-           puts "D ($_)"
           }
                     6 { 
            set _ [concat $1 [list $2 {}]]
-           puts "E ($_)"
           }
                     7 { 
            set _ [list $1 {}]
-           puts "F ($_)"
           }
                     8 { 
            set _ [list $1 {}]
-           puts "G ($_)"
           }
                     9 { 
            set _ [list $1 {}]
-           puts "H ($_)"
           }
                     10 { 
            set _ $1
-           puts "I ($_)"
           }
                     11 { 
            set _ [list $1 {}]
-           puts "J ($_)"
           }
                     12 { 
            set _ [list " " [snippets::set_tabstop $::snip_txt $2]]
@@ -3540,7 +3530,7 @@ proc snip_parse {} {
             set _ [parse_format $7 [regexp -inline {*}$regexp_opts -- $5 $3]]
            }
                     19 { 
-            set _ [parse_format $7 [regexp -inline {*}$regexp_opts -- $5 $3]]
+            set _ [parse_format $7 [regexp -inline -- $5 $3]]
            }
                     20 { 
            set txt $::snip_txt
