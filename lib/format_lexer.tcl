@@ -316,81 +316,81 @@ proc format_lex {} {
         }
         switch -- $format__matched_rule {
             0 {
-set ::snip_lval $snip_text
-  set ::snip_begpos $::snip_endpos
-  incr ::snip_endpos [string length $snip_text]
+set ::format_lval $format_text
+  set ::format_begpos $::format_endpos
+  incr ::format_endpos [string length $format_text]
   return $::CHAR
             }
             1 {
-set ::snip_lval $snip_text
-  set ::snip_begpos $::snip_endpos
-  incr ::snip_endpos [string length $snip_text]
-  switch [string index $snip_text 1] {
+set ::format_lval $format_text
+  set ::format_begpos $::format_endpos
+  incr ::format_endpos [string length $format_text]
+  switch [string index $format_text 1] {
     l       { return $::LOWER }
     u       { return $::UPPER }
     L       { return $::LOWER_BLOCK }
     U       { return $::UPPER_BLOCK }
     E       { return $::END_BLOCK }
-    n       { return $::NEWLINE }
+    n       { puts {Found NEWLINE}; return $::NEWLINE }
     t       { return $::TAB }
     default {
-      set ::snip_lval $snip_text
+      set ::format_lval $format_text
       return $::CHAR
     }
   }
             }
             2 {
-set ::snip_lval $snip_text
-  set ::snip_begpos $::snip_endpos
-  incr ::snip_endpos
+set ::format_lval $format_text
+  set ::format_begpos $::format_endpos
+  incr ::format_endpos
   return $::DOLLAR_SIGN
             }
             3 {
-set ::snip_lval $snip_text
-  set ::snip_begpos $::snip_endpos
-  incr ::snip_endpos
+set ::format_lval $format_text
+  set ::format_begpos $::format_endpos
+  incr ::format_endpos
   return $::OPEN_BRACKET
             }
             4 {
-set ::snip_lval $snip_text
-  set ::snip_begpos $::snip_endpos
-  incr ::snip_endpos
+set ::format_lval $format_text
+  set ::format_begpos $::format_endpos
+  incr ::format_endpos
   return $::CLOSE_BRACKET
             }
             5 {
-set ::snip_lval $snip_text
-  set ::snip_begpos $::snip_endpos
-  incr ::snip_endpos
+set ::format_lval $format_text
+  set ::format_begpos $::format_endpos
+  incr ::format_endpos
   return $::OPEN_PAREN
             }
             6 {
-set ::snip_lval $snip_text
-  set ::snip_begpos $::snip_endpos
-  incr ::snip_endpos
+set ::format_lval $format_text
+  set ::format_begpos $::format_endpos
+  incr ::format_endpos
   return $::CLOSE_PAREN
             }
             7 {
-set ::snip_lval $snip_text
-  set ::snip_begpos $::snip_endpos
-  incr ::snip_endpos
-  return $snip_text
+set ::format_lval $format_text
+  set ::format_begpos $::format_endpos
+  incr ::format_endpos
+  return $format_text
             }
             8 {
-set ::snip_lval $snip_text
-  set ::snip_begpos $::snip_endpos
-  incr ::snip_endpos [string length $snip_text]
+set ::format_lval $format_text
+  set ::format_begpos $::format_endpos
+  incr ::format_endpos [string length $format_text]
   return $::DECIMAL
             }
             9 {
-set ::snip_lval $snip_text
-  set ::snip_begpos $::snip_endpos
-  incr ::snip_endpos [string length $snip_text]
+set ::format_lval $format_text
+  set ::format_begpos $::format_endpos
+  incr ::format_endpos [string length $format_text]
   return $::VARNAME
             }
             10 {
-set ::snip_lval $snip_text
-  set ::snip_begpos $::snip_endpos
-  incr ::snip_endpos [string length $snip_text]
+set ::format_lval $format_text
+  set ::format_begpos $::format_endpos
+  incr ::format_endpos [string length $format_text]
   return $::CHAR
             }
             default

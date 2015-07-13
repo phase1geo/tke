@@ -7,27 +7,27 @@ source [file join $::tke_dir lib format_parser.tab.tcl]
 %%
 
 [ \n\t\b\f]+ {
-  set ::snip_lval $snip_text
-  set ::snip_begpos $::snip_endpos
-  incr ::snip_endpos [string length $snip_text]
+  set ::format_lval $format_text
+  set ::format_begpos $::format_endpos
+  incr ::format_endpos [string length $format_text]
   return $::CHAR
 }
 
   # Handle escape sequences
 \\[luLUEnt\$] {
-  set ::snip_lval $snip_text
-  set ::snip_begpos $::snip_endpos
-  incr ::snip_endpos [string length $snip_text]
-  switch [string index $snip_text 1] {
+  set ::format_lval $format_text
+  set ::format_begpos $::format_endpos
+  incr ::format_endpos [string length $format_text]
+  switch [string index $format_text 1] {
     l       { return $::LOWER }
     u       { return $::UPPER }
     L       { return $::LOWER_BLOCK }
     U       { return $::UPPER_BLOCK }
     E       { return $::END_BLOCK }
-    n       { return $::NEWLINE }
+    n       { puts {Found NEWLINE}; return $::NEWLINE }
     t       { return $::TAB }
     default {
-      set ::snip_lval $snip_text
+      set ::format_lval $format_text
       return $::CHAR
     }
   }
@@ -35,73 +35,73 @@ source [file join $::tke_dir lib format_parser.tab.tcl]
 
   # Special-case the dollar sign character
 \$ {
-  set ::snip_lval $snip_text
-  set ::snip_begpos $::snip_endpos
-  incr ::snip_endpos
+  set ::format_lval $format_text
+  set ::format_begpos $::format_endpos
+  incr ::format_endpos
   return $::DOLLAR_SIGN
 }
 
   # Handle the open bracket character
 \{ {
-  set ::snip_lval $snip_text
-  set ::snip_begpos $::snip_endpos
-  incr ::snip_endpos
+  set ::format_lval $format_text
+  set ::format_begpos $::format_endpos
+  incr ::format_endpos
   return $::OPEN_BRACKET
 }
 
   # Handle the close bracket character
 \} {
-  set ::snip_lval $snip_text
-  set ::snip_begpos $::snip_endpos
-  incr ::snip_endpos
+  set ::format_lval $format_text
+  set ::format_begpos $::format_endpos
+  incr ::format_endpos
   return $::CLOSE_BRACKET
 }
 
   # Handle the open parenthesis character
 \( {
-  set ::snip_lval $snip_text
-  set ::snip_begpos $::snip_endpos
-  incr ::snip_endpos
+  set ::format_lval $format_text
+  set ::format_begpos $::format_endpos
+  incr ::format_endpos
   return $::OPEN_PAREN
 }
 
   # Handle the close parenthesis character
 \) {
-  set ::snip_lval $snip_text
-  set ::snip_begpos $::snip_endpos
-  incr ::snip_endpos
+  set ::format_lval $format_text
+  set ::format_begpos $::format_endpos
+  incr ::format_endpos
   return $::CLOSE_PAREN
 }
 
   # Single character symbols
 [`:/\?] {
-  set ::snip_lval $snip_text
-  set ::snip_begpos $::snip_endpos
-  incr ::snip_endpos
-  return $snip_text
+  set ::format_lval $format_text
+  set ::format_begpos $::format_endpos
+  incr ::format_endpos
+  return $format_text
 }
 
   # Decimal number
 [0-9][0-9]* {
-  set ::snip_lval $snip_text
-  set ::snip_begpos $::snip_endpos
-  incr ::snip_endpos [string length $snip_text]
+  set ::format_lval $format_text
+  set ::format_begpos $::format_endpos
+  incr ::format_endpos [string length $format_text]
   return $::DECIMAL
 }
 
   # Variable names
 (CLIPBOARD|CURRENT_LINE|CURRENT_WORD|DIRECTORY|FILEPATH|FILENAME|LINE_INDEX|LINE_NUMBER|CURRENT_DATE) {
-  set ::snip_lval $snip_text
-  set ::snip_begpos $::snip_endpos
-  incr ::snip_endpos [string length $snip_text]
+  set ::format_lval $format_text
+  set ::format_begpos $::format_endpos
+  incr ::format_endpos [string length $format_text]
   return $::VARNAME
 }
 
   # Final catch-all
 . {
-  set ::snip_lval $snip_text
-  set ::snip_begpos $::snip_endpos
-  incr ::snip_endpos [string length $snip_text]
+  set ::format_lval $format_text
+  set ::format_begpos $::format_endpos
+  incr ::format_endpos [string length $format_text]
   return $::CHAR
 }
 

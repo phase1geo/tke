@@ -35,6 +35,9 @@ format: format CHAR {
       | format DECIMAL {
           set _ "$1$2"
         }
+      | format '?' {
+          set _ "$1?"
+        }
       | format case_fold {
           set _ "$1$2"
         }
@@ -55,6 +58,9 @@ format: format CHAR {
         }
       | DECIMAL {
           set _ $1
+        }
+      | '?' {
+          set _ "?"
         }
       | case_fold {
           set _ $1

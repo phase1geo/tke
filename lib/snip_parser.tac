@@ -26,7 +26,7 @@ proc parse_format {str matches} {
 
   # Parse the string
   if {[catch { format_parse } rc] || ($rc != 0)} {
-    puts "ERROR-format: $::format_errmsg"
+    puts "ERROR-format: $::format_errmsg ($rc)"
     puts -nonewline "line: "
     puts [string map {\n {}} $str]
     puts "      $::format_errstr"
@@ -51,43 +51,33 @@ main: snippet {
 
 snippet: snippet text {
            set _ [concat $1 [list $2 {}]]
-           puts "A ($_)"
          }
        | snippet variable {
            set _ [concat $1 [list $2 {}]]
-           puts "B ($_)"
          }
        | snippet transform {
            set _ [concat $1 [list $2 {}]]
-           puts "C ($_)"
          }
        | snippet tabstop {
            set _ [concat $1 $2]
-           puts "D ($_)"
          }
        | snippet shell {
            set _ [concat $1 [list $2 {}]]
-           puts "E ($_)"
          }
        | text {
            set _ [list $1 {}]
-           puts "F ($_)"
          }
        | variable {
            set _ [list $1 {}]
-           puts "G ($_)"
          }
        | transform {
            set _ [list $1 {}]
-           puts "H ($_)"
          }
        | tabstop {
            set _ $1
-           puts "I ($_)"
          }
        | shell {
            set _ [list $1 {}]
-           puts "J ($_)"
          }
          ;
 
@@ -133,7 +123,7 @@ variable: DOLLAR_SIGN varname {
             set _ [parse_format $7 [regexp -inline {*}$regexp_opts -- $5 $3]]
           }
         | DOLLAR_SIGN OPEN_BRACKET varname '/' pattern '/' format '/' CLOSE_BRACKET {
-            set _ [parse_format $7 [regexp -inline {*}$regexp_opts -- $5 $3]]
+            set _ [parse_format $7 [regexp -inline -- $5 $3]]
           }
           ;
 
