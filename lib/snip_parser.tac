@@ -56,7 +56,7 @@ snippet: snippet text {
            set _ [concat $1 [list $2 {}]]
          }
        | snippet transform {
-           set _ [concat $1 [list $2 {}]]
+           set _ [concat $1 $2]
          }
        | snippet tabstop {
            set _ [concat $1 $2]
@@ -71,7 +71,7 @@ snippet: snippet text {
            set _ [list $1 {}]
          }
        | transform {
-           set _ [list $1 {}]
+           set _ $1
          }
        | tabstop {
            set _ $1
@@ -90,21 +90,21 @@ tabstop: DOLLAR_SIGN DECIMAL {
          ;
 
 transform: DOLLAR_SIGN OPEN_BRACKET DECIMAL '/' pattern '/' format '/' opts CLOSE_BRACKET {
-             if {[set val [snippets::get_tabstop $3]] ne ""} {
+             if {[set val [snippets::get_tabstop $::snip_txt $3]] ne ""} {
                set regexp_opts [list]
                if {[string first g $9] != -1} {
                  lappend regexp_opts -all
                }
-               set _ [parse_format $7 [regexp -inline {*}$regexp_opts -- $5 $val]]
+               set _ [list [parse_format $7 [regexp -inline {*}$regexp_opts -- $5 $val]] [list]]
              } else {
-               set _ [get_retval $1 $2 $3 $4 $5 $6 $7 $8 $9 $10]
+               set _ [list [get_retval $1 $2 $3 $4 $5 $6 $7 $8 $9 $10] [snippets::set_tabstop $::snip_txt $3]]
              }
            }
          | DOLLAR_SIGN OPEN_BRACKET DECIMAL '/' pattern '/' format '/' CLOSE_BRACKET {
-             if {[set val [snippets::get_tabstop $3]] ne ""} {
-               set _ [parse_format $7 [regexp -inline -- $5 $val]]
+             if {[set val [snippets::get_tabstop $::snip_txt $3]] ne ""} {
+               set _ [list [parse_format $7 [regexp -inline -- $5 $val]] [list]]
              } else {
-               set _ [get_retval $1 $2 $3 $4 $5 $6 $7 $8 $9 $10]
+               set _ [list [get_retval $1 $2 $3 $4 $5 $6 $7 $8 $9] [snippets::set_tabstop $::snip_txt $3]]
              }
            }
            ;
@@ -337,6 +337,9 @@ format: format CHAR {
       | format DECIMAL {
           set _ "$1$2"
         }
+      | format '?' {
+          set _ "$1?"
+        }
       | format case_fold {
           set _ "$1$2"
         }
@@ -357,6 +360,9 @@ format: format CHAR {
         }
       | DECIMAL {
           set _ $1
+        }
+      | '?' {
+          set _ "?"
         }
       | case_fold {
           set _ $1
