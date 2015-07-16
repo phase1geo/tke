@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="tke_logo_128.gif"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">TKE
-   &#160;<span id="projectnumber">1.7</span>
+   &#160;<span id="projectnumber">1.8</span>
    </div>
    <div id="projectbrief">Advanced editor written in Tcl/Tk</div>
   </td>
@@ -223,7 +223,7 @@ Functions</h2></td></tr>
       </div>
 <div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;      -command &quot;lang::show_hide_xlates&quot;]<span class="comment">
 </span></div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;<span class="comment"></span>    ttk::button .bf.upd    -text &quot;Update&quot; -width 6 -command &quot;set ::update_lang 1; set ::update_done 1&quot;<span class="comment">
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;<span class="comment"></span>    <span class="keyword">set</span> widgets(update) [ttk::button .bf.upd -text &quot;Update&quot; -width 6 -command &quot;set ::update_lang 1; set ::update_done 1&quot;]<span class="comment">
 </span></div>
 <div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;<span class="comment"></span>    ttk::button .bf.cancel -text &quot;Cancel&quot; -width 6 -command &quot;set ::update_done 1&quot;<span class="comment">
 </span></div>
@@ -582,55 +582,59 @@ Functions</h2></td></tr>
     </div>
 <div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;    <span class="comment"># Disable the &quot;Add Translations&quot; button from being clicked again
 </span></div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;<span class="comment"></span><span class="comment">    </span>$widgets(xlate) configure -state disabled<span class="comment">
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;<span class="comment"></span><span class="comment">    </span>$widgets(xlate)  configure -state disabled<span class="comment">
 </span></div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;<span class="comment"></span>    $widgets(update) configure -state disabled<span class="comment">
+</span></div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;<span class="comment"></span>    
     </div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;    <span class="comment"># Get any selected rows
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;    <span class="comment"># Get any selected rows
 </span></div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> selected [$widgets(tbl) curselection]<span class="comment">
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> selected [$widgets(tbl) curselection]<span class="comment">
 </span></div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;<span class="comment"></span>    
     </div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;    <span class="keyword">if</span> {[<span class="keyword">catch</span> {
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;    <span class="keyword">if</span> {[<span class="keyword">catch</span> {
         </div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;        <span class="keyword">if</span> {[<span class="keyword">llength</span> $selected] &gt; 0} {
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;        <span class="keyword">if</span> {[<span class="keyword">llength</span> $selected] &gt; 0} {
           </div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;          <span class="keyword">foreach</span> row $selected {
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;          <span class="keyword">foreach</span> row $selected {
             </div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;            <a class="code" href="namespacelang.html#a90e4278d77eedd66058621c4cdd99335" title="lang::perform_translation">perform_translation</a> $row $lang<span class="comment">
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;            <a class="code" href="namespacelang.html#a90e4278d77eedd66058621c4cdd99335" title="lang::perform_translation">perform_translation</a> $row $lang<span class="comment">
 </span></div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;<span class="comment"></span>          }<span class="comment">
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;<span class="comment"></span>          }<span class="comment">
 </span></div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;<span class="comment"></span>        } <span class="keyword">else</span> {
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;<span class="comment"></span>        } <span class="keyword">else</span> {
           </div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;          <span class="keyword">for</span> {<span class="keyword">set</span> i 0} {$i &lt; [$widgets(tbl) size]} {<span class="keyword">incr</span> i} {
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;          <span class="keyword">for</span> {<span class="keyword">set</span> i 0} {$i &lt; [$widgets(tbl) size]} {<span class="keyword">incr</span> i} {
             </div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;            <span class="keyword">if</span> {[$widgets(tbl) cellcget $i,xlate -text] eq &quot;&quot;} {
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;            <span class="keyword">if</span> {[$widgets(tbl) cellcget $i,xlate -text] eq &quot;&quot;} {
               </div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;              <a class="code" href="namespacelang.html#a90e4278d77eedd66058621c4cdd99335" title="lang::perform_translation">perform_translation</a> $i $lang<span class="comment">
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;              <a class="code" href="namespacelang.html#a90e4278d77eedd66058621c4cdd99335" title="lang::perform_translation">perform_translation</a> $i $lang<span class="comment">
 </span></div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;<span class="comment"></span>            }<span class="comment">
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;<span class="comment"></span>            }<span class="comment">
 </span></div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;<span class="comment"></span>          }<span class="comment">
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;<span class="comment"></span>          }<span class="comment">
 </span></div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;<span class="comment"></span>        }<span class="comment">
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;<span class="comment"></span>        }<span class="comment">
 </span></div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;<span class="comment"></span>      } rc]} {
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;<span class="comment"></span>      } rc]} {
       </div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;      <span class="keyword">tk_messageBox</span> -parent . -default ok -message &quot;Translation error&quot; -detail $rc -type ok<span class="comment">
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;      <span class="keyword">tk_messageBox</span> -parent . -default ok -message &quot;Translation error&quot; -detail $rc -type ok<span class="comment">
 </span></div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;<span class="comment"></span>    }<span class="comment">
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;<span class="comment"></span>    }<span class="comment">
 </span></div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;<span class="comment"></span>    
     </div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;    <span class="comment"># Enable the &#39;Add Translations&#39; button
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;    <span class="comment"># Enable the &#39;Add Translations&#39; button
 </span></div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;<span class="comment"></span><span class="comment">    </span>$widgets(xlate) configure -state normal<span class="comment">
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;<span class="comment"></span><span class="comment">    </span>$widgets(xlate)  configure -state normal<span class="comment">
 </span></div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;<span class="comment"></span>    $widgets(update) configure -state normal<span class="comment">
+</span></div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;<span class="comment"></span>    
   </div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;  }</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -824,52 +828,52 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="lang_8tcl_source.html#l00371">371</a> of file <a class="el" href="lang_8tcl_source.html">lang.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;  <span class="keyword">proc</span> update_langs {langs} {
+<p>Definition at line <a class="el" href="lang_8tcl_source.html#l00373">373</a> of file <a class="el" href="lang_8tcl_source.html">lang.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;  <span class="keyword">proc</span> update_langs {langs} {
     
     </div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;    
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;    
     </div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;    <span class="keyword">variable</span> xlates<span class="comment">
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;    <span class="keyword">variable</span> xlates<span class="comment">
 </span></div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;<span class="comment"></span>    
     </div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;    <span class="comment"># Read the current msgcat information from the source files
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;    <span class="comment"># Read the current msgcat information from the source files
 </span></div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;<span class="comment"></span><span class="comment">    </span><a class="code" href="namespacelang.html#a3ddaabee9f3973b44a184175d1ad6602" title="lang::gather_msgcat">gather_msgcat</a><span class="comment">
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;<span class="comment"></span><span class="comment">    </span><a class="code" href="namespacelang.html#a3ddaabee9f3973b44a184175d1ad6602" title="lang::gather_msgcat">gather_msgcat</a><span class="comment">
 </span></div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;<span class="comment"></span>    
     </div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;    <span class="comment"># For each language, perform the update
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;    <span class="comment"># For each language, perform the update
 </span></div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">foreach</span> lang $langs {
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">foreach</span> lang $langs {
       
       </div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;      
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;      
       </div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;      <span class="comment"># Read in the language, if it exists
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;      <span class="comment"># Read in the language, if it exists
 </span></div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;<span class="comment"></span><span class="comment">      </span><a class="code" href="namespacelang.html#a050f6b291cfd8911fa82e8387e4343eb" title="lang::fetch_lang">fetch_lang</a> $lang<span class="comment">
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;<span class="comment"></span><span class="comment">      </span><a class="code" href="namespacelang.html#a050f6b291cfd8911fa82e8387e4343eb" title="lang::fetch_lang">fetch_lang</a> $lang<span class="comment">
 </span></div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;<span class="comment"></span>      
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;<span class="comment"></span>      
       </div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;      <span class="comment"># Update the UI with the current language information
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;      <span class="comment"># Update the UI with the current language information
 </span></div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;<span class="comment"></span><span class="comment">      </span><a class="code" href="namespacelang.html#a15e2bbb134e4fbb77fd0d1d05022f681" title="lang::populate_ui">populate_ui</a> $lang<span class="comment">
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;<span class="comment"></span><span class="comment">      </span><a class="code" href="namespacelang.html#a15e2bbb134e4fbb77fd0d1d05022f681" title="lang::populate_ui">populate_ui</a> $lang<span class="comment">
 </span></div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;<span class="comment"></span>      
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;<span class="comment"></span>      
     </div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;    }<span class="comment">
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;    }<span class="comment">
 </span></div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;<span class="comment"></span>    
     </div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;    <span class="comment"># When we are done, exit
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;    <span class="comment"># When we are done, exit
 </span></div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">exit</span><span class="comment">
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">exit</span><span class="comment">
 </span></div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;<span class="comment"></span>    
   </div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;  }</div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1017,7 +1021,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacelang.html">lang</a></li>
-    <li class="footer">Generated on Thu May 28 2015 20:16:45 for TKE by
+    <li class="footer">Generated on Thu Jul 16 2015 01:33:11 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>

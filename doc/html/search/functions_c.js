@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['make_5fdrop_5ftarget',['make_drop_target',['../namespacegui.html#aa82458ece62336bf23efa36c5688d412',1,'gui']]],
   ['map',['map',['../namespacediff.html#a9e32d5e1139daff397ca2e28b016497b',1,'diff']]],
   ['map_5fadd',['map_add',['../namespacediff.html#a1464b5b80f9af1ded80c53715891de0d',1,'diff']]],
   ['map_5fcommand',['map_command',['../namespacediff.html#af764eca909cb2d6a676d23407a6a796a',1,'diff']]],
@@ -15,6 +16,8 @@ var searchData=
   ['menu_5fdelete_5fcascade',['menu_delete_cascade',['../namespaceplugins.html#a2cf6ebdc8cf69500e993aca4c8b175f5',1,'plugins']]],
   ['menu_5fpost',['menu_post',['../namespacesidebar.html#a2919008ef474f15dc5f21b7326b0b4c5',1,'sidebar']]],
   ['menu_5fstate',['menu_state',['../namespaceplugins.html#a1e641ab1826f09dc7c3bd6f956efc23c',1,'plugins']]],
+  ['merge_5fpanes',['merge_panes',['../namespacegui.html#ae570da4fa73bbfe202f292de88ed0575',1,'gui']]],
+  ['merge_5fvalues',['merge_values',['../snip__parser_8tcl.html#a53f9f7d101e72e625471c8a257f288e8',1,'snip_parser.tcl']]],
   ['minimizefrontwindow',['minimizeFrontWindow',['../namespacewindowlist.html#a7d25c1a5b90184001ef0a408ee1e0c20',1,'windowlist']]],
   ['modified',['modified',['../namespacectext.html#a99761be0cc6b7c02330ad978bb985070',1,'ctext']]],
   ['movable_5fto_5fother_5fpane',['movable_to_other_pane',['../namespacegui.html#adf2a48e7b4fdb1cf82d411586c84273d',1,'gui']]],

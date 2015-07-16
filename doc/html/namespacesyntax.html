@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="tke_logo_128.gif"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">TKE
-   &#160;<span id="projectnumber">1.7</span>
+   &#160;<span id="projectnumber">1.8</span>
    </div>
    <div id="projectbrief">Advanced editor written in Tcl/Tk</div>
   </td>
@@ -2033,13 +2033,13 @@ Functions</h2></td></tr>
         </div>
 <div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;        <span class="keyword">while</span> {[<span class="keyword">llength</span> $section_list]} {
           </div>
-<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;          <span class="keyword">set</span> section_list [<span class="keyword">lassign</span> $section_list type]<span class="comment">
+<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;          <span class="keyword">set</span> section_list [<a class="code" href="tke_8tcl.html#a87a72c8f51e5763f17fa844297d1195c" title="lassign">lassign</a> $section_list type]<span class="comment">
 </span></div>
 <div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;<span class="comment"></span>          <span class="keyword">if</span> {$type eq &quot;HighlightClass&quot;} {
             </div>
 <div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;            <span class="keyword">if</span> {$section eq &quot;advanced&quot;} {
               </div>
-<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;              <span class="keyword">set</span> section_list [<span class="keyword">lassign</span> $section_list name color modifiers]<span class="comment">
+<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;              <span class="keyword">set</span> section_list [<a class="code" href="tke_8tcl.html#a87a72c8f51e5763f17fa844297d1195c" title="lassign">lassign</a> $section_list name color modifiers]<span class="comment">
 </span></div>
 <div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;<span class="comment"></span>              <a class="code" href="namespacectext.html#a803387c3b5ec9f4289f4cf7eaf379abf" title="ctext::addHighlightClass">ctext::addHighlightClass</a> $txt $name $theme($color) &quot;&quot; $modifiers<span class="comment">
 </span></div>
@@ -2047,7 +2047,7 @@ Functions</h2></td></tr>
 </span></div>
 <div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;<span class="comment"></span>          } <span class="keyword">else</span> {
             </div>
-<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;            <span class="keyword">set</span> section_list [<span class="keyword">lassign</span> $section_list syntax command]<span class="comment">
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;            <span class="keyword">set</span> section_list [<a class="code" href="tke_8tcl.html#a87a72c8f51e5763f17fa844297d1195c" title="lassign">lassign</a> $section_list syntax command]<span class="comment">
 </span></div>
 <div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;<span class="comment"></span>            <span class="keyword">if</span> {$command ne &quot;&quot;} {
               </div>
@@ -2226,7 +2226,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacesyntax.html">syntax</a></li>
-    <li class="footer">Generated on Thu May 28 2015 20:16:45 for TKE by
+    <li class="footer">Generated on Thu Jul 16 2015 01:33:11 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>

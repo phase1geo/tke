@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="tke_logo_128.gif"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">TKE
-   &#160;<span id="projectnumber">1.7</span>
+   &#160;<span id="projectnumber">1.8</span>
    </div>
    <div id="projectbrief">Advanced editor written in Tcl/Tk</div>
   </td>
@@ -198,29 +198,29 @@ Functions</h2></td></tr>
     </div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="comment"># Create multicursor bindings
 </span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">bind</span> mcursor$txt &lt;&lt;Selection&gt;&gt;               &quot;[<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> multicursor]::handle_selection %W&quot;<span class="comment">
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">bind</span> mcursor$txt &lt;&lt;Selection&gt;&gt;                &quot;[<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> multicursor]::handle_selection %W&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment"></span>    <span class="keyword">bind</span> mcursor$txt &lt;Alt-Button-1&gt;              &quot;[<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> multicursor]::handle_alt_button1 %W %x %y&quot;<span class="comment">
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment"></span>    <span class="keyword">bind</span> mcursor$txt &lt;Mod2-Button-1&gt;              &quot;[<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> multicursor]::handle_alt_button1 %W %x %y&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment"></span>    <span class="keyword">bind</span> mcursor$txt &lt;Alt-Button-$::right_click&gt; &quot;[<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> multicursor]::handle_alt_button3 %W %x %y&quot;<span class="comment">
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment"></span>    <span class="keyword">bind</span> mcursor$txt &lt;Mod2-Button-$::right_click&gt; &quot;[<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> multicursor]::handle_alt_button3 %W %x %y&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment"></span>    <span class="keyword">bind</span> mcursor$txt &lt;Shift-Alt-ButtonPress-1&gt;   &quot;[<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> multicursor]::handle_shift_alt_buttonpress1 %W %x %y; break&quot;<span class="comment">
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment"></span>    <span class="keyword">bind</span> mcursor$txt &lt;Shift-Mod2-ButtonPress-1&gt;   &quot;[<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> multicursor]::handle_shift_alt_buttonpress1 %W %x %y; break&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment"></span>    <span class="keyword">bind</span> mcursor$txt &lt;Shift-Alt-B1-Motion&gt;       &quot;[<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> multicursor]::handle_shift_alt_motion %W %x %y; break&quot;<span class="comment">
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment"></span>    <span class="keyword">bind</span> mcursor$txt &lt;Shift-Mod2-B1-Motion&gt;       &quot;[<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> multicursor]::handle_shift_alt_motion %W %x %y; break&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment"></span>    <span class="keyword">bind</span> mcursor$txt &lt;Shift-Alt-ButtonRelease-1&gt; &quot;[<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> multicursor]::handle_shift_alt_buttonrelease1 %W %x %y; break&quot;<span class="comment">
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment"></span>    <span class="keyword">bind</span> mcursor$txt &lt;Shift-Mod2-ButtonRelease-1&gt; &quot;[<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> multicursor]::handle_shift_alt_buttonrelease1 %W %x %y; break&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment"></span>    <span class="keyword">bind</span> mcursor$txt &lt;Key-Delete&gt;                &quot;if {\[[<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> multicursor]::handle_delete %W\]} { break }&quot;<span class="comment">
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment"></span>    <span class="keyword">bind</span> mcursor$txt &lt;Key-Delete&gt;                 &quot;if {\[[<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> multicursor]::handle_delete %W\]} { break }&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="comment"></span>    <span class="keyword">bind</span> mcursor$txt &lt;Key-BackSpace&gt;             &quot;if {\[[<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> multicursor]::handle_backspace %W\]} { break }&quot;<span class="comment">
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="comment"></span>    <span class="keyword">bind</span> mcursor$txt &lt;Key-BackSpace&gt;              &quot;if {\[[<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> multicursor]::handle_backspace %W\]} { break }&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="comment"></span>    <span class="keyword">bind</span> mcursor$txt &lt;Return&gt;                    &quot;if {\[[<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> multicursor]::handle_return %W\]} { break }&quot;<span class="comment">
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="comment"></span>    <span class="keyword">bind</span> mcursor$txt &lt;Return&gt;                     &quot;if {\[[<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> multicursor]::handle_return %W\]} { break }&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment"></span>    <span class="keyword">bind</span> mcursor$txt &lt;Any-KeyPress&gt;              &quot;if {\[[<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> multicursor]::handle_keypress %W %A %K\]} { break }&quot;<span class="comment">
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment"></span>    <span class="keyword">bind</span> mcursor$txt &lt;Any-KeyPress&gt;               &quot;if {\[[<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> multicursor]::handle_keypress %W %A %K\]} { break }&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment"></span>    <span class="keyword">bind</span> mcursor$txt &lt;Escape&gt;                    &quot;[<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> multicursor]::handle_escape %W&quot;<span class="comment">
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment"></span>    <span class="keyword">bind</span> mcursor$txt &lt;Escape&gt;                     &quot;[<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> multicursor]::handle_escape %W&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment"></span>    <span class="keyword">bind</span> mcursor$txt &lt;Button-1&gt;                  &quot;[<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> multicursor]::disable %W&quot;<span class="comment">
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment"></span>    <span class="keyword">bind</span> mcursor$txt &lt;Button-1&gt;                   &quot;[<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> multicursor]::disable %W&quot;<span class="comment">
 </span></div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="comment"></span>    
     </div>
@@ -327,7 +327,7 @@ Functions</h2></td></tr>
       </div>
 <div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;      <span class="comment"># Get the anchor line and column
 </span></div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;<span class="comment"></span><span class="comment">      </span><span class="keyword">lassign</span> [<span class="keyword">split</span> [<span class="keyword">set</span> orig_anchor $cursor_anchor] .] row col<span class="comment">
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;<span class="comment"></span><span class="comment">      </span><a class="code" href="tke_8tcl.html#a87a72c8f51e5763f17fa844297d1195c" title="lassign">lassign</a> [<span class="keyword">split</span> [<span class="keyword">set</span> orig_anchor $cursor_anchor] .] row col<span class="comment">
 </span></div>
 <div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;<span class="comment"></span>      
       </div>
@@ -635,7 +635,7 @@ Functions</h2></td></tr>
 </span></div>
 <div class="line"><a name="l00612"></a><span class="lineno">  612</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">foreach</span> {start end} [$txt tag ranges mcursor] {
       </div>
-<div class="line"><a name="l00613"></a><span class="lineno">  613</span>&#160;      <span class="keyword">lassign</span> [<span class="keyword">split</span> $start .] row col<span class="comment">
+<div class="line"><a name="l00613"></a><span class="lineno">  613</span>&#160;      <a class="code" href="tke_8tcl.html#a87a72c8f51e5763f17fa844297d1195c" title="lassign">lassign</a> [<span class="keyword">split</span> $start .] row col<span class="comment">
 </span></div>
 <div class="line"><a name="l00614"></a><span class="lineno">  614</span>&#160;<span class="comment"></span>      <span class="keyword">if</span> {$row ne $last_row} {
         </div>
@@ -1305,7 +1305,7 @@ Functions</h2></td></tr>
 </span></div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="comment"></span>    
     </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keyword">lassign</span> [<span class="keyword">split</span> [$W index @$x,$y] .] select_start_line select_start_column<span class="comment">
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <a class="code" href="tke_8tcl.html#a87a72c8f51e5763f17fa844297d1195c" title="lassign">lassign</a> [<span class="keyword">split</span> [$W index @$x,$y] .] select_start_line select_start_column<span class="comment">
 </span></div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="comment"></span>    $W tag remove sel 1.0 end<span class="comment">
 </span></div>
@@ -1385,9 +1385,9 @@ Functions</h2></td></tr>
 </span></div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="comment"></span>    
     </div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keyword">lassign</span> [<span class="keyword">split</span> [$W index @$x,$y] .] line column<span class="comment">
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <a class="code" href="tke_8tcl.html#a87a72c8f51e5763f17fa844297d1195c" title="lassign">lassign</a> [<span class="keyword">split</span> [$W index @$x,$y] .] line column<span class="comment">
 </span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="comment"></span>    <span class="keyword">lassign</span> [<span class="keyword">split</span> [<span class="keyword">lindex</span> [$W tag ranges sel] end] .] last_line last_column<span class="comment">
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="comment"></span>    <a class="code" href="tke_8tcl.html#a87a72c8f51e5763f17fa844297d1195c" title="lassign">lassign</a> [<span class="keyword">split</span> [<span class="keyword">lindex</span> [$W tag ranges sel] end] .] last_line last_column<span class="comment">
 </span></div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="comment"></span>    
     </div>
@@ -1819,7 +1819,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacemulticursor.html">multicursor</a></li>
-    <li class="footer">Generated on Thu May 28 2015 20:16:45 for TKE by
+    <li class="footer">Generated on Thu Jul 16 2015 01:33:11 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>

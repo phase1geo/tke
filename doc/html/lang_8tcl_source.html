@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="tke_logo_128.gif"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">TKE
-   &#160;<span id="projectnumber">1.7</span>
+   &#160;<span id="projectnumber">1.8</span>
    </div>
    <div id="projectbrief">Advanced editor written in Tcl/Tk</div>
   </td>
@@ -598,7 +598,7 @@ $(document).ready(function(){initNavTree('lang_8tcl_source.html','');});
       </div>
 <div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;      -command &quot;lang::show_hide_xlates&quot;]<span class="comment">
 </span></div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;<span class="comment"></span>    ttk::button .bf.upd    -text &quot;Update&quot; -width 6 -command &quot;set ::update_lang 1; set ::update_done 1&quot;<span class="comment">
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;<span class="comment"></span>    <span class="keyword">set</span> widgets(update) [ttk::button .bf.upd -text &quot;Update&quot; -width 6 -command &quot;set ::update_lang 1; set ::update_done 1&quot;]<span class="comment">
 </span></div>
 <div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;<span class="comment"></span>    ttk::button .bf.cancel -text &quot;Cancel&quot; -width 6 -command &quot;set ::update_done 1&quot;<span class="comment">
 </span></div>
@@ -866,195 +866,199 @@ $(document).ready(function(){initNavTree('lang_8tcl_source.html','');});
     </div>
 <div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;    <span class="comment"># Disable the &quot;Add Translations&quot; button from being clicked again
 </span></div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;<span class="comment"></span><span class="comment">    </span>$widgets(xlate) configure -state disabled<span class="comment">
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;<span class="comment"></span><span class="comment">    </span>$widgets(xlate)  configure -state disabled<span class="comment">
 </span></div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;<span class="comment"></span>    $widgets(update) configure -state disabled<span class="comment">
+</span></div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;<span class="comment"></span>    
     </div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;    <span class="comment"># Get any selected rows
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;    <span class="comment"># Get any selected rows
 </span></div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> selected [$widgets(tbl) curselection]<span class="comment">
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> selected [$widgets(tbl) curselection]<span class="comment">
 </span></div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;<span class="comment"></span>    
     </div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;    <span class="keyword">if</span> {[<span class="keyword">catch</span> {
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;    <span class="keyword">if</span> {[<span class="keyword">catch</span> {
         </div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;        <span class="keyword">if</span> {[<span class="keyword">llength</span> $selected] &gt; 0} {
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;        <span class="keyword">if</span> {[<span class="keyword">llength</span> $selected] &gt; 0} {
           </div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;          <span class="keyword">foreach</span> row $selected {
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;          <span class="keyword">foreach</span> row $selected {
             </div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;            <a class="code" href="namespacelang.html#a90e4278d77eedd66058621c4cdd99335" title="lang::perform_translation">perform_translation</a> $row $lang<span class="comment">
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;            <a class="code" href="namespacelang.html#a90e4278d77eedd66058621c4cdd99335" title="lang::perform_translation">perform_translation</a> $row $lang<span class="comment">
 </span></div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;<span class="comment"></span>          }<span class="comment">
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;<span class="comment"></span>          }<span class="comment">
 </span></div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;<span class="comment"></span>        } <span class="keyword">else</span> {
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;<span class="comment"></span>        } <span class="keyword">else</span> {
           </div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;          <span class="keyword">for</span> {<span class="keyword">set</span> i 0} {$i &lt; [$widgets(tbl) size]} {<span class="keyword">incr</span> i} {
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;          <span class="keyword">for</span> {<span class="keyword">set</span> i 0} {$i &lt; [$widgets(tbl) size]} {<span class="keyword">incr</span> i} {
             </div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;            <span class="keyword">if</span> {[$widgets(tbl) cellcget $i,xlate -text] eq &quot;&quot;} {
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;            <span class="keyword">if</span> {[$widgets(tbl) cellcget $i,xlate -text] eq &quot;&quot;} {
               </div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;              <a class="code" href="namespacelang.html#a90e4278d77eedd66058621c4cdd99335" title="lang::perform_translation">perform_translation</a> $i $lang<span class="comment">
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;              <a class="code" href="namespacelang.html#a90e4278d77eedd66058621c4cdd99335" title="lang::perform_translation">perform_translation</a> $i $lang<span class="comment">
 </span></div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;<span class="comment"></span>            }<span class="comment">
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;<span class="comment"></span>            }<span class="comment">
 </span></div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;<span class="comment"></span>          }<span class="comment">
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;<span class="comment"></span>          }<span class="comment">
 </span></div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;<span class="comment"></span>        }<span class="comment">
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;<span class="comment"></span>        }<span class="comment">
 </span></div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;<span class="comment"></span>      } rc]} {
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;<span class="comment"></span>      } rc]} {
       </div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;      <span class="keyword">tk_messageBox</span> -parent . -default ok -message &quot;Translation error&quot; -detail $rc -type ok<span class="comment">
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;      <span class="keyword">tk_messageBox</span> -parent . -default ok -message &quot;Translation error&quot; -detail $rc -type ok<span class="comment">
 </span></div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;<span class="comment"></span>    }<span class="comment">
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;<span class="comment"></span>    }<span class="comment">
 </span></div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;<span class="comment"></span>    
     </div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;    <span class="comment"># Enable the &#39;Add Translations&#39; button
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;    <span class="comment"># Enable the &#39;Add Translations&#39; button
 </span></div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;<span class="comment"></span><span class="comment">    </span>$widgets(xlate) configure -state normal<span class="comment">
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;<span class="comment"></span><span class="comment">    </span>$widgets(xlate)  configure -state normal<span class="comment">
 </span></div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;<span class="comment"></span>    $widgets(update) configure -state normal<span class="comment">
+</span></div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;<span class="comment"></span>    
   </div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;  }<span class="comment">
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;  }<span class="comment">
 </span></div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;<span class="comment"></span>  
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;<span class="comment"></span>  
   </div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;  <span class="comment">######################################################################
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;  <span class="comment">######################################################################
 </span></div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Updates all of the specified language files.
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Updates all of the specified language files.
 </span></div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> update_langs {langs} {
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> update_langs {langs} {
     
     </div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;    
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;    
     </div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;    <span class="keyword">variable</span> xlates<span class="comment">
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;    <span class="keyword">variable</span> xlates<span class="comment">
 </span></div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;<span class="comment"></span>    
     </div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;    <span class="comment"># Read the current msgcat information from the source files
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;    <span class="comment"># Read the current msgcat information from the source files
 </span></div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;<span class="comment"></span><span class="comment">    </span><a class="code" href="namespacelang.html#a3ddaabee9f3973b44a184175d1ad6602" title="lang::gather_msgcat">gather_msgcat</a><span class="comment">
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;<span class="comment"></span><span class="comment">    </span><a class="code" href="namespacelang.html#a3ddaabee9f3973b44a184175d1ad6602" title="lang::gather_msgcat">gather_msgcat</a><span class="comment">
 </span></div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;<span class="comment"></span>    
     </div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;    <span class="comment"># For each language, perform the update
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;    <span class="comment"># For each language, perform the update
 </span></div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">foreach</span> lang $langs {
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">foreach</span> lang $langs {
       
       </div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;      
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;      
       </div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;      <span class="comment"># Read in the language, if it exists
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;      <span class="comment"># Read in the language, if it exists
 </span></div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;<span class="comment"></span><span class="comment">      </span><a class="code" href="namespacelang.html#a050f6b291cfd8911fa82e8387e4343eb" title="lang::fetch_lang">fetch_lang</a> $lang<span class="comment">
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;<span class="comment"></span><span class="comment">      </span><a class="code" href="namespacelang.html#a050f6b291cfd8911fa82e8387e4343eb" title="lang::fetch_lang">fetch_lang</a> $lang<span class="comment">
 </span></div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;<span class="comment"></span>      
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;<span class="comment"></span>      
       </div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;      <span class="comment"># Update the UI with the current language information
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;      <span class="comment"># Update the UI with the current language information
 </span></div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;<span class="comment"></span><span class="comment">      </span><a class="code" href="namespacelang.html#a15e2bbb134e4fbb77fd0d1d05022f681" title="lang::populate_ui">populate_ui</a> $lang<span class="comment">
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;<span class="comment"></span><span class="comment">      </span><a class="code" href="namespacelang.html#a15e2bbb134e4fbb77fd0d1d05022f681" title="lang::populate_ui">populate_ui</a> $lang<span class="comment">
 </span></div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;<span class="comment"></span>      
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;<span class="comment"></span>      
     </div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;    }<span class="comment">
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;    }<span class="comment">
 </span></div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;<span class="comment"></span>    
     </div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;    <span class="comment"># When we are done, exit
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;    <span class="comment"># When we are done, exit
 </span></div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">exit</span><span class="comment">
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">exit</span><span class="comment">
 </span></div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;<span class="comment"></span>    
   </div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;  }<span class="comment">
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;  }<span class="comment">
 </span></div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;<span class="comment"></span>  
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;<span class="comment"></span>  
 </div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;}<span class="comment">
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;}<span class="comment">
 </span></div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;<span class="comment"></span> 
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;<span class="comment"></span> 
 </div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;<span class="comment">######################################################################
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;<span class="comment">######################################################################
 </span></div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;<span class="comment"></span><span class="comment"># Displays usage information and exits.
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;<span class="comment"></span><span class="comment"># Displays usage information and exits.
 </span></div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;<span class="comment"></span><span class="keyword">proc</span> usage {} {
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;<span class="comment"></span><span class="keyword">proc</span> usage {} {
   
   </div>
-<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;  
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;  
   </div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;  <span class="keyword">puts</span> &quot;Usage:  wish8.5 lang.tcl (-h | &lt;lang&gt;+)&quot;<span class="comment">
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;  <span class="keyword">puts</span> &quot;Usage:  wish8.5 lang.tcl (-h | &lt;lang&gt;+)&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;<span class="comment"></span>  <span class="keyword">puts</span> &quot;&quot;<span class="comment">
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;<span class="comment"></span>  <span class="keyword">puts</span> &quot;&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;<span class="comment"></span>  <span class="keyword">puts</span> &quot;Options:&quot;<span class="comment">
+<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;<span class="comment"></span>  <span class="keyword">puts</span> &quot;Options:&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;<span class="comment"></span>  <span class="keyword">puts</span> &quot;  -h    Displays this help information and exits&quot;<span class="comment">
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;<span class="comment"></span>  <span class="keyword">puts</span> &quot;  -h    Displays this help information and exits&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;<span class="comment"></span>  <span class="keyword">puts</span> &quot;&quot;<span class="comment">
-</span></div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;<span class="comment"></span>  
-  </div>
-<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;  <span class="keyword">exit</span><span class="comment">
+<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;<span class="comment"></span>  <span class="keyword">puts</span> &quot;&quot;<span class="comment">
 </span></div>
 <div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;<span class="comment"></span>  
-</div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;}<span class="comment">
-</span></div>
-<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;<span class="comment"></span> 
-</div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;<span class="comment"># Parse the command-line arguments
-</span></div>
-<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;<span class="comment"></span><span class="keyword">set</span> i     0<span class="comment">
-</span></div>
-<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;<span class="comment"></span><span class="keyword">set</span> langs [list]<span class="comment">
-</span></div>
-<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;<span class="comment"></span><span class="keyword">while</span> {$i &lt; $argc} {
   </div>
-<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;  <span class="keyword">switch</span> -exact -- [<span class="keyword">lindex</span> $argv $i] {
+<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;  <span class="keyword">exit</span><span class="comment">
+</span></div>
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;<span class="comment"></span>  
+</div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;}<span class="comment">
+</span></div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;<span class="comment"></span> 
+</div>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;<span class="comment"># Parse the command-line arguments
+</span></div>
+<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;<span class="comment"></span><span class="keyword">set</span> i     0<span class="comment">
+</span></div>
+<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;<span class="comment"></span><span class="keyword">set</span> langs [list]<span class="comment">
+</span></div>
+<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;<span class="comment"></span><span class="keyword">while</span> {$i &lt; $argc} {
+  </div>
+<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;  <span class="keyword">switch</span> -exact -- [<span class="keyword">lindex</span> $argv $i] {
     </div>
-<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;    -h      { <a class="code" href="tke_8tcl.html#a5684f219761d78b4f98e7b2869dd1726" title="usage">usage</a>}
+<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;    -h      { <a class="code" href="tke_8tcl.html#a5684f219761d78b4f98e7b2869dd1726" title="usage">usage</a>}
     </div>
-<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;    default { <span class="keyword">lappend</span> langs [<span class="keyword">lindex</span> $argv $i]}
+<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;    default { <span class="keyword">lappend</span> langs [<span class="keyword">lindex</span> $argv $i]}
   </div>
-<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;  }<span class="comment">
+<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;  }<span class="comment">
 </span></div>
-<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;<span class="comment"></span>  <span class="keyword">incr</span> i<span class="comment">
+<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;<span class="comment"></span>  <span class="keyword">incr</span> i<span class="comment">
 </span></div>
-<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;<span class="comment"></span>}<span class="comment">
+<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;<span class="comment"></span>}<span class="comment">
 </span></div>
-<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;<span class="comment"></span> 
+<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;<span class="comment"></span> 
 </div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;<span class="keyword">if</span> {[<span class="keyword">llength</span> $langs] == 0} {
+<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;<span class="keyword">if</span> {[<span class="keyword">llength</span> $langs] == 0} {
   </div>
-<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;  <a class="code" href="tke_8tcl.html#a5684f219761d78b4f98e7b2869dd1726" title="usage">usage</a><span class="comment">
+<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;  <a class="code" href="tke_8tcl.html#a5684f219761d78b4f98e7b2869dd1726" title="usage">usage</a><span class="comment">
 </span></div>
-<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;<span class="comment"></span>}<span class="comment">
+<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;<span class="comment"></span>}<span class="comment">
 </span></div>
-<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;<span class="comment"></span>
 </div>
-<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;<span class="comment"># Use the clam theme
+<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;<span class="comment"># Use the clam theme
 </span></div>
-<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;<span class="comment"></span>ttk::style theme use clam<span class="comment">
+<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;<span class="comment"></span>ttk::style theme use clam<span class="comment">
 </span></div>
-<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;<span class="comment"></span> 
+<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;<span class="comment"></span> 
 </div>
-<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;<span class="comment"># Create the UI
+<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;<span class="comment"># Create the UI
 </span></div>
-<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;<span class="comment"></span><a class="code" href="namespacelang.html#ac36d2f98354b34b2aaab124944b4f44a" title="lang::create_ui">lang::create_ui</a><span class="comment">
+<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;<span class="comment"></span><a class="code" href="namespacelang.html#ac36d2f98354b34b2aaab124944b4f44a" title="lang::create_ui">lang::create_ui</a><span class="comment">
 </span></div>
-<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;<span class="comment"></span>
 </div>
-<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;<span class="comment"># Gather all of the msgcat::mc calls in the library source files
+<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;<span class="comment"># Gather all of the msgcat::mc calls in the library source files
 </span></div>
-<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;<span class="comment"></span><a class="code" href="namespacelang.html#aa19333e00ee711fe6f04a1d32586be40" title="lang::update_langs">lang::update_langs</a> $langs</div>
+<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;<span class="comment"></span><a class="code" href="namespacelang.html#aa19333e00ee711fe6f04a1d32586be40" title="lang::update_langs">lang::update_langs</a> $langs</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_97aefd0d527b934f1d99a682da8fe6a9.html">lib</a></li><li class="navelem"><a class="el" href="lang_8tcl.html">lang.tcl</a></li>
-    <li class="footer">Generated on Thu May 28 2015 20:16:43 for TKE by
+    <li class="footer">Generated on Thu Jul 16 2015 01:33:05 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>

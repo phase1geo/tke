@@ -52,6 +52,7 @@ var ctext_8tcl =
     [ "matchQuote", "ctext_8tcl.html#a4b844e7c27d04950d60a5b9b72a8585f", null ],
     [ "modified", "ctext_8tcl.html#a99761be0cc6b7c02330ad978bb985070", null ],
     [ "redo", "ctext_8tcl.html#a6b82695217c4c5a0d15b679a5d020bdd", null ],
+    [ "set_border_color", "ctext_8tcl.html#afda2ae2f5c39f41848ab05b3daee25e2", null ],
     [ "setAutoMatchChars", "ctext_8tcl.html#a46f8a7710399e2d1b5ebc46bcd0ee355", null ],
     [ "setBlockCommentPatterns", "ctext_8tcl.html#a34ca7e5ac7b2132aa8b3659fe928f3a6", null ],
     [ "setCommentRE", "ctext_8tcl.html#a314cfcd6139e483e36f375ef48379289", null ],

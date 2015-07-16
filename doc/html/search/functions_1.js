@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['begin',['BEGIN',['../format__lexer_8tcl.html#a6e022bde3d5615ec880caea4096c8fc3',1,'BEGINnew_state?prefix?:&#160;format_lexer.tcl'],['../snip__lexer_8tcl.html#a6e022bde3d5615ec880caea4096c8fc3',1,'BEGINnew_state?prefix?:&#160;snip_lexer.tcl']]],
   ['bgerror',['bgerror',['../logger_8tcl.html#a110676ebc5ab467ea0d00b1679da7e31',1,'logger.tcl']]],
   ['bind_5fcommand',['bind_command',['../namespaceinterpreter.html#aae7186b5ca99011f9dd12ab097618257',1,'interpreter']]],
   ['bind_5fcommand_5fentry',['bind_command_entry',['../namespacevim.html#abf0beb855dbd66aac7fa232325c528c7',1,'vim']]],
