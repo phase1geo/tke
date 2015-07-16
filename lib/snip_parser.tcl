@@ -3434,105 +3434,105 @@ array set ::snip_rules {
 }
 
 array set ::snip_rules {
-  41,line 214
-  96,line 387
+  41,line 217
+  96,line 392
   7,line 70
-  37,line 200
-  93,line 376
+  37,line 202
+  93,line 381
   4,line 61
-  34,line 189
-  90,line 367
-  89,line 364
+  34,line 191
+  90,line 372
+  89,line 369
   1,line 50
-  31,line 180
-  86,line 355
-  27,line 168
-  83,line 346
-  24,line 159
-  80,line 337
-  79,line 334
-  21,line 150
-  76,line 321
-  17,line 118
-  73,line 312
-  14,line 103
-  70,line 303
-  69,line 300
+  31,line 182
+  86,line 360
+  27,line 170
+  83,line 351
+  24,line 161
+  80,line 342
+  79,line 339
+  21,line 152
+  76,line 326
+  17,line 120
+  73,line 317
+  14,line 105
+  70,line 308
+  69,line 305
   11,line 82
-  66,line 291
-  63,line 282
-  60,line 273
-  59,line 270
-  56,line 261
-  53,line 250
-  50,line 241
-  49,line 238
-  46,line 229
-  43,line 220
-  98,line 395
+  66,line 296
+  63,line 287
+  60,line 278
+  59,line 275
+  56,line 266
+  53,line 255
+  50,line 246
+  49,line 243
+  46,line 233
+  43,line 223
+  98,line 400
   9,line 76
-  40,line 211
-  39,line 208
-  95,line 384
+  40,line 214
+  39,line 211
+  95,line 389
   6,line 67
-  36,line 195
-  92,line 373
+  36,line 197
+  92,line 378
   3,line 58
-  33,line 186
-  88,line 361
-  29,line 174
-  30,line 177
-  85,line 352
-  26,line 165
-  82,line 343
-  23,line 156
-  78,line 331
-  19,line 128
-  20,line 145
-  75,line 318
-  16,line 115
-  72,line 309
-  13,line 90
-  68,line 297
+  33,line 188
+  88,line 366
+  29,line 176
+  30,line 179
+  85,line 357
+  26,line 167
+  82,line 348
+  23,line 158
+  78,line 336
+  19,line 130
+  20,line 147
+  75,line 323
+  16,line 117
+  72,line 314
+  13,line 92
+  68,line 302
   10,line 79
-  65,line 288
-  62,line 279
-  58,line 267
-  55,line 258
-  52,line 247
-  48,line 235
-  45,line 226
-  42,line 217
-  97,line 390
+  65,line 293
+  62,line 284
+  58,line 272
+  55,line 263
+  52,line 252
+  48,line 240
+  45,line 229
+  42,line 220
+  97,line 395
   8,line 73
-  38,line 203
-  94,line 381
+  38,line 205
+  94,line 386
   5,line 64
-  35,line 192
-  91,line 370
+  35,line 194
+  91,line 375
   2,line 55
-  32,line 183
-  87,line 358
-  28,line 171
-  84,line 349
-  25,line 162
-  81,line 340
-  22,line 153
-  77,line 326
-  18,line 125
-  74,line 315
-  15,line 110
-  71,line 306
+  32,line 185
+  87,line 363
+  28,line 173
+  84,line 354
+  25,line 164
+  81,line 345
+  22,line 155
+  77,line 331
+  18,line 127
+  74,line 320
+  15,line 112
+  71,line 311
   12,line 87
-  67,line 294
-  64,line 285
-  61,line 276
-  57,line 264
-  54,line 253
-  51,line 244
-  47,line 232
-  44,line 223
-  99,line 398
+  67,line 299
+  64,line 290
+  61,line 281
+  57,line 269
+  54,line 258
+  51,line 249
+  47,line 237
+  44,line 226
+  99,line 403
 }
 
 proc snip_parse {} {
@@ -3630,7 +3630,9 @@ proc snip_parse {} {
            set _ [list " " [snippets::set_tabstop $::snip_txt $2]]
           }
                     13 { 
-           set _ [list $5 [snippets::set_tabstop $::snip_txt $3 $5]]
+           puts -nonewline "5: "
+           puts $5
+           set _ [concat $5 [snippets::set_tabstop $::snip_txt $3 $5]]
           }
                     14 { 
              if {[set val [snippets::get_tabstop $::snip_txt $3]] ne ""} {
@@ -3736,6 +3738,7 @@ proc snip_parse {} {
         set _ $1
        }
                     39 { 
+         puts "($2)"
          set _ "$1$2"
         }
                     40 { 
@@ -3757,9 +3760,11 @@ proc snip_parse {} {
          set _ "$1$2"
         }
                     46 { 
-         set _ [concat $1 {} $2]
+         puts "1: ($1)"
+         set _ [concat $1 {} {*}$2]
         }
                     47 { 
+         puts "($1)"
          set _ $1
         }
                     48 { 
