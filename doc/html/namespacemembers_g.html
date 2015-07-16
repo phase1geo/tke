@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="tke_logo_128.gif"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">TKE
-   &#160;<span id="projectnumber">1.7</span>
+   &#160;<span id="projectnumber">1.8</span>
    </div>
    <div id="projectbrief">Advanced editor written in Tcl/Tk</div>
   </td>
@@ -200,6 +200,7 @@ $(document).ready(function(){initNavTree('namespacemembers_g.html','');});
 </li>
 <li>get_file_cmd()
 : <a class="el" href="namespacediff_1_1cvs.html#ac145b50006ec7f4976fdacff9f4bd7eb">diff::cvs</a>
+, <a class="el" href="namespacediff_1_1git.html#a9d17bbf89534f9dfac41b42d77c3d891">diff::git</a>
 , <a class="el" href="namespacediff_1_1mercurial.html#a2b8c99d3d9cdfc652b5ca5fa6a1f7d44">diff::mercurial</a>
 , <a class="el" href="namespacediff_1_1perforce.html#a8ec653dbc644a9e63deb8fc850ec40d5">diff::perforce</a>
 , <a class="el" href="namespacediff_1_1subversion.html#a9ac9a7de8ad74b1c8225f24c3480b0b0">diff::subversion</a>
@@ -212,6 +213,9 @@ $(document).ready(function(){initNavTree('namespacemembers_g.html','');});
 </li>
 <li>get_file_num()
 : <a class="el" href="namespacegui.html#abdfd51a2f4d207fafbf1c00eba9191d9">gui</a>
+</li>
+<li>get_filename()
+: <a class="el" href="namespacevim.html#a15293c03da83a2cf20dad85e1de34303">vim</a>
 </li>
 <li>get_filetypes()
 : <a class="el" href="namespacesyntax.html#ac1fab4570b385b273782845f8e8e74e8">syntax</a>
@@ -313,9 +317,9 @@ $(document).ready(function(){initNavTree('namespacemembers_g.html','');});
 <li>get_save_name()
 : <a class="el" href="namespacethemer.html#a7d9c8fcb6483f12c57c2c8b0a7bcbf31">themer</a>
 </li>
-<li>get_selected_index()
-: <a class="el" href="namespaceapi_1_1sidebar.html#a2cbde0ce978a805ce2d4c9b4b00936c0">api::sidebar</a>
-, <a class="el" href="namespacesidebar.html#a916cfb8fbc2d881e79c004bccfdeb777">sidebar</a>
+<li>get_selected_indices()
+: <a class="el" href="namespaceapi_1_1sidebar.html#abdc3d3cd4b4e2047e1a8fb38d1817ee7">api::sidebar</a>
+, <a class="el" href="namespacesidebar.html#a406718b8f64a31953c1adedf8840f5c4">sidebar</a>
 </li>
 <li>get_symbol_list()
 : <a class="el" href="namespacegui.html#aed0d9924d06ab8f3a2779c03cbb820de">gui</a>
@@ -325,6 +329,9 @@ $(document).ready(function(){initNavTree('namespacemembers_g.html','');});
 </li>
 <li>get_tabs_allowed()
 : <a class="el" href="namespacesyntax.html#a365f239fce6aa155dba5b307b01d23f8">syntax</a>
+</li>
+<li>get_tabstop()
+: <a class="el" href="namespacesnippets.html#a3c77be41bc20d649b881c9c44e891137">snippets</a>
 </li>
 <li>get_tag_count()
 : <a class="el" href="namespaceindent.html#af215187471ca0ce227ac4dc21e100dba">indent</a>
@@ -341,8 +348,12 @@ $(document).ready(function(){initNavTree('namespacemembers_g.html','');});
 <li>get_user_input()
 : <a class="el" href="namespaceapi.html#a9939e105adae875c1a666e9ce2edec65">api</a>
 </li>
+<li>get_user_response()
+: <a class="el" href="namespacegui.html#a5c0544594b31e4523edd68f672b37b7a">gui</a>
+</li>
 <li>get_version_log()
 : <a class="el" href="namespacediff_1_1cvs.html#a23fc640505c278357a4f36e59e33b689">diff::cvs</a>
+, <a class="el" href="namespacediff_1_1git.html#a0932ee3c1ccf5110ac7829c78bf37044">diff::git</a>
 , <a class="el" href="namespacediff_1_1mercurial.html#a5d17dc252025b48ad2759c53c7a51e49">diff::mercurial</a>
 , <a class="el" href="namespacediff_1_1perforce.html#a4cc299a78e66f4726da029a7f058cf3e">diff::perforce</a>
 , <a class="el" href="namespacediff_1_1subversion.html#a1b66d40b468b665c5244ac0b5b11ec2c">diff::subversion</a>
@@ -377,7 +388,7 @@ $(document).ready(function(){initNavTree('namespacemembers_g.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Thu May 28 2015 20:16:46 for TKE by
+    <li class="footer">Generated on Thu Jul 16 2015 01:33:12 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>

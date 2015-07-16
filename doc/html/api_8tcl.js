@@ -7,7 +7,7 @@ var api_8tcl =
     [ "get_info", "api_8tcl.html#a8e475712cab7a9fc0a7a631e36889763", null ],
     [ "get_info", "api_8tcl.html#a243ce64b30a1fe2c26a826d2c6480c83", null ],
     [ "get_plugin_directory", "api_8tcl.html#a4fbe246f90ab18aeca4abaa5f9f51350", null ],
-    [ "get_selected_index", "api_8tcl.html#a2cbde0ce978a805ce2d4c9b4b00936c0", null ],
+    [ "get_selected_indices", "api_8tcl.html#abdc3d3cd4b4e2047e1a8fb38d1817ee7", null ],
     [ "get_user_input", "api_8tcl.html#a9939e105adae875c1a666e9ce2edec65", null ],
     [ "invoke_menu", "api_8tcl.html#abaf2e15fda1463ac72225e2d8af92455", null ],
     [ "load_variable", "api_8tcl.html#a7a4564142ddc0d3f912be67c0b59ff59", null ],

@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="tke_logo_128.gif"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">TKE
-   &#160;<span id="projectnumber">1.7</span>
+   &#160;<span id="projectnumber">1.8</span>
    </div>
    <div id="projectbrief">Advanced editor written in Tcl/Tk</div>
   </td>
@@ -164,8 +164,8 @@ Functions</h2></td></tr>
 <tr class="separator:a39f06137a840272e13d95bedf2757a4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a724e99ac65687cc76d9151560503f1bf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#a724e99ac65687cc76d9151560503f1bf">vim::start_mode</a> txt</td></tr>
 <tr class="separator:a724e99ac65687cc76d9151560503f1bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5832daa8f34d3d24fc05527e869debd8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#a5832daa8f34d3d24fc05527e869debd8">vim::visual_mode</a> txt</td></tr>
-<tr class="separator:a5832daa8f34d3d24fc05527e869debd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b9878c1e1cbe109c8e9f3524f021b20"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#a6b9878c1e1cbe109c8e9f3524f021b20">vim::visual_mode</a> txt type</td></tr>
+<tr class="separator:a6b9878c1e1cbe109c8e9f3524f021b20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aca7554117fcb927f1d5a872c514fc7f4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#aca7554117fcb927f1d5a872c514fc7f4">vim::record_start</a> ?reg?</td></tr>
 <tr class="separator:aca7554117fcb927f1d5a872c514fc7f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae2495b47feaca6a1c6a0597269f80968"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#ae2495b47feaca6a1c6a0597269f80968">vim::record_stop</a> ?reg?</td></tr>
@@ -224,6 +224,12 @@ Functions</h2></td></tr>
 <tr class="separator:a836354118815aa7339372abea84e1dc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afca327b8f6a1d6c1bc7a16252e8c90f4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#afca327b8f6a1d6c1bc7a16252e8c90f4">vim::handle_L</a> txt tid</td></tr>
 <tr class="separator:afca327b8f6a1d6c1bc7a16252e8c90f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15293c03da83a2cf20dad85e1de34303"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#a15293c03da83a2cf20dad85e1de34303">vim::get_filename</a> txt pos</td></tr>
+<tr class="separator:a15293c03da83a2cf20dad85e1de34303"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8348b0cea2307d1cfca9514af7d98d21"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#a8348b0cea2307d1cfca9514af7d98d21">vim::handle_f</a> txt tid</td></tr>
+<tr class="separator:a8348b0cea2307d1cfca9514af7d98d21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ec242ea94cf8b60eafecb52d305c6ea"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#a7ec242ea94cf8b60eafecb52d305c6ea">vim::handle_g</a> txt tid</td></tr>
+<tr class="separator:a7ec242ea94cf8b60eafecb52d305c6ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a46844acd687c791417d21314393e45a8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#a46844acd687c791417d21314393e45a8">vim::handle_h</a> txt tid</td></tr>
 <tr class="separator:a46844acd687c791417d21314393e45a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8890b2596dfdaa99358813bd3d48fb8f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#a8890b2596dfdaa99358813bd3d48fb8f">vim::handle_H</a> txt tid</td></tr>
@@ -242,6 +248,8 @@ Functions</h2></td></tr>
 <tr class="separator:a1eb11546c2175f2a389c1bb37ee79eb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2094acf7d47b9cc00b4b75339feda6af"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#a2094acf7d47b9cc00b4b75339feda6af">vim::handle_d</a> txt tid</td></tr>
 <tr class="separator:a2094acf7d47b9cc00b4b75339feda6af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7fb0aabbac77a329b5937b6da82e0a4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#ae7fb0aabbac77a329b5937b6da82e0a4">vim::handle_D</a> txt tid</td></tr>
+<tr class="separator:ae7fb0aabbac77a329b5937b6da82e0a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab19e6ceb91ea3051141b5a23677de365"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#ab19e6ceb91ea3051141b5a23677de365">vim::handle_a</a> txt tid</td></tr>
 <tr class="separator:ab19e6ceb91ea3051141b5a23677de365"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5680244229e427632947123e7876d008"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#a5680244229e427632947123e7876d008">vim::handle_A</a> txt tid</td></tr>
@@ -264,10 +272,16 @@ Functions</h2></td></tr>
 <tr class="separator:a096c6a4fcdc4db60854692723499769c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e02a21aa9bcae8b0e1995d53c88467a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#a7e02a21aa9bcae8b0e1995d53c88467a">vim::handle_u</a> txt tid</td></tr>
 <tr class="separator:a7e02a21aa9bcae8b0e1995d53c88467a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afbd34a1253b229c1cdc3e33ec2339524"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#afbd34a1253b229c1cdc3e33ec2339524">vim::do_char_delete</a> txt number</td></tr>
-<tr class="separator:afbd34a1253b229c1cdc3e33ec2339524"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a229078087433b28051ed1fffb287d458"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#a229078087433b28051ed1fffb287d458">vim::do_char_delete_current</a> txt number</td></tr>
+<tr class="separator:a229078087433b28051ed1fffb287d458"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aecc910b6096b4dabeac1af76046972df"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#aecc910b6096b4dabeac1af76046972df">vim::do_char_delete_previous</a> txt number</td></tr>
+<tr class="separator:aecc910b6096b4dabeac1af76046972df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ff01dd3bd0e74008b139733ee9e7123"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#a8ff01dd3bd0e74008b139733ee9e7123">vim::handle_x</a> txt tid</td></tr>
 <tr class="separator:a8ff01dd3bd0e74008b139733ee9e7123"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6b7cdec8466ac0810ff865a9bed74de"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#af6b7cdec8466ac0810ff865a9bed74de">vim::handle_Delete</a> txt tid</td></tr>
+<tr class="separator:af6b7cdec8466ac0810ff865a9bed74de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a075bc95ef3db750e958f1e7b4cdf7e3f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#a075bc95ef3db750e958f1e7b4cdf7e3f">vim::handle_X</a> txt tid</td></tr>
+<tr class="separator:a075bc95ef3db750e958f1e7b4cdf7e3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af2253da2435a5f96365d31282843d89b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#af2253da2435a5f96365d31282843d89b">vim::handle_o</a> txt tid</td></tr>
 <tr class="separator:af2253da2435a5f96365d31282843d89b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5f4dbbc0264f131c3f1392610bfaf9b8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#a5f4dbbc0264f131c3f1392610bfaf9b8">vim::handle_O</a> txt tid</td></tr>
@@ -276,12 +290,16 @@ Functions</h2></td></tr>
 <tr class="separator:a65797c456157215ed752f5c4accd74c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af9f1a3f199a5ae944d6c98a55ac81d90"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#af9f1a3f199a5ae944d6c98a55ac81d90">vim::handle_n</a> txt tid</td></tr>
 <tr class="separator:af9f1a3f199a5ae944d6c98a55ac81d90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00869942f264313368bcc4ed6ed36998"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#a00869942f264313368bcc4ed6ed36998">vim::handle_N</a> txt tid</td></tr>
+<tr class="separator:a00869942f264313368bcc4ed6ed36998"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a284cc46111be007c70a4c8533a95e593"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#a284cc46111be007c70a4c8533a95e593">vim::handle_r</a> txt tid</td></tr>
 <tr class="separator:a284cc46111be007c70a4c8533a95e593"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4fe4f1af9ca8311fee63bb108469314d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#a4fe4f1af9ca8311fee63bb108469314d">vim::handle_R</a> txt tid</td></tr>
 <tr class="separator:a4fe4f1af9ca8311fee63bb108469314d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a80e09f6b67366cfb79af283b8a055992"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#a80e09f6b67366cfb79af283b8a055992">vim::handle_v</a> txt tid</td></tr>
 <tr class="separator:a80e09f6b67366cfb79af283b8a055992"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e28e24644b38f44889191e5e30648eb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#a4e28e24644b38f44889191e5e30648eb">vim::handle_V</a> txt tid</td></tr>
+<tr class="separator:a4e28e24644b38f44889191e5e30648eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a682d1988b790736176f9a05859dd04f9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#a682d1988b790736176f9a05859dd04f9">vim::handle_control_f</a> txt</td></tr>
 <tr class="separator:a682d1988b790736176f9a05859dd04f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b388f0c2d4d869813f32f40ddb401db"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#a9b388f0c2d4d869813f32f40ddb401db">vim::handle_control_b</a> txt</td></tr>
@@ -320,6 +338,8 @@ Functions</h2></td></tr>
 <tr class="separator:ae52a741eeaae1c91e31716504ba0ef1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a83e5eb3bb167136585e337f1c5a63e47"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#a83e5eb3bb167136585e337f1c5a63e47">vim::handle_bar</a> txt tid</td></tr>
 <tr class="separator:a83e5eb3bb167136585e337f1c5a63e47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48979813580a2acfb3a241f5a175a69b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#a48979813580a2acfb3a241f5a175a69b">vim::convert_case</a> txt index str</td></tr>
+<tr class="separator:a48979813580a2acfb3a241f5a175a69b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1415823f88d37c5db1a1df11cb63c5fe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#a1415823f88d37c5db1a1df11cb63c5fe">vim::handle_asciitilde</a> txt tid</td></tr>
 <tr class="separator:a1415823f88d37c5db1a1df11cb63c5fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac6dd9eba7deeb8ec0c1bf9dfc2b22ea6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#ac6dd9eba7deeb8ec0c1bf9dfc2b22ea6">vim::handle_M</a> txt tid</td></tr>
@@ -328,6 +348,8 @@ Functions</h2></td></tr>
 <tr class="separator:a88442be79a61f75623744be4f111decf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aff2af9a52edb2e8f9855f117e84700cf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#aff2af9a52edb2e8f9855f117e84700cf">vim::handle_q</a> txt tid</td></tr>
 <tr class="separator:aff2af9a52edb2e8f9855f117e84700cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a932d27af08d95dd484ce64161fdca68d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#a932d27af08d95dd484ce64161fdca68d">vim::handle_Q</a> txt tid</td></tr>
+<tr class="separator:a932d27af08d95dd484ce64161fdca68d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a794cda1151c79a150c51869e651b523a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevim.html#a794cda1151c79a150c51869e651b523a">vim::handle_at</a> txt tid</td></tr>
 <tr class="separator:a794cda1151c79a150c51869e651b523a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -337,7 +359,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_97aefd0d527b934f1d99a682da8fe6a9.html">lib</a></li><li class="navelem"><a class="el" href="vim_8tcl.html">vim.tcl</a></li>
-    <li class="footer">Generated on Thu May 28 2015 20:16:44 for TKE by
+    <li class="footer">Generated on Thu Jul 16 2015 01:33:10 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>

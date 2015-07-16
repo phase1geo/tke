@@ -8,13 +8,14 @@ var searchData=
   ['undo_5fmanage',['undo_manage',['../namespacectext.html#a9fd070f9ee326464b5fde34a66e51994',1,'ctext']]],
   ['undo_5fseparator',['undo_separator',['../namespacectext.html#a163dcd0a0190cfcd9716c994752d73cb',1,'ctext']]],
   ['undoable',['undoable',['../namespacegui.html#aa814045bd71532eeccbccb7fc552f495',1,'gui']]],
-  ['unfavorite',['unfavorite',['../namespacesidebar.html#afc87091409067b68359db14caebda01f',1,'sidebar']]],
+  ['unfavorite',['unfavorite',['../namespacesidebar.html#a50844571c817c948ddb59b1eba1ccde6',1,'sidebar']]],
   ['unfavorite_5fcommand',['unfavorite_command',['../namespacemenus.html#a4cadb7eed4ee2ec8f45a13ac7c4acf53',1,'menus']]],
   ['unhide_5fscrollbar',['unhide_scrollbar',['../namespacesidebar.html#ad60d0050289f769dd9782ec07092ab18',1,'sidebar']]],
   ['unindent',['unindent',['../namespacetexttools.html#aa7c5359c14625fbc9e0ff1a42251e334',1,'texttools']]],
   ['uninstall',['uninstall',['../namespaceplugins.html#a7e6638690549195ae30259452214057a',1,'plugins']]],
   ['uninstall_5fitem',['uninstall_item',['../namespaceplugins.html#a58e3340348990e2587f743ffdce5b6a7',1,'plugins']]],
   ['unlock_5fcommand',['unlock_command',['../namespacemenus.html#a3b23e5a7602b4e943b05715b08fc9432',1,'menus']]],
+  ['unput',['unput',['../format__lexer_8tcl.html#a8f755d78e252c4a3436f05ecb095c5f9',1,'unputc:&#160;format_lexer.tcl'],['../snip__lexer_8tcl.html#a8f755d78e252c4a3436f05ecb095c5f9',1,'unputc:&#160;snip_lexer.tcl']]],
   ['unregister',['unregister',['../namespaceembed__tke_1_1launcher.html#a18a95ba97368fbb368ea986fc9f0df2f',1,'embed_tke::launcher::unregister()'],['../namespacelauncher.html#adbf4499997ce07bc3051f87f0cf24eb6',1,'launcher::unregister()']]],
   ['unregister_5flauncher',['unregister_launcher',['../namespaceapi.html#aaaeb165f38a12a750f55389bc59979ae',1,'api']]],
   ['untitled_5fcheck',['untitled_check',['../namespacegui.html#a10f86745102fe7e53794198531a72926',1,'gui']]],
@@ -34,7 +35,6 @@ var searchData=
   ['updatewindowmenu',['updateWindowMenu',['../namespacewindowlist.html#ac3a21182c92197f16222788e06d28c50',1,'windowlist']]],
   ['url_5fokay',['url_okay',['../namespacelauncher.html#a6fa944e6ddda4a0f2e0efd8e9cc7b5bd',1,'launcher']]],
   ['usage',['usage',['../lang_8tcl.html#a5684f219761d78b4f98e7b2869dd1726',1,'usage:&#160;lang.tcl'],['../themer_8tcl.html#a5684f219761d78b4f98e7b2869dd1726',1,'usage:&#160;themer.tcl'],['../tke_8tcl.html#a5684f219761d78b4f98e7b2869dd1726',1,'usage:&#160;tke.tcl']]],
-  ['user_5fresponse_5fget',['user_response_get',['../namespacegui.html#aff7fcfeee0a2c7a1ba8e8e1baa289692',1,'gui']]],
   ['utils',['utils',['../namespaceutils.html',1,'']]],
   ['utils_2etcl',['utils.tcl',['../utils_8tcl.html',1,'']]]
 ];

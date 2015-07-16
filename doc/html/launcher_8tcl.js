@@ -24,6 +24,8 @@ var launcher_8tcl =
     [ "move_down", "launcher_8tcl.html#a5db3d61a5112c47e88aca7d76083e040", null ],
     [ "move_up", "launcher_8tcl.html#a89f38d08786657af0a56806c5510e4f8", null ],
     [ "okay", "launcher_8tcl.html#adcd835e1d5e54f09794b5cb88a7d0f46", null ],
+    [ "open_uri", "launcher_8tcl.html#a01be421c9123caa926698c9d65cb6d07", null ],
+    [ "open_uri_and_bookmark", "launcher_8tcl.html#a100a192679617311de14252ea5b43a45", null ],
     [ "open_url", "launcher_8tcl.html#ae62944c720f7c1d7531a1854f8a1870a", null ],
     [ "open_url_and_bookmark", "launcher_8tcl.html#ae267e1c387465799686f3c2ea882d527", null ],
     [ "register", "launcher_8tcl.html#a2b295e7b3b73ad09d0c9548a7382365d", null ],

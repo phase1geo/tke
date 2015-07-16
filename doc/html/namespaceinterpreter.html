@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="tke_logo_128.gif"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">TKE
-   &#160;<span id="projectnumber">1.7</span>
+   &#160;<span id="projectnumber">1.8</span>
    </div>
    <div id="projectbrief">Advanced editor written in Tcl/Tk</div>
   </td>
@@ -1612,7 +1612,7 @@ Functions</h2></td></tr>
       </div>
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;      entrycget {
         </div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        <span class="keyword">lassign</span> $args entry_index opt<span class="comment">
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        <a class="code" href="tke_8tcl.html#a87a72c8f51e5763f17fa844297d1195c" title="lassign">lassign</a> $args entry_index opt<span class="comment">
 </span></div>
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;<span class="comment"></span>        <span class="keyword">if</span> {[lsearch $command_args $opt] != -1} {
           </div>
@@ -1698,7 +1698,7 @@ Functions</h2></td></tr>
         </div>
 <div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;        <span class="keyword">set</span> retval [list]<span class="comment">
 </span></div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;<span class="comment"></span>        <span class="keyword">set</span> args [<span class="keyword">lassign</span> $args entry_index]<span class="comment">
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;<span class="comment"></span>        <span class="keyword">set</span> args [<a class="code" href="tke_8tcl.html#a87a72c8f51e5763f17fa844297d1195c" title="lassign">lassign</a> $args entry_index]<span class="comment">
 </span></div>
 <div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;<span class="comment"></span>        <span class="keyword">switch</span>  [<span class="keyword">llength</span> $args] {
           </div>
@@ -1765,7 +1765,7 @@ Functions</h2></td></tr>
         </div>
 <div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        <span class="comment"># Handle adding commands to menus
 </span></div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;<span class="comment"></span><span class="comment">        </span><span class="keyword">set</span> args [<span class="keyword">lassign</span> $args retval]<span class="comment">
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;<span class="comment"></span><span class="comment">        </span><span class="keyword">set</span> args [<a class="code" href="tke_8tcl.html#a87a72c8f51e5763f17fa844297d1195c" title="lassign">lassign</a> $args retval]<span class="comment">
 </span></div>
 <div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;<span class="comment"></span>        <span class="keyword">foreach</span> {opt value} $args {
           </div>
@@ -1790,7 +1790,7 @@ Functions</h2></td></tr>
         </div>
 <div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;        <span class="comment"># Handle adding bindings to text/ctext widgets
 </span></div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;<span class="comment"></span><span class="comment">        </span><span class="keyword">set</span> args [<span class="keyword">lassign</span> $args subcmd]<span class="comment">
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;<span class="comment"></span><span class="comment">        </span><span class="keyword">set</span> args [<a class="code" href="tke_8tcl.html#a87a72c8f51e5763f17fa844297d1195c" title="lassign">lassign</a> $args subcmd]<span class="comment">
 </span></div>
 <div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;<span class="comment"></span>        <span class="keyword">if</span> {$subcmd eq &quot;bind&quot;} {
           </div>
@@ -2053,7 +2053,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceinterpreter.html">interpreter</a></li>
-    <li class="footer">Generated on Thu May 28 2015 20:16:45 for TKE by
+    <li class="footer">Generated on Thu Jul 16 2015 01:33:11 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>
