@@ -85,7 +85,9 @@ tabstop: DOLLAR_SIGN DECIMAL {
            set _ [list " " [snippets::set_tabstop $::snip_txt $2]]
          }
        | DOLLAR_SIGN OPEN_BRACKET DECIMAL ':' value CLOSE_BRACKET {
-           set _ [list $5 [snippets::set_tabstop $::snip_txt $3 $5]]
+           puts -nonewline "5: "
+           puts $5
+           set _ [concat $5 [snippets::set_tabstop $::snip_txt $3 $5]]
          }
          ;
 
@@ -203,6 +205,7 @@ opts: opts CHAR {
       ;
 
 value: value CHAR {
+         puts "($2)"
          set _ "$1$2"
        }
      | value NEWLINE {
@@ -224,9 +227,11 @@ value: value CHAR {
          set _ "$1$2"
        }
      | value tabstop {
-         set _ [concat $1 {} $2]
+         puts "1: ($1)"
+         set _ [concat $1 {} {*}$2]
        }
      | CHAR {
+         puts "($1)"
          set _ $1
        }
      | NEWLINE {
