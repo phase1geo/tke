@@ -11,6 +11,22 @@ proc get_retval {args} {
   return [join $args {}]
 }
 
+proc merge_values {val1 val2} {
+  if {[lindex $val1 end] eq ""} {
+    lset val1 end-1 "[lindex $val1 end-1][lindex $val2 0]"
+    return "[lrange $val1 0 end-1] [list [lindex $val2 1]]"
+  }
+  return [concat $val1 $val2]
+}
+
+proc apply_tabstop {ts_val ts_tag} {
+  set retval [list]
+  foreach {val tag} $ts_val {
+    lappend retval $val [concat $tag $ts_tag]
+  }
+  return $retval
+}
+
 proc parse_format {str matches} {
 
   FORMAT__FLUSH_BUFFER
@@ -82,12 +98,14 @@ snippet: snippet text {
          ;
 
 tabstop: DOLLAR_SIGN DECIMAL {
-           set _ [list " " [snippets::set_tabstop $::snip_txt $2]]
+           if {[set val [snippets::get_tabstop $::snip_txt $2]] ne ""} {
+             set _ [list $val {}]
+           } else {
+             set _ [list "\$$2" [snippets::set_tabstop $::snip_txt $2]]
+           }
          }
        | DOLLAR_SIGN OPEN_BRACKET DECIMAL ':' value CLOSE_BRACKET {
-           puts -nonewline "5: "
-           puts $5
-           set _ [concat $5 [snippets::set_tabstop $::snip_txt $3 $5]]
+           set _ [apply_tabstop $5 [snippets::set_tabstop $::snip_txt $3 $5]]
          }
          ;
 
@@ -150,10 +168,10 @@ pattern: pattern CHAR {
            set _ "$1$2"
          }
        | pattern NEWLINE {
-           set _ "$1\\n"
+           set _ "$1\n"
          }
        | pattern TAB {
-           set _ "$1\\t"
+           set _ "$1\t"
          }
        | pattern DECIMAL {
            set _ "$1$2"
@@ -205,52 +223,49 @@ opts: opts CHAR {
       ;
 
 value: value CHAR {
-         puts "($2)"
-         set _ "$1$2"
+         set _ [merge_values $1 [list $2 {}]]
        }
      | value NEWLINE {
-         set _ "$1\\n"
+         set _ [merge_values $1 [list "\n" {}]]
        }
      | value TAB {
-         set _ "$1\\t"
+         set _ [merge_values $1 [list "\t" {}]]
        }
      | value DECIMAL {
-         set _ "$1$2"
+         set _ [merge_values $1 [list $2 {}]]
        }
      | value '/' {
-         set _ "$1/"
+         set _ [merge_values $1 [list "/" {}]]
        }
      | value variable {
-         set _ "$1$2"
+         set _ [merge_values $1 [list $2 {}]]
        }
      | value shell {
-         set _ "$1$2"
+         set _ [merge_values $1 [list $2 {}]]
        }
      | value tabstop {
-         puts "1: ($1)"
-         set _ [concat $1 {} {*}$2]
+         set _ [concat $1 $2]
        }
      | CHAR {
-         puts "($1)"
-         set _ $1
+         set _ [list $1 {}]
        }
      | NEWLINE {
-         set _ "\\n"
+         set _ [list "\n" {}]
        }
      | TAB {
-         set _ "\\t"
+         set _ [list "\t" {}]
        }
      | DECIMAL {
-         set _ $1
+         set _ [list $1 {}]
        }
      | '/' {
-         set _ "/"
+         set _ [list "/" {}]
        }
      | variable {
-         set _ $1
+         set _ [list $1 {}]
        }
      | shell {
-         set _ $1
+         set _ [list $1 {}]
        }
      | tabstop {
          set _ $1
@@ -334,10 +349,10 @@ format: format CHAR {
           set _ "$1$2"
         }
       | format NEWLINE {
-          set _ "$1\\n"
+          set _ "$1\n"
         }
       | format TAB {
-          set _ "$1\\t"
+          set _ "$1\t"
         }
       | format DECIMAL {
           set _ "$1$2"
@@ -358,10 +373,10 @@ format: format CHAR {
           set _ $1
         }
       | NEWLINE {
-          set _ "\\n"
+          set _ "\n"
         }
       | TAB {
-          set _ "\\t"
+          set _ "\t"
         }
       | DECIMAL {
           set _ $1

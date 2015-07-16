@@ -210,7 +210,6 @@ namespace eval snippets {
       $txt delete "insert-1c wordstart" "insert-1c wordend"
 
       # Insert the text
-      puts $result
       $txt insert insert {*}$result
 
       # Traverse the inserted snippet
@@ -316,9 +315,13 @@ namespace eval snippets {
   # Clears any residual tabstops embedded in code.
   proc clear_tabstops {txt} {
 
+    variable tabvals
+    
     if {[llength [set tabstops [lsearch -inline -all -glob [$txt tag names] snippet_*]]] > 0} {
       $txt tag delete {*}$tabstops
     }
+    
+    array unset tabvals $txt,*
 
   }
 
@@ -375,6 +378,7 @@ namespace eval snippets {
         $txt tag delete snippet_mark_$tabpoints($txt)
         set tabstart($txt) [lindex $range 0]
       } elseif {[llength [set range [$txt tag ranges snippet_mark_0]]] == 2} {
+        $txt delete {*}$range
         $txt mark set insert [lindex $range 0]
         $txt tag delete snippet_mark_0
         set tabstart($txt) [lindex $range 0]
