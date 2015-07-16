@@ -1,28 +1,218 @@
-changeset:   1134:d8beed81213e
-tag:         devel-1.7.13
+changeset:   1137:4d52d0211b82
+tag:         devel-1.7.14
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Jun 18 00:19:16 2015 -0500
+date:        Fri Jun 19 08:42:58 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.7.13 release
+ChangeLog for devel-1.7.14 release
 
 
-changeset:   1135:2bc97c6d28d1
+changeset:   1138:376edc458cd1
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Jun 18 00:19:24 2015 -0500
+date:        Fri Jun 19 08:43:07 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.7.13 for changeset d8beed81213e
+Added tag devel-1.7.14 for changeset 4d52d0211b82
 
 
-changeset:   1136:8b6abb2d532a
+changeset:   1139:80b096bb1153
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Jun 21 23:57:37 2015 -0500
+files:       lib/launcher.tcl lib/snippets.tcl lib/version.tcl
+description:
+* Fixing issue with using parenthesis in the command launcher for calculations.
+* Adding initial support for transformations to snippets.
+
+
+changeset:   1140:f680fa5a3db4
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jun 26 09:13:21 2015 -0500
+files:       lib/Makefile lib/snippets.tcl lib/version.tcl scripts/fickle.tcl scripts/taccle.tcl
+description:
+* Adding fickle and taccle scripts to a new scripts directory and preparing Makefile to build lexer and parser for snippets.
+
+
+changeset:   1141:dc82fa6fd422
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Jun 28 21:01:37 2015 -0500
+files:       Win/freewrap.files Win/freewrap.tcl freewrap.files lib/Makefile lib/freewrap.tcl lib/snip_lexer.fcl lib/snip_lexer.tcl lib/snip_parser.tab.tcl lib/snip_parser.tac lib/snip_parser.tcl lib/version.tcl scripts/fickle.tcl
+description:
+* Checkpointing work on snippets lexer/parser.
+* Fixing issue in fickle.tcl script.
+* Moving freewrap files to a new Win directory for creating Windows releases.
+
+
+changeset:   1142:bbc3d6134707
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Sun Jun 28 22:40:51 2015 -0500
+files:       Win/freewrap664/docs/README Win/freewrap664/docs/freeWrapDocs.pdf Win/freewrap664/docs/license.MinGW-w64-runtime.txt Win/freewrap664/docs/license.winico Win/freewrap664/docs/license.winpthreads.txt Win/freewrap664/docs/readme.winico Win/freewrap664/docs/winico.html Win/freewrap664/win32/freewrap.exe Win/freewrap664/win32/freewrapTCLSH.exe Win/freewrap664/win64/freewrap.exe Win/freewrap664/win64/freewrapTCLSH.exe lib/sidebar.tcl lib/version.tcl
+description:
+* Adding ability to open file or expand/collapse directory with the Return key in the sidebar.
+* Adding Windows version of freewrap.
+
+
+changeset:   1143:d2dc1eb41f17
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Jun 29 00:27:18 2015 -0500
+files:       Win/freewrap.files Win/freewrap.tcl Win/tke.ico lib/version.tcl
+description:
+* Updates to get freewrap build to work.
+
+
+changeset:   1144:1f34d2d93524
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Jun 29 12:13:24 2015 -0500
+files:       lib/tke.tcl lib/version.tcl
+description:
+* Attempting to fix things for Windows build.
+
+
+changeset:   1145:76efc7081763
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Jun 29 20:05:31 2015 -0500
+files:       Win/freewrap.files Win/freewrap.tcl Win/tke.ico lib/images/tke.ico lib/sidebar.tcl lib/tke.tcl lib/version.tcl
+description:
+* More work on creating Windows executable.
+
+
+changeset:   1146:8ba2aee9b163
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jun 30 08:41:57 2015 -0500
+files:       lib/images/tke.ico lib/version.tcl
+description:
+* Attempting to make a better tke.ico file.
+
+
+changeset:   1147:7796a20b08fe
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Jul 01 00:07:52 2015 -0500
+files:       Win/freewrap.tcl Win/setup.iss lib/version.tcl
+description:
+* Adding setup.iss configuration file for Windows installer.
+* Updating freewrap.tcl script.
+
+
+changeset:   1148:4705864e6013
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Jul 05 19:12:02 2015 -0500
+files:       lib/launcher.tcl lib/snip_lexer.fcl lib/snip_lexer.tcl lib/snip_parser.tac lib/snip_parser.tcl lib/snippets.tcl lib/tke.tcl lib/version.tcl
+description:
+* Adding support for URIs in the command launcher.
+* Checkpointing more work on the improved snippet parser (still work to do here).
+
+
+changeset:   1149:8f1e3fd1284c
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Jul 05 19:13:03 2015 -0500
+files:       lib/tke.tcl lib/version.tcl
+description:
+* Removing unnecessary code to handle icon for Windows environments.
+
+
+changeset:   1150:fdf1885ff898
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Sun Jul 05 23:14:37 2015 -0500
+files:       lib/sidebar.tcl lib/snippets.tcl lib/version.tcl
+description:
+* Switching out touch for file mtime for platform compatibility purposes.
+
+
+changeset:   1151:c10c4037ce46
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Jul 05 23:28:35 2015 -0500
+files:       lib/snippets.tcl lib/version.tcl
+description:
+* Resolving conflicts.
+
+
+changeset:   1152:137fbd736aa9
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Jul 06 19:55:22 2015 -0500
+files:       lib/menus.tcl lib/utils.tcl lib/version.tcl
+description:
+* Working on egrep support for Windows environment.
+
+
+changeset:   1153:8a152f229ec0
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jul 07 00:49:44 2015 -0500
+files:       lib/menus.tcl lib/sidebar.tcl lib/tke.tcl lib/utils.tcl lib/version.tcl
+description:
+* Finishing work on Tcl-only egrep functionality.
+* Including tcllib fileutil package.
+* Removing binary files within the sidebar::ignore_files functionality (since we cannot view them anyways).
+
+
+changeset:   1154:5cf1a344ceba
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jul 07 02:03:09 2015 -0500
+files:       lib/snip_lexer.fcl lib/snip_lexer.tcl lib/snip_parser.tac lib/snip_parser.tcl lib/version.tcl
+description:
+* Checkpointing work on snippet lexer/parser.
+
+
+changeset:   1155:9d228519da69
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jul 07 09:19:42 2015 -0500
+files:       lib/snip_lexer.fcl lib/snip_lexer.tcl lib/snip_parser.tab.tcl lib/snip_parser.tac lib/snip_parser.tcl lib/snippets.tcl lib/version.tcl
+description:
+* More work on snippet parser.
+
+
+changeset:   1156:2b840a95fbdc
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jul 08 09:32:06 2015 -0500
+files:       lib/snip_lexer.fcl lib/snip_lexer.tcl lib/snip_parser.tac lib/snip_parser.tcl lib/snippets.tcl lib/version.tcl
+description:
+* More work on snippet parser.
+
+
+changeset:   1157:3f082f94f760
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Jul 08 23:43:42 2015 -0500
+files:       lib/Makefile lib/format_lexer.fcl lib/format_lexer.tcl lib/format_parser.tab.tcl lib/format_parser.tac lib/format_parser.tcl lib/sidebar.tcl lib/snip_parser.tac lib/snip_parser.tcl lib/snippets.tcl lib/tke.tcl lib/version.tcl
+description:
+* More work on snippet parser.
+
+
+changeset:   1158:3850bdfbe9af
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Sun Jul 12 23:17:21 2015 -0500
+files:       lib/format_lexer.fcl lib/format_lexer.tcl lib/format_parser.tac lib/format_parser.tcl lib/snip_lexer.fcl lib/snip_lexer.tcl lib/snip_parser.tac lib/snip_parser.tcl lib/snippets.tcl lib/version.tcl
+description:
+* Checkpointing work on snippets.
+
+
+changeset:   1159:2fdd863957c7
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Jul 13 22:07:03 2015 -0500
+files:       lib/snip_parser.tac lib/snip_parser.tcl lib/snippets.tcl lib/version.tcl
+description:
+* Fixing support for mirrored tabstops.
+
+
+changeset:   1160:3cbcba245f91
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jul 14 07:31:53 2015 -0500
+files:       lib/snippets.tcl lib/version.tcl
+description:
+* Clearing tabstops prior to inserting a new tabstop.
+
+
+changeset:   1161:7036ae84cb75
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Jul 15 22:23:06 2015 -0500
+files:       lib/snip_parser.tac lib/snip_parser.tcl lib/snippets.tcl lib/version.tcl
+description:
+* Checkpointing more work on snippet parser.
+
+
+changeset:   1162:ecc5602f0db5
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Jun 18 23:20:18 2015 -0500
-files:       data/preferences.tkedat lib/api.tcl lib/gui.tcl lib/menus.tcl lib/sidebar.tcl lib/version.tcl
+date:        Thu Jul 16 00:51:27 2015 -0500
+files:       lib/snip_parser.tac lib/snip_parser.tcl lib/snippets.tcl lib/version.tcl
 description:
-* Adding new "View/ShowFindInFileResultsInOtherPane" preference item.
-* Changing add_file and add_new_file procs to include new -other option to immediately add a file to the other pane.
-* Adding -other option to api::file::add procedure.
+* Fixing snippet parser issues (early testing looks clean now).
 
 
