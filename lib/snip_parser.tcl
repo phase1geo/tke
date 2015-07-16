@@ -10,6 +10,22 @@ proc get_retval {args} {
   return [join $args {}]
 }
 
+proc merge_values {val1 val2} {
+  if {[lindex $val1 end] eq ""} {
+    lset val1 end-1 "[lindex $val1 end-1][lindex $val2 0]"
+    return "[lrange $val1 0 end-1] [list [lindex $val2 1]]"
+  }
+  return [concat $val1 $val2]
+}
+
+proc apply_tabstop {ts_val ts_tag} {
+  set retval [list]
+  foreach {val tag} $ts_val {
+    lappend retval $val [concat $tag $ts_tag]
+  }
+  return $retval
+}
+
 proc parse_format {str matches} {
 
   FORMAT__FLUSH_BUFFER
@@ -3434,105 +3450,105 @@ array set ::snip_rules {
 }
 
 array set ::snip_rules {
-  41,line 217
-  96,line 392
-  7,line 70
-  37,line 202
-  93,line 381
-  4,line 61
-  34,line 191
-  90,line 372
-  89,line 369
-  1,line 50
-  31,line 182
-  86,line 360
-  27,line 170
-  83,line 351
-  24,line 161
-  80,line 342
-  79,line 339
-  21,line 152
-  76,line 326
-  17,line 120
-  73,line 317
-  14,line 105
-  70,line 308
-  69,line 305
-  11,line 82
-  66,line 296
-  63,line 287
-  60,line 278
-  59,line 275
-  56,line 266
-  53,line 255
-  50,line 246
-  49,line 243
-  46,line 233
-  43,line 223
-  98,line 400
-  9,line 76
-  40,line 214
-  39,line 211
-  95,line 389
-  6,line 67
-  36,line 197
-  92,line 378
-  3,line 58
-  33,line 188
-  88,line 366
-  29,line 176
-  30,line 179
-  85,line 357
-  26,line 167
-  82,line 348
-  23,line 158
-  78,line 336
-  19,line 130
-  20,line 147
-  75,line 323
-  16,line 117
-  72,line 314
-  13,line 92
-  68,line 302
-  10,line 79
-  65,line 293
-  62,line 284
-  58,line 272
-  55,line 263
-  52,line 252
-  48,line 240
-  45,line 229
-  42,line 220
-  97,line 395
-  8,line 73
-  38,line 205
-  94,line 386
-  5,line 64
-  35,line 194
-  91,line 375
-  2,line 55
-  32,line 185
-  87,line 363
-  28,line 173
-  84,line 354
-  25,line 164
-  81,line 345
-  22,line 155
-  77,line 331
-  18,line 127
-  74,line 320
-  15,line 112
-  71,line 311
-  12,line 87
-  67,line 299
-  64,line 290
-  61,line 281
-  57,line 269
-  54,line 258
-  51,line 249
-  47,line 237
-  44,line 226
-  99,line 403
+  41,line 234
+  96,line 407
+  7,line 86
+  37,line 220
+  93,line 396
+  4,line 77
+  34,line 209
+  90,line 387
+  89,line 384
+  1,line 66
+  31,line 200
+  86,line 375
+  27,line 188
+  83,line 366
+  24,line 179
+  80,line 357
+  79,line 354
+  21,line 170
+  76,line 341
+  17,line 138
+  73,line 332
+  14,line 123
+  70,line 323
+  69,line 320
+  11,line 98
+  66,line 311
+  63,line 302
+  60,line 293
+  59,line 290
+  56,line 281
+  53,line 270
+  50,line 261
+  49,line 258
+  46,line 249
+  43,line 240
+  98,line 415
+  9,line 92
+  40,line 231
+  39,line 228
+  95,line 404
+  6,line 83
+  36,line 215
+  92,line 393
+  3,line 74
+  33,line 206
+  88,line 381
+  29,line 194
+  30,line 197
+  85,line 372
+  26,line 185
+  82,line 363
+  23,line 176
+  78,line 351
+  19,line 148
+  20,line 165
+  75,line 338
+  16,line 135
+  72,line 329
+  13,line 110
+  68,line 317
+  10,line 95
+  65,line 308
+  62,line 299
+  58,line 287
+  55,line 278
+  52,line 267
+  48,line 255
+  45,line 246
+  42,line 237
+  97,line 410
+  8,line 89
+  38,line 223
+  94,line 401
+  5,line 80
+  35,line 212
+  91,line 390
+  2,line 71
+  32,line 203
+  87,line 378
+  28,line 191
+  84,line 369
+  25,line 182
+  81,line 360
+  22,line 173
+  77,line 346
+  18,line 145
+  74,line 335
+  15,line 130
+  71,line 326
+  12,line 107
+  67,line 314
+  64,line 305
+  61,line 296
+  57,line 284
+  54,line 273
+  51,line 264
+  47,line 252
+  44,line 243
+  99,line 418
 }
 
 proc snip_parse {} {
@@ -3627,12 +3643,14 @@ proc snip_parse {} {
            set _ [list $1 {}]
           }
                     12 { 
-           set _ [list " " [snippets::set_tabstop $::snip_txt $2]]
+           if {[set val [snippets::get_tabstop $::snip_txt $2]] ne ""} {
+             set _ [list $val {}]
+           } else {
+             set _ [list "\$$2" [snippets::set_tabstop $::snip_txt $2]]
+           }
           }
                     13 { 
-           puts -nonewline "5: "
-           puts $5
-           set _ [concat $5 [snippets::set_tabstop $::snip_txt $3 $5]]
+           set _ [apply_tabstop $5 [snippets::set_tabstop $::snip_txt $3 $5]]
           }
                     14 { 
              if {[set val [snippets::get_tabstop $::snip_txt $3]] ne ""} {
@@ -3687,10 +3705,10 @@ proc snip_parse {} {
            set _ "$1$2"
           }
                     22 { 
-           set _ "$1\\n"
+           set _ "$1\n"
           }
                     23 { 
-           set _ "$1\\t"
+           set _ "$1\t"
           }
                     24 { 
            set _ "$1$2"
@@ -3738,52 +3756,49 @@ proc snip_parse {} {
         set _ $1
        }
                     39 { 
-         puts "($2)"
-         set _ "$1$2"
+         set _ [merge_values $1 [list $2 {}]]
         }
                     40 { 
-         set _ "$1\\n"
+         set _ [merge_values $1 [list "\n" {}]]
         }
                     41 { 
-         set _ "$1\\t"
+         set _ [merge_values $1 [list "\t" {}]]
         }
                     42 { 
-         set _ "$1$2"
+         set _ [merge_values $1 [list $2 {}]]
         }
                     43 { 
-         set _ "$1/"
+         set _ [merge_values $1 [list "/" {}]]
         }
                     44 { 
-         set _ "$1$2"
+         set _ [merge_values $1 [list $2 {}]]
         }
                     45 { 
-         set _ "$1$2"
+         set _ [merge_values $1 [list $2 {}]]
         }
                     46 { 
-         puts "1: ($1)"
-         set _ [concat $1 {} {*}$2]
+         set _ [concat $1 $2]
         }
                     47 { 
-         puts "($1)"
-         set _ $1
+         set _ [list $1 {}]
         }
                     48 { 
-         set _ "\\n"
+         set _ [list "\n" {}]
         }
                     49 { 
-         set _ "\\t"
+         set _ [list "\t" {}]
         }
                     50 { 
-         set _ $1
+         set _ [list $1 {}]
         }
                     51 { 
-         set _ "/"
+         set _ [list "/" {}]
         }
                     52 { 
-         set _ $1
+         set _ [list $1 {}]
         }
                     53 { 
-         set _ $1
+         set _ [list $1 {}]
         }
                     54 { 
          set _ $1
@@ -3861,10 +3876,10 @@ proc snip_parse {} {
           set _ "$1$2"
          }
                     79 { 
-          set _ "$1\\n"
+          set _ "$1\n"
          }
                     80 { 
-          set _ "$1\\t"
+          set _ "$1\t"
          }
                     81 { 
           set _ "$1$2"
@@ -3885,10 +3900,10 @@ proc snip_parse {} {
           set _ $1
          }
                     87 { 
-          set _ "\\n"
+          set _ "\n"
          }
                     88 { 
-          set _ "\\t"
+          set _ "\t"
          }
                     89 { 
           set _ $1
