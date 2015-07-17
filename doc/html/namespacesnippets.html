@@ -725,13 +725,13 @@ Functions</h2></td></tr>
     </div>
 <div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    <span class="comment"># Flush the parsing buffer
 </span></div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;<span class="comment"></span><span class="comment">    </span><a class="code" href="snip__lexer_8tcl.html#a57a39d3cd5c1071eb65118e734e57fb8" title="SNIP__FLUSH_BUFFER">SNIP__FLUSH_BUFFER</a><span class="comment">
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;<span class="comment"></span><span class="comment">    </span>SNIP__FLUSH_BUFFER<span class="comment">
 </span></div>
 <div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;<span class="comment"></span>
     </div>
 <div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    <span class="comment"># Insert the string to scan
 </span></div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;<span class="comment"></span><span class="comment">    </span><a class="code" href="snip__lexer_8tcl.html#a03a7792bec860c2320e5131216664003" title="snip__scan_string">snip__scan_string</a> $str<span class="comment">
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;<span class="comment"></span><span class="comment">    </span>snip__scan_string $str<span class="comment">
 </span></div>
 <div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;<span class="comment"></span>
     </div>
@@ -747,7 +747,7 @@ Functions</h2></td></tr>
     </div>
 <div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;    <span class="comment"># Parse the string
 </span></div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">if</span> {[<span class="keyword">catch</span> { <a class="code" href="snip__parser_8tcl.html#a6a82f8548192dd5f94cae2394d13e7de" title="snip_parse">snip_parse</a>} rc] || ($rc != 0)} {
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">if</span> {[<span class="keyword">catch</span> { snip_parse} rc] || ($rc != 0)} {
       </div>
 <div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;      <span class="keyword">puts</span> &quot;ERROR-snippet: $::snip_errmsg ($rc)&quot;<span class="comment">
 </span></div>
@@ -1315,7 +1315,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacesnippets.html">snippets</a></li>
-    <li class="footer">Generated on Thu Jul 16 2015 01:33:11 for TKE by
+    <li class="footer">Generated on Fri Jul 17 2015 08:34:48 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>

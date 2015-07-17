@@ -15,7 +15,6 @@ var searchData=
   ['uninstall',['uninstall',['../namespaceplugins.html#a7e6638690549195ae30259452214057a',1,'plugins']]],
   ['uninstall_5fitem',['uninstall_item',['../namespaceplugins.html#a58e3340348990e2587f743ffdce5b6a7',1,'plugins']]],
   ['unlock_5fcommand',['unlock_command',['../namespacemenus.html#a3b23e5a7602b4e943b05715b08fc9432',1,'menus']]],
-  ['unput',['unput',['../format__lexer_8tcl.html#a8f755d78e252c4a3436f05ecb095c5f9',1,'unputc:&#160;format_lexer.tcl'],['../snip__lexer_8tcl.html#a8f755d78e252c4a3436f05ecb095c5f9',1,'unputc:&#160;snip_lexer.tcl']]],
   ['unregister',['unregister',['../namespaceembed__tke_1_1launcher.html#a18a95ba97368fbb368ea986fc9f0df2f',1,'embed_tke::launcher::unregister()'],['../namespacelauncher.html#adbf4499997ce07bc3051f87f0cf24eb6',1,'launcher::unregister()']]],
   ['unregister_5flauncher',['unregister_launcher',['../namespaceapi.html#aaaeb165f38a12a750f55389bc59979ae',1,'api']]],
   ['untitled_5fcheck',['untitled_check',['../namespacegui.html#a10f86745102fe7e53794198531a72926',1,'gui']]],
