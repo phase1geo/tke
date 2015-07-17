@@ -21,7 +21,6 @@ var searchData=
   ['menus',['menus',['../namespacemenus.html',1,'']]],
   ['menus_2etcl',['menus.tcl',['../menus_8tcl.html',1,'']]],
   ['merge_5fpanes',['merge_panes',['../namespacegui.html#ae570da4fa73bbfe202f292de88ed0575',1,'gui']]],
-  ['merge_5fvalues',['merge_values',['../snip__parser_8tcl.html#a53f9f7d101e72e625471c8a257f288e8',1,'snip_parser.tcl']]],
   ['minimizefrontwindow',['minimizeFrontWindow',['../namespacewindowlist.html#a7d25c1a5b90184001ef0a408ee1e0c20',1,'windowlist']]],
   ['modified',['modified',['../namespacectext.html#a99761be0cc6b7c02330ad978bb985070',1,'ctext']]],
   ['movable_5fto_5fother_5fpane',['movable_to_other_pane',['../namespacegui.html#adf2a48e7b4fdb1cf82d411586c84273d',1,'gui']]],

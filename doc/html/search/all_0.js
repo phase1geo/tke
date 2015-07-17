@@ -53,7 +53,6 @@ var searchData=
   ['api',['api',['../namespaceapi.html',1,'']]],
   ['api_2etcl',['api.tcl',['../api_8tcl.html',1,'']]],
   ['apply_5fall_5fbindings',['apply_all_bindings',['../namespacebindings.html#a376f0da53fe0d132a0fbedfe2ba0c2d7',1,'bindings']]],
-  ['apply_5ftabstop',['apply_tabstop',['../snip__parser_8tcl.html#aa9ff708d9f7c32689dec00cc51446400',1,'snip_parser.tcl']]],
   ['auto_5fadjust_5fcolor',['auto_adjust_color',['../namespaceutils.html#adfc92fa14a2507314f09aef8c3524586',1,'utils']]],
   ['auto_5fmix_5fcolors',['auto_mix_colors',['../namespaceutils.html#a8c3b435ab26715ea69ffd020a52be918',1,'utils']]],
   ['file',['file',['../namespaceapi_1_1file.html',1,'api']]],

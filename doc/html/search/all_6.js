@@ -55,7 +55,6 @@ var searchData=
   ['get_5fplugin_5fdirectory',['get_plugin_directory',['../namespaceapi.html#a4fbe246f90ab18aeca4abaa5f9f51350',1,'api']]],
   ['get_5fprefixed_5fsymbol',['get_prefixed_symbol',['../namespacesyntax.html#a55fad28b61befba7b6f20ad7ba5e1810',1,'syntax']]],
   ['get_5fprevious_5findent_5fspace',['get_previous_indent_space',['../namespaceindent.html#a7fb254b122722597295a3f26bfebbcb5',1,'indent']]],
-  ['get_5fretval',['get_retval',['../format__parser_8tcl.html#a72f2d1ba18eeae872f34faa7c008508e',1,'get_retvalargs:&#160;format_parser.tcl'],['../snip__parser_8tcl.html#a72f2d1ba18eeae872f34faa7c008508e',1,'get_retvalargs:&#160;snip_parser.tcl']]],
   ['get_5fsave_5fname',['get_save_name',['../namespacethemer.html#a7d9c8fcb6483f12c57c2c8b0a7bcbf31',1,'themer']]],
   ['get_5fselected_5findices',['get_selected_indices',['../namespaceapi_1_1sidebar.html#abdc3d3cd4b4e2047e1a8fb38d1817ee7',1,'api::sidebar::get_selected_indices()'],['../namespacesidebar.html#a406718b8f64a31953c1adedf8840f5c4',1,'sidebar::get_selected_indices()']]],
   ['get_5fsymbol_5flist',['get_symbol_list',['../namespacegui.html#aed0d9924d06ab8f3a2779c03cbb820de',1,'gui']]],

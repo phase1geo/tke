@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['begin',['BEGIN',['../format__lexer_8tcl.html#a6e022bde3d5615ec880caea4096c8fc3',1,'BEGINnew_state?prefix?:&#160;format_lexer.tcl'],['../snip__lexer_8tcl.html#a6e022bde3d5615ec880caea4096c8fc3',1,'BEGINnew_state?prefix?:&#160;snip_lexer.tcl']]],
   ['bgerror',['bgerror',['../logger_8tcl.html#a110676ebc5ab467ea0d00b1679da7e31',1,'logger.tcl']]],
   ['bgproc',['bgproc',['../namespacebgproc.html',1,'']]],
   ['bgproc_2etcl',['bgproc.tcl',['../bgproc_8tcl.html',1,'']]],

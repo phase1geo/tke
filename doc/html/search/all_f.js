@@ -3,7 +3,6 @@ var searchData=
   ['pane_5ftb_5findex_5ffrom_5ftab',['pane_tb_index_from_tab',['../namespacegui.html#a55735feeabc3b5337566a87db4eab541',1,'gui']]],
   ['panes',['panes',['../namespacegui.html#a589a4a2beb2d4d13a296d423227939f8',1,'gui']]],
   ['parse_5fcmdline',['parse_cmdline',['../tke_8tcl.html#ac840dfd4eb03191da4521508da70850a',1,'tke.tcl']]],
-  ['parse_5fformat',['parse_format',['../snip__parser_8tcl.html#a493f2479b3e386897779532dfc0d273d',1,'snip_parser.tcl']]],
   ['parse_5fsnippet',['parse_snippet',['../namespacesnippets.html#a01add5f26df3cf2af702811f6409cccd',1,'snippets']]],
   ['parse_5fsnippets',['parse_snippets',['../namespacesnippets.html#ac6fd58389f8250012a6d62a2f21417dc',1,'snippets']]],
   ['parse_5funified_5fdiff',['parse_unified_diff',['../namespacediff.html#afccefef06e282602276286881657b334',1,'diff']]],

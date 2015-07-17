@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['echo',['ECHO',['../format__lexer_8tcl.html#ad6e4ab740b25d8502318316d7a052e3e',1,'ECHO?s?:&#160;format_lexer.tcl'],['../snip__lexer_8tcl.html#ad6e4ab740b25d8502318316d7a052e3e',1,'ECHO?s?:&#160;snip_lexer.tcl']]],
   ['edit_5fend_5fcommand',['edit_end_command',['../namespacelang.html#ae64a21071488c1204e5062faa102d4c0',1,'lang']]],
   ['edit_5fformat_5fposting',['edit_format_posting',['../namespacemenus.html#a5fe58b90370453e794dbe67a139c7f9a',1,'menus']]],
   ['edit_5finsert_5fposting',['edit_insert_posting',['../namespacemenus.html#a9b3ac81422d5fd5554d8dfd46962a3df',1,'menus']]],

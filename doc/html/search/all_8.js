@@ -12,7 +12,6 @@ var searchData=
   ['indent_2etcl',['indent.tcl',['../indent_8tcl.html',1,'']]],
   ['initialize',['initialize',['../namespacelogger.html#aa89b7146a1a92334d3a18364e4e6279d',1,'logger::initialize()'],['../namespacethemes.html#ae5adc5aa4c861301c57e20d0381a09aa',1,'themes::initialize()']]],
   ['initialize_5flanguage',['initialize_language',['../namespacesyntax.html#ae91299b06a2bb8c93b6fccd482038705',1,'syntax']]],
-  ['input',['input',['../format__lexer_8tcl.html#a877535c3b6ffdf230bce90c82c597d17',1,'input:&#160;format_lexer.tcl'],['../snip__lexer_8tcl.html#a877535c3b6ffdf230bce90c82c597d17',1,'input:&#160;snip_lexer.tcl']]],
   ['insert',['insert',['../namespacemulticursor.html#aaa497ae25291be8126a882176ebe65fb',1,'multicursor']]],
   ['insert_5fenumeration',['insert_enumeration',['../namespacetexttools.html#ac3ee1ffb114deec9a145e30dadc83ad1',1,'texttools']]],
   ['insert_5ffile',['insert_file',['../namespacevim.html#aa9917481bdef75d491b61e57bf9c0e5c',1,'vim']]],
