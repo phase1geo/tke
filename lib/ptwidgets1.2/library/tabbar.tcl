@@ -573,7 +573,7 @@ namespace eval tabbar {
       set page [lindex $data($w,pages) $page_index 0]
       
       # Delete the tab
-      delete $w [index $w @$x,$y]
+      delete $w $page_index
       
       # Show the close button if the mouse is over a tab
       if {$data($w,option,-closeshow) eq "enter"} {

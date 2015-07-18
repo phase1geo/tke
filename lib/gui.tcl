@@ -1273,7 +1273,7 @@ namespace eval gui {
       lset file_info $files_index(modified) 0
       lset file_info $files_index(gutters)  $opts(-gutters)
       lset file_info $files_index(diff)     $opts(-diff)
-
+      
       if {![catch { open $fname r } rc]} {
 
         set txt [get_txt_from_tab $w]
@@ -1689,6 +1689,9 @@ namespace eval gui {
     variable files
     variable files_index
     variable pw_current
+    
+    # Set the current pane
+    set pw_current [lsearch [$widgets(nb_pw) panes] [winfo parent $tab]]
 
     # Get the file index
     set index [get_file_index $tab]
