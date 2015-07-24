@@ -1,26 +1,28 @@
-changeset:   1170:ec3c7c9c971f
-tag:         devel-1.7.16
+changeset:   1173:ac83ed99462b
+tag:         devel-1.7.17
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Jul 23 18:27:42 2015 -0500
+date:        Thu Jul 23 20:28:21 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.7.16 release
+ChangeLog for devel-1.7.17 release
 
 
-changeset:   1171:005bb2f6d166
+changeset:   1174:5ece8c7fa89f
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Jul 23 18:27:46 2015 -0500
+date:        Thu Jul 23 20:28:26 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.7.16 for changeset ec3c7c9c971f
+Added tag devel-1.7.17 for changeset ac83ed99462b
 
 
-changeset:   1172:e42007908357
+changeset:   1175:608fa62f1be7
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Jul 23 20:27:25 2015 -0500
+date:        Fri Jul 24 02:25:17 2015 -0500
 files:       lib/version.tcl release.tcl
 description:
-* First attempt to remove doc/html directory from releases.
+* Fixing syntax error in previous release.tcl change.
+* Removing Win directory when creating Linux tarballs.
+* Deleting release directory if there is a problem deleting the doc/html directory.
 
 
