@@ -154,7 +154,8 @@ proc create_archive {tag type} {
   # Delete the doc/html directory from the release directory
   if {[catch { file delete -force [file join $release_dir doc html] } rc]} {
     puts "failed!"
-    puts "  $rc
+    puts "  $rc"
+    file delete -force $release_dir
     return -code error "Unable to delete doc/html directory"
   }
   
@@ -177,6 +178,14 @@ proc generate_linux_tarball {tag} {
     puts "  $rc"
     file delete -force $release_dir
     return -code error "Unable to delete MacOSX directory"
+  }
+  
+  # Delete the Win directory
+  if {[catch { file delete -force [file join $release_dir Win] } rc]} {
+    puts "failed!"
+    puts "  $rc"
+    file delete -force $release_dir
+    return -code error "Unable to delete Win directory"
   }
   
   # Delete the release.tcl file
