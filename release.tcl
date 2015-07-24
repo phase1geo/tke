@@ -150,6 +150,13 @@ proc create_archive {tag type} {
     puts "  $rc"
     return -code error "Unable to generate archive"
   }
+
+  # Delete the doc/html directory from the release directory
+  if {[catch { file delete -force [file join $release_dir doc html] } rc]} {
+    puts "failed!"
+    puts "  $rc
+    return -code error "Unable to delete doc/html directory"
+  }
   
   puts "done."
   
