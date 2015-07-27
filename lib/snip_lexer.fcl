@@ -14,7 +14,7 @@ source [file join $::tke_dir lib snip_parser.tab.tcl]
 }
 
   # Handle escape sequences
-\\[luLUEnt\$] {
+\\[luLUEnt\$`] {
   set ::snip_lval $snip_text
   set ::snip_begpos $::snip_endpos
   incr ::snip_endpos [string length $snip_text]
@@ -27,7 +27,7 @@ source [file join $::tke_dir lib snip_parser.tab.tcl]
     n       { puts {A found NEWLINE}; return $::NEWLINE }
     t       { return $::TAB }
     default {
-      set ::snip_lval $snip_text
+      set ::snip_lval [string index $snip_text 1]
       return $::CHAR
     }
   }
