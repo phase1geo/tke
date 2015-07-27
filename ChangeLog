@@ -1,28 +1,26 @@
-changeset:   1173:ac83ed99462b
-tag:         devel-1.7.17
+changeset:   1176:94ae8bb0d7ad
+tag:         devel-1.7.18
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Jul 23 20:28:21 2015 -0500
+date:        Fri Jul 24 02:26:05 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.7.17 release
+ChangeLog for devel-1.7.18 release
 
 
-changeset:   1174:5ece8c7fa89f
+changeset:   1177:39dc57f66985
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Jul 23 20:28:26 2015 -0500
+date:        Fri Jul 24 02:26:11 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.7.17 for changeset ac83ed99462b
+Added tag devel-1.7.18 for changeset 94ae8bb0d7ad
 
 
-changeset:   1175:608fa62f1be7
+changeset:   1178:3b6ab3a841ac
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Jul 24 02:25:17 2015 -0500
-files:       lib/version.tcl release.tcl
+date:        Sun Jul 26 22:19:03 2015 -0500
+files:       lib/snip_lexer.fcl lib/snip_lexer.tcl lib/version.tcl
 description:
-* Fixing syntax error in previous release.tcl change.
-* Removing Win directory when creating Linux tarballs.
-* Deleting release directory if there is a problem deleting the doc/html directory.
+* Fixing a few syntax issues with snippets.
 
 
