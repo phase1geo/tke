@@ -331,7 +331,7 @@ set ::snip_lval $snip_text
     L       { return $::LOWER_BLOCK }
     U       { return $::UPPER_BLOCK }
     E       { return $::END_BLOCK }
-    n       { puts {A found NEWLINE}; return $::NEWLINE }
+    n       { return $::NEWLINE }
     t       { return $::TAB }
     default {
       set ::snip_lval [string index $snip_text 1]

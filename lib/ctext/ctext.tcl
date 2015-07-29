@@ -995,8 +995,8 @@ proc ctext::instanceCmd {self cmd args} {
         ctext::modified $self 1 "delete $deletePos 1 $lines"
       } elseif {$argsLength == 2} {
         #now deal with delete n.n ?n.n?
-        set deleteStartPos [lindex $args 0]
-        set deleteEndPos   [lindex $args 1]
+        set deleteStartPos [$self._t index [lindex $args 0]]
+        set deleteEndPos   [$self._t index [lindex $args 1]]
         set lines          [$self._t count -lines $deleteStartPos $deleteEndPos]
 
         set data [$self._t get $deleteStartPos $deleteEndPos]
@@ -1004,9 +1004,9 @@ proc ctext::instanceCmd {self cmd args} {
         set lineStart [$self._t index "$deleteStartPos linestart"]
         set lineEnd [$self._t index "$deleteEndPos + 1 chars lineend"]
 
-        ctext::undo_delete $self [$self._t index $deleteStartPos] [$self._t index $deleteEndPos]
+        ctext::undo_delete $self $deleteStartPos $deleteEndPos
 
-        eval \$self._t delete $args
+        $self._t delete $deleteStartPos $deleteEndPos
 
         foreach tag [$self._t tag names] {
           if {![regexp {^_([lc]Comment|[sdt]String)$} $tag] && ([string index $tag 0] eq "_")} {
@@ -1019,7 +1019,7 @@ proc ctext::instanceCmd {self cmd args} {
         if {[string first "\n" $data] >= 0} {
           ctext::linemapUpdate $self
         }
-        ctext::modified $self 1 "delete [$self._t index $deleteStartPos] [string length $data] $lines"
+        ctext::modified $self 1 "delete $deleteStartPos [string length $data] $lines"
       } else {
         return -code error "invalid argument(s) sent to $self delete: $args"
       }
