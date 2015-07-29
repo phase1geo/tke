@@ -1,26 +1,27 @@
-changeset:   1176:94ae8bb0d7ad
-tag:         devel-1.7.18
+changeset:   1179:b2c70469da37
+tag:         devel-1.7.19
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Jul 24 02:26:05 2015 -0500
+date:        Sun Jul 26 22:21:27 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.7.18 release
+ChangeLog for devel-1.7.19 release
 
 
-changeset:   1177:39dc57f66985
+changeset:   1180:2141d8feb3f1
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Jul 24 02:26:11 2015 -0500
+date:        Sun Jul 26 22:22:45 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.7.18 for changeset 94ae8bb0d7ad
+Added tag devel-1.7.19 for changeset b2c70469da37
 
 
-changeset:   1178:3b6ab3a841ac
+changeset:   1181:2921773b7bbd
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Jul 26 22:19:03 2015 -0500
-files:       lib/snip_lexer.fcl lib/snip_lexer.tcl lib/version.tcl
+date:        Wed Jul 29 00:17:25 2015 -0500
+files:       lib/ctext/ctext.tcl lib/snip_lexer.fcl lib/snip_lexer.tcl lib/version.tcl
 description:
-* Fixing a few syntax issues with snippets.
+* Fixing issue with selecting text and replacing it by entering a character (first character was ignored).
+* Removing debug output from snip_lexer.
 
 
