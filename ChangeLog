@@ -1,27 +1,26 @@
-changeset:   1179:b2c70469da37
-tag:         devel-1.7.19
+changeset:   1182:cadd776c4c00
+tag:         devel-1.7.20
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Jul 26 22:21:27 2015 -0500
+date:        Wed Jul 29 00:17:57 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.7.19 release
+ChangeLog for devel-1.7.20 release
 
 
-changeset:   1180:2141d8feb3f1
+changeset:   1183:05379bcfc16c
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Jul 26 22:22:45 2015 -0500
+date:        Wed Jul 29 00:18:02 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.7.19 for changeset b2c70469da37
+Added tag devel-1.7.20 for changeset cadd776c4c00
 
 
-changeset:   1181:2921773b7bbd
+changeset:   1184:78b22e2c1ea5
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jul 29 00:17:25 2015 -0500
-files:       lib/ctext/ctext.tcl lib/snip_lexer.fcl lib/snip_lexer.tcl lib/version.tcl
+date:        Wed Jul 29 21:23:41 2015 -0500
+files:       data/preferences.tkedat lib/menus.tcl lib/version.tcl
 description:
-* Fixing issue with selecting text and replacing it by entering a character (first character was ignored).
-* Removing debug output from snip_lexer.
+* Adding Help/UserGuideFormat preference item to allow the user guide format to be selected by the user.
 
 
