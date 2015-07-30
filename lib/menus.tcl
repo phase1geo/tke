@@ -1757,8 +1757,10 @@ namespace eval menus {
   # If that fails, display the pdf version.
   proc help_user_guide {} {
 
-    if {[utils::open_file_externally "[file join $::tke_dir doc UserGuide.epub]"]} {
+    if {[preferences::get Help/UserGuideFormat] eq "pdf"} {
       utils::open_file_externally "[file join $::tke_dir doc UserGuide.pdf]"
+    } else {
+      utils::open_file_externally "[file join $::tke_dir doc UserGuide.epub]"
     }
 
   }
