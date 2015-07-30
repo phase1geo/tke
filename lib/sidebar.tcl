@@ -573,7 +573,7 @@ namespace eval sidebar {
   # Handles directory/file ordering issues
   proc order_files_dirs {contents} {
 
-    set contents [lsort $contents]
+    set contents [lsort -unique $contents]
 
     # If we need to show the folders at the top, handle this
     if {[preferences::get Sidebar/FoldersAtTop]} {
