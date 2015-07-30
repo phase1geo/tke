@@ -278,3 +278,12 @@
 # the default directory will be the ~/.tke/logs directory.
 
 {Debug/LogDirectory}         {}
+
+# Specifies the format of the User Guide documentation that will be shown when launching the
+# Help/User Guide menu option.
+#
+# The available format types are:
+#   epub
+#   pdf
+
+{Help/UserGuideFormat}       {pdf}
