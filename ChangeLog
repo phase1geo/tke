@@ -1,3 +1,902 @@
+changeset:   1076:5bf60fdc20f5
+tag:         stable-1.7
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun May 31 14:28:55 2015 -0500
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for stable-1.7 release
+
+
+changeset:   1077:d91d13681014
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun May 31 14:30:30 2015 -0500
+files:       .hgtags
+description:
+Added tag stable-1.7 for changeset 5bf60fdc20f5
+
+
+changeset:   1078:bd8b748d34f3
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun May 31 23:42:40 2015 -0500
+files:       MacOSX/Tke.app/Contents/Info.plist data/syntax/Swift.syntax lib/sidebar.tcl lib/version.tcl
+description:
+* Updating Info.plist for 1.8 stable release.
+* Adding Swift syntax file.
+* Adding "Copy Pathname" command to sidebar elements.
+
+
+changeset:   1079:df441edd4d20
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jun 02 21:59:50 2015 -0500
+files:       lib/diff.tcl lib/version.tcl
+description:
+* Adding support for Git in difference view.
+
+
+changeset:   1080:e2d685a306c6
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jun 03 00:27:11 2015 -0500
+files:       lib/diff.tcl lib/version.tcl
+description:
+* Fixing syntax error when a difference view is brought up for a regular file.
+
+
+changeset:   1081:20a7b310a613
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jun 03 00:29:04 2015 -0500
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for devel-1.7.1 release
+
+
+changeset:   1082:d737ca9267d2
+tag:         devel-1.7.1
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jun 03 00:31:23 2015 -0500
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for devel-1.7.1 release
+
+
+changeset:   1083:b81d5e00b458
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jun 03 00:31:34 2015 -0500
+files:       .hgtags
+description:
+Added tag devel-1.7.1 for changeset d737ca9267d2
+
+
+changeset:   1084:1be7e03d553c
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jun 03 08:50:50 2015 -0500
+files:       lib/gui.tcl lib/version.tcl
+description:
+* Adding ability to change the font size of any text or listbox widget using Control-+ or Control-- while hovering over the targetted widget.
+
+
+changeset:   1085:9be913eed874
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jun 04 21:16:15 2015 -0500
+files:       data/bindings/menu_bindings.aqua.tkedat data/bindings/menu_bindings.classic.tkedat data/bindings/menu_bindings.win32.tkedat data/bindings/menu_bindings.x11.tkedat lib/menus.tcl lib/texttools.tcl lib/version.tcl
+description:
+* Removing Comment and Uncomment Text menu commands and replacing it with a single "Toggle Comment" command.
+* Enhancing comment support to handle multicursors and single cursors (not just selected text).
+
+
+changeset:   1086:7eb367ff5d8d
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jun 05 00:05:38 2015 -0500
+files:       lib/gui.tcl lib/menus.tcl lib/version.tcl lib/vim.tcl
+description:
+* Adding Vim support for :wq!, :wq <file>, :wq! <file>, :cq and ZQ commands.
+
+
+changeset:   1087:47bc67826808
+tag:         devel-1.7.2
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jun 05 00:06:38 2015 -0500
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for devel-1.7.2 release
+
+
+changeset:   1088:3582cbd245ab
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jun 05 00:06:53 2015 -0500
+files:       .hgtags
+description:
+Added tag devel-1.7.2 for changeset 47bc67826808
+
+
+changeset:   1089:7c298dfb47fd
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jun 05 01:14:24 2015 -0500
+files:       lib/version.tcl lib/vim.tcl
+description:
+* Adding support for :r !<cmd>, gf, <num>n and <num>?N Vim commands.
+
+
+changeset:   1090:4e05e0ae2509
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jun 05 09:15:16 2015 -0500
+files:       MacOSX/Tke.app/Contents/lib/tkdnd2.8/libtkdnd2.8.dylib MacOSX/Tke.app/Contents/lib/tkdnd2.8/pkgIndex.tcl MacOSX/Tke.app/Contents/lib/tkdnd2.8/tkdnd.tcl MacOSX/Tke.app/Contents/lib/tkdnd2.8/tkdnd_compat.tcl MacOSX/Tke.app/Contents/lib/tkdnd2.8/tkdnd_generic.tcl MacOSX/Tke.app/Contents/lib/tkdnd2.8/tkdnd_macosx.tcl MacOSX/Tke.app/Contents/lib/tkdnd2.8/tkdnd_unix.tcl MacOSX/Tke.app/Contents/lib/tkdnd2.8/tkdnd_windows.tcl lib/tke.tcl lib/version.tcl
+description:
+* Starting to add code for drag-and-drop support (currently not working on MacOSX).
+
+
+changeset:   1091:b035d56103b7
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jun 05 09:19:31 2015 -0500
+files:       lib/tke.tcl lib/version.tcl
+description:
+* Cleaning up a few things from the last submission.
+
+
+changeset:   1092:de7ad8ff48e2
+tag:         devel-1.7.3
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jun 05 09:20:49 2015 -0500
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for devel-1.7.3 release
+
+
+changeset:   1093:23798129e5f9
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jun 05 09:20:57 2015 -0500
+files:       .hgtags
+description:
+Added tag devel-1.7.3 for changeset de7ad8ff48e2
+
+
+changeset:   1094:862621302fa8
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Jun 06 00:15:25 2015 -0500
+files:       lib/gui.tcl lib/sidebar.tcl lib/tke.tcl lib/version.tcl
+description:
+* Restructuring some code in the search/replace proc.
+* Fixing file/directory drag and drop support to the sidebar (need to improve UI but it works functionally).
+
+
+changeset:   1095:ec9dfbd5e224
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Jun 07 20:59:40 2015 -0500
+files:       data/themes/Aurora.tketheme data/themes/Cool Glow.tketheme data/themes/Fluidvision.tketheme data/themes/Juicy.tketheme data/themes/Made of Code.tketheme data/themes/Monokai.tketheme data/themes/Notebook.tketheme data/themes/Ruby Blue.tketheme data/themes/choco.tketheme data/themes/default.tketheme data/themes/idleFingers.tketheme data/themes/minimal_Theme.tketheme data/themes/oscuro.tketheme data/themes/yellowStone.tketheme lib/gui.tcl lib/sidebar.tcl lib/version.tcl
+description:
+* Improving UI when a drop may occur in the UI.
+* Changing yellow to orange for current text highlight border color to help make things easier to see in light window themes.
+
+
+changeset:   1096:3098491d7aad
+tag:         devel-1.7.4
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Jun 08 01:13:00 2015 -0500
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for devel-1.7.4 release
+
+
+changeset:   1097:f9aeb0bf993f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Jun 08 01:13:39 2015 -0500
+files:       .hgtags
+description:
+Added tag devel-1.7.4 for changeset 3098491d7aad
+
+
+changeset:   1098:110793bb89fa
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Jun 08 08:43:48 2015 -0500
+files:       lib/gui.tcl lib/version.tcl lib/vim.tcl
+description:
+* Enhancing vim search/replace to support i and I options.
+* Removing "global" icon in search/replace control panel and replacing it with an "All" checkbutton.
+* Fixing "all" search/replace model to only replace the first occurrence in a line when this is clear.
+
+
+changeset:   1099:e28fdc26a5f9
+tag:         devel-1.7.5
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Jun 08 08:45:44 2015 -0500
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for devel-1.7.5 release
+
+
+changeset:   1100:8a9950754d92
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Jun 08 08:45:48 2015 -0500
+files:       .hgtags
+description:
+Added tag devel-1.7.5 for changeset e28fdc26a5f9
+
+
+changeset:   1101:c0457e2bffb1
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Jun 08 23:51:45 2015 -0500
+files:       data/themes/Cool Glow.tketheme data/themes/Fluidvision.tketheme data/themes/Juicy.tketheme data/themes/Made of Code.tketheme data/themes/Monokai.tketheme data/themes/Notebook.tketheme data/themes/Ruby Blue.tketheme data/themes/choco.tketheme data/themes/default.tketheme data/themes/idleFingers.tketheme data/themes/minimal_Theme.tketheme data/themes/oscuro.tketheme data/themes/yellowStone.tketheme lib/gui.tcl lib/sidebar.tcl lib/version.tcl
+description:
+* Adjusting color scheme to use gold (instead of orange) for highlight color.
+
+
+changeset:   1102:1d8a39dd59dc
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jun 09 00:10:19 2015 -0500
+files:       lib/sidebar.tcl lib/version.tcl
+description:
+* Removing highlight border in sidebar.
+
+
+changeset:   1103:6a50c6caf602
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jun 09 00:14:45 2015 -0500
+files:       lib/sidebar.tcl lib/version.tcl
+description:
+* Removing activestyle frame around current sidebar selection.
+
+
+changeset:   1104:d902ec6923b6
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jun 09 01:14:56 2015 -0500
+files:       lib/version.tcl lib/vim.tcl
+description:
+* Adding support for Vim ~ command using a character count value.
+* Adding support for Vim ~ with selection or in visual mode.
+
+
+changeset:   1105:df31bbdc643c
+tag:         devel-1.7.6
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jun 09 01:16:18 2015 -0500
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for devel-1.7.6 release
+
+
+changeset:   1106:c4c3f49d005d
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jun 09 01:16:27 2015 -0500
+files:       .hgtags
+description:
+Added tag devel-1.7.6 for changeset df31bbdc643c
+
+
+changeset:   1107:59a614846178
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Jun 09 17:17:50 2015 -0500
+files:       lib/gui.tcl lib/version.tcl lib/vim.tcl
+description:
+* Adding initial (untested) support for visual line mode.
+* Fixing issue with editor background coloring when changing window themes.
+
+
+changeset:   1108:da5b4a22e438
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jun 09 18:02:48 2015 -0500
+files:       lib/version.tcl lib/vim.tcl
+description:
+* Completing work on visual line mode.
+* Adding missing cases for visual mode.
+
+
+changeset:   1109:34e4f96ef49a
+tag:         devel-1.7.7
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jun 10 00:35:43 2015 -0500
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for devel-1.7.7 release
+
+
+changeset:   1110:50d6263edbeb
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jun 10 00:35:47 2015 -0500
+files:       .hgtags
+description:
+Added tag devel-1.7.7 for changeset 34e4f96ef49a
+
+
+changeset:   1111:fc7f15bd17b5
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jun 10 07:33:58 2015 -0500
+files:       lib/gui.tcl lib/version.tcl
+description:
+* Fixing issue with remembering which editor is the current editor for split panes.
+
+
+changeset:   1112:5f73491a344e
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jun 10 08:12:37 2015 -0500
+files:       lib/version.tcl lib/vim.tcl
+description:
+* Adding support for 'X' Vim command functionality.
+* Adding support for 'Del' Vim command functionality.
+
+
+changeset:   1113:57f76b042270
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jun 10 08:27:15 2015 -0500
+files:       lib/version.tcl lib/vim.tcl
+description:
+* Adding support for 'D' Vim command.
+
+
+changeset:   1114:5980c4ad444a
+tag:         devel-1.7.8
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jun 10 08:29:19 2015 -0500
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for devel-1.7.8 release
+
+
+changeset:   1115:8a12210b83c0
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jun 10 08:29:24 2015 -0500
+files:       .hgtags
+description:
+Added tag devel-1.7.8 for changeset 5980c4ad444a
+
+
+changeset:   1116:6cc628820074
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jun 11 08:25:17 2015 -0500
+files:       lib/api.tcl lib/sidebar.tcl lib/version.tcl plugins/render/main.tcl
+description:
+* Adding sidebar support for multi-row selections (allows for batching some sidebar operations).
+* Changing api::sidebar::get_selected_index to api::sidebar::get_selected_indices
+
+
+changeset:   1117:248a13da6882
+tag:         devel-1.7.9
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jun 11 08:27:24 2015 -0500
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for devel-1.7.9 release
+
+
+changeset:   1118:8ef264d939a3
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jun 11 08:27:30 2015 -0500
+files:       .hgtags
+description:
+Added tag devel-1.7.9 for changeset 248a13da6882
+
+
+changeset:   1119:59c83a4ce0f9
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jun 12 08:37:29 2015 -0500
+files:       lib/api.tcl lib/gui.tcl lib/markers.tcl lib/plugins.tcl lib/sidebar.tcl lib/version.tcl
+description:
+* Fixing sidebar issues.
+* Changing file renaming to allow the file to be moved as well as renamed.
+
+
+changeset:   1120:7a2d52c9ec3d
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jun 12 08:39:44 2015 -0500
+files:       ChangeLog lib/gui.tcl lib/version.tcl
+description:
+* Removing debugging output.
+
+
+changeset:   1121:0acbb4618412
+tag:         devel-1.7.10
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jun 12 08:42:00 2015 -0500
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for devel-1.7.10 release
+
+
+changeset:   1122:c09c176a823e
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jun 12 08:42:07 2015 -0500
+files:       .hgtags
+description:
+Added tag devel-1.7.10 for changeset 0acbb4618412
+
+
+changeset:   1123:4c323be3ad10
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Jun 13 00:49:19 2015 -0500
+files:       lib/gui.tcl lib/sidebar.tcl lib/version.tcl
+description:
+* Changing folder rename function to use entry field.
+* Changing duplicate file function to not put the name into edit mode after creation.
+
+
+changeset:   1124:0ff87ec91742
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Jun 15 08:56:46 2015 -0500
+files:       lib/ctext/ctext.tcl lib/gui.tcl lib/sidebar.tcl lib/version.tcl
+description:
+* Adding drag/drop support to editor window.
+
+
+changeset:   1125:71d6d0b499b2
+tag:         devel-1.7.11
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Jun 15 08:57:51 2015 -0500
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for devel-1.7.11 release
+
+
+changeset:   1126:a7f933e05f50
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Jun 15 08:57:59 2015 -0500
+files:       .hgtags
+description:
+Added tag devel-1.7.11 for changeset 71d6d0b499b2
+
+
+changeset:   1127:380da680eff3
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jun 16 08:34:06 2015 -0500
+files:       lib/plugins.tcl lib/sidebar.tcl lib/version.tcl plugins/perforce/main.tcl
+description:
+* Adding plugin support for on_rename, on_duplicate and on_delete events.
+
+
+changeset:   1128:2cb486487d41
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jun 17 08:27:35 2015 -0500
+files:       lib/gui.tcl lib/menus.tcl lib/version.tcl
+description:
+* Adding "Merge panes" command to View menu.
+* Fixing modified state issue when moving a tab between panes.
+
+
+changeset:   1129:ee423784a04c
+tag:         devel-1.7.12
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jun 17 08:28:38 2015 -0500
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for devel-1.7.12 release
+
+
+changeset:   1130:14b21987e60c
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jun 17 08:28:43 2015 -0500
+files:       .hgtags
+description:
+Added tag devel-1.7.12 for changeset ee423784a04c
+
+
+changeset:   1131:75bdc98971c9
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jun 17 08:46:34 2015 -0500
+files:       lib/diff.tcl lib/version.tcl
+description:
+* Fixing version command call for Perforce difference view.
+
+
+changeset:   1132:ddcf62686b23
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Jun 17 09:54:52 2015 -0500
+files:       lib/gui.tcl lib/version.tcl
+description:
+* Removing unnecessary debug output.
+
+
+changeset:   1133:d864cbf8528e
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jun 18 00:17:39 2015 -0500
+files:       lib/bindings.tcl lib/multicursor.tcl lib/texttools.tcl lib/version.tcl
+description:
+* Fixing issues with Alt key bindings on MacOSX.
+* Adding uncommenting support for block comments when the cursor is currently in one.
+
+
+changeset:   1134:d8beed81213e
+tag:         devel-1.7.13
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jun 18 00:19:16 2015 -0500
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for devel-1.7.13 release
+
+
+changeset:   1135:2bc97c6d28d1
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jun 18 00:19:24 2015 -0500
+files:       .hgtags
+description:
+Added tag devel-1.7.13 for changeset d8beed81213e
+
+
+changeset:   1136:8b6abb2d532a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jun 18 23:20:18 2015 -0500
+files:       data/preferences.tkedat lib/api.tcl lib/gui.tcl lib/menus.tcl lib/sidebar.tcl lib/version.tcl
+description:
+* Adding new "View/ShowFindInFileResultsInOtherPane" preference item.
+* Changing add_file and add_new_file procs to include new -other option to immediately add a file to the other pane.
+* Adding -other option to api::file::add procedure.
+
+
+changeset:   1137:4d52d0211b82
+tag:         devel-1.7.14
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jun 19 08:42:58 2015 -0500
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for devel-1.7.14 release
+
+
+changeset:   1138:376edc458cd1
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jun 19 08:43:07 2015 -0500
+files:       .hgtags
+description:
+Added tag devel-1.7.14 for changeset 4d52d0211b82
+
+
+changeset:   1139:80b096bb1153
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Jun 21 23:57:37 2015 -0500
+files:       lib/launcher.tcl lib/snippets.tcl lib/version.tcl
+description:
+* Fixing issue with using parenthesis in the command launcher for calculations.
+* Adding initial support for transformations to snippets.
+
+
+changeset:   1140:f680fa5a3db4
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jun 26 09:13:21 2015 -0500
+files:       lib/Makefile lib/snippets.tcl lib/version.tcl scripts/fickle.tcl scripts/taccle.tcl
+description:
+* Adding fickle and taccle scripts to a new scripts directory and preparing Makefile to build lexer and parser for snippets.
+
+
+changeset:   1141:dc82fa6fd422
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Jun 28 21:01:37 2015 -0500
+files:       Win/freewrap.files Win/freewrap.tcl freewrap.files lib/Makefile lib/freewrap.tcl lib/snip_lexer.fcl lib/snip_lexer.tcl lib/snip_parser.tab.tcl lib/snip_parser.tac lib/snip_parser.tcl lib/version.tcl scripts/fickle.tcl
+description:
+* Checkpointing work on snippets lexer/parser.
+* Fixing issue in fickle.tcl script.
+* Moving freewrap files to a new Win directory for creating Windows releases.
+
+
+changeset:   1142:bbc3d6134707
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Sun Jun 28 22:40:51 2015 -0500
+files:       Win/freewrap664/docs/README Win/freewrap664/docs/freeWrapDocs.pdf Win/freewrap664/docs/license.MinGW-w64-runtime.txt Win/freewrap664/docs/license.winico Win/freewrap664/docs/license.winpthreads.txt Win/freewrap664/docs/readme.winico Win/freewrap664/docs/winico.html Win/freewrap664/win32/freewrap.exe Win/freewrap664/win32/freewrapTCLSH.exe Win/freewrap664/win64/freewrap.exe Win/freewrap664/win64/freewrapTCLSH.exe lib/sidebar.tcl lib/version.tcl
+description:
+* Adding ability to open file or expand/collapse directory with the Return key in the sidebar.
+* Adding Windows version of freewrap.
+
+
+changeset:   1143:d2dc1eb41f17
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Jun 29 00:27:18 2015 -0500
+files:       Win/freewrap.files Win/freewrap.tcl Win/tke.ico lib/version.tcl
+description:
+* Updates to get freewrap build to work.
+
+
+changeset:   1144:1f34d2d93524
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Jun 29 12:13:24 2015 -0500
+files:       lib/tke.tcl lib/version.tcl
+description:
+* Attempting to fix things for Windows build.
+
+
+changeset:   1145:76efc7081763
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Jun 29 20:05:31 2015 -0500
+files:       Win/freewrap.files Win/freewrap.tcl Win/tke.ico lib/images/tke.ico lib/sidebar.tcl lib/tke.tcl lib/version.tcl
+description:
+* More work on creating Windows executable.
+
+
+changeset:   1146:8ba2aee9b163
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jun 30 08:41:57 2015 -0500
+files:       lib/images/tke.ico lib/version.tcl
+description:
+* Attempting to make a better tke.ico file.
+
+
+changeset:   1147:7796a20b08fe
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Jul 01 00:07:52 2015 -0500
+files:       Win/freewrap.tcl Win/setup.iss lib/version.tcl
+description:
+* Adding setup.iss configuration file for Windows installer.
+* Updating freewrap.tcl script.
+
+
+changeset:   1148:4705864e6013
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Jul 05 19:12:02 2015 -0500
+files:       lib/launcher.tcl lib/snip_lexer.fcl lib/snip_lexer.tcl lib/snip_parser.tac lib/snip_parser.tcl lib/snippets.tcl lib/tke.tcl lib/version.tcl
+description:
+* Adding support for URIs in the command launcher.
+* Checkpointing more work on the improved snippet parser (still work to do here).
+
+
+changeset:   1149:8f1e3fd1284c
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Jul 05 19:13:03 2015 -0500
+files:       lib/tke.tcl lib/version.tcl
+description:
+* Removing unnecessary code to handle icon for Windows environments.
+
+
+changeset:   1150:fdf1885ff898
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Sun Jul 05 23:14:37 2015 -0500
+files:       lib/sidebar.tcl lib/snippets.tcl lib/version.tcl
+description:
+* Switching out touch for file mtime for platform compatibility purposes.
+
+
+changeset:   1151:c10c4037ce46
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Jul 05 23:28:35 2015 -0500
+files:       lib/snippets.tcl lib/version.tcl
+description:
+* Resolving conflicts.
+
+
+changeset:   1152:137fbd736aa9
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Jul 06 19:55:22 2015 -0500
+files:       lib/menus.tcl lib/utils.tcl lib/version.tcl
+description:
+* Working on egrep support for Windows environment.
+
+
+changeset:   1153:8a152f229ec0
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jul 07 00:49:44 2015 -0500
+files:       lib/menus.tcl lib/sidebar.tcl lib/tke.tcl lib/utils.tcl lib/version.tcl
+description:
+* Finishing work on Tcl-only egrep functionality.
+* Including tcllib fileutil package.
+* Removing binary files within the sidebar::ignore_files functionality (since we cannot view them anyways).
+
+
+changeset:   1154:5cf1a344ceba
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jul 07 02:03:09 2015 -0500
+files:       lib/snip_lexer.fcl lib/snip_lexer.tcl lib/snip_parser.tac lib/snip_parser.tcl lib/version.tcl
+description:
+* Checkpointing work on snippet lexer/parser.
+
+
+changeset:   1155:9d228519da69
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jul 07 09:19:42 2015 -0500
+files:       lib/snip_lexer.fcl lib/snip_lexer.tcl lib/snip_parser.tab.tcl lib/snip_parser.tac lib/snip_parser.tcl lib/snippets.tcl lib/version.tcl
+description:
+* More work on snippet parser.
+
+
+changeset:   1156:2b840a95fbdc
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jul 08 09:32:06 2015 -0500
+files:       lib/snip_lexer.fcl lib/snip_lexer.tcl lib/snip_parser.tac lib/snip_parser.tcl lib/snippets.tcl lib/version.tcl
+description:
+* More work on snippet parser.
+
+
+changeset:   1157:3f082f94f760
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Jul 08 23:43:42 2015 -0500
+files:       lib/Makefile lib/format_lexer.fcl lib/format_lexer.tcl lib/format_parser.tab.tcl lib/format_parser.tac lib/format_parser.tcl lib/sidebar.tcl lib/snip_parser.tac lib/snip_parser.tcl lib/snippets.tcl lib/tke.tcl lib/version.tcl
+description:
+* More work on snippet parser.
+
+
+changeset:   1158:3850bdfbe9af
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Sun Jul 12 23:17:21 2015 -0500
+files:       lib/format_lexer.fcl lib/format_lexer.tcl lib/format_parser.tac lib/format_parser.tcl lib/snip_lexer.fcl lib/snip_lexer.tcl lib/snip_parser.tac lib/snip_parser.tcl lib/snippets.tcl lib/version.tcl
+description:
+* Checkpointing work on snippets.
+
+
+changeset:   1159:2fdd863957c7
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Jul 13 22:07:03 2015 -0500
+files:       lib/snip_parser.tac lib/snip_parser.tcl lib/snippets.tcl lib/version.tcl
+description:
+* Fixing support for mirrored tabstops.
+
+
+changeset:   1160:3cbcba245f91
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jul 14 07:31:53 2015 -0500
+files:       lib/snippets.tcl lib/version.tcl
+description:
+* Clearing tabstops prior to inserting a new tabstop.
+
+
+changeset:   1161:7036ae84cb75
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Jul 15 22:23:06 2015 -0500
+files:       lib/snip_parser.tac lib/snip_parser.tcl lib/snippets.tcl lib/version.tcl
+description:
+* Checkpointing more work on snippet parser.
+
+
+changeset:   1162:ecc5602f0db5
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jul 16 00:51:27 2015 -0500
+files:       lib/snip_parser.tac lib/snip_parser.tcl lib/snippets.tcl lib/version.tcl
+description:
+* Fixing snippet parser issues (early testing looks clean now).
+
+
+changeset:   1163:2eb4c556b214
+tag:         devel-1.7.15
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jul 16 00:57:15 2015 -0500
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for devel-1.7.15 release
+
+
+changeset:   1164:0aa9cf2fdcc8
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jul 16 00:57:20 2015 -0500
+files:       .hgtags
+description:
+Added tag devel-1.7.15 for changeset 2eb4c556b214
+
+
+changeset:   1165:21e4fc1a92b1
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jul 16 01:28:07 2015 -0500
+files:       MacOSX/Tke.app/Contents/Info.plist doc/Doxyfile lib/version.tcl
+description:
+* Updating version information.
+* Enhancing file support on MacOSX.
+
+
+changeset:   1166:31c59b0cd0b5
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jul 16 01:34:30 2015 -0500
+files:       doc/html/api_8tcl.html doc/html/api_8tcl.js doc/html/api_8tcl_source.html doc/html/bgproc_8tcl.html doc/html/bgproc_8tcl_source.html doc/html/bindings_8tcl.html doc/html/bindings_8tcl_source.html doc/html/cliphist_8tcl.html doc/html/cliphist_8tcl_source.html doc/html/commit_8tcl.html doc/html/commit_8tcl_source.html doc/html/completer_8tcl.html doc/html/completer_8tcl_source.html doc/html/ctext_8tcl.html doc/html/ctext_8tcl.js doc/html/ctext_8tcl_source.html doc/html/diff_8tcl.html doc/html/diff_8tcl.js doc/html/diff_8tcl_source.html doc/html/dir_97aefd0d527b934f1d99a682da8fe6a9.html doc/html/dir_97aefd0d527b934f1d99a682da8fe6a9.js doc/html/dir_e196ed0cf7506b8e7c50ce2798d828dd.html doc/html/embed__tke_8tcl.html doc/html/embed__tke_8tcl_source.html doc/html/favorites_8tcl.html doc/html/favorites_8tcl_source.html doc/html/files.html doc/html/globals.html doc/html/globals_func.html doc/html/gui_8tcl.html doc/html/gui_8tcl.js doc/html/gui_8tcl_source.html doc/html/indent_8tcl.html doc/html/indent_8tcl_source.html doc/html/index.html doc/html/interpreter_8tcl.html doc/html/interpreter_8tcl_source.html doc/html/lang_8tcl.html doc/html/lang_8tcl_source.html doc/html/launcher_8tcl.html doc/html/launcher_8tcl.js doc/html/launcher_8tcl_source.html doc/html/logger_8tcl.html doc/html/logger_8tcl_source.html doc/html/markers_8tcl.html doc/html/markers_8tcl_source.html doc/html/menus_8tcl.html doc/html/menus_8tcl_source.html doc/html/multicursor_8tcl.html doc/html/multicursor_8tcl_source.html doc/html/namespaceapi.html doc/html/namespaceapi_1_1file.html doc/html/namespaceapi_1_1plugin.html doc/html/namespaceapi_1_1sidebar.html doc/html/namespaceapi_1_1utils.html doc/html/namespacebgproc.html doc/html/namespacebindings.html doc/html/namespacecliphist.html doc/html/namespacecompleter.html doc/html/namespacectext.html doc/html/namespacediff.html doc/html/namespacediff.js doc/html/namespacediff_1_1custom.html doc/html/namespacediff_1_1cvs.html doc/html/namespacediff_1_1diff.html doc/html/namespacediff_1_1mercurial.html doc/html/namespacediff_1_1perforce.html doc/html/namespacediff_1_1subversion.html doc/html/namespaceembed__tke.html doc/html/namespaceembed__tke_1_1gui.html doc/html/namespaceembed__tke_1_1launcher.html doc/html/namespacefavorites.html doc/html/namespacegui.html doc/html/namespaceindent.html doc/html/namespaceinterpreter.html doc/html/namespacelang.html doc/html/namespacelauncher.html doc/html/namespacelogger.html doc/html/namespacemarkers.html doc/html/namespacemembers.html doc/html/namespacemembers_b.html doc/html/namespacemembers_c.html doc/html/namespacemembers_d.html doc/html/namespacemembers_e.html doc/html/namespacemembers_f.html doc/html/namespacemembers_func.html doc/html/namespacemembers_func_b.html doc/html/namespacemembers_func_c.html doc/html/namespacemembers_func_d.html doc/html/namespacemembers_func_e.html doc/html/namespacemembers_func_f.html doc/html/namespacemembers_func_g.html doc/html/namespacemembers_func_h.html doc/html/namespacemembers_func_i.html doc/html/namespacemembers_func_j.html doc/html/namespacemembers_func_k.html doc/html/namespacemembers_func_l.html doc/html/namespacemembers_func_m.html doc/html/namespacemembers_func_n.html doc/html/namespacemembers_func_o.html doc/html/namespacemembers_func_p.html doc/html/namespacemembers_func_q.html doc/html/namespacemembers_func_r.html doc/html/namespacemembers_func_s.html doc/html/namespacemembers_func_t.html doc/html/namespacemembers_func_u.html doc/html/namespacemembers_func_v.html doc/html/namespacemembers_func_w.html doc/html/namespacemembers_g.html doc/html/namespacemembers_h.html doc/html/namespacemembers_i.html doc/html/namespacemembers_j.html doc/html/namespacemembers_k.html doc/html/namespacemembers_l.html doc/html/namespacemembers_m.html doc/html/namespacemembers_n.html doc/html/namespacemembers_o.html doc/html/namespacemembers_p.html doc/html/namespacemembers_q.html doc/html/namespacemembers_r.html doc/html/namespacemembers_s.html doc/html/namespacemembers_t.html doc/html/namespacemembers_u.html doc/html/namespacemembers_v.html doc/html/namespacemembers_w.html doc/html/namespacemenus.html doc/html/namespacemulticursor.html doc/html/namespaceplugins.html doc/html/namespacepreferences.html doc/html/namespaces.html doc/html/namespacesidebar.html doc/html/namespacesnippets.html doc/html/namespacesyntax.html doc/html/namespacetexttools.html doc/html/namespacethemer.html doc/html/namespacethemes.html doc/html/namespacetk.html doc/html/namespacetk_1_1mac.html doc/html/namespacetkedat.html doc/html/namespaceutils.html doc/html/namespacevim.html doc/html/namespacewindowlist.html doc/html/navtreedata.js doc/html/navtreeindex0.js doc/html/navtreeindex1.js doc/html/navtreeindex2.js doc/html/navtreeindex3.js doc/html/navtreeindex4.js doc/html/ns_8tcl.html doc/html/ns_8tcl_source.html doc/html/plugins_8tcl.html doc/html/plugins_8tcl.js doc/html/plugins_8tcl_source.html doc/html/preferences_8tcl.html doc/html/preferences_8tcl_source.html doc/html/restart_8tcl.html doc/html/restart_8tcl_source.html doc/html/search/all_0.js doc/html/search/all_1.js doc/html/search/all_11.js doc/html/search/all_12.js doc/html/search/all_13.js doc/html/search/all_14.js doc/html/search/all_15.js doc/html/search/all_2.js doc/html/search/all_3.js doc/html/search/all_4.js doc/html/search/all_5.js doc/html/search/all_6.js doc/html/search/all_7.js doc/html/search/all_8.js doc/html/search/all_b.js doc/html/search/all_c.js doc/html/search/all_d.js doc/html/search/all_e.js doc/html/search/all_f.js doc/html/search/files_5.js doc/html/search/files_d.js doc/html/search/functions_0.js doc/html/search/functions_1.js doc/html/search/functions_11.js doc/html/search/functions_12.js doc/html/search/functions_13.js doc/html/search/functions_14.js doc/html/search/functions_15.js doc/html/search/functions_2.js doc/html/search/functions_3.js doc/html/search/functions_4.js doc/html/search/functions_5.js doc/html/search/functions_6.js doc/html/search/functions_7.js doc/html/search/functions_8.js doc/html/search/functions_b.js doc/html/search/functions_c.js doc/html/search/functions_d.js doc/html/search/functions_e.js doc/html/search/functions_f.js doc/html/search/namespaces_3.js doc/html/sidebar_8tcl.html doc/html/sidebar_8tcl.js doc/html/sidebar_8tcl_source.html doc/html/snippets_8tcl.html doc/html/snippets_8tcl.js doc/html/snippets_8tcl_source.html doc/html/syntax_8tcl.html doc/html/syntax_8tcl_source.html doc/html/test_8tcl.html doc/html/test_8tcl_source.html doc/html/texttools_8tcl.html doc/html/texttools_8tcl.js doc/html/texttools_8tcl_source.html doc/html/themer_8tcl.html doc/html/themer_8tcl_source.html doc/html/themes_8tcl.html doc/html/themes_8tcl_source.html doc/html/tke_8tcl.html doc/html/tke_8tcl.js doc/html/tke_8tcl_source.html doc/html/tkedat_8tcl.html doc/html/tkedat_8tcl_source.html doc/html/utils_8tcl.html doc/html/utils_8tcl.js doc/html/utils_8tcl_source.html doc/html/version_8tcl.html doc/html/version_8tcl_source.html doc/html/vim_8tcl.html doc/html/vim_8tcl.js doc/html/vim_8tcl_source.html doc/html/windowlist_8tcl.html doc/html/windowlist_8tcl_source.html lib/version.tcl
+description:
+* Updating development documentation.
+
+
+changeset:   1167:c8b186ce5a20
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jul 17 08:42:28 2015 -0500
+files:       doc/Doxyfile doc/UserGuide.epub doc/UserGuide.pdf doc/html/api_8tcl.html doc/html/api_8tcl_source.html doc/html/bgproc_8tcl.html doc/html/bgproc_8tcl_source.html doc/html/bindings_8tcl.html doc/html/bindings_8tcl_source.html doc/html/cliphist_8tcl.html doc/html/cliphist_8tcl_source.html doc/html/commit_8tcl.html doc/html/commit_8tcl_source.html doc/html/completer_8tcl.html doc/html/completer_8tcl_source.html doc/html/ctext_8tcl.html doc/html/ctext_8tcl_source.html doc/html/diff_8tcl.html doc/html/diff_8tcl_source.html doc/html/dir_97aefd0d527b934f1d99a682da8fe6a9.html doc/html/dir_97aefd0d527b934f1d99a682da8fe6a9.js doc/html/dir_e196ed0cf7506b8e7c50ce2798d828dd.html doc/html/embed__tke_8tcl.html doc/html/embed__tke_8tcl_source.html doc/html/favorites_8tcl.html doc/html/favorites_8tcl_source.html doc/html/files.html doc/html/globals.html doc/html/globals_func.html doc/html/gui_8tcl.html doc/html/gui_8tcl_source.html doc/html/indent_8tcl.html doc/html/indent_8tcl_source.html doc/html/index.html doc/html/interpreter_8tcl.html doc/html/interpreter_8tcl_source.html doc/html/lang_8tcl.html doc/html/lang_8tcl_source.html doc/html/launcher_8tcl.html doc/html/launcher_8tcl_source.html doc/html/logger_8tcl.html doc/html/logger_8tcl_source.html doc/html/markers_8tcl.html doc/html/markers_8tcl_source.html doc/html/menus_8tcl.html doc/html/menus_8tcl_source.html doc/html/multicursor_8tcl.html doc/html/multicursor_8tcl_source.html doc/html/namespaceapi.html doc/html/namespaceapi_1_1file.html doc/html/namespaceapi_1_1plugin.html doc/html/namespaceapi_1_1sidebar.html doc/html/namespaceapi_1_1utils.html doc/html/namespacebgproc.html doc/html/namespacebindings.html doc/html/namespacecliphist.html doc/html/namespacecompleter.html doc/html/namespacectext.html doc/html/namespacediff.html doc/html/namespacediff_1_1custom.html doc/html/namespacediff_1_1cvs.html doc/html/namespacediff_1_1diff.html doc/html/namespacediff_1_1git.html doc/html/namespacediff_1_1mercurial.html doc/html/namespacediff_1_1perforce.html doc/html/namespacediff_1_1subversion.html doc/html/namespaceembed__tke.html doc/html/namespaceembed__tke_1_1gui.html doc/html/namespaceembed__tke_1_1launcher.html doc/html/namespacefavorites.html doc/html/namespacegui.html doc/html/namespaceindent.html doc/html/namespaceinterpreter.html doc/html/namespacelang.html doc/html/namespacelauncher.html doc/html/namespacelogger.html doc/html/namespacemarkers.html doc/html/namespacemembers.html doc/html/namespacemembers_b.html doc/html/namespacemembers_c.html doc/html/namespacemembers_d.html doc/html/namespacemembers_e.html doc/html/namespacemembers_f.html doc/html/namespacemembers_func.html doc/html/namespacemembers_func_b.html doc/html/namespacemembers_func_c.html doc/html/namespacemembers_func_d.html doc/html/namespacemembers_func_e.html doc/html/namespacemembers_func_f.html doc/html/namespacemembers_func_g.html doc/html/namespacemembers_func_h.html doc/html/namespacemembers_func_i.html doc/html/namespacemembers_func_j.html doc/html/namespacemembers_func_k.html doc/html/namespacemembers_func_l.html doc/html/namespacemembers_func_m.html doc/html/namespacemembers_func_n.html doc/html/namespacemembers_func_o.html doc/html/namespacemembers_func_p.html doc/html/namespacemembers_func_q.html doc/html/namespacemembers_func_r.html doc/html/namespacemembers_func_s.html doc/html/namespacemembers_func_t.html doc/html/namespacemembers_func_u.html doc/html/namespacemembers_func_v.html doc/html/namespacemembers_func_w.html doc/html/namespacemembers_g.html doc/html/namespacemembers_h.html doc/html/namespacemembers_i.html doc/html/namespacemembers_j.html doc/html/namespacemembers_k.html doc/html/namespacemembers_l.html doc/html/namespacemembers_m.html doc/html/namespacemembers_n.html doc/html/namespacemembers_o.html doc/html/namespacemembers_p.html doc/html/namespacemembers_q.html doc/html/namespacemembers_r.html doc/html/namespacemembers_s.html doc/html/namespacemembers_t.html doc/html/namespacemembers_u.html doc/html/namespacemembers_v.html doc/html/namespacemembers_w.html doc/html/namespacemenus.html doc/html/namespacemulticursor.html doc/html/namespaceplugins.html doc/html/namespacepreferences.html doc/html/namespaces.html doc/html/namespacesidebar.html doc/html/namespacesnippets.html doc/html/namespacesyntax.html doc/html/namespacetexttools.html doc/html/namespacethemer.html doc/html/namespacethemes.html doc/html/namespacetk.html doc/html/namespacetk_1_1mac.html doc/html/namespacetkedat.html doc/html/namespaceutils.html doc/html/namespacevim.html doc/html/namespacewindowlist.html doc/html/navtreedata.js doc/html/navtreeindex0.js doc/html/navtreeindex1.js doc/html/navtreeindex2.js doc/html/navtreeindex3.js doc/html/navtreeindex4.js doc/html/ns_8tcl.html doc/html/ns_8tcl_source.html doc/html/plugins_8tcl.html doc/html/plugins_8tcl_source.html doc/html/preferences_8tcl.html doc/html/preferences_8tcl_source.html doc/html/restart_8tcl.html doc/html/restart_8tcl_source.html doc/html/search/all_0.js doc/html/search/all_1.js doc/html/search/all_12.js doc/html/search/all_14.js doc/html/search/all_4.js doc/html/search/all_5.js doc/html/search/all_6.js doc/html/search/all_7.js doc/html/search/all_8.js doc/html/search/all_c.js doc/html/search/all_f.js doc/html/search/files_5.js doc/html/search/files_d.js doc/html/search/functions_0.js doc/html/search/functions_1.js doc/html/search/functions_12.js doc/html/search/functions_14.js doc/html/search/functions_4.js doc/html/search/functions_5.js doc/html/search/functions_6.js doc/html/search/functions_7.js doc/html/search/functions_8.js doc/html/search/functions_c.js doc/html/search/functions_f.js doc/html/sidebar_8tcl.html doc/html/sidebar_8tcl_source.html doc/html/snippets_8tcl.html doc/html/snippets_8tcl_source.html doc/html/syntax_8tcl.html doc/html/syntax_8tcl_source.html doc/html/test_8tcl.html doc/html/test_8tcl_source.html doc/html/texttools_8tcl.html doc/html/texttools_8tcl_source.html doc/html/themer_8tcl.html doc/html/themer_8tcl_source.html doc/html/themes_8tcl.html doc/html/themes_8tcl_source.html doc/html/tke_8tcl.html doc/html/tke_8tcl_source.html doc/html/tkedat_8tcl.html doc/html/tkedat_8tcl_source.html doc/html/utils_8tcl.html doc/html/utils_8tcl_source.html doc/html/version_8tcl.html doc/html/version_8tcl_source.html doc/html/vim_8tcl.html doc/html/vim_8tcl_source.html doc/html/windowlist_8tcl.html doc/html/windowlist_8tcl_source.html lib/version.tcl
+description:
+* Updating user and development documentation.
+
+
+changeset:   1168:db07e4fdfaf6
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Jul 18 00:10:12 2015 -0500
+files:       lib/gui.tcl lib/ptwidgets1.2/library/tabbar.tcl lib/version.tcl
+description:
+* Fixing tab closing bug.
+* Small improvement in tabbar widget.
+
+
+changeset:   1169:6b59ddc47972
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jul 22 08:26:38 2015 -0500
+files:       data/syntax/Tcl.syntax lib/version.tcl
+description:
+* Fixing hexidecimal syntax highlighting support to Tcl.
+
+
+changeset:   1170:ec3c7c9c971f
+tag:         devel-1.7.16
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jul 23 18:27:42 2015 -0500
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for devel-1.7.16 release
+
+
+changeset:   1171:005bb2f6d166
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jul 23 18:27:46 2015 -0500
+files:       .hgtags
+description:
+Added tag devel-1.7.16 for changeset ec3c7c9c971f
+
+
+changeset:   1172:e42007908357
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jul 23 20:27:25 2015 -0500
+files:       lib/version.tcl release.tcl
+description:
+* First attempt to remove doc/html directory from releases.
+
+
+changeset:   1173:ac83ed99462b
+tag:         devel-1.7.17
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jul 23 20:28:21 2015 -0500
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for devel-1.7.17 release
+
+
+changeset:   1174:5ece8c7fa89f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jul 23 20:28:26 2015 -0500
+files:       .hgtags
+description:
+Added tag devel-1.7.17 for changeset ac83ed99462b
+
+
+changeset:   1175:608fa62f1be7
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jul 24 02:25:17 2015 -0500
+files:       lib/version.tcl release.tcl
+description:
+* Fixing syntax error in previous release.tcl change.
+* Removing Win directory when creating Linux tarballs.
+* Deleting release directory if there is a problem deleting the doc/html directory.
+
+
+changeset:   1176:94ae8bb0d7ad
+tag:         devel-1.7.18
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jul 24 02:26:05 2015 -0500
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for devel-1.7.18 release
+
+
+changeset:   1177:39dc57f66985
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jul 24 02:26:11 2015 -0500
+files:       .hgtags
+description:
+Added tag devel-1.7.18 for changeset 94ae8bb0d7ad
+
+
+changeset:   1178:3b6ab3a841ac
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Jul 26 22:19:03 2015 -0500
+files:       lib/snip_lexer.fcl lib/snip_lexer.tcl lib/version.tcl
+description:
+* Fixing a few syntax issues with snippets.
+
+
+changeset:   1179:b2c70469da37
+tag:         devel-1.7.19
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Jul 26 22:21:27 2015 -0500
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for devel-1.7.19 release
+
+
+changeset:   1180:2141d8feb3f1
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Jul 26 22:22:45 2015 -0500
+files:       .hgtags
+description:
+Added tag devel-1.7.19 for changeset b2c70469da37
+
+
+changeset:   1181:2921773b7bbd
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jul 29 00:17:25 2015 -0500
+files:       lib/ctext/ctext.tcl lib/snip_lexer.fcl lib/snip_lexer.tcl lib/version.tcl
+description:
+* Fixing issue with selecting text and replacing it by entering a character (first character was ignored).
+* Removing debug output from snip_lexer.
+
+
 changeset:   1182:cadd776c4c00
 tag:         devel-1.7.20
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
@@ -16,11 +915,52 @@ Added tag devel-1.7.20 for changeset cadd776c4c00
 
 
 changeset:   1184:78b22e2c1ea5
-tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
 date:        Wed Jul 29 21:23:41 2015 -0500
 files:       data/preferences.tkedat lib/menus.tcl lib/version.tcl
 description:
 * Adding Help/UserGuideFormat preference item to allow the user guide format to be selected by the user.
+
+
+changeset:   1185:3560d98845b4
+tag:         devel-1.7.21
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jul 29 21:24:19 2015 -0500
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for devel-1.7.21 release
+
+
+changeset:   1186:56e1ee12984e
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jul 29 21:24:23 2015 -0500
+files:       .hgtags
+description:
+Added tag devel-1.7.21 for changeset 3560d98845b4
+
+
+changeset:   1187:0c135a4a0619
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jul 29 21:31:54 2015 -0500
+files:       doc/UserGuide.epub doc/UserGuide.pdf lib/version.tcl
+description:
+* Updating user guide.
+
+
+changeset:   1188:948ffaacb94e
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jul 30 09:01:00 2015 -0500
+files:       lib/sidebar.tcl lib/version.tcl
+description:
+* Forcing file glob'ing on Windows to remove duplicates when sorting the items (work around issue with glob on Windows).
+
+
+changeset:   1189:0efb1c766fef
+tag:         tip
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Jul 31 00:25:30 2015 -0500
+files:       Win/freewrap.files lib/version.tcl
+description:
+* Updating freewrap.files.
 
 
