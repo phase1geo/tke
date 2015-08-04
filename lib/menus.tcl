@@ -1730,9 +1730,9 @@ namespace eval menus {
     $mb.delete delete 0 end
 
     foreach name $names {
-      $mb.open   -label $name -command "sessions::load $name 1"
-      $mb.switch -label $name -command "sessions::load $name 0"
-      $mb.delete -label $name -command "sessions::delete $name"
+      $mb.open   add command -label $name -command "sessions::load $name 1"
+      $mb.switch add command -label $name -command "sessions::load $name 0"
+      $mb.delete add command -label $name -command "sessions::delete $name"
     }
 
     # If the current session is not set, disable the menu item

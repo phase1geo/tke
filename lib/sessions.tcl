@@ -6,7 +6,7 @@ namespace eval sessions {
   variable user_name    ""
   variable current_name ""
 
-  array set names       {}
+  array set names {}
 
   ######################################################################
   # Loads the names of all available sessions.  This should be called
@@ -17,8 +17,8 @@ namespace eval sessions {
     variable names
 
     if {[file exists $sessions_dir]} {
-      foreach name [glob -nocomplain -directory $session_dir -tails *.tkedat] {
-        set names($name) 1
+      foreach name [glob -nocomplain -directory $sessions_dir -tails *.tkedat] {
+        set names([file rootname $name]) 1
       }
     }
 
@@ -82,7 +82,8 @@ namespace eval sessions {
 
     # Read the information from the session file
     if {[catch { tkedat::read $session_file } rc]} {
-      [ns gui]::set_info_message "Unable to load session $name"
+      [ns gui]::set_info_message "Unable to load session \"$name\""
+      return
     }
 
     array set content $rc
@@ -125,7 +126,7 @@ namespace eval sessions {
 
     variable names
 
-    return [lsort [array names $names]]
+    return [lsort [array names names]]
 
   }
 

@@ -62,7 +62,7 @@ source [file join $tke_dir lib themes.tcl]
 source [file join $tke_dir lib favorites.tcl]
 source [file join $tke_dir lib logger.tcl]
 source [file join $tke_dir lib diff.tcl]
-source [file join $tke_dir sessions.tcl]
+source [file join $tke_dir lib sessions.tcl]
 
 if {[tk windowingsystem] eq "aqua"} {
   source [file join $tke_dir lib windowlist.tcl]
@@ -123,7 +123,7 @@ proc parse_cmdline {argc argv} {
   set ::cl_exit_on_close 0
   set ::cl_minimal       0
   set ::cl_new_win       0
-  set ::cl_use_session   ""
+  set ::cl_use_session   "last"
 
   set i 0
   while {$i < $argc} {
@@ -350,7 +350,7 @@ if {[catch {
   }
 
   # Load the session file
-  gui::load_session {}
+  sessions::load $::cl_use_session 0
 
   # If the number of loaded files is still zero, add a new blank file
   if {[gui::get_file_num] == 0} {
