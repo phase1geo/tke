@@ -347,10 +347,11 @@ if {[catch {
         gui::add_file end $name
       }
     }
-  }
-
+      
   # Load the session file
-  sessions::load $::cl_use_session 0
+  } elseif {[preferences::get General/LoadLastSession] || ($cl_use_session ne "last")} {
+    sessions::load $cl_use_session 0
+  }
 
   # If the number of loaded files is still zero, add a new blank file
   if {[gui::get_file_num] == 0} {
