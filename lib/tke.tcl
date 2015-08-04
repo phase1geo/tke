@@ -62,6 +62,7 @@ source [file join $tke_dir lib themes.tcl]
 source [file join $tke_dir lib favorites.tcl]
 source [file join $tke_dir lib logger.tcl]
 source [file join $tke_dir lib diff.tcl]
+source [file join $tke_dir sessions.tcl]
 
 if {[tk windowingsystem] eq "aqua"} {
   source [file join $tke_dir lib windowlist.tcl]
@@ -80,17 +81,19 @@ proc usage {} {
   puts "tke \[<options>\] <file>*"
   puts ""
   puts "Options:"
-  puts "  -h     Displays usage information"
-  puts "  -v     Displays version"
-  puts "  -nosb  Avoids populating the sidebar with the current"
-  puts "           directory contents (only valid if no files are"
-  puts "           specified)."
-  puts "  -e     Exits the application when the last tab is closed"
-  puts "           (overrides preference setting)"
-  puts "  -m     Creates a minimal editing environment (overrides"
-  puts "           preference settings)"
-  puts "  -n     Opens a new window without attempting to merge"
-  puts "           with an existing window"
+  puts "  -h                 Displays usage information"
+  puts "  -v                 Displays version"
+  puts "  -nosb              Avoids populating the sidebar with the current"
+  puts "                       directory contents (only valid if no files are"
+  puts "                       specified)."
+  puts "  -e                 Exits the application when the last tab is closed"
+  puts "                       (overrides preference setting)"
+  puts "  -m                 Creates a minimal editing environment (overrides"
+  puts "                       preference settings)"
+  puts "  -n                 Opens a new window without attempting to merge"
+  puts "                       with an existing window"
+  puts "  -s <session_name>  Opens a new window loading the specified"
+  puts "                       session name"
   puts ""
 
   exit
@@ -120,6 +123,7 @@ proc parse_cmdline {argc argv} {
   set ::cl_exit_on_close 0
   set ::cl_minimal       0
   set ::cl_new_win       0
+  set ::cl_use_session   ""
 
   set i 0
   while {$i < $argc} {
@@ -130,6 +134,7 @@ proc parse_cmdline {argc argv} {
       -e    { set ::cl_exit_on_close 1 }
       -m    { set ::cl_minimal 1 }
       -n    { set ::cl_new_win 1 }
+      -s    { incr i; set ::cl_use_session [lindex $argv $i]; set ::cl_new_win 1 }
       default {
         if {[lindex $argv $i] ne ""} {
           lappend ::cl_files [file normalize [lindex $argv $i]]
@@ -286,6 +291,9 @@ if {[catch {
 
   # Initialize the themes
   themes::initialize
+
+  # Preload the session information
+  sessions::preload
 
   # Load the preferences
   preferences::load

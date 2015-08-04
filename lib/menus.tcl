@@ -83,6 +83,10 @@ namespace eval menus {
     $mb add cascade -label [msgcat::mc "Tools"] -menu [menu $mb.tools -tearoff false -postcommand "menus::tools_posting $mb.tools"]
     add_tools $mb.tools
 
+    # Add the sessions menu
+    $mb add cascade -label [msgcat::mc "Sessions"] -menu [menu $mb.sessions -tearoff false -postcommand "menus::sessions_posting $mb.sessions"]
+    add_sessions $mb.sessions
+
     # Add the plugins menu
     $mb add cascade -label [msgcat::mc "Plugins"] -menu [menu $mb.plugins -tearoff false -postcommand "menus::plugins_posting $mb.plugins"]
     add_plugins $mb.plugins
@@ -1002,7 +1006,7 @@ namespace eval menus {
     array set fnames    {}
     set index           0
     set matches         0
-    
+
     foreach line [split $data \n] {
       if {[regexp {^(.*?)([:-])(\d+)[:-](.*)$} $line -> fname type linenum content]} {
         set first_separator 1
@@ -1685,6 +1689,129 @@ namespace eval menus {
 
     # Execute the restart command
     exec [info nameofexecutable] [file join $::tke_dir restart.tcl] [info nameofexecutable] [file join $::tke_dir tke.tcl] {*}$filenames &
+
+  }
+
+  ######################################################################
+  proc add_sessions {mb} {
+
+    # Add sessions menu commands
+    $mb add cascade -label [msgcat::mc "Open"] -menu [menu $mb.open -tearoff false]
+    launcher::register [msgcat::mc "Menu: Open session"] "menus::sessions_open_launcher"
+
+    $mb add cascade -label [msgcat::mc "Switch To"] -menu [menu $mb.switch -tearoff false]
+    launcher::register [msgcat::mc "Menu: Switch to session"] "menus::sessions_switch_launcher"
+
+    $mb add separator
+
+    $mb add command -label [msgcat::mc "Save Current"] -underline 0 -command "menus::sessions_save_current"
+    launcher::register [msgcat::mc "Menu: Save current session"] "menus::sessions_save_current"
+
+    $mb add command -label [msgcat::mc "Save As"] -underline 5 -command "menus::sessions_save_as"
+    launcher::register [msgcat::mc "Menu: Save sessions as"] "menus::sessions_save_as"
+
+    $mb add separator
+
+    $mb add cascade -label [msgcat::mc "Delete"] -menu [menu $mb.delete -tearoff false]
+    launcher::register [msgcat::mc "Menu: Delete session"] "menus::sessions_delete_launcher"
+
+  }
+
+  ######################################################################
+  # Called when the sessions menu is posted.
+  proc sessions_posting {mb} {
+
+    # Get the list of sessions names
+    set names [sessions::get_names]
+
+    # Update the open, switch to, and delete menus
+    $mb.open   delete 0 end
+    $mb.switch delete 0 end
+    $mb.delete delete 0 end
+
+    foreach name $names {
+      $mb.open   -label $name -command "sessions::load $name 1"
+      $mb.switch -label $name -command "sessions::load $name 0"
+      $mb.delete -label $name -command "sessions::delete $name"
+    }
+
+    # If the current session is not set, disable the menu item
+    if {[sessions::current] eq ""} {
+      $mb entryconfigure [msgcat::mc "Save Current"] -state disabled
+    } else {
+      $mb entryconfigure [msgcat::mc "Save Current"] -state normal
+    }
+
+    # If there are no names, disable the Open, Switch to and Delete menu commands
+    if {[llength $names] == 0} {
+      $mb entryconfigure [msgcat::mc "Open"]      -state disabled
+      $mb entryconfigure [msgcat::mc "Switch To"] -state disabled
+      $mb entryconfigure [msgcat::mc "Delete"]    -state disabled
+    } else {
+      $mb entryconfigure [msgcat::mc "Open"]      -state normal
+      $mb entryconfigure [msgcat::mc "Switch To"] -state normal
+      $mb entryconfigure [msgcat::mc "Delete"]    -state normal
+    }
+
+  }
+
+  ######################################################################
+  # Displays the available sessions that can be opened in the launcher.
+  proc sessions_open_launcher {} {
+
+    set i 0
+    foreach name [sessions::names] {
+      launcher::register_temp "`SESSION:$name" [list sessions::load $name 1] $name $i
+      incr i
+    }
+
+    # Display the launcher in SESSION: mode
+    launcher::launch "`SESSION:" 1
+
+  }
+
+  ######################################################################
+  # Displays the available sessions that can be switched to in the launcher.
+  proc sessions_switch_launcher {} {
+
+    set i 0
+    foreach name [sessions::names] {
+      launcher::register_temp "`SESSION:$name" [list sessions::load $name 0] $name $i
+      incr i
+    }
+
+    # Display the launcher in SESSION: mode
+    launcher::launch "`SESSION:" 1
+
+  }
+
+  ######################################################################
+  # Saves the current session as the same name.
+  proc sessions_save_current {} {
+
+    sessions::save [sessions::current]
+
+  }
+
+  ######################################################################
+  # Saves the current session as.
+  proc sessions_save_as {} {
+
+    sessions::save
+
+  }
+
+  ######################################################################
+  proc sessions_delete_launcher {} {
+
+    set i 0
+    foreach name [sessions::names] {
+      launcher::register_temp "`SESSION:$name" [list sessions::delete $name] $name $i
+      incr i
+    }
+
+    # Display the launcher in SESSION: mode
+    launcher::launch "`SESSION:" 1
 
   }
 
