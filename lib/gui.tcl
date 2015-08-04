@@ -15,7 +15,6 @@ namespace eval gui {
   variable nb_index         0
   variable nb_move          ""
   variable file_move        0
-  variable session_file     [file join $::tke_home session.tkedat]
   variable lengths          {}
   variable user_exit_status ""
   variable file_locked      0
@@ -66,15 +65,15 @@ namespace eval gui {
     return [lsearch -index $files_index(fname) $files $fname]
 
   }
-  
+
   ######################################################################
   # Returns the number of opened files.
   proc get_file_num {} {
-    
+
     variable files
-    
+
     return [llength $files]
-    
+
   }
 
   ######################################################################
@@ -204,7 +203,7 @@ namespace eval gui {
       set images(mnu,$images($name)) [image create bitmap -file $ifile -maskfile $ifile -foreground black]
     }
     set images(mnu,) ""
-    
+
   }
 
   ######################################################################
@@ -386,7 +385,7 @@ namespace eval gui {
     trace variable preferences::prefs(View/AllowTabScrolling)    w gui::handle_allow_tab_scrolling
     trace variable preferences::prefs(Tools/VimMode)             w gui::handle_vim_mode
     trace variable preferences::prefs(Appearance/EditorFontSize) w gui::handle_editor_font_size
-    
+
     # Create general UI bindings
     bind all <Control-plus>  "[ns gui]::handle_font_change 1"
     bind all <Control-minus> "[ns gui]::handle_font_change -1"
@@ -741,26 +740,26 @@ namespace eval gui {
     }
 
   }
-  
+
   ######################################################################
   # Changes all files that exist in the old directory and renames them
   # to the new directory.
   proc change_folder {old_name new_name} {
-    
+
     variable files
     variable files_index
-    
+
     set old_list [file split $old_name]
     set old_len  [llength $old_list]
     set max      [expr $old_len - 1]
-    
+
     for {set i 0} {$i < [llength $files]} {incr i} {
       set file_list [file split [lindex $files $i $files_index(fname)]]
       if {[lrange $file_list 0 $max] eq $old_list} {
         lset files $i $files_index(fname) [file join $new_name {*}[lrange $file_list $old_len end]]
       }
     }
-    
+
   }
 
   ######################################################################
@@ -786,7 +785,6 @@ namespace eval gui {
   proc save_session {} {
 
     variable widgets
-    variable session_file
     variable last_opened
     variable files
     variable files_index
@@ -831,103 +829,97 @@ namespace eval gui {
     # Get the last_opened list
     set content(LastOpened) $last_opened
 
-    # Write the content to the save file
-    catch { tkedat::write $session_file [array get content] }
+    # Return the content array
+    return [array get content]
 
   }
 
   ######################################################################
   # Loads the geometry information (if it exists) and changes the current
   # window geometry to match the read value.
-  proc load_session {tid} {
+  proc load_session {tid info} {
 
     variable widgets
-    variable session_file
     variable last_opened
     variable files
     variable files_index
     variable pw_current
 
-    # Read the state file
-    if {![catch { tkedat::read $session_file } rc]} {
+    array set content [list \
+      Geometry                [wm geometry .] \
+      CurrentWorkingDirectory [pwd] \
+      Sidebar                 [list] \
+      Launcher                [list] \
+      FileInfo                [list] \
+      CurrentTabs             [list] \
+      LastOpened              "" \
+    ]
 
-      array set content [list \
-        Geometry                [wm geometry .] \
-        CurrentWorkingDirectory [pwd] \
-        Sidebar                 [list] \
-        Launcher                [list] \
-        FileInfo                [list] \
-        CurrentTabs             [list] \
-        LastOpened              "" \
-      ]
+    array set content $info
 
-      array set content $rc
+    # Put the state information into the rest of the GUI
+    wm geometry . $content(Geometry)
 
-      # Put the state information into the rest of the GUI
-      wm geometry . $content(Geometry)
+    # Restore the "last_opened" list
+    set last_opened $content(LastOpened)
 
-      # Restore the "last_opened" list
-      set last_opened $content(LastOpened)
+    # Load the session information into the sidebar
+    sidebar::load_session $content(Sidebar)
 
-      # Load the session information into the sidebar
-      sidebar::load_session $content(Sidebar)
+    # Load the session information into the launcher
+    launcher::load_session $content(Launcher)
 
-      # Load the session information into the launcher
-      launcher::load_session $content(Launcher)
+    # If we are supposed to load the last saved session, do it now
+    if {[preferences::get General/LoadLastSession] && ([llength $files] == 0)} {
 
-      # If we are supposed to load the last saved session, do it now
-      if {[preferences::get General/LoadLastSession] && ([llength $files] == 0)} {
+      # Set the current working directory to the saved value
+      if {[file exists $content(CurrentWorkingDirectory)]} {
+        cd $content(CurrentWorkingDirectory)
+      }
 
-        # Set the current working directory to the saved value
-        if {[file exists $content(CurrentWorkingDirectory)]} {
-          cd $content(CurrentWorkingDirectory)
+      # Put the list in order
+      if {[llength $content(FileInfo)] > 0} {
+        set ordered     [lrepeat 2 [lrepeat [llength $content(FileInfo)] ""]]
+        set second_pane 0
+        set i           0
+        foreach finfo_list $content(FileInfo) {
+          array set finfo $finfo_list
+          lset ordered $finfo(pane) $finfo(tab) $i
+          set second_pane [expr $finfo(pane) == 2]
+          incr i
         }
+      }
 
-        # Put the list in order
-        if {[llength $content(FileInfo)] > 0} {
-          set ordered     [lrepeat 2 [lrepeat [llength $content(FileInfo)] ""]]
-          set second_pane 0
-          set i           0
-          foreach finfo_list $content(FileInfo) {
-            array set finfo $finfo_list
-            lset ordered $finfo(pane) $finfo(tab) $i
-            set second_pane [expr $finfo(pane) == 2]
-            incr i
-          }
-        }
+      # If the second pane is necessary, create it now
+      if {[llength $content(CurrentTabs)] == 2} {
+        add_notebook
+      }
 
-        # If the second pane is necessary, create it now
-        if {[llength $content(CurrentTabs)] == 2} {
-          add_notebook
-        }
-
-        # Add the tabs (in order) to each of the panes and set the current tab in each pane
-        for {set pane 0} {$pane < [llength $content(CurrentTabs)]} {incr pane} {
-          set pw_current $pane
-          set set_tab    1
-          foreach index [lindex $ordered $pane] {
-            if {$index ne ""} {
-              array set finfo [lindex $content(FileInfo) $index]
-              if {[file exists $finfo(fname)]} {
-                add_file end $finfo(fname) \
-                  -savecommand $finfo(savecommand) -lock $finfo(lock) -readonly $finfo(readonly) \
-                  -diff $finfo(diff) -sidebar $finfo(sidebar)
-                if {[syntax::get_current_language [current_txt {}]] ne $finfo(language)} {
-                  syntax::set_language $finfo(language)
-                }
-                if {[info exists finfo(indent)]} {
-                  set_current_indent_mode $tid $finfo(indent)
-                }
-              } else {
-                set set_tab 0
+      # Add the tabs (in order) to each of the panes and set the current tab in each pane
+      for {set pane 0} {$pane < [llength $content(CurrentTabs)]} {incr pane} {
+        set pw_current $pane
+        set set_tab    1
+        foreach index [lindex $ordered $pane] {
+          if {$index ne ""} {
+            array set finfo [lindex $content(FileInfo) $index]
+            if {[file exists $finfo(fname)]} {
+              add_file end $finfo(fname) \
+                -savecommand $finfo(savecommand) -lock $finfo(lock) -readonly $finfo(readonly) \
+                -diff $finfo(diff) -sidebar $finfo(sidebar)
+              if {[syntax::get_current_language [current_txt {}]] ne $finfo(language)} {
+                syntax::set_language $finfo(language)
               }
+              if {[info exists finfo(indent)]} {
+                set_current_indent_mode $tid $finfo(indent)
+              }
+            } else {
+              set set_tab 0
             }
           }
-          if {$set_tab} {
-            set_current_tab [lindex [[lindex [$widgets(nb_pw) panes] $pane].tbf.tb tabs] [lindex $content(CurrentTabs) $pane]]
-          }
         }
-
+        if {$set_tab} {
+          set_current_tab [lindex [[lindex [$widgets(nb_pw) panes] $pane].tbf.tb tabs] [lindex $content(CurrentTabs) $pane]]
+        }
       }
 
     }
@@ -1135,17 +1127,17 @@ namespace eval gui {
     }
 
     if {$opts(-other)} {
-      
+
       # If the other pane does not exist, add it
       if {[llength [$widgets(nb_pw) panes]] == 1} {
         add_notebook
       }
- 
+
       # Set the current pane to the other one
       set pw_current [expr $pw_current ^ 1]
-      
+
     }
-    
+
     # Adjust the index (if necessary)
     set index [adjust_insert_tab_index $index "Untitled"]
 
@@ -1238,22 +1230,22 @@ namespace eval gui {
     if {$file_index != -1} {
 
       set_current_tab [lindex $files $file_index $files_index(tab)]
-      
+
     # Otherwise, load the file in a new tab
     } else {
 
       if {$opts(-other)} {
-        
+
         # If the other pane does not exist, add it
         if {[llength [$widgets(nb_pw) panes]] == 1} {
           add_notebook
         }
-   
+
         # Set the current pane to the other one
         set pw_current [expr $pw_current ^ 1]
-        
+
       }
-      
+
       # Adjust the index (if necessary)
       set index [adjust_insert_tab_index $index [file tail $fname]]
 
@@ -1273,7 +1265,7 @@ namespace eval gui {
       lset file_info $files_index(modified) 0
       lset file_info $files_index(gutters)  $opts(-gutters)
       lset file_info $files_index(diff)     $opts(-diff)
-      
+
       if {![catch { open $fname r } rc]} {
 
         set txt [get_txt_from_tab $w]
@@ -1497,7 +1489,7 @@ namespace eval gui {
 
     # Get the difference mode of the current file
     set diff [lindex $files $file_index $files_index(diff)]
-    
+
     # If a save_as name is specified, change the filename
     if {$save_as ne ""} {
       sidebar::highlight_filename [lindex $files $file_index $files_index(fname)] [expr $diff * 2]
@@ -1689,7 +1681,7 @@ namespace eval gui {
     variable files
     variable files_index
     variable pw_current
-    
+
     # Set the current pane
     set pw_current [lsearch [$widgets(nb_pw) panes] [winfo parent $tab]]
 
@@ -1979,26 +1971,26 @@ namespace eval gui {
 
     # Set the tab image for the moved file
     set_current_tab_image {}
-      
+
   }
-  
+
   ######################################################################
   # Merges both panes into one.
   proc merge_panes {} {
-    
+
     variable widgets
     variable pw_current
-    
+
     while {[llength [$widgets(nb_pw) panes]] == 2} {
-      
+
       # Make the second pane the current pane
       set pw_current 1
-    
+
       # Move the pane
       move_to_pane
-      
+
     }
-    
+
   }
 
   ######################################################################
@@ -2486,7 +2478,7 @@ namespace eval gui {
 
     variable widgets
     variable lengths
-    
+
     # Get the current text widget
     set txt [current_txt $tid]
 
@@ -2501,10 +2493,10 @@ namespace eval gui {
     if {$ignore_case} {
       lappend rs_args -nocase
     }
-    
+
     # Get the list of items to replace
     set indices [$txt search -all -regexp -count [ns gui]::lengths {*}$rs_args -- $search $sline $eline]
-    
+
     if {$all} {
       set indices [lreverse $indices]
       set lengths [lreverse $lengths]
@@ -2526,31 +2518,31 @@ namespace eval gui {
 
     # Get the number of indices
     set num_indices [llength $indices]
-    
+
     # Replace the text
     for {set i 0} {$i < $num_indices} {incr i} {
       set index [lindex $indices $i]
       $txt replace $index "$index+[lindex $lengths $i]c" $replace
     }
-    
+
     if {$num_indices > 0} {
-      
+
       # Set the insertion cursor to the last match and make that line visible
       $txt see [lindex $indices 0]
       $txt mark set insert [lindex $indices 0]
-      
+
       # Make sure that the insertion cursor is valid
       if {[[ns vim]::in_vim_mode $txt]} {
         [ns vim]::adjust_insert $txt
       }
-      
+
       # Specify the number of substitutions that we did
       set_info_message [msgcat::mc "%d substitutions done" $num_indices]
-      
+
     } else {
-      
+
       set_info_message [msgcat::mc "No search results found"]
-      
+
     }
 
   }
@@ -2573,7 +2565,7 @@ namespace eval gui {
     return $actual_filenames
 
   }
-  
+
   ######################################################################
   # Sets the file lock to the specified value for the current file.
   proc set_current_tab_image {tid} {
@@ -2607,19 +2599,19 @@ namespace eval gui {
   ######################################################################
   # Sets the file lock to the specified value for the current file.
   proc set_current_file_lock {tid lock} {
-    
+
     variable files
     variable files_index
-    
+
     # Get the current file index
     set file_index [current_file]
-    
+
     # Set the current lock status
     lset files $file_index $files_index(lock) $lock
-    
+
     # Set the tab image to match
     set_current_tab_image $tid
-    
+
   }
 
   ######################################################################
@@ -2726,14 +2718,14 @@ namespace eval gui {
     variable widgets
 
     upvar $pvar var
-    
+
     # Initialize the widget
     $widgets(ursp_label) configure -text $msg
     $widgets(ursp_entry) delete 0 end
-    
+
     # Make the sidebar draggable
     # sidebar::set_draggable 1
-    
+
     # If var contains a value, display it and select it
     if {$var ne ""} {
       $widgets(ursp_entry) insert end $var
@@ -2759,7 +2751,7 @@ namespace eval gui {
 
     # Wait for the widget to be closed
     vwait gui::user_exit_status
-    
+
     # Reset the original focus and grab
     catch { focus $old_focus }
     catch { grab release $widgets(ursp_entry) }
@@ -2773,7 +2765,7 @@ namespace eval gui {
 
     # Hide the user input widget
     grid remove $widgets(ursp)
-    
+
     # Return the sidebar back to normal mode
     # sidebar::set_draggable 0
 
@@ -3500,35 +3492,35 @@ namespace eval gui {
     set_txt_focus $pw.tf.txt
 
   }
-  
+
   ######################################################################
   # Adds the necessary bindings to make the given text widget a drop
   # target for TkDND.
   proc make_drop_target {txt} {
-    
+
     # Make ourselves a drop target (if Tkdnd is available)
     catch {
-      
+
       tkdnd::drop_target register $txt [list DND_Files DND_Text]
-      
+
       bind $txt <<DropEnter>>      "gui::handle_drop_enter_or_pos %W %X %Y %a %b"
       bind $txt <<DropPosition>>   "gui::handle_drop_enter_or_pos %W %X %Y %a %b"
       bind $txt <<DropLeave>>      "gui::handle_drop_leave %W"
       bind $txt <<Drop:DND_Files>> "gui::handle_drop %W %A %m 0 %D"
       bind $txt <<Drop:DND_Text>>  "gui::handle_drop %W %A %m 1 %D"
-      
+
     }
-    
+
   }
-  
+
   ######################################################################
   # Handles a drag-and-drop enter/position event.  Draws UI to show that
   # the file drop request would be excepted or rejected.
   proc handle_drop_enter_or_pos {txt rootx rooty actions buttons} {
-    
+
     variable files
     variable files_index
-    
+
     # If the file is readonly, refuse the drop
     if {([set index [current_file]] == -1) || \
         [lindex $files $index $files_index(readonly)] || \
@@ -3536,41 +3528,41 @@ namespace eval gui {
         [lindex $files $index $files_index(diff)] } {
       return "refuse_drop"
     }
-    
+
     # Make sure the text widget has the focus
     focus -force $txt.t
-    
+
     # Set the highlight color to green
     ctext::set_border_color $txt green
-    
+
     # Move the insertion point to the location of rootx/y
     set x [expr $rootx - [winfo rootx $txt.t]]
     set y [expr $rooty - [winfo rooty $txt.t]]
     $txt mark set insert @$x,$y
     vim::adjust_insert $txt.t
-    
+
     return "link"
-    
+
   }
-  
+
   ######################################################################
   # Handles a drop leave event.
   proc handle_drop_leave {txt} {
-    
+
     # Set the highlight color to green
     ctext::set_border_color $txt white
-    
+
   }
-  
+
   ######################################################################
   # Handles a drop event.  Adds the given files/directories to the sidebar.
   proc handle_drop {txt action modifier type data} {
-    
+
     # If the data is text or the Alt key modifier is held during the drop, insert the data at the
     # current insertion point
     if {$type || ($modifier eq "alt")} {
       $txt insert insert $data
-      
+
     # Otherwise, insert the content of the file(s) after the insertion line
     } else {
       set str "\n"
@@ -3584,12 +3576,12 @@ namespace eval gui {
       }
       $txt insert "insert lineend" $str
     }
-    
+
     # Indicate that the drop event has completed
     handle_drop_leave $txt
-        
+
     return "link"
-        
+
   }
 
   ######################################################################
@@ -3798,7 +3790,7 @@ namespace eval gui {
 
     variable pw_current
     variable txt_current
-    
+
     if {[winfo ismapped $txt]} {
 
       # Get the tab
@@ -3806,7 +3798,7 @@ namespace eval gui {
 
       # Set the current text widget to the value of txt
       set txt_current($tab) [winfo parent $txt]
-      
+
       # Get the current tab
       set_current_tab $tab 1
 
@@ -4199,27 +4191,27 @@ namespace eval gui {
   # Gets the index of the previous indentation character based on the
   # location of the insert mark.
   proc find_prev_indent {txt} {
-    
+
     set pos        [$txt index insert]
     set last_found ""
-    
+
     lassign [syntax::get_indentation_expressions $txt] indent unindent
-    
+
     if {($indent eq "") || [ctext::isEscaped $txt $pos]} {
       return -1
     }
-    
+
     # Calculate the endpos
     if {[set incomstr [ctext::inCommentString $txt $pos srange]]} {
       set endpos [lindex $srange 0]
     } else {
       set endpos "1.0"
     }
-    
+
     set search_re "([join $indent |])"
-    
+
     while {1} {
-      
+
       if {[set found [$txt search -backwards -regexp -- $search_re $pos $endpos]] eq ""} {
         return -1
       }
@@ -4229,13 +4221,13 @@ namespace eval gui {
       if {[ctext::isEscaped $txt $found] || (!$incomstr && [ctext::inCommentString $txt $found])} {
         continue
       }
-      
+
       return $found
-      
+
     }
-    
+
   }
-  
+
   ######################################################################
   # Handles a mark request when the line is clicked.
   proc mark_command {win type tag} {
@@ -4255,7 +4247,7 @@ namespace eval gui {
   proc show_tabs {tb side} {
 
     variable images
-    
+
     set mnu $tb.mnu
 
     # Get the shown tabs
@@ -4286,7 +4278,7 @@ namespace eval gui {
       set x [winfo rootx $tb]
     }
     set y [expr [winfo rooty $tb] + [winfo height $tb]]
-    
+
     # Display the menu
     tk_popup $mnu $x $y
 
@@ -4456,18 +4448,18 @@ namespace eval gui {
     return 0
 
   }
-  
+
   ######################################################################
   # Handles a font size change event on the widget that the mouse cursor
   # is currently hovering over.
   proc handle_font_change {dir} {
-    
+
     # Get the current cursor position
     lassign [winfo pointerxy .] x y
-    
+
     # Get the window containing x and y
     set win [winfo containing $x $y]
-    
+
     # Get the class of the given window
     switch [winfo class $win] {
       "Text" -
@@ -4476,8 +4468,8 @@ namespace eval gui {
         $win configure -font [font configure [$win cget -font] -size [expr $curr_size + $dir]]
       }
     }
-    
+
   }
-  
+
 }
 
