@@ -164,6 +164,17 @@ namespace eval sidebar {
     return $w
 
   }
+  
+  ######################################################################
+  # Clears the sidebar of all content.  This is primarily called when
+  # we are switching sessions.
+  proc clear {} {
+    
+    variable widgets
+    
+    $widgets(tl) delete 0 end
+    
+  }
 
   ######################################################################
   # Handles a drag-and-drop enter/position event.  Draws UI to show that
@@ -634,7 +645,6 @@ namespace eval sidebar {
     }
 
     set dir_files [lassign [order_files_dirs $dir_files] dir_file]
-    puts "dir_files: $dir_files"
     foreach child [$widgets(tl) childkeys $parent] {
       set tl_file [$widgets(tl) cellcget $child,name -text]
       set compare [string compare $tl_file $dir_file]

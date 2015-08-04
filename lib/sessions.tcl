@@ -49,16 +49,22 @@ namespace eval sessions {
     }
 
     # Get the session information
-    set content(gui) [gui::save_session]
+    set content(gui) [[ns gui]::save_session]
 
     # Create the session file path
     set session_file [file join $sessions_dir $name.tkedat]
 
     # Write the content to the save file
-    catch { tkedat::write $session_file [array get content] }
+    catch { [ns tkedat]::write $session_file [array get content] }
 
     # Save the current name
     set current_name $name
+    
+    # Update the title
+    [ns gui]::set_title
+    
+    # Indicate to the user that we successfully saved
+    [ns gui]::set_info_message "Session \"$current_name\" saved"
 
   }
 
@@ -75,24 +81,29 @@ namespace eval sessions {
       return
     }
 
-    # TBD - Clear the UI
-
     # Get the path of the session file
     set session_file [file join $sessions_dir $name.tkedat]
 
     # Read the information from the session file
-    if {[catch { tkedat::read $session_file } rc]} {
+    if {[catch { [ns tkedat]::read $session_file } rc]} {
       [ns gui]::set_info_message "Unable to load session \"$name\""
       return
     }
 
     array set content $rc
 
+    # Clear the UI
+    [ns gui]::close_all
+    [ns sidebar]::clear
+
     # Load the GUI session information
-    gui::load_session {} $content(gui)
+    [ns gui]::load_session {} $content(gui)
 
     # Save the current name
     set current_name $name
+
+    # Update the title
+    [ns gui]::set_title
 
   }
 
@@ -101,11 +112,18 @@ namespace eval sessions {
   proc delete {name} {
 
     variable sessions_dir
+    variable current_name
     variable names
 
     if {[info exists names($name)]} {
       catch { file delete -force [file join $sessions_dir $name.tkedat] }
       unset names($name)
+    }
+    
+    # If the name matches the current name, clear the current name and update the title
+    if {$current_name eq $name} {
+      set current_name ""
+      [ns gui]::set_title
     }
 
   }

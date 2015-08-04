@@ -142,8 +142,15 @@ namespace eval gui {
     } else {
       set tab_name ""
     }
+    
+    # Get the host name
+    set host [lindex [split [info hostname] .] 0]
 
-    wm title . "$tab_name \[[lindex [split [info hostname] .] 0]:[pwd]\]"
+    if {[set session [sessions::current]] ne ""} {
+      wm title . "$tab_name ($session) \[$host:[pwd]\]"
+    } else {
+      wm title . "$tab_name \[$host:[pwd]\]"
+    }
 
   }
 
@@ -869,60 +876,58 @@ namespace eval gui {
     # Load the session information into the launcher
     launcher::load_session $content(Launcher)
 
-    # If we are supposed to load the last saved session, do it now
-    if {[preferences::get General/LoadLastSession] && ([llength $files] == 0)} {
+    # Set the current working directory to the saved value
+    if {[file exists $content(CurrentWorkingDirectory)]} {
+      cd $content(CurrentWorkingDirectory)
+    }
 
-      # Set the current working directory to the saved value
-      if {[file exists $content(CurrentWorkingDirectory)]} {
-        cd $content(CurrentWorkingDirectory)
+    # Put the list in order
+    if {[llength $content(FileInfo)] > 0} {
+      set ordered     [lrepeat 2 [lrepeat [llength $content(FileInfo)] ""]]
+      set second_pane 0
+      set i           0
+      foreach finfo_list $content(FileInfo) {
+        array set finfo $finfo_list
+        lset ordered $finfo(pane) $finfo(tab) $i
+        set second_pane [expr $finfo(pane) == 2]
+        incr i
       }
+    }
 
-      # Put the list in order
-      if {[llength $content(FileInfo)] > 0} {
-        set ordered     [lrepeat 2 [lrepeat [llength $content(FileInfo)] ""]]
-        set second_pane 0
-        set i           0
-        foreach finfo_list $content(FileInfo) {
-          array set finfo $finfo_list
-          lset ordered $finfo(pane) $finfo(tab) $i
-          set second_pane [expr $finfo(pane) == 2]
-          incr i
-        }
-      }
+    # If the second pane is necessary, create it now
+    if {[llength $content(CurrentTabs)] == 2} {
+      add_notebook
+    }
 
-      # If the second pane is necessary, create it now
-      if {[llength $content(CurrentTabs)] == 2} {
-        add_notebook
-      }
-
-      # Add the tabs (in order) to each of the panes and set the current tab in each pane
-      for {set pane 0} {$pane < [llength $content(CurrentTabs)]} {incr pane} {
-        set pw_current $pane
-        set set_tab    1
-        foreach index [lindex $ordered $pane] {
-          if {$index ne ""} {
-            array set finfo [lindex $content(FileInfo) $index]
-            if {[file exists $finfo(fname)]} {
-              add_file end $finfo(fname) \
-                -savecommand $finfo(savecommand) -lock $finfo(lock) -readonly $finfo(readonly) \
-                -diff $finfo(diff) -sidebar $finfo(sidebar)
-              if {[syntax::get_current_language [current_txt {}]] ne $finfo(language)} {
-                syntax::set_language $finfo(language)
-              }
-              if {[info exists finfo(indent)]} {
-                set_current_indent_mode $tid $finfo(indent)
-              }
-            } else {
-              set set_tab 0
+    # Add the tabs (in order) to each of the panes and set the current tab in each pane
+    for {set pane 0} {$pane < [llength $content(CurrentTabs)]} {incr pane} {
+      set pw_current $pane
+      set set_tab    1
+      foreach index [lindex $ordered $pane] {
+        if {$index ne ""} {
+          array set finfo [lindex $content(FileInfo) $index]
+          if {[file exists $finfo(fname)]} {
+            add_file end $finfo(fname) \
+              -savecommand $finfo(savecommand) -lock $finfo(lock) -readonly $finfo(readonly) \
+              -diff $finfo(diff) -sidebar $finfo(sidebar)
+            if {[syntax::get_current_language [current_txt {}]] ne $finfo(language)} {
+              syntax::set_language $finfo(language)
             }
+            if {[info exists finfo(indent)]} {
+              set_current_indent_mode $tid $finfo(indent)
+            }
+          } else {
+            set set_tab 0
           }
         }
-        if {$set_tab} {
-          set_current_tab [lindex [[lindex [$widgets(nb_pw) panes] $pane].tbf.tb tabs] [lindex $content(CurrentTabs) $pane]]
-        }
       }
-
+      if {$set_tab} {
+        set_current_tab [lindex [[lindex [$widgets(nb_pw) panes] $pane].tbf.tb tabs] [lindex $content(CurrentTabs) $pane]]
+      }
     }
+    
+    # Update the title
+    set_title
 
   }
 
