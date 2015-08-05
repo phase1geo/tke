@@ -496,7 +496,7 @@ namespace eval menus {
   proc exit_cleanup {} {
 
     # Save the session information if we are not told to exit on close
-    gui::save_session
+    sessions::save 1
 
     # Close all of the tabs
     gui::close_all 0 1
@@ -1730,8 +1730,8 @@ namespace eval menus {
     $mb.delete delete 0 end
 
     foreach name $names {
-      $mb.open   add command -label $name -command "sessions::load $name 1"
-      $mb.switch add command -label $name -command "sessions::load $name 0"
+      $mb.open   add command -label $name -command "sessions::load 0 $name 1"
+      $mb.switch add command -label $name -command "sessions::load 0 $name 0"
       $mb.delete add command -label $name -command "sessions::delete $name"
     }
 
@@ -1761,7 +1761,7 @@ namespace eval menus {
 
     set i 0
     foreach name [sessions::names] {
-      launcher::register_temp "`SESSION:$name" [list sessions::load $name 1] $name $i
+      launcher::register_temp "`SESSION:$name" [list sessions::load 0 $name 1] $name $i
       incr i
     }
 
@@ -1776,7 +1776,7 @@ namespace eval menus {
 
     set i 0
     foreach name [sessions::names] {
-      launcher::register_temp "`SESSION:$name" [list sessions::load $name 0] $name $i
+      launcher::register_temp "`SESSION:$name" [list sessions::load 0 $name 0] $name $i
       incr i
     }
 
@@ -1789,7 +1789,7 @@ namespace eval menus {
   # Saves the current session as the same name.
   proc sessions_save_current {} {
 
-    sessions::save [sessions::current]
+    sessions::save 0 [sessions::current]
 
   }
 
@@ -1797,7 +1797,7 @@ namespace eval menus {
   # Saves the current session as.
   proc sessions_save_as {} {
 
-    sessions::save
+    sessions::save 0
 
   }
 

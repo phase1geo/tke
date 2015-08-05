@@ -123,7 +123,7 @@ proc parse_cmdline {argc argv} {
   set ::cl_exit_on_close 0
   set ::cl_minimal       0
   set ::cl_new_win       0
-  set ::cl_use_session   "last"
+  set ::cl_use_session   ""
 
   set i 0
   while {$i < $argc} {
@@ -349,8 +349,8 @@ if {[catch {
     }
       
   # Load the session file
-  } elseif {[preferences::get General/LoadLastSession] || ($cl_use_session ne "last")} {
-    sessions::load $cl_use_session 0
+  } elseif {[preferences::get General/LoadLastSession] || ($cl_use_session ne "")} {
+    sessions::load [expr {$cl_use_session eq ""}] $cl_use_session 0
   }
 
   # If the number of loaded files is still zero, add a new blank file
