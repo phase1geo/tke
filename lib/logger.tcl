@@ -193,8 +193,13 @@ namespace eval logger {
       # Close the logfile
       close $logrc
       
-      # Delete the logfile
-      file delete -force [file join $logdir debug.[pid].log]
+      # Get the log filename
+      set logfile [file join $logdir debug.[pid].log]
+      
+      # Delete the logfile if it's empty or if we are not doing TKE development
+      if {([file size $logfile] == 0) || ![::tke_development]} {
+        file delete -force [file join $logdir debug.[pid].log]
+      }
       
     }
     

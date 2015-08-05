@@ -26,12 +26,17 @@ namespace eval sessions {
 
   ######################################################################
   # Save the current settings as a given session.
-  proc save {{name ""}} {
+  proc save {last {name ""}} {
 
     variable sessions_dir
     variable user_name
     variable names
     variable current_name
+    
+    # If we are being told to save the last session, set the name to the session.tkedat file
+    if {$last} {
+      set name [file join .. session]
+    }
 
     # If the name has not been specified, ask the user for a name
     if {$name eq ""} {
@@ -57,23 +62,32 @@ namespace eval sessions {
     # Write the content to the save file
     catch { [ns tkedat]::write $session_file [array get content] }
 
-    # Save the current name
-    set current_name $name
-    
-    # Update the title
-    [ns gui]::set_title
-    
-    # Indicate to the user that we successfully saved
-    [ns gui]::set_info_message "Session \"$current_name\" saved"
+    if {!$last} {
+      
+      # Save the current name
+      set current_name $name
+       
+      # Update the title
+      [ns gui]::set_title
+       
+      # Indicate to the user that we successfully saved
+      [ns gui]::set_info_message "Session \"$current_name\" saved"
+      
+    }
 
   }
 
   ######################################################################
   # Loads the given session.
-  proc load {name new_window} {
+  proc load {last name new_window} {
 
     variable sessions_dir
     variable current_name
+    
+    # If we need to load the last saved session, set the name appropriately
+    if {$last} {
+      set name [file join .. session]
+    }
 
     # If we need to open
     if {($current_name ne "") && $new_window} {
@@ -96,14 +110,22 @@ namespace eval sessions {
     [ns gui]::close_all
     [ns sidebar]::clear
 
-    # Load the GUI session information
-    [ns gui]::load_session {} $content(gui)
+    # Load the GUI session information (provide backward compatibility)
+    if {[info exists content(gui)]} {
+      [ns gui]::load_session {} $content(gui)
+    } else {
+      [ns gui]::load_session {} $rc
+    }
 
-    # Save the current name
-    set current_name $name
-
-    # Update the title
-    [ns gui]::set_title
+    if {!$last} {
+      
+      # Save the current name
+      set current_name $name
+  
+      # Update the title
+      [ns gui]::set_title
+      
+    }
 
   }
 
