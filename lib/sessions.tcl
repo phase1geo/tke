@@ -1,3 +1,8 @@
+# Name:    sessions.tcl
+# Author:  Trevor Williams  (phase1geo@gmail.com)
+# Date:    8/3/2015
+# Brief:   Namespace for session support.
+
 namespace eval sessions {
 
   source [file join $::tke_dir lib ns.tcl]
@@ -118,16 +123,12 @@ namespace eval sessions {
       [ns gui]::load_session {} $rc
     }
 
-    if {!$last} {
-      
-      # Save the current name
-      set current_name $name
+    # Save the current name
+    set current_name [expr {$last ? "" : $name}]
   
-      # Update the title
-      [ns gui]::set_title
+    # Update the title
+    [ns gui]::set_title
       
-    }
-
   }
 
   ######################################################################
