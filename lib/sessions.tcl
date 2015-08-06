@@ -91,7 +91,8 @@ namespace eval sessions {
 
     # If we need to open
     if {($current_name ne "") && $new_window} {
-      exec -ignorestderr [info nameofexecutable] [file normalize $::argv0] -s $name &
+      array set frame [info frame 0]
+      exec -ignorestderr [info nameofexecutable] $frame(file) -s $name &
       return
     }
 
@@ -136,9 +137,18 @@ namespace eval sessions {
     variable sessions_dir
     variable current_name
     variable names
-
+    
     if {[info exists names($name)]} {
+      
+      # Confirm the deletion
+      if {[tk_messageBox -icon warning -parent . -default no -type yesnocancel -message "Delete session \"$name\"?"] ne "yes"} {
+        return
+      }
+      
+      # Delete the session file
       catch { file delete -force [file join $sessions_dir $name.tkedat] }
+      
+      # Delete the name from the names list
       unset names($name)
     }
     
