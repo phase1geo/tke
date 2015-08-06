@@ -1704,6 +1704,11 @@ namespace eval menus {
     launcher::register [msgcat::mc "Menu: Switch to session"] "menus::sessions_switch_launcher"
 
     $mb add separator
+    
+    $mb add command -label [msgcat::mc "Close Current"] -underline 0 -command "menus::sessions_close_current"
+    launcher::register [msgcat::mc "Menu: Close current session"] "menus::sessions_close_current"
+    
+    $mb add separator
 
     $mb add command -label [msgcat::mc "Save Current"] -underline 0 -command "menus::sessions_save_current"
     launcher::register [msgcat::mc "Menu: Save current session"] "menus::sessions_save_current"
@@ -1738,9 +1743,11 @@ namespace eval menus {
 
     # If the current session is not set, disable the menu item
     if {[sessions::current] eq ""} {
-      $mb entryconfigure [msgcat::mc "Save Current"] -state disabled
+      $mb entryconfigure [msgcat::mc "Close Current"] -state disabled
+      $mb entryconfigure [msgcat::mc "Save Current"]  -state disabled
     } else {
-      $mb entryconfigure [msgcat::mc "Save Current"] -state normal
+      $mb entryconfigure [msgcat::mc "Close Current"] -state normal
+      $mb entryconfigure [msgcat::mc "Save Current"]  -state normal
     }
 
     # If there are no names, disable the Open, Switch to and Delete menu commands
@@ -1784,6 +1791,14 @@ namespace eval menus {
     # Display the launcher in SESSION: mode
     launcher::launch "`SESSION:"
 
+  }
+  
+  ######################################################################
+  # Closes the current session by switching to the last session.
+  proc sessions_close_current {} {
+    
+    sessions::load 1 "" 0
+    
   }
 
   ######################################################################
