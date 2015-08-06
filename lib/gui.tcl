@@ -821,6 +821,8 @@ namespace eval gui {
       set finfo(buffer)      [lindex $file $files_index(buffer)]
       set finfo(indent)      [indent::get_indent_mode $txt]
       set finfo(modified)    0
+      set finfo(cursor)      [$txt index insert]
+      set finfo(yview)       [$txt index @0,0]
 
       lappend content(FileInfo) [array get finfo]
 
@@ -910,11 +912,18 @@ namespace eval gui {
             add_file end $finfo(fname) \
               -savecommand $finfo(savecommand) -lock $finfo(lock) -readonly $finfo(readonly) \
               -diff $finfo(diff) -sidebar $finfo(sidebar)
-            if {[syntax::get_current_language [current_txt {}]] ne $finfo(language)} {
+            set txt [current_txt $tid]
+            if {[syntax::get_current_language $txt] ne $finfo(language)} {
               syntax::set_language $finfo(language)
             }
             if {[info exists finfo(indent)]} {
               set_current_indent_mode $tid $finfo(indent)
+            }
+            if {[info exists finfo(cursor)]} {
+              $txt mark set insert $finfo(cursor)
+            }
+            if {[info exists finfo(yview)]} {
+              $txt yview $finfo(yview)
             }
           } else {
             set set_tab 0

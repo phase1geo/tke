@@ -1693,6 +1693,7 @@ namespace eval menus {
   }
 
   ######################################################################
+  # Adds the sessions menu options to the sessions menu.
   proc add_sessions {mb} {
 
     # Add sessions menu commands
@@ -1730,9 +1731,9 @@ namespace eval menus {
     $mb.delete delete 0 end
 
     foreach name $names {
-      $mb.open   add command -label $name -command "sessions::load 0 $name 1"
-      $mb.switch add command -label $name -command "sessions::load 0 $name 0"
-      $mb.delete add command -label $name -command "sessions::delete $name"
+      $mb.open   add command -label $name -command [list sessions::load 0 $name 1]
+      $mb.switch add command -label $name -command [list sessions::load 0 $name 0]
+      $mb.delete add command -label $name -command [list sessions::delete $name]
     }
 
     # If the current session is not set, disable the menu item
@@ -1760,13 +1761,13 @@ namespace eval menus {
   proc sessions_open_launcher {} {
 
     set i 0
-    foreach name [sessions::names] {
+    foreach name [sessions::get_names] {
       launcher::register_temp "`SESSION:$name" [list sessions::load 0 $name 1] $name $i
       incr i
     }
 
     # Display the launcher in SESSION: mode
-    launcher::launch "`SESSION:" 1
+    launcher::launch "`SESSION:"
 
   }
 
@@ -1775,13 +1776,13 @@ namespace eval menus {
   proc sessions_switch_launcher {} {
 
     set i 0
-    foreach name [sessions::names] {
+    foreach name [sessions::get_names] {
       launcher::register_temp "`SESSION:$name" [list sessions::load 0 $name 0] $name $i
       incr i
     }
 
     # Display the launcher in SESSION: mode
-    launcher::launch "`SESSION:" 1
+    launcher::launch "`SESSION:"
 
   }
 
@@ -1802,16 +1803,17 @@ namespace eval menus {
   }
 
   ######################################################################
+  # Shows launcher with a list of available sessions to delete.
   proc sessions_delete_launcher {} {
 
     set i 0
-    foreach name [sessions::names] {
+    foreach name [sessions::get_names] {
       launcher::register_temp "`SESSION:$name" [list sessions::delete $name] $name $i
       incr i
     }
 
     # Display the launcher in SESSION: mode
-    launcher::launch "`SESSION:" 1
+    launcher::launch "`SESSION:"
 
   }
 
