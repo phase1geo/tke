@@ -1534,6 +1534,7 @@ namespace eval gui {
     }
 
     # Write the file contents
+    catch { fconfigure $rc -translation [[ns preferences]::get {Editor/EndOfLineTranslation}] }
     puts $rc [scrub_text [current_txt $tid]]
     close $rc
 
@@ -1621,6 +1622,7 @@ namespace eval gui {
           }
 
           # Write the file contents
+          catch { fconfigure $rc -translation [[ns preferences]::get {Editor/EndOfLineTranslation}] }
           puts $rc [vim::get_cleaned_content $txt]
           close $rc
 
