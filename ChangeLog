@@ -1,51 +1,28 @@
-changeset:   1190:496b854f5a50
-tag:         stable-1.8
+changeset:   1196:5b30207c96c9
+tag:         devel-1.8.1
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Jul 31 20:24:01 2015 -0500
+date:        Wed Aug 05 09:14:18 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for stable-1.8 release
+ChangeLog for devel-1.8.1 release
 
 
-changeset:   1191:5732c80087c4
+changeset:   1197:462e5d49e5d7
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Jul 31 20:24:06 2015 -0500
+date:        Wed Aug 05 09:14:26 2015 -0500
 files:       .hgtags
 description:
-Added tag stable-1.8 for changeset 496b854f5a50
+Added tag devel-1.8.1 for changeset 5b30207c96c9
 
 
-changeset:   1192:fc41fa6d147e
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Mon Aug 03 20:05:10 2015 -0500
-files:       lib/gui.tcl lib/menus.tcl lib/sessions.tcl lib/tke.tcl lib/version.tcl
-description:
-* Initial work on sessions support.
-
-
-changeset:   1193:a633f4e3a0c1
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Aug 04 00:18:58 2015 -0500
-files:       lib/menus.tcl lib/sessions.tcl lib/tke.tcl lib/version.tcl
-description:
-* Fixing various issues with sessions support (still a work in progress).
-
-
-changeset:   1194:cfc1521999db
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Aug 04 08:59:01 2015 -0500
-files:       lib/gui.tcl lib/sessions.tcl lib/sidebar.tcl lib/tke.tcl lib/version.tcl
-description:
-* More work on sessions support.
-
-
-changeset:   1195:dd8749c2bb33
+changeset:   1198:4a1749e34a30
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Aug 05 09:12:31 2015 -0500
-files:       lib/logger.tcl lib/menus.tcl lib/sessions.tcl lib/tke.tcl lib/version.tcl
+date:        Wed Aug 05 22:55:14 2015 -0500
+files:       lib/gui.tcl lib/menus.tcl lib/sessions.tcl lib/version.tcl
 description:
-* Finishing initial work on session support.
-* Changing logger to not remove logfiles if they contain information and we are in development mode.
+* Adding cursor position and yview to session information.
+* Fixing various session bugs.
+* Adding confirmation message box when deleting session.
 
 
