@@ -1,28 +1,34 @@
-changeset:   1196:5b30207c96c9
-tag:         devel-1.8.1
+changeset:   1199:904427a06f8e
+tag:         devel-1.8.2
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Aug 05 09:14:18 2015 -0500
+date:        Wed Aug 05 22:56:25 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.8.1 release
+ChangeLog for devel-1.8.2 release
 
 
-changeset:   1197:462e5d49e5d7
+changeset:   1200:0332233e31ed
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Aug 05 09:14:26 2015 -0500
+date:        Wed Aug 05 22:56:30 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.8.1 for changeset 5b30207c96c9
+Added tag devel-1.8.2 for changeset 904427a06f8e
 
 
-changeset:   1198:4a1749e34a30
+changeset:   1201:c86045be7cb7
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Aug 06 01:16:39 2015 -0500
+files:       data/preferences.tkedat lib/gui.tcl lib/version.tcl
+description:
+* Adding support for end-of-line character modification via preferences.
+
+
+changeset:   1202:d6d0b70f0a4d
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Aug 05 22:55:14 2015 -0500
-files:       lib/gui.tcl lib/menus.tcl lib/sessions.tcl lib/version.tcl
+date:        Thu Aug 06 08:10:50 2015 -0500
+files:       lib/menus.tcl lib/sessions.tcl lib/version.tcl
 description:
-* Adding cursor position and yview to session information.
-* Fixing various session bugs.
-* Adding confirmation message box when deleting session.
+* Adding "Close Current" session command.
 
 
