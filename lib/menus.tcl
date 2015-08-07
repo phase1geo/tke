@@ -1704,10 +1704,10 @@ namespace eval menus {
     launcher::register [msgcat::mc "Menu: Switch to session"] "menus::sessions_switch_launcher"
 
     $mb add separator
-    
+
     $mb add command -label [msgcat::mc "Close Current"] -underline 0 -command "menus::sessions_close_current"
     launcher::register [msgcat::mc "Menu: Close current session"] "menus::sessions_close_current"
-    
+
     $mb add separator
 
     $mb add command -label [msgcat::mc "Save Current"] -underline 0 -command "menus::sessions_save_current"
@@ -1792,13 +1792,13 @@ namespace eval menus {
     launcher::launch "`SESSION:"
 
   }
-  
+
   ######################################################################
   # Closes the current session by switching to the last session.
   proc sessions_close_current {} {
-    
+
     sessions::load 1 "" 0
-    
+
   }
 
   ######################################################################
@@ -1874,6 +1874,9 @@ namespace eval menus {
     $mb add command -label [msgcat::mc "User Guide"] -underline 0 -command "menus::help_user_guide"
     launcher::register [msgcat::mc "Menu: View User Guide"] "menus::help_user_guide"
 
+    $mb add command -label [msgcat::mc "License"] -underline 0 -command "menus::help_license"
+    launcher::register [msgcat::mc "Menu: View License"] "menus::help_license"
+
     if {![string match *Win* $::tcl_platform(os)]} {
       $mb add separator
       $mb add command -label [msgcat::mc "Check for Update"] -underline 0 -command "menus::check_for_update"
@@ -1906,6 +1909,14 @@ namespace eval menus {
     } else {
       utils::open_file_externally "[file join $::tke_dir doc UserGuide.epub]"
     }
+
+  }
+
+  ######################################################################
+  # Displays a read-only version of the application license.
+  proc help_license {} {
+
+    gui::add_file end [file join $::tke_dir LICENSE] -readonly 1 -sidebar 0
 
   }
 
