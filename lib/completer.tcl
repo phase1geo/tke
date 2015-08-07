@@ -120,7 +120,7 @@ namespace eval completer {
 
     if {$complete($txt,square) && ![ctext::inCommentString $txt insert]} {
       if {$side eq "right"} {
-        if {[$txt get insert] eq "\]"} {
+        if {([$txt get insert] eq "\]") && ![ctext::isEscaped $txt insert]} {
           $txt mark set insert "insert+1c"
           ctext::matchPair [winfo parent $txt] "\\\[" "\\\]"
           return 1
@@ -146,7 +146,7 @@ namespace eval completer {
     
     if {$complete($txt,curly) && ![ctext::inCommentString $txt insert]} {
       if {$side eq "right"} {
-        if {[$txt get insert] eq "\}"} {
+        if {([$txt get insert] eq "\}") && ![ctext::isEscaped $txt insert]} {
           $txt mark set insert "insert+1c"
           ctext::matchPair [winfo parent $txt] "\\\{" "\\\}"
           return 1
@@ -172,7 +172,7 @@ namespace eval completer {
     
     if {$complete($txt,angled) && ![ctext::inCommentString $txt insert]} {
       if {$side eq "right"} {
-        if {[$txt get insert] eq ">"} {
+        if {([$txt get insert] eq ">") && ![ctext::isEscaped $txt insert]} {
           $txt mark set insert "insert+1c"
           ctext::matchPair [winfo parent $txt] "\\<" "\\>"
           return 1
@@ -198,7 +198,7 @@ namespace eval completer {
     
     if {$complete($txt,paren) && ![ctext::inCommentString $txt insert]} {
       if {$side eq "right"} {
-        if {[$txt get insert] eq ")"} {
+        if {([$txt get insert] eq ")") && ![ctext::isEscaped $txt insert]} {
           $txt mark set insert "insert+1c"
           ctext::matchPair [winfo parent $txt] "\\(" "\\)"
           return 1
@@ -224,7 +224,7 @@ namespace eval completer {
 
     if {$complete($txt,double)} {
       if {[ctext::inCommentString $txt insert]} {
-        if {[$txt get insert] eq "\""} {
+        if {([$txt get insert] eq "\"") && ![ctext::isEscaped $txt insert]} {
           $txt mark set insert "insert+1c"
           ctext::matchQuote [winfo parent $txt]
           return 1
@@ -250,7 +250,7 @@ namespace eval completer {
 
     if {$complete($txt,single)} {
       if {[ctext::inCommentString $txt insert]} {
-        if {[$txt get insert] eq "'"} {
+        if {([$txt get insert] eq "'") && ![ctext::isEscaped $txt insert]} {
           $txt mark set insert "insert+1c"
           return 1
         }
