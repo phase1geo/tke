@@ -13,7 +13,7 @@ set tke_home [file normalize [file join ~ .tke]]
 # Returns 1 if we are doing TKE development; otherwise, returns 0.
 proc tke_development {} {
 
-  return [info exists ::env(TKE_DEVEL)]
+  return [expr [info exists ::env(TKE_DEVEL)] || [preferences::get {Debug/DevelopmentMode}]]
 
 }
 
@@ -347,7 +347,7 @@ if {[catch {
         gui::add_file end $name
       }
     }
-      
+
   # Load the session file
   } elseif {[preferences::get General/LoadLastSession] || ($cl_use_session ne "")} {
     sessions::load [expr {$cl_use_session eq ""}] $cl_use_session 0

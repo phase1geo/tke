@@ -78,7 +78,7 @@
 # Specifies the point size of the font used in the command launcher entry field.
 
 {Appearance/CommandLauncherEntryFontSize} {12}
-  
+
 # Specifies the point size of the font used in the command launcher preview field.
 
 {Appearance/CommandLauncherPreviewFontSize} {6}
@@ -89,7 +89,7 @@
 # its position being previously moved.
 
 {Appearance/CommandLauncherRememberLastPosition} {1}
- 
+
 # Specifies the number of characters to allow on a line before additional characters
 # are flagged with a warning character.
 
@@ -287,6 +287,11 @@
 # the default directory will be the ~/.tke/logs directory.
 
 {Debug/LogDirectory}         {}
+
+# This option enables some additional features of TKE used for development purposes.
+# This value should be kept at a value of 0 for normal usage.
+
+{Debug/DevelopmentMode}      {0}
 
 # Specifies the format of the User Guide documentation that will be shown when launching the
 # Help/User Guide menu option.
