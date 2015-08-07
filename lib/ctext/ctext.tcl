@@ -1682,7 +1682,7 @@ proc ctext::tag:blink {win count {afterTriggered 0}} {
     set configAr(blinkAfterId) ""
   }
 
-  if {$count == 4} {
+  if {$count == 2} {
     $win tag delete __ctext_blink 1.0 end
     return
   }
@@ -1748,44 +1748,57 @@ proc ctext::matchPair {win str1 str2} {
 }
 
 proc ctext::matchQuote {win} {
-  set endQuote [$win index insert]
-  set start [$win index "insert - 1 chars"]
+  
+  set end_quote  [$win index insert]
+  set last_found ""
 
-  # The quote really isn't the end if it is escaped or if the previous
-  # character had a string tag associated with it.
-  if {[isEscaped $win $start] || ([lsearch [$win tag names $start] "_dString"] == -1)} {
+  if {[ctext::isEscaped $win $end_quote]} {
     return
   }
 
-  set lastFound ""
-  while 1 {
-    set startQuote [$win search -backwards \" $start]
-    if {$startQuote == "" || [$win compare $startQuote > $start]} {
-      #The search found nothing or it wrapped.
+  # Figure out if we need to search forwards or backwards
+  if {[lsearch [$win tag names $end_quote-2c] _dString] == -1} {
+    set dir   "-forwards"
+    set start $end_quote
+  } else {
+    set dir   "-backwards"
+    set start [$win index "insert-1c"]
+  }
+  
+  while {1} {
+
+    set start_quote [$win search $dir \" $start]
+
+    if {($start_quote eq "") || \
+        (($dir eq "-backwards") && [$win compare $start_quote > $start]) || \
+        (($dir eq "-forwards")  && [$win compare $start_quote < $start]) || \
+        (($last_found ne "") && [$win compare $last_found == $start_quote])} {
       return
     }
 
-    if {$lastFound != "" && [$win compare $lastFound == $startQuote]} {
-      #We found the character we found before, so it wrapped.
-      return
+    set last_found $start_quote
+    if {$dir eq "-backwards"} {
+      set start $start_quote
+    } else {
+      set start [$win index "$start_quote+1c"]
     }
-    set lastFound $startQuote
-    set start [$win index "$startQuote - 1 chars"]
-    set prevChar [$win get $start]
 
-    if {[isEscaped $win $start]} {
+    if {[ctext::isEscaped $win $last_found]} {
       continue
     }
+
     break
-  }
 
-  if {[$win compare $endQuote == $startQuote]} {
-    #probably just \"
-    return
   }
-
-  $win tag add __ctext_blink $startQuote $endQuote
+  
+  # Use last_found
+  if {$dir eq "-backwards"} {
+    $win tag add __ctext_blink $start_quote $end_quote
+  } else {
+    $win tag add __ctext_blink $end_quote $start_quote
+  }
   ctext::tag:blink $win 0
+  
 }
 
 proc ctext::setBlockCommentPatterns {win patterns {color "khaki"}} {
