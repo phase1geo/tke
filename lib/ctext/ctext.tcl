@@ -492,6 +492,125 @@ proc ctext::setCommentRE {win} {
 
 }
 
+proc ctext::inLineComment {win index {prange ""}} {
+
+  set prev_in [expr {[set prev_tag [lsearch -inline -regexp [$win tag names $index-1c] {_lComment}]] ne ""}]
+  set curr_in [expr {[set curr_tag [lsearch -inline -regexp [$win tag names $index]    {_lComment}]] ne ""}]
+
+  if {$prange eq ""} {
+    return [expr $curr_in && $prev_in]
+  } elseif {$curr_in && $prev_in} {
+    upvar $prange range
+    set range [$win tag prevrange $curr_tag $index]
+    return 1
+  } else {
+    return 0
+  }
+
+}
+
+proc ctext::inBlockComment {win index {prange ""}} {
+
+  set prev_in [expr {[set prev_tag [lsearch -inline -regexp [$win tag names $index-1c] {_cComment}]] ne ""}]
+  set curr_in [expr {[set curr_tag [lsearch -inline -regexp [$win tag names $index]    {_cComment}]] ne ""}]
+
+  if {$prange eq ""} {
+    return [expr $curr_in && $prev_in]
+  } elseif {$curr_in && $prev_in} {
+    upvar $prange range
+    set range [$win tag prevrange $curr_tag $index]
+    return 1
+  } else {
+    return 0
+  }
+
+}
+
+proc ctext::inComment {win index {prange ""}} {
+
+  set prev_in [expr {[set prev_tag [lsearch -inline -regexp [$win tag names $index-1c] {_[cl]Comment}]] ne ""}]
+  set curr_in [expr {[set curr_tag [lsearch -inline -regexp [$win tag names $index]    {_[cl]Comment}]] ne ""}]
+
+  if {$prange eq ""} {
+    return [expr $curr_in && $prev_in]
+  } elseif {$curr_in && $prev_in} {
+    upvar $prange range
+    set range [$win tag prevrange $curr_tag $index]
+    return 1
+  } else {
+    return 0
+  }
+
+}
+
+proc ctext::inSingleQuote {win index {prange ""}} {
+
+  set prev_in [expr {[set prev_tag [lsearch -inline -regexp [$win tag names $index-1c] {_sString}]] ne ""}]
+  set curr_in [expr {[set curr_tag [lsearch -inline -regexp [$win tag names $index]    {_sString}]] ne ""}]
+
+  if {$prange eq ""} {
+    return [expr $curr_in && $prev_in]
+  } elseif {$curr_in && $prev_in} {
+    upvar $prange range
+    set range [$win tag prevrange $curr_tag $index]
+    return 1
+  } else {
+    return 0
+  }
+
+}
+
+proc ctext::inDoubleQuote {win index {prange ""}} {
+
+  set prev_in [expr {[set prev_tag [lsearch -inline -regexp [$win tag names $index-1c] {_dString}]] ne ""}]
+  set curr_in [expr {[set curr_tag [lsearch -inline -regexp [$win tag names $index]    {_dString}]] ne ""}]
+
+  if {$prange eq ""} {
+    return [expr $curr_in && $prev_in]
+  } elseif {$curr_in && $prev_in} {
+    upvar $prange range
+    set range [$win tag prevrange $curr_tag $index]
+    return 1
+  } else {
+    return 0
+  }
+
+}
+
+proc ctext::inTripleQuote {win index {prange ""}} {
+
+  set prev_in [expr {[set prev_tag [lsearch -inline -regexp [$win tag names $index-1c] {_tString}]] ne ""}]
+  set curr_in [expr {[set curr_tag [lsearch -inline -regexp [$win tag names $index]    {_tString}]] ne ""}]
+
+  if {$prange eq ""} {
+    return [expr $curr_in && $prev_in]
+  } elseif {$curr_in && $prev_in} {
+    upvar $prange range
+    set range [$win tag prevrange $curr_tag $index]
+    return 1
+  } else {
+    return 0
+  }
+
+}
+
+proc ctext::inString {win index {prange ""}} {
+
+  set prev_in [expr {[set prev_tag [lsearch -inline -regexp [$win tag names $index-1c] {_[sdt]String}]] ne ""}]
+  set curr_in [expr {[set curr_tag [lsearch -inline -regexp [$win tag names $index]    {_[sdt]String}]] ne ""}]
+
+  if {$prange eq ""} {
+    return [expr $curr_in && $prev_in]
+  } elseif {$curr_in && $prev_in} {
+    upvar $prange range
+    set range [$win tag prevrange $curr_tag $index]
+    return 1
+  } else {
+    return 0
+  }
+
+}
+
 proc ctext::inCommentString {win index {prange ""}} {
 
   set prev_in [expr {[set prev_tag [lsearch -inline -regexp [$win tag names $index-1c] {_([cl]Comment|[sdt]String)}]] ne ""}]
@@ -552,9 +671,9 @@ proc ctext::handleFocusOut {win} {
 }
 
 proc ctext::set_border_color {win color} {
-  
+
   __ctextJunk$win configure -bg $color
-  
+
 }
 
 # Returns 1 if the character at the given index is escaped; otherwise, returns 0.
@@ -1222,7 +1341,7 @@ proc ctext::instanceCmd {self cmd args} {
           $self._t tag remove $tag $prevSpace $nextSpace
         }
       }
-      
+
       set re_data    [$self._t get $prevSpace "$insertPos+${datalen}c"]
       set re_pattern [expr {($datalen == 1) ? "($commentRE)\$" : $commentRE}]
 
@@ -1748,7 +1867,7 @@ proc ctext::matchPair {win str1 str2} {
 }
 
 proc ctext::matchQuote {win} {
-  
+
   set end_quote  [$win index insert]
   set last_found ""
 
@@ -1764,7 +1883,7 @@ proc ctext::matchQuote {win} {
     set dir   "-backwards"
     set start [$win index "insert-1c"]
   }
-  
+
   while {1} {
 
     set start_quote [$win search $dir \" $start]
@@ -1790,7 +1909,7 @@ proc ctext::matchQuote {win} {
     break
 
   }
-  
+
   # Use last_found
   if {$dir eq "-backwards"} {
     $win tag add __ctext_blink $start_quote $end_quote
@@ -1798,7 +1917,7 @@ proc ctext::matchQuote {win} {
     $win tag add __ctext_blink $end_quote $start_quote
   }
   ctext::tag:blink $win 0
-  
+
 }
 
 proc ctext::setBlockCommentPatterns {win patterns {color "khaki"}} {
@@ -1824,11 +1943,11 @@ proc ctext::setLineCommentPatterns {win patterns {color "khaki"}} {
 }
 
 proc ctext::setStringPatterns {win patterns {color "green"}} {
-  
+
   ctext::getAr $win config configAr
-  
+
   set configAr(string_patterns) $patterns
-  
+
   if {[llength $patterns] > 0} {
     $win tag configure _sString -foreground $color
     $win tag configure _dString -foreground $color
@@ -1838,15 +1957,15 @@ proc ctext::setStringPatterns {win patterns {color "green"}} {
     catch { $win tag delete _dString }
     catch { $win tag delete _tString }
   }
-  
+
   setCommentRE $win
-  
+
 }
 
 proc ctext::comments {win start end blocks {afterTriggered 0}} {
 
   ctext::getAr $win config configAr
-  
+
   if {$afterTriggered} {
     set configAr(commentsAfterId) ""
   }
@@ -1875,7 +1994,7 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
 
     set commentRE "([join $configAr(line_comment_patterns) |])"
     append commentRE {[^\n\r]*}
-    
+
     set lcomment [list]
 
     # Handle single line comments in the given range
