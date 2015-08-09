@@ -118,7 +118,7 @@ namespace eval completer {
 
     variable complete
 
-    if {$complete($txt,square) && ![ctext::inComment $txt insert]} {
+    if {$complete($txt,square) && ![ctext::inComment $txt "insert-1c"]} {
       if {$side eq "right"} {
         if {([$txt get insert] eq "\]") && ![ctext::isEscaped $txt insert]} {
           $txt mark set insert "insert+1c"
@@ -144,7 +144,7 @@ namespace eval completer {
 
     variable complete
 
-    if {$complete($txt,curly) && ![ctext::inComment $txt insert]} {
+    if {$complete($txt,curly) && ![ctext::inComment $txt "insert-1c"]} {
       if {$side eq "right"} {
         if {([$txt get insert] eq "\}") && ![ctext::isEscaped $txt insert]} {
           $txt mark set insert "insert+1c"
@@ -170,7 +170,7 @@ namespace eval completer {
 
     variable complete
 
-    if {$complete($txt,angled) && ![ctext::inComment $txt insert]} {
+    if {$complete($txt,angled) && ![ctext::inComment $txt "insert-1c"]} {
       if {$side eq "right"} {
         if {([$txt get insert] eq ">") && ![ctext::isEscaped $txt insert]} {
           $txt mark set insert "insert+1c"
@@ -196,7 +196,7 @@ namespace eval completer {
 
     variable complete
 
-    if {$complete($txt,paren) && ![ctext::inComment $txt insert]} {
+    if {$complete($txt,paren) && ![ctext::inComment $txt "insert-1c"]} {
       if {$side eq "right"} {
         if {([$txt get insert] eq ")") && ![ctext::isEscaped $txt insert]} {
           $txt mark set insert "insert+1c"
@@ -223,7 +223,7 @@ namespace eval completer {
     variable complete
 
     if {$complete($txt,double)} {
-      if {[ctext::inString $txt insert]} {
+      if {[ctext::inDoubleQuote $txt insert]} {
         if {([$txt get insert] eq "\"") && ![ctext::isEscaped $txt insert]} {
           $txt mark set insert "insert+1c"
           ctext::matchQuote [winfo parent $txt]
@@ -231,7 +231,7 @@ namespace eval completer {
         }
       } else {
         set ins [$txt index insert]
-        if {![ctext::inComment $txt insert]} {
+        if {![ctext::inCommentString $txt "insert-1c"]} {
           $txt insert insert "\""
         }
         $txt mark set insert $ins
@@ -256,7 +256,7 @@ namespace eval completer {
         }
       } else {
         set ins [$txt index insert]
-        if {![ctext::inComment $txt insert]} {
+        if {![ctext::inCommentString $txt "insert-1c"]} {
           $txt insert insert "'"
         }
         $txt mark set insert $ins

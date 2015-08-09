@@ -492,10 +492,10 @@ proc ctext::setCommentRE {win} {
 
 }
 
-proc ctext::inLineComment {win index {prange ""}} {
-
-  set prev_in [expr {[set prev_tag [lsearch -inline -regexp [$win tag names $index-1c] {_lComment}]] ne ""}]
-  set curr_in [expr {[set curr_tag [lsearch -inline -regexp [$win tag names $index]    {_lComment}]] ne ""}]
+proc ctext::inCommentStringHelper {win index pattern prange} {
+  
+  set prev_in [expr {[set prev_tag [lsearch -inline -regexp [$win tag names $index-1c] $pattern]] ne ""}]
+  set curr_in [expr {[set curr_tag [lsearch -inline -regexp [$win tag names $index]    $pattern]] ne ""}]
 
   if {$prange eq ""} {
     return [expr $curr_in && $prev_in]
@@ -506,125 +506,54 @@ proc ctext::inLineComment {win index {prange ""}} {
   } else {
     return 0
   }
+  
+}
+
+proc ctext::inLineComment {win index {prange ""}} {
+
+  return [inCommentStringHelper $win $index {_lComment} $prange]
 
 }
 
 proc ctext::inBlockComment {win index {prange ""}} {
 
-  set prev_in [expr {[set prev_tag [lsearch -inline -regexp [$win tag names $index-1c] {_cComment}]] ne ""}]
-  set curr_in [expr {[set curr_tag [lsearch -inline -regexp [$win tag names $index]    {_cComment}]] ne ""}]
-
-  if {$prange eq ""} {
-    return [expr $curr_in && $prev_in]
-  } elseif {$curr_in && $prev_in} {
-    upvar $prange range
-    set range [$win tag prevrange $curr_tag $index]
-    return 1
-  } else {
-    return 0
-  }
+  return [inCommentStringHelper $win $index {_cComment} $prange]
 
 }
 
 proc ctext::inComment {win index {prange ""}} {
 
-  set prev_in [expr {[set prev_tag [lsearch -inline -regexp [$win tag names $index-1c] {_[cl]Comment}]] ne ""}]
-  set curr_in [expr {[set curr_tag [lsearch -inline -regexp [$win tag names $index]    {_[cl]Comment}]] ne ""}]
-
-  if {$prange eq ""} {
-    return [expr $curr_in && $prev_in]
-  } elseif {$curr_in && $prev_in} {
-    upvar $prange range
-    set range [$win tag prevrange $curr_tag $index]
-    return 1
-  } else {
-    return 0
-  }
+  return [inCommentStringHelper $win $index {_[cl]Comment} $prange]
 
 }
 
 proc ctext::inSingleQuote {win index {prange ""}} {
 
-  set prev_in [expr {[set prev_tag [lsearch -inline -regexp [$win tag names $index-1c] {_sString}]] ne ""}]
-  set curr_in [expr {[set curr_tag [lsearch -inline -regexp [$win tag names $index]    {_sString}]] ne ""}]
-
-  if {$prange eq ""} {
-    return [expr $curr_in && $prev_in]
-  } elseif {$curr_in && $prev_in} {
-    upvar $prange range
-    set range [$win tag prevrange $curr_tag $index]
-    return 1
-  } else {
-    return 0
-  }
+  return [inCommentStringHelper $win $index {_sString} $prange]
 
 }
 
 proc ctext::inDoubleQuote {win index {prange ""}} {
 
-  set prev_in [expr {[set prev_tag [lsearch -inline -regexp [$win tag names $index-1c] {_dString}]] ne ""}]
-  set curr_in [expr {[set curr_tag [lsearch -inline -regexp [$win tag names $index]    {_dString}]] ne ""}]
-
-  if {$prange eq ""} {
-    return [expr $curr_in && $prev_in]
-  } elseif {$curr_in && $prev_in} {
-    upvar $prange range
-    set range [$win tag prevrange $curr_tag $index]
-    return 1
-  } else {
-    return 0
-  }
+  return [inCommentStringHelper $win $index {_dString} $prange]
 
 }
 
 proc ctext::inTripleQuote {win index {prange ""}} {
 
-  set prev_in [expr {[set prev_tag [lsearch -inline -regexp [$win tag names $index-1c] {_tString}]] ne ""}]
-  set curr_in [expr {[set curr_tag [lsearch -inline -regexp [$win tag names $index]    {_tString}]] ne ""}]
-
-  if {$prange eq ""} {
-    return [expr $curr_in && $prev_in]
-  } elseif {$curr_in && $prev_in} {
-    upvar $prange range
-    set range [$win tag prevrange $curr_tag $index]
-    return 1
-  } else {
-    return 0
-  }
+  return [inCommentStringHelper $win $index {_tString} $prange]
 
 }
 
 proc ctext::inString {win index {prange ""}} {
 
-  set prev_in [expr {[set prev_tag [lsearch -inline -regexp [$win tag names $index-1c] {_[sdt]String}]] ne ""}]
-  set curr_in [expr {[set curr_tag [lsearch -inline -regexp [$win tag names $index]    {_[sdt]String}]] ne ""}]
-
-  if {$prange eq ""} {
-    return [expr $curr_in && $prev_in]
-  } elseif {$curr_in && $prev_in} {
-    upvar $prange range
-    set range [$win tag prevrange $curr_tag $index]
-    return 1
-  } else {
-    return 0
-  }
+  return [inCommentStringHelper $win $index {_[sdt]String} $prange]
 
 }
 
 proc ctext::inCommentString {win index {prange ""}} {
 
-  set prev_in [expr {[set prev_tag [lsearch -inline -regexp [$win tag names $index-1c] {_([cl]Comment|[sdt]String)}]] ne ""}]
-  set curr_in [expr {[set curr_tag [lsearch -inline -regexp [$win tag names $index]    {_([cl]Comment|[sdt]String)}]] ne ""}]
-
-  if {$prange eq ""} {
-    return [expr $curr_in && $prev_in]
-  } elseif {$curr_in && $prev_in} {
-    upvar $prange range
-    set range [$win tag prevrange $curr_tag $index]
-    return 1
-  } else {
-    return 0
-  }
+  return [inCommentStringHelper $win $index {_([cl]Comment|[sdt]String)} $prange]
 
 }
 
@@ -1871,7 +1800,7 @@ proc ctext::matchQuote {win} {
   set end_quote  [$win index insert]
   set last_found ""
 
-  if {[ctext::isEscaped $win $end_quote]} {
+  if {[ctext::isEscaped $win $end_quote] || [ctext::inComment $win "$end_quote-1c"]} {
     return
   }
 
@@ -1902,7 +1831,7 @@ proc ctext::matchQuote {win} {
       set start [$win index "$start_quote+1c"]
     }
 
-    if {[ctext::isEscaped $win $last_found]} {
+    if {[ctext::isEscaped $win $last_found] || [inComment $win $last_found]} {
       continue
     }
 
