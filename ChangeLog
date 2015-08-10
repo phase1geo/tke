@@ -1,34 +1,68 @@
-changeset:   1199:904427a06f8e
-tag:         devel-1.8.2
+changeset:   1203:9e1b40ebf321
+tag:         devel-1.8.3
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Aug 05 22:56:25 2015 -0500
+date:        Thu Aug 06 08:11:45 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.8.2 release
+ChangeLog for devel-1.8.3 release
 
 
-changeset:   1200:0332233e31ed
+changeset:   1204:27d18fbd137b
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Aug 05 22:56:30 2015 -0500
+date:        Thu Aug 06 08:54:42 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.8.2 for changeset 904427a06f8e
+Added tag devel-1.8.3 for changeset 9e1b40ebf321
 
 
-changeset:   1201:c86045be7cb7
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Aug 06 01:16:39 2015 -0500
-files:       data/preferences.tkedat lib/gui.tcl lib/version.tcl
+changeset:   1205:69ce76fd8b18
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Aug 06 23:23:45 2015 -0500
+files:       data/preferences.tkedat lib/preferences.tcl lib/tke.tcl lib/version.tcl
 description:
-* Adding support for end-of-line character modification via preferences.
+* Adding Debug/DevelopmentMode preference option.
 
 
-changeset:   1202:d6d0b70f0a4d
+changeset:   1206:6523fbd3a313
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Aug 06 23:47:31 2015 -0500
+files:       LICENSE lib/menus.tcl lib/version.tcl
+description:
+* Adding GPL 2.0 license file and adding Help menu option to display the license within the tool.
+
+
+changeset:   1207:170332b156b0
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Aug 07 03:03:29 2015 -0500
+files:       install.tcl lib/version.tcl release.tcl
+description:
+* Adding LICENSE file to install.tcl and release.tcl scripts.
+
+
+changeset:   1208:491d6f574533
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Aug 07 18:10:43 2015 -0500
+files:       lib/completer.tcl lib/ctext/ctext.tcl lib/version.tcl
+description:
+* Fixing escape sequences in automatic bracket completion.
+* Fixing double-quote matching while editing.
+* Changing double-quote blink to a single blink (instead of double-blink) to help things feel more responsive when editing strings.
+
+
+changeset:   1209:39c69608828e
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Aug 07 23:33:10 2015 -0500
+files:       lib/completer.tcl lib/ctext/ctext.tcl lib/version.tcl
+description:
+* Checkpointing improvements on completer.
+
+
+changeset:   1210:f26d12c3ef72
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Aug 06 08:10:50 2015 -0500
-files:       lib/menus.tcl lib/sessions.tcl lib/version.tcl
+date:        Sun Aug 09 16:42:02 2015 -0500
+files:       lib/completer.tcl lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Adding "Close Current" session command.
+* Fixing issues with the automatic bracket completion mechanism.
 
 
