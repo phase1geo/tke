@@ -1,7 +1,26 @@
+# TKE - Advanced Programmer's Editor
+# Copyright (C) 2014  Trevor Williams (phase1geo@gmail.com)
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+######################################################################
 # Name:    menus.tcl
 # Author:  Trevor Williams  (phase1geo@gmail.com)
 # Date:    5/11/2013
 # Brief:   Namespace containing menu functionality
+######################################################################
 
 namespace eval menus {
 
@@ -1874,9 +1893,6 @@ namespace eval menus {
     $mb add command -label [msgcat::mc "User Guide"] -underline 0 -command "menus::help_user_guide"
     launcher::register [msgcat::mc "Menu: View User Guide"] "menus::help_user_guide"
 
-    $mb add command -label [msgcat::mc "License"] -underline 0 -command "menus::help_license"
-    launcher::register [msgcat::mc "Menu: View License"] "menus::help_license"
-
     if {![string match *Win* $::tcl_platform(os)]} {
       $mb add separator
       $mb add command -label [msgcat::mc "Check for Update"] -underline 0 -command "menus::check_for_update"
@@ -1909,14 +1925,6 @@ namespace eval menus {
     } else {
       utils::open_file_externally "[file join $::tke_dir doc UserGuide.epub]"
     }
-
-  }
-
-  ######################################################################
-  # Displays a read-only version of the application license.
-  proc help_license {} {
-
-    gui::add_file end [file join $::tke_dir LICENSE] -readonly 1 -sidebar 0
 
   }
 

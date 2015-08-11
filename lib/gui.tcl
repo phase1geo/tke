@@ -1,8 +1,27 @@
+# TKE - Advanced Programmer's Editor
+# Copyright (C) 2014  Trevor Williams (phase1geo@gmail.com)
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+######################################################################
 # Name:    gui.tcl
 # Author:  Trevor Williams  (phase1geo@gmail.com)
 # Date:    5/11/2013
 # Brief:   Contains all of the main GUI elements for the editor and
 #          their behavior.
+######################################################################
 
 namespace eval gui {
 
@@ -2930,13 +2949,25 @@ namespace eval gui {
     ttk::label .aboutwin.f.if.l0 -text [msgcat::mc "Developer:"]
     ttk::label .aboutwin.f.if.v0 -text "Trevor Williams"
     ttk::label .aboutwin.f.if.l1 -text [msgcat::mc "Email:"]
-    ttk::label .aboutwin.f.if.v1 -text "phase1geo@gmail.com"
+    ttk::label .aboutwin.f.if.v1 -text "phase1geo@gmail.com" -font [font create -underline 1]
     ttk::label .aboutwin.f.if.l2 -text [msgcat::mc "Version:"]
     ttk::label .aboutwin.f.if.v2 -text $version_str
     ttk::label .aboutwin.f.if.l3 -text [msgcat::mc "Release Type:"]
     ttk::label .aboutwin.f.if.v3 -text $release_type
     ttk::label .aboutwin.f.if.l4 -text [msgcat::mc "Tcl/Tk Version:"]
     ttk::label .aboutwin.f.if.v4 -text [info patchlevel]
+    ttk::label .aboutwin.f.if.l5 -text [msgcat::mc "License:"]
+    ttk::label .aboutwin.f.if.v5 -text "GPL 2.0" -font [font create -underline 1]
+    
+    bind .aboutwin.f.if.v1 <Enter>    "%W configure -cursor [ttk::cursor link]"
+    bind .aboutwin.f.if.v1 <Leave>    "%W configure -cursor [ttk::cursor standard]"
+    bind .aboutwin.f.if.v1 <Button-1> "utils::open_file_externally {mailto:phase1geo@gmail.com} 1"
+    bind .aboutwin.f.if.v5 <Enter>    "%W configure -cursor [ttk::cursor link]"
+    bind .aboutwin.f.if.v5 <Leave>    "%W configure -cursor [ttk::cursor standard]"
+    bind .aboutwin.f.if.v5 <Button-1> {
+      destroy .aboutwin
+      gui::add_file end [file join $::tke_dir LICENSE] -sidebar 0 -readonly 1
+    }
 
     grid .aboutwin.f.if.l0 -row 0 -column 0 -sticky news -padx 2 -pady 2
     grid .aboutwin.f.if.v0 -row 0 -column 1 -sticky news -padx 2 -pady 2
@@ -2948,6 +2979,8 @@ namespace eval gui {
     grid .aboutwin.f.if.v3 -row 3 -column 1 -sticky news -padx 2 -pady 2
     grid .aboutwin.f.if.l4 -row 4 -column 0 -sticky news -padx 2 -pady 2
     grid .aboutwin.f.if.v4 -row 4 -column 1 -sticky news -padx 2 -pady 2
+    grid .aboutwin.f.if.l5 -row 5 -column 0 -sticky news -padx 2 -pady 2
+    grid .aboutwin.f.if.v5 -row 5 -column 1 -sticky news -padx 2 -pady 2
 
     ttk::label .aboutwin.f.copyright -text [msgcat::mc "Copyright %d-%d" 2013 15]
 
