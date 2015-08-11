@@ -77,8 +77,11 @@ namespace eval sessions {
       file mkdir $sessions_dir
     }
 
-    # Get the session information
+    # Get the session information from the UI
     set content(gui) [[ns gui]::save_session]
+    
+    # Set the session name
+    set content(session) $current_name
 
     # Create the session file path
     set session_file [file join $sessions_dir $name.tkedat]
@@ -142,8 +145,12 @@ namespace eval sessions {
       [ns gui]::load_session {} $rc
     }
 
-    # Save the current name
-    set current_name [expr {$last ? "" : $name}]
+    # Save the current name (provide backward compatibility
+    if {[info exists content(session)]} {
+      set current_name $content(session)
+    } else {
+      set current_name [expr {$last ? "" : $name}]
+    }
   
     # Update the title
     [ns gui]::set_title

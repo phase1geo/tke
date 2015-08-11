@@ -157,7 +157,7 @@ namespace eval menus {
 
     $mb delete 0 end
 
-    $mb add command -label [msgcat::mc "New"] -underline 0 -command "menus::new_command"
+    $mb add command -label [msgcat::mc "New File"] -underline 0 -command "menus::new_command"
     launcher::register [msgcat::mc "Menu: New file"] menus::new_command
 
     $mb add command -label [msgcat::mc "Open File..."] -underline 0 -command "menus::open_command"
@@ -786,35 +786,35 @@ namespace eval menus {
 
     $mb add separator
 
-    $mb add command -label [msgcat::mc "Select next occurrence"] -underline 7 -command "gui::search_next {} 0"
+    $mb add command -label [msgcat::mc "Select Next Occurrence"] -underline 7 -command "gui::search_next {} 0"
     launcher::register [msgcat::mc "Menu: Find next occurrence"] "gui::search_next {}0"
 
-    $mb add command -label [msgcat::mc "Select previous occurrence"] -underline 7 -command "gui::search_prev {} 0"
+    $mb add command -label [msgcat::mc "Select Previous Occurrence"] -underline 7 -command "gui::search_prev {} 0"
     launcher::register [msgcat::mc "Menu: Find previous occurrence"] "gui::search_prev {} 0"
 
-    $mb add command -label [msgcat::mc "Append next occurrence"] -underline 1 -command "gui::search_next {} 1"
+    $mb add command -label [msgcat::mc "Append Next Occurrence"] -underline 1 -command "gui::search_next {} 1"
     launcher::register [msgcat::mc "Menu: Append next occurrence"] "gui::search_next {} 1"
 
-    $mb add command -label [msgcat::mc "Select all occurrences"] -underline 7 -command "gui::search_all {}"
+    $mb add command -label [msgcat::mc "Select All Occurrences"] -underline 7 -command "gui::search_all {}"
     launcher::register [msgcat::mc "Menu: Select all occurrences"] "gui::search_all {}"
 
     $mb add separator
 
-    $mb add command -label [msgcat::mc "Jump backward"] -underline 5 -command "gui::jump_to_cursor {} -1 1"
+    $mb add command -label [msgcat::mc "Jump Backward"] -underline 5 -command "gui::jump_to_cursor {} -1 1"
     launcher::register [msgcat::mc "Menu: Jump backward"] "gui::jump_to_cursor {} -1 1"
 
-    $mb add command -label [msgcat::mc "Jump forward"] -underline 5 -command "gui::jump_to_cursor {} 1 1"
+    $mb add command -label [msgcat::mc "Jump Forward"] -underline 5 -command "gui::jump_to_cursor {} 1 1"
     launcher::register [msgcat::mc "Menu: Jump forward"] "gui::jump_to_cursor {} 1 1"
 
     $mb add separator
 
-    $mb add command -label [msgcat::mc "Next difference"] -underline 0 -command "gui::jump_to_difference {} 1 1"
+    $mb add command -label [msgcat::mc "Next Difference"] -underline 0 -command "gui::jump_to_difference {} 1 1"
     launcher::register [msgcat::mc "Menu: Goto next difference"] "gui::jump_to_difference {} 1 1"
 
-    $mb add command -label [msgcat::mc "Previous difference"] -underline 0 -command "gui::jump_to_difference {} -1 1"
+    $mb add command -label [msgcat::mc "Previous Difference"] -underline 0 -command "gui::jump_to_difference {} -1 1"
     launcher::register [msgcat::mc "Menu: Goto previous difference"] "gui::jump_to_difference {} -1 1"
 
-    $mb add command -label [msgcat::mc "Show selected line change"] -underline 19 -command "gui::show_difference_line_change {} 1"
+    $mb add command -label [msgcat::mc "Show Selected Line Change"] -underline 19 -command "gui::show_difference_line_change {} 1"
     launcher::register [msgcat::mc "Menu: Show selected line change"] "gui::show_difference_line_change {} 1"
 
     $mb add separator
@@ -823,12 +823,12 @@ namespace eval menus {
 
     $mb add separator
 
-    $mb add command -label [msgcat::mc "Find matching pair"] -underline 5 -command "gui::show_match_pair {}"
+    $mb add command -label [msgcat::mc "Find Matching Pair"] -underline 5 -command "gui::show_match_pair {}"
     launcher::register [msgcat::mc "Menu: Find matching character pair"] "gui::show_match_pair {}"
 
     $mb add separator
 
-    $mb add command -label [msgcat::mc "Find in files"] -underline 5 -command "menus::find_in_files"
+    $mb add command -label [msgcat::mc "Find In Files"] -underline 5 -command "menus::find_in_files"
     launcher::register [msgcat::mc "Menu: Find in files"] "menus::find_in_files"
 
     # Add marker popup launchers
@@ -846,47 +846,47 @@ namespace eval menus {
     if {[set txt [gui::current_txt {}]] eq ""} {
       $mb entryconfigure [msgcat::mc "Find"]                       -state disabled
       $mb entryconfigure [msgcat::mc "Find and Replace"]           -state disabled
-      $mb entryconfigure [msgcat::mc "Select next occurrence"]     -state disabled
-      $mb entryconfigure [msgcat::mc "Select previous occurrence"] -state disabled
-      $mb entryconfigure [msgcat::mc "Append next occurrence"]     -state disabled
-      $mb entryconfigure [msgcat::mc "Select all occurrences"]     -state disabled
-      $mb entryconfigure [msgcat::mc "Jump backward"]              -state disabled
-      $mb entryconfigure [msgcat::mc "Jump forward"]               -state disabled
-      $mb entryconfigure [msgcat::mc "Next difference"]            -state disabled
-      $mb entryconfigure [msgcat::mc "Previous difference"]        -state disabled
-      $mb entryconfigure [msgcat::mc "Show selected line change"]  -state disabled
+      $mb entryconfigure [msgcat::mc "Select Next Occurrence"]     -state disabled
+      $mb entryconfigure [msgcat::mc "Select Previous Occurrence"] -state disabled
+      $mb entryconfigure [msgcat::mc "Append Next Occurrence"]     -state disabled
+      $mb entryconfigure [msgcat::mc "Select All Occurrences"]     -state disabled
+      $mb entryconfigure [msgcat::mc "Jump Backward"]              -state disabled
+      $mb entryconfigure [msgcat::mc "Jump Forward"]               -state disabled
+      $mb entryconfigure [msgcat::mc "Next Difference"]            -state disabled
+      $mb entryconfigure [msgcat::mc "Previous Difference"]        -state disabled
+      $mb entryconfigure [msgcat::mc "Show Selected Line Change"]  -state disabled
       $mb entryconfigure [msgcat::mc "Markers"]                    -state disabled
-      $mb entryconfigure [msgcat::mc "Find matching pair"]         -state disabled
+      $mb entryconfigure [msgcat::mc "Find Matching Pair"]         -state disabled
     } else {
       $mb entryconfigure [msgcat::mc "Find"]                       -state normal
       $mb entryconfigure [msgcat::mc "Find and Replace"]           -state normal
-      $mb entryconfigure [msgcat::mc "Select next occurrence"]     -state normal
-      $mb entryconfigure [msgcat::mc "Select previous occurrence"] -state normal
-      $mb entryconfigure [msgcat::mc "Append next occurrence"]     -state normal
-      $mb entryconfigure [msgcat::mc "Select all occurrences"]     -state normal
+      $mb entryconfigure [msgcat::mc "Select Next Occurrence"]     -state normal
+      $mb entryconfigure [msgcat::mc "Select Previous Occurrence"] -state normal
+      $mb entryconfigure [msgcat::mc "Append Next Occurrence"]     -state normal
+      $mb entryconfigure [msgcat::mc "Select All Occurrences"]     -state normal
       if {[gui::jump_to_cursor {} -1 0]} {
-        $mb entryconfigure [msgcat::mc "Jump backward"] -state normal
+        $mb entryconfigure [msgcat::mc "Jump Backward"] -state normal
       } else {
-        $mb entryconfigure [msgcat::mc "Jump backward"] -state disabled
+        $mb entryconfigure [msgcat::mc "Jump Backward"] -state disabled
       }
       if {[gui::jump_to_cursor {} 1 0]} {
-        $mb entryconfigure [msgcat::mc "Jump forward"] -state normal
+        $mb entryconfigure [msgcat::mc "Jump Forward"] -state normal
       } else {
-        $mb entryconfigure [msgcat::mc "Jump forward"] -state disabled
+        $mb entryconfigure [msgcat::mc "Jump Forward"] -state disabled
       }
       if {[gui::jump_to_difference {} 1 0]} {
-        $mb entryconfigure [msgcat::mc "Next difference"]           -state normal
-        $mb entryconfigure [msgcat::mc "Previous difference"]       -state normal
+        $mb entryconfigure [msgcat::mc "Next Difference"]           -state normal
+        $mb entryconfigure [msgcat::mc "Previous Difference"]       -state normal
       } else {
-        $mb entryconfigure [msgcat::mc "Next difference"]           -state disabled
-        $mb entryconfigure [msgcat::mc "Previous difference"]       -state disabled
+        $mb entryconfigure [msgcat::mc "Next Difference"]           -state disabled
+        $mb entryconfigure [msgcat::mc "Previous Difference"]       -state disabled
       }
       if {[gui::show_difference_line_change {} 0]} {
-        $mb entryconfigure [msgcat::mc "Show selected line change"] -state normal
+        $mb entryconfigure [msgcat::mc "Show Selected Line Change"] -state normal
       } else {
-        $mb entryconfigure [msgcat::mc "Show selected line change"] -state disabled
+        $mb entryconfigure [msgcat::mc "Show Selected Line Change"] -state disabled
       }
-      $mb entryconfigure [msgcat::mc "Find matching pair"] -state normal
+      $mb entryconfigure [msgcat::mc "Find Matching Pair"] -state normal
       $mb entryconfigure [msgcat::mc "Markers"] -state normal
     }
 
@@ -900,10 +900,10 @@ namespace eval menus {
     $mb delete 0 end
 
     # Populate the markerPopup menu
-    $mb add command -label [msgcat::mc "Create at current line"] -underline 0 -command "gui::create_current_marker {}"
+    $mb add command -label [msgcat::mc "Create at Current Line"] -underline 0 -command "gui::create_current_marker {}"
     $mb add separator
-    $mb add command -label [msgcat::mc "Remove from current line"] -underline 0 -command "gui::remove_current_marker {}"
-    $mb add command -label [msgcat::mc "Remove all markers"] -underline 7 -command "gui::remove_all_markers {}"
+    $mb add command -label [msgcat::mc "Remove From Current Line"] -underline 0 -command "gui::remove_current_marker {}"
+    $mb add command -label [msgcat::mc "Remove All Markers"] -underline 7 -command "gui::remove_all_markers {}"
 
     if {[llength [set markers [gui::get_marker_list {}]]] > 0} {
       $mb add separator
@@ -1141,15 +1141,15 @@ namespace eval menus {
 
     $mb add separator
 
-    $mb add command -label [msgcat::mc "Replace line with script"] -command "texttools::replace_line_with_script {}"
+    $mb add command -label [msgcat::mc "Replace Line With Script"] -command "texttools::replace_line_with_script {}"
     launcher::register [msgcat::mc "Menu: Replace line with script"] "texttools::replace_line_with_script {}"
 
     $mb add separator
 
-    $mb add command -label [msgcat::mc "Align cursors"] -underline 0 -command "texttools::align {}"
+    $mb add command -label [msgcat::mc "Align Cursors"] -underline 0 -command "texttools::align {}"
     launcher::register [msgcat::mc "Menu: Align cursors"] "texttools::align {}"
 
-    $mb add command -label [msgcat::mc "Insert enumeration"] -underline 7 -command "texttools::insert_enumeration {}"
+    $mb add command -label [msgcat::mc "Insert Enumeration"] -underline 7 -command "texttools::insert_enumeration {}"
     launcher::register [msgcat::mc "Menu: Insert enumeration"] "texttools::insert_enumeration {}"
 
   }
@@ -1162,9 +1162,9 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Toggle Comment"]           -state disabled
       $mb entryconfigure [msgcat::mc "Indent"]                   -state disabled
       $mb entryconfigure [msgcat::mc "Unindent"]                 -state disabled
-      $mb entryconfigure [msgcat::mc "Replace line with script"] -state disabled
-      $mb entryconfigure [msgcat::mc "Align cursors"]            -state disabled
-      $mb entryconfigure [msgcat::mc "Insert enumeration"]       -state disabled
+      $mb entryconfigure [msgcat::mc "Replace Line With Script"] -state disabled
+      $mb entryconfigure [msgcat::mc "Align Cursors"]            -state disabled
+      $mb entryconfigure [msgcat::mc "Insert Enumeration"]       -state disabled
     } else {
       if {[lindex [syntax::get_comments [gui::current_txt {}]] 0] eq ""} {
         $mb entryconfigure [msgcat::mc "Toggle Comment"] -state disabled
@@ -1174,16 +1174,16 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Indent"]   -state normal
       $mb entryconfigure [msgcat::mc "Unindent"] -state normal
       if {[texttools::current_line_empty {}]} {
-        $mb entryconfigure [msgcat::mc "Replace line with script"] -state disabled
+        $mb entryconfigure [msgcat::mc "Replace Line With Script"] -state disabled
       } else {
-        $mb entryconfigure [msgcat::mc "Replace line with script"] -state normal
+        $mb entryconfigure [msgcat::mc "Replace Line With Script"] -state normal
       }
       if {[multicursor::enabled $txt]} {
-        $mb entryconfigure [msgcat::mc "Align cursors"]      -state normal
-        $mb entryconfigure [msgcat::mc "Insert enumeration"] -state normal
+        $mb entryconfigure [msgcat::mc "Align Cursors"]      -state normal
+        $mb entryconfigure [msgcat::mc "Insert Enumeration"] -state normal
       } else {
-        $mb entryconfigure [msgcat::mc "Align cursors"]      -state disabled
-        $mb entryconfigure [msgcat::mc "Insert enumeration"] -state disabled
+        $mb entryconfigure [msgcat::mc "Align Cursors"]      -state disabled
+        $mb entryconfigure [msgcat::mc "Insert Enumeration"] -state disabled
       }
     }
 
@@ -1239,13 +1239,13 @@ namespace eval menus {
 
     $mb add separator
 
-    $mb add checkbutton -label [msgcat::mc "Split view"] -underline 6 -variable menus::show_split_pane -command "gui::toggle_split_pane {}"
+    $mb add checkbutton -label [msgcat::mc "Split View"] -underline 6 -variable menus::show_split_pane -command "gui::toggle_split_pane {}"
     launcher::register [msgcat::mc "Menu: Toggle split view mode"] "gui::toggle_split_pane {}"
 
-    $mb add command -label [msgcat::mc "Move to other pane"] -underline 0 -command "gui::move_to_pane"
+    $mb add command -label [msgcat::mc "Move to Other Pane"] -underline 0 -command "gui::move_to_pane"
     launcher::register [msgcat::mc "Menu: Move to other pane"] "gui::move_to_pane"
 
-    $mb add command -label [msgcat::mc "Merge panes"] -underline 3 -command "gui::merge_panes"
+    $mb add command -label [msgcat::mc "Merge Panes"] -underline 3 -command "gui::merge_panes"
     launcher::register [msgcat::mc "Menu: Merge panes"] "gui::merge_panes"
 
     $mb add separator
@@ -1291,25 +1291,25 @@ namespace eval menus {
     }
 
     if {[gui::panes] < 2} {
-      $mb entryconfigure [msgcat::mc "Merge panes"] -state disabled
+      $mb entryconfigure [msgcat::mc "Merge Panes"] -state disabled
     } else {
-      $mb entryconfigure [msgcat::mc "Merge panes"] -state normal
+      $mb entryconfigure [msgcat::mc "Merge Panes"] -state normal
     }
 
     if {[gui::current_txt {}] eq ""} {
       catch { $mb entryconfigure [msgcat::mc "Show Line Numbers"]  -state disabled }
       catch { $mb entryconfigure [msgcat::mc "Hide Line Numbers"]  -state disabled }
-      $mb entryconfigure [msgcat::mc "Split view"]         -state disabled
-      $mb entryconfigure [msgcat::mc "Move to other pane"] -state disabled
+      $mb entryconfigure [msgcat::mc "Split View"]         -state disabled
+      $mb entryconfigure [msgcat::mc "Move to Other Pane"] -state disabled
       $mb entryconfigure [msgcat::mc "Set Syntax"]         -state disabled
     } else {
       catch { $mb entryconfigure [msgcat::mc "Show Line Numbers"]  -state normal }
       catch { $mb entryconfigure [msgcat::mc "Hide Line Numbers"]  -state normal }
-      $mb entryconfigure [msgcat::mc "Split view"]         -state normal
+      $mb entryconfigure [msgcat::mc "Split View"]         -state normal
       if {[gui::movable_to_other_pane]} {
-        $mb entryconfigure [msgcat::mc "Move to other pane"] -state normal
+        $mb entryconfigure [msgcat::mc "Move to Other Pane"] -state normal
       } else {
-        $mb entryconfigure [msgcat::mc "Move to other pane"] -state disabled
+        $mb entryconfigure [msgcat::mc "Move to Other Pane"] -state disabled
       }
       $mb entryconfigure [msgcat::mc "Set Syntax"]         -state normal
       set show_split_pane [expr {[llength [[gui::current_txt {}] peer names]] > 0}]
@@ -1462,13 +1462,13 @@ namespace eval menus {
 
     $mb add cascade -label [msgcat::mc "Theme Creator"] -underline 0 -menu [menu $mb.themer -tearoff 0]
 
-    $mb.themer add command -label [msgcat::mc "Create new..."] -underline 0 -command "menus::create_theme_command"
+    $mb.themer add command -label [msgcat::mc "Create New..."] -underline 0 -command "menus::create_theme_command"
     launcher::register [msgcat::mc "Menu: Create new theme"] "themer::create_theme_command"
 
     $mb.themer add command -label [msgcat::mc "Edit..."] -underline 0 -command "menus::edit_theme_command"
     launcher::register [msgcat::mc "Menu: Edit Tke theme"] "menus::edit_theme_command"
 
-    $mb.themer add command -label [msgcat::mc "Import TextMate theme..."] -underline 0 -command "menus::import_tm_command"
+    $mb.themer add command -label [msgcat::mc "Import TextMate Theme..."] -underline 0 -command "menus::import_tm_command"
     launcher::register [msgcat::mc "Menu: Import TextMate theme"] "menus::import_tm_command"
 
     $mb add separator
@@ -1498,7 +1498,7 @@ namespace eval menus {
 
       $mb add separator
 
-      $mb add command -label [msgcat::mc "Restart tke"] -underline 0 -command "menus::restart_command"
+      $mb add command -label [msgcat::mc "Restart TKE"] -underline 0 -command "menus::restart_command"
       launcher::register [msgcat::mc "Menu: Restart tke"] "menus::restart_command"
 
     }
