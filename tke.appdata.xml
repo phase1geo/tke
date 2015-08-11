@@ -6,7 +6,7 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0+ and GFDL-1.3</project_license>
   <name>TKE</name>
-  <summary>Coding editor based on Tcl/Tk</summary>
+  <summary>Advanced Programmer's editor based on Tcl/Tk</summary>
   <description>
     <p>
       TKE is a full-featured source code editor written in Tcl/Tk.  It supports
@@ -16,6 +16,7 @@
       <ul>
         <li>Syntax highlighting</li>
         <li>Multi-cursor support</li>
+        <li>File difference view mode</li>
         <li>Internationalization support</li>
         <li>Customizable menu bindings</li>
         <li>Clipboard history</li>

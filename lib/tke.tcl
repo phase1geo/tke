@@ -1,10 +1,29 @@
 #!wish8.5
 
+# TKE - Advanced Programmer's Editor
+# Copyright (C) 2014  Trevor Williams (phase1geo@gmail.com)
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+######################################################################
 # Name:    tke.tcl
 # Author:  Trevor Williams (phase1geo@gmail.com)
 # Date:    5/11/2013
 # Brief:   Tcl/Tk editor written in Tcl/Tk
 # Usage:   tke [<options>] <file>*
+######################################################################
 
 set tke_dir  [file dirname [file dirname [file normalize [info script]]]]
 set tke_home [file normalize [file join ~ .tke]]
