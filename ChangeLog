@@ -1,38 +1,36 @@
-changeset:   1211:6415f917ea03
-tag:         devel-1.8.4
+changeset:   1215:c13f58abdd8f
+tag:         devel-1.8.5
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Aug 10 09:21:14 2015 -0500
+date:        Mon Aug 10 23:40:33 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.8.4 release
+ChangeLog for devel-1.8.5 release
 
 
-changeset:   1212:7267a1c54208
+changeset:   1216:9db0371d8aa5
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Aug 10 09:21:20 2015 -0500
+date:        Mon Aug 10 23:41:02 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.8.4 for changeset 6415f917ea03
+Added tag devel-1.8.5 for changeset c13f58abdd8f
 
 
-changeset:   1213:b3a351cd65ee
+changeset:   1217:eb4807ab5cc6
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Aug 10 22:17:24 2015 -0500
-files:       LICENSE install.tcl lib/api.tcl lib/bgproc.tcl lib/bindings.tcl lib/cliphist.tcl lib/commit.tcl lib/completer.tcl lib/diff.tcl lib/embed_tke.tcl lib/favorites.tcl lib/format_lexer.fcl lib/format_parser.tac lib/gui.tcl lib/indent.tcl lib/interpreter.tcl lib/lang.tcl lib/launcher.tcl lib/logger.tcl lib/markers.tcl lib/menus.tcl lib/multicursor.tcl lib/ns.tcl lib/plugins.tcl lib/preferences.tcl lib/restart.tcl lib/sessions.tcl lib/sidebar.tcl lib/snip_lexer.fcl lib/snip_parser.tac lib/snippets.tcl lib/syntax.tcl lib/texttools.tcl lib/themer.tcl lib/themes.tcl lib/tke.tcl lib/tkedat.tcl lib/utils.tcl lib/version.tcl lib/vim.tcl release.tcl tke.appdata.xml
+date:        Mon Aug 10 23:47:56 2015 -0500
+files:       lib/gui.tcl lib/version.tcl
 description:
-* Adding license information to all source files.
-* Removing last portion of GPL license information that does not belong there.
-* Adding license view and e-mail link support to About window.
-* Removing license view from Help menu.
+* Fixing size of the "About" window so that the copyright information is viewable.
 
 
-changeset:   1214:44ec83a1156d
+changeset:   1218:6e2cb8a76690
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Aug 10 23:38:03 2015 -0500
-files:       lib/ctext/ctext.tcl lib/launcher.tcl lib/version.tcl
+date:        Tue Aug 11 09:35:22 2015 -0500
+files:       data/bindings/menu_bindings.aqua.tkedat data/bindings/menu_bindings.classic.tkedat data/bindings/menu_bindings.win32.tkedat data/bindings/menu_bindings.x11.tkedat lib/menus.tcl lib/sessions.tcl lib/version.tcl
 description:
-* Fixing issues with syntax highlighting line comments.
-* Fixing issues with using regular expression operators in launcher input.
+* Adding current session name to saved session information.
+* Changing 'File/New' to 'File/New File'
+* Making capitalizations in menus to be consistent.
 
 
