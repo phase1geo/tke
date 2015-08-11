@@ -1902,7 +1902,7 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
   set strings        [llength $configAr(string_patterns)]
   set block_comments [llength $configAr(block_comment_patterns)]
   set line_comments  [llength $configAr(line_comment_patterns)]
-
+  
   if {$blocks && [expr ($strings + $block_comments + $line_comments) > 0]} {
 
     set dStr ""
@@ -1934,6 +1934,9 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
       }
       incr i
     }
+    
+    # Remove the line comment tag from the current line
+    $win tag remove _lComment $start $end
 
     # If we need to raise the lComment, do it now
     if {[llength $lcomment] > 0 } {
