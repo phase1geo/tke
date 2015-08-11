@@ -1,68 +1,38 @@
-changeset:   1203:9e1b40ebf321
-tag:         devel-1.8.3
+changeset:   1211:6415f917ea03
+tag:         devel-1.8.4
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Aug 06 08:11:45 2015 -0500
+date:        Mon Aug 10 09:21:14 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.8.3 release
+ChangeLog for devel-1.8.4 release
 
 
-changeset:   1204:27d18fbd137b
+changeset:   1212:7267a1c54208
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Aug 06 08:54:42 2015 -0500
+date:        Mon Aug 10 09:21:20 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.8.3 for changeset 9e1b40ebf321
+Added tag devel-1.8.4 for changeset 6415f917ea03
 
 
-changeset:   1205:69ce76fd8b18
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu Aug 06 23:23:45 2015 -0500
-files:       data/preferences.tkedat lib/preferences.tcl lib/tke.tcl lib/version.tcl
-description:
-* Adding Debug/DevelopmentMode preference option.
-
-
-changeset:   1206:6523fbd3a313
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu Aug 06 23:47:31 2015 -0500
-files:       LICENSE lib/menus.tcl lib/version.tcl
-description:
-* Adding GPL 2.0 license file and adding Help menu option to display the license within the tool.
-
-
-changeset:   1207:170332b156b0
+changeset:   1213:b3a351cd65ee
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Aug 07 03:03:29 2015 -0500
-files:       install.tcl lib/version.tcl release.tcl
+date:        Mon Aug 10 22:17:24 2015 -0500
+files:       LICENSE install.tcl lib/api.tcl lib/bgproc.tcl lib/bindings.tcl lib/cliphist.tcl lib/commit.tcl lib/completer.tcl lib/diff.tcl lib/embed_tke.tcl lib/favorites.tcl lib/format_lexer.fcl lib/format_parser.tac lib/gui.tcl lib/indent.tcl lib/interpreter.tcl lib/lang.tcl lib/launcher.tcl lib/logger.tcl lib/markers.tcl lib/menus.tcl lib/multicursor.tcl lib/ns.tcl lib/plugins.tcl lib/preferences.tcl lib/restart.tcl lib/sessions.tcl lib/sidebar.tcl lib/snip_lexer.fcl lib/snip_parser.tac lib/snippets.tcl lib/syntax.tcl lib/texttools.tcl lib/themer.tcl lib/themes.tcl lib/tke.tcl lib/tkedat.tcl lib/utils.tcl lib/version.tcl lib/vim.tcl release.tcl tke.appdata.xml
 description:
-* Adding LICENSE file to install.tcl and release.tcl scripts.
+* Adding license information to all source files.
+* Removing last portion of GPL license information that does not belong there.
+* Adding license view and e-mail link support to About window.
+* Removing license view from Help menu.
 
 
-changeset:   1208:491d6f574533
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Aug 07 18:10:43 2015 -0500
-files:       lib/completer.tcl lib/ctext/ctext.tcl lib/version.tcl
-description:
-* Fixing escape sequences in automatic bracket completion.
-* Fixing double-quote matching while editing.
-* Changing double-quote blink to a single blink (instead of double-blink) to help things feel more responsive when editing strings.
-
-
-changeset:   1209:39c69608828e
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Fri Aug 07 23:33:10 2015 -0500
-files:       lib/completer.tcl lib/ctext/ctext.tcl lib/version.tcl
-description:
-* Checkpointing improvements on completer.
-
-
-changeset:   1210:f26d12c3ef72
+changeset:   1214:44ec83a1156d
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Aug 09 16:42:02 2015 -0500
-files:       lib/completer.tcl lib/ctext/ctext.tcl lib/version.tcl
+date:        Mon Aug 10 23:38:03 2015 -0500
+files:       lib/ctext/ctext.tcl lib/launcher.tcl lib/version.tcl
 description:
-* Fixing issues with the automatic bracket completion mechanism.
+* Fixing issues with syntax highlighting line comments.
+* Fixing issues with using regular expression operators in launcher input.
 
 
