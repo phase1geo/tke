@@ -718,8 +718,9 @@ namespace eval launcher {
     variable matches
 
     set results [list]
+    set pattern [subst [string map {{(} {\(} {)} {\)}} [get_command_name $regex_pattern * *]]]
     
-    foreach name [array name commands -regexp [string map {{(} {\(} {)} {\)}} [get_command_name $regex_pattern * *]]] {
+    foreach name [array name commands -regexp $pattern] {
       set value $commands($name)
       if {[lsearch -exact $matches $name] == -1} {
         set validate_cmd [lindex $name $command_names(validate_cmd)]
