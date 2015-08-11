@@ -1,5 +1,5 @@
 # File menu bindings
-{File/New}                        Ctrl-N
+{File/New File}                   Ctrl-N
 {File/Open File...}               Ctrl-O
 {File/Open Directory...}          Ctrl-Shift-O
 {File/Show File Difference}       Ctrl-D
@@ -21,22 +21,22 @@
 # Find menu bindings
 {Find/Find}                       Ctrl-F
 {Find/Find and Replace}           Ctrl-Shift-F
-{Find/Select next occurrence}     Alt-N
-{Find/Select previous occurrence} Alt-P
-{Find/Append next occurrence}     Alt-D
-{Find/Select all occurrences}     Alt-A
-{Find/Jump backward}              Ctrl-Left
-{Find/Jump forward}               Ctrl-Right
-{Find/Next difference}            Ctrl-Down
-{Find/Previous difference}        Ctrl-Up
-{Find/Find matching pair}         Ctrl-P
-{Find/Find in files}              Alt-F
+{Find/Select Next Occurrence}     Alt-N
+{Find/Select Previous Occurrence} Alt-P
+{Find/Append Next Occurrence}     Alt-D
+{Find/Select All Occurrences}     Alt-A
+{Find/Jump Backward}              Ctrl-Left
+{Find/Jump Forward}               Ctrl-Right
+{Find/Next Difference}            Ctrl-Down
+{Find/Previous Difference}        Ctrl-Up
+{Find/Find Matching Pair}         Ctrl-P
+{Find/Find In Files}              Alt-F
 
 # Text menu bindings
 {Text/Toggle Comment}             Ctrl-I
 {Text/Indent}                     Ctrl-[
 {Text/Unindent}                   Ctrl-]
-{Text/Align cursors}              Ctrl-A
+{Text/Align Cursors}              Ctrl-A
 
 # View menu bindings
 {View/Hide Sidebar}               Ctrl-K
