@@ -2939,7 +2939,7 @@ namespace eval gui {
     wm title     .aboutwin ""
     wm transient .aboutwin .
     wm resizable .aboutwin 0 0
-    wm geometry  .aboutwin 300x250
+    wm geometry  .aboutwin 300x280
 
     ttk::frame .aboutwin.f
     ttk::label .aboutwin.f.logo -compound left -image $images(logo) -text " tke" \
