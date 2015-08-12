@@ -593,6 +593,13 @@ namespace eval diff {
         incr tline
       }
     }
+    
+    # If we have any adds or subs left over to process, process them now
+    if {$adds > 0} {
+      $txt diff add [expr $tline - $adds] $adds
+    } elseif {$subs > 0} {
+      $txt diff sub [expr $tline - $subs] $subs $strSub
+    }
 
     # Disable the text window from editing
     $txt configure -state disabled
