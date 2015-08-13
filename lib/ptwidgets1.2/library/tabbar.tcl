@@ -643,8 +643,16 @@ namespace eval tabbar {
     set x1 [expr $x0 + $data($w,tab_width)]
     
     # Create the tab rectangle
-    set id  [$w.c create rectangle $x0 0 $x1 $data($w,option,-height) -fill white -outline $bc]
-    set fid [$w.c create rectangle [expr $x0 + 2] 2 [expr $x1 - 1] $data($w,option,-height) -fill $bg -outline $bg -tags [list t$id f$id]]
+    switch $data($w,option,-relief) {
+      raised {
+        set id  [$w.c create rectangle $x0 0 $x1 $data($w,option,-height) -fill white -outline $bc]
+        set fid [$w.c create rectangle [expr $x0 + 2] 2 [expr $x1 - 1] $data($w,option,-height) -fill $bg -outline $bg -tags [list t$id f$id]]
+      }
+      flat {
+        set id  [$w.c create rectangle $x0 0 $x1 $data($w,option,-height) -fill $bc -outline $bc]
+        set fid [$w.c create rectangle $x0 0 [expr $x1 - 1] $data($w,option,-height) -fill $bg -outline $bg -tags [list t$id f$id]]
+      }
+    }
     $w.c itemconfigure $id -tags [list tab b$id t$id]
     
     incr x0  $opts(-padx)
@@ -931,8 +939,16 @@ namespace eval tabbar {
         # Adjust the size of the tab box
         set tabid [lindex $page 1 0]
         lassign [$w.c coords $tabid] tx0 ty0 tx1 ty1
-        $w.c coords $tabid $tx0 $ty0 [expr $tx0 + $data($w,tab_width)] $ty1
-        $w.c coords f$tabid [expr $tx0 + 2] [expr $ty0 + 2] [expr ($tx0 + $data($w,tab_width)) - 1] $ty1
+        switch $data($w,option,-relief) {
+          raised {
+            $w.c coords $tabid $tx0 $ty0 [expr $tx0 + $data($w,tab_width)] $ty1
+            $w.c coords f$tabid [expr $tx0 + 2] [expr $ty0 + 2] [expr ($tx0 + $data($w,tab_width)) - 1] $ty1
+          }
+          flat {
+            $w.c coords $tabid $tx0 $ty0 [expr $tx0 + $data($w,tab_width)] $ty1
+            $w.c coords f$tabid $tx0 $ty0 [expr ($tx0 + $data($w,tab_width)) - 1] $ty1
+          }
+        }
         
         # Figure out how much we need to move in the x direction
         set xamount [expr $data($w,tab_width) - $tab_width]
