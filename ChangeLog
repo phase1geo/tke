@@ -16,11 +16,46 @@ Added tag devel-1.8.7 for changeset c96cc9ca34e8
 
 
 changeset:   1224:926b54ef9dd8
-tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
 date:        Wed Aug 12 21:49:31 2015 -0500
 files:       lib/ptwidgets1.2/library/tabbar.tcl lib/version.tcl
 description:
 * Working on adding flattened tabbar UI.
+
+
+changeset:   1225:eb02f4775afb
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Aug 13 09:37:52 2015 -0500
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for devel-1.8.8 release
+
+
+changeset:   1226:18c546619c00
+parent:      1224:926b54ef9dd8
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Aug 13 00:00:07 2015 -0500
+files:       lib/ptwidgets1.2/library/tabbar.tcl lib/version.tcl
+description:
+* Changing tabbar UI to use a flat appearance.
+
+
+changeset:   1227:4b8229feee55
+parent:      1225:eb02f4775afb
+parent:      1226:18c546619c00
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Aug 13 09:42:30 2015 -0500
+files:       lib/version.tcl
+description:
+* Merging.
+
+
+changeset:   1228:04736457e718
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Aug 13 09:43:47 2015 -0500
+files:       lib/version.tcl
+description:
+* Reverting version.tcl to 1.8.7
 
 
