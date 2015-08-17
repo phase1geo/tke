@@ -162,7 +162,7 @@ namespace eval gui {
     } else {
       set tab_name ""
     }
-    
+
     # Get the host name
     set host [lindex [split [info hostname] .] 0]
 
@@ -954,7 +954,7 @@ namespace eval gui {
         set_current_tab [lindex [[lindex [$widgets(nb_pw) panes] $pane].tbf.tb tabs] [lindex $content(CurrentTabs) $pane]]
       }
     }
-    
+
     # Update the title
     set_title
 
@@ -2835,12 +2835,18 @@ namespace eval gui {
     if {($index < 0) || ($index >= [llength $files])} {
       return -code error [msgcat::mc "File index is out of range"]
     }
+
+    # Get the current text widget
+    set txt [get_txt_from_tab [lindex $files $index $files_index(tab)]]
+
     if {$attr eq "sb_index"} {
       return [sidebar::get_index $index]
     } elseif {$attr eq "txt"} {
-      return [get_txt_from_tab [lindex $files $index $files_index(tab)]]
+      return $txt
     } elseif {$attr eq "current"} {
-      return [expr {[get_txt_from_tab [lindex $files $index $files_index(tab)]] eq [current_txt {}]}]
+      return [expr {$txt eq [current_txt {}]}]
+    } elseif {$attr eq "vimmode"} {
+      return [[ns vim]::in_vim_mode $txt]
     } elseif {![info exists files_index($attr)]} {
       return -code error [msgcat::mc "File attribute (%s) does not exist" $attr]
     }
@@ -2965,7 +2971,7 @@ namespace eval gui {
     ttk::label .aboutwin.f.if.v4 -text [info patchlevel]
     ttk::label .aboutwin.f.if.l5 -text [msgcat::mc "License:"]
     ttk::label .aboutwin.f.if.v5 -text "GPL 2.0" -font [font create -underline 1]
-    
+
     bind .aboutwin.f.if.v1 <Enter>    "%W configure -cursor [ttk::cursor link]"
     bind .aboutwin.f.if.v1 <Leave>    "%W configure -cursor [ttk::cursor standard]"
     bind .aboutwin.f.if.v1 <Button-1> "utils::open_file_externally {mailto:phase1geo@gmail.com} 1"
