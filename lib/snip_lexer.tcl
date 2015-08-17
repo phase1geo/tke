@@ -1,3 +1,27 @@
+# TKE - Advanced Programmer's Editor
+# Copyright (C) 2014  Trevor Williams (phase1geo@gmail.com)
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+######################################################################
+# Name:    snip_lexer.fcl
+# Author:  Trevor Williams  (phase1geo@gmail.com)
+# Date:    8/10/2015
+# Brief:   Lexer for snippet syntax.
+######################################################################
+
 source [file join $::tke_dir lib snip_parser.tab.tcl]
 
 ######
@@ -288,9 +312,9 @@ proc snip_lex {} {
             set ::snip_leng [string length $::snip_text]
             set snip__matched_rule 8
         }
-        # rule 9: (CLIPBOARD|CURRENT_LINE|CURRENT_WORD|DIRECTORY|FILEPATH|FILENAME|LINE_INDEX|LINE_NUMBER|CURRENT_DATE)
+        # rule 9: (SELECTED_TEXT|CLIPBOARD|CURRENT_LINE|CURRENT_WORD|DIRECTORY|FILEPATH|FILENAME|LINE_INDEX|LINE_NUMBER|CURRENT_DATE)
         if {$::snip__state_table($snip__current_state) && \
-                [regexp -start $::snip__index -indices -line  -- {\A((CLIPBOARD|CURRENT_LINE|CURRENT_WORD|DIRECTORY|FILEPATH|FILENAME|LINE_INDEX|LINE_NUMBER|CURRENT_DATE))} $::snip__buffer snip__match] > 0 && \
+                [regexp -start $::snip__index -indices -line  -- {\A((SELECTED_TEXT|CLIPBOARD|CURRENT_LINE|CURRENT_WORD|DIRECTORY|FILEPATH|FILENAME|LINE_INDEX|LINE_NUMBER|CURRENT_DATE))} $::snip__buffer snip__match] > 0 && \
                 [lindex $snip__match 1] - $::snip__index + 1 > $::snip_leng} {
             set ::snip_text [string range $::snip__buffer $::snip__index [lindex $snip__match 1]]
             set ::snip_leng [string length $::snip_text]
