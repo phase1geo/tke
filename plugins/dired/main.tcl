@@ -153,12 +153,18 @@ namespace eval dired {
       u {
         mark_clear $w
       }
-      a -
       o {
         $w insert "insert lineend" "\n  "
         $w mark set insert "insert+1l lineend"
         mark_as $w A
       }
+      O {
+        $w insert "insert linestart" "\n  "
+        $w mark set insert "insert lineend"
+        mark_as $w A
+      }
+      i -
+      a -
       j -
       k -
       l -
