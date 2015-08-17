@@ -1511,7 +1511,7 @@ proc ctext::instanceCmd {self cmd args} {
           ctext::getAr $self config ar
           if {[set gutter_index [lsearch -index 0 $ar(gutters) $gutter_name]] != -1} {
             foreach {name line_nums} $args {
-              if {[set gutter_tag [lsearch -inline -glob [lindex $ar(gutters) $gutter_index 1] gutter:$gutter_name:$name:*]] != -1} {
+              if {[set gutter_tag [lsearch -inline -glob [lindex $ar(gutters) $gutter_index 1] gutter:$gutter_name:$name:*]] ne ""} {
                 foreach line_num $line_nums {
                   if {[set curr_tag [lsearch -inline -glob [$self._t tag names $line_num.0] gutter:$gutter_name:*]] ne ""} {
                     if {$curr_tag ne $gutter_tag} {

@@ -67,6 +67,7 @@ namespace eval gui {
     buffer   8
     gutters  9
     diff     10
+    tags     11
   }
 
   #######################
@@ -1136,6 +1137,7 @@ namespace eval gui {
   #                         For a list of valid symbol_tag_options, see the options available for
   #                         tags in a text widget.
   # -other       <bool>     If true, adds the file to the other pane.
+  # -tags        <list>     List of plugin btags that will only get applied to this text widget.
   proc add_new_file {index args} {
 
     variable files
@@ -1151,6 +1153,7 @@ namespace eval gui {
       -buffer      0 \
       -gutters     [list] \
       -other       0 \
+      -tags        [list] \
     ]
     array set opts $args
 
@@ -1175,7 +1178,7 @@ namespace eval gui {
     set index [adjust_insert_tab_index $index "Untitled"]
 
     # Get the current index
-    set w [insert_tab $index [msgcat::mc "Untitled"] 0 $opts(-gutters)]
+    set w [insert_tab $index [msgcat::mc "Untitled"] 0 $opts(-gutters) $opts(-tags)]
 
     # Create the file info structure
     set file_info [lrepeat [array size files_index] ""]
@@ -1190,6 +1193,7 @@ namespace eval gui {
     lset file_info $files_index(modified) 0
     lset file_info $files_index(gutters)  $opts(-gutters)
     lset file_info $files_index(diff)     0
+    lset file_info $files_index(tags)     $opts(-tags)
 
     # Add the file information to the files list
     lappend files $file_info
@@ -1223,6 +1227,7 @@ namespace eval gui {
   #                         tags in a text widget.
   # -diff        <bool>     Specifies if we need to do a diff of the file.
   # -other       <bool>     If true, adds the file to the other editing pane.
+  # -tags        <list>     List of plugin btags that will only attach to this text widget.
   proc add_file {index fname args} {
 
     variable widgets
@@ -1242,6 +1247,7 @@ namespace eval gui {
       -gutters     {}
       -diff        0
       -other       0
+      -tags        {}
     }
     array set opts $args
 
@@ -1283,7 +1289,7 @@ namespace eval gui {
       set index [adjust_insert_tab_index $index [file tail $fname]]
 
       # Add the tab to the editor frame
-      set w [insert_tab $index [file tail $fname] $opts(-diff) $opts(-gutters)]
+      set w [insert_tab $index [file tail $fname] $opts(-diff) $opts(-gutters) $opts(-tags)]
 
       # Create the file information
       set file_info [lrepeat [array size files_index] ""]
@@ -1298,6 +1304,7 @@ namespace eval gui {
       lset file_info $files_index(modified) 0
       lset file_info $files_index(gutters)  $opts(-gutters)
       lset file_info $files_index(diff)     $opts(-diff)
+      lset file_info $files_index(tags)     $opts(-tags)
 
       if {![catch { open $fname r } rc]} {
 
@@ -1956,7 +1963,7 @@ namespace eval gui {
     set index [adjust_insert_tab_index end [file tail $fname]]
 
     # Create a new tab
-    set w [insert_tab $index [file tail $fname] $diff [lindex $file $files_index(gutters)] $language]
+    set w [insert_tab $index [file tail $fname] $diff [lindex $file $files_index(gutters)] [lindex $file $files_index(tags)] $language]
 
     # Get the current text widget
     set txt [current_txt {}]
@@ -3047,7 +3054,7 @@ namespace eval gui {
         foreach tab [$nb.tbf.tb tabs] {
           lappend txts [get_txt_from_tab $tab]
           if {[winfo exists [get_txt2_from_tab $tab]]} {
-            lappend txts [get_txt2_from_tab $tab]
+            lappend txts [get_txt2_from_tab $tab] {}
           }
         }
       }
@@ -3219,7 +3226,7 @@ namespace eval gui {
 
   ######################################################################
   # Inserts a new tab into the editor tab notebook.
-  proc insert_tab {index title diff gutters {initial_language ""}} {
+  proc insert_tab {index title diff gutters tags {initial_language ""}} {
 
     variable widgets
     variable curr_id
@@ -3394,7 +3401,7 @@ namespace eval gui {
     snippets::add_bindings        $txt
     vim::set_vim_mode             $txt {}
     completer::add_bindings       $txt
-    plugins::handle_text_bindings $txt
+    plugins::handle_text_bindings $txt $tags
     make_drop_target              $txt
 
     # Apply the appropriate syntax highlighting for the given extension
@@ -3445,6 +3452,8 @@ namespace eval gui {
   ######################################################################
   # Adds a peer ctext widget to the current widget in the pane just below
   # the current pane.
+  #
+  # TBD - This is missing support for applied gutters!
   proc show_split_pane {tid} {
 
     variable images
@@ -3502,7 +3511,7 @@ namespace eval gui {
     [ns snippets]::add_bindings        $txt2
     [ns vim]::set_vim_mode             $txt2 {}
     [ns completer]::add_bindings       $txt2
-    [ns plugins]::handle_text_bindings $txt2
+    [ns plugins]::handle_text_bindings $txt2 {}  ;# TBD - add tags
     make_drop_target                   $txt2
 
     # Apply the appropriate syntax highlighting for the given extension

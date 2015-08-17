@@ -260,6 +260,10 @@ namespace eval api {
     #       current pane; however, if set to 1, the file will be created in a new
     #       tab in the other pane (the other pane will be created if it does not
     #       exist).
+    #
+    #   -tags \e list
+    #     * A list of plugin bindtag suffixes that will be applied only to this
+    #       this text widget.
     proc add {interp pname args} {
 
       set fname ""
@@ -317,6 +321,16 @@ namespace eval api {
           lappend new_gutters [list $gutter_name {*}$new_sym]
         }
         set opts(-gutters) $new_gutters
+      }
+      puts "opts(-gutters): $opts(-gutters)"
+      
+      # Set the tags
+      if {[info exists opts(-tags)]} {
+        set tag_list [list]
+        foreach tag $opts(-tags) {
+          lappend tag_list "plugin__${pname}__$tag"
+        }
+        set opts(-tags) $tag_list
       }
 
       # Finally, add the new file
