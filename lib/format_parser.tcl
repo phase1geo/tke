@@ -1,3 +1,27 @@
+# TKE - Advanced Programmer's Editor
+# Copyright (C) 2014  Trevor Williams (phase1geo@gmail.com)
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+######################################################################
+# Name:    format_parser.tac
+# Author:  Trevor Williams  (phase1geo@gmail.com)
+# Date:    8/20/2015
+# Brief:   Parser for snippet formats.
+######################################################################
+
 source [file join $::tke_dir lib format_lexer.tcl]
 
 set format_txt     ""
@@ -1130,29 +1154,29 @@ array set ::format_rules {
 }
 
 array set ::format_rules {
-  13,line 62
-  7,line 44
-  10,line 53
-  22,line 97
-  4,line 35
-  18,line 79
-  1,line 24
-  15,line 68
-  9,line 50
-  12,line 59
-  6,line 41
-  21,line 88
-  3,line 32
-  17,line 74
-  14,line 65
-  8,line 47
-  11,line 56
-  23,line 104
-  5,line 38
-  20,line 85
-  19,line 82
-  2,line 29
-  16,line 71
+  13,line 86
+  7,line 68
+  10,line 77
+  22,line 121
+  4,line 59
+  18,line 103
+  1,line 48
+  15,line 92
+  9,line 74
+  12,line 83
+  6,line 65
+  21,line 112
+  3,line 56
+  17,line 98
+  14,line 89
+  8,line 71
+  11,line 80
+  23,line 128
+  5,line 62
+  20,line 109
+  19,line 106
+  2,line 53
+  16,line 95
 }
 
 proc format_parse {} {

@@ -1,3 +1,27 @@
+# TKE - Advanced Programmer's Editor
+# Copyright (C) 2014  Trevor Williams (phase1geo@gmail.com)
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+######################################################################
+# Name:    snip_parser.tac
+# Author:  Trevor Williams  (phase1geo@gmail.com)
+# Date:    8/10/2015
+# Brief:   Parser for snippet syntax.
+######################################################################
+
 source [file join $::tke_dir lib snip_lexer.tcl]
 
 set snip_txt    ""
@@ -3450,105 +3474,105 @@ array set ::snip_rules {
 }
 
 array set ::snip_rules {
-  41,line 234
-  96,line 407
-  7,line 86
-  37,line 220
-  93,line 396
-  4,line 77
-  34,line 209
-  90,line 387
-  89,line 384
-  1,line 66
-  31,line 200
-  86,line 375
-  27,line 188
-  83,line 366
-  24,line 179
-  80,line 357
-  79,line 354
-  21,line 170
-  76,line 341
-  17,line 138
-  73,line 332
-  14,line 123
-  70,line 323
-  69,line 320
-  11,line 98
-  66,line 311
-  63,line 302
-  60,line 293
-  59,line 290
-  56,line 281
-  53,line 270
-  50,line 261
-  49,line 258
-  46,line 249
-  43,line 240
-  98,line 415
-  9,line 92
-  40,line 231
-  39,line 228
-  95,line 404
-  6,line 83
-  36,line 215
-  92,line 393
-  3,line 74
-  33,line 206
-  88,line 381
-  29,line 194
-  30,line 197
-  85,line 372
-  26,line 185
-  82,line 363
-  23,line 176
-  78,line 351
-  19,line 148
-  20,line 165
-  75,line 338
-  16,line 135
-  72,line 329
-  13,line 110
-  68,line 317
-  10,line 95
-  65,line 308
-  62,line 299
-  58,line 287
-  55,line 278
-  52,line 267
-  48,line 255
-  45,line 246
-  42,line 237
-  97,line 410
-  8,line 89
-  38,line 223
-  94,line 401
-  5,line 80
-  35,line 212
-  91,line 390
-  2,line 71
-  32,line 203
-  87,line 378
-  28,line 191
-  84,line 369
-  25,line 182
-  81,line 360
-  22,line 173
-  77,line 346
-  18,line 145
-  74,line 335
-  15,line 130
-  71,line 326
-  12,line 107
-  67,line 314
-  64,line 305
-  61,line 296
-  57,line 284
-  54,line 273
-  51,line 264
-  47,line 252
-  44,line 243
-  99,line 418
+  41,line 258
+  96,line 431
+  7,line 110
+  37,line 244
+  93,line 420
+  4,line 101
+  34,line 233
+  90,line 411
+  89,line 408
+  1,line 90
+  31,line 224
+  86,line 399
+  27,line 212
+  83,line 390
+  24,line 203
+  80,line 381
+  79,line 378
+  21,line 194
+  76,line 365
+  17,line 162
+  73,line 356
+  14,line 147
+  70,line 347
+  69,line 344
+  11,line 122
+  66,line 335
+  63,line 326
+  60,line 317
+  59,line 314
+  56,line 305
+  53,line 294
+  50,line 285
+  49,line 282
+  46,line 273
+  43,line 264
+  98,line 439
+  9,line 116
+  40,line 255
+  39,line 252
+  95,line 428
+  6,line 107
+  36,line 239
+  92,line 417
+  3,line 98
+  33,line 230
+  88,line 405
+  29,line 218
+  30,line 221
+  85,line 396
+  26,line 209
+  82,line 387
+  23,line 200
+  78,line 375
+  19,line 172
+  20,line 189
+  75,line 362
+  16,line 159
+  72,line 353
+  13,line 134
+  68,line 341
+  10,line 119
+  65,line 332
+  62,line 323
+  58,line 311
+  55,line 302
+  52,line 291
+  48,line 279
+  45,line 270
+  42,line 261
+  97,line 434
+  8,line 113
+  38,line 247
+  94,line 425
+  5,line 104
+  35,line 236
+  91,line 414
+  2,line 95
+  32,line 227
+  87,line 402
+  28,line 215
+  84,line 393
+  25,line 206
+  81,line 384
+  22,line 197
+  77,line 370
+  18,line 169
+  74,line 359
+  15,line 154
+  71,line 350
+  12,line 131
+  67,line 338
+  64,line 329
+  61,line 320
+  57,line 308
+  54,line 297
+  51,line 288
+  47,line 276
+  44,line 267
+  99,line 442
 }
 
 proc snip_parse {} {
