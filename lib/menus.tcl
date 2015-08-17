@@ -1512,10 +1512,12 @@ namespace eval menus {
     variable profile_report
 
     if {[::tke_development]} {
-      if {[file exists $profile_report]} {
-        $mb entryconfigure [msgcat::mc "Show*Profiling*"] -state normal
-      } else {
-        $mb entryconfigure [msgcat::mc "Show*Profiling*"] -state disabled
+      catch {
+        if {[file exists $profile_report]} {
+          $mb entryconfigure [msgcat::mc "Show*Profiling*"] -state normal
+        } else {
+          $mb entryconfigure [msgcat::mc "Show*Profiling*"] -state disabled
+        }
       }
     }
 
