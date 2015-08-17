@@ -305,9 +305,9 @@ namespace eval interpreter {
       1 { return [bind $tag [lindex $args 0]] }
       2 { 
         if {[string index [lindex $args 1] 0] eq "+"} {
-          return [bind $tag [lindex $args 0] [list +interp eval $interps($pname,interp) [lrange [lindex $args 1] 1 end]]]
+          return [bind $tag [lindex $args 0] [list +interp eval $interps($pname,interp) {*}[lrange [lindex $args 1] 1 end]]]
         } else {
-          return [bind $tag [lindex $args 0] [list interp eval $interps($pname,interp) [lindex $args 1]]]
+          return [bind $tag [lindex $args 0] [list interp eval $interps($pname,interp) {*}[lindex $args 1]]]
         }
       }
     }

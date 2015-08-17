@@ -810,8 +810,8 @@ namespace eval plugins {
   # Adds all of the text bindings to all open text widgets.
   proc add_all_text_bindings {} {
 
-    foreach txt [gui::get_all_texts] {
-      handle_text_bindings $txt
+    foreach {txt tags} [gui::get_all_texts] {
+      handle_text_bindings $txt $tags
     }
 
   }
@@ -939,7 +939,7 @@ namespace eval plugins {
   ######################################################################
   # Creates a bindtag on behalf of the user for the given text widget
   # and calls the associated procedure to have the bindings added.
-  proc handle_text_bindings {txt} {
+  proc handle_text_bindings {txt tags} {
 
     variable registry
     variable bound_tags
@@ -953,20 +953,20 @@ namespace eval plugins {
     set tpost_index [lsearch -exact $ttags .]
 
     foreach entry [find_registry_entries "text_binding"] {
-      lassign $entry index type name cmd
+      lassign $entry index type name bind_type cmd
       set bt "plugin__$registry($index,name)__$name"
-      bindtags $txt   [linsert $ctags [expr {($type eq "pretext") ? $cpre_index : $cpost_index}] $bt]
-      # bindtags $txt.t [linsert $ttags [expr {($type eq "pretext") ? $tpre_index : $tpost_index}] $bt]
-      $registry($index,interp) alias $txt $txt
-      # $registry($index,interp) alias $txt.t $txt.t
-      interpreter::add_ctext $registry($index,name) $txt
-      if {![info exists bound_tags($bt)]} {
-        if {[catch "$registry($index,interp) eval $cmd $bt" status]} {
-          handle_status_error "handle_text_bindings" $index $status
+      if {($bind_type eq "all") || ([lsearch $tags $bt] != -1)} {
+        bindtags $txt.t [linsert $ttags [expr {($type eq "pretext") ? $tpre_index : $tpost_index}] $bt]
+        $registry($index,interp) alias $txt.t $txt.t
+        interpreter::add_ctext $registry($index,name) $txt
+        if {![info exists bound_tags($bt)]} {
+          if {[catch "$registry($index,interp) eval $cmd $bt" status]} {
+            handle_status_error "handle_text_bindings" $index $status
+          }
+          set bound_tags($bt) $txt
+        } else {
+          lappend bound_tags($bt) $txt
         }
-        set bound_tags($bt) $txt
-      } else {
-        lappend bound_tags($bt) $txt
       }
     }
 
@@ -1055,9 +1055,9 @@ namespace eval plugins {
     # Delete the list of bound tags
     set txt [gui::get_file_info $file_index txt]
     foreach entry [find_registry_entries "text_binding"] {
-      lassign $entry index type name cmd
+      lassign $entry index type name bind_type cmd
       set bt "plugin__$registry($index,name)__$name"
-      if {[set findex [lsearch $bound_tags($bt) $txt]] != -1} {
+      if {[info exists bound_tags($bt)] && ([set findex [lsearch $bound_tags($bt) $txt]] != -1)} {
         set bound_tags($bt) [lreplace $bound_tags($bt) $findex $findex]
       }
     }

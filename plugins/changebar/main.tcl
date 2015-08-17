@@ -291,5 +291,5 @@ api::register changebar {
   {menu separator "Change Bars"}
   {menu command "Change Bars/Goto Next"     changebar::do_goto_next changebar::handle_state_goto_next}
   {menu command "Change Bars/Goto Previous" changebar::do_goto_prev changebar::handle_state_goto_prev}
-  {text_binding pretext changes changebar::do_bind}
+  {text_binding pretext changes all changebar::do_bind}
 }
