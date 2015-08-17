@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License along
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-    
+
 ######################################################################
 # Name:    api.tcl
 # Author:  Trevor Williams  (trevorw@sgi.com)
@@ -45,7 +45,7 @@ namespace eval api {
     } else {
       return $plugin_dir
     }
-    
+
   }
 
   ######################################################################
@@ -124,16 +124,16 @@ namespace eval api {
     menus::invoke $parent [lindex $menu_path end]
 
   }
-  
+
   ######################################################################
   ## Logs the given information in the diagnostic logfile and standard
   #  output.
   #
   # \param msg  Message to display.
   proc log {interp pname msg} {
-    
+
     puts $msg
-    
+
   }
 
   ######################################################################
@@ -202,6 +202,8 @@ namespace eval api {
     #                     - \b sb_index : Specifies the index of the file in the sidebar.
     #                     - \b txt      : Specifies the text widget associated with the file
     #                     - \b current  : Returns 1 if the file is the current file being edited
+    #                     - \b vimmode  : Returns 1 if the editor is not in edit mode; otherwise,
+    #                                     returns 0.
     proc get_info {interp pname file_index attr} {
 
       return [gui::get_file_info $file_index $attr]
@@ -322,8 +324,7 @@ namespace eval api {
         }
         set opts(-gutters) $new_gutters
       }
-      puts "opts(-gutters): $opts(-gutters)"
-      
+
       # Set the tags
       if {[info exists opts(-tags)]} {
         set tag_list [list]
@@ -379,7 +380,7 @@ namespace eval api {
     }
 
   }
-  
+
   namespace eval plugin {
 
     ######################################################################
