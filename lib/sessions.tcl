@@ -56,7 +56,7 @@ namespace eval sessions {
     variable user_name
     variable names
     variable current_name
-    
+
     # If we are being told to save the last session, set the name to the session.tkedat file
     if {$last} {
       set name [file join .. session]
@@ -67,6 +67,7 @@ namespace eval sessions {
       if {[[ns gui]::get_user_response "Session name:" sessions::user_name 0]} {
         set name         $user_name
         set names($name) 1
+        set current_name $name
       } else {
         return
       }
@@ -79,7 +80,7 @@ namespace eval sessions {
 
     # Get the session information from the UI
     set content(gui) [[ns gui]::save_session]
-    
+
     # Set the session name
     set content(session) $current_name
 
@@ -90,16 +91,16 @@ namespace eval sessions {
     catch { [ns tkedat]::write $session_file [array get content] }
 
     if {!$last} {
-      
+
       # Save the current name
       set current_name $name
-       
+
       # Update the title
       [ns gui]::set_title
-       
+
       # Indicate to the user that we successfully saved
       [ns gui]::set_info_message "Session \"$current_name\" saved"
-      
+
     }
 
   }
@@ -110,7 +111,7 @@ namespace eval sessions {
 
     variable sessions_dir
     variable current_name
-    
+
     # If we need to load the last saved session, set the name appropriately
     if {$last} {
       set name [file join .. session]
@@ -145,16 +146,16 @@ namespace eval sessions {
       [ns gui]::load_session {} $rc
     }
 
-    # Save the current name (provide backward compatibility
+    # Save the current name (provide backward compatibility)
     if {[info exists content(session)]} {
       set current_name $content(session)
     } else {
       set current_name [expr {$last ? "" : $name}]
     }
-  
+
     # Update the title
     [ns gui]::set_title
-      
+
   }
 
   ######################################################################
@@ -164,21 +165,21 @@ namespace eval sessions {
     variable sessions_dir
     variable current_name
     variable names
-    
+
     if {[info exists names($name)]} {
-      
+
       # Confirm the deletion
       if {[tk_messageBox -icon warning -parent . -default no -type yesnocancel -message "Delete session \"$name\"?"] ne "yes"} {
         return
       }
-      
+
       # Delete the session file
       catch { file delete -force [file join $sessions_dir $name.tkedat] }
-      
+
       # Delete the name from the names list
       unset names($name)
     }
-    
+
     # If the name matches the current name, clear the current name and update the title
     if {$current_name eq $name} {
       set current_name ""

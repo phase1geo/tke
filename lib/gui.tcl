@@ -2839,16 +2839,24 @@ namespace eval gui {
     # Get the current text widget
     set txt [get_txt_from_tab [lindex $files $index $files_index(tab)]]
 
-    if {$attr eq "sb_index"} {
-      return [sidebar::get_index $index]
-    } elseif {$attr eq "txt"} {
-      return $txt
-    } elseif {$attr eq "current"} {
-      return [expr {$txt eq [current_txt {}]}]
-    } elseif {$attr eq "vimmode"} {
-      return [[ns vim]::in_vim_mode $txt]
-    } elseif {![info exists files_index($attr)]} {
-      return -code error [msgcat::mc "File attribute (%s) does not exist" $attr]
+    switch $attr {
+      "sb_index" {
+        return [[ns sidebar]::get_index $index]
+      }
+      "txt" {
+        return $txt
+      }
+      "current" {
+        return [expr {$txt eq [current_txt {}]}]
+      }
+      "vimmode" {
+        return [[ns vim]::in_vim_mode $txt.t]
+      }
+      default {
+        if {![info exists files_index($attr)]} {
+          return -code error [msgcat::mc "File attribute (%s) does not exist" $attr]
+        }
+      }
     }
 
     return [lindex $files $index $files_index($attr)]
