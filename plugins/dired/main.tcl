@@ -39,7 +39,7 @@ namespace eval dired {
     write_directories
 
     # Add the dired file
-    api::file::add $data(file) -sidebar 0 -buffer 1 -gutters {{changes D {-symbol "D" -fg red} A {-symbol "A" -fg green} R {-symbol "R" -fg yellow}}} -tags key_bindings
+    api::file::add $data(file) -sidebar 0 -gutters {{changes D {-symbol "D" -fg red} A {-symbol "A" -fg green} R {-symbol "R" -fg yellow}}} -tags {pre_key_bindings post_key_bindings}
 
   }
 
@@ -139,16 +139,24 @@ namespace eval dired {
   }
 
   ######################################################################
-  # Handles text binding.
-  proc do_binding {btag} {
+  # Handles pre text binding.
+  proc do_pretext_binding {btag} {
 
-    bind $btag <Key> [list if {[dired::handle_any {%W} {%K}]} { break }]
+    bind $btag <Key> [list if {[dired::handle_any_pretext {%W} {%K}]} { break }]
+
+  }
+
+  ######################################################################
+  # Handles post text binding.
+  proc do_posttext_binding {btag} {
+
+    bind $btag <Key> [list dired::handle_any_posttext {%W} {%K}]
 
   }
 
   ######################################################################
   # Handles any keystrokes.
-  proc handle_any {w keysym} {
+  proc handle_any_pretext {w keysym} {
 
     variable data
 
@@ -161,8 +169,9 @@ namespace eval dired {
     # Get the current Vim mode
     set vim_mode [api::file::get_info [api::file::current_file_index] vimmode]
 
-    # If we are editing text in Vim mode, do nothing
+    # If we are editing text in Vim mode, set the current line to rename
     if {$data(mode) ne ""} {
+      mark_as $w R
       return 0
     }
 
@@ -174,22 +183,26 @@ namespace eval dired {
         mark_clear $w
       }
       o {
+        set data(mode) "add"
         if {!$vim_mode} {
           $w insert "insert lineend" "\n  "
           $w mark set insert "insert+1l lineend"
+          mark_as $w A
+          return 1
+        } else {
+          return 0
         }
-        mark_as $w A
-        set data(mode) "add"
-        return [expr $vim_mode == 0]
       }
       O {
+        set data(mode) "add"
         if {!$vim_mode} {
           $w insert "insert linestart" "\n  "
           $w mark set insert "insert lineend"
+          mark_as $w A
+          return 1
+        } else {
+          return 0
         }
-        mark_as $w A
-        set data(mode) "add"
-        return [expr $vim_mode == 0]
       }
       i -
       a {
@@ -235,10 +248,43 @@ namespace eval dired {
   }
 
   ######################################################################
-  # Mark the current line with the given type.
-  proc mark_as {txt type} {
+  # Handles any necessary post-text key entry.
+  proc handle_any_posttext {w keysym} {
 
-    $txt gutter set changes $type [lindex [split [$txt index insert] .] 0]
+    variable data
+
+    # Get the current Vim mode
+    set vim_mode [api::file::get_info [api::file::current_file_index] vimmode]
+
+    switch $keysym {
+      o -
+      O {
+        if {$vim_mode} {
+          mark_as $W R
+        }
+      }
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Mark the current line with the given type.
+  proc mark_as {txt type {line ""}} {
+
+    # If the line was not specified use the insertion line
+    if {$line eq ""} {
+      set line [lindex [split [$txt index insert] .] 0]
+    }
+
+    set current_type [$txt gutter get changes $line]
+
+    if {$current_type eq ""} {
+      $txt gutter set changes $type $line
+    } elseif {($current_type eq "D") && ($type eq "R")} {
+      $txt gutter set changes $type $line
+    }
 
   }
 
@@ -270,12 +316,29 @@ namespace eval dired {
 
   }
 
+  ######################################################################
+  # Handles a file close event.
+  proc on_close {file_index} {
+
+    variable data
+
+    # Do we need to save?
+
+    # Delete the dired file
+    if {[info exists data(file)] && [file exists $data(file)]} {
+      file delete -force $data(file)
+    }
+
+  }
+
 }
 
 # Register all plugin actions
 api::register dired {
-  {text_binding pretext key_bindings only dired::do_binding}
+  {text_binding pretext  pre_key_bindings  only dired::do_pretext_binding}
+  {text_binding posttext post_key_bindings only dired::do_posttext_binding}
   {root_popup command "Open dired view" dired::do_open_directory dired::handle_state_open_directory}
   {dir_popup  command "Open dired view" dired::do_open_directory dired::handle_state_open_directory}
   {on_save dired::on_save}
+  {on_close dired::on_close}
 }
