@@ -493,7 +493,7 @@ proc ctext::setCommentRE {win} {
 }
 
 proc ctext::inCommentStringHelper {win index pattern prange} {
-  
+
   set prev_in [expr {[set prev_tag [lsearch -inline -regexp [$win tag names $index-1c] $pattern]] ne ""}]
   set curr_in [expr {[set curr_tag [lsearch -inline -regexp [$win tag names $index]    $pattern]] ne ""}]
 
@@ -506,7 +506,7 @@ proc ctext::inCommentStringHelper {win index pattern prange} {
   } else {
     return 0
   }
-  
+
 }
 
 proc ctext::inLineComment {win index {prange ""}} {
@@ -991,18 +991,38 @@ proc ctext::instanceCmd {self cmd args} {
     }
 
     copy {
-      tk_textCopy $self
+
+      # Get the start and end indices
+      if {![catch {$self.t index sel.first} start_index]} {
+        set end_index [$self.t index sel.last]
+      } else {
+        set start_index [$self.t index "insert linestart"]
+        set end_index   [$self.t index "insert+1l linestart"]
+      }
+
+      # Clear and copy the data to the clipboard
+      clipboard clear  -displayof $self.t
+      clipboard append -displayof $self.t [$self.t get $start_index $end_index]
+
     }
 
     cut {
-      if {[catch {$self.t get sel.first sel.last} data] == 0} {
-        set lines [$self.t count -lines sel.first sel.last]
-        clipboard clear -displayof $self.t
-        clipboard append -displayof $self.t $data
-        ctext::undo_delete $self [$self.t index sel.first] [$self.t index sel.last]
-        $self delete [$self.t index sel.first] [$self.t index sel.last]
-        ctext::modified $self 1 "delete [$self.t index sel.first] [string length $data] $lines"
+
+      # Get the start and end indices
+      if {![catch {$self.t index sel.first} start_index]} {
+        set end_index [$self.t index sel.last]
+      } else {
+        set start_index [$self.t index "insert linestart"]
+        set end_index   [$self.t index "insert+1l linestart"]
       }
+
+      # Clear and copy the data to the clipboard
+      clipboard clear  -displayof $self.t
+      clipboard append -displayof $self.t [$self.t get $start_index $end_index]
+
+      # Delete the text
+      $self delete $start_index $end_index
+
     }
 
     delete {
@@ -1902,7 +1922,7 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
   set strings        [llength $configAr(string_patterns)]
   set block_comments [llength $configAr(block_comment_patterns)]
   set line_comments  [llength $configAr(line_comment_patterns)]
-  
+
   if {$blocks && [expr ($strings + $block_comments + $line_comments) > 0]} {
 
     set dStr ""
@@ -1934,7 +1954,7 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
       }
       incr i
     }
-    
+
     # Remove the line comment tag from the current line
     $win tag remove _lComment $start $end
 
