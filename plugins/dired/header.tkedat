@@ -2,6 +2,6 @@ name           {dired}
 author         {Trevor Williams}
 email          {phase1geo@gmail.com}
 version        {1.0}
-include        {yes}
+include        {no}
 trust_required {yes}
 description    {Adds a dired mode for file manipulation}
