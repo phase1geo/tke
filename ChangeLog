@@ -1,61 +1,100 @@
-changeset:   1222:c96cc9ca34e8
-tag:         devel-1.8.7
+changeset:   1229:5fca92c6ae64
+tag:         devel-1.8.8
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Aug 11 23:59:37 2015 -0500
-files:       ChangeLog lib/version.tcl specl_version.tcl
-description:
-ChangeLog for devel-1.8.7 release
-
-
-changeset:   1223:9d1112ba976d
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Aug 11 23:59:42 2015 -0500
-files:       .hgtags
-description:
-Added tag devel-1.8.7 for changeset c96cc9ca34e8
-
-
-changeset:   1224:926b54ef9dd8
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Aug 12 21:49:31 2015 -0500
-files:       lib/ptwidgets1.2/library/tabbar.tcl lib/version.tcl
-description:
-* Working on adding flattened tabbar UI.
-
-
-changeset:   1225:eb02f4775afb
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Aug 13 09:37:52 2015 -0500
+date:        Thu Aug 13 09:45:06 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
 ChangeLog for devel-1.8.8 release
 
 
-changeset:   1226:18c546619c00
-parent:      1224:926b54ef9dd8
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu Aug 13 00:00:07 2015 -0500
-files:       lib/ptwidgets1.2/library/tabbar.tcl lib/version.tcl
-description:
-* Changing tabbar UI to use a flat appearance.
-
-
-changeset:   1227:4b8229feee55
-parent:      1225:eb02f4775afb
-parent:      1226:18c546619c00
+changeset:   1230:c2005ba9def7
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Aug 13 09:42:30 2015 -0500
+date:        Thu Aug 13 09:45:10 2015 -0500
+files:       .hgtags
+description:
+Added tag devel-1.8.8 for changeset 5fca92c6ae64
+
+
+changeset:   1231:5cb80f925ad8
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Aug 16 22:10:36 2015 -0500
+files:       lib/api.tcl lib/ctext/ctext.tcl lib/gui.tcl lib/interpreter.tcl lib/menus.tcl lib/plugins.tcl lib/version.tcl plugins/changebar/main.tcl plugins/dired/dired plugins/dired/header.tkedat plugins/dired/main.tcl
+description:
+* Checkpointing initial work on dired plugin.
+* Fixing issues with plugin text binding.
+* Fixing issues with enabling development mode and attempting to close UI.
+* Adding ability to associate a text binding with a specific plugin text widget.
+
+
+changeset:   1232:15fb1df4a55c
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Aug 16 22:27:00 2015 -0500
+files:       lib/version.tcl plugins/dired/main.tcl
+description:
+* More work on dired plugin.
+
+
+changeset:   1233:3e5498f9a866
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Aug 17 01:00:39 2015 -0500
+files:       lib/api.tcl lib/gui.tcl lib/version.tcl plugins/dired/dired plugins/dired/main.tcl
+description:
+* Adding vimmode attribute to api::file::get_info.
+* Checkpointing more work on dired plugin.
+
+
+changeset:   1234:8e409078a0d1
+parent:      1230:c2005ba9def7
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Aug 17 16:26:37 2015 -0500
+files:       lib/format_parser.tcl lib/snip_lexer.fcl lib/snip_lexer.tcl lib/snip_parser.tcl lib/version.tcl
+description:
+* Fixing SELECTED_TEXT variable support.
+
+
+changeset:   1235:01742f8e052c
+parent:      1234:8e409078a0d1
+parent:      1233:3e5498f9a866
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Aug 17 16:28:53 2015 -0500
 files:       lib/version.tcl
 description:
 * Merging.
 
 
-changeset:   1228:04736457e718
-tag:         tip
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Aug 13 09:43:47 2015 -0500
-files:       lib/version.tcl
+changeset:   1236:42d993bf1ffc
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Aug 17 19:32:13 2015 -0500
+files:       lib/gui.tcl lib/interpreter.tcl lib/sessions.tcl plugins/dired/main.tcl
 description:
-* Reverting version.tcl to 1.8.7
+* Fixing vimmode attribute handling in api::file::get_info
+* Adding tk::TextSetCursor and tk::TextUpDownLine procedures to API proc set.
+* Fixing session saving bug where session name is not saved in the file.
+* Checkpointing more work in dired plugin.
+
+
+changeset:   1237:9271b0f7f3de
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Aug 18 19:57:47 2015 -0500
+files:       lib/version.tcl plugins/dired/main.tcl
+description:
+* Checkpointing work on dired plugin.
+
+
+changeset:   1238:01416ca860b6
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Aug 18 20:28:57 2015 -0500
+files:       lib/ctext/ctext.tcl lib/menus.tcl lib/version.tcl
+description:
+* Modifying copy/cut to copy/cut current line if nothing is currently selected.
+
+
+changeset:   1239:1e2b8bcbfbc2
+tag:         tip
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Aug 18 20:31:07 2015 -0500
+files:       lib/version.tcl plugins/dired/header.tkedat
+description:
+* Temporarily disabling the dired plugin for the time being.
 
 
