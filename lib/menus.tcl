@@ -562,10 +562,10 @@ namespace eval menus {
     $mb add separator
 
     $mb add command -label [msgcat::mc "Cut"] -underline 0 -command "gui::cut {}"
-    launcher::register [msgcat::mc "Menu: Cut selected text"] "gui::cut {}"
+    launcher::register [msgcat::mc "Menu: Cut text"] "gui::cut {}"
 
     $mb add command -label [msgcat::mc "Copy"] -underline 1 -command "gui::copy {}"
-    launcher::register [msgcat::mc "Menu: Copy selected text"] "gui::copy {}"
+    launcher::register [msgcat::mc "Menu: Copy text"] "gui::copy {}"
 
     $mb add command -label [msgcat::mc "Paste"] -underline 0 -command "gui::paste {}"
     launcher::register [msgcat::mc "Menu: Paste text from clipboard"] "gui::paste {}"
@@ -687,13 +687,8 @@ namespace eval menus {
       } else {
         $mb entryconfigure [msgcat::mc "Redo"] -state disabled
       }
-      if {[gui::selected {}]} {
-        $mb entryconfigure [msgcat::mc "Cut"]  -state normal
-        $mb entryconfigure [msgcat::mc "Copy"] -state normal
-      } else {
-        $mb entryconfigure [msgcat::mc "Cut"]  -state disabled
-        $mb entryconfigure [msgcat::mc "Copy"] -state disabled
-      }
+      $mb entryconfigure [msgcat::mc "Cut"]  -state normal
+      $mb entryconfigure [msgcat::mc "Copy"] -state normal
       if {[gui::pastable {}]} {
         $mb entryconfigure [msgcat::mc "Paste"]            -state normal
         $mb entryconfigure [msgcat::mc "Paste and Format"] -state normal
