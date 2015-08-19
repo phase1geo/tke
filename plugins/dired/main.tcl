@@ -18,6 +18,23 @@ namespace eval dired {
   }
 
   ######################################################################
+  # Returns the directory of the file at the current insert line.
+  proc get_directory {txt} {
+
+    foreach line [lreverse [$txt get 1.0 "insert linestart"]] {
+      if {[regexp {^#\s(.*)$} $line -> elem]} {
+        set elem [string trim $elem]
+        if {[file isdirectory $elem]} {
+          return $elem
+        }
+      }
+    }
+
+    return ""
+
+  }
+
+  ######################################################################
   # Opens the currently selected directory.
   proc do_open_directory {} {
 
@@ -40,6 +57,36 @@ namespace eval dired {
 
     # Add the dired file
     api::file::add $data(file) -sidebar 0 -gutters {{changes D {-symbol "D" -fg red} A {-symbol "A" -fg green} R {-symbol "R" -fg yellow}}} -tags {pre_key_bindings post_key_bindings}
+
+  }
+
+  ######################################################################
+  # Opens the file or directory on the current line.
+  proc open_file_dir {txt} {
+
+    variable data
+
+    # Get the file/directory on the current line
+    set elem [file join [get_directory] [string trim [$txt get "insert linestart" "insert lineend"]]]
+
+    # If the entry is a file, add it to the editor
+    if {[file isfile $elem]} {
+
+      api::file::add $elem
+
+    # If the entry is a directory, open it in a new dired file
+    } elseif {[file isdirectory $elem]} {
+
+      # If the file underwent changes, ask to save and then proceed
+      on_save [api::file::current_file_index]
+
+      # Save the directory (we need to figure out the native name)
+      set data(dirs) $elem
+
+      # Write the dired file
+      write_directories
+
+    }
 
   }
 
@@ -175,7 +222,14 @@ namespace eval dired {
       return 0
     }
 
+    puts "In keysym: $keysym"
+
     switch $keysym {
+      Return -
+      Space {
+        open_file_dir $w
+        return 1
+      }
       d {
         mark_as $w D
       }
