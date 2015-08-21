@@ -181,11 +181,15 @@ namespace eval vim {
       m   { [ns gui]::remove_current_marker $tid }
       default {
         catch {
+          
+          # Perform searcn and replace
           if {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)s/(.*)/(.*)/([giI]*)$} $value -> from to search replace opts]} {
             set from [get_linenum $txt $from]
             set to   [$txt index "[get_linenum $txt $to] lineend-1c"]
             [ns gui]::do_raw_search_and_replace $tid $from $to $search $replace \
               [expr [string first "i" $opts] != -1] [expr [string first "g" $opts] != -1]
+              
+          # Delete/copy lines
           } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)([dy])$} $value -> from to cmd]} {
             set from [get_linenum $txt $from]
             set to   [$txt index "[get_linenum $txt $to] lineend"]
@@ -196,14 +200,20 @@ namespace eval vim {
               adjust_insert $txt.t
             }
             cliphist::add_from_clipboard
+            
+          # Jump to line
           } elseif {[regexp {^(\d+|[.^$]|\w+)$} $value]} {
             $txt mark set insert [get_linenum $txt $value]
             adjust_insert $txt.t
             $txt see insert
+            
+          # Add multicursors to a range of lines
           } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)c/(.*)/$} $value -> from to search]} {
             set from [get_linenum $txt $from]
             set to   [$txt index "[get_linenum $txt $to] lineend"]
             [ns multicursor]::search_and_add_cursors $txt $from $to $search
+            
+          # Save/quit a subset of lines as a filename
           } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)w(q)?(!)?\s+(.*)$} $value -> from to and_close overwrite fname]} {
             set from [get_linenum $txt $from]
             set to   [get_linenum $txt $to]
@@ -222,14 +232,20 @@ namespace eval vim {
               [ns gui]::close_current $tid 0
               set txt ""
             }
+            
+          # Open a new file
           } elseif {[regexp {^e\s+(.*)$} $value -> filename]} {
             [ns gui]::add_file end [normalize_filename [[ns utils]::perform_substitutions $filename]]
+            
+          # Save/quit the entire file with a new name
           } elseif {[regexp {^w(q!?)?\s+(.*)$} $value -> and_close filename]} {
             [ns gui]::save_current $tid [normalize_filename [[ns utils]::perform_substitutions $filename]]
             if {$and_close ne ""} {
               [ns gui]::close_current $tid [expr {($and_close eq "q") ? 0 : 1}]
               set txt ""
             }
+            
+          # Create/delete a marker for the current line
           } elseif {[regexp {^m\s+(.*)$} $value -> marker]} {
             set line [lindex [split [$txt index insert] .] 0]
             if {$marker ne ""} {
@@ -240,12 +256,16 @@ namespace eval vim {
               [ns markers]::delete_by_line $txt $line
               ctext::linemapClearMark $txt $line
             }
+            
+          # Insert the contents of a file after the current line
           } elseif {[regexp {^r\s+(.*)$} $value -> filename]} {
             if {[string index $filename 0] eq "!"} {
               [ns vim]::insert_file $txt "|[[ns utils]::perform_substitutions [string range $filename 1 end]]"
             } else {
               [ns vim]::insert_file $txt [normalize_filename [[ns utils]::perform_substitutions $filename]]
             }
+            
+          # Change the working directory
           } elseif {[regexp {^cd\s+(.*)$} $value -> directory]} {
             set directory [[ns utils]::perform_substitutions $directory]
             if {[file isdirectory $directory]} {

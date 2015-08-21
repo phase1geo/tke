@@ -2960,7 +2960,7 @@ namespace eval gui {
     wm title     .aboutwin ""
     wm transient .aboutwin .
     wm resizable .aboutwin 0 0
-    wm geometry  .aboutwin 300x280
+    wm geometry  .aboutwin 350x300
 
     ttk::frame .aboutwin.f
     ttk::label .aboutwin.f.logo -compound left -image $images(logo) -text " tke" \
@@ -2970,22 +2970,27 @@ namespace eval gui {
     ttk::label .aboutwin.f.if.l0 -text [msgcat::mc "Developer:"]
     ttk::label .aboutwin.f.if.v0 -text "Trevor Williams"
     ttk::label .aboutwin.f.if.l1 -text [msgcat::mc "Email:"]
-    ttk::label .aboutwin.f.if.v1 -text "phase1geo@gmail.com" -font [font create -underline 1]
-    ttk::label .aboutwin.f.if.l2 -text [msgcat::mc "Version:"]
-    ttk::label .aboutwin.f.if.v2 -text $version_str
-    ttk::label .aboutwin.f.if.l3 -text [msgcat::mc "Release Type:"]
-    ttk::label .aboutwin.f.if.v3 -text $release_type
-    ttk::label .aboutwin.f.if.l4 -text [msgcat::mc "Tcl/Tk Version:"]
-    ttk::label .aboutwin.f.if.v4 -text [info patchlevel]
-    ttk::label .aboutwin.f.if.l5 -text [msgcat::mc "License:"]
-    ttk::label .aboutwin.f.if.v5 -text "GPL 2.0" -font [font create -underline 1]
+    ttk::label .aboutwin.f.if.v1 -text "phase1geo@gmail.com"
+    ttk::label .aboutwin.f.if.l2 -text [msgcat::mc "Twitter:"]
+    ttk::label .aboutwin.f.if.v2 -text "@TkeTextEditor"
+    ttk::label .aboutwin.f.if.l3 -text [msgcat::mc "Version:"]
+    ttk::label .aboutwin.f.if.v3 -text $version_str
+    ttk::label .aboutwin.f.if.l4 -text [msgcat::mc "Release Type:"]
+    ttk::label .aboutwin.f.if.v4 -text $release_type
+    ttk::label .aboutwin.f.if.l5 -text [msgcat::mc "Tcl/Tk Version:"]
+    ttk::label .aboutwin.f.if.v5 -text [info patchlevel]
+    ttk::label .aboutwin.f.if.l6 -text [msgcat::mc "License:"]
+    ttk::label .aboutwin.f.if.v6 -text "GPL 2.0"
 
     bind .aboutwin.f.if.v1 <Enter>    "%W configure -cursor [ttk::cursor link]"
     bind .aboutwin.f.if.v1 <Leave>    "%W configure -cursor [ttk::cursor standard]"
     bind .aboutwin.f.if.v1 <Button-1> "utils::open_file_externally {mailto:phase1geo@gmail.com} 1"
-    bind .aboutwin.f.if.v5 <Enter>    "%W configure -cursor [ttk::cursor link]"
-    bind .aboutwin.f.if.v5 <Leave>    "%W configure -cursor [ttk::cursor standard]"
-    bind .aboutwin.f.if.v5 <Button-1> {
+    bind .aboutwin.f.if.v2 <Enter>    "%W configure -cursor [ttk::cursor link]"
+    bind .aboutwin.f.if.v2 <Leave>    "%W configure -cursor [ttk::cursor standard]"
+    bind .aboutwin.f.if.v2 <Button-1> "utils::open_file_externally {https://twitter.com/TkeTextEditor} 1"
+    bind .aboutwin.f.if.v6 <Enter>    "%W configure -cursor [ttk::cursor link]"
+    bind .aboutwin.f.if.v6 <Leave>    "%W configure -cursor [ttk::cursor standard]"
+    bind .aboutwin.f.if.v6 <Button-1> {
       destroy .aboutwin
       gui::add_file end [file join $::tke_dir LICENSE] -sidebar 0 -readonly 1
     }
@@ -3002,6 +3007,8 @@ namespace eval gui {
     grid .aboutwin.f.if.v4 -row 4 -column 1 -sticky news -padx 2 -pady 2
     grid .aboutwin.f.if.l5 -row 5 -column 0 -sticky news -padx 2 -pady 2
     grid .aboutwin.f.if.v5 -row 5 -column 1 -sticky news -padx 2 -pady 2
+    grid .aboutwin.f.if.l6 -row 6 -column 0 -sticky news -padx 2 -pady 2
+    grid .aboutwin.f.if.v6 -row 6 -column 1 -sticky news -padx 2 -pady 2
 
     ttk::label .aboutwin.f.copyright -text [msgcat::mc "Copyright %d-%d" 2013 15]
 

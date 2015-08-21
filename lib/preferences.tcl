@@ -224,6 +224,36 @@ namespace eval preferences {
     }
 
   }
+  
+  ######################################################################
+  # Loads session information.
+  proc load_session {data} {
+    
+    variable loaded_prefs
+    
+    # Save off the original preference information
+    set orig_prefs [array get loaded_prefs]
+    
+    # Set the incoming preference information into the loaded_prefs array
+    array set loaded_prefs $data
+    
+    # Update the UI
+    update_prefs
+    
+    # Restore the original preferences
+    array set loaded_prefs $orig_prefs
+    
+  }
+  
+  ######################################################################
+  # Save session information.
+  proc save_session {} {
+    
+    variable loaded_prefs
+    
+    return [array get loaded_prefs]
+    
+  }
 
 }
 
