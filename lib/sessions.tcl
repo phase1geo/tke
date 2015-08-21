@@ -80,6 +80,9 @@ namespace eval sessions {
 
     # Get the session information from the UI
     set content(gui) [[ns gui]::save_session]
+    
+    # Get the session information from preferences
+    set content(prefs) [[ns preferences]::save_session]
 
     # Set the session name
     set content(session) $current_name
@@ -145,6 +148,11 @@ namespace eval sessions {
     } else {
       [ns gui]::load_session {} $rc
     }
+    
+    # Load the preference session information (provide backward compatibility)
+    if {[info exists content(prefs)]} {
+      [ns preferences]::load_session $content(prefs)
+    }
 
     # Save the current name (provide backward compatibility)
     if {[info exists content(session)]} {
@@ -152,7 +160,7 @@ namespace eval sessions {
     } else {
       set current_name [expr {$last ? "" : $name}]
     }
-
+    
     # Update the title
     [ns gui]::set_title
 
