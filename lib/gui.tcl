@@ -1124,21 +1124,21 @@ namespace eval gui {
   }
 
   ######################################################################
-  # Adds a new file to the editor pane.
+  # Adds a new buffer to the editor pane.  Buffers require a save command
+  # to be executed when the buffer is saved.  Buffers do not save to nor
+  # read from files.
   #
   # Several options are available:
-  # -savecommand <command>  Optional command that is run when the file is saved.
-  # -lock        <bool>     Initial lock setting.
-  # -readonly    <bool>     Set if file should not be saveable.
-  # -sidebar     <bool>     Specifies if file/directory should be added to the sidebar.
-  # -buffer      <bool>     If true, treats contents as a temporary buffer.
-  # -gutters     <list>     Creates a gutter in the editor.  The contents of list are as follows:
-  #                           {name {{symbol_name {symbol_tag_options+}}+}}+
-  #                         For a list of valid symbol_tag_options, see the options available for
-  #                         tags in a text widget.
-  # -other       <bool>     If true, adds the file to the other pane.
-  # -tags        <list>     List of plugin btags that will only get applied to this text widget.
-  proc add_new_file {index args} {
+  # -lock     <bool>     Initial lock setting.
+  # -readonly <bool>     Set if file should not be saveable.
+  # -sidebar  <bool>     Specifies if file/directory should be added to the sidebar.
+  # -gutters  <list>     Creates a gutter in the editor.  The contents of list are as follows:
+  #                        {name {{symbol_name {symbol_tag_options+}}+}}+
+  #                      For a list of valid symbol_tag_options, see the options available for
+  #                      tags in a text widget.
+  # -other    <bool>     If true, adds the file to the other pane.
+  # -tags     <list>     List of plugin btags that will only get applied to this text widget.
+  proc add_buffer {index name save_command args} {
 
     variable files
     variable files_index
@@ -1146,14 +1146,12 @@ namespace eval gui {
 
     # Handle options
     array set opts [list \
-      -savecommand "" \
-      -lock        0 \
-      -readonly    0 \
-      -sidebar     $::cl_sidebar \
-      -buffer      0 \
-      -gutters     [list] \
-      -other       0 \
-      -tags        [list] \
+      -lock     0 \
+      -readonly 0 \
+      -sidebar  $::cl_sidebar \
+      -gutters  [list] \
+      -other    0 \
+      -tags     [list] \
     ]
     array set opts $args
 
@@ -1182,14 +1180,14 @@ namespace eval gui {
 
     # Create the file info structure
     set file_info [lrepeat [array size files_index] ""]
-    lset file_info $files_index(fname)    ""
+    lset file_info $files_index(fname)    $name
     lset file_info $files_index(mtime)    ""
-    lset file_info $files_index(save_cmd) $opts(-savecommand)
+    lset file_info $files_index(save_cmd) $save_command
     lset file_info $files_index(tab)      $w
     lset file_info $files_index(lock)     $opts(-lock)
     lset file_info $files_index(readonly) $opts(-readonly)
     lset file_info $files_index(sidebar)  $opts(-sidebar)
-    lset file_info $files_index(buffer)   $opts(-buffer)
+    lset file_info $files_index(buffer)   1
     lset file_info $files_index(modified) 0
     lset file_info $files_index(gutters)  $opts(-gutters)
     lset file_info $files_index(diff)     0
@@ -1212,6 +1210,39 @@ namespace eval gui {
   }
 
   ######################################################################
+  # Adds a new file to the editor pane.
+  #
+  # Several options are available:
+  # -savecommand <command>  Optional command that is run when the file is saved.
+  # -lock        <bool>     Initial lock setting.
+  # -readonly    <bool>     Set if file should not be saveable.
+  # -sidebar     <bool>     Specifies if file/directory should be added to the sidebar.
+  # -gutters     <list>     Creates a gutter in the editor.  The contents of list are as follows:
+  #                           {name {{symbol_name {symbol_tag_options+}}+}}+
+  #                         For a list of valid symbol_tag_options, see the options available for
+  #                         tags in a text widget.
+  # -other       <bool>     If true, adds the file to the other pane.
+  # -tags        <list>     List of plugin btags that will only get applied to this text widget.
+  proc add_new_file {index args} {
+
+    add_buffer $index "Untitled" gui::save_new_file {*}$args
+
+  }
+
+  ######################################################################
+  # Save command for new files.  Changes buffer into a normal file
+  # if the file was actually saved.
+  proc save_new_file {} {
+
+    variable files
+    variable files_index
+
+    # Set the buffer state to 0
+    lset files [current_file] $files_index(buffer) 0
+
+  }
+
+  ######################################################################
   # Creates a new tab for the given filename specified at the given index
   # tab position.
   #
@@ -1220,7 +1251,6 @@ namespace eval gui {
   # -lock        <bool>     Initial lock setting.
   # -readonly    <bool>     Set if file should not be saveable.
   # -sidebar     <bool>     Specifies if file/directory should be added to the sidebar.
-  # -buffer      <bool>     If true, treats the text widget as a temporary buffer.
   # -gutters     <list>     Creates a gutter in the editor.  The contents of list are as follows:
   #                           {name {{symbol_name {symbol_tag_options+}}+}}+
   #                         For a list of valid symbol_tag_options, see the options available for
@@ -1243,7 +1273,6 @@ namespace eval gui {
       -lock        0
       -readonly    0
       -sidebar     1
-      -buffer      0
       -gutters     {}
       -diff        0
       -other       0
@@ -1300,7 +1329,7 @@ namespace eval gui {
       lset file_info $files_index(lock)     $opts(-lock)
       lset file_info $files_index(readonly) [expr $opts(-readonly) || $opts(-diff)]
       lset file_info $files_index(sidebar)  $opts(-sidebar)
-      lset file_info $files_index(buffer)   $opts(-buffer)
+      lset file_info $files_index(buffer)   0
       lset file_info $files_index(modified) 0
       lset file_info $files_index(gutters)  $opts(-gutters)
       lset file_info $files_index(diff)     $opts(-diff)
