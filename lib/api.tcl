@@ -211,6 +211,70 @@ namespace eval api {
     }
 
     ######################################################################
+    ## Adds a buffer to the browser.  The first option is the name of the
+    #  buffer.  The second option is a command to execute once the save
+    #  is successful.  The remaining arguments are the following options:
+    #
+    #
+    proc add_buffer {interp pname name save_command args} {
+
+      array set opts [list]
+
+      # If we have an odd number of arguments, we have an error condition
+      if {[expr [llength $args] % 2] == 1} {
+        return -code error [msgcat::mc "Argument list to api::add_file was not an even key/value pair"]
+      }
+
+      # Get the options
+      array set opts $args
+
+      # Change out the gutter commands with interpreter versions
+      if {[info exists opts(-gutters)]} {
+        set new_gutters [list]
+        foreach gutter $opts(-gutters) {
+          set new_sym [list]
+          foreach {symname symopts} [lassign $gutter gutter_name] {
+            set new_symopts [list]
+            foreach {symopt symval} $symopts {
+              switch $symopt {
+                "-onenter" -
+                "-onleave" -
+                "-onclick" {
+                  lappend new_symopts $symopt "$interp eval $symval"
+                }
+                default {
+                  lappend new_symopts $symopt $symval
+                }
+              }
+            }
+            lappend new_sym $symname $new_symopts
+          }
+          lappend new_gutters [list $gutter_name {*}$new_sym]
+        }
+        set opts(-gutters) $new_gutters
+      }
+
+      # Set the tags
+      if {[info exists opts(-tags)]} {
+        set tag_list [list]
+        foreach tag $opts(-tags) {
+          lappend tag_list "plugin__${pname}__$tag"
+        }
+        set opts(-tags) $tag_list
+      }
+
+      # Finally, add the new file
+      gui::add_buffer end $name "$interp eval $save_command" {*}[array get opts]
+
+      # Allow the plugin to manipulate the ctext widget
+      set txt [gui::current_txt {}]
+      $interp alias $txt $txt
+
+      return $txt
+
+    }
+
+    ######################################################################
     ## Adds a file to the browser.  If the first argument does not start with
     #  a '-' character, the argument is considered to be the name of a file
     #  to add.  If no filename is specified, an empty/unnamed file will be added.
@@ -266,7 +330,7 @@ namespace eval api {
     #   -tags \e list
     #     * A list of plugin bindtag suffixes that will be applied only to this
     #       this text widget.
-    proc add {interp pname args} {
+    proc add_file {interp pname args} {
 
       set fname ""
       array set opts [list]
