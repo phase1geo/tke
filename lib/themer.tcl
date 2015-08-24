@@ -96,6 +96,7 @@ namespace eval themer {
     miscellaneous1    {""       "-foreground" "" 1 0}
     miscellaneous2    {""       "-foreground" "" 1 0}
     miscellaneous3    {""       "-foreground" "" 1 0}
+    highlighter       {"yellow" ""            "" 0 0}
   }
 
   # Add trace to the labels array
@@ -109,7 +110,7 @@ namespace eval themer {
     variable labels
     variable label_index
     variable widgets
-    
+
     # Don't continue if the UI isn't built yet
     if {![info exists widgets(txt)]} {
       return
@@ -295,7 +296,7 @@ namespace eval themer {
 
     # Save the labels array to orig_labels
     array set orig_labels [array get labels]
-    
+
   }
 
   ######################################################################
@@ -616,6 +617,7 @@ namespace eval themer {
     $widgets(txt) tag add sub            5.0 6.0
     $widgets(txt) tag add add            6.0 7.0
     $widgets(txt) tag add select         3.0 5.0
+    $widgets(txt) tag add highlighter    4.7 4.13
 
     # Disable the text widgets
     $widgets(gutter) configure -state disabled
@@ -628,7 +630,7 @@ namespace eval themer {
     grid $widgets(txt)    -row 0 -column 2 -sticky news
 
     place $widgets(warn) -x [font measure [$widgets(txt) cget -font] -displayof . [string repeat "m" 30]] -relheight 1.0
-    
+
     pack [get_path].tf.rf.f -fill both -expand yes
 
     grid [get_path].tf.lf -row 0 -column 0 -sticky news -padx 2 -pady 2
@@ -676,19 +678,19 @@ namespace eval themer {
     }
 
   }
-  
+
   ######################################################################
   # Called to destroy the window
   proc destroy_win {} {
-    
+
     variable widgets
-    
+
     # Clear the widgets namespace
     array unset widgets
-    
+
     # Destroy the window
     destroy [get_win]
-    
+
   }
 
   ######################################################################
@@ -710,13 +712,13 @@ namespace eval themer {
     set widgets(b:$lbl) [ttk::label [get_path].tf.lf.b$lbl -anchor w -relief raised]
 
     bind $widgets(b:$lbl) <Button-1> "themer::show_menu $lbl"
-    
+
     # Create menu
     set widgets(m:$lbl) [menu [get_path].tf.lf.b$lbl.mnu -tearoff 0]
 
     # Add custom command so that we don't get an error when parsing
     $widgets(m:$lbl) add command -label [msgcat::mc "Create custom"] -command "themer::create_custom_color $lbl"
- 
+
     # Add them to the grid
     grid $widgets(l:$lbl) -row $row -column 0 -sticky news -padx 2 -pady 2
     grid $widgets(b:$lbl) -row $row -column 1 -sticky news -padx 2 -pady 2
@@ -739,26 +741,26 @@ namespace eval themer {
   ######################################################################
   # Displays the menu for the given color type.
   proc show_menu {lbl} {
- 
+
     variable widgets
     variable tmtheme
- 
+
     # If we are dealing with a theme, display the menu
     if {$tmtheme ne ""} {
- 
+
       tk_popup $widgets(m:$lbl) \
         [winfo rootx $widgets(b:$lbl)] \
         [expr [winfo rooty $widgets(b:$lbl)] + [winfo reqheight $widgets(b:$lbl)]]
- 
+
     # Otherwise, if we are creating a new, just launch the color chooser
     } else {
- 
+
       create_custom_color $lbl
- 
+
     }
- 
+
   }
- 
+
   #############################################################
   # Called whenever a menu item is selected inthe scope menu.
   proc handle_menu_select {lbl scope} {
@@ -808,10 +810,10 @@ namespace eval themer {
     frame .__tmp
     set bdcolor [.__tmp cget -background]
     destroy .__tmp
-    
+
     # Get the background color
     set bgcolor [lindex $labels(background) $label_index(color)]
-    
+
     # Colorize the border
     if {[set color [lindex $labels(border_highlight) $label_index(color)]] ne ""} {
       $widgets(border) configure -background [expr {$show_vars(border_highlight) ? $color : $bdcolor}]
@@ -860,9 +862,17 @@ namespace eval themer {
       }
     }
 
+    # Colorize the highlighter
+    if {[set color [lindex $labels(highlighter) $label_index(color)]] ne ""} {
+      $widgets(txt) tag configure highlighter \
+        -background [expr {$show_vars(highlighter) ? $color : ""}] \
+        -foreground [expr {$show_vars(highlighter) ? [lindex $labels(background) $label_index(color)] : ""}]
+    }
+
     # Colorize the selection
     if {[set color [lindex $labels(select_background) $label_index(color)]] ne ""} {
-      $widgets(txt) tag configure select -background [expr {$show_vars(select_background) ? $color : ""}] \
+      $widgets(txt) tag configure select \
+        -background [expr {$show_vars(select_background) ? $color : ""}] \
         -foreground [expr {$show_vars(select_background) ? [lindex $labels(select_foreground) $label_index(color)] : ""}]
     }
 
@@ -909,7 +919,7 @@ namespace eval themer {
 
     # Initialize the labels array
     array set labels [array get base_labels]
-    
+
     # Create the UI
     create $callback
 
@@ -965,7 +975,7 @@ namespace eval themer {
 
     # Initialize the labels array
     array set labels [array get base_labels]
-    
+
     # Create the UI
     create $callback
 
@@ -995,7 +1005,7 @@ namespace eval themer {
 
     # Initialize the labels array
     array set labels [array get base_labels]
-    
+
     # Create the UI
     create $callback
 
@@ -1020,6 +1030,7 @@ namespace eval themer {
     lset labels(miscellaneous1)    $label_index(color) "pink"
     lset labels(miscellaneous2)    $label_index(color) "gold"
     lset labels(miscellaneous3)    $label_index(color) "green"
+    lset labels(highlighter)       $label_index(color) "yellow"
     lset labels(line_number)       $label_index(color) [utils::auto_adjust_color "black" 40]
     lset labels(warning_width)     $label_index(color) [utils::auto_adjust_color "black" 40]
     lset labels(difference_sub)    $label_index(color) [utils::auto_mix_colors "black" r 30]

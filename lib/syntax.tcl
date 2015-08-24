@@ -47,6 +47,7 @@ namespace eval syntax {
     miscellaneous1     {}
     miscellaneous2     {}
     miscellaneous3     {}
+    highlighter        {}
     advanced           {}
   }
   array set langs      {}
@@ -83,7 +84,6 @@ namespace eval syntax {
   proc load_syntax {} {
 
     variable langs
-    variable lang_template
     variable filetypes
 
     # Load the tke_dir syntax files
@@ -235,7 +235,7 @@ namespace eval syntax {
     variable curr_lang
     variable curr_theme
     variable colorizers
-    
+
     if {[info exists themes($theme_name)]} {
 
       # Set the current theme array
@@ -396,6 +396,7 @@ namespace eval syntax {
         set_language_section $txt miscellaneous1 $lang_array(miscellaneous1)
         set_language_section $txt miscellaneous2 $lang_array(miscellaneous2)
         set_language_section $txt miscellaneous3 $lang_array(miscellaneous3)
+        set_language_section $txt highlighter    $lang_array(highlighter)
         set_language_section $txt advanced       $lang_array(advanced) $cmd_prefix
 
         # Add the comments and strings
@@ -472,6 +473,16 @@ namespace eval syntax {
               ctext::add$type $txt $syntax class [expr {($section eq "symbols") ? "symbols" : "none"}]
             }
           }
+        }
+      }
+      "highlighter" {
+        set i 0
+        foreach {type syntax modifiers} $section_list {
+          if {$syntax ne ""} {
+            ctext::addHighlightClass $txt $section$i $theme(background) $theme($section) $modifiers
+            ctext::add$type $txt $syntax class $section$i
+          }
+          incr i
         }
       }
       default {
@@ -567,12 +578,12 @@ namespace eval syntax {
     if {![info exists curr_lang($txt)]} {
       return [list {} {}]
     }
-    
+
     # Get the language array for the current language.
     array set lang_array $langs($curr_lang($txt))
 
     return [list $lang_array(indent) $lang_array(unindent)]
-      
+
   }
 
   ######################################################################
