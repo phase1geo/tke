@@ -754,6 +754,30 @@ namespace eval syntax {
   }
 
   ######################################################################
+  # Returns the information for the given Markdown overstrike string.
+  proc get_markdown_overstrike {txt startpos endpos} {
+    
+    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-3c"] ne "\\")} {
+      return [list [list [list strike [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] [list]]] ""]
+    }
+    
+    return ""
+    
+  }
+  
+  ######################################################################
+  # Returns the information for the given Markdown highlighter string.
+  proc get_markdown_highlight {txt startpos endpos} {
+    
+    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-3c"] ne "\\")} {
+      return [list [list [list highlighter [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] [list]]] ""]
+    }
+    
+    return ""
+    
+  }
+  
+  ######################################################################
   # Returns the information for the given Markdown link string.
   proc get_markdown_link {txt startpos endpos} {
 
