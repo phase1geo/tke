@@ -35,6 +35,10 @@ namespace eval vim {
   array set ignore_modified {}
   array set column          {}
   array set select_anchors  {}
+  array set patterns {
+    number {^([0-9]+|0x[0-9a-fA-F]+|[0-9]+\.[0-9]+)}
+    space  {^([ \t]+)}
+  }
 
   array set recording {
     curr_reg ""
@@ -181,14 +185,14 @@ namespace eval vim {
       m   { [ns gui]::remove_current_marker $tid }
       default {
         catch {
-          
+
           # Perform searcn and replace
           if {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)s/(.*)/(.*)/([giI]*)$} $value -> from to search replace opts]} {
             set from [get_linenum $txt $from]
             set to   [$txt index "[get_linenum $txt $to] lineend-1c"]
             [ns gui]::do_raw_search_and_replace $tid $from $to $search $replace \
               [expr [string first "i" $opts] != -1] [expr [string first "g" $opts] != -1]
-              
+
           # Delete/copy lines
           } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)([dy])$} $value -> from to cmd]} {
             set from [get_linenum $txt $from]
@@ -200,19 +204,19 @@ namespace eval vim {
               adjust_insert $txt.t
             }
             cliphist::add_from_clipboard
-            
+
           # Jump to line
           } elseif {[regexp {^(\d+|[.^$]|\w+)$} $value]} {
             $txt mark set insert [get_linenum $txt $value]
             adjust_insert $txt.t
             $txt see insert
-            
+
           # Add multicursors to a range of lines
           } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)c/(.*)/$} $value -> from to search]} {
             set from [get_linenum $txt $from]
             set to   [$txt index "[get_linenum $txt $to] lineend"]
             [ns multicursor]::search_and_add_cursors $txt $from $to $search
-            
+
           # Save/quit a subset of lines as a filename
           } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)w(q)?(!)?\s+(.*)$} $value -> from to and_close overwrite fname]} {
             set from [get_linenum $txt $from]
@@ -232,11 +236,11 @@ namespace eval vim {
               [ns gui]::close_current $tid 0
               set txt ""
             }
-            
+
           # Open a new file
           } elseif {[regexp {^e\s+(.*)$} $value -> filename]} {
             [ns gui]::add_file end [normalize_filename [[ns utils]::perform_substitutions $filename]]
-            
+
           # Save/quit the entire file with a new name
           } elseif {[regexp {^w(q!?)?\s+(.*)$} $value -> and_close filename]} {
             [ns gui]::save_current $tid [normalize_filename [[ns utils]::perform_substitutions $filename]]
@@ -244,7 +248,7 @@ namespace eval vim {
               [ns gui]::close_current $tid [expr {($and_close eq "q") ? 0 : 1}]
               set txt ""
             }
-            
+
           # Create/delete a marker for the current line
           } elseif {[regexp {^m\s+(.*)$} $value -> marker]} {
             set line [lindex [split [$txt index insert] .] 0]
@@ -256,7 +260,7 @@ namespace eval vim {
               [ns markers]::delete_by_line $txt $line
               ctext::linemapClearMark $txt $line
             }
-            
+
           # Insert the contents of a file after the current line
           } elseif {[regexp {^r\s+(.*)$} $value -> filename]} {
             if {[string index $filename 0] eq "!"} {
@@ -264,7 +268,7 @@ namespace eval vim {
             } else {
               [ns vim]::insert_file $txt [normalize_filename [[ns utils]::perform_substitutions $filename]]
             }
-            
+
           # Change the working directory
           } elseif {[regexp {^cd\s+(.*)$} $value -> directory]} {
             set directory [[ns utils]::perform_substitutions $directory]
@@ -847,7 +851,7 @@ namespace eval vim {
     variable number
     variable column
     variable recording
-    
+
     # If the key does not have a printable char representation, quit now
     if {([string compare -length 5 $keysym "Shift"]   == 0) || \
         ([string compare -length 7 $keysym "Control"] == 0) || \
@@ -1359,36 +1363,36 @@ namespace eval vim {
     return 0
 
   }
-  
+
   ######################################################################
-  # Returns the string containing the 
+  # Returns the string containing the
   proc get_filename {txt pos} {
-    
+
     # Get the index of pos
     set index [lindex [split [$txt index $pos] .] 1]
-    
+
     # Get the current line
     set line [$txt get "$pos linestart" "$pos lineend"]
-    
+
     # Get the first space
     set first_space [string last " " $line $index]
-    
+
     # Get the last space
     if {[set last_space [string first " " $line $index]] == -1} {
       set last_space [string length $line]
     }
-    
+
     return [string range $line [expr $first_space + 1] [expr $last_space - 1]]
-    
+
   }
-  
+
   ######################################################################
   # If we are in "goto" mode, edit any filesnames that are found under
   # any of the cursors.
   proc handle_f {txt tid} {
-    
+
     variable mode
-    
+
     if {$mode($txt) eq "start"} {
       return 1
     } elseif {$mode($txt) eq "goto"} {
@@ -1406,25 +1410,25 @@ namespace eval vim {
       start_mode $txt
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in "start" mode, edit any filenames found under any of
   # the cursors.
   proc handle_g {txt tid} {
-    
+
     variable mode
-    
+
     if {$mode($txt) eq "start"} {
       set mode($txt) "goto"
       return 1
     }
-    
+
     return 0
-    
+
   }
 
   ######################################################################
@@ -1711,14 +1715,14 @@ namespace eval vim {
     return 0
 
   }
-  
+
   ######################################################################
   # If we are in "start" mode, deletes all text from the current
   # insertion cursor to the end of the line.
   proc handle_D {txt tid} {
-    
+
     variable mode
-    
+
     if {$mode($txt) eq "start"} {
       if {[multicursor::enabled $txt]} {
         multicursor::delete $txt "lineend"
@@ -1731,9 +1735,9 @@ namespace eval vim {
       }
       return 1
     }
-    
+
     return 0
-    
+
   }
 
   ######################################################################
@@ -1852,7 +1856,7 @@ namespace eval vim {
 
     # Get the number of pastes that we need to perform
     set num [expr {($number($txt) ne "") ? $number($txt) : 1}]
-    
+
     if {[set nl_index [string last \n $clip]] != -1} {
       if {[expr ([string length $clip] - 1) == $nl_index]} {
         set clip [string replace $clip $nl_index $nl_index]
@@ -1900,7 +1904,7 @@ namespace eval vim {
     variable number
 
     $txt edit separator
-    
+
     # Calculate the number of clips to pre-paste
     set num [expr {($number($txt) ne "") ? $number($txt) : 1}]
 
@@ -2020,7 +2024,7 @@ namespace eval vim {
     $txt edit separator
 
   }
-  
+
   ######################################################################
   # Performs a single character delete.
   proc do_char_delete_previous {txt number} {
@@ -2067,42 +2071,42 @@ namespace eval vim {
     return 0
 
   }
-  
+
   ######################################################################
   # If we are in "start" mode, deletes the current character (same as
   # the 'x' command).
   proc handle_Delete {txt tid} {
-    
+
     variable mode
     variable number
-    
+
     if {$mode($txt) eq "start"} {
       do_char_delete_current $txt $number($txt)
       record_add "Key-Delete"
       record_stop
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # If we are in "start" mode, deletes the previous character.
   proc handle_X {txt tid} {
-    
+
     variable mode
     variable number
-    
+
     if {$mode($txt) eq "start"} {
       do_char_delete_previous $txt $number($txt)
       record_add "Key-X"
       record_stop
       return 1
     }
-    
+
     return 0
-    
+
   }
 
   ######################################################################
@@ -2185,6 +2189,7 @@ namespace eval vim {
     variable mode
     variable search_dir
     variable number
+    variable patterns
 
     if {$mode($txt) eq "start"} {
       set count [expr {($number($txt) ne "") ? $number($txt) : 1}]
@@ -2197,22 +2202,38 @@ namespace eval vim {
           [ns gui]::search_prev $tid 0
         }
       }
+      return 1
+    } elseif {$mode($txt) eq "delete"} {
+      if {[multicursor::enabled $txt]} {
+        foreach {endpos startpos} [lreverse [$txt tag ranges mcursor]] {
+          if {[regexp $patterns(number) [$txt get $startpos "$startpos lineend"] -> num]} {
+            $txt delete $startpos "$startpos+[string length $num]c"
+          }
+        }
+      } else {
+        if {[regexp $patterns(number) [$txt get insert "insert lineend"] -> num]} {
+          $txt delete insert "insert+[string length $num]c"
+        }
+      }
+      start_mode $txt
+      record_add "Key-n"
+      record_stop
       return 1
     }
 
     return 0
 
   }
-  
+
   ######################################################################
   # If we are in "start" mode, finds the previous occurrence of the
   # search text.
   proc handle_N {txt tid} {
-    
+
     variable mode
     variable search_dir
     variable number
-    
+
     if {$mode($txt) eq "start"} {
       set count [expr {($number($txt) ne "") ? $number($txt) : 1}]
       if {$search_dir($txt) eq "next"} {
@@ -2226,9 +2247,9 @@ namespace eval vim {
       }
       return 1
     }
-    
+
     return 0
-    
+
   }
 
   ######################################################################
@@ -2406,9 +2427,26 @@ namespace eval vim {
   proc handle_s {txt tid} {
 
     variable mode
+    variable patterns
 
     if {$mode($txt) eq "start"} {
       [ns multicursor]::add_cursor $txt [$txt index insert]
+      return 1
+    } elseif {$mode($txt) eq "delete"} {
+      if {[multicursor::enabled $txt]} {
+        foreach {endpos startpos} [lreverse [$txt tag ranges mcursor]] {
+          if {[regexp $patterns(space) [$txt get $startpos "$startpos lineend"] -> space]} {
+            $txt delete $startpos "$startpos+[string length $space]c"
+          }
+        }
+      } else {
+        if {[regexp $patterns(space) [$txt get insert "insert lineend"] -> space]} {
+          $txt delete insert "insert+[string length $space]c"
+        }
+      }
+      start_mode $txt
+      record_add "Key-s"
+      record_stop
       return 1
     }
 
@@ -2643,22 +2681,22 @@ namespace eval vim {
     return 0
 
   }
-  
+
   ######################################################################
   # Converts a character-by-character case inversion of the given text.
   proc convert_case {txt index str} {
 
     set strlen [string length $str]
-    
+
     for {set i 0} {$i < $strlen} {incr i} {
       set char [string index $str $i]
       append newstr [expr {[string is lower $char] ? [string toupper $char] : [string tolower $char]}]
     }
-    
+
     $txt replace $index "$index+${strlen}c" $newstr
-    
+
     adjust_insert $txt
-      
+
   }
 
   ######################################################################
@@ -2745,23 +2783,23 @@ namespace eval vim {
     return 0
 
   }
-  
+
   ######################################################################
   # If we are in start mode, do nothing.  If we are in quit mode, close
   # the current tab without writing the file (same as :q!).
   proc handle_Q {txt tid} {
-    
+
     variable mode
-    
+
     if {$mode($txt) eq "start"} {
       return 1
     } elseif {$mode($txt) eq "quit"} {
       [ns gui]::close_current $tid 1
       return 1
     }
-    
+
     return 0
-    
+
   }
 
   ######################################################################
