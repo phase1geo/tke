@@ -22,6 +22,8 @@ advanced {
   HighlightClass link    miscellaneous1 {underline click}
   HighlightClass code    precompile     {code}
   HighlightClass ccode   precompile     {code}
+  HighlightClass strike  none           {overstrike}
+  HighlightClass hilite  highlighter    {}
 
   HighlightRegexp {``.+?``}                     syntax::get_markdown_ccode
   HighlightRegexp {`.+?`}                       syntax::get_markdown_code
@@ -30,4 +32,6 @@ advanced {
   HighlightRegexp {([*_])(?=\S).+?\1}           syntax::get_markdown_italics
   HighlightRegexp {\[.+?\](\s*\[.*?\]|\(.*?\))} syntax::get_markdown_link
   HighlightRegexp {^\s*\[.+?\]:\s+\S+}          syntax::get_markdown_linkref
+  HighlightRegexp {(~{2})(?=\S).+?\1}           syntax::get_markdown_strikeout
+  HighlightRegexp {(={2})(?=\S).+?\1}           syntax::get_markdown_highlight
 }
