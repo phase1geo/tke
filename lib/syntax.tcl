@@ -463,7 +463,11 @@ namespace eval syntax {
           if {$type eq "HighlightClass"} {
             if {$section eq "advanced"} {
               set section_list [lassign $section_list name color modifiers]
-              ctext::addHighlightClass $txt $name $theme($color) "" $modifiers
+              if {$color eq "highlighter"} {
+                ctext::addHighlightClass $txt $name $theme(background) $theme($color) $modifiers
+              } else {
+                ctext::addHighlightClass $txt $name $theme($color) "" $modifiers
+              }
             }
           } else {
             set section_list [lassign $section_list syntax command]
@@ -756,27 +760,27 @@ namespace eval syntax {
   ######################################################################
   # Returns the information for the given Markdown overstrike string.
   proc get_markdown_overstrike {txt startpos endpos} {
-    
+
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-3c"] ne "\\")} {
       return [list [list [list strike [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] [list]]] ""]
     }
-    
+
     return ""
-    
+
   }
-  
+
   ######################################################################
   # Returns the information for the given Markdown highlighter string.
   proc get_markdown_highlight {txt startpos endpos} {
-    
+
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-3c"] ne "\\")} {
-      return [list [list [list highlighter [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] [list]]] ""]
+      return [list [list [list hilite [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] [list]]] ""]
     }
-    
+
     return ""
-    
+
   }
-  
+
   ######################################################################
   # Returns the information for the given Markdown link string.
   proc get_markdown_link {txt startpos endpos} {

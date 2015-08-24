@@ -32,6 +32,12 @@ advanced {
   HighlightRegexp {([*_])(?=\S).+?\1}           syntax::get_markdown_italics
   HighlightRegexp {\[.+?\](\s*\[.*?\]|\(.*?\))} syntax::get_markdown_link
   HighlightRegexp {^\s*\[.+?\]:\s+\S+}          syntax::get_markdown_linkref
-  HighlightRegexp {(~{2})(?=\S).+?\1}           syntax::get_markdown_strikeout
+  HighlightRegexp {(~{2})(?=\S).+?\1}           syntax::get_markdown_overstrike
   HighlightRegexp {(={2})(?=\S).+?\1}           syntax::get_markdown_highlight
+}
+
+highlighter {
+  HighlightKeywords {
+    foobar
+  }
 }
