@@ -28,7 +28,7 @@ keywords
 {
   filepatterns matchcharsallowed tabsallowed casesensitive indent unindent keywords symbols
   icomment lcomments bcomments strings numbers punctuation precompile miscellaneous1 miscellaneous2
-  miscellaneous3 advanced
+  miscellaneous3 highlighter advanced
   HighlightClass
   HighlightKeywords
   HighlightRegexp
