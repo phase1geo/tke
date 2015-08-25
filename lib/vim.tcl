@@ -37,7 +37,7 @@ namespace eval vim {
   array set select_anchors  {}
   array set patterns {
     number {^([0-9]+|0x[0-9a-fA-F]+|[0-9]+\.[0-9]+)}
-    space  {^([ \t]+)}
+    space  {^[ \t]+}
   }
 
   array set recording {
@@ -2204,15 +2204,11 @@ namespace eval vim {
       }
       return 1
     } elseif {$mode($txt) eq "delete"} {
-      if {[multicursor::enabled $txt]} {
-        foreach {endpos startpos} [lreverse [$txt tag ranges mcursor]] {
-          if {[regexp $patterns(number) [$txt get $startpos "$startpos lineend"] -> num]} {
-            $txt delete $startpos "$startpos+[string length $num]c"
-          }
-        }
+      if {[[ns multicursor]::enabled $txt]} {
+        [ns multicursor]::delete $txt pattern $patterns(number)
       } else {
-        if {[regexp $patterns(number) [$txt get insert "insert lineend"] -> num]} {
-          $txt delete insert "insert+[string length $num]c"
+        if {[regexp $patterns(number) [$txt get insert "insert lineend"] match]} {
+          $txt delete insert "insert+[string length $match]c"
         }
       }
       start_mode $txt
@@ -2434,14 +2430,10 @@ namespace eval vim {
       return 1
     } elseif {$mode($txt) eq "delete"} {
       if {[multicursor::enabled $txt]} {
-        foreach {endpos startpos} [lreverse [$txt tag ranges mcursor]] {
-          if {[regexp $patterns(space) [$txt get $startpos "$startpos lineend"] -> space]} {
-            $txt delete $startpos "$startpos+[string length $space]c"
-          }
-        }
+        [ns multicursor]::delete $txt pattern $patterns(space)
       } else {
-        if {[regexp $patterns(space) [$txt get insert "insert lineend"] -> space]} {
-          $txt delete insert "insert+[string length $space]c"
+        if {[regexp $patterns(space) [$txt get insert "insert lineend"] match]} {
+          $txt delete insert "insert+[string length $match]c"
         }
       }
       start_mode $txt

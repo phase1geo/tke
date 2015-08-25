@@ -411,9 +411,10 @@ namespace eval multicursor {
   # - word      = Delete the number of words from the current cursor.
   # - linestart = Delete the line from the start to the current cursor.
   # - lineend   = Delete the line from the current cursor to the end of the line.
+  # - pattern   = Delete if the start of the text matches the given pattern.
   # - -#type    = Delete # of types prior to the cursor to the cursor.
   # - +#type    = Delete from the cursor to # of types after the cursor.
-  proc delete {txt suffix {num 1}} {
+  proc delete {txt suffix {data ""}} {
     
     variable selected
     
@@ -432,7 +433,7 @@ namespace eval multicursor {
         }
       } elseif {$suffix eq "word"} {
         foreach {start end} [$txt tag ranges mcursor] {
-          $txt delete $start "[[ns vim]::get_word $txt next [expr $num - 1] $start] wordend"
+          $txt delete $start "[[ns vim]::get_word $txt next [expr $data - 1] $start] wordend"
           $txt tag add mcursor $start
         }
       } elseif {$suffix eq "linestart"} {
@@ -445,6 +446,13 @@ namespace eval multicursor {
           $txt delete $start "$start lineend"
           if {[$txt compare $start > "$start linestart"]} {
             $txt tag add mcursor "$start-1c"
+          }
+        }
+      } elseif {$suffix eq "pattern"} {
+        foreach {end start} [lreverse [$txt tag ranges mcursor]] {
+          if {[regexp $data [$txt get $start "$start lineend"] match]} {
+            $txt delete $start "$start+[string length $match]c"
+            $txt tag add mcursor $start
           }
         }
       } elseif {[string index $suffix 0] eq "-"} {
