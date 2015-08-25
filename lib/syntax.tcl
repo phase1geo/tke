@@ -48,6 +48,7 @@ namespace eval syntax {
     miscellaneous2     {}
     miscellaneous3     {}
     highlighter        {}
+    meta               {}
     advanced           {}
   }
   array set langs      {}
@@ -397,6 +398,7 @@ namespace eval syntax {
         set_language_section $txt miscellaneous2 $lang_array(miscellaneous2)
         set_language_section $txt miscellaneous3 $lang_array(miscellaneous3)
         set_language_section $txt highlighter    $lang_array(highlighter)
+        set_language_section $txt meta           $lang_array(meta)
         set_language_section $txt advanced       $lang_array(advanced) $cmd_prefix
 
         # Add the comments and strings
@@ -762,7 +764,9 @@ namespace eval syntax {
   proc get_markdown_overstrike {txt startpos endpos} {
 
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-3c"] ne "\\")} {
-      return [list [list [list strike [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] [list]]] ""]
+      return [list [list [list strike [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] [list]] \
+                         [list grey   $startpos [$txt index "$startpos+2c"] [list]] \
+                         [list grey   [$txt index "$endpos-2c"] $endpos [list]]] ""]
     }
 
     return ""
@@ -774,7 +778,9 @@ namespace eval syntax {
   proc get_markdown_highlight {txt startpos endpos} {
 
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-3c"] ne "\\")} {
-      return [list [list [list hilite [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] [list]]] ""]
+      return [list [list [list hilite [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] [list]] \
+                         [list grey   $startpos [$txt index "$startpos+2c"] [list]] \
+                         [list grey   [$txt index "$endpos-2c"] $endpos [list]]] ""]
     }
 
     return ""

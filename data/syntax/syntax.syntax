@@ -28,7 +28,7 @@ keywords
 {
   filepatterns matchcharsallowed tabsallowed casesensitive indent unindent keywords symbols
   icomment lcomments bcomments strings numbers punctuation precompile miscellaneous1 miscellaneous2
-  miscellaneous3 highlighter advanced
+  miscellaneous3 highlighter meta advanced
   HighlightClass
   HighlightKeywords
   HighlightRegexp
@@ -39,7 +39,7 @@ symbols
 {
   HighlightKeywords {
     filepatterns matchcharsallowed tabsallowed casesensitive indent unindent icomment lcomments bcomments
-    strings symbols numbers punctuation precompile miscellaneous1 miscellaneous2 miscellaneous3
+    strings symbols numbers punctuation precompile miscellaneous1 miscellaneous2 miscellaneous3 meta
     advanced
   } syntax::get_syntax_symbol
 }
@@ -58,5 +58,9 @@ miscellaneous1 {}
 miscellaneous2 {}
 
 miscellaneous3 {}
+
+highlighter {}
+
+meta {}
 
 advanced {}

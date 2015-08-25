@@ -97,6 +97,7 @@ namespace eval themer {
     miscellaneous2    {""       "-foreground" "" 1 0}
     miscellaneous3    {""       "-foreground" "" 1 0}
     highlighter       {"yellow" ""            "" 0 0}
+    meta              {""       "-foreground" "" 0 0}
   }
 
   # Add trace to the labels array
@@ -129,7 +130,7 @@ namespace eval themer {
           set_button_image $l $lcolor
         }
       }
-      foreach tlbl [list warning_width line_number] {
+      foreach tlbl [list warning_width line_number meta] {
         if {[lindex $labels($tlbl) $label_index(changed)] == 0} {
           lset labels($tlbl) $label_index(color) [utils::auto_adjust_color $color 40]
         }
@@ -267,6 +268,7 @@ namespace eval themer {
                   lset labels(background)    $label_index(color) $color
                   lset labels(background)    $label_index(scope) "background"
                   lset labels(warning_width) $label_index(color) [utils::auto_adjust_color $color 40]
+                  lset labels(meta)          $label_index(color) [utils::auto_adjust_color $color 40]
                   set all_scopes(background) $color
                 }
               } elseif {$caret} {
@@ -1033,6 +1035,7 @@ namespace eval themer {
     lset labels(highlighter)       $label_index(color) "yellow"
     lset labels(line_number)       $label_index(color) [utils::auto_adjust_color "black" 40]
     lset labels(warning_width)     $label_index(color) [utils::auto_adjust_color "black" 40]
+    lset labels(meta)              $label_index(color) [utils::auto_adjust_color "black" 40]
     lset labels(difference_sub)    $label_index(color) [utils::auto_mix_colors "black" r 30]
     lset labels(difference_add)    $label_index(color) [utils::auto_mix_colors "black" g 30]
 

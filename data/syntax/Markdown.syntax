@@ -24,6 +24,7 @@ advanced {
   HighlightClass ccode   precompile     {code}
   HighlightClass strike  none           {overstrike}
   HighlightClass hilite  highlighter    {}
+  HighlightClass grey    meta           {}
 
   HighlightRegexp {``.+?``}                     syntax::get_markdown_ccode
   HighlightRegexp {`.+?`}                       syntax::get_markdown_code
@@ -36,8 +37,3 @@ advanced {
   HighlightRegexp {(={2})(?=\S).+?\1}           syntax::get_markdown_highlight
 }
 
-highlighter {
-  HighlightKeywords {
-    foobar
-  }
-}
