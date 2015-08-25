@@ -741,7 +741,7 @@ namespace eval gui {
     [current_txt $tid] configure -linemap $value
 
   }
-
+  
   ######################################################################
   # Changes the given filename to the new filename in the file list and
   # updates the tab name to match the new name.
