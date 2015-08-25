@@ -1231,6 +1231,10 @@ namespace eval menus {
     }
     launcher::register [msgcat::mc "Menu: Show Line Numbers"] "menus::show_line_numbers $mb"
     launcher::register [msgcat::mc "Menu: Hide Line Numbers"] "menus::hide_line_numbers $mb"
+    
+    $mb add command -label [msgcat::mc "Hide Meta Characters"] -underline 5 -command "menus::hide_meta_chars $mb"
+    launcher::register [msgcat::mc "Menu: Show meta characters"] "menus::show_meta_chars $mb"
+    launcher::register [msgcat::mc "Menu: Hide meta characters"] "menus::hide_meta_chars $mb"
 
     $mb add separator
 
@@ -1294,19 +1298,29 @@ namespace eval menus {
     if {[gui::current_txt {}] eq ""} {
       catch { $mb entryconfigure [msgcat::mc "Show Line Numbers"]  -state disabled }
       catch { $mb entryconfigure [msgcat::mc "Hide Line Numbers"]  -state disabled }
+      catch { $mb entryconfigure [msgcat::mc "Show Meta Characters"] -state disabled }
+      catch { $mb entryconfigure [msgcat::mc "Hide Meta Characters"] -state disabled }
       $mb entryconfigure [msgcat::mc "Split View"]         -state disabled
       $mb entryconfigure [msgcat::mc "Move to Other Pane"] -state disabled
       $mb entryconfigure [msgcat::mc "Set Syntax"]         -state disabled
     } else {
       catch { $mb entryconfigure [msgcat::mc "Show Line Numbers"]  -state normal }
       catch { $mb entryconfigure [msgcat::mc "Hide Line Numbers"]  -state normal }
-      $mb entryconfigure [msgcat::mc "Split View"]         -state normal
+      puts "tags: [[gui::current_txt {}] tag names]"
+      if {[syntax::contains_meta_chars [gui::current_txt {}]]} {
+        catch { $mb entryconfigure [msgcat::mc "Show Meta Characters"] -state normal }
+        catch { $mb entryconfigure [msgcat::mc "Hide Meta Characters"] -state normal }
+      } else {
+        catch { $mb entryconfigure [msgcat::mc "Show Meta Characters"] -state disabled }
+        catch { $mb entryconfigure [msgcat::mc "Hide Meta Characters"] -state disabled }
+      }
+      $mb entryconfigure [msgcat::mc "Split View"] -state normal
       if {[gui::movable_to_other_pane]} {
         $mb entryconfigure [msgcat::mc "Move to Other Pane"] -state normal
       } else {
         $mb entryconfigure [msgcat::mc "Move to Other Pane"] -state disabled
       }
-      $mb entryconfigure [msgcat::mc "Set Syntax"]         -state normal
+      $mb entryconfigure [msgcat::mc "Set Syntax"] -state normal
       set show_split_pane [expr {[llength [[gui::current_txt {}] peer names]] > 0}]
     }
 
@@ -1444,6 +1458,28 @@ namespace eval menus {
     # Convert the menu command into the hide line numbers command
     if {![catch {$mb entryconfigure [msgcat::mc "Hide Line Numbers"] -label [msgcat::mc "Show Line Numbers"] -command "menus::show_line_numbers $mb"}]} {
       gui::set_line_number_view {} 0
+    }
+
+  }
+  
+  ######################################################################
+  # Shows the meta characters in the current edit window.
+  proc show_meta_chars {mb} {
+    
+    # Convert the menu command into the hide line numbers command
+    if {![catch {$mb entryconfigure [msgcat::mc "Show Meta Characters"] -label [msgcat::mc "Hide Meta Characters"] -command "menus::hide_meta_chars $mb"}]} {
+      syntax::set_meta_visibility [gui::current_txt {}] 1
+    }
+
+  }
+  
+  ######################################################################
+  # Hides the meta characters in the current edit window.
+  proc hide_meta_chars {mb} {
+    
+    # Convert the menu command into the hide line numbers command
+    if {![catch {$mb entryconfigure [msgcat::mc "Hide Meta Characters"] -label [msgcat::mc "Show Meta Characters"] -command "menus::show_meta_chars $mb"}]} {
+      syntax::set_meta_visibility [gui::current_txt {}] 0
     }
 
   }

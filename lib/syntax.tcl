@@ -56,6 +56,7 @@ namespace eval syntax {
   array set themes     {}
   array set theme      {}
   array set curr_theme {}
+  array set meta_tags  {}
   array set colorizers {
     keywords       1
     comments       1
@@ -456,6 +457,9 @@ namespace eval syntax {
   proc set_language_section {txt section section_list {cmd_prefix ""}} {
 
     variable theme
+    variable meta_tags
+    
+    set meta_tags($txt) "meta"
 
     switch $section {
       "advanced" -
@@ -469,6 +473,9 @@ namespace eval syntax {
                 ctext::addHighlightClass $txt $name $theme(background) $theme($color) $modifiers
               } else {
                 ctext::addHighlightClass $txt $name $theme($color) "" $modifiers
+              }
+              if {$color eq "meta"} {
+                lappend meta_tags($txt) $name
               }
             }
           } else {
@@ -503,6 +510,40 @@ namespace eval syntax {
       }
     }
 
+  }
+  
+  ######################################################################
+  # Returns true if the given text widget contains meta characters.
+  proc contains_meta_chars {txt} {
+    
+    variable meta_tags
+    
+    set all_tags [ctext::getHighlightClasses $txt]
+    
+    foreach tag $meta_tags($txt) {
+      if {[lsearch $all_tags $tag] != -1} {
+        return 1
+      }
+    }
+    
+    return 0
+    
+  }
+  
+  ######################################################################
+  # Sets the visibility of all meta tags to the given value.
+  proc set_meta_visibility {txt value} {
+    
+    variable meta_tags
+    
+    set all_tags [ctext::getHighlightClasses $txt]
+    
+    foreach tag $meta_tags($txt) {
+      if {[lsearch $all_tags $tag] != -1} {
+        $txt tag configure _$tag -elide [expr $value ^ 1]
+      }
+    }
+    
   }
 
   ######################################################################
@@ -688,9 +729,11 @@ namespace eval syntax {
 
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-3c"] ne "\\")} {
       $txt tag remove _code $startpos $endpos
-      return [list [list [list ccode [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] [list]] \
+      return [list [list [list ccode       [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] [list]] \
                          [list codemarkers $startpos [$txt index "$startpos+2c"] [list]] \
                          [list codemarkers [$txt index "$endpos-2c"] $endpos [list]]] ""]
+                         [list grey        $startpos [$txt index "$startpos+2c"] [list]] \
+                         [list grey        [$txt index "$endpos-2c"] $endpos [list]]] ""]
     }
 
     return ""
@@ -704,7 +747,9 @@ namespace eval syntax {
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-2c"] ne "\\")} {
       if {([lsearch [$txt tag names $startpos]    _codemarkers] == -1) && \
           ([lsearch [$txt tag names "$endpos-1c"] _codemarkers] == -1)} {
-        return [list [list [list code [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]]] ""]
+        return [list [list [list code [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]] \
+                           [list grey $startpos [$txt index "$startpos+1c"] [list]] \
+                           [list grey [$txt index "$endpos-1c"] $endpos [list]]] ""]
       } else {
         return [list [list] [$txt index "$startpos+2c"]
       }
@@ -720,7 +765,8 @@ namespace eval syntax {
 
     if {[regexp {(#{1,6})[^#]+} [$txt get $startpos $endpos] all hashes]} {
       set num [string length $hashes]
-      return [list [list [list h$num [$txt index "$startpos+${num}c"] [$txt index "$startpos+[string length $all]c"] [list]]] ""]
+      return [list [list [list h$num [$txt index "$startpos+${num}c"] [$txt index "$startpos+[string length $all]c"] [list]] \
+                         [list grey  $startpos [$txt index "$startpos+${num}c"] [list]]] ""]
     }
 
     return ""
@@ -735,7 +781,9 @@ namespace eval syntax {
       $txt tag remove _italics $startpos $endpos
       return [list [list [list bold        [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] [list]] \
                          [list boldmarkers $startpos [$txt index "$startpos+2c"] [list]] \
-                         [list boldmarkers [$txt index "$endpos-2c"] $endpos [list]]] ""]
+                         [list boldmarkers [$txt index "$endpos-2c"] $endpos [list]] \
+                         [list grey        $startpos [$txt index "$startpos+2c"] [list]] \
+                         [list grey        [$txt index "$endpos-2c"] $endpos [list]]] ""]
     }
 
     return ""
@@ -749,7 +797,9 @@ namespace eval syntax {
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-2c"] ne "\\")} {
       if {([lsearch [$txt tag names $startpos]    _boldmarkers] == -1) && \
           ([lsearch [$txt tag names "$endpos-1c"] _boldmarkers] == -1)} {
-        return [list [list [list italics [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]]] ""]
+        return [list [list [list italics [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]] \
+                           [list grey    $startpos [$txt index "$startpos+1c"] [list]] \
+                           [list grey    [$txt index "$endpos-1c"] $endpos [list]]] ""]
       } else {
         return [list [list] [$txt index "$startpos+2c"]]
       }
@@ -792,7 +842,7 @@ namespace eval syntax {
   proc get_markdown_link {txt startpos endpos} {
 
     if {[$txt get "$startpos-1c"] ne "\\"} {
-      if {[regexp {^\[(.+?)\](\s*\[(.*?)\]|\((.*?)\))} [$txt get $startpos $endpos] -> label ref linkref url]} {
+      if {[regexp {^\[(.+?)\]((\s*)\[(.*?)\]|\((.*?)\))} [$txt get $startpos $endpos] -> label dummy ref linkref url]} {
         if {[string index [string trim $ref] 0] eq "\["} {
           if {$linkref eq ""} {
             set cmd "syntax::handle_markdown_reflink_click $txt [string tolower $label]"
@@ -802,7 +852,12 @@ namespace eval syntax {
         } else {
           set cmd "utils::open_file_externally [lindex $url 0]"
         }
-        return [list [list [list link [$txt index "$startpos+1c"] [$txt index "$startpos+[expr [string length $label] + 1]c"] $cmd]] ""]
+        set start2a [expr [string length $label] + 1]
+        set start2b [expr [string length $label] + [string length $dummy] + 2]
+        return [list [list [list link [$txt index "$startpos+1c"] [$txt index "$startpos+[expr [string length $label] + 1]c"] $cmd] \
+                           [list grey $startpos [$txt index "$startpos+1c"] [list]] \
+                           [list grey [$txt index "$startpos+${start2a}c"] [$txt index "$startpos+${start2b}c"] [list]] \
+                           [list grey [$txt index "$endpos-1c"] $endpos [list]]] ""]
       }
     }
 
