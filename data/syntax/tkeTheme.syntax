@@ -26,7 +26,7 @@ keywords
 {
   background foreground selectbackground selectforeground highlightcolor cursor warnwidthcolor
   keywords comments strings numbers punctuation precompile miscellaneous1 miscellaneous2 miscellaneous3
-  highlighter
+  highlighter meta
 }
 
 symbols
@@ -34,7 +34,7 @@ symbols
   HighlightKeywords {
     background foreground selectbackground selectforeground highlightcolor cursor warnwidthcolor
     keywords comments strings numbers punctuation precompile miscellaneous1 miscellaneous2 miscellaneous3
-    highlighter
+    highlighter meta
   } {}
 }
 

@@ -2471,7 +2471,7 @@ proc ctext::handle_tag {win class startpos endpos cmd} {
     }
     linemapUpdate $win
   }
-
+  
 }
 
 proc ctext::doHighlight {win start end} {
