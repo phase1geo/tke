@@ -449,10 +449,19 @@ namespace eval multicursor {
           }
         }
       } elseif {$suffix eq "pattern"} {
-        foreach {end start} [lreverse [$txt tag ranges mcursor]] {
-          if {[regexp $data [$txt get $start "$start lineend"] match]} {
-            $txt delete $start "$start+[string length $match]c"
-            $txt tag add mcursor $start
+        if {[string index $data 0] eq "^"} {
+          foreach {end start} [lreverse [$txt tag ranges mcursor]] {
+            if {[regexp $data [$txt get $start "$start lineend"] match]} {
+              $txt delete $start "$start+[string length $match]c"
+              $txt tag add mcursor $start
+            }
+          }
+        } else {
+          foreach {end start} [lreverse [$txt tag ranges mcursor]] {
+            if {[regexp $data [$txt get "$start linestart" $start] match]} {
+              $txt delete "$start-[string length $match]c" $start
+              $txt tag add mcursor "$start-[string length $match]c"
+            }
           }
         }
       } elseif {[string index $suffix 0] eq "-"} {
