@@ -1306,7 +1306,6 @@ namespace eval menus {
     } else {
       catch { $mb entryconfigure [msgcat::mc "Show Line Numbers"]  -state normal }
       catch { $mb entryconfigure [msgcat::mc "Hide Line Numbers"]  -state normal }
-      puts "tags: [[gui::current_txt {}] tag names]"
       if {[syntax::contains_meta_chars [gui::current_txt {}]]} {
         catch { $mb entryconfigure [msgcat::mc "Show Meta Characters"] -state normal }
         catch { $mb entryconfigure [msgcat::mc "Hide Meta Characters"] -state normal }
