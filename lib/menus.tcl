@@ -402,7 +402,7 @@ namespace eval menus {
   # Saves the current tab file.
   proc save_command {} {
 
-    if {[set sfile [gui::current_filename]] eq ""} {
+    if {[set sfile [gui::current_filename]] eq "Untitled"} {
       save_as_command
     } else {
       gui::save_current {} $sfile

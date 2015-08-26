@@ -1118,7 +1118,8 @@ namespace eval gui {
 
     # If we have no more tabs and there is another pane, remove this pane
     return [expr {([llength $files] == 1) && \
-                  ([lindex $files 0 $files_index(fname)] eq "") && \
+                  ([lindex $files 0 $files_index(fname)] eq "Untitled") && \
+                  [lindex $files 0 $files_index(buffer)] && \
                   ([vim::get_cleaned_content [get_txt_from_tab [lindex [[lindex [$widgets(nb_pw) panes] 0].tbf.tb tabs] 0]]] eq "")}]
 
   }
@@ -1131,7 +1132,6 @@ namespace eval gui {
   # Several options are available:
   # -lock     <bool>     Initial lock setting.
   # -readonly <bool>     Set if file should not be saveable.
-  # -sidebar  <bool>     Specifies if file/directory should be added to the sidebar.
   # -gutters  <list>     Creates a gutter in the editor.  The contents of list are as follows:
   #                        {name {{symbol_name {symbol_tag_options+}}+}}+
   #                      For a list of valid symbol_tag_options, see the options available for
@@ -1173,10 +1173,10 @@ namespace eval gui {
     }
 
     # Adjust the index (if necessary)
-    set index [adjust_insert_tab_index $index "Untitled"]
+    set index [adjust_insert_tab_index $index $name]
 
     # Get the current index
-    set w [insert_tab $index [msgcat::mc "Untitled"] 0 $opts(-gutters) $opts(-tags)]
+    set w [insert_tab $index $name 0 $opts(-gutters) $opts(-tags)]
 
     # Create the file info structure
     set file_info [lrepeat [array size files_index] ""]
@@ -1186,7 +1186,7 @@ namespace eval gui {
     lset file_info $files_index(tab)      $w
     lset file_info $files_index(lock)     $opts(-lock)
     lset file_info $files_index(readonly) $opts(-readonly)
-    lset file_info $files_index(sidebar)  $opts(-sidebar)
+    lset file_info $files_index(sidebar)  0
     lset file_info $files_index(buffer)   1
     lset file_info $files_index(modified) 0
     lset file_info $files_index(gutters)  $opts(-gutters)
@@ -1196,16 +1196,8 @@ namespace eval gui {
     # Add the file information to the files list
     lappend files $file_info
 
-    # Add the file's directory to the sidebar and highlight it
-    if {$opts(-sidebar)} {
-      sidebar::add_directory [pwd]
-    }
-
     # Set the tab image for the current file
     set_current_tab_image {}
-
-    # Run any plugins that need to be run when a file is opened
-    plugins::handle_on_open [expr [llength $files] - 1]
 
   }
 
@@ -1236,10 +1228,16 @@ namespace eval gui {
 
     variable files
     variable files_index
+    
+    # Get the current file index
+    set file_index [current_file]
+    
+    # Set the buffer state to 0 and clear the save command
+    lset files $file_index $files_index(buffer)   0
+    lset files $file_index $files_index(save_cmd) ""
 
-    # Set the buffer state to 0
-    lset files [current_file] $files_index(buffer) 0
-
+    return 1
+      
   }
 
   ######################################################################
@@ -1555,19 +1553,30 @@ namespace eval gui {
 
     # Get the current file index
     set file_index [current_file]
+    
+    # Get the save command
+    set save_cmd [lindex $files $file_index $files_index(save_cmd)]
+    
+    # If the current file is a buffer and it has a save command, run the save command
+    if {[lindex $files $file_index $files_index(buffer)] && ($save_cmd ne "")} {
+        
+      # Execute the save command.  If it errors or returns a value of 0, return immediately
+      if {[catch { eval $save_cmd } rc] || ($rc == 0)} {
+        return
+      }
+      
+    }
 
     # Get the difference mode of the current file
     set diff [lindex $files $file_index $files_index(diff)]
-
+ 
     # If a save_as name is specified, change the filename
     if {$save_as ne ""} {
       sidebar::highlight_filename [lindex $files $file_index $files_index(fname)] [expr $diff * 2]
       lset files $file_index $files_index(fname) $save_as
-
+ 
     # If the current file doesn't have a filename, allow the user to set it
-    } elseif {([lindex $files $file_index $files_index(fname)] eq "") || \
-               [lindex $files $file_index $files_index(buffer)] || \
-               $diff} {
+    } elseif {[lindex $files $file_index $files_index(buffer)] || $diff} {
       set save_opts [list]
       if {[llength [set extensions [syntax::get_extensions $tid]]] > 0} {
         lappend save_opts -defaultextension [lindex $extensions 0]
@@ -1578,21 +1587,21 @@ namespace eval gui {
         lset files $file_index $files_index(fname) $sfile
       }
     }
-
+  
     # Run the on_save plugins
     plugins::handle_on_save $file_index
-
+  
     # Save the file contents
     if {[catch { open [lindex $files $file_index $files_index(fname)] w } rc]} {
       tk_messageBox -parent . -title [msgcat::mc "Error"] -type ok -default ok -message [msgcat::mc "Unable to write file"] -detail $rc
       return
     }
-
+  
     # Write the file contents
     catch { fconfigure $rc -translation [[ns preferences]::get {Editor/EndOfLineTranslation}] }
     puts $rc [scrub_text [current_txt $tid]]
     close $rc
-
+      
     # If the file doesn't have a timestamp, it's a new file so add and highlight it in the sidebar
     if {([lindex $files $file_index $files_index(mtime)] eq "") || ($save_as ne "")} {
 
@@ -1621,7 +1630,7 @@ namespace eval gui {
     # Update the timestamp
     file stat [lindex $files $file_index $files_index(fname)] stat
     lset files $file_index $files_index(mtime) $stat(mtime)
-
+    
     # Change the tab text
     $tb tab current -text " [file tail [lindex $files $file_index $files_index(fname)]]"
     set_title
@@ -1631,8 +1640,8 @@ namespace eval gui {
     lset files $file_index $files_index(modified) 0
 
     # If there is a save command, run it now
-    if {[lindex $files $file_index $files_index(save_cmd)] ne ""} {
-      eval [lindex $files $file_index $files_index(save_cmd)]
+    if {[set save_cmd [lindex $files $file_index $files_index(save_cmd)]] ne ""} {
+      eval $save_cmd
     }
 
   }
@@ -1657,7 +1666,7 @@ namespace eval gui {
 
         # If the file needs to be saved as a new filename, call the save_current
         # procedure
-        if {[lindex $files $i $files_index(fname)] eq ""} {
+        if {[lindex $files $i $files_index(fname)] eq "Untitled"} {
 
           set_current_tab $tab
           save_current
@@ -1678,7 +1687,7 @@ namespace eval gui {
 
           # Write the file contents
           catch { fconfigure $rc -translation [[ns preferences]::get {Editor/EndOfLineTranslation}] }
-          puts $rc [vim::get_cleaned_content $txt]
+          puts $rc [scrub_text $txt]
           close $rc
 
           # Update the timestamp
@@ -1727,10 +1736,7 @@ namespace eval gui {
         ![lindex $files $file_index $files_index(diff)]    && \
         !$force} {
       set fname [file tail [lindex $files $file_index $files_index(fname)]]
-      if {$fname eq ""} {
-        set fname "Untitled"
-      }
-      set msg "[msgcat::mc Save] $fname?"
+      set msg   "[msgcat::mc Save] $fname?"
       if {[set answer [tk_messageBox -default yes -type [expr {$exiting ? {yesno} : {yesnocancel}}] -message $msg -title [msgcat::mc "Save request"]]] eq "yes"} {
         save_current $tid
       } elseif {$answer eq "cancel"} {
