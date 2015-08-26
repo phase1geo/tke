@@ -520,9 +520,11 @@ namespace eval syntax {
     
     set all_tags [ctext::getHighlightClasses $txt]
     
-    foreach tag $meta_tags($txt) {
-      if {[lsearch $all_tags $tag] != -1} {
-        return 1
+    if {[info exists meta_tags($txt)]} {
+      foreach tag $meta_tags($txt) {
+        if {[lsearch $all_tags $tag] != -1} {
+          return 1
+        }
       }
     }
     
@@ -538,9 +540,11 @@ namespace eval syntax {
     
     set all_tags [ctext::getHighlightClasses $txt]
     
-    foreach tag $meta_tags($txt) {
-      if {[lsearch $all_tags $tag] != -1} {
-        $txt tag configure _$tag -elide [expr $value ^ 1]
+    if {[info exists meta_tags($txt)]} {
+      foreach tag $meta_tags($txt) {
+        if {[lsearch $all_tags $tag] != -1} {
+          $txt tag configure _$tag -elide [expr $value ^ 1]
+        }
       }
     }
     
