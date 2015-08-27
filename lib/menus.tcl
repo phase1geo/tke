@@ -982,14 +982,11 @@ namespace eval menus {
         set find_expr [string range $find_expr 1 end]
       }
       
-      set find_expr "^\\s*\\d+:\\s$find_expr"
-
       # Highlight and bind the matches
       $txt tag configure fif -underline 1 -borderwidth 1 -relief raised -foreground black -background yellow
       set i 0
       foreach index [$txt search -regexp -all -count find_counts -- $find_expr $last_line] {
-        regexp {^\s*\d+:\s} [$txt get $index "$index+[lindex $find_counts $i]c"] prefix
-        $txt tag add fif "$index+[string length $prefix]c" "$index + [lindex $find_counts $i]c"
+        $txt tag add fif $index "$index + [lindex $find_counts $i]c"
         $txt tag bind fif <Enter>           { %W configure -cursor hand2 }
         $txt tag bind fif <Leave>           { %W configure -cursor $menus::txt_cursor }
         $txt tag bind fif <ButtonRelease-1> { menus::find_in_files_handle_click %W %x %y }
