@@ -98,7 +98,7 @@ namespace eval preferences {
 
     variable user_preferences_file
 
-    [ns gui]::add_file end $user_preferences_file -sidebar 0 -savecommand preferences::load_file
+    [ns gui]::add_buffer end "User Preferences" preferences::save_buffer_contents
 
   }
 
@@ -110,6 +110,37 @@ namespace eval preferences {
     set language [[ns syntax]::get_current_language [[ns gui]::current_txt {}]]
 
     [ns gui]::add_file end [file join $::tke_home preferences.$language.tkedat] -sidebar 0 -savecommand "preferences::load_file $language"
+    [ns gui]::add_buffer end "$language Preferences" "preferences::save_buffer_contents $language"
+
+  }
+
+  ######################################################################
+  # Gathers the buffer contents and updates the preference data.
+  proc save_buffer_contents {{language ""}} {
+
+    variable loaded_prefs
+    variable user_preferences_file
+
+    # Get the current buffer
+    set txt [[ns gui]::current_txt {}]
+
+    # Get the buffer contents
+    set data [[ns gui]::scrub_text $txt]
+
+    # Get the buffer contents and store them in the appropriate array
+    if {$language eq ""} {
+      set pfile $user_preferences_file
+      array set loaded_prefs(user) $data
+    } else {
+      set pfile [file join $::tke_home preferences.$language.tkedat]
+      array set loaded_prefs($language) $data
+    }
+
+    # Save the data to the preference file
+    [ns tkedat]::write $pname $data
+
+    # Update the UI
+    update_prefs
 
   }
 
@@ -224,35 +255,35 @@ namespace eval preferences {
     }
 
   }
-  
+
   ######################################################################
   # Loads session information.
   proc load_session {data} {
-    
+
     variable loaded_prefs
-    
+
     # Save off the original preference information
     set orig_prefs [array get loaded_prefs]
-    
+
     # Set the incoming preference information into the loaded_prefs array
     array set loaded_prefs $data
-    
+
     # Update the UI
     update_prefs
-    
+
     # Restore the original preferences
     array set loaded_prefs $orig_prefs
-    
+
   }
-  
+
   ######################################################################
   # Save session information.
   proc save_session {} {
-    
+
     variable loaded_prefs
-    
+
     return [array get loaded_prefs]
-    
+
   }
 
 }
