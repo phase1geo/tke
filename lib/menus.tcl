@@ -616,11 +616,19 @@ namespace eval menus {
     launcher::register [msgcat::mc "Menu: Format all text"] "gui::format {} selected"
 
     # Create preferences menu
-    $mb.prefPopup add command -label [msgcat::mc "Edit User"] -command "preferences::edit_user"
-    launcher::register [msgcat::mc "Menu: Edit user preferences"] "preferences::edit_user"
+    $mb.prefPopup add command -label [msgcat::mc "Edit User - Global"] -command "menus::edit_user_global"
+    launcher::register [msgcat::mc "Menu: Edit user global preferences"] "menus::edit_user_global"
 
-    $mb.prefPopup add command -label [msgcat::mc "Edit Language"] -command "preferences::edit_language"
-    launcher::register [msgcat::mc "Menu: Edit language preferences"] "preferences::edit_language"
+    $mb.prefPopup add command -label [msgcat::mc "Edit User - Language"] -command "menus::edit_user_language"
+    launcher::register [msgcat::mc "Menu: Edit user current language preferences"] "menus::edit_user_language"
+
+    $mb.prefPopup add separator
+
+    $mb.prefPopup add command -label [msgcat::mc "Edit Session - Global"] -command "menus::edit_session_global"
+    launcher::register [msgcat::mc "Menu: Edit session global preferences"] "menus::edit_session_global"
+
+    $mb.prefPopup add command -label [msgcat::mc "Edit Session - Language"] -command "menus::edit_session_language"
+    launcher::register [msgcat::mc "Menu: Edit session current language preferences"] "menus::edit_session_language"
 
     $mb.prefPopup add separator
 
@@ -746,9 +754,17 @@ namespace eval menus {
   proc edit_preferences_posting {mb} {
 
     if {[gui::current_txt {}] eq ""} {
-      $mb entryconfigure [msgcat::mc "Edit Language"] -state disabled
+      $mb entryconfigure [msgcat::mc "Edit User - Language"]    -state disabled
+      $mb entryconfigure [msgcat::mc "Edit Session - Language"] -state disabled
     } else {
-      $mb entryconfigure [msgcat::mc "Edit Language"] -state normal
+      $mb entryconfigure [msgcat::mc "Edit User - Language"] -state normal
+      if {[sessions::current] eq ""} {
+        $mb entryconfigure [msgcat::mc "Edit Session - Global"]   -state disabled
+        $mb entryconfigure [msgcat::mc "Edit Session - Language"] -state disabled
+      } else {
+        $mb entryconfigure [msgcat::mc "Edit Session - Global"]   -state normal
+        $mb entryconfigure [msgcat::mc "Edit Session - Language"] -state normal
+      }
     }
 
   }
@@ -765,6 +781,38 @@ namespace eval menus {
     } else {
       $mb entryconfigure [msgcat::mc "Edit Language"] -state normal
     }
+
+  }
+
+  ######################################################################
+  # Edits the user global preference settings.
+  proc edit_user_global {} {
+
+    preferences::edit_global
+
+  }
+
+  ######################################################################
+  # Edits the user current language preference settings.
+  proc edit_user_language {} {
+
+    preferences::edit_language
+
+  }
+
+  ######################################################################
+  # Edits the session global preference settings.
+  proc edit_session_global {} {
+
+    preferences::edit_global [sessions::current]
+
+  }
+
+  ######################################################################
+  # Edits the session current language preference settings.
+  proc edit_session_language {} {
+
+    preferences::edit_language [sessions::current]
 
   }
 
@@ -958,7 +1006,7 @@ namespace eval menus {
     variable txt_cursor
 
     # Add the file to the viewer
-    gui::add_file end Results -sidebar 0 -buffer 1 -other [preferences::get View/ShowFindInFileResultsInOtherPane]
+    gui::add_buffer end Results -readonly 1 -other [preferences::get View/ShowFindInFileResultsInOtherPane]
 
     # Add bindings to allow one-click file opening
     set txt [gui::current_txt {}]
@@ -976,12 +1024,12 @@ namespace eval menus {
 
       # Append the results to the text widget
       $txt insert end [find_in_files_format $data]
-      
+
       # Modify find_expr so that information in results window will match
       if {[string index $find_expr 0] eq "^"} {
         set find_expr [string range $find_expr 1 end]
       }
-      
+
       # Highlight and bind the matches
       $txt tag configure fif -underline 1 -borderwidth 1 -relief raised -foreground black -background yellow
       set i 0
@@ -1236,7 +1284,7 @@ namespace eval menus {
     }
     launcher::register [msgcat::mc "Menu: Show Line Numbers"] "menus::show_line_numbers $mb"
     launcher::register [msgcat::mc "Menu: Hide Line Numbers"] "menus::hide_line_numbers $mb"
-    
+
     $mb add command -label [msgcat::mc "Hide Meta Characters"] -underline 5 -command "menus::hide_meta_chars $mb"
     launcher::register [msgcat::mc "Menu: Show meta characters"] "menus::show_meta_chars $mb"
     launcher::register [msgcat::mc "Menu: Hide meta characters"] "menus::hide_meta_chars $mb"
@@ -1465,22 +1513,22 @@ namespace eval menus {
     }
 
   }
-  
+
   ######################################################################
   # Shows the meta characters in the current edit window.
   proc show_meta_chars {mb} {
-    
+
     # Convert the menu command into the hide line numbers command
     if {![catch {$mb entryconfigure [msgcat::mc "Show Meta Characters"] -label [msgcat::mc "Hide Meta Characters"] -command "menus::hide_meta_chars $mb"}]} {
       syntax::set_meta_visibility [gui::current_txt {}] 1
     }
 
   }
-  
+
   ######################################################################
   # Hides the meta characters in the current edit window.
   proc hide_meta_chars {mb} {
-    
+
     # Convert the menu command into the hide line numbers command
     if {![catch {$mb entryconfigure [msgcat::mc "Hide Meta Characters"] -label [msgcat::mc "Show Meta Characters"] -command "menus::show_meta_chars $mb"}]} {
       syntax::set_meta_visibility [gui::current_txt {}] 0
