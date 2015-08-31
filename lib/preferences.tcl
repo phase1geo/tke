@@ -45,19 +45,22 @@ namespace eval preferences {
   ######################################################################
   # Called whenever the current text is changed.  Reloads the preferences
   # based on the given set of preferences.
-  proc update_prefs {} {
+  proc update_prefs {{session ""}} {
 
     variable loaded_prefs
     variable prefs
 
-    # Load the user prefs
-    array set temp_prefs $loaded_prefs(user)
+    # Figure out key prefix
+    set prefix [expr {($session eq "") ? "user" : "session,$session"}]
+
+    # Load the user global prefs
+    array set temp_prefs $loaded_prefs($prefix,global)
 
     # Load language-specific preferences
     if {([set txt [[ns gui]::current_txt {}]] ne "") && \
         ([set language [[ns syntax]::get_current_language $txt]] ne "None") && \
-        [info exists loaded_prefs($language)]} {
-      array set temp_prefs $loaded_prefs($language)
+        [info exists loaded_prefs($prefix,$language)]} {
+      array set temp_prefs $loaded_prefs($prefix,$language)
     }
 
     # Remove any preferences that have not changed value
@@ -94,29 +97,35 @@ namespace eval preferences {
   ######################################################################
   # Adds the user preferences file to the editor, auto-reloading the
   # file when it is saved.
-  proc edit_user {} {
+  proc edit_global {{session ""}} {
 
     variable user_preferences_file
 
-    [ns gui]::add_buffer end "User Preferences" preferences::save_buffer_contents
+    # Figure out the title to use in the tab
+    set title [expr {($session eq "") ? "User Global Preferences" : "Session Global Preferences"}]
+
+    [ns gui]::add_buffer end $title "preferences::save_buffer_contents $session"
 
   }
 
   ######################################################################
   # Adds the specified language preferences file to the editor, auto-reloading
   # the file when it is saved.
-  proc edit_language {} {
+  proc edit_language {{session ""}} {
 
+    # Get the language of the current buffer
     set language [[ns syntax]::get_current_language [[ns gui]::current_txt {}]]
 
-    [ns gui]::add_file end [file join $::tke_home preferences.$language.tkedat] -sidebar 0 -savecommand "preferences::load_file $language"
-    [ns gui]::add_buffer end "$language Preferences" "preferences::save_buffer_contents $language"
+    # Get the title to use in the tabbar
+    set title [expr {($session eq "") ? "User $language Preferences" : "Session $language Preferences"}]
+
+    [ns gui]::add_buffer end $title "preferences::save_buffer_contents $language"
 
   }
 
   ######################################################################
   # Gathers the buffer contents and updates the preference data.
-  proc save_buffer_contents {{language ""}} {
+  proc save_buffer_contents {session {language ""}} {
 
     variable loaded_prefs
     variable user_preferences_file
@@ -128,19 +137,30 @@ namespace eval preferences {
     set data [[ns gui]::scrub_text $txt]
 
     # Get the buffer contents and store them in the appropriate array
-    if {$language eq ""} {
-      set pfile $user_preferences_file
-      array set loaded_prefs(user) $data
+    if {$session eq ""} {
+
+      # Get the filename to write and update the appropriate loaded_prefs array
+      if {$language eq ""} {
+        set pname $user_preferences_file
+        array set loaded_prefs(user) $data
+      } else {
+        set pname [file join $::tke_home preferences.$language.tkedat]
+        array set loaded_prefs($language) $data
+      }
+
+      # Save the data to the preference file
+      [ns tkedat]::write $pname $data
+
     } else {
-      set pfile [file join $::tke_home preferences.$language.tkedat]
-      array set loaded_prefs($language) $data
+      if {$language eq ""} {
+        array set loaded_prefs(session,$session,global) $data
+      } else {
+        array set loaded_prefs(session,$session,$language) $data
+      }
     }
 
-    # Save the data to the preference file
-    [ns tkedat]::write $pname $data
-
     # Update the UI
-    update_prefs
+    update_prefs $session
 
   }
 
@@ -258,31 +278,32 @@ namespace eval preferences {
 
   ######################################################################
   # Loads session information.
-  proc load_session {data} {
+  proc load_session {name data} {
 
     variable loaded_prefs
-
-    # Save off the original preference information
-    set orig_prefs [array get loaded_prefs]
 
     # Set the incoming preference information into the loaded_prefs array
     array set loaded_prefs $data
 
     # Update the UI
-    update_prefs
-
-    # Restore the original preferences
-    array set loaded_prefs $orig_prefs
+    update_prefs $name
 
   }
 
   ######################################################################
   # Save session information.
-  proc save_session {} {
+  proc save_session {name} {
 
     variable loaded_prefs
 
-    return [array get loaded_prefs]
+    if {[info exists loaded_prefs(session,$name,global)]} {
+      foreach user_type [array names loaded_prefs user,*] {
+        lassign [split $user_type ,] user type
+        array get loaded_prefs(session,$name,$type) [array get loaded_prefs($user_type)]
+      }
+    }
+
+    return [array get loaded_prefs session,$name,*]
 
   }
 
