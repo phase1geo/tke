@@ -741,7 +741,7 @@ namespace eval gui {
     [current_txt $tid] configure -linemap $value
 
   }
-  
+
   ######################################################################
   # Changes the given filename to the new filename in the file list and
   # updates the tab name to match the new name.
@@ -818,9 +818,20 @@ namespace eval gui {
 
     # Gather content to save
     set content(Geometry)                [wm geometry .]
+    set content(Fullscreen)              [wm attributes . -fullscreen]
     set content(CurrentWorkingDirectory) [pwd]
     set content(Sidebar)                 [sidebar::save_session]
     set content(Launcher)                [launcher::save_session]
+
+    # Calculate the zoomed state
+    switch [tk windowingsystem] {
+      x11 {
+        set content(Zoomed) [wm attributes . -zoomed]
+      }
+      default {
+        set content(Zoomed) [expr {[wm state .] eq "zoomed"}]
+      }
+    }
 
     # Gather the current tab info
     foreach file $files {
@@ -887,7 +898,17 @@ namespace eval gui {
     array set content $info
 
     # Put the state information into the rest of the GUI
-    wm geometry . $content(Geometry)
+    if {[info exists content(Fullscreen)] && $content(Fullscreen)} {
+      wm attributes . -fullscreen 1
+    } else {
+      wm geometry . $content(Geometry)
+      if {[info exists content(Zoomed)] && $content(Zoomed)} {
+        switch [tk windowingsystem] {
+          x11     { wm attributes . -zoomed 1 }
+          default { wm state . zoomed }
+        }
+      }
+    }
 
     # Restore the "last_opened" list
     set last_opened $content(LastOpened)
@@ -1228,16 +1249,16 @@ namespace eval gui {
 
     variable files
     variable files_index
-    
+
     # Get the current file index
     set file_index [current_file]
-    
+
     # Set the buffer state to 0 and clear the save command
     lset files $file_index $files_index(buffer)   0
     lset files $file_index $files_index(save_cmd) ""
 
     return 1
-      
+
   }
 
   ######################################################################
@@ -1553,28 +1574,28 @@ namespace eval gui {
 
     # Get the current file index
     set file_index [current_file]
-    
+
     # Get the save command
     set save_cmd [lindex $files $file_index $files_index(save_cmd)]
-    
+
     # If the current file is a buffer and it has a save command, run the save command
     if {[lindex $files $file_index $files_index(buffer)] && ($save_cmd ne "")} {
-        
+
       # Execute the save command.  If it errors or returns a value of 0, return immediately
       if {[catch { eval $save_cmd } rc] || ($rc == 0)} {
         return
       }
-      
+
     }
 
     # Get the difference mode of the current file
     set diff [lindex $files $file_index $files_index(diff)]
- 
+
     # If a save_as name is specified, change the filename
     if {$save_as ne ""} {
       sidebar::highlight_filename [lindex $files $file_index $files_index(fname)] [expr $diff * 2]
       lset files $file_index $files_index(fname) $save_as
- 
+
     # If the current file doesn't have a filename, allow the user to set it
     } elseif {[lindex $files $file_index $files_index(buffer)] || $diff} {
       set save_opts [list]
@@ -1587,21 +1608,21 @@ namespace eval gui {
         lset files $file_index $files_index(fname) $sfile
       }
     }
-  
+
     # Run the on_save plugins
     plugins::handle_on_save $file_index
-  
+
     # Save the file contents
     if {[catch { open [lindex $files $file_index $files_index(fname)] w } rc]} {
       tk_messageBox -parent . -title [msgcat::mc "Error"] -type ok -default ok -message [msgcat::mc "Unable to write file"] -detail $rc
       return
     }
-  
+
     # Write the file contents
     catch { fconfigure $rc -translation [[ns preferences]::get {Editor/EndOfLineTranslation}] }
     puts $rc [scrub_text [current_txt $tid]]
     close $rc
-      
+
     # If the file doesn't have a timestamp, it's a new file so add and highlight it in the sidebar
     if {([lindex $files $file_index $files_index(mtime)] eq "") || ($save_as ne "")} {
 
@@ -1630,7 +1651,7 @@ namespace eval gui {
     # Update the timestamp
     file stat [lindex $files $file_index $files_index(fname)] stat
     lset files $file_index $files_index(mtime) $stat(mtime)
-    
+
     # Change the tab text
     $tb tab current -text " [file tail [lindex $files $file_index $files_index(fname)]]"
     set_title

@@ -208,17 +208,17 @@ namespace eval preferences {
 
           # Write the base_prefs array to the user preferences file
           if {![catch {[ns tkedat]::write $user_preferences_file [array get base_prefs]} rc]} {
-            set loaded_prefs(user) [array get base_prefs]
+            set loaded_prefs(user,global) [array get base_prefs]
           }
 
         # Otherwise, assign the user preferences to the
         } else {
-          set loaded_prefs(user) [array get user_prefs]
+          set loaded_prefs(user,global) [array get user_prefs]
         }
 
       # Otherwise, just use the user preferences file
       } else {
-        set loaded_prefs(user) [array get user_prefs]
+        set loaded_prefs(user,global) [array get user_prefs]
       }
 
     } else {
@@ -228,7 +228,7 @@ namespace eval preferences {
 
       # Read the contents of the user file
       if {![catch { [ns tkedat]::read $user_preferences_file } rc]} {
-        set loaded_prefs(user) $rc
+        set loaded_prefs(user,global) $rc
       }
 
     }
@@ -248,7 +248,7 @@ namespace eval preferences {
     # Save off settings from each language
     foreach lang $languages {
       if {![catch { [ns tkedat]::read [file join $::tke_home preferences.$lang.tkedat] } rc]} {
-        set loaded_prefs($lang) $rc
+        set loaded_prefs(user,$lang) $rc
       }
     }
 
