@@ -100,11 +100,22 @@ namespace eval preferences {
   proc edit_global {{session ""}} {
 
     variable user_preferences_file
+    variable loaded_prefs
 
     # Figure out the title to use in the tab
-    set title [expr {($session eq "") ? "User Global Preferences" : "Session Global Preferences"}]
+    if {$session eq ""} {
+      set title "User Global Preferences"
+      set key   "user,global"
+    } else {
+      set title "Session Global Preferences"
+      set key   "session,$session,global"
+    }
 
+    # Create the buffer
     [ns gui]::add_buffer end $title "preferences::save_buffer_contents $session"
+
+    # Add the preference information
+    insert_information $key
 
   }
 
@@ -113,13 +124,55 @@ namespace eval preferences {
   # the file when it is saved.
   proc edit_language {{session ""}} {
 
+    variable loaded_prefs
+
     # Get the language of the current buffer
     set language [[ns syntax]::get_current_language [[ns gui]::current_txt {}]]
 
     # Get the title to use in the tabbar
-    set title [expr {($session eq "") ? "User $language Preferences" : "Session $language Preferences"}]
+    if {$session eq ""} {
+      set title "User $language Preferences"
+      set key   "user,$language"
+    } else {
+      set title "Session $language Preferences"
+      set key   "session,$session,$language"
+    }
 
+    # Create the buffer
     [ns gui]::add_buffer end $title "preferences::save_buffer_contents $language"
+
+    # Add the preference information
+    insert_information $key
+
+  }
+
+  ######################################################################
+  # Inserts the loaded preference information into the current text
+  # widget.
+  proc insert_information {key} {
+
+    variable loaded_prefs
+
+    # Get the current text widget
+    set txt [[ns gui]::current_txt {}]
+
+    # Get the preference content
+    array set content $loaded_prefs($key)
+
+    set str ""
+    foreach name [lsort [array names content]] {
+      if {![regexp {,comment$} $name]} {
+        if {[info exists content($name,comment)]} {
+          foreach comment $content($name,comment) {
+            append str "#$comment\n"
+          }
+        }
+        append str "\n{$name} {$content($name)}\n\n"
+      }
+    }
+
+    # Insert the string
+    $txt insert end $str
 
   }
 
