@@ -13,6 +13,8 @@ casesensitive
 advanced {
   HighlightClass bold    none           {bold}
   HighlightClass italics none           {italics}
+  HighlightClass super   none           {superscript}
+  HighlightClass sub     none           {subscript}
   HighlightClass h1      none           {h1}
   HighlightClass h2      none           {h2}
   HighlightClass h3      none           {h3}
@@ -34,6 +36,8 @@ advanced {
   HighlightRegexp {\[.+?\](\s*\[.*?\]|\(.*?\))} syntax::get_markdown_link
   HighlightRegexp {^\s*\[.+?\]:\s+\S+}          syntax::get_markdown_linkref
   HighlightRegexp {(~{2})(?=\S).+?\1}           syntax::get_markdown_overstrike
+  HighlightRegexp {(~)(?=\S).+?\1}              syntax::get_markdown_subscript
+  HighlightRegexp {(\^)(?=\S).+?\1}             syntax::get_markdown_superscript
   HighlightRegexp {(={2})(?=\S).+?\1}           syntax::get_markdown_highlight
 }
 

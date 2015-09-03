@@ -430,6 +430,7 @@ namespace eval syntax {
 
       } rc]} {
         tk_messageBox -parent . -type ok -default ok -message [msgcat::mc "Syntax error in %s.syntax file" $language] -detail $rc
+        puts $::errorInfo
       }
 
     }
@@ -840,6 +841,34 @@ namespace eval syntax {
     return ""
 
   }
+  
+  ######################################################################
+  # Returns the information for the given Markdown subscript string.
+  proc get_markdown_subscript {txt startpos endpos} {
+    
+    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-2c"] ne "\\")} {
+      return [list [list [list sub  [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]] \
+                         [list grey $startpos [$txt index "$startpos+1c"] [list]] \
+                         [list grey [$txt index "$endpos-1c"] $endpos [list]]] ""]
+    }
+    
+    return ""
+    
+  }
+  
+  ######################################################################
+  # Returns the information for the given Markdown subscript string.
+  proc get_markdown_superscript {txt startpos endpos} {
+    
+    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-2c"] ne "\\")} {
+      return [list [list [list super [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]] \
+                         [list grey  $startpos [$txt index "$startpos+1c"] [list]] \
+                         [list grey  [$txt index "$endpos-1c"] $endpos [list]]] ""]
+    }
+    
+    return ""
+    
+  }  
 
   ######################################################################
   # Returns the information for the given Markdown link string.
