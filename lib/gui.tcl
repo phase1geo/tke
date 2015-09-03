@@ -1146,9 +1146,9 @@ namespace eval gui {
   }
 
   ######################################################################
-  # Adds a new buffer to the editor pane.  Buffers require a save command
-  # to be executed when the buffer is saved.  Buffers do not save to nor
-  # read from files.
+  # Adds a new buffer to the editor pane.  Buffers require an initial
+  # insert command and a save command (executed when the buffer is saved).
+  # Buffers do not save to nor read from files.
   #
   # Several options are available:
   # -lock     <bool>     Initial lock setting.
@@ -1160,7 +1160,7 @@ namespace eval gui {
   # -other    <bool>     If true, adds the file to the other pane.
   # -tags     <list>     List of plugin btags that will only get applied to this text widget.
   # -lang     <language> Specifies the language to use for syntax highlighting.
-  proc add_buffer {index name save_command args} {
+  proc add_buffer {index name insert_command save_command args} {
 
     variable files
     variable files_index
@@ -1219,6 +1219,30 @@ namespace eval gui {
     # Add the file information to the files list
     lappend files $file_info
 
+    if {$insert_command ne ""} {
+
+      # Get the current text widget
+      set txt [get_txt_from_tab $w]
+
+      # Execute the insertion command
+      uplevel #0 [list {*}$insert_command $txt]
+
+      # Change the text to unmodified
+      $txt edit reset
+
+      # Set the insertion mark to the first position
+      $txt mark set insert 1.0
+
+      # Perform an insertion adjust, if necessary
+      if {[vim::in_vim_mode $txt.t]} {
+        vim::adjust_insert $txt.t
+      }
+
+      # Change the tab text
+      [current_tabbar] tab $w -text " [file tail $fname]"
+
+    }
+        
     # Set the tab image for the current file
     set_current_tab_image {}
 
@@ -1240,7 +1264,7 @@ namespace eval gui {
   # -tags        <list>     List of plugin btags that will only get applied to this text widget.
   proc add_new_file {index args} {
 
-    add_buffer $index "Untitled" gui::save_new_file {*}$args
+    add_buffer $index "Untitled" "" gui::save_new_file {*}$args
 
   }
 

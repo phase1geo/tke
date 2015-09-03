@@ -143,10 +143,7 @@ namespace eval preferences {
     }
 
     # Create the buffer
-    [ns gui]::add_buffer end $title [list [ns preferences]::save_buffer_contents $session] -lang tkeData
-
-    # Add the preference information
-    insert_information $key
+    [ns gui]::add_buffer end $title [list [ns preferences]::insert_information $key] [list [ns preferences]::save_buffer_contents $session] -lang tkeData
 
   }
 
@@ -168,23 +165,17 @@ namespace eval preferences {
     }
 
     # Create the buffer
-    [ns gui]::add_buffer end $title [list [ns preferences]::save_buffer_contents $session $language] -lang tkeData
-
-    # Add the preference information
-    insert_information $key
+    [ns gui]::add_buffer end $title [list [ns preferences]::insert_information $key] [list [ns preferences]::save_buffer_contents $session $language] -lang tkeData
 
   }
 
   ######################################################################
   # Inserts the loaded preference information into the current text
   # widget.
-  proc insert_information {key} {
+  proc insert_information {key txt} {
 
     variable loaded_prefs
     variable base_comments
-    
-    # Get the current text widget
-    set txt [[ns gui]::current_txt {}]
     
     # Get the preference content
     array set content $loaded_prefs($key)
@@ -205,13 +196,6 @@ namespace eval preferences {
     # Insert the string
     $txt insert end $str
     
-    # Remove any dspace in the text widget
-    [ns vim]::remove_dspace $txt
-    
-    # Remove the modified state and update the title
-    $txt edit reset
-    [ns gui]::set_title
-      
   }
 
   ######################################################################
