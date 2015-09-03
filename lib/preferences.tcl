@@ -29,8 +29,10 @@ namespace eval preferences {
   variable base_preferences_file [file join $::tke_dir data preferences.tkedat]
   variable user_preferences_file [file join $::tke_home preferences.tkedat]
 
-  array set loaded_prefs {}
-  array set prefs        {}
+  array set loaded_prefs  {}
+  array set prefs         {}
+  array set base_prefs    {}
+  array set base_comments {}
 
   ######################################################################
   # Returns the preference item for the given name.
@@ -51,8 +53,12 @@ namespace eval preferences {
     variable prefs
 
     # Figure out key prefix
-    set prefix [expr {($session eq "") ? "user" : "session,$session"}]
-
+    if {($session eq "") || ![info exists loaded_prefs(session,$session,global)]} {
+      set prefix "user"
+    } else {
+      set prefix "session,$session"
+    }
+    
     # Load the user global prefs
     array set temp_prefs $loaded_prefs($prefix,global)
 
@@ -74,11 +80,39 @@ namespace eval preferences {
     array set prefs [array get temp_prefs]
 
   }
+  
+  ######################################################################
+  # Loads the base preferences information, sorting out the comments from
+  # the preferences information and storing this information in the
+  # namespace base_prefs and base_comments arrays.
+  proc load_base_prefs {} {
+    
+    variable base_preferences_file
+    variable base_prefs
+    variable base_comments
+    
+    # Only load the base preferences information if we have previously done so
+    if {[array size base_prefs] == 0} {
+    
+      # Read the base preferences file (sort out comments from preferences)
+      if {![catch { [ns tkedat]::read $base_preferences_file } rc]} {
+        foreach {key value} $rc {
+          if {[lassign [split $key ,] opt] eq "comment"} {
+            set base_comments($opt) $value
+          } else {
+            set base_prefs($opt) $value
+          }
+        }
+      }
+      
+    }
+    
+  }
 
   ######################################################################
   # Loads the preferences file
   proc load {} {
-
+    
     # Load the preferences file contents
     load_file
 
@@ -99,9 +133,6 @@ namespace eval preferences {
   # file when it is saved.
   proc edit_global {{session ""}} {
 
-    variable user_preferences_file
-    variable loaded_prefs
-
     # Figure out the title to use in the tab
     if {$session eq ""} {
       set title "User Global Preferences"
@@ -112,7 +143,7 @@ namespace eval preferences {
     }
 
     # Create the buffer
-    [ns gui]::add_buffer end $title "preferences::save_buffer_contents $session"
+    [ns gui]::add_buffer end $title [list [ns preferences]::save_buffer_contents $session] -lang tkeData
 
     # Add the preference information
     insert_information $key
@@ -123,8 +154,6 @@ namespace eval preferences {
   # Adds the specified language preferences file to the editor, auto-reloading
   # the file when it is saved.
   proc edit_language {{session ""}} {
-
-    variable loaded_prefs
 
     # Get the language of the current buffer
     set language [[ns syntax]::get_current_language [[ns gui]::current_txt {}]]
@@ -139,7 +168,7 @@ namespace eval preferences {
     }
 
     # Create the buffer
-    [ns gui]::add_buffer end $title "preferences::save_buffer_contents $language"
+    [ns gui]::add_buffer end $title [list [ns preferences]::save_buffer_contents $session $language] -lang tkeData
 
     # Add the preference information
     insert_information $key
@@ -152,28 +181,37 @@ namespace eval preferences {
   proc insert_information {key} {
 
     variable loaded_prefs
-
+    variable base_comments
+    
     # Get the current text widget
     set txt [[ns gui]::current_txt {}]
-
+    
     # Get the preference content
     array set content $loaded_prefs($key)
+    
+    # Make sure the base preference information is loaded
+    load_base_prefs
 
     set str ""
     foreach name [lsort [array names content]] {
-      if {![regexp {,comment$} $name]} {
-        if {[info exists content($name,comment)]} {
-          foreach comment $content($name,comment) {
-            append str "#$comment\n"
-          }
+      if {[info exists base_comments($name)]} {
+        foreach comment $base_comments($name) {
+          append str "#$comment\n"
         }
         append str "\n{$name} {$content($name)}\n\n"
       }
     }
-
+    
     # Insert the string
     $txt insert end $str
-
+    
+    # Remove any dspace in the text widget
+    [ns vim]::remove_dspace $txt
+    
+    # Remove the modified state and update the title
+    $txt edit reset
+    [ns gui]::set_title
+      
   }
 
   ######################################################################
@@ -182,38 +220,40 @@ namespace eval preferences {
 
     variable loaded_prefs
     variable user_preferences_file
-
+    
     # Get the current buffer
     set txt [[ns gui]::current_txt {}]
 
     # Get the buffer contents
-    set data [[ns gui]::scrub_text $txt]
-
+    set data [[ns tkedat]::parse [[ns gui]::scrub_text $txt] 0]
+    
     # Get the buffer contents and store them in the appropriate array
     if {$session eq ""} {
 
       # Get the filename to write and update the appropriate loaded_prefs array
       if {$language eq ""} {
         set pname $user_preferences_file
-        array set loaded_prefs(user) $data
+        set loaded_prefs(user,global) $data
       } else {
         set pname [file join $::tke_home preferences.$language.tkedat]
-        array set loaded_prefs($language) $data
+        set loaded_prefs(user,$language) $data
       }
 
       # Save the data to the preference file
-      [ns tkedat]::write $pname $data
+      [ns tkedat]::write $pname $data 0
 
     } else {
       if {$language eq ""} {
-        array set loaded_prefs(session,$session,global) $data
+        set loaded_prefs(session,$session,global) $data
       } else {
-        array set loaded_prefs(session,$session,$language) $data
+        set loaded_prefs(session,$session,$language) $data
       }
     }
 
     # Update the UI
     update_prefs $session
+    
+    return 0
 
   }
 
@@ -226,6 +266,8 @@ namespace eval preferences {
     variable loaded_prefs
     variable prefs
     variable menus
+    variable base_comments
+    variable base_prefs
 
     # If the preferences file does not exist, add it from the data directory
     if {[file exists $user_preferences_file]} {
@@ -235,7 +277,7 @@ namespace eval preferences {
       file stat $user_preferences_file user_stat
 
       # Read the user preferences file
-      if {![catch { [ns tkedat]::read $user_preferences_file } rc]} {
+      if {![catch { [ns tkedat]::read $user_preferences_file 0 } rc]} {
         array set user_prefs $rc
       }
 
@@ -243,18 +285,16 @@ namespace eval preferences {
       # user file needs to be updated and update it if necessary
       if {$base_stat(mtime) > $user_stat(mtime)} {
 
-        # Read both the base the preferences file
-        if {![catch { [ns tkedat]::read $base_preferences_file } rc]} {
-          array set base_prefs $rc
-        }
+        # Read both the base the preferences file (sort out comments from preferences)
+        load_base_prefs
 
         # If the preferences are different between the base and user, update the user
         if {[lsort [array names base_prefs]] ne [lsort [array names user_prefs]]} {
 
           # Copy only the members in the user preferences that are in the base preferences
           # (omit the comments)
-          foreach name [array names user_prefs] {
-            if {[info exists base_prefs($name)] && ([string first ",comment" $name] == -1)} {
+          foreach name [array names user_prefs -regexp {^[^,]+$}] {
+            if {[info exists base_prefs($name)]} {
               set base_prefs($name) $user_prefs($name)
             }
           }
@@ -280,7 +320,7 @@ namespace eval preferences {
       copy_default 0
 
       # Read the contents of the user file
-      if {![catch { [ns tkedat]::read $user_preferences_file } rc]} {
+      if {![catch { [ns tkedat]::read $user_preferences_file 0 } rc]} {
         set loaded_prefs(user,global) $rc
       }
 
@@ -300,11 +340,11 @@ namespace eval preferences {
 
     # Save off settings from each language
     foreach lang $languages {
-      if {![catch { [ns tkedat]::read [file join $::tke_home preferences.$lang.tkedat] } rc]} {
+      if {![catch { [ns tkedat]::read [file join $::tke_home preferences.$lang.tkedat] 0 } rc]} {
         set loaded_prefs(user,$lang) $rc
       }
     }
-
+    
     # Update the preferences
     update_prefs
 
@@ -348,14 +388,14 @@ namespace eval preferences {
   proc save_session {name} {
 
     variable loaded_prefs
-
-    if {[info exists loaded_prefs(session,$name,global)]} {
+    
+    if {![info exists loaded_prefs(session,$name,global)]} {
       foreach user_type [array names loaded_prefs user,*] {
         lassign [split $user_type ,] user type
-        array get loaded_prefs(session,$name,$type) [array get loaded_prefs($user_type)]
+        set loaded_prefs(session,$name,$type) $loaded_prefs($user_type)
       }
     }
-
+    
     return [array get loaded_prefs session,$name,*]
 
   }

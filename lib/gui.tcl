@@ -1159,6 +1159,7 @@ namespace eval gui {
   #                      tags in a text widget.
   # -other    <bool>     If true, adds the file to the other pane.
   # -tags     <list>     List of plugin btags that will only get applied to this text widget.
+  # -lang     <language> Specifies the language to use for syntax highlighting.
   proc add_buffer {index name save_command args} {
 
     variable files
@@ -1173,6 +1174,7 @@ namespace eval gui {
       -gutters  [list] \
       -other    0 \
       -tags     [list] \
+      -lang     ""
     ]
     array set opts $args
 
@@ -1197,7 +1199,7 @@ namespace eval gui {
     set index [adjust_insert_tab_index $index $name]
 
     # Get the current index
-    set w [insert_tab $index $name 0 $opts(-gutters) $opts(-tags)]
+    set w [insert_tab $index $name 0 $opts(-gutters) $opts(-tags) $opts(-lang)]
 
     # Create the file info structure
     set file_info [lrepeat [array size files_index] ""]
@@ -3735,7 +3737,7 @@ namespace eval gui {
       # Get the file index for the given text widget
       set file_index [lsearch -index $files_index(tab) $files $tab]
 
-      if {![catch { lindex $files $file_index $files_index(buffer) } rc] && ($rc == 0)} {
+      if {![catch { lindex $files $file_index $files_index(readonly) } rc] && ($rc == 0)} {
 
         # Save the modified state to the files list
         catch { lset files $file_index $files_index(modified) 1 }
