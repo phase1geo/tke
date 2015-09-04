@@ -1,127 +1,117 @@
-changeset:   1240:c6a2e595e4c7
-tag:         devel-1.8.9
+changeset:   1255:a699cb294855
+tag:         devel-1.8.10
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Aug 19 09:09:18 2015 -0500
+date:        Wed Aug 26 01:29:51 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.8.9 release
+ChangeLog for devel-1.8.10 release
 
 
-changeset:   1241:6abd064ee70c
+changeset:   1256:050557ada94f
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Aug 19 09:09:22 2015 -0500
+date:        Wed Aug 26 01:29:55 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.8.9 for changeset c6a2e595e4c7
+Added tag devel-1.8.10 for changeset a699cb294855
 
 
-changeset:   1242:7395e882a602
+changeset:   1257:9b1c5ef37d8a
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Aug 21 00:38:56 2015 -0500
-files:       lib/gui.tcl lib/preferences.tcl lib/sessions.tcl lib/version.tcl lib/vim.tcl
-description:
-* Adding Twitter information to About window.
-* Changing look of About window to remove underlines from clickable information.
-* Adding initial support for session preferences (work in progress).
-
-
-changeset:   1243:0715e21e2c61
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Fri Aug 21 19:28:22 2015 -0500
-files:       plugins/dired/dired
-description:
-* Removing temporary file.
-
-
-changeset:   1244:ae220dbce693
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Sat Aug 22 23:58:14 2015 -0500
-files:       lib/api.tcl lib/gui.tcl lib/version.tcl
-description:
-* Checkpointing work on buffer changes.
-
-
-changeset:   1245:ee4839eb31b8
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Sun Aug 23 20:51:58 2015 -0500
-files:       data/themes/Aurora.tketheme data/themes/Cool Glow.tketheme data/themes/Fluidvision.tketheme data/themes/Juicy.tketheme data/themes/Made of Code.tketheme data/themes/Monokai.tketheme data/themes/Notebook.tketheme data/themes/Ruby Blue.tketheme data/themes/choco.tketheme data/themes/default.tketheme data/themes/idleFingers.tketheme data/themes/minimal_Theme.tketheme data/themes/oscuro.tketheme data/themes/yellowStone.tketheme lib/syntax.tcl lib/themer.tcl lib/version.tcl
-description:
-* Adding syntax/theme for a highlighter.
-
-
-changeset:   1246:5d38597a2fc5
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Aug 23 23:28:44 2015 -0500
-files:       data/syntax/Markdown.syntax lib/syntax.tcl lib/version.tcl
-description:
-* Checkpointing improvements to Markdown syntax handling (overstrike and highlight support).
-
-
-changeset:   1247:03ffbcec1ecc
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Mon Aug 24 00:28:09 2015 -0500
-files:       data/syntax/Markdown.syntax data/syntax/syntax.syntax data/syntax/tkeTheme.syntax lib/syntax.tcl lib/version.tcl
-description:
-* Fixing issues with highlighter support in Markdown.
-* Adding syntax highlighting for the "highlighter" keyword in syntax files.
-
-
-changeset:   1248:d9e0bd7cfa08
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Mon Aug 24 01:19:26 2015 -0500
-files:       lib/version.tcl lib/vim.tcl
-description:
-* First pass at adding new dn (delete number) and ds (delete whitespace) Vim commands.
-
-
-changeset:   1249:eb136e8adc7e
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Aug 24 22:59:25 2015 -0500
-files:       data/syntax/Markdown.syntax data/syntax/syntax.syntax data/syntax/tkeTheme.syntax data/themes/Aurora.tketheme data/themes/Cool Glow.tketheme data/themes/Fluidvision.tketheme data/themes/Juicy.tketheme data/themes/Made of Code.tketheme data/themes/Monokai.tketheme data/themes/Notebook.tketheme data/themes/Ruby Blue.tketheme data/themes/choco.tketheme data/themes/default.tketheme data/themes/idleFingers.tketheme data/themes/minimal_Theme.tketheme data/themes/oscuro.tketheme data/themes/yellowStone.tketheme lib/ctext/ctext.tcl lib/syntax.tcl lib/themer.tcl lib/version.tcl
-description:
-* Adding meta theme support.
-* Working on meta use in Markdown.
-
-
-changeset:   1250:13e7042e8f13
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Aug 25 00:25:42 2015 -0500
-files:       lib/gui.tcl lib/menus.tcl lib/syntax.tcl lib/version.tcl
-description:
-* Adding support for hiding/showing meta characters in buffers that contain them.
-
-
-changeset:   1251:e6e63e01d0c5
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Aug 25 00:44:49 2015 -0500
-files:       lib/multicursor.tcl lib/version.tcl lib/vim.tcl
-description:
-* Fixing dn and ds support for multicursor mode.
-
-
-changeset:   1252:a1731d81ba08
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Aug 25 00:58:46 2015 -0500
-files:       lib/multicursor.tcl lib/version.tcl lib/vim.tcl
-description:
-* Adding support for dN (delete previous number) and dS (delete previous whitespace) Vim commands.
-
-
-changeset:   1253:6fe54ee1fbaf
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Tue Aug 25 01:37:41 2015 -0500
+date:        Thu Aug 27 08:30:18 2015 -0500
 files:       lib/menus.tcl lib/version.tcl
 description:
-* Removing debug output.
+* Fixing "Find in Files" issue with highlighting positional regular expressions in results file.
 
 
-changeset:   1254:d8cf9ce5476e
+changeset:   1258:0b93dac22461
+parent:      1256:050557ada94f
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Aug 26 22:21:12 2015 -0500
+files:       lib/preferences.tcl lib/version.tcl
+description:
+* Checkpointing work on preferences.
+
+
+changeset:   1259:5a9e918d9eb5
+parent:      1257:9b1c5ef37d8a
+parent:      1258:0b93dac22461
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Aug 27 08:30:50 2015 -0500
+description:
+Merging.
+
+
+changeset:   1260:6b9c71a6cd87
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Aug 27 08:58:40 2015 -0500
+files:       lib/menus.tcl lib/version.tcl
+description:
+* Second fix for positional matching for find in files.
+
+
+changeset:   1261:acd16cbda66d
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Sun Aug 30 23:42:33 2015 -0500
+files:       lib/menus.tcl lib/preferences.tcl lib/sessions.tcl lib/version.tcl
+description:
+* Adding session preference editing menu options.
+* Checkpointing work on saving preference information to session and loading it from session.
+
+
+changeset:   1262:437028819489
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Sep 02 18:32:23 2015 -0500
+files:       lib/gui.tcl lib/preferences.tcl lib/version.tcl
+description:
+* Fixing syntax issues with user preferences.
+* Adding support for saving/loading fullscreen and zoomed status in session information.
+
+
+changeset:   1263:e7275fd0a098
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Sep 02 19:05:46 2015 -0500
+files:       lib/preferences.tcl lib/version.tcl
+description:
+* Checkpointing work on adding edit support for user and session preferences.
+
+
+changeset:   1264:01a93efda3b6
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Sep 03 02:10:44 2015 -0500
+files:       lib/gui.tcl lib/preferences.tcl lib/tkedat.tcl lib/version.tcl
+description:
+* Adding support for new -lang option to add_buffer to specify starting language syntax to use for buffer.
+* Fixing lots of issues with new preferences handling.
+* Saving/loading all preference information without comments (insert comments when editing only -- comments come from base preferences file).
+* Split out tkedat read into both read and parse string procedures (for improved flexibility).
+* Adding include_comments option to the tkedat::write procedure.
+
+
+changeset:   1265:9a7d8d77dd0a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Sep 03 09:21:26 2015 -0500
+files:       data/syntax/Markdown.syntax lib/ctext/ctext.tcl lib/syntax.tcl lib/version.tcl
+description:
+* Adding support for superscript and subscript text in ctext widget.
+* Adding support for superscript and subscript in Markdown syntax.
+
+
+changeset:   1266:ce871ef710e6
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Sep 03 17:40:11 2015 -0500
+files:       lib/api.tcl lib/gui.tcl lib/preferences.tcl lib/version.tcl
+description:
+* Adding support for insert_command to add_buffer procedure.
+
+
+changeset:   1267:15e0e58b37c3
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Aug 25 23:41:01 2015 -0500
-files:       lib/gui.tcl lib/menus.tcl lib/syntax.tcl lib/version.tcl
+date:        Fri Sep 04 00:28:21 2015 -0500
+files:       lib/gui.tcl lib/preferences.tcl lib/version.tcl
 description:
-* Fixing meta_tags syntax error.
-* Fixing buffer handling for Untitled tabs.
+* Fixing syntax error in gui::add_buffer.
+* Fixing issues with buffer save command state handling.
+* Fixing bug in preferences::insert_information when editing language preferences that don't exist.
 
 
