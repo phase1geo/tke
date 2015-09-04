@@ -1003,20 +1003,24 @@ namespace eval menus {
   # Called when the egrep operation has completed.
   proc find_in_files_callback {find_expr num_files err data} {
 
-    variable txt_cursor
-
     # Add the file to the viewer
-    gui::add_buffer end Results -readonly 1 -other [preferences::get View/ShowFindInFileResultsInOtherPane]
+    gui::add_buffer end "FIF Results" [list menus::find_in_files_insert_results $find_expr $num_files $err $data] "" -readonly 1 -other [preferences::get View/ShowFindInFileResultsInOtherPane]
+      
+  }
+    
+  ######################################################################
+  # Inserts the results from the find in files egrep execution into the
+  # newly created buffer.
+  proc find_in_files_insert_results {find_expr num_files err data txt} {
 
-    # Add bindings to allow one-click file opening
-    set txt [gui::current_txt {}]
-
+    variable txt_cursor
+    
     # Get the last index of the text widget
     set last_line [$txt index end]
 
     # Insert a starting mark
     $txt insert end "----\n"
-
+    
     if {!$err || ($num_files == 0)} {
 
       # Save the text cursor
@@ -1049,16 +1053,11 @@ namespace eval menus {
 
     }
 
-    # Adjust the Vim insert cursor
-    if {[vim::in_vim_mode $txt.t]} {
-      vim::adjust_insert $txt.t
-    }
-
     # Make sure that the beginning of the inserted text is in view
     $txt see end
     $txt mark set insert $last_line
     $txt see $last_line
-
+    
   }
 
   ######################################################################

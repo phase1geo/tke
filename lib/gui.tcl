@@ -1183,55 +1183,73 @@ namespace eval gui {
       return
     }
 
-    if {$opts(-other)} {
-
-      # If the other pane does not exist, add it
-      if {[llength [$widgets(nb_pw) panes]] == 1} {
-        add_notebook
+    # Check to see if the file is already loaded
+    set file_index -1
+    foreach findex [lsearch -all -index $files_index(fname) $files $name] {
+      if {[lindex $files $findex $files_index(buffer)]} {
+        set file_index $findex
+        break
       }
-
-      # Set the current pane to the other one
-      set pw_current [expr $pw_current ^ 1]
-
     }
 
-    # Adjust the index (if necessary)
-    set index [adjust_insert_tab_index $index $name]
+    # If the file is already loaded, display the tab
+    if {$file_index != -1} {
 
-    # Get the current index
-    set w [insert_tab $index $name 0 $opts(-gutters) $opts(-tags) $opts(-lang)]
-
-    # Create the file info structure
-    set file_info [lrepeat [array size files_index] ""]
-    lset file_info $files_index(fname)    $name
-    lset file_info $files_index(mtime)    ""
-    lset file_info $files_index(save_cmd) $save_command
-    lset file_info $files_index(tab)      $w
-    lset file_info $files_index(lock)     $opts(-lock)
-    lset file_info $files_index(readonly) $opts(-readonly)
-    lset file_info $files_index(sidebar)  0
-    lset file_info $files_index(buffer)   1
-    lset file_info $files_index(modified) 0
-    lset file_info $files_index(gutters)  $opts(-gutters)
-    lset file_info $files_index(diff)     0
-    lset file_info $files_index(tags)     $opts(-tags)
-
-    # Add the file information to the files list
-    lappend files $file_info
+      set_current_tab [set w [lindex $files $file_index $files_index(tab)]]
+      
+    } else {
+      
+      if {$opts(-other)} {
+  
+        # If the other pane does not exist, add it
+        if {[llength [$widgets(nb_pw) panes]] == 1} {
+          add_notebook
+        }
+  
+        # Set the current pane to the other one
+        set pw_current [expr $pw_current ^ 1]
+  
+      }
+  
+      # Adjust the index (if necessary)
+      set index [adjust_insert_tab_index $index $name]
+  
+      # Get the current index
+      set w [insert_tab $index $name 0 $opts(-gutters) $opts(-tags) $opts(-lang)]
+  
+      # Create the file info structure
+      set file_info [lrepeat [array size files_index] ""]
+      lset file_info $files_index(fname)    $name
+      lset file_info $files_index(mtime)    ""
+      lset file_info $files_index(save_cmd) $save_command
+      lset file_info $files_index(tab)      $w
+      lset file_info $files_index(lock)     $opts(-lock)
+      lset file_info $files_index(readonly) $opts(-readonly)
+      lset file_info $files_index(sidebar)  0
+      lset file_info $files_index(buffer)   1
+      lset file_info $files_index(modified) 0
+      lset file_info $files_index(gutters)  $opts(-gutters)
+      lset file_info $files_index(diff)     0
+      lset file_info $files_index(tags)     $opts(-tags)
+  
+      # Add the file information to the files list
+      lappend files $file_info
+      
+    }
 
     if {$insert_command ne ""} {
 
       # Get the current text widget
       set txt [get_txt_from_tab $w]
 
+      # Set the edit state to normal so that we can perform the text insertion
+      $txt configure -state normal
+      
       # Execute the insertion command
       uplevel #0 [list {*}$insert_command $txt]
 
       # Change the text to unmodified
       $txt edit reset
-
-      # Set the insertion mark to the first position
-      $txt mark set insert 1.0
 
       # Perform an insertion adjust, if necessary
       if {[vim::in_vim_mode $txt.t]} {
