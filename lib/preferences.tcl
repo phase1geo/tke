@@ -177,12 +177,16 @@ namespace eval preferences {
     variable loaded_prefs
     variable base_comments
     
-    # Get the preference content
-    array set content $loaded_prefs($key)
-    
     # Make sure the base preference information is loaded
     load_base_prefs
-
+  
+    # Get the preference content
+    if {[info exists loaded_prefs($key)]} {
+      array set content $loaded_prefs($key)
+    } else {
+      array set content $loaded_prefs(user,global)
+    }
+       
     set str ""
     foreach name [lsort [array names content]] {
       if {[info exists base_comments($name)]} {
@@ -192,10 +196,10 @@ namespace eval preferences {
         append str "\n{$name} {$content($name)}\n\n"
       }
     }
-    
+       
     # Insert the string
     $txt insert end $str
-    
+      
   }
 
   ######################################################################

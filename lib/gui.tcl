@@ -1239,7 +1239,7 @@ namespace eval gui {
       }
 
       # Change the tab text
-      [current_tabbar] tab $w -text " [file tail $fname]"
+      [current_tabbar] tab $w -text " [file tail $name]"
 
     }
         
@@ -1608,8 +1608,22 @@ namespace eval gui {
     if {[lindex $files $file_index $files_index(buffer)] && ($save_cmd ne "")} {
 
       # Execute the save command.  If it errors or returns a value of 0, return immediately
-      if {[catch { eval $save_cmd } rc] || ($rc == 0)} {
+      if {[catch { eval $save_cmd } rc]} {
+        
         return
+        
+      } elseif {$rc == 0} {
+        
+        # Change the tab text
+        $tb tab current -text " [file tail [lindex $files $file_index $files_index(fname)]]"
+        set_title
+    
+        # Change the text to unmodified
+        [current_txt $tid] edit modified false
+        lset files $file_index $files_index(modified) 0
+
+        return
+        
       }
 
     }
