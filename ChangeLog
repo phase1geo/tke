@@ -1,117 +1,26 @@
-changeset:   1255:a699cb294855
-tag:         devel-1.8.10
+changeset:   1268:30e5cc337b40
+tag:         devel-1.8.11
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Aug 26 01:29:51 2015 -0500
+date:        Fri Sep 04 00:31:27 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.8.10 release
+ChangeLog for devel-1.8.11 release
 
 
-changeset:   1256:050557ada94f
+changeset:   1269:4b139905014c
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Aug 26 01:29:55 2015 -0500
+date:        Fri Sep 04 00:31:38 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.8.10 for changeset a699cb294855
+Added tag devel-1.8.11 for changeset 30e5cc337b40
 
 
-changeset:   1257:9b1c5ef37d8a
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Aug 27 08:30:18 2015 -0500
-files:       lib/menus.tcl lib/version.tcl
-description:
-* Fixing "Find in Files" issue with highlighting positional regular expressions in results file.
-
-
-changeset:   1258:0b93dac22461
-parent:      1256:050557ada94f
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Aug 26 22:21:12 2015 -0500
-files:       lib/preferences.tcl lib/version.tcl
-description:
-* Checkpointing work on preferences.
-
-
-changeset:   1259:5a9e918d9eb5
-parent:      1257:9b1c5ef37d8a
-parent:      1258:0b93dac22461
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Aug 27 08:30:50 2015 -0500
-description:
-Merging.
-
-
-changeset:   1260:6b9c71a6cd87
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Aug 27 08:58:40 2015 -0500
-files:       lib/menus.tcl lib/version.tcl
-description:
-* Second fix for positional matching for find in files.
-
-
-changeset:   1261:acd16cbda66d
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Sun Aug 30 23:42:33 2015 -0500
-files:       lib/menus.tcl lib/preferences.tcl lib/sessions.tcl lib/version.tcl
-description:
-* Adding session preference editing menu options.
-* Checkpointing work on saving preference information to session and loading it from session.
-
-
-changeset:   1262:437028819489
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Sep 02 18:32:23 2015 -0500
-files:       lib/gui.tcl lib/preferences.tcl lib/version.tcl
-description:
-* Fixing syntax issues with user preferences.
-* Adding support for saving/loading fullscreen and zoomed status in session information.
-
-
-changeset:   1263:e7275fd0a098
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Sep 02 19:05:46 2015 -0500
-files:       lib/preferences.tcl lib/version.tcl
-description:
-* Checkpointing work on adding edit support for user and session preferences.
-
-
-changeset:   1264:01a93efda3b6
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Sep 03 02:10:44 2015 -0500
-files:       lib/gui.tcl lib/preferences.tcl lib/tkedat.tcl lib/version.tcl
-description:
-* Adding support for new -lang option to add_buffer to specify starting language syntax to use for buffer.
-* Fixing lots of issues with new preferences handling.
-* Saving/loading all preference information without comments (insert comments when editing only -- comments come from base preferences file).
-* Split out tkedat read into both read and parse string procedures (for improved flexibility).
-* Adding include_comments option to the tkedat::write procedure.
-
-
-changeset:   1265:9a7d8d77dd0a
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Sep 03 09:21:26 2015 -0500
-files:       data/syntax/Markdown.syntax lib/ctext/ctext.tcl lib/syntax.tcl lib/version.tcl
-description:
-* Adding support for superscript and subscript text in ctext widget.
-* Adding support for superscript and subscript in Markdown syntax.
-
-
-changeset:   1266:ce871ef710e6
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu Sep 03 17:40:11 2015 -0500
-files:       lib/api.tcl lib/gui.tcl lib/preferences.tcl lib/version.tcl
-description:
-* Adding support for insert_command to add_buffer procedure.
-
-
-changeset:   1267:15e0e58b37c3
+changeset:   1270:51709ebed402
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Sep 04 00:28:21 2015 -0500
-files:       lib/gui.tcl lib/preferences.tcl lib/version.tcl
+date:        Fri Sep 04 01:03:48 2015 -0500
+files:       lib/gui.tcl lib/menus.tcl lib/version.tcl
 description:
-* Fixing syntax error in gui::add_buffer.
-* Fixing issues with buffer save command state handling.
-* Fixing bug in preferences::insert_information when editing language preferences that don't exist.
+* Fixing issues with Find in Files (with new buffer methodology).
 
 
