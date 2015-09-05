@@ -79,14 +79,14 @@ msgcat::mcmset he {
   "File index is out of range"
   "קובץ אינדקס נמצא מחוץ לטווח"
 
+  "License:"
+  "??????"
+
   "Line: %d, Column: %d"
   "קו: %d, עמודה: %d"
 
   "Locked"
   "נעול"
-
-  "Move to Other Pane"
-  "לעבור לחלונית אחרת"
 
   "Move*"
   "תנועה"
@@ -124,6 +124,9 @@ msgcat::mcmset he {
   "Total Lines: %d, Total Characters: %d"
   "שורות סכום כולל: %d, סה כ תווים: %d"
 
+  "Twitter:"
+  "??????"
+
   "Unable to find current file (tab: %s)"
   "אין אפשרות למצוא את הקובץ הנוכחי (הכרטיסיה: %s)"
 
@@ -158,14 +161,14 @@ msgcat::mcmset he {
   "About TKE"
   "לגבי בבית"
 
-  "Align cursors"
-  "ליישר סמנים"
+  "Align Cursors"
+  "????? ?????"
 
   "All"
   "כל"
 
-  "Append next occurrence"
-  "צרף המופע הבא"
+  "Append Next Occurrence"
+  "??? ????? ???"
 
   "Auto-Indent"
   "כניסה אוטומטית"
@@ -179,17 +182,17 @@ msgcat::mcmset he {
   "Close All"
   "לסגור את כל"
 
-  "Comment"
-  "תגובה"
+  "Close Current"
+  "???? ?? ??????"
 
   "Copy"
   "להעתיק"
 
-  "Create at current line"
-  "ליצור בקו הנוכחי"
+  "Create New..."
+  "??? ???"
 
-  "Create new..."
-  "יצירת חדש..."
+  "Create at Current Line"
+  "????? ??? ??????"
 
   "Create..."
   "ליצור"
@@ -203,8 +206,20 @@ msgcat::mcmset he {
   "Edit Language"
   "עריכת שפה"
 
+  "Edit Session - Global"
+  "????? - ????"
+
+  "Edit Session - Language"
+  "????? - ???"
+
   "Edit User"
   "ערוך משתמש"
+
+  "Edit User - Global"
+  "???? ????? - ????"
+
+  "Edit User - Language"
+  "???? ????? - ???"
 
   "Edit..."
   "עריכה..."
@@ -215,14 +230,14 @@ msgcat::mcmset he {
   "Find"
   "לימצו (limtzo)"
 
+  "Find In Files"
+  "????? ?????"
+
+  "Find Matching Pair"
+  "????? ?? ????? ???"
+
   "Find and Replace"
   "והחלפה"
-
-  "Find in files"
-  "למצוא קבצים"
-
-  "Find matching pair"
-  "למצוא זוג תואם"
 
   "Format Text"
   "עיצוב טקסט"
@@ -251,6 +266,9 @@ msgcat::mcmset he {
   "Hide Line Numbers"
   "הסתר מספרי שורות"
 
+  "Hide Meta Characters"
+  "?????? ???-?????"
+
   "Hide Sidebar"
   "להסתיר את הסרגל הצידי"
 
@@ -260,8 +278,8 @@ msgcat::mcmset he {
   "Hide Tab Bar"
   "הסתר סרגל הלשוניות"
 
-  "Import TextMate theme..."
-  "ייבוא TextMate נושא..."
+  "Import TextMate Theme..."
+  "????? TextMate ????..."
 
   "Indent"
   "כניסה"
@@ -272,20 +290,20 @@ msgcat::mcmset he {
   "Indent Off"
   "כניסה."
 
+  "Insert Enumeration"
+  "????? ?????"
+
   "Insert Text"
   "הוספת טקסט"
-
-  "Insert enumeration"
-  "הוספת ספירה"
 
   "Install..."
   "להתקין..."
 
-  "Jump backward"
-  "לקפוץ אחורה"
+  "Jump Backward"
+  "????? ?????"
 
-  "Jump forward"
-  "לקפוץ קדימה"
+  "Jump Forward"
+  "????? ?????"
 
   "Launcher"
   "משגר"
@@ -317,14 +335,14 @@ msgcat::mcmset he {
   "Menu: Close all tabs"
   "תפריט: לסגור את כל הכרטיסיות"
 
+  "Menu: Close current session"
+  "?????: ???? ????? ??????"
+
   "Menu: Close current tab"
   "תפריט: הכרטיסיה הנוכחית סגור"
 
-  "Menu: Comment selected text"
-  "תפריט: טקסט ההערה שנבחרה"
-
-  "Menu: Copy selected text"
-  "תפריט: העתק טקסט נבחר"
+  "Menu: Copy text"
+  "?????: ???? ????"
 
   "Menu: Create marker at current line"
   "תפריט: ליצור סמן בקו הנוכחי"
@@ -335,8 +353,11 @@ msgcat::mcmset he {
   "Menu: Create new theme"
   "תפריט: ליצור נושא חדש"
 
-  "Menu: Cut selected text"
-  "תפריט: גזור טקסט נבחר"
+  "Menu: Cut text"
+  "?????: ???? ????"
+
+  "Menu: Delete session"
+  "?????: ?????? Delete"
 
   "Menu: Disable Vim mode"
   "תפריט: בטל את מצב Vim"
@@ -344,17 +365,23 @@ msgcat::mcmset he {
   "Menu: Edit Tke theme"
   "תפריט: עריכה בבית השעשועים"
 
-  "Menu: Edit language preferences"
-  "תפריט: עריכת העדפות שפה"
-
   "Menu: Edit language snippets"
   "תפריט: עריכה בשפה גזירים"
 
+  "Menu: Edit session current language preferences"
+  "?????: ????? ?????? ???? ??????? ?????"
+
+  "Menu: Edit session global preferences"
+  "?????: ????? ?????? ?????? ?????"
+
+  "Menu: Edit user current language preferences"
+  "?????: ????? ?????? ???? ??????? ?? ???????"
+
+  "Menu: Edit user global preferences"
+  "?????: ????? ?????? ????? ??????"
+
   "Menu: Edit user menu bindings"
   "תפריט: עריכת האיגודים תפריט משתמש"
-
-  "Menu: Edit user preferences"
-  "תפריט: עריכת העדפות משתמש"
 
   "Menu: Enable Vim mode"
   "תפריט: הפעלת מצב Vim"
@@ -413,6 +440,9 @@ msgcat::mcmset he {
   "Menu: Hide console"
   "תפריט: מסוף הסתר"
 
+  "Menu: Hide meta characters"
+  "?????: ?????? ???-?????"
+
   "Menu: Hide sidebar"
   "תפריט: הסרגל הצידי של הסתר"
 
@@ -446,6 +476,9 @@ msgcat::mcmset he {
   "Menu: Lock file"
   "תפריט: הקובץ הנעול"
 
+  "Menu: Merge panes"
+  "?????: ????? ???????"
+
   "Menu: Move to other pane"
   "תפריט: לעבור לחלונית אחרת"
 
@@ -463,6 +496,9 @@ msgcat::mcmset he {
 
   "Menu: Open file"
   "תפריט: פתח קובץ"
+
+  "Menu: Open session"
+  "?????: ????? ?????"
 
   "Menu: Paste and format text from clipboard"
   "תפריט: להדביק ולעצב טקסט מהלוח"
@@ -497,11 +533,17 @@ msgcat::mcmset he {
   "Menu: Save all files"
   "תפריט: לשמור את כל הקבצים"
 
+  "Menu: Save current session"
+  "?????: ????? ?? ?????? ???????"
+
   "Menu: Save file"
   "תפריט: שמירת קובץ"
 
   "Menu: Save file as"
   "תפריט: שמירת הקובץ כקובץ"
+
+  "Menu: Save sessions as"
+  "?????: ????? ?????? ???"
 
   "Menu: Select all occurrences"
   "תפריט: בחר כל המופעים"
@@ -548,6 +590,9 @@ msgcat::mcmset he {
   "Menu: Show last profiling report"
   "תפריט: הצג פרופיל הדיווח האחרון"
 
+  "Menu: Show meta characters"
+  "?????: ??? ???-?????"
+
   "Menu: Show selected line change"
   "תפריט: הצג נבחר ליין צ'יינג"
 
@@ -566,11 +611,14 @@ msgcat::mcmset he {
   "Menu: Stop profiling"
   "תפריט: להפסיק. עם הפרופיל"
 
+  "Menu: Switch to session"
+  "?????: ??? ?????"
+
+  "Menu: Toggle comment"
+  "?????: ????? ??-????"
+
   "Menu: Toggle split view mode"
   "תפריט: דו-מצבי תצוגת מצב מפוצל"
-
-  "Menu: Uncomment selected text"
-  "תפריט: ההערה הטקסט הנבחר"
 
   "Menu: Undo"
   "תפריט: לבטל"
@@ -596,14 +644,11 @@ msgcat::mcmset he {
   "Menu: View global preferences"
   "תפריט: העדפות גלובלית"
 
-  "Move to other pane"
-  "לעבור לחלונית אחרת"
+  "Merge Panes"
+  "????? ???????"
 
-  "New"
-  "חדש"
-
-  "Next difference"
-  "ההבדל הבא"
+  "Next Difference"
+  "????? ???"
 
   "No files found in specified directories"
   "לא נמצאו בספריות שצוין קבצים"
@@ -632,8 +677,8 @@ msgcat::mcmset he {
   "Preferences"
   "אפשרויות קבועות"
 
-  "Previous difference"
-  "ההבדל הקודם"
+  "Previous Difference"
+  "????? ?????"
 
   "Profiling started"
   "פרופיל התחיל"
@@ -650,20 +695,20 @@ msgcat::mcmset he {
   "Reload"
   "טען מחדש"
 
-  "Remove all markers"
-  "להסיר את כל הסמנים"
+  "Remove All Markers"
+  "????? ?? ?? ??????"
 
-  "Remove from current line"
-  "להסיר מן השורה הנוכחית"
+  "Remove From Current Line"
+  "????? ?? ????? ???????"
 
-  "Replace line with script"
-  "להחליף שורת תסריט"
+  "Replace Line With Script"
+  "?????? ???? ?????"
 
   "Reset User to Base"
   "איפוס משתמש לבסיס"
 
-  "Restart tke"
-  "הפעל מחדש בבית"
+  "Restart TKE"
+  "???? ????"
 
   "Save All"
   "להציל את כולם"
@@ -671,17 +716,20 @@ msgcat::mcmset he {
   "Save As..."
   "שמירה בשם..."
 
+  "Save Current"
+  "????? ?? ??????"
+
   "Select All"
   "בחר את כל"
 
-  "Select all occurrences"
-  "בחר כל המופעים"
+  "Select All Occurrences"
+  "??? ?? ???????"
 
-  "Select next occurrence"
-  "בחר את המופע הבא"
+  "Select Next Occurrence"
+  "??? ?? ????? ???"
 
-  "Select previous occurrence"
-  "בחר את המופע הקודם"
+  "Select Previous Occurrence"
+  "??? ?? ????? ?????"
 
   "Selected"
   "נבחרת"
@@ -691,6 +739,9 @@ msgcat::mcmset he {
 
   "Send Feedback"
   "שלח משוב"
+
+  "Sessions"
+  "??????"
 
   "Set Syntax"
   "תחביר קבע"
@@ -716,6 +767,12 @@ msgcat::mcmset he {
   "Show Line Numbers"
   "הצג מספרי שורות"
 
+  "Show Meta Characters"
+  "??? ???-?????"
+
+  "Show Selected Line Change"
+  "?????? ????? ??? ?????"
+
   "Show Sidebar"
   "הצג תיבה צידית"
 
@@ -724,9 +781,6 @@ msgcat::mcmset he {
 
   "Show Tab Bar"
   "הצג סרגל הלשוניות"
-
-  "Show selected line change"
-  "להראות שינוי הקו הנבחר"
 
   "Show*Profiling*"
   "הצג * פרופיל *"
@@ -743,14 +797,17 @@ msgcat::mcmset he {
   "Sort Tabs"
   "מיון כרטיסיות"
 
-  "Split view"
-  "תצוגת פיצול"
+  "Split View"
+  "????? ?????"
 
   "Start Profiling"
   "התחל ליצור פרופיל"
 
   "Stop Profiling"
   "להפסיק. עם הפרופיל"
+
+  "Switch To"
+  "?????"
 
   "Tabs"
   "טאב"
@@ -761,11 +818,11 @@ msgcat::mcmset he {
   "Theme Creator"
   "דירוג הבורא"
 
+  "Toggle Comment"
+  "????? ??-????"
+
   "Tools"
   "כלי"
-
-  "Uncomment"
-  "ההערה"
 
   "Undo"
   "בטל"
@@ -843,8 +900,8 @@ msgcat::mcmset he {
   "Close Directory Files"
   "קבצי הספריה קרוב"
 
-  "Delete"
-  "מחק"
+  "Copy Pathname"
+  "????? ????"
 
   "Delete directory?"
   "האם למחוק את הספריה?"
@@ -861,17 +918,14 @@ msgcat::mcmset he {
   "File Name:"
   "שם קובץ"
 
+  "Folder Name:"
+  "?? ?????:"
+
   "Make Current Working Directory"
   "להפוך את הזרם ספריית עבודה"
 
   "New Directory"
   "ספריה חדשה"
-
-  "New File"
-  "קובץ חדש"
-
-  "Open"
-  "Open"
 
   "Open Directory Files"
   "קבצי הספריה פתוחה"
@@ -973,14 +1027,6 @@ msgcat::mcmset he {
 
 }
 
-# tkedat.tcl
-msgcat::mcmset he {
-
-  "Unable to open %s for reading"
-  "אין אפשרות לפתוח את %s עבור קריאה"
-
-}
-
 # vim.tcl
 msgcat::mcmset he {
 
@@ -1001,11 +1047,23 @@ msgcat::mcmset he {
   "Close"
   "סגור"
 
+  "Delete"
+  "מחק"
+
   "Favorite"
   "מועדף"
 
   "Find:"
   "לימצו (limtzo)"
+
+  "Move to Other Pane"
+  "לעבור לחלונית אחרת"
+
+  "New File"
+  "קובץ חדש"
+
+  "Open"
+  "Open"
 
   "Replace:"
   "חיפוש והחלפה:"

@@ -79,14 +79,14 @@ msgcat::mcmset ja {
   "File index is out of range"
   "ファイルインデックスが範囲外である"
 
+  "License:"
+  "????????"
+
   "Line: %d, Column: %d"
   "ライン：％dが、カラム：％dの"
 
   "Locked"
   "ロックする"
-
-  "Move to Other Pane"
-  "他のペインに移動します"
 
   "Move*"
   "ムーブ"
@@ -124,6 +124,9 @@ msgcat::mcmset ja {
   "Total Lines: %d, Total Characters: %d"
   "総行：％dが、合計文字：％D"
 
+  "Twitter:"
+  "Twitter:"
+
   "Unable to find current file (tab: %s)"
   "現在のファイルが見つかりません（ペ：％s）を"
 
@@ -158,14 +161,14 @@ msgcat::mcmset ja {
   "About TKE"
   "TKEについて"
 
-  "Align cursors"
-  "カーソルを合わせ"
+  "Align Cursors"
+  "??????????"
 
   "All"
   "ALL"
 
-  "Append next occurrence"
-  "次のオカレンスを追加"
+  "Append Next Occurrence"
+  "?????????????"
 
   "Auto-Indent"
   "自動インデント"
@@ -179,17 +182,17 @@ msgcat::mcmset ja {
   "Close All"
   "すべて閉じる"
 
-  "Comment"
-  "コメント"
+  "Close Current"
+  "??????"
 
   "Copy"
   "コピー"
 
-  "Create at current line"
-  "現在の行を作成します。"
+  "Create New..."
+  "????"
 
-  "Create new..."
-  "新しい作成..."
+  "Create at Current Line"
+  "???????????"
 
   "Create..."
   "する"
@@ -203,8 +206,20 @@ msgcat::mcmset ja {
   "Edit Language"
   "言語を編集します。"
 
+  "Edit Session - Global"
+  "??????? - ?????"
+
+  "Edit Session - Language"
+  "??????????-"
+
   "Edit User"
   "ユーザーを編集"
+
+  "Edit User - Global"
+  "????? ??????????"
+
+  "Edit User - Language"
+  "??????????????"
 
   "Edit..."
   "編集"
@@ -215,14 +230,14 @@ msgcat::mcmset ja {
   "Find"
   "Find"
 
+  "Find In Files"
+  "????????????"
+
+  "Find Matching Pair"
+  "?????????????"
+
   "Find and Replace"
   "検索と置換"
-
-  "Find in files"
-  "ファイルから検索"
-
-  "Find matching pair"
-  "一致するペアを見つける"
 
   "Format Text"
   "テキストをフォーマットする"
@@ -251,6 +266,9 @@ msgcat::mcmset ja {
   "Hide Line Numbers"
   "行番号を非表示します。"
 
+  "Hide Meta Characters"
+  "????????????"
+
   "Hide Sidebar"
   "隠すサイドバー"
 
@@ -260,8 +278,8 @@ msgcat::mcmset ja {
   "Hide Tab Bar"
   "タブバーを非表示"
 
-  "Import TextMate theme..."
-  "TextMateのテーマをインポート..."
+  "Import TextMate Theme..."
+  "TextMate ??????????."
 
   "Indent"
   "インデント"
@@ -272,20 +290,20 @@ msgcat::mcmset ja {
   "Indent Off"
   "オフにインデントを設定します。"
 
+  "Insert Enumeration"
+  "??????????"
+
   "Insert Text"
   "テキストの挿入"
-
-  "Insert enumeration"
-  "列挙型を挿入"
 
   "Install..."
   "インストール"
 
-  "Jump backward"
-  "後方ジャンプします。"
+  "Jump Backward"
+  "??????????"
 
-  "Jump forward"
-  "前方ジャンプします。"
+  "Jump Forward"
+  "??????????"
 
   "Launcher"
   "ランチャー"
@@ -317,14 +335,14 @@ msgcat::mcmset ja {
   "Menu: Close all tabs"
   "すべてのタブを閉じる"
 
+  "Menu: Close current session"
+  "????????????????:"
+
   "Menu: Close current tab"
   "メニュー：現在のタブを閉じる"
 
-  "Menu: Comment selected text"
-  "メニュー：選択したテキストをコメント"
-
-  "Menu: Copy selected text"
-  "メニュー：コピー選択したテキスト"
+  "Menu: Copy text"
+  "????: ????????"
 
   "Menu: Create marker at current line"
   "メニュー： 現在の行にマーカーを作成します。"
@@ -335,8 +353,11 @@ msgcat::mcmset ja {
   "Menu: Create new theme"
   "メニュー：新しいテーマを作成する"
 
-  "Menu: Cut selected text"
-  "メニュー：カット選択したテキスト"
+  "Menu: Cut text"
+  "????: ??? ????"
+
+  "Menu: Delete session"
+  "????: ???????"
 
   "Menu: Disable Vim mode"
   "メニュー：Vimのモードを無効にします"
@@ -344,17 +365,23 @@ msgcat::mcmset ja {
   "Menu: Edit Tke theme"
   "メニュー：編集TKEテーマ"
 
-  "Menu: Edit language preferences"
-  "メニュー: 編集言語の設定"
-
   "Menu: Edit language snippets"
   "メニュー: 編集言語のスニペット"
 
+  "Menu: Edit session current language preferences"
+  "????: ???????????????"
+
+  "Menu: Edit session global preferences"
+  "????: ???????????????"
+
+  "Menu: Edit user current language preferences"
+  "????: ??????????????"
+
+  "Menu: Edit user global preferences"
+  "????: ???????????????????"
+
   "Menu: Edit user menu bindings"
   "メニュー：編集ユーザーメニューバインディング"
-
-  "Menu: Edit user preferences"
-  "メニュー：編集ユーザー設定"
 
   "Menu: Enable Vim mode"
   "メニュー：Vimのモードを有効に"
@@ -413,6 +440,9 @@ msgcat::mcmset ja {
   "Menu: Hide console"
   "メニュー：コンソールを非表示に"
 
+  "Menu: Hide meta characters"
+  "????: ????????????"
+
   "Menu: Hide sidebar"
   "メニュー：サイドバーを隠す"
 
@@ -446,6 +476,9 @@ msgcat::mcmset ja {
   "Menu: Lock file"
   "メニュー：ロックファイル"
 
+  "Menu: Merge panes"
+  "????: ??? ???"
+
   "Menu: Move to other pane"
   "メニュー：他のウィンドウに移動"
 
@@ -463,6 +496,9 @@ msgcat::mcmset ja {
 
   "Menu: Open file"
   "メニュー：ファイルを開く"
+
+  "Menu: Open session"
+  "????: ???? ?????"
 
   "Menu: Paste and format text from clipboard"
   "メニュー：クリップボードからの貼り付けやテキストの書式設定"
@@ -497,11 +533,17 @@ msgcat::mcmset ja {
   "Menu: Save all files"
   "メニュー：すべてのファイルを保存"
 
+  "Menu: Save current session"
+  "????: ???????????????"
+
   "Menu: Save file"
   "メニュー：ファイルを保存します"
 
   "Menu: Save file as"
   "メニュー：ファイルとして保存"
+
+  "Menu: Save sessions as"
+  "????: ???????????????"
 
   "Menu: Select all occurrences"
   "メニュー：すべてのオカレンスを選択"
@@ -548,6 +590,9 @@ msgcat::mcmset ja {
   "Menu: Show last profiling report"
   "メニュー：ショー最後のプロファイリングレポート"
 
+  "Menu: Show meta characters"
+  "????: ???????????"
+
   "Menu: Show selected line change"
   "メニュー: 選択した表示線の変更"
 
@@ -566,11 +611,14 @@ msgcat::mcmset ja {
   "Menu: Stop profiling"
   "メニュー：ストッププロファイリング"
 
+  "Menu: Switch to session"
+  "????? ????: ????"
+
+  "Menu: Toggle comment"
+  "????????????:"
+
   "Menu: Toggle split view mode"
   "メニュー：トグル分割ビューモード"
-
-  "Menu: Uncomment selected text"
-  "メニュー：コメント解除選択したテキスト"
 
   "Menu: Undo"
   "メニュー：元に戻す"
@@ -596,14 +644,11 @@ msgcat::mcmset ja {
   "Menu: View global preferences"
   "メニュー：表示グローバルプリファレンス"
 
-  "Move to other pane"
-  "他のウィンドウに移動する"
+  "Merge Panes"
+  "????????????"
 
-  "New"
-  "新しい"
-
-  "Next difference"
-  "次の相違点"
+  "Next Difference"
+  "????"
 
   "No files found in specified directories"
   "ファイルの指定されたディレクトリが見つかりません"
@@ -632,8 +677,8 @@ msgcat::mcmset ja {
   "Preferences"
   "選好"
 
-  "Previous difference"
-  "前の相違点"
+  "Previous Difference"
+  "?????"
 
   "Profiling started"
   "プロファイリングが開始されました"
@@ -650,20 +695,20 @@ msgcat::mcmset ja {
   "Reload"
   "再読み込み"
 
-  "Remove all markers"
-  "すべてのマーカーを削除します。"
+  "Remove All Markers"
+  "???????????????"
 
-  "Remove from current line"
-  "現在の行から削除します。"
+  "Remove From Current Line"
+  "????????????"
 
-  "Replace line with script"
-  "スクリプトの行を置き換えます"
+  "Replace Line With Script"
+  "?????????????"
 
   "Reset User to Base"
   "ユーザー ベースにリセットします。"
 
-  "Restart tke"
-  "TKEを再起動します"
+  "Restart TKE"
+  "TKE ????????"
 
   "Save All"
   "すべて保存"
@@ -671,17 +716,20 @@ msgcat::mcmset ja {
   "Save As..."
   "名前を付けて保存..."
 
+  "Save Current"
+  "?????????"
+
   "Select All"
   "すべて選択"
 
-  "Select all occurrences"
-  "すべてのオカレンスを選択"
+  "Select All Occurrences"
+  "????????????"
 
-  "Select next occurrence"
-  "次のオカレンスを選択してください"
+  "Select Next Occurrence"
+  "?????????????"
 
-  "Select previous occurrence"
-  "以前の発生を選択"
+  "Select Previous Occurrence"
+  "?????????????"
 
   "Selected"
   "選択"
@@ -691,6 +739,9 @@ msgcat::mcmset ja {
 
   "Send Feedback"
   "﻿フィードバックを送る"
+
+  "Sessions"
+  "?????"
 
   "Set Syntax"
   "構文を設定"
@@ -716,6 +767,12 @@ msgcat::mcmset ja {
   "Show Line Numbers"
   "行番号を表示します。"
 
+  "Show Meta Characters"
+  "???????"
+
+  "Show Selected Line Change"
+  "???????????????"
+
   "Show Sidebar"
   "表示するサイドバー"
 
@@ -724,9 +781,6 @@ msgcat::mcmset ja {
 
   "Show Tab Bar"
   "表示タブバー"
-
-  "Show selected line change"
-  "選択した行の変更を表示します。"
 
   "Show*Profiling*"
   "表示*プロファイリング*"
@@ -743,14 +797,17 @@ msgcat::mcmset ja {
   "Sort Tabs"
   "並べタブ"
 
-  "Split view"
-  "2 画面分割表示"
+  "Split View"
+  "2 ??????"
 
   "Start Profiling"
   "プロファイリング開始"
 
   "Stop Profiling"
   "プロファイリングを停止"
+
+  "Switch To"
+  "?????? :"
 
   "Tabs"
   "タブ"
@@ -761,11 +818,11 @@ msgcat::mcmset ja {
   "Theme Creator"
   "テーマ作成者"
 
+  "Toggle Comment"
+  "????????"
+
   "Tools"
   "道具"
-
-  "Uncomment"
-  "コメントを解除"
 
   "Undo"
   "アンドゥ"
@@ -843,8 +900,8 @@ msgcat::mcmset ja {
   "Close Directory Files"
   "閉じるディレクトリファイル"
 
-  "Delete"
-  "削除"
+  "Copy Pathname"
+  "???????????"
 
   "Delete directory?"
   "ディレクトリを削除しますか？"
@@ -861,17 +918,14 @@ msgcat::mcmset ja {
   "File Name:"
   "ファイル名"
 
+  "Folder Name:"
+  "?????"
+
   "Make Current Working Directory"
   "現在の作業ディレクトリを作る"
 
   "New Directory"
   "新しいディレクトリ"
-
-  "New File"
-  "新規ファイル"
-
-  "Open"
-  "オープン"
 
   "Open Directory Files"
   "オープンディレクトリのファイル"
@@ -973,14 +1027,6 @@ msgcat::mcmset ja {
 
 }
 
-# tkedat.tcl
-msgcat::mcmset ja {
-
-  "Unable to open %s for reading"
-  "読み取るための％sを開けません"
-
-}
-
 # vim.tcl
 msgcat::mcmset ja {
 
@@ -1001,11 +1047,23 @@ msgcat::mcmset ja {
   "Close"
   "閉じる"
 
+  "Delete"
+  "削除"
+
   "Favorite"
   "お気に入り"
 
   "Find:"
   "Find"
+
+  "Move to Other Pane"
+  "他のペインに移動します"
+
+  "New File"
+  "新規ファイル"
+
+  "Open"
+  "オープン"
 
   "Replace:"
   "置換："

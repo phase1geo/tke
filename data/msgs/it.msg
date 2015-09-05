@@ -79,14 +79,14 @@ msgcat::mcmset it {
   "File index is out of range"
   "Indice non compreso nell'intervallo."
 
+  "License:"
+  "Patente:"
+
   "Line: %d, Column: %d"
   "Line:% d, colonna:% d"
 
   "Locked"
   "Bloccato"
-
-  "Move to Other Pane"
-  "Spostarsi Altro Pane"
 
   "Move*"
   "Sposta"
@@ -124,6 +124,9 @@ msgcat::mcmset it {
   "Total Lines: %d, Total Characters: %d"
   "Totale Lines:% d, totale Personaggi:% d"
 
+  "Twitter:"
+  "Twitter:"
+
   "Unable to find current file (tab: %s)"
   "Impossibile trovare il file corrente (scheda:% s)"
 
@@ -158,14 +161,14 @@ msgcat::mcmset it {
   "About TKE"
   "Chi TKE"
 
-  "Align cursors"
+  "Align Cursors"
   "Allineare i cursori"
 
   "All"
   "Tutti"
 
-  "Append next occurrence"
-  "Aggiunge ricorrenza successiva"
+  "Append Next Occurrence"
+  "Accodare l'occorrenza successiva"
 
   "Auto-Indent"
   "Rientro automatico"
@@ -179,17 +182,17 @@ msgcat::mcmset it {
   "Close All"
   "Chiudi tutto"
 
-  "Comment"
-  "Commento"
+  "Close Current"
+  "Chiudi Attuale:"
 
   "Copy"
   "Copia"
 
-  "Create at current line"
-  "Creare nella riga corrente"
+  "Create New..."
+  "Crea nuovo elemento"
 
-  "Create new..."
-  "Creare nuovo"
+  "Create at Current Line"
+  "Creare riga corrente"
 
   "Create..."
   "Crea"
@@ -203,8 +206,20 @@ msgcat::mcmset it {
   "Edit Language"
   "Modificare la lingua"
 
+  "Edit Session - Global"
+  "Modificare la sessione - globale"
+
+  "Edit Session - Language"
+  "Sessione - di modifica lingua"
+
   "Edit User"
   "Modifica Utente"
+
+  "Edit User - Global"
+  "Modifica utente - Global"
+
+  "Edit User - Language"
+  "Modifica utente - lingua"
 
   "Edit..."
   "Modifica..."
@@ -215,14 +230,14 @@ msgcat::mcmset it {
   "Find"
   "Find"
 
+  "Find In Files"
+  "Trova nei file"
+
+  "Find Matching Pair"
+  "Trovare corrispondenza coppia"
+
   "Find and Replace"
   "Trova e sostituisci"
-
-  "Find in files"
-  "Cerca nei file@action:inmenu"
-
-  "Find matching pair"
-  "Trova pair corrispondenti"
 
   "Format Text"
   "Formato testo"
@@ -251,6 +266,9 @@ msgcat::mcmset it {
   "Hide Line Numbers"
   "Mostra i numeri di riga"
 
+  "Hide Meta Characters"
+  "Nascondi caratteri"
+
   "Hide Sidebar"
   "Nascondi barra laterale"
 
@@ -260,8 +278,8 @@ msgcat::mcmset it {
   "Hide Tab Bar"
   "Hide Tab Bar"
 
-  "Import TextMate theme..."
-  "Import tema TextMate ..."
+  "Import TextMate Theme..."
+  "Importazione TextMate Theme..."
 
   "Indent"
   "Indenta"
@@ -272,20 +290,20 @@ msgcat::mcmset it {
   "Indent Off"
   "Trattino fuori"
 
+  "Insert Enumeration"
+  "Inserire enumerazione"
+
   "Insert Text"
   "Inserisci file di testo"
-
-  "Insert enumeration"
-  "Inserisci enumerazione"
 
   "Install..."
   "Installa"
 
-  "Jump backward"
-  "Salto all'indietro"
+  "Jump Backward"
+  "Salto indietro"
 
-  "Jump forward"
-  "Salta avanti"
+  "Jump Forward"
+  "Salto in avanti"
 
   "Launcher"
   "UtilitÃ  di avvio"
@@ -317,14 +335,14 @@ msgcat::mcmset it {
   "Menu: Close all tabs"
   "Menu: Chiudere tutte le schede"
 
+  "Menu: Close current session"
+  "Menù: Chiudi la sessione corrente"
+
   "Menu: Close current tab"
   "Menu: Chiudi scheda corrente"
 
-  "Menu: Comment selected text"
-  "Menu: Commento testo selezionato"
-
-  "Menu: Copy selected text"
-  "Menu: Copia testo selezionato"
+  "Menu: Copy text"
+  "Menu: Testo di copia"
 
   "Menu: Create marker at current line"
   "Menu: Creare l'indicatore nella riga corrente"
@@ -335,8 +353,11 @@ msgcat::mcmset it {
   "Menu: Create new theme"
   "Crea nuovo tema..."
 
-  "Menu: Cut selected text"
-  "Menu: Tagliare il testo selezionato"
+  "Menu: Cut text"
+  "Menù: Taglia testo"
+
+  "Menu: Delete session"
+  "Dal menu: Sessione di eliminazione"
 
   "Menu: Disable Vim mode"
   "Menu: ModalitÃ  Disable Vim"
@@ -344,17 +365,23 @@ msgcat::mcmset it {
   "Menu: Edit Tke theme"
   "Menu: Modifica Tke tema"
 
-  "Menu: Edit language preferences"
-  "Menu: Preferenze di lingua Edit"
-
   "Menu: Edit language snippets"
   "Menu: Frammenti di lingua Edit"
 
+  "Menu: Edit session current language preferences"
+  "Menù: Modificare le preferenze di lingua corrente sessione"
+
+  "Menu: Edit session global preferences"
+  "Menù: Modifica preferenze globali sessione"
+
+  "Menu: Edit user current language preferences"
+  "Menù: Modificare le preferenze utente corrente lingua"
+
+  "Menu: Edit user global preferences"
+  "Menù: Modificare le preferenze dell'utente globale"
+
   "Menu: Edit user menu bindings"
   "Associazioni Edit Menu utente: Menu"
-
-  "Menu: Edit user preferences"
-  "Modificare le preferenze dell&#39;utente: Menu"
 
   "Menu: Enable Vim mode"
   "Menu: Attivare la modalitÃ  Vim"
@@ -413,6 +440,9 @@ msgcat::mcmset it {
   "Menu: Hide console"
   "Menu: Hide console"
 
+  "Menu: Hide meta characters"
+  "Menu: Nascondere meta caratteri"
+
   "Menu: Hide sidebar"
   "Menu: Hide sidebar"
 
@@ -446,6 +476,9 @@ msgcat::mcmset it {
   "Menu: Lock file"
   "Menu: file di blocco"
 
+  "Menu: Merge panes"
+  "Menù: Pannelli dei Unione"
+
   "Menu: Move to other pane"
   "Menu: Sposta altri riquadro"
 
@@ -463,6 +496,9 @@ msgcat::mcmset it {
 
   "Menu: Open file"
   "Menu: Aprire il file"
+
+  "Menu: Open session"
+  "Dal menu: Sessione aperta"
 
   "Menu: Paste and format text from clipboard"
   "Menu: Pasta e formato di testo dal clipboard"
@@ -497,11 +533,17 @@ msgcat::mcmset it {
   "Menu: Save all files"
   "Menu: Salvare tutti i file"
 
+  "Menu: Save current session"
+  "Salvare la sessione corrente?"
+
   "Menu: Save file"
   "Menu: Salva file"
 
   "Menu: Save file as"
   "Menu: Salva file come"
+
+  "Menu: Save sessions as"
+  "Menù: Salvare le sessioni come"
 
   "Menu: Select all occurrences"
   "Menu: Selezionare tutte le occorrenze"
@@ -548,6 +590,9 @@ msgcat::mcmset it {
   "Menu: Show last profiling report"
   "Menu: Mostra ultimo rapporto profiling"
 
+  "Menu: Show meta characters"
+  "Menu: Visualizza caratteri meta"
+
   "Menu: Show selected line change"
   "Menu: Modifica riga visualizza selezionato"
 
@@ -566,11 +611,14 @@ msgcat::mcmset it {
   "Menu: Stop profiling"
   "Menu: Stop profiling"
 
+  "Menu: Switch to session"
+  "Menù: Interruttore a sessione"
+
+  "Menu: Toggle comment"
+  "Dal menu: Commento di attiva/disattiva"
+
   "Menu: Toggle split view mode"
   "Menu: Toggle modalitÃ  di visualizzazione divisa"
-
-  "Menu: Uncomment selected text"
-  "Menu: testo Uncomment selezionato"
 
   "Menu: Undo"
   "Menu: Annulla"
@@ -596,13 +644,10 @@ msgcat::mcmset it {
   "Menu: View global preferences"
   "Menu: Visualizza preferenze globali"
 
-  "Move to other pane"
-  "Spostarsi altro riquadro"
+  "Merge Panes"
+  "Unire i riquadri"
 
-  "New"
-  "NEW"
-
-  "Next difference"
+  "Next Difference"
   "Differenza successiva"
 
   "No files found in specified directories"
@@ -632,7 +677,7 @@ msgcat::mcmset it {
   "Preferences"
   "Preferenze"
 
-  "Previous difference"
+  "Previous Difference"
   "Differenza precedente"
 
   "Profiling started"
@@ -650,20 +695,20 @@ msgcat::mcmset it {
   "Reload"
   "Reload"
 
-  "Remove all markers"
+  "Remove All Markers"
   "Rimuovere tutti i marcatori"
 
-  "Remove from current line"
+  "Remove From Current Line"
   "Rimuovere dalla riga corrente"
 
-  "Replace line with script"
-  "Sostituire la linea con script"
+  "Replace Line With Script"
+  "Sostituire la riga con Script"
 
   "Reset User to Base"
   "Reimpostare l'utente alla Base"
 
-  "Restart tke"
   "Restart TKE"
+  "Riavviare TKE"
 
   "Save All"
   "Salva tutto"
@@ -671,17 +716,20 @@ msgcat::mcmset it {
   "Save As..."
   "Salva con nome..."
 
+  "Save Current"
+  "Risparmiare corrente"
+
   "Select All"
   "Seleziona Tutto"
 
-  "Select all occurrences"
-  "Seleziona tutte le occorrenze"
+  "Select All Occurrences"
+  "Selezionare tutte le occorrenze"
 
-  "Select next occurrence"
-  "Selezionare ricorrenza successiva"
+  "Select Next Occurrence"
+  "Selezionare l'occorrenza successiva"
 
-  "Select previous occurrence"
-  "Selezionare occorrenza precedente"
+  "Select Previous Occurrence"
+  "Selezionare l'occorrenza precedente"
 
   "Selected"
   "Selezionato"
@@ -691,6 +739,9 @@ msgcat::mcmset it {
 
   "Send Feedback"
   "Invia feedback"
+
+  "Sessions"
+  "Sessioni"
 
   "Set Syntax"
   "Impostare Sintassi"
@@ -716,6 +767,12 @@ msgcat::mcmset it {
   "Show Line Numbers"
   "Mostra i numeri di riga"
 
+  "Show Meta Characters"
+  "Visualizza caratteri Meta"
+
+  "Show Selected Line Change"
+  "Mostrare il cambiamento di linea selezionata"
+
   "Show Sidebar"
   "Mostra barra laterale"
 
@@ -724,9 +781,6 @@ msgcat::mcmset it {
 
   "Show Tab Bar"
   "Mostra barra delle schede@info:whatsthis"
-
-  "Show selected line change"
-  "Mostrare la modifica della riga selezionata"
 
   "Show*Profiling*"
   "Show * Profiling *"
@@ -743,14 +797,17 @@ msgcat::mcmset it {
   "Sort Tabs"
   "Ordinare Tabs"
 
-  "Split view"
-  "Vista divisa"
+  "Split View"
+  "Dividi la vista"
 
   "Start Profiling"
   "Inizia Profiling"
 
   "Stop Profiling"
   "Smettere di Profiling"
+
+  "Switch To"
+  "Passa a"
 
   "Tabs"
   "Tabelle"
@@ -761,11 +818,11 @@ msgcat::mcmset it {
   "Theme Creator"
   "Theme Creator"
 
+  "Toggle Comment"
+  "Commento di Toggle"
+
   "Tools"
   "Strumenti"
-
-  "Uncomment"
-  "Rimuovi commento"
 
   "Undo"
   "Undo"
@@ -843,8 +900,8 @@ msgcat::mcmset it {
   "Close Directory Files"
   "Chiudi Directory Files"
 
-  "Delete"
-  "Elimina"
+  "Copy Pathname"
+  "Copiare il percorso"
 
   "Delete directory?"
   "(elimina directory)"
@@ -861,17 +918,14 @@ msgcat::mcmset it {
   "File Name:"
   "Nome File:"
 
+  "Folder Name:"
+  "Nome cartella:"
+
   "Make Current Working Directory"
   "Directory di lavoro corrente"
 
   "New Directory"
   "Nuova directory"
-
-  "New File"
-  "Nuovo file"
-
-  "Open"
-  "Aprire il regalo"
 
   "Open Directory Files"
   "File indirizzario"
@@ -973,14 +1027,6 @@ msgcat::mcmset it {
 
 }
 
-# tkedat.tcl
-msgcat::mcmset it {
-
-  "Unable to open %s for reading"
-  "Impossibile aprire il file%1 in lettura."
-
-}
-
 # vim.tcl
 msgcat::mcmset it {
 
@@ -1001,11 +1047,23 @@ msgcat::mcmset it {
   "Close"
   "Chiudi"
 
+  "Delete"
+  "Elimina"
+
   "Favorite"
   "Favorito"
 
   "Find:"
   "Trova:"
+
+  "Move to Other Pane"
+  "Spostarsi Altro Pane"
+
+  "New File"
+  "Nuovo file"
+
+  "Open"
+  "Aprire il regalo"
 
   "Replace:"
   "Sostituisci"

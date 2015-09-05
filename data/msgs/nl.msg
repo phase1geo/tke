@@ -79,14 +79,14 @@ msgcat::mcmset nl {
   "File index is out of range"
   "File index valt buiten het bereik"
 
+  "License:"
+  "LICENTIE"
+
   "Line: %d, Column: %d"
   "Line:% d, kolom:% d"
 
   "Locked"
   "Afgesloten"
-
-  "Move to Other Pane"
-  "Verplaatsen naar andere Pane"
 
   "Move*"
   "Move"
@@ -124,6 +124,9 @@ msgcat::mcmset nl {
   "Total Lines: %d, Total Characters: %d"
   "Totaal Lijnen:% d, Total Characters:% d"
 
+  "Twitter:"
+  "Twitter:"
+
   "Unable to find current file (tab: %s)"
   "Kan huidige bestand te vinden (tabblad:% s)"
 
@@ -158,14 +161,14 @@ msgcat::mcmset nl {
   "About TKE"
   "Over TKE"
 
-  "Align cursors"
-  "Lijn cursors"
+  "Align Cursors"
+  "Uitlijnen van Cursors"
 
   "All"
   "Alle"
 
-  "Append next occurrence"
-  "Voeg volgende voorkomen"
+  "Append Next Occurrence"
+  "Volgende vindplaats toevoegen"
 
   "Auto-Indent"
   "Automatisch inspringen"
@@ -179,17 +182,17 @@ msgcat::mcmset nl {
   "Close All"
   "Alles sluiten"
 
-  "Comment"
-  "Commentaar"
+  "Close Current"
+  "Huidig tabblad sluiten"
 
   "Copy"
   "KopiÃ«ren"
 
-  "Create at current line"
-  "Maken op de huidige regel"
+  "Create New..."
+  "Nieuw maken"
 
-  "Create new..."
-  "Nieuw aanmaken"
+  "Create at Current Line"
+  "Maken op de huidige regel"
 
   "Create..."
   "Maken..."
@@ -203,8 +206,20 @@ msgcat::mcmset nl {
   "Edit Language"
   "Bewerk Taal"
 
+  "Edit Session - Global"
+  "Session - Global bewerken"
+
+  "Edit Session - Language"
+  "Session - taal bewerken"
+
   "Edit User"
   "Order bewerken"
+
+  "Edit User - Global"
+  "Bewerken gebruiker - Global"
+
+  "Edit User - Language"
+  "Bewerken gebruiker - taal"
 
   "Edit..."
   "Bewerken..."
@@ -215,14 +230,14 @@ msgcat::mcmset nl {
   "Find"
   "Query"
 
-  "Find and Replace"
-  "Zoeken en vervangen"
-
-  "Find in files"
+  "Find In Files"
   "Zoeken in bestanden..."
 
-  "Find matching pair"
-  "Zoek bijpassende paar"
+  "Find Matching Pair"
+  "Vinden Matching paar"
+
+  "Find and Replace"
+  "Zoeken en vervangen"
 
   "Format Text"
   "Tekst opmaken"
@@ -251,6 +266,9 @@ msgcat::mcmset nl {
   "Hide Line Numbers"
   "Regelnummers verbergen"
 
+  "Hide Meta Characters"
+  "Verbergen metakarakters"
+
   "Hide Sidebar"
   "Zijbalk verbergen"
 
@@ -260,8 +278,8 @@ msgcat::mcmset nl {
   "Hide Tab Bar"
   "Hide Tab Bar"
 
-  "Import TextMate theme..."
-  "Import TextMate thema ..."
+  "Import TextMate Theme..."
+  "Import TextMate Theme …"
 
   "Indent"
   "Inspringen"
@@ -272,19 +290,19 @@ msgcat::mcmset nl {
   "Indent Off"
   "Streepje uit"
 
+  "Insert Enumeration"
+  "Invoegen (opsomming)"
+
   "Insert Text"
   "Index invoegen"
-
-  "Insert enumeration"
-  "Plaats opsomming"
 
   "Install..."
   "Installatie"
 
-  "Jump backward"
+  "Jump Backward"
   "Spring achteruit"
 
-  "Jump forward"
+  "Jump Forward"
   "Spring vooruit"
 
   "Launcher"
@@ -317,14 +335,14 @@ msgcat::mcmset nl {
   "Menu: Close all tabs"
   "Menu: Sluit alle tabbladen"
 
+  "Menu: Close current session"
+  "Menu: Huidige sessie sluiten"
+
   "Menu: Close current tab"
   "Huidig tabblad sluiten"
 
-  "Menu: Comment selected text"
-  "Menu: Reactie geselecteerde tekst"
-
-  "Menu: Copy selected text"
-  "Menu: Geselecteerde tekst kopiÃ«ren"
+  "Menu: Copy text"
+  "Menu: De tekst van het exemplaar van"
 
   "Menu: Create marker at current line"
   "Menu: Marker op de huidige regel maken"
@@ -335,8 +353,11 @@ msgcat::mcmset nl {
   "Menu: Create new theme"
   "Nieuw thema aanmaken..."
 
-  "Menu: Cut selected text"
-  "Menu: Geselecteerde tekst knippen"
+  "Menu: Cut text"
+  ": Menutekst Cut"
+
+  "Menu: Delete session"
+  "Menu: Delete sessie"
 
   "Menu: Disable Vim mode"
   "Menu: Uitschakelen Vim modus"
@@ -344,17 +365,23 @@ msgcat::mcmset nl {
   "Menu: Edit Tke theme"
   "Menu: Bewerken Tke thema"
 
-  "Menu: Edit language preferences"
-  "Menu: Bewerken taalvoorkeuren"
-
   "Menu: Edit language snippets"
   "Menu: Bewerken taal fragmenten"
 
+  "Menu: Edit session current language preferences"
+  "Menu: Sessie huidige taalvoorkeuren bewerken"
+
+  "Menu: Edit session global preferences"
+  "Menu: Sessie globale voorkeuren bewerken"
+
+  "Menu: Edit user current language preferences"
+  "Menu: Gebruikersvoorkeuren voor de huidige taal bewerken"
+
+  "Menu: Edit user global preferences"
+  "Menu: Global Gebruikersvoorkeuren bewerken"
+
   "Menu: Edit user menu bindings"
   "Menu: menu Gebruiker bewerken bindingen"
-
-  "Menu: Edit user preferences"
-  "Gebruikersvoorkeuren Edit: Menu"
 
   "Menu: Enable Vim mode"
   "Menu: Enable Vim modus"
@@ -413,6 +440,9 @@ msgcat::mcmset nl {
   "Menu: Hide console"
   "Menu: Verbergen console"
 
+  "Menu: Hide meta characters"
+  "Menu: Verbergen metakarakters"
+
   "Menu: Hide sidebar"
   "Menu: Verbergen zijbalk"
 
@@ -446,6 +476,9 @@ msgcat::mcmset nl {
   "Menu: Lock file"
   "Menu: Lock file"
 
+  "Menu: Merge panes"
+  "Menu: Samenvoegen deelvensters"
+
   "Menu: Move to other pane"
   "Menu: Overgang naar andere ruit"
 
@@ -463,6 +496,9 @@ msgcat::mcmset nl {
 
   "Menu: Open file"
   "Menu: Bestand openen"
+
+  "Menu: Open session"
+  "Menu: Openbare zitting"
 
   "Menu: Paste and format text from clipboard"
   "Menu: Plakken en opmaken van het klembord"
@@ -497,11 +533,17 @@ msgcat::mcmset nl {
   "Menu: Save all files"
   "Menu: Sla alle bestanden"
 
+  "Menu: Save current session"
+  "Huidige sessie opslaan?"
+
   "Menu: Save file"
   "Menu: Bestand opslaan"
 
   "Menu: Save file as"
   "Menu: Bestand opslaan als"
+
+  "Menu: Save sessions as"
+  "Menu: Opslaan als zittingen"
 
   "Menu: Select all occurrences"
   "Menu: Selecteer alle exemplaren"
@@ -548,6 +590,9 @@ msgcat::mcmset nl {
   "Menu: Show last profiling report"
   "Menu: Toon laatste profilering rapport"
 
+  "Menu: Show meta characters"
+  "Menu: Toon metakarakters"
+
   "Menu: Show selected line change"
   "Menu: Toon geselecteerde lijn wijzigen"
 
@@ -566,11 +611,14 @@ msgcat::mcmset nl {
   "Menu: Stop profiling"
   "Menu: Stop profilering"
 
-  "Menu: Toggle split view mode"
-  "Menu: Toggle split view mode"
+  "Menu: Switch to session"
+  "Menu: Overschakelen naar sessie"
 
-  "Menu: Uncomment selected text"
-  "Menu: Uncomment geselecteerde tekst"
+  "Menu: Toggle comment"
+  "Menu: Toggle commentaar"
+
+  "Menu: Toggle split view mode"
+  "Menu: Toggle split view mode"
 
   "Menu: Undo"
   "Menu: Ongedaan maken"
@@ -596,13 +644,10 @@ msgcat::mcmset nl {
   "Menu: View global preferences"
   "Menu: View globale voorkeuren"
 
-  "Move to other pane"
-  "Overgang naar andere ruit"
+  "Merge Panes"
+  "Samenvoegen van deelvensters"
 
-  "New"
-  "Nieuw"
-
-  "Next difference"
+  "Next Difference"
   "Volgend verschil"
 
   "No files found in specified directories"
@@ -632,7 +677,7 @@ msgcat::mcmset nl {
   "Preferences"
   "Voorkeuren"
 
-  "Previous difference"
+  "Previous Difference"
   "Vorig verschil"
 
   "Profiling started"
@@ -650,20 +695,20 @@ msgcat::mcmset nl {
   "Reload"
   "Herladen"
 
-  "Remove all markers"
+  "Remove All Markers"
   "Alle markeringen verwijderen"
 
-  "Remove from current line"
+  "Remove From Current Line"
   "Verwijderen uit de huidige regel"
 
-  "Replace line with script"
-  "Regel vervangen door script"
+  "Replace Line With Script"
+  "Regel vervangen door Script"
 
   "Reset User to Base"
   "Reset gebruiker naar Base"
 
-  "Restart tke"
-  "Herstart TKE"
+  "Restart TKE"
+  "Opnieuw opstarten van TKE"
 
   "Save All"
   "Alles opslaan"
@@ -671,16 +716,19 @@ msgcat::mcmset nl {
   "Save As..."
   "Opslaan als"
 
+  "Save Current"
+  "Opslaan van de huidige"
+
   "Select All"
   "Alles selecteren"
 
-  "Select all occurrences"
+  "Select All Occurrences"
   "Selecteer alle exemplaren"
 
-  "Select next occurrence"
-  "Selecteer volgende voorkomen"
+  "Select Next Occurrence"
+  "Selecteer volgende vindplaats"
 
-  "Select previous occurrence"
+  "Select Previous Occurrence"
   "Selecteer vorige exemplaar"
 
   "Selected"
@@ -691,6 +739,9 @@ msgcat::mcmset nl {
 
   "Send Feedback"
   "Feedback verzenden"
+
+  "Sessions"
+  "Sessies"
 
   "Set Syntax"
   "Stel Syntax"
@@ -716,6 +767,12 @@ msgcat::mcmset nl {
   "Show Line Numbers"
   "Regelnummering tonen"
 
+  "Show Meta Characters"
+  "Toon metakarakters"
+
+  "Show Selected Line Change"
+  "Toon geselecteerde lijn wijzigen"
+
   "Show Sidebar"
   "Zijbalk tonen"
 
@@ -724,9 +781,6 @@ msgcat::mcmset nl {
 
   "Show Tab Bar"
   "Show Tab Bar"
-
-  "Show selected line change"
-  "Toon geselecteerde regel wijzigen"
 
   "Show*Profiling*"
   "Tonen * Profiling *"
@@ -743,14 +797,17 @@ msgcat::mcmset nl {
   "Sort Tabs"
   "Sorteren Tabs"
 
-  "Split view"
-  "Gesplitst beeld"
+  "Split View"
+  "Venster opsplitsen"
 
   "Start Profiling"
   "Start Profiling"
 
   "Stop Profiling"
   "Stop Profiling"
+
+  "Switch To"
+  "Overschakelen naar"
 
   "Tabs"
   "Tab"
@@ -761,11 +818,11 @@ msgcat::mcmset nl {
   "Theme Creator"
   "Theme Creator"
 
+  "Toggle Comment"
+  "Knevel commentaar"
+
   "Tools"
   "hulpmiddelen;"
-
-  "Uncomment"
-  "Uncomment"
 
   "Undo"
   "Ongedaan maken"
@@ -843,8 +900,8 @@ msgcat::mcmset nl {
   "Close Directory Files"
   "Sluiten Directory Bestanden"
 
-  "Delete"
-  "Verwijderen"
+  "Copy Pathname"
+  "Padnaam kopiëren"
 
   "Delete directory?"
   "Delete directory?"
@@ -861,17 +918,14 @@ msgcat::mcmset nl {
   "File Name:"
   "Bestandsnaam:"
 
+  "Folder Name:"
+  "Mapnaam:"
+
   "Make Current Working Directory"
   "Make Current Working Directory"
 
   "New Directory"
   "Nieuwe directory"
-
-  "New File"
-  "Nieuw bestand"
-
-  "Open"
-  "Openen"
 
   "Open Directory Files"
   "Open Directory Bestanden"
@@ -973,14 +1027,6 @@ msgcat::mcmset nl {
 
 }
 
-# tkedat.tcl
-msgcat::mcmset nl {
-
-  "Unable to open %s for reading"
-  "Het bestand%1 kon niet worden geopend."
-
-}
-
 # vim.tcl
 msgcat::mcmset nl {
 
@@ -1001,11 +1047,23 @@ msgcat::mcmset nl {
   "Close"
   "Sluiten"
 
+  "Delete"
+  "Verwijderen"
+
   "Favorite"
   "Favoriet"
 
   "Find:"
   "ontdekken"
+
+  "Move to Other Pane"
+  "Verplaatsen naar andere Pane"
+
+  "New File"
+  "Nieuw bestand"
+
+  "Open"
+  "Openen"
 
   "Replace:"
   "Vervangen:"

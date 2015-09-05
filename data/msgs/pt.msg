@@ -79,14 +79,14 @@ msgcat::mcmset pt {
   "File index is out of range"
   "√çndice arquivo est√° fora do intervalo"
 
+  "License:"
+  "LicenÁa:"
+
   "Line: %d, Column: %d"
   "Linha:% d, coluna% d"
 
   "Locked"
   "Bloqueado"
-
-  "Move to Other Pane"
-  "Mover para outro painel"
 
   "Move*"
   "Mudar"
@@ -124,6 +124,9 @@ msgcat::mcmset pt {
   "Total Lines: %d, Total Characters: %d"
   "Total de linhas:% d, Total Personagens:% d"
 
+  "Twitter:"
+  "Twitter"
+
   "Unable to find current file (tab: %s)"
   "N√£o foi poss√≠vel localizar o arquivo atual (guia:% s)"
 
@@ -158,14 +161,14 @@ msgcat::mcmset pt {
   "About TKE"
   "Sobre TKE"
 
-  "Align cursors"
-  "Alinhe cursores"
+  "Align Cursors"
+  "Alinhar os cursores"
 
   "All"
   "Tudo"
 
-  "Append next occurrence"
-  "Acrescente pr√≥xima ocorr√™ncia"
+  "Append Next Occurrence"
+  "Acrescentar a prÛxima ocorrÍncia"
 
   "Auto-Indent"
   "Auto Indentar"
@@ -179,17 +182,17 @@ msgcat::mcmset pt {
   "Close All"
   "Fechar Tudo"
 
-  "Comment"
-  "Coment√°rio"
+  "Close Current"
+  "Fechar a Vista Actual"
 
   "Copy"
   "Copiar"
 
-  "Create at current line"
-  "Criar na linha atual"
+  "Create New..."
+  "Criar um Novo"
 
-  "Create new..."
-  "Criar uma nova"
+  "Create at Current Line"
+  "Criar na linha atual"
 
   "Create..."
   "Criar..."
@@ -203,8 +206,20 @@ msgcat::mcmset pt {
   "Edit Language"
   "Editar idioma"
 
+  "Edit Session - Global"
+  "Editar a sess„o - Global"
+
+  "Edit Session - Language"
+  "Editar a sess„o - lÌngua"
+
   "Edit User"
   "Editar Usu√°rio"
+
+  "Edit User - Global"
+  "Editar usu·rio - Global"
+
+  "Edit User - Language"
+  "Editar usu·rio - idioma"
 
   "Edit..."
   "Editar..."
@@ -215,14 +230,14 @@ msgcat::mcmset pt {
   "Find"
   "Encontrar"
 
-  "Find and Replace"
-  "Localizar e substituir"
-
-  "Find in files"
+  "Find In Files"
   "Procurar nos Ficheiros..."
 
-  "Find matching pair"
-  "Encontre par combinando"
+  "Find Matching Pair"
+  "Encontrar o par de correspondÍncia"
+
+  "Find and Replace"
+  "Localizar e substituir"
 
   "Format Text"
   "Text Format"
@@ -251,6 +266,9 @@ msgcat::mcmset pt {
   "Hide Line Numbers"
   "Esconder os n√∫meros de linha"
 
+  "Hide Meta Characters"
+  "Esconder os Meta caracteres"
+
   "Hide Sidebar"
   "Esconder a Barra Lateral"
 
@@ -260,8 +278,8 @@ msgcat::mcmset pt {
   "Hide Tab Bar"
   "Esconder Tab Bar"
 
-  "Import TextMate theme..."
-  "Importa√ß√£o tema TextMate ..."
+  "Import TextMate Theme..."
+  "Tema de TextMate importaÁ„o..."
 
   "Indent"
   "Avan√ßar"
@@ -272,19 +290,19 @@ msgcat::mcmset pt {
   "Indent Off"
   "Travess√£o fora"
 
+  "Insert Enumeration"
+  "Inserir a enumeraÁ„o"
+
   "Insert Text"
   "Inserir um √çndice"
-
-  "Insert enumeration"
-  "Insira enumera√ß√£o"
 
   "Install..."
   "Instala√ß√£o"
 
-  "Jump backward"
-  "Saltar para tr√°s"
+  "Jump Backward"
+  "Saltar para tr·s"
 
-  "Jump forward"
+  "Jump Forward"
   "Saltar para a frente"
 
   "Launcher"
@@ -317,14 +335,14 @@ msgcat::mcmset pt {
   "Menu: Close all tabs"
   "Fechar todas as guias"
 
+  "Menu: Close current session"
+  "Menu: Fechar sess„o atual"
+
   "Menu: Close current tab"
   "Menu: guia atual Fechar"
 
-  "Menu: Comment selected text"
-  "Menu: Coment√°rio texto selecionado"
-
-  "Menu: Copy selected text"
-  "Menu: Copiar texto selecionado"
+  "Menu: Copy text"
+  "Menu: Texto cÛpia"
 
   "Menu: Create marker at current line"
   "Menu: Criar marcador na linha atual"
@@ -335,8 +353,11 @@ msgcat::mcmset pt {
   "Menu: Create new theme"
   "Criar um Novo Tema..."
 
-  "Menu: Cut selected text"
-  "Menu: Cortar um texto selecionado"
+  "Menu: Cut text"
+  "Menu: Texto de corte"
+
+  "Menu: Delete session"
+  "Menu: Sess„o de excluir"
 
   "Menu: Disable Vim mode"
   "Menu: modo Disable Vim"
@@ -344,17 +365,23 @@ msgcat::mcmset pt {
   "Menu: Edit Tke theme"
   "Menu: Editar tema Tke"
 
-  "Menu: Edit language preferences"
-  "Menu: Prefer√™ncias de idioma editar"
-
   "Menu: Edit language snippets"
   "Menu: Trechos de idioma editar"
 
+  "Menu: Edit session current language preferences"
+  "Menu: Editar preferÍncias de idioma atual sess„o"
+
+  "Menu: Edit session global preferences"
+  "Menu: Editar preferÍncias globais de sess„o"
+
+  "Menu: Edit user current language preferences"
+  "Menu: Editar preferÍncias de idioma atual do usu·rio"
+
+  "Menu: Edit user global preferences"
+  "Menu: Editar as preferÍncias do usu·rio global"
+
   "Menu: Edit user menu bindings"
   "Liga√ß√µes do menu Editar usu√°rio: Menu"
-
-  "Menu: Edit user preferences"
-  "Editar prefer√™ncias de usu√°rio: Menu"
 
   "Menu: Enable Vim mode"
   "Menu: Ative o modo Vim"
@@ -413,6 +440,9 @@ msgcat::mcmset pt {
   "Menu: Hide console"
   "Menu: Esconder consola"
 
+  "Menu: Hide meta characters"
+  "Menu: Ocultar os meta caracteres"
+
   "Menu: Hide sidebar"
   "Menu: ocultar barra lateral"
 
@@ -446,6 +476,9 @@ msgcat::mcmset pt {
   "Menu: Lock file"
   "Menu: arquivo de bloqueio"
 
+  "Menu: Merge panes"
+  "Menu: PainÈis de mesclagem"
+
   "Menu: Move to other pane"
   "Menu: Mover para outro painel"
 
@@ -463,6 +496,9 @@ msgcat::mcmset pt {
 
   "Menu: Open file"
   "Menu: Abrir arquivo"
+
+  "Menu: Open session"
+  "Menu: Sess„o aberta"
 
   "Menu: Paste and format text from clipboard"
   "Menu: Colar e formato de texto da √°rea de transfer√™ncia"
@@ -497,11 +533,17 @@ msgcat::mcmset pt {
   "Menu: Save all files"
   "Menu: Salve todos os arquivos"
 
+  "Menu: Save current session"
+  "Deseja gravar a sess„o actual?"
+
   "Menu: Save file"
   "Menu: Salve o arquivo"
 
   "Menu: Save file as"
   "Menu: Salvar arquivo como"
+
+  "Menu: Save sessions as"
+  "Menu: Salvar sessıes como"
 
   "Menu: Select all occurrences"
   "Menu: Selecione todas as ocorr√™ncias"
@@ -548,6 +590,9 @@ msgcat::mcmset pt {
   "Menu: Show last profiling report"
   "Menu: Mostrar √∫ltimo relat√≥rio de profiling"
 
+  "Menu: Show meta characters"
+  "Menu: Show meta caracteres"
+
   "Menu: Show selected line change"
   "Menu: Mudan√ßa de linha de Show selecionado"
 
@@ -566,11 +611,14 @@ msgcat::mcmset pt {
   "Menu: Stop profiling"
   "Menu: Pare de perfis"
 
+  "Menu: Switch to session"
+  "Menu: Interruptor de sess„o"
+
+  "Menu: Toggle comment"
+  "Menu: Coment·rio de altern‚ncia"
+
   "Menu: Toggle split view mode"
   "Menu: Alterna modo de exibi√ß√£o de divis√£o"
-
-  "Menu: Uncomment selected text"
-  "Menu: Descomente texto selecionado"
 
   "Menu: Undo"
   "Menu: Desfazer"
@@ -596,14 +644,11 @@ msgcat::mcmset pt {
   "Menu: View global preferences"
   "Menu: Exibir prefer√™ncias globais"
 
-  "Move to other pane"
-  "Mover para outro painel"
+  "Merge Panes"
+  "Mesclar painÈis"
 
-  "New"
-  "Novo"
-
-  "Next difference"
-  "Pr√≥xima Diferen√ßa"
+  "Next Difference"
+  "PrÛxima DiferenÁa"
 
   "No files found in specified directories"
   "N√£o h√° arquivos encontrados em diret√≥rios especificados"
@@ -632,8 +677,8 @@ msgcat::mcmset pt {
   "Preferences"
   "Prefer√™ncias"
 
-  "Previous difference"
-  "Diferen√ßa Anterior"
+  "Previous Difference"
+  "DiferenÁa Anterior"
 
   "Profiling started"
   "Profiling come√ßou"
@@ -650,20 +695,20 @@ msgcat::mcmset pt {
   "Reload"
   "Recarregar"
 
-  "Remove all markers"
+  "Remove All Markers"
   "Remova todos os marcadores"
 
-  "Remove from current line"
+  "Remove From Current Line"
   "Remover da linha atual"
 
-  "Replace line with script"
-  "Substituir a linha com script"
+  "Replace Line With Script"
+  "Substituir a linha com Script"
 
   "Reset User to Base"
   "Redefinir o usu√°rio √† Base"
 
-  "Restart tke"
-  "Restart tke"
+  "Restart TKE"
+  "Reiniciar TKE"
 
   "Save All"
   "Gravar Tudo"
@@ -671,17 +716,20 @@ msgcat::mcmset pt {
   "Save As..."
   "Salvar como..."
 
+  "Save Current"
+  "Salvar a skin atual"
+
   "Select All"
   "Selecionar tudo"
 
-  "Select all occurrences"
-  "Selecione todas as ocorr√™ncias"
+  "Select All Occurrences"
+  "Selecionar todas as ocorrÍncias"
 
-  "Select next occurrence"
-  "Selecione pr√≥xima ocorr√™ncia"
+  "Select Next Occurrence"
+  "Selecione a prÛxima ocorrÍncia"
 
-  "Select previous occurrence"
-  "Selecione ocorr√™ncia anterior"
+  "Select Previous Occurrence"
+  "Selecione a ocorrÍncia anterior"
 
   "Selected"
   "Selecionado"
@@ -691,6 +739,9 @@ msgcat::mcmset pt {
 
   "Send Feedback"
   "Enviar Coment√°rio"
+
+  "Sessions"
+  "Sessıes"
 
   "Set Syntax"
   "Definir Sintaxe"
@@ -716,6 +767,12 @@ msgcat::mcmset pt {
   "Show Line Numbers"
   "Mostrar os N√∫meros de Linha"
 
+  "Show Meta Characters"
+  "Mostrar os Meta caracteres"
+
+  "Show Selected Line Change"
+  "Mostrar a mudanÁa de linha selecionada"
+
   "Show Sidebar"
   "Mostrar a Barra Lateral"
 
@@ -724,9 +781,6 @@ msgcat::mcmset pt {
 
   "Show Tab Bar"
   "Barra de P√°ginas"
-
-  "Show selected line change"
-  "Mostrar a mudan√ßa de linha selecionada"
 
   "Show*Profiling*"
   "Show * Profiling *"
@@ -743,14 +797,17 @@ msgcat::mcmset pt {
   "Sort Tabs"
   "Sort Tabs"
 
-  "Split view"
-  "Vista Dividida"
+  "Split View"
+  "Dividir a Vista"
 
   "Start Profiling"
   "Comece Profiling"
 
   "Stop Profiling"
   "Pare Profiling"
+
+  "Switch To"
+  "Trocar para"
 
   "Tabs"
   "Guias"
@@ -761,11 +818,11 @@ msgcat::mcmset pt {
   "Theme Creator"
   "Theme Creator"
 
+  "Toggle Comment"
+  "Coment·rio de altern‚ncia"
+
   "Tools"
   "Ferramentas"
-
-  "Uncomment"
-  "Descomente"
 
   "Undo"
   "Anular"
@@ -843,8 +900,8 @@ msgcat::mcmset pt {
   "Close Directory Files"
   "Fechar Arquivos Diret√≥rio"
 
-  "Delete"
-  "Excluir"
+  "Copy Pathname"
+  "Copie o caminho do"
 
   "Delete directory?"
   "Excluir diret√≥rio?"
@@ -861,17 +918,14 @@ msgcat::mcmset pt {
   "File Name:"
   "Nome do arquivo:"
 
+  "Folder Name:"
+  "Nome da Pasta:"
+
   "Make Current Working Directory"
   "Fa√ßa diret√≥rio de trabalho atual"
 
   "New Directory"
   "Novo Diret√≥rio"
-
-  "New File"
-  "Novo arquivo"
-
-  "Open"
-  "Abrir"
 
   "Open Directory Files"
   "Arquivos Open Directory"
@@ -973,14 +1027,6 @@ msgcat::mcmset pt {
 
 }
 
-# tkedat.tcl
-msgcat::mcmset pt {
-
-  "Unable to open %s for reading"
-  "N√£o foi poss√≠vel abrir o ficheiro%1 para leitura."
-
-}
-
 # vim.tcl
 msgcat::mcmset pt {
 
@@ -1001,11 +1047,23 @@ msgcat::mcmset pt {
   "Close"
   "Fecho"
 
+  "Delete"
+  "Excluir"
+
   "Favorite"
   "Favorito"
 
   "Find:"
   "Encontrar"
+
+  "Move to Other Pane"
+  "Mover para outro painel"
+
+  "New File"
+  "Novo arquivo"
+
+  "Open"
+  "Abrir"
 
   "Replace:"
   "Substituir:"

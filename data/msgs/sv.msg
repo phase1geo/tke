@@ -79,14 +79,14 @@ msgcat::mcmset sv {
   "File index is out of range"
   "File index √§r utanf√∂r intervallet"
 
+  "License:"
+  "Licens"
+
   "Line: %d, Column: %d"
   "Rad:% d, Kolumn:% d"
 
   "Locked"
   "Sp√§rrad"
-
-  "Move to Other Pane"
-  "Flytta till andra Pane"
 
   "Move*"
   "Move"
@@ -124,6 +124,9 @@ msgcat::mcmset sv {
   "Total Lines: %d, Total Characters: %d"
   "Totalt antal rader:% d, totalt Tecken:% d"
 
+  "Twitter:"
+  "Twitter:"
+
   "Unable to find current file (tab: %s)"
   "Det gick inte att hitta aktuell fil (flik:% s)"
 
@@ -158,14 +161,14 @@ msgcat::mcmset sv {
   "About TKE"
   "Om TKE"
 
-  "Align cursors"
-  "Rikta mark√∂rer"
+  "Align Cursors"
+  "Justera markˆrer"
 
   "All"
   "ALL"
 
-  "Append next occurrence"
-  "Bifoga n√§sta f√∂rekomst"
+  "Append Next Occurrence"
+  "L‰gg n‰sta fˆrekomst"
 
   "Auto-Indent"
   "Automatisk indentering"
@@ -179,17 +182,17 @@ msgcat::mcmset sv {
   "Close All"
   "St√§ng alla"
 
-  "Comment"
-  "Kommentar"
+  "Close Current"
+  "St‰ng aktuell flik"
 
   "Copy"
   "Kopiera"
 
-  "Create at current line"
-  "Skapa p√• aktuell rad"
+  "Create New..."
+  "Skapa ny"
 
-  "Create new..."
-  "Skapa nytt"
+  "Create at Current Line"
+  "Skapa pÂ aktuell rad"
 
   "Create..."
   "Skapa"
@@ -203,8 +206,20 @@ msgcat::mcmset sv {
   "Edit Language"
   "Redigera spr√•k"
 
+  "Edit Session - Global"
+  "Redigera Session - Global"
+
+  "Edit Session - Language"
+  "Redigera Session - sprÂk"
+
   "Edit User"
   "Redigera medlem"
+
+  "Edit User - Global"
+  "Redigera anv‰ndare - Global"
+
+  "Edit User - Language"
+  "Redigera anv‰ndare - sprÂk"
 
   "Edit..."
   "Redigera..."
@@ -215,14 +230,14 @@ msgcat::mcmset sv {
   "Find"
   "S√∂k i"
 
+  "Find In Files"
+  "Sˆk i filer..."
+
+  "Find Matching Pair"
+  "Hitta matchande par"
+
   "Find and Replace"
   "S√∂k och ers√§tt"
-
-  "Find in files"
-  "S√∂k i filer..."
-
-  "Find matching pair"
-  "Hitta matchande par"
 
   "Format Text"
   "Formatera text"
@@ -251,6 +266,9 @@ msgcat::mcmset sv {
   "Hide Line Numbers"
   "D√∂lja radnummer"
 
+  "Hide Meta Characters"
+  "Dˆlja Meta tecken"
+
   "Hide Sidebar"
   "D√∂lj sidorad"
 
@@ -260,8 +278,8 @@ msgcat::mcmset sv {
   "Hide Tab Bar"
   "Hide Tab Bar"
 
-  "Import TextMate theme..."
-  "Import Textmate tema ..."
+  "Import TextMate Theme..."
+  "Importera TextMate tema..."
 
   "Indent"
   "Indrag"
@@ -272,20 +290,20 @@ msgcat::mcmset sv {
   "Indent Off"
   "Indrag av"
 
+  "Insert Enumeration"
+  "Infoga uppr‰kning"
+
   "Insert Text"
   "Infoga text"
-
-  "Insert enumeration"
-  "S√§tt uppr√§kning"
 
   "Install..."
   "Installera"
 
-  "Jump backward"
-  "Hoppa bak√•t"
+  "Jump Backward"
+  "Hoppa bakÂt"
 
-  "Jump forward"
-  "Hoppa fram√•t"
+  "Jump Forward"
+  "Hoppa framÂt"
 
   "Launcher"
   "Launcher"
@@ -317,14 +335,14 @@ msgcat::mcmset sv {
   "Menu: Close all tabs"
   "Meny: St√§ng alla flikar"
 
+  "Menu: Close current session"
+  "Meny: St‰ng nuvarande session"
+
   "Menu: Close current tab"
   "Meny: St√§ng aktuell flik"
 
-  "Menu: Comment selected text"
-  "Meny: Kommentar markerad text"
-
-  "Menu: Copy selected text"
-  "Meny: Kopiera markerad text"
+  "Menu: Copy text"
+  "Meny: Kopiera text"
 
   "Menu: Create marker at current line"
   "Menyn: Skapa mark√∂r p√• aktuell rad"
@@ -335,8 +353,11 @@ msgcat::mcmset sv {
   "Menu: Create new theme"
   "Skapa nytt tema..."
 
-  "Menu: Cut selected text"
-  "Meny: Klipp ut markerad text"
+  "Menu: Cut text"
+  "Menyn: Klipp ut texten"
+
+  "Menu: Delete session"
+  "Menyn: Ta bort session"
 
   "Menu: Disable Vim mode"
   "Meny: Inaktivera Vim-l√§ge"
@@ -344,17 +365,23 @@ msgcat::mcmset sv {
   "Menu: Edit Tke theme"
   "Meny: Redigera Tke tema"
 
-  "Menu: Edit language preferences"
-  "Meny: Redigera spr√•kinst√§llningar"
-
   "Menu: Edit language snippets"
   "Meny: Redigera spr√•k snuttar"
 
+  "Menu: Edit session current language preferences"
+  "Meny: Redigera session aktuella sprÂkinst‰llningar"
+
+  "Menu: Edit session global preferences"
+  "Meny: Redigera globala inst‰llningar fˆr session"
+
+  "Menu: Edit user current language preferences"
+  "Meny: Redigera anv‰ndarinst‰llningar nuvarande sprÂk"
+
+  "Menu: Edit user global preferences"
+  "Meny: Redigera globala anv‰ndarinst‰llningar"
+
   "Menu: Edit user menu bindings"
   "Meny: Redigera anv√§ndarmenyns bindningar"
-
-  "Menu: Edit user preferences"
-  "Meny: Redigera anv√§ndarinst√§llningar"
 
   "Menu: Enable Vim mode"
   "Meny: Aktivera Vim-l√§ge"
@@ -413,6 +440,9 @@ msgcat::mcmset sv {
   "Menu: Hide console"
   "Meny: Hide-konsol"
 
+  "Menu: Hide meta characters"
+  "Meny: Dˆlja meta tecken"
+
   "Menu: Hide sidebar"
   "Meny: Hide sidebar"
 
@@ -446,6 +476,9 @@ msgcat::mcmset sv {
   "Menu: Lock file"
   "Meny: L√•s fil"
 
+  "Menu: Merge panes"
+  "Meny: Sammanfoga fˆnsterrutor"
+
   "Menu: Move to other pane"
   "Meny: Flytta till andra rutan"
 
@@ -463,6 +496,9 @@ msgcat::mcmset sv {
 
   "Menu: Open file"
   "Meny: √ñppna filen"
+
+  "Menu: Open session"
+  "Meny: ÷ppen session"
 
   "Menu: Paste and format text from clipboard"
   "Meny: Klistra in och formatera text fr√•n Urklipp"
@@ -497,11 +533,17 @@ msgcat::mcmset sv {
   "Menu: Save all files"
   "Meny: Spara alla filer"
 
+  "Menu: Save current session"
+  "Spara nuvarande session?"
+
   "Menu: Save file"
   "Meny: Spara fil"
 
   "Menu: Save file as"
   "Meny: Spara filen som"
+
+  "Menu: Save sessions as"
+  "Meny: Spara sessioner som"
 
   "Menu: Select all occurrences"
   "Meny: V√§lj alla f√∂rekomster"
@@ -548,6 +590,9 @@ msgcat::mcmset sv {
   "Menu: Show last profiling report"
   "Meny: Visa senaste profilering rapport"
 
+  "Menu: Show meta characters"
+  "Meny: Visa meta tecken"
+
   "Menu: Show selected line change"
   "Meny: Visa markerad linje f√∂r√§ndring"
 
@@ -566,11 +611,14 @@ msgcat::mcmset sv {
   "Menu: Stop profiling"
   "Meny: Stoppa profilering"
 
+  "Menu: Switch to session"
+  "Meny: V‰xla till session"
+
+  "Menu: Toggle comment"
+  "Meny: V‰xla kommentar"
+
   "Menu: Toggle split view mode"
   "Meny: V√§xla delad vy l√§ge"
-
-  "Menu: Uncomment selected text"
-  "Meny: Avkommentera markerad text"
 
   "Menu: Undo"
   "Meny: √Öngra"
@@ -596,14 +644,11 @@ msgcat::mcmset sv {
   "Menu: View global preferences"
   "Meny: Visa globala inst√§llningar"
 
-  "Move to other pane"
-  "Flytta till andra rutan"
+  "Merge Panes"
+  "SlÂ ihop fˆnsterrutorna"
 
-  "New"
-  "Nytt"
-
-  "Next difference"
-  "N√§sta skillnad"
+  "Next Difference"
+  "N‰sta skillnad"
 
   "No files found in specified directories"
   "Inga filer Funna i angivna kataloger"
@@ -632,8 +677,8 @@ msgcat::mcmset sv {
   "Preferences"
   "Favoriter"
 
-  "Previous difference"
-  "F√∂reg√•ende skillnad"
+  "Previous Difference"
+  "FˆregÂende skillnad"
 
   "Profiling started"
   "Profilering b√∂rjade"
@@ -650,20 +695,20 @@ msgcat::mcmset sv {
   "Reload"
   "Ladda om"
 
-  "Remove all markers"
-  "Ta bort alla mark√∂rer"
+  "Remove All Markers"
+  "Ta bort alla markˆrer"
 
-  "Remove from current line"
-  "Ta bort fr√•n aktuell rad"
+  "Remove From Current Line"
+  "Ta bort frÂn aktuell rad"
 
-  "Replace line with script"
-  "Ers√§tta linje med skript"
+  "Replace Line With Script"
+  "Ers‰tta Line med skriptet"
 
   "Reset User to Base"
   "√Öterst√§lla anv√§ndare till Base"
 
-  "Restart tke"
-  "Starta om tke"
+  "Restart TKE"
+  "Starta om TKE"
 
   "Save All"
   "Spara allt"
@@ -671,17 +716,20 @@ msgcat::mcmset sv {
   "Save As..."
   "Spara som"
 
+  "Save Current"
+  "Spara strˆm"
+
   "Select All"
   "Markera alla"
 
-  "Select all occurrences"
-  "V√§lj alla f√∂rekomster"
+  "Select All Occurrences"
+  "Markera alla fˆrekomster"
 
-  "Select next occurrence"
-  "V√§lj n√§sta f√∂rekomst"
+  "Select Next Occurrence"
+  "Markera n‰sta fˆrekomst"
 
-  "Select previous occurrence"
-  "V√§lj f√∂reg√•ende f√∂rekomst"
+  "Select Previous Occurrence"
+  "Markera fˆregÂende fˆrekomst"
 
   "Selected"
   "Vald"
@@ -691,6 +739,9 @@ msgcat::mcmset sv {
 
   "Send Feedback"
   "S√§nd feedback"
+
+  "Sessions"
+  "Sessioner"
 
   "Set Syntax"
   "St√§ll Syntax"
@@ -716,6 +767,12 @@ msgcat::mcmset sv {
   "Show Line Numbers"
   "Rad nummer"
 
+  "Show Meta Characters"
+  "Meta tecken visas"
+
+  "Show Selected Line Change"
+  "Visa markerad rad fˆr‰ndringar"
+
   "Show Sidebar"
   "Visa sidorad"
 
@@ -724,9 +781,6 @@ msgcat::mcmset sv {
 
   "Show Tab Bar"
   "Visa Tab Bar"
-
-  "Show selected line change"
-  "Visa markerad rad f√∂r√§ndringar"
 
   "Show*Profiling*"
   "Visa * Profilering *"
@@ -743,14 +797,17 @@ msgcat::mcmset sv {
   "Sort Tabs"
   "Sort Tabs"
 
-  "Split view"
-  "Delad vy"
+  "Split View"
+  "Dela vy"
 
   "Start Profiling"
   "B√∂rja Profilering"
 
   "Stop Profiling"
   "Stoppa Profilering"
+
+  "Switch To"
+  "V‰xla till"
 
   "Tabs"
   "Tabbar"
@@ -761,11 +818,11 @@ msgcat::mcmset sv {
   "Theme Creator"
   "Theme Creator"
 
+  "Toggle Comment"
+  "Toggle kommentar"
+
   "Tools"
   "Verktyg"
-
-  "Uncomment"
-  "Avkommentera"
 
   "Undo"
   "Ord"
@@ -843,8 +900,8 @@ msgcat::mcmset sv {
   "Close Directory Files"
   "St√§ng Directory filer"
 
-  "Delete"
-  "Radera"
+  "Copy Pathname"
+  "Kopiera sˆkv‰g"
 
   "Delete directory?"
   "Radera katalog?"
@@ -861,17 +918,14 @@ msgcat::mcmset sv {
   "File Name:"
   "Filnamn:"
 
+  "Folder Name:"
+  "Mappnamnet:"
+
   "Make Current Working Directory"
   "G√∂r aktuell katalog"
 
   "New Directory"
   "Ny katalog"
-
-  "New File"
-  "Ny fil"
-
-  "Open"
-  "√ñppen"
 
   "Open Directory Files"
   "Open Directory filer"
@@ -973,14 +1027,6 @@ msgcat::mcmset sv {
 
 }
 
-# tkedat.tcl
-msgcat::mcmset sv {
-
-  "Unable to open %s for reading"
-  "Kan inte √∂ppna%1 f√∂r l√§sning."
-
-}
-
 # vim.tcl
 msgcat::mcmset sv {
 
@@ -1001,11 +1047,23 @@ msgcat::mcmset sv {
   "Close"
   "St√§ng"
 
+  "Delete"
+  "Radera"
+
   "Favorite"
   "Gunstling"
 
   "Find:"
   "S√∂k i"
+
+  "Move to Other Pane"
+  "Flytta till andra Pane"
+
+  "New File"
+  "Ny fil"
+
+  "Open"
+  "√ñppen"
 
   "Replace:"
   "Ers√§tt:"

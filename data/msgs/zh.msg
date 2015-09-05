@@ -79,14 +79,14 @@ msgcat::mcmset zh {
   "File index is out of range"
   "文件索引超出范围"
 
+  "License:"
+  "??"
+
   "Line: %d, Column: %d"
   "行数：％d，列数：％d"
 
   "Locked"
   "已锁定"
-
-  "Move to Other Pane"
-  "移动到另一个窗格"
 
   "Move*"
   "移动"
@@ -124,6 +124,9 @@ msgcat::mcmset zh {
   "Total Lines: %d, Total Characters: %d"
   "行总数：％d个，总字符数：％d"
 
+  "Twitter:"
+  "Twitter?"
+
   "Unable to find current file (tab: %s)"
   "找不到当前文件（制表：％S）"
 
@@ -158,14 +161,14 @@ msgcat::mcmset zh {
   "About TKE"
   "关于将军澳支线"
 
-  "Align cursors"
-  "游标对齐"
+  "Align Cursors"
+  "????"
 
   "All"
   "所有"
 
-  "Append next occurrence"
-  "追加下一个出现"
+  "Append Next Occurrence"
+  "????????"
 
   "Auto-Indent"
   "自动缩进"
@@ -179,17 +182,17 @@ msgcat::mcmset zh {
   "Close All"
   "全部关闭"
 
-  "Comment"
-  "备注"
+  "Close Current"
+  "????"
 
   "Copy"
   "复制"
 
-  "Create at current line"
-  "在当前行上创建"
+  "Create New..."
+  "Create new"
 
-  "Create new..."
-  "新建"
+  "Create at Current Line"
+  "???????"
 
   "Create..."
   "建立..."
@@ -203,8 +206,20 @@ msgcat::mcmset zh {
   "Edit Language"
   "编辑语言"
 
+  "Edit Session - Global"
+  "????-??"
+
+  "Edit Session - Language"
+  "????-??"
+
   "Edit User"
   "編輯用戶"
+
+  "Edit User - Global"
+  "????-??"
+
+  "Edit User - Language"
+  "????-??"
 
   "Edit..."
   "編輯..."
@@ -215,14 +230,14 @@ msgcat::mcmset zh {
   "Find"
   "查找"
 
+  "Find In Files"
+  "??????..."
+
+  "Find Matching Pair"
+  "??????"
+
   "Find and Replace"
   "查找和替换"
-
-  "Find in files"
-  "在文件中查找"
-
-  "Find matching pair"
-  "找到匹配的一对"
 
   "Format Text"
   "设置文本格式"
@@ -251,6 +266,9 @@ msgcat::mcmset zh {
   "Hide Line Numbers"
   "隐藏行号"
 
+  "Hide Meta Characters"
+  "?? Meta ??"
+
   "Hide Sidebar"
   "隐藏边栏"
 
@@ -260,8 +278,8 @@ msgcat::mcmset zh {
   "Hide Tab Bar"
   "隐藏标签栏"
 
-  "Import TextMate theme..."
-  "进口TextMate的主题..."
+  "Import TextMate Theme..."
+  "?? TextMate ??..."
 
   "Indent"
   "縮排"
@@ -272,20 +290,20 @@ msgcat::mcmset zh {
   "Indent Off"
   "关闭缩进"
 
+  "Insert Enumeration"
+  "????"
+
   "Insert Text"
   "插入文字"
-
-  "Insert enumeration"
-  "将枚举"
 
   "Install..."
   "安装"
 
-  "Jump backward"
-  "往後跳"
+  "Jump Backward"
+  "???"
 
-  "Jump forward"
-  "往前跳"
+  "Jump Forward"
+  "???"
 
   "Launcher"
   "发射台"
@@ -317,14 +335,14 @@ msgcat::mcmset zh {
   "Menu: Close all tabs"
   "关闭全部标签页"
 
+  "Menu: Close current session"
+  "??: ??????"
+
   "Menu: Close current tab"
   "菜单：关闭当前标签页"
 
-  "Menu: Comment selected text"
-  "菜单：注释选定的文本"
-
-  "Menu: Copy selected text"
-  "菜单：复制选中的文本"
+  "Menu: Copy text"
+  "??: ????"
 
   "Menu: Create marker at current line"
   "在当前行菜单: 创建标记"
@@ -335,8 +353,11 @@ msgcat::mcmset zh {
   "Menu: Create new theme"
   "菜单：创建新的主题"
 
-  "Menu: Cut selected text"
-  "菜单：剪切选中的文本"
+  "Menu: Cut text"
+  "??: ????"
+
+  "Menu: Delete session"
+  "??: ????"
 
   "Menu: Disable Vim mode"
   "菜单：禁用Vim的模式"
@@ -344,17 +365,23 @@ msgcat::mcmset zh {
   "Menu: Edit Tke theme"
   "菜单：编辑将军澳支线主题"
 
-  "Menu: Edit language preferences"
-  "菜单: 编辑语言首选项"
-
   "Menu: Edit language snippets"
   "菜单: 编辑语言片段"
 
+  "Menu: Edit session current language preferences"
+  "??: ???????????"
+
+  "Menu: Edit session global preferences"
+  "??: ?????????"
+
+  "Menu: Edit user current language preferences"
+  "??: ????????????"
+
+  "Menu: Edit user global preferences"
+  "??: ?????????"
+
   "Menu: Edit user menu bindings"
   "菜单：编辑用户菜单绑定"
-
-  "Menu: Edit user preferences"
-  "菜单：编辑用户首选项"
 
   "Menu: Enable Vim mode"
   "菜单：启动Vim的模式"
@@ -413,6 +440,9 @@ msgcat::mcmset zh {
   "Menu: Hide console"
   "菜单：隐藏控制台"
 
+  "Menu: Hide meta characters"
+  "??: ?? meta ??"
+
   "Menu: Hide sidebar"
   "菜单：隐藏侧边栏"
 
@@ -446,6 +476,9 @@ msgcat::mcmset zh {
   "Menu: Lock file"
   "菜单：文件锁定"
 
+  "Menu: Merge panes"
+  "??: ????"
+
   "Menu: Move to other pane"
   "菜单：移动到另一个窗格"
 
@@ -463,6 +496,9 @@ msgcat::mcmset zh {
 
   "Menu: Open file"
   "菜单：打开文件"
+
+  "Menu: Open session"
+  "??: ?????"
 
   "Menu: Paste and format text from clipboard"
   "菜单：粘贴和格式从剪贴板中的文本"
@@ -497,11 +533,17 @@ msgcat::mcmset zh {
   "Menu: Save all files"
   "菜单：保存所有文件"
 
+  "Menu: Save current session"
+  "??: ??????"
+
   "Menu: Save file"
   "菜单：保存文件"
 
   "Menu: Save file as"
   "菜单：文件另存为"
+
+  "Menu: Save sessions as"
+  "??: ??????"
 
   "Menu: Select all occurrences"
   "菜单：选择所有出现"
@@ -548,6 +590,9 @@ msgcat::mcmset zh {
   "Menu: Show last profiling report"
   "菜单：显示最近分析报告"
 
+  "Menu: Show meta characters"
+  "??: ?? meta ??"
+
   "Menu: Show selected line change"
   "菜单： 显示选定行更改"
 
@@ -566,11 +611,14 @@ msgcat::mcmset zh {
   "Menu: Stop profiling"
   "菜单：停止剖析"
 
+  "Menu: Switch to session"
+  "??: ?????"
+
+  "Menu: Toggle comment"
+  "??: ????"
+
   "Menu: Toggle split view mode"
   "菜单：切换分割视图模式"
-
-  "Menu: Uncomment selected text"
-  "菜单：取消对选定的文本"
 
   "Menu: Undo"
   "菜单：撤消"
@@ -596,14 +644,11 @@ msgcat::mcmset zh {
   "Menu: View global preferences"
   "菜单：检视全球首选项"
 
-  "Move to other pane"
-  "移动到另一个窗格"
+  "Merge Panes"
+  "????"
 
-  "New"
-  "新建"
-
-  "Next difference"
-  "下一个差异"
+  "Next Difference"
+  "?????"
 
   "No files found in specified directories"
   "指定的目录中未找到文件"
@@ -632,8 +677,8 @@ msgcat::mcmset zh {
   "Preferences"
   "首选项"
 
-  "Previous difference"
-  "上一个差异"
+  "Previous Difference"
+  "?????"
 
   "Profiling started"
   "分析开始"
@@ -650,20 +695,20 @@ msgcat::mcmset zh {
   "Reload"
   "重新加载"
 
-  "Remove all markers"
-  "删除所有标记"
+  "Remove All Markers"
+  "??????"
 
-  "Remove from current line"
-  "删除从当前行"
+  "Remove From Current Line"
+  "??????"
 
-  "Replace line with script"
-  "用脚本替换行"
+  "Replace Line With Script"
+  "??????"
 
   "Reset User to Base"
   "将用户重置为基地"
 
-  "Restart tke"
-  "重新启动TKE"
+  "Restart TKE"
+  "?????????"
 
   "Save All"
   "全部儲存"
@@ -671,17 +716,20 @@ msgcat::mcmset zh {
   "Save As..."
   "保存为"
 
+  "Save Current"
+  "????"
+
   "Select All"
   "全选"
 
-  "Select all occurrences"
-  "选择所有事件"
+  "Select All Occurrences"
+  "???????"
 
-  "Select next occurrence"
-  "选择下一个出现"
+  "Select Next Occurrence"
+  "????????"
 
-  "Select previous occurrence"
-  "选择上发生"
+  "Select Previous Occurrence"
+  "????????"
 
   "Selected"
   "选定"
@@ -691,6 +739,9 @@ msgcat::mcmset zh {
 
   "Send Feedback"
   "发送 feedback"
+
+  "Sessions"
+  "??"
 
   "Set Syntax"
   "设置语法"
@@ -716,6 +767,12 @@ msgcat::mcmset zh {
   "Show Line Numbers"
   "显示数字"
 
+  "Show Meta Characters"
+  "?? Meta ??"
+
+  "Show Selected Line Change"
+  "???????"
+
   "Show Sidebar"
   "显示侧边栏"
 
@@ -724,9 +781,6 @@ msgcat::mcmset zh {
 
   "Show Tab Bar"
   "显示标签栏"
-
-  "Show selected line change"
-  "显示所选的行更改"
 
   "Show*Profiling*"
   "显示*评测*"
@@ -743,14 +797,17 @@ msgcat::mcmset zh {
   "Sort Tabs"
   "分类标签"
 
-  "Split view"
-  "分割顯示"
+  "Split View"
+  "????"
 
   "Start Profiling"
   "开始分析"
 
   "Stop Profiling"
   "停止分析"
+
+  "Switch To"
+  "???..."
 
   "Tabs"
   "標籤"
@@ -761,11 +818,11 @@ msgcat::mcmset zh {
   "Theme Creator"
   "主题造物主"
 
+  "Toggle Comment"
+  "??/????"
+
   "Tools"
   "工具"
-
-  "Uncomment"
-  "取消注释"
 
   "Undo"
   "復原"
@@ -843,8 +900,8 @@ msgcat::mcmset zh {
   "Close Directory Files"
   "关闭目录文件"
 
-  "Delete"
-  "刪除"
+  "Copy Pathname"
+  "?????"
 
   "Delete directory?"
   "删除目录？"
@@ -861,17 +918,14 @@ msgcat::mcmset zh {
   "File Name:"
   "文件名："
 
+  "Folder Name:"
+  "??????"
+
   "Make Current Working Directory"
   "使当前工作目录"
 
   "New Directory"
   "新目录"
-
-  "New File"
-  "新文件"
-
-  "Open"
-  "打开"
 
   "Open Directory Files"
   "打开目录文件"
@@ -973,14 +1027,6 @@ msgcat::mcmset zh {
 
 }
 
-# tkedat.tcl
-msgcat::mcmset zh {
-
-  "Unable to open %s for reading"
-  "无法打开％s的读取"
-
-}
-
 # vim.tcl
 msgcat::mcmset zh {
 
@@ -1001,11 +1047,23 @@ msgcat::mcmset zh {
   "Close"
   "关闭"
 
+  "Delete"
+  "刪除"
+
   "Favorite"
   "我的最愛"
 
   "Find:"
   "查找"
+
+  "Move to Other Pane"
+  "移动到另一个窗格"
+
+  "New File"
+  "新文件"
+
+  "Open"
+  "打开"
 
   "Replace:"
   "替换:"
