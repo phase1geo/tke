@@ -1026,7 +1026,10 @@ proc ctext::instanceCmd {self cmd args} {
     }
 
     delete {
-      #delete n.n ?n.n
+      set moddata [list]
+      if {[lindex $args 0] eq "-moddata"} {
+        set args [lassign $args dummy moddata]
+      }
 
       set argsLength [llength $args]
 
@@ -1060,9 +1063,8 @@ proc ctext::instanceCmd {self cmd args} {
         ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$configAr(re_opts) -- $commentRE $checkStr]
         ctext::highlightAfterIdle $self $lineStart $lineEnd
         ctext::linemapUpdate $self
-        ctext::modified $self 1 "delete $deletePos 1 $lines"
+        ctext::modified $self 1 [list delete $deletePos 1 $lines $moddata]
       } elseif {$argsLength == 2} {
-        #now deal with delete n.n ?n.n?
         set deleteStartPos [$self._t index [lindex $args 0]]
         set deleteEndPos   [$self._t index [lindex $args 1]]
         set lines          [$self._t count -lines $deleteStartPos $deleteEndPos]
@@ -1087,7 +1089,7 @@ proc ctext::instanceCmd {self cmd args} {
         if {[string first "\n" $data] >= 0} {
           ctext::linemapUpdate $self
         }
-        ctext::modified $self 1 "delete $deleteStartPos [string length $data] $lines"
+        ctext::modified $self 1 [list delete $deleteStartPos [string length $data] $lines $moddata]
       } else {
         return -code error "invalid argument(s) sent to $self delete: $args"
       }
@@ -1216,6 +1218,10 @@ proc ctext::instanceCmd {self cmd args} {
     }
 
     fastdelete {
+      set moddata [list]
+      if {[lindex $args 0] eq "-moddata"} {
+        set args [lassign $args dummy moddata]
+      }
       if {[llength $args] == 1} {
         set chars 1
         set lines [$self._t count -lines "[lindex $args 0] linestart" "[lindex $args 0]+1c lineend"]
@@ -1224,17 +1230,21 @@ proc ctext::instanceCmd {self cmd args} {
         set lines [$self._t count -lines {*}[lrange $args 0 1]]
       }
       eval \$self._t delete $args
-      ctext::modified $self 1 "delete [$self._t index [lindex $args 0]] $chars $lines"
+      ctext::modified $self 1 [list delete [$self._t index [lindex $args 0]] $chars $lines $moddata]
       ctext::linemapUpdate $self
     }
 
     fastinsert {
+      set moddata [list]
+      if {[lindex $args 0] eq "-moddata"} {
+        set args [lassign $args dummy moddata]
+      }
       eval \$self._t insert $args
       set startPos [$self._t index [lindex $args 0]]
       set chars    [string length [lindex $args 1]]
       set lines    [$self._t count -lines $startPos "$startPos+${chars}c"]
       ctext::handleInsertAt0 $self._t $startPos $chars
-      ctext::modified $self 1 "insert $startPos $chars $lines"
+      ctext::modified $self 1 [list insert $startPos $chars $lines $moddata]
       ctext::linemapUpdate $self
     }
 
@@ -1255,6 +1265,11 @@ proc ctext::instanceCmd {self cmd args} {
         return -code error "please use at least 2 arguments to $self insert"
       }
 
+      set moddata [list]
+      if {[lindex $args 0] eq "-moddata"} {
+        set args [lassign $args dummy moddata]
+      }
+      
       set insertPos [$self._t index [lindex $args 0]]
       set prevChar  [$self._t get "$insertPos - 1 chars"]
       set nextChar  [$self._t get $insertPos]
@@ -1325,7 +1340,7 @@ proc ctext::instanceCmd {self cmd args} {
         }
       }
 
-      ctext::modified $self 1 "insert $insertPos $datalen $lines"
+      ctext::modified $self 1 [list insert $insertPos $datalen $lines $moddata]
       ctext::linemapUpdate $self
     }
 
@@ -1334,6 +1349,11 @@ proc ctext::instanceCmd {self cmd args} {
         return -code error "please use at least 3 arguments to $self replace"
       }
 
+      set moddata [list]
+      if {[lindex $args 0] eq "-moddata"} {
+        set args [lassign $args dummy moddata]
+      }
+      
       set startPos    [$self._t index [lindex $args 0]]
       set endPos      [$self._t index [lindex $args 1]]
       set data        [lindex $args 2]
@@ -1391,18 +1411,23 @@ proc ctext::instanceCmd {self cmd args} {
         }
       }
 
-      ctext::modified $self 1 "delete $startPos $deleteChars $deleteLines"
-      ctext::modified $self 1 "insert $startPos $datalen $insertLines"
+      ctext::modified $self 1 [list delete $startPos $deleteChars $deleteLines $moddata]
+      ctext::modified $self 1 [list insert $startPos $datalen $insertLines $moddata]
       ctext::linemapUpdate $self
     }
 
     paste {
+      set moddata [list]
+      if {[lindex $args 0] eq "-moddata"} {
+        set args [lassign $args dummy moddata]
+      }
+      
       set insertPos [$self._t index insert]
       set datalen   [string length [clipboard get]]
       ctext::undo_insert $self $insertPos $datalen [$self._t index insert]
       tk_textPaste $self
       set lines     [$self._t count -lines $insertPos "$insertPos+${datalen}c"]
-      ctext::modified $self 1 "insert $insertPos $datalen $lines"
+      ctext::modified $self 1 [list insert $insertPos $datalen $lines $moddata]
       ctext::linemapUpdate $self
     }
 
