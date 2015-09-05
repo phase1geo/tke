@@ -3417,7 +3417,7 @@ namespace eval gui {
 
     $txt configure -font editor_font
 
-    bind Ctext  <<Modified>>                 "gui::text_changed %W"
+    bind Ctext  <<Modified>>                 "gui::text_changed %W %d"
     bind $txt.t <FocusIn>                    "+gui::set_current_tab_from_txt %W"
     bind $txt.l <ButtonPress-$::right_click> [bind $txt.l <ButtonPress-1>]
     bind $txt.l <ButtonPress-1>              "gui::select_line %W %y"
@@ -3779,12 +3779,12 @@ namespace eval gui {
 
   ######################################################################
   # Handles a change to the current text widget.
-  proc text_changed {txt} {
+  proc text_changed {txt data} {
 
     variable files
     variable files_index
     variable cursor_hist
-
+    
     if {[$txt edit modified]} {
 
       # Get the tab path from the text path
@@ -3793,7 +3793,7 @@ namespace eval gui {
       # Get the file index for the given text widget
       set file_index [lsearch -index $files_index(tab) $files $tab]
 
-      if {![catch { lindex $files $file_index $files_index(readonly) } rc] && ($rc == 0)} {
+      if {![catch { lindex $files $file_index $files_index(readonly) } rc] && ($rc == 0) && ([lindex $data 4] ne "ignore")} {
 
         # Save the modified state to the files list
         catch { lset files $file_index $files_index(modified) 1 }
