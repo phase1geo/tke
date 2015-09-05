@@ -79,14 +79,14 @@ msgcat::mcmset no {
   "File index is out of range"
   "File indeksen er utenfor rekkevidde"
 
+  "License:"
+  "Lisens"
+
   "Line: %d, Column: %d"
   "Linje:% d, Kolonne:% d"
 
   "Locked"
   "lÃ¥st"
-
-  "Move to Other Pane"
-  "Flytt til Annen Pane"
 
   "Move*"
   "flytte"
@@ -124,6 +124,9 @@ msgcat::mcmset no {
   "Total Lines: %d, Total Characters: %d"
   "Totalt antall linjer:% d, Totalt antall tegn:% d"
 
+  "Twitter:"
+  "Twitter:"
+
   "Unable to find current file (tab: %s)"
   "Ã… finne aktuelle filen klarer (tab:% s)"
 
@@ -158,14 +161,14 @@ msgcat::mcmset no {
   "About TKE"
   "Om TKE"
 
-  "Align cursors"
-  "Juster pekere"
+  "Align Cursors"
+  "Justere pekere"
 
   "All"
   "Alle"
 
-  "Append next occurrence"
-  "TilfÃ¸y neste forekomst"
+  "Append Next Occurrence"
+  "Legg til neste forekomst"
 
   "Auto-Indent"
   "Auto-innrykk"
@@ -179,17 +182,17 @@ msgcat::mcmset no {
   "Close All"
   "Lukk alle"
 
-  "Comment"
-  "Kommentar"
+  "Close Current"
+  "Lukker gjeldende"
 
   "Copy"
   "Kopier"
 
-  "Create at current line"
-  "Opprette pÃ¥ gjeldende linje"
+  "Create New..."
+  "Opprette nye..."
 
-  "Create new..."
-  "Opprett ny ..."
+  "Create at Current Line"
+  "Opprette på gjeldende linje"
 
   "Create..."
   "frambringe"
@@ -203,8 +206,20 @@ msgcat::mcmset no {
   "Edit Language"
   "Rediger sprÃ¥k"
 
+  "Edit Session - Global"
+  "Sesjon - Global"
+
+  "Edit Session - Language"
+  "Redigere Session - språk"
+
   "Edit User"
   "Rediger bruker"
+
+  "Edit User - Global"
+  "Rediger bruker - Global"
+
+  "Edit User - Language"
+  "Rediger bruker - språk"
 
   "Edit..."
   "Edit"
@@ -215,14 +230,14 @@ msgcat::mcmset no {
   "Find"
   "SÃ¸k"
 
+  "Find In Files"
+  "Finn filer"
+
+  "Find Matching Pair"
+  "Finn matchende par"
+
   "Find and Replace"
   "Finn og erstatt"
-
-  "Find in files"
-  "Finner i filer"
-
-  "Find matching pair"
-  "Finn matchende par"
 
   "Format Text"
   "Formater tekst"
@@ -251,6 +266,9 @@ msgcat::mcmset no {
   "Hide Line Numbers"
   "Skjul linjenumre"
 
+  "Hide Meta Characters"
+  "Skjule Meta tegn"
+
   "Hide Sidebar"
   "Skjul Sidebar"
 
@@ -260,8 +278,8 @@ msgcat::mcmset no {
   "Hide Tab Bar"
   "Skjul Tab Bar"
 
-  "Import TextMate theme..."
-  "Import Textmate tema ..."
+  "Import TextMate Theme..."
+  "Importere TextMate tema..."
 
   "Indent"
   "innrykk"
@@ -272,19 +290,19 @@ msgcat::mcmset no {
   "Indent Off"
   "Innrykk av"
 
+  "Insert Enumeration"
+  "Sett inn opplisting"
+
   "Insert Text"
   "Sett inn tekst"
-
-  "Insert enumeration"
-  "Sett oppregning"
 
   "Install..."
   "installere"
 
-  "Jump backward"
+  "Jump Backward"
   "Hoppe bakover"
 
-  "Jump forward"
+  "Jump Forward"
   "Hoppe fremover"
 
   "Launcher"
@@ -317,14 +335,14 @@ msgcat::mcmset no {
   "Menu: Close all tabs"
   "Meny: Lukk alle faner"
 
+  "Menu: Close current session"
+  "Meny: Lukk gjeldende økt"
+
   "Menu: Close current tab"
   "Meny: Lukk gjeldende fane"
 
-  "Menu: Comment selected text"
-  "Meny: Kommentar markert tekst"
-
-  "Menu: Copy selected text"
-  "Meny: Kopiere merket tekst"
+  "Menu: Copy text"
+  "Meny: Kopiere tekst"
 
   "Menu: Create marker at current line"
   "Meny: Opprette markÃ¸r pÃ¥ gjeldende linje"
@@ -335,8 +353,11 @@ msgcat::mcmset no {
   "Menu: Create new theme"
   "Meny: Opprett nytt tema"
 
-  "Menu: Cut selected text"
-  "Meny: Klippe ut merket tekst"
+  "Menu: Cut text"
+  "Meny: Kutt tekst"
+
+  "Menu: Delete session"
+  "Meny: Slett økt"
 
   "Menu: Disable Vim mode"
   "Meny: Deaktiver Vim-modus"
@@ -344,17 +365,23 @@ msgcat::mcmset no {
   "Menu: Edit Tke theme"
   "Meny: Rediger TKE tema"
 
-  "Menu: Edit language preferences"
-  "Meny: Rediger sprÃ¥kinnstillinger"
-
   "Menu: Edit language snippets"
   "Meny: Rediger sprÃ¥k tekstutdrag"
 
+  "Menu: Edit session current language preferences"
+  "Meny: Redigere økt gjeldende språkinnstillinger"
+
+  "Menu: Edit session global preferences"
+  "Meny: Redigere økt globale innstillinger"
+
+  "Menu: Edit user current language preferences"
+  "Meny: Redigere bruker gjeldende språkinnstillinger"
+
+  "Menu: Edit user global preferences"
+  "Meny: Redigere globale brukerinnstillinger"
+
   "Menu: Edit user menu bindings"
   "Meny: Rediger brukermeny bindinger"
-
-  "Menu: Edit user preferences"
-  "Meny: Rediger brukerpreferanser"
 
   "Menu: Enable Vim mode"
   "Meny: Aktiver Vim-modus"
@@ -413,6 +440,9 @@ msgcat::mcmset no {
   "Menu: Hide console"
   "Meny: Skjul konsoll"
 
+  "Menu: Hide meta characters"
+  "Meny: Skjule meta tegn"
+
   "Menu: Hide sidebar"
   "Meny: Hide sidebar"
 
@@ -446,6 +476,9 @@ msgcat::mcmset no {
   "Menu: Lock file"
   "Meny: Lock file"
 
+  "Menu: Merge panes"
+  "Meny: Flettingen ruter"
+
   "Menu: Move to other pane"
   "Meny: Flytt til annen rute"
 
@@ -463,6 +496,9 @@ msgcat::mcmset no {
 
   "Menu: Open file"
   "Meny: Ã…pne fil"
+
+  "Menu: Open session"
+  "Meny: Åpne økt"
 
   "Menu: Paste and format text from clipboard"
   "Meny: Lim inn og formatere tekst fra utklippstavlen"
@@ -497,11 +533,17 @@ msgcat::mcmset no {
   "Menu: Save all files"
   "Meny: Lagre alle filer"
 
+  "Menu: Save current session"
+  "Meny: Lagre gjeldende økt"
+
   "Menu: Save file"
   "Meny: Lagre filen"
 
   "Menu: Save file as"
   "Meny: Lagre filen som"
+
+  "Menu: Save sessions as"
+  "Meny: Lagre sesjoner som"
 
   "Menu: Select all occurrences"
   "Meny: Velg alle forekomster"
@@ -548,6 +590,9 @@ msgcat::mcmset no {
   "Menu: Show last profiling report"
   "Meny: Vis siste profilering rapport"
 
+  "Menu: Show meta characters"
+  "Meny: Vis meta tegn"
+
   "Menu: Show selected line change"
   "Meny: Vis valgt linje endring"
 
@@ -566,11 +611,14 @@ msgcat::mcmset no {
   "Menu: Stop profiling"
   "Meny: Stopp profilering"
 
+  "Menu: Switch to session"
+  "Meny: Bytt til økt"
+
+  "Menu: Toggle comment"
+  "Meny: Vis/Skjul merknad"
+
   "Menu: Toggle split view mode"
   "Meny: Toggle split view-modus"
-
-  "Menu: Uncomment selected text"
-  "Meny: uncomment markert tekst"
 
   "Menu: Undo"
   "Meny: Angre"
@@ -596,13 +644,10 @@ msgcat::mcmset no {
   "Menu: View global preferences"
   "Meny: Vis globale preferanser"
 
-  "Move to other pane"
-  "Flytt til annen rute"
+  "Merge Panes"
+  "Flette ruter"
 
-  "New"
-  "Ny"
-
-  "Next difference"
+  "Next Difference"
   "Neste forskjellen"
 
   "No files found in specified directories"
@@ -632,7 +677,7 @@ msgcat::mcmset no {
   "Preferences"
   "Innstillinger"
 
-  "Previous difference"
+  "Previous Difference"
   "Tidligere forskjellen"
 
   "Profiling started"
@@ -650,20 +695,20 @@ msgcat::mcmset no {
   "Reload"
   "Restart tke"
 
-  "Remove all markers"
+  "Remove All Markers"
   "Fjerne alle merkene"
 
-  "Remove from current line"
+  "Remove From Current Line"
   "Fjern fra gjeldende linje"
 
-  "Replace line with script"
+  "Replace Line With Script"
   "Erstatte linje med skript"
 
   "Reset User to Base"
   "Tilbakestille bruker til Base"
 
-  "Restart tke"
-  "Save All"
+  "Restart TKE"
+  "Starte TKE"
 
   "Save All"
   "Lagre alle"
@@ -671,16 +716,19 @@ msgcat::mcmset no {
   "Save As..."
   "Lagre som ..."
 
+  "Save Current"
+  "Lagre gjeldende"
+
   "Select All"
   "Merk alt"
 
-  "Select all occurrences"
+  "Select All Occurrences"
   "Velg alle forekomster"
 
-  "Select next occurrence"
+  "Select Next Occurrence"
   "Velg neste forekomst"
 
-  "Select previous occurrence"
+  "Select Previous Occurrence"
   "Velg forrige forekomst"
 
   "Selected"
@@ -691,6 +739,9 @@ msgcat::mcmset no {
 
   "Send Feedback"
   "Send tilbakemelding"
+
+  "Sessions"
+  "Sessions"
 
   "Set Syntax"
   "Sett Syntax"
@@ -716,6 +767,12 @@ msgcat::mcmset no {
   "Show Line Numbers"
   "Vis linjenumre"
 
+  "Show Meta Characters"
+  "Viser Meta tegn"
+
+  "Show Selected Line Change"
+  "Vis valgte linjen endring"
+
   "Show Sidebar"
   "Vis Sidebar"
 
@@ -724,9 +781,6 @@ msgcat::mcmset no {
 
   "Show Tab Bar"
   "Vis Tab Bar"
-
-  "Show selected line change"
-  "Vis valgte linjen endring"
 
   "Show*Profiling*"
   "Show * Profilering *"
@@ -743,7 +797,7 @@ msgcat::mcmset no {
   "Sort Tabs"
   "Sorter Tabs"
 
-  "Split view"
+  "Split View"
   "Delt visning"
 
   "Start Profiling"
@@ -751,6 +805,9 @@ msgcat::mcmset no {
 
   "Stop Profiling"
   "Stopp Profilering"
+
+  "Switch To"
+  "Bytt til:"
 
   "Tabs"
   "Tab"
@@ -761,11 +818,11 @@ msgcat::mcmset no {
   "Theme Creator"
   "Tema Creator"
 
+  "Toggle Comment"
+  "Vis/Skjul merknad"
+
   "Tools"
   "Redskap"
-
-  "Uncomment"
-  "Undo"
 
   "Undo"
   "angre"
@@ -843,8 +900,8 @@ msgcat::mcmset no {
   "Close Directory Files"
   "Lukk Directory filer"
 
-  "Delete"
-  "Slett"
+  "Copy Pathname"
+  "Kopiere banenavn"
 
   "Delete directory?"
   "Slett katalogen?"
@@ -861,17 +918,14 @@ msgcat::mcmset no {
   "File Name:"
   "Fil navn:"
 
+  "Folder Name:"
+  "Mappenavn"
+
   "Make Current Working Directory"
   "GjÃ¸r nÃ¥vÃ¦rende arbeidskatalog"
 
   "New Directory"
   "Ny katalog"
-
-  "New File"
-  "Ny fil"
-
-  "Open"
-  "Ã…pen"
 
   "Open Directory Files"
   "Open Directory filer"
@@ -973,14 +1027,6 @@ msgcat::mcmset no {
 
 }
 
-# tkedat.tcl
-msgcat::mcmset no {
-
-  "Unable to open %s for reading"
-  "Kan ikke Ã¥pne% s for lesing"
-
-}
-
 # vim.tcl
 msgcat::mcmset no {
 
@@ -1001,11 +1047,23 @@ msgcat::mcmset no {
   "Close"
   "Lukk"
 
+  "Delete"
+  "Slett"
+
   "Favorite"
   "Favoritt"
 
   "Find:"
   "SÃ¸k"
+
+  "Move to Other Pane"
+  "Flytt til Annen Pane"
+
+  "New File"
+  "Ny fil"
+
+  "Open"
+  "Ã…pen"
 
   "Replace:"
   "bytt"
