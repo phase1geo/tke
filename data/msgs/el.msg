@@ -79,14 +79,14 @@ msgcat::mcmset el {
   "File index is out of range"
   "Δείκτης αρχείου είναι εκτός ορίων"
 
+  "License:"
+  "?????:"
+
   "Line: %d, Column: %d"
   "Γραμμή:% d, Στήλη:% d"
 
   "Locked"
   "κλειδωμένος"
-
-  "Move to Other Pane"
-  "Μετακίνηση σε άλλες Παράθυρο"
 
   "Move*"
   "Μετακίνηση *"
@@ -124,6 +124,9 @@ msgcat::mcmset el {
   "Total Lines: %d, Total Characters: %d"
   "Σύνολο Lines:% d, Σύνολο Χαρακτήρες:% d"
 
+  "Twitter:"
+  "Twitter"
+
   "Unable to find current file (tab: %s)"
   "Ανίκανος να βρει το τρέχον αρχείο (καρτέλα:% s)"
 
@@ -158,14 +161,14 @@ msgcat::mcmset el {
   "About TKE"
   "Σχετικά με ΤΚΕ"
 
-  "Align cursors"
-  "Στοίχιση δρομείς"
+  "Align Cursors"
+  "???????? ???????"
 
   "All"
   "All"
 
-  "Append next occurrence"
-  "Προσάρτηση επόμενη εμφάνιση"
+  "Append Next Occurrence"
+  "?????????? ?�??????"
 
   "Auto-Indent"
   "Αυτο-εντομή"
@@ -179,17 +182,17 @@ msgcat::mcmset el {
   "Close All"
   "Κλείσιμο όλων"
 
-  "Comment"
-  "Comment"
+  "Close Current"
+  "??????? ?? ?????"
 
   "Copy"
   "Αντιγραφή"
 
-  "Create at current line"
-  "Δημιουργία στην τρέχουσα γραμμή"
+  "Create New..."
+  "?????????? ????..."
 
-  "Create new..."
-  "Δημιουργία νέου"
+  "Create at Current Line"
+  "???????????? ???? ???????? ??????"
 
   "Create..."
   "Δημιουργία"
@@ -203,8 +206,20 @@ msgcat::mcmset el {
   "Edit Language"
   "Επεξεργασία Γλώσσας"
 
+  "Edit Session - Global"
+  "?????????????? ???????? - ?????????"
+
+  "Edit Session - Language"
+  "???????? - ???????????? ?? ??????"
+
   "Edit User"
   "Επεξεργασία χρήστη"
+
+  "Edit User - Global"
+  "?????????????? ?? ?????? - ?????????"
+
+  "Edit User - Language"
+  "?????? - ???????????? ?? ??????"
 
   "Edit..."
   "Επεξεργασία..."
@@ -215,14 +230,14 @@ msgcat::mcmset el {
   "Find"
   "Find"
 
+  "Find In Files"
+  "?????? ??? ??????"
+
+  "Find Matching Pair"
+  "?????? ?????????? ??????"
+
   "Find and Replace"
   "Εύρεση και αντικατάσταση"
-
-  "Find in files"
-  "Αναζήτηση σε αρχεία..."
-
-  "Find matching pair"
-  "Βρείτε ταιριάζουν ζεύγος"
 
   "Format Text"
   "Μορφή κειμένου"
@@ -251,6 +266,9 @@ msgcat::mcmset el {
   "Hide Line Numbers"
   "Απόκρυψη αριθμών γραμμών"
 
+  "Hide Meta Characters"
+  "???????? ???? ??????????"
+
   "Hide Sidebar"
   "Απόκρυψη πλευρικής μπάρας"
 
@@ -260,8 +278,8 @@ msgcat::mcmset el {
   "Hide Tab Bar"
   "Απόκρυψη Tab Bar"
 
-  "Import TextMate theme..."
-  "Εισαγωγή θέματος TextMate ..."
+  "Import TextMate Theme..."
+  "???????? TextMate ????..."
 
   "Indent"
   "Εσοχή"
@@ -272,20 +290,20 @@ msgcat::mcmset el {
   "Indent Off"
   "Εσοχή από"
 
+  "Insert Enumeration"
+  "???????? ???????????"
+
   "Insert Text"
   "Εισαγωγή ευρετηρίου"
-
-  "Insert enumeration"
-  "Εισάγετε απαρίθμηση"
 
   "Install..."
   "εγκαθιστώ"
 
-  "Jump backward"
-  "Άλμα προς τα πίσω"
+  "Jump Backward"
+  "???? ???? ?? ????"
 
-  "Jump forward"
-  "Άλμα προς τα εμπρός"
+  "Jump Forward"
+  "???? ???? ?? ??????"
 
   "Launcher"
   "Προωθητής"
@@ -317,14 +335,14 @@ msgcat::mcmset el {
   "Menu: Close all tabs"
   "Μενού: Κλείσιμο όλων των καρτελών"
 
+  "Menu: Close current session"
+  "?????: ????? ???????? ??????? ???????????"
+
   "Menu: Close current tab"
   "Κλείσιμο τρέχουσας καρτέλας"
 
-  "Menu: Comment selected text"
-  "Μενού: Σχόλιο επιλεγμένο κείμενο"
-
-  "Menu: Copy selected text"
-  "Μενού: Αντιγραφή επιλεγμένου κειμένου"
+  "Menu: Copy text"
+  "?????: ????????? ????????"
 
   "Menu: Create marker at current line"
   "Μενού: Δημιουργία δείκτη στην τρέχουσα γραμμή"
@@ -335,8 +353,11 @@ msgcat::mcmset el {
   "Menu: Create new theme"
   "Δημιουργία νέου θέματος..."
 
-  "Menu: Cut selected text"
-  "Μενού: Αποκοπή επιλεγμένου κειμένου"
+  "Menu: Cut text"
+  "?????: ???????? ???????"
+
+  "Menu: Delete session"
+  "?????: ???????? ????????"
 
   "Menu: Disable Vim mode"
   "Μενού: απενεργοποίηση λειτουργίας Vim"
@@ -344,17 +365,23 @@ msgcat::mcmset el {
   "Menu: Edit Tke theme"
   "Μενού: Επεξεργασία Tke θέμα"
 
-  "Menu: Edit language preferences"
-  "Μενού: Προτιμήσεις γλώσσας επεξεργασία"
-
   "Menu: Edit language snippets"
   "Μενού: Επεξεργασία γλώσσα αποσπάσματα"
 
+  "Menu: Edit session current language preferences"
+  "?????: ??????????? ???????? ????????? ??????????? ???????"
+
+  "Menu: Edit session global preferences"
+  "?????: ??????????? ???????? ????????? ???????????"
+
+  "Menu: Edit user current language preferences"
+  "?????: ??????????? ????????? ??????????? ??????? ??? ??????"
+
+  "Menu: Edit user global preferences"
+  "?????: ??????????? ????????? ??????????? ??????"
+
   "Menu: Edit user menu bindings"
   "Δέστρες μενού χρήστη Edit: Μενού"
-
-  "Menu: Edit user preferences"
-  "Επεξεργασία προτιμήσεων του χρήστη: Μενού"
 
   "Menu: Enable Vim mode"
   "Μενού: Ενεργοποίηση λειτουργίας Vim"
@@ -413,6 +440,9 @@ msgcat::mcmset el {
   "Menu: Hide console"
   "Μενού: Απόκρυψη της κονσόλας"
 
+  "Menu: Hide meta characters"
+  "?????: ???????? ???? ??????????"
+
   "Menu: Hide sidebar"
   "Μενού: Απόκρυψη sidebar"
 
@@ -446,6 +476,9 @@ msgcat::mcmset el {
   "Menu: Lock file"
   "Μενού: Αρχείο Lock"
 
+  "Menu: Merge panes"
+  "?????: ?????????? ???????? ?????????"
+
   "Menu: Move to other pane"
   "Μενού: Μετακινηθείτε σε άλλο παράθυρο"
 
@@ -463,6 +496,9 @@ msgcat::mcmset el {
 
   "Menu: Open file"
   "Μενού: Άνοιγμα αρχείου"
+
+  "Menu: Open session"
+  "?????: ??????? ????????"
 
   "Menu: Paste and format text from clipboard"
   "Μενού: Επικόλληση και μορφή κειμένου από το πρόχειρο"
@@ -497,11 +533,17 @@ msgcat::mcmset el {
   "Menu: Save all files"
   "Μενού: Αποθήκευση όλων των αρχείων"
 
+  "Menu: Save current session"
+  "?????: ???????????? ??? ???????? ??????? ???????????"
+
   "Menu: Save file"
   "Μενού: Αποθηκεύστε το αρχείο"
 
   "Menu: Save file as"
   "Μενού: Αποθηκεύστε το αρχείο ως"
+
+  "Menu: Save sessions as"
+  "?????: ????? ????????? ??"
 
   "Menu: Select all occurrences"
   "Μενού: Επιλέξτε όλες τις εμφανίσεις"
@@ -548,6 +590,9 @@ msgcat::mcmset el {
   "Menu: Show last profiling report"
   "Μενού: Δείτε την έκθεση του περασμένου προφίλ"
 
+  "Menu: Show meta characters"
+  "?????: ?????????? ???? ??????????"
+
   "Menu: Show selected line change"
   "Μενού: Αλλαγή γραμμής εμφάνιση επιλεγμένο"
 
@@ -566,11 +611,14 @@ msgcat::mcmset el {
   "Menu: Stop profiling"
   "Μενού: Σταματήστε προφίλ"
 
+  "Menu: Switch to session"
+  "?????: ???????? ?? ????????"
+
+  "Menu: Toggle comment"
+  "?????: ???????? ??????"
+
   "Menu: Toggle split view mode"
   "Μενού: Λειτουργία προβολής διάσπαση Εναλλαγή"
-
-  "Menu: Uncomment selected text"
-  "Μενού: Αποσχολιάσετε επιλεγμένο κείμενο"
 
   "Menu: Undo"
   "Μενού: Αναίρεση"
@@ -596,14 +644,11 @@ msgcat::mcmset el {
   "Menu: View global preferences"
   "Μενού: Προβολή παγκόσμια προτιμήσεις"
 
-  "Move to other pane"
-  "Μετακίνηση σε άλλο παράθυρο"
+  "Merge Panes"
+  "?????????? ???????? ?????????"
 
-  "New"
-  "Νέο"
-
-  "Next difference"
-  "Επόμενη διαφορά"
+  "Next Difference"
+  "??????? ???????"
 
   "No files found in specified directories"
   "Δεν βρέθηκαν σε καθορισμένους καταλόγους αρχεία"
@@ -632,8 +677,8 @@ msgcat::mcmset el {
   "Preferences"
   "Προτιμήσεις"
 
-  "Previous difference"
-  "Προηγούμενη διαφορά"
+  "Previous Difference"
+  "??????????? ???????"
 
   "Profiling started"
   "Profiling ξεκίνησε"
@@ -650,20 +695,20 @@ msgcat::mcmset el {
   "Reload"
   "Επαναφόρτωση"
 
-  "Remove all markers"
-  "Αφαιρέστε όλα δείκτες"
+  "Remove All Markers"
+  "????????? ??? ???????"
 
-  "Remove from current line"
-  "Κατάργηση από την τρέχουσα γραμμή"
+  "Remove From Current Line"
+  "????????? ??? ??? ???????? ??????"
 
-  "Replace line with script"
-  "Αντικαταστήστε την γραμμή με σενάριο"
+  "Replace Line With Script"
+  "?????????????? ??? ?????? ?? ???????"
 
   "Reset User to Base"
   "Ξαναρυθμίζω χρήστη στη βάση"
 
-  "Restart tke"
-  "Επανεκκίνηση ΤΚΕ"
+  "Restart TKE"
+  "???????????? ???"
 
   "Save All"
   "Αποθήκευση όλων"
@@ -671,17 +716,20 @@ msgcat::mcmset el {
   "Save As..."
   "Αποθήκευση ως"
 
+  "Save Current"
+  "???????????? ?? ?????"
+
   "Select All"
   "Επιλογή όλων"
 
-  "Select all occurrences"
-  "Επιλέξτε όλες τις εμφανίσεις"
+  "Select All Occurrences"
+  "???????? ???? ??? ??????????"
 
-  "Select next occurrence"
-  "Επιλέξτε την επόμενη εμφάνιση"
+  "Select Next Occurrence"
+  "???????? ?�??????"
 
-  "Select previous occurrence"
-  "Επιλέξτε προηγούμενης εμφάνισης"
+  "Select Previous Occurrence"
+  "???????? ??? ??????????? ????????"
 
   "Selected"
   "Επιλεγμ."
@@ -691,6 +739,9 @@ msgcat::mcmset el {
 
   "Send Feedback"
   "Αποστολή Σχολίων"
+
+  "Sessions"
+  "?????????"
 
   "Set Syntax"
   "Ορισμός Σύνταξη"
@@ -716,6 +767,12 @@ msgcat::mcmset el {
   "Show Line Numbers"
   "Εμφάνιση αριθμών γραμμών"
 
+  "Show Meta Characters"
+  "???? ?????????? ????????"
+
+  "Show Selected Line Change"
+  "???????????? ?????????? ?????? ??????"
+
   "Show Sidebar"
   "Εμφάνιση πλευρικής μπάρας"
 
@@ -724,9 +781,6 @@ msgcat::mcmset el {
 
   "Show Tab Bar"
   "Γραμμή καρτελών"
-
-  "Show selected line change"
-  "Παρουσιάζουν επιλεγμένη γραμμή αλλαγή"
 
   "Show*Profiling*"
   "Show * Profiling *"
@@ -743,14 +797,17 @@ msgcat::mcmset el {
   "Sort Tabs"
   "Sort Tabs"
 
-  "Split view"
-  "Διαχωρισμένη προβολή"
+  "Split View"
+  "?????????? ???????"
 
   "Start Profiling"
   "Ξεκινήστε Profiling"
 
   "Stop Profiling"
   "Σταματήστε Profiling"
+
+  "Switch To"
+  "????????? ??"
 
   "Tabs"
   "Δισκία"
@@ -761,11 +818,11 @@ msgcat::mcmset el {
   "Theme Creator"
   "Theme Creator"
 
+  "Toggle Comment"
+  "???????? ??????"
+
   "Tools"
   "Μέσα δράσης"
-
-  "Uncomment"
-  "Αποσχολιάστε"
 
   "Undo"
   "Αναίρεση"
@@ -843,8 +900,8 @@ msgcat::mcmset el {
   "Close Directory Files"
   "Κλείσιμο Κατάλογος αρχείων"
 
-  "Delete"
-  "Διαγραφή"
+  "Copy Pathname"
+  "?????????? ?? ????? ?????????"
 
   "Delete directory?"
   "Διαγραφή κατάλογο;"
@@ -861,17 +918,14 @@ msgcat::mcmset el {
   "File Name:"
   "Όνομα αρχείου:"
 
+  "Folder Name:"
+  "????? ???????:"
+
   "Make Current Working Directory"
   "Κάντε τρέχων κατάλογος εργασίας"
 
   "New Directory"
   "Νέα Directory"
-
-  "New File"
-  "Νέο αρχείο"
-
-  "Open"
-  "Ανοιχτό"
 
   "Open Directory Files"
   "Αρχεία Open Directory"
@@ -973,14 +1027,6 @@ msgcat::mcmset el {
 
 }
 
-# tkedat.tcl
-msgcat::mcmset el {
-
-  "Unable to open %s for reading"
-  "Αδύνατο το άνοιγμα του%1 για ανάγνωση."
-
-}
-
 # vim.tcl
 msgcat::mcmset el {
 
@@ -1001,11 +1047,23 @@ msgcat::mcmset el {
   "Close"
   "Κλείσιμο"
 
+  "Delete"
+  "Διαγραφή"
+
   "Favorite"
   "Αγαπημένο"
 
   "Find:"
   "Find"
+
+  "Move to Other Pane"
+  "Μετακίνηση σε άλλες Παράθυρο"
+
+  "New File"
+  "Νέο αρχείο"
+
+  "Open"
+  "Ανοιχτό"
 
   "Replace:"
   "Το κάτωθι:"
