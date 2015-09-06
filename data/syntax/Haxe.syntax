@@ -1,0 +1,49 @@
+filepatterns
+{*.hx}
+
+matchcharsallowed
+{curly}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+indent
+{\{}
+
+unindent
+{\}}
+
+icomment {{//}}
+
+lcomments {{//}}
+
+bcomments {}
+
+strings {{"} {'}}
+
+keywords
+{
+  abstract break case cast catch class continue default do dynamic else enum extends for function
+  if implements import in inline interface macro new null override private public return static switch
+  this throw try typedef using var while
+}
+
+symbols
+{
+  function
+}
+ 
+numbers {
+  HighlightRegexp {(true|false|-?[0-9]+|0x[0-9a-fA-F]+|-?[0-9]+.[0-9]+)}
+}
+
+punctuation
+{
+  HighlightRegexp {[][\{\}&\|!?:;.+*/%@-]} {}
+}
+
+precompile {}
+
