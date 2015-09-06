@@ -1004,30 +1004,36 @@ namespace eval menus {
   proc find_in_files_callback {find_expr num_files err data} {
 
     # Add the file to the viewer
-    gui::add_buffer end "FIF Results" [list menus::find_in_files_insert_results $find_expr $num_files $err $data] "" -readonly 1 -other [preferences::get View/ShowFindInFileResultsInOtherPane]
-      
+    gui::add_buffer end "FIF Results" "" -readonly 1 -other [preferences::get View/ShowFindInFileResultsInOtherPane]
+
+    # Inserts the results into the current buffer
+    find_in_files_insert_results $find_expr $num_files $err $data
+
   }
-    
+
   ######################################################################
   # Inserts the results from the find in files egrep execution into the
   # newly created buffer.
-  proc find_in_files_insert_results {find_expr num_files err data txt} {
+  proc find_in_files_insert_results {find_expr num_files err data} {
 
     variable txt_cursor
-    
+
+    # Get the current text widget
+    set txt [gui::current_txt {}]
+
     # Get the last index of the text widget
     set last_line [$txt index end]
 
     # Insert a starting mark
-    $txt insert end "----\n"
-    
+    $txt insert -moddata ignore end "----\n"
+
     if {!$err || ($num_files == 0)} {
 
       # Save the text cursor
       set txt_cursor [$txt cget -cursor]
 
       # Append the results to the text widget
-      $txt insert end [find_in_files_format $data]
+      $txt insert -moddata ignore end [find_in_files_format $data]
 
       # Modify find_expr so that information in results window will match
       if {[string index $find_expr 0] eq "^"} {
@@ -1049,7 +1055,7 @@ namespace eval menus {
 
     } else {
 
-      $txt insert end "ERROR: $data\n\n\n"
+      $txt insert -moddata ignore end "ERROR: $data\n\n\n"
 
     }
 
@@ -1057,7 +1063,7 @@ namespace eval menus {
     $txt see end
     $txt mark set insert $last_line
     $txt see $last_line
-    
+
   }
 
   ######################################################################

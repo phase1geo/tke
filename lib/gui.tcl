@@ -1146,9 +1146,9 @@ namespace eval gui {
   }
 
   ######################################################################
-  # Adds a new buffer to the editor pane.  Buffers require an initial
-  # insert command and a save command (executed when the buffer is saved).
-  # Buffers do not save to nor read from files.
+  # Adds a new buffer to the editor pane.  Buffers require a save command
+  # (executed when the buffer is saved).  Buffers do not save to nor read
+  # from files.
   #
   # Several options are available:
   # -lock     <bool>     Initial lock setting.
@@ -1160,7 +1160,7 @@ namespace eval gui {
   # -other    <bool>     If true, adds the file to the other pane.
   # -tags     <list>     List of plugin btags that will only get applied to this text widget.
   # -lang     <language> Specifies the language to use for syntax highlighting.
-  proc add_buffer {index name insert_command save_command args} {
+  proc add_buffer {index name save_command args} {
 
     variable files
     variable files_index
@@ -1196,27 +1196,27 @@ namespace eval gui {
     if {$file_index != -1} {
 
       set_current_tab [set w [lindex $files $file_index $files_index(tab)]]
-      
+
     } else {
-      
+
       if {$opts(-other)} {
-  
+
         # If the other pane does not exist, add it
         if {[llength [$widgets(nb_pw) panes]] == 1} {
           add_notebook
         }
-  
+
         # Set the current pane to the other one
         set pw_current [expr $pw_current ^ 1]
-  
+
       }
-  
+
       # Adjust the index (if necessary)
       set index [adjust_insert_tab_index $index $name]
-  
+
       # Get the current index
       set w [insert_tab $index $name 0 $opts(-gutters) $opts(-tags) $opts(-lang)]
-  
+
       # Create the file info structure
       set file_info [lrepeat [array size files_index] ""]
       lset file_info $files_index(fname)    $name
@@ -1231,25 +1231,12 @@ namespace eval gui {
       lset file_info $files_index(gutters)  $opts(-gutters)
       lset file_info $files_index(diff)     0
       lset file_info $files_index(tags)     $opts(-tags)
-  
+
       # Add the file information to the files list
       lappend files $file_info
-      
-    }
-
-    if {$insert_command ne ""} {
 
       # Get the current text widget
-      set txt [get_txt_from_tab $w]
-
-      # Set the edit state to normal so that we can perform the text insertion
-      $txt configure -state normal
-      
-      # Execute the insertion command
-      uplevel #0 [list {*}$insert_command $txt]
-
-      # Change the text to unmodified
-      $txt edit reset
+      set txt [current_txt {}]
 
       # Perform an insertion adjust, if necessary
       if {[vim::in_vim_mode $txt.t]} {
@@ -1260,7 +1247,7 @@ namespace eval gui {
       [current_tabbar] tab $w -text " [file tail $name]"
 
     }
-        
+
     # Set the tab image for the current file
     set_current_tab_image {}
 
@@ -1282,20 +1269,17 @@ namespace eval gui {
   # -tags        <list>     List of plugin btags that will only get applied to this text widget.
   proc add_new_file {index args} {
 
-    add_buffer $index "Untitled" "" gui::save_new_file {*}$args
+    add_buffer $index "Untitled" gui::save_new_file {*}$args
 
   }
 
   ######################################################################
   # Save command for new files.  Changes buffer into a normal file
   # if the file was actually saved.
-  proc save_new_file {} {
+  proc save_new_file {file_index} {
 
     variable files
     variable files_index
-
-    # Get the current file index
-    set file_index [current_file]
 
     # Set the buffer state to 0 and clear the save command
     lset files $file_index $files_index(buffer)   0
@@ -1626,22 +1610,22 @@ namespace eval gui {
     if {[lindex $files $file_index $files_index(buffer)] && ($save_cmd ne "")} {
 
       # Execute the save command.  If it errors or returns a value of 0, return immediately
-      if {[catch { eval $save_cmd } rc]} {
-        
+      if {[catch { eval {*}$save_cmd $file_index } rc]} {
+
         return
-        
+
       } elseif {$rc == 0} {
-        
+
         # Change the tab text
         $tb tab current -text " [file tail [lindex $files $file_index $files_index(fname)]]"
         set_title
-    
+
         # Change the text to unmodified
         [current_txt $tid] edit modified false
         lset files $file_index $files_index(modified) 0
 
         return
-        
+
       }
 
     }
@@ -1720,7 +1704,7 @@ namespace eval gui {
 
     # If there is a save command, run it now
     if {[set save_cmd [lindex $files $file_index $files_index(save_cmd)]] ne ""} {
-      eval $save_cmd
+      eval {*}$save_cmd $file_index
     }
 
   }
@@ -1737,23 +1721,41 @@ namespace eval gui {
     for {set i 0} {$i < [llength $files]} {incr i} {
 
       # If the file needs to be saved, do it
-      if { [lindex $files $i $files_index(modified)] && ![lindex $files $i $files_index(diff)]} {
+      if {[lindex $files $i $files_index(modified)] && ![lindex $files $i $files_index(diff)]} {
 
         # Get the tab of the current file
         set tab [lindex $files $i $files_index(tab)]
 
+        # Get the text widget
+        set txt [get_txt_from_tab $tab]
+
+        # Get the save command
+        set save_cmd [lindex $files $i $files_index(save_cmd)]
+
         # If the file needs to be saved as a new filename, call the save_current
         # procedure
-        if {([lindex $files $i $files_index(fname)] eq "Untitled") || [lindex $files $i $files_index(buffer)]} {
+        if {[lindex $files $i $files_index(buffer)] && ($save_cmd ne "")} {
 
-          set_current_tab $tab
-          save_current
+          # Run the save command and if it ran successfully,
+          if {![catch { eval {*}$save_cmd $i } rc] && ($rc == 0)} {
+
+            # Change the tab text
+            $tb tab $tab -text " [file tail [lindex $files $i $files_index(fname)]]"
+
+            # Change the text to unmodified
+            $txt edit modified false
+            lset files $i $files_index(modified) 0
+
+          # Save the current
+          } else {
+
+            set_current_tab $tab
+            save_current
+
+          }
 
         # Perform a tab-only save
         } else {
-
-          # Get the text widget
-          set txt [get_txt_from_tab $tab]
 
           # Run the on_save plugins
           plugins::handle_on_save $i
@@ -3783,7 +3785,7 @@ namespace eval gui {
     variable files
     variable files_index
     variable cursor_hist
-    
+
     if {[$txt edit modified]} {
 
       # Get the tab path from the text path

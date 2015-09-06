@@ -58,7 +58,7 @@ namespace eval preferences {
     } else {
       set prefix "session,$session"
     }
-    
+
     # Load the user global prefs
     array set temp_prefs $loaded_prefs($prefix,global)
 
@@ -80,20 +80,20 @@ namespace eval preferences {
     array set prefs [array get temp_prefs]
 
   }
-  
+
   ######################################################################
   # Loads the base preferences information, sorting out the comments from
   # the preferences information and storing this information in the
   # namespace base_prefs and base_comments arrays.
   proc load_base_prefs {} {
-    
+
     variable base_preferences_file
     variable base_prefs
     variable base_comments
-    
+
     # Only load the base preferences information if we have previously done so
     if {[array size base_prefs] == 0} {
-    
+
       # Read the base preferences file (sort out comments from preferences)
       if {![catch { [ns tkedat]::read $base_preferences_file } rc]} {
         foreach {key value} $rc {
@@ -104,15 +104,15 @@ namespace eval preferences {
           }
         }
       }
-      
+
     }
-    
+
   }
 
   ######################################################################
   # Loads the preferences file
   proc load {} {
-    
+
     # Load the preferences file contents
     load_file
 
@@ -143,7 +143,10 @@ namespace eval preferences {
     }
 
     # Create the buffer
-    [ns gui]::add_buffer end $title [list [ns preferences]::insert_information $key] [list [ns preferences]::save_buffer_contents $session] -lang tkeData
+    [ns gui]::add_buffer end $title [list [ns preferences]::save_buffer_contents $session] -lang tkeData
+
+    # Insert information
+    insert_information $key
 
   }
 
@@ -165,28 +168,34 @@ namespace eval preferences {
     }
 
     # Create the buffer
-    [ns gui]::add_buffer end $title [list [ns preferences]::insert_information $key] [list [ns preferences]::save_buffer_contents $session $language] -lang tkeData
+    [ns gui]::add_buffer end $title [list [ns preferences]::save_buffer_contents $session $language] -lang tkeData
+
+    # Insert information
+    insert_information $key
 
   }
 
   ######################################################################
   # Inserts the loaded preference information into the current text
   # widget.
-  proc insert_information {key txt} {
+  proc insert_information {key} {
 
     variable loaded_prefs
     variable base_comments
-    
+
+    # Get the curren text widget
+    set txt [[ns gui]::current_txt {}]
+
     # Make sure the base preference information is loaded
     load_base_prefs
-  
+
     # Get the preference content
     if {[info exists loaded_prefs($key)]} {
       array set content $loaded_prefs($key)
     } else {
       array set content $loaded_prefs(user,global)
     }
-       
+
     set str ""
     foreach name [lsort [array names content]] {
       if {[info exists base_comments($name)]} {
@@ -196,10 +205,10 @@ namespace eval preferences {
         append str "\n{$name} {$content($name)}\n\n"
       }
     }
-       
+
     # Insert the string
-    $txt insert end $str
-      
+    $txt insert -moddata ignore end $str
+
   }
 
   ######################################################################
@@ -208,13 +217,13 @@ namespace eval preferences {
 
     variable loaded_prefs
     variable user_preferences_file
-    
+
     # Get the current buffer
     set txt [[ns gui]::current_txt {}]
 
     # Get the buffer contents
     set data [[ns tkedat]::parse [[ns gui]::scrub_text $txt] 0]
-    
+
     # Get the buffer contents and store them in the appropriate array
     if {$session eq ""} {
 
@@ -240,7 +249,7 @@ namespace eval preferences {
 
     # Update the UI
     update_prefs $session
-    
+
     return 0
 
   }
@@ -332,7 +341,7 @@ namespace eval preferences {
         set loaded_prefs(user,$lang) $rc
       }
     }
-    
+
     # Update the preferences
     update_prefs
 
@@ -376,14 +385,14 @@ namespace eval preferences {
   proc save_session {name} {
 
     variable loaded_prefs
-    
+
     if {![info exists loaded_prefs(session,$name,global)]} {
       foreach user_type [array names loaded_prefs user,*] {
         lassign [split $user_type ,] user type
         set loaded_prefs(session,$name,$type) $loaded_prefs($user_type)
       }
     }
-    
+
     return [array get loaded_prefs session,$name,*]
 
   }
