@@ -3793,6 +3793,9 @@ namespace eval gui {
 
       # Get the file index for the given text widget
       set file_index [lsearch -index $files_index(tab) $files $tab]
+      
+      # Adjust the insertion
+      [ns vim]::adjust_insert $txt
 
       if {![catch { lindex $files $file_index $files_index(readonly) } rc] && ($rc == 0) && ([lindex $data 4] ne "ignore")} {
 
