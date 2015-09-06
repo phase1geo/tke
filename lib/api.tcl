@@ -216,7 +216,7 @@ namespace eval api {
     #  is successful.  The remaining arguments are the following options:
     #
     #
-    proc add_buffer {interp pname name insert_command save_command args} {
+    proc add_buffer {interp pname name save_command args} {
 
       array set opts [list]
 
@@ -264,7 +264,7 @@ namespace eval api {
       }
 
       # Finally, add the new file
-      gui::add_buffer end $name "$interp eval $insert_command" "$interp eval $save_command" {*}[array get opts]
+      gui::add_buffer end $name "$interp eval $save_command" {*}[array get opts]
 
       # Allow the plugin to manipulate the ctext widget
       set txt [gui::current_txt {}]
