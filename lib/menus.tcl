@@ -633,7 +633,7 @@ namespace eval menus {
     $mb.prefPopup add separator
 
     $mb.prefPopup add command -label [msgcat::mc "View Base"] -command "preferences::view_global"
-    launcher::register [msgcat::mc "Menu: View global preferences"] "preferences::view_global"
+    launcher::register [msgcat::mc "Menu: View base preferences file"] "preferences::view_global"
 
     $mb.prefPopup add separator
 
@@ -1020,6 +1020,9 @@ namespace eval menus {
 
     # Get the current text widget
     set txt [gui::current_txt {}]
+    
+    # Change the text state to allow text to be inserted
+    $txt configure -state normal
 
     # Get the last index of the text widget
     set last_line [$txt index end]
@@ -1063,6 +1066,9 @@ namespace eval menus {
     $txt see end
     $txt mark set insert $last_line
     $txt see $last_line
+
+    # Change the state back to disabled
+    $txt configure -state disabled
 
   }
 
