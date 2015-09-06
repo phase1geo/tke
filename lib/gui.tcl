@@ -1737,15 +1737,14 @@ namespace eval gui {
     for {set i 0} {$i < [llength $files]} {incr i} {
 
       # If the file needs to be saved, do it
-      if { [lindex $files $i $files_index(modified)] && \
-          ![lindex $files $i $files_index(buffer)]   && \
-          ![lindex $files $i $files_index(diff)]} {
+      if { [lindex $files $i $files_index(modified)] && ![lindex $files $i $files_index(diff)]} {
 
-        set tab  [lindex $files $i $files_index(tab)]
+        # Get the tab of the current file
+        set tab [lindex $files $i $files_index(tab)]
 
         # If the file needs to be saved as a new filename, call the save_current
         # procedure
-        if {[lindex $files $i $files_index(fname)] eq "Untitled"} {
+        if {([lindex $files $i $files_index(fname)] eq "Untitled") || [lindex $files $i $files_index(buffer)]} {
 
           set_current_tab $tab
           save_current
