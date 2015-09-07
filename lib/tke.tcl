@@ -42,7 +42,7 @@ if {$tcl_platform(platform) ne "windows"} {
   package require Tclx
 }
 package require -exact ctext 5.0
-package require -exact tablelist 5.13
+package require -exact tablelist 5.14
 package require tooltip
 package require msgcat
 package require tokenentry
