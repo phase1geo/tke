@@ -1,0 +1,60 @@
+filepatterns
+{*.n}
+
+matchcharsallowed
+{curly}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+indent
+{\{}
+
+unindent
+{\}}
+
+icomment {{//}}
+
+lcomments {{//}}
+
+bcomments {}
+
+strings {{"}}
+
+keywords
+{
+  break catch continue default do else function if return switch this try var while
+}
+
+symbols
+{
+  HighlightKeywords {
+    function
+  } syntax::get_syntax_symbol
+}
+
+numbers {
+  HighlightRegexp {\m([0-9]+|0x[0-9A-Fa-f]+|[0-9]+\.[0-9]*|\.[0-9]+|true|false|null)}
+}
+
+punctuation
+{
+  HighlightRegexp {[][\{\}!=*/<>&|^%+:-]} {}
+}
+
+precompile {}
+
+miscellaneous1 {}
+
+miscellaneous2 {}
+
+miscellaneous3 {}
+
+highlighter {}
+
+meta {}
+
+advanced {}
