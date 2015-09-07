@@ -336,7 +336,7 @@ msgcat::mcmset it {
   "Menu: Chiudere tutte le schede"
 
   "Menu: Close current session"
-  "Menù: Chiudi la sessione corrente"
+  "MenÃ¹: Chiudi la sessione corrente"
 
   "Menu: Close current tab"
   "Menu: Chiudi scheda corrente"
@@ -354,7 +354,7 @@ msgcat::mcmset it {
   "Crea nuovo tema..."
 
   "Menu: Cut text"
-  "Menù: Taglia testo"
+  "MenÃ¹: Taglia testo"
 
   "Menu: Delete session"
   "Dal menu: Sessione di eliminazione"
@@ -369,16 +369,16 @@ msgcat::mcmset it {
   "Menu: Frammenti di lingua Edit"
 
   "Menu: Edit session current language preferences"
-  "Menù: Modificare le preferenze di lingua corrente sessione"
+  "MenÃ¹: Modificare le preferenze di lingua corrente sessione"
 
   "Menu: Edit session global preferences"
-  "Menù: Modifica preferenze globali sessione"
+  "MenÃ¹: Modifica preferenze globali sessione"
 
   "Menu: Edit user current language preferences"
-  "Menù: Modificare le preferenze utente corrente lingua"
+  "MenÃ¹: Modificare le preferenze utente corrente lingua"
 
   "Menu: Edit user global preferences"
-  "Menù: Modificare le preferenze dell'utente globale"
+  "MenÃ¹: Modificare le preferenze dell'utente globale"
 
   "Menu: Edit user menu bindings"
   "Associazioni Edit Menu utente: Menu"
@@ -477,7 +477,7 @@ msgcat::mcmset it {
   "Menu: file di blocco"
 
   "Menu: Merge panes"
-  "Menù: Pannelli dei Unione"
+  "MenÃ¹: Pannelli dei Unione"
 
   "Menu: Move to other pane"
   "Menu: Sposta altri riquadro"
@@ -543,7 +543,7 @@ msgcat::mcmset it {
   "Menu: Salva file come"
 
   "Menu: Save sessions as"
-  "Menù: Salvare le sessioni come"
+  "MenÃ¹: Salvare le sessioni come"
 
   "Menu: Select all occurrences"
   "Menu: Selezionare tutte le occorrenze"
@@ -612,7 +612,7 @@ msgcat::mcmset it {
   "Menu: Stop profiling"
 
   "Menu: Switch to session"
-  "Menù: Interruttore a sessione"
+  "MenÃ¹: Interruttore a sessione"
 
   "Menu: Toggle comment"
   "Dal menu: Commento di attiva/disattiva"
@@ -638,11 +638,11 @@ msgcat::mcmset it {
   "Menu: View User Guide"
   "Menu: Visualizza Guida per l&#39;utente"
 
+  "Menu: View base preferences file"
+  "Menu: File Visualizza le preferenze di base"
+
   "Menu: View global menu bindings"
   "Menu: Visualizza le associazioni di menu globali"
-
-  "Menu: View global preferences"
-  "Menu: Visualizza preferenze globali"
 
   "Merge Panes"
   "Unire i riquadri"

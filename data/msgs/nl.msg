@@ -279,7 +279,7 @@ msgcat::mcmset nl {
   "Hide Tab Bar"
 
   "Import TextMate Theme..."
-  "Import TextMate Theme …"
+  "Import TextMate Theme Â…"
 
   "Indent"
   "Inspringen"
@@ -638,11 +638,11 @@ msgcat::mcmset nl {
   "Menu: View User Guide"
   "Menu: View User Guide"
 
+  "Menu: View base preferences file"
+  "Menu: Weergave base voorkeurenbestand"
+
   "Menu: View global menu bindings"
   "Menu: Bekijk global menu bindingen"
-
-  "Menu: View global preferences"
-  "Menu: View globale voorkeuren"
 
   "Merge Panes"
   "Samenvoegen van deelvensters"
@@ -901,7 +901,7 @@ msgcat::mcmset nl {
   "Sluiten Directory Bestanden"
 
   "Copy Pathname"
-  "Padnaam kopiëren"
+  "Padnaam kopiÃ«ren"
 
   "Delete directory?"
   "Delete directory?"

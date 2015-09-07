@@ -168,7 +168,7 @@ msgcat::mcmset de {
   "Alle"
 
   "Append Next Occurrence"
-  "Suchbegriffes anf�gen"
+  "Suchbegriffes anfügen"
 
   "Auto-Indent"
   "Auto-Einzug"
@@ -183,7 +183,7 @@ msgcat::mcmset de {
   "Alle schließen"
 
   "Close Current"
-  "Strom zu schlie�en"
+  "Strom zu schließen"
 
   "Copy"
   "Kopieren"
@@ -291,7 +291,7 @@ msgcat::mcmset de {
   "Einzug ab"
 
   "Insert Enumeration"
-  "Einf�gen-Enumeration"
+  "Einfügen-Enumeration"
 
   "Insert Text"
   "Seite einfügen"
@@ -300,10 +300,10 @@ msgcat::mcmset de {
   "installieren"
 
   "Jump Backward"
-  "R�ckw�rts springen"
+  "Rückwärts springen"
 
   "Jump Forward"
-  "Vorw�rts springen"
+  "Vorwärts springen"
 
   "Launcher"
   "Launcher"
@@ -336,13 +336,13 @@ msgcat::mcmset de {
   "Alle Tabs schließen"
 
   "Menu: Close current session"
-  "Men�: Aktuelle Sitzung, schlie�en"
+  "Menü: Aktuelle Sitzung, schließen"
 
   "Menu: Close current tab"
   "Aktuelles Unterfenster schließen"
 
   "Menu: Copy text"
-  "Men�: Text kopieren"
+  "Menü: Text kopieren"
 
   "Menu: Create marker at current line"
   "Menü: Marker zur aktuellen Zeile erstellen"
@@ -354,10 +354,10 @@ msgcat::mcmset de {
   "Neues Design erstellen..."
 
   "Menu: Cut text"
-  ": Men�text Cut"
+  ": Menütext Cut"
 
   "Menu: Delete session"
-  "Men�: Delete-Sitzung"
+  "Menü: Delete-Sitzung"
 
   "Menu: Disable Vim mode"
   "Menü: Deaktivieren Vim-Modus"
@@ -369,16 +369,16 @@ msgcat::mcmset de {
   "Menü: Bearbeiten-Sprache-Ausschnitte"
 
   "Menu: Edit session current language preferences"
-  "Men�: Bearbeiten Sie Sitzung aktuellen Spracheinstellungen"
+  "Menü: Bearbeiten Sie Sitzung aktuellen Spracheinstellungen"
 
   "Menu: Edit session global preferences"
-  "Men�: Bearbeiten Sie globale Sitzungseinstellungen"
+  "Menü: Bearbeiten Sie globale Sitzungseinstellungen"
 
   "Menu: Edit user current language preferences"
-  "Men�: Bearbeiten Sie aktuelle Sprache Benutzereinstellungen."
+  "Menü: Bearbeiten Sie aktuelle Sprache Benutzereinstellungen."
 
   "Menu: Edit user global preferences"
-  "Men�: Bearbeiten Sie Benutzer globale Voreinstellungen"
+  "Menü: Bearbeiten Sie Benutzer globale Voreinstellungen"
 
   "Menu: Edit user menu bindings"
   "Menü: Bearbeiten Benutzermenü Bindungen"
@@ -441,7 +441,7 @@ msgcat::mcmset de {
   "Menü: Konsole ausblenden"
 
   "Menu: Hide meta characters"
-  "Men�: Ausblenden von Meta-Zeichen"
+  "Menü: Ausblenden von Meta-Zeichen"
 
   "Menu: Hide sidebar"
   "Menü: Sidebar ausblenden"
@@ -477,7 +477,7 @@ msgcat::mcmset de {
   "Menü: Lock-Datei"
 
   "Menu: Merge panes"
-  ": Men�leisten Merge"
+  ": Menüleisten Merge"
 
   "Menu: Move to other pane"
   "Menü: auf andere Fenster verschieben"
@@ -498,7 +498,7 @@ msgcat::mcmset de {
   "Menü: Öffnen Sie die Datei"
 
   "Menu: Open session"
-  "Men�: Offene Sitzung"
+  "Menü: Offene Sitzung"
 
   "Menu: Paste and format text from clipboard"
   "Menü: Einfügen und Formatieren von Text aus der Zwischenablage"
@@ -534,7 +534,7 @@ msgcat::mcmset de {
   "Menü: Speichern Sie alle Dateien"
 
   "Menu: Save current session"
-  "Men�: Speichern Sie aktuelle Sitzung"
+  "Menü: Speichern Sie aktuelle Sitzung"
 
   "Menu: Save file"
   "Menü: Datei speichern"
@@ -543,7 +543,7 @@ msgcat::mcmset de {
   "Menü: Datei speichern"
 
   "Menu: Save sessions as"
-  "Men�: Speichern Sie Sitzungen als"
+  "Menü: Speichern Sie Sitzungen als"
 
   "Menu: Select all occurrences"
   "Menü: Wählen Sie alle Vorkommen"
@@ -591,7 +591,7 @@ msgcat::mcmset de {
   "Menü: anzeigen Profilierung letzten Bericht"
 
   "Menu: Show meta characters"
-  "Men�: Meta-Zeichen anzeigen"
+  "Menü: Meta-Zeichen anzeigen"
 
   "Menu: Show selected line change"
   "Menü: Anzeigen aktiviert Zeile ändern"
@@ -612,10 +612,10 @@ msgcat::mcmset de {
   "Menü: Stop-Profiling"
 
   "Menu: Switch to session"
-  "Men�: Switch-Sitzung"
+  "Menü: Switch-Sitzung"
 
   "Menu: Toggle comment"
-  "Men�: Toggle Kommentar"
+  "Menü: Toggle Kommentar"
 
   "Menu: Toggle split view mode"
   "Menü: Toggle-Split-Ansicht-Modus"
@@ -638,17 +638,17 @@ msgcat::mcmset de {
   "Menu: View User Guide"
   "Menü: Ansicht Benutzerhandbuch"
 
+  "Menu: View base preferences file"
+  "Menü: Ansicht-Basis-Voreinstellungsdatei"
+
   "Menu: View global menu bindings"
   "Menü: Globale Menü Bindungen"
 
-  "Menu: View global preferences"
-  "Menü: Ansicht globalen Einstellungen"
-
   "Merge Panes"
-  "Zusammenf�hren von Scheiben"
+  "Zusammenführen von Scheiben"
 
   "Next Difference"
-  "N�chster Unterschied"
+  "Nächster Unterschied"
 
   "No files found in specified directories"
   "Keine Dateien in den angegebenen Verzeichnissen gefunden"
@@ -717,19 +717,19 @@ msgcat::mcmset de {
   "Speichern unter..."
 
   "Save Current"
-  "Aktuelle Oberfl�che speichern"
+  "Aktuelle Oberfläche speichern"
 
   "Select All"
   "Alle auswählen"
 
   "Select All Occurrences"
-  "W�hlen Sie alle Vorkommen"
+  "Wählen Sie alle Vorkommen"
 
   "Select Next Occurrence"
-  "W�hlen Sie die n�chstes vorkommen"
+  "Wählen Sie die nächstes vorkommen"
 
   "Select Previous Occurrence"
-  "W�hlen Sie vorherige Vorkommen"
+  "Wählen Sie vorherige Vorkommen"
 
   "Selected"
   "Ausgewählt"
@@ -741,7 +741,7 @@ msgcat::mcmset de {
   "Schicken Sie Feedback"
 
   "Sessions"
-  "zur Verf�gung steht."
+  "zur Verfügung steht."
 
   "Set Syntax"
   "Stellen Syntax"
@@ -771,7 +771,7 @@ msgcat::mcmset de {
   "Meta-Zeichen anzeigen"
 
   "Show Selected Line Change"
-  "Anzeigen der markierten Zeile �ndern"
+  "Anzeigen der markierten Zeile ändern"
 
   "Show Sidebar"
   "Seitenleiste anzeigen"

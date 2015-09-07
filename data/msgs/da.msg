@@ -162,13 +162,13 @@ msgcat::mcmset da {
   "Om TKE"
 
   "Align Cursors"
-  "Juster markører"
+  "Juster markÃ¸rer"
 
   "All"
   "Alle"
 
   "Append Next Occurrence"
-  "Føj næste forekomst"
+  "FÃ¸j nÃ¦ste forekomst"
 
   "Auto-Indent"
   "Automatisk indryk"
@@ -183,7 +183,7 @@ msgcat::mcmset da {
   "Luk alle"
 
   "Close Current"
-  "Luk strøm {0}"
+  "Luk strÃ¸m {0}"
 
   "Copy"
   "Kopier"
@@ -192,7 +192,7 @@ msgcat::mcmset da {
   "Opret ny"
 
   "Create at Current Line"
-  "Oprette på nuværende linje"
+  "Oprette pÃ¥ nuvÃ¦rende linje"
 
   "Create..."
   "Opret"
@@ -291,7 +291,7 @@ msgcat::mcmset da {
   "LED slukket"
 
   "Insert Enumeration"
-  "Indsæt optælling"
+  "IndsÃ¦t optÃ¦lling"
 
   "Insert Text"
   "IndsÃ¦t tekst"
@@ -300,7 +300,7 @@ msgcat::mcmset da {
   "Installer"
 
   "Jump Backward"
-  "Hoppe baglæns"
+  "Hoppe baglÃ¦ns"
 
   "Jump Forward"
   "Spring frem"
@@ -375,7 +375,7 @@ msgcat::mcmset da {
   "Menu: Rediger globale sessionsindstillingerne"
 
   "Menu: Edit user current language preferences"
-  "Menu: Redigere brugerens aktuelle sprogpræferencer"
+  "Menu: Redigere brugerens aktuelle sprogprÃ¦ferencer"
 
   "Menu: Edit user global preferences"
   "Menu: Rediger globale brugerindstillinger"
@@ -498,7 +498,7 @@ msgcat::mcmset da {
   "Menu: Ã…bn fil"
 
   "Menu: Open session"
-  "Menu: Åbn session"
+  "Menu: Ã…bn session"
 
   "Menu: Paste and format text from clipboard"
   "Menu: IndsÃ¦t og formatere tekst fra udklipsholder"
@@ -534,7 +534,7 @@ msgcat::mcmset da {
   "Menu: Gem alle filer"
 
   "Menu: Save current session"
-  "Gem nuværende session?"
+  "Gem nuvÃ¦rende session?"
 
   "Menu: Save file"
   "Menu: Gem filen"
@@ -638,17 +638,17 @@ msgcat::mcmset da {
   "Menu: View User Guide"
   "Menu: Se brugervejledning"
 
+  "Menu: View base preferences file"
+  "Menu: Se base prÃ¦ferencer fil"
+
   "Menu: View global menu bindings"
   "Menu: Se globale menu bindinger"
-
-  "Menu: View global preferences"
-  "Menu: Vis globale prÃ¦ferencer"
 
   "Merge Panes"
   "Flette ruder"
 
   "Next Difference"
-  "Næste forskel"
+  "NÃ¦ste forskel"
 
   "No files found in specified directories"
   "Ikke findes i angivne mapper filer"
@@ -696,7 +696,7 @@ msgcat::mcmset da {
   "Opdater"
 
   "Remove All Markers"
-  "Fjerne alle markører"
+  "Fjerne alle markÃ¸rer"
 
   "Remove From Current Line"
   "Fjern fra aktuel linje"
@@ -723,13 +723,13 @@ msgcat::mcmset da {
   "VÃ¦lg alle"
 
   "Select All Occurrences"
-  "Vælg alle forekomster"
+  "VÃ¦lg alle forekomster"
 
   "Select Next Occurrence"
-  "Vælg næste forekomst"
+  "VÃ¦lg nÃ¦ste forekomst"
 
   "Select Previous Occurrence"
-  "Vælg forrige forekomst"
+  "VÃ¦lg forrige forekomst"
 
   "Selected"
   "Valgt"
@@ -771,7 +771,7 @@ msgcat::mcmset da {
   "Vis Meta tegn"
 
   "Show Selected Line Change"
-  "Vis valgte linje ændring"
+  "Vis valgte linje Ã¦ndring"
 
   "Show Sidebar"
   "Vis sidebjÃ¦lke"

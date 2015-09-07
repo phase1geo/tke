@@ -189,10 +189,10 @@ msgcat::mcmset fr {
   "Copie"
 
   "Create New..."
-  "CrÈer un nouveau"
+  "Cr√©er un nouveau"
 
   "Create at Current Line"
-  "CrÈer ‡ la ligne courante"
+  "Cr√©er √† la ligne courante"
 
   "Create..."
   "Cr√©er..."
@@ -267,7 +267,7 @@ msgcat::mcmset fr {
   "Masquer les num√©ros de ligne"
 
   "Hide Meta Characters"
-  "Masquer les mÈta-caractËres"
+  "Masquer les m√©ta-caract√®res"
 
   "Hide Sidebar"
   "Cacher la barre lat√©rale"
@@ -279,7 +279,7 @@ msgcat::mcmset fr {
   "Masquer la barre d&#39;onglets"
 
   "Import TextMate Theme..."
-  "ThËme de TextMate Import..."
+  "Th√®me de TextMate Import..."
 
   "Indent"
   "Retrait"
@@ -291,7 +291,7 @@ msgcat::mcmset fr {
   "Tiret hors"
 
   "Insert Enumeration"
-  "InsÈrer l'ÈnumÈration"
+  "Ins√©rer l'√©num√©ration"
 
   "Insert Text"
   "insertion de texte"
@@ -300,7 +300,7 @@ msgcat::mcmset fr {
   "Installation..."
 
   "Jump Backward"
-  "Saut vers l'arriËre"
+  "Saut vers l'arri√®re"
 
   "Jump Forward"
   "Aller de l&#39;avant"
@@ -369,16 +369,16 @@ msgcat::mcmset fr {
   "Menu : Extraits de langue Edit"
 
   "Menu: Edit session current language preferences"
-  "Menu : Edition prÈfÈrences linguistiques actuelles de session"
+  "Menu : Edition pr√©f√©rences linguistiques actuelles de session"
 
   "Menu: Edit session global preferences"
-  "Menu : Edition PrÈfÈrences globales de session"
+  "Menu : Edition Pr√©f√©rences globales de session"
 
   "Menu: Edit user current language preferences"
-  "Menu : Edition prÈfÈrences linguistiques actuelles de l'utilisateur"
+  "Menu : Edition pr√©f√©rences linguistiques actuelles de l'utilisateur"
 
   "Menu: Edit user global preferences"
-  "Menu : Edition PrÈfÈrences globales de l'utilisateur"
+  "Menu : Edition Pr√©f√©rences globales de l'utilisateur"
 
   "Menu: Edit user menu bindings"
   "fixations du menu utilisateur Edition: Menu"
@@ -441,7 +441,7 @@ msgcat::mcmset fr {
   "Menu: Masquer console"
 
   "Menu: Hide meta characters"
-  "Menu : Masquer les mÈta-caractËres"
+  "Menu : Masquer les m√©ta-caract√®res"
 
   "Menu: Hide sidebar"
   "Menu: Cacher la barre lat√©rale"
@@ -498,7 +498,7 @@ msgcat::mcmset fr {
   "Menu: ouvrir le fichier"
 
   "Menu: Open session"
-  "Menu : SÈance publique"
+  "Menu : S√©ance publique"
 
   "Menu: Paste and format text from clipboard"
   "Menu: P√¢te et formater le texte du presse-papiers"
@@ -534,7 +534,7 @@ msgcat::mcmset fr {
   "Menu: Enregistrez tous les fichiers"
 
   "Menu: Save current session"
-  "Enregistrer la session actuelle†?"
+  "Enregistrer la session actuelle¬†?"
 
   "Menu: Save file"
   "Menu: Enregistrer le fichier"
@@ -591,7 +591,7 @@ msgcat::mcmset fr {
   "Menu: Afficher le dernier rapport de profilage"
 
   "Menu: Show meta characters"
-  "Menu : Afficher les mÈta-caractËres"
+  "Menu : Afficher les m√©ta-caract√®res"
 
   "Menu: Show selected line change"
   "Menu : Changement de ligne spectacle s√©lectionn√©"
@@ -615,7 +615,7 @@ msgcat::mcmset fr {
   "Menu : Commutateur de session"
 
   "Menu: Toggle comment"
-  "Menu : Commentaire activer/dÈsactiver"
+  "Menu : Commentaire activer/d√©sactiver"
 
   "Menu: Toggle split view mode"
   "Menu: Basculer en mode split view"
@@ -638,17 +638,17 @@ msgcat::mcmset fr {
   "Menu: View User Guide"
   "Menu: Voir Guide de l&#39;utilisateur"
 
+  "Menu: View base preferences file"
+  "Menu : Fichier de pr√©f√©rences de base pour le mode"
+
   "Menu: View global menu bindings"
   "Menu: Voir fixations de menu mondiaux"
-
-  "Menu: View global preferences"
-  "Menu: pr√©f√©rences globales Voir"
 
   "Merge Panes"
   "Fusionner les volets"
 
   "Next Difference"
-  "DiffÈrence suivante"
+  "Diff√©rence suivante"
 
   "No files found in specified directories"
   "Aucun fichier trouv√© dans les r√©pertoires sp√©cifi√©s"
@@ -678,7 +678,7 @@ msgcat::mcmset fr {
   "Pr√©f√©rences"
 
   "Previous Difference"
-  "DiffÈrence prÈcÈdente"
+  "Diff√©rence pr√©c√©dente"
 
   "Profiling started"
   "Profilage a commenc√©"
@@ -708,7 +708,7 @@ msgcat::mcmset fr {
   "R√©initialiser utilisateur √† Base"
 
   "Restart TKE"
-  "RedÈmarrez TKE"
+  "Red√©marrez TKE"
 
   "Save All"
   "Enregistrer tout"
@@ -723,13 +723,13 @@ msgcat::mcmset fr {
   "Tout s√©lectionner"
 
   "Select All Occurrences"
-  "SÈlectionner toutes les Occurrences"
+  "S√©lectionner toutes les Occurrences"
 
   "Select Next Occurrence"
-  "SÈlectionnez l'Occurrence suivante"
+  "S√©lectionnez l'Occurrence suivante"
 
   "Select Previous Occurrence"
-  "SÈlectionnez l'Occurrence prÈcÈdente"
+  "S√©lectionnez l'Occurrence pr√©c√©dente"
 
   "Selected"
   "S√©lectionn√©"
@@ -768,10 +768,10 @@ msgcat::mcmset fr {
   "Afficher les num√©ros de ligne"
 
   "Show Meta Characters"
-  "Afficher les caractËres de Meta"
+  "Afficher les caract√®res de Meta"
 
   "Show Selected Line Change"
-  "Montrer le changement de la ligne sÈlectionnÈe"
+  "Montrer le changement de la ligne s√©lectionn√©e"
 
   "Show Sidebar"
   "Afficher la barre lat√©rale"
@@ -807,7 +807,7 @@ msgcat::mcmset fr {
   "Arr√™tez le profilage"
 
   "Switch To"
-  "Passer ‡ ..."
+  "Passer √† ..."
 
   "Tabs"
   "Tab"
@@ -901,7 +901,7 @@ msgcat::mcmset fr {
   "Fermer Les fichiers Directory"
 
   "Copy Pathname"
-  "Copiez le chemin d'accËs"
+  "Copiez le chemin d'acc√®s"
 
   "Delete directory?"
   "Supprimer r√©pertoire?"

@@ -638,11 +638,11 @@ msgcat::mcmset he {
   "Menu: View User Guide"
   "תפריט: מדריך למשתמש תצוגת"
 
+  "Menu: View base preferences file"
+  "תפריט: קובץ ההעדפות הבסיס של תצוגת"
+
   "Menu: View global menu bindings"
   "תפריט: הצג את התפריטים הכללית איגודי"
-
-  "Menu: View global preferences"
-  "תפריט: העדפות גלובלית"
 
   "Merge Panes"
   "????? ???????"

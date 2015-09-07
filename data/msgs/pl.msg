@@ -162,7 +162,7 @@ msgcat::mcmset pl {
   "O TKE"
 
   "Align Cursors"
-  "Wyr�wna? kursory"
+  "Wyrówna? kursory"
 
   "All"
   "Wszystko"
@@ -189,10 +189,10 @@ msgcat::mcmset pl {
   "Kopiuj"
 
   "Create New..."
-  "Utw�rz nowe"
+  "Utwórz nowe"
 
   "Create at Current Line"
-  "Utw�rz w bie??cym wierszu"
+  "Utwórz w bie??cym wierszu"
 
   "Create..."
   "Utwórz..."
@@ -267,7 +267,7 @@ msgcat::mcmset pl {
   "Ukryj numery linii"
 
   "Hide Meta Characters"
-  "Ukryj Meta znak�w"
+  "Ukryj Meta znaków"
 
   "Hide Sidebar"
   "Ukryj pasek"
@@ -279,7 +279,7 @@ msgcat::mcmset pl {
   "Ukryj pasek zakładek"
 
   "Import TextMate Theme..."
-  "Przyw�z TextMate tematu..."
+  "Przywóz TextMate tematu..."
 
   "Indent"
   "Einzug"
@@ -441,7 +441,7 @@ msgcat::mcmset pl {
   "Menu: konsola Ukryj"
 
   "Menu: Hide meta characters"
-  "Menu: Ukryj meta znak�w"
+  "Menu: Ukryj meta znaków"
 
   "Menu: Hide sidebar"
   "Menu: Ukryj pasek boczny"
@@ -498,7 +498,7 @@ msgcat::mcmset pl {
   "Menu: Otwórz plik"
 
   "Menu: Open session"
-  "Menu: Otw�rz sesj?"
+  "Menu: Otwórz sesj?"
 
   "Menu: Paste and format text from clipboard"
   "Menu: Pasta i format tekstu ze schowka"
@@ -591,7 +591,7 @@ msgcat::mcmset pl {
   "Menu: Pokaż raport w zeszłym profilowanie"
 
   "Menu: Show meta characters"
-  "Menu: Poka? meta znak�w"
+  "Menu: Poka? meta znaków"
 
   "Menu: Show selected line change"
   "Menu: Pokaż zaznaczona linia zmiany"
@@ -638,17 +638,17 @@ msgcat::mcmset pl {
   "Menu: View User Guide"
   "Menu: Widok Instrukcja obsługi"
 
+  "Menu: View base preferences file"
+  "Menu: Widok podstawowy plik"
+
   "Menu: View global menu bindings"
   "Menu: Widok menu globalnych powiązań"
-
-  "Menu: View global preferences"
-  "Menu: Widok globalne preferencje"
 
   "Merge Panes"
   "Scalanie okienek"
 
   "Next Difference"
-  "Nast?pna r�?nica"
+  "Nast?pna ró?nica"
 
   "No files found in specified directories"
   "Nie ma plików znajdujących się w określonych katalogach"
@@ -678,7 +678,7 @@ msgcat::mcmset pl {
   "Preferencje"
 
   "Previous Difference"
-  "Poprzednia r�?nica"
+  "Poprzednia ró?nica"
 
   "Profiling started"
   "Profilowanie zaczęło"

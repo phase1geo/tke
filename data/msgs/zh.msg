@@ -638,11 +638,11 @@ msgcat::mcmset zh {
   "Menu: View User Guide"
   "菜单：查看用户指南"
 
+  "Menu: View base preferences file"
+  "菜单: 查看基地首选项文件"
+
   "Menu: View global menu bindings"
   "菜单：查看全局菜单绑定"
-
-  "Menu: View global preferences"
-  "菜单：检视全球首选项"
 
   "Merge Panes"
   "????"

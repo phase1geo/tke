@@ -162,13 +162,13 @@ msgcat::mcmset cs {
   "O TKE"
 
   "Align Cursors"
-  "Zarovn�n� kurzor?"
+  "Zarovnání kurzor?"
 
   "All"
   "Všichni"
 
   "Append Next Occurrence"
-  "P?ipojit dal�� v�skyt"
+  "P?ipojit dalí výskyt"
 
   "Auto-Indent"
   "Automatické odsazení"
@@ -183,16 +183,16 @@ msgcat::mcmset cs {
   "Zavřít vše"
 
   "Close Current"
-  "Uzav?�t aktu�ln�"
+  "Uzav?ít aktuální"
 
   "Copy"
   "Kopírovat"
 
   "Create New..."
-  "Vytvo?it nov�/novou"
+  "Vytvo?it nový/novou"
 
   "Create at Current Line"
-  "Vytvo?it v aktu�ln�m ?�dku"
+  "Vytvo?it v aktuálním ?ádku"
 
   "Create..."
   "Vytvořit"
@@ -207,7 +207,7 @@ msgcat::mcmset cs {
   "Upravit jazyk"
 
   "Edit Session - Global"
-  "Upravit relace - glob�ln�"
+  "Upravit relace - globální"
 
   "Edit Session - Language"
   "Upravit relace - jazyk"
@@ -216,10 +216,10 @@ msgcat::mcmset cs {
   "Přidat Uživatele"
 
   "Edit User - Global"
-  "Upravit u�ivatelsk� - glob�ln�"
+  "Upravit uivatelské - globální"
 
   "Edit User - Language"
-  "Upravit u�ivatelsk� - jazyk"
+  "Upravit uivatelské - jazyk"
 
   "Edit..."
   "Upravit..."
@@ -231,10 +231,10 @@ msgcat::mcmset cs {
   "Find"
 
   "Find In Files"
-  "Naj�t v souborech"
+  "Najít v souborech"
 
   "Find Matching Pair"
-  "Naj�t odpov�daj�c� dvojice"
+  "Najít odpovídající dvojice"
 
   "Find and Replace"
   "Najít a nahradit"
@@ -267,7 +267,7 @@ msgcat::mcmset cs {
   "Skrýt čísla řádek"
 
   "Hide Meta Characters"
-  "Skr�t znaky Meta"
+  "Skrýt znaky Meta"
 
   "Hide Sidebar"
   "Skrýt Sidebar"
@@ -279,7 +279,7 @@ msgcat::mcmset cs {
   "Skrýt liště"
 
   "Import TextMate Theme..."
-  "Importujte TextMate t�ma..."
+  "Importujte TextMate téma..."
 
   "Indent"
   "Zvětšit odsazení"
@@ -291,7 +291,7 @@ msgcat::mcmset cs {
   "Odsadit vypnuto"
 
   "Insert Enumeration"
-  "Vlo�it � v�?et"
+  "Vloit  vý?et"
 
   "Insert Text"
   "Vložit text"
@@ -336,13 +336,13 @@ msgcat::mcmset cs {
   "Zavřít vše"
 
   "Menu: Close current session"
-  "Nab�dka: Zav?�t aktu�ln� relaci"
+  "Nabídka: Zav?ít aktuální relaci"
 
   "Menu: Close current tab"
   "Menu: Zavřít aktuální záložku"
 
   "Menu: Copy text"
-  "Nab�dka: Kop�rovat text"
+  "Nabídka: Kopírovat text"
 
   "Menu: Create marker at current line"
   "Nabídka: Vytvoření značky na aktuálním řádku"
@@ -354,10 +354,10 @@ msgcat::mcmset cs {
   "Menu: Vytvořit nové téma"
 
   "Menu: Cut text"
-  "Nab�dka: Vyjmout text"
+  "Nabídka: Vyjmout text"
 
   "Menu: Delete session"
-  "Nab�dka: Odstranit relace"
+  "Nabídka: Odstranit relace"
 
   "Menu: Disable Vim mode"
   "Menu: Vypnutí režimu Vim"
@@ -369,16 +369,16 @@ msgcat::mcmset cs {
   "Nabídka: Upravit jazyk fragmenty"
 
   "Menu: Edit session current language preferences"
-  "Menu: �pravy relace sou?asn� jazykov� p?edvolby"
+  "Menu: Úpravy relace sou?asné jazykové p?edvolby"
 
   "Menu: Edit session global preferences"
-  "Nab�dka: Upravit glob�ln� nastaven� relace"
+  "Nabídka: Upravit globální nastavení relace"
 
   "Menu: Edit user current language preferences"
-  "Nab�dka: Upravit aktu�ln� u�ivatelsk� p?edvolby jazyka"
+  "Nabídka: Upravit aktuální uivatelské p?edvolby jazyka"
 
   "Menu: Edit user global preferences"
-  "Nab�dka: Upravit glob�ln� nastaven� u�ivatele"
+  "Nabídka: Upravit globální nastavení uivatele"
 
   "Menu: Edit user menu bindings"
   "Vázání Edit Uživatelské menu: Menu"
@@ -441,7 +441,7 @@ msgcat::mcmset cs {
   "Menu: Skrýt konzole"
 
   "Menu: Hide meta characters"
-  "Nab�dka: Skr�t znaky meta"
+  "Nabídka: Skrýt znaky meta"
 
   "Menu: Hide sidebar"
   "Menu: skrýt postranní panel"
@@ -477,7 +477,7 @@ msgcat::mcmset cs {
   "Menu: Lock soubor"
 
   "Menu: Merge panes"
-  "Nab�dka: Slou?en� podoken"
+  "Nabídka: Slou?ení podoken"
 
   "Menu: Move to other pane"
   "Menu: Přechod na jiné tabule"
@@ -498,7 +498,7 @@ msgcat::mcmset cs {
   "Menu: Otevřít soubor"
 
   "Menu: Open session"
-  "Nab�dka: Otev?en� relace"
+  "Nabídka: Otev?ené relace"
 
   "Menu: Paste and format text from clipboard"
   "Menu: Vložit a formátovat text ze schránky"
@@ -534,7 +534,7 @@ msgcat::mcmset cs {
   "Menu: Uložit všechny soubory"
 
   "Menu: Save current session"
-  "Nab�dka: Ulo�it aktu�ln� relaci"
+  "Nabídka: Uloit aktuální relaci"
 
   "Menu: Save file"
   "Menu: Uložit soubor"
@@ -543,7 +543,7 @@ msgcat::mcmset cs {
   "Menu: Uložit soubor jako"
 
   "Menu: Save sessions as"
-  "Nab�dka: Ukl�d�n� sezen� jako"
+  "Nabídka: Ukládání sezení jako"
 
   "Menu: Select all occurrences"
   "Menu: Vybrat všechny výskyty"
@@ -591,7 +591,7 @@ msgcat::mcmset cs {
   "Menu: Zobrazit report poslední profilování"
 
   "Menu: Show meta characters"
-  "Nab�dka: Show meta znaky"
+  "Nabídka: Show meta znaky"
 
   "Menu: Show selected line change"
   "Nabídka: Show vybrané linie změna"
@@ -612,10 +612,10 @@ msgcat::mcmset cs {
   "Menu: Stop profilování"
 
   "Menu: Switch to session"
-  "Nab�dka: P?epnout do session"
+  "Nabídka: P?epnout do session"
 
   "Menu: Toggle comment"
-  "Nab�dka: P?ep�na? koment�?"
+  "Nabídka: P?epína? komentá?"
 
   "Menu: Toggle split view mode"
   "Menu: Přepnout režim Split view"
@@ -638,17 +638,17 @@ msgcat::mcmset cs {
   "Menu: View User Guide"
   "Menu: Zobrazit Uživatelská příručka"
 
+  "Menu: View base preferences file"
+  "Menu: Soubor základních předvoleb zobrazení"
+
   "Menu: View global menu bindings"
   "Menu: Zobrazit globální vazby nabídky"
-
-  "Menu: View global preferences"
-  "Menu: Zobrazit globální předvolby"
 
   "Merge Panes"
   "Slou?it podokna"
 
   "Next Difference"
-  "Dal�� rozd�l"
+  "Dalí rozdíl"
 
   "No files found in specified directories"
   "Žádné soubory v uvedených adresářích"
@@ -678,7 +678,7 @@ msgcat::mcmset cs {
   "Preference"
 
   "Previous Difference"
-  "P?edchoz� rozd�l"
+  "P?edchozí rozdíl"
 
   "Profiling started"
   "Profilování začal"
@@ -696,13 +696,13 @@ msgcat::mcmset cs {
   "Načíst znovu"
 
   "Remove All Markers"
-  "Odebrat v�echny zna?ky"
+  "Odebrat vechny zna?ky"
 
   "Remove From Current Line"
-  "Odebrat z aktu�ln�ho ?�dku"
+  "Odebrat z aktuálního ?ádku"
 
   "Replace Line With Script"
-  "Nahradit ?�dek skriptu"
+  "Nahradit ?ádek skriptu"
 
   "Reset User to Base"
   "Obnovit uživatelské základny"
@@ -717,19 +717,19 @@ msgcat::mcmset cs {
   "Uložit jako..."
 
   "Save Current"
-  "Ulo�it aktu�ln�"
+  "Uloit aktuální"
 
   "Select All"
   "Vybrat vše"
 
   "Select All Occurrences"
-  "Vybrat v�echny v�skyty"
+  "Vybrat vechny výskyty"
 
   "Select Next Occurrence"
-  "Vybrat dal�� v�skyt"
+  "Vybrat dalí výskyt"
 
   "Select Previous Occurrence"
-  "Vybrat p?edchoz� v�skyt"
+  "Vybrat p?edchozí výskyt"
 
   "Selected"
   "Vybrané"
@@ -741,7 +741,7 @@ msgcat::mcmset cs {
   "Odeslat názor"
 
   "Sessions"
-  "N�v�t?vy"
+  "Návt?vy"
 
   "Set Syntax"
   "Nastavit syntaxe"
@@ -798,7 +798,7 @@ msgcat::mcmset cs {
   "Seřadit Záložky"
 
   "Split View"
-  "Rozd?len� panel"
+  "Rozd?lený panel"
 
   "Start Profiling"
   "Začněte profilování"
@@ -819,7 +819,7 @@ msgcat::mcmset cs {
   "Theme Creator"
 
   "Toggle Comment"
-  "P?epnout koment�?"
+  "P?epnout komentá?"
 
   "Tools"
   "nástroje"
@@ -901,7 +901,7 @@ msgcat::mcmset cs {
   "Zavřít Directory soubory"
 
   "Copy Pathname"
-  "Kop�rovat cestu"
+  "Kopírovat cestu"
 
   "Delete directory?"
   "Smazat adresář?"
@@ -919,7 +919,7 @@ msgcat::mcmset cs {
   "&Jméno souboru:"
 
   "Folder Name:"
-  "N�zev slo�ky:"
+  "Název sloky:"
 
   "Make Current Working Directory"
   "Ujistěte se aktuální pracovní adresář"
