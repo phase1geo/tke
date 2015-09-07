@@ -638,11 +638,11 @@ msgcat::mcmset ja {
   "Menu: View User Guide"
   "メニュー：表示ユーザガイド"
 
+  "Menu: View base preferences file"
+  "メニュー: 表示基本設定ファイル"
+
   "Menu: View global menu bindings"
   "メニュー：表示グローバルメニューバインディング"
-
-  "Menu: View global preferences"
-  "メニュー：表示グローバルプリファレンス"
 
   "Merge Panes"
   "????????????"

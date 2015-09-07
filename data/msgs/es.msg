@@ -192,7 +192,7 @@ msgcat::mcmset es {
   "Crear nuevo"
 
   "Create at Current Line"
-  "Crear en línea actual"
+  "Crear en lÃ­nea actual"
 
   "Create..."
   "Crear..."
@@ -207,10 +207,10 @@ msgcat::mcmset es {
   "Editar Idioma"
 
   "Edit Session - Global"
-  "Editar período de sesiones - Global"
+  "Editar perÃ­odo de sesiones - Global"
 
   "Edit Session - Language"
-  "Editar período de sesiones - lengua"
+  "Editar perÃ­odo de sesiones - lengua"
 
   "Edit User"
   "Editar usuario"
@@ -279,7 +279,7 @@ msgcat::mcmset es {
   "Hide Tab Bar"
 
   "Import TextMate Theme..."
-  "Importación TextMate Theme..."
+  "ImportaciÃ³n TextMate Theme..."
 
   "Indent"
   "Indentar"
@@ -291,7 +291,7 @@ msgcat::mcmset es {
   "GuiÃ³n de"
 
   "Insert Enumeration"
-  "Insertar (enumeración)"
+  "Insertar (enumeraciÃ³n)"
 
   "Insert Text"
   "Insertar texto"
@@ -300,7 +300,7 @@ msgcat::mcmset es {
   "Instalar..."
 
   "Jump Backward"
-  "Salto hacia atrás"
+  "Salto hacia atrÃ¡s"
 
   "Jump Forward"
   "Saltar hacia adelante"
@@ -336,13 +336,13 @@ msgcat::mcmset es {
   "Â¿Cerramos todas las pestaÃ±as?"
 
   "Menu: Close current session"
-  "Menú: Cerrar sesión actual"
+  "MenÃº: Cerrar sesiÃ³n actual"
 
   "Menu: Close current tab"
   "MenÃº: Cerrar pestaÃ±a actual"
 
   "Menu: Copy text"
-  "Menú: Texto copia"
+  "MenÃº: Texto copia"
 
   "Menu: Create marker at current line"
   "MenÃº: Crear marcador en lÃ­nea actual"
@@ -354,10 +354,10 @@ msgcat::mcmset es {
   "Crear nuevo tema..."
 
   "Menu: Cut text"
-  "Menú: Cortar texto"
+  "MenÃº: Cortar texto"
 
   "Menu: Delete session"
-  "Menú: Sesión de borrar"
+  "MenÃº: SesiÃ³n de borrar"
 
   "Menu: Disable Vim mode"
   "MenÃº: Desactive el modo Vim"
@@ -369,16 +369,16 @@ msgcat::mcmset es {
   "MenÃº: Fragmentos de idioma editar"
 
   "Menu: Edit session current language preferences"
-  "Menú: Editar preferencias de idioma actual período de sesiones"
+  "MenÃº: Editar preferencias de idioma actual perÃ­odo de sesiones"
 
   "Menu: Edit session global preferences"
-  "Menú: Editar preferencias globales del período de sesiones"
+  "MenÃº: Editar preferencias globales del perÃ­odo de sesiones"
 
   "Menu: Edit user current language preferences"
-  "Menú: Editar preferencias de idioma actual del usuario"
+  "MenÃº: Editar preferencias de idioma actual del usuario"
 
   "Menu: Edit user global preferences"
-  "Menú: Editar preferencias globales"
+  "MenÃº: Editar preferencias globales"
 
   "Menu: Edit user menu bindings"
   "Enlaces del menÃº Editar usuario: Menu"
@@ -477,7 +477,7 @@ msgcat::mcmset es {
   "Bloqueo de archivos: Menu"
 
   "Menu: Merge panes"
-  "Menú: Recuadros fusión"
+  "MenÃº: Recuadros fusiÃ³n"
 
   "Menu: Move to other pane"
   "MenÃº: Mover a otro panel"
@@ -498,7 +498,7 @@ msgcat::mcmset es {
   "MenÃº: Abrir el archivo"
 
   "Menu: Open session"
-  "Menú: Sesión abierta"
+  "MenÃº: SesiÃ³n abierta"
 
   "Menu: Paste and format text from clipboard"
   "MenÃº: Pasta y formato de texto desde el portapapeles"
@@ -534,7 +534,7 @@ msgcat::mcmset es {
   "MenÃº: Guarde todos los archivos"
 
   "Menu: Save current session"
-  "¿Guardar la sesión actual?"
+  "Â¿Guardar la sesiÃ³n actual?"
 
   "Menu: Save file"
   "MenÃº: Guardar el archivo"
@@ -543,7 +543,7 @@ msgcat::mcmset es {
   "MenÃº: Guardar archivo como"
 
   "Menu: Save sessions as"
-  "Menú: Guardar sesiones como"
+  "MenÃº: Guardar sesiones como"
 
   "Menu: Select all occurrences"
   "MenÃº: seleccione todas las ocurrencias"
@@ -591,7 +591,7 @@ msgcat::mcmset es {
   "MenÃº: Mostrar Ãºltimo informe perfiles"
 
   "Menu: Show meta characters"
-  "Menú: Mostrar caracteres meta"
+  "MenÃº: Mostrar caracteres meta"
 
   "Menu: Show selected line change"
   "MenÃº: LÃ­nea cambio Show seleccionada"
@@ -612,10 +612,10 @@ msgcat::mcmset es {
   "MenÃº: perfilaciÃ³n"
 
   "Menu: Switch to session"
-  "Menú: Interruptor a período de sesiones"
+  "MenÃº: Interruptor a perÃ­odo de sesiones"
 
   "Menu: Toggle comment"
-  "Menú: Comentario de cambiar"
+  "MenÃº: Comentario de cambiar"
 
   "Menu: Toggle split view mode"
   "MenÃº: Cambiar el modo de vista dividida"
@@ -638,11 +638,11 @@ msgcat::mcmset es {
   "Menu: View User Guide"
   "Ver GuÃ­a del usuario"
 
+  "Menu: View base preferences file"
+  "MenÃº: Ver base preferencias archivo"
+
   "Menu: View global menu bindings"
   "MenÃº: Ver enlaces de menÃº globales"
-
-  "Menu: View global preferences"
-  "MenÃº: Ver las preferencias globales"
 
   "Merge Panes"
   "Unir paneles"
@@ -699,10 +699,10 @@ msgcat::mcmset es {
   "Eliminar todos los marcadores"
 
   "Remove From Current Line"
-  "Retire de la línea actual"
+  "Retire de la lÃ­nea actual"
 
   "Replace Line With Script"
-  "Reemplazar línea con Script"
+  "Reemplazar lÃ­nea con Script"
 
   "Reset User to Base"
   "Restablecer el usuario a la Base"
@@ -729,7 +729,7 @@ msgcat::mcmset es {
   "Seleccione la siguiente ocurrencia"
 
   "Select Previous Occurrence"
-  "Seleccionar anterior aparición"
+  "Seleccionar anterior apariciÃ³n"
 
   "Selected"
   "Seleccionado"
@@ -771,7 +771,7 @@ msgcat::mcmset es {
   "Mostrar caracteres de Meta"
 
   "Show Selected Line Change"
-  "Cambio de línea seleccionada"
+  "Cambio de lÃ­nea seleccionada"
 
   "Show Sidebar"
   "Mostrar barra lateral"

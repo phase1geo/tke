@@ -192,7 +192,7 @@ msgcat::mcmset no {
   "Opprette nye..."
 
   "Create at Current Line"
-  "Opprette på gjeldende linje"
+  "Opprette pÃ¥ gjeldende linje"
 
   "Create..."
   "frambringe"
@@ -210,7 +210,7 @@ msgcat::mcmset no {
   "Sesjon - Global"
 
   "Edit Session - Language"
-  "Redigere Session - språk"
+  "Redigere Session - sprÃ¥k"
 
   "Edit User"
   "Rediger bruker"
@@ -219,7 +219,7 @@ msgcat::mcmset no {
   "Rediger bruker - Global"
 
   "Edit User - Language"
-  "Rediger bruker - språk"
+  "Rediger bruker - sprÃ¥k"
 
   "Edit..."
   "Edit"
@@ -336,7 +336,7 @@ msgcat::mcmset no {
   "Meny: Lukk alle faner"
 
   "Menu: Close current session"
-  "Meny: Lukk gjeldende økt"
+  "Meny: Lukk gjeldende Ã¸kt"
 
   "Menu: Close current tab"
   "Meny: Lukk gjeldende fane"
@@ -357,7 +357,7 @@ msgcat::mcmset no {
   "Meny: Kutt tekst"
 
   "Menu: Delete session"
-  "Meny: Slett økt"
+  "Meny: Slett Ã¸kt"
 
   "Menu: Disable Vim mode"
   "Meny: Deaktiver Vim-modus"
@@ -369,13 +369,13 @@ msgcat::mcmset no {
   "Meny: Rediger sprÃ¥k tekstutdrag"
 
   "Menu: Edit session current language preferences"
-  "Meny: Redigere økt gjeldende språkinnstillinger"
+  "Meny: Redigere Ã¸kt gjeldende sprÃ¥kinnstillinger"
 
   "Menu: Edit session global preferences"
-  "Meny: Redigere økt globale innstillinger"
+  "Meny: Redigere Ã¸kt globale innstillinger"
 
   "Menu: Edit user current language preferences"
-  "Meny: Redigere bruker gjeldende språkinnstillinger"
+  "Meny: Redigere bruker gjeldende sprÃ¥kinnstillinger"
 
   "Menu: Edit user global preferences"
   "Meny: Redigere globale brukerinnstillinger"
@@ -498,7 +498,7 @@ msgcat::mcmset no {
   "Meny: Ã…pne fil"
 
   "Menu: Open session"
-  "Meny: Åpne økt"
+  "Meny: Ã…pne Ã¸kt"
 
   "Menu: Paste and format text from clipboard"
   "Meny: Lim inn og formatere tekst fra utklippstavlen"
@@ -534,7 +534,7 @@ msgcat::mcmset no {
   "Meny: Lagre alle filer"
 
   "Menu: Save current session"
-  "Meny: Lagre gjeldende økt"
+  "Meny: Lagre gjeldende Ã¸kt"
 
   "Menu: Save file"
   "Meny: Lagre filen"
@@ -612,7 +612,7 @@ msgcat::mcmset no {
   "Meny: Stopp profilering"
 
   "Menu: Switch to session"
-  "Meny: Bytt til økt"
+  "Meny: Bytt til Ã¸kt"
 
   "Menu: Toggle comment"
   "Meny: Vis/Skjul merknad"
@@ -638,11 +638,11 @@ msgcat::mcmset no {
   "Menu: View User Guide"
   "Meny: Se BrukerhÃ¥ndbok"
 
+  "Menu: View base preferences file"
+  "Meny: Vis base innstillingsfilen"
+
   "Menu: View global menu bindings"
   "Meny: Vis global meny bindinger"
-
-  "Menu: View global preferences"
-  "Meny: Vis globale preferanser"
 
   "Merge Panes"
   "Flette ruter"

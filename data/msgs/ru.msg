@@ -638,11 +638,11 @@ msgcat::mcmset ru {
   "Menu: View User Guide"
   "Меню: Вид Руководство пользователя"
 
+  "Menu: View base preferences file"
+  "Меню: Просмотр базовой настройки файла"
+
   "Menu: View global menu bindings"
   "Меню: Просмотреть глобальную привязки меню"
-
-  "Menu: View global preferences"
-  "Меню: Вид глобальные предпочтения"
 
   "Merge Panes"
   "??????????? ????????"

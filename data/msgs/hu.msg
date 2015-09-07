@@ -162,13 +162,13 @@ msgcat::mcmset hu {
   "Körülbelül TKE"
 
   "Align Cursors"
-  "Igaz�t�s kurzorok"
+  "Igazítás kurzorok"
 
   "All"
   "Minden"
 
   "Append Next Occurrence"
-  "R�akaszt a k�vetkez? alkalom eml�keztet?je"
+  "Ráakaszt a következ? alkalom emlékeztet?je"
 
   "Auto-Indent"
   "Automatikus behúzás"
@@ -183,16 +183,16 @@ msgcat::mcmset hu {
   "Az összes ablak bezárása"
 
   "Close Current"
-  "Az aktu�lis lap bez�r�sa"
+  "Az aktuális lap bezárása"
 
   "Copy"
   "Másolás"
 
   "Create New..."
-  "�j l�trehoz�sa"
+  "Új létrehozása"
 
   "Create at Current Line"
-  "Az aktu�lis sor l�trehoz�sa"
+  "Az aktuális sor létrehozása"
 
   "Create..."
   "Létrehozás..."
@@ -207,7 +207,7 @@ msgcat::mcmset hu {
   "Nyelvre"
 
   "Edit Session - Global"
-  "Munkamenet - glob�lis m�dos�t�sa"
+  "Munkamenet - globális módosítása"
 
   "Edit Session - Language"
   "Munkamenet - nyelvre"
@@ -216,10 +216,10 @@ msgcat::mcmset hu {
   "Felhasználó szerkesztése"
 
   "Edit User - Global"
-  "Edit User - glob�lis"
+  "Edit User - globális"
 
   "Edit User - Language"
-  "Felhaszn�l� - nyelvre"
+  "Felhasználó - nyelvre"
 
   "Edit..."
   "Szerkesztés..."
@@ -231,10 +231,10 @@ msgcat::mcmset hu {
   "Keresés"
 
   "Find In Files"
-  "Keres�s f�jlokban..."
+  "Keresés fájlokban..."
 
   "Find Matching Pair"
-  "Keress�k meg a megfelel? p�r"
+  "Keressük meg a megfelel? pár"
 
   "Find and Replace"
   "Keresés és csere"
@@ -267,7 +267,7 @@ msgcat::mcmset hu {
   "Sorszámok elrejtése"
 
   "Hide Meta Characters"
-  "Meta-karakterek elrejt�se"
+  "Meta-karakterek elrejtése"
 
   "Hide Sidebar"
   "Az oldalsáv elrejtése"
@@ -279,7 +279,7 @@ msgcat::mcmset hu {
   "A fülek elrejtése"
 
   "Import TextMate Theme..."
-  "Import TextMate t�ma..."
+  "Import TextMate téma..."
 
   "Indent"
   "Behúzás"
@@ -291,7 +291,7 @@ msgcat::mcmset hu {
   "Francia le"
 
   "Insert Enumeration"
-  "Helyezze be a sz�mbav�tel"
+  "Helyezze be a számbavétel"
 
   "Insert Text"
   "Szöveg beszúrása"
@@ -300,10 +300,10 @@ msgcat::mcmset hu {
   "telepít"
 
   "Jump Backward"
-  "Ugr�s h�tra"
+  "Ugrás hátra"
 
   "Jump Forward"
-  "Ugr�s el�re"
+  "Ugrás elõre"
 
   "Launcher"
   "Rakétaindító állvány"
@@ -336,13 +336,13 @@ msgcat::mcmset hu {
   "Összes fül bezárása"
 
   "Menu: Close current session"
-  "Men�: Aktu�lis munkamenet lez�r�sa"
+  "Menü: Aktuális munkamenet lezárása"
 
   "Menu: Close current tab"
   "Az aktuális lap bezárása"
 
   "Menu: Copy text"
-  "Men�: Sz�veg m�sol�sa"
+  "Menü: Szöveg másolása"
 
   "Menu: Create marker at current line"
   "Menü: Marker létrehozása az aktuális sorhoz"
@@ -354,10 +354,10 @@ msgcat::mcmset hu {
   "Új téma létrehozása..."
 
   "Menu: Cut text"
-  "Men�: V�gott sz�veg"
+  "Menü: Vágott szöveg"
 
   "Menu: Delete session"
-  "Men�: Delete munkamenet"
+  "Menü: Delete munkamenet"
 
   "Menu: Disable Vim mode"
   "Menü: Disable Vim mód"
@@ -369,16 +369,16 @@ msgcat::mcmset hu {
   "Menü: Szerkesztés nyelvi mozaik"
 
   "Menu: Edit session current language preferences"
-  "Men�: Sajt� al� helyez a munkamenet aktu�lis nyelvi be�ll�t�sai"
+  "Menü: Sajtó alá helyez a munkamenet aktuális nyelvi beállításai"
 
   "Menu: Edit session global preferences"
-  "Men�: Munkamenet glob�lis be�ll�t�sok szerkeszt�se"
+  "Menü: Munkamenet globális beállítások szerkesztése"
 
   "Menu: Edit user current language preferences"
-  "Men�: Sajt� al� helyez a felhaszn�l� aktu�lis nyelvi be�ll�t�sai"
+  "Menü: Sajtó alá helyez a felhasználó aktuális nyelvi beállításai"
 
   "Menu: Edit user global preferences"
-  "Men�: Felhaszn�l�i glob�lis be�ll�t�sok szerkeszt�se"
+  "Menü: Felhasználói globális beállítások szerkesztése"
 
   "Menu: Edit user menu bindings"
   "Menü: Felhasználói menü szerkesztése kötések"
@@ -441,7 +441,7 @@ msgcat::mcmset hu {
   "Menü: Hide konzol"
 
   "Menu: Hide meta characters"
-  "Men�: Meta-karakterek elrejt�se"
+  "Menü: Meta-karakterek elrejtése"
 
   "Menu: Hide sidebar"
   "Menü: Hide sidebar"
@@ -477,7 +477,7 @@ msgcat::mcmset hu {
   "Menü: Lock fájl"
 
   "Menu: Merge panes"
-  "Men�: �sszeolvad ablakt�bl�t"
+  "Menü: Összeolvad ablaktáblát"
 
   "Menu: Move to other pane"
   "Menü: Áthelyezés másik ablakban"
@@ -498,7 +498,7 @@ msgcat::mcmset hu {
   "Menü: Fájl megnyitása"
 
   "Menu: Open session"
-  "Men�: Ny�lt �l�s"
+  "Menü: Nyílt ülés"
 
   "Menu: Paste and format text from clipboard"
   "Menü: Beillesztés és formátumú szöveget a vágólapról"
@@ -534,7 +534,7 @@ msgcat::mcmset hu {
   "Menü: Mentse el az összes fájl"
 
   "Menu: Save current session"
-  "El szeretn� menteni az aktu�lis munkamenetet?"
+  "El szeretné menteni az aktuális munkamenetet?"
 
   "Menu: Save file"
   "Menü: Fájl mentése"
@@ -543,7 +543,7 @@ msgcat::mcmset hu {
   "Menü: Fájl mentése másként"
 
   "Menu: Save sessions as"
-  "Men�: Menteni a munkamenetek"
+  "Menü: Menteni a munkamenetek"
 
   "Menu: Select all occurrences"
   "Menü: Válassza összes előfordulását"
@@ -591,7 +591,7 @@ msgcat::mcmset hu {
   "Menü: Az utolsó profil jelentés"
 
   "Menu: Show meta characters"
-  "Men�: Meta-karakterek megjelen�t�se"
+  "Menü: Meta-karakterek megjelenítése"
 
   "Menu: Show selected line change"
   "Menü: Térkép a kiválasztott sor módosítása"
@@ -612,10 +612,10 @@ msgcat::mcmset hu {
   "Menü: Stop profil"
 
   "Menu: Switch to session"
-  "Men�: Kapcsol-hoz gy?l�s"
+  "Menü: Kapcsol-hoz gy?lés"
 
   "Menu: Toggle comment"
-  "Men�: Toggle comment"
+  "Menü: Toggle comment"
 
   "Menu: Toggle split view mode"
   "Menü: Váltás osztott nézet mód"
@@ -638,17 +638,17 @@ msgcat::mcmset hu {
   "Menu: View User Guide"
   "Menü: Nézet Használati útmutató"
 
+  "Menu: View base preferences file"
+  "Menü: Kilátás alap beállításokat tartalmazó fájlt"
+
   "Menu: View global menu bindings"
   "Menü: Tekintse meg a globális menüt kötések"
 
-  "Menu: View global preferences"
-  "Menü: Nézet globális beállításokat"
-
   "Merge Panes"
-  "�sszeolvad ablakt�bl�t"
+  "Összeolvad ablaktáblát"
 
   "Next Difference"
-  "A k�vetkez? elt�r�s"
+  "A következ? eltérés"
 
   "No files found in specified directories"
   "Nem található a megadott könyvtárak fájl"
@@ -678,7 +678,7 @@ msgcat::mcmset hu {
   "Preferencia"
 
   "Previous Difference"
-  "Az el?z? elt�r�s"
+  "Az el?z? eltérés"
 
   "Profiling started"
   "Profilozási kezdődött"
@@ -696,19 +696,19 @@ msgcat::mcmset hu {
   "Újratölt"
 
   "Remove All Markers"
-  "�sszes jel�l?j�nek elt�vol�t�sa"
+  "Összes jelöl?jének eltávolítása"
 
   "Remove From Current Line"
-  "T�vol�tsa el az aktu�lis sorb�l"
+  "Távolítsa el az aktuális sorból"
 
   "Replace Line With Script"
-  "Helyettes�t a vonal k�z�r�s"
+  "Helyettesít a vonal kézírás"
 
   "Reset User to Base"
   "Reset a felhasználói bázis"
 
   "Restart TKE"
-  "Ind�tsa �jra a TKE"
+  "Indítsa újra a TKE"
 
   "Save All"
   "Az összes dokumentum mentése"
@@ -717,19 +717,19 @@ msgcat::mcmset hu {
   "A kép mentése másként"
 
   "Save Current"
-  "Aktu�lis ment�se"
+  "Aktuális mentése"
 
   "Select All"
   "Összes kijelölése"
 
   "Select All Occurrences"
-  "V�lassza ki az �sszes el?fordul�s"
+  "Válassza ki az összes el?fordulás"
 
   "Select Next Occurrence"
-  "V�lassza ki a k�vetkez? alkalom eml�keztet?je"
+  "Válassza ki a következ? alkalom emlékeztet?je"
 
   "Select Previous Occurrence"
-  "Jel�lje be az el?z?t"
+  "Jelölje be az el?z?t"
 
   "Selected"
   "Szelekció"
@@ -741,7 +741,7 @@ msgcat::mcmset hu {
   "Visszajelzés küldése"
 
   "Sessions"
-  "�l�sek"
+  "Ülések"
 
   "Set Syntax"
   "Beállítása Syntax"
@@ -768,10 +768,10 @@ msgcat::mcmset hu {
   "A sorszámok megjelenítése"
 
   "Show Meta Characters"
-  "Meta-karakterek megjelen�t�se"
+  "Meta-karakterek megjelenítése"
 
   "Show Selected Line Change"
-  "Megjelen�t�se a kijel�lt sor m�dos�t�sa"
+  "Megjelenítése a kijelölt sor módosítása"
 
   "Show Sidebar"
   "Az oldalpanel megjelenítése"
@@ -798,7 +798,7 @@ msgcat::mcmset hu {
   "Sort Tabs"
 
   "Split View"
-  "Osztott n�zet"
+  "Osztott nézet"
 
   "Start Profiling"
   "Kezdje Profiling"
@@ -819,7 +819,7 @@ msgcat::mcmset hu {
   "Theme Creator"
 
   "Toggle Comment"
-  "V�lt�s Comment"
+  "Váltás Comment"
 
   "Tools"
   "Eszközök"
@@ -901,7 +901,7 @@ msgcat::mcmset hu {
   "Bezárása Directory fájlok"
 
   "Copy Pathname"
-  "El�r�si �t m�sol�sa"
+  "Elérési út másolása"
 
   "Delete directory?"
   "Könyvtár törlése?"

@@ -80,7 +80,7 @@ msgcat::mcmset pt {
   "Ãndice arquivo estÃ¡ fora do intervalo"
 
   "License:"
-  "Licença:"
+  "LicenÃ§a:"
 
   "Line: %d, Column: %d"
   "Linha:% d, coluna% d"
@@ -168,7 +168,7 @@ msgcat::mcmset pt {
   "Tudo"
 
   "Append Next Occurrence"
-  "Acrescentar a próxima ocorrência"
+  "Acrescentar a prÃ³xima ocorrÃªncia"
 
   "Auto-Indent"
   "Auto Indentar"
@@ -207,19 +207,19 @@ msgcat::mcmset pt {
   "Editar idioma"
 
   "Edit Session - Global"
-  "Editar a sessão - Global"
+  "Editar a sessÃ£o - Global"
 
   "Edit Session - Language"
-  "Editar a sessão - língua"
+  "Editar a sessÃ£o - lÃ­ngua"
 
   "Edit User"
   "Editar UsuÃ¡rio"
 
   "Edit User - Global"
-  "Editar usuário - Global"
+  "Editar usuÃ¡rio - Global"
 
   "Edit User - Language"
-  "Editar usuário - idioma"
+  "Editar usuÃ¡rio - idioma"
 
   "Edit..."
   "Editar..."
@@ -234,7 +234,7 @@ msgcat::mcmset pt {
   "Procurar nos Ficheiros..."
 
   "Find Matching Pair"
-  "Encontrar o par de correspondência"
+  "Encontrar o par de correspondÃªncia"
 
   "Find and Replace"
   "Localizar e substituir"
@@ -279,7 +279,7 @@ msgcat::mcmset pt {
   "Esconder Tab Bar"
 
   "Import TextMate Theme..."
-  "Tema de TextMate importação..."
+  "Tema de TextMate importaÃ§Ã£o..."
 
   "Indent"
   "AvanÃ§ar"
@@ -291,7 +291,7 @@ msgcat::mcmset pt {
   "TravessÃ£o fora"
 
   "Insert Enumeration"
-  "Inserir a enumeração"
+  "Inserir a enumeraÃ§Ã£o"
 
   "Insert Text"
   "Inserir um Ãndice"
@@ -300,7 +300,7 @@ msgcat::mcmset pt {
   "InstalaÃ§Ã£o"
 
   "Jump Backward"
-  "Saltar para trás"
+  "Saltar para trÃ¡s"
 
   "Jump Forward"
   "Saltar para a frente"
@@ -336,13 +336,13 @@ msgcat::mcmset pt {
   "Fechar todas as guias"
 
   "Menu: Close current session"
-  "Menu: Fechar sessão atual"
+  "Menu: Fechar sessÃ£o atual"
 
   "Menu: Close current tab"
   "Menu: guia atual Fechar"
 
   "Menu: Copy text"
-  "Menu: Texto cópia"
+  "Menu: Texto cÃ³pia"
 
   "Menu: Create marker at current line"
   "Menu: Criar marcador na linha atual"
@@ -357,7 +357,7 @@ msgcat::mcmset pt {
   "Menu: Texto de corte"
 
   "Menu: Delete session"
-  "Menu: Sessão de excluir"
+  "Menu: SessÃ£o de excluir"
 
   "Menu: Disable Vim mode"
   "Menu: modo Disable Vim"
@@ -369,16 +369,16 @@ msgcat::mcmset pt {
   "Menu: Trechos de idioma editar"
 
   "Menu: Edit session current language preferences"
-  "Menu: Editar preferências de idioma atual sessão"
+  "Menu: Editar preferÃªncias de idioma atual sessÃ£o"
 
   "Menu: Edit session global preferences"
-  "Menu: Editar preferências globais de sessão"
+  "Menu: Editar preferÃªncias globais de sessÃ£o"
 
   "Menu: Edit user current language preferences"
-  "Menu: Editar preferências de idioma atual do usuário"
+  "Menu: Editar preferÃªncias de idioma atual do usuÃ¡rio"
 
   "Menu: Edit user global preferences"
-  "Menu: Editar as preferências do usuário global"
+  "Menu: Editar as preferÃªncias do usuÃ¡rio global"
 
   "Menu: Edit user menu bindings"
   "LigaÃ§Ãµes do menu Editar usuÃ¡rio: Menu"
@@ -477,7 +477,7 @@ msgcat::mcmset pt {
   "Menu: arquivo de bloqueio"
 
   "Menu: Merge panes"
-  "Menu: Painéis de mesclagem"
+  "Menu: PainÃ©is de mesclagem"
 
   "Menu: Move to other pane"
   "Menu: Mover para outro painel"
@@ -498,7 +498,7 @@ msgcat::mcmset pt {
   "Menu: Abrir arquivo"
 
   "Menu: Open session"
-  "Menu: Sessão aberta"
+  "Menu: SessÃ£o aberta"
 
   "Menu: Paste and format text from clipboard"
   "Menu: Colar e formato de texto da Ã¡rea de transferÃªncia"
@@ -534,7 +534,7 @@ msgcat::mcmset pt {
   "Menu: Salve todos os arquivos"
 
   "Menu: Save current session"
-  "Deseja gravar a sessão actual?"
+  "Deseja gravar a sessÃ£o actual?"
 
   "Menu: Save file"
   "Menu: Salve o arquivo"
@@ -543,7 +543,7 @@ msgcat::mcmset pt {
   "Menu: Salvar arquivo como"
 
   "Menu: Save sessions as"
-  "Menu: Salvar sessões como"
+  "Menu: Salvar sessÃµes como"
 
   "Menu: Select all occurrences"
   "Menu: Selecione todas as ocorrÃªncias"
@@ -612,10 +612,10 @@ msgcat::mcmset pt {
   "Menu: Pare de perfis"
 
   "Menu: Switch to session"
-  "Menu: Interruptor de sessão"
+  "Menu: Interruptor de sessÃ£o"
 
   "Menu: Toggle comment"
-  "Menu: Comentário de alternância"
+  "Menu: ComentÃ¡rio de alternÃ¢ncia"
 
   "Menu: Toggle split view mode"
   "Menu: Alterna modo de exibiÃ§Ã£o de divisÃ£o"
@@ -638,17 +638,17 @@ msgcat::mcmset pt {
   "Menu: View User Guide"
   "Menu: Ver Guia do UsuÃ¡rio"
 
+  "Menu: View base preferences file"
+  "Menu: Arquivo de base preferÃªncias de exibiÃ§Ã£o"
+
   "Menu: View global menu bindings"
   "Menu: Ver ligaÃ§Ãµes de menu global"
 
-  "Menu: View global preferences"
-  "Menu: Exibir preferÃªncias globais"
-
   "Merge Panes"
-  "Mesclar painéis"
+  "Mesclar painÃ©is"
 
   "Next Difference"
-  "Próxima Diferença"
+  "PrÃ³xima DiferenÃ§a"
 
   "No files found in specified directories"
   "NÃ£o hÃ¡ arquivos encontrados em diretÃ³rios especificados"
@@ -678,7 +678,7 @@ msgcat::mcmset pt {
   "PreferÃªncias"
 
   "Previous Difference"
-  "Diferença Anterior"
+  "DiferenÃ§a Anterior"
 
   "Profiling started"
   "Profiling comeÃ§ou"
@@ -723,13 +723,13 @@ msgcat::mcmset pt {
   "Selecionar tudo"
 
   "Select All Occurrences"
-  "Selecionar todas as ocorrências"
+  "Selecionar todas as ocorrÃªncias"
 
   "Select Next Occurrence"
-  "Selecione a próxima ocorrência"
+  "Selecione a prÃ³xima ocorrÃªncia"
 
   "Select Previous Occurrence"
-  "Selecione a ocorrência anterior"
+  "Selecione a ocorrÃªncia anterior"
 
   "Selected"
   "Selecionado"
@@ -741,7 +741,7 @@ msgcat::mcmset pt {
   "Enviar ComentÃ¡rio"
 
   "Sessions"
-  "Sessões"
+  "SessÃµes"
 
   "Set Syntax"
   "Definir Sintaxe"
@@ -771,7 +771,7 @@ msgcat::mcmset pt {
   "Mostrar os Meta caracteres"
 
   "Show Selected Line Change"
-  "Mostrar a mudança de linha selecionada"
+  "Mostrar a mudanÃ§a de linha selecionada"
 
   "Show Sidebar"
   "Mostrar a Barra Lateral"
@@ -819,7 +819,7 @@ msgcat::mcmset pt {
   "Theme Creator"
 
   "Toggle Comment"
-  "Comentário de alternância"
+  "ComentÃ¡rio de alternÃ¢ncia"
 
   "Tools"
   "Ferramentas"
