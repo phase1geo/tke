@@ -1609,13 +1609,8 @@ namespace eval gui {
     # If the current file is a buffer and it has a save command, run the save command
     if {[lindex $files $file_index $files_index(buffer)] && ($save_cmd ne "")} {
 
-      puts "save_cmd: $save_cmd, file_index: $file_index"
-      puts [list {*}$save_cmd]
-      
       # Execute the save command.  If it errors or returns a value of 0, return immediately
       if {[catch { {*}$save_cmd $file_index } rc]} {
-       
-        puts "rc: $rc" 
 
         return
 
@@ -1788,7 +1783,7 @@ namespace eval gui {
 
           # If there is a save command, run it now
           if {[lindex $files $i $files_index(save_cmd)] ne ""} {
-            eval {*}[lindex $files $i $files_index(save_cmd)] $i 
+            eval {*}[lindex $files $i $files_index(save_cmd)] $i
           }
         }
 
@@ -3798,7 +3793,7 @@ namespace eval gui {
 
       # Get the file index for the given text widget
       set file_index [lsearch -index $files_index(tab) $files $tab]
-      
+
       # Adjust the insertion
       # [ns vim]::adjust_insert $txt.t
 
