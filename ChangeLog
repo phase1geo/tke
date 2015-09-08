@@ -1,26 +1,116 @@
-changeset:   1268:30e5cc337b40
-tag:         devel-1.8.11
+changeset:   1271:d5a03b8ebe60
+tag:         devel-1.8.12
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Sep 04 00:31:27 2015 -0500
+date:        Fri Sep 04 01:04:17 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.8.11 release
+ChangeLog for devel-1.8.12 release
 
 
-changeset:   1269:4b139905014c
+changeset:   1272:71a0d54c80b1
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Sep 04 00:31:38 2015 -0500
+date:        Fri Sep 04 01:04:21 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.8.11 for changeset 30e5cc337b40
+Added tag devel-1.8.12 for changeset d5a03b8ebe60
 
 
-changeset:   1270:51709ebed402
-tag:         tip
+changeset:   1273:9bb43095fbf6
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Sep 04 01:03:48 2015 -0500
+date:        Sat Sep 05 12:25:51 2015 -0500
+files:       lib/ctext/ctext.tcl lib/gui.tcl lib/version.tcl
+description:
+* Adding support for user-specified data to pass to modification procedure.
+
+
+changeset:   1274:6c50210558bd
+parent:      1272:71a0d54c80b1
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Sat Sep 05 01:00:31 2015 -0500
+files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/update.tcl data/msgs/zh.msg lib/version.tcl
+description:
+* Updating translations.
+
+
+changeset:   1275:16b0241f85c4
+parent:      1273:9bb43095fbf6
+parent:      1274:6c50210558bd
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Sep 05 12:28:20 2015 -0500
+description:
+* Merging.
+
+
+changeset:   1276:b79a4e78c11c
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Sep 05 21:29:59 2015 -0500
+files:       lib/gui.tcl lib/version.tcl
+description:
+* Working on save_all buffer support.
+
+
+changeset:   1277:0dd33de07581
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Sun Sep 06 00:39:11 2015 -0500
+files:       lib/api.tcl lib/gui.tcl lib/menus.tcl lib/preferences.tcl lib/version.tcl
+description:
+* Reworking buffer support.
+
+
+changeset:   1278:d9fd14d123a4
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Sep 06 08:03:01 2015 -0500
 files:       lib/gui.tcl lib/menus.tcl lib/version.tcl
 description:
-* Fixing issues with Find in Files (with new buffer methodology).
+* Fixing small issues due to recent changes.
+
+
+changeset:   1279:75b8ae339fca
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Sep 06 14:58:07 2015 -0500
+files:       data/syntax/Haxe.syntax lib/version.tcl
+description:
+* Adding Haxe syntax.
+
+
+changeset:   1280:13aa7480b371
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Sep 06 22:43:14 2015 -0500
+files:       data/syntax/Haxe.syntax data/syntax/Neko.syntax lib/version.tcl
+description:
+* Adding Haxe and Neko language syntax.
+
+
+changeset:   1281:79ee2562f2c0
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Sep 07 10:24:12 2015 -0500
+files:       lib/lang.tcl lib/tablelist5.13/CHANGES.txt lib/tablelist5.13/COPYRIGHT.txt lib/tablelist5.13/README.txt lib/tablelist5.13/demos/browse.tcl lib/tablelist5.13/demos/browseTree.tcl lib/tablelist5.13/demos/browseTree_tile.tcl lib/tablelist5.13/demos/browse_tile.tcl lib/tablelist5.13/demos/bwidget.tcl lib/tablelist5.13/demos/bwidget_tile.tcl lib/tablelist5.13/demos/checked.gif lib/tablelist5.13/demos/clsdFolder.gif lib/tablelist5.13/demos/comp.xbm lib/tablelist5.13/demos/config.tcl lib/tablelist5.13/demos/config_tile.tcl lib/tablelist5.13/demos/dirViewer.tcl lib/tablelist5.13/demos/dirViewer_tile.tcl lib/tablelist5.13/demos/embeddedWindows.tcl lib/tablelist5.13/demos/embeddedWindows_tile.tcl lib/tablelist5.13/demos/file.gif lib/tablelist5.13/demos/images.tcl lib/tablelist5.13/demos/iwidgets.tcl lib/tablelist5.13/demos/iwidgets_tile.tcl lib/tablelist5.13/demos/leaf.xbm lib/tablelist5.13/demos/miscWidgets.tcl lib/tablelist5.13/demos/miscWidgets_tile.tcl lib/tablelist5.13/demos/open.gif lib/tablelist5.13/demos/openFolder.gif lib/tablelist5.13/demos/option.tcl lib/tablelist5.13/demos/option_tile.tcl lib/tablelist5.13/demos/styles.tcl lib/tablelist5.13/demos/styles_tile.tcl lib/tablelist5.13/demos/tileWidgets.tcl lib/tablelist5.13/demos/unchecked.gif lib/tablelist5.13/doc/adwaita.png lib/tablelist5.13/doc/ambiance.png lib/tablelist5.13/doc/aqua.png lib/tablelist5.13/doc/arrowStyles.png lib/tablelist5.13/doc/baghira.png lib/tablelist5.13/doc/browse.png lib/tablelist5.13/doc/browseTree.png lib/tablelist5.13/doc/bwidget.png lib/tablelist5.13/doc/config.png lib/tablelist5.13/doc/dirViewer.png lib/tablelist5.13/doc/dust.png lib/tablelist5.13/doc/dustSand.png lib/tablelist5.13/doc/embeddedWindows.png lib/tablelist5.13/doc/embeddedWindows_tile.png lib/tablelist5.13/doc/gtk.png lib/tablelist5.13/doc/index.html lib/tablelist5.13/doc/klearlooks.png lib/tablelist5.13/doc/mate.png lib/tablelist5.13/doc/mint.png lib/tablelist5.13/doc/newWave.png lib/tablelist5.13/doc/oxygen1.png lib/tablelist5.13/doc/oxygen2.png lib/tablelist5.13/doc/phase.png lib/tablelist5.13/doc/plastik.png lib/tablelist5.13/doc/plastique.png lib/tablelist5.13/doc/radiance.png lib/tablelist5.13/doc/styles.png lib/tablelist5.13/doc/stylesheet.css lib/tablelist5.13/doc/tablelist.html lib/tablelist5.13/doc/tablelistBWidget.html lib/tablelist5.13/doc/tablelistBinding.html lib/tablelist5.13/doc/tablelistColSort.html lib/tablelist5.13/doc/tablelistCombobox.html lib/tablelist5.13/doc/tablelistCtext.html lib/tablelist5.13/doc/tablelistIwidgets.html lib/tablelist5.13/doc/tablelistMentry.html lib/tablelist5.13/doc/tablelistThemes.html lib/tablelist5.13/doc/tablelistTile.html lib/tablelist5.13/doc/tablelistTkCore.html lib/tablelist5.13/doc/tablelistWidget.html lib/tablelist5.13/doc/tileWidgets.png lib/tablelist5.13/doc/ubuntu.png lib/tablelist5.13/doc/vistaAero.png lib/tablelist5.13/doc/vistaClassic.png lib/tablelist5.13/doc/win7Aero.png lib/tablelist5.13/doc/win7Classic.png lib/tablelist5.13/doc/winnative.png lib/tablelist5.13/doc/winxpBlue.png lib/tablelist5.13/doc/winxpOlive.png lib/tablelist5.13/doc/winxpSilver.png lib/tablelist5.13/pkgIndex.tcl lib/tablelist5.13/scripts/mwutil.tcl lib/tablelist5.13/scripts/pencil.cur lib/tablelist5.13/scripts/repair.tcl lib/tablelist5.13/scripts/tablelistBind.tcl lib/tablelist5.13/scripts/tablelistConfig.tcl lib/tablelist5.13/scripts/tablelistEdit.tcl lib/tablelist5.13/scripts/tablelistImages.tcl lib/tablelist5.13/scripts/tablelistMove.tcl lib/tablelist5.13/scripts/tablelistSort.tcl lib/tablelist5.13/scripts/tablelistThemes.tcl lib/tablelist5.13/scripts/tablelistUtil.tcl lib/tablelist5.13/scripts/tablelistWidget.tcl lib/tablelist5.13/scripts/tclIndex lib/tablelist5.13/tablelist.tcl lib/tablelist5.13/tablelistPublic.tcl lib/tablelist5.13/tablelist_tile.tcl lib/tablelist5.14/CHANGES.txt lib/tablelist5.14/COPYRIGHT.txt lib/tablelist5.14/README.txt lib/tablelist5.14/demos/browse.tcl lib/tablelist5.14/demos/browseTree.tcl lib/tablelist5.14/demos/browseTree_tile.tcl lib/tablelist5.14/demos/browse_tile.tcl lib/tablelist5.14/demos/bwidget.tcl lib/tablelist5.14/demos/bwidget_tile.tcl lib/tablelist5.14/demos/checked.gif lib/tablelist5.14/demos/clsdFolder.gif lib/tablelist5.14/demos/comp.xbm lib/tablelist5.14/demos/config.tcl lib/tablelist5.14/demos/config_tile.tcl lib/tablelist5.14/demos/dirViewer.tcl lib/tablelist5.14/demos/dirViewer_tile.tcl lib/tablelist5.14/demos/embeddedWindows.tcl lib/tablelist5.14/demos/embeddedWindows_tile.tcl lib/tablelist5.14/demos/file.gif lib/tablelist5.14/demos/images.tcl lib/tablelist5.14/demos/iwidgets.tcl lib/tablelist5.14/demos/iwidgets_tile.tcl lib/tablelist5.14/demos/leaf.xbm lib/tablelist5.14/demos/miscWidgets.tcl lib/tablelist5.14/demos/miscWidgets_tile.tcl lib/tablelist5.14/demos/open.gif lib/tablelist5.14/demos/openFolder.gif lib/tablelist5.14/demos/option.tcl lib/tablelist5.14/demos/option_tile.tcl lib/tablelist5.14/demos/styles.tcl lib/tablelist5.14/demos/styles_tile.tcl lib/tablelist5.14/demos/tileWidgets.tcl lib/tablelist5.14/demos/unchecked.gif lib/tablelist5.14/doc/adwaita.png lib/tablelist5.14/doc/ambiance.png lib/tablelist5.14/doc/aqua.png lib/tablelist5.14/doc/arrowStyles.png lib/tablelist5.14/doc/baghira.png lib/tablelist5.14/doc/bicolor1.png lib/tablelist5.14/doc/bicolor2.png lib/tablelist5.14/doc/bicolor3.png lib/tablelist5.14/doc/bicolor4.png lib/tablelist5.14/doc/browse.png lib/tablelist5.14/doc/browseTree.png lib/tablelist5.14/doc/bwidget.png lib/tablelist5.14/doc/classic1.png lib/tablelist5.14/doc/classic2.png lib/tablelist5.14/doc/classic3.png lib/tablelist5.14/doc/classic4.png lib/tablelist5.14/doc/config.png lib/tablelist5.14/doc/dirViewer.png lib/tablelist5.14/doc/dust.png lib/tablelist5.14/doc/dustSand.png lib/tablelist5.14/doc/embeddedWindows.png lib/tablelist5.14/doc/embeddedWindows_tile.png lib/tablelist5.14/doc/gtk.png lib/tablelist5.14/doc/index.html lib/tablelist5.14/doc/klearlooks.png lib/tablelist5.14/doc/mate.png lib/tablelist5.14/doc/mint.png lib/tablelist5.14/doc/newWave.png lib/tablelist5.14/doc/oxygen1.png lib/tablelist5.14/doc/oxygen2.png lib/tablelist5.14/doc/phase.png lib/tablelist5.14/doc/plain1.png lib/tablelist5.14/doc/plain2.png lib/tablelist5.14/doc/plain3.png lib/tablelist5.14/doc/plain4.png lib/tablelist5.14/doc/plastik.png lib/tablelist5.14/doc/plastique.png lib/tablelist5.14/doc/radiance.png lib/tablelist5.14/doc/styles.png lib/tablelist5.14/doc/stylesheet.css lib/tablelist5.14/doc/tablelist.html lib/tablelist5.14/doc/tablelistBWidget.html lib/tablelist5.14/doc/tablelistBinding.html lib/tablelist5.14/doc/tablelistColSort.html lib/tablelist5.14/doc/tablelistCombobox.html lib/tablelist5.14/doc/tablelistCtext.html lib/tablelist5.14/doc/tablelistIwidgets.html lib/tablelist5.14/doc/tablelistMentry.html lib/tablelist5.14/doc/tablelistThemes.html lib/tablelist5.14/doc/tablelistTile.html lib/tablelist5.14/doc/tablelistTkCore.html lib/tablelist5.14/doc/tablelistWidget.html lib/tablelist5.14/doc/tileWidgets.png lib/tablelist5.14/doc/ubuntu.png lib/tablelist5.14/doc/ubuntu2.png lib/tablelist5.14/doc/vistaAero.png lib/tablelist5.14/doc/vistaClassic.png lib/tablelist5.14/doc/win7Aero.png lib/tablelist5.14/doc/win7Classic.png lib/tablelist5.14/doc/winnative.png lib/tablelist5.14/doc/winxpBlue.png lib/tablelist5.14/doc/winxpOlive.png lib/tablelist5.14/doc/winxpSilver.png lib/tablelist5.14/doc/yuyo.png lib/tablelist5.14/pkgIndex.tcl lib/tablelist5.14/scripts/mwutil.tcl lib/tablelist5.14/scripts/pencil.cur lib/tablelist5.14/scripts/repair.tcl lib/tablelist5.14/scripts/tablelistBind.tcl lib/tablelist5.14/scripts/tablelistConfig.tcl lib/tablelist5.14/scripts/tablelistEdit.tcl lib/tablelist5.14/scripts/tablelistImages.tcl lib/tablelist5.14/scripts/tablelistMove.tcl lib/tablelist5.14/scripts/tablelistSort.tcl lib/tablelist5.14/scripts/tablelistThemes.tcl lib/tablelist5.14/scripts/tablelistUtil.tcl lib/tablelist5.14/scripts/tablelistWidget.tcl lib/tablelist5.14/scripts/tclIndex lib/tablelist5.14/tablelist.tcl lib/tablelist5.14/tablelistPublic.tcl lib/tablelist5.14/tablelist_tile.tcl lib/tke.tcl lib/version.tcl
+description:
+* Switching out tablelist 5.13 for 5.14.
+
+
+changeset:   1282:52b38990f618
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Sep 07 10:27:13 2015 -0500
+files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/update.tcl data/msgs/zh.msg lib/version.tcl
+description:
+* Updating translations.
+
+
+changeset:   1283:97b56334c53f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Sep 07 21:42:57 2015 -0500
+files:       lib/gui.tcl lib/menus.tcl lib/preferences.tcl lib/sessions.tcl lib/tke.tcl lib/version.tcl
+description:
+* Checkpointing work on fixing session preference saving/loading.
+
+
+changeset:   1284:d1ffc37769d8
+tag:         tip
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Sep 08 00:09:42 2015 -0500
+files:       lib/gui.tcl lib/preferences.tcl lib/sessions.tcl lib/version.tcl
+description:
+* More fixes to session preference loading/saving.
 
 
