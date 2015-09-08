@@ -31,7 +31,7 @@ namespace eval sessions {
   variable current_name ""
 
   array set names           {}
-  array set current_content {} 
+  array set current_content {}
 
   ######################################################################
   # Loads the names of all available sessions.  This should be called
@@ -50,14 +50,18 @@ namespace eval sessions {
   }
 
   ######################################################################
-  # Save the current settings as a given session.
+  # Save the current settings as a given session.  The legal values for
+  # type are the following:
+  #   - last  = Save information useful for the next time TKE is started.
+  #   - prefs = Only save preference information to the session file, leaving the rest intact.
+  #   - full  = Save all information
   proc save {type {name ""}} {
 
     variable sessions_dir
     variable user_name
     variable names
     variable current_name
-    variable current_content 
+    variable current_content
 
     # If we are being told to save the last session, set the name to the session.tkedat file
     if {$type eq "last"} {
@@ -80,16 +84,29 @@ namespace eval sessions {
       file mkdir $sessions_dir
     }
 
-    # Get the session information from the UI
-    set content(gui) [[ns gui]::save_session]
+    # If we are saving preferences only, set the value of content to match
+    # the currently loaded session.
+    if {$type eq "prefs"} {
+
+      # Get the current content information
+      array set content [array get current_content]
+
+    # We don't want to save the current UI information if we are saving preference
+    # information only
+    } else {
+
+      # Get the session information from the UI
+      set content(gui) [[ns gui]::save_session]
+
+      # Set the session name
+      set content(session) $current_name
+
+    }
 
     # Get the session information from preferences
     if {$type ne "last"} {
       set content(prefs) [[ns preferences]::save_session $name]
     }
-
-    # Set the session name
-    set content(session) $current_name
 
     # Create the session file path
     set session_file [file join $sessions_dir $name.tkedat]
@@ -113,12 +130,18 @@ namespace eval sessions {
   }
 
   ######################################################################
-  # Loads the given session.
+  # Loads the given session.  The legal values for type are the following:
+  #   - last  = Save information useful for the next time TKE is started.
+  #   - prefs = Only save preference information to the session file, leaving the rest intact.
+  #   - full  = Save all information
+  # Name specifies the base name of the session to load while new_window
+  # specifies whether the session should be loaded in the current window (0)
+  # or a new window (1).
   proc load {type name new_window} {
 
     variable sessions_dir
     variable current_name
-    variable current_content 
+    variable current_content
 
     # If we need to load the last saved session, set the name appropriately
     if {$type eq "last"} {
@@ -165,9 +188,9 @@ namespace eval sessions {
     } else {
       set current_name [expr {($type eq "last") ? "" : $name}]
     }
-   
-    # Save the current content 
-    array set current_content [array get content] 
+
+    # Save the current content
+    array set current_content [array get content]
 
     # Update the title
     [ns gui]::set_title
