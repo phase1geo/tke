@@ -30,7 +30,8 @@ namespace eval sessions {
   variable user_name    ""
   variable current_name ""
 
-  array set names {}
+  array set names           {}
+  array set current_content {} 
 
   ######################################################################
   # Loads the names of all available sessions.  This should be called
@@ -50,15 +51,16 @@ namespace eval sessions {
 
   ######################################################################
   # Save the current settings as a given session.
-  proc save {last {name ""}} {
+  proc save {type {name ""}} {
 
     variable sessions_dir
     variable user_name
     variable names
     variable current_name
+    variable current_content 
 
     # If we are being told to save the last session, set the name to the session.tkedat file
-    if {$last} {
+    if {$type eq "last"} {
       set name [file join .. session]
     }
 
@@ -82,7 +84,7 @@ namespace eval sessions {
     set content(gui) [[ns gui]::save_session]
 
     # Get the session information from preferences
-    if {!$last} {
+    if {$type ne "last"} {
       set content(prefs) [[ns preferences]::save_session $name]
     }
 
@@ -95,7 +97,7 @@ namespace eval sessions {
     # Write the content to the save file
     catch { [ns tkedat]::write $session_file [array get content] }
 
-    if {!$last} {
+    if {$type ne "last"} {
 
       # Save the current name
       set current_name $name
@@ -112,13 +114,14 @@ namespace eval sessions {
 
   ######################################################################
   # Loads the given session.
-  proc load {last name new_window} {
+  proc load {type name new_window} {
 
     variable sessions_dir
     variable current_name
+    variable current_content 
 
     # If we need to load the last saved session, set the name appropriately
-    if {$last} {
+    if {$type eq "last"} {
       set name [file join .. session]
     }
 
@@ -152,7 +155,7 @@ namespace eval sessions {
     }
 
     # Load the preference session information (provide backward compatibility)
-    if {[info exists content(prefs)] && !$last} {
+    if {[info exists content(prefs)] && ($type ne "last")} {
       [ns preferences]::load_session $name $content(prefs)
     }
 
@@ -160,8 +163,11 @@ namespace eval sessions {
     if {[info exists content(session)]} {
       set current_name $content(session)
     } else {
-      set current_name [expr {$last ? "" : $name}]
+      set current_name [expr {($type eq "last") ? "" : $name}]
     }
+   
+    # Save the current content 
+    array set current_content [array get content] 
 
     # Update the title
     [ns gui]::set_title

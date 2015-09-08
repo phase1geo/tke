@@ -369,7 +369,7 @@ if {[catch {
 
   # Load the session file
   } elseif {[preferences::get General/LoadLastSession] || ($cl_use_session ne "")} {
-    sessions::load [expr {$cl_use_session eq ""}] $cl_use_session 0
+    sessions::load [expr {($cl_use_session eq "") ? "last" : "full"}] $cl_use_session 0
   }
 
   # If the number of loaded files is still zero, add a new blank file

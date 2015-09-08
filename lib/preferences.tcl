@@ -51,6 +51,8 @@ namespace eval preferences {
 
     variable loaded_prefs
     variable prefs
+    
+    puts "In update_prefs, session: $session"
 
     # Figure out key prefix
     if {($session eq "") || ![info exists loaded_prefs(session,$session,global)]} {
@@ -58,6 +60,8 @@ namespace eval preferences {
     } else {
       set prefix "session,$session"
     }
+   
+    puts "  prefix: $prefix" 
 
     # Load the user global prefs
     array set temp_prefs $loaded_prefs($prefix,global)
@@ -141,9 +145,11 @@ namespace eval preferences {
       set title "Session Global Preferences"
       set key   "session,$session,global"
     }
+   
+    puts "In edit_global, session: $session" 
 
     # Create the buffer
-    [ns gui]::add_buffer end $title [list [ns preferences]::save_buffer_contents $session] -lang tkeData
+    [ns gui]::add_buffer end $title [list [ns preferences]::save_buffer_contents $session {}] -lang tkeData
 
     # Insert information
     insert_information $key
@@ -213,11 +219,13 @@ namespace eval preferences {
 
   ######################################################################
   # Gathers the buffer contents and updates the preference data.
-  proc save_buffer_contents {session {language ""}} {
+  proc save_buffer_contents {session language file_index} {
 
     variable loaded_prefs
     variable user_preferences_file
-
+   
+    puts "In save_buffer_contents, session: $session, language: $language, file_index: $file_index" 
+   
     # Get the current buffer
     set txt [[ns gui]::current_txt {}]
 
@@ -240,11 +248,17 @@ namespace eval preferences {
       [ns tkedat]::write $pname $data 0
 
     } else {
+      
       if {$language eq ""} {
+        puts "Saving data to session,$session,global" 
         set loaded_prefs(session,$session,global) $data
       } else {
         set loaded_prefs(session,$session,$language) $data
       }
+     
+      # Save the preference information to the sessions file
+      [ns sessions]::save "pref" $session
+      
     }
 
     # Update the UI

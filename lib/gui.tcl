@@ -1609,8 +1609,13 @@ namespace eval gui {
     # If the current file is a buffer and it has a save command, run the save command
     if {[lindex $files $file_index $files_index(buffer)] && ($save_cmd ne "")} {
 
+      puts "save_cmd: $save_cmd, file_index: $file_index"
+      puts [list {*}$save_cmd]
+      
       # Execute the save command.  If it errors or returns a value of 0, return immediately
-      if {[catch { eval {*}$save_cmd $file_index } rc]} {
+      if {[catch { {*}$save_cmd $file_index } rc]} {
+       
+        puts "rc: $rc" 
 
         return
 
@@ -1737,7 +1742,7 @@ namespace eval gui {
         if {[lindex $files $i $files_index(buffer)] && ($save_cmd ne "")} {
 
           # Run the save command and if it ran successfully,
-          if {![catch { eval {*}$save_cmd $i } rc] && ($rc == 0)} {
+          if {![catch { {*}$save_cmd $i } rc] && ($rc == 0)} {
 
             # Change the tab text
             $tb tab $tab -text " [file tail [lindex $files $i $files_index(fname)]]"
@@ -1783,7 +1788,7 @@ namespace eval gui {
 
           # If there is a save command, run it now
           if {[lindex $files $i $files_index(save_cmd)] ne ""} {
-            eval [lindex $files $i $files_index(save_cmd)]
+            eval {*}[lindex $files $i $files_index(save_cmd)] $i 
           }
         }
 
@@ -3795,7 +3800,7 @@ namespace eval gui {
       set file_index [lsearch -index $files_index(tab) $files $tab]
       
       # Adjust the insertion
-      [ns vim]::adjust_insert $txt
+      # [ns vim]::adjust_insert $txt.t
 
       if {![catch { lindex $files $file_index $files_index(readonly) } rc] && ($rc == 0) && ([lindex $data 4] ne "ignore")} {
 
@@ -3936,7 +3941,7 @@ namespace eval gui {
       pack [$tb select] -in $tf -fill both -expand yes
 
       # Update the preferences
-      preferences::update_prefs
+      preferences::update_prefs [[ns sessions]::current]
 
     }
 
