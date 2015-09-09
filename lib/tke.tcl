@@ -32,7 +32,7 @@ set tke_home [file normalize [file join ~ .tke]]
 # Returns 1 if we are doing TKE development; otherwise, returns 0.
 proc tke_development {} {
 
-  return [expr [info exists ::env(TKE_DEVEL)] || [preferences::get {Debug/DevelopmentMode}]]
+  return [expr [info exists ::env(TKE_DEVEL)] || [preferences::get {Debug/DevelopmentMode} 0]]
 
 }
 
