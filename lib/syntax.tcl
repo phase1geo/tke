@@ -281,11 +281,33 @@ namespace eval syntax {
 
     variable langs
 
+    # Get the list of extension overrides
+    array set overrides [[ns preferences]::get {General/LanguagePatternOverrides}]
+
     foreach lang [array names langs] {
       array set lang_array $langs($lang)
-      foreach filepattern $lang_array(filepatterns) {
-        if {[string match $filepattern $filename]} {
-          return $lang
+      set patterns $lang_array(filepatterns)
+      set excluded 0
+      if {[info exists overrides($lang)]} {
+        set exclude_patterns [list]
+        foreach pattern $overrides($lang) {
+          switch [string index $pattern 0] {
+            "+" { lappend patterns  [string range $pattern 1 end] }
+            "-" { lappend epatterns [string range $pattern 1 end] }
+          }
+        }
+        foreach pattern $epatterns {
+          if {[string match $pattern $filename]} {
+            set excluded 1
+            break
+          }
+        }
+      }
+      if {!$excluded} {
+        foreach pattern $patterns {
+          if {[string match $pattern $filename]} {
+            return $lang
+          }
         }
       }
     }
@@ -459,7 +481,7 @@ namespace eval syntax {
 
     variable theme
     variable meta_tags
-    
+
     set meta_tags($txt) "meta"
 
     switch $section {
@@ -512,15 +534,15 @@ namespace eval syntax {
     }
 
   }
-  
+
   ######################################################################
   # Returns true if the given text widget contains meta characters.
   proc contains_meta_chars {txt} {
-    
+
     variable meta_tags
-    
+
     set all_tags [ctext::getHighlightClasses $txt]
-    
+
     if {[info exists meta_tags($txt)]} {
       foreach tag $meta_tags($txt) {
         if {[lsearch $all_tags $tag] != -1} {
@@ -528,19 +550,19 @@ namespace eval syntax {
         }
       }
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # Sets the visibility of all meta tags to the given value.
   proc set_meta_visibility {txt value} {
-    
+
     variable meta_tags
-    
+
     set all_tags [ctext::getHighlightClasses $txt]
-    
+
     if {[info exists meta_tags($txt)]} {
       foreach tag $meta_tags($txt) {
         if {[lsearch $all_tags $tag] != -1} {
@@ -548,7 +570,7 @@ namespace eval syntax {
         }
       }
     }
-    
+
   }
 
   ######################################################################
@@ -841,34 +863,34 @@ namespace eval syntax {
     return ""
 
   }
-  
+
   ######################################################################
   # Returns the information for the given Markdown subscript string.
   proc get_markdown_subscript {txt startpos endpos} {
-    
+
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-2c"] ne "\\")} {
       return [list [list [list sub  [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]] \
                          [list grey $startpos [$txt index "$startpos+1c"] [list]] \
                          [list grey [$txt index "$endpos-1c"] $endpos [list]]] ""]
     }
-    
+
     return ""
-    
+
   }
-  
+
   ######################################################################
   # Returns the information for the given Markdown subscript string.
   proc get_markdown_superscript {txt startpos endpos} {
-    
+
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-2c"] ne "\\")} {
       return [list [list [list super [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]] \
                          [list grey  $startpos [$txt index "$startpos+1c"] [list]] \
                          [list grey  [$txt index "$endpos-1c"] $endpos [list]]] ""]
     }
-    
+
     return ""
-    
-  }  
+
+  }
 
   ######################################################################
   # Returns the information for the given Markdown link string.

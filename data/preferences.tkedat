@@ -40,6 +40,23 @@
 
 {General/UpdateReleaseType} {stable}
 
+# Specifies a list of languages and a list of file patterns to associate with each language.
+# This option can be useful if you are constantly changing the language for a file
+# with a given file pattern after opening it.  The value for this option must be formated
+# as follows where each pattern list is a whitespace list of string patterns (i.e., '*' is
+# a wildcard for one or more characters) where each pattern is preceded with either a '+'
+# symbol to add the pattern to the default list or a '-' symbol to delete the pattern from
+# the default list:
+#
+#   {language {(+|-)pattern ...} language {(+|-)pattern ...} ...}
+#
+# For example, to all files with a .cxx extension with the C++ language and unassociate
+# any files with a .cc extension from being considered a C++ file, do the following:
+#
+#   {C++ {-*.cc +*.cxx}}
+
+{General/LanguagePatternOverrides} {}
+
 # Specifies the current theme that is used in the code editor.  Each
 # theme contains setting for syntax highlight coloring schemes, background
 # color and selection background/foreground colors.  The following
