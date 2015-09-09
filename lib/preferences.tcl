@@ -36,11 +36,15 @@ namespace eval preferences {
 
   ######################################################################
   # Returns the preference item for the given name.
-  proc get {name} {
+  proc get {name {dflt ""}} {
 
     variable prefs
 
-    return $prefs($name)
+    if {[info exists prefs($name)]} {
+      return $prefs($name)
+    }
+    
+    return $dflt
 
   }
 
