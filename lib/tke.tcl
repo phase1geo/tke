@@ -82,6 +82,7 @@ source [file join $tke_dir lib favorites.tcl]
 source [file join $tke_dir lib logger.tcl]
 source [file join $tke_dir lib diff.tcl]
 source [file join $tke_dir lib sessions.tcl]
+source [file join $tke_dir lib search.tcl]
 
 if {[tk windowingsystem] eq "aqua"} {
   source [file join $tke_dir lib windowlist.tcl]
