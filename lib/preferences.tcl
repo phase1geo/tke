@@ -43,7 +43,7 @@ namespace eval preferences {
     if {[info exists prefs($name)]} {
       return $prefs($name)
     }
-    
+
     return $dflt
 
   }
@@ -150,7 +150,7 @@ namespace eval preferences {
     [ns gui]::add_buffer end $title [list [ns preferences]::save_buffer_contents $session {}] -lang tkeData
 
     # Insert information
-    insert_information $key
+    insert_information $key 0
 
   }
 
@@ -175,14 +175,14 @@ namespace eval preferences {
     [ns gui]::add_buffer end $title [list [ns preferences]::save_buffer_contents $session $language] -lang tkeData
 
     # Insert information
-    insert_information $key
+    insert_information $key 1
 
   }
 
   ######################################################################
   # Inserts the loaded preference information into the current text
   # widget.
-  proc insert_information {key} {
+  proc insert_information {key for_lang} {
 
     variable loaded_prefs
     variable base_comments
@@ -198,6 +198,13 @@ namespace eval preferences {
       array set content $loaded_prefs($key)
     } else {
       array set content $loaded_prefs(user,global)
+    }
+
+    # If the data is for a language, only allow Editor/* preferences
+    if {$for_lang} {
+      set tmp [array get content Editor/*]
+      array unset content
+      array set content $tmp
     }
 
     set str ""
@@ -237,7 +244,8 @@ namespace eval preferences {
         set loaded_prefs(user,global) $data
       } else {
         set pname [file join $::tke_home preferences.$language.tkedat]
-        set loaded_prefs(user,$language) $data
+        array set content $data
+        set loaded_prefs(user,$language) [array get content Editor/*]
       }
 
       # Save the data to the preference file
@@ -248,7 +256,8 @@ namespace eval preferences {
       if {$language eq ""} {
         set loaded_prefs(session,$session,global) $data
       } else {
-        set loaded_prefs(session,$session,$language) $data
+        array set content $data
+        set loaded_prefs(session,$session,$language) [array get content Editor/*]
       }
 
       # Save the preference information to the sessions file
