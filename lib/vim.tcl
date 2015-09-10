@@ -104,7 +104,7 @@ namespace eval vim {
   proc in_vim_mode {txt} {
 
     variable mode
-
+    
     if {[[ns preferences]::get Tools/VimMode] && \
         [info exists mode($txt)] && \
         ($mode($txt) ne "edit")} {
@@ -834,7 +834,7 @@ namespace eval vim {
       $txt tag remove sel 1.0 end
 
       # Clear any searches
-      gui::clear_search $tid
+      [ns search]::find_clear $tid
 
     }
 
@@ -2197,11 +2197,11 @@ namespace eval vim {
       set count [expr {($number($txt) ne "") ? $number($txt) : 1}]
       if {$search_dir($txt) eq "next"} {
         for {set i 0} {$i < $count} {incr i} {
-          [ns gui]::search_next $tid 0
+          [ns search]::find_next [winfo parent $txt] 0
         }
       } else {
         for {set i 0} {$i < $count} {incr i} {
-          [ns gui]::search_prev $tid 0
+          [ns search]::find_prev [winfo parent $txt] 0
         }
       }
       return 1
@@ -2237,11 +2237,11 @@ namespace eval vim {
       set count [expr {($number($txt) ne "") ? $number($txt) : 1}]
       if {$search_dir($txt) eq "next"} {
         for {set i 0} {$i < $count} {incr i} {
-          [ns gui]::search_prev $tid 0
+          [ns search]::find_prev [winfo parent $txt] 0
         }
       } else {
         for {set i 0} {$i < $count} {incr i} {
-          [ns gui]::search_next $tid 0
+          [ns search]::find_next [winfo parent $txt] 0
         }
       }
       return 1
@@ -2775,7 +2775,7 @@ namespace eval vim {
       catch { ctext::deleteHighlightClass [winfo parent $txt] search }
       ctext::addSearchClass [winfo parent $txt] search black yellow "" $word
       $txt tag lower _search sel
-      gui::search_next $tid 0
+      [ns search]::find_next [winfo parent $txt] 0
       return 1
     }
 

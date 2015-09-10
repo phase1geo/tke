@@ -97,6 +97,9 @@ namespace eval sessions {
 
       # Get the session information from the UI
       set content(gui) [[ns gui]::save_session]
+      
+      # Get the find information from the UI
+      set content(find) [[ns search]::save_session]
 
       # Set the session name
       set content(session) $current_name
@@ -175,6 +178,11 @@ namespace eval sessions {
       [ns gui]::load_session {} $content(gui)
     } else {
       [ns gui]::load_session {} $rc
+    }
+    
+    # Load the find session information
+    if {[info exists content(find)]} {
+      [ns search]::load_session $content(find)
     }
 
     # Load the preference session information (provide backward compatibility)

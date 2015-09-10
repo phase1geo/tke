@@ -829,17 +829,17 @@ namespace eval menus {
 
     $mb add separator
 
-    $mb add command -label [msgcat::mc "Select Next Occurrence"] -underline 7 -command "gui::search_next {} 0"
-    launcher::register [msgcat::mc "Menu: Find next occurrence"] "gui::search_next {}0"
+    $mb add command -label [msgcat::mc "Select Next Occurrence"] -underline 7 -command "menus::find_next_command 0"
+    launcher::register [msgcat::mc "Menu: Find next occurrence"] "menus::find_next_command 0"
 
-    $mb add command -label [msgcat::mc "Select Previous Occurrence"] -underline 7 -command "gui::search_prev {} 0"
-    launcher::register [msgcat::mc "Menu: Find previous occurrence"] "gui::search_prev {} 0"
+    $mb add command -label [msgcat::mc "Select Previous Occurrence"] -underline 7 -command "menus::find_prev_command 0"
+    launcher::register [msgcat::mc "Menu: Find previous occurrence"] "menus::find_prev_command 0"
 
-    $mb add command -label [msgcat::mc "Append Next Occurrence"] -underline 1 -command "gui::search_next {} 1"
-    launcher::register [msgcat::mc "Menu: Append next occurrence"] "gui::search_next {} 1"
+    $mb add command -label [msgcat::mc "Append Next Occurrence"] -underline 1 -command "menus::find_next_command 1"
+    launcher::register [msgcat::mc "Menu: Append next occurrence"] "menus::find_next_command 1"
 
-    $mb add command -label [msgcat::mc "Select All Occurrences"] -underline 7 -command "gui::search_all {}"
-    launcher::register [msgcat::mc "Menu: Select all occurrences"] "gui::search_all {}"
+    $mb add command -label [msgcat::mc "Select All Occurrences"] -underline 7 -command "menus::find_all_command"
+    launcher::register [msgcat::mc "Menu: Select all occurrences"] "menus::find_all_command"
 
     $mb add separator
 
@@ -958,6 +958,33 @@ namespace eval menus {
 
   }
 
+  ######################################################################
+  # Finds the next occurrence of the find regular expression for the current
+  # text widget.
+  proc find_next_command {app} {
+    
+    search::find_next [gui::current_txt {}] $app
+    
+  }
+  
+  ######################################################################
+  # Finds the previous occurrence of the find regular expression for the
+  # current text widget.
+  proc find_prev_command {app} {
+    
+    search::find_prev [gui::current_txt {}] $app
+    
+  }
+  
+  ######################################################################
+  # Finds all occurrences of the find regular expression for the current
+  # text widget and adds it to the selection.
+  proc find_all_command {} {
+    
+    search::find_all [gui::current_txt {}]
+    
+  }
+  
   ######################################################################
   # Performs an egrep-like search in a user-specified list of files/directories.
   proc find_in_files {} {
