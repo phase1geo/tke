@@ -2363,7 +2363,9 @@ namespace eval gui {
     set tab $tab_current($pw_current)
 
     # Update the search binding
-    bind $tab.sf.e <Return> "[ns gui]::search_start {$tid} $dir"
+    bind $tab.sf.e <Return> "[ns search]::find_start %W $txt $dir"
+    bind $tab.sf.e <Up>     "[ns search]::find_history %W  1"
+    bind $tab.sf.e <Down>   "[ns search]::find_history %W -1"
 
     # Display the search bar and separator
     grid $tab.sf
@@ -2440,171 +2442,6 @@ namespace eval gui {
 
     # Put the focus on the text widget
     set_txt_focus [last_txt_focus {}]
-
-  }
-
-  ######################################################################
-  # Clears the current search text.
-  proc clear_search {tid} {
-
-    # Get the currently selected text widget
-    set txt [current_txt $tid]
-
-    # Clear the highlight class
-    catch { ctext::deleteHighlightClass $txt search }
-
-  }
-
-  ######################################################################
-  # Starts a text search
-  proc search_start {tid {dir "next"}} {
-
-    variable case_sensitive
-
-    # If the user has specified a new search value, find all occurrences
-    if {[set str [[current_search].e get]] ne ""} {
-
-      # Escape any parenthesis in the regular expression
-      set str [string map {{(} {\(} {)} {\)}} $str]
-
-      # Test the regular expression, if it is invalid, let the user know
-      if {[catch { regexp $str "" } rc]} {
-        after 100 [list [ns gui]::set_info_message $rc]
-        return
-      }
-
-      # Get the current text widget
-      set txt [current_txt $tid]
-
-      # Gather any search options
-      set search_opts [list]
-      if {!$case_sensitive} {
-        lappend search_opts -nocase
-      }
-
-      # Clear the search highlight class
-      clear_search $tid
-
-      # Create a highlight class for the given search string
-      ctext::addSearchClassForRegexp $txt search black yellow "" $str $search_opts
-
-    }
-
-    # Select the search term
-    if {$dir eq "next"} {
-      search_next $tid 0
-    } else {
-      search_prev $tid 0
-    }
-
-  }
-
-  ######################################################################
-  # Searches for the next occurrence of the search item.
-  proc search_next {tid app} {
-
-    set wrapped 0
-
-    # Get the current text widget
-    set txt [current_txt $tid]
-
-    # If we are not appending to the selection, clear the selection
-    if {!$app} {
-      $txt tag remove sel 1.0 end
-    }
-
-    # Search the text widget from the current insertion cursor forward.
-    lassign [$txt tag nextrange _search "insert+1c"] startpos endpos
-
-    # We need to wrap on the search item
-    if {$startpos eq ""} {
-      lassign [$txt tag nextrange _search 1.0] startpos endpos
-      set wrapped 1
-    }
-
-    # Select the next match
-    if {$startpos ne ""} {
-      if {![vim::in_vim_mode $txt.t]} {
-        $txt tag add sel $startpos $endpos
-      }
-      $txt mark set insert $startpos
-      $txt see insert
-      if {$wrapped} {
-        set_info_message [msgcat::mc "Search wrapped to beginning of file"]
-      }
-    } else {
-      set_info_message [msgcat::mc "No search results found"]
-    }
-
-    # Closes the search interface
-    close_search
-
-  }
-
-  ######################################################################
-  # Searches for the previous occurrence of the search item.
-  proc search_prev {tid app} {
-
-    set wrapped 0
-
-    # Get the current text widget
-    set txt [current_txt $tid]
-
-    # If we are not appending to the selection, clear the selection
-    if {!$app} {
-      $txt tag remove sel 1.0 end
-    }
-
-    # Search the text widget from the current insertion cursor forward.
-    lassign [$txt tag prevrange _search insert] startpos endpos
-
-    # We need to wrap on the search item
-    if {$startpos eq ""} {
-      lassign [$txt tag prevrange _search end] startpos endpos
-      set wrapped 1
-    }
-
-    # Select the next match
-    if {$startpos ne ""} {
-      if {![vim::in_vim_mode $txt.t]} {
-        $txt tag add sel $startpos $endpos
-      }
-      $txt mark set insert $startpos
-      $txt see insert
-      if {$wrapped} {
-        set_info_message [msgcat::mc "Search wrapped to end of file"]
-      }
-    } else {
-      set_info_message [msgcat::mc "No search results found"]
-    }
-
-    # Close the search interface
-    close_search
-
-  }
-
-  ######################################################################
-  # Searches for all of the occurrences and selects them all.
-  proc search_all {tid} {
-
-    # Get the current text widget
-    set txt [current_txt $tid]
-
-    # Clear the selection
-    $txt tag remove sel 1.0 end
-
-    # Add all matching search items to the selection
-    $txt tag add sel {*}[$txt tag ranges _search]
-
-    # Make the first line viewable
-    catch {
-      set firstpos [lindex [$txt tag ranges _search] 0]
-      $txt mark set insert $firstpos
-      $txt see $firstpos
-    }
-
-    # Close the search interface
-    close_search
 
   }
 
@@ -3457,7 +3294,7 @@ namespace eval gui {
     ttk::frame       $tab_frame.sf
     ttk::label       $tab_frame.sf.l1    -text [msgcat::mc "Find:"]
     ttk::entry       $tab_frame.sf.e
-    ttk::checkbutton $tab_frame.sf.case  -text "Aa" -variable gui::case_sensitive
+    ttk::checkbutton $tab_frame.sf.case  -text "Aa" -variable [ns search]::find_case_sensitive
     ttk::label       $tab_frame.sf.close -image $images(close)
 
     tooltip::tooltip $tab_frame.sf.case "Case sensitivity"
@@ -3828,7 +3665,7 @@ namespace eval gui {
     if {[set range [$txt tag nextrange sel 1.0]] ne ""} {
 
       # Get the current search entry field
-      set sentry [current_search].e
+      set sentry [current_search]
 
       # Set the search frame
       $sentry delete 0 end
@@ -4063,7 +3900,7 @@ namespace eval gui {
     variable pw_current
     variable tab_current
 
-    return "$tab_current($pw_current).sf"
+    return "$tab_current($pw_current).sf.e"
 
   }
 

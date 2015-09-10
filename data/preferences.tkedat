@@ -162,6 +162,11 @@
 
 {Editor/SnippetCompleters}   {space tab return}
 
+# Specifies the maximum number of find history items to store in memory.  This value must be a
+# value of 0 (do not record history) or greater.
+
+{Find/MaxHistory}            {10}
+
 # When searching within a group of files (external to the current file), specifies
 # the number of contextual lines that will be displayed above and below the
 # matched line.
