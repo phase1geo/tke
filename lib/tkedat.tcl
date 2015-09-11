@@ -35,15 +35,18 @@ namespace eval tkedat {
     variable bcount
 
     while {[regexp -indices -start $start_col {([\{\}])(.*)$} $line -> char]} {
-      if {[string index $line [lindex $char 0]] eq "\{"} {
-        incr bcount
-      } else {
-        if {$bcount == 0} {
-          return -code error "Bad tkedat format (line: $line_num, col: [lindex $char 0])"
+      set start [lindex $char 0]
+      if {![regexp {(\\+)$} [string range $line 0 [expr $start - 1]] -> escapes] || ([expr [string length $escapes] % 2] == 0)} {
+        if {[string index $line $start] eq "\{"} {
+          incr bcount
+        } else {
+          if {$bcount == 0} {
+            return -code error "Bad tkedat format (line: $line_num, col: $start)"
+          }
+          incr bcount -1
         }
-        incr bcount -1
       }
-      set start_col [expr [lindex $char 0] + 1]
+      set start_col [expr $start + 1]
     }
 
     return $bcount
