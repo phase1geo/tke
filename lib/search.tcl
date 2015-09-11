@@ -25,21 +25,25 @@
 namespace eval search {
 
   source [file join $::tke_dir lib ns.tcl]
-  
+
   array set data {
-    find_case_sensitive 1
-    find_hist           {}
-    find_hist_ptr       0
-    find_current        {}
+    find,case_sensitive 1
+    find,hist           {}
+    find,hist_ptr       0
+    find,current        {}
+    fif,case_sensitive  1
+    fif,hist            {}
+    fif,hist_ptr        0
+    fif,current         {}
   }
-  
+
   ######################################################################
   # Performs a search of the curren text widget in the given direction
   # with the text specified in the specified entry widget.
   proc find_start {w txt direction} {
-    
+
     variable data
-    
+
     # If the user has specified a new search value, find all occurrences
     if {[set str [$w get]] ne ""} {
 
@@ -54,19 +58,19 @@ namespace eval search {
 
       # Gather any search options
       set search_opts [list]
-      if {!$data(find_case_sensitive)} {
+      if {!$data(find,case_sensitive)} {
         lappend search_opts -nocase
       }
-      
+
       # Save the find text to history
-      find_add_history $str
+      add_history find $str
 
       # Clear the search highlight class
       find_clear $txt
 
       # Create a highlight class for the given search string
       ctext::addSearchClassForRegexp $txt search black yellow "" $str $search_opts
-      
+
     }
 
     # Select the search term
@@ -75,26 +79,18 @@ namespace eval search {
     } else {
       find_prev $txt 0
     }
-    
+
   }
 
   ######################################################################
   # Clears the current search text.
   proc find_clear {txt} {
 
-    variable data
-    
-    # Clear the history pointer
-    set data(find_hist_ptr) [llength $data(find_hist)]
-    
-    # Clear the current find text
-    set data(find_current)  ""
-    
     # Clear the highlight class
     catch { ctext::deleteHighlightClass $txt search }
 
   }
-  
+
   ######################################################################
   # Searches for the next occurrence of the search item.
   proc find_next {txt app} {
@@ -172,7 +168,7 @@ namespace eval search {
     [ns gui]::close_search
 
   }
-  
+
   ######################################################################
   # Searches for all of the occurrences and selects them all.
   proc find_all {txt} {
@@ -194,72 +190,12 @@ namespace eval search {
     [ns gui]::close_search
 
   }
-  
-  ######################################################################
-  # Adds the given string to the find history list.
-  proc find_add_history {str} {
-    
-    variable data
-    
-    # Check to see if the search string exists within the history
-    if {[set index [lsearch -exact $data(find_hist) $str]] != -1} {
-      set data(find_hist) [lreplace $data(find_hist) $index $index]
-        
-    # Otherwise, reduce the size of the find history if adding another element will cause it to overflow
-    } else {
-      set hist_diff [expr [llength $data(find_hist)] - [[ns preferences]::get {Find/MaxHistory}]]
-      if {$hist_diff >= 0} {
-        set data(find_hist) [lreplace $data(find_hist) 0 $hist_diff]
-      }
-    }
-      
-    # Save the find text to history
-    lappend data(find_hist) $str
-    
-  }
-  
-  ######################################################################
-  # Moves backwards or forwards through search history, populating the given
-  # entry widget with the history search result.  If we are moving forward
-  # in history such that we fall into the present, the entry field will be
-  # set to any text that was entered prior to traversing history.
-  proc find_history {w dir} {
-    
-    variable data
-    
-    # Get the length of the find history list
-    set hlen [llength $data(find_hist)]
-    
-    # If the history pointer is -1, save the current text entered
-    if {$data(find_hist_ptr) == $hlen} {
-      if {$dir == 1} {
-        return
-      }
-      set data(find_current) [$w get]
-    }
-    
-    # Update the current pointer
-    if {($data(find_hist_ptr) == 0) && ($dir == -1)} {
-      return
-    }
-    
-    incr data(find_hist_ptr) $dir
-    
-    # Remove the text in the entry widget
-    $w delete 0 end
-    
-    # If the new history pointer is -1, restore the current text value
-    if {$data(find_hist_ptr) == $hlen} {
-      $w insert end $data(find_current)
-    } else {
-      $w insert end [lindex $data(find_hist) $data(find_hist_ptr)]
-    }
-    
-  }
-  
+
   ######################################################################
   # Performs an egrep-like search in a user-specified list of files/directories.
   proc fif_start {} {
+
+    variable data
 
     set rsp_list [list]
 
@@ -267,6 +203,9 @@ namespace eval search {
     if {[[ns gui]::fif_get_input rsp_list]} {
 
       array set rsp $rsp_list
+
+      # Add the rsp(find) value to the history list
+      add_history fif $rsp(find)
 
       # Convert directories into files
       array set files {}
@@ -317,7 +256,7 @@ namespace eval search {
 
     # Get the current text widget
     set txt [[ns gui]::current_txt {}]
-    
+
     # Change the text state to allow text to be inserted
     $txt configure -state normal
 
@@ -348,7 +287,7 @@ namespace eval search {
         incr i
       }
 
-      bind $txt <Key-space> [list if {[[ns search]::fif_handle_space %W]} break]
+      bind $txt <Key-space> { if {[search::fif_handle_space %W]} break }
 
     } else {
 
@@ -438,7 +377,7 @@ namespace eval search {
     regexp {^\s*(\d+)} [$W get "$index linestart" $index] -> linenum
 
     # Get the filename of the line that is clicked
-    set findex [$W search -regexp -backwards -count fif_count -- {^\s*/.*:$} $index]
+    set findex [$W search -regexp -backwards -count fif_count -- {^\s*(\w+:)?/.*:$} $index]
     set fname  [$W get $findex "$findex+[expr $fif_count - 1]c"]
 
     # Add the file to the file viewer (if necessary)
@@ -478,30 +417,100 @@ namespace eval search {
     return 0
 
   }
-  
+
+  ######################################################################
+  # Adds the given string to the find history list.
+  proc add_history {type str} {
+
+    variable data
+
+    # Check to see if the search string exists within the history
+    if {[set index [lsearch -exact $data($type,hist) $str]] != -1} {
+      set data($type,hist) [lreplace $data($type,hist) $index $index]
+
+    # Otherwise, reduce the size of the find history if adding another element will cause it to overflow
+    } else {
+      set hist_diff [expr [llength $data($type,hist)] - [[ns preferences]::get {Find/MaxHistory}]]
+      if {$hist_diff >= 0} {
+        set data($type,hist) [lreplace $data($type,hist) 0 $hist_diff]
+      }
+    }
+
+    # Save the find text to history
+    lappend data($type,hist) $str
+
+    # Clear the history pointer
+    set data($type,hist_ptr) [llength $data($type,hist)]
+
+    # Clear the current find text
+    set data($type,current)  ""
+
+  }
+
+  ######################################################################
+  # Moves backwards or forwards through search history, populating the given
+  # entry widget with the history search result.  If we are moving forward
+  # in history such that we fall into the present, the entry field will be
+  # set to any text that was entered prior to traversing history.
+  proc traverse_history {w type dir} {
+
+    variable data
+
+    # Get the length of the find history list
+    set hlen [llength $data($type,hist)]
+
+    # If the history pointer is -1, save the current text entered
+    if {$data($type,hist_ptr) == $hlen} {
+      if {$dir == 1} {
+        return
+      }
+      set data($type,current) [$w get]
+    }
+
+    # Update the current pointer
+    if {($data($type,hist_ptr) == 0) && ($dir == -1)} {
+      return
+    }
+
+    incr data($type,hist_ptr) $dir
+
+    # Remove the text in the entry widget
+    $w delete 0 end
+
+    # If the new history pointer is -1, restore the current text value
+    if {$data($type,hist_ptr) == $hlen} {
+      $w insert end $data($type,current)
+    } else {
+      $w insert end [lindex $data($type,hist) $data($type,hist_ptr)]
+    }
+
+  }
+
   ######################################################################
   # Loads the given session data.
   proc load_session {session_data} {
-    
+
     variable data
-    
+
     # Get the data
     array set data $session_data
-    
-    # Clear the history pointer
-    set data(find_hist_ptr) [llength $data(find_hist)]
-    
+
+    # Clear the history pointers
+    foreach type [list find fif] {
+      set data($type,hist_ptr) [llength $data($type,hist)]
+    }
+
   }
-  
+
   ######################################################################
   # Returns find data to be saved in session history.
   proc save_session {} {
-    
+
     variable data
-    
+
     return [array get data]
-    
+
   }
-  
-  
+
+
 }
