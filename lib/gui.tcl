@@ -43,6 +43,7 @@ namespace eval gui {
   variable info_clear       ""
   variable trailing_ws_re   {[\ \t]+$}
   variable case_sensitive   1
+  variable saved            0
   variable replace_all      1
   variable highlightcolor   ""
 
@@ -272,6 +273,7 @@ namespace eval gui {
     set widgets(fif_case)  [ttk::checkbutton $widgets(fif).case -text "Aa" -variable gui::case_sensitive]
     ttk::label $widgets(fif).li -text "In: "
     set widgets(fif_in)    [tokenentry::tokenentry $widgets(fif).ti -font [$widgets(fif_find) cget -font]]
+    set widgets(fif_save)  [ttk::checkbutton $widgets(fif).save -text "Save" -variable gui::saved]
     set widgets(fif_close) [ttk::label $widgets(fif).close -image $images(close)]
 
     tooltip::tooltip $widgets(fif_case) "Case sensitivity"
@@ -288,6 +290,7 @@ namespace eval gui {
     bind [$widgets(fif_in) entrytag] <Return>    { if {[gui::check_fif_for_return]} break }
     bind [$widgets(fif_in) entrytag] <Escape>    { set gui::user_exit_status 0 }
     bind $widgets(fif_case)          <Escape>    { set gui::user_exit_status 0 }
+    bind $widgets(fif_save)          <Escape>    { set gui::user_exit_status 0 }
     bind $widgets(fif_close)         <Button-1>  { set gui::user_exit_status 0 }
     bind $widgets(fif_close)         <Key-space> { set gui::user_exit_status 0 }
 
@@ -297,7 +300,8 @@ namespace eval gui {
     grid $widgets(fif).case  -row 0 -column 2 -sticky news -padx 2 -pady 2
     grid $widgets(fif).close -row 0 -column 3 -sticky news -padx 2 -pady 2
     grid $widgets(fif).li    -row 1 -column 0 -sticky ew -pady 2
-    grid $widgets(fif).ti    -row 1 -column 1 -sticky ew -pady 2 -columnspan 2
+    grid $widgets(fif).ti    -row 1 -column 1 -sticky ew -pady 2
+    grid $widgets(fif).save  -row 1 -column 2 -sticky news -padx 2 -pady 2 -columnspan 2
 
     # Create the information bar
     set widgets(info)        [ttk::frame .if]
@@ -2824,8 +2828,13 @@ namespace eval gui {
     variable widgets
     variable fif_files
     variable case_sensitive
+    variable saved
 
     upvar $prsp_list rsp_list
+
+    # Initialize variables
+    set case_sensitive 1
+    set saved          0
 
     # Reset the input widgets
     $widgets(fif_find) delete 0 end
@@ -2885,7 +2894,7 @@ namespace eval gui {
     }
 
     # Gather the input to return
-    set rsp_list [list find [$widgets(fif_find) get] in $ins egrep_opts $egrep_opts]
+    set rsp_list [list find [$widgets(fif_find) get] in $ins egrep_opts $egrep_opts save $saved]
 
     return $gui::user_exit_status
 
@@ -3296,7 +3305,8 @@ namespace eval gui {
     ttk::frame       $tab_frame.sf
     ttk::label       $tab_frame.sf.l1    -text [msgcat::mc "Find:"]
     ttk::entry       $tab_frame.sf.e
-    ttk::checkbutton $tab_frame.sf.case  -text "Aa" -variable [ns search]::find_case_sensitive
+    ttk::checkbutton $tab_frame.sf.case  -text "Aa"   -variable [ns gui]::case_sensitive
+    ttk::checkbutton $tab_frame.sf.save  -text "Save" -variable [ns gui]::saved
     ttk::label       $tab_frame.sf.close -image $images(close)
 
     tooltip::tooltip $tab_frame.sf.case "Case sensitivity"
@@ -3304,10 +3314,12 @@ namespace eval gui {
     pack $tab_frame.sf.l1    -side left  -padx 2 -pady 2
     pack $tab_frame.sf.e     -side left  -padx 2 -pady 2 -fill x -expand yes
     pack $tab_frame.sf.close -side right -padx 2 -pady 2
+    pack $tab_frame.sf.save  -side right -padx 2 -pady 2
     pack $tab_frame.sf.case  -side right -padx 2 -pady 2
 
     bind $tab_frame.sf.e     <Escape>    "gui::close_search"
     bind $tab_frame.sf.case  <Escape>    "gui::close_search"
+    bind $tab_frame.sf.save  <Escape>    "gui::close_search"
     bind $tab_frame.sf.close <Button-1>  "gui::close_search"
     bind $tab_frame.sf.close <Key-space> "gui::close_search"
 
@@ -3317,8 +3329,9 @@ namespace eval gui {
     ttk::entry       $tab_frame.rf.fe
     ttk::label       $tab_frame.rf.rl    -text [msgcat::mc "Replace:"]
     ttk::entry       $tab_frame.rf.re
-    ttk::checkbutton $tab_frame.rf.case  -text "Aa"  -variable gui::case_sensitive
-    ttk::checkbutton $tab_frame.rf.glob  -text "All" -variable gui::replace_all
+    ttk::checkbutton $tab_frame.rf.case  -text "Aa"   -variable gui::case_sensitive
+    ttk::checkbutton $tab_frame.rf.glob  -text "All"  -variable gui::replace_all
+    ttk::checkbutton $tab_frame.rf.save  -text "Save" -variable gui::saved
     ttk::label       $tab_frame.rf.close -image $images(close)
 
     pack $tab_frame.rf.fl    -side left -padx 2 -pady 2
@@ -3327,6 +3340,7 @@ namespace eval gui {
     pack $tab_frame.rf.re    -side left -padx 2 -pady 2 -fill x -expand yes
     pack $tab_frame.rf.case  -side left -padx 2 -pady 2
     pack $tab_frame.rf.glob  -side left -padx 2 -pady 2
+    pack $tab_frame.rf.save  -side left -padx 2 -pady 2
     pack $tab_frame.rf.close -side left -padx 2 -pady 2
 
     bind $tab_frame.rf.fe    <Return>    "gui::do_search_and_replace {}"
@@ -3337,6 +3351,7 @@ namespace eval gui {
     bind $tab_frame.rf.re    <Escape>    "gui::close_search_and_replace"
     bind $tab_frame.rf.case  <Escape>    "gui::close_search_and_replace"
     bind $tab_frame.rf.glob  <Escape>    "gui::close_search_and_replace"
+    bind $tab_frame.rf.save  <Escape>    "gui::close_search_and_replace"
     bind $tab_frame.rf.close <Button-1>  "gui::close_search_and_replace"
     bind $tab_frame.rf.close <Key-space> "gui::close_search_and_replace"
 
