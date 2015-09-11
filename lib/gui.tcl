@@ -283,6 +283,8 @@ namespace eval gui {
       }
     }
     bind $widgets(fif_find)          <Escape>    { set gui::user_exit_status 0 }
+    bind $widgets(fif_find)          <Up>        "[ns search]::traverse_history %W fif  1"
+    bind $widgets(fif_find)          <Down>      "[ns search]::traverse_history %W fif -1"
     bind [$widgets(fif_in) entrytag] <Return>    { if {[gui::check_fif_for_return]} break }
     bind [$widgets(fif_in) entrytag] <Escape>    { set gui::user_exit_status 0 }
     bind $widgets(fif_case)          <Escape>    { set gui::user_exit_status 0 }
@@ -2364,8 +2366,8 @@ namespace eval gui {
 
     # Update the search binding
     bind $tab.sf.e <Return> "[ns search]::find_start %W $txt $dir"
-    bind $tab.sf.e <Up>     "[ns search]::find_history %W  1"
-    bind $tab.sf.e <Down>   "[ns search]::find_history %W -1"
+    bind $tab.sf.e <Up>     "[ns search]::traverse_history %W find  1"
+    bind $tab.sf.e <Down>   "[ns search]::traverse_history %W find -1"
 
     # Display the search bar and separator
     grid $tab.sf
