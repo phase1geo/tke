@@ -182,7 +182,6 @@ namespace eval sessions {
 
     # Load the find session information
     if {[info exists content(find)]} {
-      puts "name: $name"
       [ns search]::load_session $content(find)
     }
 
