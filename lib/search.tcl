@@ -118,7 +118,6 @@ namespace eval search {
     # Select the next match
     if {$startpos ne ""} {
       if {![[ns vim]::in_vim_mode $txt.t]} {
-        puts "HERE A"
         $txt tag add sel $startpos $endpos
       }
       $txt mark set insert $startpos
