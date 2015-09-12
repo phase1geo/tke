@@ -1,77 +1,29 @@
-changeset:   1289:156ef3d2539e
-tag:         devel-1.8.14
+changeset:   1298:319347740b57
+tag:         devel-1.8.15
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Sep 09 02:03:52 2015 -0500
+date:        Fri Sep 11 00:37:03 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.8.14 release
+ChangeLog for devel-1.8.15 release
 
 
-changeset:   1290:4a465fee2dc9
+changeset:   1299:bf65f0ee16e6
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Sep 09 02:03:58 2015 -0500
+date:        Fri Sep 11 00:37:08 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.8.14 for changeset 156ef3d2539e
+Added tag devel-1.8.15 for changeset 319347740b57
 
 
-changeset:   1291:04522fa3e171
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Sep 09 19:15:00 2015 -0500
-files:       lib/preferences.tcl lib/version.tcl
-description:
-* Limiting language-specific preferences to Editor/* preference values.
-
-
-changeset:   1292:97ee92a325af
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Sep 09 19:23:03 2015 -0500
-files:       lib/search.tcl lib/tke.tcl lib/version.tcl
-description:
-* Adding search-related placeholder.
-
-
-changeset:   1293:23eef1b3de06
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Sep 10 00:50:42 2015 -0500
-files:       data/preferences.tkedat lib/gui.tcl lib/menus.tcl lib/search.tcl lib/sessions.tcl lib/version.tcl lib/vim.tcl
-description:
-* Moving search-related code to the search namespace for better future maintenance.
-* Adding find history.
-
-
-changeset:   1294:e9ed2c0ff0e3
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Sep 10 20:52:28 2015 -0500
-files:       lib/search.tcl lib/tkedat.tcl lib/version.tcl
-description:
-* Fixing tkedat::bracket_count procedure to pay attention to escape sequences.
-* Cleaning up debug output.
-
-
-changeset:   1295:5b2f37492802
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Sep 10 21:17:44 2015 -0500
-files:       lib/menus.tcl lib/search.tcl lib/version.tcl
-description:
-* Moving find in file functions from menus to search namespace.
-
-
-changeset:   1296:de2c35ba80da
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu Sep 10 22:42:45 2015 -0500
-files:       lib/gui.tcl lib/search.tcl lib/sessions.tcl lib/version.tcl
-description:
-* Adding find history to find in files.
-* Fixing Windows bug with clicking on a search link in a find in files results window.
-
-
-changeset:   1297:10bef033ac33
+changeset:   1300:528e5a9e7328
 tag:         tip
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu Sep 10 23:37:25 2015 -0500
-files:       lib/gui.tcl lib/sessions.tcl lib/version.tcl
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Sep 12 02:27:14 2015 -0500
+files:       lib/gui.tcl lib/search.tcl lib/version.tcl lib/vim.tcl
 description:
-* Adding save checkbutton to find, find/replace and find in files (not functional).
+* Moving find/replace to search namespace.
+* Adding saved search support for find, find/replace and find in files.
+* Adding find/replace feature to populate the find with any currently selected text on launch.
+* Code cleanup in the various versions of find.
 
 
