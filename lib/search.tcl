@@ -25,27 +25,36 @@
 namespace eval search {
 
   source [file join $::tke_dir lib ns.tcl]
+  
+  variable lengths {}
 
   array set data {
-    find,case_sensitive 1
-    find,hist           {}
-    find,hist_ptr       0
-    find,current        {}
-    fif,case_sensitive  1
-    fif,hist            {}
-    fif,hist_ptr        0
-    fif,current         {}
+    find,hist        {}
+    find,hist_ptr    0
+    find,current     {}
+    replace,hist     {}
+    replace,hist_ptr 0
+    replace,current  {}
+    fif,hist         {}
+    fif,hist_ptr     0
+    fif,current      {}
   }
 
   ######################################################################
   # Performs a search of the curren text widget in the given direction
   # with the text specified in the specified entry widget.
-  proc find_start {w txt direction} {
+  proc find_start {tid direction} {
 
     variable data
+    
+    # Get the current text widget
+    set txt [[ns gui]::current_txt $tid]
+    
+    # Get the search information
+    lassign [set search_data [[ns gui]::get_search_data find]] str case_sensitive saved
 
     # If the user has specified a new search value, find all occurrences
-    if {[set str [$w get]] ne ""} {
+    if {$str ne ""} {
 
       # Escape any parenthesis in the regular expression
       set str [string map {{(} {\(} {)} {\)}} $str]
@@ -58,12 +67,12 @@ namespace eval search {
 
       # Gather any search options
       set search_opts [list]
-      if {!$data(find,case_sensitive)} {
+      if {!$case_sensitive} {
         lappend search_opts -nocase
       }
 
       # Save the find text to history
-      add_history find $str
+      add_history find $search_data
 
       # Clear the search highlight class
       find_clear $txt
@@ -192,6 +201,98 @@ namespace eval search {
   }
 
   ######################################################################
+  # Performs a search and replace operation based on the GUI element
+  # settings.
+  proc replace_start {tid} {
+
+    lassign [set search_data [[ns gui]::get_search_data replace]] find replace case_sensitive replace_all
+
+    # Perform the search and replace
+    replace_do_raw $tid 1.0 end $find $replace [expr !$case_sensitive] $replace_all
+    
+    # Add the search data to history
+    add_history replace $search_data
+
+    # Close the search and replace bar
+    [ns gui]::close_search_and_replace
+
+  }
+
+  ######################################################################
+  # Performs a search and replace given the expression,
+  proc replace_do_raw {tid sline eline search replace ignore_case all} {
+
+    variable lengths
+
+    # Get the current text widget
+    set txt [[ns gui]::current_txt $tid]
+
+    # Clear the selection
+    $txt tag remove sel 1.0 end
+
+    # Escape any parenthesis in the search string
+    set search [string map {{(} {\(} {)} {\)}} $search]
+
+    # Create regsub arguments
+    set rs_args [list]
+    if {$ignore_case} {
+      lappend rs_args -nocase
+    }
+
+    # Get the list of items to replace
+    set indices [$txt search -all -regexp -count [ns search]::lengths {*}$rs_args -- $search $sline $eline]
+
+    if {$all} {
+      set indices [lreverse $indices]
+      set lengths [lreverse $lengths]
+    } else {
+      set last_line 0
+      set i         0
+      foreach index $indices {
+        set curr_line [lindex [split $index .] 0]
+        if {$curr_line != $last_line} {
+          lappend new_indices $index
+          lappend new_lengths [lindex $lengths $i]
+          set last_line $curr_line
+        }
+        incr i
+      }
+      set indices [lreverse $new_indices]
+      set lengths [lreverse $new_lengths]
+    }
+
+    # Get the number of indices
+    set num_indices [llength $indices]
+
+    # Replace the text
+    for {set i 0} {$i < $num_indices} {incr i} {
+      set index [lindex $indices $i]
+      $txt replace $index "$index+[lindex $lengths $i]c" $replace
+    }
+
+    if {$num_indices > 0} {
+
+      # Set the insertion cursor to the last match and make that line visible
+      $txt see [lindex $indices 0]
+      $txt mark set insert [lindex $indices 0]
+
+      # Make sure that the insertion cursor is valid
+      if {[[ns vim]::in_vim_mode $txt]} {
+        [ns vim]::adjust_insert $txt
+      }
+
+      # Specify the number of substitutions that we did
+      [ns gui]::set_info_message [msgcat::mc "%d substitutions done" $num_indices]
+
+    } else {
+
+      [ns gui]::set_info_message [msgcat::mc "No search results found"]
+
+    }
+
+  }
+  
+  ######################################################################
   # Performs an egrep-like search in a user-specified list of files/directories.
   proc fif_start {} {
 
@@ -205,7 +306,7 @@ namespace eval search {
       array set rsp $rsp_list
 
       # Add the rsp(find) value to the history list
-      add_history fif $rsp(find)
+      add_history fif [list $rsp(find) $rsp(in) $rsp(case_sensitive) $rsp(save)]
 
       # Convert directories into files
       array set files {}
@@ -221,12 +322,18 @@ namespace eval search {
         }
       }
 
+      # Figure out any search options
+      set egrep_opts [list]
+      if {!$rsp(case_sensitive)} {
+        lappend egrep_opts -i
+      }
+
       # Perform egrep operation (test)
       if {[array size files] > 0} {
         if {$::tcl_platform(platform) eq "windows"} {
-          [ns search]::fif_callback $rsp(find) [array size files] 0 [utils::egrep $rsp(find) [lsort [array names files]] [preferences::get Find/ContextNum] $rsp(egrep_opts)]
+          [ns search]::fif_callback $rsp(find) [array size files] 0 [utils::egrep $rsp(find) [lsort [array names files]] [preferences::get Find/ContextNum] $egrep_opts]
         } else {
-          [ns bgproc]::system find_in_files "egrep -a -H -C[[ns preferences]::get Find/ContextNum] -n $rsp(egrep_opts) -s {$rsp(find)} [lsort [array names files]]" -killable 1 \
+          [ns bgproc]::system find_in_files "egrep -a -H -C[[ns preferences]::get Find/ContextNum] -n $egrep_opts -s {$rsp(find)} [lsort [array names files]]" -killable 1 \
             -callback "[ns search]::fif_callback [list $rsp(find)] [array size files]"
         }
       } else {
@@ -420,12 +527,12 @@ namespace eval search {
 
   ######################################################################
   # Adds the given string to the find history list.
-  proc add_history {type str} {
+  proc add_history {type hist_info} {
 
     variable data
-
+    
     # Check to see if the search string exists within the history
-    if {[set index [lsearch -exact $data($type,hist) $str]] != -1} {
+    if {[set index [lsearch -exact -index 0 $data($type,hist) [lindex $hist_info 0]]] != -1} {
       set data($type,hist) [lreplace $data($type,hist) $index $index]
 
     # Otherwise, reduce the size of the find history if adding another element will cause it to overflow
@@ -437,7 +544,7 @@ namespace eval search {
     }
 
     # Save the find text to history
-    lappend data($type,hist) $str
+    lappend data($type,hist) $hist_info
 
     # Clear the history pointer
     set data($type,hist_ptr) [llength $data($type,hist)]
@@ -452,7 +559,7 @@ namespace eval search {
   # entry widget with the history search result.  If we are moving forward
   # in history such that we fall into the present, the entry field will be
   # set to any text that was entered prior to traversing history.
-  proc traverse_history {w type dir} {
+  proc traverse_history {type dir} {
 
     variable data
 
@@ -464,7 +571,7 @@ namespace eval search {
       if {$dir == 1} {
         return
       }
-      set data($type,current) [$w get]
+      set data($type,current) [[ns gui]::get_search_data $type]
     }
 
     # Update the current pointer
@@ -474,14 +581,11 @@ namespace eval search {
 
     incr data($type,hist_ptr) $dir
 
-    # Remove the text in the entry widget
-    $w delete 0 end
-
     # If the new history pointer is -1, restore the current text value
     if {$data($type,hist_ptr) == $hlen} {
-      $w insert end $data($type,current)
+      [ns gui]::set_search_data $type $data($type,current)
     } else {
-      $w insert end [lindex $data($type,hist) $data($type,hist_ptr)]
+      [ns gui]::set_search_data $type [lindex $data($type,hist) $data($type,hist_ptr)]
     }
 
   }
@@ -507,10 +611,19 @@ namespace eval search {
   proc save_session {} {
 
     variable data
+    
+    # Only save history items with the save indicator set
+    foreach type [list find replace fif] {
+      set saved($type,hist) [list]
+      foreach item $data($type,hist) {
+        if {[lindex $item end]} {
+          lappend saved($type,hist) $item
+        }
+      }
+    }
 
-    return [array get data]
+    return [array get saved]
 
   }
-
 
 }

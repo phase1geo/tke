@@ -285,8 +285,8 @@ namespace eval gui {
       }
     }
     bind $widgets(fif_find)          <Escape>    { set gui::user_exit_status 0 }
-    bind $widgets(fif_find)          <Up>        "[ns search]::traverse_history %W fif  1"
-    bind $widgets(fif_find)          <Down>      "[ns search]::traverse_history %W fif -1"
+    bind $widgets(fif_find)          <Up>        "[ns search]::traverse_history fif  1"
+    bind $widgets(fif_find)          <Down>      "[ns search]::traverse_history fif -1"
     bind [$widgets(fif_in) entrytag] <Return>    { if {[gui::check_fif_for_return]} break }
     bind [$widgets(fif_in) entrytag] <Escape>    { set gui::user_exit_status 0 }
     bind $widgets(fif_case)          <Escape>    { set gui::user_exit_status 0 }
@@ -2368,11 +2368,6 @@ namespace eval gui {
     # Get the current text frame
     set tab $tab_current($pw_current)
 
-    # Update the search binding
-    bind $tab.sf.e <Return> "[ns search]::find_start %W $txt $dir"
-    bind $tab.sf.e <Up>     "[ns search]::traverse_history %W find  1"
-    bind $tab.sf.e <Down>   "[ns search]::traverse_history %W find -1"
-
     # Display the search bar and separator
     grid $tab.sf
     grid $tab.sep1
@@ -2408,13 +2403,16 @@ namespace eval gui {
     set_txt_focus [last_txt_focus {}]
 
   }
-
+  
   ######################################################################
   # Displays the search and replace bar.
   proc search_and_replace {} {
 
     variable pw_current
     variable tab_current
+    
+    # Get the current text widgets
+    set txt [current_txt {}]
 
     # Get the current text frame
     set tab $tab_current($pw_current)
@@ -2426,6 +2424,11 @@ namespace eval gui {
     # Clear the search entry
     $tab.rf.fe delete 0 end
     $tab.rf.re delete 0 end
+    
+    # If a line or less is selected, populate the find entry with it
+    if {([llength [set ranges [$txt tag ranges sel]]] == 2) && ([$txt count -lines {*}$ranges] == 0)} {
+      $tab.rf.fe insert end [$txt get {*}$ranges]
+    }
 
     # Place the focus on the find entry field
     focus $tab.rf.fe
@@ -2452,99 +2455,64 @@ namespace eval gui {
   }
 
   ######################################################################
-  # Performs a search and replace operation based on the GUI element
-  # settings.
-  proc do_search_and_replace {tid} {
-
-    variable pw_current
+  # Retrieves the current search information for the specified type.
+  proc get_search_data {type} {
+    
+    variable widgets
     variable tab_current
+    variable pw_current
     variable case_sensitive
     variable replace_all
-
-    # Get the current tab frame
+    variable saved
+    
+    # Get the current tab
     set tab $tab_current($pw_current)
-
-    # Perform the search and replace
-    do_raw_search_and_replace $tid 1.0 end [$tab.rf.fe get] [$tab.rf.re get] !$case_sensitive $replace_all
-
-    # Close the search and replace bar
-    close_search_and_replace
-
+    
+    switch $type {
+      "find"    { return [list [$tab.sf.e get] $case_sensitive $saved] }
+      "replace" { return [list [$tab.rf.fe get] [$tab.rf.re get] $case_sensitive $replace_all $saved] }
+      "fif"     { return [list [$widgets(fif_find) get] [$widgets(fif_in) tokenget] $case_sensitive $saved] }
+    }
+    
   }
-
+  
   ######################################################################
-  # Performs a search and replace given the expression,
-  proc do_raw_search_and_replace {tid sline eline search replace ignore_case all} {
-
+  # Sets the given search information in the current search widget based
+  # on type.
+  proc set_search_data {type data} {
+    
     variable widgets
-    variable lengths
-
-    # Get the current text widget
-    set txt [current_txt $tid]
-
-    # Clear the selection
-    $txt tag remove sel 1.0 end
-
-    # Escape any parenthesis in the search string
-    set search [string map {{(} {\(} {)} {\)}} $search]
-
-    # Create regsub arguments
-    set rs_args [list]
-    if {$ignore_case} {
-      lappend rs_args -nocase
-    }
-
-    # Get the list of items to replace
-    set indices [$txt search -all -regexp -count [ns gui]::lengths {*}$rs_args -- $search $sline $eline]
-
-    if {$all} {
-      set indices [lreverse $indices]
-      set lengths [lreverse $lengths]
-    } else {
-      set last_line 0
-      set i         0
-      foreach index $indices {
-        set curr_line [lindex [split $index .] 0]
-        if {$curr_line != $last_line} {
-          lappend new_indices $index
-          lappend new_lengths [lindex $lengths $i]
-          set last_line $curr_line
-        }
-        incr i
+    variable tab_current
+    variable pw_current
+    variable case_sensitive
+    variable replace_all
+    variable saved
+    
+    # Get the current tab
+    set tab $tab_current($pw_current)
+    
+    switch $type {
+      "find" {
+        lassign $data str case_sensitive saved
+        $tab.sf.e delete 0 end
+        $tab.sf.e insert end $str
       }
-      set indices [lreverse $new_indices]
-      set lengths [lreverse $new_lengths]
-    }
-
-    # Get the number of indices
-    set num_indices [llength $indices]
-
-    # Replace the text
-    for {set i 0} {$i < $num_indices} {incr i} {
-      set index [lindex $indices $i]
-      $txt replace $index "$index+[lindex $lengths $i]c" $replace
-    }
-
-    if {$num_indices > 0} {
-
-      # Set the insertion cursor to the last match and make that line visible
-      $txt see [lindex $indices 0]
-      $txt mark set insert [lindex $indices 0]
-
-      # Make sure that the insertion cursor is valid
-      if {[[ns vim]::in_vim_mode $txt]} {
-        [ns vim]::adjust_insert $txt
+      "replace" {
+        lassign $data find replace case_sensitive replace_all saved
+        $tab.rf.fe delete 0 end
+        $tab.rf.re delete 0 end
+        $tab.rf.fe insert end $find
+        $tab.rf.re insert end $replace
       }
-
-      # Specify the number of substitutions that we did
-      set_info_message [msgcat::mc "%d substitutions done" $num_indices]
-
-    } else {
-
-      set_info_message [msgcat::mc "No search results found"]
-
+      "fif" {
+        lassign $data find in case_sensitive saved
+        $widgets(fif_find) delete 0 end
+        $widgets(fif_find) insert end $find
+        $widgets(fif_in) tokendelete 0 end
+        $widgets(fif_in) tokeninsert end $in
+      }
     }
-
+    
   }
 
   ######################################################################
@@ -2887,14 +2855,8 @@ namespace eval gui {
       }
     }
 
-    # Figure out any search options
-    set egrep_opts [list]
-    if {!$case_sensitive} {
-      lappend egrep_opts -i
-    }
-
     # Gather the input to return
-    set rsp_list [list find [$widgets(fif_find) get] in $ins egrep_opts $egrep_opts save $saved]
+    set rsp_list [list find [$widgets(fif_find) get] in $ins case_sensitive $case_sensitive save $saved]
 
     return $gui::user_exit_status
 
@@ -3299,7 +3261,7 @@ namespace eval gui {
     grid $tab_frame.pw.tf.hb    -row 2 -column 0 -sticky ew
 
     # Create the Vim command bar
-    vim::bind_command_entry $txt [entry $tab_frame.ve] {}
+    [ns vim]::bind_command_entry $txt [entry $tab_frame.ve] {}
 
     # Create the search bar
     ttk::frame       $tab_frame.sf
@@ -3317,11 +3279,17 @@ namespace eval gui {
     pack $tab_frame.sf.save  -side right -padx 2 -pady 2
     pack $tab_frame.sf.case  -side right -padx 2 -pady 2
 
-    bind $tab_frame.sf.e     <Escape>    "gui::close_search"
-    bind $tab_frame.sf.case  <Escape>    "gui::close_search"
-    bind $tab_frame.sf.save  <Escape>    "gui::close_search"
-    bind $tab_frame.sf.close <Button-1>  "gui::close_search"
-    bind $tab_frame.sf.close <Key-space> "gui::close_search"
+    bind $tab_frame.sf.e     <Return>    [list [ns search]::find_start {} next]
+    bind $tab_frame.sf.e     <Return>    [list [ns search]::find_start {} next]
+    bind $tab_frame.sf.case  <Return>    [list [ns search]::find_start {} next]
+    bind $tab_frame.sf.save  <Return>    [list [ns search]::find_start {} next]
+    bind $tab_frame.sf.e     <Escape>    "[ns gui]::close_search"
+    bind $tab_frame.sf.case  <Escape>    "[ns gui]::close_search"
+    bind $tab_frame.sf.save  <Escape>    "[ns gui]::close_search"
+    bind $tab_frame.sf.e     <Up>        "[ns search]::traverse_history find  1"
+    bind $tab_frame.sf.e     <Down>      "[ns search]::traverse_history find -1"
+    bind $tab_frame.sf.close <Button-1>  "[ns gui]::close_search"
+    bind $tab_frame.sf.close <Key-space> "[ns gui]::close_search"
 
     # Create the search/replace bar
     ttk::frame       $tab_frame.rf
@@ -3329,9 +3297,9 @@ namespace eval gui {
     ttk::entry       $tab_frame.rf.fe
     ttk::label       $tab_frame.rf.rl    -text [msgcat::mc "Replace:"]
     ttk::entry       $tab_frame.rf.re
-    ttk::checkbutton $tab_frame.rf.case  -text "Aa"   -variable gui::case_sensitive
-    ttk::checkbutton $tab_frame.rf.glob  -text "All"  -variable gui::replace_all
-    ttk::checkbutton $tab_frame.rf.save  -text "Save" -variable gui::saved
+    ttk::checkbutton $tab_frame.rf.case  -text "Aa"   -variable [ns gui]::case_sensitive
+    ttk::checkbutton $tab_frame.rf.glob  -text "All"  -variable [ns gui]::replace_all
+    ttk::checkbutton $tab_frame.rf.save  -text "Save" -variable [ns gui]::saved
     ttk::label       $tab_frame.rf.close -image $images(close)
 
     pack $tab_frame.rf.fl    -side left -padx 2 -pady 2
@@ -3343,21 +3311,24 @@ namespace eval gui {
     pack $tab_frame.rf.save  -side left -padx 2 -pady 2
     pack $tab_frame.rf.close -side left -padx 2 -pady 2
 
-    bind $tab_frame.rf.fe    <Return>    "gui::do_search_and_replace {}"
-    bind $tab_frame.rf.re    <Return>    "gui::do_search_and_replace {}"
-    bind $tab_frame.rf.case  <Return>    "gui::do_search_and_replace {}"
-    bind $tab_frame.rf.glob  <Return>    "gui::do_search_and_replace {}"
-    bind $tab_frame.rf.fe    <Escape>    "gui::close_search_and_replace"
-    bind $tab_frame.rf.re    <Escape>    "gui::close_search_and_replace"
-    bind $tab_frame.rf.case  <Escape>    "gui::close_search_and_replace"
-    bind $tab_frame.rf.glob  <Escape>    "gui::close_search_and_replace"
-    bind $tab_frame.rf.save  <Escape>    "gui::close_search_and_replace"
-    bind $tab_frame.rf.close <Button-1>  "gui::close_search_and_replace"
-    bind $tab_frame.rf.close <Key-space> "gui::close_search_and_replace"
+    bind $tab_frame.rf.fe    <Return>    [list [ns search]::replace_start {}]
+    bind $tab_frame.rf.re    <Return>    [list [ns search]::replace_start {}]
+    bind $tab_frame.rf.case  <Return>    [list [ns search]::replace_start {}]
+    bind $tab_frame.rf.glob  <Return>    [list [ns search]::replace_start {}]
+    bind $tab_frame.rf.save  <Return>    [list [ns search]::replace_start {}]
+    bind $tab_frame.rf.fe    <Escape>    "[ns gui]::close_search_and_replace"
+    bind $tab_frame.rf.re    <Escape>    "[ns gui]::close_search_and_replace"
+    bind $tab_frame.rf.case  <Escape>    "[ns gui]::close_search_and_replace"
+    bind $tab_frame.rf.glob  <Escape>    "[ns gui]::close_search_and_replace"
+    bind $tab_frame.rf.save  <Escape>    "[ns gui]::close_search_and_replace"
+    bind $tab_frame.rf.close <Button-1>  "[ns gui]::close_search_and_replace"
+    bind $tab_frame.rf.close <Key-space> "[ns gui]::close_search_and_replace"
+    bind $tab_frame.rf.fe    <Up>        "[ns search]::traverse_history replace  1"
+    bind $tab_frame.rf.fe    <Down>      "[ns search]::traverse_history replace -1"
 
     # Create the diff bar
     if {$diff} {
-      diff::create_diff_bar $txt $tab_frame.df
+      [ns diff]::create_diff_bar $txt $tab_frame.df
       ttk::separator $tab_frame.sep2 -orient horizontal
     }
 
@@ -3386,19 +3357,19 @@ namespace eval gui {
     set adjusted_index [$tb index $index]
 
     # Add the text bindings
-    indent::add_bindings          $txt
-    multicursor::add_bindings     $txt
-    snippets::add_bindings        $txt
-    vim::set_vim_mode             $txt {}
-    completer::add_bindings       $txt
-    plugins::handle_text_bindings $txt $tags
-    make_drop_target              $txt
+    [ns indent]::add_bindings          $txt
+    [ns multicursor]::add_bindings     $txt
+    [ns snippets]::add_bindings        $txt
+    [ns vim]::set_vim_mode             $txt {}
+    [ns completer]::add_bindings       $txt
+    [ns plugins]::handle_text_bindings $txt $tags
+    make_drop_target                   $txt
 
     # Apply the appropriate syntax highlighting for the given extension
     if {$initial_language eq ""} {
-      syntax::initialize_language $txt [syntax::get_default_language $title]
+      [ns syntax]::initialize_language $txt [[ns syntax]::get_default_language $title]
     } else {
-      syntax::initialize_language $txt $initial_language
+      [ns syntax]::initialize_language $txt $initial_language
     }
 
     # Add any gutters
@@ -3408,7 +3379,7 @@ namespace eval gui {
 
     # Add the new tab to the notebook in alphabetical order (if specified) and if
     # the given index is "end"
-    if {[preferences::get View/OpenTabsAlphabetically] && ($index eq "end")} {
+    if {[[ns preferences]::get View/OpenTabsAlphabetically] && ($index eq "end")} {
       set added 0
       foreach t [$tb tabs] {
         if {[string compare " $title" [$tb tab $t -text]] == -1} {
@@ -3430,7 +3401,7 @@ namespace eval gui {
     set_current_tab $tab_frame
 
     # Set the current language
-    syntax::set_current_language {}
+    [ns syntax]::set_current_language {}
 
     # Give the text widget the focus
     set_txt_focus $txt
