@@ -2361,6 +2361,7 @@ namespace eval gui {
 
     variable pw_current
     variable tab_current
+    variable saved
 
     # Get the current text widget
     set txt [current_txt $tid]
@@ -2374,6 +2375,9 @@ namespace eval gui {
 
     # Clear the search entry
     $tab.sf.e delete 0 end
+    
+    # Reset the saved indicator
+    set saved 0
 
     # If a line or less is selected, populate the search bar with it
     if {([llength [set ranges [$txt tag ranges sel]]] == 2) && ([$txt count -lines {*}$ranges] == 0)} {
@@ -2410,6 +2414,7 @@ namespace eval gui {
 
     variable pw_current
     variable tab_current
+    variable saved
     
     # Get the current text widgets
     set txt [current_txt {}]
@@ -2424,6 +2429,9 @@ namespace eval gui {
     # Clear the search entry
     $tab.rf.fe delete 0 end
     $tab.rf.re delete 0 end
+    
+    # Reset the saved indicator
+    set saved 0
     
     # If a line or less is selected, populate the find entry with it
     if {([llength [set ranges [$txt tag ranges sel]]] == 2) && ([$txt count -lines {*}$ranges] == 0)} {
