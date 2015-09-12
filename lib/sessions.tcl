@@ -54,6 +54,7 @@ namespace eval sessions {
   # type are the following:
   #   - last  = Save information useful for the next time TKE is started.
   #   - prefs = Only save preference information to the session file, leaving the rest intact.
+  #   - find  = Only save find information to the session file, leaving the rest intact.
   #   - full  = Save all information
   proc save {type {name ""}} {
 
@@ -86,20 +87,16 @@ namespace eval sessions {
 
     # If we are saving preferences only, set the value of content to match
     # the currently loaded session.
-    if {$type eq "prefs"} {
+    if {($type eq "prefs") || ($type eq "find")} {
 
       # Get the current content information
       array set content [array get current_content]
 
-    # We don't want to save the current UI information if we are saving preference
-    # information only
+    # Update and save the UI state on a full/last save
     } else {
 
       # Get the session information from the UI
       set content(gui) [[ns gui]::save_session]
-
-      # Get the find information from the UI
-      set content(find) [[ns search]::save_session]
 
       # Set the session name
       set content(session) $current_name
@@ -107,8 +104,13 @@ namespace eval sessions {
     }
 
     # Get the session information from preferences
-    if {$type ne "last"} {
+    if {($type eq "prefs") || ($type eq "full")} {
       set content(prefs) [[ns preferences]::save_session $name]
+    }
+
+    # Get the find information from the UI
+    if {($type eq "find") || ($type eq "full") || ($type eq "last")} {
+      set content(find) [[ns search]::save_session]
     }
 
     # Create the session file path
@@ -117,7 +119,7 @@ namespace eval sessions {
     # Write the content to the save file
     catch { [ns tkedat]::write $session_file [array get content] }
 
-    if {$type ne "last"} {
+    if {$type eq "full"} {
 
       # Save the current name
       set current_name $name
@@ -128,6 +130,9 @@ namespace eval sessions {
       # Indicate to the user that we successfully saved
       [ns gui]::set_info_message "Session \"$current_name\" saved"
 
+    } elseif {$type eq "prefs"} {
+      [ns gui]::set_info_message "Session \"$current_name\" preferences saved"
+      
     }
 
   }

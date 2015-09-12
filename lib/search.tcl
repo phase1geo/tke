@@ -552,6 +552,29 @@ namespace eval search {
     set data($type,current)  ""
 
   }
+  
+  ######################################################################
+  # Updates the save state of the current search item, saving the item
+  # to the current sessions file.
+  proc update_save {type} {
+    
+    variable data
+    
+    # Get the current search information
+    set search_data [[ns gui]::get_search_data $type]
+    
+    # Find the matching item in history and update its save status
+    set i 0
+    foreach item $data($type,hist) {
+      if {[lrange $item 0 end-1] eq [lrange $search_data 0 end-1]} {
+        lset data($type,hist) $i 0 [lindex $search_data end]
+        [ns sessions]::save find [[ns sessions]::current]
+        break
+      }
+      incr i
+    }
+    
+  }
 
   ######################################################################
   # Moves backwards or forwards through search history, populating the given
@@ -599,7 +622,7 @@ namespace eval search {
     array set data $session_data
 
     # Clear the history pointers
-    foreach type [list find fif] {
+    foreach type [list find replace fif] {
       set data($type,hist_ptr) [llength $data($type,hist)]
     }
 
