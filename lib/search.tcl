@@ -537,9 +537,8 @@ namespace eval search {
 
     # Otherwise, reduce the size of the find history if adding another element will cause it to overflow
     } else {
-      set hist_diff [expr [llength $data($type,hist)] - [[ns preferences]::get {Find/MaxHistory}]]
-      if {$hist_diff >= 0} {
-        set data($type,hist) [lreplace $data($type,hist) 0 $hist_diff]
+      foreach index [lrange [lreverse [lsearch -index end -all $data($type,hist) 0]] [[ns preferences]::get {Find/MaxHistory}] end] {
+        set data($type,hist) [lreplace $data($type,hist) $index $index]
       }
     }
 
