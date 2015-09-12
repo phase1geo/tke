@@ -270,10 +270,10 @@ namespace eval gui {
     set widgets(fif)       [ttk::frame .fif]
     ttk::label $widgets(fif).lf -text "Find: "
     set widgets(fif_find)  [ttk::entry $widgets(fif).ef]
-    set widgets(fif_case)  [ttk::checkbutton $widgets(fif).case -text "Aa" -variable gui::case_sensitive]
+    set widgets(fif_case)  [ttk::checkbutton $widgets(fif).case -text "Aa" -variable [ns gui]::case_sensitive]
     ttk::label $widgets(fif).li -text "In: "
     set widgets(fif_in)    [tokenentry::tokenentry $widgets(fif).ti -font [$widgets(fif_find) cget -font]]
-    set widgets(fif_save)  [ttk::checkbutton $widgets(fif).save -text "Save" -variable gui::saved]
+    set widgets(fif_save)  [ttk::checkbutton $widgets(fif).save -text "Save" -variable [ns gui]::saved -command "[ns search]::update_save fif"]
     set widgets(fif_close) [ttk::label $widgets(fif).close -image $images(close)]
 
     tooltip::tooltip $widgets(fif_case) "Case sensitivity"
@@ -3276,7 +3276,7 @@ namespace eval gui {
     ttk::label       $tab_frame.sf.l1    -text [msgcat::mc "Find:"]
     ttk::entry       $tab_frame.sf.e
     ttk::checkbutton $tab_frame.sf.case  -text "Aa"   -variable [ns gui]::case_sensitive
-    ttk::checkbutton $tab_frame.sf.save  -text "Save" -variable [ns gui]::saved
+    ttk::checkbutton $tab_frame.sf.save  -text "Save" -variable [ns gui]::saved -command "[ns search]::update_save find"
     ttk::label       $tab_frame.sf.close -image $images(close)
 
     tooltip::tooltip $tab_frame.sf.case "Case sensitivity"
@@ -3307,7 +3307,7 @@ namespace eval gui {
     ttk::entry       $tab_frame.rf.re
     ttk::checkbutton $tab_frame.rf.case  -text "Aa"   -variable [ns gui]::case_sensitive
     ttk::checkbutton $tab_frame.rf.glob  -text "All"  -variable [ns gui]::replace_all
-    ttk::checkbutton $tab_frame.rf.save  -text "Save" -variable [ns gui]::saved
+    ttk::checkbutton $tab_frame.rf.save  -text "Save" -variable [ns gui]::saved -command "[ns search]::update_save replace"
     ttk::label       $tab_frame.rf.close -image $images(close)
 
     pack $tab_frame.rf.fl    -side left -padx 2 -pady 2
