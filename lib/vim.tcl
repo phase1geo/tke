@@ -172,10 +172,10 @@ namespace eval vim {
 
     # Execute the command
     switch -- $value {
-      w   { [ns gui]::save_current $tid }
-      w!  { [ns gui]::save_current $tid }
-      wq  { [ns gui]::save_current $tid; [ns gui]::close_current }
-      wq! { [ns gui]::save_current $tid; [ns gui]::close_current }
+      w   { [ns gui]::save_current $tid 0 }
+      w!  { [ns gui]::save_current $tid 1 }
+      wq  { if {[[ns gui]::save_current $tid 0]} { [ns gui]::close_current $tid 0; set txt "" } }
+      wq! { if {[[ns gui]::save_current $tid 1]} { [ns gui]::close_current $tid 0; set txt "" } }
       q   { [ns gui]::close_current $tid 0; set txt "" }
       q!  { [ns gui]::close_current $tid 1; set txt "" }
       cq  { [ns gui]::close_all 1 1; [ns menus]::exit_command }
@@ -244,8 +244,8 @@ namespace eval vim {
             [ns gui]::add_file end [normalize_filename [[ns utils]::perform_substitutions $filename]]
 
           # Save/quit the entire file with a new name
-          } elseif {[regexp {^w(q!?)?\s+(.*)$} $value -> and_close filename]} {
-            [ns gui]::save_current $tid [normalize_filename [[ns utils]::perform_substitutions $filename]]
+          } elseif {[regexp {^w(q)?(!)?\s+(.*)$} $value -> and_close and_force filename]} {
+            [ns gui]::save_current $tid [expr {$and_force ne ""}] [normalize_filename [[ns utils]::perform_substitutions $filename]]
             if {$and_close ne ""} {
               [ns gui]::close_current $tid [expr {($and_close eq "q") ? 0 : 1}]
               set txt ""
@@ -2175,7 +2175,7 @@ namespace eval vim {
       set mode($txt) "quit"
       return 1
     } elseif {$mode($txt) eq "quit"} {
-      [ns gui]::save_current $tid
+      [ns gui]::save_current $tid 0
       [ns gui]::close_current $tid
       return 1
     }

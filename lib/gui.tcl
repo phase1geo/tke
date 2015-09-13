@@ -167,7 +167,7 @@ namespace eval gui {
     # Get the host name
     set host [lindex [split [info hostname] .] 0]
 
-    if {[set session [sessions::current]] ne ""} {
+    if {[set session [[ns sessions]::current]] ne ""} {
       wm title . "$tab_name ($session) \[$host:[pwd]\]"
     } else {
       wm title . "$tab_name \[$host:[pwd]\]"
@@ -194,9 +194,9 @@ namespace eval gui {
       }
     }
 
-    set foreground [utils::get_default_foreground]
+    set foreground [[ns utils]::get_default_foreground]
 
-    switch [preferences::get General/WindowTheme] {
+    switch [[ns preferences]::get General/WindowTheme] {
       dark {
         set lock     $foreground
         set readonly grey70
@@ -252,7 +252,7 @@ namespace eval gui {
     set widgets(pw) [ttk::panedwindow .pw -orient horizontal]
 
     # Add the sidebar
-    set widgets(sb) [sidebar::create $widgets(pw).sb]
+    set widgets(sb) [[ns sidebar]::create $widgets(pw).sb]
 
     # Create panedwindow (to support split pane view)
     $widgets(pw) add [ttk::frame $widgets(pw).tf]
@@ -273,26 +273,27 @@ namespace eval gui {
     set widgets(fif_case)  [ttk::checkbutton $widgets(fif).case -text "Aa" -variable [ns gui]::case_sensitive]
     ttk::label $widgets(fif).li -text "In: "
     set widgets(fif_in)    [tokenentry::tokenentry $widgets(fif).ti -font [$widgets(fif_find) cget -font]]
-    set widgets(fif_save)  [ttk::checkbutton $widgets(fif).save -text "Save" -variable [ns gui]::saved -command "[ns search]::update_save fif"]
+    set widgets(fif_save)  [ttk::checkbutton $widgets(fif).save -text [msgcat::mc "Save"] \
+      -variable [ns gui]::saved -command "[ns search]::update_save fif"]
     set widgets(fif_close) [ttk::label $widgets(fif).close -image $images(close)]
 
-    tooltip::tooltip $widgets(fif_case) "Case sensitivity"
+    tooltip::tooltip $widgets(fif_case) [msgcat::mc "Case sensitivity"]
 
     bind $widgets(fif_find) <Return> {
-      if {([llength [$gui::widgets(fif_in) tokenget]] > 0) && \
-          ([$gui::widgets(fif_find) get] ne "")} {
-        set gui::user_exit_status 1
+      if {([llength [$[ns gui]::widgets(fif_in) tokenget]] > 0) && \
+          ([$[ns gui]::widgets(fif_find) get] ne "")} {
+        set [ns gui]::user_exit_status 1
       }
     }
-    bind $widgets(fif_find)          <Escape>    { set gui::user_exit_status 0 }
+    bind $widgets(fif_find)          <Escape>    "set [ns gui]::user_exit_status 0"
     bind $widgets(fif_find)          <Up>        "[ns search]::traverse_history fif  1"
     bind $widgets(fif_find)          <Down>      "[ns search]::traverse_history fif -1"
-    bind [$widgets(fif_in) entrytag] <Return>    { if {[gui::check_fif_for_return]} break }
-    bind [$widgets(fif_in) entrytag] <Escape>    { set gui::user_exit_status 0 }
-    bind $widgets(fif_case)          <Escape>    { set gui::user_exit_status 0 }
-    bind $widgets(fif_save)          <Escape>    { set gui::user_exit_status 0 }
-    bind $widgets(fif_close)         <Button-1>  { set gui::user_exit_status 0 }
-    bind $widgets(fif_close)         <Key-space> { set gui::user_exit_status 0 }
+    bind [$widgets(fif_in) entrytag] <Return>    "if {[[ns gui]::check_fif_for_return]} break"
+    bind [$widgets(fif_in) entrytag] <Escape>    "set [ns gui]::user_exit_status 0"
+    bind $widgets(fif_case)          <Escape>    "set [ns gui]::user_exit_status 0"
+    bind $widgets(fif_save)          <Escape>    "set [ns gui]::user_exit_status 0"
+    bind $widgets(fif_close)         <Button-1>  "set [ns gui]::user_exit_status 0"
+    bind $widgets(fif_close)         <Key-space> "set [ns gui]::user_exit_status 0"
 
     grid columnconfigure $widgets(fif) 1 -weight 1
     grid $widgets(fif).lf    -row 0 -column 0 -sticky ew -pady 2
@@ -307,8 +308,8 @@ namespace eval gui {
     set widgets(info)        [ttk::frame .if]
     set widgets(info_state)  [ttk::label .if.l1]
     set widgets(info_msg)    [ttk::label .if.l2]
-    set widgets(info_indent) [indent::create_menubutton .if.ind]
-    set widgets(info_syntax) [syntax::create_menubutton .if.syn]
+    set widgets(info_indent) [[ns indent]::create_menubutton .if.ind]
+    set widgets(info_syntax) [[ns syntax]::create_menubutton .if.syn]
 
     $widgets(info_syntax) configure -state disabled
 
@@ -323,10 +324,10 @@ namespace eval gui {
     set widgets(ursp_entry) [ttk::entry .rf.e]
     ttk::label .rf.close -image $images(close)
 
-    bind $widgets(ursp_entry) <Return>    "set gui::user_exit_status 1"
-    bind $widgets(ursp_entry) <Escape>    "set gui::user_exit_status 0"
-    bind .rf.close            <Button-1>  "set gui::user_exit_status 0"
-    bind .rf.close            <Key-space> "set gui::user_exit_status 0"
+    bind $widgets(ursp_entry) <Return>    "set [ns gui]::user_exit_status 1"
+    bind $widgets(ursp_entry) <Escape>    "set [ns gui]::user_exit_status 0"
+    bind .rf.close            <Button-1>  "set [ns gui]::user_exit_status 0"
+    bind .rf.close            <Key-space> "set [ns gui]::user_exit_status 0"
 
     grid rowconfigure    .rf 0 -weight 1
     grid columnconfigure .rf 1 -weight 1
@@ -346,61 +347,49 @@ namespace eval gui {
     grid remove $widgets(fif)
 
     # Create tab popup
-    set widgets(menu) [menu $widgets(nb_pw).popupMenu -tearoff 0 -postcommand gui::setup_tab_popup_menu]
-    $widgets(menu) add command -label [msgcat::mc "Close Tab"] -command {
-      gui::close_current {}
-    }
-    $widgets(menu) add command -label [msgcat::mc "Close Other Tab(s)"] -command {
-      gui::close_others
-    }
-    $widgets(menu) add command -label [msgcat::mc "Close All Tabs"] -command {
-      gui::close_all
-    }
+    set widgets(menu) [menu $widgets(nb_pw).popupMenu -tearoff 0 -postcommand [ns gui]::setup_tab_popup_menu]
+    $widgets(menu) add command -label [msgcat::mc "Close Tab"]          -command [list [ns gui]::close_current {}]
+    $widgets(menu) add command -label [msgcat::mc "Close Other Tab(s)"] -command [ns gui]::close_others
+    $widgets(menu) add command -label [msgcat::mc "Close All Tabs"]     -command [ns gui]::close_all
     $widgets(menu) add separator
-    $widgets(menu) add checkbutton -label [msgcat::mc "Locked"] -onvalue 1 -offvalue 0 -variable gui::file_locked -command {
-      gui::set_current_file_lock {} $gui::file_locked
-    }
-    $widgets(menu) add checkbutton -label [msgcat::mc "Favorited"] -onvalue 1 -offvalue 0 -variable gui::file_favorited -command {
-      gui::set_current_file_favorite {} $gui::file_favorited
-    }
+    $widgets(menu) add checkbutton -label [msgcat::mc "Locked"] -onvalue 1 -offvalue 0 \
+      -variable [ns gui]::file_locked    -command [list [ns gui]::set_current_file_lock_with_current {}]
+    $widgets(menu) add checkbutton -label [msgcat::mc "Favorited"] -onvalue 1 -offvalue 0 \
+      -variable [ns gui]::file_favorited -command [list [ns gui]::set_current_file_favorite_with_current {}]
     $widgets(menu) add separator
-    $widgets(menu) add command -label [msgcat::mc "Show in Sidebar"] -command {
-      gui::show_current_in_sidebar
-    }
+    $widgets(menu) add command -label [msgcat::mc "Show in Sidebar"]    -command [ns gui]::show_current_in_sidebar
     $widgets(menu) add separator
-    $widgets(menu) add command -label [msgcat::mc "Move to Other Pane"] -command {
-      gui::move_to_pane
-    }
+    $widgets(menu) add command -label [msgcat::mc "Move to Other Pane"] -command [ns gui]::move_to_pane
 
     # Add plugins to tab popup
-    plugins::handle_tab_popup $widgets(menu)
+    [ns plugins]::handle_tab_popup $widgets(menu)
 
     # Add the menu bar
-    menus::create
+    [ns menus]::create
 
     # Show the sidebar (if necessary)
-    if {[preferences::get View/ShowSidebar]} {
+    if {[[ns preferences]::get View/ShowSidebar]} {
       show_sidebar_view
     } else {
       hide_sidebar_view
     }
 
     # Show the console (if necessary)
-    if {[preferences::get View/ShowConsole]} {
+    if {[[ns preferences]::get View/ShowConsole]} {
       show_console_view
     } else {
       # hide_console_view
     }
 
     # Show the tabbar (if necessary)
-    if {[preferences::get View/ShowTabBar]} {
+    if {[[ns preferences]::get View/ShowTabBar]} {
       show_tab_view
     } else {
       hide_tab_view
     }
 
     # Show the status bar (if necessary)
-    if {[preferences::get View/ShowStatusBar]} {
+    if {[[ns preferences]::get View/ShowStatusBar]} {
       show_status_view
     } else {
       hide_status_view
@@ -408,16 +397,14 @@ namespace eval gui {
 
     # If the user attempts to close the window via the window manager, treat
     # it as an exit request from the menu system.
-    wm protocol . WM_DELETE_WINDOW {
-      menus::exit_command
-    }
+    wm protocol . WM_DELETE_WINDOW [list [ns menus]::exit_command]
 
     # Trace changes to the Appearance/Theme preference variable
-    trace variable preferences::prefs(Editor/WarningWidth)       w gui::handle_warning_width_change
-    trace variable preferences::prefs(Editor/MaxUndo)            w gui::handle_max_undo
-    trace variable preferences::prefs(View/AllowTabScrolling)    w gui::handle_allow_tab_scrolling
-    trace variable preferences::prefs(Tools/VimMode)             w gui::handle_vim_mode
-    trace variable preferences::prefs(Appearance/EditorFontSize) w gui::handle_editor_font_size
+    trace variable [ns preferences]::prefs(Editor/WarningWidth)       w [ns gui]::handle_warning_width_change
+    trace variable [ns preferences]::prefs(Editor/MaxUndo)            w [ns gui]::handle_max_undo
+    trace variable [ns preferences]::prefs(View/AllowTabScrolling)    w [ns gui]::handle_allow_tab_scrolling
+    trace variable [ns preferences]::prefs(Tools/VimMode)             w [ns gui]::handle_vim_mode
+    trace variable [ns preferences]::prefs(Appearance/EditorFontSize) w [ns gui]::handle_editor_font_size
 
     # Create general UI bindings
     bind all <Control-plus>  "[ns gui]::handle_font_change 1"
@@ -454,7 +441,7 @@ namespace eval gui {
     foreach pane [$widgets(nb_pw) panes] {
       foreach tab [$pane.tbf.tb tabs] {
         foreach txt_pane [$tab.pw panes] {
-          $txt_pane.txt configure -warnwidth [preferences::get Editor/WarningWidth]
+          $txt_pane.txt configure -warnwidth [[ns preferences]::get Editor/WarningWidth]
         }
       }
     }
@@ -471,7 +458,7 @@ namespace eval gui {
     foreach pane [$widgets(nb_pw) panes] {
       foreach tab [$pane.tbf.tb tabs] {
         foreach txt_pane [$tab.pw panes] {
-          $txt_pane.txt configure -maxundo [preferences::get Editor/MaxUndo]
+          $txt_pane.txt configure -maxundo [[ns preferences]::get Editor/MaxUndo]
         }
       }
     }
@@ -485,7 +472,7 @@ namespace eval gui {
     variable widgets
 
     foreach pane [$widgets(nb_pw) panes] {
-      $pane.tbf.tb configure -mintabwidth [expr {[preferences::get View/AllowTabScrolling] ? [lindex [$pane.tbf.tb configure -mintabwidth] 3] : 1}]
+      $pane.tbf.tb configure -mintabwidth [expr {[[ns preferences]::get View/AllowTabScrolling] ? [lindex [$pane.tbf.tb configure -mintabwidth] 3] : 1}]
     }
 
   }
@@ -494,7 +481,7 @@ namespace eval gui {
   # Handles any changes to the Tools/VimMode preference variable.
   proc handle_vim_mode {name1 name2 op} {
 
-    vim::set_vim_mode_all
+    [ns vim]::set_vim_mode_all
 
   }
 
@@ -508,9 +495,9 @@ namespace eval gui {
     if {[info exists widgets(nb_pw)]} {
 
       # Get the default background and foreground colors
-      set bg  [utils::get_default_background]
-      set fg  [utils::get_default_foreground]
-      set abg [utils::auto_adjust_color $bg 30]
+      set bg  [[ns utils]::get_default_background]
+      set fg  [[ns utils]::get_default_foreground]
+      set abg [[ns utils]::auto_adjust_color $bg 30]
 
       # Store the readonly/lock status of each tab
       array set tab_status [list]
@@ -537,7 +524,6 @@ namespace eval gui {
 
       # Update the find in file close button
       $widgets(fif_close) configure -image $images(close)
-      # $widgets(fif_in)    configure -background $fg
 
       # Update all of the tabbars
       foreach nb [$widgets(nb_pw) panes] {
@@ -558,7 +544,7 @@ namespace eval gui {
       }
 
       # We need to adjust the appearance of the diff map widgets (if they exist)
-      diff::handle_window_theme $theme
+      [ns diff]::handle_window_theme $theme
 
     }
 
@@ -569,7 +555,7 @@ namespace eval gui {
   proc handle_editor_font_size {name1 name2 op} {
 
     # Update the size of the editor_font
-    font configure editor_font -size [preferences::get Appearance/EditorFontSize]
+    font configure editor_font -size [[ns preferences]::get Appearance/EditorFontSize]
 
   }
 
@@ -621,7 +607,7 @@ namespace eval gui {
     set diff_mode [lindex $files $file_index $files_index(diff)]
 
     # Set the file_favorited variable
-    set file_favorited [favorites::is_favorite $fname]
+    set file_favorited [[ns favorites]::is_favorite $fname]
 
     # Get the current tabbar
     set tb [current_tabbar]
@@ -651,7 +637,7 @@ namespace eval gui {
     }
 
     # Handle plugin states
-    plugins::menu_state $widgets(menu) tab_popup
+    [ns plugins]::menu_state $widgets(menu) tab_popup
 
   }
 
@@ -826,8 +812,8 @@ namespace eval gui {
     set content(Geometry)                [wm geometry .]
     set content(Fullscreen)              [wm attributes . -fullscreen]
     set content(CurrentWorkingDirectory) [pwd]
-    set content(Sidebar)                 [sidebar::save_session]
-    set content(Launcher)                [launcher::save_session]
+    set content(Sidebar)                 [[ns sidebar]::save_session]
+    set content(Launcher)                [[ns launcher]::save_session]
 
     # Calculate the zoomed state
     switch [tk windowingsystem] {
@@ -854,9 +840,9 @@ namespace eval gui {
       set finfo(readonly)    [lindex $file $files_index(readonly)]
       set finfo(diff)        [lindex $file $files_index(diff)]
       set finfo(sidebar)     [lindex $file $files_index(sidebar)]
-      set finfo(language)    [syntax::get_current_language $txt]
+      set finfo(language)    [[ns syntax]::get_current_language $txt]
       set finfo(buffer)      [lindex $file $files_index(buffer)]
-      set finfo(indent)      [indent::get_indent_mode $txt]
+      set finfo(indent)      [[ns indent]::get_indent_mode $txt]
       set finfo(modified)    0
       set finfo(cursor)      [$txt index insert]
       set finfo(yview)       [$txt index @0,0]
@@ -920,10 +906,10 @@ namespace eval gui {
     set last_opened $content(LastOpened)
 
     # Load the session information into the sidebar
-    sidebar::load_session $content(Sidebar)
+    [ns sidebar]::load_session $content(Sidebar)
 
     # Load the session information into the launcher
-    launcher::load_session $content(Launcher)
+    [ns launcher]::load_session $content(Launcher)
 
     # Set the current working directory to the saved value
     if {[file exists $content(CurrentWorkingDirectory)]} {
@@ -960,8 +946,8 @@ namespace eval gui {
               -savecommand $finfo(savecommand) -lock $finfo(lock) -readonly $finfo(readonly) \
               -diff $finfo(diff) -sidebar $finfo(sidebar)
             set txt [current_txt $tid]
-            if {[syntax::get_current_language $txt] ne $finfo(language)} {
-              syntax::set_language $finfo(language)
+            if {[[ns syntax]::get_current_language $txt] ne $finfo(language)} {
+              [ns syntax]::set_language $finfo(language)
             }
             if {[info exists finfo(indent)]} {
               set_current_indent_mode $tid $finfo(indent)
@@ -1147,7 +1133,7 @@ namespace eval gui {
     return [expr {([llength $files] == 1) && \
                   ([lindex $files 0 $files_index(fname)] eq "Untitled") && \
                   [lindex $files 0 $files_index(buffer)] && \
-                  ([vim::get_cleaned_content [get_txt_from_tab [lindex [[lindex [$widgets(nb_pw) panes] 0].tbf.tb tabs] 0]]] eq "")}]
+                  ([[ns vim]::get_cleaned_content [get_txt_from_tab [lindex [[lindex [$widgets(nb_pw) panes] 0].tbf.tb tabs] 0]]] eq "")}]
 
   }
 
@@ -1245,8 +1231,8 @@ namespace eval gui {
       set txt [current_txt {}]
 
       # Perform an insertion adjust, if necessary
-      if {[vim::in_vim_mode $txt.t]} {
-        vim::adjust_insert $txt.t
+      if {[[ns vim]::in_vim_mode $txt.t]} {
+        [ns vim]::adjust_insert $txt.t
       }
 
       # Change the tab text
@@ -1275,7 +1261,7 @@ namespace eval gui {
   # -tags        <list>     List of plugin btags that will only get applied to this text widget.
   proc add_new_file {index args} {
 
-    add_buffer $index "Untitled" gui::save_new_file {*}$args
+    add_buffer $index "Untitled" [ns gui]::save_new_file {*}$args
 
   }
 
@@ -1405,8 +1391,8 @@ namespace eval gui {
         $txt mark set insert 1.0
 
         # Perform an insertion adjust, if necessary
-        if {[vim::in_vim_mode $txt.t]} {
-          vim::adjust_insert $txt.t
+        if {[[ns vim]::in_vim_mode $txt.t]} {
+          [ns vim]::adjust_insert $txt.t
         }
 
         file stat $fname stat
@@ -1414,11 +1400,11 @@ namespace eval gui {
         lappend files $file_info
 
         # Add the file to the list of recently opened files
-        gui::add_to_recently_opened $fname
+        [ns gui]::add_to_recently_opened $fname
 
         # If a diff command was specified, run and parse it now
         if {$opts(-diff)} {
-          diff::show $txt
+          [ns diff]::show $txt
         }
 
       } else {
@@ -1434,15 +1420,15 @@ namespace eval gui {
 
     # Add the file's directory to the sidebar and highlight it
     if {$opts(-sidebar)} {
-      sidebar::add_directory [file dirname [file normalize $fname]]
-      sidebar::highlight_filename $fname [expr ($opts(-diff) * 2) + 1]
+      [ns sidebar]::add_directory [file dirname [file normalize $fname]]
+      [ns sidebar]::highlight_filename $fname [expr ($opts(-diff) * 2) + 1]
     }
 
     # Set the tab image for the current file
     set_current_tab_image {}
 
     # Run any plugins that should run when a file is opened
-    plugins::handle_on_open [expr [llength $files] - 1]
+    [ns plugins]::handle_on_open [expr [llength $files] - 1]
 
   }
 
@@ -1456,7 +1442,7 @@ namespace eval gui {
 
     # If the host does not match our host, handle the NFS mount normalization
     if {$host ne [info hostname]} {
-      array set nfs_mounts [preferences::get NFSMounts]
+      array set nfs_mounts [[ns preferences]::get NFSMounts]
       if {[info exists nfs_mounts($host)]} {
         lassign $nfs_mounts($host) mount_dir shortcut
         set shortcut_len [string length $shortcut]
@@ -1521,7 +1507,7 @@ namespace eval gui {
     set diff [lindex $file_info $files_index(diff)]
 
     # If the editor is a difference view and is not updateable, stop now
-    if {$diff && ![diff::updateable $txt]} {
+    if {$diff && ![[ns diff]::updateable $txt]} {
       return
     }
 
@@ -1553,8 +1539,8 @@ namespace eval gui {
 
       # Set the insertion mark to the first position
       $txt mark set insert $insert_index
-      if {[vim::in_vim_mode $txt.t]} {
-        vim::adjust_insert $txt.t
+      if {[[ns vim]::in_vim_mode $txt.t]} {
+        [ns vim]::adjust_insert $txt.t
       }
 
       # Make the insertion mark visible
@@ -1562,11 +1548,11 @@ namespace eval gui {
 
       # If a diff command was specified, run and parse it now
       if {$diff} {
-        diff::show $txt
+        [ns diff]::show $txt
       }
 
       # Allow plugins to be run on update
-      plugins::handle_on_update $file_index
+      [ns plugins]::handle_on_update $file_index
 
     }
 
@@ -1597,8 +1583,51 @@ namespace eval gui {
   }
 
   ######################################################################
-  # Saves the current tab filename.
-  proc save_current {tid {save_as ""}} {
+  # Performs a forced pre-save operation for the given filename.
+  proc save_prehandle {fname save_as force pperms} {
+    
+    upvar $pperms perms
+    
+    set perms ""
+    
+    if {$save_as eq ""} {
+      if {![file writable $fname]} {
+        if {$force} {
+          set perms [file attributes $fname -permissions]
+          if {[catch { file attributes $fname -permissions 700 } rc]} {
+            set_info_message [msgcat::mc "No write permissions.  Use '!' to force write."]
+            return 0
+          }
+        } else {
+          set_info_message [msgcat::mc "No write permissions.  Use '!' to force write."]
+          return 0
+        }
+      }
+    } elseif {!$force && [file exists $fname]} {
+      set_info_message [msgcat::mc "File already exists.  Use '!' to force an overwrite"]
+      return 0
+    }
+    
+    return 1
+      
+  }
+  
+  ######################################################################
+  # Performs a forced post-save operation for the given filename.
+  proc save_posthandle {fname perms} {
+    
+    if {$perms ne ""} {
+      catch { file attributes $fname -permissions $perms }
+    }
+    
+    return 1
+    
+  }
+  
+  ######################################################################
+  # Saves the current tab contents.  Returns 1 if the save was successful;
+  # otherwise, returns a value of 0.
+  proc save_current {tid {force 0} {save_as ""}} {
 
     variable files
     variable files_index
@@ -1618,7 +1647,7 @@ namespace eval gui {
       # Execute the save command.  If it errors or returns a value of 0, return immediately
       if {[catch { {*}$save_cmd $file_index } rc]} {
 
-        return
+        return 0
 
       } elseif {$rc == 0} {
 
@@ -1630,7 +1659,7 @@ namespace eval gui {
         [current_txt $tid] edit modified false
         lset files $file_index $files_index(modified) 0
 
-        return
+        return 1
 
       }
 
@@ -1641,35 +1670,49 @@ namespace eval gui {
 
     # If a save_as name is specified, change the filename
     if {$save_as ne ""} {
-      sidebar::highlight_filename [lindex $files $file_index $files_index(fname)] [expr $diff * 2]
+      [ns sidebar]::highlight_filename [lindex $files $file_index $files_index(fname)] [expr $diff * 2]
       lset files $file_index $files_index(fname) $save_as
 
     # If the current file doesn't have a filename, allow the user to set it
     } elseif {[lindex $files $file_index $files_index(buffer)] || $diff} {
       set save_opts [list]
-      if {[llength [set extensions [syntax::get_extensions $tid]]] > 0} {
+      if {[llength [set extensions [[ns syntax]::get_extensions $tid]]] > 0} {
         lappend save_opts -defaultextension [lindex $extensions 0]
       }
       if {[set sfile [tk_getSaveFile {*}$save_opts -parent . -title [msgcat::mc "Save As"] -initialdir [pwd]]] eq ""} {
-        return
+        return 0
       } else {
         lset files $file_index $files_index(fname) $sfile
       }
     }
+    
+    # Make is easier to refer to the filename
+    set fname [lindex $files $file_index $files_index(fname)]
+
+    # If we need to do a force write, do it now
+    set perms ""
+    if {![save_prehandle $fname $save_as $force perms]} {
+      return 0
+    }
 
     # Run the on_save plugins
-    plugins::handle_on_save $file_index
+    [ns plugins]::handle_on_save $file_index
 
     # Save the file contents
     if {[catch { open [lindex $files $file_index $files_index(fname)] w } rc]} {
       tk_messageBox -parent . -title [msgcat::mc "Error"] -type ok -default ok -message [msgcat::mc "Unable to write file"] -detail $rc
-      return
+      return 0
     }
-
+    
     # Write the file contents
     catch { fconfigure $rc -translation [[ns preferences]::get {Editor/EndOfLineTranslation}] }
     puts $rc [scrub_text [current_txt $tid]]
     close $rc
+
+    # If we need to do a force write, do it now
+    if {![save_posthandle $fname $perms]} {
+      return 0
+    }
 
     # If the file doesn't have a timestamp, it's a new file so add and highlight it in the sidebar
     if {([lindex $files $file_index $files_index(mtime)] eq "") || ($save_as ne "")} {
@@ -1684,15 +1727,15 @@ namespace eval gui {
       if {[lindex $files $file_index $files_index(sidebar)]} {
 
         # Add the file's directory to the sidebar
-        sidebar::add_directory [file dirname $fname]
+        [ns sidebar]::add_directory [file dirname $fname]
 
         # Highlight the file in the sidebar
-        sidebar::highlight_filename [lindex $files $file_index $files_index(fname)] [expr ($diff * 2) + 1]
+        [ns sidebar]::highlight_filename [lindex $files $file_index $files_index(fname)] [expr ($diff * 2) + 1]
 
       }
 
       # Syntax highlight the file
-      syntax::set_language [syntax::get_default_language [lindex $files $file_index $files_index(fname)]]
+      [ns syntax]::set_language [syntax::get_default_language [lindex $files $file_index $files_index(fname)]]
 
     }
 
@@ -1712,6 +1755,8 @@ namespace eval gui {
     if {[set save_cmd [lindex $files $file_index $files_index(save_cmd)]] ne ""} {
       eval {*}$save_cmd $file_index
     }
+
+    return 1
 
   }
 
@@ -1764,7 +1809,7 @@ namespace eval gui {
         } else {
 
           # Run the on_save plugins
-          plugins::handle_on_save $i
+          [ns plugins]::handle_on_save $i
 
           # Save the file contents
           if {[catch { open [lindex $files $i $files_index(fname)] w } rc]} {
@@ -1853,10 +1898,10 @@ namespace eval gui {
 
     # Unhighlight the file in the file browser
     set diff [lindex $files $index $files_index(diff)]
-    sidebar::highlight_filename [lindex $files $index $files_index(fname)] [expr $diff * 2]
+    [ns sidebar]::highlight_filename [lindex $files $index $files_index(fname)] [expr $diff * 2]
 
     # Run the close event for this file
-    plugins::handle_on_close $index
+    [ns plugins]::handle_on_close $index
 
     # Delete the file from files
     set files [lreplace $files $index $index]
@@ -1879,8 +1924,8 @@ namespace eval gui {
     # Add a new file if we have no more tabs, we are the only pane, and the preference
     # setting is to not close after the last tab is closed.
     if {([llength [$w tabs]] == 0) && ([llength [$widgets(nb_pw) panes]] == 1)} {
-      if {[preferences::get General/ExitOnLastClose]} {
-        menus::exit_command
+      if {[[ns preferences]::get General/ExitOnLastClose]} {
+        [ns menus]::exit_command
       } else {
         add_new_file end
       }
@@ -1905,10 +1950,10 @@ namespace eval gui {
 
     # Unhighlight the file in the file browser (if the file was not a difference view)
     set diff [lindex $files $index $files_index(diff)]
-    sidebar::highlight_filename [lindex $files $index $files_index(fname)] [expr $diff * 2]
+    [ns sidebar]::highlight_filename [lindex $files $index $files_index(fname)] [expr $diff * 2]
 
     # Run the close event for this file
-    plugins::handle_on_close $index
+    [ns plugins]::handle_on_close $index
 
     # Delete the file from files
     set files [lreplace $files $index $index]
@@ -1937,8 +1982,8 @@ namespace eval gui {
     # Add a new file if we have no more tabs, we are the only pane, and the preference
     # setting is to not close after the last tab is closed.
     if {([llength [$tb tabs]] == 0) && ([llength [$widgets(nb_pw) panes]] == 1) && !$exiting} {
-      if {[preferences::get General/ExitOnLastClose] || $::cl_exit_on_close} {
-        menus::exit_command
+      if {[[ns preferences]::get General/ExitOnLastClose] || $::cl_exit_on_close} {
+        [ns menus]::exit_command
       } elseif {$keep_tab} {
         add_new_file end
       }
@@ -2063,7 +2108,7 @@ namespace eval gui {
     set select   [$txt tag ranges sel]
     set modified [lindex $file $files_index(modified)]
     set diff     [lindex $file $files_index(diff)]
-    set language [syntax::get_current_language $txt]
+    set language [[ns syntax]::get_current_language $txt]
 
     # Collect the gutter symbols
     array set symbols {}
@@ -2091,7 +2136,7 @@ namespace eval gui {
 
     if {$diff} {
 
-      diff::show $txt 1
+      [ns diff]::show $txt 1
 
     } else {
 
@@ -2107,8 +2152,8 @@ namespace eval gui {
     }
 
     # Perform an insertion adjust, if necessary
-    if {[vim::in_vim_mode $txt.t]} {
-      vim::adjust_insert $txt.t
+    if {[[ns vim]::in_vim_mode $txt.t]} {
+      [ns vim]::adjust_insert $txt.t
     }
 
     # Add the selection (if it exists)
@@ -2124,8 +2169,8 @@ namespace eval gui {
     }
 
     # Highlight the file in the sidebar
-    sidebar::add_directory [file dirname [file normalize $fname]]
-    sidebar::highlight_filename $fname [expr ($diff * 2) + 1]
+    [ns sidebar]::add_directory [file dirname [file normalize $fname]]
+    [ns sidebar]::highlight_filename $fname [expr ($diff * 2) + 1]
 
     # Update the file components to include position change information
     lset file $files_index(tab)      $w
@@ -2164,7 +2209,7 @@ namespace eval gui {
     set txt [current_txt $tid]
 
     # Perform the undo operation from Vim perspective
-    vim::undo $txt.t
+    [ns vim]::undo $txt.t
 
   }
 
@@ -2187,7 +2232,7 @@ namespace eval gui {
     set txt [current_txt $tid]
 
     # Perform the redo operation from Vim perspective
-    vim::redo $txt.t
+    [ns vim]::redo $txt.t
 
   }
 
@@ -2210,7 +2255,7 @@ namespace eval gui {
     [current_txt $tid] cut
 
     # Add the clipboard contents to history
-    cliphist::add_from_clipboard
+    [ns cliphist]::add_from_clipboard
 
   }
 
@@ -2222,7 +2267,7 @@ namespace eval gui {
     [current_txt $tid] copy
 
     # Add the clipboard contents to history
-    cliphist::add_from_clipboard
+    [ns cliphist]::add_from_clipboard
 
   }
 
@@ -2255,7 +2300,7 @@ namespace eval gui {
       $txt paste
 
       # Handle the Vim paste
-      vim::handle_paste $txt
+      [ns vim]::handle_paste $txt
 
       return 1
 
@@ -2282,7 +2327,7 @@ namespace eval gui {
       if {[paste $tid]} {
 
         # Have the indent namespace format the clipboard contents
-        indent::format_text [current_txt $tid].t $insertpos "$insertpos+${cliplen}c"
+        [ns indent]::format_text [current_txt $tid].t $insertpos "$insertpos+${cliplen}c"
 
       }
 
@@ -2330,10 +2375,10 @@ namespace eval gui {
 
     if {$type eq "selected"} {
       foreach {endpos startpos} [lreverse [$txt tag ranges sel]] {
-        indent::format_text $txt.t $startpos $endpos
+        [ns indent]::format_text $txt.t $startpos $endpos
       }
     } else {
-      indent::format_text $txt.t 1.0 end
+      [ns indent]::format_text $txt.t 1.0 end
     }
 
     # If the file is locked or readonly, clear the modified state and reset the text state
@@ -2591,6 +2636,17 @@ namespace eval gui {
   }
 
   ######################################################################
+  # Sets the file lock of the current editor with the value of the file_locked
+  # local variable.
+  proc set_current_file_lock_with_current {tid} {
+    
+    variable file_locked
+    
+    set_current_file_lock $tid $file_locked
+    
+  }
+  
+  ######################################################################
   # Set or clear the favorite status of the current file.
   proc set_current_file_favorite {tid favorite} {
 
@@ -2603,11 +2659,22 @@ namespace eval gui {
 
     # Add or remove the file from the favorites list
     if {$favorite} {
-      favorites::add $fname
+      [ns favorites]::add $fname
     } else {
-      favorites::remove $fname
+      [ns favorites]::remove $fname
     }
 
+  }
+  
+  ######################################################################
+  # Sets the file favorite of the current editor with the value of the
+  # file_favorited local variable.
+  proc set_current_file_favorite_with_current {tid} {
+    
+    variable file_favorited
+    
+    set_current_file_favorite $tid $file_favorited
+    
   }
 
   ######################################################################
@@ -2615,7 +2682,7 @@ namespace eval gui {
   proc set_current_indent_mode {tid value} {
 
     # Set the auto-indent mode
-    indent::set_indent_mode $value
+    [ns indent]::set_indent_mode $value
 
   }
 
@@ -2627,7 +2694,7 @@ namespace eval gui {
     variable files_index
 
     # Display the file in the sidebar
-    sidebar::show_file [lindex $files [current_file] $files_index(fname)]
+    [ns sidebar]::show_file [lindex $files [current_file] $files_index(fname)]
 
   }
 
@@ -2642,11 +2709,11 @@ namespace eval gui {
       if {$info_clear ne ""} {
         after cancel $info_clear
       }
-      lassign [winfo rgb . [set foreground [utils::get_default_foreground]]] fr fg fb
-      lassign [winfo rgb . [utils::get_default_background]] br bg bb
+      lassign [winfo rgb . [set foreground [[ns utils]::get_default_foreground]]] fr fg fb
+      lassign [winfo rgb . [[ns utils]::get_default_background]] br bg bb
       $widgets(info_msg) configure -text $msg -foreground $foreground
       set info_clear [after $clear_delay \
-                       [list gui::clear_info_message \
+                       [list [ns gui]::clear_info_message \
                          [expr $fr >> 8] [expr $fg >> 8] [expr $fb >> 8] \
                          [expr $br >> 8] [expr $bg >> 8] [expr $bb >> 8]]]
     } else {
@@ -2681,7 +2748,7 @@ namespace eval gui {
       # Set the foreground color to simulate the fade effect
       $widgets(info_msg) configure -foreground $color
 
-      set info_clear [after 100 [list gui::clear_info_message $fr $fg $fb $br $bg $bb [incr fade_count]]]
+      set info_clear [after 100 [list [ns gui]::clear_info_message $fr $fg $fb $br $bg $bb [incr fade_count]]]
 
     }
 
@@ -2698,9 +2765,6 @@ namespace eval gui {
     # Initialize the widget
     $widgets(ursp_label) configure -text $msg
     $widgets(ursp_entry) delete 0 end
-
-    # Make the sidebar draggable
-    # sidebar::set_draggable 1
 
     # If var contains a value, display it and select it
     if {$var ne ""} {
@@ -2726,7 +2790,7 @@ namespace eval gui {
     grab $widgets(ursp_entry)
 
     # Wait for the widget to be closed
-    vwait gui::user_exit_status
+    vwait [ns gui]::user_exit_status
 
     # Reset the original focus and grab
     catch { focus $old_focus }
@@ -2742,18 +2806,15 @@ namespace eval gui {
     # Hide the user input widget
     grid remove $widgets(ursp)
 
-    # Return the sidebar back to normal mode
-    # sidebar::set_draggable 0
-
     # Get the user response value
     set var [$widgets(ursp_entry) get]
 
     # If variable substitutions are allowed, perform any substitutions
     if {$allow_vars} {
-      set var [utils::perform_substitutions $var]
+      set var [[ns utils]::perform_substitutions $var]
     }
 
-    return $gui::user_exit_status
+    return $[ns gui]::user_exit_status
 
   }
 
@@ -2817,8 +2878,8 @@ namespace eval gui {
     $widgets(fif_in)   delete 0 end
 
     # Populate the fif_in tokenentry menu
-    set fif_files [sidebar::get_fif_files]
-    $widgets(fif_in) configure -listvar gui::fif_files -matchmode regexp -matchindex 0 -matchdisplayindex 0
+    set fif_files [[ns sidebar]::get_fif_files]
+    $widgets(fif_in) configure -listvar [ns gui]::fif_files -matchmode regexp -matchindex 0 -matchdisplayindex 0
 
     # Display the FIF widget
     grid $widgets(fif)
@@ -2837,7 +2898,7 @@ namespace eval gui {
     tkwait visibility $widgets(fif)
     grab $widgets(fif)
 
-    vwait gui::user_exit_status
+    vwait [ns gui]::user_exit_status
 
     # Reset the original focus and grab
     catch { focus $old_focus }
@@ -2859,14 +2920,14 @@ namespace eval gui {
       if {[set index [lsearch -index 0 $fif_files $token]] != -1} {
         lappend ins {*}[lindex $fif_files $index 1]
       } else {
-        lappend ins [utils::perform_substitutions $token]
+        lappend ins [[ns utils]::perform_substitutions $token]
       }
     }
 
     # Gather the input to return
     set rsp_list [list find [$widgets(fif_find) get] in $ins case_sensitive $case_sensitive save $saved]
 
-    return $gui::user_exit_status
+    return $[ns gui]::user_exit_status
 
   }
 
@@ -2904,7 +2965,7 @@ namespace eval gui {
     ttk::label .aboutwin.f.if.v0 -text "Trevor Williams"
     ttk::label .aboutwin.f.if.l1 -text [msgcat::mc "Email:"]
     ttk::label .aboutwin.f.if.v1 -text "phase1geo@gmail.com"
-    ttk::label .aboutwin.f.if.l2 -text [msgcat::mc "Twitter:"]
+    ttk::label .aboutwin.f.if.l2 -text "Twitter:"
     ttk::label .aboutwin.f.if.v2 -text "@TkeTextEditor"
     ttk::label .aboutwin.f.if.l3 -text [msgcat::mc "Version:"]
     ttk::label .aboutwin.f.if.v3 -text $version_str
@@ -2917,10 +2978,10 @@ namespace eval gui {
 
     bind .aboutwin.f.if.v1 <Enter>    "%W configure -cursor [ttk::cursor link]"
     bind .aboutwin.f.if.v1 <Leave>    "%W configure -cursor [ttk::cursor standard]"
-    bind .aboutwin.f.if.v1 <Button-1> "utils::open_file_externally {mailto:phase1geo@gmail.com} 1"
+    bind .aboutwin.f.if.v1 <Button-1> "[ns utils]::open_file_externally {mailto:phase1geo@gmail.com} 1"
     bind .aboutwin.f.if.v2 <Enter>    "%W configure -cursor [ttk::cursor link]"
     bind .aboutwin.f.if.v2 <Leave>    "%W configure -cursor [ttk::cursor standard]"
-    bind .aboutwin.f.if.v2 <Button-1> "utils::open_file_externally {https://twitter.com/TkeTextEditor} 1"
+    bind .aboutwin.f.if.v2 <Button-1> "[ns utils]::open_file_externally {https://twitter.com/TkeTextEditor} 1"
     bind .aboutwin.f.if.v6 <Enter>    "%W configure -cursor [ttk::cursor link]"
     bind .aboutwin.f.if.v6 <Leave>    "%W configure -cursor [ttk::cursor standard]"
     bind .aboutwin.f.if.v6 <Button-1> {
@@ -2961,7 +3022,7 @@ namespace eval gui {
   # multicursor mode.
   proc insert_numbers {txt} {
 
-    if {[multicursor::enabled $txt]} {
+    if {[[ns multicursor]::enabled $txt]} {
 
       set var1 ""
 
@@ -2969,7 +3030,7 @@ namespace eval gui {
       if {[get_user_response [msgcat::mc "Starting number:"] var1]} {
 
         # Insert the numbers (if not successful, output an error to the user)
-        if {![multicursor::insert_numbers $txt $var1]} {
+        if {![[ns multicursor]::insert_numbers $txt $var1]} {
           set_info_message [msgcat::mc "Unable to successfully parse number string"]
         }
 
@@ -3053,13 +3114,13 @@ namespace eval gui {
     $widgets(nb_pw) add [set nb [ttk::frame $widgets(nb_pw).nb[incr curr_notebook]]] -weight 1
 
     # Figure out colors to apply to notebook
-    set bg  [utils::get_default_background]
-    set fg  [utils::get_default_foreground]
-    set abg [utils::auto_adjust_color $bg 30]
+    set bg  [[ns utils]::get_default_background]
+    set fg  [[ns utils]::get_default_foreground]
+    set abg [[ns utils]::auto_adjust_color $bg 30]
 
     # Add the tabbar frame
     ttk::frame $nb.tbf
-    tabbar::tabbar $nb.tbf.tb -command "gui::set_current_tab_from_tb" -closecommand "gui::close_tab_by_tabbar" \
+    tabbar::tabbar $nb.tbf.tb -command "[ns gui]::set_current_tab_from_tb" -closecommand "[ns gui]::close_tab_by_tabbar" \
       -background $bg -foreground $fg -activebackground $abg -inactivebackground $bg
 
     grid rowconfigure    $nb.tbf 0 -weight 1
@@ -3067,8 +3128,8 @@ namespace eval gui {
     grid $nb.tbf.tb    -row 0 -column 0 -sticky news
     grid remove $nb.tbf.tb
 
-    bind [$nb.tbf.tb scrollpath left]  <Button-$::right_click> "gui::show_tabs $nb.tbf.tb left"
-    bind [$nb.tbf.tb scrollpath right] <Button-$::right_click> "gui::show_tabs $nb.tbf.tb right"
+    bind [$nb.tbf.tb scrollpath left]  <Button-$::right_click> "[ns gui]::show_tabs $nb.tbf.tb left"
+    bind [$nb.tbf.tb scrollpath right] <Button-$::right_click> "[ns gui]::show_tabs $nb.tbf.tb right"
 
     # Create popup menu for extra tabs
     menu $nb.tbf.tb.mnu -tearoff 0
@@ -3092,7 +3153,7 @@ namespace eval gui {
     }
 
     # Handle tooltips
-    bind [$nb.tbf.tb btag] <Motion> { gui::handle_notebook_motion [winfo parent %W] %x %y }
+    bind [$nb.tbf.tb btag] <Motion> [list [ns gui]::handle_notebook_motion %W %x %y]
 
   }
 
@@ -3103,6 +3164,9 @@ namespace eval gui {
     variable tab_tip
     variable tab_close
     variable images
+
+    # Adjust W
+    set W [winfo parent $W]
 
     # If the tab is one of the left or right shift tabs, exit now
     if {[set tab_index [$W index @$x,$y]] == -1} {
@@ -3158,7 +3222,7 @@ namespace eval gui {
   # inserted into the current notebook in alphabetical order.
   proc adjust_insert_tab_index {index title} {
 
-    if {[preferences::get View/OpenTabsAlphabetically] && ($index eq "end")} {
+    if {[[ns preferences]::get View/OpenTabsAlphabetically] && ($index eq "end")} {
 
       set sorted_index 0
 
@@ -3212,18 +3276,18 @@ namespace eval gui {
     # Create the editor frame
     $tab_frame.pw add [ttk::frame $tab_frame.pw.tf]
     ctext $txt -wrap none -undo 1 -autoseparators 1 -insertofftime 0 \
-      -highlightcolor orange -warnwidth [preferences::get Editor/WarningWidth] \
-      -maxundo [preferences::get Editor/MaxUndo] \
+      -highlightcolor orange -warnwidth [[ns preferences]::get Editor/WarningWidth] \
+      -maxundo [[ns preferences]::get Editor/MaxUndo] \
       -diff_mode $diff \
-      -linemap [preferences::get View/ShowLineNumbers] \
-      -linemap_mark_command gui::mark_command -linemap_select_bg orange \
+      -linemap [[ns preferences]::get View/ShowLineNumbers] \
+      -linemap_mark_command [ns gui]::mark_command -linemap_select_bg orange \
       -linemap_relief flat -linemap_minwidth 4 \
-      -xscrollcommand "utils::set_xscrollbar $tab_frame.pw.tf.hb" \
-      -yscrollcommand "utils::set_yscrollbar $tab_frame.pw.tf.vb"
-    ttk::button    $tab_frame.pw.tf.split -style BButton -image $images(split) -command "gui::toggle_split_pane {}"
+      -xscrollcommand "[ns utils]::set_xscrollbar $tab_frame.pw.tf.hb" \
+      -yscrollcommand "[ns utils]::set_yscrollbar $tab_frame.pw.tf.vb"
+    ttk::button    $tab_frame.pw.tf.split -style BButton -image $images(split) -command "[ns gui]::toggle_split_pane {}"
     ttk::scrollbar $tab_frame.pw.tf.hb    -orient horizontal -command "$txt xview"
     if {$diff} {
-      diff::map $tab_frame.pw.tf.vb $txt -command "$txt yview"
+      [ns diff]::map $tab_frame.pw.tf.vb $txt -command "$txt yview"
       $txt configure -yscrollcommand "$tab_frame.pw.tf.vb set"
     } else {
       ttk::scrollbar $tab_frame.pw.tf.vb -orient vertical   -command "$txt yview"
@@ -3231,22 +3295,22 @@ namespace eval gui {
 
     # Create the editor font if it does not currently exist
     if {[lsearch [font names] editor_font] == -1} {
-      font create editor_font -family [font configure [$txt cget -font] -family] -size [preferences::get Appearance/EditorFontSize]
+      font create editor_font -family [font configure [$txt cget -font] -family] -size [[ns preferences]::get Appearance/EditorFontSize]
     }
 
     $txt configure -font editor_font
 
-    bind Ctext  <<Modified>>                 "gui::text_changed %W %d"
-    bind $txt.t <FocusIn>                    "+gui::set_current_tab_from_txt %W"
+    bind Ctext  <<Modified>>                 "[ns gui]::text_changed %W %d"
+    bind $txt.t <FocusIn>                    "+[ns gui]::set_current_tab_from_txt %W"
     bind $txt.l <ButtonPress-$::right_click> [bind $txt.l <ButtonPress-1>]
-    bind $txt.l <ButtonPress-1>              "gui::select_line %W %y"
-    bind $txt.l <B1-Motion>                  "gui::select_lines %W %y"
-    bind $txt.l <Shift-ButtonPress-1>        "gui::select_lines %W %y"
-    bind $txt   <<Selection>>                "gui::selection_changed $txt"
-    bind $txt   <ButtonPress-1>              "after idle [list gui::update_position $txt]"
-    bind $txt   <B1-Motion>                  "gui::update_position $txt"
-    bind $txt   <KeyRelease>                 "gui::update_position $txt"
-    bind $txt   <Motion>                     "gui::clear_tab_tooltip $tb"
+    bind $txt.l <ButtonPress-1>              "[ns gui]::select_line %W %y"
+    bind $txt.l <B1-Motion>                  "[ns gui]::select_lines %W %y"
+    bind $txt.l <Shift-ButtonPress-1>        "[ns gui]::select_lines %W %y"
+    bind $txt   <<Selection>>                "[ns gui]::selection_changed $txt"
+    bind $txt   <ButtonPress-1>              "after idle [list [ns gui]::update_position $txt]"
+    bind $txt   <B1-Motion>                  "[ns gui]::update_position $txt"
+    bind $txt   <KeyRelease>                 "[ns gui]::update_position $txt"
+    bind $txt   <Motion>                     "[ns gui]::clear_tab_tooltip $tb"
     bind Text   <<Cut>>                      ""
     bind Text   <<Copy>>                     ""
     bind Text   <<Paste>>                    ""
@@ -3306,8 +3370,9 @@ namespace eval gui {
     ttk::label       $tab_frame.rf.rl    -text [msgcat::mc "Replace:"]
     ttk::entry       $tab_frame.rf.re
     ttk::checkbutton $tab_frame.rf.case  -text "Aa"   -variable [ns gui]::case_sensitive
-    ttk::checkbutton $tab_frame.rf.glob  -text "All"  -variable [ns gui]::replace_all
-    ttk::checkbutton $tab_frame.rf.save  -text "Save" -variable [ns gui]::saved -command "[ns search]::update_save replace"
+    ttk::checkbutton $tab_frame.rf.glob  -text [msgcat::mc "All"]  -variable [ns gui]::replace_all
+    ttk::checkbutton $tab_frame.rf.save  -text [msgcat::mc "Save"] -variable [ns gui]::saved \
+      -command "[ns search]::update_save replace"
     ttk::label       $tab_frame.rf.close -image $images(close)
 
     pack $tab_frame.rf.fl    -side left -padx 2 -pady 2
@@ -3436,12 +3501,12 @@ namespace eval gui {
     # Create the editor frame
     $pw insert 0 [ttk::frame $pw.tf2]
     ctext $txt2 -wrap none -undo 1 -autoseparators 1 -insertofftime 0 -font editor_font \
-      -highlightcolor orange -warnwidth [preferences::get Editor/WarningWidth] \
-      -maxundo [preferences::get Editor/MaxUndo] \
-      -linemap [preferences::get View/ShowLineNumbers] \
+      -highlightcolor orange -warnwidth [[ns preferences]::get Editor/WarningWidth] \
+      -maxundo [[ns preferences]::get Editor/MaxUndo] \
+      -linemap [[ns preferences]::get View/ShowLineNumbers] \
       -linemap_mark_command [ns gui]::mark_command -linemap_select_bg orange -peer $txt \
-      -xscrollcommand "utils::set_xscrollbar $pw.tf2.hb" \
-      -yscrollcommand "utils::set_yscrollbar $pw.tf2.vb"
+      -xscrollcommand "[ns utils]::set_xscrollbar $pw.tf2.hb" \
+      -yscrollcommand "[ns utils]::set_yscrollbar $pw.tf2.vb"
     ttk::label     $pw.tf2.split -image $images(close) -anchor center
     ttk::scrollbar $pw.tf2.vb    -orient vertical   -command "$txt2 yview"
     ttk::scrollbar $pw.tf2.hb    -orient horizontal -command "$txt2 xview"
@@ -3530,11 +3595,11 @@ namespace eval gui {
 
       tkdnd::drop_target register $txt [list DND_Files DND_Text]
 
-      bind $txt <<DropEnter>>      "gui::handle_drop_enter_or_pos %W %X %Y %a %b"
-      bind $txt <<DropPosition>>   "gui::handle_drop_enter_or_pos %W %X %Y %a %b"
-      bind $txt <<DropLeave>>      "gui::handle_drop_leave %W"
-      bind $txt <<Drop:DND_Files>> "gui::handle_drop %W %A %m 0 %D"
-      bind $txt <<Drop:DND_Text>>  "gui::handle_drop %W %A %m 1 %D"
+      bind $txt <<DropEnter>>      "[ns gui]::handle_drop_enter_or_pos %W %X %Y %a %b"
+      bind $txt <<DropPosition>>   "[ns gui]::handle_drop_enter_or_pos %W %X %Y %a %b"
+      bind $txt <<DropLeave>>      "[ns gui]::handle_drop_leave %W"
+      bind $txt <<Drop:DND_Files>> "[ns gui]::handle_drop %W %A %m 0 %D"
+      bind $txt <<Drop:DND_Text>>  "[ns gui]::handle_drop %W %A %m 1 %D"
 
     }
 
@@ -3566,7 +3631,7 @@ namespace eval gui {
     set x [expr $rootx - [winfo rootx $txt.t]]
     set y [expr $rooty - [winfo rooty $txt.t]]
     $txt mark set insert @$x,$y
-    vim::adjust_insert $txt.t
+    [ns vim]::adjust_insert $txt.t
 
     return "link"
 
@@ -3626,9 +3691,6 @@ namespace eval gui {
 
       # Get the file index for the given text widget
       set file_index [lsearch -index $files_index(tab) $files $tab]
-
-      # Adjust the insertion
-      # [ns vim]::adjust_insert $txt.t
 
       if {![catch { lindex $files $file_index $files_index(readonly) } rc] && ($rc == 0) && ([lindex $data 4] ne "ignore")} {
 
@@ -3769,7 +3831,7 @@ namespace eval gui {
       pack [$tb select] -in $tf -fill both -expand yes
 
       # Update the preferences
-      preferences::update_prefs [[ns sessions]::current]
+      [ns preferences]::update_prefs [[ns sessions]::current]
 
     }
 
@@ -3780,10 +3842,10 @@ namespace eval gui {
     update_position $txt
 
     # Set the syntax menubutton to the current language
-    syntax::update_menubutton $widgets(info_syntax)
+    [ns syntax]::update_menubutton $widgets(info_syntax)
 
     # Update the indentation indicator
-    indent::update_menubutton $widgets(info_indent)
+    [ns indent]::update_menubutton $widgets(info_indent)
 
     # Set the application title bar
     set_title
@@ -3833,7 +3895,7 @@ namespace eval gui {
       set_current_tab $tab 1
 
       # Handle any on_focusin events
-      plugins::handle_on_focusin $tab
+      [ns plugins]::handle_on_focusin $tab
 
     }
 
@@ -3946,7 +4008,7 @@ namespace eval gui {
     lassign [split [$txt index insert] .] line column
 
     # Update the information widgets
-    if {[set vim_mode [vim::get_mode $txt]] ne ""} {
+    if {[set vim_mode [[ns vim]::get_mode $txt]] ne ""} {
       $widgets(info_state) configure -text [msgcat::mc "%s, Line: %d, Column: %d" $vim_mode $line [expr $column + 1]]
     } else {
       $widgets(info_state) configure -text [msgcat::mc "Line: %d, Column: %d" $line [expr $column + 1]]
@@ -4013,7 +4075,7 @@ namespace eval gui {
 
     # Add the marker at the current line
     if {[set tag [ctext::linemapSetMark $txt $line]] ne ""} {
-      if {![markers::add $txt $tag]} {
+      if {![[ns markers]::add $txt $tag]} {
         ctext::linemapClearMark $txt $line
       }
     }
@@ -4031,7 +4093,7 @@ namespace eval gui {
     set line [lindex [split [$txt index insert] .] 0]
 
     # Remove all markers at the current line
-    markers::delete_by_line $txt $line
+    [ns markers]::delete_by_line $txt $line
     ctext::linemapClearMark $txt $line
 
   }
@@ -4043,9 +4105,9 @@ namespace eval gui {
     # Get the current text widget
     set txt [current_txt $tid]
 
-    foreach name [markers::get_all_names $txt] {
-      set line [lindex [split [markers::get_index $txt $name] .] 0]
-      markers::delete_by_name $txt $name
+    foreach name [[ns markers]::get_all_names $txt] {
+      set line [lindex [split [[ns markers]::get_index $txt $name] .] 0]
+      [ns markers]::delete_by_name $txt $name
       ctext::linemapClearMark $txt $line
     }
 
@@ -4060,8 +4122,8 @@ namespace eval gui {
 
     # Create a list of marker names and index
     set markers [list]
-    foreach name [markers::get_all_names $txt] {
-      lappend markers $name [markers::get_index $txt $name]
+    foreach name [[ns markers]::get_all_names $txt] {
+      lappend markers $name [[ns markers]::get_index $txt $name]
     }
 
     return $markers
@@ -4225,7 +4287,7 @@ namespace eval gui {
     set pos        [$txt index insert]
     set last_found ""
 
-    lassign [syntax::get_indentation_expressions $txt] indent unindent
+    lassign [[ns syntax]::get_indentation_expressions $txt] indent unindent
 
     if {($indent eq "") || [ctext::isEscaped $txt $pos]} {
       return -1
@@ -4263,11 +4325,11 @@ namespace eval gui {
   proc mark_command {win type tag} {
 
     if {$type eq "marked"} {
-      if {![markers::add $win $tag]} {
+      if {![[ns markers]::add $win $tag]} {
         ctext::linemapClearMark $win [lindex [split [$win index $tag.first] .] 0]
       }
     } else {
-      markers::delete_by_tag $win $tag
+      [ns markers]::delete_by_tag $win $tag
     }
 
   }
@@ -4296,7 +4358,8 @@ namespace eval gui {
         set shown [lassign $shown tmp]
       }
       if {[$tb tab $tab -state] ne "hidden"} {
-        $mnu add command -compound left -image $images(mnu,[$tb tab $tab -image]) -label [$tb tab $tab -text] -command "gui::set_current_tab $tab"
+        $mnu add command -compound left -image $images(mnu,[$tb tab $tab -image]) -label [$tb tab $tab -text] \
+          -command "[ns gui]::set_current_tab $tab"
       }
       incr i
     }
@@ -4358,9 +4421,9 @@ namespace eval gui {
     variable trailing_ws_re
 
     # Clean up the text from Vim
-    set str [vim::get_cleaned_content $txt]
+    set str [[ns vim]::get_cleaned_content $txt]
 
-    if {[preferences::get Editor/RemoveTrailingWhitespace]} {
+    if {[[ns preferences]::get Editor/RemoveTrailingWhitespace]} {
       regsub -all -lineanchor -- $trailing_ws_re $str {} str
     }
 
@@ -4386,7 +4449,7 @@ namespace eval gui {
 
     set index  $cursor_hist($txt,index)
     set length [llength $cursor_hist($txt,hist)]
-    set diff   [preferences::get Find/JumpDistance]
+    set diff   [[ns preferences]::get Find/JumpDistance]
 
     if {$index == $length} {
       set last_line [lindex [split [$txt index insert] .] 0]
@@ -4403,8 +4466,8 @@ namespace eval gui {
           set cursor_hist($txt,index) $index
           $txt mark set insert "$cursor linestart"
           $txt see insert
-          if {[vim::in_vim_mode $txt.t]} {
-            vim::adjust_insert $txt.t
+          if {[[ns vim]::in_vim_mode $txt.t]} {
+            [ns vim]::adjust_insert $txt.t
           }
         }
         return 1
@@ -4470,7 +4533,7 @@ namespace eval gui {
 
     if {[$txt cget -diff_mode] && ![catch { $txt index sel.first } rc]} {
       if {$show} {
-        diff::find_current_version $txt [current_filename] [lindex [split $rc .] 0]
+        [ns diff]::find_current_version $txt [current_filename] [lindex [split $rc .] 0]
       }
       return 1
     }
