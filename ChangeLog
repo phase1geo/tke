@@ -1,29 +1,46 @@
-changeset:   1298:319347740b57
-tag:         devel-1.8.15
+changeset:   1301:6daaf8a0cd90
+tag:         devel-1.8.16
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Sep 11 00:37:03 2015 -0500
+date:        Sat Sep 12 02:28:03 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.8.15 release
+ChangeLog for devel-1.8.16 release
 
 
-changeset:   1299:bf65f0ee16e6
+changeset:   1302:bd91d2a0f5d1
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Sep 11 00:37:08 2015 -0500
+date:        Sat Sep 12 02:28:07 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.8.15 for changeset 319347740b57
+Added tag devel-1.8.16 for changeset 6daaf8a0cd90
 
 
-changeset:   1300:528e5a9e7328
+changeset:   1303:8db1a4c790ed
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Sep 12 08:51:11 2015 -0500
+files:       lib/gui.tcl lib/search.tcl lib/version.tcl
+description:
+* Resetting saved value to 0 whenever a find widget is launched.
+* Fixing issue with truncating history such that saved items don't get thrown away.
+
+
+changeset:   1304:ca6365c5828b
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Sep 12 15:52:32 2015 -0500
+files:       lib/gui.tcl lib/search.tcl lib/sessions.tcl lib/version.tcl
+description:
+* Adding support for saving saved search changes to the session file when they are changed.
+
+
+changeset:   1305:7d417874e7f9
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Sep 12 02:27:14 2015 -0500
-files:       lib/gui.tcl lib/search.tcl lib/version.tcl lib/vim.tcl
+date:        Sun Sep 13 00:02:55 2015 -0500
+files:       lib/gui.tcl lib/menus.tcl lib/version.tcl lib/vim.tcl
 description:
-* Moving find/replace to search namespace.
-* Adding saved search support for find, find/replace and find in files.
-* Adding find/replace feature to populate the find with any currently selected text on launch.
-* Code cleanup in the various versions of find.
+* Adding support for forced saves to readonly files.
+* Fixing wq and wq! when the file cannot be saved properly.
+* Fixing support for w! <filename>.
+* Fixing namespace support in gui.tcl for embedded mode.
 
 
