@@ -405,7 +405,7 @@ namespace eval menus {
     if {[set sfile [gui::current_filename]] eq "Untitled"} {
       save_as_command
     } else {
-      gui::save_current {} $sfile
+      gui::save_current {} 0 $sfile
     }
 
   }
@@ -424,7 +424,7 @@ namespace eval menus {
     }
 
     if {[set sfile [tk_getSaveFile {*}$save_opts -title [msgcat::mc "Save As"] -parent . -initialdir $dirname]] ne ""} {
-      gui::save_current {} $sfile
+      gui::save_current {} 0 $sfile
     }
 
   }
