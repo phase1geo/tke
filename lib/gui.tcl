@@ -280,9 +280,9 @@ namespace eval gui {
     tooltip::tooltip $widgets(fif_case) [msgcat::mc "Case sensitivity"]
 
     bind $widgets(fif_find) <Return> {
-      if {([llength [$[ns gui]::widgets(fif_in) tokenget]] > 0) && \
-          ([$[ns gui]::widgets(fif_find) get] ne "")} {
-        set [ns gui]::user_exit_status 1
+      if {([llength [$gui::widgets(fif_in) tokenget]] > 0) && \
+          ([$gui::widgets(fif_find) get] ne "")} {
+        set gui::user_exit_status 1
       }
     }
     bind $widgets(fif_find)          <Escape>    "set [ns gui]::user_exit_status 0"
@@ -1689,14 +1689,14 @@ namespace eval gui {
     # Make is easier to refer to the filename
     set fname [lindex $files $file_index $files_index(fname)]
 
+    # Run the on_save plugins
+    [ns plugins]::handle_on_save $file_index
+
     # If we need to do a force write, do it now
     set perms ""
     if {![save_prehandle $fname $save_as $force perms]} {
       return 0
     }
-
-    # Run the on_save plugins
-    [ns plugins]::handle_on_save $file_index
 
     # Save the file contents
     if {[catch { open [lindex $files $file_index $files_index(fname)] w } rc]} {
