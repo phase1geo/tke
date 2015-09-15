@@ -843,6 +843,12 @@ namespace eval gui {
       set finfo(modified)    0
       set finfo(cursor)      [$txt index insert]
       set finfo(yview)       [$txt index @0,0]
+      
+      # Add markers
+      set finfo(markers) [list]
+      foreach mname [[ns markers]::get_all_names $txt] {
+        lappend finfo(markers) $mname [lindex [split [[ns markers]::get_index $txt $mname] .] 0]
+      }
 
       lappend content(FileInfo) [array get finfo]
 
@@ -954,6 +960,13 @@ namespace eval gui {
             }
             if {[info exists finfo(yview)]} {
               $txt yview $finfo(yview)
+            }
+            if {[info exists finfo(markers)]} {
+              foreach {mname line} $finfo(markers) {
+                if {[set tag [ctext::linemapSetMark $txt $line]] ne ""} {
+                  [ns markers]::add $txt $tag $mname
+                }
+              }
             }
           } else {
             set set_tab 0
@@ -2810,7 +2823,7 @@ namespace eval gui {
       set var [[ns utils]::perform_substitutions $var]
     }
 
-    return $[ns gui]::user_exit_status
+    return [set [ns gui]::user_exit_status]
 
   }
 
