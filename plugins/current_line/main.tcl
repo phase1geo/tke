@@ -88,6 +88,6 @@ namespace eval current_line {
 }
 
 api::register current_line {
-  {text_binding pretext cline current_line::do_cline}
+  {text_binding pretext cline all current_line::do_cline}
   {on_uninstall current_line::do_uninstall}
 }
