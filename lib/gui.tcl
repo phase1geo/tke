@@ -279,12 +279,6 @@ namespace eval gui {
 
     tooltip::tooltip $widgets(fif_case) [msgcat::mc "Case sensitivity"]
 
-    bind $widgets(fif_find) <Return> {
-      if {([llength [$gui::widgets(fif_in) tokenget]] > 0) && \
-          ([$gui::widgets(fif_find) get] ne "")} {
-        set gui::user_exit_status 1
-      }
-    }
     bind $widgets(fif_find)          <Return>    "[ns gui]::check_fif_for_return"
     bind [$widgets(fif_in) entrytag] <Return>    { if {[gui::check_fif_for_return]} break }
     bind $widgets(fif_case)          <Return>    "[ns gui]::check_fif_for_return"
