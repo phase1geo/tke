@@ -285,14 +285,17 @@ namespace eval gui {
         set gui::user_exit_status 1
       }
     }
+    bind $widgets(fif_find)          <Return>    "[ns gui]::check_fif_for_return"
+    bind [$widgets(fif_in) entrytag] <Return>    { if {[gui::check_fif_for_return]} break }
+    bind $widgets(fif_case)          <Return>    "[ns gui]::check_fif_for_return"
+    bind $widgets(fif_save)          <Return>    "[ns gui]::check_fif_for_return"
     bind $widgets(fif_find)          <Escape>    "set [ns gui]::user_exit_status 0"
-    bind $widgets(fif_find)          <Up>        "[ns search]::traverse_history fif  1"
-    bind $widgets(fif_find)          <Down>      "[ns search]::traverse_history fif -1"
-    bind [$widgets(fif_in) entrytag] <Return>    "if {[[ns gui]::check_fif_for_return]} break"
     bind [$widgets(fif_in) entrytag] <Escape>    "set [ns gui]::user_exit_status 0"
     bind $widgets(fif_case)          <Escape>    "set [ns gui]::user_exit_status 0"
     bind $widgets(fif_save)          <Escape>    "set [ns gui]::user_exit_status 0"
     bind $widgets(fif_close)         <Button-1>  "set [ns gui]::user_exit_status 0"
+    bind $widgets(fif_find)          <Up>        "[ns search]::traverse_history fif  1"
+    bind $widgets(fif_find)          <Down>      "[ns search]::traverse_history fif -1"
     bind $widgets(fif_close)         <Key-space> "set [ns gui]::user_exit_status 0"
 
     grid columnconfigure $widgets(fif) 1 -weight 1
@@ -2926,7 +2929,7 @@ namespace eval gui {
     # Gather the input to return
     set rsp_list [list find [$widgets(fif_find) get] in $ins case_sensitive $case_sensitive save $saved]
 
-    return $[ns gui]::user_exit_status
+    return [set [ns gui]::user_exit_status]
 
   }
 
