@@ -47,6 +47,9 @@ namespace eval markers {
     if {$name eq ""} {
       set markers($txt,Marker-[incr curr_marker]) $tag
     } else {
+      if {[regexp {^Marker-(\d+)$} $name -> id] && ($curr_marker <= $id)} { 
+        set curr_marker $id
+      }
       set markers($txt,$name) $tag
     }
     
