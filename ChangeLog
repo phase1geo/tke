@@ -1,46 +1,79 @@
-changeset:   1301:6daaf8a0cd90
-tag:         devel-1.8.16
+changeset:   1306:616925ed6c65
+tag:         devel-1.8.17
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Sep 12 02:28:03 2015 -0500
+date:        Sun Sep 13 00:11:23 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.8.16 release
+ChangeLog for devel-1.8.17 release
 
 
-changeset:   1302:bd91d2a0f5d1
+changeset:   1307:eb6cf81eb5db
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Sep 12 02:28:07 2015 -0500
+date:        Sun Sep 13 00:11:38 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.8.16 for changeset 6daaf8a0cd90
+Added tag devel-1.8.17 for changeset 616925ed6c65
 
 
-changeset:   1303:8db1a4c790ed
+changeset:   1308:30b6305c1b2d
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Sep 12 08:51:11 2015 -0500
-files:       lib/gui.tcl lib/search.tcl lib/version.tcl
+date:        Mon Sep 14 23:00:57 2015 -0500
+files:       doc/UserGuide.epub doc/UserGuide.pdf lib/gui.tcl lib/version.tcl
 description:
-* Resetting saved value to 0 whenever a find widget is launched.
-* Fixing issue with truncating history such that saved items don't get thrown away.
+* Updating user guide.
+* Removing -sidebar option to gui::add_buffer.
 
 
-changeset:   1304:ca6365c5828b
+changeset:   1309:fbdc019f169a
+parent:      1307:eb6cf81eb5db
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Sep 14 11:21:55 2015 -0500
+files:       lib/gui.tcl lib/version.tcl
+description:
+* Attempting to fix syntax issues with gui.tcl
+
+
+changeset:   1310:91fe2e57ce6c
+parent:      1308:30b6305c1b2d
+parent:      1309:fbdc019f169a
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Sep 12 15:52:32 2015 -0500
-files:       lib/gui.tcl lib/search.tcl lib/sessions.tcl lib/version.tcl
+date:        Mon Sep 14 23:01:27 2015 -0500
+files:       lib/gui.tcl
 description:
-* Adding support for saving saved search changes to the session file when they are changed.
+* Merging.
 
 
-changeset:   1305:7d417874e7f9
+changeset:   1311:53021a8ee62f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Sep 14 23:20:25 2015 -0500
+files:       lib/gui.tcl lib/version.tcl
+description:
+* Fixing FIF syntax errors.
+* Adding Return support in FIF widget, regardless of widget with focus.
+
+
+changeset:   1312:9a94243416d0
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Sep 14 23:59:29 2015 -0500
+files:       lib/version.tcl plugins/current_line/main.tcl
+description:
+* Fixing current_line text binding syntax error.
+
+
+changeset:   1313:d7042602d61d
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Sep 15 00:04:56 2015 -0500
+files:       lib/gui.tcl lib/version.tcl
+description:
+* Fix for Find in Files Find return key binding.
+
+
+changeset:   1314:c690e8a26062
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Sep 13 00:02:55 2015 -0500
-files:       lib/gui.tcl lib/menus.tcl lib/version.tcl lib/vim.tcl
+date:        Tue Sep 15 00:17:46 2015 -0500
+files:       lib/version.tcl
 description:
-* Adding support for forced saves to readonly files.
-* Fixing wq and wq! when the file cannot be saved properly.
-* Fixing support for w! <filename>.
-* Fixing namespace support in gui.tcl for embedded mode.
+* Fixing.
 
 
