@@ -1162,7 +1162,6 @@ namespace eval gui {
     array set opts [list \
       -lock     0 \
       -readonly 0 \
-      -sidebar  $::cl_sidebar \
       -gutters  [list] \
       -other    0 \
       -tags     [list] \
