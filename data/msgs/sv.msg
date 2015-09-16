@@ -37,11 +37,11 @@ msgcat::mcmset sv {
 # gui.tcl
 msgcat::mcmset sv {
 
-  "%d substitutions done"
-  "%d substitutioner gjort"
-
   "%s, Line: %d, Column: %d"
   "% S, Rad:% d, Kolumn:% d"
+
+  "Case sensitivity"
+  "Skiftlägeskänslighet"
 
   "Close All Tabs"
   "Stäng alla flikar"
@@ -73,6 +73,9 @@ msgcat::mcmset sv {
   "Favorited"
   "Favorit"
 
+  "File already exists.  Use '!' to force an overwrite"
+  "Filen finns redan.  Använd '!' tvinga en överskrivning"
+
   "File attribute (%s) does not exist"
   "File attribut (% s) finns inte"
 
@@ -94,8 +97,8 @@ msgcat::mcmset sv {
   "Must be in multicursor mode to insert numbers"
   "Måste vara i multicursor läge infoga nummer"
 
-  "No search results found"
-  "Inga sökresultat som hittade"
+  "No write permissions.  Use '!' to force write."
+  "Ingen skrivbehörighet.  Använd '!' tvinga skriva."
 
   "Release Type:"
   "Utgivningstyp:"
@@ -105,12 +108,6 @@ msgcat::mcmset sv {
 
   "Save request"
   "Spara begäran"
-
-  "Search wrapped to beginning of file"
-  "Sök insvept till början av filen"
-
-  "Search wrapped to end of file"
-  "Sök insvept till slutet av filen"
 
   "Show in Sidebar"
   "Show i Sidebar"
@@ -123,9 +120,6 @@ msgcat::mcmset sv {
 
   "Total Lines: %d, Total Characters: %d"
   "Totalt antal rader:% d, totalt Tecken:% d"
-
-  "Twitter:"
-  "Twitter:"
 
   "Unable to find current file (tab: %s)"
   "Det gick inte att hitta aktuell fil (flik:% s)"
@@ -163,9 +157,6 @@ msgcat::mcmset sv {
 
   "Align Cursors"
   "Justera markörer"
-
-  "All"
-  "ALL"
 
   "Append Next Occurrence"
   "Lägg nästa förekomst"
@@ -650,9 +641,6 @@ msgcat::mcmset sv {
   "Next Difference"
   "Nästa skillnad"
 
-  "No files found in specified directories"
-  "Inga filer Funna i angivna kataloger"
-
   "Open Directory..."
   "Öppna katalog"
 
@@ -891,6 +879,26 @@ msgcat::mcmset sv {
 
 }
 
+# search.tcl
+msgcat::mcmset sv {
+
+  "%d substitutions done"
+  "%d substitutioner gjort"
+
+  "No files found in specified directories"
+  "Inga filer Funna i angivna kataloger"
+
+  "No search results found"
+  "Inga sökresultat som hittade"
+
+  "Search wrapped to beginning of file"
+  "Sök insvept till början av filen"
+
+  "Search wrapped to end of file"
+  "Sök insvept till slutet av filen"
+
+}
+
 # sidebar.tcl
 msgcat::mcmset sv {
 
@@ -1040,6 +1048,9 @@ msgcat::mcmset sv {
 
 # General
 msgcat::mcmset sv {
+
+  "All"
+  "ALL"
 
   "Cancel"
   "Avbryt"

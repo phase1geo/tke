@@ -37,11 +37,11 @@ msgcat::mcmset zh {
 # gui.tcl
 msgcat::mcmset zh {
 
-  "%d substitutions done"
-  "%d 个换人做"
-
   "%s, Line: %d, Column: %d"
   "％s的，行数：％d，列数：％d"
+
+  "Case sensitivity"
+  "区分大小写"
 
   "Close All Tabs"
   "關閉全部的頁籤"
@@ -73,6 +73,9 @@ msgcat::mcmset zh {
   "Favorited"
   "评选"
 
+  "File already exists.  Use '!' to force an overwrite"
+  "文件已存在。 使用 '!' 强制覆盖"
+
   "File attribute (%s) does not exist"
   "文件属性（％s）不存在"
 
@@ -94,8 +97,8 @@ msgcat::mcmset zh {
   "Must be in multicursor mode to insert numbers"
   "必须在 multicursor 模式下插入数字"
 
-  "No search results found"
-  "个搜索结果"
+  "No write permissions.  Use '!' to force write."
+  "没有写权限。 使用 '!'，迫使写。"
 
   "Release Type:"
   "释放"
@@ -105,12 +108,6 @@ msgcat::mcmset zh {
 
   "Save request"
   "保存请求"
-
-  "Search wrapped to beginning of file"
-  "搜索到文件的开头包裹"
-
-  "Search wrapped to end of file"
-  "搜索包裹到文件结尾"
 
   "Show in Sidebar"
   "显示在侧栏"
@@ -123,9 +120,6 @@ msgcat::mcmset zh {
 
   "Total Lines: %d, Total Characters: %d"
   "行总数：％d个，总字符数：％d"
-
-  "Twitter:"
-  "Twitter?"
 
   "Unable to find current file (tab: %s)"
   "找不到当前文件（制表：％S）"
@@ -163,9 +157,6 @@ msgcat::mcmset zh {
 
   "Align Cursors"
   "????"
-
-  "All"
-  "所有"
 
   "Append Next Occurrence"
   "????????"
@@ -650,9 +641,6 @@ msgcat::mcmset zh {
   "Next Difference"
   "?????"
 
-  "No files found in specified directories"
-  "指定的目录中未找到文件"
-
   "Open Directory..."
   "开放目录..."
 
@@ -891,6 +879,26 @@ msgcat::mcmset zh {
 
 }
 
+# search.tcl
+msgcat::mcmset zh {
+
+  "%d substitutions done"
+  "%d 个换人做"
+
+  "No files found in specified directories"
+  "指定的目录中未找到文件"
+
+  "No search results found"
+  "个搜索结果"
+
+  "Search wrapped to beginning of file"
+  "搜索到文件的开头包裹"
+
+  "Search wrapped to end of file"
+  "搜索包裹到文件结尾"
+
+}
+
 # sidebar.tcl
 msgcat::mcmset zh {
 
@@ -1040,6 +1048,9 @@ msgcat::mcmset zh {
 
 # General
 msgcat::mcmset zh {
+
+  "All"
+  "所有"
 
   "Cancel"
   "取消"

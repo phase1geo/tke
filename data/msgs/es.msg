@@ -37,11 +37,11 @@ msgcat::mcmset es {
 # gui.tcl
 msgcat::mcmset es {
 
-  "%d substitutions done"
-  "sustituciones %d hechos"
-
   "%s, Line: %d, Column: %d"
   "% S, línea:% d, columna% d"
+
+  "Case sensitivity"
+  "Case sensitive"
 
   "Close All Tabs"
   "¿Cerramos todas las pestañas?"
@@ -73,6 +73,9 @@ msgcat::mcmset es {
   "Favorited"
   "Los favoritos"
 
+  "File already exists.  Use '!' to force an overwrite"
+  "Ya existe el archivo.  Uso '!' para forzar una sobreescritura"
+
   "File attribute (%s) does not exist"
   "Atributo de archivo (%s) no existe"
 
@@ -94,8 +97,8 @@ msgcat::mcmset es {
   "Must be in multicursor mode to insert numbers"
   "Debe estar en modo multicursor para insertar números"
 
-  "No search results found"
-  "No se encontraron resultados búsqueda"
+  "No write permissions.  Use '!' to force write."
+  "No hay permisos de escritura.  Uso '!' para forzar la escritura."
 
   "Release Type:"
   "Tipo de liberación:"
@@ -105,12 +108,6 @@ msgcat::mcmset es {
 
   "Save request"
   "Memorizar encargo"
-
-  "Search wrapped to beginning of file"
-  "Búsqueda envuelto al principio del archivo"
-
-  "Search wrapped to end of file"
-  "Búsqueda envuelto al final del archivo"
 
   "Show in Sidebar"
   "Mostrar en Sidebar"
@@ -123,9 +120,6 @@ msgcat::mcmset es {
 
   "Total Lines: %d, Total Characters: %d"
   "Líneas totales:% d, Personajes totales:% d"
-
-  "Twitter:"
-  "Twitter:"
 
   "Unable to find current file (tab: %s)"
   "No se puede encontrar el archivo actual (pestaña:% s)"
@@ -163,9 +157,6 @@ msgcat::mcmset es {
 
   "Align Cursors"
   "Alinee los cursores"
-
-  "All"
-  "Todo"
 
   "Append Next Occurrence"
   "Anexar la siguiente ocurrencia"
@@ -650,9 +641,6 @@ msgcat::mcmset es {
   "Next Difference"
   "Siguiente diferencia"
 
-  "No files found in specified directories"
-  "No hay archivos en directorios especificados"
-
   "Open Directory..."
   "Abra Directorio ..."
 
@@ -891,6 +879,26 @@ msgcat::mcmset es {
 
 }
 
+# search.tcl
+msgcat::mcmset es {
+
+  "%d substitutions done"
+  "sustituciones %d hechos"
+
+  "No files found in specified directories"
+  "No hay archivos en directorios especificados"
+
+  "No search results found"
+  "No se encontraron resultados búsqueda"
+
+  "Search wrapped to beginning of file"
+  "Búsqueda envuelto al principio del archivo"
+
+  "Search wrapped to end of file"
+  "Búsqueda envuelto al final del archivo"
+
+}
+
 # sidebar.tcl
 msgcat::mcmset es {
 
@@ -1040,6 +1048,9 @@ msgcat::mcmset es {
 
 # General
 msgcat::mcmset es {
+
+  "All"
+  "Todo"
 
   "Cancel"
   "Cancelar"

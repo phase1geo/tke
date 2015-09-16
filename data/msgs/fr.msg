@@ -37,11 +37,11 @@ msgcat::mcmset fr {
 # gui.tcl
 msgcat::mcmset fr {
 
-  "%d substitutions done"
-  "substitutions de %d faites"
-
   "%s, Line: %d, Column: %d"
   "% S, ligne% d, colonne% d"
+
+  "Case sensitivity"
+  "Sensibilité à la casse"
 
   "Close All Tabs"
   "Fermer tous les onglets"
@@ -73,6 +73,9 @@ msgcat::mcmset fr {
   "Favorited"
   "Ajouté aux favoris"
 
+  "File already exists.  Use '!' to force an overwrite"
+  "Le fichier existe déjà.  Utilisation '!' pour forcer un écrasement"
+
   "File attribute (%s) does not exist"
   "attribut du fichier (%s) n'existe pas"
 
@@ -94,8 +97,8 @@ msgcat::mcmset fr {
   "Must be in multicursor mode to insert numbers"
   "Doit être en mode multicursor pour insérer des numéros de"
 
-  "No search results found"
-  "Résultats de la recherche\:"
+  "No write permissions.  Use '!' to force write."
+  "Aucune autorisation d'écriture.  Utilisation '!' pour forcer l'écriture."
 
   "Release Type:"
   "Type de sortie :"
@@ -105,12 +108,6 @@ msgcat::mcmset fr {
 
   "Save request"
   "Enregistrer la demande"
-
-  "Search wrapped to beginning of file"
-  "Rechercher enveloppé au début du fichier"
-
-  "Search wrapped to end of file"
-  "Rechercher enveloppé à la fin du fichier"
 
   "Show in Sidebar"
   "Afficher dans la barre latérale"
@@ -123,9 +120,6 @@ msgcat::mcmset fr {
 
   "Total Lines: %d, Total Characters: %d"
   "Nombre de lignes:% d, Nombre de caractères:% d"
-
-  "Twitter:"
-  "Twitter :"
 
   "Unable to find current file (tab: %s)"
   "Impossible de trouver le fichier actuel (onglet:% s)"
@@ -163,9 +157,6 @@ msgcat::mcmset fr {
 
   "Align Cursors"
   "Aligner les curseurs"
-
-  "All"
-  "Toutes"
 
   "Append Next Occurrence"
   "Ajouter l'Occurrence suivante"
@@ -650,9 +641,6 @@ msgcat::mcmset fr {
   "Next Difference"
   "Différence suivante"
 
-  "No files found in specified directories"
-  "Aucun fichier trouvé dans les répertoires spécifiés"
-
   "Open Directory..."
   "Dossier principal..."
 
@@ -891,6 +879,26 @@ msgcat::mcmset fr {
 
 }
 
+# search.tcl
+msgcat::mcmset fr {
+
+  "%d substitutions done"
+  "substitutions de %d faites"
+
+  "No files found in specified directories"
+  "Aucun fichier trouvé dans les répertoires spécifiés"
+
+  "No search results found"
+  "Résultats de la recherche\:"
+
+  "Search wrapped to beginning of file"
+  "Rechercher enveloppé au début du fichier"
+
+  "Search wrapped to end of file"
+  "Rechercher enveloppé à la fin du fichier"
+
+}
+
 # sidebar.tcl
 msgcat::mcmset fr {
 
@@ -1040,6 +1048,9 @@ msgcat::mcmset fr {
 
 # General
 msgcat::mcmset fr {
+
+  "All"
+  "Toutes"
 
   "Cancel"
   "Résilier"

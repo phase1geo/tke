@@ -37,11 +37,11 @@ msgcat::mcmset el {
 # gui.tcl
 msgcat::mcmset el {
 
-  "%d substitutions done"
-  "%d αντικαταστάσεις κάνει"
-
   "%s, Line: %d, Column: %d"
   "% S, γραμμή:% d, Στήλη:% d"
+
+  "Case sensitivity"
+  "αναζήτηση βάσει πλήρους αντιστοίχισης"
 
   "Close All Tabs"
   "Κλείσιμο όλων των ετικετών"
@@ -73,6 +73,9 @@ msgcat::mcmset el {
   "Favorited"
   "Αγαπημένο"
 
+  "File already exists.  Use '!' to force an overwrite"
+  "Το αρχείο υπάρχει ήδη.  Χρήση «!» να αναγκάσει την επανεγγραφή του τομέα"
+
   "File attribute (%s) does not exist"
   "Χαρακτηριστικό αρχείου (% s) δεν υπάρχει"
 
@@ -94,8 +97,8 @@ msgcat::mcmset el {
   "Must be in multicursor mode to insert numbers"
   "Πρέπει να είναι σε multicursor κατάσταση λειτουργίας για να εισάγετε αριθμούς"
 
-  "No search results found"
-  "Δε βρέθηκαν αποτελέσματα αναζήτησης"
+  "No write permissions.  Use '!' to force write."
+  "Δεν δικαιώματα εγγραφής.  Χρήση «!» να αναγκάσει εγγραφής."
 
   "Release Type:"
   "ΔΕΛΤΙΟ ΤΥΠΟΥ:"
@@ -105,12 +108,6 @@ msgcat::mcmset el {
 
   "Save request"
   "Αποθηκεύστε το αίτημα"
-
-  "Search wrapped to beginning of file"
-  "Αναζήτηση τυλιγμένο στην αρχή του αρχείου"
-
-  "Search wrapped to end of file"
-  "Αναζήτηση τυλιγμένο στο τέλος του αρχείου"
 
   "Show in Sidebar"
   "Εμφάνιση στο Sidebar"
@@ -123,9 +120,6 @@ msgcat::mcmset el {
 
   "Total Lines: %d, Total Characters: %d"
   "Σύνολο Lines:% d, Σύνολο Χαρακτήρες:% d"
-
-  "Twitter:"
-  "Twitter"
 
   "Unable to find current file (tab: %s)"
   "Ανίκανος να βρει το τρέχον αρχείο (καρτέλα:% s)"
@@ -163,9 +157,6 @@ msgcat::mcmset el {
 
   "Align Cursors"
   "???????? ???????"
-
-  "All"
-  "All"
 
   "Append Next Occurrence"
   "?????????? ?µ??????"
@@ -650,9 +641,6 @@ msgcat::mcmset el {
   "Next Difference"
   "??????? ???????"
 
-  "No files found in specified directories"
-  "Δεν βρέθηκαν σε καθορισμένους καταλόγους αρχεία"
-
   "Open Directory..."
   "Άνοιγμα καταλόγου"
 
@@ -891,6 +879,26 @@ msgcat::mcmset el {
 
 }
 
+# search.tcl
+msgcat::mcmset el {
+
+  "%d substitutions done"
+  "%d αντικαταστάσεις κάνει"
+
+  "No files found in specified directories"
+  "Δεν βρέθηκαν σε καθορισμένους καταλόγους αρχεία"
+
+  "No search results found"
+  "Δε βρέθηκαν αποτελέσματα αναζήτησης"
+
+  "Search wrapped to beginning of file"
+  "Αναζήτηση τυλιγμένο στην αρχή του αρχείου"
+
+  "Search wrapped to end of file"
+  "Αναζήτηση τυλιγμένο στο τέλος του αρχείου"
+
+}
+
 # sidebar.tcl
 msgcat::mcmset el {
 
@@ -1040,6 +1048,9 @@ msgcat::mcmset el {
 
 # General
 msgcat::mcmset el {
+
+  "All"
+  "All"
 
   "Cancel"
   "Ακύρωση"

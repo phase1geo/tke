@@ -37,11 +37,11 @@ msgcat::mcmset it {
 # gui.tcl
 msgcat::mcmset it {
 
-  "%d substitutions done"
-  "sostituzioni %d fare"
-
   "%s, Line: %d, Column: %d"
   "% S, riga% d, colonna:% d"
+
+  "Case sensitivity"
+  "Sensibile alle maiuscole"
 
   "Close All Tabs"
   "Chiudi tutte le linguette"
@@ -73,6 +73,9 @@ msgcat::mcmset it {
   "Favorited"
   "Favorito"
 
+  "File already exists.  Use '!' to force an overwrite"
+  "File già esistente.  Uso '!' per forzare una sovrascrittura"
+
   "File attribute (%s) does not exist"
   "Attributo di file (% s) non esiste"
 
@@ -94,8 +97,8 @@ msgcat::mcmset it {
   "Must be in multicursor mode to insert numbers"
   "Deve essere in modalità multicursor per inserire numeri"
 
-  "No search results found"
-  "Non è stato trovato alcun risultato."
+  "No write permissions.  Use '!' to force write."
+  "Senza autorizzazioni di scrittura.  Uso '!' per forzare la scrittura."
 
   "Release Type:"
   "Tipo di rilascio:"
@@ -105,12 +108,6 @@ msgcat::mcmset it {
 
   "Save request"
   "Salva richiesta"
-
-  "Search wrapped to beginning of file"
-  "Ricerca avvolto all'inizio del file."
-
-  "Search wrapped to end of file"
-  "Ricerca a capo alla fine del file"
 
   "Show in Sidebar"
   "Mostra in Sidebar"
@@ -123,9 +120,6 @@ msgcat::mcmset it {
 
   "Total Lines: %d, Total Characters: %d"
   "Totale Lines:% d, totale Personaggi:% d"
-
-  "Twitter:"
-  "Twitter:"
 
   "Unable to find current file (tab: %s)"
   "Impossibile trovare il file corrente (scheda:% s)"
@@ -163,9 +157,6 @@ msgcat::mcmset it {
 
   "Align Cursors"
   "Allineare i cursori"
-
-  "All"
-  "Tutti"
 
   "Append Next Occurrence"
   "Accodare l'occorrenza successiva"
@@ -650,9 +641,6 @@ msgcat::mcmset it {
   "Next Difference"
   "Differenza successiva"
 
-  "No files found in specified directories"
-  "Nessun file trovato nelle directory specificate"
-
   "Open Directory..."
   "Apri cartella"
 
@@ -891,6 +879,26 @@ msgcat::mcmset it {
 
 }
 
+# search.tcl
+msgcat::mcmset it {
+
+  "%d substitutions done"
+  "sostituzioni %d fare"
+
+  "No files found in specified directories"
+  "Nessun file trovato nelle directory specificate"
+
+  "No search results found"
+  "Non è stato trovato alcun risultato."
+
+  "Search wrapped to beginning of file"
+  "Ricerca avvolto all'inizio del file."
+
+  "Search wrapped to end of file"
+  "Ricerca a capo alla fine del file"
+
+}
+
 # sidebar.tcl
 msgcat::mcmset it {
 
@@ -1040,6 +1048,9 @@ msgcat::mcmset it {
 
 # General
 msgcat::mcmset it {
+
+  "All"
+  "Tutti"
 
   "Cancel"
   "Cancella"
