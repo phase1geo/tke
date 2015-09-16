@@ -37,11 +37,11 @@ msgcat::mcmset hu {
 # gui.tcl
 msgcat::mcmset hu {
 
-  "%d substitutions done"
-  "%d helyettesítések tenni"
-
   "%s, Line: %d, Column: %d"
   "% S, Sor:% d oszlop:% d"
+
+  "Case sensitivity"
+  "Kisbetű-nagybetű érzékenység"
 
   "Close All Tabs"
   "Összes fül bezárása"
@@ -73,6 +73,9 @@ msgcat::mcmset hu {
   "Favorited"
   "Kedvencek"
 
+  "File already exists.  Use '!' to force an overwrite"
+  "Fájl már létezik.  Használata \"
+
   "File attribute (%s) does not exist"
   "Fájl attribútum (% s) nem létezik"
 
@@ -94,8 +97,8 @@ msgcat::mcmset hu {
   "Must be in multicursor mode to insert numbers"
   "Számok be multicursor üzemmódban kell lennie"
 
-  "No search results found"
-  "Nincs találat"
+  "No write permissions.  Use '!' to force write."
+  "Nincs írási engedélye.  Használata \"
 
   "Release Type:"
   "Kiadás típusa:"
@@ -105,12 +108,6 @@ msgcat::mcmset hu {
 
   "Save request"
   "Mentés kérése"
-
-  "Search wrapped to beginning of file"
-  "Keresés becsomagolt fájl elejére"
-
-  "Search wrapped to end of file"
-  "Keresés csomagolva, hogy a fájl vége"
 
   "Show in Sidebar"
   "Show Sidebar"
@@ -123,9 +120,6 @@ msgcat::mcmset hu {
 
   "Total Lines: %d, Total Characters: %d"
   "Teljes sorok:% d, Total karakterek:% d"
-
-  "Twitter:"
-  "twitter"
 
   "Unable to find current file (tab: %s)"
   "Nem található aktuális fájlt (tab:% s)"
@@ -163,9 +157,6 @@ msgcat::mcmset hu {
 
   "Align Cursors"
   "Igazítás kurzorok"
-
-  "All"
-  "Minden"
 
   "Append Next Occurrence"
   "Ráakaszt a következ? alkalom emlékeztet?je"
@@ -650,9 +641,6 @@ msgcat::mcmset hu {
   "Next Difference"
   "A következ? eltérés"
 
-  "No files found in specified directories"
-  "Nem található a megadott könyvtárak fájl"
-
   "Open Directory..."
   "Felső szintű könyvtár:"
 
@@ -891,6 +879,26 @@ msgcat::mcmset hu {
 
 }
 
+# search.tcl
+msgcat::mcmset hu {
+
+  "%d substitutions done"
+  "%d helyettesítések tenni"
+
+  "No files found in specified directories"
+  "Nem található a megadott könyvtárak fájl"
+
+  "No search results found"
+  "Nincs találat"
+
+  "Search wrapped to beginning of file"
+  "Keresés becsomagolt fájl elejére"
+
+  "Search wrapped to end of file"
+  "Keresés csomagolva, hogy a fájl vége"
+
+}
+
 # sidebar.tcl
 msgcat::mcmset hu {
 
@@ -1040,6 +1048,9 @@ msgcat::mcmset hu {
 
 # General
 msgcat::mcmset hu {
+
+  "All"
+  "Minden"
 
   "Cancel"
   "Mégsem"

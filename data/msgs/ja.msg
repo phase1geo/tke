@@ -37,11 +37,11 @@ msgcat::mcmset ja {
 # gui.tcl
 msgcat::mcmset ja {
 
-  "%d substitutions done"
-  "%d 個の置換が行われます"
-
   "%s, Line: %d, Column: %d"
   "％sの、ライン：％d、列％dの"
+
+  "Case sensitivity"
+  "大文字と小文字を区別する"
 
   "Close All Tabs"
   "すべてのタブを閉じる"
@@ -73,6 +73,9 @@ msgcat::mcmset ja {
   "Favorited"
   "お気に入り"
 
+  "File already exists.  Use '!' to force an overwrite"
+  "ファイルは既に存在します。 使用 '!' 強制的に上書きする"
+
   "File attribute (%s) does not exist"
   "ファイル属性（％s）は存在しません"
 
@@ -94,8 +97,8 @@ msgcat::mcmset ja {
   "Must be in multicursor mode to insert numbers"
   "数字を挿入する multicursor モードでなければなりません"
 
-  "No search results found"
-  "検索結果は見つかりませんでした。"
+  "No write permissions.  Use '!' to force write."
+  "書き込みのアクセス許可はありません。 使用 '!' 書き込みを強制します。"
 
   "Release Type:"
   "リリースの種類:"
@@ -105,12 +108,6 @@ msgcat::mcmset ja {
 
   "Save request"
   "リクエストを保存"
-
-  "Search wrapped to beginning of file"
-  "ファイルの先頭に折り返し検索"
-
-  "Search wrapped to end of file"
-  "ファイルの最後に折り返し検索"
 
   "Show in Sidebar"
   "サイドバーで表示"
@@ -123,9 +120,6 @@ msgcat::mcmset ja {
 
   "Total Lines: %d, Total Characters: %d"
   "総行：％dが、合計文字：％D"
-
-  "Twitter:"
-  "Twitter:"
 
   "Unable to find current file (tab: %s)"
   "現在のファイルが見つかりません（ペ：％s）を"
@@ -163,9 +157,6 @@ msgcat::mcmset ja {
 
   "Align Cursors"
   "??????????"
-
-  "All"
-  "ALL"
 
   "Append Next Occurrence"
   "?????????????"
@@ -650,9 +641,6 @@ msgcat::mcmset ja {
   "Next Difference"
   "????"
 
-  "No files found in specified directories"
-  "ファイルの指定されたディレクトリが見つかりません"
-
   "Open Directory..."
   "ディレクトリを開きます。..."
 
@@ -891,6 +879,26 @@ msgcat::mcmset ja {
 
 }
 
+# search.tcl
+msgcat::mcmset ja {
+
+  "%d substitutions done"
+  "%d 個の置換が行われます"
+
+  "No files found in specified directories"
+  "ファイルの指定されたディレクトリが見つかりません"
+
+  "No search results found"
+  "検索結果は見つかりませんでした。"
+
+  "Search wrapped to beginning of file"
+  "ファイルの先頭に折り返し検索"
+
+  "Search wrapped to end of file"
+  "ファイルの最後に折り返し検索"
+
+}
+
 # sidebar.tcl
 msgcat::mcmset ja {
 
@@ -1040,6 +1048,9 @@ msgcat::mcmset ja {
 
 # General
 msgcat::mcmset ja {
+
+  "All"
+  "ALL"
 
   "Cancel"
   "キャンセル"

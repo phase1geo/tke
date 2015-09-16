@@ -37,11 +37,11 @@ msgcat::mcmset cs {
 # gui.tcl
 msgcat::mcmset cs {
 
-  "%d substitutions done"
-  "%d náhrady provádí"
-
   "%s, Line: %d, Column: %d"
   "% S, řádek% d, sloupec% d"
+
+  "Case sensitivity"
+  "Rozlišování"
 
   "Close All Tabs"
   "Zavřít vše"
@@ -73,6 +73,9 @@ msgcat::mcmset cs {
   "Favorited"
   "Oblíbené"
 
+  "File already exists.  Use '!' to force an overwrite"
+  "Soubor již existuje.  Použijte '!' přinutit přepsání"
+
   "File attribute (%s) does not exist"
   "Atribut souboru (% s) neexistuje"
 
@@ -94,8 +97,8 @@ msgcat::mcmset cs {
   "Must be in multicursor mode to insert numbers"
   "Musí být v multicursor režimu vložit čísla"
 
-  "No search results found"
-  "Nic se nenašlo"
+  "No write permissions.  Use '!' to force write."
+  "Žádné oprávnění k zápisu.  Použijte '!' nutit psát."
 
   "Release Type:"
   "Vydání typ:"
@@ -105,12 +108,6 @@ msgcat::mcmset cs {
 
   "Save request"
   "Uložte žádost"
-
-  "Search wrapped to beginning of file"
-  "Hledat zabalené na začátku souboru"
-
-  "Search wrapped to end of file"
-  "Hledat zabalené do konce souboru"
 
   "Show in Sidebar"
   "Zobrazit v postranním panelu"
@@ -123,9 +120,6 @@ msgcat::mcmset cs {
 
   "Total Lines: %d, Total Characters: %d"
   "Celkem Linky:% d, celkem znaky:% d"
-
-  "Twitter:"
-  "Twitter:"
 
   "Unable to find current file (tab: %s)"
   "Nelze najít aktuální soubor (karta:% s)"
@@ -163,9 +157,6 @@ msgcat::mcmset cs {
 
   "Align Cursors"
   "Zarovnání kurzor?"
-
-  "All"
-  "Všichni"
 
   "Append Next Occurrence"
   "P?ipojit dalí výskyt"
@@ -650,9 +641,6 @@ msgcat::mcmset cs {
   "Next Difference"
   "Dalí rozdíl"
 
-  "No files found in specified directories"
-  "Žádné soubory v uvedených adresářích"
-
   "Open Directory..."
   "Open Directory ..."
 
@@ -891,6 +879,26 @@ msgcat::mcmset cs {
 
 }
 
+# search.tcl
+msgcat::mcmset cs {
+
+  "%d substitutions done"
+  "%d náhrady provádí"
+
+  "No files found in specified directories"
+  "Žádné soubory v uvedených adresářích"
+
+  "No search results found"
+  "Nic se nenašlo"
+
+  "Search wrapped to beginning of file"
+  "Hledat zabalené na začátku souboru"
+
+  "Search wrapped to end of file"
+  "Hledat zabalené do konce souboru"
+
+}
+
 # sidebar.tcl
 msgcat::mcmset cs {
 
@@ -1040,6 +1048,9 @@ msgcat::mcmset cs {
 
 # General
 msgcat::mcmset cs {
+
+  "All"
+  "Všichni"
 
   "Cancel"
   "Storno"

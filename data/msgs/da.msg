@@ -37,11 +37,11 @@ msgcat::mcmset da {
 # gui.tcl
 msgcat::mcmset da {
 
-  "%d substitutions done"
-  "%d erstatninger udført"
-
   "%s, Line: %d, Column: %d"
   "% S, Line:% d, kolonne:% d"
+
+  "Case sensitivity"
+  "Versalfølsom"
 
   "Close All Tabs"
   "Luk alle faneblade"
@@ -73,6 +73,9 @@ msgcat::mcmset da {
   "Favorited"
   "Favoriseret"
 
+  "File already exists.  Use '!' to force an overwrite"
+  "Filen findes allerede.  Brug '!' at tvinge en Overskriv"
+
   "File attribute (%s) does not exist"
   "Filattribut (% s) eksisterer ikke"
 
@@ -94,8 +97,8 @@ msgcat::mcmset da {
   "Must be in multicursor mode to insert numbers"
   "Skal være i multicursor tilstand at indsætte tal"
 
-  "No search results found"
-  "Ingen resultater matcher din søgning!"
+  "No write permissions.  Use '!' to force write."
+  "Ingen skrivetilladelser.  Brug '!' at tvinge skrive."
 
   "Release Type:"
   "Release Type:"
@@ -105,12 +108,6 @@ msgcat::mcmset da {
 
   "Save request"
   "Spar anmodning"
-
-  "Search wrapped to beginning of file"
-  "Søg ombrydes til begyndelsen af filen"
-
-  "Search wrapped to end of file"
-  "Søg indpakket til slutningen af filen"
 
   "Show in Sidebar"
   "Vis i Sidebar"
@@ -123,9 +120,6 @@ msgcat::mcmset da {
 
   "Total Lines: %d, Total Characters: %d"
   "Samlet Lines:% d, alt Tegn:% d"
-
-  "Twitter:"
-  "Twitter"
 
   "Unable to find current file (tab: %s)"
   "Kunne ikke finde aktuelle fil (fane:% s)"
@@ -163,9 +157,6 @@ msgcat::mcmset da {
 
   "Align Cursors"
   "Juster markører"
-
-  "All"
-  "Alle"
 
   "Append Next Occurrence"
   "Føj næste forekomst"
@@ -650,9 +641,6 @@ msgcat::mcmset da {
   "Next Difference"
   "Næste forskel"
 
-  "No files found in specified directories"
-  "Ikke findes i angivne mapper filer"
-
   "Open Directory..."
   "Åbn mappe"
 
@@ -891,6 +879,26 @@ msgcat::mcmset da {
 
 }
 
+# search.tcl
+msgcat::mcmset da {
+
+  "%d substitutions done"
+  "%d erstatninger udført"
+
+  "No files found in specified directories"
+  "Ikke findes i angivne mapper filer"
+
+  "No search results found"
+  "Ingen resultater matcher din søgning!"
+
+  "Search wrapped to beginning of file"
+  "Søg ombrydes til begyndelsen af filen"
+
+  "Search wrapped to end of file"
+  "Søg indpakket til slutningen af filen"
+
+}
+
 # sidebar.tcl
 msgcat::mcmset da {
 
@@ -1040,6 +1048,9 @@ msgcat::mcmset da {
 
 # General
 msgcat::mcmset da {
+
+  "All"
+  "Alle"
 
   "Cancel"
   "Annuller"

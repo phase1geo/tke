@@ -37,11 +37,11 @@ msgcat::mcmset ru {
 # gui.tcl
 msgcat::mcmset ru {
 
-  "%d substitutions done"
-  "подстановки %d сделали"
-
   "%s, Line: %d, Column: %d"
   "% С, линия:% д, Колонка:% г"
+
+  "Case sensitivity"
+  "Чувствительность к регистру символов"
 
   "Close All Tabs"
   "Закрыть все вкладки"
@@ -73,6 +73,9 @@ msgcat::mcmset ru {
   "Favorited"
   "В избранном"
 
+  "File already exists.  Use '!' to force an overwrite"
+  "Файл уже существует.  Используйте '!' заставить перезаписи"
+
   "File attribute (%s) does not exist"
   "Атрибут файла (% ы) не существует"
 
@@ -94,8 +97,8 @@ msgcat::mcmset ru {
   "Must be in multicursor mode to insert numbers"
   "Должно быть в multicursor режиме, чтобы вставить номера"
 
-  "No search results found"
-  "Результаты не найдены."
+  "No write permissions.  Use '!' to force write."
+  "Нет разрешения на запись.  Используйте '!' заставить писать."
 
   "Release Type:"
   "Тип релиза:"
@@ -105,12 +108,6 @@ msgcat::mcmset ru {
 
   "Save request"
   "Запрос"
-
-  "Search wrapped to beginning of file"
-  "Поиск, завернутые в начале файла"
-
-  "Search wrapped to end of file"
-  "Поиск, завернутые в конец файла"
 
   "Show in Sidebar"
   "Показать на боковой панели"
@@ -123,9 +120,6 @@ msgcat::mcmset ru {
 
   "Total Lines: %d, Total Characters: %d"
   "Всего линии:% D, Персонажей:% D"
-
-  "Twitter:"
-  "Twitter:"
 
   "Unable to find current file (tab: %s)"
   "Не удалось найти текущий файл (закладка:% ы)"
@@ -163,9 +157,6 @@ msgcat::mcmset ru {
 
   "Align Cursors"
   "????????? ???????"
-
-  "All"
-  "All"
 
   "Append Next Occurrence"
   "???????? ????????? ?????????"
@@ -650,9 +641,6 @@ msgcat::mcmset ru {
   "Next Difference"
   "????????? ???????"
 
-  "No files found in specified directories"
-  "Файлы не найдены в указанных каталогах"
-
   "Open Directory..."
   "Open Directory ..."
 
@@ -891,6 +879,26 @@ msgcat::mcmset ru {
 
 }
 
+# search.tcl
+msgcat::mcmset ru {
+
+  "%d substitutions done"
+  "подстановки %d сделали"
+
+  "No files found in specified directories"
+  "Файлы не найдены в указанных каталогах"
+
+  "No search results found"
+  "Результаты не найдены."
+
+  "Search wrapped to beginning of file"
+  "Поиск, завернутые в начале файла"
+
+  "Search wrapped to end of file"
+  "Поиск, завернутые в конец файла"
+
+}
+
 # sidebar.tcl
 msgcat::mcmset ru {
 
@@ -1040,6 +1048,9 @@ msgcat::mcmset ru {
 
 # General
 msgcat::mcmset ru {
+
+  "All"
+  "All"
 
   "Cancel"
   "Отмена"

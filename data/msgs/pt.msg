@@ -37,11 +37,11 @@ msgcat::mcmset pt {
 # gui.tcl
 msgcat::mcmset pt {
 
-  "%d substitutions done"
-  "substituições de %d feitas"
-
   "%s, Line: %d, Column: %d"
   "% S, linha% d, coluna% d"
+
+  "Case sensitivity"
+  "Distinção entre maiúsculas e minúsculas"
 
   "Close All Tabs"
   "Fechar todas as guias"
@@ -73,6 +73,9 @@ msgcat::mcmset pt {
   "Favorited"
   "Favorito"
 
+  "File already exists.  Use '!' to force an overwrite"
+  "Arquivo já existe.  Uso '!' para forçar uma sobrescrever"
+
   "File attribute (%s) does not exist"
   "Atributo do arquivo (% s) não existe"
 
@@ -94,8 +97,8 @@ msgcat::mcmset pt {
   "Must be in multicursor mode to insert numbers"
   "Deve estar no modo de multicursor para inserir números"
 
-  "No search results found"
-  "Resultados Encontrados da Pesquisa"
+  "No write permissions.  Use '!' to force write."
+  "Sem permissões.  Uso '!' para forçar a escrever."
 
   "Release Type:"
   "Tipo lançamento:"
@@ -105,12 +108,6 @@ msgcat::mcmset pt {
 
   "Save request"
   "Salvar Pedido"
-
-  "Search wrapped to beginning of file"
-  "Busca ajustada para início do arquivo."
-
-  "Search wrapped to end of file"
-  "Pesquisa envolto ao final do arquivo"
 
   "Show in Sidebar"
   "Show em Sidebar"
@@ -123,9 +120,6 @@ msgcat::mcmset pt {
 
   "Total Lines: %d, Total Characters: %d"
   "Total de linhas:% d, Total Personagens:% d"
-
-  "Twitter:"
-  "Twitter"
 
   "Unable to find current file (tab: %s)"
   "Não foi possível localizar o arquivo atual (guia:% s)"
@@ -163,9 +157,6 @@ msgcat::mcmset pt {
 
   "Align Cursors"
   "Alinhar os cursores"
-
-  "All"
-  "Tudo"
 
   "Append Next Occurrence"
   "Acrescentar a próxima ocorrência"
@@ -650,9 +641,6 @@ msgcat::mcmset pt {
   "Next Difference"
   "Próxima Diferença"
 
-  "No files found in specified directories"
-  "Não há arquivos encontrados em diretórios especificados"
-
   "Open Directory..."
   "Abrir diretório..."
 
@@ -891,6 +879,26 @@ msgcat::mcmset pt {
 
 }
 
+# search.tcl
+msgcat::mcmset pt {
+
+  "%d substitutions done"
+  "substituições de %d feitas"
+
+  "No files found in specified directories"
+  "Não há arquivos encontrados em diretórios especificados"
+
+  "No search results found"
+  "Resultados Encontrados da Pesquisa"
+
+  "Search wrapped to beginning of file"
+  "Busca ajustada para início do arquivo."
+
+  "Search wrapped to end of file"
+  "Pesquisa envolto ao final do arquivo"
+
+}
+
 # sidebar.tcl
 msgcat::mcmset pt {
 
@@ -1040,6 +1048,9 @@ msgcat::mcmset pt {
 
 # General
 msgcat::mcmset pt {
+
+  "All"
+  "Tudo"
 
   "Cancel"
   "Cancelar"

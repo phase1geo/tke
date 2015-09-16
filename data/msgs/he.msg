@@ -37,11 +37,11 @@ msgcat::mcmset he {
 # gui.tcl
 msgcat::mcmset he {
 
-  "%d substitutions done"
-  "%d החלפות עשה"
-
   "%s, Line: %d, Column: %d"
   "%s, קו: %d, עמודה: %d"
+
+  "Case sensitivity"
+  "תלות ברישיות"
 
   "Close All Tabs"
   "לסגור את כל הכרטיסיות"
@@ -73,6 +73,9 @@ msgcat::mcmset he {
   "Favorited"
   "שורי"
 
+  "File already exists.  Use '!' to force an overwrite"
+  "הקובץ כבר קיים.  שימוש '!' לכפות על החלף"
+
   "File attribute (%s) does not exist"
   "תכונת הקובץ (%s) לא קיים"
 
@@ -94,8 +97,8 @@ msgcat::mcmset he {
   "Must be in multicursor mode to insert numbers"
   "חייב להיות במצב multicursor כדי להוסיף מספרים"
 
-  "No search results found"
-  "תוצאות חיפוש נמצאו"
+  "No write permissions.  Use '!' to force write."
+  "אין הרשאות כתיבה.  שימוש '!' לכפות כתיבה."
 
   "Release Type:"
   "סוג פרסום:"
@@ -105,12 +108,6 @@ msgcat::mcmset he {
 
   "Save request"
   "להציל את הבקשה"
-
-  "Search wrapped to beginning of file"
-  "חיפוש עטוף לתחילת הקובץ"
-
-  "Search wrapped to end of file"
-  "חיפוש עטוף כדי בסוף הקובץ"
 
   "Show in Sidebar"
   "הצג בסרגל הצידי"
@@ -123,9 +120,6 @@ msgcat::mcmset he {
 
   "Total Lines: %d, Total Characters: %d"
   "שורות סכום כולל: %d, סה כ תווים: %d"
-
-  "Twitter:"
-  "??????"
 
   "Unable to find current file (tab: %s)"
   "אין אפשרות למצוא את הקובץ הנוכחי (הכרטיסיה: %s)"
@@ -163,9 +157,6 @@ msgcat::mcmset he {
 
   "Align Cursors"
   "????? ?????"
-
-  "All"
-  "כל"
 
   "Append Next Occurrence"
   "??? ????? ???"
@@ -650,9 +641,6 @@ msgcat::mcmset he {
   "Next Difference"
   "????? ???"
 
-  "No files found in specified directories"
-  "לא נמצאו בספריות שצוין קבצים"
-
   "Open Directory..."
   "המדריך הפתוח..."
 
@@ -891,6 +879,26 @@ msgcat::mcmset he {
 
 }
 
+# search.tcl
+msgcat::mcmset he {
+
+  "%d substitutions done"
+  "%d החלפות עשה"
+
+  "No files found in specified directories"
+  "לא נמצאו בספריות שצוין קבצים"
+
+  "No search results found"
+  "תוצאות חיפוש נמצאו"
+
+  "Search wrapped to beginning of file"
+  "חיפוש עטוף לתחילת הקובץ"
+
+  "Search wrapped to end of file"
+  "חיפוש עטוף כדי בסוף הקובץ"
+
+}
+
 # sidebar.tcl
 msgcat::mcmset he {
 
@@ -1040,6 +1048,9 @@ msgcat::mcmset he {
 
 # General
 msgcat::mcmset he {
+
+  "All"
+  "כל"
 
   "Cancel"
   "ביטול"

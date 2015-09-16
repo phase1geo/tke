@@ -37,11 +37,11 @@ msgcat::mcmset nl {
 # gui.tcl
 msgcat::mcmset nl {
 
-  "%d substitutions done"
-  "%d vervangingen gedaan"
-
   "%s, Line: %d, Column: %d"
   "% S, Line:% d, kolom:% d"
+
+  "Case sensitivity"
+  "Hoofdletters/kleine letters"
 
   "Close All Tabs"
   "Sluit alle tabbladen"
@@ -73,6 +73,9 @@ msgcat::mcmset nl {
   "Favorited"
   "Favoriet"
 
+  "File already exists.  Use '!' to force an overwrite"
+  "Bestand bestaat al.  Gebruik '!' te dwingen een overschrijven"
+
   "File attribute (%s) does not exist"
   "Dossierattributen (% s) bestaat niet"
 
@@ -94,8 +97,8 @@ msgcat::mcmset nl {
   "Must be in multicursor mode to insert numbers"
   "Moet in multicursor modus nummers invoegen"
 
-  "No search results found"
-  "﻿Geen resultaten gevonden..."
+  "No write permissions.  Use '!' to force write."
+  "Geen schrijfrechten.  Gebruik '!' te dwingen schrijven."
 
   "Release Type:"
   "Release Type:"
@@ -105,12 +108,6 @@ msgcat::mcmset nl {
 
   "Save request"
   "Sparen verzoek"
-
-  "Search wrapped to beginning of file"
-  "Zoek verpakt aan begin van bestand"
-
-  "Search wrapped to end of file"
-  "Zoek verpakt op einde van het bestand"
 
   "Show in Sidebar"
   "Show in Sidebar"
@@ -123,9 +120,6 @@ msgcat::mcmset nl {
 
   "Total Lines: %d, Total Characters: %d"
   "Totaal Lijnen:% d, Total Characters:% d"
-
-  "Twitter:"
-  "Twitter:"
 
   "Unable to find current file (tab: %s)"
   "Kan huidige bestand te vinden (tabblad:% s)"
@@ -163,9 +157,6 @@ msgcat::mcmset nl {
 
   "Align Cursors"
   "Uitlijnen van Cursors"
-
-  "All"
-  "Alle"
 
   "Append Next Occurrence"
   "Volgende vindplaats toevoegen"
@@ -650,9 +641,6 @@ msgcat::mcmset nl {
   "Next Difference"
   "Volgend verschil"
 
-  "No files found in specified directories"
-  "Geen bestanden gevonden in de opgegeven mappen"
-
   "Open Directory..."
   "Map openen"
 
@@ -891,6 +879,26 @@ msgcat::mcmset nl {
 
 }
 
+# search.tcl
+msgcat::mcmset nl {
+
+  "%d substitutions done"
+  "%d vervangingen gedaan"
+
+  "No files found in specified directories"
+  "Geen bestanden gevonden in de opgegeven mappen"
+
+  "No search results found"
+  "﻿Geen resultaten gevonden..."
+
+  "Search wrapped to beginning of file"
+  "Zoek verpakt aan begin van bestand"
+
+  "Search wrapped to end of file"
+  "Zoek verpakt op einde van het bestand"
+
+}
+
 # sidebar.tcl
 msgcat::mcmset nl {
 
@@ -1040,6 +1048,9 @@ msgcat::mcmset nl {
 
 # General
 msgcat::mcmset nl {
+
+  "All"
+  "Alle"
 
   "Cancel"
   "Annuleren"

@@ -37,11 +37,11 @@ msgcat::mcmset no {
 # gui.tcl
 msgcat::mcmset no {
 
-  "%d substitutions done"
-  "%d erstatninger gjort"
-
   "%s, Line: %d, Column: %d"
   "% S, Line:% d, Kolonne:% d"
+
+  "Case sensitivity"
+  "Bokstaver"
 
   "Close All Tabs"
   "Lukk alle faner"
@@ -73,6 +73,9 @@ msgcat::mcmset no {
   "Favorited"
   "Favoritt"
 
+  "File already exists.  Use '!' to force an overwrite"
+  "Filen finnes allerede.  Bruk '!' å tvinge en overskriving"
+
   "File attribute (%s) does not exist"
   "File attributt (% s) eksisterer ikke"
 
@@ -94,8 +97,8 @@ msgcat::mcmset no {
   "Must be in multicursor mode to insert numbers"
   "Må være i multicursor for å sette inn tall"
 
-  "No search results found"
-  "Søkeresultater Funnet For"
+  "No write permissions.  Use '!' to force write."
+  "Ingen skrivetilgang.  Bruk '!' tvinge skrive."
 
   "Release Type:"
   "Versjonstypen:"
@@ -105,12 +108,6 @@ msgcat::mcmset no {
 
   "Save request"
   "Be"
-
-  "Search wrapped to beginning of file"
-  "Søk brytes til begynnelsen av filen"
-
-  "Search wrapped to end of file"
-  "Søk pakket til slutten av filen"
 
   "Show in Sidebar"
   "Vis i Sidebar"
@@ -123,9 +120,6 @@ msgcat::mcmset no {
 
   "Total Lines: %d, Total Characters: %d"
   "Totalt antall linjer:% d, Totalt antall tegn:% d"
-
-  "Twitter:"
-  "Twitter:"
 
   "Unable to find current file (tab: %s)"
   "Å finne aktuelle filen klarer (tab:% s)"
@@ -163,9 +157,6 @@ msgcat::mcmset no {
 
   "Align Cursors"
   "Justere pekere"
-
-  "All"
-  "Alle"
 
   "Append Next Occurrence"
   "Legg til neste forekomst"
@@ -650,9 +641,6 @@ msgcat::mcmset no {
   "Next Difference"
   "Neste forskjellen"
 
-  "No files found in specified directories"
-  "Ingen filer funnet i angitte mapper"
-
   "Open Directory..."
   "Open Directory ..."
 
@@ -891,6 +879,26 @@ msgcat::mcmset no {
 
 }
 
+# search.tcl
+msgcat::mcmset no {
+
+  "%d substitutions done"
+  "%d erstatninger gjort"
+
+  "No files found in specified directories"
+  "Ingen filer funnet i angitte mapper"
+
+  "No search results found"
+  "Søkeresultater Funnet For"
+
+  "Search wrapped to beginning of file"
+  "Søk brytes til begynnelsen av filen"
+
+  "Search wrapped to end of file"
+  "Søk pakket til slutten av filen"
+
+}
+
 # sidebar.tcl
 msgcat::mcmset no {
 
@@ -1040,6 +1048,9 @@ msgcat::mcmset no {
 
 # General
 msgcat::mcmset no {
+
+  "All"
+  "Alle"
 
   "Cancel"
   "Avbryt"
