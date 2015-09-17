@@ -2434,6 +2434,12 @@ namespace eval gui {
     grid $tab.sf
     grid $tab.sep1
 
+    # Add bindings
+    bind $tab.sf.e    <Return> [list [ns search]::find_start $tid $dir]
+    bind $tab.sf.e    <Return> [list [ns search]::find_start $tid $dir]
+    bind $tab.sf.case <Return> [list [ns search]::find_start $tid $dir]
+    bind $tab.sf.save <Return> [list [ns search]::find_start $tid $dir]
+    
     # Clear the search entry
     $tab.sf.e delete 0 end
 
@@ -3367,10 +3373,6 @@ namespace eval gui {
     pack $tab_frame.sf.save  -side right -padx 2 -pady 2
     pack $tab_frame.sf.case  -side right -padx 2 -pady 2
 
-    bind $tab_frame.sf.e     <Return>    [list [ns search]::find_start {} next]
-    bind $tab_frame.sf.e     <Return>    [list [ns search]::find_start {} next]
-    bind $tab_frame.sf.case  <Return>    [list [ns search]::find_start {} next]
-    bind $tab_frame.sf.save  <Return>    [list [ns search]::find_start {} next]
     bind $tab_frame.sf.e     <Escape>    "[ns gui]::close_search"
     bind $tab_frame.sf.case  <Escape>    "[ns gui]::close_search"
     bind $tab_frame.sf.save  <Escape>    "[ns gui]::close_search"
