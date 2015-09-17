@@ -44,7 +44,10 @@ namespace eval diff {
 
     variable data
 
-    set data($txt,win) $win
+    # Initialize values
+    set data($txt,win)     $win
+    set data($txt,last_v1) ""
+    set data($txt,last_v2) ""
 
     ttk::frame      $win
     ttk::menubutton $win.cvs  -menu $win.cvsMenu -direction above
@@ -215,7 +218,7 @@ namespace eval diff {
     set cvs_ns [string tolower $data($txt,cvs)]
 
     # If the V2 file changed, replace the current file with the new content
-    if {![info exists data($txt,last_v2)] || ($data($txt,v2) ne $data($txt,last_v2)) || $force_update} {
+    if {($data($txt,v2) ne $data($txt,last_v2)) || $force_update} {
 
       set v2_fname $fname
 
@@ -243,6 +246,9 @@ namespace eval diff {
       file    { ${cvs_ns}::show_diff $txt [$data($txt,win).ff.e get] $fname }
       command { ${cvs_ns}::show_diff $txt [$data($txt,win).cf.e get] }
     }
+
+    # Save the value of V1 to last V1
+    set data($txt,last_v1) $data($txt,v1)
 
     # Hide the update button
     grid remove $data($txt,win).show
@@ -298,15 +304,7 @@ namespace eval diff {
 
     variable data
 
-    # Get the base session data
-    set session_data [list $data($txt,cvs) $data($txt,v1) $data($txt,v2)]
-
-    # Add the last_v2 data if it exists
-    if {[info exists data($txt,last_v2)]} {
-      lappend session_data $data($txt,last_v2)
-    }
-
-    return $session_data
+    return [list $data($txt,cvs) $data($txt,last_v1) $data($txt,last_v2)]
 
   }
 
@@ -316,36 +314,20 @@ namespace eval diff {
 
     variable data
 
-    # NEEDS WORK!
+    # Extract the contents of the data_list
+    lassign $data_list data($txt,cvs) v1 v2
 
-    # If last_v2 was not set, the version of v2 displayed was Current, so we only
-    # need to display the Update button
-    if {[set last_v2 [lassign $data_list data($txt,cvs) data($txt,v1) v2]] eq ""} {
+    # If last_v1 is non-empty, the user performed an update in the last session;
+    # otherwise, there is nothing left to do.
+    if {$v1 ne ""} {
 
-      # If the version
-      if {$v2 ne "Current"} {
-        grid $data($txt,win)
-      }
-
+      # Set v1 and v2
+      set data($txt,v1) $v1
       set data($txt,v2) $v2
 
-    } elseif {}
-      set data($txt,last_v2) $last_v2
+      # Display the original changes
       show $txt
-      set data($txt,v2) $v2
-      grid $data($txt,win)
 
-    } else {
-
-
-
-    }
-
-    # Update the display
-    if {$show_update} {
-      grid $data($txt,win).show
-    } else {
-      show $txt
     }
 
   }
