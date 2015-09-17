@@ -27,7 +27,7 @@ namespace eval diff {
   source [file join $::tke_dir lib ns.tcl]
 
   array set data {}
-  
+
   # Check to see if the ttk::spinbox command exists
   if {[catch { ttk::spinbox .__tmp }]} {
     set bg            [utils::get_default_background]
@@ -57,7 +57,7 @@ namespace eval diff {
     $data(sb)  $win.vf.v1 {*}$data(sb_opts) -textvariable [ns diff]::data($txt,v1) -width 10 -state readonly -command "[ns diff]::handle_v1 $txt"
     ttk::label $win.vf.l2 -text [msgcat::mc "    End: "]
     $data(sb)  $win.vf.v2 {*}$data(sb_opts) -textvariable [ns diff]::data($txt,v2) -width 10 -state readonly -command "[ns diff]::handle_v2 $txt"
-    
+
     bind $win.vf.v1 <FocusIn>  "[ns diff]::show_hide_version_log $txt v1 on"
     bind $win.vf.v1 <FocusOut> "[ns diff]::show_hide_version_log $txt v1 off"
     bind $win.vf.v2 <FocusIn>  "[ns diff]::show_hide_version_log $txt v2 on"
@@ -74,13 +74,13 @@ namespace eval diff {
     ttk::frame             $win.ff
     wmarkentry::wmarkentry $win.ff.e -watermark [msgcat::mc "Enter starting file"] \
       -validate key -validatecommand "[ns diff]::handle_file_entry $win %P"
-      
+
     bind [$win.ff.e entrytag] <Return> "[ns diff]::show $txt"
 
     grid rowconfigure    $win.ff 0 -weight 1
     grid columnconfigure $win.ff 0 -weight 1
     grid $win.ff.e -row 0 -column 0 -sticky ew -padx 2
-    
+
     # Create the command frame
     ttk::frame $win.cf
     wmarkentry::wmarkentry $win.cf.e -watermark [msgcat::mc "Enter difference command"]
@@ -90,7 +90,7 @@ namespace eval diff {
     grid rowconfigure    $win.cf 0 -weight 1
     grid columnconfigure $win.cf 0 -weight 1
     grid $win.cf.e -row 0 -column 0 -sticky ew -padx 2
-    
+
     grid rowconfigure    $win 0 -weight 1
     grid columnconfigure $win 2 -weight 1
     grid $win
@@ -126,56 +126,56 @@ namespace eval diff {
     }
 
   }
-  
+
   ######################################################################
   # Handles any changes to the file entry window.
   proc handle_file_entry {win value} {
-    
+
     if {[file exists $value] && [file isfile $value]} {
       grid $win.show
     } else {
       grid remove $win.show
     }
-    
+
     return 1
-    
+
   }
-  
+
   ######################################################################
   # Handles changes to the windowing theme.
   proc handle_window_theme {theme} {
-    
+
     variable data
-    
+
     # Get the default background and foreground colors
     set bg  [utils::get_default_background]
     set fg  [utils::get_default_foreground]
     set abg [utils::auto_adjust_color $bg 30]
-    
+
     # Update the spinboxes (if we are not using ttk::spinbox)
     if {$data(sb) eq "spinbox"} {
       foreach win [array names data *,win] {
         $data($win).vf.v1 configure -background $bg -foreground $fg
       }
     }
-    
+
     # Update the difference maps
     foreach win [array names data *,canvas] {
       $data($win) configure -background $bg
     }
-    
+
   }
-  
+
   ######################################################################
   # Handles a configure window call to the difference widget.
   proc configure {txt} {
-    
+
     variable data
-    
+
     # Remove the log window
     place forget $txt.log
     set data($txt,logmode) 0
-    
+
   }
 
   ######################################################################
@@ -193,16 +193,16 @@ namespace eval diff {
   proc show {txt {force_update 0}} {
 
     variable data
-    
+
     # Get the current working directory
     set cwd [pwd]
 
     # Get the current filename
     set fname [[ns gui]::current_filename]
-    
+
     # Set the current working directory to the directory of the file
     cd [file dirname $fname]
-    
+
     # Set fname to the tail of fname
     set fname [file tail $fname]
 
@@ -210,20 +210,20 @@ namespace eval diff {
     if {![info exists data($txt,cvs)] || ($data($txt,cvs) eq "")} {
       set_default_cvs $txt
     }
-    
+
     # Get the CVS namespace name
     set cvs_ns [string tolower $data($txt,cvs)]
-    
+
     # If the V2 file changed, replace the current file with the new content
     if {![info exists data($txt,last_v2)] || ($data($txt,v2) ne $data($txt,last_v2)) || $force_update} {
-      
+
       set v2_fname $fname
-    
+
       # If the currently selected version is not current, get the file command
       if {$data($txt,v2) ne "Current"} {
         set v2_fname [${cvs_ns}::get_file_cmd $data($txt,v2) $fname]
       }
-      
+
       # Execute the file open and update the text widget
       if {![catch { open $v2_fname r } rc]} {
         $txt configure -state normal
@@ -231,10 +231,10 @@ namespace eval diff {
         $txt insert end [read $rc]
         $txt configure -state disabled
       }
-      
+
       # Save the last V2
       set data($txt,last_v2) $data($txt,v2)
-      
+
     }
 
     # Displays the difference data
@@ -246,49 +246,108 @@ namespace eval diff {
 
     # Hide the update button
     grid remove $data($txt,win).show
-    
+
     # Reset the current working directory
     cd $cwd
 
   }
-  
+
   ######################################################################
   # Returns true if the specified text widget is eligible for a file
   # update via the gui::update_file command.
   proc updateable {txt} {
-    
+
     variable data
-    
+
     return [expr {$data($txt,v2) eq "Current"}]
-    
+
   }
 
   ######################################################################
   # Sets the V1 widget to the version found for the current difference view line.
   proc find_current_version {txt fname lnum} {
-    
+
     variable data
-    
+
     # Get the CVS namespace name
     set cvs_ns [string tolower $data($txt,cvs)]
-    
+
     if {[${cvs_ns}::type] eq "cvs"} {
-      
+
       if {[set v2 [${cvs_ns}::find_version $fname $data($txt,v2) [$txt diff line [lindex [split [$txt index sel.first] .] 0] add]]] ne ""} {
-        
+
         # Set version 2 to the found value
         set data($txt,v2) $v2
-        
+
         # Set version 1 to the previous value
         set data($txt,v1) [lindex $data($txt,versions) [expr [lsearch $data($txt,versions) $v2] + 1]]
-        
+
         # Show the file
         show $txt
-        
+
       }
-      
+
     }
-    
+
+  }
+
+  ######################################################################
+  # Returns a list containing information to store to the session file
+  # for the given text widget.
+  proc get_session_data {txt} {
+
+    variable data
+
+    # Get the base session data
+    set session_data [list $data($txt,cvs) $data($txt,v1) $data($txt,v2)]
+
+    # Add the last_v2 data if it exists
+    if {[info exists data($txt,last_v2)]} {
+      lappend session_data $data($txt,last_v2)
+    }
+
+    return $session_data
+
+  }
+
+  ######################################################################
+  # Loads the given data list from the session file.
+  proc set_session_data {txt data_list} {
+
+    variable data
+
+    # NEEDS WORK!
+
+    # If last_v2 was not set, the version of v2 displayed was Current, so we only
+    # need to display the Update button
+    if {[set last_v2 [lassign $data_list data($txt,cvs) data($txt,v1) v2]] eq ""} {
+
+      # If the version
+      if {$v2 ne "Current"} {
+        grid $data($txt,win)
+      }
+
+      set data($txt,v2) $v2
+
+    } elseif {}
+      set data($txt,last_v2) $last_v2
+      show $txt
+      set data($txt,v2) $v2
+      grid $data($txt,win)
+
+    } else {
+
+
+
+    }
+
+    # Update the display
+    if {$show_update} {
+      grid $data($txt,win).show
+    } else {
+      show $txt
+    }
+
   }
 
   ######################################################################
@@ -317,7 +376,7 @@ namespace eval diff {
   proc set_default_cvs {txt} {
 
     variable data
-    
+
     # Get the current filename
     set fname [file tail [[ns gui]::current_filename]]
 
@@ -331,7 +390,7 @@ namespace eval diff {
         break
       }
     }
-    
+
     # Update the UI to match the selected CVS
     update_diff_frame $txt
 
@@ -346,9 +405,9 @@ namespace eval diff {
     set win $data($txt,win)
 
     switch [[string tolower $data($txt,cvs)]::type] {
-      
+
       cvs {
-        
+
         # Remove the file and command frames from view
         grid remove $win.ff
         grid remove $win.cf
@@ -371,12 +430,12 @@ namespace eval diff {
           grid remove $win.vf
           grid remove $win.show
 
-        } 
-        
+        }
+
       }
-      
+
       file {
-        
+
         # Remove the version and command frames
         grid columnconfigure $win 4 -weight 0
         grid remove $win.vf
@@ -386,7 +445,7 @@ namespace eval diff {
         # Display the file frame and update button
         grid columnconfigure $win 3 -weight 1
         grid $win.ff
-        
+
         # Clear the filename
         $win.ff.e delete 0 end
 
@@ -394,9 +453,9 @@ namespace eval diff {
         focus $win.ff.e
 
       }
-      
+
       command {
-        
+
         # Remove the version and file frames
         grid columnconfigure $win 3 -weight 0
         grid remove $win.vf
@@ -446,7 +505,7 @@ namespace eval diff {
 
     # Find the current V1 version in the versions list
     set index [lsearch $data($txt,versions) $data($txt,v1)]
-    
+
     # Adjust version 2, if necessary
     if {$data($txt,v1) >= $data($txt,v2)} {
       set data($txt,v2) [lindex $data($txt,versions) [expr $index - 1]]
@@ -457,7 +516,7 @@ namespace eval diff {
 
     # Update the version log information
     show_hide_version_log $txt v1 on
-      
+
   }
 
   ######################################################################
@@ -465,10 +524,10 @@ namespace eval diff {
   proc handle_v2 {txt} {
 
     variable data
-    
+
     # Find the current V2 version in the versions list
     set index [lsearch $data($txt,versions) $data($txt,v2)]
-    
+
     # Adjust version 1, if necessary
     if {$data($txt,v1) >= $data($txt,v2)} {
       set data($txt,v1) [lindex $data($txt,versions) [expr $index + 1]]
@@ -479,61 +538,61 @@ namespace eval diff {
 
     # Update the version log information
     show_hide_version_log $txt v2 on
-      
+
   }
 
   ######################################################################
   # Shows/hides the file version information in a tooltip just above the
   # associated version widget.
   proc show_hide_version_log {txt widget mode} {
-    
+
     variable data
-    
+
     if {[[ns preferences]::get View/ShowDifferenceVersionInfo] &&
         (![info exists data($txt,logmode)] || \
          (!$data($txt,logmode) && ($mode eq "toggle")) || \
          ($mode eq "on") || \
          ($data($txt,logmode) && ($mode eq "update")))} {
-      
+
       # Get the current filename
       set fname [[ns gui]::current_filename]
-      
+
       # Get the current working directory
       set cwd [pwd]
-      
+
       # Set the current working directory to the dirname of fname
       cd [file dirname $fname]
-       
+
       # Get the version information
       if {[set log [[string tolower $data($txt,cvs)]::get_version_log [file tail $fname] $data($txt,$widget)]] ne ""} {
-        
+
         # Create the message widget
         $txt.log configure -text $log -width [expr [winfo width $txt] - 10]
-        
+
         # Place the message widget
         place $txt.log -in $txt -x 10 -y [expr [winfo height $txt] - ([winfo reqheight $txt.log] + 10)]
-        
+
         set data($txt,logmode) 1
-        
+
         # Return the working directory to the previous directory
         cd $cwd
-      
+
         return
-        
+
       }
-      
+
       # Return the working directory to the previous directory
       cd $cwd
-      
+
     }
-      
+
     # Destroy the message widget
     place forget $txt.log
-      
+
     set data($txt,logmode) 0
-      
+
   }
-  
+
   ######################################################################
   # Executes the given diff command that produces diff output in unified
   # format.  Updates the specified text widget with the result.  The
@@ -541,10 +600,10 @@ namespace eval diff {
   # Additionally, the file that is in the editor must be the same version
   # that is associated with the '+++' file in the diff output.
   proc parse_unified_diff {txt cmd} {
-    
+
     # Execute the difference command
     catch { exec -ignorestderr {*}$cmd } rc
-    
+
     # Open the UI for editing
     $txt configure -state normal
 
@@ -593,7 +652,7 @@ namespace eval diff {
         incr tline
       }
     }
-    
+
     # If we have any adds or subs left over to process, process them now
     if {$adds > 0} {
       $txt diff add [expr $tline - $adds] $adds
@@ -603,12 +662,12 @@ namespace eval diff {
 
     # Disable the text window from editing
     $txt configure -state disabled
-    
+
     # Update the map widget
     map_configure $txt
 
   }
-  
+
   ######################################################################
   # CVS TOOL NAMESPACES
   ######################################################################
@@ -653,7 +712,7 @@ namespace eval diff {
         diff::parse_unified_diff $txt "p4 diff2 -u ${fname}#$v1 ${fname}#$v2"
       }
     }
-    
+
     proc find_version {fname v2 lnum} {
       if {$v2 eq "Current"} {
         if {![catch { exec p4 annotate $fname } rc]} {
@@ -677,7 +736,7 @@ namespace eval diff {
       }
       return ""
     }
-    
+
   }
 
   ######################################################################
@@ -719,7 +778,7 @@ namespace eval diff {
         diff::parse_unified_diff $txt "hg diff -r $v1 -r $v2 $fname"
       }
     }
-    
+
     proc find_version {fname v2 lnum} {
       if {$v2 eq "Current"} {
         if {![catch { exec hg annotate $fname } rc]} {
@@ -736,7 +795,7 @@ namespace eval diff {
       }
       return ""
     }
-    
+
     proc get_version_log {fname version} {
       if {![catch { exec hg log -r $version $fname } rc]} {
         return $rc
@@ -745,23 +804,23 @@ namespace eval diff {
     }
 
   }
-  
+
   ######################################################################
   # Handles GIT commands
   namespace eval git {
-    
+
     proc name {} {
       return "Git"
     }
-    
+
     proc type {} {
       return "cvs"
     }
-    
+
     proc handles {fname} {
       return [expr {![catch { exec git log -n 1 $fname }]}]
     }
-    
+
     proc versions {fname} {
       set versions [list]
       set ::env(PAGER) ""
@@ -774,11 +833,11 @@ namespace eval diff {
       }
       return $versions
     }
-    
+
     proc get_file_cmd {version fname} {
       return "|git show $version:$fname"
     }
-    
+
     proc show_diff {txt v1 v2 fname} {
       if {$v2 eq "Current"} {
         diff::parse_unified_diff $txt "git diff $v1 $fname"
@@ -786,7 +845,7 @@ namespace eval diff {
         diff::parse_unified_diff $txt "git diff $v1 $v2 $fname"
       }
     }
-    
+
     proc find_version {fname v2 lnum} {
       if {$v2 eq "Current"} {
         if {![catch { exec git blame $fname } rc]} {
@@ -803,14 +862,14 @@ namespace eval diff {
       }
       return ""
     }
-    
+
     proc get_version_log {fname version} {
       if {![catch { exec git log -n 1 $version $fname } rc]} {
         return $rc
       }
       return ""
     }
-    
+
   }
 
   ######################################################################
@@ -869,14 +928,14 @@ namespace eval diff {
       }
       return ""
     }
-    
+
     proc get_version_log {fname version} {
       if {![catch { exec svn log -r $version $fname } rc]} {
         return $rc
       }
       return ""
     }
-    
+
   }
 
   ######################################################################
@@ -918,7 +977,7 @@ namespace eval diff {
         diff::parse_unified_diff $txt "cvs diff -u -r $v1 -r $v2 $fname"
       }
     }
-    
+
     proc find_version {fname v2 lnum} {
       if {$v2 eq "Current"} {
         if {![catch { exec cvs annotate $fname } rc]} {
@@ -941,7 +1000,7 @@ namespace eval diff {
       }
       return ""
     }
-    
+
   }
 
   ######################################################################
@@ -965,50 +1024,50 @@ namespace eval diff {
     }
 
   }
-  
+
   ######################################################################
   # Handles custom commands
   namespace eval custom {
-    
+
     proc name {} {
       return "custom"
     }
-    
+
     proc type {} {
       return "command"
     }
-    
+
     proc handles {fname} {
       return 0
     }
-    
+
     proc show_diff {txt command} {
       diff::parse_unified_diff $txt $command
     }
-    
+
   }
-  
+
   ######################################################################
   # DIFFERENCE MAP WIDGET
   ######################################################################
-  
+
   ######################################################################
   # Creates the difference map which is basically a colored scrollbar.
   proc map {win txt args} {
-    
+
     variable data
-    
+
     array set opts {
       -command ""
     }
     array set opts $args
-    
+
     # Get the background color
     set bg [utils::get_default_background]
-    
+
     # Create the canvas
     set data($txt,canvas) [canvas $win -width 15 -relief flat -bd 1 -highlightthickness 0 -bg $bg]
-    
+
     # Create canvas bindings
     bind $data($txt,canvas) <Configure>  [list [ns diff]::map_configure $txt]
     bind $data($txt,canvas) <Button-1>   [list [ns diff]::map_position_slider %W %y $txt $opts(-command)]
@@ -1016,69 +1075,69 @@ namespace eval diff {
     bind $data($txt,canvas) <MouseWheel> "event generate $txt.t <MouseWheel> -delta %D"
     bind $data($txt,canvas) <4>          "event generate $txt.t <4>"
     bind $data($txt,canvas) <5>          "event generate $txt.t <5>"
-    
+
     rename ::$win $win
     interp alias {} ::$win {} [ns diff]::map_command $txt
-    
+
     return $win
-    
+
   }
-  
+
   ######################################################################
   # Executes map commands.
   proc map_command {txt args} {
-    
+
     variable data
-    
+
     set args [lassign $args cmd]
-    
+
     switch $cmd {
-      
+
       set {
         lassign $args first last
         set height [winfo height $data($txt,canvas)]
         set y1     [expr int( $height * $first )]
-        
+
         # Adjust the size and position of the slider
         $data($txt,canvas) coords $data($txt,slider) 2 [expr $y1 + 2] 15 [expr $y1 + $data($txt,sheight)]
       }
-      
+
       default {
         return -code error "difference map called with invalid command ($cmd)"
       }
-      
+
     }
-    
+
   }
-  
+
   ######################################################################
   # Handles a left-click or click-drag in the canvas area, positioning
   # the cursor at the given position.
   proc map_position_slider {W y txt cmd} {
-    
+
     variable data
-    
+
     if {$cmd ne ""} {
-      
+
       # Calculate the moveto fraction
       set moveto [expr ($y.0 - ($data($txt,sheight) / 2)) / [winfo height $W]]
-       
+
       # Call the command
       uplevel #0 "$cmd moveto $moveto"
-      
+
     }
-    
+
   }
-  
+
   ######################################################################
   # Called whenever the map widget is configured.
   proc map_configure {txt} {
-    
+
     variable data
-    
+
     # Remove all canvas items
     $data($txt,canvas) delete all
-    
+
     # Add the difference bars
     foreach type [list sub add] {
       foreach {start end} [$txt diff ranges $type] {
@@ -1087,40 +1146,42 @@ namespace eval diff {
         map_add $txt $type $start_line [expr $end_line - $start_line]
       }
     }
-    
+
     # Calculate the slider height
     lassign [$txt yview] first last
     set height             [winfo height $data($txt,canvas)]
     set sheight            [expr ((int( $height * $last ) - int( $height * $first )) + 1) - 4]
     set data($txt,sheight) [expr ($sheight < 11) ? 11 : $sheight]
-    
+
     # Add cursor
     set bg                [utils::get_default_background]
     set abg               [utils::auto_adjust_color $bg 50]
     set data($txt,slider) [$data($txt,canvas) create rectangle 2 0 15 10 -outline $abg -width 2]
     map_command $txt set $first $last
-    
+
   }
-  
+
   ######################################################################
   # Adds a sub or add bar to the associated widget.
   proc map_add {txt type start lines} {
-    
+
     variable data
-    
+
     # Get the number of lines in the text widget
     set txt_lines [lindex [split [$txt index end-1c] .] 0]
-    
+
     # Get the height of the box to add
     set y1 [expr int( ($start.0 / $txt_lines) * [winfo height $data($txt,canvas)] )]
     set y2 [expr int( (($start + $lines.0) / $txt_lines) * [winfo height $data($txt,canvas)] )]
-    
+
     # Get the color to display
     set color [expr {($type eq "sub") ? [$txt cget -diffsubbg] : [$txt cget -diffaddbg]}]
-    
+
     # Create the rectangle and place it in the widget
     $data($txt,canvas) create rectangle 0 $y1 15 $y2 -fill $color -width 0
-    
+
   }
 
 }
+
+

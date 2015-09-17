@@ -56,7 +56,7 @@ namespace eval dired {
     write_directories
 
     # Add the dired file
-    api::file::add $data(file) -sidebar 0 -gutters {{changes D {-symbol "D" -fg red} A {-symbol "A" -fg green} R {-symbol "R" -fg yellow}}} -tags {pre_key_bindings post_key_bindings}
+    api::file::add_buffer "Dired" -gutters {{changes D {-symbol "D" -fg red} A {-symbol "A" -fg green} R {-symbol "R" -fg yellow}}} -tags {pre_key_bindings post_key_bindings}
 
   }
 
@@ -72,7 +72,7 @@ namespace eval dired {
     # If the entry is a file, add it to the editor
     if {[file isfile $elem]} {
 
-      api::file::add $elem
+      api::file::add_file $elem
 
     # If the entry is a directory, open it in a new dired file
     } elseif {[file isdirectory $elem]} {

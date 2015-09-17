@@ -297,7 +297,7 @@
     save_note_info
     
     # Add a new file to the editor
-    api::file::add $note_name -sidebar 0 -savecommand [list notes::save_note [file join $list_path [file tail $note_name]]]
+    api::file::add_file $note_name -sidebar 0 -savecommand [list notes::save_note [file join $list_path [file tail $note_name]]]
     
   }
   
@@ -322,7 +322,7 @@
   # Displays the given note in the editor.
   proc show_note {note_path} {
     
-    api::file::add [file join [api::get_home_directory] $note_path] -sidebar 0
+    api::file::add_file [file join [api::get_home_directory] $note_path] -sidebar 0
     
   }
   

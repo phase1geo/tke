@@ -11,7 +11,7 @@ namespace eval mercurial {
     }
     
     # Create a buffer
-    set txt [api::file::add "Mercurial Status" -sidebar 0 -buffer 1 -readonly 1]
+    set txt [api::file::add_buffer "Mercurial Status" -readonly 1]
     
     # Send the Mercurial status information
     $txt configure -state normal
@@ -42,7 +42,7 @@ namespace eval mercurial {
     puts "In diff_do, fname: $fname"
     
     # Display the difference
-    api::file::add $fname -diff "hg diff $fname"
+    api::file::add_file $fname -diff "hg diff $fname"
     
   }
   

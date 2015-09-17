@@ -1,7 +1,7 @@
 namespace eval test {
   
   proc on_start {} {
-    set txt [api::file::add [file join [api::get_plugin_directory] main.tcl] \
+    set txt [api::file::add_file [file join [api::get_plugin_directory] main.tcl] \
       -gutters {{test heart {-symbol \u2665 -fg red -onenter test::gutter_on_enter -onleave test::gutter_on_leave -onclick test::gutter_on_click} dot {-symbol \u00b7 -fg green}}}]
     $txt gutter set test heart {2 3} dot 6
   }
