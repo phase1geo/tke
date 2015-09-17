@@ -1,79 +1,51 @@
-changeset:   1306:616925ed6c65
-tag:         devel-1.8.17
+changeset:   1315:c3f8acdd8dd9
+tag:         devel-1.8.18
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Sep 13 00:11:23 2015 -0500
+date:        Tue Sep 15 00:20:00 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.8.17 release
+ChangeLog for devel-1.8.18 release
 
 
-changeset:   1307:eb6cf81eb5db
+changeset:   1316:d953c68dbe6f
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Sep 13 00:11:38 2015 -0500
+date:        Tue Sep 15 00:20:04 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.8.17 for changeset 616925ed6c65
+Added tag devel-1.8.18 for changeset c3f8acdd8dd9
 
 
-changeset:   1308:30b6305c1b2d
+changeset:   1317:7941a65c8f0a
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Sep 14 23:00:57 2015 -0500
-files:       doc/UserGuide.epub doc/UserGuide.pdf lib/gui.tcl lib/version.tcl
+date:        Tue Sep 15 09:26:08 2015 -0500
+files:       lib/gui.tcl lib/markers.tcl lib/version.tcl
 description:
-* Updating user guide.
-* Removing -sidebar option to gui::add_buffer.
+* Adding marker session saving/loading.
 
 
-changeset:   1309:fbdc019f169a
-parent:      1307:eb6cf81eb5db
+changeset:   1318:38d68365e8e1
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Sep 15 21:03:34 2015 -0500
+files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg lib/version.tcl
+description:
+* Updating translations.
+
+
+changeset:   1319:5cdfa90dd970
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Mon Sep 14 11:21:55 2015 -0500
-files:       lib/gui.tcl lib/version.tcl
+date:        Wed Sep 16 19:27:51 2015 -0500
+files:       lib/diff.tcl lib/gui.tcl lib/version.tcl plugins/dired/main.tcl plugins/mercurial/main.tcl plugins/notes/main.tcl plugins/perforce/main.tcl plugins/terminal/main.tcl plugins/test/main.tcl
 description:
-* Attempting to fix syntax issues with gui.tcl
+* Working on saving difference mode data to session file (still a work in progress).
+* Updating plugins to use api::file::add_buffer and api::file::add_file.
 
 
-changeset:   1310:91fe2e57ce6c
-parent:      1308:30b6305c1b2d
-parent:      1309:fbdc019f169a
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Sep 14 23:01:27 2015 -0500
-files:       lib/gui.tcl
-description:
-* Merging.
-
-
-changeset:   1311:53021a8ee62f
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Sep 14 23:20:25 2015 -0500
-files:       lib/gui.tcl lib/version.tcl
-description:
-* Fixing FIF syntax errors.
-* Adding Return support in FIF widget, regardless of widget with focus.
-
-
-changeset:   1312:9a94243416d0
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Sep 14 23:59:29 2015 -0500
-files:       lib/version.tcl plugins/current_line/main.tcl
-description:
-* Fixing current_line text binding syntax error.
-
-
-changeset:   1313:d7042602d61d
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Sep 15 00:04:56 2015 -0500
-files:       lib/gui.tcl lib/version.tcl
-description:
-* Fix for Find in Files Find return key binding.
-
-
-changeset:   1314:c690e8a26062
+changeset:   1320:4a592041b2e8
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Sep 15 00:17:46 2015 -0500
-files:       lib/version.tcl
+date:        Thu Sep 17 01:30:31 2015 -0500
+files:       lib/diff.tcl lib/gui.tcl lib/version.tcl
 description:
-* Fixing.
+* Fixing support for saving difference view information to session file.
 
 
