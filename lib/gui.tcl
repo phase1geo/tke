@@ -959,14 +959,14 @@ namespace eval gui {
             if {[info exists finfo(indent)]} {
               set_current_indent_mode $tid $finfo(indent)
             }
+            if {$finfo(diff) && [info exists finfo(diffdata)]} {
+              [ns diff]::set_session_data $txt $finfo(diffdata)
+            }
             if {[info exists finfo(cursor)]} {
               $txt mark set insert $finfo(cursor)
             }
             if {[info exists finfo(yview)]} {
               $txt yview $finfo(yview)
-            }
-            if {$finfo(diff) && [info exists finfo(diffdata)]} {
-              [ns diff]::set_session_data $txt $finfo(diffdata)
             }
             if {[info exists finfo(markers)]} {
               foreach {mname line} $finfo(markers) {
