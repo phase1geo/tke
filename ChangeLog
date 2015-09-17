@@ -1,51 +1,35 @@
-changeset:   1315:c3f8acdd8dd9
-tag:         devel-1.8.18
+changeset:   1321:73784c2f5360
+tag:         devel-1.8.19
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Sep 15 00:20:00 2015 -0500
+date:        Thu Sep 17 01:33:43 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.8.18 release
+ChangeLog for devel-1.8.19 release
 
 
-changeset:   1316:d953c68dbe6f
+changeset:   1322:17d03ee633ec
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Sep 15 00:20:04 2015 -0500
+date:        Thu Sep 17 01:33:47 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.8.18 for changeset c3f8acdd8dd9
+Added tag devel-1.8.19 for changeset 73784c2f5360
 
 
-changeset:   1317:7941a65c8f0a
+changeset:   1323:aedf2c8f1352
+tag:         checkpoint0
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Sep 15 09:26:08 2015 -0500
-files:       lib/gui.tcl lib/markers.tcl lib/version.tcl
+date:        Thu Sep 17 13:48:56 2015 -0500
+files:       lib/gui.tcl lib/version.tcl
 description:
-* Adding marker session saving/loading.
+* Fixing issue with initial Find direction.
 
 
-changeset:   1318:38d68365e8e1
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Sep 15 21:03:34 2015 -0500
-files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg lib/version.tcl
-description:
-* Updating translations.
-
-
-changeset:   1319:5cdfa90dd970
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Sep 16 19:27:51 2015 -0500
-files:       lib/diff.tcl lib/gui.tcl lib/version.tcl plugins/dired/main.tcl plugins/mercurial/main.tcl plugins/notes/main.tcl plugins/perforce/main.tcl plugins/terminal/main.tcl plugins/test/main.tcl
-description:
-* Working on saving difference mode data to session file (still a work in progress).
-* Updating plugins to use api::file::add_buffer and api::file::add_file.
-
-
-changeset:   1320:4a592041b2e8
+changeset:   1324:1acd0ce8458a
 tag:         tip
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Sep 17 01:30:31 2015 -0500
-files:       lib/diff.tcl lib/gui.tcl lib/version.tcl
+user:        Trevor Williams  <phase1geo@gmail.com>
+date:        Thu Sep 17 16:49:10 2015 -0500
+files:       .hgtags
 description:
-* Fixing support for saving difference view information to session file.
+Added tag checkpoint0 for changeset aedf2c8f1352
 
 
