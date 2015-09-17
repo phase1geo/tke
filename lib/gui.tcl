@@ -843,13 +843,17 @@ namespace eval gui {
       set finfo(modified)    0
       set finfo(cursor)      [$txt index insert]
       set finfo(yview)       [$txt index @0,0]
-      
+
       # Add markers
       set finfo(markers) [list]
       foreach mname [[ns markers]::get_all_names $txt] {
         lappend finfo(markers) $mname [lindex [split [[ns markers]::get_index $txt $mname] .] 0]
       }
 
+      # Add diff data, if applicable
+      if {$finfo(diff)} {
+        set finfo(diffdata) [[ns diff]::get_session_data $txt]
+      }
       lappend content(FileInfo) [array get finfo]
 
     }
@@ -960,6 +964,9 @@ namespace eval gui {
             }
             if {[info exists finfo(yview)]} {
               $txt yview $finfo(yview)
+            }
+            if {$finfo(diff) && [info exists finfo(diffdata)]} {
+              [ns diff]::set_session_data $txt $finfo(diffdata)
             }
             if {[info exists finfo(markers)]} {
               foreach {mname line} $finfo(markers) {
@@ -1594,11 +1601,11 @@ namespace eval gui {
   ######################################################################
   # Performs a forced pre-save operation for the given filename.
   proc save_prehandle {fname save_as force pperms} {
-    
+
     upvar $pperms perms
-    
+
     set perms ""
-    
+
     if {$save_as eq ""} {
       if {![file writable $fname]} {
         if {$force} {
@@ -1616,23 +1623,23 @@ namespace eval gui {
       set_info_message [msgcat::mc "File already exists.  Use '!' to force an overwrite"]
       return 0
     }
-    
+
     return 1
-      
+
   }
-  
+
   ######################################################################
   # Performs a forced post-save operation for the given filename.
   proc save_posthandle {fname perms} {
-    
+
     if {$perms ne ""} {
       catch { file attributes $fname -permissions $perms }
     }
-    
+
     return 1
-    
+
   }
-  
+
   ######################################################################
   # Saves the current tab contents.  Returns 1 if the save was successful;
   # otherwise, returns a value of 0.
@@ -1694,7 +1701,7 @@ namespace eval gui {
         lset files $file_index $files_index(fname) $sfile
       }
     }
-    
+
     # Make is easier to refer to the filename
     set fname [lindex $files $file_index $files_index(fname)]
 
@@ -1712,7 +1719,7 @@ namespace eval gui {
       tk_messageBox -parent . -title [msgcat::mc "Error"] -type ok -default ok -message [msgcat::mc "Unable to write file"] -detail $rc
       return 0
     }
-    
+
     # Write the file contents
     catch { fconfigure $rc -translation [[ns preferences]::get {Editor/EndOfLineTranslation}] }
     puts $rc [scrub_text [current_txt $tid]]
@@ -2429,7 +2436,7 @@ namespace eval gui {
 
     # Clear the search entry
     $tab.sf.e delete 0 end
-    
+
     # Reset the saved indicator
     set saved 0
 
@@ -2461,7 +2468,7 @@ namespace eval gui {
     set_txt_focus [last_txt_focus {}]
 
   }
-  
+
   ######################################################################
   # Displays the search and replace bar.
   proc search_and_replace {} {
@@ -2469,7 +2476,7 @@ namespace eval gui {
     variable pw_current
     variable tab_current
     variable saved
-    
+
     # Get the current text widgets
     set txt [current_txt {}]
 
@@ -2483,10 +2490,10 @@ namespace eval gui {
     # Clear the search entry
     $tab.rf.fe delete 0 end
     $tab.rf.re delete 0 end
-    
+
     # Reset the saved indicator
     set saved 0
-    
+
     # If a line or less is selected, populate the find entry with it
     if {([llength [set ranges [$txt tag ranges sel]]] == 2) && ([$txt count -lines {*}$ranges] == 0)} {
       $tab.rf.fe insert end [$txt get {*}$ranges]
@@ -2519,40 +2526,40 @@ namespace eval gui {
   ######################################################################
   # Retrieves the current search information for the specified type.
   proc get_search_data {type} {
-    
+
     variable widgets
     variable tab_current
     variable pw_current
     variable case_sensitive
     variable replace_all
     variable saved
-    
+
     # Get the current tab
     set tab $tab_current($pw_current)
-    
+
     switch $type {
       "find"    { return [list [$tab.sf.e get] $case_sensitive $saved] }
       "replace" { return [list [$tab.rf.fe get] [$tab.rf.re get] $case_sensitive $replace_all $saved] }
       "fif"     { return [list [$widgets(fif_find) get] [$widgets(fif_in) tokenget] $case_sensitive $saved] }
     }
-    
+
   }
-  
+
   ######################################################################
   # Sets the given search information in the current search widget based
   # on type.
   proc set_search_data {type data} {
-    
+
     variable widgets
     variable tab_current
     variable pw_current
     variable case_sensitive
     variable replace_all
     variable saved
-    
+
     # Get the current tab
     set tab $tab_current($pw_current)
-    
+
     switch $type {
       "find" {
         lassign $data str case_sensitive saved
@@ -2574,7 +2581,7 @@ namespace eval gui {
         $widgets(fif_in) tokeninsert end $in
       }
     }
-    
+
   }
 
   ######################################################################
@@ -2648,13 +2655,13 @@ namespace eval gui {
   # Sets the file lock of the current editor with the value of the file_locked
   # local variable.
   proc set_current_file_lock_with_current {tid} {
-    
+
     variable file_locked
-    
+
     set_current_file_lock $tid $file_locked
-    
+
   }
-  
+
   ######################################################################
   # Set or clear the favorite status of the current file.
   proc set_current_file_favorite {tid favorite} {
@@ -2674,16 +2681,16 @@ namespace eval gui {
     }
 
   }
-  
+
   ######################################################################
   # Sets the file favorite of the current editor with the value of the
   # file_favorited local variable.
   proc set_current_file_favorite_with_current {tid} {
-    
+
     variable file_favorited
-    
+
     set_current_file_favorite $tid $file_favorited
-    
+
   }
 
   ######################################################################

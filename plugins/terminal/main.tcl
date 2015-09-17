@@ -28,7 +28,7 @@ namespace eval terminal {
     variable user_command
     
     # Create/Display a terminal buffer
-    set txt [api::file::add Terminal -sidebar 0 -buffer 1 -readonly 1]
+    set txt [api::file::add_buffer "Terminal" -readonly 1]
     
     # Add the prompt> string if the buffer is empty
     if {[lsearch [$txt tag names] prompt] == -1} {
