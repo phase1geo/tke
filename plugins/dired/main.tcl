@@ -40,9 +40,6 @@ namespace eval dired {
 
     variable data
 
-    # Create the temporary filename
-    set data(file) [file join [api::get_plugin_directory] dired]
-
     # Initialize variables
     set data(mode) ""
     set data(dirs) [list]
@@ -52,11 +49,11 @@ namespace eval dired {
       lappend data(dirs) [api::sidebar::get_info $index fname]
     }
 
-    # Write the dired file
-    write_directories
-
     # Add the dired file
-    api::file::add_buffer "Dired" -gutters {{changes D {-symbol "D" -fg red} A {-symbol "A" -fg green} R {-symbol "R" -fg yellow}}} -tags {pre_key_bindings post_key_bindings}
+    set txt [api::file::add_buffer "Dired" dired::on_save -gutters {{changes D {-symbol "D" -fg red} A {-symbol "A" -fg green} R {-symbol "R" -fg yellow}}} -tags {pre_key_bindings post_key_bindings}]
+
+    # Write the dired file
+    write_directories $txt
 
   }
 
@@ -84,7 +81,7 @@ namespace eval dired {
       set data(dirs) $elem
 
       # Write the dired file
-      write_directories
+      write_directories $txt
 
     }
 
@@ -100,32 +97,28 @@ namespace eval dired {
 
   ######################################################################
   # Changes the dired file to include the given directories.
-  proc write_directories {} {
+  proc write_directories {txt} {
 
     variable data
 
-    # Open the file for writing
-    if {![catch { open $data(file) w } rc]} {
+    # Delete the buffer
+    $txt delete -moddata ignore 1.0 end
+    
+    # Get the currently selected directories
+    foreach dirname $data(dirs) {
 
-      # Get the currently selected directories
-      foreach dirname $data(dirs) {
+      $txt insert -moddata ignore end "# $dirname\n\n"
+      $txt insert -moddata ignore end "  ..\n"
 
-        puts $rc "# $dirname\n"
-        puts $rc "  .."
-
-        # Get the directory contents
-        foreach elem [glob -directory $dirname -tails *] {
-          puts $rc "  $elem"
-        }
-
-        puts $rc ""
-
+      # Get the directory contents
+      foreach elem [glob -directory $dirname -tails *] {
+        $txt insert -moddata ignore end "  $elem\n"
       }
 
-      close $rc
+      $txt insert -moddata ignore end "\n"
 
     }
-
+    
   }
 
   ######################################################################
@@ -141,11 +134,13 @@ namespace eval dired {
       # Confirm the changes
       if {[tk_messageBox -parent . -message "Apply changes?" -type yesno -default yes]} {
 
+        set txt [api::file::get_info $index txt]
+        
         # Apply the changes
-        apply_changes [api::file::get_info $index txt]
+        apply_changes $txt
 
         # Update the directories file
-        write_directories
+        write_directories $txt
 
       }
 
@@ -206,6 +201,8 @@ namespace eval dired {
   proc handle_any_pretext {w keysym} {
 
     variable data
+    
+    api::log "In handle_any_pretext, w: $w, keysym: $keysym"
 
     # If the escape key is hit, clear the mode
     if {$keysym eq "Escape"} {
@@ -222,7 +219,7 @@ namespace eval dired {
       return 0
     }
 
-    puts "In keysym: $keysym"
+    api::log "In keysym: $keysym"
 
     switch $keysym {
       Return -
@@ -393,6 +390,5 @@ api::register dired {
   {text_binding posttext post_key_bindings only dired::do_posttext_binding}
   {root_popup command "Open dired view" dired::do_open_directory dired::handle_state_open_directory}
   {dir_popup  command "Open dired view" dired::do_open_directory dired::handle_state_open_directory}
-  {on_save dired::on_save}
   {on_close dired::on_close}
 }
