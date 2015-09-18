@@ -105,7 +105,7 @@ namespace eval plugins {
 
       # Read the header information
       if {![catch { tkedat::read [file join $plugin header.tkedat] 0 } rc]} {
-
+        
         array set header $rc
 
         # Store this information if the name is specified and it should be included

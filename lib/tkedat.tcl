@@ -60,10 +60,14 @@ namespace eval tkedat {
 
     set contents ""
     
-    if {![catch { open $fname r } rc]} {
-      set contents [::read $rc]  
-      close $rc
+    # Open the file for reading and return an error if we have an issue
+    if {[catch { open $fname r } rc]} {
+      return -code error [msgcat::mc "Unable to open %s for reading" $fname]
     }
+    
+    # Read the file contents
+    set contents [::read $rc]  
+    close $rc
     
     return [parse $contents $include_comments]
     
