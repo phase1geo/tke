@@ -2065,7 +2065,7 @@ namespace eval gui {
     variable files_index
 
     foreach nb [$widgets(nb_pw) panes] {
-
+      
       # Create the tabbar path
       set tb "$nb.tbf.tb"
 
@@ -2100,9 +2100,8 @@ namespace eval gui {
   proc move_to_pane {} {
 
     variable widgets
+    variable tab_current
     variable pw_current
-    variable files
-    variable files_index
 
     # Get the list of panes
     set panes [$widgets(nb_pw) panes]
@@ -2112,86 +2111,58 @@ namespace eval gui {
       add_notebook
       set panes [$widgets(nb_pw) panes]
     }
+    
+    # Get the tab frame that will be moved
+    set current_tab $tab_current($pw_current)
+    
+    # Get the notebook
+    lassign [pane_tb_index_from_tab $current_tab] pane tb tab_index
 
-    # Get the relevant information from the current text widget
-    set txt      [current_txt {}]
-    set file     [lindex $files [current_file]]
-    if {[set fname [current_filename]] eq ""} {
-      set fname [msgcat::mc "Untitled"]
-    }
-    set content  [$txt get 1.0 end-1c]
-    set insert   [$txt index insert]
-    set select   [$txt tag ranges sel]
-    set modified [lindex $file $files_index(modified)]
-    set diff     [lindex $file $files_index(diff)]
-    set language [[ns syntax]::get_current_language $txt]
+    # Get the current title
+    set title [$tb tab $tab_index -text]
+    
+    # Remove the tab from the tabbar
+    $tb delete $tab_index
 
-    # Collect the gutter symbols
-    array set symbols {}
-    foreach gutter [lindex $file $files_index(gutters)] {
-      set gutter_name [lindex $gutter 0]
-      set symbols($gutter_name) [$txt gutter get $gutter_name]
-    }
-
-    # Delete the current tab
-    close_current {} 1
-
-    # Get the name of the other pane if it exists
-    if {[llength [$widgets(nb_pw) panes]] == 2} {
+    # Remove the tab from the current pane
+    catch { pack forget $current_tab }
+    
+    # Display the current pane (if one exists)
+    if {[set tab [$tb select]] ne ""} {
+      set_current_tab $tab 0 0
       set pw_current [expr $pw_current ^ 1]
+    } else {
+      $widgets(nb_pw) forget $pane
+      set pw_current 0
     }
 
-    # Adjust the index (if necessary)
-    set index [adjust_insert_tab_index end [file tail $fname]]
-
-    # Create a new tab
-    set w [insert_tab $index [file tail $fname] $diff [lindex $file $files_index(gutters)] [lindex $file $files_index(tags)] $language]
-
-    # Get the current text widget
-    set txt [current_txt {}]
-
-    if {$diff} {
-
-      [ns diff]::show $txt 1
-
-    } else {
-
-      # Add the text, insertion marker and selection
-      $txt insert end $content
-      $txt mark set insert $insert
-
-      # Add the gutter symbols
-      foreach {name symbol_list} [array get symbols] {
-        $txt gutter set $name {*}$symbol_list
+    # Get the other tabbar
+    set tb [current_tabbar]
+    
+    # Make sure that tabbar is visible
+    grid $tb
+    
+    # Add the new tab to the notebook in alphabetical order (if specified)
+    if {[[ns preferences]::get View/OpenTabsAlphabetically]} {
+      set added 0
+      foreach t [$tb tabs] {
+        if {[string compare $title [$tb tab $t -text]] == -1} {
+          $tb insert $t $current_tab -text $title -emboss 0
+          set added 1
+          break
+        }
+      }
+      if {$added == 0} {
+        $tb insert end $current_tab -text $title -emboss 0
       }
 
+    # Otherwise, add the tab in the specified location
+    } else {
+      $tb insert end $current_tab -text $title -emboss 0
     }
-
-    # Perform an insertion adjust, if necessary
-    if {[[ns vim]::in_vim_mode $txt.t]} {
-      [ns vim]::adjust_insert $txt.t
-    }
-
-    # Add the selection (if it exists)
-    if {[llength $select] > 0} {
-      $txt tag add sel {*}$select
-    }
-
-    # If the text widget was not in a modified state, force it to be so now
-    if {!$modified} {
-      $txt edit modified false
-      [current_tabbar] tab current -text " [file tail $fname]"
-      set_title
-    }
-
-    # Highlight the file in the sidebar
-    [ns sidebar]::add_directory [file dirname [file normalize $fname]]
-    [ns sidebar]::highlight_filename $fname [expr ($diff * 2) + 1]
-
-    # Update the file components to include position change information
-    lset file $files_index(tab)      $w
-    lset file $files_index(modified) 0
-    lappend files $file
+    
+    # Now move the current tab from the previous current pane to the new current pane
+    set_current_tab $current_tab 1 1
 
     # Set the tab image for the moved file
     set_current_tab_image {}
@@ -3287,7 +3258,8 @@ namespace eval gui {
     $widgets(info_syntax) configure -state normal
 
     # Create the tab frame
-    set tab_frame [ttk::frame $nb.$id]
+    # set tab_frame [ttk::frame $nb.$id]
+    set tab_frame [ttk::frame .tab$id]
 
     # Create the editor pane
     ttk::panedwindow $tab_frame.pw
@@ -3828,10 +3800,10 @@ namespace eval gui {
 
     # Set the current pane and get the notebook ID
     lassign [pane_tb_index_from_tab $tab] pw_current tb
-
+    
     # We only need to refresh if the tab was changed.
     if {![info exists tab_current($pw_current)] || ($tab_current($pw_current) ne $tab)} {
-
+      
       # Set the current tab
       $tb select $tab
 
