@@ -469,7 +469,7 @@ proc ctext::setCommentRE {win} {
 
   ctext::getAr $win config configAr
 
-  set commentRE {\\}
+  set commentRE {\\.?}
   array set chars {}
 
   set patterns [concat [eval concat $configAr(block_comment_patterns)] $configAr(line_comment_patterns) $configAr(string_patterns)]
@@ -1269,7 +1269,7 @@ proc ctext::instanceCmd {self cmd args} {
       if {[lindex $args 0] eq "-moddata"} {
         set args [lassign $args dummy moddata]
       }
-      
+
       set insertPos [$self._t index [lindex $args 0]]
       set prevChar  [$self._t get "$insertPos - 1 chars"]
       set nextChar  [$self._t get $insertPos]
@@ -1353,7 +1353,7 @@ proc ctext::instanceCmd {self cmd args} {
       if {[lindex $args 0] eq "-moddata"} {
         set args [lassign $args dummy moddata]
       }
-      
+
       set startPos    [$self._t index [lindex $args 0]]
       set endPos      [$self._t index [lindex $args 1]]
       set data        [lindex $args 2]
@@ -1421,7 +1421,7 @@ proc ctext::instanceCmd {self cmd args} {
       if {[lindex $args 0] eq "-moddata"} {
         set args [lassign $args dummy moddata]
       }
-      
+
       set insertPos [$self._t index insert]
       set datalen   [string length [clipboard get]]
       ctext::undo_insert $self $insertPos $datalen [$self._t index insert]
@@ -2513,7 +2513,7 @@ proc ctext::handle_tag {win class startpos endpos cmd} {
     }
     linemapUpdate $win
   }
-  
+
 }
 
 proc ctext::doHighlight {win start end} {
