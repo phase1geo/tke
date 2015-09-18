@@ -1,35 +1,43 @@
-changeset:   1321:73784c2f5360
-tag:         devel-1.8.19
+changeset:   1325:756457e5a44c
+tag:         devel-1.8.20
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Sep 17 01:33:43 2015 -0500
+date:        Thu Sep 17 16:51:02 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.8.19 release
+ChangeLog for devel-1.8.20 release
 
 
-changeset:   1322:17d03ee633ec
+changeset:   1326:39f3b9104db0
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Sep 17 01:33:47 2015 -0500
+date:        Thu Sep 17 16:51:06 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.8.19 for changeset 73784c2f5360
+Added tag devel-1.8.20 for changeset 756457e5a44c
 
 
-changeset:   1323:aedf2c8f1352
-tag:         checkpoint0
+changeset:   1327:565e0e0529c0
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Sep 17 13:48:56 2015 -0500
+date:        Thu Sep 17 23:53:23 2015 -0500
 files:       lib/gui.tcl lib/version.tcl
 description:
-* Fixing issue with initial Find direction.
+* Optimized moving tabs between panes.
+* Fixing bug with moving a difference tab to another pane.
 
 
-changeset:   1324:1acd0ce8458a
+changeset:   1328:2d1c09d37107
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Sep 17 23:55:09 2015 -0500
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for devel-1.8.21 release
+
+
+changeset:   1329:b8e7bc3789c7
 tag:         tip
 user:        Trevor Williams  <phase1geo@gmail.com>
-date:        Thu Sep 17 16:49:10 2015 -0500
-files:       .hgtags
+date:        Fri Sep 18 00:01:12 2015 -0500
+files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-Added tag checkpoint0 for changeset aedf2c8f1352
+Backout changeset 2d1c09d37107c0a768b4d43f9b0bfba6bc9ab6b1
 
 
