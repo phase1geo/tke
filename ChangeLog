@@ -1,43 +1,62 @@
-changeset:   1325:756457e5a44c
-tag:         devel-1.8.20
+changeset:   1330:15c14ee1330e
+tag:         devel-1.8.21
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Sep 17 16:51:02 2015 -0500
-files:       ChangeLog lib/version.tcl specl_version.tcl
-description:
-ChangeLog for devel-1.8.20 release
-
-
-changeset:   1326:39f3b9104db0
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Sep 17 16:51:06 2015 -0500
-files:       .hgtags
-description:
-Added tag devel-1.8.20 for changeset 756457e5a44c
-
-
-changeset:   1327:565e0e0529c0
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Sep 17 23:53:23 2015 -0500
-files:       lib/gui.tcl lib/version.tcl
-description:
-* Optimized moving tabs between panes.
-* Fixing bug with moving a difference tab to another pane.
-
-
-changeset:   1328:2d1c09d37107
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Sep 17 23:55:09 2015 -0500
+date:        Fri Sep 18 00:02:27 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
 ChangeLog for devel-1.8.21 release
 
 
-changeset:   1329:b8e7bc3789c7
-tag:         tip
-user:        Trevor Williams  <phase1geo@gmail.com>
-date:        Fri Sep 18 00:01:12 2015 -0500
-files:       ChangeLog lib/version.tcl specl_version.tcl
+changeset:   1331:bb5d92521a7f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Sep 18 00:02:47 2015 -0500
+files:       .hgtags
 description:
-Backout changeset 2d1c09d37107c0a768b4d43f9b0bfba6bc9ab6b1
+Added tag devel-1.8.21 for changeset 15c14ee1330e
+
+
+changeset:   1332:fdbb7eafc020
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Sep 18 00:48:56 2015 -0500
+files:       lib/plugins.tcl lib/tkedat.tcl lib/version.tcl plugins/dired/header.tkedat
+description:
+* Working on dired plugin.
+* Fixing issue with tkedat::read procedure not doing the right thing when an error occurs reading a file.
+
+
+changeset:   1333:537d0a48f5f2
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Sep 18 08:29:29 2015 -0500
+files:       doc/UserGuide.epub doc/UserGuide.pdf lib/version.tcl plugins/dired/main.tcl
+description:
+* User guide updates.
+* Several fixes to dired plugin.
+
+
+changeset:   1334:3d5dcdccab4d
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Sep 18 17:02:08 2015 -0500
+files:       lib/ctext/ctext.tcl lib/version.tcl
+description:
+* Partial fix for issue where escape sequences in strings caused issues.
+
+
+changeset:   1335:820f8b9d6737
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Sep 18 18:53:57 2015 -0500
+files:       lib/ctext/ctext.tcl lib/version.tcl
+description:
+* Fixing issue with syntax highlighting strings when escapes are entered within a string.
+
+
+changeset:   1336:032e536a6d86
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Sep 19 23:22:23 2015 -0500
+files:       lib/plugins.tcl lib/version.tcl plugins/dired/header.tkedat plugins/dired/main.tcl plugins/perforce/main.tcl
+description:
+* Fixing issues with multiple plugin text bindings.
+* More work on dired and disabling this plugin for the upcoming release.
+* Enhancing Perforce plugin to not execute 'p4 edit' for every save (only when the file is not writable).
 
 
