@@ -202,10 +202,8 @@ namespace eval dired {
 
     variable data
     
-    api::log "In handle_any_pretext, w: $w, keysym: $keysym"
-
     # If the escape key is hit, clear the mode
-    if {$keysym eq "Escape"} {
+    if {($keysym eq "Escape") || (($keysym eq "Return") && ($data(mode) ne ""))} {
       set data(mode) ""
       return 0
     }
@@ -214,13 +212,19 @@ namespace eval dired {
     set vim_mode [api::file::get_info [api::file::current_file_index] vimmode]
 
     # If we are editing text in Vim mode, set the current line to rename
-    if {$data(mode) ne ""} {
-      mark_as $w R
-      return 0
+    switch $data(mode) {
+      add {
+        mark_as $w A
+        return 0
+      }
+      rename {
+        mark_as $w R
+        return 0
+      }
     }
 
-    api::log "In keysym: $keysym"
-
+    puts "In handle_any_pretext, keysym: $keysym"
+    
     switch $keysym {
       Return -
       Space {
@@ -228,7 +232,12 @@ namespace eval dired {
         return 1
       }
       d {
-        mark_as $w D
+        if {[string trim [$w get "insert linestart" "insert lineend"]] ne ""} {
+          mark_as $w D
+        } else {
+          puts "Deleting!"
+          $w delete -moddata ignore "insert linestart" "insert+1l linestart"
+        }
       }
       u {
         mark_clear $w
@@ -236,7 +245,7 @@ namespace eval dired {
       o {
         set data(mode) "add"
         if {!$vim_mode} {
-          $w insert "insert lineend" "\n  "
+          $w insert -moddata ignore "insert lineend" "\n  "
           $w mark set insert "insert+1l lineend"
           mark_as $w A
           return 1
@@ -247,7 +256,7 @@ namespace eval dired {
       O {
         set data(mode) "add"
         if {!$vim_mode} {
-          $w insert "insert linestart" "\n  "
+          $w insert -moddata ignore "insert linestart" "\n  "
           $w mark set insert "insert lineend"
           mark_as $w A
           return 1
@@ -306,15 +315,8 @@ namespace eval dired {
 
     # Get the current Vim mode
     set vim_mode [api::file::get_info [api::file::current_file_index] vimmode]
-
-    switch $keysym {
-      o -
-      O {
-        if {$vim_mode} {
-          mark_as $W R
-        }
-      }
-    }
+    
+    puts "In handle_any_posttext, keysym: $keysym, vim_mode: $vim_mode"
 
     return 0
 

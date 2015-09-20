@@ -943,20 +943,21 @@ namespace eval plugins {
 
     variable registry
     variable bound_tags
-
-    set ctags       [bindtags $txt]
-    set cpre_index  [expr [lsearch -exact $ctags $txt] + 1]
-    set cpost_index [lsearch -exact $ctags .]
-
+    
     set ttags       [bindtags $txt.t]
     set tpre_index  [expr [lsearch -exact $ttags $txt.t] + 1]
     set tpost_index [lsearch -exact $ttags .]
+    
+    array set ptags {
+      pretext  {}
+      posttext {}
+    }
 
     foreach entry [find_registry_entries "text_binding"] {
       lassign $entry index type name bind_type cmd
       set bt "plugin__$registry($index,name)__$name"
       if {($bind_type eq "all") || ([lsearch $tags $bt] != -1)} {
-        bindtags $txt.t [linsert $ttags [expr {($type eq "pretext") ? $tpre_index : $tpost_index}] $bt]
+        set ptags($type) $bt
         $registry($index,interp) alias $txt.t $txt.t
         interpreter::add_ctext $registry($index,name) $txt
         if {![info exists bound_tags($bt)]} {
@@ -969,6 +970,17 @@ namespace eval plugins {
         }
       }
     }
+    
+    # Set the bindtags
+    if {[llength $ptags(posttext)] > 0} {
+      set ttags [linsert $ttags $tpost_index {*}$ptags(posttext)]
+    }
+    if {[llength $ptags(pretext)] > 0} {
+      set ttags [linsert $ttags $tpre_index {*}$ptags(pretext)]
+    }
+    bindtags $txt.t $ttags
+    
+    puts "ttags: $ttags"
 
   }
 
