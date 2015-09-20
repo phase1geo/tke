@@ -151,7 +151,9 @@ namespace eval perforce {
         }
 
         # If the file exists and we don't get an error when editing the file
-        catch "exec p4 edit $fname" rc
+        if {![file writable $fname]} {
+          catch "exec p4 edit $fname" rc
+        }
 
       }
 
