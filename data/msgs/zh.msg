@@ -130,9 +130,6 @@ msgcat::mcmset zh {
   "Unable to write file"
   "无法写入文件"
 
-  "Untitled"
-  "未命名"
-
   "Version:"
   "版本："
 
@@ -1032,6 +1029,14 @@ msgcat::mcmset zh {
 
   "Import TextMate theme?"
   "进口TextMate的主题？"
+
+}
+
+# tkedat.tcl
+msgcat::mcmset zh {
+
+  "Unable to open %s for reading"
+  "无法打开 %s 进行阅读"
 
 }
 

@@ -130,9 +130,6 @@ msgcat::mcmset cs {
   "Unable to write file"
   "Nelze zapsat soubor"
 
-  "Untitled"
-  "Untitled"
-
   "Version:"
   "Verze:"
 
@@ -1032,6 +1029,14 @@ msgcat::mcmset cs {
 
   "Import TextMate theme?"
   "Importovat TextMate téma?"
+
+}
+
+# tkedat.tcl
+msgcat::mcmset cs {
+
+  "Unable to open %s for reading"
+  "Nelze otevřít %s pro čtení"
 
 }
 

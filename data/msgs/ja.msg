@@ -130,9 +130,6 @@ msgcat::mcmset ja {
   "Unable to write file"
   "ファイルを書き込めません。"
 
-  "Untitled"
-  "無題"
-
   "Version:"
   "Version:"
 
@@ -1032,6 +1029,14 @@ msgcat::mcmset ja {
 
   "Import TextMate theme?"
   "TextMateのテーマをインポート？"
+
+}
+
+# tkedat.tcl
+msgcat::mcmset ja {
+
+  "Unable to open %s for reading"
+  "%S を読み取り用に開くことができません。"
 
 }
 

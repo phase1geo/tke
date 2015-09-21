@@ -130,9 +130,6 @@ msgcat::mcmset el {
   "Unable to write file"
   "Δεν είναι δυνατή η εγγραφή αρχείου"
 
-  "Untitled"
-  "Untitled"
-
   "Version:"
   "Έκδοση"
 
@@ -1032,6 +1029,14 @@ msgcat::mcmset el {
 
   "Import TextMate theme?"
   "Εισαγωγή TextMate θέμα;"
+
+}
+
+# tkedat.tcl
+msgcat::mcmset el {
+
+  "Unable to open %s for reading"
+  "Ανίκανος να ανοίξει %s για ανάγνωση"
 
 }
 

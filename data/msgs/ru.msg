@@ -130,9 +130,6 @@ msgcat::mcmset ru {
   "Unable to write file"
   "Не удается записать файл"
 
-  "Untitled"
-  "Без имени"
-
   "Version:"
   "Версия:"
 
@@ -1032,6 +1029,14 @@ msgcat::mcmset ru {
 
   "Import TextMate theme?"
   "Импорт TextMate тему?"
+
+}
+
+# tkedat.tcl
+msgcat::mcmset ru {
+
+  "Unable to open %s for reading"
+  "Не удается открыть %s для чтения"
 
 }
 

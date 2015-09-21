@@ -130,9 +130,6 @@ msgcat::mcmset no {
   "Unable to write file"
   "Kan ikke skrive filen"
 
-  "Untitled"
-  "Untitled"
-
   "Version:"
   "Versjon"
 
@@ -1032,6 +1029,14 @@ msgcat::mcmset no {
 
   "Import TextMate theme?"
   "Importere Textmate tema?"
+
+}
+
+# tkedat.tcl
+msgcat::mcmset no {
+
+  "Unable to open %s for reading"
+  "Kan ikke åpne %s for lesing"
 
 }
 

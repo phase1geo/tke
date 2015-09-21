@@ -130,9 +130,6 @@ msgcat::mcmset he {
   "Unable to write file"
   "אין אפשרות לכתוב את הקובץ"
 
-  "Untitled"
-  "ללא כותרת"
-
   "Version:"
   "גרסה:"
 
@@ -1032,6 +1029,14 @@ msgcat::mcmset he {
 
   "Import TextMate theme?"
   "לייבא TextMate נושא?"
+
+}
+
+# tkedat.tcl
+msgcat::mcmset he {
+
+  "Unable to open %s for reading"
+  "אין אפשרות לפתוח את %s עבור קריאה"
 
 }
 

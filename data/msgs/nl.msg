@@ -130,9 +130,6 @@ msgcat::mcmset nl {
   "Unable to write file"
   "Kan niet schrijven bestand"
 
-  "Untitled"
-  "Untitled"
-
   "Version:"
   "Versie:"
 
@@ -1032,6 +1029,14 @@ msgcat::mcmset nl {
 
   "Import TextMate theme?"
   "Importeer TextMate thema?"
+
+}
+
+# tkedat.tcl
+msgcat::mcmset nl {
+
+  "Unable to open %s for reading"
+  "Het bestand%1 kon niet worden geopend."
 
 }
 
