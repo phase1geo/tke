@@ -980,8 +980,6 @@ namespace eval plugins {
     }
     bindtags $txt.t $ttags
     
-    puts "ttags: $ttags"
-
   }
 
   ######################################################################
