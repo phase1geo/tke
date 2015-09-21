@@ -130,9 +130,6 @@ msgcat::mcmset hu {
   "Unable to write file"
   "Nem lehet írni a fájlt"
 
-  "Untitled"
-  "Névtelen"
-
   "Version:"
   "Verzió"
 
@@ -1032,6 +1029,14 @@ msgcat::mcmset hu {
 
   "Import TextMate theme?"
   "Import TextMate témát?"
+
+}
+
+# tkedat.tcl
+msgcat::mcmset hu {
+
+  "Unable to open %s for reading"
+  "Nem sikerült megnyitni ezt a fájlt olvasásra:%1."
 
 }
 

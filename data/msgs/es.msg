@@ -130,9 +130,6 @@ msgcat::mcmset es {
   "Unable to write file"
   "No se puede escribir el archivo"
 
-  "Untitled"
-  "Intitulado"
-
   "Version:"
   "Versión:"
 
@@ -1032,6 +1029,14 @@ msgcat::mcmset es {
 
   "Import TextMate theme?"
   "Importar tema TextMate?"
+
+}
+
+# tkedat.tcl
+msgcat::mcmset es {
+
+  "Unable to open %s for reading"
+  "No se puede abrir el archivo%1 para lectura."
 
 }
 

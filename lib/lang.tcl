@@ -254,7 +254,7 @@ namespace eval lang {
   
   ######################################################################
   # Updates the user interface with the given language information.
-  proc populate_ui {lang} {
+  proc populate_ui {auto lang} {
     
     variable widgets
     variable xlates
@@ -278,16 +278,38 @@ namespace eval lang {
     # Setup the translations button
     $widgets(xlate) configure -command "lang::perform_translations $lang"
     
-    # Wait for the user to Update or Cancel the window
-    vwait ::update_done
+    if {$auto} {
+      
+      # Specify that we want to hide the translated rows
+      set lang::hide_xlates 1
+      
+      # Only show the lines that need to be translated
+      lang::show_hide_xlates
+      
+      # Perform the translation
+      lang::perform_translations $lang
+      
+      # Specify that the language was updated (if we were not cancellled)
+      if {!$::update_done} {
+        set ::update_lang 1
+      }
+      
+    } else {
     
-    # Make sure any edited cells are in the not edit mode
-    $widgets(tbl) finishediting
+      # Wait for the user to Update or Cancel the window
+      vwait ::update_done
+       
+      # Make sure any edited cells are in the not edit mode
+      $widgets(tbl) finishediting
+      
+    }
     
     # If we need to write the language file, do so now
     if {$::update_lang} {
       write_lang $lang
     }
+    
+    return $::update_lang
     
   }
   
@@ -387,7 +409,7 @@ namespace eval lang {
   
   ######################################################################
   # Updates all of the specified language files.
-  proc update_langs {langs} {
+  proc update_langs {auto langs} {
     
     variable xlates
     
@@ -401,7 +423,9 @@ namespace eval lang {
       fetch_lang $lang
       
       # Update the UI with the current language information
-      populate_ui $lang
+      if {[populate_ui $auto $lang] == 0} {
+        break
+      }
       
     }
     
@@ -419,7 +443,8 @@ proc usage {} {
   puts "Usage:  wish8.5 lang.tcl (-h | <lang>+)"
   puts ""
   puts "Options:"
-  puts "  -h    Displays this help information and exits"
+  puts "  -h     Displays this help information and exits"
+  puts "  -auto  Automatically starts the translations, updates and quits"
   puts ""
   
   exit
@@ -427,11 +452,13 @@ proc usage {} {
 }
  
 # Parse the command-line arguments
-set i     0
-set langs [list]
+set i           0
+set langs       [list]
+set auto_update 0
 while {$i < $argc} {
   switch -exact -- [lindex $argv $i] {
     -h      { usage }
+    -auto   { set auto_update 1 }
     default { lappend langs [lindex $argv $i] }
   }
   incr i
@@ -448,4 +475,5 @@ ttk::style theme use clam
 lang::create_ui
 
 # Gather all of the msgcat::mc calls in the library source files
-lang::update_langs $langs
+lang::update_langs $auto_update $langs
+
