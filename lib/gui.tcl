@@ -1905,10 +1905,10 @@ namespace eval gui {
     variable files
     variable files_index
     variable pw_current
-
+    
     # Set the current pane
-    set pw_current [lsearch [$widgets(nb_pw) panes] [winfo parent $tab]]
-
+    set pw_current [lsearch [$widgets(nb_pw) panes] [winfo parent [winfo parent $w]]]
+    
     # Get the file index
     set index [get_file_index $tab]
 
@@ -1957,7 +1957,7 @@ namespace eval gui {
     variable files
     variable files_index
     variable pw_current
-
+    
     # Get the notebook
     lassign [pane_tb_index_from_tab $tab] pane tb tab_index
 
@@ -1967,13 +1967,13 @@ namespace eval gui {
     # Unhighlight the file in the file browser (if the file was not a difference view)
     set diff [lindex $files $index $files_index(diff)]
     [ns sidebar]::highlight_filename [lindex $files $index $files_index(fname)] [expr $diff * 2]
-
+    
     # Run the close event for this file
     [ns plugins]::handle_on_close $index
 
     # Delete the file from files
     set files [lreplace $files $index $index]
-
+    
     # Remove the tab from the tabbar
     $tb delete $tab_index
 
@@ -1982,7 +1982,7 @@ namespace eval gui {
 
     # Destroy the text frame
     destroy $tab
-
+    
     # Display the current pane (if one exists)
     if {[set tab [$tb select]] ne ""} {
       set_current_tab $tab 0 $exiting
@@ -3910,7 +3910,7 @@ namespace eval gui {
 
     variable widgets
     variable pw_current
-
+    
     if {[llength [$widgets(nb_pw) panes]] == 0} {
       return ""
     } else {
