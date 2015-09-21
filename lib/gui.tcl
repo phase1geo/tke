@@ -1862,6 +1862,41 @@ namespace eval gui {
     set_title
 
   }
+  
+  ######################################################################
+  # Returns 1 if the tab is closable; otherwise, returns a value of 0.
+  # Saves the tab if it needs to be saved.
+  proc close_check {index force exiting} {
+    
+    variable files
+    variable files_index
+    
+    set finfo [lindex $files $index]
+    
+    # If the file needs to be saved, do it now
+    if {[lindex $finfo $files_index(modified)] && ![lindex $finfo $files_index(diff)] && !$force} {
+      set fname [file tail [lindex $finfo $files_index(fname)]]
+      set msg   "[msgcat::mc Save] $fname?"
+      set_current_tab [lindex $finfo $files_index(tab)]
+      if {[set answer [tk_messageBox -default yes -type [expr {$exiting ? {yesno} : {yesnocancel}}] -message $msg -title [msgcat::mc "Save request"]]] eq "yes"} {
+        save_current $tid
+      } elseif {$answer eq "cancel"} {
+        return 0
+      }
+    }
+    
+    return 1
+    
+  }
+  
+  ######################################################################
+  # Returns 1 if the tab is closable; otherwise, returns a value of 0.
+  # Saves the tab if it needs to be saved.
+  proc close_check_by_tabbar {w tab} {
+    
+    return [close_check [get_file_index $tab] 0 0]
+    
+  }
 
   ######################################################################
   # Close the current tab.  If force is set to 1, closes regardless of
@@ -1878,24 +1913,13 @@ namespace eval gui {
     set file_index [current_file]
 
     # If the file needs to be saved, do it now
-    if { [lindex $files $file_index $files_index(modified)] && \
-        ![lindex $files $file_index $files_index(buffer)]  && \
-        ![lindex $files $file_index $files_index(diff)]    && \
-        !$force} {
-      set fname [file tail [lindex $files $file_index $files_index(fname)]]
-      set msg   "[msgcat::mc Save] $fname?"
-      if {[set answer [tk_messageBox -default yes -type [expr {$exiting ? {yesno} : {yesnocancel}}] -message $msg -title [msgcat::mc "Save request"]]] eq "yes"} {
-        save_current $tid
-      } elseif {$answer eq "cancel"} {
-        return
-      }
+    if {[close_check $file_index $force $exiting]} {
+      close_tab [[current_tabbar] select] $exiting
     }
 
-    # Close the current tab
-    close_tab [[current_tabbar] select] $exiting
-
   }
-
+  
+  
   ######################################################################
   # Closes the tab specified by "tab".  This is called by the tabbar when
   # the user clicks on the close button of a tab.
@@ -1930,7 +1954,7 @@ namespace eval gui {
       set_current_tab $tab
     }
 
-    # If we have no more tabs and there is another pane, remove this pane
+    # If we will have no more tabs and there is another pane, remove this pane
     if {([llength [$w tabs]] == 0) && ([llength [$widgets(nb_pw) panes]] > 1)} {
       $widgets(nb_pw) forget $pw_current
       set pw_current 0
@@ -1946,6 +1970,8 @@ namespace eval gui {
         add_new_file end
       }
     }
+    
+    return 1
 
   }
 
@@ -3113,7 +3139,8 @@ namespace eval gui {
 
     # Add the tabbar frame
     ttk::frame $nb.tbf
-    tabbar::tabbar $nb.tbf.tb -command "[ns gui]::set_current_tab_from_tb" -closecommand "[ns gui]::close_tab_by_tabbar" \
+    tabbar::tabbar $nb.tbf.tb -command "[ns gui]::set_current_tab_from_tb" \
+      -checkcommand "[ns gui]::close_check_by_tabbar" -closecommand "[ns gui]::close_tab_by_tabbar" \
       -background $bg -foreground $fg -activebackground $abg -inactivebackground $bg
 
     grid rowconfigure    $nb.tbf 0 -weight 1
