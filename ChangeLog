@@ -1,42 +1,35 @@
-changeset:   1337:81fe9b9c0a9e
-tag:         devel-1.8.22
+changeset:   1342:0cbc4707935c
+tag:         devel-1.8.23
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Sep 19 23:42:55 2015 -0500
+date:        Mon Sep 21 01:16:33 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.8.22 release
+ChangeLog for devel-1.8.23 release
 
 
-changeset:   1338:b8ebe953b6ee
+changeset:   1343:6279cb942a59
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Sep 19 23:43:00 2015 -0500
+date:        Mon Sep 21 01:16:37 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.8.22 for changeset 81fe9b9c0a9e
+Added tag devel-1.8.23 for changeset 0cbc4707935c
 
 
-changeset:   1339:669262214f82
+changeset:   1344:1c904bf6132c
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Sep 20 22:25:02 2015 -0500
-files:       data/msgs/Makefile data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/update.tcl data/msgs/zh.msg lib/lang.tcl lib/version.tcl
+date:        Mon Sep 21 21:26:55 2015 -0500
+files:       lib/gui.tcl lib/menus.tcl lib/sidebar.tcl lib/version.tcl
 description:
-* Improving language translation automation.
+* Fixing issue with save menu to not require an overwrite.
+* Adding newly saved file to sidebar on first save.
 
 
-changeset:   1340:a0a1ec5c6872
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Sep 20 23:37:27 2015 -0500
-files:       lib/gui.tcl lib/plugins.tcl lib/version.tcl
-description:
-* Fixing tab closing issue.
-
-
-changeset:   1341:09f8cfaa74dd
+changeset:   1345:381d96d3c83e
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Sep 21 01:13:41 2015 -0500
-files:       lib/gui.tcl lib/ptwidgets1.2/library/tabbar.tcl lib/version.tcl
+date:        Tue Sep 22 08:57:32 2015 -0500
+files:       lib/gui.tcl lib/sidebar.tcl lib/version.tcl
 description:
-* Fixing issue with closing tab via the 'x' button when the file is modified (requests save, if needed).
+* Checkpointing work on fixing issue when the same file is opened in two tabs (not complete at this point).
 
 
