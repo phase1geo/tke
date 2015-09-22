@@ -1750,15 +1750,15 @@ namespace eval gui {
     # Make is easier to refer to the filename
     set fname [lindex $files $file_index $files_index(fname)]
 
+    # Run the on_save plugins
+    [ns plugins]::handle_on_save $file_index
+
     # If we need to do a force write, do it now
     set perms ""
     if {![save_prehandle $fname $save_as $force perms]} {
       return 0
     }
     
-    # Run the on_save plugins
-    [ns plugins]::handle_on_save $file_index
-
     # If the file already exists in one of the open tabs, close it now
     if {$matching_index != -1} {
       close_tab [lindex $files $matching_index $files_index(tab)] 0 0
