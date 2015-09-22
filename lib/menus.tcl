@@ -354,7 +354,7 @@ namespace eval menus {
   # Implements the "create new file" command.
   proc new_command {} {
 
-    gui::add_new_file end
+    gui::add_new_file end -sidebar 1
 
   }
 
@@ -402,10 +402,10 @@ namespace eval menus {
   # Saves the current tab file.
   proc save_command {} {
 
-    if {[set sfile [gui::current_filename]] eq "Untitled"} {
+    if {[gui::current_filename] eq "Untitled"} {
       save_as_command
     } else {
-      gui::save_current {} 0 $sfile
+      gui::save_current {} 0 ""
     }
 
   }

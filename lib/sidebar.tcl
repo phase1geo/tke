@@ -514,6 +514,7 @@ namespace eval sidebar {
 
     # If we have hit the end of the path, return the parent
     if {$dir_tail eq ""} {
+      # expand_directory $widgets(tl) $parent
       return $parent
     }
 
@@ -551,7 +552,7 @@ namespace eval sidebar {
 
     # Get the directory path
     set dir [$widgets(tl) cellcget $parent,name -text]
-
+    
     # Get the folder contents and sort them
     foreach name [order_files_dirs [glob -nocomplain -directory $dir *]] {
 
@@ -729,6 +730,42 @@ namespace eval sidebar {
     # Add the missing subdirectory
     add_subdirectory $row
 
+  }
+  
+  ######################################################################
+  # Inserts the given file into the sidebar under the given parent.
+  proc insert_file {parent fname} {
+    
+    variable widgets
+    variable images
+    
+    # Check to see if the file is an ignored file
+    if {![ignore_file $fname]} {
+      
+      # Compare the children of the parent to the given fname
+      set i 0
+      foreach child [$widgets(tl) childkeys $parent] {
+        if {[file isfile [set name [$widgets(tl) cellcget $child,name -text]]]} {
+          set compare [string compare $fname [$widgets(tl) cellcget $child,name -text]]
+          if {$compare == 0} {
+            return
+          } elseif {$compare == -1} {
+            set node [$widgets(tl) insertchild $parent $i [list $fname 0]]
+            $widgets(tl) cellconfigure $node,name -image $images(sopen)
+            update_root_count $node 1
+            return
+          }
+        }
+        incr i
+      }
+      
+      # Insert the file at the end of the parent
+      set node [$widgets(tl) insertchild $parent end [list $fname 0]]
+      $widgets(tl) cellconfigure $node,name -image $images(sopen)
+      update_root_count $node 1
+      
+    }
+    
   }
 
   ######################################################################
