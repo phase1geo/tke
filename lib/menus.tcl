@@ -158,60 +158,60 @@ namespace eval menus {
     $mb delete 0 end
 
     $mb add command -label [msgcat::mc "New File"] -underline 0 -command "menus::new_command"
-    launcher::register [msgcat::mc "Menu: New file"] menus::new_command
+    launcher::register [msgcat::mc "File Menu: New file"] menus::new_command
 
     $mb add command -label [msgcat::mc "Open File..."] -underline 0 -command "menus::open_command"
-    launcher::register [msgcat::mc "Menu: Open file"] menus::open_command
+    launcher::register [msgcat::mc "File Menu: Open file"] menus::open_command
 
     $mb add command -label [msgcat::mc "Open Directory..."] -underline 5 -command "menus::open_dir_command"
-    launcher::register [msgcat::mc "Menu: Open directory"] menus::open_dir_command
+    launcher::register [msgcat::mc "File Menu: Open directory"] menus::open_dir_command
 
     $mb add cascade -label [msgcat::mc "Open Recent"] -menu [menu $mb.recent -tearoff false -postcommand "menus::file_recent_posting $mb.recent"]
-    launcher::register [msgcat::mc "Menu: Open Recent"] menus::launcher
+    launcher::register [msgcat::mc "File Menu: Open Recent"] menus::launcher
 
     $mb add cascade -label [msgcat::mc "Open Favorite"] -menu [menu $mb.favorites -tearoff false -postcommand "menus::file_favorites_posting $mb.favorites"]
-    launcher::register [msgcat::mc "Menu: Open Favorite"] favorites::launcher
+    launcher::register [msgcat::mc "File Menu: Open Favorite"] favorites::launcher
 
     $mb add separator
 
     $mb add command -label [msgcat::mc "Show File Difference"] -underline 3 -command "menus::show_file_diff"
-    launcher::register [msgcat::mc "Menu: Show file difference"] menus::show_file_diff
+    launcher::register [msgcat::mc "File Menu: Show file difference"] menus::show_file_diff
 
     $mb add separator
 
     $mb add command -label [msgcat::mc "Save"] -underline 0 -command "menus::save_command"
-    launcher::register [msgcat::mc "Menu: Save file"] menus::save_command
+    launcher::register [msgcat::mc "File Menu: Save file"] menus::save_command
 
     $mb add command -label [msgcat::mc "Save As..."] -underline 5 -command "menus::save_as_command"
-    launcher::register [msgcat::mc "Menu: Save file as"] menus::save_as_command
+    launcher::register [msgcat::mc "File Menu: Save file as"] menus::save_as_command
 
     $mb add command -label [msgcat::mc "Save All"] -underline 6 -command "gui::save_all"
-    launcher::register [msgcat::mc "Menu: Save all files"] gui::save_all
+    launcher::register [msgcat::mc "File Menu: Save all files"] gui::save_all
 
     $mb add separator
 
     $mb add command -label [msgcat::mc "Lock"] -underline 0 -command "menus::lock_command $mb"
-    launcher::register [msgcat::mc "Menu: Lock file"] "menus::lock_command $mb"
-    launcher::register [msgcat::mc "Menu: Unlock file"] "menus::unlock_command $mb"
+    launcher::register [msgcat::mc "File Menu: Lock file"] "menus::lock_command $mb"
+    launcher::register [msgcat::mc "File Menu: Unlock file"] "menus::unlock_command $mb"
 
     $mb add command -label [msgcat::mc "Favorite"] -underline 0 -command "menus::favorite_command $mb"
-    launcher::register [msgcat::mc "Menu: Favorite file"] "menus::favorite_command $mb"
-    launcher::register [msgcat::mc "Menu: Unfavorite file"] "menus::unfavorite_command $mb"
+    launcher::register [msgcat::mc "File Menu: Favorite file"] "menus::favorite_command $mb"
+    launcher::register [msgcat::mc "File Menu: Unfavorite file"] "menus::unfavorite_command $mb"
 
     $mb add separator
 
     $mb add command -label [msgcat::mc "Close"] -underline 0 -command "menus::close_command"
-    launcher::register [msgcat::mc "Menu: Close current tab"] menus::close_command
+    launcher::register [msgcat::mc "File Menu: Close current tab"] menus::close_command
 
     $mb add command -label [msgcat::mc "Close All"] -underline 6 -command "menus::close_all_command"
-    launcher::register [msgcat::mc "Menu: Close all tabs"] menus::close_all_command
+    launcher::register [msgcat::mc "File Menu: Close all tabs"] menus::close_all_command
 
     # Only add the quit menu to File if we are not running in aqua
     if {[tk windowingsystem] ne "aqua"} {
       $mb add separator
       $mb add command -label [msgcat::mc "Quit"] -underline 0 -command "menus::exit_command"
     }
-    launcher::register [msgcat::mc "Menu: Quit application"] menus::exit_command
+    launcher::register [msgcat::mc "File Menu: Quit application"] menus::exit_command
 
   }
 
@@ -554,27 +554,27 @@ namespace eval menus {
 
     # Add edit menu commands
     $mb add command -label [msgcat::mc "Undo"] -underline 0 -command "gui::undo {}"
-    launcher::register [msgcat::mc "Menu: Undo"] "gui::undo {}"
+    launcher::register [msgcat::mc "Edit Menu: Undo"] "gui::undo {}"
 
     $mb add command -label [msgcat::mc "Redo"] -underline 0 -command "gui::redo {}"
-    launcher::register [msgcat::mc "Menu: Redo"] "gui::redo {}"
+    launcher::register [msgcat::mc "Edit Menu: Redo"] "gui::redo {}"
 
     $mb add separator
 
     $mb add command -label [msgcat::mc "Cut"] -underline 0 -command "gui::cut {}"
-    launcher::register [msgcat::mc "Menu: Cut text"] "gui::cut {}"
+    launcher::register [msgcat::mc "Edit Menu: Cut text"] "gui::cut {}"
 
     $mb add command -label [msgcat::mc "Copy"] -underline 1 -command "gui::copy {}"
-    launcher::register [msgcat::mc "Menu: Copy text"] "gui::copy {}"
+    launcher::register [msgcat::mc "Edit Menu: Copy text"] "gui::copy {}"
 
     $mb add command -label [msgcat::mc "Paste"] -underline 0 -command "gui::paste {}"
-    launcher::register [msgcat::mc "Menu: Paste text from clipboard"] "gui::paste {}"
+    launcher::register [msgcat::mc "Edit Menu: Paste text from clipboard"] "gui::paste {}"
 
     $mb add command -label [msgcat::mc "Paste and Format"] -underline 10 -command "gui::paste_and_format {}"
-    launcher::register [msgcat::mc "Menu: Paste and format text from clipboard"] "gui::paste_and_format {}"
+    launcher::register [msgcat::mc "Edit Menu: Paste and format text from clipboard"] "gui::paste_and_format {}"
 
     $mb add command -label [msgcat::mc "Select All"] -underline 7 -command "gui::select_all {}"
-    launcher::register [msgcat::mc "Menu: Select all text"] "gui::select_all {}"
+    launcher::register [msgcat::mc "Edit Menu: Select all text"] "gui::select_all {}"
 
     $mb add separator
 
@@ -593,78 +593,78 @@ namespace eval menus {
 
     # Create indentation menu
     $mb.indentPopup add radiobutton -label [msgcat::mc "Indent Off"] -variable menus::indent_mode -value "OFF" -command "gui::set_current_indent_mode {} OFF"
-    launcher::register [msgcat::mc "Menu: Set indent mode to OFF"] "gui::set_current_indent_mode {} OFF"
+    launcher::register [msgcat::mc "Edit Menu: Set indent mode to OFF"] "gui::set_current_indent_mode {} OFF"
 
     $mb.indentPopup add radiobutton -label [msgcat::mc "Auto-Indent"] -variable menus::indent_mode -value "IND" -command "gui::set_current_indent_mode {} IND"
-    launcher::register [msgcat::mc "Menu: Set indent mode to IND"] "gui::set_current_indent_mode {} IND"
+    launcher::register [msgcat::mc "Edit Menu: Set indent mode to IND"] "gui::set_current_indent_mode {} IND"
 
     $mb.indentPopup add radiobutton -label [msgcat::mc "Smart Indent"] -variable menus::indent_mode -value "IND+" -command "gui::set_current_indent_mode {} IND+"
-    launcher::register [msgcat::mc "Menu: Set indent mode to IND+"] "gui::set_current_indent_mode {} IND+"
+    launcher::register [msgcat::mc "Edit Menu: Set indent mode to IND+"] "gui::set_current_indent_mode {} IND+"
 
     # Create insertion menu
     $mb.insertPopup add command -label [msgcat::mc "From Clipboard"] -command "cliphist::show_cliphist"
-    launcher::register [msgcat::mc "Menu: Insert from clipboard"] "cliphist::show_cliphist"
+    launcher::register [msgcat::mc "Edit Menu: Insert from clipboard"] "cliphist::show_cliphist"
 
     $mb.insertPopup add command -label [msgcat::mc "Snippet"] -command "snippets::show_snippets"
-    launcher::register [msgcat::mc "Menu: Insert snippet"] "snippets::show_snippets"
+    launcher::register [msgcat::mc "Edit Menu: Insert snippet"] "snippets::show_snippets"
 
     # Create formatting menu
     $mb.formatPopup add command -label [msgcat::mc "Selected"] -command "gui::format {} selected"
-    launcher::register [msgcat::mc "Menu: Format selected text"] "gui::format {} selected"
+    launcher::register [msgcat::mc "Edit Menu: Format selected text"] "gui::format {} selected"
 
     $mb.formatPopup add command -label [msgcat::mc "All"]      -command "gui::format {} all"
-    launcher::register [msgcat::mc "Menu: Format all text"] "gui::format {} selected"
+    launcher::register [msgcat::mc "Edit Menu: Format all text"] "gui::format {} selected"
 
     # Create preferences menu
     $mb.prefPopup add command -label [msgcat::mc "Edit User - Global"] -command "menus::edit_user_global"
-    launcher::register [msgcat::mc "Menu: Edit user global preferences"] "menus::edit_user_global"
+    launcher::register [msgcat::mc "Edit Menu: Edit user global preferences"] "menus::edit_user_global"
 
     $mb.prefPopup add command -label [msgcat::mc "Edit User - Language"] -command "menus::edit_user_language"
-    launcher::register [msgcat::mc "Menu: Edit user current language preferences"] "menus::edit_user_language"
+    launcher::register [msgcat::mc "Edit Menu: Edit user current language preferences"] "menus::edit_user_language"
 
     $mb.prefPopup add separator
 
     $mb.prefPopup add command -label [msgcat::mc "Edit Session - Global"] -command "menus::edit_session_global"
-    launcher::register [msgcat::mc "Menu: Edit session global preferences"] "menus::edit_session_global"
+    launcher::register [msgcat::mc "Edit Menu: Edit session global preferences"] "menus::edit_session_global"
 
     $mb.prefPopup add command -label [msgcat::mc "Edit Session - Language"] -command "menus::edit_session_language"
-    launcher::register [msgcat::mc "Menu: Edit session current language preferences"] "menus::edit_session_language"
+    launcher::register [msgcat::mc "Edit Menu: Edit session current language preferences"] "menus::edit_session_language"
 
     $mb.prefPopup add separator
 
     $mb.prefPopup add command -label [msgcat::mc "View Base"] -command "preferences::view_global"
-    launcher::register [msgcat::mc "Menu: View base preferences file"] "preferences::view_global"
+    launcher::register [msgcat::mc "Edit Menu: View base preferences file"] "preferences::view_global"
 
     $mb.prefPopup add separator
 
     $mb.prefPopup add command -label [msgcat::mc "Reset User to Base"] -command "preferences::copy_default"
-    launcher::register [msgcat::mc "Menu: Set user preferences to global preferences"] "preferences::copy_default"
+    launcher::register [msgcat::mc "Edit Menu: Set user preferences to global preferences"] "preferences::copy_default"
 
     # Create menu bindings menu
     $mb.bindPopup add command -label [msgcat::mc "Edit User"] -command "bindings::edit_user"
-    launcher::register [msgcat::mc "Menu: Edit user menu bindings"] "bindings::edit_user"
+    launcher::register [msgcat::mc "Edit Menu: Edit user menu bindings"] "bindings::edit_user"
 
     $mb.bindPopup add separator
 
     $mb.bindPopup add command -label [msgcat::mc "View Global"] -command "bindings::view_global"
-    launcher::register [msgcat::mc "Menu: View global menu bindings"] "bindings::view_global"
+    launcher::register [msgcat::mc "Edit Menu: View global menu bindings"] "bindings::view_global"
 
     $mb.bindPopup add separator
 
     $mb.bindPopup add command -label [msgcat::mc "Set User to Global"] -command "bindings::copy_default"
-    launcher::register [msgcat::mc "Menu: Set user bindings to global bindings"] "bindings::copy_default"
+    launcher::register [msgcat::mc "Edit Menu: Set user bindings to global bindings"] "bindings::copy_default"
 
     # Create snippets menu
     $mb.snipPopup add command -label [msgcat::mc "Edit User"] -command "snippets::add_new_snippet {} user"
-    launcher::register [msgcat::mc "Menu Edit user snippets"] "snippets::add_new_snippet {} user"
+    launcher::register [msgcat::mc "Edit Menu Edit user snippets"] "snippets::add_new_snippet {} user"
 
     $mb.snipPopup add command -label [msgcat::mc "Edit Language"] -command "snippets::add_new_snippet {} lang"
-    launcher::register [msgcat::mc "Menu: Edit language snippets"] "snippets::add_new_snippet {} lang"
+    launcher::register [msgcat::mc "Edit Menu: Edit language snippets"] "snippets::add_new_snippet {} lang"
 
     $mb.snipPopup add separator
 
     $mb.snipPopup add command -label [msgcat::mc "Reload"] -command "snippets::reload_snippets"
-    launcher::register [msgcat::mc "Menu: Reload snippets"] "snippets::reload_snippets"
+    launcher::register [msgcat::mc "Edit Menu: Reload snippets"] "snippets::reload_snippets"
 
   }
 
@@ -822,43 +822,43 @@ namespace eval menus {
 
     # Add find menu commands
     $mb add command -label [msgcat::mc "Find"] -underline 0 -command "gui::search {}"
-    launcher::register [msgcat::mc "Menu: Find"] "gui::search {}"
+    launcher::register [msgcat::mc "Find Menu: Find"] "gui::search {}"
 
     $mb add command -label [msgcat::mc "Find and Replace"] -underline 9 -command "gui::search_and_replace"
-    launcher::register [msgcat::mc "Menu: Find and Replace"] gui::search_and_replace
+    launcher::register [msgcat::mc "Find Menu: Find and Replace"] gui::search_and_replace
 
     $mb add separator
 
     $mb add command -label [msgcat::mc "Select Next Occurrence"] -underline 7 -command "menus::find_next_command 0"
-    launcher::register [msgcat::mc "Menu: Find next occurrence"] "menus::find_next_command 0"
+    launcher::register [msgcat::mc "Find Menu: Find next occurrence"] "menus::find_next_command 0"
 
     $mb add command -label [msgcat::mc "Select Previous Occurrence"] -underline 7 -command "menus::find_prev_command 0"
-    launcher::register [msgcat::mc "Menu: Find previous occurrence"] "menus::find_prev_command 0"
+    launcher::register [msgcat::mc "Find Menu: Find previous occurrence"] "menus::find_prev_command 0"
 
     $mb add command -label [msgcat::mc "Append Next Occurrence"] -underline 1 -command "menus::find_next_command 1"
-    launcher::register [msgcat::mc "Menu: Append next occurrence"] "menus::find_next_command 1"
+    launcher::register [msgcat::mc "Find Menu: Append next occurrence"] "menus::find_next_command 1"
 
     $mb add command -label [msgcat::mc "Select All Occurrences"] -underline 7 -command "menus::find_all_command"
-    launcher::register [msgcat::mc "Menu: Select all occurrences"] "menus::find_all_command"
+    launcher::register [msgcat::mc "Find Menu: Select all occurrences"] "menus::find_all_command"
 
     $mb add separator
 
     $mb add command -label [msgcat::mc "Jump Backward"] -underline 5 -command "gui::jump_to_cursor {} -1 1"
-    launcher::register [msgcat::mc "Menu: Jump backward"] "gui::jump_to_cursor {} -1 1"
+    launcher::register [msgcat::mc "Find Menu: Jump backward"] "gui::jump_to_cursor {} -1 1"
 
     $mb add command -label [msgcat::mc "Jump Forward"] -underline 5 -command "gui::jump_to_cursor {} 1 1"
-    launcher::register [msgcat::mc "Menu: Jump forward"] "gui::jump_to_cursor {} 1 1"
+    launcher::register [msgcat::mc "Find Menu: Jump forward"] "gui::jump_to_cursor {} 1 1"
 
     $mb add separator
 
     $mb add command -label [msgcat::mc "Next Difference"] -underline 0 -command "gui::jump_to_difference {} 1 1"
-    launcher::register [msgcat::mc "Menu: Goto next difference"] "gui::jump_to_difference {} 1 1"
+    launcher::register [msgcat::mc "Find Menu: Goto next difference"] "gui::jump_to_difference {} 1 1"
 
     $mb add command -label [msgcat::mc "Previous Difference"] -underline 0 -command "gui::jump_to_difference {} -1 1"
-    launcher::register [msgcat::mc "Menu: Goto previous difference"] "gui::jump_to_difference {} -1 1"
+    launcher::register [msgcat::mc "Find Menu: Goto previous difference"] "gui::jump_to_difference {} -1 1"
 
     $mb add command -label [msgcat::mc "Show Selected Line Change"] -underline 19 -command "gui::show_difference_line_change {} 1"
-    launcher::register [msgcat::mc "Menu: Show selected line change"] "gui::show_difference_line_change {} 1"
+    launcher::register [msgcat::mc "Find Menu: Show selected line change"] "gui::show_difference_line_change {} 1"
 
     $mb add separator
 
@@ -867,17 +867,17 @@ namespace eval menus {
     $mb add separator
 
     $mb add command -label [msgcat::mc "Find Matching Pair"] -underline 5 -command "gui::show_match_pair {}"
-    launcher::register [msgcat::mc "Menu: Find matching character pair"] "gui::show_match_pair {}"
+    launcher::register [msgcat::mc "Find Menu: Find matching character pair"] "gui::show_match_pair {}"
 
     $mb add separator
 
     $mb add command -label [msgcat::mc "Find In Files"] -underline 5 -command "search::fif_start"
-    launcher::register [msgcat::mc "Menu: Find in files"] "search::fif_start"
+    launcher::register [msgcat::mc "Find Menu: Find in files"] "search::fif_start"
 
     # Add marker popup launchers
-    launcher::register [msgcat::mc "Menu: Create marker at current line"] "gui::create_current_marker {}"
-    launcher::register [msgcat::mc "Menu: Remove marker from current line"] "gui::remove_current_marker {}"
-    launcher::register [msgcat::mc "Menu: Remove all markers"] "gui::remove_all_markers {}"
+    launcher::register [msgcat::mc "Find Menu: Create marker at current line"] "gui::create_current_marker {}"
+    launcher::register [msgcat::mc "Find Menu: Remove marker from current line"] "gui::remove_current_marker {}"
+    launcher::register [msgcat::mc "Find Menu: Remove all markers"] "gui::remove_all_markers {}"
 
   }
 
@@ -990,26 +990,26 @@ namespace eval menus {
   proc add_text {mb} {
 
     $mb add command -label [msgcat::mc "Toggle Comment"] -underline 0 -command "texttools::comment_toggle {}"
-    launcher::register [msgcat::mc "Menu: Toggle comment"] "texttools::comment_toggle {}"
+    launcher::register [msgcat::mc "Text Menu: Toggle comment"] "texttools::comment_toggle {}"
 
     $mb add command -label [msgcat::mc "Indent"] -underline 0 -command "texttools::indent {}"
-    launcher::register [msgcat::mc "Menu: Indent selected text"] "texttools::indent {}"
+    launcher::register [msgcat::mc "Text Menu: Indent selected text"] "texttools::indent {}"
 
     $mb add command -label [msgcat::mc "Unindent"] -underline 1 -command "texttools::unindent {}"
-    launcher::register [msgcat::mc "Menu: Unindent selected text"] "texttools::unindent {}"
+    launcher::register [msgcat::mc "Text Menu: Unindent selected text"] "texttools::unindent {}"
 
     $mb add separator
 
     $mb add command -label [msgcat::mc "Replace Line With Script"] -command "texttools::replace_line_with_script {}"
-    launcher::register [msgcat::mc "Menu: Replace line with script"] "texttools::replace_line_with_script {}"
+    launcher::register [msgcat::mc "Text Menu: Replace line with script"] "texttools::replace_line_with_script {}"
 
     $mb add separator
 
     $mb add command -label [msgcat::mc "Align Cursors"] -underline 0 -command "texttools::align {}"
-    launcher::register [msgcat::mc "Menu: Align cursors"] "texttools::align {}"
+    launcher::register [msgcat::mc "Text Menu: Align cursors"] "texttools::align {}"
 
     $mb add command -label [msgcat::mc "Insert Enumeration"] -underline 7 -command "texttools::insert_enumeration {}"
-    launcher::register [msgcat::mc "Menu: Insert enumeration"] "texttools::insert_enumeration {}"
+    launcher::register [msgcat::mc "Text Menu: Insert enumeration"] "texttools::insert_enumeration {}"
 
   }
 
@@ -1057,8 +1057,8 @@ namespace eval menus {
     } else {
       $mb add command -label [msgcat::mc "Show Sidebar"] -underline 5 -command "menus::show_sidebar_view $mb"
     }
-    launcher::register [msgcat::mc "Menu: Show sidebar"] "menus::show_sidebar_view $mb"
-    launcher::register [msgcat::mc "Menu: Hide sidebar"] "menus::hide_sidebar_view $mb"
+    launcher::register [msgcat::mc "View Menu: Show sidebar"] "menus::show_sidebar_view $mb"
+    launcher::register [msgcat::mc "View Menu: Hide sidebar"] "menus::hide_sidebar_view $mb"
 
     if {![catch "console hide"]} {
       if {[preferences::get View/ShowConsole]} {
@@ -1066,8 +1066,8 @@ namespace eval menus {
       } else {
         $mb add command -label [msgcat::mc "Show Console"] -underline 5 -command "menus::show_console_view $mb"
       }
-      launcher::register [msgcat::mc "Menu: Show console"] "menus::show_console_view $mb"
-      launcher::register [msgcat::mc "Menu: Hide console"] "menus::hide_console_view $mb"
+      launcher::register [msgcat::mc "View Menu: Show console"] "menus::show_console_view $mb"
+      launcher::register [msgcat::mc "View Menu: Hide console"] "menus::hide_console_view $mb"
     }
 
     if {[preferences::get View/ShowTabBar]} {
@@ -1075,16 +1075,16 @@ namespace eval menus {
     } else {
       $mb add command -label [msgcat::mc "Show Tab Bar"] -underline 5 -command "menus::show_tab_view $mb"
     }
-    launcher::register [msgcat::mc "Menu: Show Tab Bar"] "menus::show_tab_view $mb"
-    launcher::register [msgcat::mc "Menu: Hide Tab Bar"] "menus::hide_tab_view $mb"
+    launcher::register [msgcat::mc "View Menu: Show Tab Bar"] "menus::show_tab_view $mb"
+    launcher::register [msgcat::mc "View Menu: Hide Tab Bar"] "menus::hide_tab_view $mb"
 
     if {[preferences::get View/ShowStatusBar]} {
       $mb add command -label [msgcat::mc "Hide Status Bar"] -underline 12 -command "menus::hide_status_view $mb"
     } else {
       $mb add command -label [msgcat::mc "Show Status Bar"] -underline 12 -command "menus::show_status_view $mb"
     }
-    launcher::register [msgcat::mc "Menu: Show status bar"] "menus::show_status_view $mb"
-    launcher::register [msgcat::mc "Menu: Hide status bar"] "menus::hide_status_view $mb"
+    launcher::register [msgcat::mc "View Menu: Show status bar"] "menus::show_status_view $mb"
+    launcher::register [msgcat::mc "View Menu: Hide status bar"] "menus::hide_status_view $mb"
 
     $mb add separator
 
@@ -1093,23 +1093,23 @@ namespace eval menus {
     } else {
       $mb add command -label [msgcat::mc "Show Line Numbers"] -underline 5 -command "menus::show_line_numbers $mb"
     }
-    launcher::register [msgcat::mc "Menu: Show Line Numbers"] "menus::show_line_numbers $mb"
-    launcher::register [msgcat::mc "Menu: Hide Line Numbers"] "menus::hide_line_numbers $mb"
+    launcher::register [msgcat::mc "View Menu: Show Line Numbers"] "menus::show_line_numbers $mb"
+    launcher::register [msgcat::mc "View Menu: Hide Line Numbers"] "menus::hide_line_numbers $mb"
 
     $mb add command -label [msgcat::mc "Hide Meta Characters"] -underline 5 -command "menus::hide_meta_chars $mb"
-    launcher::register [msgcat::mc "Menu: Show meta characters"] "menus::show_meta_chars $mb"
-    launcher::register [msgcat::mc "Menu: Hide meta characters"] "menus::hide_meta_chars $mb"
+    launcher::register [msgcat::mc "View Menu: Show meta characters"] "menus::show_meta_chars $mb"
+    launcher::register [msgcat::mc "View Menu: Hide meta characters"] "menus::hide_meta_chars $mb"
 
     $mb add separator
 
     $mb add checkbutton -label [msgcat::mc "Split View"] -underline 6 -variable menus::show_split_pane -command "gui::toggle_split_pane {}"
-    launcher::register [msgcat::mc "Menu: Toggle split view mode"] "gui::toggle_split_pane {}"
+    launcher::register [msgcat::mc "View Menu: Toggle split view mode"] "gui::toggle_split_pane {}"
 
     $mb add command -label [msgcat::mc "Move to Other Pane"] -underline 0 -command "gui::move_to_pane"
-    launcher::register [msgcat::mc "Menu: Move to other pane"] "gui::move_to_pane"
+    launcher::register [msgcat::mc "View Menu: Move to other pane"] "gui::move_to_pane"
 
     $mb add command -label [msgcat::mc "Merge Panes"] -underline 3 -command "gui::merge_panes"
-    launcher::register [msgcat::mc "Menu: Merge panes"] "gui::merge_panes"
+    launcher::register [msgcat::mc "View Menu: Merge panes"] "gui::merge_panes"
 
     $mb add separator
 
@@ -1122,21 +1122,21 @@ namespace eval menus {
 
     # Setup the tab popup menu
     $mb.tabPopup add command -label [msgcat::mc "Goto Next Tab"] -underline 5 -command "gui::next_tab"
-    launcher::register [msgcat::mc "Menu: Goto next tab"] "gui::next_tab"
+    launcher::register [msgcat::mc "View Menu: Goto next tab"] "gui::next_tab"
 
     $mb.tabPopup add command -label [msgcat::mc "Goto Previous Tab"] -underline 5 -command "gui::previous_tab"
-    launcher::register [msgcat::mc "Menu: Goto previous tab"] "gui::previous_tab"
+    launcher::register [msgcat::mc "View Menu: Goto previous tab"] "gui::previous_tab"
 
     $mb.tabPopup add command -label [msgcat::mc "Goto Last Tab"] -underline 5 -command "gui::last_tab"
-    launcher::register [msgcat::mc "Menu: Goto last tab"] "gui::last_tab"
+    launcher::register [msgcat::mc "View Menu: Goto last tab"] "gui::last_tab"
 
     $mb.tabPopup add command -label [msgcat::mc "Goto Other Pane"] -underline 11 -command "gui::next_pane"
-    launcher::register [msgcat::mc "Menu: Goto other pane"] "gui::next_pane"
+    launcher::register [msgcat::mc "View Menu: Goto other pane"] "gui::next_pane"
 
     $mb.tabPopup add separator
 
     $mb.tabPopup add command -label [msgcat::mc "Sort Tabs"] -underline 0 -command "gui::sort_tabs"
-    launcher::register [msgcat::mc "Menu: Sort tabs"] "gui::sort_tabs"
+    launcher::register [msgcat::mc "View Menu: Sort tabs"] "gui::sort_tabs"
 
   }
 
@@ -1357,19 +1357,19 @@ namespace eval menus {
     $mb add cascade -label [msgcat::mc "Theme Creator"] -underline 0 -menu [menu $mb.themer -tearoff 0]
 
     $mb.themer add command -label [msgcat::mc "Create New..."] -underline 0 -command "menus::create_theme_command"
-    launcher::register [msgcat::mc "Menu: Create new theme"] "themer::create_theme_command"
+    launcher::register [msgcat::mc "Tools Menu: Create new theme"] "themer::create_theme_command"
 
     $mb.themer add command -label [msgcat::mc "Edit..."] -underline 0 -command "menus::edit_theme_command"
-    launcher::register [msgcat::mc "Menu: Edit Tke theme"] "menus::edit_theme_command"
+    launcher::register [msgcat::mc "Tools Menu: Edit Tke theme"] "menus::edit_theme_command"
 
     $mb.themer add command -label [msgcat::mc "Import TextMate Theme..."] -underline 0 -command "menus::import_tm_command"
-    launcher::register [msgcat::mc "Menu: Import TextMate theme"] "menus::import_tm_command"
+    launcher::register [msgcat::mc "Tools Menu: Import TextMate theme"] "menus::import_tm_command"
 
     $mb add separator
 
     $mb add checkbutton -label [msgcat::mc "Vim Mode"] -underline 0 -variable preferences::prefs(Tools/VimMode) -command "vim::set_vim_mode_all"
-    launcher::register [msgcat::mc "Menu: Enable Vim mode"]  "set preferences::prefs(Tools/VimMode) 1; vim::set_vim_mode_all"
-    launcher::register [msgcat::mc "Menu: Disable Vim mode"] "set preferences::prefs(Tools/VimMode) 0; vim::set_vim_mode_all"
+    launcher::register [msgcat::mc "Tools Menu: Enable Vim mode"]  "set preferences::prefs(Tools/VimMode) 1; vim::set_vim_mode_all"
+    launcher::register [msgcat::mc "Tools Menu: Disable Vim mode"] "set preferences::prefs(Tools/VimMode) 0; vim::set_vim_mode_all"
 
     # Add development tools
     if {[::tke_development]} {
@@ -1377,23 +1377,23 @@ namespace eval menus {
       $mb add separator
 
       $mb add command -label [msgcat::mc "Start Profiling"] -underline 0 -command "menus::start_profiling_command $mb"
-      launcher::register [msgcat::mc "Menu: Start profiling"] "menus::start_profiling_command $mb"
+      launcher::register [msgcat::mc "Tools Menu: Start profiling"] "menus::start_profiling_command $mb"
 
       $mb add command -label [msgcat::mc "Stop Profiling"] -underline 1 -command "menus::stop_profiling_command $mb 1" -state disabled
-      launcher::register [msgcat::mc "Menu: Stop profiling"] "menus::stop_profiling_command $mb 1"
+      launcher::register [msgcat::mc "Tools Menu: Stop profiling"] "menus::stop_profiling_command $mb 1"
 
       $mb add command -label [msgcat::mc "Show Last Profiling Report"] -underline 5 -command "menus::show_last_profiling_report"
-      launcher::register [msgcat::mc "Menu: Show last profiling report"] "menus::show_last_profiling_report"
+      launcher::register [msgcat::mc "Tools Menu: Show last profiling report"] "menus::show_last_profiling_report"
 
       $mb add separator
 
       $mb add command -label [msgcat::mc "Show Diagnostic Logfile"] -underline 5 -command "logger::view_log"
-      launcher::register [msgcat::mc "Menu: Show Diagnostic Logfile"] "logger::view_log"
+      launcher::register [msgcat::mc "Tools Menu: Show Diagnostic Logfile"] "logger::view_log"
 
       $mb add separator
 
       $mb add command -label [msgcat::mc "Restart TKE"] -underline 0 -command "menus::restart_command"
-      launcher::register [msgcat::mc "Menu: Restart tke"] "menus::restart_command"
+      launcher::register [msgcat::mc "Tools Menu: Restart tke"] "menus::restart_command"
 
     }
 
@@ -1613,28 +1613,28 @@ namespace eval menus {
 
     # Add sessions menu commands
     $mb add cascade -label [msgcat::mc "Open"] -menu [menu $mb.open -tearoff false]
-    launcher::register [msgcat::mc "Menu: Open session"] "menus::sessions_open_launcher"
+    launcher::register [msgcat::mc "Sessions Menu: Open session"] "menus::sessions_open_launcher"
 
     $mb add cascade -label [msgcat::mc "Switch To"] -menu [menu $mb.switch -tearoff false]
-    launcher::register [msgcat::mc "Menu: Switch to session"] "menus::sessions_switch_launcher"
+    launcher::register [msgcat::mc "Sessions Menu: Switch to session"] "menus::sessions_switch_launcher"
 
     $mb add separator
 
     $mb add command -label [msgcat::mc "Close Current"] -underline 0 -command "menus::sessions_close_current"
-    launcher::register [msgcat::mc "Menu: Close current session"] "menus::sessions_close_current"
+    launcher::register [msgcat::mc "Sessions Menu: Close current session"] "menus::sessions_close_current"
 
     $mb add separator
 
     $mb add command -label [msgcat::mc "Save Current"] -underline 0 -command "menus::sessions_save_current"
-    launcher::register [msgcat::mc "Menu: Save current session"] "menus::sessions_save_current"
+    launcher::register [msgcat::mc "Sessions Menu: Save current session"] "menus::sessions_save_current"
 
     $mb add command -label [msgcat::mc "Save As"] -underline 5 -command "menus::sessions_save_as"
-    launcher::register [msgcat::mc "Menu: Save sessions as"] "menus::sessions_save_as"
+    launcher::register [msgcat::mc "Sessions Menu: Save sessions as"] "menus::sessions_save_as"
 
     $mb add separator
 
     $mb add cascade -label [msgcat::mc "Delete"] -menu [menu $mb.delete -tearoff false]
-    launcher::register [msgcat::mc "Menu: Delete session"] "menus::sessions_delete_launcher"
+    launcher::register [msgcat::mc "Sessions Menu: Delete session"] "menus::sessions_delete_launcher"
 
   }
 
@@ -1753,19 +1753,19 @@ namespace eval menus {
 
     # Add plugins menu commands
     $mb add command -label [msgcat::mc "Install..."] -underline 0 -command "plugins::install"
-    launcher::register [msgcat::mc "Menu: Install plugin"] "plugins::install"
+    launcher::register [msgcat::mc "Plugins Menu: Install plugin"] "plugins::install"
 
     $mb add command -label [msgcat::mc "Uninstall..."] -underline 0 -command "plugins::uninstall"
-    launcher::register [msgcat::mc "Menu: Uninstall plugin"] "plugins::uninstall"
+    launcher::register [msgcat::mc "Plugins Menu: Uninstall plugin"] "plugins::uninstall"
 
     $mb add command -label [msgcat::mc "Reload"] -underline 0 -command "plugins::reload"
-    launcher::register [msgcat::mc "Menu: Reload all plugins"] "plugins::reload"
+    launcher::register [msgcat::mc "Plugins Menu: Reload all plugins"] "plugins::reload"
 
     if {[::tke_development]} {
 
       $mb add separator
       $mb add command -label [msgcat::mc "Create..."] -underline 0 -command "plugins::create_new_plugin"
-      launcher::register [msgcat::mc "Menu: Create new plugin"] "plugins::create_new_plugin"
+      launcher::register [msgcat::mc "Plugins Menu: Create new plugin"] "plugins::create_new_plugin"
 
     }
 
@@ -1787,26 +1787,26 @@ namespace eval menus {
   proc add_help {mb} {
 
     $mb add command -label [msgcat::mc "User Guide"] -underline 0 -command "menus::help_user_guide"
-    launcher::register [msgcat::mc "Menu: View User Guide"] "menus::help_user_guide"
+    launcher::register [msgcat::mc "Help Menu: View User Guide"] "menus::help_user_guide"
 
     if {![string match *Win* $::tcl_platform(os)]} {
       $mb add separator
       $mb add command -label [msgcat::mc "Check for Update"] -underline 0 -command "menus::check_for_update"
-      launcher::register [msgcat::mc "Menu: Check for Update"] "menus::check_for_update"
+      launcher::register [msgcat::mc "Help Menu: Check for Update"] "menus::check_for_update"
     }
 
     $mb add separator
 
     $mb add command -label [msgcat::mc "Send Feedback"] -underline 5 -command "menus::help_feedback_command"
-    launcher::register [msgcat::mc "Menu: Send Feedback"] "menus::help_feedback_command"
+    launcher::register [msgcat::mc "Help Menu: Send Feedback"] "menus::help_feedback_command"
 
     $mb add command -label [msgcat::mc "Send Bug Report"] -underline 5 -command "menus::help_submit_report"
-    launcher::register [msgcat::mc "Menu: Send Bug Report"] "menus::help_submit_report"
+    launcher::register [msgcat::mc "Help Menu: Send Bug Report"] "menus::help_submit_report"
 
     if {[tk windowingsystem] ne "aqua"} {
       $mb add separator
       $mb add command -label [msgcat::mc "About TKE"] -underline 0 -command "gui::show_about"
-      launcher::register [msgcat::mc "Menu: About TKE"] "gui::show_about"
+      launcher::register [msgcat::mc "Help Menu: About TKE"] "gui::show_about"
     }
 
   }
