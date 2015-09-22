@@ -1276,8 +1276,23 @@ namespace eval gui {
   # -other       <bool>     If true, adds the file to the other pane.
   # -tags        <list>     List of plugin btags that will only get applied to this text widget.
   proc add_new_file {index args} {
+    
+    variable files
+    variable files_index
 
+    array set opts {
+      -sidebar 0
+    }
+    array set opts $args
+    
+    # Add the buffer
     add_buffer $index "Untitled" [ns gui]::save_new_file {*}$args
+    
+    # If the sidebar option was set to 1, set it now
+    if {$opts(-sidebar)} {
+      set index [current_file]
+      lset files $index $files_index(sidebar) 1
+    }
 
   }
 
@@ -1729,13 +1744,13 @@ namespace eval gui {
     if {![save_posthandle $fname $perms]} {
       return 0
     }
-
+    
     # If the file doesn't have a timestamp, it's a new file so add and highlight it in the sidebar
     if {([lindex $files $file_index $files_index(mtime)] eq "") || ($save_as ne "")} {
 
       # Calculate the normalized filename
       set fname [file normalize [lindex $files $file_index $files_index(fname)]]
-
+      
       # Add the filename to the most recently opened list
       add_to_recently_opened $fname
 
@@ -1743,7 +1758,7 @@ namespace eval gui {
       if {[lindex $files $file_index $files_index(sidebar)]} {
 
         # Add the file's directory to the sidebar
-        [ns sidebar]::add_directory [file dirname $fname]
+        [ns sidebar]::insert_file [[ns sidebar]::add_directory [file dirname $fname]] $fname
 
         # Highlight the file in the sidebar
         [ns sidebar]::highlight_filename [lindex $files $file_index $files_index(fname)] [expr ($diff * 2) + 1]
