@@ -1654,6 +1654,33 @@ namespace eval gui {
     return 1
 
   }
+  
+  ######################################################################
+  # Returns the index of the index that matches the given filename.  If
+  # no entry matches, returns -1.
+  proc find_matching_file_index {fname} {
+    
+    variable files
+    variable files_index
+    
+    # Get the indices that match the given filename
+    set matching_indices [lsearch -all -index $files_index(fname) $files $fname]
+    
+    switch [llength $matching_indices] {
+      0 { return -1 }
+      1 {
+        set index [lindex $matching_indices 0]
+        return [expr [lindex $files $index $files_index(diff)] ? -1 : $index]
+      }
+      2 {
+        lassign $matching_indices index1 index2
+        return [expr [lindex $files $index1 $files_index(diff)] ? $index2 : $index1]
+      }
+    }
+    
+    return -1
+    
+  }
 
   ######################################################################
   # Saves the current tab contents.  Returns 1 if the save was successful;
@@ -1697,11 +1724,13 @@ namespace eval gui {
     }
 
     # Get the difference mode of the current file
-    set diff [lindex $files $file_index $files_index(diff)]
-
+    set diff           [lindex $files $file_index $files_index(diff)]
+    set matching_index -1
+    
     # If a save_as name is specified, change the filename
     if {$save_as ne ""} {
       [ns sidebar]::highlight_filename [lindex $files $file_index $files_index(fname)] [expr $diff * 2]
+      set matching_index [find_matching_file_index $save_as]
       lset files $file_index $files_index(fname) $save_as
 
     # If the current file doesn't have a filename, allow the user to set it
@@ -1713,6 +1742,7 @@ namespace eval gui {
       if {[set sfile [tk_getSaveFile {*}$save_opts -parent . -title [msgcat::mc "Save As"] -initialdir [pwd]]] eq ""} {
         return 0
       } else {
+        set matching_index [find_matching_file_index $sfile]
         lset files $file_index $files_index(fname) $sfile
       }
     }
@@ -1720,13 +1750,18 @@ namespace eval gui {
     # Make is easier to refer to the filename
     set fname [lindex $files $file_index $files_index(fname)]
 
-    # Run the on_save plugins
-    [ns plugins]::handle_on_save $file_index
-
     # If we need to do a force write, do it now
     set perms ""
     if {![save_prehandle $fname $save_as $force perms]} {
       return 0
+    }
+    
+    # Run the on_save plugins
+    [ns plugins]::handle_on_save $file_index
+
+    # If the file already exists in one of the open tabs, close it now
+    if {$matching_index != -1} {
+      close_tab [lindex $files $matching_index $files_index(tab)] 0 0
     }
 
     # Save the file contents

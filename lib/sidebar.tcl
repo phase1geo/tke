@@ -748,6 +748,8 @@ namespace eval sidebar {
         if {[file isfile [set name [$widgets(tl) cellcget $child,name -text]]]} {
           set compare [string compare $fname [$widgets(tl) cellcget $child,name -text]]
           if {$compare == 0} {
+            $widgets(tl) cellconfigure $node,name -image $images(sopen)
+            update_root_count $node 1
             return
           } elseif {$compare == -1} {
             set node [$widgets(tl) insertchild $parent $i [list $fname 0]]
