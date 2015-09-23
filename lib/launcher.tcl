@@ -335,6 +335,14 @@ namespace eval launcher {
 
   }
   
+  ######################################################################
+  # Handles mouse motion over the listbox.
+  proc select_motion {w x y} {
+    
+    select [$w index @$x,$y]
+    
+  }
+  
   ############################################################################
   # Selects the current row within the selection table.
   proc select {row} {
@@ -346,7 +354,7 @@ namespace eval launcher {
     
     # Set the selection
     $widgets(lb) selection clear 0 end
-    $widgets(lb) selection set $row $row
+    $widgets(lb) selection set $row
     $widgets(lb) see $row
     
     # If the text widget is shown, clear it and display the current detail information
@@ -563,11 +571,12 @@ namespace eval launcher {
         }
 
         # Bind up/down and return keys
-        bind $widgets(entry) <Up>       "launcher::move_up"
-        bind $widgets(entry) <Down>     "launcher::move_down"
-        bind $widgets(entry) <Return>   "launcher::execute"
-        bind $widgets(entry) <Escape>   "destroy $widgets(win)"
-        bind $widgets(lb)    <Button-1> "launcher::execute"
+        bind $widgets(entry) <Up>              "launcher::move_up; break"
+        bind $widgets(entry) <Down>            "launcher::move_down; break"
+        bind $widgets(entry) <Return>          "launcher::execute"
+        bind $widgets(entry) <Escape>          "destroy $widgets(win)"
+        bind $widgets(lb)    <Motion>          "launcher::select_motion %W %x %y"
+        bind $widgets(lb)    <<ListboxSelect>> "launcher::execute"
 
         # Set tablelist selection to the first entry
         select 0

@@ -421,7 +421,7 @@ namespace eval snippets {
 
     # Set the language
     set language [expr {($type eq "user") ? "user" : [syntax::get_current_language [gui::current_txt $tid]]}]
-
+ 
     # If the snippet file does not exist, create the file
     if {![file exists [set fname [file join $snippets_dir $language.snippets]]]} {
       if {![catch { open $fname w } rc]} {
@@ -459,10 +459,9 @@ namespace eval snippets {
     set i 0
     foreach snippet [get_current_snippets] {
       lassign $snippet name value
-      array set snip $value
       launcher::register_temp "`SNIPPET:$name" \
         [list [ns snippets]::insert_snippet_into_current {} $value] \
-        $name $i [list snippets::add_detail $snip(snippet)]
+        $name $i [list snippets::add_detail $value]
       incr i
     }
 
