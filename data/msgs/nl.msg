@@ -194,6 +194,84 @@ msgcat::mcmset nl {
   "Edit Language"
   "Bewerk Taal"
 
+  "Edit Menu Edit user snippets"
+  "Menu bewerken gebruiker fragmenten bewerken"
+
+  "Edit Menu: Copy text"
+  "Bewerkingsmenu: Tekst van het exemplaar"
+
+  "Edit Menu: Cut text"
+  "Bewerkingsmenu: Tekst knippen"
+
+  "Edit Menu: Edit language snippets"
+  "Bewerkingsmenu: Edit taal fragmenten"
+
+  "Edit Menu: Edit session current language preferences"
+  "Bewerkingsmenu: Sessie huidige taalvoorkeuren bewerken"
+
+  "Edit Menu: Edit session global preferences"
+  "Bewerkingsmenu: Sessie globale voorkeuren bewerken"
+
+  "Edit Menu: Edit user current language preferences"
+  "Bewerkingsmenu: Gebruikersvoorkeuren voor de huidige taal bewerken"
+
+  "Edit Menu: Edit user global preferences"
+  "Bewerkingsmenu: Global Gebruikersvoorkeuren bewerken"
+
+  "Edit Menu: Edit user menu bindings"
+  "Bewerkingsmenu: Gebruiker menu bindingen bewerken"
+
+  "Edit Menu: Format all text"
+  "Bewerkingsmenu: Alle tekst opmaken"
+
+  "Edit Menu: Format selected text"
+  "Bewerkingsmenu: Geselecteerde tekst opmaken"
+
+  "Edit Menu: Insert from clipboard"
+  "Bewerkingsmenu: Invoegen uit klembord"
+
+  "Edit Menu: Insert snippet"
+  "Bewerkingsmenu: Invoegen fragment"
+
+  "Edit Menu: Paste and format text from clipboard"
+  "Bewerkingsmenu: Plakken en indeling tekst vanaf klembord"
+
+  "Edit Menu: Paste text from clipboard"
+  "Bewerkingsmenu: Tekst vanaf klembord plakken"
+
+  "Edit Menu: Redo"
+  "Menu bewerken: opnieuw uitvoeren"
+
+  "Edit Menu: Reload snippets"
+  "Bewerkingsmenu: Reload fragmenten"
+
+  "Edit Menu: Select all text"
+  "Bewerkingsmenu: Selecteer alle tekst"
+
+  "Edit Menu: Set indent mode to IND"
+  "Bewerkingsmenu: Streepje modus instelt op IND"
+
+  "Edit Menu: Set indent mode to IND+"
+  "Bewerkingsmenu: Streepje modus instelt op IND +"
+
+  "Edit Menu: Set indent mode to OFF"
+  "Bewerkingsmenu: Streepje modus ingesteld op OFF"
+
+  "Edit Menu: Set user bindings to global bindings"
+  "Bewerkingsmenu: Gebruiker serverbindingen instellen naar globale bindings"
+
+  "Edit Menu: Set user preferences to global preferences"
+  "Bewerkingsmenu: Gebruikersvoorkeuren naar algemene voorkeuren instellen"
+
+  "Edit Menu: Undo"
+  "Menu bewerken: ongedaan maken"
+
+  "Edit Menu: View base preferences file"
+  "Bewerkingsmenu: Basis voorkeurenbestand bekijken"
+
+  "Edit Menu: View global menu bindings"
+  "Bewerkingsmenu: Bekijken globaal menu bindingen"
+
   "Edit Session - Global"
   "Session - Global bewerken"
 
@@ -215,6 +293,54 @@ msgcat::mcmset nl {
   "File"
   "Bestand"
 
+  "File Menu: Close all tabs"
+  "Bestandsmenu: Sluit alle tabbladen"
+
+  "File Menu: Close current tab"
+  "Bestandsmenu: Sluit huidige tabblad"
+
+  "File Menu: Favorite file"
+  "Bestandsmenu: Favoriet bestand"
+
+  "File Menu: Lock file"
+  "Bestandsmenu: Vergrendelingsbestand"
+
+  "File Menu: New file"
+  "Bestandsmenu: Nieuw bestand"
+
+  "File Menu: Open Favorite"
+  "Bestandsmenu: Open favoriet"
+
+  "File Menu: Open Recent"
+  "Beeld Inspecteur tonen"
+
+  "File Menu: Open directory"
+  "Bestandsmenu: Open Folder"
+
+  "File Menu: Open file"
+  "Bestandsmenu: Open bestand"
+
+  "File Menu: Quit application"
+  "Bestandsmenu: Toepassing afsluiten"
+
+  "File Menu: Save all files"
+  "Bestandsmenu: Alle bestanden opslaan"
+
+  "File Menu: Save file"
+  "Bestandsmenu: Bestand opslaan"
+
+  "File Menu: Save file as"
+  "Bestandsmenu: Bestand opslaan als"
+
+  "File Menu: Show file difference"
+  "Bestandsmenu: Toon bestand verschil"
+
+  "File Menu: Unfavorite file"
+  "Bestandsmenu: Unfavorite bestand"
+
+  "File Menu: Unlock file"
+  "Bestandsmenu: Ontgrendelen bestand"
+
   "Find"
   "Query"
 
@@ -223,6 +349,54 @@ msgcat::mcmset nl {
 
   "Find Matching Pair"
   "Vinden Matching paar"
+
+  "Find Menu: Append next occurrence"
+  "Menu zoeken: Append volgende vindplaats"
+
+  "Find Menu: Create marker at current line"
+  "Menu zoeken: Marker op de huidige regel maken"
+
+  "Find Menu: Find"
+  "Menu zoeken: zoeken"
+
+  "Find Menu: Find and Replace"
+  "Menu zoeken: Zoeken en vervangen"
+
+  "Find Menu: Find in files"
+  "Menu zoeken: Zoeken in bestanden"
+
+  "Find Menu: Find matching character pair"
+  "Menu zoeken: Overeenkomende teken paar zoeken"
+
+  "Find Menu: Find next occurrence"
+  "Menu zoeken: Volgende exemplaar zoeken"
+
+  "Find Menu: Find previous occurrence"
+  "Menu zoeken: Vorige exemplaar zoeken"
+
+  "Find Menu: Goto next difference"
+  "Menu zoeken: Goto volgende verschil"
+
+  "Find Menu: Goto previous difference"
+  "Menu zoeken: Goto vorige verschil"
+
+  "Find Menu: Jump backward"
+  "Menu zoeken: Achteruit springen"
+
+  "Find Menu: Jump forward"
+  "Menu zoeken: Sprong voorwaarts"
+
+  "Find Menu: Remove all markers"
+  "Menu zoeken: Verwijder alle markeertekens"
+
+  "Find Menu: Remove marker from current line"
+  "Menu zoeken: Marker verwijderen uit de huidige regel"
+
+  "Find Menu: Select all occurrences"
+  "Menu zoeken: Selecteer alle exemplaren"
+
+  "Find Menu: Show selected line change"
+  "Menu zoeken: Toon geselecteerde lijn wijzigen"
 
   "Find and Replace"
   "Zoeken en vervangen"
@@ -247,6 +421,21 @@ msgcat::mcmset nl {
 
   "Help"
   "Help"
+
+  "Help Menu: About TKE"
+  "Menu Help: Over TKE"
+
+  "Help Menu: Check for Update"
+  "Helpmenu: Controle voor Update"
+
+  "Help Menu: Send Bug Report"
+  "Helpmenu: Bugrapport verzenden"
+
+  "Help Menu: Send Feedback"
+  "Helpmenu: Feedback verzenden"
+
+  "Help Menu: View User Guide"
+  "Helpmenu: Weergave User Guide"
 
   "Hide Console"
   "Verbergen Console"
@@ -305,333 +494,6 @@ msgcat::mcmset nl {
   "Menu Bindings"
   "Menu Bindingen"
 
-  "Menu Edit user snippets"
-  "Menu bewerken gebruiker fragmenten"
-
-  "Menu: About TKE"
-  "Menu: Over TKE"
-
-  "Menu: Align cursors"
-  "Menu: Lijn cursors"
-
-  "Menu: Append next occurrence"
-  "Menu: Append volgende voorkomen"
-
-  "Menu: Check for Update"
-  "Menu: Check for Update"
-
-  "Menu: Close all tabs"
-  "Menu: Sluit alle tabbladen"
-
-  "Menu: Close current session"
-  "Menu: Huidige sessie sluiten"
-
-  "Menu: Close current tab"
-  "Huidig tabblad sluiten"
-
-  "Menu: Copy text"
-  "Menu: De tekst van het exemplaar van"
-
-  "Menu: Create marker at current line"
-  "Menu: Marker op de huidige regel maken"
-
-  "Menu: Create new plugin"
-  "Menu: Maak een nieuwe plugin"
-
-  "Menu: Create new theme"
-  "Nieuw thema aanmaken..."
-
-  "Menu: Cut text"
-  ": Menutekst Cut"
-
-  "Menu: Delete session"
-  "Menu: Delete sessie"
-
-  "Menu: Disable Vim mode"
-  "Menu: Uitschakelen Vim modus"
-
-  "Menu: Edit Tke theme"
-  "Menu: Bewerken Tke thema"
-
-  "Menu: Edit language snippets"
-  "Menu: Bewerken taal fragmenten"
-
-  "Menu: Edit session current language preferences"
-  "Menu: Sessie huidige taalvoorkeuren bewerken"
-
-  "Menu: Edit session global preferences"
-  "Menu: Sessie globale voorkeuren bewerken"
-
-  "Menu: Edit user current language preferences"
-  "Menu: Gebruikersvoorkeuren voor de huidige taal bewerken"
-
-  "Menu: Edit user global preferences"
-  "Menu: Global Gebruikersvoorkeuren bewerken"
-
-  "Menu: Edit user menu bindings"
-  "Menu: menu Gebruiker bewerken bindingen"
-
-  "Menu: Enable Vim mode"
-  "Menu: Enable Vim modus"
-
-  "Menu: Favorite file"
-  "Menu: Favoriete bestand"
-
-  "Menu: Find"
-  "Menu: Zoek"
-
-  "Menu: Find and Replace"
-  "Zoeken en vervangen"
-
-  "Menu: Find in files"
-  "Zoek in bestanden..."
-
-  "Menu: Find matching character pair"
-  "Menu: Vind passende tekenpaar"
-
-  "Menu: Find next occurrence"
-  "Menu: Volgende instantie"
-
-  "Menu: Find previous occurrence"
-  "Menu: Zoek vorige exemplaar"
-
-  "Menu: Format all text"
-  "Menu: Formatteer alle tekst"
-
-  "Menu: Format selected text"
-  "Menu: Format geselecteerde tekst"
-
-  "Menu: Goto last tab"
-  "Menu: Ga naar laatste tabblad"
-
-  "Menu: Goto next difference"
-  "Menu: Goto volgende verschil"
-
-  "Menu: Goto next tab"
-  "Menu: Ga naar volgende tabblad"
-
-  "Menu: Goto other pane"
-  "Menu: Goto andere ruit"
-
-  "Menu: Goto previous difference"
-  "Menu: Goto vorige verschil"
-
-  "Menu: Goto previous tab"
-  "Menu: Ga naar vorige tabblad"
-
-  "Menu: Hide Line Numbers"
-  "Menu: Verbergen regelnummers"
-
-  "Menu: Hide Tab Bar"
-  "Menu: Hide Tab Bar"
-
-  "Menu: Hide console"
-  "Menu: Verbergen console"
-
-  "Menu: Hide meta characters"
-  "Menu: Verbergen metakarakters"
-
-  "Menu: Hide sidebar"
-  "Menu: Verbergen zijbalk"
-
-  "Menu: Hide status bar"
-  "Menu: status te verbergen bar"
-
-  "Menu: Import TextMate theme"
-  "Menu: Import TextMate thema"
-
-  "Menu: Indent selected text"
-  "Menu: inspringen geselecteerde tekst"
-
-  "Menu: Insert enumeration"
-  "Menu: Invoegen opsomming"
-
-  "Menu: Insert from clipboard"
-  "Invoegen vanaf klembord"
-
-  "Menu: Insert snippet"
-  "Menu: snippet Insert"
-
-  "Menu: Install plugin"
-  "Menu: Installeer plugin"
-
-  "Menu: Jump backward"
-  "Menu: Achteruit springen"
-
-  "Menu: Jump forward"
-  "Menu: Sprong voorwaarts"
-
-  "Menu: Lock file"
-  "Menu: Lock file"
-
-  "Menu: Merge panes"
-  "Menu: Samenvoegen deelvensters"
-
-  "Menu: Move to other pane"
-  "Menu: Overgang naar andere ruit"
-
-  "Menu: New file"
-  "Menu: Nieuw bestand"
-
-  "Menu: Open Favorite"
-  "Menu: Open Favoriete"
-
-  "Menu: Open Recent"
-  "Menu: Recent geopend"
-
-  "Menu: Open directory"
-  "Menu: Open directory"
-
-  "Menu: Open file"
-  "Menu: Bestand openen"
-
-  "Menu: Open session"
-  "Menu: Openbare zitting"
-
-  "Menu: Paste and format text from clipboard"
-  "Menu: Plakken en opmaken van het klembord"
-
-  "Menu: Paste text from clipboard"
-  "Tekst plakken vanaf het klembord"
-
-  "Menu: Quit application"
-  "Menu: Quit toepassing"
-
-  "Menu: Redo"
-  "Menu: Redo"
-
-  "Menu: Reload all plugins"
-  "Menu: Reload alle plugins"
-
-  "Menu: Reload snippets"
-  "Menu: Reload fragmenten"
-
-  "Menu: Remove all markers"
-  "Menu: Alle markeringen verwijderen"
-
-  "Menu: Remove marker from current line"
-  "Menu: Marker verwijderen uit de huidige regel"
-
-  "Menu: Replace line with script"
-  "Menu: Regel vervangen door script"
-
-  "Menu: Restart tke"
-  "Menu: Restart TKE"
-
-  "Menu: Save all files"
-  "Menu: Sla alle bestanden"
-
-  "Menu: Save current session"
-  "Huidige sessie opslaan?"
-
-  "Menu: Save file"
-  "Menu: Bestand opslaan"
-
-  "Menu: Save file as"
-  "Menu: Bestand opslaan als"
-
-  "Menu: Save sessions as"
-  "Menu: Opslaan als zittingen"
-
-  "Menu: Select all occurrences"
-  "Menu: Selecteer alle exemplaren"
-
-  "Menu: Select all text"
-  "Alle tekst selecteren"
-
-  "Menu: Send Bug Report"
-  "Menu: Send bugreport"
-
-  "Menu: Send Feedback"
-  "Menu: Feedback verzenden"
-
-  "Menu: Set indent mode to IND"
-  "Menu: Streepje modus instelt op IND"
-
-  "Menu: Set indent mode to IND+"
-  "Menu: Streepje modus instelt op IND +"
-
-  "Menu: Set indent mode to OFF"
-  ": Menureeks streepje modus op OFF"
-
-  "Menu: Set user bindings to global bindings"
-  "Menu: Stel gebruiker bindingen aan de mondiale bindingen"
-
-  "Menu: Set user preferences to global preferences"
-  "Menu: Stel gebruikersvoorkeuren tot wereldwijde voorkeuren"
-
-  "Menu: Show Diagnostic Logfile"
-  "Menu: Toon diagnostische Logfile"
-
-  "Menu: Show Line Numbers"
-  "Regelnummering tonen"
-
-  "Menu: Show Tab Bar"
-  "Menu: Show Tab Bar"
-
-  "Menu: Show console"
-  "Menu: Show console"
-
-  "Menu: Show file difference"
-  "Menu: Toon bestand verschil"
-
-  "Menu: Show last profiling report"
-  "Menu: Toon laatste profilering rapport"
-
-  "Menu: Show meta characters"
-  "Menu: Toon metakarakters"
-
-  "Menu: Show selected line change"
-  "Menu: Toon geselecteerde lijn wijzigen"
-
-  "Menu: Show sidebar"
-  "Menu: Show sidebar"
-
-  "Menu: Show status bar"
-  "Statusbalk tonen"
-
-  "Menu: Sort tabs"
-  "Menu: Sort tabs"
-
-  "Menu: Start profiling"
-  "Menu: Start profilering"
-
-  "Menu: Stop profiling"
-  "Menu: Stop profilering"
-
-  "Menu: Switch to session"
-  "Menu: Overschakelen naar sessie"
-
-  "Menu: Toggle comment"
-  "Menu: Toggle commentaar"
-
-  "Menu: Toggle split view mode"
-  "Menu: Toggle split view mode"
-
-  "Menu: Undo"
-  "Menu: Ongedaan maken"
-
-  "Menu: Unfavorite file"
-  "Menu: Unfavorite bestand"
-
-  "Menu: Unindent selected text"
-  "Menu: laten terugspringen geselecteerde tekst"
-
-  "Menu: Uninstall plugin"
-  "Menu: Uninstall plugin"
-
-  "Menu: Unlock file"
-  "Menu: Open bestand"
-
-  "Menu: View User Guide"
-  "Menu: View User Guide"
-
-  "Menu: View base preferences file"
-  "Menu: Weergave base voorkeurenbestand"
-
-  "Menu: View global menu bindings"
-  "Menu: Bekijk global menu bindingen"
-
   "Merge Panes"
   "Samenvoegen van deelvensters"
 
@@ -658,6 +520,18 @@ msgcat::mcmset nl {
 
   "Plugins"
   "Plug-in"
+
+  "Plugins Menu: Create new plugin"
+  "Plugins Menu: Maak nieuwe plugin"
+
+  "Plugins Menu: Install plugin"
+  "Plugins Menu: Installeren plugin"
+
+  "Plugins Menu: Reload all plugins"
+  "Plugins Menu: Herladen alle plugins"
+
+  "Plugins Menu: Uninstall plugin"
+  "Plugins Menu: Verwijderen plugin"
 
   "Preferences"
   "Voorkeuren"
@@ -727,6 +601,24 @@ msgcat::mcmset nl {
 
   "Sessions"
   "Sessies"
+
+  "Sessions Menu: Close current session"
+  "Sessies Menu: Huidige sessie sluiten"
+
+  "Sessions Menu: Delete session"
+  "Sessies Menu: Delete sessie"
+
+  "Sessions Menu: Open session"
+  "Sessies Menu: Openbare zitting"
+
+  "Sessions Menu: Save current session"
+  "Sessies Menu: Sla huidige sessie"
+
+  "Sessions Menu: Save sessions as"
+  "Sessies Menu: Opslaan als zittingen"
+
+  "Sessions Menu: Switch to session"
+  "Sessies Menu: Overschakelen naar sessie"
 
   "Set Syntax"
   "Stel Syntax"
@@ -800,6 +692,24 @@ msgcat::mcmset nl {
   "Text"
   "Tekst"
 
+  "Text Menu: Align cursors"
+  "Tekstmenu: Uitlijnen cursors"
+
+  "Text Menu: Indent selected text"
+  "Tekstmenu: Geselecteerde tekst laten inspringen"
+
+  "Text Menu: Insert enumeration"
+  "Tekstmenu: Invoegen (opsomming)"
+
+  "Text Menu: Replace line with script"
+  "Tekstmenu: Regel vervangen door script"
+
+  "Text Menu: Toggle comment"
+  "Tekstmenu: Toggle commentaar"
+
+  "Text Menu: Unindent selected text"
+  "Tekstmenu: Geselecteerde tekst inspringen"
+
   "Theme Creator"
   "Theme Creator"
 
@@ -808,6 +718,36 @@ msgcat::mcmset nl {
 
   "Tools"
   "hulpmiddelen;"
+
+  "Tools Menu: Create new theme"
+  "Menu Extra: Nieuw thema maken"
+
+  "Tools Menu: Disable Vim mode"
+  "Menu Extra: Vim modus uitschakelen"
+
+  "Tools Menu: Edit Tke theme"
+  "Menu Extra: Tke thema bewerken"
+
+  "Tools Menu: Enable Vim mode"
+  "Menu Extra: Vim modus inschakelen"
+
+  "Tools Menu: Import TextMate theme"
+  "Menu Extra: Importeren TextMate thema"
+
+  "Tools Menu: Restart tke"
+  "Menu Extra: Herstart tke"
+
+  "Tools Menu: Show Diagnostic Logfile"
+  "Menu Extra: Toon diagnostische Logfile"
+
+  "Tools Menu: Show last profiling report"
+  "Menu Extra: Toon laatste profilering verslag"
+
+  "Tools Menu: Start profiling"
+  "Menu Extra: Start profilering"
+
+  "Tools Menu: Stop profiling"
+  "Menu Extra: Stop profilering"
 
   "Undo"
   "Ongedaan maken"
@@ -832,6 +772,66 @@ msgcat::mcmset nl {
 
   "View Global"
   "Weergave Global"
+
+  "View Menu: Goto last tab"
+  "Menu Beeld: Goto laatste tabblad"
+
+  "View Menu: Goto next tab"
+  "Menu Beeld: Goto volgende tabblad"
+
+  "View Menu: Goto other pane"
+  "Menu Beeld: Goto andere deelvenster"
+
+  "View Menu: Goto previous tab"
+  "Menu Beeld: Goto vorige tabblad"
+
+  "View Menu: Hide Line Numbers"
+  "Menu Beeld: Verbergen regelnummers"
+
+  "View Menu: Hide Tab Bar"
+  "Menu Beeld: Hide Tab Bar"
+
+  "View Menu: Hide console"
+  "Menu Beeld: Verbergen console"
+
+  "View Menu: Hide meta characters"
+  "Menu Beeld: Verbergen metakarakters"
+
+  "View Menu: Hide sidebar"
+  "Menu Beeld: Verbergen sidebar"
+
+  "View Menu: Hide status bar"
+  "Menu Beeld: Statusbalk te verbergen"
+
+  "View Menu: Merge panes"
+  "Menu Beeld: Samenvoegen deelvensters"
+
+  "View Menu: Move to other pane"
+  "Menu Beeld: Verplaatsen naar andere deelvenster"
+
+  "View Menu: Show Line Numbers"
+  "Menu Beeld: Regelnummers weergeven"
+
+  "View Menu: Show Tab Bar"
+  "Menu Beeld: Toon Tab Bar"
+
+  "View Menu: Show console"
+  "Menu Beeld: Toon console"
+
+  "View Menu: Show meta characters"
+  "Menu Beeld: Toon metakarakters"
+
+  "View Menu: Show sidebar"
+  "Beeld Basisdia"
+
+  "View Menu: Show status bar"
+  "Menu Beeld: Toon statusbalk"
+
+  "View Menu: Sort tabs"
+  "Menu Beeld: Sort tabs"
+
+  "View Menu: Toggle split view mode"
+  "Menu Beeld: Toggle splitsen weergavemodus"
 
   "Vim Mode"
   "Vim Mode"

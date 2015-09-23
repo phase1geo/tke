@@ -194,6 +194,84 @@ msgcat::mcmset ru {
   "Edit Language"
   "Редактировать Язык"
 
+  "Edit Menu Edit user snippets"
+  "Редактировать редактировать меню пользователя фрагментов"
+
+  "Edit Menu: Copy text"
+  "Меню Правка: Копирование текста"
+
+  "Edit Menu: Cut text"
+  "Меню Правка: Вырезание текста"
+
+  "Edit Menu: Edit language snippets"
+  "Меню Правка: Редактирование фрагментов"
+
+  "Edit Menu: Edit session current language preferences"
+  "Меню Правка: Сессии изменить текущие языковые настройки"
+
+  "Edit Menu: Edit session global preferences"
+  "Меню Правка: Изменить глобальные настройки сессии"
+
+  "Edit Menu: Edit user current language preferences"
+  "Меню Правка: Изменить текущие настройки языка пользователя"
+
+  "Edit Menu: Edit user global preferences"
+  "Меню Правка: Изменить глобальные настройки пользователя"
+
+  "Edit Menu: Edit user menu bindings"
+  "Меню Правка: Изменить привязки меню пользователя"
+
+  "Edit Menu: Format all text"
+  "Меню Правка: Отформатировать весь текст"
+
+  "Edit Menu: Format selected text"
+  "Меню Правка: Формат выделенного текста"
+
+  "Edit Menu: Insert from clipboard"
+  "Меню Правка: Вставка из буфера обмена"
+
+  "Edit Menu: Insert snippet"
+  "Меню Правка: Вставка фрагмента"
+
+  "Edit Menu: Paste and format text from clipboard"
+  "Меню Правка: Вставка и формата текста из буфера обмена"
+
+  "Edit Menu: Paste text from clipboard"
+  "Меню Правка: Вставить текст из буфера обмена"
+
+  "Edit Menu: Redo"
+  "Меню Правка: повтор"
+
+  "Edit Menu: Reload snippets"
+  "Меню Правка: Перезагрузка фрагментов"
+
+  "Edit Menu: Select all text"
+  "Меню «Правка»: Выберите весь текст"
+
+  "Edit Menu: Set indent mode to IND"
+  "Меню Правка: Задать отступ режим IND"
+
+  "Edit Menu: Set indent mode to IND+"
+  "Меню Правка: Задать отступ режим IND +"
+
+  "Edit Menu: Set indent mode to OFF"
+  "Меню Правка: Значение отступа режим OFF"
+
+  "Edit Menu: Set user bindings to global bindings"
+  "Меню Правка: Глобальные привязки присвоено пользователем привязки"
+
+  "Edit Menu: Set user preferences to global preferences"
+  "Меню Правка: Задать пользовательские настройки, чтобы глобальные предпочтения"
+
+  "Edit Menu: Undo"
+  "Меню Правка: отменить"
+
+  "Edit Menu: View base preferences file"
+  "Меню Правка: Просмотр базовой настройки файла"
+
+  "Edit Menu: View global menu bindings"
+  "Меню Правка: Просмотр привязки глобальных меню"
+
   "Edit Session - Global"
   "????????????? ?????? - ???????????"
 
@@ -215,6 +293,54 @@ msgcat::mcmset ru {
   "File"
   "Файл"
 
+  "File Menu: Close all tabs"
+  "Меню файл: Закрыть все вкладки"
+
+  "File Menu: Close current tab"
+  "Меню файл: Закрыть текущую вкладку"
+
+  "File Menu: Favorite file"
+  "Меню файл: Любимый файл"
+
+  "File Menu: Lock file"
+  "Меню файл: Файл блокировки"
+
+  "File Menu: New file"
+  "Меню файл: Новый файл"
+
+  "File Menu: Open Favorite"
+  "Меню файл: Открытый любимый"
+
+  "File Menu: Open Recent"
+  "Меню файл: Открыть последние"
+
+  "File Menu: Open directory"
+  "Меню файл: Открытая директория"
+
+  "File Menu: Open file"
+  "В меню файл: Открыть файл"
+
+  "File Menu: Quit application"
+  "Меню файл: Выйти из приложения"
+
+  "File Menu: Save all files"
+  "Меню файл: Сохранить все файлы"
+
+  "File Menu: Save file"
+  "Меню файл: Сохранить файл"
+
+  "File Menu: Save file as"
+  "Меню файл: Сохранить файл как"
+
+  "File Menu: Show file difference"
+  "Меню файл: Показать файл разница"
+
+  "File Menu: Unfavorite file"
+  "Меню файл: Unfavorite файла"
+
+  "File Menu: Unlock file"
+  "Меню файл: Разблокировать файл"
+
   "Find"
   "Находить"
 
@@ -223,6 +349,54 @@ msgcat::mcmset ru {
 
   "Find Matching Pair"
   "????? ??????????? ????"
+
+  "Find Menu: Append next occurrence"
+  "Меню Поиск: Добавить следующее вхождение"
+
+  "Find Menu: Create marker at current line"
+  "Меню Поиск: Создать маркер в текущей строке"
+
+  "Find Menu: Find"
+  "Найти меню: найти"
+
+  "Find Menu: Find and Replace"
+  "Меню Поиск: Поиск и замена"
+
+  "Find Menu: Find in files"
+  "Меню Поиск: Найти в файлах"
+
+  "Find Menu: Find matching character pair"
+  "Меню Поиск: Найти совпадающие пары символов"
+
+  "Find Menu: Find next occurrence"
+  "Меню Поиск: Найти следующее вхождение"
+
+  "Find Menu: Find previous occurrence"
+  "Меню Поиск: Найти предыдущее вхождение"
+
+  "Find Menu: Goto next difference"
+  "Меню Поиск: Гото следующий разница"
+
+  "Find Menu: Goto previous difference"
+  "Меню Поиск: Гото предыдущего различия"
+
+  "Find Menu: Jump backward"
+  "Меню Поиск: Прыжок назад"
+
+  "Find Menu: Jump forward"
+  "Меню Поиск: Прыжок вперед"
+
+  "Find Menu: Remove all markers"
+  "Меню Поиск: Удалить все маркеры"
+
+  "Find Menu: Remove marker from current line"
+  "Меню Поиск: Удалить маркер из текущей строки"
+
+  "Find Menu: Select all occurrences"
+  "Найти меню: Выберите все вхождения"
+
+  "Find Menu: Show selected line change"
+  "Меню Поиск: Показать выбранные линии изменения"
 
   "Find and Replace"
   "Найти и заменить"
@@ -247,6 +421,21 @@ msgcat::mcmset ru {
 
   "Help"
   "Помощь"
+
+  "Help Menu: About TKE"
+  "Меню Справка: О TKE"
+
+  "Help Menu: Check for Update"
+  "Меню Справка: Проверка обновлений"
+
+  "Help Menu: Send Bug Report"
+  "Меню Справка: Отправить отчет об ошибке"
+
+  "Help Menu: Send Feedback"
+  "Меню Справка: Отправить отзыв"
+
+  "Help Menu: View User Guide"
+  "Меню Справка: Просмотр руководства пользователя"
 
   "Hide Console"
   "Скрыть Console"
@@ -305,333 +494,6 @@ msgcat::mcmset ru {
   "Menu Bindings"
   "Меню Наручники"
 
-  "Menu Edit user snippets"
-  "Меню редактирования пользователем фрагментов"
-
-  "Menu: About TKE"
-  "Меню: О ТКЕ"
-
-  "Menu: Align cursors"
-  "Меню: Совместите курсоры"
-
-  "Menu: Append next occurrence"
-  "Меню: Добавьте следующее вхождение"
-
-  "Menu: Check for Update"
-  "Меню: Проверить обновления"
-
-  "Menu: Close all tabs"
-  "Меню: Закрыть все вкладки"
-
-  "Menu: Close current session"
-  "????: ??????? ??????? ?????"
-
-  "Menu: Close current tab"
-  "Меню: Закрыть вкладку тока"
-
-  "Menu: Copy text"
-  "????: ??????????? ??????"
-
-  "Menu: Create marker at current line"
-  "Меню: Создание маркера в текущей строке"
-
-  "Menu: Create new plugin"
-  "Меню: Создание нового плагина"
-
-  "Menu: Create new theme"
-  "Меню: Создать новую тему"
-
-  "Menu: Cut text"
-  "????: ???????? ?????"
-
-  "Menu: Delete session"
-  "????: ???????? ??????"
-
-  "Menu: Disable Vim mode"
-  "Меню: Режим Отключить Вим"
-
-  "Menu: Edit Tke theme"
-  "Меню: Редактирование ТКЕ тему"
-
-  "Menu: Edit language snippets"
-  "Меню: Фрагменты языка Edit"
-
-  "Menu: Edit session current language preferences"
-  "????: ???????? ??????? ???????? ????????? ??????"
-
-  "Menu: Edit session global preferences"
-  "????: ???????? ?????????? ????????? ??????"
-
-  "Menu: Edit user current language preferences"
-  "????: ???????? ??????? ????????? ????? ????????????"
-
-  "Menu: Edit user global preferences"
-  "????: ???????? ?????????? ????????? ????????????"
-
-  "Menu: Edit user menu bindings"
-  "Привязки меню Правка пользователь: Меню"
-
-  "Menu: Enable Vim mode"
-  "Меню: Включить режим Vim"
-
-  "Menu: Favorite file"
-  "Меню: Любимое файл"
-
-  "Menu: Find"
-  "Меню: Найти"
-
-  "Menu: Find and Replace"
-  "Найти и заменить"
-
-  "Menu: Find in files"
-  "Меню: Найти в файлах"
-
-  "Menu: Find matching character pair"
-  "Меню: Найти соответствие символов пару"
-
-  "Menu: Find next occurrence"
-  "Меню: Найти следующее вхождение"
-
-  "Menu: Find previous occurrence"
-  "Меню: Найти предыдущее вхождение"
-
-  "Menu: Format all text"
-  "Меню: Формат весь текст"
-
-  "Menu: Format selected text"
-  "Меню: Формат выделенный текст"
-
-  "Menu: Goto last tab"
-  "Меню: На последней вкладке"
-
-  "Menu: Goto next difference"
-  "Меню: Перейти к следующей разница"
-
-  "Menu: Goto next tab"
-  "Меню: На следующей вкладке"
-
-  "Menu: Goto other pane"
-  "Меню: На другой панели"
-
-  "Menu: Goto previous difference"
-  "Меню: Перейти к предыдущей разница"
-
-  "Menu: Goto previous tab"
-  "Меню: На предыдущей вкладке"
-
-  "Menu: Hide Line Numbers"
-  "Меню: Номера строк скрыть"
-
-  "Menu: Hide Tab Bar"
-  "Меню: Скрыть панель вкладок,"
-
-  "Menu: Hide console"
-  "Меню: Скрыть консоль"
-
-  "Menu: Hide meta characters"
-  "????: ?????? ???? ???????"
-
-  "Menu: Hide sidebar"
-  "Меню: Скрыть в боковой панели"
-
-  "Menu: Hide status bar"
-  "Меню: бар Свернуть статус"
-
-  "Menu: Import TextMate theme"
-  "Меню: Импорт TextMate тема"
-
-  "Menu: Indent selected text"
-  "Меню: отступ выделенного текста"
-
-  "Menu: Insert enumeration"
-  "Меню: Вставьте перечисление"
-
-  "Menu: Insert from clipboard"
-  "Вставка из буфера обмена"
-
-  "Menu: Insert snippet"
-  "Меню: Вставка фрагмент"
-
-  "Menu: Install plugin"
-  "Меню: Установите плагин"
-
-  "Menu: Jump backward"
-  "Меню: Прыжок назад"
-
-  "Menu: Jump forward"
-  "Меню: Прыжок вперед"
-
-  "Menu: Lock file"
-  "Меню: Файл блокировки"
-
-  "Menu: Merge panes"
-  "????: ??????? ????????"
-
-  "Menu: Move to other pane"
-  "Меню: переход к другой панели"
-
-  "Menu: New file"
-  "Меню: Новый файл"
-
-  "Menu: Open Favorite"
-  "Меню: Open Любимое"
-
-  "Menu: Open Recent"
-  "Меню: Открыть недавние"
-
-  "Menu: Open directory"
-  "Меню: Open Directory"
-
-  "Menu: Open file"
-  "Меню: Открыть файл"
-
-  "Menu: Open session"
-  "????: ???????? ??????"
-
-  "Menu: Paste and format text from clipboard"
-  "Меню: Вставить и формат текста из буфера обмена"
-
-  "Menu: Paste text from clipboard"
-  "Меню: Вставить текст из буфера обмена"
-
-  "Menu: Quit application"
-  "Меню: Закройте приложение"
-
-  "Menu: Redo"
-  "Меню: Повторить"
-
-  "Menu: Reload all plugins"
-  "Меню: Reload все плагины"
-
-  "Menu: Reload snippets"
-  "Меню: Перезагрузка фрагментов"
-
-  "Menu: Remove all markers"
-  "Меню: Удалить все маркеры"
-
-  "Menu: Remove marker from current line"
-  "Меню: Удалить маркер из текущей строки"
-
-  "Menu: Replace line with script"
-  "Меню: Замените строку скрипта"
-
-  "Menu: Restart tke"
-  "Меню: Перезагрузка ТКЕ"
-
-  "Menu: Save all files"
-  "Меню: Сохраните все файлы"
-
-  "Menu: Save current session"
-  "????: ?????????? ??????? ??????"
-
-  "Menu: Save file"
-  "Меню: Сохранить файл"
-
-  "Menu: Save file as"
-  "Меню: Сохранить файл как"
-
-  "Menu: Save sessions as"
-  "????: ????????? ?????? ???"
-
-  "Menu: Select all occurrences"
-  "Меню: Выберите все вхождения"
-
-  "Menu: Select all text"
-  "Меню: Выбрать весь текст"
-
-  "Menu: Send Bug Report"
-  "Меню: Отправить отчет об ошибке"
-
-  "Menu: Send Feedback"
-  "Меню: Отправить отзыв"
-
-  "Menu: Set indent mode to IND"
-  "Меню: Задать отступ режим IND"
-
-  "Menu: Set indent mode to IND+"
-  "Меню: Задать отступ режим IND +"
-
-  "Menu: Set indent mode to OFF"
-  "Меню: Установите отступ режим OFF"
-
-  "Menu: Set user bindings to global bindings"
-  "Меню: Установите пользовательские привязки к глобальным привязок"
-
-  "Menu: Set user preferences to global preferences"
-  "Меню: Установите пользовательские предпочтения на глобальные предпочтения"
-
-  "Menu: Show Diagnostic Logfile"
-  "Меню: Шоу диагностический лог"
-
-  "Menu: Show Line Numbers"
-  "Меню: Номера строк шоу"
-
-  "Menu: Show Tab Bar"
-  "Меню: Показать Панель вкладок"
-
-  "Menu: Show console"
-  "Меню: Показать консоль"
-
-  "Menu: Show file difference"
-  "Меню: Шоу файла разница"
-
-  "Menu: Show last profiling report"
-  "Меню: Показать отчет в прошлом профилирования"
-
-  "Menu: Show meta characters"
-  "????: ?????????? ???? ???????"
-
-  "Menu: Show selected line change"
-  "Меню: Показывать выбранные линии изменения"
-
-  "Menu: Show sidebar"
-  "Меню: Показать боковой панели"
-
-  "Menu: Show status bar"
-  "Меню: бар Показать статус"
-
-  "Menu: Sort tabs"
-  "Меню: вкладки сортировки"
-
-  "Menu: Start profiling"
-  "Меню: Начните профилирование"
-
-  "Menu: Stop profiling"
-  "Меню: Стоп профилирование"
-
-  "Menu: Switch to session"
-  "????: ??????? ?? ??????"
-
-  "Menu: Toggle comment"
-  "????: Toggle ???????????"
-
-  "Menu: Toggle split view mode"
-  "Меню: Переключить режим разделения вид"
-
-  "Menu: Undo"
-  "Меню: Отменить"
-
-  "Menu: Unfavorite file"
-  "Меню: Unfavorite файл"
-
-  "Menu: Unindent selected text"
-  "Меню: Unindent выделенный текст"
-
-  "Menu: Uninstall plugin"
-  "Меню: Удалите плагин"
-
-  "Menu: Unlock file"
-  "Меню: Разблокировать файл"
-
-  "Menu: View User Guide"
-  "Меню: Вид Руководство пользователя"
-
-  "Menu: View base preferences file"
-  "Меню: Просмотр базовой настройки файла"
-
-  "Menu: View global menu bindings"
-  "Меню: Просмотреть глобальную привязки меню"
-
   "Merge Panes"
   "??????????? ????????"
 
@@ -658,6 +520,18 @@ msgcat::mcmset ru {
 
   "Plugins"
   "Плагин"
+
+  "Plugins Menu: Create new plugin"
+  "Плагины меню: Создать новый плагин"
+
+  "Plugins Menu: Install plugin"
+  "Плагины меню: Установить плагин"
+
+  "Plugins Menu: Reload all plugins"
+  "Плагины меню: Перезагрузить все плагины"
+
+  "Plugins Menu: Uninstall plugin"
+  "Плагины меню: Удалить плагин"
 
   "Preferences"
   "Предпочтения"
@@ -727,6 +601,24 @@ msgcat::mcmset ru {
 
   "Sessions"
   "??????"
+
+  "Sessions Menu: Close current session"
+  "Сессий меню: Закрыть текущий сеанс"
+
+  "Sessions Menu: Delete session"
+  "Меню сессий: Удалить сессия"
+
+  "Sessions Menu: Open session"
+  "Сессий меню: Открытая сессия"
+
+  "Sessions Menu: Save current session"
+  "Сессий меню: Сохранение текущей сессии"
+
+  "Sessions Menu: Save sessions as"
+  "Сессий меню: Сохранить сессий как"
+
+  "Sessions Menu: Switch to session"
+  "Сессий меню: Перейти на сессии"
 
   "Set Syntax"
   "Установите Синтаксис"
@@ -800,6 +692,24 @@ msgcat::mcmset ru {
   "Text"
   "Text"
 
+  "Text Menu: Align cursors"
+  "Текст меню: Выровнять курсоры"
+
+  "Text Menu: Indent selected text"
+  "Текст меню: Отступ выделенного текста"
+
+  "Text Menu: Insert enumeration"
+  "Текста меню: Перечисление Вставка"
+
+  "Text Menu: Replace line with script"
+  "Текст меню: Замените строку скрипта"
+
+  "Text Menu: Toggle comment"
+  "Текст меню: Toggle комментарий"
+
+  "Text Menu: Unindent selected text"
+  "Текст меню: Отмена отступа выделенного текста"
+
   "Theme Creator"
   "Тема Создатель"
 
@@ -808,6 +718,36 @@ msgcat::mcmset ru {
 
   "Tools"
   "Инструмент"
+
+  "Tools Menu: Create new theme"
+  "Меню Сервис: Создайте новую тему"
+
+  "Tools Menu: Disable Vim mode"
+  "Меню Сервис: Отключить режим Vim"
+
+  "Tools Menu: Edit Tke theme"
+  "Меню Сервис: Изменить тему Tke"
+
+  "Tools Menu: Enable Vim mode"
+  "Меню Сервис: Включить режим Vim"
+
+  "Tools Menu: Import TextMate theme"
+  "Меню Сервис: Импорт TextMate тема"
+
+  "Tools Menu: Restart tke"
+  "Меню Сервис: Tke перезагрузки"
+
+  "Tools Menu: Show Diagnostic Logfile"
+  "Меню Сервис: Показать диагностический лог"
+
+  "Tools Menu: Show last profiling report"
+  "Меню Сервис: Показать последний отчет профилирования"
+
+  "Tools Menu: Start profiling"
+  "Меню Сервис: Начало профилирования"
+
+  "Tools Menu: Stop profiling"
+  "Меню Сервис: Остановить профилирование"
 
   "Undo"
   "Отменить"
@@ -832,6 +772,66 @@ msgcat::mcmset ru {
 
   "View Global"
   "Вид глобальной"
+
+  "View Menu: Goto last tab"
+  "Меню Вид: Последняя вкладка Гото"
+
+  "View Menu: Goto next tab"
+  "Меню Вид: Перейти к следующей вкладке"
+
+  "View Menu: Goto other pane"
+  "Меню Вид: Перейти к другой области"
+
+  "View Menu: Goto previous tab"
+  "Меню Вид: Перейти к предыдущей вкладке"
+
+  "View Menu: Hide Line Numbers"
+  "В меню Вид: Скрыть номера строк"
+
+  "View Menu: Hide Tab Bar"
+  "В меню Вид: Скрыть панель вкладок"
+
+  "View Menu: Hide console"
+  "Меню Вид: Скрыть консоль"
+
+  "View Menu: Hide meta characters"
+  "В меню Вид: Скрыть мета символы"
+
+  "View Menu: Hide sidebar"
+  "В меню Вид: Скрыть боковую панель"
+
+  "View Menu: Hide status bar"
+  "В меню Вид: Скрыть строку состояния"
+
+  "View Menu: Merge panes"
+  "В меню Вид: Слияние областей"
+
+  "View Menu: Move to other pane"
+  "Меню Вид: Перейти к другой области"
+
+  "View Menu: Show Line Numbers"
+  "В меню Вид: Показать номера строк"
+
+  "View Menu: Show Tab Bar"
+  "Меню Вид: Панель вкладок шоу"
+
+  "View Menu: Show console"
+  "В меню Вид: Показать консоль"
+
+  "View Menu: Show meta characters"
+  "В меню Вид: Показывать мета символы"
+
+  "View Menu: Show sidebar"
+  "Меню Вид: Боковой панели шоу"
+
+  "View Menu: Show status bar"
+  "В меню Вид: Показать строку состояния"
+
+  "View Menu: Sort tabs"
+  "Меню Вид: Вкладки Сортировка"
+
+  "View Menu: Toggle split view mode"
+  "В меню Вид: Toggle Сплит режим просмотра"
 
   "Vim Mode"
   "Режим Вим"
