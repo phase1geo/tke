@@ -194,6 +194,84 @@ msgcat::mcmset cs {
   "Edit Language"
   "Upravit jazyk"
 
+  "Edit Menu Edit user snippets"
+  "Úprava Menu Upravit uživatelské fragmenty"
+
+  "Edit Menu: Copy text"
+  "Nabídka úpravy: Kopírovat text"
+
+  "Edit Menu: Cut text"
+  "Nabídka úpravy: Vyjmout text"
+
+  "Edit Menu: Edit language snippets"
+  "Nabídka úpravy: Upravit jazyk fragmenty"
+
+  "Edit Menu: Edit session current language preferences"
+  "Nabídka úpravy: Edit session aktuální jazykové předvolby"
+
+  "Edit Menu: Edit session global preferences"
+  "Nabídka úpravy: Upravit globální nastavení relace"
+
+  "Edit Menu: Edit user current language preferences"
+  "Nabídka úpravy: Upravit aktuální uživatelské předvolby jazyka"
+
+  "Edit Menu: Edit user global preferences"
+  "Nabídka úpravy: Upravit globální nastavení uživatele"
+
+  "Edit Menu: Edit user menu bindings"
+  "Nabídka úpravy: Upravit uživatelské menu vazby"
+
+  "Edit Menu: Format all text"
+  "Nabídka úpravy: Formátovat celý text"
+
+  "Edit Menu: Format selected text"
+  "Nabídka úpravy: Naformátovat vybraný text"
+
+  "Edit Menu: Insert from clipboard"
+  "Nabídka úpravy: Vložení ze schránky"
+
+  "Edit Menu: Insert snippet"
+  "Nabídka upravit: Vložit fragment"
+
+  "Edit Menu: Paste and format text from clipboard"
+  "Nabídka úpravy: Vkládání a formátování textu ze schránky"
+
+  "Edit Menu: Paste text from clipboard"
+  "Nabídka úpravy: Vložení textu ze schránky"
+
+  "Edit Menu: Redo"
+  "Úprava Menu: znovu:"
+
+  "Edit Menu: Reload snippets"
+  "Nabídka úpravy: Reload fragmenty"
+
+  "Edit Menu: Select all text"
+  "Nabídka úpravy: Vyberte všechen text"
+
+  "Edit Menu: Set indent mode to IND"
+  "Nabídka úpravy: Nastavte režim odsazení na IND"
+
+  "Edit Menu: Set indent mode to IND+"
+  "Nabídka úpravy: Nastavte režim odsazení na IND +"
+
+  "Edit Menu: Set indent mode to OFF"
+  "Nabídka úpravy: Nastavte odsazení režim off"
+
+  "Edit Menu: Set user bindings to global bindings"
+  "Nabídka úpravy: Nastavení uživatele vazeb na globální vazby"
+
+  "Edit Menu: Set user preferences to global preferences"
+  "Nabídka úpravy: Nastavit uživatelské předvolby na globální nastavení"
+
+  "Edit Menu: Undo"
+  "Úprava Menu: zpět"
+
+  "Edit Menu: View base preferences file"
+  "Menu úpravy: Soubor základních předvoleb zobrazení"
+
+  "Edit Menu: View global menu bindings"
+  "Nabídka úpravy: Zobrazení nabídka vazby"
+
   "Edit Session - Global"
   "Upravit relace - globální"
 
@@ -215,6 +293,54 @@ msgcat::mcmset cs {
   "File"
   "Soubor"
 
+  "File Menu: Close all tabs"
+  "Nabídka soubor: Zavřít všechny karty"
+
+  "File Menu: Close current tab"
+  "Nabídka soubor: Zavřít současnou kartu"
+
+  "File Menu: Favorite file"
+  "Nabídka soubor: Oblíbený soubor"
+
+  "File Menu: Lock file"
+  "Nabídka soubor: Soubor se zámkem"
+
+  "File Menu: New file"
+  "Nabídka soubor: Nový soubor"
+
+  "File Menu: Open Favorite"
+  "Nabídka soubor: Otevřené oblíbené"
+
+  "File Menu: Open Recent"
+  "Nabídka soubor: Otevřít nedávný"
+
+  "File Menu: Open directory"
+  "Nabídka soubor: Open directory"
+
+  "File Menu: Open file"
+  "Nabídka soubor: Otevřený soubor"
+
+  "File Menu: Quit application"
+  "Nabídka soubor: Ukončit aplikaci"
+
+  "File Menu: Save all files"
+  "Nabídka soubor: Uložte všechny soubory"
+
+  "File Menu: Save file"
+  "Soubor Menu: Soubor uložte"
+
+  "File Menu: Save file as"
+  "Nabídka soubor: Uložit soubor jako"
+
+  "File Menu: Show file difference"
+  "Nabídka soubor: Show souboru rozdílu"
+
+  "File Menu: Unfavorite file"
+  "Nabídce soubor: Unfavorite soubor"
+
+  "File Menu: Unlock file"
+  "Nabídka soubor: Odemknutí souboru"
+
   "Find"
   "Find"
 
@@ -223,6 +349,54 @@ msgcat::mcmset cs {
 
   "Find Matching Pair"
   "Najít odpovídající dvojice"
+
+  "Find Menu: Append next occurrence"
+  "Najít Menu: Připojit další výskyt"
+
+  "Find Menu: Create marker at current line"
+  "Najít Menu: Vytvoření značky na aktuálním řádku"
+
+  "Find Menu: Find"
+  "Najít Menu: najít"
+
+  "Find Menu: Find and Replace"
+  "Nabídky Hledat: Hledat a nahradit"
+
+  "Find Menu: Find in files"
+  "Najít Menu: Najít v souborech"
+
+  "Find Menu: Find matching character pair"
+  "Najít Menu: Najít odpovídající dvojice znaků"
+
+  "Find Menu: Find next occurrence"
+  "Najít Menu: Najít následující výskyt"
+
+  "Find Menu: Find previous occurrence"
+  "Najít Menu: Najít předchozí výskyt"
+
+  "Find Menu: Goto next difference"
+  "Menu najít: Další rozdíl Goto"
+
+  "Find Menu: Goto previous difference"
+  "Najít Menu: Goto předchozí rozdíl"
+
+  "Find Menu: Jump backward"
+  "Najít Menu: Skok vzad"
+
+  "Find Menu: Jump forward"
+  "Najít Menu: Skok vpřed"
+
+  "Find Menu: Remove all markers"
+  "Najít Menu: Odebrat všechny značky"
+
+  "Find Menu: Remove marker from current line"
+  "Najít Menu: Odstranit značku z aktuálního řádku"
+
+  "Find Menu: Select all occurrences"
+  "Najít Menu: Vybrat všechny výskyty"
+
+  "Find Menu: Show selected line change"
+  "Najít Menu: Show vybrané linie změna"
 
   "Find and Replace"
   "Najít a nahradit"
@@ -247,6 +421,21 @@ msgcat::mcmset cs {
 
   "Help"
   "Nápověda"
+
+  "Help Menu: About TKE"
+  "Nabídka Nápověda: O TKE"
+
+  "Help Menu: Check for Update"
+  "Nabídka Nápověda: Check for Update"
+
+  "Help Menu: Send Bug Report"
+  "Nabídka Nápověda: Odeslat hlášení o chybě"
+
+  "Help Menu: Send Feedback"
+  "Nabídka Nápověda: Odeslat názor"
+
+  "Help Menu: View User Guide"
+  "Nabídka Nápověda: Zobrazit uživatelská příručka"
 
   "Hide Console"
   "Skrýt konzole"
@@ -305,333 +494,6 @@ msgcat::mcmset cs {
   "Menu Bindings"
   "Vázání Menu"
 
-  "Menu Edit user snippets"
-  "Menu Edit user fragmenty"
-
-  "Menu: About TKE"
-  "Menu: O TKE"
-
-  "Menu: Align cursors"
-  "Menu: Zarovnání kurzory"
-
-  "Menu: Append next occurrence"
-  "Menu: Připojit další výskyt"
-
-  "Menu: Check for Update"
-  "Menu: Zkontrolujte, zda aktualizaci"
-
-  "Menu: Close all tabs"
-  "Zavřít vše"
-
-  "Menu: Close current session"
-  "Nabídka: Zav?ít aktuální relaci"
-
-  "Menu: Close current tab"
-  "Menu: Zavřít aktuální záložku"
-
-  "Menu: Copy text"
-  "Nabídka: Kopírovat text"
-
-  "Menu: Create marker at current line"
-  "Nabídka: Vytvoření značky na aktuálním řádku"
-
-  "Menu: Create new plugin"
-  "Menu: Vytvořit nový plugin"
-
-  "Menu: Create new theme"
-  "Menu: Vytvořit nové téma"
-
-  "Menu: Cut text"
-  "Nabídka: Vyjmout text"
-
-  "Menu: Delete session"
-  "Nabídka: Odstranit relace"
-
-  "Menu: Disable Vim mode"
-  "Menu: Vypnutí režimu Vim"
-
-  "Menu: Edit Tke theme"
-  "Menu: Úpravy TKE téma"
-
-  "Menu: Edit language snippets"
-  "Nabídka: Upravit jazyk fragmenty"
-
-  "Menu: Edit session current language preferences"
-  "Menu: Úpravy relace sou?asné jazykové p?edvolby"
-
-  "Menu: Edit session global preferences"
-  "Nabídka: Upravit globální nastavení relace"
-
-  "Menu: Edit user current language preferences"
-  "Nabídka: Upravit aktuální uivatelské p?edvolby jazyka"
-
-  "Menu: Edit user global preferences"
-  "Nabídka: Upravit globální nastavení uivatele"
-
-  "Menu: Edit user menu bindings"
-  "Vázání Edit Uživatelské menu: Menu"
-
-  "Menu: Enable Vim mode"
-  "Menu: Povolit režim Vim"
-
-  "Menu: Favorite file"
-  "Menu: Oblíbený soubor"
-
-  "Menu: Find"
-  "Menu: Hledat"
-
-  "Menu: Find and Replace"
-  "Menu: Najít a nahradit"
-
-  "Menu: Find in files"
-  "Menu: Hledat v souborech"
-
-  "Menu: Find matching character pair"
-  "Menu: Najít odpovídající znak dvojice"
-
-  "Menu: Find next occurrence"
-  "Menu: Najít další výskyt"
-
-  "Menu: Find previous occurrence"
-  "Menu: Najít předchozí výskyt"
-
-  "Menu: Format all text"
-  "Menu: Formátování celý text"
-
-  "Menu: Format selected text"
-  "Nabídka: Formát vybraného textu"
-
-  "Menu: Goto last tab"
-  "Menu: Jdi Poslední záložka"
-
-  "Menu: Goto next difference"
-  "Nabídka: Goto další rozdíl"
-
-  "Menu: Goto next tab"
-  "Menu: Jdi na další karta"
-
-  "Menu: Goto other pane"
-  "Menu: Jdi na další podokno"
-
-  "Menu: Goto previous difference"
-  "Nabídka: Goto předchozí rozdíl"
-
-  "Menu: Goto previous tab"
-  "Menu: Jdi na předchozí kartu"
-
-  "Menu: Hide Line Numbers"
-  "Nabídka: Skrýt čísla řádek"
-
-  "Menu: Hide Tab Bar"
-  "Menu: Skrýt liště"
-
-  "Menu: Hide console"
-  "Menu: Skrýt konzole"
-
-  "Menu: Hide meta characters"
-  "Nabídka: Skrýt znaky meta"
-
-  "Menu: Hide sidebar"
-  "Menu: skrýt postranní panel"
-
-  "Menu: Hide status bar"
-  "Menu: Skrýt stavový řádek"
-
-  "Menu: Import TextMate theme"
-  "Menu: Dovoz TextMate téma"
-
-  "Menu: Indent selected text"
-  "Menu: odsazení vybraného textu"
-
-  "Menu: Insert enumeration"
-  "Menu: Vložte výčet"
-
-  "Menu: Insert from clipboard"
-  "Menu: Vložit ze schránky"
-
-  "Menu: Insert snippet"
-  "Menu: Vložit úryvek"
-
-  "Menu: Install plugin"
-  "Menu: Instalace plugin"
-
-  "Menu: Jump backward"
-  "Nabídka: Skok vzad"
-
-  "Menu: Jump forward"
-  "Nabídka: Skok vpřed"
-
-  "Menu: Lock file"
-  "Menu: Lock soubor"
-
-  "Menu: Merge panes"
-  "Nabídka: Slou?ení podoken"
-
-  "Menu: Move to other pane"
-  "Menu: Přechod na jiné tabule"
-
-  "Menu: New file"
-  "Menu: Nový soubor"
-
-  "Menu: Open Favorite"
-  "Menu: Open Oblíbené"
-
-  "Menu: Open Recent"
-  "Menu: Otevřít poslední"
-
-  "Menu: Open directory"
-  "Menu: Open directory"
-
-  "Menu: Open file"
-  "Menu: Otevřít soubor"
-
-  "Menu: Open session"
-  "Nabídka: Otev?ené relace"
-
-  "Menu: Paste and format text from clipboard"
-  "Menu: Vložit a formátovat text ze schránky"
-
-  "Menu: Paste text from clipboard"
-  "Vložit text ze schránky"
-
-  "Menu: Quit application"
-  "Menu: Ukončete aplikaci"
-
-  "Menu: Redo"
-  "Menu: Znovu"
-
-  "Menu: Reload all plugins"
-  "Menu: Znovu načíst všechny pluginy"
-
-  "Menu: Reload snippets"
-  "Nabídka: Reload fragmenty"
-
-  "Menu: Remove all markers"
-  "Nabídka: Odebrat všechny značky"
-
-  "Menu: Remove marker from current line"
-  "Nabídka: Odstranit značku z aktuálního řádku"
-
-  "Menu: Replace line with script"
-  "Nabídka: Nahradit řádek skriptu"
-
-  "Menu: Restart tke"
-  "Menu: Restart TKE"
-
-  "Menu: Save all files"
-  "Menu: Uložit všechny soubory"
-
-  "Menu: Save current session"
-  "Nabídka: Uloit aktuální relaci"
-
-  "Menu: Save file"
-  "Menu: Uložit soubor"
-
-  "Menu: Save file as"
-  "Menu: Uložit soubor jako"
-
-  "Menu: Save sessions as"
-  "Nabídka: Ukládání sezení jako"
-
-  "Menu: Select all occurrences"
-  "Menu: Vybrat všechny výskyty"
-
-  "Menu: Select all text"
-  "Menu: Vyberte celý text"
-
-  "Menu: Send Bug Report"
-  "Nabídka: Odeslat hlášení o chybě"
-
-  "Menu: Send Feedback"
-  "Nabídka: Odeslat názor"
-
-  "Menu: Set indent mode to IND"
-  "Nabídka: Nastavte režim odsazení na IND"
-
-  "Menu: Set indent mode to IND+"
-  "Nabídka: Nastavte režim odsazení na IND +"
-
-  "Menu: Set indent mode to OFF"
-  "Nabídka: Sada odsazení režim OFF"
-
-  "Menu: Set user bindings to global bindings"
-  "Menu: Nastavení uživatelských vazby na globální vazby"
-
-  "Menu: Set user preferences to global preferences"
-  "Menu: Nastavení uživatelských předvoleb na globální preference"
-
-  "Menu: Show Diagnostic Logfile"
-  "Nabídka: Show diagnostického protokolu"
-
-  "Menu: Show Line Numbers"
-  "Nabídka: Show čísla řádků"
-
-  "Menu: Show Tab Bar"
-  "Menu: Show Tab Bar"
-
-  "Menu: Show console"
-  "Menu: Zobrazit konzole"
-
-  "Menu: Show file difference"
-  "Nabídka: Show souboru rozdílu"
-
-  "Menu: Show last profiling report"
-  "Menu: Zobrazit report poslední profilování"
-
-  "Menu: Show meta characters"
-  "Nabídka: Show meta znaky"
-
-  "Menu: Show selected line change"
-  "Nabídka: Show vybrané linie změna"
-
-  "Menu: Show sidebar"
-  "Menu: Zobrazit sidebar"
-
-  "Menu: Show status bar"
-  "Menu: Show status bar"
-
-  "Menu: Sort tabs"
-  "Menu: Uspořádat karty"
-
-  "Menu: Start profiling"
-  "Menu: Start profilování"
-
-  "Menu: Stop profiling"
-  "Menu: Stop profilování"
-
-  "Menu: Switch to session"
-  "Nabídka: P?epnout do session"
-
-  "Menu: Toggle comment"
-  "Nabídka: P?epína? komentá?"
-
-  "Menu: Toggle split view mode"
-  "Menu: Přepnout režim Split view"
-
-  "Menu: Undo"
-  "Menu: Undo"
-
-  "Menu: Unfavorite file"
-  "Menu: Unfavorite soubor"
-
-  "Menu: Unindent selected text"
-  "Menu: Unindent vybraný text"
-
-  "Menu: Uninstall plugin"
-  "Menu: Odinstalovat plugin"
-
-  "Menu: Unlock file"
-  "Menu: Odemknout soubor"
-
-  "Menu: View User Guide"
-  "Menu: Zobrazit Uživatelská příručka"
-
-  "Menu: View base preferences file"
-  "Menu: Soubor základních předvoleb zobrazení"
-
-  "Menu: View global menu bindings"
-  "Menu: Zobrazit globální vazby nabídky"
-
   "Merge Panes"
   "Slou?it podokna"
 
@@ -658,6 +520,18 @@ msgcat::mcmset cs {
 
   "Plugins"
   "Plugin"
+
+  "Plugins Menu: Create new plugin"
+  "Plugins Menu: Vytvořit nový plugin"
+
+  "Plugins Menu: Install plugin"
+  "Pluginů Menu: Plugin instalace"
+
+  "Plugins Menu: Reload all plugins"
+  "Plugins Menu: Znovu načíst všechny pluginy"
+
+  "Plugins Menu: Uninstall plugin"
+  "Plugins Menu: Odinstalovat modul"
 
   "Preferences"
   "Preference"
@@ -727,6 +601,24 @@ msgcat::mcmset cs {
 
   "Sessions"
   "Návt?vy"
+
+  "Sessions Menu: Close current session"
+  "Relace Menu: Aktuální relaci ukončit"
+
+  "Sessions Menu: Delete session"
+  "Relací Menu: Odstranit relace"
+
+  "Sessions Menu: Open session"
+  "Relací Menu: Otevřené relace"
+
+  "Sessions Menu: Save current session"
+  "Sessions Menu: Uložit aktuální relaci"
+
+  "Sessions Menu: Save sessions as"
+  "Sessions Menu: Ukládání sezení jako"
+
+  "Sessions Menu: Switch to session"
+  "Sessions Menu: Přepněte na sezení"
 
   "Set Syntax"
   "Nastavit syntaxe"
@@ -800,6 +692,24 @@ msgcat::mcmset cs {
   "Text"
   "Text"
 
+  "Text Menu: Align cursors"
+  "Menu textu: Zarovnání kurzorů"
+
+  "Text Menu: Indent selected text"
+  "Menu textu: Odsazení vybraného textu"
+
+  "Text Menu: Insert enumeration"
+  "Menu textu: Vložit – výčet"
+
+  "Text Menu: Replace line with script"
+  "Menu textu: Nahradit řádek skriptu"
+
+  "Text Menu: Toggle comment"
+  "Menu textu: Přepínač komentář"
+
+  "Text Menu: Unindent selected text"
+  "Menu textu: Zrušit odsazení vybraného textu"
+
   "Theme Creator"
   "Theme Creator"
 
@@ -808,6 +718,36 @@ msgcat::mcmset cs {
 
   "Tools"
   "nástroje"
+
+  "Tools Menu: Create new theme"
+  "Nabídka nástroje: Vytvoření nového motivu"
+
+  "Tools Menu: Disable Vim mode"
+  "Nabídka nástroje: Zakázat režim, Vim"
+
+  "Tools Menu: Edit Tke theme"
+  "Nabídka nástroje: Edit Tke téma"
+
+  "Tools Menu: Enable Vim mode"
+  "Nabídka nástroje: Povolit režim Vim"
+
+  "Tools Menu: Import TextMate theme"
+  "Nabídka nástroje: Import TextMate téma"
+
+  "Tools Menu: Restart tke"
+  "Nabídka nástroje: Restart tke"
+
+  "Tools Menu: Show Diagnostic Logfile"
+  "Nabídka nástroje: Zobrazení diagnostického protokolu"
+
+  "Tools Menu: Show last profiling report"
+  "Nabídka nástroje: Zobrazit poslední zprávy o profilování"
+
+  "Tools Menu: Start profiling"
+  "Nabídka nástroje: Spustit profilování"
+
+  "Tools Menu: Stop profiling"
+  "Nabídka nástroje: Zastavit, profilování"
 
   "Undo"
   "Vrátit zpět akci"
@@ -832,6 +772,66 @@ msgcat::mcmset cs {
 
   "View Global"
   "Zobrazit globální"
+
+  "View Menu: Goto last tab"
+  "Nabídka Zobrazit: Goto poslední karta"
+
+  "View Menu: Goto next tab"
+  "Nabídka Zobrazit: Goto další kartu"
+
+  "View Menu: Goto other pane"
+  "Nabídka Zobrazit: Goto další podokno"
+
+  "View Menu: Goto previous tab"
+  "Nabídka Zobrazit: Goto předchozí kartu"
+
+  "View Menu: Hide Line Numbers"
+  "Nabídka Zobrazit: Skrýt čísla řádků"
+
+  "View Menu: Hide Tab Bar"
+  "Nabídka Zobrazit: Skrýt lištu karet"
+
+  "View Menu: Hide console"
+  "Nabídka Zobrazit: Skrýt konzole"
+
+  "View Menu: Hide meta characters"
+  "Nabídka Zobrazit: Skrýt znaky meta"
+
+  "View Menu: Hide sidebar"
+  "Nabídka Zobrazit: Skrýt postranní panel"
+
+  "View Menu: Hide status bar"
+  "Nabídka Zobrazit: Skrýt stavový řádek"
+
+  "View Menu: Merge panes"
+  "Nabídka Zobrazit: Sloučení podoken"
+
+  "View Menu: Move to other pane"
+  "Nabídka Zobrazit: Přechod na další podokno"
+
+  "View Menu: Show Line Numbers"
+  "Nabídka Zobrazit: Zobrazovat čísla řádků"
+
+  "View Menu: Show Tab Bar"
+  "Nabídka Zobrazit: Zobrazovat lištu karet"
+
+  "View Menu: Show console"
+  "Nabídka Zobrazit: Show konzole"
+
+  "View Menu: Show meta characters"
+  "Nabídka Zobrazit: Show meta znaky"
+
+  "View Menu: Show sidebar"
+  "Nabídka Zobrazit: Show kredenc"
+
+  "View Menu: Show status bar"
+  "Zobrazit Menu: Zobrazit stavový řádek"
+
+  "View Menu: Sort tabs"
+  "Nabídka Zobrazit: Seřadit karty"
+
+  "View Menu: Toggle split view mode"
+  "Nabídka Zobrazit: Přepnout rozdělené zobrazení"
 
   "Vim Mode"
   "Režim Vim"
