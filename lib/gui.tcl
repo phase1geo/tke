@@ -1173,6 +1173,7 @@ namespace eval gui {
 
     variable files
     variable files_index
+    variable tab_current
     variable pw_current
 
     # Handle options
@@ -1188,15 +1189,21 @@ namespace eval gui {
 
     # Perform untitled tab check
     if {[untitled_check]} {
-      return
+      if {$name eq "Untitled"} {
+        return
+      } else {
+        close_tab $tab_current($pw_current) 0 0
+      }
     }
 
     # Check to see if the file is already loaded
     set file_index -1
-    foreach findex [lsearch -all -index $files_index(fname) $files $name] {
-      if {[lindex $files $findex $files_index(buffer)]} {
-        set file_index $findex
-        break
+    if {$name ne "Untitled"} {
+      foreach findex [lsearch -all -index $files_index(fname) $files $name] {
+        if {[lindex $files $findex $files_index(buffer)]} {
+          set file_index $findex
+          break
+        }
       }
     }
 
@@ -1276,7 +1283,7 @@ namespace eval gui {
   # -other       <bool>     If true, adds the file to the other pane.
   # -tags        <list>     List of plugin btags that will only get applied to this text widget.
   proc add_new_file {index args} {
-    
+
     variable files
     variable files_index
 
@@ -1284,10 +1291,10 @@ namespace eval gui {
       -sidebar 0
     }
     array set opts $args
-    
+
     # Add the buffer
     add_buffer $index "Untitled" [ns gui]::save_new_file {*}$args
-    
+
     # If the sidebar option was set to 1, set it now
     if {$opts(-sidebar)} {
       set index [current_file]
@@ -1654,18 +1661,18 @@ namespace eval gui {
     return 1
 
   }
-  
+
   ######################################################################
   # Returns the index of the index that matches the given filename.  If
   # no entry matches, returns -1.
   proc find_matching_file_index {fname} {
-    
+
     variable files
     variable files_index
-    
+
     # Get the indices that match the given filename
     set matching_indices [lsearch -all -index $files_index(fname) $files $fname]
-    
+
     switch [llength $matching_indices] {
       0 { return -1 }
       1 {
@@ -1677,9 +1684,9 @@ namespace eval gui {
         return [expr [lindex $files $index1 $files_index(diff)] ? $index2 : $index1]
       }
     }
-    
+
     return -1
-    
+
   }
 
   ######################################################################
@@ -1726,7 +1733,7 @@ namespace eval gui {
     # Get the difference mode of the current file
     set diff           [lindex $files $file_index $files_index(diff)]
     set matching_index -1
-    
+
     # If a save_as name is specified, change the filename
     if {$save_as ne ""} {
       [ns sidebar]::highlight_filename [lindex $files $file_index $files_index(fname)] [expr $diff * 2]
@@ -1758,7 +1765,7 @@ namespace eval gui {
     if {![save_prehandle $fname $save_as $force perms]} {
       return 0
     }
-    
+
     # If the file already exists in one of the open tabs, close it now
     if {$matching_index != -1} {
       close_tab [lindex $files $matching_index $files_index(tab)] 0 0
@@ -1779,13 +1786,13 @@ namespace eval gui {
     if {![save_posthandle $fname $perms]} {
       return 0
     }
-    
+
     # If the file doesn't have a timestamp, it's a new file so add and highlight it in the sidebar
     if {([lindex $files $file_index $files_index(mtime)] eq "") || ($save_as ne "")} {
 
       # Calculate the normalized filename
       set fname [file normalize [lindex $files $file_index $files_index(fname)]]
-      
+
       # Add the filename to the most recently opened list
       add_to_recently_opened $fname
 
@@ -1912,17 +1919,17 @@ namespace eval gui {
     set_title
 
   }
-  
+
   ######################################################################
   # Returns 1 if the tab is closable; otherwise, returns a value of 0.
   # Saves the tab if it needs to be saved.
   proc close_check {index force exiting} {
-    
+
     variable files
     variable files_index
-    
+
     set finfo [lindex $files $index]
-    
+
     # If the file needs to be saved, do it now
     if {[lindex $finfo $files_index(modified)] && ![lindex $finfo $files_index(diff)] && !$force} {
       set fname [file tail [lindex $finfo $files_index(fname)]]
@@ -1934,18 +1941,18 @@ namespace eval gui {
         return 0
       }
     }
-    
+
     return 1
-    
+
   }
-  
+
   ######################################################################
   # Returns 1 if the tab is closable; otherwise, returns a value of 0.
   # Saves the tab if it needs to be saved.
   proc close_check_by_tabbar {w tab} {
-    
+
     return [close_check [get_file_index $tab] 0 0]
-    
+
   }
 
   ######################################################################
@@ -1968,8 +1975,8 @@ namespace eval gui {
     }
 
   }
-  
-  
+
+
   ######################################################################
   # Closes the tab specified by "tab".  This is called by the tabbar when
   # the user clicks on the close button of a tab.
@@ -1979,10 +1986,10 @@ namespace eval gui {
     variable files
     variable files_index
     variable pw_current
-    
+
     # Set the current pane
     set pw_current [lsearch [$widgets(nb_pw) panes] [winfo parent [winfo parent $w]]]
-    
+
     # Get the file index
     set index [get_file_index $tab]
 
@@ -2020,7 +2027,7 @@ namespace eval gui {
         add_new_file end
       }
     }
-    
+
     return 1
 
   }
@@ -2033,7 +2040,7 @@ namespace eval gui {
     variable files
     variable files_index
     variable pw_current
-    
+
     # Get the notebook
     lassign [pane_tb_index_from_tab $tab] pane tb tab_index
 
@@ -2043,13 +2050,13 @@ namespace eval gui {
     # Unhighlight the file in the file browser (if the file was not a difference view)
     set diff [lindex $files $index $files_index(diff)]
     [ns sidebar]::highlight_filename [lindex $files $index $files_index(fname)] [expr $diff * 2]
-    
+
     # Run the close event for this file
     [ns plugins]::handle_on_close $index
 
     # Delete the file from files
     set files [lreplace $files $index $index]
-    
+
     # Remove the tab from the tabbar
     $tb delete $tab_index
 
@@ -2058,7 +2065,7 @@ namespace eval gui {
 
     # Destroy the text frame
     destroy $tab
-    
+
     # Display the current pane (if one exists)
     if {[set tab [$tb select]] ne ""} {
       set_current_tab $tab 0 $exiting
@@ -2141,7 +2148,7 @@ namespace eval gui {
     variable files_index
 
     foreach nb [$widgets(nb_pw) panes] {
-      
+
       # Create the tabbar path
       set tb "$nb.tbf.tb"
 
@@ -2187,22 +2194,22 @@ namespace eval gui {
       add_notebook
       set panes [$widgets(nb_pw) panes]
     }
-    
+
     # Get the tab frame that will be moved
     set current_tab $tab_current($pw_current)
-    
+
     # Get the notebook
     lassign [pane_tb_index_from_tab $current_tab] pane tb tab_index
 
     # Get the current title
     set title [$tb tab $tab_index -text]
-    
+
     # Remove the tab from the tabbar
     $tb delete $tab_index
 
     # Remove the tab from the current pane
     catch { pack forget $current_tab }
-    
+
     # Display the current pane (if one exists)
     if {[set tab [$tb select]] ne ""} {
       set_current_tab $tab 0 0
@@ -2214,10 +2221,10 @@ namespace eval gui {
 
     # Get the other tabbar
     set tb [current_tabbar]
-    
+
     # Make sure that tabbar is visible
     grid $tb
-    
+
     # Add the new tab to the notebook in alphabetical order (if specified)
     if {[[ns preferences]::get View/OpenTabsAlphabetically]} {
       set added 0
@@ -2236,7 +2243,7 @@ namespace eval gui {
     } else {
       $tb insert end $current_tab -text $title -emboss 0
     }
-    
+
     # Now move the current tab from the previous current pane to the new current pane
     set_current_tab $current_tab 1 1
 
@@ -2486,7 +2493,7 @@ namespace eval gui {
     bind $tab.sf.e    <Return> [list [ns search]::find_start $tid $dir]
     bind $tab.sf.case <Return> [list [ns search]::find_start $tid $dir]
     bind $tab.sf.save <Return> [list [ns search]::find_start $tid $dir]
-    
+
     # Clear the search entry
     $tab.sf.e delete 0 end
 
@@ -3877,10 +3884,10 @@ namespace eval gui {
 
     # Set the current pane and get the notebook ID
     lassign [pane_tb_index_from_tab $tab] pw_current tb
-    
+
     # We only need to refresh if the tab was changed.
     if {![info exists tab_current($pw_current)] || ($tab_current($pw_current) ne $tab)} {
-      
+
       # Set the current tab
       $tb select $tab
 
@@ -3987,7 +3994,7 @@ namespace eval gui {
 
     variable widgets
     variable pw_current
-    
+
     if {[llength [$widgets(nb_pw) panes]] == 0} {
       return ""
     } else {

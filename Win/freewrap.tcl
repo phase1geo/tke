@@ -1,3 +1,10 @@
+# Name:     freewrap.tcl
+# Author:   Trevor Williams  (phase1geo@gmail.com)
+# Date:     9/23/2015
+# Version:  $Revision$
+# Brief:    Builds the Windows TKE executable.
+# Usage:    tclsh8.5 freewrap.tcl
+
 proc find_package_helper {dname pkg} {
 
   # If we can find a pkgIndex.tcl file in the dname directory
