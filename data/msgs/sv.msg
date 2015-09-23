@@ -194,6 +194,84 @@ msgcat::mcmset sv {
   "Edit Language"
   "Redigera språk"
 
+  "Edit Menu Edit user snippets"
+  "Redigera menyn Redigera användare snuttar"
+
+  "Edit Menu: Copy text"
+  "Redigera-menyn: Kopiera text"
+
+  "Edit Menu: Cut text"
+  "Redigera-menyn: Klipp ut text"
+
+  "Edit Menu: Edit language snippets"
+  "Redigera-menyn: Redigera språk snuttar"
+
+  "Edit Menu: Edit session current language preferences"
+  "Redigera-menyn: Redigera session aktuella språkinställningar"
+
+  "Edit Menu: Edit session global preferences"
+  "Redigera-menyn: Redigera globala inställningar för session"
+
+  "Edit Menu: Edit user current language preferences"
+  "Redigera-menyn: Redigera användarinställningar nuvarande språk"
+
+  "Edit Menu: Edit user global preferences"
+  "Redigera-menyn: Redigera globala användarinställningar"
+
+  "Edit Menu: Edit user menu bindings"
+  "Redigera-menyn: Redigera användaren menyn bindningar"
+
+  "Edit Menu: Format all text"
+  "Redigera-menyn: Formatera alla text"
+
+  "Edit Menu: Format selected text"
+  "Redigera-menyn: Formatera markerad text"
+
+  "Edit Menu: Insert from clipboard"
+  "Redigera-menyn: Infoga från Urklipp"
+
+  "Edit Menu: Insert snippet"
+  "Redigera-menyn: Infoga kodavsnittet"
+
+  "Edit Menu: Paste and format text from clipboard"
+  "Redigera-menyn: Klistra in och formatera text från Urklipp"
+
+  "Edit Menu: Paste text from clipboard"
+  "Redigera-menyn: Klistra in text från Urklipp"
+
+  "Edit Menu: Redo"
+  "Redigera-menyn: gör om"
+
+  "Edit Menu: Reload snippets"
+  "Redigera-menyn: Reload snuttar"
+
+  "Edit Menu: Select all text"
+  "Redigera-menyn: Markera all text"
+
+  "Edit Menu: Set indent mode to IND"
+  "Redigera-menyn: Ange indrag läge till IND"
+
+  "Edit Menu: Set indent mode to IND+"
+  "Redigera-menyn: Ange indrag läge till IND +"
+
+  "Edit Menu: Set indent mode to OFF"
+  "Redigera-menyn: Ange indrag läge off"
+
+  "Edit Menu: Set user bindings to global bindings"
+  "Redigera-menyn: Ange användaren bindningar till globala bindningar"
+
+  "Edit Menu: Set user preferences to global preferences"
+  "Redigera-menyn: Ange användarinställningar för att globala inställningar"
+
+  "Edit Menu: Undo"
+  "Redigera-menyn: ångra"
+
+  "Edit Menu: View base preferences file"
+  "Redigera-menyn: Visa bas inställningsfilen"
+
+  "Edit Menu: View global menu bindings"
+  "Redigera-menyn: Visa GLOBALMENU bindningar"
+
   "Edit Session - Global"
   "Redigera Session - Global"
 
@@ -215,6 +293,54 @@ msgcat::mcmset sv {
   "File"
   "File"
 
+  "File Menu: Close all tabs"
+  "Arkiv-menyn: Stäng alla flikar"
+
+  "File Menu: Close current tab"
+  "Arkiv-menyn: Nära ström tab"
+
+  "File Menu: Favorite file"
+  "Arkiv-menyn: Favorit-fil"
+
+  "File Menu: Lock file"
+  "Arkiv-menyn: Låsfil"
+
+  "File Menu: New file"
+  "Arkiv-menyn: Ny fil"
+
+  "File Menu: Open Favorite"
+  "Arkiv-menyn: Öppna favorit"
+
+  "File Menu: Open Recent"
+  "Arkiv Exportera"
+
+  "File Menu: Open directory"
+  "Arkiv-menyn: Open directory"
+
+  "File Menu: Open file"
+  "Arkiv-menyn: Öppna fil"
+
+  "File Menu: Quit application"
+  "Arkiv-menyn: Avsluta programmet"
+
+  "File Menu: Save all files"
+  "Arkiv-menyn: Spara alla filer"
+
+  "File Menu: Save file"
+  "Arkiv-menyn: Spara filen"
+
+  "File Menu: Save file as"
+  "Arkiv-menyn: Spara filen som"
+
+  "File Menu: Show file difference"
+  "Arkiv-menyn: Visar filen skillnad"
+
+  "File Menu: Unfavorite file"
+  "Arkiv-menyn: Unfavorite fil"
+
+  "File Menu: Unlock file"
+  "Arkiv-menyn: Låsa upp filen"
+
   "Find"
   "Sök i"
 
@@ -223,6 +349,54 @@ msgcat::mcmset sv {
 
   "Find Matching Pair"
   "Hitta matchande par"
+
+  "Find Menu: Append next occurrence"
+  "Sök-menyn: Lägga till nästa förekomst"
+
+  "Find Menu: Create marker at current line"
+  "Sök-menyn: Skapa markör på aktuell rad"
+
+  "Find Menu: Find"
+  "Meny: hitta"
+
+  "Find Menu: Find and Replace"
+  "Sök-menyn: Söka och ersätta"
+
+  "Find Menu: Find in files"
+  "Sök-menyn: Hitta i filer"
+
+  "Find Menu: Find matching character pair"
+  "Sök-menyn: Hitta matchande tecken par"
+
+  "Find Menu: Find next occurrence"
+  "Sök-menyn: Hitta nästa förekomst"
+
+  "Find Menu: Find previous occurrence"
+  "Sök-menyn: Hitta föregående förekomst"
+
+  "Find Menu: Goto next difference"
+  "Sök-menyn: Gå till nästa skillnaden"
+
+  "Find Menu: Goto previous difference"
+  "Sök-menyn: Gå till föregående skillnad"
+
+  "Find Menu: Jump backward"
+  "Sök-menyn: Hoppa bakåt"
+
+  "Find Menu: Jump forward"
+  "Sök-menyn: Hoppa framåt"
+
+  "Find Menu: Remove all markers"
+  "Sök-menyn: Ta bort alla markörer"
+
+  "Find Menu: Remove marker from current line"
+  "Sök-menyn: Ta bort markör från aktuell rad"
+
+  "Find Menu: Select all occurrences"
+  "Sök-menyn: Markera alla förekomster"
+
+  "Find Menu: Show selected line change"
+  "Sök-menyn: Visa markerad linje förändring"
 
   "Find and Replace"
   "Sök och ersätt"
@@ -247,6 +421,21 @@ msgcat::mcmset sv {
 
   "Help"
   "Hjälp"
+
+  "Help Menu: About TKE"
+  "Hjälp-menyn: Om TKE"
+
+  "Help Menu: Check for Update"
+  "Hjälp-menyn: Leta efter uppdatering"
+
+  "Help Menu: Send Bug Report"
+  "Hjälp-menyn: Skicka felrapport"
+
+  "Help Menu: Send Feedback"
+  "Hjälp-menyn: Skicka Feedback"
+
+  "Help Menu: View User Guide"
+  "Hjälpmeny: Visa User Guide"
 
   "Hide Console"
   "Dölj konsol"
@@ -305,333 +494,6 @@ msgcat::mcmset sv {
   "Menu Bindings"
   "Meny Bindningar"
 
-  "Menu Edit user snippets"
-  "Menyn Redigera användare snuttar"
-
-  "Menu: About TKE"
-  "Meny: Om TKE"
-
-  "Menu: Align cursors"
-  "Meny: Rikta markörer"
-
-  "Menu: Append next occurrence"
-  "Meny: Bifoga nästa förekomst"
-
-  "Menu: Check for Update"
-  "Meny: Leta efter uppdatering"
-
-  "Menu: Close all tabs"
-  "Meny: Stäng alla flikar"
-
-  "Menu: Close current session"
-  "Meny: Stäng nuvarande session"
-
-  "Menu: Close current tab"
-  "Meny: Stäng aktuell flik"
-
-  "Menu: Copy text"
-  "Meny: Kopiera text"
-
-  "Menu: Create marker at current line"
-  "Menyn: Skapa markör på aktuell rad"
-
-  "Menu: Create new plugin"
-  "Meny: Skapa nytt plugin"
-
-  "Menu: Create new theme"
-  "Skapa nytt tema..."
-
-  "Menu: Cut text"
-  "Menyn: Klipp ut texten"
-
-  "Menu: Delete session"
-  "Menyn: Ta bort session"
-
-  "Menu: Disable Vim mode"
-  "Meny: Inaktivera Vim-läge"
-
-  "Menu: Edit Tke theme"
-  "Meny: Redigera Tke tema"
-
-  "Menu: Edit language snippets"
-  "Meny: Redigera språk snuttar"
-
-  "Menu: Edit session current language preferences"
-  "Meny: Redigera session aktuella språkinställningar"
-
-  "Menu: Edit session global preferences"
-  "Meny: Redigera globala inställningar för session"
-
-  "Menu: Edit user current language preferences"
-  "Meny: Redigera användarinställningar nuvarande språk"
-
-  "Menu: Edit user global preferences"
-  "Meny: Redigera globala användarinställningar"
-
-  "Menu: Edit user menu bindings"
-  "Meny: Redigera användarmenyns bindningar"
-
-  "Menu: Enable Vim mode"
-  "Meny: Aktivera Vim-läge"
-
-  "Menu: Favorite file"
-  "Meny: Favorit fil"
-
-  "Menu: Find"
-  "Meny: Sök"
-
-  "Menu: Find and Replace"
-  "Sök och ersätt"
-
-  "Menu: Find in files"
-  "Meny: Hitta filer"
-
-  "Menu: Find matching character pair"
-  "Meny: Hitta matchande teckenparet"
-
-  "Menu: Find next occurrence"
-  "Meny: Hitta nästa förekomst"
-
-  "Menu: Find previous occurrence"
-  "Meny: Sök föregående förekomst"
-
-  "Menu: Format all text"
-  "Meny: Formatera all text"
-
-  "Menu: Format selected text"
-  "Meny: Format markerad text"
-
-  "Menu: Goto last tab"
-  "Meny: Gå till sista fliken"
-
-  "Menu: Goto next difference"
-  "Meny: Goto nästa skillnaden"
-
-  "Menu: Goto next tab"
-  "Meny: Gå till nästa flik"
-
-  "Menu: Goto other pane"
-  "Meny: Gå till andra rutan"
-
-  "Menu: Goto previous difference"
-  "Meny: Gå till föregående skillnad"
-
-  "Menu: Goto previous tab"
-  "Meny: Gå till föregående flik"
-
-  "Menu: Hide Line Numbers"
-  "Meny: Dölja radnummer"
-
-  "Menu: Hide Tab Bar"
-  "Meny: Hide Tab Bar"
-
-  "Menu: Hide console"
-  "Meny: Hide-konsol"
-
-  "Menu: Hide meta characters"
-  "Meny: Dölja meta tecken"
-
-  "Menu: Hide sidebar"
-  "Meny: Hide sidebar"
-
-  "Menu: Hide status bar"
-  "Meny: Hide statusfältet"
-
-  "Menu: Import TextMate theme"
-  "Meny: Import Textmate tema"
-
-  "Menu: Indent selected text"
-  "Meny: indrag markerad text"
-
-  "Menu: Insert enumeration"
-  "Meny: Sätt uppräkning"
-
-  "Menu: Insert from clipboard"
-  "Infoga via urklipp"
-
-  "Menu: Insert snippet"
-  "Meny: Infoga snutt"
-
-  "Menu: Install plugin"
-  "Meny: Installera plugin"
-
-  "Menu: Jump backward"
-  "Meny: Hoppa bakåt"
-
-  "Menu: Jump forward"
-  "Meny: Hoppa framåt"
-
-  "Menu: Lock file"
-  "Meny: Lås fil"
-
-  "Menu: Merge panes"
-  "Meny: Sammanfoga fönsterrutor"
-
-  "Menu: Move to other pane"
-  "Meny: Flytta till andra rutan"
-
-  "Menu: New file"
-  "Meny: Ny fil"
-
-  "Menu: Open Favorite"
-  "Meny: Öppna Favorit"
-
-  "Menu: Open Recent"
-  "Meny: Öppna senaste"
-
-  "Menu: Open directory"
-  "Meny: Öppna telefonboken"
-
-  "Menu: Open file"
-  "Meny: Öppna filen"
-
-  "Menu: Open session"
-  "Meny: Öppen session"
-
-  "Menu: Paste and format text from clipboard"
-  "Meny: Klistra in och formatera text från Urklipp"
-
-  "Menu: Paste text from clipboard"
-  "Klistra in text från urklipp"
-
-  "Menu: Quit application"
-  "Meny: Avsluta programmet"
-
-  "Menu: Redo"
-  "Meny: Gör om"
-
-  "Menu: Reload all plugins"
-  "Meny: Ladda alla plugins"
-
-  "Menu: Reload snippets"
-  "Meny: Reload snuttar"
-
-  "Menu: Remove all markers"
-  "Menyn: Ta bort alla markörer"
-
-  "Menu: Remove marker from current line"
-  "Menyn: Ta bort markör från aktuell rad"
-
-  "Menu: Replace line with script"
-  "Meny: Ersätta linje med skript"
-
-  "Menu: Restart tke"
-  "Meny: Omstart tke"
-
-  "Menu: Save all files"
-  "Meny: Spara alla filer"
-
-  "Menu: Save current session"
-  "Spara nuvarande session?"
-
-  "Menu: Save file"
-  "Meny: Spara fil"
-
-  "Menu: Save file as"
-  "Meny: Spara filen som"
-
-  "Menu: Save sessions as"
-  "Meny: Spara sessioner som"
-
-  "Menu: Select all occurrences"
-  "Meny: Välj alla förekomster"
-
-  "Menu: Select all text"
-  "Markera all text"
-
-  "Menu: Send Bug Report"
-  "Meny: Skicka felrapport"
-
-  "Menu: Send Feedback"
-  "Meny: Skicka Feedback"
-
-  "Menu: Set indent mode to IND"
-  "Meny: Ange indrag läge till IND"
-
-  "Menu: Set indent mode to IND+"
-  "Meny: Ange indrag läge till IND +"
-
-  "Menu: Set indent mode to OFF"
-  "Meny: Ange indrag läge off"
-
-  "Menu: Set user bindings to global bindings"
-  "Meny: Ställ användar bindningar till globala bindningar"
-
-  "Menu: Set user preferences to global preferences"
-  "Meny: Ange användarinställningar till globala inställningar"
-
-  "Menu: Show Diagnostic Logfile"
-  "Meny: Visa diagnostisk loggfil"
-
-  "Menu: Show Line Numbers"
-  "Rad nummer"
-
-  "Menu: Show Tab Bar"
-  "Meny: Visa Tab Bar"
-
-  "Menu: Show console"
-  "Meny: Visa konsol"
-
-  "Menu: Show file difference"
-  "Meny: Visa filen skillnaden"
-
-  "Menu: Show last profiling report"
-  "Meny: Visa senaste profilering rapport"
-
-  "Menu: Show meta characters"
-  "Meny: Visa meta tecken"
-
-  "Menu: Show selected line change"
-  "Meny: Visa markerad linje förändring"
-
-  "Menu: Show sidebar"
-  "Meny: Visa sidebar"
-
-  "Menu: Show status bar"
-  "Visa statusrad"
-
-  "Menu: Sort tabs"
-  "Meny: Sortera flikar"
-
-  "Menu: Start profiling"
-  "Meny: Start profilering"
-
-  "Menu: Stop profiling"
-  "Meny: Stoppa profilering"
-
-  "Menu: Switch to session"
-  "Meny: Växla till session"
-
-  "Menu: Toggle comment"
-  "Meny: Växla kommentar"
-
-  "Menu: Toggle split view mode"
-  "Meny: Växla delad vy läge"
-
-  "Menu: Undo"
-  "Meny: Ångra"
-
-  "Menu: Unfavorite file"
-  "Meny: Unfavorite fil"
-
-  "Menu: Unindent selected text"
-  "Meny: unindent markerad text"
-
-  "Menu: Uninstall plugin"
-  "Meny: Avinstallera plugin"
-
-  "Menu: Unlock file"
-  "Meny: Lås upp fil"
-
-  "Menu: View User Guide"
-  "Meny: Se Användarhandbok"
-
-  "Menu: View base preferences file"
-  "Meny: Visa bas inställningsfilen"
-
-  "Menu: View global menu bindings"
-  "Meny: Visa global meny bindningar"
-
   "Merge Panes"
   "Slå ihop fönsterrutorna"
 
@@ -658,6 +520,18 @@ msgcat::mcmset sv {
 
   "Plugins"
   "Insticksprogram"
+
+  "Plugins Menu: Create new plugin"
+  "Plugins-menyn: Skapa nya plugin"
+
+  "Plugins Menu: Install plugin"
+  "Plugins-menyn: Installera plugin"
+
+  "Plugins Menu: Reload all plugins"
+  "Plugins-menyn: Ladda alla plugins"
+
+  "Plugins Menu: Uninstall plugin"
+  "Plugins-menyn: Avinstallera plugin"
 
   "Preferences"
   "Favoriter"
@@ -727,6 +601,24 @@ msgcat::mcmset sv {
 
   "Sessions"
   "Sessioner"
+
+  "Sessions Menu: Close current session"
+  "Sessioner meny: Stäng nuvarande session"
+
+  "Sessions Menu: Delete session"
+  "Sessioner-menyn: Ta bort session"
+
+  "Sessions Menu: Open session"
+  "Sessioner meny: Öppen session"
+
+  "Sessions Menu: Save current session"
+  "Sessioner meny: Spara aktuell session"
+
+  "Sessions Menu: Save sessions as"
+  "Sessioner meny: Spara sessioner som"
+
+  "Sessions Menu: Switch to session"
+  "Sessioner Menu: Växla till session"
 
   "Set Syntax"
   "Ställ Syntax"
@@ -800,6 +692,24 @@ msgcat::mcmset sv {
   "Text"
   "Text"
 
+  "Text Menu: Align cursors"
+  "Text-menyn: Justera markörer"
+
+  "Text Menu: Indent selected text"
+  "Text-menyn: Indrag markerad text"
+
+  "Text Menu: Insert enumeration"
+  "Text-menyn: Infoga uppräkning"
+
+  "Text Menu: Replace line with script"
+  "Text-menyn: Ersätta line med skriptet"
+
+  "Text Menu: Toggle comment"
+  "Text-menyn: Växla kommentar"
+
+  "Text Menu: Unindent selected text"
+  "Text-menyn: Ångra indrag av markerad text"
+
   "Theme Creator"
   "Theme Creator"
 
@@ -808,6 +718,36 @@ msgcat::mcmset sv {
 
   "Tools"
   "Verktyg"
+
+  "Tools Menu: Create new theme"
+  "Verktyg-menyn: Skapa nytt tema"
+
+  "Tools Menu: Disable Vim mode"
+  "Verktyg-menyn: Inaktivera Vim läge"
+
+  "Tools Menu: Edit Tke theme"
+  "Verktyg-menyn: Redigera Tke tema"
+
+  "Tools Menu: Enable Vim mode"
+  "Verktyg-menyn: Aktivera Vim-läge"
+
+  "Tools Menu: Import TextMate theme"
+  "Verktyg-menyn: Import TextMate tema"
+
+  "Tools Menu: Restart tke"
+  "Verktyg-menyn: Omstart tke"
+
+  "Tools Menu: Show Diagnostic Logfile"
+  "Verktyg-menyn: Visa diagnostisk loggfil"
+
+  "Tools Menu: Show last profiling report"
+  "Verktyg-menyn: Visar senaste profilering rapport"
+
+  "Tools Menu: Start profiling"
+  "Verktyg-menyn: Starta profilering"
+
+  "Tools Menu: Stop profiling"
+  "Verktyg-menyn: Stoppa profilering"
 
   "Undo"
   "Ord"
@@ -832,6 +772,66 @@ msgcat::mcmset sv {
 
   "View Global"
   "Visa globala"
+
+  "View Menu: Goto last tab"
+  "Visa-menyn: Gå till sista fliken"
+
+  "View Menu: Goto next tab"
+  "Visa-menyn: Gå till nästa flik"
+
+  "View Menu: Goto other pane"
+  "Visa-menyn: Gå till annan fönsterruta"
+
+  "View Menu: Goto previous tab"
+  "Visa-menyn: Gå till föregående tab"
+
+  "View Menu: Hide Line Numbers"
+  "Visa-menyn: Dölja radnummer"
+
+  "View Menu: Hide Tab Bar"
+  "Visa-menyn: Dölja flikraden"
+
+  "View Menu: Hide console"
+  "Visa-menyn: Dölj konsolen"
+
+  "View Menu: Hide meta characters"
+  "Visa-menyn: Dölja meta tecken"
+
+  "View Menu: Hide sidebar"
+  "Visa-menyn: Dölj Sidpanelen"
+
+  "View Menu: Hide status bar"
+  "Visa-menyn: Dölja statusfältet"
+
+  "View Menu: Merge panes"
+  "Visa-menyn: Sammanfoga fönsterrutor"
+
+  "View Menu: Move to other pane"
+  "Visa-menyn: Flytta till andra"
+
+  "View Menu: Show Line Numbers"
+  "Visa-menyn: Visar radnummer"
+
+  "View Menu: Show Tab Bar"
+  "Visa-menyn: Visa flikfältet"
+
+  "View Menu: Show console"
+  "Visa-menyn: Visa konsolen"
+
+  "View Menu: Show meta characters"
+  "Visa-menyn: Visa meta tecken"
+
+  "View Menu: Show sidebar"
+  "Visa Förlaga"
+
+  "View Menu: Show status bar"
+  "Visa-menyn: Visa statusfält"
+
+  "View Menu: Sort tabs"
+  "Visa-menyn: Sort tabs"
+
+  "View Menu: Toggle split view mode"
+  "Visa-menyn: Växla split view-läge"
 
   "Vim Mode"
   "Vim Läge"

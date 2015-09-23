@@ -194,6 +194,84 @@ msgcat::mcmset no {
   "Edit Language"
   "Rediger språk"
 
+  "Edit Menu Edit user snippets"
+  "Rediger menyen Rediger bruker tekstutdrag"
+
+  "Edit Menu: Copy text"
+  "Redigeringsmenyen: Kopiere tekst"
+
+  "Edit Menu: Cut text"
+  "Redigeringsmenyen: Klippe ut tekst"
+
+  "Edit Menu: Edit language snippets"
+  "Redigeringsmenyen: Rediger språk tekstutdrag"
+
+  "Edit Menu: Edit session current language preferences"
+  "Redigeringsmenyen: Redigere økt gjeldende språkinnstillinger"
+
+  "Edit Menu: Edit session global preferences"
+  "Redigeringsmenyen: Redigere økt globale innstillinger"
+
+  "Edit Menu: Edit user current language preferences"
+  "Redigeringsmenyen: Rediger bruker gjeldende språkinnstillinger"
+
+  "Edit Menu: Edit user global preferences"
+  "Redigeringsmenyen: Redigere globale brukerinnstillinger"
+
+  "Edit Menu: Edit user menu bindings"
+  "Redigeringsmenyen: Rediger bruker menyen bindinger"
+
+  "Edit Menu: Format all text"
+  "Redigeringsmenyen: Formatere alle tekst"
+
+  "Edit Menu: Format selected text"
+  "Redigeringsmenyen: Formatere merket tekst"
+
+  "Edit Menu: Insert from clipboard"
+  "Redigeringsmenyen: Sette inn fra utklippstavlen"
+
+  "Edit Menu: Insert snippet"
+  "Redigeringsmenyen: Sett inn kodebiten"
+
+  "Edit Menu: Paste and format text from clipboard"
+  "Redigeringsmenyen: Lim inn og formater tekst fra utklippstavlen"
+
+  "Edit Menu: Paste text from clipboard"
+  "Redigeringsmenyen: Lime inn tekst fra utklippstavlen"
+
+  "Edit Menu: Redo"
+  "Rediger-meny: gjør om"
+
+  "Edit Menu: Reload snippets"
+  "Redigeringsmenyen: Reload tekstutdrag"
+
+  "Edit Menu: Select all text"
+  "Redigeringsmenyen: Merk all tekst"
+
+  "Edit Menu: Set indent mode to IND"
+  "Redigeringsmenyen: Angi innrykk-modusen til IND"
+
+  "Edit Menu: Set indent mode to IND+"
+  "Redigeringsmenyen: Angi innrykk-modusen til IND +"
+
+  "Edit Menu: Set indent mode to OFF"
+  "Redigeringsmenyen: Angi innrykk-modusen til av"
+
+  "Edit Menu: Set user bindings to global bindings"
+  "Redigeringsmenyen: Angi brukeren bindinger til globale bindinger"
+
+  "Edit Menu: Set user preferences to global preferences"
+  "Redigeringsmenyen: Angi brukerinnstillinger globale innstillinger"
+
+  "Edit Menu: Undo"
+  "Rediger-meny: angre"
+
+  "Edit Menu: View base preferences file"
+  "Redigeringsmenyen: Vis base innstillingsfilen"
+
+  "Edit Menu: View global menu bindings"
+  "Redigeringsmenyen: Vise global meny bindinger"
+
   "Edit Session - Global"
   "Sesjon - Global"
 
@@ -215,6 +293,54 @@ msgcat::mcmset no {
   "File"
   "Fil"
 
+  "File Menu: Close all tabs"
+  "Fil-menyen: Lukk alle faner"
+
+  "File Menu: Close current tab"
+  "Fil-menyen: Lukker gjeldende fane"
+
+  "File Menu: Favorite file"
+  "Fil-menyen: Favoritt fil"
+
+  "File Menu: Lock file"
+  "Fil-menyen: Låsefilen"
+
+  "File Menu: New file"
+  "Fil-menyen: Ny fil"
+
+  "File Menu: Open Favorite"
+  "Fil-menyen: Åpne favoritt"
+
+  "File Menu: Open Recent"
+  "Fil-menyen: Åpne nylig"
+
+  "File Menu: Open directory"
+  "Fil-menyen: Open directory"
+
+  "File Menu: Open file"
+  "Fil-menyen: Åpne fil"
+
+  "File Menu: Quit application"
+  "Fil-menyen: Avslutt program"
+
+  "File Menu: Save all files"
+  "Fil-menyen: Lagre alle filer"
+
+  "File Menu: Save file"
+  "Fil-menyen: Lagre"
+
+  "File Menu: Save file as"
+  "Fil-menyen: Lagre fil som"
+
+  "File Menu: Show file difference"
+  "Fil-menyen: Vise filen forskjellen"
+
+  "File Menu: Unfavorite file"
+  "Fil-menyen: Unfavorite fil"
+
+  "File Menu: Unlock file"
+  "Fil-menyen: Låse opp fil"
+
   "Find"
   "Søk"
 
@@ -223,6 +349,54 @@ msgcat::mcmset no {
 
   "Find Matching Pair"
   "Finn matchende par"
+
+  "Find Menu: Append next occurrence"
+  "Finn-menyen: Legge neste forekomst"
+
+  "Find Menu: Create marker at current line"
+  "Finn-menyen: Opprette markør på gjeldende linje"
+
+  "Find Menu: Find"
+  "Finn menyen: finne"
+
+  "Find Menu: Find and Replace"
+  "Finn-menyen: Søk og erstatt"
+
+  "Find Menu: Find in files"
+  "Finn-menyen: Finn filer"
+
+  "Find Menu: Find matching character pair"
+  "Finn-menyen: Finn samsvarende tegnet pair"
+
+  "Find Menu: Find next occurrence"
+  "Finn-menyen: Finne neste forekomst"
+
+  "Find Menu: Find previous occurrence"
+  "Finn-menyen: Finne forrige forekomst"
+
+  "Find Menu: Goto next difference"
+  "Finn-menyen: Goto neste forskjellen"
+
+  "Find Menu: Goto previous difference"
+  "Finn-menyen: Goto tidligere forskjellen"
+
+  "Find Menu: Jump backward"
+  "Finn-menyen: Hoppe bakover"
+
+  "Find Menu: Jump forward"
+  "Finn-menyen: Hoppe fremover"
+
+  "Find Menu: Remove all markers"
+  "Finn-menyen: Fjern alle merkene"
+
+  "Find Menu: Remove marker from current line"
+  "Finn-menyen: Fjern merket fra gjeldende linje"
+
+  "Find Menu: Select all occurrences"
+  "Finn-menyen: Velg alle forekomster"
+
+  "Find Menu: Show selected line change"
+  "Finn meny: Vis valgt linje endring"
 
   "Find and Replace"
   "Finn og erstatt"
@@ -247,6 +421,21 @@ msgcat::mcmset no {
 
   "Help"
   "Help!"
+
+  "Help Menu: About TKE"
+  "Hjelp-menyen: Om TKE"
+
+  "Help Menu: Check for Update"
+  "Hjelp-menyen: Søk etter oppdateringer"
+
+  "Help Menu: Send Bug Report"
+  "Hjelp-menyen: Send feilrapport"
+
+  "Help Menu: Send Feedback"
+  "Hjelp-menyen: Send tilbakemelding"
+
+  "Help Menu: View User Guide"
+  "Hjelp-menyen: Vis User Guide"
 
   "Hide Console"
   "Skjul Console"
@@ -305,333 +494,6 @@ msgcat::mcmset no {
   "Menu Bindings"
   "Meny Bindinger"
 
-  "Menu Edit user snippets"
-  "Menyen Rediger bruker tekstutdrag"
-
-  "Menu: About TKE"
-  "Meny: Om TKE"
-
-  "Menu: Align cursors"
-  "Meny: Rett pekere"
-
-  "Menu: Append next occurrence"
-  "Meny: Legg ved neste forekomst"
-
-  "Menu: Check for Update"
-  "Meny: Søk etter oppdateringer"
-
-  "Menu: Close all tabs"
-  "Meny: Lukk alle faner"
-
-  "Menu: Close current session"
-  "Meny: Lukk gjeldende økt"
-
-  "Menu: Close current tab"
-  "Meny: Lukk gjeldende fane"
-
-  "Menu: Copy text"
-  "Meny: Kopiere tekst"
-
-  "Menu: Create marker at current line"
-  "Meny: Opprette markør på gjeldende linje"
-
-  "Menu: Create new plugin"
-  "Meny: Opprett ny plugin"
-
-  "Menu: Create new theme"
-  "Meny: Opprett nytt tema"
-
-  "Menu: Cut text"
-  "Meny: Kutt tekst"
-
-  "Menu: Delete session"
-  "Meny: Slett økt"
-
-  "Menu: Disable Vim mode"
-  "Meny: Deaktiver Vim-modus"
-
-  "Menu: Edit Tke theme"
-  "Meny: Rediger TKE tema"
-
-  "Menu: Edit language snippets"
-  "Meny: Rediger språk tekstutdrag"
-
-  "Menu: Edit session current language preferences"
-  "Meny: Redigere økt gjeldende språkinnstillinger"
-
-  "Menu: Edit session global preferences"
-  "Meny: Redigere økt globale innstillinger"
-
-  "Menu: Edit user current language preferences"
-  "Meny: Redigere bruker gjeldende språkinnstillinger"
-
-  "Menu: Edit user global preferences"
-  "Meny: Redigere globale brukerinnstillinger"
-
-  "Menu: Edit user menu bindings"
-  "Meny: Rediger brukermeny bindinger"
-
-  "Menu: Enable Vim mode"
-  "Meny: Aktiver Vim-modus"
-
-  "Menu: Favorite file"
-  "Meny: Favoritt fil"
-
-  "Menu: Find"
-  "Meny: Finn"
-
-  "Menu: Find and Replace"
-  "Meny: Finn og erstatt"
-
-  "Menu: Find in files"
-  "Meny: Finn i filer"
-
-  "Menu: Find matching character pair"
-  "Meny: Finn matchende karakter pair"
-
-  "Menu: Find next occurrence"
-  "Meny: Finn neste forekomst"
-
-  "Menu: Find previous occurrence"
-  "Meny: Finn forrige forekomst"
-
-  "Menu: Format all text"
-  "Meny: Formater all tekst"
-
-  "Menu: Format selected text"
-  "Meny: Format markert tekst"
-
-  "Menu: Goto last tab"
-  "Meny: Goto siste kategorien"
-
-  "Menu: Goto next difference"
-  "Meny: Goto neste forskjellen"
-
-  "Menu: Goto next tab"
-  "Meny: Goto neste kategori"
-
-  "Menu: Goto other pane"
-  "Meny: Goto annen rute"
-
-  "Menu: Goto previous difference"
-  "Meny: Goto tidligere forskjellen"
-
-  "Menu: Goto previous tab"
-  "Meny: Goto forrige kategori"
-
-  "Menu: Hide Line Numbers"
-  "Meny: Skjul linjenumre"
-
-  "Menu: Hide Tab Bar"
-  "Meny: Hide Tab Bar"
-
-  "Menu: Hide console"
-  "Meny: Skjul konsoll"
-
-  "Menu: Hide meta characters"
-  "Meny: Skjule meta tegn"
-
-  "Menu: Hide sidebar"
-  "Meny: Hide sidebar"
-
-  "Menu: Hide status bar"
-  "Meny: Skjul statuslinjen"
-
-  "Menu: Import TextMate theme"
-  "Meny: Import Textmate tema"
-
-  "Menu: Indent selected text"
-  "Meny: Innrykk merket tekst"
-
-  "Menu: Insert enumeration"
-  "Meny: Sett oppregning"
-
-  "Menu: Insert from clipboard"
-  "Meny: Sett inn fra utklippstavlen"
-
-  "Menu: Insert snippet"
-  "Meny: Sett inn tekstutdrag"
-
-  "Menu: Install plugin"
-  "Meny: Installer plugin"
-
-  "Menu: Jump backward"
-  "Meny: Hoppe bakover"
-
-  "Menu: Jump forward"
-  "Meny: Hoppe fremover"
-
-  "Menu: Lock file"
-  "Meny: Lock file"
-
-  "Menu: Merge panes"
-  "Meny: Flettingen ruter"
-
-  "Menu: Move to other pane"
-  "Meny: Flytt til annen rute"
-
-  "Menu: New file"
-  "Meny: Ny fil"
-
-  "Menu: Open Favorite"
-  "Meny: Åpne Favoritt"
-
-  "Menu: Open Recent"
-  "Meny: Åpne sist"
-
-  "Menu: Open directory"
-  "Meny: Åpne telefonboken"
-
-  "Menu: Open file"
-  "Meny: Åpne fil"
-
-  "Menu: Open session"
-  "Meny: Åpne økt"
-
-  "Menu: Paste and format text from clipboard"
-  "Meny: Lim inn og formatere tekst fra utklippstavlen"
-
-  "Menu: Paste text from clipboard"
-  "Meny: Lime inn tekst fra utklippstavlen"
-
-  "Menu: Quit application"
-  "Meny: Avslutt applikasjon"
-
-  "Menu: Redo"
-  "Meny: Gjør om"
-
-  "Menu: Reload all plugins"
-  "Meny: Last alle plugins"
-
-  "Menu: Reload snippets"
-  "Meny: Reload tekstutdrag"
-
-  "Menu: Remove all markers"
-  "-Menyen: Fjern alle merkene"
-
-  "Menu: Remove marker from current line"
-  "Meny: Fjerne merket fra gjeldende linje"
-
-  "Menu: Replace line with script"
-  "Meny: Erstatte linje med skript"
-
-  "Menu: Restart tke"
-  "Meny: Restart tke"
-
-  "Menu: Save all files"
-  "Meny: Lagre alle filer"
-
-  "Menu: Save current session"
-  "Meny: Lagre gjeldende økt"
-
-  "Menu: Save file"
-  "Meny: Lagre filen"
-
-  "Menu: Save file as"
-  "Meny: Lagre filen som"
-
-  "Menu: Save sessions as"
-  "Meny: Lagre sesjoner som"
-
-  "Menu: Select all occurrences"
-  "Meny: Velg alle forekomster"
-
-  "Menu: Select all text"
-  "Meny: Velg all tekst"
-
-  "Menu: Send Bug Report"
-  "Menyen: Send feilrapport"
-
-  "Menu: Send Feedback"
-  "Menyen: Send tilbakemelding"
-
-  "Menu: Set indent mode to IND"
-  "Meny: Angi innrykk-modusen til IND"
-
-  "Menu: Set indent mode to IND+"
-  "Meny: Angi innrykk-modusen til IND +"
-
-  "Menu: Set indent mode to OFF"
-  "Meny: Angi innrykk-modusen til av"
-
-  "Menu: Set user bindings to global bindings"
-  "Meny: Sett bruker bindinger til globale bindinger"
-
-  "Menu: Set user preferences to global preferences"
-  "Meny: Sett brukerinnstillinger til globale preferanser"
-
-  "Menu: Show Diagnostic Logfile"
-  "Meny: Vis diagnostiske loggfil"
-
-  "Menu: Show Line Numbers"
-  "Meny: Vis linjenumre"
-
-  "Menu: Show Tab Bar"
-  "Meny: Vis Tab Bar"
-
-  "Menu: Show console"
-  "Meny: Vis konsoll"
-
-  "Menu: Show file difference"
-  "Meny: Vis fil forskjellen"
-
-  "Menu: Show last profiling report"
-  "Meny: Vis siste profilering rapport"
-
-  "Menu: Show meta characters"
-  "Meny: Vis meta tegn"
-
-  "Menu: Show selected line change"
-  "Meny: Vis valgt linje endring"
-
-  "Menu: Show sidebar"
-  "Meny: Vis sidebar"
-
-  "Menu: Show status bar"
-  "Meny: Vis statuslinjen"
-
-  "Menu: Sort tabs"
-  "Meny: Sorter faner"
-
-  "Menu: Start profiling"
-  "Meny: Start profilering"
-
-  "Menu: Stop profiling"
-  "Meny: Stopp profilering"
-
-  "Menu: Switch to session"
-  "Meny: Bytt til økt"
-
-  "Menu: Toggle comment"
-  "Meny: Vis/Skjul merknad"
-
-  "Menu: Toggle split view mode"
-  "Meny: Toggle split view-modus"
-
-  "Menu: Undo"
-  "Meny: Angre"
-
-  "Menu: Unfavorite file"
-  "Meny: unfavorite fil"
-
-  "Menu: Unindent selected text"
-  "Meny: Fjern innrykk markert tekst"
-
-  "Menu: Uninstall plugin"
-  "Meny: Avinstaller plugin"
-
-  "Menu: Unlock file"
-  "Meny: Lås opp fil"
-
-  "Menu: View User Guide"
-  "Meny: Se Brukerhåndbok"
-
-  "Menu: View base preferences file"
-  "Meny: Vis base innstillingsfilen"
-
-  "Menu: View global menu bindings"
-  "Meny: Vis global meny bindinger"
-
   "Merge Panes"
   "Flette ruter"
 
@@ -658,6 +520,18 @@ msgcat::mcmset no {
 
   "Plugins"
   "Preferences..."
+
+  "Plugins Menu: Create new plugin"
+  "Plugins-menyen: Lage nye plugin"
+
+  "Plugins Menu: Install plugin"
+  "Plugins-menyen: Installere plugin"
+
+  "Plugins Menu: Reload all plugins"
+  "Plugins-menyen: Laste alle plugins"
+
+  "Plugins Menu: Uninstall plugin"
+  "Plugins-menyen: Avinstallere plugin"
 
   "Preferences"
   "Innstillinger"
@@ -727,6 +601,24 @@ msgcat::mcmset no {
 
   "Sessions"
   "Sessions"
+
+  "Sessions Menu: Close current session"
+  "Økter meny: Lukke gjeldende økt"
+
+  "Sessions Menu: Delete session"
+  "Økter meny: Slett økt"
+
+  "Sessions Menu: Open session"
+  "Økter meny: Åpne økt"
+
+  "Sessions Menu: Save current session"
+  "Økter meny: Lagre gjeldende økt"
+
+  "Sessions Menu: Save sessions as"
+  "Økter meny: Lagre sesjoner som"
+
+  "Sessions Menu: Switch to session"
+  "Økter meny: Bytte til økt"
 
   "Set Syntax"
   "Sett Syntax"
@@ -800,6 +692,24 @@ msgcat::mcmset no {
   "Text"
   "Tekst"
 
+  "Text Menu: Align cursors"
+  "Menyen for tekst: Justere pekere"
+
+  "Text Menu: Indent selected text"
+  "Menyen for tekst: Rykke inn merket tekst"
+
+  "Text Menu: Insert enumeration"
+  "Menyen for tekst: Sett inn opplisting"
+
+  "Text Menu: Replace line with script"
+  "Menyen for tekst: Erstatte linje med skript"
+
+  "Text Menu: Toggle comment"
+  "Tekst meny: Vis/Skjul merknad"
+
+  "Text Menu: Unindent selected text"
+  "Menyen for tekst: Ikke rykk inn merket tekst"
+
   "Theme Creator"
   "Tema Creator"
 
@@ -808,6 +718,36 @@ msgcat::mcmset no {
 
   "Tools"
   "Redskap"
+
+  "Tools Menu: Create new theme"
+  "Verktøymenyen: Opprette nytt tema"
+
+  "Tools Menu: Disable Vim mode"
+  "Verktøy-menyen: Deaktiver Vim-modus"
+
+  "Tools Menu: Edit Tke theme"
+  "Verktøymenyen: Redigere Tke tema"
+
+  "Tools Menu: Enable Vim mode"
+  "Verktøymenyen: Aktivere Vim-modus"
+
+  "Tools Menu: Import TextMate theme"
+  "Verktøymenyen: Import TextMate tema"
+
+  "Tools Menu: Restart tke"
+  "Verktøymenyen: Omstart tke"
+
+  "Tools Menu: Show Diagnostic Logfile"
+  "Verktøymenyen: Vis Diskdiagnose loggfil"
+
+  "Tools Menu: Show last profiling report"
+  "Verktøymenyen: Vis siste profilering rapport"
+
+  "Tools Menu: Start profiling"
+  "Verktøymenyen: Starte profilering"
+
+  "Tools Menu: Stop profiling"
+  "Verktøymenyen: Stoppe profilering"
 
   "Undo"
   "angre"
@@ -832,6 +772,66 @@ msgcat::mcmset no {
 
   "View Global"
   "Vis globale"
+
+  "View Menu: Goto last tab"
+  "Vis-menyen: Goto siste kategorien"
+
+  "View Menu: Goto next tab"
+  "Vis-menyen: Goto neste fane"
+
+  "View Menu: Goto other pane"
+  "Vis-menyen: Goto andre ruten"
+
+  "View Menu: Goto previous tab"
+  "Vis-menyen: Goto forrige fane"
+
+  "View Menu: Hide Line Numbers"
+  "Vis-menyen: Skjul linjenumre"
+
+  "View Menu: Hide Tab Bar"
+  "Vis-menyen: Skjul fanelinjen"
+
+  "View Menu: Hide console"
+  "Vis-menyen: Skjul konsollen"
+
+  "View Menu: Hide meta characters"
+  "Vis-menyen: Skjule meta tegn"
+
+  "View Menu: Hide sidebar"
+  "Vis-menyen: Skjul sidebar"
+
+  "View Menu: Hide status bar"
+  "Vis-menyen: Skjule statuslinjen"
+
+  "View Menu: Merge panes"
+  "Vis-menyen: Flettingen ruter"
+
+  "View Menu: Move to other pane"
+  "Vis-menyen: Flytte til andre ruten"
+
+  "View Menu: Show Line Numbers"
+  "Vis-menyen: Vis linjenumre"
+
+  "View Menu: Show Tab Bar"
+  "Vis-menyen: Vis fanelinjen"
+
+  "View Menu: Show console"
+  "Vis-menyen: Vis konsollen"
+
+  "View Menu: Show meta characters"
+  "Vis-menyen: Vis meta tegn"
+
+  "View Menu: Show sidebar"
+  "Vis-menyen: Vis Sidepanel"
+
+  "View Menu: Show status bar"
+  "Vis-menyen: Vis statuslinje"
+
+  "View Menu: Sort tabs"
+  "Vis-menyen: Sorter kategorier"
+
+  "View Menu: Toggle split view mode"
+  "Vis-menyen: Veksle delt visningsmodus"
 
   "Vim Mode"
   "Vim Mode"

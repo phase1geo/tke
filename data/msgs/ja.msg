@@ -194,6 +194,84 @@ msgcat::mcmset ja {
   "Edit Language"
   "言語を編集します。"
 
+  "Edit Menu Edit user snippets"
+  "メニュー編集ユーザー スニペットを編集します。"
+
+  "Edit Menu: Copy text"
+  "[編集] メニュー: テキストのコピー"
+
+  "Edit Menu: Cut text"
+  "[編集] メニュー: テキストを切り取る"
+
+  "Edit Menu: Edit language snippets"
+  "[編集] メニュー: 編集言語のスニペット"
+
+  "Edit Menu: Edit session current language preferences"
+  "[編集] メニュー: の編集のセッションは、現在の言語の設定"
+
+  "Edit Menu: Edit session global preferences"
+  "[編集] メニュー: 編集セッションのグローバル設定"
+
+  "Edit Menu: Edit user current language preferences"
+  "[編集] メニュー: 編集ユーザーの現在の言語設定"
+
+  "Edit Menu: Edit user global preferences"
+  "編集メニュー: ユーザーのグローバル設定を編集します。"
+
+  "Edit Menu: Edit user menu bindings"
+  "[編集] メニュー: 編集ユーザー メニューのバインディング"
+
+  "Edit Menu: Format all text"
+  "[編集] メニュー: すべてのテキストの書式設定します。"
+
+  "Edit Menu: Format selected text"
+  "[編集] メニュー: 選択したテキストの書式設定します。"
+
+  "Edit Menu: Insert from clipboard"
+  "[編集] メニュー: クリップボードから挿入します。"
+
+  "Edit Menu: Insert snippet"
+  "[編集] メニュー: 挿入スニペット"
+
+  "Edit Menu: Paste and format text from clipboard"
+  "[編集] メニュー: テキスト クリップボードからペーストおよび書式設定"
+
+  "Edit Menu: Paste text from clipboard"
+  "[編集] メニュー: クリップボードからテキストを貼り付ける"
+
+  "Edit Menu: Redo"
+  "[編集] メニュー: やり直し"
+
+  "Edit Menu: Reload snippets"
+  "[編集] メニュー: リロード スニペット"
+
+  "Edit Menu: Select all text"
+  "[編集] メニュー: すべてのテキストを選択します。"
+
+  "Edit Menu: Set indent mode to IND"
+  "[編集] メニュー: IND にインデント モードを設定します。"
+
+  "Edit Menu: Set indent mode to IND+"
+  "[編集] メニュー: IND + にインデント モードを設定します。"
+
+  "Edit Menu: Set indent mode to OFF"
+  "[編集] メニュー: インデント モードを OFF に設定します。"
+
+  "Edit Menu: Set user bindings to global bindings"
+  "[編集] メニュー: はグローバル バインドするユーザー バインドを設定します。"
+
+  "Edit Menu: Set user preferences to global preferences"
+  "グローバル設定に設定ユーザーを [編集] メニュー。"
+
+  "Edit Menu: Undo"
+  "[編集] メニュー: 元に戻す"
+
+  "Edit Menu: View base preferences file"
+  "[編集] メニュー: 表示基本設定ファイル"
+
+  "Edit Menu: View global menu bindings"
+  "[編集] メニュー: グローバル メニューのショートカットを表示します。"
+
   "Edit Session - Global"
   "??????? - ?????"
 
@@ -215,6 +293,54 @@ msgcat::mcmset ja {
   "File"
   "ファイル"
 
+  "File Menu: Close all tabs"
+  "[ファイル] メニュー: すべてのタブを閉じる"
+
+  "File Menu: Close current tab"
+  "[ファイル] メニュー: 現在のタブを閉じる"
+
+  "File Menu: Favorite file"
+  "[ファイル] メニュー: お気に入りファイル"
+
+  "File Menu: Lock file"
+  "[ファイル] メニュー: ロック ファイル"
+
+  "File Menu: New file"
+  "[ファイル] メニュー: 新しいファイル"
+
+  "File Menu: Open Favorite"
+  "[ファイル] メニュー: 開いているお気に入り"
+
+  "File Menu: Open Recent"
+  "[ファイル] メニュー: 最近開いた画像ドキュメント"
+
+  "File Menu: Open directory"
+  "[ファイル] メニュー: オープン ディレクトリ"
+
+  "File Menu: Open file"
+  "ファイルを開く [ファイル] メニュー:"
+
+  "File Menu: Quit application"
+  "[ファイル] メニュー: アプリケーションを終了します。"
+
+  "File Menu: Save all files"
+  "すべてのファイルを保存ファイル] メニュー。"
+
+  "File Menu: Save file"
+  "[ファイル] メニュー: ファイルを保存します。"
+
+  "File Menu: Save file as"
+  "ファイルを保存するファイル] メニュー。"
+
+  "File Menu: Show file difference"
+  "[ファイル] メニュー: ファイルの相違点を表示します。"
+
+  "File Menu: Unfavorite file"
+  "[ファイル] メニュー: Unfavorite ファイル"
+
+  "File Menu: Unlock file"
+  "[ファイル] メニュー: ファイルのロックを解除します。"
+
   "Find"
   "Find"
 
@@ -223,6 +349,54 @@ msgcat::mcmset ja {
 
   "Find Matching Pair"
   "?????????????"
+
+  "Find Menu: Append next occurrence"
+  "検索メニュー: は、次の出現箇所を追加します。"
+
+  "Find Menu: Create marker at current line"
+  "検索メニュー: は、現在の行のマーカーを作成します。"
+
+  "Find Menu: Find"
+  "メニューを見つける: 検索"
+
+  "Find Menu: Find and Replace"
+  "検索メニュー: 検索し、置換"
+
+  "Find Menu: Find in files"
+  "ファイル内の検索] メニュー: 検索"
+
+  "Find Menu: Find matching character pair"
+  "文字のペアに一致する検索メニュー: 検索"
+
+  "Find Menu: Find next occurrence"
+  "次を検索する検索] メニュー。"
+
+  "Find Menu: Find previous occurrence"
+  "検索メニュー: 前の出現箇所を見つける"
+
+  "Find Menu: Goto next difference"
+  "検索メニュー: 後藤次の相違点"
+
+  "Find Menu: Goto previous difference"
+  "検索メニュー: 後藤前の相違点"
+
+  "Find Menu: Jump backward"
+  "検索メニュー: 移動後方"
+
+  "Find Menu: Jump forward"
+  "前方検索メニュー: ジャンプ"
+
+  "Find Menu: Remove all markers"
+  "検索メニュー: すべてのマーカーを削除します。"
+
+  "Find Menu: Remove marker from current line"
+  "検索メニュー: は、現在の行からマーカーを削除します。"
+
+  "Find Menu: Select all occurrences"
+  "検索メニュー: 単語をすべて選択します。"
+
+  "Find Menu: Show selected line change"
+  "検索メニュー: 選択した表示行変更"
 
   "Find and Replace"
   "検索と置換"
@@ -247,6 +421,21 @@ msgcat::mcmset ja {
 
   "Help"
   "ヘルプ"
+
+  "Help Menu: About TKE"
+  "[ヘルプ] メニュー: TKE について"
+
+  "Help Menu: Check for Update"
+  "更新プログラムのチェックを [ヘルプ] メニュー:"
+
+  "Help Menu: Send Bug Report"
+  "[ヘルプ] メニュー: バグ報告を送る"
+
+  "Help Menu: Send Feedback"
+  "[ヘルプ] メニュー: フィードバックの送信"
+
+  "Help Menu: View User Guide"
+  "[ヘルプ] メニュー: ビュー ユーザー ガイド"
 
   "Hide Console"
   "コンソールを隠す"
@@ -305,333 +494,6 @@ msgcat::mcmset ja {
   "Menu Bindings"
   "メニューバインディング"
 
-  "Menu Edit user snippets"
-  "メニュー編集ユーザー スニペット"
-
-  "Menu: About TKE"
-  "メニュー：TKEについて"
-
-  "Menu: Align cursors"
-  "メニュー：カーソルを合わせ"
-
-  "Menu: Append next occurrence"
-  "メニュー：次のオカレンスを追加"
-
-  "Menu: Check for Update"
-  "アップデートの確認"
-
-  "Menu: Close all tabs"
-  "すべてのタブを閉じる"
-
-  "Menu: Close current session"
-  "????????????????:"
-
-  "Menu: Close current tab"
-  "メニュー：現在のタブを閉じる"
-
-  "Menu: Copy text"
-  "????: ????????"
-
-  "Menu: Create marker at current line"
-  "メニュー： 現在の行にマーカーを作成します。"
-
-  "Menu: Create new plugin"
-  "メニュー：新しいプラグインを作成"
-
-  "Menu: Create new theme"
-  "メニュー：新しいテーマを作成する"
-
-  "Menu: Cut text"
-  "????: ??? ????"
-
-  "Menu: Delete session"
-  "????: ???????"
-
-  "Menu: Disable Vim mode"
-  "メニュー：Vimのモードを無効にします"
-
-  "Menu: Edit Tke theme"
-  "メニュー：編集TKEテーマ"
-
-  "Menu: Edit language snippets"
-  "メニュー: 編集言語のスニペット"
-
-  "Menu: Edit session current language preferences"
-  "????: ???????????????"
-
-  "Menu: Edit session global preferences"
-  "????: ???????????????"
-
-  "Menu: Edit user current language preferences"
-  "????: ??????????????"
-
-  "Menu: Edit user global preferences"
-  "????: ???????????????????"
-
-  "Menu: Edit user menu bindings"
-  "メニュー：編集ユーザーメニューバインディング"
-
-  "Menu: Enable Vim mode"
-  "メニュー：Vimのモードを有効に"
-
-  "Menu: Favorite file"
-  "メニュー：好きなファイル"
-
-  "Menu: Find"
-  "メニュー：見つける"
-
-  "Menu: Find and Replace"
-  "検索と置換"
-
-  "Menu: Find in files"
-  "メニュー：ファイルから検索"
-
-  "Menu: Find matching character pair"
-  "メニュー：一致する文字のペアを探す"
-
-  "Menu: Find next occurrence"
-  "メニュー：次の出現箇所を検索"
-
-  "Menu: Find previous occurrence"
-  "メニュー：前の発生を検索"
-
-  "Menu: Format all text"
-  "メニュー：すべてのテキストの書式設定"
-
-  "Menu: Format selected text"
-  "メニュー：選択したテキストのフォーマット"
-
-  "Menu: Goto last tab"
-  "メニュー：後藤最後のタブ"
-
-  "Menu: Goto next difference"
-  "メニュー： 後藤次の相違点"
-
-  "Menu: Goto next tab"
-  "メニュー：後藤次のタブ"
-
-  "Menu: Goto other pane"
-  "メニュー：後藤他のペイン"
-
-  "Menu: Goto previous difference"
-  "メニュー： 後藤前の相違点"
-
-  "Menu: Goto previous tab"
-  "メニュー：後藤前のタブ"
-
-  "Menu: Hide Line Numbers"
-  "メニュー: 非表示にする行番号"
-
-  "Menu: Hide Tab Bar"
-  "メニュー：タブバーを非表示に"
-
-  "Menu: Hide console"
-  "メニュー：コンソールを非表示に"
-
-  "Menu: Hide meta characters"
-  "????: ????????????"
-
-  "Menu: Hide sidebar"
-  "メニュー：サイドバーを隠す"
-
-  "Menu: Hide status bar"
-  "メニュー：非表示のステータスバー"
-
-  "Menu: Import TextMate theme"
-  "メニュー：輸入TextMateのテーマ"
-
-  "Menu: Indent selected text"
-  "メニュー：選択したテキストをインデント"
-
-  "Menu: Insert enumeration"
-  "メニュー：列挙型を挿入します"
-
-  "Menu: Insert from clipboard"
-  "クリップボードからの挿入"
-
-  "Menu: Insert snippet"
-  "メニュー：挿入スニペット"
-
-  "Menu: Install plugin"
-  "メニュー：インストールプラグイン"
-
-  "Menu: Jump backward"
-  "メニュー: 移動後方"
-
-  "Menu: Jump forward"
-  "ジャンプ メニュー。"
-
-  "Menu: Lock file"
-  "メニュー：ロックファイル"
-
-  "Menu: Merge panes"
-  "????: ??? ???"
-
-  "Menu: Move to other pane"
-  "メニュー：他のウィンドウに移動"
-
-  "Menu: New file"
-  "メニュー：新ファイル"
-
-  "Menu: Open Favorite"
-  "メニュー：オープン好き"
-
-  "Menu: Open Recent"
-  "メニュー：最近のオープン"
-
-  "Menu: Open directory"
-  "メニュー：オープンディレクトリ"
-
-  "Menu: Open file"
-  "メニュー：ファイルを開く"
-
-  "Menu: Open session"
-  "????: ???? ?????"
-
-  "Menu: Paste and format text from clipboard"
-  "メニュー：クリップボードからの貼り付けやテキストの書式設定"
-
-  "Menu: Paste text from clipboard"
-  "クリップボードから貼り付け"
-
-  "Menu: Quit application"
-  "メニュー：アプリケーションを終了し"
-
-  "Menu: Redo"
-  "メニュー：やり直し"
-
-  "Menu: Reload all plugins"
-  "メニュー：すべてのプラグインを再ロード"
-
-  "Menu: Reload snippets"
-  "メニュー： リロード スニペット"
-
-  "Menu: Remove all markers"
-  "メニュー： すべてのマーカーを削除します。"
-
-  "Menu: Remove marker from current line"
-  "メニュー： 現在の行からのマーカーを削除します。"
-
-  "Menu: Replace line with script"
-  "メニュー： スクリプトの行を置き換えます"
-
-  "Menu: Restart tke"
-  "メニュー：TKEを再起動します"
-
-  "Menu: Save all files"
-  "メニュー：すべてのファイルを保存"
-
-  "Menu: Save current session"
-  "????: ???????????????"
-
-  "Menu: Save file"
-  "メニュー：ファイルを保存します"
-
-  "Menu: Save file as"
-  "メニュー：ファイルとして保存"
-
-  "Menu: Save sessions as"
-  "????: ???????????????"
-
-  "Menu: Select all occurrences"
-  "メニュー：すべてのオカレンスを選択"
-
-  "Menu: Select all text"
-  "メニュー：すべてのテキストを選択"
-
-  "Menu: Send Bug Report"
-  "メニュー: バグ レポートを送信"
-
-  "Menu: Send Feedback"
-  "メニュー： フィードバックを送信"
-
-  "Menu: Set indent mode to IND"
-  "メニュー: IND をインデント モードを設定します。"
-
-  "Menu: Set indent mode to IND+"
-  "メニュー: IND + のインデント モードを設定します。"
-
-  "Menu: Set indent mode to OFF"
-  "メニュー: インデント モードを OFF に設定します。"
-
-  "Menu: Set user bindings to global bindings"
-  "メニュー：グローバルバインディングに設定し、ユーザーのバインド"
-
-  "Menu: Set user preferences to global preferences"
-  "メニュー：グローバル設定へのユーザープリファレンスを設定"
-
-  "Menu: Show Diagnostic Logfile"
-  "メニュー： 表示診断ログファイル"
-
-  "Menu: Show Line Numbers"
-  "メニュー: 行番号を表示"
-
-  "Menu: Show Tab Bar"
-  "メニュー：表示タブバー"
-
-  "Menu: Show console"
-  "メニュー：表示するコンソール"
-
-  "Menu: Show file difference"
-  "メニュー： 表示ファイルの相違点"
-
-  "Menu: Show last profiling report"
-  "メニュー：ショー最後のプロファイリングレポート"
-
-  "Menu: Show meta characters"
-  "????: ???????????"
-
-  "Menu: Show selected line change"
-  "メニュー: 選択した表示線の変更"
-
-  "Menu: Show sidebar"
-  "メニュー：表示するサイドバー"
-
-  "Menu: Show status bar"
-  "メニュー：表示するステータスバー"
-
-  "Menu: Sort tabs"
-  "メニュー：ソートタブ"
-
-  "Menu: Start profiling"
-  "メニュー：スタートプロファイリング"
-
-  "Menu: Stop profiling"
-  "メニュー：ストッププロファイリング"
-
-  "Menu: Switch to session"
-  "????? ????: ????"
-
-  "Menu: Toggle comment"
-  "????????????:"
-
-  "Menu: Toggle split view mode"
-  "メニュー：トグル分割ビューモード"
-
-  "Menu: Undo"
-  "メニュー：元に戻す"
-
-  "Menu: Unfavorite file"
-  "メニュー：気に入らないファイル"
-
-  "Menu: Unindent selected text"
-  "メニュー：インデント解除選択したテキスト"
-
-  "Menu: Uninstall plugin"
-  "メニュー：アンプラグ"
-
-  "Menu: Unlock file"
-  "メニュー：ロック解除ファイル"
-
-  "Menu: View User Guide"
-  "メニュー：表示ユーザガイド"
-
-  "Menu: View base preferences file"
-  "メニュー: 表示基本設定ファイル"
-
-  "Menu: View global menu bindings"
-  "メニュー：表示グローバルメニューバインディング"
-
   "Merge Panes"
   "????????????"
 
@@ -658,6 +520,18 @@ msgcat::mcmset ja {
 
   "Plugins"
   "プラグイン"
+
+  "Plugins Menu: Create new plugin"
+  "プラグイン メニュー: 作成新しいプラグイン"
+
+  "Plugins Menu: Install plugin"
+  "プラグイン メニュー: インストールのプラグイン"
+
+  "Plugins Menu: Reload all plugins"
+  "プラグイン メニュー: は、すべてのプラグインを再読み込み"
+
+  "Plugins Menu: Uninstall plugin"
+  "プラグイン メニュー: プラグインをアンインストールします。"
 
   "Preferences"
   "選好"
@@ -727,6 +601,24 @@ msgcat::mcmset ja {
 
   "Sessions"
   "?????"
+
+  "Sessions Menu: Close current session"
+  "セッション ・ メニュー: 現在のセッションを閉じる"
+
+  "Sessions Menu: Delete session"
+  "セッション ・ メニュー: 削除セッション"
+
+  "Sessions Menu: Open session"
+  "セッション ・ メニュー: オープン セッション"
+
+  "Sessions Menu: Save current session"
+  "セッション ・ メニュー: 現在のセッションを保存します。"
+
+  "Sessions Menu: Save sessions as"
+  "セッション ・ メニュー: としてセッションを保存します。"
+
+  "Sessions Menu: Switch to session"
+  "セッションにセッション ・ メニュー: スイッチ"
 
   "Set Syntax"
   "構文を設定"
@@ -800,6 +692,24 @@ msgcat::mcmset ja {
   "Text"
   "Text"
 
+  "Text Menu: Align cursors"
+  "テキスト メニュー: カーソルの位置合わせ"
+
+  "Text Menu: Indent selected text"
+  "テキスト メニュー: 選択したテキストにインデントを設定します。"
+
+  "Text Menu: Insert enumeration"
+  "テキスト メニュー: 挿入列挙"
+
+  "Text Menu: Replace line with script"
+  "テキスト メニュー: スクリプト行を置き換えます"
+
+  "Text Menu: Toggle comment"
+  "テキスト メニュー: コメント切り替え"
+
+  "Text Menu: Unindent selected text"
+  "テキスト メニュー: 選択したテキストのインデントを解除します。"
+
   "Theme Creator"
   "テーマ作成者"
 
@@ -808,6 +718,36 @@ msgcat::mcmset ja {
 
   "Tools"
   "道具"
+
+  "Tools Menu: Create new theme"
+  "[ツール] メニュー: 新しいテーマを作成します。"
+
+  "Tools Menu: Disable Vim mode"
+  "[ツール] メニュー: Vim モードを無効にします。"
+
+  "Tools Menu: Edit Tke theme"
+  "[ツール] メニュー: Tke のテーマを編集します。"
+
+  "Tools Menu: Enable Vim mode"
+  "[ツール] メニュー: Vim モードを有効にします。"
+
+  "Tools Menu: Import TextMate theme"
+  "[ツール] メニュー: インポート TextMate のテーマ"
+
+  "Tools Menu: Restart tke"
+  "[ツール] メニュー: 再起動 tke"
+
+  "Tools Menu: Show Diagnostic Logfile"
+  "[ツール] メニュー: 診断ログ ファイルを表示します。"
+
+  "Tools Menu: Show last profiling report"
+  "[ツール] メニュー: 最後のプロファイリング レポートを表示します。"
+
+  "Tools Menu: Start profiling"
+  "[ツール] メニュー: プロファイリングを開始します。"
+
+  "Tools Menu: Stop profiling"
+  "[ツール] メニュー: プロファイリングを停止します。"
 
   "Undo"
   "アンドゥ"
@@ -832,6 +772,66 @@ msgcat::mcmset ja {
 
   "View Global"
   "グローバル ビュー"
+
+  "View Menu: Goto last tab"
+  "[表示] メニュー: 後藤最後のタブ"
+
+  "View Menu: Goto next tab"
+  "[表示] メニュー: 後藤次のタブ"
+
+  "View Menu: Goto other pane"
+  "[表示] メニュー: 後藤他ペイン"
+
+  "View Menu: Goto previous tab"
+  "[表示] メニュー: 後藤前のタブ"
+
+  "View Menu: Hide Line Numbers"
+  "[表示] メニュー: 行番号を非表示します。"
+
+  "View Menu: Hide Tab Bar"
+  "[表示] メニュー: タブ バーの非表示"
+
+  "View Menu: Hide console"
+  "[表示] メニュー: 非表示コンソール"
+
+  "View Menu: Hide meta characters"
+  "[表示] メニュー: メタ文字を非表示します。"
+
+  "View Menu: Hide sidebar"
+  "[表示] メニュー: 非表示サイドバー"
+
+  "View Menu: Hide status bar"
+  "[表示] メニュー: ステータス バーの非表示"
+
+  "View Menu: Merge panes"
+  "[表示] メニュー: マージ ウィンドウ"
+
+  "View Menu: Move to other pane"
+  "他のウィンドウに移動する [表示] メニュー。"
+
+  "View Menu: Show Line Numbers"
+  "[表示] メニュー: 行番号を表示します。"
+
+  "View Menu: Show Tab Bar"
+  "[表示] メニュー: タブ バーを表示"
+
+  "View Menu: Show console"
+  "[表示] メニュー: 表示コンソール"
+
+  "View Menu: Show meta characters"
+  "[表示] メニュー: メタ文字を表示します。"
+
+  "View Menu: Show sidebar"
+  "[表示] メニュー: ショー ・ サイドバー"
+
+  "View Menu: Show status bar"
+  "[表示] メニュー: ステータス バーを表示します。"
+
+  "View Menu: Sort tabs"
+  "[表示] メニュー: 並び替えタブ"
+
+  "View Menu: Toggle split view mode"
+  "[表示] メニュー: トグル分割表示モード"
 
   "Vim Mode"
   "Vimのモード"
