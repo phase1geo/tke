@@ -48,7 +48,7 @@ namespace eval snippets {
 
   ######################################################################
   # Reloads the current snippet.
-  proc reload_snippets {} {
+  proc reload_snippets {tid} {
 
     # Get the current language
     set language [syntax::get_current_language [gui::current_txt $tid]]
@@ -60,7 +60,7 @@ namespace eval snippets {
 
   ######################################################################
   # Load the snippets file.
-  proc set_language {language} {
+  proc set_language {language {dummy 0}} {
 
     variable snippets_dir
     variable snippets

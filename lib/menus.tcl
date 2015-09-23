@@ -663,8 +663,8 @@ namespace eval menus {
 
     $mb.snipPopup add separator
 
-    $mb.snipPopup add command -label [msgcat::mc "Reload"] -command "snippets::reload_snippets"
-    launcher::register [msgcat::mc "Edit Menu: Reload snippets"] "snippets::reload_snippets"
+    $mb.snipPopup add command -label [msgcat::mc "Reload"] -command "snippets::reload_snippets {}"
+    launcher::register [msgcat::mc "Edit Menu: Reload snippets"] "snippets::reload_snippets {}"
 
   }
 
