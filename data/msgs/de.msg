@@ -194,6 +194,84 @@ msgcat::mcmset de {
   "Edit Language"
   "Sprachen bearbeiten"
 
+  "Edit Menu Edit user snippets"
+  "Bearbeiten Sie im Menü Bearbeiten von Benutzer-Ausschnitte"
+
+  "Edit Menu: Copy text"
+  "Im Bearbeitungsmenü: Text kopieren"
+
+  "Edit Menu: Cut text"
+  "Im Bearbeitungsmenü: Text Ausschneiden"
+
+  "Edit Menu: Edit language snippets"
+  "Bearbeitungsmenü: Bearbeiten-Sprache-Ausschnitte"
+
+  "Edit Menu: Edit session current language preferences"
+  "Bearbeitungsmenü: Aktuellen Spracheinstellungen bearbeiten-Sitzung"
+
+  "Edit Menu: Edit session global preferences"
+  "Im Bearbeitungsmenü: Sitzung globale Einstellungen bearbeiten"
+
+  "Edit Menu: Edit user current language preferences"
+  "Bearbeitungsmenü: Aktuellen Spracheinstellungen bearbeiten-Benutzer"
+
+  "Edit Menu: Edit user global preferences"
+  "Im Bearbeitungsmenü: Benutzer globale Einstellungen bearbeiten"
+
+  "Edit Menu: Edit user menu bindings"
+  "Im Bearbeitungsmenü: Bearbeiten Sie Benutzer-Menü-Bindungen"
+
+  "Edit Menu: Format all text"
+  "Im Bearbeitungsmenü: Alle Text formatieren"
+
+  "Edit Menu: Format selected text"
+  "Im Bearbeitungsmenü: Ausgewählten Text formatieren"
+
+  "Edit Menu: Insert from clipboard"
+  "Im Bearbeitungsmenü: Fügen Sie aus Zwischenablage ein"
+
+  "Edit Menu: Insert snippet"
+  "Im Bearbeitungsmenü: Einfügen-Ausschnitt"
+
+  "Edit Menu: Paste and format text from clipboard"
+  "Im Bearbeitungsmenü: Einfügen und das Format Text aus Zwischenablage"
+
+  "Edit Menu: Paste text from clipboard"
+  "Im Bearbeitungsmenü: Text aus Zwischenablage einfügen"
+
+  "Edit Menu: Redo"
+  "Menü Bearbeiten: wiederholen"
+
+  "Edit Menu: Reload snippets"
+  "Im Bearbeitungsmenü: Reload-Ausschnitte"
+
+  "Edit Menu: Select all text"
+  "Im Bearbeitungsmenü: Markieren des gesamten Texts"
+
+  "Edit Menu: Set indent mode to IND"
+  "Im Bearbeitungsmenü: Gedankenstrich-Modus auf IND festgelegt"
+
+  "Edit Menu: Set indent mode to IND+"
+  "Im Bearbeitungsmenü: Set Einzug Modus IND +"
+
+  "Edit Menu: Set indent mode to OFF"
+  "Im Bearbeitungsmenü: Gedankenstrich-Modus auf OFF festgelegt."
+
+  "Edit Menu: Set user bindings to global bindings"
+  "Im Bearbeitungsmenü: Legen Sie Benutzer-Bindungen auf globale Bindungen"
+
+  "Edit Menu: Set user preferences to global preferences"
+  "Im Bearbeitungsmenü: Legen Sie Benutzereinstellungen auf globale Einstellungen"
+
+  "Edit Menu: Undo"
+  "Menü Bearbeiten: rückgängig machen"
+
+  "Edit Menu: View base preferences file"
+  "Im Bearbeitungsmenü: Basis-Einstellungen-Datei anzeigen"
+
+  "Edit Menu: View global menu bindings"
+  "Bearbeitungsmenü: Ansicht-Menü \"
+
   "Edit Session - Global"
   "Session - Global bearbeiten"
 
@@ -215,6 +293,54 @@ msgcat::mcmset de {
   "File"
   "Feile"
 
+  "File Menu: Close all tabs"
+  "Im Dateimenü: Alle Tabs schließen"
+
+  "File Menu: Close current tab"
+  "Im Dateimenü: Aktuellen Tab schließen"
+
+  "File Menu: Favorite file"
+  "Im Dateimenü: Favorit-Datei"
+
+  "File Menu: Lock file"
+  "Im Dateimenü: Lock-Datei"
+
+  "File Menu: New file"
+  "Im Dateimenü: Neue Datei"
+
+  "File Menu: Open Favorite"
+  "Im Dateimenü: Offene Favorit"
+
+  "File Menu: Open Recent"
+  "Im Dateimenü: Öffnen Sie den letzten"
+
+  "File Menu: Open directory"
+  "Im Dateimenü: Open directory"
+
+  "File Menu: Open file"
+  "Dateimenü: Datei öffnen"
+
+  "File Menu: Quit application"
+  "Im Dateimenü: Programm beenden"
+
+  "File Menu: Save all files"
+  "Im Dateimenü: Speichern Sie alle Dateien"
+
+  "File Menu: Save file"
+  "Dateimenü: Datei speichern"
+
+  "File Menu: Save file as"
+  "Im Dateimenü: Speichern Sie als Datei"
+
+  "File Menu: Show file difference"
+  "Im Dateimenü: Karte Datei Unterschied"
+
+  "File Menu: Unfavorite file"
+  "Im Dateimenü: Unfavorite Datei"
+
+  "File Menu: Unlock file"
+  "Im Dateimenü: Unlock Datei"
+
   "Find"
   "Finden"
 
@@ -223,6 +349,54 @@ msgcat::mcmset de {
 
   "Find Matching Pair"
   "Passende paar zu finden"
+
+  "Find Menu: Append next occurrence"
+  "Im Menü suchen: Append Suchbegriffes"
+
+  "Find Menu: Create marker at current line"
+  "Im Menü suchen: Markierung zur aktuellen Zeile erstellen"
+
+  "Find Menu: Find"
+  "Im Menü finden: finden"
+
+  "Find Menu: Find and Replace"
+  "Im Menü suchen: Suchen und ersetzen"
+
+  "Find Menu: Find in files"
+  "Im Menü suchen: Suchen in Dateien"
+
+  "Find Menu: Find matching character pair"
+  "Im Menü suchen: Finden Sie passende paar Zeichen"
+
+  "Find Menu: Find next occurrence"
+  "Im Menü suchen: Findet das nächste Vorkommen"
+
+  "Find Menu: Find previous occurrence"
+  "Im Menü suchen: Findet das vorherige Vorkommen"
+
+  "Find Menu: Goto next difference"
+  "Im Menü suchen: Goto weiter Unterschied"
+
+  "Find Menu: Goto previous difference"
+  "Im Menü suchen: Goto Vorheriger Unterschied"
+
+  "Find Menu: Jump backward"
+  "Im Menü suchen: Rückwärts springen"
+
+  "Find Menu: Jump forward"
+  "Im Menü suchen: Sprung nach vorn"
+
+  "Find Menu: Remove all markers"
+  "Im Menü suchen: Entfernen Sie alle Markierungen"
+
+  "Find Menu: Remove marker from current line"
+  "Im Menü suchen: Markierung aus der aktuellen Zeile entfernen"
+
+  "Find Menu: Select all occurrences"
+  "Im Menü suchen: Wählen Sie alle Vorkommen"
+
+  "Find Menu: Show selected line change"
+  "Im Menü suchen: Karte ausgewählte Zeile ändern"
 
   "Find and Replace"
   "Suchen und Ersetzen"
@@ -247,6 +421,21 @@ msgcat::mcmset de {
 
   "Help"
   "Hilfe"
+
+  "Help Menu: About TKE"
+  "Hilfe-Menü: Über TKE"
+
+  "Help Menu: Check for Update"
+  "Menü \"
+
+  "Help Menu: Send Bug Report"
+  "Menü \"
+
+  "Help Menu: Send Feedback"
+  "Menü \"
+
+  "Help Menu: View User Guide"
+  "Hilfe-Menü: Ansicht-Benutzerhandbuch"
 
   "Hide Console"
   "Ausblenden Console"
@@ -305,333 +494,6 @@ msgcat::mcmset de {
   "Menu Bindings"
   "Menü Bindungen"
 
-  "Menu Edit user snippets"
-  "Menü Bearbeiten Benutzer Ausschnitte"
-
-  "Menu: About TKE"
-  "Menü: Über TKE"
-
-  "Menu: Align cursors"
-  "Menü: Richten Cursor"
-
-  "Menu: Append next occurrence"
-  "Menü: anhängen nächste Vorkommen"
-
-  "Menu: Check for Update"
-  "Nach Update suchen"
-
-  "Menu: Close all tabs"
-  "Alle Tabs schließen"
-
-  "Menu: Close current session"
-  "Menü: Aktuelle Sitzung, schließen"
-
-  "Menu: Close current tab"
-  "Aktuelles Unterfenster schließen"
-
-  "Menu: Copy text"
-  "Menü: Text kopieren"
-
-  "Menu: Create marker at current line"
-  "Menü: Marker zur aktuellen Zeile erstellen"
-
-  "Menu: Create new plugin"
-  "Menü: Neues Plugin"
-
-  "Menu: Create new theme"
-  "Neues Design erstellen..."
-
-  "Menu: Cut text"
-  ": Menütext Cut"
-
-  "Menu: Delete session"
-  "Menü: Delete-Sitzung"
-
-  "Menu: Disable Vim mode"
-  "Menü: Deaktivieren Vim-Modus"
-
-  "Menu: Edit Tke theme"
-  "Menü: Bearbeiten Tke Thema"
-
-  "Menu: Edit language snippets"
-  "Menü: Bearbeiten-Sprache-Ausschnitte"
-
-  "Menu: Edit session current language preferences"
-  "Menü: Bearbeiten Sie Sitzung aktuellen Spracheinstellungen"
-
-  "Menu: Edit session global preferences"
-  "Menü: Bearbeiten Sie globale Sitzungseinstellungen"
-
-  "Menu: Edit user current language preferences"
-  "Menü: Bearbeiten Sie aktuelle Sprache Benutzereinstellungen."
-
-  "Menu: Edit user global preferences"
-  "Menü: Bearbeiten Sie Benutzer globale Voreinstellungen"
-
-  "Menu: Edit user menu bindings"
-  "Menü: Bearbeiten Benutzermenü Bindungen"
-
-  "Menu: Enable Vim mode"
-  "Menü: Aktivieren Vim-Modus"
-
-  "Menu: Favorite file"
-  "Menü: Lieblings Datei"
-
-  "Menu: Find"
-  "Menü: Finden"
-
-  "Menu: Find and Replace"
-  "Suchen und Ersetzen"
-
-  "Menu: Find in files"
-  "Menü: Suche in Dateien"
-
-  "Menu: Find matching character pair"
-  "Menü: Finden Sie passende Charakter Paar"
-
-  "Menu: Find next occurrence"
-  "Menü: Nächstes Vorkommen"
-
-  "Menu: Find previous occurrence"
-  "Menü: Finden vorherige Vorkommen"
-
-  "Menu: Format all text"
-  "Menü: Formatieren Sie den gesamten Text"
-
-  "Menu: Format selected text"
-  "Menü: Format markierten Text"
-
-  "Menu: Goto last tab"
-  "Menü: Springen letzten Reiter"
-
-  "Menu: Goto next difference"
-  "Menü: Goto weiter Unterschied"
-
-  "Menu: Goto next tab"
-  "Menü: Gehe nächste Register"
-
-  "Menu: Goto other pane"
-  "Menü: Springen anderen Fensterbereich"
-
-  "Menu: Goto previous difference"
-  "Menü: Goto Vorheriger Unterschied"
-
-  "Menu: Goto previous tab"
-  "Menü: Springen vorherigen Registerkarte"
-
-  "Menu: Hide Line Numbers"
-  "Menü: Ausblenden Zeilennummern"
-
-  "Menu: Hide Tab Bar"
-  "Menü: Hide Tab Bar"
-
-  "Menu: Hide console"
-  "Menü: Konsole ausblenden"
-
-  "Menu: Hide meta characters"
-  "Menü: Ausblenden von Meta-Zeichen"
-
-  "Menu: Hide sidebar"
-  "Menü: Sidebar ausblenden"
-
-  "Menu: Hide status bar"
-  "Statusanzeige ausblenden"
-
-  "Menu: Import TextMate theme"
-  "Menü: Import TextMate Thema"
-
-  "Menu: Indent selected text"
-  "Menü: Text einzurücken ausgewählt"
-
-  "Menu: Insert enumeration"
-  "Menü: Legen Aufzählung"
-
-  "Menu: Insert from clipboard"
-  "Einfügen per Zwischenablage"
-
-  "Menu: Insert snippet"
-  "Menü: Einfügen Snippet"
-
-  "Menu: Install plugin"
-  "Menü: Plugin installieren"
-
-  "Menu: Jump backward"
-  "Menü: Rückwärts springen"
-
-  "Menu: Jump forward"
-  "Menü: Sprung nach vorn"
-
-  "Menu: Lock file"
-  "Menü: Lock-Datei"
-
-  "Menu: Merge panes"
-  ": Menüleisten Merge"
-
-  "Menu: Move to other pane"
-  "Menü: auf andere Fenster verschieben"
-
-  "Menu: New file"
-  "Menü: Neue Datei"
-
-  "Menu: Open Favorite"
-  "Menü: Open Lieblings"
-
-  "Menu: Open Recent"
-  "Menü: Öffnen zuletzt"
-
-  "Menu: Open directory"
-  "Menü: Öffnen eines Verzeichnis-"
-
-  "Menu: Open file"
-  "Menü: Öffnen Sie die Datei"
-
-  "Menu: Open session"
-  "Menü: Offene Sitzung"
-
-  "Menu: Paste and format text from clipboard"
-  "Menü: Einfügen und Formatieren von Text aus der Zwischenablage"
-
-  "Menu: Paste text from clipboard"
-  "Text aus Zwischenablage einfügen"
-
-  "Menu: Quit application"
-  "Menü: Quit Anwendung"
-
-  "Menu: Redo"
-  "Menü: Redo"
-
-  "Menu: Reload all plugins"
-  "Menü: alle Plugins neu laden"
-
-  "Menu: Reload snippets"
-  "Menü: Reload Ausschnitte"
-
-  "Menu: Remove all markers"
-  "Menü: Entfernen Sie alle Markierungen"
-
-  "Menu: Remove marker from current line"
-  "Menü: Aktuelle Zeile Marker entfernen"
-
-  "Menu: Replace line with script"
-  "Menü: Ersetze Zeile mit Skript"
-
-  "Menu: Restart tke"
-  "Menü: Starten tke"
-
-  "Menu: Save all files"
-  "Menü: Speichern Sie alle Dateien"
-
-  "Menu: Save current session"
-  "Menü: Speichern Sie aktuelle Sitzung"
-
-  "Menu: Save file"
-  "Menü: Datei speichern"
-
-  "Menu: Save file as"
-  "Menü: Datei speichern"
-
-  "Menu: Save sessions as"
-  "Menü: Speichern Sie Sitzungen als"
-
-  "Menu: Select all occurrences"
-  "Menü: Wählen Sie alle Vorkommen"
-
-  "Menu: Select all text"
-  "Gesamten Text auswählen"
-
-  "Menu: Send Bug Report"
-  "Menü: Send-Bug-Report"
-
-  "Menu: Send Feedback"
-  "Menü: Feedback senden"
-
-  "Menu: Set indent mode to IND"
-  "Menü: IND Gedankenstrich-Modus gesetzt."
-
-  "Menu: Set indent mode to IND+"
-  "Menü: Gedankenstrich-Modus auf IND + festgelegt."
-
-  "Menu: Set indent mode to OFF"
-  "Menü: Gedankenstrich-Modus auf OFF festgelegt."
-
-  "Menu: Set user bindings to global bindings"
-  "Menü: Einrichten von Benutzer Bindungen zu globalen Bindungen"
-
-  "Menu: Set user preferences to global preferences"
-  "Menü: Legen Sie die Benutzereinstellungen zu globalen Einstellungen"
-
-  "Menu: Show Diagnostic Logfile"
-  "Menü: Show Diagnose Logfile"
-
-  "Menu: Show Line Numbers"
-  "Menü: Zeilennummern anzeigen"
-
-  "Menu: Show Tab Bar"
-  "Menü: Show Tab Bar"
-
-  "Menu: Show console"
-  "Menü: Show-Konsole"
-
-  "Menu: Show file difference"
-  "Menü: Karte Datei Unterschied"
-
-  "Menu: Show last profiling report"
-  "Menü: anzeigen Profilierung letzten Bericht"
-
-  "Menu: Show meta characters"
-  "Menü: Meta-Zeichen anzeigen"
-
-  "Menu: Show selected line change"
-  "Menü: Anzeigen aktiviert Zeile ändern"
-
-  "Menu: Show sidebar"
-  "Menü: Seitenleiste anzeigen"
-
-  "Menu: Show status bar"
-  "Status einblenden"
-
-  "Menu: Sort tabs"
-  "Menü: Sortieren Registerkarten"
-
-  "Menu: Start profiling"
-  "Menü: Start-Profiling"
-
-  "Menu: Stop profiling"
-  "Menü: Stop-Profiling"
-
-  "Menu: Switch to session"
-  "Menü: Switch-Sitzung"
-
-  "Menu: Toggle comment"
-  "Menü: Toggle Kommentar"
-
-  "Menu: Toggle split view mode"
-  "Menü: Toggle-Split-Ansicht-Modus"
-
-  "Menu: Undo"
-  "Menü: Rückgängig"
-
-  "Menu: Unfavorite file"
-  "Menü: Datei Unfavorite"
-
-  "Menu: Unindent selected text"
-  "Menü: Unindent ausgewählten Text"
-
-  "Menu: Uninstall plugin"
-  "Menü: Uninstall plugin"
-
-  "Menu: Unlock file"
-  "Menü: Datei entsperren"
-
-  "Menu: View User Guide"
-  "Menü: Ansicht Benutzerhandbuch"
-
-  "Menu: View base preferences file"
-  "Menü: Ansicht-Basis-Voreinstellungsdatei"
-
-  "Menu: View global menu bindings"
-  "Menü: Globale Menü Bindungen"
-
   "Merge Panes"
   "Zusammenführen von Scheiben"
 
@@ -658,6 +520,18 @@ msgcat::mcmset de {
 
   "Plugins"
   "Plugins"
+
+  "Plugins Menu: Create new plugin"
+  "Plugins-Menü: Neues Plugin erstellen"
+
+  "Plugins Menu: Install plugin"
+  "Plugins-Menü: Install plugin"
+
+  "Plugins Menu: Reload all plugins"
+  "Plugins-Menü: Reload alle plugins"
+
+  "Plugins Menu: Uninstall plugin"
+  "Plugins-Menü: Uninstall plugin"
 
   "Preferences"
   "Präferenzen"
@@ -727,6 +601,24 @@ msgcat::mcmset de {
 
   "Sessions"
   "zur Verfügung steht."
+
+  "Sessions Menu: Close current session"
+  "Sessions-Menü: Aktuelle Sitzung schließen"
+
+  "Sessions Menu: Delete session"
+  "Sessions-Menü: Delete-Sitzung"
+
+  "Sessions Menu: Open session"
+  "Sessions-Menü: Offene Sitzung"
+
+  "Sessions Menu: Save current session"
+  "Sessions-Menü: Speichern Sie aktuelle Sitzung"
+
+  "Sessions Menu: Save sessions as"
+  "Sessions-Menü: Speichern Sie Sitzungen als"
+
+  "Sessions Menu: Switch to session"
+  "Sessions-Menü: Wechseln Sie zur Sitzung"
 
   "Set Syntax"
   "Stellen Syntax"
@@ -800,6 +692,24 @@ msgcat::mcmset de {
   "Text"
   "Text"
 
+  "Text Menu: Align cursors"
+  "Text-Menü: Ausrichten Cursor"
+
+  "Text Menu: Indent selected text"
+  "Text-Menü: Ausgewählten Text Einrücken"
+
+  "Text Menu: Insert enumeration"
+  "Text-Menü: Einfügen-enumeration"
+
+  "Text Menu: Replace line with script"
+  "Text-Menü: Ersetze Zeile mit Skript"
+
+  "Text Menu: Toggle comment"
+  "Text-Menü: Toggle Kommentar"
+
+  "Text Menu: Unindent selected text"
+  "Text-Menü: Unindent markierten text"
+
   "Theme Creator"
   "Theme Creator"
 
@@ -808,6 +718,36 @@ msgcat::mcmset de {
 
   "Tools"
   "Instrument"
+
+  "Tools Menu: Create new theme"
+  "Extras: Neues Thema erstellen"
+
+  "Tools Menu: Disable Vim mode"
+  "Extras: Vim-Modus deaktivieren"
+
+  "Tools Menu: Edit Tke theme"
+  "Extras: Bearbeiten Sie Tke-Designs"
+
+  "Tools Menu: Enable Vim mode"
+  "Extras: Vim-Modus aktivieren"
+
+  "Tools Menu: Import TextMate theme"
+  "Extras: Import TextMate Thema"
+
+  "Tools Menu: Restart tke"
+  "Extras: Neustart tke"
+
+  "Tools Menu: Show Diagnostic Logfile"
+  "Extras: Show diagnostische Logfile"
+
+  "Tools Menu: Show last profiling report"
+  "Extras: Show letzten profiling Bericht"
+
+  "Tools Menu: Start profiling"
+  "Extras: Profilerstellung starten."
+
+  "Tools Menu: Stop profiling"
+  "Extras: Profilerstellung beenden"
 
   "Undo"
   "Rückgängig"
@@ -832,6 +772,66 @@ msgcat::mcmset de {
 
   "View Global"
   "Ansicht Global"
+
+  "View Menu: Goto last tab"
+  "Im Ansichtsmenü: Goto letzten tab"
+
+  "View Menu: Goto next tab"
+  "Im Ansichtsmenü: Goto nächste Registerkarte"
+
+  "View Menu: Goto other pane"
+  "Menü \"
+
+  "View Menu: Goto previous tab"
+  "Im Ansichtsmenü: Goto vorherigen Registerkarte"
+
+  "View Menu: Hide Line Numbers"
+  "Im Ansichtsmenü: Ausblenden von Zeilennummern"
+
+  "View Menu: Hide Tab Bar"
+  "Im Ansichtsmenü: Hide Tab-Leiste"
+
+  "View Menu: Hide console"
+  "Im Ansichtsmenü: Ausblenden-Konsole"
+
+  "View Menu: Hide meta characters"
+  "Im Ansichtsmenü: Ausblenden von Meta-Zeichen"
+
+  "View Menu: Hide sidebar"
+  "Im Ansichtsmenü: Hide sidebar"
+
+  "View Menu: Hide status bar"
+  "Im Ansichtsmenü: Ausblenden Sie Statusleiste"
+
+  "View Menu: Merge panes"
+  ": Ansicht Merge Menüleisten"
+
+  "View Menu: Move to other pane"
+  "Menü \"
+
+  "View Menu: Show Line Numbers"
+  "Menü \"
+
+  "View Menu: Show Tab Bar"
+  "Im Ansichtsmenü: Karte-Tab-Leiste"
+
+  "View Menu: Show console"
+  "Im Ansichtsmenü: Show-Konsole"
+
+  "View Menu: Show meta characters"
+  "Im Ansichtsmenü: Meta-Zeichen anzeigen"
+
+  "View Menu: Show sidebar"
+  "Im Ansichtsmenü: Karte Seitenleiste"
+
+  "View Menu: Show status bar"
+  "Im Ansichtsmenü: Statusleiste anzeigen"
+
+  "View Menu: Sort tabs"
+  "Im Ansichtsmenü: Sort tabs"
+
+  "View Menu: Toggle split view mode"
+  "Im Ansichtsmenü: Toggle geteilter Ansichtsmodus"
 
   "Vim Mode"
   "Vim-Modus"

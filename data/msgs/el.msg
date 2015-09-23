@@ -194,6 +194,84 @@ msgcat::mcmset el {
   "Edit Language"
   "Επεξεργασία Γλώσσας"
 
+  "Edit Menu Edit user snippets"
+  "Επεξεργαστείτε το μενού Επεξεργασία χρήστη αποσπάσματα"
+
+  "Edit Menu: Copy text"
+  "Μενού \"
+
+  "Edit Menu: Cut text"
+  "Μενού \"
+
+  "Edit Menu: Edit language snippets"
+  "Μενού \"
+
+  "Edit Menu: Edit session current language preferences"
+  "Μενού \"
+
+  "Edit Menu: Edit session global preferences"
+  "Μενού \"
+
+  "Edit Menu: Edit user current language preferences"
+  "Μενού \"
+
+  "Edit Menu: Edit user global preferences"
+  "Μενού \"
+
+  "Edit Menu: Edit user menu bindings"
+  "Μενού \"
+
+  "Edit Menu: Format all text"
+  "Μενού \"
+
+  "Edit Menu: Format selected text"
+  "Μενού \"
+
+  "Edit Menu: Insert from clipboard"
+  "Μενού \"
+
+  "Edit Menu: Insert snippet"
+  "Μενού \"
+
+  "Edit Menu: Paste and format text from clipboard"
+  "Μενού \"
+
+  "Edit Menu: Paste text from clipboard"
+  "Μενού \"
+
+  "Edit Menu: Redo"
+  "Επεξεργαστείτε τα μενού: Ακύρωση αναίρεσης"
+
+  "Edit Menu: Reload snippets"
+  "Μενού \"
+
+  "Edit Menu: Select all text"
+  "Μενού \"
+
+  "Edit Menu: Set indent mode to IND"
+  "Μενού \"
+
+  "Edit Menu: Set indent mode to IND+"
+  "Μενού \"
+
+  "Edit Menu: Set indent mode to OFF"
+  "Μενού \"
+
+  "Edit Menu: Set user bindings to global bindings"
+  "Μενού \"
+
+  "Edit Menu: Set user preferences to global preferences"
+  "Μενού \"
+
+  "Edit Menu: Undo"
+  "Επεξεργαστείτε τα μενού: αναίρεση"
+
+  "Edit Menu: View base preferences file"
+  "Μενού \"
+
+  "Edit Menu: View global menu bindings"
+  "Μενού \"
+
   "Edit Session - Global"
   "?????????????? ???????? - ?????????"
 
@@ -215,6 +293,54 @@ msgcat::mcmset el {
   "File"
   "Αρχείο"
 
+  "File Menu: Close all tabs"
+  "Μενού αρχείο: Κλείσιμο όλων των καρτελών"
+
+  "File Menu: Close current tab"
+  "Μενού αρχείο: Κλείνω τρέχων ετικέτα"
+
+  "File Menu: Favorite file"
+  "Μενού αρχείου: Αγαπημένο αρχείο"
+
+  "File Menu: Lock file"
+  "Μενού αρχείο: Αρχείο κλείδωμα"
+
+  "File Menu: New file"
+  "Μενού αρχείο: Νέο αρχείο"
+
+  "File Menu: Open Favorite"
+  "Μενού αρχείο: Ανοικτή αγαπημένο"
+
+  "File Menu: Open Recent"
+  "Μενού αρχείο: Άνοιγμα πρόσφατες"
+
+  "File Menu: Open directory"
+  "Μενού αρχείο: Open directory"
+
+  "File Menu: Open file"
+  "Μενού αρχείο: Ανοίξτε το αρχείο"
+
+  "File Menu: Quit application"
+  "Μενού αρχείο: Κλείστε την εφαρμογή"
+
+  "File Menu: Save all files"
+  "Μενού αρχείο: Αποθηκεύσετε όλα τα αρχεία"
+
+  "File Menu: Save file"
+  "Μενού αρχείο: Αποθήκευση αρχείου"
+
+  "File Menu: Save file as"
+  "Μενού αρχείο: Αποθηκεύστε το αρχείο ως"
+
+  "File Menu: Show file difference"
+  "Μενού αρχείο: Εμφάνιση αρχείο διαφορά"
+
+  "File Menu: Unfavorite file"
+  "Μενού αρχείο: Αρχείο Unfavorite"
+
+  "File Menu: Unlock file"
+  "Μενού αρχείο: Ξεκλειδώσετε αρχείο"
+
   "Find"
   "Find"
 
@@ -223,6 +349,54 @@ msgcat::mcmset el {
 
   "Find Matching Pair"
   "?????? ?????????? ??????"
+
+  "Find Menu: Append next occurrence"
+  "Find μενού: Προσάρτηση εµφάνιση"
+
+  "Find Menu: Create marker at current line"
+  "Find μενού: Δημιουργία δείκτη στην τρέχουσα γραμμή"
+
+  "Find Menu: Find"
+  "Βρείτε το μενού: βρείτε"
+
+  "Find Menu: Find and Replace"
+  "Find μενού: Εύρεση και αντικατάσταση"
+
+  "Find Menu: Find in files"
+  "Find μενού: Βρείτε στα αρχεία"
+
+  "Find Menu: Find matching character pair"
+  "Find μενού: Βρείτε ταιριάζουν ζεύγος χαρακτήρα"
+
+  "Find Menu: Find next occurrence"
+  "Find μενού: Βρείτε την επόμενη εμφάνιση"
+
+  "Find Menu: Find previous occurrence"
+  "Find μενού: Βρείτε την προηγούμενη εμφάνιση"
+
+  "Find Menu: Goto next difference"
+  "Find μενού: Goto επόμενο διαφορά"
+
+  "Find Menu: Goto previous difference"
+  "Μενού Εύρεση: Προηγούμενη διαφορά Goto"
+
+  "Find Menu: Jump backward"
+  "Find μενού: Άλμα προς τα πίσω"
+
+  "Find Menu: Jump forward"
+  "Find μενού: Άλμα προς τα εμπρός"
+
+  "Find Menu: Remove all markers"
+  "Find μενού: Αφαιρέσετε όλα δείκτες"
+
+  "Find Menu: Remove marker from current line"
+  "Find μενού: Δείκτη κατάργηση από την τρέχουσα γραμμή"
+
+  "Find Menu: Select all occurrences"
+  "Find μενού: Επιλέξτε όλες τις εμφανίσεις"
+
+  "Find Menu: Show selected line change"
+  "Find μενού: Αλλαγή γραμμής εμφάνιση επιλεγεί"
 
   "Find and Replace"
   "Εύρεση και αντικατάσταση"
@@ -247,6 +421,21 @@ msgcat::mcmset el {
 
   "Help"
   "Βοήθεια"
+
+  "Help Menu: About TKE"
+  "Μενού βοήθειας: Για την ΤΚΕ"
+
+  "Help Menu: Check for Update"
+  "Μενού \"
+
+  "Help Menu: Send Bug Report"
+  "Μενού \"
+
+  "Help Menu: Send Feedback"
+  "Μενού \"
+
+  "Help Menu: View User Guide"
+  "Μενού \"
 
   "Hide Console"
   "Απόκρυψη Console"
@@ -305,333 +494,6 @@ msgcat::mcmset el {
   "Menu Bindings"
   "Δέστρες Μενού"
 
-  "Menu Edit user snippets"
-  "Επεξεργασία μενού χρήστη αποσπάσματα"
-
-  "Menu: About TKE"
-  "Μενού: Σχετικά με ΤΚΕ"
-
-  "Menu: Align cursors"
-  "Μενού: Ευθυγράμμιση δρομείς"
-
-  "Menu: Append next occurrence"
-  "Μενού: Προσάρτηση επόμενη εμφάνιση"
-
-  "Menu: Check for Update"
-  "Μενού: Έλεγχος για ενημέρωση"
-
-  "Menu: Close all tabs"
-  "Μενού: Κλείσιμο όλων των καρτελών"
-
-  "Menu: Close current session"
-  "?????: ????? ???????? ??????? ???????????"
-
-  "Menu: Close current tab"
-  "Κλείσιμο τρέχουσας καρτέλας"
-
-  "Menu: Copy text"
-  "?????: ????????? ????????"
-
-  "Menu: Create marker at current line"
-  "Μενού: Δημιουργία δείκτη στην τρέχουσα γραμμή"
-
-  "Menu: Create new plugin"
-  "Μενού: Δημιουργία νέου plugin"
-
-  "Menu: Create new theme"
-  "Δημιουργία νέου θέματος..."
-
-  "Menu: Cut text"
-  "?????: ???????? ???????"
-
-  "Menu: Delete session"
-  "?????: ???????? ????????"
-
-  "Menu: Disable Vim mode"
-  "Μενού: απενεργοποίηση λειτουργίας Vim"
-
-  "Menu: Edit Tke theme"
-  "Μενού: Επεξεργασία Tke θέμα"
-
-  "Menu: Edit language snippets"
-  "Μενού: Επεξεργασία γλώσσα αποσπάσματα"
-
-  "Menu: Edit session current language preferences"
-  "?????: ??????????? ???????? ????????? ??????????? ???????"
-
-  "Menu: Edit session global preferences"
-  "?????: ??????????? ???????? ????????? ???????????"
-
-  "Menu: Edit user current language preferences"
-  "?????: ??????????? ????????? ??????????? ??????? ??? ??????"
-
-  "Menu: Edit user global preferences"
-  "?????: ??????????? ????????? ??????????? ??????"
-
-  "Menu: Edit user menu bindings"
-  "Δέστρες μενού χρήστη Edit: Μενού"
-
-  "Menu: Enable Vim mode"
-  "Μενού: Ενεργοποίηση λειτουργίας Vim"
-
-  "Menu: Favorite file"
-  "Μενού: Αγαπημένη αρχείο"
-
-  "Menu: Find"
-  "Μενού: Βρείτε"
-
-  "Menu: Find and Replace"
-  "Μενού: Εύρεση και αντικατάσταση"
-
-  "Menu: Find in files"
-  "Αναζήτηση σε αρχεία"
-
-  "Menu: Find matching character pair"
-  "Μενού: Βρείτε ταιριάζουν ζεύγος χαρακτήρα"
-
-  "Menu: Find next occurrence"
-  "Μενού: Βρείτε το επόμενο περιστατικό"
-
-  "Menu: Find previous occurrence"
-  "Μενού: Βρείτε προηγούμενη εμφάνιση"
-
-  "Menu: Format all text"
-  "Μενού: Διαμόρφωση όλο το κείμενο"
-
-  "Menu: Format selected text"
-  "Μενού: Μορφή επιλεγμένο κείμενο"
-
-  "Menu: Goto last tab"
-  "Μενού: Μετάβαση στη τελευταία καρτέλα"
-
-  "Menu: Goto next difference"
-  "Μενού: Goto επόμενο διαφορά"
-
-  "Menu: Goto next tab"
-  "Μενού: Μετάβαση στη επόμενη καρτέλα"
-
-  "Menu: Goto other pane"
-  "Μενού: Μετάβαση άλλες παράθυρο"
-
-  "Menu: Goto previous difference"
-  "Μενού: Προηγούμενη διαφορά Goto"
-
-  "Menu: Goto previous tab"
-  "Μενού: Μετάβαση στη προηγούμενη καρτέλα"
-
-  "Menu: Hide Line Numbers"
-  "Μενού: Απόκρυψη αριθμών γραμμών"
-
-  "Menu: Hide Tab Bar"
-  "Μενού: Απόκρυψη Tab Bar"
-
-  "Menu: Hide console"
-  "Μενού: Απόκρυψη της κονσόλας"
-
-  "Menu: Hide meta characters"
-  "?????: ???????? ???? ??????????"
-
-  "Menu: Hide sidebar"
-  "Μενού: Απόκρυψη sidebar"
-
-  "Menu: Hide status bar"
-  "Μενού: bar Απόκρυψη κατάστασης"
-
-  "Menu: Import TextMate theme"
-  "Μενού: Εισαγωγή TextMate θέμα"
-
-  "Menu: Indent selected text"
-  "Μενού: Περίπτωση επιλεγμένο κείμενο"
-
-  "Menu: Insert enumeration"
-  "Μενού: Εισαγωγή απαρίθμηση"
-
-  "Menu: Insert from clipboard"
-  "Μενού: Εισαγωγή από το πρόχειρο"
-
-  "Menu: Insert snippet"
-  "Μενού: Εισαγωγή απόσπασμα"
-
-  "Menu: Install plugin"
-  "Μενού: Εγκατάσταση plugin"
-
-  "Menu: Jump backward"
-  "Μενού: Άλμα προς τα πίσω"
-
-  "Menu: Jump forward"
-  "Μενού: Άλμα προς τα εμπρός"
-
-  "Menu: Lock file"
-  "Μενού: Αρχείο Lock"
-
-  "Menu: Merge panes"
-  "?????: ?????????? ???????? ?????????"
-
-  "Menu: Move to other pane"
-  "Μενού: Μετακινηθείτε σε άλλο παράθυρο"
-
-  "Menu: New file"
-  "Μενού: Νέο αρχείο"
-
-  "Menu: Open Favorite"
-  "Μενού: Άνοιγμα Αγαπημένα"
-
-  "Menu: Open Recent"
-  "Μενού: Άνοιγμα πρόσφατου"
-
-  "Menu: Open directory"
-  "Μενού: Άνοιγμα τηλεφωνικού καταλόγου"
-
-  "Menu: Open file"
-  "Μενού: Άνοιγμα αρχείου"
-
-  "Menu: Open session"
-  "?????: ??????? ????????"
-
-  "Menu: Paste and format text from clipboard"
-  "Μενού: Επικόλληση και μορφή κειμένου από το πρόχειρο"
-
-  "Menu: Paste text from clipboard"
-  "Επικόλληση κειμένου από το πρόχειρο"
-
-  "Menu: Quit application"
-  "Μενού: Κλείστε την εφαρμογή"
-
-  "Menu: Redo"
-  "Μενού: Επανάληψη"
-
-  "Menu: Reload all plugins"
-  "Μενού: Ανανέωση όλα τα plugins"
-
-  "Menu: Reload snippets"
-  "Μενού: Νέα φόρτωση αποσπάσματα"
-
-  "Menu: Remove all markers"
-  "Μενού: Αφαιρέσετε όλα δείκτες"
-
-  "Menu: Remove marker from current line"
-  "Μενού: Κατάργηση δείκτη από τρέχουσα γραμμή"
-
-  "Menu: Replace line with script"
-  "Μενού: Αντικαταστήστε την γραμμή με σενάριο"
-
-  "Menu: Restart tke"
-  "Μενού: Επανεκκίνηση ΤΚΕ"
-
-  "Menu: Save all files"
-  "Μενού: Αποθήκευση όλων των αρχείων"
-
-  "Menu: Save current session"
-  "?????: ???????????? ??? ???????? ??????? ???????????"
-
-  "Menu: Save file"
-  "Μενού: Αποθηκεύστε το αρχείο"
-
-  "Menu: Save file as"
-  "Μενού: Αποθηκεύστε το αρχείο ως"
-
-  "Menu: Save sessions as"
-  "?????: ????? ????????? ??"
-
-  "Menu: Select all occurrences"
-  "Μενού: Επιλέξτε όλες τις εμφανίσεις"
-
-  "Menu: Select all text"
-  "Επιλογή όλου του κειμένου"
-
-  "Menu: Send Bug Report"
-  "Μενού: Στείλετε αναφορά σφάλματος"
-
-  "Menu: Send Feedback"
-  "Μενού: Αποστολή σχολίων"
-
-  "Menu: Set indent mode to IND"
-  "Μενού: Ρυθμίστε την περίπτωση λειτουργία σε IND"
-
-  "Menu: Set indent mode to IND+"
-  "Μενού: Ρυθμίστε την περίπτωση λειτουργία σε IND +"
-
-  "Menu: Set indent mode to OFF"
-  "Μενού: Οριστεί εντομή μοντέλο στο OFF"
-
-  "Menu: Set user bindings to global bindings"
-  "Μενού: Ορισμός δέστρες χρήστη για την παγκόσμια συνδέσεις"
-
-  "Menu: Set user preferences to global preferences"
-  "Μενού: Ορισμός προτιμήσεων χρήστη στις παγκόσμιες προτιμήσεις"
-
-  "Menu: Show Diagnostic Logfile"
-  "Μενού: Διαγνωστικά Logfile Εμφάνιση"
-
-  "Menu: Show Line Numbers"
-  "Μενού: Εμφάνιση αριθμών γραμμών"
-
-  "Menu: Show Tab Bar"
-  "Μενού: Εμφάνιση Γραμμήκαρτελών"
-
-  "Menu: Show console"
-  "Μενού: Εμφάνιση κονσόλα"
-
-  "Menu: Show file difference"
-  "Μενού: Εμφάνιση αρχείο διαφορά"
-
-  "Menu: Show last profiling report"
-  "Μενού: Δείτε την έκθεση του περασμένου προφίλ"
-
-  "Menu: Show meta characters"
-  "?????: ?????????? ???? ??????????"
-
-  "Menu: Show selected line change"
-  "Μενού: Αλλαγή γραμμής εμφάνιση επιλεγμένο"
-
-  "Menu: Show sidebar"
-  "Μενού: Εμφάνιση sidebar"
-
-  "Menu: Show status bar"
-  "Γραμμή κατάστασης"
-
-  "Menu: Sort tabs"
-  "Μενού: Ταξινόμηση καρτέλες"
-
-  "Menu: Start profiling"
-  "Μενού: Έναρξη προφίλ"
-
-  "Menu: Stop profiling"
-  "Μενού: Σταματήστε προφίλ"
-
-  "Menu: Switch to session"
-  "?????: ???????? ?? ????????"
-
-  "Menu: Toggle comment"
-  "?????: ???????? ??????"
-
-  "Menu: Toggle split view mode"
-  "Μενού: Λειτουργία προβολής διάσπαση Εναλλαγή"
-
-  "Menu: Undo"
-  "Μενού: Αναίρεση"
-
-  "Menu: Unfavorite file"
-  "Μενού: Μη αγαπημένα αρχείο"
-
-  "Menu: Unindent selected text"
-  "Μενού: Κατάργηση εσοχής επιλεγμένο κείμενο"
-
-  "Menu: Uninstall plugin"
-  "Μενού: Κατάργηση plugin"
-
-  "Menu: Unlock file"
-  "Μενού: Ξεκλειδώστε το αρχείο"
-
-  "Menu: View User Guide"
-  "Μενού: Προβολή Οδηγός χρήσης"
-
-  "Menu: View base preferences file"
-  "Μενού: Αρχείο βάσης Προτιμήσεις προβολής"
-
-  "Menu: View global menu bindings"
-  "Μενού: Προβολή παγκόσμια δέστρες μενού"
-
   "Merge Panes"
   "?????????? ???????? ?????????"
 
@@ -658,6 +520,18 @@ msgcat::mcmset el {
 
   "Plugins"
   "Plug-in"
+
+  "Plugins Menu: Create new plugin"
+  "Plugins μενού: Δημιουργήστε νέο plugin"
+
+  "Plugins Menu: Install plugin"
+  "Μενού plugins: Εγκατάσταση plugin"
+
+  "Plugins Menu: Reload all plugins"
+  "Plugins μενού: Φορτώσετε εκ νέου όλα τα plugins"
+
+  "Plugins Menu: Uninstall plugin"
+  "Plugins μενού: Απεγκατάσταση plugin"
 
   "Preferences"
   "Προτιμήσεις"
@@ -727,6 +601,24 @@ msgcat::mcmset el {
 
   "Sessions"
   "?????????"
+
+  "Sessions Menu: Close current session"
+  "Συνεδρίες μενού: Κλείσετε την τρέχουσα περίοδο λειτουργίας"
+
+  "Sessions Menu: Delete session"
+  "Συνεδρίες μενού: Συνεδρία διαγραφή"
+
+  "Sessions Menu: Open session"
+  "Συνεδρίες μενού: Ανοικτή συνεδρία"
+
+  "Sessions Menu: Save current session"
+  "Συνεδρίες μενού: Αποθηκεύσετε την τρέχουσα περίοδο λειτουργίας"
+
+  "Sessions Menu: Save sessions as"
+  "Συνεδρίες μενού: Σώσει συνεδρίες ως"
+
+  "Sessions Menu: Switch to session"
+  "Συνεδρίες μενού: Μετάβαση σε συνεδρία"
 
   "Set Syntax"
   "Ορισμός Σύνταξη"
@@ -800,6 +692,24 @@ msgcat::mcmset el {
   "Text"
   "Κείμενο"
 
+  "Text Menu: Align cursors"
+  "Μενού κείμενο: Στοίχιση δρομείς"
+
+  "Text Menu: Indent selected text"
+  "Κείμενο μενού: Εσοχή επιλεγμένου κειμένου"
+
+  "Text Menu: Insert enumeration"
+  "Κείμενο μενού: Εισαγωγή καταμέτρηση"
+
+  "Text Menu: Replace line with script"
+  "Κείμενο μενού: Αντικαταστήστε την γραμμή με σενάριο"
+
+  "Text Menu: Toggle comment"
+  "Κείμενο μενού: Εναλλαγή σχόλιο"
+
+  "Text Menu: Unindent selected text"
+  "Κείμενο μενού: Κατάργηση εσοχής του επιλεγμένου κειμένου"
+
   "Theme Creator"
   "Theme Creator"
 
@@ -808,6 +718,36 @@ msgcat::mcmset el {
 
   "Tools"
   "Μέσα δράσης"
+
+  "Tools Menu: Create new theme"
+  "Μενού Εργαλεία: Δημιουργήστε νέο θέμα"
+
+  "Tools Menu: Disable Vim mode"
+  "Μενού Εργαλεία: Απενεργοποίηση λειτουργίας Vim"
+
+  "Tools Menu: Edit Tke theme"
+  "Εργαλεία μενού: Επεξεργασία Tke θέμα"
+
+  "Tools Menu: Enable Vim mode"
+  "Εργαλεία μενού: Ενεργοποίηση της λειτουργίας Vim"
+
+  "Tools Menu: Import TextMate theme"
+  "Μενού Εργαλεία: Θέμα εισαγωγής TextMate"
+
+  "Tools Menu: Restart tke"
+  "Μενού Εργαλεία: ΤΚΕ επανεκκίνηση"
+
+  "Tools Menu: Show Diagnostic Logfile"
+  "Μενού Εργαλεία: Διαγνωστικά Logfile Εμφάνιση"
+
+  "Tools Menu: Show last profiling report"
+  "Μενού Εργαλεία: Εμφάνιση τελευταία έκθεση προφίλ"
+
+  "Tools Menu: Start profiling"
+  "Μενού Εργαλεία: Έναρξη δημιουργίας προφίλ"
+
+  "Tools Menu: Stop profiling"
+  "Μενού Εργαλεία: Σταματήσει προφίλ"
 
   "Undo"
   "Αναίρεση"
@@ -832,6 +772,66 @@ msgcat::mcmset el {
 
   "View Global"
   "Παγκόσμια προβολή"
+
+  "View Menu: Goto last tab"
+  "Μενού Προβολή: Goto τελευταία καρτέλα"
+
+  "View Menu: Goto next tab"
+  "Μενού Προβολή: Επόμενη καρτέλα Goto"
+
+  "View Menu: Goto other pane"
+  "Μενού Προβολή: Goto άλλο παράθυρο"
+
+  "View Menu: Goto previous tab"
+  "Μενού Προβολή: Προηγούμενη καρτέλα Goto"
+
+  "View Menu: Hide Line Numbers"
+  "Μενού \"
+
+  "View Menu: Hide Tab Bar"
+  "Μενού \"
+
+  "View Menu: Hide console"
+  "Μενού \"
+
+  "View Menu: Hide meta characters"
+  "Μενού \"
+
+  "View Menu: Hide sidebar"
+  "Μενού \"
+
+  "View Menu: Hide status bar"
+  "Μενού \"
+
+  "View Menu: Merge panes"
+  "Μενού \"
+
+  "View Menu: Move to other pane"
+  "Μενού \"
+
+  "View Menu: Show Line Numbers"
+  "Μενού \"
+
+  "View Menu: Show Tab Bar"
+  "Μενού \"
+
+  "View Menu: Show console"
+  "Μενού \"
+
+  "View Menu: Show meta characters"
+  "Μενού \"
+
+  "View Menu: Show sidebar"
+  "Μενού \"
+
+  "View Menu: Show status bar"
+  "Μενού \"
+
+  "View Menu: Sort tabs"
+  "Μενού \"
+
+  "View Menu: Toggle split view mode"
+  "Μενού \"
 
   "Vim Mode"
   "Λειτουργία Vim"
