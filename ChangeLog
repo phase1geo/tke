@@ -1,35 +1,63 @@
-changeset:   1342:0cbc4707935c
-tag:         devel-1.8.23
+changeset:   1346:62108c340826
+tag:         devel-1.8.24
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Sep 21 01:16:33 2015 -0500
+date:        Tue Sep 22 08:58:53 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.8.23 release
+ChangeLog for devel-1.8.24 release
 
 
-changeset:   1343:6279cb942a59
+changeset:   1347:a43e4710e8b8
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Sep 21 01:16:37 2015 -0500
+date:        Tue Sep 22 08:58:57 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.8.23 for changeset 0cbc4707935c
+Added tag devel-1.8.24 for changeset 62108c340826
 
 
-changeset:   1344:1c904bf6132c
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Sep 21 21:26:55 2015 -0500
-files:       lib/gui.tcl lib/menus.tcl lib/sidebar.tcl lib/version.tcl
+changeset:   1348:cc6e2c46351b
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Sep 22 17:46:09 2015 -0500
+files:       lib/gui.tcl lib/menus.tcl lib/version.tcl
 description:
-* Fixing issue with save menu to not require an overwrite.
-* Adding newly saved file to sidebar on first save.
+* Fixing issue with saving using plugins.
+* Adding menu name to command launcher menu launchers.
 
 
-changeset:   1345:381d96d3c83e
+changeset:   1349:ad1afff3205f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Sep 22 19:20:24 2015 -0500
+files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg lib/version.tcl
+description:
+* Checkpointing translation updates from previous checkin.
+
+
+changeset:   1350:04398debbb02
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Sep 22 22:38:57 2015 -0500
+files:       lib/launcher.tcl lib/snippets.tcl lib/version.tcl
+description:
+* Fixing mouse cursor selections in command launcher.
+* Fixing snippet support in command launcher.
+* Fixing up/down arrow support in command launcher on MacOSX.
+
+
+changeset:   1351:13fbd07d2290
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Sep 22 23:24:47 2015 -0500
+files:       data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg lib/version.tcl
+description:
+* Updating rest of translations.
+
+
+changeset:   1352:3ba62ea155b2
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Sep 22 08:57:32 2015 -0500
-files:       lib/gui.tcl lib/sidebar.tcl lib/version.tcl
+date:        Wed Sep 23 00:30:51 2015 -0500
+files:       lib/bindings.tcl lib/menus.tcl lib/snippets.tcl lib/version.tcl
 description:
-* Checkpointing work on fixing issue when the same file is opened in two tabs (not complete at this point).
+* Fixing menu binding auto-reload issue.
+* Fixing syntax bug in "Reload Snippets" functionality.
+* Fixing snippet auto-reload issue.
 
 
