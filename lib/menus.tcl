@@ -498,7 +498,7 @@ namespace eval menus {
   # Closes the current tab.
   proc close_command {} {
 
-    gui::close_current {}
+    gui::close_current {} 1
 
   }
 
@@ -506,7 +506,7 @@ namespace eval menus {
   # Closes all opened tabs.
   proc close_all_command {} {
 
-    gui::close_all
+    gui::close_all 1
 
   }
 
@@ -518,7 +518,7 @@ namespace eval menus {
     sessions::save "last"
 
     # Close all of the tabs
-    gui::close_all 0 1
+    gui::close_all 1 1
 
     # Save the clipboard history
     cliphist::save
@@ -962,29 +962,29 @@ namespace eval menus {
   # Finds the next occurrence of the find regular expression for the current
   # text widget.
   proc find_next_command {app} {
-    
+
     search::find_next [gui::current_txt {}] $app
-    
+
   }
-  
+
   ######################################################################
   # Finds the previous occurrence of the find regular expression for the
   # current text widget.
   proc find_prev_command {app} {
-    
+
     search::find_prev [gui::current_txt {}] $app
-    
+
   }
-  
+
   ######################################################################
   # Finds all occurrences of the find regular expression for the current
   # text widget and adds it to the selection.
   proc find_all_command {} {
-    
+
     search::find_all [gui::current_txt {}]
-    
+
   }
-  
+
   ######################################################################
   # Adds the text menu commands.
   proc add_text {mb} {
