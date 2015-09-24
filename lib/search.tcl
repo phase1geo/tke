@@ -25,7 +25,7 @@
 namespace eval search {
 
   source [file join $::tke_dir lib ns.tcl]
-  
+
   variable lengths {}
 
   array set data {
@@ -46,10 +46,10 @@ namespace eval search {
   proc find_start {tid direction} {
 
     variable data
-    
+
     # Get the current text widget
     set txt [[ns gui]::current_txt $tid]
-    
+
     # Get the search information
     lassign [set search_data [[ns gui]::get_search_data find]] str case_sensitive saved
 
@@ -75,7 +75,7 @@ namespace eval search {
       add_history find $search_data
 
       # Clear the search highlight class
-      find_clear $txt
+      find_clear $tid
 
       # Create a highlight class for the given search string
       ctext::addSearchClassForRegexp $txt search black yellow "" $str $search_opts
@@ -93,7 +93,10 @@ namespace eval search {
 
   ######################################################################
   # Clears the current search text.
-  proc find_clear {txt} {
+  proc find_clear {tid} {
+
+    # Get the current text widget
+    set txt [[ns gui]::current_txt $tid]
 
     # Clear the highlight class
     catch { ctext::deleteHighlightClass $txt search }
@@ -209,7 +212,7 @@ namespace eval search {
 
     # Perform the search and replace
     replace_do_raw $tid 1.0 end $find $replace [expr !$case_sensitive] $replace_all
-    
+
     # Add the search data to history
     add_history replace $search_data
 
@@ -291,7 +294,7 @@ namespace eval search {
     }
 
   }
-  
+
   ######################################################################
   # Performs an egrep-like search in a user-specified list of files/directories.
   proc fif_start {} {
@@ -530,7 +533,7 @@ namespace eval search {
   proc add_history {type hist_info} {
 
     variable data
-    
+
     # Check to see if the search string exists within the history
     if {[set index [lsearch -exact -index 0 $data($type,hist) [lindex $hist_info 0]]] != -1} {
       set data($type,hist) [lreplace $data($type,hist) $index $index]
@@ -552,17 +555,17 @@ namespace eval search {
     set data($type,current)  ""
 
   }
-  
+
   ######################################################################
   # Updates the save state of the current search item, saving the item
   # to the current sessions file.
   proc update_save {type} {
-    
+
     variable data
-    
+
     # Get the current search information
     set search_data [[ns gui]::get_search_data $type]
-    
+
     # Find the matching item in history and update its save status
     set i 0
     foreach item $data($type,hist) {
@@ -573,7 +576,7 @@ namespace eval search {
       }
       incr i
     }
-    
+
   }
 
   ######################################################################
@@ -633,7 +636,7 @@ namespace eval search {
   proc save_session {} {
 
     variable data
-    
+
     # Only save history items with the save indicator set
     foreach type [list find replace fif] {
       set saved($type,hist) [list]

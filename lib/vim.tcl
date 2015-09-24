@@ -104,7 +104,7 @@ namespace eval vim {
   proc in_vim_mode {txt} {
 
     variable mode
-    
+
     if {[[ns preferences]::get Tools/VimMode] && \
         [info exists mode($txt)] && \
         ($mode($txt) ne "edit")} {
