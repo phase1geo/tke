@@ -1741,7 +1741,9 @@ namespace eval gui {
       lset files $file_index $files_index(fname) $save_as
 
     # If the current file doesn't have a filename, allow the user to set it
-    } elseif {[lindex $files $file_index $files_index(buffer)] || $diff} {
+    } elseif {[lindex $files $file_index $files_index(buffer)] ||
+              ([lindex $files $file_index $files_index(fname)] eq "Untitled") ||
+              $diff} {
       set save_opts [list]
       if {[llength [set extensions [[ns syntax]::get_extensions $tid]]] > 0} {
         lappend save_opts -defaultextension [lindex $extensions 0]
@@ -1936,7 +1938,7 @@ namespace eval gui {
       set msg   "[msgcat::mc Save] $fname?"
       set_current_tab [lindex $finfo $files_index(tab)]
       if {[set answer [tk_messageBox -default yes -type [expr {$exiting ? {yesno} : {yesnocancel}}] -message $msg -title [msgcat::mc "Save request"]]] eq "yes"} {
-        save_current $tid
+        return [save_current $tid $force]
       } elseif {$answer eq "cancel"} {
         return 0
       }
