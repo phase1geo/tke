@@ -489,7 +489,7 @@ proc ctext::setCommentRE {win} {
   set configAr(bcomment_re) [join $bcomments |]
   set configAr(ecomment_re) [join $ecomments |]
   set configAr(lcomment_re) [join $configAr(line_comment_patterns) |]
-  
+
 }
 
 proc ctext::inCommentStringHelper {win index pattern prange} {
@@ -1308,7 +1308,7 @@ proc ctext::instanceCmd {self cmd args} {
 
       set re_data    [$self._t get $prevSpace "$insertPos+${datalen}c"]
       set re_pattern [expr {($datalen == 1) ? "((\\\\.)+|$commentRE)\$" : $commentRE}]
-      
+
       ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$configAr(re_opts) -- $re_pattern $re_data]
       ctext::highlightAfterIdle $self $lineStart $lineEnd
 

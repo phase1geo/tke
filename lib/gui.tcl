@@ -1874,7 +1874,7 @@ namespace eval gui {
           } else {
 
             set_current_tab $tab
-            save_current
+            save_current {}
 
           }
 
@@ -1923,7 +1923,7 @@ namespace eval gui {
   ######################################################################
   # Returns 1 if the tab is closable; otherwise, returns a value of 0.
   # Saves the tab if it needs to be saved.
-  proc close_check {index force exiting} {
+  proc close_check {tid index force exiting} {
 
     variable files
     variable files_index
@@ -1949,9 +1949,9 @@ namespace eval gui {
   ######################################################################
   # Returns 1 if the tab is closable; otherwise, returns a value of 0.
   # Saves the tab if it needs to be saved.
-  proc close_check_by_tabbar {w tab} {
+  proc close_check_by_tabbar {tid w tab} {
 
-    return [close_check [get_file_index $tab] 0 0]
+    return [close_check $tid [get_file_index $tab] 0 0]
 
   }
 
@@ -1970,7 +1970,7 @@ namespace eval gui {
     set file_index [current_file]
 
     # If the file needs to be saved, do it now
-    if {[close_check $file_index $force $exiting]} {
+    if {[close_check $tid $file_index $force $exiting]} {
       close_tab [[current_tabbar] select] $exiting
     }
 
@@ -3197,7 +3197,7 @@ namespace eval gui {
     # Add the tabbar frame
     ttk::frame $nb.tbf
     tabbar::tabbar $nb.tbf.tb -command "[ns gui]::set_current_tab_from_tb" \
-      -checkcommand "[ns gui]::close_check_by_tabbar" -closecommand "[ns gui]::close_tab_by_tabbar" \
+      -checkcommand "[ns gui]::close_check_by_tabbar {}" -closecommand "[ns gui]::close_tab_by_tabbar" \
       -background $bg -foreground $fg -activebackground $abg -inactivebackground $bg
 
     grid rowconfigure    $nb.tbf 0 -weight 1
