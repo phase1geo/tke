@@ -1,63 +1,53 @@
-changeset:   1346:62108c340826
-tag:         devel-1.8.24
+changeset:   1353:3caade764a05
+tag:         devel-1.8.25
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Sep 22 08:58:53 2015 -0500
+date:        Wed Sep 23 00:33:15 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.8.24 release
+ChangeLog for devel-1.8.25 release
 
 
-changeset:   1347:a43e4710e8b8
+changeset:   1354:7685ba56d75f
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Sep 22 08:58:57 2015 -0500
+date:        Wed Sep 23 00:33:19 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.8.24 for changeset 62108c340826
+Added tag devel-1.8.25 for changeset 3caade764a05
 
 
-changeset:   1348:cc6e2c46351b
+changeset:   1355:5f985c6f1416
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Tue Sep 22 17:46:09 2015 -0500
+date:        Wed Sep 23 18:56:44 2015 -0500
+files:       MacOSX/Tke.app/Contents/Info.plist Win/freewrap.tcl Win/setup.iss doc/Doxyfile lib/gui.tcl lib/version.tcl
+description:
+* Updating most version notes from 1.8 to 1.9.
+* Fixing issues with adding a buffer when the only opened tab is an Untitled tab.
+* Removing file index check when adding an Untitled buffer (it is allowed to have more than one Untitled tab opened).
+
+
+changeset:   1356:d3845f15cc1b
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Sep 23 19:35:08 2015 -0500
+files:       lib/ctext/ctext.tcl lib/gui.tcl lib/search.tcl lib/version.tcl lib/vim.tcl
+description:
+* Fixing close_check syntax error.
+* Fixing issue with using escape key to clear search highlights.
+
+
+changeset:   1357:122fd5b3f77a
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Sep 24 01:34:52 2015 -0500
 files:       lib/gui.tcl lib/menus.tcl lib/version.tcl
 description:
-* Fixing issue with saving using plugins.
-* Adding menu name to command launcher menu launchers.
+* Attempting to fix some issues with saving.
 
 
-changeset:   1349:ad1afff3205f
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Sep 22 19:20:24 2015 -0500
-files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg lib/version.tcl
-description:
-* Checkpointing translation updates from previous checkin.
-
-
-changeset:   1350:04398debbb02
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Sep 22 22:38:57 2015 -0500
-files:       lib/launcher.tcl lib/snippets.tcl lib/version.tcl
-description:
-* Fixing mouse cursor selections in command launcher.
-* Fixing snippet support in command launcher.
-* Fixing up/down arrow support in command launcher on MacOSX.
-
-
-changeset:   1351:13fbd07d2290
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Sep 22 23:24:47 2015 -0500
-files:       data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg lib/version.tcl
-description:
-* Updating rest of translations.
-
-
-changeset:   1352:3ba62ea155b2
+changeset:   1358:15e69341e623
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Sep 23 00:30:51 2015 -0500
-files:       lib/bindings.tcl lib/menus.tcl lib/snippets.tcl lib/version.tcl
+date:        Thu Sep 24 08:51:49 2015 -0500
+files:       doc/UserGuide.epub doc/UserGuide.pdf lib/version.tcl
 description:
-* Fixing menu binding auto-reload issue.
-* Fixing syntax bug in "Reload Snippets" functionality.
-* Fixing snippet auto-reload issue.
+* Updating version number of user guide.
 
 
