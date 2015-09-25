@@ -46,6 +46,8 @@ namespace eval diff {
 
     # Initialize values
     set data($txt,win)     $win
+    set data($txt,v1)      ""
+    set data($txt,v2)      ""
     set data($txt,last_v1) ""
     set data($txt,last_v2) ""
 

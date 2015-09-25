@@ -228,6 +228,7 @@ namespace eval preferences {
 
     variable loaded_prefs
     variable user_preferences_file
+    variable prefs
 
     # Get the current buffer
     set txt [[ns gui]::current_txt {}]
@@ -267,6 +268,9 @@ namespace eval preferences {
 
     # Update the UI
     update_prefs $session
+
+    # Perform environment variable setting from the General/Variables preference option
+    [ns utils]::set_environment $prefs(General/Variables)
 
     return 0
 
