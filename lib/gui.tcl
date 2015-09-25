@@ -1885,7 +1885,11 @@ namespace eval gui {
         if {[lindex $files $i $files_index(buffer)] && ($save_cmd ne "")} {
 
           # Run the save command and if it ran successfully,
-          if {![catch { {*}$save_cmd $i } rc] && ($rc == 0)} {
+          if {[catch { {*}$save_cmd $i } rc]} {
+
+            continue
+
+          } elseif {$rc == 0} {
 
             # Change the tab text
             $tb tab $tab -text " [file tail [lindex $files $i $files_index(fname)]]"
@@ -1897,8 +1901,8 @@ namespace eval gui {
           # Save the current
           } else {
 
-            set_current_tab $tab
-            save_current {}
+            set_current_tab $tab 0 1
+            save_current {} 1
 
           }
 
