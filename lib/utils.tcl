@@ -451,7 +451,7 @@ namespace eval utils {
       }
       incr i
     }
-    
+
     return $result
 
   }
@@ -462,11 +462,11 @@ namespace eval utils {
   proc egrep {pattern paths context opts} {
 
     set result ""
-    
+
     foreach path $paths {
       append result [egrep_file $pattern $path $context $opts]
     }
-    
+
     return $result
 
   }

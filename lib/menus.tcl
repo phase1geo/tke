@@ -402,11 +402,7 @@ namespace eval menus {
   # Saves the current tab file.
   proc save_command {} {
 
-    if {[gui::current_filename] eq "Untitled"} {
-      save_as_command
-    } else {
-      gui::save_current {} 0 ""
-    }
+    gui::save_current {} 1 ""
 
   }
 
@@ -418,13 +414,8 @@ namespace eval menus {
     set dirname [file dirname [gui::current_filename]]
 
     # Get some of the save options
-    set save_opts [list]
-    if {[llength [set extensions [syntax::get_extensions {}]]] > 0} {
-      lappend save_opts -defaultextension [lindex $extensions 0]
-    }
-
-    if {[set sfile [tk_getSaveFile {*}$save_opts -title [msgcat::mc "Save As"] -parent . -initialdir $dirname]] ne ""} {
-      gui::save_current {} 0 $sfile
+    if {[set sfile [gui::prompt_for_save {}]] ne ""} {
+      gui::save_current {} 1 $sfile
     }
 
   }

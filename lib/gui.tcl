@@ -1312,10 +1312,14 @@ namespace eval gui {
     variable files_index
 
     # Set the buffer state to 0 and clear the save command
-    lset files $file_index $files_index(buffer)   0
-    lset files $file_index $files_index(save_cmd) ""
+    if {[set sfile [prompt_for_save {}]] ne ""} {
+      lset files $file_index $files_index(buffer)   0
+      lset files $file_index $files_index(save_cmd) ""
+      lset files $file_index $files_index(fname)    $sfile
+      return 1
+    }
 
-    return 1
+    return -code error "New file as not saved"
 
   }
 
@@ -1621,6 +1625,28 @@ namespace eval gui {
   }
 
   ######################################################################
+  # Prompts the user for a file save name.  Returns the name of the selected
+  # filename; otherwise, returns the empty string to indicate that no
+  # filename was selected.
+  proc prompt_for_save {tid} {
+
+    # Get the directory of the current file
+    if {[set dirname [file dirname [gui::current_filename]]] eq ""} {
+      set dirname [pwd]
+    }
+
+    # Get the list of save options
+    set save_opts [list]
+    if {[llength [set extensions [[ns syntax]::get_extensions $tid]]] > 0} {
+      lappend save_opts -defaultextension [lindex $extensions 0]
+    }
+
+    # Get the save file from the user
+    return [tk_getSaveFile {*}$save_opts -parent . -title [msgcat::mc "Save As"] -initialdir $dirname]
+
+  }
+
+  ######################################################################
   # Performs a forced pre-save operation for the given filename.
   proc save_prehandle {fname save_as force pperms} {
 
@@ -1628,22 +1654,24 @@ namespace eval gui {
 
     set perms ""
 
-    if {$save_as eq ""} {
-      if {![file writable $fname]} {
-        if {$force} {
-          set perms [file attributes $fname -permissions]
-          if {[catch { file attributes $fname -permissions 700 } rc]} {
+    if {[file exists $fname]} {
+      if {$save_as eq ""} {
+        if {![file writable $fname]} {
+          if {$force} {
+            set perms [file attributes $fname -permissions]
+            if {[catch { file attributes $fname -permissions 700 } rc]} {
+              set_info_message [msgcat::mc "No write permissions.  Use '!' to force write."]
+              return 0
+            }
+          } else {
             set_info_message [msgcat::mc "No write permissions.  Use '!' to force write."]
             return 0
           }
-        } else {
-          set_info_message [msgcat::mc "No write permissions.  Use '!' to force write."]
-          return 0
         }
+      } elseif {!$force} {
+        set_info_message [msgcat::mc "File already exists.  Use '!' to force an overwrite"]
+        return 0
       }
-    } elseif {!$force && [file exists $fname]} {
-      set_info_message [msgcat::mc "File already exists.  Use '!' to force an overwrite"]
-      return 0
     }
 
     return 1
@@ -1741,14 +1769,8 @@ namespace eval gui {
       lset files $file_index $files_index(fname) $save_as
 
     # If the current file doesn't have a filename, allow the user to set it
-    } elseif {[lindex $files $file_index $files_index(buffer)] ||
-              ([lindex $files $file_index $files_index(fname)] eq "Untitled") ||
-              $diff} {
-      set save_opts [list]
-      if {[llength [set extensions [[ns syntax]::get_extensions $tid]]] > 0} {
-        lappend save_opts -defaultextension [lindex $extensions 0]
-      }
-      if {[set sfile [tk_getSaveFile {*}$save_opts -parent . -title [msgcat::mc "Save As"] -initialdir [pwd]]] eq ""} {
+    } elseif {[lindex $files $file_index $files_index(buffer)] || $diff} {
+      if {[set sfile [prompt_for_save $tid]] eq ""} {
         return 0
       } else {
         set matching_index [find_matching_file_index $sfile]
