@@ -28,7 +28,7 @@ namespace eval launcher {
 
   variable launcher_file  [file join $::tke_home launcher.dat]
   variable match_commands {}
-  
+
   array set move_info     {}
   array set read_commands {}
   array set commands      {}
@@ -49,80 +49,80 @@ namespace eval launcher {
     search_str     4
     detail_command 5
   }
-  
+
   ######################################################################
   # Saves command launcher information to the session file.
   proc save_session {} {
-    
+
     variable move_info
-    
+
     if {[info exists move_info(save_x)]} {
       return [list win_posx $move_info(save_x) win_posy $move_info(save_y)]
     } else {
       return [list]
     }
-    
+
   }
-  
+
   ######################################################################
   # Loads session information for command launcher.
   proc load_session {data} {
-    
+
     variable move_info
-    
+
     array set opts $data
-    
+
     if {[info exists opts(win_posx)]} {
       set move_info(save_x) $opts(win_posx)
       set move_info(save_y) $opts(win_posy)
     }
-    
+
   }
-  
+
   ######################################################################
   # Loads the launcher functionality.
   proc load {} {
-  
+
     variable launcher_file
     variable read_commands
-    
+
     if {![catch { open $launcher_file r } rc]} {
       array set read_commands [read $rc]
       close $rc
     }
-    
+
     # Add preferences traces
     trace variable preferences::prefs(Appearance/CommandLauncherEntryFontSize)        w launcher::handle_entry_font_size
     trace variable preferences::prefs(Appearance/CommandLauncherPreviewFontSize)      w launcher::handle_preview_font_size
     trace variable preferences::prefs(Appearance/CommandLauncherRememberLastPosition) w launcher::handle_last_position
 
   }
-  
+
   ######################################################################
   # Writes the launcher information to the launcher file.
   proc write {} {
-  
+
     variable launcher_file
     variable commands
-    
+
     if {![catch { open $launcher_file w } rc]} {
       foreach {name value} [array get commands] {
         puts $rc "[list $name] [list $value]"
       }
       close $rc
     }
-    
+
   }
-  
+
   ######################################################################
   # Launches the command launcher.
   proc launch {{mode ""} {show_detail 0}} {
-  
+
     variable widgets
     variable move_info
 
     if {![winfo exists .lwin]} {
-      
+
       set widgets(win) .lwin
 
       frame $widgets(win) -borderwidth 2 -bg grey90 -padx 5 -pady 5
@@ -130,47 +130,47 @@ namespace eval launcher {
       set widgets(entry) [entry $widgets(win).entry -bg white -width 50 -validate key \
         -highlightthickness 0 -relief flat \
         -validatecommand "launcher::lookup %P {$mode} $show_detail" -invalidcommand {bell}]
-        
+
       if {[lsearch [font names] launcher_entry] == -1} {
         font create launcher_entry -family [font configure [$widgets(entry) cget -font] -family] \
           -size [preferences::get Appearance/CommandLauncherEntryFontSize]
       }
-      
+
       $widgets(entry) configure -font launcher_entry
-  
+
       set widgets(mf) [ttk::frame $widgets(win).mf]
       frame $widgets(mf).spcr -height 5 -bg white -borderwidth 0
       set widgets(lf) [ttk::frame $widgets(win).mf.lf]
       set widgets(lb) [listbox $widgets(lf).lb -exportselection 0 -bg white -height 0 -width 35 -borderwidth 0 \
         -yscrollcommand "utils::set_yscrollbar $widgets(lf).vb" -listvariable launcher::match_commands]
       ttk::scrollbar $widgets(lf).vb -orient vertical -command "$widgets(lb) yview"
-      
+
       grid rowconfigure    $widgets(lf) 0 -weight 1
       grid columnconfigure $widgets(lf) 0 -weight 1
       grid $widgets(lf).lb -row 0 -column 0 -sticky news
       grid $widgets(lf).vb -row 0 -column 1 -sticky ns
-      
+
       # Create a special font for the text widget
       set widgets(txt) [text $widgets(win).mf.txt -font [font create -size 7] -width 60 -height 15 \
                           -relief flat -wrap word -state disabled \
                           -fg [utils::get_default_foreground] -bg [utils::get_default_background]]
-                          
+
       if {[lsearch [font names] launcher_preview] == -1} {
         font create launcher_preview -family [font configure [$widgets(txt) cget -font] -family] \
           -size [preferences::get Appearance/CommandLauncherPreviewFontSize]
       }
-      
+
       $widgets(txt) configure -font launcher_preview
-      
+
       grid rowconfigure    $widgets(mf) 1 -weight 1
       grid columnconfigure $widgets(mf) 0 -weight 1
       grid $widgets(mf).spcr -row 0 -column 0 -sticky ew -columnspan 2
       grid $widgets(lf)      -row 1 -column 0 -sticky news
       grid $widgets(txt)     -row 1 -column 1 -sticky news
-      
+
       # Hide the text widget
       grid remove $widgets(txt)
-      
+
       pack $widgets(entry) -fill x
 
       # Bind the escape key to exit the window
@@ -197,9 +197,9 @@ namespace eval launcher {
       }
 
     }
-      
+
   }
-  
+
   ######################################################################
   # Called when the launcher window is destroyed.
   proc handle_win_destroy {} {
@@ -208,111 +208,111 @@ namespace eval launcher {
 
     # Reset the original focus and grab
     ::tk::RestoreFocusGrab $widgets(win) $widgets(entry)
-      
+
     # Destroy temporary registrations
     remove_temporary
 
   }
-  
+
   ######################################################################
   # Handles a left mouse press event on the frame.
   proc handle_win_press {x y} {
-    
+
     variable move_info
-    
+
     set move_info(last_x) $x
     set move_info(last_y) $y
-    
+
   }
-  
+
   ######################################################################
   # Handles a left-click motion mouse event on the launcher window border.
   proc handle_win_motion {x y} {
-    
+
     variable widgets
-    variable move_info   
-    
+    variable move_info
+
     if {![info exists move_info(last_x)]} {
       return
     }
-    
+
     set newx [expr [winfo x $widgets(win)] + ($x - $move_info(last_x))]
     set newy [expr [winfo y $widgets(win)] + ($y - $move_info(last_y))]
-    
+
     # If the new coordinates are valid, allow the move
     if {($newx > 0) && (($newx + [winfo width  $widgets(win)]) < [winfo width .]) && \
         ($newy > 0) && (($newy + [winfo height $widgets(win)]) < [winfo height .])} {
-        
+
       place configure $widgets(win) -x $newx -y $newy -relx 0.0 -rely 0.0
-      
+
       set move_info(last_x) $x
       set move_info(last_y) $y
-    
+
     } else {
-      
+
       array unset move_info
-      
+
     }
-    
+
   }
-  
+
   ######################################################################
   # Handles a mouse left-button release event.
   proc handle_win_release {x y} {
-    
+
     variable widgets
     variable move_info
-    
+
     array unset move_info
-    
+
     # Save the command launcher position if we are supposed to
     if {[[ns preferences]::get Appearance/CommandLauncherRememberLastPosition]} {
       array set opts [place info $widgets(win)]
       set move_info(save_x) $opts(-x)
       set move_info(save_y) $opts(-y)
     }
-    
+
   }
-  
+
   ######################################################################
   # Handles any changes to the entry font size preferences variable.
   proc handle_entry_font_size {name1 name2 op} {
-    
+
     if {[lsearch [font names] launcher_entry] != -1} {
       font configure launcher_entry -size [preferences::get Appearance/CommandLauncherEntryFontSize]
     }
-    
+
   }
-  
+
   ######################################################################
   # Handles any changes to the preview font size preferences variable.
   proc handle_preview_font_size {name1 name2 op} {
-    
+
     if {[lsearch [font names] launcher_preview] != -1} {
       font configure launcher_preview -size [preferences::get Appearance/CommandLauncherPreviewFontSize]
     }
-    
+
   }
-  
+
   ######################################################################
   # Handles a change to the RememberLastPosition preference value.
   proc handle_last_position {name1 name2 op} {
-    
+
     variable move_info
-    
+
     if {[[ns preferences]::get Appearance/CommandLauncherRememberLastPosition] == 0} {
       unset move_info(save_x)
       unset move_info(save_y)
     }
-    
+
   }
-  
+
   ############################################################################
   # Moves the currently selected command up by one row.
   proc move_up {} {
 
     variable widgets
-    
+
     set selected [$widgets(lb) curselection]
 
     if {$selected > 0} {
@@ -324,7 +324,7 @@ namespace eval launcher {
   ############################################################################
   # Moves the currently selected command down by one row.
   proc move_down {} {
-    
+
     variable widgets
 
     set selected [$widgets(lb) curselection]
@@ -334,29 +334,29 @@ namespace eval launcher {
     }
 
   }
-  
+
   ######################################################################
   # Handles mouse motion over the listbox.
   proc select_motion {w x y} {
-    
+
     select [$w index @$x,$y]
-    
+
   }
-  
+
   ############################################################################
   # Selects the current row within the selection table.
   proc select {row} {
-    
+
     variable widgets
     variable commands
     variable command_values
     variable matches
-    
+
     # Set the selection
     $widgets(lb) selection clear 0 end
     $widgets(lb) selection set $row
     $widgets(lb) see $row
-    
+
     # If the text widget is shown, clear it and display the current detail information
     if {[lsearch [grid slaves $widgets(mf)] $widgets(txt)] != -1} {
       $widgets(txt) configure -state normal
@@ -368,7 +368,7 @@ namespace eval launcher {
     }
 
   }
-  
+
   ######################################################################
   # Adds a new command that is registered for use by the widget.
   proc register {name command {detail_command ""} {validate_cmd "launcher::okay"} {auto_register 0}} {
@@ -418,7 +418,7 @@ namespace eval launcher {
     variable commands
     variable command_names
     variable command_values
-    
+
     # Create the command name list
     set command_name [get_command_name $name $validate_cmd 1]
 
@@ -433,30 +433,30 @@ namespace eval launcher {
 
     # Populate the command in the lookup table
     set commands($command_name) $command_value
-    
+
     return $command_name
 
   }
-  
+
   ######################################################################
   # Unregisters launcher commands that match the given pattern.
   proc unregister {name_pattern {command_pattern *} {temp_pattern *}} {
-  
+
     variable commands
-    
+
     array unset commands [get_command_name $name_pattern $command_pattern $temp_pattern]
-    
+
   }
-    
+
   ######################################################################
   # Removes all of the temporary registrations.
   proc remove_temporary {} {
-    
+
     # Unregister all temporary registrations
     unregister * * 1
-    
+
   }
-  
+
   ######################################################################
   # Returns the command name given the specified values.
   proc get_command_name {name validate_cmd temporary} {
@@ -472,63 +472,63 @@ namespace eval launcher {
     return $command_name
 
   }
-  
+
   ######################################################################
   # Default validate command.
   proc okay {} {
-  
+
     return 1
-    
+
   }
-  
+
   ######################################################################
   # Validate command for calculations.
   proc calc_okay {} {
-  
+
     return 1
-    
+
   }
-  
+
   ######################################################################
   # Validate command for symbols.
   proc symbol_okay {} {
-    
+
     return 1
-    
+
   }
-  
+
   ######################################################################
   # Validate command for markers.
   proc marker_okay {} {
-    
+
     return 1
-    
+
   }
-  
+
   ######################################################################
   # Validate command for clipboard history.
   proc clip_okay {} {
-    
+
     return 1
-    
+
   }
-  
+
   ######################################################################
   # Validate command for URL launching.
   proc url_okay {} {
-    
+
     return 1
-    
+
   }
-  
+
   ######################################################################
   # Validate command for snippet insertion.
   proc snip_okay {} {
-    
+
     return 1
-    
+
   }
-  
+
   ######################################################################
   # Called whenever the user enters a value
   proc lookup {value mode show_detail} {
@@ -540,7 +540,7 @@ namespace eval launcher {
     variable match_commands
     variable command_names
     variable command_values
-    
+
     if {($value ne "") || ($mode ne "")} {
 
       # Find all of the matches
@@ -558,7 +558,7 @@ namespace eval launcher {
         } else {
           $widgets(lb) configure -height $match_num
         }
-        
+
         # If we need to show detail, display the text widget
         if {$show_detail} {
           grid $widgets(txt)
@@ -582,7 +582,7 @@ namespace eval launcher {
         select 0
 
         # Pack the listbox, if it isn't already
-        if {[catch "pack info $widgets(mf)"]} {    
+        if {[catch "pack info $widgets(mf)"]} {
           pack $widgets(mf) -fill both -expand yes
         }
 
@@ -615,7 +615,7 @@ namespace eval launcher {
     return 1
 
   }
- 
+
   ############################################################################
   # Updates the contents of the matches array which contains all of the entries
   # that match the given user input.
@@ -629,9 +629,9 @@ namespace eval launcher {
     variable last_url
 
     set matches [list]
-    
+
     if {$mode eq ""} {
-      
+
       switch [string index $str 0] {
         "@" {
           if {[llength [array names commands [get_command_name * launcher::symbol_okay 1]]] == 0} {
@@ -664,7 +664,7 @@ namespace eval launcher {
             }
           }
         }
-        ":" {
+        ";" {
           if {[llength [array names commands [get_command_name * launcher::snip_okay 1]]] == 0} {
             unregister * * 1
             set i 0
@@ -686,9 +686,9 @@ namespace eval launcher {
           }
         }
       }
-    
+
     }
- 
+
     # Get the precise match (if one exists)
     set results [list]
     foreach {name value} [array get commands [get_command_name * * *]] {
@@ -698,10 +698,10 @@ namespace eval launcher {
         }
       }
     }
-    
+
     # Make the string regular expression friendly
     set tmpstr [string map {{.} {\.} {*} {\*} {+} {\+} {?} {\?} {[} {\[}} $str]
-    
+
     # Sort the results by relevance
     sort_match_results $results 1
 
@@ -713,7 +713,7 @@ namespace eval launcher {
 
     # Get all of the fuzzy matches
     sort_match_results [get_match_results \{?$mode.*[join [string map {{.} {\\\.} {*} {\\\*} {+} {\\\+} {?} {\\\?} {[} {\\\[}} [split $str {}]] .*].*] 1
-    
+
   }
 
   ############################################################################
@@ -728,7 +728,7 @@ namespace eval launcher {
 
     set results [list]
     set pattern [subst [string map {{(} {\(} {)} {\)}} [get_command_name $regex_pattern * *]]]
-    
+
     foreach name [array name commands -regexp $pattern] {
       set value $commands($name)
       if {[lsearch -exact $matches $name] == -1} {
@@ -794,7 +794,7 @@ namespace eval launcher {
 
     # Destroy the widget
     destroy $widgets(win)
-    
+
     # Execute the associated command
     after 1 [list launcher::execute_helper $command]
 
@@ -811,25 +811,25 @@ namespace eval launcher {
     bgproc::command launcher_write launcher::write -cancelable 1
 
   }
-  
+
   ############################################################################
   # Handles a calculation that is presented on the command-line.  The calculation
   # can be either a Tcl expression or a Verilog expression.
   proc handle_calculation {str} {
 
     variable matches
-    
+
     # Check to see if the string is a valid Tcl expression
     if {![catch "expr $str" rc]} {
 
       lappend matches [register_temp "" [list launcher::copy_calculation $rc] "Copy $rc to clipboard" 0 "" launcher::calc_okay]
-            
+
       return 1
-            
+
     }
-          
+
     return 0
-    
+
   }
 
   ############################################################################
@@ -841,7 +841,7 @@ namespace eval launcher {
     # Clear the clipboard and add the calculation
     clipboard clear
     clipboard append $value
-    
+
     # Add the clipboard content to the clipboard history manager
     cliphist::add_from_clipboard
 
@@ -849,57 +849,57 @@ namespace eval launcher {
     set last_command ""
 
   }
-        
+
   ######################################################################
   # Displays the given URL and bookmarks it.
   proc open_url_and_bookmark {url} {
-    
+
     # Open the URL in the local browser
     if {[open_url $url] == 0} {
-    
+
       # Add the URL to the bookmark list
       register "Open bookmarked URL $url" [list launcher::open_url $url]
-      
+
     }
-    
+
   }
-        
+
   ######################################################################
   # Shows the given URL and adds it to the URL history if it does not
   # exist.
   proc open_url {url} {
-    
+
     # If the URL did not contain the http portion, add it so that the external launcher knows
     # this is a URL.
     if {[string range $url 0 3] ne "http"} {
       set url "http://$url"
     }
-          
+
     # Displays the URL in the local browser
     return [utils::open_file_externally $url]
-          
+
   }
-  
+
   ######################################################################
   # Opens the given URI.
   proc open_uri_and_bookmark {uri} {
-    
+
     # Display the URI
     if {[open_uri $uri] == 0} {
-      
+
       # Add the URI to the bookmark list
       register "Open bookmarked URI $uri" [list launcher::open_uri $uri]
-      
+
     }
-    
+
   }
-  
+
   ######################################################################
   # Performs the given URI.
   proc open_uri {uri} {
-    
+
     return [utils::open_file_externally $uri]
-    
+
   }
-  
+
 }
