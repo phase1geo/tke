@@ -1590,11 +1590,13 @@ namespace eval menus {
   # Restart the GUI.
   proc restart_command {} {
 
-    # Get the list of filenames to start
-    set filenames [gui::get_actual_filenames]
+    # Perform exit cleanup
+    exit_cleanup
 
     # Execute the restart command
-    exec [info nameofexecutable] [file join $::tke_dir restart.tcl] [info nameofexecutable] [file join $::tke_dir tke.tcl] {*}$filenames &
+    exec [info nameofexecutable] [file normalize $::argv0] &
+
+    exit
 
   }
 
