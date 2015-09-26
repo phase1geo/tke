@@ -25,18 +25,18 @@
 namespace eval multicursor {
 
   source [file join $::tke_dir lib ns.tcl]
-    
+
   variable selected            0
   variable select_start_line   ""
   variable select_start_column ""
   variable cursor_anchor       ""
-  
+
   array set copy_cursors {}
-   
+
   ######################################################################
   # Adds bindings for multicursor support to the supplied text widget.
   proc add_bindings {txt} {
-      
+
     # Create tag for the multicursor stuff
     $txt tag configure mcursor -underline 1
 
@@ -53,131 +53,129 @@ namespace eval multicursor {
     bind mcursor$txt <Any-KeyPress>               "if {\[[ns multicursor]::handle_keypress %W %A %K\]} { break }"
     bind mcursor$txt <Escape>                     "[ns multicursor]::handle_escape %W"
     bind mcursor$txt <Button-1>                   "[ns multicursor]::disable %W"
-    
+
     # Add the multicursor bindings to the text widget's bindtags
     bindtags $txt.t [linsert [bindtags $txt.t] 2 mcursor$txt]
 
   }
-  
+
   ######################################################################
   # Handles a selection of the widget in the multicursor mode.
   proc handle_selection {W} {
-    
+
     variable selected
-    
+
     set selected 0
-    
+
     if {[llength [set sel [$W tag ranges sel]]] > 2} {
       set selected 1
       $W tag remove mcursor 1.0 end
-      set i 0
       foreach {start end} $sel {
-        $W tag add mcursor $start $end
-        incr i
+        $W tag add mcursor $start
       }
     }
-    
+
   }
-  
+
   ######################################################################
   # Handles an Alt-Button-1 event when in multicursor mode.
   proc handle_alt_button1 {W x y} {
 
     add_cursor $W [$W index @$x,$y]
-    
+
   }
-  
+
   ######################################################################
   # Handles an Alt-Button-3 event when in multicursor mode.
   proc handle_alt_button3 {W x y} {
-    
+
     add_cursors $W [$W index @$x,$y]
-    
+
   }
-  
+
   ######################################################################
   # Handles a Shift-Alt-Buttonpress-1 event when in multicursor mode.
   proc handle_shift_alt_buttonpress1 {W x y} {
-    
+
     variable select_start_line
     variable select_start_column
-    
+
     lassign [split [$W index @$x,$y] .] select_start_line select_start_column
     $W tag remove sel 1.0 end
-    
+
   }
-  
+
   ######################################################################
   # Handles a Shift-Alt-Button1-Motion event when in multicursor mode.
   proc handle_shift_alt_motion {W x y} {
-    
+
     variable select_start_line
     variable select_start_column
-    
+
     lassign [split [$W index @$x,$y] .] line column
     lassign [split [lindex [$W tag ranges sel] end] .] last_line last_column
-    
+
     if {($last_line eq "") || ($line != $last_line) || ($column != $last_column)} {
       $W tag remove sel 1.0 end
       for {set i $select_start_line} {$i <= $line} {incr i} {
         $W tag add sel $i.$select_start_column $i.$column
       }
     }
-    
+
   }
-  
+
   ######################################################################
   # Handles a Shift-Alt-Buttonrelease-1 event when in multicursor mode.
   proc handle_shift_alt_buttonrelease1 {W x y} {
-    
+
     variable select_start_line
     variable select_start_column
-    
+
     set select_start_line   ""
     set select_start_column ""
-      
+
   }
-  
+
   ######################################################################
   # Handles a delete key event in multicursor mode.
   proc handle_delete {W} {
-    
+
     if {![[ns vim]::in_vim_mode $W] && [[ns multicursor]::delete $W "+1c"]} {
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # Handles a backspace key event in multicursor mode.
   proc handle_backspace {W} {
-    
+
     if {![[ns vim]::in_vim_mode $W] && [[ns multicursor]::delete $W "-1c"]} {
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # Handles a return key event in multicursor mode.
   proc handle_return {W} {
-    
+
     if {![[ns vim]::in_vim_mode $W] && [[ns multicursor]::insert $W "\n" [ns indent]::newline]} {
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # Handles a keypress event in multicursor mode.
   proc handle_keypress {W A K} {
-    
+
     if {([string compare -length 5 $K "Shift"]   != 0) && \
         ([string compare -length 7 $K "Control"] != 0) && \
         ![[ns vim]::in_vim_mode $W]} {
@@ -187,78 +185,78 @@ namespace eval multicursor {
         return 1
       }
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # Handles an escape event in multicursor mode.
   proc handle_escape {W} {
-    
+
     if {[[ns vim]::get_edit_mode $W] eq ""} {
       disable $W
     }
-    
+
   }
-  
+
   ######################################################################
   # Returns 1 if multiple selections exist; otherwise, returns 0.
   proc enabled {txt} {
-      
+
     return [expr [llength [$txt tag ranges mcursor]] > 0]
-        
+
   }
-  
+
   ######################################################################
   # Disables the multicursor mode for the given text widget.
   proc disable {txt} {
-    
+
     variable cursor_anchor
-    
+
     # Clear the start positions value
     $txt tag remove mcursor 1.0 end
 
     # Clear the current anchor
     set cursor_anchor ""
-  
+
   }
-  
+
   ######################################################################
   # Set a multicursor at the given index.
   proc add_cursor {txt index} {
-    
+
     variable cursor_anchor
-    
+
     if {[$txt index "$index lineend"] eq $index} {
       $txt insert $index " "
     }
-    
+
     if {[llength [set mcursors [lsearch -inline [$txt tag names $index] mcursor*]]] == 0} {
       $txt tag add mcursor $index
     } else {
       $txt tag remove mcursor $index
     }
-    
+
     # Set the cursor anchor to the current index
     set cursor_anchor $index
-      
+
   }
-  
+
   ######################################################################
   # Set multicursors between the anchor and the current line.
   proc add_cursors {txt index} {
-    
+
     variable cursor_anchor
-    
+
     if {$cursor_anchor ne ""} {
-      
+
       # Get the anchor line and column
       lassign [split [set orig_anchor $cursor_anchor] .] row col
-      
+
       # Get the current row
       set curr_row [lindex [split $index .] 0]
-      
+
       # Set the cursor
       if {$row < $curr_row} {
         for {set i [expr $row + 1]} {$i <= $curr_row} {incr i} {
@@ -269,26 +267,26 @@ namespace eval multicursor {
           add_cursor $txt $i.$col
         }
       }
-      
+
       # Re-set the cursor anchor
       set cursor_anchor $orig_anchor
-      
+
     }
-    
+
   }
-  
+
   ######################################################################
   # Searches for any string matches in the from/to range that match the
   # regular expression "exp".  Whenever a match is found, the first
   # character in the match is added to the current cursor list.
   proc search_and_add_cursors {txt from to exp} {
-    
+
     foreach index [$txt search -regexp -all $exp $from $to] {
       add_cursor $txt $index
     }
-    
+
   }
-  
+
   ######################################################################
   # Adjusts the cursors by the given suffix.  The valid values for suffix
   # are:
@@ -302,9 +300,9 @@ namespace eval multicursor {
   # a line or character will be inserted and the cursor set to that position.
   # The inserted text will be given the tag name of "insert_tag".
   proc adjust {txt suffix {insert 0} {insert_tag ""}} {
-    
+
     if {[string index $suffix 0] eq "+"} {
-      
+
       # If any of the cursors would "fall off the edge", don't modify any of them
       if {!$insert && ([string index $suffix end] eq "c")} {
         foreach {start end} [$txt tag ranges mcursor] {
@@ -313,7 +311,7 @@ namespace eval multicursor {
           }
         }
       }
-      
+
       # Move the cursors
       foreach {end start} [lreverse [$txt tag ranges mcursor]] {
         $txt tag remove mcursor $start
@@ -350,9 +348,9 @@ namespace eval multicursor {
           }
         }
       }
-      
+
     } else {
-      
+
       # If any of the cursors would "fall off the edge", don't adjust any of them
       if {!$insert && ([string index $suffix end] eq "c")} {
         foreach {start end} [$txt tag ranges mcursor] {
@@ -361,7 +359,7 @@ namespace eval multicursor {
           }
         }
       }
-      
+
       # Adjust the cursors
       foreach {start end} [$txt tag ranges mcursor] {
         $txt tag remove mcursor $start
@@ -398,11 +396,11 @@ namespace eval multicursor {
           }
         }
       }
-      
+
     }
-    
+
   }
-  
+
   ######################################################################
   # Handles the deletion key.  The value of suffix defines what text will
   # be deleted.  The following is a listing of valid values for suffix:
@@ -415,9 +413,9 @@ namespace eval multicursor {
   # - -#type    = Delete # of types prior to the cursor to the cursor.
   # - +#type    = Delete from the cursor to # of types after the cursor.
   proc delete {txt suffix {data ""}} {
-    
+
     variable selected
-    
+
     # Only perform this if multiple cursors
     if {[enabled $txt]} {
       if {$selected || ($suffix eq "selected")} {
@@ -487,15 +485,15 @@ namespace eval multicursor {
       }
       return 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # Handles the insertion of a printable character.
   proc insert {txt value {indent_cmd ""}} {
-    
+
     variable selected
 
     # Insert the value into the text widget for each of the starting positions
@@ -515,17 +513,17 @@ namespace eval multicursor {
       }
       return 1
     }
-    
+
     return 0
-  
+
   }
-  
+
   ######################################################################
   # Handle the replacement of a given character.
   proc replace {txt value {indent_cmd ""}} {
-    
+
     variable selected
-    
+
     # Replace the current insertion cursor with the given value
     if {[enabled $txt]} {
       if {$selected} {
@@ -542,11 +540,11 @@ namespace eval multicursor {
         return 1
       }
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # Parses the given number string with the format of:
   #   (d|o|x)?<number>+
@@ -558,23 +556,23 @@ namespace eval multicursor {
   # each successive cursor will have an incrementing value inserted
   # at its location.
   proc insert_numbers {txt numstr} {
-    
+
     variable selected
-    
+
     # If the number string is a decimal number without a preceding 'd' character, add it now
-    if {[set d_added [regexp {^[0-9]+$} $numstr]]} { 
+    if {[set d_added [regexp {^[0-9]+$} $numstr]]} {
       set numstr "d$numstr"
     }
-    
+
     # Parse the number string to verify that it's valid
     if {[regexp {^(.*)((b[0-1]*)|(d[0-9]*)|(o[0-7]*)|([xh][0-9a-fA-F]*))$} $numstr -> prefix numstr]} {
-      
+
       # Get the cursors
       set mcursors [lreverse [$txt tag ranges mcursor]]
-      
+
       # Get the last number
       set num_mcursors [expr ([llength $mcursors] / 2)]
-      
+
       # If things were selected, delete their characters and re-add the multicursors
       if {$selected} {
         foreach {end start} $mcursors {
@@ -583,13 +581,13 @@ namespace eval multicursor {
         }
         set selected 0
       }
-      
+
       # Get the number portion of the number string.  If one does not exist,
       # default the number to 0.
       if {[set num [string range $numstr 1 end]] eq ""} {
         set num 0
       }
-      
+
       # Handle the value insertions
       switch [string tolower [string index $numstr 0]] {
         b {
@@ -624,26 +622,26 @@ namespace eval multicursor {
           }
         }
       }
-      
+
       return 1
-      
+
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
   # Aligns all of the cursors by inserting spaces prior to each cursor
   # that is less than the one in the highest column position.  If multiple
   # cursors exist on the same line, the cursor in the lowest column position
   # is used.
   proc align {txt} {
-    
+
     set last_row -1
     set max_col  0
     set cursors  [list]
-    
+
     # Find the cursor position to align to and the cursors to align
     foreach {start end} [$txt tag ranges mcursor] {
       lassign [split $start .] row col
@@ -655,51 +653,51 @@ namespace eval multicursor {
         lappend cursors [list $row $col]
       }
     }
-    
+
     # Insert spaces to align all columns
     foreach cursor $cursors {
       $txt insert [join $cursor .] [string repeat " " [expr $max_col - [lindex $cursor 1]]]
     }
-    
+
   }
-  
+
   ######################################################################
   # Copies any multicursors found in the given text block.
   proc copy {txt start end} {
-    
+
     variable copy_cursors
-    
+
     # Current index
     set current $start
-    
+
     # Initialize copy cursor information
     set copy_cursors($txt,offsets) [list]
     set copy_cursors($txt,value)   [clipboard get]
-    
+
     # Get the mcursor offsets from start
     while {[set index [$txt tag nextrange mcursor $current $end]] ne ""} {
       lappend copy_cursors($txt,offsets) [$txt count -chars $start [lindex $index 0]]
       set current [$txt index "[lindex $index 0]+1c"]
     }
-    
+
   }
-  
+
   ######################################################################
   # Adds multicursors to the given pasted text.
   proc paste {txt start} {
-    
+
     variable copy_cursors
-    
+
     # Only perform the operation if the stored value matches the clipboard contents
     if {[info exists copy_cursors($txt,value)] && ($copy_cursors($txt,value) eq [clipboard get])} {
-      
+
       # Add the mcursors
       foreach offset $copy_cursors($txt,offsets) {
         $txt tag add mcursor "$start+${offset}c"
       }
-      
+
     }
-      
+
   }
-   
+
 }

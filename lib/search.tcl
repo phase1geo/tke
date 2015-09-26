@@ -188,8 +188,14 @@ namespace eval search {
     # Clear the selection
     $txt tag remove sel 1.0 end
 
+    # Get the search ranges
+    set ranges [$txt tag ranges _search]
+
+    # Delete the search highlight
+    catch { ctext::deleteHighlightClass $txt search }
+
     # Add all matching search items to the selection
-    $txt tag add sel {*}[$txt tag ranges _search]
+    $txt tag add sel {*}$ranges
 
     # Make the first line viewable
     catch {
