@@ -33,6 +33,7 @@ var launcher_8tcl =
     [ "remove_temporary", "launcher_8tcl.html#a83463d3abebecc0158cab7cca6348c1b", null ],
     [ "save_session", "launcher_8tcl.html#a22bd1e3d015e268e0ce1374b5c45819b", null ],
     [ "select", "launcher_8tcl.html#a9378f65f314c30175a60d4f1f4a4d08f", null ],
+    [ "select_motion", "launcher_8tcl.html#a873b1ea71220dbe075587aaab76f7c02", null ],
     [ "snip_okay", "launcher_8tcl.html#ae8525c031d60f8d3ed022f9ee4081086", null ],
     [ "sort_match_results", "launcher_8tcl.html#ade6abc28dfc8fe8bf08f98ae40ad7a90", null ],
     [ "symbol_okay", "launcher_8tcl.html#a5590602976fbb0553d7060879c18ab39", null ],

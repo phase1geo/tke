@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="tke_logo_128.gif"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">TKE
-   &#160;<span id="projectnumber">1.8</span>
+   &#160;<span id="projectnumber">1.9</span>
    </div>
    <div id="projectbrief">Advanced editor written in Tcl/Tk</div>
   </td>
@@ -160,29 +160,29 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="logger_8tcl_source.html#l00207">207</a> of file <a class="el" href="logger_8tcl_source.html">logger.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;<span class="keyword">proc</span> bgerror {str} {
+<p>Definition at line <a class="el" href="logger_8tcl_source.html#l00231">231</a> of file <a class="el" href="logger_8tcl_source.html">logger.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;<span class="keyword">proc</span> bgerror {str} {
   
   </div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;  
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;  
   </div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;  <span class="comment"># Log the error
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;  <span class="comment"># Log the error
 </span></div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">if</span> {[<a class="code" href="namespacelogger.html#a3d1a177556c3ce0c5908ee9f9ac2a59d" title="logger::log">logger::log</a> $str]} {
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">if</span> {[<a class="code" href="namespacelogger.html#a3d1a177556c3ce0c5908ee9f9ac2a59d" title="logger::log">logger::log</a> $str]} {
     </div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    <a class="code" href="namespacelogger.html#a3d1a177556c3ce0c5908ee9f9ac2a59d" title="logger::log">logger::log</a> $::errorInfo<span class="comment">
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    <a class="code" href="namespacelogger.html#a3d1a177556c3ce0c5908ee9f9ac2a59d" title="logger::log">logger::log</a> $::errorInfo<span class="comment">
 </span></div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;<span class="comment"></span>  } <span class="keyword">else</span> {
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;<span class="comment"></span>  } <span class="keyword">else</span> {
     </div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    <span class="keyword">puts</span> stderr $str<span class="comment">
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    <span class="keyword">puts</span> stderr $str<span class="comment">
 </span></div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;<span class="comment"></span>    <span class="keyword">puts</span> stderr $::errorInfo<span class="comment">
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;<span class="comment"></span>    <span class="keyword">puts</span> stderr $::errorInfo<span class="comment">
 </span></div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;<span class="comment"></span>  }<span class="comment">
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;<span class="comment"></span>  }<span class="comment">
 </span></div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;<span class="comment"></span>  
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;<span class="comment"></span>  
 </div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;}</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -192,7 +192,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_97aefd0d527b934f1d99a682da8fe6a9.html">lib</a></li><li class="navelem"><a class="el" href="logger_8tcl.html">logger.tcl</a></li>
-    <li class="footer">Generated on Fri Jul 17 2015 08:34:46 for TKE by
+    <li class="footer">Generated on Fri Sep 25 2015 22:23:45 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>

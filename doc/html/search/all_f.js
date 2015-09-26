@@ -2,6 +2,7 @@ var searchData=
 [
   ['pane_5ftb_5findex_5ffrom_5ftab',['pane_tb_index_from_tab',['../namespacegui.html#a55735feeabc3b5337566a87db4eab541',1,'gui']]],
   ['panes',['panes',['../namespacegui.html#a589a4a2beb2d4d13a296d423227939f8',1,'gui']]],
+  ['parse',['parse',['../namespacetkedat.html#a2c497c50d536bf03673ee049bb7b86d0',1,'tkedat']]],
   ['parse_5fcmdline',['parse_cmdline',['../tke_8tcl.html#ac840dfd4eb03191da4521508da70850a',1,'tke.tcl']]],
   ['parse_5fsnippet',['parse_snippet',['../namespacesnippets.html#a01add5f26df3cf2af702811f6409cccd',1,'snippets']]],
   ['parse_5fsnippets',['parse_snippets',['../namespacesnippets.html#ac6fd58389f8250012a6d62a2f21417dc',1,'snippets']]],
@@ -22,12 +23,14 @@ var searchData=
   ['populate_5findent_5fmenu',['populate_indent_menu',['../namespaceindent.html#a6354b33861551e27b6f2ac17c813ba06',1,'indent']]],
   ['populate_5fsyntax_5fmenu',['populate_syntax_menu',['../namespacesyntax.html#af408da5734cf315789f531e852a6b0dc',1,'syntax']]],
   ['populate_5ftheme_5fmenu',['populate_theme_menu',['../namespacesyntax.html#a79829638a14e8a018aae2a8cd77b6381',1,'syntax']]],
-  ['populate_5fui',['populate_ui',['../namespacelang.html#a15e2bbb134e4fbb77fd0d1d05022f681',1,'lang']]],
+  ['populate_5fui',['populate_ui',['../namespacelang.html#a91cbcf6dbb1a13ae8aadeb38b8afbbf3',1,'lang']]],
   ['post_5fcascade_5fmenu',['post_cascade_menu',['../namespaceplugins.html#affb73e12931983ba249c07a8e7802fe7',1,'plugins']]],
   ['preferences',['preferences',['../namespacepreferences.html',1,'']]],
   ['preferences_2etcl',['preferences.tcl',['../preferences_8tcl.html',1,'']]],
+  ['preload',['preload',['../namespacesessions.html#abca08877bf8c666ec21486cd4650ae0b',1,'sessions']]],
   ['previous_5ftab',['previous_tab',['../namespacegui.html#af06efc281a583135590b7f7dbc5cf248',1,'gui']]],
   ['printable_5fhist',['printable_hist',['../namespacecliphist.html#a001c756e25ffa9803cb23c098c3a7756',1,'cliphist']]],
   ['progress_5fdialog',['progress_dialog',['../namespacebgproc.html#a4ef835fd115fa3122c66066b439ad945',1,'bgproc']]],
+  ['prompt_5ffor_5fsave',['prompt_for_save',['../namespacegui.html#a7fdc8a2903d432ac470ef18fbf1b9592',1,'gui']]],
   ['push_5fresource',['push_resource',['../namespacebgproc.html#aa7fa7b470f247f53b770f4d85ea23557',1,'bgproc']]]
 ];

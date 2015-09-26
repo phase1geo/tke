@@ -20,6 +20,8 @@ var namespaces =
     [ "multicursor", "namespacemulticursor.html", null ],
     [ "plugins", "namespaceplugins.html", null ],
     [ "preferences", "namespacepreferences.html", null ],
+    [ "search", "namespacesearch.html", null ],
+    [ "sessions", "namespacesessions.html", null ],
     [ "sidebar", "namespacesidebar.html", null ],
     [ "snippets", "namespacesnippets.html", null ],
     [ "syntax", "namespacesyntax.html", null ],

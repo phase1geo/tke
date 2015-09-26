@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="tke_logo_128.gif"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">TKE
-   &#160;<span id="projectnumber">1.8</span>
+   &#160;<span id="projectnumber">1.9</span>
    </div>
    <div id="projectbrief">Advanced editor written in Tcl/Tk</div>
   </td>
@@ -182,8 +182,8 @@ Functions</h2></td></tr>
 <tr class="separator:af13ad44f8e14c4a88767bd0e8e60c922"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a60bda9905de9bfe34d08ac892ee54ebf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#a60bda9905de9bfe34d08ac892ee54ebf">gui::save_session</a></td></tr>
 <tr class="separator:a60bda9905de9bfe34d08ac892ee54ebf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a642ba930f9e0bd4f284f67283cb21e6e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#a642ba930f9e0bd4f284f67283cb21e6e">gui::load_session</a> tid</td></tr>
-<tr class="separator:a642ba930f9e0bd4f284f67283cb21e6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf1abc2d2509d639db485cae8e83caa7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#adf1abc2d2509d639db485cae8e83caa7">gui::load_session</a> tid info</td></tr>
+<tr class="separator:adf1abc2d2509d639db485cae8e83caa7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2951095a477f0a72fb227872a68a6aba"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#a2951095a477f0a72fb227872a68a6aba">gui::next_tab</a></td></tr>
 <tr class="separator:a2951095a477f0a72fb227872a68a6aba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af06efc281a583135590b7f7dbc5cf248"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#af06efc281a583135590b7f7dbc5cf248">gui::previous_tab</a></td></tr>
@@ -206,8 +206,12 @@ Functions</h2></td></tr>
 <tr class="separator:a798f9b9c214d9cfecfb7d1e276348f9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a10f86745102fe7e53794198531a72926"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#a10f86745102fe7e53794198531a72926">gui::untitled_check</a></td></tr>
 <tr class="separator:a10f86745102fe7e53794198531a72926"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac656eb206762f24bc0d271e0ca5e14a9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#ac656eb206762f24bc0d271e0ca5e14a9">gui::add_buffer</a> index name save_command args</td></tr>
+<tr class="separator:ac656eb206762f24bc0d271e0ca5e14a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad078db7812672f2bce3e00d4382d064a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#ad078db7812672f2bce3e00d4382d064a">gui::add_new_file</a> index args</td></tr>
 <tr class="separator:ad078db7812672f2bce3e00d4382d064a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4d2bad1ee1d2728a5e5eac80c704c01"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#af4d2bad1ee1d2728a5e5eac80c704c01">gui::save_new_file</a> file_index</td></tr>
+<tr class="separator:af4d2bad1ee1d2728a5e5eac80c704c01"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f92b9af84ff56b1dac8e147f19daf9b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#a3f92b9af84ff56b1dac8e147f19daf9b">gui::add_file</a> index fname args</td></tr>
 <tr class="separator:a3f92b9af84ff56b1dac8e147f19daf9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8c4f55aea41fbcef4b84066ef0be39f5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#a8c4f55aea41fbcef4b84066ef0be39f5">gui::normalize</a> host fname</td></tr>
@@ -222,10 +226,22 @@ Functions</h2></td></tr>
 <tr class="separator:a24c24c25e52e79bfb9598f3fc16f3ba0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2ce142c59e003484e87a3318f14e3507"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#a2ce142c59e003484e87a3318f14e3507">gui::current_filename</a></td></tr>
 <tr class="separator:a2ce142c59e003484e87a3318f14e3507"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a84e54b111ca19507be10db538a4ee408"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#a84e54b111ca19507be10db538a4ee408">gui::save_current</a> tid?save_as?</td></tr>
-<tr class="separator:a84e54b111ca19507be10db538a4ee408"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7fdc8a2903d432ac470ef18fbf1b9592"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#a7fdc8a2903d432ac470ef18fbf1b9592">gui::prompt_for_save</a> tid</td></tr>
+<tr class="separator:a7fdc8a2903d432ac470ef18fbf1b9592"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52e58792a13e91e4f3782dcc54ca9d83"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#a52e58792a13e91e4f3782dcc54ca9d83">gui::save_prehandle</a> fname save_as force pperms</td></tr>
+<tr class="separator:a52e58792a13e91e4f3782dcc54ca9d83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47a5947dba4be371669ca22b8fe79d53"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#a47a5947dba4be371669ca22b8fe79d53">gui::save_posthandle</a> fname perms</td></tr>
+<tr class="separator:a47a5947dba4be371669ca22b8fe79d53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff6a746ddec968e3e9cc528bc3a126ec"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#aff6a746ddec968e3e9cc528bc3a126ec">gui::find_matching_file_index</a> fname</td></tr>
+<tr class="separator:aff6a746ddec968e3e9cc528bc3a126ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12a52459bed19d3188743234b1b0d1dd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#a12a52459bed19d3188743234b1b0d1dd">gui::save_current</a> tid?force??save_as?</td></tr>
+<tr class="separator:a12a52459bed19d3188743234b1b0d1dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adb98affa454863d04bf11a4f8ffce91c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#adb98affa454863d04bf11a4f8ffce91c">gui::save_all</a></td></tr>
 <tr class="separator:adb98affa454863d04bf11a4f8ffce91c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8725ef5b60c7c63bb280254ff41d507c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#a8725ef5b60c7c63bb280254ff41d507c">gui::close_check</a> tid index force exiting</td></tr>
+<tr class="separator:a8725ef5b60c7c63bb280254ff41d507c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e7a0292efcf6c37e00eee9807753e1a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#a6e7a0292efcf6c37e00eee9807753e1a">gui::close_check_by_tabbar</a> tid w tab</td></tr>
+<tr class="separator:a6e7a0292efcf6c37e00eee9807753e1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abf5f11ff882bb1d15cf522a3485517d4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#abf5f11ff882bb1d15cf522a3485517d4">gui::close_current</a> tid?force??exiting?</td></tr>
 <tr class="separator:abf5f11ff882bb1d15cf522a3485517d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd5b00dfb49c89c0c71923acbff7be1b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#afd5b00dfb49c89c0c71923acbff7be1b">gui::close_tab_by_tabbar</a> w tab</td></tr>
@@ -276,28 +292,22 @@ Functions</h2></td></tr>
 <tr class="separator:a43e8d2712329b1cae9b9af39693ca770"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a30389bdd9ee459846a2359b59a875fcb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#a30389bdd9ee459846a2359b59a875fcb">gui::close_search_and_replace</a></td></tr>
 <tr class="separator:a30389bdd9ee459846a2359b59a875fcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa54372d60281c422300de07875184028"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#aa54372d60281c422300de07875184028">gui::clear_search</a> tid</td></tr>
-<tr class="separator:aa54372d60281c422300de07875184028"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19a7c2fcbf2056b0ce0aad392986d28b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#a19a7c2fcbf2056b0ce0aad392986d28b">gui::search_start</a> tid?dir?</td></tr>
-<tr class="separator:a19a7c2fcbf2056b0ce0aad392986d28b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad61b45ffecca8a762a34a57cb4d31053"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#ad61b45ffecca8a762a34a57cb4d31053">gui::search_next</a> tid app</td></tr>
-<tr class="separator:ad61b45ffecca8a762a34a57cb4d31053"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab057c748374f77cffba81bfa01146b3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#aab057c748374f77cffba81bfa01146b3">gui::search_prev</a> tid app</td></tr>
-<tr class="separator:aab057c748374f77cffba81bfa01146b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ada3277e23b36a97e477ffdcd554320b6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#ada3277e23b36a97e477ffdcd554320b6">gui::search_all</a> tid</td></tr>
-<tr class="separator:ada3277e23b36a97e477ffdcd554320b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12bfe32253db7b296901865e6d37a4fc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#a12bfe32253db7b296901865e6d37a4fc">gui::do_search_and_replace</a> tid</td></tr>
-<tr class="separator:a12bfe32253db7b296901865e6d37a4fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a507194e2fbf7008e8de794b17d165dfe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#a507194e2fbf7008e8de794b17d165dfe">gui::do_raw_search_and_replace</a> tid sline eline search replace ignore_case all</td></tr>
-<tr class="separator:a507194e2fbf7008e8de794b17d165dfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58505e6d5364bb7cdc7c71623a4e2550"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#a58505e6d5364bb7cdc7c71623a4e2550">gui::get_search_data</a> type</td></tr>
+<tr class="separator:a58505e6d5364bb7cdc7c71623a4e2550"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b3a9bcdee4e51a923caa70a4bdc7260"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#a7b3a9bcdee4e51a923caa70a4bdc7260">gui::set_search_data</a> type data</td></tr>
+<tr class="separator:a7b3a9bcdee4e51a923caa70a4bdc7260"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac9864385502b037706ecd8b403d3fd7e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#ac9864385502b037706ecd8b403d3fd7e">gui::get_actual_filenames</a></td></tr>
 <tr class="separator:ac9864385502b037706ecd8b403d3fd7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aee361db6abcc11eb25b672ef0e4e8606"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#aee361db6abcc11eb25b672ef0e4e8606">gui::set_current_tab_image</a> tid</td></tr>
 <tr class="separator:aee361db6abcc11eb25b672ef0e4e8606"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af1e9b574eedc44b5f4177de13ad027ff"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#af1e9b574eedc44b5f4177de13ad027ff">gui::set_current_file_lock</a> tid lock</td></tr>
 <tr class="separator:af1e9b574eedc44b5f4177de13ad027ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada752a9ac6b934eb2adb0058f89bc275"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#ada752a9ac6b934eb2adb0058f89bc275">gui::set_current_file_lock_with_current</a> tid</td></tr>
+<tr class="separator:ada752a9ac6b934eb2adb0058f89bc275"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7060d3bc6fd40aae7543af3244db87cd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#a7060d3bc6fd40aae7543af3244db87cd">gui::set_current_file_favorite</a> tid favorite</td></tr>
 <tr class="separator:a7060d3bc6fd40aae7543af3244db87cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88225f3a546abfa3ed0064d9a9a7e5c3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#a88225f3a546abfa3ed0064d9a9a7e5c3">gui::set_current_file_favorite_with_current</a> tid</td></tr>
+<tr class="separator:a88225f3a546abfa3ed0064d9a9a7e5c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0c0cdce3f529aa51508d5d7bb099ff88"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#a0c0cdce3f529aa51508d5d7bb099ff88">gui::set_current_indent_mode</a> tid value</td></tr>
 <tr class="separator:a0c0cdce3f529aa51508d5d7bb099ff88"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a10692dd4c69e1cd3aaed8b835033c1a3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#a10692dd4c69e1cd3aaed8b835033c1a3">gui::show_current_in_sidebar</a></td></tr>
@@ -332,8 +342,8 @@ Functions</h2></td></tr>
 <tr class="separator:a2c62d8eb4a58441213b2892dcbc55163"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaa4a223585b8996484df77327c98b6b5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#aaa4a223585b8996484df77327c98b6b5">gui::adjust_insert_tab_index</a> index title</td></tr>
 <tr class="separator:aaa4a223585b8996484df77327c98b6b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae9f22224d3faa15373fc0e1579fd33c0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#ae9f22224d3faa15373fc0e1579fd33c0">gui::insert_tab</a> index title diff gutters?initial_language?</td></tr>
-<tr class="separator:ae9f22224d3faa15373fc0e1579fd33c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5f8f6aa64aa4fefd392dcff1e9b8b98"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#ab5f8f6aa64aa4fefd392dcff1e9b8b98">gui::insert_tab</a> index title diff gutters tags?initial_language?</td></tr>
+<tr class="separator:ab5f8f6aa64aa4fefd392dcff1e9b8b98"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab2d388c41eb25e44dfe888d24815183a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#ab2d388c41eb25e44dfe888d24815183a">gui::show_split_pane</a> tid</td></tr>
 <tr class="separator:ab2d388c41eb25e44dfe888d24815183a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a32f7ad04e9d79c774cbd6a367f6fe85b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#a32f7ad04e9d79c774cbd6a367f6fe85b">gui::hide_split_pane</a> tid</td></tr>
@@ -346,8 +356,8 @@ Functions</h2></td></tr>
 <tr class="separator:ac463b688f43dba668eb87bf8c1255144"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5da5c9fd94c5c8682262e0bd87f0be31"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#a5da5c9fd94c5c8682262e0bd87f0be31">gui::handle_drop</a> txt action modifier type data</td></tr>
 <tr class="separator:a5da5c9fd94c5c8682262e0bd87f0be31"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa9b402fb4725cd7013a80c3931a8f5fe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#aa9b402fb4725cd7013a80c3931a8f5fe">gui::text_changed</a> txt</td></tr>
-<tr class="separator:aa9b402fb4725cd7013a80c3931a8f5fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7dfd45cc2b4b4fbe49dc7af9a4f1d090"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#a7dfd45cc2b4b4fbe49dc7af9a4f1d090">gui::text_changed</a> txt data</td></tr>
+<tr class="separator:a7dfd45cc2b4b4fbe49dc7af9a4f1d090"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae3d62e73bba63aa892cb35e087a6f638"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#ae3d62e73bba63aa892cb35e087a6f638">gui::selection_changed</a> txt</td></tr>
 <tr class="separator:ae3d62e73bba63aa892cb35e087a6f638"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adeec21bf873d497ef889852a9ba01404"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#adeec21bf873d497ef889852a9ba01404">gui::select_line</a> w y</td></tr>
@@ -423,7 +433,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_97aefd0d527b934f1d99a682da8fe6a9.html">lib</a></li><li class="navelem"><a class="el" href="gui_8tcl.html">gui.tcl</a></li>
-    <li class="footer">Generated on Fri Jul 17 2015 08:34:46 for TKE by
+    <li class="footer">Generated on Fri Sep 25 2015 22:23:45 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>

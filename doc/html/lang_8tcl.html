@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="tke_logo_128.gif"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">TKE
-   &#160;<span id="projectnumber">1.8</span>
+   &#160;<span id="projectnumber">1.9</span>
    </div>
    <div id="projectbrief">Advanced editor written in Tcl/Tk</div>
   </td>
@@ -136,8 +136,8 @@ Functions</h2></td></tr>
 <tr class="separator:ac36d2f98354b34b2aaab124944b4f44a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae64a21071488c1204e5062faa102d4c0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelang.html#ae64a21071488c1204e5062faa102d4c0">lang::edit_end_command</a> tbl row col value</td></tr>
 <tr class="separator:ae64a21071488c1204e5062faa102d4c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a15e2bbb134e4fbb77fd0d1d05022f681"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelang.html#a15e2bbb134e4fbb77fd0d1d05022f681">lang::populate_ui</a> lang</td></tr>
-<tr class="separator:a15e2bbb134e4fbb77fd0d1d05022f681"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91cbcf6dbb1a13ae8aadeb38b8afbbf3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelang.html#a91cbcf6dbb1a13ae8aadeb38b8afbbf3">lang::populate_ui</a> auto lang</td></tr>
+<tr class="separator:a91cbcf6dbb1a13ae8aadeb38b8afbbf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9adb22fdc6f1a820ddde220a9b9f5830"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelang.html#a9adb22fdc6f1a820ddde220a9b9f5830">lang::show_hide_xlate</a> row</td></tr>
 <tr class="separator:a9adb22fdc6f1a820ddde220a9b9f5830"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aad2a616ede4d07b3a691c9dacf8914b2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelang.html#aad2a616ede4d07b3a691c9dacf8914b2">lang::show_hide_xlates</a></td></tr>
@@ -146,8 +146,8 @@ Functions</h2></td></tr>
 <tr class="separator:a90e4278d77eedd66058621c4cdd99335"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a15447b90ee37548b3ded311afe9da789"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelang.html#a15447b90ee37548b3ded311afe9da789">lang::perform_translations</a> lang</td></tr>
 <tr class="separator:a15447b90ee37548b3ded311afe9da789"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa19333e00ee711fe6f04a1d32586be40"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelang.html#aa19333e00ee711fe6f04a1d32586be40">lang::update_langs</a> langs</td></tr>
-<tr class="separator:aa19333e00ee711fe6f04a1d32586be40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3625898886c85a1b6885bf57832a0ad"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelang.html#ae3625898886c85a1b6885bf57832a0ad">lang::update_langs</a> auto langs</td></tr>
+<tr class="separator:ae3625898886c85a1b6885bf57832a0ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="a5684f219761d78b4f98e7b2869dd1726"></a>
@@ -160,29 +160,31 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="lang_8tcl_source.html#l00400">400</a> of file <a class="el" href="lang_8tcl_source.html">lang.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;<span class="keyword">proc</span> usage {} {
+<p>Definition at line <a class="el" href="lang_8tcl_source.html#l00441">441</a> of file <a class="el" href="lang_8tcl_source.html">lang.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;<span class="keyword">proc</span> usage {} {
   
   </div>
-<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;  
+<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;  
   </div>
-<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;  <span class="keyword">puts</span> &quot;Usage:  wish8.5 lang.tcl (-h | &lt;lang&gt;+)&quot;<span class="comment">
+<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;  <span class="keyword">puts</span> &quot;Usage:  wish8.5 lang.tcl (-h | &lt;lang&gt;+)&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;<span class="comment"></span>  <span class="keyword">puts</span> &quot;&quot;<span class="comment">
+<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;<span class="comment"></span>  <span class="keyword">puts</span> &quot;&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;<span class="comment"></span>  <span class="keyword">puts</span> &quot;Options:&quot;<span class="comment">
+<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;<span class="comment"></span>  <span class="keyword">puts</span> &quot;Options:&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;<span class="comment"></span>  <span class="keyword">puts</span> &quot;  -h    Displays this help information and exits&quot;<span class="comment">
+<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;<span class="comment"></span>  <span class="keyword">puts</span> &quot;  -h     Displays this help information and exits&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;<span class="comment"></span>  <span class="keyword">puts</span> &quot;&quot;<span class="comment">
+<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;<span class="comment"></span>  <span class="keyword">puts</span> &quot;  -auto  Automatically starts the translations, updates and quits&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;<span class="comment"></span>  
+<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;<span class="comment"></span>  <span class="keyword">puts</span> &quot;&quot;<span class="comment">
+</span></div>
+<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;<span class="comment"></span>  
   </div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;  <span class="keyword">exit</span><span class="comment">
+<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;  <span class="keyword">exit</span><span class="comment">
 </span></div>
-<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;<span class="comment"></span>  
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;<span class="comment"></span>  
 </div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;}</div>
+<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -192,7 +194,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_97aefd0d527b934f1d99a682da8fe6a9.html">lib</a></li><li class="navelem"><a class="el" href="lang_8tcl.html">lang.tcl</a></li>
-    <li class="footer">Generated on Fri Jul 17 2015 08:34:46 for TKE by
+    <li class="footer">Generated on Fri Sep 25 2015 22:23:45 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>

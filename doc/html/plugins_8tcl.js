@@ -29,7 +29,7 @@ var plugins_8tcl =
     [ "handle_root_popup", "plugins_8tcl.html#a957f31e0bc95cdfdeeb8924d3baa7719", null ],
     [ "handle_status_error", "plugins_8tcl.html#a42ca6e224bf35c7e0a5f926b404c3268", null ],
     [ "handle_tab_popup", "plugins_8tcl.html#af25298b42fffdf876992d4c715c9fe0a", null ],
-    [ "handle_text_bindings", "plugins_8tcl.html#a2589b6debedeeed3d12d0995d81e2d2a", null ],
+    [ "handle_text_bindings", "plugins_8tcl.html#a1fd7f65cbbe458792b1f28efc3f61f70", null ],
     [ "install", "plugins_8tcl.html#a98f7fbd2a998f61b939df9a7af51b585", null ],
     [ "install_item", "plugins_8tcl.html#ab016e3a2a84de030df5a91579c3b9374", null ],
     [ "load", "plugins_8tcl.html#a6cbf50a8f6180f8ee3f167e8a8ba99b9", null ],
