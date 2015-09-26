@@ -263,8 +263,13 @@ namespace eval api {
         set opts(-tags) $tag_list
       }
 
-      # Finally, add the new file
-      gui::add_buffer end $name "$interp eval $save_command" {*}[array get opts]
+      # If the save command was specified, add the interpreter evaluation
+      if {$save_command ne ""} {
+        set save_command "$interp eval $save_command"
+      }
+
+      # Finally, add the buffer
+      gui::add_buffer end $name $save_command {*}[array get opts]
 
       # Allow the plugin to manipulate the ctext widget
       set txt [gui::current_txt {}]

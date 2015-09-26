@@ -44,7 +44,7 @@ namespace eval perforce {
 
   ######################################################################
   # Handles a save action on the specified include directory file.
-  proc edit_include_dirs_save {fname} {
+  proc edit_include_dirs_save {fname file_index} {
 
     variable include_dirs
 
@@ -160,33 +160,33 @@ namespace eval perforce {
     }
 
   }
-  
+
   ######################################################################
   # When a file is renamed, handle it from Perforce's point of view.
   proc on_rename_do {old_fname new_fname} {
-    
+
     if {[included $old_fname]} {
-      
+
       # If the new filename exists within a Perforce directory, rename it
       if {[included $new_fname]} {
         catch "exec p4 rename $old_fname $new_fname"
-        
+
       # Otherwise, delete the old file from the depot
       } else {
         catch "exec p4 delete $old_fname"
       }
-      
+
     }
-    
+
   }
-  
+
   ######################################################################
   # When a file/folder is deleted, handle it from Perforce's point of
   # view.
   proc on_delete_do {fname} {
-    
+
     if {[included $fname]} {
-      
+
       # Perform the Perforce deletion
       if {[file isdirectory $fname]} {
         if {![catch "exec -ignorestderr p4 delete $fname/..."]} {
@@ -197,11 +197,11 @@ namespace eval perforce {
           catch "exec touch $fname"
         }
       }
-      
+
     }
-    
+
   }
-  
+
   ######################################################################
   # Handles a writeplugin event.
   proc writeplugin_do {} {
