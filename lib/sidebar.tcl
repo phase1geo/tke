@@ -1231,7 +1231,7 @@ namespace eval sidebar {
     variable widgets
 
     # Add the file to the notebook in difference view
-    gui::add_file end [$widgets(tl) cellcget $row,name -text] -diff 1 -other [[ns preferences]::get View/ShowDifferenceInOtherPane]
+    gui::add_file end [$widgets(tl) cellcget $row,name -text] -diff 1 -other [preferences::get View/ShowDifferenceInOtherPane]
 
   }
 
