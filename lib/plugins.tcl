@@ -105,7 +105,7 @@ namespace eval plugins {
 
       # Read the header information
       if {![catch { tkedat::read [file join $plugin header.tkedat] 0 } rc]} {
-        
+
         array set header $rc
 
         # Store this information if the name is specified and it should be included
@@ -137,7 +137,7 @@ namespace eval plugins {
 
   ######################################################################
   # Perfoms a reload of the available plugins.
-  proc reload {} {
+  proc reload {file_index} {
 
     variable registry
     variable registry_size
@@ -943,11 +943,11 @@ namespace eval plugins {
 
     variable registry
     variable bound_tags
-    
+
     set ttags       [bindtags $txt.t]
     set tpre_index  [expr [lsearch -exact $ttags $txt.t] + 1]
     set tpost_index [lsearch -exact $ttags .]
-    
+
     array set ptags {
       pretext  {}
       posttext {}
@@ -970,7 +970,7 @@ namespace eval plugins {
         }
       }
     }
-    
+
     # Set the bindtags
     if {[llength $ptags(posttext)] > 0} {
       set ttags [linsert $ttags $tpost_index {*}$ptags(posttext)]
@@ -979,7 +979,7 @@ namespace eval plugins {
       set ttags [linsert $ttags $tpre_index {*}$ptags(pretext)]
     }
     bindtags $txt.t $ttags
-    
+
   }
 
   ######################################################################
@@ -1024,27 +1024,27 @@ namespace eval plugins {
   ######################################################################
   # Called whenever a file/folder is renamed.
   proc handle_on_rename {old_fname new_fname} {
-    
+
     handle_event "on_rename" $old_fname $new_fname
-    
+
   }
-  
+
   ######################################################################
   # Called whenever a file is duplicated.
   proc handle_on_duplicate {old_fname new_fname} {
-    
+
     handle_event "on_duplicate" $old_fname $new_fname
-    
+
   }
-  
+
   ######################################################################
   # Called whenever a file/folder is deleted.
   proc handle_on_delete {fname} {
-    
+
     handle_event "on_delete" $fname
-    
+
   }
-  
+
   ######################################################################
   # Called whenever a tab receives focus.
   proc handle_on_focusin {tab} {
