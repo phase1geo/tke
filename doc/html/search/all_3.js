@@ -2,7 +2,7 @@ var searchData=
 [
   ['custom',['custom',['../namespacediff_1_1custom.html',1,'diff']]],
   ['cvs',['cvs',['../namespacediff_1_1cvs.html',1,'diff']]],
-  ['delete',['delete',['../namespacemulticursor.html#a58fa409bcc6ef0701eb9b0ffac1efc65',1,'multicursor']]],
+  ['delete',['delete',['../namespacemulticursor.html#a7e6e8bd5e7beff17d2ac050e3bf62880',1,'multicursor::delete()'],['../namespacesessions.html#a7d60298c406cbfc3c16725fe0bec23d1',1,'sessions::delete()']]],
   ['delete_5fall_5fmenus',['delete_all_menus',['../namespaceplugins.html#a45d5be043f7f7b55adcbda0d639fc3d0',1,'plugins']]],
   ['delete_5fall_5fsyntax',['delete_all_syntax',['../namespaceplugins.html#a0bb12ae1b66c5fdb081dcb3b3e67b599',1,'plugins']]],
   ['delete_5fall_5ftext_5fbindings',['delete_all_text_bindings',['../namespaceplugins.html#a94f11e6ba11af7fe9a51dfae377e51d2',1,'plugins']]],
@@ -26,8 +26,6 @@ var searchData=
   ['do_5fjoin',['do_join',['../namespacevim.html#a1d9fe75241ab85669336e514107b1a32',1,'vim']]],
   ['do_5fpost_5fpaste',['do_post_paste',['../namespacevim.html#aa84381fd8f09d8fbb58c5e9346ae62c5',1,'vim']]],
   ['do_5fpre_5fpaste',['do_pre_paste',['../namespacevim.html#a4c6f4b8112f9d3c2b1cfc88e3cf3a826',1,'vim']]],
-  ['do_5fraw_5fsearch_5fand_5freplace',['do_raw_search_and_replace',['../namespacegui.html#a507194e2fbf7008e8de794b17d165dfe',1,'gui']]],
-  ['do_5fsearch_5fand_5freplace',['do_search_and_replace',['../namespacegui.html#a12bfe32253db7b296901865e6d37a4fc',1,'gui']]],
   ['do_5funcomment',['do_uncomment',['../namespacetexttools.html#af1027c5ed09322a800ea3bb98bb3c193',1,'texttools']]],
   ['dohighlight',['doHighlight',['../namespacectext.html#a00f9424f33763453c088b8e9f9c2a837',1,'ctext']]],
   ['duplicate_5ffile',['duplicate_file',['../namespacesidebar.html#a6ad31fd2c0962b92fbcafa9f0e47e399',1,'sidebar']]],

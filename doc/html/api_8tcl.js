@@ -1,6 +1,7 @@
 var api_8tcl =
 [
-    [ "add", "api_8tcl.html#a43d8be5fa4e000fd2cffcba07ce95263", null ],
+    [ "add_buffer", "api_8tcl.html#a9cf6a0a1718f51ecef65a3b94c963345", null ],
+    [ "add_file", "api_8tcl.html#a00bb6b7c590ee8362332cc23832ba1fe", null ],
     [ "current_file_index", "api_8tcl.html#aa0d1e2d22b802520dd3990e941b29916", null ],
     [ "get_home_directory", "api_8tcl.html#ad83be960420519d765d070c4d52058c6", null ],
     [ "get_images_directory", "api_8tcl.html#af8e0db5ca61dd30b502328b4f42067d3", null ],

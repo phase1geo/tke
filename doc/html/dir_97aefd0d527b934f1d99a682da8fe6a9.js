@@ -23,6 +23,8 @@ var dir_97aefd0d527b934f1d99a682da8fe6a9 =
     [ "plugins.tcl", "plugins_8tcl.html", "plugins_8tcl" ],
     [ "preferences.tcl", "preferences_8tcl.html", "preferences_8tcl" ],
     [ "restart.tcl", "restart_8tcl.html", null ],
+    [ "search.tcl", "search_8tcl.html", "search_8tcl" ],
+    [ "sessions.tcl", "sessions_8tcl.html", "sessions_8tcl" ],
     [ "sidebar.tcl", "sidebar_8tcl.html", "sidebar_8tcl" ],
     [ "snippets.tcl", "snippets_8tcl.html", "snippets_8tcl" ],
     [ "syntax.tcl", "syntax_8tcl.html", "syntax_8tcl" ],

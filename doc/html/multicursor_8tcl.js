@@ -6,7 +6,7 @@ var multicursor_8tcl =
     [ "adjust", "multicursor_8tcl.html#a31098df60b3d4a025d9ce6782243803f", null ],
     [ "align", "multicursor_8tcl.html#a1c1227854634b5ae8b93b319c86ef6ed", null ],
     [ "copy", "multicursor_8tcl.html#a50084f489358ada48b7a376d46eccd34", null ],
-    [ "delete", "multicursor_8tcl.html#a58fa409bcc6ef0701eb9b0ffac1efc65", null ],
+    [ "delete", "multicursor_8tcl.html#a7e6e8bd5e7beff17d2ac050e3bf62880", null ],
     [ "disable", "multicursor_8tcl.html#acc0adc06a722ffd0809ec7eea2cdec78", null ],
     [ "enabled", "multicursor_8tcl.html#ac17e4a5deda190ec6a83a14ad533fac6", null ],
     [ "handle_alt_button1", "multicursor_8tcl.html#abb71f9b14079066d06967b547f0e774e", null ],
