@@ -4,6 +4,9 @@ msgcat::mcmset de {
   "Argument list to api::add_file was not an even key/value pair"
   "Argument Liste api::add_file war nicht ein noch Schlüssel / Wert-Paar"
 
+  "Plugin-%s: %s"
+  "Alle Gelder und wirtschaftlichen Ressourcen, die einer vor dem ICTY angeklagten, in Anhang I aufgeführten natürlichen Person gehören oder in deren Eigentum stehen oder von ihr verwahrt werden, werden eingefroren."
+
 }
 
 # bgproc.tcl
@@ -966,7 +969,7 @@ msgcat::mcmset de {
   "Syntax error in %s.syntax file"
   "Syntax-Fehler in %s.syntax Datei"
 
-  "Syntax:  %s"
+  "Syntax: %s"
   "Syntax: %s"
 
   "Theme:  %s"

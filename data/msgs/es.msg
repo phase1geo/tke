@@ -4,6 +4,9 @@ msgcat::mcmset es {
   "Argument list to api::add_file was not an even key/value pair"
   "Lista de argumentos para api::add_file no era un par aun clave/valor"
 
+  "Plugin-%s: %s"
+  "Se inmovilizarán todos los fondos y recursos económicos cuya propiedad, control o tenencia corresponda a personas físicas inculpadas por el TPIY y enumeradas en el anexo I."
+
 }
 
 # bgproc.tcl
@@ -966,7 +969,7 @@ msgcat::mcmset es {
   "Syntax error in %s.syntax file"
   "Error de sintaxis en el archivo %s.syntax"
 
-  "Syntax:  %s"
+  "Syntax: %s"
   "Sintaxis: %s"
 
   "Theme:  %s"

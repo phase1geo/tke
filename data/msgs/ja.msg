@@ -4,6 +4,9 @@ msgcat::mcmset ja {
   "Argument list to api::add_file was not an even key/value pair"
   "APIへの引数リスト:: ADD_FILEもキー/値のペアではなかった"
 
+  "Plugin-%s: %s"
+  "プラグイン %s"
+
 }
 
 # bgproc.tcl
@@ -966,8 +969,8 @@ msgcat::mcmset ja {
   "Syntax error in %s.syntax file"
   "パーセントs.syntaxファイルの構文エラー"
 
-  "Syntax:  %s"
-  "構文：％sは"
+  "Syntax: %s"
+  "構文: %s"
 
   "Theme:  %s"
   "テーマ：％sは"
