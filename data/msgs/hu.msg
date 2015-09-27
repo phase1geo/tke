@@ -4,6 +4,9 @@ msgcat::mcmset hu {
   "Argument list to api::add_file was not an even key/value pair"
   "Argumentumlista API :: add_file nem volt még kulcs / érték párt"
 
+  "Plugin-%s: %s"
+  "Plugin-%s (% s)"
+
 }
 
 # bgproc.tcl
@@ -966,8 +969,8 @@ msgcat::mcmset hu {
   "Syntax error in %s.syntax file"
   "Szintaktikai hiba% s.syntax fájlban"
 
-  "Syntax:  %s"
-  "Syntax:% s"
+  "Syntax: %s"
+  "Szintaxis: %s"
 
   "Theme:  %s"
   "Téma:% s"

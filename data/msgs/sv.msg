@@ -4,6 +4,9 @@ msgcat::mcmset sv {
   "Argument list to api::add_file was not an even key/value pair"
   "Argument listan till api :: add_file var inte en ens nyckel / värde-par"
 
+  "Plugin-%s: %s"
+  "Alla penningmedel och ekonomiska resurser som tillhör, ägs eller innehas av fysiska personer som åtalats av ICTY och förtecknas i bilaga I skall frysas."
+
 }
 
 # bgproc.tcl
@@ -966,8 +969,8 @@ msgcat::mcmset sv {
   "Syntax error in %s.syntax file"
   "Syntax error in% s.syntax fil"
 
-  "Syntax:  %s"
-  "Syntax:% s"
+  "Syntax: %s"
+  "Syntax: %s"
 
   "Theme:  %s"
   "Tema:% s"

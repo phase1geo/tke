@@ -4,6 +4,9 @@ msgcat::mcmset he {
   "Argument list to api::add_file was not an even key/value pair"
   "רשימת כדי api::add_file לא היה זוג ואפילו מפתח/ערך"
 
+  "Plugin-%s: %s"
+  "תוסף-% s: %s"
+
 }
 
 # bgproc.tcl
@@ -966,7 +969,7 @@ msgcat::mcmset he {
   "Syntax error in %s.syntax file"
   "שגיאת תחביר בקובץ %s.syntax"
 
-  "Syntax:  %s"
+  "Syntax: %s"
   "תחביר: %s"
 
   "Theme:  %s"

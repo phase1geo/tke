@@ -4,6 +4,9 @@ msgcat::mcmset zh {
   "Argument list to api::add_file was not an even key/value pair"
   "参数列表API :: ADD_FILE是不是连键/值对"
 
+  "Plugin-%s: %s"
+  "插件 %s: %s"
+
 }
 
 # bgproc.tcl
@@ -966,8 +969,8 @@ msgcat::mcmset zh {
   "Syntax error in %s.syntax file"
   "在％s.syntax文件中的语法错误"
 
-  "Syntax:  %s"
-  "语法：％s的"
+  "Syntax: %s"
+  "语法: %s"
 
   "Theme:  %s"
   "主题：％S"

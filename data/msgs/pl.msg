@@ -4,6 +4,9 @@ msgcat::mcmset pl {
   "Argument list to api::add_file was not an even key/value pair"
   "Lista argumentów API :: add_file nie było nawet parę klucz / wartość"
 
+  "Plugin-%s: %s"
+  "Zamraża się wszystkie fundusze i zasoby gospodarcze należące lub pozostające w posiadaniu osób fizycznych oskarżonych przez MTKJ i wymienionych w załączniku I."
+
 }
 
 # bgproc.tcl
@@ -966,8 +969,8 @@ msgcat::mcmset pl {
   "Syntax error in %s.syntax file"
   "Błąd składni w pliku s.syntax%"
 
-  "Syntax:  %s"
-  "Składnia:% s"
+  "Syntax: %s"
+  "Składnia: %s"
 
   "Theme:  %s"
   "Temat:% s"

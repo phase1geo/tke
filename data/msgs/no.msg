@@ -4,6 +4,9 @@ msgcat::mcmset no {
   "Argument list to api::add_file was not an even key/value pair"
   "Argument liste til api :: add_file var ikke en enda nøkkel / verdi-par"
 
+  "Plugin-%s: %s"
+  "Plugin-% s: %s"
+
 }
 
 # bgproc.tcl
@@ -966,8 +969,8 @@ msgcat::mcmset no {
   "Syntax error in %s.syntax file"
   "Syntaksfeil i% s.syntax fil"
 
-  "Syntax:  %s"
-  "Syntax:% s"
+  "Syntax: %s"
+  "Syntaks: %s"
 
   "Theme:  %s"
   "Tema:% s"

@@ -4,6 +4,9 @@ msgcat::mcmset ru {
   "Argument list to api::add_file was not an even key/value pair"
   "Список параметров АНИ :: add_file не было даже пары ключ / значение"
 
+  "Plugin-%s: %s"
+  "Плагин % s: %s"
+
 }
 
 # bgproc.tcl
@@ -966,8 +969,8 @@ msgcat::mcmset ru {
   "Syntax error in %s.syntax file"
   "Ошибка синтаксиса в% файле s.syntax"
 
-  "Syntax:  %s"
-  "Синтаксис:% с"
+  "Syntax: %s"
+  "Синтаксис: %s"
 
   "Theme:  %s"
   "Стиль:% с"
