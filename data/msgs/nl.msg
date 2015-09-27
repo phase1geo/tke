@@ -425,17 +425,17 @@ msgcat::mcmset nl {
   "Help Menu: About TKE"
   "Menu Help: Over TKE"
 
-  "Help Menu: Check for Update"
-  "Helpmenu: Controle voor Update"
+  "Help Menu: Check for update"
+  "Helpmenu: Controle voor update"
 
-  "Help Menu: Send Bug Report"
+  "Help Menu: Send bug report"
   "Helpmenu: Bugrapport verzenden"
 
-  "Help Menu: Send Feedback"
+  "Help Menu: Send feedback"
   "Helpmenu: Feedback verzenden"
 
-  "Help Menu: View User Guide"
-  "Helpmenu: Weergave User Guide"
+  "Help Menu: View user guide"
+  "Helpmenu: Weergave gebruikershandleiding"
 
   "Hide Console"
   "Verbergen Console"
@@ -493,6 +493,9 @@ msgcat::mcmset nl {
 
   "Menu Bindings"
   "Menu Bindingen"
+
+  "Menus: About TKE"
+  "Menu's: Over TKE"
 
   "Merge Panes"
   "Samenvoegen van deelvensters"
@@ -659,9 +662,6 @@ msgcat::mcmset nl {
   "Show Tab Bar"
   "Show Tab Bar"
 
-  "Show*Profiling*"
-  "Tonen * Profiling *"
-
   "Smart Indent"
   "Slimme streepje"
 
@@ -725,8 +725,8 @@ msgcat::mcmset nl {
   "Tools Menu: Disable Vim mode"
   "Menu Extra: Vim modus uitschakelen"
 
-  "Tools Menu: Edit Tke theme"
-  "Menu Extra: Tke thema bewerken"
+  "Tools Menu: Edit TKE theme"
+  "Menu Extra: TKE thema bewerken"
 
   "Tools Menu: Enable Vim mode"
   "Menu Extra: Vim modus inschakelen"
@@ -734,11 +734,11 @@ msgcat::mcmset nl {
   "Tools Menu: Import TextMate theme"
   "Menu Extra: Importeren TextMate thema"
 
-  "Tools Menu: Restart tke"
-  "Menu Extra: Herstart tke"
+  "Tools Menu: Restart TKE"
+  "Menu Extra: Herstart TKE"
 
-  "Tools Menu: Show Diagnostic Logfile"
-  "Menu Extra: Toon diagnostische Logfile"
+  "Tools Menu: Show diagnostic logfile"
+  "Menu Extra: Toon diagnostische logfile"
 
   "Tools Menu: Show last profiling report"
   "Menu Extra: Toon laatste profilering verslag"
@@ -785,14 +785,11 @@ msgcat::mcmset nl {
   "View Menu: Goto previous tab"
   "Menu Beeld: Goto vorige tabblad"
 
-  "View Menu: Hide Line Numbers"
-  "Menu Beeld: Verbergen regelnummers"
-
-  "View Menu: Hide Tab Bar"
-  "Menu Beeld: Hide Tab Bar"
-
   "View Menu: Hide console"
   "Menu Beeld: Verbergen console"
+
+  "View Menu: Hide line numbers"
+  "Menu Beeld: Verbergen regelnummers"
 
   "View Menu: Hide meta characters"
   "Menu Beeld: Verbergen metakarakters"
@@ -803,20 +800,20 @@ msgcat::mcmset nl {
   "View Menu: Hide status bar"
   "Menu Beeld: Statusbalk te verbergen"
 
+  "View Menu: Hide tab bar"
+  "Menu Beeld: Hide tab bar"
+
   "View Menu: Merge panes"
   "Menu Beeld: Samenvoegen deelvensters"
 
   "View Menu: Move to other pane"
   "Menu Beeld: Verplaatsen naar andere deelvenster"
 
-  "View Menu: Show Line Numbers"
-  "Menu Beeld: Regelnummers weergeven"
-
-  "View Menu: Show Tab Bar"
-  "Menu Beeld: Toon Tab Bar"
-
   "View Menu: Show console"
   "Menu Beeld: Toon console"
+
+  "View Menu: Show line numbers"
+  "Menu Beeld: Regelnummers weergeven"
 
   "View Menu: Show meta characters"
   "Menu Beeld: Toon metakarakters"
@@ -826,6 +823,9 @@ msgcat::mcmset nl {
 
   "View Menu: Show status bar"
   "Menu Beeld: Toon statusbalk"
+
+  "View Menu: Show tab bar"
+  "Menu Beeld: Toon tabbalk"
 
   "View Menu: Sort tabs"
   "Menu Beeld: Sort tabs"

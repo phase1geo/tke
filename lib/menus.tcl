@@ -121,7 +121,7 @@ namespace eval menus {
       windowlist::windowMenu $mb
 
       # Add the launcher command to show the about window
-      launcher::register "Menus: About TKE" gui::show_about
+      launcher::register [msgcat::mc "Menus: About TKE"] gui::show_about
 
     }
 
@@ -1066,8 +1066,8 @@ namespace eval menus {
     } else {
       $mb add command -label [msgcat::mc "Show Tab Bar"] -underline 5 -command "menus::show_tab_view $mb"
     }
-    launcher::register [msgcat::mc "View Menu: Show Tab Bar"] "menus::show_tab_view $mb"
-    launcher::register [msgcat::mc "View Menu: Hide Tab Bar"] "menus::hide_tab_view $mb"
+    launcher::register [msgcat::mc "View Menu: Show tab bar"] "menus::show_tab_view $mb"
+    launcher::register [msgcat::mc "View Menu: Hide tab bar"] "menus::hide_tab_view $mb"
 
     if {[preferences::get View/ShowStatusBar]} {
       $mb add command -label [msgcat::mc "Hide Status Bar"] -underline 12 -command "menus::hide_status_view $mb"
@@ -1084,8 +1084,8 @@ namespace eval menus {
     } else {
       $mb add command -label [msgcat::mc "Show Line Numbers"] -underline 5 -command "menus::show_line_numbers $mb"
     }
-    launcher::register [msgcat::mc "View Menu: Show Line Numbers"] "menus::show_line_numbers $mb"
-    launcher::register [msgcat::mc "View Menu: Hide Line Numbers"] "menus::hide_line_numbers $mb"
+    launcher::register [msgcat::mc "View Menu: Show line numbers"] "menus::show_line_numbers $mb"
+    launcher::register [msgcat::mc "View Menu: Hide line numbers"] "menus::hide_line_numbers $mb"
 
     $mb add command -label [msgcat::mc "Hide Meta Characters"] -underline 5 -command "menus::hide_meta_chars $mb"
     launcher::register [msgcat::mc "View Menu: Show meta characters"] "menus::show_meta_chars $mb"
@@ -1351,7 +1351,7 @@ namespace eval menus {
     launcher::register [msgcat::mc "Tools Menu: Create new theme"] "themer::create_theme_command"
 
     $mb.themer add command -label [msgcat::mc "Edit..."] -underline 0 -command "menus::edit_theme_command"
-    launcher::register [msgcat::mc "Tools Menu: Edit Tke theme"] "menus::edit_theme_command"
+    launcher::register [msgcat::mc "Tools Menu: Edit TKE theme"] "menus::edit_theme_command"
 
     $mb.themer add command -label [msgcat::mc "Import TextMate Theme..."] -underline 0 -command "menus::import_tm_command"
     launcher::register [msgcat::mc "Tools Menu: Import TextMate theme"] "menus::import_tm_command"
@@ -1800,21 +1800,21 @@ namespace eval menus {
   proc add_help {mb} {
 
     $mb add command -label [msgcat::mc "User Guide"] -underline 0 -command "menus::help_user_guide"
-    launcher::register [msgcat::mc "Help Menu: View User Guide"] "menus::help_user_guide"
+    launcher::register [msgcat::mc "Help Menu: View user guide"] "menus::help_user_guide"
 
     if {![string match *Win* $::tcl_platform(os)]} {
       $mb add separator
       $mb add command -label [msgcat::mc "Check for Update"] -underline 0 -command "menus::check_for_update"
-      launcher::register [msgcat::mc "Help Menu: Check for Update"] "menus::check_for_update"
+      launcher::register [msgcat::mc "Help Menu: Check for update"] "menus::check_for_update"
     }
 
     $mb add separator
 
     $mb add command -label [msgcat::mc "Send Feedback"] -underline 5 -command "menus::help_feedback_command"
-    launcher::register [msgcat::mc "Help Menu: Send Feedback"] "menus::help_feedback_command"
+    launcher::register [msgcat::mc "Help Menu: Send feedback"] "menus::help_feedback_command"
 
     $mb add command -label [msgcat::mc "Send Bug Report"] -underline 5 -command "menus::help_submit_report"
-    launcher::register [msgcat::mc "Help Menu: Send Bug Report"] "menus::help_submit_report"
+    launcher::register [msgcat::mc "Help Menu: Send bug report"] "menus::help_submit_report"
 
     if {[tk windowingsystem] ne "aqua"} {
       $mb add separator

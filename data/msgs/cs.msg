@@ -425,16 +425,16 @@ msgcat::mcmset cs {
   "Help Menu: About TKE"
   "Nabídka Nápověda: O TKE"
 
-  "Help Menu: Check for Update"
-  "Nabídka Nápověda: Check for Update"
+  "Help Menu: Check for update"
+  "Nabídka Nápověda: Zjišťovat aktualizace"
 
-  "Help Menu: Send Bug Report"
+  "Help Menu: Send bug report"
   "Nabídka Nápověda: Odeslat hlášení o chybě"
 
-  "Help Menu: Send Feedback"
+  "Help Menu: Send feedback"
   "Nabídka Nápověda: Odeslat názor"
 
-  "Help Menu: View User Guide"
+  "Help Menu: View user guide"
   "Nabídka Nápověda: Zobrazit uživatelská příručka"
 
   "Hide Console"
@@ -493,6 +493,9 @@ msgcat::mcmset cs {
 
   "Menu Bindings"
   "Vázání Menu"
+
+  "Menus: About TKE"
+  "Menu: O TKE"
 
   "Merge Panes"
   "Slou?it podokna"
@@ -659,9 +662,6 @@ msgcat::mcmset cs {
   "Show Tab Bar"
   "Zobrazit Tab Bar"
 
-  "Show*Profiling*"
-  "Ukázat * Profilování *"
-
   "Smart Indent"
   "Chytré odsazení"
 
@@ -725,8 +725,8 @@ msgcat::mcmset cs {
   "Tools Menu: Disable Vim mode"
   "Nabídka nástroje: Zakázat režim, Vim"
 
-  "Tools Menu: Edit Tke theme"
-  "Nabídka nástroje: Edit Tke téma"
+  "Tools Menu: Edit TKE theme"
+  "Nabídka nástroje: Úprava TKE téma"
 
   "Tools Menu: Enable Vim mode"
   "Nabídka nástroje: Povolit režim Vim"
@@ -734,10 +734,10 @@ msgcat::mcmset cs {
   "Tools Menu: Import TextMate theme"
   "Nabídka nástroje: Import TextMate téma"
 
-  "Tools Menu: Restart tke"
-  "Nabídka nástroje: Restart tke"
+  "Tools Menu: Restart TKE"
+  "Nabídka nástroje: Restart TKE"
 
-  "Tools Menu: Show Diagnostic Logfile"
+  "Tools Menu: Show diagnostic logfile"
   "Nabídka nástroje: Zobrazení diagnostického protokolu"
 
   "Tools Menu: Show last profiling report"
@@ -785,14 +785,11 @@ msgcat::mcmset cs {
   "View Menu: Goto previous tab"
   "Nabídka Zobrazit: Goto předchozí kartu"
 
-  "View Menu: Hide Line Numbers"
-  "Nabídka Zobrazit: Skrýt čísla řádků"
-
-  "View Menu: Hide Tab Bar"
-  "Nabídka Zobrazit: Skrýt lištu karet"
-
   "View Menu: Hide console"
   "Nabídka Zobrazit: Skrýt konzole"
+
+  "View Menu: Hide line numbers"
+  "Nabídka Zobrazit: Skrýt čísla řádků"
 
   "View Menu: Hide meta characters"
   "Nabídka Zobrazit: Skrýt znaky meta"
@@ -803,20 +800,20 @@ msgcat::mcmset cs {
   "View Menu: Hide status bar"
   "Nabídka Zobrazit: Skrýt stavový řádek"
 
+  "View Menu: Hide tab bar"
+  "Nabídka Zobrazit: Skrýt lištu karet"
+
   "View Menu: Merge panes"
   "Nabídka Zobrazit: Sloučení podoken"
 
   "View Menu: Move to other pane"
   "Nabídka Zobrazit: Přechod na další podokno"
 
-  "View Menu: Show Line Numbers"
-  "Nabídka Zobrazit: Zobrazovat čísla řádků"
-
-  "View Menu: Show Tab Bar"
-  "Nabídka Zobrazit: Zobrazovat lištu karet"
-
   "View Menu: Show console"
   "Nabídka Zobrazit: Show konzole"
+
+  "View Menu: Show line numbers"
+  "Nabídka Zobrazit: Zobrazovat čísla řádků"
 
   "View Menu: Show meta characters"
   "Nabídka Zobrazit: Show meta znaky"
@@ -826,6 +823,9 @@ msgcat::mcmset cs {
 
   "View Menu: Show status bar"
   "Zobrazit Menu: Zobrazit stavový řádek"
+
+  "View Menu: Show tab bar"
+  "Nabídka Zobrazit: Zobrazovat lištu karet"
 
   "View Menu: Sort tabs"
   "Nabídka Zobrazit: Seřadit karty"

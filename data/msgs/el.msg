@@ -425,16 +425,16 @@ msgcat::mcmset el {
   "Help Menu: About TKE"
   "Μενού βοήθειας: Για την ΤΚΕ"
 
-  "Help Menu: Check for Update"
+  "Help Menu: Check for update"
   "Μενού \"
 
-  "Help Menu: Send Bug Report"
+  "Help Menu: Send bug report"
   "Μενού \"
 
-  "Help Menu: Send Feedback"
+  "Help Menu: Send feedback"
   "Μενού \"
 
-  "Help Menu: View User Guide"
+  "Help Menu: View user guide"
   "Μενού \"
 
   "Hide Console"
@@ -493,6 +493,9 @@ msgcat::mcmset el {
 
   "Menu Bindings"
   "Δέστρες Μενού"
+
+  "Menus: About TKE"
+  "Μενού: Σχετικά με την ΤΚΕ"
 
   "Merge Panes"
   "?????????? ???????? ?????????"
@@ -659,9 +662,6 @@ msgcat::mcmset el {
   "Show Tab Bar"
   "Γραμμή καρτελών"
 
-  "Show*Profiling*"
-  "Show * Profiling *"
-
   "Smart Indent"
   "Έξυπνες περίπτωση"
 
@@ -725,8 +725,8 @@ msgcat::mcmset el {
   "Tools Menu: Disable Vim mode"
   "Μενού Εργαλεία: Απενεργοποίηση λειτουργίας Vim"
 
-  "Tools Menu: Edit Tke theme"
-  "Εργαλεία μενού: Επεξεργασία Tke θέμα"
+  "Tools Menu: Edit TKE theme"
+  "Εργαλεία μενού: Επεξεργασία TKE θέμα"
 
   "Tools Menu: Enable Vim mode"
   "Εργαλεία μενού: Ενεργοποίηση της λειτουργίας Vim"
@@ -734,11 +734,11 @@ msgcat::mcmset el {
   "Tools Menu: Import TextMate theme"
   "Μενού Εργαλεία: Θέμα εισαγωγής TextMate"
 
-  "Tools Menu: Restart tke"
-  "Μενού Εργαλεία: ΤΚΕ επανεκκίνηση"
+  "Tools Menu: Restart TKE"
+  "Μενού Εργαλεία: Επανεκκίνηση ΤΚΕ"
 
-  "Tools Menu: Show Diagnostic Logfile"
-  "Μενού Εργαλεία: Διαγνωστικά Logfile Εμφάνιση"
+  "Tools Menu: Show diagnostic logfile"
+  "Μενού Εργαλεία: Διαγνωστικά logfile Εμφάνιση"
 
   "Tools Menu: Show last profiling report"
   "Μενού Εργαλεία: Εμφάνιση τελευταία έκθεση προφίλ"
@@ -785,13 +785,10 @@ msgcat::mcmset el {
   "View Menu: Goto previous tab"
   "Μενού Προβολή: Προηγούμενη καρτέλα Goto"
 
-  "View Menu: Hide Line Numbers"
-  "Μενού \"
-
-  "View Menu: Hide Tab Bar"
-  "Μενού \"
-
   "View Menu: Hide console"
+  "Μενού \"
+
+  "View Menu: Hide line numbers"
   "Μενού \"
 
   "View Menu: Hide meta characters"
@@ -803,19 +800,19 @@ msgcat::mcmset el {
   "View Menu: Hide status bar"
   "Μενού \"
 
+  "View Menu: Hide tab bar"
+  "Μενού \"
+
   "View Menu: Merge panes"
   "Μενού \"
 
   "View Menu: Move to other pane"
   "Μενού \"
 
-  "View Menu: Show Line Numbers"
-  "Μενού \"
-
-  "View Menu: Show Tab Bar"
-  "Μενού \"
-
   "View Menu: Show console"
+  "Μενού \"
+
+  "View Menu: Show line numbers"
   "Μενού \"
 
   "View Menu: Show meta characters"
@@ -825,6 +822,9 @@ msgcat::mcmset el {
   "Μενού \"
 
   "View Menu: Show status bar"
+  "Μενού \"
+
+  "View Menu: Show tab bar"
   "Μενού \"
 
   "View Menu: Sort tabs"

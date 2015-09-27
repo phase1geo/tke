@@ -425,16 +425,16 @@ msgcat::mcmset he {
   "Help Menu: About TKE"
   ": תפריט עזרה אודות בבית"
 
-  "Help Menu: Check for Update"
+  "Help Menu: Check for update"
   "בתפריט עזרה: בדוק אם יש עדכון"
 
-  "Help Menu: Send Bug Report"
+  "Help Menu: Send bug report"
   "בתפריט עזרה: לשלוח דיווח הבאג"
 
-  "Help Menu: Send Feedback"
+  "Help Menu: Send feedback"
   "בתפריט עזרה: שלח משוב"
 
-  "Help Menu: View User Guide"
+  "Help Menu: View user guide"
   "תפריט העזרה: מדריך למשתמש של תצוגת"
 
   "Hide Console"
@@ -493,6 +493,9 @@ msgcat::mcmset he {
 
   "Menu Bindings"
   "תפריט איגודי"
+
+  "Menus: About TKE"
+  "תפריטים: על בבית"
 
   "Merge Panes"
   "????? ???????"
@@ -659,9 +662,6 @@ msgcat::mcmset he {
   "Show Tab Bar"
   "הצג סרגל הלשוניות"
 
-  "Show*Profiling*"
-  "הצג * פרופיל *"
-
   "Smart Indent"
   "כניסה חכמה"
 
@@ -725,7 +725,7 @@ msgcat::mcmset he {
   "Tools Menu: Disable Vim mode"
   "תפריט כלים: בטל את מצב Vim"
 
-  "Tools Menu: Edit Tke theme"
+  "Tools Menu: Edit TKE theme"
   "תפריט כלים: לערוך דירוג בבית"
 
   "Tools Menu: Enable Vim mode"
@@ -734,10 +734,10 @@ msgcat::mcmset he {
   "Tools Menu: Import TextMate theme"
   "תפריט כלים: הנושא ייבוא TextMate"
 
-  "Tools Menu: Restart tke"
+  "Tools Menu: Restart TKE"
   "תפריט כלים: הפעלה מחדש בבית"
 
-  "Tools Menu: Show Diagnostic Logfile"
+  "Tools Menu: Show diagnostic logfile"
   "תפריט כלים: הצג יומן האבחון"
 
   "Tools Menu: Show last profiling report"
@@ -785,14 +785,11 @@ msgcat::mcmset he {
   "View Menu: Goto previous tab"
   "בתפריט תצוגה: הכרטיסיה הקודמת של גוטו"
 
-  "View Menu: Hide Line Numbers"
-  "בתפריט תצוגה: מספרי שורות הסתר"
-
-  "View Menu: Hide Tab Bar"
-  "בתפריט תצוגה: סרגל הלשוניות הסתר"
-
   "View Menu: Hide console"
   "בתפריט תצוגה: מסוף הסתר"
+
+  "View Menu: Hide line numbers"
+  "בתפריט תצוגה: מספרי שורות הסתר"
 
   "View Menu: Hide meta characters"
   "תפריט תצוגה: להסתיר מטא-תווים"
@@ -803,20 +800,20 @@ msgcat::mcmset he {
   "View Menu: Hide status bar"
   "בתפריט תצוגה: שורת המצב של הסתרה"
 
+  "View Menu: Hide tab bar"
+  "בתפריט תצוגה: סרגל הלשוניות הסתר"
+
   "View Menu: Merge panes"
   "תפריט תצוגה: מיזוג חלוניות"
 
   "View Menu: Move to other pane"
   "תפריט תצוגה: לעבור לחלונית אחרת"
 
-  "View Menu: Show Line Numbers"
-  "בתפריט תצוגה: מספרי שורות הצג"
-
-  "View Menu: Show Tab Bar"
-  "בתפריט תצוגה: סרגל הלשוניות הצג"
-
   "View Menu: Show console"
   "בתפריט תצוגה: מסוף הצג"
+
+  "View Menu: Show line numbers"
+  "בתפריט תצוגה: מספרי שורות הצג"
 
   "View Menu: Show meta characters"
   "תפריט תצוגה: הצג מטא-תווים"
@@ -826,6 +823,9 @@ msgcat::mcmset he {
 
   "View Menu: Show status bar"
   "בתפריט תצוגה: שורת המצב של הצג"
+
+  "View Menu: Show tab bar"
+  "בתפריט תצוגה: סרגל הלשוניות הצג"
 
   "View Menu: Sort tabs"
   "תפריט תצוגה: מיון כרטיסיות"

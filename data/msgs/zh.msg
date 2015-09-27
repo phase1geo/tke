@@ -425,16 +425,16 @@ msgcat::mcmset zh {
   "Help Menu: About TKE"
   "帮助菜单: 关于将军澳支线"
 
-  "Help Menu: Check for Update"
+  "Help Menu: Check for update"
   "帮助菜单: 检查更新"
 
-  "Help Menu: Send Bug Report"
+  "Help Menu: Send bug report"
   "帮助菜单: 发送错误报告"
 
-  "Help Menu: Send Feedback"
+  "Help Menu: Send feedback"
   "帮助菜单: 发送反馈"
 
-  "Help Menu: View User Guide"
+  "Help Menu: View user guide"
   "帮助菜单: 查看用户指南"
 
   "Hide Console"
@@ -493,6 +493,9 @@ msgcat::mcmset zh {
 
   "Menu Bindings"
   "菜单绑定"
+
+  "Menus: About TKE"
+  "菜单: 关于将军澳支线"
 
   "Merge Panes"
   "????"
@@ -659,9 +662,6 @@ msgcat::mcmset zh {
   "Show Tab Bar"
   "显示标签栏"
 
-  "Show*Profiling*"
-  "显示*评测*"
-
   "Smart Indent"
   "智能缩进"
 
@@ -725,7 +725,7 @@ msgcat::mcmset zh {
   "Tools Menu: Disable Vim mode"
   "工具菜单: 禁用 Vim 模式"
 
-  "Tools Menu: Edit Tke theme"
+  "Tools Menu: Edit TKE theme"
   "工具菜单: 编辑将军澳支线的主题"
 
   "Tools Menu: Enable Vim mode"
@@ -734,10 +734,10 @@ msgcat::mcmset zh {
   "Tools Menu: Import TextMate theme"
   "工具菜单: 导入 TextMate 主题"
 
-  "Tools Menu: Restart tke"
+  "Tools Menu: Restart TKE"
   "工具菜单: 重启将军澳支线"
 
-  "Tools Menu: Show Diagnostic Logfile"
+  "Tools Menu: Show diagnostic logfile"
   "工具菜单: 显示诊断日志文件"
 
   "Tools Menu: Show last profiling report"
@@ -785,14 +785,11 @@ msgcat::mcmset zh {
   "View Menu: Goto previous tab"
   "视图菜单: 转到上一个选项卡"
 
-  "View Menu: Hide Line Numbers"
-  "视图菜单: 隐藏行号"
-
-  "View Menu: Hide Tab Bar"
-  "视图菜单: 隐藏选项卡栏"
-
   "View Menu: Hide console"
   "视图菜单: 隐藏控制台"
+
+  "View Menu: Hide line numbers"
+  "视图菜单: 隐藏行号"
 
   "View Menu: Hide meta characters"
   "视图菜单: 隐藏 meta 字符"
@@ -803,20 +800,20 @@ msgcat::mcmset zh {
   "View Menu: Hide status bar"
   "视图菜单: 隐藏状态栏"
 
+  "View Menu: Hide tab bar"
+  "视图菜单: 隐藏选项卡栏"
+
   "View Menu: Merge panes"
   "视图菜单: 合并窗格"
 
   "View Menu: Move to other pane"
   "视图菜单: 将移动到另一个窗格"
 
-  "View Menu: Show Line Numbers"
-  "视图菜单: 显示行号"
-
-  "View Menu: Show Tab Bar"
-  "视图菜单: 显示选项卡栏"
-
   "View Menu: Show console"
   "视图菜单: 显示控制台"
+
+  "View Menu: Show line numbers"
+  "视图菜单: 显示行号"
 
   "View Menu: Show meta characters"
   "视图菜单: 显示 meta 字符"
@@ -826,6 +823,9 @@ msgcat::mcmset zh {
 
   "View Menu: Show status bar"
   "视图菜单: 显示状态栏"
+
+  "View Menu: Show tab bar"
+  "视图菜单: 显示选项卡栏"
 
   "View Menu: Sort tabs"
   "视图菜单: 排序选项卡"

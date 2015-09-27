@@ -16,7 +16,7 @@
     load_note_info
 
     # Add the command launcher commands
-    api::register_launcher "Notes: Create list" notes::create_new_list
+    api::register_launcher "Create list" notes::create_new_list
 
     # Add create note and delete list commands for each list
     foreach key [array get note_info list,*] {
@@ -30,8 +30,8 @@
   # Adds list launchers to command launcher.
   proc add_launchers {list_name} {
 
-    api::register_launcher "Notes: Create note in $list_name" [list notes::create_new_note $list_name]
-    api::register_launcher "Notes: Delete list $list_name"    [list notes::delete_list $list_name]
+    api::register_launcher "Create note in $list_name" [list notes::create_new_note $list_name]
+    api::register_launcher "Delete list $list_name"    [list notes::delete_list $list_name]
 
   }
 
@@ -39,8 +39,8 @@
   # Removes list launchers to command launcher.
   proc remove_launchers {list_name} {
 
-    api::unregister_launcher "Notes: Create note in $list_name"
-    api::unregister_launcher "Notes: Delete list $list_name"
+    api::unregister_launcher "Create note in $list_name"
+    api::unregister_launcher "Delete list $list_name"
 
   }
 
@@ -361,8 +361,8 @@
     array unset note_info
 
     # Remove command launchers
-    api::unregister_launcher "Notes: Create note in *"
-    api::unregister_launcher "Notes: Delete list *"
+    api::unregister_launcher "Create note in *"
+    api::unregister_launcher "Delete list *"
 
     # Initialize the note_info
     array set note_info {
