@@ -425,17 +425,17 @@ msgcat::mcmset fr {
   "Help Menu: About TKE"
   "Menu aide : Sujet TKE"
 
-  "Help Menu: Check for Update"
+  "Help Menu: Check for update"
   "Menu aide : Contrôler mise à niveau"
 
-  "Help Menu: Send Bug Report"
+  "Help Menu: Send bug report"
   "Menu aide : Envoyer le rapport de bogue"
 
-  "Help Menu: Send Feedback"
+  "Help Menu: Send feedback"
   "Menu aide : Envoyer des commentaires"
 
-  "Help Menu: View User Guide"
-  "Menu d'aide : Voir le Guide utilisateur"
+  "Help Menu: View user guide"
+  "Menu aide : Guide de l'utilisateur pour le mode"
 
   "Hide Console"
   "Cachez Console"
@@ -493,6 +493,9 @@ msgcat::mcmset fr {
 
   "Menu Bindings"
   "Couverture du menu"
+
+  "Menus: About TKE"
+  "Menus: À propos de TKE"
 
   "Merge Panes"
   "Fusionner les volets"
@@ -659,9 +662,6 @@ msgcat::mcmset fr {
   "Show Tab Bar"
   "Barre d'onglets"
 
-  "Show*Profiling*"
-  "Afficher*Profiling*"
-
   "Smart Indent"
   "Smart tiret"
 
@@ -725,8 +725,8 @@ msgcat::mcmset fr {
   "Tools Menu: Disable Vim mode"
   "Menu Outils : Désactiver le mode Vim"
 
-  "Tools Menu: Edit Tke theme"
-  "Menu Outils : Edit Tke thème"
+  "Tools Menu: Edit TKE theme"
+  "Menu Outils : Edit TKE thème"
 
   "Tools Menu: Enable Vim mode"
   "Menu Outils : Activer le mode Vim"
@@ -734,11 +734,11 @@ msgcat::mcmset fr {
   "Tools Menu: Import TextMate theme"
   "Menu Outils : Thème de TextMate Import"
 
-  "Tools Menu: Restart tke"
-  "Menu Outils : Redémarrage tke"
+  "Tools Menu: Restart TKE"
+  "Menu Outils : Redémarrage TKE"
 
-  "Tools Menu: Show Diagnostic Logfile"
-  "Menu Outils : Voir la Diagnostic Logfile"
+  "Tools Menu: Show diagnostic logfile"
+  "Menu Outils : Voir la diagnostic logfile"
 
   "Tools Menu: Show last profiling report"
   "Menu Outils : Montrer le dernier rapport de profilage"
@@ -785,14 +785,11 @@ msgcat::mcmset fr {
   "View Menu: Goto previous tab"
   "Voir Menu : Goto onglet précédent"
 
-  "View Menu: Hide Line Numbers"
-  "Menu d'affichage : Masquer les numéros de ligne"
-
-  "View Menu: Hide Tab Bar"
-  "Menu d'affichage : Hide Tab Bar"
-
   "View Menu: Hide console"
   "Menu affichage : Console de Hide"
+
+  "View Menu: Hide line numbers"
+  "Menu d'affichage : Masquer les numéros de ligne"
 
   "View Menu: Hide meta characters"
   "Menu d'affichage : Masquer les méta-caractères"
@@ -803,20 +800,20 @@ msgcat::mcmset fr {
   "View Menu: Hide status bar"
   "Menu d'affichage : Masquer la barre d'État"
 
+  "View Menu: Hide tab bar"
+  "Menu d'affichage : Masquer la barre d'onglets"
+
   "View Menu: Merge panes"
   "Menu affichage : Les volets de fusion"
 
   "View Menu: Move to other pane"
   "Menu d'affichage : Passer à l'autre volet"
 
-  "View Menu: Show Line Numbers"
-  "Menu d'affichage : Afficher les numéros de ligne"
-
-  "View Menu: Show Tab Bar"
-  "Menu d'affichage : Afficher la barre d'onglet"
-
   "View Menu: Show console"
   "Menu affichage : Console spectacle"
+
+  "View Menu: Show line numbers"
+  "Menu d'affichage : Afficher les numéros de ligne"
 
   "View Menu: Show meta characters"
   "Menu d'affichage : Afficher les méta-caractères"
@@ -826,6 +823,9 @@ msgcat::mcmset fr {
 
   "View Menu: Show status bar"
   "Menu d'affichage : Afficher la barre d'État"
+
+  "View Menu: Show tab bar"
+  "Menu d'affichage : Afficher la barre d'onglet"
 
   "View Menu: Sort tabs"
   "Menu d'affichage : Onglets de sorte"

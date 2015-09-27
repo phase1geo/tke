@@ -425,16 +425,16 @@ msgcat::mcmset da {
   "Help Menu: About TKE"
   "Menuen Hjælp: Om TKE"
 
-  "Help Menu: Check for Update"
-  "Hjælpemenuen: Check for Update"
+  "Help Menu: Check for update"
+  "Hjælpemenuen: Check for update"
 
-  "Help Menu: Send Bug Report"
+  "Help Menu: Send bug report"
   "Hjælpemenu: Send fejlrapport"
 
-  "Help Menu: Send Feedback"
-  "Hjælpemenu: Send Feedback"
+  "Help Menu: Send feedback"
+  "Hjælpemenu: Send feedback"
 
-  "Help Menu: View User Guide"
+  "Help Menu: View user guide"
   "Hjælpemenuen: Se Brugervejledning"
 
   "Hide Console"
@@ -493,6 +493,9 @@ msgcat::mcmset da {
 
   "Menu Bindings"
   "Menu Bindinger"
+
+  "Menus: About TKE"
+  "Menuer: Om TKE"
 
   "Merge Panes"
   "Flette ruder"
@@ -659,9 +662,6 @@ msgcat::mcmset da {
   "Show Tab Bar"
   "Vis tab-linje"
 
-  "Show*Profiling*"
-  "Vis * Profilering *"
-
   "Smart Indent"
   "Smart led"
 
@@ -725,8 +725,8 @@ msgcat::mcmset da {
   "Tools Menu: Disable Vim mode"
   "Menuen Funktioner: Deaktiver Vim tilstand"
 
-  "Tools Menu: Edit Tke theme"
-  "Menuen: Redigere Tke tema"
+  "Tools Menu: Edit TKE theme"
+  "Menuen: Redigere TKE tema"
 
   "Tools Menu: Enable Vim mode"
   "Menuen: Aktiver Vim tilstand"
@@ -734,10 +734,10 @@ msgcat::mcmset da {
   "Tools Menu: Import TextMate theme"
   "Menuen: Import TextMate tema"
 
-  "Tools Menu: Restart tke"
-  "Menuen: Genstart tke"
+  "Tools Menu: Restart TKE"
+  "Menuen: Genstart TKE"
 
-  "Tools Menu: Show Diagnostic Logfile"
+  "Tools Menu: Show diagnostic logfile"
   "Menuen Funktioner: Vis diagnostisk logfil"
 
   "Tools Menu: Show last profiling report"
@@ -785,14 +785,11 @@ msgcat::mcmset da {
   "View Menu: Goto previous tab"
   "Se Menu: Goto forrige fane"
 
-  "View Menu: Hide Line Numbers"
-  "Se Menu: Skjul linjenumre"
-
-  "View Menu: Hide Tab Bar"
-  "Se Menu: Skjule fanebjælken"
-
   "View Menu: Hide console"
   "Se Menu: Skjul konsol"
+
+  "View Menu: Hide line numbers"
+  "Se Menu: Skjul linjenumre"
 
   "View Menu: Hide meta characters"
   "Se Menu: Skjule meta tegn"
@@ -803,20 +800,20 @@ msgcat::mcmset da {
   "View Menu: Hide status bar"
   "Se Menu: Skjule statuslinjen"
 
+  "View Menu: Hide tab bar"
+  "Se Menu: Skjule fanebjælken"
+
   "View Menu: Merge panes"
   "Se Menu: Flet ruder"
 
   "View Menu: Move to other pane"
   "Se Menu: Flyt til anden rude"
 
-  "View Menu: Show Line Numbers"
-  "Se Menu: Vis linjenumre"
-
-  "View Menu: Show Tab Bar"
-  "Se Menu: Vis fanebjælken"
-
   "View Menu: Show console"
   "Se Menu: Vis konsol"
+
+  "View Menu: Show line numbers"
+  "Se Menu: Vis linjenumre"
 
   "View Menu: Show meta characters"
   "Se Menu: Vis meta tegn"
@@ -826,6 +823,9 @@ msgcat::mcmset da {
 
   "View Menu: Show status bar"
   "Se Menu: Vis statuslinje"
+
+  "View Menu: Show tab bar"
+  "Se Menu: Vis fanebjælken"
 
   "View Menu: Sort tabs"
   "Se Menu: Sort tabs"

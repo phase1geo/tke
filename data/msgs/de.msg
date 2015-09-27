@@ -425,16 +425,16 @@ msgcat::mcmset de {
   "Help Menu: About TKE"
   "Hilfe-Menü: Über TKE"
 
-  "Help Menu: Check for Update"
+  "Help Menu: Check for update"
   "Menü \"
 
-  "Help Menu: Send Bug Report"
+  "Help Menu: Send bug report"
   "Menü \"
 
-  "Help Menu: Send Feedback"
+  "Help Menu: Send feedback"
   "Menü \"
 
-  "Help Menu: View User Guide"
+  "Help Menu: View user guide"
   "Hilfe-Menü: Ansicht-Benutzerhandbuch"
 
   "Hide Console"
@@ -493,6 +493,9 @@ msgcat::mcmset de {
 
   "Menu Bindings"
   "Menü Bindungen"
+
+  "Menus: About TKE"
+  "Menüs: Über TKE"
 
   "Merge Panes"
   "Zusammenführen von Scheiben"
@@ -659,9 +662,6 @@ msgcat::mcmset de {
   "Show Tab Bar"
   "Zeige Tab Bar"
 
-  "Show*Profiling*"
-  "Zeige*Profiling*"
-
   "Smart Indent"
   "Smart Gedankenstrich"
 
@@ -725,8 +725,8 @@ msgcat::mcmset de {
   "Tools Menu: Disable Vim mode"
   "Extras: Vim-Modus deaktivieren"
 
-  "Tools Menu: Edit Tke theme"
-  "Extras: Bearbeiten Sie Tke-Designs"
+  "Tools Menu: Edit TKE theme"
+  "Extras: Bearbeiten Sie TKE-Designs"
 
   "Tools Menu: Enable Vim mode"
   "Extras: Vim-Modus aktivieren"
@@ -734,11 +734,11 @@ msgcat::mcmset de {
   "Tools Menu: Import TextMate theme"
   "Extras: Import TextMate Thema"
 
-  "Tools Menu: Restart tke"
-  "Extras: Neustart tke"
+  "Tools Menu: Restart TKE"
+  "Extras: Neustart TKE"
 
-  "Tools Menu: Show Diagnostic Logfile"
-  "Extras: Show diagnostische Logfile"
+  "Tools Menu: Show diagnostic logfile"
+  "Extras: Show diagnostische logfile"
 
   "Tools Menu: Show last profiling report"
   "Extras: Show letzten profiling Bericht"
@@ -785,14 +785,11 @@ msgcat::mcmset de {
   "View Menu: Goto previous tab"
   "Im Ansichtsmenü: Goto vorherigen Registerkarte"
 
-  "View Menu: Hide Line Numbers"
-  "Im Ansichtsmenü: Ausblenden von Zeilennummern"
-
-  "View Menu: Hide Tab Bar"
-  "Im Ansichtsmenü: Hide Tab-Leiste"
-
   "View Menu: Hide console"
   "Im Ansichtsmenü: Ausblenden-Konsole"
+
+  "View Menu: Hide line numbers"
+  "Im Ansichtsmenü: Ausblenden von Zeilennummern"
 
   "View Menu: Hide meta characters"
   "Im Ansichtsmenü: Ausblenden von Meta-Zeichen"
@@ -803,20 +800,20 @@ msgcat::mcmset de {
   "View Menu: Hide status bar"
   "Im Ansichtsmenü: Ausblenden Sie Statusleiste"
 
+  "View Menu: Hide tab bar"
+  "Im Ansichtsmenü: Hide Tab-Leiste"
+
   "View Menu: Merge panes"
   ": Ansicht Merge Menüleisten"
 
   "View Menu: Move to other pane"
   "Menü \"
 
-  "View Menu: Show Line Numbers"
-  "Menü \"
-
-  "View Menu: Show Tab Bar"
-  "Im Ansichtsmenü: Karte-Tab-Leiste"
-
   "View Menu: Show console"
   "Im Ansichtsmenü: Show-Konsole"
+
+  "View Menu: Show line numbers"
+  "Menü \"
 
   "View Menu: Show meta characters"
   "Im Ansichtsmenü: Meta-Zeichen anzeigen"
@@ -826,6 +823,9 @@ msgcat::mcmset de {
 
   "View Menu: Show status bar"
   "Im Ansichtsmenü: Statusleiste anzeigen"
+
+  "View Menu: Show tab bar"
+  "Im Ansichtsmenü: Karte-Tab-Leiste"
 
   "View Menu: Sort tabs"
   "Im Ansichtsmenü: Sort tabs"

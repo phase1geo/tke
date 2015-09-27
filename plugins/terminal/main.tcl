@@ -6,7 +6,7 @@ namespace eval terminal {
   # Adds command launcher registrations.
   proc on_start_do {} {
 
-    api::register_launcher "Terminal: Run Command" "terminal::run_command_do"
+    api::register_launcher "Run Command" "terminal::run_command_do"
 
   }
 

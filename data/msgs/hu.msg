@@ -425,16 +425,16 @@ msgcat::mcmset hu {
   "Help Menu: About TKE"
   "Súgó menü: A TKE"
 
-  "Help Menu: Check for Update"
+  "Help Menu: Check for update"
   "Súgó menü: Ellenőriz részére korszerűsíteni"
 
-  "Help Menu: Send Bug Report"
+  "Help Menu: Send bug report"
   "Súgó menü: Küldj hibajelentést"
 
-  "Help Menu: Send Feedback"
+  "Help Menu: Send feedback"
   "Súgó menü: Vonatkozó visszajelzés küldése"
 
-  "Help Menu: View User Guide"
+  "Help Menu: View user guide"
   "Súgó menüben: Nézet felhasználói útmutató"
 
   "Hide Console"
@@ -493,6 +493,9 @@ msgcat::mcmset hu {
 
   "Menu Bindings"
   "Menü Bindings"
+
+  "Menus: About TKE"
+  "Menük: A TKE"
 
   "Merge Panes"
   "Összeolvad ablaktáblát"
@@ -659,9 +662,6 @@ msgcat::mcmset hu {
   "Show Tab Bar"
   "A fülek megjelenítése"
 
-  "Show*Profiling*"
-  "Megjelenítése * Profiling *"
-
   "Smart Indent"
   "Intelligens francia"
 
@@ -725,8 +725,8 @@ msgcat::mcmset hu {
   "Tools Menu: Disable Vim mode"
   "Eszközök menü: Vim mód letiltása"
 
-  "Tools Menu: Edit Tke theme"
-  "Eszközök menü: Tke téma szerkesztése"
+  "Tools Menu: Edit TKE theme"
+  "Eszközök menü: TKE téma szerkesztése"
 
   "Tools Menu: Enable Vim mode"
   "Eszközök menü: Vim-üzemmód engedélyezése"
@@ -734,10 +734,10 @@ msgcat::mcmset hu {
   "Tools Menu: Import TextMate theme"
   "Eszközök menü: Behozatali TextMate téma"
 
-  "Tools Menu: Restart tke"
-  "Eszközök menü: Újraindítás tke"
+  "Tools Menu: Restart TKE"
+  "Eszközök menü: Újraindítás TKE"
 
-  "Tools Menu: Show Diagnostic Logfile"
+  "Tools Menu: Show diagnostic logfile"
   "Eszközök menü: Diagnosztikai naplófájl megjelenítése"
 
   "Tools Menu: Show last profiling report"
@@ -785,14 +785,11 @@ msgcat::mcmset hu {
   "View Menu: Goto previous tab"
   "Nézet menü: Goto előző pánt"
 
-  "View Menu: Hide Line Numbers"
-  "Nézet menü: Hide sorszámok"
-
-  "View Menu: Hide Tab Bar"
-  "Nézet menü: Eldug pánt büfé"
-
   "View Menu: Hide console"
   "Nézet menü: A konzol elrejtése"
+
+  "View Menu: Hide line numbers"
+  "Nézet menü: Hide sorszámok"
 
   "View Menu: Hide meta characters"
   "Nézet menü: A meta-karakterek elrejtése"
@@ -803,20 +800,20 @@ msgcat::mcmset hu {
   "View Menu: Hide status bar"
   "Nézet menü: Elrejtése állapotsor"
 
+  "View Menu: Hide tab bar"
+  "Nézet menü: Eldug pánt büfé"
+
   "View Menu: Merge panes"
   "Nézet menü: Összeolvad ablaktáblát"
 
   "View Menu: Move to other pane"
   "Nézet menü: Áthelyezése másik ablaktábla"
 
-  "View Menu: Show Line Numbers"
-  "Nézet menü: Térkép-sorszámok"
-
-  "View Menu: Show Tab Bar"
-  "Nézet menü: Térkép pánt büfé"
-
   "View Menu: Show console"
   "Nézet menü: Térkép konzol"
+
+  "View Menu: Show line numbers"
+  "Nézet menü: Térkép-sorszámok"
 
   "View Menu: Show meta characters"
   "Nézet menü: A meta-karakterek megjelenítése"
@@ -826,6 +823,9 @@ msgcat::mcmset hu {
 
   "View Menu: Show status bar"
   "Nézet menü: Megjelenítése az állapotsorban"
+
+  "View Menu: Show tab bar"
+  "Nézet menü: Térkép pánt büfé"
 
   "View Menu: Sort tabs"
   "Nézet menü: Sort tabs"

@@ -425,17 +425,17 @@ msgcat::mcmset it {
   "Help Menu: About TKE"
   "Menu di aiuto: Circa TKE"
 
-  "Help Menu: Check for Update"
+  "Help Menu: Check for update"
   "Dal Menu di guida: Cerca aggiornamenti"
 
-  "Help Menu: Send Bug Report"
-  "Menu Help: Inviare segnalazione di Bug"
+  "Help Menu: Send bug report"
+  "Menu Help: Inviare segnalazione di bug"
 
-  "Help Menu: Send Feedback"
-  "Dal Menu di guida: Invia Feedback"
+  "Help Menu: Send feedback"
+  "Menu aiuto: Invia feedback"
 
-  "Help Menu: View User Guide"
-  "Dal Menu di guida: Visualizza la Guida utente"
+  "Help Menu: View user guide"
+  "Dal Menu di guida: Guida di utente Visualizza"
 
   "Hide Console"
   "Hide Console"
@@ -493,6 +493,9 @@ msgcat::mcmset it {
 
   "Menu Bindings"
   "Associazioni al menu"
+
+  "Menus: About TKE"
+  "Menu: Circa TKE"
 
   "Merge Panes"
   "Unire i riquadri"
@@ -659,9 +662,6 @@ msgcat::mcmset it {
   "Show Tab Bar"
   "Mostra barra delle schede@info:whatsthis"
 
-  "Show*Profiling*"
-  "Show * Profiling *"
-
   "Smart Indent"
   "Trattino intelligente"
 
@@ -725,8 +725,8 @@ msgcat::mcmset it {
   "Tools Menu: Disable Vim mode"
   "Menu Strumenti: Disattivare la modalità di Vim"
 
-  "Tools Menu: Edit Tke theme"
-  "Menu Strumenti: Modificare tema Tke"
+  "Tools Menu: Edit TKE theme"
+  "Menu Strumenti: Modificare tema TKE"
 
   "Tools Menu: Enable Vim mode"
   "Menu Strumenti: Attivare la modalità di Vim"
@@ -734,10 +734,10 @@ msgcat::mcmset it {
   "Tools Menu: Import TextMate theme"
   "Dal Menu Strumenti: Tema di TextMate importazione"
 
-  "Tools Menu: Restart tke"
-  "Menu Strumenti: Riavvio tke"
+  "Tools Menu: Restart TKE"
+  "Menu Strumenti: Riavvio TKE"
 
-  "Tools Menu: Show Diagnostic Logfile"
+  "Tools Menu: Show diagnostic logfile"
   "Menu Strumenti: Visualizza file di log diagnostici"
 
   "Tools Menu: Show last profiling report"
@@ -785,14 +785,11 @@ msgcat::mcmset it {
   "View Menu: Goto previous tab"
   "Menu Visualizza: Scheda precedente di Goto"
 
-  "View Menu: Hide Line Numbers"
-  "Dal Menu Visualizza: Nascondere i numeri di riga"
-
-  "View Menu: Hide Tab Bar"
-  "Dal Menu Visualizza: Hide Tab Bar"
-
   "View Menu: Hide console"
   "Dal Menu Visualizza: Console di Nascondi"
+
+  "View Menu: Hide line numbers"
+  "Dal Menu Visualizza: Nascondere i numeri di riga"
 
   "View Menu: Hide meta characters"
   "Dal Menu Visualizza: Nascondere meta caratteri"
@@ -803,20 +800,20 @@ msgcat::mcmset it {
   "View Menu: Hide status bar"
   "Dal Menu Visualizza: Nascondere la barra di stato"
 
+  "View Menu: Hide tab bar"
+  "Dal Menu Visualizza: Nascondere la barra delle schede"
+
   "View Menu: Merge panes"
   "Dal Menu Visualizza: Riquadri di Merge"
 
   "View Menu: Move to other pane"
   "Dal Menu Visualizza: Spostare altro riquadro"
 
-  "View Menu: Show Line Numbers"
-  "Dal Menu Visualizza: Visualizza i numeri di riga"
-
-  "View Menu: Show Tab Bar"
-  "Dal Menu Visualizza: Visualizza scheda Bar"
-
   "View Menu: Show console"
   "Dal Menu Visualizza: Console Visualizza"
+
+  "View Menu: Show line numbers"
+  "Dal Menu Visualizza: Visualizza i numeri di riga"
 
   "View Menu: Show meta characters"
   "Dal Menu Visualizza: Visualizza caratteri meta"
@@ -826,6 +823,9 @@ msgcat::mcmset it {
 
   "View Menu: Show status bar"
   "Dal Menu Visualizza: Barra di stato Visualizza"
+
+  "View Menu: Show tab bar"
+  "Dal Menu Visualizza: Visualizza la barra delle schede"
 
   "View Menu: Sort tabs"
   "Menu Visualizza: Sort tabs"

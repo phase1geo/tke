@@ -425,17 +425,17 @@ msgcat::mcmset sv {
   "Help Menu: About TKE"
   "Hjälp-menyn: Om TKE"
 
-  "Help Menu: Check for Update"
+  "Help Menu: Check for update"
   "Hjälp-menyn: Leta efter uppdatering"
 
-  "Help Menu: Send Bug Report"
+  "Help Menu: Send bug report"
   "Hjälp-menyn: Skicka felrapport"
 
-  "Help Menu: Send Feedback"
-  "Hjälp-menyn: Skicka Feedback"
+  "Help Menu: Send feedback"
+  "Hjälp-menyn: Skicka feedback"
 
-  "Help Menu: View User Guide"
-  "Hjälpmeny: Visa User Guide"
+  "Help Menu: View user guide"
+  "Hjälpmeny: Visa användarhandboken"
 
   "Hide Console"
   "Dölj konsol"
@@ -493,6 +493,9 @@ msgcat::mcmset sv {
 
   "Menu Bindings"
   "Meny Bindningar"
+
+  "Menus: About TKE"
+  "Menyer: Om TKE"
 
   "Merge Panes"
   "Slå ihop fönsterrutorna"
@@ -659,9 +662,6 @@ msgcat::mcmset sv {
   "Show Tab Bar"
   "Visa Tab Bar"
 
-  "Show*Profiling*"
-  "Visa * Profilering *"
-
   "Smart Indent"
   "Smart strecksatsen"
 
@@ -725,8 +725,8 @@ msgcat::mcmset sv {
   "Tools Menu: Disable Vim mode"
   "Verktyg-menyn: Inaktivera Vim läge"
 
-  "Tools Menu: Edit Tke theme"
-  "Verktyg-menyn: Redigera Tke tema"
+  "Tools Menu: Edit TKE theme"
+  "Verktyg-menyn: Redigera TKE tema"
 
   "Tools Menu: Enable Vim mode"
   "Verktyg-menyn: Aktivera Vim-läge"
@@ -734,10 +734,10 @@ msgcat::mcmset sv {
   "Tools Menu: Import TextMate theme"
   "Verktyg-menyn: Import TextMate tema"
 
-  "Tools Menu: Restart tke"
-  "Verktyg-menyn: Omstart tke"
+  "Tools Menu: Restart TKE"
+  "Verktyg-menyn: Omstart TKE"
 
-  "Tools Menu: Show Diagnostic Logfile"
+  "Tools Menu: Show diagnostic logfile"
   "Verktyg-menyn: Visa diagnostisk loggfil"
 
   "Tools Menu: Show last profiling report"
@@ -785,14 +785,11 @@ msgcat::mcmset sv {
   "View Menu: Goto previous tab"
   "Visa-menyn: Gå till föregående tab"
 
-  "View Menu: Hide Line Numbers"
-  "Visa-menyn: Dölja radnummer"
-
-  "View Menu: Hide Tab Bar"
-  "Visa-menyn: Dölja flikraden"
-
   "View Menu: Hide console"
   "Visa-menyn: Dölj konsolen"
+
+  "View Menu: Hide line numbers"
+  "Visa-menyn: Dölja radnummer"
 
   "View Menu: Hide meta characters"
   "Visa-menyn: Dölja meta tecken"
@@ -803,20 +800,20 @@ msgcat::mcmset sv {
   "View Menu: Hide status bar"
   "Visa-menyn: Dölja statusfältet"
 
+  "View Menu: Hide tab bar"
+  "Visa-menyn: Dölja flikraden"
+
   "View Menu: Merge panes"
   "Visa-menyn: Sammanfoga fönsterrutor"
 
   "View Menu: Move to other pane"
   "Visa-menyn: Flytta till andra"
 
-  "View Menu: Show Line Numbers"
-  "Visa-menyn: Visar radnummer"
-
-  "View Menu: Show Tab Bar"
-  "Visa-menyn: Visa flikfältet"
-
   "View Menu: Show console"
   "Visa-menyn: Visa konsolen"
+
+  "View Menu: Show line numbers"
+  "Visa-menyn: Visar radnummer"
 
   "View Menu: Show meta characters"
   "Visa-menyn: Visa meta tecken"
@@ -826,6 +823,9 @@ msgcat::mcmset sv {
 
   "View Menu: Show status bar"
   "Visa-menyn: Visa statusfält"
+
+  "View Menu: Show tab bar"
+  "Visa-menyn: Visa flikfältet"
 
   "View Menu: Sort tabs"
   "Visa-menyn: Sort tabs"

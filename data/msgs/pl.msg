@@ -425,16 +425,16 @@ msgcat::mcmset pl {
   "Help Menu: About TKE"
   "Menu Pomoc: O TKE"
 
-  "Help Menu: Check for Update"
+  "Help Menu: Check for update"
   "Menu Pomoc: Sprawdź Aktualizacje"
 
-  "Help Menu: Send Bug Report"
+  "Help Menu: Send bug report"
   "Menu Pomoc: Wyślij raport błędu"
 
-  "Help Menu: Send Feedback"
+  "Help Menu: Send feedback"
   "Menu Pomoc: Przesyłanie opinii"
 
-  "Help Menu: View User Guide"
+  "Help Menu: View user guide"
   "Menu Pomoc: Podręcznik użytkownika widok"
 
   "Hide Console"
@@ -493,6 +493,9 @@ msgcat::mcmset pl {
 
   "Menu Bindings"
   "Wiązania menu"
+
+  "Menus: About TKE"
+  "Menu: O TKE"
 
   "Merge Panes"
   "Scalanie okienek"
@@ -659,9 +662,6 @@ msgcat::mcmset pl {
   "Show Tab Bar"
   "Pasek kart"
 
-  "Show*Profiling*"
-  "Show * Profilowanie *"
-
   "Smart Indent"
   "Inteligentnego wcięcia"
 
@@ -725,8 +725,8 @@ msgcat::mcmset pl {
   "Tools Menu: Disable Vim mode"
   "Menu narzędzia: Wyłączenie trybu Vim"
 
-  "Tools Menu: Edit Tke theme"
-  "Menu narzędzia: Edytowanie tematu Tke"
+  "Tools Menu: Edit TKE theme"
+  "Menu narzędzia: Edytowanie tematu TKE"
 
   "Tools Menu: Enable Vim mode"
   "Menu narzędzia: Włączanie trybu Vim"
@@ -734,11 +734,11 @@ msgcat::mcmset pl {
   "Tools Menu: Import TextMate theme"
   "Menu narzędzia: Import TextMate tematu"
 
-  "Tools Menu: Restart tke"
-  "Menu narzędzia: Restart tke"
+  "Tools Menu: Restart TKE"
+  "Menu narzędzia: Restart TKE"
 
-  "Tools Menu: Show Diagnostic Logfile"
-  "Menu narzędzia: Pokaż Logfile diagnostyczne"
+  "Tools Menu: Show diagnostic logfile"
+  "Menu narzędzia: Pokaż logfile diagnostyczne"
 
   "Tools Menu: Show last profiling report"
   "Menu narzędzia: Pokaż ostatni raport profilowania"
@@ -785,14 +785,11 @@ msgcat::mcmset pl {
   "View Menu: Goto previous tab"
   "Menu Widok: Poprzednią kartę Goto"
 
-  "View Menu: Hide Line Numbers"
-  "Menu Widok: Numery linii Ukryj"
-
-  "View Menu: Hide Tab Bar"
-  "Menu Widok: Ukryj pasek kart"
-
   "View Menu: Hide console"
   "Menu Widok: Ukrywanie konsoli"
+
+  "View Menu: Hide line numbers"
+  "Menu Widok: Numery linii Ukryj"
 
   "View Menu: Hide meta characters"
   "Menu Widok: Ukryj meta znaków"
@@ -803,20 +800,20 @@ msgcat::mcmset pl {
   "View Menu: Hide status bar"
   "Menu Widok: Ukryj pasek stanu"
 
+  "View Menu: Hide tab bar"
+  "Menu Widok: Ukryj pasek kart"
+
   "View Menu: Merge panes"
   "Zobacz Menu: Okienek korespondencji seryjnej"
 
   "View Menu: Move to other pane"
   "Menu Widok: Przenieść do innego okienka"
 
-  "View Menu: Show Line Numbers"
-  "Menu Widok: Numery linii Pokaż"
-
-  "View Menu: Show Tab Bar"
-  "Menu Widok: Pokaż pasek kart"
-
   "View Menu: Show console"
   "Menu Widok: Konsoli Pokaż"
+
+  "View Menu: Show line numbers"
+  "Menu Widok: Numery linii Pokaż"
 
   "View Menu: Show meta characters"
   "Menu Widok: Pokaż meta znaków"
@@ -826,6 +823,9 @@ msgcat::mcmset pl {
 
   "View Menu: Show status bar"
   "Menu Widok: Pokaż pasek stanu"
+
+  "View Menu: Show tab bar"
+  "Menu Widok: Pokaż pasek kart"
 
   "View Menu: Sort tabs"
   "Menu Widok: Sort tabs"

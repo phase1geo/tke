@@ -425,16 +425,16 @@ msgcat::mcmset ru {
   "Help Menu: About TKE"
   "Меню Справка: О TKE"
 
-  "Help Menu: Check for Update"
+  "Help Menu: Check for update"
   "Меню Справка: Проверка обновлений"
 
-  "Help Menu: Send Bug Report"
+  "Help Menu: Send bug report"
   "Меню Справка: Отправить отчет об ошибке"
 
-  "Help Menu: Send Feedback"
+  "Help Menu: Send feedback"
   "Меню Справка: Отправить отзыв"
 
-  "Help Menu: View User Guide"
+  "Help Menu: View user guide"
   "Меню Справка: Просмотр руководства пользователя"
 
   "Hide Console"
@@ -493,6 +493,9 @@ msgcat::mcmset ru {
 
   "Menu Bindings"
   "Меню Наручники"
+
+  "Menus: About TKE"
+  "Меню: О TKE"
 
   "Merge Panes"
   "??????????? ????????"
@@ -659,9 +662,6 @@ msgcat::mcmset ru {
   "Show Tab Bar"
   "Показать Панель вкладок"
 
-  "Show*Profiling*"
-  "Показать * Профилирование *"
-
   "Smart Indent"
   "Смарт отступа"
 
@@ -725,8 +725,8 @@ msgcat::mcmset ru {
   "Tools Menu: Disable Vim mode"
   "Меню Сервис: Отключить режим Vim"
 
-  "Tools Menu: Edit Tke theme"
-  "Меню Сервис: Изменить тему Tke"
+  "Tools Menu: Edit TKE theme"
+  "Меню Сервис: Изменить тему TKE"
 
   "Tools Menu: Enable Vim mode"
   "Меню Сервис: Включить режим Vim"
@@ -734,10 +734,10 @@ msgcat::mcmset ru {
   "Tools Menu: Import TextMate theme"
   "Меню Сервис: Импорт TextMate тема"
 
-  "Tools Menu: Restart tke"
-  "Меню Сервис: Tke перезагрузки"
+  "Tools Menu: Restart TKE"
+  "Меню Сервис: Перезагрузка TKE"
 
-  "Tools Menu: Show Diagnostic Logfile"
+  "Tools Menu: Show diagnostic logfile"
   "Меню Сервис: Показать диагностический лог"
 
   "Tools Menu: Show last profiling report"
@@ -785,14 +785,11 @@ msgcat::mcmset ru {
   "View Menu: Goto previous tab"
   "Меню Вид: Перейти к предыдущей вкладке"
 
-  "View Menu: Hide Line Numbers"
-  "В меню Вид: Скрыть номера строк"
-
-  "View Menu: Hide Tab Bar"
-  "В меню Вид: Скрыть панель вкладок"
-
   "View Menu: Hide console"
   "Меню Вид: Скрыть консоль"
+
+  "View Menu: Hide line numbers"
+  "В меню Вид: Скрыть номера строк"
 
   "View Menu: Hide meta characters"
   "В меню Вид: Скрыть мета символы"
@@ -803,20 +800,20 @@ msgcat::mcmset ru {
   "View Menu: Hide status bar"
   "В меню Вид: Скрыть строку состояния"
 
+  "View Menu: Hide tab bar"
+  "В меню Вид: Скрыть панель вкладок"
+
   "View Menu: Merge panes"
   "В меню Вид: Слияние областей"
 
   "View Menu: Move to other pane"
   "Меню Вид: Перейти к другой области"
 
-  "View Menu: Show Line Numbers"
-  "В меню Вид: Показать номера строк"
-
-  "View Menu: Show Tab Bar"
-  "Меню Вид: Панель вкладок шоу"
-
   "View Menu: Show console"
   "В меню Вид: Показать консоль"
+
+  "View Menu: Show line numbers"
+  "В меню Вид: Показать номера строк"
 
   "View Menu: Show meta characters"
   "В меню Вид: Показывать мета символы"
@@ -826,6 +823,9 @@ msgcat::mcmset ru {
 
   "View Menu: Show status bar"
   "В меню Вид: Показать строку состояния"
+
+  "View Menu: Show tab bar"
+  "В меню Вид: Показать панель вкладок"
 
   "View Menu: Sort tabs"
   "Меню Вид: Вкладки Сортировка"

@@ -145,7 +145,7 @@ namespace eval syntax {
 
       # Add the language and the command launcher
       set langs($name) [array get lang_array]
-      [ns launcher]::register [msgcat::mc "Syntax:  %s" $name] "syntax::set_language $name"
+      [ns launcher]::register [msgcat::mc "Syntax: %s" $name] "syntax::set_language $name"
 
     }
 
@@ -170,7 +170,7 @@ namespace eval syntax {
     unset langs($name)
 
     # Unregister the language with the launcher
-    [ns launcher]::unregister [msgcat::mc "Syntax:  %s" $name]
+    [ns launcher]::unregister [msgcat::mc "Syntax: %s" $name]
 
   }
 

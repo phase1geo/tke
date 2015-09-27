@@ -425,16 +425,16 @@ msgcat::mcmset ja {
   "Help Menu: About TKE"
   "[ヘルプ] メニュー: TKE について"
 
-  "Help Menu: Check for Update"
+  "Help Menu: Check for update"
   "更新プログラムのチェックを [ヘルプ] メニュー:"
 
-  "Help Menu: Send Bug Report"
+  "Help Menu: Send bug report"
   "[ヘルプ] メニュー: バグ報告を送る"
 
-  "Help Menu: Send Feedback"
+  "Help Menu: Send feedback"
   "[ヘルプ] メニュー: フィードバックの送信"
 
-  "Help Menu: View User Guide"
+  "Help Menu: View user guide"
   "[ヘルプ] メニュー: ビュー ユーザー ガイド"
 
   "Hide Console"
@@ -493,6 +493,9 @@ msgcat::mcmset ja {
 
   "Menu Bindings"
   "メニューバインディング"
+
+  "Menus: About TKE"
+  "TKE のメニュー。"
 
   "Merge Panes"
   "????????????"
@@ -659,9 +662,6 @@ msgcat::mcmset ja {
   "Show Tab Bar"
   "表示タブバー"
 
-  "Show*Profiling*"
-  "表示*プロファイリング*"
-
   "Smart Indent"
   "スマート インデント"
 
@@ -725,8 +725,8 @@ msgcat::mcmset ja {
   "Tools Menu: Disable Vim mode"
   "[ツール] メニュー: Vim モードを無効にします。"
 
-  "Tools Menu: Edit Tke theme"
-  "[ツール] メニュー: Tke のテーマを編集します。"
+  "Tools Menu: Edit TKE theme"
+  "[ツール] メニュー: TKE のテーマを編集します。"
 
   "Tools Menu: Enable Vim mode"
   "[ツール] メニュー: Vim モードを有効にします。"
@@ -734,10 +734,10 @@ msgcat::mcmset ja {
   "Tools Menu: Import TextMate theme"
   "[ツール] メニュー: インポート TextMate のテーマ"
 
-  "Tools Menu: Restart tke"
-  "[ツール] メニュー: 再起動 tke"
+  "Tools Menu: Restart TKE"
+  "[ツール] メニュー: 再起動 TKE"
 
-  "Tools Menu: Show Diagnostic Logfile"
+  "Tools Menu: Show diagnostic logfile"
   "[ツール] メニュー: 診断ログ ファイルを表示します。"
 
   "Tools Menu: Show last profiling report"
@@ -785,14 +785,11 @@ msgcat::mcmset ja {
   "View Menu: Goto previous tab"
   "[表示] メニュー: 後藤前のタブ"
 
-  "View Menu: Hide Line Numbers"
-  "[表示] メニュー: 行番号を非表示します。"
-
-  "View Menu: Hide Tab Bar"
-  "[表示] メニュー: タブ バーの非表示"
-
   "View Menu: Hide console"
   "[表示] メニュー: 非表示コンソール"
+
+  "View Menu: Hide line numbers"
+  "[表示] メニュー: 行番号を非表示します。"
 
   "View Menu: Hide meta characters"
   "[表示] メニュー: メタ文字を非表示します。"
@@ -803,20 +800,20 @@ msgcat::mcmset ja {
   "View Menu: Hide status bar"
   "[表示] メニュー: ステータス バーの非表示"
 
+  "View Menu: Hide tab bar"
+  "[表示] メニュー: タブ バーの非表示"
+
   "View Menu: Merge panes"
   "[表示] メニュー: マージ ウィンドウ"
 
   "View Menu: Move to other pane"
   "他のウィンドウに移動する [表示] メニュー。"
 
-  "View Menu: Show Line Numbers"
-  "[表示] メニュー: 行番号を表示します。"
-
-  "View Menu: Show Tab Bar"
-  "[表示] メニュー: タブ バーを表示"
-
   "View Menu: Show console"
   "[表示] メニュー: 表示コンソール"
+
+  "View Menu: Show line numbers"
+  "[表示] メニュー: 行番号を表示します。"
 
   "View Menu: Show meta characters"
   "[表示] メニュー: メタ文字を表示します。"
@@ -826,6 +823,9 @@ msgcat::mcmset ja {
 
   "View Menu: Show status bar"
   "[表示] メニュー: ステータス バーを表示します。"
+
+  "View Menu: Show tab bar"
+  "[表示] メニュー: タブ バーを表示"
 
   "View Menu: Sort tabs"
   "[表示] メニュー: 並び替えタブ"
