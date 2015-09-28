@@ -1362,6 +1362,9 @@ namespace eval menus {
     launcher::register [msgcat::mc "Tools Menu: Enable Vim mode"]  "set preferences::prefs(Tools/VimMode) 1; vim::set_vim_mode_all"
     launcher::register [msgcat::mc "Tools Menu: Disable Vim mode"] "set preferences::prefs(Tools/VimMode) 0; vim::set_vim_mode_all"
 
+    # Initialize the rest of the tools menu
+    tools_posting $mb
+
   }
 
   ######################################################################
