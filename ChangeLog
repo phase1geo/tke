@@ -1,51 +1,42 @@
-changeset:   1372:4c858ae33821
-tag:         devel-1.8.28
+changeset:   1378:16ed4bcdc90a
+tag:         devel-1.8.29
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Sep 25 23:25:05 2015 -0500
+date:        Sat Sep 26 21:47:41 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.8.28 release
+ChangeLog for devel-1.8.29 release
 
 
-changeset:   1373:5fb412fba3d3
+changeset:   1379:1c5b8ddb5399
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Sep 25 23:25:09 2015 -0500
+date:        Sat Sep 26 21:47:46 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.8.28 for changeset 4c858ae33821
+Added tag devel-1.8.29 for changeset 16ed4bcdc90a
 
 
-changeset:   1374:5ae986923e67
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Sep 26 11:39:20 2015 -0500
-files:       doc/UserGuide.epub doc/UserGuide.pdf lib/version.tcl
-description:
-* Updating user guide.
-
-
-changeset:   1375:9207d634475a
+changeset:   1380:69a5884ddd03
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Sat Sep 26 20:03:57 2015 -0500
-files:       Win/freewrap.files lib/menus.tcl lib/version.tcl
+date:        Mon Sep 28 11:09:18 2015 -0500
+files:       lib/version.tcl plugins/perforce/main.tcl
 description:
-* Fixing the handling of development mode changes in the menu when it changes.
+* Fixing syntax error in Perforce plugin.
 
 
-changeset:   1376:af7ec324d6b4
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Sep 26 21:43:43 2015 -0500
-files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg lib/api.tcl lib/menus.tcl lib/syntax.tcl lib/version.tcl plugins/notes/main.tcl plugins/terminal/main.tcl
+changeset:   1381:815a36d35485
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Sep 28 12:38:11 2015 -0500
+files:       lib/menus.tcl lib/version.tcl
 description:
-* Fixing various command launcher registration strings.
-* Updating translations.
+* Fixing tools menu issue when closing the application.
 
 
-changeset:   1377:b0b58fff9589
+changeset:   1382:70f2dd5ac1cb
 tag:         tip
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Sep 26 21:45:22 2015 -0500
-files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg lib/version.tcl
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Sep 28 16:57:59 2015 -0500
+files:       lib/menus.tcl lib/version.tcl
 description:
-* Translation updates.
+* Fixing development mode issues properly.
 
 
