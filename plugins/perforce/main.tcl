@@ -109,7 +109,7 @@ namespace eval perforce {
   # When the application starts, read the include directory file.
   proc on_start_do {} {
 
-    edit_include_dirs_save [file join [api::get_home_directory] perforce.dat]
+    edit_include_dirs_save [file join [api::get_home_directory] perforce.dat] 0
 
   }
 
