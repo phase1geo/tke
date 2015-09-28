@@ -1637,7 +1637,11 @@ namespace eval menus {
     exit_cleanup
 
     # Execute the restart command
-    exec [info nameofexecutable] [file normalize $::argv0] &
+    if {[file tail [info nameofexecutable]] eq "tke.exe"} {
+      exec [info nameofexecutable] &
+    } else {
+      exec [info nameofexecutable] [file normalize $::argv0] &
+    }
 
     exit
 
