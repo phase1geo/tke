@@ -27,8 +27,11 @@ namespace eval menus {
   variable profile_report  [file join $::tke_home profiling_report.log]
   variable show_split_pane 0
   variable indent_mode     "IND+"
+  variable last_devel_mode ""
 
   array set profiling_info {}
+
+  trace add variable preferences::prefs(Debug/DevelopmentMode) write menus::handle_development_mode
 
   #######################
   #  PUBLIC PROCEDURES  #
@@ -66,6 +69,69 @@ namespace eval menus {
 
     # Next, invoke the menu
     $mnu invoke $index
+
+  }
+
+  ######################################################################
+  # Handles any changes to the Debug/DevelopmentMode preference value.
+  proc handle_development_mode {{name1 ""} {name2 ""} {op ""}} {
+
+    variable last_devel_mode
+
+    # If the menubar does not exist, we have nothing further to do
+    if {![winfo exists .menubar]} {
+      return
+    }
+
+    # Get the development mode
+    if {[set devel_mode [::tke_development]] ne $last_devel_mode} {
+
+      # Delete the development tools if they exist but we are no longer in development mode
+      if {$devel_mode} {
+
+        set mb ".menubar.tools"
+        $mb add separator
+        $mb add command -label [msgcat::mc "Start Profiling"]            -underline 0 -command "menus::start_profiling_command $mb"
+        $mb add command -label [msgcat::mc "Stop Profiling"]             -underline 1 -command "menus::stop_profiling_command $mb 1" -state disabled
+        $mb add command -label [msgcat::mc "Show Last Profiling Report"] -underline 5 -command "menus::show_last_profiling_report"
+        $mb add separator
+        $mb add command -label [msgcat::mc "Show Diagnostic Logfile"]    -underline 5 -command "logger::view_log"
+        $mb add separator
+        $mb add command -label [msgcat::mc "Restart TKE"]                -underline 0 -command "menus::restart_command"
+
+        launcher::register [msgcat::mc "Tools Menu: Start profiling"] "menus::start_profiling_command $mb"
+        launcher::register [msgcat::mc "Tools Menu: Stop profiling"] "menus::stop_profiling_command $mb 1"
+        launcher::register [msgcat::mc "Tools Menu: Show last profiling report"] "menus::show_last_profiling_report"
+        launcher::register [msgcat::mc "Tools Menu: Show diagnostic logfile"] "logger::view_log"
+        launcher::register [msgcat::mc "Tools Menu: Restart TKE"] "menus::restart_command"
+
+        set mb ".menubar.plugins"
+        $mb insert 3 separator
+        $mb insert 4 command -label [msgcat::mc "Create..."] -underline 0 -command "plugins::create_new_plugin"
+
+        launcher::register [msgcat::mc "Plugins Menu: Create new plugin"] "plugins::create_new_plugin"
+
+      } elseif {$last_devel_mode ne ""} {
+
+        set mb    ".menubar.tools"
+        set index [$mb index [msgcat::mc "Start Profiling"]]
+        $mb delete [expr $index - 1] end
+        launcher::unregister [msgcat::mc "Tools Menu: Start profiling"] * *
+        launcher::unregister [msgcat::mc "Tools Menu: Stop profiling"] * *
+        launcher::unregister [msgcat::mc "Tools Menu: Show last profiling report"] * *
+        launcher::unregister [msgcat::mc "Tools Menu: Show diagnostic logfile"] * *
+        launcher::unregister [msgcat::mc "Tools Menu: Restart TKE"] * *
+
+        set mb ".menubar.plugins"
+        $mb delete 3 4
+        launcher::unregister [msgcat::mc "Plugins Menu: Create new plugin"] * *
+
+      }
+
+      # Store the development mode
+      set last_devel_mode $devel_mode
+
+    }
 
   }
 
@@ -131,6 +197,9 @@ namespace eval menus {
 
     # Load and apply the menu bindings
     bindings::load
+
+    # Handle the default development mode
+    handle_development_mode
 
   }
 
@@ -1362,9 +1431,6 @@ namespace eval menus {
     launcher::register [msgcat::mc "Tools Menu: Enable Vim mode"]  "set preferences::prefs(Tools/VimMode) 1; vim::set_vim_mode_all"
     launcher::register [msgcat::mc "Tools Menu: Disable Vim mode"] "set preferences::prefs(Tools/VimMode) 0; vim::set_vim_mode_all"
 
-    # Initialize the rest of the tools menu
-    tools_posting $mb
-
   }
 
   ######################################################################
@@ -1373,42 +1439,7 @@ namespace eval menus {
 
     variable profile_report
 
-    # Get the development mode
-    set devel_mode [::tke_development]
-
-    # Delete the development tools if they exist but we are no longer in development mode
-    if {[$mb entrycget last -label] eq [msgcat::mc "Restart TKE"]} {
-      if {!$devel_mode} {
-        set index [$mb index [msgcat::mc "Start Profiling"]]
-        $mb delete [expr $index - 1] end
-        launcher::unregister [msgcat::mc "Tools Menu: Start profiling"] * *
-        launcher::unregister [msgcat::mc "Tools Menu: Stop profiling"] * *
-        launcher::unregister [msgcat::mc "Tools Menu: Show last profiling report"] * *
-        launcher::unregister [msgcat::mc "Tools Menu: Show diagnostic logfile"] * *
-        launcher::unregister [msgcat::mc "Tools Menu: Restart TKE"] * *
-      }
-
-    # Otherwise, if the we are in development mode and the tools do not exist, add them
-    } else {
-      if {$devel_mode} {
-        $mb add separator
-        $mb add command -label [msgcat::mc "Start Profiling"]            -underline 0 -command "menus::start_profiling_command $mb"
-        $mb add command -label [msgcat::mc "Stop Profiling"]             -underline 1 -command "menus::stop_profiling_command $mb 1" -state disabled
-        $mb add command -label [msgcat::mc "Show Last Profiling Report"] -underline 5 -command "menus::show_last_profiling_report"
-        $mb add separator
-        $mb add command -label [msgcat::mc "Show Diagnostic Logfile"]    -underline 5 -command "logger::view_log"
-        $mb add separator
-        $mb add command -label [msgcat::mc "Restart TKE"]                -underline 0 -command "menus::restart_command"
-
-        launcher::register [msgcat::mc "Tools Menu: Start profiling"] "menus::start_profiling_command $mb"
-        launcher::register [msgcat::mc "Tools Menu: Stop profiling"] "menus::stop_profiling_command $mb 1"
-        launcher::register [msgcat::mc "Tools Menu: Show last profiling report"] "menus::show_last_profiling_report"
-        launcher::register [msgcat::mc "Tools Menu: Show diagnostic logfile"] "logger::view_log"
-        launcher::register [msgcat::mc "Tools Menu: Restart TKE"] "menus::restart_command"
-      }
-    }
-
-    if {$devel_mode} {
+    if {[::tke_development]} {
       catch {
         if {[file exists $profile_report]} {
           $mb entryconfigure [msgcat::mc "Show Last Profiling Report"] -state normal
@@ -1766,14 +1797,6 @@ namespace eval menus {
     $mb add command -label [msgcat::mc "Reload"] -underline 0 -command "plugins::reload"
     launcher::register [msgcat::mc "Plugins Menu: Reload all plugins"] "plugins::reload"
 
-    if {[::tke_development]} {
-
-      $mb add separator
-      $mb add command -label [msgcat::mc "Create..."] -underline 0 -command "plugins::create_new_plugin"
-      launcher::register [msgcat::mc "Plugins Menu: Create new plugin"] "plugins::create_new_plugin"
-
-    }
-
     # Allow the plugin architecture to add menu items
     plugins::handle_plugin_menu $mb
 
@@ -1783,18 +1806,7 @@ namespace eval menus {
   # Called when the plugins menu needs to be posted.
   proc plugins_posting {mb} {
 
-    if {[catch { $mb index [msgcat::mc "Create..."] } index]} {
-      if {[::tke_development]} {
-        $mb insert 3 separator
-        $mb insert 4 command -label [msgcat::mc "Create..."] -underline 0 -command "plugins::create_new_plugin"
-        launcher::register [msgcat::mc "Plugins Menu: Create new plugin"] "plugins::create_new_plugin"
-      }
-    } else {
-      if {![::tke_development]} {
-        $mb delete 3 4
-        launcher::unregister [msgcat::mc "Plugins Menu: Create new plugin"] * *
-      }
-    }
+    # TBD
 
   }
 
