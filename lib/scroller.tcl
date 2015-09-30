@@ -52,7 +52,7 @@ namespace eval scroller {
     }
 
     # Create canvas bindings
-    bind $data($win,canvas) <Configure>  [list scroller::configure $win]
+    bind $data($win,canvas) <Configure>  [list scroller::configure $win $opts(-command)]
     bind $data($win,canvas) <Button-1>   [list scroller::position_slider %W %y $opts(-command)]
     bind $data($win,canvas) <B1-Motion>  [list scroller::position_slider %W %y $opts(-command)]
 
@@ -74,6 +74,9 @@ namespace eval scroller {
     switch $cmd {
 
       set {
+        if {![info exists data($win,ssize)]} {
+          return
+        }
         lassign $args first last
         if {$data($win,-orient) eq "vertical"} {
           set height [winfo height $data($win,canvas)]
@@ -102,7 +105,9 @@ namespace eval scroller {
           set data($win,-foreground) $opts(-foreground)
         }
         $data($win,canvas) configure -bg $data($win,-background)
-        $data($win,canvas) itemconfigure $data($win,slider) -outline $data($win,-foreground)
+        if {[info exists data($win,slider)]} {
+          $data($win,canvas) itemconfigure $data($win,slider) -outline $data($win,-foreground) -fill $data($win,-foreground)
+        }
       }
 
       default {
@@ -123,7 +128,11 @@ namespace eval scroller {
     if {$cmd ne ""} {
 
       # Calculate the moveto fraction
-      set moveto [expr ($y.0 - ($data($W,ssize) / 2)) / [winfo height $W]]
+      if {$data($W,-orient) eq "vertical"} {
+        set moveto [expr ($y.0 - ($data($W,ssize) / 2)) / [winfo height $W]]
+      } else {
+        set moveto [expr ($y.0 - ($data($W,ssize) / 2)) / [winfo width $W]]
+      }
 
       # Call the command
       uplevel #0 "$cmd moveto $moveto"
@@ -134,7 +143,7 @@ namespace eval scroller {
 
   ######################################################################
   # Called whenever the map widget is configured.
-  proc configure {win} {
+  proc configure {win cmd} {
 
     variable data
 
@@ -142,7 +151,7 @@ namespace eval scroller {
     $data($win,canvas) delete all
 
     # Calculate the slider height
-    lassign [$win yview] first last
+    lassign [eval $cmd] first last
     if {$data($win,-orient) eq "vertical"} {
       set size [winfo height $data($win,canvas)]
       lassign {2 0 15 10} x1 y1 x2 y2
@@ -154,7 +163,7 @@ namespace eval scroller {
     set data($win,ssize) [expr ($ssize < 11) ? 11 : $ssize]
 
     # Add cursor
-    set data($win,slider) [$data($win,canvas) create rectangle $x1 $y1 $x2 $y2 -outline $data($win,-foreground) -width 2]
+    set data($win,slider) [$data($win,canvas) create rectangle $x1 $y1 $x2 $y2 -outline $data($win,-foreground) -fill $data($win,-foreground) -width 2]
     widget_command $win set $first $last
 
   }
