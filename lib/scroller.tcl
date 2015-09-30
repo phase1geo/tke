@@ -24,33 +24,40 @@
 
 namespace eval scroller {
 
+  array set data {}
+
   ######################################################################
   # Creates the difference map which is basically a colored scrollbar.
-  proc scroller {win txt args} {
+  proc scroller {win args} {
 
     variable data
 
     array set opts {
-      -command ""
+      -background "black"
+      -foreground "white"
+      -orient     "vertical"
+      -command    ""
     }
     array set opts $args
 
-    # Get the background color
-    set bg [utils::get_default_background]
+    set data($win,-background) $opts(-background)
+    set data($win,-foreground) $opts(-foreground)
+    set data($win,-orient)     $opts(-orient)
 
     # Create the canvas
-    set data($txt,canvas) [canvas $win -width 15 -relief flat -bd 1 -highlightthickness 0 -bg $bg]
+    if {$data($win,-orient) eq "vertical"} {
+      set data($win,canvas) [canvas $win -width 15  -relief flat -bd 1 -highlightthickness 0 -bg $data($win,-background)]
+    } else {
+      set data($win,canvas) [canvas $win -height 15 -relief flat -bd 1 -highlightthickness 0 -bg $data($win,-background)]
+    }
 
     # Create canvas bindings
-    bind $data($txt,canvas) <Configure>  [list [ns diff]::map_configure $txt]
-    bind $data($txt,canvas) <Button-1>   [list [ns diff]::map_position_slider %W %y $txt $opts(-command)]
-    bind $data($txt,canvas) <B1-Motion>  [list [ns diff]::map_position_slider %W %y $txt $opts(-command)]
-    bind $data($txt,canvas) <MouseWheel> "event generate $txt.t <MouseWheel> -delta %D"
-    bind $data($txt,canvas) <4>          "event generate $txt.t <4>"
-    bind $data($txt,canvas) <5>          "event generate $txt.t <5>"
+    bind $data($win,canvas) <Configure>  [list scroller::configure $win]
+    bind $data($win,canvas) <Button-1>   [list scroller::position_slider %W %y $opts(-command)]
+    bind $data($win,canvas) <B1-Motion>  [list scroller::position_slider %W %y $opts(-command)]
 
     rename ::$win $win
-    interp alias {} ::$win {} [ns diff]::widget_command $txt
+    interp alias {} ::$win {} scroller::widget_command $win
 
     return $win
 
@@ -58,7 +65,7 @@ namespace eval scroller {
 
   ######################################################################
   # Executes map commands.
-  proc widget_command {txt args} {
+  proc widget_command {win args} {
 
     variable data
 
@@ -68,11 +75,34 @@ namespace eval scroller {
 
       set {
         lassign $args first last
-        set height [winfo height $data($txt,canvas)]
-        set y1     [expr int( $height * $first )]
+        if {$data($win,-orient) eq "vertical"} {
+          set height [winfo height $data($win,canvas)]
+          set x1     0
+          set y1     [expr int( $height * $first )]
+          set x2     15
+          set y2     [expr $y1 + $data($win,ssize)]
+        } else {
+          set width  [winfo width $data($win,canvas)]
+          set x1     [expr int( $width * $first )]
+          set y1     0
+          set x2     [expr $x1 + $data($win,ssize)]
+          set y2     15
+        }
 
         # Adjust the size and position of the slider
-        $data($txt,canvas) coords $data($txt,slider) 2 [expr $y1 + 2] 15 [expr $y1 + $data($txt,sheight)]
+        $data($win,canvas) coords $data($win,slider) [expr $x1 + 2] [expr $y1 + 2] $x2 $y2
+      }
+
+      configure {
+        array set opts $args
+        if {[info exists opts(-background)]} {
+          set data($win,-background) $opts(-background)
+        }
+        if {[info exists opts(-foreground)]} {
+          set data($win,-foreground) $opts(-foreground)
+        }
+        $data($win,canvas) configure -bg $data($win,-background)
+        $data($win,canvas) itemconfigure $data($win,slider) -outline $data($win,-foreground)
       }
 
       default {
@@ -86,14 +116,14 @@ namespace eval scroller {
   ######################################################################
   # Handles a left-click or click-drag in the canvas area, positioning
   # the cursor at the given position.
-  proc map_position_slider {W y txt cmd} {
+  proc position_slider {W y cmd} {
 
     variable data
 
     if {$cmd ne ""} {
 
       # Calculate the moveto fraction
-      set moveto [expr ($y.0 - ($data($txt,sheight) / 2)) / [winfo height $W]]
+      set moveto [expr ($y.0 - ($data($W,ssize) / 2)) / [winfo height $W]]
 
       # Call the command
       uplevel #0 "$cmd moveto $moveto"
@@ -104,54 +134,28 @@ namespace eval scroller {
 
   ######################################################################
   # Called whenever the map widget is configured.
-  proc map_configure {txt} {
+  proc configure {win} {
 
     variable data
 
     # Remove all canvas items
-    $data($txt,canvas) delete all
-
-    # Add the difference bars
-    foreach type [list sub add] {
-      foreach {start end} [$txt diff ranges $type] {
-        set start_line [lindex [split $start .] 0]
-        set end_line   [lindex [split $end .] 0]
-        map_add $txt $type $start_line [expr $end_line - $start_line]
-      }
-    }
+    $data($win,canvas) delete all
 
     # Calculate the slider height
-    lassign [$txt yview] first last
-    set height             [winfo height $data($txt,canvas)]
-    set sheight            [expr ((int( $height * $last ) - int( $height * $first )) + 1) - 4]
-    set data($txt,sheight) [expr ($sheight < 11) ? 11 : $sheight]
+    lassign [$win yview] first last
+    if {$data($win,-orient) eq "vertical"} {
+      set size [winfo height $data($win,canvas)]
+      lassign {2 0 15 10} x1 y1 x2 y2
+    } else {
+      set size [winfo width $data($win,canvas)]
+      lassign {2 0 15 10} y1 x1 y2 x2
+    }
+    set ssize            [expr ((int( $size * $last ) - int( $size * $first )) + 1) - 4]
+    set data($win,ssize) [expr ($ssize < 11) ? 11 : $ssize]
 
     # Add cursor
-    set bg                [utils::get_default_background]
-    set abg               [utils::auto_adjust_color $bg 50]
-    set data($txt,slider) [$data($txt,canvas) create rectangle 2 0 15 10 -outline $abg -width 2]
-    map_command $txt set $first $last
-
-  }
-
-  ######################################################################
-  # Adds a sub or add bar to the associated widget.
-  proc map_add {txt type start lines} {
-
-    variable data
-
-    # Get the number of lines in the text widget
-    set txt_lines [lindex [split [$txt index end-1c] .] 0]
-
-    # Get the height of the box to add
-    set y1 [expr int( ($start.0 / $txt_lines) * [winfo height $data($txt,canvas)] )]
-    set y2 [expr int( (($start + $lines.0) / $txt_lines) * [winfo height $data($txt,canvas)] )]
-
-    # Get the color to display
-    set color [expr {($type eq "sub") ? [$txt cget -diffsubbg] : [$txt cget -diffaddbg]}]
-
-    # Create the rectangle and place it in the widget
-    $data($txt,canvas) create rectangle 0 $y1 15 $y2 -fill $color -width 0
+    set data($win,slider) [$data($win,canvas) create rectangle $x1 $y1 $x2 $y2 -outline $data($win,-foreground) -width 2]
+    widget_command $win set $first $last
 
   }
 
