@@ -43,6 +43,10 @@ namespace eval scroller {
     set data($win,-background) $opts(-background)
     set data($win,-foreground) $opts(-foreground)
     set data($win,-orient)     $opts(-orient)
+    set data($win,-command)    $opts(-command)
+
+    set data($win,width)   3
+    set data($win,pressed) 0
 
     # Create the canvas
     if {$data($win,-orient) eq "vertical"} {
@@ -52,9 +56,12 @@ namespace eval scroller {
     }
 
     # Create canvas bindings
-    bind $data($win,canvas) <Configure>  [list scroller::configure $win $opts(-command)]
-    bind $data($win,canvas) <Button-1>   [list scroller::position_slider %W %y $opts(-command)]
-    bind $data($win,canvas) <B1-Motion>  [list scroller::position_slider %W %y $opts(-command)]
+    bind $data($win,canvas) <Configure>       [list scroller::configure       %W]
+    bind $data($win,canvas) <ButtonPress-1>   [list scroller::position_slider %W %x %y]
+    bind $data($win,canvas) <ButtonRelease-1> [list scroller::release_slider  %W]
+    bind $data($win,canvas) <B1-Motion>       [list scroller::position_slider %W %x %y]
+    bind $data($win,canvas) <Enter>           [list scroller::expand_slider   %W]
+    bind $data($win,canvas) <Leave>           [list scroller::collapse_slider %W]
 
     rename ::$win $win
     interp alias {} ::$win {} scroller::widget_command $win
@@ -80,14 +87,14 @@ namespace eval scroller {
         lassign $args first last
         if {$data($win,-orient) eq "vertical"} {
           set height [winfo height $data($win,canvas)]
-          set x1     0
+          set x1     [expr 15 - $data($win,width)]
           set y1     [expr int( $height * $first )]
           set x2     15
           set y2     [expr $y1 + $data($win,ssize)]
         } else {
           set width  [winfo width $data($win,canvas)]
           set x1     [expr int( $width * $first )]
-          set y1     0
+          set y1     [expr 15 - $data($win,width)]
           set x2     [expr $x1 + $data($win,ssize)]
           set y2     15
         }
@@ -121,21 +128,70 @@ namespace eval scroller {
   ######################################################################
   # Handles a left-click or click-drag in the canvas area, positioning
   # the cursor at the given position.
-  proc position_slider {W y cmd} {
+  proc position_slider {W x y} {
 
     variable data
 
-    if {$cmd ne ""} {
+    if {$data($W,-command) ne ""} {
+
+      # Indicate that we are pressed
+      set data($W,pressed) 1
 
       # Calculate the moveto fraction
       if {$data($W,-orient) eq "vertical"} {
         set moveto [expr ($y.0 - ($data($W,ssize) / 2)) / [winfo height $W]]
       } else {
-        set moveto [expr ($y.0 - ($data($W,ssize) / 2)) / [winfo width $W]]
+        set moveto [expr ($x.0 - ($data($W,ssize) / 2)) / [winfo width $W]]
       }
 
       # Call the command
-      uplevel #0 "$cmd moveto $moveto"
+      uplevel #0 "$data($W,-command) moveto $moveto"
+
+    }
+
+  }
+
+  ######################################################################
+  # Indicate that the slider button has been released.
+  proc release_slider {W} {
+
+    variable data
+
+    set data($W,pressed) 0
+
+  }
+
+  ######################################################################
+  # Expands the slider to make it easier to grab.
+  proc expand_slider {W} {
+
+    variable data
+
+    if {!$data($W,pressed)} {
+
+      set data($W,width) 15
+
+      lassign [eval $data($W,-command)] first last
+
+      widget_command $W set $first $last
+
+    }
+
+  }
+
+  ######################################################################
+  # Collapses the slider to make it less obtrusive.
+  proc collapse_slider {W} {
+
+    variable data
+
+    if {!$data($W,pressed)} {
+
+      set data($W,width) 3
+
+      lassign [eval $data($W,-command)] first last
+
+      widget_command $W set $first $last
 
     }
 
@@ -143,7 +199,7 @@ namespace eval scroller {
 
   ######################################################################
   # Called whenever the map widget is configured.
-  proc configure {win cmd} {
+  proc configure {win} {
 
     variable data
 
@@ -151,13 +207,13 @@ namespace eval scroller {
     $data($win,canvas) delete all
 
     # Calculate the slider height
-    lassign [eval $cmd] first last
+    lassign [eval $data($win,-command)] first last
     if {$data($win,-orient) eq "vertical"} {
       set size [winfo height $data($win,canvas)]
-      lassign {2 0 15 10} x1 y1 x2 y2
+      lassign {12 0 15 10} x1 y1 x2 y2
     } else {
       set size [winfo width $data($win,canvas)]
-      lassign {2 0 15 10} y1 x1 y2 x2
+      lassign {12 0 15 10} y1 x1 y2 x2
     }
     set ssize            [expr ((int( $size * $last ) - int( $size * $first )) + 1) - 4]
     set data($win,ssize) [expr ($ssize < 11) ? 11 : $ssize]

@@ -24,7 +24,7 @@ proc ctext {win args} {
     "invalid number of arguments given to ctext (uneven number after window) : $args"
   }
 
-  frame $win -class Ctext -padx 1 -pady 1
+  frame $win -class Ctext ;# -padx 1 -pady 1
 
   set tmp [text .__ctextTemp]
 
@@ -587,7 +587,8 @@ proc ctext::handleFocusIn {win} {
 
   ctext::getAr $win config configAr
 
-  __ctextJunk$win configure -bg $configAr(-highlightcolor)
+  # __ctextJunk$win configure -bg $configAr(-highlightcolor)
+  $win.f configure -bg $configAr(-highlightcolor)
 
 }
 
@@ -595,7 +596,8 @@ proc ctext::handleFocusOut {win} {
 
   ctext::getAr $win config configAr
 
-  __ctextJunk$win configure -bg $configAr(-unhighlightcolor)
+  # __ctextJunk$win configure -bg $configAr(-unhighlightcolor)
+  $win.f configure -bg $configAr(-warnwidth_bg)
 
 }
 
