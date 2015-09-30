@@ -383,6 +383,8 @@ namespace eval syntax {
       -linemapbg $theme(background) -linemapfg $theme(line_number) \
       -warnwidth_bg $theme(warning_width) \
       -diffaddbg $theme(difference_add) -diffsubbg $theme(difference_sub)
+    [winfo parent $txt].vb configure -background $theme(background) -foreground $theme(warning_width)
+    [winfo parent $txt].hb configure -background $theme(background) -foreground $theme(warning_width)
 
     # Set default indent/unindent strings
     [ns indent]::set_indent_expressions $txt.t {\{} {\}}

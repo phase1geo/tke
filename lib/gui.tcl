@@ -3390,13 +3390,13 @@ namespace eval gui {
       -linemap_relief flat -linemap_minwidth 4 \
       -xscrollcommand "[ns utils]::set_xscrollbar $tab_frame.pw.tf.hb" \
       -yscrollcommand "[ns utils]::set_yscrollbar $tab_frame.pw.tf.vb"
-    ttk::button    $tab_frame.pw.tf.split -style BButton -image $images(split) -command "[ns gui]::toggle_split_pane {}"
-    ttk::scrollbar $tab_frame.pw.tf.hb    -orient horizontal -command "$txt xview"
+    ttk::button        $tab_frame.pw.tf.split -style BButton -image $images(split) -command "[ns gui]::toggle_split_pane {}"
+    scroller::scroller $tab_frame.pw.tf.hb    -orient horizontal -command "$txt xview"
     if {$diff} {
       [ns diff]::map $tab_frame.pw.tf.vb $txt -command "$txt yview"
       $txt configure -yscrollcommand "$tab_frame.pw.tf.vb set"
     } else {
-      ttk::scrollbar $tab_frame.pw.tf.vb -orient vertical   -command "$txt yview"
+      scroller::scroller $tab_frame.pw.tf.vb -orient vertical -command "$txt yview"
     }
 
     # Create the editor font if it does not currently exist
@@ -3609,9 +3609,9 @@ namespace eval gui {
       -linemap_mark_command [ns gui]::mark_command -linemap_select_bg orange -peer $txt \
       -xscrollcommand "[ns utils]::set_xscrollbar $pw.tf2.hb" \
       -yscrollcommand "[ns utils]::set_yscrollbar $pw.tf2.vb"
-    ttk::label     $pw.tf2.split -image $images(close) -anchor center
-    ttk::scrollbar $pw.tf2.vb    -orient vertical   -command "$txt2 yview"
-    ttk::scrollbar $pw.tf2.hb    -orient horizontal -command "$txt2 xview"
+    ttk::label         $pw.tf2.split -image $images(close) -anchor center
+    scroller::scroller $pw.tf2.vb    -orient vertical   -command "$txt2 yview"
+    scroller::scroller $pw.tf2.hb    -orient horizontal -command "$txt2 xview"
 
     bind $txt2.t       <FocusIn>                    "+[ns gui]::set_current_tab_from_txt %W"
     bind $txt2.l       <ButtonPress-$::right_click> [bind $txt2.l <ButtonPress-1>]
