@@ -45,8 +45,15 @@ namespace eval scroller {
     set data($win,-orient)     $opts(-orient)
     set data($win,-command)    $opts(-command)
 
-    set data($win,width)   3
+    # Constant values
+    set data($win,minwidth)  3
+    set data($win,minheight) 21
+
+    # Variables
+    set data($win,width)   $data($win,minwidth)
     set data($win,pressed) 0
+    set data($win,first)   0.0
+    set data($win,last)    1.0
 
     # Create the canvas
     if {$data($win,-orient) eq "vertical"} {
@@ -57,9 +64,9 @@ namespace eval scroller {
 
     # Create canvas bindings
     bind $data($win,canvas) <Configure>       [list scroller::configure       %W]
-    bind $data($win,canvas) <ButtonPress-1>   [list scroller::position_slider %W %x %y]
+    bind $data($win,canvas) <ButtonPress-1>   [list scroller::position_slider %W %x %y 0]
     bind $data($win,canvas) <ButtonRelease-1> [list scroller::release_slider  %W]
-    bind $data($win,canvas) <B1-Motion>       [list scroller::position_slider %W %x %y]
+    bind $data($win,canvas) <B1-Motion>       [list scroller::position_slider %W %x %y 1]
     bind $data($win,canvas) <Enter>           [list scroller::expand_slider   %W]
     bind $data($win,canvas) <Leave>           [list scroller::collapse_slider %W]
 
@@ -80,11 +87,17 @@ namespace eval scroller {
 
     switch $cmd {
 
+      get {
+        return [list $data($win,first) $data($win,last)]
+      }
+
       set {
         if {![info exists data($win,ssize)]} {
           return
         }
         lassign $args first last
+        set data($win,first) $first
+        set data($win,last)  $last
         if {$data($win,-orient) eq "vertical"} {
           set height [winfo height $data($win,canvas)]
           set x1     [expr 15 - $data($win,width)]
@@ -128,7 +141,7 @@ namespace eval scroller {
   ######################################################################
   # Handles a left-click or click-drag in the canvas area, positioning
   # the cursor at the given position.
-  proc position_slider {W x y} {
+  proc position_slider {W x y motion} {
 
     variable data
 
@@ -137,15 +150,19 @@ namespace eval scroller {
       # Indicate that we are pressed
       set data($W,pressed) 1
 
-      # Calculate the moveto fraction
-      if {$data($W,-orient) eq "vertical"} {
-        set moveto [expr ($y.0 - ($data($W,ssize) / 2)) / [winfo height $W]]
-      } else {
-        set moveto [expr ($x.0 - ($data($W,ssize) / 2)) / [winfo width $W]]
-      }
+      if {$motion || ([$data($W,canvas) find withtag current] eq "")} {
 
-      # Call the command
-      uplevel #0 "$data($W,-command) moveto $moveto"
+        # Calculate the moveto fraction
+        if {$data($W,-orient) eq "vertical"} {
+          set moveto [expr ($y.0 - ($data($W,ssize) / 2)) / [winfo height $W]]
+        } else {
+          set moveto [expr ($x.0 - ($data($W,ssize) / 2)) / [winfo width $W]]
+        }
+
+        # Call the command
+        uplevel #0 "$data($W,-command) moveto $moveto"
+
+      }
 
     }
 
@@ -187,7 +204,7 @@ namespace eval scroller {
 
     if {!$data($W,pressed)} {
 
-      set data($W,width) 3
+      set data($W,width) $data($W,minwidth)
 
       lassign [eval $data($W,-command)] first last
 
@@ -210,13 +227,13 @@ namespace eval scroller {
     lassign [eval $data($win,-command)] first last
     if {$data($win,-orient) eq "vertical"} {
       set size [winfo height $data($win,canvas)]
-      lassign {12 0 15 10} x1 y1 x2 y2
+      lassign [list [expr 15 - $data($win,minwidth)] 0 15 [expr $data($win,minheight) - 1]] x1 y1 x2 y2
     } else {
       set size [winfo width $data($win,canvas)]
-      lassign {12 0 15 10} y1 x1 y2 x2
+      lassign [list [expr 15 - $data($win,minwidth)] 0 15 [expr $data($win,minheight) - 1]] y1 x1 y2 x2
     }
     set ssize            [expr ((int( $size * $last ) - int( $size * $first )) + 1) - 4]
-    set data($win,ssize) [expr ($ssize < 11) ? 11 : $ssize]
+    set data($win,ssize) [expr ($ssize < $data($win,minheight)) ? $data($win,minheight) : $ssize]
 
     # Add cursor
     set data($win,slider) [$data($win,canvas) create rectangle $x1 $y1 $x2 $y2 -outline $data($win,-foreground) -fill $data($win,-foreground) -width 2]

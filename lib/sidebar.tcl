@@ -137,7 +137,7 @@ namespace eval sidebar {
         -tooltipaddcommand "sidebar::show_tooltip" \
         -tooltipdelcommand "sidebar::hide_tooltip" \
         -yscrollcommand    "utils::set_yscrollbar $w.vb"]
-    set widgets(sb) [ttk::scrollbar $w.vb -orient vertical -command "$widgets(tl) yview"]
+    set widgets(sb) [scroller::scroller $w.vb -orient vertical -foreground $fg -background $bg -command "$widgets(tl) yview"]
 
     $widgets(tl) columnconfigure 0 -name name   -editable 0 -formatcommand "sidebar::format_name"
     $widgets(tl) columnconfigure 1 -name ocount -editable 0 -hide 1
@@ -1390,6 +1390,7 @@ namespace eval sidebar {
     if {[info exists widgets(tl)]} {
       $widgets(tl) configure -foreground $fg -background $bg -selectbackground $abg -selectforeground $fg \
         -highlightbackground $bg -highlightcolor $bg
+      $widgets(sb) configure -foreground $abg -background $bg
     }
 
   }

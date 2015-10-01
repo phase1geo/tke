@@ -587,8 +587,9 @@ proc ctext::handleFocusIn {win} {
 
   ctext::getAr $win config configAr
 
-  # __ctextJunk$win configure -bg $configAr(-highlightcolor)
-  $win.f configure -bg $configAr(-highlightcolor)
+  __ctextJunk$win configure -bg $configAr(-highlightcolor)
+  # __ctextJunk$win configure -bg $configAr(-unhighlightcolor)
+  # $win.f configure -bg $configAr(-highlightcolor)
 
 }
 
@@ -596,8 +597,9 @@ proc ctext::handleFocusOut {win} {
 
   ctext::getAr $win config configAr
 
-  # __ctextJunk$win configure -bg $configAr(-unhighlightcolor)
-  $win.f configure -bg $configAr(-warnwidth_bg)
+  __ctextJunk$win configure -bg $configAr(-unhighlightcolor)
+  # __ctextJunk$win configure -bg $configAr(-highlightcolor)
+  # $win.f configure -bg $configAr(-warnwidth_bg)
 
 }
 
