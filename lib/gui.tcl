@@ -349,6 +349,9 @@ namespace eval gui {
     $widgets(menu) add command -label [msgcat::mc "Close Other Tab(s)"] -command [ns gui]::close_others
     $widgets(menu) add command -label [msgcat::mc "Close All Tabs"]     -command [ns gui]::close_all
     $widgets(menu) add separator
+    $widgets(menu) add checkbutton -label [msgcat::mc "Split View"] -onvalue 1 -offvalue 0 \
+      -variable [ns menus]::show_split_pane -command [list [ns gui]::toggle_split_pane {}]
+    $widgets(menu) add separator
     $widgets(menu) add checkbutton -label [msgcat::mc "Locked"] -onvalue 1 -offvalue 0 \
       -variable [ns gui]::file_locked    -command [list [ns gui]::set_current_file_lock_with_current {}]
     $widgets(menu) add checkbutton -label [msgcat::mc "Favorited"] -onvalue 1 -offvalue 0 \
@@ -531,12 +534,8 @@ namespace eval gui {
           if {[winfo exists $tab.pw.tf2.txt]} {
             $tab.pw.tf2.txt configure -bg $bg
           }
-          $tab.pw.tf.split configure -image $images(split)
-          $tab.sf.close    configure -image $images(close)
-          $tab.rf.close    configure -image $images(close)
-          if {[winfo exists $tab.pw.tf2.split]} {
-            $tab.pw.tf2.split configure -image $images(close)
-          }
+          $tab.sf.close configure -image $images(close)
+          $tab.rf.close configure -image $images(close)
         }
       }
 
@@ -3390,7 +3389,6 @@ namespace eval gui {
       -linemap_relief flat -linemap_minwidth 4 \
       -xscrollcommand "[ns utils]::set_xscrollbar $tab_frame.pw.tf.hb" \
       -yscrollcommand "[ns utils]::set_yscrollbar $tab_frame.pw.tf.vb"
-    ttk::button        $tab_frame.pw.tf.split -style BButton -image $images(split) -command "[ns gui]::toggle_split_pane {}"
     scroller::scroller $tab_frame.pw.tf.hb    -orient horizontal -command "$txt xview"
     if {$diff} {
       [ns diff]::map $tab_frame.pw.tf.vb $txt -command "$txt yview"
@@ -3429,14 +3427,11 @@ namespace eval gui {
     bindtags $txt.t [lreplace [bindtags $txt.t] $all_index $all_index]
     bindtags $txt.t [linsert  [bindtags $txt.t] $text_index all]
 
-    grid rowconfigure    $tab_frame.pw.tf 1 -weight 1
+    grid rowconfigure    $tab_frame.pw.tf 0 -weight 1
     grid columnconfigure $tab_frame.pw.tf 0 -weight 1
-    grid $tab_frame.pw.tf.txt   -row 0 -column 0 -sticky news -rowspan 2
-    if {!$diff} {
-      grid $tab_frame.pw.tf.split -row 0 -column 1 -sticky news
-    }
-    grid $tab_frame.pw.tf.vb    -row 1 -column 1 -sticky ns
-    grid $tab_frame.pw.tf.hb    -row 2 -column 0 -sticky ew
+    grid $tab_frame.pw.tf.txt -row 0 -column 0 -sticky news
+    grid $tab_frame.pw.tf.vb  -row 0 -column 1 -sticky ns
+    grid $tab_frame.pw.tf.hb  -row 1 -column 0 -sticky ew
 
     # Create the Vim command bar
     [ns vim]::bind_command_entry $txt [entry $tab_frame.ve] {}
@@ -3609,7 +3604,6 @@ namespace eval gui {
       -linemap_mark_command [ns gui]::mark_command -linemap_select_bg orange -peer $txt \
       -xscrollcommand "[ns utils]::set_xscrollbar $pw.tf2.hb" \
       -yscrollcommand "[ns utils]::set_yscrollbar $pw.tf2.vb"
-    ttk::label         $pw.tf2.split -image $images(close) -anchor center
     scroller::scroller $pw.tf2.vb    -orient vertical   -command "$txt2 yview"
     scroller::scroller $pw.tf2.hb    -orient horizontal -command "$txt2 xview"
 
@@ -3623,7 +3617,6 @@ namespace eval gui {
     bind $txt2         <B1-Motion>                  "[ns gui]::update_position $txt2"
     bind $txt2         <KeyRelease>                 "[ns gui]::update_position $txt2"
     bind $txt2         <Motion>                     "[ns gui]::clear_tab_tooltip $tb"
-    bind $pw.tf2.split <Button-1>                   "[ns gui]::toggle_split_pane {}"
 
     # Move the all bindtag ahead of the Text bindtag
     set text_index [lsearch [bindtags $txt2.t] Text]
@@ -3631,12 +3624,11 @@ namespace eval gui {
     bindtags $txt2.t [lreplace [bindtags $txt2.t] $all_index $all_index]
     bindtags $txt2.t [linsert  [bindtags $txt2.t] $text_index all]
 
-    grid rowconfigure    $pw.tf2 1 -weight 1
+    grid rowconfigure    $pw.tf2 0 -weight 1
     grid columnconfigure $pw.tf2 0 -weight 1
-    grid $pw.tf2.txt   -row 0 -column 0 -sticky news -rowspan 2
-    grid $pw.tf2.split -row 0 -column 1 -sticky news
-    grid $pw.tf2.vb    -row 1 -column 1 -sticky ns
-    grid $pw.tf2.hb    -row 2 -column 0 -sticky ew
+    grid $pw.tf2.txt   -row 0 -column 0 -sticky news
+    grid $pw.tf2.vb    -row 0 -column 1 -sticky ns
+    grid $pw.tf2.hb    -row 1 -column 0 -sticky ew
 
     # Associate the existing command entry field with this text widget
     [ns vim]::bind_command_entry $txt2 $tb.ve {}
@@ -3653,9 +3645,6 @@ namespace eval gui {
     # Apply the appropriate syntax highlighting for the given extension
     set language [[ns syntax]::get_current_language $txt]
     [ns syntax]::initialize_language $txt2 $language
-
-    # Hide the split pane button in the other text frame
-    grid remove $pw.tf.split
 
     # Set the current language
     [ns syntax]::set_language $language $txt2
@@ -3678,9 +3667,6 @@ namespace eval gui {
 
     # Destroy the extra text widget frame
     destroy $pw.tf2
-
-    # Show the split pane widget in the other text widget frame
-    grid $pw.tf.split
 
     # Set the focus back on the tf text widget
     set_txt_focus $pw.tf.txt
