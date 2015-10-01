@@ -205,13 +205,10 @@ namespace eval menus {
 
   ######################################################################
   # Handles any changes to the General/WindowTheme preference variable.
-  proc handle_window_theme {theme} {
-
-    set foreground [utils::get_default_foreground]
-    set background [utils::get_default_background]
+  proc handle_window_theme {opts} {
 
     if {[winfo exists .menubar] && ([tk windowingsystem] ne "aqua")} {
-      .menubar configure -foreground $foreground -background $background
+      .menubar configure {*}$opts
     }
 
   }

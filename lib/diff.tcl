@@ -1077,6 +1077,10 @@ namespace eval diff {
 
     switch $cmd {
 
+      get {
+        return [list $data($txt,first) $data($txt,last)]
+      }
+
       set {
         lassign $args first last
         set height [winfo height $data($txt,canvas)]
@@ -1084,6 +1088,20 @@ namespace eval diff {
 
         # Adjust the size and position of the slider
         $data($txt,canvas) coords $data($txt,slider) 2 [expr $y1 + 2] 15 [expr $y1 + $data($txt,sheight)]
+      }
+
+      configure {
+        array set opts $args
+        if {[info exists opts(-background)]} {
+          set data($txt,-background) $opts(-background)
+        }
+        if {[info exists opts(-foreground)]} {
+          set data($txt,-foreground) $opts(-foreground)
+        }
+        $data($txt,canvas) configure -bg $data($txt,-background)
+        if {[info exists data($txt,slider)]} {
+          $data($txt,canvas) itemconfigure $data($txt,slider) -outline $data($txt,-foreground)
+        }
       }
 
       default {
