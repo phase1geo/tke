@@ -25,7 +25,7 @@
 namespace eval themes {
 
   source [file join $::tke_dir lib ns.tcl]
-  
+
   variable curr_theme ""
 
   array set files       {}
@@ -67,7 +67,7 @@ namespace eval themes {
     # Setup the base colors
     set base_colors(light) [list [[ns utils]::get_default_background] [[ns utils]::get_default_foreground]]
     set base_colors(dark)  [list "#303030" "#b0b0b0"]
-    
+
     # Trace changes to syntax preference values
     trace variable [ns preferences]::prefs(General/WindowTheme) w [ns themes]::handle_theme_change
     trace variable [ns preferences]::prefs(Appearance/Theme)    w [ns themes]::handle_theme_change
@@ -117,12 +117,30 @@ namespace eval themes {
         return
       }
     }
-    
+
+    # Get the preference window theme
+    set win_theme [[ns preferences]::get General/WindowTheme]
+
     # Save the current theme name
     set curr_theme $theme_name
 
     # Set the current theme array
+    array unset theme
     array set theme $themes($theme_name)
+
+    # Make ourselves backwards compatible
+    puts "In set_theme, theme_name: $theme_name, win_theme: $win_theme"
+    puts "  $themes($theme_name)"
+    if {![info exists theme(syntax)]} {
+      puts "  HERE A"
+      set temp [array get theme]
+      array unset theme
+      set theme(syntax) $temp
+      if {$win_theme eq "themed"} {
+        set win_theme "light"
+      }
+      puts "  win_theme: $win_theme"
+    }
 
     # Remove theme values that aren't in the Appearance/Colorize array
     array set syntax $theme(syntax)
@@ -133,9 +151,6 @@ namespace eval themes {
     }
     set theme(syntax) [array get syntax]
 
-    # Get the preference window theme
-    set win_theme [[ns preferences]::get General/WindowTheme]
-    
     # Set the theme in the UI
     if {($win_theme eq "light") || ($win_theme eq "dark")} {
 
@@ -150,12 +165,12 @@ namespace eval themes {
       set bg           [[ns utils]::get_default_background]
       set fg           [[ns utils]::get_default_foreground]
       set abg          [[ns utils]::auto_adjust_color $bg 30]
-      set menu_opts    [list -background $bg -foreground $fg -relief flat]
-      set tab_opts     [list -background $bg -foreground $fg -activebackground $abg -inactivebackground $bg]
-      set tsb_opts     [list -background $syntax(background) -foreground $syntax(warning_width)]
+      set menu_opts    [set theme(menus)             [list -background $bg -foreground $fg -relief flat]]
+      set tab_opts     [set theme(tabs)              [list -background $bg -foreground $fg -activebackground $abg -inactivebackground $bg]]
+      set tsb_opts     [set theme(text_scrollbar)    [list -background $syntax(background) -foreground $syntax(warning_width)]]
+      set sidebar_opts [set theme(sidebar)           [list -foreground $fg -background $bg -selectbackground $abg -selectforeground $fg -highlightbackground $bg -highlightcolor $bg]]
+      set ssb_opts     [set theme(sidebar_scrollbar) [list -foreground $abg -background $bg]]
       set syntax_opts  $theme(syntax)
-      set sidebar_opts [list -foreground $fg -background $bg -selectbackground $abg -selectforeground $fg -highlightbackground $bg -highlightcolor $bg]
-      set ssb_opts     [list -foreground $abg -background $bg]
 
     } else {
 
@@ -170,9 +185,9 @@ namespace eval themes {
       set menu_opts    $theme(menus)
       set tab_opts     $theme(tabs)
       set tsb_opts     $theme(text_scrollbar)
-      set syntax_opts  $theme(syntax)
       set sidebar_opts $theme(sidebar)
       set ssb_opts     $theme(sidebar_scrollbar)
+      set syntax_opts  $theme(syntax)
 
     }
 
@@ -192,15 +207,15 @@ namespace eval themes {
     return $theme(syntax)
 
   }
-  
+
   ######################################################################
   # Returns the scrollbar color theme information for the current theme.
   proc get_scrollbar_colors {} {
-    
+
     variable theme
-    
+
     return $theme(text_scrollbar)
-    
+
   }
 
   ######################################################################
