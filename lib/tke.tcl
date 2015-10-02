@@ -303,21 +303,19 @@ if {[catch {
     }
   }
 
-
-
   # Create the ~/.tke directory if it doesn't already exist
   if {![file exists $tke_home]} {
     file mkdir $tke_home
   }
-
-  # Initialize the themes
-  themes::initialize
 
   # Preload the session information
   sessions::preload
 
   # Load the preferences
   preferences::load
+
+  # Initialize the themes
+  themes::load
 
   # Initialize the diagnostic logger
   logger::initialize

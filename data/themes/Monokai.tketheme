@@ -1,21 +1,50 @@
-background        "#272822"
-border_highlight  "gold"
-comments          "#75715e"
-cursor            "#f8f8f0"
-difference_add    "#274622"
-difference_sub    "#452822"
-foreground        "#f8f8f2"
-highlighter       "yellow"
-keywords          "#f92672"
-line_number       "#4e5044"
-meta              "#4e5044"
-miscellaneous1    "#66d9ef"
-miscellaneous2    "#fd971f"
-miscellaneous3    "#f92672"
-numbers           "#ae81ff"
-precompile        "#d0d0ff"
-punctuation       "#f92672"
-select_background "blue"
-select_foreground "white"
-strings           "#e6db74"
-warning_width     "#4e5044"
+ttk_style {
+
+}
+
+menus {
+
+}
+
+tabs {
+  -background         "#4e5044"
+  -foreground         "#f8f8f2"
+  -activebackground   "#272822"
+  -inactivebackground "#4e5044"
+}
+
+text_scrollbar {
+
+}
+
+syntax {
+  background        "#272822"
+  border_highlight  "gold"
+  comments          "#75715e"
+  cursor            "#f8f8f0"
+  difference_add    "#274622"
+  difference_sub    "#452822"
+  foreground        "#f8f8f2"
+  highlighter       "yellow"
+  keywords          "#f92672"
+  line_number       "#4e5044"
+  meta              "#4e5044"
+  miscellaneous1    "#66d9ef"
+  miscellaneous2    "#fd971f"
+  miscellaneous3    "#f92672"
+  numbers           "#ae81ff"
+  precompile        "#d0d0ff"
+  punctuation       "#f92672"
+  select_background "blue"
+  select_foreground "white"
+  strings           "#e6db74"
+  warning_width     "#4e5044"
+}
+
+sidebar {
+
+}
+
+sidebar_scrollbar {
+
+}

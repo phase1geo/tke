@@ -1378,19 +1378,14 @@ namespace eval sidebar {
 
   ######################################################################
   # Handle any changes to the General/WindowTheme preference variable.
-  proc handle_window_theme {theme} {
+  proc handle_theme_change {sidebar_opts sb_opts} {
 
     variable widgets
 
-    set fg  [utils::get_default_foreground]
-    set bg  [utils::get_default_background]
-    set abg [utils::auto_adjust_color $bg 30]
-
     # Configure the tablelist widget
     if {[info exists widgets(tl)]} {
-      $widgets(tl) configure -foreground $fg -background $bg -selectbackground $abg -selectforeground $fg \
-        -highlightbackground $bg -highlightcolor $bg
-      $widgets(sb) configure -foreground $abg -background $bg
+      $widgets(tl) configure {*}$sidebar_opts
+      $widgets(sb) configure {*}$sb_opts
     }
 
   }

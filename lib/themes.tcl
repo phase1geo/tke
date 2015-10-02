@@ -26,35 +26,41 @@ namespace eval themes {
 
   source [file join $::tke_dir lib ns.tcl]
 
-  array set win_types {}
-  array set themes    {}
+  array set files      {}
+  array set themes     {}
+  array set theme      {}
+  array set colorizers {
+    keywords       1
+    comments       1
+    strings        1
+    numbers        1
+    punctuation    1
+    precompile     1
+    miscellaneous1 1
+    miscellaneous2 1
+    miscellaneous3 1
+  }
 
   ######################################################################
   # Loads the theme information.
   proc load {} {
 
-    variable themes
-
-    # Clear the themes and unregister any themes from the launcher
-    array unset themes
-    [ns launcher]::unregister "Theme:*"
+    variable files
 
     # Load the tke_dir theme files
-    set tfiles [glob -nocomplain -tails -directory [file join $::tke_dir data themes] *.tketheme]
+    set tfiles [glob -nocomplain -directory [file join $::tke_dir data themes] *.tketheme]
 
     # Load the tke_home theme files
-    lappend tfiles {*}[glob -nocomplain -tails -directory [file join $::tke_home themes] *.tketheme]
+    lappend tfiles {*}[glob -nocomplain -directory [file join $::tke_home themes] *.tketheme]
 
     # Get the theme information
     foreach tfile $tfiles {
-      if {![catch { open $tfile r } rc]} {
-        set themes([set name [file rootname $tfile]) ""
-        [ns launcher]::register [msgcat::mc "Theme:  %s" $name] [list [ns themes]::set_theme $name]
-      }
+      set name         [file rootname [file tail $tfile]]
+      set files($name) $tfile
+      [ns launcher]::register [msgcat::mc "Theme:  %s" $name] [list [ns themes]::set_theme $name]
     }
 
-    # Sets the current theme
-    set_theme [[ns preferences]::get Appearance/Theme]
+    puts "themes: [array names files]"
 
     # Trace changes to syntax preference values
     trace variable [ns preferences]::prefs(General/WindowTheme) w [ns themes]::handle_theme_change
@@ -65,7 +71,7 @@ namespace eval themes {
 
   ######################################################################
   # Called whenever the Appearance/Theme preference value is changed.
-  proc handle_theme_change {name1 name2 op} {
+  proc handle_theme_change {{name1 ""} {name2 ""} {op ""}} {
 
     set_theme [[ns preferences]::get Appearance/Theme]
 
@@ -84,82 +90,94 @@ namespace eval themes {
   # set; otherwise, returns 0.
   proc set_theme {theme_name} {
 
+    variable files
     variable themes
     variable theme
-    variable curr_lang
-    variable curr_theme
     variable colorizers
-    variable win_types
 
-    if {[info exists themes($theme_name)]} {
+    # If the theme name is not valid, return immediately
+    if {![info exists files($theme_name)]} {
+      return
+    }
 
-      # Load the theme file, if necessary
-      if {$themes($theme_name) eq ""} {
-        if {![catch { open $tfile r } rc]} {
-          set themes($theme_name) [list {*}[read $rc]]
-          close $rc
-        }
-      }
-
-      # Set the current theme array
-      array set theme $themes($theme_name)
-
-      # Remove theme values that aren't in the Appearance/Colorize array
-      foreach name [array names theme] {
-        if {[info exists colorizers($name)] && \
-            [lsearch [[ns preferences]::get Appearance/Colorize] $name] == -1} {
-          set theme($name) ""
-        }
-      }
-
-      # Update the current tab
-      if {([set txt [[ns gui]::current_txt {}]] ne "") && (![info exists curr_theme($txt)] || ($curr_theme($txt) ne $theme_name))} {
-        set curr_theme($txt) $theme_name
-        [ns syntax]::set_language $curr_lang($txt) $txt 0
-      }
-
-      # Get the preference window theme
-      set win_theme [[ns preferences]::get General/WindowTheme]
-
-      # Set the theme in the UI
-      if {($win_theme eq "light") || ($win_theme eq "dark")} {
-
-        # Create the ttk theme if it currently does not exist
-        if {[lsearch [ttk::style theme names] $win_theme] == -1} {
-          create_ttk_theme $win_theme [get_ttk_theme_colors [[ns utils]::get_default_background] [[ns utils]::get_default_foreground]]
-        }
-
-        set ttk_theme    $win_theme
-        set bg           [[ns utils]::get_default_background]
-        set fg           [[ns utils]::get_default_foreground]
-        set abg          [[ns utils]::auto_adjust_color $bg 30]
-        set menu_opts    [list -background [list -background $bg -foreground $fg -relief flat]
-        set tab_opts     [list -background $bg -foreground $fg -activebackground $abg -inactivebackground $bg]
-        set syntax_opts  $theme(syntax)
-        set sidebar_opts FOOBAR
-
+    # Load the theme file, if necessary
+    if {![info exists themes($theme_name)]} {
+      if {![catch { open $files($theme_name) r } rc]} {
+        set themes($theme_name) [list {*}[read $rc]]
+        close $rc
       } else {
+        return
+      }
+    }
 
-        # Create the ttk theme if it currently does not exist
-        if {[lsearch [ttk::style theme names] theme-$theme_name] == -1} {
-          create_ttk_theme theme-$theme_name $theme(ttk_style)
-        }
+    # Set the current theme array
+    array set theme $themes($theme_name)
 
-        set ttk_theme    "theme-$theme_name"
-        set menu_opts    $theme(menus)
-        set tab_opts     $theme(tabs)
-        set syntax_opts  $theme(syntax)
-        set sidebar_opts $theme(sidebar)
+    # Remove theme values that aren't in the Appearance/Colorize array
+    array set syntax $theme(syntax)
+    foreach name [array names theme(syntax)] {
+      if {[info exists colorizers($name)] && ([lsearch [[ns preferences]::get Appearance/Colorize] $name] == -1)} {
+        set syntax($name) ""
+      }
+    }
+    set theme(syntax) [array get syntax]
 
+    # Get the preference window theme
+    set win_theme [[ns preferences]::get General/WindowTheme]
+
+    # Set the theme in the UI
+    if {($win_theme eq "light") || ($win_theme eq "dark")} {
+
+      # Create the ttk theme if it currently does not exist
+      if {[lsearch [ttk::style theme names] $win_theme] == -1} {
+        create_ttk_theme $win_theme [get_ttk_theme_colors [[ns utils]::get_default_background] [[ns utils]::get_default_foreground]]
       }
 
-      # Set the theme information in the rest of the UI
-      ttk::style theme use $ttk_theme
-      menus::handle_window_theme   $menu_opts
-      gui::handle_window_theme     $tab_opts $syntax_opts
-      sidebar::handle_window_theme $tab_opts $sidebar_opts
+      set ttk_theme    $win_theme
+      set bg           [[ns utils]::get_default_background]
+      set fg           [[ns utils]::get_default_foreground]
+      set abg          [[ns utils]::auto_adjust_color $bg 30]
+      set menu_opts    [list -background $bg -foreground $fg -relief flat]
+      set tab_opts     [list -background $bg -foreground $fg -activebackground $abg -inactivebackground $bg]
+      set tsb_opts     [list]
+      set syntax_opts  $theme(syntax)
+      set sidebar_opts [list -foreground $fg -background $bg -selectbackground $abg -selectforeground $fg -highlightbackground $bg -highlightcolor $bg]
+      set ssb_opts     [list -foreground $abg -background $bg]
+
+    } else {
+
+      # Create the ttk theme if it currently does not exist
+      if {[lsearch [ttk::style theme names] theme-$theme_name] == -1} {
+        create_ttk_theme theme-$theme_name $theme(ttk_style)
+      }
+
+      set ttk_theme    "theme-$theme_name"
+      set menu_opts    $theme(menus)
+      set tab_opts     $theme(tabs)
+      set tsb_opts     $theme(text_scrollbar)
+      set syntax_opts  $theme(syntax)
+      set sidebar_opts $theme(sidebar)
+      set ssb_opts     $theme(sidebar_scrollbar)
 
     }
+
+    # Set the ttk theme
+    ttk::style theme use $ttk_theme
+
+    # Set the theme information in the rest of the UI
+    menus::handle_theme_change   $menu_opts
+    gui::handle_theme_change     $tab_opts $tsb_opts $syntax_opts
+    sidebar::handle_theme_change $sidebar_opts $ssb_opts
+
+  }
+
+  ######################################################################
+  # Returns the syntax color theme information for the current theme.
+  proc get_syntax_colors {} {
+
+    variable theme
+
+    return $theme(syntax)
 
   }
 
@@ -209,9 +227,7 @@ namespace eval themes {
 
   ######################################################################
   # Initializes the themes list.
-  proc initialize {} {
-
-    variable theme_types
+  proc create_ttk_theme {name color_list} {
 
     # Add a few styles to the default (light) theme
     ttk::style theme settings clam {
@@ -224,122 +240,104 @@ namespace eval themes {
 
     }
 
-    # Add the light theme colors
-    array set win_types [list \
-      light [list [ttk::style configure "." -background] [ttk::style configure "." -foreground]] \
-      dark  [list "#303030" "#b0b0b0"]
-    ]
+    # Create colors palette
+    array set colors $color_list
 
-    foreach name [array names win_types] {
+    # Create the theme
+    ttk::style theme create $name -parent clam
 
-      # Get the primary and secondary colors for the given theme
-      lassign $win_types($name) primary secondary
+    # Configure the theme
+    ttk::style theme settings $name {
 
-      # Create the slightly different version of the primary color
-      set light_primary [utils::auto_adjust_color $primary 25]
+      # Configure the application
+      ttk::style configure "." \
+        -background        $colors(frame) \
+        -foreground        $colors(lighter) \
+        -bordercolor       $colors(darkest) \
+        -darkcolor         $colors(dark) \
+        -troughcolor       $colors(darker) \
+        -arrowcolor        $colors(lighter) \
+        -selectbackground  $colors(selectbg) \
+        -selectforeground  $colors(selectfg) \
+        -selectborderwidth 0 \
+        -font              TkDefaultFont
+      ttk::style map "." \
+        -background       [list disabled $colors(frame) \
+                                active   $colors(lighter)] \
+        -foreground       [list disabled $colors(disabledfg)] \
+        -selectbackground [list !focus   $colors(darkest)] \
+        -selectforeground [list !focus   white]
 
-      # Create colors palette
-      array set colors [list \
-        -disabledfg "#999999" \
-        -frame      $primary \
-        -lightframe $light_primary \
-        -window     $primary \
-        -dark       "#cfcdc8" \
-        -darker     "#bab5ab" \
-        -darkest    "#9e9a91" \
-        -lighter    $secondary \
-        -lightest   $secondary \
-        -selectbg   "#4a6984" \
-        -selectfg   "#ffffff" \
-      ]
+      # Configure TButton widgets
+      ttk::style configure TButton \
+        -anchor center -width -11 -padding 5 -relief raised -background $colors(frame) -foreground $colors(lighter)
+      ttk::style map TButton \
+        -background  [list disabled  $colors(lighter) \
+                           pressed   $colors(darker) \
+                           active    $colors(lightframe)] \
+        -lightcolor  [list pressed   $colors(darker)] \
+        -darkcolor   [list pressed   $colors(darker)] \
+        -bordercolor [list alternate "#000000"]
 
-      ttk::style theme create $name -parent clam
+      # Configure BButton widgets
+      ttk::style configure BButton \
+        -anchor center -padding 2 -relief flat -background $colors(frame) -foreground $colors(frame)
+      ttk::style map BButton \
+        -background  [list disabled  $colors(frame) \
+                           pressed   $colors(darker) \
+                           active    $colors(lightframe)] \
+        -lightcolor  [list pressed   $colors(darker)] \
+        -darkcolor   [list pressed   $colors(darker)] \
+        -bordercolor [list alternate "#000000"]
 
-      ttk::style theme settings $name {
+      # Configure ttk::menubutton widgets
+      ttk::style configure TMenubutton \
+        -width 0 -padding 0 -relief flat -background $colors(frame) -foreground $colors(lighter)
+      ttk::style map TMenubutton \
+        -background  [list disabled  $colors(frame) \
+                           pressed   $colors(lightframe) \
+                           active    $colors(lightframe)] \
+        -lightcolor  [list pressed   $colors(darker)] \
+        -darkcolor   [list pressed   $colors(darker)] \
+        -bordercolor [list alternate "#000000"]
 
-        ttk::style configure "." \
-          -background        $colors(-frame) \
-          -foreground        $colors(-lighter) \
-          -bordercolor       $colors(-darkest) \
-          -darkcolor         $colors(-dark) \
-          -troughcolor       $colors(-darker) \
-          -arrowcolor        $colors(-lighter) \
-          -selectbackground  $colors(-selectbg) \
-          -selectforeground  $colors(-selectfg) \
-          -selectborderwidth 0 \
-          -font              TkDefaultFont
+      # Configure ttk::entry widgets
+      ttk::style configure TEntry -padding 1 -insertwidth 1 -foreground black
+      ttk::style map TEntry \
+        -background  [list readonly $colors(frame)] \
+        -foreground  [list readonly $colors(lighter)] \
+        -bordercolor [list focus    $colors(selectbg)] \
+        -lightcolor  [list focus    "#6f9dc6"] \
+        -darkcolor   [list focus    "#6f9dc6"]
 
-        ttk::style map "." \
-          -background       [list disabled $colors(-frame) \
-                                  active   $colors(-lighter)] \
-          -foreground       [list disabled $colors(-disabledfg)] \
-          -selectbackground [list !focus   $colors(-darkest)] \
-          -selectforeground [list !focus   white]
+      # Configure ttk::scrollbar widgets
+      ttk::style configure TScrollbar \
+        -relief flat -troughcolor $colors(lightframe) ;# -background $colors(-frame) -troughcolor $colors(-frame)
+      ttk::style map TScrollbar \
+        -background  [list disabled $colors(frame) \
+                           active   $colors(frame)]
 
-        ttk::style configure TButton \
-          -anchor center -width -11 -padding 5 -relief raised -background $colors(-frame) -foreground $colors(-lighter)
-        ttk::style map TButton \
-          -background  [list disabled  $colors(-lighter) \
-                             pressed   $colors(-darker) \
-                             active    $colors(-lightframe)] \
-          -lightcolor  [list pressed   $colors(-darker)] \
-          -darkcolor   [list pressed   $colors(-darker)] \
-          -bordercolor [list alternate "#000000"]
+      # Configure ttk::labelframe widgets
+      ttk::style configure TLabelframe \
+        -labeloutside true -labelmargins {0 0 0 4} -borderwidth 2 -relief raised
 
-        ttk::style configure BButton \
-          -anchor center -padding 2 -relief flat -background $colors(-frame) -foreground $colors(-frame)
-        ttk::style map BButton \
-          -background  [list disabled  $colors(-frame) \
-                             pressed   $colors(-darker) \
-                             active    $colors(-lightframe)] \
-          -lightcolor  [list pressed   $colors(-darker)] \
-          -darkcolor   [list pressed   $colors(-darker)] \
-          -bordercolor [list alternate "#000000"]
+      # Configure ttk::spinbox widgets
+      ttk::style configure TSpinbox \
+        -relief flat -padding 2 -background $colors(frame) -foreground $colors(lighter) -fieldbackground $colors(frame)
 
-        ttk::style configure TMenubutton \
-          -width 0 -padding 0 -relief flat -background $colors(-frame) -foreground $colors(-lighter)
-        ttk::style map TMenubutton \
-          -background  [list disabled  $colors(-frame) \
-                             pressed   $colors(-lightframe) \
-                             active    $colors(-lightframe)] \
-          -lightcolor  [list pressed   $colors(-darker)] \
-          -darkcolor   [list pressed   $colors(-darker)] \
-          -bordercolor [list alternate "#000000"]
+      # Configure ttk::checkbutton widgets
+      ttk::style configure TCheckbutton \
+        -relief flat -padding 2 -background $colors(frame) -foreground $colors(lighter)
+      ttk::style map TCheckbutton \
+        -background  [list disabled  $colors(lighter) \
+                           pressed   $colors(darker) \
+                           active    $colors(lightframe)] \
+        -lightcolor  [list pressed   $colors(darker)] \
+        -darkcolor   [list pressed   $colors(darker)] \
+        -bordercolor [list alternate "#000000"]
 
-        # ttk::style configure TEntry -padding 1 -insertwidth 1 -fieldbackground $colors(-lighter) -foreground black
-        ttk::style configure TEntry -padding 1 -insertwidth 1 -foreground black
-        ttk::style map TEntry \
-          -background  [list readonly $colors(-frame)] \
-          -foreground  [list readonly $colors(-lighter)] \
-          -bordercolor [list focus    $colors(-selectbg)] \
-          -lightcolor  [list focus    "#6f9dc6"] \
-          -darkcolor   [list focus    "#6f9dc6"]
-
-        ttk::style configure TScrollbar \
-          -relief flat -troughcolor $colors(-lightframe) ;# -background $colors(-frame) -troughcolor $colors(-frame)
-        ttk::style map TScrollbar \
-          -background  [list disabled $colors(-frame) \
-                             active   $colors(-frame)]
-
-        ttk::style configure TLabelframe \
-          -labeloutside true -labelmargins {0 0 0 4} -borderwidth 2 -relief raised
-
-        ttk::style configure TSpinbox \
-          -relief flat -padding 2 -background $colors(-frame) -foreground $colors(-lighter) -fieldbackground $colors(-frame)
-
-        ttk::style configure TCheckbutton \
-          -relief flat -padding 2 -background $colors(-frame) -foreground $colors(-lighter)
-        ttk::style map TCheckbutton \
-          -background  [list disabled  $colors(-lighter) \
-                             pressed   $colors(-darker) \
-                             active    $colors(-lightframe)] \
-          -lightcolor  [list pressed   $colors(-darker)] \
-          -darkcolor   [list pressed   $colors(-darker)] \
-          -bordercolor [list alternate "#000000"]
-
-        ttk::style configure Sash -sashthickness 5 -gripcount 10
-
-      }
+      # Configure panedwindow sash widgets
+      ttk::style configure Sash -sashthickness 5 -gripcount 10
 
     }
 

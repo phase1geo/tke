@@ -487,7 +487,7 @@ namespace eval gui {
 
   ######################################################################
   # Handles any changes to the General/WindowTheme preference value.
-  proc handle_window_theme {tab_opts text_opts sb_opts syntax_opts} {
+  proc handle_theme_change {tab_opts scrollbar_opts syntax_opts} {
 
     variable widgets
     variable images
@@ -525,27 +525,24 @@ namespace eval gui {
       # Update the find in file close button
       $widgets(fif_close) configure -image $images(close)
 
-      array set txt_opts $text_opts
+      array set syntax  $syntax_opts
+      array set sb_opts $scrollbar_opts
 
       # Update all of the tabbars
       foreach nb [$widgets(nb_pw) panes] {
         $nb.tbf.tb configure {*}$tab_opts
         set tabs [$nb.tbf.tb tabs]
         foreach tab $tabs {
-          foreach tf [list $tab.pw.tf.txt $tab.pw.tf2.txt2] {
-            $tf     configure -background $txt_opts(-background)
-            $tf.txt configure -background $txt_opts(background) -foreground $theme(foreground) \
-              -selectbackground $theme(select_background) -selectforeground $theme(select_foreground) \
-              -insertbackground $theme(cursor) -highlightcolor $theme(border_highlight) \
-              -linemapbg $theme(background) -linemapfg $theme(line_number) \
-              -warnwidth_bg $theme(warning_width) \
-              -diffaddbg $theme(difference_add) -diffsubbg $theme(difference_sub)
-            [winfo parent $txt].vb configure -background $theme(background) -foreground $theme(warning_width)
-            [winfo parent $txt].hb configure -background $theme(background) -foreground $theme(warning_width)
+          $tab.pw.tf    configure -background $sb_opts(-background)
+          $tab.pw.tf.vb configure {*}$sb_opts
+          $tab.pw.tf.hb configure {*}$sb_opts
           set txt $tab.pw.tf.txt
           [ns syntax]::set_language [[ns syntax]::get_current_language $txt] $txt 1
           if {[winfo exists $tab.pw.tf2.txt]} {
-            $tab.pw.tf2.txt configure -bg $syntax(background) -fg $syntax(foreground)
+            $tab.pw.tf2     configure -background $sb_opts(-background)
+            $tab.pw.tf2.txt configure -background $syntax(background) -foreground $syntax(foreground)
+            $tab.pw.tf2.vb  configure {*}$scrollbar_opts
+            $tab.pw.tf2.hb  configure {*}$scrollbar_opts
           }
           $tab.sf.close configure -image $images(close)
           $tab.rf.close configure -image $images(close)
@@ -553,7 +550,7 @@ namespace eval gui {
       }
 
       # We need to adjust the appearance of the diff map widgets (if they exist)
-      [ns diff]::handle_window_theme $theme
+      [ns diff]::handle_theme_change $scrollbar_opts
 
     }
 
