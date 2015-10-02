@@ -1453,7 +1453,7 @@ namespace eval menus {
   proc create_theme_command {} {
 
     # Create a new theme using the theme creation tool
-    themer::create_new syntax::load_themes
+    themer::create_new themes::reload
 
   }
 
@@ -1462,13 +1462,8 @@ namespace eval menus {
   # up the theme editor.
   proc edit_theme_command {} {
 
-    # Attempt to get the name of an available theme
-    if {[set name [themer::get_theme]] ne ""} {
-
-      # Call the themer importer for the given tke file
-      themer::import_tke $name syntax::load_themes
-
-    }
+    # Call the themer importer for the given tke file
+    themer::import_tke [themes::get_current_theme] themes::set_theme
 
   }
 
@@ -1481,7 +1476,7 @@ namespace eval menus {
     if {[set name [tk_getOpenFile -filetypes {{TextMate {.tmTheme .tmtheme}}} -initialdir [pwd] -parent . -title "Select TextMate theme"]] ne ""} {
 
       # Call the themer importer for the given TextMate file
-      themer::import_tm $name syntax::load_themes
+      themer::import_tm $name themes::reload
 
     }
 
