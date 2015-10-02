@@ -54,17 +54,6 @@ namespace eval syntax {
   array set langs      {}
   array set curr_lang  {}
   array set meta_tags  {}
-  array set colorizers {
-    keywords       1
-    comments       1
-    strings        1
-    numbers        1
-    punctuation    1
-    precompile     1
-    miscellaneous1 1
-    miscellaneous2 1
-    miscellaneous3 1
-  }
 
   ######################################################################
   # Loads the syntax information.

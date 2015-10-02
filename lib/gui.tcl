@@ -493,12 +493,7 @@ namespace eval gui {
     variable images
 
     if {[info exists widgets(nb_pw)]} {
-
-      # Get the default background and foreground colors
-      set bg  [[ns utils]::get_default_background]
-      set fg  [[ns utils]::get_default_foreground]
-      set abg [[ns utils]::auto_adjust_color $bg 30]
-
+      
       # Store the readonly/lock status of each tab
       array set tab_status [list]
       foreach nb [$widgets(nb_pw) panes] {
@@ -534,8 +529,8 @@ namespace eval gui {
         set tabs [$nb.tbf.tb tabs]
         foreach tab $tabs {
           $tab.pw.tf    configure -background $sb_opts(-background)
-          $tab.pw.tf.vb configure {*}$sb_opts
-          $tab.pw.tf.hb configure {*}$sb_opts
+          $tab.pw.tf.vb configure {*}$scrollbar_opts
+          $tab.pw.tf.hb configure {*}$scrollbar_opts
           set txt $tab.pw.tf.txt
           [ns syntax]::set_language [[ns syntax]::get_current_language $txt] $txt 1
           if {[winfo exists $tab.pw.tf2.txt]} {
@@ -3367,6 +3362,9 @@ namespace eval gui {
     variable images
     variable case_sensitive
 
+    # Get the scrollbar coloring information
+    array set sb_opts [set scrollbar_opts [[ns themes]::get_scrollbar_colors]]
+
     # Get the unique tab ID
     set id [incr curr_id]
 
@@ -3389,7 +3387,7 @@ namespace eval gui {
     set txt $tab_frame.pw.tf.txt
 
     # Create the editor frame
-    $tab_frame.pw add [ttk::frame $tab_frame.pw.tf]
+    $tab_frame.pw add [frame $tab_frame.pw.tf -background $sb_opts(-background)]
     ctext $txt -wrap none -undo 1 -autoseparators 1 -insertofftime 0 \
       -highlightcolor orange -warnwidth [[ns preferences]::get Editor/WarningWidth] \
       -maxundo [[ns preferences]::get Editor/MaxUndo] \
@@ -3399,12 +3397,12 @@ namespace eval gui {
       -linemap_relief flat -linemap_minwidth 4 \
       -xscrollcommand "[ns utils]::set_xscrollbar $tab_frame.pw.tf.hb" \
       -yscrollcommand "[ns utils]::set_yscrollbar $tab_frame.pw.tf.vb"
-    scroller::scroller $tab_frame.pw.tf.hb    -orient horizontal -command "$txt xview"
+    scroller::scroller $tab_frame.pw.tf.hb {*}$scrollbar_opts -orient horizontal -command "$txt xview"
     if {$diff} {
       [ns diff]::map $tab_frame.pw.tf.vb $txt -command "$txt yview"
-      $txt configure -yscrollcommand "$tab_frame.pw.tf.vb set"
+      $txt configure {*}$scrollbar_opts -yscrollcommand "$tab_frame.pw.tf.vb set"
     } else {
-      scroller::scroller $tab_frame.pw.tf.vb -orient vertical -command "$txt yview"
+      scroller::scroller $tab_frame.pw.tf.vb {*}$scrollbar_opts -orient vertical -command "$txt yview"
     }
 
     # Create the editor font if it does not currently exist
@@ -3604,9 +3602,12 @@ namespace eval gui {
     set pw   [winfo parent [winfo parent $txt]]
     set tb   [winfo parent $pw]
     set txt2 $pw.tf2.txt
+    
+    # Get the scrollbar coloring information
+    array set sb_opts [set scrollbar_opts [[ns themes]::get_scrollbar_colors]]
 
     # Create the editor frame
-    $pw insert 0 [ttk::frame $pw.tf2]
+    $pw insert 0 [frame $pw.tf2 -background $sb_opts(-background)]
     ctext $txt2 -wrap none -undo 1 -autoseparators 1 -insertofftime 0 -font editor_font \
       -highlightcolor orange -warnwidth [[ns preferences]::get Editor/WarningWidth] \
       -maxundo [[ns preferences]::get Editor/MaxUndo] \
@@ -3614,8 +3615,8 @@ namespace eval gui {
       -linemap_mark_command [ns gui]::mark_command -linemap_select_bg orange -peer $txt \
       -xscrollcommand "[ns utils]::set_xscrollbar $pw.tf2.hb" \
       -yscrollcommand "[ns utils]::set_yscrollbar $pw.tf2.vb"
-    scroller::scroller $pw.tf2.vb    -orient vertical   -command "$txt2 yview"
-    scroller::scroller $pw.tf2.hb    -orient horizontal -command "$txt2 xview"
+    scroller::scroller $pw.tf2.vb {*}$scrollbar_opts -orient vertical   -command "$txt2 yview"
+    scroller::scroller $pw.tf2.hb {*}$scrollbar_opts -orient horizontal -command "$txt2 xview"
 
     bind $txt2.t       <FocusIn>                    "+[ns gui]::set_current_tab_from_txt %W"
     bind $txt2.l       <ButtonPress-$::right_click> [bind $txt2.l <ButtonPress-1>]
