@@ -49,7 +49,13 @@ namespace eval themes {
   proc load {} {
 
     variable files
+    variable themes
     variable base_colors
+
+    # Reset the files/themes arrays and unregister launcher items
+    array unset files
+    array unset themes
+    [ns launcher]::unregister [msgcat::mc "Theme:*"]
 
     # Load the tke_dir theme files
     set tfiles [glob -nocomplain -directory [file join $::tke_dir data themes] *.tketheme]
@@ -64,14 +70,19 @@ namespace eval themes {
       [ns launcher]::register [msgcat::mc "Theme:  %s" $name] [list [ns themes]::set_theme $name]
     }
 
-    # Setup the base colors
-    set base_colors(light) [list [[ns utils]::get_default_background] [[ns utils]::get_default_foreground]]
-    set base_colors(dark)  [list "#303030" "#b0b0b0"]
+    # Only perform the following on the first call of this procedure
+    if {![info exists base_colors(light)]} {
 
-    # Trace changes to syntax preference values
-    trace variable [ns preferences]::prefs(General/WindowTheme) w [ns themes]::handle_theme_change
-    trace variable [ns preferences]::prefs(Appearance/Theme)    w [ns themes]::handle_theme_change
-    trace variable [ns preferences]::prefs(Appearance/Colorize) w [ns themes]::handle_colorize_change
+      # Setup the base colors
+      set base_colors(light) [list [[ns utils]::get_default_background] [[ns utils]::get_default_foreground]]
+      set base_colors(dark)  [list "#303030" "#b0b0b0"]
+
+      # Trace changes to syntax preference values
+      trace variable [ns preferences]::prefs(General/WindowTheme) w [ns themes]::handle_theme_change
+      trace variable [ns preferences]::prefs(Appearance/Theme)    w [ns themes]::handle_theme_change
+      trace variable [ns preferences]::prefs(Appearance/Colorize) w [ns themes]::handle_colorize_change
+
+    }
 
   }
 
@@ -92,9 +103,29 @@ namespace eval themes {
   }
 
   ######################################################################
+  # Reloads the available themes and resets the UI with the current theme.
+  proc reload {} {
+
+    variable files
+    variable curr_theme
+
+    # If the current theme is no longer available, select the first theme
+    if {![info exists files($curr_theme)]} {
+      set curr_theme [lindex [array names files] 0]
+    }
+
+    # Reload the themes
+    themes::load
+
+    # Reset the theme
+    set_theme $curr_theme
+
+  }
+
+  ######################################################################
   # Sets the theme to the specified value.  Returns 1 if the theme was
   # set; otherwise, returns 0.
-  proc set_theme {theme_name} {
+  proc set_theme {{theme_name ""}} {
 
     variable files
     variable themes
@@ -102,6 +133,11 @@ namespace eval themes {
     variable colorizers
     variable curr_theme
     variable base_colors
+
+    # If the theme was not set, default to the current theme
+    if {$theme_name eq ""} {
+      set theme_name $curr_theme
+    }
 
     # If the theme name is not valid, return immediately
     if {![info exists files($theme_name)]} {
@@ -191,6 +227,16 @@ namespace eval themes {
     menus::handle_theme_change   $menu_opts
     gui::handle_theme_change     $tab_opts $tsb_opts $syntax_opts
     sidebar::handle_theme_change $sidebar_opts $ssb_opts
+
+  }
+
+  ######################################################################
+  # Returns the currently selected theme.
+  proc get_current_theme {} {
+
+    variable curr_theme
+
+    return $curr_theme
 
   }
 
@@ -332,7 +378,7 @@ namespace eval themes {
                            active    $colors(lightframe)] \
         -lightcolor  [list pressed   $colors(darker)] \
         -darkcolor   [list pressed   $colors(darker)] \
-        -bordercolor [list alternate "#000000"]
+        -bordercolor [list alternate "#000000"]RDINVOWN:RH1__RdInvOwn__Data_E_CmpO__DATA_E_CMPO__RDINVOWN:RH0__SNPINVOWN:RH0__RdInvOwn__RSPFWDIWB__CMPO__Data_E_CmpO__WbMtoE__CmpU__WBMTOEPTL__WbMtoE__RACK__CmpU__CMPU
 
       # Configure ttk::entry widgets
       ttk::style configure TEntry -padding 1 -insertwidth 1 -foreground black

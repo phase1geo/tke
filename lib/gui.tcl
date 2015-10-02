@@ -493,7 +493,7 @@ namespace eval gui {
     variable images
 
     if {[info exists widgets(nb_pw)]} {
-      
+
       # Store the readonly/lock status of each tab
       array set tab_status [list]
       foreach nb [$widgets(nb_pw) panes] {
@@ -3399,8 +3399,8 @@ namespace eval gui {
       -yscrollcommand "[ns utils]::set_yscrollbar $tab_frame.pw.tf.vb"
     scroller::scroller $tab_frame.pw.tf.hb {*}$scrollbar_opts -orient horizontal -command "$txt xview"
     if {$diff} {
-      [ns diff]::map $tab_frame.pw.tf.vb $txt -command "$txt yview"
-      $txt configure {*}$scrollbar_opts -yscrollcommand "$tab_frame.pw.tf.vb set"
+      [ns diff]::map $tab_frame.pw.tf.vb $txt {*}$scrollbar_opts -command "$txt yview"
+      $txt configure -yscrollcommand "$tab_frame.pw.tf.vb set"
     } else {
       scroller::scroller $tab_frame.pw.tf.vb {*}$scrollbar_opts -orient vertical -command "$txt yview"
     }
@@ -3602,7 +3602,7 @@ namespace eval gui {
     set pw   [winfo parent [winfo parent $txt]]
     set tb   [winfo parent $pw]
     set txt2 $pw.tf2.txt
-    
+
     # Get the scrollbar coloring information
     array set sb_opts [set scrollbar_opts [[ns themes]::get_scrollbar_colors]]
 

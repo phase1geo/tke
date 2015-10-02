@@ -24,16 +24,6 @@
 # Brief:   Converts a *.tmTheme file to a *.tketheme file.
 ######################################################################
 
-if {[file tail $argv0] eq "themer.tcl"} {
-
-  set tke_dir [file dirname [file dirname [file normalize $argv0]]]
-
-  package require msgcat
-
-  source [file join $tke_dir lib utils.tcl]
-
-}
-
 namespace eval themer {
 
   variable theme_dir      [file join $::tke_dir data themes]
@@ -336,154 +326,6 @@ namespace eval themer {
   }
 
   ######################################################################
-  # Displays a window showing all of the current themes.
-  proc get_theme {} {
-
-    # Initialize variables
-    set w            ".thrwin"
-    set ::theme_name ""
-
-    # Create the window
-    toplevel     $w
-    wm title     $w [msgcat::mc "Select theme"]
-    wm transient $w .
-    wm resizable $w 0 0
-
-    ttk::frame     $w.tf
-    listbox        $w.tf.lb -height 8 -selectmode "single" -yscrollcommand "$w.tf.vb set"
-    ttk::scrollbar $w.tf.vb -orient vertical -command "$w.tf.lb yview"
-
-    grid rowconfigure    $w.tf 0 -weight 1
-    grid columnconfigure $w.tf 0 -weight 1
-    grid $w.tf.lb -row 0 -column 0 -sticky news
-    grid $w.tf.vb -row 0 -column 1 -sticky ns
-
-    # Figure out the width of the buttons
-    set bwidth [msgcat::mcmax "OK" "Cancel"]
-
-    ttk::frame  $w.bf
-    ttk::button $w.bf.ok -text [msgcat::mc "OK"] -width $bwidth -command {
-      set ::theme_name [.thrwin.tf.lb get [.thrwin.tf.lb curselection]]
-      destroy .thrwin
-    }
-    ttk::button $w.bf.cancel -text [msgcat::mc "Cancel"] -width $bwidth -command {
-      destroy .thrwin
-    }
-
-    pack $w.bf.cancel -side right -padx 2 -pady 2
-    pack $w.bf.ok     -side right -padx 2 -pady 2
-
-    pack $w.tf -fill x
-    pack $w.bf -fill x
-
-    bind $w.tf.lb <Return> {
-      set ::theme_name [.thrwin.tf.lb get [.thrwin.tf.lb curselection]]
-      destroy .thrwin
-    }
-    bind $w.tf.lb <Double-Button-1> {
-      set ::theme_name [.thrwin.tf.lb get [.thrwin.tf.lb curselection]]
-      destroy .thrwin
-    }
-
-    # Get the theme names
-    foreach theme [lsort [glob -tails -directory [file join $::tke_dir data themes] *.tketheme]] {
-      $w.tf.lb insert end [file rootname $theme]
-    }
-    $w.tf.lb selection set 0
-
-    # Center the window and grab the focus
-    ::tk::PlaceWindow $w widget .
-    ::tk::SetFocusGrab $w $w
-
-    # Put the focus on the listbox
-    focus $w.tf.lb
-
-    # Wait for the window to be closed
-    tkwait window $w
-
-    # Release the grab/focus
-    ::tk::RestoreFocusGrab $w $w
-
-    if {$::theme_name ne ""} {
-      return [file join $::tke_dir data themes ${::theme_name}.tketheme]
-    } else {
-      return ""
-    }
-
-  }
-
-  ######################################################################
-  # Displays a window that gets the name of a theme file.
-  proc get_save_name {} {
-
-    # Initialize variables
-    set w            "[get_path].swin"
-    set ::theme_name ""
-
-    # Create the window
-    toplevel     $w
-    wm title     $w [msgcat::mc "Enter theme name"]
-    wm transient $w [get_win]
-    wm resizable $w 0 0
-
-    ttk::frame $w.tf
-    ttk::label $w.tf.l -text [msgcat::mc "Name:"]
-    ttk::entry $w.tf.e -validate key -invalidcommand bell -validatecommand {
-      [themer::get_path].swin.bf.ok configure \
-        -state [expr {([string length %P] eq "") ? "disabled" : "normal"}]
-      return 1
-    }
-
-    pack $w.tf.l -side left -padx 2 -pady 2
-    pack $w.tf.e -side left -fill x -padx 2 -pady 2
-
-    set bwidth [msgcat::mcmax "OK" "Cancel"]
-
-    ttk::frame  $w.bf
-    ttk::button $w.bf.ok -text [msgcat::mc "OK"] -width $bwidth -state disabled -command {
-      set top          [themer::get_path]
-      set ::theme_name [$top.swin.tf.e get]
-      destroy $top.swin
-    }
-    ttk::button $w.bf.cancel -text [msgcat::mc "Cancel"] -width $bwidth -command {
-      destroy [themer::get_path].swin
-    }
-
-    pack $w.bf.cancel -side right -padx 2 -pady 2
-    pack $w.bf.ok     -side right -padx 2 -pady 2
-
-    pack $w.tf -fill x
-    pack $w.bf -fill x
-
-    bind $w.tf.e <Return> {
-      set top [themer::get_path]
-      if {[set ::theme_name [$top.swin.tf.e get]] ne ""} {
-        destroy $top.swin
-      }
-    }
-
-    # Center the window and grab the focus
-    ::tk::PlaceWindow $w widget [get_win]
-    ::tk::SetFocusGrab $w $w
-
-    # Focus on the entry
-    focus $w.tf.e
-
-    # Wait for the window to be closed
-    tkwait window $w
-
-    # Release the grab/focus
-    ::tk::RestoreFocusGrab $w $w
-
-    if {$::theme_name ne ""} {
-      return "[file tail [file rootname $::theme_name]].tketheme"
-    } else {
-      return ""
-    }
-
-  }
-
-  ######################################################################
   # Writes the TKE theme file to the theme directory.
   proc write_tketheme {} {
 
@@ -543,13 +385,6 @@ namespace eval themer {
 
     # Set the write callback proc
     set write_callback $callback
-
-    # Make it so that the window cannot be resized
-    if {[file tail $::argv0] ne "themer.tcl"} {
-      toplevel [get_win]
-      wm transient [get_win] .
-    }
-    wm resizable [get_win] 0 0
 
     # Create top frame
     ttk::frame [get_path].tf
@@ -891,22 +726,6 @@ namespace eval themer {
   }
 
   ######################################################################
-  # Returns the name of the top-level window.
-  proc get_win {} {
-
-    return [expr {([file tail $::argv0] eq "themer.tcl") ? "." : ".thwin"}]
-
-  }
-
-  ######################################################################
-  # Returns the path of the top-level window.
-  proc get_path {} {
-
-    return [expr {([file tail $::argv0] eq "themer.tcl") ? "" : ".thwin"}]
-
-  }
-
-  ######################################################################
   # Imports the given TextMate theme and displays the result in the UI.
   proc import_tm {theme {callback ""}} {
 
@@ -926,7 +745,6 @@ namespace eval themer {
     create $callback
 
     # Initialize the widgets
-    wm title [get_win] [msgcat::mc "Import TextMate Theme"]
     $widgets(action) configure -text [msgcat::mc "Import"]
     catch { pack $widgets(reset) -side left -padx 2 -pady 2 }
 
@@ -1039,52 +857,6 @@ namespace eval themer {
     lset labels(difference_sub)    $label_index(color) [utils::auto_mix_colors "black" r 30]
     lset labels(difference_add)    $label_index(color) [utils::auto_mix_colors "black" g 30]
 
-  }
-
-}
-
-if {[file tail $argv0] eq "themer.tcl"} {
-
-  ######################################################################
-  # Displays usage message if this script is being executed from the
-  # command-line.
-  proc usage {} {
-
-    puts "Usage:  themer (-h | <tmTheme file> | <tkeTheme file>)"
-    puts ""
-    puts "Options:"
-    puts "  -h  Displays this help information"
-    puts ""
-
-    exit
-
-  }
-
-  # Parse the command-line options
-  set i 0
-  while {$i < $argc} {
-    switch [lindex $argv $i] {
-      -h      { usage }
-      default { set theme [lindex $argv $i] }
-    }
-    incr i
-  }
-
-  # Set the theme to clam
-  ttk::style theme use clam
-
-  if {[info exists theme]} {
-    set ext [string tolower [file extension $theme]]
-    switch -exact -- $ext {
-      .tmtheme  { themer::import_tm $theme }
-      .tketheme { themer::import_tke $theme }
-      default   {
-        puts [msgcat::mc "Error:  Theme is not a supported theme"]
-        usage
-      }
-    }
-  } else {
-    themer::create_new
   }
 
 }

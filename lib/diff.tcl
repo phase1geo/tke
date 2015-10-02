@@ -165,7 +165,7 @@ namespace eval diff {
 
     # Update the difference maps
     foreach win [array names data *,canvas] {
-      $data($win) configure {*}$sb_opts
+      $data([lindex [split $win ,] 0]) configure {*}$sb_opts
     }
 
   }
@@ -1041,20 +1041,23 @@ namespace eval diff {
     variable data
 
     array set opts {
+      -background "black"
+      -foreground "white"
       -command ""
     }
     array set opts $args
 
-    # Get the background color
-    set bg [utils::get_default_background]
+    set data($txt,-background) $opts(-background)
+    set data($txt,-foreground) $opts(-foreground)
+    set data($txt,-command)    $opts(-command)
 
     # Create the canvas
-    set data($txt,canvas) [canvas $win -width 15 -relief flat -bd 1 -highlightthickness 0 -bg $bg]
+    set data($txt,canvas) [canvas $win -width 15 -relief flat -bd 1 -highlightthickness 0 -bg $data($txt,-background)]
 
     # Create canvas bindings
     bind $data($txt,canvas) <Configure>  [list [ns diff]::map_configure $txt]
-    bind $data($txt,canvas) <Button-1>   [list [ns diff]::map_position_slider %W %y $txt $opts(-command)]
-    bind $data($txt,canvas) <B1-Motion>  [list [ns diff]::map_position_slider %W %y $txt $opts(-command)]
+    bind $data($txt,canvas) <Button-1>   [list [ns diff]::map_position_slider %W %y $txt]
+    bind $data($txt,canvas) <B1-Motion>  [list [ns diff]::map_position_slider %W %y $txt]
     bind $data($txt,canvas) <MouseWheel> "event generate $txt.t <MouseWheel> -delta %D"
     bind $data($txt,canvas) <4>          "event generate $txt.t <4>"
     bind $data($txt,canvas) <5>          "event generate $txt.t <5>"
@@ -1114,17 +1117,17 @@ namespace eval diff {
   ######################################################################
   # Handles a left-click or click-drag in the canvas area, positioning
   # the cursor at the given position.
-  proc map_position_slider {W y txt cmd} {
+  proc map_position_slider {W y txt} {
 
     variable data
 
-    if {$cmd ne ""} {
+    if {$data($txt,-command) ne ""} {
 
       # Calculate the moveto fraction
       set moveto [expr ($y.0 - ($data($txt,sheight) / 2)) / [winfo height $W]]
 
       # Call the command
-      uplevel #0 "$cmd moveto $moveto"
+      uplevel #0 "$data($txt,-command) moveto $moveto"
 
     }
 
@@ -1155,9 +1158,7 @@ namespace eval diff {
     set data($txt,sheight) [expr ($sheight < 11) ? 11 : $sheight]
 
     # Add cursor
-    set bg                [utils::get_default_background]
-    set abg               [utils::auto_adjust_color $bg 50]
-    set data($txt,slider) [$data($txt,canvas) create rectangle 2 0 15 10 -outline $abg -width 2]
+    set data($txt,slider) [$data($txt,canvas) create rectangle 2 0 15 10 -outline $data($txt,-foreground) -width 2]
     map_command $txt set $first $last
 
   }
