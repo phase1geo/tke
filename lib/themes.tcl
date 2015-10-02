@@ -129,17 +129,13 @@ namespace eval themes {
     array set theme $themes($theme_name)
 
     # Make ourselves backwards compatible
-    puts "In set_theme, theme_name: $theme_name, win_theme: $win_theme"
-    puts "  $themes($theme_name)"
     if {![info exists theme(syntax)]} {
-      puts "  HERE A"
       set temp [array get theme]
       array unset theme
       set theme(syntax) $temp
       if {$win_theme eq "themed"} {
         set win_theme "light"
       }
-      puts "  win_theme: $win_theme"
     }
 
     # Remove theme values that aren't in the Appearance/Colorize array
