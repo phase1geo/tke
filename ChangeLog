@@ -1,66 +1,50 @@
-changeset:   1386:4f3524a09040
-tag:         stable-1.9
+changeset:   1394:eabea34e1530
+tag:         devel-1.9.1
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Sep 28 20:52:23 2015 -0500
+date:        Thu Oct 01 09:44:41 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for stable-1.9 release
+ChangeLog for devel-1.9.1 release
 
 
-changeset:   1387:f0268bc21c6c
+changeset:   1395:10892bc21c22
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Sep 28 20:52:28 2015 -0500
+date:        Thu Oct 01 09:44:46 2015 -0500
 files:       .hgtags
 description:
-Added tag stable-1.9 for changeset 4f3524a09040
+Added tag devel-1.9.1 for changeset eabea34e1530
 
 
-changeset:   1388:6932752d283c
+changeset:   1396:50e4462a165f
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Oct 01 17:45:36 2015 -0500
+files:       lib/diff.tcl lib/gui.tcl lib/menus.tcl lib/themes.tcl lib/version.tcl
+description:
+* Checkpointing work on theme changes (really broken right now).
+
+
+changeset:   1397:9a25a382f241
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Sep 29 20:44:01 2015 -0500
-files:       lib/scroller.tcl lib/version.tcl
+date:        Thu Oct 01 23:04:07 2015 -0500
+files:       data/themes/Monokai.tketheme lib/diff.tcl lib/gui.tcl lib/menus.tcl lib/sidebar.tcl lib/syntax.tcl lib/themes.tcl lib/tke.tcl lib/version.tcl
 description:
-* Adding initial scroller file.
+* Checkpointing work on new theme scheme (Monokai theme is the only compatible theme at the moment).
 
 
-changeset:   1389:6bfb953d958b
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Sep 30 01:18:19 2015 -0500
-files:       lib/gui.tcl lib/scroller.tcl lib/syntax.tcl lib/tke.tcl lib/version.tcl
-description:
-* Checkpointing work on adding new scroller widget (not working at this point).
-
-
-changeset:   1390:34f39ae129b4
+changeset:   1398:0dd064e9a968
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Sep 30 10:08:42 2015 -0500
-files:       lib/scroller.tcl lib/version.tcl
+date:        Fri Oct 02 01:11:16 2015 -0500
+files:       data/themes/Monokai.tketheme lib/gui.tcl lib/syntax.tcl lib/themes.tcl lib/version.tcl
 description:
-* Fixing scroller syntax errors (it is basically working at this point).
+* Completing initial work on theme handling code.
 
 
-changeset:   1391:158f4ca66d6e
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Sep 30 17:46:23 2015 -0500
-files:       lib/ctext/ctext.tcl lib/scroller.tcl lib/version.tcl
-description:
-* Checkpointing more work on scroller widget.
-
-
-changeset:   1392:49f7962932a4
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Sep 30 19:31:57 2015 -0500
-files:       lib/ctext/ctext.tcl lib/scroller.tcl lib/sidebar.tcl lib/version.tcl
-description:
-* Checkpointing more work on new scroller widget.
-
-
-changeset:   1393:8365801b9dbf
+changeset:   1399:fa05c1780f68
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Sep 30 20:02:11 2015 -0500
-files:       lib/gui.tcl lib/version.tcl
+date:        Fri Oct 02 09:38:41 2015 -0500
+files:       lib/themes.tcl lib/version.tcl
 description:
-* Removing split pane button and moving functionality to tab.
+* Making theme handler backwards compatible.
 
 
