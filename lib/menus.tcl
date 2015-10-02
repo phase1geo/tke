@@ -205,7 +205,7 @@ namespace eval menus {
 
   ######################################################################
   # Handles any changes to the General/WindowTheme preference variable.
-  proc handle_window_theme {opts} {
+  proc handle_theme_change {opts} {
 
     if {[winfo exists .menubar] && ([tk windowingsystem] ne "aqua")} {
       .menubar configure {*}$opts
@@ -1175,7 +1175,7 @@ namespace eval menus {
     $mb add separator
 
     $mb add cascade -label [msgcat::mc "Set Syntax"] -underline 9 -menu [menu $mb.syntaxMenu -tearoff 0 -postcommand "syntax::populate_syntax_menu $mb.syntaxMenu"]
-    $mb add cascade -label [msgcat::mc "Set Theme"]  -underline 7 -menu [menu $mb.themeMenu  -tearoff 0 -postcommand "syntax::populate_theme_menu $mb.themeMenu"]
+    $mb add cascade -label [msgcat::mc "Set Theme"]  -underline 7 -menu [menu $mb.themeMenu  -tearoff 0 -postcommand "themes::populate_theme_menu $mb.themeMenu"]
 
     # Setup the tab popup menu
     $mb.tabPopup add command -label [msgcat::mc "Goto Next Tab"] -underline 5 -command "gui::next_tab"

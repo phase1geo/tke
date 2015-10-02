@@ -53,9 +53,6 @@ namespace eval syntax {
   }
   array set langs      {}
   array set curr_lang  {}
-  array set themes     {}
-  array set theme      {}
-  array set curr_theme {}
   array set meta_tags  {}
   array set colorizers {
     keywords       1
@@ -70,20 +67,8 @@ namespace eval syntax {
   }
 
   ######################################################################
-  # Loads the syntax and theme information.
+  # Loads the syntax information.
   proc load {} {
-
-    # Load the supported syntax information
-    load_syntax
-
-    # Load themes
-    load_themes
-
-  }
-
-  ######################################################################
-  # Loads the syntax highlighting information.
-  proc load_syntax {} {
 
     variable langs
     variable filetypes
@@ -171,96 +156,6 @@ namespace eval syntax {
 
     # Unregister the language with the launcher
     [ns launcher]::unregister [msgcat::mc "Syntax: %s" $name]
-
-  }
-
-  ######################################################################
-  # Loads the theme file information.
-  proc load_themes {} {
-
-    variable themes
-    variable theme
-
-    # Clear the themes and unregister any themes from the launcher
-    array unset themes
-    array unset theme
-    [ns launcher]::unregister "Theme:*"
-
-    # Load the tke_dir theme files
-    set tfiles [glob -nocomplain -directory [file join $::tke_dir data themes] *.tketheme]
-
-    # Load the tke_home theme files
-    lappend tfiles {*}[glob -nocomplain -directory [file join $::tke_home themes] *.tketheme]
-
-    # Get the theme information
-    foreach tfile $tfiles {
-      if {![catch { open $tfile r } rc]} {
-        set name          [file rootname [file tail $tfile]]
-        set themes($name) [list name $name {*}[read $rc]]
-        [ns launcher]::register [msgcat::mc "Theme:  %s" $name] [list [ns syntax]::set_theme $name]
-        close $rc
-      }
-    }
-
-    # Sets the current theme
-    set_theme [[ns preferences]::get Appearance/Theme]
-
-    # Trace changes to syntax preference values
-    trace variable [ns preferences]::prefs(Appearance/Theme)    w [ns syntax]::handle_theme_change
-    trace variable [ns preferences]::prefs(Appearance/Colorize) w [ns syntax]::handle_colorize_change
-
-  }
-
-  ######################################################################
-  # Called whenever the Appearance/Theme preference value is changed.
-  proc handle_theme_change {name1 name2 op} {
-
-    set_theme [[ns preferences]::get Appearance/Theme]
-
-  }
-
-  ######################################################################
-  # Called whenever the Appearance/Colorize preference value is changed.
-  proc handle_colorize_change {name1 name2 op} {
-
-    set_theme [[ns preferences]::get Appearance/Theme]
-
-  }
-
-  ######################################################################
-  # Sets the theme to the specified value.  Returns 1 if the theme was
-  # set; otherwise, returns 0.
-  proc set_theme {theme_name} {
-
-    variable themes
-    variable theme
-    variable curr_lang
-    variable curr_theme
-    variable colorizers
-
-    if {[info exists themes($theme_name)]} {
-
-      # Set the current theme array
-      array set theme [list none ""]
-      array set theme $themes($theme_name)
-
-      # Remove theme values that aren't in the Appearance/Colorize array
-      foreach name [array names theme] {
-        if {[info exists colorizers($name)] && \
-            [lsearch [[ns preferences]::get Appearance/Colorize] $name] == -1} {
-          set theme($name) ""
-        }
-      }
-
-      # Update the current tab
-      if {([set txt [[ns gui]::current_txt {}]] ne "") && (![info exists curr_theme($txt)] || ($curr_theme($txt) ne $theme_name))} {
-        set curr_theme($txt) $theme_name
-        set_language $curr_lang($txt) $txt 0
-      }
-
-    }
-
-    return 0
 
   }
 
@@ -360,8 +255,10 @@ namespace eval syntax {
   proc set_language {language {txt ""} {highlight 1}} {
 
     variable langs
-    variable theme
     variable curr_lang
+
+    # Get the current syntax theme
+    array set theme [[ns themes]::get_syntax_colors]
 
     # If a text widget wasn't specified, get the current text widget
     if {$txt eq ""} {
@@ -383,8 +280,6 @@ namespace eval syntax {
       -linemapbg $theme(background) -linemapfg $theme(line_number) \
       -warnwidth_bg $theme(warning_width) \
       -diffaddbg $theme(difference_add) -diffsubbg $theme(difference_sub)
-    [winfo parent $txt].vb configure -background $theme(background) -foreground $theme(warning_width)
-    [winfo parent $txt].hb configure -background $theme(background) -foreground $theme(warning_width)
 
     # Set default indent/unindent strings
     [ns indent]::set_indent_expressions $txt.t {\{} {\}}
@@ -484,6 +379,9 @@ namespace eval syntax {
     variable theme
     variable meta_tags
 
+    # Get the current syntax theme
+    array set theme [[ns themes]::get_syntax_colors]
+
     set meta_tags($txt) "meta"
 
     switch $section {
@@ -572,24 +470,6 @@ namespace eval syntax {
         }
       }
     }
-
-  }
-
-  ######################################################################
-  # Repopulates the specified theme selection menu.
-  proc populate_theme_menu {mnu} {
-
-    variable themes
-
-    # Clear the menu
-    $mnu delete 0 end
-
-    # Populate the menu with the available themes
-    foreach name [lsort [array names themes]] {
-      $mnu add radiobutton -label $name -variable [ns syntax]::theme(name) -value $name -command [list [ns syntax]::set_theme $name]
-    }
-
-    return $mnu
 
   }
 

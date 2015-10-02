@@ -148,14 +148,13 @@ namespace eval diff {
 
   ######################################################################
   # Handles changes to the windowing theme.
-  proc handle_window_theme {theme} {
+  proc handle_theme_change {sb_opts} {
 
     variable data
 
     # Get the default background and foreground colors
     set bg  [utils::get_default_background]
     set fg  [utils::get_default_foreground]
-    set abg [utils::auto_adjust_color $bg 30]
 
     # Update the spinboxes (if we are not using ttk::spinbox)
     if {$data(sb) eq "spinbox"} {
@@ -166,7 +165,7 @@ namespace eval diff {
 
     # Update the difference maps
     foreach win [array names data *,canvas] {
-      $data($win) configure -background $bg
+      $data($win) configure {*}$sb_opts
     }
 
   }
