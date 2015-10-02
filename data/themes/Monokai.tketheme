@@ -1,9 +1,19 @@
 ttk_style {
-
+  disabledfg "#999999"
+  frame      "#4e5044"
+  lightframe "#666959"
+  window     "#4e5044"
+  dark       "#cfcdc8"
+  darker     "#bab5ab"
+  darkest    "#9e9a91"
+  lighter    "#f8f8f2"
+  lightest   "#f8f8f2"
+  selectbg   "#4a6984"
+  selectfg   "#ffffff"
 }
 
 menus {
-
+  -relief flat
 }
 
 tabs {
@@ -14,7 +24,8 @@ tabs {
 }
 
 text_scrollbar {
-
+  -background "#272822"
+  -foreground "#4e5044"
 }
 
 syntax {
@@ -42,9 +53,15 @@ syntax {
 }
 
 sidebar {
-
+  -foreground          "#f8f8f2"
+  -background          "#4e5044"
+  -selectbackground    "#272822"
+  -selectforeground    "#f8f8f2"
+  -highlightbackground "#4e5044"
+  -highlightcolor      "#4e5044"
 }
 
 sidebar_scrollbar {
-
+  -background      "#4e5044"
+  -foreground      "#f8f8f2"
 }

@@ -25,10 +25,13 @@
 namespace eval themes {
 
   source [file join $::tke_dir lib ns.tcl]
+  
+  variable curr_theme ""
 
-  array set files      {}
-  array set themes     {}
-  array set theme      {}
+  array set files       {}
+  array set themes      {}
+  array set theme       {}
+  array set base_colors {}
   array set colorizers {
     keywords       1
     comments       1
@@ -46,6 +49,7 @@ namespace eval themes {
   proc load {} {
 
     variable files
+    variable base_colors
 
     # Load the tke_dir theme files
     set tfiles [glob -nocomplain -directory [file join $::tke_dir data themes] *.tketheme]
@@ -60,8 +64,10 @@ namespace eval themes {
       [ns launcher]::register [msgcat::mc "Theme:  %s" $name] [list [ns themes]::set_theme $name]
     }
 
-    puts "themes: [array names files]"
-
+    # Setup the base colors
+    set base_colors(light) [list [[ns utils]::get_default_background] [[ns utils]::get_default_foreground]]
+    set base_colors(dark)  [list "#303030" "#b0b0b0"]
+    
     # Trace changes to syntax preference values
     trace variable [ns preferences]::prefs(General/WindowTheme) w [ns themes]::handle_theme_change
     trace variable [ns preferences]::prefs(Appearance/Theme)    w [ns themes]::handle_theme_change
@@ -94,6 +100,8 @@ namespace eval themes {
     variable themes
     variable theme
     variable colorizers
+    variable curr_theme
+    variable base_colors
 
     # If the theme name is not valid, return immediately
     if {![info exists files($theme_name)]} {
@@ -109,6 +117,9 @@ namespace eval themes {
         return
       }
     }
+    
+    # Save the current theme name
+    set curr_theme $theme_name
 
     # Set the current theme array
     array set theme $themes($theme_name)
@@ -124,22 +135,24 @@ namespace eval themes {
 
     # Get the preference window theme
     set win_theme [[ns preferences]::get General/WindowTheme]
-
+    
     # Set the theme in the UI
     if {($win_theme eq "light") || ($win_theme eq "dark")} {
 
       # Create the ttk theme if it currently does not exist
       if {[lsearch [ttk::style theme names] $win_theme] == -1} {
-        create_ttk_theme $win_theme [get_ttk_theme_colors [[ns utils]::get_default_background] [[ns utils]::get_default_foreground]]
+        create_ttk_theme $win_theme [get_ttk_theme_colors {*}$base_colors($win_theme)]
       }
 
-      set ttk_theme    $win_theme
+      # Set the ttk theme
+      ttk::style theme use $win_theme
+
       set bg           [[ns utils]::get_default_background]
       set fg           [[ns utils]::get_default_foreground]
       set abg          [[ns utils]::auto_adjust_color $bg 30]
       set menu_opts    [list -background $bg -foreground $fg -relief flat]
       set tab_opts     [list -background $bg -foreground $fg -activebackground $abg -inactivebackground $bg]
-      set tsb_opts     [list]
+      set tsb_opts     [list -background $syntax(background) -foreground $syntax(warning_width)]
       set syntax_opts  $theme(syntax)
       set sidebar_opts [list -foreground $fg -background $bg -selectbackground $abg -selectforeground $fg -highlightbackground $bg -highlightcolor $bg]
       set ssb_opts     [list -foreground $abg -background $bg]
@@ -151,7 +164,9 @@ namespace eval themes {
         create_ttk_theme theme-$theme_name $theme(ttk_style)
       }
 
-      set ttk_theme    "theme-$theme_name"
+      # Set the ttk theme
+      ttk::style theme use "theme-$theme_name"
+
       set menu_opts    $theme(menus)
       set tab_opts     $theme(tabs)
       set tsb_opts     $theme(text_scrollbar)
@@ -160,9 +175,6 @@ namespace eval themes {
       set ssb_opts     $theme(sidebar_scrollbar)
 
     }
-
-    # Set the ttk theme
-    ttk::style theme use $ttk_theme
 
     # Set the theme information in the rest of the UI
     menus::handle_theme_change   $menu_opts
@@ -179,6 +191,16 @@ namespace eval themes {
 
     return $theme(syntax)
 
+  }
+  
+  ######################################################################
+  # Returns the scrollbar color theme information for the current theme.
+  proc get_scrollbar_colors {} {
+    
+    variable theme
+    
+    return $theme(text_scrollbar)
+    
   }
 
   ######################################################################
@@ -211,14 +233,14 @@ namespace eval themes {
   # Repopulates the specified theme selection menu.
   proc populate_theme_menu {mnu} {
 
-    variable themes
+    variable files
 
     # Clear the menu
     $mnu delete 0 end
 
     # Populate the menu with the available themes
-    foreach name [lsort [array names themes]] {
-      $mnu add radiobutton -label $name -variable [ns syntax]::theme(name) -value $name -command [list [ns themes]::set_theme $name]
+    foreach name [lsort [array names files]] {
+      $mnu add radiobutton -label $name -variable [ns themes]::curr_theme -value $name -command [list [ns themes]::set_theme $name]
     }
 
     return $mnu
