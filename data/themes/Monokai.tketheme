@@ -1,3 +1,9 @@
+swatch {
+  color0 "#272822"
+  color1 "#f8f8f2"
+  color2 "#4e5044"
+}
+
 ttk_style {
   disabledfg "#999999"
   frame      "#4e5044"
