@@ -1,5 +1,6 @@
-set tke_dir  [file normalize ..]
-set tke_home [file join ~ .tke]
+set tke_dir     [file normalize ..]
+set tke_home    [file join ~ .tke]
+set right_click 3
 
 package require tablelist
 

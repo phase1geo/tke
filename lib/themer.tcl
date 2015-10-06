@@ -90,6 +90,18 @@ namespace eval themer {
     meta              {""       "-foreground" "" 0 0}
   }
 
+  array set data {
+    cat,meta              {}
+    cat,swatch            {}
+    cat,ttk_style         {}
+    cat,menus             {}
+    cat,tabs              {}
+    cat,text_scrollbar    {}
+    cat,syntax            {}
+    cat,sidebar           {}
+    cat,sidebar_scrollbar {}
+  }
+
   ######################################################################
   # Generates a valid RGB color.
   proc normalize_color {color} {
@@ -139,92 +151,87 @@ namespace eval themer {
 
     set tmtheme $theme
 
-    if {![catch { open $theme r } rc]} {
+    # Open the file
+    if {[catch { open $theme r } rc]} {
+      return -code error [msgcat::mc "ERROR:  Unable to read %s" $theme]
+    }
 
-      # Read the contents of the file into 'content' and close the file
-      set content [string map {\n { }} [read $rc]]
-      close $rc
+    # Read the contents of the file into 'content' and close the file
+    set content [string map {\n { }} [read $rc]]
+    close $rc
 
-      array set depth {
-        plist  0
-        array  0
-        dict   0
-        key    0
-        string 0
-      }
+    array set depth {
+      plist  0
+      array  0
+      dict   0
+      key    0
+      string 0
+    }
 
-      set scope       0
-      set foreground  0
-      set background  0
-      set caret       0
-      set scope_types ""
+    set scope       0
+    set foreground  0
+    set background  0
+    set caret       0
+    set scope_types ""
 
-      while {[regexp {\s*([^<]*)\s*<(/?\w+)[^>]*>(.*)$} $content -> value element content]} {
-        if {[string index $element 0] eq "/"} {
-          set element [string range $element 1 end]
-          switch $element {
-            key {
-              switch $value {
-                scope      { set scope      1 }
-                foreground { set foreground 1 }
-                background { set background 1 }
-                caret      { set caret      1 }
-              }
+    while {[regexp {\s*([^<]*)\s*<(/?\w+)[^>]*>(.*)$} $content -> value element content]} {
+      if {[string index $element 0] eq "/"} {
+        set element [string range $element 1 end]
+        switch $element {
+          key {
+            switch $value {
+              scope      { set scope      1 }
+              foreground { set foreground 1 }
+              background { set background 1 }
+              caret      { set caret      1 }
             }
-            string {
-              if {$scope} {
-                set scope       0
-                set scope_types $value
-              } elseif {$foreground} {
-                set foreground 0
-                set color      [normalize_color $value]
-                if {$scope_types eq ""} {
-                  lset labels(foreground) $label_index(color) $color
-                  lset labels(foreground) $label_index(scope) "foreground"
-                  set all_scopes(foreground) $color
-                } else {
-                  foreach scope_type [string map {, { }} $scope_types] {
-                    if {[info exists scope_map($scope_type)]} {
-                      set lbl $scope_map($scope_type)
-                      lset labels($lbl) $label_index(color) $color
-                      lset labels($lbl) $label_index(scope) $scope_type
-                    }
-                    set all_scopes($scope_type) $color
+          }
+          string {
+            if {$scope} {
+              set scope       0
+              set scope_types $value
+            } elseif {$foreground} {
+              set foreground 0
+              set color      [normalize_color $value]
+              if {$scope_types eq ""} {
+                lset labels(foreground) $label_index(color) $color
+                lset labels(foreground) $label_index(scope) "foreground"
+                set all_scopes(foreground) $color
+              } else {
+                foreach scope_type [string map {, { }} $scope_types] {
+                  if {[info exists scope_map($scope_type)]} {
+                    set lbl $scope_map($scope_type)
+                    lset labels($lbl) $label_index(color) $color
+                    lset labels($lbl) $label_index(scope) $scope_type
                   }
+                  set all_scopes($scope_type) $color
                 }
-              } elseif {$background} {
-                set background 0
-                set color      [normalize_color $value]
-                if {$scope_types eq ""} {
-                  lset labels(background)    $label_index(color) $color
-                  lset labels(background)    $label_index(scope) "background"
-                  lset labels(warning_width) $label_index(color) [utils::auto_adjust_color $color 40]
-                  lset labels(meta)          $label_index(color) [utils::auto_adjust_color $color 40]
-                  set all_scopes(background) $color
-                }
-              } elseif {$caret} {
-                set caret 0
-                set color [normalize_color $value]
-                if {$scope_types eq ""} {
-                  lset labels(cursor) $label_index(color) $color
-                  lset labels(cursor) $label_index(scope) "cursor"
-                  set all_scopes(cursor) $color
-                }
+              }
+            } elseif {$background} {
+              set background 0
+              set color      [normalize_color $value]
+              if {$scope_types eq ""} {
+                lset labels(background)    $label_index(color) $color
+                lset labels(background)    $label_index(scope) "background"
+                lset labels(warning_width) $label_index(color) [utils::auto_adjust_color $color 40]
+                lset labels(meta)          $label_index(color) [utils::auto_adjust_color $color 40]
+                set all_scopes(background) $color
+              }
+            } elseif {$caret} {
+              set caret 0
+              set color [normalize_color $value]
+              if {$scope_types eq ""} {
+                lset labels(cursor) $label_index(color) $color
+                lset labels(cursor) $label_index(scope) "cursor"
+                set all_scopes(cursor) $color
               }
             }
           }
-          incr depth($element) -1
-        } else {
-          incr depth($element)
         }
+        incr depth($element) -1
+      } else {
+        incr depth($element)
       }
-
-    } elseif {[file tail $::argv0] eq "themer.tcl"} {
-
-      puts [msgcat::mc "ERROR:  Unable to read %s" $theme]
-      puts $rc
-      exit 1
-
     }
 
     # Save the labels array to orig_labels
@@ -239,7 +246,7 @@ namespace eval themer {
     variable data
 
     # Open the tketheme file
-    if {![catch { open $theme r } rc]} {
+    if {[catch { open $theme r } rc]} {
       return -code error [msgcat::mc "ERROR:  Unable to read %s" $theme]
     }
 
@@ -248,11 +255,14 @@ namespace eval themer {
     close $rc
 
     # Load the categories
-    foreach category [list meta swatch ttk_style menus tabs text_scrollbar syntax sidebar sidebar_scrollbar] {
-      if {[info exists contents(meta)]} {
-        array set data($category) $contents($category)
-      } else {
-        array set data($category) [list]
+    foreach category [array names data cat,*] {
+      lassign [split $category ,] dummy cat
+      if {[info exists contents($cat)]} {
+        if {$cat eq "swatch"} {
+          set data($category) $contents($cat)
+        } else {
+          array set data($category) $contents($cat)
+        }
       }
     }
 
@@ -279,25 +289,19 @@ namespace eval themer {
     # Get the basename of the tmtheme file
     set basename [file rootname [file tail $tmtheme]]
 
-    if {![catch { open [file join $theme_dir $basename.tketheme] w } rc]} {
+    if {[catch { open [file join $theme_dir $basename.tketheme] w } rc]} {
+      return -code error [msgcat::mc "ERROR:  Unable to write %s" [file join $theme_dir $basename.tketheme]]
+    }
 
-      foreach lbl [lsort [array names labels]] {
-        puts $rc [format "%-17s \"%s\"" $lbl [string tolower [lindex $labels($lbl) $label_index(color)]]]
-      }
+    foreach lbl [lsort [array names labels]] {
+      puts $rc [format "%-17s \"%s\"" $lbl [string tolower [lindex $labels($lbl) $label_index(color)]]]
+    }
 
-      close $rc
+    close $rc
 
-      # If we have a write callback routine, call it now
-      if {$write_callback ne ""} {
-        uplevel #0 $write_callback
-      }
-
-    } elseif {[file tail $::argv0] eq "themer.tcl"} {
-
-      puts [msgcat::mc "ERROR:  Unable to write %s" [file join $theme_dir $basename.tketheme]]
-      puts $rc
-      exit 1
-
+    # If we have a write callback routine, call it now
+    if {$write_callback ne ""} {
+      uplevel #0 $write_callback
     }
 
     return 1
@@ -311,20 +315,24 @@ namespace eval themer {
 
     variable data
 
-    if {![info exists data(plus)]} {
-      set plus_file  [file join images plus.gif]
-      set data(plus) [image create photo -file $plus_file]
+    if {![info exists data(image,plus)]} {
+      foreach ifile [list plus square32] {
+        set name [file join images $ifile.bmp]
+        set data(image,$ifile) [image create bitmap -file $name -maskfile $name -foreground grey]
+      }
     }
 
     if {![winfo exists .thmwin]} {
 
       toplevel .thmwin
       wm title .thmwin [msgcat::mc "Theme Editor"]
+      wm geometry .thmwin 600x400
 
-      ttk::labelframe .thmwin.sf -text [msgcat::mc "Swatch"]
-      for {set i 0} {$i < 5} {incr i} {
-        pack [ttk::button .thmwin.sf.b$i -style BButton -image $data(plus)] -side left -padx 2 -pady 2
-      }
+      # Add the swatch panel
+      set data(widgets,sf)   [ttk::labelframe .thmwin.sf -text [msgcat::mc "Swatch"]]
+      pack [set data(widgets,plus) [ttk::frame .thmwin.sf.plus]] -side left -padx 2 -pady 2
+      pack [ttk::button .thmwin.sf.plus.b -style BButton -image $data(image,plus) -command [list themer::add_swatch]]
+      pack [ttk::label  .thmwin.sf.plus.l -text ""]
 
       ttk::panedwindow .thmwin.pw -orient horizontal
 
@@ -376,6 +384,98 @@ namespace eval themer {
       pack .thmwin.bf -fill x
 
     }
+
+  }
+
+  ######################################################################
+  # Adds a new swatch color.
+  proc add_swatch {} {
+
+    variable data
+
+    # Get the color from the user
+    if {[set color [tk_chooseColor -parent .thmwin]] eq ""} {
+      return
+    }
+
+    # Create button
+    set index [incr data(swatch_index)]
+    set col   [llength $data(cat,swatch)]
+    set ifile [file join images square32.bmp]
+    set img   [image create bitmap -file $ifile -maskfile $ifile -foreground $color]
+    set frm   $data(widgets,sf).f$index
+
+    # Create widgets
+    pack [ttk::frame $frm] -before $data(widgets,plus) -side left -padx 2 -pady 2
+    pack [ttk::button $frm.b -style BButton -image $img -command [list themer::edit_swatch $index]]
+    pack [ttk::label  $frm.l -text $color]
+
+    # Add binding to delete swatch
+    bind $frm.b <Button-$::right_click> [list themer::delete_swatch $index]
+
+    # Insert the value into the swatch list
+    lappend data(cat,swatch) $color
+
+    # If the number of swatch elements exceeds 6, remove the plus button
+    if {[llength $data(cat,swatch)] == 6} {
+      pack forget $data(widgets,plus)
+    }
+
+  }
+
+  ######################################################################
+  # Edit the color of the swatch.
+  proc edit_swatch {index} {
+
+    variable data
+
+    # Get the index
+    set pos [lsearch [pack slaves $data(widgets,sf)] $data(widgets,sf).f$index]
+
+    # Get the original color
+    set orig_color [lindex $data(cat,swatch) $pos]
+
+    # Get the new color from the user
+    if {[set color [tk_chooseColor -initialcolor $orig_color -parent .thmwin]] eq ""} {
+      return
+    }
+
+    # Change the widgets
+    [$data(widgets,sf).f$index.b cget -image] configure -foreground $color
+    $data(widgets,sf).f$index.l configure -text $color
+
+    # Change the swatch value
+    lset data(cat,swatch) $pos $color
+
+  }
+
+  ######################################################################
+  # Deletes the given swatch after confirming from the user.
+  proc delete_swatch {index} {
+
+    variable data
+
+    # Confirm from the user
+    if {[tk_messageBox -parent .thmwin -message "Delete swatch?" -default no -type yesno] eq "no"} {
+      return
+    }
+
+    # Get position
+    set pos [lsearch [pack slaves $data(widgets,sf)] $data(widgets,sf).f$index]
+
+    # Delete image
+    image delete [$data(widgets,sf).f$index.b cget -image]
+
+    # Destroy the widgets
+    destroy $data(widgets,sf).f$index
+
+    # Add the plus button if the number of packed elements is 6
+    if {[llength $data(cat,swatch)] == 6} {
+      pack $data(widgets,plus) -side left -padx 2 -pady 2
+    }
+
+    # Delete the swatch value from the list
+    set data(cat,swatch) [lreplace $data(cat,swatch) $pos $pos]
 
   }
 
