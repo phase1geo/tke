@@ -2,6 +2,8 @@ set tke_dir     [file normalize ..]
 set tke_home    [file join ~ .tke]
 set right_click 3
 
+lappend auto_path [pwd]
+
 package require tablelist
 
 source utils.tcl

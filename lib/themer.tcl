@@ -91,15 +91,81 @@ namespace eval themer {
   }
 
   array set data {
-    cat,meta              {}
-    cat,swatch            {}
-    cat,ttk_style         {}
-    cat,menus             {}
-    cat,tabs              {}
-    cat,text_scrollbar    {}
-    cat,syntax            {}
-    cat,sidebar           {}
-    cat,sidebar_scrollbar {}
+    cat,meta   {}
+    cat,swatch {}
+    cat,ttk_style {
+      disabledfg "#999999"
+      frame      "#4e5044"
+      lightframe "#666959"
+      window     "#4e5044"
+      dark       "#cfcdc8"
+      darker     "#bab5ab"
+      darkest    "#9e9a91"
+      lighter    "#f8f8f2"
+      lightest   "#f8f8f2"
+      selectbg   "#4a6984"
+      selectfg   "#ffffff"
+    }
+    cat,menus {
+      -relief flat
+    }
+    cat,tabs {
+      -background         "#4e5044"
+      -foreground         "#f8f8f2"
+      -activebackground   "#272822"
+      -inactivebackground "#4e5044"
+      -relief             "flat"
+    }
+    cat,text_scrollbar {
+      -background "#272822"
+      -foreground "#4e5044"
+    }
+    cat,syntax {
+      background        "#272822"
+      border_highlight  "gold"
+      comments          "#75715e"
+      cursor            "#f8f8f0"
+      difference_add    "#274622"
+      difference_sub    "#452822"
+      foreground        "#f8f8f2"
+      highlighter       "yellow"
+      keywords          "#f92672"
+      line_number       "#4e5044"
+      meta              "#4e5044"
+      miscellaneous1    "#66d9ef"
+      miscellaneous2    "#fd971f"
+      miscellaneous3    "#f92672"
+      numbers           "#ae81ff"
+      precompile        "#d0d0ff"
+      punctuation       "#f92672"
+      select_background "blue"
+      select_foreground "white"
+      strings           "#e6db74"
+      warning_width     "#4e5044"
+    }
+    cat,sidebar {
+      -foreground          "#f8f8f2"
+      -background          "#4e5044"
+      -selectbackground    "#272822"
+      -selectforeground    "#f8f8f2"
+      -highlightbackground "#4e5044"
+      -highlightcolor      "#4e5044"
+    }
+    cat,sidebar_scrollbar {
+      -background      "#4e5044"
+      -foreground      "#f8f8f2"
+    }
+  }
+
+  ######################################################################
+  # Returns the value of the given color
+  proc get_color_values {color} {
+
+    lassign [winfo rgb . $color] r g b
+    lassign [utils::rgb_to_hsv [expr $r >> 8] [expr $g >> 8] [expr $b >> 8]] hue saturation value
+
+    return [list $value $r $g $b]
+
   }
 
   ######################################################################
@@ -258,11 +324,7 @@ namespace eval themer {
     foreach category [array names data cat,*] {
       lassign [split $category ,] dummy cat
       if {[info exists contents($cat)]} {
-        if {$cat eq "swatch"} {
-          set data($category) $contents($cat)
-        } else {
-          array set data($category) $contents($cat)
-        }
+        set data($category) $contents($cat)
       }
     }
 
@@ -339,10 +401,16 @@ namespace eval themer {
       # Add the categories panel
       .thmwin.pw add [ttk::labelframe .thmwin.pw.lf -text [msgcat::mc "Categories"]]
       set data(widgets,cat) [tablelist::tablelist .thmwin.pw.lf.tbl \
-        -columns {0 Options 0 {}} -treecolumn 0 -exportselection 0 \
+        -columns {0 Options 0 Value 0 {}} -treecolumn 0 -exportselection 0 \
         -yscrollcommand { utils::set_yscrollbar .thmwin.pw.lf.vb } \
       ]
       ttk::scrollbar .thmwin.pw.lf.vb -orient vertical -command { .thmwin.pw.lf.tbl yview }
+
+      $data(widgets,cat) columnconfigure 0 -name opt
+      $data(widgets,cat) columnconfigure 1 -name value    -formatcommand [list themer::format_category_value]
+      $data(widgets,cat) columnconfigure 2 -name category -hide 1
+
+      bind $data(widgets,cat) <<TablelistSelect>> [list themer::handle_category_selection]
 
       grid rowconfigure    .thmwin.pw.lf 0 -weight 1
       grid columnconfigure .thmwin.pw.lf 0 -weight 1
@@ -350,7 +418,7 @@ namespace eval themer {
       grid .thmwin.pw.lf.vb  -row 0 -column 1 -sticky ns
 
       # Add the right paned window
-      .thmwin.pw add [ttk::labelframe .thmwin.pw.rf -text [msgcat::mc "Details"]] -weight 1
+      .thmwin.pw add [set data(widgets,df) [ttk::labelframe .thmwin.pw.rf -text [msgcat::mc "Details"]]] -weight 1
 
       set bwidth [msgcat::mcmax "Reset" "Save As" "Import" "Create" "Save" "Cancel"]
 
@@ -386,6 +454,248 @@ namespace eval themer {
       pack .thmwin.pw -fill both -expand yes
       pack .thmwin.bf -fill x
 
+      # Create the detail panels
+      create_detail_relief
+      create_detail_color
+
+    }
+
+  }
+
+  ######################################################################
+  # Formats the category value.
+  proc format_category_value {value} {
+
+    variable data
+
+    lassign [$data(widgets,cat) formatinfo] key row col
+
+    # Attempt to convert the value into a color and display the color in the background of the cell
+    catch {
+      switch [llength [set values [split $value ,]]] {
+        1 { set color [lindex $values 0] }
+        2 { set color [utils::auto_adjust_color [lindex $values 0] [lindex $values 1] manual] }
+        3 { set color [utils::auto_mix_colors   [lindex $values 0] [lindex $values 1] [lindex $values 2]] }
+      }
+      lassign [get_color_values $color] val
+      $data(widgets,cat) cellconfigure $row,$col -background $color -foreground [expr {($val < 128) ? "white" : "black"}]
+    }
+
+    return $value
+
+  }
+
+  ######################################################################
+  # Handles a change to the category selection.
+  proc handle_category_selection {} {
+
+    variable data
+
+    # Clear the details frame
+    catch { pack forget {*}[pack slaves $data(widgets,df)] }
+
+    # Get the currently selected row
+    if {([set row [$data(widgets,cat) curselection]] ne "") && ([$data(widgets,cat) parentkey $row] ne "root")} {
+
+      # Get the row values
+      set opt      [$data(widgets,cat) cellcget $row,opt      -text]
+      set value    [$data(widgets,cat) cellcget $row,value    -text]
+      set category [$data(widgets,cat) cellcget $row,category -text]
+
+      switch -exact -- $opt {
+        -relief {
+          if {$category eq "tabs"} {
+            detail_show_relief $row $value [list flat raised]
+          } else {
+            detail_show_relief $row $value [list raised sunken flat ridge solid groove]
+          }
+        }
+        default {
+          detail_show_color $row $value
+        }
+      }
+
+    }
+
+  }
+
+  ######################################################################
+  # Creates the relief detail panel.
+  proc create_detail_relief {} {
+
+    variable data
+
+    # Create the frame
+    set data(widgets,relief) [ttk::frame $data(widgets,df).rf]
+
+    # Create the relief widgets
+    ttk::label $data(widgets,relief).l -text "Relief: "
+    set data(widgets,relief_mb) [ttk::menubutton $data(widgets,relief).mb -menu [set data(widgets,relief_menu) [menu $data(widgets,relief).menu -tearoff 0]]]
+
+    # Pack the widgets
+    pack $data(widgets,relief).l  -side left -padx 2 -pady 2
+    pack $data(widgets,relief).mb -side left -padx 2 -pady 2
+
+  }
+
+  ######################################################################
+  # Creates the color detail panel.
+  proc create_detail_color {} {
+
+    variable data
+
+    # Create the frame
+    set data(widgets,color) [ttk::frame $data(widgets,df).cf]
+
+    # Create the canvas
+    set data(widgets,color_canvas) [canvas $data(widgets,color).c -relief flat -width 60 -height 40]
+    set data(widgets,color_base)   [$data(widgets,color_canvas) create rectangle 15 5 48 36 -width 0]
+    set data(widgets,color_mod)    [$data(widgets,color_canvas) create rectangle 31 5 48 36 -width 0]
+
+    # Create the modification frames
+    ttk::frame $data(widgets,color).mod
+    set i 0
+    foreach mod [list light r g b] {
+      grid [ttk::radiobutton $data(widgets,color).mod.l$mod -text "[string totitle $mod]:" -value $mod -variable themer::data(mod)] -row $i -column 0 -sticky w -padx 2 -pady 2
+      grid [set data(widgets,color_${mod}_scale) [ttk::scale   $data(widgets,color).mod.s$mod -orient horizontal -from 0 -to 255 -command [list themer::detail_scale_change $mod]]] -row $i -column 1 -padx 2 -pady 2
+      grid [set data(widgets,color_${mod}_entry) [ttk::spinbox $data(widgets,color).mod.e$mod -width 3 -from 0 -to 255 -command [list themer::detail_spinbox_change $mod]]] -row $i -column 2 -padx 2 -pady 2
+      incr i
+    }
+
+    pack $data(widgets,color_canvas) -pady 5
+    pack $data(widgets,color).mod
+
+  }
+
+  ######################################################################
+  # Handles any changes to the scaling.
+  proc detail_scale_change {mod value} {
+
+    variable data
+
+    # Insert the value in the spinbox
+    $data(widgets,color_${mod}_entry) delete 0 end
+    $data(widgets,color_${mod}_entry) insert end [expr int( $value )]
+
+    # Update the UI
+    detail_update_color $mod
+
+  }
+
+  ######################################################################
+  # Validate the detail entry fields.
+  proc detail_spinbox_change {mod} {
+
+    variable data
+
+    # Get the current spinbox value
+    set value [$data(widgets,color_${mod}_entry) get]
+
+    # Set the scale value
+    $data(widgets,color_${mod}_scale) configure -value [expr {($value eq "") ? 0 : $value}]
+
+    # Update the UI
+    detail_update_color $mod
+
+  }
+
+  ######################################################################
+  # Updates the various color attributes given the modification setting.
+  proc detail_update_color {mod} {
+
+    variable data
+
+    # Get the base color
+    set base_color [$data(widgets,color_canvas) itemcget $data(widgets,color_base) -fill]
+
+    # Get the entry value
+    set diff [$data(widgets,color_${mod}_entry) get]
+
+    # Calculate the value
+    switch $mod {
+      none    { set new_color $base_color }
+      light   { set new_color [utils::auto_adjust_color $base_color $diff manual] }
+      default { set new_color [utils::auto_mix_colors   $base_color $mod $diff] }
+    }
+
+    # Update the color UI
+    $data(widgets,color_canvas) itemconfigure $data(widgets,color_mod) -fill $new_color
+    $data(widgets,color_canvas) raise         $data(widgets,color_mod)
+
+    # Update the data value
+
+  }
+
+  ######################################################################
+  # Show the relief panel.
+  proc detail_show_relief {row value values} {
+
+    variable data
+
+    # Add the relief panel
+    pack $data(widgets,relief) -fill both -expand yes
+
+    # Delete the menu contents
+    $data(widgets,relief_menu) delete 0 end
+
+    # Add the values
+    foreach val $values {
+      $data(widgets,relief_menu) add command -label $val -command [list $data(widgets,cat) cellconfigure $row,value -text $val]
+    }
+
+    # Set the detail
+    $data(widgets,relief_mb) configure -text $value
+
+  }
+
+  ######################################################################
+  # Show the color panel.
+  proc detail_show_color {row value} {
+
+    variable data
+
+    # Add the relief panel
+    pack $data(widgets,color) -fill both -expand yes
+
+    # Get the syntax
+    array set syntax $data(cat,syntax)
+
+    # Parse the value
+    switch [llength [set values [split $value ,]]] {
+      1 {
+        set base_color [lindex $values 0]
+        set mod_color  [lindex $values 0]
+      }
+      2 {
+        set base_color [lindex $values 0]
+        set mod_color  [utils::auto_adjust_color [lindex $values 0] [lindex $values 1] manual]
+        set data(mod)  "light"
+      }
+      3 {
+        set base_color [lindex $values 0]
+        set mod_color  [utils::auto_mix_colors [lindex $values 0] [lindex $values 1] [lindex $values 2]]
+        set data(mod)  [lindex $values 1]
+        $data(widgets,color_[lindex $values 1]_scale) configure -from [expr 0 - $base_value] -to [expr 255 - $base_value]
+        $data(widgets,color_[lindex $values 1]_entry) configure -from [expr 0 - $base_value] -to [expr 255 - $base_value]
+        $data(widgets,color_[lindex $values 1]_scale) set [lindex $values 2]
+        $data(widgets,color_[lindex $values 1]_entry) set [lindex $values 2]
+      }
+    }
+
+    # Colorize the widgets
+    $data(widgets,color_canvas) configure -background $syntax(background)
+    $data(widgets,color_canvas) itemconfigure $data(widgets,color_base) -fill $base_color
+    $data(widgets,color_canvas) itemconfigure $data(widgets,color_mod)  -fill $mod_color
+
+    # Get all of the color values
+    lassign [get_color_values $base_color] base(light) base(r) base(g) base(b)
+
+    # Set the from/to values in the scales and entries
+    foreach mod [list light r g b] {
+      $data(widgets,color_${mod}_scale) configure -from [expr 0 - $base($mod)] -to [expr 255 - $base($mod)]
+      $data(widgets,color_${mod}_entry) configure -from [expr 0 - $base($mod)] -to [expr 255 - $base($mod)]
+      $data(widgets,color_${mod}_scale) set $base($mod)
+      $data(widgets,color_${mod}_entry) set $base($mod)
     }
 
   }
@@ -404,49 +714,16 @@ namespace eval themer {
       add_swatch $color
     }
 
-    # Insert the syntax colors
-    set parent [$data(widgets,cat) insertchild root end [list "Syntax Colors" {}]]
-    foreach type [list background border_highlight comments cursor difference_add difference_sub \
-                       foreground highlighter keywords line_number meta miscellaneous1 miscellaneous2 \
-                       miscellaneous3 numbers precompile punctuation select_background select_foreground \
-                       strings warning_width] {
-      $data(widgets,cat) insertchild $parent end [list $type {}]
-    }
-
-    # Insert the ttk_style categories
-    set parent [$data(widgets,cat) insertchild root end [list "ttk Widget Colors" {}]]
-    foreach category [list disabledfg frame lightframe window dark darker darkest lighter lightest selectbg selectfg] {
-      $data(widgets,cat) insertchild $parent end [list $category {}]
-    }
-
-    # Insert the menus options
-    set parent [$data(widgets,cat) insertchild root end [list "Menu Options" {}]]
-    foreach opt [list -relief] {
-      $data(widgets,cat) insertchild $parent end [list $opt {}]
-    }
-
-    # Insert the tabs options
-    set parent [$data(widgets,cat) insertchild root end [list "Tab Options" {}]]
-    foreach opt [list -background -foreground -activebackground -inactivebackground] {
-      $data(widgets,cat) insertchild $parent end [list $opt {}]
-    }
-
-    # Insert the text scrollbar options
-    set parent [$data(widgets,cat) insertchild root end [list "Text Scrollbar Options" {}]]
-    foreach opt [list -background -foreground] {
-      $data(widgets,cat) insertchild $parent end [list $opt {}]
-    }
-
-    # Insert the sidebar options
-    set parent [$data(widgets,cat) insertchild root end [list "Sidebar Options"]]
-    foreach opt [list -foreground -background -selectbackground -selectforeground -highlightbackground -highlightcolor] {
-      $data(widgets,cat) insertchild $parent end [list $opt {}]
-    }
-
-    # Insert the sidebar scrollbar options
-    set parent [$data(widgets,cat) insertchild root end [list "Sidebar Scrollbar Options"]]
-    foreach opt [list -background -foreground] {
-      $data(widgets,cat) insertchild $parent end [list $opt {}]
+    # Insert categories
+    foreach {category title} [list syntax "Syntax Colors" ttk_style "ttk Widget Colors" menus "Menu Options" \
+                                   tabs "Tab Options" text_scrollbar "Text Scrollbar Options" \
+                                   sidebar "Sidebar Options" sidebar_scrollbar "Sidebar Scrollbar Options"] {
+      set parent [$data(widgets,cat) insertchild root end [list $title {} {}]]
+      array set opts $data(cat,$category)
+      foreach opt [lsort [array names opts]] {
+        $data(widgets,cat) insertchild $parent end [list $opt $opts($opt) $category]
+      }
+      array unset opts
     }
 
   }
