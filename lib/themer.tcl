@@ -338,7 +338,10 @@ namespace eval themer {
 
       # Add the categories panel
       .thmwin.pw add [ttk::labelframe .thmwin.pw.lf -text [msgcat::mc "Categories"]]
-      set data(widgets,cat) [tablelist::tablelist .thmwin.pw.lf.tbl -columns {0 Options} -exportselection 0 -yscrollcommand { utils::set_yscrollbar .thmwin.pw.lf.vb }]
+      set data(widgets,cat) [tablelist::tablelist .thmwin.pw.lf.tbl \
+        -columns {0 Options 0 {}} -treecolumn 0 -exportselection 0 \
+        -yscrollcommand { utils::set_yscrollbar .thmwin.pw.lf.vb } \
+      ]
       ttk::scrollbar .thmwin.pw.lf.vb -orient vertical -command { .thmwin.pw.lf.tbl yview }
 
       grid rowconfigure    .thmwin.pw.lf 0 -weight 1
@@ -388,14 +391,77 @@ namespace eval themer {
   }
 
   ######################################################################
+  # Creates and initializes the UI.
+  proc initialize {} {
+
+    variable data
+
+    # Create the UI
+    create
+
+    # Insert the swatches
+    foreach color $data(cat,swatch) {
+      add_swatch $color
+    }
+
+    # Insert the syntax colors
+    set parent [$data(widgets,cat) insertchild root end [list "Syntax Colors" {}]]
+    foreach type [list background border_highlight comments cursor difference_add difference_sub \
+                       foreground highlighter keywords line_number meta miscellaneous1 miscellaneous2 \
+                       miscellaneous3 numbers precompile punctuation select_background select_foreground \
+                       strings warning_width] {
+      $data(widgets,cat) insertchild $parent end [list $type {}]
+    }
+
+    # Insert the ttk_style categories
+    set parent [$data(widgets,cat) insertchild root end [list "ttk Widget Colors" {}]]
+    foreach category [list disabledfg frame lightframe window dark darker darkest lighter lightest selectbg selectfg] {
+      $data(widgets,cat) insertchild $parent end [list $category {}]
+    }
+
+    # Insert the menus options
+    set parent [$data(widgets,cat) insertchild root end [list "Menu Options" {}]]
+    foreach opt [list -relief] {
+      $data(widgets,cat) insertchild $parent end [list $opt {}]
+    }
+
+    # Insert the tabs options
+    set parent [$data(widgets,cat) insertchild root end [list "Tab Options" {}]]
+    foreach opt [list -background -foreground -activebackground -inactivebackground] {
+      $data(widgets,cat) insertchild $parent end [list $opt {}]
+    }
+
+    # Insert the text scrollbar options
+    set parent [$data(widgets,cat) insertchild root end [list "Text Scrollbar Options" {}]]
+    foreach opt [list -background -foreground] {
+      $data(widgets,cat) insertchild $parent end [list $opt {}]
+    }
+
+    # Insert the sidebar options
+    set parent [$data(widgets,cat) insertchild root end [list "Sidebar Options"]]
+    foreach opt [list -foreground -background -selectbackground -selectforeground -highlightbackground -highlightcolor] {
+      $data(widgets,cat) insertchild $parent end [list $opt {}]
+    }
+
+    # Insert the sidebar scrollbar options
+    set parent [$data(widgets,cat) insertchild root end [list "Sidebar Scrollbar Options"]]
+    foreach opt [list -background -foreground] {
+      $data(widgets,cat) insertchild $parent end [list $opt {}]
+    }
+
+  }
+
+  ######################################################################
   # Adds a new swatch color.
-  proc add_swatch {} {
+  proc add_swatch {{color ""}} {
 
     variable data
 
     # Get the color from the user
-    if {[set color [tk_chooseColor -parent .thmwin]] eq ""} {
-      return
+    if {$color eq ""} {
+      if {[set color [tk_chooseColor -parent .thmwin]] eq ""} {
+        return
+      }
     }
 
     # Create button
