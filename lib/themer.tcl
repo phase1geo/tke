@@ -26,7 +26,7 @@
 
 namespace eval themer {
 
-  variable theme_dir      [file join $::tke_dir data themes]
+  variable theme_dir      [file join $::tke_home themes]
   variable tmtheme        ""
   variable write_callback ""
 
@@ -311,12 +311,22 @@ namespace eval themer {
 
     variable data
 
+    if {![info exists data(plus)]} {
+      set plus_file  [file join images plus.gif]
+      set data(plus) [image create photo -file $plus_file]
+    }
+
     if {![winfo exists .thmwin]} {
 
       toplevel .thmwin
       wm title .thmwin [msgcat::mc "Theme Editor"]
-    
-      ttk::panedwindow .thmwin.pw
+
+      ttk::labelframe .thmwin.sf -text [msgcat::mc "Swatch"]
+      for {set i 0} {$i < 5} {incr i} {
+        pack [ttk::button .thmwin.sf.b$i -style BButton -image $data(plus)] -side left -padx 2 -pady 2
+      }
+
+      ttk::panedwindow .thmwin.pw -orient horizontal
 
       # Add the categories panel
       .thmwin.pw add [ttk::labelframe .thmwin.pw.lf -text [msgcat::mc "Categories"]]
@@ -329,31 +339,7 @@ namespace eval themer {
       grid .thmwin.pw.lf.vb  -row 0 -column 1 -sticky ns
 
       # Add the right paned window
-      .thmwin.pw add [ttk::frame .thmwin.pw.rf] -weight 1
-      ttk::panedwindow .thmwin.pw.rf.pw 
-
-      # Add swatch panel
-      .thmwin.pw.rf.pw add [ttk::labelframe .thmwin.pw.rf.pw.tf -text [msgcat::mc "Swatches"]] -weight 1
-      set data(widgets,swatch) [tablelist::tablelist .thmwin.pw.rf.pw.tf.tbl -columns {0 {}} -yscrollcommand { utils::set_yscrollbar .thmwin.pw.rf.pw.tf.vb }]
-      ttk::scrollbar .thmwin.pw.rf.pw.tf.vb -orient vertical -command { .thmwin.pw.rf.pw.tf.tbl yview }
-      ttk::frame     .thmwin.pw.rf.pw.tf.bf
-      set data(widgets,swadd) [ttk::label .thmwin.pw.rf.pw.tf.bf.add -style BButton -text "+"]
-      set data(widgets,swdel) [ttk::label .thmwin.pw.rf.pw.tf.bf.del -style BButton -text "-"]
-
-      bind $data(widgets,swadd) <Button-1> [list themer::add_swatch]
-      bind $data(widgets,swdel) <Button-1> [list themer::delete_swatch]
-
-      pack $data(widgets,swadd) -side left -padx 2 -pady 2
-      pack $data(widgets,swdel) -side left -padx 2 -pady 2
-
-      grid rowconfigure    .thmwin.pw.rf.pw.tf 0 -weight
-      grid columnconfigure .thmwin.pw.rf.pw.tf 0 -weight1
-      grid .thmwin.pw.rf.pw.tf.tbl -row 0 -column 0 -sticky news
-      grid .thmwin.pw.rf.pw.tf.vb  -row 0 -column 1 -sticky ns
-      grid .thmwin.pw.rf.pw.tf.bf  -row 1 -column 0 -sticky ew -columnspan 2
-
-      # Add detail panel
-      .thmwin.pw.rf.pw add [set data(widgets,df) [ttk::labelframe .thmwin.pw.rf.pw.bf -text [msgcat::mc "Details"]]]
+      .thmwin.pw add [ttk::labelframe .thmwin.pw.rf -text [msgcat::mc "Details"]] -weight 1
 
       set bwidth [msgcat::mcmax "Reset" "Save As" "Import" "Create" "Save" "Cancel"]
 
@@ -381,13 +367,11 @@ namespace eval themer {
         destroy .thmwin
       }
 
-      if {$tmtheme ne ""} {
-        pack .thmwin.bf.reset  -side left  -padx 2 -pady 2
-      }
-
+      # pack .thmwin.bf.reset  -side left  -padx 2 -pady 2
       pack .thmwin.bf.cancel -side right -padx 2 -pady 2
       pack .thmwin.bf.import -side right -padx 2 -pady 2
 
+      pack .thmwin.sf -fill x
       pack .thmwin.pw -fill both -expand yes
       pack .thmwin.bf -fill x
 
