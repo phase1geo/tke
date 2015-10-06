@@ -17,4 +17,4 @@ ttk::style theme settings clam {
 
 ttk::style theme use clam
 
-themer::create
+themer::initialize
