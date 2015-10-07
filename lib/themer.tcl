@@ -157,12 +157,27 @@ namespace eval themer {
     }
   }
 
+  if {[catch { ttk::spinbox .__tmp }]} {
+    set bg                [utils::get_default_background]
+    set fg                [utils::get_default_foreground]
+    set data(sb)          "spinbox"
+    set data(sb_opts)     "-relief flat -buttondownrelief flat -buttonuprelief flat -background $bg -foreground $fg"
+    set data(sb_normal)   "configure -state normal"
+    set data(sb_disabled) "configure -state disabled"
+  } else {
+    set data(sb)          "ttk::spinbox"
+    set data(sb_opts)     ""
+    set data(sb_normal)   "state !disabled"
+    set data(sb_disabled) "state disabled"
+    destroy .__tmp
+  }
+
   ######################################################################
   # Returns the value of the given color
   proc get_color_values {color} {
 
     lassign [winfo rgb . $color] r g b
-    lassign [utils::rgb_to_hsv [expr $r >> 8] [expr $g >> 8] [expr $b >> 8]] hue saturation value
+    lassign [utils::rgb_to_hsv [set r [expr $r >> 8]] [set g [expr $g >> 8]] [set b [expr $b >> 8]]] hue saturation value
 
     return [list $value $r $g $b]
 
@@ -471,7 +486,7 @@ namespace eval themer {
     lassign [$data(widgets,cat) formatinfo] key row col
 
     # Attempt to convert the value into a color and display the color in the background of the cell
-    catch {
+    if {![catch {
       switch [llength [set values [split $value ,]]] {
         1 { set color [lindex $values 0] }
         2 { set color [utils::auto_adjust_color [lindex $values 0] [lindex $values 1] manual] }
@@ -479,6 +494,8 @@ namespace eval themer {
       }
       lassign [get_color_values $color] val
       $data(widgets,cat) cellconfigure $row,$col -background $color -foreground [expr {($val < 128) ? "white" : "black"}]
+    }]} {
+      return $color
     }
 
     return $value
@@ -553,17 +570,43 @@ namespace eval themer {
     set data(widgets,color_mod)    [$data(widgets,color_canvas) create rectangle 31 5 48 36 -width 0]
 
     # Create the modification frames
-    ttk::frame $data(widgets,color).mod
-    set i 0
+    ttk::labelframe $data(widgets,color).mod -text "Modifications"
+    grid [ttk::radiobutton $data(widgets,color).mod.lnone -text "None" -value none -variable themer::data(mod) -command [list themer::color_mod_changed none]] -row 0 -column 0 -sticky w -padx 2 -pady 2
+    set i 1
     foreach mod [list light r g b] {
-      grid [ttk::radiobutton $data(widgets,color).mod.l$mod -text "[string totitle $mod]:" -value $mod -variable themer::data(mod)] -row $i -column 0 -sticky w -padx 2 -pady 2
-      grid [set data(widgets,color_${mod}_scale) [ttk::scale   $data(widgets,color).mod.s$mod -orient horizontal -from 0 -to 255 -command [list themer::detail_scale_change $mod]]] -row $i -column 1 -padx 2 -pady 2
-      grid [set data(widgets,color_${mod}_entry) [ttk::spinbox $data(widgets,color).mod.e$mod -width 3 -from 0 -to 255 -command [list themer::detail_spinbox_change $mod]]] -row $i -column 2 -padx 2 -pady 2
+      grid [ttk::radiobutton $data(widgets,color).mod.l$mod -text "[string totitle $mod]:" -value $mod -variable themer::data(mod) -command [list themer::color_mod_changed $mod]] -row $i -column 0 -sticky w -padx 2 -pady 2
+      grid [set data(widgets,color_${mod}_scale) [ttk::scale $data(widgets,color).mod.s$mod -orient horizontal -from 0 -to 255 -command [list themer::detail_scale_change $mod]]] -row $i -column 1 -padx 2 -pady 2
+      grid [set data(widgets,color_${mod}_entry) [$data(sb)  $data(widgets,color).mod.e$mod {*}$data(sb_opts) -width 3 -from 0 -to 255 -command [list themer::detail_spinbox_change $mod]]] -row $i -column 2 -padx 2 -pady 2
+      $data(widgets,color_${mod}_scale) state disabled
+      $data(widgets,color_${mod}_entry) {*}$data(sb_disabled)
       incr i
     }
 
     pack $data(widgets,color_canvas) -pady 5
     pack $data(widgets,color).mod
+
+  }
+
+  ######################################################################
+  # Handles any changes to the color modification radiobutton status.
+  proc color_mod_changed {new_mod} {
+
+    variable data
+
+    # Disable all entries
+    foreach mod [list light r g b] {
+      $data(widgets,color_${mod}_scale) state disabled
+      $data(widgets,color_${mod}_entry) {*}$data(sb_disabled)
+    }
+
+    # If the type is not none, allow it to be configured
+    if {$new_mod ne "none"} {
+      $data(widgets,color_${new_mod}_scale) state !disabled
+      $data(widgets,color_${new_mod}_entry) {*}$data(sb_normal)
+    }
+
+    # Update the color details
+    detail_update_color $new_mod
 
   }
 
@@ -609,13 +652,24 @@ namespace eval themer {
     set base_color [$data(widgets,color_canvas) itemcget $data(widgets,color_base) -fill]
 
     # Get the entry value
-    set diff [$data(widgets,color_${mod}_entry) get]
+    set diff [expr {($mod ne "none") ? [$data(widgets,color_${mod}_entry) get] : 0}]
+
+    puts "mod: $mod, base_color: $base_color"
 
     # Calculate the value
     switch $mod {
-      none    { set new_color $base_color }
-      light   { set new_color [utils::auto_adjust_color $base_color $diff manual] }
-      default { set new_color [utils::auto_mix_colors   $base_color $mod $diff] }
+      none {
+        set new_color $base_color
+        set value     $base_color
+      }
+      light {
+        set new_color [utils::auto_adjust_color $base_color $diff manual]
+        set value     $base_color,$diff
+      }
+      default {
+        set new_color [utils::auto_mix_colors $base_color $mod $diff]
+        set value     $base_color,$mod,$diff
+      }
     }
 
     # Update the color UI
@@ -623,6 +677,7 @@ namespace eval themer {
     $data(widgets,color_canvas) raise         $data(widgets,color_mod)
 
     # Update the data value
+    $data(widgets,cat) cellconfigure $data(row),value -text $value
 
   }
 
@@ -654,38 +709,33 @@ namespace eval themer {
 
     variable data
 
-    # Add the relief panel
+    # Add the color panel
     pack $data(widgets,color) -fill both -expand yes
 
     # Get the syntax
     array set syntax $data(cat,syntax)
 
+    # Save the row information
+    set data(row) $row
+
     # Parse the value
     switch [llength [set values [split $value ,]]] {
       1 {
         set base_color [lindex $values 0]
-        set mod_color  [lindex $values 0]
+        set data(mod)  "none"
       }
       2 {
-        set base_color [lindex $values 0]
-        set mod_color  [utils::auto_adjust_color [lindex $values 0] [lindex $values 1] manual]
+        lassign $values base_color set_value
         set data(mod)  "light"
       }
       3 {
-        set base_color [lindex $values 0]
-        set mod_color  [utils::auto_mix_colors [lindex $values 0] [lindex $values 1] [lindex $values 2]]
-        set data(mod)  [lindex $values 1]
-        $data(widgets,color_[lindex $values 1]_scale) configure -from [expr 0 - $base_value] -to [expr 255 - $base_value]
-        $data(widgets,color_[lindex $values 1]_entry) configure -from [expr 0 - $base_value] -to [expr 255 - $base_value]
-        $data(widgets,color_[lindex $values 1]_scale) set [lindex $values 2]
-        $data(widgets,color_[lindex $values 1]_entry) set [lindex $values 2]
+        lassign $values base_color data(mod) set_value
       }
     }
 
     # Colorize the widgets
     $data(widgets,color_canvas) configure -background $syntax(background)
     $data(widgets,color_canvas) itemconfigure $data(widgets,color_base) -fill $base_color
-    $data(widgets,color_canvas) itemconfigure $data(widgets,color_mod)  -fill $mod_color
 
     # Get all of the color values
     lassign [get_color_values $base_color] base(light) base(r) base(g) base(b)
@@ -694,9 +744,12 @@ namespace eval themer {
     foreach mod [list light r g b] {
       $data(widgets,color_${mod}_scale) configure -from [expr 0 - $base($mod)] -to [expr 255 - $base($mod)]
       $data(widgets,color_${mod}_entry) configure -from [expr 0 - $base($mod)] -to [expr 255 - $base($mod)]
-      $data(widgets,color_${mod}_scale) set $base($mod)
-      $data(widgets,color_${mod}_entry) set $base($mod)
+      $data(widgets,color_${mod}_scale) set [expr {($mod eq $data(mod)) ? $set_value : $base($mod)}]
+      $data(widgets,color_${mod}_entry) set [expr {($mod eq $data(mod)) ? $set_value : $base($mod)}]
     }
+
+    # Fool the UI into thinking that the modified value changed
+    color_mod_changed $data(mod)
 
   }
 
