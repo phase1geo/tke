@@ -19,4 +19,10 @@ ttk::style theme settings clam {
 
 ttk::style theme use clam
 
+namespace eval themes {
+  proc reload {} {
+    puts "In reload!"
+  }
+}
+
 themer::initialize
