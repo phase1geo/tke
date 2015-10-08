@@ -386,6 +386,37 @@ namespace eval themer {
   }
 
   ######################################################################
+  # Applies the current settings to the current TKE session.
+  proc apply_theme {} {
+
+    variable theme_dir
+    variable tmtheme
+
+    set basename ""
+
+    # Save off the theme file
+    if {$tmtheme ne ""} {
+
+      # Get the basename of the tmtheme file
+      set basename [file rootname [file tail $tmtheme]]
+
+      # Move the original file to a temporary file
+      file rename -force [file join $theme_dir $basename.tketheme] [file join $theme_dir $basename.orig]
+
+    }
+
+    # Write the theme and reload it
+    if {[themer::write_tketheme]} {
+      themes::reload
+    }
+
+    # Restore the original file, if it exists
+    if {$basename ne ""} {
+      file rename -force [file join $theme_dir $basename.orig] [file join $theme_dir $basename.tketheme]
+    }
+
+  }
+  ######################################################################
   # Creates the UI for the importer, automatically populating it with
   # the default values.
   proc create {{callback ""}} {
@@ -435,13 +466,16 @@ namespace eval themer {
       # Add the right paned window
       .thmwin.pw add [set data(widgets,df) [ttk::labelframe .thmwin.pw.rf -text [msgcat::mc "Details"]]] -weight 1
 
-      set bwidth [msgcat::mcmax "Reset" "Save As" "Import" "Create" "Save" "Cancel"]
+      set bwidth [msgcat::mcmax "Reset" "Save As" "Import" "Create" "Save" "Cancel" "Apply"]
 
       # Create the button frame
       ttk::frame  .thmwin.bf
       set data(widgets,reset) [ttk::button .thmwin.bf.reset  -text [msgcat::mc "Reset"] -width $bwidth -command {
         array set themer::labels [array get themer::orig_labels]
         themer::highlight
+      }]
+      set data(widgets,apply) [ttk::button .thmwin.bf.apply -text [msgcat::mc "Apply"] -width $bwidth -command {
+        themer::apply_theme
       }]
       set data(widgets,saveas) [ttk::button .thmwin.bf.saveas -text [msgcat::mc "Save As"] -width $bwidth -command {
         set orig_tmtheme    $themer::tmtheme
@@ -464,6 +498,7 @@ namespace eval themer {
       # pack .thmwin.bf.reset  -side left  -padx 2 -pady 2
       pack .thmwin.bf.cancel -side right -padx 2 -pady 2
       pack .thmwin.bf.import -side right -padx 2 -pady 2
+      pack .thmwin.bf.apply  -side right -padx 2 -pady 2
 
       pack .thmwin.sf -fill x
       pack .thmwin.pw -fill both -expand yes
@@ -569,6 +604,10 @@ namespace eval themer {
     set data(widgets,color_base)   [$data(widgets,color_canvas) create rectangle 15 5 48 36 -width 0]
     set data(widgets,color_mod)    [$data(widgets,color_canvas) create rectangle 31 5 48 36 -width 0]
 
+    # Create color modification menubutton
+    menu $data(widgets,color).base_mnu -tearoff 0 -postcommand [list themer::post_base_color_menu $data(widgets,color).base_mnu]
+    ttk::menubutton $data(widgets,color).mb -text "Change Base Color" -menu $data(widgets,color).base_mnu
+
     # Create the modification frames
     ttk::labelframe $data(widgets,color).mod -text "Modifications"
     grid [ttk::radiobutton $data(widgets,color).mod.lnone -text "None" -value none -variable themer::data(mod) -command [list themer::color_mod_changed none]] -row 0 -column 0 -sticky w -padx 2 -pady 2
@@ -583,7 +622,65 @@ namespace eval themer {
     }
 
     pack $data(widgets,color_canvas) -pady 5
-    pack $data(widgets,color).mod
+    pack $data(widgets,color).mb     -pady 2
+    pack $data(widgets,color).mod    -pady 2
+
+  }
+
+  ######################################################################
+  # Called before the base color menu is posted.  Updates itself with
+  # the current list of swatch colors.
+  proc post_base_color_menu {mnu} {
+
+    variable data
+
+    # Clear the menu
+    $mnu delete 0 end
+
+    # Add the "Custom..." menu item
+    $mnu add command -label "Custom..." -command [list themer::choose_custom_base_color]
+
+    # Add each swatch colors to the menu, if available
+    if {[llength $data(cat,swatch)] > 0} {
+      $mnu add separator
+      $mnu add command -label "Swatch Colors" -state disabled
+      foreach color $data(cat,swatch) {
+        $mnu add command -label $color -command [list themer::set_base_color $color]
+      }
+    }
+
+  }
+
+  ######################################################################
+  # Calls up the color picker and, if a color is chosen, update the UI.
+  proc choose_custom_base_color {} {
+
+    variable data
+
+    # Get the current base color
+    set orig_color [$data(widgets,color_canvas) itemcget $data(widgets,color_base) -fill]
+
+    # Get the color from the user
+    if {[set color [tk_chooseColor -initialcolor $orig_color -parent .thmwin]] eq ""} {
+      return
+    }
+
+    # Set the color in the UI
+    set_base_color $color
+
+  }
+
+  ######################################################################
+  # Called when a new base color is selected, updates the UI.
+  proc set_base_color {color} {
+
+    variable data
+
+    # Set the base color to the given color
+    $data(widgets,color_canvas) itemconfigure $data(widgets,color_base) -fill $color
+
+    # Apply any modifications
+    detail_update_color $data(mod)
 
   }
 
@@ -653,8 +750,6 @@ namespace eval themer {
 
     # Get the entry value
     set diff [expr {($mod ne "none") ? [$data(widgets,color_${mod}_entry) get] : 0}]
-
-    puts "mod: $mod, base_color: $base_color"
 
     # Calculate the value
     switch $mod {
