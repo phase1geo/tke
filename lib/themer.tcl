@@ -196,28 +196,6 @@ namespace eval themer {
   }
 
   ######################################################################
-  # Sets the image for the type button.
-  proc set_button_image {lbl color} {
-
-    variable widgets
-    variable labels
-    variable label_index
-
-    # Delete the current image
-    if {[set img [$widgets(b:$lbl) cget -image]] ne ""} {
-      image delete $img
-    }
-
-    # Create the image
-    set img [image create bitmap -file [file join $::tke_dir lib images color.bmp] \
-                                 -background [lindex $labels(background) $label_index(color)] -foreground $color]
-
-    # Set the image
-    $widgets(b:$lbl) configure -image $img
-
-  }
-
-  ######################################################################
   # Reads the given TextMate theme file and extracts the relevant information
   # for tke's needs.
   proc read_tmtheme {theme} {
@@ -356,6 +334,12 @@ namespace eval themer {
     variable write_callback
     variable data
 
+    # TEMPORARY
+    set tmtheme "foobar"
+
+    # Create the theme directory if it does not exist
+    file mkdir $theme_dir
+
     # If we don't have a theme name, get one
     if {$tmtheme eq ""} {
       if {[set tmtheme [get_save_name]] eq ""} {
@@ -366,20 +350,26 @@ namespace eval themer {
     # Get the basename of the tmtheme file
     set basename [file rootname [file tail $tmtheme]]
 
+    # Open the file for writing
     if {[catch { open [file join $theme_dir $basename.tketheme] w } rc]} {
       return -code error [msgcat::mc "ERROR:  Unable to write %s" [file join $theme_dir $basename.tketheme]]
     }
 
-    foreach lbl [lsort [array names labels]] {
-      puts $rc [format "%-17s \"%s\"" $lbl [string tolower [lindex $labels($lbl) $label_index(color)]]]
+    # Output the categories
+    foreach category [array names data cat,*] {
+      lassign [split $category ,] dummy cat
+      puts $rc "$cat \{"
+      foreach {name value} $data($category) {
+        puts $rc "  $name $value"
+      }
+      puts $rc "\}\n"
     }
 
+    # Close the file
     close $rc
 
-    # If we have a write callback routine, call it now
-    if {$write_callback ne ""} {
-      uplevel #0 $write_callback
-    }
+    # Reload the themes
+    themes::reload
 
     return 1
 
@@ -389,6 +379,7 @@ namespace eval themer {
   # Applies the current settings to the current TKE session.
   proc apply_theme {} {
 
+    variable data
     variable theme_dir
     variable tmtheme
 
@@ -396,26 +387,23 @@ namespace eval themer {
 
     # Save off the theme file
     if {$tmtheme ne ""} {
-
-      # Get the basename of the tmtheme file
       set basename [file rootname [file tail $tmtheme]]
-
-      # Move the original file to a temporary file
       file rename -force [file join $theme_dir $basename.tketheme] [file join $theme_dir $basename.orig]
-
     }
 
     # Write the theme and reload it
-    if {[themer::write_tketheme]} {
-      themes::reload
-    }
+    catch { themer::write_tketheme } rc
 
     # Restore the original file, if it exists
     if {$basename ne ""} {
       file rename -force [file join $theme_dir $basename.orig] [file join $theme_dir $basename.tketheme]
     }
 
+    # Clear the apply button
+    $data(widgets,apply) state disabled
+
   }
+
   ######################################################################
   # Creates the UI for the importer, automatically populating it with
   # the default values.
@@ -440,7 +428,7 @@ namespace eval themer {
       set data(widgets,sf)   [ttk::labelframe .thmwin.sf -text [msgcat::mc "Swatch"]]
       pack [set data(widgets,plus) [ttk::frame .thmwin.sf.plus]] -side left -padx 2 -pady 2
       pack [ttk::button .thmwin.sf.plus.b -style BButton -image $data(image,plus) -command [list themer::add_swatch]]
-      pack [ttk::label  .thmwin.sf.plus.l -text ""]
+      set data(widgets,plus_text) [ttk::label  .thmwin.sf.plus.l -text ""]
 
       ttk::panedwindow .thmwin.pw -orient horizontal
 
@@ -504,6 +492,9 @@ namespace eval themer {
       pack .thmwin.pw -fill both -expand yes
       pack .thmwin.bf -fill x
 
+      # Disable buttons
+      $data(widgets,apply) state disabled
+
       # Create the detail panels
       create_detail_relief
       create_detail_color
@@ -550,20 +541,24 @@ namespace eval themer {
     if {([set row [$data(widgets,cat) curselection]] ne "") && ([$data(widgets,cat) parentkey $row] ne "root")} {
 
       # Get the row values
-      set opt      [$data(widgets,cat) cellcget $row,opt      -text]
-      set value    [$data(widgets,cat) cellcget $row,value    -text]
-      set category [$data(widgets,cat) cellcget $row,category -text]
+      set data(row)      $row
+      set data(opt)      [$data(widgets,cat) cellcget $row,opt      -text]
+      set data(category) [$data(widgets,cat) cellcget $row,category -text]
+      set value          [$data(widgets,cat) cellcget $row,value    -text]
 
-      switch -exact -- $opt {
+      # Remove the selection from the color cell
+      $data(widgets,cat) cellselection clear $row,value
+
+      switch -exact -- $data(opt) {
         -relief {
           if {$category eq "tabs"} {
-            detail_show_relief $row $value [list flat raised]
+            detail_show_relief $value [list flat raised]
           } else {
-            detail_show_relief $row $value [list raised sunken flat ridge solid groove]
+            detail_show_relief $value [list raised sunken flat ridge solid groove]
           }
         }
         default {
-          detail_show_color $row $value
+          detail_show_color $value
         }
       }
 
@@ -772,13 +767,30 @@ namespace eval themer {
     $data(widgets,color_canvas) raise         $data(widgets,color_mod)
 
     # Update the data value
+    array set meta $data(cat,meta)
+    if {$mod eq "none"} {
+      unset -nocomplain meta($data(category),$data(opt))
+    } else {
+      set meta($data(category),$data(opt)) $value
+    }
+    set data(cat,meta) [array get meta]
+
+    # Update the data array
+    array set temp $data(cat,$data(category))
+    set temp($data(opt)) $new_color
+    set data(cat,$data(category)) [array get temp]
+
+    # Set the category table
     $data(widgets,cat) cellconfigure $data(row),value -text $value
+
+    # Specify that the apply button should be enabled
+    $data(widgets,apply) state !disabled
 
   }
 
   ######################################################################
   # Show the relief panel.
-  proc detail_show_relief {row value values} {
+  proc detail_show_relief {value values} {
 
     variable data
 
@@ -790,7 +802,7 @@ namespace eval themer {
 
     # Add the values
     foreach val $values {
-      $data(widgets,relief_menu) add command -label $val -command [list $data(widgets,cat) cellconfigure $row,value -text $val]
+      $data(widgets,relief_menu) add command -label $val -command [list themer::handle_relief_change $val]
     }
 
     # Set the detail
@@ -799,8 +811,27 @@ namespace eval themer {
   }
 
   ######################################################################
+  # Handles any changes to the relief widget.
+  proc handle_relief_change {value} {
+
+    variable data
+
+    # Update the data array
+    array set temp $data(cat,$data(category))
+    set temp($data(opt)) $value
+    set data(cat,$data(category)) [array get temp]
+
+    # Update the configuration table
+    $data(widgets,cat) cellconfigure $data(row),value -text $value
+
+    # Enable the apply button
+    $data(widgets,apply) state !disabled
+
+  }
+
+  ######################################################################
   # Show the color panel.
-  proc detail_show_color {row value} {
+  proc detail_show_color {value} {
 
     variable data
 
@@ -809,9 +840,6 @@ namespace eval themer {
 
     # Get the syntax
     array set syntax $data(cat,syntax)
-
-    # Save the row information
-    set data(row) $row
 
     # Parse the value
     switch [llength [set values [split $value ,]]] {
@@ -844,7 +872,7 @@ namespace eval themer {
     }
 
     # Fool the UI into thinking that the modified value changed
-    color_mod_changed $data(mod)
+    # color_mod_changed $data(mod)
 
   }
 
@@ -895,6 +923,11 @@ namespace eval themer {
     set ifile [file join images square32.bmp]
     set img   [image create bitmap -file $ifile -maskfile $ifile -foreground $color]
     set frm   $data(widgets,sf).f$index
+
+    # Move the plus button up if the swatch is no longer going to be empty
+    if {$col == 0} {
+      pack $data(widgets,plus_text)
+    }
 
     # Create widgets
     pack [ttk::frame $frm] -before $data(widgets,plus) -side left -padx 2 -pady 2
@@ -961,8 +994,9 @@ namespace eval themer {
     destroy $data(widgets,sf).f$index
 
     # Add the plus button if the number of packed elements is 6
-    if {[llength $data(cat,swatch)] == 6} {
-      pack $data(widgets,plus) -side left -padx 2 -pady 2
+    switch [llength $data(cat,swatch)] {
+      6 { pack $data(widgets,plus) -side left -padx 2 -pady 2 }
+      1 { pack forget $data(widgets,plus_text) }
     }
 
     # Delete the swatch value from the list
