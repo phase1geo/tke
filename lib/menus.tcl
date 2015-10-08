@@ -1411,16 +1411,8 @@ namespace eval menus {
     # Add tools menu commands
     $mb add command -label [msgcat::mc "Launcher"] -underline 0 -command "launcher::launch"
 
-    $mb add cascade -label [msgcat::mc "Theme Creator"] -underline 0 -menu [menu $mb.themer -tearoff 0]
-
-    $mb.themer add command -label [msgcat::mc "Create New..."] -underline 0 -command "menus::create_theme_command"
-    launcher::register [msgcat::mc "Tools Menu: Create new theme"] "themer::create_theme_command"
-
-    $mb.themer add command -label [msgcat::mc "Edit..."] -underline 0 -command "menus::edit_theme_command"
-    launcher::register [msgcat::mc "Tools Menu: Edit TKE theme"] "menus::edit_theme_command"
-
-    $mb.themer add command -label [msgcat::mc "Import TextMate Theme..."] -underline 0 -command "menus::import_tm_command"
-    launcher::register [msgcat::mc "Tools Menu: Import TextMate theme"] "menus::import_tm_command"
+    $mb add command -label [msgcat::mc "Theme Editor"] -underline 0 -command "menus::theme_edit_command"
+    launcher::register [msgcat::mc "Tools Menu: Run theme editor"] "menus::theme_edit_command"
 
     $mb add separator
 
@@ -1450,10 +1442,10 @@ namespace eval menus {
 
   ######################################################################
   # Creates a new theme and reloads the themes.
-  proc create_theme_command {} {
+  proc theme_edit_command {} {
 
     # Create a new theme using the theme creation tool
-    themer::create_new themes::reload
+    themer::initialize
 
   }
 
