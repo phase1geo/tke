@@ -196,10 +196,42 @@ namespace eval themer {
   }
 
   ######################################################################
+  # Displays the theme editor with the specified theme information.
+  proc edit_theme {theme} {
+
+    # Get the list of themes
+    load_themes
+
+    # Read the specified theme
+    read_tketheme $theme
+
+    # Initialize the themer
+    initialize
+
+  }
+
+  ######################################################################
+  # Loads the contents of the themes directories.
+  proc load_themes {} {
+
+    variable data
+
+    # Clear the themes
+    set data(files) [list]
+
+    # Load the tke_dir theme files
+    foreach tdir [list [file join $::tke_dir data themes] [file join $::tke_home themes]] {
+      lappend data(files) {*}[glob -nocomplain -directory $tdir *.tketheme]
+    }
+
+  }
+
+  ######################################################################
   # Reads the given TextMate theme file and extracts the relevant information
   # for tke's needs.
   proc read_tmtheme {theme} {
 
+    variable data
     variable labels
     variable scope_map
     variable all_scopes
@@ -304,8 +336,13 @@ namespace eval themer {
 
     variable data
 
+    # Find the theme in the file list
+    if {[set theme_file [lsearch -inline $data(files) */$theme.tketheme]] eq ""} {
+      return -code error "Unable to find theme"
+    }
+
     # Open the tketheme file
-    if {[catch { open $theme r } rc]} {
+    if {[catch { open $theme_file r } rc]} {
       return -code error [msgcat::mc "ERROR:  Unable to read %s" $theme]
     }
 
@@ -325,7 +362,7 @@ namespace eval themer {
 
   ######################################################################
   # Writes the TKE theme file to the theme directory.
-  proc write_tketheme {} {
+  proc write_tketheme {theme} {
 
     variable theme_dir
     variable tmtheme
@@ -881,6 +918,9 @@ namespace eval themer {
   proc initialize {} {
 
     variable data
+
+    # Load the file contents
+    preload
 
     # Create the UI
     create

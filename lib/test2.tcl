@@ -25,6 +25,8 @@ namespace eval themes {
   }
 }
 
+# Create the given theme
 catch { themer::read_tketheme [file join ~ .tke themes foobar.tketheme] }
 
+# Initialize
 themer::initialize

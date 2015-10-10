@@ -378,7 +378,14 @@ namespace eval themes {
                            active    $colors(lightframe)] \
         -lightcolor  [list pressed   $colors(darker)] \
         -darkcolor   [list pressed   $colors(darker)] \
-        -bordercolor [list alternate "#000000"]RDINVOWN:RH1__RdInvOwn__Data_E_CmpO__DATA_E_CMPO__RDINVOWN:RH0__SNPINVOWN:RH0__RdInvOwn__RSPFWDIWB__CMPO__Data_E_CmpO__WbMtoE__CmpU__WBMTOEPTL__WbMtoE__RACK__CmpU__CMPU
+        -bordercolor [list alternate "#000000"]
+
+      # Configure ttk::radiobutton widgets
+      ttk::style configure TRadiobutton \
+        -width 0 -padding 0 -relief flat -background $colors(frame) -foreground $colors(lighter)
+      ttk::style map TRadiobutton \
+        -background  [list disabled $colors(frame) \
+                           active   $colors(lightframe)]
 
       # Configure ttk::entry widgets
       ttk::style configure TEntry -padding 1 -insertwidth 1 -foreground black
