@@ -1444,8 +1444,8 @@ namespace eval menus {
   # Creates a new theme and reloads the themes.
   proc theme_edit_command {} {
 
-    # Create a new theme using the theme creation tool
-    themer::initialize
+    # Edit the current theme
+    themer::edit_theme [themes::get_current_theme]
 
   }
 
