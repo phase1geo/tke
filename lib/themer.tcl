@@ -28,7 +28,6 @@ namespace eval themer {
 
   variable theme_dir      [file join $::tke_home themes]
   variable tmtheme        ""
-  variable write_callback ""
 
   array set widgets     {}
   array set all_scopes  {}
@@ -199,11 +198,13 @@ namespace eval themer {
   # Displays the theme editor with the specified theme information.
   proc edit_theme {theme} {
 
+    variable data
+
     # Get the list of themes
     load_themes
 
     # Read the specified theme
-    read_tketheme $theme
+    read_tketheme $data(files,$theme)
 
     # Initialize the themer
     initialize
@@ -217,11 +218,13 @@ namespace eval themer {
     variable data
 
     # Clear the themes
-    set data(files) [list]
+    array unset data files,*
 
     # Load the tke_dir theme files
     foreach tdir [list [file join $::tke_dir data themes] [file join $::tke_home themes]] {
-      lappend data(files) {*}[glob -nocomplain -directory $tdir *.tketheme]
+      foreach theme [glob -nocomplain -directory $tdir *.tketheme] {
+        set data(files,[file rootname [file tail $theme]]) $theme
+      }
     }
 
   }
@@ -336,13 +339,8 @@ namespace eval themer {
 
     variable data
 
-    # Find the theme in the file list
-    if {[set theme_file [lsearch -inline $data(files) */$theme.tketheme]] eq ""} {
-      return -code error "Unable to find theme"
-    }
-
     # Open the tketheme file
-    if {[catch { open $theme_file r } rc]} {
+    if {[catch { open $theme r } rc]} {
       return -code error [msgcat::mc "ERROR:  Unable to read %s" $theme]
     }
 
@@ -364,32 +362,14 @@ namespace eval themer {
   # Writes the TKE theme file to the theme directory.
   proc write_tketheme {theme} {
 
-    variable theme_dir
-    variable tmtheme
-    variable labels
-    variable label_index
-    variable write_callback
     variable data
 
-    # TEMPORARY
-    set tmtheme "foobar"
-
-    # Create the theme directory if it does not exist
-    file mkdir $theme_dir
-
-    # If we don't have a theme name, get one
-    if {$tmtheme eq ""} {
-      if {[set tmtheme [get_save_name]] eq ""} {
-        return 0
-      }
-    }
-
-    # Get the basename of the tmtheme file
-    set basename [file rootname [file tail $tmtheme]]
+    # Create the directory if it does not exist
+    file mkdir [file dirname $theme]
 
     # Open the file for writing
-    if {[catch { open [file join $theme_dir $basename.tketheme] w } rc]} {
-      return -code error [msgcat::mc "ERROR:  Unable to write %s" [file join $theme_dir $basename.tketheme]]
+    if {[catch { open $theme w } rc]} {
+      return -code error [msgcat::mc "ERROR:  Unable to write %s" $theme]
     }
 
     # Output the categories
@@ -404,6 +384,9 @@ namespace eval themer {
 
     # Close the file
     close $rc
+
+    # Add the file to the theme list
+    set data(files,[file rootname [file tail $theme]]) $theme
 
     # Reload the themes
     themes::reload
@@ -444,7 +427,7 @@ namespace eval themer {
   ######################################################################
   # Creates the UI for the importer, automatically populating it with
   # the default values.
-  proc create {{callback ""}} {
+  proc create {} {
 
     variable data
 
@@ -459,7 +442,7 @@ namespace eval themer {
 
       toplevel .thmwin
       wm title .thmwin [msgcat::mc "Theme Editor"]
-      wm geometry .thmwin 600x400
+      wm geometry .thmwin 800x600
 
       # Add the swatch panel
       set data(widgets,sf)   [ttk::labelframe .thmwin.sf -text [msgcat::mc "Swatch"]]
@@ -491,39 +474,40 @@ namespace eval themer {
       # Add the right paned window
       .thmwin.pw add [set data(widgets,df) [ttk::labelframe .thmwin.pw.rf -text [msgcat::mc "Details"]]] -weight 1
 
-      set bwidth [msgcat::mcmax "Reset" "Save As" "Import" "Create" "Save" "Cancel" "Apply"]
+      set bwidth [msgcat::mcmax "Open" "Save" "Import" "Create" "Save" "Cancel" "Apply" "Done"]
 
       # Create the button frame
-      ttk::frame  .thmwin.bf
-      set data(widgets,reset) [ttk::button .thmwin.bf.reset  -text [msgcat::mc "Reset"] -width $bwidth -command {
-        array set themer::labels [array get themer::orig_labels]
-        themer::highlight
-      }]
-      set data(widgets,apply) [ttk::button .thmwin.bf.apply -text [msgcat::mc "Apply"] -width $bwidth -command {
-        themer::apply_theme
-      }]
-      set data(widgets,saveas) [ttk::button .thmwin.bf.saveas -text [msgcat::mc "Save As"] -width $bwidth -command {
-        set orig_tmtheme    $themer::tmtheme
-        set themer::tmtheme ""
-        if {[themer::write_tketheme]} {
-          destroy .thmwin
-        } else {
-          set themer::tmtheme $orig_tmtheme
-        }
-      }]
-      set data(widgets,action) [ttk::button .thmwin.bf.import -text [msgcat::mc "Import"] -width $bwidth -command {
-        if {[themer::write_tketheme]} {
-          destroy .thmwin
-        }
-      }]
-      ttk::button .thmwin.bf.cancel -text [msgcat::mc "Cancel"] -width $bwidth -command {
-        destroy .thmwin
-      }
+      set data(widgets,bf)     [ttk::frame .thmwin.bf]
+      set data(widgets,open)   [ttk::button .thmwin.bf.open   -text [msgcat::mc "Open"]   -width $bwidth -command [list themer::start_open_frame]]
+      set data(widgets,import) [ttk::button .thmwin.bf.import -text [msgcat::mc "Import"] -width $bwidth -command [list themer::FOOBAR]]
+      set data(widgets,apply)  [ttk::button .thmwin.bf.apply  -text [msgcat::mc "Apply"]  -width $bwidth -command [list themer::apply_theme]]
+      set data(widgets,save)   [ttk::button .thmwin.bf.saveas -text [msgcat::mc "Save"]   -width $bwidth -command [list themer::start_save_frame]]
+      set data(widgets,cancel) [ttk::button .thmwin.bf.cancel -text [msgcat::mc "Cancel"] -width $bwidth -command [list themer::FOOBAR]]
 
-      # pack .thmwin.bf.reset  -side left  -padx 2 -pady 2
-      pack .thmwin.bf.cancel -side right -padx 2 -pady 2
-      pack .thmwin.bf.import -side right -padx 2 -pady 2
-      pack .thmwin.bf.apply  -side right -padx 2 -pady 2
+      pack $data(widgets,open)   -side left  -padx 2 -pady 2
+      pack $data(widgets,import) -side left  -padx 2 -pady 2
+      pack $data(widgets,cancel) -side right -padx 2 -pady 2
+      pack $data(widgets,save)   -side right -padx 2 -pady 2
+      pack $data(widgets,apply)  -side right -padx 2 -pady 2
+
+      # Create the open frame
+      set data(widgets,of) [ttk::frame .thmwin.of]
+      menu .thmwin.of.mnu -tearoff 0 -postcommand [list themer::add_menu_themes .thmwin.of.mnu]
+      ttk::menubutton .thmwin.of.mb    -text [msgcat::mc "Themes"] -menu .thmwin.of.mnu
+      ttk::button     .thmwin.of.close -text [msgcat::mc "Done"]   -width $bwidth -command [list themer::end_open_frame]
+
+      pack .thmwin.of.close -side right -padx 2 -pady 2
+      pack .thmwin.of.mb    -side right -padx 2 -pady 2
+
+      # Create the save frame
+      set data(widgets,wf)      [ttk::frame .thmwin.wf]
+      set data(widgets,save_cb) [ttk::combobox .thmwin.wf.cb -width 30 -postcommand [list themer::add_combobox_themes .thmwin.wf.cb]]
+      ttk::button .thmwin.wf.save   -text [msgcat::mc "Save"]   -width $bwidth -command [list themer::save_theme]
+      ttk::button .thmwin.wf.cancel -text [msgcat::mc "Cancel"] -width $bwidth -command [list themer::end_save_frame]
+
+      pack .thmwin.wf.cancel -side right -padx 2 -pady 2
+      pack .thmwin.wf.save   -side right -padx 2 -pady 2
+      pack .thmwin.wf.cb     -side right -padx 2 -pady 2
 
       pack .thmwin.sf -fill x
       pack .thmwin.pw -fill both -expand yes
@@ -537,6 +521,53 @@ namespace eval themer {
       create_detail_color
 
     }
+
+  }
+
+  ######################################################################
+  # Closes the button frame and displays the open frame.
+  proc start_open_frame {} {
+
+    variable data
+
+    pack forget $data(widgets,bf)
+    pack $data(widgets,of) -fill x
+
+  }
+
+  ######################################################################
+  # Closes the open frame and redisplays the button frame.
+  proc end_open_frame {} {
+
+    variable data
+
+    pack forget $data(widgets,of)
+    pack $data(widgets,bf) -fill x
+
+  }
+
+  ######################################################################
+  # Closes the button frame and displays the save frame.
+  proc start_save_frame {} {
+
+    variable data
+
+    pack forget $data(widgets,bf)
+    pack $data(widgets,wf) -fill x
+
+    # Set the combobox data to the current theme name
+    # TBD
+
+  }
+
+  ######################################################################
+  # Closes the save frame and redisplays the button frame.
+  proc end_save_frame {} {
+
+    variable data
+
+    pack forget $data(widgets,wf)
+    pack $data(widgets,bf) -fill x
 
   }
 
@@ -600,6 +631,30 @@ namespace eval themer {
       }
 
     }
+
+  }
+
+  ######################################################################
+  # Adds the available themes to the given menu.
+  proc add_menu_themes {mnu} {
+
+    variable data
+
+    foreach theme [lsort [array names data files,*]] {
+      set theme_name [lindex [split $theme ,] 1]
+      $mnu add command -label $theme_name -command [list themer::preview_theme $data($theme)]
+    }
+
+  }
+
+  ######################################################################
+  # Previews the given theme.
+  proc preview_theme {theme} {
+
+    variable data
+
+    # Reads the contents of the given theme
+    read_tketheme $theme
 
   }
 
@@ -919,9 +974,6 @@ namespace eval themer {
 
     variable data
 
-    # Load the file contents
-    preload
-
     # Create the UI
     create
 
@@ -1143,7 +1195,7 @@ namespace eval themer {
 
   ######################################################################
   # Imports the given TextMate theme and displays the result in the UI.
-  proc import_tm {theme {callback ""}} {
+  proc import_tm {theme} {
 
     variable base_labels
     variable labels
@@ -1158,7 +1210,7 @@ namespace eval themer {
     array set labels [array get base_labels]
 
     # Create the UI
-    create $callback
+    create
 
     # Initialize the widgets
     $widgets(action) configure -text [msgcat::mc "Import"]
@@ -1198,7 +1250,7 @@ namespace eval themer {
 
   ######################################################################
   # Imports the given tke theme and displays the result in the UI.
-  proc import_tke {theme {callback ""}} {
+  proc import_tke {theme} {
 
     variable base_labels
     variable labels
@@ -1213,7 +1265,7 @@ namespace eval themer {
     array set labels [array get base_labels]
 
     # Create the UI
-    create $callback
+    create
 
     # Initialize UI
     wm title [get_win] [msgcat::mc "Edit theme"]
@@ -1223,55 +1275,6 @@ namespace eval themer {
 
     # Read the theme
     read_tketheme $theme
-
-  }
-
-  ######################################################################
-  # Allows the user to create a new theme.
-  proc create_new {{callback ""}} {
-
-    variable base_labels
-    variable labels
-    variable widgets
-    variable tmtheme
-    variable label_index
-
-    # Clear the theme
-    set tmtheme ""
-
-    # Initialize the labels array
-    array set labels [array get base_labels]
-
-    # Create the UI
-    create $callback
-
-    # Initialize the widgets
-    wm title [get_win] [msgcat::mc "Create New Theme"]
-    $widgets(action) configure -text [msgcat::mc "Create"]
-    catch { pack forget $widgets(reset) }
-
-    # Initialize the labels array
-    lset labels(background)        $label_index(color) "black"
-    lset labels(foreground)        $label_index(color) "white"
-    lset labels(select_background) $label_index(color) "blue"
-    lset labels(select_foreground) $label_index(color) "white"
-    lset labels(border_highlight)  $label_index(color) "yellow"
-    lset labels(cursor)            $label_index(color) "grey"
-    lset labels(keywords)          $label_index(color) "red"
-    lset labels(comments)          $label_index(color) "blue"
-    lset labels(strings)           $label_index(color) "green"
-    lset labels(numbers)           $label_index(color) "orange"
-    lset labels(punctuation)       $label_index(color) "white"
-    lset labels(precompile)        $label_index(color) "yellow"
-    lset labels(miscellaneous1)    $label_index(color) "pink"
-    lset labels(miscellaneous2)    $label_index(color) "gold"
-    lset labels(miscellaneous3)    $label_index(color) "green"
-    lset labels(highlighter)       $label_index(color) "yellow"
-    lset labels(line_number)       $label_index(color) [utils::auto_adjust_color "black" 40]
-    lset labels(warning_width)     $label_index(color) [utils::auto_adjust_color "black" 40]
-    lset labels(meta)              $label_index(color) [utils::auto_adjust_color "black" 40]
-    lset labels(difference_sub)    $label_index(color) [utils::auto_mix_colors "black" r 30]
-    lset labels(difference_add)    $label_index(color) [utils::auto_mix_colors "black" g 30]
 
   }
 
