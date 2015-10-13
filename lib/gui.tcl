@@ -525,6 +525,7 @@ namespace eval gui {
 
       # Update all of the tabbars
       foreach nb [$widgets(nb_pw) panes] {
+        puts "tab_opts: $tab_opts"
         $nb.tbf.tb configure {*}$tab_opts
         set tabs [$nb.tbf.tb tabs]
         foreach tab $tabs {
