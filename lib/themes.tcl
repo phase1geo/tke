@@ -104,13 +104,17 @@ namespace eval themes {
 
   ######################################################################
   # Reloads the available themes and resets the UI with the current theme.
-  proc reload {} {
+  proc reload {{theme ""}} {
 
     variable files
     variable curr_theme
 
+    # If the user has specified a theme to use, set the current theme
+    if {$theme ne ""} {
+      set curr_theme $theme
+
     # If the current theme is no longer available, select the first theme
-    if {![info exists files($curr_theme)]} {
+    } elseif {![info exists files($curr_theme)]} {
       set curr_theme [lindex [array names files] 0]
     }
 
@@ -184,6 +188,7 @@ namespace eval themes {
     set theme(syntax) [array get syntax]
 
     # Set the theme in the UI
+    puts "win_theme: $win_theme"
     if {($win_theme eq "light") || ($win_theme eq "dark")} {
 
       # Create the ttk theme if it currently does not exist
@@ -360,7 +365,7 @@ namespace eval themes {
 
       # Configure BButton widgets
       ttk::style configure BButton \
-        -anchor center -padding 2 -relief flat -background $colors(frame) -foreground $colors(frame)
+        -anchor center -padding 2 -relief flat -background $colors(frame) -foreground $colors(lighter)
       ttk::style map BButton \
         -background  [list disabled  $colors(frame) \
                            pressed   $colors(darker) \

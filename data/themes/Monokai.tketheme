@@ -1,7 +1,10 @@
+meta {
+}
+
 swatch {
-  color0 "#272822"
-  color1 "#f8f8f2"
-  color2 "#4e5044"
+  "#272822"
+  "#f8f8f2"
+  "#4e5044"
 }
 
 ttk_style {
@@ -59,12 +62,12 @@ syntax {
 }
 
 sidebar {
-  -foreground          "#f8f8f2"
-  -background          "#4e5044"
+  -background          "#f8f8f2"
+  -foreground          "#4e5044"
   -selectbackground    "#272822"
   -selectforeground    "#f8f8f2"
-  -highlightbackground "#4e5044"
-  -highlightcolor      "#4e5044"
+  -highlightbackground "#f8f8f2"
+  -highlightcolor      "#f8f8f2"
 }
 
 sidebar_scrollbar {

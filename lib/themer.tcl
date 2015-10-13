@@ -348,13 +348,63 @@ namespace eval themer {
     array set contents [read $rc]
     close $rc
 
+    # Make things backwards compatible
+    if {![info exists contents(syntax)]} {
+      set bg  $contents(background)
+      set fg  $contents(foreground)
+      set abg [utils::auto_adjust_color $contents(background) 40]
+      set contents(syntax) [array get contents]
+      set contents(meta)   [list]
+      set contents(swatch) [list $bg $abg $fg]
+      set contents(ttk_style) [list \
+        disabledfg #999999 \
+        frame      $bg \
+        lightframe $abg \
+        window     $bg \
+        dark       #cfcdc8 \
+        darker     #bab5ab \
+        darkest    #9e9a91 \
+        lighter    $fg \
+        lightest   $fg \
+        selectbg   #4a6984 \
+        selectfg   #ffffff \
+      ]
+      set contents(menus) [list -relief flat]
+      set contents(tabs)  [list \
+        -background         $abg \
+        -foreground         $fg \
+        -activebackground   $bg \
+        -inactivebackground $abg \
+        -relief             flat \
+      ]
+      set contents(text_scrollbar) [list \
+        -background $bg \
+        -foreground $abg \
+      ]
+      set contents(sidebar) [list \
+        -foreground          $fg \
+        -background          $bg \
+        -selectbackground    $abg \
+        -selectforeground    $fg \
+        -highlightbackground $bg \
+        -highlightcolor      $bg \
+      ]
+      set contents(sidebar_scrollbar) [list \
+        -background $bg \
+        -foreground $abg \
+      ]
+    }
+
     # Load the categories
     foreach category [array names data cat,*] {
       lassign [split $category ,] dummy cat
       if {[info exists contents($cat)]} {
+        puts "Setting data($category): $contents($cat)"
         set data($category) $contents($cat)
       }
     }
+
+    puts "DONE!"
 
   }
 
@@ -432,10 +482,8 @@ namespace eval themer {
     variable data
 
     if {![info exists data(image,plus)]} {
-      foreach ifile [list plus square32] {
-        set name [file join images $ifile.bmp]
-        set data(image,$ifile) [image create bitmap -file $name -maskfile $name -foreground grey]
-      }
+      set name [file join images plus.bmp]
+      set data(image,plus) [image create bitmap -file $name -maskfile $name -foreground grey]
     }
 
     if {![winfo exists .thmwin]} {
@@ -443,6 +491,7 @@ namespace eval themer {
       toplevel .thmwin
       wm title .thmwin [msgcat::mc "Theme Editor"]
       wm geometry .thmwin 800x600
+      wm protocol .thmwin WM_DELETE_WINDOW [list themer::close_window]
 
       # Add the swatch panel
       set data(widgets,sf)   [ttk::labelframe .thmwin.sf -text [msgcat::mc "Swatch"]]
@@ -455,7 +504,7 @@ namespace eval themer {
       # Add the categories panel
       .thmwin.pw add [ttk::labelframe .thmwin.pw.lf -text [msgcat::mc "Categories"]]
       set data(widgets,cat) [tablelist::tablelist .thmwin.pw.lf.tbl \
-        -columns {0 Options 0 Value 0 {}} -treecolumn 0 -exportselection 0 \
+        -columns {0 Options 0 Value 0 {}} -treecolumn 0 -exportselection 0 -width 0 \
         -yscrollcommand { utils::set_yscrollbar .thmwin.pw.lf.vb } \
       ]
       ttk::scrollbar .thmwin.pw.lf.vb -orient vertical -command { .thmwin.pw.lf.tbl yview }
@@ -478,11 +527,11 @@ namespace eval themer {
 
       # Create the button frame
       set data(widgets,bf)     [ttk::frame .thmwin.bf]
-      set data(widgets,open)   [ttk::button .thmwin.bf.open   -text [msgcat::mc "Open"]   -width $bwidth -command [list themer::start_open_frame]]
-      set data(widgets,import) [ttk::button .thmwin.bf.import -text [msgcat::mc "Import"] -width $bwidth -command [list themer::FOOBAR]]
-      set data(widgets,apply)  [ttk::button .thmwin.bf.apply  -text [msgcat::mc "Apply"]  -width $bwidth -command [list themer::apply_theme]]
-      set data(widgets,save)   [ttk::button .thmwin.bf.saveas -text [msgcat::mc "Save"]   -width $bwidth -command [list themer::start_save_frame]]
-      set data(widgets,cancel) [ttk::button .thmwin.bf.cancel -text [msgcat::mc "Cancel"] -width $bwidth -command [list themer::FOOBAR]]
+      set data(widgets,open)   [ttk::button .thmwin.bf.open   -style BButton -text [msgcat::mc "Open"]   -width $bwidth -command [list themer::start_open_frame]]
+      set data(widgets,import) [ttk::button .thmwin.bf.import -style BButton -text [msgcat::mc "Import"] -width $bwidth -command [list themer::import]]
+      set data(widgets,apply)  [ttk::button .thmwin.bf.apply  -style BButton -text [msgcat::mc "Apply"]  -width $bwidth -command [list themer::apply_theme]]
+      set data(widgets,save)   [ttk::button .thmwin.bf.saveas -style BButton -text [msgcat::mc "Save"]   -width $bwidth -command [list themer::start_save_frame]]
+      set data(widgets,cancel) [ttk::button .thmwin.bf.cancel -style BButton -text [msgcat::mc "Cancel"] -width $bwidth -command [list themer::close_window]]
 
       pack $data(widgets,open)   -side left  -padx 2 -pady 2
       pack $data(widgets,import) -side left  -padx 2 -pady 2
@@ -492,18 +541,23 @@ namespace eval themer {
 
       # Create the open frame
       set data(widgets,of) [ttk::frame .thmwin.of]
+      ttk::frame .thmwin.of.lf
       menu .thmwin.of.mnu -tearoff 0 -postcommand [list themer::add_menu_themes .thmwin.of.mnu]
-      ttk::menubutton .thmwin.of.mb    -text [msgcat::mc "Themes"] -menu .thmwin.of.mnu
-      ttk::button     .thmwin.of.close -text [msgcat::mc "Done"]   -width $bwidth -command [list themer::end_open_frame]
+      set data(widgets,open_mb) [ttk::menubutton .thmwin.of.mb -direction above -text [msgcat::mc "Choose Theme"] -menu .thmwin.of.mnu]
+      ttk::button .thmwin.of.close -style BButton -text [msgcat::mc "Done"] -width $bwidth -command [list themer::end_open_frame]
 
-      pack .thmwin.of.close -side right -padx 2 -pady 2
-      pack .thmwin.of.mb    -side right -padx 2 -pady 2
+      grid columnconfigure .thmwin.of 0 -weight 1
+      grid columnconfigure .thmwin.of 1 -weight 1
+      grid columnconfigure .thmwin.of 2 -weight 1
+      grid .thmwin.of.lf    -row 0 -column 0 -sticky news -padx 2 -pady 2
+      grid .thmwin.of.mb    -row 0 -column 1 -sticky ns   -padx 2 -pady 2
+      grid .thmwin.of.close -row 0 -column 2 -sticky e    -padx 2 -pady 2
 
       # Create the save frame
       set data(widgets,wf)      [ttk::frame .thmwin.wf]
       set data(widgets,save_cb) [ttk::combobox .thmwin.wf.cb -width 30 -postcommand [list themer::add_combobox_themes .thmwin.wf.cb]]
-      ttk::button .thmwin.wf.save   -text [msgcat::mc "Save"]   -width $bwidth -command [list themer::save_theme]
-      ttk::button .thmwin.wf.cancel -text [msgcat::mc "Cancel"] -width $bwidth -command [list themer::end_save_frame]
+      ttk::button .thmwin.wf.save   -style BButton -text [msgcat::mc "Save"]   -width $bwidth -command [list themer::save_theme]
+      ttk::button .thmwin.wf.cancel -style BButton -text [msgcat::mc "Cancel"] -width $bwidth -command [list themer::end_save_frame]
 
       pack .thmwin.wf.cancel -side right -padx 2 -pady 2
       pack .thmwin.wf.save   -side right -padx 2 -pady 2
@@ -521,6 +575,30 @@ namespace eval themer {
       create_detail_color
 
     }
+
+  }
+
+  ######################################################################
+  # Called whenever the theme editor window is closed.
+  proc close_window {} {
+
+    variable data
+
+    # Cause the original theme to be reloaded in the UI
+    themes::reload
+
+    # Delete the swatch images
+    set images $data(image,plus)
+    foreach swatch [winfo children $data(widgets,sf)] {
+      lappend images [$swatch.b cget -image]
+    }
+    image delete {*}$images
+
+    # Delete the data array
+    array unset data
+
+    # Destroy the window
+    destroy .thmwin
 
   }
 
@@ -619,7 +697,7 @@ namespace eval themer {
 
       switch -exact -- $data(opt) {
         -relief {
-          if {$category eq "tabs"} {
+          if {$data(category) eq "tabs"} {
             detail_show_relief $value [list flat raised]
           } else {
             detail_show_relief $value [list raised sunken flat ridge solid groove]
@@ -640,6 +718,10 @@ namespace eval themer {
 
     variable data
 
+    # Clear the menu
+    $mnu delete 0 end
+
+    # Add all available themes (in alphabetical order) to the menu
     foreach theme [lsort [array names data files,*]] {
       set theme_name [lindex [split $theme ,] 1]
       $mnu add command -label $theme_name -command [list themer::preview_theme $data($theme)]
@@ -655,6 +737,35 @@ namespace eval themer {
 
     # Reads the contents of the given theme
     read_tketheme $theme
+
+    # Display the theme contents in the UI
+    initialize
+
+    # Update the theme
+    themes::reload [file rootname [file tail $theme]]
+
+    # Set the menubutton text to the selected theme
+    $data(widgets,open_mb) configure -text [file rootname [file tail $theme]]
+
+  }
+
+  ######################################################################
+  # Add the available themes to the combobox.
+  proc add_combobox_themes {cb} {
+
+    variable data
+
+    # Get the list of theme names
+    set values [list]
+    foreach theme [lsort [array names data files,*]] {
+      lappend values [lindex [split $theme ,] 1]
+    }
+
+    # Set the combobox list to the list of theme values
+    $data(widgets,save_cb) configure -values $values
+
+    # Clear the combobox editing area
+    $data(widgets,save_cb) set ""
 
   }
 
@@ -859,6 +970,7 @@ namespace eval themer {
     $data(widgets,color_canvas) raise         $data(widgets,color_mod)
 
     # Update the data value
+    puts "meta: $data(cat,meta)"
     array set meta $data(cat,meta)
     if {$mod eq "none"} {
       unset -nocomplain meta($data(category),$data(opt))
@@ -977,10 +1089,25 @@ namespace eval themer {
     # Create the UI
     create
 
+    # Delete any existing swatches
+    if {[info exists data(swatch_index)]} {
+      for {set i 1} {$i <= $data(swatch_index)} {incr i} {
+        puts "Deleting swatch: $i"
+        delete_swatch $i 1
+      }
+      set data(swatch_index) 0
+    }
+
     # Insert the swatches
+    puts "data: [array names data cat,*]"
+    puts "swatch: $data(cat,swatch)"
     foreach color $data(cat,swatch) {
+      puts "Adding swatch, color: $color"
       add_swatch $color
     }
+
+    # Clear the table
+    $data(widgets,cat) delete 0 end
 
     # Insert categories
     foreach {category title} [list syntax "Syntax Colors" ttk_style "ttk Widget Colors" menus "Menu Options" \
@@ -1030,7 +1157,9 @@ namespace eval themer {
     bind $frm.b <Button-$::right_click> [list themer::delete_swatch $index]
 
     # Insert the value into the swatch list
-    lappend data(cat,swatch) $color
+    if {$color eq ""} {
+      lappend data(cat,swatch) $color
+    }
 
     # If the number of swatch elements exceeds 6, remove the plus button
     if {[llength $data(cat,swatch)] == 6} {
@@ -1067,12 +1196,12 @@ namespace eval themer {
 
   ######################################################################
   # Deletes the given swatch after confirming from the user.
-  proc delete_swatch {index} {
+  proc delete_swatch {index {force 0}} {
 
     variable data
 
     # Confirm from the user
-    if {[tk_messageBox -parent .thmwin -message "Delete swatch?" -default no -type yesno] eq "no"} {
+    if {!$force && [tk_messageBox -parent .thmwin -message "Delete swatch?" -default no -type yesno] eq "no"} {
       return
     }
 
@@ -1092,7 +1221,9 @@ namespace eval themer {
     }
 
     # Delete the swatch value from the list
-    set data(cat,swatch) [lreplace $data(cat,swatch) $pos $pos]
+    if {!$force} {
+      set data(cat,swatch) [lreplace $data(cat,swatch) $pos $pos]
+    }
 
   }
 
@@ -1141,29 +1272,6 @@ namespace eval themer {
 
   }
 
-  ######################################################################
-  # Displays the menu for the given color type.
-  proc show_menu {lbl} {
-
-    variable widgets
-    variable tmtheme
-
-    # If we are dealing with a theme, display the menu
-    if {$tmtheme ne ""} {
-
-      tk_popup $widgets(m:$lbl) \
-        [winfo rootx $widgets(b:$lbl)] \
-        [expr [winfo rooty $widgets(b:$lbl)] + [winfo reqheight $widgets(b:$lbl)]]
-
-    # Otherwise, if we are creating a new, just launch the color chooser
-    } else {
-
-      create_custom_color $lbl
-
-    }
-
-  }
-
   #############################################################
   # Called whenever a menu item is selected inthe scope menu.
   proc handle_menu_select {lbl scope} {
@@ -1189,6 +1297,24 @@ namespace eval themer {
     if {[set color [tk_chooseColor -initialcolor [lindex $labels($lbl) $label_index(color)] -parent [get_win] -title [convert_label $lbl]]] ne ""} {
       lset labels($lbl) $label_index(color)   $color
       lset labels($lbl) $label_index(changed) 1
+    }
+
+  }
+
+  ######################################################################
+  # Imports a TextMate or TKE theme file after prompting user to import
+  # a file.
+  proc import {} {
+
+    variable data
+
+    # Get the theme file to import:w
+    if {[set theme [tk_getOpenFile -parent .thmwin -title "Import Theme File" -filetypes {{{TKE Theme} {.tketheme}} {{TextMate Theme} {.tmtheme}}}]] ne ""} {
+      switch [file extension $theme] {
+        tketheme { import_tke $theme }
+        tmtheme  { import_tm  $theme }
+        default  {}
+      }
     }
 
   }
