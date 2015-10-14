@@ -151,6 +151,7 @@ namespace eval themes {
     # Load the theme file, if necessary
     if {![info exists themes($theme_name)]} {
       if {![catch { open $files($theme_name) r } rc]} {
+        puts "READING THEME FILE, theme_name: $theme_name!"
         set themes($theme_name) [list {*}[read $rc]]
         close $rc
       } else {
