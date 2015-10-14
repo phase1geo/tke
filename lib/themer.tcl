@@ -26,7 +26,6 @@
 
 namespace eval themer {
 
-  variable theme_dir      [file join $::tke_home themes]
   variable tmtheme        ""
 
   array set widgets     {}
@@ -155,6 +154,8 @@ namespace eval themer {
       -foreground      "#f8f8f2"
     }
   }
+
+  set data(theme_dir) [file join $::tke_home themes]
 
   if {[catch { ttk::spinbox .__tmp }]} {
     set bg                [utils::get_default_background]
@@ -450,24 +451,19 @@ namespace eval themer {
   proc apply_theme {} {
 
     variable data
-    variable theme_dir
     variable tmtheme
 
-    set basename ""
+    # Get the current theme from themes
+    set basename [themes::get_current_theme]
 
-    # Save off the theme file
-    if {$tmtheme ne ""} {
-      set basename [file rootname [file tail $tmtheme]]
-      file rename -force [file join $theme_dir $basename.tketheme] [file join $theme_dir $basename.orig]
-    }
+    # Save off the theme file to a temporary file
+    file rename -force [file join $data(theme_dir) $basename.tketheme] [file join $data(theme_dir) $basename.orig]
 
     # Write the theme and reload it
-    catch { themer::write_tketheme } rc
+    catch { themer::write_tketheme $data(files,$data(curr_theme)) } rc
 
     # Restore the original file, if it exists
-    if {$basename ne ""} {
-      file rename -force [file join $theme_dir $basename.orig] [file join $theme_dir $basename.tketheme]
-    }
+    file rename -force [file join $data(theme_dir) $basename.orig] [file join $data(theme_dir) $basename.tketheme]
 
     # Clear the apply button
     $data(widgets,apply) state disabled
