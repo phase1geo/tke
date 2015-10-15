@@ -1,50 +1,157 @@
-changeset:   1394:eabea34e1530
-tag:         devel-1.9.1
+changeset:   1400:5fe0b5352953
+tag:         devel-1.9.2
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Oct 01 09:44:41 2015 -0500
+date:        Fri Oct 02 09:40:23 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.9.1 release
+ChangeLog for devel-1.9.2 release
 
 
-changeset:   1395:10892bc21c22
+changeset:   1401:4b7e7ba479ff
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Oct 01 09:44:46 2015 -0500
+date:        Fri Oct 02 09:40:27 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.9.1 for changeset eabea34e1530
+Added tag devel-1.9.2 for changeset 5fe0b5352953
 
 
-changeset:   1396:50e4462a165f
+changeset:   1402:e40b04964f2b
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu Oct 01 17:45:36 2015 -0500
-files:       lib/diff.tcl lib/gui.tcl lib/menus.tcl lib/themes.tcl lib/version.tcl
-description:
-* Checkpointing work on theme changes (really broken right now).
-
-
-changeset:   1397:9a25a382f241
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Oct 01 23:04:07 2015 -0500
-files:       data/themes/Monokai.tketheme lib/diff.tcl lib/gui.tcl lib/menus.tcl lib/sidebar.tcl lib/syntax.tcl lib/themes.tcl lib/tke.tcl lib/version.tcl
-description:
-* Checkpointing work on new theme scheme (Monokai theme is the only compatible theme at the moment).
-
-
-changeset:   1398:0dd064e9a968
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Oct 02 01:11:16 2015 -0500
-files:       data/themes/Monokai.tketheme lib/gui.tcl lib/syntax.tcl lib/themes.tcl lib/version.tcl
-description:
-* Completing initial work on theme handling code.
-
-
-changeset:   1399:fa05c1780f68
-tag:         tip
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Oct 02 09:38:41 2015 -0500
+date:        Fri Oct 02 11:41:18 2015 -0500
 files:       lib/themes.tcl lib/version.tcl
 description:
-* Making theme handler backwards compatible.
+* Removing debug output.
+
+
+changeset:   1403:6de2613f43b5
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Oct 02 17:36:26 2015 -0500
+files:       lib/diff.tcl lib/gui.tcl lib/menus.tcl lib/themer.tcl lib/themes.tcl lib/version.tcl
+description:
+* Fixing issues with diff scrollbar theming.
+* Starting to work on themer namespace.
+
+
+changeset:   1404:575eac3c0881
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Oct 03 00:31:50 2015 -0500
+files:       data/themes/Monokai.tketheme lib/version.tcl
+description:
+* Adding swatch information to tketheme file.
+
+
+changeset:   1405:3189a535fcdc
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Oct 05 16:59:03 2015 -0500
+files:       lib/themer.tcl lib/version.tcl
+description:
+* Checkpointing work on new theme editor UI.
+
+
+changeset:   1406:c07b1c5cba5f
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Oct 05 23:10:03 2015 -0500
+files:       lib/test2.tcl lib/themer.tcl lib/version.tcl
+description:
+* Checkpointing themer work.
+
+
+changeset:   1407:73b21ae08dd4
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Oct 06 01:56:04 2015 -0500
+files:       lib/images/plus.bmp lib/images/square32.bmp lib/test2.tcl lib/themer.tcl lib/version.tcl
+description:
+* Checkpointing work on themer (swatch support complete).
+
+
+changeset:   1408:7d753d39ad11
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Oct 06 02:29:22 2015 -0500
+files:       lib/test2.tcl lib/themer.tcl lib/version.tcl
+description:
+* Checkpointing work on initialization procedure.
+
+
+changeset:   1409:82b7898f5a84
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Oct 06 17:22:14 2015 -0500
+files:       lib/test2.tcl lib/themer.tcl lib/version.tcl
+description:
+* Checkpointing work on detail panes.
+
+
+changeset:   1410:b4f18c1ee9f1
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Oct 07 09:43:57 2015 -0500
+files:       lib/themer.tcl lib/version.tcl
+description:
+* Checkpointing themer work.
+
+
+changeset:   1411:52c42578a2f7
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Oct 07 19:31:07 2015 -0500
+files:       lib/test2.tcl lib/themer.tcl lib/version.tcl
+description:
+* Checkpointing work on themer.
+
+
+changeset:   1412:29c9819746f2
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Oct 08 01:07:19 2015 -0500
+files:       lib/menus.tcl lib/test2.tcl lib/themer.tcl lib/version.tcl
+description:
+* Checkpointing themer work.
+
+
+changeset:   1413:9cbfc2be519a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Oct 10 14:55:48 2015 -0500
+files:       lib/menus.tcl lib/test2.tcl lib/themer.tcl lib/themes.tcl lib/version.tcl
+description:
+* Checkpointing work on themer.
+
+
+changeset:   1414:4ca5029a5f19
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Oct 10 23:17:11 2015 -0500
+files:       lib/themer.tcl lib/version.tcl
+description:
+* Checkpointing work on themer.
+
+
+changeset:   1415:7cfff1c313f2
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Oct 13 02:38:03 2015 -0500
+files:       data/themes/Monokai.tketheme data/themes/minimal_Theme.tketheme lib/gui.tcl lib/themer.tcl lib/themes.tcl lib/version.tcl
+description:
+* Checkpointing work on themer.
+
+
+changeset:   1416:3f5573ca8d49
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Oct 13 20:51:46 2015 -0500
+files:       lib/themer.tcl lib/themes.tcl lib/version.tcl
+description:
+* Checkpointing work on themer.
+
+
+changeset:   1417:54e1563b86d2
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Oct 14 19:30:45 2015 -0500
+files:       data/themes/Ruby Blue.tketheme lib/themer.tcl lib/themes.tcl lib/version.tcl
+description:
+* Checkpointing themer work.
+
+
+changeset:   1418:64884d8e2c56
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Oct 15 01:16:16 2015 -0500
+files:       data/themes/Aurora.tketheme data/themes/Cool Glow.tketheme data/themes/Fluidvision.tketheme data/themes/Juicy.tketheme data/themes/Made of Code.tketheme data/themes/Monokai.tketheme data/themes/Notebook.tketheme data/themes/Ruby Blue.tketheme data/themes/choco.tketheme data/themes/default.tketheme data/themes/idleFingers.tketheme data/themes/minimal_Theme.tketheme data/themes/oscuro.tketheme data/themes/yellowStone.tketheme lib/gui.tcl lib/scroller.tcl lib/themer.tcl lib/themes.tcl lib/version.tcl
+description:
+* Checkpointing work on themer.
+* Adding ability to configure scrollbar thickness (added new number detail pane).
+* Updates all themes to new scheme.
 
 
