@@ -1,21 +1,79 @@
-background        "#302e40"
-border_highlight  "orange"
-comments          "#696587"
-cursor            "#ffffff"
-difference_add    "#304c40"
-difference_sub    "#4e2e40"
-foreground        "#ececec"
-highlighter       "yellow"
-keywords          "#e12977"
-line_number       "#4e4b68"
-meta              "#4e4b68"
-miscellaneous1    "#aaaaaa"
-miscellaneous2    "#d9903b"
-miscellaneous3    "#5b56f3"
-numbers           "#3f89ff"
-precompile        "#7877ff"
-punctuation       "#ececec"
-select_background "blue"
-select_foreground "white"
-strings           "#d9903b"
-warning_width     "#4e4b68"
+menus {
+  -relief flat
+}
+
+tabs {
+  -background #4e4b68
+  -foreground #ececec
+  -activebackground #302e40
+  -inactivebackground #4e4b68
+  -relief flat
+}
+
+sidebar_scrollbar {
+  -background #ececec
+  -foreground #4e4b68
+  -thickness  15
+}
+
+ttk_style {
+  disabledfg #999999
+  frame #302e40
+  lightframe #4e4b68
+  window #302e40
+  dark #cfcdc8
+  darker #bab5ab
+  darkest #9e9a91
+  lighter #ececec
+  lightest #ececec
+  selectbg #4a6984
+  selectfg #ffffff
+}
+
+text_scrollbar {
+  -background #302e40
+  -foreground #4e4b68
+  -thickness  15
+}
+
+meta {
+}
+
+sidebar {
+  -foreground #302e40
+  -background #ececec
+  -selectbackground #4e4b68
+  -selectforeground #ececec
+  -highlightbackground #ececec
+  -highlightcolor #ececec
+}
+
+swatch {
+  #302e40 #4e4b68
+  #ececec #ffffff
+}
+
+syntax {
+  precompile #7877ff
+  keywords #e12977
+  line_number #4e4b68
+  difference_add #304c40
+  numbers #3f89ff
+  border_highlight orange
+  select_background blue
+  highlighter yellow
+  background #302e40
+  strings #d9903b
+  select_foreground white
+  punctuation #ececec
+  foreground #ececec
+  difference_sub #4e2e40
+  warning_width #4e4b68
+  miscellaneous1 #aaaaaa
+  miscellaneous2 #d9903b
+  comments #696587
+  cursor #ffffff
+  miscellaneous3 #5b56f3
+  meta #4e4b68
+}
+
