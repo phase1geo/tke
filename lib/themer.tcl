@@ -64,30 +64,6 @@ namespace eval themer {
     constant.other       miscellaneous3
   }
 
-  array set base_labels {
-    background        {""       ""            "" 1 0}
-    foreground        {""       ""            "" 1 0}
-    line_number       {""       ""            "" 1 0}
-    warning_width     {""       ""            "" 1 0}
-    difference_sub    {""       ""            "" 0 0}
-    difference_add    {""       ""            "" 0 0}
-    select_background {"blue"   ""            "" 0 0}
-    select_foreground {"white"  ""            "" 0 0}
-    border_highlight  {"yellow" ""            "" 1 0}
-    cursor            {""       "-background" "" 1 0}
-    keywords          {""       "-foreground" "" 1 0}
-    comments          {""       "-foreground" "" 1 0}
-    strings           {""       "-foreground" "" 1 0}
-    numbers           {""       "-foreground" "" 1 0}
-    punctuation       {""       "-foreground" "" 1 0}
-    precompile        {""       "-foreground" "" 1 0}
-    miscellaneous1    {""       "-foreground" "" 1 0}
-    miscellaneous2    {""       "-foreground" "" 1 0}
-    miscellaneous3    {""       "-foreground" "" 1 0}
-    highlighter       {"yellow" ""            "" 0 0}
-    meta              {""       "-foreground" "" 0 0}
-  }
-
   array set data {
     cat,meta   {}
     cat,swatch {}
@@ -200,6 +176,11 @@ namespace eval themer {
   proc edit_theme {theme} {
 
     variable data
+
+    puts "In edit_theme, theme: $theme"
+
+    # Save the current theme
+    set data(curr_theme) $theme
 
     # Get the list of themes
     load_themes
@@ -436,11 +417,14 @@ namespace eval themer {
     # Close the file
     close $rc
 
+    # Get the basename of the theme
+    set theme_name [file rootname [file tail $theme]]
+
     # Add the file to the theme list
-    set data(files,[file rootname [file tail $theme]]) $theme
+    set data(files,$theme_name) $theme
 
     # Reload the themes
-    themes::reload
+    themes::reload $theme_name
 
     return 1
 
@@ -451,19 +435,21 @@ namespace eval themer {
   proc apply_theme {} {
 
     variable data
-    variable tmtheme
 
     # Get the current theme from themes
     set basename [themes::get_current_theme]
 
+    # Create the user theme directory if it does not exist
+    file mkdir $data(theme_dir)
+
     # Save off the theme file to a temporary file
-    file rename -force [file join $data(theme_dir) $basename.tketheme] [file join $data(theme_dir) $basename.orig]
+    file rename -force $data(files,$basename) [file join $data(theme_dir) $basename.orig]
 
     # Write the theme and reload it
     catch { themer::write_tketheme $data(files,$data(curr_theme)) } rc
 
     # Restore the original file, if it exists
-    file rename -force [file join $data(theme_dir) $basename.orig] [file join $data(theme_dir) $basename.tketheme]
+    file rename -force [file join $data(theme_dir) $basename.orig] $data(files,$basename)
 
     # Clear the apply button
     $data(widgets,apply) state disabled
@@ -478,7 +464,7 @@ namespace eval themer {
     variable data
 
     if {![info exists data(image,plus)]} {
-      set name [file join images plus.bmp]
+      set name [file join $::tke_dir lib images plus.bmp]
       set data(image,plus) [image create bitmap -file $name -maskfile $name -foreground grey]
     }
 
@@ -584,14 +570,13 @@ namespace eval themer {
     themes::reload
 
     # Delete the swatch images
-    set images $data(image,plus)
     foreach swatch [winfo children $data(widgets,sf)] {
       lappend images [$swatch.b cget -image]
     }
     image delete {*}$images
 
     # Delete the data array
-    array unset data
+    array unset data *,*
 
     # Destroy the window
     destroy .thmwin
@@ -720,7 +705,7 @@ namespace eval themer {
     # Add all available themes (in alphabetical order) to the menu
     foreach theme [lsort [array names data files,*]] {
       set theme_name [lindex [split $theme ,] 1]
-      $mnu add command -label $theme_name -command [list themer::preview_theme $data($theme)]
+      $mnu add command -label $theme_name -command [list themer::preview_theme $theme_name]
     }
 
   }
@@ -731,14 +716,17 @@ namespace eval themer {
 
     variable data
 
+    # Save the current theme
+    set data(curr_theme) $theme
+
     # Reads the contents of the given theme
-    read_tketheme $theme
+    read_tketheme $data(files,$theme)
 
     # Display the theme contents in the UI
     initialize
 
-    # Update the theme
-    themes::reload [file rootname [file tail $theme]]
+    # Apply the theme
+    apply_theme
 
     # Set the menubutton text to the selected theme
     $data(widgets,open_mb) configure -text [file rootname [file tail $theme]]
@@ -1135,7 +1123,7 @@ namespace eval themer {
     # Create button
     set index [incr data(swatch_index)]
     set col   [llength $data(cat,swatch)]
-    set ifile [file join images square32.bmp]
+    set ifile [file join $::tke_dir lib images square32.bmp]
     set img   [image create bitmap -file $ifile -maskfile $ifile -foreground $color]
     set frm   $data(widgets,sf).f$index
 
@@ -1319,7 +1307,6 @@ namespace eval themer {
   # Imports the given TextMate theme and displays the result in the UI.
   proc import_tm {theme} {
 
-    variable base_labels
     variable labels
     variable widgets
     variable tmtheme
@@ -1327,9 +1314,6 @@ namespace eval themer {
 
     # Set the theme
     set tmtheme $theme
-
-    # Initialize the labels array
-    array set labels [array get base_labels]
 
     # Create the UI
     create
@@ -1374,7 +1358,6 @@ namespace eval themer {
   # Imports the given tke theme and displays the result in the UI.
   proc import_tke {theme} {
 
-    variable base_labels
     variable labels
     variable widgets
     variable tmtheme
@@ -1382,9 +1365,6 @@ namespace eval themer {
 
     # Set the theme
     set tmtheme $theme
-
-    # Initialize the labels array
-    array set labels [array get base_labels]
 
     # Create the UI
     create
