@@ -122,14 +122,14 @@ namespace eval themes {
     themes::load
 
     # Reset the theme
-    set_theme $curr_theme
+    set_theme $curr_theme 1
 
   }
 
   ######################################################################
   # Sets the theme to the specified value.  Returns 1 if the theme was
   # set; otherwise, returns 0.
-  proc set_theme {{theme_name ""}} {
+  proc set_theme {{theme_name ""} {force_read 0}} {
 
     variable files
     variable themes
@@ -149,10 +149,11 @@ namespace eval themes {
     }
 
     # Load the theme file, if necessary
-    if {![info exists themes($theme_name)]} {
+    if {![info exists themes($theme_name)] || $force_read} {
       if {![catch { open $files($theme_name) r } rc]} {
         puts "READING THEME FILE, theme_name: $theme_name!"
         set themes($theme_name) [list {*}[read $rc]]
+        puts $themes($theme_name)
         close $rc
       } else {
         return
