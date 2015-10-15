@@ -93,6 +93,7 @@ namespace eval themer {
     cat,text_scrollbar {
       -background "#272822"
       -foreground "#4e5044"
+      -thickness  15
     }
     cat,syntax {
       background        "#272822"
@@ -128,6 +129,7 @@ namespace eval themer {
     cat,sidebar_scrollbar {
       -background      "#4e5044"
       -foreground      "#f8f8f2"
+      -thickness       15
     }
   }
 
@@ -176,8 +178,6 @@ namespace eval themer {
   proc edit_theme {theme} {
 
     variable data
-
-    puts "In edit_theme, theme: $theme"
 
     # Save the current theme
     set data(curr_theme) $theme
@@ -362,18 +362,20 @@ namespace eval themer {
       set contents(text_scrollbar) [list \
         -background $bg \
         -foreground $abg \
+        -thickness  15 \
       ]
       set contents(sidebar) [list \
-        -foreground          $fg \
-        -background          $bg \
+        -foreground          $bg \
+        -background          $fg \
         -selectbackground    $abg \
         -selectforeground    $fg \
-        -highlightbackground $bg \
-        -highlightcolor      $bg \
+        -highlightbackground $fg \
+        -highlightcolor      $fg \
       ]
       set contents(sidebar_scrollbar) [list \
-        -background $bg \
+        -background $fg \
         -foreground $abg \
+        -thickness  15 \
       ]
     }
 
@@ -381,12 +383,9 @@ namespace eval themer {
     foreach category [array names data cat,*] {
       lassign [split $category ,] dummy cat
       if {[info exists contents($cat)]} {
-        puts "Setting data($category): $contents($cat)"
         set data($category) $contents($cat)
       }
     }
-
-    puts "DONE!"
 
   }
 
@@ -409,7 +408,11 @@ namespace eval themer {
       lassign [split $category ,] dummy cat
       puts $rc "$cat \{"
       foreach {name value} $data($category) {
-        puts $rc "  $name $value"
+        if {$value eq ""} {
+          puts $rc "  $name #ffffff"
+        } else {
+          puts $rc "  $name $value"
+        }
       }
       puts $rc "\}\n"
     }
@@ -512,7 +515,7 @@ namespace eval themer {
       set data(widgets,open)   [ttk::button .thmwin.bf.open   -style BButton -text [msgcat::mc "Open"]   -width $bwidth -command [list themer::start_open_frame]]
       set data(widgets,import) [ttk::button .thmwin.bf.import -style BButton -text [msgcat::mc "Import"] -width $bwidth -command [list themer::import]]
       set data(widgets,apply)  [ttk::button .thmwin.bf.apply  -style BButton -text [msgcat::mc "Apply"]  -width $bwidth -command [list themer::apply_theme]]
-      set data(widgets,save)   [ttk::button .thmwin.bf.saveas -style BButton -text [msgcat::mc "Save"]   -width $bwidth -command [list themer::start_save_frame]]
+      set data(widgets,save)   [ttk::button .thmwin.bf.save   -style BButton -text [msgcat::mc "Save"]   -width $bwidth -command [list themer::start_save_frame]]
       set data(widgets,cancel) [ttk::button .thmwin.bf.cancel -style BButton -text [msgcat::mc "Cancel"] -width $bwidth -command [list themer::close_window]]
 
       pack $data(widgets,open)   -side left  -padx 2 -pady 2
@@ -554,6 +557,7 @@ namespace eval themer {
 
       # Create the detail panels
       create_detail_relief
+      create_detail_number
       create_detail_color
 
     }
@@ -611,11 +615,36 @@ namespace eval themer {
 
     variable data
 
+    # Display the save panel
     pack forget $data(widgets,bf)
     pack $data(widgets,wf) -fill x
 
     # Set the combobox data to the current theme name
-    # TBD
+    $data(widgets,save_cb) set $data(curr_theme)
+
+  }
+
+  ######################################################################
+  # Saves the current theme using selected name.
+  proc save_theme {} {
+
+    variable data
+
+    # Get the theme name from the combobox
+    set theme_name [$data(widgets,save_cb) get]
+
+    if {![info exists data(files,$theme_name)]} {
+      set data(files,$theme_name) [file join $data(theme_dir) $theme_name.tketheme]
+    }
+
+    # Write the theme to disk
+    catch { write_tketheme $data(files,$theme_name) }
+
+    # Save the current theme
+    set data(curr_theme) $theme_name
+
+    # End the save frame
+    end_save_frame
 
   }
 
@@ -625,6 +654,7 @@ namespace eval themer {
 
     variable data
 
+    # Redisplay the button frame
     pack forget $data(widgets,wf)
     pack $data(widgets,bf) -fill x
 
@@ -641,6 +671,7 @@ namespace eval themer {
     # Attempt to convert the value into a color and display the color in the background of the cell
     if {![catch {
       switch [llength [set values [split $value ,]]] {
+        0 { set color #ffffff }
         1 { set color [lindex $values 0] }
         2 { set color [utils::auto_adjust_color [lindex $values 0] [lindex $values 1] manual] }
         3 { set color [utils::auto_mix_colors   [lindex $values 0] [lindex $values 1] [lindex $values 2]] }
@@ -683,6 +714,9 @@ namespace eval themer {
           } else {
             detail_show_relief $value [list raised sunken flat ridge solid groove]
           }
+        }
+        -thickness {
+          detail_show_number "Thickness" $value 5 20
         }
         default {
           detail_show_color $value
@@ -769,6 +803,25 @@ namespace eval themer {
     # Pack the widgets
     pack $data(widgets,relief).l  -side left -padx 2 -pady 2
     pack $data(widgets,relief).mb -side left -padx 2 -pady 2
+
+  }
+
+  ######################################################################
+  # Creates the number detail panel.
+  proc create_detail_number {} {
+
+    variable data
+
+    # Create the frame
+    set data(widgets,number) [ttk::frame $data(widgets,df).nf]
+
+    # Create the widgets
+    set data(widgets,number_lbl) [ttk::label $data(widgets,number).l -text "Value"]
+    set data(widgets,number_sb)  [ttk::spinbox $data(widgets,number).sb -command [list themer::handle_number_change]]
+
+    # Pack the widgets
+    pack $data(widgets,number).l  -side left -padx 2 -pady 2
+    pack $data(widgets,number).sb -side left -padx 2 -pady 2
 
   }
 
@@ -954,7 +1007,6 @@ namespace eval themer {
     $data(widgets,color_canvas) raise         $data(widgets,color_mod)
 
     # Update the data value
-    puts "meta: $data(cat,meta)"
     array set meta $data(cat,meta)
     if {$mod eq "none"} {
       unset -nocomplain meta($data(category),$data(opt))
@@ -1003,6 +1055,53 @@ namespace eval themer {
   proc handle_relief_change {value} {
 
     variable data
+
+    # Update the data array
+    array set temp $data(cat,$data(category))
+    set temp($data(opt)) $value
+    set data(cat,$data(category)) [array get temp]
+
+    # Update the configuration table
+    $data(widgets,cat) cellconfigure $data(row),value -text $value
+
+    # Enable the apply button
+    $data(widgets,apply) state !disabled
+
+  }
+
+  ######################################################################
+  # Displays the number selection panel.
+  proc detail_show_number {lbl value min max} {
+
+    variable data
+
+    # Add the number panel
+    pack $data(widgets,number) -fill both -expand yes
+
+    # Create the range of values
+    for {set i $min} {$i <= $max} {incr i} {
+      lappend values $i
+    }
+
+    # Configure the label
+    $data(widgets,number_lbl) configure -text "$lbl:"
+
+    # Configure the spinbox
+    $data(widgets,number_sb) configure -values $values -width [string length $max]
+
+    # Set the current value in the spinbox
+    $data(widgets,number_sb) set $value
+
+  }
+
+  ######################################################################
+  # Handles any changes to the number value.
+  proc handle_number_change {} {
+
+    variable data
+
+    # Get the spinbox value
+    set value [$data(widgets,number_sb) get]
 
     # Update the data array
     array set temp $data(cat,$data(category))
@@ -1076,17 +1175,13 @@ namespace eval themer {
     # Delete any existing swatches
     if {[info exists data(swatch_index)]} {
       for {set i 1} {$i <= $data(swatch_index)} {incr i} {
-        puts "Deleting swatch: $i"
         delete_swatch $i 1
       }
       set data(swatch_index) 0
     }
 
     # Insert the swatches
-    puts "data: [array names data cat,*]"
-    puts "swatch: $data(cat,swatch)"
     foreach color $data(cat,swatch) {
-      puts "Adding swatch, color: $color"
       add_swatch $color
     }
 

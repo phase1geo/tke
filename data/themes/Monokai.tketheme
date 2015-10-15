@@ -35,6 +35,7 @@ tabs {
 text_scrollbar {
   -background "#272822"
   -foreground "#4e5044"
+  -thickness  10
 }
 
 syntax {
@@ -71,6 +72,7 @@ sidebar {
 }
 
 sidebar_scrollbar {
-  -background      "#4e5044"
-  -foreground      "#f8f8f2"
+  -background      "#f8f8f2"
+  -foreground      "#4e5044"
+  -thickness  15
 }

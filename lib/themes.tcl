@@ -151,9 +151,7 @@ namespace eval themes {
     # Load the theme file, if necessary
     if {![info exists themes($theme_name)] || $force_read} {
       if {![catch { open $files($theme_name) r } rc]} {
-        puts "READING THEME FILE, theme_name: $theme_name!"
         set themes($theme_name) [list {*}[read $rc]]
-        puts $themes($theme_name)
         close $rc
       } else {
         return
@@ -190,7 +188,6 @@ namespace eval themes {
     set theme(syntax) [array get syntax]
 
     # Set the theme in the UI
-    puts "win_theme: $win_theme"
     if {($win_theme eq "light") || ($win_theme eq "dark")} {
 
       # Create the ttk theme if it currently does not exist

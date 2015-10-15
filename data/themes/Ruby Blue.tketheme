@@ -13,6 +13,7 @@ tabs {
 sidebar_scrollbar {
   -background #121e31
   -foreground #213659
+  -thickness  15
 }
 
 ttk_style {
@@ -32,6 +33,7 @@ ttk_style {
 text_scrollbar {
   -background #121e31
   -foreground #213659
+  -thickness  15
 }
 
 meta {
@@ -48,7 +50,7 @@ sidebar {
 
 swatch {
   #121e31 #213659
-  #ffffff 
+  #ffffff #ffffff
 }
 
 syntax {

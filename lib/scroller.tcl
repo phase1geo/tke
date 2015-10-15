@@ -37,6 +37,7 @@ namespace eval scroller {
       -foreground "white"
       -orient     "vertical"
       -command    ""
+      -thickness  15
     }
     array set opts $args
 
@@ -44,6 +45,7 @@ namespace eval scroller {
     set data($win,-foreground) $opts(-foreground)
     set data($win,-orient)     $opts(-orient)
     set data($win,-command)    $opts(-command)
+    set data($win,-thickness)  $opts(-thickness)
 
     # Constant values
     set data($win,minwidth)  3
@@ -57,9 +59,9 @@ namespace eval scroller {
 
     # Create the canvas
     if {$data($win,-orient) eq "vertical"} {
-      set data($win,canvas) [canvas $win -width 15  -relief flat -bd 1 -highlightthickness 0 -bg $data($win,-background)]
+      set data($win,canvas) [canvas $win -width  $data($win,-thickness) -relief flat -bd 1 -highlightthickness 0 -bg $data($win,-background)]
     } else {
-      set data($win,canvas) [canvas $win -height 15 -relief flat -bd 1 -highlightthickness 0 -bg $data($win,-background)]
+      set data($win,canvas) [canvas $win -height $data($win,-thickness) -relief flat -bd 1 -highlightthickness 0 -bg $data($win,-background)]
     }
 
     # Create canvas bindings
@@ -100,16 +102,16 @@ namespace eval scroller {
         set data($win,last)  $last
         if {$data($win,-orient) eq "vertical"} {
           set height [winfo height $data($win,canvas)]
-          set x1     [expr 15 - $data($win,width)]
+          set x1     [expr $data($win,-thickness) - $data($win,width)]
           set y1     [expr int( $height * $first )]
-          set x2     15
+          set x2     $data($win,-thickness)
           set y2     [expr $y1 + $data($win,ssize)]
         } else {
           set width  [winfo width $data($win,canvas)]
           set x1     [expr int( $width * $first )]
-          set y1     [expr 15 - $data($win,width)]
+          set y1     [expr $data($win,-thickness) - $data($win,width)]
           set x2     [expr $x1 + $data($win,ssize)]
-          set y2     15
+          set y2     $data($win,-thickness)
         }
 
         # Adjust the size and position of the slider
@@ -120,13 +122,21 @@ namespace eval scroller {
         array set opts $args
         if {[info exists opts(-background)]} {
           set data($win,-background) $opts(-background)
+          $data($win,canvas) configure -bg $data($win,-background)
         }
         if {[info exists opts(-foreground)]} {
           set data($win,-foreground) $opts(-foreground)
+          if {[info exists data($win,slider)]} {
+            $data($win,canvas) itemconfigure $data($win,slider) -outline $data($win,-foreground) -fill $data($win,-foreground)
+          }
         }
-        $data($win,canvas) configure -bg $data($win,-background)
-        if {[info exists data($win,slider)]} {
-          $data($win,canvas) itemconfigure $data($win,slider) -outline $data($win,-foreground) -fill $data($win,-foreground)
+        if {[info exists opts(-thickness)]} {
+          set data($win,-thickness) $opts(-thickness)
+          if {$data($win,-orient) eq "vertical"} {
+            $data($win,canvas) configure -width $data($win,-thickness)
+          } else {
+            $data($win,canvas) configure -height $data($win,-thickness)
+          }
         }
       }
 
@@ -186,7 +196,7 @@ namespace eval scroller {
 
     if {!$data($W,pressed)} {
 
-      set data($W,width) 15
+      set data($W,width) $data($W,-thickness)
 
       lassign [eval $data($W,-command)] first last
 
@@ -227,10 +237,10 @@ namespace eval scroller {
     lassign [eval $data($win,-command)] first last
     if {$data($win,-orient) eq "vertical"} {
       set size [winfo height $data($win,canvas)]
-      lassign [list [expr 15 - $data($win,minwidth)] 0 15 [expr $data($win,minheight) - 1]] x1 y1 x2 y2
+      lassign [list [expr $data($win,-thickness) - $data($win,minwidth)] 0 $data($win,-thickness) [expr $data($win,minheight) - 1]] x1 y1 x2 y2
     } else {
       set size [winfo width $data($win,canvas)]
-      lassign [list [expr 15 - $data($win,minwidth)] 0 15 [expr $data($win,minheight) - 1]] y1 x1 y2 x2
+      lassign [list [expr $data($win,-thickness) - $data($win,minwidth)] 0 $data($win,-thickness) [expr $data($win,minheight) - 1]] y1 x1 y2 x2
     }
     set ssize            [expr ((int( $size * $last ) - int( $size * $first )) + 1) - 4]
     set data($win,ssize) [expr ($ssize < $data($win,minheight)) ? $data($win,minheight) : $ssize]
