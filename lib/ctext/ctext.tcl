@@ -9,16 +9,11 @@ namespace eval ctext {
   array set REs {
     words  {([^\s\(\{\[\}\]\)\.\t\n\r;:=\"'\|,<>]+)}
   }
-}
-
-#win is used as a unique token to create arrays for each ctext instance
-proc ctext::getAr {win suffix name} {
-  set arName __ctext[set win][set suffix]
-  uplevel [list upvar \#0 $arName $name]
-  return $arName
+  array set data {}
 }
 
 proc ctext {win args} {
+
   if {[llength $args] & 1} {
     return -code error \
     "invalid number of arguments given to ctext (uneven number after window) : $args"
@@ -28,111 +23,109 @@ proc ctext {win args} {
 
   set tmp [text .__ctextTemp]
 
-  ctext::getAr $win config ar
-
-  set ar(-fg)                    [$tmp cget -foreground]
-  set ar(-bg)                    [$tmp cget -background]
-  set ar(-font)                  [$tmp cget -font]
-  set ar(-relief)                [$tmp cget -relief]
-  set ar(-unhighlightcolor)      [$win cget -bg]
+  set ctext::data($win,config,-fg)                    [$tmp cget -foreground]
+  set ctext::data($win,config,-bg)                    [$tmp cget -background]
+  set ctext::data($win,config,-font)                  [$tmp cget -font]
+  set ctext::data($win,config,-relief)                [$tmp cget -relief]
+  set ctext::data($win,config,-unhighlightcolor)      [$win cget -bg]
   destroy $tmp
-  set ar(-xscrollcommand)        ""
-  set ar(-yscrollcommand)        ""
-  set ar(-highlightcolor)        "yellow"
-  set ar(-linemap)               1
-  set ar(-linemapfg)             $ar(-fg)
-  set ar(-linemapbg)             $ar(-bg)
-  set ar(-linemap_mark_command)  {}
-  set ar(-linemap_markable)      1
-  set ar(-linemap_select_fg)     black
-  set ar(-linemap_select_bg)     yellow
-  set ar(-linemap_cursor)        left_ptr
-  set ar(-linemap_relief)        $ar(-relief)
-  set ar(-linemap_minwidth)      1
-  set ar(-highlight)             1
-  set ar(-warnwidth)             ""
-  set ar(-warnwidth_bg)          red
-  set ar(-casesensitive)         1
-  set ar(-peer)                  ""
-  set ar(-undo)                  0
-  set ar(-maxundo)               0
-  set ar(-autoseparators)        0
-  set ar(-diff_mode)             0
-  set ar(-diffsubbg)             "pink"
-  set ar(-diffaddbg)             "light green"
-  set ar(re_opts)                ""
-  set ar(win)                    $win
-  set ar(modified)               0
-  set ar(commentsAfterId)        ""
-  set ar(blinkAfterId)           ""
-  set ar(lastUpdate)             0
-  set ar(block_comment_patterns) [list]
-  set ar(string_patterns)        [list]
-  set ar(line_comment_patterns)  [list]
-  set ar(comment_re)             ""
-  set ar(gutters)                [list]
-  set ar(matchChar,curly)        1
-  set ar(matchChar,square)       1
-  set ar(matchChar,paren)        1
-  set ar(matchChar,angled)       1
-  set ar(matchChar,double)       1
-  set ar(undo_hist)              [list]
-  set ar(undo_hist_size)         0
-  set ar(undo_sep_last)          -1
-  set ar(undo_sep_next)          -1
-  set ar(undo_sep_size)          0
-  set ar(redo_hist)              [list]
+  set ctext::data($win,config,-xscrollcommand)        ""
+  set ctext::data($win,config,-yscrollcommand)        ""
+  set ctext::data($win,config,-highlightcolor)        "yellow"
+  set ctext::data($win,config,-linemap)               1
+  set ctext::data($win,config,-linemapfg)             $ctext::data($win,config,-fg)
+  set ctext::data($win,config,-linemapbg)             $ctext::data($win,config,-bg)
+  set ctext::data($win,config,-linemap_mark_command)  {}
+  set ctext::data($win,config,-linemap_markable)      1
+  set ctext::data($win,config,-linemap_select_fg)     black
+  set ctext::data($win,config,-linemap_select_bg)     yellow
+  set ctext::data($win,config,-linemap_cursor)        left_ptr
+  set ctext::data($win,config,-linemap_relief)        $ctext::data($win,config,-relief)
+  set ctext::data($win,config,-linemap_minwidth)      1
+  set ctext::data($win,config,-highlight)             1
+  set ctext::data($win,config,-warnwidth)             ""
+  set ctext::data($win,config,-warnwidth_bg)          red
+  set ctext::data($win,config,-casesensitive)         1
+  set ctext::data($win,config,-peer)                  ""
+  set ctext::data($win,config,-undo)                  0
+  set ctext::data($win,config,-maxundo)               0
+  set ctext::data($win,config,-autoseparators)        0
+  set ctext::data($win,config,-diff_mode)             0
+  set ctext::data($win,config,-diffsubbg)             "pink"
+  set ctext::data($win,config,-diffaddbg)             "light green"
+  set ctext::data($win,config,re_opts)                ""
+  set ctext::data($win,config,win)                    $win
+  set ctext::data($win,config,modified)               0
+  set ctext::data($win,config,commentsAfterId)        ""
+  set ctext::data($win,config,blinkAfterId)           ""
+  set ctext::data($win,config,lastUpdate)             0
+  set ctext::data($win,config,block_comment_patterns) [list]
+  set ctext::data($win,config,string_patterns)        [list]
+  set ctext::data($win,config,line_comment_patterns)  [list]
+  set ctext::data($win,config,comment_re)             ""
+  set ctext::data($win,config,gutters)                [list]
+  set ctext::data($win,config,matchChar,curly)        1
+  set ctext::data($win,config,matchChar,square)       1
+  set ctext::data($win,config,matchChar,paren)        1
+  set ctext::data($win,config,matchChar,angled)       1
+  set ctext::data($win,config,matchChar,double)       1
+  set ctext::data($win,config,undo_hist)              [list]
+  set ctext::data($win,config,undo_hist_size)         0
+  set ctext::data($win,config,undo_sep_last)          -1
+  set ctext::data($win,config,undo_sep_next)          -1
+  set ctext::data($win,config,undo_sep_size)          0
+  set ctext::data($win,config,redo_hist)              [list]
 
-  set ar(ctextFlags) [list -xscrollcommand -yscrollcommand -linemap -linemapfg -linemapbg \
+  set ctext::data($win,config,ctextFlags) [list -xscrollcommand -yscrollcommand -linemap -linemapfg -linemapbg \
   -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable \
   -linemap_cursor -highlightcolor \
   -linemap_select_fg -linemap_select_bg -linemap_relief -linemap_minwidth -casesensitive -peer \
   -undo -maxundo -autoseparators -diff_mode -diffsubbg -diffaddbg]
 
-  array set ar $args
+  # TBD
+  # array set ar $args
 
   foreach flag {foreground background} short {fg bg} {
-    if {[info exists ar(-$flag)] == 1} {
-      set ar(-$short) $ar(-$flag)
-      unset ar(-$flag)
+    if {[info exists ctext::data($win,config,-$flag)] == 1} {
+      set ctext::data($win,config,-$short) $ctext::data($win,config,-$flag)
+      unset ctext::data($win,config,-$flag)
     }
   }
 
   # Now remove flags that will confuse text and those that need
   # modification:
-  foreach arg $ar(ctextFlags) {
+  foreach arg $ctext::data($win,config,ctextFlags) {
     if {[set loc [lsearch $args $arg]] >= 0} {
       set args [lreplace $args $loc [expr {$loc + 1}]]
     }
   }
 
   # Initialize the starting linemap ID
-  ctext::getAr $win linemap linemapAr
-  set linemapAr(id) 0
+  set ctext::data($win,linemap,id) 0
 
-  text $win.l -font $ar(-font) -width $ar(-linemap_minwidth) -height 1 \
-    -relief $ar(-relief) -bd 0 -fg $ar(-linemapfg) -cursor $ar(-linemap_cursor) \
-    -bg $ar(-linemapbg) -takefocus 0 -highlightthickness 0 -wrap none
-  frame $win.f -width 1 -bd 0 -relief flat -bg $ar(-warnwidth_bg)
+  text $win.l -font $ctext::data($win,config,-font) -width $ctext::data($win,config,-linemap_minwidth) -height 1 \
+    -relief $ctext::data($win,config,-relief) -bd 0 -fg $ctext::data($win,config,-linemapfg) -cursor $ctext::data($win,config,-linemap_cursor) \
+    -bg $ctext::data($win,config,-linemapbg) -takefocus 0 -highlightthickness 0 -wrap none
+  frame $win.f -width 1 -bd 0 -relief flat -bg $ctext::data($win,config,-warnwidth_bg)
 
   set topWin [winfo toplevel $win]
   bindtags $win.l [list $win.l $topWin all]
 
-  set args [concat $args [list -yscrollcommand [list ctext::event:yscroll $win $ar(-yscrollcommand)]] \
-                         [list -xscrollcommand [list ctext::event:xscroll $win $ar(-xscrollcommand)]]]
+  set args [concat $args [list -yscrollcommand [list ctext::event:yscroll $win $ctext::data($win,config,-yscrollcommand)]] \
+                         [list -xscrollcommand [list ctext::event:xscroll $win $ctext::data($win,config,-xscrollcommand)]]]
 
   #escape $win, because it could have a space
-  if {$ar(-peer) eq ""} {
-    text $win.t -font $ar(-font) -bd 0 -highlightthickness 0 {*}$args
+  if {$ctext::data($win,config,-peer) eq ""} {
+    text $win.t -font $ctext::data($win,config,-font) -bd 0 -highlightthickness 0 {*}$args
   } else {
     # TBD - We should probably verify that -peer is a ctext widget path
-    $ar(-peer)._t peer create $win.t -font $ar(-font) -bd 0 -highlightthickness 0 {*}$args
+    $ctext::data($win,config,-peer)._t peer create $win.t -font $ctext::data($win,config,-font) -bd 0 -highlightthickness 0 {*}$args
   }
 
-  frame $win.t.w -width 1 -bd 0 -relief flat -bg $ar(-warnwidth_bg)
+  frame $win.t.w -width 1 -bd 0 -relief flat -bg $ctext::data($win,config,-warnwidth_bg)
 
-  if {$ar(-warnwidth) ne ""} {
-    place $win.t.w -x [font measure [$win.t cget -font] -displayof . [string repeat "m" $ar(-warnwidth)]] -relheight 1.0
+  if {$ctext::data($win,config,-warnwidth) ne ""} {
+    place $win.t.w -x [font measure [$win.t cget -font] -displayof . [string repeat "m" $ctext::data($win,config,-warnwidth)]] -relheight 1.0
   }
 
   grid rowconfigure    $win 0 -weight 100
@@ -142,7 +135,7 @@ proc ctext {win args} {
   grid $win.t -row 0 -column 2 -sticky news
 
   # Hide the linemap and separator if we are specified to do so
-  if {!$ar(-linemap) && !$ar(-linemap_markable)} {
+  if {!$ctext::data($win,config,-linemap) && !$ctext::data($win,config,-linemap_markable)} {
     grid remove $win.l
     grid remove $win.f
   }
@@ -173,13 +166,13 @@ proc ctext {win args} {
 
 proc ctext::event:xscroll {win clientData args} {
 
+  variable data
+
   if {$clientData == ""} {
     return
   }
 
   uplevel \#0 $clientData $args
-
-  ctext::getAr $win config configAr
 
   lassign $args first last
 
@@ -198,7 +191,7 @@ proc ctext::event:xscroll {win clientData args} {
   }
 
   # Width is calculated by multiplying the longest line with the length of a single character
-  set newx [expr ($configAr(-warnwidth) * 7) - $missing]
+  set newx [expr ($data($win,config,-warnwidth) * 7) - $missing]
 
   # Move the vertical bar
   place $win.t.w -x $newx -relheight 1.0
@@ -219,21 +212,21 @@ proc ctext::event:yscroll {win clientData args} {
 
 proc ctext::event:Destroy {win dWin} {
 
+  variable data
+
   if {![string equal $win $dWin]} {
     return
   }
 
-  ctext::getAr $win config configAr
-
-  catch {after cancel $configAr(commentsAfterId)}
-  catch {after cancel $configAr(blinkAfterId)}
+  catch {after cancel $data($win,config,commentsAfterId)}
+  catch {after cancel $data($win,config,blinkAfterId)}
 
   bgproc::killall ctext::*
 
   catch { rename $win {} }
   interp alias {} $win.t {}
   ctext::clearHighlightClasses $win
-  array unset [ctext::getAr $win config ar]
+  array unset data $win,config,*
 
 }
 
@@ -241,15 +234,17 @@ proc ctext::event:Destroy {win dWin} {
 # It's used by the configure instance command.
 proc ctext::buildArgParseTable win {
 
+  variable data
+
   set argTable [list]
 
   lappend argTable any -linemap_mark_command {
-    set configAr(-linemap_mark_command) $value
+    set data($self,config,-linemap_mark_command) $value
     break
   }
 
   lappend argTable {1 true yes} -linemap {
-    set configAr(-linemap) 1
+    set data($self,config,-linemap) 1
     catch {
       grid $self.l
       grid $self.f
@@ -259,8 +254,8 @@ proc ctext::buildArgParseTable win {
   }
 
   lappend argTable {0 false no} -linemap {
-    set configAr(-linemap) 0
-    if {([llength $configAr(gutters)] == 0) && !$configAr(-linemap_markable)} {
+    set data($self,config,-linemap) 0
+    if {([llength $data($self,config,gutters)] == 0) && !$data($self,config,-linemap_markable)} {
       catch {
         grid remove $self.l
         grid remove $self.f
@@ -278,7 +273,7 @@ proc ctext::buildArgParseTable win {
     if {[catch $cmd res]} {
       return $res
     }
-    set configAr(-xscrollcommand) $value
+    set data($self,config,-xscrollcommand) $value
     break
   }
 
@@ -289,7 +284,7 @@ proc ctext::buildArgParseTable win {
     if {[catch $cmd res]} {
       return $res
     }
-    set configAr(-yscrollcommand) $value
+    set data($self,config,-yscrollcommand) $value
     break
   }
 
@@ -298,7 +293,7 @@ proc ctext::buildArgParseTable win {
       return -code error $res
     }
     $self.l config -fg $value
-    set configAr(-linemapfg) $value
+    set data($self,config,-linemapfg) $value
     break
   }
 
@@ -307,7 +302,7 @@ proc ctext::buildArgParseTable win {
       return -code error $res
     }
     $self.l config -bg $value
-    set configAr(-linemapbg) $value
+    set data($self,config,-linemapbg) $value
     break
   }
 
@@ -315,7 +310,7 @@ proc ctext::buildArgParseTable win {
     if {[catch {$self.l config -relief $value} res]} {
       return -code error $res
     }
-    set configAr(-linemap_relief) $value
+    set data($self,config,-linemap_relief) $value
     break
   }
 
@@ -324,22 +319,22 @@ proc ctext::buildArgParseTable win {
       return -code error $res
     }
     $self._t config -font $value
-    set configAr(-font) $value
+    set data($self,config,-font) $value
     break
   }
 
   lappend argTable {0 false no} -highlight {
-    set configAr(-highlight) 0
+    set data($self,config,-highlight) 0
     break
   }
 
   lappend argTable {1 true yes} -highlight {
-    set configAr(-highlight) 1
+    set data($self,config,-highlight) 1
     break
   }
 
   lappend argTable any -warnwidth {
-    set configAr(-warnwidth) $value
+    set data($self,config,-warnwidth) $value
     if {$value eq ""} {
       place forget $self.t.w
     } else {
@@ -352,7 +347,7 @@ proc ctext::buildArgParseTable win {
     if {[catch {winfo rgb $self $value} res]} {
       return -code error $res
     }
-    set configAr(-warnwidth_bg) $value
+    set data($self,config,-warnwidth_bg) $value
     $self.t.w configure -bg $value
     $self.f   configure -bg $value
     break
@@ -362,17 +357,17 @@ proc ctext::buildArgParseTable win {
     if {[catch {winfo rgb $self $value} res]} {
       return -code error $res
     }
-    set configAr(-highlightcolor) $value
+    set data($self,config,-highlightcolor) $value
     break
   }
 
   lappend argTable {0 false no} -linemap_markable {
-    set configAr(-linemap_markable) 0
+    set data($self,config,-linemap_markable) 0
     break
   }
 
   lappend argTable {1 true yes} -linemap_markable {
-    set configAr(-linemap_markable) 1
+    set data($self,config,-linemap_markable) 1
     break
   }
 
@@ -380,7 +375,7 @@ proc ctext::buildArgParseTable win {
     if {[catch {winfo rgb $self $value} res]} {
       return -code error $res
     }
-    set configAr(-linemap_select_fg) $value
+    set data($self,config,-linemap_select_fg) $value
     $self.l tag configure lmark -foreground $value
     break
   }
@@ -389,20 +384,20 @@ proc ctext::buildArgParseTable win {
     if {[catch {winfo rgb $self $value} res]} {
       return -code error $res
     }
-    set configAr(-linemap_select_bg) $value
+    set data($self,config,-linemap_select_bg) $value
     $self.l tag configure lmark -background $value
     break
   }
 
   lappend argTable {0 false no} -casesensitive {
-    set configAr(-casesensitive) 0
-    set configAr(re_opts) "-nocase"
+    set data($self,config,-casesensitive) 0
+    set data($self,config,re_opts) "-nocase"
     break
   }
 
   lappend argTable {1 true yes} -casesensitive {
-    set configAr(-casesensitive) 1
-    set configAr(re_opts) ""
+    set data($self,config,-casesensitive) 1
+    set data($self,config,re_opts) ""
     break
   }
 
@@ -413,17 +408,17 @@ proc ctext::buildArgParseTable win {
     if {[$self.l cget -width] < $value} {
       $self.l configure -width $value
     }
-    set configAr(-linemap_minwidth) $value
+    set data($self,config,-linemap_minwidth) $value
     break
   }
 
   lappend argTable {0 false no} -undo {
-    set configAr(-undo) 0
+    set data($self,config,-undo) 0
     break
   }
 
   lappend argTable {1 true yes} -undo {
-    set configAr(-undo) 1
+    set data($self,config,-undo) 1
     break
   }
 
@@ -431,22 +426,22 @@ proc ctext::buildArgParseTable win {
     if {![string is integer $value]} {
       return -code error "-maxundo argument must be an integer value"
     }
-    set configAr(-maxundo) $value
+    set data($self,config,-maxundo) $value
     ctext::undo_manage $self
   }
 
   lappend argTable {0 false no} -autoseparators {
-    set configAr(-autoseparators) 0
+    set data($self,config,-autoseparators) 0
     break
   }
 
   lappend argTable {1 true yes} -autoseparators {
-    set configAr(-autoseparators) 1
+    set data($self,config,-autoseparators) 1
     break
   }
 
   lappend argTable {any} -diffsubbg {
-    set configAr(-diffsubbg) $value
+    set data($self,config,-diffsubbg) $value
     foreach tag [lsearch -inline -all -glob [$self._t tag names] diff:B:D:*] {
       $self._t tag configure $tag -background $value
     }
@@ -454,25 +449,25 @@ proc ctext::buildArgParseTable win {
   }
 
   lappend argTable {any} -diffaddbg {
-    set configAr(-diffaddbg) $value
+    set data($self,config,-diffaddbg) $value
     foreach tag [lsearch -inline -all -glob [$self._t tag names] diff:A:D:*] {
       $self._t tag configure $tag -background $value
     }
     break
   }
 
-  ctext::getAr $win config ar
-  set ar(argTable) $argTable
+  set data($win,config,argTable) $argTable
+
 }
 
 proc ctext::setCommentRE {win} {
 
-  ctext::getAr $win config configAr
+  variable data
 
   set commentRE {\\}
   array set chars {}
 
-  set patterns [concat [eval concat $configAr(block_comment_patterns)] $configAr(line_comment_patterns) $configAr(string_patterns)]
+  set patterns [concat [eval concat $data($win,config,block_comment_patterns)] $data($win,config,line_comment_patterns) $data($win,config,string_patterns)]
 
   if {[llength $patterns] > 0} {
     append commentRE "|" [join $patterns |]
@@ -480,15 +475,15 @@ proc ctext::setCommentRE {win} {
 
   set bcomments [list]
   set ecomments [list]
-  foreach block $configAr(block_comment_patterns) {
+  foreach block $data($win,config,block_comment_patterns) {
     lappend bcomments [lindex $block 0]
     lappend ecomments [lindex $block 1]
   }
 
-  set configAr(comment_re)  $commentRE
-  set configAr(bcomment_re) [join $bcomments |]
-  set configAr(ecomment_re) [join $ecomments |]
-  set configAr(lcomment_re) [join $configAr(line_comment_patterns) |]
+  set data($win,config,comment_re)  $commentRE
+  set data($win,config,bcomment_re) [join $bcomments |]
+  set data($win,config,ecomment_re) [join $ecomments |]
+  set data($win,config,lcomment_re) [join $data($win,config,line_comment_patterns) |]
 
 }
 
@@ -571,10 +566,10 @@ proc ctext::highlight {win lineStart lineEnd} {
 
 proc ctext::highlightAfterIdle {win lineStart lineEnd} {
 
-  ctext::getAr $win config configAr
+  variable data
 
   # If highlighting has been disabled, return immediately
-  if {!$configAr(-highlight)} {
+  if {!$data($win,config,-highlight)} {
     return
   }
 
@@ -585,21 +580,17 @@ proc ctext::highlightAfterIdle {win lineStart lineEnd} {
 
 proc ctext::handleFocusIn {win} {
 
-  ctext::getAr $win config configAr
+  variable data
 
-  __ctextJunk$win configure -bg $configAr(-highlightcolor)
-  # __ctextJunk$win configure -bg $configAr(-unhighlightcolor)
-  # $win.f configure -bg $configAr(-highlightcolor)
+  __ctextJunk$win configure -bg $data($win,config,-highlightcolor)
 
 }
 
 proc ctext::handleFocusOut {win} {
 
-  ctext::getAr $win config configAr
+  variable data
 
-  __ctextJunk$win configure -bg $configAr(-unhighlightcolor)
-  # __ctextJunk$win configure -bg $configAr(-highlightcolor)
-  # $win.f configure -bg $configAr(-warnwidth_bg)
+  __ctextJunk$win configure -bg $data($win,config,-unhighlightcolor)
 
 }
 
@@ -622,29 +613,29 @@ proc ctext::isEscaped {win index} {
 
 proc ctext::undo_separator {win} {
 
-  ctext::getAr $win config configAr
+  variable data
 
   # If a separator is being added (and it was not already added), add it
-  if {![lindex $configAr(undo_hist) end 4]} {
+  if {![lindex $data($win,config,undo_hist) end 4]} {
 
     # Set the separator
-    lset configAr(undo_hist) end 4 -1
+    lset data($win,config,undo_hist) end 4 -1
 
     # Get the last index of the undo history list
-    set last_index [expr $configAr(undo_hist_size) - 1]
+    set last_index [expr $data($win,config,undo_hist_size) - 1]
 
     # Add the separator
-    if {$configAr(undo_sep_next) == -1} {
-      set configAr(undo_sep_next) $last_index
+    if {$data($win,config,undo_sep_next) == -1} {
+      set data($win,config,undo_sep_next) $last_index
     } else {
-      lset configAr(undo_hist) $configAr(undo_sep_last) 4 [expr $last_index - $configAr(undo_sep_last)]
+      lset data($win,config,undo_hist) $data($win,config,undo_sep_last) 4 [expr $last_index - $data($win,config,undo_sep_last)]
     }
 
     # Set the last separator index
-    set configAr(undo_sep_last) $last_index
+    set data($win,config,undo_sep_last) $last_index
 
     # Increment the separator size
-    incr configAr(undo_sep_size)
+    incr data($win,config,undo_sep_size)
 
   }
 
@@ -655,31 +646,31 @@ proc ctext::undo_separator {win} {
 
 proc ctext::undo_manage {win} {
 
-  ctext::getAr $win config configAr
+  variable data
 
   # If we need to make the undo history list shorter
-  if {($configAr(-maxundo) > 0) && ([set to_remove [expr $configAr(undo_sep_size) - $configAr(-maxundo)]] > 0)} {
+  if {($data($win,config,-maxundo) > 0) && ([set to_remove [expr $data($win,config,undo_sep_size) - $data($win,config,-maxundo)]] > 0)} {
 
     # Get the separators to remove
-    set index $configAr(undo_sep_next)
+    set index $data($win,config,undo_sep_next)
     for {set i 1} {$i < $to_remove} {incr i} {
-      incr index [lindex $configAr(undo_hist) $index 4]
+      incr index [lindex $data($win,config,undo_hist) $index 4]
     }
 
     # Set the next separator index
-    set configAr(undo_sep_next) [expr [lindex $configAr(undo_hist) $index 4] - 1]
+    set data($win,config,undo_sep_next) [expr [lindex $data($win,config,undo_hist) $index 4] - 1]
 
     # Reset the last separator index
-    set configAr(undo_sep_last) [expr $configAr(undo_sep_last) - ($index + 1)]
+    set data($win,config,undo_sep_last) [expr $data($win,config,undo_sep_last) - ($index + 1)]
 
     # Set the separator size
-    incr configAr(undo_sep_size) [expr 0 - $to_remove]
+    incr data($win,config,undo_sep_size) [expr 0 - $to_remove]
 
     # Shorten the undo history list
-    set configAr(undo_hist) [lreplace $configAr(undo_hist) 0 $index]
+    set data($win,config,undo_hist) [lreplace $data($win,config,undo_hist) 0 $index]
 
     # Set the undo history size
-    incr configAr(undo_hist_size) [expr 0 - ($index + 1)]
+    incr data($win,config,undo_hist_size) [expr 0 - ($index + 1)]
 
   }
 
@@ -687,95 +678,95 @@ proc ctext::undo_manage {win} {
 
 proc ctext::undo_insert {win insert_pos str_len cursor} {
 
-  ctext::getAr $win config configAr
+  variable data
 
-  if {!$configAr(-undo)} {
+  if {!$data($win,config,-undo)} {
     return
   }
 
   set end_pos [$win index "$insert_pos+${str_len}c"]
 
   # Combine elements, if possible
-  if {[llength $configAr(undo_hist)] > 0} {
-    lassign [lindex $configAr(undo_hist) end] cmd val1 val2 hcursor sep
+  if {[llength $data($win,config,undo_hist)] > 0} {
+    lassign [lindex $data($win,config,undo_hist) end] cmd val1 val2 hcursor sep
     if {$sep == 0} {
       if {($cmd eq "d") && ($val2 == $insert_pos)} {
-        lset configAr(undo_hist) end 2 $end_pos
-        set configAr(redo_hist) [list]
+        lset data($win,config,undo_hist) end 2 $end_pos
+        set data($win,config,redo_hist) [list]
         return
       }
-      if {$configAr(-autoseparators)} {
+      if {$data($win,config,-autoseparators)} {
         ctext::undo_separator $win
       }
     }
   }
 
   # Add to the undo history
-  lappend configAr(undo_hist) [list d $insert_pos $end_pos $cursor 0]
-  incr configAr(undo_hist_size)
+  lappend data($win,config,undo_hist) [list d $insert_pos $end_pos $cursor 0]
+  incr data($win,config,undo_hist_size)
 
   # Clear the redo history
-  set configAr(redo_hist) [list]
+  set data($win,config,redo_hist) [list]
 
 }
 
 proc ctext::undo_delete {win start_pos end_pos} {
 
-  ctext::getAr $win config configAr
+  variable data
 
-  if {!$configAr(-undo)} {
+  if {!$data($win,config,-undo)} {
     return
   }
 
   set str [$win get $start_pos $end_pos]
 
   # Combine elements, if possible
-  if {[llength $configAr(undo_hist)] > 0} {
-    lassign [lindex $configAr(undo_hist) end] cmd val1 val2 cursor sep
+  if {[llength $data($win,config,undo_hist)] > 0} {
+    lassign [lindex $data($win,config,undo_hist) end] cmd val1 val2 cursor sep
     if {$sep == 0} {
       if {$cmd eq "i"} {
         if {$val1 == $end_pos} {
-          lset configAr(undo_hist) end 1 $start_pos
-          lset configAr(undo_hist) end 2 "$str$val2"
-          set configAr(redo_hist) [list]
+          lset data($win,config,undo_hist) end 1 $start_pos
+          lset data($win,config,undo_hist) end 2 "$str$val2"
+          set data($win,config,redo_hist) [list]
           return
         } elseif {$val1 == $start_pos} {
-          lset configAr(undo_hist) end 2 "$val2$str"
-          set configAr(redo_hist) [list]
+          lset data($win,config,undo_hist) end 2 "$val2$str"
+          set data($win,config,redo_hist) [list]
           return
         }
       } elseif {($cmd eq "d") && ($val2 == $end_pos)} {
-        lset configAr(undo_hist) end 2 $start_pos
-        lset configAr(redo_hist) [list]
+        lset data($win,config,undo_hist) end 2 $start_pos
+        lset data($win,config,redo_hist) [list]
         return
       }
-      if {$configAr(-autoseparators)} {
+      if {$data($win,config,-autoseparators)} {
         ctext::undo_separator $win
       }
     }
   }
 
   # Add to the undo history
-  lappend configAr(undo_hist) [list i $start_pos $str [$win index insert] 0]
-  incr configAr(undo_hist_size)
+  lappend data($win,config,undo_hist) [list i $start_pos $str [$win index insert] 0]
+  incr data($win,config,undo_hist_size)
 
   # Clear the redo history
-  set configAr(redo_hist) [list]
+  set data($win,config,redo_hist) [list]
 
 }
 
 proc ctext::undo_get_cursor_hist {win} {
 
-  ctext::getAr $win config configAr
+  variable data
 
   set cursors [list]
 
-  if {[set index $configAr(undo_sep_next)] != -1} {
+  if {[set index $data($win,config,undo_sep_next)] != -1} {
 
     set sep 0
 
     while {$sep != -1} {
-      lassign [lindex $configAr(undo_hist) $index] cmd val1 val2 cursor sep
+      lassign [lindex $data($win,config,undo_hist) $index] cmd val1 val2 cursor sep
       lappend cursors $cursor
       incr index $sep
     }
@@ -788,14 +779,14 @@ proc ctext::undo_get_cursor_hist {win} {
 
 proc ctext::undo {win} {
 
-  ctext::getAr $win config configAr
+  variable data
 
-  if {[llength $configAr(undo_hist)] > 0} {
+  if {[llength $data($win,config,undo_hist)] > 0} {
 
     set i           0
     set last_cursor 1.0
 
-    foreach element [lreverse $configAr(undo_hist)] {
+    foreach element [lreverse $data($win,config,undo_hist)] {
 
       lassign $element cmd val1 val2 cursor sep
 
@@ -807,12 +798,12 @@ proc ctext::undo {win} {
         i {
           $win._t insert $val1 $val2
           set val2 [$win index "$val1+[string length $val2]c"]
-          lappend configAr(redo_hist) [list d $val1 $val2 $cursor $sep]
+          lappend data($win,config,redo_hist) [list d $val1 $val2 $cursor $sep]
         }
         d {
           set str [$win get $val1 $val2]
           $win._t delete $val1 $val2
-          lappend configAr(redo_hist) [list i $val1 $str $cursor $sep]
+          lappend data($win,config,redo_hist) [list i $val1 $str $cursor $sep]
         }
       }
 
@@ -824,13 +815,13 @@ proc ctext::undo {win} {
 
     }
 
-    set configAr(undo_hist) [lreplace $configAr(undo_hist) end-[expr $i - 1] end]
-    incr configAr(undo_hist_size) [expr 0 - $i]
+    set data($win,config,undo_hist) [lreplace $data($win,config,_hist) end-[expr $i - 1] end]
+    incr data($win,config,undo_hist_size) [expr 0 - $i]
 
     # Update undo separator info
-    set configAr(undo_sep_next) [expr ($configAr(undo_hist_size) == 0) ? -1 : $configAr(undo_sep_next)]
-    set configAr(undo_sep_last) [expr $configAr(undo_hist_size) - 1]
-    incr configAr(undo_sep_size) -1
+    set data($win,config,undo_sep_next) [expr ($data($win,config,_hist_size) == 0) ? -1 : $data($win,config,usep_next)]
+    set data($win,config,undo_sep_last) [expr $data($win,config,_hist_size) - 1]
+    incr data($win,config,undo_sep_size) -1
 
     $win._t mark set insert $last_cursor
     $win._t see insert
@@ -844,13 +835,13 @@ proc ctext::undo {win} {
 
 proc ctext::redo {win} {
 
-  ctext::getAr $win config configAr
+  variable data
 
-  if {[llength $configAr(redo_hist)] > 0} {
+  if {[llength $data($win,config,redo_hist)] > 0} {
 
     set i 0
 
-    foreach element [lreverse $configAr(redo_hist)] {
+    foreach element [lreverse $data($win,config,redo_hist)] {
 
       lassign $element cmd val1 val2 cursor sep
 
@@ -858,7 +849,7 @@ proc ctext::redo {win} {
         i {
           $win._t insert $val1 $val2
           set val2 [$win index "$val1+[string length $val2]c"]
-          lappend configAr(undo_hist) [list d $val1 $val2 $cursor $sep]
+          lappend data($win,config,undo_hist) [list d $val1 $val2 $cursor $sep]
           if {$cursor != $val2} {
             set cursor $val2
           }
@@ -866,7 +857,7 @@ proc ctext::redo {win} {
         d {
           set str [$win get $val1 $val2]
           $win._t delete $val1 $val2
-          lappend configAr(undo_hist) [list i $val1 $str $cursor $sep]
+          lappend data($win,config,undo_hist) [list i $val1 $str $cursor $sep]
           if {$cursor != $val1} {
             set cursor $val1
           }
@@ -883,13 +874,13 @@ proc ctext::redo {win} {
 
     }
 
-    set configAr(redo_hist) [lreplace $configAr(redo_hist) end-[expr $i - 1] end]
+    set data($win,config,redo_hist) [lreplace $data($win,config,redo_hist) end-[expr $i - 1] end]
 
     # Update undo separator structures
-    incr configAr(undo_hist_size) $i
-    set configAr(undo_sep_next) [expr ($configAr(undo_sep_next) == -1) ? [expr $configAr(undo_hist_size) - 1] : $configAr(undo_sep_next)]
-    set configAr(undo_sep_last) [expr $configAr(undo_hist_size) - 1]
-    incr configAr(undo_sep_size)
+    incr data($win,config,undo_hist_size) $i
+    set data($win,config,undo_sep_next) [expr ($data($win,config,undo_sep_next) == -1) ? [expr $data($win,config,undo_hist_size) - 1] : $data($win,config,undo_sep_next)]
+    set data($win,config,undo_sep_last) [expr $data($win,config,undo_hist_size) - 1]
+    incr data($win,config,undo_sep_size)
 
     $win._t mark set insert $cursor
     $win._t see insert
@@ -921,11 +912,10 @@ proc ctext::handleInsertAt0 {win startpos datalen} {
 
 proc ctext::instanceCmd {self cmd args} {
 
-  #slightly different than the RE used in ctext::comments
-  ctext::getAr $self config configAr
+  variable data
 
   # Create comment RE
-  set commentRE $configAr(comment_re)
+  set commentRE $data($self,config,comment_re)
 
   switch -glob -- $cmd {
     append {
@@ -936,33 +926,30 @@ proc ctext::instanceCmd {self cmd args} {
 
     cget {
       set arg [lindex $args 0]
-      ctext::getAr $self config configAr
 
-      foreach flag $configAr(ctextFlags) {
+      foreach flag $data($self,config,ctextFlags) {
         if {[string match ${arg}* $flag]} {
-          return [set configAr($flag)]
+          return [set data($self,config,$flag)]
         }
       }
       return [$self._t cget $arg]
     }
 
     conf* {
-      ctext::getAr $self config configAr
-
       if {0 == [llength $args]} {
         set res [$self._t configure]
         foreach opt [list -xscrollcommand* -yscrollcommand*] {
           set del [lsearch -glob $res $opt]
           set res [lreplace $res $del $del]
         }
-        foreach flag $configAr(ctextFlags) {
-          lappend res [list $flag [set configAr($flag)]]
+        foreach flag $data($self,config,ctextFlags) {
+          lappend res [list $flag [set data($self,config,$flag)]]
         }
         return $res
       }
 
       array set flags {}
-      foreach flag $configAr(ctextFlags) {
+      foreach flag $data($self,config,ctextFlags) {
         set loc [lsearch $args $flag]
         if {$loc < 0} {
           continue
@@ -970,7 +957,7 @@ proc ctext::instanceCmd {self cmd args} {
 
         if {[llength $args] <= ($loc + 1)} {
           #.t config -flag
-          return [set configAr($flag)]
+          return [set data($self,config,$flag)]
         }
 
         set flagArg [lindex $args [expr {$loc + 1}]]
@@ -978,7 +965,7 @@ proc ctext::instanceCmd {self cmd args} {
         set flags($flag) $flagArg
       }
 
-      foreach {valueList flag cmd} $configAr(argTable) {
+      foreach {valueList flag cmd} $data($self,config,argTable) {
         if {[info exists flags($flag)]} {
           foreach valueToCheckFor $valueList {
             set value [set flags($flag)]
@@ -1064,7 +1051,7 @@ proc ctext::instanceCmd {self cmd args} {
 
         set checkStr "$prevChar[set char]"
 
-        ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$configAr(re_opts) -- $commentRE $checkStr]
+        ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$data($self,config,re_opts) -- $commentRE $checkStr]
         ctext::highlightAfterIdle $self $lineStart $lineEnd
         ctext::linemapUpdate $self
         ctext::modified $self 1 [list delete $deletePos 1 $lines $moddata]
@@ -1088,7 +1075,7 @@ proc ctext::instanceCmd {self cmd args} {
           }
         }
 
-        ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$configAr(re_opts) -- $commentRE $data]
+        ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$data($self,config,re_opts) -- $commentRE $data]
         ctext::highlightAfterIdle $self $lineStart $lineEnd
         if {[string first "\n" $data] >= 0} {
           ctext::linemapUpdate $self
@@ -1101,7 +1088,7 @@ proc ctext::instanceCmd {self cmd args} {
 
     diff {
       set args [lassign $args subcmd]
-      if {!$configAr(-diff_mode)} {
+      if {!$data($self,config,-diff_mode)} {
         return -code error "diff $subcmd called when -diff_mode is false"
       }
       switch -glob $subcmd {
@@ -1130,7 +1117,7 @@ proc ctext::instanceCmd {self cmd args} {
           $self._t tag add diff:A:S:$fline $pos $end_pos
 
           # Colorize the *D* tag
-          $self._t tag configure diff:A:D:$fline -background $configAr(-diffaddbg)
+          $self._t tag configure diff:A:D:$fline -background $data($self,config,-diffaddbg)
           $self._t tag lower diff:A:D:$fline
         }
         line {
@@ -1214,7 +1201,7 @@ proc ctext::instanceCmd {self cmd args} {
           $self._t tag add diff:B:S:$fline $pos [$self._t index "$end_posB+${count}l linestart"]
 
           # Colorize the *D* tag
-          $self._t tag configure diff:B:D:$fline -background $configAr(-diffsubbg)
+          $self._t tag configure diff:B:D:$fline -background $data($self,config,-diffsubbg)
           $self._t tag lower diff:B:D:$fline
         }
       }
@@ -1283,17 +1270,17 @@ proc ctext::instanceCmd {self cmd args} {
         set lineStart [$self._t index "$insertPos linestart"]
       }
       set prevSpace [ctext::findPreviousSpace $self._t ${insertPos}-1c]
-      set data      [lindex $args 1]
-      set datalen   [string length $data]
+      set dat       [lindex $args 1]
+      set datlen    [string length $dat]
       set cursor    [$self._t index insert]
 
       eval \$self._t insert $args
 
-      ctext::undo_insert $self $insertPos $datalen $cursor
-      ctext::handleInsertAt0 $self._t $insertPos $datalen
+      ctext::undo_insert $self $insertPos $datlen $cursor
+      ctext::handleInsertAt0 $self._t $insertPos $datlen
 
-      set nextSpace [ctext::findNextSpace $self._t "${insertPos}+${datalen}c"]
-      set lineEnd   [$self._t index "${insertPos}+${datalen}c lineend"]
+      set nextSpace [ctext::findNextSpace $self._t "${insertPos}+${datlen}c"]
+      set lineEnd   [$self._t index "${insertPos}+${datlen}c lineend"]
       set lines     [$self._t count -lines $lineStart $lineEnd]
 
       if {[$self._t compare $prevSpace < $lineStart]} {
@@ -1310,41 +1297,41 @@ proc ctext::instanceCmd {self cmd args} {
         }
       }
 
-      set re_data    [$self._t get $prevSpace "$insertPos+${datalen}c"]
-      set re_pattern [expr {($datalen == 1) ? "((\\\\.)+|$commentRE)\$" : $commentRE}]
+      set re_data    [$self._t get $prevSpace "$insertPos+${datlen}c"]
+      set re_pattern [expr {($datlen == 1) ? "((\\\\.)+|$commentRE)\$" : $commentRE}]
 
-      ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$configAr(re_opts) -- $re_pattern $re_data]
+      ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$data($self,config,re_opts) -- $re_pattern $re_data]
       ctext::highlightAfterIdle $self $lineStart $lineEnd
 
-      switch -- $data {
+      switch -- $dat {
         "\}" {
-          if {$configAr(matchChar,curly)} {
+          if {$data($self,config,matchChar,curly)} {
             ctext::matchPair $self "\\\{" "\\\}"
           }
         }
         "\]" {
-          if {$configAr(matchChar,square)} {
+          if {$data($self,config,matchChar,square)} {
             ctext::matchPair $self "\\\[" "\\\]"
           }
         }
         "\)" {
-          if {$configAr(matchChar,paren)} {
+          if {$data($self,config,matchChar,paren)} {
             ctext::matchPair $self "\\(" "\\)"
           }
         }
         "\>" {
-          if {$configAr(matchChar,angled)} {
+          if {$data($self,config,matchChar,angled)} {
             ctext::matchPair $self "\\<" "\\>"
           }
         }
         "\"" {
-          if {$configAr(matchChar,double)} {
+          if {$data($self,config,matchChar,double)} {
             ctext::matchQuote $self
           }
         }
       }
 
-      ctext::modified $self 1 [list insert $insertPos $datalen $lines $moddata]
+      ctext::modified $self 1 [list insert $insertPos $datlen $lines $moddata]
       ctext::linemapUpdate $self
     }
 
@@ -1360,8 +1347,8 @@ proc ctext::instanceCmd {self cmd args} {
 
       set startPos    [$self._t index [lindex $args 0]]
       set endPos      [$self._t index [lindex $args 1]]
-      set data        [lindex $args 2]
-      set datalen     [string length $data]
+      set dat         [lindex $args 2]
+      set datlen      [string length $dat]
       set cursor      [$self._t index insert]
       set deleteChars [$self._t count -chars $startPos $endPos]
       set deleteLines [$self._t count -lines $startPos $endPos]
@@ -1370,10 +1357,10 @@ proc ctext::instanceCmd {self cmd args} {
 
       eval \$self._t replace $args
 
-      ctext::undo_insert $self $startPos $datalen $cursor
+      ctext::undo_insert $self $startPos $datlen $cursor
 
       set lineStart   [$self._t index "$startPos linestart"]
-      set lineEnd     [$self._t index "$startPos+[expr $datalen + 1]c lineend"]
+      set lineEnd     [$self._t index "$startPos+[expr $datlen + 1]c lineend"]
       set insertLines [$self._t count -lines $lineStart $lineEnd]
 
       foreach tag [$self._t tag names] {
@@ -1384,39 +1371,39 @@ proc ctext::instanceCmd {self cmd args} {
 
       set REData [$self._t get $lineStart $lineEnd]
 
-      ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$configAr(re_opts) -- $commentRE $REData]
+      ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$data($self,config,re_opts) -- $commentRE $REData]
       ctext::highlightAfterIdle $self $lineStart $lineEnd
 
-      switch -- $data {
+      switch -- $dat {
         "\}" {
-          if {$configAr(matchChar,curly)} {
+          if {$data($self,config,matchChar,curly)} {
             ctext::matchPair $self "\\\{" "\\\}"
           }
         }
         "\]" {
-          if {$configAr(matchChar,square)} {
+          if {$data($self,config,matchChar,square)} {
             ctext::matchPair $self "\\\[" "\\\]"
           }
         }
         "\)" {
-          if {$configAr(matchChar,paren)} {
+          if {$data($self,config,matchChar,paren)} {
             ctext::matchPair $self "\\(" "\\)"
           }
         }
         "\>" {
-          if {$configAr(matchChar,angled)} {
+          if {$data($self,config,matchChar,angled)} {
             ctext::matchPair $self "\\<" "\\>"
           }
         }
         "\"" {
-          if {$configAr(matchChar,double)} {
+          if {$data($self,config,matchChar,double)} {
             ctext::matchQuote $self
           }
         }
       }
 
       ctext::modified $self 1 [list delete $startPos $deleteChars $deleteLines $moddata]
-      ctext::modified $self 1 [list insert $startPos $datalen $insertLines $moddata]
+      ctext::modified $self 1 [list insert $startPos $datlen $insertLines $moddata]
       ctext::linemapUpdate $self
     }
 
@@ -1454,14 +1441,12 @@ proc ctext::instanceCmd {self cmd args} {
       set subCmd [lindex $args 0]
       set argsLength [llength $args]
 
-      ctext::getAr $self config ar
-
       if {"modified" == $subCmd} {
         if {$argsLength == 1} {
-          return $ar(modified)
+          return $data($self,config,modified)
         } elseif {$argsLength == 2} {
           set value [lindex $args 1]
-          set ar(modified) $value
+          set data($self,config,modified) $value
         } else {
           return -code error "invalid arg(s) to $self edit modified: $args"
         }
@@ -1470,21 +1455,21 @@ proc ctext::instanceCmd {self cmd args} {
       } elseif {"redo" == $subCmd} {
         ctext::redo $self
       } elseif {"undoable" == $subCmd} {
-        return [expr $ar(undo_hist_size) > 0]
+        return [expr $data($self,config,undo_hist_size) > 0]
       } elseif {"redoable" == $subCmd} {
-        return [expr [llength $ar(redo_hist)] > 0]
+        return [expr [llength $data($self,config,redo_hist)] > 0]
       } elseif {"separator" == $subCmd} {
-        if {[llength $configAr(undo_hist)] > 0} {
+        if {[llength $data($self,config,undo_hist)] > 0} {
           ctext::undo_separator $self
         }
       } elseif {"reset" == $subCmd} {
-        set ar(undo_hist)      [list]
-        set ar(undo_hist_size) 0
-        set ar(undo_sep_next)  -1
-        set ar(undo_sep_last)  -1
-        set ar(undo_sep_size)  0
-        set ar(redo_hist)      [list]
-        set ar(modified)       false
+        set data($self,config,undo_hist)      [list]
+        set data($self,config,undo_hist_size) 0
+        set data($self,config,undo_sep_next)  -1
+        set data($self,config,undo_sep_last)  -1
+        set data($self,config,undo_sep_size)  0
+        set data($self,config,redo_hist)      [list]
+        set data($self,config,modified)       false
       } elseif {"cursorhist" == $subCmd} {
         return [ctext::undo_get_cursor_hist $self]
       } else {
@@ -1499,7 +1484,6 @@ proc ctext::instanceCmd {self cmd args} {
         create {
           set value_list  [lassign $args gutter_name]
           set gutter_tags [list]
-          ctext::getAr $self config ar
           foreach {name opts} $value_list {
             array set sym_opts $opts
             set sym        [expr {[info exists sym_opts(-symbol)] ? $sym_opts(-symbol) : ""}]
@@ -1522,31 +1506,29 @@ proc ctext::instanceCmd {self cmd args} {
             lappend gutter_tags $gutter_tag
             array unset sym_opts
           }
-          lappend ar(gutters) [list $gutter_name $gutter_tags]
+          lappend data($win,config,gutters) [list $gutter_name $gutter_tags]
           ctext::linemapUpdate $self
         }
         destroy {
           set gutter_name    [lindex $args 0]
-          ctext::getAr $self config ar
-          if {[set index [lsearch -index 0 $ar(gutters) $gutter_name]] != -1} {
-            $self._t tag delete {*}[lindex $ar(gutters) $index 1]
-            set ar(gutters) [lreplace $ar(gutters) $index $index]
+          if {[set index [lsearch -index 0 $data($self,config,gutters) $gutter_name]] != -1} {
+            $self._t tag delete {*}[lindex $data($self,config,gutters) $index 1]
+            set data($self,config,gutters) [lreplace $data($self,config,gutters) $index $index]
             ctext::linemapUpdate $self
           }
         }
         del* {
           lassign $args gutter_name sym_list
           set update_needed 0
-          ctext::getAr $self config ar
-          if {[set gutter_index [lsearch -index 0 $ar(gutters) $gutter_name]] == -1} {
+          if {[set gutter_index [lsearch -index 0 $data($self,config,gutters) $gutter_name]] == -1} {
             return -code error "Unable to find gutter name ($gutter_name)"
           }
           foreach symname $sym_list {
-            set gutters [lindex $ar(gutters) $gutter_index 1]
+            set gutters [lindex $data($self,config,gutters) $gutter_index 1]
             if {[set index [lsearch -glob $gutters "gutter:$gutter_name:$symname:*"]] != -1} {
               $self._t tag delete [lindex $gutters $index]
               set gutters [lreplace $gutters $index $index]
-              lset ar(gutters) $gutter_index 1 $gutters
+              lset data($self,config,gutters) $gutter_index 1 $gutters
               set update_needed 1
             }
           }
@@ -1557,10 +1539,9 @@ proc ctext::instanceCmd {self cmd args} {
         set {
           set args [lassign $args gutter_name]
           set update_needed 0
-          ctext::getAr $self config ar
-          if {[set gutter_index [lsearch -index 0 $ar(gutters) $gutter_name]] != -1} {
+          if {[set gutter_index [lsearch -index 0 $data($self,config,gutters) $gutter_name]] != -1} {
             foreach {name line_nums} $args {
-              if {[set gutter_tag [lsearch -inline -glob [lindex $ar(gutters) $gutter_index 1] gutter:$gutter_name:$name:*]] ne ""} {
+              if {[set gutter_tag [lsearch -inline -glob [lindex $data($self,config,gutters) $gutter_index 1] gutter:$gutter_name:$name:*]] ne ""} {
                 foreach line_num $line_nums {
                   if {[set curr_tag [lsearch -inline -glob [$self._t tag names $line_num.0] gutter:$gutter_name:*]] ne ""} {
                     if {$curr_tag ne $gutter_tag} {
@@ -1584,9 +1565,8 @@ proc ctext::instanceCmd {self cmd args} {
           if {[llength $args] == 1} {
             set gutter_name [lindex $args 0]
             set symbols     [list]
-            ctext::getAr $self config ar
-            if {[set gutter_index [lsearch -index 0 $ar(gutters) $gutter_name]] != -1} {
-              foreach gutter_tag [lindex $ar(gutters) $gutter_index 1] {
+            if {[set gutter_index [lsearch -index 0 $data($self,config,gutters) $gutter_name]] != -1} {
+              foreach gutter_tag [lindex $data($self,config,gutters) $gutter_index 1] {
                 set lines [list]
                 foreach {first last} [$self._t tag ranges $gutter_tag] {
                   lappend lines [lindex [split $first .] 0]
@@ -1617,14 +1597,13 @@ proc ctext::instanceCmd {self cmd args} {
         }
         clear {
           set last [lassign $args gutter_name first]
-          ctext::getAr $self config ar
-          if {[set gutter_index [lsearch -index 0 $ar(gutters) $gutter_name]] != -1} {
+          if {[set gutter_index [lsearch -index 0 $data($self,config,gutters) $gutter_name]] != -1} {
             if {$last eq ""} {
-              foreach gutter_tag [lindex $ar(gutters) $gutter_index 1] {
+              foreach gutter_tag [lindex $data($self,config,gutters) $gutter_index 1] {
                 $self._t tag remove $gutter_tag $first.0
               }
             } else {
-              foreach gutter_tag [lindex $ar(gutters) $gutter_index 1] {
+              foreach gutter_tag [lindex $data($self,config,gutters) $gutter_index 1] {
                 $self._t tag remove $gutter_tag $first.0 [$self._t index $last.0+1c]
               }
             }
@@ -1633,11 +1612,10 @@ proc ctext::instanceCmd {self cmd args} {
         }
         cget {
           lassign $args gutter_name sym_name opt
-          ctext::getAr $self config ar
-          if {[set index [lsearch -exact -index 0 $ar(gutters) $gutter_name]] == -1} {
+          if {[set index [lsearch -exact -index 0 $data($self,config,gutters) $gutter_name]] == -1} {
             return -code error "Unable to find gutter name ($gutter_name)"
           }
-          if {[set gutter_tag [lsearch -inline -glob [lindex $ar(gutters) $index 1] "gutter:$gutter_name:$sym_name:*"]] == -1} {
+          if {[set gutter_tag [lsearch -inline -glob [lindex $data($self,config,gutters) $index 1] "gutter:$gutter_name:$sym_name:*"]] == -1} {
             return -code error "Unknown symbol ($sym_name) specified"
           }
           switch $opt {
@@ -1654,8 +1632,7 @@ proc ctext::instanceCmd {self cmd args} {
         }
         conf* {
           set args [lassign $args gutter_name]
-          ctext::getAr $self config ar
-          if {[set index [lsearch -exact -index 0 $ar(gutters) $gutter_name]] == -1} {
+          if {[set index [lsearch -exact -index 0 $data($self,config,gutters) $gutter_name]] == -1} {
             return -code error "Unable to find gutter name ($gutter_name)"
           }
           if {[llength $args] < 2} {
@@ -1664,7 +1641,7 @@ proc ctext::instanceCmd {self cmd args} {
             } else {
               set match_tag "gutter:$gutter_name:[lindex $args 0]:*"
             }
-            foreach gutter_tag [lsearch -inline -all -glob [lindex $ar(gutters) $index 1] $match_tag] {
+            foreach gutter_tag [lsearch -inline -all -glob [lindex $data($self,config,gutters) $index 1] $match_tag] {
               lassign [split $gutter_tag :] dummy1 dummy2 symname sym
               set symopts [list]
               if {$sym ne ""} {
@@ -1691,7 +1668,7 @@ proc ctext::instanceCmd {self cmd args} {
           } else {
             set args          [lassign $args symname]
             set update_needed 0
-            if {[set gutter_tag [lsearch -inline -glob [lindex $ar(gutters) $index 1] "gutter:$gutter_name:$symname:*"]] == -1} {
+            if {[set gutter_tag [lsearch -inline -glob [lindex $data($self,config,gutters) $index 1] "gutter:$gutter_name:$symname:*"]] == -1} {
               return -code error "Unable to find gutter symbol name ($symname)"
             }
             foreach {opt value} $args {
@@ -1731,9 +1708,8 @@ proc ctext::instanceCmd {self cmd args} {
           }
         }
         names {
-          ctext::getAr $self config ar
           set names [list]
-          foreach gutter $ar(gutters) {
+          foreach gutter $data($self,config,gutters) {
             lappend names [lindex $gutter 0]
           }
           return $names
@@ -1751,21 +1727,24 @@ proc ctext::instanceCmd {self cmd args} {
 
 proc ctext::setAutoMatchChars {win matchChars} {
 
-  ctext::getAr $win config configAr
+  variable data
 
   # Clear the matchChars
-  foreach name [array names configAr matchChar,*] {
-    set configAr($name) 0
+  foreach name [array names data $win,config,matchChar,*] {
+    set data($name) 0
   }
 
   # Set the matchChars
   foreach matchChar $matchChars {
-    set configAr(matchChar,$matchChar) 1
+    set data($win,config,matchChar,$matchChar) 1
   }
 
 }
 
 proc ctext::tag:blink {win count {afterTriggered 0}} {
+
+  variable data
+
   if {$count & 1} {
     $win tag configure __ctext_blink \
     -foreground [$win cget -bg] -background [$win cget -fg]
@@ -1774,9 +1753,8 @@ proc ctext::tag:blink {win count {afterTriggered 0}} {
     -foreground [$win cget -fg] -background [$win cget -bg]
   }
 
-  ctext::getAr $win config configAr
   if {$afterTriggered} {
-    set configAr(blinkAfterId) ""
+    set data($win,config,blinkAfterId) ""
   }
 
   if {$count == 2} {
@@ -1785,8 +1763,8 @@ proc ctext::tag:blink {win count {afterTriggered 0}} {
   }
 
   incr count
-  if {"" eq $configAr(blinkAfterId)} {
-    set configAr(blinkAfterId) [after 50 \
+  if {"" eq $data($win,config,blinkAfterId)} {
+    set data($win,config,blinkAfterId) [after 50 \
     [list ctext::tag:blink $win $count [set afterTriggered 1]]]
   }
 }
@@ -1899,32 +1877,38 @@ proc ctext::matchQuote {win} {
 }
 
 proc ctext::setBlockCommentPatterns {win patterns {color "khaki"}} {
-  ctext::getAr $win config configAr
-  set configAr(block_comment_patterns) $patterns
+
+  variable data
+
+  set data($win,config,block_comment_patterns) $patterns
   if {[llength $patterns] > 0} {
     $win tag configure _cComment -foreground $color
   } else {
     catch { $win tag delete _cComment }
   }
   setCommentRE $win
+
 }
 
 proc ctext::setLineCommentPatterns {win patterns {color "khaki"}} {
-  ctext::getAr $win config configAr
-  set configAr(line_comment_patterns) $patterns
+
+  variable data
+
+  set data($win,config,line_comment_patterns) $patterns
   if {[llength $patterns] > 0} {
     $win tag configure _lComment -foreground $color
   } else {
     catch { $win tag delete _lComment }
   }
   setCommentRE $win
+
 }
 
 proc ctext::setStringPatterns {win patterns {color "green"}} {
 
-  ctext::getAr $win config configAr
+  variable data
 
-  set configAr(string_patterns) $patterns
+  set data($win,config,string_patterns) $patterns
 
   if {[llength $patterns] > 0} {
     $win tag configure _sString -foreground $color
@@ -1942,15 +1926,15 @@ proc ctext::setStringPatterns {win patterns {color "green"}} {
 
 proc ctext::comments {win start end blocks {afterTriggered 0}} {
 
-  ctext::getAr $win config configAr
+  variable data
 
   if {$afterTriggered} {
-    set configAr(commentsAfterId) ""
+    set data($win,config,commentsAfterId) ""
   }
 
-  set strings        [llength $configAr(string_patterns)]
-  set block_comments [llength $configAr(block_comment_patterns)]
-  set line_comments  [llength $configAr(line_comment_patterns)]
+  set strings        [llength $data($win,config,string_patterns)]
+  set block_comments [llength $data($win,config,block_comment_patterns)]
+  set line_comments  [llength $data($win,config,line_comment_patterns)]
 
   if {$blocks && [expr ($strings + $block_comments + $line_comments) > 0]} {
 
@@ -1970,14 +1954,14 @@ proc ctext::comments {win start end blocks {afterTriggered 0}} {
   # Otherwise, look for just the single line comments
   } elseif {$line_comments > 0} {
 
-    set commentRE "([join $configAr(line_comment_patterns) |])"
+    set commentRE "([join $data($win,config,line_comment_patterns) |])"
     append commentRE {[^\n\r]*}
 
     set lcomment [list]
 
     # Handle single line comments in the given range
     set i 0
-    foreach index [$win search -all -count lengths -regexp {*}$configAr(re_opts) -- $commentRE $start $end] {
+    foreach index [$win search -all -count lengths -regexp {*}$data($win,config,re_opts) -- $commentRE $start $end] {
       if {![isEscaped $win $index]} {
         lappend lcomment $index "$index+[lindex $lengths $i]c"
       }
@@ -2022,13 +2006,13 @@ proc ctext::commentsGetPrevious {win index pcCom plCom psStr pdStr ptStr} {
 
 proc ctext::commentsParse {win start end pcCom plCom psStr pdStr ptStr} {
 
+  variable data
+
   upvar $pcCom cCom
   upvar $plCom lCom
   upvar $psStr sStr
   upvar $pdStr dStr
   upvar $ptStr tStr
-
-  ctext::getAr $win config configAr
 
   set lcomment ""
   set ccomment ""
@@ -2036,7 +2020,7 @@ proc ctext::commentsParse {win start end pcCom plCom psStr pdStr ptStr} {
   set dstring  ""
   set tstring  ""
 
-  set indices     [$win search -all -overlap -count lengths -regexp {*}$configAr(re_opts) -- $configAr(comment_re) $start $end]
+  set indices     [$win search -all -overlap -count lengths -regexp {*}$data($win,config,re_opts) -- $data($win,config,comment_re) $start $end]
   set num_indices [llength $indices]
   for {set i 0} {$i < $num_indices} {incr i} {
 
@@ -2059,12 +2043,12 @@ proc ctext::commentsParse {win start end pcCom plCom psStr pdStr ptStr} {
         commentsParseTStringEnd $win $index indices $num_indices lengths i tstring
 
       # Found a single line comment
-      } elseif {($configAr(lcomment_re) ne "") && [regexp {*}$configAr(re_opts) -- $configAr(lcomment_re) $str]} {
+      } elseif {($data($win,config,lcomment_re) ne "") && [regexp {*}$data($win,config,re_opts) -- $data($win,config,lcomment_re) $str]} {
         commentsParseLCommentEnd $win $index indices $num_indices i lcomment
 
       # Found a starting block comment string
-      } elseif {($configAr(bcomment_re) ne "") && [regexp {*}$configAr(re_opts) -- $configAr(bcomment_re) $str]} {
-        commentsParseCCommentEnd $win $index indices $num_indices $configAr(re_opts) $configAr(ecomment_re) lengths i ccomment
+      } elseif {($data($win,config,bcomment_re) ne "") && [regexp {*}$data($win,config,re_opts) -- $data($win,config,bcomment_re) $str]} {
+        commentsParseCCommentEnd $win $index indices $num_indices $data($win,config,re_opts) $data($win,config,ecomment_re) lengths i ccomment
       }
 
     }
@@ -2208,14 +2192,14 @@ proc ctext::commentsParseCCommentEnd {win index pindices num_indices re_opts eco
 
 proc ctext::add_font_opt {win class modifiers popts} {
 
+  variable data
+
   upvar $popts opts
 
   if {[llength $modifiers] > 0} {
 
     array set font_opts [font configure [$win cget -font]]
     array set tag_opts  [list]
-
-    ctext::getAr $win highlight ar
 
     set lsize       ""
     set click       0
@@ -2259,14 +2243,14 @@ proc ctext::add_font_opt {win class modifiers popts} {
     }
 
     if {$lsize ne ""} {
-      set ar(lsize,$class) "lsize$lsize"
-      $win.l tag configure $ar(lsize,$class) {*}[array get tag_opts] -font $fontname
+      set data($win,config,lsize,$class) "lsize$lsize"
+      $win.l tag configure $data($win,config,lsize,$class) {*}[array get tag_opts] -font $fontname
     }
 
     lappend opts -font $fontname {*}[array get tag_opts]
 
     if {$click} {
-      set ar(click,$class) $opts
+      set data($win,config,click,$class) $opts
     }
 
   }
@@ -2274,6 +2258,8 @@ proc ctext::add_font_opt {win class modifiers popts} {
 }
 
 proc ctext::addHighlightClass {win class fgcolor {bgcolor ""} {font_opts ""}} {
+
+  variable data
 
   set opts [list]
 
@@ -2292,60 +2278,58 @@ proc ctext::addHighlightClass {win class fgcolor {bgcolor ""} {font_opts ""}} {
     $win tag lower _$class sel
   }
 
-  ctext::getAr $win classes classesAr
-  set classesAr(_$class) 1
+  set data($win,classes,_$class) 1
 
 }
 
 proc ctext::addHighlightKeywords {win keywords type value} {
 
-  ctext::getAr $win highlight ar
+  variable data
 
   if {$type eq "class"} {
     set value _$value
   }
 
   foreach word $keywords {
-    set ar(keyword,$type,$word) $value
+    set data($win,config,keyword,$type,$word) $value
   }
 
 }
 
 proc ctext::addHighlightRegexp {win re type value} {
 
-  ctext::getAr $win highlight ar
-  ctext::getAr $win config    configAr
+  variable data
 
   if {$type eq "class"} {
     set value _$value
   }
 
-  lappend ar(regexps) "regexp,$type,$value"
+  lappend data($win,highlight,regexps) "regexp,$type,$value"
 
-  set ar(regexp,$type,$value) [list $re $configAr(re_opts)]
+  set data($win,highlight,regexp,$type,$value) [list $re $data($win,config,re_opts)]
 
 }
 
 # For things like $blah
 proc ctext::addHighlightWithOnlyCharStart {win char type value} {
 
-  ctext::getAr $win highlight ar
+  variable data
 
   if {$type eq "class"} {
     set value _$value
   }
 
-  set ar(charstart,$type,$char) $value
+  set data($win,highlight,charstart,$type,$char) $value
 
 }
 
 proc ctext::addSearchClass {win class fgcolor bgcolor modifiers str} {
 
+  variable data
+
   addHighlightClass $win $class $fgcolor $bgcolor $modifiers
 
-  ctext::getAr $win highlight ar
-
-  set ar(searchword,class,$str) _$class
+  set data($win,highlight,searchword,class,$str) _$class
 
   # Perform the search
   set i 0
@@ -2359,18 +2343,17 @@ proc ctext::addSearchClass {win class fgcolor bgcolor modifiers str} {
 
 proc ctext::addSearchClassForRegexp {win class fgcolor bgcolor modifiers re {re_opts ""}} {
 
+  variable data
+
   addHighlightClass $win $class $fgcolor $bgcolor $modifiers
 
-  ctext::getAr $win highlight ar
-  ctext::getAr $win config    configAr
-
   if {$re_opts ne ""} {
-    set re_opts $configAr(re_opts)
+    set re_opts $data($win,config,re_opts)
   }
 
-  lappend ar(regexps) "searchregexp,class,_$class"
+  lappend data($win,highlight,regexps) "searchregexp,class,_$class"
 
-  set ar(searchregexp,class,_$class) [list $re $re_opts]
+  set data($win,highlight,searchregexp,class,_$class) [list $re $re_opts]
 
   # Perform the search
   set i 0
@@ -2384,19 +2367,18 @@ proc ctext::addSearchClassForRegexp {win class fgcolor bgcolor modifiers re {re_
 
 proc ctext::deleteHighlightClass {win classToDelete} {
 
-  ctext::getAr $win highlight ar
-  ctext::getAr $win classes   classesAr
+  variable data
 
-  if {![info exists classesAr(_$classToDelete)]} {
+  if {![info exists data($win,classes,_$classToDelete)]} {
     return -code error "$classToDelete doesn't exist"
   }
 
-  if {[set index [lsearch -glob $ar(regexps) *regexp,class,_$classToDelete]] != -1} {
-    set ar(regexps) [lreplace $ar(regexps) $index $index]
+  if {[set index [lsearch -glob $data($win,highlight,regexps) *regexp,class,_$classToDelete]] != -1} {
+    set data($win,highlight,regexps) [lreplace $data($win,highlight,regexps) $index $index]
   }
 
-  array unset ar *,class,_$classToDelete
-  unset classesAr(_$classToDelete)
+  array unset data $win,highlight,*,class,_$classToDelete
+  unset data($win,classes,_$classToDelete)
 
   $win tag delete _$classToDelete 1.0 end
 
@@ -2404,11 +2386,11 @@ proc ctext::deleteHighlightClass {win classToDelete} {
 
 proc ctext::getHighlightClasses win {
 
-  ctext::getAr $win classes classesAr
+  variable data
 
   set classes [list]
-  foreach class [array names classesAr] {
-    lappend classes [string range $class 1 end]
+  foreach class [array names data $win,classes,*] {
+    lappend classes [string range [lindex [split $class ,] 2] 1 end]
   }
 
   return $classes
@@ -2477,11 +2459,10 @@ proc ctext::findPreviousSpace {win index} {
 
 proc ctext::clearHighlightClasses {win} {
 
-  ctext::getAr $win highlight ar
-  array unset ar
+  variable data
 
-  ctext::getAr $win classes ar
-  array unset ar
+  array unset data $win,highlight,*
+  array unset data $win,classes,*
 
   # Delete the associated tags
   if {[winfo exists $win]} {
@@ -2496,24 +2477,24 @@ proc ctext::clearHighlightClasses {win} {
 
 proc ctext::handle_tag {win class startpos endpos cmd} {
 
-  ctext::getAr $win highlight ar
+  variable data
 
   # Add the tag and possible binding
-  if {[info exists ar(click,$class)]} {
-    set tag _$class[incr ar(click_index)]
+  if {[info exists data($win,highlight,click,$class)]} {
+    set tag _$class[incr data($win,highlight,click_index)]
     $win tag add       $tag $startpos $endpos
-    $win tag configure $tag {*}$ar(click,$class)
+    $win tag configure $tag {*}$data($win,highlight,click,$class)
     $win tag bind      $tag <Button-3> $cmd
   } else {
     $win tag add _$class $startpos $endpos
   }
 
   # Add the lsize
-  if {[info exists ar(lsize,$class)]} {
+  if {[info exists data($win,highlight,lsize,$class)]} {
     set startline [lindex [split $startpos .] 0]
     set endline   [lindex [split $startpos .] 0]
     for {set line $startline} {$line <= $endline} {incr line} {
-      $win tag add $ar(lsize,$class) $line.0
+      $win tag add $data($win,highlight,lsize,$class) $line.0
     }
     linemapUpdate $win
   }
@@ -2522,6 +2503,7 @@ proc ctext::handle_tag {win class startpos endpos cmd} {
 
 proc ctext::doHighlight {win start end} {
 
+  variable data
   variable REs
   variable restart_from
 
@@ -2529,53 +2511,44 @@ proc ctext::doHighlight {win start end} {
     return
   }
 
-  ctext::getAr $win config configAr
-
-  if {!$configAr(-highlight)} {
+  if {!$data($win,config,-highlight)} {
     return
   }
-
-  # Get the highlights and delete the tag
-  # set linesChanged [$win tag ranges lineChanged]
-  # $win tag delete lineChanged
-
-  ctext::getAr $win classes   classesAr
-  ctext::getAr $win highlight highlightAr
 
   set twin "$win._t"
 
   # Handle word-based matching
   set i 0
-  foreach res [$twin search -count lengths -regexp {*}$configAr(re_opts) -all -- $REs(words) $start $end] {
+  foreach res [$twin search -count lengths -regexp {*}$data($win,config,re_opts) -all -- $REs(words) $start $end] {
     set wordEnd      [$twin index "$res + [lindex $lengths $i] chars"]
     set word         [$twin get $res $wordEnd]
     set firstOfWord  [string index $word 0]
-    if {[info exists highlightAr(keyword,class,$word)]} {
-      $twin tag add $highlightAr(keyword,class,$word) $res $wordEnd
-    } elseif {[info exists highlightAr(charstart,class,$firstOfWord)]} {
-      $twin tag add $highlightAr(charstart,class,$firstOfWord) $res $wordEnd
+    if {[info exists data($win,highlight,keyword,class,$word)]} {
+      $twin tag add $data($win,highlight,keyword,class,$word) $res $wordEnd
+    } elseif {[info exists data($win,highlight,charstart,class,$firstOfWord)]} {
+      $twin tag add $data($win,highlight,charstart,class,$firstOfWord) $res $wordEnd
     }
-    if {[info exists highlightAr(keyword,command,$word)] && \
-        ![catch { {*}$highlightAr(keyword,command,$word) $win $res $wordEnd } retval] && ([llength $retval] == 4)} {
+    if {[info exists data($win,highlight,keyword,command,$word)] && \
+        ![catch { {*}$data($win,highlight,keyword,command,$word) $win $res $wordEnd } retval] && ([llength $retval] == 4)} {
       handle_tag $win {*}$retval
-    } elseif {[info exists highlightAr(charstart,command,$firstOfWord)] && \
-              ![catch { {*}$highlightAr(charstart,command,$firstOfWord) $win $res $wordEnd } retval] && ([llength $retval] == 4)} {
+    } elseif {[info exists data($win,highlight,charstart,command,$firstOfWord)] && \
+              ![catch { {*}$data($win,highlight,charstart,command,$firstOfWord) $win $res $wordEnd } retval] && ([llength $retval] == 4)} {
       handle_tag $win {*}$retval
     }
-    if {[info exists highlightAr(searchword,class,$word)]} {
-      $twin tag add $highlightAr(searchword,class,$word) $res $wordEnd
-    } elseif {[info exists highlightAr(searchword,command,$word)] && \
-              ![catch { {*}$highlightAr(searchword,command,$word) $win $res $wordEnd } retval] && ([llength $retval] == 4)} {
+    if {[info exists data($win,highlight,searchword,class,$word)]} {
+      $twin tag add $data($win,highlight,searchword,class,$word) $res $wordEnd
+    } elseif {[info exists data($win,highlight,searchword,command,$word)] && \
+              ![catch { {*}$data($win,highlight,searchword,command,$word) $win $res $wordEnd } retval] && ([llength $retval] == 4)} {
       handle_tag $win {*}$retval
     }
     incr i
   }
 
   # Handle regular expression matching
-  if {[info exists highlightAr(regexps)]} {
-    foreach name $highlightAr(regexps) {
+  if {[info exists data($win,highlight,regexps)]} {
+    foreach name $data($win,highlight,regexps) {
       lassign [split $name ,] dummy type value
-      lassign $highlightAr($name) re re_opts
+      lassign $data($win,highlight,$name) re re_opts
       set i 0
       if {$type eq "class"} {
         foreach res [$twin search -count lengths -regexp {*}$re_opts -all -- $re $start $end] {
@@ -2609,13 +2582,11 @@ proc ctext::doHighlight {win start end} {
 
 proc ctext::linemapToggleMark {win y} {
 
-  ctext::getAr $win config configAr
+  variable data
 
-  if {!$configAr(-linemap_markable)} {
+  if {!$data($win,config,-linemap_markable)} {
     return
   }
-
-  ctext::getAr $win linemap linemapAr
 
   set lline [lindex [split [set lmarkChar [$win.l index @0,$y]] .] 0]
   set tline [lindex [split [set tmarkChar [$win.t index @0,$y]] .] 0]
@@ -2627,31 +2598,31 @@ proc ctext::linemapToggleMark {win y} {
     ctext::linemapUpdate $win
     set type unmarked
   } else {
-    set lmark "lmark[incr linemapAr(id)]"
+    set lmark "lmark[incr data($win,linemap,id)]"
     #This means that the line isn't toggled, so toggle it.
     $win.t tag add $lmark $tmarkChar [$win.t index "$tmarkChar lineend"]
     $win.l tag add lmark $lmarkChar [$win.l index "$lmarkChar lineend"]
-    $win.l tag configure lmark -foreground $configAr(-linemap_select_fg) \
-      -background $configAr(-linemap_select_bg)
+    $win.l tag configure lmark -foreground $data($win,config,-linemap_select_fg) \
+      -background $data($win,config,-linemap_select_bg)
     set type marked
   }
 
-  if {[string length $configAr(-linemap_mark_command)]} {
-    uplevel #0 [linsert $configAr(-linemap_mark_command) end $win $type $lmark]
+  if {[string length $data($win,config,-linemap_mark_command)]} {
+    uplevel #0 [linsert $data($win,config,-linemap_mark_command) end $win $type $lmark]
   }
 
 }
 
 proc ctext::linemapSetMark {win line} {
 
+  variable data
+
   if {[lsearch -inline -glob [$win.t tag names $line.0] lmark*] eq ""} {
-    ctext::getAr $win config configAr
-    ctext::getAr $win linemap linemapAr
-    set lmark "lmark[incr linemapAr(id)]"
+    set lmark "lmark[incr data($win,linemap,id)]"
     $win.t tag add $lmark $line.0
     $win.l tag add lmark $line.0
-    $win.l tag configure lmark -foreground $configAr(-linemap_select_fg) \
-      -background $configAr(-linemap_select_bg)
+    $win.l tag configure lmark -foreground $data($win,config,-linemap_select_fg) \
+      -background $data($win,config,-linemap_select_bg)
     return $lmark
   }
 
@@ -2672,17 +2643,17 @@ proc ctext::linemapClearMark {win line} {
 #args is here because -yscrollcommand may call it
 proc ctext::linemapUpdate {win} {
 
+  variable data
+
   if {![winfo exists $win.l]} {
     return
   }
 
-  ctext::getAr $win config configAr
-
   set first_line    [lindex [split [$win.t index @0,0] .] 0]
   set last_line     [lindex [split [$win.t index @0,[winfo height $win.t]] .] 0]
   set line_width    [string length [lindex [split [$win._t index end-1c] .] 0]]
-  set linenum_width [expr max( $configAr(-linemap_minwidth), $line_width )]
-  set gutter_width  [llength $configAr(gutters)]
+  set linenum_width [expr max( $data($win,config,-linemap_minwidth), $line_width )]
+  set gutter_width  [llength $data($win,config,gutters)]
 
   if {$gutter_width > 0} {
     set gutter_items [lrepeat $gutter_width " " [list]]
@@ -2692,16 +2663,16 @@ proc ctext::linemapUpdate {win} {
 
   $win.l delete 1.0 end
 
-  if {$configAr(-diff_mode)} {
+  if {$data($win,config,-diff_mode)} {
     linemapDiffUpdate $win $first_line $last_line $linenum_width $gutter_items
     set full_width [expr ($linenum_width * 2) + 1 + $gutter_width]
-  } elseif {$configAr(-linemap)} {
+  } elseif {$data($win,config,-linemap)} {
     linemapLineUpdate $win $first_line $last_line $linenum_width $gutter_items
     set full_width [expr $linenum_width + $gutter_width]
   } elseif {$gutter_width > 0} {
     linemapGutterUpdate $win $first_line $last_line $linenum_width $gutter_items
-    set full_width [expr $configAr(-linemap_markable) + $gutter_width]
-  } elseif {$configAr(-linemap_markable)} {
+    set full_width [expr $data($win,config,-linemap_markable) + $gutter_width]
+  } elseif {$data($win,config,-linemap_markable)} {
     linemapMarkUpdate $win $first_line $last_line
     set full_width $gutter_width
   }
@@ -2717,7 +2688,7 @@ proc ctext::linemapUpdate {win} {
 
 proc ctext::linemapDiffUpdate {win first last linenum_width gutter_items} {
 
-  ctext::getAr $win config configAr
+  variable data
 
   set lsize_pos [expr 2 + [llength $gutter_items] + 1]
 
@@ -2751,7 +2722,7 @@ proc ctext::linemapDiffUpdate {win first last linenum_width gutter_items} {
     foreach gutter_tag [lsearch -inline -all -glob $ltags gutter:*] {
       lassign [split $gutter_tag :] dummy gutter_name gutter_symname gutter_sym
       if {$gutter_sym ne ""} {
-        set gutter_index [expr ([lsearch -index 0 $configAr(gutters) $gutter_name] * 2) + 2]
+        set gutter_index [expr ([lsearch -index 0 $data($win,config,gutters) $gutter_name] * 2) + 2]
         lset line_content $gutter_index            $gutter_sym
         lset line_content [expr $gutter_index + 1] $gutter_tag
       }
@@ -2763,7 +2734,7 @@ proc ctext::linemapDiffUpdate {win first last linenum_width gutter_items} {
 
 proc ctext::linemapLineUpdate {win first last linenum_width gutter_items} {
 
-  ctext::getAr $win config configAr
+  variable data
 
   set lsize_pos [expr 2 + [llength $gutter_items] + 1]
 
@@ -2779,7 +2750,7 @@ proc ctext::linemapLineUpdate {win first last linenum_width gutter_items} {
     foreach gutter_tag [lsearch -inline -all -glob $ltags gutter:*] {
       lassign [split $gutter_tag :] dummy gutter_name gutter_symname gutter_sym
       if {$gutter_sym ne ""} {
-        set gutter_index [expr ([lsearch -index 0 $configAr(gutters) $gutter_name] * 2) + 2]
+        set gutter_index [expr ([lsearch -index 0 $data($win,config,gutters) $gutter_name] * 2) + 2]
         lset line_content $gutter_index            $gutter_sym
         lset line_content [expr $gutter_index + 1] $gutter_tag
       }
@@ -2791,9 +2762,9 @@ proc ctext::linemapLineUpdate {win first last linenum_width gutter_items} {
 
 proc ctext::linemapGutterUpdate {win first last linenum_width gutter_items} {
 
-  ctext::getAr $win config configAr
+  variable data
 
-  if {$configAr(-linemap_markable)} {
+  if {$data($win,config,-linemap_markable)} {
     set line_template [list " " [list] {*}$gutter_items "0" [list] "\n"]
     set line_items    2
   } else {
@@ -2815,7 +2786,7 @@ proc ctext::linemapGutterUpdate {win first last linenum_width gutter_items} {
     foreach gutter_tag [lsearch -inline -all -glob $ltags gutter:*] {
       lassign [split $gutter_tag :] dummy gutter_name gutter_symname gutter_sym
       if {$gutter_sym ne ""} {
-        set gutter_index [expr ([lsearch -index 0 $configAr(gutters) $gutter_name] * 2) + $line_items]
+        set gutter_index [expr ([lsearch -index 0 $data($win,config,gutters) $gutter_name] * 2) + $line_items]
         lset line_content $gutter_index            $gutter_sym
         lset line_content [expr $gutter_index + 1] $gutter_tag
       }
@@ -2884,11 +2855,12 @@ if {![catch {
   proc ctext::linemapUpdateOffset {args} {}
 }
 
-proc ctext::modified {win value {data ""}} {
+proc ctext::modified {win value {dat ""}} {
 
-  ctext::getAr $win config ar
-  set ar(modified) $value
-  event generate $win <<Modified>> -data $data
+  variable data
+
+  set data($win,config,modified) $value
+  event generate $win <<Modified>> -data $dat
 
   return $value
 
