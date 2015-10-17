@@ -159,13 +159,8 @@ namespace eval diff {
     # Update the spinboxes (if we are not using ttk::spinbox)
     if {$data(sb) eq "spinbox"} {
       foreach win [array names data *,win] {
-        $data($win).vf.v1 configure -background $bg -foreground $fg
+        $win.vf.v1 configure -background $bg -foreground $fg
       }
-    }
-
-    # Update the difference maps
-    foreach win [array names data *,canvas] {
-      $data([lindex [split $win ,] 0]) configure {*}$sb_opts
     }
 
   }

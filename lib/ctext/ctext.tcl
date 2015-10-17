@@ -82,8 +82,10 @@ proc ctext {win args} {
   -linemap_select_fg -linemap_select_bg -linemap_relief -linemap_minwidth -casesensitive -peer \
   -undo -maxundo -autoseparators -diff_mode -diffsubbg -diffaddbg]
 
-  # TBD
-  # array set ar $args
+  # Set args
+  foreach {name value} $args {
+    set ctext::data($win,config,$name) $value
+  }
 
   foreach flag {foreground background} short {fg bg} {
     if {[info exists ctext::data($win,config,-$flag)] == 1} {
@@ -1060,7 +1062,7 @@ proc ctext::instanceCmd {self cmd args} {
         set deleteEndPos   [$self._t index [lindex $args 1]]
         set lines          [$self._t count -lines $deleteStartPos $deleteEndPos]
 
-        set data [$self._t get $deleteStartPos $deleteEndPos]
+        set dat [$self._t get $deleteStartPos $deleteEndPos]
 
         set lineStart [$self._t index "$deleteStartPos linestart"]
         set lineEnd [$self._t index "$deleteEndPos + 1 chars lineend"]
@@ -1075,12 +1077,12 @@ proc ctext::instanceCmd {self cmd args} {
           }
         }
 
-        ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$data($self,config,re_opts) -- $commentRE $data]
+        ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$data($self,config,re_opts) -- $commentRE $dat]
         ctext::highlightAfterIdle $self $lineStart $lineEnd
-        if {[string first "\n" $data] >= 0} {
+        if {[string first "\n" $dat] >= 0} {
           ctext::linemapUpdate $self
         }
-        ctext::modified $self 1 [list delete $deleteStartPos [string length $data] $lines $moddata]
+        ctext::modified $self 1 [list delete $deleteStartPos [string length $dat] $lines $moddata]
       } else {
         return -code error "invalid argument(s) sent to $self delete: $args"
       }
@@ -2243,8 +2245,8 @@ proc ctext::add_font_opt {win class modifiers popts} {
     }
 
     if {$lsize ne ""} {
-      set data($win,config,lsize,$class) "lsize$lsize"
-      $win.l tag configure $data($win,config,lsize,$class) {*}[array get tag_opts] -font $fontname
+      set data($win,highlight,lsize,$class) "lsize$lsize"
+      $win.l tag configure $data($win,highlight,lsize,$class) {*}[array get tag_opts] -font $fontname
     }
 
     lappend opts -font $fontname {*}[array get tag_opts]
@@ -2291,7 +2293,7 @@ proc ctext::addHighlightKeywords {win keywords type value} {
   }
 
   foreach word $keywords {
-    set data($win,config,keyword,$type,$word) $value
+    set data($win,highlight,keyword,$type,$word) $value
   }
 
 }
