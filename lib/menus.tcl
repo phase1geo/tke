@@ -105,6 +105,12 @@ namespace eval menus {
         launcher::register [msgcat::mc "Tools Menu: Show diagnostic logfile"] "logger::view_log"
         launcher::register [msgcat::mc "Tools Menu: Restart TKE"] "menus::restart_command"
 
+        # If profiling was enabled at startup, disable start and enable stop
+        if {$::cl_profile} {
+          $mb entryconfigure [msgcat::mc "Start Profiling"] -state disabled
+          $mb entryconfigure [msgcat::mc "Stop Profiling"]  -state normal
+        }
+
         set mb ".menubar.plugins"
         $mb insert 3 separator
         $mb insert 4 command -label [msgcat::mc "Create..."] -underline 0 -command "plugins::create_new_plugin"
@@ -1521,7 +1527,7 @@ namespace eval menus {
       }
 
       # Indicate that profiling mode is off
-      $mb entryconfigure [msgcat::mc "Stop Profiling"] -state disabled
+      $mb entryconfigure [msgcat::mc "Stop Profiling"]  -state disabled
       $mb entryconfigure [msgcat::mc "Start Profiling"] -state normal
 
     }

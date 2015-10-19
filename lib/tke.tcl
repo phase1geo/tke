@@ -145,6 +145,7 @@ proc parse_cmdline {argc argv} {
   set ::cl_minimal       0
   set ::cl_new_win       0
   set ::cl_use_session   ""
+  set ::cl_profile       0
 
   set i 0
   while {$i < $argc} {
@@ -156,6 +157,7 @@ proc parse_cmdline {argc argv} {
       -m    { set ::cl_minimal 1 }
       -n    { set ::cl_new_win 1 }
       -s    { incr i; set ::cl_use_session [lindex $argv $i]; set ::cl_new_win 1 }
+      -p    { set ::cl_profile 1 }
       default {
         if {[lindex $argv $i] ne ""} {
           lappend ::cl_files [file normalize [lindex $argv $i]]
@@ -282,6 +284,11 @@ if {[catch {
 
   # Parse the command-line options
   parse_cmdline $argc $argv
+
+  # If we need to start profiling, do it now
+  if {[tke_development] && $::cl_profile} {
+    profile on
+  }
 
   # Attempt to add files or raise the existing application
   if {([tk appname] ne "tke") && ([tk windowingsystem] eq "x11") && !$cl_new_win} {

@@ -282,7 +282,10 @@
 # This option is only valid when we are running in developer mode.  Specifies
 # how the profile report will be displayed.  Valid values are:
 #  - calls
-#  - FOOBAR
+#  - real
+#  - cpu
+#  - real_per_call
+#  - cpu_per_call
 
 {Tools/ProfileReportSortby}  {calls}
 
