@@ -578,7 +578,7 @@ namespace eval sidebar {
   proc ignore_file {fname} {
 
     # If the file is a binary file, ignore it
-    if {[lsearch [fileutil::fileType $fname] "binary"] != -1} {
+    if {[utils::is_binary $fname]} {
       return 1
     }
 
