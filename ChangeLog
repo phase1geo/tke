@@ -1,44 +1,26 @@
-changeset:   1419:8264bb39859f
-tag:         devel-1.9.3
+changeset:   1424:353cf5fc868f
+tag:         devel-1.9.4
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Oct 15 01:17:40 2015 -0500
+date:        Sun Oct 18 20:25:24 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.9.3 release
+ChangeLog for devel-1.9.4 release
 
 
-changeset:   1420:d57dbd086bb9
+changeset:   1425:9c96d70ccdd0
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Oct 15 01:17:46 2015 -0500
+date:        Sun Oct 18 20:26:15 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.9.3 for changeset 8264bb39859f
+Added tag devel-1.9.4 for changeset 353cf5fc868f
 
 
-changeset:   1421:3ce6ed03dec9
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Oct 16 09:18:21 2015 -0500
-files:       lib/ctext/ctext.tcl lib/version.tcl
-description:
-* Removing getAr calls and replacing with "variable data" array references.
-
-
-changeset:   1422:144298774999
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Oct 17 12:03:47 2015 -0500
-files:       lib/ctext/ctext.tcl lib/diff.tcl lib/version.tcl
-description:
-* Fixing theme changing proc for diff widgets.
-* Improving ctext data lookup performance.
-
-
-changeset:   1423:141f59d56163
+changeset:   1426:53ca88d4a2c8
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Oct 18 20:23:18 2015 -0500
-files:       data/preferences.tkedat lib/menus.tcl lib/tke.tcl lib/version.tcl
+date:        Tue Oct 20 09:04:25 2015 -0500
+files:       lib/sidebar.tcl lib/tke.tcl lib/utils.tcl lib/version.tcl
 description:
-* Fixing comments in preferences file.
-* Adding -p command-line option to allow startup profiling.
+* Swapping fileutil::fileType call with faster utils::is_binary call to improve sidebar performance.
 
 
