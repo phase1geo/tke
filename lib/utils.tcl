@@ -26,6 +26,8 @@ namespace eval utils {
 
   source [file join $::tke_dir lib ns.tcl]
 
+  variable bin_rx {[\x00-\x08\x0b\x0e-\x1f]}
+
   array set xignore    {}
   array set xignore_id {}
   array set vars       {}
@@ -468,6 +470,30 @@ namespace eval utils {
     }
 
     return $result
+
+  }
+
+  ######################################################################
+  # Returns true if the given filename is a binary file; otherwise,
+  # returns false to indicate that the file is a text file.  This code
+  # is lifted from the fileutil::fileType procedure, but should perform
+  # better since we are not interested in all of the file information.
+  proc is_binary {fname} {
+
+    variable bin_rx
+
+    # Open the file for reading
+    if {[catch { open $fname r } rc]} {
+      return -code error "utils::is_binary: $err"
+    }
+
+    # Read the first 1024 bytes
+    fconfigure $rc -translation binary -buffersize 1024 -buffering full
+    set test [read $rc 1024]
+    close $rc
+
+    # If the code segment contains any of the characters in bin_rx, indicate that it is a binary file
+    return [regexp $bin_rx $test]
 
   }
 
