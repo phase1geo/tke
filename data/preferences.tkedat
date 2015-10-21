@@ -250,10 +250,9 @@
 
 {Sidebar/IgnoreFilePatterns} {}
 
-# If set to a value of 1, does not display any files that are executable on the system
-# in the sidebar.
+# If set to a value of 1, does not display any binary files in the sidebar.
 
-{Sidebar/IgnoreExecutables}  {0}
+{Sidebar/IgnoreBinaries}  {0}
 
 # When a file is closed in the editor and the file was last opened file within
 # a "rooted" directory in the sidebar, a value of 1 to this option will automatically
