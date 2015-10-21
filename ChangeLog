@@ -1,26 +1,28 @@
-changeset:   1424:353cf5fc868f
-tag:         devel-1.9.4
+changeset:   1427:d2d80ca4762e
+tag:         devel-1.9.5
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Oct 18 20:25:24 2015 -0500
+date:        Tue Oct 20 09:05:17 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.9.4 release
+ChangeLog for devel-1.9.5 release
 
 
-changeset:   1425:9c96d70ccdd0
+changeset:   1428:d488e59e6a57
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Oct 18 20:26:15 2015 -0500
+date:        Tue Oct 20 09:05:23 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.9.4 for changeset 353cf5fc868f
+Added tag devel-1.9.5 for changeset d2d80ca4762e
 
 
-changeset:   1426:53ca88d4a2c8
+changeset:   1429:95c1198a3212
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Oct 20 09:04:25 2015 -0500
-files:       lib/sidebar.tcl lib/tke.tcl lib/utils.tcl lib/version.tcl
+date:        Wed Oct 21 01:36:59 2015 -0500
+files:       data/themes/minimal_Theme.tketheme lib/menus.tcl lib/sidebar.tcl lib/version.tcl
 description:
-* Swapping fileutil::fileType call with faster utils::is_binary call to improve sidebar performance.
+* Updating minimal_Theme to correct colors.
+* Optimizing the order_files_dirs procedure.
+* Fixing profiling report to not display containing directory in sidebar.
 
 
