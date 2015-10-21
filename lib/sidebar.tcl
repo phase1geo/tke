@@ -118,7 +118,7 @@ namespace eval sidebar {
     # Create needed images
     set images(sopen) [image create bitmap -file [file join $::tke_dir lib images sopen.bmp] \
                                            -maskfile [file join $::tke_dir lib images sopen.bmp] \
-                                           -foreground "gold"]
+                                           -foreground "gold" -background black]
 
     set fg [utils::get_default_foreground]
     set bg [utils::get_default_background]
@@ -176,7 +176,7 @@ namespace eval sidebar {
 
     # Handle traces
     trace variable preferences::prefs(Sidebar/IgnoreFilePatterns) w sidebar::handle_ignore_files
-    trace variable preferences::prefs(Sidebar/IgnoreExecutables)  w sidebar::handle_ignore_files
+    trace variable preferences::prefs(Sidebar/IgnoreBinaries)     w sidebar::handle_ignore_files
 
     return $w
 
@@ -575,12 +575,7 @@ namespace eval sidebar {
   proc ignore_file {fname} {
 
     # If the file is a binary file, ignore it
-    if {[utils::is_binary $fname]} {
-      return 1
-    }
-
-    # Ignore the file if we are told to ignore executables and the file is an executable
-    if {[preferences::get Sidebar/IgnoreExecutables] && [file isfile $fname] && [file executable $fname]} {
+    if {[preferences::get Sidebar/IgnoreBinaries] && [utils::is_binary $fname]} {
       return 1
     }
 
@@ -1364,11 +1359,13 @@ namespace eval sidebar {
   proc handle_theme_change {sidebar_opts sb_opts} {
 
     variable widgets
+    variable images
 
     # Configure the tablelist widget
     if {[info exists widgets(tl)]} {
       $widgets(tl) configure {*}$sidebar_opts
       $widgets(sb) configure {*}$sb_opts
+      $images(sopen) configure -background "blue" -foreground "light blue"
     }
 
   }
