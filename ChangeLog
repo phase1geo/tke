@@ -1,28 +1,28 @@
-changeset:   1427:d2d80ca4762e
-tag:         devel-1.9.5
+changeset:   1430:0486b672e634
+tag:         devel-1.9.6
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Oct 20 09:05:17 2015 -0500
+date:        Wed Oct 21 01:55:20 2015 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.9.5 release
+ChangeLog for devel-1.9.6 release
 
 
-changeset:   1428:d488e59e6a57
+changeset:   1431:5b1e86d2787d
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Oct 20 09:05:23 2015 -0500
+date:        Wed Oct 21 01:55:26 2015 -0500
 files:       .hgtags
 description:
-Added tag devel-1.9.5 for changeset d2d80ca4762e
+Added tag devel-1.9.6 for changeset 0486b672e634
 
 
-changeset:   1429:95c1198a3212
+changeset:   1432:7919099ee8d7
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Oct 21 01:36:59 2015 -0500
-files:       data/themes/minimal_Theme.tketheme lib/menus.tcl lib/sidebar.tcl lib/version.tcl
+date:        Wed Oct 21 09:24:40 2015 -0500
+files:       data/preferences.tkedat lib/images/sopen.bmp lib/sidebar.tcl lib/version.tcl
 description:
-* Updating minimal_Theme to correct colors.
-* Optimizing the order_files_dirs procedure.
-* Fixing profiling report to not display containing directory in sidebar.
+* Removing Sidebar/IgnoreExecutables preference.
+* Adding Sidebar/IgnoreBinaries preference.
+* Modifying look of the open image indicator for better future theming.
 
 
