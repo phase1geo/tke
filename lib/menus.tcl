@@ -1542,7 +1542,7 @@ namespace eval menus {
 
     # If the profiling report exists, display it
     if {[file exists $profile_report]} {
-      gui::add_file end $profile_report -lock 1
+      gui::add_file end $profile_report -lock 1 -sidebar 0
     }
 
   }
