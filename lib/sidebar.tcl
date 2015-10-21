@@ -550,11 +550,8 @@ namespace eval sidebar {
     variable widgets
     variable images
 
-    # Get the directory path
-    set dir [$widgets(tl) cellcget $parent,name -text]
-
     # Get the folder contents and sort them
-    foreach name [order_files_dirs [glob -nocomplain -directory $dir *]] {
+    foreach name [order_files_dirs [$widgets(tl) cellcget $parent,name -text]] {
 
       if {[file isdirectory $name]} {
         set child [$widgets(tl) insertchild $parent end [list $name 0]]
@@ -600,29 +597,15 @@ namespace eval sidebar {
 
   ######################################################################
   # Handles directory/file ordering issues
-  proc order_files_dirs {contents} {
+  proc order_files_dirs {dir} {
 
-    set contents [lsort -unique $contents]
-
-    # If we need to show the folders at the top, handle this
     if {[preferences::get Sidebar/FoldersAtTop]} {
-      set tmp_dirs  [list]
-      set tmp_files [list]
-      foreach name $contents {
-        if {[file isdirectory $name]} {
-          lappend tmp_dirs $name
-        } else {
-          lappend tmp_files $name
-        }
-      }
-      set contents [concat $tmp_dirs $tmp_files]
+      return [concat [lsort [glob -nocomplain -directory $dir -types d *]] [lsort [glob -nocomplain -directory $dir -types {f l} *]]]
+    } else {
+      return [lsort [glob -nocomplain -directory $dir -types {d f l} *]]
     }
 
-    return $contents
-
   }
-
-
 
   ######################################################################
   # Recursively updates the given directory (if the child directories
@@ -656,13 +639,13 @@ namespace eval sidebar {
     # Get the directory contents (removing anything that matches the
     # ignored file patterns)
     set dir_files [list]
-    foreach dir_file [glob -nocomplain -directory [$widgets(tl) cellcget $parent,name -text] *] {
+    foreach dir_file [order_files_dirs [$widgets(tl) cellcget $parent,name -text]] {
       if {![ignore_file $dir_file]} {
         lappend dir_files $dir_file
       }
     }
 
-    set dir_files [lassign [order_files_dirs $dir_files] dir_file]
+    set dir_files [lassign $dir_files dir_file]
     foreach child [$widgets(tl) childkeys $parent] {
       set tl_file [$widgets(tl) cellcget $child,name -text]
       set compare [string compare $tl_file $dir_file]

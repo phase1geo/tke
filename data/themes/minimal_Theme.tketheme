@@ -3,11 +3,11 @@ menus {
 }
 
 tabs {
-  -background #5a5a5a
-  -foreground #ffffff
-  -activebackground #323232
-  -inactivebackground #5a5a5a
   -relief flat
+  -inactivebackground #5a5a5a
+  -foreground #ffffff
+  -activebackground #302d26
+  -background #5a5a5a
 }
 
 sidebar_scrollbar {
@@ -17,39 +17,39 @@ sidebar_scrollbar {
 }
 
 ttk_style {
-  disabledfg #999999
-  frame #323232
-  lightframe #5a5a5a
-  window #323232
-  dark #cfcdc8
-  darker #bab5ab
-  darkest #9e9a91
-  lighter #ffffff
+  window #302d26
   lightest #ffffff
+  disabledfg #999999
+  darker #bab5ab
   selectbg #4a6984
   selectfg #ffffff
+  dark #cfcdc8
+  darkest #9e9a91
+  frame #302d26
+  lightframe #5a5a5a
+  lighter #ffffff
 }
 
 text_scrollbar {
-  -background #323232
   -foreground #5a5a5a
   -thickness 11
+  -background #302d26
 }
 
 meta {
 }
 
 sidebar {
-  -foreground #323232
-  -background #ffffff
-  -selectbackground #5a5a5a
-  -selectforeground #ffffff
-  -highlightbackground #ffffff
   -highlightcolor #ffffff
+  -selectforeground #ffffff
+  -foreground #302d26
+  -highlightbackground #ffffff
+  -selectbackground #5a5a5a
+  -background #ffffff
 }
 
 swatch {
-  #323232 #5a5a5a
+  #302d26 #5a5a5a
   #ffffff #ffffff
 }
 
