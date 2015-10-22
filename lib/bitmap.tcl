@@ -1,6 +1,49 @@
+# TKE - Advanced Programmer's Editor
+# Copyright (C) 2014  Trevor Williams (phase1geo@gmail.com)
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+######################################################################
+# Name:    bitmap.tcl
+# Author:  Trevor Williams  (trevorw@sgi.com)
+# Date:    05/21/2013
+# Brief:   Widget tool to create a two-color bitmap.
+######################################################################
+
+set tke_dir [file join ~ projects tke-code]
+
+source [file join $::tke_dir lib utils.tcl]
+
 namespace eval bitmap {
 
   array set data {}
+
+  if {[catch { ttk::spinbox .__tmp }]} {
+    set bg                [utils::get_default_background]
+    set fg                [utils::get_default_foreground]
+    set data(sb)          "spinbox"
+    set data(sb_opts)     "-relief flat -buttondownrelief flat -buttonuprelief flat -background $bg -foreground $fg"
+    set data(sb_normal)   "configure -state normal"
+    set data(sb_disabled) "configure -state disabled"
+  } else {
+    set data(sb)          "ttk::spinbox"
+    set data(sb_opts)     ""
+    set data(sb_normal)   "state !disabled"
+    set data(sb_disabled) "state disabled"
+    destroy .__tmp
+  }
 
   ######################################################################
   # Creates a bitmap widget and returns the widget name.
@@ -20,46 +63,63 @@ namespace eval bitmap {
 
     array set opts $args
 
-    set data(-background) $opts(-background)
-    set data(-size)       $opts(-size)
-    set data(colors)      [list $opts(-background) $opts(-color1) $opts(-color2)]
-    set data(-width)      $opts(-width)
-    set data(-height)     $opts(-height)
-    set data(-swatches)   $opts(-swatches)
+    set data($w,-background) $opts(-background)
+    set data($w,-size)       $opts(-size)
+    set data($w,colors)      [list $opts(-background) $opts(-color1) $opts(-color2)]
+    set data($w,-width)      $opts(-width)
+    set data($w,-height)     $opts(-height)
+    set data($w,-swatches)   $opts(-swatches)
 
     ttk::frame $w
 
     # Create the bitmap canvas
-    set width      [expr ($data(-width)  * $data(-size)) + 1]
-    set height     [expr ($data(-height) * $data(-size)) + 1]
-    set data(grid) [canvas $w.c -background $opts(-background) -width $width -height $height]
+    set width  [expr ($data($w,-width)  * $data($w,-size)) + 1]
+    set height [expr ($data($w,-height) * $data($w,-size)) + 1]
+    set data($w,grid) [canvas $w.c -background $opts(-background) -width $width -height $height]
 
-    bind $data(grid) <B1-Motion> [list bitmap::change_square_motion %x %y]
-    bind $data(grid) <B3-Motion> [list bitmap::change_square_motion %x %y]
+    bind $data($w,grid) <B1-Motion> [list bitmap::change_square_motion $w %x %y]
+    bind $data($w,grid) <B3-Motion> [list bitmap::change_square_motion $w %x %y]
 
     # Create the right frame
     ttk::frame $w.rf
-    set data(plabel) [label $w.rf.p]
-    set data(color1) [ttk::menubutton $w.rf.sb1 -text [lindex $data(colors) 1] -menu [set data(color1_mnu) [menu $w.rf.mnu1 -tearoff 0]]]
-    set data(color2) [ttk::menubutton $w.rf.sb2 -text [lindex $data(colors) 2] -menu [set data(color2_mnu) [menu $w.rf.mnu2 -tearoff 0]]]
+    set data($w,plabel) [label $w.rf.p -background black]
+    ttk::label $w.rf.l1 -text "Color-1:"
+    set data($w,color1) [ttk::menubutton $w.rf.sb1 -text [lindex $data($w,colors) 1] -menu [set data($w,color1_mnu) [menu $w.rf.mnu1 -tearoff 0]]]
+    ttk::label $w.rf.l2 -text "Color-2:"
+    set data($w,color2) [ttk::menubutton $w.rf.sb2 -text [lindex $data($w,colors) 2] -menu [set data($w,color2_mnu) [menu $w.rf.mnu2 -tearoff 0]]]
+    ttk::label $w.rf.l3 -text "Width:"
+    set data($w,width)  [$data(sb) $w.rf.width {*}$data(sb_opts)  -width 2 -values [list 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16] -command [list bitmap::set_grid_size $w width]]
+    ttk::label $w.rf.l4 -text "Height:"
+    set data($w,height) [$data(sb) $w.rf.height {*}$data(sb_opts) -width 2 -values [list 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16] -command [list bitmap::set_grid_size $w height]]
 
-    pack $data(plabel) -side top -padx 2 -pady 2
-    pack $data(color1) -side top -padx 2 -pady 2 -fill x
-    pack $data(color2) -side top -padx 2 -pady 2 -fill x
+    $data($w,width)  set $data($w,-width)
+    $data($w,height) set $data($w,-height)
 
-    pack $data(grid) -side left -padx 2 -pady 2
-    pack $w.rf       -side left -padx 2 -pady 2 -fill y
+    grid rowconfigure    $w.rf 5 -weight 1
+    grid columnconfigure $w.rf 1 -weight 1
+    grid $data($w,plabel) -row 0 -column 0 -padx 2 -pady 2 -columnspan 2
+    grid $w.rf.l1         -row 1 -column 0 -sticky news -padx 2 -pady 2
+    grid $data($w,color1) -row 1 -column 1 -sticky news -padx 2 -pady 2
+    grid $w.rf.l2         -row 2 -column 0 -sticky news -padx 2 -pady 2
+    grid $data($w,color2) -row 2 -column 1 -sticky news -padx 2 -pady 2
+    grid $w.rf.l3         -row 3 -column 0 -sticky news -padx 2 -pady 2
+    grid $data($w,width)  -row 3 -column 1 -sticky news -padx 2 -pady 2
+    grid $w.rf.l4         -row 4 -column 0 -sticky news -padx 2 -pady 2
+    grid $data($w,height) -row 4 -column 1 -sticky news -padx 2 -pady 2
+
+    pack $data($w,grid) -side left -padx 2 -pady 2 -fill both -expand yes
+    pack $w.rf          -side left -padx 2 -pady 2 -fill y
 
     # Draw the bitmap
-    draw_grid $data(-width) $data(-height)
+    draw_grid $w $data($w,-width) $data($w,-height)
 
     # Update the menus
-    update_menus
+    update_menus $w
 
     # Create the preview image
-    array set info [gen_info]
-    set data(preview) [image create bitmap -data $info(dat) -maskdata $info(msk) -foreground $info(fg) -background $info(bg)]
-    $data(plabel) configure -image $data(preview)
+    array set info [gen_info $w]
+    set data($w,preview) [image create bitmap -data $info(dat) -maskdata $info(msk) -foreground $info(fg) -background $info(bg)]
+    $data($w,plabel) configure -image $data($w,preview)
 
     return $w
 
@@ -67,26 +127,34 @@ namespace eval bitmap {
 
   ######################################################################
   # Draws the bitmap grid.
-  proc draw_grid {width height} {
+  proc draw_grid {w width height} {
 
     variable data
+
+    # Clear the grid
+    $data($w,grid) delete all
+
+    # Set the canvas size
+    set width  [expr ($data($w,-width)  * $data($w,-size)) + 1]
+    set height [expr ($data($w,-height) * $data($w,-size)) + 1]
+    $data($w,grid) configure -width $width -height $height
 
     for {set row 0} {$row < $height} {incr row} {
 
       for {set col 0} {$col < $width} {incr col} {
 
         # Calculate the square positions
-        set x1 [expr ($col * $data(-size)) + 2]
-        set y1 [expr ($row * $data(-size)) + 2]
-        set x2 [expr (($col + 1) * $data(-size)) + 2]
-        set y2 [expr (($row + 1) * $data(-size)) + 2]
+        set x1 [expr ($col * $data($w,-size)) + 1]
+        set y1 [expr ($row * $data($w,-size)) + 1]
+        set x2 [expr (($col + 1) * $data($w,-size)) + 1]
+        set y2 [expr (($row + 1) * $data($w,-size)) + 1]
 
         # Create the square
-        set data($row,$col) [$data(grid) create rectangle $x1 $y1 $x2 $y2 -fill $data(-background) -outline black -width 1 -tags s0]
+        set data($w,$row,$col) [$data($w,grid) create rectangle $x1 $y1 $x2 $y2 -fill $data($w,-background) -outline black -width 1 -tags s0]
 
         # Create the square bindings
-        $data(grid) bind $data($row,$col) <ButtonPress-1> [list bitmap::change_square $row $col  1]
-        $data(grid) bind $data($row,$col) <ButtonPress-3> [list bitmap::change_square $row $col -1]
+        $data($w,grid) bind $data($w,$row,$col) <ButtonPress-1> [list bitmap::change_square $w $row $col  1]
+        $data($w,grid) bind $data($w,$row,$col) <ButtonPress-3> [list bitmap::change_square $w $row $col -1]
 
       }
 
@@ -95,47 +163,74 @@ namespace eval bitmap {
   }
 
   ######################################################################
+  # Set the size of the grid.
+  proc set_grid_size {w type} {
+
+    variable data
+
+    # Get the spinbox value
+    set data($w,-$type) [$data($w,$type) get]
+
+    # Redraw the grid
+    draw_grid $w $data($w,-width) $data($w,-height)
+
+    # Update the preview
+    array set info [gen_info $w]
+    $data($w,preview) configure -data $info(dat) -maskdata $info(msk)
+
+    # Generate the event
+    event generate $w <<BitmapChanged>> -data [array get info]
+
+  }
+
+  ######################################################################
   # Changes the fill color of the selected square to the color indicated
   # by the current color
-  proc change_square {row col dir} {
+  proc change_square {w row col dir} {
 
     variable data
 
     # Get the current color
-    set curr_tag [string index [$data(grid) itemcget $data($row,$col) -tags] 1]
+    set curr_tag [string index [$data($w,grid) itemcget $data($w,$row,$col) -tags] 1]
 
     # If this is the initial press, save the replace color
-    set data(replace)      $curr_tag
-    set data(replace_with) [expr ($curr_tag + $dir) % 3]
+    set data($w,replace)      $curr_tag
+    set data($w,replace_with) [expr ($curr_tag + $dir) % 3]
 
     # Set the square fill color
-    $data(grid) itemconfigure $data($row,$col) -fill [lindex $data(colors) $data(replace_with)] -tags s$data(replace_with)
+    $data($w,grid) itemconfigure $data($w,$row,$col) -fill [lindex $data($w,colors) $data($w,replace_with)] -tags s$data($w,replace_with)
 
     # Update the preview
-    array set info [gen_info]
-    $data(preview) configure -data $info(dat) -maskdata $info(msk)
+    array set info [gen_info $w]
+    $data($w,preview) configure -data $info(dat) -maskdata $info(msk)
+
+    # Generate the event
+    event generate $w <<BitmapChanged>> -data [array get info]
 
   }
 
   ######################################################################
   # Specifies that the current change is done.
-  proc change_square_motion {x y} {
+  proc change_square_motion {w x y} {
 
     variable data
 
-    set id [$data(grid) find closest $x $y]
+    set id [$data($w,grid) find closest $x $y]
 
     # Get the current color
-    set tag [string index [$data(grid) itemcget $id -tags] 1]
+    set tag [string index [$data($w,grid) itemcget $id -tags] 1]
 
-    if {$data(replace) eq $tag} {
+    if {$data($w,replace) eq $tag} {
 
       # Configure the square color
-      $data(grid) itemconfigure $id -fill [lindex $data(colors) $data(replace_with)] -tags s$data(replace_with)
+      $data($w,grid) itemconfigure $id -fill [lindex $data($w,colors) $data($w,replace_with)] -tags s$data($w,replace_with)
 
       # Update the preview
-      array set info [gen_info]
-      $data(preview) configure -data $info(dat) -maskdata $info(msk)
+      array set info [gen_info $w]
+      $data($w,preview) configure -data $info(dat) -maskdata $info(msk)
+
+      # Generate the event
+      event generate $w <<BitmapChanged>> -data [array get info]
 
     }
 
@@ -143,20 +238,20 @@ namespace eval bitmap {
 
   ######################################################################
   # Returns the bitmap information in the form of an array.
-  proc gen_info {} {
+  proc gen_info {w} {
 
     variable data
 
-    set dat "#define img_width $data(-width)\n#define img_height $data(-height)\nstatic char img_bits\[\] = {\n"
-    set msk "#define img_width $data(-width)\n#define img_height $data(-height)\nstatic char img_bits\[\] = {\n"
+    set dat "#define img_width $data($w,-width)\n#define img_height $data($w,-height)\nstatic char img_bits\[\] = {\n"
+    set msk "#define img_width $data($w,-width)\n#define img_height $data($w,-height)\nstatic char img_bits\[\] = {\n"
 
-    lassign $data(colors) dummy color1 color2
+    lassign $data($w,colors) dummy color1 color2
 
-    for {set row 0} {$row < $data(-height)} {incr row} {
+    for {set row 0} {$row < $data($w,-height)} {incr row} {
       set dat_val 0
       set msk_val 0
-      for {set col 0} {$col < $data(-width)} {incr col} {
-        set color [$data(grid) itemcget $data($row,$col) -fill]
+      for {set col 0} {$col < $data($w,-width)} {incr col} {
+        set color [$data($w,grid) itemcget $data($w,$row,$col) -fill]
         if {$color eq $color1} {
           set dat_val [expr $dat_val | (0x1 << $col)]
           set msk_val [expr $msk_val | (0x1 << $col)]
@@ -164,12 +259,12 @@ namespace eval bitmap {
           set msk_val [expr $msk_val | (0x1 << $col)]
         }
       }
-      for {set i 0} {$i < [expr $data(-width) / 8]} {incr i } {
+      for {set i 0} {$i < [expr $data($w,-width) / 8]} {incr i } {
         append dat [format {0x%02x, } [expr ($dat_val >> ($i * 8)) & 0xff]]
         append msk [format {0x%02x, } [expr ($msk_val >> ($i * 8)) & 0xff]]
       }
-      if {[expr $data(-width) % 8]} {
-        set byte [expr ($data(-width) / 8) + 1]
+      if {[expr $data($w,-width) % 8]} {
+        set byte [expr $data($w,-width) / 8]
         append dat [format {0x%02x, } [expr ($dat_val >> ($byte * 8)) & 0xff]]
         append msk [format {0x%02x, } [expr ($msk_val >> ($byte * 8)) & 0xff]]
       }
@@ -178,13 +273,13 @@ namespace eval bitmap {
     set dat "[string range $dat 0 end-2]};"
     set msk "[string range $msk 0 end-2]};"
 
-    return [list dat $dat msk $msk fg [lindex $data(colors) 1] bg [lindex $data(colors) 2]]
+    return [list dat $dat msk $msk fg [lindex $data($w,colors) 1] bg [lindex $data($w,colors) 2]]
 
   }
 
   ######################################################################
   # Update the widget from the information.
-  proc set_from_info {args} {
+  proc set_from_info {w args} {
 
     array set info $args
 
@@ -192,18 +287,18 @@ namespace eval bitmap {
 
   ######################################################################
   # Updates the color menus
-  proc update_menus {} {
+  proc update_menus {w} {
 
     variable data
 
     for {set i 1} {$i <= 2} {incr i} {
-      set mnu $data(color${i}_mnu)
+      set mnu $data($w,color${i}_mnu)
       $mnu delete 0 end
-      $mnu add command -label "Custom color..." -command [list bitmap::set_custom_color $i]
-      if {[llength $data(-swatches)] > 0} {
+      $mnu add command -label "Custom color..." -command [list bitmap::set_custom_color $w $i]
+      if {[llength $data($w,-swatches)] > 0} {
         $mnu add separator
-        foreach swatch $data(-swatches) {
-          $mnu add command -label $swatch -command [list bitmap::set_color $i $label]
+        foreach swatch $data($w,-swatches) {
+          $mnu add command -label $swatch -command [list bitmap::set_color $w $i $label]
         }
       }
     }
@@ -212,12 +307,12 @@ namespace eval bitmap {
 
   ######################################################################
   # Set a custom color
-  proc set_custom_color {index} {
+  proc set_custom_color {w index} {
 
     variable data
 
-    if {[set color [tk_chooseColor -initialcolor [lindex $data(colors) $index]]] ne ""} {
-      set_color $index $color
+    if {[set color [tk_chooseColor -initialcolor [lindex $data($w,colors) $index]]] ne ""} {
+      set_color $w $index $color
     }
 
   }
@@ -225,26 +320,26 @@ namespace eval bitmap {
   ######################################################################
   # Sets the specified color index with the given color and updates the
   # widget.
-  proc set_color {index color} {
+  proc set_color {w index color} {
 
     variable data
 
     # Set the color
-    lset data(colors) $index $color
+    lset data($w,colors) $index $color
 
     # Set the preview color
     if {$index == 1} {
-      $data(preview) configure -foreground $color
+      $data($w,preview) configure -foreground $color
     } else {
-      $data(preview) configure -background $color
+      $data($w,preview) configure -background $color
     }
 
     # Set the menubutton label
-    $data(color$index) configure -text $color
+    $data($w,color$index) configure -text $color
 
     # Update the colors
-    foreach id [$data(grid) find withtag s$index] {
-      $data(grid) itemconfigure $id -fill $color
+    foreach id [$data($w,grid) find withtag s$index] {
+      $data($w,grid) itemconfigure $id -fill $color
     }
 
   }
