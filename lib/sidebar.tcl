@@ -574,16 +574,16 @@ namespace eval sidebar {
   # Figure out if the given file should be ignored.
   proc ignore_file {fname} {
 
-    # If the file is a binary file, ignore it
-    if {[preferences::get Sidebar/IgnoreBinaries] && [utils::is_binary $fname]} {
-      return 1
-    }
-
     # Ignore the file if it matches any of the ignore patterns
     foreach pattern [preferences::get Sidebar/IgnoreFilePatterns] {
       if {[string match $pattern $fname]} {
         return 1
       }
+    }
+
+    # If the file is a binary file, ignore it
+    if {[preferences::get Sidebar/IgnoreBinaries] && [utils::is_binary $fname]} {
+      return 1
     }
 
     return 0
