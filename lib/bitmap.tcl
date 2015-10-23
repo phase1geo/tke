@@ -121,7 +121,7 @@ namespace eval bitmap {
     update_menus $w
 
     # Create the preview image
-    array set info [gen_info $w]
+    array set info [get_info $w]
     set data($w,preview) [image create bitmap -data $info(dat) -maskdata $info(msk) -foreground $info(fg) -background $info(bg)]
     $data($w,plabel) configure -image $data($w,preview)
 
@@ -174,15 +174,11 @@ namespace eval bitmap {
     # Get the spinbox value
     set data($w,-$type) [$data($w,$type) get]
 
-    # Redraw the grid
-    draw_grid $w $data($w,-width) $data($w,-height)
-
-    # Update the preview
-    array set info [gen_info $w]
-    $data($w,preview) configure -data $info(dat) -maskdata $info(msk)
+    # Update the grid
+    set_from_info $w [set info [get_info $w]] 0
 
     # Generate the event
-    event generate $w <<BitmapChanged>> -data [array get info]
+    event generate $w <<BitmapChanged>> -data $info
 
   }
 
@@ -204,7 +200,7 @@ namespace eval bitmap {
     $data($w,grid) itemconfigure $data($w,$row,$col) -fill [lindex $data($w,colors) $data($w,replace_with)] -tags s$data($w,replace_with)
 
     # Update the preview
-    array set info [gen_info $w]
+    array set info [get_info $w]
     $data($w,preview) configure -data $info(dat) -maskdata $info(msk)
 
     # Generate the event
@@ -229,7 +225,7 @@ namespace eval bitmap {
       $data($w,grid) itemconfigure $id -fill [lindex $data($w,colors) $data($w,replace_with)] -tags s$data($w,replace_with)
 
       # Update the preview
-      array set info [gen_info $w]
+      array set info [get_info $w]
       $data($w,preview) configure -data $info(dat) -maskdata $info(msk)
 
       # Generate the event
@@ -241,7 +237,7 @@ namespace eval bitmap {
 
   ######################################################################
   # Returns the bitmap information in the form of an array.
-  proc gen_info {w} {
+  proc get_info {w} {
 
     variable data
 
@@ -282,7 +278,7 @@ namespace eval bitmap {
 
   ######################################################################
   # Update the widget from the information.
-  proc set_from_info {w info_list} {
+  proc set_from_info {w info_list {resize 1}} {
 
     variable data
 
@@ -293,18 +289,18 @@ namespace eval bitmap {
     array set msk_info [parse_bmp $info(msk)]
 
     # Set the variables
-    set data($w,-width)  $dat_info(width)
-    set data($w,-height) $dat_info(height)
-    set data($w,-color1) $info(fg)
-    set data($w,-color2) $info(bg)
-    lset data($w,colors) 1 $info(fg)
-    lset data($w,colors) 2 $info(bg)
+    if {$resize} {
+      set data($w,-width)  $dat_info(width)
+      set data($w,-height) $dat_info(height)
+    }
+    lset data($w,colors) 1 [set data($w,-color1) $info(fg)]
+    lset data($w,colors) 2 [set data($w,-color2) $info(bg)]
 
     # Update the preview
     $data($w,preview) configure -foreground $info(fg) -background $info(bg) -data $info(dat) -maskdata $info(msk)
 
     # Redraw the grid
-    draw_grid $w $dat_info(width) $dat_info(height)
+    draw_grid $w $data($w,-width) $data($w,-height)
 
     # Update the widgets
     $data($w,color1) configure -text $info(fg)
@@ -312,10 +308,10 @@ namespace eval bitmap {
     $data($w,width)  set $dat_info(width)
     $data($w,height) set $dat_info(height)
 
-    for {set row 0} {$row < $dat_info(height)} {incr row} {
+    for {set row 0} {$row < $data($w,-height)} {incr row} {
       set dat_val [lindex $dat_info(rows) $row]
       set msk_val [lindex $msk_info(rows) $row]
-      for {set col 0} {$col < $dat_info(width)} {incr col} {
+      for {set col 0} {$col < $data($w,-width)} {incr col} {
         if {[expr $dat_val & (0x1 << $col)]} {
           $data($w,grid) itemconfigure $data($w,$row,$col) -fill $info(fg)
         } elseif {[expr $msk_val & (0x1 << $col)]} {
