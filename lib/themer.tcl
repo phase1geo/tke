@@ -24,6 +24,8 @@
 # Brief:   Converts a *.tmTheme file to a *.tketheme file.
 ######################################################################
 
+source [file join $::tke_dir lib bitmap.tcl]
+
 namespace eval themer {
 
   variable tmtheme        ""
@@ -559,6 +561,7 @@ namespace eval themer {
       create_detail_relief
       create_detail_number
       create_detail_color
+      create_detail_bitmap
 
     }
 
@@ -718,6 +721,9 @@ namespace eval themer {
         -thickness {
           detail_show_number "Thickness" $value 5 20
         }
+        -bitmap {
+          detail_show_bitmap $value
+        }
         default {
           detail_show_color $value
         }
@@ -859,6 +865,16 @@ namespace eval themer {
     pack $data(widgets,color_canvas) -pady 5
     pack $data(widgets,color).mb     -pady 2
     pack $data(widgets,color).mod    -pady 2
+
+  }
+
+  ######################################################################
+  # Create the bitmap detail panel.
+  proc create_detail_bitmap {} {
+
+    variable data
+
+    set data(widgets,bitmap) [bitmap::create $data(widgets,df).bf]
 
   }
 
@@ -1160,6 +1176,21 @@ namespace eval themer {
 
     # Fool the UI into thinking that the modified value changed
     # color_mod_changed $data(mod)
+
+  }
+
+  ######################################################################
+  # Displays the bitmap detail window and populates it with the given
+  # information.
+  proc detail_show_bitmap {value} {
+
+    variable data
+
+    # Add the bitmap panel
+    pack $data(widgets,bitmap)
+
+    # Set the bitmap information
+    bitmap::set_from_info $data(widgets,bitmap) $value
 
   }
 

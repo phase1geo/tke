@@ -22,9 +22,10 @@
 # Brief:   Widget tool to create a two-color bitmap.
 ######################################################################
 
-set tke_dir [file join ~ projects tke-code]
-
-source [file join $::tke_dir lib utils.tcl]
+if {0} {
+  set tke_dir [file join ~ projects tke-code]
+  source [file join $::tke_dir lib utils.tcl]
+}
 
 namespace eval bitmap {
 
@@ -418,10 +419,11 @@ namespace eval bitmap {
 
 }
 
-pack [bitmap::create .bm] -side left
-
-if {![catch { open images/sopen.bmp r } rc]} {
-  set content [read $rc]]
-  close $rc
-  bitmap::set_from_info .bm [list fg black bg white dat $content msk $content]
+if {0} {
+  pack [bitmap::create .bm] -side left
+  if {![catch { open images/sopen.bmp r } rc]} {
+    set content [read $rc]]
+    close $rc
+    bitmap::set_from_info .bm [list fg black bg white dat $content msk $content]
+  }
 }
