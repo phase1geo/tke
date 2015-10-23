@@ -30,18 +30,21 @@ namespace eval bitmap {
 
   array set data {}
 
+  set data(bg) [utils::get_default_background]
+  set data(fg) [utils::get_default_foreground]
+
   if {[catch { ttk::spinbox .__tmp }]} {
-    set bg                [utils::get_default_background]
-    set fg                [utils::get_default_foreground]
     set data(sb)          "spinbox"
-    set data(sb_opts)     "-relief flat -buttondownrelief flat -buttonuprelief flat -background $bg -foreground $fg"
+    set data(sb_opts)     "-relief flat -buttondownrelief flat -buttonuprelief flat -background $data(bg) -foreground $data(fg)"
     set data(sb_normal)   "configure -state normal"
     set data(sb_disabled) "configure -state disabled"
+    set data(sb_readonly) "configure -state readonly"
   } else {
     set data(sb)          "ttk::spinbox"
     set data(sb_opts)     ""
     set data(sb_normal)   "state !disabled"
     set data(sb_disabled) "state disabled"
+    set data(sb_readonly) "state readonly"
     destroy .__tmp
   }
 
@@ -52,7 +55,6 @@ namespace eval bitmap {
     variable data
 
     array set opts {
-      -background white
       -color1     blue
       -color2     green
       -size       10
@@ -63,9 +65,9 @@ namespace eval bitmap {
 
     array set opts $args
 
-    set data($w,-background) $opts(-background)
+    # Initialize variables
     set data($w,-size)       $opts(-size)
-    set data($w,colors)      [list $opts(-background) $opts(-color1) $opts(-color2)]
+    set data($w,colors)      [list $data(bg) $opts(-color1) $opts(-color2)]
     set data($w,-width)      $opts(-width)
     set data($w,-height)     $opts(-height)
     set data($w,-swatches)   $opts(-swatches)
@@ -73,16 +75,16 @@ namespace eval bitmap {
     ttk::frame $w
 
     # Create the bitmap canvas
-    set width  [expr ($data($w,-width)  * $data($w,-size)) + 1]
-    set height [expr ($data($w,-height) * $data($w,-size)) + 1]
-    set data($w,grid) [canvas $w.c -background $opts(-background) -width $width -height $height]
+    set width  [expr ($data($w,-size) * 16) + 1]
+    set height [expr ($data($w,-size) * 16) + 1]
+    set data($w,grid) [canvas $w.c -background $data(bg) -width $width -height $height]
 
     bind $data($w,grid) <B1-Motion> [list bitmap::change_square_motion $w %x %y]
     bind $data($w,grid) <B3-Motion> [list bitmap::change_square_motion $w %x %y]
 
     # Create the right frame
     ttk::frame $w.rf
-    set data($w,plabel) [label $w.rf.p -background black]
+    set data($w,plabel) [label $w.rf.p -relief solid]
     ttk::label $w.rf.l1 -text "Color-1:"
     set data($w,color1) [ttk::menubutton $w.rf.sb1 -text [lindex $data($w,colors) 1] -menu [set data($w,color1_mnu) [menu $w.rf.mnu1 -tearoff 0]]]
     ttk::label $w.rf.l2 -text "Color-2:"
@@ -94,8 +96,10 @@ namespace eval bitmap {
 
     $data($w,width)  set $data($w,-width)
     $data($w,height) set $data($w,-height)
+    $data($w,width)  {*}$data(sb_readonly)
+    $data($w,height) {*}$data(sb_readonly)
 
-    grid rowconfigure    $w.rf 5 -weight 1
+    grid rowconfigure    $w.rf 0 -weight 1
     grid columnconfigure $w.rf 1 -weight 1
     grid $data($w,plabel) -row 0 -column 0 -padx 2 -pady 2 -columnspan 2
     grid $w.rf.l1         -row 1 -column 0 -sticky news -padx 2 -pady 2
@@ -107,8 +111,8 @@ namespace eval bitmap {
     grid $w.rf.l4         -row 4 -column 0 -sticky news -padx 2 -pady 2
     grid $data($w,height) -row 4 -column 1 -sticky news -padx 2 -pady 2
 
-    pack $data($w,grid) -side left -padx 2 -pady 2 -fill both -expand yes
-    pack $w.rf          -side left -padx 2 -pady 2 -fill y
+    pack $w.c  -side left -padx 2 -pady 2
+    pack $w.rf -side left -padx 2 -pady 2 -fill y
 
     # Draw the bitmap
     draw_grid $w $data($w,-width) $data($w,-height)
@@ -134,23 +138,22 @@ namespace eval bitmap {
     # Clear the grid
     $data($w,grid) delete all
 
-    # Set the canvas size
-    set width  [expr ($data($w,-width)  * $data($w,-size)) + 1]
-    set height [expr ($data($w,-height) * $data($w,-size)) + 1]
-    $data($w,grid) configure -width $width -height $height
+    # Calculate the x and y adjustment
+    set x_adjust [expr ((16 - $width)  * ($data($w,-size) / 2)) + 1]
+    set y_adjust [expr ((16 - $height) * ($data($w,-size) / 2)) + 1]
 
     for {set row 0} {$row < $height} {incr row} {
 
       for {set col 0} {$col < $width} {incr col} {
 
         # Calculate the square positions
-        set x1 [expr ($col * $data($w,-size)) + 1]
-        set y1 [expr ($row * $data($w,-size)) + 1]
-        set x2 [expr (($col + 1) * $data($w,-size)) + 1]
-        set y2 [expr (($row + 1) * $data($w,-size)) + 1]
+        set x1 [expr ($col * $data($w,-size)) + $x_adjust]
+        set y1 [expr ($row * $data($w,-size)) + $y_adjust]
+        set x2 [expr (($col + 1) * $data($w,-size)) + $x_adjust]
+        set y2 [expr (($row + 1) * $data($w,-size)) + $y_adjust]
 
         # Create the square
-        set data($w,$row,$col) [$data($w,grid) create rectangle $x1 $y1 $x2 $y2 -fill $data($w,-background) -outline black -width 1 -tags s0]
+        set data($w,$row,$col) [$data($w,grid) create rectangle $x1 $y1 $x2 $y2 -fill $data(bg) -outline $data(fg) -width 1 -tags s0]
 
         # Create the square bindings
         $data($w,grid) bind $data($w,$row,$col) <ButtonPress-1> [list bitmap::change_square $w $row $col  1]
@@ -279,9 +282,82 @@ namespace eval bitmap {
 
   ######################################################################
   # Update the widget from the information.
-  proc set_from_info {w args} {
+  proc set_from_info {w info_list} {
 
-    array set info $args
+    variable data
+
+    array set info $info_list
+
+    # Parse the data and mask BMP strings
+    array set dat_info [parse_bmp $info(dat)]
+    array set msk_info [parse_bmp $info(msk)]
+
+    # Set the variables
+    set data($w,-width)  $dat_info(width)
+    set data($w,-height) $dat_info(height)
+    set data($w,-color1) $info(fg)
+    set data($w,-color2) $info(bg)
+    lset data($w,colors) 1 $info(fg)
+    lset data($w,colors) 2 $info(bg)
+
+    # Update the preview
+    $data($w,preview) configure -foreground $info(fg) -background $info(bg) -data $info(dat) -maskdata $info(msk)
+
+    # Redraw the grid
+    draw_grid $w $dat_info(width) $dat_info(height)
+
+    # Update the widgets
+    $data($w,color1) configure -text $info(fg)
+    $data($w,color2) configure -text $info(bg)
+    $data($w,width)  set $dat_info(width)
+    $data($w,height) set $dat_info(height)
+
+    for {set row 0} {$row < $dat_info(height)} {incr row} {
+      set dat_val [lindex $dat_info(rows) $row]
+      set msk_val [lindex $msk_info(rows) $row]
+      for {set col 0} {$col < $dat_info(width)} {incr col} {
+        if {[expr $dat_val & (0x1 << $col)]} {
+          $data($w,grid) itemconfigure $data($w,$row,$col) -fill $info(fg)
+        } elseif {[expr $msk_val & (0x1 << $col)]} {
+          $data($w,grid) itemconfigure $data($w,$row,$col) -fill $info(bg)
+        }
+      }
+    }
+
+  }
+
+  ######################################################################
+  # Parses the given BMP file contents and returns a more usable format
+  # of the data.
+  proc parse_bmp {bmp_str} {
+
+    array set bmp_data [list]
+
+    # Parse out the width and height
+    if {[regexp {#define\s+\w+\s+(\d+).*#define\s+\w+\s+(\d+).*\{(.*)\}} $bmp_str -> bmp_data(width) bmp_data(height) values]} {
+      if {$bmp_data(width) > 16} {
+        return -code error "BMP data width is greater than 16"
+      }
+      if {$bmp_data(height) > 16} {
+        return -code error "BMP data height is greater than 16"
+      }
+      set values [split [string map {{,} {}} [string trim $values]]]
+      switch [expr ($bmp_data(width) - 1) / 8] {
+        0 {
+          foreach val $values {
+            lappend bmp_data(rows) $val
+          }
+        }
+        1 {
+          foreach {val1 val2} $values {
+            lappend bmp_data(rows) [expr ($val2 << 8) | $val1]
+          }
+        }
+      }
+      return [array get bmp_data]
+    }
+
+    return -code error "Illegal BMP data string specified"
 
   }
 
@@ -346,4 +422,10 @@ namespace eval bitmap {
 
 }
 
-pack [bitmap::create .bm]
+pack [bitmap::create .bm] -side left
+
+if {![catch { open images/sopen.bmp r } rc]} {
+  set content [read $rc]]
+  close $rc
+  bitmap::set_from_info .bm [list fg black bg white dat $content msk $content]
+}
