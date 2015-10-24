@@ -1,4 +1,6 @@
 menus {
+  -background white
+  -foreground black
   -relief flat
 }
 
@@ -46,6 +48,7 @@ sidebar {
   -highlightbackground #ffffff
   -selectbackground #5a5a5a
   -background #ffffff
+  -treestyle aqua
 }
 
 swatch {
@@ -77,3 +80,12 @@ syntax {
   warning_width #585346
 }
 
+images {
+  sidebar_open {
+    type bitmap
+    fg gold
+    bg black
+    dat "#define bullet_width 5\n#define bullet_height 15\nstatic char bullet_bits = {\n0x00, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x00}"
+    msk {}
+  }
+}

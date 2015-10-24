@@ -83,6 +83,8 @@ namespace eval themer {
       selectfg   "#ffffff"
     }
     cat,menus {
+      -background "white"
+      -foreground "black"
       -relief flat
     }
     cat,tabs {
@@ -127,11 +129,16 @@ namespace eval themer {
       -selectforeground    "#f8f8f2"
       -highlightbackground "#4e5044"
       -highlightcolor      "#4e5044"
+      -treestyle           "aqua"
+      -openbitmap          [list fg gold bg black dat "" msk ""]
     }
     cat,sidebar_scrollbar {
       -background      "#4e5044"
       -foreground      "#f8f8f2"
       -thickness       15
+    }
+    cat,images {
+      sidebar_open [list type bitmap fg gold bg black dat {} msk {}]
     }
   }
 
@@ -353,7 +360,11 @@ namespace eval themer {
         selectbg   #4a6984 \
         selectfg   #ffffff \
       ]
-      set contents(menus) [list -relief flat]
+      set contents(menus) [list \
+        -background "white" \
+        -background "black" \
+        -relief flat \
+      ]
       set contents(tabs)  [list \
         -background         $abg \
         -foreground         $fg \
@@ -373,11 +384,15 @@ namespace eval themer {
         -selectforeground    $fg \
         -highlightbackground $fg \
         -highlightcolor      $fg \
+        -treestyle           aqua \
       ]
       set contents(sidebar_scrollbar) [list \
         -background $fg \
         -foreground $abg \
         -thickness  15 \
+      ]
+      set contents(images) [list \
+        sidebar_open [list type bitmap fg gold bg black dat {} msk {}]
       ]
     }
 
@@ -562,6 +577,7 @@ namespace eval themer {
       create_detail_number
       create_detail_color
       create_detail_bitmap
+      create_detail_treestyle
 
     }
 
@@ -671,8 +687,14 @@ namespace eval themer {
 
     lassign [$data(widgets,cat) formatinfo] key row col
 
-    # Attempt to convert the value into a color and display the color in the background of the cell
-    if {![catch {
+    set parent [$data(widgets,cat) parentkey $row]
+    set opt    [$data(widgets,cat) cellcget $row,opt -text]
+
+    if {($parent ne "root") && ([$data(widgets,cat) cellcget $parent,opt -text] eq "Images")} {
+      return ""
+    } elseif {($opt eq "-relief") || ($opt eq "-thickness") || ($opt eq "-treestyle")} {
+      return $value
+    } elseif {![catch {
       switch [llength [set values [split $value ,]]] {
         0 { set color #ffffff }
         1 { set color [lindex $values 0] }
@@ -699,7 +721,7 @@ namespace eval themer {
     catch { pack forget {*}[pack slaves $data(widgets,df)] }
 
     # Get the currently selected row
-    if {([set row [$data(widgets,cat) curselection]] ne "") && ([$data(widgets,cat) parentkey $row] ne "root")} {
+    if {([set row [$data(widgets,cat) curselection]] ne "") && ([set parent [$data(widgets,cat) parentkey $row]] ne "root")} {
 
       # Get the row values
       set data(row)      $row
@@ -710,22 +732,31 @@ namespace eval themer {
       # Remove the selection from the color cell
       $data(widgets,cat) cellselection clear $row,value
 
-      switch -exact -- $data(opt) {
-        -relief {
-          if {$data(category) eq "tabs"} {
-            detail_show_relief $value [list flat raised]
-          } else {
-            detail_show_relief $value [list raised sunken flat ridge solid groove]
-          }
-        }
-        -thickness {
-          detail_show_number "Thickness" $value 5 20
-        }
-        -bitmap {
+      if {[$data(widgets,cat) cellcget $parent,opt -text] eq "Images"} {
+        array set value_array $value
+        if {$value_array(type) eq "bitmap"} {
           detail_show_bitmap $value
+        } else {
+          # TBD - detail_show_photo $value
         }
-        default {
-          detail_show_color $value
+      } else {
+        switch -exact -- $data(opt) {
+          -relief {
+            if {$data(category) eq "tabs"} {
+              detail_show_relief $value [list flat raised]
+            } else {
+              detail_show_relief $value [list raised sunken flat ridge solid groove]
+            }
+          }
+          -thickness {
+            detail_show_number "Thickness" $value 5 20
+          }
+          -treestyle {
+            detail_show_treestyle $value
+          }
+          default {
+            detail_show_color $value
+          }
         }
       }
 
@@ -874,7 +905,71 @@ namespace eval themer {
 
     variable data
 
-    set data(widgets,bitmap) [bitmap::create $data(widgets,df).bf]
+    set data(widgets,bitmap) [ttk::frame $data(widgets,df).bf]
+
+    pack [set bm [bitmap::create $data(widgets,df).bf.bm]] -padx 2 -pady 2
+    pack [ttk::button $data(widgets,df).bf.di -text "Import BMP Data" -command [list bitmap::import $bm 1]] -padx 2 -pady 2
+    pack [ttk::button $data(widgets,df).bf.mi -text "Import BMP Mask" -command [list bitmap::import $bm 0]] -padx 2 -pady 2
+
+    bind $bm <<BitmapChanged>> [list themer::bitmap_changed %d]
+
+  }
+
+  ######################################################################
+  # Creates the treestyle detail frame.
+  proc create_detail_treestyle {} {
+
+    variable data
+
+    # Create the tree style detail frame
+    set data(widgets,treestyle) [ttk::frame $data(widgets,df).tf]
+
+    # Create the treestyle widgets
+    ttk::label $data(widgets,treestyle).l -text "Tree Style: "
+    set data(widgets,treestyle_mb) [ttk::menubutton $data(widgets,treestyle).mb -menu [set data(widgets,treestyle_menu) [menu $data(widgets,treestyle).menu -tearoff 0]]]
+
+    # Create treestyles list
+    # Add the treestyle options
+    foreach treestyle [list adwaita ambiance aqua baghira bicolor1 bicolor2 bicolor3 bicolor4 classic1 \
+                            classic2 classic3 classic4 dust dustSand gtk klearlooks mate mint newWave \
+                            oxygen1 oxygen2 phase plain1 plain2 plain3 plain4 plastik plastique radiance \
+                            ubuntu ubuntu2 vistaAero vistaClassic win7Aero win7Classic winnative winxpBlue \
+                            winxpOlive winxpSilver yuyo] {
+      $data(widgets,treestyle_menu) add command -label $treestyle -command [list themer::set_treestyle $treestyle]
+    }
+
+    # Pack the widgets
+    pack $data(widgets,treestyle).l  -side left -padx 2 -pady 2
+    pack $data(widgets,treestyle).mb -side left -padx 2 -pady 2
+
+  }
+
+  ######################################################################
+  # Updates the category tablelist.
+  proc set_treestyle {treestyle} {
+
+    variable data
+
+    # Update the menubutton text
+    $data(widgets,treestyle_mb) configure -text $treestyle
+
+    # Update the category table
+    $data(widgets,cat) cellconfigure $data(row),value -text $treestyle
+
+  }
+
+  ######################################################################
+  # Called whenever the user updates the bitmap widget.
+  proc bitmap_changed {bm_data} {
+
+    variable data
+
+    # Set the tablelist data
+    $data(widgets,cat) cellconfigure $data(row),value -text $bm_data
+
+    # Set the tablelist image
+    array set bm $bm_data
+    [$data(widgets,cat) cellcget $data(row),value -image] configure -data $bm(dat) -maskdata $bm(msk) -foreground $bm(fg) -background $bm(bg)
 
   }
 
@@ -1195,6 +1290,20 @@ namespace eval themer {
   }
 
   ######################################################################
+  # Displays the treestyle detail frame.
+  proc detail_show_treestyle {value} {
+
+    variable data
+
+    # Display the treestyle frame
+    pack $data(widgets,treestyle)
+
+    # Set the menubutton
+    $data(widgets,treestyle_mb) configure -text $value
+
+  }
+
+  ######################################################################
   # Creates and initializes the UI.
   proc initialize {} {
 
@@ -1222,11 +1331,26 @@ namespace eval themer {
     # Insert categories
     foreach {category title} [list syntax "Syntax Colors" ttk_style "ttk Widget Colors" menus "Menu Options" \
                                    tabs "Tab Options" text_scrollbar "Text Scrollbar Options" \
-                                   sidebar "Sidebar Options" sidebar_scrollbar "Sidebar Scrollbar Options"] {
+                                   sidebar "Sidebar Options" sidebar_scrollbar "Sidebar Scrollbar Options" \
+                                   images "Images"] {
       set parent [$data(widgets,cat) insertchild root end [list $title {} {}]]
       array set opts $data(cat,$category)
       foreach opt [lsort [array names opts]] {
-        $data(widgets,cat) insertchild $parent end [list $opt $opts($opt) $category]
+        set elem [$data(widgets,cat) insertchild $parent end [list $opt $opts($opt) $category]]
+        if {$category eq "images"} {
+          array set value_array $opts($opt)
+          if {$value_array(type) eq "bitmap"} {
+            if {$value_array(msk) eq ""} {
+              puts "dat: $value_array(dat)"
+              set img [image create bitmap -data $value_array(dat) -background $value_array(bg) -foreground $value_array(fg)]
+            } else {
+              set img [image create bitmap -data $value_array(dat) -maskdata $value_array(msk) -background $value_array(bg) -foreground $value_array(fg)]
+            }
+          } else {
+            set img [image create photo -file $value(file)]
+          }
+          $data(widgets,cat) cellconfigure $elem,value -image $img
+        }
       }
       array unset opts
     }
