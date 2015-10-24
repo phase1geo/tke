@@ -286,8 +286,12 @@ namespace eval bitmap {
     array set info $info_list
 
     # Parse the data and mask BMP strings
-    array set dat_info [parse_bmp $info(dat)]
-    array set msk_info [parse_bmp $info(msk)]
+    if {[catch {
+      array set dat_info [parse_bmp $info(dat)]
+      array set msk_info [parse_bmp $info(msk)]
+    } rc]} {
+      return -code error "Error parsing BMP file"
+    }
 
     # Set the variables
     if {$resize} {
@@ -413,6 +417,40 @@ namespace eval bitmap {
     # Update the colors
     foreach id [$data($w,grid) find withtag s$index] {
       $data($w,grid) itemconfigure $id -fill $color
+    }
+
+  }
+
+  ######################################################################
+  # Prompts the user for a file to import and updates the UI based on
+  # the read in file and type specified.
+  proc import {w is_dat} {
+
+    variable data
+
+    # Prompt the user for a BMP filename
+    if {[set fname [tk_getOpenFile -parent $w -filetypes {{{BMP files} {.bmp}}}]] ne ""} {
+
+      # Open the file for reading
+      if {[catch { open $fname r } rc]} {
+        return -code error "Unable to open $fname for reading"
+      }
+
+      # Get the file content
+      set content [read $rc]
+      close $rc
+
+      # Update the UI
+      array set info [get_info $w]
+      if {$is_dat} {
+        set info(dat) $content
+      } else {
+        set info(msk) $content
+      }
+      if {[catch { set_from_info $w [array get info] } rc]} {
+        tk_messageBox -parent $w -icon error -message "Unable to parse BMP file $fname"
+      }
+
     }
 
   }
