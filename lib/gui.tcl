@@ -938,6 +938,8 @@ namespace eval gui {
         set second_pane [expr $finfo(pane) == 2]
         incr i
       }
+    } else {
+      set ordered [list "" ""]
     }
 
     # If the second pane is necessary, create it now

@@ -208,6 +208,8 @@ namespace eval themes {
       set ssb_opts     [set theme(sidebar_scrollbar) [list -foreground $abg -background $bg]]
       set syntax_opts  $theme(syntax)
 
+      array set image_opts [list sidebar_open [list]]
+
     } else {
 
       # Create the ttk theme if it currently does not exist
@@ -225,12 +227,14 @@ namespace eval themes {
       set ssb_opts     $theme(sidebar_scrollbar)
       set syntax_opts  $theme(syntax)
 
+      array set image_opts $theme(images)
+
     }
 
     # Set the theme information in the rest of the UI
     menus::handle_theme_change   $menu_opts
     gui::handle_theme_change     $tab_opts $tsb_opts $syntax_opts
-    sidebar::handle_theme_change $sidebar_opts $ssb_opts
+    sidebar::handle_theme_change $sidebar_opts $ssb_opts $image_opts(sidebar_open)
 
   }
 
@@ -425,6 +429,14 @@ namespace eval themes {
         -lightcolor  [list pressed   $colors(darker)] \
         -darkcolor   [list pressed   $colors(darker)] \
         -bordercolor [list alternate "#000000"]
+
+      # Configure ttk::combobox widgets
+      ttk::style configure TCombobox \
+        -relief flat -background $colors(frame) -foreground $colors(frame) ;# -fieldbackground $colors(frame)
+      ttk::style map TCombobox \
+        -background [list disabled  $colors(lighter) \
+                          pressed   $colors(darker) \
+                          active    $colors(lightframe)]
 
       # Configure panedwindow sash widgets
       ttk::style configure Sash -sashthickness 5 -gripcount 10
