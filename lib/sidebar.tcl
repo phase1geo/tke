@@ -1356,7 +1356,7 @@ namespace eval sidebar {
 
   ######################################################################
   # Handle any changes to the General/WindowTheme preference variable.
-  proc handle_theme_change {sidebar_opts sb_opts} {
+  proc handle_theme_change {sidebar_opts sb_opts sopen_opts} {
 
     variable widgets
     variable images
@@ -1365,7 +1365,14 @@ namespace eval sidebar {
     if {[info exists widgets(tl)]} {
       $widgets(tl) configure {*}$sidebar_opts
       $widgets(sb) configure {*}$sb_opts
-      $images(sopen) configure -background "blue" -foreground "light blue"
+      if {[llength $sopen_opts] > 0} {
+        array set sopen $sopen_opts
+        if {$sopen(type) eq "bitmap"} {
+          $images(sopen) configure -data $sopen(dat) -maskdata $sopen(msk) -background $sopen(bg) -foreground $sopen(fg)
+        } else {
+          # TBD
+        }
+      }
     }
 
   }

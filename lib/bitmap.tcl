@@ -318,9 +318,11 @@ namespace eval bitmap {
       set msk_val [lindex $msk_info(rows) $row]
       for {set col 0} {$col < $data($w,-width)} {incr col} {
         if {[expr $dat_val & (0x1 << $col)]} {
-          $data($w,grid) itemconfigure $data($w,$row,$col) -fill $info(fg)
+          $data($w,grid) itemconfigure $data($w,$row,$col) -fill $info(fg) -tags s1
         } elseif {[expr $msk_val & (0x1 << $col)]} {
-          $data($w,grid) itemconfigure $data($w,$row,$col) -fill $info(bg)
+          $data($w,grid) itemconfigure $data($w,$row,$col) -fill $info(bg) -tags s2
+        } else {
+          $data($w,grid) itemconfigure $data($w,$row,$col) -tags s0
         }
       }
     }
@@ -418,6 +420,9 @@ namespace eval bitmap {
     foreach id [$data($w,grid) find withtag s$index] {
       $data($w,grid) itemconfigure $id -fill $color
     }
+
+    # Generate a BitmapChanged event
+    event generate $w <<BitmapChanged>> -data [get_info $w]
 
   }
 

@@ -819,9 +819,6 @@ namespace eval themer {
     # Set the combobox list to the list of theme values
     $data(widgets,save_cb) configure -values $values
 
-    # Clear the combobox editing area
-    $data(widgets,save_cb) set ""
-
   }
 
   ######################################################################
@@ -907,11 +904,34 @@ namespace eval themer {
 
     set data(widgets,bitmap) [ttk::frame $data(widgets,df).bf]
 
-    pack [set bm [bitmap::create $data(widgets,df).bf.bm]] -padx 2 -pady 2
-    pack [ttk::button $data(widgets,df).bf.di -text "Import BMP Data" -command [list bitmap::import $bm 1]] -padx 2 -pady 2
-    pack [ttk::button $data(widgets,df).bf.mi -text "Import BMP Mask" -command [list bitmap::import $bm 0]] -padx 2 -pady 2
+    pack [set data(widgets,bitmap_bm) [bitmap::create $data(widgets,df).bf.bm]] -padx 2 -pady 2
+    pack [ttk::button $data(widgets,df).bf.di -text "Import BMP Data" -command [list bitmap::import $data(widgets,bitmap_bm) 1]] -padx 2 -pady 2
+    pack [ttk::button $data(widgets,df).bf.mi -text "Import BMP Mask" -command [list bitmap::import $data(widgets,bitmap_bm) 0]] -padx 2 -pady 2
 
-    bind $bm <<BitmapChanged>> [list themer::bitmap_changed %d]
+    bind $data(widgets,bitmap_bm) <<BitmapChanged>> [list themer::handle_bitmap_changed %d]
+
+  }
+
+  ######################################################################
+  # Called whenever the user updates the bitmap widget.
+  proc handle_bitmap_changed {bm_data} {
+
+    variable data
+
+    # Update the data images array
+    array set temp $data(cat,images)
+    set temp($data(opt)) $bm_data
+    set data(cat,images) [array get temp]
+
+    # Set the tablelist data
+    $data(widgets,cat) cellconfigure $data(row),value -text $bm_data
+
+    # Set the tablelist image
+    array set bm $bm_data
+    [$data(widgets,cat) cellcget $data(row),value -image] configure -data $bm(dat) -maskdata $bm(msk) -foreground $bm(fg) -background $bm(bg)
+
+    # Specify that the apply button should be enabled
+    $data(widgets,apply) state !disabled
 
   }
 
@@ -956,20 +976,8 @@ namespace eval themer {
     # Update the category table
     $data(widgets,cat) cellconfigure $data(row),value -text $treestyle
 
-  }
-
-  ######################################################################
-  # Called whenever the user updates the bitmap widget.
-  proc bitmap_changed {bm_data} {
-
-    variable data
-
-    # Set the tablelist data
-    $data(widgets,cat) cellconfigure $data(row),value -text $bm_data
-
-    # Set the tablelist image
-    array set bm $bm_data
-    [$data(widgets,cat) cellcget $data(row),value -image] configure -data $bm(dat) -maskdata $bm(msk) -foreground $bm(fg) -background $bm(bg)
+    # Specify that the apply button should be enabled
+    $data(widgets,apply) state !disabled
 
   }
 
@@ -1285,7 +1293,7 @@ namespace eval themer {
     pack $data(widgets,bitmap)
 
     # Set the bitmap information
-    bitmap::set_from_info $data(widgets,bitmap) $value
+    bitmap::set_from_info $data(widgets,bitmap_bm) $value
 
   }
 
@@ -1341,7 +1349,6 @@ namespace eval themer {
           array set value_array $opts($opt)
           if {$value_array(type) eq "bitmap"} {
             if {$value_array(msk) eq ""} {
-              puts "dat: $value_array(dat)"
               set img [image create bitmap -data $value_array(dat) -background $value_array(bg) -foreground $value_array(fg)]
             } else {
               set img [image create bitmap -data $value_array(dat) -maskdata $value_array(msk) -background $value_array(bg) -foreground $value_array(fg)]
