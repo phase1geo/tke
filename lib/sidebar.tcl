@@ -1367,7 +1367,7 @@ namespace eval sidebar {
       $widgets(sb) configure {*}$sb_opts
       if {[llength $sopen_opts] > 0} {
         array set sopen $sopen_opts
-        if {$sopen(type) eq "bitmap"} {
+        if {[info exists sopen(dat)]} {
           $images(sopen) configure -data $sopen(dat) -maskdata $sopen(msk) -background $sopen(bg) -foreground $sopen(fg)
         } else {
           # TBD

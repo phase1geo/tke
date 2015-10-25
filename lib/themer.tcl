@@ -138,7 +138,7 @@ namespace eval themer {
       -thickness       15
     }
     cat,images {
-      sidebar_open [list type bitmap fg gold bg black dat {} msk {}]
+      sidebar_open [list fg gold bg black dat {} msk {}]
     }
   }
 
@@ -392,7 +392,7 @@ namespace eval themer {
         -thickness  15 \
       ]
       set contents(images) [list \
-        sidebar_open [list type bitmap fg gold bg black dat {} msk {}]
+        sidebar_open [list fg gold bg black dat {} msk {}]
       ]
     }
 
@@ -425,11 +425,7 @@ namespace eval themer {
       lassign [split $category ,] dummy cat
       puts $rc "$cat \{"
       foreach {name value} $data($category) {
-        if {$value eq ""} {
-          puts $rc "  $name #ffffff"
-        } else {
-          puts $rc "  $name $value"
-        }
+        puts $rc [format "  %s %s" $name [list [expr {($value eq "") ? "#ffffff" : $value}]]]
       }
       puts $rc "\}\n"
     }
@@ -733,8 +729,7 @@ namespace eval themer {
       $data(widgets,cat) cellselection clear $row,value
 
       if {[$data(widgets,cat) cellcget $parent,opt -text] eq "Images"} {
-        array set value_array $value
-        if {$value_array(type) eq "bitmap"} {
+        if {[llength $value] == 8} {
           detail_show_bitmap $value
         } else {
           # TBD - detail_show_photo $value
@@ -1347,7 +1342,7 @@ namespace eval themer {
         set elem [$data(widgets,cat) insertchild $parent end [list $opt $opts($opt) $category]]
         if {$category eq "images"} {
           array set value_array $opts($opt)
-          if {$value_array(type) eq "bitmap"} {
+          if {[info exists value_array(dat)]} {
             if {$value_array(msk) eq ""} {
               set img [image create bitmap -data $value_array(dat) -background $value_array(bg) -foreground $value_array(fg)]
             } else {
