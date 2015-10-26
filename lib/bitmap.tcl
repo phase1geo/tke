@@ -81,7 +81,7 @@ namespace eval bitmap {
     set data($w,grid) [canvas $w.c -background $data(bg) -width $width -height $height]
 
     bind $data($w,grid) <B1-Motion> [list bitmap::change_square_motion $w %x %y]
-    bind $data($w,grid) <B3-Motion> [list bitmap::change_square_motion $w %x %y]
+    bind $data($w,grid) <B$::right_click-Motion> [list bitmap::change_square_motion $w %x %y]
 
     # Create the right frame
     ttk::frame $w.rf
@@ -158,7 +158,7 @@ namespace eval bitmap {
 
         # Create the square bindings
         $data($w,grid) bind $data($w,$row,$col) <ButtonPress-1> [list bitmap::change_square $w $row $col  1]
-        $data($w,grid) bind $data($w,$row,$col) <ButtonPress-3> [list bitmap::change_square $w $row $col -1]
+        $data($w,grid) bind $data($w,$row,$col) <ButtonPress-$::right_click> [list bitmap::change_square $w $row $col -1]
 
       }
 
