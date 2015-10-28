@@ -468,7 +468,7 @@ namespace eval themer {
     file rename -force [file join $data(theme_dir) $basename.orig] $data(files,$basename)
 
     # Clear the apply button
-    $data(widgets,apply) state disabled
+    $data(widgets,preview) state disabled
 
   }
 
@@ -521,21 +521,19 @@ namespace eval themer {
       # Add the right paned window
       .thmwin.pw add [set data(widgets,df) [ttk::labelframe .thmwin.pw.rf -text [msgcat::mc "Details"]]] -weight 1
 
-      set bwidth [msgcat::mcmax "Open" "Save" "Import" "Create" "Save" "Cancel" "Apply" "Done"]
+      set bwidth [msgcat::mcmax "Open" "Save" "Import" "Create" "Save" "Cancel" "Preview" "Done"]
 
       # Create the button frame
-      set data(widgets,bf)     [ttk::frame .thmwin.bf]
-      set data(widgets,open)   [ttk::button .thmwin.bf.open   -style BButton -text [msgcat::mc "Open"]   -width $bwidth -command [list themer::start_open_frame]]
-      set data(widgets,import) [ttk::button .thmwin.bf.import -style BButton -text [msgcat::mc "Import"] -width $bwidth -command [list themer::import]]
-      set data(widgets,apply)  [ttk::button .thmwin.bf.apply  -style BButton -text [msgcat::mc "Apply"]  -width $bwidth -command [list themer::apply_theme]]
-      set data(widgets,save)   [ttk::button .thmwin.bf.save   -style BButton -text [msgcat::mc "Save"]   -width $bwidth -command [list themer::start_save_frame]]
-      set data(widgets,cancel) [ttk::button .thmwin.bf.cancel -style BButton -text [msgcat::mc "Cancel"] -width $bwidth -command [list themer::close_window]]
+      set data(widgets,bf)      [ttk::frame .thmwin.bf]
+      set data(widgets,open)    [ttk::button .thmwin.bf.open    -style BButton -text [msgcat::mc "Open"]    -width $bwidth -command [list themer::start_open_frame]]
+      set data(widgets,import)  [ttk::button .thmwin.bf.import  -style BButton -text [msgcat::mc "Import"]  -width $bwidth -command [list themer::import]]
+      set data(widgets,preview) [ttk::button .thmwin.bf.preview -style BButton -text [msgcat::mc "Preview"] -width $bwidth -command [list themer::apply_theme]]
+      set data(widgets,save)    [ttk::button .thmwin.bf.save    -style BButton -text [msgcat::mc "Save"]    -width $bwidth -command [list themer::start_save_frame]]
 
-      pack $data(widgets,open)   -side left  -padx 2 -pady 2
-      pack $data(widgets,import) -side left  -padx 2 -pady 2
-      pack $data(widgets,cancel) -side right -padx 2 -pady 2
-      pack $data(widgets,save)   -side right -padx 2 -pady 2
-      pack $data(widgets,apply)  -side right -padx 2 -pady 2
+      pack $data(widgets,open)    -side left  -padx 2 -pady 2
+      pack $data(widgets,import)  -side left  -padx 2 -pady 2
+      pack $data(widgets,save)    -side right -padx 2 -pady 2
+      pack $data(widgets,preview) -side right -padx 2 -pady 2
 
       # Create the open frame
       set data(widgets,of) [ttk::frame .thmwin.of]
@@ -553,6 +551,14 @@ namespace eval themer {
 
       # Create the save frame
       set data(widgets,wf)      [ttk::frame .thmwin.wf]
+      if {[::tke_development]} {
+        ttk::label .thmwin.wf.l1 -text [msgcat::mc "Save in:"]
+        set mb_width              [expr [msgcat::mcmax "User Directory" "Installation Directory"] - 5]
+        set data(widgets,save_mb) [ttk::menubutton .thmwin.wf.mb -width $mb_width -menu [menu .thmwin.wf.mb_menu -tearoff 0]]
+        .thmwin.wf.mb_menu add command -label [msgcat::mc "User Directory"]         -command [list themer::save_to_directory "user"]
+        .thmwin.wf.mb_menu add command -label [msgcat::mc "Installation Directory"] -command [list themer::save_to_directory "install"]
+      }
+      ttk::label .thmwin.wf.l2 -text [msgcat::mc "   Save Name:"]
       set data(widgets,save_cb) [ttk::combobox .thmwin.wf.cb -width 30 -postcommand [list themer::add_combobox_themes .thmwin.wf.cb]]
       ttk::button .thmwin.wf.save   -style BButton -text [msgcat::mc "Save"]   -width $bwidth -command [list themer::save_theme]
       ttk::button .thmwin.wf.cancel -style BButton -text [msgcat::mc "Cancel"] -width $bwidth -command [list themer::end_save_frame]
@@ -560,13 +566,19 @@ namespace eval themer {
       pack .thmwin.wf.cancel -side right -padx 2 -pady 2
       pack .thmwin.wf.save   -side right -padx 2 -pady 2
       pack .thmwin.wf.cb     -side right -padx 2 -pady 2
+      pack .thmwin.wf.l2     -side right -padx 2 -pady 2
+
+      if {[::tke_development]} {
+        pack .thmwin.wf.mb -side right -padx 2 -pady 2
+        pack .thmwin.wf.l1 -side right -padx 2 -pady 2
+      }
 
       pack .thmwin.sf -fill x
       pack .thmwin.pw -fill both -expand yes
       pack .thmwin.bf -fill x
 
       # Disable buttons
-      $data(widgets,apply) state disabled
+      $data(widgets,preview) state disabled
 
       # Create the detail panels
       create_detail_relief
@@ -575,6 +587,24 @@ namespace eval themer {
       create_detail_bitmap
       create_detail_treestyle
 
+    }
+
+  }
+
+  ######################################################################
+  # Sets the save directory type.
+  proc save_to_directory {type} {
+
+    variable data
+
+    set data(save_directory) $type
+
+    if {[info exists data(widgets,save_mb)]} {
+      switch $type {
+        user    { set lbl [msgcat::mc "User Directory"] }
+        install { set lbl [msgcat::mc "Installation Directory"] }
+      }
+      $data(widgets,save_mb) configure -text $lbl
     }
 
   }
@@ -637,6 +667,13 @@ namespace eval themer {
     # Set the combobox data to the current theme name
     $data(widgets,save_cb) set $data(curr_theme)
 
+    # Set the save to directory status
+    if {([file dirname $data(files,$data(curr_theme))] eq $data(theme_dir)) || ![::tke_development]} {
+      save_to_directory "user"
+    } else {
+      save_to_directory "install"
+    }
+
   }
 
   ######################################################################
@@ -648,12 +685,17 @@ namespace eval themer {
     # Get the theme name from the combobox
     set theme_name [$data(widgets,save_cb) get]
 
-    if {![info exists data(files,$theme_name)]} {
-      set data(files,$theme_name) [file join $data(theme_dir) $theme_name.tketheme]
+    if {$data(save_directory) eq "user"} {
+      set theme_file [set data(files,$theme_name) [file join $data(theme_dir) $theme_name.tketheme]]
+    } else {
+      set theme_file [file join $::tke_dir data themes $theme_name.tketheme]
+      if {![info exists data(files,$theme_name)]} {
+        set data(files,$theme_name) $theme_file
+      }
     }
 
     # Write the theme to disk
-    catch { write_tketheme $data(files,$theme_name) }
+    catch { write_tketheme $theme_file }
 
     # Save the current theme
     set data(curr_theme) $theme_name
@@ -926,7 +968,7 @@ namespace eval themer {
     [$data(widgets,cat) cellcget $data(row),value -image] configure -data $bm(dat) -maskdata $bm(msk) -foreground $bm(fg) -background $bm(bg)
 
     # Specify that the apply button should be enabled
-    $data(widgets,apply) state !disabled
+    $data(widgets,preview) state !disabled
 
   }
 
@@ -972,7 +1014,7 @@ namespace eval themer {
     $data(widgets,cat) cellconfigure $data(row),value -text $treestyle
 
     # Specify that the apply button should be enabled
-    $data(widgets,apply) state !disabled
+    $data(widgets,preview) state !disabled
 
   }
 
@@ -1138,7 +1180,7 @@ namespace eval themer {
     $data(widgets,cat) cellconfigure $data(row),value -text $value
 
     # Specify that the apply button should be enabled
-    $data(widgets,apply) state !disabled
+    $data(widgets,preview) state !disabled
 
   }
 
@@ -1179,7 +1221,7 @@ namespace eval themer {
     $data(widgets,cat) cellconfigure $data(row),value -text $value
 
     # Enable the apply button
-    $data(widgets,apply) state !disabled
+    $data(widgets,preview) state !disabled
 
   }
 
@@ -1226,7 +1268,7 @@ namespace eval themer {
     $data(widgets,cat) cellconfigure $data(row),value -text $value
 
     # Enable the apply button
-    $data(widgets,apply) state !disabled
+    $data(widgets,preview) state !disabled
 
   }
 

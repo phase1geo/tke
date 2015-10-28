@@ -3,77 +3,87 @@ menus {
 }
 
 tabs {
-  -background #c9c9c9
-  -foreground #000000
-  -activebackground #f1f1f1
-  -inactivebackground #c9c9c9
+  -background {#c9c9c9}
+  -foreground {#000000}
+  -activebackground {#f1f1f1}
+  -inactivebackground {#c9c9c9}
   -relief flat
 }
 
+images {
+  sidebar_open {dat {#define img_width 5
+#define img_height 15
+static char img_bits[] = {
+0x00, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x00};} msk {#define img_width 5
+#define img_height 15
+static char img_bits[] = {
+0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f};} fg #ffcc00 bg #836603}
+}
+
 sidebar_scrollbar {
-  -background #000000
-  -foreground #c9c9c9
-  -thickness  15
+  -background {#000000}
+  -foreground {#c9c9c9}
+  -thickness 15
 }
 
 ttk_style {
-  disabledfg #999999
-  frame #f1f1f1
-  lightframe #c9c9c9
-  window #f1f1f1
-  dark #cfcdc8
-  darker #bab5ab
-  darkest #9e9a91
-  lighter #000000
-  lightest #000000
-  selectbg #4a6984
-  selectfg #ffffff
+  disabledfg {#999999}
+  frame {#f1f1f1}
+  lightframe {#c9c9c9}
+  window {#f1f1f1}
+  dark {#cfcdc8}
+  darker {#bab5ab}
+  darkest {#9e9a91}
+  lighter {#000000}
+  lightest {#000000}
+  selectbg {#4a6984}
+  selectfg {#ffffff}
 }
 
 text_scrollbar {
-  -background #f1f1f1
-  -foreground #c9c9c9
-  -thickness  15
+  -background {#f1f1f1}
+  -foreground {#c9c9c9}
+  -thickness 15
 }
 
 meta {
 }
 
 sidebar {
-  -foreground #f1f1f1
-  -background #000000
-  -selectbackground #c9c9c9
-  -selectforeground #000000
-  -highlightbackground #000000
-  -highlightcolor #000000
+  -foreground {#f1f1f1}
+  -background {#000000}
+  -selectbackground {#c9c9c9}
+  -selectforeground {#000000}
+  -highlightbackground {#000000}
+  -highlightcolor {#000000}
 }
 
 swatch {
-  #f1f1f1 #c9c9c9
-  #000000 #ffffff
+  #f1f1f1 {#c9c9c9}
+  #000000 {#ffffff}
 }
 
 syntax {
-  precompile #ffffff
-  keywords #993300
-  line_number #c9c9c9
-  difference_add #e9ffe9
-  numbers #336699
+  precompile {#ffffff}
+  keywords {#993300}
+  line_number {#c9c9c9}
+  difference_add {#e9ffe9}
+  numbers {#336699}
   border_highlight gold
   select_background blue
   highlighter yellow
-  background #f1f1f1
-  strings #ff6600
+  background {#f1f1f1}
+  strings {#ff6600}
   select_foreground white
-  punctuation #7bacca
-  foreground #000000
-  difference_sub #ffe9e9
-  warning_width #c9c9c9
-  miscellaneous1 #0099cc
-  miscellaneous2 #0099cc
-  comments #999999
-  cursor #000000
-  miscellaneous3 #f8fbb1
-  meta #c9c9c9
+  punctuation {#7bacca}
+  foreground {#000000}
+  difference_sub {#ffe9e9}
+  warning_width {#c9c9c9}
+  miscellaneous1 {#0099cc}
+  miscellaneous2 {#0099cc}
+  comments {#999999}
+  cursor {#000000}
+  miscellaneous3 {#f8fbb1}
+  meta {#c9c9c9}
 }
 
