@@ -130,7 +130,6 @@ namespace eval themer {
       -highlightbackground "#4e5044"
       -highlightcolor      "#4e5044"
       -treestyle           "aqua"
-      -openbitmap          [list fg gold bg black dat "" msk ""]
     }
     cat,sidebar_scrollbar {
       -background      "#4e5044"
@@ -140,6 +139,63 @@ namespace eval themer {
     cat,images {
       sidebar_open [list fg gold bg black dat {} msk {}]
     }
+  }
+
+  array set type_map {
+    ttk_style,disabledfg          color
+    ttk_style,frame               color
+    ttk_style,lightframe          color
+    ttk_style,window              color
+    ttk_style,dark                color
+    ttk_style,darker              color
+    ttk_style,darkest             color
+    ttk_style,lighter             color
+    ttk_style,lightest            color
+    ttk_style,selectbg            color
+    ttk_style,selectfg            color
+    menus,-background             color
+    menus,-foreground             color
+    menus,-relief                 {relief {raised sunken flat ridge solid groove}}
+    tabs,-background              color
+    tabs,-foreground              color
+    tabs,-activebackground        color
+    tabs,-inactivebackground      color
+    tabs,-relief                  {relief {flat raised}}
+    text_scrollbar,-background    color
+    text_scrollbar,-foreground    color
+    text_scrollbar,-thickness     {number {5 20}}
+    syntax,background             color
+    syntax,border_highlight       color
+    syntax,comments               color
+    syntax,cursor                 color
+    syntax,difference_add         color
+    syntax,difference_sub         color
+    syntax,foreground             color
+    syntax,highlighter            color
+    syntax,keywords               color
+    syntax,line_number            color
+    syntax,meta                   color
+    syntax,miscellaneous1         color
+    syntax,miscellaneous2         color
+    syntax,miscellaneous3         color
+    syntax,numbers                color
+    syntax,precompile             color
+    syntax,punctuation            color
+    syntax,select_background      color
+    syntax,select_foreground      color
+    syntax,strings                color
+    syntax,warning_width          color
+    sidebar,-foreground           color
+    sidebar,-background           color
+    sidebar,-selectbackground     color
+    sidebar,-selectforeground     color
+    sidebar,-highlightbackground  color
+    sidebar,-highlightcolor       color
+    sidebar,-treestyle            treestyle
+    sidebar_scrollbar,-background color
+    sidebar_scrollbar,-foreground color
+    sidebar_scrollbar,-thickness  {number {5 20}}
+    images,sidebar_open           image
   }
 
   set data(theme_dir) [file join $::tke_home themes]
@@ -727,8 +783,9 @@ namespace eval themer {
 
     set parent [$data(widgets,cat) parentkey $row]
     set opt    [$data(widgets,cat) cellcget $row,opt -text]
+    set cat    [$data(widgets,cat) cellcget $row,category -text]
 
-    if {($parent ne "root") && ([$data(widgets,cat) cellcget $parent,opt -text] eq "Images")} {
+    if {($parent eq "root") || ($cat eq "images")} {
       return ""
     } elseif {($opt eq "-relief") || ($opt eq "-thickness") || ($opt eq "-treestyle")} {
       return $value
@@ -754,6 +811,7 @@ namespace eval themer {
   proc handle_category_selection {} {
 
     variable data
+    variable type_map
 
     # Clear the details frame
     catch { pack forget {*}[pack slaves $data(widgets,df)] }
@@ -767,33 +825,30 @@ namespace eval themer {
       set data(category) [$data(widgets,cat) cellcget $row,category -text]
       set value          [$data(widgets,cat) cellcget $row,value    -text]
 
+      lassign $type_map($data(category),$data(opt)) type values
+
       # Remove the selection from the color cell
       $data(widgets,cat) cellselection clear $row,value
 
-      if {[$data(widgets,cat) cellcget $parent,opt -text] eq "Images"} {
-        if {[llength $value] == 8} {
-          detail_show_bitmap $value
-        } else {
-          # TBD - detail_show_photo $value
+      switch $type {
+        image {
+          if {[llength $value] == 8} {
+            detail_show_bitmap $value
+          } else {
+            # TBD - detail_show_photo $value
+          }
         }
-      } else {
-        switch -exact -- $data(opt) {
-          -relief {
-            if {$data(category) eq "tabs"} {
-              detail_show_relief $value [list flat raised]
-            } else {
-              detail_show_relief $value [list raised sunken flat ridge solid groove]
-            }
-          }
-          -thickness {
-            detail_show_number "Thickness" $value 5 20
-          }
-          -treestyle {
-            detail_show_treestyle $value
-          }
-          default {
-            detail_show_color $value
-          }
+        relief {
+          detail_show_relief $value $values
+        }
+        number {
+          detail_show_number [string totitle [string range $data(opt) 1 end]] $value {*}$values
+        }
+        treestyle {
+          detail_show_treestyle $value
+        }
+        color {
+          detail_show_color $value
         }
       }
 
@@ -1406,10 +1461,17 @@ namespace eval themer {
   proc add_swatch {{color ""}} {
 
     variable data
+    variable type_map
 
     # Get the color from the user
     if {$color eq ""} {
-      if {[set color [tk_chooseColor -parent .thmwin]] eq ""} {
+      set choose_color_opts [list]
+      if {[set select [$data(widgets,cat) curselection]] ne ""} {
+        if {$type_map([$data(widgets,cat) cellcget $select,category -text],[$data(widgets,cat) cellcget $select,opt -text]) eq "color"} {
+          lappend choose_color_opts -initialcolor [$data(widgets,cat) cellcget $select,value -background]
+        }
+      }
+      if {[set color [tk_chooseColor -parent .thmwin {*}$choose_color_opts]] eq ""} {
         return
       }
     }
