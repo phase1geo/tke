@@ -1384,6 +1384,9 @@ namespace eval themer {
     # Add the bitmap panel
     pack $data(widgets,bitmap)
 
+    # Configure the bitmap widget
+    $data(widgets,bitmap_bm) configure -swatches $data(cat,swatch)
+
     # Set the bitmap information
     bitmap::set_from_info $data(widgets,bitmap_bm) $value
 
