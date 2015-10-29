@@ -1516,6 +1516,7 @@ namespace eval themer {
   proc edit_swatch {index} {
 
     variable data
+    variable type_map
 
     # Get the index
     set pos [lsearch [pack slaves $data(widgets,sf)] $data(widgets,sf).f$index]
@@ -1535,6 +1536,21 @@ namespace eval themer {
     # Change the swatch value
     lset data(cat,swatch) $pos $color
 
+    # Change table values
+    for {set i 0} {$i < [$data(widgets,cat) size]} {incr i} {
+      if {[set category [$data(widgets,cat) cellcget $i,category -text]] ne ""} {
+        if {$type_map($category,[$data(widgets,cat) cellcget $i,opt -text]) eq "color"} {
+          set value [split [$data(widgets,cat) cellcget $i,value -text] ,]
+          puts "i: $i, category: $category, opt: [$data(widgets,cat) cellcget $i,opt -text], value: $value, orig_color: $orig_color"
+          if {([llength $value] > 1) && ([lindex $value 0] eq $orig_color)} {
+            lset value 0 $color
+            puts "  new value: [join $value ,]"
+            $data(widgets,cat) cellconfigure $i,value -text [join $value ,]
+          }
+        }
+      }
+    }
+
   }
 
   ######################################################################
@@ -1542,6 +1558,7 @@ namespace eval themer {
   proc delete_swatch {index {force 0}} {
 
     variable data
+    variable type_map
 
     # Confirm from the user
     if {!$force && [tk_messageBox -parent .thmwin -message "Delete swatch?" -default no -type yesno] eq "no"} {
@@ -1566,6 +1583,24 @@ namespace eval themer {
     # Delete the swatch value from the list
     if {!$force} {
       set data(cat,swatch) [lreplace $data(cat,swatch) $pos $pos]
+    }
+
+    # Make table colors dependent on this color independent
+    for {set i 0} {$i < [$data(widgets,cat) size]} {incr i} {
+      if {[set category [$data(widgets,cat) cellcget $i,category -text]] ne ""} {
+        if {$type_map($category,[$data(widgets,cat) cellcget $i,opt -text]) eq "color"} {
+          switch [llength [set values [split [$data(widgets,cat) cellcget $i,value -text] ,]] {
+            2 {
+              set color [utils::auto_adjust_color [lindex $values 0] [lindex $values 1] manual]
+              $data(widgets,cat) cellconfigure $i,value -text $color
+            }
+            3 {
+              set color [utils::auto_mix_colors [lindex $values 0] [lindex $values 1] [lindex $values 2]]
+              $data(widgets,cat) cellconfigure $i,value -text $color
+            }
+          }
+        }
+      }
     }
 
   }

@@ -436,6 +436,7 @@ namespace eval bitmap {
       $mnu add command -label "Custom color..." -command [list bitmap::set_custom_color $w $i]
       if {[llength $data($w,-swatches)] > 0} {
         $mnu add separator
+        $mnu add command -label "Swatch Colors" -state disabled
         foreach swatch $data($w,-swatches) {
           $mnu add command -label $swatch -command [list bitmap::set_color $w $i $swatch]
         }
