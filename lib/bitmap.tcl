@@ -86,9 +86,9 @@ namespace eval bitmap {
     # Create the right frame
     ttk::frame $w.rf
     set data($w,plabel) [label $w.rf.p -relief solid]
-    ttk::label $w.rf.l1 -text "Color-1:"
+    set data($w,c1_lbl) [ttk::label $w.rf.l1 -text "Color-1:" -background [lindex $data($w,colors) 1]]
     set data($w,color1) [ttk::menubutton $w.rf.sb1 -text [lindex $data($w,colors) 1] -menu [set data($w,color1_mnu) [menu $w.rf.mnu1 -tearoff 0]]]
-    ttk::label $w.rf.l2 -text "Color-2:"
+    set data($w,c2_lbl) [ttk::label $w.rf.l2 -text "Color-2:" -background [lindex $data($w,colors) 2]]
     set data($w,color2) [ttk::menubutton $w.rf.sb2 -text [lindex $data($w,colors) 2] -menu [set data($w,color2_mnu) [menu $w.rf.mnu2 -tearoff 0]]]
     ttk::label $w.rf.l3 -text "Width:"
     set data($w,width)  [$data(sb) $w.rf.width {*}$data(sb_opts)  -width 2 -values [list 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16] -command [list bitmap::set_grid_size $w width]]
@@ -126,7 +126,65 @@ namespace eval bitmap {
     set data($w,preview) [image create bitmap -data $info(dat) -maskdata $info(msk) -foreground $info(fg) -background $info(bg)]
     $data($w,plabel) configure -image $data($w,preview)
 
+    rename ::$w $w
+    interp alias {} ::$w {} bitmap::widget_cmd $w
+
     return $w
+
+  }
+
+  ######################################################################
+  # Runs the specified widget command.
+  proc widget_cmd {w args} {
+
+    set args [lassign $args cmd]
+
+    switch -exact $cmd {
+      cget      { return [cget $w {*}$args] }
+      configure { return [configure $w {*}$args] }
+      default   { return -code error "Unknown bitmap command ($cmd)" }
+    }
+
+  }
+
+  ######################################################################
+  # Returns the specified bitmap option value.
+  proc cget {w args} {
+
+    variable data
+
+    if {[llength $args] != 1} {
+      return -code error "Illegal number of arguments to bitmap::cget"
+    }
+
+    if {![info exists data($w,[lindex $args 0])]} {
+      return -code error "Unknown bitmap option [lindex $args 0]"
+    }
+
+    return $data($w,[lindex $args 0])
+
+  }
+
+  ######################################################################
+  # Sets options in the bitmap widget.
+  proc configure {w args} {
+
+    variable data
+
+    if {[llength $args] % 2} {
+      return -code error "Illegal number of arguments to bitmap::configure"
+    }
+
+    array set opts {
+      -swatches {}
+    }
+    array set opts $args
+
+    # Store the options
+    set data($w,-swatches) $opts(-swatches)
+
+    # Update the UI
+    update_menus $w
 
   }
 
@@ -298,8 +356,8 @@ namespace eval bitmap {
       set data($w,-width)  $dat_info(width)
       set data($w,-height) $dat_info(height)
     }
-    lset data($w,colors) 1 [set data($w,-color1) $info(fg)]
-    lset data($w,colors) 2 [set data($w,-color2) $info(bg)]
+    lset data($w,colors) 1 $info(fg)
+    lset data($w,colors) 2 $info(bg)
 
     # Update the preview
     $data($w,preview) configure -foreground $info(fg) -background $info(bg) -data $info(dat) -maskdata $info(msk)
@@ -308,6 +366,8 @@ namespace eval bitmap {
     draw_grid $w $data($w,-width) $data($w,-height)
 
     # Update the widgets
+    $data($w,c1_lbl) configure -background $info(fg)
+    $data($w,c2_lbl) configure -background $info(bg)
     $data($w,color1) configure -text $info(fg)
     $data($w,color2) configure -text $info(bg)
     $data($w,width)  set $dat_info(width)
@@ -377,7 +437,7 @@ namespace eval bitmap {
       if {[llength $data($w,-swatches)] > 0} {
         $mnu add separator
         foreach swatch $data($w,-swatches) {
-          $mnu add command -label $swatch -command [list bitmap::set_color $w $i $label]
+          $mnu add command -label $swatch -command [list bitmap::set_color $w $i $swatch]
         }
       }
     }
@@ -412,6 +472,9 @@ namespace eval bitmap {
     } else {
       $data($w,preview) configure -background $color
     }
+
+    # Set the label background color
+    $data($w,c${index}_lbl) configure -background $color
 
     # Set the menubutton label
     $data($w,color$index) configure -text $color
