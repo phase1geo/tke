@@ -67,11 +67,11 @@ namespace eval bitmap {
     array set opts $args
 
     # Initialize variables
-    set data($w,-size)       $opts(-size)
-    set data($w,colors)      [list $data(bg) $opts(-color1) $opts(-color2)]
-    set data($w,-width)      $opts(-width)
-    set data($w,-height)     $opts(-height)
-    set data($w,-swatches)   $opts(-swatches)
+    set data($w,-size)     $opts(-size)
+    set data($w,-width)    $opts(-width)
+    set data($w,-height)   $opts(-height)
+    set data($w,-swatches) $opts(-swatches)
+    set data($w,colors)    [list $data(bg) $opts(-color1) $opts(-color2)]
 
     ttk::frame $w
 
@@ -103,9 +103,9 @@ namespace eval bitmap {
     grid rowconfigure    $w.rf 0 -weight 1
     grid columnconfigure $w.rf 1 -weight 1
     grid $data($w,plabel) -row 0 -column 0 -padx 2 -pady 2 -columnspan 2
-    grid $w.rf.l1         -row 1 -column 0 -sticky news -padx 2 -pady 2
+    grid $data($w,c1_lbl) -row 1 -column 0 -sticky news -padx 2 -pady 2
     grid $data($w,color1) -row 1 -column 1 -sticky news -padx 2 -pady 2
-    grid $w.rf.l2         -row 2 -column 0 -sticky news -padx 2 -pady 2
+    grid $data($w,c2_lbl) -row 2 -column 0 -sticky news -padx 2 -pady 2
     grid $data($w,color2) -row 2 -column 1 -sticky news -padx 2 -pady 2
     grid $w.rf.l3         -row 3 -column 0 -sticky news -padx 2 -pady 2
     grid $data($w,width)  -row 3 -column 1 -sticky news -padx 2 -pady 2
