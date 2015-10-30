@@ -216,6 +216,19 @@ namespace eval themer {
   }
 
   ######################################################################
+  # Returns the given color based on the embeddable color string.
+  proc get_color {value} {
+
+    switch [llength [set values [split $value ,]]] {
+      0 { return #ffffff }
+      1 { return [lindex $values 0] }
+      2 { return [utils::auto_adjust_color [lindex $values 0] [lindex $values 1] manual] }
+      3 { return [utils::auto_mix_colors   [lindex $values 0] [lindex $values 1] [lindex $values 2]] }
+    }
+
+  }
+
+  ######################################################################
   # Returns the value of the given color
   proc get_color_values {color} {
 
@@ -223,6 +236,26 @@ namespace eval themer {
     lassign [utils::rgb_to_hsv [set r [expr $r >> 8]] [set g [expr $g >> 8]] [set b [expr $b >> 8]]] hue saturation value
 
     return [list $value $r $g $b]
+
+  }
+
+  ######################################################################
+  # Sets the given table cell color.
+  proc set_cell_color {row color_str {color ""}} {
+
+    variable data
+
+    # Get the color
+    if {$color eq ""} {
+      set color [get_color $color_str]
+    }
+
+    # Get the HSV value
+    lassign [get_color_values $color] val
+
+    # Set the cell
+    $data(widgets,cat) cellconfigure $row,value -text $color_str \
+      -background $color -foreground [expr {($val < 128) ? "white" : "black"}]
 
   }
 
@@ -778,6 +811,7 @@ namespace eval themer {
   proc format_category_value {value} {
 
     variable data
+    variable type_map
 
     lassign [$data(widgets,cat) formatinfo] key row col
 
@@ -787,22 +821,11 @@ namespace eval themer {
 
     if {($parent eq "root") || ($cat eq "images")} {
       return ""
-    } elseif {($opt eq "-relief") || ($opt eq "-thickness") || ($opt eq "-treestyle")} {
+    } elseif {$type_map($cat,$opt) eq "color"} {
+      return [get_color $value]
+    } else {
       return $value
-    } elseif {![catch {
-      switch [llength [set values [split $value ,]]] {
-        0 { set color #ffffff }
-        1 { set color [lindex $values 0] }
-        2 { set color [utils::auto_adjust_color [lindex $values 0] [lindex $values 1] manual] }
-        3 { set color [utils::auto_mix_colors   [lindex $values 0] [lindex $values 1] [lindex $values 2]] }
-      }
-      lassign [get_color_values $color] val
-      $data(widgets,cat) cellconfigure $row,$col -background $color -foreground [expr {($val < 128) ? "white" : "black"}]
-    }]} {
-      return $color
     }
-
-    return $value
 
   }
 
@@ -1232,7 +1255,7 @@ namespace eval themer {
     set data(cat,$data(category)) [array get temp]
 
     # Set the category table
-    $data(widgets,cat) cellconfigure $data(row),value -text $value
+    set_cell_color $data(row) $value $new_color
 
     # Specify that the apply button should be enabled
     $data(widgets,preview) state !disabled
@@ -1411,6 +1434,7 @@ namespace eval themer {
   proc initialize {} {
 
     variable data
+    variable type_map
 
     # Create the UI
     create
@@ -1440,18 +1464,23 @@ namespace eval themer {
       array set opts $data(cat,$category)
       foreach opt [lsort [array names opts]] {
         set elem [$data(widgets,cat) insertchild $parent end [list $opt $opts($opt) $category]]
-        if {$category eq "images"} {
-          array set value_array $opts($opt)
-          if {[info exists value_array(dat)]} {
-            if {$value_array(msk) eq ""} {
-              set img [image create bitmap -data $value_array(dat) -background $value_array(bg) -foreground $value_array(fg)]
+        switch $type_map($category,$opt) {
+          image {
+            array set value_array $opts($opt)
+            if {[info exists value_array(dat)]} {
+              if {$value_array(msk) eq ""} {
+                set img [image create bitmap -data $value_array(dat) -background $value_array(bg) -foreground $value_array(fg)]
+              } else {
+                set img [image create bitmap -data $value_array(dat) -maskdata $value_array(msk) -background $value_array(bg) -foreground $value_array(fg)]
+              }
             } else {
-              set img [image create bitmap -data $value_array(dat) -maskdata $value_array(msk) -background $value_array(bg) -foreground $value_array(fg)]
+              set img [image create photo -file $value(file)]
             }
-          } else {
-            set img [image create photo -file $value(file)]
+            $data(widgets,cat) cellconfigure $elem,value -image $img
           }
-          $data(widgets,cat) cellconfigure $elem,value -image $img
+          color {
+            set_cell_color $elem $opts($opt)
+          }
         }
       }
       array unset opts
@@ -1541,11 +1570,9 @@ namespace eval themer {
       if {[set category [$data(widgets,cat) cellcget $i,category -text]] ne ""} {
         if {$type_map($category,[$data(widgets,cat) cellcget $i,opt -text]) eq "color"} {
           set value [split [$data(widgets,cat) cellcget $i,value -text] ,]
-          puts "i: $i, category: $category, opt: [$data(widgets,cat) cellcget $i,opt -text], value: $value, orig_color: $orig_color"
           if {([llength $value] > 1) && ([lindex $value 0] eq $orig_color)} {
             lset value 0 $color
-            puts "  new value: [join $value ,]"
-            $data(widgets,cat) cellconfigure $i,value -text [join $value ,]
+            set_cell_color $i [join $value ,] $color
           }
         }
       }
