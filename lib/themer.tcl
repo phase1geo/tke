@@ -610,23 +610,25 @@ namespace eval themer {
       # Add the right paned window
       .thmwin.pw add [set data(widgets,df) [ttk::labelframe .thmwin.pw.rf -text [msgcat::mc "Details"]]] -weight 1
 
-      set bwidth [msgcat::mcmax "Open" "Save" "Import" "Create" "Save" "Cancel" "Preview" "Done"]
+      # Get the width of all buttons
+      set bwidth [msgcat::mcmax "Open" "Save" "Create" "Save" "Cancel" "Preview" "Done" "Import" "Export"]
 
       # Create the button frame
       set data(widgets,bf)      [ttk::frame .thmwin.bf]
       set data(widgets,open)    [ttk::button .thmwin.bf.open    -style BButton -text [msgcat::mc "Open"]    -width $bwidth -command [list themer::start_open_frame]]
-      set data(widgets,import)  [ttk::button .thmwin.bf.import  -style BButton -text [msgcat::mc "Import"]  -width $bwidth -command [list themer::import]]
       set data(widgets,preview) [ttk::button .thmwin.bf.preview -style BButton -text [msgcat::mc "Preview"] -width $bwidth -command [list themer::apply_theme]]
       set data(widgets,save)    [ttk::button .thmwin.bf.save    -style BButton -text [msgcat::mc "Save"]    -width $bwidth -command [list themer::start_save_frame]]
 
-      pack $data(widgets,open)    -side left  -padx 2 -pady 2
-      pack $data(widgets,import)  -side left  -padx 2 -pady 2
-      pack $data(widgets,save)    -side right -padx 2 -pady 2
-      pack $data(widgets,preview) -side right -padx 2 -pady 2
+      grid columnconfigure .thmwin.bf 0 -weight 1
+      grid columnconfigure .thmwin.bf 1 -weight 1
+      grid columnconfigure .thmwin.bf 2 -weight 1
+      grid $data(widgets,open)    -row 0 -column 0 -sticky w  -padx 2 -pady 2
+      grid $data(widgets,preview) -row 0 -column 1 -sticky ns -padx 2 -pady 2
+      grid $data(widgets,save)    -row 0 -column 2 -sticky e  -padx 2 -pady 2
 
       # Create the open frame
-      set data(widgets,of) [ttk::frame .thmwin.of]
-      ttk::frame .thmwin.of.lf
+      set data(widgets,of)      [ttk::frame .thmwin.of]
+      ttk::button .thmwin.of.import -style BButton -text [msgcat::mc "Import"] -width $bwidth -command [list themer::import]
       menu .thmwin.of.mnu -tearoff 0 -postcommand [list themer::add_menu_themes .thmwin.of.mnu]
       set data(widgets,open_mb) [ttk::menubutton .thmwin.of.mb -direction above -text [msgcat::mc "Choose Theme"] -menu .thmwin.of.mnu]
       ttk::button .thmwin.of.close -style BButton -text [msgcat::mc "Done"] -width $bwidth -command [list themer::end_open_frame]
@@ -634,12 +636,13 @@ namespace eval themer {
       grid columnconfigure .thmwin.of 0 -weight 1
       grid columnconfigure .thmwin.of 1 -weight 1
       grid columnconfigure .thmwin.of 2 -weight 1
-      grid .thmwin.of.lf    -row 0 -column 0 -sticky news -padx 2 -pady 2
-      grid .thmwin.of.mb    -row 0 -column 1 -sticky ns   -padx 2 -pady 2
-      grid .thmwin.of.close -row 0 -column 2 -sticky e    -padx 2 -pady 2
+      grid .thmwin.of.import -row 0 -column 0 -sticky w  -padx 2 -pady 2
+      grid .thmwin.of.mb     -row 0 -column 1 -sticky ns -padx 2 -pady 2
+      grid .thmwin.of.close  -row 0 -column 2 -sticky e  -padx 2 -pady 2
 
       # Create the save frame
       set data(widgets,wf)      [ttk::frame .thmwin.wf]
+      ttk::button .thmwin.wf.export -style BButton -text [msgcat::mc "Export"] -width $bwidth -command [list themer::export]
       if {[::tke_development]} {
         ttk::label .thmwin.wf.l1 -text [msgcat::mc "Save in:"]
         set mb_width              [expr [msgcat::mcmax "User Directory" "Installation Directory"] - 5]
@@ -656,6 +659,7 @@ namespace eval themer {
       pack .thmwin.wf.save   -side right -padx 2 -pady 2
       pack .thmwin.wf.cb     -side right -padx 2 -pady 2
       pack .thmwin.wf.l2     -side right -padx 2 -pady 2
+      pack .thmwin.wf.export -side left  -padx 2 -pady 2
 
       if {[::tke_development]} {
         pack .thmwin.wf.mb -side right -padx 2 -pady 2
@@ -1798,6 +1802,16 @@ namespace eval themer {
 
     # Read the theme
     read_tketheme $theme
+
+  }
+
+  ######################################################################
+  # Exports the current theme information to a tketheme file on the
+  # filesystem.
+  proc export {theme} {
+
+    variable data
+
 
   }
 
