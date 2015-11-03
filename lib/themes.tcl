@@ -192,8 +192,11 @@ namespace eval themes {
 
       # Create the ttk theme if it currently does not exist
       if {[lsearch [ttk::style theme names] $win_theme] == -1} {
-        create_ttk_theme $win_theme [get_ttk_theme_colors {*}$base_colors($win_theme)]
+        create_ttk_theme $win_theme
       }
+
+      # Configure the theme
+      set_ttk_theme $win_theme [get_ttk_theme_colors {*}$base_colors($win_theme)]
 
       # Set the ttk theme
       ttk::style theme use $win_theme
@@ -214,8 +217,11 @@ namespace eval themes {
 
       # Create the ttk theme if it currently does not exist
       if {[lsearch [ttk::style theme names] theme-$theme_name] == -1} {
-        create_ttk_theme theme-$theme_name $theme(ttk_style)
+        create_ttk_theme theme-$theme_name
       }
+
+      # Configure the theme
+      set_ttk_theme theme-$theme_name $theme(ttk_style)
 
       # Set the ttk theme
       ttk::style theme use "theme-$theme_name"
@@ -260,11 +266,15 @@ namespace eval themes {
 
   ######################################################################
   # Returns the scrollbar color theme information for the current theme.
-  proc get_scrollbar_colors {} {
+  proc get_opts {type} {
 
     variable theme
 
-    return $theme(text_scrollbar)
+    if {[info exists theme($type)]} {
+      return $theme($type)
+    }
+
+    return [list]
 
   }
 
@@ -314,7 +324,7 @@ namespace eval themes {
 
   ######################################################################
   # Initializes the themes list.
-  proc create_ttk_theme {name color_list} {
+  proc create_ttk_theme {name} {
 
     # Add a few styles to the default (light) theme
     ttk::style theme settings clam {
@@ -327,11 +337,17 @@ namespace eval themes {
 
     }
 
-    # Create colors palette
-    array set colors $color_list
-
     # Create the theme
     ttk::style theme create $name -parent clam
+
+  }
+
+  ######################################################################
+  # Configures the given ttk name with the updated colors.
+  proc set_ttk_theme {name color_list} {
+
+    # Create colors palette
+    array set colors $color_list
 
     # Configure the theme
     ttk::style theme settings $name {
