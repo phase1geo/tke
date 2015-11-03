@@ -512,11 +512,17 @@ namespace eval themer {
     # Output the categories
     foreach category [array names data cat,*] {
       lassign [split $category ,] dummy cat
-      puts $rc "$cat \{"
-      foreach {name value} $data($category) {
-        puts $rc [format "  %s %s" $name [list [expr {($value eq "") ? "#ffffff" : $value}]]]
+      if {$cat eq "swatch"} {
+        puts $rc "$cat \{"
+        puts $rc "  $data($category)"
+        puts $rc "\}\n"
+      } else {
+        puts $rc "$cat \{"
+        foreach {name value} $data($category) {
+          puts $rc [format "  %s %s" $name [list [expr {($value eq "") ? "#ffffff" : $value}]]]
+        }
+        puts $rc "\}\n"
       }
-      puts $rc "\}\n"
     }
 
     # Close the file
@@ -610,7 +616,7 @@ namespace eval themer {
       # Add the right paned window
       .thmwin.pw add [set data(widgets,df) [ttk::labelframe .thmwin.pw.rf -text [msgcat::mc "Details"]]] -weight 1
 
-      set bwidth [msgcat::mcmax "Open" "Save" "Import" "Create" "Save" "Cancel" "Preview" "Done"]
+      set bwidth [msgcat::mcmax "Open" "Save" "Import" "Create" "Cancel" "Preview" "Done"]
 
       # Create the button frame
       set data(widgets,bf)      [ttk::frame .thmwin.bf]
@@ -618,6 +624,8 @@ namespace eval themer {
       set data(widgets,import)  [ttk::button .thmwin.bf.import  -style BButton -text [msgcat::mc "Import"]  -width $bwidth -command [list themer::import]]
       set data(widgets,preview) [ttk::button .thmwin.bf.preview -style BButton -text [msgcat::mc "Preview"] -width $bwidth -command [list themer::apply_theme]]
       set data(widgets,save)    [ttk::button .thmwin.bf.save    -style BButton -text [msgcat::mc "Save"]    -width $bwidth -command [list themer::start_save_frame]]
+
+      bind $data(widgets,save) <Button-$::right_click> [list themer::save_current_theme]
 
       pack $data(widgets,open)    -side left  -padx 2 -pady 2
       pack $data(widgets,import)  -side left  -padx 2 -pady 2
@@ -791,6 +799,20 @@ namespace eval themer {
 
     # End the save frame
     end_save_frame
+
+  }
+
+  ######################################################################
+  # Performs a save of the current theme to disk.
+  proc save_current_theme {} {
+
+    variable data
+
+    # Get the current theme file
+    set theme_file $data(files,$data(curr_theme))
+
+    # Write the theme to disk
+    catch { write_tketheme $theme_file }
 
   }
 
@@ -1495,6 +1517,8 @@ namespace eval themer {
     variable data
     variable type_map
 
+    set orig_color $color
+
     # Get the color from the user
     if {$color eq ""} {
       set choose_color_opts [list]
@@ -1526,10 +1550,10 @@ namespace eval themer {
     pack [ttk::label  $frm.l -text $color]
 
     # Add binding to delete swatch
-    bind $frm.b <Button-$::right_click> [list themer::delete_swatch $index]
+    bind $frm.b <ButtonRelease-$::right_click> [list themer::delete_swatch $index]
 
     # Insert the value into the swatch list
-    if {$color eq ""} {
+    if {$orig_color eq ""} {
       lappend data(cat,swatch) $color
     }
 
@@ -1616,7 +1640,7 @@ namespace eval themer {
     for {set i 0} {$i < [$data(widgets,cat) size]} {incr i} {
       if {[set category [$data(widgets,cat) cellcget $i,category -text]] ne ""} {
         if {$type_map($category,[$data(widgets,cat) cellcget $i,opt -text]) eq "color"} {
-          switch [llength [set values [split [$data(widgets,cat) cellcget $i,value -text] ,]] {
+          switch [llength [set values [split [$data(widgets,cat) cellcget $i,value -text] ,]]] {
             2 {
               set color [utils::auto_adjust_color [lindex $values 0] [lindex $values 1] manual]
               $data(widgets,cat) cellconfigure $i,value -text $color
