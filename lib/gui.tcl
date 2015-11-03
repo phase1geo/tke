@@ -3234,6 +3234,9 @@ namespace eval gui {
       -checkcommand "[ns gui]::close_check_by_tabbar {}" -closecommand "[ns gui]::close_tab_by_tabbar" \
       -background $bg -foreground $fg -activebackground $abg -inactivebackground $bg
 
+    # Configure the tabbar
+    $nb.tbf.tb configure {*}[[ns themes]::get_opts tabs]
+
     grid rowconfigure    $nb.tbf 0 -weight 1
     grid columnconfigure $nb.tbf 0 -weight 1
     grid $nb.tbf.tb    -row 0 -column 0 -sticky news
@@ -3365,7 +3368,7 @@ namespace eval gui {
     variable case_sensitive
 
     # Get the scrollbar coloring information
-    array set sb_opts [set scrollbar_opts [[ns themes]::get_scrollbar_colors]]
+    array set sb_opts [set scrollbar_opts [[ns themes]::get_opts text_scrollbar]]
 
     # Get the unique tab ID
     set id [incr curr_id]
@@ -3606,7 +3609,7 @@ namespace eval gui {
     set txt2 $pw.tf2.txt
 
     # Get the scrollbar coloring information
-    array set sb_opts [set scrollbar_opts [[ns themes]::get_scrollbar_colors]]
+    array set sb_opts [set scrollbar_opts [[ns themes]::get_opts text_scrollbar]]
 
     # Create the editor frame
     $pw insert 0 [frame $pw.tf2 -background $sb_opts(-background)]
