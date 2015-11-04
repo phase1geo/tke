@@ -28,21 +28,9 @@ source [file join $::tke_dir lib bitmap.tcl]
 
 namespace eval themer {
 
-  variable tmtheme        ""
-
   array set widgets     {}
   array set all_scopes  {}
-  array set orig_labels {}
   array set show_vars   {}
-  array set labels      {}
-
-  array set label_index {
-    color      0
-    tagpos     1
-    scope      2
-    show       3
-    changed    4
-  }
 
   array set scope_map {
     comment              comments
@@ -315,15 +303,7 @@ namespace eval themer {
   proc read_tmtheme {theme} {
 
     variable data
-    variable labels
     variable scope_map
-    variable all_scopes
-    variable tmtheme
-    variable orig_labels
-    variable widgets
-    variable label_index
-
-    set tmtheme $theme
 
     # Open the file
     if {[catch { open $theme r } rc]} {
@@ -341,6 +321,8 @@ namespace eval themer {
       key    0
       string 0
     }
+
+    array set labels [array get data(cat,syntax)]
 
     set scope       0
     set foreground  0
@@ -368,36 +350,31 @@ namespace eval themer {
               set foreground 0
               set color      [normalize_color $value]
               if {$scope_types eq ""} {
-                lset labels(foreground) $label_index(color) $color
-                lset labels(foreground) $label_index(scope) "foreground"
-                set all_scopes(foreground) $color
+                set labels(foreground)      $color
+                set data(scopes,foreground) $color
               } else {
                 foreach scope_type [string map {, { }} $scope_types] {
                   if {[info exists scope_map($scope_type)]} {
-                    set lbl $scope_map($scope_type)
-                    lset labels($lbl) $label_index(color) $color
-                    lset labels($lbl) $label_index(scope) $scope_type
+                    set labels($scope_map($scope_type)) $color
                   }
-                  set all_scopes($scope_type) $color
+                  set data(scopes,$scope_type) $color
                 }
               }
             } elseif {$background} {
               set background 0
               set color      [normalize_color $value]
               if {$scope_types eq ""} {
-                lset labels(background)    $label_index(color) $color
-                lset labels(background)    $label_index(scope) "background"
-                lset labels(warning_width) $label_index(color) [utils::auto_adjust_color $color 40]
-                lset labels(meta)          $label_index(color) [utils::auto_adjust_color $color 40]
-                set all_scopes(background) $color
+                set labels(background)    $color
+                set labels(warning_width) [utils::auto_adjust_color $color 40]
+                set labels(meta)          [utils::auto_adjust_color $color 40]
+                set data(scopes,background) $color
               }
             } elseif {$caret} {
               set caret 0
               set color [normalize_color $value]
               if {$scope_types eq ""} {
-                lset labels(cursor) $label_index(color) $color
-                lset labels(cursor) $label_index(scope) "cursor"
-                set all_scopes(cursor) $color
+                set labels(cursor) $color
+                set data(scopes,cursor) $color
               }
             }
           }
@@ -408,8 +385,45 @@ namespace eval themer {
       }
     }
 
-    # Save the labels array to orig_labels
-    array set orig_labels [array get labels]
+    # Let's take a stab at good defaults
+    set ttk_style(disabledfg)          #999999
+    set ttk_style(frame)               $labels(background)
+    set ttk_style(lightframe)          $labels(warning_width)
+    set ttk_style(window)              $labels(background)
+    set ttk_style(dark)                #cfcdc8
+    set ttk_style(darker)              #bab5ab
+    set ttk_style(darkest)             #9e9a91
+    set ttk_style(lighter)             $labels(foreground)
+    set ttk_style(lightest)            $labels(foreground)
+    set ttk_style(selectbg)            #4a6984
+    set ttk_style(selectfg)            #ffffff
+    set ttk_style(window)              $labels(background)
+    set menus(-background)             $labels(background)
+    set menus(-foreground)             $labels(foreground)
+    set tabs(-background)              $labels(warning_width)
+    set tabs(-foreground)              $labels(foreground)
+    set tabs(-activebackground)        $labels(background)
+    set tabs(-inactivebackground)      $labels(background)
+    set text_scrollbar(-background)    $labels(background)
+    set text_scrollbar(-foreground)    $labels(warning_width)
+    set sidebar(-foreground)           $labels(background)
+    set sidebar(-background)           $labels(foreground)
+    set sidebar(-selectbackground)     $labels(warning_width)
+    set sidebar(-selectforeground)     $labels(foreground)
+    set sidebar(-highlightbackground)  $labels(foreground)
+    set sidebar(-highlightcolor)       $labels(foreground)
+    set sidebar_scrollbar(-background) $labels(foreground)
+    set sidebar_scrollbar(-foreground) $labels(warning_width)
+
+    # Update the category color values
+    set data(cat,swatch)            [list $labels(background) $labels(warning_width) $labels(foreground)]
+    set data(cat,syntax)            [array get labels]
+    set data(cat,ttk_style)         [array get ttk_style]
+    set data(cat,menus)             [array get menus]
+    set data(cat,tabs)              [array get tabs]
+    set data(cat,text_scrollbar)    [array get text_scrollbar]
+    set data(cat,sidebar)           [array get sidebar]
+    set data(cat,sidebar_scrollbar) [array get sidebar_scrollbar]
 
   }
 
@@ -1661,80 +1675,6 @@ namespace eval themer {
   }
 
   ######################################################################
-  # Creates a row in the color selection sidebar.
-  proc create_color_row {lbl row} {
-
-    variable widgets
-    variable show_vars
-    variable labels
-    variable label_index
-
-    if {($lbl eq "background") || ($lbl eq "foreground") || ($lbl eq "select_foreground")} {
-      set widgets(l:$lbl) [ttk::label [get_path].tf.lf.l$lbl -text "     [convert_label $lbl]:"]
-    } else {
-      set widgets(l:$lbl) [ttk::checkbutton [get_path].tf.lf.l$lbl -text " [convert_label $lbl]:" -variable themer::show_vars($lbl)]
-      set show_vars($lbl) [lindex $labels($lbl) $label_index(show)]
-    }
-
-    set widgets(b:$lbl) [ttk::label [get_path].tf.lf.b$lbl -anchor w -relief raised]
-
-    bind $widgets(b:$lbl) <Button-1> "themer::show_menu $lbl"
-
-    # Create menu
-    set widgets(m:$lbl) [menu [get_path].tf.lf.b$lbl.mnu -tearoff 0]
-
-    # Add custom command so that we don't get an error when parsing
-    $widgets(m:$lbl) add command -label [msgcat::mc "Create custom"] -command "themer::create_custom_color $lbl"
-
-    # Add them to the grid
-    grid $widgets(l:$lbl) -row $row -column 0 -sticky news -padx 2 -pady 2
-    grid $widgets(b:$lbl) -row $row -column 1 -sticky news -padx 2 -pady 2
-
-  }
-
-  ######################################################################
-  # Replaces underscores with spaces and converts everything to title case.
-  proc convert_label {name} {
-
-    set str ""
-    foreach part [split $name _] {
-      append str "[string totitle $part] "
-    }
-
-    return [string trimright $str]
-
-  }
-
-  #############################################################
-  # Called whenever a menu item is selected inthe scope menu.
-  proc handle_menu_select {lbl scope} {
-
-    variable labels
-    variable label_index
-    variable all_scopes
-
-    # Set the current color to the given scope
-    lset labels($lbl) $label_index(color) $all_scopes($scope)
-    lset labels($lbl) $label_index(scope) $scope
-
-  }
-
-  ######################################################################
-  # Allows the user to create a custom color.
-  proc create_custom_color {lbl} {
-
-    variable labels
-    variable label_index
-
-    # Set the color to the chosen color
-    if {[set color [tk_chooseColor -initialcolor [lindex $labels($lbl) $label_index(color)] -parent [get_win] -title [convert_label $lbl]]] ne ""} {
-      lset labels($lbl) $label_index(color)   $color
-      lset labels($lbl) $label_index(changed) 1
-    }
-
-  }
-
-  ######################################################################
   # Imports a TextMate or TKE theme file after prompting user to import
   # a file.
   proc import {} {
@@ -1743,12 +1683,15 @@ namespace eval themer {
 
     # Get the theme file to import:w
     if {[set theme [tk_getOpenFile -parent .thmwin -title "Import Theme File" -filetypes {{{TKE Theme} {.tketheme}} {{TextMate Theme} {.tmtheme}}}]] ne ""} {
-      switch [file extension $theme] {
-        tketheme { import_tke $theme }
-        tmtheme  { import_tm  $theme }
+      puts "theme: $theme, extension: [file extension $theme]"
+      switch -exact [string tolower [file extension $theme]] {
+        .tketheme { import_tke $theme }
+        .tmtheme  { import_tm  $theme }
         default  {}
       }
     }
+
+    # Enable the preview button
 
   }
 
@@ -1756,50 +1699,22 @@ namespace eval themer {
   # Imports the given TextMate theme and displays the result in the UI.
   proc import_tm {theme} {
 
-    variable labels
-    variable widgets
-    variable tmtheme
-    variable all_scopes
+    variable data
 
     # Set the theme
-    set tmtheme $theme
-
-    # Create the UI
-    create
-
-    # Initialize the widgets
-    $widgets(action) configure -text [msgcat::mc "Import"]
-    catch { pack $widgets(reset) -side left -padx 2 -pady 2 }
-
-    # Set the label colors to red
-    foreach l [array names widgets l:*] {
-      $widgets(b:[lindex [split $l :] 1]) configure -compound left
-    }
+    set data(curr_theme) [file rootname [file tail $theme]]
 
     # Read the theme
-    read_tmtheme $theme
-
-    # Update the menus
-    foreach mnu [array names widgets m:*] {
-
-      set lbl [lindex [split $mnu :] 1]
-
-      # Clear the menu
-      $widgets($mnu) delete 0 end
-
-      # Add the custom menu
-      $widgets($mnu) add command -label [msgcat::mc "Create custom"] -command "themer::create_custom_color $lbl"
-      $widgets($mnu) add separator
-
-      # Add the scopes to the menu
-      set i 2
-      foreach scope [lsort [array names all_scopes]] {
-        $widgets($mnu) add command -label $scope -columnbreak [expr ($i % 40) == 39] \
-          -command "themer::handle_menu_select $lbl $scope"
-        incr i
-      }
-
+    if {[catch { read_tmtheme $theme } rc]} {
+      tk_messageBox -parent .thmwin -icon error -message "Import Error" -detail $rc -default ok -type ok
+      return
     }
+
+    # Initialize the themer
+    initialize
+
+    # Apply the theme to the UI
+    apply_theme
 
   }
 
@@ -1807,35 +1722,35 @@ namespace eval themer {
   # Imports the given tke theme and displays the result in the UI.
   proc import_tke {theme} {
 
-    variable labels
-    variable widgets
-    variable tmtheme
-    variable all_scopes
+    variable data
 
     # Set the theme
-    set tmtheme $theme
-
-    # Create the UI
-    create
-
-    # Initialize UI
-    wm title [get_win] [msgcat::mc "Edit theme"]
-    $widgets(action) configure -text [msgcat::mc "Save"]
-    catch { pack $widgets(reset) -side left -padx 2 -pady 2 }
-    catch { pack $widgets(saveas) -side right -padx 2 -pady 2 }
+    set data(curr_theme) [file rootname [file tail $theme]]
 
     # Read the theme
-    read_tketheme $theme
+    if {[catch { read_tketheme $theme } rc]} {
+      tk_messageBox -parent .thmwin -icon error -message "Import Error" -detail $rc -default ok -type ok
+      return
+    }
+
+    # Initialize the themer
+    initialize
+
+    # Apply the theme to the UI
+    apply_theme
 
   }
 
   ######################################################################
   # Exports the current theme information to a tketheme file on the
   # filesystem.
-  proc export {theme} {
+  proc export {} {
 
-    variable data
-
+    if {[set fname [tk_getSaveFile -confirmoverwrite 1 -defaultextension .tketheme -parent .thmwin -title "Export theme"]] ne ""} {
+      if {[catch { write_tketheme $fname } rc]} {
+        tk_messageBox -parent .thmwin -icon error -message "Export Error" -detail $rc -default ok -type ok
+      }
+    }
 
   }
 
