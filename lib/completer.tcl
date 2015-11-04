@@ -248,6 +248,8 @@ namespace eval completer {
           ctext::matchQuote [winfo parent $txt]
           return 1
         }
+      } elseif {[ctext::inDoubleQuote $txt end-1c]} {
+        return 0
       } else {
         set ins [$txt index insert]
         if {![ctext::inCommentString $txt "insert-1c"]} {
@@ -273,6 +275,8 @@ namespace eval completer {
           $txt mark set insert "insert+1c"
           return 1
         }
+      } elseif {[ctext::isSingleQuote $txt end-1c]} {
+        return 0
       } else {
         set ins [$txt index insert]
         if {![ctext::inCommentString $txt "insert-1c"]} {
