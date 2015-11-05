@@ -51,7 +51,7 @@ namespace eval bitmap {
 
   ######################################################################
   # Creates a bitmap widget and returns the widget name.
-  proc create {w args} {
+  proc create {w type args} {
 
     variable data
 
@@ -67,11 +67,17 @@ namespace eval bitmap {
     array set opts $args
 
     # Initialize variables
+    set data($w,type)      $type
     set data($w,-size)     $opts(-size)
     set data($w,-width)    $opts(-width)
     set data($w,-height)   $opts(-height)
     set data($w,-swatches) $opts(-swatches)
-    set data($w,colors)    [list $data(bg) $opts(-color1) $opts(-color2)]
+
+    if {$type eq "mono"} {
+      set data($w,colors) [list $data(bg) $opts(-color1)]
+    } else {
+      set data($w,colors) [list $data(bg) $opts(-color1) $opts(-color2)]
+    }
 
     ttk::frame $w
 
@@ -88,8 +94,12 @@ namespace eval bitmap {
     set data($w,plabel) [label $w.rf.p -relief solid]
     set data($w,c1_lbl) [ttk::label $w.rf.l1 -text "Color-1:" -background [lindex $data($w,colors) 1]]
     set data($w,color1) [ttk::menubutton $w.rf.sb1 -text [lindex $data($w,colors) 1] -menu [set data($w,color1_mnu) [menu $w.rf.mnu1 -tearoff 0]]]
-    set data($w,c2_lbl) [ttk::label $w.rf.l2 -text "Color-2:" -background [lindex $data($w,colors) 2]]
-    set data($w,color2) [ttk::menubutton $w.rf.sb2 -text [lindex $data($w,colors) 2] -menu [set data($w,color2_mnu) [menu $w.rf.mnu2 -tearoff 0]]]
+    if {$type eq "mono"} {
+      $data($w,c1_lbl) configure -text "Color:"
+    } else {
+      set data($w,c2_lbl) [ttk::label $w.rf.l2 -text "Color-2:" -background [lindex $data($w,colors) 2]]
+      set data($w,color2) [ttk::menubutton $w.rf.sb2 -text [lindex $data($w,colors) 2] -menu [set data($w,color2_mnu) [menu $w.rf.mnu2 -tearoff 0]]]
+    }
     ttk::label $w.rf.l3 -text "Width:"
     set data($w,width)  [$data(sb) $w.rf.width {*}$data(sb_opts)  -width 2 -values [list 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16] -command [list bitmap::set_grid_size $w width]]
     ttk::label $w.rf.l4 -text "Height:"
@@ -105,8 +115,10 @@ namespace eval bitmap {
     grid $data($w,plabel) -row 0 -column 0 -padx 2 -pady 2 -columnspan 2
     grid $data($w,c1_lbl) -row 1 -column 0 -sticky news -padx 2 -pady 2
     grid $data($w,color1) -row 1 -column 1 -sticky news -padx 2 -pady 2
-    grid $data($w,c2_lbl) -row 2 -column 0 -sticky news -padx 2 -pady 2
-    grid $data($w,color2) -row 2 -column 1 -sticky news -padx 2 -pady 2
+    if {$type ne "mono"} {
+      grid $data($w,c2_lbl) -row 2 -column 0 -sticky news -padx 2 -pady 2
+      grid $data($w,color2) -row 2 -column 1 -sticky news -padx 2 -pady 2
+    }
     grid $w.rf.l3         -row 3 -column 0 -sticky news -padx 2 -pady 2
     grid $data($w,width)  -row 3 -column 1 -sticky news -padx 2 -pady 2
     grid $w.rf.l4         -row 4 -column 0 -sticky news -padx 2 -pady 2
@@ -123,7 +135,11 @@ namespace eval bitmap {
 
     # Create the preview image
     array set info [get_info $w]
-    set data($w,preview) [image create bitmap -data $info(dat) -maskdata $info(msk) -foreground $info(fg) -background $info(bg)]
+    if {$type eq "mono"} {
+      set data($w,preview) [image create bitmap -data $info(dat) -maskdata $info(msk) -foreground $info(fg)]
+    } else {
+      set data($w,preview) [image create bitmap -data $info(dat) -maskdata $info(msk) -foreground $info(fg) -background $info(bg)]
+    }
     $data($w,plabel) configure -image $data($w,preview)
 
     rename ::$w $w
@@ -253,7 +269,7 @@ namespace eval bitmap {
 
     # If this is the initial press, save the replace color
     set data($w,replace)      $curr_tag
-    set data($w,replace_with) [expr ($curr_tag + $dir) % 3]
+    set data($w,replace_with) [expr ($curr_tag + $dir) % [llength $data(colors)]]
 
     # Set the square fill color
     $data($w,grid) itemconfigure $data($w,$row,$col) -fill [lindex $data($w,colors) $data($w,replace_with)] -tags s$data($w,replace_with)
@@ -331,7 +347,11 @@ namespace eval bitmap {
     set dat "[string range $dat 0 end-2]};"
     set msk "[string range $msk 0 end-2]};"
 
-    return [list dat $dat msk $msk fg [lindex $data($w,colors) 1] bg [lindex $data($w,colors) 2]]
+    if {$data($w,type) eq "mono"} {
+      return [list dat $dat msk $msk fg $color1]
+    } else {
+      return [list dat $dat msk $msk fg $color1 bg $color2]
+    }
 
   }
 
@@ -346,7 +366,11 @@ namespace eval bitmap {
     # Parse the data and mask BMP strings
     if {[catch {
       array set dat_info [parse_bmp $info(dat)]
-      array set msk_info [parse_bmp $info(msk)]
+      if {$data($w,type) eq "mono"} {
+        array set msk_info [array get dat_info]
+      } else {
+        array set msk_info [parse_bmp $info(msk)]
+      }
     } rc]} {
       return -code error "Error parsing BMP file"
     }
@@ -356,20 +380,30 @@ namespace eval bitmap {
       set data($w,-width)  $dat_info(width)
       set data($w,-height) $dat_info(height)
     }
-    lset data($w,colors) 1 $info(fg)
-    lset data($w,colors) 2 $info(bg)
+    if {$data($w,type) eq "mono"} {
+      lset data($w,colors) 1 $info(fg)
+    } else {
+      lset data($w,colors) 1 $info(fg)
+      lset data($w,colors) 2 $info(bg)
+    }
 
     # Update the preview
-    $data($w,preview) configure -foreground $info(fg) -background $info(bg) -data $info(dat) -maskdata $info(msk)
+    if {$data($w,type) eq "mono"} {
+      $data($w,preview) configure -foreground $info(fg) -data $info(dat) -maskdata $info(msk)
+    } else {
+      $data($w,preview) configure -foreground $info(fg) -background $info(bg) -data $info(dat) -maskdata $info(msk)
+    }
 
     # Redraw the grid
     draw_grid $w $data($w,-width) $data($w,-height)
 
     # Update the widgets
     $data($w,c1_lbl) configure -background $info(fg)
-    $data($w,c2_lbl) configure -background $info(bg)
     $data($w,color1) configure -text $info(fg)
-    $data($w,color2) configure -text $info(bg)
+    if {$data($w,type) ne "mono"} {
+      $data($w,c2_lbl) configure -background $info(bg)
+      $data($w,color2) configure -text $info(bg)
+    }
     $data($w,width)  set $dat_info(width)
     $data($w,height) set $dat_info(height)
 
@@ -430,7 +464,7 @@ namespace eval bitmap {
 
     variable data
 
-    for {set i 1} {$i <= 2} {incr i} {
+    for {set i 1} {$i <= [expr {($data($w,type) eq "mono") ? 1 : 2}]} {incr i} {
       set mnu $data($w,color${i}_mnu)
       $mnu delete 0 end
       $mnu add command -label "Custom color..." -command [list bitmap::set_custom_color $w $i]
@@ -493,7 +527,7 @@ namespace eval bitmap {
   ######################################################################
   # Prompts the user for a file to import and updates the UI based on
   # the read in file and type specified.
-  proc import {w is_dat} {
+  proc import {w vec} {
 
     variable data
 
@@ -511,9 +545,10 @@ namespace eval bitmap {
 
       # Update the UI
       array set info [get_info $w]
-      if {$is_dat} {
+      if {$vec & 0x1} {
         set info(dat) $content
-      } else {
+      }
+      if {$vec & 0x2} {
         set info(msk) $content
       }
       if {[catch { set_from_info $w [array get info] } rc]} {
