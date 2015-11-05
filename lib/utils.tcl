@@ -337,6 +337,17 @@ namespace eval utils {
   }
 
   ######################################################################
+  # Returns the value of the given color
+  proc get_color_values {color} {
+
+    lassign [winfo rgb . $color] r g b
+    lassign [utils::rgb_to_hsv [set r [expr $r >> 8]] [set g [expr $g >> 8]] [set b [expr $b >> 8]]] hue saturation value
+
+    return [list $value $r $g $b [format "#%02x%02x%02x" $r $g $b]]
+
+  }
+
+  ######################################################################
   # Automatically adjusts the given color by a value equal to diff such
   # that if color is a darker color, the value will be lightened and if
   # color is a lighter color, the value will be darkened.

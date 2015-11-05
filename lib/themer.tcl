@@ -217,17 +217,6 @@ namespace eval themer {
   }
 
   ######################################################################
-  # Returns the value of the given color
-  proc get_color_values {color} {
-
-    lassign [winfo rgb . $color] r g b
-    lassign [utils::rgb_to_hsv [set r [expr $r >> 8]] [set g [expr $g >> 8]] [set b [expr $b >> 8]]] hue saturation value
-
-    return [list $value $r $g $b]
-
-  }
-
-  ######################################################################
   # Sets the given table cell color.
   proc set_cell_color {row color_str {color ""}} {
 
@@ -239,7 +228,7 @@ namespace eval themer {
     }
 
     # Get the HSV value
-    lassign [get_color_values $color] val
+    lassign [utils::get_color_values $color] val
 
     # Set the cell
     $data(widgets,cat) cellconfigure $row,value -text $color_str \
@@ -612,7 +601,7 @@ namespace eval themer {
       .thmwin.pw add [ttk::labelframe .thmwin.pw.lf -text [msgcat::mc "Categories"]]
       set data(widgets,cat) [tablelist::tablelist .thmwin.pw.lf.tbl \
         -columns {0 Options 0 Value 0 {}} -treecolumn 0 -exportselection 0 -width 0 \
-        -yscrollcommand { utils::set_yscrollbar .thmwin.pw.lf.vb } \
+        -yscrollcommand { .thmwin.pw.lf.vb set } \
       ]
       ttk::scrollbar .thmwin.pw.lf.vb -orient vertical -command { .thmwin.pw.lf.tbl yview }
 
@@ -1089,8 +1078,6 @@ namespace eval themer {
 
     variable data
 
-    puts "In handle_bitmap_changed, bm_data: $bm_data"
-
     # Update the data images array
     array set temp $data(cat,images)
     set temp($data(opt)) $bm_data
@@ -1444,7 +1431,7 @@ namespace eval themer {
     $data(widgets,color_canvas) itemconfigure $data(widgets,color_base) -fill $base_color
 
     # Get all of the color values
-    lassign [get_color_values $base_color] base(light) base(r) base(g) base(b)
+    lassign [utils::get_color_values $base_color] base(light) base(r) base(g) base(b)
 
     # Set the from/to values in the scales and entries
     foreach mod [list light r g b] {
@@ -1483,19 +1470,19 @@ namespace eval themer {
         $data(widgets,image_mf_bm) configure -swatches $data(cat,swatch)
         bitmap::set_from_info $data(widgets,image_mf_bm) $value
         pack $data(widgets,image_mf) -padx 2 -pady 2
+        if {$orig_value eq ""} {
+          handle_bitmap_changed [bitmap::get_info $data(widgets,image_mf_bm)]
+        }
       }
       dual {
         $data(widgets,image_mb) configure -text "Two-Color"
         $data(widgets,image_df_bm) configure -swatches $data(cat,swatch)
         bitmap::set_from_info $data(widgets,image_df_bm) $value
         pack $data(widgets,image_df) -padx 2 -pady 2
+        if {$orig_value eq ""} {
+          handle_bitmap_changed [bitmap::get_info $data(widgets,image_df_bm)]
+        }
       }
-    }
-
-    # Update the category list if we have a new value
-    if {$orig_value eq ""} {
-      puts "HERE A"
-      handle_bitmap_changed [bitmap::get_info $data(widgets,image_df_bm)]
     }
 
     # Set the image type
@@ -1746,7 +1733,6 @@ namespace eval themer {
 
     # Get the theme file to import
     if {[set theme [tk_getOpenFile -parent .thmwin -title "Import Theme File" -filetypes {{{TKE Theme} {.tketheme}} {{TextMate Theme} {.tmtheme}}}]] ne ""} {
-      puts "theme: $theme, extension: [file extension $theme]"
       switch -exact [string tolower [file extension $theme]] {
         .tketheme { import_tke $theme }
         .tmtheme  { import_tm  $theme }
