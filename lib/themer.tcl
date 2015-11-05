@@ -699,7 +699,7 @@ namespace eval themer {
       create_detail_relief
       create_detail_number
       create_detail_color
-      create_detail_bitmap
+      create_detail_image
       create_detail_treestyle
 
     }
@@ -895,10 +895,10 @@ namespace eval themer {
 
       switch $type {
         image {
-          if {[llength $value] == 8} {
-            detail_show_bitmap $value
-          } else {
-            # TBD - detail_show_photo $value
+          switch [llength $value] {
+            2 { detail_show_image photo $value }
+            6 { detail_show_image mono  $value }
+            8 { detail_show_image dual  $value }
           }
         }
         relief {
@@ -1052,18 +1052,34 @@ namespace eval themer {
   }
 
   ######################################################################
-  # Create the bitmap detail panel.
-  proc create_detail_bitmap {} {
+  # Create the image detail panel.
+  proc create_detail_image {} {
 
     variable data
 
-    set data(widgets,bitmap) [ttk::frame $data(widgets,df).bf]
+    set data(widgets,image) [ttk::frame $data(widgets,df).if]
 
-    pack [set data(widgets,bitmap_bm) [bitmap::create $data(widgets,df).bf.bm]] -padx 2 -pady 2
-    pack [ttk::button $data(widgets,df).bf.di -text "Import BMP Data" -command [list bitmap::import $data(widgets,bitmap_bm) 1]] -padx 2 -pady 2
-    pack [ttk::button $data(widgets,df).bf.mi -text "Import BMP Mask" -command [list bitmap::import $data(widgets,bitmap_bm) 0]] -padx 2 -pady 2
+    # Create and pack the image selection menubutton
+    pack [set data(widgets,image_mb) [ttk::menubutton $data(widgets,df).if.mb -menu [menu $data(widgets,image).mnu -tearoff 0]]] -padx 2 -pady 2
 
-    bind $data(widgets,bitmap_bm) <<BitmapChanged>> [list themer::handle_bitmap_changed %d]
+    # Populate the menu
+    $data(widgets,image).mnu add radiobutton -label "One-Color" -value mono -variable themer::data(image_type) -command [list themer::show_image_frame mono]
+    $data(widgets,image).mnu add radiobutton -label "Two-Color" -value dual -variable themer::data(image_type) -command [list themer::show_image_frame dual]
+
+    # Create mono frame
+    set data(widgets,image_mf) [ttk::frame $data(widgets,image).mf]
+    pack [set data(widgets,image_mf_bm) [bitmap::create $data(widgets,image_mf).bm mono]] -padx 2 -pady 2
+    pack [ttk::button $data(widgets,image_mf).di -text "Import BMP Data" -command [list bitmap::import $data(widgets,image_mf_bm) 3]] -padx 2 -pady 2 -fill x -expand yes
+
+    bind $data(widgets,image_mf_bm) <<BitmapChanged>> [list themer::handle_bitmap_changed %d]
+
+    # Create dual frame
+    set data(widgets,image_df) [ttk::frame $data(widgets,image).df]
+    pack [set data(widgets,image_df_bm) [bitmap::create $data(widgets,image_df).bm dual]] -padx 2 -pady 2
+    pack [ttk::button $data(widgets,image_df).di -text "Import BMP Data" -command [list bitmap::import $data(widgets,image_df_bm) 1]] -padx 2 -pady 2 -fill x -expand yes
+    pack [ttk::button $data(widgets,image_df).mi -text "Import BMP Mask" -command [list bitmap::import $data(widgets,image_df_bm) 2]] -padx 2 -pady 2 -fill x -expand yes
+
+    bind $data(widgets,image_df_bm) <<BitmapChanged>> [list themer::handle_bitmap_changed %d]
 
   }
 
@@ -1072,6 +1088,8 @@ namespace eval themer {
   proc handle_bitmap_changed {bm_data} {
 
     variable data
+
+    puts "In handle_bitmap_changed, bm_data: $bm_data"
 
     # Update the data images array
     array set temp $data(cat,images)
@@ -1083,7 +1101,11 @@ namespace eval themer {
 
     # Set the tablelist image
     array set bm $bm_data
-    [$data(widgets,cat) cellcget $data(row),value -image] configure -data $bm(dat) -maskdata $bm(msk) -foreground $bm(fg) -background $bm(bg)
+    if {[info exists bm(bg)]} {
+      [$data(widgets,cat) cellcget $data(row),value -image] configure -data $bm(dat) -maskdata $bm(msk) -foreground $bm(fg) -background $bm(bg)
+    } else {
+      [$data(widgets,cat) cellcget $data(row),value -image] configure -data $bm(dat) -maskdata $bm(msk) -foreground $bm(fg)
+    }
 
     # Specify that the apply button should be enabled
     $data(widgets,preview) state !disabled
@@ -1438,20 +1460,61 @@ namespace eval themer {
   }
 
   ######################################################################
-  # Displays the bitmap detail window and populates it with the given
-  # information.
-  proc detail_show_bitmap {value} {
+  # Displays the given image type in the detail image frame.
+  proc show_image_frame {type {value ""}} {
 
     variable data
 
-    # Add the bitmap panel
-    pack $data(widgets,bitmap)
+    set orig_value $value
 
-    # Configure the bitmap widget
-    $data(widgets,bitmap_bm) configure -swatches $data(cat,swatch)
+    # Unpack any children in the image frame
+    catch { pack forget {*}[pack slaves $data(widgets,image)] }
 
-    # Set the bitmap information
-    bitmap::set_from_info $data(widgets,bitmap_bm) $value
+    # Get the value from the table if we dont have it
+    if {$value eq ""} {
+      set value [$data(widgets,cat) cellcget $data(row),value -text]
+    }
+
+    pack $data(widgets,image_mb) -padx 2 -pady 2
+
+    switch $type {
+      mono {
+        $data(widgets,image_mb) configure -text "One-Color"
+        $data(widgets,image_mf_bm) configure -swatches $data(cat,swatch)
+        bitmap::set_from_info $data(widgets,image_mf_bm) $value
+        pack $data(widgets,image_mf) -padx 2 -pady 2
+      }
+      dual {
+        $data(widgets,image_mb) configure -text "Two-Color"
+        $data(widgets,image_df_bm) configure -swatches $data(cat,swatch)
+        bitmap::set_from_info $data(widgets,image_df_bm) $value
+        pack $data(widgets,image_df) -padx 2 -pady 2
+      }
+    }
+
+    # Update the category list if we have a new value
+    if {$orig_value eq ""} {
+      puts "HERE A"
+      handle_bitmap_changed [bitmap::get_info $data(widgets,image_df_bm)]
+    }
+
+    # Set the image type
+    set data(image_type) $type
+
+  }
+
+  ######################################################################
+  # Displays the bitmap detail window and populates it with the given
+  # information.
+  proc detail_show_image {type value} {
+
+    variable data
+
+    # Show the image panel
+    pack $data(widgets,image)
+
+    # Display the appropriate image detail frame
+    show_image_frame $type $value
 
   }
 
@@ -1681,7 +1744,7 @@ namespace eval themer {
 
     variable data
 
-    # Get the theme file to import:w
+    # Get the theme file to import
     if {[set theme [tk_getOpenFile -parent .thmwin -title "Import Theme File" -filetypes {{{TKE Theme} {.tketheme}} {{TextMate Theme} {.tmtheme}}}]] ne ""} {
       puts "theme: $theme, extension: [file extension $theme]"
       switch -exact [string tolower [file extension $theme]] {

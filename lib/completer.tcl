@@ -275,7 +275,7 @@ namespace eval completer {
           $txt mark set insert "insert+1c"
           return 1
         }
-      } elseif {[ctext::isSingleQuote $txt end-1c]} {
+      } elseif {[ctext::inSingleQuote $txt end-1c]} {
         return 0
       } else {
         set ins [$txt index insert]
