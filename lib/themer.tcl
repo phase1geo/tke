@@ -254,9 +254,6 @@ namespace eval themer {
 
     variable data
 
-    # Save the current theme
-    set data(curr_theme) $theme
-
     # Get the list of themes
     load_themes
 
@@ -265,6 +262,9 @@ namespace eval themer {
 
     # Initialize the themer
     initialize
+
+    # Save the current theme
+    set_current_theme_to $theme
 
   }
 
@@ -571,6 +571,53 @@ namespace eval themer {
   }
 
   ######################################################################
+  # Sets the current theme to the given value and updates the editor
+  # title bar.
+  proc set_current_theme_to {theme {check 1}} {
+
+    variable data
+
+    # First, check to see if the current theme needs to be saved
+    if {$check && [theme_needs_saving]} {
+      switch [tk_messageBox -parent .thmwin -icon question -message [msgcat::mc "Save theme changes?"] -detail [msgcat::mc "The current theme has unsaved changes"] -type yesnocancel -default yes] {
+        yes    { save_current_theme }
+        cancel { return 0 }
+      }
+    }
+
+    # Set the variable value
+    set data(curr_theme) $theme
+
+    # Update the title bar
+    wm title .thmwin [msgcat::mc "Theme Editor - %s" $theme]
+
+    return 1
+
+  }
+
+  ######################################################################
+  # This should be called whenever the current theme has been modified.
+  proc set_theme_modified {} {
+
+    variable data
+
+    # Make the preview button pressable
+    $data(widgets,preview) state !disabled
+
+    # Update the title bar
+    wm title .thmwin [msgcat::mc "Theme Editor * %s" $data(curr_theme)]
+
+  }
+
+  ######################################################################
+  # Returns true if the current theme needs to be saved; otherwise, returns 0.
+  proc theme_needs_saving {} {
+
+    return [expr {[string first "*" [wm title .thmwin]] != -1}]
+
+  }
+
+  ######################################################################
   # Creates the UI for the importer, automatically populating it with
   # the default values.
   proc create {} {
@@ -719,6 +766,13 @@ namespace eval themer {
 
     variable data
 
+    # Save the theme if it needs saving and the user agrees to it
+    if {[theme_needs_saving]} {
+      if {[tk_messageBox -parent .thmwin -icon question -message [msgcat::mc "Save theme changes?"] -detail [msgcat::mc "The current theme has unsaved changes"] -type yesno -default yes] eq "yes"} {
+        save_current_theme
+      }
+    }
+
     # Cause the original theme to be reloaded in the UI
     themes::reload
 
@@ -802,7 +856,7 @@ namespace eval themer {
     catch { write_tketheme $theme_file }
 
     # Save the current theme
-    set data(curr_theme) $theme_name
+    set_current_theme_to $theme_name 0
 
     # End the save frame
     end_save_frame
@@ -820,6 +874,9 @@ namespace eval themer {
 
     # Write the theme to disk
     catch { write_tketheme $theme_file }
+
+    # Indicate that the theme was saved
+    set_current_theme_to $data(curr_theme) 0
 
   }
 
@@ -932,19 +989,21 @@ namespace eval themer {
     variable data
 
     # Save the current theme
-    set data(curr_theme) $theme
+    if {[set_current_theme_to $theme]} {
 
-    # Reads the contents of the given theme
-    read_tketheme $data(files,$theme)
+      # Reads the contents of the given theme
+      read_tketheme $data(files,$theme)
 
-    # Display the theme contents in the UI
-    initialize
+      # Display the theme contents in the UI
+      initialize
 
-    # Apply the theme
-    apply_theme
+      # Apply the theme
+      apply_theme
 
-    # Set the menubutton text to the selected theme
-    $data(widgets,open_mb) configure -text [file rootname [file tail $theme]]
+      # Set the menubutton text to the selected theme
+      $data(widgets,open_mb) configure -text [file rootname [file tail $theme]]
+
+    }
 
   }
 
@@ -975,7 +1034,7 @@ namespace eval themer {
     set data(widgets,relief) [ttk::frame $data(widgets,df).rf]
 
     # Create the relief widgets
-    ttk::label $data(widgets,relief).l -text "Relief: "
+    ttk::label $data(widgets,relief).l -text [msgcat::mc "Relief: "]
     set data(widgets,relief_mb) [ttk::menubutton $data(widgets,relief).mb -menu [set data(widgets,relief_menu) [menu $data(widgets,relief).menu -tearoff 0]]]
 
     # Pack the widgets
@@ -994,7 +1053,7 @@ namespace eval themer {
     set data(widgets,number) [ttk::frame $data(widgets,df).nf]
 
     # Create the widgets
-    set data(widgets,number_lbl) [ttk::label $data(widgets,number).l -text "Value"]
+    set data(widgets,number_lbl) [ttk::label $data(widgets,number).l -text [msgcat::mc "Value: "]]
     set data(widgets,number_sb)  [ttk::spinbox $data(widgets,number).sb -command [list themer::handle_number_change]]
 
     # Pack the widgets
@@ -1019,13 +1078,13 @@ namespace eval themer {
 
     # Create color modification menubutton
     menu $data(widgets,color).base_mnu -tearoff 0 -postcommand [list themer::post_base_color_menu $data(widgets,color).base_mnu]
-    ttk::menubutton $data(widgets,color).mb -text "Change Base Color" -menu $data(widgets,color).base_mnu
+    ttk::menubutton $data(widgets,color).mb -text [msgcat::mc "Change Base Color"] -menu $data(widgets,color).base_mnu
 
     # Create the modification frames
-    ttk::labelframe $data(widgets,color).mod -text "Modifications"
-    grid [ttk::radiobutton $data(widgets,color).mod.lnone -text "None" -value none -variable themer::data(mod) -command [list themer::color_mod_changed none]] -row 0 -column 0 -sticky w -padx 2 -pady 2
+    ttk::labelframe $data(widgets,color).mod -text [msgcat::mc "Modifications"]
+    grid [ttk::radiobutton $data(widgets,color).mod.lnone -text [msgcat::mc "None"] -value none -variable themer::data(mod) -command [list themer::color_mod_changed none]] -row 0 -column 0 -sticky w -padx 2 -pady 2
     set i 1
-    foreach mod [list light r g b] {
+    foreach mod [list [msgcat::mc "light"] r g b] {
       grid [ttk::radiobutton $data(widgets,color).mod.l$mod -text "[string totitle $mod]:" -value $mod -variable themer::data(mod) -command [list themer::color_mod_changed $mod]] -row $i -column 0 -sticky w -padx 2 -pady 2
       grid [set data(widgets,color_${mod}_scale) [ttk::scale $data(widgets,color).mod.s$mod -orient horizontal -from 0 -to 255 -command [list themer::detail_scale_change $mod]]] -row $i -column 1 -padx 2 -pady 2
       grid [set data(widgets,color_${mod}_entry) [$data(sb)  $data(widgets,color).mod.e$mod {*}$data(sb_opts) -width 3 -from 0 -to 255 -command [list themer::detail_spinbox_change $mod]]] -row $i -column 2 -padx 2 -pady 2
@@ -1052,21 +1111,21 @@ namespace eval themer {
     pack [set data(widgets,image_mb) [ttk::menubutton $data(widgets,df).if.mb -menu [menu $data(widgets,image).mnu -tearoff 0]]] -padx 2 -pady 2
 
     # Populate the menu
-    $data(widgets,image).mnu add radiobutton -label "One-Color" -value mono -variable themer::data(image_type) -command [list themer::show_image_frame mono]
-    $data(widgets,image).mnu add radiobutton -label "Two-Color" -value dual -variable themer::data(image_type) -command [list themer::show_image_frame dual]
+    $data(widgets,image).mnu add radiobutton -label [msgcat::mc "One-Color"] -value mono -variable themer::data(image_type) -command [list themer::show_image_frame mono]
+    $data(widgets,image).mnu add radiobutton -label [msgcat::mc "Two-Color"] -value dual -variable themer::data(image_type) -command [list themer::show_image_frame dual]
 
     # Create mono frame
     set data(widgets,image_mf) [ttk::frame $data(widgets,image).mf]
     pack [set data(widgets,image_mf_bm) [bitmap::create $data(widgets,image_mf).bm mono]] -padx 2 -pady 2
-    pack [ttk::button $data(widgets,image_mf).di -text "Import BMP Data" -command [list bitmap::import $data(widgets,image_mf_bm) 3]] -padx 2 -pady 2 -fill x -expand yes
+    pack [ttk::button $data(widgets,image_mf).di -text [msgcat::mc "Import BMP Data"] -command [list bitmap::import $data(widgets,image_mf_bm) 3]] -padx 2 -pady 2 -fill x -expand yes
 
     bind $data(widgets,image_mf_bm) <<BitmapChanged>> [list themer::handle_bitmap_changed %d]
 
     # Create dual frame
     set data(widgets,image_df) [ttk::frame $data(widgets,image).df]
     pack [set data(widgets,image_df_bm) [bitmap::create $data(widgets,image_df).bm dual]] -padx 2 -pady 2
-    pack [ttk::button $data(widgets,image_df).di -text "Import BMP Data" -command [list bitmap::import $data(widgets,image_df_bm) 1]] -padx 2 -pady 2 -fill x -expand yes
-    pack [ttk::button $data(widgets,image_df).mi -text "Import BMP Mask" -command [list bitmap::import $data(widgets,image_df_bm) 2]] -padx 2 -pady 2 -fill x -expand yes
+    pack [ttk::button $data(widgets,image_df).di -text [msgcat::mc "Import BMP Data"] -command [list bitmap::import $data(widgets,image_df_bm) 1]] -padx 2 -pady 2 -fill x -expand yes
+    pack [ttk::button $data(widgets,image_df).mi -text [msgcat::mc "Import BMP Mask"] -command [list bitmap::import $data(widgets,image_df_bm) 2]] -padx 2 -pady 2 -fill x -expand yes
 
     bind $data(widgets,image_df_bm) <<BitmapChanged>> [list themer::handle_bitmap_changed %d]
 
@@ -1095,7 +1154,7 @@ namespace eval themer {
     }
 
     # Specify that the apply button should be enabled
-    $data(widgets,preview) state !disabled
+    set_theme_modified
 
   }
 
@@ -1109,7 +1168,7 @@ namespace eval themer {
     set data(widgets,treestyle) [ttk::frame $data(widgets,df).tf]
 
     # Create the treestyle widgets
-    ttk::label $data(widgets,treestyle).l -text "Tree Style: "
+    ttk::label $data(widgets,treestyle).l -text [msgcat::mc "Tree Style: "]
     set data(widgets,treestyle_mb) [ttk::menubutton $data(widgets,treestyle).mb -menu [set data(widgets,treestyle_menu) [menu $data(widgets,treestyle).menu -tearoff 0]]]
 
     # Create treestyles list
@@ -1141,7 +1200,7 @@ namespace eval themer {
     $data(widgets,cat) cellconfigure $data(row),value -text $treestyle
 
     # Specify that the apply button should be enabled
-    $data(widgets,preview) state !disabled
+    set_theme_modified
 
   }
 
@@ -1156,12 +1215,12 @@ namespace eval themer {
     $mnu delete 0 end
 
     # Add the "Custom..." menu item
-    $mnu add command -label "Custom..." -command [list themer::choose_custom_base_color]
+    $mnu add command -label [msgcat::mc "Custom..."] -command [list themer::choose_custom_base_color]
 
     # Add each swatch colors to the menu, if available
     if {[llength $data(cat,swatch)] > 0} {
       $mnu add separator
-      $mnu add command -label "Swatch Colors" -state disabled
+      $mnu add command -label [msgcat::mc "Swatch Colors"] -state disabled
       foreach color $data(cat,swatch) {
         $mnu add command -label $color -command [list themer::set_base_color $color]
       }
@@ -1307,7 +1366,7 @@ namespace eval themer {
     set_cell_color $data(row) $value $new_color
 
     # Specify that the apply button should be enabled
-    $data(widgets,preview) state !disabled
+    set_theme_modified
 
   }
 
@@ -1348,7 +1407,7 @@ namespace eval themer {
     $data(widgets,cat) cellconfigure $data(row),value -text $value
 
     # Enable the apply button
-    $data(widgets,preview) state !disabled
+    set_theme_modified
 
   }
 
@@ -1395,7 +1454,7 @@ namespace eval themer {
     $data(widgets,cat) cellconfigure $data(row),value -text $value
 
     # Enable the apply button
-    $data(widgets,preview) state !disabled
+    set_theme_modified
 
   }
 
@@ -1441,9 +1500,6 @@ namespace eval themer {
       $data(widgets,color_${mod}_entry) set [expr {($mod eq $data(mod)) ? $set_value : $base($mod)}]
     }
 
-    # Fool the UI into thinking that the modified value changed
-    # color_mod_changed $data(mod)
-
   }
 
   ######################################################################
@@ -1466,7 +1522,7 @@ namespace eval themer {
 
     switch $type {
       mono {
-        $data(widgets,image_mb) configure -text "One-Color"
+        $data(widgets,image_mb) configure -text [msgcat::mc "One-Color"]
         $data(widgets,image_mf_bm) configure -swatches $data(cat,swatch)
         bitmap::set_from_info $data(widgets,image_mf_bm) $value
         pack $data(widgets,image_mf) -padx 2 -pady 2
@@ -1475,7 +1531,7 @@ namespace eval themer {
         }
       }
       dual {
-        $data(widgets,image_mb) configure -text "Two-Color"
+        $data(widgets,image_mb) configure -text [msgcat::mc "Two-Color"]
         $data(widgets,image_df_bm) configure -swatches $data(cat,swatch)
         bitmap::set_from_info $data(widgets,image_df_bm) $value
         pack $data(widgets,image_df) -padx 2 -pady 2
@@ -1546,10 +1602,14 @@ namespace eval themer {
     $data(widgets,cat) delete 0 end
 
     # Insert categories
-    foreach {category title} [list syntax "Syntax Colors" ttk_style "ttk Widget Colors" menus "Menu Options" \
-                                   tabs "Tab Options" text_scrollbar "Text Scrollbar Options" \
-                                   sidebar "Sidebar Options" sidebar_scrollbar "Sidebar Scrollbar Options" \
-                                   images "Images"] {
+    foreach {category title} [list syntax            [msgcat::mc "Syntax Colors"] \
+                                   ttk_style         [msgcat::mc "ttk Widget Colors"] \
+                                   menus             [msgcat::mc "Menu Options"] \
+                                   tabs              [msgcat::mc "Tab Options"] \
+                                   text_scrollbar    [msgcat::mc "Text Scrollbar Options"] \
+                                   sidebar           [msgcat::mc "Sidebar Options"] \
+                                   sidebar_scrollbar [msgcat::mc "Sidebar Scrollbar Options"] \
+                                   images            [msgcat::mc "Images"]] {
       set parent [$data(widgets,cat) insertchild root end [list $title {} {}]]
       array set opts $data(cat,$category)
       foreach opt [lsort [array names opts]] {
@@ -1680,7 +1740,7 @@ namespace eval themer {
     variable type_map
 
     # Confirm from the user
-    if {!$force && [tk_messageBox -parent .thmwin -message "Delete swatch?" -default no -type yesno] eq "no"} {
+    if {!$force && [tk_messageBox -parent .thmwin -message [msgcat::mc "Delete swatch?"] -default no -type yesno] eq "no"} {
       return
     }
 
@@ -1732,7 +1792,7 @@ namespace eval themer {
     variable data
 
     # Get the theme file to import
-    if {[set theme [tk_getOpenFile -parent .thmwin -title "Import Theme File" -filetypes {{{TKE Theme} {.tketheme}} {{TextMate Theme} {.tmtheme}}}]] ne ""} {
+    if {[set theme [tk_getOpenFile -parent .thmwin -title [msgcat::mc "Import Theme File"] -filetypes {{{TKE Theme} {.tketheme}} {{TextMate Theme} {.tmtheme}}}]] ne ""} {
       switch -exact [string tolower [file extension $theme]] {
         .tketheme { import_tke $theme }
         .tmtheme  { import_tm  $theme }
@@ -1751,19 +1811,21 @@ namespace eval themer {
     variable data
 
     # Set the theme
-    set data(curr_theme) [file rootname [file tail $theme]]
+    if {[set_current_theme_to [file rootname [file tail $theme]]]} {
 
-    # Read the theme
-    if {[catch { read_tmtheme $theme } rc]} {
-      tk_messageBox -parent .thmwin -icon error -message "Import Error" -detail $rc -default ok -type ok
-      return
+      # Read the theme
+      if {[catch { read_tmtheme $theme } rc]} {
+        tk_messageBox -parent .thmwin -icon error -message [msgcat::mc "Import Error"] -detail $rc -default ok -type ok
+        return
+      }
+
+      # Initialize the themer
+      initialize
+
+      # Apply the theme to the UI
+      apply_theme
+
     }
-
-    # Initialize the themer
-    initialize
-
-    # Apply the theme to the UI
-    apply_theme
 
   }
 
@@ -1774,19 +1836,21 @@ namespace eval themer {
     variable data
 
     # Set the theme
-    set data(curr_theme) [file rootname [file tail $theme]]
+    if {[set_current_theme_to [file rootname [file tail $theme]]]} {
 
-    # Read the theme
-    if {[catch { read_tketheme $theme } rc]} {
-      tk_messageBox -parent .thmwin -icon error -message "Import Error" -detail $rc -default ok -type ok
-      return
+      # Read the theme
+      if {[catch { read_tketheme $theme } rc]} {
+        tk_messageBox -parent .thmwin -icon error -message [msgcat::mc "Import Error"] -detail $rc -default ok -type ok
+        return
+      }
+
+      # Initialize the themer
+      initialize
+
+      # Apply the theme to the UI
+      apply_theme
+
     }
-
-    # Initialize the themer
-    initialize
-
-    # Apply the theme to the UI
-    apply_theme
 
   }
 
@@ -1795,9 +1859,9 @@ namespace eval themer {
   # filesystem.
   proc export {} {
 
-    if {[set fname [tk_getSaveFile -confirmoverwrite 1 -defaultextension .tketheme -parent .thmwin -title "Export theme"]] ne ""} {
+    if {[set fname [tk_getSaveFile -confirmoverwrite 1 -defaultextension .tketheme -parent .thmwin -title [msgcat::mc "Export theme"]]] ne ""} {
       if {[catch { write_tketheme $fname } rc]} {
-        tk_messageBox -parent .thmwin -icon error -message "Export Error" -detail $rc -default ok -type ok
+        tk_messageBox -parent .thmwin -icon error -message [msgcat::mc "Export Error"] -detail $rc -default ok -type ok
       }
     }
 
