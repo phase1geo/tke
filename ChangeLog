@@ -1,202 +1,43 @@
-changeset:   1433:67e7b5d09283
-tag:         devel-1.9.7
+changeset:   1457:3d306d2f0537
+tag:         devel-1.9.8
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Oct 21 09:25:42 2015 -0500
+date:        Wed Nov 04 09:49:07 2015 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.9.7 release
+ChangeLog for devel-1.9.8 release
 
 
-changeset:   1434:0e2e60c99193
+changeset:   1458:fd5ad586efd7
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Oct 21 09:25:46 2015 -0500
+date:        Wed Nov 04 09:49:12 2015 -0600
 files:       .hgtags
 description:
-Added tag devel-1.9.7 for changeset 67e7b5d09283
+Added tag devel-1.9.8 for changeset 3d306d2f0537
 
 
-changeset:   1435:0e57949d4c15
+changeset:   1459:2c3a7f8dc631
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu Oct 22 00:11:15 2015 -0500
-files:       lib/bitmap.tcl lib/version.tcl
+date:        Wed Nov 04 19:34:38 2015 -0600
+files:       lib/bitmap.tcl lib/completer.tcl lib/themer.tcl lib/version.tcl
 description:
-* Adding start of bitmap widget.
+* Fixing syntax error in completer for single quotes.
+* Adding initial support for monochrome bitmaps (work in progress).
 
 
-changeset:   1436:3baa2a3f4577
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Oct 22 09:13:01 2015 -0500
-files:       lib/bitmap.tcl lib/version.tcl
-description:
-* Adding width and height options to UI.
-* Updating to allow widget to be instantiated more than once.
-* Adding virtual event BitmapChanged to allow for bindings.
-
-
-changeset:   1437:99b15b642045
-parent:      1434:0e2e60c99193
+changeset:   1460:6327acd0e7c1
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu Oct 22 16:33:59 2015 -0500
-files:       lib/sidebar.tcl lib/version.tcl
+date:        Thu Nov 05 00:08:34 2015 -0600
+files:       lib/bitmap.tcl lib/themer.tcl lib/utils.tcl lib/version.tcl
 description:
-* Moving binary check below extension check in ignore_file procedure.
+* Fixing mono/dual bitmap switching.
 
 
-changeset:   1438:403fe4687786
-parent:      1437:99b15b642045
-parent:      1436:3baa2a3f4577
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu Oct 22 16:35:41 2015 -0500
-description:
-* Merging trees.
-
-
-changeset:   1439:67ee6d6c8370
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Oct 22 23:58:50 2015 -0500
-files:       lib/bitmap.tcl lib/version.tcl
-description:
-* Adding BMP parser and data loading functionality.
-
-
-changeset:   1440:20d185d2bac3
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Oct 23 00:22:36 2015 -0500
-files:       lib/bitmap.tcl lib/version.tcl
-description:
-* Changing resizing functionality to retain image information.
-
-
-changeset:   1441:e61c03553f25
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Oct 23 00:35:16 2015 -0500
-files:       lib/bitmap.tcl lib/themer.tcl lib/version.tcl
-description:
-* Incorporating bitmap widget into themer (still need to create categories that store bitmap information).
-
-
-changeset:   1442:834bd58cd028
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Oct 24 01:24:03 2015 -0500
-files:       data/themes/minimal_Theme.tketheme lib/bitmap.tcl lib/themer.tcl lib/version.tcl
-description:
-* Checkpointing work on adding -treestyle, bitmap and photo support to themer.
-
-
-changeset:   1443:797f78908760
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Oct 25 00:38:05 2015 -0500
-files:       data/themes/minimal_Theme.tketheme lib/bitmap.tcl lib/gui.tcl lib/sidebar.tcl lib/themer.tcl lib/themes.tcl lib/version.tcl
-description:
-* Checkpointing work on themer.
-
-
-changeset:   1444:969d5c2cc3ce
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Oct 25 08:02:39 2015 -0500
-files:       data/themes/minimal_Theme.tketheme lib/sidebar.tcl lib/themer.tcl lib/version.tcl
-description:
-* Fixing some issues with the themer.
-
-
-changeset:   1445:bf22f937bb5f
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Oct 26 00:48:04 2015 -0500
-files:       lib/bitmap.tcl lib/version.tcl
-description:
-* Fixing right-click on Mac OS X.
-
-
-changeset:   1446:6770c957ffb7
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Oct 28 01:49:36 2015 -0500
-files:       data/themes/Juicy.tketheme lib/themer.tcl lib/version.tcl
-description:
-* Checkpointing themer work.
-
-
-changeset:   1447:07b5af6634e3
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Oct 28 09:21:38 2015 -0500
-files:       lib/themer.tcl lib/version.tcl
-description:
-* Checkpointing work on themer.
-
-
-changeset:   1448:eeda00918f0e
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Oct 28 19:32:01 2015 -0500
-files:       lib/bitmap.tcl lib/themer.tcl lib/version.tcl
-description:
-* More improvements themer.
-
-
-changeset:   1449:2a42983368df
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu Oct 29 00:37:34 2015 -0500
-files:       data/themes/minimal_Theme.tketheme lib/bitmap.tcl lib/version.tcl
-description:
-* Checkpointing themer work.
-
-
-changeset:   1450:7cdb8a8a221f
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Oct 29 09:32:10 2015 -0500
-files:       lib/bitmap.tcl lib/themer.tcl lib/version.tcl
-description:
-* Checkpointing themer work.
-
-
-changeset:   1451:cac17709cab2
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Fri Oct 30 00:38:18 2015 -0500
-files:       lib/themer.tcl lib/version.tcl
-description:
-* Checkpointing themer work.
-
-
-changeset:   1452:022170942d99
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Nov 03 08:39:48 2015 -0600
-files:       data/themes/minimal_Theme.tketheme lib/gui.tcl lib/themer.tcl lib/themes.tcl lib/version.tcl
-description:
-* Fixing various themer issues.
-
-
-changeset:   1453:e1da9f010b07
-parent:      1451:cac17709cab2
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Sat Oct 31 21:46:47 2015 -0500
-files:       lib/themer.tcl lib/version.tcl
-description:
-* Checkpointing themer work.
-
-
-changeset:   1454:b4a19697993a
-parent:      1452:022170942d99
-parent:      1453:e1da9f010b07
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Nov 03 08:44:58 2015 -0600
-files:       lib/themer.tcl lib/version.tcl
-description:
-* Merging.
-
-
-changeset:   1455:abc6a28159a1
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Nov 04 01:44:20 2015 -0600
-files:       lib/themer.tcl lib/version.tcl
-description:
-* Checkpointing work on import/export functionality.
-* Fixing various themer issues.
-
-
-changeset:   1456:49eb2a7e04d9
+changeset:   1461:41998f5f812b
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Nov 04 08:44:16 2015 -0600
-files:       data/themes/Fluidvision.tketheme lib/completer.tcl lib/version.tcl
+date:        Thu Nov 05 09:03:09 2015 -0600
+files:       lib/themer.tcl lib/version.tcl
 description:
-* Improving completer support for double and single quotes when insertion cursor is not within a double/single quote but only one is needed.
+* Adding UI tweaks to prompt for saving and update the title bar properly.
 
 
