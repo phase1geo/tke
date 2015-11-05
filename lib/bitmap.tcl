@@ -363,6 +363,11 @@ namespace eval bitmap {
 
     array set info $info_list
 
+    # Set the background color if it does not exist
+    if {($data($w,type) ne "mono") && ![info exists info(bg)]} {
+      set info(bg) $data(bg)
+    }
+
     # Parse the data and mask BMP strings
     if {[catch {
       array set dat_info [parse_bmp $info(dat)]
@@ -397,12 +402,16 @@ namespace eval bitmap {
     # Redraw the grid
     draw_grid $w $data($w,-width) $data($w,-height)
 
+    # Get the color values
+    lassign [utils::get_color_values $info(fg)] fg_val r g b fg
+    lassign [utils::get_color_values $info(bg)] bg_val r g b bg
+
     # Update the widgets
-    $data($w,c1_lbl) configure -background $info(fg)
-    $data($w,color1) configure -text $info(fg)
+    $data($w,c1_lbl) configure -background $info(fg) -foreground [expr {($fg_val < 128) ? "white" : "black"}]
+    $data($w,color1) configure -text $fg
     if {$data($w,type) ne "mono"} {
-      $data($w,c2_lbl) configure -background $info(bg)
-      $data($w,color2) configure -text $info(bg)
+      $data($w,c2_lbl) configure -background $info(bg) -foreground [expr {($bg_val < 128) ? "white" : "black"}]
+      $data($w,color2) configure -text $bg
     }
     $data($w,width)  set $dat_info(width)
     $data($w,height) set $dat_info(height)
