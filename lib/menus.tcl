@@ -207,15 +207,8 @@ namespace eval menus {
     # Handle the default development mode
     handle_development_mode
 
-  }
-
-  ######################################################################
-  # Handles any changes to the General/WindowTheme preference variable.
-  proc handle_theme_change {opts} {
-
-    if {[winfo exists .menubar] && ([tk windowingsystem] ne "aqua")} {
-      .menubar configure {*}$opts
-    }
+    # Register the menubar for theming purposes
+    theme::register_widget $mb menus
 
   }
 
@@ -1451,32 +1444,7 @@ namespace eval menus {
   proc theme_edit_command {} {
 
     # Edit the current theme
-    themer::edit_theme [themes::get_current_theme]
-
-  }
-
-  ######################################################################
-  # Allows the user to select one of the Tke themes to edit and calls
-  # up the theme editor.
-  proc edit_theme_command {} {
-
-    # Call the themer importer for the given tke file
-    themer::import_tke [themes::get_current_theme] themes::set_theme
-
-  }
-
-  ######################################################################
-  # Allows the user to select an existing TextMate theme to import and
-  # calls the theme importer.
-  proc import_tm_command {} {
-
-    # Open a TextMate theme
-    if {[set name [tk_getOpenFile -filetypes {{TextMate {.tmTheme .tmtheme}}} -initialdir [pwd] -parent . -title "Select TextMate theme"]] ne ""} {
-
-      # Call the themer importer for the given TextMate file
-      themer::import_tm $name themes::reload
-
-    }
+    themer::edit_theme [theme::get_current_theme]
 
   }
 

@@ -1,79 +1,53 @@
-menus {
-  -relief flat
-}
-
-tabs {
-  -background #282828
-  -foreground white
-  -activebackground black
-  -inactivebackground #282828
-  -relief flat
-}
-
-sidebar_scrollbar {
-  -background white
-  -foreground #282828
-  -thickness  15
-}
-
-ttk_style {
-  disabledfg #999999
-  frame black
-  lightframe #282828
-  window black
-  dark #cfcdc8
-  darker #bab5ab
-  darkest #9e9a91
-  lighter white
-  lightest white
-  selectbg #4a6984
-  selectfg #ffffff
-}
-
-text_scrollbar {
-  -background black
-  -foreground #282828
-  -thickness  15
-}
-
-meta {
-}
-
-sidebar {
-  -foreground black
-  -background white
-  -selectbackground #282828
-  -selectforeground white
-  -highlightbackground white
-  -highlightcolor white
-}
-
-swatch {
-  black #282828
-  white #ffffff
-}
-
-syntax {
-  precompile orange
-  keywords red
-  line_number #424343
-  difference_add #001e00
-  numbers gold
-  border_highlight gold
-  select_background blue
-  highlighter yellow
-  background black
-  strings pink
-  select_foreground white
-  punctuation green
-  foreground white
-  difference_sub #1e0000
-  warning_width #282828
-  miscellaneous1 #babd9c
-  miscellaneous2 #b8b960
-  comments grey
-  cursor yellow
-  miscellaneous3 #ffee80
-  meta #282828
-}
+swatch {black #282828 white}
+meta {}
+menus,-relief flat
+tabs,-background #282828
+tabs,-foreground white
+tabs,-activebackground black
+tabs,-inactivebackground #282828
+tabs,-relief flat
+sidebar_scrollbar,-background white
+sidebar_scrollbar,-foreground #282828
+sidebar_scrollbar,-thickness  15
+ttk_style,disabledfg #999999
+ttk_style,frame black
+ttk_style,lightframe #282828
+ttk_style,window black
+ttk_style,dark #cfcdc8
+ttk_style,darker #bab5ab
+ttk_style,darkest #9e9a91
+ttk_style,lighter white
+ttk_style,lightest white
+ttk_style,selectbg #4a6984
+ttk_style,selectfg #ffffff
+text_scrollbar,-background black
+text_scrollbar,-foreground #282828
+text_scrollbar,-thickness  15
+sidebar,-foreground black
+sidebar,-background white
+sidebar,-selectbackground #282828
+sidebar,-selectforeground white
+sidebar,-highlightbackground white
+sidebar,-highlightcolor white
+syntax,precompile orange
+syntax,keywords red
+syntax,line_number #424343
+syntax,difference_add #001e00
+syntax,numbers gold
+syntax,border_highlight gold
+syntax,select_background blue
+syntax,highlighter yellow
+syntax,background black
+syntax,strings pink
+syntax,select_foreground white
+syntax,punctuation green
+syntax,foreground white
+syntax,difference_sub #1e0000
+syntax,warning_width #282828
+syntax,miscellaneous1 #babd9c
+syntax,miscellaneous2 #b8b960
+syntax,comments grey
+syntax,cursor yellow
+syntax,miscellaneous3 #ffee80
+syntax,meta #282828
 

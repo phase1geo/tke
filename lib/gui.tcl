@@ -49,7 +49,6 @@ namespace eval gui {
 
   array set widgets         {}
   array set language        {}
-  array set images          {}
   array set tab_tip         {}
   array set line_sel_anchor {}
   array set tab_current     {}
@@ -179,58 +178,43 @@ namespace eval gui {
   # Creates all images.
   proc create_images {} {
 
-    variable images
+    # Create tab images
+    theme::register_image tab_lock bitmap \
+      -file     [file join $::tke_dir lib images lock.bmp] \
+      -maskfile [file join $::tke_dir lib images lock.bmp] \
+      -foreground 1
+    theme::register_image tab_readonly bitmap \
+      -file     [file join $::tke_dir lib images lock.bmp] \
+      -maskfile [file join $::tke_dir lib images lock.bmp] \
+      -foreground 1
+    theme::register_image tab_diff bitmap \
+      -file     [file join $::tke_dir lib images diff.bmp] \
+      -maskfile [file join $::tke_dir lib images diff.bmp] \
+      -foreground 1
 
-    # Delete any previously created images that we will be recreating
-    if {[array size images] > 0} {
-      foreach name [list lock readonly diff close split] {
-        image delete $images($name)
-      }
-      foreach name [array names images mnu,*] {
-        if {$images($name) ne ""} {
-          image delete $images($name)
-          unset images($name)
-        }
-      }
-    }
+    # Create close button for forms
+    theme::register_image form_close bitmap \
+      -file     [file join $::tke_dir lib images close.bmp] \
+      -maskfile [file join $::tke_dir lib images close.bmp] \
+      -foreground 1
 
-    set foreground [[ns utils]::get_default_foreground]
+    # Create main logo image
+    theme::register_image logo photo \
+      -file [file join $::tke_dir lib images tke_logo_64.gif]
 
-    switch [[ns preferences]::get General/WindowTheme] {
-      dark {
-        set lock     $foreground
-        set readonly grey70
-        set diff     $foreground
-      }
-      default {
-        set lock     $foreground
-        set readonly grey30
-        set diff     $foreground
-      }
-    }
-
-    set images(lock)     [image create bitmap -file     [file join $::tke_dir lib images lock.bmp] \
-                                              -maskfile [file join $::tke_dir lib images lock.bmp] \
-                                              -foreground $lock]
-    set images(readonly) [image create bitmap -file     [file join $::tke_dir lib images lock.bmp] \
-                                              -maskfile [file join $::tke_dir lib images lock.bmp] \
-                                              -foreground $readonly]
-    set images(diff)     [image create bitmap -file     [file join $::tke_dir lib images diff.bmp] \
-                                              -maskfile [file join $::tke_dir lib images diff.bmp] \
-                                              -foreground $diff]
-    set images(close)    [image create bitmap -file     [file join $::tke_dir lib images close.bmp] \
-                                              -maskfile [file join $::tke_dir lib images close.bmp] \
-                                              -foreground $foreground]
-    set images(split)    [image create bitmap -file     [file join $::tke_dir lib images split.bmp] \
-                                              -maskfile [file join $::tke_dir lib images split.bmp] \
-                                              -foreground $foreground]
-
-    # Menu-readable versions of the tab icons
-    foreach name [list lock readonly diff] {
-      set ifile [lindex [$images($name) configure -file] 4]
-      set images(mnu,$images($name)) [image create bitmap -file $ifile -maskfile $ifile -foreground black]
-    }
-    set images(mnu,) ""
+    # Create menu images
+    theme::register_image menu_lock bitmap \
+      -file     [file join $::tke_dir lib images lock.bmp] \
+      -maskfile [file join $::tke_dir lib images lock.bmp] \
+      -foreground 1
+    theme::register_image menu_readonly bitmap \
+      -file     [file join $::tke_dir lib images lock.bmp] \
+      -maskfile [file join $::tke_dir lib images lock.bmp] \
+      -foreground 1
+    theme::register_image menu_diff bitmap \
+      -file     [file join $::tke_dir lib images diff.bmp] \
+      -maskfile [file join $::tke_dir lib images diff.bmp] \
+      -foreground 1
 
   }
 
@@ -239,14 +223,12 @@ namespace eval gui {
   proc create {} {
 
     variable widgets
-    variable images
 
     # Set the application icon photo
     wm iconphoto . [image create photo -file [file join $::tke_dir lib images tke_logo_128.gif]]
 
     # Create images
     create_images
-    set images(logo) [image create photo -file [file join $::tke_dir lib images tke_logo_64.gif]]
 
     # Create the panedwindow
     set widgets(pw) [ttk::panedwindow .pw -orient horizontal]
@@ -275,7 +257,7 @@ namespace eval gui {
     set widgets(fif_in)    [tokenentry::tokenentry $widgets(fif).ti -font [$widgets(fif_find) cget -font]]
     set widgets(fif_save)  [ttk::checkbutton $widgets(fif).save -text [msgcat::mc "Save"] \
       -variable [ns gui]::saved -command "[ns search]::update_save fif"]
-    set widgets(fif_close) [ttk::label $widgets(fif).close -image $images(close)]
+    set widgets(fif_close) [ttk::label $widgets(fif).close -image form_close]
 
     tooltip::tooltip $widgets(fif_case) [msgcat::mc "Case sensitivity"]
 
@@ -319,7 +301,7 @@ namespace eval gui {
     set widgets(ursp)       [ttk::frame .rf]
     set widgets(ursp_label) [ttk::label .rf.l]
     set widgets(ursp_entry) [ttk::entry .rf.e]
-    ttk::label .rf.close -image $images(close)
+    ttk::label .rf.close -image form_close
 
     bind $widgets(ursp_entry) <Return>    "set [ns gui]::user_exit_status 1"
     bind $widgets(ursp_entry) <Escape>    "set [ns gui]::user_exit_status 0"
@@ -482,72 +464,6 @@ namespace eval gui {
   proc handle_vim_mode {name1 name2 op} {
 
     [ns vim]::set_vim_mode_all
-
-  }
-
-  ######################################################################
-  # Handles any changes to the General/WindowTheme preference value.
-  proc handle_theme_change {tab_opts scrollbar_opts syntax_opts} {
-
-    variable widgets
-    variable images
-
-    if {[info exists widgets(nb_pw)]} {
-
-      # Store the readonly/lock status of each tab
-      array set tab_status [list]
-      foreach nb [$widgets(nb_pw) panes] {
-        for {set i 0} {$i < [llength [$nb.tbf.tb tabs]]} {incr i} {
-          if {[$nb.tbf.tb tab $i -image] eq $images(readonly)} {
-            set tab_status($nb.tbf.tb,$i,readonly) 1
-          } elseif {[$nb.tbf.tb tab $i -image] eq $images(lock)} {
-            set tab_status($nb.tbf.tb,$i,lock) 1
-          } elseif {[$nb.tbf.tb tab $i -image] eq $images(diff)} {
-            set tab_status($nb.tbf.tb,$i,diff) 1
-          }
-        }
-      }
-
-      # Update all of the images
-      create_images
-
-      # Update the lock/readonly/diff images in the tabs
-      foreach name [array names tab_status] {
-        lassign [split $name ,] tb i type
-        $tb tab $i -image $images($type)
-      }
-
-      # Update the find in file close button
-      $widgets(fif_close) configure -image $images(close)
-
-      array set syntax  $syntax_opts
-      array set sb_opts $scrollbar_opts
-
-      # Update all of the tabbars
-      foreach nb [$widgets(nb_pw) panes] {
-        $nb.tbf.tb configure {*}$tab_opts
-        set tabs [$nb.tbf.tb tabs]
-        foreach tab $tabs {
-          $tab.pw.tf    configure -background $sb_opts(-background)
-          $tab.pw.tf.vb configure {*}$scrollbar_opts
-          $tab.pw.tf.hb configure {*}$scrollbar_opts
-          set txt $tab.pw.tf.txt
-          [ns syntax]::set_language [[ns syntax]::get_current_language $txt] $txt 1
-          if {[winfo exists $tab.pw.tf2.txt]} {
-            $tab.pw.tf2     configure -background $sb_opts(-background)
-            $tab.pw.tf2.txt configure -background $syntax(background) -foreground $syntax(foreground)
-            $tab.pw.tf2.vb  configure {*}$scrollbar_opts
-            $tab.pw.tf2.hb  configure {*}$scrollbar_opts
-          }
-          $tab.sf.close configure -image $images(close)
-          $tab.rf.close configure -image $images(close)
-        }
-      }
-
-      # We need to adjust the appearance of the diff map widgets (if they exist)
-      [ns diff]::handle_theme_change $scrollbar_opts
-
-    }
 
   }
 
@@ -2703,20 +2619,19 @@ namespace eval gui {
 
     variable files
     variable files_index
-    variable images
 
     # Get the current file index
     set file_index [current_file]
 
     # Change the state of the text widget to match the lock value
     if {[lindex $files $file_index $files_index(diff)]} {
-      [current_tabbar]   tab current -compound left -image $images(diff)
+      [current_tabbar]   tab current -compound left -image tab_diff
       [current_txt $tid] configure -state disabled
     } elseif {[lindex $files $file_index $files_index(readonly)]} {
-      [current_tabbar]   tab current -compound left -image $images(readonly)
+      [current_tabbar]   tab current -compound left -image tab_readonly
       [current_txt $tid] configure -state disabled
     } elseif {[lindex $files $file_index $files_index(lock)]} {
-      [current_tabbar]   tab current -compound left -image $images(lock)
+      [current_tabbar]   tab current -compound left -image tab_lock
       [current_txt $tid] configure -state disabled
     } else {
       [current_tabbar]   tab current -image ""
@@ -3045,8 +2960,6 @@ namespace eval gui {
   # Displays the help menu "About" window.
   proc show_about {} {
 
-    variable images
-
     # Generate the version string
     if {$::version_point == 0} {
       set version_str "$::version_major.$::version_minor ($::version_hgid)"
@@ -3067,7 +2980,7 @@ namespace eval gui {
     wm geometry  .aboutwin 350x300
 
     ttk::frame .aboutwin.f
-    ttk::label .aboutwin.f.logo -compound left -image $images(logo) -text " tke" \
+    ttk::label .aboutwin.f.logo -compound left -image logo -text " tke" \
       -font [font create -family Helvetica -size 30 -weight bold]
 
     ttk::frame .aboutwin.f.if
@@ -3218,24 +3131,18 @@ namespace eval gui {
 
     variable widgets
     variable curr_notebook
-    variable images
 
     # Create editor notebook
     $widgets(nb_pw) add [set nb [ttk::frame $widgets(nb_pw).nb[incr curr_notebook]]] -weight 1
 
-    # Figure out colors to apply to notebook
-    set bg  [[ns utils]::get_default_background]
-    set fg  [[ns utils]::get_default_foreground]
-    set abg [[ns utils]::auto_adjust_color $bg 30]
-
     # Add the tabbar frame
     ttk::frame $nb.tbf
     tabbar::tabbar $nb.tbf.tb -command "[ns gui]::set_current_tab_from_tb" \
-      -checkcommand "[ns gui]::close_check_by_tabbar {}" -closecommand "[ns gui]::close_tab_by_tabbar" \
-      -background $bg -foreground $fg -activebackground $abg -inactivebackground $bg
+      -checkcommand "[ns gui]::close_check_by_tabbar {}" \
+      -closecommand "[ns gui]::close_tab_by_tabbar"
 
     # Configure the tabbar
-    $nb.tbf.tb configure {*}[[ns themes]::get_opts tabs]
+    $nb.tbf.tb configure {*}[[ns theme]::get_category_options tabs 1]
 
     grid rowconfigure    $nb.tbf 0 -weight 1
     grid columnconfigure $nb.tbf 0 -weight 1
@@ -3269,6 +3176,9 @@ namespace eval gui {
     # Handle tooltips
     bind [$nb.tbf.tb btag] <Motion> [list [ns gui]::handle_notebook_motion %W %x %y]
 
+    # Register the tabbar for theming
+    theme::register_widget $nb.tbf.tb tabs
+
   }
 
   ######################################################################
@@ -3277,7 +3187,6 @@ namespace eval gui {
 
     variable tab_tip
     variable tab_close
-    variable images
 
     # Adjust W
     set W [winfo parent $W]
@@ -3364,11 +3273,10 @@ namespace eval gui {
     variable curr_id
     variable language
     variable pw_current
-    variable images
     variable case_sensitive
 
     # Get the scrollbar coloring information
-    array set sb_opts [set scrollbar_opts [[ns themes]::get_opts text_scrollbar]]
+    array set sb_opts [set scrollbar_opts [[ns theme]::get_category_options text_scrollbar 1]]
 
     # Get the unique tab ID
     set id [incr curr_id]
@@ -3409,6 +3317,11 @@ namespace eval gui {
     } else {
       scroller::scroller $tab_frame.pw.tf.vb {*}$scrollbar_opts -orient vertical -command "$txt yview"
     }
+
+    # Register the widgets
+    [ns theme]::register_widget $txt syntax
+    [ns theme]::register_widget $tab_frame.pw.tf.vb text_scrollbar
+    [ns theme]::register_widget $tab_frame.pw.tf.hb text_scrollbar
 
     # Create the editor font if it does not currently exist
     if {[lsearch [font names] editor_font] == -1} {
@@ -3455,7 +3368,7 @@ namespace eval gui {
     ttk::entry       $tab_frame.sf.e
     ttk::checkbutton $tab_frame.sf.case  -text "Aa"   -variable [ns gui]::case_sensitive
     ttk::checkbutton $tab_frame.sf.save  -text "Save" -variable [ns gui]::saved -command "[ns search]::update_save find"
-    ttk::label       $tab_frame.sf.close -image $images(close)
+    ttk::label       $tab_frame.sf.close -image form_close
 
     tooltip::tooltip $tab_frame.sf.case "Case sensitivity"
 
@@ -3483,7 +3396,7 @@ namespace eval gui {
     ttk::checkbutton $tab_frame.rf.glob  -text [msgcat::mc "All"]  -variable [ns gui]::replace_all
     ttk::checkbutton $tab_frame.rf.save  -text [msgcat::mc "Save"] -variable [ns gui]::saved \
       -command "[ns search]::update_save replace"
-    ttk::label       $tab_frame.rf.close -image $images(close)
+    ttk::label       $tab_frame.rf.close -image form_close
 
     pack $tab_frame.rf.fl    -side left -padx 2 -pady 2
     pack $tab_frame.rf.fe    -side left -padx 2 -pady 2 -fill x -expand yes
@@ -3600,8 +3513,6 @@ namespace eval gui {
   # TBD - This is missing support for applied gutters!
   proc show_split_pane {tid} {
 
-    variable images
-
     # Get the current paned window
     set txt  [current_txt $tid]
     set pw   [winfo parent [winfo parent $txt]]
@@ -3609,7 +3520,7 @@ namespace eval gui {
     set txt2 $pw.tf2.txt
 
     # Get the scrollbar coloring information
-    array set sb_opts [set scrollbar_opts [[ns themes]::get_opts text_scrollbar]]
+    array set sb_opts [set scrollbar_opts [[ns theme]::get_category_options text_scrollbar 1]]
 
     # Create the editor frame
     $pw insert 0 [frame $pw.tf2 -background $sb_opts(-background)]
@@ -4442,8 +4353,6 @@ namespace eval gui {
   # Displays all of the unhidden tabs.
   proc show_tabs {tb side} {
 
-    variable images
-
     set mnu $tb.mnu
 
     # Get the shown tabs
@@ -4462,7 +4371,9 @@ namespace eval gui {
         set shown [lassign $shown tmp]
       }
       if {[$tb tab $tab -state] ne "hidden"} {
-        $mnu add command -compound left -image $images(mnu,[$tb tab $tab -image]) -label [$tb tab $tab -text] \
+        set tab_image [$tb tab $tab -image]
+        set img       [expr {($tab_image ne "") ? "menu_[string range $tab_image 5 end" : ""}]
+        $mnu add command -compound left -image $img -label [$tb tab $tab -text] \
           -command "[ns gui]::set_current_tab $tab"
       }
       incr i

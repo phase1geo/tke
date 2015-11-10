@@ -1,97 +1,60 @@
-menus {
-  -relief flat
-}
-
-tabs {
-  -background {#cccccc}
-  -foreground {#000000}
-  -activebackground {#f4f4f4}
-  -inactivebackground {#cccccc}
-  -relief flat
-}
-
-images {
-  sidebar_open {dat {#define img_width 5
+swatch {#f4f4f4 #cccccc #000000}
+meta {}
+menus,-relief flat
+tabs,-background {#cccccc}
+tabs,-foreground {#000000}
+tabs,-activebackground {#f4f4f4}
+tabs,-inactivebackground {#cccccc}
+tabs,-relief flat
+images,sidebar_open {dat {#define img_width 5
 #define img_height 15
 static char img_bits[] = {
 0x00, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x00};} msk {#define img_width 5
 #define img_height 15
 static char img_bits[] = {
 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f};} fg #ffcc00 bg #836603}
-}
-
-sidebar_scrollbar {
-  -background {#000000}
-  -foreground {#cccccc}
-  -thickness 15
-}
-
-ttk_style {
-  disabledfg {#999999}
-  frame {#f4f4f4}
-  lightframe {#cccccc}
-  window {#f4f4f4}
-  dark {#cfcdc8}
-  darker {#bab5ab}
-  darkest {#9e9a91}
-  lighter {#000000}
-  lightest {#000000}
-  selectbg {#4a6984}
-  selectfg {#ffffff}
-}
-
-text_scrollbar {
-  -background {#f4f4f4}
-  -foreground {#cccccc}
-  -thickness 15
-}
-
-meta {
-}
-
-sidebar {
-  -foreground {#f4f4f4}
-  -background {#000000}
-  -selectbackground {#cccccc}
-  -selectforeground {#000000}
-  -highlightbackground {#000000}
-  -highlightcolor {#000000}
-}
-
-swatch {
-  
-  
-  
-  
-  #f4f4f4 #cccccc
-  #000000 #ffffff
-
-
-
-
-}
-
-syntax {
-  precompile {#ffffff}
-  keywords {#5b91e1}
-  line_number {#cccccc}
-  difference_add {#ebffeb}
-  numbers {#c5060b}
-  border_highlight gold
-  select_background blue
-  highlighter yellow
-  background {#f4f4f4}
-  strings {#26b31a}
-  select_foreground white
-  punctuation {#001d56}
-  foreground {#000000}
-  difference_sub {#ffebeb}
-  warning_width {#cccccc}
-  miscellaneous1 {#1c3981}
-  miscellaneous2 {#20498d}
-  comments {#386f90}
-  cursor {#000000}
-  miscellaneous3 {#c34f0a}
-  meta {#cccccc}
-}
+sidebar_scrollbar,-background {#000000}
+sidebar_scrollbar,-foreground {#cccccc}
+sidebar_scrollbar,-thickness 15
+ttk_style,disabledfg {#999999}
+ttk_style,frame {#f4f4f4}
+ttk_style,lightframe {#cccccc}
+ttk_style,window {#f4f4f4}
+ttk_style,dark {#cfcdc8}
+ttk_style,darker {#bab5ab}
+ttk_style,darkest {#9e9a91}
+ttk_style,lighter {#000000}
+ttk_style,lightest {#000000}
+ttk_style,selectbg {#4a6984}
+ttk_style,selectfg {#ffffff}
+text_scrollbar,-background {#f4f4f4}
+text_scrollbar,-foreground {#cccccc}
+text_scrollbar,-thickness 15
+sidebar,-foreground {#f4f4f4}
+sidebar,-background {#000000}
+sidebar,-selectbackground {#cccccc}
+sidebar,-selectforeground {#000000}
+sidebar,-highlightbackground {#000000}
+sidebar,-highlightcolor {#000000}
+syntax,precompile {#ffffff}
+syntax,keywords {#5b91e1}
+syntax,line_number {#cccccc}
+syntax,difference_add {#ebffeb}
+syntax,numbers {#c5060b}
+syntax,border_highlight gold
+syntax,select_background blue
+syntax,highlighter yellow
+syntax,background {#f4f4f4}
+syntax,strings {#26b31a}
+syntax,select_foreground white
+syntax,punctuation {#001d56}
+syntax,foreground {#000000}
+syntax,difference_sub {#ffebeb}
+syntax,warning_width {#cccccc}
+syntax,miscellaneous1 {#1c3981}
+syntax,miscellaneous2 {#20498d}
+syntax,comments {#386f90}
+syntax,cursor {#000000}
+syntax,miscellaneous3 {#c34f0a}
+syntax,meta {#cccccc}
 

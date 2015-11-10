@@ -1,78 +1,51 @@
-meta {
-}
-
-swatch {
-  "#272822"
-  "#f8f8f2"
-  "#4e5044"
-}
-
-ttk_style {
-  disabledfg "#999999"
-  frame      "#4e5044"
-  lightframe "#666959"
-  window     "#4e5044"
-  dark       "#cfcdc8"
-  darker     "#bab5ab"
-  darkest    "#9e9a91"
-  lighter    "#f8f8f2"
-  lightest   "#f8f8f2"
-  selectbg   "#4a6984"
-  selectfg   "#ffffff"
-}
-
-menus {
-  -relief flat
-}
-
-tabs {
-  -background         "#4e5044"
-  -foreground         "#f8f8f2"
-  -activebackground   "#272822"
-  -inactivebackground "#4e5044"
-}
-
-text_scrollbar {
-  -background "#272822"
-  -foreground "#4e5044"
-  -thickness  10
-}
-
-syntax {
-  background        "#272822"
-  border_highlight  "gold"
-  comments          "#75715e"
-  cursor            "#f8f8f0"
-  difference_add    "#274622"
-  difference_sub    "#452822"
-  foreground        "#f8f8f2"
-  highlighter       "yellow"
-  keywords          "#f92672"
-  line_number       "#4e5044"
-  meta              "#4e5044"
-  miscellaneous1    "#66d9ef"
-  miscellaneous2    "#fd971f"
-  miscellaneous3    "#f92672"
-  numbers           "#ae81ff"
-  precompile        "#d0d0ff"
-  punctuation       "#f92672"
-  select_background "blue"
-  select_foreground "white"
-  strings           "#e6db74"
-  warning_width     "#4e5044"
-}
-
-sidebar {
-  -background          "#f8f8f2"
-  -foreground          "#4e5044"
-  -selectbackground    "#272822"
-  -selectforeground    "#f8f8f2"
-  -highlightbackground "#f8f8f2"
-  -highlightcolor      "#f8f8f2"
-}
-
-sidebar_scrollbar {
-  -background      "#f8f8f2"
-  -foreground      "#4e5044"
-  -thickness  15
-}
+swatch {#272822 #f8f8f2 #4e5044}
+meta {}
+ttk_style,disabledfg "#999999"
+ttk_style,frame      "#4e5044"
+ttk_style,lightframe "#666959"
+ttk_style,window     "#4e5044"
+ttk_style,dark       "#cfcdc8"
+ttk_style,darker     "#bab5ab"
+ttk_style,darkest    "#9e9a91"
+ttk_style,lighter    "#f8f8f2"
+ttk_style,lightest   "#f8f8f2"
+ttk_style,selectbg   "#4a6984"
+ttk_style,selectfg   "#ffffff"
+menus,-relief flat
+tabs,-background         "#4e5044"
+tabs,-foreground         "#f8f8f2"
+tabs,-activebackground   "#272822"
+tabs,-inactivebackground "#4e5044"
+text_scrollbar,-background "#272822"
+text_scrollbar,-foreground "#4e5044"
+text_scrollbar,-thickness  10
+syntax,background        "#272822"
+syntax,border_highlight  "gold"
+syntax,comments          "#75715e"
+syntax,cursor            "#f8f8f0"
+syntax,difference_add    "#274622"
+syntax,difference_sub    "#452822"
+syntax,foreground        "#f8f8f2"
+syntax,highlighter       "yellow"
+syntax,keywords          "#f92672"
+syntax,line_number       "#4e5044"
+syntax,meta              "#4e5044"
+syntax,miscellaneous1    "#66d9ef"
+syntax,miscellaneous2    "#fd971f"
+syntax,miscellaneous3    "#f92672"
+syntax,numbers           "#ae81ff"
+syntax,precompile        "#d0d0ff"
+syntax,punctuation       "#f92672"
+syntax,select_background "blue"
+syntax,select_foreground "white"
+syntax,strings           "#e6db74"
+syntax,warning_width     "#4e5044"
+sidebar,-background          "#f8f8f2"
+sidebar,-foreground          "#4e5044"
+sidebar,-selectbackground    "#272822"
+sidebar,-selectforeground    "#f8f8f2"
+sidebar,-highlightbackground "#f8f8f2"
+sidebar,-highlightcolor      "#f8f8f2"
+sidebar_scrollbar,-background      "#f8f8f2"
+sidebar_scrollbar,-foreground      "#4e5044"
+sidebar_scrollbar,-thickness  15
