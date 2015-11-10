@@ -50,6 +50,7 @@ package require wmarkentry
 package require tabbar
 package require specl
 # package require fileutil
+package require struct::set
 catch { package require tkdnd }
 
 source [file join $tke_dir lib version.tcl]

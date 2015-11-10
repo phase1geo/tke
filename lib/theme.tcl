@@ -75,21 +75,24 @@ namespace eval theme {
     sidebar_scrollbar,-background {color {1} {} {0}}
     sidebar_scrollbar,-foreground {color {2} {} {0}}
     sidebar_scrollbar,-thickness  {{number {5 20}} {15} {} {0}}
-    images,sidebar_open           {image {fg gold bg black dat {} msk {}} {} {0}}
   }
 
   array set data    {}
   array set widgets {}
   array set syntax  {}
 
+  # Initialize the widgets array
+  foreach {category dummy} $category_titles {
+    set widgets($category) [list]
+  }
+
   ######################################################################
   # Registers the given widget as the given type.
   proc register_widget {w type} {
 
-    variable category_titles
     variable widgets
 
-    if {![info exists category_titles($type)]} {
+    if {![info exists widgets($type)]} {
       return -code error "Called theme::register_widget with unknown type ($type)"
     }
 
@@ -112,6 +115,7 @@ namespace eval theme {
     # Discern the image information
     switch $type {
       bitmap {
+        array set img_info {dat {} msk {} fg {} bg {}}
         if {[info exists opts(-file)]} {
           if {![catch { open $opts(-file) r } rc]} {
             set img_info(dat) [read $rc]
@@ -136,6 +140,7 @@ namespace eval theme {
         }
       }
       photo {
+        array set img_info {file {}}
         if {[info exists opts(-file)]} {
           set img_info(file) $opts(-file)
         } else {
@@ -145,7 +150,7 @@ namespace eval theme {
     }
 
     # Add the image information to the orig_data structure
-    set orig_data(images,$name) [array get img_info]
+    set orig_data(images,$name) [list image [array get img_info] [list] 0]
 
   }
 
@@ -153,10 +158,9 @@ namespace eval theme {
   # Unregisters the given widget of the given type.
   proc unregister_widget {w type} {
 
-    variable category_titles
     variable widgets
 
-    if {![info exists category_titles($type)]} {
+    if {![info exists widgets($type)]} {
       return -code error "Called theme::register_widget with unknown type ($type)"
     }
 
@@ -203,7 +207,7 @@ namespace eval theme {
     close $rc
 
     # Make things backwards compatible
-    if {![info exists contents(syntax)]} {
+    if {![info exists contents(syntax,background)]} {
       set bg  $contents(background)
       set fg  $contents(foreground)
       set abg [[ns utils]::auto_adjust_color $contents(background) 40]
@@ -222,14 +226,14 @@ namespace eval theme {
     set data(fname)  $theme_file
 
     # Load the categories
-    foreach {key value} [array get data] {
+    foreach key [array names orig_data] {
       if {[info exists contents($key)]} {
         lset data($key) $fields(value) $contents($key)
       } else {
         set default_value [lindex $data($key) $fields(default)]
         if {([lindex $data($key) $fields(type)] eq "color") && [string is integer $default_value]} {
           lset data($key) $fields(value) [lindex $data(swatch) $default_value]
-        } else {
+        } else { 
           lset data($key) $fields(value) $default_value
         }
       }
@@ -280,9 +284,10 @@ namespace eval theme {
 
     # Configure the image
     if {$value_type eq "bitmap"} {
-      $name configure -data $value_array(dat) -background $value_array(bg) -foreground $value_array(fg)
-      if {$value_array(msk) ne ""} {
-        $name configure -mask $value_array(msk)
+      foreach {field opt} [list dat -data bg -background fg -foreground msk -maskdata] {
+        if {$value_array($field) ne ""} {
+          $name configure $opt $value_array($field)
+        }
       }
     } else {
       $name configure -file $value_array(file)
@@ -374,11 +379,11 @@ namespace eval theme {
   # Updates the current theme.
   proc update_theme {} {
 
-    variable category_titles
+    variable widgets
 
     # Update the widgets
-    foreach category [array names category_titles] {
-      update_$category $widget
+    foreach category [array names widgets] {
+      update_$category
     }
 
   }
@@ -396,7 +401,7 @@ namespace eval theme {
 
     # Remove theme values that aren't in the Appearance/Colorize array
     foreach name [::struct::set difference $colorizers [[ns preferences]::get Appearance/Colorize]] {
-      unset syntax($name)
+      set syntax($name) ""
     }
 
     # Update all of the syntax
@@ -442,7 +447,7 @@ namespace eval theme {
 
   ######################################################################
   # Updates the given sidebar scrollbar widget.
-  proc update_sidebar_scrollbar {sb} {
+  proc update_sidebar_scrollbar {} {
 
     update_widget sidebar_scrollbar
 
@@ -471,10 +476,11 @@ namespace eval theme {
 
     $mnu configure {*}$opts
 
-    set last [$mnu index end]
-    for {set i 0} {$i <= $last} {incr i} {
-      if {[$mnu type $i] eq "cascade"} {
-        update_menu_helper [$mnu entrycget $i -menu] $opts
+    if {[set last [$mnu index end]] ne "none"} {
+      for {set i 0} {$i <= $last} {incr i} {
+        if {[$mnu type $i] eq "cascade"} {
+          update_menu_helper [$mnu entrycget $i -menu] $opts
+        }
       }
     }
 
@@ -625,10 +631,10 @@ namespace eval theme {
   # Returns the category widget options for the given category.
   proc get_category_options {category {all 0}} {
 
-    upvar $pchanged changed
-
     variable data
     variable fields
+
+    set opts [list]
 
     # Get the list of options to pass to sidebar tablelist
     foreach name [array names data $category,*] {
