@@ -19,7 +19,6 @@ static char img_bits[] = {
 #define img_height 15
 static char img_bits[] = {
 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f};} fg #ffcc00 bg #836603}
-}
 sidebar_scrollbar,-background {#ffffff}
 sidebar_scrollbar,-foreground {#5a5a5a}
 sidebar_scrollbar,-thickness 11
