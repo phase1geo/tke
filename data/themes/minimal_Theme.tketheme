@@ -1,19 +1,18 @@
-menus {
-  -background white
-  -foreground black
-  -relief flat
+swatch {
+  {#302d26} #5a5a5a #ffffff
 }
-
-tabs {
-  -relief flat
-  -inactivebackground {#5a5a5a}
-  -foreground {#ffffff}
-  -activebackground {#302d26}
-  -background {#5a5a5a}
+meta {
+  ttk_style,lightframe {#5a5a5a,22}
 }
-
-images {
-  sidebar_open {dat {#define img_width 5
+menus,-background white
+menus,-foreground black
+menus,-relief flat
+tabs,-relief flat
+tabs,-inactivebackground {#5a5a5a}
+tabs,-foreground {#ffffff}
+tabs,-activebackground {#302d26}
+tabs,-background {#5a5a5a}
+images,sidebar_open {dat {#define img_width 5
 #define img_height 15
 static char img_bits[] = {
 0x00, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x00};} msk {#define img_width 5
@@ -21,72 +20,49 @@ static char img_bits[] = {
 static char img_bits[] = {
 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f};} fg #ffcc00 bg #836603}
 }
-
-sidebar_scrollbar {
-  -background {#ffffff}
-  -foreground {#5a5a5a}
-  -thickness 11
-}
-
-ttk_style {
-  lightest {#ffffff}
-  window {#5a5a5a}
-  selectfg {#ffffff}
-  selectbg {#4a6984}
-  darker {#bab5ab}
-  disabledfg {#999999}
-  darkest {#9e9a91}
-  dark {#cfcdc8}
-  lighter {#ffffff}
-  lightframe {#707070}
-  frame {#5a5a5a}
-}
-
-text_scrollbar {
-  -foreground {#5a5a5a}
-  -thickness 11
-  -background {#302d26}
-}
-
-meta {
-  ttk_style,lightframe {#5a5a5a,22}
-}
-
-sidebar {
-  -highlightcolor {#ffffff}
-  -selectforeground {#ffffff}
-  -foreground {#302d26}
-  -highlightbackground {#ffffff}
-  -selectbackground {#5a5a5a}
-  -background {#ffffff}
-  -treestyle aqua
-}
-
-swatch {
-  {#302d26} #5a5a5a #ffffff
-}
-
-syntax {
-  background {#302d26}
-  border_highlight gold
-  comments {#706d5b}
-  cursor {#ff9900}
-  difference_add {#304b26}
-  difference_sub {#4e2d26}
-  foreground {#fcffe0}
-  highlighter yellow
-  keywords {#afc4db}
-  line_number {#585346}
-  meta {#585346}
-  miscellaneous1 {#babd9c}
-  miscellaneous2 {#b8b960}
-  miscellaneous3 {#ffee80}
-  numbers {#999179}
-  precompile {#afc4db}
-  punctuation {#99a190}
-  select_background blue
-  select_foreground white
-  strings {#73817d}
-  warning_width {#585346}
-}
+sidebar_scrollbar,-background {#ffffff}
+sidebar_scrollbar,-foreground {#5a5a5a}
+sidebar_scrollbar,-thickness 11
+ttk_style,lightest {#ffffff}
+ttk_style,window {#5a5a5a}
+ttk_style,selectfg {#ffffff}
+ttk_style,selectbg {#4a6984}
+ttk_style,darker {#bab5ab}
+ttk_style,disabledfg {#999999}
+ttk_style,darkest {#9e9a91}
+ttk_style,dark {#cfcdc8}
+ttk_style,lighter {#ffffff}
+ttk_style,lightframe {#707070}
+ttk_style,frame {#5a5a5a}
+text_scrollbar,-foreground {#5a5a5a}
+text_scrollbar,-thickness 11
+text_scrollbar,-background {#302d26}
+sidebar,-highlightcolor {#ffffff}
+sidebar,-selectforeground {#ffffff}
+sidebar,-foreground {#302d26}
+sidebar,-highlightbackground {#ffffff}
+sidebar,-selectbackground {#5a5a5a}
+sidebar,-background {#ffffff}
+sidebar,-treestyle aqua
+syntax,background {#302d26}
+syntax,border_highlight gold
+syntax,comments {#706d5b}
+syntax,cursor {#ff9900}
+syntax,difference_add {#304b26}
+syntax,difference_sub {#4e2d26}
+syntax,foreground {#fcffe0}
+syntax,highlighter yellow
+syntax,keywords {#afc4db}
+syntax,line_number {#585346}
+syntax,meta {#585346}
+syntax,miscellaneous1 {#babd9c}
+syntax,miscellaneous2 {#b8b960}
+syntax,miscellaneous3 {#ffee80}
+syntax,numbers {#999179}
+syntax,precompile {#afc4db}
+syntax,punctuation {#99a190}
+syntax,select_background blue
+syntax,select_foreground white
+syntax,strings {#73817d}
+syntax,warning_width {#585346}
 

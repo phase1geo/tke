@@ -116,9 +116,10 @@ namespace eval sidebar {
     variable images
 
     # Create needed images
-    set images(sopen) [image create bitmap -file [file join $::tke_dir lib images sopen.bmp] \
-                                           -maskfile [file join $::tke_dir lib images sopen.bmp] \
-                                           -foreground "gold" -background black]
+    theme::register_image sidebar_open bitmap \
+      -file [file join $::tke_dir lib images sopen.bmp] \
+      -maskfile [file join $::tke_dir lib images sopen.bmp] \
+      -foreground "gold" -background black
 
     set fg [utils::get_default_foreground]
     set bg [utils::get_default_background]
@@ -173,6 +174,10 @@ namespace eval sidebar {
       bind $widgets(tl) <<Drop>>         "sidebar::handle_drop %W %A %D"
 
     }
+
+    # Register the sidebar and sidebar scrollbar for theming purposes
+    theme::register_widget $widgets(tl) sidebar
+    theme::register_widget $widgets(sb) sidebar_scrollbar
 
     # Handle traces
     trace variable preferences::prefs(Sidebar/IgnoreFilePatterns) w sidebar::handle_ignore_files
@@ -474,10 +479,10 @@ namespace eval sidebar {
 
     # Find the main directory containing the file
     if {[set row [$widgets(tl) searchcolumn name $fname -descend -exact]] != -1} {
-      set highlighted [expr {[$widgets(tl) cellcget $row,name -image] eq $images(sopen)}]
+      set highlighted [expr {[$widgets(tl) cellcget $row,name -image] eq "sidebar_open"}]
       switch $highlight_mode {
         0 { $widgets(tl) cellconfigure $row,name -image "" }
-        1 { $widgets(tl) cellconfigure $row,name -image $images(sopen) }
+        1 { $widgets(tl) cellconfigure $row,name -image sidebar_open }
       }
       if {[expr ($highlight_mode % 2) == 0]} {
         if {$highlighted || ($highlight_mode == 2)} {
@@ -560,7 +565,7 @@ namespace eval sidebar {
         if {![ignore_file $name]} {
           set key [$widgets(tl) insertchild $parent end [list $name 0]]
           if {[gui::file_exists $name]} {
-            $widgets(tl) cellconfigure $key,name -image $images(sopen)
+            $widgets(tl) cellconfigure $key,name -image sidebar_open
             update_root_count $key 1
           }
         }
@@ -653,7 +658,7 @@ namespace eval sidebar {
             if {[file isdirectory $dir_file]} {
               $widgets(tl) collapse $node
             } elseif {[gui::file_exists $dir_file]} {
-              $widgets(tl) cellconfigure $node,name -image $images(sopen)
+              $widgets(tl) cellconfigure $node,name -image sidebar_open
             }
           }
           set dir_files [lassign $dir_files dir_file]
@@ -726,12 +731,12 @@ namespace eval sidebar {
         if {[file isfile [set name [$widgets(tl) cellcget $child,name -text]]]} {
           set compare [string compare $fname [$widgets(tl) cellcget $child,name -text]]
           if {$compare == 0} {
-            $widgets(tl) cellconfigure $child,name -image $images(sopen)
+            $widgets(tl) cellconfigure $child,name -image sidebar_open
             update_root_count $child 1
             return
           } elseif {$compare == -1} {
             set node [$widgets(tl) insertchild $parent $i [list $fname 0]]
-            $widgets(tl) cellconfigure $node,name -image $images(sopen)
+            $widgets(tl) cellconfigure $node,name -image sidebar_open
             update_root_count $node 1
             return
           }
@@ -741,7 +746,7 @@ namespace eval sidebar {
 
       # Insert the file at the end of the parent
       set node [$widgets(tl) insertchild $parent end [list $fname 0]]
-      $widgets(tl) cellconfigure $node,name -image $images(sopen)
+      $widgets(tl) cellconfigure $node,name -image sidebar_open
       update_root_count $node 1
 
     }
@@ -787,7 +792,7 @@ namespace eval sidebar {
       }
 
       # If the file is currently in the notebook, make it the current tab
-      if {([llength $selected] == 1) && ([$widgets(tl) cellcget $selected,name -image] eq $images(sopen))} {
+      if {([llength $selected] == 1) && ([$widgets(tl) cellcget $selected,name -image] eq "sidebar_open")} {
         gui::set_current_tab_from_fname [$widgets(tl) cellcget $selected,name -text]
       }
 
@@ -975,7 +980,7 @@ namespace eval sidebar {
       # Open all of the children that are not already opened
       foreach child [$widgets(tl) childkeys $row] {
         set name [$widgets(tl) cellcget $child,name -text]
-        if {([$widgets(tl) cellcget $child,name -image] ne $images(sopen)) && [file isfile $name]} {
+        if {([$widgets(tl) cellcget $child,name -image] ne "sidebar_open") && [file isfile $name]} {
           gui::add_file end $name
         }
       }
@@ -995,7 +1000,7 @@ namespace eval sidebar {
 
       # Close all of the opened children
       foreach child [$widgets(tl) childkeys $row] {
-        if {[$widgets(tl) cellcget $child,name -image] eq $images(sopen)} {
+        if {[$widgets(tl) cellcget $child,name -image] eq "sidebar_open"} {
           gui::close_file [$widgets(tl) cellcget $child,name -text]
         }
       }
@@ -1223,7 +1228,7 @@ namespace eval sidebar {
     foreach row $rows {
 
       # If the current file is selected, close it
-      if {[$widgets(tl) cellcget $row,name -image] eq $images(sopen)} {
+      if {[$widgets(tl) cellcget $row,name -image] eq "sidebar_open"} {
 
         # Close the tab at the current location
         gui::close_file [$widgets(tl) cellcget $row,name -text]
@@ -1335,7 +1340,7 @@ namespace eval sidebar {
         $widgets(tl) delete $row
 
         # Close the tab if the file is currently in the notebook
-        if {$bg eq $images(sopen)} {
+        if {$bg eq "sidebar_open"} {
           gui::close_file $fname
         }
 
@@ -1351,29 +1356,6 @@ namespace eval sidebar {
 
     # Update all of the top-level directories
     update_directory_recursively root
-
-  }
-
-  ######################################################################
-  # Handle any changes to the General/WindowTheme preference variable.
-  proc handle_theme_change {sidebar_opts sb_opts sopen_opts} {
-
-    variable widgets
-    variable images
-
-    # Configure the tablelist widget
-    if {[info exists widgets(tl)]} {
-      $widgets(tl) configure {*}$sidebar_opts
-      $widgets(sb) configure {*}$sb_opts
-      if {[llength $sopen_opts] > 0} {
-        array set sopen $sopen_opts
-        if {[info exists sopen(dat)]} {
-          $images(sopen) configure -data $sopen(dat) -maskdata $sopen(msk) -background $sopen(bg) -foreground $sopen(fg)
-        } else {
-          # TBD
-        }
-      }
-    }
 
   }
 
@@ -1398,7 +1380,7 @@ namespace eval sidebar {
         }
         lappend fif_files [list $name $name]
       } else {
-        if {[$widgets(tl) cellcget $i,name -image] eq $images(sopen)} {
+        if {[$widgets(tl) cellcget $i,name -image] eq "sidebar_open"} {
           lappend ofiles $name
         }
         lappend fif_files [list $name $name]

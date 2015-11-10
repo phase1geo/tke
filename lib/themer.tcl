@@ -538,7 +538,7 @@ namespace eval themer {
     set data(files,$theme_name) $theme
 
     # Reload the themes
-    themes::reload $theme_name
+    # TBD - themes::reload $theme_name
 
     return 1
 
@@ -551,7 +551,7 @@ namespace eval themer {
     variable data
 
     # Get the current theme from themes
-    set basename [themes::get_current_theme]
+    set basename [theme::get_current_theme]
 
     # Create the user theme directory if it does not exist
     file mkdir $data(theme_dir)
@@ -774,7 +774,7 @@ namespace eval themer {
     }
 
     # Cause the original theme to be reloaded in the UI
-    themes::reload
+    # TBD - themes::reload
 
     # Delete the swatch images
     foreach swatch [winfo children $data(widgets,sf)] {
@@ -992,7 +992,7 @@ namespace eval themer {
     if {[set_current_theme_to $theme]} {
 
       # Reads the contents of the given theme
-      read_tketheme $data(files,$theme)
+      theme::read_tketheme $data(files,$theme)
 
       # Display the theme contents in the UI
       initialize
@@ -1602,39 +1602,7 @@ namespace eval themer {
     $data(widgets,cat) delete 0 end
 
     # Insert categories
-    foreach {category title} [list syntax            [msgcat::mc "Syntax Colors"] \
-                                   ttk_style         [msgcat::mc "ttk Widget Colors"] \
-                                   menus             [msgcat::mc "Menu Options"] \
-                                   tabs              [msgcat::mc "Tab Options"] \
-                                   text_scrollbar    [msgcat::mc "Text Scrollbar Options"] \
-                                   sidebar           [msgcat::mc "Sidebar Options"] \
-                                   sidebar_scrollbar [msgcat::mc "Sidebar Scrollbar Options"] \
-                                   images            [msgcat::mc "Images"]] {
-      set parent [$data(widgets,cat) insertchild root end [list $title {} {}]]
-      array set opts $data(cat,$category)
-      foreach opt [lsort [array names opts]] {
-        set elem [$data(widgets,cat) insertchild $parent end [list $opt $opts($opt) $category]]
-        switch $type_map($category,$opt) {
-          image {
-            array set value_array $opts($opt)
-            if {[info exists value_array(dat)]} {
-              if {$value_array(msk) eq ""} {
-                set img [image create bitmap -data $value_array(dat) -background $value_array(bg) -foreground $value_array(fg)]
-              } else {
-                set img [image create bitmap -data $value_array(dat) -maskdata $value_array(msk) -background $value_array(bg) -foreground $value_array(fg)]
-              }
-            } else {
-              set img [image create photo -file $value(file)]
-            }
-            $data(widgets,cat) cellconfigure $elem,value -image $img
-          }
-          color {
-            set_cell_color $elem $opts($opt)
-          }
-        }
-      }
-      array unset opts
-    }
+    theme::populate_themer_category_table $data(widgets,cat)
 
   }
 

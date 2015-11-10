@@ -247,7 +247,7 @@ namespace eval syntax {
     variable curr_lang
 
     # Get the current syntax theme
-    array set theme [[ns themes]::get_syntax_colors]
+    array set theme [[ns theme]::get_syntax_colors]
 
     # If a text widget wasn't specified, get the current text widget
     if {$txt eq ""} {
@@ -369,7 +369,7 @@ namespace eval syntax {
     variable meta_tags
 
     # Get the current syntax theme
-    array set theme [[ns themes]::get_syntax_colors]
+    array set theme [[ns theme]::get_syntax_colors]
 
     set meta_tags($txt) "meta"
 

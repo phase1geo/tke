@@ -1,79 +1,53 @@
-menus {
-  -relief flat
-}
-
-tabs {
-  -background #4e4b68
-  -foreground #ececec
-  -activebackground #302e40
-  -inactivebackground #4e4b68
-  -relief flat
-}
-
-sidebar_scrollbar {
-  -background #ececec
-  -foreground #4e4b68
-  -thickness  15
-}
-
-ttk_style {
-  disabledfg #999999
-  frame #302e40
-  lightframe #4e4b68
-  window #302e40
-  dark #cfcdc8
-  darker #bab5ab
-  darkest #9e9a91
-  lighter #ececec
-  lightest #ececec
-  selectbg #4a6984
-  selectfg #ffffff
-}
-
-text_scrollbar {
-  -background #302e40
-  -foreground #4e4b68
-  -thickness  15
-}
-
-meta {
-}
-
-sidebar {
-  -foreground #302e40
-  -background #ececec
-  -selectbackground #4e4b68
-  -selectforeground #ececec
-  -highlightbackground #ececec
-  -highlightcolor #ececec
-}
-
-swatch {
-  #302e40 #4e4b68
-  #ececec #ffffff
-}
-
-syntax {
-  precompile #7877ff
-  keywords #e12977
-  line_number #4e4b68
-  difference_add #304c40
-  numbers #3f89ff
-  border_highlight orange
-  select_background blue
-  highlighter yellow
-  background #302e40
-  strings #d9903b
-  select_foreground white
-  punctuation #ececec
-  foreground #ececec
-  difference_sub #4e2e40
-  warning_width #4e4b68
-  miscellaneous1 #aaaaaa
-  miscellaneous2 #d9903b
-  comments #696587
-  cursor #ffffff
-  miscellaneous3 #5b56f3
-  meta #4e4b68
-}
+swatch {#302e40 #4e4b68 #ececec}
+meta {}
+menus,-relief flat
+tabs,-background #4e4b68
+tabs,-foreground #ececec
+tabs,-activebackground #302e40
+tabs,-inactivebackground #4e4b68
+tabs,-relief flat
+sidebar_scrollbar,-background #ececec
+sidebar_scrollbar,-foreground #4e4b68
+sidebar_scrollbar,-thickness  15
+ttk_style,disabledfg #999999
+ttk_style,frame #302e40
+ttk_style,lightframe #4e4b68
+ttk_style,window #302e40
+ttk_style,dark #cfcdc8
+ttk_style,darker #bab5ab
+ttk_style,darkest #9e9a91
+ttk_style,lighter #ececec
+ttk_style,lightest #ececec
+ttk_style,selectbg #4a6984
+ttk_style,selectfg #ffffff
+text_scrollbar,-background #302e40
+text_scrollbar,-foreground #4e4b68
+text_scrollbar,-thickness  15
+sidebar,-foreground #302e40
+sidebar,-background #ececec
+sidebar,-selectbackground #4e4b68
+sidebar,-selectforeground #ececec
+sidebar,-highlightbackground #ececec
+sidebar,-highlightcolor #ececec
+syntax,precompile #7877ff
+syntax,keywords #e12977
+syntax,line_number #4e4b68
+syntax,difference_add #304c40
+syntax,numbers #3f89ff
+syntax,border_highlight orange
+syntax,select_background blue
+syntax,highlighter yellow
+syntax,background #302e40
+syntax,strings #d9903b
+syntax,select_foreground white
+syntax,punctuation #ececec
+syntax,foreground #ececec
+syntax,difference_sub #4e2e40
+syntax,warning_width #4e4b68
+syntax,miscellaneous1 #aaaaaa
+syntax,miscellaneous2 #d9903b
+syntax,comments #696587
+syntax,cursor #ffffff
+syntax,miscellaneous3 #5b56f3
+syntax,meta #4e4b68
 
