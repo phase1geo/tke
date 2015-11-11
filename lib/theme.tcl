@@ -1,3 +1,27 @@
+# TKE - Advanced Programmer's Editor
+# Copyright (C) 2014  Trevor Williams (phase1geo@gmail.com)
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+######################################################################
+# Name:    theme.tcl
+# Author:  Trevor Williams  (phase1geo@gmail.com)
+# Date:    10/04/2013
+# Brief:   Handles the current theme.
+######################################################################
+
 namespace eval theme {
 
   source [file join $::tke_dir lib ns.tcl]
@@ -77,6 +101,28 @@ namespace eval theme {
     sidebar_scrollbar,-thickness  {{number {5 20}} {15} {} {0}}
   }
 
+  array set tm_scope_map {
+    comment              comments
+    keyword              keywords
+    string               strings
+    entity               punctuation
+    entity.name.tag      punctuation
+    punctuation          punctuation
+    meta.preprocessor.c  precompile
+    other.preprocessor.c precompile
+    constant             numbers
+    constant.numeric     numbers
+    meta.tag             miscellaneous1
+    support              miscellaneous1
+    support.function     miscellaneous1
+    support.type         miscellaneous1
+    variable             miscellaneous2
+    variable.other       miscellaneous2
+    variable.parameter   miscellaneous2
+    storage              miscellaneous3
+    constant.other       miscellaneous3
+  }
+
   array set data    {}
   array set widgets {}
   array set syntax  {}
@@ -96,7 +142,14 @@ namespace eval theme {
       return -code error "Called theme::register_widget with unknown type ($type)"
     }
 
+    # Add the widget to the type list
     lappend widgets($type) $w
+
+    # Configure the widget's theme information
+    catch { $w configure {*}[get_category_options $type 1] }
+
+    # Create a binding on the widget's Destroy event to unregister it
+    bind $w <Destroy> [list theme::unregister_widget $w $type]
 
   }
 
@@ -293,6 +346,142 @@ namespace eval theme {
   }
 
   ######################################################################
+  # Reads the given TextMate theme file and extracts the relevant information
+  # for tke's needs.
+  proc read_tmtheme {theme_file} {
+
+    variable data
+    variable orig_data
+    variable fields
+    variable scope_map
+
+    # Open the file
+    if {[catch { open $theme_file r } rc]} {
+      return -code error [msgcat::mc "ERROR:  Unable to read %s" $theme]
+    }
+
+    # Read the contents of the file into 'content' and close the file
+    set content [string map {\n { }} [read $rc]]
+    close $rc
+
+    array set depth {
+      plist  0
+      array  0
+      dict   0
+      key    0
+      string 0
+    }
+
+    array set labels [get_category_options syntax 1]
+
+    set scope       0
+    set foreground  0
+    set background  0
+    set caret       0
+    set scope_types ""
+
+    while {[regexp {\s*([^<]*)\s*<(/?\w+)[^>]*>(.*)$} $content -> value element content]} {
+      if {[string index $element 0] eq "/"} {
+        set element [string range $element 1 end]
+        switch $element {
+          key {
+            switch $value {
+              scope      { set scope      1 }
+              foreground { set foreground 1 }
+              background { set background 1 }
+              caret      { set caret      1 }
+            }
+          }
+          string {
+            if {$scope} {
+              set scope       0
+              set scope_types $value
+            } elseif {$foreground} {
+              set foreground 0
+              set color      [normalize_color $value]
+              if {$scope_types eq ""} {
+                set labels(foreground) $color
+              } else {
+                foreach scope_type [string map {, { }} $scope_types] {
+                  if {[info exists scope_map($scope_type)]} {
+                    set labels($scope_map($scope_type)) $color
+                  }
+                }
+              }
+            } elseif {$background} {
+              set background 0
+              set color      [normalize_color $value]
+              if {$scope_types eq ""} {
+                set labels(background)    $color
+                set labels(warning_width) [utils::auto_adjust_color $color 40]
+                set labels(meta)          [utils::auto_adjust_color $color 40]
+              }
+            } elseif {$caret} {
+              set caret 0
+              set color [normalize_color $value]
+              if {$scope_types eq ""} {
+                set labels(cursor) $color
+              }
+            }
+          }
+        }
+        incr depth($element) -1
+      } else {
+        incr depth($element)
+      }
+    }
+
+    array set data [array get orig_data]
+
+    # Let's take a stab at good defaults
+    lset data(ttk_style,disabledfg)          $fields(value) #999999
+    lset data(ttk_style,frame)               $fields(value) $labels(background)
+    lset data(ttk_style,lightframe)          $fields(value) $labels(warning_width)
+    lset data(ttk_style,window)              $fields(value) $labels(background)
+    lset data(ttk_style,dark)                $fields(value) #cfcdc8
+    lset data(ttk_style,darker)              $fields(value) #bab5ab
+    lset data(ttk_style,darkest)             $fields(value) #9e9a91
+    lset data(ttk_style,lighter)             $fields(value) $labels(foreground)
+    lset data(ttk_style,lightest)            $fields(value) $labels(foreground)
+    lset data(ttk_style,selectbg)            $fields(value) #4a6984
+    lset data(ttk_style,selectfg)            $fields(value) #ffffff
+    lset data(ttk_style,window)              $fields(value) $labels(background)
+    lset data(menus,-background)             $fields(value) $labels(background)
+    lset data(menus,-foreground)             $fields(value) $labels(foreground)
+    lset data(tabs,-background)              $fields(value) $labels(warning_width)
+    lset data(tabs,-foreground)              $fields(value) $labels(foreground)
+    lset data(tabs,-activebackground)        $fields(value) $labels(background)
+    lset data(tabs,-inactivebackground)      $fields(value) $labels(background)
+    lset data(text_scrollbar,-background)    $fields(value) $labels(background)
+    lset data(text_scrollbar,-foreground)    $fields(value) $labels(warning_width)
+    lset data(sidebar,-foreground)           $fields(value) $labels(background)
+    lset data(sidebar,-background)           $fields(value) $labels(foreground)
+    lset data(sidebar,-selectbackground)     $fields(value) $labels(warning_width)
+    lset data(sidebar,-selectforeground)     $fields(value) $labels(foreground)
+    lset data(sidebar,-highlightbackground)  $fields(value) $labels(foreground)
+    lset data(sidebar,-highlightcolor)       $fields(value) $labels(foreground)
+    lset data(sidebar_scrollbar,-background) $fields(value) $labels(foreground)
+    lset data(sidebar_scrollbar,-foreground) $fields(value) $labels(warning_width)
+
+    # Setup a default swatch and clear the meta data
+    set data(swatch) [list $labels(background) $labels(warning_width) $labels(foreground)]
+    set data(meta)   [list]
+
+  }
+
+  ######################################################################
+  # Generates a valid RGB color.
+  proc normalize_color {color} {
+
+    if {[string index $color 0] eq "#"} {
+      return [string range $color 0 6]
+    } else {
+      return $color
+    }
+
+  }
+
+  ######################################################################
   # Converts the given imaged
   proc convert_image {value name} {
 
@@ -358,7 +547,7 @@ namespace eval theme {
 
   ######################################################################
   # Updates the themer category table row.
-  proc set_themer_category_table_row {row value} {
+  proc set_themer_category_table_row {tbl row value {new_color ""}} {
 
     variable data
     variable fields
@@ -371,9 +560,9 @@ namespace eval theme {
     $tbl cellconfigure $row,value -text $value
 
     # Further modify the tablelist cell based on the type
-    switch [lindex $data($cat,opt) $fields(type)] {
+    switch [lindex $data($cat,$opt) $fields(type)] {
       image { $tbl cellconfigure $row,value -image [convert_image $value $opt] }
-      color { [ns themer]::set_cell_color $row $value }
+      color { [ns themer]::set_cell_color $row $value $new_color }
     }
 
     # Update the theme data
@@ -674,6 +863,46 @@ namespace eval theme {
     }
 
     return $opts
+
+  }
+
+  ######################################################################
+  # Returns the list of swatches for this theme.
+  proc swatch_do {action args} {
+
+    variable data
+
+    switch $action {
+      get     { return $data(swatch) }
+      set     { lset data(swatch) [lindex $args 0] [lindex $args 1] }
+      append  { lappend data(swatch) {*}$args }
+      delete  { set data(swatch) [lreplace $data(swatch) [lindex $args 0] [lindex $args 0]] }
+      length  { return [llength $data(swatch)] }
+      index   { return [lindex $data(swatch) [lindex $args 0]] }
+      default { return -code error "Unknown swatch action" }
+    }
+
+  }
+
+  ######################################################################
+  # Returns the meta information for the theme.
+  proc meta_do {action key args} {
+
+    variable data
+
+    array set meta $data(meta)
+
+    switch $action {
+      get    { return $meta($key) }
+      set    {
+        set meta($key) $args
+        set data(meta) [array get meta]
+      }
+      delete {
+        unset -nocomplain meta($key)
+        set data(meta) [array get meta]
+      }
+    }
 
   }
 

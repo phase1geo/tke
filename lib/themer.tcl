@@ -1,5 +1,3 @@
-#!wish8.5
-
 # TKE - Advanced Programmer's Editor
 # Copyright (C) 2014  Trevor Williams (phase1geo@gmail.com)
 #
@@ -32,104 +30,7 @@ namespace eval themer {
   array set all_scopes  {}
   array set show_vars   {}
 
-  array set scope_map {
-    comment              comments
-    keyword              keywords
-    string               strings
-    entity               punctuation
-    entity.name.tag      punctuation
-    punctuation          punctuation
-    meta.preprocessor.c  precompile
-    other.preprocessor.c precompile
-    constant             numbers
-    constant.numeric     numbers
-    meta.tag             miscellaneous1
-    support              miscellaneous1
-    support.function     miscellaneous1
-    support.type         miscellaneous1
-    variable             miscellaneous2
-    variable.other       miscellaneous2
-    variable.parameter   miscellaneous2
-    storage              miscellaneous3
-    constant.other       miscellaneous3
-  }
-
-  array set data {
-    cat,meta   {}
-    cat,swatch {}
-    cat,ttk_style {
-      disabledfg "#999999"
-      frame      "#4e5044"
-      lightframe "#666959"
-      window     "#4e5044"
-      dark       "#cfcdc8"
-      darker     "#bab5ab"
-      darkest    "#9e9a91"
-      lighter    "#f8f8f2"
-      lightest   "#f8f8f2"
-      selectbg   "#4a6984"
-      selectfg   "#ffffff"
-    }
-    cat,menus {
-      -background "white"
-      -foreground "black"
-      -relief flat
-    }
-    cat,tabs {
-      -background         "#4e5044"
-      -foreground         "#f8f8f2"
-      -activebackground   "#272822"
-      -inactivebackground "#4e5044"
-      -relief             "flat"
-    }
-    cat,text_scrollbar {
-      -background "#272822"
-      -foreground "#4e5044"
-      -thickness  15
-    }
-    cat,syntax {
-      background        "#272822"
-      border_highlight  "gold"
-      comments          "#75715e"
-      cursor            "#f8f8f0"
-      difference_add    "#274622"
-      difference_sub    "#452822"
-      foreground        "#f8f8f2"
-      highlighter       "yellow"
-      keywords          "#f92672"
-      line_number       "#4e5044"
-      meta              "#4e5044"
-      miscellaneous1    "#66d9ef"
-      miscellaneous2    "#fd971f"
-      miscellaneous3    "#f92672"
-      numbers           "#ae81ff"
-      precompile        "#d0d0ff"
-      punctuation       "#f92672"
-      select_background "blue"
-      select_foreground "white"
-      strings           "#e6db74"
-      warning_width     "#4e5044"
-    }
-    cat,sidebar {
-      -foreground          "#f8f8f2"
-      -background          "#4e5044"
-      -selectbackground    "#272822"
-      -selectforeground    "#f8f8f2"
-      -highlightbackground "#4e5044"
-      -highlightcolor      "#4e5044"
-      -treestyle           "aqua"
-    }
-    cat,sidebar_scrollbar {
-      -background      "#4e5044"
-      -foreground      "#f8f8f2"
-      -thickness       15
-    }
-    cat,images {
-      sidebar_open [list fg gold bg black dat {} msk {}]
-    }
-  }
-
-  set data(theme_dir) [file join $::tke_home themes]
+  array set data [list theme_dir [file join $::tke_home themes]]
 
   if {[catch { ttk::spinbox .__tmp }]} {
     set bg                [utils::get_default_background]
@@ -180,18 +81,6 @@ namespace eval themer {
   }
 
   ######################################################################
-  # Generates a valid RGB color.
-  proc normalize_color {color} {
-
-    if {[string index $color 0] eq "#"} {
-      return [string range $color 0 6]
-    } else {
-      return $color
-    }
-
-  }
-
-  ######################################################################
   # Displays the theme editor with the specified theme information.
   proc edit_theme {theme} {
 
@@ -226,136 +115,6 @@ namespace eval themer {
         set data(files,[file rootname [file tail $theme]]) $theme
       }
     }
-
-  }
-
-  ######################################################################
-  # Reads the given TextMate theme file and extracts the relevant information
-  # for tke's needs.
-  proc read_tmtheme {theme} {
-
-    variable data
-    variable scope_map
-
-    # Open the file
-    if {[catch { open $theme r } rc]} {
-      return -code error [msgcat::mc "ERROR:  Unable to read %s" $theme]
-    }
-
-    # Read the contents of the file into 'content' and close the file
-    set content [string map {\n { }} [read $rc]]
-    close $rc
-
-    array set depth {
-      plist  0
-      array  0
-      dict   0
-      key    0
-      string 0
-    }
-
-    array set labels [array get data(cat,syntax)]
-
-    set scope       0
-    set foreground  0
-    set background  0
-    set caret       0
-    set scope_types ""
-
-    while {[regexp {\s*([^<]*)\s*<(/?\w+)[^>]*>(.*)$} $content -> value element content]} {
-      if {[string index $element 0] eq "/"} {
-        set element [string range $element 1 end]
-        switch $element {
-          key {
-            switch $value {
-              scope      { set scope      1 }
-              foreground { set foreground 1 }
-              background { set background 1 }
-              caret      { set caret      1 }
-            }
-          }
-          string {
-            if {$scope} {
-              set scope       0
-              set scope_types $value
-            } elseif {$foreground} {
-              set foreground 0
-              set color      [normalize_color $value]
-              if {$scope_types eq ""} {
-                set labels(foreground)      $color
-                set data(scopes,foreground) $color
-              } else {
-                foreach scope_type [string map {, { }} $scope_types] {
-                  if {[info exists scope_map($scope_type)]} {
-                    set labels($scope_map($scope_type)) $color
-                  }
-                  set data(scopes,$scope_type) $color
-                }
-              }
-            } elseif {$background} {
-              set background 0
-              set color      [normalize_color $value]
-              if {$scope_types eq ""} {
-                set labels(background)    $color
-                set labels(warning_width) [utils::auto_adjust_color $color 40]
-                set labels(meta)          [utils::auto_adjust_color $color 40]
-                set data(scopes,background) $color
-              }
-            } elseif {$caret} {
-              set caret 0
-              set color [normalize_color $value]
-              if {$scope_types eq ""} {
-                set labels(cursor) $color
-                set data(scopes,cursor) $color
-              }
-            }
-          }
-        }
-        incr depth($element) -1
-      } else {
-        incr depth($element)
-      }
-    }
-
-    # Let's take a stab at good defaults
-    set ttk_style(disabledfg)          #999999
-    set ttk_style(frame)               $labels(background)
-    set ttk_style(lightframe)          $labels(warning_width)
-    set ttk_style(window)              $labels(background)
-    set ttk_style(dark)                #cfcdc8
-    set ttk_style(darker)              #bab5ab
-    set ttk_style(darkest)             #9e9a91
-    set ttk_style(lighter)             $labels(foreground)
-    set ttk_style(lightest)            $labels(foreground)
-    set ttk_style(selectbg)            #4a6984
-    set ttk_style(selectfg)            #ffffff
-    set ttk_style(window)              $labels(background)
-    set menus(-background)             $labels(background)
-    set menus(-foreground)             $labels(foreground)
-    set tabs(-background)              $labels(warning_width)
-    set tabs(-foreground)              $labels(foreground)
-    set tabs(-activebackground)        $labels(background)
-    set tabs(-inactivebackground)      $labels(background)
-    set text_scrollbar(-background)    $labels(background)
-    set text_scrollbar(-foreground)    $labels(warning_width)
-    set sidebar(-foreground)           $labels(background)
-    set sidebar(-background)           $labels(foreground)
-    set sidebar(-selectbackground)     $labels(warning_width)
-    set sidebar(-selectforeground)     $labels(foreground)
-    set sidebar(-highlightbackground)  $labels(foreground)
-    set sidebar(-highlightcolor)       $labels(foreground)
-    set sidebar_scrollbar(-background) $labels(foreground)
-    set sidebar_scrollbar(-foreground) $labels(warning_width)
-
-    # Update the category color values
-    set data(cat,swatch)            [list $labels(background) $labels(warning_width) $labels(foreground)]
-    set data(cat,syntax)            [array get labels]
-    set data(cat,ttk_style)         [array get ttk_style]
-    set data(cat,menus)             [array get menus]
-    set data(cat,tabs)              [array get tabs]
-    set data(cat,text_scrollbar)    [array get text_scrollbar]
-    set data(cat,sidebar)           [array get sidebar]
-    set data(cat,sidebar_scrollbar) [array get sidebar_scrollbar]
 
   }
 
@@ -950,21 +709,8 @@ namespace eval themer {
 
     variable data
 
-    # Update the data images array
-    array set temp $data(cat,images)
-    set temp($data(opt)) $bm_data
-    set data(cat,images) [array get temp]
-
     # Set the tablelist data
-    $data(widgets,cat) cellconfigure $data(row),value -text $bm_data
-
-    # Set the tablelist image
-    array set bm $bm_data
-    if {[info exists bm(bg)]} {
-      [$data(widgets,cat) cellcget $data(row),value -image] configure -data $bm(dat) -maskdata $bm(msk) -foreground $bm(fg) -background $bm(bg)
-    } else {
-      [$data(widgets,cat) cellcget $data(row),value -image] configure -data $bm(dat) -maskdata $bm(msk) -foreground $bm(fg)
-    }
+    theme::set_themer_category_table_row $data(widgets,cat) $data(row) $bm_data
 
     # Specify that the apply button should be enabled
     set_theme_modified
@@ -1031,10 +777,10 @@ namespace eval themer {
     $mnu add command -label [msgcat::mc "Custom..."] -command [list themer::choose_custom_base_color]
 
     # Add each swatch colors to the menu, if available
-    if {[llength $data(cat,swatch)] > 0} {
+    if {[theme::swatch_do length] > 0} {
       $mnu add separator
       $mnu add command -label [msgcat::mc "Swatch Colors"] -state disabled
-      foreach color $data(cat,swatch) {
+      foreach color [theme::swatch_do get] {
         $mnu add command -label $color -command [list themer::set_base_color $color]
       }
     }
@@ -1162,21 +908,14 @@ namespace eval themer {
     $data(widgets,color_canvas) raise         $data(widgets,color_mod)
 
     # Update the data value
-    array set meta $data(cat,meta)
     if {$mod eq "none"} {
-      unset -nocomplain meta($data(category),$data(opt))
+      theme::meta_do delete $data(category),$data(opt)
     } else {
-      set meta($data(category),$data(opt)) $value
+      theme::meta_do set $data(category),$type(opt) $value
     }
-    set data(cat,meta) [array get meta]
 
-    # Update the data array
-    array set temp $data(cat,$data(category))
-    set temp($data(opt)) $new_color
-    set data(cat,$data(category)) [array get temp]
-
-    # Set the category table
-    set_cell_color $data(row) $value $new_color
+    # Update the table row
+    theme::set_themer_category_table_row $data(widgets,cat) $data(row) $value $new_color
 
     # Specify that the apply button should be enabled
     set_theme_modified
@@ -1211,13 +950,8 @@ namespace eval themer {
 
     variable data
 
-    # Update the data array
-    array set temp $data(cat,$data(category))
-    set temp($data(opt)) $value
-    set data(cat,$data(category)) [array get temp]
-
     # Update the configuration table
-    $data(widgets,cat) cellconfigure $data(row),value -text $value
+    theme::set_themer_category_table_row $data(widgets,cat) $data(row) $value
 
     # Enable the apply button
     set_theme_modified
@@ -1258,13 +992,8 @@ namespace eval themer {
     # Get the spinbox value
     set value [$data(widgets,number_sb) get]
 
-    # Update the data array
-    array set temp $data(cat,$data(category))
-    set temp($data(opt)) $value
-    set data(cat,$data(category)) [array get temp]
-
     # Update the configuration table
-    $data(widgets,cat) cellconfigure $data(row),value -text $value
+    theme::set_themer_category_table_row $data(widgets,cat) $data(row) $value
 
     # Enable the apply button
     set_theme_modified
@@ -1279,9 +1008,6 @@ namespace eval themer {
 
     # Add the color panel
     pack $data(widgets,color) -fill both -expand yes
-
-    # Get the syntax
-    array set syntax $data(cat,syntax)
 
     # Parse the value
     switch [llength [set values [split $value ,]]] {
@@ -1299,7 +1025,7 @@ namespace eval themer {
     }
 
     # Colorize the widgets
-    $data(widgets,color_canvas) configure -background $syntax(background)
+    $data(widgets,color_canvas) configure -background [theme::get_value syntax background]
     $data(widgets,color_canvas) itemconfigure $data(widgets,color_base) -fill $base_color
 
     # Get all of the color values
@@ -1336,7 +1062,7 @@ namespace eval themer {
     switch $type {
       mono {
         $data(widgets,image_mb) configure -text [msgcat::mc "One-Color"]
-        $data(widgets,image_mf_bm) configure -swatches $data(cat,swatch)
+        $data(widgets,image_mf_bm) configure -swatches [theme::swatch_do get]
         bitmap::set_from_info $data(widgets,image_mf_bm) $value
         pack $data(widgets,image_mf) -padx 2 -pady 2
         if {$orig_value eq ""} {
@@ -1345,7 +1071,7 @@ namespace eval themer {
       }
       dual {
         $data(widgets,image_mb) configure -text [msgcat::mc "Two-Color"]
-        $data(widgets,image_df_bm) configure -swatches $data(cat,swatch)
+        $data(widgets,image_df_bm) configure -swatches [theme::swatch_do get]
         bitmap::set_from_info $data(widgets,image_df_bm) $value
         pack $data(widgets,image_df) -padx 2 -pady 2
         if {$orig_value eq ""} {
@@ -1406,7 +1132,7 @@ namespace eval themer {
     }
 
     # Insert the swatches
-    foreach color $data(cat,swatch) {
+    foreach color [theme::swatch_do get] {
       add_swatch $color
     }
 
@@ -1440,11 +1166,11 @@ namespace eval themer {
     }
 
     # Create button
-    set index [incr data(swatch_index)]
-    set col   [llength $data(cat,swatch)]
-    set ifile [file join $::tke_dir lib images square32.bmp]
-    set img   [image create bitmap -file $ifile -maskfile $ifile -foreground $color]
-    set frm   $data(widgets,sf).f$index
+    set index  [incr data(swatch_index)]
+    set col    [theme::swatch_do length]
+    set ifile  [file join $::tke_dir lib images square32.bmp]
+    set img    [image create bitmap -file $ifile -maskfile $ifile -foreground $color]
+    set frm    $data(widgets,sf).f$index
 
     # Move the plus button up if the swatch is no longer going to be empty
     if {$col == 0} {
@@ -1461,11 +1187,11 @@ namespace eval themer {
 
     # Insert the value into the swatch list
     if {$orig_color eq ""} {
-      lappend data(cat,swatch) $color
+      theme::swatch_do append $color
     }
 
     # If the number of swatch elements exceeds 6, remove the plus button
-    if {[llength $data(cat,swatch)] == 6} {
+    if {[theme::swatch_do length] == 6} {
       pack forget $data(widgets,plus)
     }
 
@@ -1481,7 +1207,7 @@ namespace eval themer {
     set pos [lsearch [pack slaves $data(widgets,sf)] $data(widgets,sf).f$index]
 
     # Get the original color
-    set orig_color [lindex $data(cat,swatch) $pos]
+    set orig_color [theme::swatch_do index $pos]
 
     # Get the new color from the user
     if {[set color [tk_chooseColor -initialcolor $orig_color -parent .thmwin]] eq ""} {
@@ -1493,7 +1219,7 @@ namespace eval themer {
     $data(widgets,sf).f$index.l configure -text $color
 
     # Change the swatch value
-    lset data(cat,swatch) $pos $color
+    theme::swatch_do set $pos $color
 
     # Change table values
     for {set i 0} {$i < [$data(widgets,cat) size]} {incr i} {
@@ -1531,14 +1257,14 @@ namespace eval themer {
     destroy $data(widgets,sf).f$index
 
     # Add the plus button if the number of packed elements is 6
-    switch [llength $data(cat,swatch)] {
+    switch [theme::swatch_do length] {
       6 { pack $data(widgets,plus) -side left -padx 2 -pady 2 }
       1 { pack forget $data(widgets,plus_text) }
     }
 
     # Delete the swatch value from the list
     if {!$force} {
-      set data(cat,swatch) [lreplace $data(cat,swatch) $pos $pos]
+      theme::swatch_do delete $pos
     }
 
     # Make table colors dependent on this color independent
@@ -1591,7 +1317,7 @@ namespace eval themer {
     if {[set_current_theme_to [file rootname [file tail $theme]]]} {
 
       # Read the theme
-      if {[catch { read_tmtheme $theme } rc]} {
+      if {[catch { theme::read_tmtheme $theme } rc]} {
         tk_messageBox -parent .thmwin -icon error -message [msgcat::mc "Import Error"] -detail $rc -default ok -type ok
         return
       }
