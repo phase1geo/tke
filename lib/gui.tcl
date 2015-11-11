@@ -4372,7 +4372,7 @@ namespace eval gui {
       }
       if {[$tb tab $tab -state] ne "hidden"} {
         set tab_image [$tb tab $tab -image]
-        set img       [expr {($tab_image ne "") ? "menu_[string range $tab_image 5 end" : ""}]
+        set img       [expr {($tab_image ne "") ? "menu_[string range $tab_image 4 end]" : ""}]
         $mnu add command -compound left -image $img -label [$tb tab $tab -text] \
           -command "[ns gui]::set_current_tab $tab"
       }
