@@ -129,63 +129,6 @@ namespace eval themer {
     }
   }
 
-  array set type_map {
-    ttk_style,disabledfg          color
-    ttk_style,frame               color
-    ttk_style,lightframe          color
-    ttk_style,window              color
-    ttk_style,dark                color
-    ttk_style,darker              color
-    ttk_style,darkest             color
-    ttk_style,lighter             color
-    ttk_style,lightest            color
-    ttk_style,selectbg            color
-    ttk_style,selectfg            color
-    menus,-background             color
-    menus,-foreground             color
-    menus,-relief                 {relief {raised sunken flat ridge solid groove}}
-    tabs,-background              color
-    tabs,-foreground              color
-    tabs,-activebackground        color
-    tabs,-inactivebackground      color
-    tabs,-relief                  {relief {flat raised}}
-    text_scrollbar,-background    color
-    text_scrollbar,-foreground    color
-    text_scrollbar,-thickness     {number {5 20}}
-    syntax,background             color
-    syntax,border_highlight       color
-    syntax,comments               color
-    syntax,cursor                 color
-    syntax,difference_add         color
-    syntax,difference_sub         color
-    syntax,foreground             color
-    syntax,highlighter            color
-    syntax,keywords               color
-    syntax,line_number            color
-    syntax,meta                   color
-    syntax,miscellaneous1         color
-    syntax,miscellaneous2         color
-    syntax,miscellaneous3         color
-    syntax,numbers                color
-    syntax,precompile             color
-    syntax,punctuation            color
-    syntax,select_background      color
-    syntax,select_foreground      color
-    syntax,strings                color
-    syntax,warning_width          color
-    sidebar,-foreground           color
-    sidebar,-background           color
-    sidebar,-selectbackground     color
-    sidebar,-selectforeground     color
-    sidebar,-highlightbackground  color
-    sidebar,-highlightcolor       color
-    sidebar,-treestyle            treestyle
-    sidebar_scrollbar,-background color
-    sidebar_scrollbar,-foreground color
-    sidebar_scrollbar,-thickness  {number {5 20}}
-    images,sidebar_open           image
-  }
-
   set data(theme_dir) [file join $::tke_home themes]
 
   if {[catch { ttk::spinbox .__tmp }]} {
@@ -258,7 +201,7 @@ namespace eval themer {
     load_themes
 
     # Read the specified theme
-    read_tketheme $data(files,$theme)
+    theme::read_tketheme $data(files,$theme)
 
     # Initialize the themer
     initialize
@@ -417,134 +360,6 @@ namespace eval themer {
   }
 
   ######################################################################
-  # Reads the contents of the tketheme and stores the results
-  proc read_tketheme {theme} {
-
-    variable data
-
-    # Open the tketheme file
-    if {[catch { open $theme r } rc]} {
-      return -code error [msgcat::mc "ERROR:  Unable to read %s" $theme]
-    }
-
-    # Read the contents from the file and close
-    array set contents [read $rc]
-    close $rc
-
-    # Make things backwards compatible
-    if {![info exists contents(syntax)]} {
-      set bg  $contents(background)
-      set fg  $contents(foreground)
-      set abg [utils::auto_adjust_color $contents(background) 40]
-      set contents(syntax) [array get contents]
-      set contents(meta)   [list]
-      set contents(swatch) [list $bg $abg $fg]
-      set contents(ttk_style) [list \
-        disabledfg #999999 \
-        frame      $bg \
-        lightframe $abg \
-        window     $bg \
-        dark       #cfcdc8 \
-        darker     #bab5ab \
-        darkest    #9e9a91 \
-        lighter    $fg \
-        lightest   $fg \
-        selectbg   #4a6984 \
-        selectfg   #ffffff \
-      ]
-      set contents(menus) [list \
-        -background "white" \
-        -background "black" \
-        -relief flat \
-      ]
-      set contents(tabs)  [list \
-        -background         $abg \
-        -foreground         $fg \
-        -activebackground   $bg \
-        -inactivebackground $abg \
-        -relief             flat \
-      ]
-      set contents(text_scrollbar) [list \
-        -background $bg \
-        -foreground $abg \
-        -thickness  15 \
-      ]
-      set contents(sidebar) [list \
-        -foreground          $bg \
-        -background          $fg \
-        -selectbackground    $abg \
-        -selectforeground    $fg \
-        -highlightbackground $fg \
-        -highlightcolor      $fg \
-        -treestyle           aqua \
-      ]
-      set contents(sidebar_scrollbar) [list \
-        -background $fg \
-        -foreground $abg \
-        -thickness  15 \
-      ]
-      set contents(images) [list \
-        sidebar_open [list fg gold bg black dat {} msk {}]
-      ]
-    }
-
-    # Load the categories
-    foreach category [array names data cat,*] {
-      lassign [split $category ,] dummy cat
-      if {[info exists contents($cat)]} {
-        set data($category) $contents($cat)
-      }
-    }
-
-  }
-
-  ######################################################################
-  # Writes the TKE theme file to the theme directory.
-  proc write_tketheme {theme} {
-
-    variable data
-
-    # Create the directory if it does not exist
-    file mkdir [file dirname $theme]
-
-    # Open the file for writing
-    if {[catch { open $theme w } rc]} {
-      return -code error [msgcat::mc "ERROR:  Unable to write %s" $theme]
-    }
-
-    # Output the categories
-    foreach category [array names data cat,*] {
-      lassign [split $category ,] dummy cat
-      if {$cat eq "swatch"} {
-        puts $rc "$cat \{"
-        puts $rc "  $data($category)"
-        puts $rc "\}\n"
-      } else {
-        puts $rc "$cat \{"
-        foreach {name value} $data($category) {
-          puts $rc [format "  %s %s" $name [list [expr {($value eq "") ? "#ffffff" : $value}]]]
-        }
-        puts $rc "\}\n"
-      }
-    }
-
-    # Close the file
-    close $rc
-
-    # Get the basename of the theme
-    set theme_name [file rootname [file tail $theme]]
-
-    # Add the file to the theme list
-    set data(files,$theme_name) $theme
-
-    # Reload the themes
-    # TBD - themes::reload $theme_name
-
-    return 1
-
-  }
-
-  ######################################################################
   # Applies the current settings to the current TKE session.
   proc apply_theme {} {
 
@@ -560,7 +375,7 @@ namespace eval themer {
     file rename -force $data(files,$basename) [file join $data(theme_dir) $basename.orig]
 
     # Write the theme and reload it
-    catch { themer::write_tketheme $data(files,$data(curr_theme)) } rc
+    catch { theme::write_tketheme $data(files,$data(curr_theme)) } rc
 
     # Restore the original file, if it exists
     file rename -force [file join $data(theme_dir) $basename.orig] $data(files,$basename)
@@ -853,7 +668,7 @@ namespace eval themer {
     }
 
     # Write the theme to disk
-    catch { write_tketheme $theme_file }
+    catch { theme::write_tketheme $theme_file }
 
     # Save the current theme
     set_current_theme_to $theme_name 0
@@ -873,7 +688,7 @@ namespace eval themer {
     set theme_file $data(files,$data(curr_theme))
 
     # Write the theme to disk
-    catch { write_tketheme $theme_file }
+    catch { theme::write_tketheme $theme_file }
 
     # Indicate that the theme was saved
     set_current_theme_to $data(curr_theme) 0
@@ -897,7 +712,6 @@ namespace eval themer {
   proc format_category_value {value} {
 
     variable data
-    variable type_map
 
     lassign [$data(widgets,cat) formatinfo] key row col
 
@@ -907,7 +721,7 @@ namespace eval themer {
 
     if {($parent eq "root") || ($cat eq "images")} {
       return ""
-    } elseif {$type_map($cat,$opt) eq "color"} {
+    } elseif {[theme::get_type $cat $opt] eq "color"} {
       return [get_color $value]
     } else {
       return $value
@@ -920,7 +734,6 @@ namespace eval themer {
   proc handle_category_selection {} {
 
     variable data
-    variable type_map
 
     # Clear the details frame
     catch { pack forget {*}[pack slaves $data(widgets,df)] }
@@ -934,7 +747,7 @@ namespace eval themer {
       set data(category) [$data(widgets,cat) cellcget $row,category -text]
       set value          [$data(widgets,cat) cellcget $row,value    -text]
 
-      lassign $type_map($data(category),$data(opt)) type values
+      lassign [theme::get_type $data(category) $data(opt)] type values
 
       # Remove the selection from the color cell
       $data(widgets,cat) cellselection clear $row,value
@@ -1580,7 +1393,6 @@ namespace eval themer {
   proc initialize {} {
 
     variable data
-    variable type_map
 
     # Create the UI
     create
@@ -1611,7 +1423,6 @@ namespace eval themer {
   proc add_swatch {{color ""}} {
 
     variable data
-    variable type_map
 
     set orig_color $color
 
@@ -1619,7 +1430,7 @@ namespace eval themer {
     if {$color eq ""} {
       set choose_color_opts [list]
       if {[set select [$data(widgets,cat) curselection]] ne ""} {
-        if {$type_map([$data(widgets,cat) cellcget $select,category -text],[$data(widgets,cat) cellcget $select,opt -text]) eq "color"} {
+        if {[theme::get_type [$data(widgets,cat) cellcget $select,category -text] [$data(widgets,cat) cellcget $select,opt -text]] eq "color"} {
           lappend choose_color_opts -initialcolor [$data(widgets,cat) cellcget $select,value -background]
         }
       }
@@ -1665,7 +1476,6 @@ namespace eval themer {
   proc edit_swatch {index} {
 
     variable data
-    variable type_map
 
     # Get the index
     set pos [lsearch [pack slaves $data(widgets,sf)] $data(widgets,sf).f$index]
@@ -1688,7 +1498,7 @@ namespace eval themer {
     # Change table values
     for {set i 0} {$i < [$data(widgets,cat) size]} {incr i} {
       if {[set category [$data(widgets,cat) cellcget $i,category -text]] ne ""} {
-        if {$type_map($category,[$data(widgets,cat) cellcget $i,opt -text]) eq "color"} {
+        if {[theme::get_type $category [$data(widgets,cat) cellcget $i,opt -text]] eq "color"} {
           set value [split [$data(widgets,cat) cellcget $i,value -text] ,]
           if {([llength $value] > 1) && ([lindex $value 0] eq $orig_color)} {
             lset value 0 $color
@@ -1705,7 +1515,6 @@ namespace eval themer {
   proc delete_swatch {index {force 0}} {
 
     variable data
-    variable type_map
 
     # Confirm from the user
     if {!$force && [tk_messageBox -parent .thmwin -message [msgcat::mc "Delete swatch?"] -default no -type yesno] eq "no"} {
@@ -1735,7 +1544,7 @@ namespace eval themer {
     # Make table colors dependent on this color independent
     for {set i 0} {$i < [$data(widgets,cat) size]} {incr i} {
       if {[set category [$data(widgets,cat) cellcget $i,category -text]] ne ""} {
-        if {$type_map($category,[$data(widgets,cat) cellcget $i,opt -text]) eq "color"} {
+        if {[theme::get_type $category [$data(widgets,cat) cellcget $i,opt -text]] eq "color"} {
           switch [llength [set values [split [$data(widgets,cat) cellcget $i,value -text] ,]]] {
             2 {
               set color [utils::auto_adjust_color [lindex $values 0] [lindex $values 1] manual]
@@ -1807,7 +1616,7 @@ namespace eval themer {
     if {[set_current_theme_to [file rootname [file tail $theme]]]} {
 
       # Read the theme
-      if {[catch { read_tketheme $theme } rc]} {
+      if {[catch { theme::read_tketheme $theme } rc]} {
         tk_messageBox -parent .thmwin -icon error -message [msgcat::mc "Import Error"] -detail $rc -default ok -type ok
         return
       }
@@ -1828,7 +1637,7 @@ namespace eval themer {
   proc export {} {
 
     if {[set fname [tk_getSaveFile -confirmoverwrite 1 -defaultextension .tketheme -parent .thmwin -title [msgcat::mc "Export theme"]]] ne ""} {
-      if {[catch { write_tketheme $fname } rc]} {
+      if {[catch { theme::write_tketheme $fname } rc]} {
         tk_messageBox -parent .thmwin -icon error -message [msgcat::mc "Export Error"] -detail $rc -default ok -type ok
       }
     }

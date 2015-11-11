@@ -136,7 +136,7 @@ namespace eval theme {
     }
 
     # First, create the image
-    image create $type $name {*}$args
+    image create $type $name {*}[array get opts]
 
     # Discern the image information
     switch $type {
@@ -209,6 +209,9 @@ namespace eval theme {
     if {[lsearch [ttk::style theme names] $data(name)] == -1} {
       create_ttk_theme $data(name)
     }
+
+    # Set the ttk theme
+    ttk::style theme use $data(name)
 
     # Update all UI widgets
     update_theme
@@ -336,10 +339,10 @@ namespace eval theme {
 
     # Insert the needed rows in the table
     foreach {category title} $category_titles {
-      set parent [$data(widgets,cat) insertchild root end [list $title {} {}]]
+      set parent [$tbl insertchild root end [list $title {} {}]]
       foreach name [lsort [array names data $category,*]] {
         set opt [lindex [split $name ,] 1]
-        set row [$tbl insertchild $parent end [list $opt [lindex $data($name) $fields(value) $category]]
+        set row [$tbl insertchild $parent end [list $opt [lindex $data($name) $fields(value)] $category]]
         switch [lindex $data($name) $fields(type)] {
           image {
             $tbl cellconfigure $row,value -image [convert_image [lindex $data($name) $fields(value)] $opt]
@@ -671,6 +674,36 @@ namespace eval theme {
     }
 
     return $opts
+
+  }
+
+  ######################################################################
+  # Returns the value for the given category option.
+  proc get_value {category opt} {
+
+    variable data
+    variable fields
+
+    if {![info exists data($category,$opt)]} {
+      return -code error "Unknown category/option specified ($category $opt)"
+    }
+
+    return [lindex $data($category,$opt) $fields(value)]
+
+  }
+
+  ######################################################################
+  # Returns the type for the given category option.
+  proc get_type {category opt} {
+
+    variable data
+    variable fields
+
+    if {![info exists data($category,$opt)]} {
+      return -code error "Unknown category/option specified ($category $opt)"
+    }
+
+    return [lindex $data($category,$opt) $fields(type)]
 
   }
 
