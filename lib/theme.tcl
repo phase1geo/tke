@@ -194,7 +194,7 @@ namespace eval theme {
     # Discern the image information
     switch $type {
       bitmap {
-        array set img_info {dat {} msk {} fg {} bg {}}
+        # array set img_info {dat {} msk {} fg {} bg {}}
         if {[info exists opts(-file)]} {
           if {![catch { open $opts(-file) r } rc]} {
             set img_info(dat) [read $rc]
@@ -503,7 +503,7 @@ namespace eval theme {
     # Configure the image
     if {$value_type eq "bitmap"} {
       foreach {field opt} [list dat -data bg -background fg -foreground msk -maskdata] {
-        if {$value_array($field) ne ""} {
+        if {[info exists value_array($field)] && ($value_array($field) ne "")} {
           $name configure $opt $value_array($field)
         }
       }

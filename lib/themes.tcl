@@ -180,13 +180,17 @@ namespace eval themes {
   proc populate_theme_menu {mnu} {
 
     variable files
+    variable curr_theme
+
+    # Get the current theme
+    set curr_theme [[ns theme]::get_current_theme]
 
     # Clear the menu
     $mnu delete 0 end
 
     # Populate the menu with the available themes
     foreach name [lsort [array names files]] {
-      $mnu add radiobutton -label $name -variable [ns themes]::curr_theme -value $name -command [list [ns themes]::set_theme $name]
+      $mnu add radiobutton -label $name -variable [ns themes]::curr_theme -value $name -command [list [ns theme]::load_theme $files($name)]
     }
 
     return $mnu

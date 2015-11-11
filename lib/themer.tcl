@@ -358,6 +358,7 @@ namespace eval themer {
 
     # Delete the data array
     array unset data *,*
+    unset data(swatch_index)
 
     # Destroy the window
     destroy .thmwin
@@ -911,7 +912,7 @@ namespace eval themer {
     if {$mod eq "none"} {
       theme::meta_do delete $data(category),$data(opt)
     } else {
-      theme::meta_do set $data(category),$type(opt) $value
+      theme::meta_do set $data(category),$data(opt) $value
     }
 
     # Update the table row
