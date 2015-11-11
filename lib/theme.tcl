@@ -101,6 +101,24 @@ namespace eval theme {
   }
 
   ######################################################################
+  # Returns the color to use for the given image.
+  proc get_image_color {value} {
+
+    variable orig_data
+    variable fields
+
+    if {[string is integer $value]} {
+      set values [list [lindex $orig_data(syntax,background) $fields(default)] \
+                       [lindex $orig_data(syntax,foreground) $fields(default)] \
+                       [lindex $orig_data(syntax,warning_width) $fields(default)]]
+      return [lindex $values $value]
+    }
+
+    return $value
+
+  }
+
+  ######################################################################
   # Creates the given image and adds it to the orig_data array.
   proc register_image {name type args} {
 
@@ -108,6 +126,14 @@ namespace eval theme {
 
     array set opts     $args
     array set img_info {}
+
+    # Transform the background/foreground colors, if necessary
+    if {[info exists opts(-background)]} {
+      set opts(-background) [get_image_color $opts(-background)]
+    }
+    if {[info exists opts(-foreground)]} {
+      set opts(-foreground) [get_image_color $opts(-foreground)]
+    }
 
     # First, create the image
     image create $type $name {*}$args
@@ -233,7 +259,7 @@ namespace eval theme {
         set default_value [lindex $data($key) $fields(default)]
         if {([lindex $data($key) $fields(type)] eq "color") && [string is integer $default_value]} {
           lset data($key) $fields(value) [lindex $data(swatch) $default_value]
-        } else { 
+        } else {
           lset data($key) $fields(value) $default_value
         }
       }
