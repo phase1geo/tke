@@ -1,53 +1,133 @@
 swatch {#06071d #0e1145 #e0e0e0}
-meta {}
-menus,-relief flat
-tabs,-background #0e1145
-tabs,-foreground #e0e0e0
-tabs,-activebackground #06071d
-tabs,-inactivebackground #0e1145
-tabs,-relief flat
-sidebar_scrollbar,-background #e0e0e0
-sidebar_scrollbar,-foreground #0e1145
-sidebar_scrollbar,-thickness  15
-ttk_style,disabledfg #999999
-ttk_style,frame #06071d
-ttk_style,lightframe #0e1145
-ttk_style,window #06071d
-ttk_style,dark #cfcdc8
-ttk_style,darker #bab5ab
-ttk_style,darkest #9e9a91
-ttk_style,lighter #e0e0e0
-ttk_style,lightest #e0e0e0
-ttk_style,selectbg #4a6984
-ttk_style,selectfg #ffffff
-text_scrollbar,-background #06071d
-text_scrollbar,-foreground #0e1145
-text_scrollbar,-thickness  15
-sidebar,-foreground #06071d
-sidebar,-background #e0e0e0
-sidebar,-selectbackground #0e1145
-sidebar,-selectforeground #e0e0e0
-sidebar,-highlightbackground #e0e0e0
-sidebar,-highlightcolor #e0e0e0
-syntax,precompile #ffffff
-syntax,keywords #2bf1dc
-syntax,line_number #0056c1
-syntax,difference_add #06251d
-syntax,numbers #62e9bd
-syntax,border_highlight gold
-syntax,select_background blue
-syntax,highlighter yellow
-syntax,background #06071d
-syntax,strings #92ffa3
-syntax,select_foreground white
-syntax,punctuation #7bacca
-syntax,foreground #e0e0e0
-syntax,difference_sub #24071d
-syntax,warning_width #0e1145
-syntax,miscellaneous1 #fbde2d
-syntax,miscellaneous2 #b683ca
-syntax,comments #aeaeae
-syntax,cursor #ffffff
-syntax,miscellaneous3 #f8fbb1
-syntax,meta #0e1145
-
+meta {ttk_style,frame {{#0e1145,30}}}
+images,form_close {fg white dat {#define close_width 8
+#define close_height 8
+static unsigned char close_bits[] = {
+   0x44, 0xee, 0x7c, 0x38, 0x7c, 0xee, 0x44, 0x00};
+} msk {#define close_width 8
+#define close_height 8
+static unsigned char close_bits[] = {
+   0x44, 0xee, 0x7c, 0x38, 0x7c, 0xee, 0x44, 0x00};
+}}
+images,logo {file /ptmp/projects/tke-code/lib/images/tke_logo_64.gif}
+images,menu_diff {fg white dat {#define bullet_width 8
+#define bullet_height 8
+static char bullet_bits = {
+    0x1f, 0x1f, 0x11, 0xff, 0xdf, 0x88, 0xd8, 0xf8
+}
+} msk {#define bullet_width 8
+#define bullet_height 8
+static char bullet_bits = {
+    0x1f, 0x1f, 0x11, 0xff, 0xdf, 0x88, 0xd8, 0xf8
+}
+}}
+images,menu_lock {fg white dat {#define lock_width 8
+#define lock_height 8
+static unsigned char lock_bits[] = {
+   0x3e, 0x7f, 0x63, 0x7f, 0x7f, 0x77, 0x77, 0x7f};
+} msk {#define lock_width 8
+#define lock_height 8
+static unsigned char lock_bits[] = {
+   0x3e, 0x7f, 0x63, 0x7f, 0x7f, 0x77, 0x77, 0x7f};
+}}
+images,menu_readonly {fg white dat {#define lock_width 8
+#define lock_height 8
+static unsigned char lock_bits[] = {
+   0x3e, 0x7f, 0x63, 0x7f, 0x7f, 0x77, 0x77, 0x7f};
+} msk {#define lock_width 8
+#define lock_height 8
+static unsigned char lock_bits[] = {
+   0x3e, 0x7f, 0x63, 0x7f, 0x7f, 0x77, 0x77, 0x7f};
+}}
+images,sidebar_open {fg gold bg black dat {#define bullet_width 5
+#define bullet_height 15
+static char bullet_bits = {
+    0x00, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x00
+}
+} msk {#define bullet_width 5
+#define bullet_height 15
+static char bullet_bits = {
+    0x00, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x00
+}
+}}
+images,tab_diff {fg white dat {#define bullet_width 8
+#define bullet_height 8
+static char bullet_bits = {
+    0x1f, 0x1f, 0x11, 0xff, 0xdf, 0x88, 0xd8, 0xf8
+}
+} msk {#define bullet_width 8
+#define bullet_height 8
+static char bullet_bits = {
+    0x1f, 0x1f, 0x11, 0xff, 0xdf, 0x88, 0xd8, 0xf8
+}
+}}
+images,tab_lock {fg white dat {#define lock_width 8
+#define lock_height 8
+static unsigned char lock_bits[] = {
+   0x3e, 0x7f, 0x63, 0x7f, 0x7f, 0x77, 0x77, 0x7f};
+} msk {#define lock_width 8
+#define lock_height 8
+static unsigned char lock_bits[] = {
+   0x3e, 0x7f, 0x63, 0x7f, 0x7f, 0x77, 0x77, 0x7f};
+}}
+images,tab_readonly {fg white dat {#define lock_width 8
+#define lock_height 8
+static unsigned char lock_bits[] = {
+   0x3e, 0x7f, 0x63, 0x7f, 0x7f, 0x77, 0x77, 0x7f};
+} msk {#define lock_width 8
+#define lock_height 8
+static unsigned char lock_bits[] = {
+   0x3e, 0x7f, 0x63, 0x7f, 0x7f, 0x77, 0x77, 0x7f};
+}}
+menus,-background {white}
+menus,-foreground {black}
+menus,-relief {flat}
+sidebar,-background {#e0e0e0}
+sidebar,-foreground {#06071d}
+sidebar,-highlightbackground {#e0e0e0}
+sidebar,-highlightcolor {#e0e0e0}
+sidebar,-selectbackground {#0e1145}
+sidebar,-selectforeground {#e0e0e0}
+sidebar,-treestyle {aqua}
+sidebar_scrollbar,-background {#e0e0e0}
+sidebar_scrollbar,-foreground {#0e1145}
+sidebar_scrollbar,-thickness {15}
+syntax,background {#06071d}
+syntax,border_highlight {gold}
+syntax,comments {#aeaeae}
+syntax,cursor {#ffffff}
+syntax,difference_add {#06251d}
+syntax,difference_sub {#24071d}
+syntax,foreground {#e0e0e0}
+syntax,highlighter {yellow}
+syntax,keywords {#2bf1dc}
+syntax,line_number {#0056c1}
+syntax,meta {#0e1145}
+syntax,miscellaneous1 {#fbde2d}
+syntax,miscellaneous2 {#b683ca}
+syntax,miscellaneous3 {#f8fbb1}
+syntax,numbers {#62e9bd}
+syntax,precompile {#ffffff}
+syntax,punctuation {#7bacca}
+syntax,select_background {blue}
+syntax,select_foreground {white}
+syntax,strings {#92ffa3}
+syntax,warning_width {#0e1145}
+tabs,-activebackground {#06071d}
+tabs,-background {#0e1145}
+tabs,-foreground {#e0e0e0}
+tabs,-inactivebackground {#0e1145}
+tabs,-relief {flat}
+text_scrollbar,-background {#06071d}
+text_scrollbar,-foreground {#0e1145}
+text_scrollbar,-thickness {15}
+ttk_style,dark {#cfcdc8}
+ttk_style,darker {#bab5ab}
+ttk_style,darkest {#9e9a91}
+ttk_style,disabledfg {#999999}
+ttk_style,frame {#0e1145,30}
+ttk_style,lighter {#e0e0e0}
+ttk_style,lightest {#e0e0e0}
+ttk_style,lightframe {#0e1145}
+ttk_style,selectbg {#4a6984}
+ttk_style,selectfg {#ffffff}

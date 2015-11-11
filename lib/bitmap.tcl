@@ -402,14 +402,12 @@ namespace eval bitmap {
     # Redraw the grid
     draw_grid $w $data($w,-width) $data($w,-height)
 
-    # Get the color values
-    lassign [utils::get_color_values $info(fg)] fg_val r g b fg
-    lassign [utils::get_color_values $info(bg)] bg_val r g b bg
-
     # Update the widgets
+    lassign [utils::get_color_values $info(fg)] fg_val r g b fg
     $data($w,c1_lbl) configure -background $info(fg) -foreground [expr {($fg_val < 128) ? "white" : "black"}]
     $data($w,color1) configure -text $fg
     if {$data($w,type) ne "mono"} {
+      lassign [utils::get_color_values $info(bg)] bg_val r g b bg
       $data($w,c2_lbl) configure -background $info(bg) -foreground [expr {($bg_val < 128) ? "white" : "black"}]
       $data($w,color2) configure -text $bg
     }
