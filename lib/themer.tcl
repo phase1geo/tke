@@ -514,6 +514,7 @@ namespace eval themer {
 
       switch $type {
         image {
+          puts "value: $value"
           switch [llength $value] {
             2 { detail_show_image photo $value }
             6 { detail_show_image mono  $value }
@@ -684,8 +685,9 @@ namespace eval themer {
     pack [set data(widgets,image_mb) [ttk::menubutton $data(widgets,df).if.mb -menu [menu $data(widgets,image).mnu -tearoff 0]]] -padx 2 -pady 2
 
     # Populate the menu
-    $data(widgets,image).mnu add radiobutton -label [msgcat::mc "One-Color"] -value mono -variable themer::data(image_type) -command [list themer::show_image_frame mono]
-    $data(widgets,image).mnu add radiobutton -label [msgcat::mc "Two-Color"] -value dual -variable themer::data(image_type) -command [list themer::show_image_frame dual]
+    $data(widgets,image).mnu add radiobutton -label [msgcat::mc "One-Color Bitmap"] -value mono  -variable themer::data(image_type) -command [list themer::show_image_frame mono]
+    $data(widgets,image).mnu add radiobutton -label [msgcat::mc "Two-Color Bitmap"] -value dual  -variable themer::data(image_type) -command [list themer::show_image_frame dual]
+    $data(widgets,image).mnu add radiobutton -label [msgcat::mc "GIF Photo"]        -value photo -variable themer::data(image_type) -command [list themer::show_image_frame photo]
 
     # Create mono frame
     set data(widgets,image_mf) [ttk::frame $data(widgets,image).mf]
@@ -701,6 +703,12 @@ namespace eval themer {
     pack [ttk::button $data(widgets,image_df).mi -text [msgcat::mc "Import BMP Mask"] -command [list bitmap::import $data(widgets,image_df_bm) 2]] -padx 2 -pady 2 -fill x -expand yes
 
     bind $data(widgets,image_df_bm) <<BitmapChanged>> [list themer::handle_bitmap_changed %d]
+
+    # Create photo frame
+    set data(widgets,image_pf) [ttk::frame $data(widgets,image).pf]
+    pack [set data(widgets,image_pf_preview) [ttk::label      $data(widgets,image).pf.img -image [image create photo]]]                          -padx 2 -pady 2 -fill x -expand yes
+    pack [set data(widgets,image_pf_mb_dir)  [ttk::menubutton $data(widgets,image).pf.mb1 -menu [menu $data(widgets,image).pf.mnu1 -tearoff 0]]] -padx 2 -pady 2 -fill x -expand yes
+    pack [set data(widgets,image_pf_mb_file) [ttk::menubutton $data(widgets,image).pf.mb2 -menu [menu $data(widgets,image).pf.mnu2 -tearoff 0]]] -padx 2 -pady 2 -fill x -expand yes
 
   }
 
@@ -1048,6 +1056,8 @@ namespace eval themer {
 
     variable data
 
+    puts "In show_image_frame, type: $type, value: $value"
+
     set orig_value $value
 
     # Unpack any children in the image frame
@@ -1062,7 +1072,7 @@ namespace eval themer {
 
     switch $type {
       mono {
-        $data(widgets,image_mb) configure -text [msgcat::mc "One-Color"]
+        $data(widgets,image_mb) configure -text [msgcat::mc "One-Color Bitmap"]
         $data(widgets,image_mf_bm) configure -swatches [theme::swatch_do get]
         bitmap::set_from_info $data(widgets,image_mf_bm) $value
         pack $data(widgets,image_mf) -padx 2 -pady 2
@@ -1071,13 +1081,17 @@ namespace eval themer {
         }
       }
       dual {
-        $data(widgets,image_mb) configure -text [msgcat::mc "Two-Color"]
+        $data(widgets,image_mb) configure -text [msgcat::mc "Two-Color Bitmap"]
         $data(widgets,image_df_bm) configure -swatches [theme::swatch_do get]
         bitmap::set_from_info $data(widgets,image_df_bm) $value
         pack $data(widgets,image_df) -padx 2 -pady 2
         if {$orig_value eq ""} {
           handle_bitmap_changed [bitmap::get_info $data(widgets,image_df_bm)]
         }
+      }
+      photo {
+        $data(widgets,image_mb) configure -text [msgcat::mc "GIF Photo"]
+        pack $data(widgets,image_pf) -padx 2 -pady 2
       }
     }
 

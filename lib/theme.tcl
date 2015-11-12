@@ -221,7 +221,7 @@ namespace eval theme {
       photo {
         array set img_info {file {}}
         if {[info exists opts(-file)]} {
-          set img_info(file) $opts(-file)
+          set img_info(file) [file tail $opts(-file)]
         } else {
           return -code error "photo image type only supports -file option"
         }
@@ -508,7 +508,17 @@ namespace eval theme {
         }
       }
     } else {
-      $name configure -file $value_array(file)
+      if {[file dirname $value_array(file)] eq "."} {
+        foreach fname [list [file join $::tke_home images $value_array(file)] \
+                            [file join $::tke_dir lib images $value_array(file)]] {
+          if {[file exists $fname]} {
+            $name configure -file $fname
+            break
+          }
+        }
+      } else {
+        $name configure -file $value_array(file)
+      }
     }
 
     return $name

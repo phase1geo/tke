@@ -13,7 +13,7 @@ static unsigned char close_bits[] = {
 static unsigned char close_bits[] = {
    0x44, 0xee, 0x7c, 0x38, 0x7c, 0xee, 0x44, 0x00};
 }}
-images,logo {file /ptmp/projects/tke-code/lib/images/tke_logo_64.gif}
+images,logo {file tke_logo_64.gif}
 images,menu_diff {dat {#define img_width 8
 #define img_height 8
 static char img_bits[] = {
