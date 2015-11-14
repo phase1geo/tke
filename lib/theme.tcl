@@ -194,7 +194,6 @@ namespace eval theme {
     # Discern the image information
     switch $type {
       bitmap {
-        # array set img_info {dat {} msk {} fg {} bg {}}
         if {[info exists opts(-file)]} {
           if {![catch { open $opts(-file) r } rc]} {
             set img_info(dat) [read $rc]
@@ -221,6 +220,7 @@ namespace eval theme {
       photo {
         array set img_info {file {}}
         if {[info exists opts(-file)]} {
+          set img_info(dir)  "install"
           set img_info(file) [file tail $opts(-file)]
         } else {
           return -code error "photo image type only supports -file option"
@@ -508,16 +508,10 @@ namespace eval theme {
         }
       }
     } else {
-      if {[file dirname $value_array(file)] eq "."} {
-        foreach fname [list [file join $::tke_home images $value_array(file)] \
-                            [file join $::tke_dir lib images $value_array(file)]] {
-          if {[file exists $fname]} {
-            $name configure -file $fname
-            break
-          }
-        }
-      } else {
-        $name configure -file $value_array(file)
+      switch $value_array(dir) {
+        install { $name configure -file [file join $::tke_dir lib images $value_array(file)] }
+        user    { $name configure -file [file join $::tke_home themes images $value_array(file)] }
+        default { $name configure -file [file join $value_array(dir) $value_array(file)] }
       }
     }
 

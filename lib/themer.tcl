@@ -71,12 +71,9 @@ namespace eval themer {
       set color [get_color $color_str]
     }
 
-    # Get the HSV value
-    lassign [utils::get_color_values $color] val
-
     # Set the cell
     $data(widgets,cat) cellconfigure $row,value -text $color_str \
-      -background $color -foreground [expr {($val < 128) ? "white" : "black"}]
+      -background $color -foreground [utils::get_complementary_mono_color $color]
 
   }
 
@@ -514,9 +511,8 @@ namespace eval themer {
 
       switch $type {
         image {
-          puts "value: $value"
           switch [llength $value] {
-            2 { detail_show_image photo $value }
+            4 { detail_show_image photo $value }
             6 { detail_show_image mono  $value }
             8 { detail_show_image dual  $value }
           }
@@ -709,6 +705,66 @@ namespace eval themer {
     pack [set data(widgets,image_pf_preview) [ttk::label      $data(widgets,image).pf.img -image [image create photo]]]                          -padx 2 -pady 2 -fill x -expand yes
     pack [set data(widgets,image_pf_mb_dir)  [ttk::menubutton $data(widgets,image).pf.mb1 -menu [menu $data(widgets,image).pf.mnu1 -tearoff 0]]] -padx 2 -pady 2 -fill x -expand yes
     pack [set data(widgets,image_pf_mb_file) [ttk::menubutton $data(widgets,image).pf.mb2 -menu [menu $data(widgets,image).pf.mnu2 -tearoff 0]]] -padx 2 -pady 2 -fill x -expand yes
+
+    # Populate the photo menus
+    $data(widgets,image).pf.mnu1 add command -label [msgcat::mc "Installation Directory"] -command [list themer::image_photo_dir install *.gif]
+    $data(widgets,image).pf.mnu1 add command -label [msgcat::mc "User Directory"]         -command [list themer::image_photo_dir user    *.gif]
+    $data(widgets,image).pf.mnu1 add separator
+    $data(widgets,image).pf.mnu1 add command -label [msgcat::mc "Custom Directory"]       -command [list themer::image_photo_dir custom  *.gif]
+
+  }
+
+  ######################################################################
+  # Gets all of the GIF photos from
+  proc image_photo_dir {type pattern} {
+
+    variable data
+
+    switch $type {
+      install {
+        set dir     [file join $::tke_dir lib images]
+        set dirname [msgcat::mc "Installation Directory"]
+      }
+      user    {
+        set dir     [file join $::tke_home themes images]
+        set dirname [msgcat::mc "User Directory"]
+      }
+      custom  {
+        if {[set dir [tk_chooseDirectory -parent .thmwin]] eq ""} {
+          return
+        }
+        set dirname $dir
+      }
+    }
+
+    # Set the menubutton text
+    $data(widgets,image_pf_mb_dir) configure -text $dirname
+
+    set mnu $data(widgets,image).pf.mnu2
+
+    # Delete any previous images
+    if {[set last [$mnu index last]] ne "none"} {
+      for {set i 0} {$i <= $last} {incr i} {
+        image delete [$mnu entrycget $i -image]
+      }
+    }
+
+    # Get all of the files in the directory that match the given file pattern
+    $mnu delete 0 end
+    foreach fname [glob -nocomplain -directory $dir $pattern] {
+      set img [image create photo -file $fname]
+      $mnu add command -label $fname -image $img -command [list themer::set_photo_image $img]
+    }
+
+  }
+
+  ######################################################################
+  # Displays the given image in the photo preview window.
+  proc set_photo_image {img} {
+
+    variable data
+
+    $data(widgets,image_pf_mb_file) configure -image $img
 
   }
 
@@ -1090,7 +1146,18 @@ namespace eval themer {
         }
       }
       photo {
+        puts "HERE A, value: $value"
+        array set value_array $value
         $data(widgets,image_mb) configure -text [msgcat::mc "GIF Photo"]
+        switch $value_array(dir) {
+          install { set fname [file join $::tke_dir lib images $value_array(file)] }
+          user    { set fname [file join $::tke_home themes images $value_array(file)] }
+          default { set fname [file join $value_array(dir) $value_array(file)] }
+        }
+        puts "Configuring image [$data(widgets,image_pf_preview) cget -image] to file $fname"
+        [$data(widgets,image_pf_preview) cget -image] configure -file $fname
+    # pack [set data(widgets,image_pf_mb_dir)  [ttk::menubutton $data(widgets,image).pf.mb1 -menu [menu $data(widgets,image).pf.mnu1 -tearoff 0]]] -padx 2 -pady 2 -fill x -expand yes
+    # pack [set data(widgets,image_pf_mb_file) [ttk::menubutton $data(widgets,image).pf.mb2 -menu [menu $data(widgets,image).pf.mnu2 -tearoff 0]]] -padx 2 -pady 2 -fill x -expand yes
         pack $data(widgets,image_pf) -padx 2 -pady 2
       }
     }

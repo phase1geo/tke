@@ -240,6 +240,18 @@ namespace eval utils {
   }
 
   ######################################################################
+  # Returns the color black or white such that the returned color
+  # will be visible next to the given color (the given color does not
+  # need to be monochrome).
+  proc get_complementary_mono_color {color} {
+
+    lassign [get_color_values $color] val
+
+    return [expr {($val < 128) ? "white" : "black"}]
+
+  }
+
+  ######################################################################
   # Converts an RGB value into an HSV value.
   proc rgb_to_hsv {r g b} {
 
