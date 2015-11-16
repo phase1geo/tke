@@ -121,22 +121,10 @@ namespace eval themer {
 
     variable data
 
-    # Get the current theme from themes
-    set basename [theme::get_current_theme]
+    # Apply the updates to the theme
+    theme::update_theme
 
-    # Create the user theme directory if it does not exist
-    file mkdir $data(theme_dir)
-
-    # Save off the theme file to a temporary file
-    file rename -force $data(files,$basename) [file join $data(theme_dir) $basename.orig]
-
-    # Write the theme and reload it
-    catch { theme::write_tketheme $data(files,$data(curr_theme)) } rc
-
-    # Restore the original file, if it exists
-    file rename -force [file join $data(theme_dir) $basename.orig] $data(files,$basename)
-
-    # Clear the apply button
+    # Clear the preview button
     $data(widgets,preview) state disabled
 
   }
@@ -1128,7 +1116,7 @@ namespace eval themer {
 
     switch $type {
       mono {
-        $data(widgets,image_mb) configure -text [msgcat::mc "One-Color Bitmap"]
+        $data(widgets,image_mb)    configure -text [msgcat::mc "One-Color Bitmap"]
         $data(widgets,image_mf_bm) configure -swatches [theme::swatch_do get]
         bitmap::set_from_info $data(widgets,image_mf_bm) $value
         pack $data(widgets,image_mf) -padx 2 -pady 2
@@ -1137,7 +1125,7 @@ namespace eval themer {
         }
       }
       dual {
-        $data(widgets,image_mb) configure -text [msgcat::mc "Two-Color Bitmap"]
+        $data(widgets,image_mb)    configure -text [msgcat::mc "Two-Color Bitmap"]
         $data(widgets,image_df_bm) configure -swatches [theme::swatch_do get]
         bitmap::set_from_info $data(widgets,image_df_bm) $value
         pack $data(widgets,image_df) -padx 2 -pady 2
@@ -1146,7 +1134,6 @@ namespace eval themer {
         }
       }
       photo {
-        puts "HERE A, value: $value"
         array set value_array $value
         $data(widgets,image_mb) configure -text [msgcat::mc "GIF Photo"]
         switch $value_array(dir) {
@@ -1154,10 +1141,8 @@ namespace eval themer {
           user    { set fname [file join $::tke_home themes images $value_array(file)] }
           default { set fname [file join $value_array(dir) $value_array(file)] }
         }
-        puts "Configuring image [$data(widgets,image_pf_preview) cget -image] to file $fname"
-        [$data(widgets,image_pf_preview) cget -image] configure -file $fname
-    # pack [set data(widgets,image_pf_mb_dir)  [ttk::menubutton $data(widgets,image).pf.mb1 -menu [menu $data(widgets,image).pf.mnu1 -tearoff 0]]] -padx 2 -pady 2 -fill x -expand yes
-    # pack [set data(widgets,image_pf_mb_file) [ttk::menubutton $data(widgets,image).pf.mb2 -menu [menu $data(widgets,image).pf.mnu2 -tearoff 0]]] -padx 2 -pady 2 -fill x -expand yes
+        image delete [$data(widgets,image_pf_preview) cget -image]
+        $data(widgets,image_pf_preview) configure -image [image create photo -file $fname]
         pack $data(widgets,image_pf) -padx 2 -pady 2
       }
     }
@@ -1381,11 +1366,9 @@ namespace eval themer {
       switch -exact [string tolower [file extension $theme]] {
         .tketheme { import_tke $theme }
         .tmtheme  { import_tm  $theme }
-        default  {}
+        default   {}
       }
     }
-
-    # Enable the preview button
 
   }
 

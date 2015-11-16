@@ -116,7 +116,7 @@ namespace eval sidebar {
     variable images
 
     # Create needed images
-    theme::register_image sidebar_open bitmap \
+    theme::register_image sidebar_open bitmap sidebar -background \
       -file [file join $::tke_dir lib images sopen.bmp] \
       -maskfile [file join $::tke_dir lib images sopen.bmp] \
       -foreground "gold" -background black

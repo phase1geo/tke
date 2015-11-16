@@ -206,9 +206,20 @@ namespace eval bitmap {
 
   ######################################################################
   # Draws the bitmap grid.
-  proc draw_grid {w width height} {
+  proc draw_grid {w width height {bg ""}} {
 
     variable data
+
+    # Calculate the background and foreground colors, if necessary
+    if {$bg eq ""} {
+      set bg $data(bg)
+      set fg $data(fg)
+    } else {
+      set fg [expr {($bg eq "white") ? "black" : "white"}]
+    }
+
+    # Set the background color of the canvas
+    $data($w,grid) configure -background $bg
 
     # Clear the grid
     $data($w,grid) delete all
@@ -228,7 +239,7 @@ namespace eval bitmap {
         set y2 [expr (($row + 1) * $data($w,-size)) + $y_adjust]
 
         # Create the square
-        set data($w,$row,$col) [$data($w,grid) create rectangle $x1 $y1 $x2 $y2 -fill $data(bg) -outline $data(fg) -width 1 -tags s0]
+        set data($w,$row,$col) [$data($w,grid) create rectangle $x1 $y1 $x2 $y2 -fill $bg -outline $fg -width 1 -tags s0]
 
         # Create the square bindings
         $data($w,grid) bind $data($w,$row,$col) <ButtonPress-1> [list bitmap::change_square $w $row $col  1]
@@ -269,7 +280,7 @@ namespace eval bitmap {
 
     # If this is the initial press, save the replace color
     set data($w,replace)      $curr_tag
-    set data($w,replace_with) [expr ($curr_tag + $dir) % [llength $data(colors)]]
+    set data($w,replace_with) [expr ($curr_tag + $dir) % [llength $data($w,colors)]]
 
     # Set the square fill color
     $data($w,grid) itemconfigure $data($w,$row,$col) -fill [lindex $data($w,colors) $data($w,replace_with)] -tags s$data($w,replace_with)
@@ -395,21 +406,21 @@ namespace eval bitmap {
     # Update the preview
     if {$data($w,type) eq "mono"} {
       $data($w,preview) configure -foreground $info(fg) -data $info(dat) -maskdata $info(msk)
+      set grid_bg [utils::get_complementary_mono_color $info(fg)]
     } else {
       $data($w,preview) configure -foreground $info(fg) -background $info(bg) -data $info(dat) -maskdata $info(msk)
+      set grid_bg $data(bg)
     }
 
     # Redraw the grid
-    draw_grid $w $data($w,-width) $data($w,-height)
+    draw_grid $w $data($w,-width) $data($w,-height) $grid_bg
 
     # Update the widgets
-    lassign [utils::get_color_values $info(fg)] fg_val r g b fg
-    $data($w,c1_lbl) configure -background $info(fg) -foreground [expr {($fg_val < 128) ? "white" : "black"}]
-    $data($w,color1) configure -text $fg
+    $data($w,c1_lbl) configure -background $info(fg) -foreground [utils::get_complementary_mono_color $info(fg)]
+    $data($w,color1) configure -text $info(fg)
     if {$data($w,type) ne "mono"} {
-      lassign [utils::get_color_values $info(bg)] bg_val r g b bg
-      $data($w,c2_lbl) configure -background $info(bg) -foreground [expr {($bg_val < 128) ? "white" : "black"}]
-      $data($w,color2) configure -text $bg
+      $data($w,c2_lbl) configure -background $info(bg) -foreground [utils::get_complementary_mono_color $info(bg)]
+      $data($w,color2) configure -text $info(bg)
     }
     $data($w,width)  set $dat_info(width)
     $data($w,height) set $dat_info(height)
