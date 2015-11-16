@@ -173,12 +173,12 @@ namespace eval theme {
 
   ######################################################################
   # Creates the given image and adds it to the orig_data array.
-  proc register_image {name type args} {
+  proc register_image {name type bgcat bgopt args} {
 
     variable orig_data
 
     array set opts     $args
-    array set img_info {}
+    array set img_info [list basecolor $bgcat,$bgopt]
 
     # Transform the background/foreground colors, if necessary
     if {[info exists opts(-background)]} {
@@ -504,9 +504,10 @@ namespace eval theme {
     if {$value_type eq "bitmap"} {
       foreach {field opt} [list dat -data bg -background fg -foreground msk -maskdata] {
         if {[info exists value_array($field)] && ($value_array($field) ne "")} {
-          $name configure $opt $value_array($field)
+          lappend opts $opt $value_array($field)
         }
       }
+      $name configure {*}$opts
     } else {
       switch $value_array(dir) {
         install { $name configure -file [file join $::tke_dir lib images $value_array(file)] }
@@ -538,7 +539,11 @@ namespace eval theme {
         set row [$tbl insertchild $parent end [list $opt [lindex $data($name) $fields(value)] $category]]
         switch [lindex $data($name) $fields(type)] {
           image {
-            $tbl cellconfigure $row,value -image [convert_image [lindex $data($name) $fields(value)] $opt]
+            set img [convert_image [lindex $data($name) $fields(value)] $opt]
+            $tbl cellconfigure $row,value -image $img
+            if {([image type $img] eq "bitmap") && ([$img cget -background] eq "")} {
+              $tbl cellconfigure $row,value -background [utils::get_complementary_mono_color [$img cget -foreground]]
+            }
           }
           color {
             [ns themer]::set_cell_color $row [lindex $data($name) $fields(value)]
@@ -565,8 +570,16 @@ namespace eval theme {
 
     # Further modify the tablelist cell based on the type
     switch [lindex $data($cat,$opt) $fields(type)] {
-      image { $tbl cellconfigure $row,value -image [convert_image $value $opt] }
-      color { [ns themer]::set_cell_color $row $value $new_color }
+      image {
+        set img [convert_image $value $opt]
+        $tbl cellconfigure $row,value -image $img
+        if {([image type $img] eq "bitmap") && ([$img cget -background] eq "")} {
+          $tbl cellconfigure $row,value -background [utils::get_complementary_mono_color [$img cget -foreground]]
+        }
+      }
+      color {
+        [ns themer]::set_cell_color $row $value $new_color
+      }
     }
 
     # Update the theme data

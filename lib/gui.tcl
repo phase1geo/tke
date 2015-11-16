@@ -179,39 +179,38 @@ namespace eval gui {
   proc create_images {} {
 
     # Create tab images
-    theme::register_image tab_lock bitmap \
+    theme::register_image tab_lock bitmap tabs -background \
       -file     [file join $::tke_dir lib images lock.bmp] \
       -maskfile [file join $::tke_dir lib images lock.bmp] \
       -foreground 1
-    theme::register_image tab_readonly bitmap \
+    theme::register_image tab_readonly bitmap tabs -background \
       -file     [file join $::tke_dir lib images lock.bmp] \
       -maskfile [file join $::tke_dir lib images lock.bmp] \
       -foreground 1
-    theme::register_image tab_diff bitmap \
+    theme::register_image tab_diff bitmap tabs -background \
       -file     [file join $::tke_dir lib images diff.bmp] \
       -maskfile [file join $::tke_dir lib images diff.bmp] \
       -foreground 1
 
     # Create close button for forms
-    theme::register_image form_close bitmap \
+    theme::register_image form_close bitmap ttk_style -frame \
       -file     [file join $::tke_dir lib images close.bmp] \
       -maskfile [file join $::tke_dir lib images close.bmp] \
       -foreground 1
 
     # Create main logo image
-    theme::register_image logo photo \
-      -file [file join $::tke_dir lib images tke_logo_64.gif]
+    image create photo logo -file [file join $::tke_dir lib images tke_logo_64.gif]
 
     # Create menu images
-    theme::register_image menu_lock bitmap \
+    theme::register_image menu_lock bitmap menus -background \
       -file     [file join $::tke_dir lib images lock.bmp] \
       -maskfile [file join $::tke_dir lib images lock.bmp] \
       -foreground 1
-    theme::register_image menu_readonly bitmap \
+    theme::register_image menu_readonly bitmap menus -background \
       -file     [file join $::tke_dir lib images lock.bmp] \
       -maskfile [file join $::tke_dir lib images lock.bmp] \
       -foreground 1
-    theme::register_image menu_diff bitmap \
+    theme::register_image menu_diff bitmap menus -background \
       -file     [file join $::tke_dir lib images diff.bmp] \
       -maskfile [file join $::tke_dir lib images diff.bmp] \
       -foreground 1
