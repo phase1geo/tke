@@ -123,9 +123,10 @@ namespace eval theme {
     constant.other       miscellaneous3
   }
 
-  array set data    {}
-  array set widgets {}
-  array set syntax  {}
+  array set data          {}
+  array set widgets       {}
+  array set syntax        {}
+  array set basecolor_map {}
 
   # Initialize the widgets array
   foreach {category dummy} $category_titles {
@@ -527,6 +528,10 @@ namespace eval theme {
     variable data
     variable fields
     variable category_titles
+    variable basecolor_map
+
+    # Make sure the basecolor_map is empty
+    catch { array unset basecolor_map }
 
     # Clear the table
     $tbl delete 0 end
@@ -541,8 +546,9 @@ namespace eval theme {
           image {
             array set default_value [lindex $data($name) $fields(default)]
             $tbl cellconfigure $row,value \
-              -image [convert_image [lindex $data($name) $fields(value)] $opt] \
+              -image      [convert_image [lindex $data($name) $fields(value)] $opt] \
               -background [lindex $data($default_value(basecolor)) $fields(value)]
+            lappend basecolor_map($default_value(basecolor)) $row
           }
           color {
             [ns themer]::set_cell_color $row [lindex $data($name) $fields(value)]
@@ -559,6 +565,7 @@ namespace eval theme {
 
     variable data
     variable fields
+    variable basecolor_map
 
     # Get the category and option values
     set cat [$tbl cellcget $row,category -text]
@@ -572,11 +579,16 @@ namespace eval theme {
       image {
         array set default_value [lindex $data($cat,$opt) $fields(default)]
         $tbl cellconfigure $row,value \
-          -image [convert_image $value $opt] \
+          -image      [convert_image $value $opt] \
           -background [lindex $data($default_value(basecolor)) $fields(value)]
       }
       color {
-        [ns themer]::set_cell_color $row $value $new_color
+        set color [[ns themer]::set_cell_color $row $value $new_color]
+        if {[info exists basecolor_map($cat,$opt)]} {
+          foreach img_row $basecolor_map($cat,$opt) {
+            $tbl cellconfigure $img_row,value -background $color
+          }
+        }
       }
     }
 

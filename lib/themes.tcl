@@ -101,25 +101,18 @@ namespace eval themes {
 
   ######################################################################
   # Reloads the available themes and resets the UI with the current theme.
-  proc reload {{theme ""}} {
+  proc reload {} {
 
     variable files
     variable curr_theme
 
-    # If the user has specified a theme to use, set the current theme
-    if {$theme ne ""} {
-      set curr_theme $theme
-
     # If the current theme is no longer available, select the first theme
-    } elseif {![info exists files($curr_theme)]} {
+    if {![info exists files($curr_theme)]} {
       set curr_theme [lindex [array names files] 0]
     }
 
     # Reload the themes
-    themes::load
-
-    # Reset the theme
-    set_theme $curr_theme 1
+    theme::load_theme $files($curr_theme)
 
   }
 
