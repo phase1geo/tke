@@ -192,12 +192,20 @@ namespace eval bitmap {
     }
 
     array set opts {
-      -swatches {}
+      -background {}
+      -swatches   {}
     }
     array set opts $args
 
     # Store the options
     set data($w,-swatches) $opts(-swatches)
+
+    # If a background color was specified, change the color in the widget
+    if {$opts(-background) ne ""} {
+      lset data($w,colors) 0 $opts(-background)
+      $data($w,grid)   configure -background $opts(-background)
+      $data($w,plabel) configure -background $opts(-background)
+    }
 
     # Update the UI
     update_menus $w
@@ -206,16 +214,13 @@ namespace eval bitmap {
 
   ######################################################################
   # Draws the bitmap grid.
-  proc draw_grid {w width height {fg ""} {bg ""}} {
+  proc draw_grid {w width height {fg ""}} {
 
     variable data
 
     # Calculate the background and foreground colors, if necessary
-    set bg [expr {($bg eq "") ? $data(bg) : $bg}]
+    set bg [lindex $data($w,colors) 0]
     set fg [expr {($fg eq "") ? $data(fg) : $fg}]
-
-    # Set the background color of the canvas
-    $data($w,grid) configure -background $bg
 
     # Clear the grid
     $data($w,grid) delete all
@@ -364,7 +369,7 @@ namespace eval bitmap {
 
   ######################################################################
   # Update the widget from the information.
-  proc set_from_info {w info_list grid_bg {resize 1}} {
+  proc set_from_info {w info_list {resize 1}} {
 
     variable data
 
@@ -409,11 +414,8 @@ namespace eval bitmap {
       $data($w,preview) configure -foreground $info(fg) -background $info(bg) -data $info(dat) -maskdata $info(msk)
     }
 
-    # Configure the preview label background
-    $data($w,plabel) configure -background $grid_bg
-
     # Redraw the grid
-    draw_grid $w $data($w,-width) $data($w,-height) $grid_fg $grid_bg
+    draw_grid $w $data($w,-width) $data($w,-height) $grid_fg
 
     # Update the widgets
     $data($w,c1_lbl) configure -background $info(fg) -foreground [utils::get_complementary_mono_color $info(fg)]

@@ -75,6 +75,8 @@ namespace eval themer {
     $data(widgets,cat) cellconfigure $row,value -text $color_str \
       -background $color -foreground [utils::get_complementary_mono_color $color]
 
+    return $color
+
   }
 
   ######################################################################
@@ -332,9 +334,6 @@ namespace eval themer {
       }
     }
 
-    # Cause the original theme to be reloaded in the UI
-    # TBD - themes::reload
-
     # Delete the swatch images
     foreach swatch [winfo children $data(widgets,sf)] {
       lappend images [$swatch.b cget -image]
@@ -347,6 +346,9 @@ namespace eval themer {
 
     # Destroy the window
     destroy .thmwin
+
+    # Cause the original theme to be reloaded in the UI
+    themes::reload
 
   }
 
@@ -1100,8 +1102,6 @@ namespace eval themer {
 
     variable data
 
-    puts "In show_image_frame, type: $type, value: $value"
-
     set orig_value $value
 
     # Unpack any children in the image frame
@@ -1117,8 +1117,8 @@ namespace eval themer {
     switch $type {
       mono {
         $data(widgets,image_mb)    configure -text [msgcat::mc "One-Color Bitmap"]
-        $data(widgets,image_mf_bm) configure -swatches [theme::swatch_do get]
-        bitmap::set_from_info $data(widgets,image_mf_bm) $value [$data(widgets,cat) cellcget $data(row),value -background]
+        $data(widgets,image_mf_bm) configure -swatches [theme::swatch_do get] -background [$data(widgets,cat) cellcget $data(row),value -background]
+        bitmap::set_from_info $data(widgets,image_mf_bm) $value
         pack $data(widgets,image_mf) -padx 2 -pady 2
         if {$orig_value eq ""} {
           handle_bitmap_changed [bitmap::get_info $data(widgets,image_mf_bm)]
@@ -1126,8 +1126,8 @@ namespace eval themer {
       }
       dual {
         $data(widgets,image_mb)    configure -text [msgcat::mc "Two-Color Bitmap"]
-        $data(widgets,image_df_bm) configure -swatches [theme::swatch_do get]
-        bitmap::set_from_info $data(widgets,image_df_bm) $value [$data(widgets,cat) cellcget $data(row),value -background]
+        $data(widgets,image_df_bm) configure -swatches [theme::swatch_do get] -background [$data(widgets,cat) cellcget $data(row),value -background]
+        bitmap::set_from_info $data(widgets,image_df_bm) $value
         pack $data(widgets,image_df) -padx 2 -pady 2
         if {$orig_value eq ""} {
           handle_bitmap_changed [bitmap::get_info $data(widgets,image_df_bm)]
