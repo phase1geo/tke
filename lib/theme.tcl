@@ -539,11 +539,10 @@ namespace eval theme {
         set row [$tbl insertchild $parent end [list $opt [lindex $data($name) $fields(value)] $category]]
         switch [lindex $data($name) $fields(type)] {
           image {
-            set img [convert_image [lindex $data($name) $fields(value)] $opt]
-            $tbl cellconfigure $row,value -image $img
-            if {([image type $img] eq "bitmap") && ([$img cget -background] eq "")} {
-              $tbl cellconfigure $row,value -background [utils::get_complementary_mono_color [$img cget -foreground]]
-            }
+            array set default_value [lindex $data($name) $fields(default)]
+            $tbl cellconfigure $row,value \
+              -image [convert_image [lindex $data($name) $fields(value)] $opt] \
+              -background [lindex $data($default_value(basecolor)) $fields(value)]
           }
           color {
             [ns themer]::set_cell_color $row [lindex $data($name) $fields(value)]
@@ -571,11 +570,10 @@ namespace eval theme {
     # Further modify the tablelist cell based on the type
     switch [lindex $data($cat,$opt) $fields(type)] {
       image {
-        set img [convert_image $value $opt]
-        $tbl cellconfigure $row,value -image $img
-        if {([image type $img] eq "bitmap") && ([$img cget -background] eq "")} {
-          $tbl cellconfigure $row,value -background [utils::get_complementary_mono_color [$img cget -foreground]]
-        }
+        array set default_value [lindex $data($cat,$opt) $fields(default)]
+        $tbl cellconfigure $row,value \
+          -image [convert_image $value $opt] \
+          -background [lindex $data($default_value(basecolor)) $fields(value)]
       }
       color {
         [ns themer]::set_cell_color $row $value $new_color

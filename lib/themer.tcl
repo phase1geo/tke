@@ -1118,7 +1118,7 @@ namespace eval themer {
       mono {
         $data(widgets,image_mb)    configure -text [msgcat::mc "One-Color Bitmap"]
         $data(widgets,image_mf_bm) configure -swatches [theme::swatch_do get]
-        bitmap::set_from_info $data(widgets,image_mf_bm) $value
+        bitmap::set_from_info $data(widgets,image_mf_bm) $value [$data(widgets,cat) cellcget $data(row),value -background]
         pack $data(widgets,image_mf) -padx 2 -pady 2
         if {$orig_value eq ""} {
           handle_bitmap_changed [bitmap::get_info $data(widgets,image_mf_bm)]
@@ -1127,7 +1127,7 @@ namespace eval themer {
       dual {
         $data(widgets,image_mb)    configure -text [msgcat::mc "Two-Color Bitmap"]
         $data(widgets,image_df_bm) configure -swatches [theme::swatch_do get]
-        bitmap::set_from_info $data(widgets,image_df_bm) $value
+        bitmap::set_from_info $data(widgets,image_df_bm) $value [$data(widgets,cat) cellcget $data(row),value -background]
         pack $data(widgets,image_df) -padx 2 -pady 2
         if {$orig_value eq ""} {
           handle_bitmap_changed [bitmap::get_info $data(widgets,image_df_bm)]
