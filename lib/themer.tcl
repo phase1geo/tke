@@ -517,7 +517,11 @@ namespace eval themer {
           detail_show_treestyle $value
         }
         color {
-          detail_show_color $value
+          if {[theme::meta_do exists $data(category) $data(opt)]} {
+            detail_show_color [theme::meta_do get $data(category) $data(opt)]
+          } else {
+            detail_show_color $value
+          }
         }
       }
 
@@ -964,13 +968,13 @@ namespace eval themer {
 
     # Update the data value
     if {$mod eq "none"} {
-      theme::meta_do delete $data(category),$data(opt)
+      theme::meta_do delete $data(category) $data(opt)
     } else {
-      theme::meta_do set $data(category),$data(opt) $value
+      theme::meta_do set $data(category) $data(opt) $value
     }
 
     # Update the table row
-    theme::set_themer_category_table_row $data(widgets,cat) $data(row) $value $new_color
+    theme::set_themer_category_table_row $data(widgets,cat) $data(row) $new_color
 
     # Specify that the apply button should be enabled
     set_theme_modified
