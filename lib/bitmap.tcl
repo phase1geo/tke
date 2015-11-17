@@ -91,7 +91,7 @@ namespace eval bitmap {
 
     # Create the right frame
     ttk::frame $w.rf
-    set data($w,plabel) [label $w.rf.p -relief solid]
+    set data($w,plabel) [ttk::label $w.rf.p -relief solid -padding 10]
     set data($w,c1_lbl) [ttk::label $w.rf.l1 -text "Color-1:" -background [lindex $data($w,colors) 1]]
     set data($w,color1) [ttk::menubutton $w.rf.sb1 -text [lindex $data($w,colors) 1] -menu [set data($w,color1_mnu) [menu $w.rf.mnu1 -tearoff 0]]]
     if {$type eq "mono"} {
@@ -206,17 +206,13 @@ namespace eval bitmap {
 
   ######################################################################
   # Draws the bitmap grid.
-  proc draw_grid {w width height {bg ""}} {
+  proc draw_grid {w width height {fg ""} {bg ""}} {
 
     variable data
 
     # Calculate the background and foreground colors, if necessary
-    if {$bg eq ""} {
-      set bg $data(bg)
-      set fg $data(fg)
-    } else {
-      set fg [expr {($bg eq "white") ? "black" : "white"}]
-    }
+    set bg [expr {($bg eq "") ? $data(bg) : $bg}]
+    set fg [expr {($fg eq "") ? $data(fg) : $fg}]
 
     # Set the background color of the canvas
     $data($w,grid) configure -background $bg
@@ -368,7 +364,7 @@ namespace eval bitmap {
 
   ######################################################################
   # Update the widget from the information.
-  proc set_from_info {w info_list {resize 1}} {
+  proc set_from_info {w info_list grid_bg {resize 1}} {
 
     variable data
 
@@ -378,6 +374,9 @@ namespace eval bitmap {
     if {($data($w,type) ne "mono") && ![info exists info(bg)]} {
       set info(bg) $data(bg)
     }
+
+    # Set the grid foreground
+    set grid_fg [expr {($info(fg) eq "black") ? "grey" : "black"}]
 
     # Parse the data and mask BMP strings
     if {[catch {
@@ -406,14 +405,15 @@ namespace eval bitmap {
     # Update the preview
     if {$data($w,type) eq "mono"} {
       $data($w,preview) configure -foreground $info(fg) -data $info(dat) -maskdata $info(msk)
-      set grid_bg [utils::get_complementary_mono_color $info(fg)]
     } else {
       $data($w,preview) configure -foreground $info(fg) -background $info(bg) -data $info(dat) -maskdata $info(msk)
-      set grid_bg $data(bg)
     }
 
+    # Configure the preview label background
+    $data($w,plabel) configure -background $grid_bg
+
     # Redraw the grid
-    draw_grid $w $data($w,-width) $data($w,-height) $grid_bg
+    draw_grid $w $data($w,-width) $data($w,-height) $grid_fg $grid_bg
 
     # Update the widgets
     $data($w,c1_lbl) configure -background $info(fg) -foreground [utils::get_complementary_mono_color $info(fg)]
