@@ -551,7 +551,10 @@ namespace eval theme {
             lappend basecolor_map($default_value(basecolor)) $row
           }
           color {
-            [ns themer]::set_cell_color $row [lindex $data($name) $fields(value)]
+            set color [lindex $data($name) $fields(default)]
+            $tbl cellconfigure $row,value \
+              -background $color \
+              -foreground [utils::get_complementary_mono_color $color]
           }
         }
       }
@@ -561,7 +564,7 @@ namespace eval theme {
 
   ######################################################################
   # Updates the themer category table row.
-  proc set_themer_category_table_row {tbl row value {new_color ""}} {
+  proc set_themer_category_table_row {tbl row value} {
 
     variable data
     variable fields
@@ -583,10 +586,10 @@ namespace eval theme {
           -background [lindex $data($default_value(basecolor)) $fields(value)]
       }
       color {
-        set color [[ns themer]::set_cell_color $row $value $new_color]
+        $tbl cellconfigure $row,value -background $value -foreground [utils::get_complementary_mono_color $value]
         if {[info exists basecolor_map($cat,$opt)]} {
           foreach img_row $basecolor_map($cat,$opt) {
-            $tbl cellconfigure $img_row,value -background $color
+            $tbl cellconfigure $img_row,value -background $value
           }
         }
       }
@@ -913,13 +916,16 @@ namespace eval theme {
 
   ######################################################################
   # Returns the meta information for the theme.
-  proc meta_do {action key args} {
+  proc meta_do {action category opt args} {
 
     variable data
+
+    set key $category,$opt
 
     array set meta $data(meta)
 
     switch $action {
+      exists { return [info exists meta($key)] }
       get    { return $meta($key) }
       set    {
         set meta($key) $args
