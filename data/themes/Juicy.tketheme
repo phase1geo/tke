@@ -1,59 +1,109 @@
-swatch {#f1f1f1 #c9c9c9 #000000}
-menus,-relief flat
-tabs,-background {#c9c9c9}
-tabs,-foreground {#000000}
-tabs,-activebackground {#f1f1f1}
-tabs,-inactivebackground {#c9c9c9}
-tabs,-relief flat
+swatch {{#f1f1f1} #c9c9c9 #000000 #0085c3}
+images,form_close {dat {#define img_width 8
+#define img_height 8
+static char img_bits[] = {
+0x44, 0xee, 0x7c, 0x38, 0x7c, 0xee, 0x44, 0x00};} msk {#define img_width 8
+#define img_height 8
+static char img_bits[] = {
+0x44, 0xee, 0x7c, 0x38, 0x7c, 0xee, 0x44, 0x00};} fg #000000}
+images,menu_diff {dat {#define img_width 8
+#define img_height 8
+static char img_bits[] = {
+0x1f, 0x1f, 0x11, 0xff, 0xdf, 0x88, 0xd8, 0xf8};} msk {#define img_width 8
+#define img_height 8
+static char img_bits[] = {
+0x1f, 0x1f, 0x11, 0xff, 0xdf, 0x88, 0xd8, 0xf8};} fg #000000}
+images,menu_lock {dat {#define img_width 8
+#define img_height 8
+static char img_bits[] = {
+0x3e, 0x7f, 0x63, 0x7f, 0x7f, 0x77, 0x77, 0x7f};} msk {#define img_width 8
+#define img_height 8
+static char img_bits[] = {
+0x3e, 0x7f, 0x63, 0x7f, 0x7f, 0x77, 0x77, 0x7f};} fg #000000}
+images,menu_readonly {dat {#define img_width 8
+#define img_height 8
+static char img_bits[] = {
+0x3e, 0x7f, 0x63, 0x7f, 0x7f, 0x77, 0x77, 0x7f};} msk {#define img_width 8
+#define img_height 8
+static char img_bits[] = {
+0x3e, 0x7f, 0x63, 0x7f, 0x7f, 0x77, 0x77, 0x7f};} fg #000000}
 images,sidebar_open {dat {#define img_width 5
 #define img_height 15
 static char img_bits[] = {
 0x00, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x00};} msk {#define img_width 5
 #define img_height 15
 static char img_bits[] = {
-0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f};} fg #ffcc00 bg #836603}
+0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f};} fg #0085c3 bg #c9c9c9}
+images,tab_diff {dat {#define img_width 8
+#define img_height 8
+static char img_bits[] = {
+0x1f, 0x1f, 0x11, 0xff, 0xdf, 0x88, 0xd8, 0xf8};} msk {#define img_width 8
+#define img_height 8
+static char img_bits[] = {
+0x1f, 0x1f, 0x11, 0xff, 0xdf, 0x88, 0xd8, 0xf8};} fg #000000}
+images,tab_lock {dat {#define img_width 8
+#define img_height 8
+static char img_bits[] = {
+0x3e, 0x7f, 0x63, 0x7f, 0x7f, 0x77, 0x77, 0x7f};} msk {#define img_width 8
+#define img_height 8
+static char img_bits[] = {
+0x3e, 0x7f, 0x63, 0x7f, 0x7f, 0x77, 0x77, 0x7f};} fg #000000}
+images,tab_readonly {dat {#define img_width 8
+#define img_height 8
+static char img_bits[] = {
+0x3e, 0x7f, 0x63, 0x7f, 0x7f, 0x77, 0x77, 0x7f};} msk {#define img_width 8
+#define img_height 8
+static char img_bits[] = {
+0x3e, 0x7f, 0x63, 0x7f, 0x7f, 0x77, 0x77, 0x7f};} fg #000000}
+menus,-background {white}
+menus,-foreground {black}
+menus,-relief {flat}
+sidebar,-background {#000000}
+sidebar,-foreground {#c9c9c9}
+sidebar,-highlightbackground {#000000}
+sidebar,-highlightcolor {#000000}
+sidebar,-selectbackground {#c9c9c9}
+sidebar,-selectforeground {#000000}
+sidebar,-treestyle {aqua}
 sidebar_scrollbar,-background {#000000}
 sidebar_scrollbar,-foreground {#c9c9c9}
-sidebar_scrollbar,-thickness 15
-ttk_style,disabledfg {#999999}
-ttk_style,frame {#f1f1f1}
-ttk_style,lightframe {#c9c9c9}
-ttk_style,window {#f1f1f1}
+sidebar_scrollbar,-thickness {15}
+syntax,background {#f1f1f1}
+syntax,border_highlight {gold}
+syntax,comments {#999999}
+syntax,cursor {#000000}
+syntax,difference_add {#e9ffe9}
+syntax,difference_sub {#ffe9e9}
+syntax,foreground {#000000}
+syntax,highlighter {yellow}
+syntax,keywords {#993300}
+syntax,line_number {#c9c9c9}
+syntax,meta {#c9c9c9}
+syntax,miscellaneous1 {#0099cc}
+syntax,miscellaneous2 {#0099cc}
+syntax,miscellaneous3 {#f73142}
+syntax,numbers {#336699}
+syntax,precompile {#ffffff}
+syntax,punctuation {#7bacca}
+syntax,select_background {blue}
+syntax,select_foreground {white}
+syntax,strings {#ff6600}
+syntax,warning_width {#c9c9c9}
+tabs,-activebackground {#f1f1f1}
+tabs,-background {#c9c9c9}
+tabs,-foreground {#000000}
+tabs,-inactivebackground {#c9c9c9}
+tabs,-relief {flat}
+text_scrollbar,-background {#f1f1f1}
+text_scrollbar,-foreground {#c9c9c9}
+text_scrollbar,-thickness {15}
 ttk_style,dark {#cfcdc8}
 ttk_style,darker {#bab5ab}
 ttk_style,darkest {#9e9a91}
+ttk_style,disabledfg {#999999}
+ttk_style,frame {#c9c9c9}
 ttk_style,lighter {#000000}
 ttk_style,lightest {#000000}
+ttk_style,lightframe {#c9c9c9}
 ttk_style,selectbg {#4a6984}
 ttk_style,selectfg {#ffffff}
-text_scrollbar,-background {#f1f1f1}
-text_scrollbar,-foreground {#c9c9c9}
-text_scrollbar,-thickness 15
-sidebar,-foreground {#f1f1f1}
-sidebar,-background {#000000}
-sidebar,-selectbackground {#c9c9c9}
-sidebar,-selectforeground {#000000}
-sidebar,-highlightbackground {#000000}
-sidebar,-highlightcolor {#000000}
-syntax,precompile {#ffffff}
-syntax,keywords {#993300}
-syntax,line_number {#c9c9c9}
-syntax,difference_add {#e9ffe9}
-syntax,numbers {#336699}
-syntax,border_highlight gold
-syntax,select_background blue
-syntax,highlighter yellow
-syntax,background {#f1f1f1}
-syntax,strings {#ff6600}
-syntax,select_foreground white
-syntax,punctuation {#7bacca}
-syntax,foreground {#000000}
-syntax,difference_sub {#ffe9e9}
-syntax,warning_width {#c9c9c9}
-syntax,miscellaneous1 {#0099cc}
-syntax,miscellaneous2 {#0099cc}
-syntax,comments {#999999}
-syntax,cursor {#000000}
-syntax,miscellaneous3 {#f8fbb1}
-syntax,meta {#c9c9c9}
-

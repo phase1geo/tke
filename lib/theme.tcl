@@ -219,7 +219,6 @@ namespace eval theme {
         }
       }
       photo {
-        array set img_info {file {}}
         if {[info exists opts(-file)]} {
           set img_info(dir)  "install"
           set img_info(file) [file tail $opts(-file)]
@@ -313,10 +312,19 @@ namespace eval theme {
         lset data($key) $fields(value) $contents($key)
       } else {
         set default_value [lindex $data($key) $fields(default)]
-        if {([lindex $data($key) $fields(type)] eq "color") && [string is integer $default_value]} {
-          lset data($key) $fields(value) [lindex $data(swatch) $default_value]
-        } else {
-          lset data($key) $fields(value) $default_value
+        switch [lindex $data($key) $fields(type)] {
+          color {
+            lset data($key) $fields(value) [expr {[string is integer $default_value] ? [lindex $data(swatch) $default_value] : $default_value}]
+          }
+          image {
+            array set value $default_value
+            unset -nocomplain value(basecolor)
+            lset data($key) $fields(value) [array get value]
+            array unset value
+          }
+          default {
+            lset data($key) $fields(value) $default_value
+          }
         }
       }
       lset data($key) $fields(changed) 1
@@ -543,13 +551,14 @@ namespace eval theme {
         switch [lindex $data($name) $fields(type)] {
           image {
             array set default_value [lindex $data($name) $fields(default)]
+            puts "cat: $category, opt: $opt, value: [lindex $data($name) $fields(value)]"
             $tbl cellconfigure $row,value \
               -image      [convert_image [lindex $data($name) $fields(value)] $opt] \
               -background [lindex $data($default_value(basecolor)) $fields(value)]
             lappend basecolor_map($default_value(basecolor)) $row
           }
           color {
-            set color [lindex $data($name) $fields(default)]
+            set color [lindex $data($name) $fields(value)]
             puts "name: $name, color: $color"
             $tbl cellconfigure $row,value \
               -background $color \
@@ -744,7 +753,7 @@ namespace eval theme {
     set name [ttk::style theme use]
 
     # Get the ttk style option/value pairs
-    array set opts [get_category_options ttk_style]
+    array set opts [get_category_options ttk_style 1]
 
     # Configure the theme
     ttk::style theme settings $name {
