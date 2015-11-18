@@ -462,14 +462,10 @@ namespace eval themer {
 
     lassign [$data(widgets,cat) formatinfo] key row col
 
-    set parent [$data(widgets,cat) parentkey $row]
-    set opt    [$data(widgets,cat) cellcget $row,opt -text]
-    set cat    [$data(widgets,cat) cellcget $row,category -text]
-
-    if {($parent eq "root") || ($cat eq "images")} {
+    # Category identifier and images should return the empty string; otherwise, return the value
+    if {([$data(widgets,cat) parentkey $row] eq "root") ||
+        ([$data(widgets,cat) cellcget $row,category -text] eq "images")} {
       return ""
-    } elseif {[theme::get_type $cat $opt] eq "color"} {
-      return [get_color $value]
     } else {
       return $value
     }
@@ -1295,11 +1291,13 @@ namespace eval themer {
     # Change table values
     for {set i 0} {$i < [$data(widgets,cat) size]} {incr i} {
       if {[set category [$data(widgets,cat) cellcget $i,category -text]] ne ""} {
-        if {[theme::get_type $category [$data(widgets,cat) cellcget $i,opt -text]] eq "color"} {
-          set value [split [$data(widgets,cat) cellcget $i,value -text] ,]
-          if {([llength $value] > 1) && ([lindex $value 0] eq $orig_color)} {
+        set opt [$data(widgets,cat) cellcget $i,opt -text]
+        if {([theme::get_type $category $opt] eq "color") && [theme::meta_do exists $category $opt]} {
+          set value [split [theme::meta_do get $category $opt] ,]
+          if {[lindex $value 0] eq $orig_color)} {
             lset value 0 $color
-            set_cell_color $i [join $value ,] $color
+            theme::meta_do set $category $opt [join $value ,]
+            theme::set_themer_category_table_row $data(widgets,cat) $i [get_color [join $value ,]]
           }
         }
       }
@@ -1333,6 +1331,9 @@ namespace eval themer {
       1 { pack forget $data(widgets,plus_text) }
     }
 
+    # Get the color being deleted
+    set orig_color [theme::swatch_do index $pos]
+
     # Delete the swatch value from the list
     if {!$force} {
       theme::swatch_do delete $pos
@@ -1341,16 +1342,10 @@ namespace eval themer {
     # Make table colors dependent on this color independent
     for {set i 0} {$i < [$data(widgets,cat) size]} {incr i} {
       if {[set category [$data(widgets,cat) cellcget $i,category -text]] ne ""} {
-        if {[theme::get_type $category [$data(widgets,cat) cellcget $i,opt -text]] eq "color"} {
-          switch [llength [set values [split [$data(widgets,cat) cellcget $i,value -text] ,]]] {
-            2 {
-              set color [utils::auto_adjust_color [lindex $values 0] [lindex $values 1] manual]
-              $data(widgets,cat) cellconfigure $i,value -text $color
-            }
-            3 {
-              set color [utils::auto_mix_colors [lindex $values 0] [lindex $values 1] [lindex $values 2]]
-              $data(widgets,cat) cellconfigure $i,value -text $color
-            }
+        set opt [$data(widgets,cat) cellcget $i,opt -text]
+        if {([theme::get_type $category $opt] eq "color") && [theme::meta_do exists $category $opt]} {
+          if {[lindex [split [theme::meta_do get $category $opt] ,] 0] eq $orig_color)} {
+            theme::meta_do delete $category $opt
           }
         }
       }

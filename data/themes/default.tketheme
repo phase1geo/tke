@@ -1,5 +1,4 @@
 swatch {black #282828 white}
-meta {}
 menus,-relief flat
 tabs,-background #282828
 tabs,-foreground white
