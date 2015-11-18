@@ -165,6 +165,9 @@ namespace eval themer {
     # Make the preview button pressable
     $data(widgets,preview) state !disabled
 
+    # If the open frame is shown, show the normal button bar
+    end_open_frame
+
     # Update the title bar
     wm title .thmwin [msgcat::mc "Theme Editor * %s" $data(curr_theme)]
 
@@ -1203,8 +1206,8 @@ namespace eval themer {
       add_swatch $color
     }
 
-    # Clear the table
-    $data(widgets,cat) delete 0 end
+    # Clear the detail frame
+    catch { pack forget {*}[pack slaves $data(widgets,df)] }
 
     # Insert categories
     theme::populate_themer_category_table $data(widgets,cat)
@@ -1426,10 +1429,17 @@ namespace eval themer {
   # filesystem.
   proc export {} {
 
+    # Get the save filename
     if {[set fname [tk_getSaveFile -confirmoverwrite 1 -defaultextension .tketheme -parent .thmwin -title [msgcat::mc "Export theme"]]] ne ""} {
+
+      # Write the theme file
       if {[catch { theme::write_tketheme $fname } rc]} {
         tk_messageBox -parent .thmwin -icon error -message [msgcat::mc "Export Error"] -detail $rc -default ok -type ok
       }
+
+      # Make the save frame disappear
+      end_save_frame
+
     }
 
   }

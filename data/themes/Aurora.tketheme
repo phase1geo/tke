@@ -8,7 +8,6 @@ static unsigned char close_bits[] = {
 static unsigned char close_bits[] = {
    0x44, 0xee, 0x7c, 0x38, 0x7c, 0xee, 0x44, 0x00};
 }}
-images,logo {dir install file tke_logo_64.gif}
 images,menu_diff {dat {#define img_width 8
 #define img_height 8
 static char img_bits[] = {
@@ -96,7 +95,7 @@ syntax,line_number {#4e4b68}
 syntax,meta {#4e4b68}
 syntax,miscellaneous1 {#aaaaaa}
 syntax,miscellaneous2 {#d9903b}
-syntax,miscellaneous3 {#5b56f3}
+syntax,miscellaneous3 {#8474e4}
 syntax,numbers {#3f89ff}
 syntax,precompile {#7877ff}
 syntax,punctuation {#ececec}

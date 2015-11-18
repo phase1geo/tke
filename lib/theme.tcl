@@ -551,7 +551,6 @@ namespace eval theme {
         switch [lindex $data($name) $fields(type)] {
           image {
             array set default_value [lindex $data($name) $fields(default)]
-            puts "cat: $category, opt: $opt, value: [lindex $data($name) $fields(value)]"
             $tbl cellconfigure $row,value \
               -image      [convert_image [lindex $data($name) $fields(value)] $opt] \
               -background [lindex $data($default_value(basecolor)) $fields(value)]
@@ -559,7 +558,6 @@ namespace eval theme {
           }
           color {
             set color [lindex $data($name) $fields(value)]
-            puts "name: $name, color: $color"
             $tbl cellconfigure $row,value \
               -background $color \
               -foreground [utils::get_complementary_mono_color $color]
