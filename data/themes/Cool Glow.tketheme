@@ -125,7 +125,7 @@ ttk_style,dark {#cfcdc8}
 ttk_style,darker {#bab5ab}
 ttk_style,darkest {#9e9a91}
 ttk_style,disabledfg {#999999}
-ttk_style,frame {#0e1145,30}
+ttk_style,frame {#141863}
 ttk_style,lighter {#e0e0e0}
 ttk_style,lightest {#e0e0e0}
 ttk_style,lightframe {#0e1145}
