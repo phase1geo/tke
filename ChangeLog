@@ -1,43 +1,149 @@
-changeset:   1457:3d306d2f0537
-tag:         devel-1.9.8
+changeset:   1462:752741c28dfb
+tag:         devel-1.9.9
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Nov 04 09:49:07 2015 -0600
+date:        Thu Nov 05 09:04:36 2015 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.9.8 release
+ChangeLog for devel-1.9.9 release
 
 
-changeset:   1458:fd5ad586efd7
+changeset:   1463:9e7255bf9e30
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Nov 04 09:49:12 2015 -0600
+date:        Thu Nov 05 09:04:41 2015 -0600
 files:       .hgtags
 description:
-Added tag devel-1.9.8 for changeset 3d306d2f0537
+Added tag devel-1.9.9 for changeset 752741c28dfb
 
 
-changeset:   1459:2c3a7f8dc631
+changeset:   1464:7d168ca26390
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Nov 04 19:34:38 2015 -0600
-files:       lib/bitmap.tcl lib/completer.tcl lib/themer.tcl lib/version.tcl
+date:        Fri Nov 06 23:36:59 2015 -0600
+files:       lib/theme.tcl lib/version.tcl
 description:
-* Fixing syntax error in completer for single quotes.
-* Adding initial support for monochrome bitmaps (work in progress).
+* Checkpointing work on theme namespace.
 
 
-changeset:   1460:6327acd0e7c1
+changeset:   1465:481a2f0b02da
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 10 10:24:34 2015 -0600
+files:       data/themes/Aurora.tketheme data/themes/Cool Glow.tketheme data/themes/Fluidvision.tketheme data/themes/Juicy.tketheme data/themes/Made of Code.tketheme data/themes/Monokai.tketheme data/themes/Notebook.tketheme data/themes/Ruby Blue.tketheme data/themes/choco.tketheme data/themes/default.tketheme data/themes/idleFingers.tketheme data/themes/minimal_Theme.tketheme data/themes/oscuro.tketheme data/themes/yellowStone.tketheme lib/gui.tcl lib/menus.tcl lib/sidebar.tcl lib/syntax.tcl lib/theme.tcl lib/themer.tcl lib/themes.tcl lib/tke.tcl lib/version.tcl
+description:
+* Checkpointing work on new theme namespace (still a work in progress).
+
+
+changeset:   1466:9edbe74862b6
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu Nov 05 00:08:34 2015 -0600
-files:       lib/bitmap.tcl lib/themer.tcl lib/utils.tcl lib/version.tcl
+date:        Tue Nov 10 17:15:33 2015 -0600
+files:       data/themes/minimal_Theme.tketheme lib/theme.tcl lib/themes.tcl lib/tke.tcl lib/version.tcl
 description:
-* Fixing mono/dual bitmap switching.
+* Fixing code issues related to application startup (still an issue with bitmap image colors).
 
 
-changeset:   1461:41998f5f812b
+changeset:   1467:cea02f828071
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 10 20:26:54 2015 -0600
+files:       lib/gui.tcl lib/theme.tcl lib/version.tcl
+description:
+* Checkpointing fixes to theming.
+
+
+changeset:   1468:8754f94b3eca
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Nov 11 00:54:40 2015 -0600
+files:       lib/theme.tcl lib/themer.tcl lib/version.tcl
+description:
+* Fixing issues with main theming.
+* Starting to fix issues with themer and new theme namespace.
+
+
+changeset:   1469:61b7ab64495a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Nov 11 09:38:26 2015 -0600
+files:       lib/theme.tcl lib/themer.tcl lib/version.tcl
+description:
+* Checkpointing work on themer.
+
+
+changeset:   1470:c37c01994013
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Nov 11 11:52:47 2015 -0600
+files:       data/themes/Aurora.tketheme data/themes/Cool Glow.tketheme data/themes/minimal_Theme.tketheme lib/bitmap.tcl lib/theme.tcl lib/themer.tcl lib/themes.tcl lib/version.tcl
+description:
+* Fixing themer issues.
+
+
+changeset:   1471:2643525af264
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Nov 12 03:31:59 2015 -0600
+files:       data/themes/Aurora.tketheme data/themes/Cool Glow.tketheme data/themes/minimal_Theme.tketheme lib/theme.tcl lib/themer.tcl lib/version.tcl
+description:
+* Checkpointing themer work.
+
+
+changeset:   1472:9245ad39fde0
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 14 09:40:49 2015 -0600
+files:       data/themes/Aurora.tketheme data/themes/Cool Glow.tketheme data/themes/minimal_Theme.tketheme lib/theme.tcl lib/themer.tcl lib/utils.tcl lib/version.tcl
+description:
+* Checkpointing work on themer.
+
+
+changeset:   1473:66d6f7b5620f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Nov 16 09:31:46 2015 -0600
+files:       lib/bitmap.tcl lib/gui.tcl lib/sidebar.tcl lib/theme.tcl lib/themer.tcl lib/version.tcl
+description:
+* Checkpointing themer work.
+
+
+changeset:   1474:ac2063f2dbac
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Nov 16 20:59:29 2015 -0600
+files:       lib/bitmap.tcl lib/gui.tcl lib/theme.tcl lib/themer.tcl lib/version.tcl
+description:
+* Checkpointing themer work.
+
+
+changeset:   1475:dd5dba50fc04
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Nov 17 00:31:40 2015 -0600
+files:       lib/bitmap.tcl lib/theme.tcl lib/themer.tcl lib/themes.tcl lib/version.tcl
+description:
+* Checkpointing themer work.
+
+
+changeset:   1476:f01b7263b447
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 17 09:25:17 2015 -0600
+files:       lib/theme.tcl lib/themer.tcl lib/version.tcl
+description:
+* Checkpointing themer work.
+
+
+changeset:   1477:b6a5ec6bf8e2
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Nov 17 18:28:41 2015 -0600
+files:       data/themes/Aurora.tketheme data/themes/Cool Glow.tketheme data/themes/Fluidvision.tketheme data/themes/Juicy.tketheme data/themes/Made of Code.tketheme data/themes/Monokai.tketheme data/themes/Notebook.tketheme data/themes/Ruby Blue.tketheme data/themes/choco.tketheme data/themes/default.tketheme data/themes/idleFingers.tketheme data/themes/minimal_Theme.tketheme data/themes/oscuro.tketheme data/themes/yellowStone.tketheme lib/theme.tcl lib/themer.tcl lib/version.tcl
+description:
+* Checkpointing themer work.
+
+
+changeset:   1478:65adb4451d5b
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Nov 18 00:48:13 2015 -0600
+files:       data/themes/Cool Glow.tketheme data/themes/Fluidvision.tketheme data/themes/Juicy.tketheme data/themes/Made of Code.tketheme data/themes/Monokai.tketheme data/themes/Notebook.tketheme data/themes/Ruby Blue.tketheme data/themes/choco.tketheme data/themes/default.tketheme data/themes/idleFingers.tketheme data/themes/oscuro.tketheme data/themes/yellowStone.tketheme lib/theme.tcl lib/version.tcl
+description:
+* Fixing themer issues.
+* Updating all TKE themes.
+
+
+changeset:   1479:e49e3f618c7f
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Nov 05 09:03:09 2015 -0600
-files:       lib/themer.tcl lib/version.tcl
+date:        Wed Nov 18 08:42:52 2015 -0600
+files:       data/themes/Aurora.tketheme lib/theme.tcl lib/themer.tcl lib/version.tcl
 description:
-* Adding UI tweaks to prompt for saving and update the title bar properly.
+* Fixing a few UI issues with the themer window.
+* Updating Aurora miscellaneous3 color.
 
 
