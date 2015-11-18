@@ -1,5 +1,4 @@
 swatch {#f1f1f1 #c9c9c9 #000000}
-meta {}
 menus,-relief flat
 tabs,-background {#c9c9c9}
 tabs,-foreground {#000000}

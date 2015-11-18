@@ -296,15 +296,14 @@ namespace eval theme {
       set abg [[ns utils]::auto_adjust_color $contents(background) 40]
       set contents(syntax) [array get contents]
       set contents(swatch) [list $bg $fg $abg]
-      set contents(meta)   [list]
     }
 
     # Copy the original data structure into the current data structure
+    array unset data
     array set data [array get orig_data]
 
-    # Load the swatch and meta data
+    # Load the swatch and extra data
     set data(swatch) $contents(swatch)
-    set data(meta)   $contents(meta)
     set data(name)   [file rootname [file tail $theme_file]]
     set data(fname)  $theme_file
 
@@ -337,7 +336,6 @@ namespace eval theme {
     }
 
     puts $rc "swatch {$data(swatch)}"
-    puts $rc "meta {$data(meta)}"
     foreach key [lsort [array names data *,*]] {
       puts $rc "$key {[lindex $data($key) $fields(value)]}"
     }
@@ -432,6 +430,7 @@ namespace eval theme {
       }
     }
 
+    array unset data
     array set data [array get orig_data]
 
     # Let's take a stab at good defaults
@@ -466,7 +465,6 @@ namespace eval theme {
 
     # Setup a default swatch and clear the meta data
     set data(swatch) [list $labels(background) $labels(warning_width) $labels(foreground)]
-    set data(meta)   [list]
 
   }
 
@@ -552,6 +550,7 @@ namespace eval theme {
           }
           color {
             set color [lindex $data($name) $fields(default)]
+            puts "name: $name, color: $color"
             $tbl cellconfigure $row,value \
               -background $color \
               -foreground [utils::get_complementary_mono_color $color]
@@ -920,21 +919,14 @@ namespace eval theme {
 
     variable data
 
-    set key $category,$opt
-
-    array set meta $data(meta)
+    # Create the lookup key
+    set key meta,$category,$opt
 
     switch $action {
-      exists { return [info exists meta($key)] }
-      get    { return $meta($key) }
-      set    {
-        set meta($key) $args
-        set data(meta) [array get meta]
-      }
-      delete {
-        unset -nocomplain meta($key)
-        set data(meta) [array get meta]
-      }
+      exists { return [info exists data($key)] }
+      get    { return $data($key) }
+      set    { set data($key) $args }
+      delete { unset -nocomplain data($key) }
     }
 
   }

@@ -1,5 +1,4 @@
 swatch {{#302e40} #4e4b68 #ececec #000000}
-meta {}
 images,form_close {fg white dat {#define close_width 8
 #define close_height 8
 static unsigned char close_bits[] = {

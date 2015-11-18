@@ -1,9 +1,7 @@
 swatch {
   {#302d26} #5a5a5a #ffffff
 }
-meta {
-  ttk_style,lightframe {#5a5a5a,22}
-}
+meta,ttk_style,lightframe {#5a5a5a,22}
 images,form_close {fg white dat {#define close_width 8
 #define close_height 8
 static unsigned char close_bits[] = {
