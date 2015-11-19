@@ -28,49 +28,35 @@ namespace eval themes {
 
   variable curr_theme ""
 
-  array set files       {}
-  array set themes      {}
-  array set theme       {}
-  array set base_colors {}
+  array set files {}
 
   ######################################################################
   # Loads the theme information.
   proc load {} {
 
     variable files
-    variable themes
-    variable base_colors
+
+    # Trace changes to syntax preference values
+    if {[array size files] == 0} {
+      trace variable [ns preferences]::prefs(Appearance/Theme)    w [ns themes]::handle_theme_change
+      trace variable [ns preferences]::prefs(Appearance/Colorize) w [ns themes]::handle_colorize_change
+    }
 
     # Reset the files/themes arrays and unregister launcher items
     array unset files
-    array unset themes
     [ns launcher]::unregister [msgcat::mc "Theme:*"]
 
     # Load the tke_dir theme files
     set tfiles [glob -nocomplain -directory [file join $::tke_dir data themes] *.tketheme]
 
     # Load the tke_home theme files
-    lappend tfiles {*}[glob -nocomplain -directory [file join $::tke_home themes] *.tketheme]
+    lappend tfiles {*}[glob -nocomplain -directory [file join $::tke_home themes] -type d *]
 
     # Get the theme information
     foreach tfile $tfiles {
       set name         [file rootname [file tail $tfile]]
       set files($name) $tfile
       [ns launcher]::register [msgcat::mc "Theme:  %s" $name] [list [ns themes]::set_theme $name]
-    }
-
-    # Only perform the following on the first call of this procedure
-    if {![info exists base_colors(light)]} {
-
-      # Setup the base colors
-      set base_colors(light) [list [[ns utils]::get_default_background] [[ns utils]::get_default_foreground]]
-      set base_colors(dark)  [list "#303030" "#b0b0b0"]
-
-      # Trace changes to syntax preference values
-      trace variable [ns preferences]::prefs(General/WindowTheme) w [ns themes]::handle_theme_change
-      trace variable [ns preferences]::prefs(Appearance/Theme)    w [ns themes]::handle_theme_change
-      trace variable [ns preferences]::prefs(Appearance/Colorize) w [ns themes]::handle_colorize_change
-
     }
 
   }
@@ -116,56 +102,49 @@ namespace eval themes {
 
   }
 
-  if {0} {
-    # Set the theme in the UI
-    if {($win_theme eq "light") || ($win_theme eq "dark")} {
+  ######################################################################
+  # Imports the contents of the given theme file (which must have either
+  # the .tketheme or .tkethemz file extensions).  Imports the theme into
+  # the user directory.
+  proc import {parent_win fname} {
 
-      # Create the ttk theme if it currently does not exist
-      if {[lsearch [ttk::style theme names] $win_theme] == -1} {
-        create_ttk_theme $win_theme
-      }
+    variable files
 
-      # Configure the theme
-      set_ttk_theme $win_theme [get_ttk_theme_colors {*}$base_colors($win_theme)]
-
-      # Set the ttk theme
-      ttk::style theme use $win_theme
-
-      set bg           [[ns utils]::get_default_background]
-      set fg           [[ns utils]::get_default_foreground]
-      set abg          [[ns utils]::auto_adjust_color $bg 30]
-      set menu_opts    [set theme(menus)             [list -background $bg -foreground $fg -relief flat]]
-      set tab_opts     [set theme(tabs)              [list -background $bg -foreground $fg -activebackground $abg -inactivebackground $bg]]
-      set tsb_opts     [set theme(text_scrollbar)    [list -background $syntax(background) -foreground $syntax(warning_width)]]
-      set sidebar_opts [set theme(sidebar)           [list -foreground $fg -background $bg -selectbackground $abg -selectforeground $fg -highlightbackground $bg -highlightcolor $bg]]
-      set ssb_opts     [set theme(sidebar_scrollbar) [list -foreground $abg -background $bg]]
-      set syntax_opts  $theme(syntax)
-
-      array set image_opts [list sidebar_open [list]]
-
-    } else {
-
-      # Create the ttk theme if it currently does not exist
-      if {[lsearch [ttk::style theme names] theme-$theme_name] == -1} {
-        create_ttk_theme theme-$theme_name
-      }
-
-      # Configure the theme
-      set_ttk_theme theme-$theme_name $theme(ttk_style)
-
-      # Set the ttk theme
-      ttk::style theme use "theme-$theme_name"
-
-      set menu_opts    $theme(menus)
-      set tab_opts     $theme(tabs)
-      set tsb_opts     $theme(text_scrollbar)
-      set sidebar_opts $theme(sidebar)
-      set ssb_opts     $theme(sidebar_scrollbar)
-      set syntax_opts  $theme(syntax)
-
-      array set image_opts $theme(images)
-
+    # Unzip the file contents
+    if {[catch { exec -ignorestderr unzip $fname -d [file join $::tke_home themes] } rc]} {
+      tk_messageBox -parent $parent_win -icon error -type ok -default ok \
+        -message "Unable to unzip theme file" -detail $rc
+      return
     }
+
+    # Figure out the theme name
+    set theme [file rootname [file tail $fname]]
+
+    # Reload the available themes
+    load
+
+  }
+
+  ######################################################################
+  # Exports the contents of the given theme to the given .tkethemz
+  # directory.
+  proc export {parent_win theme odir} {
+
+    # Get the current working directory
+    set pwd [pwd]
+
+    # Set the current working directory to the user themes directory
+    cd [file join $::tke_home themes]
+
+    # Perform the archive
+    if {[catch { exec -ignorestderr zip [file join $odir $theme.tkethemz] $theme } rc]} {
+      tk_messageBox -parent $parent_win -icon error -type ok -default ok \
+        -message "Unable to zip theme file"
+    }
+
+    # Restore the current working directory
+    cd $pwd
+
   }
 
   ######################################################################
