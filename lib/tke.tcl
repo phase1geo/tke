@@ -215,7 +215,8 @@ if {$tcl_platform(platform) eq "windows"} {
                 return
               }
             }
-            .tketheme {
+            .tketheme -
+            .tkethemz {
               set ans [tk_messageBox -default yes -icon question -message [msgcat::mc "Edit theme?"] -parent . -type yesnocancel]
               if {$ans eq "yes"} {
                 themer::import_tke $name

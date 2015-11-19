@@ -1366,7 +1366,8 @@ namespace eval themer {
     # Get the theme file to import
     if {[set theme [tk_getOpenFile -parent .thmwin -title [msgcat::mc "Import Theme File"] -filetypes {{{TKE Theme} {.tketheme}} {{TextMate Theme} {.tmtheme}}}]] ne ""} {
       switch -exact [string tolower [file extension $theme]] {
-        .tketheme { import_tke $theme }
+        .tketheme -
+        .tkethemz { import_tke $theme }
         .tmtheme  { import_tm  $theme }
         default   {}
       }
