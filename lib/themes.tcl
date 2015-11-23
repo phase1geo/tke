@@ -31,10 +31,24 @@ namespace eval themes {
   array set files {}
 
   ######################################################################
+  # Updates the user's home themes directory
+  proc update_themes_dir {} {
+
+    foreach fname [glob -nocomplain -directory [file join $::tke_home themes] *.tketheme] {
+      file mkdir [file rootname $fname]
+      file rename $fname [file rootname $fname]
+    }
+
+  }
+
+  ######################################################################
   # Loads the theme information.
   proc load {} {
 
     variable files
+
+    # Update the user's themes directory
+    update_themes_dir
 
     # Trace changes to syntax preference values
     if {[array size files] == 0} {
@@ -50,7 +64,11 @@ namespace eval themes {
     set tfiles [glob -nocomplain -directory [file join $::tke_dir data themes] *.tketheme]
 
     # Load the tke_home theme files
-    lappend tfiles {*}[glob -nocomplain -directory [file join $::tke_home themes] -type d *]
+    foreach item [glob -nocomplain -directory [file join $::tke_home themes] -type d *] {
+      if {[file exists [file join $item [file tail $item].tketheme]]} {
+        lappend tfiles [file join $item [file tail $item.tketheme]]
+      }
+    }
 
     # Get the theme information
     foreach tfile $tfiles {
@@ -107,8 +125,6 @@ namespace eval themes {
   # the .tketheme or .tkethemz file extensions).  Imports the theme into
   # the user directory.
   proc import {parent_win fname} {
-
-    variable files
 
     # Unzip the file contents
     if {[catch { exec -ignorestderr unzip $fname -d [file join $::tke_home themes] } rc]} {
