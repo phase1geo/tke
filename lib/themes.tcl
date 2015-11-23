@@ -133,9 +133,6 @@ namespace eval themes {
       return
     }
 
-    # Figure out the theme name
-    set theme [file rootname [file tail $fname]]
-
     # Reload the available themes
     load
 
@@ -162,7 +159,7 @@ namespace eval themes {
     cd $odir
 
     # Perform the archive
-    if {[catch { exec -ignorestderr zip [file join $theme.tkethemz] $theme } rc]} {
+    if {[catch { exec -ignorestderr zip -r [file join $theme.tkethemz] $theme } rc]} {
       tk_messageBox -parent $parent_win -icon error -type ok -default ok \
         -message "Unable to zip theme file"
     }
