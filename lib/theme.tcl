@@ -477,6 +477,54 @@ namespace eval theme {
   }
 
   ######################################################################
+  # Exports the current theme into the specified output directory.
+  # Returns 1 if the exporting of information is successful; otherwise,
+  # returns 0.
+  proc export {odir} {
+
+    variable data
+    variable fields
+
+    # Get a copy of the data to write
+    array set export_data [array get data]
+
+    # Check to see if there are any photos that need to copied to the
+    # output directory
+    foreach key [array get data images,*] {
+      array set value_array [lindex $data($key) $fields(value)]
+      if {[info exists value_array(dir)] && ($value_array(dir) ne "install")} {
+        if {$value_array(dir) eq "user"} {
+          set dir [file join $::tke_home themes $data(name)]
+        } else {
+          set dir $value_array(dir)
+          set value_array(dir) "user"
+          lset export_data($key) $fields(value) [array get value_array]
+        }
+        if {[catch { file copy -force [file join $dir $value_array(file)] $odir }]} {
+          return 0
+        }
+      }
+    }
+
+    # Open the theme file for writing
+    if {[catch { open [file join $odir $data(name).tketheme] w } rc]} {
+      return 0
+    }
+
+    # Write the contents
+    puts $rc "swatch {$export_data(swatch)}"
+    foreach key [lsort [array names export_data *,*]] {
+      puts $rc "$key {[lindex $export_data($key) $fields(value)]}"
+    }
+
+    # Close the file
+    close $rc
+
+    return 1
+
+  }
+
+  ######################################################################
   # Generates a valid RGB color.
   proc normalize_color {color} {
 
