@@ -490,7 +490,7 @@ namespace eval theme {
 
     # Check to see if there are any photos that need to copied to the
     # output directory
-    foreach key [array get data images,*] {
+    foreach key [array names data images,*] {
       array set value_array [lindex $data($key) $fields(value)]
       if {[info exists value_array(dir)] && ($value_array(dir) ne "install")} {
         if {$value_array(dir) eq "user"} {
