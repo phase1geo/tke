@@ -146,20 +146,33 @@ namespace eval themes {
   # directory.
   proc export {parent_win theme odir} {
 
+    # Create the theme directory
+    file mkdir [set theme_dir [file join $odir $theme]]
+
+    # Populate the theme directory with the given contents
+    if {![theme::export $theme_dir]} {
+      tk_messageBox -parent $parent_win -icon error -type ok -default ok \
+        -message "Unable to export theme contents"
+    }
+
     # Get the current working directory
     set pwd [pwd]
 
     # Set the current working directory to the user themes directory
-    cd [file join $::tke_home themes]
+    cd $odir
 
     # Perform the archive
-    if {[catch { exec -ignorestderr zip [file join $odir $theme.tkethemz] $theme } rc]} {
+    if {[catch { exec -ignorestderr zip [file join $theme.tkethemz] $theme } rc]} {
       tk_messageBox -parent $parent_win -icon error -type ok -default ok \
         -message "Unable to zip theme file"
     }
 
     # Restore the current working directory
     cd $pwd
+
+    # Delete the theme directory and its contents
+    file delete {*}[glob -nocomplain -directory $theme_dir *]
+    file delete -force $theme_dir
 
   }
 

@@ -1431,12 +1431,10 @@ namespace eval themer {
   proc export {} {
 
     # Get the save filename
-    if {[set fname [tk_getSaveFile -confirmoverwrite 1 -defaultextension .tketheme -parent .thmwin -title [msgcat::mc "Export theme"]]] ne ""} {
+    if {[set odir [tk_chooseDirectory -parent .thmwin -title [msgcat::mc "Export theme to directory"]]] ne ""} {
 
-      # Write the theme file
-      if {[catch { theme::write_tketheme $fname } rc]} {
-        tk_messageBox -parent .thmwin -icon error -message [msgcat::mc "Export Error"] -detail $rc -default ok -type ok
-      }
+      # Export the theme
+      themes::export .thmwin [theme::get_current_theme] $odir
 
       # Make the save frame disappear
       end_save_frame
