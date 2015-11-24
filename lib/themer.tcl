@@ -330,7 +330,7 @@ namespace eval themer {
     destroy .thmwin
 
     # Cause the original theme to be reloaded in the UI
-    theme::load_theme $data(original_theme)
+    theme::load_theme [themes::get_file $data(original_theme)]
 
   }
 
@@ -667,7 +667,6 @@ namespace eval themer {
 
     # Create photo frame
     set data(widgets,image_pf) [ttk::frame $data(widgets,image).pf]
-    pack [set data(widgets,image_pf_preview) [ttk::label      $data(widgets,image).pf.img -image [image create photo]]]                          -padx 2 -pady 2 -fill x -expand yes
     pack [set data(widgets,image_pf_mb_dir)  [ttk::menubutton $data(widgets,image).pf.mb1 -menu [menu $data(widgets,image).pf.mnu1 -tearoff 0]]] -padx 2 -pady 2 -fill x -expand yes
     pack [set data(widgets,image_pf_mb_file) [ttk::menubutton $data(widgets,image).pf.mb2 -menu [menu $data(widgets,image).pf.mnu2 -tearoff 0]]] -padx 2 -pady 2 -fill x -expand yes
 
@@ -681,7 +680,7 @@ namespace eval themer {
 
   ######################################################################
   # Gets all of the GIF photos from
-  proc image_photo_dir {type pattern} {
+  proc image_photo_dir {type pattern {fname ""}} {
 
     variable data
 
@@ -695,14 +694,20 @@ namespace eval themer {
         set dirname [msgcat::mc "User Directory"]
       }
       custom  {
-        if {[set dir [tk_chooseDirectory -parent .thmwin]] eq ""} {
-          return
+        if {$fname eq ""} {
+          if {[set dir [tk_chooseDirectory -parent .thmwin]] eq ""} {
+            return
+          }
+        } else {
+          set dir   [file dirname $fname]
+          set fname [file tail $fname]
         }
         set dirname $dir
+        set type    $dir
       }
     }
 
-    # Set the menubutton text
+    # Set the directory menubutton text
     $data(widgets,image_pf_mb_dir) configure -text $dirname
 
     set mnu $data(widgets,image).pf.mnu2
@@ -716,20 +721,45 @@ namespace eval themer {
 
     # Get all of the files in the directory that match the given file pattern
     $mnu delete 0 end
-    foreach fname [glob -nocomplain -directory $dir $pattern] {
-      set img [image create photo -file $fname]
-      $mnu add command -label $fname -image $img -command [list themer::set_photo_image $img]
+    foreach iname [glob -nocomplain -directory $dir $pattern] {
+      set img [image create photo img_[file rootname [file tail $iname]] -file $iname]
+      puts "img: $img"
+      $mnu add command -compound top -label [file tail $iname] -image $img -command [list themer::set_photo_image $img [list dir $type file [file tail $iname]]]
     }
+
+    # Set the filename menubutton text
+    puts "fname: $fname"
+    if {$fname eq ""} {
+      $data(widgets,image_pf_mb_file) configure -image "" -text [msgcat::mc "Select Image"]
+    } else {
+      puts "Setting mb_file image to [file rootname $fname]"
+      $data(widgets,image_pf_mb_file) configure -image img_[file rootname $fname]
+    }
+
+    puts "HERE 1"
 
   }
 
   ######################################################################
   # Displays the given image in the photo preview window.
-  proc set_photo_image {img} {
+  proc set_photo_image {img img_data} {
 
     variable data
 
+    puts "In set_photo_image, img: $img, img_data: $img_data"
+
+    # Set the file menubutton image
     $data(widgets,image_pf_mb_file) configure -image $img
+
+    puts "HERE A"
+
+    # Set the tablelist data
+    theme::set_themer_category_table_row $data(widgets,cat) $data(row) $img_data
+
+    puts "HERE B"
+
+    # Specify that the apply button should be enabled
+    set_theme_modified
 
   }
 
@@ -1082,42 +1112,57 @@ namespace eval themer {
     # Unpack any children in the image frame
     catch { pack forget {*}[pack slaves $data(widgets,image)] }
 
+    # Make the image type selection menubutton visible again
+    pack $data(widgets,image_mb) -padx 2 -pady 2
+
     # Get the value from the table if we dont have it
     if {$value eq ""} {
       set value [$data(widgets,cat) cellcget $data(row),value -text]
     }
 
-    pack $data(widgets,image_mb) -padx 2 -pady 2
+    # Get the image base color from the table
+    set base_color [$data(widgets,cat) cellcget $data(row),value -background]
+
+    # Organize the value into an array
+    array set value_array $value
+    puts "value_array: $value"
 
     switch $type {
       mono {
         $data(widgets,image_mb)    configure -text [msgcat::mc "One-Color Bitmap"]
-        $data(widgets,image_mf_bm) configure -swatches [theme::swatch_do get] -background [$data(widgets,cat) cellcget $data(row),value -background]
-        bitmap::set_from_info $data(widgets,image_mf_bm) $value
-        pack $data(widgets,image_mf) -padx 2 -pady 2
-        if {$orig_value eq ""} {
-          handle_bitmap_changed [bitmap::get_info $data(widgets,image_mf_bm)]
+        $data(widgets,image_mf_bm) configure -swatches [theme::swatch_do get] -background $base_color
+        if {[info exists value_array(dat)]} {
+          bitmap::set_from_info $data(widgets,image_mf_bm) $value
+          if {$orig_value eq ""} {
+            handle_bitmap_changed [bitmap::get_info $data(widgets,image_mf_bm)]
+          }
         }
+        pack $data(widgets,image_mf) -padx 2 -pady 2
       }
       dual {
         $data(widgets,image_mb)    configure -text [msgcat::mc "Two-Color Bitmap"]
-        $data(widgets,image_df_bm) configure -swatches [theme::swatch_do get] -background [$data(widgets,cat) cellcget $data(row),value -background]
-        bitmap::set_from_info $data(widgets,image_df_bm) $value
-        pack $data(widgets,image_df) -padx 2 -pady 2
-        if {$orig_value eq ""} {
-          handle_bitmap_changed [bitmap::get_info $data(widgets,image_df_bm)]
+        $data(widgets,image_df_bm) configure -swatches [theme::swatch_do get] -background $base_color
+        if {[info exists value_array(dat)]} {
+          bitmap::set_from_info $data(widgets,image_df_bm) $value
+          if {$orig_value eq ""} {
+            handle_bitmap_changed [bitmap::get_info $data(widgets,image_df_bm)]
+          }
         }
+        pack $data(widgets,image_df) -padx 2 -pady 2
       }
       photo {
-        array set value_array $value
         $data(widgets,image_mb) configure -text [msgcat::mc "GIF Photo"]
-        switch $value_array(dir) {
-          install { set fname [file join $::tke_dir lib images $value_array(file)] }
-          user    { set fname [file join $::tke_home themes images $value_array(file)] }
-          default { set fname [file join $value_array(dir) $value_array(file)] }
+        [$data(widgets,image_pf_mb_file) cget -menu] configure -background $base_color
+        if {[info exists value_array(dir)]} {
+          switch $value_array(dir) {
+            install { image_photo_dir install *.gif $value_array(file)] }
+            user    { image_photo_dir user    *.gif $value_array(file)] }
+            default { image_photo_dir custom  *.gif [file join $value_array(dir) $value_array(file)] }
+          }
+        } else {
+          $data(widgets,image_pf_mb_dir) configure -text "Select Directory"
+          # TBD - Make the file selection invisible
         }
-        image delete [$data(widgets,image_pf_preview) cget -image]
-        $data(widgets,image_pf_preview) configure -image [image create photo -file $fname]
         pack $data(widgets,image_pf) -padx 2 -pady 2
       }
     }
