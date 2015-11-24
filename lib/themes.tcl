@@ -123,31 +123,37 @@ namespace eval themes {
   ######################################################################
   # Imports the contents of the given theme file (which must have either
   # the .tketheme or .tkethemz file extensions).  Imports the theme into
-  # the user directory.
+  # the user directory.  Returns the name of the installed .tketheme file
+  # if successful; otherwise, returns the empty string.
   proc import {parent_win fname} {
 
+    variable files
+
     # Unzip the file contents
-    if {[catch { exec -ignorestderr unzip $fname -d [file join $::tke_home themes] } rc]} {
+    if {[catch { exec -ignorestderr unzip -u $fname -d [file join $::tke_home themes] } rc]} {
       tk_messageBox -parent $parent_win -icon error -type ok -default ok \
         -message "Unable to unzip theme file" -detail $rc
-      return
+      return ""
     }
 
     # Reload the available themes
     load
+
+    # Return the pathname of the installed .tketheme file
+    return $files([file rootname [file tail $fname]])
 
   }
 
   ######################################################################
   # Exports the contents of the given theme to the given .tkethemz
   # directory.
-  proc export {parent_win theme odir} {
+  proc export {parent_win theme odir creator website} {
 
     # Create the theme directory
     file mkdir [set theme_dir [file join $odir $theme]]
 
     # Populate the theme directory with the given contents
-    if {![theme::export $theme_dir]} {
+    if {![theme::export $theme $theme_dir $creator $website]} {
       tk_messageBox -parent $parent_win -icon error -type ok -default ok \
         -message "Unable to export theme contents"
     }

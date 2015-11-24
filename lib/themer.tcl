@@ -1406,13 +1406,13 @@ namespace eval themer {
     variable data
 
     # Perform the tkethemz import
-    themes::import .thmwin $theme
+    set theme_file [themes::import .thmwin $theme]
 
     # Set the theme
     if {[set_current_theme_to [file rootname [file tail $theme]]]} {
 
       # Read the theme
-      if {[catch { theme::read_tketheme $theme } rc]} {
+      if {[catch { theme::read_tketheme $theme_file } rc]} {
         tk_messageBox -parent .thmwin -icon error -message [msgcat::mc "Import Error"] -detail $rc -default ok -type ok
         return
       }
@@ -1432,15 +1432,119 @@ namespace eval themer {
   # filesystem.
   proc export {} {
 
-    # Get the save filename
-    if {[set odir [tk_chooseDirectory -parent .thmwin -title [msgcat::mc "Export theme to directory"]]] ne ""} {
+    # Get the export information
+    array set expdata [export_win]
+
+    # If the export information exists, export the theme
+    if {[info exists expdata(name)]} {
 
       # Export the theme
-      themes::export .thmwin [theme::get_current_theme] $odir
+      themes::export .thmwin $expdata(name) $expdata(dir) $expdata(creator) $expdata(website)
 
       # Make the save frame disappear
       end_save_frame
 
+    }
+
+  }
+
+  ######################################################################
+  # Displays export window and returns when the user has supplied the
+  # needed information.  Returns the empty list of the user cancels
+  # the export function.
+  proc export_win {} {
+
+    variable export_retval
+
+    toplevel     .expwin
+    wm title     .expwin "Export Theme As"
+    wm resizable .expwin 0 0
+    wm transient .expwin .thmwin
+    wm protocol  .expwin WM_DELETE_WINDOW {
+      set themer::export_retval [list]
+      destroy .expwin
+    }
+
+    ttk::frame     .expwin.f
+    ttk::label     .expwin.f.cl  -text "Created By:"
+    ttk::entry     .expwin.f.ce  -width 50
+    ttk::label     .expwin.f.wl  -text "Website:"
+    ttk::entry     .expwin.f.we  -width 50
+    ttk::separator .expwin.f.sep -orient horizontal
+    ttk::label     .expwin.f.nl  -text "Theme Name:"
+    ttk::entry     .expwin.f.ne  -width 50 -validate key -validatecommand themer::validate_export
+    ttk::label     .expwin.f.dl  -text "Output Directory:"
+    ttk::entry     .expwin.f.de  -width 50 -state disabled
+    ttk::button    .expwin.f.db  -text "Choose" -command {
+      if {[set fname [tk_chooseDirectory -parent .expwin]] ne ""} {
+        .expwin.f.df configure -state normal
+        .expwin.f.df delete 0 end
+        .expwin.f.df insert end $fname
+        .expwin.f.df configure -state disabled
+        themer::validate_export
+      }
+    }
+
+    grid rowconfigure    .expwin.f 2 -weight 1
+    grid columnconfigure .expwin.f 1 -weight 1
+    grid .expwin.f.cl  -row 0 -column 0 -sticky e    -padx 2 -pady 2
+    grid .expwin.f.ce  -row 0 -column 1 -sticky news -padx 2 -pady 2
+    grid .expwin.f.wl  -row 1 -column 0 -sticky e    -padx 2 -pady 2
+    grid .expwin.f.we  -row 1 -column 1 -sticky news -padx 2 -pady 2
+    grid .expwin.f.sep -row 2 -column 0 -sticky news -padx 2 -pady 2 -columnspan 3
+    grid .expwin.f.nl  -row 3 -column 0 -sticky e    -padx 2 -pady 2
+    grid .expwin.f.ne  -row 3 -column 1 -sticky news -padx 2 -pady 2
+    grid .expwin.f.dl  -row 4 -column 0 -sticky e    -padx 2 -pady 2
+    grid .expwin.f.de  -row 4 -column 1 -sticky news -padx 2 -pady 2
+    grid .expwin.f.db  -row 4 -column 2 -sticky news -padx 2 -pady 2
+
+    ttk::frame .expwin.bf
+    ttk::button .expwin.bf.export -text "Export" -command {
+      set themer::export_retval [list \
+        name    [.expwin.f.ne get] \
+        dir     [.expwin.f.de get] \
+        creator [.expwin.f.ce get] \
+        website [.expwin.f.we get] \
+      ]
+      destroy .expwin
+    } -state disabled
+    ttk::button .expwin.bf.cancel -text "Cancel" -command {
+      set themer::export_retval [list]
+      destroy .expwin
+    }
+
+    pack .expwin.bf.cancel -side right -padx 2 -pady 2
+    pack .expwin.bf.export -side right -padx 2 -pady 2
+
+    # Pack the frames
+    pack .expwin.f  -fill x -padx 2 -pady 2
+    pack .expwin.bf -fill x -padx 2 -pady 2
+
+    # Set the focus on the first entry field
+    focus .expwin.f.ce
+
+    # Set the theme name to the current theme name
+    .expwin.f.ne insert end [theme::get_current_theme]
+
+    # Center the window in the .thmwin
+    ::tk::PlaceWindow .expwin widget .thmwin
+
+    # Wait for the window to close
+    tkwait window .expwin
+
+    return $export_retval
+
+  }
+
+  ######################################################################
+  # Checks the window input to determine the state of the Export
+  # button.
+  proc validate_export {} {
+
+    if {([.expwin.f.ne get] ne "") && ([.expwin.f.de get] ne "")} {
+      .expwin.bf.export configure -state normal
+    } else {
+      .expwin.bf.export configure -state disabled
     }
 
   }
