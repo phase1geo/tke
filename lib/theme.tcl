@@ -480,7 +480,7 @@ namespace eval theme {
   # Exports the current theme into the specified output directory.
   # Returns 1 if the exporting of information is successful; otherwise,
   # returns 0.
-  proc export {odir} {
+  proc export {name odir creator website} {
 
     variable data
     variable fields
@@ -507,11 +507,13 @@ namespace eval theme {
     }
 
     # Open the theme file for writing
-    if {[catch { open [file join $odir $data(name).tketheme] w } rc]} {
+    if {[catch { open [file join $odir $name.tketheme] w } rc]} {
       return 0
     }
 
     # Write the contents
+    puts $rc "creator {$creator}"
+    puts $rc "website {$website}"
     puts $rc "swatch {$export_data(swatch)}"
     foreach key [lsort [array names export_data *,*]] {
       puts $rc "$key {[lindex $export_data($key) $fields(value)]}"
