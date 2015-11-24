@@ -1444,7 +1444,7 @@ namespace eval menus {
   proc theme_edit_command {} {
 
     # Edit the current theme
-    themer::edit_theme [theme::get_current_theme]
+    themer::edit_current_theme
 
   }
 

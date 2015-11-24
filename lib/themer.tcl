@@ -81,39 +81,18 @@ namespace eval themer {
 
   ######################################################################
   # Displays the theme editor with the specified theme information.
-  proc edit_theme {theme} {
+  proc edit_current_theme {} {
 
     variable data
 
-    # Get the list of themes
-    load_themes
-
-    # Read the specified theme
-    theme::read_tketheme $data(files,$theme)
+    # Get the current theme name and save it
+    set data(original_theme) [theme::get_current_theme]
 
     # Initialize the themer
     initialize
 
     # Save the current theme
-    set_current_theme_to $theme
-
-  }
-
-  ######################################################################
-  # Loads the contents of the themes directories.
-  proc load_themes {} {
-
-    variable data
-
-    # Clear the themes
-    array unset data files,*
-
-    # Load the tke_dir theme files
-    foreach tdir [list [file join $::tke_dir data themes] [file join $::tke_home themes]] {
-      foreach theme [glob -nocomplain -directory $tdir *.tketheme] {
-        set data(files,[file rootname [file tail $theme]]) $theme
-      }
-    }
+    set_current_theme_to $data(original_theme)
 
   }
 
@@ -351,7 +330,7 @@ namespace eval themer {
     destroy .thmwin
 
     # Cause the original theme to be reloaded in the UI
-    themes::reload
+    theme::load_theme $data(original_theme)
 
   }
 
@@ -391,7 +370,7 @@ namespace eval themer {
     $data(widgets,save_cb) set $data(curr_theme)
 
     # Set the save to directory status
-    if {([file dirname $data(files,$data(curr_theme))] eq $data(theme_dir)) || ![::tke_development]} {
+    if {([file dirname [themes::get_file $data(curr_theme)]] eq $data(theme_dir)) || ![::tke_development]} {
       save_to_directory "user"
     } else {
       save_to_directory "install"
@@ -409,18 +388,18 @@ namespace eval themer {
     set theme_name [$data(widgets,save_cb) get]
 
     if {$data(save_directory) eq "user"} {
-      set theme_file [set data(files,$theme_name) [file join $data(theme_dir) $theme_name.tketheme]]
+      set theme_file [file join $data(theme_dir) $theme_name.tketheme]
     } else {
       set theme_file [file join $::tke_dir data themes $theme_name.tketheme]
-      if {![info exists data(files,$theme_name)]} {
-        set data(files,$theme_name) $theme_file
-      }
     }
 
     # Write the theme to disk
     catch { theme::write_tketheme $theme_file }
 
-    # Save the current theme
+    # Reload the themes
+    themes::load
+
+    # Set the current theme
     set_current_theme_to $theme_name 0
 
     # End the save frame
@@ -435,7 +414,7 @@ namespace eval themer {
     variable data
 
     # Get the current theme file
-    set theme_file $data(files,$data(curr_theme))
+    set theme_file [themes::get_file $data(curr_theme)]
 
     # Write the theme to disk
     catch { theme::write_tketheme $theme_file }
@@ -538,8 +517,7 @@ namespace eval themer {
     $mnu delete 0 end
 
     # Add all available themes (in alphabetical order) to the menu
-    foreach theme [lsort [array names data files,*]] {
-      set theme_name [lindex [split $theme ,] 1]
+    foreach theme_name [themes::get_all_themes] {
       $mnu add command -label $theme_name -command [list themer::preview_theme $theme_name]
     }
 
@@ -555,7 +533,7 @@ namespace eval themer {
     if {[set_current_theme_to $theme]} {
 
       # Reads the contents of the given theme
-      theme::read_tketheme $data(files,$theme)
+      theme::read_tketheme [themes::get_file $theme]
 
       # Display the theme contents in the UI
       initialize
@@ -576,14 +554,8 @@ namespace eval themer {
 
     variable data
 
-    # Get the list of theme names
-    set values [list]
-    foreach theme [lsort [array names data files,*]] {
-      lappend values [lindex [split $theme ,] 1]
-    }
-
     # Set the combobox list to the list of theme values
-    $data(widgets,save_cb) configure -values $values
+    $data(widgets,save_cb) configure -values [themes::get_all_themes]
 
   }
 
@@ -1475,12 +1447,12 @@ namespace eval themer {
     ttk::entry     .expwin.f.ne  -width 50 -validate key -validatecommand themer::validate_export
     ttk::label     .expwin.f.dl  -text "Output Directory:"
     ttk::entry     .expwin.f.de  -width 50 -state disabled
-    ttk::button    .expwin.f.db  -text "Choose" -command {
+    ttk::button    .expwin.f.db  -style BButton -text "Choose" -command {
       if {[set fname [tk_chooseDirectory -parent .expwin]] ne ""} {
-        .expwin.f.df configure -state normal
-        .expwin.f.df delete 0 end
-        .expwin.f.df insert end $fname
-        .expwin.f.df configure -state disabled
+        .expwin.f.de configure -state normal
+        .expwin.f.de delete 0 end
+        .expwin.f.de insert end $fname
+        .expwin.f.de configure -state disabled
         themer::validate_export
       }
     }
@@ -1499,7 +1471,7 @@ namespace eval themer {
     grid .expwin.f.db  -row 4 -column 2 -sticky news -padx 2 -pady 2
 
     ttk::frame .expwin.bf
-    ttk::button .expwin.bf.export -text "Export" -command {
+    ttk::button .expwin.bf.export -style BButton -text "Export" -command {
       set themer::export_retval [list \
         name    [.expwin.f.ne get] \
         dir     [.expwin.f.de get] \
@@ -1508,7 +1480,7 @@ namespace eval themer {
       ]
       destroy .expwin
     } -state disabled
-    ttk::button .expwin.bf.cancel -text "Cancel" -command {
+    ttk::button .expwin.bf.cancel -style BButton -text "Cancel" -command {
       set themer::export_retval [list]
       destroy .expwin
     }
@@ -1546,6 +1518,8 @@ namespace eval themer {
     } else {
       .expwin.bf.export configure -state disabled
     }
+
+    return 1
 
   }
 
