@@ -216,7 +216,12 @@ if {$tcl_platform(platform) eq "windows"} {
               }
             }
             .tkethemz {
-              themes::import . $name
+              set ans [tk_messageBox -default yes -icon question -message [msgcat::mc "Import TKE theme?"] -parent . -type yesnocancel]
+              if {$ans eq "yes"} {
+                themes::import . $name
+              } else {
+                return
+              }
             }
             default {
               gui::add_file end $name

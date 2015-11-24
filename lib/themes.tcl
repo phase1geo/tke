@@ -74,8 +74,33 @@ namespace eval themes {
     foreach tfile $tfiles {
       set name         [file rootname [file tail $tfile]]
       set files($name) $tfile
-      [ns launcher]::register [msgcat::mc "Theme:  %s" $name] [list [ns themes]::set_theme $name]
+      [ns launcher]::register [msgcat::mc "Theme:  %s" $name] [list [ns theme]::load_theme $tfile]
     }
+
+  }
+
+  ######################################################################
+  # Returns the filename associated with the given theme name.  If the
+  # theme name does not exist, returns an error.
+  proc get_file {theme_name} {
+
+    variable files
+
+    if {[info exists files($theme_name)]} {
+      return $files($theme_name)
+    }
+
+    return -code error "Filename for theme $theme_name does not exist"
+
+  }
+
+  ######################################################################
+  # Returns a sorted list of all the themes.
+  proc get_all_themes {} {
+
+    variable files
+
+    return [lsort [array names files]]
 
   }
 
@@ -100,23 +125,6 @@ namespace eval themes {
   proc handle_colorize_change {name1 name2 op} {
 
     theme::update_syntax
-
-  }
-
-  ######################################################################
-  # Reloads the available themes and resets the UI with the current theme.
-  proc reload {} {
-
-    variable files
-    variable curr_theme
-
-    # If the current theme is no longer available, select the first theme
-    if {![info exists files($curr_theme)]} {
-      set curr_theme [lindex [array names files] 0]
-    }
-
-    # Reload the themes
-    theme::load_theme $files($curr_theme)
 
   }
 
