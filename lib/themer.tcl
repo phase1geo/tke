@@ -309,6 +309,11 @@ namespace eval themer {
 
     variable data
 
+    # If the theme window is not currently open, there's nothing left to do
+    if {![winfo exists .thmwin]} {
+      return
+    }
+
     # Save the theme if it needs saving and the user agrees to it
     if {[theme_needs_saving]} {
       if {[tk_messageBox -parent .thmwin -icon question -message [msgcat::mc "Save theme changes?"] -detail [msgcat::mc "The current theme has unsaved changes"] -type yesno -default yes] eq "yes"} {
@@ -569,12 +574,16 @@ namespace eval themer {
     set data(widgets,relief) [ttk::frame $data(widgets,df).rf]
 
     # Create the relief widgets
-    ttk::label $data(widgets,relief).l -text [msgcat::mc "Relief: "]
-    set data(widgets,relief_mb) [ttk::menubutton $data(widgets,relief).mb -menu [set data(widgets,relief_menu) [menu $data(widgets,relief).menu -tearoff 0]]]
+    ttk::frame $data(widgets,relief).f
+    ttk::label $data(widgets,relief).f.l -text [msgcat::mc "Relief: "]
+    set data(widgets,relief_mb) [ttk::menubutton $data(widgets,relief).f.mb -width -20 \
+      -menu [set data(widgets,relief_menu) [menu $data(widgets,relief).menu -tearoff 0]]]
 
     # Pack the widgets
-    pack $data(widgets,relief).l  -side left -padx 2 -pady 2
-    pack $data(widgets,relief).mb -side left -padx 2 -pady 2
+    pack $data(widgets,relief).f.l  -side left -padx 2 -pady 2
+    pack $data(widgets,relief).f.mb -side left -padx 2 -pady 2
+
+    pack $data(widgets,relief).f -padx 2 -pady 2
 
   }
 
@@ -588,12 +597,15 @@ namespace eval themer {
     set data(widgets,number) [ttk::frame $data(widgets,df).nf]
 
     # Create the widgets
-    set data(widgets,number_lbl) [ttk::label $data(widgets,number).l -text [msgcat::mc "Value: "]]
-    set data(widgets,number_sb)  [ttk::spinbox $data(widgets,number).sb -command [list themer::handle_number_change]]
+    ttk::label $data(widgets,number).f
+    set data(widgets,number_lbl) [ttk::label $data(widgets,number).f.l -text [msgcat::mc "Value: "]]
+    set data(widgets,number_sb)  [ttk::spinbox $data(widgets,number).f.sb -command [list themer::handle_number_change]]
 
     # Pack the widgets
-    pack $data(widgets,number).l  -side left -padx 2 -pady 2
-    pack $data(widgets,number).sb -side left -padx 2 -pady 2
+    pack $data(widgets,number).f.l  -side left -padx 2 -pady 2
+    pack $data(widgets,number).f.sb -side left -padx 2 -pady 2
+
+    pack $data(widgets,number).f -padx 2 -pady 2
 
   }
 
@@ -666,15 +678,58 @@ namespace eval themer {
     bind $data(widgets,image_df_bm) <<BitmapChanged>> [list themer::handle_bitmap_changed %d]
 
     # Create photo frame
-    set data(widgets,image_pf) [ttk::frame $data(widgets,image).pf]
-    pack [set data(widgets,image_pf_mb_dir)  [ttk::menubutton $data(widgets,image).pf.mb1 -menu [menu $data(widgets,image).pf.mnu1 -tearoff 0]]] -padx 2 -pady 2 -fill x -expand yes
-    pack [set data(widgets,image_pf_mb_file) [ttk::menubutton $data(widgets,image).pf.mb2 -menu [menu $data(widgets,image).pf.mnu2 -tearoff 0]]] -padx 2 -pady 2 -fill x -expand yes
+    set data(widgets,image_pf)         [ttk::frame $data(widgets,image).pf]
+    set data(widgets,image_pf_mb_dir)  [ttk::menubutton $data(widgets,image).pf.mb -menu [menu $data(widgets,image).pf.mnu -tearoff 0]]
+    set data(widgets,image_pf_tl_file) [tablelist::tablelist $data(widgets,image).pf.tl \
+      -columns {0 {} center 0 {} center 0 {} center} -showlabels 0 -selecttype cell -stretch all \
+      -yscrollcommand [list $data(widgets,image).pf.vb set] \
+    ]
+    ttk::scrollbar $data(widgets,image).pf.vb -orient vertical -command [list $data(widgets,image_pf_tl_file) yview]
+
+    # Configure the table columns
+    for {set i 0} {$i < 3} {incr i} {
+      $data(widgets,image_pf_tl_file) columnconfigure $i -formatcommand [list themer::format_image_cell] -editable 0 -width -100 -maxwidth -100
+    }
+
+    # Handle any tablelist selections
+    bind $data(widgets,image_pf_tl_file) <<TablelistSelect>> [list themer::handle_image_select %W %x %y]
+
+    grid rowconfigure    $data(widgets,image_pf) 1 -weight 1
+    grid columnconfigure $data(widgets,image_pf) 0 -weight 1
+    grid $data(widgets,image_pf).mb -row 0 -column 0 -sticky ew   -padx 2 -pady 2
+    grid $data(widgets,image_pf).tl -row 1 -column 0 -sticky news -padx 2 -pady 2
+    grid $data(widgets,image_pf).vb -row 1 -column 1 -sticky ns   -padx 2 -pady 2
 
     # Populate the photo menus
-    $data(widgets,image).pf.mnu1 add command -label [msgcat::mc "Installation Directory"] -command [list themer::image_photo_dir install *.gif]
-    $data(widgets,image).pf.mnu1 add command -label [msgcat::mc "User Directory"]         -command [list themer::image_photo_dir user    *.gif]
-    $data(widgets,image).pf.mnu1 add separator
-    $data(widgets,image).pf.mnu1 add command -label [msgcat::mc "Custom Directory"]       -command [list themer::image_photo_dir custom  *.gif]
+    $data(widgets,image).pf.mnu add command -label [msgcat::mc "Installation Directory"] -command [list themer::image_photo_dir install *.gif]
+    $data(widgets,image).pf.mnu add command -label [msgcat::mc "User Directory"]         -command [list themer::image_photo_dir user    *.gif]
+    $data(widgets,image).pf.mnu add separator
+    $data(widgets,image).pf.mnu add command -label [msgcat::mc "Custom Directory"]       -command [list themer::image_photo_dir custom  *.gif]
+
+  }
+
+  ######################################################################
+  # Handles formatting an cell in the image table.
+  proc format_image_cell {value} {
+
+    return ""
+
+  }
+
+  ######################################################################
+  # Handles a selection in the image table.
+  proc handle_image_select {W x y} {
+
+    variable data
+
+    # Get the selected cell
+    set cell [$data(widgets,image_pf_tl_file) curcellselection]
+
+    # Set the tablelist data and indicate that the theme has changed
+    if {![catch { $data(widgets,image_pf_tl_file) cellcget $cell -text } value] && ($value ne "")} {
+      theme::set_themer_category_table_row $data(widgets,cat) $data(row) $value
+      set_theme_modified
+    }
 
   }
 
@@ -710,56 +765,40 @@ namespace eval themer {
     # Set the directory menubutton text
     $data(widgets,image_pf_mb_dir) configure -text $dirname
 
-    set mnu $data(widgets,image).pf.mnu2
-
     # Delete any previous images
-    if {[set last [$mnu index last]] ne "none"} {
-      for {set i 0} {$i <= $last} {incr i} {
-        image delete [$mnu entrycget $i -image]
+    if {[$data(widgets,image_pf_tl_file) size] > 0} {
+      foreach value [$data(widgets,image_pf_tl_file) getcells 0,0 last] {
+        array set value_array $value
+        catch { image delete img_[file rootname $value_array(file)] }
+        array unset value_array $value
       }
+      $data(widgets,image_pf_tl_file) delete 0 end
     }
 
+    # Make the tablelist visible
+    grid $data(widgets,image_pf_tl_file)
+
     # Get all of the files in the directory that match the given file pattern
-    $mnu delete 0 end
+    set i          0
+    set match_cell ""
     foreach iname [glob -nocomplain -directory $dir $pattern] {
-      set img [image create photo img_[file rootname [file tail $iname]] -file $iname]
-      puts "img: $img"
-      $mnu add command -compound top -label [file tail $iname] -image $img -command [list themer::set_photo_image $img [list dir $type file [file tail $iname]]]
+      if {[expr $i % 3] == 0} {
+        $data(widgets,image_pf_tl_file) insert end [list [list] [list] [list]]
+      }
+      set cell [expr $i / 3],[expr $i % 3]
+      set img  [image create photo img_[file rootname [file tail $iname]] -file $iname]
+      $data(widgets,image_pf_tl_file) cellconfigure $cell -text [list dir $type file [file tail $iname]] -image $img
+      if {[file tail $iname] eq $fname} {
+        set match_cell $cell
+      }
+      incr i
     }
 
     # Set the filename menubutton text
-    puts "fname: $fname"
-    if {$fname eq ""} {
-      $data(widgets,image_pf_mb_file) configure -image "" -text [msgcat::mc "Select Image"]
-    } else {
-      puts "Setting mb_file image to [file rootname $fname]"
-      $data(widgets,image_pf_mb_file) configure -image img_[file rootname $fname]
+    if {$match_cell ne ""} {
+      $data(widgets,image_pf_tl_file) cellselection set $match_cell
+      $data(widgets,image_pf_tl_file) seecell $match_cell
     }
-
-    puts "HERE 1"
-
-  }
-
-  ######################################################################
-  # Displays the given image in the photo preview window.
-  proc set_photo_image {img img_data} {
-
-    variable data
-
-    puts "In set_photo_image, img: $img, img_data: $img_data"
-
-    # Set the file menubutton image
-    $data(widgets,image_pf_mb_file) configure -image $img
-
-    puts "HERE A"
-
-    # Set the tablelist data
-    theme::set_themer_category_table_row $data(widgets,cat) $data(row) $img_data
-
-    puts "HERE B"
-
-    # Specify that the apply button should be enabled
-    set_theme_modified
 
   }
 
@@ -787,8 +826,10 @@ namespace eval themer {
     set data(widgets,treestyle) [ttk::frame $data(widgets,df).tf]
 
     # Create the treestyle widgets
-    ttk::label $data(widgets,treestyle).l -text [msgcat::mc "Tree Style: "]
-    set data(widgets,treestyle_mb) [ttk::menubutton $data(widgets,treestyle).mb -menu [set data(widgets,treestyle_menu) [menu $data(widgets,treestyle).menu -tearoff 0]]]
+    ttk::frame $data(widgets,treestyle).f
+    ttk::label $data(widgets,treestyle).f.l -text [msgcat::mc "Tree Style: "]
+    set data(widgets,treestyle_mb) [ttk::menubutton $data(widgets,treestyle).f.mb -width -20 \
+      -menu [set data(widgets,treestyle_menu) [menu $data(widgets,treestyle).menu -tearoff 0]]]
 
     # Create treestyles list
     # Add the treestyle options
@@ -801,8 +842,10 @@ namespace eval themer {
     }
 
     # Pack the widgets
-    pack $data(widgets,treestyle).l  -side left -padx 2 -pady 2
-    pack $data(widgets,treestyle).mb -side left -padx 2 -pady 2
+    pack $data(widgets,treestyle).f.l  -side left -padx 2 -pady 2
+    pack $data(widgets,treestyle).f.mb -side left -padx 2 -pady 2
+
+    pack $data(widgets,treestyle).f -padx 2 -pady 2
 
   }
 
@@ -1010,6 +1053,9 @@ namespace eval themer {
 
     variable data
 
+    # Set the menubutton
+    $data(widgets,relief_mb) configure -text $value
+
     # Update the configuration table
     theme::set_themer_category_table_row $data(widgets,cat) $data(row) $value
 
@@ -1125,7 +1171,6 @@ namespace eval themer {
 
     # Organize the value into an array
     array set value_array $value
-    puts "value_array: $value"
 
     switch $type {
       mono {
@@ -1152,18 +1197,18 @@ namespace eval themer {
       }
       photo {
         $data(widgets,image_mb) configure -text [msgcat::mc "GIF Photo"]
-        [$data(widgets,image_pf_mb_file) cget -menu] configure -background $base_color
+        $data(widgets,image_pf_tl_file) configure -background $base_color
         if {[info exists value_array(dir)]} {
           switch $value_array(dir) {
-            install { image_photo_dir install *.gif $value_array(file)] }
-            user    { image_photo_dir user    *.gif $value_array(file)] }
+            install { image_photo_dir install *.gif $value_array(file) }
+            user    { image_photo_dir user    *.gif $value_array(file) }
             default { image_photo_dir custom  *.gif [file join $value_array(dir) $value_array(file)] }
           }
         } else {
           $data(widgets,image_pf_mb_dir) configure -text "Select Directory"
-          # TBD - Make the file selection invisible
+          grid remove $data(widgets,image_pf_tl_file)
         }
-        pack $data(widgets,image_pf) -padx 2 -pady 2
+        pack $data(widgets,image_pf) -fill both -expand yes -padx 2 -pady 2
       }
     }
 
@@ -1180,7 +1225,7 @@ namespace eval themer {
     variable data
 
     # Show the image panel
-    pack $data(widgets,image)
+    pack $data(widgets,image) -fill both -expand yes
 
     # Display the appropriate image detail frame
     show_image_frame $type $value
@@ -1194,7 +1239,7 @@ namespace eval themer {
     variable data
 
     # Display the treestyle frame
-    pack $data(widgets,treestyle)
+    pack $data(widgets,treestyle) -fill both -expand yes
 
     # Set the menubutton
     $data(widgets,treestyle_mb) configure -text $value
