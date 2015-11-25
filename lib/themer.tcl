@@ -19,20 +19,16 @@
 # Name:    themer.tcl
 # Author:  Trevor Williams  (phase1geo@gmail.com)
 # Date:    10/04/2013
-# Brief:   Converts a *.tmTheme file to a *.tketheme file.
+# Brief:   Allows the user to customize, create, export and import themes.
 ######################################################################
 
 source [file join $::tke_dir lib bitmap.tcl]
 
 namespace eval themer {
 
-  variable max_swatches 8
-
-  array set widgets     {}
-  array set all_scopes  {}
-  array set show_vars   {}
-
-  array set data [list theme_dir [file join $::tke_home themes]]
+  array set data {
+    max_swatches 8
+  }
 
   if {[catch { ttk::spinbox .__tmp }]} {
     set bg                [utils::get_default_background]
@@ -411,10 +407,10 @@ namespace eval themer {
     $data(widgets,save_cb) set $data(curr_theme)
 
     # Set the save to directory status
-    if {([file dirname [themes::get_file $data(curr_theme)]] eq $data(theme_dir)) || ![::tke_development]} {
-      save_to_directory "user"
-    } else {
+    if {([file dirname [themes::get_file $data(curr_theme)]] eq [file join $::tke_dir data themes]) && [::tke_development]} {
       save_to_directory "install"
+    } else {
+      save_to_directory "user"
     }
 
   }
@@ -429,13 +425,16 @@ namespace eval themer {
     set theme_name [$data(widgets,save_cb) get]
 
     if {$data(save_directory) eq "user"} {
-      set theme_file [file join $data(theme_dir) $theme_name.tketheme]
+      set theme_file [file join $::tke_home themes $theme_name $theme_name.tketheme]
     } else {
       set theme_file [file join $::tke_dir data themes $theme_name.tketheme]
     }
 
     # Write the theme to disk
-    catch { theme::write_tketheme $theme_file }
+    if {[catch { theme::write_tketheme $data(widgets,cat) $theme_file } rc]} {
+      tk_messageBox -parent .thmwin -icon error -default ok -type ok -message "Save error" -detail $rc
+      return
+    }
 
     # Reload the themes
     themes::load
@@ -445,6 +444,9 @@ namespace eval themer {
 
     # End the save frame
     end_save_frame
+
+    # Refresh the detail information (in case it has changed)
+    handle_category_selection
 
   }
 
@@ -458,10 +460,16 @@ namespace eval themer {
     set theme_file [themes::get_file $data(curr_theme)]
 
     # Write the theme to disk
-    catch { theme::write_tketheme $theme_file }
+    if {[catch { theme::write_tketheme $data(widgets,cat) $theme_file } rc]} {
+      tk_messageBox -parent .thmwin -icon error -default ok -type ok -message "Save error" -detail $rc
+      return
+    }
 
     # Indicate that the theme was saved
     set_title 0
+
+    # Refresh the detail information (in case it has changed)
+    handle_category_selection
 
   }
 
@@ -721,7 +729,7 @@ namespace eval themer {
     set data(widgets,image_pf_mb_dir)  [ttk::menubutton $data(widgets,image).pf.mb -menu [menu $data(widgets,image).pf.mnu -tearoff 0]]
     set data(widgets,image_pf_tl_file) [tablelist::tablelist $data(widgets,image).pf.tl \
       -columns {0 {} center 0 {} center 0 {} center} -showlabels 0 -selecttype cell -stretch all \
-      -yscrollcommand [list $data(widgets,image).pf.vb set] \
+      -yscrollcommand [list $data(widgets,image).pf.vb set] -exportselection 0 \
     ]
     ttk::scrollbar $data(widgets,image).pf.vb -orient vertical -command [list $data(widgets,image_pf_tl_file) yview]
 
@@ -784,7 +792,7 @@ namespace eval themer {
         set dirname [msgcat::mc "Installation Directory"]
       }
       user    {
-        set dir     [file join $::tke_home themes images]
+        set dir     [file join $::tke_home themes [theme::get_current_theme]]
         set dirname [msgcat::mc "User Directory"]
       }
       custom  {
@@ -1320,7 +1328,6 @@ namespace eval themer {
   proc add_swatch {{color ""}} {
 
     variable data
-    variable max_swatches
 
     set orig_color $color
 
@@ -1364,7 +1371,7 @@ namespace eval themer {
     }
 
     # If the number of swatch elements exceeds the maximum, remove the plus button
-    if {[theme::swatch_do length] == $max_swatches} {
+    if {[theme::swatch_do length] == $data(max_swatches)} {
       pack forget $data(widgets,plus)
     }
 
@@ -1419,7 +1426,6 @@ namespace eval themer {
   proc delete_swatch {index {force 0}} {
 
     variable data
-    variable max_swatches
 
     # Confirm from the user
     if {!$force && [tk_messageBox -parent .thmwin -message [msgcat::mc "Delete swatch?"] -default no -type yesno] eq "no"} {
@@ -1437,7 +1443,7 @@ namespace eval themer {
 
     # Add the plus button if the number of packed elements is the allowed maximum
     set len [theme::swatch_do length]
-    if {$len == $max_swatches} {
+    if {$len == $data(max_swatches)} {
       pack $data(widgets,plus) -side left -padx 2 -pady 2
     } elseif {$len == 1} {
       pack forget $data(widgets,plus_text)
@@ -1592,7 +1598,7 @@ namespace eval themer {
     ttk::label     .expwin.f.dl  -text "Output Directory:"
     ttk::entry     .expwin.f.de  -width 50 -state disabled
     ttk::button    .expwin.f.db  -style BButton -text "Choose" -command {
-      if {[set fname [tk_chooseDirectory -parent .expwin]] ne ""} {
+      if {[set fname [tk_chooseDirectory -parent .expwin -mustexist 1]] ne ""} {
         .expwin.f.de configure -state normal
         .expwin.f.de delete 0 end
         .expwin.f.de insert end $fname

@@ -341,26 +341,61 @@ namespace eval theme {
 
   ######################################################################
   # Writes the current theme data to the given file.
-  proc write_tketheme {theme_file} {
+  proc write_tketheme {tbl theme_file} {
 
     variable data
     variable fields
     variable extra_content
 
-    if {[catch { open $theme_file w } rc]} {
-      return -code error [msgcat::mc "ERROR:  Unable to write %s" $theme_file]
+    # Extract the directory that the theme will be written to and create it, if necessary
+    if {[set new_dir [file dirname $theme_file]] eq [file join $::tke_dir data themes]} {
+      set new_dir  [file join $::tke_dir lib images]
+      set user_dir 0
+    } else {
+      file mkdir $new_dir
+      set user_dir 1
     }
 
+    # Check to see if there are any photos that need to copied to the
+    # output directory
+    foreach key [array names data images,*] {
+      array set value_array [lindex $data($key) $fields(value)]
+      if {[info exists value_array(dir)] && ($value_array(dir) ne "install")} {
+        if {$value_array(dir) eq "user"} {
+          set imgdir [file join $::tke_home themes $data(name)]
+        } else {
+          set imgdir $value_array(dir)
+        }
+        if {$imgdir ne $new_dir} {
+          if {[catch { file copy -force [file join $imgdir $value_array(file)] $new_dir } rc]} {
+            return -code error $rc
+          }
+        }
+        set value_array(dir) [expr {$user_dir ? "user" : "install"}]
+        lset data($key) $fields(value) [array get value_array]
+        $tbl cellconfigure [get_themer_category_table_row $tbl {*}[split $key ,]],value -text [array get value_array]
+      }
+      array unset value_array
+    }
+
+    # Open the file for writing
+    if {[catch { open $theme_file w } rc]} {
+      return -code error "Cannot open theme file for writing"
+    }
+
+    # Output the extra content
     foreach item $extra_content {
       if {[info exists data($item)]} {
         puts $rc "$item {$data($item)}"
       }
     }
 
+    # Output the theme content
     foreach key [lsort [array names data *,*]] {
       puts $rc "$key {[lindex $data($key) $fields(value)]}"
     }
 
+    # Close the file for writing
     close $rc
 
   }
@@ -635,6 +670,21 @@ namespace eval theme {
         }
       }
     }
+
+  }
+
+  ######################################################################
+  # Returns the row associated with the category and option.  Returns an
+  # error if the category/option could not be found.
+  proc get_themer_category_table_row {tbl category opt} {
+
+    for {set i 0} {$i < [$tbl size]} {incr i} {
+      if {([$tbl cellcget $i,category -text] eq $category) && ([$tbl cellcget $i,opt -text] eq $opt)} {
+        return $i
+      }
+    }
+
+    return -code error "Unable to find category table row for (category: $category, opt: $opt)"
 
   }
 
