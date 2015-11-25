@@ -26,7 +26,8 @@ namespace eval theme {
 
   source [file join $::tke_dir lib ns.tcl]
 
-  variable colorizers {keywords comments strings numbers punctuation precompile miscellaneous1 miscellaneous2 miscellaneous3}
+  variable colorizers    {keywords comments strings numbers punctuation precompile miscellaneous1 miscellaneous2 miscellaneous3}
+  variable extra_content {swatch creator website}
 
   array set fields {
     type    0
@@ -278,6 +279,7 @@ namespace eval theme {
     variable data
     variable fields
     variable orig_data
+    variable extra_content
 
     # Open the tketheme file
     if {[catch { open $theme_file r } rc]} {
@@ -302,9 +304,14 @@ namespace eval theme {
     array set data [array get orig_data]
 
     # Load the swatch and extra data
-    set data(swatch) $contents(swatch)
-    set data(name)   [file rootname [file tail $theme_file]]
-    set data(fname)  $theme_file
+    set data(name)  [file rootname [file tail $theme_file]]
+    set data(fname) $theme_file
+
+    foreach item $extra_content {
+      if {[info exists contents($item)]} {
+        set data($item) $contents($item)
+      }
+    }
 
     # Load the categories
     foreach key [array names orig_data] {
@@ -338,12 +345,18 @@ namespace eval theme {
 
     variable data
     variable fields
+    variable extra_content
 
     if {[catch { open $theme_file w } rc]} {
       return -code error [msgcat::mc "ERROR:  Unable to write %s" $theme_file]
     }
 
-    puts $rc "swatch {$data(swatch)}"
+    foreach item $extra_content {
+      if {[info exists data($item)]} {
+        puts $rc "$item {$data($item)}"
+      }
+    }
+
     foreach key [lsort [array names data *,*]] {
       puts $rc "$key {[lindex $data($key) $fields(value)]}"
     }
@@ -513,8 +526,12 @@ namespace eval theme {
     }
 
     # Write the contents
-    puts $rc "creator {$creator}"
-    puts $rc "website {$website}"
+    if {$creator ne ""} {
+      puts $rc "creator {$creator}"
+    }
+    if {$website ne ""} {
+      puts $rc "website {$website}"
+    }
     puts $rc "swatch {$export_data(swatch)}"
     foreach key [lsort [array names export_data *,*]] {
       puts $rc "$key {[lindex $export_data($key) $fields(value)]}"
@@ -679,6 +696,27 @@ namespace eval theme {
     variable data
 
     return $data(name)
+
+  }
+
+  ######################################################################
+  # Returns an array containing the available attribution information.
+  # The valid attribution keys are:
+  #   - creator
+  #   - website
+  proc get_attributions {} {
+
+    variable data
+
+    set attr [list]
+
+    foreach item [list creator website] {
+      if {[info exists data($item)]} {
+        lappend attr $item $data($item)
+      }
+    }
+
+    return $attr
 
   }
 

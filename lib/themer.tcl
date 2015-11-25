@@ -26,6 +26,8 @@ source [file join $::tke_dir lib bitmap.tcl]
 
 namespace eval themer {
 
+  variable max_swatches 8
+
   array set widgets     {}
   array set all_scopes  {}
   array set show_vars   {}
@@ -111,27 +113,63 @@ namespace eval themer {
   }
 
   ######################################################################
-  # Sets the current theme to the given value and updates the editor
-  # title bar.
-  proc set_current_theme_to {theme {check 1}} {
-
-    variable data
+  # Checks to see if the current theme needs to be saved.  If it has
+  # changed since the last save, prompts the user for direction and saves
+  # the theme if specified.  Returns 1 if the save was handled (or no
+  # save was necessary).  Returns 0 if the user canceled the save operation.
+  proc check_for_save {} {
 
     # First, check to see if the current theme needs to be saved
-    if {$check && [theme_needs_saving]} {
+    if {[theme_needs_saving]} {
       switch [tk_messageBox -parent .thmwin -icon question -message [msgcat::mc "Save theme changes?"] -detail [msgcat::mc "The current theme has unsaved changes"] -type yesnocancel -default yes] {
         yes    { save_current_theme }
         cancel { return 0 }
       }
     }
 
+    return 1
+
+  }
+
+  ######################################################################
+  # Sets the title with the given information (including attribution
+  # information from the current theme.
+  proc set_title {modified} {
+
+    variable data
+
+    # Set the theme name/attribution string to the theme
+    set theme_attr $data(curr_theme)
+
+    # Create the attribution portion of the title bar
+    array set attr [theme::get_attributions]
+
+    if {[info exists attr(creator)]} {
+      if {[info exists attr(website)]} {
+        append theme_attr "  (By: $attr(creator), $attr(website))"
+      } else {
+        append theme_attr "  (By: $attr(creator))"
+      }
+    } elseif {[info exists attr(website)]} {
+      append theme_attr "  ($attr(website))"
+    }
+
+    # Finally, set the title bar
+    wm title .thmwin [msgcat::mc "Theme Editor %s %s" [expr {$modified ? "*" : "-"}] $theme_attr]
+
+  }
+
+  ######################################################################
+  # Sets the current theme to the given name and updates the title bar.
+  proc set_current_theme_to {theme} {
+
+    variable data
+
     # Set the variable value
     set data(curr_theme) $theme
 
     # Update the title bar
-    wm title .thmwin [msgcat::mc "Theme Editor - %s" $theme]
-
-    return 1
+    set_title 0
 
   }
 
@@ -148,7 +186,7 @@ namespace eval themer {
     end_open_frame
 
     # Update the title bar
-    wm title .thmwin [msgcat::mc "Theme Editor * %s" $data(curr_theme)]
+    set_title 1
 
   }
 
@@ -174,10 +212,11 @@ namespace eval themer {
 
     if {![winfo exists .thmwin]} {
 
-      toplevel .thmwin
-      wm title .thmwin [msgcat::mc "Theme Editor"]
-      wm geometry .thmwin 800x600
-      wm protocol .thmwin WM_DELETE_WINDOW [list themer::close_window]
+      toplevel     .thmwin
+      wm title     .thmwin [msgcat::mc "Theme Editor"]
+      wm geometry  .thmwin 800x600
+      wm transient .thmwin .
+      wm protocol  .thmwin WM_DELETE_WINDOW [list themer::close_window]
 
       # Add the swatch panel
       set data(widgets,sf)   [ttk::labelframe .thmwin.sf -text [msgcat::mc "Swatch"]]
@@ -244,14 +283,13 @@ namespace eval themer {
       # Create the save frame
       set data(widgets,wf)      [ttk::frame .thmwin.wf]
       ttk::button .thmwin.wf.export -style BButton -text [msgcat::mc "Export"] -width $bwidth -command [list themer::export]
+      ttk::label  .thmwin.wf.l      -text [msgcat::mc "Save As:"]
       if {[::tke_development]} {
-        ttk::label .thmwin.wf.l1 -text [msgcat::mc "Save in:"]
         set mb_width              [expr [msgcat::mcmax "User Directory" "Installation Directory"] - 5]
         set data(widgets,save_mb) [ttk::menubutton .thmwin.wf.mb -width $mb_width -menu [menu .thmwin.wf.mb_menu -tearoff 0]]
         .thmwin.wf.mb_menu add command -label [msgcat::mc "User Directory"]         -command [list themer::save_to_directory "user"]
         .thmwin.wf.mb_menu add command -label [msgcat::mc "Installation Directory"] -command [list themer::save_to_directory "install"]
       }
-      ttk::label .thmwin.wf.l2 -text [msgcat::mc "   Save Name:"]
       set data(widgets,save_cb) [ttk::combobox .thmwin.wf.cb -width 30 -postcommand [list themer::add_combobox_themes .thmwin.wf.cb]]
       ttk::button .thmwin.wf.save   -style BButton -text [msgcat::mc "Save"]   -width $bwidth -command [list themer::save_theme]
       ttk::button .thmwin.wf.cancel -style BButton -text [msgcat::mc "Cancel"] -width $bwidth -command [list themer::end_save_frame]
@@ -259,13 +297,11 @@ namespace eval themer {
       pack .thmwin.wf.cancel -side right -padx 2 -pady 2
       pack .thmwin.wf.save   -side right -padx 2 -pady 2
       pack .thmwin.wf.cb     -side right -padx 2 -pady 2
-      pack .thmwin.wf.l2     -side right -padx 2 -pady 2
-      pack .thmwin.wf.export -side left  -padx 2 -pady 2
-
       if {[::tke_development]} {
         pack .thmwin.wf.mb -side right -padx 2 -pady 2
-        pack .thmwin.wf.l1 -side right -padx 2 -pady 2
       }
+      pack .thmwin.wf.l      -side right -padx 2 -pady 2
+      pack .thmwin.wf.export -side left  -padx 2 -pady 2
 
       pack .thmwin.sf -fill x
       pack .thmwin.pw -fill both -expand yes
@@ -405,7 +441,7 @@ namespace eval themer {
     themes::load
 
     # Set the current theme
-    set_current_theme_to $theme_name 0
+    set_current_theme_to $theme_name
 
     # End the save frame
     end_save_frame
@@ -425,7 +461,7 @@ namespace eval themer {
     catch { theme::write_tketheme $theme_file }
 
     # Indicate that the theme was saved
-    set_current_theme_to $data(curr_theme) 0
+    set_title 0
 
   }
 
@@ -535,13 +571,16 @@ namespace eval themer {
     variable data
 
     # Save the current theme
-    if {[set_current_theme_to $theme]} {
+    if {[check_for_save]} {
 
       # Reads the contents of the given theme
       theme::read_tketheme [themes::get_file $theme]
 
       # Display the theme contents in the UI
       initialize
+
+      # Set the current theme to the given theme
+      set_current_theme_to $theme
 
       # Apply the theme
       apply_theme
@@ -1281,6 +1320,7 @@ namespace eval themer {
   proc add_swatch {{color ""}} {
 
     variable data
+    variable max_swatches
 
     set orig_color $color
 
@@ -1320,10 +1360,11 @@ namespace eval themer {
     # Insert the value into the swatch list
     if {$orig_color eq ""} {
       theme::swatch_do append $color
+      set_theme_modified
     }
 
-    # If the number of swatch elements exceeds 6, remove the plus button
-    if {[theme::swatch_do length] == 6} {
+    # If the number of swatch elements exceeds the maximum, remove the plus button
+    if {[theme::swatch_do length] == $max_swatches} {
       pack forget $data(widgets,plus)
     }
 
@@ -1368,6 +1409,9 @@ namespace eval themer {
       }
     }
 
+    # Specify that the theme has been modified
+    set_theme_modified
+
   }
 
   ######################################################################
@@ -1375,6 +1419,7 @@ namespace eval themer {
   proc delete_swatch {index {force 0}} {
 
     variable data
+    variable max_swatches
 
     # Confirm from the user
     if {!$force && [tk_messageBox -parent .thmwin -message [msgcat::mc "Delete swatch?"] -default no -type yesno] eq "no"} {
@@ -1390,10 +1435,12 @@ namespace eval themer {
     # Destroy the widgets
     destroy $data(widgets,sf).f$index
 
-    # Add the plus button if the number of packed elements is 6
-    switch [theme::swatch_do length] {
-      6 { pack $data(widgets,plus) -side left -padx 2 -pady 2 }
-      1 { pack forget $data(widgets,plus_text) }
+    # Add the plus button if the number of packed elements is the allowed maximum
+    set len [theme::swatch_do length]
+    if {$len == $max_swatches} {
+      pack $data(widgets,plus) -side left -padx 2 -pady 2
+    } elseif {$len == 1} {
+      pack forget $data(widgets,plus_text)
     }
 
     # Get the color being deleted
@@ -1402,6 +1449,7 @@ namespace eval themer {
     # Delete the swatch value from the list
     if {!$force} {
       theme::swatch_do delete $pos
+      set_theme_modified
     }
 
     # Make table colors dependent on this color independent
@@ -1443,7 +1491,7 @@ namespace eval themer {
     variable data
 
     # Set the theme
-    if {[set_current_theme_to [file rootname [file tail $theme]]]} {
+    if {[check_for_save]} {
 
       # Read the theme
       if {[catch { theme::read_tmtheme $theme } rc]} {
@@ -1453,6 +1501,9 @@ namespace eval themer {
 
       # Initialize the themer
       initialize
+
+      # Set the current theme
+      set_current_theme_to [file rootname [file tail $theme]]
 
       # Apply the theme to the UI
       apply_theme
@@ -1471,7 +1522,7 @@ namespace eval themer {
     set theme_file [themes::import .thmwin $theme]
 
     # Set the theme
-    if {[set_current_theme_to [file rootname [file tail $theme]]]} {
+    if {[check_for_save]} {
 
       # Read the theme
       if {[catch { theme::read_tketheme $theme_file } rc]} {
@@ -1481,6 +1532,9 @@ namespace eval themer {
 
       # Initialize the themer
       initialize
+
+      # Set the current theme
+      set_current_theme_to [file rootname [file tail $theme]]
 
       # Apply the theme to the UI
       apply_theme
