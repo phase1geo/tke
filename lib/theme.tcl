@@ -485,8 +485,6 @@ namespace eval theme {
     variable data
     variable fields
 
-    puts "In export, name: $name, odir: $odir, creator: $creator, website: $website"
-
     # Get a copy of the data to write
     array set export_data [array get data]
 
@@ -502,7 +500,6 @@ namespace eval theme {
           set value_array(dir) "user"
           lset export_data($key) $fields(value) [array get value_array]
         }
-        puts "Attempting to copy [file join $dir $value_array(file)] to $odir, odir exists: [file exists $odir]"
         if {[catch { file copy -force [file join $dir $value_array(file)] $odir }]} {
           return 0
         }
@@ -658,7 +655,6 @@ namespace eval theme {
     }
 
     # Update the theme data
-    puts "Setting data($cat,$opt) value to $value"
     lset data($cat,$opt) $fields(value)   $value
     lset data($cat,$opt) $fields(changed) 1
 

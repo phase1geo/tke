@@ -570,6 +570,9 @@ namespace eval menus {
   # Cleans up the application to prepare it for being exited.
   proc exit_cleanup {} {
 
+    # Close the themer if it is open
+    themer::close_window
+
     # Save the session information if we are not told to exit on close
     sessions::save "last"
 
