@@ -191,6 +191,10 @@ namespace eval gui {
       -file     [file join $::tke_dir lib images diff.bmp] \
       -maskfile [file join $::tke_dir lib images diff.bmp] \
       -foreground 1
+    theme::register_image tab_close bitmap tabs -background \
+      -file     [file join $::tke_dir lib images close.bmp] \
+      -maskfile [file join $::tke_dir lib images close.bmp] \
+      -foreground 1
 
     # Create close button for forms
     theme::register_image form_close bitmap ttk_style frame \
@@ -3137,6 +3141,7 @@ namespace eval gui {
     # Add the tabbar frame
     ttk::frame $nb.tbf
     tabbar::tabbar $nb.tbf.tb -command "[ns gui]::set_current_tab_from_tb" \
+      -closeimage tab_close \
       -checkcommand "[ns gui]::close_check_by_tabbar {}" \
       -closecommand "[ns gui]::close_tab_by_tabbar"
 

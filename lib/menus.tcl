@@ -571,7 +571,7 @@ namespace eval menus {
   proc exit_cleanup {} {
 
     # Close the themer if it is open
-    themer::close_window
+    themer::close_window 1
 
     # Save the session information if we are not told to exit on close
     sessions::save "last"

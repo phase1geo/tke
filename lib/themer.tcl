@@ -212,7 +212,7 @@ namespace eval themer {
       wm title     .thmwin [msgcat::mc "Theme Editor"]
       wm geometry  .thmwin 800x600
       wm transient .thmwin .
-      wm protocol  .thmwin WM_DELETE_WINDOW [list themer::close_window]
+      wm protocol  .thmwin WM_DELETE_WINDOW [list themer::close_window 0]
 
       # Add the swatch panel
       set data(widgets,sf)   [ttk::labelframe .thmwin.sf -text [msgcat::mc "Swatch"]]
@@ -337,7 +337,7 @@ namespace eval themer {
 
   ######################################################################
   # Called whenever the theme editor window is closed.
-  proc close_window {} {
+  proc close_window {on_exit} {
 
     variable data
 
@@ -351,6 +351,11 @@ namespace eval themer {
       if {[tk_messageBox -parent .thmwin -icon question -message [msgcat::mc "Save theme changes?"] -detail [msgcat::mc "The current theme has unsaved changes"] -type yesno -default yes] eq "yes"} {
         save_current_theme
       }
+    }
+
+    # If we are close because the application is being quit, don't bother with the rest
+    if {$on_exit} {
+      return
     }
 
     # Delete the swatch images
@@ -825,8 +830,6 @@ namespace eval themer {
     # Make the tablelist visible
     grid $data(widgets,image_pf_tl_file)
 
-    puts "In image_photo_dir, dir: $dir"
-
     # Get all of the files in the directory that match the given file pattern
     set i          0
     set match_cell ""
@@ -880,14 +883,11 @@ namespace eval themer {
     set data(widgets,treestyle_mb) [ttk::menubutton $data(widgets,treestyle).f.mb -width -20 \
       -menu [set data(widgets,treestyle_menu) [menu $data(widgets,treestyle).menu -tearoff 0]]]
 
-    # Create treestyles list
-    # Add the treestyle options
-    foreach treestyle [list adwaita ambiance aqua baghira bicolor1 bicolor2 bicolor3 bicolor4 classic1 \
-                            classic2 classic3 classic4 dust dustSand gtk klearlooks mate mint newWave \
-                            oxygen1 oxygen2 phase plain1 plain2 plain3 plain4 plastik plastique radiance \
-                            ubuntu ubuntu2 vistaAero vistaClassic win7Aero win7Classic winnative winxpBlue \
-                            winxpOlive winxpSilver yuyo] {
-      $data(widgets,treestyle_menu) add command -label $treestyle -command [list themer::set_treestyle $treestyle]
+    # Get the available treestyle options from tablelist itself and add them to the menubutton
+    if {[catch { $data(widgets,cat) configure -treestyle xxx } rc] &&[regexp {must be (.*) or (.*)$} $rc -> o1 o2]} {
+      foreach treestyle [string map {, {}} "$o1 $o2"] {
+        $data(widgets,treestyle_menu) add command -label $treestyle -command [list themer::set_treestyle $treestyle]
+      }
     }
 
     # Pack the widgets
@@ -908,7 +908,7 @@ namespace eval themer {
     $data(widgets,treestyle_mb) configure -text $treestyle
 
     # Update the category table
-    $data(widgets,cat) cellconfigure $data(row),value -text $treestyle
+    theme::set_themer_category_table_row $data(widgets,cat) $data(row) $treestyle
 
     # Specify that the apply button should be enabled
     set_theme_modified
