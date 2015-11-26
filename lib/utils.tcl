@@ -245,9 +245,12 @@ namespace eval utils {
   # need to be monochrome).
   proc get_complementary_mono_color {color} {
 
-    lassign [get_color_values $color] val
+    lassign [winfo rgb . $color] r g b
 
-    return [expr {($val < 128) ? "white" : "black"}]
+    # Calculate lightness
+    set sorted [lsort -real [list [expr $r >> 8] [expr $g >> 8] [expr ($b >> 8) & 0xfc]]]
+
+    return [expr {((([lindex $sorted 0] + [lindex $sorted 2]) / 2) < 127) ? "white" : "black"}]
 
   }
 

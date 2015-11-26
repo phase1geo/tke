@@ -60,11 +60,16 @@ namespace eval theme {
     ttk_style,selectfg            {color {#ffffff} {} {0}}
     menus,-background             {color {white} {} {0}}
     menus,-foreground             {color {black} {} {0}}
+    menus,-activebackground       {color {white} {} {0}}
+    menus,-activeforeground       {color {black} {} {0}}
+    menus,-disabledforeground     {color {grey}  {} {0}}
     menus,-relief                 {{relief {raised sunken flat ridge solid groove}} {flat} {} {0}}
     tabs,-background              {color {2} {} {0}}
     tabs,-foreground              {color {1} {} {0}}
     tabs,-activebackground        {color {0} {} {0}}
     tabs,-inactivebackground      {color {2} {} {0}}
+    tabs,-height                  {{number {20 40}} {25} {} {0}}
+    tabs,-margin                  {{number {0 10}} {0} {} {0}}
     tabs,-relief                  {{relief {flat raised}} {flat} {} {0}}
     text_scrollbar,-background    {color {0} {} {0}}
     text_scrollbar,-foreground    {color {2} {} {0}}
@@ -96,6 +101,7 @@ namespace eval theme {
     sidebar,-selectforeground     {color {1} {} {0}}
     sidebar,-highlightbackground  {color {1} {} {0}}
     sidebar,-highlightcolor       {color {1} {} {0}}
+    sidebar,-relief               {{relief {raised sunken flat ridge solid groove}} {flat} {} {0}}
     sidebar,-treestyle            {treestyle {aqua} {} {0}}
     sidebar_scrollbar,-background {color {1} {} {0}}
     sidebar_scrollbar,-foreground {color {2} {} {0}}
