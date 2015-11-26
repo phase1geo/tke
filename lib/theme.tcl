@@ -378,6 +378,10 @@ namespace eval theme {
       array unset value_array
     }
 
+    # Update the name and fname attributes
+    set data(name)  [file rootname [file tail $theme_file]]
+    set data(fname) $theme_file
+
     # Open the file for writing
     if {[catch { open $theme_file w } rc]} {
       return -code error "Cannot open theme file for writing"

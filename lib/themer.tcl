@@ -825,6 +825,8 @@ namespace eval themer {
     # Make the tablelist visible
     grid $data(widgets,image_pf_tl_file)
 
+    puts "In image_photo_dir, dir: $dir"
+
     # Get all of the files in the directory that match the given file pattern
     set i          0
     set match_cell ""
