@@ -1190,8 +1190,8 @@ namespace eval themer {
     foreach mod [list light r g b] {
       $data(widgets,color_${mod}_scale) configure -from [expr 0 - $base($mod)] -to [expr 255 - $base($mod)]
       $data(widgets,color_${mod}_entry) configure -from [expr 0 - $base($mod)] -to [expr 255 - $base($mod)]
-      $data(widgets,color_${mod}_scale) set [expr {($mod eq $data(mod)) ? $set_value : $base($mod)}]
-      $data(widgets,color_${mod}_entry) set [expr {($mod eq $data(mod)) ? $set_value : $base($mod)}]
+      $data(widgets,color_${mod}_scale) set [expr {($mod eq $data(mod)) ? $set_value : 0}]
+      $data(widgets,color_${mod}_entry) set [expr {($mod eq $data(mod)) ? $set_value : 0}]
     }
 
   }
