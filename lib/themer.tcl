@@ -226,6 +226,7 @@ namespace eval themer {
       .thmwin.pw add [ttk::labelframe .thmwin.pw.lf -text [msgcat::mc "Categories"]]
       set data(widgets,cat) [tablelist::tablelist .thmwin.pw.lf.tbl \
         -columns {0 Options 0 Value 0 {}} -treecolumn 0 -exportselection 0 -width 0 \
+        -labelcommand [list themer::show_filter_menu] \
         -yscrollcommand { .thmwin.pw.lf.vb set } \
       ]
       ttk::scrollbar .thmwin.pw.lf.vb -orient vertical -command { .thmwin.pw.lf.tbl yview }
@@ -312,6 +313,9 @@ namespace eval themer {
       create_detail_color
       create_detail_image
       create_detail_treestyle
+
+      # Create the filter menu
+      create_filter_menu
 
     }
 
@@ -1669,6 +1673,155 @@ namespace eval themer {
     }
 
     return 1
+
+  }
+
+  ######################################################################
+  # Create the filter menu.
+  proc create_filter_menu {} {
+
+    variable data
+
+    # Create the main filter menu
+    set data(widgets,filter) [menu $data(widgets,cat).mnu -tearoff 1 -postcommand [list themer::handle_filter_menu_post]]
+
+    $data(widgets,filter) add command -label [msgcat::mc "Table Filters"] -state disabled
+    $data(widgets,filter) add separator
+    $data(widgets,filter) add command -label [msgcat::mc "   Show All"] -command [list themer::filter_all]
+    $data(widgets,filter) add cascade -label [msgcat::mc "   Show Category"] -menu [menu $data(widgets,filter).catMenu -tearoff 0]
+    $data(widgets,filter) add cascade -label [msgcat::mc "   Show Color"]    -menu [menu $data(widgets,filter).colorMenu -tearoff 0 -postcommand [list themer::populate_filter_color_menu]]
+    $data(widgets,filter) add command -label [msgcat::mc "   Show Selected Value"]  -command [list themer::filter_selected value]
+    $data(widgets,filter) add command -label [msgcat::mc "   Show Selected Option"] -command [list themer::filter_selected opt]
+
+    # Populate the category submenu
+    foreach title [theme::get_category_titles] {
+      $data(widgets,filter).catMenu add command -label $title -command [list themer::filter_category $title]
+    }
+
+  }
+
+  ######################################################################
+  # Handles the state of the filter menu.
+  proc handle_filter_menu_post {} {
+
+    variable data
+
+    if {[$data(widgets,cat) curselection] eq ""} {
+      $data(widgets,filter) entryconfigure [msgcat::mc "   Show Selected Value"]  -state disabled
+      $data(widgets,filter) entryconfigure [msgcat::mc "   Show Selected Option"] -state disabled
+    } else {
+      $data(widgets,filter) entryconfigure [msgcat::mc "   Show Selected Value"]  -state normal
+      $data(widgets,filter) entryconfigure [msgcat::mc "   Show Selected Option"] -state normal
+    }
+
+  }
+
+  ######################################################################
+  # Populates the filter color menu.
+  proc populate_filter_color_menu {} {
+
+    variable data
+
+    # Clear the menu contents
+    $data(widgets,filter).colorMenu delete 0 end
+
+    # Gather the colors
+    set first 1
+    foreach colors [theme::get_all_colors] {
+      foreach color $colors {
+        $data(widgets,filter).colorMenu add command -label $color -command [list themer::filter_color $color]
+      }
+      if {$first} {
+        $data(widgets,filter).colorMenu add separator
+        set first 0
+      }
+    }
+
+  }
+
+  ######################################################################
+  # Displays the filter menu.
+  proc show_filter_menu {tbl col} {
+
+    variable data
+
+    tk_popup $data(widgets,filter) [winfo rootx $data(widgets,cat)] [winfo rooty $data(widgets,cat)]
+
+  }
+
+  ######################################################################
+  # Show all table lines.
+  proc filter_all {} {
+
+    variable data
+
+    for {set i 0} {$i < [$data(widgets,cat) size]} {incr i} {
+      $data(widgets,cat) rowconfigure $i -hide 0
+    }
+
+  }
+
+  ######################################################################
+  # Only show the given category.
+  proc filter_category {title} {
+
+    variable data
+
+    foreach cat [$data(widgets,cat) childkeys root] {
+      if {[$data(widgets,cat) cellcget $cat,opt -text] eq $title} {
+        $data(widgets,cat) rowconfigure $cat -hide 0
+      } else {
+        $data(widgets,cat) rowconfigure $cat -hide 1
+      }
+    }
+
+  }
+
+  ######################################################################
+  # Only display rows with the given color.
+  proc filter_color {color} {
+
+    variable data
+
+    foreach cat [$data(widgets,cat) childkeys root] {
+      set one_match 0
+      foreach child [$data(widgets,cat) childkeys $cat] {
+        set category [$data(widgets,cat) cellcget $child,category -text]
+        set opt      [$data(widgets,cat) cellcget $child,opt      -text]
+        if {([lindex [theme::get_type $category $opt] 0] eq "color") && ([$data(widgets,cat) cellcget $child,value -background] eq $color)} {
+          $data(widgets,cat) rowconfigure $child -hide 0
+          set one_match 1
+        } else {
+          $data(widgets,cat) rowconfigure $child -hide 1
+        }
+      }
+      $data(widgets,cat) rowconfigure $cat -hide [expr $one_match ^ 1]
+    }
+
+  }
+
+  ######################################################################
+  # Matches all rows that have the same column value as the currently
+  # selected row.
+  proc filter_selected {col} {
+
+    variable data
+
+    # Get the selected row
+    set value [$data(widgets,cat) cellcget [$data(widgets,cat) curselection],$col -text]
+
+    foreach cat [$data(widgets,cat) childkeys root] {
+      set one_match 0
+      foreach child [$data(widgets,cat) childkeys $cat] {
+        if {[$data(widgets,cat) cellcget $child,$col -text] eq $value} {
+          $data(widgets,cat) rowconfigure $child -hide 0
+          set one_match 1
+        } else {
+          $data(widgets,cat) rowconfigure $child -hide 1
+        }
+      }
+      $data(widgets,cat) rowconfigure $cat -hide [expr $one_match ^ 1]
+    }
 
   }
 

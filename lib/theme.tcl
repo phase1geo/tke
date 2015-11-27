@@ -738,6 +738,33 @@ namespace eval theme {
   }
 
   ######################################################################
+  # Returns a two-element list of all of the unique colors such that the
+  # first list contains all swatch colors and the second list contains
+  # all other colors not including the swatch colors.
+  proc get_all_colors {} {
+
+    variable data
+    variable fields
+
+    array set colors [list]
+
+    # Get all of the colors
+    foreach key [array names data *,*] {
+      if {[lindex $data($key) $fields(type)] eq "color"} {
+        set colors([lindex $data($key) $fields(value)]) 1
+      }
+    }
+
+    # Remove the swatch colors
+    foreach color $data(swatch) {
+      unset -nocomplain colors($color)
+    }
+
+    return [list $data(swatch) [array names colors]]
+
+  }
+
+  ######################################################################
   # Returns a key/pair list containing the syntax colors to use for all
   # text widgets.  Called by the syntax namespace when setting the
   # language.
@@ -777,6 +804,22 @@ namespace eval theme {
     }
 
     return $attr
+
+  }
+
+  ######################################################################
+  # Returns all of the category titles.
+  proc get_category_titles {} {
+
+    variable category_titles
+
+    set titles [list]
+
+    foreach {category title} $category_titles {
+      lappend titles $title
+    }
+
+    return $titles
 
   }
 
