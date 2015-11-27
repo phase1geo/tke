@@ -683,10 +683,10 @@ namespace eval themer {
     ttk::labelframe $data(widgets,color).mod -text [msgcat::mc "Modifications"]
     grid [ttk::radiobutton $data(widgets,color).mod.lnone -text [msgcat::mc "None"] -value none -variable themer::data(mod) -command [list themer::color_mod_changed none]] -row 0 -column 0 -sticky w -padx 2 -pady 2
     set i 1
-    foreach mod [list [msgcat::mc "light"] r g b] {
+    foreach {mod max} [list [msgcat::mc "value"] 127 r 255 g 255 b 255] {
       grid [ttk::radiobutton $data(widgets,color).mod.l$mod -text "[string totitle $mod]:" -value $mod -variable themer::data(mod) -command [list themer::color_mod_changed $mod]] -row $i -column 0 -sticky w -padx 2 -pady 2
-      grid [set data(widgets,color_${mod}_scale) [ttk::scale $data(widgets,color).mod.s$mod -orient horizontal -from 0 -to 255 -command [list themer::detail_scale_change $mod]]] -row $i -column 1 -padx 2 -pady 2
-      grid [set data(widgets,color_${mod}_entry) [$data(sb)  $data(widgets,color).mod.e$mod {*}$data(sb_opts) -width 3 -from 0 -to 255 -command [list themer::detail_spinbox_change $mod]]] -row $i -column 2 -padx 2 -pady 2
+      grid [set data(widgets,color_${mod}_scale) [ttk::scale $data(widgets,color).mod.s$mod -orient horizontal -from 0 -to $max -command [list themer::detail_scale_change $mod]]] -row $i -column 1 -padx 2 -pady 2
+      grid [set data(widgets,color_${mod}_entry) [$data(sb)  $data(widgets,color).mod.e$mod {*}$data(sb_opts) -width 3 -from 0 -to $max -command [list themer::detail_spinbox_change $mod]]] -row $i -column 2 -padx 2 -pady 2
       $data(widgets,color_${mod}_scale) state disabled
       $data(widgets,color_${mod}_entry) {*}$data(sb_disabled)
       incr i
@@ -883,11 +883,10 @@ namespace eval themer {
     set data(widgets,treestyle_mb) [ttk::menubutton $data(widgets,treestyle).f.mb -width -20 \
       -menu [set data(widgets,treestyle_menu) [menu $data(widgets,treestyle).menu -tearoff 0]]]
 
-    # Get the available treestyle options from tablelist itself and add them to the menubutton
-    if {[catch { $data(widgets,cat) configure -treestyle xxx } rc] &&[regexp {must be (.*) or (.*)$} $rc -> o1 o2]} {
-      foreach treestyle [string map {, {}} "$o1 $o2"] {
-        $data(widgets,treestyle_menu) add command -label $treestyle -command [list themer::set_treestyle $treestyle]
-      }
+    # Add the available treestyles to the menubutton (note: tablelist::treeStyles is a private,
+    # undocumented variable; however, the developer recommended that this be used for this purpose)
+    foreach treestyle $tablelist::treeStyles {
+      $data(widgets,treestyle_menu) add command -label $treestyle -command [list themer::set_treestyle $treestyle]
     }
 
     # Pack the widgets
@@ -979,7 +978,7 @@ namespace eval themer {
     variable data
 
     # Disable all entries
-    foreach mod [list light r g b] {
+    foreach mod [list value r g b] {
       $data(widgets,color_${mod}_scale) state disabled
       $data(widgets,color_${mod}_entry) {*}$data(sb_disabled)
     }
@@ -1045,8 +1044,8 @@ namespace eval themer {
         set new_color $base_color
         set value     $base_color
       }
-      light {
-        set new_color [utils::auto_adjust_color $base_color $diff manual]
+      value {
+        set new_color [utils::auto_adjust_color $base_color $diff auto]
         set value     $base_color,$diff
       }
       default {
@@ -1172,7 +1171,7 @@ namespace eval themer {
       }
       2 {
         lassign $values base_color set_value
-        set data(mod)  "light"
+        set data(mod)  "value"
       }
       3 {
         lassign $values base_color data(mod) set_value
@@ -1184,12 +1183,10 @@ namespace eval themer {
     $data(widgets,color_canvas) itemconfigure $data(widgets,color_base) -fill $base_color
 
     # Get all of the color values
-    lassign [utils::get_color_values $base_color] base(light) base(r) base(g) base(b)
+    lassign [utils::get_color_values $base_color] base(value) base(r) base(g) base(b)
 
     # Set the from/to values in the scales and entries
-    foreach mod [list light r g b] {
-      $data(widgets,color_${mod}_scale) configure -from [expr 0 - $base($mod)] -to [expr 255 - $base($mod)]
-      $data(widgets,color_${mod}_entry) configure -from [expr 0 - $base($mod)] -to [expr 255 - $base($mod)]
+    foreach mod [list value r g b] {
       $data(widgets,color_${mod}_scale) set [expr {($mod eq $data(mod)) ? $set_value : 0}]
       $data(widgets,color_${mod}_entry) set [expr {($mod eq $data(mod)) ? $set_value : 0}]
     }

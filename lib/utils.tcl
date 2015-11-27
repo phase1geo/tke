@@ -240,15 +240,25 @@ namespace eval utils {
   }
 
   ######################################################################
+  # Converts the given color to an RGB list.
+  proc color_to_rgb {color} {
+
+    lassign [winfo rgb . $color] r g b
+
+    return [list [expr $r >> 8] [expr $g >> 8] [expr $b >> 8]]
+
+  }
+
+  ######################################################################
   # Returns the color black or white such that the returned color
   # will be visible next to the given color (the given color does not
   # need to be monochrome).
   proc get_complementary_mono_color {color} {
 
-    lassign [winfo rgb . $color] r g b
+    lassign [color_to_rgb $color] r g b
 
-    # Calculate lightness
-    set sorted [lsort -real [list [expr $r >> 8] [expr $g >> 8] [expr ($b >> 8) & 0xfc]]]
+    # Calculate lightness (adjust the blue value to get a better result)
+    set sorted [lsort -real [list $r $g [expr $b & 0xfc]]]
 
     return [expr {((([lindex $sorted 0] + [lindex $sorted 2]) / 2) < 127) ? "white" : "black"}]
 
@@ -259,8 +269,8 @@ namespace eval utils {
   proc rgb_to_hsv {r g b} {
 
     set sorted [lsort -real [list $r $g $b]]
-    set temp [lindex $sorted 0]
-    set v [lindex $sorted 2]
+    set temp   [lindex $sorted 0]
+    set v      [lindex $sorted 2]
 
     set bottom [expr {$v-$temp}]
     if {$bottom == 0} {
@@ -352,13 +362,67 @@ namespace eval utils {
   }
 
   ######################################################################
+  # Converts an RGB value into an HSL value.
+  proc rgb_to_hsl {r g b} {
+
+    set r [expr double($r) / 255]
+    set g [expr double($g) / 255]
+    set b [expr double($b) / 255]
+
+    lassign [lsort -real [list $r $g $b]] m unused M
+    set C [expr $M - $m]
+
+    # Calculate hue
+    if {$C == 0.0} {
+      set h 0
+    } elseif {$M == $r} {
+      set h [expr round( fmod( (($g - $b) / $C), 6.0 ) * 60 )]
+    } elseif {$M == $g} {
+      set h [expr round( ((($b - $r) / $C) + 2.0) * 60 )]
+    } else {
+      set h [expr round( ((($r - $g) / $C) + 4.0) * 60 )]
+    }
+
+    # Calculate light
+    set l [expr ($M + $m) / 2]
+
+    # Calculate saturation
+    if {$C == 0.0} {
+      set s 0
+    } else {
+      set s [expr $C / (1.0 - abs( (2 * $l) - 1 ))]
+    }
+
+    return [list $h $s $l]
+
+  }
+
+  ######################################################################
+  # Converts an HSV value into an RGB value.
+  proc hsl_to_rgb {h s l} {
+
+    set c [expr (1 - abs( (2 * $l) - 1 )) * $s]
+    set m [expr $l - ($C / 2)]
+    set x [expr $c * (1 - abs( fmod( ($h / 60.0), 2 ) ) - 1)]
+
+        if {$h <  60} { lassign [list $c $x  0] r g b }
+    elseif {$h < 120} { lassign [list $x $c  0] r g b }
+    elseif {$h < 180} { lassign [list 0  $c $x] r g b }
+    elseif {$h < 240} { lassign [list 0  $x $c] r g b }
+    elseif {$h < 300} { lassign [list $x  0 $c] r g b }
+    else              { lassign [list $c  0 $x] r g b }
+
+    return [list [expr round( ($r + $m) * 255 )] [expr round( ($g + $m) * 255 )] [expr round( ($b + $m) * 255 )]]
+
+  }
+
+  ######################################################################
   # Returns the value of the given color
   proc get_color_values {color} {
 
-    lassign [winfo rgb . $color] r g b
-    lassign [utils::rgb_to_hsv [set r [expr $r >> 8]] [set g [expr $g >> 8]] [set b [expr $b >> 8]]] hue saturation value
+    lassign [rgb_to_hsv {*}[set rgb [color_to_rgb $color]]] hue saturation value
 
-    return [list $value $r $g $b [format "#%02x%02x%02x" $r $g $b]]
+    return [list $value {*}$rgb [format "#%02x%02x%02x" {*}$rgb]]
 
   }
 
@@ -368,16 +432,14 @@ namespace eval utils {
   # color is a lighter color, the value will be darkened.
   proc auto_adjust_color {color diff {mode "auto"}} {
 
-    # Create the lighter version of the primary color
-    lassign [winfo rgb . $color] r g b
-    lassign [rgb_to_hsv [expr $r >> 8] [expr $g >> 8] [expr $b >> 8]] hue saturation value
+    lassign [rgb_to_hsv {*}[color_to_rgb $color]] hue saturation value
+
     switch $mode {
       "auto"   { set value [expr ($value < 128) ? ($value + $diff) : ($value - $diff)] }
       "manual" { set value [expr $value + $diff] }
     }
-    set rgb [hsv_to_rgb $hue $saturation $value]
 
-    return [format {#%02x%02x%02x} {*}$rgb]
+    return [format {#%02x%02x%02x} {*}[hsv_to_rgb $hue $saturation $value]]
 
   }
 
@@ -386,38 +448,37 @@ namespace eval utils {
   proc auto_mix_colors {color type diff} {
 
     # Create the lighter version of the primary color
-    lassign [winfo rgb . $color] r g b
-
-    set r [expr $r / 256]
-    set g [expr $g / 256]
-    set b [expr $b / 256]
+    lassign [color_to_rgb $color] r g b
 
     switch $type {
       r {
         if {[set odiff [expr 255 - ($r + $diff)]] >= 0} {
           incr r $diff
         } else {
-          set  r 255
-          incr g [expr 0 - (abs($odiff) / 2)]
-          incr b [expr 0 - (abs($odiff) / 2)]
+          set d [expr abs($odiff) / 2]
+          set r 255
+          set g [expr (($g - $d) > 0) ? ($g - $d) : 0]
+          set b [expr (($b - $d) > 0) ? ($b - $d) : 0]
         }
       }
       g {
         if {[set odiff [expr 255 - ($g + $diff)]] >= 0} {
           incr g $diff
         } else {
-          set  g 255
-          incr r [expr 0 - (abs($odiff) / 2)]
-          incr b [expr 0 - (abs($odiff) / 2)]
+          set d [expr abs($odiff) / 2]
+          set g 255
+          set r [expr (($r - $d) > 0) ? ($r - $d) : 0]
+          set b [expr (($b - $d) > 0) ? ($b - $d) : 0]
         }
       }
       b {
         if {[set odiff [expr 255 - ($b + $diff)]] >= 0} {
           incr b $diff
         } else {
-          set  b 255
-          incr r [expr 0 - (abs($odiff) / 2)]
-          incr g [expr 0 - (abs($odiff) / 2)]
+          set d [expr abs($odiff) / 2]
+          set b 255
+          set r [expr (($r - $d) > 0) ? ($r - $d) : 0]
+          set g [expr (($g - $d) > 0) ? ($g - $d) : 0]
         }
       }
     }
