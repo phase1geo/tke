@@ -190,7 +190,7 @@ namespace eval themer {
   # Returns true if the current theme needs to be saved; otherwise, returns 0.
   proc theme_needs_saving {} {
 
-    return [expr {[string first "*" [wm title .thmwin]] != -1}]
+    return [expr {[winfo exists .thmwin] && ([string first "*" [wm title .thmwin]] != -1)}]
 
   }
 
@@ -288,7 +288,7 @@ namespace eval themer {
         .thmwin.wf.mb_menu add command -label [msgcat::mc "Installation Directory"] -command [list themer::save_to_directory "install"]
       }
       set data(widgets,save_cb) [ttk::combobox .thmwin.wf.cb -width 30 -postcommand [list themer::add_combobox_themes .thmwin.wf.cb]]
-      ttk::button .thmwin.wf.save   -style BButton -text [msgcat::mc "Save"]   -width $bwidth -command [list themer::save_theme]
+      set data(widgets,save_b)  [ttk::button .thmwin.wf.save   -style BButton -text [msgcat::mc "Save"]   -width $bwidth -command [list themer::save_theme]]
       ttk::button .thmwin.wf.cancel -style BButton -text [msgcat::mc "Cancel"] -width $bwidth -command [list themer::end_save_frame]
 
       pack .thmwin.wf.cancel -side right -padx 2 -pady 2
@@ -334,7 +334,8 @@ namespace eval themer {
         user    { set lbl [msgcat::mc "User Directory"] }
         install { set lbl [msgcat::mc "Installation Directory"] }
       }
-      $data(widgets,save_mb) configure -text $lbl
+      $data(widgets,save_mb) configure -text  $lbl
+      $data(widgets,save_b)  configure -state normal
     }
 
   }
@@ -425,7 +426,10 @@ namespace eval themer {
     $data(widgets,save_cb) set $data(curr_theme)
 
     # Set the save to directory status
-    if {([file dirname [themes::get_file $data(curr_theme)]] eq [file join $::tke_dir data themes]) && [::tke_development]} {
+    if {[catch { themes::get_file $data(curr_theme) } fname]} {
+      $data(widgets,save_mb) configure -text [msgcat::mc "Select Directory"]
+      $data(widgets,save_b)  configure -state disabled
+    } elseif {([file dirname $fname] eq [file join $::tke_dir data themes]) && [::tke_development]} {
       save_to_directory "install"
     } else {
       save_to_directory "user"
@@ -1277,7 +1281,7 @@ namespace eval themer {
             default { image_photo_dir custom  *.gif [file join $value_array(dir) $value_array(file)] }
           }
         } else {
-          $data(widgets,image_pf_mb_dir) configure -text "Select Directory"
+          $data(widgets,image_pf_mb_dir) configure -text [msgcat::mc "Select Directory"]
           grid remove $data(widgets,image_pf_tl_file)
         }
         pack $data(widgets,image_pf) -fill both -expand yes -padx 2 -pady 2
@@ -1509,8 +1513,8 @@ namespace eval themer {
     # Get the theme file to import
     if {[set theme [tk_getOpenFile -parent .thmwin -title [msgcat::mc "Import Theme File"] -filetypes {{{TKE Theme} {.tkethemz}} {{TextMate Theme} {.tmtheme}}}]] ne ""} {
       switch -exact [string tolower [file extension $theme]] {
-        .tkethemz { import_tke $theme }
-        .tmtheme  { import_tm  $theme }
+        .tkethemz { import_tke $theme .thmwin }
+        .tmtheme  { import_tm  $theme .thmwin }
         default   {}
       }
     }
@@ -1519,7 +1523,7 @@ namespace eval themer {
 
   ######################################################################
   # Imports the given TextMate theme and displays the result in the UI.
-  proc import_tm {theme} {
+  proc import_tm {theme {parent .}} {
 
     variable data
 
@@ -1528,7 +1532,7 @@ namespace eval themer {
 
       # Read the theme
       if {[catch { theme::read_tmtheme $theme } rc]} {
-        tk_messageBox -parent .thmwin -icon error -message [msgcat::mc "Import Error"] -detail $rc -default ok -type ok
+        tk_messageBox -parent $parent -icon error -message [msgcat::mc "Import Error"] -detail $rc -default ok -type ok
         return
       }
 
@@ -1547,7 +1551,7 @@ namespace eval themer {
 
   ######################################################################
   # Imports the given tke theme and displays the result in the UI.
-  proc import_tke {theme} {
+  proc import_tke {theme {parent .}} {
 
     variable data
 
@@ -1559,7 +1563,7 @@ namespace eval themer {
 
       # Read the theme
       if {[catch { theme::read_tketheme $theme_file } rc]} {
-        tk_messageBox -parent .thmwin -icon error -message [msgcat::mc "Import Error"] -detail $rc -default ok -type ok
+        tk_messageBox -parent $parent -icon error -message [msgcat::mc "Import Error"] -detail $rc -default ok -type ok
         return
       }
 

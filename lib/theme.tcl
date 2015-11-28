@@ -323,8 +323,8 @@ namespace eval theme {
     }
 
     # Load the meta data
-    foreach {key value} [array get contents meta,*,*] {
-      set data($key) $value
+    foreach {key val} [array get contents meta,*,*] {
+      set data($key) $val
     }
 
     # Load the categories
@@ -430,7 +430,7 @@ namespace eval theme {
     variable data
     variable orig_data
     variable fields
-    variable scope_map
+    variable tm_scope_map
 
     # Open the file
     if {[catch { open $theme_file r } rc]} {
@@ -457,12 +457,12 @@ namespace eval theme {
     set caret       0
     set scope_types ""
 
-    while {[regexp {\s*([^<]*)\s*<(/?\w+)[^>]*>(.*)$} $content -> value element content]} {
+    while {[regexp {\s*([^<]*)\s*<(/?\w+)[^>]*>(.*)$} $content -> val element content]} {
       if {[string index $element 0] eq "/"} {
         set element [string range $element 1 end]
         switch $element {
           key {
-            switch $value {
+            switch $val {
               scope      { set scope      1 }
               foreground { set foreground 1 }
               background { set background 1 }
@@ -472,22 +472,22 @@ namespace eval theme {
           string {
             if {$scope} {
               set scope       0
-              set scope_types $value
+              set scope_types $val
             } elseif {$foreground} {
               set foreground 0
-              set color      [normalize_color $value]
+              set color      [normalize_color $val]
               if {$scope_types eq ""} {
                 set labels(foreground) $color
               } else {
                 foreach scope_type [string map {, { }} $scope_types] {
-                  if {[info exists scope_map($scope_type)]} {
-                    set labels($scope_map($scope_type)) $color
+                  if {[info exists tm_scope_map($scope_type)]} {
+                    set labels($tm_scope_map($scope_type)) $color
                   }
                 }
               }
             } elseif {$background} {
               set background 0
-              set color      [normalize_color $value]
+              set color      [normalize_color $val]
               if {$scope_types eq ""} {
                 set labels(background)    $color
                 set labels(warning_width) [utils::auto_adjust_color $color 40]
@@ -495,7 +495,7 @@ namespace eval theme {
               }
             } elseif {$caret} {
               set caret 0
-              set color [normalize_color $value]
+              set color [normalize_color $val]
               if {$scope_types eq ""} {
                 set labels(cursor) $color
               }
@@ -510,6 +510,38 @@ namespace eval theme {
 
     array unset data
     array set data [array get orig_data]
+
+    # Load the swatch and extra data
+    set data(name)  [file rootname [file tail $theme_file]]
+    set data(fname) $theme_file
+
+    # Setup a default swatch and clear the meta data
+    set data(swatch) [list $labels(background) $labels(warning_width) $labels(foreground)]
+
+    # Set values to defaults to begin with
+    foreach key [array names orig_data] {
+      set default_value [lindex $data($key) $fields(default)]
+      switch [lindex $data($key) $fields(type)] {
+        color {
+          lset data($key) $fields(value) [expr {[string is integer $default_value] ? [lindex $data(swatch) $default_value] : $default_value}]
+        }
+        image {
+          array set value $default_value
+          unset -nocomplain value(basecolor)
+          lset data($key) $fields(value) [array get value]
+          array unset value
+        }
+        default {
+          lset data($key) $fields(value) $default_value
+        }
+      }
+      lset data($key) $fields(changed) 1
+    }
+
+    # Copy the label values to the data structure
+    foreach {name color} [array get labels] {
+      lset data(syntax,$name) $fields(value) $labels($name)
+    }
 
     # Let's take a stab at good defaults
     lset data(ttk_style,disabled_background) $fields(value) $labels(background)
@@ -532,9 +564,6 @@ namespace eval theme {
     lset data(sidebar,-highlightcolor)       $fields(value) $labels(foreground)
     lset data(sidebar_scrollbar,-background) $fields(value) $labels(foreground)
     lset data(sidebar_scrollbar,-foreground) $fields(value) $labels(warning_width)
-
-    # Setup a default swatch and clear the meta data
-    set data(swatch) [list $labels(background) $labels(warning_width) $labels(foreground)]
 
   }
 
