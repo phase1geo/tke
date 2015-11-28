@@ -48,16 +48,20 @@ namespace eval theme {
   ]
 
   array set orig_data {
-    ttk_style,disabledfg          {color {#999999} {} {0}}
-    ttk_style,frame               {color {0} {} {0}}
-    ttk_style,lightframe          {color {2} {} {0}}
-    ttk_style,dark                {color {#cfcdc8} {} {0}}
-    ttk_style,darker              {color {#bab5ab} {} {0}}
-    ttk_style,darkest             {color {#9e9a91} {} {0}}
-    ttk_style,lighter             {color {1} {} {0}}
-    ttk_style,lightest            {color {1} {} {0}}
-    ttk_style,selectbg            {color {#4a6984} {} {0}}
-    ttk_style,selectfg            {color {#ffffff} {} {0}}
+    ttk_style,disabled_foreground {color {#999999} {} {0}}
+    ttk_style,disabled_background {color {1} {} {0}}
+    ttk_style,background          {color {1} {} {0}}
+    ttk_style,foreground          {color {2} {} {0}}
+    ttk_style,active_color        {color {0} {} {0}}
+    ttk_style,dark_color          {color {#cfcdc8} {} {0}}
+    ttk_style,pressed_color       {color {#bab5ab} {} {0}}
+    ttk_style,border_color        {color {#9e9a91} {} {0}}
+    ttk_style,entry_border        {color {#4a6984} {} {0}}
+    ttk_style,select_background   {color {#4a6984} {} {0}}
+    ttk_style,select_foreground   {color {#ffffff} {} {0}}
+    ttk_style,relief              {{relief {raised sunken flat ridge solid groove}} {flat} {} {0}}
+    ttk_style,grip_thickness      {{number {2 10}} {5} {} {0}}
+    ttk_style,grip_count          {{number {0 20}} {10} {} {0}}
     menus,-background             {color {white} {} {0}}
     menus,-foreground             {color {black} {} {0}}
     menus,-activebackground       {color {white} {} {0}}
@@ -69,7 +73,6 @@ namespace eval theme {
     tabs,-activebackground        {color {0} {} {0}}
     tabs,-inactivebackground      {color {2} {} {0}}
     tabs,-height                  {{number {20 40}} {25} {} {0}}
-    tabs,-margin                  {{number {0 10}} {0} {} {0}}
     tabs,-relief                  {{relief {flat raised}} {flat} {} {0}}
     text_scrollbar,-background    {color {0} {} {0}}
     text_scrollbar,-foreground    {color {2} {} {0}}
@@ -319,6 +322,11 @@ namespace eval theme {
       }
     }
 
+    # Load the meta data
+    foreach {key value} [array get contents meta,*,*] {
+      set data($key) $value
+    }
+
     # Load the categories
     foreach key [array names orig_data] {
       if {[info exists contents($key)]} {
@@ -402,7 +410,11 @@ namespace eval theme {
 
     # Output the theme content
     foreach key [lsort [array names data *,*]] {
-      puts $rc "$key {[lindex $data($key) $fields(value)]}"
+      if {[llength [split $key ,]] == 2} {
+        puts $rc "$key {[lindex $data($key) $fields(value)]}"
+      } else {
+        puts $rc "$key {$data($key)}"
+      }
     }
 
     # Close the file for writing
@@ -500,18 +512,10 @@ namespace eval theme {
     array set data [array get orig_data]
 
     # Let's take a stab at good defaults
-    lset data(ttk_style,disabledfg)          $fields(value) #999999
-    lset data(ttk_style,frame)               $fields(value) $labels(background)
-    lset data(ttk_style,lightframe)          $fields(value) $labels(warning_width)
-    lset data(ttk_style,window)              $fields(value) $labels(background)
-    lset data(ttk_style,dark)                $fields(value) #cfcdc8
-    lset data(ttk_style,darker)              $fields(value) #bab5ab
-    lset data(ttk_style,darkest)             $fields(value) #9e9a91
-    lset data(ttk_style,lighter)             $fields(value) $labels(foreground)
-    lset data(ttk_style,lightest)            $fields(value) $labels(foreground)
-    lset data(ttk_style,selectbg)            $fields(value) #4a6984
-    lset data(ttk_style,selectfg)            $fields(value) #ffffff
-    lset data(ttk_style,window)              $fields(value) $labels(background)
+    lset data(ttk_style,disabled_background) $fields(value) $labels(background)
+    lset data(ttk_style,background)          $fields(value) $labels(background)
+    lset data(ttk_style,foreground)          $fields(value) $labels(foreground)
+    lset data(ttk_style,active_color)        $fields(value) $labels(warning_width)
     lset data(menus,-background)             $fields(value) $labels(background)
     lset data(menus,-foreground)             $fields(value) $labels(foreground)
     lset data(tabs,-background)              $fields(value) $labels(warning_width)
@@ -952,78 +956,78 @@ namespace eval theme {
 
       # Configure the application
       ttk::style configure "." \
-        -background        $opts(frame) \
-        -foreground        $opts(lighter) \
-        -bordercolor       $opts(darkest) \
-        -darkcolor         $opts(dark) \
-        -troughcolor       $opts(darker) \
-        -arrowcolor        $opts(lighter) \
-        -selectbackground  $opts(selectbg) \
-        -selectforeground  $opts(selectfg) \
+        -background        $opts(background) \
+        -foreground        $opts(foreground) \
+        -bordercolor       $opts(border_color) \
+        -darkcolor         $opts(dark_color) \
+        -troughcolor       $opts(pressed_color) \
+        -arrowcolor        $opts(foreground) \
+        -selectbackground  $opts(select_background) \
+        -selectforeground  $opts(select_foreground) \
         -selectborderwidth 0 \
         -font              TkDefaultFont
       ttk::style map "." \
-        -background       [list disabled $opts(frame) \
-                                active   $opts(lighter)] \
-        -foreground       [list disabled $opts(disabledfg)] \
-        -selectbackground [list !focus   $opts(darkest)] \
+        -background       [list disabled $opts(disabled_background) \
+                                active   $opts(active_color)] \
+        -foreground       [list disabled $opts(disabled_foreground)] \
+        -selectbackground [list !focus   $opts(border_color)] \
         -selectforeground [list !focus   white]
 
       # Configure TButton widgets
       ttk::style configure TButton \
-        -anchor center -width -11 -padding 5 -relief raised -background $opts(frame) -foreground $opts(lighter)
+        -anchor center -width -11 -padding 5 -relief raised -background $opts(background) -foreground $opts(foreground)
       ttk::style map TButton \
-        -background  [list disabled  $opts(lighter) \
-                           pressed   $opts(darker) \
-                           active    $opts(lightframe)] \
-        -lightcolor  [list pressed   $opts(darker)] \
-        -darkcolor   [list pressed   $opts(darker)] \
+        -background  [list disabled  $opts(disabled_background) \
+                           pressed   $opts(pressed_color) \
+                           active    $opts(active_color)] \
+        -lightcolor  [list pressed   $opts(pressed_color)] \
+        -darkcolor   [list pressed   $opts(pressed_color)] \
         -bordercolor [list alternate "#000000"]
 
       # Configure BButton widgets
       ttk::style configure BButton \
-        -anchor center -padding 2 -relief flat -background $opts(frame) -foreground $opts(lighter)
+        -anchor center -padding 2 -relief $opts(relief) -background $opts(background) -foreground $opts(foreground)
       ttk::style map BButton \
-        -background  [list disabled  $opts(frame) \
-                           pressed   $opts(darker) \
-                           active    $opts(lightframe)] \
-        -lightcolor  [list pressed   $opts(darker)] \
-        -darkcolor   [list pressed   $opts(darker)] \
+        -background  [list disabled  $opts(disabled_background) \
+                           pressed   $opts(pressed_color) \
+                           active    $opts(active_color)] \
+        -lightcolor  [list pressed   $opts(pressed_color)] \
+        -darkcolor   [list pressed   $opts(pressed_color)] \
         -bordercolor [list alternate "#000000"]
 
       # Configure ttk::menubutton widgets
       ttk::style configure TMenubutton \
-        -width 0 -padding 0 -relief flat -background $opts(frame) -foreground $opts(lighter)
+        -width 0 -padding 0 -relief $opts(relief) -background $opts(background) -foreground $opts(foreground)
       ttk::style map TMenubutton \
-        -background  [list disabled  $opts(frame) \
-                           pressed   $opts(lightframe) \
-                           active    $opts(lightframe)] \
-        -lightcolor  [list pressed   $opts(darker)] \
-        -darkcolor   [list pressed   $opts(darker)] \
+        -background  [list disabled  $opts(disabled_background) \
+                           pressed   $opts(pressed_color) \
+                           active    $opts(active_color)] \
+        -lightcolor  [list pressed   $opts(pressed_color)] \
+        -darkcolor   [list pressed   $opts(pressed_color)] \
         -bordercolor [list alternate "#000000"]
 
       # Configure ttk::radiobutton widgets
       ttk::style configure TRadiobutton \
-        -width 0 -padding 0 -relief flat -background $opts(frame) -foreground $opts(lighter)
+        -width 0 -padding 0 -relief $opts(relief) -background $opts(background) -foreground $opts(foreground)
       ttk::style map TRadiobutton \
-        -background  [list disabled $opts(frame) \
-                           active   $opts(lightframe)]
+        -background  [list disabled $opts(disabled_background) \
+                           active   $opts(active_color)]
 
       # Configure ttk::entry widgets
       ttk::style configure TEntry -padding 1 -insertwidth 1 -foreground black
       ttk::style map TEntry \
-        -background  [list readonly $opts(frame)] \
-        -foreground  [list readonly $opts(lighter)] \
-        -bordercolor [list focus    $opts(selectbg)] \
+        -background  [list readonly $opts(background)] \
+        -foreground  [list readonly $opts(foreground)] \
+        -bordercolor [list focus    $opts(entry_border)] \
         -lightcolor  [list focus    "#6f9dc6"] \
         -darkcolor   [list focus    "#6f9dc6"]
 
       # Configure ttk::scrollbar widgets
       ttk::style configure TScrollbar \
-        -relief flat -troughcolor $opts(lightframe)
+        -relief $opts(relief) -troughcolor $opts(active_color)
       ttk::style map TScrollbar \
-        -background  [list disabled $opts(frame) \
-                           active   $opts(frame)]
+        -background  [list disabled $opts(disabled_background) \
+                           active   $opts(background)]
 
       # Configure ttk::labelframe widgets
       ttk::style configure TLabelframe \
@@ -1031,29 +1035,29 @@ namespace eval theme {
 
       # Configure ttk::spinbox widgets
       ttk::style configure TSpinbox \
-        -relief flat -padding 2 -background $opts(frame) -foreground $opts(lighter) -fieldbackground $opts(frame)
+        -relief $opts(relief) -padding 2 -background $opts(background) -foreground $opts(foreground) -fieldbackground $opts(background)
 
       # Configure ttk::checkbutton widgets
       ttk::style configure TCheckbutton \
-        -relief flat -padding 2 -background $opts(frame) -foreground $opts(lighter)
+        -relief $opts(relief) -padding 2 -background $opts(background) -foreground $opts(foreground)
       ttk::style map TCheckbutton \
-        -background  [list disabled  $opts(lighter) \
-                           pressed   $opts(darker) \
-                           active    $opts(lightframe)] \
-        -lightcolor  [list pressed   $opts(darker)] \
-        -darkcolor   [list pressed   $opts(darker)] \
+        -background  [list disabled  $opts(disabled_background) \
+                           pressed   $opts(pressed_color) \
+                           active    $opts(active_color)] \
+        -lightcolor  [list pressed   $opts(pressed_color)] \
+        -darkcolor   [list pressed   $opts(pressed_color)] \
         -bordercolor [list alternate "#000000"]
 
       # Configure ttk::combobox widgets
       ttk::style configure TCombobox \
-        -relief flat -background $opts(frame) -foreground $opts(frame)
+        -relief $opts(relief) -background $opts(background) -foreground $opts(background)
       ttk::style map TCombobox \
-        -background [list disabled  $opts(lighter) \
-                          pressed   $opts(darker) \
-                          active    $opts(lightframe)]
+        -background [list disabled  $opts(disabled_background) \
+                          pressed   $opts(pressed_color) \
+                          active    $opts(active_color)]
 
       # Configure panedwindow sash widgets
-      ttk::style configure Sash -sashthickness 5 -gripcount 10
+      ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }
 
@@ -1126,7 +1130,7 @@ namespace eval theme {
     switch $action {
       exists { return [info exists data($key)] }
       get    { return $data($key) }
-      set    { set data($key) $args }
+      set    { set data($key) [lindex $args 0] }
       delete { unset -nocomplain data($key) }
     }
 

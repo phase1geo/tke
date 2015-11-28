@@ -40,6 +40,15 @@ static char bullet_bits = {
     0x00, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x00
 }
 }}
+images,tab_close {dat {#define close_width 8
+#define close_height 8
+static unsigned char close_bits[] = {
+   0x44, 0xee, 0x7c, 0x38, 0x7c, 0xee, 0x44, 0x00};
+} fg white msk {#define close_width 8
+#define close_height 8
+static unsigned char close_bits[] = {
+   0x44, 0xee, 0x7c, 0x38, 0x7c, 0xee, 0x44, 0x00};
+}}
 images,tab_diff {dat {#define bullet_width 8
 #define bullet_height 8
 static char bullet_bits = {
@@ -69,13 +78,18 @@ static unsigned char lock_bits[] = {
 static unsigned char lock_bits[] = {
    0x3e, 0x7f, 0x63, 0x7f, 0x7f, 0x77, 0x77, 0x7f};
 }}
+menus,-activebackground {white}
+menus,-activeforeground {black}
 menus,-background {white}
+menus,-disabledforeground {grey}
 menus,-foreground {black}
 menus,-relief {flat}
+meta,ttk_style,active_color {#282828,v,30}
 sidebar,-background {white}
 sidebar,-foreground {black}
 sidebar,-highlightbackground {white}
 sidebar,-highlightcolor {white}
+sidebar,-relief {flat}
 sidebar,-selectbackground {#282828}
 sidebar,-selectforeground {white}
 sidebar,-treestyle {aqua}
@@ -106,18 +120,23 @@ syntax,warning_width {#282828}
 tabs,-activebackground {black}
 tabs,-background {#282828}
 tabs,-foreground {white}
+tabs,-height {25}
 tabs,-inactivebackground {#282828}
 tabs,-relief {flat}
 text_scrollbar,-background {black}
 text_scrollbar,-foreground {#282828}
 text_scrollbar,-thickness {15}
-ttk_style,dark {#cfcdc8}
-ttk_style,darker {#bab5ab}
-ttk_style,darkest {#9e9a91}
-ttk_style,disabledfg {#999999}
-ttk_style,frame {black}
-ttk_style,lighter {white}
-ttk_style,lightest {white}
-ttk_style,lightframe {#282828}
-ttk_style,selectbg {#4a6984}
-ttk_style,selectfg {#ffffff}
+ttk_style,active_color {#464646}
+ttk_style,background {#282828}
+ttk_style,border_color {#9e9a91}
+ttk_style,dark_color {#cfcdc8}
+ttk_style,disabled_background {#282828}
+ttk_style,disabled_foreground {#999999}
+ttk_style,entry_border {#4a6984}
+ttk_style,foreground {white}
+ttk_style,grip_count {10}
+ttk_style,grip_thickness {5}
+ttk_style,pressed_color {#bab5ab}
+ttk_style,relief {flat}
+ttk_style,select_background {#4a6984}
+ttk_style,select_foreground {#ffffff}

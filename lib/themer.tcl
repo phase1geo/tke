@@ -547,7 +547,8 @@ namespace eval themer {
           detail_show_relief $value $values
         }
         number {
-          detail_show_number [string totitle [string range $data(opt) 1 end]] $value {*}$values
+          set title [string totitle [string map {{_} { }} [expr {([string index $data(opt) 0] eq "-") ? [string range $data(opt) 1 end] : $data(opt)}]]]
+          detail_show_number $title $value {*}$values
         }
         treestyle {
           detail_show_treestyle $value
@@ -687,12 +688,10 @@ namespace eval themer {
     ttk::labelframe $data(widgets,color).mod -text [msgcat::mc "Modifications"]
     grid [ttk::radiobutton $data(widgets,color).mod.lnone -text [msgcat::mc "None"] -value none -variable themer::data(mod) -command [list themer::color_mod_changed none]] -row 0 -column 0 -sticky w -padx 2 -pady 2
     set i 1
-    foreach {mod max} [list [msgcat::mc "value"] 127 r 255 g 255 b 255] {
-      grid [ttk::radiobutton $data(widgets,color).mod.l$mod -text "[string totitle $mod]:" -value $mod -variable themer::data(mod) -command [list themer::color_mod_changed $mod]] -row $i -column 0 -sticky w -padx 2 -pady 2
+    foreach {lbl mod max} [list [msgcat::mc "Value"] v 127 "R" r 255 "G" g 255 "B" b 255] {
+      grid [ttk::radiobutton $data(widgets,color).mod.l$mod -text "$lbl:" -value $mod -variable themer::data(mod) -command [list themer::color_mod_changed $mod]] -row $i -column 0 -sticky w -padx 2 -pady 2
       grid [set data(widgets,color_${mod}_scale) [ttk::scale $data(widgets,color).mod.s$mod -orient horizontal -from 0 -to $max -command [list themer::detail_scale_change $mod]]] -row $i -column 1 -padx 2 -pady 2
       grid [set data(widgets,color_${mod}_entry) [$data(sb)  $data(widgets,color).mod.e$mod {*}$data(sb_opts) -width 3 -from 0 -to $max -command [list themer::detail_spinbox_change $mod]]] -row $i -column 2 -padx 2 -pady 2
-      $data(widgets,color_${mod}_scale) state disabled
-      $data(widgets,color_${mod}_entry) {*}$data(sb_disabled)
       incr i
     }
 
@@ -982,7 +981,7 @@ namespace eval themer {
     variable data
 
     # Disable all entries
-    foreach mod [list value r g b] {
+    foreach mod [list v r g b] {
       $data(widgets,color_${mod}_scale) state disabled
       $data(widgets,color_${mod}_entry) {*}$data(sb_disabled)
     }
@@ -1048,9 +1047,9 @@ namespace eval themer {
         set new_color $base_color
         set value     $base_color
       }
-      value {
+      v {
         set new_color [utils::auto_adjust_color $base_color $diff auto]
-        set value     $base_color,$diff
+        set value     $base_color,v,$diff
       }
       default {
         set new_color [utils::auto_mix_colors $base_color $mod $diff]
@@ -1173,12 +1172,11 @@ namespace eval themer {
         set base_color [lindex $values 0]
         set data(mod)  "none"
       }
-      2 {
-        lassign $values base_color set_value
-        set data(mod)  "value"
-      }
       3 {
         lassign $values base_color data(mod) set_value
+      }
+      default {
+        return -code error "Unknown color value format ($value)"
       }
     }
 
@@ -1186,13 +1184,28 @@ namespace eval themer {
     $data(widgets,color_canvas) configure -background [theme::get_value syntax background]
     $data(widgets,color_canvas) itemconfigure $data(widgets,color_base) -fill $base_color
 
+    switch $data(mod) {
+      none    { $data(widgets,color_canvas) itemconfigure $data(widgets,color_mod) -fill $base_color }
+      v       { $data(widgets,color_canvas) itemconfigure $data(widgets,color_mod) -fill [utils::auto_adjust_color $base_color $set_value auto] }
+      default { $data(widgets,color_canvas) itemconfigure $data(widgets,color_mod) -fill [utils::auto_mix_colors $base_color $data(mod) $set_value] }
+    }
+
     # Get all of the color values
     lassign [utils::get_color_values $base_color] base(value) base(r) base(g) base(b)
 
     # Set the from/to values in the scales and entries
-    foreach mod [list value r g b] {
-      $data(widgets,color_${mod}_scale) set [expr {($mod eq $data(mod)) ? $set_value : 0}]
-      $data(widgets,color_${mod}_entry) set [expr {($mod eq $data(mod)) ? $set_value : 0}]
+    foreach mod [list v r g b] {
+      if {$mod eq $data(mod)} {
+        $data(widgets,color_${mod}_scale) configure -value $set_value
+        $data(widgets,color_${mod}_entry) set $set_value
+        $data(widgets,color_${mod}_scale) state !disabled
+        $data(widgets,color_${mod}_entry) {*}$data(sb_normal)
+      } else {
+        $data(widgets,color_${mod}_scale) configure -value 0
+        $data(widgets,color_${mod}_entry) set 0
+        $data(widgets,color_${mod}_scale) state disabled
+        $data(widgets,color_${mod}_entry) {*}$data(sb_disabled)
+      }
     }
 
   }
@@ -1457,20 +1470,22 @@ namespace eval themer {
 
     # Delete the swatch value from the list
     if {!$force} {
+
       theme::swatch_do delete $pos
       set_theme_modified
-    }
 
-    # Make table colors dependent on this color independent
-    for {set i 0} {$i < [$data(widgets,cat) size]} {incr i} {
-      if {[set category [$data(widgets,cat) cellcget $i,category -text]] ne ""} {
-        set opt [$data(widgets,cat) cellcget $i,opt -text]
-        if {([theme::get_type $category $opt] eq "color") && [theme::meta_do exists $category $opt]} {
-          if {[lindex [split [theme::meta_do get $category $opt] ,] 0] eq $orig_color)} {
-            theme::meta_do delete $category $opt
+      # Make table colors dependent on this color independent
+      for {set i 0} {$i < [$data(widgets,cat) size]} {incr i} {
+        if {[set category [$data(widgets,cat) cellcget $i,category -text]] ne ""} {
+          set opt [$data(widgets,cat) cellcget $i,opt -text]
+          if {([theme::get_type $category $opt] eq "color") && [theme::meta_do exists $category $opt]} {
+            if {[lindex [split [theme::meta_do get $category $opt] ,] 0] eq $orig_color} {
+              theme::meta_do delete $category $opt
+            }
           }
         }
       }
+
     }
 
   }
