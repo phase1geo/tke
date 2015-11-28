@@ -197,7 +197,7 @@ namespace eval gui {
       -foreground 1
 
     # Create close button for forms
-    theme::register_image form_close bitmap ttk_style frame \
+    theme::register_image form_close bitmap ttk_style background \
       -file     [file join $::tke_dir lib images close.bmp] \
       -maskfile [file join $::tke_dir lib images close.bmp] \
       -foreground 1
