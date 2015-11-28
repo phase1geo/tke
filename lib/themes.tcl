@@ -74,8 +74,16 @@ namespace eval themes {
     foreach tfile $tfiles {
       set name         [file rootname [file tail $tfile]]
       set files($name) $tfile
-      [ns launcher]::register [msgcat::mc "Theme:  %s" $name] [list [ns theme]::load_theme $tfile]
+      [ns launcher]::register [msgcat::mc "Theme:  %s" $name] [list [ns theme]::load_theme $tfile] "" [list [ns themes::theme_okay]]
     }
+
+  }
+
+  ######################################################################
+  # Returns true if it is okay to change the theme.
+  proc theme_okay {} {
+
+    return [expr [themer::window_exists] ^ 1]
 
   }
 
@@ -197,12 +205,15 @@ namespace eval themes {
     # Get the current theme
     set curr_theme [[ns theme]::get_current_theme]
 
+    # Figure out the state for the items
+    set state [expr {[themer::window_exists] ? "disabled" : "normal"}]
+
     # Clear the menu
     $mnu delete 0 end
 
     # Populate the menu with the available themes
     foreach name [lsort [array names files]] {
-      $mnu add radiobutton -label $name -variable [ns themes]::curr_theme -value $name -command [list [ns theme]::load_theme $files($name)]
+      $mnu add radiobutton -label $name -variable [ns themes]::curr_theme -value $name -command [list [ns theme]::load_theme $files($name)] -state $state
     }
 
     return $mnu

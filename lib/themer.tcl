@@ -340,6 +340,15 @@ namespace eval themer {
   }
 
   ######################################################################
+  # Returns true if the themer window exists; otherwise, returns false.
+  proc window_exists {} {
+
+    return [winfo exists .thmwin]
+
+  }
+
+
+  ######################################################################
   # Called whenever the theme editor window is closed.
   proc close_window {on_exit} {
 
