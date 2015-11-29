@@ -34,6 +34,7 @@ namespace eval theme {
     default 1
     value   2
     changed 3
+    desc    4
   }
 
   variable category_titles [list \
@@ -48,67 +49,68 @@ namespace eval theme {
   ]
 
   array set orig_data {
-    ttk_style,disabled_foreground {color {#999999} {} {0}}
-    ttk_style,disabled_background {color {1} {} {0}}
-    ttk_style,background          {color {1} {} {0}}
-    ttk_style,foreground          {color {2} {} {0}}
-    ttk_style,active_color        {color {0} {} {0}}
-    ttk_style,dark_color          {color {#cfcdc8} {} {0}}
-    ttk_style,pressed_color       {color {#bab5ab} {} {0}}
-    ttk_style,border_color        {color {#9e9a91} {} {0}}
-    ttk_style,entry_border        {color {#4a6984} {} {0}}
-    ttk_style,select_background   {color {#4a6984} {} {0}}
-    ttk_style,select_foreground   {color {#ffffff} {} {0}}
-    ttk_style,relief              {{relief {raised sunken flat ridge solid groove}} {flat} {} {0}}
-    ttk_style,grip_thickness      {{number {2 10}} {5} {} {0}}
-    ttk_style,grip_count          {{number {0 20}} {10} {} {0}}
-    menus,-background             {color {white} {} {0}}
-    menus,-foreground             {color {black} {} {0}}
-    menus,-activebackground       {color {white} {} {0}}
-    menus,-activeforeground       {color {black} {} {0}}
-    menus,-disabledforeground     {color {grey}  {} {0}}
-    menus,-relief                 {{relief {raised sunken flat ridge solid groove}} {flat} {} {0}}
-    tabs,-background              {color {2} {} {0}}
-    tabs,-foreground              {color {1} {} {0}}
-    tabs,-activebackground        {color {0} {} {0}}
-    tabs,-inactivebackground      {color {2} {} {0}}
-    tabs,-height                  {{number {20 40}} {25} {} {0}}
-    tabs,-relief                  {{relief {flat raised}} {flat} {} {0}}
-    text_scrollbar,-background    {color {0} {} {0}}
-    text_scrollbar,-foreground    {color {2} {} {0}}
-    text_scrollbar,-thickness     {{number {5 20}} {15} {} {0}}
-    syntax,background             {color {black} {} {0}}
-    syntax,border_highlight       {color {black} {} {0}}
-    syntax,comments               {color {white} {} {0}}
-    syntax,cursor                 {color {grey} {} {0}}
-    syntax,difference_add         {color {dark green} {} {0}}
-    syntax,difference_sub         {color {dark red} {} {0}}
-    syntax,foreground             {color {white} {} {0}}
-    syntax,highlighter            {color {yellow} {} {0}}
-    syntax,keywords               {color {white} {} {0}}
-    syntax,line_number            {color {grey} {} {0}}
-    syntax,meta                   {color {grey} {} {0}}
-    syntax,miscellaneous1         {color {white} {} {0}}
-    syntax,miscellaneous2         {color {white} {} {0}}
-    syntax,miscellaneous3         {color {white} {} {0}}
-    syntax,numbers                {color {white} {} {0}}
-    syntax,precompile             {color {white} {} {0}}
-    syntax,punctuation            {color {white} {} {0}}
-    syntax,select_background      {color {blue} {} {0}}
-    syntax,select_foreground      {color {white} {} {0}}
-    syntax,strings                {color {grey} {} {0}}
-    syntax,warning_width          {color {grey} {} {0}}
-    sidebar,-foreground           {color {0} {} {0}}
-    sidebar,-background           {color {1} {} {0}}
-    sidebar,-selectbackground     {color {2} {} {0}}
-    sidebar,-selectforeground     {color {1} {} {0}}
-    sidebar,-highlightbackground  {color {1} {} {0}}
-    sidebar,-highlightcolor       {color {1} {} {0}}
-    sidebar,-relief               {{relief {raised sunken flat ridge solid groove}} {flat} {} {0}}
-    sidebar,-treestyle            {treestyle {aqua} {} {0}}
-    sidebar_scrollbar,-background {color {1} {} {0}}
-    sidebar_scrollbar,-foreground {color {2} {} {0}}
-    sidebar_scrollbar,-thickness  {{number {5 20}} {15} {} {0}}
+    ttk_style,disabled_foreground {color {#999999} {} {0} {Default foreground text color to use for all ttk widgets that are in a disabled state.}}
+    ttk_style,disabled_background {color {1} {} {0} {Default background color to use for all ttk widgets that are in a disabled state.}}
+    ttk_style,background          {color {1} {} {0} {Default background color to use for all ttk widgets.}}
+    ttk_style,foreground          {color {2} {} {0} {Default foreground text color to use for all ttk widgets.}}
+    ttk_style,active_color        {color {0} {} {0} {Default background color to use for all ttk widgets when the mouse cursor hovers over the widget.}}
+    ttk_style,dark_color          {color {#cfcdc8} {} {0} {Default “darkcolor” for all ttk widgets.}}
+    ttk_style,pressed_color       {color {#bab5ab} {} {0} {Background color to display when a button-like ttk widget is pressed.}}
+    ttk_style,border_color        {color {#9e9a91} {} {0} {Default border color for all ttk widgets.}}
+    ttk_style,entry_border        {color {#4a6984} {} {0} {Color of ttk entry widget text border when the entry has keyboard focus.}}
+    ttk_style,select_background   {color {#4a6984} {} {0} {Specifies the default background color to use for text that is selected in a standard ttk widget (this does not include the editing buffer).}}
+    ttk_style,select_foreground   {color {#ffffff} {} {0} {Specifies the default foreground text color to use for text that is selected in a standard ttk widget (this does not include the editing buffer).}}
+    ttk_style,relief              {{relief {raised sunken flat ridge solid groove}} {flat} {} {0} {Specifies the default relief to use when drawing ttk widgets.}}
+    ttk_style,grip_thickness      {{number {2 10}} {5} {} {0} {Determines the thickness of the grip area between resizable panes.}}
+    ttk_style,grip_count          {{number {0 20}} {10} {} {0} {Determines the number of grips strips to display in the grip area between resizable panes.}}
+    menus,-background             {color {white} {} {0} {Background color used in menus.}}
+    menus,-foreground             {color {black} {} {0} {Foreground text color used in menus.}}
+    menus,-activebackground       {color {white} {} {0} {Background color used for the current or "active" menu item.}}
+    menus,-activeforeground       {color {black} {} {0} {Foreground text color used for the current or "active" menu item.}}
+    menus,-disabledforeground     {color {grey}  {} {0} {Foreground text color used for menus item that are disabled.}}
+    menus,-relief                 {{relief {raised sunken flat ridge solid groove}} {flat} {} {0} {Menu relief value.}}
+    tabs,-background              {color {2} {} {0} {Background color used in the tabbar area.}}
+    tabs,-foreground              {color {1} {} {0} {Foreground text/image color used in tabbar and tabs.}}
+    tabs,-activebackground        {color {0} {} {0} {Background color used for the current or "active" tab in the tabbar.}}
+    tabs,-inactivebackground      {color {2} {} {0} {Background color used for all other tabs that are not the current or "active" tab in the tabbar.}}
+    tabs,-height                  {{number {20 40}} {25} {} {0} {Pixel height of the tabbar widget.}}
+    tabs,-relief                  {{relief {flat raised}} {flat} {} {0} {Relief used in drawing the tabs.}}
+    text_scrollbar,-background    {color {0} {} {0} {Background (trough) color used in the text scrollbars.}}
+    text_scrollbar,-foreground    {color {2} {} {0} {Foreground (slider) color used in the text scrollbars.}}
+    text_scrollbar,-thickness     {{number {5 20}} {15} {} {0} {Maximum thickness of the text scrollbars when they are active.}}
+    syntax,background             {color {black} {} {0} {Background color of the editing buffer.}}
+    syntax,border_highlight       {color {black} {} {0} {Color of border drawn around active editing buffer.}}
+    syntax,comments               {color {white} {} {0} {Foreground text color to use for comments.}}
+    syntax,cursor                 {color {grey} {} {0} {Background color of insertion cursor.}}
+    syntax,difference_add         {color {dark green} {} {0} {Background color in difference viewer that shows added lines.}}
+    syntax,difference_sub         {color {dark red} {} {0} {Background color in difference viewer that shows deleted lines.}}
+    syntax,foreground             {color {white} {} {0} {Default color for non-syntax highlighted text.}}
+    syntax,highlighter            {color {yellow} {} {0} {Background color used in highlighted text.}}
+    syntax,keywords               {color {white} {} {0} {Foreground text color to use for language-specific keywords.}}
+    syntax,line_number            {color {grey} {} {0} {Foreground text color to use for displaying line numbers.}}
+    syntax,meta                   {color {grey} {} {0} {Foreground text color to use for meta syntax.}}
+    syntax,miscellaneous1         {color {white} {} {0} {Foreground text color to use for all miscellaneous1 labeled text.}}
+    syntax,miscellaneous2         {color {white} {} {0} {Foreground text color to use for all miscellaneous2 labeled text.}}
+    syntax,miscellaneous3         {color {white} {} {0} {Foreground text color to use for all miscellaneous3 labeled text.}}
+    syntax,numbers                {color {white} {} {0} {Foreground text color to use for displaying numbers.}}
+    syntax,precompile             {color {white} {} {0} {Foreground text color to use for precompiler syntax.}}
+    syntax,punctuation            {color {white} {} {0} {Foreground text color to use for language-specific punctuation.}}
+    syntax,select_background      {color {blue} {} {0} {Background color to use for selected text.}}
+    syntax,select_foreground      {color {white} {} {0} {Foreground text color to use for selected text.}}
+    syntax,strings                {color {grey} {} {0} {Foreground text color for strings.}}
+    syntax,warning_width          {color {grey} {} {0} {Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer).}}
+    sidebar,-foreground           {color {0} {} {0} {Text color for all sidebar items that are not selected.}}
+    sidebar,-background           {color {1} {} {0} {Background color for all sidebar items that are not selected.}}
+    sidebar,-selectbackground     {color {2} {} {0} {Background color for all sidebar items that are selected.}}
+    sidebar,-selectforeground     {color {1} {} {0} {Text color for all sidebar items that are selected.}}
+    sidebar,-highlightbackground  {color {1} {} {0} {Specifies the color to display around the sidebar when the sidebar does not have the focus.}}
+    sidebar,-highlightcolor       {color {1} {} {0} {Specifies the color to display around the sidebar when the sidebar has the focus.}}
+    sidebar,-highlightthickness   {{number {1 5}} {1} {} {0} {Specifies the pixel thickness of the highlight line.}}
+    sidebar,-relief               {{relief {raised sunken flat ridge solid groove}} {flat} {} {0} {Relief value of the sidebar area.}}
+    sidebar,-treestyle            {treestyle {aqua} {} {0} {Specifies the disclosure image style to use in the sidebar.}}
+    sidebar_scrollbar,-background {color {1} {} {0} {Background (trough) color used in the sidebar scrollbar.}}
+    sidebar_scrollbar,-foreground {color {2} {} {0} {Foreground (slider) color used in the sidebar scrollbar.}}
+    sidebar_scrollbar,-thickness  {{number {5 20}} {15} {} {0} {Maximum thickness of the text scrollbar when it is active.}}
   }
 
   array set tm_scope_map {
@@ -184,7 +186,7 @@ namespace eval theme {
 
   ######################################################################
   # Creates the given image and adds it to the orig_data array.
-  proc register_image {name type bgcat bgopt args} {
+  proc register_image {name type bgcat bgopt desc args} {
 
     variable orig_data
 
@@ -239,7 +241,7 @@ namespace eval theme {
     }
 
     # Add the image information to the orig_data structure
-    set orig_data(images,$name) [list image [array get img_info] [list] 0]
+    set orig_data(images,$name) [list image [array get img_info] [list] 0 $desc]
 
   }
 
@@ -692,10 +694,10 @@ namespace eval theme {
 
     # Insert the needed rows in the table
     foreach {category title} $category_titles {
-      set parent [$tbl insertchild root end [list $title {} {}]]
+      set parent [$tbl insertchild root end [list $title {} {} {}]]
       foreach name [lsort [array names data $category,*]] {
         set opt [lindex [split $name ,] 1]
-        set row [$tbl insertchild $parent end [list $opt [lindex $data($name) $fields(value)] $category]]
+        set row [$tbl insertchild $parent end [list $opt [lindex $data($name) $fields(value)] $category [lindex $data($name) $fields(desc)]]]
         switch [lindex $data($name) $fields(type)] {
           image {
             array set default_value [lindex $data($name) $fields(default)]
