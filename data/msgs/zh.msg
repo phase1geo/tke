@@ -179,9 +179,6 @@ msgcat::mcmset zh {
   "Copy"
   "复制"
 
-  "Create New..."
-  "Create new"
-
   "Create at Current Line"
   "???????"
 
@@ -289,9 +286,6 @@ msgcat::mcmset zh {
 
   "Edit User - Language"
   "????-??"
-
-  "Edit..."
-  "編輯..."
 
   "File"
   "文件"
@@ -457,9 +451,6 @@ msgcat::mcmset zh {
 
   "Hide Tab Bar"
   "隐藏标签栏"
-
-  "Import TextMate Theme..."
-  "?? TextMate ??..."
 
   "Indent"
   "縮排"
@@ -677,9 +668,6 @@ msgcat::mcmset zh {
   "Sort Tabs"
   "分类标签"
 
-  "Split View"
-  "????"
-
   "Start Profiling"
   "开始分析"
 
@@ -713,32 +701,23 @@ msgcat::mcmset zh {
   "Text Menu: Unindent selected text"
   "文本菜单: 取消缩进选定的文本"
 
-  "Theme Creator"
-  "主题造物主"
-
   "Toggle Comment"
   "??/????"
 
   "Tools"
   "工具"
 
-  "Tools Menu: Create new theme"
-  "工具菜单: 创建新的主题"
-
   "Tools Menu: Disable Vim mode"
   "工具菜单: 禁用 Vim 模式"
-
-  "Tools Menu: Edit TKE theme"
-  "工具菜单: 编辑将军澳支线的主题"
 
   "Tools Menu: Enable Vim mode"
   "工具菜单: 启用 Vim 模式"
 
-  "Tools Menu: Import TextMate theme"
-  "工具菜单: 导入 TextMate 主题"
-
   "Tools Menu: Restart TKE"
   "工具菜单: 重启将军澳支线"
+
+  "Tools Menu: Run theme editor"
+  "工具菜单：运行的主题编辑器"
 
   "Tools Menu: Show diagnostic logfile"
   "工具菜单: 显示诊断日志文件"
@@ -972,63 +951,181 @@ msgcat::mcmset zh {
   "Syntax: %s"
   "语法: %s"
 
-  "Theme:  %s"
-  "主题：％S"
+}
+
+# theme.tcl
+msgcat::mcmset zh {
+
+  "ERROR:  Unable to read %s"
+  "错误：无法读取％s的"
+
+  "Images"
+  "图像"
+
+  "Menu Options"
+  "菜单选项"
+
+  "Sidebar Options"
+  "侧边栏选项"
+
+  "Sidebar Scrollbar Options"
+  "侧边栏滚动条选项"
+
+  "Syntax Colors"
+  "语法颜色"
+
+  "Tab Options"
+  "TAB选项"
+
+  "Text Scrollbar Options"
+  "文字滚动条选项"
+
+  "ttk Widget Colors"
+  "TTK的Widget颜色"
 
 }
 
 # themer.tcl
 msgcat::mcmset zh {
 
-  "Create"
-  "创建"
+  "   Show All"
+  "显示全部"
 
-  "Create New Theme"
-  "创建新主题"
+  "   Show Category"
+  "显示细节"
 
-  "Create custom"
-  "创建自定义"
+  "   Show Color"
+  "显示颜色"
 
-  "ERROR:  Unable to read %s"
-  "错误：无法读取％s的"
+  "   Show Selected Option"
+  "显示当前选项"
 
-  "ERROR:  Unable to write %s"
-  "错误：无法写入％s的"
+  "   Show Selected Value"
+  "選擇值"
 
-  "Edit theme"
-  "主题"
+  "Categories"
+  "分类"
 
-  "Enter theme name"
-  "进入主题名称"
+  "Change Base Color"
+  "更改颜色"
 
-  "Error:  Theme is not a supported theme"
-  "错误：主题是不受支持的主题"
+  "Choose Theme"
+  "选择主题"
+
+  "Custom Directory"
+  "自定义目录"
+
+  "Custom..."
+  "自定义..."
+
+  "Delete swatch?"
+  "删除色盘"
+
+  "Description"
+  "描述"
+
+  "Details"
+  "详细"
+
+  "Done"
+  "完成"
+
+  "Export"
+  "导出"
+
+  "GIF Photo"
+  "GIF图片"
 
   "Import"
   "進口"
 
-  "Import TextMate Theme"
-  "进口TextMate的主题"
+  "Import BMP Data"
+  "匯入資料"
 
-  "Name:"
-  "名称："
+  "Import BMP Mask"
+  "导入BMP面膜"
 
-  "OK"
-  "确定"
+  "Import Error"
+  "﻿导入错误"
 
-  "Reset"
-  "重置"
+  "Import Theme File"
+  "导入主题文件"
 
-  "Select theme"
-  "选择主题"
+  "Installation Directory"
+  "安装目录"
+
+  "Modifications"
+  "其他"
+
+  "None"
+  "无"
+
+  "One-Color Bitmap"
+  "单色位图"
+
+  "Preview"
+  "預覽"
+
+  "Relief: "
+  "救济"
+
+  "Save As:"
+  "另存為:"
+
+  "Save theme changes?"
+  "保存主题的变化？"
+
+  "Select Directory"
+  "选择目录"
+
+  "Swatch"
+  "色盘"
+
+  "Swatch Colors"
+  "斯沃琪颜色"
+
+  "Table Filters"
+  "表过滤器"
+
+  "The current theme has unsaved changes"
+  "目前的主题有未保存的更改"
+
+  "Theme Editor %s %s"
+  "主题编辑器％s％S"
+
+  "Tree Style: "
+  "树风格："
+
+  "Two-Color Bitmap"
+  "双色位图"
+
+  "User Directory"
+  "用户目录"
+
+  "Value"
+  "數值"
+
+  "Value: "
+  "值:"
+
+}
+
+# themes.tcl
+msgcat::mcmset zh {
+
+  "Theme:  %s"
+  "主题：％S"
+
+  "Theme:*"
+  "主题"
 
 }
 
 # tke.tcl
 msgcat::mcmset zh {
 
-  "Edit theme?"
-  "编辑主题？"
+  "Import TKE theme?"
+  "进口TKE主题？"
 
   "Import TextMate theme?"
   "进口TextMate的主题？"
@@ -1092,6 +1189,12 @@ msgcat::mcmset zh {
 
   "Save As"
   "保存为"
+
+  "Split View"
+  "????"
+
+  "Theme Editor"
+  "主题编辑器"
 
   "Unable to open %s for writing"
   "无法打开％s的写入"

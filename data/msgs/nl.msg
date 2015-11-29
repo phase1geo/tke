@@ -179,9 +179,6 @@ msgcat::mcmset nl {
   "Copy"
   "Kopiëren"
 
-  "Create New..."
-  "Nieuw maken"
-
   "Create at Current Line"
   "Maken op de huidige regel"
 
@@ -289,9 +286,6 @@ msgcat::mcmset nl {
 
   "Edit User - Language"
   "Bewerken gebruiker - taal"
-
-  "Edit..."
-  "Bewerken..."
 
   "File"
   "Bestand"
@@ -457,9 +451,6 @@ msgcat::mcmset nl {
 
   "Hide Tab Bar"
   "Hide Tab Bar"
-
-  "Import TextMate Theme..."
-  "Import TextMate Theme "
 
   "Indent"
   "Inspringen"
@@ -677,9 +668,6 @@ msgcat::mcmset nl {
   "Sort Tabs"
   "Sorteren Tabs"
 
-  "Split View"
-  "Venster opsplitsen"
-
   "Start Profiling"
   "Start Profiling"
 
@@ -713,32 +701,23 @@ msgcat::mcmset nl {
   "Text Menu: Unindent selected text"
   "Tekstmenu: Geselecteerde tekst inspringen"
 
-  "Theme Creator"
-  "Theme Creator"
-
   "Toggle Comment"
   "Knevel commentaar"
 
   "Tools"
   "hulpmiddelen;"
 
-  "Tools Menu: Create new theme"
-  "Menu Extra: Nieuw thema maken"
-
   "Tools Menu: Disable Vim mode"
   "Menu Extra: Vim modus uitschakelen"
-
-  "Tools Menu: Edit TKE theme"
-  "Menu Extra: TKE thema bewerken"
 
   "Tools Menu: Enable Vim mode"
   "Menu Extra: Vim modus inschakelen"
 
-  "Tools Menu: Import TextMate theme"
-  "Menu Extra: Importeren TextMate thema"
-
   "Tools Menu: Restart TKE"
   "Menu Extra: Herstart TKE"
+
+  "Tools Menu: Run theme editor"
+  "Menu Extra: Run theme editor"
 
   "Tools Menu: Show diagnostic logfile"
   "Menu Extra: Toon diagnostische logfile"
@@ -972,63 +951,181 @@ msgcat::mcmset nl {
   "Syntax: %s"
   "Syntaxis: %s"
 
-  "Theme:  %s"
-  "Thema:% s"
+}
+
+# theme.tcl
+msgcat::mcmset nl {
+
+  "ERROR:  Unable to read %s"
+  "FOUT: Kan niet lezen% s"
+
+  "Images"
+  "Afbeeldingen"
+
+  "Menu Options"
+  "Menuopties"
+
+  "Sidebar Options"
+  "Opslaan"
+
+  "Sidebar Scrollbar Options"
+  "Zijbalk Scrollbar Opties"
+
+  "Syntax Colors"
+  "Syntax Kleuren"
+
+  "Tab Options"
+  "Tabblad Opties"
+
+  "Text Scrollbar Options"
+  "Tekst Scrollbar Opties"
+
+  "ttk Widget Colors"
+  "TTK Widget Kleuren"
 
 }
 
 # themer.tcl
 msgcat::mcmset nl {
 
-  "Create"
-  "Aanmaken"
+  "   Show All"
+  "Toon alle statussen"
 
-  "Create New Theme"
-  "Nieuw thema aanmaken..."
+  "   Show Category"
+  "Categorie weergeven"
 
-  "Create custom"
-  "Maak aangepaste"
+  "   Show Color"
+  "Toon Kleur"
 
-  "ERROR:  Unable to read %s"
-  "FOUT: Kan niet lezen% s"
+  "   Show Selected Option"
+  "Toon geselecteerde optie"
 
-  "ERROR:  Unable to write %s"
-  "FOUT: Kan niet schrijven% s"
+  "   Show Selected Value"
+  "Toon geselecteerde waarde"
 
-  "Edit theme"
-  "Thema bewerken"
+  "Categories"
+  "Categorieën"
 
-  "Enter theme name"
-  "Enter onderwerp naam"
+  "Change Base Color"
+  "Change Base Color"
 
-  "Error:  Theme is not a supported theme"
-  "Fout: Thema is geen ondersteund thema"
+  "Choose Theme"
+  "Kies thema"
+
+  "Custom Directory"
+  "Aangepaste Map"
+
+  "Custom..."
+  "Eigen CSS"
+
+  "Delete swatch?"
+  "Delete staal?"
+
+  "Description"
+  "Beschrijving"
+
+  "Details"
+  "Details"
+
+  "Done"
+  "Klaar"
+
+  "Export"
+  "Exporteer"
+
+  "GIF Photo"
+  "GIF Photo"
 
   "Import"
   "Invoer"
 
-  "Import TextMate Theme"
-  "Import TextMate Theme"
+  "Import BMP Data"
+  "Gegevens importeren"
 
-  "Name:"
-  "Naam:"
+  "Import BMP Mask"
+  "Importeer BMP Mask"
 
-  "OK"
-  "Oké"
+  "Import Error"
+  "Import Error"
 
-  "Reset"
-  "Reset"
+  "Import Theme File"
+  "Importeer thema"
 
-  "Select theme"
-  "Themabestand selecteren"
+  "Installation Directory"
+  "Installatie Gids"
+
+  "Modifications"
+  "Wijzigingen"
+
+  "None"
+  "Geen"
+
+  "One-Color Bitmap"
+  "One-Color Bitmap"
+
+  "Preview"
+  "Voorvertoning"
+
+  "Relief: "
+  "Relief"
+
+  "Save As:"
+  "Opslaan als"
+
+  "Save theme changes?"
+  "Opslaan thema veranderingen?"
+
+  "Select Directory"
+  "Kies Directory"
+
+  "Swatch"
+  "Staal"
+
+  "Swatch Colors"
+  "Swatch Kleuren"
+
+  "Table Filters"
+  "Tabel Filters"
+
+  "The current theme has unsaved changes"
+  "De huidige thema heeft opgeslagen wijzigingen"
+
+  "Theme Editor %s %s"
+  "Thema-editor% s% s"
+
+  "Tree Style: "
+  "Boom Stijl:"
+
+  "Two-Color Bitmap"
+  "Twee-Color Bitmap"
+
+  "User Directory"
+  "Gebruikersmap"
+
+  "Value"
+  "Een record matching '%value%' is gevonden."
+
+  "Value: "
+  "Waarde:"
+
+}
+
+# themes.tcl
+msgcat::mcmset nl {
+
+  "Theme:  %s"
+  "Thema:% s"
+
+  "Theme:*"
+  "Thema"
 
 }
 
 # tke.tcl
 msgcat::mcmset nl {
 
-  "Edit theme?"
-  "Bewerk thema?"
+  "Import TKE theme?"
+  "Importeer thema"
 
   "Import TextMate theme?"
   "Importeer TextMate thema?"
@@ -1092,6 +1189,12 @@ msgcat::mcmset nl {
 
   "Save As"
   "Opslaan als"
+
+  "Split View"
+  "Venster opsplitsen"
+
+  "Theme Editor"
+  "Thema-editor"
 
   "Unable to open %s for writing"
   "%1 kon niet worden geopend om naar te schrijven."

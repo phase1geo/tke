@@ -179,9 +179,6 @@ msgcat::mcmset sv {
   "Copy"
   "Kopiera"
 
-  "Create New..."
-  "Skapa ny"
-
   "Create at Current Line"
   "Skapa på aktuell rad"
 
@@ -289,9 +286,6 @@ msgcat::mcmset sv {
 
   "Edit User - Language"
   "Redigera användare - språk"
-
-  "Edit..."
-  "Redigera..."
 
   "File"
   "File"
@@ -457,9 +451,6 @@ msgcat::mcmset sv {
 
   "Hide Tab Bar"
   "Hide Tab Bar"
-
-  "Import TextMate Theme..."
-  "Importera TextMate tema..."
 
   "Indent"
   "Indrag"
@@ -677,9 +668,6 @@ msgcat::mcmset sv {
   "Sort Tabs"
   "Sort Tabs"
 
-  "Split View"
-  "Dela vy"
-
   "Start Profiling"
   "Börja Profilering"
 
@@ -713,32 +701,23 @@ msgcat::mcmset sv {
   "Text Menu: Unindent selected text"
   "Text-menyn: Ångra indrag av markerad text"
 
-  "Theme Creator"
-  "Theme Creator"
-
   "Toggle Comment"
   "Toggle kommentar"
 
   "Tools"
   "Verktyg"
 
-  "Tools Menu: Create new theme"
-  "Verktyg-menyn: Skapa nytt tema"
-
   "Tools Menu: Disable Vim mode"
   "Verktyg-menyn: Inaktivera Vim läge"
-
-  "Tools Menu: Edit TKE theme"
-  "Verktyg-menyn: Redigera TKE tema"
 
   "Tools Menu: Enable Vim mode"
   "Verktyg-menyn: Aktivera Vim-läge"
 
-  "Tools Menu: Import TextMate theme"
-  "Verktyg-menyn: Import TextMate tema"
-
   "Tools Menu: Restart TKE"
   "Verktyg-menyn: Omstart TKE"
+
+  "Tools Menu: Run theme editor"
+  "Verktyg-menyn: Kör tema redaktör"
 
   "Tools Menu: Show diagnostic logfile"
   "Verktyg-menyn: Visa diagnostisk loggfil"
@@ -972,63 +951,181 @@ msgcat::mcmset sv {
   "Syntax: %s"
   "Syntax: %s"
 
-  "Theme:  %s"
-  "Tema:% s"
+}
+
+# theme.tcl
+msgcat::mcmset sv {
+
+  "ERROR:  Unable to read %s"
+  "FEL: Det går inte att läsa% s"
+
+  "Images"
+  "Bilder"
+
+  "Menu Options"
+  "Menyalternativ"
+
+  "Sidebar Options"
+  "Sidopanelens alternativ"
+
+  "Sidebar Scrollbar Options"
+  "Sidebar Scrollbar Alternativ"
+
+  "Syntax Colors"
+  "Syntax Färger"
+
+  "Tab Options"
+  "Flik Alternativ"
+
+  "Text Scrollbar Options"
+  "Text scrollbar Alternativ"
+
+  "ttk Widget Colors"
+  "TTK Widget Färger"
 
 }
 
 # themer.tcl
 msgcat::mcmset sv {
 
-  "Create"
-  "Skapa"
+  "   Show All"
+  "Visa alla"
 
-  "Create New Theme"
-  "Skapa nytt tema..."
+  "   Show Category"
+  "Show Category"
 
-  "Create custom"
-  "Skapa anpassade"
+  "   Show Color"
+  "Visa Color"
 
-  "ERROR:  Unable to read %s"
-  "FEL: Det går inte att läsa% s"
+  "   Show Selected Option"
+  "Visa valda alternativet"
 
-  "ERROR:  Unable to write %s"
-  "FEL: Kan inte skriva% s"
+  "   Show Selected Value"
+  "Visa valt värde"
 
-  "Edit theme"
-  "Redigera tema"
+  "Categories"
+  "Nyhetsarkiv"
 
-  "Enter theme name"
-  "Ange tema namn"
+  "Change Base Color"
+  "Byt Base Färg"
 
-  "Error:  Theme is not a supported theme"
-  "Fel: Tema är inte ett tema som stöds"
+  "Choose Theme"
+  "Välj ett tema"
+
+  "Custom Directory"
+  "Custom Directory"
+
+  "Custom..."
+  "Anpassad..."
+
+  "Delete swatch?"
+  "Radera swatch?"
+
+  "Description"
+  "Beskrivning"
+
+  "Details"
+  "Visa ”Detaljer” knappen"
+
+  "Done"
+  "Klar"
+
+  "Export"
+  "Exportera"
+
+  "GIF Photo"
+  "GIF-bild"
 
   "Import"
   "Importera"
 
-  "Import TextMate Theme"
-  "Import Textmate tema"
+  "Import BMP Data"
+  "Importera BMP data"
 
-  "Name:"
-  "Namn:"
+  "Import BMP Mask"
+  "Importera BMP maskerar"
 
-  "OK"
-  "OK"
+  "Import Error"
+  "Fel vid import"
 
-  "Reset"
-  "Återställ"
+  "Import Theme File"
+  "Import temafil"
 
-  "Select theme"
-  "Välj temafil"
+  "Installation Directory"
+  "Installationskatalog"
+
+  "Modifications"
+  "Ändringar"
+
+  "None"
+  "Ingen"
+
+  "One-Color Bitmap"
+  "Enfärgs Bitmap"
+
+  "Preview"
+  "Förhandsgranska"
+
+  "Relief: "
+  "understöd"
+
+  "Save As:"
+  "Spara som"
+
+  "Save theme changes?"
+  "Spara tema ändringar?"
+
+  "Select Directory"
+  "Välj katalog"
+
+  "Swatch"
+  "Swatch"
+
+  "Swatch Colors"
+  "Swatch Färger"
+
+  "Table Filters"
+  "Tabell Filter"
+
+  "The current theme has unsaved changes"
+  "Det aktuella temat har osparade ändringar"
+
+  "Theme Editor %s %s"
+  "Tema Editor% s% s"
+
+  "Tree Style: "
+  "Träd Stil:"
+
+  "Two-Color Bitmap"
+  "Två-Color Bitmap"
+
+  "User Directory"
+  "Användarkatalog"
+
+  "Value"
+  "Värde"
+
+  "Value: "
+  "Värde"
+
+}
+
+# themes.tcl
+msgcat::mcmset sv {
+
+  "Theme:  %s"
+  "Tema:% s"
+
+  "Theme:*"
+  "Tema"
 
 }
 
 # tke.tcl
 msgcat::mcmset sv {
 
-  "Edit theme?"
-  "Redigera tema?"
+  "Import TKE theme?"
+  "Import TKE tema?"
 
   "Import TextMate theme?"
   "Importerar Textmate tema?"
@@ -1092,6 +1189,12 @@ msgcat::mcmset sv {
 
   "Save As"
   "Spara som..."
+
+  "Split View"
+  "Dela vy"
+
+  "Theme Editor"
+  "Temaredigeraren"
 
   "Unable to open %s for writing"
   "Kunde inte öppna%1 för skrivning"

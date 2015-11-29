@@ -179,9 +179,6 @@ msgcat::mcmset hu {
   "Copy"
   "Másolás"
 
-  "Create New..."
-  "Új létrehozása"
-
   "Create at Current Line"
   "Az aktuális sor létrehozása"
 
@@ -289,9 +286,6 @@ msgcat::mcmset hu {
 
   "Edit User - Language"
   "Felhasználó - nyelvre"
-
-  "Edit..."
-  "Szerkesztés..."
 
   "File"
   "Fájl"
@@ -457,9 +451,6 @@ msgcat::mcmset hu {
 
   "Hide Tab Bar"
   "A fülek elrejtése"
-
-  "Import TextMate Theme..."
-  "Import TextMate téma..."
 
   "Indent"
   "Behúzás"
@@ -677,9 +668,6 @@ msgcat::mcmset hu {
   "Sort Tabs"
   "Sort Tabs"
 
-  "Split View"
-  "Osztott nézet"
-
   "Start Profiling"
   "Kezdje Profiling"
 
@@ -713,32 +701,23 @@ msgcat::mcmset hu {
   "Text Menu: Unindent selected text"
   "Szöveg menü: Kiengedése kijelölt szöveg"
 
-  "Theme Creator"
-  "Theme Creator"
-
   "Toggle Comment"
   "Váltás Comment"
 
   "Tools"
   "Eszközök"
 
-  "Tools Menu: Create new theme"
-  "Eszközök menü: Az új téma létrehozása"
-
   "Tools Menu: Disable Vim mode"
   "Eszközök menü: Vim mód letiltása"
-
-  "Tools Menu: Edit TKE theme"
-  "Eszközök menü: TKE téma szerkesztése"
 
   "Tools Menu: Enable Vim mode"
   "Eszközök menü: Vim-üzemmód engedélyezése"
 
-  "Tools Menu: Import TextMate theme"
-  "Eszközök menü: Behozatali TextMate téma"
-
   "Tools Menu: Restart TKE"
   "Eszközök menü: Újraindítás TKE"
+
+  "Tools Menu: Run theme editor"
+  "Eszközök menü: Fuss témaszerkesztő"
 
   "Tools Menu: Show diagnostic logfile"
   "Eszközök menü: Diagnosztikai naplófájl megjelenítése"
@@ -972,63 +951,181 @@ msgcat::mcmset hu {
   "Syntax: %s"
   "Szintaxis: %s"
 
-  "Theme:  %s"
-  "Téma:% s"
+}
+
+# theme.tcl
+msgcat::mcmset hu {
+
+  "ERROR:  Unable to read %s"
+  "HIBA: Nem olvasható:% s"
+
+  "Images"
+  "Képek"
+
+  "Menu Options"
+  "Menü beállítások"
+
+  "Sidebar Options"
+  "Oldalsáv beállítások"
+
+  "Sidebar Scrollbar Options"
+  "Sidebar Scrollbar opciók"
+
+  "Syntax Colors"
+  "Syntax színek"
+
+  "Tab Options"
+  "Alap profilbeállítások"
+
+  "Text Scrollbar Options"
+  "Szöveg Scrollbar opciók"
+
+  "ttk Widget Colors"
+  "TTK Widget színek"
 
 }
 
 # themer.tcl
 msgcat::mcmset hu {
 
-  "Create"
-  "Létrehozás"
+  "   Show All"
+  "Az összes mutatása"
 
-  "Create New Theme"
-  "Új téma létrehozása..."
+  "   Show Category"
+  "~Kategória megjelenítése"
 
-  "Create custom"
-  "Egyéni"
+  "   Show Color"
+  "Mutass Szín"
 
-  "ERROR:  Unable to read %s"
-  "HIBA: Nem olvasható:% s"
+  "   Show Selected Option"
+  "Mutasd a kiválasztott opció"
 
-  "ERROR:  Unable to write %s"
-  "HIBA: Nem lehet írni% s"
+  "   Show Selected Value"
+  "Mutasd a kiválasztott érték"
 
-  "Edit theme"
-  "Téma szerkesztése"
+  "Categories"
+  "Kategóriák"
 
-  "Enter theme name"
-  "Adja meg a téma nevét"
+  "Change Base Color"
+  "Változás alapszín"
 
-  "Error:  Theme is not a supported theme"
-  "Hiba: A téma nem támogatott téma"
+  "Choose Theme"
+  "Válasszon téma"
+
+  "Custom Directory"
+  "más könyvtárból:"
+
+  "Custom..."
+  "Egyedi…"
+
+  "Delete swatch?"
+  "Törlés Swatch?"
+
+  "Description"
+  "Leírás"
+
+  "Details"
+  "Részletek"
+
+  "Done"
+  "Kész"
+
+  "Export"
+  "Exportálás"
+
+  "GIF Photo"
+  "GIF Fotó"
 
   "Import"
   "Import"
 
-  "Import TextMate Theme"
-  "Import TextMate Theme"
+  "Import BMP Data"
+  "Import BMP adatok"
 
-  "Name:"
-  "Név:"
+  "Import BMP Mask"
+  "Import BMP Mask"
 
-  "OK"
-  "OK"
+  "Import Error"
+  "Import Error"
 
-  "Reset"
-  "Alaphelyzet"
+  "Import Theme File"
+  "Import témafájlt"
 
-  "Select theme"
-  "Témafájl kiválasztása"
+  "Installation Directory"
+  "Telepítési könyvtár"
+
+  "Modifications"
+  "Módosítások"
+
+  "None"
+  "Egysem"
+
+  "One-Color Bitmap"
+  "Egy-Color Bitmap"
+
+  "Preview"
+  "Előnézet"
+
+  "Relief: "
+  "Megkönnyebbülés"
+
+  "Save As:"
+  "Mentés másként"
+
+  "Save theme changes?"
+  "Mentsd téma változik?"
+
+  "Select Directory"
+  "Válasszon ki egy könyvtárat"
+
+  "Swatch"
+  "Mintadarab"
+
+  "Swatch Colors"
+  "Swatch színek"
+
+  "Table Filters"
+  "Táblázat szűrők"
+
+  "The current theme has unsaved changes"
+  "Az aktuális téma nem mentett módosításokat tartalmaz"
+
+  "Theme Editor %s %s"
+  "Témaszerkesztő% s% s"
+
+  "Tree Style: "
+  "Fa Stílus:"
+
+  "Two-Color Bitmap"
+  "Két-Color Bitmap"
+
+  "User Directory"
+  "Saját könyvtár"
+
+  "Value"
+  "Érték"
+
+  "Value: "
+  "Érték:"
+
+}
+
+# themes.tcl
+msgcat::mcmset hu {
+
+  "Theme:  %s"
+  "Téma:% s"
+
+  "Theme:*"
+  "Sablon"
 
 }
 
 # tke.tcl
 msgcat::mcmset hu {
 
-  "Edit theme?"
-  "Szerkesztés témát?"
+  "Import TKE theme?"
+  "Import TKE témát?"
 
   "Import TextMate theme?"
   "Import TextMate témát?"
@@ -1092,6 +1189,12 @@ msgcat::mcmset hu {
 
   "Save As"
   "Mentés másként"
+
+  "Split View"
+  "Osztott nézet"
+
+  "Theme Editor"
+  "Témaszerkesztő"
 
   "Unable to open %s for writing"
   "Nem sikerült megnyitni írásra a(z)%1 fájlt."

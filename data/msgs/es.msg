@@ -179,9 +179,6 @@ msgcat::mcmset es {
   "Copy"
   "Copia"
 
-  "Create New..."
-  "Crear nuevo"
-
   "Create at Current Line"
   "Crear en línea actual"
 
@@ -289,9 +286,6 @@ msgcat::mcmset es {
 
   "Edit User - Language"
   "Editar usuario - lengua"
-
-  "Edit..."
-  "Edición..."
 
   "File"
   "Expediente"
@@ -457,9 +451,6 @@ msgcat::mcmset es {
 
   "Hide Tab Bar"
   "Hide Tab Bar"
-
-  "Import TextMate Theme..."
-  "Importación TextMate Theme..."
 
   "Indent"
   "Indentar"
@@ -677,9 +668,6 @@ msgcat::mcmset es {
   "Sort Tabs"
   "Sort Tabs"
 
-  "Split View"
-  "Dividir la vista"
-
   "Start Profiling"
   "Comience perfiles"
 
@@ -713,32 +701,23 @@ msgcat::mcmset es {
   "Text Menu: Unindent selected text"
   "Menú texto: No sangría texto seleccionado"
 
-  "Theme Creator"
-  "Theme Creator"
-
   "Toggle Comment"
   "Comentario de palanca"
 
   "Tools"
   "Herramientas"
 
-  "Tools Menu: Create new theme"
-  "Menú herramientas: Crear nuevo tema"
-
   "Tools Menu: Disable Vim mode"
   "Menú herramientas: Deshabilitar modo de Vim"
-
-  "Tools Menu: Edit TKE theme"
-  "Menú herramientas: Editar tema TKE"
 
   "Tools Menu: Enable Vim mode"
   "Menú de herramientas: Activar el modo de Vim"
 
-  "Tools Menu: Import TextMate theme"
-  "Menú de herramientas: Tema de TextMate importación"
-
   "Tools Menu: Restart TKE"
   "Menú herramientas: Reinicio TKE"
+
+  "Tools Menu: Run theme editor"
+  "Menú Herramientas: Ejecutar editor de temas"
 
   "Tools Menu: Show diagnostic logfile"
   "Menú de herramientas: Mostrar archivo de registro de diagnóstico"
@@ -972,63 +951,181 @@ msgcat::mcmset es {
   "Syntax: %s"
   "Sintaxis: %s"
 
-  "Theme:  %s"
-  "Tema: %s"
+}
+
+# theme.tcl
+msgcat::mcmset es {
+
+  "ERROR:  Unable to read %s"
+  "ERROR: No se puede leer %s"
+
+  "Images"
+  "Imágenes"
+
+  "Menu Options"
+  "Opciones de Menú"
+
+  "Sidebar Options"
+  "Opciones de Columna"
+
+  "Sidebar Scrollbar Options"
+  "Sidebar Opciones Scrollbar"
+
+  "Syntax Colors"
+  "Sintaxis Colores"
+
+  "Tab Options"
+  "Opciones de la ficha"
+
+  "Text Scrollbar Options"
+  "Texto Opciones Scrollbar"
+
+  "ttk Widget Colors"
+  "TTK Widget Colores"
 
 }
 
 # themer.tcl
 msgcat::mcmset es {
 
-  "Create"
-  "Crear"
+  "   Show All"
+  "Mostrar todo"
 
-  "Create New Theme"
-  "Crear nuevo tema..."
+  "   Show Category"
+  "Mostrar Categoría"
 
-  "Create custom"
-  "Crear formulario personalizado"
+  "   Show Color"
+  "Ver color de Fondo"
 
-  "ERROR:  Unable to read %s"
-  "ERROR: No se puede leer %s"
+  "   Show Selected Option"
+  "Mostrar opción seleccionada"
 
-  "ERROR:  Unable to write %s"
-  "ERROR: No se puede escribir %s"
+  "   Show Selected Value"
+  "Mostrar valor seleccionado"
 
-  "Edit theme"
-  "Editar tema"
+  "Categories"
+  "Categorías"
 
-  "Enter theme name"
-  "Ingrese nombre del tema"
+  "Change Base Color"
+  "Cambiar color"
 
-  "Error:  Theme is not a supported theme"
-  "Error: Tema no es un tema con el apoyo"
+  "Choose Theme"
+  "Elige un tema"
+
+  "Custom Directory"
+  "Directorio personalizada"
+
+  "Custom..."
+  "Personalizado..."
+
+  "Delete swatch?"
+  "Eliminar muestra?"
+
+  "Description"
+  "Descripción"
+
+  "Details"
+  "Datos"
+
+  "Done"
+  "Hecho"
+
+  "Export"
+  "Exportar"
+
+  "GIF Photo"
+  "GIF fotos"
 
   "Import"
   "Importar"
 
-  "Import TextMate Theme"
-  "Importar TextMate Tema"
+  "Import BMP Data"
+  "Importar datos..."
 
-  "Name:"
-  "Nombre:"
+  "Import BMP Mask"
+  "Máscara de importación BMP"
 
-  "OK"
-  "OK"
+  "Import Error"
+  "Import Error!"
 
-  "Reset"
-  "Reajustar"
+  "Import Theme File"
+  "Importar archivo de tema"
 
-  "Select theme"
-  "Seleccione un tema"
+  "Installation Directory"
+  "Directorio de instalación"
+
+  "Modifications"
+  "Modificaciones"
+
+  "None"
+  "Ninguno"
+
+  "One-Color Bitmap"
+  "Bitmap Uno-Color"
+
+  "Preview"
+  "Vista previa"
+
+  "Relief: "
+  "Alivio"
+
+  "Save As:"
+  "Guardar como:"
+
+  "Save theme changes?"
+  "Guardar cambios temáticos?"
+
+  "Select Directory"
+  "Seleccionar el anuncio"
+
+  "Swatch"
+  "proyecto de conservación de los humedales del río Sile"
+
+  "Swatch Colors"
+  "Colores Swatch"
+
+  "Table Filters"
+  "Tabla Filtros"
+
+  "The current theme has unsaved changes"
+  "El tema actual tiene cambios sin guardar"
+
+  "Theme Editor %s %s"
+  "Editor de temas% s% s"
+
+  "Tree Style: "
+  "Estilo del árbol:"
+
+  "Two-Color Bitmap"
+  "Bitmap de dos colores"
+
+  "User Directory"
+  "Directorio de usuarios"
+
+  "Value"
+  "Valor"
+
+  "Value: "
+  "Valor:"
+
+}
+
+# themes.tcl
+msgcat::mcmset es {
+
+  "Theme:  %s"
+  "Tema: %s"
+
+  "Theme:*"
+  "Tema"
 
 }
 
 # tke.tcl
 msgcat::mcmset es {
 
-  "Edit theme?"
-  "Editar tema?"
+  "Import TKE theme?"
+  "Tema Importación TKE?"
 
   "Import TextMate theme?"
   "Importar tema TextMate?"
@@ -1092,6 +1189,12 @@ msgcat::mcmset es {
 
   "Save As"
   "Guardar como"
+
+  "Split View"
+  "Dividir la vista"
+
+  "Theme Editor"
+  "Editor de temas"
 
   "Unable to open %s for writing"
   "No se puede abrir %s para escritura"

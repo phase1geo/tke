@@ -179,9 +179,6 @@ msgcat::mcmset ru {
   "Copy"
   "Копия"
 
-  "Create New..."
-  "??????? ?????"
-
   "Create at Current Line"
   "??????? ? ??????? ??????"
 
@@ -289,9 +286,6 @@ msgcat::mcmset ru {
 
   "Edit User - Language"
   "?????????????? ???????????? - ????"
-
-  "Edit..."
-  "Правка..."
 
   "File"
   "Файл"
@@ -457,9 +451,6 @@ msgcat::mcmset ru {
 
   "Hide Tab Bar"
   "Скрыть панель вкладок,"
-
-  "Import TextMate Theme..."
-  "?????? TextMate ????..."
 
   "Indent"
   "Отступ"
@@ -677,9 +668,6 @@ msgcat::mcmset ru {
   "Sort Tabs"
   "Сортировка Вкладки"
 
-  "Split View"
-  "????????? ????? ? ?? ??????????"
-
   "Start Profiling"
   "Запуск профилирования"
 
@@ -713,32 +701,23 @@ msgcat::mcmset ru {
   "Text Menu: Unindent selected text"
   "Текст меню: Отмена отступа выделенного текста"
 
-  "Theme Creator"
-  "Тема Создатель"
-
   "Toggle Comment"
   "??????????? ???????????"
 
   "Tools"
   "Инструмент"
 
-  "Tools Menu: Create new theme"
-  "Меню Сервис: Создайте новую тему"
-
   "Tools Menu: Disable Vim mode"
   "Меню Сервис: Отключить режим Vim"
-
-  "Tools Menu: Edit TKE theme"
-  "Меню Сервис: Изменить тему TKE"
 
   "Tools Menu: Enable Vim mode"
   "Меню Сервис: Включить режим Vim"
 
-  "Tools Menu: Import TextMate theme"
-  "Меню Сервис: Импорт TextMate тема"
-
   "Tools Menu: Restart TKE"
   "Меню Сервис: Перезагрузка TKE"
+
+  "Tools Menu: Run theme editor"
+  "Меню Инструменты: Запустите редактор тема"
 
   "Tools Menu: Show diagnostic logfile"
   "Меню Сервис: Показать диагностический лог"
@@ -972,63 +951,181 @@ msgcat::mcmset ru {
   "Syntax: %s"
   "Синтаксис: %s"
 
-  "Theme:  %s"
-  "Стиль:% с"
+}
+
+# theme.tcl
+msgcat::mcmset ru {
+
+  "ERROR:  Unable to read %s"
+  "ОШИБКА: Невозможно прочитать% с"
+
+  "Images"
+  "Изображения"
+
+  "Menu Options"
+  "Настройки меню"
+
+  "Sidebar Options"
+  "Параметры боковой панели"
+
+  "Sidebar Scrollbar Options"
+  "Sidebar Опции полоса прокрутки"
+
+  "Syntax Colors"
+  "Синтаксис цвета"
+
+  "Tab Options"
+  "Вкладка Параметры"
+
+  "Text Scrollbar Options"
+  "Текст полоса прокрутки Опции"
+
+  "ttk Widget Colors"
+  "ТТК Виджет Цвета"
 
 }
 
 # themer.tcl
 msgcat::mcmset ru {
 
-  "Create"
-  "Создайте"
+  "   Show All"
+  "Показать все"
 
-  "Create New Theme"
-  "Создать новую тему"
+  "   Show Category"
+  "Показать категорию"
 
-  "Create custom"
-  "Создание пользовательских"
+  "   Show Color"
+  "Показать цвет фона"
 
-  "ERROR:  Unable to read %s"
-  "ОШИБКА: Невозможно прочитать% с"
+  "   Show Selected Option"
+  "Показать выбранные опции"
 
-  "ERROR:  Unable to write %s"
-  "ОШИБКА: Невозможно записать% с"
+  "   Show Selected Value"
+  "Выберете значение"
 
-  "Edit theme"
-  "Редактировать тему"
+  "Categories"
+  "Категории"
 
-  "Enter theme name"
-  "Введите название темы"
+  "Change Base Color"
+  "Изменить База Цвет"
 
-  "Error:  Theme is not a supported theme"
-  "Ошибка: Тема не поддерживается тема"
+  "Choose Theme"
+  "Выбрать тему:"
+
+  "Custom Directory"
+  "Пользовательские Каталог"
+
+  "Custom..."
+  "Заказ..."
+
+  "Delete swatch?"
+  "Удалить образец?"
+
+  "Description"
+  "Описание"
+
+  "Details"
+  "Детали"
+
+  "Done"
+  "Готово"
+
+  "Export"
+  "Экспорт"
+
+  "GIF Photo"
+  "GIF фото"
 
   "Import"
   "Импорт"
 
-  "Import TextMate Theme"
-  "Импорт TextMate Стиль"
+  "Import BMP Data"
+  "Импорт данных"
 
-  "Name:"
-  "ФИО:"
+  "Import BMP Mask"
+  "Импорт BMP Маска"
 
-  "OK"
-  "ОК (в порядке)"
+  "Import Error"
+  "ошибка импорта:"
 
-  "Reset"
-  "Сбросом"
+  "Import Theme File"
+  "Импорт файла Тема"
 
-  "Select theme"
-  "Выберите тему."
+  "Installation Directory"
+  "Каталог установки"
+
+  "Modifications"
+  "Измененных"
+
+  "None"
+  "Нет"
+
+  "One-Color Bitmap"
+  "Один-битовых цветовых"
+
+  "Preview"
+  "Предварительный просмотр"
+
+  "Relief: "
+  "Предохранительный:"
+
+  "Save As:"
+  "Сохранить как"
+
+  "Save theme changes?"
+  "Сохранить изменения теме?"
+
+  "Select Directory"
+  "Выберите папку"
+
+  "Swatch"
+  "Swatch"
+
+  "Swatch Colors"
+  "Swatch цвета"
+
+  "Table Filters"
+  "Таблица Фильтры"
+
+  "The current theme has unsaved changes"
+  "В настоящее время тема имеет несохраненные изменения"
+
+  "Theme Editor %s %s"
+  "Тема редактор% s% s"
+
+  "Tree Style: "
+  "Дерево Стиль:"
+
+  "Two-Color Bitmap"
+  "Двухцветного Bitmap"
+
+  "User Directory"
+  "Каталог пользователя"
+
+  "Value"
+  "Значение"
+
+  "Value: "
+  "Значение:"
+
+}
+
+# themes.tcl
+msgcat::mcmset ru {
+
+  "Theme:  %s"
+  "Стиль:% с"
+
+  "Theme:*"
+  "Тема"
 
 }
 
 # tke.tcl
 msgcat::mcmset ru {
 
-  "Edit theme?"
-  "Редактировать тему?"
+  "Import TKE theme?"
+  "Импорт ТКЕ тема?"
 
   "Import TextMate theme?"
   "Импорт TextMate тему?"
@@ -1092,6 +1189,12 @@ msgcat::mcmset ru {
 
   "Save As"
   "Сохранить как"
+
+  "Split View"
+  "????????? ????? ? ?? ??????????"
+
+  "Theme Editor"
+  "Визуальный редактор темы"
 
   "Unable to open %s for writing"
   "Невозможно открыть% с для записи"

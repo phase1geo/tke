@@ -179,9 +179,6 @@ msgcat::mcmset el {
   "Copy"
   "Αντιγραφή"
 
-  "Create New..."
-  "?????????? ????..."
-
   "Create at Current Line"
   "???????????? ???? ???????? ??????"
 
@@ -289,9 +286,6 @@ msgcat::mcmset el {
 
   "Edit User - Language"
   "?????? - ???????????? ?? ??????"
-
-  "Edit..."
-  "Επεξεργασία..."
 
   "File"
   "Αρχείο"
@@ -457,9 +451,6 @@ msgcat::mcmset el {
 
   "Hide Tab Bar"
   "Απόκρυψη Tab Bar"
-
-  "Import TextMate Theme..."
-  "???????? TextMate ????..."
 
   "Indent"
   "Εσοχή"
@@ -677,9 +668,6 @@ msgcat::mcmset el {
   "Sort Tabs"
   "Sort Tabs"
 
-  "Split View"
-  "?????????? ???????"
-
   "Start Profiling"
   "Ξεκινήστε Profiling"
 
@@ -713,32 +701,23 @@ msgcat::mcmset el {
   "Text Menu: Unindent selected text"
   "Κείμενο μενού: Κατάργηση εσοχής του επιλεγμένου κειμένου"
 
-  "Theme Creator"
-  "Theme Creator"
-
   "Toggle Comment"
   "???????? ??????"
 
   "Tools"
   "Μέσα δράσης"
 
-  "Tools Menu: Create new theme"
-  "Μενού Εργαλεία: Δημιουργήστε νέο θέμα"
-
   "Tools Menu: Disable Vim mode"
   "Μενού Εργαλεία: Απενεργοποίηση λειτουργίας Vim"
-
-  "Tools Menu: Edit TKE theme"
-  "Εργαλεία μενού: Επεξεργασία TKE θέμα"
 
   "Tools Menu: Enable Vim mode"
   "Εργαλεία μενού: Ενεργοποίηση της λειτουργίας Vim"
 
-  "Tools Menu: Import TextMate theme"
-  "Μενού Εργαλεία: Θέμα εισαγωγής TextMate"
-
   "Tools Menu: Restart TKE"
   "Μενού Εργαλεία: Επανεκκίνηση ΤΚΕ"
+
+  "Tools Menu: Run theme editor"
+  "Εργαλεία Μενού: Εκτέλεση editor θέμα"
 
   "Tools Menu: Show diagnostic logfile"
   "Μενού Εργαλεία: Διαγνωστικά logfile Εμφάνιση"
@@ -972,63 +951,181 @@ msgcat::mcmset el {
   "Syntax: %s"
   "Σύνταξη: %s"
 
-  "Theme:  %s"
-  "Θέμα:% s"
+}
+
+# theme.tcl
+msgcat::mcmset el {
+
+  "ERROR:  Unable to read %s"
+  "ΣΦΑΛΜΑ: Αδύνατη η ανάγνωση του% s"
+
+  "Images"
+  "Εικόνες"
+
+  "Menu Options"
+  "Επιλογές Μενού"
+
+  "Sidebar Options"
+  "Sidebar Επιλογές"
+
+  "Sidebar Scrollbar Options"
+  "Sidebar Επιλογές κύλισης"
+
+  "Syntax Colors"
+  "Σύνταξη Χρώματα"
+
+  "Tab Options"
+  "Καρτέλα Επιλογές"
+
+  "Text Scrollbar Options"
+  "Κείμενο Επιλογές κύλισης"
+
+  "ttk Widget Colors"
+  "TTK Widget Χρώματα"
 
 }
 
 # themer.tcl
 msgcat::mcmset el {
 
-  "Create"
-  "Δημιουργία"
+  "   Show All"
+  "E"
 
-  "Create New Theme"
-  "Δημιουργία νέου θέματος..."
+  "   Show Category"
+  "Εμφάνιση Κατηγορίας"
 
-  "Create custom"
-  "Δημιουργία προσαρμοσμένων"
+  "   Show Color"
+  "Εμφάνιση Χρώματος Φόντου"
 
-  "ERROR:  Unable to read %s"
-  "ΣΦΑΛΜΑ: Αδύνατη η ανάγνωση του% s"
+  "   Show Selected Option"
+  "Εμφάνιση επιλεγμένων Επιλογή"
 
-  "ERROR:  Unable to write %s"
-  "ΣΦΑΛΜΑ: Αδύνατη η εγγραφή% s"
+  "   Show Selected Value"
+  "Εμφάνιση επιλεγμένη τιμή"
 
-  "Edit theme"
-  "Επεξεργασία θέματος"
+  "Categories"
+  "Κατηγορίες"
 
-  "Enter theme name"
-  "Πληκτρολογήστε το όνομα του θέματος"
+  "Change Base Color"
+  "Αλλαγή χρώματος βάσης"
 
-  "Error:  Theme is not a supported theme"
-  "Σφάλμα: Θέμα δεν υποστηρίζεται θέμα"
+  "Choose Theme"
+  "Επιλέξτε θέμα εμφάνισης"
+
+  "Custom Directory"
+  "Προσαρμοσμένο Κατάλογο"
+
+  "Custom..."
+  "Προσαρμοσμένο"
+
+  "Delete swatch?"
+  "Διαγραφή Swatch;"
+
+  "Description"
+  "Περιγραφή"
+
+  "Details"
+  "Λεπτομέρειες"
+
+  "Done"
+  "Ολοκληρώθηκε"
+
+  "Export"
+  "Εξαγωγή"
+
+  "GIF Photo"
+  "GIF Φωτογραφία"
 
   "Import"
   "Εισαγωγή"
 
-  "Import TextMate Theme"
-  "Εισαγωγή TextMate Θέμα"
+  "Import BMP Data"
+  "Εισαγωγή BMP Δεδομένων"
 
-  "Name:"
-  "Επωνυμία:"
+  "Import BMP Mask"
+  "Εισαγωγή BMP Μάσκα"
 
-  "OK"
-  "ΟΚ"
+  "Import Error"
+  "Σφάλμα εισαγωγής"
 
-  "Reset"
-  "Επαναφορά"
+  "Import Theme File"
+  "Εισαγωγή Θέμα αρχείου"
 
-  "Select theme"
-  "Επιλογή αρχείου θέματος"
+  "Installation Directory"
+  "Κατάλογος εγκατάστασης"
+
+  "Modifications"
+  "Τροποποιήσεις"
+
+  "None"
+  "Κανένα"
+
+  "One-Color Bitmap"
+  "Ένα-Color Bitmap"
+
+  "Preview"
+  "Προεπισκόπιση"
+
+  "Relief: "
+  "συναισθηματικη εκτονωση"
+
+  "Save As:"
+  "Αποθήκευση ως:"
+
+  "Save theme changes?"
+  "Αποθηκεύστε τις αλλαγές θέμα;"
+
+  "Select Directory"
+  "Επιλογή καταλόγου"
+
+  "Swatch"
+  "Δείγμα υφάσματος"
+
+  "Swatch Colors"
+  "Swatch Χρώματα"
+
+  "Table Filters"
+  "Φίλτρα Πίνακας"
+
+  "The current theme has unsaved changes"
+  "Το σημερινό θέμα έχει μη αποθηκευμένες αλλαγές"
+
+  "Theme Editor %s %s"
+  "Θέμα Εκδότης% s% s"
+
+  "Tree Style: "
+  "Δέντρο Στυλ:"
+
+  "Two-Color Bitmap"
+  "Δύο-χρώμα Bitmap"
+
+  "User Directory"
+  "Χρήστης Κατάλογος"
+
+  "Value"
+  "Τιμή"
+
+  "Value: "
+  "Τιμή:"
+
+}
+
+# themes.tcl
+msgcat::mcmset el {
+
+  "Theme:  %s"
+  "Θέμα:% s"
+
+  "Theme:*"
+  "Θέμα"
 
 }
 
 # tke.tcl
 msgcat::mcmset el {
 
-  "Edit theme?"
-  "Επεξεργαστείτε το θέμα;"
+  "Import TKE theme?"
+  "Θέμα Εισαγωγή ΤΚΕ;"
 
   "Import TextMate theme?"
   "Εισαγωγή TextMate θέμα;"
@@ -1092,6 +1189,12 @@ msgcat::mcmset el {
 
   "Save As"
   "Αποθήκευση ως"
+
+  "Split View"
+  "?????????? ???????"
+
+  "Theme Editor"
+  "Θέμα Εκδότης"
 
   "Unable to open %s for writing"
   "Αδύνατο το άνοιγμα του%1 για εγγραφή"
