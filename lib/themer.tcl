@@ -225,7 +225,7 @@ namespace eval themer {
       # Add the categories panel
       .thmwin.pw add [ttk::labelframe .thmwin.pw.lf -text [msgcat::mc "Categories"]]
       set data(widgets,cat) [tablelist::tablelist .thmwin.pw.lf.tbl \
-        -columns {0 Options 0 Value 0 {}} -treecolumn 0 -exportselection 0 -width 0 \
+        -columns {0 Options 0 Value 0 {} 0 {}} -treecolumn 0 -exportselection 0 -width 0 \
         -labelcommand [list themer::show_filter_menu] \
         -yscrollcommand { .thmwin.pw.lf.vb set } \
       ]
@@ -234,6 +234,7 @@ namespace eval themer {
       $data(widgets,cat) columnconfigure 0 -name opt
       $data(widgets,cat) columnconfigure 1 -name value    -formatcommand [list themer::format_category_value]
       $data(widgets,cat) columnconfigure 2 -name category -hide 1
+      $data(widgets,cat) columnconfigure 3 -name desc     -hide 1
 
       bind $data(widgets,cat) <<TablelistSelect>> [list themer::handle_category_selection]
 
@@ -243,7 +244,26 @@ namespace eval themer {
       grid .thmwin.pw.lf.vb  -row 0 -column 1 -sticky ns
 
       # Add the right paned window
-      .thmwin.pw add [set data(widgets,df) [ttk::labelframe .thmwin.pw.rf -text [msgcat::mc "Details"]]] -weight 1
+      .thmwin.pw add [ttk::frame .thmwin.pw.rf] -weight 1
+
+      # Add the detail frame
+      set data(widgets,df) [ttk::labelframe .thmwin.pw.rf.df -text [msgcat::mc "Details"]]
+
+      # Add the description frame
+      ttk::labelframe .thmwin.pw.rf.def -text [msgcat::mc "Description"]
+      set data(widgets,desc) [text .thmwin.pw.rf.def.t -height 4 -relief flat \
+        -background [utils::get_default_background] -foreground [utils::get_default_foreground] \
+        -borderwidth 0 -highlightthickness 0 -wrap word -state disabled \
+        -yscrollcommand { utils::set_yscrollbar .thmwin.pw.rf.def.vb }]
+      ttk::scrollbar .thmwin.pw.rf.def.vb -orient vertical -command { .thmwin.pw.rf.def.t yview }
+
+      grid rowconfigure    .thmwin.pw.rf.def 0 -weight 1
+      grid columnconfigure .thmwin.pw.rf.def 0 -weight 1
+      grid .thmwin.pw.rf.def.t  -row 0 -column 0 -sticky news
+      grid .thmwin.pw.rf.def.vb -row 0 -column 1 -sticky ns
+
+      pack .thmwin.pw.rf.df  -fill both -expand yes
+      pack .thmwin.pw.rf.def -fill x
 
       # Get the width of all buttons
       set bwidth [msgcat::mcmax "Open" "Save" "Create" "Save" "Cancel" "Preview" "Done" "Import" "Export"]
@@ -577,6 +597,12 @@ namespace eval themer {
 
     }
 
+    # Show the option description
+    $data(widgets,desc) configure -state normal
+    $data(widgets,desc) delete 1.0 end
+    $data(widgets,desc) insert end [$data(widgets,cat) cellcget $row,desc -text]
+    $data(widgets,desc) configure -state disabled
+
   }
 
   ######################################################################
@@ -618,6 +644,9 @@ namespace eval themer {
 
       # Set the menubutton text to the selected theme
       $data(widgets,open_mb) configure -text [file rootname [file tail $theme]]
+
+      # Change the foreground/background color of the description widget
+      $data(widgets,desc) configure -background [utils::get_default_background] -foreground [utils::get_default_foreground]
 
     }
 
@@ -795,7 +824,7 @@ namespace eval themer {
 
     # Set the tablelist data and indicate that the theme has changed
     if {![catch { $data(widgets,image_pf_tl_file) cellcget $cell -text } value] && ($value ne "")} {
-      theme::set_themer_category_table_row $data(widgets,cat) $data(row) $value
+      theme::set_themer_category_table_row $data(widgets,cat) $data(row) $value $data(widgets,desc)
       set_theme_modified
     }
 
@@ -877,7 +906,7 @@ namespace eval themer {
     variable data
 
     # Set the tablelist data
-    theme::set_themer_category_table_row $data(widgets,cat) $data(row) $bm_data
+    theme::set_themer_category_table_row $data(widgets,cat) $data(row) $bm_data $data(widgets,desc)
 
     # Specify that the apply button should be enabled
     set_theme_modified
@@ -923,7 +952,7 @@ namespace eval themer {
     $data(widgets,treestyle_mb) configure -text $treestyle
 
     # Update the category table
-    theme::set_themer_category_table_row $data(widgets,cat) $data(row) $treestyle
+    theme::set_themer_category_table_row $data(widgets,cat) $data(row) $treestyle $data(widgets,desc)
 
     # Specify that the apply button should be enabled
     set_theme_modified
