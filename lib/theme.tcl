@@ -69,14 +69,14 @@ namespace eval theme {
     menus,-activeforeground       {color {black} {} {0} {Foreground text color used for the current or "active" menu item.}}
     menus,-disabledforeground     {color {grey}  {} {0} {Foreground text color used for menus item that are disabled.}}
     menus,-relief                 {{relief {raised sunken flat ridge solid groove}} {flat} {} {0} {Menu relief value.}}
-    tabs,-background              {color {2} {} {0} {Background color used in the tabbar area.}}
-    tabs,-foreground              {color {1} {} {0} {Foreground text/image color used in tabbar and tabs.}}
+    tabs,-background              {color {1} {} {0} {Background color used in the tabbar area.}}
+    tabs,-foreground              {color {2} {} {0} {Foreground text/image color used in tabbar and tabs.}}
     tabs,-activebackground        {color {0} {} {0} {Background color used for the current or "active" tab in the tabbar.}}
-    tabs,-inactivebackground      {color {2} {} {0} {Background color used for all other tabs that are not the current or "active" tab in the tabbar.}}
+    tabs,-inactivebackground      {color {1} {} {0} {Background color used for all other tabs that are not the current or "active" tab in the tabbar.}}
     tabs,-height                  {{number {20 40}} {25} {} {0} {Pixel height of the tabbar widget.}}
     tabs,-relief                  {{relief {flat raised}} {flat} {} {0} {Relief used in drawing the tabs.}}
     text_scrollbar,-background    {color {0} {} {0} {Background (trough) color used in the text scrollbars.}}
-    text_scrollbar,-foreground    {color {2} {} {0} {Foreground (slider) color used in the text scrollbars.}}
+    text_scrollbar,-foreground    {color {1} {} {0} {Foreground (slider) color used in the text scrollbars.}}
     text_scrollbar,-thickness     {{number {5 20}} {15} {} {0} {Maximum thickness of the text scrollbars when they are active.}}
     syntax,background             {color {black} {} {0} {Background color of the editing buffer.}}
     syntax,border_highlight       {color {black} {} {0} {Color of border drawn around active editing buffer.}}
@@ -99,17 +99,17 @@ namespace eval theme {
     syntax,select_foreground      {color {white} {} {0} {Foreground text color to use for selected text.}}
     syntax,strings                {color {grey} {} {0} {Foreground text color for strings.}}
     syntax,warning_width          {color {grey} {} {0} {Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer).}}
-    sidebar,-foreground           {color {0} {} {0} {Text color for all sidebar items that are not selected.}}
-    sidebar,-background           {color {1} {} {0} {Background color for all sidebar items that are not selected.}}
-    sidebar,-selectbackground     {color {2} {} {0} {Background color for all sidebar items that are selected.}}
-    sidebar,-selectforeground     {color {1} {} {0} {Text color for all sidebar items that are selected.}}
-    sidebar,-highlightbackground  {color {1} {} {0} {Specifies the color to display around the sidebar when the sidebar does not have the focus.}}
-    sidebar,-highlightcolor       {color {1} {} {0} {Specifies the color to display around the sidebar when the sidebar has the focus.}}
+    sidebar,-background           {color {2} {} {0} {Background color for all sidebar items that are not selected.}}
+    sidebar,-foreground           {color {1} {} {0} {Text color for all sidebar items that are not selected.}}
+    sidebar,-selectbackground     {color {1} {} {0} {Background color for all sidebar items that are selected.}}
+    sidebar,-selectforeground     {color {2} {} {0} {Text color for all sidebar items that are selected.}}
+    sidebar,-highlightbackground  {color {2} {} {0} {Specifies the color to display around the sidebar when the sidebar does not have the focus.}}
+    sidebar,-highlightcolor       {color {2} {} {0} {Specifies the color to display around the sidebar when the sidebar has the focus.}}
     sidebar,-highlightthickness   {{number {1 5}} {1} {} {0} {Specifies the pixel thickness of the highlight line.}}
     sidebar,-relief               {{relief {raised sunken flat ridge solid groove}} {flat} {} {0} {Relief value of the sidebar area.}}
     sidebar,-treestyle            {treestyle {aqua} {} {0} {Specifies the disclosure image style to use in the sidebar.}}
-    sidebar_scrollbar,-background {color {1} {} {0} {Background (trough) color used in the sidebar scrollbar.}}
-    sidebar_scrollbar,-foreground {color {2} {} {0} {Foreground (slider) color used in the sidebar scrollbar.}}
+    sidebar_scrollbar,-background {color {2} {} {0} {Background (trough) color used in the sidebar scrollbar.}}
+    sidebar_scrollbar,-foreground {color {1} {} {0} {Foreground (slider) color used in the sidebar scrollbar.}}
     sidebar_scrollbar,-thickness  {{number {5 20}} {15} {} {0} {Maximum thickness of the text scrollbar when it is active.}}
   }
 
@@ -544,28 +544,6 @@ namespace eval theme {
     foreach {name color} [array get labels] {
       lset data(syntax,$name) $fields(value) $labels($name)
     }
-
-    # Let's take a stab at good defaults
-    lset data(ttk_style,disabled_background) $fields(value) $labels(background)
-    lset data(ttk_style,background)          $fields(value) $labels(background)
-    lset data(ttk_style,foreground)          $fields(value) $labels(foreground)
-    lset data(ttk_style,active_color)        $fields(value) $labels(warning_width)
-    lset data(menus,-background)             $fields(value) $labels(background)
-    lset data(menus,-foreground)             $fields(value) $labels(foreground)
-    lset data(tabs,-background)              $fields(value) $labels(warning_width)
-    lset data(tabs,-foreground)              $fields(value) $labels(foreground)
-    lset data(tabs,-activebackground)        $fields(value) $labels(background)
-    lset data(tabs,-inactivebackground)      $fields(value) $labels(background)
-    lset data(text_scrollbar,-background)    $fields(value) $labels(background)
-    lset data(text_scrollbar,-foreground)    $fields(value) $labels(warning_width)
-    lset data(sidebar,-foreground)           $fields(value) $labels(background)
-    lset data(sidebar,-background)           $fields(value) $labels(foreground)
-    lset data(sidebar,-selectbackground)     $fields(value) $labels(warning_width)
-    lset data(sidebar,-selectforeground)     $fields(value) $labels(foreground)
-    lset data(sidebar,-highlightbackground)  $fields(value) $labels(foreground)
-    lset data(sidebar,-highlightcolor)       $fields(value) $labels(foreground)
-    lset data(sidebar_scrollbar,-background) $fields(value) $labels(foreground)
-    lset data(sidebar_scrollbar,-foreground) $fields(value) $labels(warning_width)
 
   }
 
