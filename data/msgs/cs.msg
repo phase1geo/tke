@@ -179,9 +179,6 @@ msgcat::mcmset cs {
   "Copy"
   "Kopírovat"
 
-  "Create New..."
-  "Vytvo?it nový/novou"
-
   "Create at Current Line"
   "Vytvo?it v aktuálním ?ádku"
 
@@ -289,9 +286,6 @@ msgcat::mcmset cs {
 
   "Edit User - Language"
   "Upravit uivatelské - jazyk"
-
-  "Edit..."
-  "Upravit..."
 
   "File"
   "Soubor"
@@ -457,9 +451,6 @@ msgcat::mcmset cs {
 
   "Hide Tab Bar"
   "Skrýt liště"
-
-  "Import TextMate Theme..."
-  "Importujte TextMate téma..."
 
   "Indent"
   "Zvětšit odsazení"
@@ -677,9 +668,6 @@ msgcat::mcmset cs {
   "Sort Tabs"
   "Seřadit Záložky"
 
-  "Split View"
-  "Rozd?lený panel"
-
   "Start Profiling"
   "Začněte profilování"
 
@@ -713,32 +701,23 @@ msgcat::mcmset cs {
   "Text Menu: Unindent selected text"
   "Menu textu: Zrušit odsazení vybraného textu"
 
-  "Theme Creator"
-  "Theme Creator"
-
   "Toggle Comment"
   "P?epnout komentá?"
 
   "Tools"
   "nástroje"
 
-  "Tools Menu: Create new theme"
-  "Nabídka nástroje: Vytvoření nového motivu"
-
   "Tools Menu: Disable Vim mode"
   "Nabídka nástroje: Zakázat režim, Vim"
-
-  "Tools Menu: Edit TKE theme"
-  "Nabídka nástroje: Úprava TKE téma"
 
   "Tools Menu: Enable Vim mode"
   "Nabídka nástroje: Povolit režim Vim"
 
-  "Tools Menu: Import TextMate theme"
-  "Nabídka nástroje: Import TextMate téma"
-
   "Tools Menu: Restart TKE"
   "Nabídka nástroje: Restart TKE"
+
+  "Tools Menu: Run theme editor"
+  "Nabídka Nástroje: Spusťte editor téma"
 
   "Tools Menu: Show diagnostic logfile"
   "Nabídka nástroje: Zobrazení diagnostického protokolu"
@@ -972,63 +951,181 @@ msgcat::mcmset cs {
   "Syntax: %s"
   "Syntaxe: %s"
 
-  "Theme:  %s"
-  "Téma:% s"
+}
+
+# theme.tcl
+msgcat::mcmset cs {
+
+  "ERROR:  Unable to read %s"
+  "CHYBA: Nelze přečíst% s"
+
+  "Images"
+  "Obrázky"
+
+  "Menu Options"
+  "Nastavení menu"
+
+  "Sidebar Options"
+  "Nastavení sidebaru"
+
+  "Sidebar Scrollbar Options"
+  "Sidebar Možnosti scrollbar"
+
+  "Syntax Colors"
+  "Syntaxe Barvy"
+
+  "Tab Options"
+  "Možnosti Karta"
+
+  "Text Scrollbar Options"
+  "Textové scrollbar Možnosti"
+
+  "ttk Widget Colors"
+  "TTK Widget Barvy"
 
 }
 
 # themer.tcl
 msgcat::mcmset cs {
 
-  "Create"
-  "Vytvořit"
+  "   Show All"
+  "Zobrazit vše"
 
-  "Create New Theme"
-  "Vytvořit nové téma"
+  "   Show Category"
+  "Zobrazit kategorii"
 
-  "Create custom"
-  "Vytvořte si vlastní"
+  "   Show Color"
+  "Show Barva"
 
-  "ERROR:  Unable to read %s"
-  "CHYBA: Nelze přečíst% s"
+  "   Show Selected Option"
+  "Show vybrána možnost"
 
-  "ERROR:  Unable to write %s"
-  "CHYBA: Nelze zapsat% s"
+  "   Show Selected Value"
+  "Show zvolená hodnota"
 
-  "Edit theme"
-  "Upravit téma"
+  "Categories"
+  "Kategorie"
 
-  "Enter theme name"
-  "Zadejte název motivu"
+  "Change Base Color"
+  "Change Color Základní"
 
-  "Error:  Theme is not a supported theme"
-  "Chyba: Téma není podporován téma"
+  "Choose Theme"
+  "Vyberte si téma"
+
+  "Custom Directory"
+  "Vlastní adresář"
+
+  "Custom..."
+  "Vlastní..."
+
+  "Delete swatch?"
+  "Smazat vzorník?"
+
+  "Description"
+  "Popis"
+
+  "Details"
+  "Dataily"
+
+  "Done"
+  "Hotovo"
+
+  "Export"
+  "Exportovat"
+
+  "GIF Photo"
+  "GIF foto"
 
   "Import"
   "Dovoz"
 
-  "Import TextMate Theme"
-  "Dovoz TextMate téma"
+  "Import BMP Data"
+  "Importovat data"
 
-  "Name:"
-  "Jméno:"
+  "Import BMP Mask"
+  "Importovat BMP Mask"
 
-  "OK"
-  "OK"
+  "Import Error"
+  "Chyba při importu"
 
-  "Reset"
-  "Resetovat"
+  "Import Theme File"
+  "Importovat Theme Soubor"
 
-  "Select theme"
-  "Vyberte téma"
+  "Installation Directory"
+  "Instalační adresář"
+
+  "Modifications"
+  "Pozměňovací návrhy"
+
+  "None"
+  "Žádné"
+
+  "One-Color Bitmap"
+  "One-Color Bitmap"
+
+  "Preview"
+  "Náhled"
+
+  "Relief: "
+  "Reliéf"
+
+  "Save As:"
+  "Uložit jako"
+
+  "Save theme changes?"
+  "Uložit změny téma?"
+
+  "Select Directory"
+  "Vybrat adresář"
+
+  "Swatch"
+  "Swatch"
+
+  "Swatch Colors"
+  "Swatch Barvy"
+
+  "Table Filters"
+  "Tabulka Filtry"
+
+  "The current theme has unsaved changes"
+  "Aktuální téma má neuložené změny"
+
+  "Theme Editor %s %s"
+  "Téma Editor% s% s"
+
+  "Tree Style: "
+  "Tree Style:"
+
+  "Two-Color Bitmap"
+  "Dva-Color Bitmap"
+
+  "User Directory"
+  "Uživatel Directory"
+
+  "Value"
+  "Hodnota"
+
+  "Value: "
+  "Hodnota:"
+
+}
+
+# themes.tcl
+msgcat::mcmset cs {
+
+  "Theme:  %s"
+  "Téma:% s"
+
+  "Theme:*"
+  "Šablona"
 
 }
 
 # tke.tcl
 msgcat::mcmset cs {
 
-  "Edit theme?"
-  "Upravit téma?"
+  "Import TKE theme?"
+  "Dovoz TKE téma?"
 
   "Import TextMate theme?"
   "Importovat TextMate téma?"
@@ -1092,6 +1189,12 @@ msgcat::mcmset cs {
 
   "Save As"
   "Uložit jako"
+
+  "Split View"
+  "Rozd?lený panel"
+
+  "Theme Editor"
+  "Editor téma"
 
   "Unable to open %s for writing"
   "Nelze otevřít% s pro zápis"

@@ -179,9 +179,6 @@ msgcat::mcmset pt {
   "Copy"
   "Copiar"
 
-  "Create New..."
-  "Criar um Novo"
-
   "Create at Current Line"
   "Criar na linha atual"
 
@@ -289,9 +286,6 @@ msgcat::mcmset pt {
 
   "Edit User - Language"
   "Editar usuário - idioma"
-
-  "Edit..."
-  "Editar..."
 
   "File"
   "Arquivo"
@@ -457,9 +451,6 @@ msgcat::mcmset pt {
 
   "Hide Tab Bar"
   "Esconder Tab Bar"
-
-  "Import TextMate Theme..."
-  "Tema de TextMate importação..."
 
   "Indent"
   "Avançar"
@@ -677,9 +668,6 @@ msgcat::mcmset pt {
   "Sort Tabs"
   "Sort Tabs"
 
-  "Split View"
-  "Dividir a Vista"
-
   "Start Profiling"
   "Comece Profiling"
 
@@ -713,32 +701,23 @@ msgcat::mcmset pt {
   "Text Menu: Unindent selected text"
   "Menu de texto: Unindent texto selecionado"
 
-  "Theme Creator"
-  "Theme Creator"
-
   "Toggle Comment"
   "Comentário de alternância"
 
   "Tools"
   "Ferramentas"
 
-  "Tools Menu: Create new theme"
-  "Menu de ferramentas: Criar novo tema"
-
   "Tools Menu: Disable Vim mode"
   "Menu ' ferramentas ': Desativar o modo de Vim"
-
-  "Tools Menu: Edit TKE theme"
-  "Menu de ferramentas: Editar tema TKE"
 
   "Tools Menu: Enable Vim mode"
   "Menu de ferramentas: Habilitar o modo de Vim"
 
-  "Tools Menu: Import TextMate theme"
-  "Menu Ferramentas: Tema de importação TextMate"
-
   "Tools Menu: Restart TKE"
   "Menu de ferramentas: Restart TKE"
+
+  "Tools Menu: Run theme editor"
+  "Menu Ferramentas: Executar editor tema"
 
   "Tools Menu: Show diagnostic logfile"
   "Menu de ferramentas: Mostrar o arquivo de log de diagnóstico"
@@ -972,63 +951,181 @@ msgcat::mcmset pt {
   "Syntax: %s"
   "Sintaxe: %s"
 
-  "Theme:  %s"
-  "Tema:% s"
+}
+
+# theme.tcl
+msgcat::mcmset pt {
+
+  "ERROR:  Unable to read %s"
+  "ERRO: Não foi possível ler% s"
+
+  "Images"
+  "Imagens"
+
+  "Menu Options"
+  "Opções de menu"
+
+  "Sidebar Options"
+  "Opção de Barra Lateral"
+
+  "Sidebar Scrollbar Options"
+  "Sidebar Opções de barra de rolagem"
+
+  "Syntax Colors"
+  "Sintaxe Colors"
+
+  "Tab Options"
+  "Opções da Aba"
+
+  "Text Scrollbar Options"
+  "Opções de texto barra de rolagem"
+
+  "ttk Widget Colors"
+  "ttk Widget Colors"
 
 }
 
 # themer.tcl
 msgcat::mcmset pt {
 
-  "Create"
-  "Criar"
+  "   Show All"
+  "Mostrar tudo"
 
-  "Create New Theme"
-  "Criar um Novo Tema..."
+  "   Show Category"
+  "Exibir Categoria"
 
-  "Create custom"
-  "Criar personalizado"
+  "   Show Color"
+  "Mostrar Cor de Fundo"
 
-  "ERROR:  Unable to read %s"
-  "ERRO: Não foi possível ler% s"
+  "   Show Selected Option"
+  "Mostrar opção selecionada"
 
-  "ERROR:  Unable to write %s"
-  "ERRO: Não foi possível gravar% s"
+  "   Show Selected Value"
+  "Mostrar o valor selecionado"
 
-  "Edit theme"
-  "Editar tema"
+  "Categories"
+  "Categorias"
 
-  "Enter theme name"
-  "Digite o nome do tema"
+  "Change Base Color"
+  "Mudar a cor"
 
-  "Error:  Theme is not a supported theme"
-  "Erro: Tema não é um tema apoiado"
+  "Choose Theme"
+  "Escolha um Tema"
+
+  "Custom Directory"
+  "Directório Personalizado"
+
+  "Custom..."
+  "Personalizadas..."
+
+  "Delete swatch?"
+  "Excluir amostra?"
+
+  "Description"
+  "Descrição Longa"
+
+  "Details"
+  "Leia Mais ..."
+
+  "Done"
+  "Finalizado"
+
+  "Export"
+  "Exportar"
+
+  "GIF Photo"
+  "GIF Foto"
 
   "Import"
   "Importe"
 
-  "Import TextMate Theme"
-  "Importação TextMate Tema"
+  "Import BMP Data"
+  "Importar dados"
 
-  "Name:"
-  "Nome:"
+  "Import BMP Mask"
+  "Importar máscara"
 
-  "OK"
-  "OK"
+  "Import Error"
+  "Erro de Importação!"
 
-  "Reset"
-  "Reset"
+  "Import Theme File"
+  "Importar Arquivo de Tema"
 
-  "Select theme"
-  "Seleccione o Ficheiro do Tema"
+  "Installation Directory"
+  "Diretório de Instalação"
+
+  "Modifications"
+  "Modificações"
+
+  "None"
+  "Nenhum"
+
+  "One-Color Bitmap"
+  "Bitmap de uma cor"
+
+  "Preview"
+  "Visualizar"
+
+  "Relief: "
+  "Válvula de"
+
+  "Save As:"
+  "Salvar como:"
+
+  "Save theme changes?"
+  "Salve as alterações do tema?"
+
+  "Select Directory"
+  "Selecionar diretório"
+
+  "Swatch"
+  "Swatch"
+
+  "Swatch Colors"
+  "Swatch Colors"
+
+  "Table Filters"
+  "Filtros de Mesa"
+
+  "The current theme has unsaved changes"
+  "O tema atual tem alterações não salvas"
+
+  "Theme Editor %s %s"
+  "Tema Editor de% s% s"
+
+  "Tree Style: "
+  "Estilo Tree:"
+
+  "Two-Color Bitmap"
+  "Bitmap de duas cores"
+
+  "User Directory"
+  "Directório de utilizador"
+
+  "Value"
+  "Valor"
+
+  "Value: "
+  "Valor:"
+
+}
+
+# themes.tcl
+msgcat::mcmset pt {
+
+  "Theme:  %s"
+  "Tema:% s"
+
+  "Theme:*"
+  "Tema"
 
 }
 
 # tke.tcl
 msgcat::mcmset pt {
 
-  "Edit theme?"
-  "Edite tema?"
+  "Import TKE theme?"
+  "Tema Import TKE?"
 
   "Import TextMate theme?"
   "Importe tema TextMate?"
@@ -1092,6 +1189,12 @@ msgcat::mcmset pt {
 
   "Save As"
   "Salvar como"
+
+  "Split View"
+  "Dividir a Vista"
+
+  "Theme Editor"
+  "Editor de temas"
 
   "Unable to open %s for writing"
   "Não foi possível abrir%1 para escrita"

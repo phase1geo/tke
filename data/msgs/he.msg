@@ -179,9 +179,6 @@ msgcat::mcmset he {
   "Copy"
   "להעתיק"
 
-  "Create New..."
-  "??? ???"
-
   "Create at Current Line"
   "????? ??? ??????"
 
@@ -289,9 +286,6 @@ msgcat::mcmset he {
 
   "Edit User - Language"
   "???? ????? - ???"
-
-  "Edit..."
-  "עריכה..."
 
   "File"
   "קובץ"
@@ -457,9 +451,6 @@ msgcat::mcmset he {
 
   "Hide Tab Bar"
   "הסתר סרגל הלשוניות"
-
-  "Import TextMate Theme..."
-  "????? TextMate ????..."
 
   "Indent"
   "כניסה"
@@ -677,9 +668,6 @@ msgcat::mcmset he {
   "Sort Tabs"
   "מיון כרטיסיות"
 
-  "Split View"
-  "????? ?????"
-
   "Start Profiling"
   "התחל ליצור פרופיל"
 
@@ -713,32 +701,23 @@ msgcat::mcmset he {
   "Text Menu: Unindent selected text"
   "טקסט תפריט: הקטנת כניסת הטקסט הנבחר"
 
-  "Theme Creator"
-  "דירוג הבורא"
-
   "Toggle Comment"
   "????? ??-????"
 
   "Tools"
   "כלי"
 
-  "Tools Menu: Create new theme"
-  "תפריט כלים: ליצור נושא חדש"
-
   "Tools Menu: Disable Vim mode"
   "תפריט כלים: בטל את מצב Vim"
-
-  "Tools Menu: Edit TKE theme"
-  "תפריט כלים: לערוך דירוג בבית"
 
   "Tools Menu: Enable Vim mode"
   "תפריט כלים: הפעלת מצב Vim"
 
-  "Tools Menu: Import TextMate theme"
-  "תפריט כלים: הנושא ייבוא TextMate"
-
   "Tools Menu: Restart TKE"
   "תפריט כלים: הפעלה מחדש בבית"
+
+  "Tools Menu: Run theme editor"
+  "תפריט כלים: להפעיל את עורך דירוג"
 
   "Tools Menu: Show diagnostic logfile"
   "תפריט כלים: הצג יומן האבחון"
@@ -972,63 +951,181 @@ msgcat::mcmset he {
   "Syntax: %s"
   "תחביר: %s"
 
-  "Theme:  %s"
-  "נושא: %s"
+}
+
+# theme.tcl
+msgcat::mcmset he {
+
+  "ERROR:  Unable to read %s"
+  "שגיאה: אין אפשרות לקרוא את %s"
+
+  "Images"
+  "תמונות"
+
+  "Menu Options"
+  "אפשרויות תפריט"
+
+  "Sidebar Options"
+  "אפשרויות סרגל צידי"
+
+  "Sidebar Scrollbar Options"
+  "הסרגל הצידי של פס גלילה אפשרויות"
+
+  "Syntax Colors"
+  "צבעים התחביר"
+
+  "Tab Options"
+  "אפשרויות הכרטיסייה"
+
+  "Text Scrollbar Options"
+  "אפשרויות גלילה טקסט"
+
+  "ttk Widget Colors"
+  "ttk צבעים יישומון"
 
 }
 
 # themer.tcl
 msgcat::mcmset he {
 
-  "Create"
-  "ליצור"
+  "   Show All"
+  "הצג הכל"
 
-  "Create New Theme"
-  "יצירת נושא חדש"
+  "   Show Category"
+  "הצג קטגוריה"
 
-  "Create custom"
-  "ליצור מותאם אישית"
+  "   Show Color"
+  "להציג צבע"
 
-  "ERROR:  Unable to read %s"
-  "שגיאה: אין אפשרות לקרוא את %s"
+  "   Show Selected Option"
+  "הצג את האפשרות שנבחרה"
 
-  "ERROR:  Unable to write %s"
-  "שגיאה: אין אפשרות לכתוב את %s"
+  "   Show Selected Value"
+  "ערך נבחר"
 
-  "Edit theme"
-  "עריכת ערכת נושא"
+  "Categories"
+  "קטגוריות"
 
-  "Enter theme name"
-  "הזן נושא שם"
+  "Change Base Color"
+  "שינוי צבע בסיס"
 
-  "Error:  Theme is not a supported theme"
-  "שגיאה: נושא זה לא נושא נתמך"
+  "Choose Theme"
+  "בחר נושא"
+
+  "Custom Directory"
+  "מדריך מותאם אישית"
+
+  "Custom..."
+  "מותאם אישית"
+
+  "Delete swatch?"
+  "מחק דוגמית?"
+
+  "Description"
+  "תיאור"
+
+  "Details"
+  "פרטים"
+
+  "Done"
+  "סיים"
+
+  "Export"
+  "ייצא"
+
+  "GIF Photo"
+  "תמונה GIF"
 
   "Import"
   "ייבוא"
 
-  "Import TextMate Theme"
-  "ייבוא TextMate דירוג"
+  "Import BMP Data"
+  "ייבוא נתונים BMP"
 
-  "Name:"
-  "שם:"
+  "Import BMP Mask"
+  "ייבוא BMP מסיכה"
 
-  "OK"
-  "אוקיי"
+  "Import Error"
+  "שגיאת ייבוא"
 
-  "Reset"
-  "Reset"
+  "Import Theme File"
+  "קובץ ערכת נושא הייבוא"
 
-  "Select theme"
-  "בחר נושא"
+  "Installation Directory"
+  "ספריית ההתקנה"
+
+  "Modifications"
+  "שינויים"
+
+  "None"
+  "ללא"
+
+  "One-Color Bitmap"
+  "מפת סיביות צבע אחד"
+
+  "Preview"
+  "תצוגה מוקדמת"
+
+  "Relief: "
+  "תבליט"
+
+  "Save As:"
+  "שמור בשם"
+
+  "Save theme changes?"
+  "האם לשמור שינויים בערכות נושא?"
+
+  "Select Directory"
+  "בחר סוג אינדקס"
+
+  "Swatch"
+  "סווטש"
+
+  "Swatch Colors"
+  "דוגמית צבע צבעים"
+
+  "Table Filters"
+  "מסננים טבלה"
+
+  "The current theme has unsaved changes"
+  "הנושא הנוכחית שינויים שלא נשמרו"
+
+  "Theme Editor %s %s"
+  "דירוג העורך %s %s"
+
+  "Tree Style: "
+  "עץ בסגנון:"
+
+  "Two-Color Bitmap"
+  "מפת סיביות שני צבעים"
+
+  "User Directory"
+  "מדריך למשתמש"
+
+  "Value"
+  "ערך"
+
+  "Value: "
+  "ערך"
+
+}
+
+# themes.tcl
+msgcat::mcmset he {
+
+  "Theme:  %s"
+  "נושא: %s"
+
+  "Theme:*"
+  "ערכת עיצוב"
 
 }
 
 # tke.tcl
 msgcat::mcmset he {
 
-  "Edit theme?"
-  "לערוך דירוג?"
+  "Import TKE theme?"
+  "האם לייבא את הנושא בבית?"
 
   "Import TextMate theme?"
   "לייבא TextMate נושא?"
@@ -1092,6 +1189,12 @@ msgcat::mcmset he {
 
   "Save As"
   "שמירה בשם"
+
+  "Split View"
+  "????? ?????"
+
+  "Theme Editor"
+  "דירוג העורך"
 
   "Unable to open %s for writing"
   "אין אפשרות לפתוח את %s עבור כתיבה"

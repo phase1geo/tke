@@ -179,9 +179,6 @@ msgcat::mcmset ja {
   "Copy"
   "コピー"
 
-  "Create New..."
-  "????"
-
   "Create at Current Line"
   "???????????"
 
@@ -289,9 +286,6 @@ msgcat::mcmset ja {
 
   "Edit User - Language"
   "??????????????"
-
-  "Edit..."
-  "編集"
 
   "File"
   "ファイル"
@@ -457,9 +451,6 @@ msgcat::mcmset ja {
 
   "Hide Tab Bar"
   "タブバーを非表示"
-
-  "Import TextMate Theme..."
-  "TextMate ??????????."
 
   "Indent"
   "インデント"
@@ -677,9 +668,6 @@ msgcat::mcmset ja {
   "Sort Tabs"
   "並べタブ"
 
-  "Split View"
-  "2 ??????"
-
   "Start Profiling"
   "プロファイリング開始"
 
@@ -713,32 +701,23 @@ msgcat::mcmset ja {
   "Text Menu: Unindent selected text"
   "テキスト メニュー: 選択したテキストのインデントを解除します。"
 
-  "Theme Creator"
-  "テーマ作成者"
-
   "Toggle Comment"
   "????????"
 
   "Tools"
   "道具"
 
-  "Tools Menu: Create new theme"
-  "[ツール] メニュー: 新しいテーマを作成します。"
-
   "Tools Menu: Disable Vim mode"
   "[ツール] メニュー: Vim モードを無効にします。"
-
-  "Tools Menu: Edit TKE theme"
-  "[ツール] メニュー: TKE のテーマを編集します。"
 
   "Tools Menu: Enable Vim mode"
   "[ツール] メニュー: Vim モードを有効にします。"
 
-  "Tools Menu: Import TextMate theme"
-  "[ツール] メニュー: インポート TextMate のテーマ"
-
   "Tools Menu: Restart TKE"
   "[ツール] メニュー: 再起動 TKE"
+
+  "Tools Menu: Run theme editor"
+  "[ツール]メニュー：実行テーマエディタ"
 
   "Tools Menu: Show diagnostic logfile"
   "[ツール] メニュー: 診断ログ ファイルを表示します。"
@@ -972,63 +951,181 @@ msgcat::mcmset ja {
   "Syntax: %s"
   "構文: %s"
 
-  "Theme:  %s"
-  "テーマ：％sは"
+}
+
+# theme.tcl
+msgcat::mcmset ja {
+
+  "ERROR:  Unable to read %s"
+  "ERROR：％sのを読み取ることができません"
+
+  "Images"
+  "画像"
+
+  "Menu Options"
+  "Menu Options（メニューの設定）"
+
+  "Sidebar Options"
+  "﻿サイドバーオプション"
+
+  "Sidebar Scrollbar Options"
+  "サイドバースクロールバーのオプション"
+
+  "Syntax Colors"
+  "構文の色"
+
+  "Tab Options"
+  "タブのオプション"
+
+  "Text Scrollbar Options"
+  "テキストスクロールバーのオプション"
+
+  "ttk Widget Colors"
+  "TTKウィジェットの色"
 
 }
 
 # themer.tcl
 msgcat::mcmset ja {
 
-  "Create"
-  "作る"
+  "   Show All"
+  "すべて表示"
 
-  "Create New Theme"
-  "新しいテーマを作成する"
+  "   Show Category"
+  "カテゴリーを表示"
 
-  "Create custom"
-  "カスタム作成"
+  "   Show Color"
+  "表示色"
 
-  "ERROR:  Unable to read %s"
-  "ERROR：％sのを読み取ることができません"
+  "   Show Selected Option"
+  "表示選択したオプション"
 
-  "ERROR:  Unable to write %s"
-  "ERROR：％sを書き込むことができません"
+  "   Show Selected Value"
+  "表示選択した値"
 
-  "Edit theme"
-  "テーマを編集"
+  "Categories"
+  "カテゴリー"
 
-  "Enter theme name"
-  "テーマ名を入力してください"
+  "Change Base Color"
+  "変更ベースカラー"
 
-  "Error:  Theme is not a supported theme"
-  "エラー：テーマは、サポートされているテーマではない"
+  "Choose Theme"
+  "テーマを選択"
+
+  "Custom Directory"
+  "カスタムディレクトリ"
+
+  "Custom..."
+  "カスタム..."
+
+  "Delete swatch?"
+  "スウォッチを削除しますか？"
+
+  "Description"
+  "内容："
+
+  "Details"
+  "詳細"
+
+  "Done"
+  "決定"
+
+  "Export"
+  "エクスポート"
+
+  "GIF Photo"
+  "GIF写真"
 
   "Import"
   "輸入"
 
-  "Import TextMate Theme"
-  "TextMateのテーマをインポート"
+  "Import BMP Data"
+  "インポートBMPデータ"
 
-  "Name:"
-  "名"
+  "Import BMP Mask"
+  "インポートBMPマスク"
 
-  "OK"
-  "Okay"
+  "Import Error"
+  "インポートエラー"
 
-  "Reset"
-  "リセット"
+  "Import Theme File"
+  "インポートテーマファイル"
 
-  "Select theme"
-  "テーマの選択"
+  "Installation Directory"
+  "インストールディレクトリ"
+
+  "Modifications"
+  "修正"
+
+  "None"
+  "なし"
+
+  "One-Color Bitmap"
+  "ワンカラービットマップ"
+
+  "Preview"
+  "プレビュー"
+
+  "Relief: "
+  "救援"
+
+  "Save As:"
+  "保存する："
+
+  "Save theme changes?"
+  "テーマの変更を保存しますか？"
+
+  "Select Directory"
+  "ディレクトリを選択"
+
+  "Swatch"
+  "スウォッチ"
+
+  "Swatch Colors"
+  "スウォッチの色"
+
+  "Table Filters"
+  "テーブルのフィルター"
+
+  "The current theme has unsaved changes"
+  "現在のテーマは保存されていない変更があります"
+
+  "Theme Editor %s %s"
+  "テーマエディタ％S％"
+
+  "Tree Style: "
+  "ツリーのスタイル："
+
+  "Two-Color Bitmap"
+  "二つの色のビットマップ"
+
+  "User Directory"
+  "ユーザーのディレクトリ"
+
+  "Value"
+  "明度"
+
+  "Value: "
+  "価格:"
+
+}
+
+# themes.tcl
+msgcat::mcmset ja {
+
+  "Theme:  %s"
+  "テーマ：％sは"
+
+  "Theme:*"
+  "テーマ"
 
 }
 
 # tke.tcl
 msgcat::mcmset ja {
 
-  "Edit theme?"
-  "テーマを編集？"
+  "Import TKE theme?"
+  "インポートTKEのテーマ？"
 
   "Import TextMate theme?"
   "TextMateのテーマをインポート？"
@@ -1092,6 +1189,12 @@ msgcat::mcmset ja {
 
   "Save As"
   "名前を付けて保存"
+
+  "Split View"
+  "2 ??????"
+
+  "Theme Editor"
+  "テーマエディタ"
 
   "Unable to open %s for writing"
   "書き込み用の％sを開けません"
