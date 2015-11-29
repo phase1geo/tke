@@ -824,7 +824,7 @@ namespace eval themer {
 
     # Set the tablelist data and indicate that the theme has changed
     if {![catch { $data(widgets,image_pf_tl_file) cellcget $cell -text } value] && ($value ne "")} {
-      theme::set_themer_category_table_row $data(widgets,cat) $data(row) $value $data(widgets,desc)
+      theme::set_themer_category_table_row $data(widgets,cat) $data(row) $value
       set_theme_modified
     }
 
@@ -906,7 +906,7 @@ namespace eval themer {
     variable data
 
     # Set the tablelist data
-    theme::set_themer_category_table_row $data(widgets,cat) $data(row) $bm_data $data(widgets,desc)
+    theme::set_themer_category_table_row $data(widgets,cat) $data(row) $bm_data
 
     # Specify that the apply button should be enabled
     set_theme_modified
@@ -952,7 +952,7 @@ namespace eval themer {
     $data(widgets,treestyle_mb) configure -text $treestyle
 
     # Update the category table
-    theme::set_themer_category_table_row $data(widgets,cat) $data(row) $treestyle $data(widgets,desc)
+    theme::set_themer_category_table_row $data(widgets,cat) $data(row) $treestyle
 
     # Specify that the apply button should be enabled
     set_theme_modified
