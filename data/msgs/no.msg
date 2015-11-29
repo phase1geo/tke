@@ -956,6 +956,51 @@ msgcat::mcmset no {
 # theme.tcl
 msgcat::mcmset no {
 
+  "Background (trough) color used in the sidebar scrollbar."
+  "Bakgrunn (trough) fargen som brukes i sidepanelet scrollbar."
+
+  "Background (trough) color used in the text scrollbars."
+  "Bakgrunn (trough) fargen som brukes i tekstscrollbars."
+
+  "Background color for all sidebar items that are not selected."
+  "Bakgrunnsfarge for alle sidebar elementer som ikke er valgt."
+
+  "Background color for all sidebar items that are selected."
+  "Bakgrunnsfarge for alle sidebar elementer som er valgt."
+
+  "Background color in difference viewer that shows added lines."
+  "Bakgrunnsfarge i forskjell viewer som viser ekstra linjer."
+
+  "Background color in difference viewer that shows deleted lines."
+  "Bakgrunnsfarge i forskjell viewer som viser slettede linjer."
+
+  "Background color of insertion cursor."
+  "Bakgrunnsfarge på innsetting markøren."
+
+  "Background color of the editing buffer."
+  "Bakgrunnsfargen på redigering buffer."
+
+  "Background color to display when a button-like ttk widget is pressed."
+  "Bakgrunnsfarge som skal vises når en knapp lignende TTK widget trykkes."
+
+  "Background color to use for selected text."
+  "Bakgrunnsfarge å bruke for den valgte teksten."
+
+  "Background color used for all other tabs that are not the current/active tab in the tabbar."
+  "Bakgrunnsfarge som brukes for alle andre kategorier som ikke er gjeldende / aktive fanen i fanelinja."
+
+  "Background color used for the current/active menu item."
+  "Bakgrunnsfarge som brukes til strøm / aktiv menyvalget."
+
+  "Background color used for the current/active tab in the tabbar."
+  "Bakgrunnsfarge brukes til strøm / aktiv fane i fanelinja."
+
+  "Background color used in highlighted text."
+  "Bakgrunnsfarge som brukes i uthevet tekst."
+
+  "Background color used in menus."
+  "Bakgrunnsfarge som brukes i menyene."
+
   "ERROR:  Unable to read %s"
   "FEIL: Kan ikke lese% s"
 

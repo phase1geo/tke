@@ -85,6 +85,30 @@ msgcat::mcmset he {
   "File index is out of range"
   "קובץ אינדקס נמצא מחוץ לטווח"
 
+  "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
+  "התמונה מוצגים במילוי טפסים אשר סוגר את הטופס UI.  שימוש בצורות כגון חיפוש, חיפוש/החלפה, למצוא קבצים."
+
+  "Image used in tab menus to indicate that the file is associated with a difference view."
+  "התמונה בשימוש בתפריטים tab כדי לציין שהקובץ המשויך תצוגה ההבדל."
+
+  "Image used in tab menus to indicate that the file is locked."
+  "התמונה בשימוש בתפריטים tab כדי לציין הקובץ נעול."
+
+  "Image used in tab menus to indicate that the file is readonly."
+  "התמונה בשימוש בתפריטים tab כדי לציין כי הקובץ הוא לקריאה בלבד."
+
+  "Image used in tab to indicate that the tab contains a difference view."
+  "תמונה בשימוש tab כדי לציין כי הכרטיסיה מכיל תצוגת משנה."
+
+  "Image used in tab to indicate that the tab's file is readonly."
+  "התמונה בשימוש ב- tab כדי לציין הקובץ של הכרטיסיה הוא לקריאה בלבד."
+
+  "Image used in tab to indicate that the tab’s file is locked."
+  "התמונה המשמשת בכרטיסיה לציון קובץ של הכרטיסיה נעול."
+
+  "Image used in tab which, when clicked, closes the tab."
+  "התמונה בשימוש ב- tab אשר, בעת לחיצה על הכרטיסיה נסגרת."
+
   "License:"
   "??????"
 
@@ -908,6 +932,9 @@ msgcat::mcmset he {
   "Folder Name:"
   "?? ?????:"
 
+  "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
+  "התמונה המוצגת בסרגל הצידי כדי לציין כי קובץ כעת נפתח מאגר העריכה."
+
   "Make Current Working Directory"
   "להפוך את הזרם ספריית עבודה"
 
@@ -956,20 +983,200 @@ msgcat::mcmset he {
 # theme.tcl
 msgcat::mcmset he {
 
+  "Background (trough) color used in the sidebar scrollbar."
+  "צבע רקע (שוקת) להשתמש בפס הגלילה הצידי."
+
+  "Background (trough) color used in the text scrollbars."
+  "צבע רקע (שוקת) המשמשים את פסי גלילה טקסט."
+
+  "Background color for all sidebar items that are not selected."
+  "צבע רקע עבור כל הפריטים הצידי שאינם נבחרים."
+
+  "Background color for all sidebar items that are selected."
+  "צבע רקע עבור כל הפריטים הצידי שנבחרו."
+
+  "Background color in difference viewer that shows added lines."
+  "צבע הרקע במציג הבדל שמראה להוסיף קווים."
+
+  "Background color in difference viewer that shows deleted lines."
+  "צבע הרקע במציג הבדל שמראה למחוק שורות."
+
+  "Background color of insertion cursor."
+  "צבע הרקע של הסמן ההכנסה."
+
+  "Background color of the editing buffer."
+  "צבע הרקע של המאגר העריכה."
+
+  "Background color to display when a button-like ttk widget is pressed."
+  "צבע הרקע כדי להציג בעת וידג'ט ttk כמו הלחצן נלחץ."
+
+  "Background color to use for selected text."
+  "צבע הרקע לשימוש עבור הטקסט הנבחר."
+
+  "Background color used for all other tabs that are not the current/active tab in the tabbar."
+  "צבע הרקע משמש כל כרטיסיות אחרות שאינן הכרטיסיה הנוכחית/פעיל tabbar."
+
+  "Background color used for the current/active menu item."
+  "רקע הצבע המשמש עבור פריט התפריט הנוכחי/פעיל."
+
+  "Background color used for the current/active tab in the tabbar."
+  "רקע הצבע המשמש עבור הכרטיסיה הנוכחית/פעיל tabbar."
+
+  "Background color used in highlighted text."
+  "צבע הרקע בשימוש טקסט מסומן."
+
+  "Background color used in menus."
+  "צבע הרקע בשימוש בתפריטים."
+
+  "Background color used in the tabbar area."
+  "צבע הרקע השתמשו באזור tabbar."
+
+  "Color of border drawn around active editing buffer."
+  "צבע לצייר גבול סביב מאגר העריכה פעיל."
+
+  "Color of ttk entry widget text border when the entry has keyboard focus."
+  "הצבע של ttk כניסה יישומון גבול הטקסט כאשר הערך יש מוקד לוח מקשים."
+
+  "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
+  "הצבע המשמש כדי לצייר קו רוחב אזהרה המאגר העריכה (כמו גם על הקו המפריד בין המרזב מתוך המאגר העריכה)."
+
+  "Default 'darkcolor' for all ttk widgets."
+  "ברירת מחדל 'darkcolor' עבור כל ttk ווידג'טים."
+
+  "Default background color to use for all ttk widgets that are in a disabled state."
+  "ברירת המחדל של צבע הרקע לשימוש עבור כל יישומונים ttk נמצאים במצב לא זמין."
+
+  "Default background color to use for all ttk widgets when the mouse cursor hovers over the widget."
+  "ברירת מחדל צבע הרקע לשימוש עבור כל יישומונים ttk כאשר סמן העכבר מרחף מעל לרכיב."
+
+  "Default background color to use for all ttk widgets."
+  "ברירת המחדל של צבע הרקע לשימוש עבור כל ttk ווידג'טים."
+
+  "Default border color for all ttk widgets."
+  "צבע גבול ברירת המחדל עבור כל ttk ווידג'טים."
+
+  "Default color for non-syntax highlighted text."
+  "צבע ברירת המחדל של אי-תחביר הטקסט המסומן."
+
+  "Default foreground text color to use for all ttk widgets that are in a disabled state."
+  "ברירת מחדל צבע טקסט הקידמה לשימוש עבור כל יישומונים ttk נמצאים במצב לא זמין."
+
+  "Default foreground text color to use for all ttk widgets."
+  "ברירת מחדל צבע טקסט הקידמה לשימוש עבור כל ttk ווידג'טים."
+
+  "Determines the number of grips strips to display in the grip area between resizable panes."
+  "קובע את מספר אוחז רצועות כדי להציג באזור האחיזה בין חלוניות שניתן לשנות את גודלה."
+
+  "Determines the thickness of the grip area between resizable panes."
+  "קובע את עובי האזור אחיזה בין חלוניות שניתן לשנות את גודלה."
+
   "ERROR:  Unable to read %s"
   "שגיאה: אין אפשרות לקרוא את %s"
+
+  "Foreground (slider) color used in the sidebar scrollbar."
+  "צבע הקידמה (המחוון) להשתמש בפס הגלילה הצידי."
+
+  "Foreground (slider) color used in the text scrollbars."
+  "צבע הקידמה (המחוון) המשמשים את פסי גלילה טקסט."
+
+  "Foreground text color for strings."
+  "צבע טקסט הקידמה למיתרים."
+
+  "Foreground text color to use for all miscellaneous1 labeled text."
+  "צבע הקידמה טקסט לשימוש עבור כל miscellaneous1 תוויות טקסט."
+
+  "Foreground text color to use for all miscellaneous2 labeled text."
+  "צבע הקידמה טקסט לשימוש עבור כל miscellaneous2 תוויות טקסט."
+
+  "Foreground text color to use for all miscellaneous3 labeled text."
+  "צבע הקידמה טקסט לשימוש עבור כל miscellaneous3 תוויות טקסט."
+
+  "Foreground text color to use for comments."
+  "צבע טקסט הקידמה לשימוש עבור הערות."
+
+  "Foreground text color to use for displaying line numbers."
+  "צבע טקסט הקידמה להשתמש להצגת מספרי שורות."
+
+  "Foreground text color to use for displaying numbers."
+  "צבע טקסט הקידמה להשתמש להצגת מספרים."
+
+  "Foreground text color to use for language-specific keywords."
+  "צבע טקסט הקידמה לשימוש עבור מילות מפתח ספציפיות לשפה."
+
+  "Foreground text color to use for language-specific punctuation."
+  "צבע טקסט הקידמה לשימוש עבור שפה מסוימת פיסוק."
+
+  "Foreground text color to use for meta syntax."
+  "צבע טקסט הקידמה לשימוש עבור תחביר meta."
+
+  "Foreground text color to use for precompiler syntax."
+  "צבע טקסט הקידמה לשימוש עבור תחביר precompiler."
+
+  "Foreground text color to use for selected text."
+  "צבע הקידמה טקסט לשימוש עבור טקסט נבחר."
+
+  "Foreground text color used for menus item that are disabled."
+  "טקסט בקידמה הצבע המשמש עבור פריט התפריטים אינם זמינים."
+
+  "Foreground text color used for the current/active menu item."
+  "הקידמה טקסט הצבע המשמש עבור פריט התפריט הנוכחי/פעיל."
+
+  "Foreground text color used in menus."
+  "צבע טקסט הקידמה להשתמש בתפריטים."
+
+  "Foreground text/image color used in tabbar and tabs."
+  "צבע טקסט/תמונה חזית בשימוש tabbar וטאבים."
 
   "Images"
   "תמונות"
 
+  "Maximum thickness of the text scrollbar when it is active."
+  "עובי מרבי של הגלילה טקסט כאשר הוא פעיל."
+
+  "Maximum thickness of the text scrollbars when they are active."
+  "עובי מרבי של פסי גלילה הטקסט כאשר הם פעילים."
+
   "Menu Options"
   "אפשרויות תפריט"
+
+  "Menu relief value."
+  "תפריט הקלה ערך."
+
+  "Pixel height of the tabbar widget."
+  "פיקסל גובה של יישומון tabbar."
+
+  "Relief used in drawing the tabs."
+  "הקלה בשימוש ציור הכרטיסיות."
+
+  "Relief value of the sidebar area."
+  "ערך הקלה של האזור הצידי."
 
   "Sidebar Options"
   "אפשרויות סרגל צידי"
 
   "Sidebar Scrollbar Options"
   "הסרגל הצידי של פס גלילה אפשרויות"
+
+  "Specifies the color to display around the sidebar when the sidebar does not have the focus."
+  "מציין את צבע כדי להציג סביב הצידי כאשר הסרגל הצידי אינו חייב המוקד."
+
+  "Specifies the color to display around the sidebar when the sidebar has the focus."
+  "מציין את הצבע להצגת סביב הצידית של הסרגל הצידי נמצא במוקד."
+
+  "Specifies the default background color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "מציין את צבע הרקע של ברירת המחדל לשימוש עבור טקסט שנבחר וידג'ט ttk רגיל (זה לא כולל המאגר העריכה)."
+
+  "Specifies the default foreground text color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "מציין את צבע הטקסט של הקידמה ברירת המחדל לשימוש עבור טקסט שנבחר וידג'ט ttk רגיל (זה לא כולל המאגר העריכה)."
+
+  "Specifies the default relief to use when drawing ttk widgets."
+  "ציון ההקלה ברירת המחדל לשימוש בעת ציור ttk ווידג'טים."
+
+  "Specifies the disclosure image style to use in the sidebar."
+  "ציון הסגנון תמונת גילוי להשתמש בתיבה הצידית."
+
+  "Specifies the pixel thickness of the highlight line."
+  "ציון פיקסל עובי הקו האר."
 
   "Syntax Colors"
   "צבעים התחביר"
@@ -979,6 +1186,12 @@ msgcat::mcmset he {
 
   "Text Scrollbar Options"
   "אפשרויות גלילה טקסט"
+
+  "Text color for all sidebar items that are not selected."
+  "צבע טקסט עבור כל הפריטים הצידי שאינם נבחרים."
+
+  "Text color for all sidebar items that are selected."
+  "צבע טקסט עבור כל הפריטים הצידי שנבחרו."
 
   "ttk Widget Colors"
   "ttk צבעים יישומון"

@@ -68,7 +68,7 @@ namespace eval lang {
         
         # Store all of the found msgcat::mc calls in the phrases array
         set start 0
-        while {[regexp -indices -start $start {\[msgcat::mc\s+\"([^\"]+)\"} $contents -> phrase_index]} {
+        while {[regexp -indices -start $start {msgcat::mc\s+\"([^\"]+)\"} $contents -> phrase_index]} {
           set phrase [string range $contents {*}$phrase_index]
           if {[info exists phrases($phrase)]} {
             if {[lindex $phrases($phrase) 0] ne $src} {

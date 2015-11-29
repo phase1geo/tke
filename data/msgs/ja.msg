@@ -85,6 +85,30 @@ msgcat::mcmset ja {
   "File index is out of range"
   "ファイルインデックスが範囲外である"
 
+  "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
+  "フォームUIを閉じフィルインの形で表示された画像。検索などの形で使用され、検索/置換、およびファイルで見つけます。"
+
+  "Image used in tab menus to indicate that the file is associated with a difference view."
+  "イメージファイルは、差分ビューに関連付けられていることを示すために、タブメニューで使用。"
+
+  "Image used in tab menus to indicate that the file is locked."
+  "イメージファイルがロックされていることを示すためのタブメニューで使用。"
+
+  "Image used in tab menus to indicate that the file is readonly."
+  "イメージファイルが読み取り専用であることを示すために、タブメニューで使用。"
+
+  "Image used in tab to indicate that the tab contains a difference view."
+  "イメージタブが違いビューが含まれていることを示すためにタブで使用されます。"
+
+  "Image used in tab to indicate that the tab's file is readonly."
+  "タブで使用される画像は、タブのファイルが読み取り専用であることを示します。"
+
+  "Image used in tab to indicate that the tab’s file is locked."
+  "画像は、タブのファイルがロックされていることを示すためにタブに使用されます。"
+
+  "Image used in tab which, when clicked, closes the tab."
+  "画像は、クリックすると、タブを閉じたタブに使用されます。"
+
   "License:"
   "????????"
 
@@ -908,6 +932,9 @@ msgcat::mcmset ja {
   "Folder Name:"
   "?????"
 
+  "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
+  "サイドバーに表示される画像はファイルが現在編集バッファで開かれることを示します。"
+
   "Make Current Working Directory"
   "現在の作業ディレクトリを作る"
 
@@ -956,20 +983,200 @@ msgcat::mcmset ja {
 # theme.tcl
 msgcat::mcmset ja {
 
+  "Background (trough) color used in the sidebar scrollbar."
+  "サイドバーのスクロールバーで使用される背景（トラフ）色。"
+
+  "Background (trough) color used in the text scrollbars."
+  "テキストスクロールバーで使用される背景（トラフ）色。"
+
+  "Background color for all sidebar items that are not selected."
+  "選択されていないすべてのサイドバーの項目の背景色です。"
+
+  "Background color for all sidebar items that are selected."
+  "選択されているすべてのサイドバーの項目の背景色です。"
+
+  "Background color in difference viewer that shows added lines."
+  "追加された行を示し、差分ビューアで背景色です。"
+
+  "Background color in difference viewer that shows deleted lines."
+  "削除された行を示し、差分ビューアで背景色です。"
+
+  "Background color of insertion cursor."
+  "挿入カーソルの背景色です。"
+
+  "Background color of the editing buffer."
+  "編集バッファの背景色です。"
+
+  "Background color to display when a button-like ttk widget is pressed."
+  "ボタンのようなTTKウィジェットが押されたときに表示する背景色です。"
+
+  "Background color to use for selected text."
+  "選択したテキストに使用する背景色です。"
+
+  "Background color used for all other tabs that are not the current/active tab in the tabbar."
+  "タブバーで現在/アクティブなタブでない他のすべてのタブに使用する背景色です。"
+
+  "Background color used for the current/active menu item."
+  "現在の/アクティブなメニュー項目に使用する背景色です。"
+
+  "Background color used for the current/active tab in the tabbar."
+  "タブバーで現在/アクティブなタブに使用する背景色です。"
+
+  "Background color used in highlighted text."
+  "ハイライトされたテキストに使用される背景色。"
+
+  "Background color used in menus."
+  "メニューで使用背景色です。"
+
+  "Background color used in the tabbar area."
+  "タブバーのエリアで使用される背景色。"
+
+  "Color of border drawn around active editing buffer."
+  "アクティブな編集バッファ周りに描か境界線の色です。"
+
+  "Color of ttk entry widget text border when the entry has keyboard focus."
+  "エントリにキーボードフォーカスがTTKエントリウィジェットのテキストの境界線の色です。"
+
+  "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
+  "色は、編集バッファに警告幅ライン（並びに編集バッファから樋を分離線）を描画するために使用されます。"
+
+  "Default 'darkcolor' for all ttk widgets."
+  "すべてのTTKのウィジェットのデフォルトの「darkcolor」。"
+
+  "Default background color to use for all ttk widgets that are in a disabled state."
+  "無効状態にあるすべてのTTKのウィジェットに使用するデフォルトの背景色。"
+
+  "Default background color to use for all ttk widgets when the mouse cursor hovers over the widget."
+  "マウスカーソルがウィジェットの上に置いたときに、すべてのTTKのウィジェットに使用するデフォルトの背景色。"
+
+  "Default background color to use for all ttk widgets."
+  "すべてのTTKのウィジェットに使用するデフォルトの背景色。"
+
+  "Default border color for all ttk widgets."
+  "すべてのTTKのウィジェットのデフォルト境界線の色。"
+
+  "Default color for non-syntax highlighted text."
+  "非構文のデフォルトの色は、テキストを強調しました。"
+
+  "Default foreground text color to use for all ttk widgets that are in a disabled state."
+  "無効状態にあるすべてのTTKのウィジェットに使用するテキストの前景色をデフォルト。"
+
+  "Default foreground text color to use for all ttk widgets."
+  "すべてのTTKのウィジェットに使用するテキストの前景色をデフォルト。"
+
+  "Determines the number of grips strips to display in the grip area between resizable panes."
+  "サイズ変更可能なペイン間のグリップエリアに表示するグリップストリップの数を決定します。"
+
+  "Determines the thickness of the grip area between resizable panes."
+  "サイズ変更可能なペイン間のグリップ領域の厚さを決定します。"
+
   "ERROR:  Unable to read %s"
   "ERROR：％sのを読み取ることができません"
+
+  "Foreground (slider) color used in the sidebar scrollbar."
+  "サイドバーのスクロールバーで使用される前景（スライダー）カラー。"
+
+  "Foreground (slider) color used in the text scrollbars."
+  "テキストスクロールバーで使用される前景（スライダー）カラー。"
+
+  "Foreground text color for strings."
+  "文字列のテキストの前景色。"
+
+  "Foreground text color to use for all miscellaneous1 labeled text."
+  "すべてmiscellaneous1というテキストに使用するフォアグラウンドのテキストの色。"
+
+  "Foreground text color to use for all miscellaneous2 labeled text."
+  "すべてmiscellaneous2というテキストに使用するフォアグラウンドのテキストの色。"
+
+  "Foreground text color to use for all miscellaneous3 labeled text."
+  "すべてmiscellaneous3というテキストに使用するフォアグラウンドのテキストの色。"
+
+  "Foreground text color to use for comments."
+  "前景テキストの色は、コメントに使用します。"
+
+  "Foreground text color to use for displaying line numbers."
+  "前景テキストの色は、行番号を表示するために使用します。"
+
+  "Foreground text color to use for displaying numbers."
+  "前景テキストの色は、番号を表示するために使用します。"
+
+  "Foreground text color to use for language-specific keywords."
+  "前景テキストの色は、言語固有のキーワードを使用しています。"
+
+  "Foreground text color to use for language-specific punctuation."
+  "言語固有の句読点に使用するフォアグラウンドのテキストの色。"
+
+  "Foreground text color to use for meta syntax."
+  "メタ構文に使用するフォアグラウンドのテキストの色。"
+
+  "Foreground text color to use for precompiler syntax."
+  "前景テキストの色は、プリコンパイラの構文に使用します。"
+
+  "Foreground text color to use for selected text."
+  "前景テキストの色は、選択したテキストに使用します。"
+
+  "Foreground text color used for menus item that are disabled."
+  "無効になっているメニュー項目に使用するテキストの前景色。"
+
+  "Foreground text color used for the current/active menu item."
+  "現在の/アクティブなメニュー項目に使用するテキストの前景色。"
+
+  "Foreground text color used in menus."
+  "メニューで使用テキストの前景色。"
+
+  "Foreground text/image color used in tabbar and tabs."
+  "タブバーとタブで使用される前景テキスト/画像の​​色。"
 
   "Images"
   "画像"
 
+  "Maximum thickness of the text scrollbar when it is active."
+  "それがアクティブになっているテキストスクロールバーの最大厚さ。"
+
+  "Maximum thickness of the text scrollbars when they are active."
+  "彼らはアクティブなテキストスクロールバーの最大厚さ。"
+
   "Menu Options"
   "Menu Options（メニューの設定）"
+
+  "Menu relief value."
+  "メニューリリーフ値。"
+
+  "Pixel height of the tabbar widget."
+  "タブバーウィジェットのピクセルの高さ。"
+
+  "Relief used in drawing the tabs."
+  "救済は、タブの描画に使用されます。"
+
+  "Relief value of the sidebar area."
+  "サイドバー領域の救済値。"
 
   "Sidebar Options"
   "﻿サイドバーオプション"
 
   "Sidebar Scrollbar Options"
   "サイドバースクロールバーのオプション"
+
+  "Specifies the color to display around the sidebar when the sidebar does not have the focus."
+  "サイドバーにフォーカスがないときに、サイドバーの周りに表示する色を指定します。"
+
+  "Specifies the color to display around the sidebar when the sidebar has the focus."
+  "サイドバーにフォーカスがあるときに、サイドバーの周りに表示する色を指定します。"
+
+  "Specifies the default background color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "（これは編集バッファが含まれていません）標準TTKウィジェットで選択されているテキストに使用するデフォルトの背景色を指定します。"
+
+  "Specifies the default foreground text color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "（これは編集バッファが含まれていません）標準TTKウィジェットで選択されているテキストに使用するデフォルトのフォアグラウンド・テキストの色を指定します。"
+
+  "Specifies the default relief to use when drawing ttk widgets."
+  "TTKのウィジェットを描画するときに使用するデフォルトの救済を指定します。"
+
+  "Specifies the disclosure image style to use in the sidebar."
+  "サイドバーで使用する開示された画像スタイルを指定します。"
+
+  "Specifies the pixel thickness of the highlight line."
+  "ハイライト線のピクセルの太さを指定します。"
 
   "Syntax Colors"
   "構文の色"
@@ -979,6 +1186,12 @@ msgcat::mcmset ja {
 
   "Text Scrollbar Options"
   "テキストスクロールバーのオプション"
+
+  "Text color for all sidebar items that are not selected."
+  "選択されていないすべてのサイドバーの項目のテキストの色。"
+
+  "Text color for all sidebar items that are selected."
+  "選択されているすべてのサイドバーの項目のテキストの色。"
 
   "ttk Widget Colors"
   "TTKウィジェットの色"

@@ -85,6 +85,30 @@ msgcat::mcmset de {
   "File index is out of range"
   "Datei-Index außerhalb des zulässigen Bereichs"
 
+  "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
+  "Bild gefunden in Fill-in-Formulare, die die Form UI schließt. In Formen wie Suche verwendet, Suchen / Ersetzen, und finden in Dateien."
+
+  "Image used in tab menus to indicate that the file is associated with a difference view."
+  "Bild in Registerkarte Menüs verwendet, um anzuzeigen, dass die Datei mit einem Unterschied Ansicht zugeordnet."
+
+  "Image used in tab menus to indicate that the file is locked."
+  "Bild in Registerkarte Menüs verwendet werden, um anzugeben, dass die Datei gesperrt ist."
+
+  "Image used in tab menus to indicate that the file is readonly."
+  "Bild in Registerkarte Menüs verwendet, um anzuzeigen, dass die Datei schreibgeschützt."
+
+  "Image used in tab to indicate that the tab contains a difference view."
+  "Bild im Register verwendet werden, um anzuzeigen, dass das Register enthält einen Unterschied sehen."
+
+  "Image used in tab to indicate that the tab's file is readonly."
+  "Bild im Register verwendet, um anzuzeigen, dass die Akten der Registerkarte ist schreibgeschützt."
+
+  "Image used in tab to indicate that the tab’s file is locked."
+  "Bild im Register verwendet, um anzuzeigen, dass die Akten der Registerkarte gesperrt ist."
+
+  "Image used in tab which, when clicked, closes the tab."
+  "Bild in Register, die, wenn geklickt wird, schließt das Register verwendet."
+
   "License:"
   "Lizenz:"
 
@@ -908,6 +932,9 @@ msgcat::mcmset de {
   "Folder Name:"
   "Ordnername"
 
+  "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
+  "Bild in der Seitenleiste angezeigt, um anzugeben, dass eine Datei zur Zeit in einem Editierpuffer eröffnet."
+
   "Make Current Working Directory"
   "Make Current Working Directory"
 
@@ -956,20 +983,200 @@ msgcat::mcmset de {
 # theme.tcl
 msgcat::mcmset de {
 
+  "Background (trough) color used in the sidebar scrollbar."
+  "Hintergrund (Trog) Farbe in der Seitenleiste Bildlaufleiste verwendet wird."
+
+  "Background (trough) color used in the text scrollbars."
+  "Hintergrund (Trog) Farbe in den Textbildlaufleisten verwendet."
+
+  "Background color for all sidebar items that are not selected."
+  "Hintergrundfarbe für alle Sidebar Elemente, die nicht ausgewählt sind."
+
+  "Background color for all sidebar items that are selected."
+  "Hintergrundfarbe für alle Sidebar Elemente, die ausgewählt sind."
+
+  "Background color in difference viewer that shows added lines."
+  "Hintergrundfarbe im Unterschied Viewer, der hinzugefügten Zeilen zeigt."
+
+  "Background color in difference viewer that shows deleted lines."
+  "Hintergrundfarbe im Unterschied Viewer, der gelöschten Zeilen zeigt."
+
+  "Background color of insertion cursor."
+  "Hintergrundfarbe des Einfügemarke."
+
+  "Background color of the editing buffer."
+  "Hintergrundfarbe des Bearbeitungspuffer."
+
+  "Background color to display when a button-like ttk widget is pressed."
+  "Hintergrundfarbe angezeigt, wenn eine knopfartige TTK Widget gedrückt wird."
+
+  "Background color to use for selected text."
+  "Hintergrundfarbe für ausgewählten Text zu verwenden."
+
+  "Background color used for all other tabs that are not the current/active tab in the tabbar."
+  "Hintergrundfarbe für alle anderen Registerkarten, die nicht die aktuelle / aktive Registerkarte in der Fensterleiste verwendet."
+
+  "Background color used for the current/active menu item."
+  "Hintergrundfarbe für die aktuelle / aktive Menüpunkt verwendet."
+
+  "Background color used for the current/active tab in the tabbar."
+  "Hintergrundfarbe für die aktuelle / aktive Registerkarte in der Fensterleiste verwendet."
+
+  "Background color used in highlighted text."
+  "Hintergrundfarbe in markierten Text verwendet werden."
+
+  "Background color used in menus."
+  "Hintergrundfarbe in Menüs verwendet."
+
+  "Background color used in the tabbar area."
+  "Hintergrundfarbe in der Fensterleiste Bereich verwendet."
+
+  "Color of border drawn around active editing buffer."
+  "Farbe des Rahmens um aktive Bearbeitungspuffer gezeichnet."
+
+  "Color of ttk entry widget text border when the entry has keyboard focus."
+  "Farbe des TTK Eintrag Widget Text Grenze, wenn der Eintrag über den Tastaturfokus."
+
+  "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
+  "Farbe verwendet werden, um die Warnung Breitenlinie im Bearbeitungspuffer (wie auch die Trennlinie zwischen der Dachrinne von der Bearbeitungspuffer) zu zeichnen."
+
+  "Default 'darkcolor' for all ttk widgets."
+  "Default &#39;darkcolor&#39; für alle TTK Widgets."
+
+  "Default background color to use for all ttk widgets that are in a disabled state."
+  "Standardhintergrundfarbe für alle TTK Widgets, die im deaktivierten Zustand verwenden."
+
+  "Default background color to use for all ttk widgets when the mouse cursor hovers over the widget."
+  "Standardhintergrundfarbe für alle TTK-Widgets verwenden, wenn der Mauszeiger über das Widget."
+
+  "Default background color to use for all ttk widgets."
+  "Standardhintergrundfarbe für alle TTK-Widgets verwenden."
+
+  "Default border color for all ttk widgets."
+  "Standard-Rahmenfarbe für alle TTK Widgets."
+
+  "Default color for non-syntax highlighted text."
+  "Standardfarbe für nicht-Syntax hervorgehobenen Text."
+
+  "Default foreground text color to use for all ttk widgets that are in a disabled state."
+  "Standardvordergrundtextfarbe für alle TTK Widgets, die im deaktivierten Zustand verwenden."
+
+  "Default foreground text color to use for all ttk widgets."
+  "Standardvordergrundtextfarbe für alle TTK-Widgets verwenden."
+
+  "Determines the number of grips strips to display in the grip area between resizable panes."
+  "Bestimmt die Anzahl der Griffstreifen in der Griffbereich zwischen resizable Scheiben anzuzeigen."
+
+  "Determines the thickness of the grip area between resizable panes."
+  "Bestimmt die Dicke der Griffbereich zwischen resizable Scheiben."
+
   "ERROR:  Unable to read %s"
   "FEHLER: %s lesen"
+
+  "Foreground (slider) color used in the sidebar scrollbar."
+  "Vordergrund (Schieberegler) Farbe in der Seitenleiste Bildlaufleiste verwendet wird."
+
+  "Foreground (slider) color used in the text scrollbars."
+  "Vordergrund (Schieberegler) Farbe in den Textbildlaufleisten verwendet."
+
+  "Foreground text color for strings."
+  "Vordergrund Textfarbe für Streicher."
+
+  "Foreground text color to use for all miscellaneous1 labeled text."
+  "Vordergrund Textfarbe für alle miscellaneous1 markierten Text."
+
+  "Foreground text color to use for all miscellaneous2 labeled text."
+  "Vordergrund Textfarbe für alle miscellaneous2 markierten Text."
+
+  "Foreground text color to use for all miscellaneous3 labeled text."
+  "Vordergrund Textfarbe für alle miscellaneous3 markierten Text."
+
+  "Foreground text color to use for comments."
+  "Vordergrund Textfarbe für Kommentare zu verwenden."
+
+  "Foreground text color to use for displaying line numbers."
+  "Vordergrund Textfarbe für die Anzeige von Zeilennummern zu verwenden."
+
+  "Foreground text color to use for displaying numbers."
+  "Vordergrund Textfarbe für die Anzeige von Zahlen verwenden."
+
+  "Foreground text color to use for language-specific keywords."
+  "Vordergrund Textfarbe für sprachspezifische Keywords verwenden."
+
+  "Foreground text color to use for language-specific punctuation."
+  "Vordergrund Textfarbe für sprachspezifische Satzzeichen verwenden."
+
+  "Foreground text color to use for meta syntax."
+  "Vordergrund Textfarbe für die Meta-Syntax verwenden."
+
+  "Foreground text color to use for precompiler syntax."
+  "Vordergrund Textfarbe für Precompiler Syntax verwenden."
+
+  "Foreground text color to use for selected text."
+  "Vordergrund Textfarbe für ausgewählten Text zu verwenden."
+
+  "Foreground text color used for menus item that are disabled."
+  "Vordergrund Textfarbe für Menüpunkt, die deaktiviert sind, verwendet."
+
+  "Foreground text color used for the current/active menu item."
+  "Vordergrund Textfarbe für die aktuelle / aktive Menüpunkt verwendet."
+
+  "Foreground text color used in menus."
+  "Vordergrund Textfarbe in Menüs verwendet."
+
+  "Foreground text/image color used in tabbar and tabs."
+  "Vordergrund Text / Bild Farbe in Fensterleiste und Tabs verwendet."
 
   "Images"
   "Bilder"
 
+  "Maximum thickness of the text scrollbar when it is active."
+  "Maximale Dicke des Textbildlaufleiste, wenn es aktiv ist."
+
+  "Maximum thickness of the text scrollbars when they are active."
+  "Maximale Dicke der Textlaufleisten, wenn sie aktiv sind."
+
   "Menu Options"
   "Sprungmenü"
+
+  "Menu relief value."
+  "Menu Entlastungswert."
+
+  "Pixel height of the tabbar widget."
+  "Pixel Höhe der Fensterleiste Widget."
+
+  "Relief used in drawing the tabs."
+  "Relief in der Zeichnung die Registerkarten verwendet."
+
+  "Relief value of the sidebar area."
+  "Relief Wert der Sidebar-Bereich."
 
   "Sidebar Options"
   "Siebar Optionen"
 
   "Sidebar Scrollbar Options"
   "Sidebar Scrollbar Optionen"
+
+  "Specifies the color to display around the sidebar when the sidebar does not have the focus."
+  "Gibt die Farbe an, um rund um die Seitenleiste angezeigt werden, wenn die Seitenleiste nicht den Fokus."
+
+  "Specifies the color to display around the sidebar when the sidebar has the focus."
+  "Gibt die Farbe zum Anzeigen rund um die Seitenleiste, wenn der Seitenleiste den Fokus hat."
+
+  "Specifies the default background color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "Gibt die Standardhintergrundfarbe für den Text, der in einem Standard-TTK Widget ausgewählt ist, verwenden (dies beinhaltet nicht die Bearbeitungspuffer)."
+
+  "Specifies the default foreground text color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "Gibt die Standardvordergrundtextfarbe für Text, der in einem Standard-TTK Widget ausgewählt ist, verwenden (dies beinhaltet nicht die Bearbeitungspuffer)."
+
+  "Specifies the default relief to use when drawing ttk widgets."
+  "Gibt die standardmäßige Entlastung beim Zeichnen TTK-Widgets zu bedienen."
+
+  "Specifies the disclosure image style to use in the sidebar."
+  "Gibt die Weitergabe-Stil Bild, um in der Seitenleiste zu verwenden."
+
+  "Specifies the pixel thickness of the highlight line."
+  "Gibt das Pixeldicke der Highlight Linie."
 
   "Syntax Colors"
   "Syntax Farben"
@@ -979,6 +1186,12 @@ msgcat::mcmset de {
 
   "Text Scrollbar Options"
   "Text Scrollbar Optionen"
+
+  "Text color for all sidebar items that are not selected."
+  "Textfarbe für alle Sidebar Elemente, die nicht ausgewählt sind."
+
+  "Text color for all sidebar items that are selected."
+  "Textfarbe für alle Sidebar Elemente, die ausgewählt sind."
 
   "ttk Widget Colors"
   "TTK Widget Farben"

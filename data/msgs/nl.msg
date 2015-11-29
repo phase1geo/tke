@@ -85,6 +85,30 @@ msgcat::mcmset nl {
   "File index is out of range"
   "File index valt buiten het bereik"
 
+  "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
+  "Afbeelding in fill-in vormen die de vorm UI sluit. Gebruikt in de vorm zoals zoeken, zoeken / vervangen, en vinden van bestanden."
+
+  "Image used in tab menus to indicate that the file is associated with a difference view."
+  "Afbeelding gebruikt tab menu&#39;s aan te geven dat het bestand is gekoppeld met een verschil weergeven."
+
+  "Image used in tab menus to indicate that the file is locked."
+  "Afbeelding gebruikt tab menu&#39;s aan te geven dat het bestand is vergrendeld."
+
+  "Image used in tab menus to indicate that the file is readonly."
+  "Afbeelding gebruikt in tabblad menu&#39;s om aan te geven dat het bestand is alleen-lezen."
+
+  "Image used in tab to indicate that the tab contains a difference view."
+  "Afbeelding gebruikt in het tabblad om aan te geven dat het tabblad bevat een verschil uitzicht."
+
+  "Image used in tab to indicate that the tab's file is readonly."
+  "Afbeelding gebruikt in het tabblad om aan te geven dat het dossier van de tab is alleen-lezen."
+
+  "Image used in tab to indicate that the tab’s file is locked."
+  "Afbeelding gebruikt in het tabblad om aan te geven dat het dossier van de tab is vergrendeld."
+
+  "Image used in tab which, when clicked, closes the tab."
+  "Afbeelding gebruikt in de tab die, wanneer geklikt, sluit het tabblad."
+
   "License:"
   "LICENTIE"
 
@@ -908,6 +932,9 @@ msgcat::mcmset nl {
   "Folder Name:"
   "Mapnaam:"
 
+  "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
+  "Afbeelding in zijbalk geven dat actueel in een editing buffer wordt geopend."
+
   "Make Current Working Directory"
   "Make Current Working Directory"
 
@@ -956,20 +983,200 @@ msgcat::mcmset nl {
 # theme.tcl
 msgcat::mcmset nl {
 
+  "Background (trough) color used in the sidebar scrollbar."
+  "Achtergrond (dal) kleur gebruikt in de zijbalk scrollbar."
+
+  "Background (trough) color used in the text scrollbars."
+  "Achtergrond (dal) kleur die wordt gebruikt in de tekst schuifbalken."
+
+  "Background color for all sidebar items that are not selected."
+  "Achtergrondkleur voor alle sidebar items die niet zijn geselecteerd."
+
+  "Background color for all sidebar items that are selected."
+  "Achtergrondkleur voor alle sidebar items die zijn geselecteerd."
+
+  "Background color in difference viewer that shows added lines."
+  "Achtergrondkleur in verschil viewer die toegevoegde lijnen toont."
+
+  "Background color in difference viewer that shows deleted lines."
+  "Achtergrondkleur in verschil viewer die verwijderde lijnen toont."
+
+  "Background color of insertion cursor."
+  "Achtergrondkleur van de invoegcursor."
+
+  "Background color of the editing buffer."
+  "Achtergrondkleur van de editing buffer."
+
+  "Background color to display when a button-like ttk widget is pressed."
+  "Achtergrondkleur wordt weergegeven wanneer een knop-achtige TTK widget wordt gedrukt."
+
+  "Background color to use for selected text."
+  "Achtergrondkleur te gebruiken voor geselecteerde tekst."
+
+  "Background color used for all other tabs that are not the current/active tab in the tabbar."
+  "Achtergrondkleur gebruikt voor alle andere tabbladen die niet de huidige / actieve tab in de tabbalk."
+
+  "Background color used for the current/active menu item."
+  "Achtergrondkleur gebruikt voor de huidige / actieve menu-item."
+
+  "Background color used for the current/active tab in the tabbar."
+  "Achtergrondkleur gebruikt voor de huidige / actieve tab in de tabbalk."
+
+  "Background color used in highlighted text."
+  "Achtergrondkleur gebruikt in de gemarkeerde tekst."
+
+  "Background color used in menus."
+  "Achtergrondkleur gebruikt in de menu&#39;s."
+
+  "Background color used in the tabbar area."
+  "Achtergrondkleur gebruikt in de tabbalk omgeving."
+
+  "Color of border drawn around active editing buffer."
+  "Kleur van de grens getrokken rond actieve bewerking buffer."
+
+  "Color of ttk entry widget text border when the entry has keyboard focus."
+  "Kleur van TTK binnenkomst widget tekst grens wanneer de invoer heeft toetsenbord focus."
+
+  "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
+  "Kleur gebruikt om de waarschuwing breedte regel in de editing buffer (evenals de lijn tussen de goot van de redactie buffer) te trekken."
+
+  "Default 'darkcolor' for all ttk widgets."
+  "Default &#39;darkcolor&#39; voor alle TTK widgets."
+
+  "Default background color to use for all ttk widgets that are in a disabled state."
+  "Standaard achtergrondkleur te gebruiken voor alle ttk widgets die zich in een uitgeschakelde toestand."
+
+  "Default background color to use for all ttk widgets when the mouse cursor hovers over the widget."
+  "Standaard achtergrondkleur te gebruiken voor alle TTK widgets wanneer de muis cursor over de widget zweeft."
+
+  "Default background color to use for all ttk widgets."
+  "Standaard achtergrondkleur te gebruiken voor alle TTK widgets."
+
+  "Default border color for all ttk widgets."
+  "Standaard randkleur voor alle TTK widgets."
+
+  "Default color for non-syntax highlighted text."
+  "Standaardkleur voor niet-syntax gemarkeerde tekst."
+
+  "Default foreground text color to use for all ttk widgets that are in a disabled state."
+  "Standaard voor- tekstkleur te gebruiken voor alle ttk widgets die zich in een uitgeschakelde toestand."
+
+  "Default foreground text color to use for all ttk widgets."
+  "Standaard voor- tekstkleur te gebruiken voor alle TTK widgets."
+
+  "Determines the number of grips strips to display in the grip area between resizable panes."
+  "Bepaalt het aantal grepen strips weer te geven in de greep gebied tussen resizable ruiten."
+
+  "Determines the thickness of the grip area between resizable panes."
+  "Bepaalt de dikte van de grip tussen resizable ruiten."
+
   "ERROR:  Unable to read %s"
   "FOUT: Kan niet lezen% s"
+
+  "Foreground (slider) color used in the sidebar scrollbar."
+  "Voorgrond (schuif) kleur gebruikt in de zijbalk scrollbar."
+
+  "Foreground (slider) color used in the text scrollbars."
+  "Voorgrond (schuif) kleur die wordt gebruikt in de tekst schuifbalken."
+
+  "Foreground text color for strings."
+  "Voorgrond tekstkleur voor strijkers."
+
+  "Foreground text color to use for all miscellaneous1 labeled text."
+  "Voorgrond tekstkleur te gebruiken voor alle miscellaneous1 gelabelde tekst."
+
+  "Foreground text color to use for all miscellaneous2 labeled text."
+  "Voorgrond tekstkleur te gebruiken voor alle miscellaneous2 gelabelde tekst."
+
+  "Foreground text color to use for all miscellaneous3 labeled text."
+  "Voorgrond tekstkleur te gebruiken voor alle miscellaneous3 gelabelde tekst."
+
+  "Foreground text color to use for comments."
+  "Voorgrond tekstkleur te gebruiken voor commentaar."
+
+  "Foreground text color to use for displaying line numbers."
+  "Voorgrond tekstkleur te gebruiken voor het tonen van regelnummers."
+
+  "Foreground text color to use for displaying numbers."
+  "Voorgrond tekstkleur te gebruiken voor de weergave van getallen."
+
+  "Foreground text color to use for language-specific keywords."
+  "Voorgrond tekstkleur te gebruiken voor de taal-specifieke zoekwoorden."
+
+  "Foreground text color to use for language-specific punctuation."
+  "Voorgrond tekstkleur te gebruiken voor de taal-specifieke interpunctie."
+
+  "Foreground text color to use for meta syntax."
+  "Voorgrond tekstkleur te gebruiken voor de meta-syntax."
+
+  "Foreground text color to use for precompiler syntax."
+  "Voorgrond tekstkleur te gebruiken voor precompiler syntax."
+
+  "Foreground text color to use for selected text."
+  "Voorgrond tekstkleur te gebruiken voor geselecteerde tekst."
+
+  "Foreground text color used for menus item that are disabled."
+  "Voorgrond tekstkleur die wordt gebruikt voor het menu-item dat een handicap."
+
+  "Foreground text color used for the current/active menu item."
+  "Voorgrond tekstkleur die wordt gebruikt voor de huidige / actieve menu-item."
+
+  "Foreground text color used in menus."
+  "Voorgrond tekstkleur gebruikt in de menu&#39;s."
+
+  "Foreground text/image color used in tabbar and tabs."
+  "Voorgrond tekst / afbeelding kleur gebruikt in de tabbalk en tabs."
 
   "Images"
   "Afbeeldingen"
 
+  "Maximum thickness of the text scrollbar when it is active."
+  "Maximale dikte van de tekst schuifbalk wanneer deze actief is."
+
+  "Maximum thickness of the text scrollbars when they are active."
+  "Maximale dikte van de tekst schuifbalken wanneer deze actief zijn."
+
   "Menu Options"
   "Menuopties"
+
+  "Menu relief value."
+  "Menu opluchting waarde."
+
+  "Pixel height of the tabbar widget."
+  "Pixel hoogte van de tabbalk widget."
+
+  "Relief used in drawing the tabs."
+  "Relief gebruikt bij het opstellen van de tabbladen."
+
+  "Relief value of the sidebar area."
+  "Reliëf waarde van de zijbalk gebied."
 
   "Sidebar Options"
   "Opslaan"
 
   "Sidebar Scrollbar Options"
   "Zijbalk Scrollbar Opties"
+
+  "Specifies the color to display around the sidebar when the sidebar does not have the focus."
+  "Geeft de kleur weer te geven rond de zijbalk wanneer de zijbalk niet de focus hebben."
+
+  "Specifies the color to display around the sidebar when the sidebar has the focus."
+  "Geeft de kleur weer te geven rond de zijbalk wanneer de zijbalk de focus heeft."
+
+  "Specifies the default background color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "Bepaalt de standaard achtergrondkleur gebruiken voor de tekst die is geselecteerd in een standaard TTK widget (dit omvat niet het bewerken buffer)."
+
+  "Specifies the default foreground text color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "Specificeert de standaard voorgrond tekstkleur te gebruiken voor de tekst die is geselecteerd in een standaard TTK widget (dit omvat niet het bewerken buffer)."
+
+  "Specifies the default relief to use when drawing ttk widgets."
+  "Hiermee wordt de standaard verlichting te gebruiken bij het opstellen TTK widgets."
+
+  "Specifies the disclosure image style to use in the sidebar."
+  "Specificeert de openbaarmaking stijl beeld te gebruiken in de zijbalk."
+
+  "Specifies the pixel thickness of the highlight line."
+  "Specificeert de pixel dikte van het hoogtepunt lijn."
 
   "Syntax Colors"
   "Syntax Kleuren"
@@ -979,6 +1186,12 @@ msgcat::mcmset nl {
 
   "Text Scrollbar Options"
   "Tekst Scrollbar Opties"
+
+  "Text color for all sidebar items that are not selected."
+  "Tekstkleur voor alle sidebar items die niet zijn geselecteerd."
+
+  "Text color for all sidebar items that are selected."
+  "Tekstkleur voor alle sidebar items die zijn geselecteerd."
 
   "ttk Widget Colors"
   "TTK Widget Kleuren"
