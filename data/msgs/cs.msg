@@ -85,6 +85,30 @@ msgcat::mcmset cs {
   "File index is out of range"
   "Obsah souboru je mimo rozsah"
 
+  "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
+  "Obrazy zobrazené v fill-in formách, které uzavírá formuláře UI. Používá se ve formách, jako je vyhledávání, hledání / nahrazování, a najít v souborech."
+
+  "Image used in tab menus to indicate that the file is associated with a difference view."
+  "Obrázek použitý v záložce nabídkách znamená, že soubor je spojen s cílem rozdíl."
+
+  "Image used in tab menus to indicate that the file is locked."
+  "Image používá v záložce menu, což znamená, že soubor je uzamčen."
+
+  "Image used in tab menus to indicate that the file is readonly."
+  "Image používá v záložce menu, což znamená, že soubor je jen pro čtení."
+
+  "Image used in tab to indicate that the tab contains a difference view."
+  "Obrázek použitý v kartě k označení, že karta obsahuje pohled rozdíl."
+
+  "Image used in tab to indicate that the tab's file is readonly."
+  "Image používá v záložce ukázat, že spis kartě je jen pro čtení."
+
+  "Image used in tab to indicate that the tab’s file is locked."
+  "Image používá v záložce ukázat, že spis kartě je uzamčen."
+
+  "Image used in tab which, when clicked, closes the tab."
+  "Image používané v kartě, které po kliknutí, uzavře kartu."
+
   "License:"
   "Licence"
 
@@ -908,6 +932,9 @@ msgcat::mcmset cs {
   "Folder Name:"
   "Název sloky:"
 
+  "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
+  "Obrazy zobrazené v bočním panelu, čímž naznačují, že soubor je aktuálně otevřen v editačním vyrovnávací paměti."
+
   "Make Current Working Directory"
   "Ujistěte se aktuální pracovní adresář"
 
@@ -956,20 +983,200 @@ msgcat::mcmset cs {
 # theme.tcl
 msgcat::mcmset cs {
 
+  "Background (trough) color used in the sidebar scrollbar."
+  "Souvislosti (žlábek), barvy použité v postranním panelu posuvníku."
+
+  "Background (trough) color used in the text scrollbars."
+  "Souvislosti (žlábek), barvy použité v textu posuvníky."
+
+  "Background color for all sidebar items that are not selected."
+  "Barva pozadí pro všechny postranní položky, které nejsou vybrány."
+
+  "Background color for all sidebar items that are selected."
+  "Barva pozadí pro všechny položky postranního panelu, které jsou vybrány."
+
+  "Background color in difference viewer that shows added lines."
+  "Barva pozadí v rozdílu prohlížeč, který ukazuje přidané linky."
+
+  "Background color in difference viewer that shows deleted lines."
+  "Barva pozadí v rozdílu prohlížeč, který ukazuje smazané linky."
+
+  "Background color of insertion cursor."
+  "Barva pozadí vkládacího kurzoru."
+
+  "Background color of the editing buffer."
+  "Barva pozadí pro úpravy vyrovnávací paměti."
+
+  "Background color to display when a button-like ttk widget is pressed."
+  "Barva pozadí se zobrazí při stisknutí tlačítka podobný TTK widget."
+
+  "Background color to use for selected text."
+  "Barva pozadí použít pro vybraný text."
+
+  "Background color used for all other tabs that are not the current/active tab in the tabbar."
+  "Barva pozadí používají pro všechny ostatní karty, které nejsou aktuální / aktivní záložka v liště karet."
+
+  "Background color used for the current/active menu item."
+  "Barva pozadí použitý pro aktuální / aktivní položku menu."
+
+  "Background color used for the current/active tab in the tabbar."
+  "Barva pozadí používají pro stávající / aktivní kartu v liště karet."
+
+  "Background color used in highlighted text."
+  "Barva pozadí používají v zvýrazněném textu."
+
+  "Background color used in menus."
+  "Barva pozadí používají v nabídkách."
+
+  "Background color used in the tabbar area."
+  "Barva pozadí používané v tabbar oblasti."
+
+  "Color of border drawn around active editing buffer."
+  "Barva rámu okolo aktivní pro úpravy vyrovnávací paměti."
+
+  "Color of ttk entry widget text border when the entry has keyboard focus."
+  "Barva zadávání TTK widgetu textu okraje, když záznam má fokus klávesnice."
+
+  "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
+  "Barva slouží ke kreslení šířky varování řádek v editační vyrovnávací paměti (stejně jako čáru oddělující okap z vyrovnávací paměti pro úpravy)."
+
+  "Default 'darkcolor' for all ttk widgets."
+  "Default &quot;darkcolor&quot; pro všechny TTK widgetů."
+
+  "Default background color to use for all ttk widgets that are in a disabled state."
+  "Výchozí barva pozadí použít pro všechny TTK widgety, které jsou v zakázaném stavu."
+
+  "Default background color to use for all ttk widgets when the mouse cursor hovers over the widget."
+  "Výchozí barva pozadí použít pro všechny TTK widgetů, když je kurzor myši nad widget."
+
+  "Default background color to use for all ttk widgets."
+  "Výchozí barva pozadí použít pro všechny TTK widgetů."
+
+  "Default border color for all ttk widgets."
+  "Výchozí barva hranice všech TTK widgetů."
+
+  "Default color for non-syntax highlighted text."
+  "Výchozí barva pro non-syntax zvýrazněný text."
+
+  "Default foreground text color to use for all ttk widgets that are in a disabled state."
+  "Výchozí barvu popředí textu použít pro všechny TTK widgety, které jsou v zakázaném stavu."
+
+  "Default foreground text color to use for all ttk widgets."
+  "Výchozí barvu popředí textu použít pro všechny TTK widgetů."
+
+  "Determines the number of grips strips to display in the grip area between resizable panes."
+  "Určuje počet uzlů proužky zobrazit v úchopové oblasti mezi měnit velikost tabulemi."
+
+  "Determines the thickness of the grip area between resizable panes."
+  "Určuje tloušťku uchopení prostoru mezi tabulemi měnit velikost."
+
   "ERROR:  Unable to read %s"
   "CHYBA: Nelze přečíst% s"
+
+  "Foreground (slider) color used in the sidebar scrollbar."
+  "Popředí (slider), barvy použité v postranním panelu posuvníku."
+
+  "Foreground (slider) color used in the text scrollbars."
+  "Popředí (slider), barvy použité v textu posuvníky."
+
+  "Foreground text color for strings."
+  "Popředí barvu textu pro řetězce."
+
+  "Foreground text color to use for all miscellaneous1 labeled text."
+  "Popředí textu barva se použije pro všechny miscellaneous1 označeny textem."
+
+  "Foreground text color to use for all miscellaneous2 labeled text."
+  "Popředí textu barva se použije pro všechny miscellaneous2 označeny textem."
+
+  "Foreground text color to use for all miscellaneous3 labeled text."
+  "Popředí textu barva se použije pro všechny miscellaneous3 označeny textem."
+
+  "Foreground text color to use for comments."
+  "Popředí Barva textu používat k připomínkám."
+
+  "Foreground text color to use for displaying line numbers."
+  "Popředí Barva textu použít pro zobrazování čísla řádků."
+
+  "Foreground text color to use for displaying numbers."
+  "Popředí Barva textu použít pro zobrazování čísel."
+
+  "Foreground text color to use for language-specific keywords."
+  "Popředí Barva textu použít pro specifické pro jazyk klíčová slova."
+
+  "Foreground text color to use for language-specific punctuation."
+  "Popředí Barva textu použít pro konkrétní jazyk interpunkce."
+
+  "Foreground text color to use for meta syntax."
+  "Popředí Barva textu použít pro meta syntaxi."
+
+  "Foreground text color to use for precompiler syntax."
+  "Popředí Barva textu použít pro prekompilátorem syntaxi."
+
+  "Foreground text color to use for selected text."
+  "Popředí textu barva se použije pro vybraný text."
+
+  "Foreground text color used for menus item that are disabled."
+  "Barva popředí textu používá pro menu položky, které jsou zakázány."
+
+  "Foreground text color used for the current/active menu item."
+  "Barva popředí textu použit pro aktuální / aktivní položku menu."
+
+  "Foreground text color used in menus."
+  "Barva popředí Text použitý v nabídkách."
+
+  "Foreground text/image color used in tabbar and tabs."
+  "Barva popředí text / obraz používá v liště karet a karet."
 
   "Images"
   "Obrázky"
 
+  "Maximum thickness of the text scrollbar when it is active."
+  "Maximální tloušťka textu posuvníku, kdy je aktivní."
+
+  "Maximum thickness of the text scrollbars when they are active."
+  "Maximální tloušťky textu posuvníky, když jsou aktivní."
+
   "Menu Options"
   "Nastavení menu"
+
+  "Menu relief value."
+  "Úleva hodnota Menu."
+
+  "Pixel height of the tabbar widget."
+  "Výška pixelu tabbar widgetu."
+
+  "Relief used in drawing the tabs."
+  "Reliéf používá v kreslení karty."
+
+  "Relief value of the sidebar area."
+  "Reliéf hodnota sidebar oblasti."
 
   "Sidebar Options"
   "Nastavení sidebaru"
 
   "Sidebar Scrollbar Options"
   "Sidebar Možnosti scrollbar"
+
+  "Specifies the color to display around the sidebar when the sidebar does not have the focus."
+  "Určuje barvu, která se zobrazí po postranním panelu, když postranní panel nemá fokus."
+
+  "Specifies the color to display around the sidebar when the sidebar has the focus."
+  "Určuje barvu, která se zobrazí po postranní panel, když postranní panel má fokus."
+
+  "Specifies the default background color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "Určuje výchozí barvu pozadí použít pro text, který je vybrán ve standardním TTK widgetu (toto nezahrnuje úpravu vyrovnávací paměti)."
+
+  "Specifies the default foreground text color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "Určuje výchozí barvu popředí textu použít pro text, který je vybrán ve standardním TTK widgetu (toto nezahrnuje úpravu vyrovnávací paměti)."
+
+  "Specifies the default relief to use when drawing ttk widgets."
+  "Určuje výchozí úlevu pro použití při kreslení TTK widgety."
+
+  "Specifies the disclosure image style to use in the sidebar."
+  "Určuje styl zveřejňování obrazu pro použití v postranním panelu."
+
+  "Specifies the pixel thickness of the highlight line."
+  "Určuje tloušťku pixelů zvýraznění linie."
 
   "Syntax Colors"
   "Syntaxe Barvy"
@@ -979,6 +1186,12 @@ msgcat::mcmset cs {
 
   "Text Scrollbar Options"
   "Textové scrollbar Možnosti"
+
+  "Text color for all sidebar items that are not selected."
+  "Barva textu pro všechny postranní položky, které nejsou vybrány."
+
+  "Text color for all sidebar items that are selected."
+  "Barva textu pro všechny položky postranního panelu, které jsou vybrány."
 
   "ttk Widget Colors"
   "TTK Widget Barvy"

@@ -85,6 +85,30 @@ msgcat::mcmset hu {
   "File index is out of range"
   "Fájl index tartományon kívül"
 
+  "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
+  "A kép megjelenik a nyomtatványok, amely lezárja a formában UI. Használt formák, mint a keresés, keresés / csere, és megtalálni a fájlokat."
+
+  "Image used in tab menus to indicate that the file is associated with a difference view."
+  "Kép használt lap menük, jelezve, hogy a fájl társítva van különbség kilátás."
+
+  "Image used in tab menus to indicate that the file is locked."
+  "Kép használt lap menük, jelezve, hogy a fájl zárolva van."
+
+  "Image used in tab menus to indicate that the file is readonly."
+  "Kép használt lap menük, jelezve, hogy a fájl csak olvasható."
+
+  "Image used in tab to indicate that the tab contains a difference view."
+  "Kép használt lapon jelzi, hogy a lapon található különbség kilátás."
+
+  "Image used in tab to indicate that the tab's file is readonly."
+  "Kép használt lap, jelezve, hogy a lap a fájl csak olvasható."
+
+  "Image used in tab to indicate that the tab’s file is locked."
+  "Kép használt lap, jelezve, hogy a lap fájl zárolva van."
+
+  "Image used in tab which, when clicked, closes the tab."
+  "Kép használt lap, amely, ha rákattintunk, bezárja a lapot."
+
   "License:"
   "Licenc"
 
@@ -908,6 +932,9 @@ msgcat::mcmset hu {
   "Folder Name:"
   "Mappa"
 
+  "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
+  "A kép megjelenik a sidebar, jelezve, hogy a fájl jelenleg megnyitott egy szerkesztési puffer."
+
   "Make Current Working Directory"
   "Legyen aktuális könyvtár"
 
@@ -956,20 +983,200 @@ msgcat::mcmset hu {
 # theme.tcl
 msgcat::mcmset hu {
 
+  "Background (trough) color used in the sidebar scrollbar."
+  "Háttér (maradék) használt szín a tálaló görgetősáv."
+
+  "Background (trough) color used in the text scrollbars."
+  "Háttér (maradék) használt szín a szövegben gördítősávját."
+
+  "Background color for all sidebar items that are not selected."
+  "Háttérszíne minden sidebar elem, hogy nem választott."
+
+  "Background color for all sidebar items that are selected."
+  "Háttérszíne minden oldalsáv elemek vannak jelölve."
+
+  "Background color in difference viewer that shows added lines."
+  "Háttérszíne különbség nézőt, amely megmutatja hozzáadott sorokat."
+
+  "Background color in difference viewer that shows deleted lines."
+  "Háttérszíne különbség nézőt, amely azt mutatja törölt sor."
+
+  "Background color of insertion cursor."
+  "Háttérszíne behelyezés kurzort."
+
+  "Background color of the editing buffer."
+  "Háttérszíne szerkesztési puffer."
+
+  "Background color to display when a button-like ttk widget is pressed."
+  "Háttérszínt jelenik meg, amikor egy gomb-szerű TTK widgetet van nyomva."
+
+  "Background color to use for selected text."
+  "Háttérszínt használja a kiválasztott szöveget."
+
+  "Background color used for all other tabs that are not the current/active tab in the tabbar."
+  "Háttér színe mint az összes többi fülek, amelyek nem a jelenlegi / aktív lap tabbar."
+
+  "Background color used for the current/active menu item."
+  "Háttérszínt használják a jelenlegi / aktív menüpontot."
+
+  "Background color used for the current/active tab in the tabbar."
+  "Háttérszínt használják a jelenlegi / aktív lap tabbar."
+
+  "Background color used in highlighted text."
+  "Háttérszínt használják kijelölt szöveget."
+
+  "Background color used in menus."
+  "Háttér színe a menükben alkalmazott."
+
+  "Background color used in the tabbar area."
+  "Háttérszínt használt tabbar területen."
+
+  "Color of border drawn around active editing buffer."
+  "Színe határ köré rajzolt aktív szerkesztési puffer."
+
+  "Color of ttk entry widget text border when the entry has keyboard focus."
+  "Színe TTK beviteli dobozon szöveget határt, amikor a bejegyzésnek a fókuszt."
+
+  "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
+  "Színes hívják fel a figyelmeztető széles vonal a szerkesztési puffer (valamint az elválasztó vonal az ereszcsatorna a szerkesztési puffer)."
+
+  "Default 'darkcolor' for all ttk widgets."
+  "Alapértelmezett &quot;darkcolor&quot; minden TTK kütyü."
+
+  "Default background color to use for all ttk widgets that are in a disabled state."
+  "Alapértelmezett háttérszín használható minden TTK widgeteket letiltott állapotú."
+
+  "Default background color to use for all ttk widgets when the mouse cursor hovers over the widget."
+  "Alapértelmezett háttérszín használható minden TTK kütyü, amikor a egérkurzora a widget."
+
+  "Default background color to use for all ttk widgets."
+  "Alapértelmezett háttérszín használható minden TTK kütyü."
+
+  "Default border color for all ttk widgets."
+  "Alapértelmezett keret színe minden TTK kütyü."
+
+  "Default color for non-syntax highlighted text."
+  "Alapértelmezett színe nem szintaxis kijelölt szöveget."
+
+  "Default foreground text color to use for all ttk widgets that are in a disabled state."
+  "Alapértelmezett előtérben szöveg színe használható minden TTK widgeteket letiltott állapotú."
+
+  "Default foreground text color to use for all ttk widgets."
+  "Alapértelmezett előtérben szöveg színe használható minden TTK kütyü."
+
+  "Determines the number of grips strips to display in the grip area between resizable panes."
+  "Meghatározza száma markolatok csíkok jelennek meg a markolat között átméretezhető táblát."
+
+  "Determines the thickness of the grip area between resizable panes."
+  "Meghatározza a vastagsága a markolat között átméretezhető táblát."
+
   "ERROR:  Unable to read %s"
   "HIBA: Nem olvasható:% s"
+
+  "Foreground (slider) color used in the sidebar scrollbar."
+  "Előtér (slider) használt szín a tálaló görgetősáv."
+
+  "Foreground (slider) color used in the text scrollbars."
+  "Előtér (slider) használt szín a szövegben gördítősávját."
+
+  "Foreground text color for strings."
+  "Előtérben szövegszínt szálakat."
+
+  "Foreground text color to use for all miscellaneous1 labeled text."
+  "Előtér szöveg színe használható minden miscellaneous1 jelölt szöveget."
+
+  "Foreground text color to use for all miscellaneous2 labeled text."
+  "Előtér szöveg színe használható minden miscellaneous2 jelölt szöveget."
+
+  "Foreground text color to use for all miscellaneous3 labeled text."
+  "Előtér szöveg színe használható minden miscellaneous3 jelölt szöveget."
+
+  "Foreground text color to use for comments."
+  "Előtér szöveg színe használni véleményezésre."
+
+  "Foreground text color to use for displaying line numbers."
+  "Előtér szöveget használandó színt megjelenítő sorszámok."
+
+  "Foreground text color to use for displaying numbers."
+  "Előtér szöveget használandó színt megjelenítő számokat."
+
+  "Foreground text color to use for language-specific keywords."
+  "Előtér szöveg színe használni nyelv-specifikus kulcsszavakat."
+
+  "Foreground text color to use for language-specific punctuation."
+  "Előtér szöveg színe használni nyelvspecifikus írásjelek."
+
+  "Foreground text color to use for meta syntax."
+  "Előtér szöveg színe használni meta szintaxist."
+
+  "Foreground text color to use for precompiler syntax."
+  "Előtér szöveg színe használni előfordítóra szintaxist."
+
+  "Foreground text color to use for selected text."
+  "Előtér szöveg színe használni a kiválasztott szöveget."
+
+  "Foreground text color used for menus item that are disabled."
+  "Előtérben szöveg színe használt menük elem, hogy le van tiltva."
+
+  "Foreground text color used for the current/active menu item."
+  "Előtérben szöveg színét használják az aktuális / aktív menüpontot."
+
+  "Foreground text color used in menus."
+  "Előtérben szöveg színe a menükben alkalmazott."
+
+  "Foreground text/image color used in tabbar and tabs."
+  "Előtérben a szöveg / kép használt szín a tabbar és a lapok."
 
   "Images"
   "Képek"
 
+  "Maximum thickness of the text scrollbar when it is active."
+  "Maximális vastagsága a szöveg görgetősávot amikor aktív."
+
+  "Maximum thickness of the text scrollbars when they are active."
+  "Maximális vastagsága a szöveg görgetősávok, amikor azok aktívak."
+
   "Menu Options"
   "Menü beállítások"
+
+  "Menu relief value."
+  "Menü megkönnyebbülés értéket."
+
+  "Pixel height of the tabbar widget."
+  "Pixel magassága tabbar widget."
+
+  "Relief used in drawing the tabs."
+  "Relief a rajzoláshoz a lapok."
+
+  "Relief value of the sidebar area."
+  "Relief értéke az oldalsáv terület."
 
   "Sidebar Options"
   "Oldalsáv beállítások"
 
   "Sidebar Scrollbar Options"
   "Sidebar Scrollbar opciók"
+
+  "Specifies the color to display around the sidebar when the sidebar does not have the focus."
+  "Meghatározza a színt megjeleníteni körül a tálaló, amikor a oldalsáv nem rendelkezik a hangsúly."
+
+  "Specifies the color to display around the sidebar when the sidebar has the focus."
+  "Meghatározza a színt megjeleníteni körül a tálaló, amikor a oldalsáv a hangsúly."
+
+  "Specifies the default background color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "Megadja az alapértelmezett háttérszínt használja a szöveges kiválasztott szabványos TTK widgetet (ez nem tartalmazza a szerkesztési puffer)."
+
+  "Specifies the default foreground text color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "Megadja az alapértelmezett előtér szöveget használandó színt szöveget kiválasztott szabványos TTK widgetet (ez nem tartalmazza a szerkesztési puffer)."
+
+  "Specifies the default relief to use when drawing ttk widgets."
+  "Megadja az alapértelmezett megkönnyebbülés használni, ha rajz TTK kütyü."
+
+  "Specifies the disclosure image style to use in the sidebar."
+  "Megadja a nyilvánosságra hozatal kép stílust használni az oldalsávon."
+
+  "Specifies the pixel thickness of the highlight line."
+  "Meghatározza a pixel vastagságú fénypontja sor."
 
   "Syntax Colors"
   "Syntax színek"
@@ -979,6 +1186,12 @@ msgcat::mcmset hu {
 
   "Text Scrollbar Options"
   "Szöveg Scrollbar opciók"
+
+  "Text color for all sidebar items that are not selected."
+  "Szöveg színe minden sidebar elem, hogy nem választott."
+
+  "Text color for all sidebar items that are selected."
+  "Szöveg színe minden oldalsáv elemek vannak jelölve."
 
   "ttk Widget Colors"
   "TTK Widget színek"

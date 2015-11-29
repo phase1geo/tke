@@ -85,6 +85,30 @@ msgcat::mcmset fr {
   "File index is out of range"
   "index du fichier est hors de portée"
 
+  "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
+  "Image affichée dans les formes de remplissage-in qui ferme le formulaire UI. Utilisé dans des formes telles que la recherche, recherche / remplacement, et de trouver dans les fichiers."
+
+  "Image used in tab menus to indicate that the file is associated with a difference view."
+  "Image utilisée dans les menus de l&#39;onglet pour indiquer que le fichier est associé à une vue de différence."
+
+  "Image used in tab menus to indicate that the file is locked."
+  "Image utilisée dans les menus de l&#39;onglet pour indiquer que le fichier est verrouillé."
+
+  "Image used in tab menus to indicate that the file is readonly."
+  "Image utilisée dans les menus de l&#39;onglet pour indiquer que le fichier est en lecture seule."
+
+  "Image used in tab to indicate that the tab contains a difference view."
+  "Image utilisée dans l&#39;onglet pour indiquer que l&#39;onglet contient une vue de différence."
+
+  "Image used in tab to indicate that the tab's file is readonly."
+  "Image utilisée dans l&#39;onglet pour indiquer que le dossier de l&#39;onglet est en lecture seule."
+
+  "Image used in tab to indicate that the tab’s file is locked."
+  "Image utilisée dans l&#39;onglet pour indiquer que le dossier de l&#39;onglet est verrouillé."
+
+  "Image used in tab which, when clicked, closes the tab."
+  "Image utilisée dans l&#39;onglet qui, lorsqu&#39;on clique dessus, ferme l&#39;onglet."
+
   "License:"
   "Licence:"
 
@@ -908,6 +932,9 @@ msgcat::mcmset fr {
   "Folder Name:"
   "Nom du dossier :"
 
+  "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
+  "Image affichée dans la barre latérale pour indiquer qu&#39;un fichier est actuellement ouvert dans un tampon d&#39;édition."
+
   "Make Current Working Directory"
   "Assurez-répertoire de travail courant"
 
@@ -956,20 +983,200 @@ msgcat::mcmset fr {
 # theme.tcl
 msgcat::mcmset fr {
 
+  "Background (trough) color used in the sidebar scrollbar."
+  "Contexte (creux) couleur utilisée dans la barre de défilement de la barre latérale."
+
+  "Background (trough) color used in the text scrollbars."
+  "Contexte (creux) couleur utilisée dans les barres de défilement de texte."
+
+  "Background color for all sidebar items that are not selected."
+  "La couleur de fond pour tous les éléments de la barre latérale qui ne sont pas sélectionnés."
+
+  "Background color for all sidebar items that are selected."
+  "La couleur de fond pour tous les éléments de la barre latérale qui sont sélectionnés."
+
+  "Background color in difference viewer that shows added lines."
+  "La couleur de fond dans la différence spectateur qui montre lignes ajoutées."
+
+  "Background color in difference viewer that shows deleted lines."
+  "La couleur de fond dans la différence spectateur qui montre lignes supprimées."
+
+  "Background color of insertion cursor."
+  "La couleur de fond du curseur d&#39;insertion."
+
+  "Background color of the editing buffer."
+  "La couleur de fond de la mémoire tampon d&#39;édition."
+
+  "Background color to display when a button-like ttk widget is pressed."
+  "La couleur de fond à afficher lorsque un widget ttk type bouton est pressé."
+
+  "Background color to use for selected text."
+  "Couleur de fond à utiliser pour le texte sélectionné."
+
+  "Background color used for all other tabs that are not the current/active tab in the tabbar."
+  "La couleur de fond utilisée pour tous les autres onglets qui ne sont pas l&#39;onglet en cours / actif dans la barre d&#39;onglets."
+
+  "Background color used for the current/active menu item."
+  "La couleur de fond utilisée pour l&#39;élément de menu en cours / actif."
+
+  "Background color used for the current/active tab in the tabbar."
+  "La couleur de fond utilisée pour l&#39;onglet actif / actif dans la barre d&#39;onglets."
+
+  "Background color used in highlighted text."
+  "La couleur de fond utilisée dans le texte en surbrillance."
+
+  "Background color used in menus."
+  "La couleur de fond utilisée dans les menus."
+
+  "Background color used in the tabbar area."
+  "La couleur de fond utilisée dans la zone de barre d&#39;onglets."
+
+  "Color of border drawn around active editing buffer."
+  "Couleur de la frontière tracée autour tampon d&#39;édition active."
+
+  "Color of ttk entry widget text border when the entry has keyboard focus."
+  "Couleur de la saisie de texte ttk widget frontière lorsque l&#39;entrée a le focus clavier."
+
+  "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
+  "Couleur utilisée pour tracer la ligne de largeur d&#39;avertissement dans le tampon d&#39;édition (ainsi que la ligne qui sépare la gouttière de la mémoire tampon d&#39;édition)."
+
+  "Default 'darkcolor' for all ttk widgets."
+  "Par défaut &#39;darkcolor »pour tous les widgets TTK."
+
+  "Default background color to use for all ttk widgets that are in a disabled state."
+  "Couleur de fond par défaut à utiliser pour tous les widgets TTK qui sont dans un état désactivé."
+
+  "Default background color to use for all ttk widgets when the mouse cursor hovers over the widget."
+  "Couleur de fond par défaut à utiliser pour tous les widgets TTK lorsque le curseur de la souris survole le widget."
+
+  "Default background color to use for all ttk widgets."
+  "Couleur de fond par défaut à utiliser pour tous les widgets TTK."
+
+  "Default border color for all ttk widgets."
+  "Couleur de la bordure par défaut pour tous les widgets TTK."
+
+  "Default color for non-syntax highlighted text."
+  "La couleur par défaut pour non-syntaxe texte en surbrillance."
+
+  "Default foreground text color to use for all ttk widgets that are in a disabled state."
+  "Par défaut avant-plan la couleur du texte à utiliser pour tous les widgets TTK qui sont dans un état désactivé."
+
+  "Default foreground text color to use for all ttk widgets."
+  "Par défaut avant-plan la couleur du texte à utiliser pour tous les widgets TTK."
+
+  "Determines the number of grips strips to display in the grip area between resizable panes."
+  "Détermine le nombre de poignées bandes à afficher dans la zone de préhension entre les volets redimensionnables."
+
+  "Determines the thickness of the grip area between resizable panes."
+  "Détermine l&#39;épaisseur de la zone de préhension entre les volets redimensionnables."
+
   "ERROR:  Unable to read %s"
   "ERREUR: Impossible de lire %s"
 
+  "Foreground (slider) color used in the sidebar scrollbar."
+  "Premier plan (curseur) couleur utilisée dans la barre de défilement de la barre latérale."
+
+  "Foreground (slider) color used in the text scrollbars."
+  "Premier plan (curseur) couleur utilisée dans les barres de défilement de texte."
+
+  "Foreground text color for strings."
+  "Premier plan couleur du texte pour les chaînes."
+
+  "Foreground text color to use for all miscellaneous1 labeled text."
+  "Premier plan couleur du texte à utiliser pour tous miscellaneous1 marqué texte."
+
+  "Foreground text color to use for all miscellaneous2 labeled text."
+  "Premier plan couleur du texte à utiliser pour tous miscellaneous2 marqué texte."
+
+  "Foreground text color to use for all miscellaneous3 labeled text."
+  "Premier plan couleur du texte à utiliser pour tous miscellaneous3 marqué texte."
+
+  "Foreground text color to use for comments."
+  "Couleur de premier plan de texte à utiliser pour les commentaires."
+
+  "Foreground text color to use for displaying line numbers."
+  "Couleur de premier plan de texte à utiliser pour l&#39;affichage des numéros de ligne."
+
+  "Foreground text color to use for displaying numbers."
+  "Premier plan couleur du texte à utiliser pour l&#39;affichage des nombres."
+
+  "Foreground text color to use for language-specific keywords."
+  "Couleur de premier plan de texte à utiliser pour les mots clés spécifiques à la langue."
+
+  "Foreground text color to use for language-specific punctuation."
+  "Couleur de premier plan de texte à utiliser pour la ponctuation spécifique à la langue."
+
+  "Foreground text color to use for meta syntax."
+  "Couleur de premier plan de texte à utiliser pour la syntaxe méta."
+
+  "Foreground text color to use for precompiler syntax."
+  "Couleur de premier plan de texte à utiliser pour la syntaxe précompilateur."
+
+  "Foreground text color to use for selected text."
+  "Couleur de premier plan de texte à utiliser pour le texte sélectionné."
+
+  "Foreground text color used for menus item that are disabled."
+  "Premier plan couleur du texte utilisé pour les menus poste qui sont handicapés."
+
+  "Foreground text color used for the current/active menu item."
+  "Premier plan couleur du texte utilisée pour l&#39;élément de menu en cours / actif."
+
+  "Foreground text color used in menus."
+  "Premier plan couleur du texte utilisée dans les menus."
+
+  "Foreground text/image color used in tabbar and tabs."
+  "Couleur de premier plan du texte / image utilisée dans barre d&#39;onglets et les onglets."
+
   "Images"
   "Images"
 
+  "Maximum thickness of the text scrollbar when it is active."
+  "Épaisseur maximale de la barre de défilement de texte quand il est actif."
+
+  "Maximum thickness of the text scrollbars when they are active."
+  "L&#39;épaisseur maximale des barres de défilement de texte quand ils sont actifs."
+
   "Menu Options"
   "Options du menu"
+
+  "Menu relief value."
+  "La valeur de l&#39;allégement de Menu."
+
+  "Pixel height of the tabbar widget."
+  "Hauteur de Pixel du widget de barre d&#39;onglets."
+
+  "Relief used in drawing the tabs."
+  "Relief utilisé dans l&#39;élaboration des onglets."
+
+  "Relief value of the sidebar area."
+  "Valeur de secours de la zone de la barre latérale."
 
   "Sidebar Options"
   "options du menu"
 
   "Sidebar Scrollbar Options"
   "Sidebar Options de barre de défilement"
+
+  "Specifies the color to display around the sidebar when the sidebar does not have the focus."
+  "Indique la couleur pour afficher autour de la barre latérale lorsque la barre latérale n&#39;a pas le focus."
+
+  "Specifies the color to display around the sidebar when the sidebar has the focus."
+  "Indique la couleur pour afficher autour de la barre latérale lorsque la barre latérale a le focus."
+
+  "Specifies the default background color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "Indique la couleur de fond par défaut à utiliser pour le texte qui est sélectionné dans un widget ttk standard (cela ne comprend pas le tampon d&#39;édition)."
+
+  "Specifies the default foreground text color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "Indique la couleur du texte de l&#39;avant-plan par défaut à utiliser pour le texte qui est sélectionné dans un widget ttk standard (cela ne comprend pas le tampon d&#39;édition)."
+
+  "Specifies the default relief to use when drawing ttk widgets."
+  "Indique le relief par défaut à utiliser lors de l&#39;élaboration des widgets TTK."
+
+  "Specifies the disclosure image style to use in the sidebar."
+  "Indique la divulgation image de style à utiliser dans la barre latérale."
+
+  "Specifies the pixel thickness of the highlight line."
+  "Indique l&#39;épaisseur de pixel de la ligne de surbrillance."
 
   "Syntax Colors"
   "Syntaxe Couleurs"
@@ -979,6 +1186,12 @@ msgcat::mcmset fr {
 
   "Text Scrollbar Options"
   "Options de texte Barre de défilement"
+
+  "Text color for all sidebar items that are not selected."
+  "Couleur du texte pour tous les éléments de la barre latérale qui ne sont pas sélectionnés."
+
+  "Text color for all sidebar items that are selected."
+  "Couleur du texte pour tous les éléments de la barre latérale qui sont sélectionnés."
 
   "ttk Widget Colors"
   "Couleurs du widget"

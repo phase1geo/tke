@@ -85,6 +85,30 @@ msgcat::mcmset el {
   "File index is out of range"
   "Δείκτης αρχείου είναι εκτός ορίων"
 
+  "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
+  "Εικόνα εμφανίζεται σε μορφές γεμίσματος που κλείνει τη φόρμα UI. Χρησιμοποιείται σε μορφές όπως η αναζήτηση, αναζήτηση / αντικατάσταση, και να βρείτε στα αρχεία."
+
+  "Image used in tab menus to indicate that the file is associated with a difference view."
+  "Εικόνας που χρησιμοποιείται στα μενού tab για να υποδείξει ότι το αρχείο συνδέεται με μια άποψη διαφορά."
+
+  "Image used in tab menus to indicate that the file is locked."
+  "Εικόνα που χρησιμοποιείται στα μενού καρτέλα για να υποδείξει ότι το αρχείο είναι κλειδωμένο."
+
+  "Image used in tab menus to indicate that the file is readonly."
+  "Εικόνα που χρησιμοποιείται στα μενού καρτέλα για να υποδείξει ότι το αρχείο είναι μόνο για ανάγνωση."
+
+  "Image used in tab to indicate that the tab contains a difference view."
+  "Εικόνας που χρησιμοποιείται στην καρτέλα για να δείξει ότι η καρτέλα περιέχει μια άποψη διαφορά."
+
+  "Image used in tab to indicate that the tab's file is readonly."
+  "Εικόνας που χρησιμοποιείται στην καρτέλα για να υποδείξει ότι το αρχείο της καρτέλας είναι μόνο για ανάγνωση."
+
+  "Image used in tab to indicate that the tab’s file is locked."
+  "Εικόνας που χρησιμοποιείται στην καρτέλα για να υποδείξει ότι το αρχείο της καρτέλας είναι κλειδωμένο."
+
+  "Image used in tab which, when clicked, closes the tab."
+  "Εικόνα που χρησιμοποιούνται στην καρτέλα που, όταν πατηθεί, κλείνει την καρτέλα."
+
   "License:"
   "?????:"
 
@@ -908,6 +932,9 @@ msgcat::mcmset el {
   "Folder Name:"
   "????? ???????:"
 
+  "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
+  "Εικόνα που εμφανίζεται στην πλαϊνή γραμμή για να δείξει ότι ένα αρχείο που έχετε ανοίξει σε ένα ρυθμιστικό μοντάζ."
+
   "Make Current Working Directory"
   "Κάντε τρέχων κατάλογος εργασίας"
 
@@ -956,20 +983,200 @@ msgcat::mcmset el {
 # theme.tcl
 msgcat::mcmset el {
 
+  "Background (trough) color used in the sidebar scrollbar."
+  "Ιστορικό (trough) χρωμάτων που χρησιμοποιείται στην πλαϊνή μπάρα κύλισης."
+
+  "Background (trough) color used in the text scrollbars."
+  "Ιστορικό (trough) χρώμα που χρησιμοποιείται στο κείμενο κύλισης."
+
+  "Background color for all sidebar items that are not selected."
+  "Χρώμα φόντου για όλα τα στοιχεία sidebar που δεν έχουν επιλεγεί."
+
+  "Background color for all sidebar items that are selected."
+  "Χρώμα φόντου για όλα τα στοιχεία sidebar που έχουν επιλεγεί."
+
+  "Background color in difference viewer that shows added lines."
+  "Χρώμα φόντου στη διαφορά θεατή που δείχνει πρόσθεσε γραμμές."
+
+  "Background color in difference viewer that shows deleted lines."
+  "Χρώμα φόντου στη διαφορά θεατή που δείχνει τα διαγραμμένα γραμμές."
+
+  "Background color of insertion cursor."
+  "Χρώμα φόντου του δρομέα εισαγωγής."
+
+  "Background color of the editing buffer."
+  "Χρώμα φόντου του ρυθμιστικού μοντάζ."
+
+  "Background color to display when a button-like ttk widget is pressed."
+  "Χρώμα φόντου στην οθόνη όταν ένα κουμπί, όπως το widget TTK πιέζεται."
+
+  "Background color to use for selected text."
+  "Χρώμα φόντου που θα χρησιμοποιηθεί για το επιλεγμένο κείμενο."
+
+  "Background color used for all other tabs that are not the current/active tab in the tabbar."
+  "Χρώμα φόντου που χρησιμοποιείται για όλες τις άλλες καρτέλες που δεν είναι η τρέχουσα / ενεργή καρτέλα στο tabbar."
+
+  "Background color used for the current/active menu item."
+  "Χρώμα φόντου που χρησιμοποιείται για την τρέχουσα / ενεργό στοιχείο του μενού."
+
+  "Background color used for the current/active tab in the tabbar."
+  "Χρώμα φόντου που χρησιμοποιείται για την τρέχουσα / ενεργή καρτέλα στο tabbar."
+
+  "Background color used in highlighted text."
+  "Χρώμα φόντου που χρησιμοποιείται στο επισημασμένο κείμενο."
+
+  "Background color used in menus."
+  "Χρώμα φόντου που χρησιμοποιείται στα μενού."
+
+  "Background color used in the tabbar area."
+  "Χρώμα φόντου που χρησιμοποιείται στην περιοχή tabbar."
+
+  "Color of border drawn around active editing buffer."
+  "Χρώμα των συνοριακών που γύρω ενεργό ρυθμιστικό μοντάζ."
+
+  "Color of ttk entry widget text border when the entry has keyboard focus."
+  "Χρώμα εισόδου TTK συνόρων κειμένου του widget όταν η είσοδος έχει εστίαση πληκτρολογίου."
+
+  "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
+  "Χρώμα που χρησιμοποιείται για να επιστήσει την γραμμή πλάτους προειδοποίηση στο ρυθμιστικό μοντάζ (καθώς και η γραμμή που χωρίζει την υδρορροή από το ρυθμιστικό μοντάζ)."
+
+  "Default 'darkcolor' for all ttk widgets."
+  "Προεπιλογή «darkcolor» για όλες τις TTK widgets."
+
+  "Default background color to use for all ttk widgets that are in a disabled state."
+  "Προεπιλεγμένο χρώμα φόντου για να χρησιμοποιήσετε για όλες τις TTK widgets που βρίσκονται σε κατάσταση απενεργοποίησης."
+
+  "Default background color to use for all ttk widgets when the mouse cursor hovers over the widget."
+  "Προεπιλεγμένο χρώμα φόντου για να χρησιμοποιήσετε για όλες τις TTK widgets όταν ο κέρσορας του ποντικιού περάσει πάνω από το widget."
+
+  "Default background color to use for all ttk widgets."
+  "Προεπιλεγμένο χρώμα φόντου για να χρησιμοποιήσετε για όλες τις TTK widgets."
+
+  "Default border color for all ttk widgets."
+  "Προεπιλεγμένο χρώμα των συνόρων για όλους τους TTK widgets."
+
+  "Default color for non-syntax highlighted text."
+  "Προκαθορισμένο χρώμα για τη μη σύνταξη επισημασμένο κείμενο."
+
+  "Default foreground text color to use for all ttk widgets that are in a disabled state."
+  "Προεπιλογή χρώμα κειμένου στο προσκήνιο στη χρήση για όλους TTK widgets που βρίσκονται σε κατάσταση απενεργοποίησης."
+
+  "Default foreground text color to use for all ttk widgets."
+  "Προεπιλογή χρώμα κειμένου στο προσκήνιο στη χρήση για όλους TTK widgets."
+
+  "Determines the number of grips strips to display in the grip area between resizable panes."
+  "Καθορίζει τον αριθμό των λωρίδων λαβές για να εμφανιστεί στην περιοχή λαβής αλλαγής μεγέθους μεταξύ των υαλοπινάκων."
+
+  "Determines the thickness of the grip area between resizable panes."
+  "Καθορίζει το πάχος της ζώνης λαβή αλλαγής μεγέθους μεταξύ των υαλοπινάκων."
+
   "ERROR:  Unable to read %s"
   "ΣΦΑΛΜΑ: Αδύνατη η ανάγνωση του% s"
+
+  "Foreground (slider) color used in the sidebar scrollbar."
+  "Προσκήνιο (slider) χρωμάτων που χρησιμοποιείται στην πλαϊνή μπάρα κύλισης."
+
+  "Foreground (slider) color used in the text scrollbars."
+  "Προσκήνιο (slider) χρώμα που χρησιμοποιείται στο κείμενο κύλισης."
+
+  "Foreground text color for strings."
+  "Χρώμα κειμένου στο προσκήνιο για έγχορδα."
+
+  "Foreground text color to use for all miscellaneous1 labeled text."
+  "Χρώμα κειμένου στο προσκήνιο να χρησιμοποιήσετε για όλα τα miscellaneous1 επισημασμένο κείμενο."
+
+  "Foreground text color to use for all miscellaneous2 labeled text."
+  "Χρώμα κειμένου στο προσκήνιο να χρησιμοποιήσετε για όλα τα miscellaneous2 επισημασμένο κείμενο."
+
+  "Foreground text color to use for all miscellaneous3 labeled text."
+  "Χρώμα κειμένου στο προσκήνιο να χρησιμοποιήσετε για όλα τα miscellaneous3 επισημασμένο κείμενο."
+
+  "Foreground text color to use for comments."
+  "Χρώμα κειμένου στο προσκήνιο να χρησιμοποιήσετε για σχόλια."
+
+  "Foreground text color to use for displaying line numbers."
+  "Χρώμα κειμένου στο προσκήνιο να χρησιμοποιήσετε για την προβολή τους αριθμούς γραμμών."
+
+  "Foreground text color to use for displaying numbers."
+  "Χρώμα κειμένου στο προσκήνιο για να χρησιμοποιήσει για την εμφάνιση αριθμών."
+
+  "Foreground text color to use for language-specific keywords."
+  "Χρώμα κειμένου στο προσκήνιο να χρησιμοποιούν για τη γλώσσα-συγκεκριμένες λέξεις-κλειδιά."
+
+  "Foreground text color to use for language-specific punctuation."
+  "Χρώμα κειμένου στο προσκήνιο να χρησιμοποιήσετε για συγκεκριμένη γλώσσα στίξης."
+
+  "Foreground text color to use for meta syntax."
+  "Χρώμα κειμένου στο προσκήνιο να χρησιμοποιήσετε για μετα σύνταξη."
+
+  "Foreground text color to use for precompiler syntax."
+  "Χρώμα κειμένου στο προσκήνιο να χρησιμοποιήσετε για precompiler σύνταξη."
+
+  "Foreground text color to use for selected text."
+  "Χρώμα κειμένου στο προσκήνιο για να χρησιμοποιήσετε για το επιλεγμένο κείμενο."
+
+  "Foreground text color used for menus item that are disabled."
+  "Χρώμα προσκηνίου κείμενο που χρησιμοποιείται για τα μενού στοιχείο που είναι άτομα με ειδικές ανάγκες."
+
+  "Foreground text color used for the current/active menu item."
+  "Χρώμα προσκηνίου κείμενο που χρησιμοποιείται για την τρέχουσα / ενεργό στοιχείο του μενού."
+
+  "Foreground text color used in menus."
+  "Χρώμα κειμένου στο προσκήνιο χρησιμοποιείται στα μενού."
+
+  "Foreground text/image color used in tabbar and tabs."
+  "Χρώμα κειμένου στο προσκήνιο / εικόνας που χρησιμοποιείται σε tabbar και τις καρτέλες."
 
   "Images"
   "Εικόνες"
 
+  "Maximum thickness of the text scrollbar when it is active."
+  "Μέγιστο πάχος της γραμμής κύλισης κειμένου όταν είναι ενεργός."
+
+  "Maximum thickness of the text scrollbars when they are active."
+  "Μέγιστο πάχος των γραμμών κύλισης κειμένου όταν είναι ενεργό."
+
   "Menu Options"
   "Επιλογές Μενού"
+
+  "Menu relief value."
+  "Μενού αξία ανακούφιση."
+
+  "Pixel height of the tabbar widget."
+  "Pixel ύψος του widget tabbar."
+
+  "Relief used in drawing the tabs."
+  "Ανακούφιση που χρησιμοποιούνται για την κατάρτιση των καρτελών."
+
+  "Relief value of the sidebar area."
+  "Αξία ανάγλυφο της περιοχής sidebar."
 
   "Sidebar Options"
   "Sidebar Επιλογές"
 
   "Sidebar Scrollbar Options"
   "Sidebar Επιλογές κύλισης"
+
+  "Specifies the color to display around the sidebar when the sidebar does not have the focus."
+  "Καθορίζει το χρώμα για να εμφανιστεί γύρω από την πλαϊνή μπάρα, όταν η πλαϊνή γραμμή δεν έχει την εστίαση."
+
+  "Specifies the color to display around the sidebar when the sidebar has the focus."
+  "Καθορίζει το χρώμα για να εμφανιστεί γύρω από την πλαϊνή μπάρα, όταν η πλευρική γραμμή έχει την εστίαση."
+
+  "Specifies the default background color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "Καθορίζει το προεπιλεγμένο χρώμα φόντου που θα χρησιμοποιηθεί για το κείμενο που έχει επιλεγεί σε ένα πρότυπο widget TTK (αυτό δεν περιλαμβάνει το ρυθμιστικό μοντάζ)."
+
+  "Specifies the default foreground text color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "Καθορίζει το προεπιλεγμένο χρώμα του κειμένου προσκηνίου να χρησιμοποιηθεί για το κείμενο που έχει επιλεγεί σε ένα πρότυπο widget TTK (αυτό δεν περιλαμβάνει το ρυθμιστικό μοντάζ)."
+
+  "Specifies the default relief to use when drawing ttk widgets."
+  "Καθορίζει την προεπιλεγμένη ανακούφιση που θα χρησιμοποιηθεί κατά την κατάρτιση TTK widgets."
+
+  "Specifies the disclosure image style to use in the sidebar."
+  "Καθορίζει το στυλ εικόνα δημοσιοποίησης, να χρησιμοποιούν στην πλαϊνή γραμμή."
+
+  "Specifies the pixel thickness of the highlight line."
+  "Καθορίζει το πάχος pixel της γραμμής αποκορύφωμα."
 
   "Syntax Colors"
   "Σύνταξη Χρώματα"
@@ -979,6 +1186,12 @@ msgcat::mcmset el {
 
   "Text Scrollbar Options"
   "Κείμενο Επιλογές κύλισης"
+
+  "Text color for all sidebar items that are not selected."
+  "Χρώμα κειμένου για όλα τα στοιχεία sidebar που δεν έχουν επιλεγεί."
+
+  "Text color for all sidebar items that are selected."
+  "Χρώμα κειμένου για όλα τα στοιχεία sidebar που έχουν επιλεγεί."
 
   "ttk Widget Colors"
   "TTK Widget Χρώματα"

@@ -85,6 +85,30 @@ msgcat::mcmset da {
   "File index is out of range"
   "File indeks er uden for rækkevidde"
 
+  "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
+  "Billede, der vises i fill-in former, som lukker formularen UI. Bruges i former som søgning, søg / erstat, og finde i filer."
+
+  "Image used in tab menus to indicate that the file is associated with a difference view."
+  "Billede anvendt i fanen menuer for at indikere, at filen er forbundet med en forskel visning."
+
+  "Image used in tab menus to indicate that the file is locked."
+  "Billede anvendt i fanen menuer for at indikere, at filen er låst."
+
+  "Image used in tab menus to indicate that the file is readonly."
+  "Billede anvendes i fanen menuer for at indikere, at filen er skrivebeskyttet."
+
+  "Image used in tab to indicate that the tab contains a difference view."
+  "Billede anvendt i Tab for at indikere, at fanen indeholder en forskel visning."
+
+  "Image used in tab to indicate that the tab's file is readonly."
+  "Billede anvendes i Tab for at angive, at fanen sagsakter er skrivebeskyttet."
+
+  "Image used in tab to indicate that the tab’s file is locked."
+  "Billede anvendes i Tab for at indikere, at fanen sagsakter er låst."
+
+  "Image used in tab which, when clicked, closes the tab."
+  "Billede anvendes i fanen, der, når der klikkes, lukker fanen."
+
   "License:"
   "Licens"
 
@@ -908,6 +932,9 @@ msgcat::mcmset da {
   "Folder Name:"
   "Mappenavn:"
 
+  "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
+  "Billede, der vises i indholdsoversigten for at indikere, at en fil i øjeblikket er åbnet i en redigering buffer."
+
   "Make Current Working Directory"
   "Gør aktuelle arbejdsmappe"
 
@@ -956,20 +983,200 @@ msgcat::mcmset da {
 # theme.tcl
 msgcat::mcmset da {
 
+  "Background (trough) color used in the sidebar scrollbar."
+  "Baggrund (trough) farve, der anvendes i indholdsoversigten rullebjælken."
+
+  "Background (trough) color used in the text scrollbars."
+  "Baggrund (trough) farve i teksten scrollbars."
+
+  "Background color for all sidebar items that are not selected."
+  "Baggrundsfarve for alle sidebar elementer, der ikke er valgt."
+
+  "Background color for all sidebar items that are selected."
+  "Baggrundsfarve for alle sidebar elementer, der er valgt."
+
+  "Background color in difference viewer that shows added lines."
+  "Baggrundsfarve i forskel fremviser, der viser tilføjet linjer."
+
+  "Background color in difference viewer that shows deleted lines."
+  "Baggrundsfarve i forskel fremviser, der viser slettede linier."
+
+  "Background color of insertion cursor."
+  "Baggrundsfarve indsætningsmarkøren."
+
+  "Background color of the editing buffer."
+  "Baggrundsfarve redigering buffer."
+
+  "Background color to display when a button-like ttk widget is pressed."
+  "Baggrundsfarve skal vises, når der trykkes på en knap-lignende TTK widget."
+
+  "Background color to use for selected text."
+  "Baggrundsfarve til brug for markeret tekst."
+
+  "Background color used for all other tabs that are not the current/active tab in the tabbar."
+  "Baggrundsfarve anvendes til alle andre faneblade, som ikke er den aktuelle / aktive fane i fanebladslinjen."
+
+  "Background color used for the current/active menu item."
+  "Baggrundsfarve brugt til strøm / aktive menupunkt."
+
+  "Background color used for the current/active tab in the tabbar."
+  "Baggrundsfarve brugt til strøm / aktive fane i fanebladslinjen."
+
+  "Background color used in highlighted text."
+  "Baggrundsfarve brugt i markerede tekst."
+
+  "Background color used in menus."
+  "Baggrundsfarve brugt i menuer."
+
+  "Background color used in the tabbar area."
+  "Baggrundsfarve brugt i fanebladslinjen området."
+
+  "Color of border drawn around active editing buffer."
+  "Farve på kant trukket rundt aktiv redigering buffer."
+
+  "Color of ttk entry widget text border when the entry has keyboard focus."
+  "Farve på TTK post kontroltekst grænse, når posten har tastatur fokus."
+
+  "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
+  "Color bruges til at tegne advarslen bredde linje i redigeringen buffer (såvel som grænsen mellem renden fra redigeringen buffer)."
+
+  "Default 'darkcolor' for all ttk widgets."
+  "Standard &#39;darkcolor&#39; for alle TTK widgets."
+
+  "Default background color to use for all ttk widgets that are in a disabled state."
+  "Standard baggrundsfarve til brug for alle TTK widgets, der er i en deaktiveret tilstand."
+
+  "Default background color to use for all ttk widgets when the mouse cursor hovers over the widget."
+  "Standard baggrundsfarve til brug for alle TTK widgets når musemarkøren svæver over widget."
+
+  "Default background color to use for all ttk widgets."
+  "Standard baggrundsfarve til brug for alle TTK widgets."
+
+  "Default border color for all ttk widgets."
+  "Standard kantfarve for alle TTK widgets."
+
+  "Default color for non-syntax highlighted text."
+  "Standard farve for ikke-syntaks fremhævet tekst."
+
+  "Default foreground text color to use for all ttk widgets that are in a disabled state."
+  "Standard forgrunden tekst farve til brug for alle TTK widgets, der er i en deaktiveret tilstand."
+
+  "Default foreground text color to use for all ttk widgets."
+  "Standard forgrunden tekst farve til brug for alle TTK widgets."
+
+  "Determines the number of grips strips to display in the grip area between resizable panes."
+  "Bestemmer antallet af greb strimler at vise i grebet mellem resizable ruder."
+
+  "Determines the thickness of the grip area between resizable panes."
+  "Bestemmer tykkelsen af ​​grebet mellem resizable ruder."
+
   "ERROR:  Unable to read %s"
   "FEJL: Kunne ikke læse% s"
+
+  "Foreground (slider) color used in the sidebar scrollbar."
+  "Forgrund (skyder) farve, der anvendes i indholdsoversigten rullebjælken."
+
+  "Foreground (slider) color used in the text scrollbars."
+  "Forgrund (skyder) farve i teksten scrollbars."
+
+  "Foreground text color for strings."
+  "Forgrunden tekstfarve for strygere."
+
+  "Foreground text color to use for all miscellaneous1 labeled text."
+  "Forgrund tekstfarve til brug for alle miscellaneous1 mærket tekst."
+
+  "Foreground text color to use for all miscellaneous2 labeled text."
+  "Forgrund tekstfarve til brug for alle miscellaneous2 mærket tekst."
+
+  "Foreground text color to use for all miscellaneous3 labeled text."
+  "Forgrund tekstfarve til brug for alle miscellaneous3 mærket tekst."
+
+  "Foreground text color to use for comments."
+  "Forgrund tekstfarve til brug for kommentarer."
+
+  "Foreground text color to use for displaying line numbers."
+  "Forgrund tekstfarve til at bruge til visning af linjenumre."
+
+  "Foreground text color to use for displaying numbers."
+  "Forgrund tekstfarve skal bruges til visning af tal."
+
+  "Foreground text color to use for language-specific keywords."
+  "Forgrund tekstfarve bruge til sprogspecifikke søgeord."
+
+  "Foreground text color to use for language-specific punctuation."
+  "Forgrund tekstfarve skal bruges til sprogspecifik tegnsætning."
+
+  "Foreground text color to use for meta syntax."
+  "Forgrund tekstfarve bruge til meta syntaks."
+
+  "Foreground text color to use for precompiler syntax."
+  "Forgrund tekstfarve bruge til præ-compileren syntaks."
+
+  "Foreground text color to use for selected text."
+  "Forgrund tekstfarve til at bruge den valgte tekst."
+
+  "Foreground text color used for menus item that are disabled."
+  "Forgrunden tekstfarve bruges til menuer element, der er deaktiveret."
+
+  "Foreground text color used for the current/active menu item."
+  "Forgrunden tekstfarve bruges til strøm / aktive menupunkt."
+
+  "Foreground text color used in menus."
+  "Forgrunden tekstfarve anvendes i menuer."
+
+  "Foreground text/image color used in tabbar and tabs."
+  "Forgrund tekst / billede farve anvendes i fanebladslinjen og faner."
 
   "Images"
   "Billeder"
 
+  "Maximum thickness of the text scrollbar when it is active."
+  "Maksimale tykkelse af teksten rullebjælke, når den er aktiv."
+
+  "Maximum thickness of the text scrollbars when they are active."
+  "Maksimale tykkelse af teksten scrollbars, når de er aktive."
+
   "Menu Options"
   "Menupunkter"
+
+  "Menu relief value."
+  "Menu relief værdi."
+
+  "Pixel height of the tabbar widget."
+  "Pixel højde fanebladslinjen widget."
+
+  "Relief used in drawing the tabs."
+  "Relief anvendt i udarbejdelsen fanerne."
+
+  "Relief value of the sidebar area."
+  "Relief værdi indholdsoversigten området."
 
   "Sidebar Options"
   "Sidebar options"
 
   "Sidebar Scrollbar Options"
   "Sidebar Scrollbar Options"
+
+  "Specifies the color to display around the sidebar when the sidebar does not have the focus."
+  "Angiver farven til at vise rundt på sidelinjen, når sidebjælken ikke har fokus."
+
+  "Specifies the color to display around the sidebar when the sidebar has the focus."
+  "Angiver farven til at vise rundt på sidelinjen, når sidebjælken har fokus."
+
+  "Specifies the default background color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "Angiver standard baggrundsfarve til brug for tekst, der er valgt i en standard TTK widget (dette omfatter ikke redigering buffer)."
+
+  "Specifies the default foreground text color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "Angiver standard forgrunden tekst farve til brug for tekst, der er valgt i en standard TTK widget (dette omfatter ikke redigering buffer)."
+
+  "Specifies the default relief to use when drawing ttk widgets."
+  "Angiver standardindstillingen lettelse at bruge ved udarbejdelsen TTK widgets."
+
+  "Specifies the disclosure image style to use in the sidebar."
+  "Angiver videregivelse billedet stil at bruge i indholdsoversigten."
+
+  "Specifies the pixel thickness of the highlight line."
+  "Angiver pixel tykkelse højdepunktet linje."
 
   "Syntax Colors"
   "Syntaks Farver"
@@ -979,6 +1186,12 @@ msgcat::mcmset da {
 
   "Text Scrollbar Options"
   "Tekst rullebjælke Options"
+
+  "Text color for all sidebar items that are not selected."
+  "Tekst farve til alle sidebar elementer, der ikke er valgt."
+
+  "Text color for all sidebar items that are selected."
+  "Tekst farve til alle sidebar elementer, der er valgt."
 
   "ttk Widget Colors"
   "TTK Widget Farver"
