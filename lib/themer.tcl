@@ -103,8 +103,8 @@ namespace eval themer {
     # Apply the updates to the theme
     theme::update_theme
 
-    # Clear the preview button
-    $data(widgets,preview) state disabled
+    # Update the background/foreground color of the description box
+    $data(widgets,desc) configure -background [utils::get_default_background] -foreground [utils::get_default_foreground]
 
   }
 
@@ -174,9 +174,6 @@ namespace eval themer {
   proc set_theme_modified {} {
 
     variable data
-
-    # Make the preview button pressable
-    $data(widgets,preview) state !disabled
 
     # If the open frame is shown, show the normal button bar
     end_open_frame
@@ -324,9 +321,6 @@ namespace eval themer {
       pack .thmwin.pw -fill both -expand yes
       pack .thmwin.bf -fill x
 
-      # Disable buttons
-      $data(widgets,preview) state disabled
-
       # Create the detail panels
       create_detail_relief
       create_detail_number
@@ -446,11 +440,15 @@ namespace eval themer {
     $data(widgets,save_cb) set $data(curr_theme)
 
     # Set the save to directory status
-    if {[catch { themes::get_file $data(curr_theme) } fname]} {
-      $data(widgets,save_mb) configure -text [msgcat::mc "Select Directory"]
-      $data(widgets,save_b)  configure -state disabled
-    } elseif {([file dirname $fname] eq [file join $::tke_dir data themes]) && [::tke_development]} {
-      save_to_directory "install"
+    if {[::tke_development]} {
+      if {[catch { themes::get_file $data(curr_theme) } fname]} {
+        $data(widgets,save_mb) configure -text [msgcat::mc "Select Directory"]
+        $data(widgets,save_b)  configure -state disabled
+      } elseif {[file dirname $fname] eq [file join $::tke_dir data themes]} {
+        save_to_directory "install"
+      } else {
+        save_to_directory "user"
+      }
     } else {
       save_to_directory "user"
     }
@@ -499,7 +497,15 @@ namespace eval themer {
     variable data
 
     # Get the current theme file
-    set theme_file [themes::get_file $data(curr_theme)]
+    if {[::tke_development]} {
+      if {[catch { themes::get_file $data(curr_theme) } theme_file]} {
+        start_save_frame
+        return
+      }
+    } else {
+      set theme_file [file join $::tke_home themes $data(curr_theme) $data(curr_theme).tketheme]
+      file mkdir [file dirname $theme_file]
+    }
 
     # Write the theme to disk
     if {[catch { theme::write_tketheme $data(widgets,cat) $theme_file } rc]} {
@@ -644,9 +650,6 @@ namespace eval themer {
 
       # Set the menubutton text to the selected theme
       $data(widgets,open_mb) configure -text [file rootname [file tail $theme]]
-
-      # Change the foreground/background color of the description widget
-      $data(widgets,desc) configure -background [utils::get_default_background] -foreground [utils::get_default_foreground]
 
     }
 
@@ -1574,6 +1577,9 @@ namespace eval themer {
       # Apply the theme to the UI
       apply_theme
 
+      # Specify that a save is required
+      set_theme_modified
+
     }
 
   }
@@ -1604,6 +1610,9 @@ namespace eval themer {
 
       # Apply the theme to the UI
       apply_theme
+
+      # Specify that a save is required
+      set_theme_modified
 
     }
 
