@@ -321,7 +321,7 @@ namespace eval sidebar {
     $widgets(menu) add command -label [msgcat::mc "Copy Pathname"] -command [list sidebar::copy_pathname $first_row] -state $one_state
     $widgets(menu) add separator
     $widgets(menu) add command -label [msgcat::mc "Rename"] -command [list sidebar::rename_folder $first_row] -state $one_state
-    $widgets(menu) add command -label [msgcat::mc "Delete"] -command [list sidebar::delete_folder $first_row] -state $one_state
+    $widgets(menu) add command -label [msgcat::mc "Delete"] -command [list sidebar::delete_folder $rows]
     $widgets(menu) add separator
 
     if {[favorites::is_favorite [$widgets(tl) cellcget $first_row,name -text]]} {
@@ -365,7 +365,7 @@ namespace eval sidebar {
     $widgets(menu) add command -label [msgcat::mc "Copy Pathname"] -command [list sidebar::copy_pathname $first_row] -state $one_state
     $widgets(menu) add separator
     $widgets(menu) add command -label [msgcat::mc "Rename"] -command [list sidebar::rename_folder $first_row] -state $one_state
-    $widgets(menu) add command -label [msgcat::mc "Delete"] -command [list sidebar::delete_folder $first_row] -state $one_state
+    $widgets(menu) add command -label [msgcat::mc "Delete"] -command [list sidebar::delete_folder $rows]
     $widgets(menu) add separator
 
     if {[favorites::is_favorite [$widgets(tl) cellcget $first_row,name -text]]} {
@@ -411,7 +411,7 @@ namespace eval sidebar {
 
     $widgets(menu) add command -label [msgcat::mc "Rename"]    -command [list sidebar::rename_file $first_row]    -state $one_state
     $widgets(menu) add command -label [msgcat::mc "Duplicate"] -command [list sidebar::duplicate_file $first_row] -state $one_state
-    $widgets(menu) add command -label [msgcat::mc "Delete"]    -command [list sidebar::delete_file $first_row]    -state $one_state
+    $widgets(menu) add command -label [msgcat::mc "Delete"]    -command [list sidebar::delete_file $rows]
     $widgets(menu) add separator
 
     if {[favorites::is_favorite [$widgets(tl) cellcget $first_row,name -text]]} {
@@ -1054,23 +1054,33 @@ namespace eval sidebar {
 
   ######################################################################
   # Allows the user to delete the folder at the given row.
-  proc delete_folder {row} {
+  proc delete_folder {rows} {
 
     variable widgets
 
-    if {[tk_messageBox -parent . -type yesno -default yes -message [msgcat::mc "Delete directory?"]] eq "yes"} {
+    if {[llength $rows] == 1} {
+      set question [msgcat::mc "Delete directory?"]
+    } else {
+      set question [msgcat::mc "Delete directories?"]
+    }
 
-      # Get the directory pathname
-      set dirpath [$widgets(tl) cellcget $row,name -text]
+    if {[tk_messageBox -parent . -type yesno -default yes -message $question] eq "yes"} {
 
-      # Allow any plugins to handle the rename
-      plugins::handle_on_delete $dirpath
+      foreach row [lreverse $rows] {
 
-      # Delete the folder
-      if {![catch { file delete -force $dirpath }]} {
+        # Get the directory pathname
+        set dirpath [$widgets(tl) cellcget $row,name -text]
 
-        # Remove the directory from the file browser
-        $widgets(tl) delete $row
+        # Allow any plugins to handle the rename
+        plugins::handle_on_delete $dirpath
+
+        # Delete the folder
+        if {![catch { file delete -force $dirpath }]} {
+
+          # Remove the directory from the file browser
+          $widgets(tl) delete $row
+
+        }
 
       }
 
@@ -1317,32 +1327,42 @@ namespace eval sidebar {
 
   ######################################################################
   # Deletes the specified file.
-  proc delete_file {row} {
+  proc delete_file {rows} {
 
     variable widgets
     variable images
 
+    if {[llength $rows] == 1} {
+      set question [msgcat::mc "Delete file?"]
+    } else {
+      set question [msgcat::mc "Delete files?"]
+    }
+
     # Get confirmation from the user
-    if {[tk_messageBox -parent . -type yesno -default yes -message [msgcat::mc "Delete file?"]] eq "yes"} {
+    if {[tk_messageBox -parent . -type yesno -default yes -message $question] eq "yes"} {
 
-      # Get the full pathname
-      set fname [$widgets(tl) cellcget $row,name -text]
+      foreach row [lreverse $rows] {
 
-      # Allow any plugins to handle the rename
-      plugins::handle_on_delete $fname
+        # Get the full pathname
+        set fname [$widgets(tl) cellcget $row,name -text]
 
-      # Delete the file
-      if {![catch { file delete -force $fname }]} {
+        # Allow any plugins to handle the rename
+        plugins::handle_on_delete $fname
 
-        # Get the background color before we delete the row
-        set bg [$widgets(tl) cellcget $row,name -image]
+        # Delete the file
+        if {![catch { file delete -force $fname }]} {
 
-        # Delete the row in the table
-        $widgets(tl) delete $row
+          # Get the background color before we delete the row
+          set bg [$widgets(tl) cellcget $row,name -image]
 
-        # Close the tab if the file is currently in the notebook
-        if {$bg eq "sidebar_open"} {
-          gui::close_file $fname
+          # Delete the row in the table
+          $widgets(tl) delete $row
+
+          # Close the tab if the file is currently in the notebook
+          if {$bg eq "sidebar_open"} {
+            gui::close_file $fname
+          }
+
         }
 
       }
