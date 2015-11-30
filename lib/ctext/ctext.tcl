@@ -817,12 +817,12 @@ proc ctext::undo {win} {
 
     }
 
-    set data($win,config,undo_hist) [lreplace $data($win,config,_hist) end-[expr $i - 1] end]
+    set data($win,config,undo_hist) [lreplace $data($win,config,undo_hist) end-[expr $i - 1] end]
     incr data($win,config,undo_hist_size) [expr 0 - $i]
 
     # Update undo separator info
-    set data($win,config,undo_sep_next) [expr ($data($win,config,_hist_size) == 0) ? -1 : $data($win,config,usep_next)]
-    set data($win,config,undo_sep_last) [expr $data($win,config,_hist_size) - 1]
+    set data($win,config,undo_sep_next) [expr ($data($win,config,undo_hist_size) == 0) ? -1 : $data($win,config,undo_sep_next)]
+    set data($win,config,undo_sep_last) [expr $data($win,config,undo_hist_size) - 1]
     incr data($win,config,undo_sep_size) -1
 
     $win._t mark set insert $last_cursor
