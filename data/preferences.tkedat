@@ -22,12 +22,6 @@
 
 {General/Variables}          {}
 
-# Specifies the window UI theme to use.  The valid values are:
-#  - light
-#  - dark
-
-{General/WindowTheme}        {light}
-
 # If set to a value of 1, a check for application updates will occur when the application
 # is started.  A value of 0 will not perform the update check on start.
 
