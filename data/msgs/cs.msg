@@ -931,11 +931,17 @@ msgcat::mcmset cs {
   "Copy Pathname"
   "Kopírovat cestu"
 
+  "Delete directories?"
+  "Odstranění adresáře?"
+
   "Delete directory?"
   "Smazat adresář?"
 
   "Delete file?"
   "Smazat soubor?"
+
+  "Delete files?"
+  "Odstranit soubory?"
 
   "Directory Name:"
   "Název adresáře:"

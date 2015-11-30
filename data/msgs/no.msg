@@ -931,11 +931,17 @@ msgcat::mcmset no {
   "Copy Pathname"
   "Kopiere banenavn"
 
+  "Delete directories?"
+  "Slette kataloger?"
+
   "Delete directory?"
   "Slett katalogen?"
 
   "Delete file?"
   "Slett filen?"
+
+  "Delete files?"
+  "Slett filer"
 
   "Directory Name:"
   "Mappenavn:"

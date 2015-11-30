@@ -931,11 +931,17 @@ msgcat::mcmset he {
   "Copy Pathname"
   "????? ????"
 
+  "Delete directories?"
+  "מחיקת ספריות?"
+
   "Delete directory?"
   "האם למחוק את הספריה?"
 
   "Delete file?"
   "האם למחוק את הקובץ?"
+
+  "Delete files?"
+  "האם למחוק את הקבצים?"
 
   "Directory Name:"
   "שם הספריה:"

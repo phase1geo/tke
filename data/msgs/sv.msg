@@ -931,11 +931,17 @@ msgcat::mcmset sv {
   "Copy Pathname"
   "Kopiera sökväg"
 
+  "Delete directories?"
+  "Ta bort kataloger?"
+
   "Delete directory?"
   "Radera katalog?"
 
   "Delete file?"
   "Ta bort"
+
+  "Delete files?"
+  "Ta bort filer"
 
   "Directory Name:"
   "namn i katalog"

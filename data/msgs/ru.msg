@@ -931,11 +931,17 @@ msgcat::mcmset ru {
   "Copy Pathname"
   "?????????? ????"
 
+  "Delete directories?"
+  "Удалите каталоги?"
+
   "Delete directory?"
   "Удалить каталог?"
 
   "Delete file?"
   "Удалить файл?"
+
+  "Delete files?"
+  "Удалить файлы"
 
   "Directory Name:"
   "Имя файла"

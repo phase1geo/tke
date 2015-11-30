@@ -931,11 +931,17 @@ msgcat::mcmset es {
   "Copy Pathname"
   "Copiar ruta de acceso"
 
+  "Delete directories?"
+  "¿Borrar directorios?"
+
   "Delete directory?"
   "Eliminar directorio?"
 
   "Delete file?"
   "Eliminar archivo"
+
+  "Delete files?"
+  "Eliminar archivos"
 
   "Directory Name:"
   "nombre de guía"

@@ -931,11 +931,17 @@ msgcat::mcmset zh {
   "Copy Pathname"
   "?????"
 
+  "Delete directories?"
+  "删除目录吗?"
+
   "Delete directory?"
   "删除目录？"
 
   "Delete file?"
   "删除文件？"
+
+  "Delete files?"
+  "删除文件?"
 
   "Directory Name:"
   "目录名称:"
