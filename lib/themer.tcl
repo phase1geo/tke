@@ -151,7 +151,7 @@ namespace eval themer {
     }
 
     # Finally, set the title bar
-    wm title .thmwin [msgcat::mc "Theme Editor %s %s" [expr {$modified ? "*" : "-"}] $theme_attr]
+    wm title .thmwin [format "%s %s %s" [msgcat::mc "Theme Editor"] [expr {$modified ? "*" : "-"}] $theme_attr]
 
   }
 

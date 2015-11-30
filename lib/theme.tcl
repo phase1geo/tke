@@ -294,7 +294,7 @@ namespace eval theme {
 
     # Open the tketheme file
     if {[catch { open $theme_file r } rc]} {
-      return -code error [msgcat::mc "ERROR:  Unable to read %s" $theme_file]
+      return -code error [format "%s %s" [msgcat::mc "ERROR:  Unable to read"] $theme_file]
     }
 
     # Read the contents from the file and close
@@ -436,7 +436,7 @@ namespace eval theme {
 
     # Open the file
     if {[catch { open $theme_file r } rc]} {
-      return -code error [msgcat::mc "ERROR:  Unable to read %s" $theme]
+      return -code error [format "%s %s" [msgcat::mc "ERROR:  Unable to read"] $theme]
     }
 
     # Read the contents of the file into 'content' and close the file

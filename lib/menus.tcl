@@ -668,11 +668,11 @@ namespace eval menus {
     launcher::register [msgcat::mc "Edit Menu: Insert snippet"] "snippets::show_snippets"
 
     # Create formatting menu
-    $mb.formatPopup add command -label [msgcat::mc "Selected"] -command "gui::format {} selected"
-    launcher::register [msgcat::mc "Edit Menu: Format selected text"] "gui::format {} selected"
+    $mb.formatPopup add command -label [msgcat::mc "Selected"] -command "gui::format_text {} selected"
+    launcher::register [msgcat::mc "Edit Menu: Format selected text"] "gui::format_text {} selected"
 
-    $mb.formatPopup add command -label [msgcat::mc "All"]      -command "gui::format {} all"
-    launcher::register [msgcat::mc "Edit Menu: Format all text"] "gui::format {} selected"
+    $mb.formatPopup add command -label [msgcat::mc "All"]      -command "gui::format_text {} all"
+    launcher::register [msgcat::mc "Edit Menu: Format all text"] "gui::format_text {} selected"
 
     # Create preferences menu
     $mb.prefPopup add command -label [msgcat::mc "Edit User - Global"] -command "menus::edit_user_global"
@@ -1575,7 +1575,7 @@ namespace eval menus {
     if {![catch "open $profile_report w" rc]} {
 
       puts $rc "=============================================================================================================="
-      puts $rc [msgcat::mc "                                  Profiling Report Sorted By (%s)" [preferences::get Tools/ProfileReportSortby]]
+      puts $rc [format "                                  %s (%s)" [msgcat::mc "Profiling Report Sorted By"] [preferences::get Tools/ProfileReportSortby]]
       puts $rc "=============================================================================================================="
       puts $rc [format "%-50s  %10s  %10s  %10s  %10s  %10s" "Procedure" "Calls" "Real" "CPU" "Real/Calls" "CPU/Calls"]
       puts $rc "=============================================================================================================="

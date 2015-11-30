@@ -41,7 +41,7 @@ msgcat::mcmset es {
 msgcat::mcmset es {
 
   "%s, Line: %d, Column: %d"
-  "% S, línea:% d, columna% d"
+  "%s, línea: %d, columna: %d"
 
   "Case sensitivity"
   "Case sensitive"

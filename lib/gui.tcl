@@ -338,9 +338,9 @@ namespace eval gui {
 
     # Create tab popup
     set widgets(menu) [menu $widgets(nb_pw).popupMenu -tearoff 0 -postcommand [ns gui]::setup_tab_popup_menu]
-    $widgets(menu) add command -label [msgcat::mc "Close Tab"]          -command [list [ns gui]::close_current {}]
-    $widgets(menu) add command -label [msgcat::mc "Close Other Tab(s)"] -command [ns gui]::close_others
-    $widgets(menu) add command -label [msgcat::mc "Close All Tabs"]     -command [ns gui]::close_all
+    $widgets(menu) add command -label [msgcat::mc "Close Tab"]        -command [list [ns gui]::close_current {}]
+    $widgets(menu) add command -label [msgcat::mc "Close Other Tabs"] -command [ns gui]::close_others
+    $widgets(menu) add command -label [msgcat::mc "Close All Tabs"]   -command [ns gui]::close_all
     $widgets(menu) add separator
     $widgets(menu) add checkbutton -label [msgcat::mc "Split View"] -onvalue 1 -offvalue 0 \
       -variable [ns menus]::show_split_pane -command [list [ns gui]::toggle_split_pane {}]
@@ -547,9 +547,9 @@ namespace eval gui {
       $widgets(menu) entryconfigure [msgcat::mc "Close Other*"] -state disabled
     }
     if {([llength [$tb tabs]] > 1) || ([llength [$widgets(nb_pw) panes]] > 1)} {
-      $widgets(menu) entryconfigure [msgcat::mc "Move*"] -state normal
+      $widgets(menu) entryconfigure [format "%s*" [msgcat::mc "Move"]] -state normal
     } else {
-      $widgets(menu) entryconfigure [msgcat::mc "Move*"] -state disabled
+      $widgets(menu) entryconfigure [format "%s*" [msgcat::mc "Move"]] -state disabled
     }
     if {$readonly || $diff_mode} {
       $widgets(menu) entryconfigure [msgcat::mc "Locked"] -state disabled
@@ -1894,7 +1894,7 @@ namespace eval gui {
     # If the file needs to be saved, do it now
     if {[lindex $finfo $files_index(modified)] && ![lindex $finfo $files_index(diff)] && !$force} {
       set fname [file tail [lindex $finfo $files_index(fname)]]
-      set msg   "[msgcat::mc Save] $fname?"
+      set msg   [format "%s %s?" [msgcat::mc "Save"] $fname]
       set_current_tab [lindex $finfo $files_index(tab)]
       if {[set answer [tk_messageBox -default yes -type [expr {$exiting ? {yesno} : {yesnocancel}}] -message $msg -title [msgcat::mc "Save request"]]] eq "yes"} {
         return [save_current $tid $force]
@@ -2386,7 +2386,7 @@ namespace eval gui {
   ######################################################################
   # Formats either the selected text (if type is "selected") or the entire
   # file contents (if type is "all").
-  proc format {tid type} {
+  proc format_text {tid type} {
 
     variable files
     variable files_index
@@ -2776,7 +2776,7 @@ namespace eval gui {
     } else {
 
       # Calculate the color
-      set color [::format {#%02x%02x%02x} \
+      set color [format {#%02x%02x%02x} \
                   [expr $fr - ((($fr - $br) / 10) * $fade_count)] \
                   [expr $fg - ((($fg - $bg) / 10) * $fade_count)] \
                   [expr $fb - ((($fb - $bb) / 10) * $fade_count)]]
@@ -2885,7 +2885,7 @@ namespace eval gui {
       }
       default {
         if {![info exists files_index($attr)]} {
-          return -code error [msgcat::mc "File attribute (%s) does not exist" $attr]
+          return -code error [format "%s (%s)" [msgcat::mc "File attribute does not exist"] $attr]
         }
       }
     }
@@ -2995,19 +2995,19 @@ namespace eval gui {
       -font [font create -family Helvetica -size 30 -weight bold]
 
     ttk::frame .aboutwin.f.if
-    ttk::label .aboutwin.f.if.l0 -text [msgcat::mc "Developer:"]
+    ttk::label .aboutwin.f.if.l0 -text [format "%s:" [msgcat::mc "Developer"]]
     ttk::label .aboutwin.f.if.v0 -text "Trevor Williams"
-    ttk::label .aboutwin.f.if.l1 -text [msgcat::mc "Email:"]
+    ttk::label .aboutwin.f.if.l1 -text [format "%s:" [msgcat::mc "Email"]]
     ttk::label .aboutwin.f.if.v1 -text "phase1geo@gmail.com"
     ttk::label .aboutwin.f.if.l2 -text "Twitter:"
     ttk::label .aboutwin.f.if.v2 -text "@TkeTextEditor"
-    ttk::label .aboutwin.f.if.l3 -text [msgcat::mc "Version:"]
+    ttk::label .aboutwin.f.if.l3 -text [format "%s:" [msgcat::mc "Version"]]
     ttk::label .aboutwin.f.if.v3 -text $version_str
-    ttk::label .aboutwin.f.if.l4 -text [msgcat::mc "Release Type:"]
+    ttk::label .aboutwin.f.if.l4 -text [format "%s:" [msgcat::mc "Release Type"]]
     ttk::label .aboutwin.f.if.v4 -text $release_type
-    ttk::label .aboutwin.f.if.l5 -text [msgcat::mc "Tcl/Tk Version:"]
+    ttk::label .aboutwin.f.if.l5 -text [format "%s:" [msgcat::mc "Tcl/Tk Version"]]
     ttk::label .aboutwin.f.if.v5 -text [info patchlevel]
-    ttk::label .aboutwin.f.if.l6 -text [msgcat::mc "License:"]
+    ttk::label .aboutwin.f.if.l6 -text [format "%s:" [msgcat::mc "License"]]
     ttk::label .aboutwin.f.if.v6 -text "GPL 2.0"
 
     bind .aboutwin.f.if.v1 <Enter>    "%W configure -cursor [ttk::cursor link]"
@@ -3038,7 +3038,7 @@ namespace eval gui {
     grid .aboutwin.f.if.l6 -row 6 -column 0 -sticky news -padx 2 -pady 2
     grid .aboutwin.f.if.v6 -row 6 -column 1 -sticky news -padx 2 -pady 2
 
-    ttk::label .aboutwin.f.copyright -text [msgcat::mc "Copyright %d-%d" 2013 15]
+    ttk::label .aboutwin.f.copyright -text [format "%s %d-%d" [msgcat::mc "Copyright"] 2013 15]
 
     pack .aboutwin.f.logo      -padx 2 -pady 8 -anchor w
     pack .aboutwin.f.if        -padx 2 -pady 2
@@ -3376,7 +3376,7 @@ namespace eval gui {
 
     # Create the search bar
     ttk::frame       $tab_frame.sf
-    ttk::label       $tab_frame.sf.l1    -text [msgcat::mc "Find:"]
+    ttk::label       $tab_frame.sf.l1    -text [format "%s:" [msgcat::mc "Find"]]
     ttk::entry       $tab_frame.sf.e
     ttk::checkbutton $tab_frame.sf.case  -text "Aa"   -variable [ns gui]::case_sensitive
     ttk::checkbutton $tab_frame.sf.save  -text "Save" -variable [ns gui]::saved -command "[ns search]::update_save find"
@@ -3400,9 +3400,9 @@ namespace eval gui {
 
     # Create the search/replace bar
     ttk::frame       $tab_frame.rf
-    ttk::label       $tab_frame.rf.fl    -text [msgcat::mc "Find:"]
+    ttk::label       $tab_frame.rf.fl    -text [format "%s:" [msgcat::mc "Find"]]
     ttk::entry       $tab_frame.rf.fe
-    ttk::label       $tab_frame.rf.rl    -text [msgcat::mc "Replace:"]
+    ttk::label       $tab_frame.rf.rl    -text [format "%s:" [msgcat::mc "Replace"]]
     ttk::entry       $tab_frame.rf.re
     ttk::checkbutton $tab_frame.rf.case  -text "Aa"   -variable [ns gui]::case_sensitive
     ttk::checkbutton $tab_frame.rf.glob  -text [msgcat::mc "All"]  -variable [ns gui]::replace_all
@@ -4020,7 +4020,7 @@ namespace eval gui {
 
     # Throw an exception if we couldn't find the current file
     # (this is considered an unhittable case)
-    return -code error [msgcat::mc "Unable to find current file (tab: %s)" $tab]
+    return -code error [format "%s (%s:%s)" [msgcat::mc "Unable to find current file"] [msgcat::mc "tab"] $tab]
 
   }
 
@@ -4036,9 +4036,9 @@ namespace eval gui {
 
     # Update the information widgets
     if {[set vim_mode [[ns vim]::get_mode $txt]] ne ""} {
-      $widgets(info_state) configure -text [msgcat::mc "%s, Line: %d, Column: %d" $vim_mode $line [expr $column + 1]]
+      $widgets(info_state) configure -text [format "%s, %s: %d, %s: %d" $vim_mode [msgcat::mc "Line"] $line [msgcat::mc "Column"] [expr $column + 1]]
     } else {
-      $widgets(info_state) configure -text [msgcat::mc "Line: %d, Column: %d" $line [expr $column + 1]]
+      $widgets(info_state) configure -text [format "%s: %d, %s: %d" [msgcat::mc "Line:"] $line [msgcat::mc "Column"] [expr $column + 1]]
     }
 
   }
@@ -4059,7 +4059,7 @@ namespace eval gui {
     set chars [$txt count -chars 1.0 end]
 
     # Update the information widget
-    set_info_message [msgcat::mc "Total Lines: %d, Total Characters: %d" $lines $chars]
+    set_info_message [format "%s: %d, %s: %d" [msgcat::mc "Total Lines"] $lines [msgcat::mc "Total Characters"] $chars]
 
   }
 

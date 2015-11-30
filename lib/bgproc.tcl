@@ -130,15 +130,15 @@ namespace eval bgproc {
 
     variable last_update
     variable update_interval
-    
+
     # Get the current time
     set curr_time [clock milliseconds]
-    
+
     # If we are initializing, don't update
     if {$initialize} {
       set last_update $curr_time
 
-    # If the difference between the last update time and the current time exceeds the 
+    # If the difference between the last update time and the current time exceeds the
     # maximum allowed update interval, perform the update and save the current time as
     # the last update time.
     } elseif {($curr_time - $last_update) >= $update_interval} {
@@ -149,7 +149,7 @@ namespace eval bgproc {
   }
 
   if {[string first wish [info nameofexecutable]] != -1} {
- 
+
     #############################################################
     # Displays a progress dialog box that performs a local grab with
     # a potential cancel button (available if the resource is killable).
@@ -309,7 +309,7 @@ namespace eval bgproc {
           }
         } else {
           notifier::notify -type error -parent $::top_window \
-            -message [msgcat::mc "Unable to run system command (%s)" $cmd] -detail $cmd_id
+            -message [format "%s (%s)" [msgcat::mc "Unable to run system command"] $cmd] -detail $cmd_id
         }
         pop_resource $resource
         return
@@ -354,20 +354,20 @@ namespace eval bgproc {
   #############################################################
   # Interrupts the given PID and frees the resource_pid, if necessary.
   proc interrupt_pid {resource} {
-  
+
     variable resource_pid
     variable resource_tmo
-    
+
     if {[info exists resource_pid($resource)]} {
       if {![catch "exec kill -s INT $resource_pid($resource)" rc]} {
         unset resource_pid($resource)
       }
     }
-    
+
     catch "unset resource_tmo($resource)"
-  
+
   }
-  
+
   #############################################################
   # Kills the given PID and frees the resource_pid, if necessary.
   proc kill_pid {resource} {
@@ -404,7 +404,7 @@ namespace eval bgproc {
 
   #############################################################
   # Kills/removes all resources from the given resource queue
-  # pattern.  Returns 1 if a process was successfully killed; 
+  # pattern.  Returns 1 if a process was successfully killed;
   # otherwise, returns 0.
   proc killall {{pattern *}} {
 
@@ -412,9 +412,9 @@ namespace eval bgproc {
     variable resource_pid
 
     set retval 0
-    
+
     foreach resource [array names resources $pattern] {
-    
+
       if {[info exists resources($resource)] && [lindex $resources($resource) 0 2]} {
 
         if {[info exists resource_pid($resource)]} {
@@ -434,9 +434,9 @@ namespace eval bgproc {
         set retval 1
 
       }
-      
+
     }
-    
+
     return $retval
 
   }

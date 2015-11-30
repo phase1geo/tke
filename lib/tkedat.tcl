@@ -59,40 +59,40 @@ namespace eval tkedat {
   proc read {fname {include_comments 1}} {
 
     set contents ""
-    
+
     # Open the file for reading and return an error if we have an issue
     if {[catch { open $fname r } rc]} {
-      return -code error [msgcat::mc "Unable to open %s for reading" $fname]
+      return -code error [format "%s %s" [msgcat::mc "Unable to read"] $fname]
     }
-    
+
     # Read the file contents
-    set contents [::read $rc]  
+    set contents [::read $rc]
     close $rc
-    
+
     return [parse $contents $include_comments]
-    
+
   }
-  
+
   ######################################################################
   # Parses the given string for tkedat formatted text.
   proc parse {str {include_comments 1}} {
 
     array set contents [list]
-    
+
     set comments [list]
     set value_ip 0
     set linenum  1
- 
+
     foreach line [split $str \n] {
- 
+
       if {!$value_ip && [regexp {^\s*#(.*)$} $line -> comment]} {
- 
+
         lappend comments $comment
- 
+
       } elseif {!$value_ip && [regexp -indices {^\s*(\{[^\}]*\}|\S+)\s+(\{.*)$} $line -> key value]} {
 
         set key [string map {\{ {} \} {}} [string range $line {*}$key]]
- 
+
         if {[bracket_count $line $linenum [lindex $value 0]] == 0} {
         	set contents($key) [string range [string trim [string range $line {*}$value]] 1 end-1]
           if {[regexp {\[.*\]} $contents($key)]} {
@@ -110,16 +110,16 @@ namespace eval tkedat {
 
         set key [string map {\{ {} \} {}} $key]
         set contents($key) [string trim $value]
- 
+
         if {[regexp {\[.*\]} $contents($key)]} {
           unset contents($key)
         } elseif {$include_comments} {
           set contents($key,comment) $comments
         }
         set comments [list]
- 
+
       } elseif {$value_ip} {
- 
+
         if {[bracket_count $line $linenum 0] == 0} {
           append contents($key) " [string range [string trim $line] 0 end-1]"
           if {[regexp {\[.*\]} $contents($key)]} {
@@ -175,7 +175,7 @@ namespace eval tkedat {
 
     } else {
 
-      return -code error [msgcat::mc "Unable to open %s for writing" $fname]
+      return -code error [format "%s %s" [msgcat::mc "Unable to write"] $fname]
 
     }
 

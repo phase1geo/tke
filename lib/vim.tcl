@@ -224,14 +224,14 @@ namespace eval vim {
             set from [get_linenum $txt $from]
             set to   [get_linenum $txt $to]
             if {($overwrite eq "") && [file exists $fname]} {
-              [ns gui]::set_info_message [msgcat::mc "Filename %s already exists" $fname]
+              [ns gui]::set_info_message [format "%s (%s)" [msgcat::mc "Filename already exists"] $fname]
             } else {
               if {[catch { open $fname w } rc]} {
-                [ns gui]::set_info_message [msgcat::mc "Unable to open %s for writing" $fname]
+                [ns gui]::set_info_message [format "%s %s" [msgcat::mc "Unable to write"] $fname]
               } else {
                 puts $rc [$txt get "$from linestart" "$to lineend"]
                 close $rc
-                [ns gui]::set_info_message [msgcat::mc "File %s successfully written" $fname]
+                [ns gui]::set_info_message [format "%s (%s)" [msgcat::mc "File successfully written"] $fname]
               }
             }
             if {$and_close ne ""} {
