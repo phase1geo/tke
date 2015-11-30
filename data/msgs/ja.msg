@@ -931,11 +931,17 @@ msgcat::mcmset ja {
   "Copy Pathname"
   "???????????"
 
+  "Delete directories?"
+  "ディレクトリを削除しますか。"
+
   "Delete directory?"
   "ディレクトリを削除しますか？"
 
   "Delete file?"
   "ファイルを削除しますか？"
+
+  "Delete files?"
+  "ファイルを削除しますか。"
 
   "Directory Name:"
   "ディレクトリ名:"

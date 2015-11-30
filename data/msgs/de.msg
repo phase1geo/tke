@@ -931,11 +931,17 @@ msgcat::mcmset de {
   "Copy Pathname"
   "Pfadnamen kopieren"
 
+  "Delete directories?"
+  "Löschen Sie die Verzeichnisse?"
+
   "Delete directory?"
   "Verzeichnis löschen?"
 
   "Delete file?"
   "Datei löschen"
+
+  "Delete files?"
+  "Alle Dateien löschen"
 
   "Directory Name:"
   "Verzeichnisnamen:"

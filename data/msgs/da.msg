@@ -931,11 +931,17 @@ msgcat::mcmset da {
   "Copy Pathname"
   "Kopiere stinavn"
 
+  "Delete directories?"
+  "Slette mapper?"
+
   "Delete directory?"
   "Slet mappe?"
 
   "Delete file?"
   "Slet fil"
+
+  "Delete files?"
+  "Slet filer"
 
   "Directory Name:"
   "vejvisernavn"

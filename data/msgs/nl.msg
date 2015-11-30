@@ -931,11 +931,17 @@ msgcat::mcmset nl {
   "Copy Pathname"
   "Padnaam kopiëren"
 
+  "Delete directories?"
+  "Verwijder mappen?"
+
   "Delete directory?"
   "Delete directory?"
 
   "Delete file?"
   "Bestand verwijderen"
+
+  "Delete files?"
+  "Bestanden verwijderen"
 
   "Directory Name:"
   "directory-naam"

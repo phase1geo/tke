@@ -931,11 +931,17 @@ msgcat::mcmset el {
   "Copy Pathname"
   "?????????? ?? ????? ?????????"
 
+  "Delete directories?"
+  "Διαγραφή καταλόγους;"
+
   "Delete directory?"
   "Διαγραφή κατάλογο;"
 
   "Delete file?"
   "Διαγραφή αρχείου"
+
+  "Delete files?"
+  "Διαγραφή αρχείων;"
 
   "Directory Name:"
   "Όνομα καταλόγου:"

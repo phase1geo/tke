@@ -931,11 +931,17 @@ msgcat::mcmset hu {
   "Copy Pathname"
   "Elérési út másolása"
 
+  "Delete directories?"
+  "Törli a könyvtárakat?"
+
   "Delete directory?"
   "Könyvtár törlése?"
 
   "Delete file?"
   "A fájl törlése"
+
+  "Delete files?"
+  "A fájlok törlése"
 
   "Directory Name:"
   "Könyvtár neve:"
