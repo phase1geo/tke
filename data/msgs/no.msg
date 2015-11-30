@@ -4,16 +4,16 @@ msgcat::mcmset no {
   "Argument list to api::add_file was not an even key/value pair"
   "Argument liste til api :: add_file var ikke en enda nøkkel / verdi-par"
 
-  "Plugin-%s: %s"
-  "Plugin-% s: %s"
+  "Plugin"
+  "Utvidelse"
 
 }
 
 # bgproc.tcl
 msgcat::mcmset no {
 
-  "Unable to run system command (%s)"
-  "Kan ikke kjøre systemkommando (% s)"
+  "Unable to run system command"
+  "Kan ikke kjøre system-kommandoen"
 
 }
 
@@ -37,11 +37,19 @@ msgcat::mcmset no {
 
 }
 
-# gui.tcl
+# embed_tke.tcl
 msgcat::mcmset no {
 
-  "%s, Line: %d, Column: %d"
-  "% S, Line:% d, Kolonne:% d"
+  "Find:"
+  "Søk"
+
+  "Replace:"
+  "bytt"
+
+}
+
+# gui.tcl
+msgcat::mcmset no {
 
   "Case sensitivity"
   "Bokstaver"
@@ -49,8 +57,8 @@ msgcat::mcmset no {
   "Close All Tabs"
   "Lukk alle faner"
 
-  "Close Other Tab(s)"
-  "Lukk Other Tab (s)"
+  "Close Other Tabs"
+  "Lukk andre faner"
 
   "Close Other*"
   "Lukk Annet *"
@@ -58,17 +66,20 @@ msgcat::mcmset no {
   "Close Tab"
   "Lukk fane"
 
-  "Copyright %d-%d"
-  "Copyright% d-% d"
+  "Column"
+  "Kolonne"
+
+  "Copyright"
+  "Opphavsrett"
 
   "Delete tab?"
   "Slett fane?"
 
-  "Developer:"
-  "Utvikler"
+  "Developer"
+  "Fremkaller"
 
-  "Email:"
-  "E-post:"
+  "Email"
+  "Epost"
 
   "Error"
   "Feil"
@@ -79,23 +90,47 @@ msgcat::mcmset no {
   "File already exists.  Use '!' to force an overwrite"
   "Filen finnes allerede.  Bruk '!' å tvinge en overskriving"
 
-  "File attribute (%s) does not exist"
-  "File attributt (% s) eksisterer ikke"
+  "File attribute does not exist"
+  "Filattributtet finnes ikke"
 
   "File index is out of range"
   "File indeksen er utenfor rekkevidde"
 
-  "License:"
+  "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
+  "Bildet vises i utfylling skjemaer som lukker skjemaet UI.  Brukes i former som søk, søk/erstatt, og søk i filer."
+
+  "Image used in tab menus to indicate that the file is associated with a difference view."
+  "Bildet som brukes i kategorien menyer angir at filen er knyttet til forskjellen utsikt."
+
+  "Image used in tab menus to indicate that the file is locked."
+  "Bildet som brukes i kategorien menyer for å angi at filen er låst."
+
+  "Image used in tab menus to indicate that the file is readonly."
+  "Bildet som brukes i kategorien menyer angir at filen er skrivebeskyttet."
+
+  "Image used in tab to indicate that the tab contains a difference view."
+  "Bildet som brukes i kategorien for å angi at kategorien inneholder forskjellen utsikt."
+
+  "Image used in tab to indicate that the tab's file is readonly."
+  "Bildet som brukes i kategorien til å angi at kategoriens filen er skrivebeskyttet."
+
+  "Image used in tab to indicate that the tab’s file is locked."
+  "Bildet som brukes i kategorien til å angi at kategoriens filen er låst."
+
+  "Image used in tab which, when clicked, closes the tab."
+  "Bildet som brukes i kategorien som når den klikkes, lukker fanen."
+
+  "License"
   "Lisens"
 
-  "Line: %d, Column: %d"
-  "Linje:% d, Kolonne:% d"
+  "Line"
+  "Line"
 
   "Locked"
   "låst"
 
-  "Move*"
-  "flytte"
+  "Move"
+  "Flytt"
 
   "Must be in multicursor mode to insert numbers"
   "Må være i multicursor for å sette inn tall"
@@ -103,11 +138,14 @@ msgcat::mcmset no {
   "No write permissions.  Use '!' to force write."
   "Ingen skrivetilgang.  Bruk '!' tvinge skrive."
 
-  "Release Type:"
-  "Versjonstypen:"
+  "Release Type"
+  "Versjonstypen"
 
   "Reload file?"
   "Last filen?"
+
+  "Replace"
+  "Skift ut"
 
   "Save request"
   "Be"
@@ -118,14 +156,17 @@ msgcat::mcmset no {
   "Starting number:"
   "Startnummeret:"
 
-  "Tcl/Tk Version:"
-  "TCL/Tk-versjonen:"
+  "Tcl/Tk Version"
+  "TCL/Tk-versjonen"
 
-  "Total Lines: %d, Total Characters: %d"
-  "Totalt antall linjer:% d, Totalt antall tegn:% d"
+  "Total Characters"
+  "Total tegn"
 
-  "Unable to find current file (tab: %s)"
-  "Å finne aktuelle filen klarer (tab:% s)"
+  "Total Lines"
+  "Totalt antall linjer"
+
+  "Unable to find current file"
+  "Finner ikke gjeldende fil"
 
   "Unable to successfully parse number string"
   "Kan ikke analysere vellykket tallstreng"
@@ -133,8 +174,11 @@ msgcat::mcmset no {
   "Unable to write file"
   "Kan ikke skrive filen"
 
-  "Version:"
+  "Version"
   "Versjon"
+
+  "tab"
+  "kategori"
 
 }
 
@@ -148,9 +192,6 @@ msgcat::mcmset no {
 
 # menus.tcl
 msgcat::mcmset no {
-
-  "                                  Profiling Report Sorted By (%s)"
-  "Profilering Rapporter Sorted By (% s)"
 
   "About TKE"
   "Om TKE"
@@ -337,9 +378,6 @@ msgcat::mcmset no {
 
   "File Menu: Unlock file"
   "Fil-menyen: Låse opp fil"
-
-  "Find"
-  "Søk"
 
   "Find In Files"
   "Finn filer"
@@ -535,6 +573,9 @@ msgcat::mcmset no {
 
   "Previous Difference"
   "Tidligere forskjellen"
+
+  "Profiling Report Sorted By"
+  "Profilering rapport sortert etter"
 
   "Profiling started"
   "Profilering i gang"
@@ -823,8 +864,8 @@ msgcat::mcmset no {
 # plugins.tcl
 msgcat::mcmset no {
 
-  "ERROR (%s,%s): %s"
-  "FEIL (%s, %s): %s"
+  "ERROR"
+  "FEIL"
 
   "ERROR:  Plugin name already exists"
   "FEIL: Plugin navnet finnes allerede"
@@ -841,14 +882,14 @@ msgcat::mcmset no {
   "Enter plugin name"
   "Skriv inn plugin navn"
 
-  "Plugin %s installed"
-  "Plugin% s installert"
-
-  "Plugin %s uninstalled"
-  "Plugin% s avinstallert"
-
   "Plugin Errors"
   "Plugin feil"
+
+  "Plugin installed"
+  "Plugin installert"
+
+  "Plugin uninstalled"
+  "Plugin avinstallert"
 
   "Plugins successfully reloaded"
   "Plugins hell reloaded"
@@ -861,9 +902,6 @@ msgcat::mcmset no {
 # search.tcl
 msgcat::mcmset no {
 
-  "%d substitutions done"
-  "%d erstatninger gjort"
-
   "No files found in specified directories"
   "Ingen filer funnet i angitte mapper"
 
@@ -875,6 +913,9 @@ msgcat::mcmset no {
 
   "Search wrapped to end of file"
   "Søk pakket til slutten av filen"
+
+  "substitutions done"
+  "erstatninger gjort"
 
 }
 
@@ -907,6 +948,9 @@ msgcat::mcmset no {
 
   "Folder Name:"
   "Mappenavn"
+
+  "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
+  "Bildet vises i sidepanelet for å angi at en fil er åpen for øyeblikket i en redigering buffer."
 
   "Make Current Working Directory"
   "Gjør nåværende arbeidskatalog"
@@ -945,11 +989,11 @@ msgcat::mcmset no {
 # syntax.tcl
 msgcat::mcmset no {
 
-  "Syntax error in %s.syntax file"
-  "Syntaksfeil i% s.syntax fil"
+  "Syntax"
+  "Syntaks"
 
-  "Syntax: %s"
-  "Syntaks: %s"
+  "Syntax error in syntax file"
+  "Syntaksfeil i syntaks fil"
 
 }
 
@@ -1001,20 +1045,155 @@ msgcat::mcmset no {
   "Background color used in menus."
   "Bakgrunnsfarge som brukes i menyene."
 
-  "ERROR:  Unable to read %s"
-  "FEIL: Kan ikke lese% s"
+  "Background color used in the tabbar area."
+  "Bakgrunnsfargen brukes i tabbar området."
+
+  "Color of border drawn around active editing buffer."
+  "Fargen på kantlinjen tegnet rundt aktiv redigering buffer."
+
+  "Color of ttk entry widget text border when the entry has keyboard focus."
+  "Fargen på ttk oppføring widget tekst grensen når posten har tastaturfokus."
+
+  "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
+  "Fargen som brukes til å trekke advarsel bredde linjen redigering bufferen (samt linjen skille gutter fra redigering bufferen)."
+
+  "Default 'darkcolor' for all ttk widgets."
+  "Standard 'darkcolor' for alle ttk widgets."
+
+  "Default background color to use for all ttk widgets that are in a disabled state."
+  "Standard bakgrunnsfarge bruke for alle ttk widgets som er deaktiverte."
+
+  "Default background color to use for all ttk widgets when the mouse cursor hovers over the widget."
+  "Standard bakgrunnsfarge skal brukes for alle ttk widgets når musepekeren holdes over widgeten."
+
+  "Default background color to use for all ttk widgets."
+  "Standard bakgrunnsfarge bruke for alle ttk widgets."
+
+  "Default border color for all ttk widgets."
+  "Standard Kantlinjefarge for alle ttk widgets."
+
+  "Default color for non-syntax highlighted text."
+  "Standardfargen for ikke-syntaks uthevet tekst."
+
+  "Default foreground text color to use for all ttk widgets that are in a disabled state."
+  "Standard tekst forgrunnsfargen bruke for alle ttk widgets som er deaktiverte."
+
+  "Default foreground text color to use for all ttk widgets."
+  "Standard tekst forgrunnsfargen bruke for alle ttk widgets."
+
+  "Determines the number of grips strips to display in the grip area between resizable panes."
+  "Angir antall grep strimler vise i håndtaket mellom resizable ruter."
+
+  "Determines the thickness of the grip area between resizable panes."
+  "Angir tykkelsen på området grep mellom resizable ruter."
+
+  "ERROR:  Unable to read"
+  "FEIL: Kan ikke lese"
+
+  "Foreground (slider) color used in the sidebar scrollbar."
+  "(Skyveknappen) forgrunnsfargen brukes i sidepanelet rullefeltet."
+
+  "Foreground (slider) color used in the text scrollbars."
+  "(Skyveknappen) forgrunnsfargen brukes i tekst rullefeltene."
+
+  "Foreground text color for strings."
+  "Forgrunnen tekstfargen for strykere."
+
+  "Foreground text color to use for all miscellaneous1 labeled text."
+  "Forgrunnsfargen tekst skal brukes for alle miscellaneous1 merket tekst."
+
+  "Foreground text color to use for all miscellaneous2 labeled text."
+  "Forgrunnsfargen tekst skal brukes for alle miscellaneous2 merket tekst."
+
+  "Foreground text color to use for all miscellaneous3 labeled text."
+  "Forgrunnsfargen tekst skal brukes for alle miscellaneous3 merket tekst."
+
+  "Foreground text color to use for comments."
+  "Forgrunnsfargen for tekst du bruker for kommentarer."
+
+  "Foreground text color to use for displaying line numbers."
+  "Forgrunnsfargen for tekst å bruke for å vise linjenumrene."
+
+  "Foreground text color to use for displaying numbers."
+  "Forgrunnsfargen for tekst skal brukes for visning av tall."
+
+  "Foreground text color to use for language-specific keywords."
+  "Forgrunnsfargen for tekst bruke språkspesifikke søkeord."
+
+  "Foreground text color to use for language-specific punctuation."
+  "Forgrunnsfargen for tekst bruke språkspesifikke tegnsetting."
+
+  "Foreground text color to use for meta syntax."
+  "Forgrunnsfargen for tekst bruke meta-syntaks."
+
+  "Foreground text color to use for precompiler syntax."
+  "Forgrunnsfargen for tekst bruke precompiler syntaks."
+
+  "Foreground text color to use for selected text."
+  "Forgrunnsfargen for tekst bruke for merket tekst."
+
+  "Foreground text color used for menus item that are disabled."
+  "Tekst forgrunnsfargen brukes for menyer element som er deaktivert."
+
+  "Foreground text color used for the current/active menu item."
+  "Forgrunnen tekstfargen som brukes for gjeldende/aktiv menyelementet."
+
+  "Foreground text color used in menus."
+  "Forgrunnen tekstfargen som brukes i menyer."
+
+  "Foreground text/image color used in tabbar and tabs."
+  "Tekst/bilde forgrunnsfargen brukes i kategoriene og tabbar."
 
   "Images"
   "Bilder"
 
+  "Maximum thickness of the text scrollbar when it is active."
+  "Maksimal tykkelsen på tekst rullefeltet når den er aktiv."
+
+  "Maximum thickness of the text scrollbars when they are active."
+  "Maksimal tykkelsen på tekst scrollbars når de er aktive."
+
   "Menu Options"
   "Innstillinger for meny"
+
+  "Menu relief value."
+  "Menyen lettelse verdi."
+
+  "Pixel height of the tabbar widget."
+  "Pixel høyde tabbar widgeten."
+
+  "Relief used in drawing the tabs."
+  "Lettelse i tegning kategoriene."
+
+  "Relief value of the sidebar area."
+  "Lettelse verdien i sidepanelet området."
 
   "Sidebar Options"
   "Sidepanel alternativer"
 
   "Sidebar Scrollbar Options"
   "Sidebar scrollbar Alternativer"
+
+  "Specifies the color to display around the sidebar when the sidebar does not have the focus."
+  "Angir fargen som vises rundt sidepanelet når sidepanelet ikke har fokus."
+
+  "Specifies the color to display around the sidebar when the sidebar has the focus."
+  "Angir fargen som vises rundt sidepanelet når sidepanelet har fokus."
+
+  "Specifies the default background color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "Angir standard bakgrunnsfarge bruke for teksten som er valgt i en standard ttk widget (dette ikke inkluderer redigering buffer)."
+
+  "Specifies the default foreground text color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "Angir standard forgrunns tekstfarge bruke for teksten som er valgt i en standard ttk widget (dette ikke inkluderer redigering buffer)."
+
+  "Specifies the default relief to use when drawing ttk widgets."
+  "Angir standard lindring skal brukes ved tegning ttk widgets."
+
+  "Specifies the disclosure image style to use in the sidebar."
+  "Angir stilen avsløring bilde å bruke i sidepanelet."
+
+  "Specifies the pixel thickness of the highlight line."
+  "Angir pixel tykkelsen av høydepunkt linjen."
 
   "Syntax Colors"
   "Syntaks Farger"
@@ -1024,6 +1203,12 @@ msgcat::mcmset no {
 
   "Text Scrollbar Options"
   "Tekst scrollbar Alternativer"
+
+  "Text color for all sidebar items that are not selected."
+  "Tekstfarge for alle sidebar elementer som ikke er valgt."
+
+  "Text color for all sidebar items that are selected."
+  "Tekstfarge for alle sidebar elementer som er valgt."
 
   "ttk Widget Colors"
   "TTK Widget Farger"
@@ -1135,9 +1320,6 @@ msgcat::mcmset no {
   "The current theme has unsaved changes"
   "Den aktuelle temaet har ulagrede endringer"
 
-  "Theme Editor %s %s"
-  "Theme Editor% s% s"
-
   "Tree Style: "
   "Tre Stil:"
 
@@ -1158,8 +1340,8 @@ msgcat::mcmset no {
 # themes.tcl
 msgcat::mcmset no {
 
-  "Theme:  %s"
-  "Tema:% s"
+  "Theme"
+  "Tema"
 
   "Theme:*"
   "Tema"
@@ -1180,19 +1362,19 @@ msgcat::mcmset no {
 # tkedat.tcl
 msgcat::mcmset no {
 
-  "Unable to open %s for reading"
-  "Kan ikke åpne %s for lesing"
+  "Unable to read"
+  "Kan ikke lese"
 
 }
 
 # vim.tcl
 msgcat::mcmset no {
 
-  "File %s successfully written"
-  "Filen %s ble skrevet"
+  "File successfully written"
+  "Filen blir skrevet"
 
-  "Filename %s already exists"
-  "Filnavn %s finnes allerede"
+  "Filename already exists"
+  "Filnavnet finnes allerede"
 
 }
 
@@ -1214,7 +1396,7 @@ msgcat::mcmset no {
   "Favorite"
   "Favoritt"
 
-  "Find:"
+  "Find"
   "Søk"
 
   "Move to Other Pane"
@@ -1225,9 +1407,6 @@ msgcat::mcmset no {
 
   "Open"
   "Åpen"
-
-  "Replace:"
-  "bytt"
 
   "Save"
   "lagre"
@@ -1241,8 +1420,8 @@ msgcat::mcmset no {
   "Theme Editor"
   "Theme Editor"
 
-  "Unable to open %s for writing"
-  "Kan ikke åpne% s for skriving"
+  "Unable to write"
+  "Kan ikke skrive"
 
   "Unfavorite"
   "Unfavorite"

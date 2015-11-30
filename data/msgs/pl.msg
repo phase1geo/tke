@@ -4,16 +4,16 @@ msgcat::mcmset pl {
   "Argument list to api::add_file was not an even key/value pair"
   "Lista argumentów API :: add_file nie było nawet parę klucz / wartość"
 
-  "Plugin-%s: %s"
-  "Zamraża się wszystkie fundusze i zasoby gospodarcze należące lub pozostające w posiadaniu osób fizycznych oskarżonych przez MTKJ i wymienionych w załączniku I."
+  "Plugin"
+  "Wtyczka"
 
 }
 
 # bgproc.tcl
 msgcat::mcmset pl {
 
-  "Unable to run system command (%s)"
-  "Komenda nie może uruchomić systemu (% s)"
+  "Unable to run system command"
+  "Nie można uruchomić polecenia systemu"
 
 }
 
@@ -37,11 +37,19 @@ msgcat::mcmset pl {
 
 }
 
-# gui.tcl
+# embed_tke.tcl
 msgcat::mcmset pl {
 
-  "%s, Line: %d, Column: %d"
-  "% S, linia:% d, kolumna:% d"
+  "Find:"
+  "\"
+
+  "Replace:"
+  "\"
+
+}
+
+# gui.tcl
+msgcat::mcmset pl {
 
   "Case sensitivity"
   "Case sensitive i case insensitive"
@@ -49,8 +57,8 @@ msgcat::mcmset pl {
   "Close All Tabs"
   "Zamknij wszystkie karty"
 
-  "Close Other Tab(s)"
-  "Zamknij Inne Tab (s)"
+  "Close Other Tabs"
+  "Zamknij pozostałe karty"
 
   "Close Other*"
   "\"
@@ -58,17 +66,20 @@ msgcat::mcmset pl {
   "Close Tab"
   "Zamknij kartę"
 
-  "Copyright %d-%d"
-  "Prawa autorskie% d-% d"
+  "Column"
+  "Kolumna"
+
+  "Copyright"
+  "Prawa Autorskie"
 
   "Delete tab?"
   "Usuń kartę?"
 
-  "Developer:"
-  "Twórca programu:"
+  "Developer"
+  "Deweloper"
 
-  "Email:"
-  "E-mail:"
+  "Email"
+  "Email"
 
   "Error"
   "Błąd"
@@ -79,23 +90,47 @@ msgcat::mcmset pl {
   "File already exists.  Use '!' to force an overwrite"
   "Plik już istnieje.  Użycie '!' wymusić zastępowaniem"
 
-  "File attribute (%s) does not exist"
-  "Atrybut pliku (% s) nie istnieje"
+  "File attribute does not exist"
+  "Atrybut pliku nie istnieje"
 
   "File index is out of range"
   "Wskaźnik pliku jest poza zakresem"
 
-  "License:"
-  "Licencja:"
+  "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
+  "Obraz wyświetlany w wypełnianie formularzy, który zamyka formularz UI.  Używane w formach, takich jak wyszukiwanie, wyszukiwania i zamiany i znaleźć w plikach."
 
-  "Line: %d, Column: %d"
-  "Linia:% d, kolumna:% d"
+  "Image used in tab menus to indicate that the file is associated with a difference view."
+  "Obraz używany w karcie menu do wskazania, że plik jest związane z widokiem różnica."
+
+  "Image used in tab menus to indicate that the file is locked."
+  "Obraz używany w karcie menu do wskazania, że plik jest zablokowany."
+
+  "Image used in tab menus to indicate that the file is readonly."
+  "Obraz używany w karcie menu do wskazania, że plik jest tylko do odczytu."
+
+  "Image used in tab to indicate that the tab contains a difference view."
+  "Obraz używany w kartę do wskazania, że karta zawiera widok różnica."
+
+  "Image used in tab to indicate that the tab's file is readonly."
+  "Obraz używany w kartę do wskazania, że kartę plik jest tylko do odczytu."
+
+  "Image used in tab to indicate that the tab’s file is locked."
+  "Obraz używany w kartę do wskazania, że plik karta jest zablokowana."
+
+  "Image used in tab which, when clicked, closes the tab."
+  "Obraz używany w karcie, po kliknięciu, zamknięcie karty."
+
+  "License"
+  "Licencja"
+
+  "Line"
+  "Linia"
 
   "Locked"
   "Zablokowano"
 
-  "Move*"
-  "Przenieś"
+  "Move"
+  "Przesuń"
 
   "Must be in multicursor mode to insert numbers"
   "Musi być w trybie multicursor, aby wstawić numery"
@@ -103,11 +138,14 @@ msgcat::mcmset pl {
   "No write permissions.  Use '!' to force write."
   "Brak prawa do zapisu.  Użycie '!' wymusić zapisu."
 
-  "Release Type:"
-  "Typ Release:"
+  "Release Type"
+  "Typ wydania"
 
   "Reload file?"
   "Wczytaj plik na nowo"
+
+  "Replace"
+  "Zastąp"
 
   "Save request"
   "Zapisz zlecenie"
@@ -118,14 +156,17 @@ msgcat::mcmset pl {
   "Starting number:"
   "Numer startowy:"
 
-  "Tcl/Tk Version:"
-  "Wersji Tcl/Tk:"
+  "Tcl/Tk Version"
+  "Wersji Tcl/Tk"
 
-  "Total Lines: %d, Total Characters: %d"
-  "Liczba linii:% d, Liczba znaków:% d"
+  "Total Characters"
+  "Znaki na całkowitego"
 
-  "Unable to find current file (tab: %s)"
-  "Nie można znaleźć aktualny plik (zakładka:% s)"
+  "Total Lines"
+  "Wiersze podsumowań"
+
+  "Unable to find current file"
+  "Nie można odnaleźć pliku bieżącego"
 
   "Unable to successfully parse number string"
   "Nie można pomyślnie przeanalizować ciąg liczb"
@@ -133,8 +174,11 @@ msgcat::mcmset pl {
   "Unable to write file"
   "Nie można zapisać pliku"
 
-  "Version:"
-  "Wersja:"
+  "Version"
+  "Wersja"
+
+  "tab"
+  "ADNOTACJE URZEDOWE"
 
 }
 
@@ -148,9 +192,6 @@ msgcat::mcmset pl {
 
 # menus.tcl
 msgcat::mcmset pl {
-
-  "                                  Profiling Report Sorted By (%s)"
-  "Profilowanie Zgłoś sortowanie wg (% s)"
 
   "About TKE"
   "O TKE"
@@ -337,9 +378,6 @@ msgcat::mcmset pl {
 
   "File Menu: Unlock file"
   "Menu plik: Odblokować plik"
-
-  "Find"
-  "\"
 
   "Find In Files"
   "Znajd? w plikach..."
@@ -535,6 +573,9 @@ msgcat::mcmset pl {
 
   "Previous Difference"
   "Poprzednia ró?nica"
+
+  "Profiling Report Sorted By"
+  "Profilowanie według raportu"
 
   "Profiling started"
   "Profilowanie zaczęło"
@@ -823,8 +864,8 @@ msgcat::mcmset pl {
 # plugins.tcl
 msgcat::mcmset pl {
 
-  "ERROR (%s,%s): %s"
-  "BŁĄD (%s, %s): %s"
+  "ERROR"
+  "BŁĄD"
 
   "ERROR:  Plugin name already exists"
   "BŁĄD: Plugin nazwie już istnieje"
@@ -841,14 +882,14 @@ msgcat::mcmset pl {
   "Enter plugin name"
   "Wpisz nazwę wtyczki"
 
-  "Plugin %s installed"
-  "Zainstalowane wtyczki% s"
-
-  "Plugin %s uninstalled"
-  "Odinstalowaniu wtyczki% s"
-
   "Plugin Errors"
   "Błędy plugin"
+
+  "Plugin installed"
+  "Plugin zainstalowałem"
+
+  "Plugin uninstalled"
+  "Plugin odinstalować"
 
   "Plugins successfully reloaded"
   "Wtyczki pomyślnie załadowany"
@@ -861,9 +902,6 @@ msgcat::mcmset pl {
 # search.tcl
 msgcat::mcmset pl {
 
-  "%d substitutions done"
-  "%d zastępstwa zrobić"
-
   "No files found in specified directories"
   "Nie ma plików znajdujących się w określonych katalogach"
 
@@ -875,6 +913,9 @@ msgcat::mcmset pl {
 
   "Search wrapped to end of file"
   "Szukaj zawinięte na końcu pliku"
+
+  "substitutions done"
+  "zastępstwa zrobione"
 
 }
 
@@ -907,6 +948,9 @@ msgcat::mcmset pl {
 
   "Folder Name:"
   "Nazwa katalogu:"
+
+  "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
+  "Obraz wyświetlany na pasku bocznym do wskazania, że plik jest obecnie otwarte w edycji buforu."
 
   "Make Current Working Directory"
   "Dodać bieżący katalog roboczy"
@@ -945,31 +989,211 @@ msgcat::mcmset pl {
 # syntax.tcl
 msgcat::mcmset pl {
 
-  "Syntax error in %s.syntax file"
-  "Błąd składni w pliku s.syntax%"
+  "Syntax"
+  "Składnia"
 
-  "Syntax: %s"
-  "Składnia: %s"
+  "Syntax error in syntax file"
+  "Błąd składni w składni pliku"
 
 }
 
 # theme.tcl
 msgcat::mcmset pl {
 
-  "ERROR:  Unable to read %s"
-  "BŁĄD: Nie można odczytać% s"
+  "Background (trough) color used in the sidebar scrollbar."
+  "Kolor tła (koryta), stosowany na pasku przewijania paska bocznego."
+
+  "Background (trough) color used in the text scrollbars."
+  "Kolor tła (koryta), stosowany w paski przewijania tekstu."
+
+  "Background color for all sidebar items that are not selected."
+  "Kolor tła dla wszystkich elementów paska bocznego, które nie są zaznaczone."
+
+  "Background color for all sidebar items that are selected."
+  "Kolor tła dla wszystkich elementów paska bocznego, które są zaznaczone."
+
+  "Background color in difference viewer that shows added lines."
+  "Kolor tła w podglądzie różnica, która pokazuje dodane linie."
+
+  "Background color in difference viewer that shows deleted lines."
+  "Kolor tła w podglądzie różnica, która pokazuje usunięte wiersze."
+
+  "Background color of insertion cursor."
+  "Kolor tła kursora."
+
+  "Background color of the editing buffer."
+  "Kolor tła edycji buforu."
+
+  "Background color to display when a button-like ttk widget is pressed."
+  "Kolor tła do wyświetlenia, gdy widget ttk jak przycisk jest naciśnięty."
+
+  "Background color to use for selected text."
+  "Kolor tła dla zaznaczonego tekstu."
+
+  "Background color used for all other tabs that are not the current/active tab in the tabbar."
+  "Kolor tła używane dla wszystkich innych kart, które są nie prąd/aktywnej karty w tabbar."
+
+  "Background color used for the current/active menu item."
+  "Kolor tła używane dla elementu menu bieżącego/aktywny."
+
+  "Background color used for the current/active tab in the tabbar."
+  "Kolor używany do prądu/aktywnej karty w tabbar tła."
+
+  "Background color used in highlighted text."
+  "Kolor tła w podświetlonego tekstu."
+
+  "Background color used in menus."
+  "Kolor tła w menu."
+
+  "Background color used in the tabbar area."
+  "Kolor używany w obszarze tabbar tła."
+
+  "Color of border drawn around active editing buffer."
+  "Kolor obramowania rysowane wokół aktywnej edycji buforu."
+
+  "Color of ttk entry widget text border when the entry has keyboard focus."
+  "Kolor ttk wpis widget tekst granicy wpis ma klawiaturę."
+
+  "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
+  "Kolor używany do rysowania linii szerokości ostrzeżenie w buforze edycji (jak również linię oddzielającą rynny z edycji buforu)."
+
+  "Default 'darkcolor' for all ttk widgets."
+  "Domyślnie \"
+
+  "Default background color to use for all ttk widgets that are in a disabled state."
+  "Domyślny kolor tła dla wszystkich ttk wzory, które są w stanie wyłączonym."
+
+  "Default background color to use for all ttk widgets when the mouse cursor hovers over the widget."
+  "Domyślny kolor tła do wykorzystania wszystkie wzory ttk, gdy kursor myszy najedzie widżetu."
+
+  "Default background color to use for all ttk widgets."
+  "Domyślny kolor tła dla wszystkich widżetów ttk."
+
+  "Default border color for all ttk widgets."
+  "Domyślny kolor obramowania dla wszystkich widżetów ttk."
+
+  "Default color for non-syntax highlighted text."
+  "Domyślny kolor dla non składnia podświetlonego tekstu."
+
+  "Default foreground text color to use for all ttk widgets that are in a disabled state."
+  "Domyślny kolor tekstu pierwszego planu dla wszystkich ttk wzory, które są w stanie wyłączonym."
+
+  "Default foreground text color to use for all ttk widgets."
+  "Domyślnie tekst kolorem dla wszystkich widżetów ttk."
+
+  "Determines the number of grips strips to display in the grip area between resizable panes."
+  "Określa liczbę uchwytów pasków do wyświetlania w obszarze przyczepność między okienkami o zmiennym rozmiarze."
+
+  "Determines the thickness of the grip area between resizable panes."
+  "Określa grubość obszaru przyczepność między okienkami o zmiennym rozmiarze."
+
+  "ERROR:  Unable to read"
+  "BŁĄD: Nie można odczytać"
+
+  "Foreground (slider) color used in the sidebar scrollbar."
+  "Kolor pierwszoplanowy (suwak) używane na pasku przewijania paska bocznego."
+
+  "Foreground (slider) color used in the text scrollbars."
+  "Kolor pierwszoplanowy (suwak) używane w paski przewijania tekstu."
+
+  "Foreground text color for strings."
+  "Kolorem tekstu dla ciągów."
+
+  "Foreground text color to use for all miscellaneous1 labeled text."
+  "Kolorem tekstu dla wszystkich miscellaneous1 oznaczony jako tekst."
+
+  "Foreground text color to use for all miscellaneous2 labeled text."
+  "Kolorem tekstu dla wszystkich miscellaneous2 oznaczony jako tekst."
+
+  "Foreground text color to use for all miscellaneous3 labeled text."
+  "Kolorem tekstu dla wszystkich miscellaneous3 oznaczony jako tekst."
+
+  "Foreground text color to use for comments."
+  "Kolorem tekstu dla komentarzy."
+
+  "Foreground text color to use for displaying line numbers."
+  "Kolorem tekstu umożliwia wyświetlanie numerów linii."
+
+  "Foreground text color to use for displaying numbers."
+  "Kolorem tekstu użyć do wyświetlania liczb."
+
+  "Foreground text color to use for language-specific keywords."
+  "Kolorem tekstu, aby użyć słów kluczowych języka."
+
+  "Foreground text color to use for language-specific punctuation."
+  "Kolorem tekstu dla określonego języka interpunkcja."
+
+  "Foreground text color to use for meta syntax."
+  "Kolorem tekstu dla meta składni."
+
+  "Foreground text color to use for precompiler syntax."
+  "Kolorem tekstu, aby użyć składni precompiler."
+
+  "Foreground text color to use for selected text."
+  "Kolorem tekstu dla zaznaczonego tekstu."
+
+  "Foreground text color used for menus item that are disabled."
+  "Tekstu kolorem używany dla element menu, które są wyłączone."
+
+  "Foreground text color used for the current/active menu item."
+  "Tekstu kolorem używany dla elementu menu bieżącego/aktywny."
+
+  "Foreground text color used in menus."
+  "Pierwszego planu kolor tekstu w menu."
+
+  "Foreground text/image color used in tabbar and tabs."
+  "Kolorem tekstu i obrazu używany w tabbar i karty."
 
   "Images"
   "Grafiki"
 
+  "Maximum thickness of the text scrollbar when it is active."
+  "Maksymalna grubość paska przewijania tekstu, gdy jest aktywny."
+
+  "Maximum thickness of the text scrollbars when they are active."
+  "Maksymalna grubość przewijania tekstu, gdy są one aktywne."
+
   "Menu Options"
   "Opcje menu"
+
+  "Menu relief value."
+  "Wartość pomocy menu."
+
+  "Pixel height of the tabbar widget."
+  "Pikseli wysokości tabbar widget."
+
+  "Relief used in drawing the tabs."
+  "Ulgi w rysunek karty."
+
+  "Relief value of the sidebar area."
+  "Wartość ulgi bocznym obszarze."
 
   "Sidebar Options"
   "Opcje bocznego panelu"
 
   "Sidebar Scrollbar Options"
   "Sidebar Opcje paska przewijania"
+
+  "Specifies the color to display around the sidebar when the sidebar does not have the focus."
+  "Określa kolor, aby wyświetlić wokół bocznym pasku bocznym nie ma fokusu."
+
+  "Specifies the color to display around the sidebar when the sidebar has the focus."
+  "Określa kolor, aby wyświetlić wokół bocznym pasku bocznym ma fokus."
+
+  "Specifies the default background color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "Określa domyślny kolor tła dla tekstu, który jest wybrany w widżetu standardowe ttk (nie dotyczy edycji buforu)."
+
+  "Specifies the default foreground text color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "Określa domyślny kolor tekstu pierwszego planu dla tekstu, który jest wybrany w widżetu standardowe ttk (nie dotyczy edycji buforu)."
+
+  "Specifies the default relief to use when drawing ttk widgets."
+  "Określa domyślny ulgę podczas rysowania widżetów ttk."
+
+  "Specifies the disclosure image style to use in the sidebar."
+  "Określa styl obrazu ujawnienie w pasku bocznym."
+
+  "Specifies the pixel thickness of the highlight line."
+  "Określa grubość pikseli linii podkreślenia."
 
   "Syntax Colors"
   "Składnia Kolory"
@@ -979,6 +1203,12 @@ msgcat::mcmset pl {
 
   "Text Scrollbar Options"
   "Tekst Opcje paska przewijania"
+
+  "Text color for all sidebar items that are not selected."
+  "Kolor tekstu dla wszystkich elementów paska bocznego, które nie są zaznaczone."
+
+  "Text color for all sidebar items that are selected."
+  "Kolor tekstu dla wszystkich elementów paska bocznego, które są zaznaczone."
 
   "ttk Widget Colors"
   "ttk Widget Kolory"
@@ -1090,9 +1320,6 @@ msgcat::mcmset pl {
   "The current theme has unsaved changes"
   "Obecny temat ma niezapisane zmiany"
 
-  "Theme Editor %s %s"
-  "Theme Editor% s% s"
-
   "Tree Style: "
   "Drzewo Styl:"
 
@@ -1113,8 +1340,8 @@ msgcat::mcmset pl {
 # themes.tcl
 msgcat::mcmset pl {
 
-  "Theme:  %s"
-  "Temat:% s"
+  "Theme"
+  "Temat"
 
   "Theme:*"
   "Temat"
@@ -1135,19 +1362,19 @@ msgcat::mcmset pl {
 # tkedat.tcl
 msgcat::mcmset pl {
 
-  "Unable to open %s for reading"
-  "Nie można otworzyć pliku%1 do odczytu."
+  "Unable to read"
+  "Nie można czytać pliku."
 
 }
 
 # vim.tcl
 msgcat::mcmset pl {
 
-  "File %s successfully written"
-  "Plik %s pomyślnie napisany"
+  "File successfully written"
+  "Plik zapisany"
 
-  "Filename %s already exists"
-  "Nazwa pliku %s już istnieje"
+  "Filename already exists"
+  "Nazwa pliku już istnieje"
 
 }
 
@@ -1169,7 +1396,7 @@ msgcat::mcmset pl {
   "Favorite"
   "Ulubione"
 
-  "Find:"
+  "Find"
   "\"
 
   "Move to Other Pane"
@@ -1180,9 +1407,6 @@ msgcat::mcmset pl {
 
   "Open"
   "Otwarte"
-
-  "Replace:"
-  "\"
 
   "Save"
   "Zapisz"
@@ -1196,8 +1420,8 @@ msgcat::mcmset pl {
   "Theme Editor"
   "Motyw Editor"
 
-  "Unable to open %s for writing"
-  "Nie można otworzyć%1 do zapisu"
+  "Unable to write"
+  "Nie można zapisać"
 
   "Unfavorite"
   "Unfavorite"

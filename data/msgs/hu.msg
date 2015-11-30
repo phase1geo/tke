@@ -4,16 +4,16 @@ msgcat::mcmset hu {
   "Argument list to api::add_file was not an even key/value pair"
   "Argumentumlista API :: add_file nem volt még kulcs / érték párt"
 
-  "Plugin-%s: %s"
-  "Plugin-%s (% s)"
+  "Plugin"
+  "Bővítmény"
 
 }
 
 # bgproc.tcl
 msgcat::mcmset hu {
 
-  "Unable to run system command (%s)"
-  "Nem lehet futtatni a rendszer parancs (% s)"
+  "Unable to run system command"
+  "Képtelen-hoz fuss követel rendszer"
 
 }
 
@@ -37,11 +37,19 @@ msgcat::mcmset hu {
 
 }
 
-# gui.tcl
+# embed_tke.tcl
 msgcat::mcmset hu {
 
-  "%s, Line: %d, Column: %d"
-  "% S, Sor:% d oszlop:% d"
+  "Find:"
+  "felfedez"
+
+  "Replace:"
+  "Csere:"
+
+}
+
+# gui.tcl
+msgcat::mcmset hu {
 
   "Case sensitivity"
   "Kisbetű-nagybetű érzékenység"
@@ -49,8 +57,8 @@ msgcat::mcmset hu {
   "Close All Tabs"
   "Összes fül bezárása"
 
-  "Close Other Tab(s)"
-  "Bezárni a másik fület (ek)"
+  "Close Other Tabs"
+  "A többi lap bezárása"
 
   "Close Other*"
   "A többi lap bezárása"
@@ -58,17 +66,20 @@ msgcat::mcmset hu {
   "Close Tab"
   "A lap bezárása"
 
-  "Copyright %d-%d"
-  "Szerzői% d-% d"
+  "Column"
+  "Oszlop"
+
+  "Copyright"
+  "Szerzői jogok"
 
   "Delete tab?"
   "Delete tab?"
 
-  "Developer:"
-  "Állások"
+  "Developer"
+  "Fejlesztő"
 
-  "Email:"
-  "E-mail:"
+  "Email"
+  "E-mail cím"
 
   "Error"
   "Hiba"
@@ -79,8 +90,8 @@ msgcat::mcmset hu {
   "File already exists.  Use '!' to force an overwrite"
   "Fájl már létezik.  Használata \"
 
-  "File attribute (%s) does not exist"
-  "Fájl attribútum (% s) nem létezik"
+  "File attribute does not exist"
+  "Attribútum nem létezik."
 
   "File index is out of range"
   "Fájl index tartományon kívül"
@@ -109,17 +120,17 @@ msgcat::mcmset hu {
   "Image used in tab which, when clicked, closes the tab."
   "Kép használt lap, amely, ha rákattintunk, bezárja a lapot."
 
-  "License:"
+  "License"
   "Licenc"
 
-  "Line: %d, Column: %d"
-  "Sor:% d oszlop:% d"
+  "Line"
+  "Vonal"
 
   "Locked"
   "Zárolt"
 
-  "Move*"
-  "hat"
+  "Move"
+  "Mozgatás"
 
   "Must be in multicursor mode to insert numbers"
   "Számok be multicursor üzemmódban kell lennie"
@@ -127,11 +138,14 @@ msgcat::mcmset hu {
   "No write permissions.  Use '!' to force write."
   "Nincs írási engedélye.  Használata \"
 
-  "Release Type:"
-  "Kiadás típusa:"
+  "Release Type"
+  "Kiadás típusa"
 
   "Reload file?"
   "A fájl újratöltése"
+
+  "Replace"
+  "Csere"
 
   "Save request"
   "Mentés kérése"
@@ -142,14 +156,17 @@ msgcat::mcmset hu {
   "Starting number:"
   "A kezdő dia száma:"
 
-  "Tcl/Tk Version:"
-  "Tcl/Tk-verzió:"
+  "Tcl/Tk Version"
+  "Tcl/Tk változat"
 
-  "Total Lines: %d, Total Characters: %d"
-  "Teljes sorok:% d, Total karakterek:% d"
+  "Total Characters"
+  "Teljes karakter"
 
-  "Unable to find current file (tab: %s)"
-  "Nem található aktuális fájlt (tab:% s)"
+  "Total Lines"
+  "Teljes sorok"
+
+  "Unable to find current file"
+  "Nem található az aktuális fájl"
 
   "Unable to successfully parse number string"
   "Nem lehet elemezni a biztonsági szám karakterlánc"
@@ -157,8 +174,11 @@ msgcat::mcmset hu {
   "Unable to write file"
   "Nem lehet írni a fájlt"
 
-  "Version:"
+  "Version"
   "Verzió"
+
+  "tab"
+  "Tű"
 
 }
 
@@ -172,9 +192,6 @@ msgcat::mcmset hu {
 
 # menus.tcl
 msgcat::mcmset hu {
-
-  "                                  Profiling Report Sorted By (%s)"
-  "A profilalkotás jelentés Rendezés By (% s)"
 
   "About TKE"
   "Körülbelül TKE"
@@ -361,9 +378,6 @@ msgcat::mcmset hu {
 
   "File Menu: Unlock file"
   "Fájl menü: Kinyit a fájlt"
-
-  "Find"
-  "Keresés"
 
   "Find In Files"
   "Keresés fájlokban..."
@@ -559,6 +573,9 @@ msgcat::mcmset hu {
 
   "Previous Difference"
   "Az el?z? eltérés"
+
+  "Profiling Report Sorted By"
+  "Profilkészítés jelentés szerint rendezve"
 
   "Profiling started"
   "Profilozási kezdődött"
@@ -847,8 +864,8 @@ msgcat::mcmset hu {
 # plugins.tcl
 msgcat::mcmset hu {
 
-  "ERROR (%s,%s): %s"
-  "HIBA (%s, %s): %s"
+  "ERROR"
+  "HIB"
 
   "ERROR:  Plugin name already exists"
   "ERROR: Plugin már létezik"
@@ -865,14 +882,14 @@ msgcat::mcmset hu {
   "Enter plugin name"
   "Adja meg a bővítmény név"
 
-  "Plugin %s installed"
-  "% S plugin telepítése"
-
-  "Plugin %s uninstalled"
-  "Plugin% s eltávolításakor"
-
   "Plugin Errors"
   "Plugin hibák"
+
+  "Plugin installed"
+  "Plugin telepítve"
+
+  "Plugin uninstalled"
+  "Eltávolította a plugin"
 
   "Plugins successfully reloaded"
   "Plugins sikeresen reloaded"
@@ -885,9 +902,6 @@ msgcat::mcmset hu {
 # search.tcl
 msgcat::mcmset hu {
 
-  "%d substitutions done"
-  "%d helyettesítések tenni"
-
   "No files found in specified directories"
   "Nem található a megadott könyvtárak fájl"
 
@@ -899,6 +913,9 @@ msgcat::mcmset hu {
 
   "Search wrapped to end of file"
   "Keresés csomagolva, hogy a fájl vége"
+
+  "substitutions done"
+  "helyettesítések tenni"
 
 }
 
@@ -972,11 +989,11 @@ msgcat::mcmset hu {
 # syntax.tcl
 msgcat::mcmset hu {
 
-  "Syntax error in %s.syntax file"
-  "Szintaktikai hiba% s.syntax fájlban"
+  "Syntax"
+  "Szintaxis"
 
-  "Syntax: %s"
-  "Szintaxis: %s"
+  "Syntax error in syntax file"
+  "Szintaktikai hiba a fájl szintaxisa"
 
 }
 
@@ -1070,8 +1087,8 @@ msgcat::mcmset hu {
   "Determines the thickness of the grip area between resizable panes."
   "Meghatározza a vastagsága a markolat között átméretezhető táblát."
 
-  "ERROR:  Unable to read %s"
-  "HIBA: Nem olvasható:% s"
+  "ERROR:  Unable to read"
+  "Hiba: Nem lehet olvasni"
 
   "Foreground (slider) color used in the sidebar scrollbar."
   "Előtér (slider) használt szín a tálaló görgetősáv."
@@ -1303,9 +1320,6 @@ msgcat::mcmset hu {
   "The current theme has unsaved changes"
   "Az aktuális téma nem mentett módosításokat tartalmaz"
 
-  "Theme Editor %s %s"
-  "Témaszerkesztő% s% s"
-
   "Tree Style: "
   "Fa Stílus:"
 
@@ -1326,8 +1340,8 @@ msgcat::mcmset hu {
 # themes.tcl
 msgcat::mcmset hu {
 
-  "Theme:  %s"
-  "Téma:% s"
+  "Theme"
+  "Sablon"
 
   "Theme:*"
   "Sablon"
@@ -1348,19 +1362,19 @@ msgcat::mcmset hu {
 # tkedat.tcl
 msgcat::mcmset hu {
 
-  "Unable to open %s for reading"
-  "Nem sikerült megnyitni ezt a fájlt olvasásra:%1."
+  "Unable to read"
+  "A fájl beolvasása nem sikerült."
 
 }
 
 # vim.tcl
 msgcat::mcmset hu {
 
-  "File %s successfully written"
-  "A(z) %s írása sikeresen"
+  "File successfully written"
+  "Fájl írása sikeresen"
 
-  "Filename %s already exists"
-  "Fájlnév (% s) már létezik"
+  "Filename already exists"
+  "Fájlnév már létezik"
 
 }
 
@@ -1382,8 +1396,8 @@ msgcat::mcmset hu {
   "Favorite"
   "Kedvenc"
 
-  "Find:"
-  "felfedez"
+  "Find"
+  "Keresés"
 
   "Move to Other Pane"
   "Áthelyezni más ablak"
@@ -1393,9 +1407,6 @@ msgcat::mcmset hu {
 
   "Open"
   "Nyissa"
-
-  "Replace:"
-  "Csere:"
 
   "Save"
   "Mentés"
@@ -1409,8 +1420,8 @@ msgcat::mcmset hu {
   "Theme Editor"
   "Témaszerkesztő"
 
-  "Unable to open %s for writing"
-  "Nem sikerült megnyitni írásra a(z)%1 fájlt."
+  "Unable to write"
+  "Nem lehet írni"
 
   "Unfavorite"
   "Unfavorite"
