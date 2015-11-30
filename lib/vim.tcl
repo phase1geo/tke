@@ -950,6 +950,9 @@ namespace eval vim {
       return 1
     }
 
+    # Record the keysym
+    record_add "Key-$keysym"
+
     return 0
 
   }
