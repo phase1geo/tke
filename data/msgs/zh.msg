@@ -4,16 +4,16 @@ msgcat::mcmset zh {
   "Argument list to api::add_file was not an even key/value pair"
   "参数列表API :: ADD_FILE是不是连键/值对"
 
-  "Plugin-%s: %s"
-  "插件 %s: %s"
+  "Plugin"
+  "插件"
 
 }
 
 # bgproc.tcl
 msgcat::mcmset zh {
 
-  "Unable to run system command (%s)"
-  "无法执行系统命令（％S）"
+  "Unable to run system command"
+  "无法运行系统命令"
 
 }
 
@@ -37,11 +37,19 @@ msgcat::mcmset zh {
 
 }
 
-# gui.tcl
+# embed_tke.tcl
 msgcat::mcmset zh {
 
-  "%s, Line: %d, Column: %d"
-  "％s的，行数：％d，列数：％d"
+  "Find:"
+  "查找"
+
+  "Replace:"
+  "替换:"
+
+}
+
+# gui.tcl
+msgcat::mcmset zh {
 
   "Case sensitivity"
   "区分大小写"
@@ -49,8 +57,8 @@ msgcat::mcmset zh {
   "Close All Tabs"
   "關閉全部的頁籤"
 
-  "Close Other Tab(s)"
-  "关闭其他选项卡（S）"
+  "Close Other Tabs"
+  "关闭其他标签"
 
   "Close Other*"
   "关闭其他*"
@@ -58,17 +66,20 @@ msgcat::mcmset zh {
   "Close Tab"
   "关闭标签页"
 
-  "Copyright %d-%d"
-  "版权所有％的d-％d个"
+  "Column"
+  "列"
+
+  "Copyright"
+  "Copyright"
 
   "Delete tab?"
   "删除标签？"
 
-  "Developer:"
-  "开发商："
+  "Developer"
+  "开发者"
 
-  "Email:"
-  "电子邮件："
+  "Email"
+  "电子邮箱"
 
   "Error"
   "錯誤"
@@ -79,22 +90,46 @@ msgcat::mcmset zh {
   "File already exists.  Use '!' to force an overwrite"
   "文件已存在。 使用 '!' 强制覆盖"
 
-  "File attribute (%s) does not exist"
-  "文件属性（％s）不存在"
+  "File attribute does not exist"
+  "文件属性不存在"
 
   "File index is out of range"
   "文件索引超出范围"
 
-  "License:"
-  "??"
+  "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
+  "图像显示在填充窗体关闭窗体的用户界面。 用于形式，如搜索，搜索/替换，并在文件中查找。"
 
-  "Line: %d, Column: %d"
-  "行数：％d，列数：％d"
+  "Image used in tab menus to indicate that the file is associated with a difference view."
+  "在选项卡菜单用于指示该文件是与差异视图相关联的图像。"
+
+  "Image used in tab menus to indicate that the file is locked."
+  "图像选项卡菜单中用于指示该文件已锁定。"
+
+  "Image used in tab menus to indicate that the file is readonly."
+  "选项卡菜单中用于指示该文件是只读的图像。"
+
+  "Image used in tab to indicate that the tab contains a difference view."
+  "在选项卡用于指示选项卡包含不同视图的图像。"
+
+  "Image used in tab to indicate that the tab's file is readonly."
+  "在选项卡用于指示该标签的文件是只读的图像。"
+
+  "Image used in tab to indicate that the tab’s file is locked."
+  "在选项卡用于指示该标签的文件被锁定的图像。"
+
+  "Image used in tab which, when clicked, closes the tab."
+  "用图像的选项卡，单击时，将关闭选项卡。"
+
+  "License"
+  "许可证"
+
+  "Line"
+  "线条"
 
   "Locked"
   "已锁定"
 
-  "Move*"
+  "Move"
   "移动"
 
   "Must be in multicursor mode to insert numbers"
@@ -103,11 +138,14 @@ msgcat::mcmset zh {
   "No write permissions.  Use '!' to force write."
   "没有写权限。 使用 '!'，迫使写。"
 
-  "Release Type:"
-  "释放"
+  "Release Type"
+  "发行类型（特殊）"
 
   "Reload file?"
   "重装文件？"
+
+  "Replace"
+  "替换"
 
   "Save request"
   "保存请求"
@@ -118,14 +156,17 @@ msgcat::mcmset zh {
   "Starting number:"
   "开始点编号:"
 
-  "Tcl/Tk Version:"
-  "Tcl/Tk 版本："
+  "Tcl/Tk Version"
+  "Tcl/Tk 版本"
 
-  "Total Lines: %d, Total Characters: %d"
-  "行总数：％d个，总字符数：％d"
+  "Total Characters"
+  "总字符数"
 
-  "Unable to find current file (tab: %s)"
-  "找不到当前文件（制表：％S）"
+  "Total Lines"
+  "总行数"
+
+  "Unable to find current file"
+  "无法找到当前文件"
 
   "Unable to successfully parse number string"
   "无法成功分析数字字符串"
@@ -133,8 +174,11 @@ msgcat::mcmset zh {
   "Unable to write file"
   "无法写入文件"
 
-  "Version:"
-  "版本："
+  "Version"
+  "版本"
+
+  "tab"
+  "选项卡"
 
 }
 
@@ -148,9 +192,6 @@ msgcat::mcmset zh {
 
 # menus.tcl
 msgcat::mcmset zh {
-
-  "                                  Profiling Report Sorted By (%s)"
-  "剖析报告排序方法（％S）"
 
   "About TKE"
   "关于将军澳支线"
@@ -337,9 +378,6 @@ msgcat::mcmset zh {
 
   "File Menu: Unlock file"
   "文件菜单: 解锁文件"
-
-  "Find"
-  "查找"
 
   "Find In Files"
   "??????..."
@@ -535,6 +573,9 @@ msgcat::mcmset zh {
 
   "Previous Difference"
   "?????"
+
+  "Profiling Report Sorted By"
+  "按排序的分析报告"
 
   "Profiling started"
   "分析开始"
@@ -823,8 +864,8 @@ msgcat::mcmset zh {
 # plugins.tcl
 msgcat::mcmset zh {
 
-  "ERROR (%s,%s): %s"
-  "错误的 s）： %s"
+  "ERROR"
+  "错误"
 
   "ERROR:  Plugin name already exists"
   "错误：插件名称已存在"
@@ -841,14 +882,14 @@ msgcat::mcmset zh {
   "Enter plugin name"
   "输入插件名称"
 
-  "Plugin %s installed"
-  "插件％s的安装"
-
-  "Plugin %s uninstalled"
-  "插件％s的卸载"
-
   "Plugin Errors"
   "插件错误"
+
+  "Plugin installed"
+  "插件已安装"
+
+  "Plugin uninstalled"
+  "插件已卸载"
 
   "Plugins successfully reloaded"
   "插件重新加载成功"
@@ -861,9 +902,6 @@ msgcat::mcmset zh {
 # search.tcl
 msgcat::mcmset zh {
 
-  "%d substitutions done"
-  "%d 个换人做"
-
   "No files found in specified directories"
   "指定的目录中未找到文件"
 
@@ -875,6 +913,9 @@ msgcat::mcmset zh {
 
   "Search wrapped to end of file"
   "搜索包裹到文件结尾"
+
+  "substitutions done"
+  "换人做"
 
 }
 
@@ -907,6 +948,9 @@ msgcat::mcmset zh {
 
   "Folder Name:"
   "??????"
+
+  "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
+  "在侧边栏来指示在编辑缓冲区中当前打开文件中显示的图像。"
 
   "Make Current Working Directory"
   "使当前工作目录"
@@ -945,31 +989,211 @@ msgcat::mcmset zh {
 # syntax.tcl
 msgcat::mcmset zh {
 
-  "Syntax error in %s.syntax file"
-  "在％s.syntax文件中的语法错误"
+  "Syntax"
+  "语法"
 
-  "Syntax: %s"
-  "语法: %s"
+  "Syntax error in syntax file"
+  "在语法文件中的语法错误"
 
 }
 
 # theme.tcl
 msgcat::mcmset zh {
 
-  "ERROR:  Unable to read %s"
-  "错误：无法读取％s的"
+  "Background (trough) color used in the sidebar scrollbar."
+  "用在侧边栏滚动条的背景 (槽) 颜色。"
+
+  "Background (trough) color used in the text scrollbars."
+  "用在文本滚动条的背景 (槽) 颜色。"
+
+  "Background color for all sidebar items that are not selected."
+  "所有未选中的侧边栏项的背景色。"
+
+  "Background color for all sidebar items that are selected."
+  "所有选定的侧边栏项的背景色。"
+
+  "Background color in difference viewer that shows added lines."
+  "在差异查看器中显示的背景色添加行。"
+
+  "Background color in difference viewer that shows deleted lines."
+  "背景颜色显示的差异查看器中删除行。"
+
+  "Background color of insertion cursor."
+  "插入光标的背景色。"
+
+  "Background color of the editing buffer."
+  "编辑缓冲区的背景色。"
+
+  "Background color to display when a button-like ttk widget is pressed."
+  "要显示按下一个按钮类似 ttk 小部件时的背景颜色。"
+
+  "Background color to use for selected text."
+  "要用于所选文本的背景色。"
+
+  "Background color used for all other tabs that are not the current/active tab in the tabbar."
+  "用其他的选项卡，是不是在 tabbar 电流/活动选项卡的背景颜色。"
+
+  "Background color used for the current/active menu item."
+  "用当前/主菜单项的背景颜色。"
+
+  "Background color used for the current/active tab in the tabbar."
+  "用 tabbar 在当前/活动选项卡的背景颜色。"
+
+  "Background color used in highlighted text."
+  "在突出显示的文本所用的背景颜色。"
+
+  "Background color used in menus."
+  "在菜单中所用的背景颜色。"
+
+  "Background color used in the tabbar area."
+  "在 tabbar 地区所用的背景颜色。"
+
+  "Color of border drawn around active editing buffer."
+  "在活跃的编辑缓冲区周围绘制的边框的颜色。"
+
+  "Color of ttk entry widget text border when the entry has keyboard focus."
+  "当该条目具有键盘焦点时 ttk 条目构件文本边框的颜色。"
+
+  "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
+  "用来绘制中编辑缓冲区 (以及线装订线分离编辑缓冲区) 的警告宽度线的颜色。"
+
+  "Default 'darkcolor' for all ttk widgets."
+  "默认为所有 ttk 部件 ' 灯光'。"
+
+  "Default background color to use for all ttk widgets that are in a disabled state."
+  "默认背景颜色用于所有 ttk 部件处于禁用状态。"
+
+  "Default background color to use for all ttk widgets when the mouse cursor hovers over the widget."
+  "默认背景颜色时鼠标光标悬停在小部件要使用的所有 ttk 部件。"
+
+  "Default background color to use for all ttk widgets."
+  "默认背景颜色用于所有 ttk 部件。"
+
+  "Default border color for all ttk widgets."
+  "所有的 ttk 部件的默认边框颜色。"
+
+  "Default color for non-syntax highlighted text."
+  "非语法突出显示的文本的默认颜色。"
+
+  "Default foreground text color to use for all ttk widgets that are in a disabled state."
+  "默认前景色文本颜色用于所有 ttk 部件处于禁用状态。"
+
+  "Default foreground text color to use for all ttk widgets."
+  "默认前景色文本颜色用于所有 ttk 部件。"
+
+  "Determines the number of grips strips to display in the grip area between resizable panes."
+  "决定握把带在了抓地力之间可调整大小的窗格中显示的数目。"
+
+  "Determines the thickness of the grip area between resizable panes."
+  "确定了抓地力可调整大小的窗格之间的厚度。"
+
+  "ERROR:  Unable to read"
+  "错误: 无法读取"
+
+  "Foreground (slider) color used in the sidebar scrollbar."
+  "(滑块) 使用前景色在侧边栏滚动条。"
+
+  "Foreground (slider) color used in the text scrollbars."
+  "(滑块) 使用前景色在文本滚动条。"
+
+  "Foreground text color for strings."
+  "字符串文本景色。"
+
+  "Foreground text color to use for all miscellaneous1 labeled text."
+  "用于所有 miscellaneous1 的前景文本颜色标记文本。"
+
+  "Foreground text color to use for all miscellaneous2 labeled text."
+  "用于所有 miscellaneous2 的前景文本颜色标记文本。"
+
+  "Foreground text color to use for all miscellaneous3 labeled text."
+  "用于所有 miscellaneous3 的前景文本颜色标记文本。"
+
+  "Foreground text color to use for comments."
+  "用于注释的前景文本颜色。"
+
+  "Foreground text color to use for displaying line numbers."
+  "用于显示行号的前景文本颜色。"
+
+  "Foreground text color to use for displaying numbers."
+  "用来显示数字的前景文本颜色。"
+
+  "Foreground text color to use for language-specific keywords."
+  "用于语言特定的关键字的前景文本颜色。"
+
+  "Foreground text color to use for language-specific punctuation."
+  "要用于特定语言的标点符号的前景文本颜色。"
+
+  "Foreground text color to use for meta syntax."
+  "用于元语法的前景文本颜色。"
+
+  "Foreground text color to use for precompiler syntax."
+  "用于预编译器语法的前景文本颜色。"
+
+  "Foreground text color to use for selected text."
+  "要用于所选文本的前景文本颜色。"
+
+  "Foreground text color used for menus item that are disabled."
+  "文本使用前景色为被禁用的菜单项。"
+
+  "Foreground text color used for the current/active menu item."
+  "用当前/主菜单项的前景文本颜色。"
+
+  "Foreground text color used in menus."
+  "在菜单中所用的前景文本颜色。"
+
+  "Foreground text/image color used in tabbar and tabs."
+  "文本/图像使用前景色 tabbar 和选项卡中。"
 
   "Images"
   "图像"
 
+  "Maximum thickness of the text scrollbar when it is active."
+  "文本滚动条时处于活动状态的最大厚度。"
+
+  "Maximum thickness of the text scrollbars when they are active."
+  "最大厚度的文本滚动条时他们是活跃的。"
+
   "Menu Options"
   "菜单选项"
+
+  "Menu relief value."
+  "菜单救济值。"
+
+  "Pixel height of the tabbar widget."
+  "Tabbar 小部件的像素高度。"
+
+  "Relief used in drawing the tabs."
+  "使用绘图选项卡中的救济。"
+
+  "Relief value of the sidebar area."
+  "救济的侧栏区域的值。"
 
   "Sidebar Options"
   "侧边栏选项"
 
   "Sidebar Scrollbar Options"
   "侧边栏滚动条选项"
+
+  "Specifies the color to display around the sidebar when the sidebar does not have the focus."
+  "指定要显示在侧边栏时侧边栏没有焦点的颜色。"
+
+  "Specifies the color to display around the sidebar when the sidebar has the focus."
+  "指定要显示在侧边栏侧边栏获得焦点时的颜色。"
+
+  "Specifies the default background color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "指定要用于在标准 ttk 窗口小部件 (这不包括编辑缓冲区) 中选择的文本的默认背景色。"
+
+  "Specifies the default foreground text color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "指定要用于在标准 ttk 窗口小部件 (这不包括编辑缓冲区) 中选择的文本的默认前景文本颜色。"
+
+  "Specifies the default relief to use when drawing ttk widgets."
+  "指定绘制 ttk 部件时要使用的默认救济。"
+
+  "Specifies the disclosure image style to use in the sidebar."
+  "指定要在边栏中使用的披露图像样式。"
+
+  "Specifies the pixel thickness of the highlight line."
+  "指定像素的突出显示线的粗细。"
 
   "Syntax Colors"
   "语法颜色"
@@ -979,6 +1203,12 @@ msgcat::mcmset zh {
 
   "Text Scrollbar Options"
   "文字滚动条选项"
+
+  "Text color for all sidebar items that are not selected."
+  "所有未选中的侧边栏项目的文本颜色。"
+
+  "Text color for all sidebar items that are selected."
+  "所有选定的侧边栏项的文本颜色。"
 
   "ttk Widget Colors"
   "TTK的Widget颜色"
@@ -1090,9 +1320,6 @@ msgcat::mcmset zh {
   "The current theme has unsaved changes"
   "目前的主题有未保存的更改"
 
-  "Theme Editor %s %s"
-  "主题编辑器％s％S"
-
   "Tree Style: "
   "树风格："
 
@@ -1113,8 +1340,8 @@ msgcat::mcmset zh {
 # themes.tcl
 msgcat::mcmset zh {
 
-  "Theme:  %s"
-  "主题：％S"
+  "Theme"
+  "主题"
 
   "Theme:*"
   "主题"
@@ -1135,19 +1362,19 @@ msgcat::mcmset zh {
 # tkedat.tcl
 msgcat::mcmset zh {
 
-  "Unable to open %s for reading"
-  "无法打开 %s 进行阅读"
+  "Unable to read"
+  "无法读取"
 
 }
 
 # vim.tcl
 msgcat::mcmset zh {
 
-  "File %s successfully written"
-  "文件 %s 成功地写"
+  "File successfully written"
+  "成功地写入文件"
 
-  "Filename %s already exists"
-  "文件名 %s 已存在"
+  "Filename already exists"
+  "文件名已经存在"
 
 }
 
@@ -1169,7 +1396,7 @@ msgcat::mcmset zh {
   "Favorite"
   "我的最愛"
 
-  "Find:"
+  "Find"
   "查找"
 
   "Move to Other Pane"
@@ -1180,9 +1407,6 @@ msgcat::mcmset zh {
 
   "Open"
   "打开"
-
-  "Replace:"
-  "替换:"
 
   "Save"
   "保存"
@@ -1196,8 +1420,8 @@ msgcat::mcmset zh {
   "Theme Editor"
   "主题编辑器"
 
-  "Unable to open %s for writing"
-  "无法打开％s的写入"
+  "Unable to write"
+  "无法写入<％s>"
 
   "Unfavorite"
   "不喜欢的"

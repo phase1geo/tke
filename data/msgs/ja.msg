@@ -4,16 +4,16 @@ msgcat::mcmset ja {
   "Argument list to api::add_file was not an even key/value pair"
   "APIへの引数リスト:: ADD_FILEもキー/値のペアではなかった"
 
-  "Plugin-%s: %s"
-  "プラグイン %s"
+  "Plugin"
+  "プラグイン"
 
 }
 
 # bgproc.tcl
 msgcat::mcmset ja {
 
-  "Unable to run system command (%s)"
-  "システム·コマンド（％s）を実行することができません"
+  "Unable to run system command"
+  "システム コマンドを実行することができません。"
 
 }
 
@@ -37,11 +37,19 @@ msgcat::mcmset ja {
 
 }
 
-# gui.tcl
+# embed_tke.tcl
 msgcat::mcmset ja {
 
-  "%s, Line: %d, Column: %d"
-  "％sの、ライン：％d、列％dの"
+  "Find:"
+  "Find"
+
+  "Replace:"
+  "置換："
+
+}
+
+# gui.tcl
+msgcat::mcmset ja {
 
   "Case sensitivity"
   "大文字と小文字を区別する"
@@ -49,8 +57,8 @@ msgcat::mcmset ja {
   "Close All Tabs"
   "すべてのタブを閉じる"
 
-  "Close Other Tab(s)"
-  "閉じるその他のタブ（S）"
+  "Close Other Tabs"
+  "他のタブを閉じる"
 
   "Close Other*"
   "その他の*を閉じ"
@@ -58,17 +66,20 @@ msgcat::mcmset ja {
   "Close Tab"
   "タブを閉じる"
 
-  "Copyright %d-%d"
-  "著作権％D-％dの"
+  "Column"
+  "列"
+
+  "Copyright"
+  "著作権"
 
   "Delete tab?"
   "タブを削除しますか？"
 
-  "Developer:"
+  "Developer"
   "デベロッパー"
 
-  "Email:"
-  "メール"
+  "Email"
+  "Eメール"
 
   "Error"
   "エラー"
@@ -79,8 +90,8 @@ msgcat::mcmset ja {
   "File already exists.  Use '!' to force an overwrite"
   "ファイルは既に存在します。 使用 '!' 強制的に上書きする"
 
-  "File attribute (%s) does not exist"
-  "ファイル属性（％s）は存在しません"
+  "File attribute does not exist"
+  "ファイル属性は存在しません"
 
   "File index is out of range"
   "ファイルインデックスが範囲外である"
@@ -109,17 +120,17 @@ msgcat::mcmset ja {
   "Image used in tab which, when clicked, closes the tab."
   "画像は、クリックすると、タブを閉じたタブに使用されます。"
 
-  "License:"
-  "????????"
+  "License"
+  "ナンバープレート"
 
-  "Line: %d, Column: %d"
-  "ライン：％dが、カラム：％dの"
+  "Line"
+  "直線"
 
   "Locked"
   "ロックする"
 
-  "Move*"
-  "ムーブ"
+  "Move"
+  "引き延ばす"
 
   "Must be in multicursor mode to insert numbers"
   "数字を挿入する multicursor モードでなければなりません"
@@ -127,11 +138,14 @@ msgcat::mcmset ja {
   "No write permissions.  Use '!' to force write."
   "書き込みのアクセス許可はありません。 使用 '!' 書き込みを強制します。"
 
-  "Release Type:"
-  "リリースの種類:"
+  "Release Type"
+  "リリースの種類"
 
   "Reload file?"
   "ファイルをリロード？"
+
+  "Replace"
+  "置換"
 
   "Save request"
   "リクエストを保存"
@@ -142,14 +156,17 @@ msgcat::mcmset ja {
   "Starting number:"
   "開始番号:"
 
-  "Tcl/Tk Version:"
-  "Tcl/Tk のバージョン:"
+  "Tcl/Tk Version"
+  "Tcl/Tk バージョン"
 
-  "Total Lines: %d, Total Characters: %d"
-  "総行：％dが、合計文字：％D"
+  "Total Characters"
+  "合計文字"
 
-  "Unable to find current file (tab: %s)"
-  "現在のファイルが見つかりません（ペ：％s）を"
+  "Total Lines"
+  "集計行"
+
+  "Unable to find current file"
+  "現在のファイルを見つけることができません。"
 
   "Unable to successfully parse number string"
   "番号の文字列を正しく解析することができません。"
@@ -157,8 +174,11 @@ msgcat::mcmset ja {
   "Unable to write file"
   "ファイルを書き込めません。"
 
-  "Version:"
-  "Version:"
+  "Version"
+  "バージョン"
+
+  "tab"
+  "タブ"
 
 }
 
@@ -172,9 +192,6 @@ msgcat::mcmset ja {
 
 # menus.tcl
 msgcat::mcmset ja {
-
-  "                                  Profiling Report Sorted By (%s)"
-  "ソート順プロファイリングレポート（％s）が"
 
   "About TKE"
   "TKEについて"
@@ -361,9 +378,6 @@ msgcat::mcmset ja {
 
   "File Menu: Unlock file"
   "[ファイル] メニュー: ファイルのロックを解除します。"
-
-  "Find"
-  "Find"
 
   "Find In Files"
   "????????????"
@@ -559,6 +573,9 @@ msgcat::mcmset ja {
 
   "Previous Difference"
   "?????"
+
+  "Profiling Report Sorted By"
+  "プロファイリング レポート順"
 
   "Profiling started"
   "プロファイリングが開始されました"
@@ -847,8 +864,8 @@ msgcat::mcmset ja {
 # plugins.tcl
 msgcat::mcmset ja {
 
-  "ERROR (%s,%s): %s"
-  "エラー (%s, %s): %s"
+  "ERROR"
+  "エラー"
 
   "ERROR:  Plugin name already exists"
   "エラー：プラグイン名がすでに存在"
@@ -865,14 +882,14 @@ msgcat::mcmset ja {
   "Enter plugin name"
   "プラグイン名を入力してください"
 
-  "Plugin %s installed"
-  "プラグイン％sのインストール"
-
-  "Plugin %s uninstalled"
-  "プラグイン％sをアンインストール"
-
   "Plugin Errors"
   "プラグインエラー"
+
+  "Plugin installed"
+  "プラグインをインストール"
+
+  "Plugin uninstalled"
+  "プラグインのアンインストール"
 
   "Plugins successfully reloaded"
   "プラグインが正常にリロード"
@@ -885,9 +902,6 @@ msgcat::mcmset ja {
 # search.tcl
 msgcat::mcmset ja {
 
-  "%d substitutions done"
-  "%d 個の置換が行われます"
-
   "No files found in specified directories"
   "ファイルの指定されたディレクトリが見つかりません"
 
@@ -899,6 +913,9 @@ msgcat::mcmset ja {
 
   "Search wrapped to end of file"
   "ファイルの最後に折り返し検索"
+
+  "substitutions done"
+  "置換実行"
 
 }
 
@@ -972,11 +989,11 @@ msgcat::mcmset ja {
 # syntax.tcl
 msgcat::mcmset ja {
 
-  "Syntax error in %s.syntax file"
-  "パーセントs.syntaxファイルの構文エラー"
+  "Syntax"
+  "統語論"
 
-  "Syntax: %s"
-  "構文: %s"
+  "Syntax error in syntax file"
+  "構文ファイルの構文エラー"
 
 }
 
@@ -1070,8 +1087,8 @@ msgcat::mcmset ja {
   "Determines the thickness of the grip area between resizable panes."
   "サイズ変更可能なペイン間のグリップ領域の厚さを決定します。"
 
-  "ERROR:  Unable to read %s"
-  "ERROR：％sのを読み取ることができません"
+  "ERROR:  Unable to read"
+  "エラー: を読み取れません。"
 
   "Foreground (slider) color used in the sidebar scrollbar."
   "サイドバーのスクロールバーで使用される前景（スライダー）カラー。"
@@ -1303,9 +1320,6 @@ msgcat::mcmset ja {
   "The current theme has unsaved changes"
   "現在のテーマは保存されていない変更があります"
 
-  "Theme Editor %s %s"
-  "テーマエディタ％S％"
-
   "Tree Style: "
   "ツリーのスタイル："
 
@@ -1326,8 +1340,8 @@ msgcat::mcmset ja {
 # themes.tcl
 msgcat::mcmset ja {
 
-  "Theme:  %s"
-  "テーマ：％sは"
+  "Theme"
+  "テーマ"
 
   "Theme:*"
   "テーマ"
@@ -1348,19 +1362,19 @@ msgcat::mcmset ja {
 # tkedat.tcl
 msgcat::mcmset ja {
 
-  "Unable to open %s for reading"
-  "%S を読み取り用に開くことができません。"
+  "Unable to read"
+  "読み取ることができません。"
 
 }
 
 # vim.tcl
 msgcat::mcmset ja {
 
-  "File %s successfully written"
-  "ファイル %s が正常に書き込まれました。"
+  "File successfully written"
+  "ファイルが正常に書き込まれました。"
 
-  "Filename %s already exists"
-  "ファイル名 %s は既に存在します。"
+  "Filename already exists"
+  "ファイル名が既に存在します。"
 
 }
 
@@ -1382,7 +1396,7 @@ msgcat::mcmset ja {
   "Favorite"
   "お気に入り"
 
-  "Find:"
+  "Find"
   "Find"
 
   "Move to Other Pane"
@@ -1393,9 +1407,6 @@ msgcat::mcmset ja {
 
   "Open"
   "オープン"
-
-  "Replace:"
-  "置換："
 
   "Save"
   "保存"
@@ -1409,8 +1420,8 @@ msgcat::mcmset ja {
   "Theme Editor"
   "テーマエディタ"
 
-  "Unable to open %s for writing"
-  "書き込み用の％sを開けません"
+  "Unable to write"
+  "書き込めません。"
 
   "Unfavorite"
   "気に入らない"

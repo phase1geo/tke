@@ -4,16 +4,16 @@ msgcat::mcmset nl {
   "Argument list to api::add_file was not an even key/value pair"
   "Lijst met argumenten om api :: add_file was niet een even sleutel / waarde paar"
 
-  "Plugin-%s: %s"
-  "Plugin-% s: %s"
+  "Plugin"
+  "Plugin"
 
 }
 
 # bgproc.tcl
 msgcat::mcmset nl {
 
-  "Unable to run system command (%s)"
-  "Niet worden uitgevoerd systeem commando (% s)"
+  "Unable to run system command"
+  "Onvermogend voor stormloop systeem opdracht"
 
 }
 
@@ -37,11 +37,19 @@ msgcat::mcmset nl {
 
 }
 
-# gui.tcl
+# embed_tke.tcl
 msgcat::mcmset nl {
 
-  "%s, Line: %d, Column: %d"
-  "% S, Line:% d, kolom:% d"
+  "Find:"
+  "ontdekken"
+
+  "Replace:"
+  "Vervangen:"
+
+}
+
+# gui.tcl
+msgcat::mcmset nl {
 
   "Case sensitivity"
   "Hoofdletters/kleine letters"
@@ -49,8 +57,8 @@ msgcat::mcmset nl {
   "Close All Tabs"
   "Sluit alle tabbladen"
 
-  "Close Other Tab(s)"
-  "Close Andere Tab (s)"
+  "Close Other Tabs"
+  "Alle andere tabbladen sluiten"
 
   "Close Other*"
   "Alle andere tabbladen sluiten"
@@ -58,17 +66,20 @@ msgcat::mcmset nl {
   "Close Tab"
   "Tabblad sluiten"
 
-  "Copyright %d-%d"
-  "Copyright% d-% d"
+  "Column"
+  "Kolom"
+
+  "Copyright"
+  "Auteursrecht"
 
   "Delete tab?"
   "Delete tab?"
 
-  "Developer:"
-  "Projectontwikkelaar;"
+  "Developer"
+  "Ontwikkelaar"
 
-  "Email:"
-  "E-mail"
+  "Email"
+  "E-mailadres"
 
   "Error"
   "Fout"
@@ -79,8 +90,8 @@ msgcat::mcmset nl {
   "File already exists.  Use '!' to force an overwrite"
   "Bestand bestaat al.  Gebruik '!' te dwingen een overschrijven"
 
-  "File attribute (%s) does not exist"
-  "Dossierattributen (% s) bestaat niet"
+  "File attribute does not exist"
+  "Bestandskenmerk bestaat niet"
 
   "File index is out of range"
   "File index valt buiten het bereik"
@@ -109,17 +120,17 @@ msgcat::mcmset nl {
   "Image used in tab which, when clicked, closes the tab."
   "Afbeelding gebruikt in de tab die, wanneer geklikt, sluit het tabblad."
 
-  "License:"
-  "LICENTIE"
+  "License"
+  "Licentie"
 
-  "Line: %d, Column: %d"
-  "Line:% d, kolom:% d"
+  "Line"
+  "Regel"
 
   "Locked"
   "Afgesloten"
 
-  "Move*"
   "Move"
+  "Verplaats"
 
   "Must be in multicursor mode to insert numbers"
   "Moet in multicursor modus nummers invoegen"
@@ -127,11 +138,14 @@ msgcat::mcmset nl {
   "No write permissions.  Use '!' to force write."
   "Geen schrijfrechten.  Gebruik '!' te dwingen schrijven."
 
-  "Release Type:"
-  "Release Type:"
+  "Release Type"
+  "Release Type"
 
   "Reload file?"
   "Opnieuw laden"
+
+  "Replace"
+  "Vervangen"
 
   "Save request"
   "Sparen verzoek"
@@ -142,14 +156,17 @@ msgcat::mcmset nl {
   "Starting number:"
   "Begin Pagina Nummer"
 
-  "Tcl/Tk Version:"
-  "Tcl/Tk versie:"
+  "Tcl/Tk Version"
+  "Tcl/Tk versie"
 
-  "Total Lines: %d, Total Characters: %d"
-  "Totaal Lijnen:% d, Total Characters:% d"
+  "Total Characters"
+  "Totale tekens"
 
-  "Unable to find current file (tab: %s)"
-  "Kan huidige bestand te vinden (tabblad:% s)"
+  "Total Lines"
+  "Totale lijnen"
+
+  "Unable to find current file"
+  "Kan geen huidige bestand vinden"
 
   "Unable to successfully parse number string"
   "Kan niet met succes nummer tekenreeks parseren"
@@ -157,8 +174,11 @@ msgcat::mcmset nl {
   "Unable to write file"
   "Kan niet schrijven bestand"
 
-  "Version:"
-  "Versie:"
+  "Version"
+  "Versie"
+
+  "tab"
+  "tabblad"
 
 }
 
@@ -172,9 +192,6 @@ msgcat::mcmset nl {
 
 # menus.tcl
 msgcat::mcmset nl {
-
-  "                                  Profiling Report Sorted By (%s)"
-  "Profiling Report Geordend volgens (% s)"
 
   "About TKE"
   "Over TKE"
@@ -361,9 +378,6 @@ msgcat::mcmset nl {
 
   "File Menu: Unlock file"
   "Bestandsmenu: Ontgrendelen bestand"
-
-  "Find"
-  "Query"
 
   "Find In Files"
   "Zoeken in bestanden..."
@@ -559,6 +573,9 @@ msgcat::mcmset nl {
 
   "Previous Difference"
   "Vorig verschil"
+
+  "Profiling Report Sorted By"
+  "Profilering verslag gesorteerd"
 
   "Profiling started"
   "Profiling begonnen"
@@ -847,8 +864,8 @@ msgcat::mcmset nl {
 # plugins.tcl
 msgcat::mcmset nl {
 
-  "ERROR (%s,%s): %s"
-  "FOUT (%s, %s): %s"
+  "ERROR"
+  "FOUT"
 
   "ERROR:  Plugin name already exists"
   "FOUT: Plugin naam al bestaat"
@@ -865,14 +882,14 @@ msgcat::mcmset nl {
   "Enter plugin name"
   "Voer plugin naam"
 
-  "Plugin %s installed"
-  "Plugin% s geïnstalleerd"
-
-  "Plugin %s uninstalled"
-  "Plugin% s verwijderd"
-
   "Plugin Errors"
   "Plugin fouten"
+
+  "Plugin installed"
+  "Plugin geïnstalleerd"
+
+  "Plugin uninstalled"
+  "Plugin verwijderd"
 
   "Plugins successfully reloaded"
   "Plugins succes vernieuwd"
@@ -885,9 +902,6 @@ msgcat::mcmset nl {
 # search.tcl
 msgcat::mcmset nl {
 
-  "%d substitutions done"
-  "%d vervangingen gedaan"
-
   "No files found in specified directories"
   "Geen bestanden gevonden in de opgegeven mappen"
 
@@ -899,6 +913,9 @@ msgcat::mcmset nl {
 
   "Search wrapped to end of file"
   "Zoek verpakt op einde van het bestand"
+
+  "substitutions done"
+  "vervangingen gedaan"
 
 }
 
@@ -972,11 +989,11 @@ msgcat::mcmset nl {
 # syntax.tcl
 msgcat::mcmset nl {
 
-  "Syntax error in %s.syntax file"
-  "Syntax fout in% s.syntax bestand"
+  "Syntax"
+  "Syntaxis"
 
-  "Syntax: %s"
-  "Syntaxis: %s"
+  "Syntax error in syntax file"
+  "Syntaxisfout in syntaxis bestand"
 
 }
 
@@ -1070,8 +1087,8 @@ msgcat::mcmset nl {
   "Determines the thickness of the grip area between resizable panes."
   "Bepaalt de dikte van de grip tussen resizable ruiten."
 
-  "ERROR:  Unable to read %s"
-  "FOUT: Kan niet lezen% s"
+  "ERROR:  Unable to read"
+  "Fout: kan ruw bestand niet lezen"
 
   "Foreground (slider) color used in the sidebar scrollbar."
   "Voorgrond (schuif) kleur gebruikt in de zijbalk scrollbar."
@@ -1303,9 +1320,6 @@ msgcat::mcmset nl {
   "The current theme has unsaved changes"
   "De huidige thema heeft opgeslagen wijzigingen"
 
-  "Theme Editor %s %s"
-  "Thema-editor% s% s"
-
   "Tree Style: "
   "Boom Stijl:"
 
@@ -1326,8 +1340,8 @@ msgcat::mcmset nl {
 # themes.tcl
 msgcat::mcmset nl {
 
-  "Theme:  %s"
-  "Thema:% s"
+  "Theme"
+  "Thema"
 
   "Theme:*"
   "Thema"
@@ -1348,19 +1362,19 @@ msgcat::mcmset nl {
 # tkedat.tcl
 msgcat::mcmset nl {
 
-  "Unable to open %s for reading"
-  "Het bestand%1 kon niet worden geopend."
+  "Unable to read"
+  "Kan niet lezen"
 
 }
 
 # vim.tcl
 msgcat::mcmset nl {
 
-  "File %s successfully written"
-  "Bestand> %s met success geschreven!"
+  "File successfully written"
+  "Bestand met succes geschreven"
 
-  "Filename %s already exists"
-  "Bestandsnaam %s bestaat al"
+  "Filename already exists"
+  "Bestandsnaam bestaat al"
 
 }
 
@@ -1382,8 +1396,8 @@ msgcat::mcmset nl {
   "Favorite"
   "Favoriet"
 
-  "Find:"
-  "ontdekken"
+  "Find"
+  "Query"
 
   "Move to Other Pane"
   "Verplaatsen naar andere Pane"
@@ -1393,9 +1407,6 @@ msgcat::mcmset nl {
 
   "Open"
   "Openen"
-
-  "Replace:"
-  "Vervangen:"
 
   "Save"
   "Opslaan"
@@ -1409,8 +1420,8 @@ msgcat::mcmset nl {
   "Theme Editor"
   "Thema-editor"
 
-  "Unable to open %s for writing"
-  "%1 kon niet worden geopend om naar te schrijven."
+  "Unable to write"
+  "Niet in staat om te schrijven"
 
   "Unfavorite"
   "Unfavorite"

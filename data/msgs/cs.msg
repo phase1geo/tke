@@ -4,16 +4,16 @@ msgcat::mcmset cs {
   "Argument list to api::add_file was not an even key/value pair"
   "Argument seznam API :: add_file nebyl ani klíč / hodnota pár"
 
-  "Plugin-%s: %s"
-  "Plugin-% s: %s"
+  "Plugin"
+  "Plugin"
 
 }
 
 # bgproc.tcl
 msgcat::mcmset cs {
 
-  "Unable to run system command (%s)"
-  "Nelze spustit příkaz systému (% s)"
+  "Unable to run system command"
+  "Nelze spustit příkaz systému"
 
 }
 
@@ -37,11 +37,19 @@ msgcat::mcmset cs {
 
 }
 
-# gui.tcl
+# embed_tke.tcl
 msgcat::mcmset cs {
 
-  "%s, Line: %d, Column: %d"
-  "% S, řádek% d, sloupec% d"
+  "Find:"
+  "Find"
+
+  "Replace:"
+  "slova"
+
+}
+
+# gui.tcl
+msgcat::mcmset cs {
 
   "Case sensitivity"
   "Rozlišování"
@@ -49,8 +57,8 @@ msgcat::mcmset cs {
   "Close All Tabs"
   "Zavřít vše"
 
-  "Close Other Tab(s)"
-  "Close Ostatní Tab (y)"
+  "Close Other Tabs"
+  "Zavřít ostatní karty"
 
   "Close Other*"
   "Close Ostatní *"
@@ -58,17 +66,20 @@ msgcat::mcmset cs {
   "Close Tab"
   "Zavřít list"
 
-  "Copyright %d-%d"
-  "Copyright% d-% d"
+  "Column"
+  "Sloupec"
+
+  "Copyright"
+  "Copyright"
 
   "Delete tab?"
   "Kartu smazat?"
 
-  "Developer:"
-  "Vývojář:"
+  "Developer"
+  "Vývojář"
 
-  "Email:"
-  "E-mail:"
+  "Email"
+  "E-mail"
 
   "Error"
   "Chyba"
@@ -79,8 +90,8 @@ msgcat::mcmset cs {
   "File already exists.  Use '!' to force an overwrite"
   "Soubor již existuje.  Použijte '!' přinutit přepsání"
 
-  "File attribute (%s) does not exist"
-  "Atribut souboru (% s) neexistuje"
+  "File attribute does not exist"
+  "{attribute} neexistuje!"
 
   "File index is out of range"
   "Obsah souboru je mimo rozsah"
@@ -109,17 +120,17 @@ msgcat::mcmset cs {
   "Image used in tab which, when clicked, closes the tab."
   "Image používané v kartě, které po kliknutí, uzavře kartu."
 
-  "License:"
+  "License"
   "Licence"
 
-  "Line: %d, Column: %d"
-  "Line:% d, sloupec% d"
+  "Line"
+  "Linka"
 
   "Locked"
   "zamčený, zamknutý"
 
-  "Move*"
-  "přesunout"
+  "Move"
+  "Přesunout"
 
   "Must be in multicursor mode to insert numbers"
   "Musí být v multicursor režimu vložit čísla"
@@ -127,11 +138,14 @@ msgcat::mcmset cs {
   "No write permissions.  Use '!' to force write."
   "Žádné oprávnění k zápisu.  Použijte '!' nutit psát."
 
-  "Release Type:"
-  "Vydání typ:"
+  "Release Type"
+  "Typ vydání"
 
   "Reload file?"
   "Obnovit soubor?"
+
+  "Replace"
+  "Nahradit"
 
   "Save request"
   "Uložte žádost"
@@ -142,14 +156,17 @@ msgcat::mcmset cs {
   "Starting number:"
   "Startovní číslo:"
 
-  "Tcl/Tk Version:"
-  "Tcl/Tk verze:"
+  "Tcl/Tk Version"
+  "Tcl/Tk verze"
 
-  "Total Lines: %d, Total Characters: %d"
-  "Celkem Linky:% d, celkem znaky:% d"
+  "Total Characters"
+  "Celkem znaků"
 
-  "Unable to find current file (tab: %s)"
-  "Nelze najít aktuální soubor (karta:% s)"
+  "Total Lines"
+  "Celkový čáry"
+
+  "Unable to find current file"
+  "Nelze nalézt aktuální soubor"
 
   "Unable to successfully parse number string"
   "Nelze úspěšně analyzovat číselné řetězce"
@@ -157,8 +174,11 @@ msgcat::mcmset cs {
   "Unable to write file"
   "Nelze zapsat soubor"
 
-  "Version:"
-  "Verze:"
+  "Version"
+  "Verze"
+
+  "tab"
+  "kryt"
 
 }
 
@@ -172,9 +192,6 @@ msgcat::mcmset cs {
 
 # menus.tcl
 msgcat::mcmset cs {
-
-  "                                  Profiling Report Sorted By (%s)"
-  "Profilování Report řazeny dle (% s)"
 
   "About TKE"
   "O TKE"
@@ -361,9 +378,6 @@ msgcat::mcmset cs {
 
   "File Menu: Unlock file"
   "Nabídka soubor: Odemknutí souboru"
-
-  "Find"
-  "Find"
 
   "Find In Files"
   "Najít v souborech"
@@ -559,6 +573,9 @@ msgcat::mcmset cs {
 
   "Previous Difference"
   "P?edchozí rozdíl"
+
+  "Profiling Report Sorted By"
+  "Profilování sestavu setříděnou podle"
 
   "Profiling started"
   "Profilování začal"
@@ -847,8 +864,8 @@ msgcat::mcmset cs {
 # plugins.tcl
 msgcat::mcmset cs {
 
-  "ERROR (%s,%s): %s"
-  "Chyba (%s, %s): %s"
+  "ERROR"
+  "CHYBA"
 
   "ERROR:  Plugin name already exists"
   "Chyba: Plugin názvem již existuje"
@@ -865,14 +882,14 @@ msgcat::mcmset cs {
   "Enter plugin name"
   "Zadejte plugin jméno"
 
-  "Plugin %s installed"
-  "Plugin% s nainstalován"
-
-  "Plugin %s uninstalled"
-  "Plugin% s odinstalován"
-
   "Plugin Errors"
   "Plugin chyby"
+
+  "Plugin installed"
+  "Plugin nainstalovaný"
+
+  "Plugin uninstalled"
+  "Plugin odinstaloval"
 
   "Plugins successfully reloaded"
   "Pluginy úspěšně reloaded"
@@ -885,9 +902,6 @@ msgcat::mcmset cs {
 # search.tcl
 msgcat::mcmset cs {
 
-  "%d substitutions done"
-  "%d náhrady provádí"
-
   "No files found in specified directories"
   "Žádné soubory v uvedených adresářích"
 
@@ -899,6 +913,9 @@ msgcat::mcmset cs {
 
   "Search wrapped to end of file"
   "Hledat zabalené do konce souboru"
+
+  "substitutions done"
+  "substituce hotovo"
 
 }
 
@@ -972,11 +989,11 @@ msgcat::mcmset cs {
 # syntax.tcl
 msgcat::mcmset cs {
 
-  "Syntax error in %s.syntax file"
-  "Chyba syntaxe v% s.syntax souboru"
+  "Syntax"
+  "Syntax"
 
-  "Syntax: %s"
-  "Syntaxe: %s"
+  "Syntax error in syntax file"
+  "Syntaktická chyba v syntaxi souboru"
 
 }
 
@@ -1070,8 +1087,8 @@ msgcat::mcmset cs {
   "Determines the thickness of the grip area between resizable panes."
   "Určuje tloušťku uchopení prostoru mezi tabulemi měnit velikost."
 
-  "ERROR:  Unable to read %s"
-  "CHYBA: Nelze přečíst% s"
+  "ERROR:  Unable to read"
+  "Chyba: Nelze přečíst"
 
   "Foreground (slider) color used in the sidebar scrollbar."
   "Popředí (slider), barvy použité v postranním panelu posuvníku."
@@ -1303,9 +1320,6 @@ msgcat::mcmset cs {
   "The current theme has unsaved changes"
   "Aktuální téma má neuložené změny"
 
-  "Theme Editor %s %s"
-  "Téma Editor% s% s"
-
   "Tree Style: "
   "Tree Style:"
 
@@ -1326,8 +1340,8 @@ msgcat::mcmset cs {
 # themes.tcl
 msgcat::mcmset cs {
 
-  "Theme:  %s"
-  "Téma:% s"
+  "Theme"
+  "Šablona"
 
   "Theme:*"
   "Šablona"
@@ -1348,19 +1362,19 @@ msgcat::mcmset cs {
 # tkedat.tcl
 msgcat::mcmset cs {
 
-  "Unable to open %s for reading"
-  "Nelze otevřít %s pro čtení"
+  "Unable to read"
+  "Nelze přečíst"
 
 }
 
 # vim.tcl
 msgcat::mcmset cs {
 
-  "File %s successfully written"
-  "Soubor %s úspěšně zapsána"
+  "File successfully written"
+  "Soubor úspěšně zapsána"
 
-  "Filename %s already exists"
-  "Název souboru %s již existuje"
+  "Filename already exists"
+  "Název souboru již existuje."
 
 }
 
@@ -1382,7 +1396,7 @@ msgcat::mcmset cs {
   "Favorite"
   "oblíbená položka"
 
-  "Find:"
+  "Find"
   "Find"
 
   "Move to Other Pane"
@@ -1393,9 +1407,6 @@ msgcat::mcmset cs {
 
   "Open"
   "Open"
-
-  "Replace:"
-  "slova"
 
   "Save"
   "Uložit"
@@ -1409,8 +1420,8 @@ msgcat::mcmset cs {
   "Theme Editor"
   "Editor téma"
 
-  "Unable to open %s for writing"
-  "Nelze otevřít% s pro zápis"
+  "Unable to write"
+  "Nelze zapisovat"
 
   "Unfavorite"
   "Unfavorite"

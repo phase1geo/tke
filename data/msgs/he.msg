@@ -4,16 +4,16 @@ msgcat::mcmset he {
   "Argument list to api::add_file was not an even key/value pair"
   "רשימת כדי api::add_file לא היה זוג ואפילו מפתח/ערך"
 
-  "Plugin-%s: %s"
-  "תוסף-% s: %s"
+  "Plugin"
+  "תוסף"
 
 }
 
 # bgproc.tcl
 msgcat::mcmset he {
 
-  "Unable to run system command (%s)"
-  "אין אפשרות להפעיל מערכת הפיקוד (%s)"
+  "Unable to run system command"
+  "אין אפשרות להפעיל מערכת פיקוד"
 
 }
 
@@ -37,11 +37,19 @@ msgcat::mcmset he {
 
 }
 
-# gui.tcl
+# embed_tke.tcl
 msgcat::mcmset he {
 
-  "%s, Line: %d, Column: %d"
-  "%s, קו: %d, עמודה: %d"
+  "Find:"
+  "לימצו (limtzo)"
+
+  "Replace:"
+  "חיפוש והחלפה:"
+
+}
+
+# gui.tcl
+msgcat::mcmset he {
 
   "Case sensitivity"
   "תלות ברישיות"
@@ -49,8 +57,8 @@ msgcat::mcmset he {
   "Close All Tabs"
   "לסגור את כל הכרטיסיות"
 
-  "Close Other Tab(s)"
-  "לסגור את Tab(s) אחרים"
+  "Close Other Tabs"
+  "סגור כרטיסיות אחרות"
 
   "Close Other*"
   "לסגור את השני *"
@@ -58,17 +66,20 @@ msgcat::mcmset he {
   "Close Tab"
   "סגור טאב"
 
-  "Copyright %d-%d"
-  "זכויות יוצרים %d %d-"
+  "Column"
+  "עמודה"
+
+  "Copyright"
+  "זכויות יוצרים"
 
   "Delete tab?"
   "למחוק טאב?"
 
-  "Developer:"
-  "מפתח:"
+  "Developer"
+  "מפתח"
 
-  "Email:"
-  "דוא\"
+  "Email"
+  "אימייל"
 
   "Error"
   "שגיאה"
@@ -79,8 +90,8 @@ msgcat::mcmset he {
   "File already exists.  Use '!' to force an overwrite"
   "הקובץ כבר קיים.  שימוש '!' לכפות על החלף"
 
-  "File attribute (%s) does not exist"
-  "תכונת הקובץ (%s) לא קיים"
+  "File attribute does not exist"
+  "תכונת הקובץ אינו קיים"
 
   "File index is out of range"
   "קובץ אינדקס נמצא מחוץ לטווח"
@@ -109,17 +120,17 @@ msgcat::mcmset he {
   "Image used in tab which, when clicked, closes the tab."
   "התמונה בשימוש ב- tab אשר, בעת לחיצה על הכרטיסיה נסגרת."
 
-  "License:"
-  "??????"
+  "License"
+  "רישיון"
 
-  "Line: %d, Column: %d"
-  "קו: %d, עמודה: %d"
+  "Line"
+  "שורה"
 
   "Locked"
   "נעול"
 
-  "Move*"
-  "תנועה"
+  "Move"
+  "העבר"
 
   "Must be in multicursor mode to insert numbers"
   "חייב להיות במצב multicursor כדי להוסיף מספרים"
@@ -127,11 +138,14 @@ msgcat::mcmset he {
   "No write permissions.  Use '!' to force write."
   "אין הרשאות כתיבה.  שימוש '!' לכפות כתיבה."
 
-  "Release Type:"
-  "סוג פרסום:"
+  "Release Type"
+  "סוג המהדורה"
 
   "Reload file?"
   "טען מחדש קובץ?"
+
+  "Replace"
+  "החלף"
 
   "Save request"
   "להציל את הבקשה"
@@ -142,14 +156,17 @@ msgcat::mcmset he {
   "Starting number:"
   "המספר ההתחלתי:"
 
-  "Tcl/Tk Version:"
-  "Tcl/Tk גרסה:"
+  "Tcl/Tk Version"
+  "Tcl/Tk גירסה"
 
-  "Total Lines: %d, Total Characters: %d"
-  "שורות סכום כולל: %d, סה כ תווים: %d"
+  "Total Characters"
+  "סה כ תווים"
 
-  "Unable to find current file (tab: %s)"
-  "אין אפשרות למצוא את הקובץ הנוכחי (הכרטיסיה: %s)"
+  "Total Lines"
+  "שורות סכום כולל"
+
+  "Unable to find current file"
+  "אין אפשרות למצוא את הקובץ הנוכחי"
 
   "Unable to successfully parse number string"
   "אין אפשרות לנתח בהצלחה מספר מיתרים"
@@ -157,8 +174,11 @@ msgcat::mcmset he {
   "Unable to write file"
   "אין אפשרות לכתוב את הקובץ"
 
-  "Version:"
-  "גרסה:"
+  "Version"
+  "גרסה"
+
+  "tab"
+  "טאב"
 
 }
 
@@ -172,9 +192,6 @@ msgcat::mcmset he {
 
 # menus.tcl
 msgcat::mcmset he {
-
-  "                                  Profiling Report Sorted By (%s)"
-  "פרופיל ח ממוין לפי (%s)"
 
   "About TKE"
   "לגבי בבית"
@@ -361,9 +378,6 @@ msgcat::mcmset he {
 
   "File Menu: Unlock file"
   "תפריט קובץ: לפתוח את הקובץ"
-
-  "Find"
-  "לימצו (limtzo)"
 
   "Find In Files"
   "????? ?????"
@@ -559,6 +573,9 @@ msgcat::mcmset he {
 
   "Previous Difference"
   "????? ?????"
+
+  "Profiling Report Sorted By"
+  "פרופיל ח ממוין לפי"
 
   "Profiling started"
   "פרופיל התחיל"
@@ -847,8 +864,8 @@ msgcat::mcmset he {
 # plugins.tcl
 msgcat::mcmset he {
 
-  "ERROR (%s,%s): %s"
-  "שגיאה (%s, %s): %s"
+  "ERROR"
+  "טעות"
 
   "ERROR:  Plugin name already exists"
   "שגיאה: שם התוסף כבר קיים"
@@ -865,14 +882,14 @@ msgcat::mcmset he {
   "Enter plugin name"
   "הזן שם התוסף"
 
-  "Plugin %s installed"
-  "ההרחבה %s מותקן"
-
-  "Plugin %s uninstalled"
-  "תוסף להסיר את %s"
-
   "Plugin Errors"
   "תוסף שגיאות"
+
+  "Plugin installed"
+  "התוסף מותקן"
+
+  "Plugin uninstalled"
+  "תוסף להסיר"
 
   "Plugins successfully reloaded"
   "תוספים בהצלחה-נטען מחדש"
@@ -885,9 +902,6 @@ msgcat::mcmset he {
 # search.tcl
 msgcat::mcmset he {
 
-  "%d substitutions done"
-  "%d החלפות עשה"
-
   "No files found in specified directories"
   "לא נמצאו בספריות שצוין קבצים"
 
@@ -899,6 +913,9 @@ msgcat::mcmset he {
 
   "Search wrapped to end of file"
   "חיפוש עטוף כדי בסוף הקובץ"
+
+  "substitutions done"
+  "נעשה החלפות"
 
 }
 
@@ -972,11 +989,11 @@ msgcat::mcmset he {
 # syntax.tcl
 msgcat::mcmset he {
 
-  "Syntax error in %s.syntax file"
-  "שגיאת תחביר בקובץ %s.syntax"
+  "Syntax"
+  "תחביר"
 
-  "Syntax: %s"
-  "תחביר: %s"
+  "Syntax error in syntax file"
+  "שגיאת תחביר בקובץ תחביר"
 
 }
 
@@ -1070,8 +1087,8 @@ msgcat::mcmset he {
   "Determines the thickness of the grip area between resizable panes."
   "קובע את עובי האזור אחיזה בין חלוניות שניתן לשנות את גודלה."
 
-  "ERROR:  Unable to read %s"
-  "שגיאה: אין אפשרות לקרוא את %s"
+  "ERROR:  Unable to read"
+  "שגיאה: אין אפשרות לקרוא"
 
   "Foreground (slider) color used in the sidebar scrollbar."
   "צבע הקידמה (המחוון) להשתמש בפס הגלילה הצידי."
@@ -1303,9 +1320,6 @@ msgcat::mcmset he {
   "The current theme has unsaved changes"
   "הנושא הנוכחית שינויים שלא נשמרו"
 
-  "Theme Editor %s %s"
-  "דירוג העורך %s %s"
-
   "Tree Style: "
   "עץ בסגנון:"
 
@@ -1326,8 +1340,8 @@ msgcat::mcmset he {
 # themes.tcl
 msgcat::mcmset he {
 
-  "Theme:  %s"
-  "נושא: %s"
+  "Theme"
+  "ערכת עיצוב"
 
   "Theme:*"
   "ערכת עיצוב"
@@ -1348,19 +1362,19 @@ msgcat::mcmset he {
 # tkedat.tcl
 msgcat::mcmset he {
 
-  "Unable to open %s for reading"
-  "אין אפשרות לפתוח את %s עבור קריאה"
+  "Unable to read"
+  "אין אפשרות לקרוא"
 
 }
 
 # vim.tcl
 msgcat::mcmset he {
 
-  "File %s successfully written"
-  "הקובץ %s בהצלחה נכתב"
+  "File successfully written"
+  "קובץ כתוב בהצלחה"
 
-  "Filename %s already exists"
-  "שם הקובץ %s כבר קיים"
+  "Filename already exists"
+  "שם הקובץ כבר קיים"
 
 }
 
@@ -1382,7 +1396,7 @@ msgcat::mcmset he {
   "Favorite"
   "מועדף"
 
-  "Find:"
+  "Find"
   "לימצו (limtzo)"
 
   "Move to Other Pane"
@@ -1393,9 +1407,6 @@ msgcat::mcmset he {
 
   "Open"
   "Open"
-
-  "Replace:"
-  "חיפוש והחלפה:"
 
   "Save"
   "שמור"
@@ -1409,8 +1420,8 @@ msgcat::mcmset he {
   "Theme Editor"
   "דירוג העורך"
 
-  "Unable to open %s for writing"
-  "אין אפשרות לפתוח את %s עבור כתיבה"
+  "Unable to write"
+  "אין אפשרות לכתוב"
 
   "Unfavorite"
   "Unfavorite"

@@ -4038,7 +4038,7 @@ namespace eval gui {
     if {[set vim_mode [[ns vim]::get_mode $txt]] ne ""} {
       $widgets(info_state) configure -text [format "%s, %s: %d, %s: %d" $vim_mode [msgcat::mc "Line"] $line [msgcat::mc "Column"] [expr $column + 1]]
     } else {
-      $widgets(info_state) configure -text [format "%s: %d, %s: %d" [msgcat::mc "Line:"] $line [msgcat::mc "Column"] [expr $column + 1]]
+      $widgets(info_state) configure -text [format "%s: %d, %s: %d" [msgcat::mc "Line"] $line [msgcat::mc "Column"] [expr $column + 1]]
     }
 
   }

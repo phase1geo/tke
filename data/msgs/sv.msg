@@ -4,16 +4,16 @@ msgcat::mcmset sv {
   "Argument list to api::add_file was not an even key/value pair"
   "Argument listan till api :: add_file var inte en ens nyckel / värde-par"
 
-  "Plugin-%s: %s"
-  "Alla penningmedel och ekonomiska resurser som tillhör, ägs eller innehas av fysiska personer som åtalats av ICTY och förtecknas i bilaga I skall frysas."
+  "Plugin"
+  "Tillägg"
 
 }
 
 # bgproc.tcl
 msgcat::mcmset sv {
 
-  "Unable to run system command (%s)"
-  "Det går inte att köra systemet kommandot (% s)"
+  "Unable to run system command"
+  "Det går inte att köra systemet kommandot"
 
 }
 
@@ -37,11 +37,19 @@ msgcat::mcmset sv {
 
 }
 
-# gui.tcl
+# embed_tke.tcl
 msgcat::mcmset sv {
 
-  "%s, Line: %d, Column: %d"
-  "% S, Rad:% d, Kolumn:% d"
+  "Find:"
+  "Sök i"
+
+  "Replace:"
+  "Ersätt:"
+
+}
+
+# gui.tcl
+msgcat::mcmset sv {
 
   "Case sensitivity"
   "Skiftlägeskänslighet"
@@ -49,8 +57,8 @@ msgcat::mcmset sv {
   "Close All Tabs"
   "Stäng alla flikar"
 
-  "Close Other Tab(s)"
-  "Stäng Other Tab (er)"
+  "Close Other Tabs"
+  "Stäng övriga flikar"
 
   "Close Other*"
   "Stäng övriga flikar"
@@ -58,17 +66,20 @@ msgcat::mcmset sv {
   "Close Tab"
   "Stäng flik"
 
-  "Copyright %d-%d"
-  "Copyright% d-% d"
+  "Column"
+  "Kolumn"
+
+  "Copyright"
+  "Copyright"
 
   "Delete tab?"
   "Radera flik?"
 
-  "Developer:"
-  "Utvecklare:"
+  "Developer"
+  "Utvecklare"
 
-  "Email:"
-  "E-post:"
+  "Email"
+  "Epost"
 
   "Error"
   "Fel"
@@ -79,23 +90,47 @@ msgcat::mcmset sv {
   "File already exists.  Use '!' to force an overwrite"
   "Filen finns redan.  Använd '!' tvinga en överskrivning"
 
-  "File attribute (%s) does not exist"
-  "File attribut (% s) finns inte"
+  "File attribute does not exist"
+  "Filattributet finns inte"
 
   "File index is out of range"
   "File index är utanför intervallet"
 
-  "License:"
+  "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
+  "Bilden visas i fylla former som stänger formuläret UI.  Används i former som Sök, Sök/Ersätt och hitta i filer."
+
+  "Image used in tab menus to indicate that the file is associated with a difference view."
+  "Bilden används i fliken menyer för att ange att filen är associerad med en skillnad."
+
+  "Image used in tab menus to indicate that the file is locked."
+  "Bilden används i fliken menyer för att ange att filen är låst."
+
+  "Image used in tab menus to indicate that the file is readonly."
+  "Bilden används i fliken menyer för att ange att filen är skrivskyddad."
+
+  "Image used in tab to indicate that the tab contains a difference view."
+  "Bilden används i fliken för att ange att fliken innehåller en skillnad vy."
+
+  "Image used in tab to indicate that the tab's file is readonly."
+  "Bilden används i fliken för att ange att den fliken filen är skrivskyddad."
+
+  "Image used in tab to indicate that the tab’s file is locked."
+  "Bilden används i fliken för att ange att den fliken filen är låst."
+
+  "Image used in tab which, when clicked, closes the tab."
+  "Bilden används i fliken som, när du klickar på stänger fliken."
+
+  "License"
   "Licens"
 
-  "Line: %d, Column: %d"
-  "Rad:% d, Kolumn:% d"
+  "Line"
+  "Linje"
 
   "Locked"
   "Spärrad"
 
-  "Move*"
   "Move"
+  "Flytta"
 
   "Must be in multicursor mode to insert numbers"
   "Måste vara i multicursor läge infoga nummer"
@@ -103,11 +138,14 @@ msgcat::mcmset sv {
   "No write permissions.  Use '!' to force write."
   "Ingen skrivbehörighet.  Använd '!' tvinga skriva."
 
-  "Release Type:"
-  "Utgivningstyp:"
+  "Release Type"
+  "Release typ"
 
   "Reload file?"
   "Ladda om filen"
+
+  "Replace"
+  "Ersätt"
 
   "Save request"
   "Spara begäran"
@@ -118,14 +156,17 @@ msgcat::mcmset sv {
   "Starting number:"
   "Sidnummer för första sidan:"
 
-  "Tcl/Tk Version:"
-  "Tcl/Tk Version:"
+  "Tcl/Tk Version"
+  "Tcl/Tk Version"
 
-  "Total Lines: %d, Total Characters: %d"
-  "Totalt antal rader:% d, totalt Tecken:% d"
+  "Total Characters"
+  "Totala tecken"
 
-  "Unable to find current file (tab: %s)"
-  "Det gick inte att hitta aktuell fil (flik:% s)"
+  "Total Lines"
+  "Totala linjer"
+
+  "Unable to find current file"
+  "Kan inte hitta nuvarande fil"
 
   "Unable to successfully parse number string"
   "Inte att framgångsrikt parsa nummer sträng"
@@ -133,8 +174,11 @@ msgcat::mcmset sv {
   "Unable to write file"
   "Kan inte skriva filen"
 
-  "Version:"
-  "Version:"
+  "Version"
+  "Version"
+
+  "tab"
+  "internt styrroder i utblås"
 
 }
 
@@ -148,9 +192,6 @@ msgcat::mcmset sv {
 
 # menus.tcl
 msgcat::mcmset sv {
-
-  "                                  Profiling Report Sorted By (%s)"
-  "Profilering Rapport Sorterat efter (% s)"
 
   "About TKE"
   "Om TKE"
@@ -337,9 +378,6 @@ msgcat::mcmset sv {
 
   "File Menu: Unlock file"
   "Arkiv-menyn: Låsa upp filen"
-
-  "Find"
-  "Sök i"
 
   "Find In Files"
   "Sök i filer..."
@@ -535,6 +573,9 @@ msgcat::mcmset sv {
 
   "Previous Difference"
   "Föregående skillnad"
+
+  "Profiling Report Sorted By"
+  "Profilering rapporten sorterade efter"
 
   "Profiling started"
   "Profilering började"
@@ -823,8 +864,8 @@ msgcat::mcmset sv {
 # plugins.tcl
 msgcat::mcmset sv {
 
-  "ERROR (%s,%s): %s"
-  "FEL (%s, %s): %s"
+  "ERROR"
+  "FEL"
 
   "ERROR:  Plugin name already exists"
   "FEL: Plugin namn finns redan"
@@ -841,14 +882,14 @@ msgcat::mcmset sv {
   "Enter plugin name"
   "Ange plugin namn"
 
-  "Plugin %s installed"
-  "Plugin% s installerad"
-
-  "Plugin %s uninstalled"
-  "Plugin% s avinstalle"
-
   "Plugin Errors"
   "Plugin fel"
+
+  "Plugin installed"
+  "Plugin installerat"
+
+  "Plugin uninstalled"
+  "Plugin avinstalleras"
 
   "Plugins successfully reloaded"
   "Insticksprogram framgångsrikt reloaded"
@@ -861,9 +902,6 @@ msgcat::mcmset sv {
 # search.tcl
 msgcat::mcmset sv {
 
-  "%d substitutions done"
-  "%d substitutioner gjort"
-
   "No files found in specified directories"
   "Inga filer Funna i angivna kataloger"
 
@@ -875,6 +913,9 @@ msgcat::mcmset sv {
 
   "Search wrapped to end of file"
   "Sök insvept till slutet av filen"
+
+  "substitutions done"
+  "substitutioner gjort"
 
 }
 
@@ -907,6 +948,9 @@ msgcat::mcmset sv {
 
   "Folder Name:"
   "Mappnamnet:"
+
+  "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
+  "Bild som visas i sidofältet som anger att en fil för närvarande öppnas i en redigering buffert."
 
   "Make Current Working Directory"
   "Gör aktuell katalog"
@@ -945,31 +989,211 @@ msgcat::mcmset sv {
 # syntax.tcl
 msgcat::mcmset sv {
 
-  "Syntax error in %s.syntax file"
-  "Syntax error in% s.syntax fil"
+  "Syntax"
+  "Syntax"
 
-  "Syntax: %s"
-  "Syntax: %s"
+  "Syntax error in syntax file"
+  "Syntaxfel i syntax filen"
 
 }
 
 # theme.tcl
 msgcat::mcmset sv {
 
-  "ERROR:  Unable to read %s"
-  "FEL: Det går inte att läsa% s"
+  "Background (trough) color used in the sidebar scrollbar."
+  "Bakgrundsfärg (tråg) används i sidofältet rullningslisten."
+
+  "Background (trough) color used in the text scrollbars."
+  "Bakgrundsfärg (tråg) används i text scrollbars."
+
+  "Background color for all sidebar items that are not selected."
+  "Bakgrundsfärgen för alla sidofältet objekt som inte är markerade."
+
+  "Background color for all sidebar items that are selected."
+  "Bakgrundsfärgen för alla sidofältet objekt som är markerade."
+
+  "Background color in difference viewer that shows added lines."
+  "Bakgrundsfärg i skillnaden viewer som visar lagt till rader."
+
+  "Background color in difference viewer that shows deleted lines."
+  "Bakgrundsfärg i skillnaden viewer som visar bort linjer."
+
+  "Background color of insertion cursor."
+  "Bakgrundsfärgen för infogning markören."
+
+  "Background color of the editing buffer."
+  "Bakgrundsfärgen på redigering bufferten."
+
+  "Background color to display when a button-like ttk widget is pressed."
+  "Bakgrundsfärgen visas när du trycker på en knapp-liknande ttk widget."
+
+  "Background color to use for selected text."
+  "Bakgrundsfärgen för markerad text."
+
+  "Background color used for all other tabs that are not the current/active tab in the tabbar."
+  "Bakgrundsfärgen används för alla andra flikar som inte fliken ström/aktiv i tabbar."
+
+  "Background color used for the current/active menu item."
+  "Bakgrundsfärgen används för ström/aktiv menyalternativet."
+
+  "Background color used for the current/active tab in the tabbar."
+  "Bakgrundsfärgen för fliken ström/aktiv i tabbar."
+
+  "Background color used in highlighted text."
+  "Bakgrundsfärgen används i markerad text."
+
+  "Background color used in menus."
+  "Bakgrundsfärgen används i menyer."
+
+  "Background color used in the tabbar area."
+  "Bakgrundsfärgen används i området tabbar."
+
+  "Color of border drawn around active editing buffer."
+  "Färgen på gränsen dras runt aktiv redigering buffert."
+
+  "Color of ttk entry widget text border when the entry has keyboard focus."
+  "Färgen på ttk posten widget text kantlinje när transaktionen har tangentbordsfokus."
+
+  "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
+  "Färgen används för att rita linjen varning bredd i redigering bufferten (liksom linjen som skiljer rännstenen från redigering bufferten)."
+
+  "Default 'darkcolor' for all ttk widgets."
+  "Standard \"
+
+  "Default background color to use for all ttk widgets that are in a disabled state."
+  "Standardbakgrundsfärgen för alla ttk widgets som är i ett inaktiverat tillstånd."
+
+  "Default background color to use for all ttk widgets when the mouse cursor hovers over the widget."
+  "Standard bakgrundsfärg att använda för alla ttk widgets när muspekaren för muspekaren över widgeten."
+
+  "Default background color to use for all ttk widgets."
+  "Standardbakgrundsfärgen för alla ttk widgets."
+
+  "Default border color for all ttk widgets."
+  "Standard Kantfärg för alla ttk widgets."
+
+  "Default color for non-syntax highlighted text."
+  "Standardfärgen för icke-syntax markerad text."
+
+  "Default foreground text color to use for all ttk widgets that are in a disabled state."
+  "Standard text förgrundsfärgen för alla ttk widgets som är i ett inaktiverat tillstånd."
+
+  "Default foreground text color to use for all ttk widgets."
+  "Standard text förgrundsfärgen för alla ttk widgets."
+
+  "Determines the number of grips strips to display in the grip area between resizable panes."
+  "Bestämmer hur många grepp remsorna ska visas i området grepp mellan resizable fönster."
+
+  "Determines the thickness of the grip area between resizable panes."
+  "Bestämmer tjockleken på området grepp mellan resizable fönster."
+
+  "ERROR:  Unable to read"
+  "FEL: Det gick inte att läsa"
+
+  "Foreground (slider) color used in the sidebar scrollbar."
+  "Förgrundsfärgen (reglaget) används i sidofältet rullningslisten."
+
+  "Foreground (slider) color used in the text scrollbars."
+  "Förgrundsfärgen (reglaget) används i text scrollbars."
+
+  "Foreground text color for strings."
+  "Förgrundsfärgen text för strängar."
+
+  "Foreground text color to use for all miscellaneous1 labeled text."
+  "Förgrundsfärgen text att använda för alla miscellaneous1 märkt text."
+
+  "Foreground text color to use for all miscellaneous2 labeled text."
+  "Förgrundsfärgen text att använda för alla miscellaneous2 märkt text."
+
+  "Foreground text color to use for all miscellaneous3 labeled text."
+  "Förgrundsfärgen text att använda för alla miscellaneous3 märkt text."
+
+  "Foreground text color to use for comments."
+  "Förgrundsfärgen text att använda för kommentarer."
+
+  "Foreground text color to use for displaying line numbers."
+  "Förgrundsfärgen text att använda för att Visa radnummer."
+
+  "Foreground text color to use for displaying numbers."
+  "Förgrundsfärgen text att använda för att visa numren."
+
+  "Foreground text color to use for language-specific keywords."
+  "Förgrundsfärgen text att använda för språkspecifika sökord."
+
+  "Foreground text color to use for language-specific punctuation."
+  "Förgrundsfärgen text att använda för språkspecifika skiljetecken."
+
+  "Foreground text color to use for meta syntax."
+  "Förgrundsfärgen text att använda meta syntax."
+
+  "Foreground text color to use for precompiler syntax."
+  "Förgrundsfärgen text att använda för förkompilator syntax."
+
+  "Foreground text color to use for selected text."
+  "Förgrundsfärgen text ska användas för markerad text."
+
+  "Foreground text color used for menus item that are disabled."
+  "Text Förgrundsfärgen används för menyer som är inaktiverade."
+
+  "Foreground text color used for the current/active menu item."
+  "Text Förgrundsfärgen används för ström/aktiv menyalternativet."
+
+  "Foreground text color used in menus."
+  "Förgrundsfärgen text som används i menyer."
+
+  "Foreground text/image color used in tabbar and tabs."
+  "Text/bild Förgrundsfärgen används i flikarna och tabbar."
 
   "Images"
   "Bilder"
 
+  "Maximum thickness of the text scrollbar when it is active."
+  "Maximal tjocklek text rullningslisten när det är aktivt."
+
+  "Maximum thickness of the text scrollbars when they are active."
+  "Största tjocklek av scrollbarsna text när de är aktiva."
+
   "Menu Options"
   "Menyalternativ"
+
+  "Menu relief value."
+  "Menyn lättnad värde."
+
+  "Pixel height of the tabbar widget."
+  "Pixelhöjd för widgeten tabbar."
+
+  "Relief used in drawing the tabs."
+  "Lättnad i ritning flikarna."
+
+  "Relief value of the sidebar area."
+  "Lättnad värdet av sidofältet området."
 
   "Sidebar Options"
   "Sidopanelens alternativ"
 
   "Sidebar Scrollbar Options"
   "Sidebar Scrollbar Alternativ"
+
+  "Specifies the color to display around the sidebar when the sidebar does not have the focus."
+  "Anger färgen ska visas runt bufferten när sidofältet inte har fokus."
+
+  "Specifies the color to display around the sidebar when the sidebar has the focus."
+  "Anger färgen ska visas runt bufferten när sidofältet är i fokus."
+
+  "Specifies the default background color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "Anger standardbakgrundsfärgen ska användas för text som är markerad i en standard ttk widget (detta inte omfattar redigering bufferten)."
+
+  "Specifies the default foreground text color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "Anger standard förgrundsfärgen text ska användas för text som är markerad i en standard ttk widget (detta inte omfattar redigering bufferten)."
+
+  "Specifies the default relief to use when drawing ttk widgets."
+  "Anger befrielsen som standard att använda när du ritar ttk widgets."
+
+  "Specifies the disclosure image style to use in the sidebar."
+  "Anger den avslöjande bild stilen att använda i sidofältet."
+
+  "Specifies the pixel thickness of the highlight line."
+  "Anger pixel tjocklek Markera raden."
 
   "Syntax Colors"
   "Syntax Färger"
@@ -979,6 +1203,12 @@ msgcat::mcmset sv {
 
   "Text Scrollbar Options"
   "Text scrollbar Alternativ"
+
+  "Text color for all sidebar items that are not selected."
+  "Textfärg för alla sidofältet objekt som inte är markerade."
+
+  "Text color for all sidebar items that are selected."
+  "Textfärg för alla sidofältet objekt som är markerade."
 
   "ttk Widget Colors"
   "TTK Widget Färger"
@@ -1090,9 +1320,6 @@ msgcat::mcmset sv {
   "The current theme has unsaved changes"
   "Det aktuella temat har osparade ändringar"
 
-  "Theme Editor %s %s"
-  "Tema Editor% s% s"
-
   "Tree Style: "
   "Träd Stil:"
 
@@ -1113,8 +1340,8 @@ msgcat::mcmset sv {
 # themes.tcl
 msgcat::mcmset sv {
 
-  "Theme:  %s"
-  "Tema:% s"
+  "Theme"
+  "Tema"
 
   "Theme:*"
   "Tema"
@@ -1135,19 +1362,19 @@ msgcat::mcmset sv {
 # tkedat.tcl
 msgcat::mcmset sv {
 
-  "Unable to open %s for reading"
-  "Kan inte öppna%1 för läsning."
+  "Unable to read"
+  "Kan inte läsa fil."
 
 }
 
 # vim.tcl
 msgcat::mcmset sv {
 
-  "File %s successfully written"
-  "Filen %s har skrivit"
+  "File successfully written"
+  "Arkivera lyckosam skrev"
 
-  "Filename %s already exists"
-  "Filnamn %s finns redan"
+  "Filename already exists"
+  "Filnamn finns redan"
 
 }
 
@@ -1169,7 +1396,7 @@ msgcat::mcmset sv {
   "Favorite"
   "Gunstling"
 
-  "Find:"
+  "Find"
   "Sök i"
 
   "Move to Other Pane"
@@ -1180,9 +1407,6 @@ msgcat::mcmset sv {
 
   "Open"
   "Öppen"
-
-  "Replace:"
-  "Ersätt:"
 
   "Save"
   "Spara"
@@ -1196,8 +1420,8 @@ msgcat::mcmset sv {
   "Theme Editor"
   "Temaredigeraren"
 
-  "Unable to open %s for writing"
-  "Kunde inte öppna%1 för skrivning"
+  "Unable to write"
+  "Kan inte skriva"
 
   "Unfavorite"
   "Unfavorite"

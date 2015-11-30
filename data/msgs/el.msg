@@ -4,16 +4,16 @@ msgcat::mcmset el {
   "Argument list to api::add_file was not an even key/value pair"
   "Κατάλογος των argument στο api :: add_file δεν ήταν ακόμη ζεύγος κλειδιού / τιμής"
 
-  "Plugin-%s: %s"
-  "Η έκδοση του Σερβοβόσνιου στρατιωτικού ηγέτη εν καιρώ πολέμου, Ράτκο Μλάντιτς, παραμένει « βασικότερος όρος », δήλωσε ο Λιάιτς, προειδοποιώντας ότι η έλλειψη πλήρους συνεργασίας με το ICTY μπορεί να ριψοκινδυνεύσει τη διαδικασία Ευρω- Ατλαντικής ενσωμάτωσης της Σερβίας- Μαυροβουνίου."
+  "Plugin"
+  "Πρόσθετο"
 
 }
 
 # bgproc.tcl
 msgcat::mcmset el {
 
-  "Unable to run system command (%s)"
-  "Ανίκανος να τρέχει εντολή του συστήματος (% s)"
+  "Unable to run system command"
+  "Δεν είναι δυνατή η εκτέλεση εντολής συστήματος"
 
 }
 
@@ -37,11 +37,19 @@ msgcat::mcmset el {
 
 }
 
-# gui.tcl
+# embed_tke.tcl
 msgcat::mcmset el {
 
-  "%s, Line: %d, Column: %d"
-  "% S, γραμμή:% d, Στήλη:% d"
+  "Find:"
+  "Find"
+
+  "Replace:"
+  "Το κάτωθι:"
+
+}
+
+# gui.tcl
+msgcat::mcmset el {
 
   "Case sensitivity"
   "αναζήτηση βάσει πλήρους αντιστοίχισης"
@@ -49,8 +57,8 @@ msgcat::mcmset el {
   "Close All Tabs"
   "Κλείσιμο όλων των ετικετών"
 
-  "Close Other Tab(s)"
-  "Κλείσιμο Άλλα Tab (s)"
+  "Close Other Tabs"
+  "Κλείσιμο άλλων καρτελών"
 
   "Close Other*"
   "Κλείσιμο των άλλων καρτελών"
@@ -58,17 +66,20 @@ msgcat::mcmset el {
   "Close Tab"
   "Κλείσιμο καρτέλας"
 
-  "Copyright %d-%d"
-  "Copyright% d-% d"
+  "Column"
+  "Στήλη"
+
+  "Copyright"
+  "Πνευματικά Δικαιώματα"
 
   "Delete tab?"
   "Διαγραφή καρτέλας;"
 
-  "Developer:"
-  "Προγραμματιστής:"
+  "Developer"
+  "Προγραμματιστή"
 
-  "Email:"
-  "Email:"
+  "Email"
+  "Email"
 
   "Error"
   "Σφάλμα!"
@@ -79,8 +90,8 @@ msgcat::mcmset el {
   "File already exists.  Use '!' to force an overwrite"
   "Το αρχείο υπάρχει ήδη.  Χρήση «!» να αναγκάσει την επανεγγραφή του τομέα"
 
-  "File attribute (%s) does not exist"
-  "Χαρακτηριστικό αρχείου (% s) δεν υπάρχει"
+  "File attribute does not exist"
+  "Δεν υπάρχει χαρακτηριστικό αρχείου"
 
   "File index is out of range"
   "Δείκτης αρχείου είναι εκτός ορίων"
@@ -109,17 +120,17 @@ msgcat::mcmset el {
   "Image used in tab which, when clicked, closes the tab."
   "Εικόνα που χρησιμοποιούνται στην καρτέλα που, όταν πατηθεί, κλείνει την καρτέλα."
 
-  "License:"
-  "?????:"
+  "License"
+  "Άδεια"
 
-  "Line: %d, Column: %d"
-  "Γραμμή:% d, Στήλη:% d"
+  "Line"
+  "Γραμμή"
 
   "Locked"
   "κλειδωμένος"
 
-  "Move*"
-  "Μετακίνηση *"
+  "Move"
+  "Κίνηση"
 
   "Must be in multicursor mode to insert numbers"
   "Πρέπει να είναι σε multicursor κατάσταση λειτουργίας για να εισάγετε αριθμούς"
@@ -127,11 +138,14 @@ msgcat::mcmset el {
   "No write permissions.  Use '!' to force write."
   "Δεν δικαιώματα εγγραφής.  Χρήση «!» να αναγκάσει εγγραφής."
 
-  "Release Type:"
-  "ΔΕΛΤΙΟ ΤΥΠΟΥ:"
+  "Release Type"
+  "ΔΕΛΤΙΟ ΤΥΠΟΥ"
 
   "Reload file?"
   "Επαναφόρτωση αρχείου"
+
+  "Replace"
+  "Αντικαταστήστε"
 
   "Save request"
   "Αποθηκεύστε το αίτημα"
@@ -142,14 +156,17 @@ msgcat::mcmset el {
   "Starting number:"
   "Αρχικό αριθμό:"
 
-  "Tcl/Tk Version:"
-  "Έκδοση Tcl/Tk:"
+  "Tcl/Tk Version"
+  "Έκδοση Tcl/Tk"
 
-  "Total Lines: %d, Total Characters: %d"
-  "Σύνολο Lines:% d, Σύνολο Χαρακτήρες:% d"
+  "Total Characters"
+  "Σύνολο χαρακτήρων"
 
-  "Unable to find current file (tab: %s)"
-  "Ανίκανος να βρει το τρέχον αρχείο (καρτέλα:% s)"
+  "Total Lines"
+  "Σύνολο γραμμών"
+
+  "Unable to find current file"
+  "Δεν μπορεί να βρει το τρέχον αρχείο"
 
   "Unable to successfully parse number string"
   "Δυνατό να αναλύσει με επιτυχία αριθμός συμβολοσειρά"
@@ -157,8 +174,11 @@ msgcat::mcmset el {
   "Unable to write file"
   "Δεν είναι δυνατή η εγγραφή αρχείου"
 
-  "Version:"
+  "Version"
   "Έκδοση"
+
+  "tab"
+  "Καρτέλα"
 
 }
 
@@ -172,9 +192,6 @@ msgcat::mcmset el {
 
 # menus.tcl
 msgcat::mcmset el {
-
-  "                                  Profiling Report Sorted By (%s)"
-  "Έκθεση Profiling Ταξινόμηση Με (% s)"
 
   "About TKE"
   "Σχετικά με ΤΚΕ"
@@ -361,9 +378,6 @@ msgcat::mcmset el {
 
   "File Menu: Unlock file"
   "Μενού αρχείο: Ξεκλειδώσετε αρχείο"
-
-  "Find"
-  "Find"
 
   "Find In Files"
   "?????? ??? ??????"
@@ -559,6 +573,9 @@ msgcat::mcmset el {
 
   "Previous Difference"
   "??????????? ???????"
+
+  "Profiling Report Sorted By"
+  "Σκιαγράφηση έκθεση ταξινομημένες κατά"
 
   "Profiling started"
   "Profiling ξεκίνησε"
@@ -847,8 +864,8 @@ msgcat::mcmset el {
 # plugins.tcl
 msgcat::mcmset el {
 
-  "ERROR (%s,%s): %s"
-  "ΣΦΆΛΜΑ (%s %s): %s"
+  "ERROR"
+  "Σφάλμα"
 
   "ERROR:  Plugin name already exists"
   "ΣΦΑΛΜΑ: Plugin όνομα υπάρχει ήδη"
@@ -865,14 +882,14 @@ msgcat::mcmset el {
   "Enter plugin name"
   "Πληκτρολογήστε το όνομα του plugin"
 
-  "Plugin %s installed"
-  "Plugin% s εγκαταστάθηκε"
-
-  "Plugin %s uninstalled"
-  "Plugin% s απεγκατασταθεί"
-
   "Plugin Errors"
   "Plugin Λάθη"
+
+  "Plugin installed"
+  "Plugin εγκατεστημένο"
+
+  "Plugin uninstalled"
+  "Απεγκατασταθεί το plugin"
 
   "Plugins successfully reloaded"
   "Plugins reloaded με επιτυχία"
@@ -885,9 +902,6 @@ msgcat::mcmset el {
 # search.tcl
 msgcat::mcmset el {
 
-  "%d substitutions done"
-  "%d αντικαταστάσεις κάνει"
-
   "No files found in specified directories"
   "Δεν βρέθηκαν σε καθορισμένους καταλόγους αρχεία"
 
@@ -899,6 +913,9 @@ msgcat::mcmset el {
 
   "Search wrapped to end of file"
   "Αναζήτηση τυλιγμένο στο τέλος του αρχείου"
+
+  "substitutions done"
+  "αντικαταστάσεις γίνει"
 
 }
 
@@ -972,11 +989,11 @@ msgcat::mcmset el {
 # syntax.tcl
 msgcat::mcmset el {
 
-  "Syntax error in %s.syntax file"
-  "Συντακτικό σφάλμα στο αρχείο% s.syntax"
+  "Syntax"
+  "Σύνταξη"
 
-  "Syntax: %s"
-  "Σύνταξη: %s"
+  "Syntax error in syntax file"
+  "Συντακτικό σφάλμα στο αρχείο σύνταξη"
 
 }
 
@@ -1070,8 +1087,8 @@ msgcat::mcmset el {
   "Determines the thickness of the grip area between resizable panes."
   "Καθορίζει το πάχος της ζώνης λαβή αλλαγής μεγέθους μεταξύ των υαλοπινάκων."
 
-  "ERROR:  Unable to read %s"
-  "ΣΦΑΛΜΑ: Αδύνατη η ανάγνωση του% s"
+  "ERROR:  Unable to read"
+  "ΣΦΆΛΜΑ: Δεν είναι δυνατή η ανάγνωση"
 
   "Foreground (slider) color used in the sidebar scrollbar."
   "Προσκήνιο (slider) χρωμάτων που χρησιμοποιείται στην πλαϊνή μπάρα κύλισης."
@@ -1303,9 +1320,6 @@ msgcat::mcmset el {
   "The current theme has unsaved changes"
   "Το σημερινό θέμα έχει μη αποθηκευμένες αλλαγές"
 
-  "Theme Editor %s %s"
-  "Θέμα Εκδότης% s% s"
-
   "Tree Style: "
   "Δέντρο Στυλ:"
 
@@ -1326,8 +1340,8 @@ msgcat::mcmset el {
 # themes.tcl
 msgcat::mcmset el {
 
-  "Theme:  %s"
-  "Θέμα:% s"
+  "Theme"
+  "Θέμα"
 
   "Theme:*"
   "Θέμα"
@@ -1348,19 +1362,19 @@ msgcat::mcmset el {
 # tkedat.tcl
 msgcat::mcmset el {
 
-  "Unable to open %s for reading"
-  "Ανίκανος να ανοίξει %s για ανάγνωση"
+  "Unable to read"
+  "Δεν είναι δυνατή η ανάγνωση"
 
 }
 
 # vim.tcl
 msgcat::mcmset el {
 
-  "File %s successfully written"
-  "Το αρχείο %s με επιτυχία γραπτές"
+  "File successfully written"
+  "Αρχείο γραμμένο με επιτυχία"
 
-  "Filename %s already exists"
-  "Υπάρχει ήδη το όνομα του αρχείου %s"
+  "Filename already exists"
+  "Όνομα αρχείου που υπάρχει ήδη"
 
 }
 
@@ -1382,7 +1396,7 @@ msgcat::mcmset el {
   "Favorite"
   "Αγαπημένο"
 
-  "Find:"
+  "Find"
   "Find"
 
   "Move to Other Pane"
@@ -1393,9 +1407,6 @@ msgcat::mcmset el {
 
   "Open"
   "Ανοιχτό"
-
-  "Replace:"
-  "Το κάτωθι:"
 
   "Save"
   "Αποθήκευση"
@@ -1409,8 +1420,8 @@ msgcat::mcmset el {
   "Theme Editor"
   "Θέμα Εκδότης"
 
-  "Unable to open %s for writing"
-  "Αδύνατο το άνοιγμα του%1 για εγγραφή"
+  "Unable to write"
+  "Αδύνατη η εγγραφή"
 
   "Unfavorite"
   "Μη αγαπημένα"

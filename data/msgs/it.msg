@@ -4,16 +4,16 @@ msgcat::mcmset it {
   "Argument list to api::add_file was not an even key/value pair"
   "Elenco di argomenti di api :: add_file non era una coppia ancor chiave / valore"
 
-  "Plugin-%s: %s"
-  "Plugin % s: %s"
+  "Plugin"
+  "Plugin"
 
 }
 
 # bgproc.tcl
 msgcat::mcmset it {
 
-  "Unable to run system command (%s)"
-  "Impossibile eseguire il comando di sistema (% s)"
+  "Unable to run system command"
+  "Impossibile eseguire il comando di sistema"
 
 }
 
@@ -37,11 +37,19 @@ msgcat::mcmset it {
 
 }
 
-# gui.tcl
+# embed_tke.tcl
 msgcat::mcmset it {
 
-  "%s, Line: %d, Column: %d"
-  "% S, riga% d, colonna:% d"
+  "Find:"
+  "Trova:"
+
+  "Replace:"
+  "Sostituisci"
+
+}
+
+# gui.tcl
+msgcat::mcmset it {
 
   "Case sensitivity"
   "Sensibile alle maiuscole"
@@ -49,8 +57,8 @@ msgcat::mcmset it {
   "Close All Tabs"
   "Chiudi tutte le linguette"
 
-  "Close Other Tab(s)"
-  "Chiudi Other Tab (s)"
+  "Close Other Tabs"
+  "Chiudi le altre linguette"
 
   "Close Other*"
   "Chiudi un altro"
@@ -58,17 +66,20 @@ msgcat::mcmset it {
   "Close Tab"
   "Chiudi scheda"
 
-  "Copyright %d-%d"
-  "Copyright% d,% d"
+  "Column"
+  "Colonna"
+
+  "Copyright"
+  "Copyright"
 
   "Delete tab?"
   "Elimina scheda"
 
-  "Developer:"
-  "Sviluppatore:"
+  "Developer"
+  "Sviluppatore"
 
-  "Email:"
-  "E-mail:"
+  "Email"
+  "Email"
 
   "Error"
   "Errore"
@@ -79,8 +90,8 @@ msgcat::mcmset it {
   "File already exists.  Use '!' to force an overwrite"
   "File già esistente.  Uso '!' per forzare una sovrascrittura"
 
-  "File attribute (%s) does not exist"
-  "Attributo di file (% s) non esiste"
+  "File attribute does not exist"
+  "{attribute} non esiste!"
 
   "File index is out of range"
   "Indice non compreso nell'intervallo."
@@ -109,17 +120,17 @@ msgcat::mcmset it {
   "Image used in tab which, when clicked, closes the tab."
   "Immagine utilizzata in scheda che, se cliccato, chiude la scheda."
 
-  "License:"
-  "Patente:"
+  "License"
+  "Lidcenza"
 
-  "Line: %d, Column: %d"
-  "Line:% d, colonna:% d"
+  "Line"
+  "Linea"
 
   "Locked"
   "Bloccato"
 
-  "Move*"
-  "Sposta"
+  "Move"
+  "Muovi"
 
   "Must be in multicursor mode to insert numbers"
   "Deve essere in modalità multicursor per inserire numeri"
@@ -127,11 +138,14 @@ msgcat::mcmset it {
   "No write permissions.  Use '!' to force write."
   "Senza autorizzazioni di scrittura.  Uso '!' per forzare la scrittura."
 
-  "Release Type:"
-  "Tipo di rilascio:"
+  "Release Type"
+  "Tipo di rilascio"
 
   "Reload file?"
   "Ricarica file"
+
+  "Replace"
+  "Sostituisci"
 
   "Save request"
   "Salva richiesta"
@@ -142,14 +156,17 @@ msgcat::mcmset it {
   "Starting number:"
   "Primo numero"
 
-  "Tcl/Tk Version:"
-  "Versione Tcl/Tk:"
+  "Tcl/Tk Version"
+  "Versione Tcl/Tk"
 
-  "Total Lines: %d, Total Characters: %d"
-  "Totale Lines:% d, totale Personaggi:% d"
+  "Total Characters"
+  "Caratteri totali"
 
-  "Unable to find current file (tab: %s)"
-  "Impossibile trovare il file corrente (scheda:% s)"
+  "Total Lines"
+  "Totale linee"
+
+  "Unable to find current file"
+  "Impossibile trovare il file corrente"
 
   "Unable to successfully parse number string"
   "Grado di analizzare correttamente la stringa numerica"
@@ -157,8 +174,11 @@ msgcat::mcmset it {
   "Unable to write file"
   "Impossibile scrivere sul file"
 
-  "Version:"
-  "Versione:"
+  "Version"
+  "Versione"
+
+  "tab"
+  "tab"
 
 }
 
@@ -172,9 +192,6 @@ msgcat::mcmset it {
 
 # menus.tcl
 msgcat::mcmset it {
-
-  "                                  Profiling Report Sorted By (%s)"
-  "Profiling Rapporto Ordinati per (% s)"
 
   "About TKE"
   "Chi TKE"
@@ -361,9 +378,6 @@ msgcat::mcmset it {
 
   "File Menu: Unlock file"
   "Dal Menu file: Sbloccare file"
-
-  "Find"
-  "Find"
 
   "Find In Files"
   "Trova nei file"
@@ -559,6 +573,9 @@ msgcat::mcmset it {
 
   "Previous Difference"
   "Differenza precedente"
+
+  "Profiling Report Sorted By"
+  "Profilatura Report ordinati per"
 
   "Profiling started"
   "Profiling non avviato."
@@ -847,8 +864,8 @@ msgcat::mcmset it {
 # plugins.tcl
 msgcat::mcmset it {
 
-  "ERROR (%s,%s): %s"
-  "ERRORE (%s, %s): %s"
+  "ERROR"
+  "ERRORE"
 
   "ERROR:  Plugin name already exists"
   "ERRORE: esiste già il nome Plugin"
@@ -865,14 +882,14 @@ msgcat::mcmset it {
   "Enter plugin name"
   "Immettere il nome del plug-in."
 
-  "Plugin %s installed"
-  "Plugin% s installato"
-
-  "Plugin %s uninstalled"
-  "Plugin% s disinstallato"
-
   "Plugin Errors"
   "Errori di plug-in"
+
+  "Plugin installed"
+  "Plugin installato"
+
+  "Plugin uninstalled"
+  "Plugin disinstallato"
 
   "Plugins successfully reloaded"
   "PLUGINS ricaricato con successo"
@@ -885,9 +902,6 @@ msgcat::mcmset it {
 # search.tcl
 msgcat::mcmset it {
 
-  "%d substitutions done"
-  "sostituzioni %d fare"
-
   "No files found in specified directories"
   "Nessun file trovato nelle directory specificate"
 
@@ -899,6 +913,9 @@ msgcat::mcmset it {
 
   "Search wrapped to end of file"
   "Ricerca a capo alla fine del file"
+
+  "substitutions done"
+  "sostituzioni di fatto"
 
 }
 
@@ -972,11 +989,11 @@ msgcat::mcmset it {
 # syntax.tcl
 msgcat::mcmset it {
 
-  "Syntax error in %s.syntax file"
-  "Errore di sintassi nel file di s.syntax%"
+  "Syntax"
+  "Sintassi"
 
-  "Syntax: %s"
-  "Sintassi: %s"
+  "Syntax error in syntax file"
+  "Errore di sintassi nel file di sintassi"
 
 }
 
@@ -1070,8 +1087,8 @@ msgcat::mcmset it {
   "Determines the thickness of the grip area between resizable panes."
   "Determina lo spessore della zona di presa tra i riquadri ridimensionabili."
 
-  "ERROR:  Unable to read %s"
-  "ERRORE: Impossibile leggere% s"
+  "ERROR:  Unable to read"
+  "ERRORE: Impossibile leggere"
 
   "Foreground (slider) color used in the sidebar scrollbar."
   "Primo piano (slider) colore utilizzato nella barra di scorrimento barra laterale."
@@ -1303,9 +1320,6 @@ msgcat::mcmset it {
   "The current theme has unsaved changes"
   "Il tema corrente contiene modifiche non salvate"
 
-  "Theme Editor %s %s"
-  "Theme Editor% s% s"
-
   "Tree Style: "
   "Albero Stile:"
 
@@ -1326,8 +1340,8 @@ msgcat::mcmset it {
 # themes.tcl
 msgcat::mcmset it {
 
-  "Theme:  %s"
-  "Tema: %s"
+  "Theme"
+  "Tema"
 
   "Theme:*"
   "theme"
@@ -1348,19 +1362,19 @@ msgcat::mcmset it {
 # tkedat.tcl
 msgcat::mcmset it {
 
-  "Unable to open %s for reading"
-  "Impossibile aprire il file%1 in lettura."
+  "Unable to read"
+  "Impossibile leggere"
 
 }
 
 # vim.tcl
 msgcat::mcmset it {
 
-  "File %s successfully written"
-  "File %s scritto correttamente"
+  "File successfully written"
+  "File scritto correttamente"
 
-  "Filename %s already exists"
-  "Nome del file %s esiste già"
+  "Filename already exists"
+  "Nome file esiste già"
 
 }
 
@@ -1382,8 +1396,8 @@ msgcat::mcmset it {
   "Favorite"
   "Favorito"
 
-  "Find:"
-  "Trova:"
+  "Find"
+  "Find"
 
   "Move to Other Pane"
   "Spostarsi Altro Pane"
@@ -1393,9 +1407,6 @@ msgcat::mcmset it {
 
   "Open"
   "Aprire il regalo"
-
-  "Replace:"
-  "Sostituisci"
 
   "Save"
   "Salva"
@@ -1409,8 +1420,8 @@ msgcat::mcmset it {
   "Theme Editor"
   "Editor tema"
 
-  "Unable to open %s for writing"
-  "Non è possibile aprire%1 in scrittura"
+  "Unable to write"
+  "Impossibile scrivereQNativeSocketEngine"
 
   "Unfavorite"
   "Unfavorite"

@@ -4,16 +4,16 @@ msgcat::mcmset ru {
   "Argument list to api::add_file was not an even key/value pair"
   "Список параметров АНИ :: add_file не было даже пары ключ / значение"
 
-  "Plugin-%s: %s"
-  "Плагин % s: %s"
+  "Plugin"
+  "Плагин"
 
 }
 
 # bgproc.tcl
 msgcat::mcmset ru {
 
-  "Unable to run system command (%s)"
-  "Невозможно запустить командной системы (% ы)"
+  "Unable to run system command"
+  "Не удается запустить команды системы"
 
 }
 
@@ -37,11 +37,19 @@ msgcat::mcmset ru {
 
 }
 
-# gui.tcl
+# embed_tke.tcl
 msgcat::mcmset ru {
 
-  "%s, Line: %d, Column: %d"
-  "% С, линия:% д, Колонка:% г"
+  "Find:"
+  "Находить"
+
+  "Replace:"
+  "Заменить:"
+
+}
+
+# gui.tcl
+msgcat::mcmset ru {
 
   "Case sensitivity"
   "Чувствительность к регистру символов"
@@ -49,8 +57,8 @@ msgcat::mcmset ru {
   "Close All Tabs"
   "Закрыть все вкладки"
 
-  "Close Other Tab(s)"
-  "Закрыть Другое Tab (ы)"
+  "Close Other Tabs"
+  "Закрыть другие вкладки"
 
   "Close Other*"
   "Закрыть Другое *"
@@ -58,17 +66,20 @@ msgcat::mcmset ru {
   "Close Tab"
   "Закрыть вкладку"
 
-  "Copyright %d-%d"
-  "Copyright% г-г%"
+  "Column"
+  "Колонка"
+
+  "Copyright"
+  "Авторские права"
 
   "Delete tab?"
   "Удалить вкладку?"
 
-  "Developer:"
-  "Девелопер"
+  "Developer"
+  "Разработчик"
 
-  "Email:"
-  "Эл. почта:"
+  "Email"
+  "Эл-почта"
 
   "Error"
   "Ошибка"
@@ -79,23 +90,47 @@ msgcat::mcmset ru {
   "File already exists.  Use '!' to force an overwrite"
   "Файл уже существует.  Используйте '!' заставить перезаписи"
 
-  "File attribute (%s) does not exist"
-  "Атрибут файла (% ы) не существует"
+  "File attribute does not exist"
+  "Атрибут файла не существует"
 
   "File index is out of range"
   "Индекс файла находится вне диапазона"
 
-  "License:"
-  "????????:"
+  "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
+  "Изображение, отображаемое в заполнения форм, которая закрывает форму пользовательского интерфейса.  Используется в формах, таких как поиск, поиск/замена и найти в файлах."
 
-  "Line: %d, Column: %d"
-  "Линия:% д, Колонка:% г"
+  "Image used in tab menus to indicate that the file is associated with a difference view."
+  "Изображение, используемое в меню вкладку для указания, что файл связан с видом разница."
+
+  "Image used in tab menus to indicate that the file is locked."
+  "Изображение, используемое в меню вкладку для указания, что файл заблокирован."
+
+  "Image used in tab menus to indicate that the file is readonly."
+  "Изображение, используемое в меню вкладку для указания, что файл доступен только для чтения."
+
+  "Image used in tab to indicate that the tab contains a difference view."
+  "Изображение, используемое в вкладке для указания, что вкладка содержит представление разница."
+
+  "Image used in tab to indicate that the tab's file is readonly."
+  "Изображение, используемое в вкладке для указания, что на вкладке файл доступен только для чтения."
+
+  "Image used in tab to indicate that the tab’s file is locked."
+  "Изображение, используемое в вкладке для указания, что на вкладке файл заблокирован."
+
+  "Image used in tab which, when clicked, closes the tab."
+  "Изображение, используемое в закладке, при нажатии, закрывает вкладку."
+
+  "License"
+  "Лицензия"
+
+  "Line"
+  "Строка"
 
   "Locked"
   "ТРУБА ЗАКРЫТАЯ"
 
-  "Move*"
-  "Переезд"
+  "Move"
+  "Переместить"
 
   "Must be in multicursor mode to insert numbers"
   "Должно быть в multicursor режиме, чтобы вставить номера"
@@ -103,11 +138,14 @@ msgcat::mcmset ru {
   "No write permissions.  Use '!' to force write."
   "Нет разрешения на запись.  Используйте '!' заставить писать."
 
-  "Release Type:"
-  "Тип релиза:"
+  "Release Type"
+  "Тип выпуска"
 
   "Reload file?"
   "Перезагрузить файл"
+
+  "Replace"
+  "Замена"
 
   "Save request"
   "Запрос"
@@ -118,14 +156,17 @@ msgcat::mcmset ru {
   "Starting number:"
   "Стартовый номер"
 
-  "Tcl/Tk Version:"
-  "Версия Tcl/Tk:"
+  "Tcl/Tk Version"
+  "Версия Tcl/Tk"
 
-  "Total Lines: %d, Total Characters: %d"
-  "Всего линии:% D, Персонажей:% D"
+  "Total Characters"
+  "Всего персонажей"
 
-  "Unable to find current file (tab: %s)"
-  "Не удалось найти текущий файл (закладка:% ы)"
+  "Total Lines"
+  "Всего Линии"
+
+  "Unable to find current file"
+  "Не удается найти текущий файл"
 
   "Unable to successfully parse number string"
   "Не в состоянии успешно разбирать строку номера"
@@ -133,8 +174,11 @@ msgcat::mcmset ru {
   "Unable to write file"
   "Не удается записать файл"
 
-  "Version:"
-  "Версия:"
+  "Version"
+  "Версия"
+
+  "tab"
+  "Вкладка"
 
 }
 
@@ -148,9 +192,6 @@ msgcat::mcmset ru {
 
 # menus.tcl
 msgcat::mcmset ru {
-
-  "                                  Profiling Report Sorted By (%s)"
-  "Профилирование Сообщить Сортировка по (% ы)"
 
   "About TKE"
   "О ТКЕ"
@@ -337,9 +378,6 @@ msgcat::mcmset ru {
 
   "File Menu: Unlock file"
   "Меню файл: Разблокировать файл"
-
-  "Find"
-  "Находить"
 
   "Find In Files"
   "? ??????"
@@ -535,6 +573,9 @@ msgcat::mcmset ru {
 
   "Previous Difference"
   "?????????? ???????"
+
+  "Profiling Report Sorted By"
+  "Сортировка по отчета профилирования"
 
   "Profiling started"
   "Профилирования начал"
@@ -823,8 +864,8 @@ msgcat::mcmset ru {
 # plugins.tcl
 msgcat::mcmset ru {
 
-  "ERROR (%s,%s): %s"
-  "Ошибка (%s, %s): %s"
+  "ERROR"
+  "Ошибка"
 
   "ERROR:  Plugin name already exists"
   "ОШИБКА: Плагин именем уже существует"
@@ -841,14 +882,14 @@ msgcat::mcmset ru {
   "Enter plugin name"
   "Введите плагин имя"
 
-  "Plugin %s installed"
-  "Плагин% с установлен"
-
-  "Plugin %s uninstalled"
-  "Плагин% с удаления"
-
   "Plugin Errors"
   "Плагин ошибки"
+
+  "Plugin installed"
+  "Плагин установлен"
+
+  "Plugin uninstalled"
+  "Удалить плагин"
 
   "Plugins successfully reloaded"
   "Плагины успешно перезагружается"
@@ -861,9 +902,6 @@ msgcat::mcmset ru {
 # search.tcl
 msgcat::mcmset ru {
 
-  "%d substitutions done"
-  "подстановки %d сделали"
-
   "No files found in specified directories"
   "Файлы не найдены в указанных каталогах"
 
@@ -875,6 +913,9 @@ msgcat::mcmset ru {
 
   "Search wrapped to end of file"
   "Поиск, завернутые в конец файла"
+
+  "substitutions done"
+  "замен сделал"
 
 }
 
@@ -907,6 +948,9 @@ msgcat::mcmset ru {
 
   "Folder Name:"
   "???????? ?????"
+
+  "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
+  "Изображение, отображаемое в боковой панели, чтобы указать, что файл открыт в настоящее время в буфер редактирования."
 
   "Make Current Working Directory"
   "Сделать текущий рабочий каталог"
@@ -945,31 +989,211 @@ msgcat::mcmset ru {
 # syntax.tcl
 msgcat::mcmset ru {
 
-  "Syntax error in %s.syntax file"
-  "Ошибка синтаксиса в% файле s.syntax"
+  "Syntax"
+  "Синтаксис"
 
-  "Syntax: %s"
-  "Синтаксис: %s"
+  "Syntax error in syntax file"
+  "Синтаксическая ошибка в синтаксис файла"
 
 }
 
 # theme.tcl
 msgcat::mcmset ru {
 
-  "ERROR:  Unable to read %s"
-  "ОШИБКА: Невозможно прочитать% с"
+  "Background (trough) color used in the sidebar scrollbar."
+  "Цвет фона (корыто) в боковой панели прокрутки."
+
+  "Background (trough) color used in the text scrollbars."
+  "Цвет фона (корыто), используемый в тексте полосы прокрутки."
+
+  "Background color for all sidebar items that are not selected."
+  "Цвет фона для всех элементов боковой панели, которые не были выбраны."
+
+  "Background color for all sidebar items that are selected."
+  "Цвет фона для всех элементов боковой панели, которые выбраны."
+
+  "Background color in difference viewer that shows added lines."
+  "Цвет фона в окне просмотра разница, которая показывает добавил строки."
+
+  "Background color in difference viewer that shows deleted lines."
+  "Цвет фона в окне просмотра разница, которая показывает удаленные линии."
+
+  "Background color of insertion cursor."
+  "Фоновый цвет курсора вставки."
+
+  "Background color of the editing buffer."
+  "Цвет фона редактирования буфера."
+
+  "Background color to display when a button-like ttk widget is pressed."
+  "Цвет фона для отображения при нажатии кнопка как ТТК виджета."
+
+  "Background color to use for selected text."
+  "Цвет фона для выбранного текста."
+
+  "Background color used for all other tabs that are not the current/active tab in the tabbar."
+  "Цвет фона для всех вкладок, которые не являются на вкладку текущий активный в tabbar."
+
+  "Background color used for the current/active menu item."
+  "Цвет фона, используемый для пункта меню текущий активный."
+
+  "Background color used for the current/active tab in the tabbar."
+  "Цвет фона, используемый для вкладки текущий активный в tabbar."
+
+  "Background color used in highlighted text."
+  "Цвет фона, используемый в выделенном тексте."
+
+  "Background color used in menus."
+  "Цвет фона, используемый в меню."
+
+  "Background color used in the tabbar area."
+  "Цвет фона, используемый в районе tabbar."
+
+  "Color of border drawn around active editing buffer."
+  "Цвет границы, нарисованной вокруг активной буфера редактирования."
+
+  "Color of ttk entry widget text border when the entry has keyboard focus."
+  "Цвет границы текста виджет входа ТТК когда элемент имеет фокус клавиатуры."
+
+  "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
+  "Цвет, используемый для рисования линии ширина предупреждение в буфере редактирования (а также линия, разделяющая желоба от редактирования буфера)."
+
+  "Default 'darkcolor' for all ttk widgets."
+  "По умолчанию «darkcolor» для всех виджетов ТТК."
+
+  "Default background color to use for all ttk widgets that are in a disabled state."
+  "По умолчанию цвет фона для всех виджетов ТТК, которые находятся в отключенном состоянии."
+
+  "Default background color to use for all ttk widgets when the mouse cursor hovers over the widget."
+  "По умолчанию цвет фона для использования для всех виджетов ТТК при наведении курсора мыши на виджете."
+
+  "Default background color to use for all ttk widgets."
+  "По умолчанию цвет фона для всех виджетов ТТК."
+
+  "Default border color for all ttk widgets."
+  "Цвет границы по умолчанию для всех виджетов ТТК."
+
+  "Default color for non-syntax highlighted text."
+  "По умолчанию цвет для выделенного текста-синтаксис."
+
+  "Default foreground text color to use for all ttk widgets that are in a disabled state."
+  "По умолчанию цвет текста переднего плана для всех виджетов ТТК, которые находятся в отключенном состоянии."
+
+  "Default foreground text color to use for all ttk widgets."
+  "По умолчанию цвет текста переднего плана для всех виджетов ТТК."
+
+  "Determines the number of grips strips to display in the grip area between resizable panes."
+  "Определяет количество ручек полоски для отображения в области сцепление между изменяемого размера области."
+
+  "Determines the thickness of the grip area between resizable panes."
+  "Определяет толщину области сцепление между изменяемого размера области."
+
+  "ERROR:  Unable to read"
+  "Ошибка: невозможно прочитать профиль"
+
+  "Foreground (slider) color used in the sidebar scrollbar."
+  "Цвет переднего плана (ползунок) в боковой панели прокрутки."
+
+  "Foreground (slider) color used in the text scrollbars."
+  "Цвет переднего плана (ползунок), используемый в тексте полосы прокрутки."
+
+  "Foreground text color for strings."
+  "Цвет текста для строки."
+
+  "Foreground text color to use for all miscellaneous1 labeled text."
+  "Цвет текста для всех РАЗНОЕ1 помечены текста."
+
+  "Foreground text color to use for all miscellaneous2 labeled text."
+  "Цвет текста для всех РАЗНОЕ2 помечены текста."
+
+  "Foreground text color to use for all miscellaneous3 labeled text."
+  "Цвет текста для всех miscellaneous3 помечены текста."
+
+  "Foreground text color to use for comments."
+  "Цвет текста для комментариев."
+
+  "Foreground text color to use for displaying line numbers."
+  "Цвет текста для отображения номеров строк."
+
+  "Foreground text color to use for displaying numbers."
+  "Цвет текста для отображения чисел."
+
+  "Foreground text color to use for language-specific keywords."
+  "Цвет текста для использования ключевых слов конкретного языка."
+
+  "Foreground text color to use for language-specific punctuation."
+  "Цвет текста для использования языковых знаков препинания."
+
+  "Foreground text color to use for meta syntax."
+  "Цвет текста для использования синтаксиса мета."
+
+  "Foreground text color to use for precompiler syntax."
+  "Цвет текста для использования предкомпилированного синтаксиса."
+
+  "Foreground text color to use for selected text."
+  "Цвет текста для выбранного текста."
+
+  "Foreground text color used for menus item that are disabled."
+  "Цвет текста, используемый для пункта меню, отключены."
+
+  "Foreground text color used for the current/active menu item."
+  "Цвет текста, используемый для пункта меню текущий активный."
+
+  "Foreground text color used in menus."
+  "Цвет текста, используемый в меню."
+
+  "Foreground text/image color used in tabbar and tabs."
+  "Цвет переднего плана текста и изображения используется в tabbar и вкладки."
 
   "Images"
   "Изображения"
 
+  "Maximum thickness of the text scrollbar when it is active."
+  "Максимальная толщина полосы прокрутки текста, когда он активен."
+
+  "Maximum thickness of the text scrollbars when they are active."
+  "Максимальная толщина полосы прокрутки текста, когда они активны."
+
   "Menu Options"
   "Настройки меню"
+
+  "Menu relief value."
+  "Меню помощи значение."
+
+  "Pixel height of the tabbar widget."
+  "Высота в точках tabbar виджета."
+
+  "Relief used in drawing the tabs."
+  "Рельеф в рисунок вкладки."
+
+  "Relief value of the sidebar area."
+  "Рельеф значение области боковой панели."
 
   "Sidebar Options"
   "Параметры боковой панели"
 
   "Sidebar Scrollbar Options"
   "Sidebar Опции полоса прокрутки"
+
+  "Specifies the color to display around the sidebar when the sidebar does not have the focus."
+  "Указывает цвет для отображения вокруг боковой панели при боковой панели не имеет фокус."
+
+  "Specifies the color to display around the sidebar when the sidebar has the focus."
+  "Указывает цвет для отображения вокруг боковой панели при боковом имеет фокус."
+
+  "Specifies the default background color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "Указывает цвет фона по умолчанию для текста, выделенного в стандартной ТТК виджет (это не включает буфер редактирования)."
+
+  "Specifies the default foreground text color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "Определяет цвет текста переднего плана по умолчанию для текста, выделенного в стандартной ТТК виджет (это не включает буфер редактирования)."
+
+  "Specifies the default relief to use when drawing ttk widgets."
+  "Определяет рельеф по умолчанию для использования при рисовании ТТК виджеты."
+
+  "Specifies the disclosure image style to use in the sidebar."
+  "Задает стиль раскрытия изображения для использования в боковой панели."
+
+  "Specifies the pixel thickness of the highlight line."
+  "Определяет толщину линии выделения пикселей."
 
   "Syntax Colors"
   "Синтаксис цвета"
@@ -979,6 +1203,12 @@ msgcat::mcmset ru {
 
   "Text Scrollbar Options"
   "Текст полоса прокрутки Опции"
+
+  "Text color for all sidebar items that are not selected."
+  "Цвет текста для всех элементов боковой панели, которые не были выбраны."
+
+  "Text color for all sidebar items that are selected."
+  "Цвет текста для всех элементов боковой панели, которые выбраны."
 
   "ttk Widget Colors"
   "ТТК Виджет Цвета"
@@ -1090,9 +1320,6 @@ msgcat::mcmset ru {
   "The current theme has unsaved changes"
   "В настоящее время тема имеет несохраненные изменения"
 
-  "Theme Editor %s %s"
-  "Тема редактор% s% s"
-
   "Tree Style: "
   "Дерево Стиль:"
 
@@ -1113,8 +1340,8 @@ msgcat::mcmset ru {
 # themes.tcl
 msgcat::mcmset ru {
 
-  "Theme:  %s"
-  "Стиль:% с"
+  "Theme"
+  "Тема"
 
   "Theme:*"
   "Тема"
@@ -1135,19 +1362,19 @@ msgcat::mcmset ru {
 # tkedat.tcl
 msgcat::mcmset ru {
 
-  "Unable to open %s for reading"
-  "Не удается открыть %s для чтения"
+  "Unable to read"
+  "Не удается прочитать"
 
 }
 
 # vim.tcl
 msgcat::mcmset ru {
 
-  "File %s successfully written"
-  "Файл %s успешно записаны"
+  "File successfully written"
+  "Файл успешно записаны"
 
-  "Filename %s already exists"
-  "Имя файла %s уже существует"
+  "Filename already exists"
+  "Имя файла уже существует"
 
 }
 
@@ -1169,7 +1396,7 @@ msgcat::mcmset ru {
   "Favorite"
   "Любимый"
 
-  "Find:"
+  "Find"
   "Находить"
 
   "Move to Other Pane"
@@ -1180,9 +1407,6 @@ msgcat::mcmset ru {
 
   "Open"
   "Открыть"
-
-  "Replace:"
-  "Заменить:"
 
   "Save"
   "Сохранить"
@@ -1196,8 +1420,8 @@ msgcat::mcmset ru {
   "Theme Editor"
   "Визуальный редактор темы"
 
-  "Unable to open %s for writing"
-  "Невозможно открыть% с для записи"
+  "Unable to write"
+  "Не удается записать"
 
   "Unfavorite"
   "Unfavorite"

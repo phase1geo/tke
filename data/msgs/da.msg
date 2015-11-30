@@ -4,16 +4,16 @@ msgcat::mcmset da {
   "Argument list to api::add_file was not an even key/value pair"
   "Argument liste til api :: add_file ikke var en selv nøgle / værdi par"
 
-  "Plugin-%s: %s"
-  "Plugin-% s: %s"
+  "Plugin"
+  "Plugin"
 
 }
 
 # bgproc.tcl
 msgcat::mcmset da {
 
-  "Unable to run system command (%s)"
-  "Ikke køre systemet kommando (% s)"
+  "Unable to run system command"
+  "Stand til at køre system kommando"
 
 }
 
@@ -37,11 +37,19 @@ msgcat::mcmset da {
 
 }
 
-# gui.tcl
+# embed_tke.tcl
 msgcat::mcmset da {
 
-  "%s, Line: %d, Column: %d"
-  "% S, Line:% d, kolonne:% d"
+  "Find:"
+  "finde"
+
+  "Replace:"
+  "Erstat"
+
+}
+
+# gui.tcl
+msgcat::mcmset da {
 
   "Case sensitivity"
   "Versalfølsom"
@@ -49,8 +57,8 @@ msgcat::mcmset da {
   "Close All Tabs"
   "Luk alle faneblade"
 
-  "Close Other Tab(s)"
-  "Luk Other Tab (r)"
+  "Close Other Tabs"
+  "Luk de andre faneblade"
 
   "Close Other*"
   "Luk de andre faneblade"
@@ -58,17 +66,20 @@ msgcat::mcmset da {
   "Close Tab"
   "Luk faneblad"
 
-  "Copyright %d-%d"
-  "Copyright% d-% d"
+  "Column"
+  "Kolonne"
+
+  "Copyright"
+  "Copyright"
 
   "Delete tab?"
   "Slet fane?"
 
-  "Developer:"
+  "Developer"
   "Udvikler"
 
-  "Email:"
-  "E-mail:"
+  "Email"
+  "E-mail"
 
   "Error"
   "Fejl"
@@ -79,8 +90,8 @@ msgcat::mcmset da {
   "File already exists.  Use '!' to force an overwrite"
   "Filen findes allerede.  Brug '!' at tvinge en Overskriv"
 
-  "File attribute (%s) does not exist"
-  "Filattribut (% s) eksisterer ikke"
+  "File attribute does not exist"
+  "Attribut til systemfil findes ikke"
 
   "File index is out of range"
   "File indeks er uden for rækkevidde"
@@ -109,17 +120,17 @@ msgcat::mcmset da {
   "Image used in tab which, when clicked, closes the tab."
   "Billede anvendes i fanen, der, når der klikkes, lukker fanen."
 
-  "License:"
+  "License"
   "Licens"
 
-  "Line: %d, Column: %d"
-  "Line:% d, kolonne:% d"
+  "Line"
+  "Linje"
 
   "Locked"
   "låst"
 
-  "Move*"
-  "bevæge"
+  "Move"
+  "Flyt"
 
   "Must be in multicursor mode to insert numbers"
   "Skal være i multicursor tilstand at indsætte tal"
@@ -127,11 +138,14 @@ msgcat::mcmset da {
   "No write permissions.  Use '!' to force write."
   "Ingen skrivetilladelser.  Brug '!' at tvinge skrive."
 
-  "Release Type:"
-  "Release Type:"
+  "Release Type"
+  "Release Type"
 
   "Reload file?"
   "Genindlæs fil"
+
+  "Replace"
+  "Erstat"
 
   "Save request"
   "Spar anmodning"
@@ -142,14 +156,17 @@ msgcat::mcmset da {
   "Starting number:"
   "Starttal"
 
-  "Tcl/Tk Version:"
-  "Tcl/Tk Version:"
+  "Tcl/Tk Version"
+  "Tcl/Tk Version"
 
-  "Total Lines: %d, Total Characters: %d"
-  "Samlet Lines:% d, alt Tegn:% d"
+  "Total Characters"
+  "Samlede karakterer"
 
-  "Unable to find current file (tab: %s)"
-  "Kunne ikke finde aktuelle fil (fane:% s)"
+  "Total Lines"
+  "Samlede linjer"
+
+  "Unable to find current file"
+  "Kan ikke finde aktuelle fil"
 
   "Unable to successfully parse number string"
   "Ikke kan med held parse nummer streng"
@@ -157,8 +174,11 @@ msgcat::mcmset da {
   "Unable to write file"
   "Kunne ikke skrive filen"
 
-  "Version:"
-  "Udgave:"
+  "Version"
+  "Version"
+
+  "tab"
+  "tabulatortast"
 
 }
 
@@ -172,9 +192,6 @@ msgcat::mcmset da {
 
 # menus.tcl
 msgcat::mcmset da {
-
-  "                                  Profiling Report Sorted By (%s)"
-  "Profilering Rapport Sorteret efter (% s)"
 
   "About TKE"
   "Om TKE"
@@ -361,9 +378,6 @@ msgcat::mcmset da {
 
   "File Menu: Unlock file"
   "Arkivmenuen: Låse filer"
-
-  "Find"
-  "Søg"
 
   "Find In Files"
   "Find i filer..."
@@ -559,6 +573,9 @@ msgcat::mcmset da {
 
   "Previous Difference"
   "Forrige forskel"
+
+  "Profiling Report Sorted By"
+  "Profilering rapport sorteret efter"
 
   "Profiling started"
   "Profilering i gang"
@@ -847,8 +864,8 @@ msgcat::mcmset da {
 # plugins.tcl
 msgcat::mcmset da {
 
-  "ERROR (%s,%s): %s"
-  "FEJL (%s, %s): %s"
+  "ERROR"
+  "FEJL"
 
   "ERROR:  Plugin name already exists"
   "FEJL: Plugin navn findes allerede"
@@ -865,14 +882,14 @@ msgcat::mcmset da {
   "Enter plugin name"
   "Indtast plugin navn"
 
-  "Plugin %s installed"
-  "Plugin% s installeret"
-
-  "Plugin %s uninstalled"
-  "Plugin% s afinstalleret"
-
   "Plugin Errors"
   "Plugin fejl"
+
+  "Plugin installed"
+  "Plugin installeret"
+
+  "Plugin uninstalled"
+  "Plugin afinstalleret"
 
   "Plugins successfully reloaded"
   "Plugins held genindlæses"
@@ -885,9 +902,6 @@ msgcat::mcmset da {
 # search.tcl
 msgcat::mcmset da {
 
-  "%d substitutions done"
-  "%d erstatninger udført"
-
   "No files found in specified directories"
   "Ikke findes i angivne mapper filer"
 
@@ -899,6 +913,9 @@ msgcat::mcmset da {
 
   "Search wrapped to end of file"
   "Søg indpakket til slutningen af filen"
+
+  "substitutions done"
+  "erstatninger udført"
 
 }
 
@@ -972,11 +989,11 @@ msgcat::mcmset da {
 # syntax.tcl
 msgcat::mcmset da {
 
-  "Syntax error in %s.syntax file"
-  "Syntaks fejl i% s.syntax fil"
+  "Syntax"
+  "Syntaks"
 
-  "Syntax: %s"
-  "Syntaks: %s"
+  "Syntax error in syntax file"
+  "Syntaksfejl i syntaks fil"
 
 }
 
@@ -1070,8 +1087,8 @@ msgcat::mcmset da {
   "Determines the thickness of the grip area between resizable panes."
   "Bestemmer tykkelsen af ​​grebet mellem resizable ruder."
 
-  "ERROR:  Unable to read %s"
-  "FEJL: Kunne ikke læse% s"
+  "ERROR:  Unable to read"
+  "FEJL: Kan ikke læses"
 
   "Foreground (slider) color used in the sidebar scrollbar."
   "Forgrund (skyder) farve, der anvendes i indholdsoversigten rullebjælken."
@@ -1303,9 +1320,6 @@ msgcat::mcmset da {
   "The current theme has unsaved changes"
   "Den aktuelle tema har ikke-gemte ændringer"
 
-  "Theme Editor %s %s"
-  "Tema Editor% s% s"
-
   "Tree Style: "
   "Træ Stil:"
 
@@ -1326,8 +1340,8 @@ msgcat::mcmset da {
 # themes.tcl
 msgcat::mcmset da {
 
-  "Theme:  %s"
-  "Tema:% s"
+  "Theme"
+  "Tema"
 
   "Theme:*"
   "Tema"
@@ -1348,19 +1362,19 @@ msgcat::mcmset da {
 # tkedat.tcl
 msgcat::mcmset da {
 
-  "Unable to open %s for reading"
-  "Kan ikke åbne%1 for læsning."
+  "Unable to read"
+  "Kan ikke læse fil."
 
 }
 
 # vim.tcl
 msgcat::mcmset da {
 
-  "File %s successfully written"
-  "Filen %s blev skrevet"
+  "File successfully written"
+  "Filen blev skrevet"
 
-  "Filename %s already exists"
-  "Filnavn %s findes allerede"
+  "Filename already exists"
+  "Filnavnet findes allerede"
 
 }
 
@@ -1382,8 +1396,8 @@ msgcat::mcmset da {
   "Favorite"
   "foretrukken"
 
-  "Find:"
-  "finde"
+  "Find"
+  "Søg"
 
   "Move to Other Pane"
   "Flytter til andre Pane"
@@ -1393,9 +1407,6 @@ msgcat::mcmset da {
 
   "Open"
   "Åben"
-
-  "Replace:"
-  "Erstat"
 
   "Save"
   "Gem"
@@ -1409,8 +1420,8 @@ msgcat::mcmset da {
   "Theme Editor"
   "Tema Editor"
 
-  "Unable to open %s for writing"
-  "Kunne ikke åbne%1 til skrivning"
+  "Unable to write"
+  "Der kan ikke skrives"
 
   "Unfavorite"
   "Unfavorite"
