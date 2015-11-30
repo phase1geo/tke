@@ -276,7 +276,7 @@ namespace eval plugins {
     logger::log $::errorInfo
 
     # Set the current information message
-    gui::set_info_message [msgcat::mc "ERROR (%s,%s): %s" $name $procname [lindex [split $status \n] 0]]
+    gui::set_info_message [format "%s (%s,%s): %s" [msgcat::mc "ERROR"] $name $procname [lindex [split $status \n] 0]]
 
   }
 
@@ -402,7 +402,7 @@ namespace eval plugins {
         set registry($index,selected) 0
         interpreter::destroy $registry($index,name)
       } else {
-        gui::set_info_message [msgcat::mc "Plugin %s installed" $registry($index,name)]
+        gui::set_info_message [format "%s (%s)" [msgcat::mc "Plugin installed"] $registry($index,name)]
         set registry($index,selected) 1
         set registry($index,interp)   $interpreter
         handle_reloading $index
@@ -411,7 +411,7 @@ namespace eval plugins {
 
     # Otherwise, just mark the plugin as being selected
     } else {
-      gui::set_info_message [msgcat::mc "Plugin %s installed" $registry($index,name)]
+      gui::set_info_message [format "%s (%s)" [msgcat::mc "Plugin installed"] $registry($index,name)]
       set registry($index,selected) 1
       run_on_start_after_install $index
     }
@@ -498,7 +498,7 @@ namespace eval plugins {
     add_all_syntax
 
     # Display the uninstall message
-    gui::set_info_message [msgcat::mc "Plugin %s uninstalled" $registry($index,name)]
+    gui::set_info_message [format "%s (%s)" [msgcat::mc "Plugin uninstalled"] $registry($index,name)]
 
   }
 

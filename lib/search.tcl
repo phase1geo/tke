@@ -291,7 +291,7 @@ namespace eval search {
       }
 
       # Specify the number of substitutions that we did
-      [ns gui]::set_info_message [msgcat::mc "%d substitutions done" $num_indices]
+      [ns gui]::set_info_message [format "%d %s" $num_indices [msgcat::mc "substitutions done"]]
 
     } else {
 

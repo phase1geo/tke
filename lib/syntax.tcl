@@ -119,7 +119,7 @@ namespace eval syntax {
 
       # Add the language and the command launcher
       set langs($name) [array get lang_array]
-      [ns launcher]::register [msgcat::mc "Syntax: %s" $name] "syntax::set_language $name"
+      [ns launcher]::register [format "%s: %s" [msgcat::mc "Syntax"] $name] "syntax::set_language $name"
 
     }
 
@@ -144,7 +144,7 @@ namespace eval syntax {
     unset langs($name)
 
     # Unregister the language with the launcher
-    [ns launcher]::unregister [msgcat::mc "Syntax: %s" $name]
+    [ns launcher]::unregister [format "%s: %s" [msgcat::mc "Syntax"] $name]
 
   }
 
@@ -338,7 +338,7 @@ namespace eval syntax {
         [ns completer]::set_auto_match_chars $txt.t $lang_array(matchcharsallowed)
 
       } rc]} {
-        tk_messageBox -parent . -type ok -default ok -message [msgcat::mc "Syntax error in %s.syntax file" $language] -detail $rc
+        tk_messageBox -parent . -type ok -default ok -message [format "%s (%s)" [msgcat::mc "Syntax error in syntax file"] $language] -detail $rc
         puts $::errorInfo
       }
 

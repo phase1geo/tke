@@ -95,7 +95,7 @@ namespace eval api {
   ## Registers the given description and command in the command launcher.
   proc register_launcher {interp pname description command} {
 
-    launcher::register [msgcat::mc "Plugin-%s: %s" $pname $description] "$interp eval $command"
+    launcher::register [format "%s-%s: %s" [msgcat::mc "Plugin"] $pname $description] "$interp eval $command"
 
   }
 
@@ -104,7 +104,7 @@ namespace eval api {
   #  description.
   proc unregister_launcher {interp pname description} {
 
-    launcher::unregister [msgcat::mc "Plugin-%s: %s" $pname $description]
+    launcher::unregister [format "%s-%s: %s" [msgcat::mc "Plugin"] $pname $description]
 
   }
 
