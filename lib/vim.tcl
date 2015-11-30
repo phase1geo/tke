@@ -78,6 +78,9 @@ namespace eval vim {
       remove_bindings $txt
     }
 
+    # Update the position information in the status bar
+    [ns gui]::update_position $txt
+
   }
 
   ######################################################################
@@ -899,18 +902,19 @@ namespace eval vim {
         set number($txt) ""
       }
       return 1
+
+    # If the keysym is a number, handle the number
     } elseif {[string is integer $keysym] && [handle_number $txt $char]} {
       record_add "Key-$keysym"
       return 1
+
+    # If we are in start, visual or record modes, stop character processing
     } elseif {($mode($txt) eq "start") || ([string range $mode($txt) 0 5] eq "visual") || ($mode($txt) eq "record")} {
       return 1
-    }
-
-    # Add the keysym to the auto recording
-    record_add "Key-$keysym"
 
     # Append the text to the insertion buffer
-    if {[string equal -length 7 $mode($txt) "replace"]} {
+    } elseif {[string equal -length 7 $mode($txt) "replace"]} {
+      record_add "Key-$keysym"
       if {[[ns multicursor]::enabled $txt]} {
         [ns multicursor]::replace $txt $char [ns indent]::check_indent
       } else {
@@ -930,6 +934,7 @@ namespace eval vim {
 
     # Remove all text within the current character
     } elseif {$mode($txt) eq "changein"} {
+      record_add "Key-$keysym"
       if {([set start_index [$txt search -backwards $char insert 1.0]] ne "") && \
           ([set end_index   [$txt search -forwards  $char insert end]] ne "")} {
         $txt delete $start_index+1c $end_index
@@ -937,6 +942,11 @@ namespace eval vim {
       } else {
         start_mode $txt
       }
+      return 1
+
+    # If we are not in edit mode, switch to start mode (an illegal command was executed)
+    } elseif {$mode($txt) ne "edit"} {
+      start_mode $txt
       return 1
     }
 
