@@ -601,9 +601,15 @@ namespace eval sidebar {
   proc order_files_dirs {dir} {
 
     if {[preferences::get Sidebar/FoldersAtTop]} {
-      return [concat [lsort [glob -nocomplain -directory $dir -types d *]] [lsort [glob -nocomplain -directory $dir -types {f l} *]]]
+      if {[namespace exists ::freewrap]} {
+        set items [lsort -unique [glob -nocomplain -directory $dir *]]
+        return [concat [lmap item $items {expr {[file isdirectory $item] ? $item : [continue]}}] \
+                       [lmap item $items {expr {[file isfile      $item] ? $item : [continue]}}]]
+      } else {
+        return [concat [lsort [glob -nocomplain -directory $dir -types d *]] [lsort [glob -nocomplain -directory $dir -types {f l} *]]]
+      }
     } else {
-      return [lsort [glob -nocomplain -directory $dir -types {d f l} *]]
+      return [lsort -unique [glob -nocomplain -directory $dir *]]
     }
 
   }
