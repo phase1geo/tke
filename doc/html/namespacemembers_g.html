@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="tke_logo_128.gif"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">TKE
-   &#160;<span id="projectnumber">1.9</span>
+   &#160;<span id="projectnumber">2.0</span>
    </div>
    <div id="projectbrief">Advanced editor written in Tcl/Tk</div>
   </td>
@@ -153,14 +153,35 @@ $(document).ready(function(){initNavTree('namespacemembers_g.html','');});
 <li>get_actual_filenames()
 : <a class="el" href="namespacegui.html#ac9864385502b037706ecd8b403d3fd7e">gui</a>
 </li>
+<li>get_all_colors()
+: <a class="el" href="namespacetheme.html#ac64b8704e1d1ab807d57167c3f4d19bc">theme</a>
+</li>
 <li>get_all_names()
 : <a class="el" href="namespacemarkers.html#adda8eea6fd54e565746b220554885658">markers</a>
 </li>
 <li>get_all_texts()
 : <a class="el" href="namespacegui.html#aa6176189133f089eff9fbc0775d95329">gui</a>
 </li>
+<li>get_all_themes()
+: <a class="el" href="namespacethemes.html#ac7bcc251a6006630798647294bc79173">themes</a>
+</li>
+<li>get_attributions()
+: <a class="el" href="namespacetheme.html#aa92649e8fdd55d797da3e543bb287ed3">theme</a>
+</li>
+<li>get_category_options()
+: <a class="el" href="namespacetheme.html#af72e247d539f10507dec15577154b462">theme</a>
+</li>
+<li>get_category_titles()
+: <a class="el" href="namespacetheme.html#a56174fad8e9256a5a6d4f1b88110dfe4">theme</a>
+</li>
 <li>get_cleaned_content()
 : <a class="el" href="namespacevim.html#aca8a4968a2bc4e1b502b7285d8aa4fa9">vim</a>
+</li>
+<li>get_color()
+: <a class="el" href="namespacethemer.html#a4900c671ecf26703033245671a2fd689">themer</a>
+</li>
+<li>get_color_values()
+: <a class="el" href="namespaceutils.html#a13f8549f8e0c8fe9f99fcfaeb6a85926">utils</a>
 </li>
 <li>get_command_name()
 : <a class="el" href="namespacelauncher.html#aa22236396e14d59255c44300d16fdcd8">launcher</a>
@@ -171,11 +192,17 @@ $(document).ready(function(){initNavTree('namespacemembers_g.html','');});
 <li>get_comments()
 : <a class="el" href="namespacesyntax.html#a5e9a9d64eed2c768dd20202128887461">syntax</a>
 </li>
+<li>get_complementary_mono_color()
+: <a class="el" href="namespaceutils.html#a1127ebede61cc35585b784ab324822f8">utils</a>
+</li>
 <li>get_current_language()
 : <a class="el" href="namespacesyntax.html#ad7dfc1fc7b77f868dace0121bab618b7">syntax</a>
 </li>
 <li>get_current_snippets()
 : <a class="el" href="namespacesnippets.html#a22e23ef1c8be9eebf46d786b30e0909f">snippets</a>
+</li>
+<li>get_current_theme()
+: <a class="el" href="namespacetheme.html#add2925a35bd66e592461bccb3859e6b5">theme</a>
 </li>
 <li>get_cvs_names()
 : <a class="el" href="namespacediff.html#ae6d8a6e667722236ae66ca3815df29fb">diff</a>
@@ -197,6 +224,9 @@ $(document).ready(function(){initNavTree('namespacemembers_g.html','');});
 </li>
 <li>get_fif_files()
 : <a class="el" href="namespacesidebar.html#a7c237c8f4a2bf9457cf9f4dcbf462d4a">sidebar</a>
+</li>
+<li>get_file()
+: <a class="el" href="namespacethemes.html#a54bf7e3751004cb0d147907492550d33">themes</a>
 </li>
 <li>get_file_cmd()
 : <a class="el" href="namespacediff_1_1cvs.html#ac145b50006ec7f4976fdacff9f4bd7eb">diff::cvs</a>
@@ -229,6 +259,9 @@ $(document).ready(function(){initNavTree('namespacemembers_g.html','');});
 <li>get_home_directory()
 : <a class="el" href="namespaceapi.html#ad83be960420519d765d070c4d52058c6">api</a>
 </li>
+<li>get_image_color()
+: <a class="el" href="namespacetheme.html#a98eb20e8fca2042d38a35a7aab729719">theme</a>
+</li>
 <li>get_images_directory()
 : <a class="el" href="namespaceapi.html#af8e0db5ca61dd30b502328b4f42067d3">api</a>
 </li>
@@ -248,6 +281,7 @@ $(document).ready(function(){initNavTree('namespacemembers_g.html','');});
 <li>get_info()
 : <a class="el" href="namespaceapi_1_1file.html#a8e475712cab7a9fc0a7a631e36889763">api::file</a>
 , <a class="el" href="namespaceapi_1_1sidebar.html#a243ce64b30a1fe2c26a826d2c6480c83">api::sidebar</a>
+, <a class="el" href="namespacebitmap.html#acf9b39d9a208896a7b4bad6fb5ae1fa8">bitmap</a>
 , <a class="el" href="namespacesidebar.html#ad424cbb9b22c4406b2e70458c2f3b915">sidebar</a>
 </li>
 <li>get_languages()
@@ -315,9 +349,6 @@ $(document).ready(function(){initNavTree('namespacemembers_g.html','');});
 : <a class="el" href="namespacemarkers.html#a8cfc00c84b43da4545ac447596b4ad8e">markers</a>
 , <a class="el" href="namespacesessions.html#a35756cb24a7e75ae37dd81a46f6c7674">sessions</a>
 </li>
-<li>get_path()
-: <a class="el" href="namespacethemer.html#a04eeae04d23596a8c023d45b78675358">themer</a>
-</li>
 <li>get_plugin_directory()
 : <a class="el" href="namespaceapi.html#a4fbe246f90ab18aeca4abaa5f9f51350">api</a>
 </li>
@@ -326,9 +357,6 @@ $(document).ready(function(){initNavTree('namespacemembers_g.html','');});
 </li>
 <li>get_previous_indent_space()
 : <a class="el" href="namespaceindent.html#a7fb254b122722597295a3f26bfebbcb5">indent</a>
-</li>
-<li>get_save_name()
-: <a class="el" href="namespacethemer.html#a7d9c8fcb6483f12c57c2c8b0a7bcbf31">themer</a>
 </li>
 <li>get_search_data()
 : <a class="el" href="namespacegui.html#a58505e6d5364bb7cdc7c71623a4e2550">gui</a>
@@ -343,6 +371,9 @@ $(document).ready(function(){initNavTree('namespacemembers_g.html','');});
 <li>get_symbol_list()
 : <a class="el" href="namespacegui.html#aed0d9924d06ab8f3a2779c03cbb820de">gui</a>
 </li>
+<li>get_syntax_colors()
+: <a class="el" href="namespacetheme.html#a93c8dbf72fa6a1d27a1835a9614e6402">theme</a>
+</li>
 <li>get_syntax_symbol()
 : <a class="el" href="namespacesyntax.html#a569e32304fc17272c7e5a02229e99b2e">syntax</a>
 </li>
@@ -355,8 +386,8 @@ $(document).ready(function(){initNavTree('namespacemembers_g.html','');});
 <li>get_tag_count()
 : <a class="el" href="namespaceindent.html#af215187471ca0ce227ac4dc21e100dba">indent</a>
 </li>
-<li>get_theme()
-: <a class="el" href="namespacethemer.html#a0a655106b5b5d200f001f9562cabe5d3">themer</a>
+<li>get_themer_category_table_row()
+: <a class="el" href="namespacetheme.html#a37e76d8f126501e6d69efa6bd6ca34d8">theme</a>
 </li>
 <li>get_txt2_from_tab()
 : <a class="el" href="namespacegui.html#aa33621d4b85f804a6b2cb8256925dc2e">gui</a>
@@ -364,11 +395,17 @@ $(document).ready(function(){initNavTree('namespacemembers_g.html','');});
 <li>get_txt_from_tab()
 : <a class="el" href="namespacegui.html#a30e9607b451183a81a3de1cdea34abc2">gui</a>
 </li>
+<li>get_type()
+: <a class="el" href="namespacetheme.html#a7c4b12423c062e8be27c1dc7d5eb6c09">theme</a>
+</li>
 <li>get_user_input()
 : <a class="el" href="namespaceapi.html#a9939e105adae875c1a666e9ce2edec65">api</a>
 </li>
 <li>get_user_response()
 : <a class="el" href="namespacegui.html#a5c0544594b31e4523edd68f672b37b7a">gui</a>
+</li>
+<li>get_value()
+: <a class="el" href="namespacetheme.html#a18548ade00d0ca13a5f4baefc9b784b0">theme</a>
 </li>
 <li>get_version_log()
 : <a class="el" href="namespacediff_1_1cvs.html#a23fc640505c278357a4f36e59e33b689">diff::cvs</a>
@@ -380,9 +417,6 @@ $(document).ready(function(){initNavTree('namespacemembers_g.html','');});
 <li>get_versions()
 : <a class="el" href="namespacediff.html#a6ba62f6906310cb43cff688db8106342">diff</a>
 </li>
-<li>get_win()
-: <a class="el" href="namespacethemer.html#ad38ff5828905999db9b0015f07e0a402">themer</a>
-</li>
 <li>get_word()
 : <a class="el" href="namespacevim.html#a8bbe06181e15c1a2fbb995eefd8af241">vim</a>
 </li>
@@ -391,9 +425,6 @@ $(document).ready(function(){initNavTree('namespacemembers_g.html','');});
 </li>
 <li>get_xml_tag()
 : <a class="el" href="namespacesyntax.html#a9d1ebeab24f9dd9a10a6874907eba459">syntax</a>
-</li>
-<li>getAr()
-: <a class="el" href="namespacectext.html#a6d77c53ae3bdbe36a2cc3cd8bd40a766">ctext</a>
 </li>
 <li>getHighlightClasses()
 : <a class="el" href="namespacectext.html#a5c33098a79c9b452a0f534c63db7cc68">ctext</a>
@@ -407,7 +438,7 @@ $(document).ready(function(){initNavTree('namespacemembers_g.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Sep 25 2015 22:23:47 for TKE by
+    <li class="footer">Generated on Mon Nov 30 2015 19:40:35 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>

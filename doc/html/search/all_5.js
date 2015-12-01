@@ -18,6 +18,10 @@ var searchData=
   ['file_5ffavorites_5fposting',['file_favorites_posting',['../namespacemenus.html#a1fd433483111561575bcd46ecdc780cb',1,'menus']]],
   ['file_5fposting',['file_posting',['../namespacemenus.html#a38ccf84be7a6735575b2af93f1edd891',1,'menus']]],
   ['file_5frecent_5fposting',['file_recent_posting',['../namespacemenus.html#a7f9cc6f7916c961eb74ac1530600aa60',1,'menus']]],
+  ['filter_5fall',['filter_all',['../namespacethemer.html#aa321f434de973b26fa054a435aec8f91',1,'themer']]],
+  ['filter_5fcategory',['filter_category',['../namespacethemer.html#abbf2e78e54e2207d8eace136531dd4d2',1,'themer']]],
+  ['filter_5fcolor',['filter_color',['../namespacethemer.html#ad20cd5b0ff03c047c6603f57ee467b32',1,'themer']]],
+  ['filter_5fselected',['filter_selected',['../namespacethemer.html#a634302f6c2a4235bad10f76fea2054e6',1,'themer']]],
   ['find_5fall',['find_all',['../namespacesearch.html#a62206419f47c6d6f9fce69d626170bdf',1,'search']]],
   ['find_5fall_5fcommand',['find_all_command',['../namespacemenus.html#a81b88bbaf6091fd5a1578e002ceec169',1,'menus']]],
   ['find_5fclear',['find_clear',['../namespacesearch.html#a4f8cd7f8f29418f56bac6291cdca458a',1,'search']]],
@@ -40,7 +44,8 @@ var searchData=
   ['findnextspace',['findNextSpace',['../namespacectext.html#ab9626479b18ba8be9ea488e24ad8e58f',1,'ctext']]],
   ['findpreviousspace',['findPreviousSpace',['../namespacectext.html#a48f11218d7058bfb9e2094d9bb0640d5',1,'ctext']]],
   ['flush_5fcommand',['flush_command',['../namespaceinterpreter.html#acfb65eca53b89c98fd412205c8756f0b',1,'interpreter']]],
-  ['format',['format',['../namespacegui.html#af84938ff9bac2b81138b2455ec46df26',1,'gui']]],
+  ['format_5fcategory_5fvalue',['format_category_value',['../namespacethemer.html#a4b79e6f477560f78a36fe605f2ff53a6',1,'themer']]],
+  ['format_5fimage_5fcell',['format_image_cell',['../namespacethemer.html#a4e86f66c81dae9284430e5dba9efa85c',1,'themer']]],
   ['format_5fname',['format_name',['../namespacesidebar.html#aa7d127eab115f31eabf9a457a3725928',1,'sidebar']]],
-  ['format_5ftext',['format_text',['../namespaceindent.html#ad501a046be35a81562b378ae14084ba1',1,'indent']]]
+  ['format_5ftext',['format_text',['../namespacegui.html#a8b252e594ee5e92b64c73a2583f5a036',1,'gui::format_text()'],['../namespaceindent.html#ad501a046be35a81562b378ae14084ba1',1,'indent::format_text()']]]
 ];

@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="tke_logo_128.gif"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">TKE
-   &#160;<span id="projectnumber">1.9</span>
+   &#160;<span id="projectnumber">2.0</span>
    </div>
    <div id="projectbrief">Advanced editor written in Tcl/Tk</div>
   </td>
@@ -310,7 +310,7 @@ $(document).ready(function(){initNavTree('api_8tcl_source.html','');});
     </div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;
     </div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <a class="code" href="namespacelauncher.html#a2b295e7b3b73ad09d0c9548a7382365d" title="launcher::register">launcher::register</a> &quot;Plugin: $description&quot; &quot;$interp eval $command&quot;<span class="comment">
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <a class="code" href="namespacelauncher.html#a2b295e7b3b73ad09d0c9548a7382365d" title="launcher::register">launcher::register</a> [<span class="keyword">format</span> &quot;%s-%s: %s&quot; [msgcat::mc &quot;Plugin&quot;] $pname $description] &quot;$interp eval $command&quot;<span class="comment">
 </span></div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="comment"></span>
   </div>
@@ -329,7 +329,7 @@ $(document).ready(function(){initNavTree('api_8tcl_source.html','');});
     </div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;
     </div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <a class="code" href="namespacelauncher.html#adbf4499997ce07bc3051f87f0cf24eb6" title="launcher::unregister">launcher::unregister</a> &quot;Plugin: $description&quot;<span class="comment">
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <a class="code" href="namespacelauncher.html#adbf4499997ce07bc3051f87f0cf24eb6" title="launcher::unregister">launcher::unregister</a> [<span class="keyword">format</span> &quot;%s-%s: %s&quot; [msgcat::mc &quot;Plugin&quot;] $pname $description]<span class="comment">
 </span></div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="comment"></span>
   </div>
@@ -655,476 +655,486 @@ $(document).ready(function(){initNavTree('api_8tcl_source.html','');});
 </span></div>
 <div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;<span class="comment"></span>
       </div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;      <span class="comment"># Finally, add the new file
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;      <span class="comment"># If the save command was specified, add the interpreter evaluation
 </span></div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;<span class="comment"></span><span class="comment">      </span><a class="code" href="namespacegui.html#ac656eb206762f24bc0d271e0ca5e14a9" title="gui::add_buffer">gui::add_buffer</a> end $name &quot;$interp eval $save_command&quot; {*}[<span class="keyword">array</span> get opts]<span class="comment">
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;<span class="comment"></span><span class="comment">      </span><span class="keyword">if</span> {$save_command ne &quot;&quot;} {
+        </div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;        <span class="keyword">set</span> save_command &quot;$interp eval $save_command&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;<span class="comment"></span>      }<span class="comment">
+</span></div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;<span class="comment"></span>
       </div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;      <span class="comment"># Allow the plugin to manipulate the ctext widget
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;      <span class="comment"># Finally, add the buffer
 </span></div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;<span class="comment"></span><span class="comment">      </span><span class="keyword">set</span> txt [<a class="code" href="namespacegui.html#a2d7135ba21b732df64af4a076492d932" title="gui::current_txt">gui::current_txt</a> {}]<span class="comment">
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;<span class="comment"></span><span class="comment">      </span><a class="code" href="namespacegui.html#ac656eb206762f24bc0d271e0ca5e14a9" title="gui::add_buffer">gui::add_buffer</a> end $name $save_command {*}[<span class="keyword">array</span> get opts]<span class="comment">
 </span></div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;<span class="comment"></span>      $interp alias $txt $txt<span class="comment">
-</span></div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;<span class="comment"></span>
       </div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;      <span class="keyword">return</span> $txt<span class="comment">
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;      <span class="comment"># Allow the plugin to manipulate the ctext widget
 </span></div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;<span class="comment"></span><span class="comment">      </span><span class="keyword">set</span> txt [<a class="code" href="namespacegui.html#a2d7135ba21b732df64af4a076492d932" title="gui::current_txt">gui::current_txt</a> {}]<span class="comment">
+</span></div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;<span class="comment"></span>      $interp alias $txt $txt<span class="comment">
+</span></div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;<span class="comment"></span>
+      </div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;      <span class="keyword">return</span> $txt<span class="comment">
+</span></div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    }<span class="comment">
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;    }<span class="comment">
 </span></div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;    <span class="comment">######################################################################
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;    <span class="comment">######################################################################
 </span></div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">## Adds a file to the browser.  If the first argument does not start with
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">## Adds a file to the browser.  If the first argument does not start with
 </span></div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#  a &#39;-&#39; character, the argument is considered to be the name of a file
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#  a &#39;-&#39; character, the argument is considered to be the name of a file
 </span></div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#  to add.  If no filename is specified, an empty/unnamed file will be added.
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#  to add.  If no filename is specified, an empty/unnamed file will be added.
 </span></div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#  All other options are considered to be parameters.
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#  All other options are considered to be parameters.
 </span></div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#
 </span></div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#   -savecommand \e command
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#   -savecommand \e command
 </span></div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#     * Specifies the name of a command to execute after
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#     * Specifies the name of a command to execute after
 </span></div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       the file is saved.
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       the file is saved.
 </span></div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#
 </span></div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#   -lock (0|1)
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#   -lock (0|1)
 </span></div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#     * If set to 0, the file will begin in the unlocked
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#     * If set to 0, the file will begin in the unlocked
 </span></div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       state (i.e., the user can edit the file immediately).
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       state (i.e., the user can edit the file immediately).
 </span></div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#     * If set to 1, the file will begin in the locked state
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#     * If set to 1, the file will begin in the locked state
 </span></div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       (i.e., the user must unlock the file to edit it)
-</span></div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#
-</span></div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#   -readonly (0|1)
-</span></div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#     * If set to 1, the file will be considered readonly
-</span></div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       (i.e., the file will be locked indefinitely); otherwise,
-</span></div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       the file will be able to be edited.
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       (i.e., the user must unlock the file to edit it)
 </span></div>
 <div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#
 </span></div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#   -sidebar (0|1)
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#   -readonly (0|1)
 </span></div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#     * If set to 1 (default), the file&#39;s directory contents
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#     * If set to 1, the file will be considered readonly
 </span></div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       will be included in the sidebar; otherwise, the file&#39;s
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       (i.e., the file will be locked indefinitely); otherwise,
 </span></div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       directory components will not be added to the sidebar.
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       the file will be able to be edited.
 </span></div>
 <div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#
 </span></div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#   -saveas (0|1)
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#   -sidebar (0|1)
 </span></div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#     * If set to 0 (default), the file will be saved to the
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#     * If set to 1 (default), the file&#39;s directory contents
 </span></div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       current file; otherwise, the file will always force a
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       will be included in the sidebar; otherwise, the file&#39;s
 </span></div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       save as dialog to be displayed when saving.
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       directory components will not be added to the sidebar.
 </span></div>
 <div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#
 </span></div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#   -buffer (0|1)
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#   -saveas (0|1)
 </span></div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#     * If set to 0 (default), the file will be added as a normal file;
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#     * If set to 0 (default), the file will be saved to the
 </span></div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       however, if set to 1, the file will be treated as a temporary file
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       current file; otherwise, the file will always force a
 </span></div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       that will be automatically deleted when the tab is closed.
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       save as dialog to be displayed when saving.
 </span></div>
 <div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#
 </span></div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#   -diff (0|1)
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#   -buffer (0|1)
 </span></div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#     * If set to 0 (default), the file will be added as an editable file;
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#     * If set to 0 (default), the file will be added as a normal file;
 </span></div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       however, if set to 1, the file will be inserted as a difference viewer,
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       however, if set to 1, the file will be treated as a temporary file
 </span></div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       allowing the user to view file differences visually within the editor.
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       that will be automatically deleted when the tab is closed.
 </span></div>
 <div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#
 </span></div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#   -gutters \e list
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#   -diff (0|1)
 </span></div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#     * Creates a gutter in the editor.  The contents of list are as follows:
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#     * If set to 0 (default), the file will be added as an editable file;
 </span></div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       \code {name {{symbol_name {symbol_tag_options+}}+}}+ \endcode
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       however, if set to 1, the file will be inserted as a difference viewer,
 </span></div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       For a list of valid symbol_tag_options, see the options available for
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       allowing the user to view file differences visually within the editor.
 </span></div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       tags in a text widget.
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#
 </span></div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#   -gutters \e list
 </span></div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#   -other (0|1)
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#     * Creates a gutter in the editor.  The contents of list are as follows:
 </span></div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#     * If set to 0 (default), the file will be created in a new tab in the
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       \code {name {{symbol_name {symbol_tag_options+}}+}}+ \endcode
 </span></div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       current pane; however, if set to 1, the file will be created in a new
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       For a list of valid symbol_tag_options, see the options available for
 </span></div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       tab in the other pane (the other pane will be created if it does not
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       tags in a text widget.
 </span></div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       exist).
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#
 </span></div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#   -other (0|1)
 </span></div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#   -tags \e list
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#     * If set to 0 (default), the file will be created in a new tab in the
 </span></div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#     * A list of plugin bindtag suffixes that will be applied only to this
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       current pane; however, if set to 1, the file will be created in a new
 </span></div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       this text widget.
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       tab in the other pane (the other pane will be created if it does not
 </span></div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">proc</span> add_file {interp pname args} {
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       exist).
+</span></div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#
+</span></div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#   -tags \e list
+</span></div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#     * A list of plugin bindtag suffixes that will be applied only to this
+</span></div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#       this text widget.
+</span></div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">proc</span> add_file {interp pname args} {
 
       </div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;
       </div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;      <span class="keyword">set</span> fname &quot;&quot;<span class="comment">
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;      <span class="keyword">set</span> fname &quot;&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;<span class="comment"></span>      <span class="keyword">array</span> set opts [list]<span class="comment">
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;<span class="comment"></span>      <span class="keyword">array</span> set opts [list]<span class="comment">
 </span></div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;<span class="comment"></span>
       </div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;      <span class="comment"># If no filename is given, add a new file to the editor
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;      <span class="comment"># If no filename is given, add a new file to the editor
 </span></div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;<span class="comment"></span><span class="comment">      </span><span class="keyword">if</span> {([<span class="keyword">llength</span> $args] &gt; 0) &amp;&amp; ([<span class="keyword">string</span> index [<span class="keyword">lindex</span> $args 0] 0] ne &quot;-&quot;)} {
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;<span class="comment"></span><span class="comment">      </span><span class="keyword">if</span> {([<span class="keyword">llength</span> $args] &gt; 0) &amp;&amp; ([<span class="keyword">string</span> index [<span class="keyword">lindex</span> $args 0] 0] ne &quot;-&quot;)} {
 
         </div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;
         </div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;        <span class="comment"># Peel the filename from the rest of the arguments
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;        <span class="comment"># Peel the filename from the rest of the arguments
 </span></div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;<span class="comment"></span><span class="comment">        </span><span class="keyword">set</span> args [<a class="code" href="tke_8tcl.html#a87a72c8f51e5763f17fa844297d1195c" title="lassign">lassign</a> $args fname]<span class="comment">
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;<span class="comment"></span><span class="comment">        </span><span class="keyword">set</span> args [<a class="code" href="tke_8tcl.html#a87a72c8f51e5763f17fa844297d1195c" title="lassign">lassign</a> $args fname]<span class="comment">
 </span></div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;<span class="comment"></span>
         </div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;        <span class="comment"># Check to make sure that the file is safe to add to the editor, and
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;        <span class="comment"># Check to make sure that the file is safe to add to the editor, and
 </span></div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;<span class="comment"></span><span class="comment">        </span><span class="comment"># if it is, create the normalized pathname of the filename.
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;<span class="comment"></span><span class="comment">        </span><span class="comment"># if it is, create the normalized pathname of the filename.
 </span></div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;<span class="comment"></span><span class="comment">        </span><span class="keyword">if</span> {[<span class="keyword">set</span> fname [<a class="code" href="namespaceinterpreter.html#adfcaac45a2b69fd5fc5922c1452767fe" title="interpreter::check_file">interpreter::check_file</a> $pname $fname]] eq &quot;&quot;} {
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;<span class="comment"></span><span class="comment">        </span><span class="keyword">if</span> {[<span class="keyword">set</span> fname [<a class="code" href="namespaceinterpreter.html#adfcaac45a2b69fd5fc5922c1452767fe" title="interpreter::check_file">interpreter::check_file</a> $pname $fname]] eq &quot;&quot;} {
           </div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;          <span class="keyword">return</span> -code error &quot;permission error&quot;<span class="comment">
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;          <span class="keyword">return</span> -code error &quot;permission error&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;<span class="comment"></span>        }<span class="comment">
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;<span class="comment"></span>        }<span class="comment">
 </span></div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;<span class="comment"></span>
       </div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;      }<span class="comment">
-</span></div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;<span class="comment"></span>
-      </div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;      <span class="comment"># If we have an odd number of arguments, we have an error condition
-</span></div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;<span class="comment"></span><span class="comment">      </span><span class="keyword">if</span> {[<span class="keyword">expr</span> [<span class="keyword">llength</span> $args] % 2] == 1} {
-        </div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;        <span class="keyword">return</span> -code error [msgcat::mc &quot;Argument list to api::add_file was not an even key/value pair&quot;]<span class="comment">
-</span></div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;<span class="comment"></span>      }<span class="comment">
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;      }<span class="comment">
 </span></div>
 <div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;<span class="comment"></span>
       </div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;      <span class="comment"># Get the options
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;      <span class="comment"># If we have an odd number of arguments, we have an error condition
 </span></div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;<span class="comment"></span><span class="comment">      </span><span class="keyword">array</span> set opts $args<span class="comment">
-</span></div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;<span class="comment"></span>
-      </div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;      <span class="comment"># If the -savecommand option was given, wrap it in an interp eval call
-</span></div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;<span class="comment"></span><span class="comment">      </span><span class="comment"># so that we don&#39;t execute the command in the master interpreter.
-</span></div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;<span class="comment"></span><span class="comment">      </span><span class="keyword">if</span> {[<span class="keyword">info</span> exists opts(-savecommand)]} {
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;<span class="comment"></span><span class="comment">      </span><span class="keyword">if</span> {[<span class="keyword">expr</span> [<span class="keyword">llength</span> $args] % 2] == 1} {
         </div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;        <span class="keyword">set</span> opts(-savecommand) &quot;$interp eval $opts(-savecommand)&quot;<span class="comment">
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;        <span class="keyword">return</span> -code error [msgcat::mc &quot;Argument list to api::add_file was not an even key/value pair&quot;]<span class="comment">
 </span></div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;<span class="comment"></span>      }<span class="comment">
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;<span class="comment"></span>      }<span class="comment">
 </span></div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;<span class="comment"></span>
       </div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;      <span class="comment"># Change out the gutter commands with interpreter versions
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;      <span class="comment"># Get the options
 </span></div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;<span class="comment"></span><span class="comment">      </span><span class="keyword">if</span> {[<span class="keyword">info</span> exists opts(-gutters)]} {
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;<span class="comment"></span><span class="comment">      </span><span class="keyword">array</span> set opts $args<span class="comment">
+</span></div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;<span class="comment"></span>
+      </div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;      <span class="comment"># If the -savecommand option was given, wrap it in an interp eval call
+</span></div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;<span class="comment"></span><span class="comment">      </span><span class="comment"># so that we don&#39;t execute the command in the master interpreter.
+</span></div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;<span class="comment"></span><span class="comment">      </span><span class="keyword">if</span> {[<span class="keyword">info</span> exists opts(-savecommand)]} {
         </div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;        <span class="keyword">set</span> new_gutters [list]<span class="comment">
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;        <span class="keyword">set</span> opts(-savecommand) &quot;$interp eval $opts(-savecommand)&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;<span class="comment"></span>        <span class="keyword">foreach</span> gutter $opts(-gutters) {
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;<span class="comment"></span>      }<span class="comment">
+</span></div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;<span class="comment"></span>
+      </div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;      <span class="comment"># Change out the gutter commands with interpreter versions
+</span></div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;<span class="comment"></span><span class="comment">      </span><span class="keyword">if</span> {[<span class="keyword">info</span> exists opts(-gutters)]} {
+        </div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;        <span class="keyword">set</span> new_gutters [list]<span class="comment">
+</span></div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;<span class="comment"></span>        <span class="keyword">foreach</span> gutter $opts(-gutters) {
           </div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;          <span class="keyword">set</span> new_sym [list]<span class="comment">
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;          <span class="keyword">set</span> new_sym [list]<span class="comment">
 </span></div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;<span class="comment"></span>          <span class="keyword">foreach</span> {symname symopts} [<a class="code" href="tke_8tcl.html#a87a72c8f51e5763f17fa844297d1195c" title="lassign">lassign</a> $gutter gutter_name] {
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;<span class="comment"></span>          <span class="keyword">foreach</span> {symname symopts} [<a class="code" href="tke_8tcl.html#a87a72c8f51e5763f17fa844297d1195c" title="lassign">lassign</a> $gutter gutter_name] {
             </div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;            <span class="keyword">set</span> new_symopts [list]<span class="comment">
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;            <span class="keyword">set</span> new_symopts [list]<span class="comment">
 </span></div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;<span class="comment"></span>            <span class="keyword">foreach</span> {symopt symval} $symopts {
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;<span class="comment"></span>            <span class="keyword">foreach</span> {symopt symval} $symopts {
               </div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;              <span class="keyword">switch</span>  $symopt {
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;              <span class="keyword">switch</span>  $symopt {
                 &quot;</div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;                &quot;-onenter&quot; -
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;                &quot;-onenter&quot; -
                 </div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;                &quot;-onleave&quot; -
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;                &quot;-onleave&quot; -
                 </div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;                &quot;-onclick&quot; {
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;                &quot;-onclick&quot; {
                   </div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;                  <span class="keyword">lappend</span> new_symopts $symopt &quot;$interp eval $symval&quot;<span class="comment">
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;                  <span class="keyword">lappend</span> new_symopts $symopt &quot;$interp eval $symval&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;<span class="comment"></span>                }
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;<span class="comment"></span>                }
                 </div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;                default {
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;                default {
                   </div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;                  <span class="keyword">lappend</span> new_symopts $symopt $symval<span class="comment">
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;                  <span class="keyword">lappend</span> new_symopts $symopt $symval<span class="comment">
 </span></div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;<span class="comment"></span>                }
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;<span class="comment"></span>                }
               </div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;              }<span class="comment">
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;              }<span class="comment">
 </span></div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;<span class="comment"></span>            }<span class="comment">
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;<span class="comment"></span>            }<span class="comment">
 </span></div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;<span class="comment"></span>            <span class="keyword">lappend</span> new_sym $symname $new_symopts<span class="comment">
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;<span class="comment"></span>            <span class="keyword">lappend</span> new_sym $symname $new_symopts<span class="comment">
 </span></div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;<span class="comment"></span>          }<span class="comment">
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;<span class="comment"></span>          }<span class="comment">
 </span></div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;<span class="comment"></span>          <span class="keyword">lappend</span> new_gutters [list $gutter_name {*}$new_sym]<span class="comment">
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;<span class="comment"></span>          <span class="keyword">lappend</span> new_gutters [list $gutter_name {*}$new_sym]<span class="comment">
 </span></div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;<span class="comment"></span>        }<span class="comment">
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;<span class="comment"></span>        }<span class="comment">
 </span></div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;<span class="comment"></span>        <span class="keyword">set</span> opts(-gutters) $new_gutters<span class="comment">
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;<span class="comment"></span>        <span class="keyword">set</span> opts(-gutters) $new_gutters<span class="comment">
 </span></div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;<span class="comment"></span>      }<span class="comment">
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;<span class="comment"></span>      }<span class="comment">
 </span></div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;<span class="comment"></span>
       </div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;      <span class="comment"># Set the tags
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;      <span class="comment"># Set the tags
 </span></div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;<span class="comment"></span><span class="comment">      </span><span class="keyword">if</span> {[<span class="keyword">info</span> exists opts(-tags)]} {
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;<span class="comment"></span><span class="comment">      </span><span class="keyword">if</span> {[<span class="keyword">info</span> exists opts(-tags)]} {
         </div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;        <span class="keyword">set</span> tag_list [list]<span class="comment">
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;        <span class="keyword">set</span> tag_list [list]<span class="comment">
 </span></div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;<span class="comment"></span>        <span class="keyword">foreach</span> tag $opts(-tags) {
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;<span class="comment"></span>        <span class="keyword">foreach</span> tag $opts(-tags) {
           </div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;          <span class="keyword">lappend</span> tag_list &quot;plugin__${pname}__$tag&quot;<span class="comment">
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;          <span class="keyword">lappend</span> tag_list &quot;plugin__${pname}__$tag&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;<span class="comment"></span>        }<span class="comment">
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;<span class="comment"></span>        }<span class="comment">
 </span></div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;<span class="comment"></span>        <span class="keyword">set</span> opts(-tags) $tag_list<span class="comment">
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;<span class="comment"></span>        <span class="keyword">set</span> opts(-tags) $tag_list<span class="comment">
 </span></div>
-<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;<span class="comment"></span>      }<span class="comment">
+<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;<span class="comment"></span>      }<span class="comment">
 </span></div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;<span class="comment"></span>
       </div>
-<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;      <span class="comment"># Finally, add the new file
+<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;      <span class="comment"># Finally, add the new file
 </span></div>
-<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;<span class="comment"></span><span class="comment">      </span><span class="keyword">if</span> {$fname eq &quot;&quot;} {
+<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;<span class="comment"></span><span class="comment">      </span><span class="keyword">if</span> {$fname eq &quot;&quot;} {
         </div>
-<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;        <a class="code" href="namespacegui.html#ad078db7812672f2bce3e00d4382d064a" title="gui::add_new_file">gui::add_new_file</a> end {*}[<span class="keyword">array</span> get opts]<span class="comment">
+<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;        <a class="code" href="namespacegui.html#ad078db7812672f2bce3e00d4382d064a" title="gui::add_new_file">gui::add_new_file</a> end {*}[<span class="keyword">array</span> get opts]<span class="comment">
 </span></div>
-<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;<span class="comment"></span>      } <span class="keyword">else</span> {
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;<span class="comment"></span>      } <span class="keyword">else</span> {
         </div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;        <a class="code" href="namespacegui.html#a3f92b9af84ff56b1dac8e147f19daf9b" title="gui::add_file">gui::add_file</a> end $fname {*}[<span class="keyword">array</span> get opts]<span class="comment">
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;        <a class="code" href="namespacegui.html#a3f92b9af84ff56b1dac8e147f19daf9b" title="gui::add_file">gui::add_file</a> end $fname {*}[<span class="keyword">array</span> get opts]<span class="comment">
 </span></div>
-<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;<span class="comment"></span>      }<span class="comment">
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;<span class="comment"></span>      }<span class="comment">
 </span></div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;<span class="comment"></span>
       </div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;      <span class="comment"># Allow the plugin to manipulate the ctext widget
+<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;      <span class="comment"># Allow the plugin to manipulate the ctext widget
 </span></div>
-<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;<span class="comment"></span><span class="comment">      </span><span class="keyword">set</span> txt [<a class="code" href="namespacegui.html#a2d7135ba21b732df64af4a076492d932" title="gui::current_txt">gui::current_txt</a> {}]<span class="comment">
+<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;<span class="comment"></span><span class="comment">      </span><span class="keyword">set</span> txt [<a class="code" href="namespacegui.html#a2d7135ba21b732df64af4a076492d932" title="gui::current_txt">gui::current_txt</a> {}]<span class="comment">
 </span></div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;<span class="comment"></span>      $interp alias $txt $txt<span class="comment">
+<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;<span class="comment"></span>      $interp alias $txt $txt<span class="comment">
 </span></div>
-<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;<span class="comment"></span>
       </div>
-<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;      <span class="keyword">return</span> $txt<span class="comment">
+<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;      <span class="keyword">return</span> $txt<span class="comment">
 </span></div>
-<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;    }<span class="comment">
+<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;    }<span class="comment">
 </span></div>
-<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;  }<span class="comment">
+<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;  }<span class="comment">
 </span></div>
-<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;  <span class="keyword">namespace</span> <span class="keyword">eval</span> sidebar {
+<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;  <span class="keyword">namespace</span> <span class="keyword">eval</span> sidebar {
 
     </div>
-<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;
+<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;
     </div>
-<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;    <span class="comment">######################################################################
+<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;    <span class="comment">######################################################################
 </span></div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">## \return Returns the selected sidebar file index.
+<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">## \return Returns the selected sidebar file index.
 </span></div>
-<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">proc</span> get_selected_indices {interp pname} {
+<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">proc</span> get_selected_indices {interp pname} {
 
       </div>
-<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;
+<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;
       </div>
-<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;      <span class="keyword">return</span> [<a class="code" href="namespacesidebar.html#a406718b8f64a31953c1adedf8840f5c4" title="sidebar::get_selected_indices">sidebar::get_selected_indices</a>]<span class="comment">
+<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;      <span class="keyword">return</span> [<a class="code" href="namespacesidebar.html#a406718b8f64a31953c1adedf8840f5c4" title="sidebar::get_selected_indices">sidebar::get_selected_indices</a>]<span class="comment">
 </span></div>
-<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;    }<span class="comment">
+<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;    }<span class="comment">
 </span></div>
-<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;    <span class="comment">######################################################################
+<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;    <span class="comment">######################################################################
 </span></div>
-<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">## \return Returns the value for the specified attribute of the
+<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">## \return Returns the value for the specified attribute of the
 </span></div>
-<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#          file/directory in the sidebar with the given index.
+<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#          file/directory in the sidebar with the given index.
 </span></div>
-<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#
+<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#
 </span></div>
-<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#  \param sb_index  Sidebar index of file/directory in the sidebar
+<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#  \param sb_index  Sidebar index of file/directory in the sidebar
 </span></div>
-<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#  \param attr      Attribute to return the value of.  Valid attribute
+<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#  \param attr      Attribute to return the value of.  Valid attribute
 </span></div>
-<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#                   names are:
+<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#                   names are:
 </span></div>
-<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#                   - \b fname      : Normalized name file or directory
+<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#                   - \b fname      : Normalized name file or directory
 </span></div>
-<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#                   - \b file_index : If not set, indicates the file has
+<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#                   - \b file_index : If not set, indicates the file has
 </span></div>
-<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#                                     not been opened in the editor; otherwise,
+<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#                                     not been opened in the editor; otherwise,
 </span></div>
-<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#                                     specifies the file index of the opened
+<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#                                     specifies the file index of the opened
 </span></div>
-<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#                                     file.
+<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#                                     file.
 </span></div>
-<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">proc</span> get_info {interp pname sb_index attr} {
+<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">proc</span> get_info {interp pname sb_index attr} {
 
       </div>
-<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;
+<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;
       </div>
-<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;      <span class="keyword">return</span> [<a class="code" href="namespacesidebar.html#ad424cbb9b22c4406b2e70458c2f3b915" title="sidebar::get_info">sidebar::get_info</a> $sb_index $attr]<span class="comment">
+<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;      <span class="keyword">return</span> [<a class="code" href="namespacesidebar.html#ad424cbb9b22c4406b2e70458c2f3b915" title="sidebar::get_info">sidebar::get_info</a> $sb_index $attr]<span class="comment">
 </span></div>
-<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;    }<span class="comment">
+<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;    }<span class="comment">
 </span></div>
-<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;  }<span class="comment">
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;  }<span class="comment">
 </span></div>
-<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;  <span class="keyword">namespace</span> <span class="keyword">eval</span> plugin {
+<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;  <span class="keyword">namespace</span> <span class="keyword">eval</span> plugin {
 
     </div>
-<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;
+<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;
     </div>
-<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;    <span class="comment">######################################################################
+<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;    <span class="comment">######################################################################
 </span></div>
-<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">## Saves the value of the given variable name to non-corruptible memory
+<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">## Saves the value of the given variable name to non-corruptible memory
 </span></div>
-<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#  so that it can be later retrieved when the plugin is reloaded.
+<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#  so that it can be later retrieved when the plugin is reloaded.
 </span></div>
-<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#
+<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#
 </span></div>
-<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#  \param index  Unique value that is passed to the on_reload save command.
+<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#  \param index  Unique value that is passed to the on_reload save command.
 </span></div>
-<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#  \param name   Name of the variable to store
+<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#  \param name   Name of the variable to store
 </span></div>
-<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#  \param value  Variable value to store
+<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#  \param value  Variable value to store
 </span></div>
-<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">proc</span> save_variable {interp pname index name value} {
+<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">proc</span> save_variable {interp pname index name value} {
 
       </div>
-<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;
+<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;
       </div>
-<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;      <a class="code" href="namespaceplugins.html#a1925055f56e1c2a74bbef4b01f748726" title="plugins::save_data">plugins::save_data</a> $index $name $value<span class="comment">
+<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;      <a class="code" href="namespaceplugins.html#a1925055f56e1c2a74bbef4b01f748726" title="plugins::save_data">plugins::save_data</a> $index $name $value<span class="comment">
 </span></div>
-<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;    }<span class="comment">
+<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;    }<span class="comment">
 </span></div>
-<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;    <span class="comment">######################################################################
+<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;    <span class="comment">######################################################################
 </span></div>
-<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">## Retrieves the value of the named variable from non-corruptible memory
+<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">## Retrieves the value of the named variable from non-corruptible memory
 </span></div>
-<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#  (from a previous save_variable call.
+<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#  (from a previous save_variable call.
 </span></div>
-<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#
+<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#
 </span></div>
-<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#  \param index  Unique value that is passed to the on_reload retrieve command.
+<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#  \param index  Unique value that is passed to the on_reload retrieve command.
 </span></div>
-<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#  \param name   Name of the variable to get the value of.  If the named variable
+<div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#  \param name   Name of the variable to get the value of.  If the named variable
 </span></div>
-<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#                could not be found), an empty string is returned.
+<div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#                could not be found), an empty string is returned.
 </span></div>
-<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">proc</span> load_variable {interp pname index name} {
+<div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">proc</span> load_variable {interp pname index name} {
 
       </div>
-<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;
+<div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;
       </div>
-<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;      <span class="keyword">return</span> [<a class="code" href="namespaceplugins.html#aad3ba626de56b10fe2151ddb1734b6de" title="plugins::restore_data">plugins::restore_data</a> $index $name]<span class="comment">
+<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;      <span class="keyword">return</span> [<a class="code" href="namespaceplugins.html#aad3ba626de56b10fe2151ddb1734b6de" title="plugins::restore_data">plugins::restore_data</a> $index $name]<span class="comment">
 </span></div>
-<div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;    }<span class="comment">
+<div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160;    }<span class="comment">
 </span></div>
-<div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;  }<span class="comment">
+<div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160;  }<span class="comment">
 </span></div>
-<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;  <span class="keyword">namespace</span> <span class="keyword">eval</span> utils {
+<div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160;  <span class="keyword">namespace</span> <span class="keyword">eval</span> utils {
 
     </div>
-<div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160;
+<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;
     </div>
-<div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;    <span class="comment">######################################################################
+<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;    <span class="comment">######################################################################
 </span></div>
-<div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">## Opens the given file in a file browser.  If in_background is set to
+<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">## Opens the given file in a file browser.  If in_background is set to
 </span></div>
-<div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#  a value of 1, the focus will remain in the editor; otherwise, focus
+<div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#  a value of 1, the focus will remain in the editor; otherwise, focus
 </span></div>
-<div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#  will be given to the opening application.
+<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment">#  will be given to the opening application.
 </span></div>
-<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">proc</span> open_file {interp pname fname {in_background 0}} {
+<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">proc</span> open_file {interp pname fname {in_background 0}} {
 
       </div>
-<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;
+<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;
       </div>
-<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;      <span class="keyword">return</span> [<a class="code" href="namespaceutils.html#aa80202a063e637943b8d62cd33c72465" title="utils::open_file_externally">utils::open_file_externally</a> $fname $in_background]<span class="comment">
+<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;      <span class="keyword">return</span> [<a class="code" href="namespaceutils.html#aa80202a063e637943b8d62cd33c72465" title="utils::open_file_externally">utils::open_file_externally</a> $fname $in_background]<span class="comment">
 </span></div>
-<div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;    }<span class="comment">
+<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;    }<span class="comment">
 </span></div>
-<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;  }<span class="comment">
+<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;  }<span class="comment">
 </span></div>
-<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;<span class="comment"></span>
 </div>
-<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;}</div>
+<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_97aefd0d527b934f1d99a682da8fe6a9.html">lib</a></li><li class="navelem"><a class="el" href="api_8tcl.html">api.tcl</a></li>
-    <li class="footer">Generated on Fri Sep 25 2015 22:23:44 for TKE by
+    <li class="footer">Generated on Mon Nov 30 2015 19:40:32 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>

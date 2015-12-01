@@ -9,6 +9,7 @@ var searchData=
   ['add_5fbindings',['add_bindings',['../namespacecompleter.html#ad33f774ed84ad57375c8d95cf8df495d',1,'completer::add_bindings()'],['../namespaceindent.html#aca65a01cc4e7e3977b83229f20dba784',1,'indent::add_bindings()'],['../namespacemulticursor.html#a2d60bcc344c3faf6b1c1ba0cd29db1a7',1,'multicursor::add_bindings()'],['../namespacesnippets.html#aedd28c288319689198a920c2aa399c84',1,'snippets::add_bindings()'],['../namespacevim.html#a4cfcaff4424a31ad20eb2bfe0e1be0a6',1,'vim::add_bindings()']]],
   ['add_5fbuffer',['add_buffer',['../namespaceapi_1_1file.html#a9cf6a0a1718f51ecef65a3b94c963345',1,'api::file::add_buffer()'],['../namespacegui.html#ac656eb206762f24bc0d271e0ca5e14a9',1,'gui::add_buffer()']]],
   ['add_5fclosing',['add_closing',['../namespacecompleter.html#a290e95084ce8d156632679bd6bc6d7d0',1,'completer']]],
+  ['add_5fcombobox_5fthemes',['add_combobox_themes',['../namespacethemer.html#ac7c749561deaab9ab0c62a5ad6cfed94',1,'themer']]],
   ['add_5fctext',['add_ctext',['../namespaceinterpreter.html#aea84e4dbfc52d3863d34880e8f73909f',1,'interpreter']]],
   ['add_5fcurly',['add_curly',['../namespacecompleter.html#a7aa655dc3cbb9bd6f26e71fd6b06b1dd',1,'completer']]],
   ['add_5fcursor',['add_cursor',['../namespacemulticursor.html#a61ce152ae70bfb4d1eb15b3b0b275e16',1,'multicursor']]],
@@ -26,6 +27,7 @@ var searchData=
   ['add_5ffrom_5fclipboard',['add_from_clipboard',['../namespacecliphist.html#ac344c656fd7a37aeb948b4d6d69fec3e',1,'cliphist']]],
   ['add_5fhelp',['add_help',['../namespacemenus.html#a6c6820ac4445acf3de5f15a3fe26c3e9',1,'menus']]],
   ['add_5fhistory',['add_history',['../namespacesearch.html#ad04f415142a45b4db89f6a2897421e19',1,'search']]],
+  ['add_5fmenu_5fthemes',['add_menu_themes',['../namespacethemer.html#a1e633f00d6b96c06049f58c7e45b9c47',1,'themer']]],
   ['add_5fnew_5ffile',['add_new_file',['../namespacegui.html#ad078db7812672f2bce3e00d4382d064a',1,'gui']]],
   ['add_5fnew_5fsnippet',['add_new_snippet',['../namespacesnippets.html#a54d9c580c77a16a7447357a9cbc3f31c',1,'snippets']]],
   ['add_5fnotebook',['add_notebook',['../namespacegui.html#a6342f4fe2ad2749423056333261a84ea',1,'gui']]],
@@ -36,6 +38,7 @@ var searchData=
   ['add_5fsingle',['add_single',['../namespacecompleter.html#a361048c923c649e7b324f2c7bd0fd52a',1,'completer']]],
   ['add_5fsquare',['add_square',['../namespacecompleter.html#ad3a590363a5703f51c75b373cbcde9de',1,'completer']]],
   ['add_5fsubdirectory',['add_subdirectory',['../namespacesidebar.html#a27216dca76408a4745ec85a1a66e0c8a',1,'sidebar']]],
+  ['add_5fswatch',['add_swatch',['../namespacethemer.html#a46632ea209262d6a26f38e12c1087057',1,'themer']]],
   ['add_5fsyntax',['add_syntax',['../namespacesyntax.html#a383469d6b4e6daa348f15c1a62be9aa0',1,'syntax']]],
   ['add_5ftext',['add_text',['../namespacemenus.html#a3493e1842e1b7b1a9223674edad9022a',1,'menus']]],
   ['add_5fto_5fclipboard',['add_to_clipboard',['../namespacecliphist.html#a6e37353e24c4617d3f6211536e8113ef',1,'cliphist']]],
@@ -54,6 +57,7 @@ var searchData=
   ['adjust_5fselect',['adjust_select',['../namespacevim.html#a544d599aae711df165dca4ce7860cded',1,'vim']]],
   ['align',['align',['../namespacemulticursor.html#a1c1227854634b5ae8b93b319c86ef6ed',1,'multicursor::align()'],['../namespacetexttools.html#a94e78597f9fd24046a4041e57de1210d',1,'texttools::align()']]],
   ['apply_5fall_5fbindings',['apply_all_bindings',['../namespacebindings.html#a376f0da53fe0d132a0fbedfe2ba0c2d7',1,'bindings']]],
+  ['apply_5ftheme',['apply_theme',['../namespacethemer.html#a0e8a91f22f7a6dbf92c2e81b0c0e0361',1,'themer']]],
   ['auto_5fadjust_5fcolor',['auto_adjust_color',['../namespaceutils.html#adfc92fa14a2507314f09aef8c3524586',1,'utils']]],
   ['auto_5fmix_5fcolors',['auto_mix_colors',['../namespaceutils.html#a8c3b435ab26715ea69ffd020a52be918',1,'utils']]]
 ];

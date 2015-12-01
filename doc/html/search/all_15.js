@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['validate_5fexport',['validate_export',['../namespacethemer.html#af82740efd71dd06c842380d0b50340ab',1,'themer']]],
   ['version',['version',['../tke_8tcl.html#a4c7a521b8f1a0769c09bfa4a1fca7dab',1,'tke.tcl']]],
   ['version_2etcl',['version.tcl',['../version_8tcl.html',1,'']]],
   ['versions',['versions',['../namespacediff_1_1perforce.html#a9843d27ff5e3d9ba2b294fe2faee6812',1,'diff::perforce::versions()'],['../namespacediff_1_1mercurial.html#a8da9cc380d4d7caca595fe68913c7873',1,'diff::mercurial::versions()'],['../namespacediff_1_1git.html#a6afd8c719dcc17c082b95ed52db24fe0',1,'diff::git::versions()'],['../namespacediff_1_1subversion.html#aac78914065e70531f6b7ca74b244bf73',1,'diff::subversion::versions()'],['../namespacediff_1_1cvs.html#a23fabc206544b1c0a099cccb3b29693b',1,'diff::cvs::versions()']]],
