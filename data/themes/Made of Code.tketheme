@@ -82,7 +82,7 @@ static unsigned char lock_bits[] = {
 static unsigned char lock_bits[] = {
    0x3e, 0x7f, 0x63, 0x7f, 0x7f, 0x77, 0x77, 0x7f};
 }}
-menus,-activebackground {white}
+menus,-activebackground {light blue}
 menus,-activeforeground {black}
 menus,-background {white}
 menus,-disabledforeground {grey}
