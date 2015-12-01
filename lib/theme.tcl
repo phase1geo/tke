@@ -65,8 +65,8 @@ namespace eval theme {
     ttk_style,grip_count          {{number {0 20}} {10} {} {0} {msgcat::mc "Determines the number of grips strips to display in the grip area between resizable panes."}}
     menus,-background             {color {white} {} {0} {msgcat::mc "Background color used in menus."}}
     menus,-foreground             {color {black} {} {0} {msgcat::mc "Foreground text color used in menus."}}
-    menus,-activebackground       {color {white} {} {0} {msgcat::mc "Background color used for the current/active menu item."}}
-    menus,-activeforeground       {color {black} {} {0} {msgcat::mc "Foreground text color used for the current/active menu item."}}
+    menus,-activebackground       {color {light blue} {} {0} {msgcat::mc "Background color used for the current/active menu item."}}
+    menus,-activeforeground       {color {white} {} {0} {msgcat::mc "Foreground text color used for the current/active menu item."}}
     menus,-disabledforeground     {color {grey}  {} {0} {msgcat::mc "Foreground text color used for menus item that are disabled."}}
     menus,-relief                 {{relief {raised sunken flat ridge solid groove}} {flat} {} {0} {msgcat::mc "Menu relief value."}}
     tabs,-background              {color {1} {} {0} {msgcat::mc "Background color used in the tabbar area."}}

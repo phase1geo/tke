@@ -64,7 +64,7 @@ static char img_bits[] = {
 #define img_height 8
 static char img_bits[] = {
 0x3e, 0x7f, 0x63, 0x7f, 0x7f, 0x77, 0x77, 0x7f};} fg #000000}
-menus,-activebackground {white}
+menus,-activebackground {light blue}
 menus,-activeforeground {black}
 menus,-background {white}
 menus,-disabledforeground {grey}
