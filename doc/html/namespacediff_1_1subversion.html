@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="tke_logo_128.gif"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">TKE
-   &#160;<span id="projectnumber">1.9</span>
+   &#160;<span id="projectnumber">2.0</span>
    </div>
    <div id="projectbrief">Advanced editor written in Tcl/Tk</div>
   </td>
@@ -150,12 +150,24 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="diff_8tcl_source.html#l00899">899</a> of file <a class="el" href="diff_8tcl_source.html">diff.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l00899"></a><span class="lineno">  899</span>&#160;    <span class="keyword">proc</span> find_version {fname v2 lnum} {
+<p>Definition at line <a class="el" href="diff_8tcl_source.html#l00893">893</a> of file <a class="el" href="diff_8tcl_source.html">diff.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l00893"></a><span class="lineno">  893</span>&#160;    <span class="keyword">proc</span> find_version {fname v2 lnum} {
       </div>
-<div class="line"><a name="l00900"></a><span class="lineno">  900</span>&#160;      <span class="keyword">if</span> {$v2 eq &quot;Current&quot;} {
+<div class="line"><a name="l00894"></a><span class="lineno">  894</span>&#160;      <span class="keyword">if</span> {$v2 eq &quot;Current&quot;} {
         </div>
-<div class="line"><a name="l00901"></a><span class="lineno">  901</span>&#160;        <span class="keyword">if</span> {![<span class="keyword">catch</span> { <span class="keyword">exec</span> svn annotate $fname} rc]} {
+<div class="line"><a name="l00895"></a><span class="lineno">  895</span>&#160;        <span class="keyword">if</span> {![<span class="keyword">catch</span> { <span class="keyword">exec</span> svn annotate $fname} rc]} {
+          </div>
+<div class="line"><a name="l00896"></a><span class="lineno">  896</span>&#160;          <span class="keyword">if</span> {[regexp {^\s*(\d+)} [<span class="keyword">lindex</span> [<span class="keyword">split</span> $rc \n] [<span class="keyword">expr</span> $lnum - 1]] -&gt; version]} {
+            </div>
+<div class="line"><a name="l00897"></a><span class="lineno">  897</span>&#160;            <span class="keyword">return</span> $version<span class="comment">
+</span></div>
+<div class="line"><a name="l00898"></a><span class="lineno">  898</span>&#160;<span class="comment"></span>          }<span class="comment">
+</span></div>
+<div class="line"><a name="l00899"></a><span class="lineno">  899</span>&#160;<span class="comment"></span>        }<span class="comment">
+</span></div>
+<div class="line"><a name="l00900"></a><span class="lineno">  900</span>&#160;<span class="comment"></span>      } <span class="keyword">else</span> {
+        </div>
+<div class="line"><a name="l00901"></a><span class="lineno">  901</span>&#160;        <span class="keyword">if</span> {![<span class="keyword">catch</span> { <span class="keyword">exec</span> svn annotate -r $v2 $fname} rc]} {
           </div>
 <div class="line"><a name="l00902"></a><span class="lineno">  902</span>&#160;          <span class="keyword">if</span> {[regexp {^\s*(\d+)} [<span class="keyword">lindex</span> [<span class="keyword">split</span> $rc \n] [<span class="keyword">expr</span> $lnum - 1]] -&gt; version]} {
             </div>
@@ -165,23 +177,11 @@ Functions</h2></td></tr>
 </span></div>
 <div class="line"><a name="l00905"></a><span class="lineno">  905</span>&#160;<span class="comment"></span>        }<span class="comment">
 </span></div>
-<div class="line"><a name="l00906"></a><span class="lineno">  906</span>&#160;<span class="comment"></span>      } <span class="keyword">else</span> {
-        </div>
-<div class="line"><a name="l00907"></a><span class="lineno">  907</span>&#160;        <span class="keyword">if</span> {![<span class="keyword">catch</span> { <span class="keyword">exec</span> svn annotate -r $v2 $fname} rc]} {
-          </div>
-<div class="line"><a name="l00908"></a><span class="lineno">  908</span>&#160;          <span class="keyword">if</span> {[regexp {^\s*(\d+)} [<span class="keyword">lindex</span> [<span class="keyword">split</span> $rc \n] [<span class="keyword">expr</span> $lnum - 1]] -&gt; version]} {
-            </div>
-<div class="line"><a name="l00909"></a><span class="lineno">  909</span>&#160;            <span class="keyword">return</span> $version<span class="comment">
+<div class="line"><a name="l00906"></a><span class="lineno">  906</span>&#160;<span class="comment"></span>      }<span class="comment">
 </span></div>
-<div class="line"><a name="l00910"></a><span class="lineno">  910</span>&#160;<span class="comment"></span>          }<span class="comment">
+<div class="line"><a name="l00907"></a><span class="lineno">  907</span>&#160;<span class="comment"></span>      <span class="keyword">return</span> &quot;&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00911"></a><span class="lineno">  911</span>&#160;<span class="comment"></span>        }<span class="comment">
-</span></div>
-<div class="line"><a name="l00912"></a><span class="lineno">  912</span>&#160;<span class="comment"></span>      }<span class="comment">
-</span></div>
-<div class="line"><a name="l00913"></a><span class="lineno">  913</span>&#160;<span class="comment"></span>      <span class="keyword">return</span> &quot;&quot;<span class="comment">
-</span></div>
-<div class="line"><a name="l00914"></a><span class="lineno">  914</span>&#160;<span class="comment"></span>    }</div>
+<div class="line"><a name="l00908"></a><span class="lineno">  908</span>&#160;<span class="comment"></span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -203,12 +203,12 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="diff_8tcl_source.html#l00887">887</a> of file <a class="el" href="diff_8tcl_source.html">diff.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l00887"></a><span class="lineno">  887</span>&#160;    <span class="keyword">proc</span> get_file_cmd {version fname} {
+<p>Definition at line <a class="el" href="diff_8tcl_source.html#l00881">881</a> of file <a class="el" href="diff_8tcl_source.html">diff.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l00881"></a><span class="lineno">  881</span>&#160;    <span class="keyword">proc</span> get_file_cmd {version fname} {
       </div>
-<div class="line"><a name="l00888"></a><span class="lineno">  888</span>&#160;      <span class="keyword">return</span> &quot;|svn cat -r $version $fname&quot;<span class="comment">
+<div class="line"><a name="l00882"></a><span class="lineno">  882</span>&#160;      <span class="keyword">return</span> &quot;|svn cat -r $version $fname&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00889"></a><span class="lineno">  889</span>&#160;<span class="comment"></span>    }</div>
+<div class="line"><a name="l00883"></a><span class="lineno">  883</span>&#160;<span class="comment"></span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -230,18 +230,18 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="diff_8tcl_source.html#l00916">916</a> of file <a class="el" href="diff_8tcl_source.html">diff.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l00916"></a><span class="lineno">  916</span>&#160;    <span class="keyword">proc</span> get_version_log {fname version} {
+<p>Definition at line <a class="el" href="diff_8tcl_source.html#l00910">910</a> of file <a class="el" href="diff_8tcl_source.html">diff.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l00910"></a><span class="lineno">  910</span>&#160;    <span class="keyword">proc</span> get_version_log {fname version} {
       </div>
-<div class="line"><a name="l00917"></a><span class="lineno">  917</span>&#160;      <span class="keyword">if</span> {![<span class="keyword">catch</span> { <span class="keyword">exec</span> svn log -r $version $fname} rc]} {
+<div class="line"><a name="l00911"></a><span class="lineno">  911</span>&#160;      <span class="keyword">if</span> {![<span class="keyword">catch</span> { <span class="keyword">exec</span> svn log -r $version $fname} rc]} {
         </div>
-<div class="line"><a name="l00918"></a><span class="lineno">  918</span>&#160;        <span class="keyword">return</span> $rc<span class="comment">
+<div class="line"><a name="l00912"></a><span class="lineno">  912</span>&#160;        <span class="keyword">return</span> $rc<span class="comment">
 </span></div>
-<div class="line"><a name="l00919"></a><span class="lineno">  919</span>&#160;<span class="comment"></span>      }<span class="comment">
+<div class="line"><a name="l00913"></a><span class="lineno">  913</span>&#160;<span class="comment"></span>      }<span class="comment">
 </span></div>
-<div class="line"><a name="l00920"></a><span class="lineno">  920</span>&#160;<span class="comment"></span>      <span class="keyword">return</span> &quot;&quot;<span class="comment">
+<div class="line"><a name="l00914"></a><span class="lineno">  914</span>&#160;<span class="comment"></span>      <span class="keyword">return</span> &quot;&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00921"></a><span class="lineno">  921</span>&#160;<span class="comment"></span>    }</div>
+<div class="line"><a name="l00915"></a><span class="lineno">  915</span>&#160;<span class="comment"></span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -263,12 +263,12 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="diff_8tcl_source.html#l00871">871</a> of file <a class="el" href="diff_8tcl_source.html">diff.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l00871"></a><span class="lineno">  871</span>&#160;    <span class="keyword">proc</span> handles {fname} {
+<p>Definition at line <a class="el" href="diff_8tcl_source.html#l00865">865</a> of file <a class="el" href="diff_8tcl_source.html">diff.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l00865"></a><span class="lineno">  865</span>&#160;    <span class="keyword">proc</span> handles {fname} {
       </div>
-<div class="line"><a name="l00872"></a><span class="lineno">  872</span>&#160;      <span class="keyword">return</span> [<span class="keyword">expr</span> {![catch { exec svn log $fname }]}]<span class="comment">
+<div class="line"><a name="l00866"></a><span class="lineno">  866</span>&#160;      <span class="keyword">return</span> [<span class="keyword">expr</span> {![catch { exec svn log $fname }]}]<span class="comment">
 </span></div>
-<div class="line"><a name="l00873"></a><span class="lineno">  873</span>&#160;<span class="comment"></span>    }</div>
+<div class="line"><a name="l00867"></a><span class="lineno">  867</span>&#160;<span class="comment"></span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -282,12 +282,12 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="diff_8tcl_source.html#l00863">863</a> of file <a class="el" href="diff_8tcl_source.html">diff.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l00863"></a><span class="lineno">  863</span>&#160;    <span class="keyword">proc</span> name {} {
+<p>Definition at line <a class="el" href="diff_8tcl_source.html#l00857">857</a> of file <a class="el" href="diff_8tcl_source.html">diff.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l00857"></a><span class="lineno">  857</span>&#160;    <span class="keyword">proc</span> name {} {
       </div>
-<div class="line"><a name="l00864"></a><span class="lineno">  864</span>&#160;      <span class="keyword">return</span> &quot;Subversion&quot;<span class="comment">
+<div class="line"><a name="l00858"></a><span class="lineno">  858</span>&#160;      <span class="keyword">return</span> &quot;Subversion&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00865"></a><span class="lineno">  865</span>&#160;<span class="comment"></span>    }</div>
+<div class="line"><a name="l00859"></a><span class="lineno">  859</span>&#160;<span class="comment"></span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -309,20 +309,20 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="diff_8tcl_source.html#l00891">891</a> of file <a class="el" href="diff_8tcl_source.html">diff.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l00891"></a><span class="lineno">  891</span>&#160;    <span class="keyword">proc</span> show_diff {txt v1 v2 fname} {
+<p>Definition at line <a class="el" href="diff_8tcl_source.html#l00885">885</a> of file <a class="el" href="diff_8tcl_source.html">diff.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l00885"></a><span class="lineno">  885</span>&#160;    <span class="keyword">proc</span> show_diff {txt v1 v2 fname} {
       </div>
-<div class="line"><a name="l00892"></a><span class="lineno">  892</span>&#160;      <span class="keyword">if</span> {$v2 eq &quot;Current&quot;} {
+<div class="line"><a name="l00886"></a><span class="lineno">  886</span>&#160;      <span class="keyword">if</span> {$v2 eq &quot;Current&quot;} {
         </div>
-<div class="line"><a name="l00893"></a><span class="lineno">  893</span>&#160;        <a class="code" href="namespacediff.html#afccefef06e282602276286881657b334" title="diff::parse_unified_diff">diff::parse_unified_diff</a> $txt &quot;svn diff -r $v1 $fname&quot;<span class="comment">
+<div class="line"><a name="l00887"></a><span class="lineno">  887</span>&#160;        <a class="code" href="namespacediff.html#afccefef06e282602276286881657b334" title="diff::parse_unified_diff">diff::parse_unified_diff</a> $txt &quot;svn diff -r $v1 $fname&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00894"></a><span class="lineno">  894</span>&#160;<span class="comment"></span>      } <span class="keyword">else</span> {
+<div class="line"><a name="l00888"></a><span class="lineno">  888</span>&#160;<span class="comment"></span>      } <span class="keyword">else</span> {
         </div>
-<div class="line"><a name="l00895"></a><span class="lineno">  895</span>&#160;        <a class="code" href="namespacediff.html#afccefef06e282602276286881657b334" title="diff::parse_unified_diff">diff::parse_unified_diff</a> $txt &quot;svn diff -r $v1:$v2 $fname&quot;<span class="comment">
+<div class="line"><a name="l00889"></a><span class="lineno">  889</span>&#160;        <a class="code" href="namespacediff.html#afccefef06e282602276286881657b334" title="diff::parse_unified_diff">diff::parse_unified_diff</a> $txt &quot;svn diff -r $v1:$v2 $fname&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00896"></a><span class="lineno">  896</span>&#160;<span class="comment"></span>      }<span class="comment">
+<div class="line"><a name="l00890"></a><span class="lineno">  890</span>&#160;<span class="comment"></span>      }<span class="comment">
 </span></div>
-<div class="line"><a name="l00897"></a><span class="lineno">  897</span>&#160;<span class="comment"></span>    }</div>
+<div class="line"><a name="l00891"></a><span class="lineno">  891</span>&#160;<span class="comment"></span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -336,12 +336,12 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="diff_8tcl_source.html#l00867">867</a> of file <a class="el" href="diff_8tcl_source.html">diff.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l00867"></a><span class="lineno">  867</span>&#160;    <span class="keyword">proc</span> type {} {
+<p>Definition at line <a class="el" href="diff_8tcl_source.html#l00861">861</a> of file <a class="el" href="diff_8tcl_source.html">diff.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l00861"></a><span class="lineno">  861</span>&#160;    <span class="keyword">proc</span> type {} {
       </div>
-<div class="line"><a name="l00868"></a><span class="lineno">  868</span>&#160;      <span class="keyword">return</span> &quot;cvs&quot;<span class="comment">
+<div class="line"><a name="l00862"></a><span class="lineno">  862</span>&#160;      <span class="keyword">return</span> &quot;cvs&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00869"></a><span class="lineno">  869</span>&#160;<span class="comment"></span>    }</div>
+<div class="line"><a name="l00863"></a><span class="lineno">  863</span>&#160;<span class="comment"></span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -363,28 +363,28 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="diff_8tcl_source.html#l00875">875</a> of file <a class="el" href="diff_8tcl_source.html">diff.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l00875"></a><span class="lineno">  875</span>&#160;    <span class="keyword">proc</span> versions {fname} {
+<p>Definition at line <a class="el" href="diff_8tcl_source.html#l00869">869</a> of file <a class="el" href="diff_8tcl_source.html">diff.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l00869"></a><span class="lineno">  869</span>&#160;    <span class="keyword">proc</span> versions {fname} {
       </div>
-<div class="line"><a name="l00876"></a><span class="lineno">  876</span>&#160;      <span class="keyword">set</span> versions [list]<span class="comment">
+<div class="line"><a name="l00870"></a><span class="lineno">  870</span>&#160;      <span class="keyword">set</span> versions [list]<span class="comment">
 </span></div>
-<div class="line"><a name="l00877"></a><span class="lineno">  877</span>&#160;<span class="comment"></span>      <span class="keyword">if</span> {![<span class="keyword">catch</span> { <span class="keyword">exec</span> svn log $fname} rc]} {
+<div class="line"><a name="l00871"></a><span class="lineno">  871</span>&#160;<span class="comment"></span>      <span class="keyword">if</span> {![<span class="keyword">catch</span> { <span class="keyword">exec</span> svn log $fname} rc]} {
         </div>
-<div class="line"><a name="l00878"></a><span class="lineno">  878</span>&#160;        <span class="keyword">foreach</span> line [<span class="keyword">split</span> $rc \n] {
+<div class="line"><a name="l00872"></a><span class="lineno">  872</span>&#160;        <span class="keyword">foreach</span> line [<span class="keyword">split</span> $rc \n] {
           </div>
-<div class="line"><a name="l00879"></a><span class="lineno">  879</span>&#160;          <span class="keyword">if</span> {[regexp {^r(\d+)\s*\|} $line -&gt; version]} {
+<div class="line"><a name="l00873"></a><span class="lineno">  873</span>&#160;          <span class="keyword">if</span> {[regexp {^r(\d+)\s*\|} $line -&gt; version]} {
             </div>
-<div class="line"><a name="l00880"></a><span class="lineno">  880</span>&#160;            <span class="keyword">lappend</span> versions $version<span class="comment">
+<div class="line"><a name="l00874"></a><span class="lineno">  874</span>&#160;            <span class="keyword">lappend</span> versions $version<span class="comment">
 </span></div>
-<div class="line"><a name="l00881"></a><span class="lineno">  881</span>&#160;<span class="comment"></span>          }<span class="comment">
+<div class="line"><a name="l00875"></a><span class="lineno">  875</span>&#160;<span class="comment"></span>          }<span class="comment">
 </span></div>
-<div class="line"><a name="l00882"></a><span class="lineno">  882</span>&#160;<span class="comment"></span>        }<span class="comment">
+<div class="line"><a name="l00876"></a><span class="lineno">  876</span>&#160;<span class="comment"></span>        }<span class="comment">
 </span></div>
-<div class="line"><a name="l00883"></a><span class="lineno">  883</span>&#160;<span class="comment"></span>      }<span class="comment">
+<div class="line"><a name="l00877"></a><span class="lineno">  877</span>&#160;<span class="comment"></span>      }<span class="comment">
 </span></div>
-<div class="line"><a name="l00884"></a><span class="lineno">  884</span>&#160;<span class="comment"></span>      <span class="keyword">return</span> $versions<span class="comment">
+<div class="line"><a name="l00878"></a><span class="lineno">  878</span>&#160;<span class="comment"></span>      <span class="keyword">return</span> $versions<span class="comment">
 </span></div>
-<div class="line"><a name="l00885"></a><span class="lineno">  885</span>&#160;<span class="comment"></span>    }</div>
+<div class="line"><a name="l00879"></a><span class="lineno">  879</span>&#160;<span class="comment"></span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -394,7 +394,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacediff.html">diff</a></li><li class="navelem"><a class="el" href="namespacediff_1_1subversion.html">subversion</a></li>
-    <li class="footer">Generated on Fri Sep 25 2015 22:23:45 for TKE by
+    <li class="footer">Generated on Mon Nov 30 2015 19:40:33 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>

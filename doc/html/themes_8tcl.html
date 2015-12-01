@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="tke_logo_128.gif"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">TKE
-   &#160;<span id="projectnumber">1.9</span>
+   &#160;<span id="projectnumber">2.0</span>
    </div>
    <div id="projectbrief">Advanced editor written in Tcl/Tk</div>
   </td>
@@ -122,10 +122,26 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ae5adc5aa4c861301c57e20d0381a09aa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethemes.html#ae5adc5aa4c861301c57e20d0381a09aa">themes::initialize</a></td></tr>
-<tr class="separator:ae5adc5aa4c861301c57e20d0381a09aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2fa9fd2c1b33e8c48dd4563ac5f1efe2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethemes.html#a2fa9fd2c1b33e8c48dd4563ac5f1efe2">themes::update_themes_dir</a></td></tr>
+<tr class="separator:a2fa9fd2c1b33e8c48dd4563ac5f1efe2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60898a48e73cdec87482755a291f904e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethemes.html#a60898a48e73cdec87482755a291f904e">themes::load</a></td></tr>
+<tr class="separator:a60898a48e73cdec87482755a291f904e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af37e6cedf3e5fd2fa19b2df4ae3d83c5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethemes.html#af37e6cedf3e5fd2fa19b2df4ae3d83c5">themes::theme_okay</a></td></tr>
+<tr class="separator:af37e6cedf3e5fd2fa19b2df4ae3d83c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54bf7e3751004cb0d147907492550d33"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethemes.html#a54bf7e3751004cb0d147907492550d33">themes::get_file</a> theme_name</td></tr>
+<tr class="separator:a54bf7e3751004cb0d147907492550d33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7bcc251a6006630798647294bc79173"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethemes.html#ac7bcc251a6006630798647294bc79173">themes::get_all_themes</a></td></tr>
+<tr class="separator:ac7bcc251a6006630798647294bc79173"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0beb48cbe7fbd0c0a2b8944429fe1118"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethemes.html#a0beb48cbe7fbd0c0a2b8944429fe1118">themes::handle_theme_change</a> ?name1??name2??op?</td></tr>
 <tr class="separator:a0beb48cbe7fbd0c0a2b8944429fe1118"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e449243db173934e9228fdbbfc6ec87"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethemes.html#a0e449243db173934e9228fdbbfc6ec87">themes::handle_colorize_change</a> name1 name2 op</td></tr>
+<tr class="separator:a0e449243db173934e9228fdbbfc6ec87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc64e61bbc22c038c5d51760ac201256"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethemes.html#acc64e61bbc22c038c5d51760ac201256">themes::import</a> parent_win fname</td></tr>
+<tr class="separator:acc64e61bbc22c038c5d51760ac201256"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b9ca5d52f3556c741930ad30393d5fb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethemes.html#a9b9ca5d52f3556c741930ad30393d5fb">themes::export</a> parent_win theme odir creator website</td></tr>
+<tr class="separator:a9b9ca5d52f3556c741930ad30393d5fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9a7eb51cdc1baded02403cc5e72113b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethemes.html#ac9a7eb51cdc1baded02403cc5e72113b">themes::populate_theme_menu</a> mnu</td></tr>
+<tr class="separator:ac9a7eb51cdc1baded02403cc5e72113b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -133,7 +149,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_97aefd0d527b934f1d99a682da8fe6a9.html">lib</a></li><li class="navelem"><a class="el" href="themes_8tcl.html">themes.tcl</a></li>
-    <li class="footer">Generated on Fri Sep 25 2015 22:23:45 for TKE by
+    <li class="footer">Generated on Mon Nov 30 2015 19:40:33 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>

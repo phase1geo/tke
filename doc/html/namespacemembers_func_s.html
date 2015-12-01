@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="tke_logo_128.gif"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">TKE
-   &#160;<span id="projectnumber">1.9</span>
+   &#160;<span id="projectnumber">2.0</span>
    </div>
    <div id="projectbrief">Advanced editor written in Tcl/Tk</div>
   </td>
@@ -161,6 +161,9 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 : <a class="el" href="namespaceembed__tke_1_1gui.html#a04260d1fa7d22a799e1265aa7abd5095">embed_tke::gui</a>
 , <a class="el" href="namespacegui.html#a12a52459bed19d3188743234b1b0d1dd">gui</a>
 </li>
+<li>save_current_theme()
+: <a class="el" href="namespacethemer.html#ad5830fff98057d50cae03f100bfe8a4f">themer</a>
+</li>
 <li>save_data()
 : <a class="el" href="namespaceplugins.html#a1925055f56e1c2a74bbef4b01f748726">plugins</a>
 </li>
@@ -180,8 +183,17 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 , <a class="el" href="namespacesearch.html#a553f3bb72d8f203989cc4e7b9cc1b510">search</a>
 , <a class="el" href="namespacesidebar.html#aafd19d85d602c0950e83745924184a87">sidebar</a>
 </li>
+<li>save_theme()
+: <a class="el" href="namespacethemer.html#a465d7bcdc8cf06732ffc0d33a429f61a">themer</a>
+</li>
+<li>save_to_directory()
+: <a class="el" href="namespacethemer.html#a75f71017e3de511ca0c5aa7e943de805">themer</a>
+</li>
 <li>save_variable()
 : <a class="el" href="namespaceapi_1_1plugin.html#ae98577e8c2577e6bd5abc1effc4812ed">api::plugin</a>
+</li>
+<li>scroller()
+: <a class="el" href="namespacescroller.html#a54c8d58499b2c1b42bd78ff119b204f8">scroller</a>
 </li>
 <li>scrub_text()
 : <a class="el" href="namespacegui.html#a131aaeb45a50b4d4aa90b08f4dad3328">gui</a>
@@ -240,11 +252,17 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 <li>set_auto_match_chars()
 : <a class="el" href="namespacecompleter.html#a9a1bf5d46c4013066596fd0d5bb94ecb">completer</a>
 </li>
+<li>set_base_color()
+: <a class="el" href="namespacethemer.html#ab9531e68e6d4923e848fedd4699a7e0b">themer</a>
+</li>
 <li>set_border_color()
 : <a class="el" href="namespacectext.html#afda2ae2f5c39f41848ab05b3daee25e2">ctext</a>
 </li>
-<li>set_button_image()
-: <a class="el" href="namespacethemer.html#a8c5ccd516d1ac0c000f377712c52725c">themer</a>
+<li>set_cell_color()
+: <a class="el" href="namespacethemer.html#ae8cce58063525b8e06991ebc36959d4b">themer</a>
+</li>
+<li>set_color()
+: <a class="el" href="namespacebitmap.html#a27954a412ff146e7d729b520bd033fa0">bitmap</a>
 </li>
 <li>set_current_file_favorite()
 : <a class="el" href="namespacegui.html#a7060d3bc6fd40aae7543af3244db87cd">gui</a>
@@ -281,8 +299,14 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 <li>set_current_tab_image()
 : <a class="el" href="namespacegui.html#aee361db6abcc11eb25b672ef0e4e8606">gui</a>
 </li>
+<li>set_current_theme_to()
+: <a class="el" href="namespacethemer.html#a7061c50c84100664d2351fdba38dbcbd">themer</a>
+</li>
 <li>set_current_working_directory()
 : <a class="el" href="namespacesidebar.html#ab0ed1aec3c62a18792a4f105de6a3c0c">sidebar</a>
+</li>
+<li>set_custom_color()
+: <a class="el" href="namespacebitmap.html#ab1b462bcf661c1082d4d3fff45d68d05">bitmap</a>
 </li>
 <li>set_default_cvs()
 : <a class="el" href="namespacediff.html#a256cddc373c7835dc4a27d104231d8a3">diff</a>
@@ -292,6 +316,12 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 </li>
 <li>set_environment()
 : <a class="el" href="namespaceutils.html#abaa85e99460f66facb8b45bb7b740224">utils</a>
+</li>
+<li>set_from_info()
+: <a class="el" href="namespacebitmap.html#aaac618cee944c91a21da9009d75b8c84">bitmap</a>
+</li>
+<li>set_grid_size()
+: <a class="el" href="namespacebitmap.html#a26cd2e1d3887f18a42a24967bbf471f3">bitmap</a>
 </li>
 <li>set_indent_expressions()
 : <a class="el" href="namespaceindent.html#a4928f65819aec7bcf8236fbbd5a81b8a">indent</a>
@@ -327,11 +357,18 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 <li>set_tabstop()
 : <a class="el" href="namespacesnippets.html#a07d5126c3767397bd67e03064b188530">snippets</a>
 </li>
-<li>set_theme()
-: <a class="el" href="namespacesyntax.html#a3b2c699a0eba3a8153b9f43a369e5668">syntax</a>
+<li>set_theme_modified()
+: <a class="el" href="namespacethemer.html#ab8c0a032f6560e7837ad313f2ef4b09f">themer</a>
+</li>
+<li>set_themer_category_table_row()
+: <a class="el" href="namespacetheme.html#a199b994a1e25413345de0366e2ee9b78">theme</a>
 </li>
 <li>set_title()
 : <a class="el" href="namespacegui.html#adb6bdae7b96831974049d192334f0a2e">gui</a>
+, <a class="el" href="namespacethemer.html#ad77571fe740dcac5c7a49ecdec31b3db">themer</a>
+</li>
+<li>set_treestyle()
+: <a class="el" href="namespacethemer.html#a3260afe6f87cbf011a1f3a7a2639f8b7">themer</a>
 </li>
 <li>set_txt_focus()
 : <a class="el" href="namespacegui.html#af76366e42541e2ae18eec857d504f275">gui</a>
@@ -419,6 +456,9 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 <li>show_file_helper()
 : <a class="el" href="namespacesidebar.html#a5f52d1b4086e38e84f70b390a364886c">sidebar</a>
 </li>
+<li>show_filter_menu()
+: <a class="el" href="namespacethemer.html#a6aebb2b319084cfc0295735fe5bf317a">themer</a>
+</li>
 <li>show_hide_version_log()
 : <a class="el" href="namespacediff.html#a98038062d1d455c6a3fb2317baa49e6c">diff</a>
 </li>
@@ -427,6 +467,9 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 </li>
 <li>show_hide_xlates()
 : <a class="el" href="namespacelang.html#aad2a616ede4d07b3a691c9dacf8914b2">lang</a>
+</li>
+<li>show_image_frame()
+: <a class="el" href="namespacethemer.html#a29cc8abc1a21fd2f0fa2584534a40712">themer</a>
 </li>
 <li>show_info()
 : <a class="el" href="namespaceapi.html#a6cca9fa0f595f9a2f48a7a972420951c">api</a>
@@ -439,9 +482,6 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 </li>
 <li>show_match_pair()
 : <a class="el" href="namespacegui.html#a8c304746046fadb641c6c6c61838cf3c">gui</a>
-</li>
-<li>show_menu()
-: <a class="el" href="namespacethemer.html#a836c761d05f9580ab6d2cbd2e539fc18">themer</a>
 </li>
 <li>show_meta_chars()
 : <a class="el" href="namespacemenus.html#ad4aa8abf11648aa60b5e90427ef21fcd">menus</a>
@@ -485,8 +525,14 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 <li>start_mode()
 : <a class="el" href="namespacevim.html#a724e99ac65687cc76d9151560503f1bf">vim</a>
 </li>
+<li>start_open_frame()
+: <a class="el" href="namespacethemer.html#abafe191483e2ec377b53e5cd3971576a">themer</a>
+</li>
 <li>start_profiling_command()
 : <a class="el" href="namespacemenus.html#ac5fa9a8799f2b136447a8d9e746481db">menus</a>
+</li>
+<li>start_save_frame()
+: <a class="el" href="namespacethemer.html#ad749910690993ae195f6565e606748ba">themer</a>
 </li>
 <li>stop_profiling_command()
 : <a class="el" href="namespacemenus.html#a786b01c1a6dc2509c8793380d2aed6b3">menus</a>
@@ -496,6 +542,9 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 </li>
 <li>string_to_keysym()
 : <a class="el" href="namespaceutils.html#a77efd6dbbcfa19b24e64eba2b74ed0af">utils</a>
+</li>
+<li>swatch_do()
+: <a class="el" href="namespacetheme.html#a336d6a034d0f18e725c6b3340e496ad6">theme</a>
 </li>
 <li>symbol_okay()
 : <a class="el" href="namespacelauncher.html#a5590602976fbb0553d7060879c18ab39">launcher</a>
@@ -515,7 +564,7 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Sep 25 2015 22:23:47 for TKE by
+    <li class="footer">Generated on Mon Nov 30 2015 19:40:35 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>

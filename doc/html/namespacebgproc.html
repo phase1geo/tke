@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="tke_logo_128.gif"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">TKE
-   &#160;<span id="projectnumber">1.9</span>
+   &#160;<span id="projectnumber">2.0</span>
    </div>
    <div id="projectbrief">Advanced editor written in Tcl/Tk</div>
   </td>
@@ -433,15 +433,15 @@ Functions</h2></td></tr>
 
 <p>Definition at line <a class="el" href="bgproc_8tcl_source.html#l00356">356</a> of file <a class="el" href="bgproc_8tcl_source.html">bgproc.tcl</a>.</p>
 <div class="fragment"><div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;  <span class="keyword">proc</span> interrupt_pid {resource} {
-  
+
     </div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;  
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;
     </div>
 <div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;    <span class="keyword">variable</span> resource_pid<span class="comment">
 </span></div>
 <div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> resource_tmo<span class="comment">
 </span></div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;<span class="comment"></span>
     </div>
 <div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;    <span class="keyword">if</span> {[<span class="keyword">info</span> exists resource_pid($resource)]} {
       </div>
@@ -453,11 +453,11 @@ Functions</h2></td></tr>
 </span></div>
 <div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;<span class="comment"></span>    }<span class="comment">
 </span></div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;<span class="comment"></span>
     </div>
 <div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;    <span class="keyword">catch</span> &quot;unset resource_tmo($resource)&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;<span class="comment"></span>  
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;<span class="comment"></span>
   </div>
 <div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;  }</div>
 </div><!-- fragment -->
@@ -545,12 +545,12 @@ Functions</h2></td></tr>
     </div>
 <div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;    <span class="keyword">set</span> retval 0<span class="comment">
 </span></div>
-<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;<span class="comment"></span>
     </div>
 <div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;    <span class="keyword">foreach</span> resource [<span class="keyword">array</span> names resources $pattern] {
-    
+
       </div>
-<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;    
+<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;
       </div>
 <div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;      <span class="keyword">if</span> {[<span class="keyword">info</span> exists resources($resource)] &amp;&amp; [<span class="keyword">lindex</span> $resources($resource) 0 2]} {
 
@@ -592,11 +592,11 @@ Functions</h2></td></tr>
       </div>
 <div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;      }<span class="comment">
 </span></div>
-<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;<span class="comment"></span>      
+<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;<span class="comment"></span>
     </div>
 <div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;    }<span class="comment">
 </span></div>
-<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;<span class="comment"></span>
     </div>
 <div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;    <span class="keyword">return</span> $retval<span class="comment">
 </span></div>
@@ -1178,7 +1178,7 @@ Functions</h2></td></tr>
           </div>
 <div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;          notifier::notify -type error -parent $::top_window \
             </div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;            -message [msgcat::mc &quot;Unable to run system command (%s)&quot; $cmd] -detail $cmd_id<span class="comment">
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;            -message [<span class="keyword">format</span> &quot;%s (%s)&quot; [msgcat::mc &quot;Unable to run system command&quot;] $cmd] -detail $cmd_id<span class="comment">
 </span></div>
 <div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;<span class="comment"></span>        }<span class="comment">
 </span></div>
@@ -1291,13 +1291,13 @@ Functions</h2></td></tr>
 </span></div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> update_interval<span class="comment">
 </span></div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="comment"></span>
     </div>
 <div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="comment"># Get the current time
 </span></div>
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> curr_time [<span class="keyword">clock</span> milliseconds]<span class="comment">
 </span></div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<span class="comment"></span>
     </div>
 <div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    <span class="comment"># If we are initializing, don&#39;t update
 </span></div>
@@ -1307,7 +1307,7 @@ Functions</h2></td></tr>
 </span></div>
 <div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <span class="comment"># If the difference between the last update time and the current time exceeds the 
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <span class="comment"># If the difference between the last update time and the current time exceeds the
 </span></div>
 <div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment"># maximum allowed update interval, perform the update and save the current time as
 </span></div>
@@ -1333,7 +1333,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacebgproc.html">bgproc</a></li>
-    <li class="footer">Generated on Fri Sep 25 2015 22:23:45 for TKE by
+    <li class="footer">Generated on Mon Nov 30 2015 19:40:33 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>

@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="tke_logo_128.gif"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">TKE
-   &#160;<span id="projectnumber">1.9</span>
+   &#160;<span id="projectnumber">2.0</span>
    </div>
    <div id="projectbrief">Advanced editor written in Tcl/Tk</div>
   </td>
@@ -506,7 +506,7 @@ Functions</h2></td></tr>
     </div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;
     </div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <a class="code" href="namespacelauncher.html#a2b295e7b3b73ad09d0c9548a7382365d" title="launcher::register">launcher::register</a> &quot;Plugin: $description&quot; &quot;$interp eval $command&quot;<span class="comment">
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <a class="code" href="namespacelauncher.html#a2b295e7b3b73ad09d0c9548a7382365d" title="launcher::register">launcher::register</a> [<span class="keyword">format</span> &quot;%s-%s: %s&quot; [msgcat::mc &quot;Plugin&quot;] $pname $description] &quot;$interp eval $command&quot;<span class="comment">
 </span></div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="comment"></span>
   </div>
@@ -614,7 +614,7 @@ Functions</h2></td></tr>
     </div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;
     </div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <a class="code" href="namespacelauncher.html#adbf4499997ce07bc3051f87f0cf24eb6" title="launcher::unregister">launcher::unregister</a> &quot;Plugin: $description&quot;<span class="comment">
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <a class="code" href="namespacelauncher.html#adbf4499997ce07bc3051f87f0cf24eb6" title="launcher::unregister">launcher::unregister</a> [<span class="keyword">format</span> &quot;%s-%s: %s&quot; [msgcat::mc &quot;Plugin&quot;] $pname $description]<span class="comment">
 </span></div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="comment"></span>
   </div>
@@ -628,7 +628,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceapi.html">api</a></li>
-    <li class="footer">Generated on Fri Sep 25 2015 22:23:45 for TKE by
+    <li class="footer">Generated on Mon Nov 30 2015 19:40:33 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>

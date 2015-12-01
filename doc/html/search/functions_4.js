@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['edit_5fcurrent_5ftheme',['edit_current_theme',['../namespacethemer.html#aaa4e6743834068f1543a11faacd27231',1,'themer']]],
   ['edit_5fend_5fcommand',['edit_end_command',['../namespacelang.html#ae64a21071488c1204e5062faa102d4c0',1,'lang']]],
   ['edit_5fformat_5fposting',['edit_format_posting',['../namespacemenus.html#a5fe58b90370453e794dbe67a139c7f9a',1,'menus']]],
   ['edit_5fglobal',['edit_global',['../namespacepreferences.html#aa61594dd1f3af60df64921fe70fe257b',1,'preferences']]],
@@ -11,7 +12,7 @@ var searchData=
   ['edit_5fsession_5fglobal',['edit_session_global',['../namespacemenus.html#a11c93bdb358a99e6ed5dc7d5c06447ee',1,'menus']]],
   ['edit_5fsession_5flanguage',['edit_session_language',['../namespacemenus.html#ae911ce317ce5deabf5bef0827cb4b834',1,'menus']]],
   ['edit_5fsnippets_5fposting',['edit_snippets_posting',['../namespacemenus.html#a9e0defbbed2fac38e09c93f03f733430',1,'menus']]],
-  ['edit_5ftheme_5fcommand',['edit_theme_command',['../namespacemenus.html#aca1a3bfc3f4a5753a872fba704bc2ec2',1,'menus']]],
+  ['edit_5fswatch',['edit_swatch',['../namespacethemer.html#a808f04263d1fa58a4ef323f5ce474983',1,'themer']]],
   ['edit_5fuser',['edit_user',['../namespacebindings.html#a8fb97f5d1624e14e3f79189451768f5e',1,'bindings']]],
   ['edit_5fuser_5fglobal',['edit_user_global',['../namespacemenus.html#a3dbc6c6beac44f7bcda11da02a652e81',1,'menus']]],
   ['edit_5fuser_5flanguage',['edit_user_language',['../namespacemenus.html#aff55ad6abbb1140a3e4b4692184e7b62',1,'menus']]],
@@ -21,6 +22,8 @@ var searchData=
   ['embed_5ftke',['embed_tke',['../namespaceembed__tke.html#af53ef1ab009256287924cd7e5dd1e6bc',1,'embed_tke']]],
   ['enabled',['enabled',['../namespacemulticursor.html#ac17e4a5deda190ec6a83a14ad533fac6',1,'multicursor']]],
   ['encode_5ffile',['encode_file',['../namespaceinterpreter.html#a81c0b523bb6dbaf69d84aec8780fd6f6',1,'interpreter']]],
+  ['end_5fopen_5fframe',['end_open_frame',['../namespacethemer.html#a934aa061ae7469fae3cca70f8665ce34',1,'themer']]],
+  ['end_5fsave_5fframe',['end_save_frame',['../namespacethemer.html#ab0b77bb975e3370d22f3eff53b9e8f88',1,'themer']]],
   ['event_3adestroy',['event:Destroy',['../namespacectext.html#a225f3c10199f5445578f9e759afee72f',1,'ctext']]],
   ['event_3axscroll',['event:xscroll',['../namespacectext.html#a6563737eb53a4bcdd9dcc0525d3fd825',1,'ctext']]],
   ['event_3ayscroll',['event:yscroll',['../namespacectext.html#ac57dbcfd581b81b4a59540efd845a8e9',1,'ctext']]],
@@ -29,5 +32,8 @@ var searchData=
   ['execute_5fhelper',['execute_helper',['../namespacelauncher.html#a0c86a0de26b15596bd6866babafc0dc5',1,'launcher']]],
   ['exit_5fcleanup',['exit_cleanup',['../namespacemenus.html#a5769976353e3cd085f2b671a82ead23c',1,'menus']]],
   ['exit_5fcommand',['exit_command',['../namespacemenus.html#a11de88137315bb551c3d91f5998cdc1d',1,'menus']]],
-  ['expand_5fdirectory',['expand_directory',['../namespacesidebar.html#a9fa17aafc61252bbb125a7ba6f813161',1,'sidebar']]]
+  ['expand_5fdirectory',['expand_directory',['../namespacesidebar.html#a9fa17aafc61252bbb125a7ba6f813161',1,'sidebar']]],
+  ['expand_5fslider',['expand_slider',['../namespacescroller.html#af5e54ff1949b559625e757829dc1a821',1,'scroller']]],
+  ['export',['export',['../namespacetheme.html#af8a390896439982d8b2085eea030c7c6',1,'theme::export()'],['../namespacethemer.html#a8da5404b5c6b540a8c7f90572b51ef8b',1,'themer::export()'],['../namespacethemes.html#a9b9ca5d52f3556c741930ad30393d5fb',1,'themes::export()']]],
+  ['export_5fwin',['export_win',['../namespacethemer.html#a2e2c6ece8bc25098ebfd38b6570f2293',1,'themer']]]
 ];

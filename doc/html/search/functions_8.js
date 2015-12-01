@@ -2,10 +2,11 @@ var searchData=
 [
   ['ignore_5ffile',['ignore_file',['../namespacesidebar.html#ac37e08a724ec80d8257bfa50dadccec4',1,'sidebar']]],
   ['image_5fcommand',['image_command',['../namespaceinterpreter.html#a447b9d8ee8fbf4bc93954c6eb1ace06a',1,'interpreter']]],
+  ['image_5fphoto_5fdir',['image_photo_dir',['../namespacethemer.html#aaae5954541d2c9587408362ff7fa5dad',1,'themer']]],
   ['image_5fwin',['image_win',['../namespaceinterpreter.html#ae40bb42e796c8b271d2c112575462393',1,'interpreter']]],
-  ['import_5ftke',['import_tke',['../namespacethemer.html#a8f428707b4a7dae13a7f569a09643dbd',1,'themer']]],
-  ['import_5ftm',['import_tm',['../namespacethemer.html#ac26e49fec27d89e295844e4ee04973e8',1,'themer']]],
-  ['import_5ftm_5fcommand',['import_tm_command',['../namespacemenus.html#aebe7b2843e27e7dd5cc818b82fe8a9b2',1,'menus']]],
+  ['import',['import',['../namespacebitmap.html#a4e412b93bd727516fac9a98d8534a18e',1,'bitmap::import()'],['../namespacethemer.html#aabce4e70c6536695bc2516967c65c9c4',1,'themer::import()'],['../namespacethemes.html#acc64e61bbc22c038c5d51760ac201256',1,'themes::import()']]],
+  ['import_5ftke',['import_tke',['../namespacethemer.html#a4bb0bffe91f9b0f2078089f1bb26ec33',1,'themer']]],
+  ['import_5ftm',['import_tm',['../namespacethemer.html#aa33133e53094e547e4df7349cc9e586d',1,'themer']]],
   ['in_5fvim_5fmode',['in_vim_mode',['../namespacevim.html#aedd9286be1cd18896ca38bf9b05dcd42',1,'vim']]],
   ['inblockcomment',['inBlockComment',['../namespacectext.html#a0d9ab6867813fb9564b7559501f4fdd4',1,'ctext']]],
   ['incomment',['inComment',['../namespacectext.html#a861c4436b45be82c575c42b0a9962046',1,'ctext']]],
@@ -13,7 +14,7 @@ var searchData=
   ['incommentstringhelper',['inCommentStringHelper',['../namespacectext.html#afb1c46ed8b98302e1065aed521e1698b',1,'ctext']]],
   ['indent',['indent',['../namespacetexttools.html#a4e3a699cafe52f46ec37e2bb40216e39',1,'texttools']]],
   ['indoublequote',['inDoubleQuote',['../namespacectext.html#a3404af8910d0334da39a5669cae2e7d5',1,'ctext']]],
-  ['initialize',['initialize',['../namespacelogger.html#aa89b7146a1a92334d3a18364e4e6279d',1,'logger::initialize()'],['../namespacethemes.html#ae5adc5aa4c861301c57e20d0381a09aa',1,'themes::initialize()']]],
+  ['initialize',['initialize',['../namespacelogger.html#aa89b7146a1a92334d3a18364e4e6279d',1,'logger::initialize()'],['../namespacethemer.html#a44d296073d0e66d7c5f20d85c03a84dd',1,'themer::initialize()']]],
   ['initialize_5flanguage',['initialize_language',['../namespacesyntax.html#ae91299b06a2bb8c93b6fccd482038705',1,'syntax']]],
   ['inlinecomment',['inLineComment',['../namespacectext.html#ad9cc4f1dad40d36f9a06c10ad65b25b3',1,'ctext']]],
   ['insert',['insert',['../namespacemulticursor.html#aaa497ae25291be8126a882176ebe65fb',1,'multicursor']]],
@@ -34,6 +35,7 @@ var searchData=
   ['invoke',['invoke',['../namespacemenus.html#a6dd6cfaabc5100a861949ba335f2952b',1,'menus']]],
   ['invoke_5fmenu',['invoke_menu',['../namespaceapi.html#abaf2e15fda1463ac72225e2d8af92455',1,'api']]],
   ['is_5fauto_5findent_5favailable',['is_auto_indent_available',['../namespaceindent.html#a91aa5f8dcc4b6f5a398c8cde09e75bc6',1,'indent']]],
+  ['is_5fbinary',['is_binary',['../namespaceutils.html#adc6bc1f5b9727f87e0c7c0968d0f9d4d',1,'utils']]],
   ['is_5ffavorite',['is_favorite',['../namespacefavorites.html#a52469338a908ccd162b74dc3117f8f69',1,'favorites']]],
   ['isescaped',['isEscaped',['../namespacectext.html#ab2f5f03e32ca87e3c6a0b7d5b97be1c7',1,'ctext']]]
 ];
