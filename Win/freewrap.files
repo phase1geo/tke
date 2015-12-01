@@ -74,6 +74,7 @@ C:/cygwin64/home/Trevor/projects/tke-code/doc/UserGuide.pdf
 C:/cygwin64/home/Trevor/projects/tke-code/lib/api.tcl
 C:/cygwin64/home/Trevor/projects/tke-code/lib/bgproc.tcl
 C:/cygwin64/home/Trevor/projects/tke-code/lib/bindings.tcl
+C:/cygwin64/home/Trevor/projects/tke-code/lib/bitmap.tcl
 C:/cygwin64/home/Trevor/projects/tke-code/lib/cliphist.tcl
 C:/cygwin64/home/Trevor/projects/tke-code/lib/commit.tcl
 C:/cygwin64/home/Trevor/projects/tke-code/lib/completer.tcl
@@ -115,9 +116,11 @@ C:/cygwin64/home/Trevor/projects/tke-code/lib/images/global.gif
 C:/cygwin64/home/Trevor/projects/tke-code/lib/images/global_dark.gif
 C:/cygwin64/home/Trevor/projects/tke-code/lib/images/left.bmp
 C:/cygwin64/home/Trevor/projects/tke-code/lib/images/lock.bmp
+C:/cygwin64/home/Trevor/projects/tke-code/lib/images/plus.bmp
 C:/cygwin64/home/Trevor/projects/tke-code/lib/images/right.bmp
 C:/cygwin64/home/Trevor/projects/tke-code/lib/images/sopen.bmp
 C:/cygwin64/home/Trevor/projects/tke-code/lib/images/split.bmp
+C:/cygwin64/home/Trevor/projects/tke-code/lib/images/square32.bmp
 C:/cygwin64/home/Trevor/projects/tke-code/lib/images/tke.ico
 C:/cygwin64/home/Trevor/projects/tke-code/lib/images/tke_logo_128.gif
 C:/cygwin64/home/Trevor/projects/tke-code/lib/images/tke_logo_64.gif
@@ -179,6 +182,7 @@ C:/cygwin64/home/Trevor/projects/tke-code/lib/ptwidgets1.2/library/tokensearch.t
 C:/cygwin64/home/Trevor/projects/tke-code/lib/ptwidgets1.2/library/wmarkentry.tcl
 C:/cygwin64/home/Trevor/projects/tke-code/lib/ptwidgets1.2/pkgIndex.tcl
 C:/cygwin64/home/Trevor/projects/tke-code/lib/restart.tcl
+C:/cygwin64/home/Trevor/projects/tke-code/lib/scroller.tcl
 C:/cygwin64/home/Trevor/projects/tke-code/lib/search.tcl
 C:/cygwin64/home/Trevor/projects/tke-code/lib/sessions.tcl
 C:/cygwin64/home/Trevor/projects/tke-code/lib/sidebar.tcl
@@ -303,8 +307,8 @@ C:/cygwin64/home/Trevor/projects/tke-code/lib/tablelist5.14/scripts/tclIndex
 C:/cygwin64/home/Trevor/projects/tke-code/lib/tablelist5.14/tablelist.tcl
 C:/cygwin64/home/Trevor/projects/tke-code/lib/tablelist5.14/tablelistPublic.tcl
 C:/cygwin64/home/Trevor/projects/tke-code/lib/tablelist5.14/tablelist_tile.tcl
-C:/cygwin64/home/Trevor/projects/tke-code/lib/test.tcl
 C:/cygwin64/home/Trevor/projects/tke-code/lib/texttools.tcl
+C:/cygwin64/home/Trevor/projects/tke-code/lib/theme.tcl
 C:/cygwin64/home/Trevor/projects/tke-code/lib/themer.tcl
 C:/cygwin64/home/Trevor/projects/tke-code/lib/themes.tcl
 C:/cygwin64/home/Trevor/projects/tke-code/lib/tkedat.tcl
