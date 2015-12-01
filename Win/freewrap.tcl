@@ -134,12 +134,26 @@ if {[file exists tke.exe]} {
 puts -nonewline "Running freewrap...  "
 flush stdout
 
-# Generate the TKE executable using freewrap
-if {![catch { exec -ignorestderr [file join freewrap664 win64 freewrap.exe] [file join $tke_dir lib tke.tcl] -debug -f freewrap.files -i [file join $tke_dir lib images tke.ico] -1 } rc]} {
-  puts "Success!"
+if {$::tcl_platform(platform) eq "windows"} {
+
+  # Generate the TKE executable using freewrap
+  if {![catch { exec -ignorestderr [file join freewrap664 win64 freewrap.exe] [file join $tke_dir lib tke.tcl] -debug -f freewrap.files -i [file join $tke_dir lib images tke.ico] -1 } rc]} {
+    puts "Success!"
+  } else {
+    puts "Failed!"
+    puts $rc
+  }
+
 } else {
-  puts "Failed!"
-  puts $rc
+
+  # Generate the TKE executable using freewrap in non-Windows environment
+  if {![catch { exec -ignorestderr [file join freewrap664 linux64 freewrap] [file join $tke_dir lib tke.tcl] -debug -w [file join freewrap664 win64 freewrap.exe] -f freewrap.files -i [file join $tke_dir lib images tke.ico] -1 } rc]} {
+    puts "Success!"
+  } else {
+    puts "Failed!"
+    puts $rc
+  }
+
 }
 
 puts "Moving tke.exe to $release_dir"

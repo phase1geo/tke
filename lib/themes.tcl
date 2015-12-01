@@ -62,6 +62,7 @@ namespace eval themes {
 
     # Load the tke_dir theme files
     set tfiles [glob -nocomplain -directory [file join $::tke_dir data themes] *.tketheme]
+    puts "tfiles: $tfiles"
 
     # Load the tke_home theme files
     foreach item [glob -nocomplain -directory [file join $::tke_home themes] -type d *] {
