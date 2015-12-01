@@ -25,7 +25,22 @@
 # Usage:   tke [<options>] <file>*
 ######################################################################
 
-set tke_dir  [file dirname [file dirname [file normalize [info script]]]]
+######################################################################
+# Adjusts the given filename to be compatible with the file system
+# (standard or FreeWrap).
+proc adjust_fname {fname} {
+
+  # Strip any leading disk names from the given filename, if we are running in
+  # freewrap
+  if {[namespace exists ::freewrap] && [regexp {^\w:(.*)$} $fname -> new_fname]} {
+    return $new_fname
+  }
+
+  return $fname
+
+}
+
+set tke_dir  [adjust_fname [file dirname [file dirname [file normalize [info script]]]]]
 set tke_home [file normalize [file join ~ .tke]]
 
 ######################################################################
