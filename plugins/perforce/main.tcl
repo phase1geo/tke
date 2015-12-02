@@ -30,7 +30,7 @@ namespace eval perforce {
 
     # If the file does not exist, create it
     if {![file exists $id_fname]} {
-      if {![catch "open $id_fname w" rc]} {
+      if {![catch { open $id_fname w } rc]} {
         puts $rc "# Host                    Directory"
         puts $rc "# ----------------------  -------------------------------------------------"
         close $rc
@@ -38,7 +38,7 @@ namespace eval perforce {
     }
 
     # Add the file to the editor
-    api::file::add_file $id_fname -sidebar 0 -savecommand "perforce::edit_include_dirs_save $id_fname"
+    api::file::add_file $id_fname -sidebar 0 -savecommand [list perforce::edit_include_dirs_save $id_fname]
 
   }
 
@@ -49,7 +49,7 @@ namespace eval perforce {
     variable include_dirs
 
     # Open the file for reading
-    if {![catch "open $fname r" rc]} {
+    if {![catch { open $fname r } rc]} {
 
       # Clear the include directories
       set include_dirs [list]
@@ -91,7 +91,7 @@ namespace eval perforce {
       set fname [api::file::get_info $index fname]
 
       # Perform a Perforce revert operation
-      catch "exec p4 revert $fname" rc
+      catch { exec p4 revert $fname } rc
 
     }
 
@@ -143,7 +143,7 @@ namespace eval perforce {
       if {[included [set fname [api::file::get_info $file_index fname]]] && [file exists $fname]} {
 
         # If the file is a symlink, edit the original file
-        if {![catch "file readlink $fname" rc]} {
+        if {![catch { file readlink $fname } rc]} {
           set orig_pwd [pwd]; cd [file dirname $fname]; set fname [file normalize $rc]; cd $orig_pwd
           if {![included $fname]} {
             return
@@ -152,7 +152,7 @@ namespace eval perforce {
 
         # If the file exists and we don't get an error when editing the file
         if {![file writable $fname]} {
-          catch "exec p4 edit $fname" rc
+          catch { exec p4 edit $fname } rc
         }
 
       }
@@ -169,11 +169,11 @@ namespace eval perforce {
 
       # If the new filename exists within a Perforce directory, rename it
       if {[included $new_fname]} {
-        catch "exec p4 rename $old_fname $new_fname"
+        catch { exec p4 rename $old_fname $new_fname }
 
       # Otherwise, delete the old file from the depot
       } else {
-        catch "exec p4 delete $old_fname"
+        catch { exec p4 delete $old_fname }
       }
 
     }
@@ -189,12 +189,12 @@ namespace eval perforce {
 
       # Perform the Perforce deletion
       if {[file isdirectory $fname]} {
-        if {![catch "exec -ignorestderr p4 delete $fname/..."]} {
-          catch "exec touch $fname"
+        if {![catch { exec -ignorestderr p4 delete $fname/...}]} {
+          catch { exec touch $fname }
         }
       } else {
-        if {![catch "exec p4 delete $fname"]} {
-          catch "exec touch $fname"
+        if {![catch { exec p4 delete $fname }]} {
+          catch { exec touch $fname }
         }
       }
 
