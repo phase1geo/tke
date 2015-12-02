@@ -841,12 +841,12 @@ namespace eval themer {
 
     switch $type {
       install {
-        set dir     [file join $::tke_dir lib images]
         set dirname [msgcat::mc "Installation Directory"]
+        set inames  [utils::glob_install [file join $::tke_dir lib images] $pattern]
       }
       user    {
-        set dir     [file join $::tke_home themes [theme::get_current_theme]]
         set dirname [msgcat::mc "User Directory"]
+        set inames  [glob -nocomplain -directory [file join $::tke_home themes [theme::get_current_theme]] $pattern]
       }
       custom  {
         if {$fname eq ""} {
@@ -859,6 +859,7 @@ namespace eval themer {
         }
         set dirname $dir
         set type    $dir
+        set inames  [glob -nocomplain -directory $dir $pattern]
       }
     }
 
@@ -881,7 +882,7 @@ namespace eval themer {
     # Get all of the files in the directory that match the given file pattern
     set i          0
     set match_cell ""
-    foreach iname [glob -nocomplain -directory $dir $pattern] {
+    foreach iname $inames {
       if {[expr $i % 3] == 0} {
         $data(widgets,image_pf_tl_file) insert end [list [list] [list] [list]]
       }
