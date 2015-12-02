@@ -206,6 +206,12 @@ namespace eval utils {
 
     set opts ""
 
+    # If the file to be viewed is located in the installation file system in freewrap,
+    # unpack the file so that we can act on it via exec.
+    if {[namespace exists ::freewrap] && [zvfs::exists $fname]} {
+      set fname [freewrap::unpack $fname]
+    }
+
     switch -glob $::tcl_platform(os) {
       Darwin {
         if {$in_background} {
