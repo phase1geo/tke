@@ -1438,7 +1438,11 @@ namespace eval gui {
 
     # Add the list of files to the editor panel.
     foreach fname [lreverse $args] {
-      add_file $index [normalize $host $fname]
+      if {[file isdirectory $fname]} {
+        [ns sidebar]::add_directory [normalize $host $fname]
+      } else {
+        add_file $index [normalize $host $fname]
+      }
     }
 
     # Raise ourselves
