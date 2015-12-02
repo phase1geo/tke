@@ -66,6 +66,7 @@ package require tabbar
 package require specl
 # package require fileutil
 package require struct::set
+package require comm
 catch { package require tkdnd }
 
 source [file join $tke_dir lib version.tcl]
@@ -125,13 +126,15 @@ proc usage {} {
   puts "                       directory contents (only valid if no files are"
   puts "                       specified)."
   puts "  -e                 Exits the application when the last tab is closed"
-  puts "                       (overrides preference setting)"
+  puts "                       (overrides preference setting)."
   puts "  -m                 Creates a minimal editing environment (overrides"
-  puts "                       preference settings)"
+  puts "                       preference settings)."
   puts "  -n                 Opens a new window without attempting to merge"
-  puts "                       with an existing window"
-  puts "  -s <session_name>  Opens a new window loading the specified"
-  puts "                       session name"
+  puts "                       with an existing window."
+  puts "  -s <session_name>  Opens the specified session name. If the -n option"
+  puts "                       is not used and a TKE window exists, the contents"
+  puts "                       of the window will be replaced with the session"
+  puts "                       contents."
   puts ""
 
   exit
@@ -173,7 +176,7 @@ proc parse_cmdline {argc argv} {
       -e    { set ::cl_exit_on_close 1 }
       -m    { set ::cl_minimal 1 }
       -n    { set ::cl_new_win 1 }
-      -s    { incr i; set ::cl_use_session [lindex $argv $i]; set ::cl_new_win 1 }
+      -s    { incr i; set ::cl_use_session [lindex $argv $i] }
       -p    { set ::cl_profile 1 }
       default {
         if {[lindex $argv $i] ne ""} {
@@ -305,24 +308,33 @@ if {[catch {
     profile on
   }
 
-  # Attempt to add files or raise the existing application
-  if {([tk appname] ne "tke") && ([tk windowingsystem] eq "x11") && !$cl_new_win} {
-    if {[llength $cl_files] > 0} {
-      if {![catch { send tke gui::add_files_and_raise [info hostname] end $cl_files } rc]} {
-        destroy .
-        exit
-      } elseif {[regexp {X server} $rc]} {
-        puts $rc
-      }
-      # puts "rc: $rc"
-    } else {
-      if {![catch "send tke gui::raise_window" rc]} {
-        destroy .
-        exit
-      } elseif {[regexp {X server} $rc]} {
-        puts $rc
+  # Set the comm port that we will use
+  set comm_port 51807
+
+  # Change our comm port to a known value (if we fail, TKE is already running at that port so
+  # connect to it.
+  if {[catch { ::comm::comm config -port $comm_port }]} {
+
+    # Attempt to add files or raise the existing application
+    if {!$cl_new_win} {
+      if {[llength $cl_files] > 0} {
+        if {![catch { ::comm::comm send $comm_port gui::add_files_and_raise [info hostname] end $cl_files } rc]} {
+          destroy .
+          exit
+        }
+      } elseif {$cl_use_session ne ""} {
+        if {![catch { ::comm::comm send $comm_port sessions::load_and_raise_window $cl_use_session } rc]} {
+          destroy .
+          exit
+        }
+      } else {
+        if {![catch { ::comm::comm send $comm_port gui::raise_window } rc]} {
+          destroy .
+          exit
+        }
       }
     }
+
   }
 
   # Create the ~/.tke directory if it doesn't already exist

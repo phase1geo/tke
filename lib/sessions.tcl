@@ -132,7 +132,7 @@ namespace eval sessions {
 
     } elseif {$type eq "prefs"} {
       [ns gui]::set_info_message "Session \"$current_name\" preferences saved"
-      
+
     }
 
   }
@@ -207,6 +207,24 @@ namespace eval sessions {
 
     # Update the title
     [ns gui]::set_title
+
+  }
+
+  ######################################################################
+  # Loads the given session and raises the window.
+  proc load_and_raise_window {name} {
+
+    puts "In load_and_raise_window, name: $name"
+
+    # Load the session in the current window
+    load full $name 0
+
+    puts "OK"
+
+    # Raise the window
+    [ns gui]::raise_window
+
+    puts "Window raised"
 
   }
 
