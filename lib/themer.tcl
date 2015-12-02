@@ -298,7 +298,7 @@ namespace eval themer {
       set data(widgets,wf)      [ttk::frame .thmwin.wf]
       ttk::button .thmwin.wf.export -style BButton -text [msgcat::mc "Export"] -width $bwidth -command [list themer::export]
       ttk::label  .thmwin.wf.l      -text [msgcat::mc "Save As:"]
-      if {[::tke_development]} {
+      if {[::tke_development] && ![namespace exists ::freewrap]} {
         set mb_width              [expr [msgcat::mcmax "User Directory" "Installation Directory"] - 5]
         set data(widgets,save_mb) [ttk::menubutton .thmwin.wf.mb -width $mb_width -menu [menu .thmwin.wf.mb_menu -tearoff 0]]
         .thmwin.wf.mb_menu add command -label [msgcat::mc "User Directory"]         -command [list themer::save_to_directory "user"]
@@ -311,7 +311,7 @@ namespace eval themer {
       pack .thmwin.wf.cancel -side right -padx 2 -pady 2
       pack .thmwin.wf.save   -side right -padx 2 -pady 2
       pack .thmwin.wf.cb     -side right -padx 2 -pady 2
-      if {[::tke_development]} {
+      if {[::tke_development] && ![namespace exists ::freewrap]} {
         pack .thmwin.wf.mb -side right -padx 2 -pady 2
       }
       pack .thmwin.wf.l      -side right -padx 2 -pady 2
@@ -440,7 +440,7 @@ namespace eval themer {
     $data(widgets,save_cb) set $data(curr_theme)
 
     # Set the save to directory status
-    if {[::tke_development]} {
+    if {[::tke_development] && ![namespace exists ::freewrap]} {
       if {[catch { themes::get_file $data(curr_theme) } fname]} {
         $data(widgets,save_mb) configure -text [msgcat::mc "Select Directory"]
         $data(widgets,save_b)  configure -state disabled
@@ -497,7 +497,7 @@ namespace eval themer {
     variable data
 
     # Get the current theme file
-    if {[::tke_development]} {
+    if {[::tke_development] && ![namespace exists ::freewrap]} {
       if {[catch { themes::get_file $data(curr_theme) } theme_file]} {
         start_save_frame
         return

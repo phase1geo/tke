@@ -584,4 +584,26 @@ namespace eval utils {
 
   }
 
+  ######################################################################
+  # Performs a glob command for files within the installation in
+  # the given directory with the given pattern.  Takes into account
+  # whether we are running within freewrap or not.
+  proc glob_install {path pattern {tails 0}} {
+
+    if {[namespace exists ::freewrap]} {
+      if {$tails} {
+        return [lmap item [zvfs::list [file join $path $pattern]] { file tail $item }]
+      } else {
+        return [zvfs::list [file join $path $pattern]]
+      }
+    } else {
+      if {$tails} {
+        return [glob -nocomplain -directory $path -tails $pattern]
+      } else {
+        return [glob -nocomplain -directory $path $pattern]
+      }
+    }
+
+  }
+
 }

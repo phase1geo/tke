@@ -63,7 +63,7 @@ namespace eval syntax {
     variable filetypes
 
     # Load the tke_dir syntax files
-    set sfiles [glob -nocomplain -directory [file join $::tke_dir data syntax] *.syntax]
+    set sfiles [[ns utils]::glob_install [file join $::tke_dir data syntax] *.syntax]
 
     # Load the tke_home syntax files
     set sfiles [concat $sfiles [glob -nocomplain -directory [file join $::tke_home syntax] *.syntax]]
