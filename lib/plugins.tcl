@@ -101,7 +101,16 @@ namespace eval plugins {
 
     set registry_size 0
 
-    foreach plugin [glob -nocomplain -directory [file join $::tke_dir plugins] -types d *] {
+    # Get all of the plugin directories in the installation directory
+    if {[namespace exists ::freewrap]} {
+      set dirs [lmap item [zvfs::list [file join $::tke_dir plugins * header.tkedat]] {
+        file dirname $item
+      }]
+    } else {
+      set dirs [glob -nocomplain -directory [file join $::tke_dir plugins] -types d *]
+    }
+
+    foreach plugin $dirs {
 
       # Read the header information
       if {![catch { tkedat::read [file join $plugin header.tkedat] 0 } rc]} {

@@ -61,9 +61,7 @@ namespace eval themes {
     [ns launcher]::unregister [msgcat::mc "Theme:*"]
 
     # Load the tke_dir theme files
-    set tfiles [glob -nocomplain -directory [file join $::tke_dir data themes] *.tketheme]
-    puts "themes dir: [file join $::tke_dir data themes], tfiles: $tfiles"
-    puts "\ntails: [glob -nocomplain -directory [file join $::tke_dir data themes] -tails *]"
+    set tfiles [[ns utils]::glob_install [file join $::tke_dir data themes] *.tketheme]
 
     # Load the tke_home theme files
     foreach item [glob -nocomplain -directory [file join $::tke_home themes] -type d *] {
