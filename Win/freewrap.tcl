@@ -73,6 +73,9 @@ proc create_freewrap_files {} {
     lappend files {*}[get_files [file join $::tke_dir $dir]]
   }
 
+  # Add tkdnd package files
+  lappend files {*}[get_files [file join $::tke_dir Win tkdnd2.8]]
+
   # Remove excluded directories
   foreach exclude [list doc/html lib/tke.tcl] {
     set files [lsearch -inline -not -all $files [file join $::tke_dir $exclude]*]
