@@ -162,8 +162,11 @@ namespace eval sessions {
         array set frame [info frame 0]
         exec -ignorestderr [info nameofexecutable] $frame(file) -s $name -n &
         return
-      } elseif {[set ans [tk_messageBox -parent . -icon question -default yes -type yesnocancel -message [msgcat::mc "Save session?"] -detail [msgcat::mc "Session state will be lost if not saved"]]]} {
-        # FOOBAR
+      }
+    } elseif {$type eq "full"} {
+      switch [tk_messageBox -parent . -icon question -default yes -type yesnocancel -message [msgcat::mc "Save session?"] -detail [msgcat::mc "Session state will be lost if not saved"]] {
+        yes    { save "full" }
+        cancel { return }
       }
     }
 
@@ -218,17 +221,25 @@ namespace eval sessions {
   # Loads the given session and raises the window.
   proc load_and_raise_window {name} {
 
-    puts "In load_and_raise_window, name: $name"
-
     # Load the session in the current window
-    load full $name 0
-
-    puts "OK"
+    after idle [list sessions::load full $name 0]
 
     # Raise the window
     [ns gui]::raise_window
 
-    puts "Window raised"
+  }
+
+  ######################################################################
+  # Closes the currently opened session.
+  proc close_current {} {
+
+    variable current_name
+
+    # Clear the current name
+    set current_name ""
+
+    # Update the window title
+    [ns gui]::set_title
 
   }
 
@@ -252,6 +263,7 @@ namespace eval sessions {
 
       # Delete the name from the names list
       unset names($name)
+
     }
 
     # If the name matches the current name, clear the current name and update the title

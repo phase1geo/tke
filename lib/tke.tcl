@@ -136,10 +136,7 @@ proc usage {} {
   puts "                       preference settings)."
   puts "  -n                 Opens a new window without attempting to merge"
   puts "                       with an existing window."
-  puts "  -s <session_name>  Opens the specified session name. If the -n option"
-  puts "                       is not used and a TKE window exists, the contents"
-  puts "                       of the window will be replaced with the session"
-  puts "                       contents."
+  puts "  -s <session_name>  Opens the specified session name."
   puts ""
 
   exit

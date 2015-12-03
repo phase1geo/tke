@@ -1713,7 +1713,7 @@ namespace eval menus {
   # Closes the current session by switching to the last session.
   proc sessions_close_current {} {
 
-    sessions::load "last" "" 0
+    sessions::close_current
 
   }
 
