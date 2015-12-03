@@ -157,10 +157,14 @@ namespace eval sessions {
     }
 
     # If we need to open
-    if {($current_name ne "") && $new_window} {
-      array set frame [info frame 0]
-      exec -ignorestderr [info nameofexecutable] $frame(file) -s $name &
-      return
+    if {$current_name ne ""} {
+      if {$new_window} {
+        array set frame [info frame 0]
+        exec -ignorestderr [info nameofexecutable] $frame(file) -s $name -n &
+        return
+      } elseif {[set ans [tk_messageBox -parent . -icon question -default yes -type yesnocancel -message [msgcat::mc "Save session?"] -detail [msgcat::mc "Session state will be lost if not saved"]]]} {
+        # FOOBAR
+      }
     }
 
     # Get the path of the session file
