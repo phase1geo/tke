@@ -42,6 +42,7 @@ namespace eval scroller {
       -thickness    15
       -markhide1    0
       -markhide2    0
+      -autohide     0
     }
     array set opts $args
 
@@ -54,20 +55,23 @@ namespace eval scroller {
     set data($win,-thickness)    $opts(-thickness)
     set data($win,-markhide1)    $opts(-markhide1)
     set data($win,-markhide2)    $opts(-markhide2)
+    set data($win,-autohide)     $opts(-autohide)
 
     # Constant values
     set data($win,minwidth)  3
     set data($win,minheight) 21
 
     # Variables
-    set data($win,width)   $data($win,minwidth)
-    set data($win,pressed) 0
-    set data($win,first)   0.0
-    set data($win,last)    1.0
+    set data($win,extra_width)  [expr {(($opts(-markcommand1) ne "") ? 3 : 0) + (($opts(-markcommand2) ne "") ? 3 : 0)}]
+    set data($win,slider_width) $data($win,minwidth)
+    set data($win,pressed)      0
+    set data($win,first)        0.0
+    set data($win,last)         1.0
+    set data($win,marks)        0
 
     # Create the canvas
     if {$data($win,-orient) eq "vertical"} {
-      set data($win,canvas) [canvas $win -width  $data($win,-thickness) -relief flat -bd 1 -highlightthickness 0 -bg $data($win,-background)]
+      set data($win,canvas) [canvas $win -width  [expr $data($win,-thickness) + $data($win,extra_width)] -relief flat -bd 1 -highlightthickness 0 -bg $data($win,-background)]
     } else {
       set data($win,canvas) [canvas $win -height $data($win,-thickness) -relief flat -bd 1 -highlightthickness 0 -bg $data($win,-background)]
     }
@@ -110,16 +114,18 @@ namespace eval scroller {
         set data($win,last)  $last
         if {$data($win,-orient) eq "vertical"} {
           set height [winfo height $data($win,canvas)]
-          set x1     [expr $data($win,-thickness) - $data($win,width)]
+          set x1     [expr ($data($win,-thickness) + $data($win,extra_width)) - $data($win,slider_width)]
           set y1     [expr int( $height * $first )]
-          set x2     $data($win,-thickness)
+          set x2     [expr $data($win,-thickness) + $data($win,extra_width)]
           set y2     [expr $y1 + $data($win,ssize)]
+          $data($win,canvas) configure -width [expr (($first == 0) && ($last == 1) && ($data($win,marks) == 0) && $data($win,-autohide)) ? 0 : ($data($win,-thickness) + $data($win,extra_width))]
         } else {
           set width  [winfo width $data($win,canvas)]
           set x1     [expr int( $width * $first )]
-          set y1     [expr $data($win,-thickness) - $data($win,width)]
+          set y1     [expr $data($win,-thickness) - $data($win,slider_width)]
           set x2     [expr $x1 + $data($win,ssize)]
           set y2     $data($win,-thickness)
+          $data($win,canvas) configure -height [expr (($first == 0) && ($last == 1) && ($data($win,marks) == 0) && $data($win,-autohide)) ? 0 : $data($win,-thickness)]
         }
 
         # Adjust the size and position of the slider
@@ -141,7 +147,7 @@ namespace eval scroller {
         if {[info exists opts(-thickness)]} {
           set data($win,-thickness) $opts(-thickness)
           if {$data($win,-orient) eq "vertical"} {
-            $data($win,canvas) configure -width $data($win,-thickness)
+            $data($win,canvas) configure -width [expr $data($win,-thickness) + $data($win,extra_width)]
           } else {
             $data($win,canvas) configure -height $data($win,-thickness)
           }
@@ -212,7 +218,7 @@ namespace eval scroller {
 
     if {!$data($W,pressed)} {
 
-      set data($W,width) $data($W,-thickness)
+      set data($W,slider_width) $data($W,-thickness)
 
       lassign [eval $data($W,-command)] first last
 
@@ -230,7 +236,7 @@ namespace eval scroller {
 
     if {!$data($W,pressed)} {
 
-      set data($W,width) $data($W,minwidth)
+      set data($W,slider_width) $data($W,minwidth)
 
       lassign [eval $data($W,-command)] first last
 
@@ -253,7 +259,7 @@ namespace eval scroller {
     lassign [eval $data($win,-command)] first last
     if {$data($win,-orient) eq "vertical"} {
       set size [winfo height $data($win,canvas)]
-      lassign [list [expr $data($win,-thickness) - $data($win,minwidth)] 0 $data($win,-thickness) [expr $data($win,minheight) - 1]] x1 y1 x2 y2
+      lassign [list [expr ($data($win,-thickness) + $data($win,extra_width)) - $data($win,minwidth)] 0 [expr $data($win,-thickness) + $data($win,extra_width)] [expr $data($win,minheight) - 1]] x1 y1 x2 y2
     } else {
       set size [winfo width $data($win,canvas)]
       lassign [list [expr $data($win,-thickness) - $data($win,minwidth)] 0 $data($win,-thickness) [expr $data($win,minheight) - 1]] y1 x1 y2 x2
@@ -284,6 +290,9 @@ namespace eval scroller {
     # Delete all markers
     $data($win,canvas) delete mark
 
+    # Clear the marker count
+    set data($win,marks) 0
+
     for {set i 1} {$i <= 2} {incr i} {
 
       # If the -markcommandx was not set or the -hide indicator is set for markcommand1, don't continue
@@ -295,12 +304,16 @@ namespace eval scroller {
       foreach {startpos endpos color} [uplevel #0 $data($win,-markcommand$i)] {
         set x1 [expr ($i == 1) ? 0 : 3]
         set y1 [expr int( $height * $startpos)]
-        set x2 $data($win,-thickness)
+        set x2 [expr $data($win,-thickness) + $data($win,extra_width)]
         set y2 [expr int( $height * $endpos)]
         $data($win,canvas) create rectangle $x1 $y1 $x2 $y2 -fill $color -width 0 -tags mark
+        incr data($win,marks)
       }
 
     }
+
+    # Put the scrollbar above everything
+    catch { $data($win,canvas) raise $data($win,slider) }
 
   }
 
