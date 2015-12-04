@@ -33,19 +33,21 @@ namespace eval scroller {
     variable data
 
     array set opts {
-      -background "black"
-      -foreground "white"
-      -orient     "vertical"
-      -command    ""
-      -thickness  15
+      -background  "black"
+      -foreground  "white"
+      -orient      "vertical"
+      -command     ""
+      -markcommand ""
+      -thickness   15
     }
     array set opts $args
 
-    set data($win,-background) $opts(-background)
-    set data($win,-foreground) $opts(-foreground)
-    set data($win,-orient)     $opts(-orient)
-    set data($win,-command)    $opts(-command)
-    set data($win,-thickness)  $opts(-thickness)
+    set data($win,-background)  $opts(-background)
+    set data($win,-foreground)  $opts(-foreground)
+    set data($win,-orient)      $opts(-orient)
+    set data($win,-command)     $opts(-command)
+    set data($win,-markcommand) $opts(-markcommand)
+    set data($win,-thickness)   $opts(-thickness)
 
     # Constant values
     set data($win,minwidth)  3
@@ -116,6 +118,9 @@ namespace eval scroller {
 
         # Adjust the size and position of the slider
         $data($win,canvas) coords $data($win,slider) [expr $x1 + 2] [expr $y1 + 2] $x2 $y2
+
+        # Draw the markers
+        update_markers $win
       }
 
       configure {
@@ -245,9 +250,40 @@ namespace eval scroller {
     set ssize            [expr ((int( $size * $last ) - int( $size * $first )) + 1) - 4]
     set data($win,ssize) [expr ($ssize < $data($win,minheight)) ? $data($win,minheight) : $ssize]
 
-    # Add cursor
+    # Add the slider
     set data($win,slider) [$data($win,canvas) create rectangle $x1 $y1 $x2 $y2 -outline $data($win,-foreground) -fill $data($win,-foreground) -width 2]
+
+    # Run the set command
     widget_command $win set $first $last
+
+  }
+
+  ######################################################################
+  # Draw the markers in the scrollbar.
+  proc update_markers {win} {
+
+    variable data
+
+    # If the -markcommand was not set, don't continue
+    if {$data($win,-markcommand) eq ""} {
+      return
+    }
+
+    # Delete all markers
+    $data($win,canvas) delete mark
+
+    # Get the lines
+    set height [winfo height $win]
+
+    # Draw each of the markers
+    foreach {startpos endpos color} [uplevel #0 $data($win,-markcommand)] {
+      # set x1 [expr $data($win,-thickness) - $data($win,width)]
+      set x1 0
+      set y1 [expr int( $height * $startpos)]
+      set x2 $data($win,-thickness)
+      set y2 [expr int( $height * $endpos)]
+      $data($win,canvas) create rectangle $x1 $y1 $x2 $y2 -fill $color -width 0 -tags mark
+    }
 
   }
 

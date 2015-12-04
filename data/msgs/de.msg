@@ -919,6 +919,17 @@ msgcat::mcmset de {
 
 }
 
+# sessions.tcl
+msgcat::mcmset de {
+
+  "Save session?"
+  "Sitzung speichern Zugangsdaten?"
+
+  "Session state will be lost if not saved"
+  "Sitzungszustand verloren gehen, wenn nicht gespeichert werden"
+
+}
+
 # sidebar.tcl
 msgcat::mcmset de {
 
@@ -1024,8 +1035,8 @@ msgcat::mcmset de {
   "Background color in difference viewer that shows deleted lines."
   "Hintergrundfarbe im Unterschied Viewer, der gelöschten Zeilen zeigt."
 
-  "Background color of insertion cursor."
-  "Hintergrundfarbe des Einfügemarke."
+  "Background color of insertion cursor and background marker colors."
+  "Hintergrundfarbe des Einfügemarke und Hintermarkerfarben."
 
   "Background color of the editing buffer."
   "Hintergrundfarbe des Bearbeitungspuffer."

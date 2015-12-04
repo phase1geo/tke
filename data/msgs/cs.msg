@@ -919,6 +919,17 @@ msgcat::mcmset cs {
 
 }
 
+# sessions.tcl
+msgcat::mcmset cs {
+
+  "Save session?"
+  "Uložit relaci"
+
+  "Session state will be lost if not saved"
+  "Stavu relace budou ztraceny, pokud nejsou uloženy"
+
+}
+
 # sidebar.tcl
 msgcat::mcmset cs {
 
@@ -1024,8 +1035,8 @@ msgcat::mcmset cs {
   "Background color in difference viewer that shows deleted lines."
   "Barva pozadí v rozdílu prohlížeč, který ukazuje smazané linky."
 
-  "Background color of insertion cursor."
-  "Barva pozadí vkládacího kurzoru."
+  "Background color of insertion cursor and background marker colors."
+  "Barva pozadí vložení kurzoru a zázemí značkovacích barev."
 
   "Background color of the editing buffer."
   "Barva pozadí pro úpravy vyrovnávací paměti."

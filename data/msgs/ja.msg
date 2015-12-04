@@ -919,6 +919,17 @@ msgcat::mcmset ja {
 
 }
 
+# sessions.tcl
+msgcat::mcmset ja {
+
+  "Save session?"
+  "セッションを保存"
+
+  "Session state will be lost if not saved"
+  "保存されていない場合は、セッション状態が失われます"
+
+}
+
 # sidebar.tcl
 msgcat::mcmset ja {
 
@@ -1024,8 +1035,8 @@ msgcat::mcmset ja {
   "Background color in difference viewer that shows deleted lines."
   "削除された行を示し、差分ビューアで背景色です。"
 
-  "Background color of insertion cursor."
-  "挿入カーソルの背景色です。"
+  "Background color of insertion cursor and background marker colors."
+  "挿入カーソルと背景マーカ色の背景色です。"
 
   "Background color of the editing buffer."
   "編集バッファの背景色です。"

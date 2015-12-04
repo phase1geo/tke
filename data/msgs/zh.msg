@@ -919,6 +919,17 @@ msgcat::mcmset zh {
 
 }
 
+# sessions.tcl
+msgcat::mcmset zh {
+
+  "Save session?"
+  "保存会话"
+
+  "Session state will be lost if not saved"
+  "如果不保存会话状态都将丢失"
+
+}
+
 # sidebar.tcl
 msgcat::mcmset zh {
 
@@ -1024,8 +1035,8 @@ msgcat::mcmset zh {
   "Background color in difference viewer that shows deleted lines."
   "背景颜色显示的差异查看器中删除行。"
 
-  "Background color of insertion cursor."
-  "插入光标的背景色。"
+  "Background color of insertion cursor and background marker colors."
+  "插入光标和背景颜色标记背景颜色。"
 
   "Background color of the editing buffer."
   "编辑缓冲区的背景色。"

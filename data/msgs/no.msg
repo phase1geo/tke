@@ -919,6 +919,17 @@ msgcat::mcmset no {
 
 }
 
+# sessions.tcl
+msgcat::mcmset no {
+
+  "Save session?"
+  "Spar sesjon?"
+
+  "Session state will be lost if not saved"
+  "Session staten vil gå tapt hvis ikke lagret"
+
+}
+
 # sidebar.tcl
 msgcat::mcmset no {
 
@@ -1024,8 +1035,8 @@ msgcat::mcmset no {
   "Background color in difference viewer that shows deleted lines."
   "Bakgrunnsfarge i forskjell viewer som viser slettede linjer."
 
-  "Background color of insertion cursor."
-  "Bakgrunnsfarge på innsetting markøren."
+  "Background color of insertion cursor and background marker colors."
+  "Bakgrunnsfarge på innsetting markøren og bakgrunn markør farger."
 
   "Background color of the editing buffer."
   "Bakgrunnsfargen på redigering buffer."

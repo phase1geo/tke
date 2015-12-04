@@ -919,6 +919,17 @@ msgcat::mcmset ru {
 
 }
 
+# sessions.tcl
+msgcat::mcmset ru {
+
+  "Save session?"
+  "Сохранение сеанса"
+
+  "Session state will be lost if not saved"
+  "Состояние сеанса будут потеряны, если не сохраняются"
+
+}
+
 # sidebar.tcl
 msgcat::mcmset ru {
 
@@ -1024,8 +1035,8 @@ msgcat::mcmset ru {
   "Background color in difference viewer that shows deleted lines."
   "Цвет фона в окне просмотра разница, которая показывает удаленные линии."
 
-  "Background color of insertion cursor."
-  "Фоновый цвет курсора вставки."
+  "Background color of insertion cursor and background marker colors."
+  "Цвет фона курсора вставки и предпосылки маркеров цвета."
 
   "Background color of the editing buffer."
   "Цвет фона редактирования буфера."
