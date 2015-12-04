@@ -1,61 +1,36 @@
-changeset:   1526:24caa4ebad75
-tag:         devel-1.9.12
+changeset:   1533:9dcc3966f2bd
+tag:         devel-1.9.13
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Dec 02 00:32:49 2015 -0600
+date:        Thu Dec 03 01:05:20 2015 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.9.12 release
+ChangeLog for devel-1.9.13 release
 
 
-changeset:   1527:b8c87fe7e498
+changeset:   1534:d1bc94a39699
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Dec 02 00:32:54 2015 -0600
+date:        Thu Dec 03 01:05:25 2015 -0600
 files:       .hgtags
 description:
-Added tag devel-1.9.12 for changeset 24caa4ebad75
+Added tag devel-1.9.13 for changeset 9dcc3966f2bd
 
 
-changeset:   1528:af5d8ead35ba
+changeset:   1535:d4e378ff336a
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Dec 02 08:29:52 2015 -0600
-files:       lib/themer.tcl lib/version.tcl
+date:        Thu Dec 03 21:16:22 2015 -0600
+files:       doc/UserGuide.epub doc/UserGuide.pdf lib/sessions.tcl lib/version.tcl
 description:
-* Fixing one more instance of globbing in themer that needs conversion for Freewrap.
+* Updating user guide.
+* Fixing end case issues with recent session changes.
 
 
-changeset:   1529:86388849b4f3
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Dec 02 09:41:25 2015 -0600
-files:       lib/gui.tcl lib/sessions.tcl lib/tke.tcl lib/version.tcl
-description:
-* Switching out X send calls with comm send calls for better cross-platform functionality.
-* Changing -s option to not automatically open a new window.
-
-
-changeset:   1530:89de5964a28e
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Dec 02 19:05:48 2015 -0600
-files:       Win/freewrap.files Win/freewrap.tcl Win/tkdnd2.8/pkgIndex.tcl Win/tkdnd2.8/tkdnd.tcl Win/tkdnd2.8/tkdnd28.dll Win/tkdnd2.8/tkdnd_compat.tcl Win/tkdnd2.8/tkdnd_generic.tcl Win/tkdnd2.8/tkdnd_macosx.tcl Win/tkdnd2.8/tkdnd_unix.tcl Win/tkdnd2.8/tkdnd_windows.tcl lib/tke.tcl lib/version.tcl
-description:
-* Adding tkdnd support.
-
-
-changeset:   1531:3fe0db7a1bf6
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Dec 02 19:32:07 2015 -0600
-files:       lib/sessions.tcl lib/version.tcl
-description:
-* Fixing open session in new window functionality.
-* Initial work on detecting and offering session save when switching from an unnamed session.
-
-
-changeset:   1532:35df1eb251b8
+changeset:   1536:7f0d9514b8ed
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Dec 02 23:33:02 2015 -0600
-files:       lib/menus.tcl lib/sessions.tcl lib/tke.tcl lib/version.tcl
+date:        Fri Dec 04 02:12:40 2015 -0600
+files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg lib/gui.tcl lib/markers.tcl lib/scroller.tcl lib/theme.tcl lib/version.tcl
 description:
-* Fixing session closing issues when last session was a named session.
-* Requesting session save when switching to a named session from an unnamed one.
+* Adding marker indicators in vertical scrollbar.
+* Updating translations.
 
 
