@@ -3325,15 +3325,12 @@ namespace eval gui {
       -linemap_mark_command [ns gui]::mark_command -linemap_select_bg orange \
       -linemap_relief flat -linemap_minwidth 4 \
       -xscrollcommand "[ns utils]::set_xscrollbar $tab_frame.pw.tf.hb" \
-      -yscrollcommand "[ns utils]::set_yscrollbar $tab_frame.pw.tf.vb"
-    scroller::scroller $tab_frame.pw.tf.hb {*}$scrollbar_opts -orient horizontal -command "$txt xview"
-    if {$diff} {
-      [ns diff]::map $tab_frame.pw.tf.vb $txt {*}$scrollbar_opts -command "$txt yview"
-      $txt configure -yscrollcommand "$tab_frame.pw.tf.vb set"
-    } else {
-      scroller::scroller $tab_frame.pw.tf.vb {*}$scrollbar_opts -orient vertical -command "$txt yview" \
-        -markcommand1 [list [ns markers]::get_positions $txt] -markhide1 [expr [[ns preferences]::get View/ShowMarkerMap] ^ 1]
-    }
+      -yscrollcommand "$tab_frame.pw.tf.vb set"
+      # -yscrollcommand "[ns utils]::set_yscrollbar $tab_frame.pw.tf.vb"
+    scroller::scroller $tab_frame.pw.tf.hb {*}$scrollbar_opts -orient horizontal -autohide 1 -command "$txt xview"
+    scroller::scroller $tab_frame.pw.tf.vb {*}$scrollbar_opts -orient vertical   -autohide 1 -command "$txt yview" \
+      -markcommand1 [list [ns markers]::get_positions $txt] -markhide1 [expr [[ns preferences]::get View/ShowMarkerMap] ^ 1] \
+      -markcommand2 [expr {$diff ? [list [ns diff]::get_marks $txt] : ""}]
 
     # Register the widgets
     [ns theme]::register_widget $txt syntax
@@ -3546,11 +3543,12 @@ namespace eval gui {
       -maxundo [[ns preferences]::get Editor/MaxUndo] \
       -linemap [[ns preferences]::get View/ShowLineNumbers] \
       -linemap_mark_command [ns gui]::mark_command -linemap_select_bg orange -peer $txt \
-      -xscrollcommand "[ns utils]::set_xscrollbar $pw.tf2.hb" \
-      -yscrollcommand "[ns utils]::set_yscrollbar $pw.tf2.vb"
-    scroller::scroller $pw.tf2.vb {*}$scrollbar_opts -orient vertical   -command "$txt2 yview" \
-      -markcommand [list [ns markers]::get_positions $txt2]
-    scroller::scroller $pw.tf2.hb {*}$scrollbar_opts -orient horizontal -command "$txt2 xview"
+      -xscrollcommand "$pw.tf2.hb set" \
+      -yscrollcommand "$pw.tf2.vb set"
+    scroller::scroller $pw.tf2.hb {*}$scrollbar_opts -orient horizontal -autohide 1 -command "$txt2 xview"
+    scroller::scroller $pw.tf2.vb {*}$scrollbar_opts -orient vertical   -autohide 1 -command "$txt2 yview" \
+      -markcommand1 [list [ns markers]::get_positions $txt] -markhide1 [expr [[ns preferences]::get View/ShowMarkerMap] ^ 1] \
+      -markcommand2 [expr {$diff ? [list [ns diff]::get_marks $txt] : ""}]
 
     bind $txt2.t <FocusIn>                    "+[ns gui]::set_current_tab_from_txt %W"
     bind $txt2.l <ButtonPress-$::right_click> [bind $txt2.l <ButtonPress-1>]

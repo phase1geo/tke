@@ -641,9 +641,32 @@ namespace eval diff {
     # Disable the text window from editing
     $txt configure -state disabled
 
-    # Update the map widget
-    map_configure $txt
+    # Update the scroller
+    [ns scroller]::update_markers [winfo parent $txt].vb
 
+  }
+
+  ######################################################################
+  # Returns the difference mark information as required by the scroller
+  # widget.
+  proc get_marks {txt} {
+
+    # Get the total number of lines in the text widget
+    set lines [$txt count -lines 1.0 end]
+
+    # Add the difference marks
+    set marks [list]
+    foreach type [list sub add] {
+      set color [[ns theme]::get_value syntax difference_$type]
+      foreach {start end} [$txt diff ranges $type] {
+        set start_line [lindex [split $start .] 0]
+        set end_line   [lindex [split $end .] 0]
+        lappend marks [expr $start_line.0 / $lines] [expr $end_line.0 / $lines] $color
+      }
+    }
+
+    return $marks
+    
   }
 
   ######################################################################
