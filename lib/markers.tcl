@@ -166,4 +166,14 @@ namespace eval markers {
 
   }
 
+  ######################################################################
+  # Returns true if one or more markers exist in the specified text widget.
+  proc exist {txt} {
+
+    variable markers
+
+    return [expr [llength [array names markers $txt,*]] > 0]
+
+  }
+
 }

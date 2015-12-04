@@ -1155,6 +1155,14 @@ namespace eval menus {
     launcher::register [msgcat::mc "View Menu: Show line numbers"] "menus::show_line_numbers $mb"
     launcher::register [msgcat::mc "View Menu: Hide line numbers"] "menus::hide_line_numbers $mb"
 
+    if {[preferences::get View/ShowMarkerMap]} {
+      $mb add command -label [msgcat::mc "Hide Marker Map"] -underline 8 -command "menus::hide_marker_map $mb"
+    } else {
+      $mb add command -label [msgcat::mc "Show Marker Map"] -underline 8 -command "menus::show_marker_map $mb"
+    }
+    launcher::register [msgcat::mc "View Menu: Show marker map"] "menus::show_marker_map $mb"
+    launcher::register [msgcat::mc "View Menu: Hide marker map"] "menus::hide_marker_map $mb"
+
     $mb add command -label [msgcat::mc "Hide Meta Characters"] -underline 5 -command "menus::hide_meta_chars $mb"
     launcher::register [msgcat::mc "View Menu: Show meta characters"] "menus::show_meta_chars $mb"
     launcher::register [msgcat::mc "View Menu: Hide meta characters"] "menus::hide_meta_chars $mb"
@@ -1219,8 +1227,10 @@ namespace eval menus {
     }
 
     if {[gui::current_txt {}] eq ""} {
-      catch { $mb entryconfigure [msgcat::mc "Show Line Numbers"]  -state disabled }
-      catch { $mb entryconfigure [msgcat::mc "Hide Line Numbers"]  -state disabled }
+      catch { $mb entryconfigure [msgcat::mc "Show Line Numbers"]    -state disabled }
+      catch { $mb entryconfigure [msgcat::mc "Hide Line Numbers"]    -state disabled }
+      catch { $mb entryconfigure [msgcat::mc "Show Marker Map"]      -state disabled }
+      catch { $mb entryconfigure [msgcat::mc "Hide Marker Map"]      -state disabled }
       catch { $mb entryconfigure [msgcat::mc "Show Meta Characters"] -state disabled }
       catch { $mb entryconfigure [msgcat::mc "Hide Meta Characters"] -state disabled }
       $mb entryconfigure [msgcat::mc "Split View"]         -state disabled
@@ -1229,6 +1239,13 @@ namespace eval menus {
     } else {
       catch { $mb entryconfigure [msgcat::mc "Show Line Numbers"]  -state normal }
       catch { $mb entryconfigure [msgcat::mc "Hide Line Numbers"]  -state normal }
+      if {[markers::exist [gui::current_txt {}]]} {
+        catch { $mb entryconfigure [msgcat::mc "Show Marker Map"] -state normal }
+        catch { $mb entryconfigure [msgcat::mc "Hide Marker Map"] -state normal }
+      } else {
+        catch { $mb entryconfigure [msgcat::mc "Show Marker Map"] -state disabled }
+        catch { $mb entryconfigure [msgcat::mc "Hide Marker Map"] -state disabled }
+      }
       if {[syntax::contains_meta_chars [gui::current_txt {}]]} {
         catch { $mb entryconfigure [msgcat::mc "Show Meta Characters"] -state normal }
         catch { $mb entryconfigure [msgcat::mc "Hide Meta Characters"] -state normal }
@@ -1339,7 +1356,6 @@ namespace eval menus {
 
   }
 
-
   ######################################################################
   # Shows the status bar.
   proc show_status_view {mb} {
@@ -1380,6 +1396,28 @@ namespace eval menus {
     # Convert the menu command into the hide line numbers command
     if {![catch {$mb entryconfigure [msgcat::mc "Hide Line Numbers"] -label [msgcat::mc "Show Line Numbers"] -command "menus::show_line_numbers $mb"}]} {
       gui::set_line_number_view {} 0
+    }
+
+  }
+
+  ######################################################################
+  # Shows the marker map for the current edit window.
+  proc show_marker_map {mb} {
+
+    # Convert the menu command into the hide marker map command
+    if {![catch {$mb entryconfigure [msgcat::mc "Show Marker Map"] -label [msgcat::mc "Hide Marker Map"] -command "menus::hide_marker_map $mb"}]} {
+      [winfo parent [gui::current_txt {}]].vb configure -markhide1 0
+    }
+
+  }
+
+  ######################################################################
+  # Hides the marker map for the current edit window.
+  proc hide_marker_map {mb} {
+
+    # Convert the menu command into the show marker map command
+    if {![catch {$mb entryconfigure [msgcat::mc "Hide Marker Map"] -label [msgcat::mc "Show Marker Map"] -command "menus::show_marker_map $mb"}]} {
+      [winfo parent [gui::current_txt {}]].vb configure -markhide1 1
     }
 
   }

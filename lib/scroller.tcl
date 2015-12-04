@@ -33,21 +33,27 @@ namespace eval scroller {
     variable data
 
     array set opts {
-      -background  "black"
-      -foreground  "white"
-      -orient      "vertical"
-      -command     ""
-      -markcommand ""
-      -thickness   15
+      -background   "black"
+      -foreground   "white"
+      -orient       "vertical"
+      -command      ""
+      -markcommand1 ""
+      -markcommand2 ""
+      -thickness    15
+      -markhide1    0
+      -markhide2    0
     }
     array set opts $args
 
-    set data($win,-background)  $opts(-background)
-    set data($win,-foreground)  $opts(-foreground)
-    set data($win,-orient)      $opts(-orient)
-    set data($win,-command)     $opts(-command)
-    set data($win,-markcommand) $opts(-markcommand)
-    set data($win,-thickness)   $opts(-thickness)
+    set data($win,-background)   $opts(-background)
+    set data($win,-foreground)   $opts(-foreground)
+    set data($win,-orient)       $opts(-orient)
+    set data($win,-command)      $opts(-command)
+    set data($win,-markcommand1) $opts(-markcommand1)
+    set data($win,-markcommand2) $opts(-markcommand2)
+    set data($win,-thickness)    $opts(-thickness)
+    set data($win,-markhide1)    $opts(-markhide1)
+    set data($win,-markhide2)    $opts(-markhide2)
 
     # Constant values
     set data($win,minwidth)  3
@@ -118,9 +124,6 @@ namespace eval scroller {
 
         # Adjust the size and position of the slider
         $data($win,canvas) coords $data($win,slider) [expr $x1 + 2] [expr $y1 + 2] $x2 $y2
-
-        # Draw the markers
-        update_markers $win
       }
 
       configure {
@@ -142,6 +145,14 @@ namespace eval scroller {
           } else {
             $data($win,canvas) configure -height $data($win,-thickness)
           }
+        }
+        if {($data($win,-orient) eq "vertical") && ([info exists opts(-markhide1)] || [info exists opts(-markhide2)])} {
+          for {set i 1} {$i <= 2} {incr i} {
+            if {[info exists opts(-markhide$i)]} {
+              set data($win,-markhide$i) $opts(-markhide$i)
+            }
+          }
+          update_markers $win
         }
       }
 
@@ -256,6 +267,9 @@ namespace eval scroller {
     # Run the set command
     widget_command $win set $first $last
 
+    # Draw the markers
+    update_markers $win
+
   }
 
   ######################################################################
@@ -264,25 +278,28 @@ namespace eval scroller {
 
     variable data
 
-    # If the -markcommand was not set, don't continue
-    if {$data($win,-markcommand) eq ""} {
-      return
-    }
+    # Get the lines
+    set height [winfo height $win]
 
     # Delete all markers
     $data($win,canvas) delete mark
 
-    # Get the lines
-    set height [winfo height $win]
+    for {set i 1} {$i <= 2} {incr i} {
 
-    # Draw each of the markers
-    foreach {startpos endpos color} [uplevel #0 $data($win,-markcommand)] {
-      # set x1 [expr $data($win,-thickness) - $data($win,width)]
-      set x1 0
-      set y1 [expr int( $height * $startpos)]
-      set x2 $data($win,-thickness)
-      set y2 [expr int( $height * $endpos)]
-      $data($win,canvas) create rectangle $x1 $y1 $x2 $y2 -fill $color -width 0 -tags mark
+      # If the -markcommandx was not set or the -hide indicator is set for markcommand1, don't continue
+      if {($data($win,-markcommand$i) eq "") || $data($win,-markhide$i)} {
+        continue
+      }
+
+      # Draw each of the markers
+      foreach {startpos endpos color} [uplevel #0 $data($win,-markcommand$i)] {
+        set x1 [expr ($i == 1) ? 0 : 3]
+        set y1 [expr int( $height * $startpos)]
+        set x2 $data($win,-thickness)
+        set y2 [expr int( $height * $endpos)]
+        $data($win,canvas) create rectangle $x1 $y1 $x2 $y2 -fill $color -width 0 -tags mark
+      }
+
     }
 
   }
