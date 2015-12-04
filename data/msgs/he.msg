@@ -919,6 +919,17 @@ msgcat::mcmset he {
 
 }
 
+# sessions.tcl
+msgcat::mcmset he {
+
+  "Save session?"
+  "האם לשמור את ההפעלה?"
+
+  "Session state will be lost if not saved"
+  "מצב הפעלה להיות לאיבוד אם לא נשמר"
+
+}
+
 # sidebar.tcl
 msgcat::mcmset he {
 
@@ -1024,8 +1035,8 @@ msgcat::mcmset he {
   "Background color in difference viewer that shows deleted lines."
   "צבע הרקע במציג הבדל שמראה למחוק שורות."
 
-  "Background color of insertion cursor."
-  "צבע הרקע של הסמן ההכנסה."
+  "Background color of insertion cursor and background marker colors."
+  "צבע הרקע של ההכנסה הסמן סמן והרקע."
 
   "Background color of the editing buffer."
   "צבע הרקע של המאגר העריכה."

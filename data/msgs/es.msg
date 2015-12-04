@@ -919,6 +919,17 @@ msgcat::mcmset es {
 
 }
 
+# sessions.tcl
+msgcat::mcmset es {
+
+  "Save session?"
+  "¿Guardar sesión?"
+
+  "Session state will be lost if not saved"
+  "El estado de sesión se perderá si no se guardan"
+
+}
+
 # sidebar.tcl
 msgcat::mcmset es {
 
@@ -1024,8 +1035,8 @@ msgcat::mcmset es {
   "Background color in difference viewer that shows deleted lines."
   "El color de fondo en el visor de la diferencia que muestra líneas borrados."
 
-  "Background color of insertion cursor."
-  "Color de fondo del cursor de inserción."
+  "Background color of insertion cursor and background marker colors."
+  "Color de fondo del cursor de inserción y el fondo de marcadores colores."
 
   "Background color of the editing buffer."
   "Color de fondo del buffer de edición."

@@ -3331,7 +3331,8 @@ namespace eval gui {
       [ns diff]::map $tab_frame.pw.tf.vb $txt {*}$scrollbar_opts -command "$txt yview"
       $txt configure -yscrollcommand "$tab_frame.pw.tf.vb set"
     } else {
-      scroller::scroller $tab_frame.pw.tf.vb {*}$scrollbar_opts -orient vertical -command "$txt yview"
+      scroller::scroller $tab_frame.pw.tf.vb {*}$scrollbar_opts -orient vertical -command "$txt yview" \
+        -markcommand [list [ns markers]::get_positions $txt]
     }
 
     # Register the widgets
@@ -3547,19 +3548,20 @@ namespace eval gui {
       -linemap_mark_command [ns gui]::mark_command -linemap_select_bg orange -peer $txt \
       -xscrollcommand "[ns utils]::set_xscrollbar $pw.tf2.hb" \
       -yscrollcommand "[ns utils]::set_yscrollbar $pw.tf2.vb"
-    scroller::scroller $pw.tf2.vb {*}$scrollbar_opts -orient vertical   -command "$txt2 yview"
+    scroller::scroller $pw.tf2.vb {*}$scrollbar_opts -orient vertical   -command "$txt2 yview" \
+      -markcommand [list [ns markers]::get_positions $txt2]
     scroller::scroller $pw.tf2.hb {*}$scrollbar_opts -orient horizontal -command "$txt2 xview"
 
-    bind $txt2.t       <FocusIn>                    "+[ns gui]::set_current_tab_from_txt %W"
-    bind $txt2.l       <ButtonPress-$::right_click> [bind $txt2.l <ButtonPress-1>]
-    bind $txt2.l       <ButtonPress-1>              "[ns gui]::select_line %W %y"
-    bind $txt2.l       <B1-Motion>                  "[ns gui]::select_lines %W %y"
-    bind $txt2.l       <Shift-ButtonPress-1>        "[ns gui]::select_lines %W %y"
-    bind $txt2         <<Selection>>                "[ns gui]::selection_changed $txt2"
-    bind $txt2         <ButtonPress-1>              "after idle [list [ns gui]::update_position $txt2]"
-    bind $txt2         <B1-Motion>                  "[ns gui]::update_position $txt2"
-    bind $txt2         <KeyRelease>                 "[ns gui]::update_position $txt2"
-    bind $txt2         <Motion>                     "[ns gui]::clear_tab_tooltip $tb"
+    bind $txt2.t <FocusIn>                    "+[ns gui]::set_current_tab_from_txt %W"
+    bind $txt2.l <ButtonPress-$::right_click> [bind $txt2.l <ButtonPress-1>]
+    bind $txt2.l <ButtonPress-1>              "[ns gui]::select_line %W %y"
+    bind $txt2.l <B1-Motion>                  "[ns gui]::select_lines %W %y"
+    bind $txt2.l <Shift-ButtonPress-1>        "[ns gui]::select_lines %W %y"
+    bind $txt2   <<Selection>>                "[ns gui]::selection_changed $txt2"
+    bind $txt2   <ButtonPress-1>              "after idle [list [ns gui]::update_position $txt2]"
+    bind $txt2   <B1-Motion>                  "[ns gui]::update_position $txt2"
+    bind $txt2   <KeyRelease>                 "[ns gui]::update_position $txt2"
+    bind $txt2   <Motion>                     "[ns gui]::clear_tab_tooltip $tb"
 
     # Move the all bindtag ahead of the Text bindtag
     set text_index [lsearch [bindtags $txt2.t] Text]
@@ -4106,7 +4108,9 @@ namespace eval gui {
 
     # Add the marker at the current line
     if {[set tag [ctext::linemapSetMark $txt $line]] ne ""} {
-      if {![[ns markers]::add $txt $tag]} {
+      if {[[ns markers]::add $txt $tag]} {
+        [ns scroller]::update_markers [winfo parent $txt].vb
+      } else {
         ctext::linemapClearMark $txt $line
       }
     }
@@ -4126,6 +4130,7 @@ namespace eval gui {
     # Remove all markers at the current line
     [ns markers]::delete_by_line $txt $line
     ctext::linemapClearMark $txt $line
+    [ns scroller]::update_markers [winfo parent $txt].vb
 
   }
 
@@ -4141,6 +4146,7 @@ namespace eval gui {
       [ns markers]::delete_by_name $txt $name
       ctext::linemapClearMark $txt $line
     }
+    [ns scroller]::update_markers [winfo parent $txt].vb
 
   }
 
@@ -4356,11 +4362,16 @@ namespace eval gui {
   proc mark_command {win type tag} {
 
     if {$type eq "marked"} {
-      if {![[ns markers]::add $win $tag]} {
-        ctext::linemapClearMark $win [lindex [split [$win index $tag.first] .] 0]
+      lassign [split [$win index $tag.first] .] line col
+      if {[[ns markers]::add $win $tag]} {
+        [ns scroller]::update_markers [winfo parent $win].vb
+      } else {
+        ctext::linemapClearMark $win $line
       }
     } else {
       [ns markers]::delete_by_tag $win $tag
+      $win mark del $tag
+      [ns scroller]::update_markers [winfo parent $win].vb
     }
 
   }

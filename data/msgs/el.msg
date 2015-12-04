@@ -919,6 +919,17 @@ msgcat::mcmset el {
 
 }
 
+# sessions.tcl
+msgcat::mcmset el {
+
+  "Save session?"
+  "Αποθήκευση Αντιπαραβολής"
+
+  "Session state will be lost if not saved"
+  "Κατάσταση περιόδου θα χαθούν αν δεν αποθηκεύονται"
+
+}
+
 # sidebar.tcl
 msgcat::mcmset el {
 
@@ -1024,8 +1035,8 @@ msgcat::mcmset el {
   "Background color in difference viewer that shows deleted lines."
   "Χρώμα φόντου στη διαφορά θεατή που δείχνει τα διαγραμμένα γραμμές."
 
-  "Background color of insertion cursor."
-  "Χρώμα φόντου του δρομέα εισαγωγής."
+  "Background color of insertion cursor and background marker colors."
+  "Χρώμα φόντου του δείκτη και του δείκτη εισαγωγής χρώματα φόντου."
 
   "Background color of the editing buffer."
   "Χρώμα φόντου του ρυθμιστικού μοντάζ."

@@ -919,6 +919,17 @@ msgcat::mcmset hu {
 
 }
 
+# sessions.tcl
+msgcat::mcmset hu {
+
+  "Save session?"
+  "A munkamenet mentése"
+
+  "Session state will be lost if not saved"
+  "Sessionnel elvész, ha nem mentette"
+
+}
+
 # sidebar.tcl
 msgcat::mcmset hu {
 
@@ -1024,8 +1035,8 @@ msgcat::mcmset hu {
   "Background color in difference viewer that shows deleted lines."
   "Háttérszíne különbség nézőt, amely azt mutatja törölt sor."
 
-  "Background color of insertion cursor."
-  "Háttérszíne behelyezés kurzort."
+  "Background color of insertion cursor and background marker colors."
+  "Háttérszíne behelyezés kurzor és a háttér marker színek."
 
   "Background color of the editing buffer."
   "Háttérszíne szerkesztési puffer."

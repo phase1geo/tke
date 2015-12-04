@@ -81,7 +81,7 @@ namespace eval theme {
     syntax,background             {color {black} {} {0} {msgcat::mc "Background color of the editing buffer."}}
     syntax,border_highlight       {color {black} {} {0} {msgcat::mc "Color of border drawn around active editing buffer."}}
     syntax,comments               {color {white} {} {0} {msgcat::mc "Foreground text color to use for comments."}}
-    syntax,cursor                 {color {grey} {} {0} {msgcat::mc "Background color of insertion cursor."}}
+    syntax,cursor                 {color {grey} {} {0} {msgcat::mc "Background color of insertion cursor and background marker colors."}}
     syntax,difference_add         {color {dark green} {} {0} {msgcat::mc "Background color in difference viewer that shows added lines."}}
     syntax,difference_sub         {color {dark red} {} {0} {msgcat::mc "Background color in difference viewer that shows deleted lines."}}
     syntax,foreground             {color {white} {} {0} {msgcat::mc "Default color for non-syntax highlighted text."}}
@@ -865,9 +865,10 @@ namespace eval theme {
       set syntax($name) ""
     }
 
-    # Update all of the syntax
+    # Update all of the syntax and scrollers
     foreach txt $widgets(syntax) {
       [ns syntax]::set_language [[ns syntax]::get_current_language $txt] $txt 1
+      [ns scroller]::update_markers [winfo parent $txt].vb
     }
 
   }
