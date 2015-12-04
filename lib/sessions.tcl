@@ -163,7 +163,7 @@ namespace eval sessions {
         exec -ignorestderr [info nameofexecutable] $frame(file) -s $name -n &
         return
       }
-    } elseif {$type eq "full"} {
+    } elseif {($type eq "full") && ![[ns gui]::untitled_check]} {
       switch [tk_messageBox -parent . -icon question -default yes -type yesnocancel -message [msgcat::mc "Save session?"] -detail [msgcat::mc "Session state will be lost if not saved"]] {
         yes    { save "full" }
         cancel { return }
