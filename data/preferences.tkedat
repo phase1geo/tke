@@ -203,6 +203,11 @@
 
 {View/ShowLineNumbers}       {1}
 
+# If this value is set to 1, the marker map in the vertical scrollbar will be displayed
+# on application start; otherwise, the marker map will be hidden on application start.
+
+{View/ShowMarkerMap}         {1}
+
 # If this value is set to 1, displaying a difference view of a file will automatically
 # display it in the other editor pane.
 

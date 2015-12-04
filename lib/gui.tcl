@@ -3332,7 +3332,7 @@ namespace eval gui {
       $txt configure -yscrollcommand "$tab_frame.pw.tf.vb set"
     } else {
       scroller::scroller $tab_frame.pw.tf.vb {*}$scrollbar_opts -orient vertical -command "$txt yview" \
-        -markcommand [list [ns markers]::get_positions $txt]
+        -markcommand1 [list [ns markers]::get_positions $txt] -markhide1 [expr [[ns preferences]::get View/ShowMarkerMap] ^ 1]
     }
 
     # Register the widgets
