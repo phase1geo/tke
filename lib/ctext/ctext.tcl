@@ -2609,8 +2609,14 @@ proc ctext::linemapToggleMark {win y} {
     set type marked
   }
 
+  # Call the mark command, if one exists.  If it returns a value of 0, remove
+  # the mark.
   if {[string length $data($win,config,-linemap_mark_command)]} {
-    uplevel #0 [linsert $data($win,config,-linemap_mark_command) end $win $type $lmark]
+    if {![uplevel #0 [linsert $data($win,config,-linemap_mark_command) end $win $type $lmark]]} {
+      $win.t tag delete $lmark
+      $win.l tag remove lmark $lline.0
+      ctext::linemapUpdate $win
+    }
   }
 
 }
