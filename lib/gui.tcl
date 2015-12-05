@@ -3324,10 +3324,9 @@ namespace eval gui {
       -linemap [[ns preferences]::get View/ShowLineNumbers] \
       -linemap_mark_command [ns gui]::mark_command -linemap_select_bg orange \
       -linemap_relief flat -linemap_minwidth 4 \
-      -xscrollcommand "[ns utils]::set_xscrollbar $tab_frame.pw.tf.hb" \
-      -yscrollcommand "$tab_frame.pw.tf.vb set"
+      -xscrollcommand "$tab_frame.pw.tf.hb set" -yscrollcommand "$tab_frame.pw.tf.vb set"
       # -yscrollcommand "[ns utils]::set_yscrollbar $tab_frame.pw.tf.vb"
-    scroller::scroller $tab_frame.pw.tf.hb {*}$scrollbar_opts -orient horizontal -autohide 1 -command "$txt xview"
+    scroller::scroller $tab_frame.pw.tf.hb {*}$scrollbar_opts -orient horizontal -autohide 0 -command "$txt xview"
     scroller::scroller $tab_frame.pw.tf.vb {*}$scrollbar_opts -orient vertical   -autohide 1 -command "$txt yview" \
       -markcommand1 [list [ns markers]::get_positions $txt] -markhide1 [expr [[ns preferences]::get View/ShowMarkerMap] ^ 1] \
       -markcommand2 [expr {$diff ? [list [ns diff]::get_marks $txt] : ""}]
@@ -3545,7 +3544,7 @@ namespace eval gui {
       -linemap_mark_command [ns gui]::mark_command -linemap_select_bg orange -peer $txt \
       -xscrollcommand "$pw.tf2.hb set" \
       -yscrollcommand "$pw.tf2.vb set"
-    scroller::scroller $pw.tf2.hb {*}$scrollbar_opts -orient horizontal -autohide 1 -command "$txt2 xview"
+    scroller::scroller $pw.tf2.hb {*}$scrollbar_opts -orient horizontal -autohide 0 -command "$txt2 xview"
     scroller::scroller $pw.tf2.vb {*}$scrollbar_opts -orient vertical   -autohide 1 -command "$txt2 yview" \
       -markcommand1 [list [ns markers]::get_positions $txt] -markhide1 [expr [[ns preferences]::get View/ShowMarkerMap] ^ 1] \
       -markcommand2 [expr {$diff ? [list [ns diff]::get_marks $txt] : ""}]
@@ -4368,7 +4367,6 @@ namespace eval gui {
       }
     } else {
       [ns markers]::delete_by_tag $win $tag
-      $win mark del $tag
       [ns scroller]::update_markers [winfo parent $win].vb
     }
 
