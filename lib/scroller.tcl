@@ -77,12 +77,16 @@ namespace eval scroller {
     }
 
     # Create canvas bindings
-    bind $data($win,canvas) <Configure>       [list scroller::configure       %W]
-    bind $data($win,canvas) <ButtonPress-1>   [list scroller::position_slider %W %x %y 0]
-    bind $data($win,canvas) <ButtonRelease-1> [list scroller::release_slider  %W]
-    bind $data($win,canvas) <B1-Motion>       [list scroller::position_slider %W %x %y 1]
-    bind $data($win,canvas) <Enter>           [list scroller::expand_slider   %W]
-    bind $data($win,canvas) <Leave>           [list scroller::collapse_slider %W]
+    bind $data($win,canvas) <Configure>                  [list scroller::configure       %W]
+    bind $data($win,canvas) <ButtonPress-1>              [list scroller::position_slider %W %x %y 0]
+    bind $data($win,canvas) <ButtonRelease-1>            [list scroller::release_slider  %W]
+    bind $data($win,canvas) <ButtonPress-$::right_click> [list scroller::page_slider     %W %x %y]
+    bind $data($win,canvas) <B1-Motion>                  [list scroller::position_slider %W %x %y 1]
+    bind $data($win,canvas) <Enter>                      [list scroller::expand_slider   %W]
+    bind $data($win,canvas) <Leave>                      [list scroller::collapse_slider %W]
+    bind $data($win,canvas) <MouseWheel>                 [list scroller::wheel_slider    %W %D]
+    bind $data($win,canvas) <4>                          [list scroller::wheel_slider    %W 1]
+    bind $data($win,canvas) <5>                          [list scroller::wheel_slider    %W -1]
 
     rename ::$win $win
     interp alias {} ::$win {} scroller::widget_command $win
@@ -106,7 +110,7 @@ namespace eval scroller {
       }
 
       set {
-        if {![info exists data($win,ssize)]} {
+        if {![info exists data($win,slider)]} {
           return
         }
         lassign $args first last
@@ -117,18 +121,16 @@ namespace eval scroller {
           set x1     [expr ($data($win,-thickness) + $data($win,extra_width)) - $data($win,slider_width)]
           set y1     [expr int( $height * $first )]
           set x2     [expr $data($win,-thickness) + $data($win,extra_width)]
-          set y2     [expr $y1 + $data($win,ssize)]
+          set y2     [expr int( $height * $last )]
           $data($win,canvas) configure -width [expr (($first == 0) && ($last == 1) && ($data($win,marks) == 0) && $data($win,-autohide)) ? 0 : ($data($win,-thickness) + $data($win,extra_width))]
         } else {
           set width  [winfo width $data($win,canvas)]
           set x1     [expr int( $width * $first )]
           set y1     [expr $data($win,-thickness) - $data($win,slider_width)]
-          set x2     [expr $x1 + $data($win,ssize)]
+          set x2     [expr int( $width * $first )]
           set y2     $data($win,-thickness)
           $data($win,canvas) configure -height [expr (($first == 0) && ($last == 1) && ($data($win,marks) == 0) && $data($win,-autohide)) ? 0 : $data($win,-thickness)]
         }
-
-        # Adjust the size and position of the slider
         $data($win,canvas) coords $data($win,slider) [expr $x1 + 2] [expr $y1 + 2] $x2 $y2
       }
 
@@ -182,13 +184,16 @@ namespace eval scroller {
       # Indicate that we are pressed
       set data($W,pressed) 1
 
-      if {$motion || ([$data($W,canvas) find withtag current] eq "")} {
+      if {$motion || ([$data($W,canvas) find withtag current] ne $data($W,slider))} {
+
+        # Get the coordinates for the slider
+        lassign [$data($W,canvas) coords $data($W,slider)] x1 y1 x2 y2
 
         # Calculate the moveto fraction
         if {$data($W,-orient) eq "vertical"} {
-          set moveto [expr ($y.0 - ($data($W,ssize) / 2)) / [winfo height $W]]
+          set moveto [expr ($y.0 - (($y2 - $y1) / 2)) / [winfo height $W]]
         } else {
-          set moveto [expr ($x.0 - ($data($W,ssize) / 2)) / [winfo width $W]]
+          set moveto [expr ($x.0 - (($x2 - $x1) / 2)) / [winfo width $W]]
         }
 
         # Call the command
@@ -247,6 +252,37 @@ namespace eval scroller {
   }
 
   ######################################################################
+  # Moves the text view up or left by a page.
+  proc page_slider {W x y} {
+
+    variable data
+
+    if {[$data($W,canvas) find withtag current] ne $data($W,slider)} {
+      lassign [$data($W,canvas) coords $data($W,slider)] x1 y1
+      if {(($data($W,-orient) eq "vertical") && ($y < $y1)) || (($data($W,-orient) eq "horizontal") && ($x < $x1))} {
+        uplevel #0 [list {*}$data($W,-command) scroll -1 pages]
+      } else {
+        uplevel #0 [list {*}$data($W,-command) scroll  1 pages]
+      }
+    }
+
+  }
+
+  ######################################################################
+  # Moves the text view via a mousewheel event.
+  proc wheel_slider {W d} {
+
+    variable data
+
+    switch [tk windowingsystem] {
+      x11 -
+      aqua {  uplevel #0 [list {*}$data($W,-command) scroll [expr -($d)] units] }
+      win32 { uplevel #0 [list {*}$data($W,-command) scroll [expr int( pow( %d / -120, 3))]] }
+    }
+
+  }
+
+  ######################################################################
   # Called whenever the map widget is configured.
   proc configure {win} {
 
@@ -264,8 +300,6 @@ namespace eval scroller {
       set size [winfo width $data($win,canvas)]
       lassign [list [expr $data($win,-thickness) - $data($win,minwidth)] 0 $data($win,-thickness) [expr $data($win,minheight) - 1]] y1 x1 y2 x2
     }
-    set ssize            [expr ((int( $size * $last ) - int( $size * $first )) + 1) - 4]
-    set data($win,ssize) [expr ($ssize < $data($win,minheight)) ? $data($win,minheight) : $ssize]
 
     # Add the slider
     set data($win,slider) [$data($win,canvas) create rectangle $x1 $y1 $x2 $y2 -outline $data($win,-foreground) -fill $data($win,-foreground) -width 2]
@@ -306,7 +340,7 @@ namespace eval scroller {
         set y1 [expr int( $height * $startpos)]
         set x2 [expr $data($win,-thickness) + $data($win,extra_width)]
         set y2 [expr int( $height * $endpos)]
-        $data($win,canvas) create rectangle $x1 $y1 $x2 $y2 -fill $color -width 0 -tags mark
+        set marker [$data($win,canvas) create rectangle $x1 $y1 $x2 $y2 -fill $color -width 0 -tags mark]
         incr data($win,marks)
       }
 
