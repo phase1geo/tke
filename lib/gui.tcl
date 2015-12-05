@@ -4359,16 +4359,17 @@ namespace eval gui {
   proc mark_command {win type tag} {
 
     if {$type eq "marked"} {
-      lassign [split [$win index $tag.first] .] line col
-      if {[[ns markers]::add $win $tag]} {
-        [ns scroller]::update_markers [winfo parent $win].vb
-      } else {
-        ctext::linemapClearMark $win $line
+      if {![[ns markers]::add $win $tag]} {
+        return 0
       }
     } else {
       [ns markers]::delete_by_tag $win $tag
-      [ns scroller]::update_markers [winfo parent $win].vb
     }
+
+    # Update the markers in the scrollbar
+    [ns scroller]::update_markers [winfo parent $win].vb
+
+    return 1
 
   }
 
