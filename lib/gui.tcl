@@ -237,6 +237,7 @@ namespace eval gui {
 
     # Set the application icon photo
     wm iconphoto . [image create photo -file [file join $::tke_dir lib images tke_logo_128.gif]]
+    wm geometry  . 800x600
 
     # Create images
     create_images

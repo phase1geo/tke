@@ -1032,6 +1032,7 @@ proc ctext::instanceCmd {self cmd args} {
         set prevChar  [$self._t get $deletePos]
 
         ctext::undo_delete $self $deletePos [$self._t index "$deletePos+1c"]
+        ctext::linemapCheckOnDelete $self $deletePos
 
         $self._t delete $deletePos
 
@@ -1068,6 +1069,7 @@ proc ctext::instanceCmd {self cmd args} {
         set lineEnd [$self._t index "$deleteEndPos + 1 chars lineend"]
 
         ctext::undo_delete $self $deleteStartPos $deleteEndPos
+        ctext::linemapCheckOnDelete $self $deleteStartPos $deleteEndPos
 
         $self._t delete $deleteStartPos $deleteEndPos
 
@@ -1218,9 +1220,11 @@ proc ctext::instanceCmd {self cmd args} {
       if {[llength $args] == 1} {
         set chars 1
         set lines [$self._t count -lines "[lindex $args 0] linestart" "[lindex $args 0]+1c lineend"]
+        ctext::linemapCheckOnDelete $self [$self._t index [lindex $args 0]]
       } else {
         set chars [$self._t count -chars {*}[lrange $args 0 1]]
         set lines [$self._t count -lines {*}[lrange $args 0 1]]
+        ctext::linemapCheckOnDelete $self [$self._t index [lindex $args 0]] [$self._t index [lindex $args 1]]
       }
       eval \$self._t delete $args
       ctext::modified $self 1 [list delete [$self._t index [lindex $args 0]] $chars $lines $moddata]
@@ -2580,6 +2584,34 @@ proc ctext::doHighlight {win start end} {
     }
   }
 
+}
+
+# Called when the given lines are about to be deleted.  Allows the linemap_mark_command call to
+# be made when this occurs.
+proc ctext::linemapCheckOnDelete {win startpos {endpos ""}} {
+
+  variable data
+
+  if {$data($win,config,-linemap_mark_command) ne ""} {
+
+    if {$endpos eq ""} {
+      set endpos $startpos
+    }
+
+    if {[lindex [split $startpos .] 1] == 0} {
+      if {[set lmark [lsearch -inline -glob [$win._t tag names $startpos] lmark*]] ne ""} {
+        uplevel #0 [list {*}$data($win,config,-linemap_mark_command) $win unmarked $lmark]
+      }
+    }
+
+    while {[$win._t compare [set startpos [$win._t index "$startpos+1l linestart"]] < $endpos]} {
+      if {[set lmark [lsearch -inline -glob [$win._t tag names $startpos] lmark*]] ne ""} {
+        uplevel #0 [list {*}$data($win,config,-linemap_mark_command) $win unmarked $lmark]
+      }
+    }
+
+  }
+     
 }
 
 proc ctext::linemapToggleMark {win y} {
