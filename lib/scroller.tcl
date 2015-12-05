@@ -122,13 +122,23 @@ namespace eval scroller {
           set y1     [expr int( $height * $first )]
           set x2     [expr $data($win,-thickness) + $data($win,extra_width)]
           set y2     [expr int( $height * $last )]
+          if {($y2 - $y1) < $data($win,minheight)} {
+            set height [expr $height - ($data($win,minheight) - ($y2 - $y1))]
+            set y1     [expr int( $height * $first )]
+            set y2     [expr $y1 + $data($win,minheight)]
+          }
           $data($win,canvas) configure -width [expr (($first == 0) && ($last == 1) && ($data($win,marks) == 0) && $data($win,-autohide)) ? 0 : ($data($win,-thickness) + $data($win,extra_width))]
         } else {
           set width  [winfo width $data($win,canvas)]
           set x1     [expr int( $width * $first )]
           set y1     [expr $data($win,-thickness) - $data($win,slider_width)]
-          set x2     [expr int( $width * $first )]
+          set x2     [expr int( $width * $last )]
           set y2     $data($win,-thickness)
+          if {($x2 - $x1) < $data($win,minheight)} {
+            set width [expr $width - ($data($win,minheight) - ($x2 - $x1))]
+            set x1    [expr int( $width * $first )]
+            set x2    [expr $x1 + $data($win,minheight)]
+          }
           $data($win,canvas) configure -height [expr (($first == 0) && ($last == 1) && ($data($win,marks) == 0) && $data($win,-autohide)) ? 0 : $data($win,-thickness)]
         }
         $data($win,canvas) coords $data($win,slider) [expr $x1 + 2] [expr $y1 + 2] $x2 $y2
@@ -291,24 +301,14 @@ namespace eval scroller {
     # Remove all canvas items
     $data($win,canvas) delete all
 
-    # Calculate the slider height
-    lassign [eval $data($win,-command)] first last
-    if {$data($win,-orient) eq "vertical"} {
-      set size [winfo height $data($win,canvas)]
-      lassign [list [expr ($data($win,-thickness) + $data($win,extra_width)) - $data($win,minwidth)] 0 [expr $data($win,-thickness) + $data($win,extra_width)] [expr $data($win,minheight) - 1]] x1 y1 x2 y2
-    } else {
-      set size [winfo width $data($win,canvas)]
-      lassign [list [expr $data($win,-thickness) - $data($win,minwidth)] 0 $data($win,-thickness) [expr $data($win,minheight) - 1]] y1 x1 y2 x2
-    }
-
-    # Add the slider
-    set data($win,slider) [$data($win,canvas) create rectangle $x1 $y1 $x2 $y2 -outline $data($win,-foreground) -fill $data($win,-foreground) -width 2]
-
-    # Run the set command
-    widget_command $win set $first $last
-
     # Draw the markers
     update_markers $win
+
+    # Add the slider
+    set data($win,slider) [$data($win,canvas) create rectangle 0 0 1 1 -outline $data($win,-foreground) -fill $data($win,-foreground) -width 2]
+
+    # Set the size and position of the slider
+    widget_command $win set {*}[eval $data($win,-command)]
 
   }
 
