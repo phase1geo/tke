@@ -478,6 +478,9 @@ msgcat::mcmset sv {
   "Hide Line Numbers"
   "Dölja radnummer"
 
+  "Hide Marker Map"
+  "Dölja markörkarta"
+
   "Hide Meta Characters"
   "Dölja Meta tecken"
 
@@ -682,6 +685,9 @@ msgcat::mcmset sv {
   "Show Line Numbers"
   "Rad nummer"
 
+  "Show Marker Map"
+  "Visa markörkarta"
+
   "Show Meta Characters"
   "Meta tecken visas"
 
@@ -814,6 +820,9 @@ msgcat::mcmset sv {
   "View Menu: Hide line numbers"
   "Visa-menyn: Dölja radnummer"
 
+  "View Menu: Hide marker map"
+  "Visa-menyn: Dölja markörkarta"
+
   "View Menu: Hide meta characters"
   "Visa-menyn: Dölja meta tecken"
 
@@ -837,6 +846,9 @@ msgcat::mcmset sv {
 
   "View Menu: Show line numbers"
   "Visa-menyn: Visar radnummer"
+
+  "View Menu: Show marker map"
+  "Visa-menyn: Visar markörkarta"
 
   "View Menu: Show meta characters"
   "Visa-menyn: Visa meta tecken"

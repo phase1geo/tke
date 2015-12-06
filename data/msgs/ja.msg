@@ -478,6 +478,9 @@ msgcat::mcmset ja {
   "Hide Line Numbers"
   "行番号を非表示します。"
 
+  "Hide Marker Map"
+  "マーカー マップを非表示します。"
+
   "Hide Meta Characters"
   "????????????"
 
@@ -682,6 +685,9 @@ msgcat::mcmset ja {
   "Show Line Numbers"
   "行番号を表示します。"
 
+  "Show Marker Map"
+  "地図のマーカー"
+
   "Show Meta Characters"
   "???????"
 
@@ -814,6 +820,9 @@ msgcat::mcmset ja {
   "View Menu: Hide line numbers"
   "[表示] メニュー: 行番号を非表示します。"
 
+  "View Menu: Hide marker map"
+  "[表示] メニュー: マーカー マップを非表示に"
+
   "View Menu: Hide meta characters"
   "[表示] メニュー: メタ文字を非表示します。"
 
@@ -837,6 +846,9 @@ msgcat::mcmset ja {
 
   "View Menu: Show line numbers"
   "[表示] メニュー: 行番号を表示します。"
+
+  "View Menu: Show marker map"
+  "[表示] メニュー: 地図のマーカー"
 
   "View Menu: Show meta characters"
   "[表示] メニュー: メタ文字を表示します。"

@@ -478,6 +478,9 @@ msgcat::mcmset ru {
   "Hide Line Numbers"
   "Скрыть числа"
 
+  "Hide Marker Map"
+  "Скрыть карта с маркерами"
+
   "Hide Meta Characters"
   "?????? ???? ???????"
 
@@ -682,6 +685,9 @@ msgcat::mcmset ru {
   "Show Line Numbers"
   "Показать номера строк"
 
+  "Show Marker Map"
+  "Показать маркер"
+
   "Show Meta Characters"
   "???????? ??????? ????"
 
@@ -814,6 +820,9 @@ msgcat::mcmset ru {
   "View Menu: Hide line numbers"
   "В меню Вид: Скрыть номера строк"
 
+  "View Menu: Hide marker map"
+  "Меню Вид: Скрыть карта с маркерами"
+
   "View Menu: Hide meta characters"
   "В меню Вид: Скрыть мета символы"
 
@@ -837,6 +846,9 @@ msgcat::mcmset ru {
 
   "View Menu: Show line numbers"
   "В меню Вид: Показать номера строк"
+
+  "View Menu: Show marker map"
+  "Меню Вид: Карта с маркерами Показать"
 
   "View Menu: Show meta characters"
   "В меню Вид: Показывать мета символы"

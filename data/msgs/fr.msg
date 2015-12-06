@@ -478,6 +478,9 @@ msgcat::mcmset fr {
   "Hide Line Numbers"
   "Masquer les numéros de ligne"
 
+  "Hide Marker Map"
+  "Masquer la carte repère"
+
   "Hide Meta Characters"
   "Masquer les méta-caractères"
 
@@ -682,6 +685,9 @@ msgcat::mcmset fr {
   "Show Line Numbers"
   "Afficher les numéros de ligne"
 
+  "Show Marker Map"
+  "Voir la carte de marqueur"
+
   "Show Meta Characters"
   "Afficher les caractères de Meta"
 
@@ -814,6 +820,9 @@ msgcat::mcmset fr {
   "View Menu: Hide line numbers"
   "Menu d'affichage : Masquer les numéros de ligne"
 
+  "View Menu: Hide marker map"
+  "Menu d'affichage : Masquer carte de marqueur"
+
   "View Menu: Hide meta characters"
   "Menu d'affichage : Masquer les méta-caractères"
 
@@ -837,6 +846,9 @@ msgcat::mcmset fr {
 
   "View Menu: Show line numbers"
   "Menu d'affichage : Afficher les numéros de ligne"
+
+  "View Menu: Show marker map"
+  "Menu d'affichage : Voir la carte de marqueur"
 
   "View Menu: Show meta characters"
   "Menu d'affichage : Afficher les méta-caractères"

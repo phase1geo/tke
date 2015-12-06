@@ -478,6 +478,9 @@ msgcat::mcmset no {
   "Hide Line Numbers"
   "Skjul linjenumre"
 
+  "Hide Marker Map"
+  "Skjule markør kart"
+
   "Hide Meta Characters"
   "Skjule Meta tegn"
 
@@ -682,6 +685,9 @@ msgcat::mcmset no {
   "Show Line Numbers"
   "Vis linjenumre"
 
+  "Show Marker Map"
+  "Vis markør kart"
+
   "Show Meta Characters"
   "Viser Meta tegn"
 
@@ -814,6 +820,9 @@ msgcat::mcmset no {
   "View Menu: Hide line numbers"
   "Vis-menyen: Skjul linjenumre"
 
+  "View Menu: Hide marker map"
+  "Vis-menyen: Skjule markør kart"
+
   "View Menu: Hide meta characters"
   "Vis-menyen: Skjule meta tegn"
 
@@ -837,6 +846,9 @@ msgcat::mcmset no {
 
   "View Menu: Show line numbers"
   "Vis-menyen: Vis linjenumre"
+
+  "View Menu: Show marker map"
+  "Vis-menyen: Vis markør kart"
 
   "View Menu: Show meta characters"
   "Vis-menyen: Vis meta tegn"

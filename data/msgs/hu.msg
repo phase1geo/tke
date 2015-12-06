@@ -478,6 +478,9 @@ msgcat::mcmset hu {
   "Hide Line Numbers"
   "Sorszámok elrejtése"
 
+  "Hide Marker Map"
+  "Elrejtése jelölőtérkép"
+
   "Hide Meta Characters"
   "Meta-karakterek elrejtése"
 
@@ -682,6 +685,9 @@ msgcat::mcmset hu {
   "Show Line Numbers"
   "A sorszámok megjelenítése"
 
+  "Show Marker Map"
+  "Jelölős Térkép megjelenítése"
+
   "Show Meta Characters"
   "Meta-karakterek megjelenítése"
 
@@ -814,6 +820,9 @@ msgcat::mcmset hu {
   "View Menu: Hide line numbers"
   "Nézet menü: Hide sorszámok"
 
+  "View Menu: Hide marker map"
+  "Nézet menü: Jelölős Térkép elrejtése"
+
   "View Menu: Hide meta characters"
   "Nézet menü: A meta-karakterek elrejtése"
 
@@ -837,6 +846,9 @@ msgcat::mcmset hu {
 
   "View Menu: Show line numbers"
   "Nézet menü: Térkép-sorszámok"
+
+  "View Menu: Show marker map"
+  "Nézet menü: Jelölős Térkép megjelenítése"
 
   "View Menu: Show meta characters"
   "Nézet menü: A meta-karakterek megjelenítése"

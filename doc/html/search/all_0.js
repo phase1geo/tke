@@ -52,6 +52,7 @@ var searchData=
   ['addsearchclass',['addSearchClass',['../namespacectext.html#a72a77c8269c46f8542a18b468934ec7e',1,'ctext']]],
   ['addsearchclassforregexp',['addSearchClassForRegexp',['../namespacectext.html#a93d0887442a938ec7af9d7968354010a',1,'ctext']]],
   ['adjust',['adjust',['../namespacemulticursor.html#a31098df60b3d4a025d9ce6782243803f',1,'multicursor']]],
+  ['adjust_5ffname',['adjust_fname',['../tke_8tcl.html#aef25c85803279fa6603c79ced6a64ffe',1,'tke.tcl']]],
   ['adjust_5finsert',['adjust_insert',['../namespacevim.html#a5222aef6c4002813fc3e56519967108a',1,'vim']]],
   ['adjust_5finsert_5ftab_5findex',['adjust_insert_tab_index',['../namespacegui.html#aaa4a223585b8996484df77327c98b6b5',1,'gui']]],
   ['adjust_5fselect',['adjust_select',['../namespacevim.html#a544d599aae711df165dca4ce7860cded',1,'vim']]],

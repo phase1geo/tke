@@ -478,6 +478,9 @@ msgcat::mcmset de {
   "Hide Line Numbers"
   "Ausblenden von Zeilennummern"
 
+  "Hide Marker Map"
+  "Marker-Karte ausblenden"
+
   "Hide Meta Characters"
   "Meta-Zeichen ausblenden"
 
@@ -682,6 +685,9 @@ msgcat::mcmset de {
   "Show Line Numbers"
   "Zeilennummern anzeigen"
 
+  "Show Marker Map"
+  "Marker anzeigen"
+
   "Show Meta Characters"
   "Meta-Zeichen anzeigen"
 
@@ -814,6 +820,9 @@ msgcat::mcmset de {
   "View Menu: Hide line numbers"
   "Im Ansichtsmenü: Ausblenden von Zeilennummern"
 
+  "View Menu: Hide marker map"
+  "Im Ansichtsmenü: Ausblenden Sie Markierung anzeigen"
+
   "View Menu: Hide meta characters"
   "Im Ansichtsmenü: Ausblenden von Meta-Zeichen"
 
@@ -837,6 +846,9 @@ msgcat::mcmset de {
 
   "View Menu: Show line numbers"
   "Menü \"
+
+  "View Menu: Show marker map"
+  "Im Ansichtsmenü: Karte Markierung anzeigen"
 
   "View Menu: Show meta characters"
   "Im Ansichtsmenü: Meta-Zeichen anzeigen"

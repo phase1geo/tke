@@ -1683,7 +1683,7 @@ Functions</h2></td></tr>
     </div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="comment"># Load the tke_dir syntax files
 </span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> sfiles [glob -nocomplain -directory [<span class="keyword">file</span> join $::tke_dir data syntax] *.syntax]<span class="comment">
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> sfiles [[<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> utils]::glob_install [<span class="keyword">file</span> join $::tke_dir data syntax] *.syntax]<span class="comment">
 </span></div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment"></span>
     </div>
@@ -2319,7 +2319,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacesyntax.html">syntax</a></li>
-    <li class="footer">Generated on Mon Nov 30 2015 19:40:34 for TKE by
+    <li class="footer">Generated on Sat Dec 5 2015 22:16:40 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>

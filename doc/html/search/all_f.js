@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['page_5fslider',['page_slider',['../namespacescroller.html#a46aecd513d388fc7fbd0498ac14ad120',1,'scroller']]],
   ['pane_5ftb_5findex_5ffrom_5ftab',['pane_tb_index_from_tab',['../namespacegui.html#a55735feeabc3b5337566a87db4eab541',1,'gui']]],
   ['panes',['panes',['../namespacegui.html#a589a4a2beb2d4d13a296d423227939f8',1,'gui']]],
   ['parse',['parse',['../namespacetkedat.html#a2c497c50d536bf03673ee049bb7b86d0',1,'tkedat']]],

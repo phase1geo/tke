@@ -1,5 +1,6 @@
 var tke_8tcl =
 [
+    [ "adjust_fname", "tke_8tcl.html#aef25c85803279fa6603c79ced6a64ffe", null ],
     [ "handle_signal", "tke_8tcl.html#a8557ba360aa742348d96c5dbbb6465c8", null ],
     [ "lassign", "tke_8tcl.html#a87a72c8f51e5763f17fa844297d1195c", null ],
     [ "OpenDocument", "tke_8tcl.html#a531a41432a6dd5b23544e76788ccb3a2", null ],

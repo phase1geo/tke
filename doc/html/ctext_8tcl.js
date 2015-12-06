@@ -45,6 +45,7 @@ var ctext_8tcl =
     [ "inString", "ctext_8tcl.html#ae6aefc9ed267a3b1fc2fa6e3e92bda71", null ],
     [ "inTripleQuote", "ctext_8tcl.html#a225667d1c280b5773c50150ad6674897", null ],
     [ "isEscaped", "ctext_8tcl.html#ab2f5f03e32ca87e3c6a0b7d5b97be1c7", null ],
+    [ "linemapCheckOnDelete", "ctext_8tcl.html#abb929e35836f013cad39e2def3c2d8e9", null ],
     [ "linemapClearMark", "ctext_8tcl.html#ad821187541e42f65b60a0cdd161b4fc8", null ],
     [ "linemapDiffUpdate", "ctext_8tcl.html#a9d87899da5b73de9433c7b40986cd1e9", null ],
     [ "linemapGutterUpdate", "ctext_8tcl.html#ad04c6a225edba00c8f8ffc9fcc305931", null ],
