@@ -29,7 +29,7 @@ var searchData=
   ['close_5fcheck',['close_check',['../namespacegui.html#a8725ef5b60c7c63bb280254ff41d507c',1,'gui']]],
   ['close_5fcheck_5fby_5ftabbar',['close_check_by_tabbar',['../namespacegui.html#a6e7a0292efcf6c37e00eee9807753e1a',1,'gui']]],
   ['close_5fcommand',['close_command',['../namespaceinterpreter.html#a22d5880104efe6d9a03dca7a88e860a8',1,'interpreter::close_command()'],['../namespacemenus.html#a96b7efe8e3c13ef27e4bbfbc405c139f',1,'menus::close_command()']]],
-  ['close_5fcurrent',['close_current',['../namespaceembed__tke_1_1gui.html#a56d8951e9e62baa36fc69d60b36b71b7',1,'embed_tke::gui::close_current()'],['../namespacegui.html#abf5f11ff882bb1d15cf522a3485517d4',1,'gui::close_current()']]],
+  ['close_5fcurrent',['close_current',['../namespaceembed__tke_1_1gui.html#a56d8951e9e62baa36fc69d60b36b71b7',1,'embed_tke::gui::close_current()'],['../namespacegui.html#abf5f11ff882bb1d15cf522a3485517d4',1,'gui::close_current()'],['../namespacesessions.html#a4575b56f3a9c71ceec74e6447cf3eefa',1,'sessions::close_current()']]],
   ['close_5ffile',['close_file',['../namespacegui.html#a4ec327bda854f49eda899babc1389bd0',1,'gui::close_file()'],['../namespacesidebar.html#a42d9729ea5ac68ca4582822cd300f6a9',1,'sidebar::close_file()']]],
   ['close_5ffolder_5ffiles',['close_folder_files',['../namespacesidebar.html#a8059dbcaffd1712ea6a7ed3b50984e0f',1,'sidebar']]],
   ['close_5fothers',['close_others',['../namespacegui.html#ad7c3396d9b71225edf78d34821f3456e',1,'gui']]],

@@ -111,6 +111,7 @@ var searchData=
   ['show_5finfo',['show_info',['../namespaceapi.html#a6cca9fa0f595f9a2f48a7a972420951c',1,'api']]],
   ['show_5flast_5fprofiling_5freport',['show_last_profiling_report',['../namespacemenus.html#a5025caea6912dc6ef5b2d96a573de191',1,'menus']]],
   ['show_5fline_5fnumbers',['show_line_numbers',['../namespacemenus.html#a7b4d15278f80376606650e33556b505f',1,'menus']]],
+  ['show_5fmarker_5fmap',['show_marker_map',['../namespacemenus.html#ac6f885b96df342141cc684f648084576',1,'menus']]],
   ['show_5fmatch_5fpair',['show_match_pair',['../namespacegui.html#a8c304746046fadb641c6c6c61838cf3c',1,'gui']]],
   ['show_5fmeta_5fchars',['show_meta_chars',['../namespacemenus.html#ad4aa8abf11648aa60b5e90427ef21fcd',1,'menus']]],
   ['show_5fsidebar_5fview',['show_sidebar_view',['../namespacegui.html#a319ee5c4489c5c91eae8416fe31acae7',1,'gui::show_sidebar_view()'],['../namespacemenus.html#a47483b08eac6ebca330f4dd2728f03dd',1,'menus::show_sidebar_view()']]],

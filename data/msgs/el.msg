@@ -478,6 +478,9 @@ msgcat::mcmset el {
   "Hide Line Numbers"
   "Απόκρυψη αριθμών γραμμών"
 
+  "Hide Marker Map"
+  "Απόκρυψη δείκτη χάρτη"
+
   "Hide Meta Characters"
   "???????? ???? ??????????"
 
@@ -682,6 +685,9 @@ msgcat::mcmset el {
   "Show Line Numbers"
   "Εμφάνιση αριθμών γραμμών"
 
+  "Show Marker Map"
+  "Δείκτη Εμφάνιση χάρτη"
+
   "Show Meta Characters"
   "???? ?????????? ????????"
 
@@ -814,6 +820,9 @@ msgcat::mcmset el {
   "View Menu: Hide line numbers"
   "Μενού \"
 
+  "View Menu: Hide marker map"
+  "Μενού \"
+
   "View Menu: Hide meta characters"
   "Μενού \"
 
@@ -836,6 +845,9 @@ msgcat::mcmset el {
   "Μενού \"
 
   "View Menu: Show line numbers"
+  "Μενού \"
+
+  "View Menu: Show marker map"
   "Μενού \"
 
   "View Menu: Show meta characters"

@@ -168,6 +168,8 @@ Functions</h2></td></tr>
 <tr class="separator:a98038062d1d455c6a3fb2317baa49e6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afccefef06e282602276286881657b334"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacediff.html#afccefef06e282602276286881657b334">parse_unified_diff</a> txt cmd</td></tr>
 <tr class="separator:afccefef06e282602276286881657b334"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e5686fa12ad8e51d9743dbf194e6050"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacediff.html#a2e5686fa12ad8e51d9743dbf194e6050">get_marks</a> txt</td></tr>
+<tr class="separator:a2e5686fa12ad8e51d9743dbf194e6050"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e32d5e1139daff397ca2e28b016497b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacediff.html#a9e32d5e1139daff397ca2e28b016497b">map</a> win txt args</td></tr>
 <tr class="separator:a9e32d5e1139daff397ca2e28b016497b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af764eca909cb2d6a676d23407a6a796a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacediff.html#af764eca909cb2d6a676d23407a6a796a">map_command</a> txt args</td></tr>
@@ -582,6 +584,66 @@ Functions</h2></td></tr>
 </div><!-- fragment -->
 </div>
 </div>
+<a class="anchor" id="a2e5686fa12ad8e51d9743dbf194e6050"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">diff::get_marks</td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">txt &#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="diff_8tcl_source.html#l00652">652</a> of file <a class="el" href="diff_8tcl_source.html">diff.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l00652"></a><span class="lineno">  652</span>&#160;  <span class="keyword">proc</span> get_marks {txt} {
+
+    </div>
+<div class="line"><a name="l00653"></a><span class="lineno">  653</span>&#160;
+    </div>
+<div class="line"><a name="l00654"></a><span class="lineno">  654</span>&#160;    <span class="comment"># Get the total number of lines in the text widget
+</span></div>
+<div class="line"><a name="l00655"></a><span class="lineno">  655</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> lines [$txt count -lines 1.0 end]<span class="comment">
+</span></div>
+<div class="line"><a name="l00656"></a><span class="lineno">  656</span>&#160;<span class="comment"></span>
+    </div>
+<div class="line"><a name="l00657"></a><span class="lineno">  657</span>&#160;    <span class="comment"># Add the difference marks
+</span></div>
+<div class="line"><a name="l00658"></a><span class="lineno">  658</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> marks [list]<span class="comment">
+</span></div>
+<div class="line"><a name="l00659"></a><span class="lineno">  659</span>&#160;<span class="comment"></span>    <span class="keyword">foreach</span> type [list sub add] {
+      </div>
+<div class="line"><a name="l00660"></a><span class="lineno">  660</span>&#160;      <span class="keyword">set</span> color [[<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> theme]::get_value syntax difference_$type]<span class="comment">
+</span></div>
+<div class="line"><a name="l00661"></a><span class="lineno">  661</span>&#160;<span class="comment"></span>      <span class="keyword">foreach</span> {start end} [$txt diff ranges $type] {
+        </div>
+<div class="line"><a name="l00662"></a><span class="lineno">  662</span>&#160;        <span class="keyword">set</span> start_line [<span class="keyword">lindex</span> [<span class="keyword">split</span> $start .] 0]<span class="comment">
+</span></div>
+<div class="line"><a name="l00663"></a><span class="lineno">  663</span>&#160;<span class="comment"></span>        <span class="keyword">set</span> end_line   [<span class="keyword">lindex</span> [<span class="keyword">split</span> $end .] 0]<span class="comment">
+</span></div>
+<div class="line"><a name="l00664"></a><span class="lineno">  664</span>&#160;<span class="comment"></span>        <span class="keyword">lappend</span> marks [<span class="keyword">expr</span> $start_line.0 / $lines] [<span class="keyword">expr</span> $end_line.0 / $lines] $color<span class="comment">
+</span></div>
+<div class="line"><a name="l00665"></a><span class="lineno">  665</span>&#160;<span class="comment"></span>      }<span class="comment">
+</span></div>
+<div class="line"><a name="l00666"></a><span class="lineno">  666</span>&#160;<span class="comment"></span>    }<span class="comment">
+</span></div>
+<div class="line"><a name="l00667"></a><span class="lineno">  667</span>&#160;<span class="comment"></span>
+    </div>
+<div class="line"><a name="l00668"></a><span class="lineno">  668</span>&#160;    <span class="keyword">return</span> $marks<span class="comment">
+</span></div>
+<div class="line"><a name="l00669"></a><span class="lineno">  669</span>&#160;<span class="comment"></span>    
+  </div>
+<div class="line"><a name="l00670"></a><span class="lineno">  670</span>&#160;  }</div>
+</div><!-- fragment -->
+</div>
+</div>
 <a class="anchor" id="a6848f4a62bb72d0f602aa41aa25a2b72"></a>
 <div class="memitem">
 <div class="memproto">
@@ -904,77 +966,77 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="diff_8tcl_source.html#l01034">1034</a> of file <a class="el" href="diff_8tcl_source.html">diff.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l01034"></a><span class="lineno"> 1034</span>&#160;  <span class="keyword">proc</span> map {win txt args} {
+<p>Definition at line <a class="el" href="diff_8tcl_source.html#l01057">1057</a> of file <a class="el" href="diff_8tcl_source.html">diff.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l01057"></a><span class="lineno"> 1057</span>&#160;  <span class="keyword">proc</span> map {win txt args} {
 
     </div>
-<div class="line"><a name="l01035"></a><span class="lineno"> 1035</span>&#160;
+<div class="line"><a name="l01058"></a><span class="lineno"> 1058</span>&#160;
     </div>
-<div class="line"><a name="l01036"></a><span class="lineno"> 1036</span>&#160;    <span class="keyword">variable</span> data<span class="comment">
+<div class="line"><a name="l01059"></a><span class="lineno"> 1059</span>&#160;    <span class="keyword">variable</span> data<span class="comment">
 </span></div>
-<div class="line"><a name="l01037"></a><span class="lineno"> 1037</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01060"></a><span class="lineno"> 1060</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l01038"></a><span class="lineno"> 1038</span>&#160;    <span class="keyword">array</span> set opts {
+<div class="line"><a name="l01061"></a><span class="lineno"> 1061</span>&#160;    <span class="keyword">array</span> set opts {
       -background &quot;black&quot;
       -foreground &quot;white&quot;
       -command &quot;&quot;
     }</div>
-<div class="line"><a name="l01039"></a><span class="lineno"> 1039</span>&#160;      -background &quot;black&quot;
+<div class="line"><a name="l01062"></a><span class="lineno"> 1062</span>&#160;      -background &quot;black&quot;
       -foreground &quot;white&quot;
       -command &quot;&quot;
     }</div>
-<div class="line"><a name="l01040"></a><span class="lineno"> 1040</span>&#160;      -foreground &quot;white&quot;
+<div class="line"><a name="l01063"></a><span class="lineno"> 1063</span>&#160;      -foreground &quot;white&quot;
       -command &quot;&quot;
     }</div>
-<div class="line"><a name="l01041"></a><span class="lineno"> 1041</span>&#160;      -command &quot;&quot;
+<div class="line"><a name="l01064"></a><span class="lineno"> 1064</span>&#160;      -command &quot;&quot;
     }</div>
-<div class="line"><a name="l01042"></a><span class="lineno"> 1042</span>&#160;    }<span class="comment">
+<div class="line"><a name="l01065"></a><span class="lineno"> 1065</span>&#160;    }<span class="comment">
 </span></div>
-<div class="line"><a name="l01043"></a><span class="lineno"> 1043</span>&#160;<span class="comment"></span>    <span class="keyword">array</span> set opts $args<span class="comment">
+<div class="line"><a name="l01066"></a><span class="lineno"> 1066</span>&#160;<span class="comment"></span>    <span class="keyword">array</span> set opts $args<span class="comment">
 </span></div>
-<div class="line"><a name="l01044"></a><span class="lineno"> 1044</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01067"></a><span class="lineno"> 1067</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l01045"></a><span class="lineno"> 1045</span>&#160;    <span class="keyword">set</span> data($txt,-background) $opts(-background)<span class="comment">
+<div class="line"><a name="l01068"></a><span class="lineno"> 1068</span>&#160;    <span class="keyword">set</span> data($txt,-background) $opts(-background)<span class="comment">
 </span></div>
-<div class="line"><a name="l01046"></a><span class="lineno"> 1046</span>&#160;<span class="comment"></span>    <span class="keyword">set</span> data($txt,-foreground) $opts(-foreground)<span class="comment">
+<div class="line"><a name="l01069"></a><span class="lineno"> 1069</span>&#160;<span class="comment"></span>    <span class="keyword">set</span> data($txt,-foreground) $opts(-foreground)<span class="comment">
 </span></div>
-<div class="line"><a name="l01047"></a><span class="lineno"> 1047</span>&#160;<span class="comment"></span>    <span class="keyword">set</span> data($txt,-command)    $opts(-command)<span class="comment">
+<div class="line"><a name="l01070"></a><span class="lineno"> 1070</span>&#160;<span class="comment"></span>    <span class="keyword">set</span> data($txt,-command)    $opts(-command)<span class="comment">
 </span></div>
-<div class="line"><a name="l01048"></a><span class="lineno"> 1048</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01071"></a><span class="lineno"> 1071</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l01049"></a><span class="lineno"> 1049</span>&#160;    <span class="comment"># Create the canvas
+<div class="line"><a name="l01072"></a><span class="lineno"> 1072</span>&#160;    <span class="comment"># Create the canvas
 </span></div>
-<div class="line"><a name="l01050"></a><span class="lineno"> 1050</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> data($txt,canvas) [<span class="keyword">canvas</span> $win -width 15 -relief flat -bd 1 -highlightthickness 0 -bg $data($txt,-background)]<span class="comment">
+<div class="line"><a name="l01073"></a><span class="lineno"> 1073</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> data($txt,canvas) [<span class="keyword">canvas</span> $win -width 15 -relief flat -bd 1 -highlightthickness 0 -bg $data($txt,-background)]<span class="comment">
 </span></div>
-<div class="line"><a name="l01051"></a><span class="lineno"> 1051</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01074"></a><span class="lineno"> 1074</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l01052"></a><span class="lineno"> 1052</span>&#160;    <span class="comment"># Create canvas bindings
+<div class="line"><a name="l01075"></a><span class="lineno"> 1075</span>&#160;    <span class="comment"># Create canvas bindings
 </span></div>
-<div class="line"><a name="l01053"></a><span class="lineno"> 1053</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">bind</span> $data($txt,canvas) &lt;Configure&gt;  [list [<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> diff]::map_configure $txt]<span class="comment">
+<div class="line"><a name="l01076"></a><span class="lineno"> 1076</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">bind</span> $data($txt,canvas) &lt;Configure&gt;  [list [<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> diff]::map_configure $txt]<span class="comment">
 </span></div>
-<div class="line"><a name="l01054"></a><span class="lineno"> 1054</span>&#160;<span class="comment"></span>    <span class="keyword">bind</span> $data($txt,canvas) &lt;Button-1&gt;   [list [<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> diff]::map_position_slider %W %y $txt]<span class="comment">
+<div class="line"><a name="l01077"></a><span class="lineno"> 1077</span>&#160;<span class="comment"></span>    <span class="keyword">bind</span> $data($txt,canvas) &lt;Button-1&gt;   [list [<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> diff]::map_position_slider %W %y $txt]<span class="comment">
 </span></div>
-<div class="line"><a name="l01055"></a><span class="lineno"> 1055</span>&#160;<span class="comment"></span>    <span class="keyword">bind</span> $data($txt,canvas) &lt;B1-Motion&gt;  [list [<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> diff]::map_position_slider %W %y $txt]<span class="comment">
+<div class="line"><a name="l01078"></a><span class="lineno"> 1078</span>&#160;<span class="comment"></span>    <span class="keyword">bind</span> $data($txt,canvas) &lt;B1-Motion&gt;  [list [<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> diff]::map_position_slider %W %y $txt]<span class="comment">
 </span></div>
-<div class="line"><a name="l01056"></a><span class="lineno"> 1056</span>&#160;<span class="comment"></span>    <span class="keyword">bind</span> $data($txt,canvas) &lt;MouseWheel&gt; &quot;event generate $txt.t &lt;MouseWheel&gt; -delta %D&quot;<span class="comment">
+<div class="line"><a name="l01079"></a><span class="lineno"> 1079</span>&#160;<span class="comment"></span>    <span class="keyword">bind</span> $data($txt,canvas) &lt;MouseWheel&gt; &quot;event generate $txt.t &lt;MouseWheel&gt; -delta %D&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l01057"></a><span class="lineno"> 1057</span>&#160;<span class="comment"></span>    <span class="keyword">bind</span> $data($txt,canvas) &lt;4&gt;          &quot;event generate $txt.t &lt;4&gt;&quot;<span class="comment">
+<div class="line"><a name="l01080"></a><span class="lineno"> 1080</span>&#160;<span class="comment"></span>    <span class="keyword">bind</span> $data($txt,canvas) &lt;4&gt;          &quot;event generate $txt.t &lt;4&gt;&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l01058"></a><span class="lineno"> 1058</span>&#160;<span class="comment"></span>    <span class="keyword">bind</span> $data($txt,canvas) &lt;5&gt;          &quot;event generate $txt.t &lt;5&gt;&quot;<span class="comment">
+<div class="line"><a name="l01081"></a><span class="lineno"> 1081</span>&#160;<span class="comment"></span>    <span class="keyword">bind</span> $data($txt,canvas) &lt;5&gt;          &quot;event generate $txt.t &lt;5&gt;&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l01059"></a><span class="lineno"> 1059</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01082"></a><span class="lineno"> 1082</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l01060"></a><span class="lineno"> 1060</span>&#160;    <span class="keyword">rename</span> ::$win $win<span class="comment">
+<div class="line"><a name="l01083"></a><span class="lineno"> 1083</span>&#160;    <span class="keyword">rename</span> ::$win $win<span class="comment">
 </span></div>
-<div class="line"><a name="l01061"></a><span class="lineno"> 1061</span>&#160;<span class="comment"></span>    <span class="keyword">interp</span> alias {} ::$win {} [<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> diff]::map_command $txt<span class="comment">
+<div class="line"><a name="l01084"></a><span class="lineno"> 1084</span>&#160;<span class="comment"></span>    <span class="keyword">interp</span> alias {} ::$win {} [<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> diff]::map_command $txt<span class="comment">
 </span></div>
-<div class="line"><a name="l01062"></a><span class="lineno"> 1062</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01085"></a><span class="lineno"> 1085</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l01063"></a><span class="lineno"> 1063</span>&#160;    <span class="keyword">return</span> $win<span class="comment">
+<div class="line"><a name="l01086"></a><span class="lineno"> 1086</span>&#160;    <span class="keyword">return</span> $win<span class="comment">
 </span></div>
-<div class="line"><a name="l01064"></a><span class="lineno"> 1064</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01087"></a><span class="lineno"> 1087</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l01065"></a><span class="lineno"> 1065</span>&#160;  }</div>
+<div class="line"><a name="l01088"></a><span class="lineno"> 1088</span>&#160;  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -996,43 +1058,43 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="diff_8tcl_source.html#l01163">1163</a> of file <a class="el" href="diff_8tcl_source.html">diff.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l01163"></a><span class="lineno"> 1163</span>&#160;  <span class="keyword">proc</span> map_add {txt type start lines} {
+<p>Definition at line <a class="el" href="diff_8tcl_source.html#l01186">1186</a> of file <a class="el" href="diff_8tcl_source.html">diff.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l01186"></a><span class="lineno"> 1186</span>&#160;  <span class="keyword">proc</span> map_add {txt type start lines} {
 
     </div>
-<div class="line"><a name="l01164"></a><span class="lineno"> 1164</span>&#160;
+<div class="line"><a name="l01187"></a><span class="lineno"> 1187</span>&#160;
     </div>
-<div class="line"><a name="l01165"></a><span class="lineno"> 1165</span>&#160;    <span class="keyword">variable</span> data<span class="comment">
+<div class="line"><a name="l01188"></a><span class="lineno"> 1188</span>&#160;    <span class="keyword">variable</span> data<span class="comment">
 </span></div>
-<div class="line"><a name="l01166"></a><span class="lineno"> 1166</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01189"></a><span class="lineno"> 1189</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l01167"></a><span class="lineno"> 1167</span>&#160;    <span class="comment"># Get the number of lines in the text widget
+<div class="line"><a name="l01190"></a><span class="lineno"> 1190</span>&#160;    <span class="comment"># Get the number of lines in the text widget
 </span></div>
-<div class="line"><a name="l01168"></a><span class="lineno"> 1168</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> txt_lines [<span class="keyword">lindex</span> [<span class="keyword">split</span> [$txt index end-1c] .] 0]<span class="comment">
+<div class="line"><a name="l01191"></a><span class="lineno"> 1191</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> txt_lines [<span class="keyword">lindex</span> [<span class="keyword">split</span> [$txt index end-1c] .] 0]<span class="comment">
 </span></div>
-<div class="line"><a name="l01169"></a><span class="lineno"> 1169</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01192"></a><span class="lineno"> 1192</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l01170"></a><span class="lineno"> 1170</span>&#160;    <span class="comment"># Get the height of the box to add
+<div class="line"><a name="l01193"></a><span class="lineno"> 1193</span>&#160;    <span class="comment"># Get the height of the box to add
 </span></div>
-<div class="line"><a name="l01171"></a><span class="lineno"> 1171</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> y1 [<span class="keyword">expr</span> int( ($start.0 / $txt_lines) * [<span class="keyword">winfo</span> height $data($txt,canvas)] )]<span class="comment">
+<div class="line"><a name="l01194"></a><span class="lineno"> 1194</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> y1 [<span class="keyword">expr</span> int( ($start.0 / $txt_lines) * [<span class="keyword">winfo</span> height $data($txt,canvas)] )]<span class="comment">
 </span></div>
-<div class="line"><a name="l01172"></a><span class="lineno"> 1172</span>&#160;<span class="comment"></span>    <span class="keyword">set</span> y2 [<span class="keyword">expr</span> int( (($start + $lines.0) / $txt_lines) * [<span class="keyword">winfo</span> height $data($txt,canvas)] )]<span class="comment">
+<div class="line"><a name="l01195"></a><span class="lineno"> 1195</span>&#160;<span class="comment"></span>    <span class="keyword">set</span> y2 [<span class="keyword">expr</span> int( (($start + $lines.0) / $txt_lines) * [<span class="keyword">winfo</span> height $data($txt,canvas)] )]<span class="comment">
 </span></div>
-<div class="line"><a name="l01173"></a><span class="lineno"> 1173</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01196"></a><span class="lineno"> 1196</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l01174"></a><span class="lineno"> 1174</span>&#160;    <span class="comment"># Get the color to display
+<div class="line"><a name="l01197"></a><span class="lineno"> 1197</span>&#160;    <span class="comment"># Get the color to display
 </span></div>
-<div class="line"><a name="l01175"></a><span class="lineno"> 1175</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> color [<span class="keyword">expr</span> {($type eq &quot;sub&quot;) ? [$txt cget -diffsubbg] : [$txt cget -diffaddbg]}]<span class="comment">
+<div class="line"><a name="l01198"></a><span class="lineno"> 1198</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> color [<span class="keyword">expr</span> {($type eq &quot;sub&quot;) ? [$txt cget -diffsubbg] : [$txt cget -diffaddbg]}]<span class="comment">
 </span></div>
-<div class="line"><a name="l01176"></a><span class="lineno"> 1176</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01199"></a><span class="lineno"> 1199</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l01177"></a><span class="lineno"> 1177</span>&#160;    <span class="comment"># Create the rectangle and place it in the widget
+<div class="line"><a name="l01200"></a><span class="lineno"> 1200</span>&#160;    <span class="comment"># Create the rectangle and place it in the widget
 </span></div>
-<div class="line"><a name="l01178"></a><span class="lineno"> 1178</span>&#160;<span class="comment"></span><span class="comment">    </span>$data($txt,canvas) create rectangle 0 $y1 15 $y2 -fill $color -width 0<span class="comment">
+<div class="line"><a name="l01201"></a><span class="lineno"> 1201</span>&#160;<span class="comment"></span><span class="comment">    </span>$data($txt,canvas) create rectangle 0 $y1 15 $y2 -fill $color -width 0<span class="comment">
 </span></div>
-<div class="line"><a name="l01179"></a><span class="lineno"> 1179</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01202"></a><span class="lineno"> 1202</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l01180"></a><span class="lineno"> 1180</span>&#160;  }</div>
+<div class="line"><a name="l01203"></a><span class="lineno"> 1203</span>&#160;  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1054,96 +1116,96 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="diff_8tcl_source.html#l01069">1069</a> of file <a class="el" href="diff_8tcl_source.html">diff.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l01069"></a><span class="lineno"> 1069</span>&#160;  <span class="keyword">proc</span> map_command {txt args} {
+<p>Definition at line <a class="el" href="diff_8tcl_source.html#l01092">1092</a> of file <a class="el" href="diff_8tcl_source.html">diff.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l01092"></a><span class="lineno"> 1092</span>&#160;  <span class="keyword">proc</span> map_command {txt args} {
 
     </div>
-<div class="line"><a name="l01070"></a><span class="lineno"> 1070</span>&#160;
+<div class="line"><a name="l01093"></a><span class="lineno"> 1093</span>&#160;
     </div>
-<div class="line"><a name="l01071"></a><span class="lineno"> 1071</span>&#160;    <span class="keyword">variable</span> data<span class="comment">
+<div class="line"><a name="l01094"></a><span class="lineno"> 1094</span>&#160;    <span class="keyword">variable</span> data<span class="comment">
 </span></div>
-<div class="line"><a name="l01072"></a><span class="lineno"> 1072</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01095"></a><span class="lineno"> 1095</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l01073"></a><span class="lineno"> 1073</span>&#160;    <span class="keyword">set</span> args [<a class="code" href="tke_8tcl.html#a87a72c8f51e5763f17fa844297d1195c" title="lassign">lassign</a> $args cmd]<span class="comment">
+<div class="line"><a name="l01096"></a><span class="lineno"> 1096</span>&#160;    <span class="keyword">set</span> args [<a class="code" href="tke_8tcl.html#a87a72c8f51e5763f17fa844297d1195c" title="lassign">lassign</a> $args cmd]<span class="comment">
 </span></div>
-<div class="line"><a name="l01074"></a><span class="lineno"> 1074</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01097"></a><span class="lineno"> 1097</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l01075"></a><span class="lineno"> 1075</span>&#160;    <span class="keyword">switch</span>  $cmd {
+<div class="line"><a name="l01098"></a><span class="lineno"> 1098</span>&#160;    <span class="keyword">switch</span>  $cmd {
 
       </div>
-<div class="line"><a name="l01076"></a><span class="lineno"> 1076</span>&#160;
+<div class="line"><a name="l01099"></a><span class="lineno"> 1099</span>&#160;
       </div>
-<div class="line"><a name="l01077"></a><span class="lineno"> 1077</span>&#160;      get {
+<div class="line"><a name="l01100"></a><span class="lineno"> 1100</span>&#160;      get {
         </div>
-<div class="line"><a name="l01078"></a><span class="lineno"> 1078</span>&#160;        <span class="keyword">return</span> [list $data($txt,first) $data($txt,last)]<span class="comment">
-</span></div>
-<div class="line"><a name="l01079"></a><span class="lineno"> 1079</span>&#160;<span class="comment"></span>      }
-
-      </div>
-<div class="line"><a name="l01080"></a><span class="lineno"> 1080</span>&#160;
-      </div>
-<div class="line"><a name="l01081"></a><span class="lineno"> 1081</span>&#160;      set {
-        </div>
-<div class="line"><a name="l01082"></a><span class="lineno"> 1082</span>&#160;        <a class="code" href="tke_8tcl.html#a87a72c8f51e5763f17fa844297d1195c" title="lassign">lassign</a> $args first last<span class="comment">
-</span></div>
-<div class="line"><a name="l01083"></a><span class="lineno"> 1083</span>&#160;<span class="comment"></span>        <span class="keyword">set</span> height [<span class="keyword">winfo</span> height $data($txt,canvas)]<span class="comment">
-</span></div>
-<div class="line"><a name="l01084"></a><span class="lineno"> 1084</span>&#160;<span class="comment"></span>        <span class="keyword">set</span> y1     [<span class="keyword">expr</span> int( $height * $first )]<span class="comment">
-</span></div>
-<div class="line"><a name="l01085"></a><span class="lineno"> 1085</span>&#160;<span class="comment"></span>
-        </div>
-<div class="line"><a name="l01086"></a><span class="lineno"> 1086</span>&#160;        <span class="comment"># Adjust the size and position of the slider
-</span></div>
-<div class="line"><a name="l01087"></a><span class="lineno"> 1087</span>&#160;<span class="comment"></span><span class="comment">        </span>$data($txt,canvas) coords $data($txt,slider) 2 [<span class="keyword">expr</span> $y1 + 2] 15 [<span class="keyword">expr</span> $y1 + $data($txt,sheight)]<span class="comment">
-</span></div>
-<div class="line"><a name="l01088"></a><span class="lineno"> 1088</span>&#160;<span class="comment"></span>      }
-
-      </div>
-<div class="line"><a name="l01089"></a><span class="lineno"> 1089</span>&#160;
-      </div>
-<div class="line"><a name="l01090"></a><span class="lineno"> 1090</span>&#160;      configure {
-        </div>
-<div class="line"><a name="l01091"></a><span class="lineno"> 1091</span>&#160;        <span class="keyword">array</span> set opts $args<span class="comment">
-</span></div>
-<div class="line"><a name="l01092"></a><span class="lineno"> 1092</span>&#160;<span class="comment"></span>        <span class="keyword">if</span> {[<span class="keyword">info</span> exists opts(-background)]} {
-          </div>
-<div class="line"><a name="l01093"></a><span class="lineno"> 1093</span>&#160;          <span class="keyword">set</span> data($txt,-background) $opts(-background)<span class="comment">
-</span></div>
-<div class="line"><a name="l01094"></a><span class="lineno"> 1094</span>&#160;<span class="comment"></span>        }<span class="comment">
-</span></div>
-<div class="line"><a name="l01095"></a><span class="lineno"> 1095</span>&#160;<span class="comment"></span>        <span class="keyword">if</span> {[<span class="keyword">info</span> exists opts(-foreground)]} {
-          </div>
-<div class="line"><a name="l01096"></a><span class="lineno"> 1096</span>&#160;          <span class="keyword">set</span> data($txt,-foreground) $opts(-foreground)<span class="comment">
-</span></div>
-<div class="line"><a name="l01097"></a><span class="lineno"> 1097</span>&#160;<span class="comment"></span>        }<span class="comment">
-</span></div>
-<div class="line"><a name="l01098"></a><span class="lineno"> 1098</span>&#160;<span class="comment"></span>        $data($txt,canvas) configure -bg $data($txt,-background)<span class="comment">
-</span></div>
-<div class="line"><a name="l01099"></a><span class="lineno"> 1099</span>&#160;<span class="comment"></span>        <span class="keyword">if</span> {[<span class="keyword">info</span> exists data($txt,slider)]} {
-          </div>
-<div class="line"><a name="l01100"></a><span class="lineno"> 1100</span>&#160;          $data($txt,canvas) itemconfigure $data($txt,slider) -outline $data($txt,-foreground)<span class="comment">
-</span></div>
-<div class="line"><a name="l01101"></a><span class="lineno"> 1101</span>&#160;<span class="comment"></span>        }<span class="comment">
+<div class="line"><a name="l01101"></a><span class="lineno"> 1101</span>&#160;        <span class="keyword">return</span> [list $data($txt,first) $data($txt,last)]<span class="comment">
 </span></div>
 <div class="line"><a name="l01102"></a><span class="lineno"> 1102</span>&#160;<span class="comment"></span>      }
 
       </div>
 <div class="line"><a name="l01103"></a><span class="lineno"> 1103</span>&#160;
       </div>
-<div class="line"><a name="l01104"></a><span class="lineno"> 1104</span>&#160;      default {
+<div class="line"><a name="l01104"></a><span class="lineno"> 1104</span>&#160;      set {
         </div>
-<div class="line"><a name="l01105"></a><span class="lineno"> 1105</span>&#160;        <span class="keyword">return</span> -code error &quot;difference map called with invalid command ($cmd)&quot;<span class="comment">
+<div class="line"><a name="l01105"></a><span class="lineno"> 1105</span>&#160;        <a class="code" href="tke_8tcl.html#a87a72c8f51e5763f17fa844297d1195c" title="lassign">lassign</a> $args first last<span class="comment">
 </span></div>
-<div class="line"><a name="l01106"></a><span class="lineno"> 1106</span>&#160;<span class="comment"></span>      }
+<div class="line"><a name="l01106"></a><span class="lineno"> 1106</span>&#160;<span class="comment"></span>        <span class="keyword">set</span> height [<span class="keyword">winfo</span> height $data($txt,canvas)]<span class="comment">
+</span></div>
+<div class="line"><a name="l01107"></a><span class="lineno"> 1107</span>&#160;<span class="comment"></span>        <span class="keyword">set</span> y1     [<span class="keyword">expr</span> int( $height * $first )]<span class="comment">
+</span></div>
+<div class="line"><a name="l01108"></a><span class="lineno"> 1108</span>&#160;<span class="comment"></span>
+        </div>
+<div class="line"><a name="l01109"></a><span class="lineno"> 1109</span>&#160;        <span class="comment"># Adjust the size and position of the slider
+</span></div>
+<div class="line"><a name="l01110"></a><span class="lineno"> 1110</span>&#160;<span class="comment"></span><span class="comment">        </span>$data($txt,canvas) coords $data($txt,slider) 2 [<span class="keyword">expr</span> $y1 + 2] 15 [<span class="keyword">expr</span> $y1 + $data($txt,sheight)]<span class="comment">
+</span></div>
+<div class="line"><a name="l01111"></a><span class="lineno"> 1111</span>&#160;<span class="comment"></span>      }
+
+      </div>
+<div class="line"><a name="l01112"></a><span class="lineno"> 1112</span>&#160;
+      </div>
+<div class="line"><a name="l01113"></a><span class="lineno"> 1113</span>&#160;      configure {
+        </div>
+<div class="line"><a name="l01114"></a><span class="lineno"> 1114</span>&#160;        <span class="keyword">array</span> set opts $args<span class="comment">
+</span></div>
+<div class="line"><a name="l01115"></a><span class="lineno"> 1115</span>&#160;<span class="comment"></span>        <span class="keyword">if</span> {[<span class="keyword">info</span> exists opts(-background)]} {
+          </div>
+<div class="line"><a name="l01116"></a><span class="lineno"> 1116</span>&#160;          <span class="keyword">set</span> data($txt,-background) $opts(-background)<span class="comment">
+</span></div>
+<div class="line"><a name="l01117"></a><span class="lineno"> 1117</span>&#160;<span class="comment"></span>        }<span class="comment">
+</span></div>
+<div class="line"><a name="l01118"></a><span class="lineno"> 1118</span>&#160;<span class="comment"></span>        <span class="keyword">if</span> {[<span class="keyword">info</span> exists opts(-foreground)]} {
+          </div>
+<div class="line"><a name="l01119"></a><span class="lineno"> 1119</span>&#160;          <span class="keyword">set</span> data($txt,-foreground) $opts(-foreground)<span class="comment">
+</span></div>
+<div class="line"><a name="l01120"></a><span class="lineno"> 1120</span>&#160;<span class="comment"></span>        }<span class="comment">
+</span></div>
+<div class="line"><a name="l01121"></a><span class="lineno"> 1121</span>&#160;<span class="comment"></span>        $data($txt,canvas) configure -bg $data($txt,-background)<span class="comment">
+</span></div>
+<div class="line"><a name="l01122"></a><span class="lineno"> 1122</span>&#160;<span class="comment"></span>        <span class="keyword">if</span> {[<span class="keyword">info</span> exists data($txt,slider)]} {
+          </div>
+<div class="line"><a name="l01123"></a><span class="lineno"> 1123</span>&#160;          $data($txt,canvas) itemconfigure $data($txt,slider) -outline $data($txt,-foreground)<span class="comment">
+</span></div>
+<div class="line"><a name="l01124"></a><span class="lineno"> 1124</span>&#160;<span class="comment"></span>        }<span class="comment">
+</span></div>
+<div class="line"><a name="l01125"></a><span class="lineno"> 1125</span>&#160;<span class="comment"></span>      }
+
+      </div>
+<div class="line"><a name="l01126"></a><span class="lineno"> 1126</span>&#160;
+      </div>
+<div class="line"><a name="l01127"></a><span class="lineno"> 1127</span>&#160;      default {
+        </div>
+<div class="line"><a name="l01128"></a><span class="lineno"> 1128</span>&#160;        <span class="keyword">return</span> -code error &quot;difference map called with invalid command ($cmd)&quot;<span class="comment">
+</span></div>
+<div class="line"><a name="l01129"></a><span class="lineno"> 1129</span>&#160;<span class="comment"></span>      }
 
     </div>
-<div class="line"><a name="l01107"></a><span class="lineno"> 1107</span>&#160;
+<div class="line"><a name="l01130"></a><span class="lineno"> 1130</span>&#160;
     </div>
-<div class="line"><a name="l01108"></a><span class="lineno"> 1108</span>&#160;    }<span class="comment">
+<div class="line"><a name="l01131"></a><span class="lineno"> 1131</span>&#160;    }<span class="comment">
 </span></div>
-<div class="line"><a name="l01109"></a><span class="lineno"> 1109</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01132"></a><span class="lineno"> 1132</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l01110"></a><span class="lineno"> 1110</span>&#160;  }</div>
+<div class="line"><a name="l01133"></a><span class="lineno"> 1133</span>&#160;  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1165,61 +1227,61 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="diff_8tcl_source.html#l01133">1133</a> of file <a class="el" href="diff_8tcl_source.html">diff.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l01133"></a><span class="lineno"> 1133</span>&#160;  <span class="keyword">proc</span> map_configure {txt} {
+<p>Definition at line <a class="el" href="diff_8tcl_source.html#l01156">1156</a> of file <a class="el" href="diff_8tcl_source.html">diff.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l01156"></a><span class="lineno"> 1156</span>&#160;  <span class="keyword">proc</span> map_configure {txt} {
 
     </div>
-<div class="line"><a name="l01134"></a><span class="lineno"> 1134</span>&#160;
+<div class="line"><a name="l01157"></a><span class="lineno"> 1157</span>&#160;
     </div>
-<div class="line"><a name="l01135"></a><span class="lineno"> 1135</span>&#160;    <span class="keyword">variable</span> data<span class="comment">
+<div class="line"><a name="l01158"></a><span class="lineno"> 1158</span>&#160;    <span class="keyword">variable</span> data<span class="comment">
 </span></div>
-<div class="line"><a name="l01136"></a><span class="lineno"> 1136</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01159"></a><span class="lineno"> 1159</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l01137"></a><span class="lineno"> 1137</span>&#160;    <span class="comment"># Remove all canvas items
+<div class="line"><a name="l01160"></a><span class="lineno"> 1160</span>&#160;    <span class="comment"># Remove all canvas items
 </span></div>
-<div class="line"><a name="l01138"></a><span class="lineno"> 1138</span>&#160;<span class="comment"></span><span class="comment">    </span>$data($txt,canvas) delete all<span class="comment">
+<div class="line"><a name="l01161"></a><span class="lineno"> 1161</span>&#160;<span class="comment"></span><span class="comment">    </span>$data($txt,canvas) delete all<span class="comment">
 </span></div>
-<div class="line"><a name="l01139"></a><span class="lineno"> 1139</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01162"></a><span class="lineno"> 1162</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l01140"></a><span class="lineno"> 1140</span>&#160;    <span class="comment"># Add the difference bars
+<div class="line"><a name="l01163"></a><span class="lineno"> 1163</span>&#160;    <span class="comment"># Add the difference bars
 </span></div>
-<div class="line"><a name="l01141"></a><span class="lineno"> 1141</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">foreach</span> type [list sub add] {
+<div class="line"><a name="l01164"></a><span class="lineno"> 1164</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">foreach</span> type [list sub add] {
       </div>
-<div class="line"><a name="l01142"></a><span class="lineno"> 1142</span>&#160;      <span class="keyword">foreach</span> {start end} [$txt diff ranges $type] {
+<div class="line"><a name="l01165"></a><span class="lineno"> 1165</span>&#160;      <span class="keyword">foreach</span> {start end} [$txt diff ranges $type] {
         </div>
-<div class="line"><a name="l01143"></a><span class="lineno"> 1143</span>&#160;        <span class="keyword">set</span> start_line [<span class="keyword">lindex</span> [<span class="keyword">split</span> $start .] 0]<span class="comment">
+<div class="line"><a name="l01166"></a><span class="lineno"> 1166</span>&#160;        <span class="keyword">set</span> start_line [<span class="keyword">lindex</span> [<span class="keyword">split</span> $start .] 0]<span class="comment">
 </span></div>
-<div class="line"><a name="l01144"></a><span class="lineno"> 1144</span>&#160;<span class="comment"></span>        <span class="keyword">set</span> end_line   [<span class="keyword">lindex</span> [<span class="keyword">split</span> $end .] 0]<span class="comment">
+<div class="line"><a name="l01167"></a><span class="lineno"> 1167</span>&#160;<span class="comment"></span>        <span class="keyword">set</span> end_line   [<span class="keyword">lindex</span> [<span class="keyword">split</span> $end .] 0]<span class="comment">
 </span></div>
-<div class="line"><a name="l01145"></a><span class="lineno"> 1145</span>&#160;<span class="comment"></span>        <a class="code" href="namespacediff.html#a1464b5b80f9af1ded80c53715891de0d" title="diff::map_add">map_add</a> $txt $type $start_line [<span class="keyword">expr</span> $end_line - $start_line]<span class="comment">
+<div class="line"><a name="l01168"></a><span class="lineno"> 1168</span>&#160;<span class="comment"></span>        <a class="code" href="namespacediff.html#a1464b5b80f9af1ded80c53715891de0d" title="diff::map_add">map_add</a> $txt $type $start_line [<span class="keyword">expr</span> $end_line - $start_line]<span class="comment">
 </span></div>
-<div class="line"><a name="l01146"></a><span class="lineno"> 1146</span>&#160;<span class="comment"></span>      }<span class="comment">
+<div class="line"><a name="l01169"></a><span class="lineno"> 1169</span>&#160;<span class="comment"></span>      }<span class="comment">
 </span></div>
-<div class="line"><a name="l01147"></a><span class="lineno"> 1147</span>&#160;<span class="comment"></span>    }<span class="comment">
+<div class="line"><a name="l01170"></a><span class="lineno"> 1170</span>&#160;<span class="comment"></span>    }<span class="comment">
 </span></div>
-<div class="line"><a name="l01148"></a><span class="lineno"> 1148</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01171"></a><span class="lineno"> 1171</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l01149"></a><span class="lineno"> 1149</span>&#160;    <span class="comment"># Calculate the slider height
+<div class="line"><a name="l01172"></a><span class="lineno"> 1172</span>&#160;    <span class="comment"># Calculate the slider height
 </span></div>
-<div class="line"><a name="l01150"></a><span class="lineno"> 1150</span>&#160;<span class="comment"></span><span class="comment">    </span><a class="code" href="tke_8tcl.html#a87a72c8f51e5763f17fa844297d1195c" title="lassign">lassign</a> [$txt yview] first last<span class="comment">
+<div class="line"><a name="l01173"></a><span class="lineno"> 1173</span>&#160;<span class="comment"></span><span class="comment">    </span><a class="code" href="tke_8tcl.html#a87a72c8f51e5763f17fa844297d1195c" title="lassign">lassign</a> [$txt yview] first last<span class="comment">
 </span></div>
-<div class="line"><a name="l01151"></a><span class="lineno"> 1151</span>&#160;<span class="comment"></span>    <span class="keyword">set</span> height             [<span class="keyword">winfo</span> height $data($txt,canvas)]<span class="comment">
+<div class="line"><a name="l01174"></a><span class="lineno"> 1174</span>&#160;<span class="comment"></span>    <span class="keyword">set</span> height             [<span class="keyword">winfo</span> height $data($txt,canvas)]<span class="comment">
 </span></div>
-<div class="line"><a name="l01152"></a><span class="lineno"> 1152</span>&#160;<span class="comment"></span>    <span class="keyword">set</span> sheight            [<span class="keyword">expr</span> ((int( $height * $last ) - int( $height * $first )) + 1) - 4]<span class="comment">
+<div class="line"><a name="l01175"></a><span class="lineno"> 1175</span>&#160;<span class="comment"></span>    <span class="keyword">set</span> sheight            [<span class="keyword">expr</span> ((int( $height * $last ) - int( $height * $first )) + 1) - 4]<span class="comment">
 </span></div>
-<div class="line"><a name="l01153"></a><span class="lineno"> 1153</span>&#160;<span class="comment"></span>    <span class="keyword">set</span> data($txt,sheight) [<span class="keyword">expr</span> ($sheight &lt; 11) ? 11 : $sheight]<span class="comment">
+<div class="line"><a name="l01176"></a><span class="lineno"> 1176</span>&#160;<span class="comment"></span>    <span class="keyword">set</span> data($txt,sheight) [<span class="keyword">expr</span> ($sheight &lt; 11) ? 11 : $sheight]<span class="comment">
 </span></div>
-<div class="line"><a name="l01154"></a><span class="lineno"> 1154</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01177"></a><span class="lineno"> 1177</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l01155"></a><span class="lineno"> 1155</span>&#160;    <span class="comment"># Add cursor
+<div class="line"><a name="l01178"></a><span class="lineno"> 1178</span>&#160;    <span class="comment"># Add cursor
 </span></div>
-<div class="line"><a name="l01156"></a><span class="lineno"> 1156</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> data($txt,slider) [$data($txt,canvas) create rectangle 2 0 15 10 -outline $data($txt,-foreground) -width 2]<span class="comment">
+<div class="line"><a name="l01179"></a><span class="lineno"> 1179</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> data($txt,slider) [$data($txt,canvas) create rectangle 2 0 15 10 -outline $data($txt,-foreground) -width 2]<span class="comment">
 </span></div>
-<div class="line"><a name="l01157"></a><span class="lineno"> 1157</span>&#160;<span class="comment"></span>    <a class="code" href="namespacediff.html#af764eca909cb2d6a676d23407a6a796a" title="diff::map_command">map_command</a> $txt set $first $last<span class="comment">
+<div class="line"><a name="l01180"></a><span class="lineno"> 1180</span>&#160;<span class="comment"></span>    <a class="code" href="namespacediff.html#af764eca909cb2d6a676d23407a6a796a" title="diff::map_command">map_command</a> $txt set $first $last<span class="comment">
 </span></div>
-<div class="line"><a name="l01158"></a><span class="lineno"> 1158</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01181"></a><span class="lineno"> 1181</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l01159"></a><span class="lineno"> 1159</span>&#160;  }</div>
+<div class="line"><a name="l01182"></a><span class="lineno"> 1182</span>&#160;  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1241,38 +1303,38 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="diff_8tcl_source.html#l01115">1115</a> of file <a class="el" href="diff_8tcl_source.html">diff.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l01115"></a><span class="lineno"> 1115</span>&#160;  <span class="keyword">proc</span> map_position_slider {W y txt} {
+<p>Definition at line <a class="el" href="diff_8tcl_source.html#l01138">1138</a> of file <a class="el" href="diff_8tcl_source.html">diff.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l01138"></a><span class="lineno"> 1138</span>&#160;  <span class="keyword">proc</span> map_position_slider {W y txt} {
 
     </div>
-<div class="line"><a name="l01116"></a><span class="lineno"> 1116</span>&#160;
+<div class="line"><a name="l01139"></a><span class="lineno"> 1139</span>&#160;
     </div>
-<div class="line"><a name="l01117"></a><span class="lineno"> 1117</span>&#160;    <span class="keyword">variable</span> data<span class="comment">
+<div class="line"><a name="l01140"></a><span class="lineno"> 1140</span>&#160;    <span class="keyword">variable</span> data<span class="comment">
 </span></div>
-<div class="line"><a name="l01118"></a><span class="lineno"> 1118</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01141"></a><span class="lineno"> 1141</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l01119"></a><span class="lineno"> 1119</span>&#160;    <span class="keyword">if</span> {$data($txt,-command) ne &quot;&quot;} {
+<div class="line"><a name="l01142"></a><span class="lineno"> 1142</span>&#160;    <span class="keyword">if</span> {$data($txt,-command) ne &quot;&quot;} {
 
       </div>
-<div class="line"><a name="l01120"></a><span class="lineno"> 1120</span>&#160;
+<div class="line"><a name="l01143"></a><span class="lineno"> 1143</span>&#160;
       </div>
-<div class="line"><a name="l01121"></a><span class="lineno"> 1121</span>&#160;      <span class="comment"># Calculate the moveto fraction
+<div class="line"><a name="l01144"></a><span class="lineno"> 1144</span>&#160;      <span class="comment"># Calculate the moveto fraction
 </span></div>
-<div class="line"><a name="l01122"></a><span class="lineno"> 1122</span>&#160;<span class="comment"></span><span class="comment">      </span><span class="keyword">set</span> moveto [<span class="keyword">expr</span> ($y.0 - ($data($txt,sheight) / 2)) / [<span class="keyword">winfo</span> height $W]]<span class="comment">
+<div class="line"><a name="l01145"></a><span class="lineno"> 1145</span>&#160;<span class="comment"></span><span class="comment">      </span><span class="keyword">set</span> moveto [<span class="keyword">expr</span> ($y.0 - ($data($txt,sheight) / 2)) / [<span class="keyword">winfo</span> height $W]]<span class="comment">
 </span></div>
-<div class="line"><a name="l01123"></a><span class="lineno"> 1123</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01146"></a><span class="lineno"> 1146</span>&#160;<span class="comment"></span>
       </div>
-<div class="line"><a name="l01124"></a><span class="lineno"> 1124</span>&#160;      <span class="comment"># Call the command
+<div class="line"><a name="l01147"></a><span class="lineno"> 1147</span>&#160;      <span class="comment"># Call the command
 </span></div>
-<div class="line"><a name="l01125"></a><span class="lineno"> 1125</span>&#160;<span class="comment"></span><span class="comment">      </span>uplevel #0 &quot;$data($txt,-command) moveto $moveto&quot;<span class="comment">
+<div class="line"><a name="l01148"></a><span class="lineno"> 1148</span>&#160;<span class="comment"></span><span class="comment">      </span>uplevel #0 &quot;$data($txt,-command) moveto $moveto&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l01126"></a><span class="lineno"> 1126</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01149"></a><span class="lineno"> 1149</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l01127"></a><span class="lineno"> 1127</span>&#160;    }<span class="comment">
+<div class="line"><a name="l01150"></a><span class="lineno"> 1150</span>&#160;    }<span class="comment">
 </span></div>
-<div class="line"><a name="l01128"></a><span class="lineno"> 1128</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01151"></a><span class="lineno"> 1151</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l01129"></a><span class="lineno"> 1129</span>&#160;  }</div>
+<div class="line"><a name="l01152"></a><span class="lineno"> 1152</span>&#160;  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1424,9 +1486,9 @@ Functions</h2></td></tr>
 </span></div>
 <div class="line"><a name="l00643"></a><span class="lineno">  643</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00644"></a><span class="lineno">  644</span>&#160;    <span class="comment"># Update the map widget
+<div class="line"><a name="l00644"></a><span class="lineno">  644</span>&#160;    <span class="comment"># Update the scroller
 </span></div>
-<div class="line"><a name="l00645"></a><span class="lineno">  645</span>&#160;<span class="comment"></span><span class="comment">    </span><a class="code" href="namespacediff.html#aa37a3118050d647e2861020fddfd62ec" title="diff::map_configure">map_configure</a> $txt<span class="comment">
+<div class="line"><a name="l00645"></a><span class="lineno">  645</span>&#160;<span class="comment"></span><span class="comment">    </span>[<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> scroller]::update_markers [<span class="keyword">winfo</span> parent $txt].vb<span class="comment">
 </span></div>
 <div class="line"><a name="l00646"></a><span class="lineno">  646</span>&#160;<span class="comment"></span>
   </div>
@@ -2070,7 +2132,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacediff.html">diff</a></li>
-    <li class="footer">Generated on Mon Nov 30 2015 19:40:33 for TKE by
+    <li class="footer">Generated on Sat Dec 5 2015 22:16:39 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>

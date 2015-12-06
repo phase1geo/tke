@@ -164,32 +164,32 @@ $(document).ready(function(){initNavTree('markers_8tcl_source.html','');});
   </div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  source [<span class="keyword">file</span> join $::tke_dir lib ns.tcl]<span class="comment">
 </span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment"></span>
   </div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  <span class="keyword">variable</span> curr_marker 0<span class="comment">
 </span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment"></span>  
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment"></span>
   </div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  <span class="keyword">array</span> set markers {}<span class="comment">
 </span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="comment"></span>  
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="comment"></span>
   </div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  <span class="comment">######################################################################
 </span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Adds a new marker for the given index.  Returns 1 if the marker
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Adds a new marker for the given index.  Returns 1 if the marker was
 </span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># was added; otherwise, returns 0.
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># added; otherwise, returns 0.
 </span></div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> add {txt tag {name &quot;&quot;}} {
-    
+
     </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;
     </div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">variable</span> markers<span class="comment">
 </span></div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> curr_marker<span class="comment">
 </span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="comment"></span>
     </div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="comment"># If the name wasn&#39;t specified, ask the user
 </span></div>
@@ -199,48 +199,48 @@ $(document).ready(function(){initNavTree('markers_8tcl_source.html','');});
 </span></div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="comment"></span>    }<span class="comment">
 </span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment"></span>
     </div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="comment"># Add the marker
 </span></div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">if</span> {$name eq &quot;&quot;} {
       </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;      <span class="keyword">set</span> markers($txt,Marker-[<span class="keyword">incr</span> curr_marker]) $tag<span class="comment">
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;      <span class="keyword">set</span> name &quot;Marker-[<span class="keyword">incr</span> curr_marker]&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment"></span>    } <span class="keyword">else</span> {
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment"></span>    } <span class="keyword">elseif</span> {[regexp {^Marker-(\d+)$} $name -&gt; id] &amp;&amp; ($curr_marker &lt;= $id)} {
       </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      <span class="keyword">if</span> {[regexp {^Marker-(\d+)$} $name -&gt; id] &amp;&amp; ($curr_marker &lt;= $id)} { 
-        </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keyword">set</span> curr_marker $id<span class="comment">
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      <span class="keyword">set</span> curr_marker $id<span class="comment">
 </span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment"></span>      }<span class="comment">
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment"></span>    }<span class="comment">
 </span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment"></span>      <span class="keyword">set</span> markers($txt,$name) $tag<span class="comment">
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment"></span>
+    </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="comment"># Set the marker
 </span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment"></span>    }<span class="comment">
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> markers($txt,$name) $tag<span class="comment">
 </span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment"></span>
     </div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keyword">return</span> 1<span class="comment">
 </span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment"></span>  
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment"></span>
   </div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  }<span class="comment">
 </span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment"></span>  
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment"></span>
   </div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  <span class="comment">######################################################################
 </span></div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Deletes the marker of the given name, if it exists.
 </span></div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> delete_by_name {txt name} {
-    
+
     </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;
     </div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keyword">variable</span> markers<span class="comment">
 </span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment"></span>
     </div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keyword">if</span> {[<span class="keyword">info</span> exists markers($txt,$name)]} {
       </div>
@@ -248,24 +248,24 @@ $(document).ready(function(){initNavTree('markers_8tcl_source.html','');});
 </span></div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment"></span>    }<span class="comment">
 </span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment"></span>
   </div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  }<span class="comment">
 </span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment"></span>  
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment"></span>
   </div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  <span class="comment">######################################################################
 </span></div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Deletes the marker of the given tag, if it exists.
 </span></div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> delete_by_tag {txt tag} {
-    
+
     </div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;
     </div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keyword">variable</span> markers<span class="comment">
 </span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="comment"></span>
     </div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keyword">foreach</span> {name t} [<span class="keyword">array</span> get markers $txt,*] {
       </div>
@@ -277,24 +277,24 @@ $(document).ready(function(){initNavTree('markers_8tcl_source.html','');});
 </span></div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="comment"></span>    }<span class="comment">
 </span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="comment"></span>
   </div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  }<span class="comment">
 </span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="comment"></span>  
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="comment"></span>
   </div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  <span class="comment">######################################################################
 </span></div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Deletes all markers at the given line.
 </span></div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> delete_by_line {txt line} {
-    
+
     </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;
     </div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keyword">variable</span> markers<span class="comment">
 </span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="comment"></span>
     </div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keyword">foreach</span> {name tag} [<span class="keyword">array</span> get markers $txt,*] {
       </div>
@@ -306,30 +306,30 @@ $(document).ready(function(){initNavTree('markers_8tcl_source.html','');});
 </span></div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="comment"></span>    }<span class="comment">
 </span></div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="comment"></span>
   </div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  }<span class="comment">
 </span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="comment"></span>  
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="comment"></span>
   </div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;  <span class="comment">######################################################################
 </span></div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Returns all of the marker names.
 </span></div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> get_all_names {txt} {
-    
+
     </div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;
     </div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keyword">variable</span> markers<span class="comment">
 </span></div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="comment"></span>
     </div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="comment"># Figure out the starting character
 </span></div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> start [<span class="keyword">expr</span> [<span class="keyword">string</span> length $txt] + 1]<span class="comment">
 </span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="comment"></span>
     </div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="comment"># Get the list of names
 </span></div>
@@ -341,28 +341,28 @@ $(document).ready(function(){initNavTree('markers_8tcl_source.html','');});
 </span></div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="comment"></span>    }<span class="comment">
 </span></div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="comment"></span>
     </div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="keyword">return</span> [lsort -dictionary $names]<span class="comment">
 </span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="comment"></span>
   </div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;  }<span class="comment">
 </span></div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="comment"></span>  
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="comment"></span>
   </div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;  <span class="comment">######################################################################
 </span></div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Returns the index for the given marker name.
 </span></div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> get_index {txt name} {
-    
+
     </div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;
     </div>
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="keyword">variable</span> markers<span class="comment">
 </span></div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="comment"></span>
     </div>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keyword">if</span> {[<span class="keyword">info</span> exists markers($txt,$name)]} {
       </div>
@@ -374,24 +374,24 @@ $(document).ready(function(){initNavTree('markers_8tcl_source.html','');});
 </span></div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="comment"></span>    }<span class="comment">
 </span></div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="comment"></span>
   </div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;  }<span class="comment">
 </span></div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="comment"></span>  
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="comment"></span>
   </div>
 <div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;  <span class="comment">######################################################################
 </span></div>
 <div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Returns all of the names for the given index.
 </span></div>
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> get_names {txt line} {
-    
+
     </div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;
     </div>
 <div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    <span class="keyword">variable</span> markers<span class="comment">
 </span></div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;<span class="comment"></span>
     </div>
 <div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    <span class="keyword">set</span> names [list]<span class="comment">
 </span></div>
@@ -405,24 +405,84 @@ $(document).ready(function(){initNavTree('markers_8tcl_source.html','');});
 </span></div>
 <div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="comment"></span>    }<span class="comment">
 </span></div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<span class="comment"></span>
     </div>
 <div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="keyword">return</span> $names<span class="comment">
 </span></div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="comment"></span>    
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="comment"></span>
   </div>
 <div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;  }<span class="comment">
 </span></div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;<span class="comment"></span>  
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;<span class="comment"></span>
+  </div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;  <span class="comment">######################################################################
+</span></div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Returns the marked lines.
+</span></div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> get_positions {txt} {
+
+    </div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;
+    </div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="keyword">variable</span> markers<span class="comment">
+</span></div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;<span class="comment"></span>
+    </div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <span class="keyword">set</span> pos   [list]<span class="comment">
+</span></div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;<span class="comment"></span>    <span class="keyword">set</span> lines [$txt count -lines 1.0 end]<span class="comment">
+</span></div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="comment"></span>    <span class="keyword">set</span> color [[<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> theme]::get_value syntax cursor]<span class="comment">
+</span></div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;<span class="comment"></span>
+    </div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <span class="keyword">foreach</span> {name tag} [<span class="keyword">array</span> get markers $txt,*] {
+      </div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;      <span class="keyword">set</span> start_line [<span class="keyword">lindex</span> [$txt tag ranges $tag] 0]<span class="comment">
+</span></div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;<span class="comment"></span>      <span class="keyword">lappend</span> pos [<span class="keyword">expr</span> $start_line / $lines] [<span class="keyword">expr</span> $start_line / $lines] $color<span class="comment">
+</span></div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;<span class="comment"></span>    }<span class="comment">
+</span></div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;<span class="comment"></span>
+    </div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    <span class="keyword">return</span> $pos<span class="comment">
+</span></div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;<span class="comment"></span>
+  </div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;  }<span class="comment">
+</span></div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;<span class="comment"></span>
+  </div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;  <span class="comment">######################################################################
+</span></div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Returns true if one or more markers exist in the specified text widget.
+</span></div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> exist {txt} {
+
+    </div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;
+    </div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    <span class="keyword">variable</span> markers<span class="comment">
+</span></div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="comment"></span>
+    </div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    <span class="keyword">return</span> [<span class="keyword">expr</span> [<span class="keyword">llength</span> [<span class="keyword">array</span> names markers $txt,*]] &gt; 0]<span class="comment">
+</span></div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;<span class="comment"></span>
+  </div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;  }<span class="comment">
+</span></div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;<span class="comment"></span>
 </div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;}</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_97aefd0d527b934f1d99a682da8fe6a9.html">lib</a></li><li class="navelem"><a class="el" href="markers_8tcl.html">markers.tcl</a></li>
-    <li class="footer">Generated on Mon Nov 30 2015 19:40:32 for TKE by
+    <li class="footer">Generated on Sat Dec 5 2015 22:16:38 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>

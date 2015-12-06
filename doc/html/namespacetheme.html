@@ -304,15 +304,15 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="theme_8tcl_source.html#l01180">1180</a> of file <a class="el" href="theme_8tcl_source.html">theme.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l01180"></a><span class="lineno"> 1180</span>&#160;  <span class="keyword">proc</span> create_ttk_theme {name} {
+<p>Definition at line <a class="el" href="theme_8tcl_source.html#l01181">1181</a> of file <a class="el" href="theme_8tcl_source.html">theme.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l01181"></a><span class="lineno"> 1181</span>&#160;  <span class="keyword">proc</span> create_ttk_theme {name} {
 
     </div>
-<div class="line"><a name="l01181"></a><span class="lineno"> 1181</span>&#160;
+<div class="line"><a name="l01182"></a><span class="lineno"> 1182</span>&#160;
     </div>
-<div class="line"><a name="l01182"></a><span class="lineno"> 1182</span>&#160;    <span class="comment"># Add a few styles to the default (light) theme
+<div class="line"><a name="l01183"></a><span class="lineno"> 1183</span>&#160;    <span class="comment"># Add a few styles to the default (light) theme
 </span></div>
-<div class="line"><a name="l01183"></a><span class="lineno"> 1183</span>&#160;<span class="comment"></span><span class="comment">    </span>ttk::style theme settings clam {
+<div class="line"><a name="l01184"></a><span class="lineno"> 1184</span>&#160;<span class="comment"></span><span class="comment">    </span>ttk::style theme settings clam {
 
       # BButton
       ttk::style configure BButton [ttk::style configure TButton]
@@ -321,7 +321,7 @@ Functions</h2></td></tr>
       ttk::style layout    BButton [ttk::style layout TButton]
 
     }</div>
-<div class="line"><a name="l01184"></a><span class="lineno"> 1184</span>&#160;
+<div class="line"><a name="l01185"></a><span class="lineno"> 1185</span>&#160;
       # BButton
       ttk::style configure BButton [ttk::style configure TButton]
       ttk::style configure BButton -anchor center -padding 2 -relief flat
@@ -329,44 +329,44 @@ Functions</h2></td></tr>
       ttk::style layout    BButton [ttk::style layout TButton]
 
     }</div>
-<div class="line"><a name="l01185"></a><span class="lineno"> 1185</span>&#160;      # BButton
+<div class="line"><a name="l01186"></a><span class="lineno"> 1186</span>&#160;      # BButton
       ttk::style configure BButton [ttk::style configure TButton]
       ttk::style configure BButton -anchor center -padding 2 -relief flat
       ttk::style map       BButton [ttk::style map TButton]
       ttk::style layout    BButton [ttk::style layout TButton]
 
     }</div>
-<div class="line"><a name="l01186"></a><span class="lineno"> 1186</span>&#160;      ttk::style configure BButton [ttk::style configure TButton]
+<div class="line"><a name="l01187"></a><span class="lineno"> 1187</span>&#160;      ttk::style configure BButton [ttk::style configure TButton]
       ttk::style configure BButton -anchor center -padding 2 -relief flat
       ttk::style map       BButton [ttk::style map TButton]
       ttk::style layout    BButton [ttk::style layout TButton]
 
     }</div>
-<div class="line"><a name="l01187"></a><span class="lineno"> 1187</span>&#160;      ttk::style configure BButton -anchor center -padding 2 -relief flat
+<div class="line"><a name="l01188"></a><span class="lineno"> 1188</span>&#160;      ttk::style configure BButton -anchor center -padding 2 -relief flat
       ttk::style map       BButton [ttk::style map TButton]
       ttk::style layout    BButton [ttk::style layout TButton]
 
     }</div>
-<div class="line"><a name="l01188"></a><span class="lineno"> 1188</span>&#160;      ttk::style map       BButton [ttk::style map TButton]
+<div class="line"><a name="l01189"></a><span class="lineno"> 1189</span>&#160;      ttk::style map       BButton [ttk::style map TButton]
       ttk::style layout    BButton [ttk::style layout TButton]
 
     }</div>
-<div class="line"><a name="l01189"></a><span class="lineno"> 1189</span>&#160;      ttk::style layout    BButton [ttk::style layout TButton]
+<div class="line"><a name="l01190"></a><span class="lineno"> 1190</span>&#160;      ttk::style layout    BButton [ttk::style layout TButton]
 
     }</div>
-<div class="line"><a name="l01190"></a><span class="lineno"> 1190</span>&#160;
+<div class="line"><a name="l01191"></a><span class="lineno"> 1191</span>&#160;
     }</div>
-<div class="line"><a name="l01191"></a><span class="lineno"> 1191</span>&#160;    }<span class="comment">
+<div class="line"><a name="l01192"></a><span class="lineno"> 1192</span>&#160;    }<span class="comment">
 </span></div>
-<div class="line"><a name="l01192"></a><span class="lineno"> 1192</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01193"></a><span class="lineno"> 1193</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l01193"></a><span class="lineno"> 1193</span>&#160;    <span class="comment"># Create the theme
+<div class="line"><a name="l01194"></a><span class="lineno"> 1194</span>&#160;    <span class="comment"># Create the theme
 </span></div>
-<div class="line"><a name="l01194"></a><span class="lineno"> 1194</span>&#160;<span class="comment"></span><span class="comment">    </span>ttk::style theme create $name -parent clam<span class="comment">
+<div class="line"><a name="l01195"></a><span class="lineno"> 1195</span>&#160;<span class="comment"></span><span class="comment">    </span>ttk::style theme create $name -parent clam<span class="comment">
 </span></div>
-<div class="line"><a name="l01195"></a><span class="lineno"> 1195</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01196"></a><span class="lineno"> 1196</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l01196"></a><span class="lineno"> 1196</span>&#160;  }</div>
+<div class="line"><a name="l01197"></a><span class="lineno"> 1197</span>&#160;  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -612,43 +612,43 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="theme_8tcl_source.html#l01093">1093</a> of file <a class="el" href="theme_8tcl_source.html">theme.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l01093"></a><span class="lineno"> 1093</span>&#160;  <span class="keyword">proc</span> get_category_options {category {all 0}} {
+<p>Definition at line <a class="el" href="theme_8tcl_source.html#l01094">1094</a> of file <a class="el" href="theme_8tcl_source.html">theme.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l01094"></a><span class="lineno"> 1094</span>&#160;  <span class="keyword">proc</span> get_category_options {category {all 0}} {
 
     </div>
-<div class="line"><a name="l01094"></a><span class="lineno"> 1094</span>&#160;
+<div class="line"><a name="l01095"></a><span class="lineno"> 1095</span>&#160;
     </div>
-<div class="line"><a name="l01095"></a><span class="lineno"> 1095</span>&#160;    <span class="keyword">variable</span> data<span class="comment">
+<div class="line"><a name="l01096"></a><span class="lineno"> 1096</span>&#160;    <span class="keyword">variable</span> data<span class="comment">
 </span></div>
-<div class="line"><a name="l01096"></a><span class="lineno"> 1096</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> fields<span class="comment">
+<div class="line"><a name="l01097"></a><span class="lineno"> 1097</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> fields<span class="comment">
 </span></div>
-<div class="line"><a name="l01097"></a><span class="lineno"> 1097</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01098"></a><span class="lineno"> 1098</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l01098"></a><span class="lineno"> 1098</span>&#160;    <span class="keyword">set</span> opts [list]<span class="comment">
+<div class="line"><a name="l01099"></a><span class="lineno"> 1099</span>&#160;    <span class="keyword">set</span> opts [list]<span class="comment">
 </span></div>
-<div class="line"><a name="l01099"></a><span class="lineno"> 1099</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01100"></a><span class="lineno"> 1100</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l01100"></a><span class="lineno"> 1100</span>&#160;    <span class="comment"># Get the list of options to pass to sidebar tablelist
+<div class="line"><a name="l01101"></a><span class="lineno"> 1101</span>&#160;    <span class="comment"># Get the list of options to pass to sidebar tablelist
 </span></div>
-<div class="line"><a name="l01101"></a><span class="lineno"> 1101</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">foreach</span> name [<span class="keyword">array</span> names data $category,*] {
+<div class="line"><a name="l01102"></a><span class="lineno"> 1102</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">foreach</span> name [<span class="keyword">array</span> names data $category,*] {
       </div>
-<div class="line"><a name="l01102"></a><span class="lineno"> 1102</span>&#160;      <span class="keyword">if</span> {$all || [<span class="keyword">lindex</span> $data($name) $fields(changed)]} {
+<div class="line"><a name="l01103"></a><span class="lineno"> 1103</span>&#160;      <span class="keyword">if</span> {$all || [<span class="keyword">lindex</span> $data($name) $fields(changed)]} {
         </div>
-<div class="line"><a name="l01103"></a><span class="lineno"> 1103</span>&#160;        <span class="keyword">lappend</span> opts [<span class="keyword">lindex</span> [<span class="keyword">split</span> $name ,] 1] [<span class="keyword">lindex</span> $data($name) $fields(value)]<span class="comment">
+<div class="line"><a name="l01104"></a><span class="lineno"> 1104</span>&#160;        <span class="keyword">lappend</span> opts [<span class="keyword">lindex</span> [<span class="keyword">split</span> $name ,] 1] [<span class="keyword">lindex</span> $data($name) $fields(value)]<span class="comment">
 </span></div>
-<div class="line"><a name="l01104"></a><span class="lineno"> 1104</span>&#160;<span class="comment"></span>        <span class="keyword">lset</span> data($name) $fields(changed) 0<span class="comment">
+<div class="line"><a name="l01105"></a><span class="lineno"> 1105</span>&#160;<span class="comment"></span>        <span class="keyword">lset</span> data($name) $fields(changed) 0<span class="comment">
 </span></div>
-<div class="line"><a name="l01105"></a><span class="lineno"> 1105</span>&#160;<span class="comment"></span>      }<span class="comment">
+<div class="line"><a name="l01106"></a><span class="lineno"> 1106</span>&#160;<span class="comment"></span>      }<span class="comment">
 </span></div>
-<div class="line"><a name="l01106"></a><span class="lineno"> 1106</span>&#160;<span class="comment"></span>    }<span class="comment">
+<div class="line"><a name="l01107"></a><span class="lineno"> 1107</span>&#160;<span class="comment"></span>    }<span class="comment">
 </span></div>
-<div class="line"><a name="l01107"></a><span class="lineno"> 1107</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01108"></a><span class="lineno"> 1108</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l01108"></a><span class="lineno"> 1108</span>&#160;    <span class="keyword">return</span> $opts<span class="comment">
+<div class="line"><a name="l01109"></a><span class="lineno"> 1109</span>&#160;    <span class="keyword">return</span> $opts<span class="comment">
 </span></div>
-<div class="line"><a name="l01109"></a><span class="lineno"> 1109</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01110"></a><span class="lineno"> 1110</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l01110"></a><span class="lineno"> 1110</span>&#160;  }</div>
+<div class="line"><a name="l01111"></a><span class="lineno"> 1111</span>&#160;  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -862,31 +862,31 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="theme_8tcl_source.html#l01165">1165</a> of file <a class="el" href="theme_8tcl_source.html">theme.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l01165"></a><span class="lineno"> 1165</span>&#160;  <span class="keyword">proc</span> get_type {category opt} {
+<p>Definition at line <a class="el" href="theme_8tcl_source.html#l01166">1166</a> of file <a class="el" href="theme_8tcl_source.html">theme.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l01166"></a><span class="lineno"> 1166</span>&#160;  <span class="keyword">proc</span> get_type {category opt} {
 
     </div>
-<div class="line"><a name="l01166"></a><span class="lineno"> 1166</span>&#160;
+<div class="line"><a name="l01167"></a><span class="lineno"> 1167</span>&#160;
     </div>
-<div class="line"><a name="l01167"></a><span class="lineno"> 1167</span>&#160;    <span class="keyword">variable</span> data<span class="comment">
+<div class="line"><a name="l01168"></a><span class="lineno"> 1168</span>&#160;    <span class="keyword">variable</span> data<span class="comment">
 </span></div>
-<div class="line"><a name="l01168"></a><span class="lineno"> 1168</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> fields<span class="comment">
+<div class="line"><a name="l01169"></a><span class="lineno"> 1169</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> fields<span class="comment">
 </span></div>
-<div class="line"><a name="l01169"></a><span class="lineno"> 1169</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01170"></a><span class="lineno"> 1170</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l01170"></a><span class="lineno"> 1170</span>&#160;    <span class="keyword">if</span> {![<span class="keyword">info</span> exists data($category,$opt)]} {
+<div class="line"><a name="l01171"></a><span class="lineno"> 1171</span>&#160;    <span class="keyword">if</span> {![<span class="keyword">info</span> exists data($category,$opt)]} {
       </div>
-<div class="line"><a name="l01171"></a><span class="lineno"> 1171</span>&#160;      <span class="keyword">return</span> -code error &quot;Unknown category/option specified ($category $opt)&quot;<span class="comment">
+<div class="line"><a name="l01172"></a><span class="lineno"> 1172</span>&#160;      <span class="keyword">return</span> -code error &quot;Unknown category/option specified ($category $opt)&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l01172"></a><span class="lineno"> 1172</span>&#160;<span class="comment"></span>    }<span class="comment">
+<div class="line"><a name="l01173"></a><span class="lineno"> 1173</span>&#160;<span class="comment"></span>    }<span class="comment">
 </span></div>
-<div class="line"><a name="l01173"></a><span class="lineno"> 1173</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01174"></a><span class="lineno"> 1174</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l01174"></a><span class="lineno"> 1174</span>&#160;    <span class="keyword">return</span> [<span class="keyword">lindex</span> $data($category,$opt) $fields(type)]<span class="comment">
+<div class="line"><a name="l01175"></a><span class="lineno"> 1175</span>&#160;    <span class="keyword">return</span> [<span class="keyword">lindex</span> $data($category,$opt) $fields(type)]<span class="comment">
 </span></div>
-<div class="line"><a name="l01175"></a><span class="lineno"> 1175</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01176"></a><span class="lineno"> 1176</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l01176"></a><span class="lineno"> 1176</span>&#160;  }</div>
+<div class="line"><a name="l01177"></a><span class="lineno"> 1177</span>&#160;  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -908,31 +908,31 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="theme_8tcl_source.html#l01150">1150</a> of file <a class="el" href="theme_8tcl_source.html">theme.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l01150"></a><span class="lineno"> 1150</span>&#160;  <span class="keyword">proc</span> get_value {category opt} {
+<p>Definition at line <a class="el" href="theme_8tcl_source.html#l01151">1151</a> of file <a class="el" href="theme_8tcl_source.html">theme.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l01151"></a><span class="lineno"> 1151</span>&#160;  <span class="keyword">proc</span> get_value {category opt} {
 
     </div>
-<div class="line"><a name="l01151"></a><span class="lineno"> 1151</span>&#160;
+<div class="line"><a name="l01152"></a><span class="lineno"> 1152</span>&#160;
     </div>
-<div class="line"><a name="l01152"></a><span class="lineno"> 1152</span>&#160;    <span class="keyword">variable</span> data<span class="comment">
+<div class="line"><a name="l01153"></a><span class="lineno"> 1153</span>&#160;    <span class="keyword">variable</span> data<span class="comment">
 </span></div>
-<div class="line"><a name="l01153"></a><span class="lineno"> 1153</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> fields<span class="comment">
+<div class="line"><a name="l01154"></a><span class="lineno"> 1154</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> fields<span class="comment">
 </span></div>
-<div class="line"><a name="l01154"></a><span class="lineno"> 1154</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01155"></a><span class="lineno"> 1155</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l01155"></a><span class="lineno"> 1155</span>&#160;    <span class="keyword">if</span> {![<span class="keyword">info</span> exists data($category,$opt)]} {
+<div class="line"><a name="l01156"></a><span class="lineno"> 1156</span>&#160;    <span class="keyword">if</span> {![<span class="keyword">info</span> exists data($category,$opt)]} {
       </div>
-<div class="line"><a name="l01156"></a><span class="lineno"> 1156</span>&#160;      <span class="keyword">return</span> -code error &quot;Unknown category/option specified ($category $opt)&quot;<span class="comment">
+<div class="line"><a name="l01157"></a><span class="lineno"> 1157</span>&#160;      <span class="keyword">return</span> -code error &quot;Unknown category/option specified ($category $opt)&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l01157"></a><span class="lineno"> 1157</span>&#160;<span class="comment"></span>    }<span class="comment">
+<div class="line"><a name="l01158"></a><span class="lineno"> 1158</span>&#160;<span class="comment"></span>    }<span class="comment">
 </span></div>
-<div class="line"><a name="l01158"></a><span class="lineno"> 1158</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01159"></a><span class="lineno"> 1159</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l01159"></a><span class="lineno"> 1159</span>&#160;    <span class="keyword">return</span> [<span class="keyword">lindex</span> $data($category,$opt) $fields(value)]<span class="comment">
+<div class="line"><a name="l01160"></a><span class="lineno"> 1160</span>&#160;    <span class="keyword">return</span> [<span class="keyword">lindex</span> $data($category,$opt) $fields(value)]<span class="comment">
 </span></div>
-<div class="line"><a name="l01160"></a><span class="lineno"> 1160</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01161"></a><span class="lineno"> 1161</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l01161"></a><span class="lineno"> 1161</span>&#160;  }</div>
+<div class="line"><a name="l01162"></a><span class="lineno"> 1162</span>&#160;  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1014,37 +1014,37 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="theme_8tcl_source.html#l01132">1132</a> of file <a class="el" href="theme_8tcl_source.html">theme.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l01132"></a><span class="lineno"> 1132</span>&#160;  <span class="keyword">proc</span> meta_do {action category opt args} {
+<p>Definition at line <a class="el" href="theme_8tcl_source.html#l01133">1133</a> of file <a class="el" href="theme_8tcl_source.html">theme.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l01133"></a><span class="lineno"> 1133</span>&#160;  <span class="keyword">proc</span> meta_do {action category opt args} {
 
     </div>
-<div class="line"><a name="l01133"></a><span class="lineno"> 1133</span>&#160;
+<div class="line"><a name="l01134"></a><span class="lineno"> 1134</span>&#160;
     </div>
-<div class="line"><a name="l01134"></a><span class="lineno"> 1134</span>&#160;    <span class="keyword">variable</span> data<span class="comment">
+<div class="line"><a name="l01135"></a><span class="lineno"> 1135</span>&#160;    <span class="keyword">variable</span> data<span class="comment">
 </span></div>
-<div class="line"><a name="l01135"></a><span class="lineno"> 1135</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01136"></a><span class="lineno"> 1136</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l01136"></a><span class="lineno"> 1136</span>&#160;    <span class="comment"># Create the lookup key
+<div class="line"><a name="l01137"></a><span class="lineno"> 1137</span>&#160;    <span class="comment"># Create the lookup key
 </span></div>
-<div class="line"><a name="l01137"></a><span class="lineno"> 1137</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> key meta,$category,$opt<span class="comment">
+<div class="line"><a name="l01138"></a><span class="lineno"> 1138</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> key meta,$category,$opt<span class="comment">
 </span></div>
-<div class="line"><a name="l01138"></a><span class="lineno"> 1138</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01139"></a><span class="lineno"> 1139</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l01139"></a><span class="lineno"> 1139</span>&#160;    <span class="keyword">switch</span>  $action {
+<div class="line"><a name="l01140"></a><span class="lineno"> 1140</span>&#160;    <span class="keyword">switch</span>  $action {
       </div>
-<div class="line"><a name="l01140"></a><span class="lineno"> 1140</span>&#160;      exists { <span class="keyword">return</span> [<span class="keyword">info</span> exists data($key)]}
+<div class="line"><a name="l01141"></a><span class="lineno"> 1141</span>&#160;      exists { <span class="keyword">return</span> [<span class="keyword">info</span> exists data($key)]}
       </div>
-<div class="line"><a name="l01141"></a><span class="lineno"> 1141</span>&#160;      get    { <span class="keyword">return</span> $data($key)}
+<div class="line"><a name="l01142"></a><span class="lineno"> 1142</span>&#160;      get    { <span class="keyword">return</span> $data($key)}
       </div>
-<div class="line"><a name="l01142"></a><span class="lineno"> 1142</span>&#160;      set    { <span class="keyword">set</span> data($key) [<span class="keyword">lindex</span> $args 0]}
+<div class="line"><a name="l01143"></a><span class="lineno"> 1143</span>&#160;      set    { <span class="keyword">set</span> data($key) [<span class="keyword">lindex</span> $args 0]}
       </div>
-<div class="line"><a name="l01143"></a><span class="lineno"> 1143</span>&#160;      delete { unset -nocomplain data($key)}
+<div class="line"><a name="l01144"></a><span class="lineno"> 1144</span>&#160;      delete { unset -nocomplain data($key)}
     </div>
-<div class="line"><a name="l01144"></a><span class="lineno"> 1144</span>&#160;    }<span class="comment">
+<div class="line"><a name="l01145"></a><span class="lineno"> 1145</span>&#160;    }<span class="comment">
 </span></div>
-<div class="line"><a name="l01145"></a><span class="lineno"> 1145</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01146"></a><span class="lineno"> 1146</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l01146"></a><span class="lineno"> 1146</span>&#160;  }</div>
+<div class="line"><a name="l01147"></a><span class="lineno"> 1147</span>&#160;  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1929,37 +1929,37 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="theme_8tcl_source.html#l01114">1114</a> of file <a class="el" href="theme_8tcl_source.html">theme.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l01114"></a><span class="lineno"> 1114</span>&#160;  <span class="keyword">proc</span> swatch_do {action args} {
+<p>Definition at line <a class="el" href="theme_8tcl_source.html#l01115">1115</a> of file <a class="el" href="theme_8tcl_source.html">theme.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l01115"></a><span class="lineno"> 1115</span>&#160;  <span class="keyword">proc</span> swatch_do {action args} {
 
     </div>
-<div class="line"><a name="l01115"></a><span class="lineno"> 1115</span>&#160;
+<div class="line"><a name="l01116"></a><span class="lineno"> 1116</span>&#160;
     </div>
-<div class="line"><a name="l01116"></a><span class="lineno"> 1116</span>&#160;    <span class="keyword">variable</span> data<span class="comment">
+<div class="line"><a name="l01117"></a><span class="lineno"> 1117</span>&#160;    <span class="keyword">variable</span> data<span class="comment">
 </span></div>
-<div class="line"><a name="l01117"></a><span class="lineno"> 1117</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01118"></a><span class="lineno"> 1118</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l01118"></a><span class="lineno"> 1118</span>&#160;    <span class="keyword">switch</span>  $action {
+<div class="line"><a name="l01119"></a><span class="lineno"> 1119</span>&#160;    <span class="keyword">switch</span>  $action {
       </div>
-<div class="line"><a name="l01119"></a><span class="lineno"> 1119</span>&#160;      get     { <span class="keyword">return</span> $data(swatch)}
+<div class="line"><a name="l01120"></a><span class="lineno"> 1120</span>&#160;      get     { <span class="keyword">return</span> $data(swatch)}
       </div>
-<div class="line"><a name="l01120"></a><span class="lineno"> 1120</span>&#160;      set     { <span class="keyword">lset</span> data(swatch) [<span class="keyword">lindex</span> $args 0] [<span class="keyword">lindex</span> $args 1]}
+<div class="line"><a name="l01121"></a><span class="lineno"> 1121</span>&#160;      set     { <span class="keyword">lset</span> data(swatch) [<span class="keyword">lindex</span> $args 0] [<span class="keyword">lindex</span> $args 1]}
       </div>
-<div class="line"><a name="l01121"></a><span class="lineno"> 1121</span>&#160;      append  { <span class="keyword">lappend</span> data(swatch) {*}$args}
+<div class="line"><a name="l01122"></a><span class="lineno"> 1122</span>&#160;      append  { <span class="keyword">lappend</span> data(swatch) {*}$args}
       </div>
-<div class="line"><a name="l01122"></a><span class="lineno"> 1122</span>&#160;      delete  { <span class="keyword">set</span> data(swatch) [<span class="keyword">lreplace</span> $data(swatch) [<span class="keyword">lindex</span> $args 0] [<span class="keyword">lindex</span> $args 0]]}
+<div class="line"><a name="l01123"></a><span class="lineno"> 1123</span>&#160;      delete  { <span class="keyword">set</span> data(swatch) [<span class="keyword">lreplace</span> $data(swatch) [<span class="keyword">lindex</span> $args 0] [<span class="keyword">lindex</span> $args 0]]}
       </div>
-<div class="line"><a name="l01123"></a><span class="lineno"> 1123</span>&#160;      length  { <span class="keyword">return</span> [<span class="keyword">llength</span> $data(swatch)]}
+<div class="line"><a name="l01124"></a><span class="lineno"> 1124</span>&#160;      length  { <span class="keyword">return</span> [<span class="keyword">llength</span> $data(swatch)]}
       </div>
-<div class="line"><a name="l01124"></a><span class="lineno"> 1124</span>&#160;      index   { <span class="keyword">return</span> [<span class="keyword">lindex</span> $data(swatch) [<span class="keyword">lindex</span> $args 0]]}
+<div class="line"><a name="l01125"></a><span class="lineno"> 1125</span>&#160;      index   { <span class="keyword">return</span> [<span class="keyword">lindex</span> $data(swatch) [<span class="keyword">lindex</span> $args 0]]}
       </div>
-<div class="line"><a name="l01125"></a><span class="lineno"> 1125</span>&#160;      default { <span class="keyword">return</span> -code error &quot;Unknown swatch action&quot;}
+<div class="line"><a name="l01126"></a><span class="lineno"> 1126</span>&#160;      default { <span class="keyword">return</span> -code error &quot;Unknown swatch action&quot;}
     </div>
-<div class="line"><a name="l01126"></a><span class="lineno"> 1126</span>&#160;    }<span class="comment">
+<div class="line"><a name="l01127"></a><span class="lineno"> 1127</span>&#160;    }<span class="comment">
 </span></div>
-<div class="line"><a name="l01127"></a><span class="lineno"> 1127</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01128"></a><span class="lineno"> 1128</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l01128"></a><span class="lineno"> 1128</span>&#160;  }</div>
+<div class="line"><a name="l01129"></a><span class="lineno"> 1129</span>&#160;  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2021,35 +2021,35 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="theme_8tcl_source.html#l00919">919</a> of file <a class="el" href="theme_8tcl_source.html">theme.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l00919"></a><span class="lineno">  919</span>&#160;  <span class="keyword">proc</span> update_images {} {
+<p>Definition at line <a class="el" href="theme_8tcl_source.html#l00920">920</a> of file <a class="el" href="theme_8tcl_source.html">theme.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l00920"></a><span class="lineno">  920</span>&#160;  <span class="keyword">proc</span> update_images {} {
 
     </div>
-<div class="line"><a name="l00920"></a><span class="lineno">  920</span>&#160;
+<div class="line"><a name="l00921"></a><span class="lineno">  921</span>&#160;
     </div>
-<div class="line"><a name="l00921"></a><span class="lineno">  921</span>&#160;    <span class="keyword">variable</span> data<span class="comment">
+<div class="line"><a name="l00922"></a><span class="lineno">  922</span>&#160;    <span class="keyword">variable</span> data<span class="comment">
 </span></div>
-<div class="line"><a name="l00922"></a><span class="lineno">  922</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> fields<span class="comment">
+<div class="line"><a name="l00923"></a><span class="lineno">  923</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> fields<span class="comment">
 </span></div>
-<div class="line"><a name="l00923"></a><span class="lineno">  923</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00924"></a><span class="lineno">  924</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00924"></a><span class="lineno">  924</span>&#160;    <span class="comment"># Convert all of the images
+<div class="line"><a name="l00925"></a><span class="lineno">  925</span>&#160;    <span class="comment"># Convert all of the images
 </span></div>
-<div class="line"><a name="l00925"></a><span class="lineno">  925</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">foreach</span> name [<span class="keyword">array</span> names data images,*] {
+<div class="line"><a name="l00926"></a><span class="lineno">  926</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">foreach</span> name [<span class="keyword">array</span> names data images,*] {
       </div>
-<div class="line"><a name="l00926"></a><span class="lineno">  926</span>&#160;      <span class="keyword">if</span> {[<span class="keyword">lindex</span> $data($name) $fields(changed)]} {
+<div class="line"><a name="l00927"></a><span class="lineno">  927</span>&#160;      <span class="keyword">if</span> {[<span class="keyword">lindex</span> $data($name) $fields(changed)]} {
         </div>
-<div class="line"><a name="l00927"></a><span class="lineno">  927</span>&#160;        <a class="code" href="namespacetheme.html#a7dd72dadcb22626445e746d63b2c4b04" title="theme::convert_image">convert_image</a> [<span class="keyword">lindex</span> $data($name) $fields(value)] [<span class="keyword">lindex</span> [<span class="keyword">split</span> $name ,] 1]<span class="comment">
+<div class="line"><a name="l00928"></a><span class="lineno">  928</span>&#160;        <a class="code" href="namespacetheme.html#a7dd72dadcb22626445e746d63b2c4b04" title="theme::convert_image">convert_image</a> [<span class="keyword">lindex</span> $data($name) $fields(value)] [<span class="keyword">lindex</span> [<span class="keyword">split</span> $name ,] 1]<span class="comment">
 </span></div>
-<div class="line"><a name="l00928"></a><span class="lineno">  928</span>&#160;<span class="comment"></span>        <span class="keyword">lset</span> data($name) $fields(changed) 0<span class="comment">
+<div class="line"><a name="l00929"></a><span class="lineno">  929</span>&#160;<span class="comment"></span>        <span class="keyword">lset</span> data($name) $fields(changed) 0<span class="comment">
 </span></div>
-<div class="line"><a name="l00929"></a><span class="lineno">  929</span>&#160;<span class="comment"></span>      }<span class="comment">
+<div class="line"><a name="l00930"></a><span class="lineno">  930</span>&#160;<span class="comment"></span>      }<span class="comment">
 </span></div>
-<div class="line"><a name="l00930"></a><span class="lineno">  930</span>&#160;<span class="comment"></span>    }<span class="comment">
+<div class="line"><a name="l00931"></a><span class="lineno">  931</span>&#160;<span class="comment"></span>    }<span class="comment">
 </span></div>
-<div class="line"><a name="l00931"></a><span class="lineno">  931</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00932"></a><span class="lineno">  932</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l00932"></a><span class="lineno">  932</span>&#160;  }</div>
+<div class="line"><a name="l00933"></a><span class="lineno">  933</span>&#160;  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2071,33 +2071,33 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="theme_8tcl_source.html#l00936">936</a> of file <a class="el" href="theme_8tcl_source.html">theme.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l00936"></a><span class="lineno">  936</span>&#160;  <span class="keyword">proc</span> update_menu_helper {mnu opts} {
+<p>Definition at line <a class="el" href="theme_8tcl_source.html#l00937">937</a> of file <a class="el" href="theme_8tcl_source.html">theme.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l00937"></a><span class="lineno">  937</span>&#160;  <span class="keyword">proc</span> update_menu_helper {mnu opts} {
 
     </div>
-<div class="line"><a name="l00937"></a><span class="lineno">  937</span>&#160;
+<div class="line"><a name="l00938"></a><span class="lineno">  938</span>&#160;
     </div>
-<div class="line"><a name="l00938"></a><span class="lineno">  938</span>&#160;    $mnu configure {*}$opts<span class="comment">
+<div class="line"><a name="l00939"></a><span class="lineno">  939</span>&#160;    $mnu configure {*}$opts<span class="comment">
 </span></div>
-<div class="line"><a name="l00939"></a><span class="lineno">  939</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00940"></a><span class="lineno">  940</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00940"></a><span class="lineno">  940</span>&#160;    <span class="keyword">if</span> {[<span class="keyword">set</span> last [$mnu index end]] ne &quot;none&quot;} {
+<div class="line"><a name="l00941"></a><span class="lineno">  941</span>&#160;    <span class="keyword">if</span> {[<span class="keyword">set</span> last [$mnu index end]] ne &quot;none&quot;} {
       </div>
-<div class="line"><a name="l00941"></a><span class="lineno">  941</span>&#160;      <span class="keyword">for</span> {<span class="keyword">set</span> i 0} {$i &lt;= $last} {<span class="keyword">incr</span> i} {
+<div class="line"><a name="l00942"></a><span class="lineno">  942</span>&#160;      <span class="keyword">for</span> {<span class="keyword">set</span> i 0} {$i &lt;= $last} {<span class="keyword">incr</span> i} {
         </div>
-<div class="line"><a name="l00942"></a><span class="lineno">  942</span>&#160;        <span class="keyword">if</span> {[$mnu type $i] eq &quot;cascade&quot;} {
+<div class="line"><a name="l00943"></a><span class="lineno">  943</span>&#160;        <span class="keyword">if</span> {[$mnu type $i] eq &quot;cascade&quot;} {
           </div>
-<div class="line"><a name="l00943"></a><span class="lineno">  943</span>&#160;          <a class="code" href="namespacetheme.html#aeaa8f6cf45b285b761409bf46cd1b7b4" title="theme::update_menu_helper">update_menu_helper</a> [$mnu entrycget $i -menu] $opts<span class="comment">
+<div class="line"><a name="l00944"></a><span class="lineno">  944</span>&#160;          <a class="code" href="namespacetheme.html#aeaa8f6cf45b285b761409bf46cd1b7b4" title="theme::update_menu_helper">update_menu_helper</a> [$mnu entrycget $i -menu] $opts<span class="comment">
 </span></div>
-<div class="line"><a name="l00944"></a><span class="lineno">  944</span>&#160;<span class="comment"></span>        }<span class="comment">
+<div class="line"><a name="l00945"></a><span class="lineno">  945</span>&#160;<span class="comment"></span>        }<span class="comment">
 </span></div>
-<div class="line"><a name="l00945"></a><span class="lineno">  945</span>&#160;<span class="comment"></span>      }<span class="comment">
+<div class="line"><a name="l00946"></a><span class="lineno">  946</span>&#160;<span class="comment"></span>      }<span class="comment">
 </span></div>
-<div class="line"><a name="l00946"></a><span class="lineno">  946</span>&#160;<span class="comment"></span>    }<span class="comment">
+<div class="line"><a name="l00947"></a><span class="lineno">  947</span>&#160;<span class="comment"></span>    }<span class="comment">
 </span></div>
-<div class="line"><a name="l00947"></a><span class="lineno">  947</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00948"></a><span class="lineno">  948</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l00948"></a><span class="lineno">  948</span>&#160;  }</div>
+<div class="line"><a name="l00949"></a><span class="lineno">  949</span>&#160;  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2111,21 +2111,21 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="theme_8tcl_source.html#l00893">893</a> of file <a class="el" href="theme_8tcl_source.html">theme.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l00893"></a><span class="lineno">  893</span>&#160;  <span class="keyword">proc</span> update_menus {} {
+<p>Definition at line <a class="el" href="theme_8tcl_source.html#l00894">894</a> of file <a class="el" href="theme_8tcl_source.html">theme.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l00894"></a><span class="lineno">  894</span>&#160;  <span class="keyword">proc</span> update_menus {} {
 
     </div>
-<div class="line"><a name="l00894"></a><span class="lineno">  894</span>&#160;
+<div class="line"><a name="l00895"></a><span class="lineno">  895</span>&#160;
     </div>
-<div class="line"><a name="l00895"></a><span class="lineno">  895</span>&#160;    <span class="keyword">variable</span> widgets<span class="comment">
+<div class="line"><a name="l00896"></a><span class="lineno">  896</span>&#160;    <span class="keyword">variable</span> widgets<span class="comment">
 </span></div>
-<div class="line"><a name="l00896"></a><span class="lineno">  896</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00897"></a><span class="lineno">  897</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00897"></a><span class="lineno">  897</span>&#160;    <a class="code" href="namespacetheme.html#aeaa8f6cf45b285b761409bf46cd1b7b4" title="theme::update_menu_helper">update_menu_helper</a> $widgets(menus) [<a class="code" href="namespacetheme.html#af72e247d539f10507dec15577154b462" title="theme::get_category_options">get_category_options</a> menus]<span class="comment">
+<div class="line"><a name="l00898"></a><span class="lineno">  898</span>&#160;    <a class="code" href="namespacetheme.html#aeaa8f6cf45b285b761409bf46cd1b7b4" title="theme::update_menu_helper">update_menu_helper</a> $widgets(menus) [<a class="code" href="namespacetheme.html#af72e247d539f10507dec15577154b462" title="theme::get_category_options">get_category_options</a> menus]<span class="comment">
 </span></div>
-<div class="line"><a name="l00898"></a><span class="lineno">  898</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00899"></a><span class="lineno">  899</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l00899"></a><span class="lineno">  899</span>&#160;  }</div>
+<div class="line"><a name="l00900"></a><span class="lineno">  900</span>&#160;  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2139,17 +2139,17 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="theme_8tcl_source.html#l00903">903</a> of file <a class="el" href="theme_8tcl_source.html">theme.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l00903"></a><span class="lineno">  903</span>&#160;  <span class="keyword">proc</span> update_sidebar {} {
+<p>Definition at line <a class="el" href="theme_8tcl_source.html#l00904">904</a> of file <a class="el" href="theme_8tcl_source.html">theme.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l00904"></a><span class="lineno">  904</span>&#160;  <span class="keyword">proc</span> update_sidebar {} {
 
     </div>
-<div class="line"><a name="l00904"></a><span class="lineno">  904</span>&#160;
+<div class="line"><a name="l00905"></a><span class="lineno">  905</span>&#160;
     </div>
-<div class="line"><a name="l00905"></a><span class="lineno">  905</span>&#160;    <a class="code" href="namespacetheme.html#a08dd799c77fc4e5bb7bdf99faae09873" title="theme::update_widget">update_widget</a> sidebar<span class="comment">
+<div class="line"><a name="l00906"></a><span class="lineno">  906</span>&#160;    <a class="code" href="namespacetheme.html#a08dd799c77fc4e5bb7bdf99faae09873" title="theme::update_widget">update_widget</a> sidebar<span class="comment">
 </span></div>
-<div class="line"><a name="l00906"></a><span class="lineno">  906</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00907"></a><span class="lineno">  907</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l00907"></a><span class="lineno">  907</span>&#160;  }</div>
+<div class="line"><a name="l00908"></a><span class="lineno">  908</span>&#160;  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2163,17 +2163,17 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="theme_8tcl_source.html#l00911">911</a> of file <a class="el" href="theme_8tcl_source.html">theme.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l00911"></a><span class="lineno">  911</span>&#160;  <span class="keyword">proc</span> update_sidebar_scrollbar {} {
+<p>Definition at line <a class="el" href="theme_8tcl_source.html#l00912">912</a> of file <a class="el" href="theme_8tcl_source.html">theme.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l00912"></a><span class="lineno">  912</span>&#160;  <span class="keyword">proc</span> update_sidebar_scrollbar {} {
 
     </div>
-<div class="line"><a name="l00912"></a><span class="lineno">  912</span>&#160;
+<div class="line"><a name="l00913"></a><span class="lineno">  913</span>&#160;
     </div>
-<div class="line"><a name="l00913"></a><span class="lineno">  913</span>&#160;    <a class="code" href="namespacetheme.html#a08dd799c77fc4e5bb7bdf99faae09873" title="theme::update_widget">update_widget</a> sidebar_scrollbar<span class="comment">
+<div class="line"><a name="l00914"></a><span class="lineno">  914</span>&#160;    <a class="code" href="namespacetheme.html#a08dd799c77fc4e5bb7bdf99faae09873" title="theme::update_widget">update_widget</a> sidebar_scrollbar<span class="comment">
 </span></div>
-<div class="line"><a name="l00914"></a><span class="lineno">  914</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00915"></a><span class="lineno">  915</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l00915"></a><span class="lineno">  915</span>&#160;  }</div>
+<div class="line"><a name="l00916"></a><span class="lineno">  916</span>&#160;  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2217,17 +2217,19 @@ Functions</h2></td></tr>
 </span></div>
 <div class="line"><a name="l00867"></a><span class="lineno">  867</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00868"></a><span class="lineno">  868</span>&#160;    <span class="comment"># Update all of the syntax
+<div class="line"><a name="l00868"></a><span class="lineno">  868</span>&#160;    <span class="comment"># Update all of the syntax and scrollers
 </span></div>
 <div class="line"><a name="l00869"></a><span class="lineno">  869</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">foreach</span> txt $widgets(syntax) {
       </div>
 <div class="line"><a name="l00870"></a><span class="lineno">  870</span>&#160;      [<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> syntax]::set_language [[<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> syntax]::get_current_language $txt] $txt 1<span class="comment">
 </span></div>
-<div class="line"><a name="l00871"></a><span class="lineno">  871</span>&#160;<span class="comment"></span>    }<span class="comment">
+<div class="line"><a name="l00871"></a><span class="lineno">  871</span>&#160;<span class="comment"></span>      [<a class="code" href="ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2" title="ns">ns</a> scroller]::update_markers [<span class="keyword">winfo</span> parent $txt].vb<span class="comment">
 </span></div>
-<div class="line"><a name="l00872"></a><span class="lineno">  872</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00872"></a><span class="lineno">  872</span>&#160;<span class="comment"></span>    }<span class="comment">
+</span></div>
+<div class="line"><a name="l00873"></a><span class="lineno">  873</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l00873"></a><span class="lineno">  873</span>&#160;  }</div>
+<div class="line"><a name="l00874"></a><span class="lineno">  874</span>&#160;  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2241,17 +2243,17 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="theme_8tcl_source.html#l00877">877</a> of file <a class="el" href="theme_8tcl_source.html">theme.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l00877"></a><span class="lineno">  877</span>&#160;  <span class="keyword">proc</span> update_tabs {} {
+<p>Definition at line <a class="el" href="theme_8tcl_source.html#l00878">878</a> of file <a class="el" href="theme_8tcl_source.html">theme.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l00878"></a><span class="lineno">  878</span>&#160;  <span class="keyword">proc</span> update_tabs {} {
 
     </div>
-<div class="line"><a name="l00878"></a><span class="lineno">  878</span>&#160;
+<div class="line"><a name="l00879"></a><span class="lineno">  879</span>&#160;
     </div>
-<div class="line"><a name="l00879"></a><span class="lineno">  879</span>&#160;    <a class="code" href="namespacetheme.html#a08dd799c77fc4e5bb7bdf99faae09873" title="theme::update_widget">update_widget</a> tabs<span class="comment">
+<div class="line"><a name="l00880"></a><span class="lineno">  880</span>&#160;    <a class="code" href="namespacetheme.html#a08dd799c77fc4e5bb7bdf99faae09873" title="theme::update_widget">update_widget</a> tabs<span class="comment">
 </span></div>
-<div class="line"><a name="l00880"></a><span class="lineno">  880</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00881"></a><span class="lineno">  881</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l00881"></a><span class="lineno">  881</span>&#160;  }</div>
+<div class="line"><a name="l00882"></a><span class="lineno">  882</span>&#160;  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2265,17 +2267,17 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="theme_8tcl_source.html#l00885">885</a> of file <a class="el" href="theme_8tcl_source.html">theme.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l00885"></a><span class="lineno">  885</span>&#160;  <span class="keyword">proc</span> update_text_scrollbar {} {
+<p>Definition at line <a class="el" href="theme_8tcl_source.html#l00886">886</a> of file <a class="el" href="theme_8tcl_source.html">theme.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l00886"></a><span class="lineno">  886</span>&#160;  <span class="keyword">proc</span> update_text_scrollbar {} {
 
     </div>
-<div class="line"><a name="l00886"></a><span class="lineno">  886</span>&#160;
+<div class="line"><a name="l00887"></a><span class="lineno">  887</span>&#160;
     </div>
-<div class="line"><a name="l00887"></a><span class="lineno">  887</span>&#160;    <a class="code" href="namespacetheme.html#a08dd799c77fc4e5bb7bdf99faae09873" title="theme::update_widget">update_widget</a> text_scrollbar<span class="comment">
+<div class="line"><a name="l00888"></a><span class="lineno">  888</span>&#160;    <a class="code" href="namespacetheme.html#a08dd799c77fc4e5bb7bdf99faae09873" title="theme::update_widget">update_widget</a> text_scrollbar<span class="comment">
 </span></div>
-<div class="line"><a name="l00888"></a><span class="lineno">  888</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00889"></a><span class="lineno">  889</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l00889"></a><span class="lineno">  889</span>&#160;  }</div>
+<div class="line"><a name="l00890"></a><span class="lineno">  890</span>&#160;  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2323,31 +2325,31 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="theme_8tcl_source.html#l00953">953</a> of file <a class="el" href="theme_8tcl_source.html">theme.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l00953"></a><span class="lineno">  953</span>&#160;  <span class="keyword">proc</span> update_ttk_style {} {
+<p>Definition at line <a class="el" href="theme_8tcl_source.html#l00954">954</a> of file <a class="el" href="theme_8tcl_source.html">theme.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l00954"></a><span class="lineno">  954</span>&#160;  <span class="keyword">proc</span> update_ttk_style {} {
 
     </div>
-<div class="line"><a name="l00954"></a><span class="lineno">  954</span>&#160;
+<div class="line"><a name="l00955"></a><span class="lineno">  955</span>&#160;
     </div>
-<div class="line"><a name="l00955"></a><span class="lineno">  955</span>&#160;    <span class="keyword">variable</span> data<span class="comment">
+<div class="line"><a name="l00956"></a><span class="lineno">  956</span>&#160;    <span class="keyword">variable</span> data<span class="comment">
 </span></div>
-<div class="line"><a name="l00956"></a><span class="lineno">  956</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00957"></a><span class="lineno">  957</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00957"></a><span class="lineno">  957</span>&#160;    <span class="comment"># Get the name of the ttk style currently in use
+<div class="line"><a name="l00958"></a><span class="lineno">  958</span>&#160;    <span class="comment"># Get the name of the ttk style currently in use
 </span></div>
-<div class="line"><a name="l00958"></a><span class="lineno">  958</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> name [ttk::style theme use]<span class="comment">
+<div class="line"><a name="l00959"></a><span class="lineno">  959</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> name [ttk::style theme use]<span class="comment">
 </span></div>
-<div class="line"><a name="l00959"></a><span class="lineno">  959</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00960"></a><span class="lineno">  960</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00960"></a><span class="lineno">  960</span>&#160;    <span class="comment"># Get the ttk style option/value pairs
+<div class="line"><a name="l00961"></a><span class="lineno">  961</span>&#160;    <span class="comment"># Get the ttk style option/value pairs
 </span></div>
-<div class="line"><a name="l00961"></a><span class="lineno">  961</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">array</span> set opts [<a class="code" href="namespacetheme.html#af72e247d539f10507dec15577154b462" title="theme::get_category_options">get_category_options</a> ttk_style 1]<span class="comment">
+<div class="line"><a name="l00962"></a><span class="lineno">  962</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">array</span> set opts [<a class="code" href="namespacetheme.html#af72e247d539f10507dec15577154b462" title="theme::get_category_options">get_category_options</a> ttk_style 1]<span class="comment">
 </span></div>
-<div class="line"><a name="l00962"></a><span class="lineno">  962</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00963"></a><span class="lineno">  963</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00963"></a><span class="lineno">  963</span>&#160;    <span class="comment"># Configure the theme
+<div class="line"><a name="l00964"></a><span class="lineno">  964</span>&#160;    <span class="comment"># Configure the theme
 </span></div>
-<div class="line"><a name="l00964"></a><span class="lineno">  964</span>&#160;<span class="comment"></span><span class="comment">    </span>ttk::style theme settings $name {
+<div class="line"><a name="l00965"></a><span class="lineno">  965</span>&#160;<span class="comment"></span><span class="comment">    </span>ttk::style theme settings $name {
 
       # Configure the application
       ttk::style configure &quot;.&quot; \
@@ -2455,7 +2457,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l00965"></a><span class="lineno">  965</span>&#160;
+<div class="line"><a name="l00966"></a><span class="lineno">  966</span>&#160;
       # Configure the application
       ttk::style configure &quot;.&quot; \
         -background        $opts(background) \
@@ -2562,7 +2564,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l00966"></a><span class="lineno">  966</span>&#160;      # Configure the application
+<div class="line"><a name="l00967"></a><span class="lineno">  967</span>&#160;      # Configure the application
       ttk::style configure &quot;.&quot; \
         -background        $opts(background) \
         -foreground        $opts(foreground) \
@@ -2668,7 +2670,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l00967"></a><span class="lineno">  967</span>&#160;      ttk::style configure &quot;.&quot; \
+<div class="line"><a name="l00968"></a><span class="lineno">  968</span>&#160;      ttk::style configure &quot;.&quot; \
         -background        $opts(background) \
         -foreground        $opts(foreground) \
         -bordercolor       $opts(border_color) \
@@ -2773,7 +2775,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l00968"></a><span class="lineno">  968</span>&#160;        -background        $opts(background) \
+<div class="line"><a name="l00969"></a><span class="lineno">  969</span>&#160;        -background        $opts(background) \
         -foreground        $opts(foreground) \
         -bordercolor       $opts(border_color) \
         -darkcolor         $opts(dark_color) \
@@ -2877,7 +2879,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l00969"></a><span class="lineno">  969</span>&#160;        -foreground        $opts(foreground) \
+<div class="line"><a name="l00970"></a><span class="lineno">  970</span>&#160;        -foreground        $opts(foreground) \
         -bordercolor       $opts(border_color) \
         -darkcolor         $opts(dark_color) \
         -troughcolor       $opts(pressed_color) \
@@ -2980,7 +2982,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l00970"></a><span class="lineno">  970</span>&#160;        -bordercolor       $opts(border_color) \
+<div class="line"><a name="l00971"></a><span class="lineno">  971</span>&#160;        -bordercolor       $opts(border_color) \
         -darkcolor         $opts(dark_color) \
         -troughcolor       $opts(pressed_color) \
         -arrowcolor        $opts(foreground) \
@@ -3082,7 +3084,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l00971"></a><span class="lineno">  971</span>&#160;        -darkcolor         $opts(dark_color) \
+<div class="line"><a name="l00972"></a><span class="lineno">  972</span>&#160;        -darkcolor         $opts(dark_color) \
         -troughcolor       $opts(pressed_color) \
         -arrowcolor        $opts(foreground) \
         -selectbackground  $opts(select_background) \
@@ -3183,7 +3185,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l00972"></a><span class="lineno">  972</span>&#160;        -troughcolor       $opts(pressed_color) \
+<div class="line"><a name="l00973"></a><span class="lineno">  973</span>&#160;        -troughcolor       $opts(pressed_color) \
         -arrowcolor        $opts(foreground) \
         -selectbackground  $opts(select_background) \
         -selectforeground  $opts(select_foreground) \
@@ -3283,7 +3285,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l00973"></a><span class="lineno">  973</span>&#160;        -arrowcolor        $opts(foreground) \
+<div class="line"><a name="l00974"></a><span class="lineno">  974</span>&#160;        -arrowcolor        $opts(foreground) \
         -selectbackground  $opts(select_background) \
         -selectforeground  $opts(select_foreground) \
         -selectborderwidth 0 \
@@ -3382,7 +3384,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l00974"></a><span class="lineno">  974</span>&#160;        -selectbackground  $opts(select_background) \
+<div class="line"><a name="l00975"></a><span class="lineno">  975</span>&#160;        -selectbackground  $opts(select_background) \
         -selectforeground  $opts(select_foreground) \
         -selectborderwidth 0 \
         -font              TkDefaultFont
@@ -3480,7 +3482,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l00975"></a><span class="lineno">  975</span>&#160;        -selectforeground  $opts(select_foreground) \
+<div class="line"><a name="l00976"></a><span class="lineno">  976</span>&#160;        -selectforeground  $opts(select_foreground) \
         -selectborderwidth 0 \
         -font              TkDefaultFont
       ttk::style map &quot;.&quot; \
@@ -3577,7 +3579,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l00976"></a><span class="lineno">  976</span>&#160;        -selectborderwidth 0 \
+<div class="line"><a name="l00977"></a><span class="lineno">  977</span>&#160;        -selectborderwidth 0 \
         -font              TkDefaultFont
       ttk::style map &quot;.&quot; \
         -background       [list disabled $opts(disabled_background) \
@@ -3673,7 +3675,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l00977"></a><span class="lineno">  977</span>&#160;        -font              TkDefaultFont
+<div class="line"><a name="l00978"></a><span class="lineno">  978</span>&#160;        -font              TkDefaultFont
       ttk::style map &quot;.&quot; \
         -background       [list disabled $opts(disabled_background) \
                                 active   $opts(active_color)] \
@@ -3768,7 +3770,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l00978"></a><span class="lineno">  978</span>&#160;      ttk::style map &quot;.&quot; \
+<div class="line"><a name="l00979"></a><span class="lineno">  979</span>&#160;      ttk::style map &quot;.&quot; \
         -background       [list disabled $opts(disabled_background) \
                                 active   $opts(active_color)] \
         -foreground       [list disabled $opts(disabled_foreground)] \
@@ -3862,7 +3864,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l00979"></a><span class="lineno">  979</span>&#160;        -background       [list disabled $opts(disabled_background) \
+<div class="line"><a name="l00980"></a><span class="lineno">  980</span>&#160;        -background       [list disabled $opts(disabled_background) \
                                 active   $opts(active_color)] \
         -foreground       [list disabled $opts(disabled_foreground)] \
         -selectbackground [list !focus   $opts(border_color)] \
@@ -3955,7 +3957,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l00980"></a><span class="lineno">  980</span>&#160;                                active   $opts(active_color)] \
+<div class="line"><a name="l00981"></a><span class="lineno">  981</span>&#160;                                active   $opts(active_color)] \
         -foreground       [list disabled $opts(disabled_foreground)] \
         -selectbackground [list !focus   $opts(border_color)] \
         -selectforeground [list !focus   white]
@@ -4047,7 +4049,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l00981"></a><span class="lineno">  981</span>&#160;        -foreground       [list disabled $opts(disabled_foreground)] \
+<div class="line"><a name="l00982"></a><span class="lineno">  982</span>&#160;        -foreground       [list disabled $opts(disabled_foreground)] \
         -selectbackground [list !focus   $opts(border_color)] \
         -selectforeground [list !focus   white]
 
@@ -4138,7 +4140,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l00982"></a><span class="lineno">  982</span>&#160;        -selectbackground [list !focus   $opts(border_color)] \
+<div class="line"><a name="l00983"></a><span class="lineno">  983</span>&#160;        -selectbackground [list !focus   $opts(border_color)] \
         -selectforeground [list !focus   white]
 
       # Configure TButton widgets
@@ -4228,7 +4230,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l00983"></a><span class="lineno">  983</span>&#160;        -selectforeground [list !focus   white]
+<div class="line"><a name="l00984"></a><span class="lineno">  984</span>&#160;        -selectforeground [list !focus   white]
 
       # Configure TButton widgets
       ttk::style configure TButton \
@@ -4317,7 +4319,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l00984"></a><span class="lineno">  984</span>&#160;
+<div class="line"><a name="l00985"></a><span class="lineno">  985</span>&#160;
       # Configure TButton widgets
       ttk::style configure TButton \
         -anchor center -width -11 -padding 5 -relief raised -background $opts(background) -foreground $opts(foreground)
@@ -4405,7 +4407,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l00985"></a><span class="lineno">  985</span>&#160;      # Configure TButton widgets
+<div class="line"><a name="l00986"></a><span class="lineno">  986</span>&#160;      # Configure TButton widgets
       ttk::style configure TButton \
         -anchor center -width -11 -padding 5 -relief raised -background $opts(background) -foreground $opts(foreground)
       ttk::style map TButton \
@@ -4492,7 +4494,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l00986"></a><span class="lineno">  986</span>&#160;      ttk::style configure TButton \
+<div class="line"><a name="l00987"></a><span class="lineno">  987</span>&#160;      ttk::style configure TButton \
         -anchor center -width -11 -padding 5 -relief raised -background $opts(background) -foreground $opts(foreground)
       ttk::style map TButton \
         -background  [list disabled  $opts(disabled_background) \
@@ -4578,7 +4580,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l00987"></a><span class="lineno">  987</span>&#160;        -anchor center -width -11 -padding 5 -relief raised -background $opts(background) -foreground $opts(foreground)
+<div class="line"><a name="l00988"></a><span class="lineno">  988</span>&#160;        -anchor center -width -11 -padding 5 -relief raised -background $opts(background) -foreground $opts(foreground)
       ttk::style map TButton \
         -background  [list disabled  $opts(disabled_background) \
                            pressed   $opts(pressed_color) \
@@ -4663,7 +4665,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l00988"></a><span class="lineno">  988</span>&#160;      ttk::style map TButton \
+<div class="line"><a name="l00989"></a><span class="lineno">  989</span>&#160;      ttk::style map TButton \
         -background  [list disabled  $opts(disabled_background) \
                            pressed   $opts(pressed_color) \
                            active    $opts(active_color)] \
@@ -4747,7 +4749,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l00989"></a><span class="lineno">  989</span>&#160;        -background  [list disabled  $opts(disabled_background) \
+<div class="line"><a name="l00990"></a><span class="lineno">  990</span>&#160;        -background  [list disabled  $opts(disabled_background) \
                            pressed   $opts(pressed_color) \
                            active    $opts(active_color)] \
         -lightcolor  [list pressed   $opts(pressed_color)] \
@@ -4830,7 +4832,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l00990"></a><span class="lineno">  990</span>&#160;                           pressed   $opts(pressed_color) \
+<div class="line"><a name="l00991"></a><span class="lineno">  991</span>&#160;                           pressed   $opts(pressed_color) \
                            active    $opts(active_color)] \
         -lightcolor  [list pressed   $opts(pressed_color)] \
         -darkcolor   [list pressed   $opts(pressed_color)] \
@@ -4912,7 +4914,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l00991"></a><span class="lineno">  991</span>&#160;                           active    $opts(active_color)] \
+<div class="line"><a name="l00992"></a><span class="lineno">  992</span>&#160;                           active    $opts(active_color)] \
         -lightcolor  [list pressed   $opts(pressed_color)] \
         -darkcolor   [list pressed   $opts(pressed_color)] \
         -bordercolor [list alternate &quot;#000000&quot;]
@@ -4993,7 +4995,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l00992"></a><span class="lineno">  992</span>&#160;        -lightcolor  [list pressed   $opts(pressed_color)] \
+<div class="line"><a name="l00993"></a><span class="lineno">  993</span>&#160;        -lightcolor  [list pressed   $opts(pressed_color)] \
         -darkcolor   [list pressed   $opts(pressed_color)] \
         -bordercolor [list alternate &quot;#000000&quot;]
 
@@ -5073,7 +5075,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l00993"></a><span class="lineno">  993</span>&#160;        -darkcolor   [list pressed   $opts(pressed_color)] \
+<div class="line"><a name="l00994"></a><span class="lineno">  994</span>&#160;        -darkcolor   [list pressed   $opts(pressed_color)] \
         -bordercolor [list alternate &quot;#000000&quot;]
 
       # Configure BButton widgets
@@ -5152,7 +5154,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l00994"></a><span class="lineno">  994</span>&#160;        -bordercolor [list alternate &quot;#000000&quot;]
+<div class="line"><a name="l00995"></a><span class="lineno">  995</span>&#160;        -bordercolor [list alternate &quot;#000000&quot;]
 
       # Configure BButton widgets
       ttk::style configure BButton \
@@ -5230,7 +5232,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l00995"></a><span class="lineno">  995</span>&#160;
+<div class="line"><a name="l00996"></a><span class="lineno">  996</span>&#160;
       # Configure BButton widgets
       ttk::style configure BButton \
         -anchor center -padding 2 -relief $opts(relief) -background $opts(background) -foreground $opts(foreground)
@@ -5307,7 +5309,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l00996"></a><span class="lineno">  996</span>&#160;      # Configure BButton widgets
+<div class="line"><a name="l00997"></a><span class="lineno">  997</span>&#160;      # Configure BButton widgets
       ttk::style configure BButton \
         -anchor center -padding 2 -relief $opts(relief) -background $opts(background) -foreground $opts(foreground)
       ttk::style map BButton \
@@ -5383,7 +5385,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l00997"></a><span class="lineno">  997</span>&#160;      ttk::style configure BButton \
+<div class="line"><a name="l00998"></a><span class="lineno">  998</span>&#160;      ttk::style configure BButton \
         -anchor center -padding 2 -relief $opts(relief) -background $opts(background) -foreground $opts(foreground)
       ttk::style map BButton \
         -background  [list disabled  $opts(disabled_background) \
@@ -5458,7 +5460,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l00998"></a><span class="lineno">  998</span>&#160;        -anchor center -padding 2 -relief $opts(relief) -background $opts(background) -foreground $opts(foreground)
+<div class="line"><a name="l00999"></a><span class="lineno">  999</span>&#160;        -anchor center -padding 2 -relief $opts(relief) -background $opts(background) -foreground $opts(foreground)
       ttk::style map BButton \
         -background  [list disabled  $opts(disabled_background) \
                            pressed   $opts(pressed_color) \
@@ -5532,7 +5534,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l00999"></a><span class="lineno">  999</span>&#160;      ttk::style map BButton \
+<div class="line"><a name="l01000"></a><span class="lineno"> 1000</span>&#160;      ttk::style map BButton \
         -background  [list disabled  $opts(disabled_background) \
                            pressed   $opts(pressed_color) \
                            active    $opts(active_color)] \
@@ -5605,7 +5607,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01000"></a><span class="lineno"> 1000</span>&#160;        -background  [list disabled  $opts(disabled_background) \
+<div class="line"><a name="l01001"></a><span class="lineno"> 1001</span>&#160;        -background  [list disabled  $opts(disabled_background) \
                            pressed   $opts(pressed_color) \
                            active    $opts(active_color)] \
         -lightcolor  [list pressed   $opts(pressed_color)] \
@@ -5677,7 +5679,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01001"></a><span class="lineno"> 1001</span>&#160;                           pressed   $opts(pressed_color) \
+<div class="line"><a name="l01002"></a><span class="lineno"> 1002</span>&#160;                           pressed   $opts(pressed_color) \
                            active    $opts(active_color)] \
         -lightcolor  [list pressed   $opts(pressed_color)] \
         -darkcolor   [list pressed   $opts(pressed_color)] \
@@ -5748,7 +5750,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01002"></a><span class="lineno"> 1002</span>&#160;                           active    $opts(active_color)] \
+<div class="line"><a name="l01003"></a><span class="lineno"> 1003</span>&#160;                           active    $opts(active_color)] \
         -lightcolor  [list pressed   $opts(pressed_color)] \
         -darkcolor   [list pressed   $opts(pressed_color)] \
         -bordercolor [list alternate &quot;#000000&quot;]
@@ -5818,7 +5820,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01003"></a><span class="lineno"> 1003</span>&#160;        -lightcolor  [list pressed   $opts(pressed_color)] \
+<div class="line"><a name="l01004"></a><span class="lineno"> 1004</span>&#160;        -lightcolor  [list pressed   $opts(pressed_color)] \
         -darkcolor   [list pressed   $opts(pressed_color)] \
         -bordercolor [list alternate &quot;#000000&quot;]
 
@@ -5887,7 +5889,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01004"></a><span class="lineno"> 1004</span>&#160;        -darkcolor   [list pressed   $opts(pressed_color)] \
+<div class="line"><a name="l01005"></a><span class="lineno"> 1005</span>&#160;        -darkcolor   [list pressed   $opts(pressed_color)] \
         -bordercolor [list alternate &quot;#000000&quot;]
 
       # Configure ttk::menubutton widgets
@@ -5955,7 +5957,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01005"></a><span class="lineno"> 1005</span>&#160;        -bordercolor [list alternate &quot;#000000&quot;]
+<div class="line"><a name="l01006"></a><span class="lineno"> 1006</span>&#160;        -bordercolor [list alternate &quot;#000000&quot;]
 
       # Configure ttk::menubutton widgets
       ttk::style configure TMenubutton \
@@ -6022,7 +6024,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01006"></a><span class="lineno"> 1006</span>&#160;
+<div class="line"><a name="l01007"></a><span class="lineno"> 1007</span>&#160;
       # Configure ttk::menubutton widgets
       ttk::style configure TMenubutton \
         -width 0 -padding 0 -relief $opts(relief) -background $opts(background) -foreground $opts(foreground)
@@ -6088,7 +6090,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01007"></a><span class="lineno"> 1007</span>&#160;      # Configure ttk::menubutton widgets
+<div class="line"><a name="l01008"></a><span class="lineno"> 1008</span>&#160;      # Configure ttk::menubutton widgets
       ttk::style configure TMenubutton \
         -width 0 -padding 0 -relief $opts(relief) -background $opts(background) -foreground $opts(foreground)
       ttk::style map TMenubutton \
@@ -6153,7 +6155,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01008"></a><span class="lineno"> 1008</span>&#160;      ttk::style configure TMenubutton \
+<div class="line"><a name="l01009"></a><span class="lineno"> 1009</span>&#160;      ttk::style configure TMenubutton \
         -width 0 -padding 0 -relief $opts(relief) -background $opts(background) -foreground $opts(foreground)
       ttk::style map TMenubutton \
         -background  [list disabled  $opts(disabled_background) \
@@ -6217,7 +6219,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01009"></a><span class="lineno"> 1009</span>&#160;        -width 0 -padding 0 -relief $opts(relief) -background $opts(background) -foreground $opts(foreground)
+<div class="line"><a name="l01010"></a><span class="lineno"> 1010</span>&#160;        -width 0 -padding 0 -relief $opts(relief) -background $opts(background) -foreground $opts(foreground)
       ttk::style map TMenubutton \
         -background  [list disabled  $opts(disabled_background) \
                            pressed   $opts(pressed_color) \
@@ -6280,7 +6282,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01010"></a><span class="lineno"> 1010</span>&#160;      ttk::style map TMenubutton \
+<div class="line"><a name="l01011"></a><span class="lineno"> 1011</span>&#160;      ttk::style map TMenubutton \
         -background  [list disabled  $opts(disabled_background) \
                            pressed   $opts(pressed_color) \
                            active    $opts(active_color)] \
@@ -6342,7 +6344,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01011"></a><span class="lineno"> 1011</span>&#160;        -background  [list disabled  $opts(disabled_background) \
+<div class="line"><a name="l01012"></a><span class="lineno"> 1012</span>&#160;        -background  [list disabled  $opts(disabled_background) \
                            pressed   $opts(pressed_color) \
                            active    $opts(active_color)] \
         -lightcolor  [list pressed   $opts(pressed_color)] \
@@ -6403,7 +6405,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01012"></a><span class="lineno"> 1012</span>&#160;                           pressed   $opts(pressed_color) \
+<div class="line"><a name="l01013"></a><span class="lineno"> 1013</span>&#160;                           pressed   $opts(pressed_color) \
                            active    $opts(active_color)] \
         -lightcolor  [list pressed   $opts(pressed_color)] \
         -darkcolor   [list pressed   $opts(pressed_color)] \
@@ -6463,7 +6465,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01013"></a><span class="lineno"> 1013</span>&#160;                           active    $opts(active_color)] \
+<div class="line"><a name="l01014"></a><span class="lineno"> 1014</span>&#160;                           active    $opts(active_color)] \
         -lightcolor  [list pressed   $opts(pressed_color)] \
         -darkcolor   [list pressed   $opts(pressed_color)] \
         -bordercolor [list alternate &quot;#000000&quot;]
@@ -6522,7 +6524,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01014"></a><span class="lineno"> 1014</span>&#160;        -lightcolor  [list pressed   $opts(pressed_color)] \
+<div class="line"><a name="l01015"></a><span class="lineno"> 1015</span>&#160;        -lightcolor  [list pressed   $opts(pressed_color)] \
         -darkcolor   [list pressed   $opts(pressed_color)] \
         -bordercolor [list alternate &quot;#000000&quot;]
 
@@ -6580,7 +6582,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01015"></a><span class="lineno"> 1015</span>&#160;        -darkcolor   [list pressed   $opts(pressed_color)] \
+<div class="line"><a name="l01016"></a><span class="lineno"> 1016</span>&#160;        -darkcolor   [list pressed   $opts(pressed_color)] \
         -bordercolor [list alternate &quot;#000000&quot;]
 
       # Configure ttk::radiobutton widgets
@@ -6637,7 +6639,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01016"></a><span class="lineno"> 1016</span>&#160;        -bordercolor [list alternate &quot;#000000&quot;]
+<div class="line"><a name="l01017"></a><span class="lineno"> 1017</span>&#160;        -bordercolor [list alternate &quot;#000000&quot;]
 
       # Configure ttk::radiobutton widgets
       ttk::style configure TRadiobutton \
@@ -6693,7 +6695,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01017"></a><span class="lineno"> 1017</span>&#160;
+<div class="line"><a name="l01018"></a><span class="lineno"> 1018</span>&#160;
       # Configure ttk::radiobutton widgets
       ttk::style configure TRadiobutton \
         -width 0 -padding 0 -relief $opts(relief) -background $opts(background) -foreground $opts(foreground)
@@ -6748,7 +6750,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01018"></a><span class="lineno"> 1018</span>&#160;      # Configure ttk::radiobutton widgets
+<div class="line"><a name="l01019"></a><span class="lineno"> 1019</span>&#160;      # Configure ttk::radiobutton widgets
       ttk::style configure TRadiobutton \
         -width 0 -padding 0 -relief $opts(relief) -background $opts(background) -foreground $opts(foreground)
       ttk::style map TRadiobutton \
@@ -6802,7 +6804,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01019"></a><span class="lineno"> 1019</span>&#160;      ttk::style configure TRadiobutton \
+<div class="line"><a name="l01020"></a><span class="lineno"> 1020</span>&#160;      ttk::style configure TRadiobutton \
         -width 0 -padding 0 -relief $opts(relief) -background $opts(background) -foreground $opts(foreground)
       ttk::style map TRadiobutton \
         -background  [list disabled $opts(disabled_background) \
@@ -6855,7 +6857,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01020"></a><span class="lineno"> 1020</span>&#160;        -width 0 -padding 0 -relief $opts(relief) -background $opts(background) -foreground $opts(foreground)
+<div class="line"><a name="l01021"></a><span class="lineno"> 1021</span>&#160;        -width 0 -padding 0 -relief $opts(relief) -background $opts(background) -foreground $opts(foreground)
       ttk::style map TRadiobutton \
         -background  [list disabled $opts(disabled_background) \
                            active   $opts(active_color)]
@@ -6907,7 +6909,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01021"></a><span class="lineno"> 1021</span>&#160;      ttk::style map TRadiobutton \
+<div class="line"><a name="l01022"></a><span class="lineno"> 1022</span>&#160;      ttk::style map TRadiobutton \
         -background  [list disabled $opts(disabled_background) \
                            active   $opts(active_color)]
 
@@ -6958,7 +6960,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01022"></a><span class="lineno"> 1022</span>&#160;        -background  [list disabled $opts(disabled_background) \
+<div class="line"><a name="l01023"></a><span class="lineno"> 1023</span>&#160;        -background  [list disabled $opts(disabled_background) \
                            active   $opts(active_color)]
 
       # Configure ttk::entry widgets
@@ -7008,7 +7010,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01023"></a><span class="lineno"> 1023</span>&#160;                           active   $opts(active_color)]
+<div class="line"><a name="l01024"></a><span class="lineno"> 1024</span>&#160;                           active   $opts(active_color)]
 
       # Configure ttk::entry widgets
       ttk::style configure TEntry -padding 1 -insertwidth 1 -foreground black
@@ -7057,7 +7059,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01024"></a><span class="lineno"> 1024</span>&#160;
+<div class="line"><a name="l01025"></a><span class="lineno"> 1025</span>&#160;
       # Configure ttk::entry widgets
       ttk::style configure TEntry -padding 1 -insertwidth 1 -foreground black
       ttk::style map TEntry \
@@ -7105,7 +7107,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01025"></a><span class="lineno"> 1025</span>&#160;      # Configure ttk::entry widgets
+<div class="line"><a name="l01026"></a><span class="lineno"> 1026</span>&#160;      # Configure ttk::entry widgets
       ttk::style configure TEntry -padding 1 -insertwidth 1 -foreground black
       ttk::style map TEntry \
         -background  [list readonly $opts(background)] \
@@ -7152,7 +7154,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01026"></a><span class="lineno"> 1026</span>&#160;      ttk::style configure TEntry -padding 1 -insertwidth 1 -foreground black
+<div class="line"><a name="l01027"></a><span class="lineno"> 1027</span>&#160;      ttk::style configure TEntry -padding 1 -insertwidth 1 -foreground black
       ttk::style map TEntry \
         -background  [list readonly $opts(background)] \
         -foreground  [list readonly $opts(foreground)] \
@@ -7198,7 +7200,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01027"></a><span class="lineno"> 1027</span>&#160;      ttk::style map TEntry \
+<div class="line"><a name="l01028"></a><span class="lineno"> 1028</span>&#160;      ttk::style map TEntry \
         -background  [list readonly $opts(background)] \
         -foreground  [list readonly $opts(foreground)] \
         -bordercolor [list focus    $opts(entry_border)] \
@@ -7243,7 +7245,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01028"></a><span class="lineno"> 1028</span>&#160;        -background  [list readonly $opts(background)] \
+<div class="line"><a name="l01029"></a><span class="lineno"> 1029</span>&#160;        -background  [list readonly $opts(background)] \
         -foreground  [list readonly $opts(foreground)] \
         -bordercolor [list focus    $opts(entry_border)] \
         -lightcolor  [list focus    &quot;#6f9dc6&quot;] \
@@ -7287,7 +7289,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01029"></a><span class="lineno"> 1029</span>&#160;        -foreground  [list readonly $opts(foreground)] \
+<div class="line"><a name="l01030"></a><span class="lineno"> 1030</span>&#160;        -foreground  [list readonly $opts(foreground)] \
         -bordercolor [list focus    $opts(entry_border)] \
         -lightcolor  [list focus    &quot;#6f9dc6&quot;] \
         -darkcolor   [list focus    &quot;#6f9dc6&quot;]
@@ -7330,7 +7332,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01030"></a><span class="lineno"> 1030</span>&#160;        -bordercolor [list focus    $opts(entry_border)] \
+<div class="line"><a name="l01031"></a><span class="lineno"> 1031</span>&#160;        -bordercolor [list focus    $opts(entry_border)] \
         -lightcolor  [list focus    &quot;#6f9dc6&quot;] \
         -darkcolor   [list focus    &quot;#6f9dc6&quot;]
 
@@ -7372,7 +7374,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01031"></a><span class="lineno"> 1031</span>&#160;        -lightcolor  [list focus    &quot;#6f9dc6&quot;] \
+<div class="line"><a name="l01032"></a><span class="lineno"> 1032</span>&#160;        -lightcolor  [list focus    &quot;#6f9dc6&quot;] \
         -darkcolor   [list focus    &quot;#6f9dc6&quot;]
 
       # Configure ttk::scrollbar widgets
@@ -7413,7 +7415,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01032"></a><span class="lineno"> 1032</span>&#160;        -darkcolor   [list focus    &quot;#6f9dc6&quot;]
+<div class="line"><a name="l01033"></a><span class="lineno"> 1033</span>&#160;        -darkcolor   [list focus    &quot;#6f9dc6&quot;]
 
       # Configure ttk::scrollbar widgets
       ttk::style configure TScrollbar \
@@ -7453,7 +7455,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01033"></a><span class="lineno"> 1033</span>&#160;
+<div class="line"><a name="l01034"></a><span class="lineno"> 1034</span>&#160;
       # Configure ttk::scrollbar widgets
       ttk::style configure TScrollbar \
         -relief $opts(relief) -troughcolor $opts(active_color)
@@ -7492,7 +7494,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01034"></a><span class="lineno"> 1034</span>&#160;      # Configure ttk::scrollbar widgets
+<div class="line"><a name="l01035"></a><span class="lineno"> 1035</span>&#160;      # Configure ttk::scrollbar widgets
       ttk::style configure TScrollbar \
         -relief $opts(relief) -troughcolor $opts(active_color)
       ttk::style map TScrollbar \
@@ -7530,7 +7532,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01035"></a><span class="lineno"> 1035</span>&#160;      ttk::style configure TScrollbar \
+<div class="line"><a name="l01036"></a><span class="lineno"> 1036</span>&#160;      ttk::style configure TScrollbar \
         -relief $opts(relief) -troughcolor $opts(active_color)
       ttk::style map TScrollbar \
         -background  [list disabled $opts(disabled_background) \
@@ -7567,7 +7569,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01036"></a><span class="lineno"> 1036</span>&#160;        -relief $opts(relief) -troughcolor $opts(active_color)
+<div class="line"><a name="l01037"></a><span class="lineno"> 1037</span>&#160;        -relief $opts(relief) -troughcolor $opts(active_color)
       ttk::style map TScrollbar \
         -background  [list disabled $opts(disabled_background) \
                            active   $opts(background)]
@@ -7603,7 +7605,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01037"></a><span class="lineno"> 1037</span>&#160;      ttk::style map TScrollbar \
+<div class="line"><a name="l01038"></a><span class="lineno"> 1038</span>&#160;      ttk::style map TScrollbar \
         -background  [list disabled $opts(disabled_background) \
                            active   $opts(background)]
 
@@ -7638,7 +7640,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01038"></a><span class="lineno"> 1038</span>&#160;        -background  [list disabled $opts(disabled_background) \
+<div class="line"><a name="l01039"></a><span class="lineno"> 1039</span>&#160;        -background  [list disabled $opts(disabled_background) \
                            active   $opts(background)]
 
       # Configure ttk::labelframe widgets
@@ -7672,7 +7674,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01039"></a><span class="lineno"> 1039</span>&#160;                           active   $opts(background)]
+<div class="line"><a name="l01040"></a><span class="lineno"> 1040</span>&#160;                           active   $opts(background)]
 
       # Configure ttk::labelframe widgets
       ttk::style configure TLabelframe \
@@ -7705,7 +7707,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01040"></a><span class="lineno"> 1040</span>&#160;
+<div class="line"><a name="l01041"></a><span class="lineno"> 1041</span>&#160;
       # Configure ttk::labelframe widgets
       ttk::style configure TLabelframe \
         -labeloutside true -labelmargins {0 0 0 4} -borderwidth 2 -relief raised
@@ -7737,7 +7739,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01041"></a><span class="lineno"> 1041</span>&#160;      # Configure ttk::labelframe widgets
+<div class="line"><a name="l01042"></a><span class="lineno"> 1042</span>&#160;      # Configure ttk::labelframe widgets
       ttk::style configure TLabelframe \
         -labeloutside true -labelmargins {0 0 0 4} -borderwidth 2 -relief raised
 
@@ -7768,7 +7770,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01042"></a><span class="lineno"> 1042</span>&#160;      ttk::style configure TLabelframe \
+<div class="line"><a name="l01043"></a><span class="lineno"> 1043</span>&#160;      ttk::style configure TLabelframe \
         -labeloutside true -labelmargins {0 0 0 4} -borderwidth 2 -relief raised
 
       # Configure ttk::spinbox widgets
@@ -7798,7 +7800,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01043"></a><span class="lineno"> 1043</span>&#160;        -labeloutside true -labelmargins {0 0 0 4} -borderwidth 2 -relief raised
+<div class="line"><a name="l01044"></a><span class="lineno"> 1044</span>&#160;        -labeloutside true -labelmargins {0 0 0 4} -borderwidth 2 -relief raised
 
       # Configure ttk::spinbox widgets
       ttk::style configure TSpinbox \
@@ -7827,7 +7829,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01044"></a><span class="lineno"> 1044</span>&#160;
+<div class="line"><a name="l01045"></a><span class="lineno"> 1045</span>&#160;
       # Configure ttk::spinbox widgets
       ttk::style configure TSpinbox \
         -relief $opts(relief) -padding 2 -background $opts(background) -foreground $opts(foreground) -fieldbackground $opts(background)
@@ -7855,7 +7857,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01045"></a><span class="lineno"> 1045</span>&#160;      # Configure ttk::spinbox widgets
+<div class="line"><a name="l01046"></a><span class="lineno"> 1046</span>&#160;      # Configure ttk::spinbox widgets
       ttk::style configure TSpinbox \
         -relief $opts(relief) -padding 2 -background $opts(background) -foreground $opts(foreground) -fieldbackground $opts(background)
 
@@ -7882,7 +7884,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01046"></a><span class="lineno"> 1046</span>&#160;      ttk::style configure TSpinbox \
+<div class="line"><a name="l01047"></a><span class="lineno"> 1047</span>&#160;      ttk::style configure TSpinbox \
         -relief $opts(relief) -padding 2 -background $opts(background) -foreground $opts(foreground) -fieldbackground $opts(background)
 
       # Configure ttk::checkbutton widgets
@@ -7908,7 +7910,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01047"></a><span class="lineno"> 1047</span>&#160;        -relief $opts(relief) -padding 2 -background $opts(background) -foreground $opts(foreground) -fieldbackground $opts(background)
+<div class="line"><a name="l01048"></a><span class="lineno"> 1048</span>&#160;        -relief $opts(relief) -padding 2 -background $opts(background) -foreground $opts(foreground) -fieldbackground $opts(background)
 
       # Configure ttk::checkbutton widgets
       ttk::style configure TCheckbutton \
@@ -7933,7 +7935,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01048"></a><span class="lineno"> 1048</span>&#160;
+<div class="line"><a name="l01049"></a><span class="lineno"> 1049</span>&#160;
       # Configure ttk::checkbutton widgets
       ttk::style configure TCheckbutton \
         -relief $opts(relief) -padding 2 -background $opts(background) -foreground $opts(foreground)
@@ -7957,7 +7959,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01049"></a><span class="lineno"> 1049</span>&#160;      # Configure ttk::checkbutton widgets
+<div class="line"><a name="l01050"></a><span class="lineno"> 1050</span>&#160;      # Configure ttk::checkbutton widgets
       ttk::style configure TCheckbutton \
         -relief $opts(relief) -padding 2 -background $opts(background) -foreground $opts(foreground)
       ttk::style map TCheckbutton \
@@ -7980,7 +7982,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01050"></a><span class="lineno"> 1050</span>&#160;      ttk::style configure TCheckbutton \
+<div class="line"><a name="l01051"></a><span class="lineno"> 1051</span>&#160;      ttk::style configure TCheckbutton \
         -relief $opts(relief) -padding 2 -background $opts(background) -foreground $opts(foreground)
       ttk::style map TCheckbutton \
         -background  [list disabled  $opts(disabled_background) \
@@ -8002,7 +8004,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01051"></a><span class="lineno"> 1051</span>&#160;        -relief $opts(relief) -padding 2 -background $opts(background) -foreground $opts(foreground)
+<div class="line"><a name="l01052"></a><span class="lineno"> 1052</span>&#160;        -relief $opts(relief) -padding 2 -background $opts(background) -foreground $opts(foreground)
       ttk::style map TCheckbutton \
         -background  [list disabled  $opts(disabled_background) \
                            pressed   $opts(pressed_color) \
@@ -8023,7 +8025,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01052"></a><span class="lineno"> 1052</span>&#160;      ttk::style map TCheckbutton \
+<div class="line"><a name="l01053"></a><span class="lineno"> 1053</span>&#160;      ttk::style map TCheckbutton \
         -background  [list disabled  $opts(disabled_background) \
                            pressed   $opts(pressed_color) \
                            active    $opts(active_color)] \
@@ -8043,7 +8045,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01053"></a><span class="lineno"> 1053</span>&#160;        -background  [list disabled  $opts(disabled_background) \
+<div class="line"><a name="l01054"></a><span class="lineno"> 1054</span>&#160;        -background  [list disabled  $opts(disabled_background) \
                            pressed   $opts(pressed_color) \
                            active    $opts(active_color)] \
         -lightcolor  [list pressed   $opts(pressed_color)] \
@@ -8062,7 +8064,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01054"></a><span class="lineno"> 1054</span>&#160;                           pressed   $opts(pressed_color) \
+<div class="line"><a name="l01055"></a><span class="lineno"> 1055</span>&#160;                           pressed   $opts(pressed_color) \
                            active    $opts(active_color)] \
         -lightcolor  [list pressed   $opts(pressed_color)] \
         -darkcolor   [list pressed   $opts(pressed_color)] \
@@ -8080,7 +8082,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01055"></a><span class="lineno"> 1055</span>&#160;                           active    $opts(active_color)] \
+<div class="line"><a name="l01056"></a><span class="lineno"> 1056</span>&#160;                           active    $opts(active_color)] \
         -lightcolor  [list pressed   $opts(pressed_color)] \
         -darkcolor   [list pressed   $opts(pressed_color)] \
         -bordercolor [list alternate &quot;#000000&quot;]
@@ -8097,7 +8099,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01056"></a><span class="lineno"> 1056</span>&#160;        -lightcolor  [list pressed   $opts(pressed_color)] \
+<div class="line"><a name="l01057"></a><span class="lineno"> 1057</span>&#160;        -lightcolor  [list pressed   $opts(pressed_color)] \
         -darkcolor   [list pressed   $opts(pressed_color)] \
         -bordercolor [list alternate &quot;#000000&quot;]
 
@@ -8113,7 +8115,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01057"></a><span class="lineno"> 1057</span>&#160;        -darkcolor   [list pressed   $opts(pressed_color)] \
+<div class="line"><a name="l01058"></a><span class="lineno"> 1058</span>&#160;        -darkcolor   [list pressed   $opts(pressed_color)] \
         -bordercolor [list alternate &quot;#000000&quot;]
 
       # Configure ttk::combobox widgets
@@ -8128,7 +8130,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01058"></a><span class="lineno"> 1058</span>&#160;        -bordercolor [list alternate &quot;#000000&quot;]
+<div class="line"><a name="l01059"></a><span class="lineno"> 1059</span>&#160;        -bordercolor [list alternate &quot;#000000&quot;]
 
       # Configure ttk::combobox widgets
       ttk::style configure TCombobox \
@@ -8142,7 +8144,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01059"></a><span class="lineno"> 1059</span>&#160;
+<div class="line"><a name="l01060"></a><span class="lineno"> 1060</span>&#160;
       # Configure ttk::combobox widgets
       ttk::style configure TCombobox \
         -relief $opts(relief) -background $opts(background) -foreground $opts(background)
@@ -8155,7 +8157,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01060"></a><span class="lineno"> 1060</span>&#160;      # Configure ttk::combobox widgets
+<div class="line"><a name="l01061"></a><span class="lineno"> 1061</span>&#160;      # Configure ttk::combobox widgets
       ttk::style configure TCombobox \
         -relief $opts(relief) -background $opts(background) -foreground $opts(background)
       ttk::style map TCombobox \
@@ -8167,7 +8169,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01061"></a><span class="lineno"> 1061</span>&#160;      ttk::style configure TCombobox \
+<div class="line"><a name="l01062"></a><span class="lineno"> 1062</span>&#160;      ttk::style configure TCombobox \
         -relief $opts(relief) -background $opts(background) -foreground $opts(background)
       ttk::style map TCombobox \
         -background [list disabled  $opts(disabled_background) \
@@ -8178,7 +8180,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01062"></a><span class="lineno"> 1062</span>&#160;        -relief $opts(relief) -background $opts(background) -foreground $opts(background)
+<div class="line"><a name="l01063"></a><span class="lineno"> 1063</span>&#160;        -relief $opts(relief) -background $opts(background) -foreground $opts(background)
       ttk::style map TCombobox \
         -background [list disabled  $opts(disabled_background) \
                           pressed   $opts(pressed_color) \
@@ -8188,7 +8190,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01063"></a><span class="lineno"> 1063</span>&#160;      ttk::style map TCombobox \
+<div class="line"><a name="l01064"></a><span class="lineno"> 1064</span>&#160;      ttk::style map TCombobox \
         -background [list disabled  $opts(disabled_background) \
                           pressed   $opts(pressed_color) \
                           active    $opts(active_color)]
@@ -8197,7 +8199,7 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01064"></a><span class="lineno"> 1064</span>&#160;        -background [list disabled  $opts(disabled_background) \
+<div class="line"><a name="l01065"></a><span class="lineno"> 1065</span>&#160;        -background [list disabled  $opts(disabled_background) \
                           pressed   $opts(pressed_color) \
                           active    $opts(active_color)]
 
@@ -8205,38 +8207,38 @@ Functions</h2></td></tr>
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01065"></a><span class="lineno"> 1065</span>&#160;                          pressed   $opts(pressed_color) \
+<div class="line"><a name="l01066"></a><span class="lineno"> 1066</span>&#160;                          pressed   $opts(pressed_color) \
                           active    $opts(active_color)]
 
       # Configure panedwindow sash widgets
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01066"></a><span class="lineno"> 1066</span>&#160;                          active    $opts(active_color)]
+<div class="line"><a name="l01067"></a><span class="lineno"> 1067</span>&#160;                          active    $opts(active_color)]
 
       # Configure panedwindow sash widgets
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01067"></a><span class="lineno"> 1067</span>&#160;
+<div class="line"><a name="l01068"></a><span class="lineno"> 1068</span>&#160;
       # Configure panedwindow sash widgets
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01068"></a><span class="lineno"> 1068</span>&#160;      # Configure panedwindow sash widgets
+<div class="line"><a name="l01069"></a><span class="lineno"> 1069</span>&#160;      # Configure panedwindow sash widgets
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01069"></a><span class="lineno"> 1069</span>&#160;      ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
+<div class="line"><a name="l01070"></a><span class="lineno"> 1070</span>&#160;      ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
     }</div>
-<div class="line"><a name="l01070"></a><span class="lineno"> 1070</span>&#160;
+<div class="line"><a name="l01071"></a><span class="lineno"> 1071</span>&#160;
     }</div>
-<div class="line"><a name="l01071"></a><span class="lineno"> 1071</span>&#160;    }<span class="comment">
+<div class="line"><a name="l01072"></a><span class="lineno"> 1072</span>&#160;    }<span class="comment">
 </span></div>
-<div class="line"><a name="l01072"></a><span class="lineno"> 1072</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01073"></a><span class="lineno"> 1073</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l01073"></a><span class="lineno"> 1073</span>&#160;  }</div>
+<div class="line"><a name="l01074"></a><span class="lineno"> 1074</span>&#160;  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -8258,33 +8260,33 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="theme_8tcl_source.html#l01077">1077</a> of file <a class="el" href="theme_8tcl_source.html">theme.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l01077"></a><span class="lineno"> 1077</span>&#160;  <span class="keyword">proc</span> update_widget {type} {
+<p>Definition at line <a class="el" href="theme_8tcl_source.html#l01078">1078</a> of file <a class="el" href="theme_8tcl_source.html">theme.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l01078"></a><span class="lineno"> 1078</span>&#160;  <span class="keyword">proc</span> update_widget {type} {
 
     </div>
-<div class="line"><a name="l01078"></a><span class="lineno"> 1078</span>&#160;
+<div class="line"><a name="l01079"></a><span class="lineno"> 1079</span>&#160;
     </div>
-<div class="line"><a name="l01079"></a><span class="lineno"> 1079</span>&#160;    <span class="keyword">variable</span> widgets<span class="comment">
+<div class="line"><a name="l01080"></a><span class="lineno"> 1080</span>&#160;    <span class="keyword">variable</span> widgets<span class="comment">
 </span></div>
-<div class="line"><a name="l01080"></a><span class="lineno"> 1080</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01081"></a><span class="lineno"> 1081</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l01081"></a><span class="lineno"> 1081</span>&#160;    <span class="comment"># Get the options
+<div class="line"><a name="l01082"></a><span class="lineno"> 1082</span>&#160;    <span class="comment"># Get the options
 </span></div>
-<div class="line"><a name="l01082"></a><span class="lineno"> 1082</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> opts [<a class="code" href="namespacetheme.html#af72e247d539f10507dec15577154b462" title="theme::get_category_options">get_category_options</a> $type]<span class="comment">
+<div class="line"><a name="l01083"></a><span class="lineno"> 1083</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> opts [<a class="code" href="namespacetheme.html#af72e247d539f10507dec15577154b462" title="theme::get_category_options">get_category_options</a> $type]<span class="comment">
 </span></div>
-<div class="line"><a name="l01083"></a><span class="lineno"> 1083</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01084"></a><span class="lineno"> 1084</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l01084"></a><span class="lineno"> 1084</span>&#160;    <span class="comment"># Configure all widgets of the given type
+<div class="line"><a name="l01085"></a><span class="lineno"> 1085</span>&#160;    <span class="comment"># Configure all widgets of the given type
 </span></div>
-<div class="line"><a name="l01085"></a><span class="lineno"> 1085</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">foreach</span> w $widgets($type) {
+<div class="line"><a name="l01086"></a><span class="lineno"> 1086</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">foreach</span> w $widgets($type) {
       </div>
-<div class="line"><a name="l01086"></a><span class="lineno"> 1086</span>&#160;      $w configure {*}$opts<span class="comment">
+<div class="line"><a name="l01087"></a><span class="lineno"> 1087</span>&#160;      $w configure {*}$opts<span class="comment">
 </span></div>
-<div class="line"><a name="l01087"></a><span class="lineno"> 1087</span>&#160;<span class="comment"></span>    }<span class="comment">
+<div class="line"><a name="l01088"></a><span class="lineno"> 1088</span>&#160;<span class="comment"></span>    }<span class="comment">
 </span></div>
-<div class="line"><a name="l01088"></a><span class="lineno"> 1088</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l01089"></a><span class="lineno"> 1089</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l01089"></a><span class="lineno"> 1089</span>&#160;  }</div>
+<div class="line"><a name="l01090"></a><span class="lineno"> 1090</span>&#160;  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -8448,7 +8450,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacetheme.html">theme</a></li>
-    <li class="footer">Generated on Mon Nov 30 2015 19:40:34 for TKE by
+    <li class="footer">Generated on Sat Dec 5 2015 22:16:40 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>

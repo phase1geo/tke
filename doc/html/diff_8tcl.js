@@ -15,6 +15,7 @@ var diff_8tcl =
     [ "get_file_cmd", "diff_8tcl.html#a9d17bbf89534f9dfac41b42d77c3d891", null ],
     [ "get_file_cmd", "diff_8tcl.html#a9ac9a7de8ad74b1c8225f24c3480b0b0", null ],
     [ "get_file_cmd", "diff_8tcl.html#ac145b50006ec7f4976fdacff9f4bd7eb", null ],
+    [ "get_marks", "diff_8tcl.html#a2e5686fa12ad8e51d9743dbf194e6050", null ],
     [ "get_session_data", "diff_8tcl.html#a6848f4a62bb72d0f602aa41aa25a2b72", null ],
     [ "get_version_log", "diff_8tcl.html#a4cc299a78e66f4726da029a7f058cf3e", null ],
     [ "get_version_log", "diff_8tcl.html#a5d17dc252025b48ad2759c53c7a51e49", null ],

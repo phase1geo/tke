@@ -478,6 +478,9 @@ msgcat::mcmset he {
   "Hide Line Numbers"
   "הסתר מספרי שורות"
 
+  "Hide Marker Map"
+  "להסתיר את סמן מפה"
+
   "Hide Meta Characters"
   "?????? ???-?????"
 
@@ -682,6 +685,9 @@ msgcat::mcmset he {
   "Show Line Numbers"
   "הצג מספרי שורות"
 
+  "Show Marker Map"
+  "סמן הצג מפה"
+
   "Show Meta Characters"
   "??? ???-?????"
 
@@ -814,6 +820,9 @@ msgcat::mcmset he {
   "View Menu: Hide line numbers"
   "בתפריט תצוגה: מספרי שורות הסתר"
 
+  "View Menu: Hide marker map"
+  "תפריט תצוגה: להסתיר את סמן מפה"
+
   "View Menu: Hide meta characters"
   "תפריט תצוגה: להסתיר מטא-תווים"
 
@@ -837,6 +846,9 @@ msgcat::mcmset he {
 
   "View Menu: Show line numbers"
   "בתפריט תצוגה: מספרי שורות הצג"
+
+  "View Menu: Show marker map"
+  "תפריט תצוגה: סמן הצג מפה"
 
   "View Menu: Show meta characters"
   "תפריט תצוגה: הצג מטא-תווים"

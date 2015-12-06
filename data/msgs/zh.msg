@@ -478,6 +478,9 @@ msgcat::mcmset zh {
   "Hide Line Numbers"
   "隐藏行号"
 
+  "Hide Marker Map"
+  "隐藏标记地图"
+
   "Hide Meta Characters"
   "?? Meta ??"
 
@@ -682,6 +685,9 @@ msgcat::mcmset zh {
   "Show Line Numbers"
   "显示数字"
 
+  "Show Marker Map"
+  "显示标记"
+
   "Show Meta Characters"
   "?? Meta ??"
 
@@ -814,6 +820,9 @@ msgcat::mcmset zh {
   "View Menu: Hide line numbers"
   "视图菜单: 隐藏行号"
 
+  "View Menu: Hide marker map"
+  "视图菜单: 隐藏标记地图"
+
   "View Menu: Hide meta characters"
   "视图菜单: 隐藏 meta 字符"
 
@@ -837,6 +846,9 @@ msgcat::mcmset zh {
 
   "View Menu: Show line numbers"
   "视图菜单: 显示行号"
+
+  "View Menu: Show marker map"
+  "视图菜单: 显示标记地图"
 
   "View Menu: Show meta characters"
   "视图菜单: 显示 meta 字符"

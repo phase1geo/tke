@@ -62,11 +62,13 @@ var searchData=
   ['get_5fmarkdown_5fsubscript',['get_markdown_subscript',['../namespacesyntax.html#ae2493e4c85ee56a64baad4dc2a6d3fc9',1,'syntax']]],
   ['get_5fmarkdown_5fsuperscript',['get_markdown_superscript',['../namespacesyntax.html#add12b7e8df872ef66cb3fa49b9401ae3',1,'syntax']]],
   ['get_5fmarker_5flist',['get_marker_list',['../namespacegui.html#a42422b85fcfcf2cb9b0d1a3a23ddfbe6',1,'gui']]],
+  ['get_5fmarks',['get_marks',['../namespacediff.html#a2e5686fa12ad8e51d9743dbf194e6050',1,'diff']]],
   ['get_5fmatch_5fresults',['get_match_results',['../namespacelauncher.html#ad96c14f69fa228bc2958bdcda7660b6c',1,'launcher']]],
   ['get_5fmenu',['get_menu',['../namespacemenus.html#ae6d6de4b20d2ffddba65308b38d8a371',1,'menus']]],
   ['get_5fmode',['get_mode',['../namespacevim.html#aa2966942f1ca4527eb69bfb269eaf54f',1,'vim']]],
   ['get_5fnames',['get_names',['../namespacemarkers.html#a8cfc00c84b43da4545ac447596b4ad8e',1,'markers::get_names()'],['../namespacesessions.html#a35756cb24a7e75ae37dd81a46f6c7674',1,'sessions::get_names()']]],
   ['get_5fplugin_5fdirectory',['get_plugin_directory',['../namespaceapi.html#a4fbe246f90ab18aeca4abaa5f9f51350',1,'api']]],
+  ['get_5fpositions',['get_positions',['../namespacemarkers.html#a333f48652141ec5091e8e3c8cd078d01',1,'markers']]],
   ['get_5fprefixed_5fsymbol',['get_prefixed_symbol',['../namespacesyntax.html#a55fad28b61befba7b6f20ad7ba5e1810',1,'syntax']]],
   ['get_5fprevious_5findent_5fspace',['get_previous_indent_space',['../namespaceindent.html#a7fb254b122722597295a3f26bfebbcb5',1,'indent']]],
   ['get_5fsearch_5fdata',['get_search_data',['../namespacegui.html#a58505e6d5364bb7cdc7c71623a4e2550',1,'gui']]],
@@ -92,6 +94,7 @@ var searchData=
   ['get_5fxml_5ftag',['get_xml_tag',['../namespacesyntax.html#a9d1ebeab24f9dd9a10a6874907eba459',1,'syntax']]],
   ['gethighlightclasses',['getHighlightClasses',['../namespacectext.html#a5c33098a79c9b452a0f534c63db7cc68',1,'ctext']]],
   ['glob_5fcommand',['glob_command',['../namespaceinterpreter.html#a1f3d6b354131508c08a5a9af3c3dedad',1,'interpreter']]],
+  ['glob_5finstall',['glob_install',['../namespaceutils.html#a9118d8ecdd2d6358e8bda6a0badf62ce',1,'utils']]],
   ['gui',['gui',['../namespacegui.html',1,'']]],
   ['gui_2etcl',['gui.tcl',['../gui_8tcl.html',1,'']]]
 ];

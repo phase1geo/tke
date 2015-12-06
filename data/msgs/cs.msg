@@ -478,6 +478,9 @@ msgcat::mcmset cs {
   "Hide Line Numbers"
   "Skrýt čísla řádek"
 
+  "Hide Marker Map"
+  "Skrýt značková mapa"
+
   "Hide Meta Characters"
   "Skrýt znaky Meta"
 
@@ -682,6 +685,9 @@ msgcat::mcmset cs {
   "Show Line Numbers"
   "Zobrazovat čísla řádků"
 
+  "Show Marker Map"
+  "Ukázat značková mapa"
+
   "Show Meta Characters"
   "Zobrazit znaky Meta"
 
@@ -814,6 +820,9 @@ msgcat::mcmset cs {
   "View Menu: Hide line numbers"
   "Nabídka Zobrazit: Skrýt čísla řádků"
 
+  "View Menu: Hide marker map"
+  "Nabídka Zobrazit: Skrýt značková mapa"
+
   "View Menu: Hide meta characters"
   "Nabídka Zobrazit: Skrýt znaky meta"
 
@@ -837,6 +846,9 @@ msgcat::mcmset cs {
 
   "View Menu: Show line numbers"
   "Nabídka Zobrazit: Zobrazovat čísla řádků"
+
+  "View Menu: Show marker map"
+  "Nabídka Zobrazit: Show značková mapa"
 
   "View Menu: Show meta characters"
   "Nabídka Zobrazit: Show meta znaky"

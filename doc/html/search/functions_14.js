@@ -27,6 +27,7 @@ var searchData=
   ['update_5ffile',['update_file',['../namespacegui.html#a919b49ba49597b16b81b70865666d9d8',1,'gui']]],
   ['update_5fimages',['update_images',['../namespacetheme.html#a539d8a23a9acba06986d5838c39a2789',1,'theme']]],
   ['update_5flangs',['update_langs',['../namespacelang.html#ae3625898886c85a1b6885bf57832a0ad',1,'lang']]],
+  ['update_5fmarkers',['update_markers',['../namespacescroller.html#a0205bf6d22a84d8fcefd0c72493f8419',1,'scroller']]],
   ['update_5fmenu_5fhelper',['update_menu_helper',['../namespacetheme.html#aeaa8f6cf45b285b761409bf46cd1b7b4',1,'theme']]],
   ['update_5fmenubutton',['update_menubutton',['../namespaceindent.html#ae46e652711850b0f3e3e27955193fd1a',1,'indent::update_menubutton()'],['../namespacesyntax.html#a8560e146cd7c367b42a6bb39e693f40e',1,'syntax::update_menubutton()']]],
   ['update_5fmenus',['update_menus',['../namespacebitmap.html#a5ade38645652ba43ea6ccaa3b6412c40',1,'bitmap::update_menus()'],['../namespacetheme.html#a4bb34964e943e50ae97be55cea362efd',1,'theme::update_menus()']]],

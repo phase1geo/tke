@@ -478,6 +478,9 @@ msgcat::mcmset nl {
   "Hide Line Numbers"
   "Regelnummers verbergen"
 
+  "Hide Marker Map"
+  "Marker kaart verbergen"
+
   "Hide Meta Characters"
   "Verbergen metakarakters"
 
@@ -682,6 +685,9 @@ msgcat::mcmset nl {
   "Show Line Numbers"
   "Regelnummering tonen"
 
+  "Show Marker Map"
+  "Marker Toon kaart"
+
   "Show Meta Characters"
   "Toon metakarakters"
 
@@ -814,6 +820,9 @@ msgcat::mcmset nl {
   "View Menu: Hide line numbers"
   "Menu Beeld: Verbergen regelnummers"
 
+  "View Menu: Hide marker map"
+  "Menu Beeld: Verbergen marker kaart"
+
   "View Menu: Hide meta characters"
   "Menu Beeld: Verbergen metakarakters"
 
@@ -837,6 +846,9 @@ msgcat::mcmset nl {
 
   "View Menu: Show line numbers"
   "Menu Beeld: Regelnummers weergeven"
+
+  "View Menu: Show marker map"
+  "Menu Beeld: Toon marker kaart"
 
   "View Menu: Show meta characters"
   "Menu Beeld: Toon metakarakters"
