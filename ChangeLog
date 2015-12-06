@@ -1,36 +1,82 @@
-changeset:   1533:9dcc3966f2bd
-tag:         devel-1.9.13
+changeset:   1537:9c142b9219a4
+tag:         devel-1.9.14
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Dec 03 01:05:20 2015 -0600
+date:        Fri Dec 04 02:18:03 2015 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-1.9.13 release
+ChangeLog for devel-1.9.14 release
 
 
-changeset:   1534:d1bc94a39699
+changeset:   1538:ac3c5ff86e3d
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Dec 03 01:05:25 2015 -0600
+date:        Fri Dec 04 02:18:11 2015 -0600
 files:       .hgtags
 description:
-Added tag devel-1.9.13 for changeset 9dcc3966f2bd
+Added tag devel-1.9.14 for changeset 9c142b9219a4
 
 
-changeset:   1535:d4e378ff336a
+changeset:   1539:2bb1a9a61a29
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Dec 03 21:16:22 2015 -0600
-files:       doc/UserGuide.epub doc/UserGuide.pdf lib/sessions.tcl lib/version.tcl
+date:        Fri Dec 04 09:35:28 2015 -0600
+files:       data/preferences.tkedat lib/gui.tcl lib/markers.tcl lib/menus.tcl lib/scroller.tcl lib/version.tcl
 description:
-* Updating user guide.
-* Fixing end case issues with recent session changes.
+* Adding support code in scroller for including both marker map and difference map (not being used yet).
+* Adding show/hide function for marker map in View menu.
+* Adding preference item to control default marker map show/hide value.
 
 
-changeset:   1536:7f0d9514b8ed
+changeset:   1540:56fbf350eec1
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Dec 04 17:51:19 2015 -0600
+files:       lib/diff.tcl lib/gui.tcl lib/scroller.tcl lib/version.tcl
+description:
+* Integrating difference map into scroller.
+* Fixing view issues and various bugs with scroller.
+
+
+changeset:   1541:10302c527525
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Dec 05 00:04:16 2015 -0600
+files:       lib/gui.tcl lib/scroller.tcl lib/version.tcl
+description:
+* Fixing scroller issues in gui.
+* Adding ability to page up/down/left/right in a scroller widget by right-clicking.
+* Adding mousewheel support in scroller widget.
+* Fixing various scroller bugs.
+
+
+changeset:   1542:2d9656032df8
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Dec 05 00:28:05 2015 -0600
+files:       lib/ctext/ctext.tcl lib/gui.tcl lib/scroller.tcl lib/version.tcl
+description:
+* Attempting to handle mark command call issues better via the ctext widget.
+
+
+changeset:   1543:5453def078cd
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Dec 05 11:20:58 2015 -0600
+files:       lib/ctext/ctext.tcl lib/gui.tcl lib/version.tcl
+description:
+* Fixing the default geometry of the main window to be 800x600.
+* Fixing marker deletion when the marker's line is deleted.
+
+
+changeset:   1544:6d891d3a203f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Dec 05 12:06:04 2015 -0600
+files:       lib/scroller.tcl lib/version.tcl
+description:
+* Adding back a minimal slider size in scroller.
+* Fixing a few scroller bugs.
+
+
+changeset:   1545:25e06a90887c
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Dec 04 02:12:40 2015 -0600
-files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg lib/gui.tcl lib/markers.tcl lib/scroller.tcl lib/theme.tcl lib/version.tcl
+date:        Sat Dec 05 17:57:21 2015 -0600
+files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
 description:
-* Adding marker indicators in vertical scrollbar.
-* Updating translations.
+* Fixing download of dmg files.
 
 
