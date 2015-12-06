@@ -785,8 +785,8 @@ namespace eval specl::updater {
 
     # Get the update
     set token [http::geturl $content(download_url) -progress "specl::updater::gzip_download_progress" \
-      -channel [set rc [open [set download [file join / tmp [file tail $content(download_url)]]] w]]] \
-      -binary 1
+      -channel [set rc [open [set download [file join / tmp [file tail $content(download_url)]]] w]] \
+      -binary]
 
     # Close the channel
     close $rc

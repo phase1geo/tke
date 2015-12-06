@@ -72,11 +72,35 @@ description:
 
 
 changeset:   1545:25e06a90887c
-tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
 date:        Sat Dec 05 17:57:21 2015 -0600
 files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
 description:
 * Fixing download of dmg files.
+
+
+changeset:   1546:537830f57984
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Dec 05 18:15:29 2015 -0600
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for devel-1.9.15 release
+
+
+changeset:   1547:0dd8ded1788a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Dec 05 18:15:35 2015 -0600
+files:       .hgtags
+description:
+Added tag devel-1.9.15 for changeset 537830f57984
+
+
+changeset:   1548:d5c5e2d8e196
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Dec 05 18:22:09 2015 -0600
+files:       .hgtags
+description:
+Removed tag devel-1.9.15
 
 
