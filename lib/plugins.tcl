@@ -377,6 +377,83 @@ namespace eval plugins {
   }
 
   ######################################################################
+  # Displays the plugin grant dialog window.
+  proc grant_window {plugin_name} {
+
+    variable grant
+
+    # Default the permission to be reject
+    set grant "reject"
+
+    toplevel     .installwin
+    wm title     .installwin [msgcat::mc "Plugin Trust Requested"]
+    wm transient .installwin .
+    wm resizable .installwin 0 0
+    wm protocol  .installwin WM_DELETE_WINDOW {
+      # Do nothing
+    }
+
+    ttk::frame .installwin.f
+    ttk::label .installwin.f.l1 -text $plugin_name
+    ttk::label .installwin.f.e1 -text ""
+    ttk::label .installwin.f.l2 -text [msgcat::mc "Plugin requires permission to view or modify your system."]
+    ttk::label .installwin.f.l3 -text [msgcat::mc "Grant permssion?"]
+    ttk::label .installwin.f.e2 -text ""
+
+    pack .installwin.f.l1 -padx 2 -pady 2
+    pack .installwin.f.e1 -padx 2
+    pack .installwin.f.l2 -padx 2
+    pack .installwin.f.l3 -padx 2
+    pack .installwin.f.e2 -padx 2
+
+    ttk::frame       .installwin.rf
+    ttk::frame       .installwin.rf.f
+    ttk::radiobutton .installwin.rf.f.r -text [format "  %s" [msgcat::mc "Reject"]] -variable plugins::grant -value "reject"
+    ttk::radiobutton .installwin.rf.f.g -text [format "  %s" [msgcat::mc "Grant"]]  -variable plugins::grant -value "grant"
+    ttk::radiobutton .installwin.rf.f.a -text [format "  %s" [msgcat::mc "Always grant from developer"]] -variable plugins::grant -value "always"
+    ttk::label       .installwin.rf.f.e -text ""
+
+    pack .installwin.rf.f.r -anchor w -padx 2
+    pack .installwin.rf.f.g -anchor w -padx 2
+    pack .installwin.rf.f.a -anchor w -padx 2
+    pack .installwin.rf.f.e
+    pack .installwin.rf.f
+
+    set bwidth [msgcat::mcmax "OK" "Cancel"]
+
+    ttk::frame  .installwin.bf
+    ttk::button .installwin.bf.ok -style BButton -text [msgcat::mc "OK"] -width $bwidth -command {
+      destroy .installwin
+    }
+    ttk::button .installwin.bf.cancel -style BButton -text [msgcat::mc "Cancel"] -width $bwidth -command {
+      set plugins::grant "cancel"
+      destroy .installwin
+    }
+
+    pack .installwin.bf.cancel -side right -padx 2 -pady 2
+    pack .installwin.bf.ok     -side right -padx 2 -pady 2
+
+    pack .installwin.f
+    pack .installwin.rf -fill x
+    pack .installwin.bf -fill x
+
+    # Place the window
+    ::tk::PlaceWindow .installwin widget .
+
+    # Take the focus and grab
+    ::tk::SetFocusGrab .installwin .installwin.r
+
+    # Wait for the window to close
+    tkwait window .installwin
+
+    # Return the focus and grab
+    ::tk::RestoreFocusGrab .installwin.r installwin
+
+    return $grant
+
+  }
+
+  ######################################################################
   # Installs the plugin in the registry specified by name.
   proc install_item {index} {
 
@@ -394,14 +471,15 @@ namespace eval plugins {
     # Source the file if it hasn't been previously sourced
     if {$registry($index,interp) eq ""} {
       if {$registry($index,treqd) && !$registry($index,tgntd)} {
-        set answer [tk_dialog .installwin "Plugin Trust Requested" \
-          "The $registry($index,name) plugin requires permission to view/modify your system.  Grant permission?" \
-          "" "Grant" "Reject" "Grant" "Always grant from developer"]
-        switch $answer {
-          "Grant"  { set registry($index,tgntd) 1 }
-          "Reject" { set registry($index,tgntd) 0 }
+        switch [grant_window $registry($index,name)] {
+          "grant"  { set registry($index,tgntd) 1 }
+          "reject" { set registry($index,tgntd) 0 }
+          "always" { set registry($index,tgntd) 1 }
           default  {
-            set registry($index,tgntd) 1
+            add_all_menus
+            add_all_text_bindings
+            add_all_syntax
+            return
           }
         }
       }
