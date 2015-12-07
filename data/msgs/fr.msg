@@ -876,6 +876,9 @@ msgcat::mcmset fr {
 # plugins.tcl
 msgcat::mcmset fr {
 
+  "Always grant from developer"
+  "Toujours accorder du développeur"
+
   "ERROR"
   "ERREUR"
 
@@ -894,17 +897,35 @@ msgcat::mcmset fr {
   "Enter plugin name"
   "Entrez le nom du plug-in"
 
+  "Grant"
+  "Grant"
+
+  "Grant permssion?"
+  "Grant permssion?"
+
+  "OK"
+  "Ok"
+
   "Plugin Errors"
   "Erreurs de plugins"
 
+  "Plugin Trust Requested"
+  "Plugin fiducie demandé"
+
   "Plugin installed"
   "Extension installé !"
+
+  "Plugin requires permission to view or modify your system."
+  "Plugin nécessite l&#39;autorisation d&#39;afficher ou de modifier votre système."
 
   "Plugin uninstalled"
   "Plugin désinstallé"
 
   "Plugins successfully reloaded"
   "Plugins rechargé avec succès"
+
+  "Reject"
+  "Refuser"
 
   "Syntax errors found in selected plugins"
   "Les erreurs de syntaxe trouvées dans les plugins sélectionnés"

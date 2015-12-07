@@ -876,6 +876,9 @@ msgcat::mcmset nl {
 # plugins.tcl
 msgcat::mcmset nl {
 
+  "Always grant from developer"
+  "Verlenen altijd van ontwikkelaar"
+
   "ERROR"
   "FOUT"
 
@@ -894,17 +897,35 @@ msgcat::mcmset nl {
   "Enter plugin name"
   "Voer plugin naam"
 
+  "Grant"
+  "Grant"
+
+  "Grant permssion?"
+  "Grant permssion?"
+
+  "OK"
+  "OK"
+
   "Plugin Errors"
   "Plugin fouten"
 
+  "Plugin Trust Requested"
+  "Plugin Trust Gevraagde"
+
   "Plugin installed"
   "Plugin geïnstalleerd"
+
+  "Plugin requires permission to view or modify your system."
+  "Plugin toestemming om te bekijken of uw systeem te wijzigen."
 
   "Plugin uninstalled"
   "Plugin verwijderd"
 
   "Plugins successfully reloaded"
   "Plugins succes vernieuwd"
+
+  "Reject"
+  "Afwijzen"
 
   "Syntax errors found in selected plugins"
   "Syntax fouten gevonden in geselecteerde plugins"

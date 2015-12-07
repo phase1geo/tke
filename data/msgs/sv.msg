@@ -876,6 +876,9 @@ msgcat::mcmset sv {
 # plugins.tcl
 msgcat::mcmset sv {
 
+  "Always grant from developer"
+  "Bevilja alltid från utvecklaren"
+
   "ERROR"
   "FEL"
 
@@ -894,17 +897,35 @@ msgcat::mcmset sv {
   "Enter plugin name"
   "Ange plugin namn"
 
+  "Grant"
+  "Grant"
+
+  "Grant permssion?"
+  "Grant permssion?"
+
+  "OK"
+  "OK"
+
   "Plugin Errors"
   "Plugin fel"
 
+  "Plugin Trust Requested"
+  "Plugin Förtroende Begärd"
+
   "Plugin installed"
   "Plugin installerat"
+
+  "Plugin requires permission to view or modify your system."
+  "Plugin kräver tillstånd för att visa eller ändra ditt system."
 
   "Plugin uninstalled"
   "Plugin avinstalleras"
 
   "Plugins successfully reloaded"
   "Insticksprogram framgångsrikt reloaded"
+
+  "Reject"
+  "Avvisa"
 
   "Syntax errors found in selected plugins"
   "Syntax fel i utvalda plugins"
