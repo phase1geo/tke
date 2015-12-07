@@ -738,7 +738,7 @@ namespace eval gui {
     variable files_index
 
     # Gather content to save
-    set content(Geometry)                [wm geometry .]
+    set content(Geometry)                [::window_geometry .]
     set content(Fullscreen)              [wm attributes . -fullscreen]
     set content(CurrentWorkingDirectory) [pwd]
     set content(Sidebar)                 [[ns sidebar]::save_session]
