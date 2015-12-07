@@ -73,6 +73,7 @@ package require specl
 package require struct::set
 package require comm
 catch { package require tkdnd }
+catch { package require registry }
 
 source [file join $tke_dir lib version.tcl]
 source [file join $tke_dir lib utils.tcl]
@@ -209,7 +210,33 @@ if {$tcl_platform(platform) eq "windows"} {
 
   }
 
+  ######################################################################
+  # Returns the window geometry for windows.
+  proc window_geometry {{w .}} {
+
+    # Get the geometry of the window
+    scan [wm geometry $w] "%dx%d+%d+%d" width height decorationLeft decorationTop
+
+    # Get the height of the window from the registry and increase the height by this
+    # value.
+    if {![catch { registry get "HKEY_CURRENT_USER\\Control Panel\\Desktop\\WindowMetrics" MenuHeight } result]} {
+      incr height [expr {-$result / 15}]
+    }
+
+    # Return the adjusted window geometry
+    return [format "%dx%d+%d+%d" $width $height $decorationLeft $decorationTop]
+
+  }
+
 } else {
+
+  ######################################################################
+  # Returns the window geometry on Mac OS X and Linux.
+  proc window_geometry {{w .}} {
+
+    return [wm geometry $w]
+
+  }
 
   # If we are using aqua, define a few tk::mac procedures that the application can use
   if {[tk windowingsystem] eq "aqua"} {
