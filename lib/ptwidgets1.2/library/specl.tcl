@@ -28,7 +28,7 @@ namespace eval specl {
   variable rss_url      ""
   variable download_url ""
   variable oses         {linux mac win}
-  
+
   variable test_mode    ""
 
   ######################################################################
@@ -89,7 +89,7 @@ namespace eval specl {
     return $install_dir
 
   }
-  
+
   ######################################################################
   # Sets the current test mode to one of the following values:
   # - uptodate      = Starts up-to-date window (no networking involved)
@@ -98,13 +98,13 @@ namespace eval specl {
   # - full-uptodate = Runs updater normally but forces the up-to-date window to be used
   # - full-update   = Runs updater normally but forces the update window to be used
   proc set_test_mode {mode} {
-    
+
     variable test_mode
-    
+
     if {[lsearch [list "" "uptodate" "update" "password" "full-uptodate" "full-update"] $mode] != -1} {
       set test_mode $mode
     }
-    
+
   }
 
   ######################################################################
@@ -113,7 +113,7 @@ namespace eval specl {
   proc check_for_update {on_start release_type {cl_args {}} {cleanup_script {}}} {
 
     variable test_mode
-    
+
     # Allow the UI to update before we proceed
     update
 
@@ -141,22 +141,22 @@ namespace eval specl {
     # Execute this script
     bgproc::system updater [list [info nameofexecutable] $frame(file) -name "TKE Updater" -- update {*}$update_args] \
       -callback [list specl::complete_update $script_name $specl_version_dir $cleanup_script $cl_args]
-      
+
     # If this is on startup, wait for the update to complete before moving on
     if {$on_start} {
       bgproc::synchronize updater
     }
-    
+
   }
-  
+
   ######################################################################
   # Called on completion of the update operation.
   proc complete_update {script_name specl_version_dir cleanup_script cl_args err data} {
-    
+
     variable test_mode
-    
+
     # puts "In complete_update, script_name: $script_name, specl_version_dir: $specl_version_dir, cl_args: $cl_args, err: $err, data: $data"
-    
+
     if {!$err && ($test_mode eq "")} {
 
       # If there is a cleanup script to execute, do it now
@@ -170,7 +170,7 @@ namespace eval specl {
 
       # Exit this application
       exit
-      
+
     }
 
   }
@@ -191,7 +191,7 @@ namespace eval specl::helpers {
   proc get_elements {node name} {
 
     set ref [dom::document getElementsByTagName $node $name]
-    
+
     return [set $ref]
 
   }
@@ -207,13 +207,13 @@ namespace eval specl::helpers {
     return [lindex $elements 0]
 
   }
-  
+
   ######################################################################
   # Returns the data located inside the node text element.
   proc get_text {node} {
-    
+
     return [dom::node cget [dom::node cget $node -firstChild] -nodeValue]
-    
+
   }
 
   ######################################################################
@@ -565,7 +565,7 @@ namespace eval specl::updater {
     set latest_version ""
     set latest_release -1
     set force          $data(cl_force)
-    
+
     # Parse the DOM
     if {[catch { dom::parse $data(fetch_content) } dom]} {
       return -code error "Unable to parse RSS contents: $dom"
@@ -586,7 +586,7 @@ namespace eval specl::updater {
       if {[expr $rtype & $data(cl_release_type)]} {
 
         if {($release > $specl::release) || $force} {
-          
+
           # Clear force term
           set force 0
 
@@ -786,7 +786,7 @@ namespace eval specl::updater {
     # Get the update
     set token [http::geturl $content(download_url) -progress "specl::updater::gzip_download_progress" \
       -channel [set rc [open [set download [file join / tmp [file tail $content(download_url)]]] w]] \
-      -binary]
+      -binary 1]
 
     # Close the channel
     close $rc
@@ -1052,18 +1052,18 @@ namespace eval specl::updater {
   proc do_install {content_list} {
 
     variable data
-    
+
     array set content $content_list
-  
+
     # Get the name of the downloaded directory
     set app      "$specl::appname-$content(version)"
     set download [file join / tmp $app]
-  
+
     if {$data(cl_test_type) eq ""} {
 
       # Get the name of the installation directory
       set install_dir [specl::get_install_dir $data(specl_version_dir)]
-  
+
       # Move the original directory to the trash
       switch -glob $::tcl_platform(os) {
         Darwin {
@@ -1104,7 +1104,7 @@ namespace eval specl::updater {
           exit 1
         }
       }
-  
+
       # Move the installation directory to the trash
       if {[info exists trash_path]} {
         if {[catch { file rename -force $install_dir $trash_path } rc]} {
@@ -1117,7 +1117,7 @@ namespace eval specl::updater {
           }
         }
       }
-  
+
       # Perform the directory move
       if {[catch { file rename -force $download $install_dir } rc]} {
         if {![info exists password]} {
@@ -1128,12 +1128,12 @@ namespace eval specl::updater {
           exit 1
         }
       }
-      
+
     } else {
-      
+
       # Just delete the download directory since we are just testing
       file delete -force $download
-      
+
     }
 
     exit
@@ -1187,7 +1187,7 @@ namespace eval specl::updater {
 
     variable widgets
     variable data
-    
+
     array set content $content_list
 
     # Initialize information
@@ -1368,7 +1368,7 @@ namespace eval specl::updater {
   proc load_customizations {} {
 
     variable data
-    
+
     if {![catch { open [file join $data(specl_version_dir) specl_customize.xml] r } rc]} {
 
       # Read the data
@@ -1379,7 +1379,7 @@ namespace eval specl::updater {
       if {[catch { dom::parse $contents } dom]} {
         return -code error "Unable to parse RSS contents: $dom"
       }
-    
+
       # Parse the customization XML
       if {![catch { specl::helpers::get_element $dom "customizations" } custom_node]} {
 
@@ -1489,7 +1489,7 @@ namespace eval specl::updater {
 
     # If we are running in live mode, fetch the appcast data and parse it
     if {($data(cl_test_type) eq "") || ([string range $data(cl_test_type) 0 4] eq "full-")} {
-      
+
       # If we are testing the update path, set the release to force one to occur (last release)
       if {$data(cl_test_type) eq "full-update"} {
         incr specl::release -1
@@ -1515,7 +1515,7 @@ namespace eval specl::updater {
 
       # Get the content
       array set content $rc
-      
+
       # If we are testing the up-to-date path, set the release to force it to occur (current release)
       if {$data(cl_test_type) eq "full-uptodate"} {
         set specl::release $content(release)
@@ -2124,11 +2124,11 @@ namespace eval specl::releaser {
   proc parse_rss {type content} {
 
     variable data
-    
+
     if {[catch { dom::parse $content } dom]} {
       return -code error "Unable to parse RSS contents: $dom"
     }
-    
+
     # Get RSS node
     set rss_node [specl::helpers::get_element $dom "rss"]
 
@@ -2153,7 +2153,7 @@ namespace eval specl::releaser {
       foreach release_node [specl::helpers::get_elements $channel_node "release"] {
         append data(other_releases) [dom::serialize $release_node -method xml -indent 1]
       }
-      
+
     } else {
 
       # Get the last release information and all other releases
@@ -2193,9 +2193,9 @@ namespace eval specl::releaser {
         }
 
       }
-      
+
     }
-    
+
     # Delete the DOM
     dom::destroy $dom
 
@@ -2206,7 +2206,7 @@ namespace eval specl::releaser {
   proc read_rss {type} {
 
     variable data
-    
+
     # Get the filename of the local appcast.xml file
     set local_appcast [file join $data(cl_directory) appcast.xml]
 
@@ -2385,7 +2385,7 @@ namespace eval specl::releaser {
   proc start_release {type} {
 
     variable data
-    
+
     # Attempt to source the specl_version.tcl file
     if {[catch { specl::load_specl_version [pwd] } rc]} {
 
@@ -2432,7 +2432,7 @@ namespace eval specl::releaser {
 
 # If this is being run as an application, do the following
 if {[file tail $::argv0] eq "specl.tcl"} {
-  
+
   lappend auto_path [file join [file dirname $::argv0] .. common]
 
   package require Tk
