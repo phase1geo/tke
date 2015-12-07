@@ -34,11 +34,19 @@ description:
 
 
 changeset:   1553:b3b022ea8809
-tag:         tip
 user:        Trevor Williams <phase1geo@gmail.com>
 date:        Mon Dec 07 02:36:52 2015 -0600
 files:       lib/gui.tcl lib/tke.tcl lib/version.tcl
 description:
 * Attempting to fix the window geometry for Windows.
+
+
+changeset:   1554:e7be8a4b9564
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Dec 07 02:46:57 2015 -0600
+files:       ChangeLog data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg lib/version.tcl
+description:
+* Updating translations.
 
 
