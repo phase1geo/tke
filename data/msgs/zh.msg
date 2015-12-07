@@ -876,6 +876,9 @@ msgcat::mcmset zh {
 # plugins.tcl
 msgcat::mcmset zh {
 
+  "Always grant from developer"
+  "从开发人员总是给予"
+
   "ERROR"
   "错误"
 
@@ -894,17 +897,35 @@ msgcat::mcmset zh {
   "Enter plugin name"
   "输入插件名称"
 
+  "Grant"
+  "授予"
+
+  "Grant permssion?"
+  "格兰特PERMSSION？"
+
+  "OK"
+  "確定"
+
   "Plugin Errors"
   "插件错误"
 
+  "Plugin Trust Requested"
+  "插件信任请求"
+
   "Plugin installed"
   "插件已安装"
+
+  "Plugin requires permission to view or modify your system."
+  "插件需要权限来查看或修改您的系统。"
 
   "Plugin uninstalled"
   "插件已卸载"
 
   "Plugins successfully reloaded"
   "插件重新加载成功"
+
+  "Reject"
+  "拒绝"
 
   "Syntax errors found in selected plugins"
   "在选定的外挂，发现语法错误"

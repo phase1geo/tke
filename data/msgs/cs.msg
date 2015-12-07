@@ -876,6 +876,9 @@ msgcat::mcmset cs {
 # plugins.tcl
 msgcat::mcmset cs {
 
+  "Always grant from developer"
+  "Vždy grant od tohoto vývojáře"
+
   "ERROR"
   "CHYBA"
 
@@ -894,17 +897,35 @@ msgcat::mcmset cs {
   "Enter plugin name"
   "Zadejte plugin jméno"
 
+  "Grant"
+  "Grant"
+
+  "Grant permssion?"
+  "Grant permssion?"
+
+  "OK"
+  "OK"
+
   "Plugin Errors"
   "Plugin chyby"
 
+  "Plugin Trust Requested"
+  "Plugin Důvěra Požadované"
+
   "Plugin installed"
   "Plugin nainstalovaný"
+
+  "Plugin requires permission to view or modify your system."
+  "Plugin vyžaduje oprávnění k zobrazení nebo změnit váš systém."
 
   "Plugin uninstalled"
   "Plugin odinstaloval"
 
   "Plugins successfully reloaded"
   "Pluginy úspěšně reloaded"
+
+  "Reject"
+  "Odmítnout"
 
   "Syntax errors found in selected plugins"
   "Syntaktické chyby nalezené ve vybraných pluginů"

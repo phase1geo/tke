@@ -876,6 +876,9 @@ msgcat::mcmset ru {
 # plugins.tcl
 msgcat::mcmset ru {
 
+  "Always grant from developer"
+  "Всегда грант разработчика"
+
   "ERROR"
   "Ошибка"
 
@@ -894,17 +897,35 @@ msgcat::mcmset ru {
   "Enter plugin name"
   "Введите плагин имя"
 
+  "Grant"
+  "Грант"
+
+  "Grant permssion?"
+  "Грант permssion?"
+
+  "OK"
+  "OK"
+
   "Plugin Errors"
   "Плагин ошибки"
 
+  "Plugin Trust Requested"
+  "Плагин Доверие просил"
+
   "Plugin installed"
   "Плагин установлен"
+
+  "Plugin requires permission to view or modify your system."
+  "Плагин требует разрешения на просмотр или изменение системы."
 
   "Plugin uninstalled"
   "Удалить плагин"
 
   "Plugins successfully reloaded"
   "Плагины успешно перезагружается"
+
+  "Reject"
+  "Отклонить"
 
   "Syntax errors found in selected plugins"
   "Синтаксические ошибки, найденные в выбранных плагинов"

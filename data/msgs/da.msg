@@ -876,6 +876,9 @@ msgcat::mcmset da {
 # plugins.tcl
 msgcat::mcmset da {
 
+  "Always grant from developer"
+  "Altid give fra udvikleren"
+
   "ERROR"
   "FEJL"
 
@@ -894,17 +897,35 @@ msgcat::mcmset da {
   "Enter plugin name"
   "Indtast plugin navn"
 
+  "Grant"
+  "Meddelelse af EF-sortsbeskyttelse"
+
+  "Grant permssion?"
+  "Grant permssion?"
+
+  "OK"
+  "OK"
+
   "Plugin Errors"
   "Plugin fejl"
 
+  "Plugin Trust Requested"
+  "Plugin Trust Anmodet"
+
   "Plugin installed"
   "Plugin installeret"
+
+  "Plugin requires permission to view or modify your system."
+  "Plugin kræver tilladelse til at se eller ændre dit system."
 
   "Plugin uninstalled"
   "Plugin afinstalleret"
 
   "Plugins successfully reloaded"
   "Plugins held genindlæses"
+
+  "Reject"
+  "Afvis"
 
   "Syntax errors found in selected plugins"
   "Syntaksfejl fundet i udvalgte plugins"

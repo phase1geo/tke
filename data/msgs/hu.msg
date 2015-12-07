@@ -876,6 +876,9 @@ msgcat::mcmset hu {
 # plugins.tcl
 msgcat::mcmset hu {
 
+  "Always grant from developer"
+  "Mindig megadja a fejlesztőtől"
+
   "ERROR"
   "HIB"
 
@@ -894,17 +897,35 @@ msgcat::mcmset hu {
   "Enter plugin name"
   "Adja meg a bővítmény név"
 
+  "Grant"
+  "Az oltalom megadása"
+
+  "Grant permssion?"
+  "Grant permssion?"
+
+  "OK"
+  "OK"
+
   "Plugin Errors"
   "Plugin hibák"
 
+  "Plugin Trust Requested"
+  "Plugin Trust Kért"
+
   "Plugin installed"
   "Plugin telepítve"
+
+  "Plugin requires permission to view or modify your system."
+  "Plugin engedélye szükséges megtekintheti és módosíthatja a rendszer."
 
   "Plugin uninstalled"
   "Eltávolította a plugin"
 
   "Plugins successfully reloaded"
   "Plugins sikeresen reloaded"
+
+  "Reject"
+  "Elutasítás"
 
   "Syntax errors found in selected plugins"
   "Syntax hibát talált a kiválasztott plugins"

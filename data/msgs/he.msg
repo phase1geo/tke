@@ -876,6 +876,9 @@ msgcat::mcmset he {
 # plugins.tcl
 msgcat::mcmset he {
 
+  "Always grant from developer"
+  "תמיד מענק של מפתח"
+
   "ERROR"
   "טעות"
 
@@ -894,17 +897,35 @@ msgcat::mcmset he {
   "Enter plugin name"
   "הזן שם התוסף"
 
+  "Grant"
+  "גרנט"
+
+  "Grant permssion?"
+  "Permssion גרנט?"
+
+  "OK"
+  "אשר"
+
   "Plugin Errors"
   "תוסף שגיאות"
 
+  "Plugin Trust Requested"
+  "תוסף אמון המבוקש"
+
   "Plugin installed"
   "התוסף מותקן"
+
+  "Plugin requires permission to view or modify your system."
+  "תוסף מחייבת הרשאה להציג או לשנות את המערכת."
 
   "Plugin uninstalled"
   "תוסף להסיר"
 
   "Plugins successfully reloaded"
   "תוספים בהצלחה-נטען מחדש"
+
+  "Reject"
+  "דחה"
 
   "Syntax errors found in selected plugins"
   "שגיאות תחביר נמצאו הפלאגאינים שנבחרו"

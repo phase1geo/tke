@@ -876,6 +876,9 @@ msgcat::mcmset ja {
 # plugins.tcl
 msgcat::mcmset ja {
 
+  "Always grant from developer"
+  "常に開発者から付与"
+
   "ERROR"
   "エラー"
 
@@ -894,17 +897,35 @@ msgcat::mcmset ja {
   "Enter plugin name"
   "プラグイン名を入力してください"
 
+  "Grant"
+  "グラント"
+
+  "Grant permssion?"
+  "permssionを付与？"
+
+  "OK"
+  "OK"
+
   "Plugin Errors"
   "プラグインエラー"
 
+  "Plugin Trust Requested"
+  "プラグイントラストは、要求"
+
   "Plugin installed"
   "プラグインをインストール"
+
+  "Plugin requires permission to view or modify your system."
+  "プラグインはお使いのシステムを表示または変更する権限が必要です。"
 
   "Plugin uninstalled"
   "プラグインのアンインストール"
 
   "Plugins successfully reloaded"
   "プラグインが正常にリロード"
+
+  "Reject"
+  "差し戻し"
 
   "Syntax errors found in selected plugins"
   "構文エラーは、選択したプラグインで発見"
