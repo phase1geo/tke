@@ -641,8 +641,9 @@ namespace eval menus {
 
     $mb add separator
 
-    $mb add cascade -label [msgcat::mc "Insert Text"] -menu [menu $mb.insertPopup -tearoff 0 -postcommand "menus::edit_insert_posting $mb.insertPopup"]
-    $mb add cascade -label [msgcat::mc "Format Text"] -menu [menu $mb.formatPopup -tearoff 0 -postcommand "menus::edit_format_posting $mb.formatPopup"]
+    $mb add cascade -label [msgcat::mc "Insert"] -menu [menu $mb.insertPopup -tearoff 0 -postcommand "menus::edit_insert_posting $mb.insertPopup"]
+    $mb add cascade -label [msgcat::mc "Delete"] -menu [menu $mb.deletePopup -tearoff 0 -postcommand "menus::edit_delete_posting $mb.deletePopup"]
+    $mb add cascade -label [msgcat::mc "Format"] -menu [menu $mb.formatPopup -tearoff 0 -postcommand "menus::edit_format_posting $mb.formatPopup"]
 
     $mb add separator
 
@@ -650,7 +651,7 @@ namespace eval menus {
     $mb add cascade -label [msgcat::mc "Menu Bindings"] -menu [menu $mb.bindPopup -tearoff 0]
     $mb add cascade -label [msgcat::mc "Snippets"]      -menu [menu $mb.snipPopup -tearoff 0 -postcommand "menus::edit_snippets_posting $mb.snipPopup"]
 
-    # Create indentation menu
+    # Populate indentation menu
     $mb.indentPopup add radiobutton -label [msgcat::mc "Indent Off"] -variable menus::indent_mode -value "OFF" -command "gui::set_current_indent_mode {} OFF"
     launcher::register [msgcat::mc "Edit Menu: Set indent mode to OFF"] "gui::set_current_indent_mode {} OFF"
 
@@ -660,12 +661,32 @@ namespace eval menus {
     $mb.indentPopup add radiobutton -label [msgcat::mc "Smart Indent"] -variable menus::indent_mode -value "IND+" -command "gui::set_current_indent_mode {} IND+"
     launcher::register [msgcat::mc "Edit Menu: Set indent mode to IND+"] "gui::set_current_indent_mode {} IND+"
 
-    # Create insertion menu
-    $mb.insertPopup add command -label [msgcat::mc "From Clipboard"] -command "cliphist::show_cliphist"
-    launcher::register [msgcat::mc "Edit Menu: Insert from clipboard"] "cliphist::show_cliphist"
+    # Populate insertion menu
+    $mb.insertPopup add command -label [msgcat::mc "Line Above Current"] -command [list menus::edit_insert_line_above]
+    launcher::register [msgcat::mc "Edit Menu: Insert line above current line"] [list menus::edit_insert_line_above]
 
-    $mb.insertPopup add command -label [msgcat::mc "Snippet"] -command "snippets::show_snippets"
-    launcher::register [msgcat::mc "Edit Menu: Insert snippet"] "snippets::show_snippets"
+    $mb.insertPopup add command -label [msgcat::mc "Line Below Current"] -command [list menus::edit_insert_line_below]
+    launcher::register [msgcat::mc "Edit Menu: Insert line below current line"] [list menus::edit_insert_line_below]
+
+    $mb.insertPopup add separator
+
+    $mb.insertPopup add command -label [msgcat::mc "File Contents"] -command [list menus::edit_insert_file_after_current_line]
+    launcher::register [msgcat::mc "Edit Menu: Insert file contents after current line"] [list menus::edit_insert_file_after_current_line]
+
+    $mb.insertPopup add command -label [msgcat::mc "Command Result"] -command [list menus::edit_insert_command_after_current_line]
+    launcher::register [msgcat::mc "Edit Menu: Insert command result after current line"] [list menus::edit_insert_command_after_current_line]
+
+    $mb.insertPopup add separator
+
+    $mb.insertPopup add command -label [msgcat::mc "From Clipboard"] -command [list cliphist::show_cliphist]
+    launcher::register [msgcat::mc "Edit Menu: Insert from clipboard"] [list cliphist::show_cliphist]
+
+    $mb.insertPopup add command -label [msgcat::mc "Snippet"] -command [list snippets::show_snippets]
+    launcher::register [msgcat::mc "Edit Menu: Insert snippet"] [list snippets::show_snippets]
+
+    # Populate deletion menu
+    $mb.deletePopup add command -label [msgcat::mc "Current Line"] -command [list menus::edit_delete_current_line]
+    launcher::register [msgcat::mc "Edit Menu: Delete current line"] [list menus::edit_delete_current_line]
 
     # Create formatting menu
     $mb.formatPopup add command -label [msgcat::mc "Selected"] -command "gui::format_text {} selected"
@@ -741,8 +762,8 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Paste and Format"] -state disabled
       $mb entryconfigure [msgcat::mc "Select All"]       -state disabled
       $mb entryconfigure [msgcat::mc "Indent Mode"]      -state disabled
-      $mb entryconfigure [msgcat::mc "Insert Text"]      -state disabled
-      $mb entryconfigure [msgcat::mc "Format Text"]      -state disabled
+      $mb entryconfigure [msgcat::mc "Insert"]           -state disabled
+      $mb entryconfigure [msgcat::mc "Format"]      -state disabled
     } else {
       if {[gui::undoable {}]} {
         $mb entryconfigure [msgcat::mc "Undo"] -state normal
@@ -766,11 +787,13 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Select All"]  -state normal
       $mb entryconfigure [msgcat::mc "Indent Mode"] -state normal
       if {[gui::editable {}]} {
-        $mb entryconfigure [msgcat::mc "Insert Text"] -state normal
+        $mb entryconfigure [msgcat::mc "Insert"] -state normal
+        $mb entryconfigure [msgcat::mc "Delete"] -state normal
       } else {
-        $mb entryconfigure [msgcat::mc "Insert Text"] -state disabled
+        $mb entryconfigure [msgcat::mc "Insert"] -state disabled
+        $mb entryconfigure [msgcat::mc "Delete"] -state disabled
       }
-      $mb entryconfigure [msgcat::mc "Format Text"] -state normal
+      $mb entryconfigure [msgcat::mc "Format"] -state normal
     }
 
   }
@@ -779,6 +802,18 @@ namespace eval menus {
   # Called just prior to posting the edit/insert menu option.  Sets the
   # menu option states to match the current UI state.
   proc edit_insert_posting {mb} {
+
+    if {[gui::current_txt {}] eq ""} {
+      $mb entryconfigure [msgcat::mc "Line Above Current"] -state disabled
+      $mb entryconfigure [msgcat::mc "Line Below Current"] -state disabled
+      $mb entryconfigure [msgcat::mc "File Contents"]      -state disabled
+      $mb entryconfigure [msgcat::mc "Command Result"]     -state disabled
+    } else {
+      $mb entryconfigure [msgcat::mc "Line Above Current"] -state normal
+      $mb entryconfigure [msgcat::mc "Line Below Current"] -state normal
+      $mb entryconfigure [msgcat::mc "File Contents"]      -state normal
+      $mb entryconfigure [msgcat::mc "Command Result"]     -state normal
+    }
 
     if {[llength [cliphist::get_history]] > 0} {
       $mb entryconfigure [msgcat::mc "From Clipboard"] -state normal
@@ -790,6 +825,19 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Snippet"] -state normal
     } else {
       $mb entryconfigure [msgcat::mc "Snippet"] -state disabled
+    }
+
+  }
+
+  ######################################################################
+  # Called just prior to posting the edit/delete menu option.  Sets the
+  # menu option states to match the current UI state.
+  proc edit_delete_posting {mb} {
+
+    if {[gui::current_txt {}] eq ""} {
+      $mb entryconfigure [msgcat::mc "Current Line"] -state disabled
+    } else {
+      $mb entryconfigure [msgcat::mc "Current Line"] -state normal
     }
 
   }
@@ -840,6 +888,55 @@ namespace eval menus {
     } else {
       $mb entryconfigure [msgcat::mc "Edit Language"] -state normal
     }
+
+  }
+
+  ######################################################################
+  # Inserts a new line above the current line.
+  proc edit_insert_line_above {} {
+
+    edit::insert_line_above_current [gui::current_txt {}].t
+
+  }
+
+  ######################################################################
+  # Inserts a new line below the current line.
+  proc edit_insert_line_below {} {
+
+    edit::insert_line_below_current [gui::current_txt {}].t
+
+  }
+
+  ######################################################################
+  # Get the name of a file from the user using the open file chooser.
+  # Inserts the contents of the file after the current line.
+  proc edit_insert_file_after_current_line {} {
+
+    if {[set fname [tk_getOpenFile -parent . -multiple 1]] ne ""} {
+      edit::insert_file [gui::current_txt {}].t $fname
+      gui::set_txt_focus [gui::current_txt {}]
+    }
+
+  }
+
+  ######################################################################
+  # Gets a shell command from the user via the user input field.  Executes
+  # the command and output the results after the current line.
+  proc edit_insert_command_after_current_line {} {
+
+    set cmd ""
+
+    if {[gui::get_user_response [format "%s:" [msgcat::mc "Command"]] cmd 1]} {
+      edit::insert_file [gui::current_txt {}].t "|$cmd"
+    }
+
+  }
+
+  ######################################################################
+  # Deletes the current line.
+  proc edit_delete_current_line {} {
+
+    edit::delete_current_line [gui::current_txt {}].t
 
   }
 
