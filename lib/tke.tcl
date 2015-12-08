@@ -78,6 +78,7 @@ catch { package require registry }
 source [file join $tke_dir lib version.tcl]
 source [file join $tke_dir lib utils.tcl]
 source [file join $tke_dir lib preferences.tcl]
+source [file join $tke_dir lib edit.tcl]
 source [file join $tke_dir lib gui.tcl]
 source [file join $tke_dir lib sidebar.tcl]
 source [file join $tke_dir lib indent.tcl]

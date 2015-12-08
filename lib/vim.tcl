@@ -191,7 +191,7 @@ namespace eval vim {
       default {
         catch {
 
-          # Perform searcn and replace
+          # Perform search and replace
           if {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)s/(.*)/(.*)/([giI]*)$} $value -> from to search replace opts]} {
             set from [get_linenum $txt $from]
             set to   [$txt index "[get_linenum $txt $to] lineend-1c"]
@@ -269,9 +269,9 @@ namespace eval vim {
           # Insert the contents of a file after the current line
           } elseif {[regexp {^r\s+(.*)$} $value -> filename]} {
             if {[string index $filename 0] eq "!"} {
-              [ns vim]::insert_file $txt "|[[ns utils]::perform_substitutions [string range $filename 1 end]]"
+              [ns edit]::insert_file $txt "|[[ns utils]::perform_substitutions [string range $filename 1 end]]"
             } else {
-              [ns vim]::insert_file $txt [normalize_filename [[ns utils]::perform_substitutions $filename]]
+              [ns edit]::insert_file $txt [normalize_filename [[ns utils]::perform_substitutions $filename]]
             }
 
           # Change the working directory
@@ -316,26 +316,6 @@ namespace eval vim {
     }
 
     return [file normalize $file_str]
-
-  }
-
-  ######################################################################
-  # Inserts the given file contents beneath the current insertion line.
-  proc insert_file {txt filename} {
-
-    if {![catch "open $filename r" rc]} {
-
-      # Read the contents of the file and close the file
-      set contents [read $rc]
-      close $rc
-
-      # Insert the file contents beneath the current insertion line
-      $txt insert "insert lineend" "\n$contents"
-
-      # Adjust the insert cursor
-      adjust_insert $txt
-
-    }
 
   }
 
@@ -734,6 +714,11 @@ namespace eval vim {
 
     variable mode
     variable ignore_modified
+
+    # If we are not running in Vim mode, don't continue
+    if {![in_vim_mode $txt]} {
+      return
+    }
 
     # Remove any existing dspace characters
     remove_dspace [winfo parent $txt]
@@ -1713,15 +1698,7 @@ namespace eval vim {
       $txt edit separator
       return 1
     } elseif {$mode($txt) eq "delete"} {
-      clipboard clear
-      if {$number($txt) ne ""} {
-        clipboard append [$txt get "insert linestart" "insert linestart+[expr $number($txt) - 1]l lineend"]\n
-        $txt delete "insert linestart" "insert linestart+$number($txt)l"
-      } else {
-        clipboard append [$txt get "insert linestart" "insert lineend"]\n
-        $txt delete "insert linestart" "insert linestart+1l"
-      }
-      start_mode $txt
+      [ns edit]::delete_current_line $txt $number($txt)
       record_add "Key-d"
       record_stop
       return 1
@@ -2133,19 +2110,7 @@ namespace eval vim {
     variable number
 
     if {$mode($txt) eq "start"} {
-      edit_mode $txt
-      set insert [$txt index insert]
-      if {[[ns multicursor]::enabled $txt]} {
-        [ns multicursor]::adjust $txt "+1l" 1 dspace
-      } else {
-        $txt insert "insert lineend" "\n"
-      }
-      if {$insert == [$txt index insert]} {
-        $txt mark set insert "insert+1l"
-      }
-      $txt see insert
-      [ns indent]::newline $txt insert
-      record_start
+      [ns edit]::insert_line_below_current $txt
       return 1
     }
 
@@ -2161,15 +2126,7 @@ namespace eval vim {
     variable mode
 
     if {$mode($txt) eq "start"} {
-      edit_mode $txt
-      if {[[ns multicursor]::enabled $txt]} {
-        [ns multicursor]::adjust $txt "-1l" 1 dspace
-      } else {
-        $txt insert "insert linestart" "\n"
-      }
-      $txt mark set insert "insert-1l"
-      [ns indent]::newline $txt insert
-      record_start
+      [ns edit]::insert_line_above_current $txt
       return 1
     }
 
