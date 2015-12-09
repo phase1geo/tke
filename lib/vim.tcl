@@ -35,12 +35,6 @@ namespace eval vim {
   array set ignore_modified {}
   array set column          {}
   array set select_anchors  {}
-  array set patterns {
-    nnumber {^([0-9]+|0x[0-9a-fA-F]+|[0-9]+\.[0-9]+)}
-    pnumber {([0-9]+|0x[0-9a-fA-F]+|[0-9]+\.[0-9]+)$}
-    nspace  {^[ \t]+}
-    pspace  {[ \t]+$}
-  }
 
   array set recording {
     curr_reg ""
@@ -1011,13 +1005,7 @@ namespace eval vim {
       $txt see insert
       return 1
     } elseif {$mode($txt) eq "delete"} {
-      if {[[ns multicursor]::enabled $txt]} {
-        [ns multicursor]::delete $txt "lineend"
-      } else {
-        clipboard clear
-        clipboard append [$txt get insert "insert lineend"]
-        $txt delete insert "insert lineend"
-      }
+      [ns edit]::delete_to_end $txt
       start_mode $txt
       record_add "Key-dollar"
       record_stop
@@ -1042,13 +1030,7 @@ namespace eval vim {
       $txt see insert
       return 1
     } elseif {$mode($txt) eq "delete"} {
-      if {[[ns multicursor]::enabled $txt]} {
-        [ns multicursor]::delete $txt "linestart"
-      } else {
-        clipboard clear
-        clipboard append [$txt get "insert linestart" insert]
-        $txt delete "insert linestart" insert
-      }
+      [ns edit]::delete_from_start $txt
       start_mode $txt
       record_add "Key-asciicircum"
       record_stop
@@ -1699,6 +1681,7 @@ namespace eval vim {
       return 1
     } elseif {$mode($txt) eq "delete"} {
       [ns edit]::delete_current_line $txt $number($txt)
+      start_mode $txt
       record_add "Key-d"
       record_stop
       return 1
@@ -2161,7 +2144,6 @@ namespace eval vim {
     variable mode
     variable search_dir
     variable number
-    variable patterns
 
     if {$mode($txt) eq "start"} {
       set count [expr {($number($txt) ne "") ? $number($txt) : 1}]
@@ -2176,13 +2158,7 @@ namespace eval vim {
       }
       return 1
     } elseif {$mode($txt) eq "delete"} {
-      if {[[ns multicursor]::enabled $txt]} {
-        [ns multicursor]::delete $txt pattern $patterns(nnumber)
-      } else {
-        if {[regexp $patterns(nnumber) [$txt get insert "insert lineend"] match]} {
-          $txt delete insert "insert+[string length $match]c"
-        }
-      }
+      [ns edit]::delete_next_numbers $txt
       start_mode $txt
       record_add "Key-n"
       record_stop
@@ -2201,7 +2177,6 @@ namespace eval vim {
     variable mode
     variable search_dir
     variable number
-    variable patterns
 
     if {$mode($txt) eq "start"} {
       set count [expr {($number($txt) ne "") ? $number($txt) : 1}]
@@ -2216,13 +2191,7 @@ namespace eval vim {
       }
       return 1
     } elseif {$mode($txt) eq "delete"} {
-      if {[[ns multicursor]::enabled $txt]} {
-        [ns multicursor]::delete $txt pattern $patterns(pnumber)
-      } else {
-        if {[regexp $patterns(pnumber) [$txt get "insert linestart" insert] match]} {
-          $txt delete "insert-[string length $match]c" insert
-        }
-      }
+      [ns edit]::delete_prev_numbers $txt
       start_mode $txt
       record_add "Key-N"
       record_stop
@@ -2408,19 +2377,12 @@ namespace eval vim {
   proc handle_s {txt tid} {
 
     variable mode
-    variable patterns
 
     if {$mode($txt) eq "start"} {
       [ns multicursor]::add_cursor $txt [$txt index insert]
       return 1
     } elseif {$mode($txt) eq "delete"} {
-      if {[multicursor::enabled $txt]} {
-        [ns multicursor]::delete $txt pattern $patterns(nspace)
-      } else {
-        if {[regexp $patterns(nspace) [$txt get insert "insert lineend"] match]} {
-          $txt delete insert "insert+[string length $match]c"
-        }
-      }
+      [ns edit]::delete_next_space $txt
       start_mode $txt
       record_add "Key-s"
       record_stop
@@ -2437,19 +2399,12 @@ namespace eval vim {
   proc handle_S {txt tid} {
 
     variable mode
-    variable patterns
 
     if {$mode($txt) eq "start"} {
       [ns multicursor]::add_cursors $txt [$txt index insert]
       return 1
     } elseif {$mode($txt) eq "delete"} {
-      if {[multicursor::enabled $txt]} {
-        [ns multicursor]::delete $txt pattern $patterns(pspace)
-      } else {
-        if {[regexp $patterns(pspace) [$txt get "insert linestart" insert] match]} {
-          $txt delete "insert-[string length $match]c" insert
-        }
-      }
+      [ns edit]::delete_prev_space $txt
       start_mode $txt
       record_add "Key-S"
       record_stop
