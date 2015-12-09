@@ -688,6 +688,30 @@ namespace eval menus {
     $mb.deletePopup add command -label [msgcat::mc "Current Line"] -command [list menus::edit_delete_current_line]
     launcher::register [msgcat::mc "Edit Menu: Delete current line"] [list menus::edit_delete_current_line]
 
+    $mb.deletePopup add separator
+
+    $mb.deletePopup add command -label [msgcat::mc "Cursor to Line End"] -command [list menus::edit_delete_to_end]
+    launcher::register [msgcat::mc "Edit Menu: Delete from cursor to end of line"] [list menus::edit_delete_to_end]
+
+    $mb.deletePopup add command -label [msgcat::mc "Cursor from Line Start"] -command [list menus::edit_delete_from_start]
+    launcher::register [msgcat::mc "Edit Menu: Delete from start of line to cursor"] [list menus::edit_delete_from_start]
+
+    $mb.deletePopup add separator
+
+    $mb.deletePopup add command -label [msgcat::mc "Successive Numbers"] -command [list menus::edit_delete_next_numbers]
+    launcher::register [msgcat::mc "Edit Menu: Delete successive numbers"] [list menus::edit_delete_next_numbers]
+
+    $mb.deletePopup add command -label [msgcat::mc "Preceeding Numbers"] -command [list menus::edit_delete_prev_numbers]
+    launcher::register [msgcat::mc "Edit Menu: Delete preceeding numbers"] [list menus::edit_delete_prev_numbers]
+
+    $mb.deletePopup add separator
+
+    $mb.deletePopup add command -label [msgcat::mc "Successive Whitespace"] -command [list menus::edit_delete_next_space]
+    launcher::register [msgcat::mc "Edit Menu: Delete successive whitespace"] [list menus::edit_delete_next_space]
+
+    $mb.deletePopup add command -label [msgcat::mc "Preceeding Whitespace"] -command [list menus::edit_delete_prev_space]
+    launcher::register [msgcat::mc "Edit Menu: Delete preceeding whitespace"] [list menus::edit_delete_prev_space]
+
     # Create formatting menu
     $mb.formatPopup add command -label [msgcat::mc "Selected"] -command "gui::format_text {} selected"
     launcher::register [msgcat::mc "Edit Menu: Format selected text"] "gui::format_text {} selected"
@@ -835,9 +859,21 @@ namespace eval menus {
   proc edit_delete_posting {mb} {
 
     if {[gui::current_txt {}] eq ""} {
-      $mb entryconfigure [msgcat::mc "Current Line"] -state disabled
+      $mb entryconfigure [msgcat::mc "Current Line"]           -state disabled
+      $mb entryconfigure [msgcat::mc "Cursor to Line End"]     -state disabled
+      $mb entryconfigure [msgcat::mc "Cursor from Line Start"] -state disabled
+      $mb entryconfigure [msgcat::mc "Successive Numbers"]     -state disabled
+      $mb entryconfigure [msgcat::mc "Preceeding Numbers"]     -state disabled
+      $mb entryconfigure [msgcat::mc "Successive Whitespace"]  -state disabled
+      $mb entryconfigure [msgcat::mc "Preceeding Whitespace"]  -state disabled
     } else {
-      $mb entryconfigure [msgcat::mc "Current Line"] -state normal
+      $mb entryconfigure [msgcat::mc "Current Line"]           -state normal
+      $mb entryconfigure [msgcat::mc "Cursor to Line End"]     -state normal
+      $mb entryconfigure [msgcat::mc "Cursor from Line Start"] -state normal
+      $mb entryconfigure [msgcat::mc "Successive Numbers"]     -state normal
+      $mb entryconfigure [msgcat::mc "Preceeding Numbers"]     -state normal
+      $mb entryconfigure [msgcat::mc "Successive Whitespace"]  -state normal
+      $mb entryconfigure [msgcat::mc "Preceeding Whitespace"]  -state normal
     }
 
   }
@@ -937,6 +973,56 @@ namespace eval menus {
   proc edit_delete_current_line {} {
 
     edit::delete_current_line [gui::current_txt {}].t
+
+  }
+
+  ######################################################################
+  # Deletes from the current cursor position to the end of the line.
+  proc edit_delete_to_end {} {
+
+    edit::delete_to_end [gui::current_txt {}].t
+
+  }
+
+  ######################################################################
+  # Deletes from the start of the current line to just before the cursor.
+  proc edit_delete_from_start {} {
+
+    edit::delete_from_start [gui::current_txt {}].t
+
+  }
+
+  ######################################################################
+  # Deletes all consecutive numbers starting from cursor to the end of
+  # the line.
+  proc edit_delete_next_numbers {} {
+
+    edit::delete_next_numbers [gui::current_txt {}].t
+
+  }
+
+  ######################################################################
+  # Deletes all consecutive numbers prior to the cursor.
+  proc edit_delete_prev_numbers {} {
+
+    edit::delete_prev_numbers [gui::current_txt {}].t
+
+  }
+
+  ######################################################################
+  # Deletes all consecutive whitespace starting from cursor to the end of
+  # the line.
+  proc edit_delete_next_space {} {
+
+    edit::delete_next_space [gui::current_txt {}].t
+
+  }
+
+  ######################################################################
+  # Deletes all consecutive whitespace prior to the cursor.
+  proc edit_delete_prev_space {} {
+
+    edit::delete_prev_space [gui::current_txt {}].t
 
   }
 
