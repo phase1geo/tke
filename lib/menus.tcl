@@ -641,9 +641,11 @@ namespace eval menus {
 
     $mb add separator
 
-    $mb add cascade -label [msgcat::mc "Insert"] -menu [menu $mb.insertPopup -tearoff 0 -postcommand "menus::edit_insert_posting $mb.insertPopup"]
-    $mb add cascade -label [msgcat::mc "Delete"] -menu [menu $mb.deletePopup -tearoff 0 -postcommand "menus::edit_delete_posting $mb.deletePopup"]
-    $mb add cascade -label [msgcat::mc "Format"] -menu [menu $mb.formatPopup -tearoff 0 -postcommand "menus::edit_format_posting $mb.formatPopup"]
+    $mb add cascade -label [msgcat::mc "Insert"]    -menu [menu $mb.insertPopup    -tearoff 0 -postcommand [list menus::edit_insert_posting $mb.insertPopup]]
+    $mb add cascade -label [msgcat::mc "Replace"]   -menu [menu $mb.replacePopup   -tearoff 0 -postcommand [list menus::edit_replace_posting $mb.insertPopup]]
+    $mb add cascade -label [msgcat::mc "Transform"] -menu [menu $mb.transformPopup -tearoff 0 -postcommand [list menus::edit_transform_posting $mb.transformPopup]]
+    $mb add cascade -label [msgcat::mc "Delete"]    -menu [menu $mb.deletePopup    -tearoff 0 -postcommand [list menus::edit_delete_posting $mb.deletePopup]]
+    $mb add cascade -label [msgcat::mc "Format"]    -menu [menu $mb.formatPopup    -tearoff 0 -postcommand [list menus::edit_format_posting $mb.formatPopup]]
 
     $mb add separator
 
@@ -651,7 +653,10 @@ namespace eval menus {
     $mb add cascade -label [msgcat::mc "Menu Bindings"] -menu [menu $mb.bindPopup -tearoff 0]
     $mb add cascade -label [msgcat::mc "Snippets"]      -menu [menu $mb.snipPopup -tearoff 0 -postcommand "menus::edit_snippets_posting $mb.snipPopup"]
 
+    ###########################
     # Populate indentation menu
+    ###########################
+
     $mb.indentPopup add radiobutton -label [msgcat::mc "Indent Off"] -variable menus::indent_mode -value "OFF" -command "gui::set_current_indent_mode {} OFF"
     launcher::register [msgcat::mc "Edit Menu: Set indent mode to OFF"] "gui::set_current_indent_mode {} OFF"
 
@@ -661,7 +666,10 @@ namespace eval menus {
     $mb.indentPopup add radiobutton -label [msgcat::mc "Smart Indent"] -variable menus::indent_mode -value "IND+" -command "gui::set_current_indent_mode {} IND+"
     launcher::register [msgcat::mc "Edit Menu: Set indent mode to IND+"] "gui::set_current_indent_mode {} IND+"
 
+    #########################
     # Populate insertion menu
+    #########################
+
     $mb.insertPopup add command -label [msgcat::mc "Line Above Current"] -command [list menus::edit_insert_line_above]
     launcher::register [msgcat::mc "Edit Menu: Insert line above current line"] [list menus::edit_insert_line_above]
 
@@ -684,7 +692,22 @@ namespace eval menus {
     $mb.insertPopup add command -label [msgcat::mc "Snippet"] -command [list snippets::show_snippets]
     launcher::register [msgcat::mc "Edit Menu: Insert snippet"] [list snippets::show_snippets]
 
+    #######################
+    # Populate replace menu
+    #######################
+
+    # TBD
+
+    #########################
+    # Populate transform menu
+    #########################
+
+    # TBD
+
+    ########################
     # Populate deletion menu
+    ########################
+
     $mb.deletePopup add command -label [msgcat::mc "Current Line"] -command [list menus::edit_delete_current_line]
     launcher::register [msgcat::mc "Edit Menu: Delete current line"] [list menus::edit_delete_current_line]
 
@@ -712,14 +735,20 @@ namespace eval menus {
     $mb.deletePopup add command -label [msgcat::mc "Preceeding Whitespace"] -command [list menus::edit_delete_prev_space]
     launcher::register [msgcat::mc "Edit Menu: Delete preceeding whitespace"] [list menus::edit_delete_prev_space]
 
-    # Create formatting menu
+    ##########################
+    # Populate formatting menu
+    ##########################
+
     $mb.formatPopup add command -label [msgcat::mc "Selected"] -command "gui::format_text {} selected"
     launcher::register [msgcat::mc "Edit Menu: Format selected text"] "gui::format_text {} selected"
 
     $mb.formatPopup add command -label [msgcat::mc "All"]      -command "gui::format_text {} all"
     launcher::register [msgcat::mc "Edit Menu: Format all text"] "gui::format_text {} selected"
 
-    # Create preferences menu
+    ###########################
+    # Populate preferences menu
+    ###########################
+
     $mb.prefPopup add command -label [msgcat::mc "Edit User - Global"] -command "menus::edit_user_global"
     launcher::register [msgcat::mc "Edit Menu: Edit user global preferences"] "menus::edit_user_global"
 
@@ -744,7 +773,10 @@ namespace eval menus {
     $mb.prefPopup add command -label [msgcat::mc "Reset User to Base"] -command "preferences::copy_default"
     launcher::register [msgcat::mc "Edit Menu: Set user preferences to global preferences"] "preferences::copy_default"
 
-    # Create menu bindings menu
+    #############################
+    # Populate menu bindings menu
+    #############################
+
     $mb.bindPopup add command -label [msgcat::mc "Edit User"] -command "bindings::edit_user"
     launcher::register [msgcat::mc "Edit Menu: Edit user menu bindings"] "bindings::edit_user"
 
@@ -758,7 +790,10 @@ namespace eval menus {
     $mb.bindPopup add command -label [msgcat::mc "Set User to Global"] -command "bindings::copy_default"
     launcher::register [msgcat::mc "Edit Menu: Set user bindings to global bindings"] "bindings::copy_default"
 
-    # Create snippets menu
+    ########################
+    # Populate snippets menu
+    ########################
+
     $mb.snipPopup add command -label [msgcat::mc "Edit User"] -command "snippets::add_new_snippet {} user"
     launcher::register [msgcat::mc "Edit Menu Edit user snippets"] "snippets::add_new_snippet {} user"
 
@@ -849,6 +884,32 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Snippet"] -state normal
     } else {
       $mb entryconfigure [msgcat::mc "Snippet"] -state disabled
+    }
+
+  }
+
+  ######################################################################
+  # Called just prior to posting the edit/replace menu option.  Sets
+  # the menu option states to match the current UI state.
+  proc edit_replace_posting {mb} {
+
+    if {[gui::current_txt {}] eq ""} {
+      # TBD
+    } else {
+      # TBD
+    }
+
+  }
+
+  ######################################################################
+  # Called just prior to posting the edit/transform menu option.  Sets
+  # the menu option states to match the current UI state.
+  proc edit_transform_posting {mb} {
+
+    if {[gui::current_txt {}] eq ""} {
+      # TBD
+    } else {
+      # TBD
     }
 
   }
