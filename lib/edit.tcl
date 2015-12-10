@@ -121,8 +121,8 @@ namespace eval edit {
 
     # Add the text to be deleted to the clipboard and delete the text
     if {$num ne ""} {
-      clipboard append [$txt get "insert linestart" "insert linestart+[expr $number($txt) - 1]l lineend"]\n
-      $txt delete "insert linestart" "insert linestart+$number($txt)l"
+      clipboard append [$txt get "insert linestart" "insert linestart+[expr $num - 1]l lineend"]\n
+      $txt delete "insert linestart" "insert linestart+${num}l"
     } else {
       clipboard append [$txt get "insert linestart" "insert lineend"]\n
       $txt delete "insert linestart" "insert linestart+1l"
