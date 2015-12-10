@@ -1452,6 +1452,11 @@ namespace eval menus {
 
     $mb add separator
 
+    $mb add command -label [msgcat::mc "Display Text Info"] -underline 13 -command [list menus::display_text_info]
+    launcher::register [msgcat::mc "View Menu: Display text information"] [list menus::display_text_info]
+
+    $mb add separator
+
     $mb add checkbutton -label [msgcat::mc "Split View"] -underline 6 -variable menus::show_split_pane -command "gui::toggle_split_pane {}"
     launcher::register [msgcat::mc "View Menu: Toggle split view mode"] "gui::toggle_split_pane {}"
 
@@ -1516,6 +1521,7 @@ namespace eval menus {
       catch { $mb entryconfigure [msgcat::mc "Hide Marker Map"]      -state disabled }
       catch { $mb entryconfigure [msgcat::mc "Show Meta Characters"] -state disabled }
       catch { $mb entryconfigure [msgcat::mc "Hide Meta Characters"] -state disabled }
+      $mb entryconfigure [msgcat::mc "Display Text Info"]  -state disabled
       $mb entryconfigure [msgcat::mc "Split View"]         -state disabled
       $mb entryconfigure [msgcat::mc "Move to Other Pane"] -state disabled
       $mb entryconfigure [msgcat::mc "Set Syntax"]         -state disabled
@@ -1536,7 +1542,8 @@ namespace eval menus {
         catch { $mb entryconfigure [msgcat::mc "Show Meta Characters"] -state disabled }
         catch { $mb entryconfigure [msgcat::mc "Hide Meta Characters"] -state disabled }
       }
-      $mb entryconfigure [msgcat::mc "Split View"] -state normal
+      $mb entryconfigure [msgcat::mc "Display Text Info"] -state normal
+      $mb entryconfigure [msgcat::mc "Split View"]        -state normal
       if {[gui::movable_to_other_pane]} {
         $mb entryconfigure [msgcat::mc "Move to Other Pane"] -state normal
       } else {
@@ -1724,6 +1731,14 @@ namespace eval menus {
     if {![catch {$mb entryconfigure [msgcat::mc "Hide Meta Characters"] -label [msgcat::mc "Show Meta Characters"] -command "menus::show_meta_chars $mb"}]} {
       syntax::set_meta_visibility [gui::current_txt {}] 0
     }
+
+  }
+
+  ######################################################################
+  # Display the line and character counts in the information bar.
+  proc display_text_info {} {
+
+    gui::display_file_counts [gui::current_txt {}].t
 
   }
 
