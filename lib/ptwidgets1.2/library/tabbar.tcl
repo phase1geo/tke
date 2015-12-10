@@ -12,6 +12,7 @@ namespace eval tabbar {
 
   array set widget_options {
     -activebackground       {activeBackground       Background}
+    -activeforeground       {activeForeground       Foreground}
     -anchor                 {anchor                 Anchor}
     -background             {background             Background}
     -bg                     -background
@@ -31,6 +32,7 @@ namespace eval tabbar {
     -height                 {height                 Height}
     -history                {history                History}
     -inactivebackground     {inactiveBackground     Background}
+    -inactiveforeground     {inactiveForeground     Foreground}
     -margin                 {margin                 Margin}
     -maxtabwidth            {maxTabWidth            TabWidth}
     -mintabwidth            {minTabWidth            TabWidth}
@@ -86,6 +88,7 @@ namespace eval tabbar {
 
       # Initialize default options
       option add *Tabbar.activeBackground    grey90    widgetDefault
+      option add *Tabbar.activeForeground    black     widgetDefault
       option add *Tabbar.anchor              center    widgetDefault
       option add *Tabbar.background          grey90    widgetDefault
       option add *Tabbar.borderColor         grey50    widgetDefault
@@ -96,6 +99,7 @@ namespace eval tabbar {
       option add *Tabbar.disabledForeground  grey50    widgetDefault
       option add *Tabbar.foreground          black     widgetDefault
       option add *Tabbar.inactiveBackground  grey70    widgetDefault
+      option add *Tabbar.inactiveForeground  black     widgetDefault
       option add *Tabbar.height              25        widgetDefault
       option add *Tabbar.history             1         widgetDefault
       option add *Tabbar.margin              0         widgetDefault
@@ -799,7 +803,7 @@ namespace eval tabbar {
 
     # If any options have changed that will require a complete redraw, do it now
     foreach opt [list -close -closeimage -closeshow -font -state -padx -pady -height -margin -anchor \
-                      -activebackground -inactivebackground] {
+                      -activebackground -activeforeground -inactivebackground -inactiveforeground] {
       if {$orig_opts($w,option,$opt) ne $data($w,option,$opt)} {
         redraw_all_tabs $w
         return
@@ -814,7 +818,7 @@ namespace eval tabbar {
 
     if {$orig_opts($w,option,-foreground) ne $data($w,option,-foreground)} {
       foreach page $data($w,pages) {
-        $w.c itemconfigure x[lindex $page 1 0] -fill $data($w,option,-foreground)
+        # $w.c itemconfigure x[lindex $page 1 0] -fill $data($w,option,-foreground)
         $w.c itemconfigure c[lindex $page 1 0] -image $data($w,image,close)
       }
     }
@@ -983,11 +987,13 @@ namespace eval tabbar {
       array set opts [lindex $data($w,pages) $page_index 1 2]
       if {$page_index == $data($w,current)} {
         $w.c itemconfigure f$tabid -fill $data($w,option,-activebackground) -outline $data($w,option,-activebackground)
+        $w.c itemconfigure x$tabid -fill $data($w,option,-activeforeground)
         if {$data($w,option,-closeshow) eq "current"} {
           $w.c itemconfigure c$tabid -state normal
         }
       } else {
         $w.c itemconfigure f$tabid -fill $data($w,option,-inactivebackground) -outline $data($w,option,-inactivebackground)
+        $w.c itemconfigure x$tabid -fill $data($w,option,-inactiveforeground)
         if {$data($w,option,-closeshow) eq "current"} {
           $w.c itemconfigure c$tabid -state hidden
         }
