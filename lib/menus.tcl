@@ -698,6 +698,9 @@ namespace eval menus {
     $mb.deletePopup add command -label [msgcat::mc "Current Line"] -command [list menus::edit_delete_current_line]
     launcher::register [msgcat::mc "Edit Menu: Delete current line"] [list menus::edit_delete_current_line]
 
+    $mb.deletePopup add command -label [msgcat::mc "Current Word"] -command [list menus::edit_delete_current_word]
+    launcher::register [msgcat::mc "Edit Menu: Delete current word"] [list menus::edit_delete_current_word]
+
     $mb.deletePopup add separator
 
     $mb.deletePopup add command -label [msgcat::mc "Cursor to Line End"] -command [list menus::edit_delete_to_end]
@@ -731,7 +734,16 @@ namespace eval menus {
     # Populate transform menu
     #########################
 
-    # TBD
+    $mb.transformPopup add command -label [msgcat::mc "Join Lines"] -command [list menus::edit_transform_join_lines]
+    launcher::register [msgcat::mc "Edit Menu: Join Lines"] [list menus::edit_transform_join_lines]
+
+    $mb.transformPopup add separator
+
+    $mb.transformPopup add command -label [msgcat::mc "Bubble Up"] -command [list menus::edit_transform_bubble_up]
+    launcher::register [msgcat::mc "Edit Menu: Bubble lines up one line"] [list menus::edit_transform_bubble_up]
+
+    $mb.transformPopup add command -label [msgcat::mc "Bubble Down"] -command [list menus::edit_transform_bubble_down]
+    launcher::register [msgcat::mc "Edit Menu: Bubble lines down one line"] [list menus::edit_transform_bubble_down]
 
     ##########################
     # Populate formatting menu
@@ -906,25 +918,18 @@ namespace eval menus {
   # menu option states to match the current UI state.
   proc edit_delete_posting {mb} {
 
-    if {[gui::current_txt {}] eq ""} {
-      $mb entryconfigure [msgcat::mc "Current Line"]           -state disabled
-      $mb entryconfigure [msgcat::mc "Cursor to Line End"]     -state disabled
-      $mb entryconfigure [msgcat::mc "Cursor from Line Start"] -state disabled
-      $mb entryconfigure [msgcat::mc "Numbers Forward"]        -state disabled
-      $mb entryconfigure [msgcat::mc "Numbers Backward"]       -state disabled
-      $mb entryconfigure [msgcat::mc "Whitespace Forward"]     -state disabled
-      $mb entryconfigure [msgcat::mc "Whitespace Backward"]    -state disabled
-      $mb entryconfigure [msgcat::mc "Text Between Char"]      -state disabled
-    } else {
-      $mb entryconfigure [msgcat::mc "Current Line"]           -state normal
-      $mb entryconfigure [msgcat::mc "Cursor to Line End"]     -state normal
-      $mb entryconfigure [msgcat::mc "Cursor from Line Start"] -state normal
-      $mb entryconfigure [msgcat::mc "Numbers Forward"]        -state normal
-      $mb entryconfigure [msgcat::mc "Numbers Backward"]       -state normal
-      $mb entryconfigure [msgcat::mc "Whitespace Forward"]     -state normal
-      $mb entryconfigure [msgcat::mc "Whitespace Backward"]    -state normal
-      $mb entryconfigure [msgcat::mc "Text Between Char"]      -state normal
-    }
+    # Get the state
+    set state [expr {([gui::current_txt {}] eq "") ? "disabled" : "normal"}]
+
+    $mb entryconfigure [msgcat::mc "Current Line"]           -state $state
+    $mb entryconfigure [msgcat::mc "Current Word"]           -state $state
+    $mb entryconfigure [msgcat::mc "Cursor to Line End"]     -state $state
+    $mb entryconfigure [msgcat::mc "Cursor from Line Start"] -state $state
+    $mb entryconfigure [msgcat::mc "Numbers Forward"]        -state $state
+    $mb entryconfigure [msgcat::mc "Numbers Backward"]       -state $state
+    $mb entryconfigure [msgcat::mc "Whitespace Forward"]     -state $state
+    $mb entryconfigure [msgcat::mc "Whitespace Backward"]    -state $state
+    $mb entryconfigure [msgcat::mc "Text Between Character"] -state $state
 
   }
 
@@ -1027,6 +1032,14 @@ namespace eval menus {
   }
 
   ######################################################################
+  # Deletes the current word.
+  proc edit_delete_current_word {} {
+
+    edit::delete_current_word [gui::current_txt {}].t
+
+  }
+
+  ######################################################################
   # Deletes from the current cursor position to the end of the line.
   proc edit_delete_to_end {} {
 
@@ -1083,9 +1096,33 @@ namespace eval menus {
 
     set char ""
 
-    if {[gui::get_user_response "Character:" char 0]} {
+    if {[gui::get_user_response [format "%s:" [msgcat::mc "Character"]] char 0] && ([string length $char] == 1)} {
       edit::delete_between_char [gui::current_txt {}].t $char
     }
+
+  }
+
+  ######################################################################
+  # Joins selected lines or the line beneath the current lines.
+  proc edit_transform_join_lines {} {
+
+    edit::transform_join_lines [gui::current_txt {}].t
+
+  }
+
+  ######################################################################
+  # Moves selected lines or the current line up by one line.
+  proc edit_transform_bubble_up {} {
+
+    edit::transform_bubble_up [gui::current_txt {}].t
+
+  }
+
+  ######################################################################
+  # Moves selected lines or the current line down by one line.
+  proc edit_transform_bubble_down {} {
+
+    edit::transform_bubble_down [gui::current_txt {}].t
 
   }
 

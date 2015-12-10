@@ -1183,52 +1183,19 @@ namespace eval vim {
   }
 
   ######################################################################
-  # Performs a join operation.
-  proc do_join {txt} {
-
-    variable number
-
-    # Create a separator
-    $txt edit separator
-
-    set lines [expr {($number($txt) ne "") ? $number($txt) : 1}]
-
-    while {$lines > 0} {
-
-      # Perform a line join with the current line, trimming whitespace
-      set line [string trimleft [$txt get "insert+1l linestart" "insert+1l lineend"]]
-      $txt delete "insert lineend" "insert+1l lineend"
-      set index [$txt index "insert lineend"]
-      if {$line ne ""} {
-        $txt insert "insert lineend" " [string trimleft $line]"
-      }
-
-      incr lines -1
-
-    }
-
-    # Set the insertion cursor and make it viewable
-    $txt mark set insert $index
-    $txt see insert
-
-    # Create a separator
-    $txt edit separator
-
-  }
-
-  ######################################################################
   # If we are in "start" mode, join the next line to the end of the
   # previous line.
   proc handle_J {txt tid} {
 
     variable mode
+    variable number
 
     if {$mode($txt) eq "start"} {
       if {[[ns multicursor]::enabled $txt]} {
         $txt tag remove sel 1.0 end
         [ns multicursor]::adjust $txt "+1l"
       } else {
-        do_join $txt
+        [ns edit]::transform_join_lines $txt $number($txt)
         record "Key-J"
       }
       return 1
@@ -1625,15 +1592,7 @@ namespace eval vim {
       start_mode $txt
       return 1
     } elseif {$mode($txt) eq "delete"} {
-      clipboard clear
-      if {$number($txt) ne ""} {
-        set word [get_word $txt next [expr $number($txt) - 1]]
-        clipboard append [$txt get "insert wordstart" "$word wordend"]
-        $txt delete "insert wordstart" "$word wordend"
-      } else {
-        clipboard append [$txt get "insert wordstart" "insert wordend"]
-        $txt delete "insert wordstart" "insert wordend"
-      }
+      [ns edit]::delete_current_word $txt $number($txt)
       start_mode $txt
       return 1
     }
@@ -1697,15 +1656,7 @@ namespace eval vim {
     variable mode
 
     if {$mode($txt) eq "start"} {
-      if {[multicursor::enabled $txt]} {
-        multicursor::delete $txt "lineend"
-      } else {
-        clipboard clear
-        clipboard append [$txt get insert "insert lineend"]
-        $txt delete insert "insert lineend"
-        adjust_insert $txt
-        $txt see insert
-      }
+      [ns edit]::delete_to_end $txt
       return 1
     }
 
@@ -2320,19 +2271,7 @@ namespace eval vim {
     variable mode
 
     if {$mode($txt) eq "start"} {
-      $txt edit separator
-      if {[llength [set selected [$txt tag ranges sel]]] > 0} {
-        foreach {end_range start_range} [lreverse $selected] {
-          set str [$txt get "$end_range+1l linestart" "$end_range+l2 linestart"]
-          $txt delete "$end_range lineend" "$end_range+1l lineend"
-          $txt insert "$start_range linestart" $str
-        }
-      } else {
-        set str [$txt get "insert+1l linestart" "insert+2l linestart"]
-        $txt delete "insert lineend" "insert+1l lineend"
-        $txt insert "insert linestart" $str
-      }
-      $txt edit separator
+      [ns edit]::transform_bubble_down $txt
       return 1
     }
 
@@ -2347,22 +2286,7 @@ namespace eval vim {
     variable mode
 
     if {$mode($txt) eq "start"} {
-      $txt edit separator
-      if {[llength [set selected [$txt tag ranges sel]]] > 0} {
-        foreach {end_range start_range} [lreverse $selected] {
-          set str [$txt get "$start_range-1l linestart" "$start_range linestart"]
-          $txt delete "$start_range-1l linestart" "$start_range linestart"
-          $txt insert "$end_range+1l linestart" $str
-        }
-      } else {
-        set str [$txt get "insert-1l linestart" "insert linestart"]
-        $txt delete "insert-1l linestart" "insert linestart"
-        if {[$txt compare "insert+1l linestart" == end]} {
-          set str "\n[string trimright $str]"
-        }
-        $txt insert "insert+1l linestart" $str
-      }
-      $txt edit separator
+      [ns edit]::transform_bubble_up $txt
       return 1
     }
 
