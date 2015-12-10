@@ -642,9 +642,8 @@ namespace eval menus {
     $mb add separator
 
     $mb add cascade -label [msgcat::mc "Insert"]    -menu [menu $mb.insertPopup    -tearoff 0 -postcommand [list menus::edit_insert_posting $mb.insertPopup]]
-    $mb add cascade -label [msgcat::mc "Replace"]   -menu [menu $mb.replacePopup   -tearoff 0 -postcommand [list menus::edit_replace_posting $mb.insertPopup]]
-    $mb add cascade -label [msgcat::mc "Transform"] -menu [menu $mb.transformPopup -tearoff 0 -postcommand [list menus::edit_transform_posting $mb.transformPopup]]
     $mb add cascade -label [msgcat::mc "Delete"]    -menu [menu $mb.deletePopup    -tearoff 0 -postcommand [list menus::edit_delete_posting $mb.deletePopup]]
+    $mb add cascade -label [msgcat::mc "Transform"] -menu [menu $mb.transformPopup -tearoff 0 -postcommand [list menus::edit_transform_posting $mb.transformPopup]]
     $mb add cascade -label [msgcat::mc "Format"]    -menu [menu $mb.formatPopup    -tearoff 0 -postcommand [list menus::edit_format_posting $mb.formatPopup]]
 
     $mb add separator
@@ -692,18 +691,6 @@ namespace eval menus {
     $mb.insertPopup add command -label [msgcat::mc "Snippet"] -command [list snippets::show_snippets]
     launcher::register [msgcat::mc "Edit Menu: Insert snippet"] [list snippets::show_snippets]
 
-    #######################
-    # Populate replace menu
-    #######################
-
-    # TBD
-
-    #########################
-    # Populate transform menu
-    #########################
-
-    # TBD
-
     ########################
     # Populate deletion menu
     ########################
@@ -721,19 +708,30 @@ namespace eval menus {
 
     $mb.deletePopup add separator
 
-    $mb.deletePopup add command -label [msgcat::mc "Successive Numbers"] -command [list menus::edit_delete_next_numbers]
-    launcher::register [msgcat::mc "Edit Menu: Delete successive numbers"] [list menus::edit_delete_next_numbers]
+    $mb.deletePopup add command -label [msgcat::mc "Numbers Forward"] -command [list menus::edit_delete_next_numbers]
+    launcher::register [msgcat::mc "Edit Menu: Delete forward numbers"] [list menus::edit_delete_next_numbers]
 
-    $mb.deletePopup add command -label [msgcat::mc "Preceeding Numbers"] -command [list menus::edit_delete_prev_numbers]
-    launcher::register [msgcat::mc "Edit Menu: Delete preceeding numbers"] [list menus::edit_delete_prev_numbers]
+    $mb.deletePopup add command -label [msgcat::mc "Numbers Backward"] -command [list menus::edit_delete_prev_numbers]
+    launcher::register [msgcat::mc "Edit Menu: Delete backward numbers"] [list menus::edit_delete_prev_numbers]
 
     $mb.deletePopup add separator
 
-    $mb.deletePopup add command -label [msgcat::mc "Successive Whitespace"] -command [list menus::edit_delete_next_space]
-    launcher::register [msgcat::mc "Edit Menu: Delete successive whitespace"] [list menus::edit_delete_next_space]
+    $mb.deletePopup add command -label [msgcat::mc "Whitespace Forward"] -command [list menus::edit_delete_next_space]
+    launcher::register [msgcat::mc "Edit Menu: Delete forward whitespace"] [list menus::edit_delete_next_space]
 
-    $mb.deletePopup add command -label [msgcat::mc "Preceeding Whitespace"] -command [list menus::edit_delete_prev_space]
-    launcher::register [msgcat::mc "Edit Menu: Delete preceeding whitespace"] [list menus::edit_delete_prev_space]
+    $mb.deletePopup add command -label [msgcat::mc "Whitespace Backward"] -command [list menus::edit_delete_prev_space]
+    launcher::register [msgcat::mc "Edit Menu: Delete backward whitespace"] [list menus::edit_delete_prev_space]
+
+    $mb.deletePopup add separator
+
+    $mb.deletePopup add command -label [msgcat::mc "Text Between Character"] -command [list menus::edit_delete_between_char]
+    launcher::register [msgcat::mc "Edit Menu: Delete text between character"] [list menus::edit_delete_between_char]
+
+    #########################
+    # Populate transform menu
+    #########################
+
+    # TBD
 
     ##########################
     # Populate formatting menu
@@ -846,11 +844,13 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Select All"]  -state normal
       $mb entryconfigure [msgcat::mc "Indent Mode"] -state normal
       if {[gui::editable {}]} {
-        $mb entryconfigure [msgcat::mc "Insert"] -state normal
-        $mb entryconfigure [msgcat::mc "Delete"] -state normal
+        $mb entryconfigure [msgcat::mc "Insert"]    -state normal
+        $mb entryconfigure [msgcat::mc "Delete"]    -state normal
+        $mb entryconfigure [msgcat::mc "Transform"] -state normal
       } else {
-        $mb entryconfigure [msgcat::mc "Insert"] -state disabled
-        $mb entryconfigure [msgcat::mc "Delete"] -state disabled
+        $mb entryconfigure [msgcat::mc "Insert"]    -state disabled
+        $mb entryconfigure [msgcat::mc "Delete"]    -state disabled
+        $mb entryconfigure [msgcat::mc "Transform"] -state disabled
       }
       $mb entryconfigure [msgcat::mc "Format"] -state normal
     }
@@ -889,19 +889,6 @@ namespace eval menus {
   }
 
   ######################################################################
-  # Called just prior to posting the edit/replace menu option.  Sets
-  # the menu option states to match the current UI state.
-  proc edit_replace_posting {mb} {
-
-    if {[gui::current_txt {}] eq ""} {
-      # TBD
-    } else {
-      # TBD
-    }
-
-  }
-
-  ######################################################################
   # Called just prior to posting the edit/transform menu option.  Sets
   # the menu option states to match the current UI state.
   proc edit_transform_posting {mb} {
@@ -923,18 +910,20 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Current Line"]           -state disabled
       $mb entryconfigure [msgcat::mc "Cursor to Line End"]     -state disabled
       $mb entryconfigure [msgcat::mc "Cursor from Line Start"] -state disabled
-      $mb entryconfigure [msgcat::mc "Successive Numbers"]     -state disabled
-      $mb entryconfigure [msgcat::mc "Preceeding Numbers"]     -state disabled
-      $mb entryconfigure [msgcat::mc "Successive Whitespace"]  -state disabled
-      $mb entryconfigure [msgcat::mc "Preceeding Whitespace"]  -state disabled
+      $mb entryconfigure [msgcat::mc "Numbers Forward"]        -state disabled
+      $mb entryconfigure [msgcat::mc "Numbers Backward"]       -state disabled
+      $mb entryconfigure [msgcat::mc "Whitespace Forward"]     -state disabled
+      $mb entryconfigure [msgcat::mc "Whitespace Backward"]    -state disabled
+      $mb entryconfigure [msgcat::mc "Text Between Char"]      -state disabled
     } else {
       $mb entryconfigure [msgcat::mc "Current Line"]           -state normal
       $mb entryconfigure [msgcat::mc "Cursor to Line End"]     -state normal
       $mb entryconfigure [msgcat::mc "Cursor from Line Start"] -state normal
-      $mb entryconfigure [msgcat::mc "Successive Numbers"]     -state normal
-      $mb entryconfigure [msgcat::mc "Preceeding Numbers"]     -state normal
-      $mb entryconfigure [msgcat::mc "Successive Whitespace"]  -state normal
-      $mb entryconfigure [msgcat::mc "Preceeding Whitespace"]  -state normal
+      $mb entryconfigure [msgcat::mc "Numbers Forward"]        -state normal
+      $mb entryconfigure [msgcat::mc "Numbers Backward"]       -state normal
+      $mb entryconfigure [msgcat::mc "Whitespace Forward"]     -state normal
+      $mb entryconfigure [msgcat::mc "Whitespace Backward"]    -state normal
+      $mb entryconfigure [msgcat::mc "Text Between Char"]      -state normal
     }
 
   }
@@ -1084,6 +1073,19 @@ namespace eval menus {
   proc edit_delete_prev_space {} {
 
     edit::delete_prev_space [gui::current_txt {}].t
+
+  }
+
+  ######################################################################
+  # Deletes all text between the character set that surrounds the current
+  # insertion cursor.
+  proc edit_delete_between_char {} {
+
+    set char ""
+
+    if {[gui::get_user_response "Character:" char 0]} {
+      edit::delete_between_char [gui::current_txt {}].t $char
+    }
 
   }
 
