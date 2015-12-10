@@ -274,31 +274,64 @@ namespace eval edit {
   # number of specified lines.
   proc transform_join_lines {txt {num ""}} {
 
+    # Specifies if at least one line was deleted in the join
+    set deleted 0
+
     # Create a separator
     $txt edit separator
 
-    set lines [expr {($num ne "") ? $num : 1}]
+    if {[llength [set selected [$txt tag ranges sel]]] > 0} {
 
-    while {$lines > 0} {
+      # Clear the selection
+      $txt tag remove sel 1.0 end
 
-      # Perform a line join with the current line, trimming whitespace
-      set line [string trimleft [$txt get "insert+1l linestart" "insert+1l lineend"]]
-      $txt delete "insert lineend" "insert+1l lineend"
-      set index [$txt index "insert lineend"]
-      if {$line ne ""} {
-        $txt insert "insert lineend" " [string trimleft $line]"
+      set lastpos ""
+      foreach {endpos startpos} [lreverse $selected] {
+        set lines [$txt count -lines $startpos $endpos]
+        for {set i 0} {$i < $lines} {incr i} {
+          set line    [string trimleft [$txt get "$startpos+1l linestart" "$startpos+1l lineend"]]
+          $txt delete "$startpos lineend" "$startpos+1l lineend"
+          if {$line ne ""} {
+            $txt insert "$startpos lineend" " $line"
+          }
+        }
+        set deleted [expr $deleted || ($lines > 0)]
+        if {$lastpos ne ""} {
+          set line    [string trimleft [$txt get "$lastpos linestart" "$lastpos lineend"]
+          $txt delete "$lastpos-1l lineend" "$lastpos lineend"
+          $txt insert "$startpos lineend" " $line"
+        }
+        set lastpos $startpos
       }
 
-      incr lines -1
+      set index [$txt index "$startpos lineend"]
+
+    } else {
+
+      set lines [expr {($num ne "") ? $num : 1}]
+      for {set i 0} {$i < $lines} {incr i} {
+        set line    [string trimleft [$txt get "insert+1l linestart" "insert+1l lineend"]]
+        $txt delete "insert lineend" "insert+1l lineend"
+        if {$line ne ""} {
+          $txt insert "insert lineend" " $line"
+        }
+      }
+
+      set deleted [expr $lines > 0]
+      set index   [$txt index "insert lineend"]
 
     }
 
-    # Set the insertion cursor and make it viewable
-    $txt mark set insert $index
-    $txt see insert
+    if {$deleted} {
 
-    # Create a separator
-    $txt edit separator
+      # Set the insertion cursor and make it viewable
+      $txt mark set insert $index
+      $txt see insert
+
+      # Create a separator
+      $txt edit separator
+
+    }
 
   }
 
