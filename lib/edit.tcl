@@ -131,6 +131,24 @@ namespace eval edit {
   }
 
   ######################################################################
+  # Deletes the current word (i.e., dw Vim mode).
+  proc delete_current_word {txt {num ""}} {
+
+    # Clear the clipboard
+    clipboard clear
+
+    if {$num ne ""} {
+      set word [get_word $txt next [expr $num - 1]]
+      clipboard append [$txt get "insert wordstart" "$word wordend"]
+      $txt delete "insert wordstart" "$word wordend"
+    } else {
+      clipboard append [$txt get "insert wordstart" "insert wordend"]
+      $txt delete "insert wordstart" "insert wordend"
+    }
+
+  }
+
+  ######################################################################
   # Delete from the current cursor to the end of the line
   proc delete_to_end {txt} {
 
@@ -170,6 +188,8 @@ namespace eval edit {
       [ns multicursor]::delete $txt pattern $patterns(nnumber)
     } else {
       if {[regexp $patterns(nnumber) [$txt get insert "insert lineend"] match]} {
+        clipboard clear
+        clipboard append [$txt get insert "insert+[string length $match]c"]
         $txt delete insert "insert+[string length $match]c"
       }
     }
@@ -186,6 +206,8 @@ namespace eval edit {
       [ns multicursor]::delete $txt pattern $patterns(pnumber)
     } else {
       if {[regexp $patterns(pnumber) [$txt get "insert linestart" insert] match]} {
+        clipboard clear
+        clipboard append [$txt get "insert-[string length $match]c" insert]
         $txt delete "insert-[string length $match]c" insert
       }
     }
@@ -203,6 +225,8 @@ namespace eval edit {
       [ns multicursor]::delete $txt pattern $patterns(nspace)
     } else {
       if {[regexp $patterns(nspace) [$txt get insert "insert lineend"] match]} {
+        clipboard clear
+        clipboard append [$txt get insert "insert+[string length $match]c"]
         $txt delete insert "insert+[string length $match]c"
       }
     }
@@ -219,6 +243,8 @@ namespace eval edit {
       [ns multicursor]::delete $txt pattern $patterns(pspace)
     } else {
       if {[regexp $patterns(pspace) [$txt get "insert linestart" insert] match]} {
+        clipboard clear
+        clipboard append [$txt get "insert-[string length $match]c" insert]
         $txt delete "insert-[string length $match]c" insert
       }
     }
@@ -233,11 +259,103 @@ namespace eval edit {
 
     if {([set start_index [$txt search -backwards $char insert 1.0]] ne "") && \
         ([set end_index   [$txt search -forwards  $char insert end]] ne "")} {
+      clipboard clear
+      clipboard append [$txt get $start_index+1c $end_index]
       $txt delete $start_index+1c $end_index
       return 1
     }
 
     return 0
+
+  }
+
+  ######################################################################
+  # If a selection occurs, joins the selected lines; otherwise, joins the
+  # number of specified lines.
+  proc transform_join_lines {txt {num ""}} {
+
+    # Create a separator
+    $txt edit separator
+
+    set lines [expr {($num ne "") ? $num : 1}]
+
+    while {$lines > 0} {
+
+      # Perform a line join with the current line, trimming whitespace
+      set line [string trimleft [$txt get "insert+1l linestart" "insert+1l lineend"]]
+      $txt delete "insert lineend" "insert+1l lineend"
+      set index [$txt index "insert lineend"]
+      if {$line ne ""} {
+        $txt insert "insert lineend" " [string trimleft $line]"
+      }
+
+      incr lines -1
+
+    }
+
+    # Set the insertion cursor and make it viewable
+    $txt mark set insert $index
+    $txt see insert
+
+    # Create a separator
+    $txt edit separator
+
+  }
+
+  ######################################################################
+  # Moves selected lines or the current line up by one line.
+  proc transform_bubble_up {txt} {
+
+    # Create undo separator
+    $txt edit separator
+
+    # If lines are selected, move all selected lines up one line
+    if {[llength [set selected [$txt tag ranges sel]]] > 0} {
+      foreach {end_range start_range} [lreverse $selected] {
+        set str [$txt get "$start_range-1l linestart" "$start_range linestart"]
+        $txt delete "$start_range-1l linestart" "$start_range linestart"
+        $txt insert "$end_range+1l linestart" $str
+      }
+
+    # Otherwise, move the current line up by one line
+    } else {
+      set str [$txt get "insert-1l linestart" "insert linestart"]
+      $txt delete "insert-1l linestart" "insert linestart"
+      if {[$txt compare "insert+1l linestart" == end]} {
+        set str "\n[string trimright $str]"
+      }
+      $txt insert "insert+1l linestart" $str
+    }
+
+    # Create undo separator
+    $txt edit separator
+
+  }
+
+  ######################################################################
+  # Moves selected lines or the current line down by one line.
+  proc transform_bubble_down {txt} {
+
+    # Create undo separator
+    $txt edit separator
+
+    # If lines are selected, move all selected lines down one line
+    if {[llength [set selected [$txt tag ranges sel]]] > 0} {
+      foreach {end_range start_range} [lreverse $selected] {
+        set str [$txt get "$end_range+1l linestart" "$end_range+l2 linestart"]
+        $txt delete "$end_range lineend" "$end_range+1l lineend"
+        $txt insert "$start_range linestart" $str
+      }
+
+    # Otherwise, move the current line down by one line
+    } else {
+      set str [$txt get "insert+1l linestart" "insert+2l linestart"]
+      $txt delete "insert lineend" "insert+1l lineend"
+      $txt insert "insert linestart" $str
+    }
+
+    # Create undo separator
+    $txt edit separator
 
   }
 
