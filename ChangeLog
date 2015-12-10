@@ -1,50 +1,62 @@
-changeset:   1561:ba987bd35147
-tag:         stable-2.0
+changeset:   1566:18f87caad1e2
+tag:         devel-2.0.1
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Dec 07 17:40:35 2015 -0600
+date:        Tue Dec 08 22:41:37 2015 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for stable-2.0 release
+ChangeLog for devel-2.0.1 release
 
 
-changeset:   1562:5906ba8937b1
+changeset:   1567:5a776c7f6756
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Dec 07 17:40:47 2015 -0600
+date:        Tue Dec 08 22:41:41 2015 -0600
 files:       .hgtags
 description:
-Added tag stable-2.0 for changeset ba987bd35147
+Added tag devel-2.0.1 for changeset 18f87caad1e2
 
 
-changeset:   1563:c55fbdd7fa43
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Dec 08 09:35:02 2015 -0600
-files:       lib/menus.tcl lib/tke.tcl lib/version.tcl lib/vim.tcl
+changeset:   1568:2c4208a4b90d
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Dec 09 19:04:51 2015 -0600
+files:       lib/edit.tcl lib/version.tcl
 description:
-* Changing Edit menu "Indent Text" to "Indent".
-* Adding Edit menu "Delete".
-* Adding ability to add a new line below or above current line from menus.
-* Adding ability to insert the contents of another file from menu.
-* Adding ability to insert the output from a shell command from menu.
-* Adding ability to delete current line from menu.
+* Fixing issue with deleting multiple lines in Vim mode.
 
 
-changeset:   1564:8bbad22a5bd7
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Dec 08 22:31:25 2015 -0600
+changeset:   1569:619c31bfad45
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Dec 09 19:25:45 2015 -0600
 files:       lib/edit.tcl lib/menus.tcl lib/version.tcl lib/vim.tcl
 description:
-* Adding edit.tcl
-* Adding delete to/from cursor menu items.
-* Adding delete number menu items.
-* Adding delete whitespace menu items.
+* Adding "Delete between character" Edit/Delete menu item.
 
 
-changeset:   1565:8ba6605fab0b
-tag:         tip
+changeset:   1570:6bb66acd06a6
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Dec 08 22:40:03 2015 -0600
+date:        Wed Dec 09 21:59:29 2015 -0600
+files:       lib/edit.tcl lib/menus.tcl lib/version.tcl lib/vim.tcl
+description:
+* Adding "Delete current word" Edit/Delete menu option.
+* Adding number and whitespace deleted text to clipboard.
+* Adding delete between character text to clipboard.
+* Adding "Join Lines" to Edit/Transform menu.
+* Adding "Bubble Up/Down" to Edit/Transform menu.
+
+
+changeset:   1571:afa5ab026c04
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Dec 10 00:00:43 2015 -0600
 files:       lib/menus.tcl lib/version.tcl
 description:
-* Adding Edit/Replace and Edit/Transform cascading menu items (missing functions at this point).
+* Adding "Display Text Info" View menu item.
+
+
+changeset:   1572:43243758e291
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Dec 10 01:25:03 2015 -0600
+files:       lib/edit.tcl lib/version.tcl
+description:
+* Adding ability to join selected lines (even if lines are not contiguous).
 
 
