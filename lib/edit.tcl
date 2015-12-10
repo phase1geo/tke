@@ -226,6 +226,22 @@ namespace eval edit {
   }
 
   ######################################################################
+  # Deletes all text found between the given character such that the
+  # current insertion cursor sits between the character set.  Returns 1
+  # if a match occurred (and text was deleted); otherwise, returns 0.
+  proc delete_between_char {txt char} {
+
+    if {([set start_index [$txt search -backwards $char insert 1.0]] ne "") && \
+        ([set end_index   [$txt search -forwards  $char insert end]] ne "")} {
+      $txt delete $start_index+1c $end_index
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
   # Refreshes the current file contents.
   proc file_refresh {} {
 

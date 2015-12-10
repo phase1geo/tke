@@ -914,9 +914,7 @@ namespace eval vim {
     # Remove all text within the current character
     } elseif {$mode($txt) eq "changein"} {
       record_add "Key-$keysym"
-      if {([set start_index [$txt search -backwards $char insert 1.0]] ne "") && \
-          ([set end_index   [$txt search -forwards  $char insert end]] ne "")} {
-        $txt delete $start_index+1c $end_index
+      if {[[ns edit]::delete_between_char $txt $char]} {
         edit_mode $txt
       } else {
         start_mode $txt
