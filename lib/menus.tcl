@@ -222,8 +222,13 @@ namespace eval menus {
 
     $mb delete 0 end
 
-    $mb add command -label [msgcat::mc "New File"] -underline 0 -command "menus::new_command"
-    launcher::register [msgcat::mc "File Menu: New file"] menus::new_command
+    $mb add command -label [msgcat::mc "New Window"] -underline 4 -command [list menus::new_window_command]
+    launcher::register [msgcat::mc "File Menu: New window"] [list menus::new_window_command]
+
+    $mb add command -label [msgcat::mc "New File"] -underline 0 -command [list menus::new_file_command]
+    launcher::register [msgcat::mc "File Menu: New file"] [list menus::new_file_command]
+
+    $mb add separator
 
     $mb add command -label [msgcat::mc "Open File..."] -underline 0 -command "menus::open_command"
     launcher::register [msgcat::mc "File Menu: Open file"] menus::open_command
@@ -416,8 +421,23 @@ namespace eval menus {
   }
 
   ######################################################################
+  # Starts a new session (window)
+  proc new_window_command {} {
+
+    # Execute the restart command
+    if {[file tail [info nameofexecutable]] eq "tke.exe"} {
+      exec [info nameofexecutable] -n &
+    } elseif {[file tail $::argv0] eq "AppMain.tcl"} {
+      exec [info nameofexecutable] [file normalize $::argv0] &
+    } else {
+      exec [info nameofexecutable] [file normalize $::argv0] -- -n &
+    }
+
+  }
+
+  ######################################################################
   # Implements the "create new file" command.
-  proc new_command {} {
+  proc new_file_command {} {
 
     gui::add_new_file end -sidebar 1
 
