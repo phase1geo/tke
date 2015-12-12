@@ -426,11 +426,11 @@ namespace eval menus {
 
     # Execute the restart command
     if {[file tail [info nameofexecutable]] eq "tke.exe"} {
-      exec [info nameofexecutable] -n &
-    } elseif {[file tail $::argv0] eq "AppMain.tcl"} {
-      exec [info nameofexecutable] [file normalize $::argv0] &
+      exec -ignorestderr [info nameofexecutable] -n &
     } else {
-      exec [info nameofexecutable] [file normalize $::argv0] -- -n &
+      array set frame [info frame 1]
+      puts "[info nameofexecutable] $::argv0 -- -n &"
+      exec -ignorestderr [info nameofexecutable] $::argv0 -- -n &
     }
 
   }
@@ -1969,9 +1969,6 @@ namespace eval menus {
   proc add_sessions {mb} {
 
     # Add sessions menu commands
-    $mb add cascade -label [msgcat::mc "Open"] -menu [menu $mb.open -tearoff false]
-    launcher::register [msgcat::mc "Sessions Menu: Open session"] "menus::sessions_open_launcher"
-
     $mb add cascade -label [msgcat::mc "Switch To"] -menu [menu $mb.switch -tearoff false]
     launcher::register [msgcat::mc "Sessions Menu: Switch to session"] "menus::sessions_switch_launcher"
 
@@ -2003,12 +2000,10 @@ namespace eval menus {
     set names [sessions::get_names]
 
     # Update the open, switch to, and delete menus
-    $mb.open   delete 0 end
     $mb.switch delete 0 end
     $mb.delete delete 0 end
 
     foreach name $names {
-      $mb.open   add command -label $name -command [list sessions::load "full" $name 1]
       $mb.switch add command -label $name -command [list sessions::load "full" $name 0]
       $mb.delete add command -label $name -command [list sessions::delete $name]
     }
@@ -2024,29 +2019,12 @@ namespace eval menus {
 
     # If there are no names, disable the Open, Switch to and Delete menu commands
     if {[llength $names] == 0} {
-      $mb entryconfigure [msgcat::mc "Open"]      -state disabled
       $mb entryconfigure [msgcat::mc "Switch To"] -state disabled
       $mb entryconfigure [msgcat::mc "Delete"]    -state disabled
     } else {
-      $mb entryconfigure [msgcat::mc "Open"]      -state normal
       $mb entryconfigure [msgcat::mc "Switch To"] -state normal
       $mb entryconfigure [msgcat::mc "Delete"]    -state normal
     }
-
-  }
-
-  ######################################################################
-  # Displays the available sessions that can be opened in the launcher.
-  proc sessions_open_launcher {} {
-
-    set i 0
-    foreach name [sessions::get_names] {
-      launcher::register_temp "`SESSION:$name" [list sessions::load "full" $name 1] $name $i
-      incr i
-    }
-
-    # Display the launcher in SESSION: mode
-    launcher::launch "`SESSION:"
 
   }
 

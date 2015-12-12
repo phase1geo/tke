@@ -438,7 +438,7 @@ if {[catch {
 
   # If the number of loaded files is still zero, add a new blank file
   if {[gui::get_file_num] == 0} {
-    gui::add_new_file end
+    gui::add_new_file end -sidebar $::cl_sidebar
   }
 
   # This will hide hidden files/directories but provide a button in the dialog boxes to show/hide theme
