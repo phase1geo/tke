@@ -891,7 +891,7 @@ namespace eval gui {
               [ns syntax]::set_language $finfo(language)
             }
             if {[info exists finfo(indent)]} {
-              set_current_indent_mode $tid $finfo(indent)
+              [ns indent]::set_indent_mode $tid $finfo(indent)
             }
             if {$finfo(diff) && [info exists finfo(diffdata)]} {
               [ns diff]::set_session_data $txt $finfo(diffdata)
@@ -2715,15 +2715,6 @@ namespace eval gui {
     variable file_favorited
 
     set_current_file_favorite $tid $file_favorited
-
-  }
-
-  ######################################################################
-  # Sets auto-indent for the current editor to the given value.
-  proc set_current_indent_mode {tid value} {
-
-    # Set the auto-indent mode
-    [ns indent]::set_indent_mode $value
 
   }
 

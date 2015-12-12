@@ -578,7 +578,7 @@ namespace eval sidebar {
 
   ######################################################################
   # Figure out if the given file should be ignored.
-  proc ignore_file {fname} {
+  proc ignore_file {fname {allow_binary 1}} {
 
     # Ignore the file if it matches any of the ignore patterns
     foreach pattern [preferences::get Sidebar/IgnoreFilePatterns] {
@@ -588,7 +588,7 @@ namespace eval sidebar {
     }
 
     # If the file is a binary file, ignore it
-    if {[preferences::get Sidebar/IgnoreBinaries] && [utils::is_binary $fname]} {
+    if {$allow_binary && [preferences::get Sidebar/IgnoreBinaries] && [utils::is_binary $fname]} {
       return 1
     }
 

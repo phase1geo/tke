@@ -897,7 +897,11 @@ namespace eval theme {
 
     variable widgets
 
-    update_menu_helper $widgets(menus) [get_category_options menus]
+    set opts [get_category_options menus]
+
+    foreach mnu $widgets(menus) {
+      update_menu_helper $mnu $opts
+    }
 
   }
 
