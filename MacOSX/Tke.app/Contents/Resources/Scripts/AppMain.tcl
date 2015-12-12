@@ -1,22 +1,19 @@
-if {[string first "-psn" [lindex $argv 0]] == 0} {
+# Remove AppMain.tcl if it is the first argument
+if {[info script] eq [lindex $argv 0]} {
   set argv [lrange $argv 1 end]
+  incr argc -1
 }
 
-if {[llength $argv] > 0} {
+# Remove the -psn option, if present
+if {[string first "-psn" [lindex $argv 0]] == 0} {
+  set argv [lrange $argv 1 end]
+  incr argc -1
+}
 
-  set argv [lassign $argv argv0]
-  if {[catch { source $argv0 }]} {
-    puts $errorInfo
-  }
+# Avoid populating the sidebar on startup
+lappend argv "-nosb"
+incr argc
 
-} else {
-
-  # Avoid populating the sidebar on startup
-  set argv [concat "-nosb" "-n" $argv]
-  incr argc
-
-  if {[catch { source [file join [file dirname $argv0] tke lib tke.tcl] }]} {
-    puts $errorInfo
-  }
-
+if {[catch { source [file join [file dirname $argv0] tke lib tke.tcl] }]} {
+  puts $errorInfo
 }
