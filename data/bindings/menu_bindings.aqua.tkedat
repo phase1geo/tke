@@ -17,6 +17,10 @@
 {Edit/Copy}                       Cmd-C
 {Edit/Paste}                      Cmd-V
 {Edit/Paste and Format}           Cmd-Shift-V
+{Edit/Toggle Comment}             Ctrl-I
+{Edit/Indentation/Indent}         Ctrl-[
+{Edit/Indentation/Unindent}       Ctrl-]
+{Edit/Cursor/Align Cursors}       Ctrl-A
 
 # Find menu bindings
 {Find/Find}                       Cmd-F
@@ -31,12 +35,6 @@
 {Find/Previous Difference}        Ctrl-Up
 {Find/Find Matching Pair}         Ctrl-P
 {Find/Find In Files}              Cmd-Ctrl-F
-
-# Text menu bindings
-{Text/Toggle Comment}             Ctrl-I
-{Text/Indent}                     Ctrl-[
-{Text/Unindent}                   Ctrl-]
-{Text/Align Cursors}              Ctrl-A
 
 # View menu bindings
 {View/Hide Sidebar}               Cmd-K

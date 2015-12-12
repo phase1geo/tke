@@ -162,10 +162,6 @@ namespace eval menus {
     $mb add cascade -label [msgcat::mc "Find"] -menu [menu $mb.find -tearoff false -postcommand "menus::find_posting $mb.find"]
     add_find $mb.find
 
-    # Add the text menu
-    $mb add cascade -label [msgcat::mc "Text"] -menu [menu $mb.text -tearoff false -postcommand "menus::text_posting $mb.text"]
-    add_text $mb.text
-
     # Add the view menu
     $mb add cascade -label [msgcat::mc "View"] -menu [menu $mb.view -tearoff false -postcommand "menus::view_posting $mb.view"]
     add_view $mb.view
@@ -207,8 +203,10 @@ namespace eval menus {
     # Handle the default development mode
     handle_development_mode
 
-    # Register the menubar for theming purposes
-    theme::register_widget $mb menus
+    # Register the menubar for theming purposes if we are running on MacOSX
+    if {[tk windowingsystem] ne "aqua"} {
+      theme::register_widget $mb menus
+    }
 
   }
 
@@ -632,32 +630,36 @@ namespace eval menus {
   proc add_edit {mb} {
 
     # Add edit menu commands
-    $mb add command -label [msgcat::mc "Undo"] -underline 0 -command "gui::undo {}"
-    launcher::register [msgcat::mc "Edit Menu: Undo"] "gui::undo {}"
+    $mb add command -label [msgcat::mc "Undo"] -underline 0 -command [list gui::undo {}]
+    launcher::register [msgcat::mc "Edit Menu: Undo"] [list gui::undo {}]
 
-    $mb add command -label [msgcat::mc "Redo"] -underline 0 -command "gui::redo {}"
-    launcher::register [msgcat::mc "Edit Menu: Redo"] "gui::redo {}"
-
-    $mb add separator
-
-    $mb add command -label [msgcat::mc "Cut"] -underline 0 -command "gui::cut {}"
-    launcher::register [msgcat::mc "Edit Menu: Cut text"] "gui::cut {}"
-
-    $mb add command -label [msgcat::mc "Copy"] -underline 1 -command "gui::copy {}"
-    launcher::register [msgcat::mc "Edit Menu: Copy text"] "gui::copy {}"
-
-    $mb add command -label [msgcat::mc "Paste"] -underline 0 -command "gui::paste {}"
-    launcher::register [msgcat::mc "Edit Menu: Paste text from clipboard"] "gui::paste {}"
-
-    $mb add command -label [msgcat::mc "Paste and Format"] -underline 10 -command "gui::paste_and_format {}"
-    launcher::register [msgcat::mc "Edit Menu: Paste and format text from clipboard"] "gui::paste_and_format {}"
-
-    $mb add command -label [msgcat::mc "Select All"] -underline 7 -command "gui::select_all {}"
-    launcher::register [msgcat::mc "Edit Menu: Select all text"] "gui::select_all {}"
+    $mb add command -label [msgcat::mc "Redo"] -underline 0 -command [list gui::redo {}]
+    launcher::register [msgcat::mc "Edit Menu: Redo"] [list gui::redo {}]
 
     $mb add separator
 
-    $mb add cascade -label [msgcat::mc "Indent Mode"] -underline 0 -menu [menu $mb.indentPopup -tearoff 0 -postcommand "indent::populate_indent_menu $mb.indentPopup"]
+    $mb add command -label [msgcat::mc "Cut"] -underline 0 -command [list gui::cut {}]
+    launcher::register [msgcat::mc "Edit Menu: Cut text"] [list gui::cut {}]
+
+    $mb add command -label [msgcat::mc "Copy"] -underline 1 -command [list gui::copy {}]
+    launcher::register [msgcat::mc "Edit Menu: Copy text"] [list gui::copy {}]
+
+    $mb add command -label [msgcat::mc "Paste"] -underline 0 -command [list gui::paste {}]
+    launcher::register [msgcat::mc "Edit Menu: Paste text from clipboard"] [list gui::paste {}]
+
+    $mb add command -label [msgcat::mc "Paste and Format"] -underline 10 -command [list gui::paste_and_format {}]
+    launcher::register [msgcat::mc "Edit Menu: Paste and format text from clipboard"] [list gui::paste_and_format {}]
+
+    $mb add command -label [msgcat::mc "Select All"] -underline 7 -command [list gui::select_all {}]
+    launcher::register [msgcat::mc "Edit Menu: Select all text"] [list gui::select_all {}]
+
+    $mb add separator
+
+    $mb add command -label [msgcat::mc "Toggle Comment"] -underline 0 -command [list edit::comment_toggle {}]
+    launcher::register [msgcat::mc "Edit Menu: Toggle comment"] [list edit::comment_toggle {}]
+
+    $mb add cascade -label [msgcat::mc "Indentation"] -underline 0 -menu [menu $mb.indentPopup -tearoff 0 -postcommand [list menus::edit_indent_posting $mb.indentPopup]]
+    $mb add cascade -label [msgcat::mc "Cursor"]      -underline 1 -menu [menu $mb.cursorPopup -tearoff 0 -postcommand [list menus::edit_cursor_posting $mb.cursorPopup]]
 
     $mb add separator
 
@@ -668,22 +670,39 @@ namespace eval menus {
 
     $mb add separator
 
-    $mb add cascade -label [msgcat::mc "Preferences"]   -menu [menu $mb.prefPopup -tearoff 0 -postcommand "menus::edit_preferences_posting $mb.prefPopup"]
+    $mb add cascade -label [msgcat::mc "Preferences"]   -menu [menu $mb.prefPopup -tearoff 0 -postcommand [list menus::edit_preferences_posting $mb.prefPopup]]
     $mb add cascade -label [msgcat::mc "Menu Bindings"] -menu [menu $mb.bindPopup -tearoff 0]
-    $mb add cascade -label [msgcat::mc "Snippets"]      -menu [menu $mb.snipPopup -tearoff 0 -postcommand "menus::edit_snippets_posting $mb.snipPopup"]
+    $mb add cascade -label [msgcat::mc "Snippets"]      -menu [menu $mb.snipPopup -tearoff 0 -postcommand [list menus::edit_snippets_posting $mb.snipPopup]]
 
     ###########################
     # Populate indentation menu
     ###########################
 
-    $mb.indentPopup add radiobutton -label [msgcat::mc "Indent Off"] -variable menus::indent_mode -value "OFF" -command "gui::set_current_indent_mode {} OFF"
-    launcher::register [msgcat::mc "Edit Menu: Set indent mode to OFF"] "gui::set_current_indent_mode {} OFF"
+    $mb.indentPopup add command -label [msgcat::mc "Indent"] -underline 0 -command [list edit::indent {}]
+    launcher::register [msgcat::mc "Edit Menu: Indent selected text"] [list edit::indent {}]
 
-    $mb.indentPopup add radiobutton -label [msgcat::mc "Auto-Indent"] -variable menus::indent_mode -value "IND" -command "gui::set_current_indent_mode {} IND"
-    launcher::register [msgcat::mc "Edit Menu: Set indent mode to IND"] "gui::set_current_indent_mode {} IND"
+    $mb.indentPopup add command -label [msgcat::mc "Unindent"] -underline 1 -command [list edit::unindent {}]
+    launcher::register [msgcat::mc "Edit Menu: Unindent selected text"] [list edit::unindent {}]
 
-    $mb.indentPopup add radiobutton -label [msgcat::mc "Smart Indent"] -variable menus::indent_mode -value "IND+" -command "gui::set_current_indent_mode {} IND+"
-    launcher::register [msgcat::mc "Edit Menu: Set indent mode to IND+"] "gui::set_current_indent_mode {} IND+"
+    $mb.indentPopup add separator
+
+    $mb.indentPopup add radiobutton -label [msgcat::mc "Indent Off"] -variable menus::indent_mode -value "OFF" -command [list indent::set_indent_mode {} OFF]
+    launcher::register [msgcat::mc "Edit Menu: Set indent mode to OFF"] [list indent::set_indent_mode {} OFF]
+
+    $mb.indentPopup add radiobutton -label [msgcat::mc "Auto-Indent"] -variable menus::indent_mode -value "IND" -command [list indent::set_indent_mode {} IND]
+    launcher::register [msgcat::mc "Edit Menu: Set indent mode to IND"] [list indent::set_indent_mode {} IND]
+
+    $mb.indentPopup add radiobutton -label [msgcat::mc "Smart Indent"] -variable menus::indent_mode -value "IND+" -command [list indent::set_indent_mode {} IND+]
+    launcher::register [msgcat::mc "Edit Menu: Set indent mode to IND+"] [list indent::set_indent_mode {} IND+]
+
+    ######################
+    # Populate cursor menu
+    ######################
+
+    $mb.cursorPopup add separator
+
+    $mb.cursorPopup add command -label [msgcat::mc "Align Cursors"] -underline 0 -command [list edit::align_cursors {}]
+    launcher::register [msgcat::mc "Text Menu: Align cursors"] [list edit::align_cursors {}]
 
     #########################
     # Populate insertion menu
@@ -710,6 +729,11 @@ namespace eval menus {
 
     $mb.insertPopup add command -label [msgcat::mc "Snippet"] -command [list snippets::show_snippets]
     launcher::register [msgcat::mc "Edit Menu: Insert snippet"] [list snippets::show_snippets]
+
+    $mb.insertPopup add separator
+
+    $mb.insertPopup add command -label [msgcat::mc "Enumeration"] -underline 7 -command [list edit::insert_enumeration {}]
+    launcher::register [msgcat::mc "Text Menu: Insert enumeration"] [list edit::insert_enumeration {}]
 
     ########################
     # Populate deletion menu
@@ -765,15 +789,20 @@ namespace eval menus {
     $mb.transformPopup add command -label [msgcat::mc "Bubble Down"] -command [list menus::edit_transform_bubble_down]
     launcher::register [msgcat::mc "Edit Menu: Bubble lines down one line"] [list menus::edit_transform_bubble_down]
 
+    $mb.transformPopup add separator
+
+    $mb.transformPopup add command -label [msgcat::mc "Replace Line With Script"] -command [list edit::replace_line_with_script {}]
+    launcher::register [msgcat::mc "Edit Menu: Replace line with script"] [list edit::replace_line_with_script {}]
+
     ##########################
     # Populate formatting menu
     ##########################
 
-    $mb.formatPopup add command -label [msgcat::mc "Selected"] -command "gui::format_text {} selected"
-    launcher::register [msgcat::mc "Edit Menu: Format selected text"] "gui::format_text {} selected"
+    $mb.formatPopup add command -label [msgcat::mc "Selected"] -command [list gui::format_text {} selected]
+    launcher::register [msgcat::mc "Edit Menu: Format selected text"] [list gui::format_text {} selected]
 
-    $mb.formatPopup add command -label [msgcat::mc "All"]      -command "gui::format_text {} all"
-    launcher::register [msgcat::mc "Edit Menu: Format all text"] "gui::format_text {} selected"
+    $mb.formatPopup add command -label [msgcat::mc "All"] -command [list gui::format_text {} all]
+    launcher::register [msgcat::mc "Edit Menu: Format all text"] [list gui::format_text {} selected]
 
     ###########################
     # Populate preferences menu
@@ -850,9 +879,10 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Paste"]            -state disabled
       $mb entryconfigure [msgcat::mc "Paste and Format"] -state disabled
       $mb entryconfigure [msgcat::mc "Select All"]       -state disabled
-      $mb entryconfigure [msgcat::mc "Indent Mode"]      -state disabled
+      $mb entryconfigure [msgcat::mc "Toggle Comment"]   -state disabled
+      $mb entryconfigure [msgcat::mc "Indentation"]      -state disabled
       $mb entryconfigure [msgcat::mc "Insert"]           -state disabled
-      $mb entryconfigure [msgcat::mc "Format"]      -state disabled
+      $mb entryconfigure [msgcat::mc "Format"]           -state disabled
     } else {
       if {[gui::undoable {}]} {
         $mb entryconfigure [msgcat::mc "Undo"] -state normal
@@ -874,7 +904,12 @@ namespace eval menus {
         $mb entryconfigure [msgcat::mc "Paste and Format"] -state disabled
       }
       $mb entryconfigure [msgcat::mc "Select All"]  -state normal
-      $mb entryconfigure [msgcat::mc "Indent Mode"] -state normal
+      if {[lindex [syntax::get_comments [gui::current_txt {}]] 0] eq ""} {
+        $mb entryconfigure [msgcat::mc "Toggle Comment"] -state disabled
+      } else {
+        $mb entryconfigure [msgcat::mc "Toggle Comment"] -state normal
+      }
+      $mb entryconfigure [msgcat::mc "Indentation"] -state normal
       if {[gui::editable {}]} {
         $mb entryconfigure [msgcat::mc "Insert"]    -state normal
         $mb entryconfigure [msgcat::mc "Delete"]    -state normal
@@ -890,21 +925,65 @@ namespace eval menus {
   }
 
   ######################################################################
+  # Called just prior to posting the edit/indentation menu option.  Sets
+  # the menu option states to match the current UI state.
+  proc edit_indent_posting {mb} {
+
+    variable indent_mode
+
+    set state "disabled"
+
+    # Set the indentation mode for the current editor
+    if {[set txt [gui::current_txt {}]] ne ""} {
+      set indent_mode [indent::get_indent_mode $txt]
+      set state       "normal"
+    }
+
+    $mb entryconfigure [msgcat::mc "Unindent"]     -state $state
+    $mb entryconfigure [msgcat::mc "Indent"]       -state $state
+    $mb entryconfigure [msgcat::mc "Indent Off"]   -state $state
+    $mb entryconfigure [msgcat::mc "Auto-Indent"]  -state $state
+    $mb entryconfigure [msgcat::mc "Smart Indent"] -state $state
+
+  }
+
+  ######################################################################
+  # Called just prior to posting the edit/cursor menu option.  Sets the
+  # menu option states to match the current UI state.
+  proc edit_cursor_posting {mb} {
+
+    set mstate "disabled"
+
+    # Get the current text widget
+    if {[set txt [gui::current_txt {}]] ne ""} {
+      if {[multicursor::enabled $txt]} {
+        set mstate "normal"
+      }
+    }
+
+    $mb entryconfigure [msgcat::mc "Align Cursors"] -state $mstate
+
+  }
+
+  ######################################################################
   # Called just prior to posting the edit/insert menu option.  Sets the
   # menu option states to match the current UI state.
   proc edit_insert_posting {mb} {
 
-    if {[gui::current_txt {}] eq ""} {
-      $mb entryconfigure [msgcat::mc "Line Above Current"] -state disabled
-      $mb entryconfigure [msgcat::mc "Line Below Current"] -state disabled
-      $mb entryconfigure [msgcat::mc "File Contents"]      -state disabled
-      $mb entryconfigure [msgcat::mc "Command Result"]     -state disabled
-    } else {
-      $mb entryconfigure [msgcat::mc "Line Above Current"] -state normal
-      $mb entryconfigure [msgcat::mc "Line Below Current"] -state normal
-      $mb entryconfigure [msgcat::mc "File Contents"]      -state normal
-      $mb entryconfigure [msgcat::mc "Command Result"]     -state normal
+    set tstate "disabled"
+    set mstate "disabled"
+
+    if {[set txt [gui::current_txt {}]] ne ""} {
+      set tstate "normal"
+      if {[multicursor::enabled $txt]} {
+        set mstate "normal"
+      }
     }
+
+    $mb entryconfigure [msgcat::mc "Line Above Current"] -state $tstate
+    $mb entryconfigure [msgcat::mc "Line Below Current"] -state $tstate
+    $mb entryconfigure [msgcat::mc "File Contents"]      -state $tstate
+    $mb entryconfigure [msgcat::mc "Command Result"]     -state $tstate
 
     if {[llength [cliphist::get_history]] > 0} {
       $mb entryconfigure [msgcat::mc "From Clipboard"] -state normal
@@ -918,6 +997,8 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Snippet"] -state disabled
     }
 
+    $mb entryconfigure [msgcat::mc "Enumeration"] -state $mstate
+
   }
 
   ######################################################################
@@ -925,10 +1006,16 @@ namespace eval menus {
   # the menu option states to match the current UI state.
   proc edit_transform_posting {mb} {
 
-    if {[gui::current_txt {}] eq ""} {
-      # TBD
-    } else {
-      # TBD
+    # Get the state
+    set state [expr {([gui::current_txt {}] eq "") ? "disabled" : "normal"}]
+
+    $mb entryconfigure [msgcat::mc "Join Lines"]               -state $state
+    $mb entryconfigure [msgcat::mc "Bubble Up"]                -state $state
+    $mb entryconfigure [msgcat::mc "Bubble Down"]              -state $state
+    $mb entryconfigure [msgcat::mc "Replace Line With Script"] -state $state
+
+    if {[edit::current_line_empty {}]} {
+      $mb entryconfigure [msgcat::mc "Replace Line With Script"] -state disabled
     }
 
   }
@@ -1344,69 +1431,6 @@ namespace eval menus {
   proc find_all_command {} {
 
     search::find_all [gui::current_txt {}]
-
-  }
-
-  ######################################################################
-  # Adds the text menu commands.
-  proc add_text {mb} {
-
-    $mb add command -label [msgcat::mc "Toggle Comment"] -underline 0 -command "texttools::comment_toggle {}"
-    launcher::register [msgcat::mc "Text Menu: Toggle comment"] "texttools::comment_toggle {}"
-
-    $mb add command -label [msgcat::mc "Indent"] -underline 0 -command "texttools::indent {}"
-    launcher::register [msgcat::mc "Text Menu: Indent selected text"] "texttools::indent {}"
-
-    $mb add command -label [msgcat::mc "Unindent"] -underline 1 -command "texttools::unindent {}"
-    launcher::register [msgcat::mc "Text Menu: Unindent selected text"] "texttools::unindent {}"
-
-    $mb add separator
-
-    $mb add command -label [msgcat::mc "Replace Line With Script"] -command "texttools::replace_line_with_script {}"
-    launcher::register [msgcat::mc "Text Menu: Replace line with script"] "texttools::replace_line_with_script {}"
-
-    $mb add separator
-
-    $mb add command -label [msgcat::mc "Align Cursors"] -underline 0 -command "texttools::align {}"
-    launcher::register [msgcat::mc "Text Menu: Align cursors"] "texttools::align {}"
-
-    $mb add command -label [msgcat::mc "Insert Enumeration"] -underline 7 -command "texttools::insert_enumeration {}"
-    launcher::register [msgcat::mc "Text Menu: Insert enumeration"] "texttools::insert_enumeration {}"
-
-  }
-
-  ######################################################################
-  # Called prior to the text menu posting.
-  proc text_posting {mb} {
-
-    if {[set txt [gui::current_txt {}]] eq ""} {
-      $mb entryconfigure [msgcat::mc "Toggle Comment"]           -state disabled
-      $mb entryconfigure [msgcat::mc "Indent"]                   -state disabled
-      $mb entryconfigure [msgcat::mc "Unindent"]                 -state disabled
-      $mb entryconfigure [msgcat::mc "Replace Line With Script"] -state disabled
-      $mb entryconfigure [msgcat::mc "Align Cursors"]            -state disabled
-      $mb entryconfigure [msgcat::mc "Insert Enumeration"]       -state disabled
-    } else {
-      if {[lindex [syntax::get_comments [gui::current_txt {}]] 0] eq ""} {
-        $mb entryconfigure [msgcat::mc "Toggle Comment"] -state disabled
-      } else {
-        $mb entryconfigure [msgcat::mc "Toggle Comment"] -state normal
-      }
-      $mb entryconfigure [msgcat::mc "Indent"]   -state normal
-      $mb entryconfigure [msgcat::mc "Unindent"] -state normal
-      if {[texttools::current_line_empty {}]} {
-        $mb entryconfigure [msgcat::mc "Replace Line With Script"] -state disabled
-      } else {
-        $mb entryconfigure [msgcat::mc "Replace Line With Script"] -state normal
-      }
-      if {[multicursor::enabled $txt]} {
-        $mb entryconfigure [msgcat::mc "Align Cursors"]      -state normal
-        $mb entryconfigure [msgcat::mc "Insert Enumeration"] -state normal
-      } else {
-        $mb entryconfigure [msgcat::mc "Align Cursors"]      -state disabled
-        $mb entryconfigure [msgcat::mc "Insert Enumeration"] -state disabled
-      }
-    }
 
   }
 
