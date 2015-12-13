@@ -270,8 +270,115 @@ namespace eval edit {
   }
 
   ######################################################################
+  # Converts a character-by-character case inversion of the given text.
+  proc convert_case_toggle {txt index str} {
+
+    set strlen [string length $str]
+
+    for {set i 0} {$i < $strlen} {incr i} {
+      set char [string index $str $i]
+      append newstr [expr {[string is lower $char] ? [string toupper $char] : [string tolower $char]}]
+    }
+
+    $txt replace $index "$index+${strlen}c" $newstr
+
+  }
+
+  ######################################################################
+  # Converts the case to the given type for the entire string.
+  proc convert_case_all {txt index str type} {
+
+    set strlen [string length $str]
+
+    # Replace the text
+    $txt replace $index "$index+${strlen}c" [string to$type $str]
+
+  }
+
+  ######################################################################
+  # Converts the case to the given type on a word basis.
+  proc convert_case_words {txt index str type} {
+
+    while {[regexp {^(\w+)(\W*)(.*)$} $str -> word wspace str]} {
+      set wordlen [string length $word]
+      set strlen  [expr $wordlen + [string length $wspace]]
+      $txt replace $index "$index+${wordlen}c" [string to$type $word]
+      set index   [$txt index "$index+${strlen}c"]
+    }
+
+  }
+
+  ######################################################################
+  # Perform a case toggle operation.
+  proc transform_toggle_case {txt {num ""}} {
+
+    if {[llength [set sel_ranges [$txt tag ranges sel]]] > 0} {
+      foreach {endpos startpos} [lreverse $sel_ranges] {
+        convert_case_toggle $txt $startpos [$txt get $startpos $endpos]
+      }
+      $txt tag remove sel 1.0 end
+    } else {
+      set num_chars [expr {($num ne "") ? $num : 1}]
+      set str       [string range [$txt get insert "insert lineend"] 0 [expr $num_chars - 1]]
+      convert_case_toggle $txt insert $str
+    }
+
+  }
+
+  ######################################################################
+  # Perform a lowercase conversion.
+  proc transform_to_lower_case {txt {num ""}} {
+
+    if {[llength [set sel_ranges [$txt tag ranges sel]]] > 0} {
+      foreach {endpos startpos} [lreverse $sel_ranges] {
+        convert_case_all $txt $startpos [$txt get $startpos $endpos] lower
+      }
+      $txt tag remove sel 1.0 end
+    } else {
+      set num_chars [expr {($num ne "") ? $num : 1}]
+      set str       [string range [$txt get insert "insert lineend"] 0 [expr $num_chars - 1]]
+      convert_case_all $txt insert $str lower
+    }
+
+  }
+
+  ######################################################################
+  # Perform an uppercase conversion.
+  proc transform_to_upper_case {txt {num ""}} {
+
+    if {[llength [set sel_ranges [$txt tag ranges sel]]] > 0} {
+      foreach {endpos startpos} [lreverse $sel_ranges] {
+        convert_case_all $txt $startpos [$txt get $startpos $endpos] upper
+      }
+      $txt tag remove sel 1.0 end
+    } else {
+      set num_chars [expr {($num ne "") ? $num : 1}]
+      set str       [string range [$txt get insert "insert lineend"] 0 [expr $num_chars - 1]]
+      convert_case_all $txt insert $str upper
+    }
+
+  }
+
+  ######################################################################
+  # Perform a title case conversion.
+  proc transform_to_title_case {txt} {
+
+    if {[llength [set sel_ranges [$txt tag ranges sel]]] > 0} {
+      foreach {endpos startpos} [lreverse $sel_ranges] {
+        convert_case_words $txt [$txt index "$startpos wordstart"] [$txt get "$startpos wordstart" $endpos] title
+      }
+      $txt tag remove sel 1.0 end
+    } else {
+      set str [$txt get "insert wordstart" "insert wordend"]
+      convert_case_words $txt [$txt index "insert wordstart"] $str title
+    }
+
+  }
+
+  ######################################################################
   # If a selection occurs, joins the selected lines; otherwise, joins the
   # number of specified lines.
+  # TBD - Needs work
   proc transform_join_lines {txt {num ""}} {
 
     # Specifies if at least one line was deleted in the join

@@ -820,8 +820,22 @@ namespace eval menus {
     # Populate transform menu
     #########################
 
+    $mb.transformPopup add command -label [msgcat::mc "Toggle Case"] -command [list menus::edit_transform_toggle_case]
+    launcher::register [msgcat::mc "Edit Menu: Toggle case of current character"] [list menus::edit_transform_toggle_case]
+
+    $mb.transformPopup add command -label [msgcat::mc "Lower Case"] -command [list menus::edit_transform_to_lower_case]
+    launcher::register [msgcat::mc "Edit Menu: Convert case to lower"] [list menus::edit_transform_to_lower_case]
+
+    $mb.transformPopup add command -label [msgcat::mc "Upper Case"] -command [list menus::edit_transform_to_upper_case]
+    launcher::register [msgcat::mc "Edit Menu: Convert case to upper"] [list menus::edit_transform_to_upper_case]
+
+    $mb.transformPopup add command -label [msgcat::mc "Title Case"] -command [list menus::edit_transform_to_title_case]
+    launcher::register [msgcat::mc "Edit Menu: Convert case to title"] [list menus::edit_transform_to_title_case]
+
+    $mb.transformPopup add separator
+
     $mb.transformPopup add command -label [msgcat::mc "Join Lines"] -command [list menus::edit_transform_join_lines]
-    launcher::register [msgcat::mc "Edit Menu: Join Lines"] [list menus::edit_transform_join_lines]
+    launcher::register [msgcat::mc "Edit Menu: Join lines"] [list menus::edit_transform_join_lines]
 
     $mb.transformPopup add separator
 
@@ -1051,6 +1065,10 @@ namespace eval menus {
     # Get the state
     set state [expr {([gui::current_txt {}] eq "") ? "disabled" : "normal"}]
 
+    $mb entryconfigure [msgcat::mc "Toggle Case"]              -state $state
+    $mb entryconfigure [msgcat::mc "Lower Case"]               -state $state
+    $mb entryconfigure [msgcat::mc "Upper Case"]               -state $state
+    $mb entryconfigure [msgcat::mc "Title Case"]               -state $state
     $mb entryconfigure [msgcat::mc "Join Lines"]               -state $state
     $mb entryconfigure [msgcat::mc "Bubble Up"]                -state $state
     $mb entryconfigure [msgcat::mc "Bubble Down"]              -state $state
@@ -1248,6 +1266,38 @@ namespace eval menus {
     if {[gui::get_user_response [format "%s:" [msgcat::mc "Character"]] char 0] && ([string length $char] == 1)} {
       edit::delete_between_char [gui::current_txt {}].t $char
     }
+
+  }
+
+  ######################################################################
+  # Perform a case toggle operation.
+  proc edit_transform_toggle_case {} {
+
+    edit::transform_toggle_case [gui::current_txt {}].t
+
+  }
+
+  ######################################################################
+  # Perform a lowercase conversion.
+  proc edit_transform_to_lower_case {} {
+
+    edit::transform_to_lower_case [gui::current_txt {}].t
+
+  }
+
+  ######################################################################
+  # Perform an uppercase conversion.
+  proc edit_transform_to_upper_case {} {
+
+    edit::transform_to_upper_case [gui::current_txt {}].t
+
+  }
+
+  ######################################################################
+  # Perform a title case conversion.
+  proc edit_transform_to_title_case {} {
+
+    edit::transform_to_title_case [gui::current_txt {}].t
 
   }
 
