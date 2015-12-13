@@ -259,10 +259,8 @@ namespace eval vim {
 
           # Change the working directory
           } elseif {[regexp {^cd\s+(.*)$} $value -> directory]} {
-            set directory [[ns utils]::perform_substitutions $directory]
-            if {[file isdirectory $directory]} {
-              cd $directory
-              [ns gui]::set_title
+            if {[file isdirectory [[ns utils]::perform_substitutions $directory]]} {
+              gui::change_working_directory $directory
             }
           }
         }
