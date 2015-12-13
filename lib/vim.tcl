@@ -206,9 +206,7 @@ namespace eval vim {
 
           # Jump to line
           } elseif {[regexp {^(\d+|[.^$]|\w+)$} $value]} {
-            $txt mark set insert [get_linenum $txt $value]
-            adjust_insert $txt.t
-            $txt see insert
+            [ns edit]::jump_to_line $txt.t [get_linenum $txt $value]
 
           # Add multicursors to a range of lines
           } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)c/(.*)/$} $value -> from to search]} {
@@ -218,22 +216,13 @@ namespace eval vim {
 
           # Save/quit a subset of lines as a filename
           } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)w(q)?(!)?\s+(.*)$} $value -> from to and_close overwrite fname]} {
-            set from [get_linenum $txt $from]
-            set to   [get_linenum $txt $to]
-            if {($overwrite eq "") && [file exists $fname]} {
-              [ns gui]::set_info_message [format "%s (%s)" [msgcat::mc "Filename already exists"] $fname]
-            } else {
-              if {[catch { open $fname w } rc]} {
-                [ns gui]::set_info_message [format "%s %s" [msgcat::mc "Unable to write"] $fname]
-              } else {
-                puts $rc [$txt get "$from linestart" "$to lineend"]
-                close $rc
-                [ns gui]::set_info_message [format "%s (%s)" [msgcat::mc "File successfully written"] $fname]
+            set from [$txt index "[get_linenum $txt $from] linestart"]
+            set to   [$txt index "[get_linenum $txt $to] lineend"]
+            if {[[ns edit]::save_selection $txt $from $to [expr {$overwrite eq "!"}] $fname]} {
+              if {$and_close ne ""} {
+                [ns gui]::close_current $tid 0
+                set txt ""
               }
-            }
-            if {$and_close ne ""} {
-              [ns gui]::close_current $tid 0
-              set txt ""
             }
 
           # Open a new file

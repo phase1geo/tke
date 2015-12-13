@@ -228,58 +228,61 @@ namespace eval menus {
 
     $mb add separator
 
-    $mb add command -label [msgcat::mc "Open File..."] -underline 0 -command "menus::open_command"
-    launcher::register [msgcat::mc "File Menu: Open file"] menus::open_command
+    $mb add command -label [msgcat::mc "Open File..."] -underline 0 -command [list menus::open_command]
+    launcher::register [msgcat::mc "File Menu: Open file"] [list menus::open_command]
 
-    $mb add command -label [msgcat::mc "Open Directory..."] -underline 5 -command "menus::open_dir_command"
-    launcher::register [msgcat::mc "File Menu: Open directory"] menus::open_dir_command
+    $mb add command -label [msgcat::mc "Open Directory..."] -underline 5 -command [list menus::open_dir_command]
+    launcher::register [msgcat::mc "File Menu: Open directory"] [list menus::open_dir_command]
 
-    $mb add cascade -label [msgcat::mc "Open Recent"] -menu [menu $mb.recent -tearoff false -postcommand "menus::file_recent_posting $mb.recent"]
+    $mb add cascade -label [msgcat::mc "Open Recent"] -menu [menu $mb.recent -tearoff false -postcommand [list menus::file_recent_posting $mb.recent]]
     launcher::register [msgcat::mc "File Menu: Open Recent"] menus::launcher
 
-    $mb add cascade -label [msgcat::mc "Open Favorite"] -menu [menu $mb.favorites -tearoff false -postcommand "menus::file_favorites_posting $mb.favorites"]
+    $mb add cascade -label [msgcat::mc "Open Favorite"] -menu [menu $mb.favorites -tearoff false -postcommand [list menus::file_favorites_posting $mb.favorites]]
     launcher::register [msgcat::mc "File Menu: Open Favorite"] favorites::launcher
 
     $mb add separator
 
-    $mb add command -label [msgcat::mc "Show File Difference"] -underline 3 -command "menus::show_file_diff"
-    launcher::register [msgcat::mc "File Menu: Show file difference"] menus::show_file_diff
+    $mb add command -label [msgcat::mc "Show File Difference"] -underline 3 -command [list menus::show_file_diff]
+    launcher::register [msgcat::mc "File Menu: Show file difference"] [list menus::show_file_diff]
 
     $mb add separator
 
-    $mb add command -label [msgcat::mc "Save"] -underline 0 -command "menus::save_command"
-    launcher::register [msgcat::mc "File Menu: Save file"] menus::save_command
+    $mb add command -label [msgcat::mc "Save"] -underline 0 -command [list menus::save_command]
+    launcher::register [msgcat::mc "File Menu: Save file"] [list menus::save_command]
 
-    $mb add command -label [msgcat::mc "Save As..."] -underline 5 -command "menus::save_as_command"
+    $mb add command -label [msgcat::mc "Save As..."] -underline 5 -command [list menus::save_as_command]
     launcher::register [msgcat::mc "File Menu: Save file as"] menus::save_as_command
 
-    $mb add command -label [msgcat::mc "Save All"] -underline 6 -command "gui::save_all"
-    launcher::register [msgcat::mc "File Menu: Save all files"] gui::save_all
+    $mb add command -label [msgcat::mc "Save Selection As..."] -underline 7 -command [list menus::save_selection_as_command]
+    launcher::register [msgcat::mc "File Menu: Save selected lines"] [list menus::save_selection_as_command]
+
+    $mb add command -label [msgcat::mc "Save All"] -underline 6 -command [list gui::save_all]
+    launcher::register [msgcat::mc "File Menu: Save all files"] [list gui::save_all]
 
     $mb add separator
 
-    $mb add command -label [msgcat::mc "Lock"] -underline 0 -command "menus::lock_command $mb"
-    launcher::register [msgcat::mc "File Menu: Lock file"] "menus::lock_command $mb"
-    launcher::register [msgcat::mc "File Menu: Unlock file"] "menus::unlock_command $mb"
+    $mb add command -label [msgcat::mc "Lock"] -underline 0 -command [list menus::lock_command $mb]
+    launcher::register [msgcat::mc "File Menu: Lock file"] [list menus::lock_command $mb]
+    launcher::register [msgcat::mc "File Menu: Unlock file"] [list menus::unlock_command $mb]
 
-    $mb add command -label [msgcat::mc "Favorite"] -underline 0 -command "menus::favorite_command $mb"
-    launcher::register [msgcat::mc "File Menu: Favorite file"] "menus::favorite_command $mb"
-    launcher::register [msgcat::mc "File Menu: Unfavorite file"] "menus::unfavorite_command $mb"
+    $mb add command -label [msgcat::mc "Favorite"] -underline 0 -command [list menus::favorite_command $mb]
+    launcher::register [msgcat::mc "File Menu: Favorite file"] [list menus::favorite_command $mb]
+    launcher::register [msgcat::mc "File Menu: Unfavorite file"] [list menus::unfavorite_command $mb]
 
     $mb add separator
 
-    $mb add command -label [msgcat::mc "Close"] -underline 0 -command "menus::close_command"
-    launcher::register [msgcat::mc "File Menu: Close current tab"] menus::close_command
+    $mb add command -label [msgcat::mc "Close"] -underline 0 -command [list menus::close_command]
+    launcher::register [msgcat::mc "File Menu: Close current tab"] [list menus::close_command]
 
-    $mb add command -label [msgcat::mc "Close All"] -underline 6 -command "menus::close_all_command"
-    launcher::register [msgcat::mc "File Menu: Close all tabs"] menus::close_all_command
+    $mb add command -label [msgcat::mc "Close All"] -underline 6 -command [list menus::close_all_command]
+    launcher::register [msgcat::mc "File Menu: Close all tabs"] [list menus::close_all_command]
 
     # Only add the quit menu to File if we are not running in aqua
     if {[tk windowingsystem] ne "aqua"} {
       $mb add separator
-      $mb add command -label [msgcat::mc "Quit"] -underline 0 -command "menus::exit_command"
+      $mb add command -label [msgcat::mc "Quit"] -underline 0 -command [list menus::exit_command]
     }
-    launcher::register [msgcat::mc "File Menu: Quit application"] menus::exit_command
+    launcher::register [msgcat::mc "File Menu: Quit application"] [list menus::exit_command]
 
   }
 
@@ -329,6 +332,7 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Show File Difference"] -state [expr {($fname ne "") ? "normal" : "disabled"}]
       $mb entryconfigure [msgcat::mc "Save"]                 -state normal
       $mb entryconfigure [msgcat::mc "Save As..."]           -state normal
+      $mb entryconfigure [msgcat::mc "Save Selection As..."] -state [expr {[gui::selected {}] ? "normal" : "disabled"}]
       $mb entryconfigure [msgcat::mc "Save All"]             -state normal
       $mb entryconfigure [msgcat::mc "Close"]                -state normal
       $mb entryconfigure [msgcat::mc "Close All"]            -state normal
@@ -339,6 +343,7 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Show File Difference"] -state disabled
       $mb entryconfigure [msgcat::mc "Save"]                 -state disabled
       $mb entryconfigure [msgcat::mc "Save As..."]           -state disabled
+      $mb entryconfigure [msgcat::mc "Save Selection As..."] -state disabled
       $mb entryconfigure [msgcat::mc "Save All"]             -state disabled
       $mb entryconfigure [msgcat::mc "Lock"]                 -state disabled
       $mb entryconfigure [msgcat::mc "Favorite"]             -state disabled
@@ -493,12 +498,26 @@ namespace eval menus {
   # Saves the current tab file as a new filename.
   proc save_as_command {} {
 
-    # Get the directory of the current file
-    set dirname [file dirname [gui::current_filename]]
-
     # Get some of the save options
     if {[set sfile [gui::prompt_for_save {}]] ne ""} {
       gui::save_current {} 1 $sfile
+    }
+
+  }
+
+  ######################################################################
+  # Saves the currently selected text to a new file.
+  proc save_selection_as_command {} {
+
+    # Get the filename
+    if {[set sfile [gui::prompt_for_save {}]] ne ""} {
+
+      # Get the current text widget
+      set txt [gui::current_txt {}]
+
+      # Save the current selection
+      edit::save_selection $txt [$txt index sel.first] [$txt index sel.last] 1 $sfile
+
     }
 
   }
@@ -1270,63 +1289,68 @@ namespace eval menus {
   proc add_find {mb} {
 
     # Add find menu commands
-    $mb add command -label [msgcat::mc "Find"] -underline 0 -command "gui::search {}"
-    launcher::register [msgcat::mc "Find Menu: Find"] "gui::search {}"
+    $mb add command -label [msgcat::mc "Find"] -underline 0 -command [list gui::search {}]
+    launcher::register [msgcat::mc "Find Menu: Find"] [list gui::search {}]
 
-    $mb add command -label [msgcat::mc "Find and Replace"] -underline 9 -command "gui::search_and_replace"
-    launcher::register [msgcat::mc "Find Menu: Find and Replace"] gui::search_and_replace
-
-    $mb add separator
-
-    $mb add command -label [msgcat::mc "Select Next Occurrence"] -underline 7 -command "menus::find_next_command 0"
-    launcher::register [msgcat::mc "Find Menu: Find next occurrence"] "menus::find_next_command 0"
-
-    $mb add command -label [msgcat::mc "Select Previous Occurrence"] -underline 7 -command "menus::find_prev_command 0"
-    launcher::register [msgcat::mc "Find Menu: Find previous occurrence"] "menus::find_prev_command 0"
-
-    $mb add command -label [msgcat::mc "Append Next Occurrence"] -underline 1 -command "menus::find_next_command 1"
-    launcher::register [msgcat::mc "Find Menu: Append next occurrence"] "menus::find_next_command 1"
-
-    $mb add command -label [msgcat::mc "Select All Occurrences"] -underline 7 -command "menus::find_all_command"
-    launcher::register [msgcat::mc "Find Menu: Select all occurrences"] "menus::find_all_command"
+    $mb add command -label [msgcat::mc "Find and Replace"] -underline 9 -command [list gui::search_and_replace]
+    launcher::register [msgcat::mc "Find Menu: Find and Replace"] [list gui::search_and_replace]
 
     $mb add separator
 
-    $mb add command -label [msgcat::mc "Jump Backward"] -underline 5 -command "gui::jump_to_cursor {} -1 1"
-    launcher::register [msgcat::mc "Find Menu: Jump backward"] "gui::jump_to_cursor {} -1 1"
+    $mb add command -label [msgcat::mc "Select Next Occurrence"] -underline 7 -command [list menus::find_next_command 0]
+    launcher::register [msgcat::mc "Find Menu: Find next occurrence"] [list menus::find_next_command 0]
 
-    $mb add command -label [msgcat::mc "Jump Forward"] -underline 5 -command "gui::jump_to_cursor {} 1 1"
-    launcher::register [msgcat::mc "Find Menu: Jump forward"] "gui::jump_to_cursor {} 1 1"
+    $mb add command -label [msgcat::mc "Select Previous Occurrence"] -underline 7 -command [list menus::find_prev_command 0]
+    launcher::register [msgcat::mc "Find Menu: Find previous occurrence"] [list menus::find_prev_command 0]
 
-    $mb add separator
+    $mb add command -label [msgcat::mc "Append Next Occurrence"] -underline 1 -command [list menus::find_next_command 1]
+    launcher::register [msgcat::mc "Find Menu: Append next occurrence"] [list menus::find_next_command 1]
 
-    $mb add command -label [msgcat::mc "Next Difference"] -underline 0 -command "gui::jump_to_difference {} 1 1"
-    launcher::register [msgcat::mc "Find Menu: Goto next difference"] "gui::jump_to_difference {} 1 1"
-
-    $mb add command -label [msgcat::mc "Previous Difference"] -underline 0 -command "gui::jump_to_difference {} -1 1"
-    launcher::register [msgcat::mc "Find Menu: Goto previous difference"] "gui::jump_to_difference {} -1 1"
-
-    $mb add command -label [msgcat::mc "Show Selected Line Change"] -underline 19 -command "gui::show_difference_line_change {} 1"
-    launcher::register [msgcat::mc "Find Menu: Show selected line change"] "gui::show_difference_line_change {} 1"
+    $mb add command -label [msgcat::mc "Select All Occurrences"] -underline 7 -command [list menus::find_all_command]
+    launcher::register [msgcat::mc "Find Menu: Select all occurrences"] [list menus::find_all_command]
 
     $mb add separator
 
-    $mb add cascade -label [msgcat::mc "Markers"] -underline 5 -menu [menu $mb.markerPopup -tearoff 0 -postcommand "menus::find_marker_posting $mb.markerPopup"]
+    $mb add command -label [msgcat::mc "Jump Backward"] -underline 5 -command [list gui::jump_to_cursor {} -1 1]
+    launcher::register [msgcat::mc "Find Menu: Jump backward"] [list gui::jump_to_cursor {} -1 1]
+
+    $mb add command -label [msgcat::mc "Jump Forward"] -underline 5 -command [list gui::jump_to_cursor {} 1 1]
+    launcher::register [msgcat::mc "Find Menu: Jump forward"] [list gui::jump_to_cursor {} 1 1]
 
     $mb add separator
 
-    $mb add command -label [msgcat::mc "Find Matching Pair"] -underline 5 -command "gui::show_match_pair {}"
-    launcher::register [msgcat::mc "Find Menu: Find matching character pair"] "gui::show_match_pair {}"
+    $mb add command -label [msgcat::mc "Jump To Line"] -underline 8 -command [list menus::jump_to_line]
+    launcher::register [msgcat::mc "Find Menu: Jump to line"] [list menus::jump_to_line]
 
     $mb add separator
 
-    $mb add command -label [msgcat::mc "Find In Files"] -underline 5 -command "search::fif_start"
-    launcher::register [msgcat::mc "Find Menu: Find in files"] "search::fif_start"
+    $mb add command -label [msgcat::mc "Next Difference"] -underline 0 -command [list gui::jump_to_difference {} 1 1]
+    launcher::register [msgcat::mc "Find Menu: Goto next difference"] [list gui::jump_to_difference {} 1 1]
+
+    $mb add command -label [msgcat::mc "Previous Difference"] -underline 0 -command [list gui::jump_to_difference {} -1 1]
+    launcher::register [msgcat::mc "Find Menu: Goto previous difference"] [list gui::jump_to_difference {} -1 1]
+
+    $mb add command -label [msgcat::mc "Show Selected Line Change"] -underline 19 -command [list gui::show_difference_line_change {} 1]
+    launcher::register [msgcat::mc "Find Menu: Show selected line change"] [list gui::show_difference_line_change {} 1]
+
+    $mb add separator
+
+    $mb add cascade -label [msgcat::mc "Markers"] -underline 5 -menu [menu $mb.markerPopup -tearoff 0 -postcommand [list menus::find_marker_posting $mb.markerPopup]]
+
+    $mb add separator
+
+    $mb add command -label [msgcat::mc "Find Matching Pair"] -underline 5 -command [list gui::show_match_pair {}]
+    launcher::register [msgcat::mc "Find Menu: Find matching character pair"] [list gui::show_match_pair {}]
+
+    $mb add separator
+
+    $mb add command -label [msgcat::mc "Find In Files"] -underline 5 -command [list search::fif_start]
+    launcher::register [msgcat::mc "Find Menu: Find in files"] [list search::fif_start]
 
     # Add marker popup launchers
-    launcher::register [msgcat::mc "Find Menu: Create marker at current line"] "gui::create_current_marker {}"
-    launcher::register [msgcat::mc "Find Menu: Remove marker from current line"] "gui::remove_current_marker {}"
-    launcher::register [msgcat::mc "Find Menu: Remove all markers"] "gui::remove_all_markers {}"
+    launcher::register [msgcat::mc "Find Menu: Create marker at current line"]   [list gui::create_current_marker {}]
+    launcher::register [msgcat::mc "Find Menu: Remove marker from current line"] [list gui::remove_current_marker {}]
+    launcher::register [msgcat::mc "Find Menu: Remove all markers"]              [list gui::remove_all_markers {}]
 
   }
 
@@ -1431,6 +1455,19 @@ namespace eval menus {
   proc find_all_command {} {
 
     search::find_all [gui::current_txt {}]
+
+  }
+
+  ######################################################################
+  # Jumps to a line that is entered by the user.
+  proc jump_to_line {} {
+
+    set linenum ""
+
+    # Get the line number from the user
+    if {[gui::get_user_response [format "%s:" [msgcat::mc "Line Number"]] linenum 0] && [string is integer $linenum]} {
+      edit::jump_to_line [gui::current_txt {}].t $linenum.0
+    }
 
   }
 

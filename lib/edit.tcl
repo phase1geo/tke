@@ -401,6 +401,31 @@ namespace eval edit {
   }
 
   ######################################################################
+  # Saves the given selection to the specified filename.  If overwrite
+  # is set to 1, the file will be written regardless of whether the file
+  # already exists; otherwise, a message will be displayed that the file
+  # already exists and the operation will end.
+  proc save_selection {txt from to overwrite fname} {
+
+    if {!$overwrite && [file exists $fname]} {
+      [ns gui]::set_info_message [format "%s (%s)" [msgcat::mc "Filename already exists"] $fname]
+      return 0
+    } else {
+      if {[catch { open $fname w } rc]} {
+        [ns gui]::set_info_message [format "%s %s" [msgcat::mc "Unable to write"] $fname]
+        return 0
+      } else {
+        puts $rc [$txt get $from $to]
+        close $rc
+        [ns gui]::set_info_message [format "%s (%s)" [msgcat::mc "File successfully written"] $fname]
+      }
+    }
+
+    return 1
+
+  }
+
+  ######################################################################
   # Comments out the currently selected text.
   proc comment {tid} {
 
@@ -688,6 +713,21 @@ namespace eval edit {
 
     # Perform the insertion
     gui::insert_numbers $txt
+
+  }
+
+  ######################################################################
+  # Jumps to the given line number.
+  proc jump_to_line {txt linenum} {
+
+    # Set the insertion cursor to the given line number
+    $txt mark set insert $linenum
+
+    # Adjust the insertion cursor
+    [ns vim]::adjust_insert $txt
+
+    # Make the cursor visible
+    $txt see insert
 
   }
 
