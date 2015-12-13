@@ -932,8 +932,7 @@ namespace eval vim {
 
     if {($mode($txt) eq "start") || ([string range $mode($txt) 0 5] eq "visual")} {
       if {($mode($txt) eq "start") && ($num eq "0") && ($number($txt) eq "")} {
-        $txt mark set insert "insert linestart"
-        $txt see insert
+        [ns edit]::move_cursor $txt linestart
       } else {
         append number($txt) $num
         record_start
@@ -986,6 +985,7 @@ namespace eval vim {
     variable mode
 
     if {$mode($txt) eq "start"} {
+      [ns edit]::move_cursor $txt lineend
       $txt mark set insert "insert lineend-1c"
       $txt see insert
       return 1
@@ -1179,8 +1179,7 @@ namespace eval vim {
 
     if {$mode($txt) eq "start"} {
       if {[[ns multicursor]::enabled $txt]} {
-        $txt tag remove sel 1.0 end
-        [ns multicursor]::adjust $txt "+1l"
+        [ns edit]::move_cursors $txt "+1l"
       } else {
         [ns edit]::transform_join_lines $txt $number($txt)
         record "Key-J"
@@ -1230,9 +1229,8 @@ namespace eval vim {
     variable mode
 
     if {$mode($txt) eq "start"} {
-      $txt tag remove sel 1.0 end
       if {[[ns multicursor]::enabled $txt]} {
-        [ns multicursor]::adjust $txt "-1l"
+        [ns edit]::move_cursors $txt "-1l"
       }
       return 1
     }
@@ -1284,12 +1282,9 @@ namespace eval vim {
 
     if {($mode($txt) eq "start") || ([string range $mode($txt) 0 5] eq "visual")} {
       if {[[ns multicursor]::enabled $txt]} {
-        $txt tag remove sel 1.0 end
-        [ns multicursor]::adjust $txt "+1c"
+        [ns edit]::move_cursors $txt "+1c"
       } elseif {$mode($txt) eq "start"} {
-        $txt mark set insert @0,[winfo height $txt]
-        adjust_insert $txt
-        $txt see insert
+        [ns edit]::move_cursor $txt screenbot $number($txt)
       }
       return 1
     }
@@ -1408,63 +1403,14 @@ namespace eval vim {
 
     if {($mode($txt) eq "start") || ([string range $mode($txt) 0 5] eq "visual")} {
       if {[[ns multicursor]::enabled $txt]} {
-        $txt tag remove sel 1.0 end
-        [ns multicursor]::adjust $txt "-1c"
+        [ns edit]::move_cursors $txt "-1c"
       } else {
-        $txt mark set insert @0,0
-        adjust_insert $txt
-        $txt see insert
+        [ns edit]::move_cursor $txt screentop $number($txt)
       }
       return 1
     }
 
     return 0
-
-  }
-
-  ######################################################################
-  # Returns the index of the beginning next/previous word.  If num is
-  # given a value > 1, the procedure will return the beginning index of
-  # the next/previous num'th word.  If no word was found, return the index
-  # of the current word.
-  proc get_word {txt dir {num 1} {start insert}} {
-
-    # If the direction is 'next', search forward
-    if {$dir eq "next"} {
-
-      # Get the end of the current word (this will be the beginning of the next word)
-      set curr_index [$txt index "$start wordend"]
-
-      # Use a brute-force method of finding the next word
-      while {[$txt compare $curr_index < end]} {
-        if {![string is space [$txt get $curr_index]]} {
-          if {[incr num -1] == 0} {
-            return [$txt index "$curr_index wordstart"]
-          }
-        }
-        set curr_index [$txt index "$curr_index wordend"]
-      }
-
-      return [$txt index "$curr_index wordstart"]
-
-    } else {
-
-      # Get the index of the current word
-      set curr_index [$txt index "$start wordstart"]
-
-      while {[$txt compare $curr_index > 1.0]} {
-        if {![string is space [$txt get $curr_index]] && \
-             [$txt compare $curr_index != $start]} {
-          if {[incr num -1] == 0} {
-            return $curr_index
-          }
-        }
-        set curr_index [$txt index "$curr_index-1c wordstart"]
-      }
-
-      return $curr_index
-
-    }
 
   }
 
@@ -1477,14 +1423,7 @@ namespace eval vim {
     variable number
 
     if {($mode($txt) eq "start") || ([string range $mode($txt) 0 5] eq "visual")} {
-      $txt tag remove sel 1.0 end
-      if {$number($txt) ne ""} {
-        $txt mark set insert [get_word $txt prev $number($txt)]
-      } else {
-        $txt mark set insert [get_word $txt prev]
-      }
-      adjust_insert $txt
-      $txt see insert
+      [ns edit]::move_cursor $txt prevword $number($txt)
       return 1
     }
 
@@ -1548,14 +1487,7 @@ namespace eval vim {
     variable number
 
     if {($mode($txt) eq "start") || ([string range $mode($txt) 0 5] eq "visual")} {
-      $txt tag remove sel 1.0 end
-      if {$number($txt) ne ""} {
-        $txt mark set insert [get_word $txt next $number($txt)]
-      } else {
-        $txt mark set insert [get_word $txt next]
-      }
-      adjust_insert $txt
-      $txt see insert
+      [ns edit]::move_cursor $txt nextword $number($txt)
       return 1
     } elseif {$mode($txt) eq "change"} {
       if {($number($txt) ne "") && ($number($txt) > 1)} {
@@ -1596,13 +1528,7 @@ namespace eval vim {
     variable number
 
     if {($mode($txt) eq "start") || ([string range $mode($txt) 0 5] eq "visual")} {
-      if {$number($txt) ne ""} {
-        $txt mark set insert [get_linenum $txt $number($txt)]
-      } else {
-        $txt mark set insert "end linestart"
-      }
-      adjust_insert $txt
-      $txt see insert
+      [ns edit]::move_cursor $txt last $number($txt)
       return 1
     }
 
@@ -2209,8 +2135,7 @@ namespace eval vim {
     variable mode
 
     if {($mode($txt) eq "start") || ([string range $mode($txt) 0 5] eq "visual")} {
-      eval [string map {%W $txt} [bind Text <Next>]]
-      adjust_insert $txt
+      [ns edit]::move_cursor_by_page $txt next
       record "Control-f"
       return 1
     }
@@ -2226,8 +2151,7 @@ namespace eval vim {
     variable mode
 
     if {($mode($txt) eq "start") || ([string range $mode($txt) 0 5] eq "visual")} {
-      eval [string map {%W $txt} [bind Text <Prior>]]
-      adjust_insert $txt
+      [ns edit]::move_cursor_by_page $txt prior
       record "Control-b"
       return 1
     }
@@ -2564,8 +2488,7 @@ namespace eval vim {
     variable mode
 
     if {($mode($txt) eq "start") || ([string range $mode($txt) 0 5] eq "visual")} {
-      $txt mark set insert @0,[expr [winfo height $txt] / 2]
-      adjust_insert $txt
+      [ns edit]::move_cursor $txt screenmid $number($txt)
       return 1
     }
 
