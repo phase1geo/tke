@@ -2537,23 +2537,6 @@ namespace eval vim {
   }
 
   ######################################################################
-  # Converts a character-by-character case inversion of the given text.
-  proc convert_case {txt index str} {
-
-    set strlen [string length $str]
-
-    for {set i 0} {$i < $strlen} {incr i} {
-      set char [string index $str $i]
-      append newstr [expr {[string is lower $char] ? [string toupper $char] : [string tolower $char]}]
-    }
-
-    $txt replace $index "$index+${strlen}c" $newstr
-
-    adjust_insert $txt
-
-  }
-
-  ######################################################################
   # If we are in "start" mode, change the case of the current character.
   proc handle_asciitilde {txt tid} {
 
@@ -2561,15 +2544,8 @@ namespace eval vim {
     variable number
 
     if {($mode($txt) eq "start") || ([string range $mode($txt) 0 5] eq "visual")} {
-      if {[llength [set sel_ranges [$txt tag ranges sel]]] > 0} {
-        foreach {endpos startpos} [lreverse $sel_ranges] {
-          convert_case $txt $startpos [$txt get $startpos $endpos]
-        }
-      } else {
-        set num_chars [expr {($number($txt) ne "") ? $number($txt) : 1}]
-        set str       [string range [$txt get insert "insert lineend"] 0 [expr $num_chars - 1]]
-        convert_case $txt insert $str
-      }
+      [ns edit]::transform_toggle_case $txt $number($txt)
+      adjust_insert $txt
       if {[string range $mode($txt) 0 5] eq "visual"} {
         start_mode $txt
       }
