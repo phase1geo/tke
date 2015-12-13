@@ -240,6 +240,14 @@ namespace eval menus {
     $mb add cascade -label [msgcat::mc "Open Favorite"] -menu [menu $mb.favorites -tearoff false -postcommand [list menus::file_favorites_posting $mb.favorites]]
     launcher::register [msgcat::mc "File Menu: Open Favorite"] favorites::launcher
 
+    $mb add command -label [msgcat::mc "Reopen File"] -underline 0 -command [list gui::update_current]
+    launcher::register [msgcat::mc "File Menu: Reopen current file"] [list gui::update_current]
+
+    $mb add separator
+
+    $mb add command -label [msgcat::mc "Change Working Directory"] -underline 0 -command [list menus::change_working_directory]
+    launcher::register [msgcat::mc "File Menu: Change working directory"] [list menus::change_working_directory]
+
     $mb add separator
 
     $mb add command -label [msgcat::mc "Show File Difference"] -underline 3 -command [list menus::show_file_diff]
@@ -296,6 +304,9 @@ namespace eval menus {
       # Get the current filename
       set fname [gui::get_file_info $file_index fname]
 
+      # Get untitled status
+      set untitled [expr {$fname eq "Untitled"}]
+
       # Get the current readonly status
       set readonly [gui::get_file_info $file_index readonly]
 
@@ -329,7 +340,8 @@ namespace eval menus {
       }
 
       # Make sure that the file-specific items are enabled
-      $mb entryconfigure [msgcat::mc "Show File Difference"] -state [expr {($fname ne "") ? "normal" : "disabled"}]
+      $mb entryconfigure [msgcat::mc "Reopen File"]          -state [expr {$untitled ? "disabled" : "normal"}]
+      $mb entryconfigure [msgcat::mc "Show File Difference"] -state [expr {$untitled ? "disabled" : "normal"}]
       $mb entryconfigure [msgcat::mc "Save"]                 -state normal
       $mb entryconfigure [msgcat::mc "Save As..."]           -state normal
       $mb entryconfigure [msgcat::mc "Save Selection As..."] -state [expr {[gui::selected {}] ? "normal" : "disabled"}]
@@ -340,6 +352,7 @@ namespace eval menus {
     } else {
 
       # Disable file menu items associated with current tab (since one doesn't currently exist)
+      $mb entryconfigure [msgcat::mc "Reopen File"]          -state disabled
       $mb entryconfigure [msgcat::mc "Show File Difference"] -state disabled
       $mb entryconfigure [msgcat::mc "Save"]                 -state disabled
       $mb entryconfigure [msgcat::mc "Save As..."]           -state disabled
@@ -470,6 +483,16 @@ namespace eval menus {
 
     if {[set odir [tk_chooseDirectory -parent . -initialdir $dirname -mustexist 1]] ne ""} {
       sidebar::add_directory $odir
+    }
+
+  }
+
+  ######################################################################
+  # Change the current working directory to a specified value.
+  proc change_working_directory {} {
+
+    if {[set dir [tk_chooseDirectory -parent . -initialdir [pwd] -mustexist 1]] ne ""} {
+      gui::change_working_directory $dir
     }
 
   }

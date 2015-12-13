@@ -4595,5 +4595,18 @@ namespace eval gui {
 
   }
 
+  ######################################################################
+  # Change the current working directory to the specified direction and
+  # update the title bar.
+  proc change_working_directory {dir} {
+
+    # Change the current working directory to dir
+    cd $dir
+
+    # Update the title
+    set_title
+
+  }
+
 }
 
