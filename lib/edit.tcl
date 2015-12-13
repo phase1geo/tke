@@ -500,14 +500,6 @@ namespace eval edit {
   }
 
   ######################################################################
-  # Refreshes the current file contents.
-  proc file_refresh {} {
-
-    # TBD
-
-  }
-
-  ######################################################################
   # Saves the given selection to the specified filename.  If overwrite
   # is set to 1, the file will be written regardless of whether the file
   # already exists; otherwise, a message will be displayed that the file
@@ -835,6 +827,118 @@ namespace eval edit {
 
     # Make the cursor visible
     $txt see insert
+
+  }
+
+  ######################################################################
+  # Returns the index of the beginning next/previous word.  If num is
+  # given a value > 1, the procedure will return the beginning index of
+  # the next/previous num'th word.  If no word was found, return the index
+  # of the current word.
+  proc get_word {txt dir {num 1} {start insert}} {
+
+    # If the direction is 'next', search forward
+    if {$dir eq "next"} {
+
+      # Get the end of the current word (this will be the beginning of the next word)
+      set curr_index [$txt index "$start wordend"]
+
+      # Use a brute-force method of finding the next word
+      while {[$txt compare $curr_index < end]} {
+        if {![string is space [$txt get $curr_index]]} {
+          if {[incr num -1] == 0} {
+            return [$txt index "$curr_index wordstart"]
+          }
+        }
+        set curr_index [$txt index "$curr_index wordend"]
+      }
+
+      return [$txt index "$curr_index wordstart"]
+
+    } else {
+
+      # Get the index of the current word
+      set curr_index [$txt index "$start wordstart"]
+
+      while {[$txt compare $curr_index > 1.0]} {
+        if {![string is space [$txt get $curr_index]] && \
+             [$txt compare $curr_index != $start]} {
+          if {[incr num -1] == 0} {
+            return $curr_index
+          }
+        }
+        set curr_index [$txt index "$curr_index-1c wordstart"]
+      }
+
+      return $curr_index
+
+    }
+
+  }
+
+  ######################################################################
+  # Moves the cursor to a position that is specified by position and num.
+  # Valid values for position are:
+  # - first      First line in file
+  # - last       Last line in file
+  # - nextword   Beginning of next word
+  # - prevword   Beginning of previous word
+  # - linestart  Start of current line
+  # - lineend    End of current line
+  # - screentop  Top of current screen
+  # - screenmid  Middle of current screen
+  # - screenbot  Bottom of current screen
+  proc move_cursor {txt position {num ""}} {
+
+    # Clear the selection
+    $txt tag remove sel 1.0 end
+
+    # Get the new cursor position
+    switch $position {
+      first     { set index "1.0" }
+      last      { set index "end" }
+      nextword  { set index [get_word $txt next [expr {($num eq "") ? 1 : $num}]] }
+      prevword  { set index [get_word $txt prev [expr {($num eq "") ? 1 : $num}]] }
+      linestart { set index "insert linestart" }
+      lineend   { set index "insert lineend-1c" }
+      screentop { set index "@0,0" }
+      screenmid { set index "@0,[expr [winfo height $txt] / 2]" }
+      screenbot { set index "@0,[winfo height $txt]" }
+      default   { set index insert }
+    }
+
+    # Set the insertion position and make it visible
+    $txt mark set insert $index
+    $txt see $index
+
+    # Adjust the insertion cursor in Vim mode
+    [ns vim]::adjust_insert $txt
+
+  }
+
+  ######################################################################
+  # Moves the cursor up/down by a single page.  Valid values for dir are:
+  # - Next
+  # - Prior
+  proc move_cursor_by_page {txt dir} {
+
+    # Adjust the view
+    eval [string map {%W $txt} [bind Text <[string totitle $dir]>]]
+
+    # Adjust the insertion cursor in Vim mode
+    [ns vim]::adjust_insert $txt
+
+  }
+
+  ######################################################################
+  # Moves multicursors in the modifier direction for the given text widget.
+  proc move_cursors {txt modifier} {
+
+    # Clear the selection
+    $txt tag remove sel 1.0 end
+
+    # Adjust the cursors
+    [ns multicursor]::adjust $txt $modifier
 
   }
 

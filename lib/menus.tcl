@@ -741,10 +741,61 @@ namespace eval menus {
     # Populate cursor menu
     ######################
 
+    $mb.cursorPopup add command -label [msgcat::mc "Move to First Line"] -command [list menus::edit_cursor_move first]
+    launcher::register [msgcat::mc "Edit Menu: Move cursor to first line"] [list menus::edit_cursor_move first]
+
+    $mb.cursorPopup add command -label [msgcat::mc "Move to Last Line"] -command [list menus::edit_cursor_move last]
+    launcher::register [msgcat::mc "Edit Menu: Move cursor to last line"] [list menus::edit_cursor_move last]
+
+    $mb.cursorPopup add command -label [msgcat::mc "Move to Next Page"] -command [list menus::edit_cursor_move_by_page next]
+    launcher::register [msgcat::mc "Edit Menu: Move cursor to next page"] [list menus::edit_cursor_move_by_page next]
+
+    $mb.cursorPopup add command -label [msgcat::mc "Move to Previous Page"] -command [list menus::edit_cursor_move_by_page prior]
+    launcher::register [msgcat::mc "Edit Menu: Move cursor to previous page"] [list menus::edit_cursor_move_by_page prior]
+
     $mb.cursorPopup add separator
 
-    $mb.cursorPopup add command -label [msgcat::mc "Align Cursors"] -underline 0 -command [list edit::align_cursors {}]
-    launcher::register [msgcat::mc "Text Menu: Align cursors"] [list edit::align_cursors {}]
+    $mb.cursorPopup add command -label [msgcat::mc "Move to Screen Top"] -command [list menus::edit_cursor_move screentop]
+    launcher::register [msgcat::mc "Edit Menu: Move cursor to top of screen"] [list menus::edit_cursor_move screentop]
+
+    $mb.cursorPopup add command -label [msgcat::mc "Move to Screen Middle"] -command [list menus::edit_cursor_move screenmid]
+    launcher::register [msgcat::mc "Edit Menu: Move cursor to middle of screen"] [list menus::edit_cursor_move screenmid]
+
+    $mb.cursorPopup add command -label [msgcat::mc "Move to Screen Bottom"] -command [list menus::edit_cursor_move screenbot]
+    launcher::register [msgcat::mc "Edit Menu: Move cursor to bottom of screen"] [list menus::edit_cursor_move screenbot]
+
+    $mb.cursorPopup add separator
+
+    $mb.cursorPopup add command -label [msgcat::mc "Move to Line Start"] -command [list menus::edit_cursor_move linestart]
+    launcher::register [msgcat::mc "Edit Menu: Move cursor to start of current line"] [list menus::edit_cursor_move linestart]
+
+    $mb.cursorPopup add command -label [msgcat::mc "Move to Line End"] -command [list menus::edit_cursor_move lineend]
+    launcher::register [msgcat::mc "Edit Menu: Move cursor to end of current line"] [list menus::edit_cursor_move lineend]
+
+    $mb.cursorPopup add command -label [msgcat::mc "Move to Next Word"] -command [list menus::edit_cursor_move nextword]
+    launcher::register [msgcat::mc "Edit Menu: Move cursor to next word"] [list menus::edit_cursor_move nextword]
+
+    $mb.cursorPopup add command -label [msgcat::mc "Move to Previous Word"] -command [list menus::edit_cursor_move prevword]
+    launcher::register [msgcat::mc "Edit Menu: Move cursor to previous word"] [list menus::edit_cursor_move prevword]
+
+    $mb.cursorPopup add separator
+
+    $mb.cursorPopup add command -label [msgcat::mc "Move Cursors Up"] -command [list menus::edit_cursors_move "-1l"]
+    launcher::register [msgcat::mc "Edit Menu: Move multicursors up one line"] [list menus::edit_cursors_move "-1l"]
+
+    $mb.cursorPopup add command -label [msgcat::mc "Move Cursors Down"] -command [list menus::edit_cursors_move "+1l"]
+    launcher::register [msgcat::mc "Edit Menu: Move multicursors down one line"] [list menus::edit_cursors_move "+1l"]
+
+    $mb.cursorPopup add command -label [msgcat::mc "Move Cursors Left"] -command [list menus::edit_cursors_move "-1c"]
+    launcher::register [msgcat::mc "Edit Menu: Move multicursors left one line"] [list menus::edit_cursors_move "-1c"]
+
+    $mb.cursorPopup add command -label [msgcat::mc "Move Cursors Right"] -command [list menus::edit_cursors_move "+1c"]
+    launcher::register [msgcat::mc "Edit Menu: Move multicursors right one line"] [list menus::edit_cursors_move "+1c"]
+
+    $mb.cursorPopup add separator
+
+    $mb.cursorPopup add command -label [msgcat::mc "Align Cursors"] -command [list edit::align_cursors {}]
+    launcher::register [msgcat::mc "Edit Menu: Align cursors"] [list edit::align_cursors {}]
 
     #########################
     # Populate insertion menu
@@ -1009,15 +1060,34 @@ namespace eval menus {
   proc edit_cursor_posting {mb} {
 
     set mstate "disabled"
+    set sstate "disabled"
 
     # Get the current text widget
     if {[set txt [gui::current_txt {}]] ne ""} {
       if {[multicursor::enabled $txt]} {
         set mstate "normal"
+      } else {
+        set sstate "normal"
       }
     }
 
-    $mb entryconfigure [msgcat::mc "Align Cursors"] -state $mstate
+    $mb entryconfigure [msgcat::mc "Move to First Line"]    -state $sstate
+    $mb entryconfigure [msgcat::mc "Move to Last Line"]     -state $sstate
+    $mb entryconfigure [msgcat::mc "Move to Next Page"]     -state $sstate
+    $mb entryconfigure [msgcat::mc "Move to Previous Page"] -state $sstate
+    $mb entryconfigure [msgcat::mc "Move to Screen Top"]    -state $sstate
+    $mb entryconfigure [msgcat::mc "Move to Screen Middle"] -state $sstate
+    $mb entryconfigure [msgcat::mc "Move to Screen Bottom"] -state $sstate
+    $mb entryconfigure [msgcat::mc "Move to Line Start"]    -state $sstate
+    $mb entryconfigure [msgcat::mc "Move to Line End"]      -state $sstate
+    $mb entryconfigure [msgcat::mc "Move to Next Word"]     -state $sstate
+    $mb entryconfigure [msgcat::mc "Move to Previous Word"] -state $sstate
+
+    $mb entryconfigure [msgcat::mc "Move Cursors Up"]       -state $mstate
+    $mb entryconfigure [msgcat::mc "Move Cursors Down"]     -state $mstate
+    $mb entryconfigure [msgcat::mc "Move Cursors Left"]     -state $mstate
+    $mb entryconfigure [msgcat::mc "Move Cursors Right"]    -state $mstate
+    $mb entryconfigure [msgcat::mc "Align Cursors"]         -state $mstate
 
   }
 
@@ -1145,6 +1215,50 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Edit Language"] -state disabled
     } else {
       $mb entryconfigure [msgcat::mc "Edit Language"] -state normal
+    }
+
+  }
+
+  ######################################################################
+  # Moves the current cursor by the given modifier for the current
+  # text widget.
+  proc edit_cursor_move {modifier} {
+
+    # Get the current text widget
+    set txt [gui::current_txt {}]
+
+    # Move the cursor if we are not in multicursor mode
+    if {![multicursor::enabled $txt]} {
+      edit::move_cursor $txt $modifier
+    }
+
+  }
+
+  ######################################################################
+  # Moves the current cursor by the given page direction for the current
+  # text widget.
+  proc edit_cursor_move_by_page {dir} {
+
+    # Get the current text widget
+    set txt [gui::current_txt {}]
+
+    # Move the cursor if we are not in multicursor mode
+    if {![multicursor::enabled $txt]} {
+      edit::move_cursor_by_page $txt $dir
+    }
+
+  }
+
+  ######################################################################
+  # Moves multicursors
+  proc edit_cursors_move {modifier} {
+
+    # Get the current text widget
+    set txt [gui::current_txt {}]
+
+    # If we are in multicursor mode, move the cursors in the direction given by modifier
+    if {[multicursor::enabled $txt]} {
+      edit::move_cursors [gui::current_txt {}].t $modifier
     }
 
   }
