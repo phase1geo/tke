@@ -99,20 +99,19 @@ namespace eval markers {
 
   ######################################################################
   # Returns all of the marker names.
-  proc get_all_names {txt} {
+  proc get_markers {{txt "*"}} {
 
     variable markers
 
-    # Figure out the starting character
-    set start [expr [string length $txt] + 1]
+    set data [list]
 
-    # Get the list of names
-    set names [list]
-    foreach name [array names markers $txt,*] {
-      lappend names [string range $name $start end]
+    # Get the list of all names
+    foreach key [array names markers $txt,*] {
+      set name [join [lassign [split $key ,] txt] ,]
+      lappend data $name $txt [lindex [$txt tag ranges $markers($key)] 0]
     }
 
-    return [lsort -dictionary $names]
+    return $data
 
   }
 

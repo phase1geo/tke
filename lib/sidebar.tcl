@@ -457,7 +457,7 @@ namespace eval sidebar {
 
     switch $attr {
       fname      { return [$widgets(tl) cellcget $index,name -text] }
-      file_index { return [gui::get_file_index [$widgets(tl) cellcget $index,name -text]]}
+      file_index { return [gui::get_file_index_by_fname [$widgets(tl) cellcget $index,name -text]]}
       default    {
         return -code error "Illegal sidebar attribute specified ($attr)"
       }
