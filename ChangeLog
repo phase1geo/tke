@@ -1,62 +1,138 @@
-changeset:   1566:18f87caad1e2
-tag:         devel-2.0.1
+changeset:   1573:4f991678d1a6
+tag:         devel-2.0.2
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Dec 08 22:41:37 2015 -0600
+date:        Thu Dec 10 01:27:33 2015 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.0.1 release
+ChangeLog for devel-2.0.2 release
 
 
-changeset:   1567:5a776c7f6756
+changeset:   1574:38dcaf02edc6
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Dec 08 22:41:41 2015 -0600
+date:        Thu Dec 10 01:27:40 2015 -0600
 files:       .hgtags
 description:
-Added tag devel-2.0.1 for changeset 18f87caad1e2
+Added tag devel-2.0.2 for changeset 4f991678d1a6
 
 
-changeset:   1568:2c4208a4b90d
+changeset:   1575:7a7cbc62ae40
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Dec 09 19:04:51 2015 -0600
-files:       lib/edit.tcl lib/version.tcl
+date:        Thu Dec 10 13:00:29 2015 -0600
+files:       lib/ptwidgets1.2/library/tabbar.tcl lib/version.tcl
 description:
-* Fixing issue with deleting multiple lines in Vim mode.
+* Adding -activeforeground and -inactiveforeground support to tabbar widget.
 
 
-changeset:   1569:619c31bfad45
+changeset:   1576:8439570f6ac0
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Dec 09 19:25:45 2015 -0600
+date:        Thu Dec 10 14:51:57 2015 -0600
+files:       lib/theme.tcl lib/version.tcl
+description:
+* Adding tabs,-activeforeground and tabs,-inactiveforeground settings to theme.
+
+
+changeset:   1577:6c7b010c6531
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Dec 10 22:58:13 2015 -0600
+files:       MacOSX/Tke.app/Contents/Info.plist MacOSX/Tke.app/Contents/Resources/Scripts/AppMain.tcl lib/menus.tcl lib/version.tcl
+description:
+* Updating Info.plist release from 2.0 to 2.1.
+* Adding -n option to AppMain.tcl
+* Adding "New Window" to File menu.
+
+
+changeset:   1578:c86f843efd57
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Dec 11 22:05:23 2015 -0600
+files:       MacOSX/Tke.app/Contents/Resources/Scripts/AppMain.tcl lib/menus.tcl lib/tke.tcl lib/version.tcl
+description:
+* Fixing "New Window" functionality.
+* Adding -nosb functionality back.
+* Removing Sessions/Open menu.
+
+
+changeset:   1579:a95c81d10902
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Dec 12 11:55:58 2015 -0600
+files:       data/bindings/menu_bindings.aqua.tkedat data/bindings/menu_bindings.classic.tkedat data/bindings/menu_bindings.win32.tkedat data/bindings/menu_bindings.x11.tkedat lib/edit.tcl lib/gui.tcl lib/indent.tcl lib/menus.tcl lib/search.tcl lib/sidebar.tcl lib/texttools.tcl lib/theme.tcl lib/tke.tcl lib/version.tcl
+description:
+* Removing Text menu and merging its contents into the enhanced Edit menu.
+* Updating all default menu binding files.
+* Removing texttools.tcl and merging its content into the edit namespace.
+* Creating new Edit/Indentation menu and adding indent mode bits into it.
+* Removing Edit/Indent Mode menu.
+* Adding menu posting code for Edit/Transform menu.
+* Improving Find in Files performance by removing binary files from consideration.
+* Improving menu theming to avoid theming the main menu on Mac OS X.
+* Code cleanup.
+
+
+changeset:   1580:4d73e07a2698
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Dec 12 20:22:17 2015 -0600
 files:       lib/edit.tcl lib/menus.tcl lib/version.tcl lib/vim.tcl
 description:
-* Adding "Delete between character" Edit/Delete menu item.
+* Adding "Save Selection As..." menu item to File menu.
+* Adding "Jump To Line" menu item to Find menu.
+* Code cleanup.
 
 
-changeset:   1570:6bb66acd06a6
+changeset:   1581:e8fc428255b9
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Dec 09 21:59:29 2015 -0600
+date:        Sat Dec 12 21:32:17 2015 -0600
+files:       lib/gui.tcl lib/menus.tcl lib/version.tcl lib/vim.tcl
+description:
+* Adding "Reload File" menu item to File menu.
+* Adding "Change Working Directory" menu item to File menu.
+
+
+changeset:   1582:7348e0f386f2
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Dec 12 23:40:45 2015 -0600
 files:       lib/edit.tcl lib/menus.tcl lib/version.tcl lib/vim.tcl
 description:
-* Adding "Delete current word" Edit/Delete menu option.
-* Adding number and whitespace deleted text to clipboard.
-* Adding delete between character text to clipboard.
-* Adding "Join Lines" to Edit/Transform menu.
-* Adding "Bubble Up/Down" to Edit/Transform menu.
+* Adding "Toggle Case" menu option to Edit menu.
+* Adding "Lower Case" menu option to Edit menu.
+* Adding "Upper Case" menu option to Edit menu.
+* Adding "Title Case" menu option to Edit menu.
 
 
-changeset:   1571:afa5ab026c04
+changeset:   1583:8ed2a4700fa4
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Dec 10 00:00:43 2015 -0600
-files:       lib/menus.tcl lib/version.tcl
+date:        Sun Dec 13 01:33:44 2015 -0600
+files:       lib/edit.tcl lib/menus.tcl lib/version.tcl lib/vim.tcl
 description:
-* Adding "Display Text Info" View menu item.
+* Adding "Move to First Line" cursor menu option.
+* Adding "Move to Last Line" cursor menu option.
+* Adding "Move to Next Page" cursor menu option.
+* Adding "Move to Previous Page" cursor menu option.
+* Adding "Move to Screen Top" cursor menu option.
+* Adding "Move to Screen Middle" cursor menu option.
+* Adding "Move to Screen Bottom" cursor menu option.
+* Adding "Move to Line Start" cursor menu option.
+* Adding "Move to Line End" cursor menu option.
+* Adding "Move to Next Word" cursor menu option.
+* Adding "Move to Previous Word" cursor menu option.
 
 
-changeset:   1572:43243758e291
+changeset:   1584:f681cc1bb937
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Dec 13 20:30:16 2015 -0600
+files:       lib/gui.tcl lib/launcher.tcl lib/markers.tcl lib/menus.tcl lib/sidebar.tcl lib/version.tcl
+description:
+* Renaming get_file_index with fname input to get_file_index_by_fname to avoid confusion.
+* Renaming get_file_index with tab input to get_file_index_by_tab to avoid confusion.
+* Changing markers to allow the user to switch to a marker in another file (marker names now show file info as well).
+
+
+changeset:   1585:a39b166e39d5
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Dec 10 01:25:03 2015 -0600
-files:       lib/edit.tcl lib/version.tcl
+date:        Sun Dec 13 23:55:10 2015 -0600
+files:       lib/gui.tcl lib/search.tcl lib/utils.tcl lib/version.tcl
 description:
-* Adding ability to join selected lines (even if lines are not contiguous).
+* Fixing issue with utils::stacktrace procedure.
+* Adding support for value substitutions in find/replace regular expression handling.
+* Fixing issue with saving an untitled buffer with a name in the Vim command field.
 
 
