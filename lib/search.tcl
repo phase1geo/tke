@@ -239,9 +239,6 @@ namespace eval search {
     # Clear the selection
     $txt tag remove sel 1.0 end
 
-    # Escape any parenthesis in the search string
-    set search [string map {{(} {\(} {)} {\)}} $search]
-
     # Create regsub arguments
     set rs_args [list]
     if {$ignore_case} {
@@ -273,10 +270,10 @@ namespace eval search {
     # Get the number of indices
     set num_indices [llength $indices]
 
-    # Replace the text
+    # Replace the text (perform variable substitutions if necessary)
     for {set i 0} {$i < $num_indices} {incr i} {
       set index [lindex $indices $i]
-      $txt replace $index "$index+[lindex $lengths $i]c" $replace
+      $txt replace $index "$index+[lindex $lengths $i]c" [regsub $search [$txt get $index "$index+[lindex $lengths $i]c"] $replace]
     }
 
     if {$num_indices > 0} {

@@ -1227,7 +1227,7 @@ namespace eval gui {
     array set opts $args
 
     # Add the buffer
-    add_buffer $index "Untitled" [ns gui]::save_new_file {*}$args
+    add_buffer $index "Untitled" {eval [ns gui]::save_new_file $save_as} {*}$args
 
     # If the sidebar option was set to 1, set it now
     if {$opts(-sidebar)} {
@@ -1240,20 +1240,24 @@ namespace eval gui {
   ######################################################################
   # Save command for new files.  Changes buffer into a normal file
   # if the file was actually saved.
-  proc save_new_file {file_index} {
+  proc save_new_file {save_as file_index} {
 
     variable files
     variable files_index
 
     # Set the buffer state to 0 and clear the save command
-    if {[set sfile [prompt_for_save {}]] ne ""} {
+    if {$save_as ne ""} {
       lset files $file_index $files_index(buffer)   0
       lset files $file_index $files_index(save_cmd) ""
-      lset files $file_index $files_index(fname)    $sfile
+      return 1
+    } elseif {[set sfile [prompt_for_save]] ne ""} {
+      lset files $file_index $files_index(buffer)   0
+      lset files $file_index $files_index(save_cmd) ""
+      lset files $file_index $files_index(fname)    $save_as
       return 1
     }
 
-    return -code error "New file as not saved"
+    return -code error "New file was not saved"
 
   }
 
