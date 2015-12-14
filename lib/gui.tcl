@@ -77,7 +77,7 @@ namespace eval gui {
   ######################################################################
   # Returns the file index based on the given fname.  If the filename
   # was not found, return an index value of -1.
-  proc get_file_index {fname} {
+  proc get_file_index_by_fname {fname} {
 
     variable files
     variable files_index
@@ -778,8 +778,8 @@ namespace eval gui {
 
       # Add markers
       set finfo(markers) [list]
-      foreach mname [[ns markers]::get_all_names $txt] {
-        lappend finfo(markers) $mname [lindex [split [[ns markers]::get_index $txt $mname] .] 0]
+      foreach {mname txt pos} [[ns markers]::get_markers $txt] {
+        lappend finfo(markers) $mname [lindex [split $pos .] 0]
       }
 
       # Add diff data, if applicable
@@ -1917,7 +1917,7 @@ namespace eval gui {
   # Saves the tab if it needs to be saved.
   proc close_check_by_tabbar {tid w tab} {
 
-    return [close_check $tid [get_file_index $tab] 0 0]
+    return [close_check $tid [get_file_index_by_tab $tab] 0 0]
 
   }
 
@@ -1957,7 +1957,7 @@ namespace eval gui {
     set pw_current [lsearch [$widgets(nb_pw) panes] [winfo parent [winfo parent $w]]]
 
     # Get the file index
-    set index [get_file_index $tab]
+    set index [get_file_index_by_tab $tab]
 
     # Unhighlight the file in the file browser
     set diff [lindex $files $index $files_index(diff)]
@@ -2011,7 +2011,7 @@ namespace eval gui {
     lassign [pane_tb_index_from_tab $tab] pane tb tab_index
 
     # Get the file index
-    set index [get_file_index $tab]
+    set index [get_file_index_by_tab $tab]
 
     # Unhighlight the file in the file browser (if the file was not a difference view)
     set diff [lindex $files $index $files_index(diff)]
@@ -3227,7 +3227,7 @@ namespace eval gui {
     variable files_index
 
     # Get the full pathname to the current file
-    set fname [lindex $files [get_file_index $tab] $files_index(fname)]
+    set fname [lindex $files [get_file_index_by_tab $tab] $files_index(fname)]
 
     # Create the tooltip
     set tab_tip($W) $tab
@@ -3905,21 +3905,17 @@ namespace eval gui {
     variable pw_current
     variable txt_current
 
-    if {[winfo ismapped $txt]} {
+    # Get the tab
+    set tab [winfo parent [winfo parent [winfo parent [winfo parent $txt]]]]
 
-      # Get the tab
-      set tab [winfo parent [winfo parent [winfo parent [winfo parent $txt]]]]
+    # Set the current text widget to the value of txt
+    set txt_current($tab) [winfo parent $txt]
 
-      # Set the current text widget to the value of txt
-      set txt_current($tab) [winfo parent $txt]
+    # Get the current tab
+    set_current_tab $tab 1
 
-      # Get the current tab
-      set_current_tab $tab 1
-
-      # Handle any on_focusin events
-      [ns plugins]::handle_on_focusin $tab
-
-    }
+    # Handle any on_focusin events
+    [ns plugins]::handle_on_focusin $tab
 
   }
 
@@ -3996,14 +3992,14 @@ namespace eval gui {
     if {![info exists tab_current($pw_current)]} {
       return -1
     } else {
-      return [get_file_index $tab_current($pw_current)]
+      return [get_file_index_by_tab $tab_current($pw_current)]
     }
 
   }
 
   ######################################################################
   # Returns the index of the file list that pertains to the given file.
-  proc get_file_index {tab} {
+  proc get_file_index_by_tab {tab} {
 
     variable files
     variable files_index
@@ -4141,31 +4137,45 @@ namespace eval gui {
 
   ######################################################################
   # Returns the list of markers in the current text widget.
-  proc get_marker_list {tid} {
+  proc get_marker_list {} {
 
-    # Get the current text widget
-    set txt [current_txt $tid]
+    variable files
+    variable files_index
 
     # Create a list of marker names and index
     set markers [list]
-    foreach name [[ns markers]::get_all_names $txt] {
-      lappend markers $name [[ns markers]::get_index $txt $name]
+    foreach {name txt line} [[ns markers]::get_markers] {
+      set tab   [winfo parent [winfo parent [winfo parent $txt]]]
+      set index [get_file_index_by_tab $tab]
+      set fname [lindex $files $index $files_index(fname)]
+      lappend markers [list "[file tail $fname] - $name" $txt $line]
     }
 
-    return $markers
+    return [lsort -index 0 -dictionary $markers]
 
   }
 
   ######################################################################
-  # Jump to the given position.
+  # Jump to the given position in the current text widget.
   proc jump_to {tid pos} {
 
-    # Get the current text widget
-    set txt [current_txt $tid]
+    jump_to_txt [current_txt $tid]
 
-    # Set the current insertion marker and make it viewable.
+  }
+
+  ######################################################################
+  # Jump to the given position in the given text widget.
+  proc jump_to_txt {txt pos} {
+
+    # Change the current tab, if necessary
+    set_current_tab_from_txt $txt.t
+
+    # Make the line viewable
     $txt mark set insert $pos
     $txt see $pos
+
+    # Adjust the insert
+    [ns vim]::adjust_insert $txt.t
 
   }
 

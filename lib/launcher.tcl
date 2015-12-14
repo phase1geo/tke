@@ -638,7 +638,7 @@ namespace eval launcher {
             unregister * * 1
             set i 0
             foreach {procedure pos} [gui::get_symbol_list {}] {
-              lappend matches [register_temp "@$procedure" "gui::jump_to {} $pos" $procedure $i "" launcher::symbol_okay]
+              lappend matches [register_temp "@$procedure" [list gui::jump_to {} $pos] $procedure $i "" launcher::symbol_okay]
               incr i
             }
           }
@@ -647,8 +647,9 @@ namespace eval launcher {
           if {[llength [array names commands [get_command_name * launcher::marker_okay 1]]] == 0} {
             unregister * * 1
             set i 0
-            foreach {marker pos} [gui::get_marker_list {}] {
-              lappend matches [register_temp ",$marker" "gui::jump_to {} $pos" $marker $i "" launcher::marker_okay]
+            foreach marker [gui::get_marker_list] {
+              lassign $marker name txt pos
+              lappend matches [register_temp ",$marker" [list gui::jump_to_txt $txt $pos] $name $i "" launcher::marker_okay]
               incr i
             }
           }

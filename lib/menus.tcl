@@ -1603,17 +1603,17 @@ namespace eval menus {
     $mb delete 0 end
 
     # Populate the markerPopup menu
-    $mb add command -label [msgcat::mc "Create at Current Line"] -underline 0 -command "gui::create_current_marker {}"
+    $mb add command -label [msgcat::mc "Create at Current Line"]   -underline 0 -command [list gui::create_current_marker {}]
     $mb add separator
-    $mb add command -label [msgcat::mc "Remove From Current Line"] -underline 0 -command "gui::remove_current_marker {}"
-    $mb add command -label [msgcat::mc "Remove All Markers"] -underline 7 -command "gui::remove_all_markers {}"
+    $mb add command -label [msgcat::mc "Remove From Current Line"] -underline 0 -command [list gui::remove_current_marker {}]
+    $mb add command -label [msgcat::mc "Remove All Markers"]       -underline 7 -command [list gui::remove_all_markers {}]
 
-    if {[llength [set markers [gui::get_marker_list {}]]] > 0} {
+    if {[llength [set markers [gui::get_marker_list]]] > 0} {
       $mb add separator
-    }
-
-    foreach {marker pos} $markers {
-      $mb add command -label $marker -command "gui::jump_to {} $pos"
+      foreach marker $markers {
+        lassign $marker name txt pos
+        $mb add command -label $name -command [list gui::jump_to_txt $txt $pos]
+      }
     }
 
   }
