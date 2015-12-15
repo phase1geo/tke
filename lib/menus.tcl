@@ -708,7 +708,6 @@ namespace eval menus {
     $mb add cascade -label [msgcat::mc "Insert"]    -menu [menu $mb.insertPopup    -tearoff 0 -postcommand [list menus::edit_insert_posting $mb.insertPopup]]
     $mb add cascade -label [msgcat::mc "Delete"]    -menu [menu $mb.deletePopup    -tearoff 0 -postcommand [list menus::edit_delete_posting $mb.deletePopup]]
     $mb add cascade -label [msgcat::mc "Transform"] -menu [menu $mb.transformPopup -tearoff 0 -postcommand [list menus::edit_transform_posting $mb.transformPopup]]
-    $mb add cascade -label [msgcat::mc "Format"]    -menu [menu $mb.formatPopup    -tearoff 0 -postcommand [list menus::edit_format_posting $mb.formatPopup]]
 
     $mb add separator
 
@@ -725,6 +724,11 @@ namespace eval menus {
 
     $mb.indentPopup add command -label [msgcat::mc "Unindent"] -underline 1 -command [list edit::unindent {}]
     launcher::register [msgcat::mc "Edit Menu: Unindent selected text"] [list edit::unindent {}]
+
+    $mb.indentPopup add separator
+
+    $mb.indentPopup add command -label [msgcat::mc "Format Text"] -command [list gui::format_text {}]
+    launcher::register [msgcat::mc "Edit Menu: Format indentation for text"] [list gui::format_text {}]
 
     $mb.indentPopup add separator
 
@@ -901,16 +905,6 @@ namespace eval menus {
     $mb.transformPopup add command -label [msgcat::mc "Replace Line With Script"] -command [list edit::replace_line_with_script {}]
     launcher::register [msgcat::mc "Edit Menu: Replace line with script"] [list edit::replace_line_with_script {}]
 
-    ##########################
-    # Populate formatting menu
-    ##########################
-
-    $mb.formatPopup add command -label [msgcat::mc "Selected"] -command [list gui::format_text {} selected]
-    launcher::register [msgcat::mc "Edit Menu: Format selected text"] [list gui::format_text {} selected]
-
-    $mb.formatPopup add command -label [msgcat::mc "All"] -command [list gui::format_text {} all]
-    launcher::register [msgcat::mc "Edit Menu: Format all text"] [list gui::format_text {} selected]
-
     ###########################
     # Populate preferences menu
     ###########################
@@ -989,7 +983,6 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Toggle Comment"]   -state disabled
       $mb entryconfigure [msgcat::mc "Indentation"]      -state disabled
       $mb entryconfigure [msgcat::mc "Insert"]           -state disabled
-      $mb entryconfigure [msgcat::mc "Format"]           -state disabled
     } else {
       if {[gui::undoable {}]} {
         $mb entryconfigure [msgcat::mc "Undo"] -state normal
@@ -1026,7 +1019,6 @@ namespace eval menus {
         $mb entryconfigure [msgcat::mc "Delete"]    -state disabled
         $mb entryconfigure [msgcat::mc "Transform"] -state disabled
       }
-      $mb entryconfigure [msgcat::mc "Format"] -state normal
     }
 
   }
@@ -1167,19 +1159,6 @@ namespace eval menus {
     $mb entryconfigure [msgcat::mc "Whitespace Forward"]     -state $state
     $mb entryconfigure [msgcat::mc "Whitespace Backward"]    -state $state
     $mb entryconfigure [msgcat::mc "Text Between Character"] -state $state
-
-  }
-
-  ######################################################################
-  # Called just prior to posting the edit/format menu option.  Sets the
-  # menu option states to match the current UI state.
-  proc edit_format_posting {mb} {
-
-    if {[gui::selected {}]} {
-      $mb entryconfigure [msgcat::mc "Selected"] -state normal
-    } else {
-      $mb entryconfigure [msgcat::mc "Selected"] -state disabled
-    }
 
   }
 

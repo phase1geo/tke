@@ -2395,7 +2395,7 @@ namespace eval gui {
   ######################################################################
   # Formats either the selected text (if type is "selected") or the entire
   # file contents (if type is "all").
-  proc format_text {tid type} {
+  proc format_text {tid} {
 
     variable files
     variable files_index
@@ -2413,10 +2413,13 @@ namespace eval gui {
       $txt configure -state normal
     }
 
-    if {$type eq "selected"} {
+    # If any text is selected, format it
+    if {[llength [set selected [$txt tag ranges sel]]] > 0} {
       foreach {endpos startpos} [lreverse [$txt tag ranges sel]] {
         [ns indent]::format_text $txt.t $startpos $endpos
       }
+
+    # Otherwise, select the full file
     } else {
       [ns indent]::format_text $txt.t 1.0 end
     }
