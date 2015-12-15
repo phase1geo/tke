@@ -319,11 +319,11 @@ namespace eval search {
       foreach file $rsp(in) {
         if {[file isdirectory $file]} {
           foreach sfile [glob -nocomplain -directory $file -types {f r} *] {
-            if {![[ns sidebar]::ignore_file $sfile 0]} {
+            if {![[ns sidebar]::ignore_file $sfile 1]} {
               set files($sfile) 1
             }
           }
-        } elseif {![[ns sidebar]::ignore_file $file 0]} {
+        } elseif {![[ns sidebar]::ignore_file $file 1]} {
           set files($file) 1
         }
       }
