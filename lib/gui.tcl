@@ -889,12 +889,12 @@ namespace eval gui {
           if {[file exists $finfo(fname)]} {
             puts "Adding file $finfo(fname)"
             flush stdout
-            add_file end $finfo(fname) \
+            set tab [add_file end $finfo(fname) \
               -savecommand $finfo(savecommand) -lock $finfo(lock) -readonly $finfo(readonly) \
-              -diff $finfo(diff) -sidebar $finfo(sidebar) -lazy 1
-            set txt [current_txt $tid]
+              -diff $finfo(diff) -sidebar $finfo(sidebar) -lazy 1]
+            set txt [get_txt_from_tab $tab]
             if {[[ns syntax]::get_current_language $txt] ne $finfo(language)} {
-              [ns syntax]::set_language $finfo(language)
+              [ns syntax]::set_language $txt $finfo(language)
             }
             if {[info exists finfo(indent)]} {
               [ns indent]::set_indent_mode $tid $finfo(indent)
@@ -1102,7 +1102,7 @@ namespace eval gui {
   ######################################################################
   # Adds a new buffer to the editor pane.  Buffers require a save command
   # (executed when the buffer is saved).  Buffers do not save to nor read
-  # from files.
+  # from files.  Returns the path to the inserted tab.
   #
   # Several options are available:
   # -lock     <bool>     Initial lock setting.
@@ -1175,7 +1175,7 @@ namespace eval gui {
       set index [adjust_insert_tab_index $index $name]
 
       # Get the current index
-      set w [insert_tab $index $name 0 0 $opts(-gutters) $opts(-tags) $opts(-lang)]
+      set w [insert_tab $index $name -gutters $opts(-gutters) -tags $opts(-tags) -lang $opts(-lang)]
 
       # Create the file info structure
       set file_info [lrepeat [array size files_index] ""]
@@ -1196,7 +1196,7 @@ namespace eval gui {
       lappend files $file_info
 
       # Get the current text widget
-      set txt [current_txt {}]
+      set txt [get_txt_from_tab $w]
 
       # Perform an insertion adjust, if necessary
       if {[[ns vim]::in_vim_mode $txt.t]} {
@@ -1209,7 +1209,9 @@ namespace eval gui {
     }
 
     # Set the tab image for the current file
-    set_current_tab_image {}
+    set_tab_image $w
+
+    return $w
 
   }
 
@@ -1238,12 +1240,13 @@ namespace eval gui {
     array set opts $args
 
     # Add the buffer
-    add_buffer $index "Untitled" {eval [ns gui]::save_new_file $save_as} {*}$args
+    set tab [add_buffer $index "Untitled" {eval [ns gui]::save_new_file $save_as} {*}$args]
 
     # If the sidebar option was set to 1, set it now
     if {$opts(-sidebar)} {
-      set index [current_file]
-      lset files $index $files_index(sidebar) 1
+      if {[set index [lsearch -index $files_index(tab) $files $tab]] != -1} {
+        lset files $index $files_index(sidebar) 1
+      }
     }
 
   }
@@ -1274,7 +1277,7 @@ namespace eval gui {
 
   ######################################################################
   # Creates a new tab for the given filename specified at the given index
-  # tab position.
+  # tab position.  Returns the path to the inserted tab.
   #
   # Several options are available:
   # -savecommand <command>  Optional command that is run when the file is saved.
@@ -1356,7 +1359,7 @@ namespace eval gui {
       flush stdout
 
       # Add the tab to the editor frame
-      set w [insert_tab $index [file tail $fname] $opts(-lazy) $opts(-diff) $opts(-gutters) $opts(-tags)]
+      set w [insert_tab $index [file tail $fname] -lazy $opts(-lazy) -diff $opts(-diff) -gutters $opts(-gutters) -tags $opts(-tags)]
 
       # Create the file information
       set file_info [lrepeat [array size files_index] ""]
@@ -1390,7 +1393,9 @@ namespace eval gui {
     }
 
     # Set the tab image for the current file
-    set_current_tab_image {}
+    set_tab_image $w
+
+    return $w
 
   }
 
@@ -1705,6 +1710,9 @@ namespace eval gui {
     # Get the current tabbar
     set tb [current_tabbar]
 
+    # Get the current text widget
+    set txt [current_txt $tid]
+
     # Get the current file index
     set file_index [current_file]
 
@@ -1726,7 +1734,7 @@ namespace eval gui {
         set_title
 
         # Change the text to unmodified
-        [current_txt $tid] edit modified false
+        $txt edit modified false
         lset files $file_index $files_index(modified) 0
 
         return 1
@@ -1780,7 +1788,7 @@ namespace eval gui {
 
     # Write the file contents
     catch { fconfigure $rc -translation [[ns preferences]::get {Editor/EndOfLineTranslation}] }
-    puts $rc [scrub_text [current_txt $tid]]
+    puts $rc [scrub_text $txt]
     close $rc
 
     # If we need to do a force write, do it now
@@ -1809,7 +1817,7 @@ namespace eval gui {
       }
 
       # Syntax highlight the file
-      [ns syntax]::set_language [syntax::get_default_language [lindex $files $file_index $files_index(fname)]]
+      [ns syntax]::set_language $txt [syntax::get_default_language [lindex $files $file_index $files_index(fname)]]
 
     }
 
@@ -1822,7 +1830,7 @@ namespace eval gui {
     set_title
 
     # Change the text to unmodified
-    [current_txt $tid] edit modified false
+    $txt edit modified false
     lset files $file_index $files_index(modified) 0
 
     # If there is a save command, run it now
@@ -1878,7 +1886,7 @@ namespace eval gui {
           # Save the current
           } else {
 
-            set_current_tab $tab 0 1
+            set_current_tab $tab -skip_check 1
             save_current {} 1
 
           }
@@ -2073,7 +2081,7 @@ namespace eval gui {
 
     # Display the current pane (if one exists)
     if {[set tab [$tb select]] ne ""} {
-      set_current_tab $tab 0 $exiting
+      set_current_tab $tab -skip_check $exiting
     }
 
     # If we have no more tabs and there is another pane, remove this pane
@@ -2107,7 +2115,7 @@ namespace eval gui {
     foreach nb [lreverse [$widgets(nb_pw) panes]] {
       foreach tab [lreverse [$nb.tbf.tb tabs]] {
         if {($nb ne $current_pw) || ($tab ne [$nb.tbf.tb select])} {
-          set_current_tab $tab 0 1
+          set_current_tab $tab -skip_check 1
           close_current {}
         }
       }
@@ -2123,7 +2131,7 @@ namespace eval gui {
 
     foreach nb [lreverse [$widgets(nb_pw) panes]] {
       foreach tab [lreverse [$nb.tbf.tb tabs]] {
-        set_current_tab $tab 0 1
+        set_current_tab $tab -skip_check 1
         close_current {} $force $exiting
       }
     }
@@ -2217,7 +2225,7 @@ namespace eval gui {
 
     # Display the current pane (if one exists)
     if {[set tab [$tb select]] ne ""} {
-      set_current_tab $tab 0 0
+      set_current_tab $tab
       set pw_current [expr $pw_current ^ 1]
     } else {
       $widgets(nb_pw) forget $pane
@@ -2250,10 +2258,10 @@ namespace eval gui {
     }
 
     # Now move the current tab from the previous current pane to the new current pane
-    set_current_tab $current_tab 1 1
+    set_current_tab $current_tab -skip_focus 1 -skip_check 1
 
     # Set the tab image for the moved file
-    set_current_tab_image {}
+    set_tab_image $current_tab
 
   }
 
@@ -2673,27 +2681,30 @@ namespace eval gui {
 
   ######################################################################
   # Sets the file lock to the specified value for the current file.
-  proc set_current_tab_image {tid} {
+  proc set_tab_image {tab} {
 
     variable files
     variable files_index
 
-    # Get the current file index
-    set file_index [current_file]
+    # Get the file index
+    set file_index [lsearch -index $files_index(tab) $files $tab]
+
+    # Get the text widget
+    set txt [get_txt_from_tab $tab]
 
     # Change the state of the text widget to match the lock value
     if {[lindex $files $file_index $files_index(diff)]} {
       [current_tabbar]   tab current -compound left -image tab_diff
-      [current_txt $tid] configure -state disabled
+      $txt configure -state disabled
     } elseif {[lindex $files $file_index $files_index(readonly)]} {
       [current_tabbar]   tab current -compound left -image tab_readonly
-      [current_txt $tid] configure -state disabled
+      $txt configure -state disabled
     } elseif {[lindex $files $file_index $files_index(lock)]} {
       [current_tabbar]   tab current -compound left -image tab_lock
-      [current_txt $tid] configure -state disabled
+      $txt configure -state disabled
     } else {
       [current_tabbar]   tab current -image ""
-      [current_txt $tid] configure -state normal
+      $txt configure -state normal
     }
 
     return 1
@@ -2714,7 +2725,7 @@ namespace eval gui {
     lset files $file_index $files_index(lock) $lock
 
     # Set the tab image to match
-    set_current_tab_image $tid
+    set_tab_image [lindex $files $file_index $files_index(tab)]
 
   }
 
@@ -3186,7 +3197,7 @@ namespace eval gui {
 
     # Add the tabbar frame
     ttk::frame $nb.tbf
-    tabbar::tabbar $nb.tbf.tb -command "[ns gui]::set_current_tab_from_tb" \
+    tabbar::tabbar $nb.tbf.tb -command "[ns gui]::set_current_tab -type tabbar" \
       -closeimage tab_close \
       -checkcommand "[ns gui]::close_check_by_tabbar {}" \
       -closecommand "[ns gui]::close_tab_by_tabbar"
@@ -3317,13 +3328,28 @@ namespace eval gui {
 
   ######################################################################
   # Inserts a new tab into the editor tab notebook.
-  proc insert_tab {index title lazy diff gutters tags {initial_language ""}} {
+  # Options:
+  #   -lazy (0 | 1)         Specifies if lazy file loading should be performed.  Default is 0.
+  #   -diff (0 | 1)         Specifies if this tab is a difference view.  Default is 0.
+  #   -gutters list         Specifies a list of gutters to add to the ctext gutter area
+  #   -tags    list         Specifies a list of text binding tags
+  #   -lang    language     Specifies initial language parsing of buffer.  Default is to determine based on title.
+  proc insert_tab {index title args} {
 
     variable widgets
     variable curr_id
     variable language
     variable pw_current
     variable case_sensitive
+
+    array set opts {
+      -lazy    0
+      -diff    0
+      -gutters [list]
+      -tags    [list]
+      -lang    ""
+    }
+    array set opts $args
 
     # Get the scrollbar coloring information
     array set sb_opts [set scrollbar_opts [[ns theme]::get_category_options text_scrollbar 1]]
@@ -3349,7 +3375,7 @@ namespace eval gui {
     # Create tab frame name
     set txt $tab_frame.pw.tf.txt
 
-    puts "insert_tab, lazy: $lazy"
+    puts "insert_tab, lazy: $opts(-lazy)"
     flush stdout
 
     # Create the editor frame
@@ -3357,7 +3383,7 @@ namespace eval gui {
     ctext $txt -wrap none -undo 1 -autoseparators 1 -insertofftime 0 \
       -highlightcolor orange -warnwidth [[ns preferences]::get Editor/WarningWidth] \
       -maxundo [[ns preferences]::get Editor/MaxUndo] \
-      -diff_mode $diff -lazy $lazy \
+      -diff_mode $opts(-diff) -lazy $opts(-lazy) \
       -linemap [[ns preferences]::get View/ShowLineNumbers] \
       -linemap_mark_command [ns gui]::mark_command -linemap_select_bg orange \
       -linemap_relief flat -linemap_minwidth 4 \
@@ -3366,7 +3392,7 @@ namespace eval gui {
     scroller::scroller $tab_frame.pw.tf.hb {*}$scrollbar_opts -orient horizontal -autohide 0 -command "$txt xview"
     scroller::scroller $tab_frame.pw.tf.vb {*}$scrollbar_opts -orient vertical   -autohide 1 -command "$txt yview" \
       -markcommand1 [list [ns markers]::get_positions $txt] -markhide1 [expr [[ns preferences]::get View/ShowMarkerMap] ^ 1] \
-      -markcommand2 [expr {$diff ? [list [ns diff]::get_marks $txt] : ""}]
+      -markcommand2 [expr {$opts(-diff) ? [list [ns diff]::get_marks $txt] : ""}]
 
     # Register the widgets
     [ns theme]::register_widget $txt syntax
@@ -3381,7 +3407,7 @@ namespace eval gui {
     $txt configure -font editor_font
 
     bind Ctext  <<Modified>>                 "[ns gui]::text_changed %W %d"
-    bind $txt.t <FocusIn>                    "+[ns gui]::set_current_tab_from_txt %W"
+    bind $txt.t <FocusIn>                    "+[ns gui]::set_current_tab %W -type txt -skip_focus 1"
     bind $txt.l <ButtonPress-$::right_click> [bind $txt.l <ButtonPress-1>]
     bind $txt.l <ButtonPress-1>              "[ns gui]::select_line %W %y"
     bind $txt.l <B1-Motion>                  "[ns gui]::select_lines %W %y"
@@ -3473,7 +3499,7 @@ namespace eval gui {
     bind $tab_frame.rf.fe    <Down>      "[ns search]::traverse_history replace -1"
 
     # Create the diff bar
-    if {$diff} {
+    if {$opts(-diff)} {
       [ns diff]::create_diff_bar $txt $tab_frame.df
       ttk::separator $tab_frame.sep2 -orient horizontal
     }
@@ -3488,7 +3514,7 @@ namespace eval gui {
     grid $tab_frame.sf   -row 2 -column 0 -sticky ew
     grid $tab_frame.rf   -row 3 -column 0 -sticky ew
     grid $tab_frame.sep1 -row 4 -column 0 -sticky ew
-    if {$diff} {
+    if {$opts(-diff)} {
       grid $tab_frame.df   -row 5 -column 0 -sticky ew
       grid $tab_frame.sep2 -row 6 -column 0 -sticky ew
     }
@@ -3508,18 +3534,14 @@ namespace eval gui {
     [ns snippets]::add_bindings        $txt
     [ns vim]::set_vim_mode             $txt {}
     [ns completer]::add_bindings       $txt
-    [ns plugins]::handle_text_bindings $txt $tags
+    [ns plugins]::handle_text_bindings $txt $opts(-tags)
     make_drop_target                   $txt
 
     # Apply the appropriate syntax highlighting for the given extension
-    if {$initial_language eq ""} {
-      [ns syntax]::initialize_language $txt [[ns syntax]::get_default_language $title]
-    } else {
-      [ns syntax]::initialize_language $txt $initial_language
-    }
+    [ns syntax]::set_language $txt [expr {($opts(-lang) eq "") ? [[ns syntax]::get_default_language $title] : $opts(-lang)}]
 
     # Add any gutters
-    foreach gutter $gutters {
+    foreach gutter $opts(-gutters) {
       $txt gutter create {*}$gutter
     }
 
@@ -3544,13 +3566,15 @@ namespace eval gui {
     }
 
     # Make the new tab the current tab
-    set_current_tab $tab_frame
+    if {!$opts(-lazy)} {
 
-    # Set the current language
-    [ns syntax]::set_current_language {}
+      # Make this tab the currently displayed tab
+      set_current_tab $tab_frame
 
-    # Give the text widget the focus
-    set_txt_focus $txt
+      # Give the text widget the focus
+      set_txt_focus $txt
+
+    }
 
     return $tab_frame
 
@@ -3586,7 +3610,7 @@ namespace eval gui {
       -markcommand1 [list [ns markers]::get_positions $txt] -markhide1 [expr [[ns preferences]::get View/ShowMarkerMap] ^ 1] \
       -markcommand2 [expr {$diff ? [list [ns diff]::get_marks $txt] : ""}]
 
-    bind $txt2.t <FocusIn>                    "+[ns gui]::set_current_tab_from_txt %W"
+    bind $txt2.t <FocusIn>                    "+[ns gui]::set_current_tab %W -type txt -skip_focus 1"
     bind $txt2.l <ButtonPress-$::right_click> [bind $txt2.l <ButtonPress-1>]
     bind $txt2.l <ButtonPress-1>              "[ns gui]::select_line %W %y"
     bind $txt2.l <B1-Motion>                  "[ns gui]::select_lines %W %y"
@@ -3623,10 +3647,7 @@ namespace eval gui {
 
     # Apply the appropriate syntax highlighting for the given extension
     set language [[ns syntax]::get_current_language $txt]
-    [ns syntax]::initialize_language $txt2 $language
-
-    # Set the current language
-    [ns syntax]::set_language $language $txt2
+    [ns syntax]::set_language $txt2 $language
 
     # Give the text widget the focus
     set_txt_focus $txt2
@@ -3869,11 +3890,53 @@ namespace eval gui {
 
   ######################################################################
   # Make the specified tab the current tab.
-  proc set_current_tab {tab {skip_focus 0} {skip_check 0}} {
+  # Options:
+  #   w
+  #        Item to base the current tab on (defined by the -type option)
+  #   -type (tab | txt | tabbar | fname)
+  #        Specifies the type of 'widget'.  Default is 'tab'
+  #   -skip_focus (0 | 1)
+  #        Specifies if we should set the focus on the text widget.
+  #        Default is 0
+  #   -skip_check (0 | 1)
+  #        Specifies if we should check to see if the file has changed.
+  #        Default is 0
+  proc set_current_tab {w args} {
 
     variable widgets
     variable pw_current
     variable tab_current
+    variable txt_current
+    variable files
+    variable files_index
+
+    array set opts {
+      -type       tab
+      -skip_focus 0
+      -skip_check 0
+    }
+    array set opts $args
+
+    # Get the current tab from the widget and type
+    switch $opts(-type) {
+      tab {
+        set tab $w
+      }
+      txt {
+        set tab               [winfo parent [winfo parent [winfo parent [winfo parent $w]]]]
+        set txt_current($tab) [winfo parent $w]
+      }
+      tabbar {
+        if {[set tab [$w select]] eq ""} {
+          return
+        }
+      }
+      fname {
+        if {[set index [lsearch -index $files_index(fname) $files $w]] != -1} {
+          set tab [lindex $files $index $files_index(tab)]
+        }
+      }
+    }
 
     # Set the current pane and get the notebook ID
     lassign [pane_tb_index_from_tab $tab] pw_current tb
@@ -3928,54 +3991,7 @@ namespace eval gui {
     # Finally, set the focus to the text widget
     if {([focus] ne "$txt.t") && !$skip_focus} {
       set_txt_focus $txt
-    }
-
-  }
-
-  ######################################################################
-  # Sets the current tab information based on the given notebook.
-  proc set_current_tab_from_tb {tb {frm ""}} {
-
-    # Get the pane index
-    if {[set tab [$tb select]] eq ""} {
-      return
-    }
-
-    # Set the current tab
-    set_current_tab $tab
-
-  }
-
-  ######################################################################
-  # Sets the current tab information based on the given text widget.
-  proc set_current_tab_from_txt {txt} {
-
-    variable pw_current
-    variable txt_current
-
-    # Get the tab
-    set tab [winfo parent [winfo parent [winfo parent [winfo parent $txt]]]]
-
-    # Set the current text widget to the value of txt
-    set txt_current($tab) [winfo parent $txt]
-
-    # Get the current tab
-    set_current_tab $tab 1
-
-    # Handle any on_focusin events
-    [ns plugins]::handle_on_focusin $tab
-
-  }
-
-  ######################################################################
-  # Sets the current tab information based on the given filename.
-  proc set_current_tab_from_fname {fname} {
-
-    variable files
-    variable files_index
-
-    if {[set index [lsearch -index $files_index(fname) $files $fname]] != -1} {
-      set_current_tab [lindex $files $index $files_index(tab)]
+      [ns plugins]::handle_on_focusin $tab
     }
 
   }
@@ -4216,7 +4232,7 @@ namespace eval gui {
   proc jump_to_txt {txt pos} {
 
     # Change the current tab, if necessary
-    set_current_tab_from_txt $txt.t
+    set_current_tab $txt.t -type txt
 
     # Make the line viewable
     $txt mark set insert $pos
@@ -4448,7 +4464,7 @@ namespace eval gui {
         set tab_image [$tb tab $tab -image]
         set img       [expr {($tab_image ne "") ? "menu_[string range $tab_image 4 end]" : ""}]
         $mnu add command -compound left -image $img -label [$tb tab $tab -text] \
-          -command "[ns gui]::set_current_tab $tab"
+          -command [list [ns gui]::set_current_tab $tab]
       }
       incr i
     }

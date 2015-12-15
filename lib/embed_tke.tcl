@@ -56,13 +56,11 @@ namespace eval embed_tke {
   
   namespace eval gui {
     rename set_current_tab set_current_tab__orig
-    rename set_current_tab_from_txt set_current_tab_from_txt__orig
     rename update_position update_position__orig
     rename save_current save_current__orig
     rename close_current close_current__orig
     
     proc set_current_tab {args} {}
-    proc set_current_tab_from_txt {args} {}
     proc update_position {args} {}
     proc save_current {args} { puts "Saving" }
     proc close_current {args} { puts "Closing" }
@@ -132,7 +130,7 @@ namespace eval embed_tke {
     ttk::scrollbar $w.hb    -orient horizontal -command "$w.txt xview"
     
     bind Ctext    <<Modified>>               "[namespace current]::gui::text_changed %W"
-    bind $w.txt.t <FocusIn>                  "[namespace current]::gui::set_current_tab_from_txt %W"
+    bind $w.txt.t <FocusIn>                  "[namespace current]::gui::set_current_tab %W -type txt -skip_focus 1"
     bind $w.txt.l <ButtonPress-$right_click> [bind $w.txt.l <ButtonPress-1>]
     bind $w.txt.l <ButtonPress-1>            "[namespace current]::gui::select_line %W %y"
     bind $w.txt.l <B1-Motion>                "[namespace current]::gui::select_lines %W %y"
@@ -238,10 +236,7 @@ namespace eval embed_tke {
     vim::set_vim_mode         $w.txt $w.txt
         
     # Apply the appropriate syntax highlighting for the given extension
-    syntax::initialize_language $w.txt "<None>"
-
-    # Set the current language
-    syntax::set_current_language $w.txt
+    syntax::set_language $w.txt "<None>"
 
     # Initialize the options array
     foreach opt [array names widget_options] {
