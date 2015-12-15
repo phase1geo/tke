@@ -435,9 +435,6 @@ if {[catch {
     sessions::load [expr {($cl_use_session eq "") ? "last" : "full"}] $cl_use_session 0
   }
 
-  puts "HERE!"
-  flush stdout
-
   # If the number of loaded files is still zero, add a new blank file
   if {[gui::get_file_num] == 0} {
     gui::add_new_file end -sidebar $::cl_sidebar
