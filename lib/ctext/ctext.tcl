@@ -53,6 +53,7 @@ proc ctext {win args} {
   set ctext::data($win,config,-diff_mode)             0
   set ctext::data($win,config,-diffsubbg)             "pink"
   set ctext::data($win,config,-diffaddbg)             "light green"
+  set ctext::data($win,config,-lazy)                  0
   set ctext::data($win,config,re_opts)                ""
   set ctext::data($win,config,win)                    $win
   set ctext::data($win,config,modified)               0
@@ -78,7 +79,7 @@ proc ctext {win args} {
 
   set ctext::data($win,config,ctextFlags) [list -xscrollcommand -yscrollcommand -linemap -linemapfg -linemapbg \
   -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable \
-  -linemap_cursor -highlightcolor \
+  -linemap_cursor -highlightcolor -lazy \
   -linemap_select_fg -linemap_select_bg -linemap_relief -linemap_minwidth -casesensitive -peer \
   -undo -maxundo -autoseparators -diff_mode -diffsubbg -diffaddbg]
 
@@ -388,6 +389,16 @@ proc ctext::buildArgParseTable win {
     }
     set data($self,config,-linemap_select_bg) $value
     $self.l tag configure lmark -background $value
+    break
+  }
+
+  lappend argTable {0 false no} -lazy {
+    set data($self,config,-lazy) 0
+    break
+  }
+
+  lappend argTable {1 true yes} -lazy {
+    set data($self,config,-lazy) 1
     break
   }
 
@@ -2521,6 +2532,8 @@ proc ctext::doHighlight {win start end} {
     return
   }
 
+  puts "win: $win, lazy: $data($win,config,-lazy)"
+
   set twin "$win._t"
 
   # Handle word-based matching
@@ -2547,6 +2560,7 @@ proc ctext::doHighlight {win start end} {
               ![catch { {*}$data($win,highlight,searchword,command,$word) $win $res $wordEnd } retval] && ([llength $retval] == 4)} {
       handle_tag $win {*}$retval
     }
+    if {$data($win,config,-lazy)} { update idletasks }
     incr i
   }
 
@@ -2581,8 +2595,11 @@ proc ctext::doHighlight {win start end} {
           }
         }
       }
+      if {$data($win,config,-lazy)} { update idletasks }
     }
   }
+
+  puts "Done!"
 
 }
 
@@ -2611,7 +2628,7 @@ proc ctext::linemapCheckOnDelete {win startpos {endpos ""}} {
     }
 
   }
-     
+
 }
 
 proc ctext::linemapToggleMark {win y} {
