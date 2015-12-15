@@ -88,6 +88,8 @@ proc ctext {win args} {
     set ctext::data($win,config,$name) $value
   }
 
+  puts "In ctext creation, lazy: $ctext::data($win,config,-lazy)"
+
   foreach flag {foreground background} short {fg bg} {
     if {[info exists ctext::data($win,config,-$flag)] == 1} {
       set ctext::data($win,config,-$short) $ctext::data($win,config,-$flag)

@@ -215,47 +215,24 @@ namespace eval syntax {
   }
 
   ######################################################################
-  # Initializes the language for the given text widget.
-  proc initialize_language {txt language} {
-
-    variable curr_lang
-
-    set curr_lang($txt) $language
-
-  }
-
-  ######################################################################
-  # Sets the language of the current tab to the specified language.
-  proc set_current_language {tid} {
-
-    variable curr_lang
-
-    # Get the current text widget
-    set txt [[ns gui]::current_txt $tid]
-
-    if {[info exists curr_lang($txt)]} {
-      set_language $curr_lang($txt) $txt
-    }
-
-  }
-
-  ######################################################################
   # Sets the language of the given text widget to the given language.
-  proc set_language {language {txt ""} {highlight 1}} {
+  # Options:
+  #   -highlight (0 | 1)   Specifies whether syntax highlighting should be performed
+  proc set_language {txt language args} {
 
     variable langs
     variable curr_lang
 
+    array set opts {
+      -highlight 1
+    }
+    array set opts $args
+
     # Get the current syntax theme
     array set theme [[ns theme]::get_syntax_colors]
 
-    # If a text widget wasn't specified, get the current text widget
-    if {$txt eq ""} {
-      set txt [[ns gui]::current_txt {}]
-    }
-
     # Clear the syntax highlighting for the widget
-    if {$highlight} {
+    if {$opts(-highlight)} {
       ctext::clearHighlightClasses   $txt
       ctext::setBlockCommentPatterns $txt {}
       ctext::setLineCommentPatterns  $txt {}
@@ -348,7 +325,7 @@ namespace eval syntax {
     set curr_lang($txt) $language
 
     # Re-highlight
-    if {$highlight} {
+    if {$opts(-highlight)} {
       $txt highlight 1.0 end
     }
 
