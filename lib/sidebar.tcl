@@ -982,16 +982,23 @@ namespace eval sidebar {
     variable widgets
     variable images
 
+    set tab ""
+
     foreach row $rows {
 
       # Open all of the children that are not already opened
       foreach child [$widgets(tl) childkeys $row] {
         set name [$widgets(tl) cellcget $child,name -text]
         if {([$widgets(tl) cellcget $child,name -image] ne "sidebar_open") && [file isfile $name]} {
-          gui::add_file end $name
+          set tab [gui::add_file end $name -lazy 1]
         }
       }
 
+    }
+
+    # Display the current tab
+    if {$tab ne ""} {
+      gui::set_current_tab $tab
     }
 
   }
@@ -1215,11 +1222,16 @@ namespace eval sidebar {
 
     variable widgets
 
+    set tab ""
+
+    # Add the files to the notebook
     foreach row $rows {
+      set tab [gui::add_file end [$widgets(tl) cellcget $row,name -text] -lazy 1]
+    }
 
-      # Add the file to the notebook
-      gui::add_file end [$widgets(tl) cellcget $row,name -text]
-
+    # Make the last tab visible
+    if {$tab ne ""} {
+      gui::set_current_tab $tab
     }
 
   }
