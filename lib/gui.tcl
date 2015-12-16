@@ -3210,7 +3210,7 @@ namespace eval gui {
           lappend tos $pane
         }
         tabbar {
-          lappend tos [lindex $widgets(nb_pw) $pane].tbf.tb
+          lappend tos [lindex [$widgets(nb_pw) panes] $pane].tbf.tb
         }
         tab {
           lappend tos [lindex $files $fileindex $files_index(tab)]
