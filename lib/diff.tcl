@@ -197,7 +197,7 @@ namespace eval diff {
     set cwd [pwd]
 
     # Get the current filename
-    set fname [[ns gui]::current_filename]
+    set fname [[ns gui]::get_info {} current fname]
 
     # Set the current working directory to the directory of the file
     cd [file dirname $fname]
@@ -356,7 +356,7 @@ namespace eval diff {
     variable data
 
     # Get the current filename
-    set fname [file tail [[ns gui]::current_filename]]
+    set fname [file tail [[ns gui]::get_info {} current fname]]
 
     set data($txt,cvs) "diff"
     set data($txt,v2)  "Current"
@@ -463,7 +463,7 @@ namespace eval diff {
     variable data
 
     # Get the versions
-    set data($txt,versions) [list "Current" {*}[[string tolower $data($txt,cvs)]::versions [[ns gui]::current_filename]]]
+    set data($txt,versions) [list "Current" {*}[[string tolower $data($txt,cvs)]::versions [[ns gui]::get_info {} current fname]]]
 
     # Set the version 2 value to the current value
     set data($txt,v2) "Current"
@@ -533,7 +533,7 @@ namespace eval diff {
          ($data($txt,logmode) && ($mode eq "update")))} {
 
       # Get the current filename
-      set fname [[ns gui]::current_filename]
+      set fname [[ns gui]::get_info {} current fname]
 
       # Get the current working directory
       set cwd [pwd]

@@ -298,23 +298,14 @@ namespace eval menus {
   # Called prior to the file menu posting.
   proc file_posting {mb} {
 
-    # Get the current file index (if one exists)
-    if {[set file_index [gui::current_file]] != -1} {
+    # Get information for current file
+    lassign [gui::get_info {} current {fileindex fname readonly lock diff}] file_index fname readonly file_lock diff_mode
 
-      # Get the current filename
-      set fname [gui::get_file_info $file_index fname]
+    # Get the current file index (if one exists)
+    if {$file_index != -1} {
 
       # Get untitled status
       set untitled [expr {$fname eq "Untitled"}]
-
-      # Get the current readonly status
-      set readonly [gui::get_file_info $file_index readonly]
-
-      # Get the current file lock status
-      set file_lock [expr $readonly || [gui::get_file_info $file_index lock]]
-
-      # Get the current difference mode
-      set diff_mode [gui::get_file_info $file_index diff]
 
       # Get the current favorite status
       set favorite [favorites::is_favorite $fname]
@@ -464,7 +455,7 @@ namespace eval menus {
   proc open_command {} {
 
     # Get the directory of the current file
-    set dirname [file dirname [gui::current_filename]]
+    set dirname [file dirname [gui::get_info {} current fname]]
 
     if {[set ofiles [tk_getOpenFile -parent . -initialdir $dirname -filetypes [syntax::get_filetypes] -defaultextension .tcl -multiple 1]] ne ""} {
       foreach ofile $ofiles {
@@ -479,7 +470,7 @@ namespace eval menus {
   proc open_dir_command {} {
 
     # Get the directory of the current file
-    set dirname [file dirname [gui::current_filename]]
+    set dirname [file dirname [gui::get_info {} current fname]]
 
     if {[set odir [tk_chooseDirectory -parent . -initialdir $dirname -mustexist 1]] ne ""} {
       sidebar::add_directory $odir
@@ -502,7 +493,7 @@ namespace eval menus {
   proc show_file_diff {} {
 
     # Get the current filename
-    set fname [gui::current_filename]
+    set fname [gui::get_info {} current fname]
 
     # Display the current file as a difference
     gui::add_file end $fname -diff 1 -other [preferences::get View/ShowDifferenceInOtherPane]
@@ -577,11 +568,14 @@ namespace eval menus {
   # Marks the current file as a favorite.
   proc favorite_command {mb} {
 
+    # Get current file information
+    lassign [gui::get_info {} current {fileindex fname}] file_index fname
+
     # Get the current file index (if one exists)
-    if {[set file_index [gui::current_file]] != -1} {
+    if {$file_index != -1} {
 
       # Add the file as a favorite
-      if {[favorites::add [gui::get_file_info $file_index fname]]} {
+      if {[favorites::add $fname]} {
 
         # Set the menu up to display the unfavorite file menu option
         $mb entryconfigure [msgcat::mc "Favorite"] -label [msgcat::mc "Unfavorite"] -command "menus::unfavorite_command $mb"
@@ -596,11 +590,14 @@ namespace eval menus {
   # Marks the current file as not favorited.
   proc unfavorite_command {mb} {
 
+    # Get current file information
+    lassign [gui::get_info {} current {fileindex fname}] file_index fname
+
     # Get the current file index (if one exists)
-    if {[set file_index [gui::current_file]] != -1} {
+    if {$file_index != -1} {
 
       # Remove the file as a favorite
-      if {[favorites::remove [gui::get_file_info $file_index fname]]} {
+      if {[favorites::remove $fname]} {
 
         $mb entryconfigure [msgcat::mc "Unfavorite"] -label [msgcat::mc "Favorite"] -command "menus::favorite_command $mb"
 

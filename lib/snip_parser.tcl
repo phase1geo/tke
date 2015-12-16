@@ -3717,9 +3717,9 @@ proc snip_parse {} {
              CLIPBOARD     { set _ [expr {![catch "clipboard get" rc] ? $rc : ""}] }
              CURRENT_LINE  { set _ [$txt get "insert linestart" "insert lineend"] }
              CURRENT_WORD  { set _ [$txt get "insert wordstart" "insert wordend"] }
-             DIRECTORY     { set _ [file dirname [gui::current_filename]] }
-             FILEPATH      { set _ [gui::current_filename] }
-             FILENAME      { set _ [file tail [gui::current_filename]] }
+             DIRECTORY     { set _ [file dirname [gui::get_info {} current fname]] }
+             FILEPATH      { set _ [gui::get_info {} current fname] }
+             FILENAME      { set _ [file tail [gui::get_info {} current fname]] }
              LINE_INDEX    { set _ [lindex [split [$txt index insert] .] 1] }
              LINE_NUMBER   { set _ [lindex [split [$txt index insert] .] 0] }
              CURRENT_DATE  { set _ [clock format [clock seconds] -format "%m/%d/%Y"] }
