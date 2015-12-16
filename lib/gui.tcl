@@ -859,7 +859,7 @@ namespace eval gui {
     }
 
     # Allow the UI to be fully drawn
-    update
+    # update
 
     # Add the tabs (in order) to each of the panes and set the current tab in each pane
     for {set pane 0} {$pane < [llength $content(CurrentTabs)]} {incr pane} {
@@ -1307,7 +1307,10 @@ namespace eval gui {
     # If the file is already loaded, display the tab
     if {$file_index != -1} {
 
-      set_current_tab [set w [lindex $files $file_index $files_index(tab)]]
+      # Only display the tab if we are not doing a lazy load
+      if {!$opts(-lazy)} {
+        set_current_tab [set w [lindex $files $file_index $files_index(tab)]]
+      }
 
     # Otherwise, load the file in a new tab
     } else {

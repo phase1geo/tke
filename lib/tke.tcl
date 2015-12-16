@@ -51,6 +51,9 @@ proc tke_development {} {
 
 }
 
+# Iconify . to eliminate the ghost window
+wm iconify .
+
 set auto_path [list [file join $tke_dir lib ctext] \
                     [file join $tke_dir lib tablelist5.14] \
                     [file join $tke_dir lib ptwidgets1.2] \
@@ -324,7 +327,6 @@ if {$tcl_platform(platform) eq "windows"} {
 
 }
 
-puts [time {
 if {[catch {
 
   # Set the application name to tke
@@ -448,7 +450,9 @@ if {[catch {
     set ::tk::dialog::file::showHiddenVar 0
   }
 
+  # Show the application
+  wm deiconify .
+
 } rc]} {
   bgerror $rc
 }
-}]
