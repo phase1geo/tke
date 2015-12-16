@@ -184,7 +184,7 @@ namespace eval api {
     #          such file exists, returns a value of -1.
     proc current_file_index {interp pname} {
 
-      return [gui::current_file]
+      return [expr {[catch { gui::get_info {} current fileindex } index] ? -1 : $index}]
 
     }
 

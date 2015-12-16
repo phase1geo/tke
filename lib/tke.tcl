@@ -51,7 +51,7 @@ proc tke_development {} {
 
 }
 
-# Iconify . to eliminate the ghost window
+# Withdraw . to eliminate the "ghost" window
 wm iconify .
 
 set auto_path [list [file join $tke_dir lib ctext] \
@@ -424,13 +424,17 @@ if {[catch {
 
   # Populate the GUI with the command-line filelist (if specified)
   if {[llength $cl_files] > 0} {
+    set tab ""
     foreach cl_file $cl_files {
       set name [file normalize $cl_file]
       if {[file isdirectory $name]} {
         sidebar::add_directory $name
       } else {
-        gui::add_file end $name
+        set tab [gui::add_file end $name -lazy 1]
       }
+    }
+    if {$tab ne ""} {
+      gui::set_current_tab $tab
     }
 
   # Load the session file
