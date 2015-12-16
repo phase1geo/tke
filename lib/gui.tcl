@@ -68,6 +68,7 @@ namespace eval gui {
     gutters  9
     diff     10
     tags     11
+    lazy     12
   }
 
   #######################
@@ -131,24 +132,6 @@ namespace eval gui {
         }
       }
     }
-
-  }
-
-  ######################################################################
-  # Polls every 10 seconds to see if any of the loaded files have been
-  # updated since the last save.
-  proc poll {} {
-
-    variable files
-    variable files_index
-
-    # Check the modification of every file in the files list
-    for {set i 0} {$i < [llength $files]} {incr i} {
-      check_file $i
-    }
-
-    # Check again after 10 seconds
-    after 10000 [ns gui]::poll
 
   }
 
@@ -882,13 +865,10 @@ namespace eval gui {
     for {set pane 0} {$pane < [llength $content(CurrentTabs)]} {incr pane} {
       set pw_current $pane
       set set_tab    1
-      puts "indices: [lindex $ordered $pane]"
       foreach index [lindex $ordered $pane] {
         if {$index ne ""} {
           array set finfo [lindex $content(FileInfo) $index]
           if {[file exists $finfo(fname)]} {
-            puts "Adding file $finfo(fname)"
-            flush stdout
             set tab [add_file end $finfo(fname) \
               -savecommand $finfo(savecommand) -lock $finfo(lock) -readonly $finfo(readonly) \
               -diff $finfo(diff) -sidebar $finfo(sidebar) -lazy 1]
@@ -920,14 +900,9 @@ namespace eval gui {
           }
         }
       }
-      update
-      puts "HERE 1"
-      flush stdout
       if {$set_tab} {
         set_current_tab [lindex [[lindex [$widgets(nb_pw) panes] $pane].tbf.tb tabs] [lindex $content(CurrentTabs) $pane]]
       }
-      puts "HERE 2"
-      flush stdout
     }
 
     # Update the title
@@ -1191,6 +1166,7 @@ namespace eval gui {
       lset file_info $files_index(gutters)  $opts(-gutters)
       lset file_info $files_index(diff)     0
       lset file_info $files_index(tags)     $opts(-tags)
+      lset file_info $files_index(lazy)     0
 
       # Add the file information to the files list
       lappend files $file_info
@@ -1319,8 +1295,6 @@ namespace eval gui {
       close_tab $tab_current($pw_current) 0 0
     }
 
-    puts "HERE AA"
-
     # Check to see if the file is already loaded
     set file_index -1
     foreach findex [lsearch -all -index $files_index(fname) $files $fname] {
@@ -1330,12 +1304,10 @@ namespace eval gui {
       }
     }
 
-    puts "file_index: $file_index"
-
     # If the file is already loaded, display the tab
     if {$file_index != -1} {
 
-      set_current_tab [lindex $files $file_index $files_index(tab)]
+      set_current_tab [set w [lindex $files $file_index $files_index(tab)]]
 
     # Otherwise, load the file in a new tab
     } else {
@@ -1355,9 +1327,6 @@ namespace eval gui {
       # Adjust the index (if necessary)
       set index [adjust_insert_tab_index $index [file tail $fname]]
 
-      puts "Calling insert_tab, lazy: $opts(-lazy)"
-      flush stdout
-
       # Add the tab to the editor frame
       set w [insert_tab $index [file tail $fname] -lazy $opts(-lazy) -diff $opts(-diff) -gutters $opts(-gutters) -tags $opts(-tags)]
 
@@ -1375,13 +1344,11 @@ namespace eval gui {
       lset file_info $files_index(gutters)  $opts(-gutters)
       lset file_info $files_index(diff)     $opts(-diff)
       lset file_info $files_index(tags)     $opts(-tags)
+      lset file_info $files_index(lazy)     $opts(-lazy)
       lappend files $file_info
 
-      if {$opts(-lazy)} {
-        puts "HERE!!!!"
-        after 100 [list [ns gui]::add_tab_content [expr [llength $files] - 1]]
-      } else {
-        add_tab_content [expr [llength $files] - 1]
+      if {!$opts(-lazy)} {
+        add_tab_content $w
       }
 
     }
@@ -1401,54 +1368,67 @@ namespace eval gui {
 
   ######################################################################
   # Inserts the file information and sets the
-  proc add_tab_content {file_index} {
+  proc add_tab_content {tab} {
 
     variable files
     variable files_index
 
     # Get some of the file information
-    set fname [lindex $files $file_index $files_index(fname)]
-    set tab   [lindex $files $file_index $files_index(tab)]
+    set file_index [lsearch -index $files_index(tab) $files $tab]
 
-    if {![catch { open $fname r } rc]} {
+    # Only add the tab content if it has not been done
+    if {[lindex $files $file_index $files_index(lazy)] == 0} {
 
-      set txt [get_txt_from_tab $tab]
+      # Specify that this tab is no longer being lazy loaded
+      lset files $file_index $files_index(lazy) 0
 
-      # Read the file contents and insert them
-      $txt insert end [string range [read $rc] 0 end-1]
+      # Get the filename
+      set fname [lindex $files $file_index $files_index(fname)]
 
-      # Close the file
-      close $rc
+      if {![catch { open $fname r } rc]} {
 
-      # Change the text to unmodified
-      $txt edit reset
+        set txt [get_txt_from_tab $tab]
 
-      # Set the insertion mark to the first position
-      $txt mark set insert 1.0
+        # Turn off the text widget laziness
+        $txt configure -lazy 0
 
-      # Perform an insertion adjust, if necessary
-      if {[[ns vim]::in_vim_mode $txt.t]} {
-        [ns vim]::adjust_insert $txt.t
+        # Read the file contents and insert them
+        $txt insert end [string range [read $rc] 0 end-1]
+
+        # Close the file
+        close $rc
+
+        # Change the text to unmodified
+        $txt edit reset
+
+        # Set the insertion mark to the first position
+        $txt mark set insert 1.0
+
+        # Perform an insertion adjust, if necessary
+        if {[[ns vim]::in_vim_mode $txt.t]} {
+          [ns vim]::adjust_insert $txt.t
+        }
+
+        file stat $fname stat
+        lset files $file_index $files_index(mtime) $stat(mtime)
+
+        # Add the file to the list of recently opened files
+        [ns gui]::add_to_recently_opened $fname
+
+        # If a diff command was specified, run and parse it now
+        if {[lindex $files $file_index $files_index(diff)]} {
+          [ns diff]::show $txt
+        }
+
       }
 
-      file stat $fname stat
-      lset files $file_index $files_index(mtime) $stat(mtime)
+      # Change the tab text
+      [current_tabbar] tab $tab -text " [file tail $fname]"
 
-      # Add the file to the list of recently opened files
-      [ns gui]::add_to_recently_opened $fname
-
-      # If a diff command was specified, run and parse it now
-      if {[lindex $files $file_index $files_index(diff)]} {
-        [ns diff]::show $txt
-      }
+      # Run any plugins that should run when a file is opened
+      [ns plugins]::handle_on_open $file_index
 
     }
-
-    # Change the tab text
-    [current_tabbar] tab $tab -text " [file tail $fname]"
-
-    # Run any plugins that should run when a file is opened
-    [ns plugins]::handle_on_open $file_index
 
   }
 
@@ -3375,15 +3355,12 @@ namespace eval gui {
     # Create tab frame name
     set txt $tab_frame.pw.tf.txt
 
-    puts "insert_tab, lazy: $opts(-lazy)"
-    flush stdout
-
     # Create the editor frame
     $tab_frame.pw add [frame $tab_frame.pw.tf -background $sb_opts(-background)]
     ctext $txt -wrap none -undo 1 -autoseparators 1 -insertofftime 0 \
       -highlightcolor orange -warnwidth [[ns preferences]::get Editor/WarningWidth] \
       -maxundo [[ns preferences]::get Editor/MaxUndo] \
-      -diff_mode $opts(-diff) -lazy $opts(-lazy) \
+      -diff_mode $opts(-diff) -lazy 0 \
       -linemap [[ns preferences]::get View/ShowLineNumbers] \
       -linemap_mark_command [ns gui]::mark_command -linemap_select_bg orange \
       -linemap_relief flat -linemap_minwidth 4 \
@@ -3937,6 +3914,9 @@ namespace eval gui {
         }
       }
     }
+
+    # Display the tab content
+    add_tab_content $tab
 
     # Set the current pane and get the notebook ID
     lassign [pane_tb_index_from_tab $tab] pw_current tb
