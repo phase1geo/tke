@@ -3151,6 +3151,84 @@ namespace eval gui {
   ########################
 
   ######################################################################
+  # Gets the various pieces of tos information from the given from.
+  # The valid values for from and tos (list) is the following:
+  #
+  #   - pane    (using in from implies the current pane)
+  #   - tabbar  (using in from implies the current tabbar)
+  #   - tab
+  #   - tabindex
+  #   - fileindex
+  #   - txt
+  #   - txt2
+  #   - fname
+  proc get_info {from from_type to_types} {
+
+    variable widgets
+    variable files
+    variable files_index
+
+    # Convert from to a tab
+    switch $from_type {
+      pane   {
+        set tab [[lindex [$widgets(nb_pw) panes] $from].tbf.tb select]
+      }
+      tabbar {
+        set tab [$from select]
+      }
+      tab    {
+        set tab $from
+      }
+      fileindex {
+        set tab [lindex $files $from $files_index(tab)]
+      }
+      txt -
+      txt2 {
+        set tab [winfo parent [winfo parent [winfo parent $from]]]
+      }
+      fname {
+        set tab [lindex $files [lsearch -index $files_index(fname) $files $from] $files_index(tab)]
+      }
+    }
+
+    set pane      [lindex $files [lsearch -index $files_index(tab) $files $tab] $files_index(pane)]
+    set fileindex [lsearch -index $files_index(tab) $files $tab]
+    set tos       [list]
+
+    foreach to_type $to_types {
+      switch $to_type {
+        pane {
+          lappend tos $pane
+        }
+        tabbar {
+          lappend tos [lindex $widgets(nb_pw) $pane].tbf.tb
+        }
+        tab {
+          lappend tos [lindex $files $fileindex $files_index(tab)]
+        }
+        tabindex {
+          lappend tos [lsearch [[$widgets(nb_pw) $pane].tbf.tb tabs] $tab]
+        }
+        fileindex {
+          lappend tos $file_index
+        }
+        txt {
+          lappend tos "$tab.pw.tf.txt"
+        }
+        txt2 {
+          lappend tos "$tab.pw.tf2.txt"
+        }
+        fname {
+          lappend tos [lindex $files $fileindex $files_index(fname)]
+        }
+      }
+    }
+
+    return $tos
+
+  }
+
+  ######################################################################
   # Gets the pane and notebook from the given tab.
   proc pane_tb_index_from_tab {tab} {
 
