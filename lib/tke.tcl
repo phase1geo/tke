@@ -324,6 +324,7 @@ if {$tcl_platform(platform) eq "windows"} {
 
 }
 
+puts [time {
 if {[catch {
 
   # Set the application name to tke
@@ -450,4 +451,4 @@ if {[catch {
 } rc]} {
   bgerror $rc
 }
-
+}]
