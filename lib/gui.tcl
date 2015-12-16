@@ -3197,7 +3197,7 @@ namespace eval gui {
 
     # Add the tabbar frame
     ttk::frame $nb.tbf
-    tabbar::tabbar $nb.tbf.tb -command "[ns gui]::set_current_tab -type tabbar" \
+    tabbar::tabbar $nb.tbf.tb -command "[ns gui]::handle_tabbar_select" \
       -closeimage tab_close \
       -checkcommand "[ns gui]::close_check_by_tabbar {}" \
       -closecommand "[ns gui]::close_tab_by_tabbar"
@@ -3984,15 +3984,23 @@ namespace eval gui {
     set_title
 
     # Check to see if the file has changed
-    if {!$skip_check} {
+    if {!$opts(-skip_check)} {
       catch { check_file [current_file] }
     }
 
     # Finally, set the focus to the text widget
-    if {([focus] ne "$txt.t") && !$skip_focus} {
+    if {([focus] ne "$txt.t") && !$opts(-skip_focus)} {
       set_txt_focus $txt
       [ns plugins]::handle_on_focusin $tab
     }
+
+  }
+
+  ######################################################################
+  # Handles a selection made by the user from the tabbar.
+  proc handle_tabbar_select {tabbar args} {
+
+    set_current_tab $tabbar -type tabbar
 
   }
 
