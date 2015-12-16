@@ -1347,7 +1347,7 @@ namespace eval gui {
       lset file_info $files_index(gutters)  $opts(-gutters)
       lset file_info $files_index(diff)     $opts(-diff)
       lset file_info $files_index(tags)     $opts(-tags)
-      lset file_info $files_index(lazy)     $opts(-lazy)
+      lset file_info $files_index(lazy)     1
       lappend files $file_info
 
       if {!$opts(-lazy)} {
@@ -1380,7 +1380,7 @@ namespace eval gui {
     set file_index [lsearch -index $files_index(tab) $files $tab]
 
     # Only add the tab content if it has not been done
-    if {[lindex $files $file_index $files_index(lazy)] == 0} {
+    if {[lindex $files $file_index $files_index(lazy)]} {
 
       # Specify that this tab is no longer being lazy loaded
       lset files $file_index $files_index(lazy) 0
@@ -3154,22 +3154,28 @@ namespace eval gui {
   # Gets the various pieces of tos information from the given from.
   # The valid values for from and tos (list) is the following:
   #
-  #   - pane    (using in from implies the current pane)
-  #   - tabbar  (using in from implies the current tabbar)
+  #   - current  (from_type only, from must be the tid)
+  #   - pane     (using in from implies the current pane)
+  #   - tabbar   (using in from implies the current tabbar)
   #   - tab
-  #   - tabindex
+  #   - tabindex (using in from implies the index of the tab in the current pane)
   #   - fileindex
   #   - txt
   #   - txt2
   #   - fname
+  #   - any key from files_index (for to_types only)
   proc get_info {from from_type to_types} {
 
     variable widgets
     variable files
     variable files_index
+    variable pw_current
 
     # Convert from to a tab
     switch $from_type {
+      current {
+        set tab [[lindex [$widgets(nb_pw) panes] $pw_current].tbf.tb select]
+      }
       pane   {
         set tab [[lindex [$widgets(nb_pw) panes] $from].tbf.tb select]
       }
@@ -3178,6 +3184,9 @@ namespace eval gui {
       }
       tab    {
         set tab $from
+      }
+      tabindex {
+        set tab [lindex [[lindex [$widgets(nb_pw) panes] $pw_current].tbf.tb tabs] $from]
       }
       fileindex {
         set tab [lindex $files $from $files_index(tab)]
@@ -3191,7 +3200,7 @@ namespace eval gui {
       }
     }
 
-    set pane      [lindex $files [lsearch -index $files_index(tab) $files $tab] $files_index(pane)]
+    set pane      [expr {([lsearch [[lindex [$widgets(nb_pw) panes] 0].tbf.tb tabs] $tab] != -1) ? 0 : 1}]
     set fileindex [lsearch -index $files_index(tab) $files $tab]
     set tos       [list]
 
@@ -3207,10 +3216,10 @@ namespace eval gui {
           lappend tos [lindex $files $fileindex $files_index(tab)]
         }
         tabindex {
-          lappend tos [lsearch [[$widgets(nb_pw) $pane].tbf.tb tabs] $tab]
+          lappend tos [lsearch [[lindex [$widgets(nb_pw) panes] $pane].tbf.tb tabs] $tab]
         }
         fileindex {
-          lappend tos $file_index
+          lappend tos $fileindex
         }
         txt {
           lappend tos "$tab.pw.tf.txt"
@@ -3218,8 +3227,8 @@ namespace eval gui {
         txt2 {
           lappend tos "$tab.pw.tf2.txt"
         }
-        fname {
-          lappend tos [lindex $files $fileindex $files_index(fname)]
+        default {
+          lappend tos [lindex $files $fileindex $files_index($to_type)]
         }
       }
     }
