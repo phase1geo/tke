@@ -51,7 +51,7 @@ namespace eval snippets {
   proc reload_snippets {tid} {
 
     # Get the current language
-    set language [syntax::get_current_language [gui::current_txt $tid]]
+    set language [syntax::get_language [gui::current_txt $tid]]
 
     # Reload the snippet file for the current language
     set_language $language
@@ -335,11 +335,11 @@ namespace eval snippets {
   proc clear_tabstops {txt} {
 
     variable tabvals
-    
+
     if {[llength [set tabstops [lsearch -inline -all -glob [$txt tag names] snippet_*]]] > 0} {
       $txt tag delete {*}$tabstops
     }
-    
+
     array unset tabvals $txt,*
 
   }
@@ -420,8 +420,8 @@ namespace eval snippets {
     variable snippets_dir
 
     # Set the language
-    set language [expr {($type eq "user") ? "user" : [syntax::get_current_language [gui::current_txt $tid]]}]
- 
+    set language [expr {($type eq "user") ? "user" : [syntax::get_language [gui::current_txt $tid]]}]
+
     # If the snippet file does not exist, create the file
     if {![file exists [set fname [file join $snippets_dir $language.snippets]]]} {
       if {![catch { open $fname w } rc]} {

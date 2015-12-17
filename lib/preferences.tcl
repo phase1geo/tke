@@ -68,7 +68,7 @@ namespace eval preferences {
 
     # Load language-specific preferences
     if {([set txt [[ns gui]::current_txt {}]] ne "") && \
-        ([set language [[ns syntax]::get_current_language $txt]] ne "None") && \
+        ([set language [[ns syntax]::get_language $txt]] ne "None") && \
         [info exists loaded_prefs($prefix,$language)]} {
       array set temp_prefs $loaded_prefs($prefix,$language)
     }
@@ -160,7 +160,7 @@ namespace eval preferences {
   proc edit_language {{session ""}} {
 
     # Get the language of the current buffer
-    set language [[ns syntax]::get_current_language [[ns gui]::current_txt {}]]
+    set language [[ns syntax]::get_language [[ns gui]::current_txt {}]]
 
     # Get the title to use in the tabbar
     if {$session eq ""} {
