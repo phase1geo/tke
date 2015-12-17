@@ -1300,6 +1300,9 @@ namespace eval gui {
         set_current_tab $w
       }
 
+      # Run any plugins that should run when a file is opened
+      [ns plugins]::handle_on_open [expr [llength $files] - 1]
+
     }
 
     # Add the file's directory to the sidebar and highlight it
@@ -1366,9 +1369,6 @@ namespace eval gui {
 
       # Change the tab text
       $tb tab $tab -text " [file tail $fname]"
-
-      # Run any plugins that should run when a file is opened
-      [ns plugins]::handle_on_open $file_index
 
     }
 
@@ -1880,8 +1880,11 @@ namespace eval gui {
     variable files
     variable pw_current
 
+    # Get the pw_crrent from tabbar
+    set pw_current [lsearch [$widgets(nb_pw) panes] [winfo parent [winfo parent $w]]]
+
     # Get tab information
-    lassign [get_info $tab tab {paneindex fileindex diff fname}] pw_current index diff fname
+    lassign [get_info $tab tab {fileindex diff fname}] index diff fname
 
     # Unhighlight the file in the file browser
     [ns sidebar]::highlight_filename $fname [expr $diff * 2]
@@ -3052,7 +3055,8 @@ namespace eval gui {
     if {$tab eq ""} {
       set paneindex $pw_current
     } else {
-      set paneindex [expr {([lsearch [[lindex [$widgets(nb_pw) panes] 0].tbf.tb tabs] $tab] != -1) ? 0 : 1}]
+      set panes     [$widgets(nb_pw) panes]
+      set paneindex [expr {(([llength $panes] == 1) || ([lsearch [[lindex $panes 0].tbf.tb tabs] $tab] != -1)) ? 0 : 1}]
     }
 
     set fileindex [lsearch -index $files_index(tab) $files $tab]
@@ -3537,7 +3541,7 @@ namespace eval gui {
     grid $pw.tf2.hb    -row 1 -column 0 -sticky ew
 
     # Associate the existing command entry field with this text widget
-    [ns vim]::bind_command_entry $txt2 $tb.ve {}
+    [ns vim]::bind_command_entry $txt2 $tab.ve {}
 
     # Add the text bindings
     [ns indent]::add_bindings          $txt2
@@ -3812,11 +3816,11 @@ namespace eval gui {
     # Get the current information
     lassign [get_info $tab tab {paneindex tabbar tab fileindex}] pw_current tb file_index
 
-    # Display the tab content
-    add_tab_content $tab
-
     # Only update the tab if it differs from the previously recorded tab
     if {![info exists tab_current($pw_current)] || ($tab_current($pw_current) ne $tab)} {
+
+      # Display the tab content
+      add_tab_content $tab
 
       # Save the currently selected tab
       set tab_current($pw_current) $tab
