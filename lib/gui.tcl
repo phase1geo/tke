@@ -726,7 +726,7 @@ namespace eval gui {
 
       # Add markers
       set finfo(markers) [list]
-      foreach {mname txt pos} [[ns markers]::get_markers $txt] {
+      foreach {mname mtxt pos} [[ns markers]::get_markers $txt] {
         lappend finfo(markers) $mname [lindex [split $pos .] 0]
       }
 
@@ -3488,7 +3488,7 @@ namespace eval gui {
   proc show_split_pane {tid} {
 
     # Get the current paned window
-    lassign [get_info {} current {tabbar tab txt txt2}] tb tab txt txt2
+    lassign [get_info {} current {tabbar tab txt txt2 diff}] tb tab txt txt2 diff
 
     # Get the paned window of the text widget
     set pw [winfo parent [winfo parent $txt]]
@@ -4016,7 +4016,7 @@ namespace eval gui {
     # Create a list of marker names and index
     set markers [list]
     foreach {name txt line} [[ns markers]::get_markers] {
-      lassign [get_info $txt txt {tab fname}] tab fname
+      set fname [get_info $txt txt fname]
       lappend markers [list "[file tail $fname] - $name" $txt $line]
     }
 
