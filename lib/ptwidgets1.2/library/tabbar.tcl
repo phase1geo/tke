@@ -562,7 +562,7 @@ namespace eval tabbar {
     set data($w,last_x) $x
 
   }
-  
+
   ######################################################################
   # Handles a left click release event on the tab close button.
   proc handle_tab_left_click_release {w x y} {
@@ -576,7 +576,7 @@ namespace eval tabbar {
 
       # Get the page to delete
       set page [lindex $data($w,pages) $page_index 0]
-      
+
       # Check to see if the close is okay
       if {$data($w,option,-checkcommand) ne ""} {
         if {![uplevel #0 $data($w,option,-checkcommand) $w $page]} {
