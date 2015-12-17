@@ -1,138 +1,172 @@
-changeset:   1573:4f991678d1a6
-tag:         devel-2.0.2
+changeset:   1586:b79e738fbf90
+tag:         devel-2.0.3
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Dec 10 01:27:33 2015 -0600
+date:        Mon Dec 14 00:03:57 2015 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.0.2 release
+ChangeLog for devel-2.0.3 release
 
 
-changeset:   1574:38dcaf02edc6
+changeset:   1587:1bef3ee742a3
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Dec 10 01:27:40 2015 -0600
+date:        Mon Dec 14 00:04:01 2015 -0600
 files:       .hgtags
 description:
-Added tag devel-2.0.2 for changeset 4f991678d1a6
+Added tag devel-2.0.3 for changeset b79e738fbf90
 
 
-changeset:   1575:7a7cbc62ae40
+changeset:   1588:7a2ba8186c77
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Dec 14 21:44:13 2015 -0600
+files:       lib/gui.tcl lib/menus.tcl lib/version.tcl
+description:
+* Removing Edit/Transform menu and adding Format Text to Edit/Indentation menu.
+
+
+changeset:   1589:a4e4baa498f3
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Dec 15 09:41:10 2015 -0600
+files:       lib/ctext/ctext.tcl lib/gui.tcl lib/tke.tcl lib/version.tcl
+description:
+* Checkpointing work on startup improvement (work in progress).
+
+
+changeset:   1590:85323e2f8fad
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu Dec 10 13:00:29 2015 -0600
-files:       lib/ptwidgets1.2/library/tabbar.tcl lib/version.tcl
+date:        Tue Dec 15 12:35:25 2015 -0600
+files:       lib/search.tcl lib/sidebar.tcl lib/version.tcl
 description:
-* Adding -activeforeground and -inactiveforeground support to tabbar widget.
+* Fixing issue with ignoring binary files in "find in files" searching.
 
 
-changeset:   1576:8439570f6ac0
+changeset:   1591:7095ac93b950
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu Dec 10 14:51:57 2015 -0600
-files:       lib/theme.tcl lib/version.tcl
+date:        Tue Dec 15 15:14:26 2015 -0600
+files:       lib/gui.tcl lib/tke.tcl lib/version.tcl
 description:
-* Adding tabs,-activeforeground and tabs,-inactiveforeground settings to theme.
+* Removing code caused by TKE issue in gui.tcl
+* Removing debug output in tke.tcl.
 
 
-changeset:   1577:6c7b010c6531
+changeset:   1592:775fb0aa0c57
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Dec 15 17:49:37 2015 -0600
+files:       lib/ctext/ctext.tcl lib/embed_tke.tcl lib/gui.tcl lib/sidebar.tcl lib/syntax.tcl lib/version.tcl
+description:
+* Checkpointing work on faster startup changes.
+
+
+changeset:   1593:dc0de6075ed1
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Dec 15 18:06:43 2015 -0600
+files:       lib/gui.tcl lib/version.tcl
+description:
+* Fixing a few syntax errors in last checkin.
+
+
+changeset:   1594:7ec910480467
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Dec 10 22:58:13 2015 -0600
-files:       MacOSX/Tke.app/Contents/Info.plist MacOSX/Tke.app/Contents/Resources/Scripts/AppMain.tcl lib/menus.tcl lib/version.tcl
+date:        Tue Dec 15 20:01:20 2015 -0600
+files:       lib/ctext/ctext.tcl lib/gui.tcl lib/tke.tcl lib/version.tcl
 description:
-* Updating Info.plist release from 2.0 to 2.1.
-* Adding -n option to AppMain.tcl
-* Adding "New Window" to File menu.
+* Checkpointing.
 
 
-changeset:   1578:c86f843efd57
+changeset:   1595:890260c380bb
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Dec 11 22:05:23 2015 -0600
-files:       MacOSX/Tke.app/Contents/Resources/Scripts/AppMain.tcl lib/menus.tcl lib/tke.tcl lib/version.tcl
+date:        Wed Dec 16 01:19:49 2015 -0600
+files:       lib/gui.tcl lib/sidebar.tcl lib/tke.tcl lib/version.tcl
 description:
-* Fixing "New Window" functionality.
-* Adding -nosb functionality back.
-* Removing Sessions/Open menu.
+* Fixing window 'ghosting' when starting application.
+* Improving performance of opening several files simultaneously.
+* Removing 'update' call in load_session -- this is not needed due to other improvements.
 
 
-changeset:   1579:a95c81d10902
+changeset:   1596:f477de6d3471
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Dec 12 11:55:58 2015 -0600
-files:       data/bindings/menu_bindings.aqua.tkedat data/bindings/menu_bindings.classic.tkedat data/bindings/menu_bindings.win32.tkedat data/bindings/menu_bindings.x11.tkedat lib/edit.tcl lib/gui.tcl lib/indent.tcl lib/menus.tcl lib/search.tcl lib/sidebar.tcl lib/texttools.tcl lib/theme.tcl lib/tke.tcl lib/version.tcl
+date:        Wed Dec 16 02:09:16 2015 -0600
+files:       lib/gui.tcl lib/version.tcl
 description:
-* Removing Text menu and merging its contents into the enhanced Edit menu.
-* Updating all default menu binding files.
-* Removing texttools.tcl and merging its content into the edit namespace.
-* Creating new Edit/Indentation menu and adding indent mode bits into it.
-* Removing Edit/Indent Mode menu.
-* Adding menu posting code for Edit/Transform menu.
-* Improving Find in Files performance by removing binary files from consideration.
-* Improving menu theming to avoid theming the main menu on Mac OS X.
-* Code cleanup.
+* Adding gui::get_info procedure to consolidate most information conversion.
 
 
-changeset:   1580:4d73e07a2698
+changeset:   1597:51e8409990d4
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Dec 12 20:22:17 2015 -0600
-files:       lib/edit.tcl lib/menus.tcl lib/version.tcl lib/vim.tcl
+date:        Wed Dec 16 10:04:54 2015 -0600
+files:       lib/gui.tcl lib/version.tcl
 description:
-* Adding "Save Selection As..." menu item to File menu.
-* Adding "Jump To Line" menu item to Find menu.
-* Code cleanup.
+* Adding current type to get_info.
+* Fixing several get_info bugs.
+* Fixing lazy handling in add_tab_content.
 
 
-changeset:   1581:e8fc428255b9
+changeset:   1598:2cc6b7552e4b
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Dec 16 13:00:21 2015 -0600
+files:       lib/gui.tcl lib/version.tcl
+description:
+* Fixing get_info for panes.
+
+
+changeset:   1599:35c3f6302c43
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Dec 16 17:48:37 2015 -0600
+files:       lib/api.tcl lib/diff.tcl lib/gui.tcl lib/menus.tcl lib/sidebar.tcl lib/snip_parser.tac lib/snip_parser.tcl lib/tke.tcl lib/version.tcl
+description:
+* Removing gui get-like procedural calls and replacing with get_info.
+* Fixing a few other issues introduced in the latest commits.
+
+
+changeset:   1600:7d92b779da07
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Dec 16 18:56:32 2015 -0600
+files:       lib/gui.tcl lib/markers.tcl lib/version.tcl
+description:
+* More bug fixes in modified code.
+
+
+changeset:   1601:208bcd7a28a9
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Dec 16 19:32:18 2015 -0600
+files:       lib/embed_tke.tcl lib/gui.tcl lib/preferences.tcl lib/snippets.tcl lib/syntax.tcl lib/theme.tcl lib/version.tcl
+description:
+* Fixing more syntax issues.
+* Attempting to fix marker line number issue.
+
+
+changeset:   1602:b88c80aef776
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Dec 16 19:33:20 2015 -0600
+files:       data/syntax/Fickle.syntax data/syntax/Taccle.syntax lib/version.tcl
+description:
+* Adding initial Fickle and Taccle syntax files.
+
+
+changeset:   1603:232da08649a4
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Dec 12 21:32:17 2015 -0600
-files:       lib/gui.tcl lib/menus.tcl lib/version.tcl lib/vim.tcl
+date:        Wed Dec 16 21:47:44 2015 -0600
+files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg data/syntax/Taccle.syntax lib/gui.tcl lib/version.tcl
 description:
-* Adding "Reload File" menu item to File menu.
-* Adding "Change Working Directory" menu item to File menu.
+* Updating translations.
+* Adding parsing of %... sequences in Taccle syntax
+* Fixing more issues in gui.tcl.
 
 
-changeset:   1582:7348e0f386f2
+changeset:   1604:c5e49cb9b901
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Dec 12 23:40:45 2015 -0600
-files:       lib/edit.tcl lib/menus.tcl lib/version.tcl lib/vim.tcl
+date:        Wed Dec 16 23:08:05 2015 -0600
+files:       lib/embed_tke.tcl lib/sidebar.tcl lib/tke.tcl lib/version.tcl
 description:
-* Adding "Toggle Case" menu option to Edit menu.
-* Adding "Lower Case" menu option to Edit menu.
-* Adding "Upper Case" menu option to Edit menu.
-* Adding "Title Case" menu option to Edit menu.
+* Fixing syntax errors in sidebar and embed_tke
+* Switching back to wm withdraw on startup.
 
 
-changeset:   1583:8ed2a4700fa4
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Dec 13 01:33:44 2015 -0600
-files:       lib/edit.tcl lib/menus.tcl lib/version.tcl lib/vim.tcl
-description:
-* Adding "Move to First Line" cursor menu option.
-* Adding "Move to Last Line" cursor menu option.
-* Adding "Move to Next Page" cursor menu option.
-* Adding "Move to Previous Page" cursor menu option.
-* Adding "Move to Screen Top" cursor menu option.
-* Adding "Move to Screen Middle" cursor menu option.
-* Adding "Move to Screen Bottom" cursor menu option.
-* Adding "Move to Line Start" cursor menu option.
-* Adding "Move to Line End" cursor menu option.
-* Adding "Move to Next Word" cursor menu option.
-* Adding "Move to Previous Word" cursor menu option.
-
-
-changeset:   1584:f681cc1bb937
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Dec 13 20:30:16 2015 -0600
-files:       lib/gui.tcl lib/launcher.tcl lib/markers.tcl lib/menus.tcl lib/sidebar.tcl lib/version.tcl
-description:
-* Renaming get_file_index with fname input to get_file_index_by_fname to avoid confusion.
-* Renaming get_file_index with tab input to get_file_index_by_tab to avoid confusion.
-* Changing markers to allow the user to switch to a marker in another file (marker names now show file info as well).
-
-
-changeset:   1585:a39b166e39d5
+changeset:   1605:e1ba0ab2885e
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Dec 13 23:55:10 2015 -0600
-files:       lib/gui.tcl lib/search.tcl lib/utils.tcl lib/version.tcl
+date:        Thu Dec 17 00:51:28 2015 -0600
+files:       lib/gui.tcl lib/ptwidgets1.2/library/tabbar.tcl lib/version.tcl
 description:
-* Fixing issue with utils::stacktrace procedure.
-* Adding support for value substitutions in find/replace regular expression handling.
-* Fixing issue with saving an untitled buffer with a name in the Vim command field.
+* Fixing more usage issues.
 
 
