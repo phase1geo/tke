@@ -1297,6 +1297,7 @@ namespace eval gui {
 
       # Make this tab the currently displayed tab
       if {!$opts(-lazy)} {
+        puts "Calling set_current_tab, w: $w"
         set_current_tab $w
       }
 
@@ -3793,6 +3794,8 @@ namespace eval gui {
   # Options:
   #   w
   #        Item to base the current tab on (defined by the -type option)
+  #   -changed (0 | 1)
+  #        Set to true by the tabbar selection command.
   #   -skip_focus (0 | 1)
   #        Specifies if we should set the focus on the text widget.
   #        Default is 0
@@ -3808,6 +3811,7 @@ namespace eval gui {
     variable files_index
 
     array set opts {
+      -changed    0
       -skip_focus 0
       -skip_check 0
     }
@@ -3816,17 +3820,23 @@ namespace eval gui {
     # Get the current information
     lassign [get_info $tab tab {paneindex tabbar tab fileindex}] pw_current tb file_index
 
-    # Only update the tab if it differs from the previously recorded tab
-    if {![info exists tab_current($pw_current)] || ($tab_current($pw_current) ne $tab)} {
+    # If the proc is not being called by the tabbar and the tab is different than the tabbar's current
+    # tab, just call the tabbar select with the tab.  It will call this proc itself.  This is an
+    # optimization that should eliminate running unnecessary code in this procedure.
+    if {!$opts(-changed) && ([$tb select] ne $tab)} {
+      $tb select $tab
+      return
+    }
+
+    puts "In set_current_tab, tab: $tab, args: $args, pw_current: $pw_current, exists: [info exists tab_current($pw_current)]"
+    puts [utils::stacktrace]
+
+    # If the tab changed (as directed by the tabbar, add the content (if needed), display the tab's frame,
+    # and update the preferences.
+    if {$opts(-changed)} {
 
       # Display the tab content
       add_tab_content $tab
-
-      # Save the currently selected tab
-      set tab_current($pw_current) $tab
-
-      # Set the current tab
-      $tb select $tab
 
       set tf [winfo parent [winfo parent $tb]].tf
 
@@ -3872,7 +3882,7 @@ namespace eval gui {
   # Handles a selection made by the user from the tabbar.
   proc handle_tabbar_select {tabbar args} {
 
-    set_current_tab [get_info $tabbar tabbar tab]
+    set_current_tab [get_info $tabbar tabbar tab] -changed 1
 
   }
 
