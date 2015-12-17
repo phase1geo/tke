@@ -37,6 +37,17 @@ msgcat::mcmset cs {
 
 }
 
+# edit.tcl
+msgcat::mcmset cs {
+
+  "File successfully written"
+  "Soubor úspěšně zapsána"
+
+  "Filename already exists"
+  "Název souboru již existuje."
+
+}
+
 # embed_tke.tcl
 msgcat::mcmset cs {
 
@@ -50,6 +61,9 @@ msgcat::mcmset cs {
 
 # gui.tcl
 msgcat::mcmset cs {
+
+  "All"
+  "Všichni"
 
   "Case sensitivity"
   "Rozlišování"
@@ -165,9 +179,6 @@ msgcat::mcmset cs {
   "Total Lines"
   "Celkový čáry"
 
-  "Unable to find current file"
-  "Nelze nalézt aktuální soubor"
-
   "Unable to successfully parse number string"
   "Nelze úspěšně analyzovat číselné řetězce"
 
@@ -176,9 +187,6 @@ msgcat::mcmset cs {
 
   "Version"
   "Verze"
-
-  "tab"
-  "kryt"
 
 }
 
@@ -205,6 +213,18 @@ msgcat::mcmset cs {
   "Auto-Indent"
   "Automatické odsazení"
 
+  "Bubble Down"
+  "Bublina dole"
+
+  "Bubble Up"
+  "Vyvěrají"
+
+  "Change Working Directory"
+  "Změnit pracovní adresář"
+
+  "Character"
+  "Postava"
+
   "Check for Update"
   "Zkontrolujte, zda aktualizaci"
 
@@ -217,6 +237,12 @@ msgcat::mcmset cs {
   "Close Current"
   "Uzav?ít aktuální"
 
+  "Command"
+  "Příkaz"
+
+  "Command Result"
+  "Výsledek příkazu"
+
   "Copy"
   "Kopírovat"
 
@@ -226,8 +252,26 @@ msgcat::mcmset cs {
   "Create..."
   "Vytvořit"
 
+  "Current Line"
+  "Aktuální řádek"
+
+  "Current Word"
+  "Aktuální slovo"
+
+  "Cursor"
+  "Kurzor"
+
+  "Cursor from Line Start"
+  "Kurzor od začátku řádku"
+
+  "Cursor to Line End"
+  "Kurzor na konec řádku"
+
   "Cut"
   "Snížit"
+
+  "Display Text Info"
+  "Zobrazit informace o textu"
 
   "Edit"
   "Upravit"
@@ -238,11 +282,56 @@ msgcat::mcmset cs {
   "Edit Menu Edit user snippets"
   "Úprava Menu Upravit uživatelské fragmenty"
 
+  "Edit Menu: Align cursors"
+  "Nabídka úpravy: Zarovnání kurzorů"
+
+  "Edit Menu: Bubble lines down one line"
+  "Nabídka úpravy: Bublina řádky o jeden řádek dolů"
+
+  "Edit Menu: Bubble lines up one line"
+  "Nabídka úpravy: Bublina řádky o jeden řádek nahoru"
+
+  "Edit Menu: Convert case to lower"
+  "Nabídka úpravy: Convert případ nižší"
+
+  "Edit Menu: Convert case to title"
+  "Nabídka úpravy: Převod případ na titul"
+
+  "Edit Menu: Convert case to upper"
+  "Nabídka úpravy: Převod případ na horní"
+
   "Edit Menu: Copy text"
   "Nabídka úpravy: Kopírovat text"
 
   "Edit Menu: Cut text"
   "Nabídka úpravy: Vyjmout text"
+
+  "Edit Menu: Delete backward numbers"
+  "Nabídka úpravy: Odstranění zpětně čísla"
+
+  "Edit Menu: Delete backward whitespace"
+  "Nabídka úpravy: Odstranění zpětně mezery"
+
+  "Edit Menu: Delete current line"
+  "Nabídka úpravy: Odstranit aktuální řádek"
+
+  "Edit Menu: Delete current word"
+  "Nabídka úpravy: Odstranit aktuální slovo"
+
+  "Edit Menu: Delete forward numbers"
+  "Nabídka úpravy: Odstranění vpřed čísla"
+
+  "Edit Menu: Delete forward whitespace"
+  "Nabídka úpravy: Odstranění vpřed mezery"
+
+  "Edit Menu: Delete from cursor to end of line"
+  "Nabídka úpravy: Odstranění od kurzoru do konce řádku"
+
+  "Edit Menu: Delete from start of line to cursor"
+  "Nabídka úpravy: Odstraňte ze začátku řádku kurzoru"
+
+  "Edit Menu: Delete text between character"
+  "Nabídka úpravy: Odstranit text mezi znaky"
 
   "Edit Menu: Edit language snippets"
   "Nabídka úpravy: Upravit jazyk fragmenty"
@@ -262,17 +351,77 @@ msgcat::mcmset cs {
   "Edit Menu: Edit user menu bindings"
   "Nabídka úpravy: Upravit uživatelské menu vazby"
 
-  "Edit Menu: Format all text"
-  "Nabídka úpravy: Formátovat celý text"
+  "Edit Menu: Format indentation for text"
+  "Nabídka úpravy: Formát odsazení textu"
 
-  "Edit Menu: Format selected text"
-  "Nabídka úpravy: Naformátovat vybraný text"
+  "Edit Menu: Indent selected text"
+  "Nabídka úpravy: Odsazení vybraného textu"
+
+  "Edit Menu: Insert command result after current line"
+  "Nabídka úpravy: Vložit výsledek příkazu za aktuálním řádkem"
+
+  "Edit Menu: Insert file contents after current line"
+  "Nabídka úpravy: Vložit obsah souboru za aktuálním řádkem"
 
   "Edit Menu: Insert from clipboard"
   "Nabídka úpravy: Vložení ze schránky"
 
+  "Edit Menu: Insert line above current line"
+  "Nabídka úpravy: Vložit řádek nad aktuální řádek"
+
+  "Edit Menu: Insert line below current line"
+  "Nabídka úpravy: Vložit řádek pod aktuálním řádkem"
+
   "Edit Menu: Insert snippet"
   "Nabídka upravit: Vložit fragment"
+
+  "Edit Menu: Join lines"
+  "Nabídka úpravy: Spojnice"
+
+  "Edit Menu: Move cursor to bottom of screen"
+  "Nabídka úpravy: Přesunout kurzor do dolní části obrazovky"
+
+  "Edit Menu: Move cursor to end of current line"
+  "Nabídka úpravy: Přesunout kurzor na konec aktuálního řádku"
+
+  "Edit Menu: Move cursor to first line"
+  "Nabídka úpravy: Posunout kurzor na první řádek"
+
+  "Edit Menu: Move cursor to last line"
+  "Nabídka úpravy: Přesune kurzor na poslední řádek"
+
+  "Edit Menu: Move cursor to middle of screen"
+  "Nabídka úpravy: Přesunout kurzor do středu obrazovky"
+
+  "Edit Menu: Move cursor to next page"
+  "Nabídka úpravy: Přesune kurzor na další stránku"
+
+  "Edit Menu: Move cursor to next word"
+  "Nabídka úpravy: Přesunout kurzor do následujícího slova"
+
+  "Edit Menu: Move cursor to previous page"
+  "Nabídka úpravy: Přesune kurzor na předchozí stránku"
+
+  "Edit Menu: Move cursor to previous word"
+  "Nabídka úpravy: Přesunout kurzor do předchozího slova."
+
+  "Edit Menu: Move cursor to start of current line"
+  "Nabídka úpravy: Přesunout kurzor na začátek aktuálního řádku."
+
+  "Edit Menu: Move cursor to top of screen"
+  "Nabídka úpravy: Přesunout kurzor do horní části obrazovky"
+
+  "Edit Menu: Move multicursors down one line"
+  "Nabídka úpravy: Přesunout multicursors o jeden řádek dolů"
+
+  "Edit Menu: Move multicursors left one line"
+  "Nabídka úpravy: Přesun multicursors vlevo jeden řádek"
+
+  "Edit Menu: Move multicursors right one line"
+  "Nabídka úpravy: Přesun multicursors právě jeden řádek"
+
+  "Edit Menu: Move multicursors up one line"
+  "Nabídka úpravy: Přesunout multicursors o jeden řádek nahoru"
 
   "Edit Menu: Paste and format text from clipboard"
   "Nabídka úpravy: Vkládání a formátování textu ze schránky"
@@ -285,6 +434,9 @@ msgcat::mcmset cs {
 
   "Edit Menu: Reload snippets"
   "Nabídka úpravy: Reload fragmenty"
+
+  "Edit Menu: Replace line with script"
+  "Nabídka úpravy: Nahradit řádek skriptu"
 
   "Edit Menu: Select all text"
   "Nabídka úpravy: Vyberte všechen text"
@@ -304,8 +456,17 @@ msgcat::mcmset cs {
   "Edit Menu: Set user preferences to global preferences"
   "Nabídka úpravy: Nastavit uživatelské předvolby na globální nastavení"
 
+  "Edit Menu: Toggle case of current character"
+  "Nabídka úpravy: Velká písmena aktuálního znaku"
+
+  "Edit Menu: Toggle comment"
+  "Nabídka úpravy: Přepínač komentář"
+
   "Edit Menu: Undo"
   "Úprava Menu: zpět"
+
+  "Edit Menu: Unindent selected text"
+  "Nabídka úpravy: Zrušit odsazení vybraného textu"
 
   "Edit Menu: View base preferences file"
   "Menu úpravy: Soubor základních předvoleb zobrazení"
@@ -328,8 +489,17 @@ msgcat::mcmset cs {
   "Edit User - Language"
   "Upravit uivatelské - jazyk"
 
+  "Enumeration"
+  "Výčet"
+
   "File"
   "Soubor"
+
+  "File Contents"
+  "Obsah souboru"
+
+  "File Menu: Change working directory"
+  "Nabídka soubor: Změnit pracovní adresář"
 
   "File Menu: Close all tabs"
   "Nabídka soubor: Zavřít všechny karty"
@@ -346,6 +516,9 @@ msgcat::mcmset cs {
   "File Menu: New file"
   "Nabídka soubor: Nový soubor"
 
+  "File Menu: New window"
+  "Nabídce soubor: Nové okno"
+
   "File Menu: Open Favorite"
   "Nabídka soubor: Otevřené oblíbené"
 
@@ -361,6 +534,9 @@ msgcat::mcmset cs {
   "File Menu: Quit application"
   "Nabídka soubor: Ukončit aplikaci"
 
+  "File Menu: Reopen current file"
+  "Soubor Menu: Současný soubor znovu otevřete"
+
   "File Menu: Save all files"
   "Nabídka soubor: Uložte všechny soubory"
 
@@ -369,6 +545,9 @@ msgcat::mcmset cs {
 
   "File Menu: Save file as"
   "Nabídka soubor: Uložit soubor jako"
+
+  "File Menu: Save selected lines"
+  "Nabídka soubor: Uložit vybrané řádky"
 
   "File Menu: Show file difference"
   "Nabídka soubor: Show souboru rozdílu"
@@ -420,6 +599,9 @@ msgcat::mcmset cs {
 
   "Find Menu: Jump forward"
   "Najít Menu: Skok vpřed"
+
+  "Find Menu: Jump to line"
+  "Najít Menu: Přejít na řádek"
 
   "Find Menu: Remove all markers"
   "Najít Menu: Odebrat všechny značky"
@@ -496,20 +678,20 @@ msgcat::mcmset cs {
   "Indent"
   "Zvětšit odsazení"
 
-  "Indent Mode"
-  "Odsadit režim"
-
   "Indent Off"
   "Odsadit vypnuto"
 
-  "Insert Enumeration"
-  "Vloit  vý?et"
+  "Indentation"
+  "Odsazení"
 
-  "Insert Text"
-  "Vložit text"
+  "Insert"
+  "Vložit"
 
   "Install..."
   "nainstalovat"
+
+  "Join Lines"
+  "Čáry spojení"
 
   "Jump Backward"
   "Skok zp?t"
@@ -517,11 +699,26 @@ msgcat::mcmset cs {
   "Jump Forward"
   "Skok vp?ed"
 
+  "Jump To Line"
+  "Přejít na řádek"
+
   "Launcher"
   "spouštěč"
 
+  "Line Above Current"
+  "Linka nad aktuální"
+
+  "Line Below Current"
+  "Linka pod aktuální"
+
+  "Line Number"
+  "Číslo řádku"
+
   "Lock"
   "Uzamknout"
+
+  "Lower Case"
+  "Malá písmena"
 
   "Markers"
   "Značky"
@@ -535,8 +732,62 @@ msgcat::mcmset cs {
   "Merge Panes"
   "Slou?it podokna"
 
+  "Move Cursors Down"
+  "Kurzory dolů"
+
+  "Move Cursors Left"
+  "Přesunout doleva kurzory"
+
+  "Move Cursors Right"
+  "Přesunout doprava kurzory"
+
+  "Move Cursors Up"
+  "Kurzory nahoru"
+
+  "Move to First Line"
+  "Přesunutí do prvního řádku"
+
+  "Move to Last Line"
+  "Přesun do posledního řádku"
+
+  "Move to Line End"
+  "Přesunout na konec řádku"
+
+  "Move to Line Start"
+  "Přesunout řádek Start"
+
+  "Move to Next Page"
+  "Přesunutí na další stránku"
+
+  "Move to Next Word"
+  "Přesun do dalšího slova."
+
+  "Move to Previous Page"
+  "Přesunutí na předchozí stránku"
+
+  "Move to Previous Word"
+  "Přesun na předchozí slovo"
+
+  "Move to Screen Bottom"
+  "Přesunout do dolní části obrazovky"
+
+  "Move to Screen Middle"
+  "Přesunout na obrazovku střední"
+
+  "Move to Screen Top"
+  "Přesunout na obrazovku nahoru"
+
+  "New Window"
+  "New Window"
+
   "Next Difference"
   "Dalí rozdíl"
+
+  "Numbers Backward"
+  "Čísla dozadu"
+
+  "Numbers Forward"
+  "Čísla vpřed"
 
   "Open Directory..."
   "Open Directory ..."
@@ -601,6 +852,9 @@ msgcat::mcmset cs {
   "Remove From Current Line"
   "Odebrat z aktuálního ?ádku"
 
+  "Reopen File"
+  "Znovu otevřete soubor"
+
   "Replace Line With Script"
   "Nahradit ?ádek skriptu"
 
@@ -619,6 +873,9 @@ msgcat::mcmset cs {
   "Save Current"
   "Uloit aktuální"
 
+  "Save Selection As..."
+  "Uložit výběr jako..."
+
   "Select All"
   "Vybrat vše"
 
@@ -630,9 +887,6 @@ msgcat::mcmset cs {
 
   "Select Previous Occurrence"
   "Vybrat p?edchozí výskyt"
-
-  "Selected"
-  "Vybrané"
 
   "Send Bug Report"
   "Odeslat hlášení o chybě"
@@ -648,9 +902,6 @@ msgcat::mcmset cs {
 
   "Sessions Menu: Delete session"
   "Relací Menu: Odstranit relace"
-
-  "Sessions Menu: Open session"
-  "Relací Menu: Otevřené relace"
 
   "Sessions Menu: Save current session"
   "Sessions Menu: Uložit aktuální relaci"
@@ -727,26 +978,17 @@ msgcat::mcmset cs {
   "Tabs"
   "Karty"
 
-  "Text"
-  "Text"
-
-  "Text Menu: Align cursors"
-  "Menu textu: Zarovnání kurzorů"
-
-  "Text Menu: Indent selected text"
-  "Menu textu: Odsazení vybraného textu"
+  "Text Between Character"
+  "Text mezi znaky"
 
   "Text Menu: Insert enumeration"
   "Menu textu: Vložit – výčet"
 
-  "Text Menu: Replace line with script"
-  "Menu textu: Nahradit řádek skriptu"
+  "Title Case"
+  "Všechna první velká"
 
-  "Text Menu: Toggle comment"
-  "Menu textu: Přepínač komentář"
-
-  "Text Menu: Unindent selected text"
-  "Menu textu: Zrušit odsazení vybraného textu"
+  "Toggle Case"
+  "Zaměnit malá a Velká"
 
   "Toggle Comment"
   "P?epnout komentá?"
@@ -778,6 +1020,9 @@ msgcat::mcmset cs {
   "Tools Menu: Stop profiling"
   "Nabídka nástroje: Zastavit, profilování"
 
+  "Transform"
+  "Transformovat"
+
   "Undo"
   "Vrátit zpět akci"
 
@@ -790,6 +1035,9 @@ msgcat::mcmset cs {
   "Unlock"
   "Odemknout"
 
+  "Upper Case"
+  "Majuskule"
+
   "User Guide"
   "Uživatelská příručka"
 
@@ -801,6 +1049,9 @@ msgcat::mcmset cs {
 
   "View Global"
   "Zobrazit globální"
+
+  "View Menu: Display text information"
+  "Zobrazit Menu: Zobrazí textové informace"
 
   "View Menu: Goto last tab"
   "Nabídka Zobrazit: Goto poslední karta"
@@ -870,6 +1121,12 @@ msgcat::mcmset cs {
 
   "Vim Mode"
   "Režim Vim"
+
+  "Whitespace Backward"
+  "Whitespace dozadu"
+
+  "Whitespace Forward"
+  "Prázdný znak vpřed"
 
 }
 
@@ -1182,11 +1439,17 @@ msgcat::mcmset cs {
   "Foreground text color to use for selected text."
   "Popředí textu barva se použije pro vybraný text."
 
+  "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."
+  "Pro všechny ostatní karty, které nejsou aktuální/aktivní kartu v tabbar barvu popředí textu."
+
   "Foreground text color used for menus item that are disabled."
   "Barva popředí textu používá pro menu položky, které jsou zakázány."
 
   "Foreground text color used for the current/active menu item."
   "Barva popředí textu použit pro aktuální / aktivní položku menu."
+
+  "Foreground text color used for the current/active tab in the tabbar."
+  "Barva popředí textu pro proud/aktivní kartu v klepna."
 
   "Foreground text color used in menus."
   "Barva popředí Text použitý v nabídkách."
@@ -1417,22 +1680,8 @@ msgcat::mcmset cs {
 
 }
 
-# vim.tcl
-msgcat::mcmset cs {
-
-  "File successfully written"
-  "Soubor úspěšně zapsána"
-
-  "Filename already exists"
-  "Název souboru již existuje."
-
-}
-
 # General
 msgcat::mcmset cs {
-
-  "All"
-  "Všichni"
 
   "Cancel"
   "Storno"

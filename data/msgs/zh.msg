@@ -37,6 +37,17 @@ msgcat::mcmset zh {
 
 }
 
+# edit.tcl
+msgcat::mcmset zh {
+
+  "File successfully written"
+  "成功地写入文件"
+
+  "Filename already exists"
+  "文件名已经存在"
+
+}
+
 # embed_tke.tcl
 msgcat::mcmset zh {
 
@@ -50,6 +61,9 @@ msgcat::mcmset zh {
 
 # gui.tcl
 msgcat::mcmset zh {
+
+  "All"
+  "所有"
 
   "Case sensitivity"
   "区分大小写"
@@ -165,9 +179,6 @@ msgcat::mcmset zh {
   "Total Lines"
   "总行数"
 
-  "Unable to find current file"
-  "无法找到当前文件"
-
   "Unable to successfully parse number string"
   "无法成功分析数字字符串"
 
@@ -176,9 +187,6 @@ msgcat::mcmset zh {
 
   "Version"
   "版本"
-
-  "tab"
-  "选项卡"
 
 }
 
@@ -205,6 +213,18 @@ msgcat::mcmset zh {
   "Auto-Indent"
   "自动缩进"
 
+  "Bubble Down"
+  "泡下来"
+
+  "Bubble Up"
+  "向上冒泡"
+
+  "Change Working Directory"
+  "改变工作目录"
+
+  "Character"
+  "字符"
+
   "Check for Update"
   "检查更新"
 
@@ -217,6 +237,12 @@ msgcat::mcmset zh {
   "Close Current"
   "????"
 
+  "Command"
+  "命令"
+
+  "Command Result"
+  "命令结果"
+
   "Copy"
   "复制"
 
@@ -226,8 +252,26 @@ msgcat::mcmset zh {
   "Create..."
   "建立..."
 
+  "Current Line"
+  "当前行"
+
+  "Current Word"
+  "当前的单词"
+
+  "Cursor"
+  "光标"
+
+  "Cursor from Line Start"
+  "光标从行开始"
+
+  "Cursor to Line End"
+  "光标移动到行尾"
+
   "Cut"
   "剪切"
+
+  "Display Text Info"
+  "显示文字"
 
   "Edit"
   "编辑"
@@ -238,11 +282,56 @@ msgcat::mcmset zh {
   "Edit Menu Edit user snippets"
   "编辑菜单编辑用户代码段"
 
+  "Edit Menu: Align cursors"
+  "编辑菜单: 对齐光标"
+
+  "Edit Menu: Bubble lines down one line"
+  "编辑菜单: 泡沫行下移一行"
+
+  "Edit Menu: Bubble lines up one line"
+  "编辑菜单: 泡沫行上一行"
+
+  "Edit Menu: Convert case to lower"
+  "编辑菜单: 转换情况下，降低"
+
+  "Edit Menu: Convert case to title"
+  "编辑菜单: 转换案例为标题"
+
+  "Edit Menu: Convert case to upper"
+  "编辑菜单: 转换为上部的案例"
+
   "Edit Menu: Copy text"
   "编辑菜单: 复制文本"
 
   "Edit Menu: Cut text"
   "编辑菜单: 剪切文本"
+
+  "Edit Menu: Delete backward numbers"
+  "编辑菜单: 删除落后数字"
+
+  "Edit Menu: Delete backward whitespace"
+  "编辑菜单: 删除落后空白"
+
+  "Edit Menu: Delete current line"
+  "编辑菜单: 删除当前行"
+
+  "Edit Menu: Delete current word"
+  "编辑菜单: 删除当前的单词"
+
+  "Edit Menu: Delete forward numbers"
+  "编辑菜单: 删除转发数字"
+
+  "Edit Menu: Delete forward whitespace"
+  "编辑菜单: 删除转发空白"
+
+  "Edit Menu: Delete from cursor to end of line"
+  "编辑菜单: 删除从光标结束的行"
+
+  "Edit Menu: Delete from start of line to cursor"
+  "编辑菜单: 删除行的起始处到光标处"
+
+  "Edit Menu: Delete text between character"
+  "编辑菜单: 删除字符之间的文本"
 
   "Edit Menu: Edit language snippets"
   "编辑菜单: 编辑语言片段"
@@ -262,17 +351,77 @@ msgcat::mcmset zh {
   "Edit Menu: Edit user menu bindings"
   "编辑菜单: 编辑用户菜单绑定"
 
-  "Edit Menu: Format all text"
-  "编辑菜单: 设置格式的所有文本"
+  "Edit Menu: Format indentation for text"
+  "编辑菜单: 设置格式文本缩进的量"
 
-  "Edit Menu: Format selected text"
-  "编辑菜单: 设置所选的文本的格式"
+  "Edit Menu: Indent selected text"
+  "编辑菜单: 缩进选定的文本"
+
+  "Edit Menu: Insert command result after current line"
+  "编辑菜单: 在当前行后插入命令结果"
+
+  "Edit Menu: Insert file contents after current line"
+  "编辑菜单: 在当前行后插入文件的内容"
 
   "Edit Menu: Insert from clipboard"
   "从剪贴板上的编辑菜单: 插入"
 
+  "Edit Menu: Insert line above current line"
+  "编辑菜单: 插入当前行上面一行"
+
+  "Edit Menu: Insert line below current line"
+  "编辑菜单: 插入当前行下方"
+
   "Edit Menu: Insert snippet"
   "编辑菜单: 插入代码段"
+
+  "Edit Menu: Join lines"
+  "编辑菜单: 联接线"
+
+  "Edit Menu: Move cursor to bottom of screen"
+  "编辑菜单: 将光标移动到屏幕的底部"
+
+  "Edit Menu: Move cursor to end of current line"
+  "编辑菜单: 移动光标以结束当前行"
+
+  "Edit Menu: Move cursor to first line"
+  "编辑菜单: 将光标移到第一行"
+
+  "Edit Menu: Move cursor to last line"
+  "编辑菜单: 将光标移动到最后一行"
+
+  "Edit Menu: Move cursor to middle of screen"
+  "编辑菜单: 将光标移动到屏幕的中间"
+
+  "Edit Menu: Move cursor to next page"
+  "编辑菜单: 将光标移动到下一个页面"
+
+  "Edit Menu: Move cursor to next word"
+  "编辑菜单: 将光标移动到下一个单词"
+
+  "Edit Menu: Move cursor to previous page"
+  "编辑菜单: 将光标移动到前一页"
+
+  "Edit Menu: Move cursor to previous word"
+  "编辑菜单: 将光标移动到前一个单词"
+
+  "Edit Menu: Move cursor to start of current line"
+  "编辑菜单: 将光标移至当前行首"
+
+  "Edit Menu: Move cursor to top of screen"
+  "编辑菜单: 将光标移动到屏幕的顶部"
+
+  "Edit Menu: Move multicursors down one line"
+  "编辑菜单: 将 multicursors 下移一行"
+
+  "Edit Menu: Move multicursors left one line"
+  "编辑菜单: 移动 multicursors 左一行"
+
+  "Edit Menu: Move multicursors right one line"
+  "编辑菜单: 将 multicursors 右移一线"
+
+  "Edit Menu: Move multicursors up one line"
+  "编辑菜单: 移动 multicursors 上一行"
 
   "Edit Menu: Paste and format text from clipboard"
   "编辑菜单: 粘贴和格式将文本从剪贴板"
@@ -285,6 +434,9 @@ msgcat::mcmset zh {
 
   "Edit Menu: Reload snippets"
   "编辑菜单: 重新加载代码片段"
+
+  "Edit Menu: Replace line with script"
+  "编辑菜单: 用脚本替换行"
 
   "Edit Menu: Select all text"
   "编辑菜单: 选择所有文本"
@@ -304,8 +456,17 @@ msgcat::mcmset zh {
   "Edit Menu: Set user preferences to global preferences"
   "编辑菜单: 设置全球首选项中设置的用户首选项"
 
+  "Edit Menu: Toggle case of current character"
+  "编辑菜单: 切换大小写的当前字符"
+
+  "Edit Menu: Toggle comment"
+  "编辑菜单: 切换注释"
+
   "Edit Menu: Undo"
   "编辑菜单: 撤消"
+
+  "Edit Menu: Unindent selected text"
+  "编辑菜单: 取消缩进选定的文本"
 
   "Edit Menu: View base preferences file"
   "编辑菜单: 查看基地首选项文件"
@@ -328,8 +489,17 @@ msgcat::mcmset zh {
   "Edit User - Language"
   "????-??"
 
+  "Enumeration"
+  "列举法"
+
   "File"
   "文件"
+
+  "File Contents"
+  "強製文件獲取內容"
+
+  "File Menu: Change working directory"
+  "文件菜单: 改变工作目录"
 
   "File Menu: Close all tabs"
   "文件菜单: 关闭所有选项卡"
@@ -346,6 +516,9 @@ msgcat::mcmset zh {
   "File Menu: New file"
   "文件菜单: 新建文件"
 
+  "File Menu: New window"
+  "文件菜单: 新窗口"
+
   "File Menu: Open Favorite"
   "文件菜单: 打开收藏夹"
 
@@ -361,6 +534,9 @@ msgcat::mcmset zh {
   "File Menu: Quit application"
   "文件菜单: 退出应用程序"
 
+  "File Menu: Reopen current file"
+  "重新打开当前文件的文件菜单:"
+
   "File Menu: Save all files"
   "文件菜单: 保存所有文件"
 
@@ -369,6 +545,9 @@ msgcat::mcmset zh {
 
   "File Menu: Save file as"
   "文件菜单: 文件另存为"
+
+  "File Menu: Save selected lines"
+  "文件菜单: 保存选定的行"
 
   "File Menu: Show file difference"
   "文件菜单: 显示文件差异"
@@ -420,6 +599,9 @@ msgcat::mcmset zh {
 
   "Find Menu: Jump forward"
   "查找菜单: 向前跳"
+
+  "Find Menu: Jump to line"
+  "查找菜单: 跳转到行"
 
   "Find Menu: Remove all markers"
   "查找菜单: 删除所有标记"
@@ -496,20 +678,20 @@ msgcat::mcmset zh {
   "Indent"
   "縮排"
 
-  "Indent Mode"
-  "缩进模式"
-
   "Indent Off"
   "关闭缩进"
 
-  "Insert Enumeration"
-  "????"
+  "Indentation"
+  "缩进"
 
-  "Insert Text"
-  "插入文字"
+  "Insert"
+  "插入"
 
   "Install..."
   "安装"
+
+  "Join Lines"
+  "联接线"
 
   "Jump Backward"
   "???"
@@ -517,11 +699,26 @@ msgcat::mcmset zh {
   "Jump Forward"
   "???"
 
+  "Jump To Line"
+  "跳转到行"
+
   "Launcher"
   "发射台"
 
+  "Line Above Current"
+  "高于当前行"
+
+  "Line Below Current"
+  "当前下面一行"
+
+  "Line Number"
+  "行號"
+
   "Lock"
   "鎖定"
+
+  "Lower Case"
+  "小写字母"
 
   "Markers"
   "标记"
@@ -535,8 +732,62 @@ msgcat::mcmset zh {
   "Merge Panes"
   "????"
 
+  "Move Cursors Down"
+  "将光标向下移动"
+
+  "Move Cursors Left"
+  "光标左移"
+
+  "Move Cursors Right"
+  "光标右移"
+
+  "Move Cursors Up"
+  "向上移动光标"
+
+  "Move to First Line"
+  "移动到第一行"
+
+  "Move to Last Line"
+  "移动，最后一行"
+
+  "Move to Line End"
+  "移动行结束"
+
+  "Move to Line Start"
+  "移动线开始"
+
+  "Move to Next Page"
+  "移到下一页"
+
+  "Move to Next Word"
+  "移动到下一个单词"
+
+  "Move to Previous Page"
+  "移动到前一页"
+
+  "Move to Previous Word"
+  "移动到前一个单词"
+
+  "Move to Screen Bottom"
+  "移动到屏幕底部"
+
+  "Move to Screen Middle"
+  "移动屏幕中间"
+
+  "Move to Screen Top"
+  "移动屏幕顶部"
+
+  "New Window"
+  "新窗口"
+
   "Next Difference"
   "?????"
+
+  "Numbers Backward"
+  "数字落后"
+
+  "Numbers Forward"
+  "数字向前"
 
   "Open Directory..."
   "开放目录..."
@@ -601,6 +852,9 @@ msgcat::mcmset zh {
   "Remove From Current Line"
   "??????"
 
+  "Reopen File"
+  "重新打开文件"
+
   "Replace Line With Script"
   "??????"
 
@@ -619,6 +873,9 @@ msgcat::mcmset zh {
   "Save Current"
   "????"
 
+  "Save Selection As..."
+  "另存为选择..."
+
   "Select All"
   "全选"
 
@@ -630,9 +887,6 @@ msgcat::mcmset zh {
 
   "Select Previous Occurrence"
   "????????"
-
-  "Selected"
-  "选定"
 
   "Send Bug Report"
   "发送报告"
@@ -648,9 +902,6 @@ msgcat::mcmset zh {
 
   "Sessions Menu: Delete session"
   "会话菜单: 删除会话"
-
-  "Sessions Menu: Open session"
-  "会话菜单: 打开的会话"
 
   "Sessions Menu: Save current session"
   "会话菜单: 保存当前会话"
@@ -727,26 +978,17 @@ msgcat::mcmset zh {
   "Tabs"
   "標籤"
 
-  "Text"
-  "文本"
-
-  "Text Menu: Align cursors"
-  "菜单文本: 对齐光标"
-
-  "Text Menu: Indent selected text"
-  "文本菜单: 缩进选定的文本"
+  "Text Between Character"
+  "字符之间的文本"
 
   "Text Menu: Insert enumeration"
   "文本菜单: 插入枚举"
 
-  "Text Menu: Replace line with script"
-  "文本菜单: 用脚本替换行"
+  "Title Case"
+  "词首字母大写"
 
-  "Text Menu: Toggle comment"
-  "文本菜单: 切换注释"
-
-  "Text Menu: Unindent selected text"
-  "文本菜单: 取消缩进选定的文本"
+  "Toggle Case"
+  "切换大小写"
 
   "Toggle Comment"
   "??/????"
@@ -778,6 +1020,9 @@ msgcat::mcmset zh {
   "Tools Menu: Stop profiling"
   "工具菜单: 停止性能分析"
 
+  "Transform"
+  "变换"
+
   "Undo"
   "復原"
 
@@ -790,6 +1035,9 @@ msgcat::mcmset zh {
   "Unlock"
   "解锁用户"
 
+  "Upper Case"
+  "大寫字母"
+
   "User Guide"
   "用户指南"
 
@@ -801,6 +1049,9 @@ msgcat::mcmset zh {
 
   "View Global"
   "查看全球"
+
+  "View Menu: Display text information"
+  "视图菜单: 显示文本信息"
 
   "View Menu: Goto last tab"
   "视图菜单: 转到最后一个选项卡"
@@ -870,6 +1121,12 @@ msgcat::mcmset zh {
 
   "Vim Mode"
   "Vim的模式"
+
+  "Whitespace Backward"
+  "落后的空白"
+
+  "Whitespace Forward"
+  "空格前"
 
 }
 
@@ -1182,11 +1439,17 @@ msgcat::mcmset zh {
   "Foreground text color to use for selected text."
   "要用于所选文本的前景文本颜色。"
 
+  "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."
+  "用其他的选项卡，是不是在 tabbar 电流/活动选项卡的前景文本颜色。"
+
   "Foreground text color used for menus item that are disabled."
   "文本使用前景色为被禁用的菜单项。"
 
   "Foreground text color used for the current/active menu item."
   "用当前/主菜单项的前景文本颜色。"
+
+  "Foreground text color used for the current/active tab in the tabbar."
+  "用当前/活动选项卡中的 tabbar 前景文本颜色。"
 
   "Foreground text color used in menus."
   "在菜单中所用的前景文本颜色。"
@@ -1417,22 +1680,8 @@ msgcat::mcmset zh {
 
 }
 
-# vim.tcl
-msgcat::mcmset zh {
-
-  "File successfully written"
-  "成功地写入文件"
-
-  "Filename already exists"
-  "文件名已经存在"
-
-}
-
 # General
 msgcat::mcmset zh {
-
-  "All"
-  "所有"
 
   "Cancel"
   "取消"

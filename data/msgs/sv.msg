@@ -37,6 +37,17 @@ msgcat::mcmset sv {
 
 }
 
+# edit.tcl
+msgcat::mcmset sv {
+
+  "File successfully written"
+  "Arkivera lyckosam skrev"
+
+  "Filename already exists"
+  "Filnamn finns redan"
+
+}
+
 # embed_tke.tcl
 msgcat::mcmset sv {
 
@@ -50,6 +61,9 @@ msgcat::mcmset sv {
 
 # gui.tcl
 msgcat::mcmset sv {
+
+  "All"
+  "ALL"
 
   "Case sensitivity"
   "Skiftlägeskänslighet"
@@ -165,9 +179,6 @@ msgcat::mcmset sv {
   "Total Lines"
   "Totala linjer"
 
-  "Unable to find current file"
-  "Kan inte hitta nuvarande fil"
-
   "Unable to successfully parse number string"
   "Inte att framgångsrikt parsa nummer sträng"
 
@@ -176,9 +187,6 @@ msgcat::mcmset sv {
 
   "Version"
   "Version"
-
-  "tab"
-  "internt styrroder i utblås"
 
 }
 
@@ -205,6 +213,18 @@ msgcat::mcmset sv {
   "Auto-Indent"
   "Automatisk indentering"
 
+  "Bubble Down"
+  "Bubbla ner"
+
+  "Bubble Up"
+  "Bubbla upp"
+
+  "Change Working Directory"
+  "Ändra arbetar katalog"
+
+  "Character"
+  "Teckenattribut"
+
   "Check for Update"
   "Leta efter uppdatering"
 
@@ -217,6 +237,12 @@ msgcat::mcmset sv {
   "Close Current"
   "Stäng aktuell flik"
 
+  "Command"
+  "Kommando"
+
+  "Command Result"
+  "Kommandot resultatet"
+
   "Copy"
   "Kopiera"
 
@@ -226,8 +252,26 @@ msgcat::mcmset sv {
   "Create..."
   "Skapa"
 
+  "Current Line"
+  "Aktuell rad:"
+
+  "Current Word"
+  "Aktuella ord"
+
+  "Cursor"
+  "markör"
+
+  "Cursor from Line Start"
+  "Markören från linje Start"
+
+  "Cursor to Line End"
+  "Markören till linjens ände"
+
   "Cut"
   "Klipp ut"
+
+  "Display Text Info"
+  "Displayinformation"
 
   "Edit"
   "Ändra"
@@ -238,11 +282,56 @@ msgcat::mcmset sv {
   "Edit Menu Edit user snippets"
   "Redigera menyn Redigera användare snuttar"
 
+  "Edit Menu: Align cursors"
+  "Redigera-menyn: Justera markörer"
+
+  "Edit Menu: Bubble lines down one line"
+  "Redigera-menyn: Bubbla linjer en rad nedåt"
+
+  "Edit Menu: Bubble lines up one line"
+  "Redigera-menyn: Bubbla linjer upp en rad"
+
+  "Edit Menu: Convert case to lower"
+  "Redigera-menyn: Konvertera fall till lägre"
+
+  "Edit Menu: Convert case to title"
+  "Redigera-menyn: Konvertera fallet till titel"
+
+  "Edit Menu: Convert case to upper"
+  "Redigera-menyn: Konvertera fallet till övre"
+
   "Edit Menu: Copy text"
   "Redigera-menyn: Kopiera text"
 
   "Edit Menu: Cut text"
   "Redigera-menyn: Klipp ut text"
+
+  "Edit Menu: Delete backward numbers"
+  "Redigera-menyn: Ta bort bakåt nummer"
+
+  "Edit Menu: Delete backward whitespace"
+  "Redigera-menyn: Ta bort bakåt mellanslag"
+
+  "Edit Menu: Delete current line"
+  "Redigera-menyn: Ta bort den aktuella raden"
+
+  "Edit Menu: Delete current word"
+  "Redigera-menyn: Ta bort aktuella ord"
+
+  "Edit Menu: Delete forward numbers"
+  "Redigera-menyn: Ta bort vidarebefordra nummer"
+
+  "Edit Menu: Delete forward whitespace"
+  "Redigera-menyn: Ta bort framåt blanktecken"
+
+  "Edit Menu: Delete from cursor to end of line"
+  "Redigera-menyn: Ta bort från markören till slutet av raden"
+
+  "Edit Menu: Delete from start of line to cursor"
+  "Redigera-menyn: Ta bort från början av linje till markören"
+
+  "Edit Menu: Delete text between character"
+  "Redigera-menyn: Ta bort text mellan karaktär"
 
   "Edit Menu: Edit language snippets"
   "Redigera-menyn: Redigera språk snuttar"
@@ -262,17 +351,77 @@ msgcat::mcmset sv {
   "Edit Menu: Edit user menu bindings"
   "Redigera-menyn: Redigera användaren menyn bindningar"
 
-  "Edit Menu: Format all text"
-  "Redigera-menyn: Formatera alla text"
+  "Edit Menu: Format indentation for text"
+  "Redigera-menyn: Format indrag för text"
 
-  "Edit Menu: Format selected text"
-  "Redigera-menyn: Formatera markerad text"
+  "Edit Menu: Indent selected text"
+  "Redigera-menyn: Indrag markerad text"
+
+  "Edit Menu: Insert command result after current line"
+  "Redigera-menyn: Infoga kommandot resultatet efter aktuell rad"
+
+  "Edit Menu: Insert file contents after current line"
+  "Redigera-menyn: Infoga filen innehållet efter aktuell rad"
 
   "Edit Menu: Insert from clipboard"
   "Redigera-menyn: Infoga från Urklipp"
 
+  "Edit Menu: Insert line above current line"
+  "Redigera-menyn: Infoga rad ovanför aktuell rad"
+
+  "Edit Menu: Insert line below current line"
+  "Redigera-menyn: Infoga raden under aktuell rad"
+
   "Edit Menu: Insert snippet"
   "Redigera-menyn: Infoga kodavsnittet"
+
+  "Edit Menu: Join lines"
+  "Redigera-menyn: Kopplingslinjer"
+
+  "Edit Menu: Move cursor to bottom of screen"
+  "Redigera-menyn: Flytta markören till botten av skärmen"
+
+  "Edit Menu: Move cursor to end of current line"
+  "Redigera-menyn: Flytta markören till slutet av aktuell rad"
+
+  "Edit Menu: Move cursor to first line"
+  "Redigera-menyn: Flytta markören till första raden"
+
+  "Edit Menu: Move cursor to last line"
+  "Redigera-menyn: Flytta markören till sista raden"
+
+  "Edit Menu: Move cursor to middle of screen"
+  "Redigera-menyn: Flytta markören till mitten av skärmen"
+
+  "Edit Menu: Move cursor to next page"
+  "Redigera-menyn: Flytta markören till nästa sida"
+
+  "Edit Menu: Move cursor to next word"
+  "Redigera-menyn: Flytta markören till nästa ord"
+
+  "Edit Menu: Move cursor to previous page"
+  "Redigera-menyn: Flytta markören till föregående sida"
+
+  "Edit Menu: Move cursor to previous word"
+  "Redigera-menyn: Flytta markören till föregående ord"
+
+  "Edit Menu: Move cursor to start of current line"
+  "Redigera-menyn: Flytta markören till början av aktuell rad"
+
+  "Edit Menu: Move cursor to top of screen"
+  "Redigera-menyn: Flytta markören till toppen av skärmen"
+
+  "Edit Menu: Move multicursors down one line"
+  "Redigera-menyn: Flytta multicursors en rad nedåt"
+
+  "Edit Menu: Move multicursors left one line"
+  "Redigera-menyn: Flytta multicursors lämnade en rad"
+
+  "Edit Menu: Move multicursors right one line"
+  "Redigera-menyn: Flytta multicursors rätt en rad"
+
+  "Edit Menu: Move multicursors up one line"
+  "Redigera-menyn: Flytta multicursors en rad uppåt"
 
   "Edit Menu: Paste and format text from clipboard"
   "Redigera-menyn: Klistra in och formatera text från Urklipp"
@@ -285,6 +434,9 @@ msgcat::mcmset sv {
 
   "Edit Menu: Reload snippets"
   "Redigera-menyn: Reload snuttar"
+
+  "Edit Menu: Replace line with script"
+  "Redigera-menyn: Ersätta line med skriptet"
 
   "Edit Menu: Select all text"
   "Redigera-menyn: Markera all text"
@@ -304,8 +456,17 @@ msgcat::mcmset sv {
   "Edit Menu: Set user preferences to global preferences"
   "Redigera-menyn: Ange användarinställningar för att globala inställningar"
 
+  "Edit Menu: Toggle case of current character"
+  "Redigera-menyn: Växla fall av nuvarande karaktär"
+
+  "Edit Menu: Toggle comment"
+  "Redigera-menyn: Växla kommentar"
+
   "Edit Menu: Undo"
   "Redigera-menyn: ångra"
+
+  "Edit Menu: Unindent selected text"
+  "Redigera-menyn: Ångra indrag av markerad text"
 
   "Edit Menu: View base preferences file"
   "Redigera-menyn: Visa bas inställningsfilen"
@@ -328,8 +489,17 @@ msgcat::mcmset sv {
   "Edit User - Language"
   "Redigera användare - språk"
 
+  "Enumeration"
+  "räkning"
+
   "File"
   "File"
+
+  "File Contents"
+  "filinnehåll"
+
+  "File Menu: Change working directory"
+  "Arkiv-menyn: Ändra arbetskatalogen"
 
   "File Menu: Close all tabs"
   "Arkiv-menyn: Stäng alla flikar"
@@ -346,6 +516,9 @@ msgcat::mcmset sv {
   "File Menu: New file"
   "Arkiv-menyn: Ny fil"
 
+  "File Menu: New window"
+  "Arkiv-menyn: Nytt fönster"
+
   "File Menu: Open Favorite"
   "Arkiv-menyn: Öppna favorit"
 
@@ -361,6 +534,9 @@ msgcat::mcmset sv {
   "File Menu: Quit application"
   "Arkiv-menyn: Avsluta programmet"
 
+  "File Menu: Reopen current file"
+  "Arkiv-menyn: Återuppta nuvarande fil"
+
   "File Menu: Save all files"
   "Arkiv-menyn: Spara alla filer"
 
@@ -369,6 +545,9 @@ msgcat::mcmset sv {
 
   "File Menu: Save file as"
   "Arkiv-menyn: Spara filen som"
+
+  "File Menu: Save selected lines"
+  "Arkiv-menyn: Spara markerade rader"
 
   "File Menu: Show file difference"
   "Arkiv-menyn: Visar filen skillnad"
@@ -420,6 +599,9 @@ msgcat::mcmset sv {
 
   "Find Menu: Jump forward"
   "Sök-menyn: Hoppa framåt"
+
+  "Find Menu: Jump to line"
+  "Sök-menyn: Hoppa till rad"
 
   "Find Menu: Remove all markers"
   "Sök-menyn: Ta bort alla markörer"
@@ -496,20 +678,20 @@ msgcat::mcmset sv {
   "Indent"
   "Indrag"
 
-  "Indent Mode"
-  "Strecksatsen läge"
-
   "Indent Off"
   "Indrag av"
 
-  "Insert Enumeration"
-  "Infoga uppräkning"
+  "Indentation"
+  "Indentering"
 
-  "Insert Text"
-  "Infoga text"
+  "Insert"
+  "Infoga"
 
   "Install..."
   "Installera"
+
+  "Join Lines"
+  "Kombinera rader"
 
   "Jump Backward"
   "Hoppa bakåt"
@@ -517,11 +699,26 @@ msgcat::mcmset sv {
   "Jump Forward"
   "Hoppa framåt"
 
+  "Jump To Line"
+  "Hoppa till rad"
+
   "Launcher"
   "Launcher"
 
+  "Line Above Current"
+  "Linje ovanför aktuell"
+
+  "Line Below Current"
+  "Rad under nuvarande"
+
+  "Line Number"
+  "radnummer"
+
   "Lock"
   "Lock"
+
+  "Lower Case"
+  "Små bokstäver"
 
   "Markers"
   "Marker"
@@ -535,8 +732,62 @@ msgcat::mcmset sv {
   "Merge Panes"
   "Slå ihop fönsterrutorna"
 
+  "Move Cursors Down"
+  "Flytta markören nedåt"
+
+  "Move Cursors Left"
+  "Flytta markören åt vänster"
+
+  "Move Cursors Right"
+  "Flytta markören höger"
+
+  "Move Cursors Up"
+  "Flytta markören upp"
+
+  "Move to First Line"
+  "Flytta till första raden"
+
+  "Move to Last Line"
+  "Flytta till sista raden"
+
+  "Move to Line End"
+  "Flytta till slutet"
+
+  "Move to Line Start"
+  "Flytta till linje Start"
+
+  "Move to Next Page"
+  "Flytta till nästa sida"
+
+  "Move to Next Word"
+  "Flytta till nästa ord"
+
+  "Move to Previous Page"
+  "Flytta till föregående sida"
+
+  "Move to Previous Word"
+  "Flytta till föregående ord"
+
+  "Move to Screen Bottom"
+  "Jag flytta skärmen botten"
+
+  "Move to Screen Middle"
+  "Jag flytta skärmen mitten"
+
+  "Move to Screen Top"
+  "Jag flytta skärmen topp"
+
+  "New Window"
+  "Nytt fönster"
+
   "Next Difference"
   "Nästa skillnad"
+
+  "Numbers Backward"
+  "Nummer bakåt"
+
+  "Numbers Forward"
+  "Nummer framåt"
 
   "Open Directory..."
   "Öppna katalog"
@@ -601,6 +852,9 @@ msgcat::mcmset sv {
   "Remove From Current Line"
   "Ta bort från aktuell rad"
 
+  "Reopen File"
+  "Öppnar filen igen"
+
   "Replace Line With Script"
   "Ersätta Line med skriptet"
 
@@ -619,6 +873,9 @@ msgcat::mcmset sv {
   "Save Current"
   "Spara ström"
 
+  "Save Selection As..."
+  "Spara markering som..."
+
   "Select All"
   "Markera alla"
 
@@ -630,9 +887,6 @@ msgcat::mcmset sv {
 
   "Select Previous Occurrence"
   "Markera föregående förekomst"
-
-  "Selected"
-  "Vald"
 
   "Send Bug Report"
   "Skicka felrapport."
@@ -648,9 +902,6 @@ msgcat::mcmset sv {
 
   "Sessions Menu: Delete session"
   "Sessioner-menyn: Ta bort session"
-
-  "Sessions Menu: Open session"
-  "Sessioner meny: Öppen session"
 
   "Sessions Menu: Save current session"
   "Sessioner meny: Spara aktuell session"
@@ -727,26 +978,17 @@ msgcat::mcmset sv {
   "Tabs"
   "Tabbar"
 
-  "Text"
-  "Text"
-
-  "Text Menu: Align cursors"
-  "Text-menyn: Justera markörer"
-
-  "Text Menu: Indent selected text"
-  "Text-menyn: Indrag markerad text"
+  "Text Between Character"
+  "Text mellan karaktär"
 
   "Text Menu: Insert enumeration"
   "Text-menyn: Infoga uppräkning"
 
-  "Text Menu: Replace line with script"
-  "Text-menyn: Ersätta line med skriptet"
+  "Title Case"
+  "Alltid stor begynnelsebokstav"
 
-  "Text Menu: Toggle comment"
-  "Text-menyn: Växla kommentar"
-
-  "Text Menu: Unindent selected text"
-  "Text-menyn: Ångra indrag av markerad text"
+  "Toggle Case"
+  "Växla skiftläge"
 
   "Toggle Comment"
   "Toggle kommentar"
@@ -778,6 +1020,9 @@ msgcat::mcmset sv {
   "Tools Menu: Stop profiling"
   "Verktyg-menyn: Stoppa profilering"
 
+  "Transform"
+  "transformera"
+
   "Undo"
   "Ord"
 
@@ -790,6 +1035,9 @@ msgcat::mcmset sv {
   "Unlock"
   "Lås upp"
 
+  "Upper Case"
+  "Stora bokstäver"
+
   "User Guide"
   "User Guide"
 
@@ -801,6 +1049,9 @@ msgcat::mcmset sv {
 
   "View Global"
   "Visa globala"
+
+  "View Menu: Display text information"
+  "Visa-menyn: Visar textinformation"
 
   "View Menu: Goto last tab"
   "Visa-menyn: Gå till sista fliken"
@@ -870,6 +1121,12 @@ msgcat::mcmset sv {
 
   "Vim Mode"
   "Vim Läge"
+
+  "Whitespace Backward"
+  "Whitespace bakåt"
+
+  "Whitespace Forward"
+  "Whitespace framåt"
 
 }
 
@@ -1182,11 +1439,17 @@ msgcat::mcmset sv {
   "Foreground text color to use for selected text."
   "Förgrundsfärgen text ska användas för markerad text."
 
+  "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."
+  "Text Förgrundsfärgen används för alla andra flikar som inte fliken ström/aktiv i tabbar."
+
   "Foreground text color used for menus item that are disabled."
   "Text Förgrundsfärgen används för menyer som är inaktiverade."
 
   "Foreground text color used for the current/active menu item."
   "Text Förgrundsfärgen används för ström/aktiv menyalternativet."
+
+  "Foreground text color used for the current/active tab in the tabbar."
+  "Text Förgrundsfärgen används för fliken ström/aktiv i tabbar."
 
   "Foreground text color used in menus."
   "Förgrundsfärgen text som används i menyer."
@@ -1417,22 +1680,8 @@ msgcat::mcmset sv {
 
 }
 
-# vim.tcl
-msgcat::mcmset sv {
-
-  "File successfully written"
-  "Arkivera lyckosam skrev"
-
-  "Filename already exists"
-  "Filnamn finns redan"
-
-}
-
 # General
 msgcat::mcmset sv {
-
-  "All"
-  "ALL"
 
   "Cancel"
   "Avbryt"
