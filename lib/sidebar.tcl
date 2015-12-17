@@ -800,7 +800,7 @@ namespace eval sidebar {
 
       # If the file is currently in the notebook, make it the current tab
       if {([llength $selected] == 1) && ([$widgets(tl) cellcget $selected,name -image] eq "sidebar_open")} {
-        gui::set_current_tab [$widgets(tl) cellcget $selected,name -text] -type fname
+        gui::set_current_tab [gui::get_info [$widgets(tl) cellcget $selected,name -text] fname tab]
       }
 
     }

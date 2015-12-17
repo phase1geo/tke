@@ -55,12 +55,10 @@ namespace eval embed_tke {
   }
 
   namespace eval gui {
-    rename set_current_tab set_current_tab__orig
     rename update_position update_position__orig
     rename save_current save_current__orig
     rename close_current close_current__orig
 
-    proc set_current_tab {args} {}
     proc update_position {args} {}
     proc save_current {args} { puts "Saving" }
     proc close_current {args} { puts "Closing" }
@@ -130,7 +128,6 @@ namespace eval embed_tke {
     ttk::scrollbar $w.hb    -orient horizontal -command "$w.txt xview"
 
     bind Ctext    <<Modified>>               "[namespace current]::gui::text_changed %W"
-    bind $w.txt.t <FocusIn>                  "[namespace current]::gui::set_current_tab %W -type txt -skip_focus 1"
     bind $w.txt.l <ButtonPress-$right_click> [bind $w.txt.l <ButtonPress-1>]
     bind $w.txt.l <ButtonPress-1>            "[namespace current]::gui::select_line %W %y"
     bind $w.txt.l <B1-Motion>                "[namespace current]::gui::select_lines %W %y"
