@@ -119,7 +119,7 @@ namespace eval syntax {
 
       # Add the language and the command launcher
       set langs($name) [array get lang_array]
-      [ns launcher]::register [format "%s: %s" [msgcat::mc "Syntax"] $name] "syntax::set_language $name"
+      [ns launcher]::register [format "%s: %s" [msgcat::mc "Syntax"] $name] [list [ns syntax]::set_current_language $name]
 
     }
 
@@ -202,7 +202,7 @@ namespace eval syntax {
 
   ######################################################################
   # Retrieves the language of the current text widget.
-  proc get_current_language {txt} {
+  proc get_language {txt} {
 
     variable curr_lang
 
@@ -211,6 +211,14 @@ namespace eval syntax {
     }
 
     return "None"
+
+  }
+
+  ######################################################################
+  # Sets the syntax language for the current text widget.
+  proc set_current_language {language args} {
+
+    set_language [[ns gui]::current_txt {}] $language {*}$args
 
   }
 
@@ -451,10 +459,10 @@ namespace eval syntax {
 
     # Populate the menu with the available languages
     $mnu add radiobutton -label "<[msgcat::mc None]>" -variable [ns syntax]::curr_lang([[ns gui]::current_txt {}]) \
-      -value "<[msgcat::mc None]>" -command [list [ns syntax]::set_language <None>]
+      -value "<[msgcat::mc None]>" -command [list [ns syntax]::set_current_language <None>]
     foreach lang [lsort [array names langs]] {
       $mnu add radiobutton -label $lang -variable [ns syntax]::curr_lang([[ns gui]::current_txt {}]) \
-        -value $lang -command [list [ns syntax]::set_language $lang]
+        -value $lang -command [list [ns syntax]::set_current_language $lang]
     }
 
     return $mnu

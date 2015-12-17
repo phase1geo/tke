@@ -718,7 +718,7 @@ namespace eval gui {
       lassign [get_info [lindex $file $files_index(tab)] tab {paneindex tabindex txt fname save_cmd lock readonly diff sidebar buffer}] \
         finfo(pane) finfo(tab) txt finfo(fname) finfo(savecommand) finfo(lock) finfo(readonly) finfo(diff) finfo(sidebar) finfo(buffer)
 
-      set finfo(language)    [[ns syntax]::get_current_language $txt]
+      set finfo(language)    [[ns syntax]::get_language $txt]
       set finfo(indent)      [[ns indent]::get_indent_mode $txt]
       set finfo(modified)    0
       set finfo(cursor)      [$txt index insert]
@@ -839,7 +839,7 @@ namespace eval gui {
               -savecommand $finfo(savecommand) -lock $finfo(lock) -readonly $finfo(readonly) \
               -diff $finfo(diff) -sidebar $finfo(sidebar) -lazy 1]
             set txt [get_txt_from_tab $tab]
-            if {[[ns syntax]::get_current_language $txt] ne $finfo(language)} {
+            if {[[ns syntax]::get_language $txt] ne $finfo(language)} {
               [ns syntax]::set_language $txt $finfo(language)
             }
             if {[info exists finfo(indent)]} {
@@ -2068,7 +2068,7 @@ namespace eval gui {
 
     # Get information
     lassign [get_info {} current {pane tabbar tab tabindex}] pane tb current_tab tab_index
- 
+
     # Get the current title
     set title [$tb tab $tab_index -text]
 
@@ -3546,7 +3546,7 @@ namespace eval gui {
     make_drop_target                   $txt2
 
     # Apply the appropriate syntax highlighting for the given extension
-    set language [[ns syntax]::get_current_language $txt]
+    set language [[ns syntax]::get_language $txt]
     [ns syntax]::set_language $txt2 $language
 
     # Give the text widget the focus

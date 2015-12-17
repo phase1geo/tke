@@ -869,7 +869,7 @@ namespace eval theme {
 
     # Update all of the syntax and scrollers
     foreach txt $widgets(syntax) {
-      [ns syntax]::set_language [[ns syntax]::get_current_language $txt] $txt 1
+      [ns syntax]::set_language $txt [[ns syntax]::get_language $txt] -highlight 1
       [ns scroller]::update_markers [winfo parent $txt].vb
     }
 
