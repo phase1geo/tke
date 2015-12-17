@@ -37,6 +37,17 @@ msgcat::mcmset el {
 
 }
 
+# edit.tcl
+msgcat::mcmset el {
+
+  "File successfully written"
+  "Αρχείο γραμμένο με επιτυχία"
+
+  "Filename already exists"
+  "Όνομα αρχείου που υπάρχει ήδη"
+
+}
+
 # embed_tke.tcl
 msgcat::mcmset el {
 
@@ -50,6 +61,9 @@ msgcat::mcmset el {
 
 # gui.tcl
 msgcat::mcmset el {
+
+  "All"
+  "All"
 
   "Case sensitivity"
   "αναζήτηση βάσει πλήρους αντιστοίχισης"
@@ -165,9 +179,6 @@ msgcat::mcmset el {
   "Total Lines"
   "Σύνολο γραμμών"
 
-  "Unable to find current file"
-  "Δεν μπορεί να βρει το τρέχον αρχείο"
-
   "Unable to successfully parse number string"
   "Δυνατό να αναλύσει με επιτυχία αριθμός συμβολοσειρά"
 
@@ -176,9 +187,6 @@ msgcat::mcmset el {
 
   "Version"
   "Έκδοση"
-
-  "tab"
-  "Καρτέλα"
 
 }
 
@@ -205,6 +213,18 @@ msgcat::mcmset el {
   "Auto-Indent"
   "Αυτο-εντομή"
 
+  "Bubble Down"
+  "Φούσκα κάτω"
+
+  "Bubble Up"
+  "Φούσκα"
+
+  "Change Working Directory"
+  "Αλλαγή Κατάλογος εργασίας"
+
+  "Character"
+  "Χαρακτήρας"
+
   "Check for Update"
   "Έλεγχος για ενημέρωση"
 
@@ -217,6 +237,12 @@ msgcat::mcmset el {
   "Close Current"
   "??????? ?? ?????"
 
+  "Command"
+  "Εντολή"
+
+  "Command Result"
+  "Εντολή αποτέλεσμα"
+
   "Copy"
   "Αντιγραφή"
 
@@ -226,8 +252,26 @@ msgcat::mcmset el {
   "Create..."
   "Δημιουργία"
 
+  "Current Line"
+  "Τρέχουσα γραμμή"
+
+  "Current Word"
+  "Τρέχουσας λέξης"
+
+  "Cursor"
+  "Δρομέα"
+
+  "Cursor from Line Start"
+  "Δρομέα από την αρχή γραμμής"
+
+  "Cursor to Line End"
+  "Δρομέα να άκρο της γραμμής"
+
   "Cut"
   "Αποκοπή"
+
+  "Display Text Info"
+  "Εμφανίζει τις πληροφορίες κείμενο"
 
   "Edit"
   "Επεξεργασία"
@@ -238,10 +282,55 @@ msgcat::mcmset el {
   "Edit Menu Edit user snippets"
   "Επεξεργαστείτε το μενού Επεξεργασία χρήστη αποσπάσματα"
 
+  "Edit Menu: Align cursors"
+  "Μενού \"
+
+  "Edit Menu: Bubble lines down one line"
+  "Μενού \"
+
+  "Edit Menu: Bubble lines up one line"
+  "Μενού \"
+
+  "Edit Menu: Convert case to lower"
+  "Μενού \"
+
+  "Edit Menu: Convert case to title"
+  "Μενού \"
+
+  "Edit Menu: Convert case to upper"
+  "Μενού \"
+
   "Edit Menu: Copy text"
   "Μενού \"
 
   "Edit Menu: Cut text"
+  "Μενού \"
+
+  "Edit Menu: Delete backward numbers"
+  "Μενού \"
+
+  "Edit Menu: Delete backward whitespace"
+  "Μενού \"
+
+  "Edit Menu: Delete current line"
+  "Μενού \"
+
+  "Edit Menu: Delete current word"
+  "Μενού \"
+
+  "Edit Menu: Delete forward numbers"
+  "Μενού \"
+
+  "Edit Menu: Delete forward whitespace"
+  "Μενού \"
+
+  "Edit Menu: Delete from cursor to end of line"
+  "Μενού \"
+
+  "Edit Menu: Delete from start of line to cursor"
+  "Μενού \"
+
+  "Edit Menu: Delete text between character"
   "Μενού \"
 
   "Edit Menu: Edit language snippets"
@@ -262,16 +351,76 @@ msgcat::mcmset el {
   "Edit Menu: Edit user menu bindings"
   "Μενού \"
 
-  "Edit Menu: Format all text"
+  "Edit Menu: Format indentation for text"
   "Μενού \"
 
-  "Edit Menu: Format selected text"
+  "Edit Menu: Indent selected text"
+  "Μενού \"
+
+  "Edit Menu: Insert command result after current line"
+  "Μενού \"
+
+  "Edit Menu: Insert file contents after current line"
   "Μενού \"
 
   "Edit Menu: Insert from clipboard"
   "Μενού \"
 
+  "Edit Menu: Insert line above current line"
+  "Μενού \"
+
+  "Edit Menu: Insert line below current line"
+  "Μενού \"
+
   "Edit Menu: Insert snippet"
+  "Μενού \"
+
+  "Edit Menu: Join lines"
+  "Μενού \"
+
+  "Edit Menu: Move cursor to bottom of screen"
+  "Μενού \"
+
+  "Edit Menu: Move cursor to end of current line"
+  "Μενού \"
+
+  "Edit Menu: Move cursor to first line"
+  "Μενού \"
+
+  "Edit Menu: Move cursor to last line"
+  "Μενού \"
+
+  "Edit Menu: Move cursor to middle of screen"
+  "Μενού \"
+
+  "Edit Menu: Move cursor to next page"
+  "Μενού \"
+
+  "Edit Menu: Move cursor to next word"
+  "Μενού \"
+
+  "Edit Menu: Move cursor to previous page"
+  "Μενού \"
+
+  "Edit Menu: Move cursor to previous word"
+  "Μενού \"
+
+  "Edit Menu: Move cursor to start of current line"
+  "Μενού \"
+
+  "Edit Menu: Move cursor to top of screen"
+  "Μενού \"
+
+  "Edit Menu: Move multicursors down one line"
+  "Μενού \"
+
+  "Edit Menu: Move multicursors left one line"
+  "Μενού \"
+
+  "Edit Menu: Move multicursors right one line"
+  "Μενού \"
+
+  "Edit Menu: Move multicursors up one line"
   "Μενού \"
 
   "Edit Menu: Paste and format text from clipboard"
@@ -284,6 +433,9 @@ msgcat::mcmset el {
   "Επεξεργαστείτε τα μενού: Ακύρωση αναίρεσης"
 
   "Edit Menu: Reload snippets"
+  "Μενού \"
+
+  "Edit Menu: Replace line with script"
   "Μενού \"
 
   "Edit Menu: Select all text"
@@ -304,8 +456,17 @@ msgcat::mcmset el {
   "Edit Menu: Set user preferences to global preferences"
   "Μενού \"
 
+  "Edit Menu: Toggle case of current character"
+  "Μενού Επεξεργασία: ΕΝΑΛΛΑΓΗ πεζών-ΚΕΦΑΛΑΙΩΝ τρέχουσα χαρακτήρα"
+
+  "Edit Menu: Toggle comment"
+  "Μενού \"
+
   "Edit Menu: Undo"
   "Επεξεργαστείτε τα μενού: αναίρεση"
+
+  "Edit Menu: Unindent selected text"
+  "Μενού \"
 
   "Edit Menu: View base preferences file"
   "Μενού \"
@@ -328,8 +489,17 @@ msgcat::mcmset el {
   "Edit User - Language"
   "?????? - ???????????? ?? ??????"
 
+  "Enumeration"
+  "Καταμέτρηση"
+
   "File"
   "Αρχείο"
+
+  "File Contents"
+  "Περιεχόμενα του αρχείου"
+
+  "File Menu: Change working directory"
+  "Μενού αρχείο: Αλλάξετε κατάλογο εργασίας"
 
   "File Menu: Close all tabs"
   "Μενού αρχείο: Κλείσιμο όλων των καρτελών"
@@ -346,6 +516,9 @@ msgcat::mcmset el {
   "File Menu: New file"
   "Μενού αρχείο: Νέο αρχείο"
 
+  "File Menu: New window"
+  "Μενού αρχείο: Νέο παράθυρο"
+
   "File Menu: Open Favorite"
   "Μενού αρχείο: Ανοικτή αγαπημένο"
 
@@ -361,6 +534,9 @@ msgcat::mcmset el {
   "File Menu: Quit application"
   "Μενού αρχείο: Κλείστε την εφαρμογή"
 
+  "File Menu: Reopen current file"
+  "Μενού αρχείο: Ξανά το τρέχον αρχείο"
+
   "File Menu: Save all files"
   "Μενού αρχείο: Αποθηκεύσετε όλα τα αρχεία"
 
@@ -369,6 +545,9 @@ msgcat::mcmset el {
 
   "File Menu: Save file as"
   "Μενού αρχείο: Αποθηκεύστε το αρχείο ως"
+
+  "File Menu: Save selected lines"
+  "Μενού αρχείο: Αποθηκεύσετε τις επιλεγμένες γραμμές"
 
   "File Menu: Show file difference"
   "Μενού αρχείο: Εμφάνιση αρχείο διαφορά"
@@ -420,6 +599,9 @@ msgcat::mcmset el {
 
   "Find Menu: Jump forward"
   "Find μενού: Άλμα προς τα εμπρός"
+
+  "Find Menu: Jump to line"
+  "Find μενού: Μεταβείτε σε γραμμής"
 
   "Find Menu: Remove all markers"
   "Find μενού: Αφαιρέσετε όλα δείκτες"
@@ -496,20 +678,20 @@ msgcat::mcmset el {
   "Indent"
   "Εσοχή"
 
-  "Indent Mode"
-  "Εντομή μοντέλο"
-
   "Indent Off"
   "Εσοχή από"
 
-  "Insert Enumeration"
-  "???????? ???????????"
+  "Indentation"
+  "κόλπωση"
 
-  "Insert Text"
-  "Εισαγωγή ευρετηρίου"
+  "Insert"
+  "Εισαγωγή"
 
   "Install..."
   "εγκαθιστώ"
+
+  "Join Lines"
+  "Ενώνουν γραμμές"
 
   "Jump Backward"
   "???? ???? ?? ????"
@@ -517,11 +699,26 @@ msgcat::mcmset el {
   "Jump Forward"
   "???? ???? ?? ??????"
 
+  "Jump To Line"
+  "Μεταβείτε σε γραμμής"
+
   "Launcher"
   "Προωθητής"
 
+  "Line Above Current"
+  "Γραμμή πάνω από το ρεύμα"
+
+  "Line Below Current"
+  "Γραμμή κάτω από το ρεύμα"
+
+  "Line Number"
+  "Αριθμός γραμμής"
+
   "Lock"
   "Κλείδωμα"
+
+  "Lower Case"
+  "Πεζά"
 
   "Markers"
   "Σημεία"
@@ -535,8 +732,62 @@ msgcat::mcmset el {
   "Merge Panes"
   "?????????? ???????? ?????????"
 
+  "Move Cursors Down"
+  "Δρομείς κίνηση προς τα κάτω"
+
+  "Move Cursors Left"
+  "Μετακίνηση αριστερά κατά δρομείς"
+
+  "Move Cursors Right"
+  "Μετακίνηση δεξιά δρομείς"
+
+  "Move Cursors Up"
+  "Ανεβάσουμε δρομείς"
+
+  "Move to First Line"
+  "Μετακίνηση στην πρώτη γραμμή"
+
+  "Move to Last Line"
+  "Μετάβαση στο τελευταίο γραμμή"
+
+  "Move to Line End"
+  "Μετακίνηση σε γραμμή τέλος"
+
+  "Move to Line Start"
+  "Κινηθεί για την γραμμή εκκίνησης"
+
+  "Move to Next Page"
+  "Μετακίνηση στην επόμενη σελίδα"
+
+  "Move to Next Word"
+  "Μετακίνηση στην επόμενη λέξη"
+
+  "Move to Previous Page"
+  "Μετακίνηση στην προηγούμενη σελίδα"
+
+  "Move to Previous Word"
+  "Μετακίνηση στην προηγούμενη λέξη"
+
+  "Move to Screen Bottom"
+  "Προχωρήσουμε στην οθόνη κάτω"
+
+  "Move to Screen Middle"
+  "Προχωρήσουμε στην οθόνη μέση"
+
+  "Move to Screen Top"
+  "Προχωρήσουμε στην οθόνη κορυφή"
+
+  "New Window"
+  "Νέο παράθυρο"
+
   "Next Difference"
   "??????? ???????"
+
+  "Numbers Backward"
+  "Αριθμούς προς τα πίσω"
+
+  "Numbers Forward"
+  "Αριθμούς προς τα εμπρός"
 
   "Open Directory..."
   "Άνοιγμα καταλόγου"
@@ -601,6 +852,9 @@ msgcat::mcmset el {
   "Remove From Current Line"
   "????????? ??? ??? ???????? ??????"
 
+  "Reopen File"
+  "Ξανά αρχείο"
+
   "Replace Line With Script"
   "?????????????? ??? ?????? ?? ???????"
 
@@ -619,6 +873,9 @@ msgcat::mcmset el {
   "Save Current"
   "???????????? ?? ?????"
 
+  "Save Selection As..."
+  "Αποθήκευση επιλογής ως..."
+
   "Select All"
   "Επιλογή όλων"
 
@@ -630,9 +887,6 @@ msgcat::mcmset el {
 
   "Select Previous Occurrence"
   "???????? ??? ??????????? ????????"
-
-  "Selected"
-  "Επιλεγμ."
 
   "Send Bug Report"
   "Στείλτε την αναφορά σφαλμάτων"
@@ -648,9 +902,6 @@ msgcat::mcmset el {
 
   "Sessions Menu: Delete session"
   "Συνεδρίες μενού: Συνεδρία διαγραφή"
-
-  "Sessions Menu: Open session"
-  "Συνεδρίες μενού: Ανοικτή συνεδρία"
 
   "Sessions Menu: Save current session"
   "Συνεδρίες μενού: Αποθηκεύσετε την τρέχουσα περίοδο λειτουργίας"
@@ -727,26 +978,17 @@ msgcat::mcmset el {
   "Tabs"
   "Δισκία"
 
-  "Text"
-  "Κείμενο"
-
-  "Text Menu: Align cursors"
-  "Μενού κείμενο: Στοίχιση δρομείς"
-
-  "Text Menu: Indent selected text"
-  "Κείμενο μενού: Εσοχή επιλεγμένου κειμένου"
+  "Text Between Character"
+  "Κείμενο μεταξύ χαρακτήρα"
 
   "Text Menu: Insert enumeration"
   "Κείμενο μενού: Εισαγωγή καταμέτρηση"
 
-  "Text Menu: Replace line with script"
-  "Κείμενο μενού: Αντικαταστήστε την γραμμή με σενάριο"
+  "Title Case"
+  "Υπόθεση τίτλος"
 
-  "Text Menu: Toggle comment"
-  "Κείμενο μενού: Εναλλαγή σχόλιο"
-
-  "Text Menu: Unindent selected text"
-  "Κείμενο μενού: Κατάργηση εσοχής του επιλεγμένου κειμένου"
+  "Toggle Case"
+  "ΕΝΑΛΛΑΓΗ πεζών-ΚΕΦΑΛΑΙΩΝ"
 
   "Toggle Comment"
   "???????? ??????"
@@ -778,6 +1020,9 @@ msgcat::mcmset el {
   "Tools Menu: Stop profiling"
   "Μενού Εργαλεία: Σταματήσει προφίλ"
 
+  "Transform"
+  "Μετασχηματισμός"
+
   "Undo"
   "Αναίρεση"
 
@@ -790,6 +1035,9 @@ msgcat::mcmset el {
   "Unlock"
   "Ξεκλείδωμα"
 
+  "Upper Case"
+  "Γραφή με κεφαλαία γράμματα"
+
   "User Guide"
   "Οδηγός χρήστη"
 
@@ -801,6 +1049,9 @@ msgcat::mcmset el {
 
   "View Global"
   "Παγκόσμια προβολή"
+
+  "View Menu: Display text information"
+  "Μενού \"
 
   "View Menu: Goto last tab"
   "Μενού Προβολή: Goto τελευταία καρτέλα"
@@ -870,6 +1121,12 @@ msgcat::mcmset el {
 
   "Vim Mode"
   "Λειτουργία Vim"
+
+  "Whitespace Backward"
+  "Whitespace προς τα πίσω"
+
+  "Whitespace Forward"
+  "Whitespace προς τα εμπρός"
 
 }
 
@@ -1182,11 +1439,17 @@ msgcat::mcmset el {
   "Foreground text color to use for selected text."
   "Χρώμα κειμένου στο προσκήνιο για να χρησιμοποιήσετε για το επιλεγμένο κείμενο."
 
+  "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."
+  "Χρώμα προσκηνίου κείμενο χρησιμοποιείται για όλες τις άλλες καρτέλες που δεν είναι καρτέλα ρεύμα/ενεργό στην το tabbar."
+
   "Foreground text color used for menus item that are disabled."
   "Χρώμα προσκηνίου κείμενο που χρησιμοποιείται για τα μενού στοιχείο που είναι άτομα με ειδικές ανάγκες."
 
   "Foreground text color used for the current/active menu item."
   "Χρώμα προσκηνίου κείμενο που χρησιμοποιείται για την τρέχουσα / ενεργό στοιχείο του μενού."
+
+  "Foreground text color used for the current/active tab in the tabbar."
+  "Χρησιμοποιείται για το ρεύμα/ενεργή καρτέλα tabbar το χρώμα κειμένου προσκηνίου."
 
   "Foreground text color used in menus."
   "Χρώμα κειμένου στο προσκήνιο χρησιμοποιείται στα μενού."
@@ -1417,22 +1680,8 @@ msgcat::mcmset el {
 
 }
 
-# vim.tcl
-msgcat::mcmset el {
-
-  "File successfully written"
-  "Αρχείο γραμμένο με επιτυχία"
-
-  "Filename already exists"
-  "Όνομα αρχείου που υπάρχει ήδη"
-
-}
-
 # General
 msgcat::mcmset el {
-
-  "All"
-  "All"
 
   "Cancel"
   "Ακύρωση"

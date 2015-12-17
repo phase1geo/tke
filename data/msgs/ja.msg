@@ -37,6 +37,17 @@ msgcat::mcmset ja {
 
 }
 
+# edit.tcl
+msgcat::mcmset ja {
+
+  "File successfully written"
+  "ファイルが正常に書き込まれました。"
+
+  "Filename already exists"
+  "ファイル名が既に存在します。"
+
+}
+
 # embed_tke.tcl
 msgcat::mcmset ja {
 
@@ -50,6 +61,9 @@ msgcat::mcmset ja {
 
 # gui.tcl
 msgcat::mcmset ja {
+
+  "All"
+  "ALL"
 
   "Case sensitivity"
   "大文字と小文字を区別する"
@@ -165,9 +179,6 @@ msgcat::mcmset ja {
   "Total Lines"
   "集計行"
 
-  "Unable to find current file"
-  "現在のファイルを見つけることができません。"
-
   "Unable to successfully parse number string"
   "番号の文字列を正しく解析することができません。"
 
@@ -176,9 +187,6 @@ msgcat::mcmset ja {
 
   "Version"
   "バージョン"
-
-  "tab"
-  "タブ"
 
 }
 
@@ -205,6 +213,18 @@ msgcat::mcmset ja {
   "Auto-Indent"
   "自動インデント"
 
+  "Bubble Down"
+  "バブルのダウン"
+
+  "Bubble Up"
+  "バブルアップします。"
+
+  "Change Working Directory"
+  "作業ディレクトリの変更"
+
+  "Character"
+  "性格"
+
   "Check for Update"
   "アップデートの確認"
 
@@ -217,6 +237,12 @@ msgcat::mcmset ja {
   "Close Current"
   "??????"
 
+  "Command"
+  "命令"
+
+  "Command Result"
+  "コマンドの結果"
+
   "Copy"
   "コピー"
 
@@ -226,8 +252,26 @@ msgcat::mcmset ja {
   "Create..."
   "する"
 
+  "Current Line"
+  "現在の行"
+
+  "Current Word"
+  "現在の単語"
+
+  "Cursor"
+  "カーソル"
+
+  "Cursor from Line Start"
+  "カーソルを行の先頭から"
+
+  "Cursor to Line End"
+  "線の端点にカーソル"
+
   "Cut"
   "CUT"
+
+  "Display Text Info"
+  "表示テキスト"
 
   "Edit"
   "編集"
@@ -238,11 +282,56 @@ msgcat::mcmset ja {
   "Edit Menu Edit user snippets"
   "メニュー編集ユーザー スニペットを編集します。"
 
+  "Edit Menu: Align cursors"
+  "[編集] メニュー: カーソルの位置合わせ"
+
+  "Edit Menu: Bubble lines down one line"
+  "[編集] メニュー: バブルの行 1 行下"
+
+  "Edit Menu: Bubble lines up one line"
+  "[編集] メニュー: バブルの行を 1 行"
+
+  "Edit Menu: Convert case to lower"
+  "[編集] メニュー: 変換を下げる場合"
+
+  "Edit Menu: Convert case to title"
+  "タイトルに [編集] メニュー: 変換ケース"
+
+  "Edit Menu: Convert case to upper"
+  "[編集] メニュー: ケースを上に変換します。"
+
   "Edit Menu: Copy text"
   "[編集] メニュー: テキストのコピー"
 
   "Edit Menu: Cut text"
   "[編集] メニュー: テキストを切り取る"
+
+  "Edit Menu: Delete backward numbers"
+  "[編集] メニュー: 下位の番号を削除します。"
+
+  "Edit Menu: Delete backward whitespace"
+  "[編集] メニュー: 後方の空白を削除します。"
+
+  "Edit Menu: Delete current line"
+  "カレント行の削除 [編集] メニュー。"
+
+  "Edit Menu: Delete current word"
+  "[編集] メニュー: 現在の単語を削除します。"
+
+  "Edit Menu: Delete forward numbers"
+  "[編集] メニュー: 前方の番号を削除します。"
+
+  "Edit Menu: Delete forward whitespace"
+  "[編集] メニュー: 前方空白を削除します。"
+
+  "Edit Menu: Delete from cursor to end of line"
+  "編集メニュー: 削除終わりへのカーソルからの行の"
+
+  "Edit Menu: Delete from start of line to cursor"
+  "カーソルを行の先頭から削除する編集メニュー。"
+
+  "Edit Menu: Delete text between character"
+  "[編集] メニュー: 文字の間のテキストを削除します。"
 
   "Edit Menu: Edit language snippets"
   "[編集] メニュー: 編集言語のスニペット"
@@ -262,17 +351,77 @@ msgcat::mcmset ja {
   "Edit Menu: Edit user menu bindings"
   "[編集] メニュー: 編集ユーザー メニューのバインディング"
 
-  "Edit Menu: Format all text"
-  "[編集] メニュー: すべてのテキストの書式設定します。"
+  "Edit Menu: Format indentation for text"
+  "[編集] メニュー: テキストのインデントの書式設定します。"
 
-  "Edit Menu: Format selected text"
-  "[編集] メニュー: 選択したテキストの書式設定します。"
+  "Edit Menu: Indent selected text"
+  "[編集] メニュー: 選択したテキストにインデントを設定します。"
+
+  "Edit Menu: Insert command result after current line"
+  "現在の行後の [編集] メニュー: 挿入コマンドの結果"
+
+  "Edit Menu: Insert file contents after current line"
+  "現在の行後の [編集] メニュー: 挿入ファイルの内容"
 
   "Edit Menu: Insert from clipboard"
   "[編集] メニュー: クリップボードから挿入します。"
 
+  "Edit Menu: Insert line above current line"
+  "[編集] メニュー: 現在の行の上に行を挿入します。"
+
+  "Edit Menu: Insert line below current line"
+  "[編集] メニュー: 現在の行の下に行を挿入します。"
+
   "Edit Menu: Insert snippet"
   "[編集] メニュー: 挿入スニペット"
+
+  "Edit Menu: Join lines"
+  "[編集] メニュー: 結合線"
+
+  "Edit Menu: Move cursor to bottom of screen"
+  "カーソル画面の下部を移動する [編集] メニュー:"
+
+  "Edit Menu: Move cursor to end of current line"
+  "[編集] メニュー: 移動の終わりへのカーソルの現在の行"
+
+  "Edit Menu: Move cursor to first line"
+  "最初の行にカーソルを移動する [編集] メニュー:"
+
+  "Edit Menu: Move cursor to last line"
+  "最後の行にカーソルを移動する [編集] メニュー:"
+
+  "Edit Menu: Move cursor to middle of screen"
+  "画面の中央にカーソルを移動する [編集] メニュー:"
+
+  "Edit Menu: Move cursor to next page"
+  "次のページにカーソルを移動する [編集] メニュー:"
+
+  "Edit Menu: Move cursor to next word"
+  "[編集] メニュー: カーソルを次の単語に移動します。"
+
+  "Edit Menu: Move cursor to previous page"
+  "前のページにカーソルを移動する [編集] メニュー:"
+
+  "Edit Menu: Move cursor to previous word"
+  "[編集] メニュー: カーソルを前の単語に移動します。"
+
+  "Edit Menu: Move cursor to start of current line"
+  "現在の行の先頭にカーソルを移動する [編集] メニュー:"
+
+  "Edit Menu: Move cursor to top of screen"
+  "画面の上部にカーソルを移動する [編集] メニュー:"
+
+  "Edit Menu: Move multicursors down one line"
+  "[編集] メニュー: が multicursors を 1 行下に移動します。"
+
+  "Edit Menu: Move multicursors left one line"
+  "[編集] メニュー: multicursors 左の 1 つの行に移動します。"
+
+  "Edit Menu: Move multicursors right one line"
+  "[編集] メニュー: 移動 multicursors 右 1行"
+
+  "Edit Menu: Move multicursors up one line"
+  "[編集] メニュー: 移動を 1 行 multicursors"
 
   "Edit Menu: Paste and format text from clipboard"
   "[編集] メニュー: テキスト クリップボードからペーストおよび書式設定"
@@ -285,6 +434,9 @@ msgcat::mcmset ja {
 
   "Edit Menu: Reload snippets"
   "[編集] メニュー: リロード スニペット"
+
+  "Edit Menu: Replace line with script"
+  "[編集] メニュー: スクリプト行を置き換えます"
 
   "Edit Menu: Select all text"
   "[編集] メニュー: すべてのテキストを選択します。"
@@ -304,8 +456,17 @@ msgcat::mcmset ja {
   "Edit Menu: Set user preferences to global preferences"
   "グローバル設定に設定ユーザーを [編集] メニュー。"
 
+  "Edit Menu: Toggle case of current character"
+  "現在の文字の編集メニュー: トグル ケース"
+
+  "Edit Menu: Toggle comment"
+  "[編集] メニュー: コメント切り替え"
+
   "Edit Menu: Undo"
   "[編集] メニュー: 元に戻す"
+
+  "Edit Menu: Unindent selected text"
+  "[編集] メニュー: 選択したテキストのインデントを解除します。"
 
   "Edit Menu: View base preferences file"
   "[編集] メニュー: 表示基本設定ファイル"
@@ -328,8 +489,17 @@ msgcat::mcmset ja {
   "Edit User - Language"
   "??????????????"
 
+  "Enumeration"
+  "数え上げ"
+
   "File"
   "ファイル"
+
+  "File Contents"
+  "ファイルの内容"
+
+  "File Menu: Change working directory"
+  "[ファイル] メニュー: 作業ディレクトリを変更"
 
   "File Menu: Close all tabs"
   "[ファイル] メニュー: すべてのタブを閉じる"
@@ -346,6 +516,9 @@ msgcat::mcmset ja {
   "File Menu: New file"
   "[ファイル] メニュー: 新しいファイル"
 
+  "File Menu: New window"
+  "[ファイル] メニュー: 新しいウィンドウ"
+
   "File Menu: Open Favorite"
   "[ファイル] メニュー: 開いているお気に入り"
 
@@ -361,6 +534,9 @@ msgcat::mcmset ja {
   "File Menu: Quit application"
   "[ファイル] メニュー: アプリケーションを終了します。"
 
+  "File Menu: Reopen current file"
+  "[ファイル] メニュー: 現在のファイルを再度開く"
+
   "File Menu: Save all files"
   "すべてのファイルを保存ファイル] メニュー。"
 
@@ -369,6 +545,9 @@ msgcat::mcmset ja {
 
   "File Menu: Save file as"
   "ファイルを保存するファイル] メニュー。"
+
+  "File Menu: Save selected lines"
+  "[ファイル] メニュー: 選択した行を保存します。"
 
   "File Menu: Show file difference"
   "[ファイル] メニュー: ファイルの相違点を表示します。"
@@ -420,6 +599,9 @@ msgcat::mcmset ja {
 
   "Find Menu: Jump forward"
   "前方検索メニュー: ジャンプ"
+
+  "Find Menu: Jump to line"
+  "検索メニュー: 行にジャンプします。"
 
   "Find Menu: Remove all markers"
   "検索メニュー: すべてのマーカーを削除します。"
@@ -496,20 +678,20 @@ msgcat::mcmset ja {
   "Indent"
   "インデント"
 
-  "Indent Mode"
-  "インデント モード"
-
   "Indent Off"
   "オフにインデントを設定します。"
 
-  "Insert Enumeration"
-  "??????????"
+  "Indentation"
+  "字下げ"
 
-  "Insert Text"
-  "テキストの挿入"
+  "Insert"
+  "挿入"
 
   "Install..."
   "インストール"
+
+  "Join Lines"
+  "行に参加します。"
 
   "Jump Backward"
   "??????????"
@@ -517,11 +699,26 @@ msgcat::mcmset ja {
   "Jump Forward"
   "??????????"
 
+  "Jump To Line"
+  "行にジャンプします。"
+
   "Launcher"
   "ランチャー"
 
+  "Line Above Current"
+  "現在の上行"
+
+  "Line Below Current"
+  "現在下の行"
+
+  "Line Number"
+  "行番号"
+
   "Lock"
   "固定"
+
+  "Lower Case"
+  "小文字"
 
   "Markers"
   "マーカー"
@@ -535,8 +732,62 @@ msgcat::mcmset ja {
   "Merge Panes"
   "????????????"
 
+  "Move Cursors Down"
+  "カーソルを下に移動します。"
+
+  "Move Cursors Left"
+  "カーソル左を移動します。"
+
+  "Move Cursors Right"
+  "カーソルを右へ移動します。"
+
+  "Move Cursors Up"
+  "カーソルを上に移動します。"
+
+  "Move to First Line"
+  "最初の行に移動します。"
+
+  "Move to Last Line"
+  "最後の行に移動します。"
+
+  "Move to Line End"
+  "最後の行に移動します。"
+
+  "Move to Line Start"
+  "スタート ラインに移動します。"
+
+  "Move to Next Page"
+  "次のページへ移動します。"
+
+  "Move to Next Word"
+  "次の単語に移動します。"
+
+  "Move to Previous Page"
+  "前のページへ移動します。"
+
+  "Move to Previous Word"
+  "前の単語に移動します。"
+
+  "Move to Screen Bottom"
+  "画面の一番下に移動します。"
+
+  "Move to Screen Middle"
+  "画面の中央に移動します。"
+
+  "Move to Screen Top"
+  "画面の一番上に移動します。"
+
+  "New Window"
+  "新しいウィンドウ"
+
   "Next Difference"
   "????"
+
+  "Numbers Backward"
+  "下位の数字"
+
+  "Numbers Forward"
+  "前方の数字"
 
   "Open Directory..."
   "ディレクトリを開きます。..."
@@ -601,6 +852,9 @@ msgcat::mcmset ja {
   "Remove From Current Line"
   "????????????"
 
+  "Reopen File"
+  "ファイルを再び開く"
+
   "Replace Line With Script"
   "?????????????"
 
@@ -619,6 +873,9 @@ msgcat::mcmset ja {
   "Save Current"
   "?????????"
 
+  "Save Selection As..."
+  "選択範囲を保存."
+
   "Select All"
   "すべて選択"
 
@@ -630,9 +887,6 @@ msgcat::mcmset ja {
 
   "Select Previous Occurrence"
   "?????????????"
-
-  "Selected"
-  "選択"
 
   "Send Bug Report"
   "バグ報告を送る"
@@ -648,9 +902,6 @@ msgcat::mcmset ja {
 
   "Sessions Menu: Delete session"
   "セッション ・ メニュー: 削除セッション"
-
-  "Sessions Menu: Open session"
-  "セッション ・ メニュー: オープン セッション"
 
   "Sessions Menu: Save current session"
   "セッション ・ メニュー: 現在のセッションを保存します。"
@@ -727,26 +978,17 @@ msgcat::mcmset ja {
   "Tabs"
   "タブ"
 
-  "Text"
-  "Text"
-
-  "Text Menu: Align cursors"
-  "テキスト メニュー: カーソルの位置合わせ"
-
-  "Text Menu: Indent selected text"
-  "テキスト メニュー: 選択したテキストにインデントを設定します。"
+  "Text Between Character"
+  "文字の間のテキスト"
 
   "Text Menu: Insert enumeration"
   "テキスト メニュー: 挿入列挙"
 
-  "Text Menu: Replace line with script"
-  "テキスト メニュー: スクリプト行を置き換えます"
+  "Title Case"
+  "タイトル ケース"
 
-  "Text Menu: Toggle comment"
-  "テキスト メニュー: コメント切り替え"
-
-  "Text Menu: Unindent selected text"
-  "テキスト メニュー: 選択したテキストのインデントを解除します。"
+  "Toggle Case"
+  "トグル ケース"
 
   "Toggle Comment"
   "????????"
@@ -778,6 +1020,9 @@ msgcat::mcmset ja {
   "Tools Menu: Stop profiling"
   "[ツール] メニュー: プロファイリングを停止します。"
 
+  "Transform"
+  "トランスフォーム"
+
   "Undo"
   "アンドゥ"
 
@@ -790,6 +1035,9 @@ msgcat::mcmset ja {
   "Unlock"
   "アンロック"
 
+  "Upper Case"
+  "大文字"
+
   "User Guide"
   "マニュアル"
 
@@ -801,6 +1049,9 @@ msgcat::mcmset ja {
 
   "View Global"
   "グローバル ビュー"
+
+  "View Menu: Display text information"
+  "[表示] メニュー: 表示テキスト情報"
 
   "View Menu: Goto last tab"
   "[表示] メニュー: 後藤最後のタブ"
@@ -870,6 +1121,12 @@ msgcat::mcmset ja {
 
   "Vim Mode"
   "Vimのモード"
+
+  "Whitespace Backward"
+  "後方の空白"
+
+  "Whitespace Forward"
+  "空白フォワード"
 
 }
 
@@ -1182,11 +1439,17 @@ msgcat::mcmset ja {
   "Foreground text color to use for selected text."
   "前景テキストの色は、選択したテキストに使用します。"
 
+  "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."
+  "他のすべてのタブをタブバーの現在/アクティブ タブの使用前景のテキストの色。"
+
   "Foreground text color used for menus item that are disabled."
   "無効になっているメニュー項目に使用するテキストの前景色。"
 
   "Foreground text color used for the current/active menu item."
   "現在の/アクティブなメニュー項目に使用するテキストの前景色。"
+
+  "Foreground text color used for the current/active tab in the tabbar."
+  "タブバーの現在/アクティブ タブに使用前景のテキストの色。"
 
   "Foreground text color used in menus."
   "メニューで使用テキストの前景色。"
@@ -1417,22 +1680,8 @@ msgcat::mcmset ja {
 
 }
 
-# vim.tcl
-msgcat::mcmset ja {
-
-  "File successfully written"
-  "ファイルが正常に書き込まれました。"
-
-  "Filename already exists"
-  "ファイル名が既に存在します。"
-
-}
-
 # General
 msgcat::mcmset ja {
-
-  "All"
-  "ALL"
 
   "Cancel"
   "キャンセル"

@@ -37,6 +37,17 @@ msgcat::mcmset he {
 
 }
 
+# edit.tcl
+msgcat::mcmset he {
+
+  "File successfully written"
+  "קובץ כתוב בהצלחה"
+
+  "Filename already exists"
+  "שם הקובץ כבר קיים"
+
+}
+
 # embed_tke.tcl
 msgcat::mcmset he {
 
@@ -50,6 +61,9 @@ msgcat::mcmset he {
 
 # gui.tcl
 msgcat::mcmset he {
+
+  "All"
+  "כל"
 
   "Case sensitivity"
   "תלות ברישיות"
@@ -165,9 +179,6 @@ msgcat::mcmset he {
   "Total Lines"
   "שורות סכום כולל"
 
-  "Unable to find current file"
-  "אין אפשרות למצוא את הקובץ הנוכחי"
-
   "Unable to successfully parse number string"
   "אין אפשרות לנתח בהצלחה מספר מיתרים"
 
@@ -176,9 +187,6 @@ msgcat::mcmset he {
 
   "Version"
   "גרסה"
-
-  "tab"
-  "טאב"
 
 }
 
@@ -205,6 +213,18 @@ msgcat::mcmset he {
   "Auto-Indent"
   "כניסה אוטומטית"
 
+  "Bubble Down"
+  "בועה למטה"
+
+  "Bubble Up"
+  "את הבועה"
+
+  "Change Working Directory"
+  "שינוי ספריית עבודה"
+
+  "Character"
+  "גרפמה"
+
   "Check for Update"
   "הסימון עבור עדכון"
 
@@ -217,6 +237,12 @@ msgcat::mcmset he {
   "Close Current"
   "???? ?? ??????"
 
+  "Command"
+  "הפקודה"
+
+  "Command Result"
+  "תוצאה הפקודה"
+
   "Copy"
   "להעתיק"
 
@@ -226,8 +252,26 @@ msgcat::mcmset he {
   "Create..."
   "ליצור"
 
+  "Current Line"
+  "השורה הנוכחית"
+
+  "Current Word"
+  "המילה הנוכחית"
+
+  "Cursor"
+  "סמן"
+
+  "Cursor from Line Start"
+  "סמן קו ההתחלה"
+
+  "Cursor to Line End"
+  "הסמן לסוף הקו"
+
   "Cut"
   "לחתוך"
+
+  "Display Text Info"
+  "להציג טקסט מידע"
 
   "Edit"
   "עריכה"
@@ -238,11 +282,56 @@ msgcat::mcmset he {
   "Edit Menu Edit user snippets"
   "ערוך תפריט עריכת קטעי משתמש"
 
+  "Edit Menu: Align cursors"
+  "תפריט עריכה: ליישר סמנים"
+
+  "Edit Menu: Bubble lines down one line"
+  "תפריט עריכה: קווים בועה שורה אחת למטה"
+
+  "Edit Menu: Bubble lines up one line"
+  "תפריט עריכה: קווים בועה שורה אחת למעלה"
+
+  "Edit Menu: Convert case to lower"
+  "תפריט עריכה: להמיר את התיק כדי להוריד"
+
+  "Edit Menu: Convert case to title"
+  "תפריט עריכה: להמיר את התיק כותרת"
+
+  "Edit Menu: Convert case to upper"
+  "תפריט עריכה: להמיר את התיק העליון"
+
   "Edit Menu: Copy text"
   "תפריט עריכה: העתק טקסט"
 
   "Edit Menu: Cut text"
   "תפריט עריכה: גזור טקסט"
+
+  "Edit Menu: Delete backward numbers"
+  "תפריט עריכה: מחיקת מספרי לאחור"
+
+  "Edit Menu: Delete backward whitespace"
+  "תפריט עריכה: מחיקת רווחים לבנים לאחור"
+
+  "Edit Menu: Delete current line"
+  "תפריט עריכה: מחיקת השורה הנוכחית"
+
+  "Edit Menu: Delete current word"
+  "תפריט עריכה: מחיקת המילה הנוכחית"
+
+  "Edit Menu: Delete forward numbers"
+  "תפריט עריכה: מחק המספרים קדימה"
+
+  "Edit Menu: Delete forward whitespace"
+  "תפריט עריכה: מחיקת רווחים לבנים קדימה"
+
+  "Edit Menu: Delete from cursor to end of line"
+  "תפריט עריכה: מחיקת הסמן כדי לסיים קו"
+
+  "Edit Menu: Delete from start of line to cursor"
+  "תפריט עריכה: למחוק מן ההתחלה של קו את סמן"
+
+  "Edit Menu: Delete text between character"
+  "תפריט עריכה: מחיקת טקסט בין תו"
 
   "Edit Menu: Edit language snippets"
   "תפריט עריכה: לערוך קטעי שפה"
@@ -262,17 +351,77 @@ msgcat::mcmset he {
   "Edit Menu: Edit user menu bindings"
   "תפריט עריכה: עריכת האיגודים תפריט משתמש"
 
-  "Edit Menu: Format all text"
-  "תפריט עריכה: לעצב כל הטקסט"
+  "Edit Menu: Format indentation for text"
+  "תפריט עריכה: כניסה תבנית עבור טקסט"
 
-  "Edit Menu: Format selected text"
-  "תפריט עריכה: לעצב טקסט שנבחר"
+  "Edit Menu: Indent selected text"
+  "תפריט עריכה: כניסה לטקסט שנבחר"
+
+  "Edit Menu: Insert command result after current line"
+  "תפריט עריכה: הוספה הפקודה התוצאה לאחר השורה הנוכחית"
+
+  "Edit Menu: Insert file contents after current line"
+  "תפריט עריכה: הוספת תוכן הקובץ לאחר השורה הנוכחית"
 
   "Edit Menu: Insert from clipboard"
   "תפריט עריכה: הוספת מהלוח"
 
+  "Edit Menu: Insert line above current line"
+  "תפריט עריכה: הוספת קו מעל השורה הנוכחית"
+
+  "Edit Menu: Insert line below current line"
+  "תפריט עריכה: הוספת קו מתחת השורה הנוכחית"
+
   "Edit Menu: Insert snippet"
   "תפריט עריכה: הוספת מקטע"
+
+  "Edit Menu: Join lines"
+  "תפריט עריכה: קווי צירוף"
+
+  "Edit Menu: Move cursor to bottom of screen"
+  "תפריט עריכה: להזיז את הסמן לחלק התחתון של המסך"
+
+  "Edit Menu: Move cursor to end of current line"
+  "תפריט עריכה: להזיז את הסמן כדי לסיים של השורה הנוכחית"
+
+  "Edit Menu: Move cursor to first line"
+  "תפריט עריכה: להזיז את הסמן בשורה הראשונה"
+
+  "Edit Menu: Move cursor to last line"
+  "תפריט עריכה: להזיז את הסמן בשורה האחרונה"
+
+  "Edit Menu: Move cursor to middle of screen"
+  "תפריט עריכה: להזיז את הסמן לאמצע המסך"
+
+  "Edit Menu: Move cursor to next page"
+  "תפריט עריכה: להזיז את הסמן אל הדף הבא"
+
+  "Edit Menu: Move cursor to next word"
+  "תפריט עריכה: להזיז את הסמן על המילה הבאה"
+
+  "Edit Menu: Move cursor to previous page"
+  "תפריט עריכה: להזיז את הסמן אל הדף הקודם"
+
+  "Edit Menu: Move cursor to previous word"
+  "תפריט עריכה: להזיז את הסמן על המילה הקודמת"
+
+  "Edit Menu: Move cursor to start of current line"
+  "תפריט עריכה: להזיז את הסמן אל תחילת השורה הנוכחית"
+
+  "Edit Menu: Move cursor to top of screen"
+  "תפריט עריכה: להזיז את הסמן לקצה העליון של המסך"
+
+  "Edit Menu: Move multicursors down one line"
+  "תפריט עריכה: להזיז multicursors שורה אחת למטה"
+
+  "Edit Menu: Move multicursors left one line"
+  "תפריט עריכה: להזיז קו אחד שמאלה multicursors"
+
+  "Edit Menu: Move multicursors right one line"
+  "תפריט עריכה: להזיז multicursors נכון שורה אחת"
+
+  "Edit Menu: Move multicursors up one line"
+  "תפריט עריכה: להזיז multicursors שורה אחת למעלה"
 
   "Edit Menu: Paste and format text from clipboard"
   "תפריט עריכה: הדבקה ועיצוב טקסט מהלוח"
@@ -285,6 +434,9 @@ msgcat::mcmset he {
 
   "Edit Menu: Reload snippets"
   "בתפריט עריכה: גזירים רענן"
+
+  "Edit Menu: Replace line with script"
+  "תפריט עריכה: להחליף שורת תסריט"
 
   "Edit Menu: Select all text"
   "תפריט עריכה: בחר את כל הטקסט"
@@ -304,8 +456,17 @@ msgcat::mcmset he {
   "Edit Menu: Set user preferences to global preferences"
   "תפריט עריכה: להגדיר העדפות המשתמש העדפות גלובלית"
 
+  "Edit Menu: Toggle case of current character"
+  "תפריט עריכה: החלפה במקרה של התו הנוכחי"
+
+  "Edit Menu: Toggle comment"
+  "תפריט עריכה: הערה דו-מצבי"
+
   "Edit Menu: Undo"
   "לתפריט עריכה: לבטל"
+
+  "Edit Menu: Unindent selected text"
+  "תפריט עריכה: הקטנת כניסת הטקסט הנבחר"
 
   "Edit Menu: View base preferences file"
   "תפריט עריכה: קובץ ההעדפות הבסיס של תצוגת"
@@ -328,8 +489,17 @@ msgcat::mcmset he {
   "Edit User - Language"
   "???? ????? - ???"
 
+  "Enumeration"
+  "ספירה"
+
   "File"
   "קובץ"
+
+  "File Contents"
+  "תוכן הקובץ"
+
+  "File Menu: Change working directory"
+  "תפריט קובץ: שינוי ספריית עבודה"
 
   "File Menu: Close all tabs"
   "תפריט קובץ: לסגור את כל הכרטיסיות"
@@ -346,6 +516,9 @@ msgcat::mcmset he {
   "File Menu: New file"
   "בתפריט קובץ: קובץ חדש"
 
+  "File Menu: New window"
+  "בתפריט קובץ: חלון חדש"
+
   "File Menu: Open Favorite"
   "בתפריט קובץ: האהוב פתח"
 
@@ -361,6 +534,9 @@ msgcat::mcmset he {
   "File Menu: Quit application"
   "תפריט קובץ: לצאת מהיישום"
 
+  "File Menu: Reopen current file"
+  "תפריט קובץ: פתיחה מחדש של הקובץ הנוכחי"
+
   "File Menu: Save all files"
   "תפריט קובץ: לשמור את כל הקבצים"
 
@@ -369,6 +545,9 @@ msgcat::mcmset he {
 
   "File Menu: Save file as"
   "תפריט קובץ: שמירת הקובץ כקובץ"
+
+  "File Menu: Save selected lines"
+  "תפריט קובץ: להציל את השורות שנבחרו"
 
   "File Menu: Show file difference"
   "תפריט קובץ: להראות ההבדל קובץ"
@@ -420,6 +599,9 @@ msgcat::mcmset he {
 
   "Find Menu: Jump forward"
   "למצוא תפריט: לקפוץ קדימה"
+
+  "Find Menu: Jump to line"
+  "למצוא תפריט: לקפוץ לקו"
 
   "Find Menu: Remove all markers"
   "למצוא תפריט: להסיר את כל הסמנים"
@@ -496,20 +678,20 @@ msgcat::mcmset he {
   "Indent"
   "כניסה"
 
-  "Indent Mode"
-  "כניסה למצב"
-
   "Indent Off"
   "כניסה."
 
-  "Insert Enumeration"
-  "????? ?????"
+  "Indentation"
+  "הזחה"
 
-  "Insert Text"
-  "הוספת טקסט"
+  "Insert"
+  "הוסף"
 
   "Install..."
   "להתקין..."
+
+  "Join Lines"
+  "קווי צירוף"
 
   "Jump Backward"
   "????? ?????"
@@ -517,11 +699,26 @@ msgcat::mcmset he {
   "Jump Forward"
   "????? ?????"
 
+  "Jump To Line"
+  "קפוץ לשורה"
+
   "Launcher"
   "משגר"
 
+  "Line Above Current"
+  "קו מעל זרם"
+
+  "Line Below Current"
+  "קו מתחת זרם"
+
+  "Line Number"
+  "מספר השורה"
+
   "Lock"
   "מנעול"
+
+  "Lower Case"
+  "באותיות קטנות"
 
   "Markers"
   "סמנים"
@@ -535,8 +732,62 @@ msgcat::mcmset he {
   "Merge Panes"
   "????? ???????"
 
+  "Move Cursors Down"
+  "להזיז סמנים"
+
+  "Move Cursors Left"
+  "הזז שמאלה סמנים"
+
+  "Move Cursors Right"
+  "להזיז סמנים ימינה"
+
+  "Move Cursors Up"
+  "להזיז סמנים"
+
+  "Move to First Line"
+  "לעבור שורה ראשונה"
+
+  "Move to Last Line"
+  "לעבור שורה אחרונה"
+
+  "Move to Line End"
+  "העבר אל קו הסיום"
+
+  "Move to Line Start"
+  "העבר אל קו ההתחלה"
+
+  "Move to Next Page"
+  "לעבור לדף הבא"
+
+  "Move to Next Word"
+  "לעבור אל המילה הבאה"
+
+  "Move to Previous Page"
+  "לעבור דף קודמות"
+
+  "Move to Previous Word"
+  "לעבור המילה הקודמת"
+
+  "Move to Screen Bottom"
+  "לעבור אל המסך התחתון"
+
+  "Move to Screen Middle"
+  "להעביר למסך האמצעי"
+
+  "Move to Screen Top"
+  "לעבור אל המסך העליון"
+
+  "New Window"
+  "חלון חדש"
+
   "Next Difference"
   "????? ???"
+
+  "Numbers Backward"
+  "מספרים לאחור"
+
+  "Numbers Forward"
+  "המספרים קדימה"
 
   "Open Directory..."
   "המדריך הפתוח..."
@@ -601,6 +852,9 @@ msgcat::mcmset he {
   "Remove From Current Line"
   "????? ?? ????? ???????"
 
+  "Reopen File"
+  "הקובץ מחדש"
+
   "Replace Line With Script"
   "?????? ???? ?????"
 
@@ -619,6 +873,9 @@ msgcat::mcmset he {
   "Save Current"
   "????? ?? ??????"
 
+  "Save Selection As..."
+  "להציל את הבחירה..."
+
   "Select All"
   "בחר את כל"
 
@@ -630,9 +887,6 @@ msgcat::mcmset he {
 
   "Select Previous Occurrence"
   "??? ?? ????? ?????"
-
-  "Selected"
-  "נבחרת"
 
   "Send Bug Report"
   "לשלוח דיווח הבאג"
@@ -648,9 +902,6 @@ msgcat::mcmset he {
 
   "Sessions Menu: Delete session"
   "תפריט הפעלות: ההפעלה Delete"
-
-  "Sessions Menu: Open session"
-  "תפריט הפעלות: מפגש פתוח"
 
   "Sessions Menu: Save current session"
   "תפריט הפעלות: להציל את ההפעלה הנוכחית"
@@ -727,26 +978,17 @@ msgcat::mcmset he {
   "Tabs"
   "טאב"
 
-  "Text"
-  "Text"
-
-  "Text Menu: Align cursors"
-  "טקסט תפריט: ליישר סמנים"
-
-  "Text Menu: Indent selected text"
-  "טקסט תפריט: כניסה לטקסט שנבחר"
+  "Text Between Character"
+  "טקסט בין תו"
 
   "Text Menu: Insert enumeration"
   "טקסט תפריט: הוספה ספירה"
 
-  "Text Menu: Replace line with script"
-  "טקסט תפריט: להחליף שורת תסריט"
+  "Title Case"
+  "כותרת התיק"
 
-  "Text Menu: Toggle comment"
-  "טקסט תפריט: תגובה דו-מצבי"
-
-  "Text Menu: Unindent selected text"
-  "טקסט תפריט: הקטנת כניסת הטקסט הנבחר"
+  "Toggle Case"
+  "היפוך רישיות"
 
   "Toggle Comment"
   "????? ??-????"
@@ -778,6 +1020,9 @@ msgcat::mcmset he {
   "Tools Menu: Stop profiling"
   "תפריט כלים: להפסיק. עם הפרופיל"
 
+  "Transform"
+  "שינוי צורה"
+
   "Undo"
   "בטל"
 
@@ -790,6 +1035,9 @@ msgcat::mcmset he {
   "Unlock"
   "לבטל את הנעילה"
 
+  "Upper Case"
+  "אותיות רישיות"
+
   "User Guide"
   "מדריך למשתמש"
 
@@ -801,6 +1049,9 @@ msgcat::mcmset he {
 
   "View Global"
   "תצוגה גלובלית"
+
+  "View Menu: Display text information"
+  "תפריט תצוגה: להציג טקסט מידע"
 
   "View Menu: Goto last tab"
   "בתפריט תצוגה: הכרטיסיה האחרונה Goto"
@@ -870,6 +1121,12 @@ msgcat::mcmset he {
 
   "Vim Mode"
   "מצב vim"
+
+  "Whitespace Backward"
+  "רווח לבן לאחור"
+
+  "Whitespace Forward"
+  "רווח לבן קדימה"
 
 }
 
@@ -1182,11 +1439,17 @@ msgcat::mcmset he {
   "Foreground text color to use for selected text."
   "צבע הקידמה טקסט לשימוש עבור טקסט נבחר."
 
+  "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."
+  "צבע טקסט הקידמה משמש כל כרטיסיות אחרות שאינן הכרטיסיה הנוכחית/פעיל tabbar."
+
   "Foreground text color used for menus item that are disabled."
   "טקסט בקידמה הצבע המשמש עבור פריט התפריטים אינם זמינים."
 
   "Foreground text color used for the current/active menu item."
   "הקידמה טקסט הצבע המשמש עבור פריט התפריט הנוכחי/פעיל."
+
+  "Foreground text color used for the current/active tab in the tabbar."
+  "הקידמה טקסט הצבע המשמש עבור הכרטיסיה הנוכחית/פעיל tabbar."
 
   "Foreground text color used in menus."
   "צבע טקסט הקידמה להשתמש בתפריטים."
@@ -1417,22 +1680,8 @@ msgcat::mcmset he {
 
 }
 
-# vim.tcl
-msgcat::mcmset he {
-
-  "File successfully written"
-  "קובץ כתוב בהצלחה"
-
-  "Filename already exists"
-  "שם הקובץ כבר קיים"
-
-}
-
 # General
 msgcat::mcmset he {
-
-  "All"
-  "כל"
 
   "Cancel"
   "ביטול"

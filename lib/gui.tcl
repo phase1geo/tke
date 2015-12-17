@@ -52,6 +52,7 @@ namespace eval gui {
   array set tab_tip         {}
   array set line_sel_anchor {}
   array set txt_current     {}
+  array set tab_current     {}
   array set cursor_hist     {}
 
   array set files_index {
@@ -92,13 +93,14 @@ namespace eval gui {
     variable files
     variable files_index
 
-    set fname [lindex $files $index $files_index(fname)]
+    # Get the file information
+    lassign [get_info $index fileindex {tab fname mtime modified}] tab fname mtime modified
+
     if {$fname ne ""} {
-      set mtime [lindex $files $index $files_index(mtime)]
       if {[file exists $fname]} {
         file stat $fname stat
         if {$mtime != $stat(mtime)} {
-          if {[lindex $files $index $files_index(modified)]} {
+          if {$modified} {
             set answer [tk_messageBox -parent . -icon question -message [msgcat::mc "Reload file?"] \
               -detail $fname -type yesno -default yes]
             if {$answer eq "yes"} {
@@ -113,7 +115,7 @@ namespace eval gui {
         set answer [tk_messageBox -parent . -icon question -message [msgcat::mc "Delete tab?"] \
           -detail $fname -type yesno -default yes]
         if {$answer eq "yes"} {
-          close_tab [lindex $files $index $files_index(tab)]
+          close_tab $tab
         } else {
           lset files $index $files_index(mtime) ""
         }
@@ -1339,6 +1341,7 @@ namespace eval gui {
 
         # Change the text to unmodified
         $txt edit reset
+        lset files $file_index $files_index(modified) 0
 
         # Set the insertion mark to the first position
         $txt mark set insert 1.0
@@ -3679,7 +3682,7 @@ namespace eval gui {
       if {!$readonly && ([lindex $data 4] ne "ignore")} {
 
         # Save the modified state to the files list
-        catch { lset files $file_index $files_index(modified) 1 }
+        lset files $file_index $files_index(modified) 1
 
         # Change the look of the tab
         if {[string index [set name [string trimleft [$tb tab $tab -text]]] 0] ne "*"} {
@@ -3796,6 +3799,7 @@ namespace eval gui {
 
     variable widgets
     variable pw_current
+    variable tab_current
     variable files
     variable files_index
 
@@ -3811,21 +3815,26 @@ namespace eval gui {
     # Display the tab content
     add_tab_content $tab
 
-    # Set the current tab
-    $tb select $tab
+    # Only update the tab if it differs from the previously recorded tab
+    if {![info exists tab_current($pw_current)] || ($tab_current($pw_current) ne $tab)} {
 
-    # Set the current tab
-    $tb select $tab
+      # Save the currently selected tab
+      set tab_current($pw_current) $tab
 
-    set tf [winfo parent [winfo parent $tb]].tf
+      # Set the current tab
+      $tb select $tab
 
-    if {[set slave [pack slaves $tf]] ne ""} {
-      pack forget $slave
+      set tf [winfo parent [winfo parent $tb]].tf
+
+      if {[set slave [pack slaves $tf]] ne ""} {
+        pack forget $slave
+      }
+      pack [$tb select] -in $tf -fill both -expand yes
+
+      # Update the preferences
+      [ns preferences]::update_prefs [[ns sessions]::current]
+
     }
-    pack [$tb select] -in $tf -fill both -expand yes
-
-    # Update the preferences
-    [ns preferences]::update_prefs [[ns sessions]::current]
 
     # Set the text widget
     set txt [last_txt_focus {} $tab]

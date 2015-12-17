@@ -37,6 +37,17 @@ msgcat::mcmset ru {
 
 }
 
+# edit.tcl
+msgcat::mcmset ru {
+
+  "File successfully written"
+  "Файл успешно записаны"
+
+  "Filename already exists"
+  "Имя файла уже существует"
+
+}
+
 # embed_tke.tcl
 msgcat::mcmset ru {
 
@@ -50,6 +61,9 @@ msgcat::mcmset ru {
 
 # gui.tcl
 msgcat::mcmset ru {
+
+  "All"
+  "All"
 
   "Case sensitivity"
   "Чувствительность к регистру символов"
@@ -165,9 +179,6 @@ msgcat::mcmset ru {
   "Total Lines"
   "Всего Линии"
 
-  "Unable to find current file"
-  "Не удается найти текущий файл"
-
   "Unable to successfully parse number string"
   "Не в состоянии успешно разбирать строку номера"
 
@@ -176,9 +187,6 @@ msgcat::mcmset ru {
 
   "Version"
   "Версия"
-
-  "tab"
-  "Вкладка"
 
 }
 
@@ -205,6 +213,18 @@ msgcat::mcmset ru {
   "Auto-Indent"
   "Авто отступ"
 
+  "Bubble Down"
+  "Пузырь вниз"
+
+  "Bubble Up"
+  "Пузыриться"
+
+  "Change Working Directory"
+  "Изменить рабочий каталог"
+
+  "Character"
+  "Символ"
+
   "Check for Update"
   "Проверить обновления"
 
@@ -217,6 +237,12 @@ msgcat::mcmset ru {
   "Close Current"
   "??????? ???????"
 
+  "Command"
+  "Команда"
+
+  "Command Result"
+  "Результат команды"
+
   "Copy"
   "Копия"
 
@@ -226,8 +252,26 @@ msgcat::mcmset ru {
   "Create..."
   "Создать..."
 
+  "Current Line"
+  "Текущая строка"
+
+  "Current Word"
+  "Текущее слово"
+
+  "Cursor"
+  "Кусок"
+
+  "Cursor from Line Start"
+  "Курсор из начала строки"
+
+  "Cursor to Line End"
+  "Курсор в конец строки"
+
   "Cut"
   "Вырезать"
+
+  "Display Text Info"
+  "Текст"
 
   "Edit"
   "Редактировать"
@@ -238,11 +282,56 @@ msgcat::mcmset ru {
   "Edit Menu Edit user snippets"
   "Редактировать редактировать меню пользователя фрагментов"
 
+  "Edit Menu: Align cursors"
+  "Меню Правка: Выровнять курсоры"
+
+  "Edit Menu: Bubble lines down one line"
+  "Меню Правка: Пузырь линии на одну строку вниз"
+
+  "Edit Menu: Bubble lines up one line"
+  "Меню Правка: Пузырь линии на одну строку вверх"
+
+  "Edit Menu: Convert case to lower"
+  "Меню Правка: Конвертировать случае для снижения"
+
+  "Edit Menu: Convert case to title"
+  "Меню Правка: Конвертировать дело в название"
+
+  "Edit Menu: Convert case to upper"
+  "Меню Правка: Конвертировать дело в верхней"
+
   "Edit Menu: Copy text"
   "Меню Правка: Копирование текста"
 
   "Edit Menu: Cut text"
   "Меню Правка: Вырезание текста"
+
+  "Edit Menu: Delete backward numbers"
+  "Меню Правка: Удаление обратных чисел"
+
+  "Edit Menu: Delete backward whitespace"
+  "Меню Правка: Удаление обратной пробел"
+
+  "Edit Menu: Delete current line"
+  "Меню Правка: Удаление текущей строки"
+
+  "Edit Menu: Delete current word"
+  "Меню Правка: Удаление текущего слова"
+
+  "Edit Menu: Delete forward numbers"
+  "Меню Правка: Удаление вперед чисел"
+
+  "Edit Menu: Delete forward whitespace"
+  "Меню Правка: Удаление пробелов вперед"
+
+  "Edit Menu: Delete from cursor to end of line"
+  "Меню Правка: Удаление от курсора до конца строки"
+
+  "Edit Menu: Delete from start of line to cursor"
+  "Меню Правка: Удалить от начала строки до курсора"
+
+  "Edit Menu: Delete text between character"
+  "Меню Правка: Удаление текста между символов"
 
   "Edit Menu: Edit language snippets"
   "Меню Правка: Редактирование фрагментов"
@@ -262,17 +351,77 @@ msgcat::mcmset ru {
   "Edit Menu: Edit user menu bindings"
   "Меню Правка: Изменить привязки меню пользователя"
 
-  "Edit Menu: Format all text"
-  "Меню Правка: Отформатировать весь текст"
+  "Edit Menu: Format indentation for text"
+  "Меню Правка: Формат отступ для текста"
 
-  "Edit Menu: Format selected text"
-  "Меню Правка: Формат выделенного текста"
+  "Edit Menu: Indent selected text"
+  "Меню Правка: Отступ выделенного текста"
+
+  "Edit Menu: Insert command result after current line"
+  "Меню Правка: Результат команды Insert после текущей строки"
+
+  "Edit Menu: Insert file contents after current line"
+  "Меню Правка: Вставьте содержимое файла после текущей строки"
 
   "Edit Menu: Insert from clipboard"
   "Меню Правка: Вставка из буфера обмена"
 
+  "Edit Menu: Insert line above current line"
+  "Меню Правка: Вставка строки над текущей строки"
+
+  "Edit Menu: Insert line below current line"
+  "Меню Правка: Вставить строку ниже текущей строки"
+
   "Edit Menu: Insert snippet"
   "Меню Правка: Вставка фрагмента"
+
+  "Edit Menu: Join lines"
+  "Меню Правка: Строки соединения"
+
+  "Edit Menu: Move cursor to bottom of screen"
+  "Меню Правка: Переместить курсор в нижней части экрана"
+
+  "Edit Menu: Move cursor to end of current line"
+  "Меню Правка: Перемещение курсора в конец текущей строки"
+
+  "Edit Menu: Move cursor to first line"
+  "Меню Правка: Переместить курсор в первую строку"
+
+  "Edit Menu: Move cursor to last line"
+  "Меню Правка: Переместить курсор в последнюю строку"
+
+  "Edit Menu: Move cursor to middle of screen"
+  "Меню Правка: Переместить курсор на середину экрана"
+
+  "Edit Menu: Move cursor to next page"
+  "Меню Правка: Переместить курсор на следующую страницу"
+
+  "Edit Menu: Move cursor to next word"
+  "Меню Правка: Перемещение курсора к следующему слову"
+
+  "Edit Menu: Move cursor to previous page"
+  "Меню Правка: Переместить курсор к предыдущей странице"
+
+  "Edit Menu: Move cursor to previous word"
+  "Меню Правка: Переместить курсор в предыдущее слово"
+
+  "Edit Menu: Move cursor to start of current line"
+  "Меню Правка: Переместить курсор в начало текущей строки"
+
+  "Edit Menu: Move cursor to top of screen"
+  "Меню Правка: Переместить курсор в верхней части экрана"
+
+  "Edit Menu: Move multicursors down one line"
+  "Меню Правка: Перемещение на одну строку вниз multicursors"
+
+  "Edit Menu: Move multicursors left one line"
+  "Меню Правка: Перемещение multicursors влево на одну строку"
+
+  "Edit Menu: Move multicursors right one line"
+  "Меню Правка: Перемещение multicursors право одной линии"
+
+  "Edit Menu: Move multicursors up one line"
+  "Меню Правка: Перемещение multicursors на одну строку вверх"
 
   "Edit Menu: Paste and format text from clipboard"
   "Меню Правка: Вставка и формата текста из буфера обмена"
@@ -285,6 +434,9 @@ msgcat::mcmset ru {
 
   "Edit Menu: Reload snippets"
   "Меню Правка: Перезагрузка фрагментов"
+
+  "Edit Menu: Replace line with script"
+  "Меню Правка: Замените строку скрипта"
 
   "Edit Menu: Select all text"
   "Меню «Правка»: Выберите весь текст"
@@ -304,8 +456,17 @@ msgcat::mcmset ru {
   "Edit Menu: Set user preferences to global preferences"
   "Меню Правка: Задать пользовательские настройки, чтобы глобальные предпочтения"
 
+  "Edit Menu: Toggle case of current character"
+  "Меню Правка: Переключения случае текущий символ"
+
+  "Edit Menu: Toggle comment"
+  "Меню Правка: Комментарий переключения"
+
   "Edit Menu: Undo"
   "Меню Правка: отменить"
+
+  "Edit Menu: Unindent selected text"
+  "Меню Правка: Отмена отступа выделенного текста"
 
   "Edit Menu: View base preferences file"
   "Меню Правка: Просмотр базовой настройки файла"
@@ -328,8 +489,17 @@ msgcat::mcmset ru {
   "Edit User - Language"
   "?????????????? ???????????? - ????"
 
+  "Enumeration"
+  "Enumeration (Нумерация)"
+
   "File"
   "Файл"
+
+  "File Contents"
+  "Содержимое файла"
+
+  "File Menu: Change working directory"
+  "Меню файл: Изменить рабочий каталог"
 
   "File Menu: Close all tabs"
   "Меню файл: Закрыть все вкладки"
@@ -346,6 +516,9 @@ msgcat::mcmset ru {
   "File Menu: New file"
   "Меню файл: Новый файл"
 
+  "File Menu: New window"
+  "Меню файл: Новое окно"
+
   "File Menu: Open Favorite"
   "Меню файл: Открытый любимый"
 
@@ -361,6 +534,9 @@ msgcat::mcmset ru {
   "File Menu: Quit application"
   "Меню файл: Выйти из приложения"
 
+  "File Menu: Reopen current file"
+  "Меню файл: Открыть текущий файл"
+
   "File Menu: Save all files"
   "Меню файл: Сохранить все файлы"
 
@@ -369,6 +545,9 @@ msgcat::mcmset ru {
 
   "File Menu: Save file as"
   "Меню файл: Сохранить файл как"
+
+  "File Menu: Save selected lines"
+  "Меню файл: Сохранить выбранные линии"
 
   "File Menu: Show file difference"
   "Меню файл: Показать файл разница"
@@ -420,6 +599,9 @@ msgcat::mcmset ru {
 
   "Find Menu: Jump forward"
   "Меню Поиск: Прыжок вперед"
+
+  "Find Menu: Jump to line"
+  "Меню Поиск: Перейти к строке"
 
   "Find Menu: Remove all markers"
   "Меню Поиск: Удалить все маркеры"
@@ -496,20 +678,20 @@ msgcat::mcmset ru {
   "Indent"
   "Отступ"
 
-  "Indent Mode"
-  "Отступ режим"
-
   "Indent Off"
   "Отступ от"
 
-  "Insert Enumeration"
-  "???????? ????????????"
+  "Indentation"
+  "Отступ (абзац)"
 
-  "Insert Text"
-  "Вставить текст"
+  "Insert"
+  "Вставить"
 
   "Install..."
   "Устанавливать"
+
+  "Join Lines"
+  "Присоединиться к линии"
 
   "Jump Backward"
   "??????? ?????"
@@ -517,11 +699,26 @@ msgcat::mcmset ru {
   "Jump Forward"
   "??????? ??????"
 
+  "Jump To Line"
+  "Перейти к строке"
+
   "Launcher"
   "Пусковая установка"
 
+  "Line Above Current"
+  "Линия выше тока"
+
+  "Line Below Current"
+  "Линия ниже текущего"
+
+  "Line Number"
+  "Номер строки"
+
   "Lock"
   "шлюз"
+
+  "Lower Case"
+  "Минускул"
 
   "Markers"
   "Указатели"
@@ -535,8 +732,62 @@ msgcat::mcmset ru {
   "Merge Panes"
   "??????????? ????????"
 
+  "Move Cursors Down"
+  "Курсоры двигаться вниз"
+
+  "Move Cursors Left"
+  "Перемещение влево курсоры"
+
+  "Move Cursors Right"
+  "Перемещение вправо курсоры"
+
+  "Move Cursors Up"
+  "Курсоры двигаться вверх"
+
+  "Move to First Line"
+  "Перейти к первой строке"
+
+  "Move to Last Line"
+  "Перейти к последняя строка"
+
+  "Move to Line End"
+  "Перемещение к строке End"
+
+  "Move to Line Start"
+  "Перемещение к строке запуска"
+
+  "Move to Next Page"
+  "Переход к следующей странице."
+
+  "Move to Next Word"
+  "Перейти к следующему слову"
+
+  "Move to Previous Page"
+  "Переход к предыдущей странице."
+
+  "Move to Previous Word"
+  "Перейти к предыдущему слову"
+
+  "Move to Screen Bottom"
+  "Перейти на экран внизу"
+
+  "Move to Screen Middle"
+  "Перейти на экран среднего"
+
+  "Move to Screen Top"
+  "Перемещение экрана Top"
+
+  "New Window"
+  "В новом окне/вкладке"
+
   "Next Difference"
   "????????? ???????"
+
+  "Numbers Backward"
+  "Число обратных"
+
+  "Numbers Forward"
+  "Номера вперед"
 
   "Open Directory..."
   "Open Directory ..."
@@ -601,6 +852,9 @@ msgcat::mcmset ru {
   "Remove From Current Line"
   "??????? ?? ??????? ??????"
 
+  "Reopen File"
+  "Открыть файл"
+
   "Replace Line With Script"
   "???????? ?????? ???????"
 
@@ -619,6 +873,9 @@ msgcat::mcmset ru {
   "Save Current"
   "????????? ???????"
 
+  "Save Selection As..."
+  "Сохранить как..."
+
   "Select All"
   "Выбрать все"
 
@@ -630,9 +887,6 @@ msgcat::mcmset ru {
 
   "Select Previous Occurrence"
   "??????? ?????????? ?????????"
-
-  "Selected"
-  "Выбранный"
 
   "Send Bug Report"
   "Отправить отчет об ошибке"
@@ -648,9 +902,6 @@ msgcat::mcmset ru {
 
   "Sessions Menu: Delete session"
   "Меню сессий: Удалить сессия"
-
-  "Sessions Menu: Open session"
-  "Сессий меню: Открытая сессия"
 
   "Sessions Menu: Save current session"
   "Сессий меню: Сохранение текущей сессии"
@@ -727,26 +978,17 @@ msgcat::mcmset ru {
   "Tabs"
   "Флажки"
 
-  "Text"
-  "Text"
-
-  "Text Menu: Align cursors"
-  "Текст меню: Выровнять курсоры"
-
-  "Text Menu: Indent selected text"
-  "Текст меню: Отступ выделенного текста"
+  "Text Between Character"
+  "Текст между персонажа"
 
   "Text Menu: Insert enumeration"
   "Текста меню: Перечисление Вставка"
 
-  "Text Menu: Replace line with script"
-  "Текст меню: Замените строку скрипта"
+  "Title Case"
+  "Название дела"
 
-  "Text Menu: Toggle comment"
-  "Текст меню: Toggle комментарий"
-
-  "Text Menu: Unindent selected text"
-  "Текст меню: Отмена отступа выделенного текста"
+  "Toggle Case"
+  "Корпус переключателя"
 
   "Toggle Comment"
   "??????????? ???????????"
@@ -778,6 +1020,9 @@ msgcat::mcmset ru {
   "Tools Menu: Stop profiling"
   "Меню Сервис: Остановить профилирование"
 
+  "Transform"
+  "Преобразовать"
+
   "Undo"
   "Отменить"
 
@@ -790,6 +1035,9 @@ msgcat::mcmset ru {
   "Unlock"
   "Разблокировать"
 
+  "Upper Case"
+  "Маюскул"
+
   "User Guide"
   "Руководство пользователя"
 
@@ -801,6 +1049,9 @@ msgcat::mcmset ru {
 
   "View Global"
   "Вид глобальной"
+
+  "View Menu: Display text information"
+  "В меню Вид: Отображение текстовой информации"
 
   "View Menu: Goto last tab"
   "Меню Вид: Последняя вкладка Гото"
@@ -870,6 +1121,12 @@ msgcat::mcmset ru {
 
   "Vim Mode"
   "Режим Вим"
+
+  "Whitespace Backward"
+  "Пробелы обратной"
+
+  "Whitespace Forward"
+  "Пробела вперед"
 
 }
 
@@ -1182,11 +1439,17 @@ msgcat::mcmset ru {
   "Foreground text color to use for selected text."
   "Цвет текста для выбранного текста."
 
+  "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."
+  "Цвет текста переднего плана используется для всех других вкладок, которые не являются на вкладку текущий активный в tabbar."
+
   "Foreground text color used for menus item that are disabled."
   "Цвет текста, используемый для пункта меню, отключены."
 
   "Foreground text color used for the current/active menu item."
   "Цвет текста, используемый для пункта меню текущий активный."
+
+  "Foreground text color used for the current/active tab in the tabbar."
+  "Основной цвет текста, используемый для вкладки текущий активный в tabbar."
 
   "Foreground text color used in menus."
   "Цвет текста, используемый в меню."
@@ -1417,22 +1680,8 @@ msgcat::mcmset ru {
 
 }
 
-# vim.tcl
-msgcat::mcmset ru {
-
-  "File successfully written"
-  "Файл успешно записаны"
-
-  "Filename already exists"
-  "Имя файла уже существует"
-
-}
-
 # General
 msgcat::mcmset ru {
-
-  "All"
-  "All"
 
   "Cancel"
   "Отмена"

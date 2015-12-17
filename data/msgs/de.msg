@@ -37,6 +37,17 @@ msgcat::mcmset de {
 
 }
 
+# edit.tcl
+msgcat::mcmset de {
+
+  "File successfully written"
+  "Datei erfolgreich geschrieben"
+
+  "Filename already exists"
+  "Dateiname ist bereits vorhanden."
+
+}
+
 # embed_tke.tcl
 msgcat::mcmset de {
 
@@ -50,6 +61,9 @@ msgcat::mcmset de {
 
 # gui.tcl
 msgcat::mcmset de {
+
+  "All"
+  "Alle"
 
   "Case sensitivity"
   "Groß-und Kleinschreibung"
@@ -165,9 +179,6 @@ msgcat::mcmset de {
   "Total Lines"
   "Summenzeilen"
 
-  "Unable to find current file"
-  "Aktuelle Datei gefunden"
-
   "Unable to successfully parse number string"
   "Nicht in der Lage, Anzahl Zeichenfolge erfolgreich analysiert"
 
@@ -176,9 +187,6 @@ msgcat::mcmset de {
 
   "Version"
   "Neue Font-Awesome-Version aktivieren"
-
-  "tab"
-  "Tabulator"
 
 }
 
@@ -205,6 +213,18 @@ msgcat::mcmset de {
   "Auto-Indent"
   "Auto-Einzug"
 
+  "Bubble Down"
+  "Blase nach unten"
+
+  "Bubble Up"
+  "Blase bis"
+
+  "Change Working Directory"
+  "Arbeitsverzeichnis ändern"
+
+  "Character"
+  "Zeichen"
+
   "Check for Update"
   "Nach Update suchen"
 
@@ -217,6 +237,12 @@ msgcat::mcmset de {
   "Close Current"
   "Strom zu schließen"
 
+  "Command"
+  "Befehl"
+
+  "Command Result"
+  "Befehl-Ergebnis"
+
   "Copy"
   "Kopieren"
 
@@ -226,8 +252,26 @@ msgcat::mcmset de {
   "Create..."
   "Erstellen..."
 
+  "Current Line"
+  "Aktuelle Zeile"
+
+  "Current Word"
+  "Aktuelle Wort"
+
+  "Cursor"
+  "Kursor"
+
+  "Cursor from Line Start"
+  "Cursors aus Zeilenanfang"
+
+  "Cursor to Line End"
+  "Cursor an Zeilenende"
+
   "Cut"
   "Schneiden"
+
+  "Display Text Info"
+  "Anzeige-Text-Info"
 
   "Edit"
   "Bearbeiten"
@@ -238,11 +282,56 @@ msgcat::mcmset de {
   "Edit Menu Edit user snippets"
   "Bearbeiten Sie im Menü Bearbeiten von Benutzer-Ausschnitte"
 
+  "Edit Menu: Align cursors"
+  "Im Bearbeitungsmenü: Richten Sie Cursor"
+
+  "Edit Menu: Bubble lines down one line"
+  "Im Bearbeitungsmenü: Bubble Linien eine Zeile nach unten"
+
+  "Edit Menu: Bubble lines up one line"
+  "Im Bearbeitungsmenü: Bubble Linien eine Zeile nach oben"
+
+  "Edit Menu: Convert case to lower"
+  "Im Bearbeitungsmenü: Convert Fall senken"
+
+  "Edit Menu: Convert case to title"
+  "Im Bearbeitungsmenü: Titel umwandeln Sie Fall."
+
+  "Edit Menu: Convert case to upper"
+  "Im Bearbeitungsmenü: Obere umwandeln Sie Fall."
+
   "Edit Menu: Copy text"
   "Im Bearbeitungsmenü: Text kopieren"
 
   "Edit Menu: Cut text"
   "Im Bearbeitungsmenü: Text Ausschneiden"
+
+  "Edit Menu: Delete backward numbers"
+  "Im Bearbeitungsmenü: Löschen Sie rückwärts Zahlen"
+
+  "Edit Menu: Delete backward whitespace"
+  "Im Bearbeitungsmenü: Löschen Sie rückwärts whitespace"
+
+  "Edit Menu: Delete current line"
+  "Im Bearbeitungsmenü: Aktuelle Zeile löschen"
+
+  "Edit Menu: Delete current word"
+  "Im Bearbeitungsmenü: Löschen von aktuellen word"
+
+  "Edit Menu: Delete forward numbers"
+  "Im Bearbeitungsmenü: Löschen Sie vorwärts Zahlen"
+
+  "Edit Menu: Delete forward whitespace"
+  "Im Bearbeitungsmenü: Löschen Sie forward whitespace"
+
+  "Edit Menu: Delete from cursor to end of line"
+  "Im Bearbeitungsmenü: Löschen von Cursor am Ende der Zeile"
+
+  "Edit Menu: Delete from start of line to cursor"
+  "Im Bearbeitungsmenü: Löschen von Anfang der Zeile Cursor"
+
+  "Edit Menu: Delete text between character"
+  "Im Bearbeitungsmenü: Text zwischen Zeichen löschen"
 
   "Edit Menu: Edit language snippets"
   "Bearbeitungsmenü: Bearbeiten-Sprache-Ausschnitte"
@@ -262,17 +351,77 @@ msgcat::mcmset de {
   "Edit Menu: Edit user menu bindings"
   "Im Bearbeitungsmenü: Bearbeiten Sie Benutzer-Menü-Bindungen"
 
-  "Edit Menu: Format all text"
-  "Im Bearbeitungsmenü: Alle Text formatieren"
+  "Edit Menu: Format indentation for text"
+  "Bearbeitungsmenü: Format-Einzugs für text"
 
-  "Edit Menu: Format selected text"
-  "Im Bearbeitungsmenü: Ausgewählten Text formatieren"
+  "Edit Menu: Indent selected text"
+  "Im Bearbeitungsmenü: Ausgewählten Text Einrücken"
+
+  "Edit Menu: Insert command result after current line"
+  "Im Bearbeitungsmenü: Insert Befehl Ergebnis nach der aktuellen Zeile"
+
+  "Edit Menu: Insert file contents after current line"
+  "Im Bearbeitungsmenü: Dateiinhalte nach aktuellen Zeile einfügen"
 
   "Edit Menu: Insert from clipboard"
   "Im Bearbeitungsmenü: Fügen Sie aus Zwischenablage ein"
 
+  "Edit Menu: Insert line above current line"
+  "Im Bearbeitungsmenü: Fügen Sie Zeile über der aktuellen Zeile ein"
+
+  "Edit Menu: Insert line below current line"
+  "Im Bearbeitungsmenü: Fügen Sie Zeile unterhalb der aktuellen Zeile ein"
+
   "Edit Menu: Insert snippet"
   "Im Bearbeitungsmenü: Einfügen-Ausschnitt"
+
+  "Edit Menu: Join lines"
+  "Im Bearbeitungsmenü: Verknüpfungslinien"
+
+  "Edit Menu: Move cursor to bottom of screen"
+  "Im Bearbeitungsmenü: Cursor an unteren Bildschirmrand"
+
+  "Edit Menu: Move cursor to end of current line"
+  "Im Bearbeitungsmenü: Bewegen Cursor am Ende der aktuellen Zeile"
+
+  "Edit Menu: Move cursor to first line"
+  "Im Bearbeitungsmenü: Cursor zur ersten Zeile bewegen"
+
+  "Edit Menu: Move cursor to last line"
+  "Im Bearbeitungsmenü: Cursor zur letzten Zeile bewegen"
+
+  "Edit Menu: Move cursor to middle of screen"
+  "Im Bearbeitungsmenü: Cursor in der Mitte des Bildschirms"
+
+  "Edit Menu: Move cursor to next page"
+  "Im Bearbeitungsmenü: Bewegt den Cursor zur nächsten Seite"
+
+  "Edit Menu: Move cursor to next word"
+  "Im Bearbeitungsmenü: Bewegt den Cursor zum nächsten Wort"
+
+  "Edit Menu: Move cursor to previous page"
+  "Im Bearbeitungsmenü: Bewegt den Cursor zur vorherigen Seite"
+
+  "Edit Menu: Move cursor to previous word"
+  "Im Bearbeitungsmenü: Cursor an vorherigen Wort"
+
+  "Edit Menu: Move cursor to start of current line"
+  "Im Bearbeitungsmenü: Cursor zum Beginn einer aktuellen Zeile bewegen"
+
+  "Edit Menu: Move cursor to top of screen"
+  "Im Bearbeitungsmenü: Cursor nach oben Bildschirm"
+
+  "Edit Menu: Move multicursors down one line"
+  "Im Bearbeitungsmenü: Verschieben Multicursors eine Zeile nach unten"
+
+  "Edit Menu: Move multicursors left one line"
+  "Im Bearbeitungsmenü: Multicursors Links eine Zeile weiter"
+
+  "Edit Menu: Move multicursors right one line"
+  "Im Bearbeitungsmenü: Move Multicursors rechts eine Zeile"
+
+  "Edit Menu: Move multicursors up one line"
+  "Im Bearbeitungsmenü: Multicursors eine Zeile nach oben verschieben Sie"
 
   "Edit Menu: Paste and format text from clipboard"
   "Im Bearbeitungsmenü: Einfügen und das Format Text aus Zwischenablage"
@@ -285,6 +434,9 @@ msgcat::mcmset de {
 
   "Edit Menu: Reload snippets"
   "Im Bearbeitungsmenü: Reload-Ausschnitte"
+
+  "Edit Menu: Replace line with script"
+  "Im Bearbeitungsmenü: Ersetze Zeile mit Skript"
 
   "Edit Menu: Select all text"
   "Im Bearbeitungsmenü: Markieren des gesamten Texts"
@@ -304,8 +456,17 @@ msgcat::mcmset de {
   "Edit Menu: Set user preferences to global preferences"
   "Im Bearbeitungsmenü: Legen Sie Benutzereinstellungen auf globale Einstellungen"
 
+  "Edit Menu: Toggle case of current character"
+  "Im Bearbeitungsmenü: Toggle Fall von aktuellen Zeichen"
+
+  "Edit Menu: Toggle comment"
+  "Im Bearbeitungsmenü: Toggle Kommentar"
+
   "Edit Menu: Undo"
   "Menü Bearbeiten: rückgängig machen"
+
+  "Edit Menu: Unindent selected text"
+  "Im Bearbeitungsmenü: Unindent markierten text"
 
   "Edit Menu: View base preferences file"
   "Im Bearbeitungsmenü: Basis-Einstellungen-Datei anzeigen"
@@ -328,8 +489,17 @@ msgcat::mcmset de {
   "Edit User - Language"
   "Bearbeiten von Benutzer - Sprache"
 
+  "Enumeration"
+  "Liste"
+
   "File"
   "Feile"
+
+  "File Contents"
+  "Inhalt der Datei"
+
+  "File Menu: Change working directory"
+  "Im Dateimenü: Arbeitsverzeichnis wechseln"
 
   "File Menu: Close all tabs"
   "Im Dateimenü: Alle Tabs schließen"
@@ -346,6 +516,9 @@ msgcat::mcmset de {
   "File Menu: New file"
   "Im Dateimenü: Neue Datei"
 
+  "File Menu: New window"
+  "Im Dateimenü: Neues Fenster"
+
   "File Menu: Open Favorite"
   "Im Dateimenü: Offene Favorit"
 
@@ -361,6 +534,9 @@ msgcat::mcmset de {
   "File Menu: Quit application"
   "Im Dateimenü: Programm beenden"
 
+  "File Menu: Reopen current file"
+  "Im Dateimenü: Öffnen Sie aktuelle Datei erneut."
+
   "File Menu: Save all files"
   "Im Dateimenü: Speichern Sie alle Dateien"
 
@@ -369,6 +545,9 @@ msgcat::mcmset de {
 
   "File Menu: Save file as"
   "Im Dateimenü: Speichern Sie als Datei"
+
+  "File Menu: Save selected lines"
+  "Im Dateimenü: Speichern Sie ausgewählte Linien"
 
   "File Menu: Show file difference"
   "Im Dateimenü: Karte Datei Unterschied"
@@ -420,6 +599,9 @@ msgcat::mcmset de {
 
   "Find Menu: Jump forward"
   "Im Menü suchen: Sprung nach vorn"
+
+  "Find Menu: Jump to line"
+  "Im Menü suchen: Wechseln in Zeile"
 
   "Find Menu: Remove all markers"
   "Im Menü suchen: Entfernen Sie alle Markierungen"
@@ -496,20 +678,20 @@ msgcat::mcmset de {
   "Indent"
   "Einzug"
 
-  "Indent Mode"
-  "Gedankenstrich-Modus"
-
   "Indent Off"
   "Einzug ab"
 
-  "Insert Enumeration"
-  "Einfügen-Enumeration"
+  "Indentation"
+  "Einrückung"
 
-  "Insert Text"
-  "Seite einfügen"
+  "Insert"
+  "Einfügen"
 
   "Install..."
   "installieren"
+
+  "Join Lines"
+  "Zeilen verbinden"
 
   "Jump Backward"
   "Rückwärts springen"
@@ -517,11 +699,26 @@ msgcat::mcmset de {
   "Jump Forward"
   "Vorwärts springen"
 
+  "Jump To Line"
+  "Wechseln in Zeile"
+
   "Launcher"
   "Launcher"
 
+  "Line Above Current"
+  "Linie über Strom"
+
+  "Line Below Current"
+  "Unter der aktuellen Zeile"
+
+  "Line Number"
+  "Zeilennummer"
+
   "Lock"
   "Sperren"
+
+  "Lower Case"
+  "Kleinb."
 
   "Markers"
   "Marker"
@@ -535,8 +732,62 @@ msgcat::mcmset de {
   "Merge Panes"
   "Zusammenführen von Scheiben"
 
+  "Move Cursors Down"
+  "Cursor nach unten verschieben"
+
+  "Move Cursors Left"
+  "Cursor links verschieben"
+
+  "Move Cursors Right"
+  "Cursor rechts bewegen"
+
+  "Move Cursors Up"
+  "Cursor nach oben"
+
+  "Move to First Line"
+  "Zur ersten Zeile bewegen"
+
+  "Move to Last Line"
+  "In letzter Linie verschieben"
+
+  "Move to Line End"
+  "Ende Zeile bewegen"
+
+  "Move to Line Start"
+  "Start Linie verschieben"
+
+  "Move to Next Page"
+  "Zur nächsten Seite wechseln"
+
+  "Move to Next Word"
+  "Wechseln zum nächsten Wort"
+
+  "Move to Previous Page"
+  "Zur vorherigen Seite wechseln"
+
+  "Move to Previous Word"
+  "Wechseln zum vorherigen Wort"
+
+  "Move to Screen Bottom"
+  "Auf dem unteren Bildschirm verschieben"
+
+  "Move to Screen Middle"
+  "In der Mitte des Bildschirms verschieben"
+
+  "Move to Screen Top"
+  "Auf dem oberen Bildschirm verschieben"
+
+  "New Window"
+  "Neues Fenster"
+
   "Next Difference"
   "Nächster Unterschied"
+
+  "Numbers Backward"
+  "Zahlen rückwärts"
+
+  "Numbers Forward"
+  "Zahlen nach vorn"
 
   "Open Directory..."
   "Verzeichnis öffnen..."
@@ -601,6 +852,9 @@ msgcat::mcmset de {
   "Remove From Current Line"
   "Entfernen Sie aus der aktuellen Zeile"
 
+  "Reopen File"
+  "Datei erneut öffnen"
+
   "Replace Line With Script"
   "Ersetze die Zeile mit Skript"
 
@@ -619,6 +873,9 @@ msgcat::mcmset de {
   "Save Current"
   "Aktuelle Oberfläche speichern"
 
+  "Save Selection As..."
+  "Speichern Sie Auswahl als..."
+
   "Select All"
   "Alle auswählen"
 
@@ -630,9 +887,6 @@ msgcat::mcmset de {
 
   "Select Previous Occurrence"
   "Wählen Sie vorherige Vorkommen"
-
-  "Selected"
-  "Ausgewählt"
 
   "Send Bug Report"
   "Fehlerbericht senden"
@@ -648,9 +902,6 @@ msgcat::mcmset de {
 
   "Sessions Menu: Delete session"
   "Sessions-Menü: Delete-Sitzung"
-
-  "Sessions Menu: Open session"
-  "Sessions-Menü: Offene Sitzung"
 
   "Sessions Menu: Save current session"
   "Sessions-Menü: Speichern Sie aktuelle Sitzung"
@@ -727,26 +978,17 @@ msgcat::mcmset de {
   "Tabs"
   "TAB"
 
-  "Text"
-  "Text"
-
-  "Text Menu: Align cursors"
-  "Text-Menü: Ausrichten Cursor"
-
-  "Text Menu: Indent selected text"
-  "Text-Menü: Ausgewählten Text Einrücken"
+  "Text Between Character"
+  "Text zwischen Zeichen"
 
   "Text Menu: Insert enumeration"
   "Text-Menü: Einfügen-enumeration"
 
-  "Text Menu: Replace line with script"
-  "Text-Menü: Ersetze Zeile mit Skript"
+  "Title Case"
+  "Titel-Fall"
 
-  "Text Menu: Toggle comment"
-  "Text-Menü: Toggle Kommentar"
-
-  "Text Menu: Unindent selected text"
-  "Text-Menü: Unindent markierten text"
+  "Toggle Case"
+  "Knebel-Fall"
 
   "Toggle Comment"
   "Knebel-Kommentar"
@@ -778,6 +1020,9 @@ msgcat::mcmset de {
   "Tools Menu: Stop profiling"
   "Extras: Profilerstellung beenden"
 
+  "Transform"
+  "Transformieren"
+
   "Undo"
   "Rückgängig"
 
@@ -790,6 +1035,9 @@ msgcat::mcmset de {
   "Unlock"
   "Schalte"
 
+  "Upper Case"
+  "Grossbuchstaben"
+
   "User Guide"
   "Benutzerhandbuch"
 
@@ -801,6 +1049,9 @@ msgcat::mcmset de {
 
   "View Global"
   "Ansicht Global"
+
+  "View Menu: Display text information"
+  "Menü \"
 
   "View Menu: Goto last tab"
   "Im Ansichtsmenü: Goto letzten tab"
@@ -870,6 +1121,12 @@ msgcat::mcmset de {
 
   "Vim Mode"
   "Vim-Modus"
+
+  "Whitespace Backward"
+  "Whitespace rückwärts"
+
+  "Whitespace Forward"
+  "Whitespace-Forward"
 
 }
 
@@ -1182,11 +1439,17 @@ msgcat::mcmset de {
   "Foreground text color to use for selected text."
   "Vordergrund Textfarbe für ausgewählten Text zu verwenden."
 
+  "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."
+  "Text Vordergrundfarbe für alle anderen Registerkarten, die nicht der Strom/aktiv-Registerkarte in der Tabbar sind."
+
   "Foreground text color used for menus item that are disabled."
   "Vordergrund Textfarbe für Menüpunkt, die deaktiviert sind, verwendet."
 
   "Foreground text color used for the current/active menu item."
   "Vordergrund Textfarbe für die aktuelle / aktive Menüpunkt verwendet."
+
+  "Foreground text color used for the current/active tab in the tabbar."
+  "Text Vordergrundfarbe in der Tabbar der Strom/aktiv-Registerkarte."
 
   "Foreground text color used in menus."
   "Vordergrund Textfarbe in Menüs verwendet."
@@ -1417,22 +1680,8 @@ msgcat::mcmset de {
 
 }
 
-# vim.tcl
-msgcat::mcmset de {
-
-  "File successfully written"
-  "Datei erfolgreich geschrieben"
-
-  "Filename already exists"
-  "Dateiname ist bereits vorhanden."
-
-}
-
 # General
 msgcat::mcmset de {
-
-  "All"
-  "Alle"
 
   "Cancel"
   "Abbrechen"
