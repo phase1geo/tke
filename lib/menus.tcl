@@ -97,12 +97,15 @@ namespace eval menus {
         $mb add separator
         $mb add command -label [msgcat::mc "Show Diagnostic Logfile"]    -underline 5 -command "logger::view_log"
         $mb add separator
+        $mb add command -label [msgcat::mc "Run BIST"]                   -underline 4 -command "bist::run"
+        $mb add separator
         $mb add command -label [msgcat::mc "Restart TKE"]                -underline 0 -command "menus::restart_command"
 
         launcher::register [msgcat::mc "Tools Menu: Start profiling"] "menus::start_profiling_command $mb"
         launcher::register [msgcat::mc "Tools Menu: Stop profiling"] "menus::stop_profiling_command $mb 1"
         launcher::register [msgcat::mc "Tools Menu: Show last profiling report"] "menus::show_last_profiling_report"
         launcher::register [msgcat::mc "Tools Menu: Show diagnostic logfile"] "logger::view_log"
+        launcher::register [msgcat::mc "Tools Menu: Run BIST"] "bist::run"
         launcher::register [msgcat::mc "Tools Menu: Restart TKE"] "menus::restart_command"
 
         # If profiling was enabled at startup, disable start and enable stop
@@ -126,6 +129,7 @@ namespace eval menus {
         launcher::unregister [msgcat::mc "Tools Menu: Stop profiling"] * *
         launcher::unregister [msgcat::mc "Tools Menu: Show last profiling report"] * *
         launcher::unregister [msgcat::mc "Tools Menu: Show diagnostic logfile"] * *
+        launcher::unregister [msgcat::mc "Tools Menu: Run BIST"] * *
         launcher::unregister [msgcat::mc "Tools Menu: Restart TKE"] * *
 
         set mb ".menubar.plugins"
