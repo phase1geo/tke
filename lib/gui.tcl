@@ -1297,7 +1297,6 @@ namespace eval gui {
 
       # Make this tab the currently displayed tab
       if {!$opts(-lazy)} {
-        puts "Calling set_current_tab, w: $w"
         set_current_tab $w
       }
 
@@ -3326,7 +3325,7 @@ namespace eval gui {
     $txt configure -font editor_font
 
     bind Ctext  <<Modified>>                 "[ns gui]::text_changed %W %d"
-    bind $txt.t <FocusIn>                    "+[ns gui]::set_current_tab $tab -skip_focus 1"
+    bind $txt.t <FocusIn>                    "+[ns gui]::handle_txt_focus %W"
     bind $txt.l <ButtonPress-$::right_click> [bind $txt.l <ButtonPress-1>]
     bind $txt.l <ButtonPress-1>              "[ns gui]::select_line %W %y"
     bind $txt.l <B1-Motion>                  "[ns gui]::select_lines %W %y"
@@ -3518,7 +3517,7 @@ namespace eval gui {
       -markcommand1 [list [ns markers]::get_positions $txt] -markhide1 [expr [[ns preferences]::get View/ShowMarkerMap] ^ 1] \
       -markcommand2 [expr {$diff ? [list [ns diff]::get_marks $txt] : ""}]
 
-    bind $txt2.t <FocusIn>                    "+[ns gui]::set_current_tab $tab -skip_focus 1"
+    bind $txt2.t <FocusIn>                    "+[ns gui]::handle_txt_focus %W"
     bind $txt2.l <ButtonPress-$::right_click> [bind $txt2.l <ButtonPress-1>]
     bind $txt2.l <ButtonPress-1>              "[ns gui]::select_line %W %y"
     bind $txt2.l <B1-Motion>                  "[ns gui]::select_lines %W %y"
@@ -3799,9 +3798,6 @@ namespace eval gui {
   #   -skip_focus (0 | 1)
   #        Specifies if we should set the focus on the text widget.
   #        Default is 0
-  #   -skip_check (0 | 1)
-  #        Specifies if we should check to see if the file has changed.
-  #        Default is 0
   proc set_current_tab {tab args} {
 
     variable widgets
@@ -3813,7 +3809,6 @@ namespace eval gui {
     array set opts {
       -changed    0
       -skip_focus 0
-      -skip_check 0
     }
     array set opts $args
 
@@ -3828,18 +3823,14 @@ namespace eval gui {
       return
     }
 
-    puts "In set_current_tab, tab: $tab, args: $args, pw_current: $pw_current, exists: [info exists tab_current($pw_current)]"
-    puts [utils::stacktrace]
+    set tf [winfo parent [winfo parent $tb]].tf
 
-    # If the tab changed (as directed by the tabbar, add the content (if needed), display the tab's frame,
-    # and update the preferences.
-    if {$opts(-changed)} {
+    if {$opts(-changed) || ([pack slaves $tf] eq "")} {
 
-      # Display the tab content
+      # Add the tab content, if necessary
       add_tab_content $tab
 
-      set tf [winfo parent [winfo parent $tb]].tf
-
+      # Display the tab frame
       if {[set slave [pack slaves $tf]] ne ""} {
         pack forget $slave
       }
@@ -3850,30 +3841,9 @@ namespace eval gui {
 
     }
 
-    # Set the text widget
-    set txt [last_txt_focus {} $tab]
-
-    # Set the line and row information
-    update_position $txt
-
-    # Set the syntax menubutton to the current language
-    [ns syntax]::update_menubutton $widgets(info_syntax)
-
-    # Update the indentation indicator
-    [ns indent]::update_menubutton $widgets(info_indent)
-
-    # Set the application title bar
-    set_title
-
-    # Check to see if the file has changed
-    if {!$opts(-skip_check)} {
-      catch { check_file $file_index }
-    }
-
-    # Finally, set the focus to the text widget
-    if {([focus] ne "$txt.t") && !$opts(-skip_focus)} {
-      set_txt_focus $txt
-      [ns plugins]::handle_on_focusin $tab
+    # Set the text focus
+    if {!$opts(-skip_focus)} {
+      set_txt_focus [last_txt_focus {} $tab]
     }
 
   }
@@ -4307,6 +4277,35 @@ namespace eval gui {
 
     # Display the menu
     tk_popup $mnu $x $y
+
+  }
+
+  ######################################################################
+  # Handles a text FocusIn event from the widget.
+  proc handle_txt_focus {txtt} {
+
+    variable widgets
+
+    # Get the text information
+    lassign [get_info [winfo parent $txtt] txt {tab txt fileindex}] tab txt file_index
+
+    # Set the line and row information
+    update_position $txt
+
+    # Set the syntax menubutton to the current language
+    [ns syntax]::update_menubutton $widgets(info_syntax)
+
+    # Update the indentation indicator
+    [ns indent]::update_menubutton $widgets(info_indent)
+
+    # Set the application title bar
+    set_title
+
+    # Check to see if the file has changed
+    catch { check_file $file_index }
+
+    # Let the plugins know about the FocusIn event
+    [ns plugins]::handle_on_focusin $tab
 
   }
 
