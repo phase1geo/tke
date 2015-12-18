@@ -1010,16 +1010,19 @@ namespace eval sidebar {
     variable widgets
     variable images
 
-    foreach row $rows {
+    set fnames [list]
 
-      # Close all of the opened children
+    # Gather all of the opened file names
+    foreach row $rows {
       foreach child [$widgets(tl) childkeys $row] {
         if {[$widgets(tl) cellcget $child,name -image] eq "sidebar_open"} {
-          gui::close_file [$widgets(tl) cellcget $child,name -text]
+          lappend fnames [$widgets(tl) cellcget $child,name -text]
         }
       }
-
     }
+
+    # Close all of the files
+    gui::close_files $fnames
 
   }
 
@@ -1254,17 +1257,17 @@ namespace eval sidebar {
     variable widgets
     variable images
 
+    set fnames [list]
+
+    # Gather all of the opened filenames
     foreach row $rows {
-
-      # If the current file is selected, close it
       if {[$widgets(tl) cellcget $row,name -image] eq "sidebar_open"} {
-
-        # Close the tab at the current location
-        gui::close_file [$widgets(tl) cellcget $row,name -text]
-
+        lappend fnames [$widgets(tl) cellcget $row,name -text]
       }
-
     }
+
+    # Close the tab at the current location
+    gui::close_files $fnames
 
   }
 
@@ -1359,6 +1362,8 @@ namespace eval sidebar {
     # Get confirmation from the user
     if {[tk_messageBox -parent . -type yesno -default yes -message $question] eq "yes"} {
 
+      set fnames [list]
+
       foreach row [lreverse $rows] {
 
         # Get the full pathname
@@ -1378,12 +1383,15 @@ namespace eval sidebar {
 
           # Close the tab if the file is currently in the notebook
           if {$bg eq "sidebar_open"} {
-            gui::close_file $fname
+            lappend fnames $fname
           }
 
         }
 
       }
+
+      # Close all of the deleted files from the UI
+      gui::close_files $fnames
 
     }
 

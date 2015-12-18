@@ -115,7 +115,7 @@ namespace eval gui {
         set answer [tk_messageBox -parent . -icon question -message [msgcat::mc "Delete tab?"] \
           -detail $fname -type yesno -default yes]
         if {$answer eq "yes"} {
-          close_tab $tab
+          close_tab {} $tab -check 0
         } else {
           lset files $index $files_index(mtime) ""
         }
@@ -1055,7 +1055,7 @@ namespace eval gui {
       if {$name eq "Untitled"} {
         return
       } else {
-        close_tab [get_info {} current tab] 0 0
+        close_tab {} [get_info {} current tab] -keeptab 0
       }
     }
 
@@ -1237,7 +1237,7 @@ namespace eval gui {
 
     # If have a single untitled tab in view, close it before adding the file
     if {[untitled_check]} {
-      close_tab [get_info {} current tab] 0 0
+      close_tab {} [get_info {} current tab] -keeptab 0
     }
 
     # Check to see if the file is already loaded
@@ -1252,9 +1252,12 @@ namespace eval gui {
     # If the file is already loaded, display the tab
     if {$file_index != -1} {
 
+      # Get the tab associated with the given file index
+      set w [get_info $file_index fileindex tab]
+
       # Only display the tab if we are not doing a lazy load
       if {!$opts(-lazy)} {
-        set_current_tab [set w [get_info $file_index fileindex tab]]
+        set_current_tab $w
       }
 
     # Otherwise, load the file in a new tab
@@ -1668,7 +1671,7 @@ namespace eval gui {
 
     # If the file already exists in one of the open tabs, close it now
     if {$matching_index != -1} {
-      close_tab [lindex $files $matching_index $files_index(tab)] 0 0
+      close_tab $tid [lindex $files $matching_index $files_index(tab)] -keeptab 0 -check 0
     }
 
     # Save the file contents
@@ -1821,12 +1824,13 @@ namespace eval gui {
   ######################################################################
   # Returns 1 if the tab is closable; otherwise, returns a value of 0.
   # Saves the tab if it needs to be saved.
-  proc close_check {tid index force exiting} {
+  proc close_check {tid tab force exiting} {
 
     variable files
     variable files_index
 
-    lassign [get_info $index fileindex {tab fname modified diff}] tab fname modified diff
+    # Get the tab information
+    lassign [get_info $tab tab {fname modified diff}] fname modified diff
 
     # If the file needs to be saved, do it now
     if {$modified && !$diff && !$force} {
@@ -1849,7 +1853,7 @@ namespace eval gui {
   # Saves the tab if it needs to be saved.
   proc close_check_by_tabbar {tid w tab} {
 
-    return [close_check $tid [get_info $tab tab fileindex] 0 0]
+    return [close_check $tid $tab 0 0]
 
   }
 
@@ -1860,13 +1864,7 @@ namespace eval gui {
   # the contents of the file prior to closing the tab.
   proc close_current {tid {force 0} {exiting 0}} {
 
-    # Get the current information
-    lassign [get_info {} current {tab fileindex}] tab file_index
-
-    # If the file needs to be saved, do it now
-    if {[close_check $tid $file_index $force $exiting]} {
-      close_tab $tab $exiting
-    }
+    close_tab $tid [get_info {} current tab] -force $force -exiting $exiting
 
   }
 
@@ -1876,49 +1874,8 @@ namespace eval gui {
   # the user clicks on the close button of a tab.
   proc close_tab_by_tabbar {w tab} {
 
-    variable widgets
-    variable files
-    variable pw_current
-
-    # Get the pw_crrent from tabbar
-    set pw_current [lsearch [$widgets(nb_pw) panes] [winfo parent [winfo parent $w]]]
-
-    # Get tab information
-    lassign [get_info $tab tab {fileindex diff fname}] index diff fname
-
-    # Unhighlight the file in the file browser
-    [ns sidebar]::highlight_filename $fname [expr $diff * 2]
-
-    # Run the close event for this file
-    [ns plugins]::handle_on_close $index
-
-    # Delete the file from files
-    set files [lreplace $files $index $index]
-
-    # Remove the tab frame
-    catch { pack forget $tab }
-
-    # Display the current pane (if one exists)
-    if {[set tab [$w select]] ne ""} {
-      set_current_tab $tab
-    }
-
-    # If we will have no more tabs and there is another pane, remove this pane
-    if {([llength [$w tabs]] == 0) && ([llength [$widgets(nb_pw) panes]] > 1)} {
-      $widgets(nb_pw) forget $pw_current
-      set pw_current 0
-      set w          [get_info 0 paneindex tabbar]
-    }
-
-    # Add a new file if we have no more tabs, we are the only pane, and the preference
-    # setting is to not close after the last tab is closed.
-    if {([llength [$w tabs]] == 0) && ([llength [$widgets(nb_pw) panes]] == 1)} {
-      if {[[ns preferences]::get General/ExitOnLastClose]} {
-        [ns menus]::exit_command
-      } else {
-        add_new_file end
-      }
-    }
+    # Close the tab specified by tab
+    close_tab {} $tab
 
     return 1
 
@@ -1926,14 +1883,28 @@ namespace eval gui {
 
   ######################################################################
   # Close the specified tab (do not ask the user about closing the tab).
-  proc close_tab {tab {exiting 0} {keep_tab 1}} {
+  proc close_tab {tid tab args} {
 
     variable widgets
     variable files
     variable pw_current
 
+    array set opts {
+      -exiting 0
+      -keeptab 1
+      -lazy    0
+      -force   0
+      -check   1
+    }
+    array set opts $args
+
     # Get the tab information
     lassign [get_info $tab tab {pane tabbar tabindex fileindex fname diff}] pane tb tab_index index fname diff
+
+    # Perform save check on close
+    if {$opts(-check)} {
+      close_check $tid $tab $opts(-force) $opts(-exiting)
+    }
 
     # Unhighlight the file in the file browser (if the file was not a difference view)
     [ns sidebar]::highlight_filename $fname [expr $diff * 2]
@@ -1954,8 +1925,8 @@ namespace eval gui {
     destroy $tab
 
     # Display the current pane (if one exists)
-    if {[set tab [$tb select]] ne ""} {
-      set_current_tab $tab -skip_check $exiting
+    if {!$opts(-lazy) && ([set tab [$tb select]] ne "")} {
+      set_current_tab $tab
     }
 
     # If we have no more tabs and there is another pane, remove this pane
@@ -1967,10 +1938,10 @@ namespace eval gui {
 
     # Add a new file if we have no more tabs, we are the only pane, and the preference
     # setting is to not close after the last tab is closed.
-    if {([llength [$tb tabs]] == 0) && ([llength [$widgets(nb_pw) panes]] == 1) && !$exiting} {
+    if {([llength [$tb tabs]] == 0) && ([llength [$widgets(nb_pw) panes]] == 1) && !$opts(-exiting)} {
       if {[[ns preferences]::get General/ExitOnLastClose] || $::cl_exit_on_close} {
         [ns menus]::exit_command
-      } elseif {$keep_tab} {
+      } elseif {$opts(-keeptab)} {
         add_new_file end
       }
     }
@@ -1989,11 +1960,13 @@ namespace eval gui {
     foreach nb [lreverse [$widgets(nb_pw) panes]] {
       foreach tab [lreverse [$nb.tbf.tb tabs]] {
         if {($nb ne $current_pw) || ($tab ne [$nb.tbf.tb select])} {
-          set_current_tab $tab -skip_check 1
-          close_current {}
+          close_tab {} $tab -lazy 1
         }
       }
     }
+
+    # Set the current tab
+    set_current_tab [get_info {} current tab]
 
   }
 
@@ -2005,8 +1978,7 @@ namespace eval gui {
 
     foreach nb [lreverse [$widgets(nb_pw) panes]] {
       foreach tab [lreverse [$nb.tbf.tb tabs]] {
-        set_current_tab $tab -skip_check 1
-        close_current {} $force $exiting
+        close_tab {} $tab -force $force -exiting $exiting -lazy 1
       }
     }
 
@@ -2014,9 +1986,19 @@ namespace eval gui {
 
   ######################################################################
   # Closes the tab with the identified name (if it exists).
-  proc close_file {fname} {
+  proc close_files {fnames} {
 
-    close_tab [get_info $fname fname tab]
+    if {[llength $fnames] > 0} {
+
+      # Perform a lazy close
+      foreach fname $fnames {
+        close_tab {} [get_info $fname fname tab] -lazy 1
+      }
+
+      # Set the current tab
+      set_current_tab [get_info {} current tab]
+
+    }
 
   }
 
