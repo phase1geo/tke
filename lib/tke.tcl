@@ -111,7 +111,6 @@ source [file join $tke_dir lib diff.tcl]
 source [file join $tke_dir lib sessions.tcl]
 source [file join $tke_dir lib search.tcl]
 source [file join $tke_dir lib scroller.tcl]
-source [file join $tke_dir lib bist.tcl]
 
 if {[tk windowingsystem] eq "aqua"} {
   source [file join $tke_dir lib windowlist.tcl]
