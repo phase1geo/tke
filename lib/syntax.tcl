@@ -367,10 +367,11 @@ namespace eval syntax {
           if {$type eq "HighlightClass"} {
             if {$section eq "advanced"} {
               set section_list [lassign $section_list name color modifiers]
-              if {$color eq "highlighter"} {
-                ctext::addHighlightClass $txt $name $theme(background) $theme($color) $modifiers
-              } else {
-                ctext::addHighlightClass $txt $name $theme($color) "" $modifiers
+              puts "name: $name, color: $color, modifiers: $modifiers"
+              switch $color {
+                none        { ctext::addHighlightClass $txt $name $theme(foreground) "" $modifiers }
+                highlighter { ctext::addHighlightClass $txt $name $theme(background) $theme($color) $modifiers }
+                default     { ctext::addHighlightClass $txt $name $theme($color) "" $modifiers }
               }
               if {$color eq "meta"} {
                 lappend meta_tags($txt) $name
@@ -662,6 +663,7 @@ namespace eval syntax {
   proc get_markdown_bold {txt startpos endpos} {
 
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-3c"] ne "\\")} {
+      puts "Marking as bold"
       $txt tag remove _italics $startpos $endpos
       return [list [list [list bold        [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] [list]] \
                          [list boldmarkers $startpos [$txt index "$startpos+2c"] [list]] \
@@ -679,6 +681,7 @@ namespace eval syntax {
   proc get_markdown_italics {txt startpos endpos} {
 
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-2c"] ne "\\")} {
+      puts "Marking as italics"
       if {([lsearch [$txt tag names $startpos]    _boldmarkers] == -1) && \
           ([lsearch [$txt tag names "$endpos-1c"] _boldmarkers] == -1)} {
         return [list [list [list italics [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]] \
@@ -698,9 +701,11 @@ namespace eval syntax {
   proc get_markdown_overstrike {txt startpos endpos} {
 
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-3c"] ne "\\")} {
-      return [list [list [list strike [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] [list]] \
-                         [list grey   $startpos [$txt index "$startpos+2c"] [list]] \
-                         [list grey   [$txt index "$endpos-2c"] $endpos [list]]] ""]
+      return [list [list [list strike        [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] [list]] \
+                         [list strikemarkers $startpos [$txt index "$startpos+2c"] [list]] \
+                         [list strikemarkers [$txt index "$endpos-2c"] $endpos [list]] \
+                         [list grey          $startpos [$txt index "$startpos+2c"] [list]] \
+                         [list grey          [$txt index "$endpos-2c"] $endpos [list]]] ""]
     }
 
     return ""
@@ -726,9 +731,14 @@ namespace eval syntax {
   proc get_markdown_subscript {txt startpos endpos} {
 
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-2c"] ne "\\")} {
-      return [list [list [list sub  [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]] \
-                         [list grey $startpos [$txt index "$startpos+1c"] [list]] \
-                         [list grey [$txt index "$endpos-1c"] $endpos [list]]] ""]
+      if {([lsearch [$txt tag names $startpos]    _strikemarkers] == -1) && \
+          ([lsearch [$txt tag names "$endpos-1c"] _strikemarkers] == -1)} {
+        return [list [list [list sub  [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]] \
+                           [list grey $startpos [$txt index "$startpos+1c"] [list]] \
+                           [list grey [$txt index "$endpos-1c"] $endpos [list]]] ""]
+      } else {
+        return [list [list] [$txt index "$startpos+2c"]]
+      }
     }
 
     return ""
