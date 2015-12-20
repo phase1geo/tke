@@ -22,6 +22,9 @@
 # Brief:   Contains namespace that runs a built-in self test.
 ######################################################################
 
+# If the bist namespace already exists, delete it
+namespace delete bist
+
 namespace eval bist {
 
   ######################################################################
@@ -31,40 +34,78 @@ namespace eval bist {
     # Get the number of tests available to run
     set tests    [lsearch -inline -all [info procs] run_test*]
     set testslen [llength $tests]
+    set err      0
+    set pass     0
+    set fail     0
+
+    puts "---------------------------------------------"
+    puts "RUNNING BIST - [clock format [clock seconds]]\n"
 
     for {set i 0} {$i < $loops} {incr i} {
-      eval [lindex $tests [expr int( rand() * $testslen )]]
+      set test [lindex $tests [expr int( rand() * $testslen )]]
+      puts -nonewline "Running $test...  "
+      if {[catch { $test } rc]} {
+        puts "  FAILED ($rc)"
+        incr fail
+      } else {
+        puts "  PASSED"
+        incr pass
+      }
     }
+
+    puts "\nPASSED: $pass, FAILED: $fail\n"
+    puts "---------------------------------------------"
 
   }
 
   proc run_test1 {} {
 
-    puts "In run_test1"
+    # Add a new file to the tab bar
+    set tab [gui::add_new_file end]
+
+    # Check to see that the tab exists in the tabbar
+    set tb [gui::get_info $tab tab tabbar]
+
+    puts "tabs: [$tb tabs], tab: $tab"
+
+    # Check to make sure that the tab was added to the tabbar
+    if {[lsearch [$tb tabs] $tab] == -1} {
+      return -code error "New tab was not created"
+    }
+
+    # Close the tab
+    gui::close_tab $tab
+
+    # Check to make sure that the tab was removed from the tabbar
+    if {[lsearch [$tb tabs] $tab] != -1} {
+      return -code error "New tab was not closed"
+    }
+
+    return 1
 
   }
 
   proc run_test2 {} {
 
-    puts "In run_test2"
+    return 1
 
   }
 
   proc run_test3 {} {
 
-    puts "In run_test3"
+    return 0
 
   }
 
   proc run_test4 {} {
 
-    puts "In run_test4"
+    return -code error "Blah"
 
   }
 
   proc run_test5 {} {
 
-    puts "In run_test5"
+    return 1
 
   }
 

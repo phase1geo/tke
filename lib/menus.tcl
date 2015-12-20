@@ -97,7 +97,7 @@ namespace eval menus {
         $mb add separator
         $mb add command -label [msgcat::mc "Show Diagnostic Logfile"]    -underline 5 -command "logger::view_log"
         $mb add separator
-        $mb add command -label [msgcat::mc "Run BIST"]                   -underline 4 -command "bist::run"
+        $mb add command -label [msgcat::mc "Run BIST"]                   -underline 4 -command "menus::run_bist"
         $mb add separator
         $mb add command -label [msgcat::mc "Restart TKE"]                -underline 0 -command "menus::restart_command"
 
@@ -105,7 +105,7 @@ namespace eval menus {
         launcher::register [msgcat::mc "Tools Menu: Stop profiling"] "menus::stop_profiling_command $mb 1"
         launcher::register [msgcat::mc "Tools Menu: Show last profiling report"] "menus::show_last_profiling_report"
         launcher::register [msgcat::mc "Tools Menu: Show diagnostic logfile"] "logger::view_log"
-        launcher::register [msgcat::mc "Tools Menu: Run BIST"] "bist::run"
+        launcher::register [msgcat::mc "Tools Menu: Run BIST"] "menus::run_bist"
         launcher::register [msgcat::mc "Tools Menu: Restart TKE"] "menus::restart_command"
 
         # If profiling was enabled at startup, disable start and enable stop
@@ -2171,6 +2171,18 @@ namespace eval menus {
       close $rc
 
     }
+
+  }
+
+  ######################################################################
+  # Runs bist.
+  proc run_bist {} {
+
+    # Source the bist.tcl file
+    uplevel #0 [list source [file join $::tke_dir lib bist.tcl]]
+
+    # Run bist
+    bist::run
 
   }
 
