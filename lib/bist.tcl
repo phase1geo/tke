@@ -23,16 +23,33 @@
 ######################################################################
 
 # If the bist namespace already exists, delete it
-namespace delete bist
+catch { namespace delete bist }
 
 namespace eval bist {
+
+  variable testdir
+  variable tests
+
+  # Load all of the BIST files
+  foreach bfile [glob -directory [file join $::tke_dir tests] *.tcl] {
+    source $bfile
+  }
+
+  # Gather the list of tests to run
+  foreach ns [namespace children] {
+    lappend tests {*}[info procs ${ns}::run_test*]
+  }
 
   ######################################################################
   # Runs the built-in self test.
   proc run {{loops 10}} {
 
+    variable tests
+
+    # Initialize a few things first
+    initialize
+
     # Get the number of tests available to run
-    set tests    [lsearch -inline -all [info procs] run_test*]
     set testslen [llength $tests]
     set err      0
     set pass     0
@@ -56,56 +73,43 @@ namespace eval bist {
     puts "\nPASSED: $pass, FAILED: $fail\n"
     puts "---------------------------------------------"
 
+    # Wrap things up
+    finish
+
   }
 
-  proc run_test1 {} {
+  ######################################################################
+  # Initialize the test environment.
+  proc initialize {} {
 
-    # Add a new file to the tab bar
-    set tab [gui::add_new_file end]
+    variable testdir
 
-    # Check to see that the tab exists in the tabbar
-    set tb [gui::get_info $tab tab tabbar]
+    # Create the test directory pathname
+    set testdir [file join $::tke_home bist]
 
-    puts "tabs: [$tb tabs], tab: $tab"
+    # Delete the test directory if it still exists
+    file delete -force $testdir
 
-    # Check to make sure that the tab was added to the tabbar
-    if {[lsearch [$tb tabs] $tab] == -1} {
-      return -code error "New tab was not created"
+    # Create the test directory
+    file mkdir $testdir
+
+    # Add files to the test directory
+    for {set i 0} {$i < 5} {incr i} {
+      if {![catch { open [file join $testdir test$i.txt] w} rc]} {
+        puts $rc "This is test $i"
+        close $rc
+      }
     }
 
-    # Close the tab
-    gui::close_tab $tab
-
-    # Check to make sure that the tab was removed from the tabbar
-    if {[lsearch [$tb tabs] $tab] != -1} {
-      return -code error "New tab was not closed"
-    }
-
-    return 1
-
   }
 
-  proc run_test2 {} {
+  ######################################################################
+  # Wraps up the run.
+  proc finish {} {
 
-    return 1
+    variable testdir
 
-  }
-
-  proc run_test3 {} {
-
-    return 0
-
-  }
-
-  proc run_test4 {} {
-
-    return -code error "Blah"
-
-  }
-
-  proc run_test5 {} {
-
-    return 1
+    file delete -force $testdir
 
   }
 

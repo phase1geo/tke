@@ -367,7 +367,6 @@ namespace eval syntax {
           if {$type eq "HighlightClass"} {
             if {$section eq "advanced"} {
               set section_list [lassign $section_list name color modifiers]
-              puts "name: $name, color: $color, modifiers: $modifiers"
               switch $color {
                 none        { ctext::addHighlightClass $txt $name $theme(foreground) "" $modifiers }
                 highlighter { ctext::addHighlightClass $txt $name $theme(background) $theme($color) $modifiers }
@@ -663,7 +662,6 @@ namespace eval syntax {
   proc get_markdown_bold {txt startpos endpos} {
 
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-3c"] ne "\\")} {
-      puts "Marking as bold"
       $txt tag remove _italics $startpos $endpos
       return [list [list [list bold        [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] [list]] \
                          [list boldmarkers $startpos [$txt index "$startpos+2c"] [list]] \
@@ -681,7 +679,6 @@ namespace eval syntax {
   proc get_markdown_italics {txt startpos endpos} {
 
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-2c"] ne "\\")} {
-      puts "Marking as italics"
       if {([lsearch [$txt tag names $startpos]    _boldmarkers] == -1) && \
           ([lsearch [$txt tag names "$endpos-1c"] _boldmarkers] == -1)} {
         return [list [list [list italics [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]] \
