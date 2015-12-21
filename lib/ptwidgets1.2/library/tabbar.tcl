@@ -1515,6 +1515,9 @@ namespace eval tabbar {
         # Redraw the tabbar
         redraw $w 1
 
+        # Make sure that the tab is in view
+        make_current_viewable $w
+
       }
 
       2 {
@@ -1557,6 +1560,9 @@ namespace eval tabbar {
 
         # Redraw the tabbar
         redraw $w 1
+
+        # Make sure that the tab is in view
+        make_current_viewable $w
 
       }
 
@@ -1620,6 +1626,11 @@ namespace eval tabbar {
           if {$data($w,option,-command) ne ""} {
             uplevel #0 $data($w,option,-command) $w [lindex $data($w,pages) $index 0]
           }
+
+        # Otherwise, make the selected tab viewable
+        } else {
+
+          make_current_viewable $w
 
         }
 
