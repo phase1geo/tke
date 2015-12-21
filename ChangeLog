@@ -1,172 +1,95 @@
-changeset:   1586:b79e738fbf90
-tag:         devel-2.0.3
+changeset:   1606:b6a4cdc2b543
+tag:         devel-2.0.4
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Dec 14 00:03:57 2015 -0600
+date:        Thu Dec 17 01:00:05 2015 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.0.3 release
+ChangeLog for devel-2.0.4 release
 
 
-changeset:   1587:1bef3ee742a3
+changeset:   1607:a6d60882e589
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Dec 14 00:04:01 2015 -0600
+date:        Thu Dec 17 01:00:10 2015 -0600
 files:       .hgtags
 description:
-Added tag devel-2.0.3 for changeset b79e738fbf90
+Added tag devel-2.0.4 for changeset b6a4cdc2b543
 
 
-changeset:   1588:7a2ba8186c77
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Dec 14 21:44:13 2015 -0600
-files:       lib/gui.tcl lib/menus.tcl lib/version.tcl
-description:
-* Removing Edit/Transform menu and adding Format Text to Edit/Indentation menu.
-
-
-changeset:   1589:a4e4baa498f3
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Dec 15 09:41:10 2015 -0600
-files:       lib/ctext/ctext.tcl lib/gui.tcl lib/tke.tcl lib/version.tcl
-description:
-* Checkpointing work on startup improvement (work in progress).
-
-
-changeset:   1590:85323e2f8fad
+changeset:   1608:2f5c93e54a73
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Tue Dec 15 12:35:25 2015 -0600
-files:       lib/search.tcl lib/sidebar.tcl lib/version.tcl
-description:
-* Fixing issue with ignoring binary files in "find in files" searching.
-
-
-changeset:   1591:7095ac93b950
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Tue Dec 15 15:14:26 2015 -0600
-files:       lib/gui.tcl lib/tke.tcl lib/version.tcl
-description:
-* Removing code caused by TKE issue in gui.tcl
-* Removing debug output in tke.tcl.
-
-
-changeset:   1592:775fb0aa0c57
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Tue Dec 15 17:49:37 2015 -0600
-files:       lib/ctext/ctext.tcl lib/embed_tke.tcl lib/gui.tcl lib/sidebar.tcl lib/syntax.tcl lib/version.tcl
-description:
-* Checkpointing work on faster startup changes.
-
-
-changeset:   1593:dc0de6075ed1
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Tue Dec 15 18:06:43 2015 -0600
+date:        Thu Dec 17 17:19:17 2015 -0600
 files:       lib/gui.tcl lib/version.tcl
 description:
-* Fixing a few syntax errors in last checkin.
+* Checkpointing work on improving performance and fixing set_current_tab calling.
 
 
-changeset:   1594:7ec910480467
+changeset:   1609:ffefd30f2a5d
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Dec 15 20:01:20 2015 -0600
-files:       lib/ctext/ctext.tcl lib/gui.tcl lib/tke.tcl lib/version.tcl
-description:
-* Checkpointing.
-
-
-changeset:   1595:890260c380bb
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Dec 16 01:19:49 2015 -0600
-files:       lib/gui.tcl lib/sidebar.tcl lib/tke.tcl lib/version.tcl
-description:
-* Fixing window 'ghosting' when starting application.
-* Improving performance of opening several files simultaneously.
-* Removing 'update' call in load_session -- this is not needed due to other improvements.
-
-
-changeset:   1596:f477de6d3471
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Dec 16 02:09:16 2015 -0600
+date:        Thu Dec 17 21:39:04 2015 -0600
 files:       lib/gui.tcl lib/version.tcl
 description:
-* Adding gui::get_info procedure to consolidate most information conversion.
+* Fixing issues from previous checkin.
 
 
-changeset:   1597:51e8409990d4
+changeset:   1610:69d1fa3f61d1
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Dec 16 10:04:54 2015 -0600
-files:       lib/gui.tcl lib/version.tcl
+date:        Thu Dec 17 23:48:50 2015 -0600
+files:       lib/gui.tcl lib/sidebar.tcl lib/version.tcl
 description:
-* Adding current type to get_info.
-* Fixing several get_info bugs.
-* Fixing lazy handling in add_tab_content.
+* Starting work on optimizing multi-file closing.
 
 
-changeset:   1598:2cc6b7552e4b
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Dec 16 13:00:21 2015 -0600
-files:       lib/gui.tcl lib/version.tcl
-description:
-* Fixing get_info for panes.
-
-
-changeset:   1599:35c3f6302c43
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Dec 16 17:48:37 2015 -0600
-files:       lib/api.tcl lib/diff.tcl lib/gui.tcl lib/menus.tcl lib/sidebar.tcl lib/snip_parser.tac lib/snip_parser.tcl lib/tke.tcl lib/version.tcl
-description:
-* Removing gui get-like procedural calls and replacing with get_info.
-* Fixing a few other issues introduced in the latest commits.
-
-
-changeset:   1600:7d92b779da07
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Dec 16 18:56:32 2015 -0600
-files:       lib/gui.tcl lib/markers.tcl lib/version.tcl
-description:
-* More bug fixes in modified code.
-
-
-changeset:   1601:208bcd7a28a9
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Dec 16 19:32:18 2015 -0600
-files:       lib/embed_tke.tcl lib/gui.tcl lib/preferences.tcl lib/snippets.tcl lib/syntax.tcl lib/theme.tcl lib/version.tcl
-description:
-* Fixing more syntax issues.
-* Attempting to fix marker line number issue.
-
-
-changeset:   1602:b88c80aef776
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Dec 16 19:33:20 2015 -0600
-files:       data/syntax/Fickle.syntax data/syntax/Taccle.syntax lib/version.tcl
-description:
-* Adding initial Fickle and Taccle syntax files.
-
-
-changeset:   1603:232da08649a4
+changeset:   1611:507cdfecd65c
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Dec 16 21:47:44 2015 -0600
-files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg data/syntax/Taccle.syntax lib/gui.tcl lib/version.tcl
+date:        Fri Dec 18 00:43:25 2015 -0600
+files:       lib/bist.tcl lib/menus.tcl lib/tke.tcl lib/version.tcl
 description:
-* Updating translations.
-* Adding parsing of %... sequences in Taccle syntax
-* Fixing more issues in gui.tcl.
+* Adding start of in-app BIST.
 
 
-changeset:   1604:c5e49cb9b901
+changeset:   1612:d3057a7b43ad
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Dec 16 23:08:05 2015 -0600
-files:       lib/embed_tke.tcl lib/sidebar.tcl lib/tke.tcl lib/version.tcl
+date:        Sun Dec 20 00:53:49 2015 -0600
+files:       lib/syntax.tcl lib/version.tcl
 description:
-* Fixing syntax errors in sidebar and embed_tke
-* Switching back to wm withdraw on startup.
+* Fixing various issues with Markdown syntax highlighting.
 
 
-changeset:   1605:e1ba0ab2885e
+changeset:   1613:7ecf6c9363fc
+parent:      1611:507cdfecd65c
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Dec 18 22:58:16 2015 -0600
+files:       lib/bist.tcl lib/gui.tcl lib/menus.tcl lib/tke.tcl lib/version.tcl
+description:
+* Checkpointing work on BIST tests.
+* Adding a tab value return from add_new_file.
+
+
+changeset:   1614:13eff4d65a92
+parent:      1612:d3057a7b43ad
+parent:      1613:7ecf6c9363fc
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Dec 20 00:55:27 2015 -0600
+description:
+* Merging.
+
+
+changeset:   1615:25e5efd01cd9
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Dec 20 13:28:47 2015 -0600
+files:       lib/bist.tcl lib/syntax.tcl lib/version.tcl tests/general.tcl
+description:
+* Modifying BIST to put tests in external tests directory.
+* Adding general test.
+* Fixing Markdown issues with syntax highlighting.
+
+
+changeset:   1616:0f449f28c058
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Dec 17 00:51:28 2015 -0600
-files:       lib/gui.tcl lib/ptwidgets1.2/library/tabbar.tcl lib/version.tcl
+date:        Mon Dec 21 00:04:56 2015 -0600
+files:       lib/ptwidgets1.2/library/tabbar.tcl lib/version.tcl
 description:
-* Fixing more usage issues.
+* Fixing some issues with displaying the current tab for a select and delete operation.
 
 
