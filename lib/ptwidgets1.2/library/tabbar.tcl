@@ -1139,7 +1139,7 @@ namespace eval tabbar {
         }
       }
 
-      if {$page_id eq ""} {
+      if {($page_id eq "") && ($data($w,current) >= 0)} {
         for {set i $data($w,current)} {$i < [llength $data($w,pages)]} {incr i} {
           array set opts [lindex $data($w,pages) $i 1 2]
           if {$opts(-state) ne "hidden"} {
