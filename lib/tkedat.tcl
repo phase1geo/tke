@@ -94,7 +94,7 @@ namespace eval tkedat {
         set key [string map {\{ {} \} {}} [string range $line {*}$key]]
 
         if {[bracket_count $line $linenum [lindex $value 0]] == 0} {
-        	set contents($key) [string range [string trim [string range $line {*}$value]] 1 end-1]
+          set contents($key) [string range [string trim [string range $line {*}$value]] 1 end-1]
           if {[regexp {\[.*\]} $contents($key)]} {
             unset contents($key)
           } elseif {$include_comments} {
@@ -102,7 +102,7 @@ namespace eval tkedat {
           }
           set comments [list]
         } else {
-        	set contents($key) [string range [string range $line {*}$value] 1 end]
+          set contents($key) [string range [string range $line {*}$value] 1 end]
           set value_ip 1
         }
 
@@ -130,7 +130,7 @@ namespace eval tkedat {
           set comments [list]
           set value_ip 0
         } else {
-         	if {$include_comments} {
+          if {$include_comments} {
             append contents($key) "$line\n"
           } else {
             append contents($key) " [string trim $line]"

@@ -713,38 +713,59 @@ namespace eval gui {
       }
     }
 
-    # Gather the current tab info
-    foreach file $files {
-
-      # Get the file tab information
-      lassign [get_info [lindex $file $files_index(tab)] tab {paneindex tabindex txt fname save_cmd lock readonly diff sidebar buffer}] \
-        finfo(pane) finfo(tab) txt finfo(fname) finfo(savecommand) finfo(lock) finfo(readonly) finfo(diff) finfo(sidebar) finfo(buffer)
-
-      set finfo(language)    [[ns syntax]::get_language $txt]
-      set finfo(indent)      [[ns indent]::get_indent_mode $txt]
-      set finfo(modified)    0
-      set finfo(cursor)      [$txt index insert]
-      set finfo(yview)       [$txt index @0,0]
-
-      # Add markers
-      set finfo(markers) [list]
-      foreach {mname mtxt pos} [[ns markers]::get_markers $txt] {
-        lappend finfo(markers) $mname [lindex [split $pos .] 0]
-      }
-
-      # Add diff data, if applicable
-      if {$finfo(diff)} {
-        set finfo(diffdata) [[ns diff]::get_session_data $txt]
-      }
-      lappend content(FileInfo) [array get finfo]
-
-    }
-
-    # Get the currently selected tabs
     foreach nb [$widgets(nb_pw) panes] {
-      if {[set tab [$nb.tbf.tb select]] ne ""} {
-        lappend content(CurrentTabs) [$nb.tbf.tb index $tab]
+
+      set tabindex    0
+      set current_tab ""
+      set current_set 0
+
+      foreach tab [$nb.tbf.tb tabs] {
+
+        # Get the file tab information
+        lassign [get_info $tab tab {paneindex txt fname save_cmd lock readonly diff sidebar buffer}] \
+          finfo(pane) txt finfo(fname) finfo(savecommand) finfo(lock) finfo(readonly) finfo(diff) finfo(sidebar) finfo(buffer)
+
+        # If this is a buffer, don't save the buffer
+        if {$finfo(buffer)} {
+          continue
+        }
+
+        # Save the tab as a current tab if it's not a buffer
+        if {!$finfo(buffer) && !$current_set} {
+          set current_tab $tabindex
+          if {[$nb.tbf.tb select] eq $tab} {
+            set current_set 1
+          }
+        }
+
+        set finfo(tab)         $tabindex
+        set finfo(language)    [[ns syntax]::get_language $txt]
+        set finfo(indent)      [[ns indent]::get_indent_mode $txt]
+        set finfo(modified)    0
+        set finfo(cursor)      [$txt index insert]
+        set finfo(yview)       [$txt index @0,0]
+
+        # Add markers
+        set finfo(markers) [list]
+        foreach {mname mtxt pos} [[ns markers]::get_markers $txt] {
+          lappend finfo(markers) $mname [lindex [split $pos .] 0]
+        }
+
+        # Add diff data, if applicable
+        if {$finfo(diff)} {
+          set finfo(diffdata) [[ns diff]::get_session_data $txt]
+        }
+        lappend content(FileInfo) [array get finfo]
+
+        incr tabindex
+
       }
+
+      # Set the current tab for the pane (if one exists)
+      if {$current_tab ne ""} {
+        lappend content(CurrentTabs) $current_tab
+      }
+
     }
 
     # Get the last_opened list
@@ -832,7 +853,7 @@ namespace eval gui {
     # Add the tabs (in order) to each of the panes and set the current tab in each pane
     for {set pane 0} {$pane < [llength $content(CurrentTabs)]} {incr pane} {
       set pw_current $pane
-      set set_tab    1
+      set set_tab    0
       foreach index [lindex $ordered $pane] {
         if {$index ne ""} {
           array set finfo [lindex $content(FileInfo) $index]
@@ -863,8 +884,7 @@ namespace eval gui {
                 }
               }
             }
-          } else {
-            set set_tab 0
+            set set_tab 1
           }
         }
       }
