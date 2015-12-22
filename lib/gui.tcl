@@ -1897,7 +1897,7 @@ namespace eval gui {
   proc close_tab_by_tabbar {w tab} {
 
     # Close the tab specified by tab
-    close_tab {} $tab
+    close_tab {} $tab -tabbar $w 
 
     return 1
 
@@ -1917,11 +1917,18 @@ namespace eval gui {
       -lazy    0
       -force   0
       -check   1
+      -tabbar  ""
     }
     array set opts $args
 
-    # Get the tab information
-    lassign [get_info $tab tab {pane tabbar tabindex fileindex fname diff}] pane tb tab_index index fname diff
+    # Get the tab information (we need to get the pane and tabbar information
+    if {$opts(-tabbar) ne ""} {
+      set pane [winfo parent [winfo parent $opts(-tabbar)]]
+      set tb   $opts(-tabbar)
+      lassign [get_info $tab tab {fileindex fname diff}] index fname diff
+    } else {
+      lassign [get_info $tab tab {pane tabbar tabindex fileindex fname diff}] pane tb tab_index index fname diff
+    }
 
     # Perform save check on close
     if {$opts(-check)} {
@@ -1937,8 +1944,10 @@ namespace eval gui {
     # Delete the file from files
     set files [lreplace $files $index $index]
 
-    # Remove the tab from the tabbar
-    $tb delete $tab_index
+    # Remove the tab from the tabbar (unless this has already been done by the tabbar)
+    if {$opts(-tabbar) eq ""} {
+      $tb delete $tab_index
+    }
 
     # Delete the text frame
     catch { pack forget $tab }
@@ -4289,9 +4298,11 @@ namespace eval gui {
   proc handle_txt_focus {txtt} {
 
     variable widgets
+    variable pw_current
+    variable txt_current
 
     # Get the text information
-    lassign [get_info [winfo parent $txtt] txt {tab txt fileindex}] tab txt file_index
+    lassign [get_info [winfo parent $txtt] txt {paneindex tab txt fileindex}] pw_current tab txt file_index
 
     # Set the line and row information
     update_position $txt
@@ -4307,6 +4318,9 @@ namespace eval gui {
 
     # Check to see if the file has changed
     catch { check_file $file_index }
+
+    # Save the text widget
+    set txt_current($tab) [winfo parent $txtt]
 
     # Let the plugins know about the FocusIn event
     [ns plugins]::handle_on_focusin $tab
