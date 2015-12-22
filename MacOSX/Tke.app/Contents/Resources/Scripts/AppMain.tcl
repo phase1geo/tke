@@ -10,10 +10,24 @@ if {[string first "-psn" [lindex $argv 0]] == 0} {
   incr argc -1
 }
 
-# Avoid populating the sidebar on startup
-lappend argv "-nosb"
-incr argc
+if {[file exists [lindex $argv 0]]} {
 
-if {[catch { source [file join [file dirname $argv0] tke lib tke.tcl] }]} {
-  puts $errorInfo
+  set argv [lassign $argv argv0]
+
+  # Execute the given script
+  if {[catch { source $argv0 }]} {
+    puts $errorInfo
+  }
+
+} else {
+
+  # Avoid populating the sidebar on startup
+  lappend argv "-nosb"
+  incr argc
+
+  # Execute tke.tcl
+  if {[catch { source [file join [file dirname $argv0] tke lib tke.tcl] }]} {
+    puts $errorInfo
+  }
+
 }
