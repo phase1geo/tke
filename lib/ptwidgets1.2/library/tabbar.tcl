@@ -1063,6 +1063,11 @@ namespace eval tabbar {
 
     variable data
 
+    # If the current tab is unknown, don't do anything
+    if {$data($w,current) == -1} {
+      return
+    }
+
     # If the current tab is to the left of the left-most tab, scroll
     # the canvas to the right until the current tab is in view.
     if {$data($w,current) < [set left_tab [leftmost_tab $w]]} {
