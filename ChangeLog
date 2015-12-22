@@ -1,95 +1,35 @@
-changeset:   1606:b6a4cdc2b543
-tag:         devel-2.0.4
+changeset:   1617:44c89ff07c82
+tag:         devel-2.0.5
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Dec 17 01:00:05 2015 -0600
+date:        Mon Dec 21 00:07:56 2015 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.0.4 release
+ChangeLog for devel-2.0.5 release
 
 
-changeset:   1607:a6d60882e589
+changeset:   1618:6d6e2b10e4b0
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Dec 17 01:00:10 2015 -0600
+date:        Mon Dec 21 00:08:00 2015 -0600
 files:       .hgtags
 description:
-Added tag devel-2.0.4 for changeset b6a4cdc2b543
+Added tag devel-2.0.5 for changeset 44c89ff07c82
 
 
-changeset:   1608:2f5c93e54a73
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu Dec 17 17:19:17 2015 -0600
-files:       lib/gui.tcl lib/version.tcl
-description:
-* Checkpointing work on improving performance and fixing set_current_tab calling.
-
-
-changeset:   1609:ffefd30f2a5d
+changeset:   1619:d0401970467f
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Dec 17 21:39:04 2015 -0600
-files:       lib/gui.tcl lib/version.tcl
+date:        Mon Dec 21 21:44:32 2015 -0600
+files:       MacOSX/Tke.app/Contents/Resources/Scripts/AppMain.tcl lib/version.tcl
 description:
-* Fixing issues from previous checkin.
+* Fixing issues with update mechanism on Mac OS X.
 
 
-changeset:   1610:69d1fa3f61d1
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Dec 17 23:48:50 2015 -0600
-files:       lib/gui.tcl lib/sidebar.tcl lib/version.tcl
-description:
-* Starting work on optimizing multi-file closing.
-
-
-changeset:   1611:507cdfecd65c
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Dec 18 00:43:25 2015 -0600
-files:       lib/bist.tcl lib/menus.tcl lib/tke.tcl lib/version.tcl
-description:
-* Adding start of in-app BIST.
-
-
-changeset:   1612:d3057a7b43ad
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Dec 20 00:53:49 2015 -0600
-files:       lib/syntax.tcl lib/version.tcl
-description:
-* Fixing various issues with Markdown syntax highlighting.
-
-
-changeset:   1613:7ecf6c9363fc
-parent:      1611:507cdfecd65c
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Fri Dec 18 22:58:16 2015 -0600
-files:       lib/bist.tcl lib/gui.tcl lib/menus.tcl lib/tke.tcl lib/version.tcl
-description:
-* Checkpointing work on BIST tests.
-* Adding a tab value return from add_new_file.
-
-
-changeset:   1614:13eff4d65a92
-parent:      1612:d3057a7b43ad
-parent:      1613:7ecf6c9363fc
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Dec 20 00:55:27 2015 -0600
-description:
-* Merging.
-
-
-changeset:   1615:25e5efd01cd9
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Dec 20 13:28:47 2015 -0600
-files:       lib/bist.tcl lib/syntax.tcl lib/version.tcl tests/general.tcl
-description:
-* Modifying BIST to put tests in external tests directory.
-* Adding general test.
-* Fixing Markdown issues with syntax highlighting.
-
-
-changeset:   1616:0f449f28c058
+changeset:   1620:c81a7cc5d208
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Dec 21 00:04:56 2015 -0600
-files:       lib/ptwidgets1.2/library/tabbar.tcl lib/version.tcl
+date:        Tue Dec 22 09:09:23 2015 -0600
+files:       lib/gui.tcl lib/ptwidgets1.2/library/tabbar.tcl lib/tkedat.tcl lib/version.tcl
 description:
-* Fixing some issues with displaying the current tab for a select and delete operation.
+* Fixing save/load session issue that caused the UI to not look like it was displayed.
+* Fixing tabbar bug in set_current function.
 
 
