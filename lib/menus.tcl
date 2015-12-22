@@ -273,6 +273,17 @@ namespace eval menus {
 
     $mb add separator
 
+    $mb add command -label [msgcat::mc "Rename"] -underline 4 -command [list menus::rename_command]
+    launcher::register [msgcat::mc "File Menu: Rename current file"] [list menus::rename_command]
+
+    $mb add command -label [msgcat::mc "Duplicate"] -underline 1 -command [list menus::duplicate_command]
+    launcher::register [msgcat::mc "File Menu: Duplicate current file"] [list menus::duplicate_command]
+
+    $mb add command -label [msgcat::mc "Delete"] -underline 0 -command [list menus::delete_command]
+    launcher::register [msgcat::mc "File Menu: Delete current file"] [list menus::delete_command]
+
+    $mb add separator
+
     $mb add command -label [msgcat::mc "Lock"] -underline 0 -command [list menus::lock_command $mb]
     launcher::register [msgcat::mc "File Menu: Lock file"] [list menus::lock_command $mb]
     launcher::register [msgcat::mc "File Menu: Unlock file"] [list menus::unlock_command $mb]
@@ -303,13 +314,13 @@ namespace eval menus {
   proc file_posting {mb} {
 
     # Get information for current file
-    lassign [gui::get_info {} current {fileindex fname readonly lock diff}] file_index fname readonly file_lock diff_mode
+    lassign [gui::get_info {} current {fileindex fname readonly lock diff buffer}] file_index fname readonly file_lock diff_mode buffer
 
     # Get the current file index (if one exists)
     if {$file_index != -1} {
 
-      # Get untitled status
-      set untitled [expr {$fname eq "Untitled"}]
+      # Get state if the file is a buffer
+      set buffer_state [expr {$buffer ? "disabled" : "normal"}]
 
       # Get the current favorite status
       set favorite [favorites::is_favorite $fname]
@@ -335,12 +346,15 @@ namespace eval menus {
       }
 
       # Make sure that the file-specific items are enabled
-      $mb entryconfigure [msgcat::mc "Reopen File"]          -state [expr {$untitled ? "disabled" : "normal"}]
-      $mb entryconfigure [msgcat::mc "Show File Difference"] -state [expr {$untitled ? "disabled" : "normal"}]
+      $mb entryconfigure [msgcat::mc "Reopen File"]          -state $buffer_state
+      $mb entryconfigure [msgcat::mc "Show File Difference"] -state $buffer_state
       $mb entryconfigure [msgcat::mc "Save"]                 -state normal
       $mb entryconfigure [msgcat::mc "Save As..."]           -state normal
       $mb entryconfigure [msgcat::mc "Save Selection As..."] -state [expr {[gui::selected {}] ? "normal" : "disabled"}]
       $mb entryconfigure [msgcat::mc "Save All"]             -state normal
+      $mb entryconfigure [msgcat::mc "Rename"]               -state $buffer_state
+      $mb entryconfigure [msgcat::mc "Duplicate"]            -state $buffer_state
+      $mb entryconfigure [msgcat::mc "Delete"]               -state $buffer_state
       $mb entryconfigure [msgcat::mc "Close"]                -state normal
       $mb entryconfigure [msgcat::mc "Close All"]            -state normal
 
@@ -353,6 +367,9 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Save As..."]           -state disabled
       $mb entryconfigure [msgcat::mc "Save Selection As..."] -state disabled
       $mb entryconfigure [msgcat::mc "Save All"]             -state disabled
+      $mb entryconfigure [msgcat::mc "Rename"]               -state disabled
+      $mb entryconfigure [msgcat::mc "Duplicate"]            -state disabled
+      $mb entryconfigure [msgcat::mc "Delete"]               -state disabled
       $mb entryconfigure [msgcat::mc "Lock"]                 -state disabled
       $mb entryconfigure [msgcat::mc "Favorite"]             -state disabled
       $mb entryconfigure [msgcat::mc "Close"]                -state disabled
@@ -535,6 +552,105 @@ namespace eval menus {
 
       # Save the current selection
       edit::save_selection $txt [$txt index sel.first] [$txt index sel.last] 1 $sfile
+
+    }
+
+  }
+
+  ######################################################################
+  # Renames the current file.
+  proc rename_command {} {
+
+    # Get the current name
+    set old_name [set fname [join [gui::get_info {} current fname]]]
+
+    # Get the new name from the user
+    if {[gui::get_user_response [msgcat::mc "File Name:"] fname]} {
+
+      # If the value of the cell hasn't changed or is empty, do nothing else.
+      if {($old_name eq $fname) || ($fname eq "")} {
+        return
+      }
+
+      # Normalize the filename
+      set fname [file normalize $fname]
+
+      # Allow any plugins to handle the rename
+      plugins::handle_on_rename $old_name $fname
+
+      # Perform the rename operation
+      if {![catch { file rename -force $old_name $fname }]} {
+
+        # Update the file information (if necessary)
+        gui::change_filename $old_name $fname
+
+        # Add the file directory
+        sidebar::update_directory [sidebar::add_directory [file dirname $fname]]
+
+        # Update the old directory
+        if {[set sidebar_index [sidebar::get_index $old_name]] != -1} {
+          after idle [list sidebar::update_directory $sidebar_index]
+        }
+
+      }
+
+    }
+
+  }
+
+  ######################################################################
+  # Duplicates the current file and adds the duplicated file to the editor.
+  proc duplicate_command {} {
+
+    # Get the filename of the current selection
+    set fname [gui::get_info {} current fname]
+
+    # Create the default name of the duplicate file
+    set dup_fname "[file rootname $fname] Copy[file extension $fname]"
+    set num       1
+    while {[file exists $dup_fname]} {
+      set dup_fname "[file rootname $fname] Copy [incr num][file extension $fname]"
+    }
+
+    # Copy the file to create the duplicate
+    if {![catch { file copy $fname $dup_fname } rc]} {
+
+      # Add the file to the editor
+      gui::add_file end $dup_fname
+
+      # Allow any plugins to handle the rename
+      plugins::handle_on_duplicate $fname $dup_fname
+
+    }
+
+  }
+
+  ######################################################################
+  # Deletes the current file from the file system and removes it from
+  # editor.
+  proc delete_command {} {
+
+    # Get confirmation from the user
+    if {[tk_messageBox -parent . -type yesno -default yes -message [msgcat::mc "Delete file?"]] eq "yes"} {
+
+      # Get the full pathname
+      set fname [join [gui::get_info {} current fname]]
+
+      # Allow any plugins to handle the rename
+      plugins::handle_on_delete $fname
+
+      # Delete the file and remove the tab
+      if {![catch { file delete -force $fname }]} {
+
+        # Update the old directory
+        if {[set sidebar_index [sidebar::get_index $fname]] != -1} {
+          after idle [list sidebar::update_directory $sidebar_index]
+        }
+
+        # Remove the tab
+        gui::close_files $fname
+
+      }
 
     }
 

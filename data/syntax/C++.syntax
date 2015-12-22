@@ -34,7 +34,7 @@ keywords
   class public private protected new delete
 
   free malloc abort abs acos asctime asin assert atan atan2 atexit atof atoi atol bsearch
-  calloc ceil clearerr clock cos cosh ctime difftime div ecvt exit exp fabs fclose fcvt feof
+  calloc catch ceil clearerr clock cos cosh ctime difftime div ecvt exit exp fabs fclose fcvt feof
   ferror fflush fgetc fgetpos fgets floor fmod fopen fprintf fputc fputchar fputs fread free
   freopen frexp fscanf fseek fsetpos ftell fwrite gcvt getc getchar getenv gets getw gmtime
   isalum isalpha iscntrl isdigit isgraph islower isprint ispunct isspace isupper isxdigit itoa
@@ -43,7 +43,7 @@ keywords
   realloc remove rename rewind scanf setbuf setvbuf signal sin sinh sprintf sqrt srand sscanf
   strcat strchr strcmp strcoll strcpy strcspn strerror strftime strlen strncat strncmp strncpy
   strpbrk strrchr strspn strstr strtod strtok strtol strtoul strxfrm swab system tan tanh time
-  tmpfile tmpnam tolower toupper ultoa ungetc va_arg va_end va_start vfprintf vprintf vsprintf
+  tmpfile tmpnam tolower toupper try ultoa ungetc va_arg va_end va_start vfprintf vprintf vsprintf
 }
 
 numbers
