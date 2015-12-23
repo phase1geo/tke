@@ -1,35 +1,70 @@
-changeset:   1617:44c89ff07c82
-tag:         devel-2.0.5
+changeset:   1621:56d80622edf9
+tag:         devel-2.0.6
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Dec 21 00:07:56 2015 -0600
+date:        Tue Dec 22 09:10:44 2015 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.0.5 release
+ChangeLog for devel-2.0.6 release
 
 
-changeset:   1618:6d6e2b10e4b0
+changeset:   1622:d9248a9ceaf0
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Dec 21 00:08:00 2015 -0600
+date:        Tue Dec 22 09:10:51 2015 -0600
 files:       .hgtags
 description:
-Added tag devel-2.0.5 for changeset 44c89ff07c82
+Added tag devel-2.0.6 for changeset 56d80622edf9
 
 
-changeset:   1619:d0401970467f
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Dec 21 21:44:32 2015 -0600
-files:       MacOSX/Tke.app/Contents/Resources/Scripts/AppMain.tcl lib/version.tcl
+changeset:   1623:0f6451604038
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Dec 22 11:43:51 2015 -0600
+files:       lib/gui.tcl lib/ptwidgets1.2/library/tabbar.tcl lib/version.tcl
 description:
-* Fixing issues with update mechanism on Mac OS X.
+* Fixing tab and text focus issues.
 
 
-changeset:   1620:c81a7cc5d208
+changeset:   1624:28d72d9ef8d0
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Dec 22 17:15:54 2015 -0600
+files:       data/syntax/C++.syntax lib/menus.tcl lib/plugins.tcl lib/version.tcl
+description:
+* Adding try and catch keywords to C++ syntax.
+* Hardening plugins code.
+* Adding ability to rename, duplicate and delete the current file from the File menu.
+
+
+changeset:   1625:2851e6e70acb
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Dec 22 21:10:15 2015 -0600
+files:       lib/menus.tcl lib/version.tcl
+description:
+* Fixing sidebar updating with duplicate and deletion menu commands.
+
+
+changeset:   1626:da2261cc8ffe
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Dec 23 00:36:34 2015 -0600
+files:       lib/launcher.tcl lib/version.tcl lib/vim.tcl
+description:
+* Fixing command launcher issue with snippets.
+* Fixing usage of Control-Button-1, Shift-Button-1 and Double-Shift-Button-1 functions in editor.
+
+
+changeset:   1627:02011e13f726
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Dec 23 00:44:59 2015 -0600
+files:       lib/version.tcl lib/vim.tcl
+description:
+* Fixing usage of Triple-Button-1 and Triple-Shift-Button-1 usage in text widget.
+
+
+changeset:   1628:08c5a4347436
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Dec 22 09:09:23 2015 -0600
-files:       lib/gui.tcl lib/ptwidgets1.2/library/tabbar.tcl lib/tkedat.tcl lib/version.tcl
+date:        Wed Dec 23 01:26:38 2015 -0600
+files:       lib/format_lexer.tcl lib/format_parser.tac lib/format_parser.tcl lib/snip_parser.tac lib/snip_parser.tcl lib/snippets.tcl lib/version.tcl
 description:
-* Fixing save/load session issue that caused the UI to not look like it was displayed.
-* Fixing tabbar bug in set_current function.
+* Fixing SELECTED_TEXT snippet usage when there is no selected text.
+* Code updates.
 
 
