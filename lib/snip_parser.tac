@@ -25,7 +25,7 @@
 
 source [file join $::tke_dir lib snip_lexer.tcl]
 
-set snip_txt    ""
+set snip_txtt   ""
 set snip_value  ""
 set snip_errmsg ""
 set snip_errstr ""
@@ -59,7 +59,7 @@ proc parse_format {str matches} {
   format__scan_string $str
 
   # Initialize some values
-  set ::format_txt     $::snip_txt
+  set ::format_txtt    $::snip_txtt
   set ::format_begpos  0
   set ::format_endpos  0
   set ::format_matches $matches
@@ -122,33 +122,33 @@ snippet: snippet text {
          ;
 
 tabstop: DOLLAR_SIGN DECIMAL {
-           if {[set val [snippets::get_tabstop $::snip_txt $2]] ne ""} {
+           if {[set val [snippets::get_tabstop $::snip_txtt $2]] ne ""} {
              set _ [list $val {}]
            } else {
-             set _ [list "\$$2" [snippets::set_tabstop $::snip_txt $2]]
+             set _ [list "\$$2" [snippets::set_tabstop $::snip_txtt $2]]
            }
          }
        | DOLLAR_SIGN OPEN_BRACKET DECIMAL ':' value CLOSE_BRACKET {
-           set _ [apply_tabstop $5 [snippets::set_tabstop $::snip_txt $3 $5]]
+           set _ [apply_tabstop $5 [snippets::set_tabstop $::snip_txtt $3 $5]]
          }
          ;
 
 transform: DOLLAR_SIGN OPEN_BRACKET DECIMAL '/' pattern '/' format '/' opts CLOSE_BRACKET {
-             if {[set val [snippets::get_tabstop $::snip_txt $3]] ne ""} {
+             if {[set val [snippets::get_tabstop $::snip_txtt $3]] ne ""} {
                set regexp_opts [list]
                if {[string first g $9] != -1} {
                  lappend regexp_opts -all
                }
                set _ [list [parse_format $7 [regexp -inline {*}$regexp_opts -- $5 $val]] [list]]
              } else {
-               set _ [list [get_retval $1 $2 $3 $4 $5 $6 $7 $8 $9 $10] [snippets::set_tabstop $::snip_txt $3]]
+               set _ [list [get_retval $1 $2 $3 $4 $5 $6 $7 $8 $9 $10] [snippets::set_tabstop $::snip_txtt $3]]
              }
            }
          | DOLLAR_SIGN OPEN_BRACKET DECIMAL '/' pattern '/' format '/' CLOSE_BRACKET {
-             if {[set val [snippets::get_tabstop $::snip_txt $3]] ne ""} {
+             if {[set val [snippets::get_tabstop $::snip_txtt $3]] ne ""} {
                set _ [list [parse_format $7 [regexp -inline -- $5 $val]] [list]]
              } else {
-               set _ [list [get_retval $1 $2 $3 $4 $5 $6 $7 $8 $9] [snippets::set_tabstop $::snip_txt $3]]
+               set _ [list [get_retval $1 $2 $3 $4 $5 $6 $7 $8 $9] [snippets::set_tabstop $::snip_txtt $3]]
              }
            }
            ;
@@ -172,17 +172,17 @@ variable: DOLLAR_SIGN varname {
           ;
 
 varname: VARNAME {
-           set txt $::snip_txt
+           set txtt $::snip_txtt
            switch $1 {
-             SELECTED_TEXT { set _ [$txt get sel.first sel.last] }
+             SELECTED_TEXT { set _ [expr {![catch { $txtt get sel.first sel.last } rc] ? $rc : ""}] }
              CLIPBOARD     { set _ [expr {![catch "clipboard get" rc] ? $rc : ""}] }
-             CURRENT_LINE  { set _ [$txt get "insert linestart" "insert lineend"] }
-             CURRENT_WORD  { set _ [$txt get "insert wordstart" "insert wordend"] }
+             CURRENT_LINE  { set _ [$txtt get "insert linestart" "insert lineend"] }
+             CURRENT_WORD  { set _ [$txtt get "insert wordstart" "insert wordend"] }
              DIRECTORY     { set _ [file dirname [gui::get_info {} current fname]] }
              FILEPATH      { set _ [gui::get_info {} current fname] }
              FILENAME      { set _ [file tail [gui::get_info {} current fname]] }
-             LINE_INDEX    { set _ [lindex [split [$txt index insert] .] 1] }
-             LINE_NUMBER   { set _ [lindex [split [$txt index insert] .] 0] }
+             LINE_INDEX    { set _ [lindex [split [$txtt index insert] .] 1] }
+             LINE_NUMBER   { set _ [lindex [split [$txtt index insert] .] 0] }
              CURRENT_DATE  { set _ [clock format [clock seconds] -format "%m/%d/%Y"] }
            }
          }

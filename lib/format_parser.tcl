@@ -24,7 +24,7 @@
 
 source [file join $::tke_dir lib format_lexer.tcl]
 
-set format_txt     ""
+set format_txtt    ""
 set format_value   ""
 set format_errmsg  ""
 set format_errstr  ""
