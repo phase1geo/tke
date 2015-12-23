@@ -416,6 +416,8 @@ namespace eval vim {
     bind vim$txt    <Button-1>              "[ns vim]::handle_button1 %W %x %y; break"
     bind vim$txt    <Double-Shift-Button-1> "[ns vim]::nil"
     bind vim$txt    <Double-Button-1>       "[ns vim]::handle_double_button1 %W %x %y; break"
+    bind vim$txt    <Triple-Button-1>       "[ns vim]::nil"
+    bind vim$txt    <Triple-Shift-Button-1> "[ns vim]::nil"
     bind vim$txt    <B1-Motion>             "[ns vim]::handle_motion %W %x %y; break"
     bind vimpre$txt <Control-f>             "if {\[[ns vim]::handle_control_f %W\]} { break }"
     bind vimpre$txt <Control-b>             "if {\[[ns vim]::handle_control_b %W\]} { break }"
