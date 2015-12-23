@@ -163,11 +163,11 @@ namespace eval snippets {
 
   ######################################################################
   # Handles a tab key event.
-  proc handle_tab {W} {
+  proc handle_tab {txtt} {
 
-    if {![tab_clicked $W]} {
-      if {![[ns vim]::in_vim_mode $W] && ![[ns syntax]::get_tabs_allowed [winfo parent $W]]} {
-        $W insert insert [string repeat " " [[ns preferences]::get Editor/SpacesPerTab]]
+    if {![tab_clicked $txtt]} {
+      if {![[ns vim]::in_vim_mode $txtt] && ![[ns syntax]::get_tabs_allowed [winfo parent $txtt]]} {
+        $txtt insert insert [string repeat " " [[ns preferences]::get Editor/SpacesPerTab]]
         return 1
       }
     } else {
@@ -182,7 +182,7 @@ namespace eval snippets {
   # Checks the text widget to see if a snippet name was just typed in
   # the text widget.  If it was, delete the string and replace it with
   # the snippet string.
-  proc check_snippet {txt keysym} {
+  proc check_snippet {txtt keysym} {
 
     variable snippets
     variable within
@@ -194,7 +194,7 @@ namespace eval snippets {
     }
 
     # Get the last word
-    set last_word [string trim [$txt get "insert-1c wordstart" "insert-1c wordend"]]
+    set last_word [string trim [$txtt get "insert-1c wordstart" "insert-1c wordend"]]
 
     # If the last word is not a valid word, stop now
     if {![regexp {^[a-zA-Z0-9_]+$} $last_word]} {
@@ -203,7 +203,7 @@ namespace eval snippets {
 
     # If the snippet exists, perform the replacement.
     if {[info exists snippets(current,$last_word)]} {
-      return [insert_snippet $txt $snippets(current,$last_word)]
+      return [insert_snippet $txtt $snippets(current,$last_word)]
     }
 
     return 0
@@ -212,27 +212,27 @@ namespace eval snippets {
 
   ######################################################################
   # Inserts the given snippet contents at the current insertion point.
-  proc insert_snippet {txt snippet} {
+  proc insert_snippet {txtt snippet} {
 
     variable tabpoints
 
     # Clear any residual tabstops
-    clear_tabstops $txt
+    clear_tabstops $txtt
 
     # Initialize tabpoints
-    set tabpoints($txt) 1
+    set tabpoints($txtt) 1
 
     # Call the snippet parser
-    if {[set result [parse_snippet $txt $snippet]] ne ""} {
+    if {[set result [parse_snippet $txtt $snippet]] ne ""} {
 
       # Delete the last_word
-      $txt delete "insert-1c wordstart" "insert-1c wordend"
+      $txtt delete "insert-1c wordstart" "insert-1c wordend"
 
       # Insert the text
-      $txt insert insert {*}$result
+      $txtt insert insert {*}$result
 
       # Traverse the inserted snippet
-      traverse_snippet $txt
+      traverse_snippet $txtt
 
       # Make sure that the whitespace character is not inserted into the widget
       return 1
@@ -254,7 +254,7 @@ namespace eval snippets {
 
   ######################################################################
   # Parses the given snippet string and returns
-  proc parse_snippet {txt str} {
+  proc parse_snippet {txtt str} {
 
     # Flush the parsing buffer
     SNIP__FLUSH_BUFFER
@@ -263,7 +263,7 @@ namespace eval snippets {
     snip__scan_string $str
 
     # Initialize some values
-    set ::snip_txt    $txt
+    set ::snip_txtt   $txtt
     set ::snip_begpos 0
     set ::snip_endpos 0
 
@@ -283,33 +283,33 @@ namespace eval snippets {
 
   ######################################################################
   # Creates a tab stop or tab mirror.
-  proc set_tabstop {txt index {default_value ""}} {
+  proc set_tabstop {txtt index {default_value ""}} {
 
     variable tabpoints
     variable within
 
     # Indicate that the text widget contains a tabstop
-    set within($txt) 1
+    set within($txtt) 1
 
     # Set the lowest tabpoint value
-    if {($index > 0) && ($tabpoints($txt) > $index)} {
-      set tabpoints($txt) $index
+    if {($index > 0) && ($tabpoints($txtt) > $index)} {
+      set tabpoints($txtt) $index
     }
 
     # Get the list of tags
-    set tags [$txt tag names]
+    set tags [$txtt tag names]
 
     if {[lsearch -regexp $tags snippet_(sel|mark)_$index] != -1} {
       if {[lsearch $tags snippet_mirror_$index] == -1} {
-        $txt tag configure snippet_mirror_$index -elide 1
+        $txtt tag configure snippet_mirror_$index -elide 1
       }
       return "snippet_mirror_$index"
     } else {
       if {$default_value eq ""} {
-        $txt tag configure snippet_mark_$index -elide 1
+        $txtt tag configure snippet_mark_$index -elide 1
         return "snippet_mark_$index"
       } else {
-        $txt tag configure snippet_sel_$index -background blue
+        $txtt tag configure snippet_sel_$index -background blue
         return "snippet_sel_$index"
       }
     }
@@ -318,12 +318,12 @@ namespace eval snippets {
 
   ######################################################################
   # Returns the value of the given tabstop.
-  proc get_tabstop {txt index} {
+  proc get_tabstop {txtt index} {
 
     variable tabvals
 
-    if {[info exists tabvals($txt,$index)]} {
-      return $tabvals($txt,$index)
+    if {[info exists tabvals($txtt,$index)]} {
+      return $tabvals($txtt,$index)
     }
 
     return ""
@@ -332,29 +332,29 @@ namespace eval snippets {
 
   ######################################################################
   # Clears any residual tabstops embedded in code.
-  proc clear_tabstops {txt} {
+  proc clear_tabstops {txtt} {
 
     variable tabvals
 
-    if {[llength [set tabstops [lsearch -inline -all -glob [$txt tag names] snippet_*]]] > 0} {
-      $txt tag delete {*}$tabstops
+    if {[llength [set tabstops [lsearch -inline -all -glob [$txtt tag names] snippet_*]]] > 0} {
+      $txtt tag delete {*}$tabstops
     }
 
-    array unset tabvals $txt,*
+    array unset tabvals $txtt,*
 
   }
 
   ######################################################################
   # Handles a tab insertion
-  proc tab_clicked {txt} {
+  proc tab_clicked {txtt} {
 
     variable within
 
-    if {$within($txt)} {
-      traverse_snippet $txt
+    if {$within($txtt)} {
+      traverse_snippet $txtt
       return 1
     } else {
-      return [check_snippet $txt Tab]
+      return [check_snippet $txtt Tab]
     }
 
   }
@@ -362,50 +362,50 @@ namespace eval snippets {
   ######################################################################
   # Moves the insertion cursor or selection to the next position in the
   # snippet.
-  proc traverse_snippet {txt} {
+  proc traverse_snippet {txtt} {
 
     variable tabpoints
     variable within
     variable tabstart
     variable tabvals
 
-    if {[info exists tabpoints($txt)]} {
+    if {[info exists tabpoints($txtt)]} {
 
       # Update any mirrored tab points
-      if {[info exists tabstart($txt)]} {
-        set index [expr $tabpoints($txt) - 1]
-        set tabvals($txt,$index) [$txt get $tabstart($txt) insert]
-        foreach {endpos startpos} [lreverse [$txt tag ranges snippet_mirror_$index]] {
-          set str [parse_snippet $txt [$txt get $startpos $endpos]]
-          $txt delete $startpos $endpos
-          $txt insert $startpos {*}$str
+      if {[info exists tabstart($txtt)]} {
+        set index [expr $tabpoints($txtt) - 1]
+        set tabvals($txtt,$index) [$txtt get $tabstart($txtt) insert]
+        foreach {endpos startpos} [lreverse [$txtt tag ranges snippet_mirror_$index]] {
+          set str [parse_snippet $txtt [$txtt get $startpos $endpos]]
+          $txtt delete $startpos $endpos
+          $txtt insert $startpos {*}$str
         }
       }
 
       # Remove the selection
-      $txt tag remove sel 1.0 end
+      $txtt tag remove sel 1.0 end
 
       # Find the current tab point tag
-      if {[llength [set range [$txt tag ranges snippet_sel_$tabpoints($txt)]]] == 2} {
-        $txt tag add sel {*}$range
-        $txt tag delete snippet_sel_$tabpoints($txt)
-        $txt mark set insert [lindex $range 1]
-        set tabstart($txt) [lindex $range 0]
-      } elseif {[llength [set range [$txt tag ranges snippet_mark_$tabpoints($txt)]]] == 2} {
-        $txt delete {*}$range
-        $txt mark set insert [lindex $range 0]
-        $txt tag delete snippet_mark_$tabpoints($txt)
-        set tabstart($txt) [lindex $range 0]
-      } elseif {[llength [set range [$txt tag ranges snippet_mark_0]]] == 2} {
-        $txt delete {*}$range
-        $txt mark set insert [lindex $range 0]
-        $txt tag delete snippet_mark_0
-        set tabstart($txt) [lindex $range 0]
-        set within($txt)   0
+      if {[llength [set range [$txtt tag ranges snippet_sel_$tabpoints($txtt)]]] == 2} {
+        $txtt tag add sel {*}$range
+        $txtt tag delete snippet_sel_$tabpoints($txtt)
+        $txtt mark set insert [lindex $range 1]
+        set tabstart($txtt) [lindex $range 0]
+      } elseif {[llength [set range [$txtt tag ranges snippet_mark_$tabpoints($txtt)]]] == 2} {
+        $txtt delete {*}$range
+        $txtt mark set insert [lindex $range 0]
+        $txtt tag delete snippet_mark_$tabpoints($txtt)
+        set tabstart($txtt) [lindex $range 0]
+      } elseif {[llength [set range [$txtt tag ranges snippet_mark_0]]] == 2} {
+        $txtt delete {*}$range
+        $txtt mark set insert [lindex $range 0]
+        $txtt tag delete snippet_mark_0
+        set tabstart($txtt) [lindex $range 0]
+        set within($txtt)   0
       }
 
       # Increment the tabpoint
-      incr tabpoints($txt)
+      incr tabpoints($txtt)
 
     }
 
