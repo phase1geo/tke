@@ -671,7 +671,7 @@ namespace eval launcher {
             set i 0
             foreach snippet [snippets::get_current_snippets] {
               lassign $snippet name value
-              lappend matches [register_temp ":$name" [list snippets::insert_snippet_into_current {} $value] $name $i "" launcher::snip_okay]
+              lappend matches [register_temp ";$name" [list snippets::insert_snippet_into_current {} $value] $name $i "" launcher::snip_okay]
               incr i
             }
           }
