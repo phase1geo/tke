@@ -1,5 +1,5 @@
 filepatterns
-{*.c *.cc *.cpp *.c++ *.h}
+{*.y *.yacc}
 
 matchcharsallowed
 {curly square paren double single}
@@ -47,6 +47,7 @@ punctuation
 precompile
 {
   HighlightWithOnlyCharStart {#} {}
+  HighlightWithOnlyCharStart {%} {}
 }
 
 miscellaneous1 {

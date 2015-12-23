@@ -1,5 +1,5 @@
 filepatterns
-{*.c *.cc *.cpp *.c++ *.h}
+{*.l *.lex}
 
 matchcharsallowed
 {curly square paren double single}
@@ -47,6 +47,7 @@ punctuation
 precompile
 {
   HighlightWithOnlyCharStart {#} {}
+  HighlightWithOnlyCharStart {%} {}
 }
 
 miscellaneous1 {
@@ -63,4 +64,8 @@ miscellaneous1 {
     strpbrk strrchr strspn strstr strtod strtok strtol strtoul strxfrm swab system tan tanh time
     tmpfile tmpnam tolower toupper ultoa ungetc va_arg va_end va_start vfprintf vprintf vsprintf
   }
+}
+
+miscellaneous2 {
+  HighlightRegexp {^<(\w+,)*\w+>} {}
 }
