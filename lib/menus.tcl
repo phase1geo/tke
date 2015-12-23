@@ -588,7 +588,7 @@ namespace eval menus {
         sidebar::update_directory [sidebar::add_directory [file dirname $fname]]
 
         # Update the old directory
-        if {[set sidebar_index [sidebar::get_index $old_name]] != -1} {
+        if {[set sidebar_index [sidebar::get_index [file dirname $old_name]]] != -1} {
           after idle [list sidebar::update_directory $sidebar_index]
         }
 
@@ -618,6 +618,11 @@ namespace eval menus {
       # Add the file to the editor
       gui::add_file end $dup_fname
 
+      # Update the old directory
+      if {[set sidebar_index [sidebar::get_index [file dirname $dup_fname]]] != -1} {
+        after idle [list sidebar::update_directory $sidebar_index]
+      }
+
       # Allow any plugins to handle the rename
       plugins::handle_on_duplicate $fname $dup_fname
 
@@ -643,7 +648,7 @@ namespace eval menus {
       if {![catch { file delete -force $fname }]} {
 
         # Update the old directory
-        if {[set sidebar_index [sidebar::get_index $fname]] != -1} {
+        if {[set sidebar_index [sidebar::get_index [file dirname $fname]]] != -1} {
           after idle [list sidebar::update_directory $sidebar_index]
         }
 
