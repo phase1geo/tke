@@ -1897,7 +1897,7 @@ namespace eval gui {
   proc close_tab_by_tabbar {w tab} {
 
     # Close the tab specified by tab
-    close_tab {} $tab -tabbar $w 
+    close_tab {} $tab -tabbar $w
 
     return 1
 
@@ -4034,7 +4034,7 @@ namespace eval gui {
   # Jump to the given position in the current text widget.
   proc jump_to {tid pos} {
 
-    jump_to_txt [current_txt $tid]
+    jump_to_txt [current_txt $tid] $pos
 
   }
 
