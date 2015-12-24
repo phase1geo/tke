@@ -180,35 +180,31 @@ namespace eval edit {
 
   ######################################################################
   # Delete all consecutive numbers from cursor to end of line.
-  proc delete_next_numbers {txt} {
+  proc delete_current_number {txtt} {
 
     variable patterns
 
-    if {[[ns multicursor]::enabled $txt]} {
-      [ns multicursor]::delete $txt pattern $patterns(nnumber)
-    } else {
-      if {[regexp $patterns(nnumber) [$txt get insert "insert lineend"] match]} {
-        clipboard clear
-        clipboard append [$txt get insert "insert+[string length $match]c"]
-        $txt delete insert "insert+[string length $match]c"
+    if {[[ns multicursor]::enabled $txtt]} {
+      foreach key [list pnumber nnumber] {
+        [ns multicursor]::delete $txtt pattern $patterns($key)
       }
-    }
-
-  }
-
-  ######################################################################
-  # Deletes all consecutive numbers prior to the cursor.
-  proc delete_prev_numbers {txt} {
-
-    variable patterns
-
-    if {[[ns multicursor]::enabled $txt]} {
-      [ns multicursor]::delete $txt pattern $patterns(pnumber)
     } else {
-      if {[regexp $patterns(pnumber) [$txt get "insert linestart" insert] match]} {
-        clipboard clear
-        clipboard append [$txt get "insert-[string length $match]c" insert]
-        $txt delete "insert-[string length $match]c" insert
+      set first 1
+      if {[regexp $patterns(pnumber) [$txtt get "insert linestart" insert] match]} {
+        if {$first} {
+          clipboard clear
+          set first 0
+        }
+        clipboard append [$txtt get "insert-[string length $match]c" insert]
+        $txtt delete "insert-[string length $match]c" insert
+      }
+      if {[regexp $patterns(nnumber) [$txtt get insert "insert lineend"] match]} {
+        if {$first} {
+          clipboard clear
+          set first 0
+        }
+        clipboard append [$txtt get insert "insert+[string length $match]c"]
+        $txtt delete insert "insert+[string length $match]c"
       }
     }
 
@@ -217,36 +213,29 @@ namespace eval edit {
   ######################################################################
   # Deletes all consecutive whitespace starting from cursor to the end of
   # the line.
-  proc delete_next_space {txt} {
+  proc delete_next_space {txtt} {
 
     variable patterns
 
-    if {[multicursor::enabled $txt]} {
-      [ns multicursor]::delete $txt pattern $patterns(nspace)
-    } else {
-      if {[regexp $patterns(nspace) [$txt get insert "insert lineend"] match]} {
-        clipboard clear
-        clipboard append [$txt get insert "insert+[string length $match]c"]
-        $txt delete insert "insert+[string length $match]c"
-      }
+    if {[multicursor::enabled $txtt]} {
+      [ns multicursor]::delete $txtt pattern $patterns(nspace)
+    } elseif {[regexp $patterns(nspace) [$txtt get insert "insert lineend"] match]} {
+      $txtt delete insert "insert+[string length $match]c"
     }
 
   }
 
   ######################################################################
-  # Deletes all consecutive whitespace prior to the cursor.
-  proc delete_prev_space {txt} {
+  # Deletes all consecutive whitespace starting from cursor to the start
+  # of the line.
+  proc delete_prev_space {txtt} {
 
     variable patterns
 
-    if {[multicursor::enabled $txt]} {
-      [ns multicursor]::delete $txt pattern $patterns(pspace)
-    } else {
-      if {[regexp $patterns(pspace) [$txt get "insert linestart" insert] match]} {
-        clipboard clear
-        clipboard append [$txt get "insert-[string length $match]c" insert]
-        $txt delete "insert-[string length $match]c" insert
-      }
+    if {[multicursor::enabled $txtt]} {
+      [ns multicursor]::delete $txtt pattern $patterns(pspace)
+    } elseif {[regexp $patterns(pspace) [$txtt get "insert linestart" insert] match]} {
+      $txtt delete "insert-[string length $match]c" insert
     }
 
   }

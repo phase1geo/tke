@@ -964,6 +964,9 @@ namespace eval menus {
     $mb.deletePopup add command -label [msgcat::mc "Current Word"] -command [list menus::edit_delete_current_word]
     launcher::register [msgcat::mc "Edit Menu: Delete current word"] [list menus::edit_delete_current_word]
 
+    $mb.deletePopup add command -label [msgcat::mc "Current Number"] -command [list menus::edit_delete_current_number]
+    launcher::register [msgcat::mc "Edit Menu: Delete the current number"] [list menus::edit_delete_current_number]
+
     $mb.deletePopup add separator
 
     $mb.deletePopup add command -label [msgcat::mc "Cursor to Line End"] -command [list menus::edit_delete_to_end]
@@ -974,19 +977,11 @@ namespace eval menus {
 
     $mb.deletePopup add separator
 
-    $mb.deletePopup add command -label [msgcat::mc "Numbers Forward"] -command [list menus::edit_delete_next_numbers]
-    launcher::register [msgcat::mc "Edit Menu: Delete forward numbers"] [list menus::edit_delete_next_numbers]
-
-    $mb.deletePopup add command -label [msgcat::mc "Numbers Backward"] -command [list menus::edit_delete_prev_numbers]
-    launcher::register [msgcat::mc "Edit Menu: Delete backward numbers"] [list menus::edit_delete_prev_numbers]
-
-    $mb.deletePopup add separator
-
     $mb.deletePopup add command -label [msgcat::mc "Whitespace Forward"] -command [list menus::edit_delete_next_space]
-    launcher::register [msgcat::mc "Edit Menu: Delete forward whitespace"] [list menus::edit_delete_next_space]
+    launcher::register [msgcat::mc "Edit Menu: Delete the whitespace to right of cursor"] [list menus::edit_delete_next_space]
 
     $mb.deletePopup add command -label [msgcat::mc "Whitespace Backward"] -command [list menus::edit_delete_prev_space]
-    launcher::register [msgcat::mc "Edit Menu: Delete backward whitespace"] [list menus::edit_delete_prev_space]
+    launcher::register [msgcat::mc "Edit Menu: Delete the whitespace to left of cursor"] [list menus::edit_delete_prev_space]
 
     $mb.deletePopup add separator
 
@@ -1242,6 +1237,25 @@ namespace eval menus {
   }
 
   ######################################################################
+  # Called just prior to posting the edit/delete menu option.  Sets the
+  # menu option states to match the current UI state.
+  proc edit_delete_posting {mb} {
+
+    # Get the state
+    set state [expr {([gui::current_txt {}] eq "") ? "disabled" : "normal"}]
+
+    $mb entryconfigure [msgcat::mc "Current Line"]           -state $state
+    $mb entryconfigure [msgcat::mc "Current Word"]           -state $state
+    $mb entryconfigure [msgcat::mc "Current Number"]         -state $state
+    $mb entryconfigure [msgcat::mc "Cursor to Line End"]     -state $state
+    $mb entryconfigure [msgcat::mc "Cursor from Line Start"] -state $state
+    $mb entryconfigure [msgcat::mc "Whitespace Forward"]     -state $state
+    $mb entryconfigure [msgcat::mc "Whitespace Backward"]    -state $state
+    $mb entryconfigure [msgcat::mc "Text Between Character"] -state $state
+
+  }
+
+  ######################################################################
   # Called just prior to posting the edit/transform menu option.  Sets
   # the menu option states to match the current UI state.
   proc edit_transform_posting {mb} {
@@ -1261,26 +1275,6 @@ namespace eval menus {
     if {[edit::current_line_empty {}]} {
       $mb entryconfigure [msgcat::mc "Replace Line With Script"] -state disabled
     }
-
-  }
-
-  ######################################################################
-  # Called just prior to posting the edit/delete menu option.  Sets the
-  # menu option states to match the current UI state.
-  proc edit_delete_posting {mb} {
-
-    # Get the state
-    set state [expr {([gui::current_txt {}] eq "") ? "disabled" : "normal"}]
-
-    $mb entryconfigure [msgcat::mc "Current Line"]           -state $state
-    $mb entryconfigure [msgcat::mc "Current Word"]           -state $state
-    $mb entryconfigure [msgcat::mc "Cursor to Line End"]     -state $state
-    $mb entryconfigure [msgcat::mc "Cursor from Line Start"] -state $state
-    $mb entryconfigure [msgcat::mc "Numbers Forward"]        -state $state
-    $mb entryconfigure [msgcat::mc "Numbers Backward"]       -state $state
-    $mb entryconfigure [msgcat::mc "Whitespace Forward"]     -state $state
-    $mb entryconfigure [msgcat::mc "Whitespace Backward"]    -state $state
-    $mb entryconfigure [msgcat::mc "Text Between Character"] -state $state
 
   }
 
@@ -1438,19 +1432,10 @@ namespace eval menus {
   }
 
   ######################################################################
-  # Deletes all consecutive numbers starting from cursor to the end of
-  # the line.
-  proc edit_delete_next_numbers {} {
+  # Deletes the current number.
+  proc edit_delete_current_number {} {
 
-    edit::delete_next_numbers [gui::current_txt {}].t
-
-  }
-
-  ######################################################################
-  # Deletes all consecutive numbers prior to the cursor.
-  proc edit_delete_prev_numbers {} {
-
-    edit::delete_prev_numbers [gui::current_txt {}].t
+    edit::delete_current_number [gui::current_txt {}].t
 
   }
 
@@ -1591,11 +1576,11 @@ namespace eval menus {
     $mb add command -label [msgcat::mc "Select Previous Occurrence"] -underline 7 -command [list menus::find_prev_command 0]
     launcher::register [msgcat::mc "Find Menu: Find previous occurrence"] [list menus::find_prev_command 0]
 
-    $mb add command -label [msgcat::mc "Append Next Occurrence"] -underline 1 -command [list menus::find_next_command 1]
-    launcher::register [msgcat::mc "Find Menu: Append next occurrence"] [list menus::find_next_command 1]
-
     $mb add command -label [msgcat::mc "Select All Occurrences"] -underline 7 -command [list menus::find_all_command]
     launcher::register [msgcat::mc "Find Menu: Select all occurrences"] [list menus::find_all_command]
+
+    $mb add command -label [msgcat::mc "Append Next Occurrence"] -underline 1 -command [list menus::find_next_command 1]
+    launcher::register [msgcat::mc "Find Menu: Append next occurrence"] [list menus::find_next_command 1]
 
     $mb add separator
 

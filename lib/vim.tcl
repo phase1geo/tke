@@ -2032,7 +2032,7 @@ namespace eval vim {
       }
       return 1
     } elseif {$mode($txt) eq "delete"} {
-      [ns edit]::delete_next_numbers $txt
+      [ns edit]::delete_current_number $txt
       start_mode $txt
       record_add "Key-n"
       record_stop
@@ -2063,12 +2063,6 @@ namespace eval vim {
           [ns search]::find_next [winfo parent $txt] 0
         }
       }
-      return 1
-    } elseif {$mode($txt) eq "delete"} {
-      [ns edit]::delete_prev_numbers $txt
-      start_mode $txt
-      record_add "Key-N"
-      record_stop
       return 1
     }
 
