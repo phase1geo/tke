@@ -26,6 +26,8 @@ namespace eval indent {
 
   source [file join $::tke_dir lib ns.tcl]
 
+  variable current_indent "IND+"
+
   array set indent_exprs  {}
   array set indent_mode_map {
     "OFF"  "OFF"
@@ -63,6 +65,9 @@ namespace eval indent {
 
     # Update the menu button
     [set [ns gui]::widgets(info_indent)] configure -text $mode
+
+    # Set the focus back to the text widget
+    catch { [ns gui]::set_txt_focus [[ns gui]::last_txt_focus {}] }
 
   }
 
@@ -352,7 +357,7 @@ namespace eval indent {
 
     # Populate the menu with the available languages
     foreach {lbl mode} [list "No Indent" "OFF" "Auto-Indent" "IND" "Smart Indent" "IND+"] {
-      $mnu add radiobutton -label $lbl -variable [ns indent]::indent_exprs([[ns gui]::current_txt {}].t,mode) \
+      $mnu add radiobutton -label $lbl -variable [ns indent]::current_indent \
         -value $mode -command "[ns indent]::set_indent_mode {} $mode"
     }
 
@@ -363,30 +368,31 @@ namespace eval indent {
   ######################################################################
   # Creates the menubutton to control the indentation mode for the current
   # editor.
-  proc create_menubutton {w} {
-
-    # Create the menubutton
-    ttk::menubutton $w -menu $w.menu -direction above
+  proc create_menu {w} {
 
     # Create the menubutton menu
-    menu $w.menu -tearoff 0 -postcommand [list [ns indent]::populate_indent_menu $w.menu]
+    set mnu [menu ${w}Menu -tearoff 0]
 
-    return $w
+    # Populate the indent menu
+    populate_indent_menu $mnu
+
+    return $mnu
 
   }
 
   ######################################################################
   # Updates the menubutton to match the current mode.
-  proc update_menubutton {w} {
+  proc update_button {w} {
 
     variable indent_exprs
+    variable current_indent
 
     # Get the current text widget
-    set txt [[ns gui]::current_txt {}]
+    set txtt [[ns gui]::current_txt {}].t
 
     # Configure the menubutton
-    if {[info exists indent_exprs($txt.t,mode)]} {
-      $w configure -text $indent_exprs($txt.t,mode)
+    if {[info exists indent_exprs($txtt,mode)]} {
+      $w configure -text [set current_indent $indent_exprs($txtt,mode)]
     }
 
   }

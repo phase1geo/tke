@@ -147,6 +147,20 @@ namespace eval theme {
     set widgets($category) [list]
   }
 
+  # Add a few styles to the default (light) theme
+  ttk::style theme settings clam {
+
+    # BButton
+    ttk::style configure BButton [ttk::style configure TButton]
+    ttk::style configure BButton -anchor center -padding 2 -relief flat
+    ttk::style map       BButton [ttk::style map TButton]
+    ttk::style layout    BButton [ttk::style layout TButton]
+
+  }
+
+  # Use the clam style by default
+  ttk::style theme use clam
+
   ######################################################################
   # Registers the given widget as the given type.
   proc register_widget {w type} {
@@ -1075,6 +1089,9 @@ namespace eval theme {
       # Configure panedwindow sash widgets
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
+      # Configure separator
+      ttk::style configure TSeparator -relief raised
+
     }
 
   }
@@ -1185,17 +1202,6 @@ namespace eval theme {
   ######################################################################
   # Initializes the themes list.
   proc create_ttk_theme {name} {
-
-    # Add a few styles to the default (light) theme
-    ttk::style theme settings clam {
-
-      # BButton
-      ttk::style configure BButton [ttk::style configure TButton]
-      ttk::style configure BButton -anchor center -padding 2 -relief flat
-      ttk::style map       BButton [ttk::style map TButton]
-      ttk::style layout    BButton [ttk::style layout TButton]
-
-    }
 
     # Create the theme
     ttk::style theme create $name -parent clam

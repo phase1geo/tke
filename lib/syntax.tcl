@@ -26,7 +26,8 @@ namespace eval syntax {
 
   source [file join $::tke_dir lib ns.tcl]
 
-  variable filetypes {}
+  variable filetypes    {}
+  variable current_lang "None"
 
   array set lang_template {
     filepatterns       {}
@@ -218,7 +219,11 @@ namespace eval syntax {
   # Sets the syntax language for the current text widget.
   proc set_current_language {language args} {
 
+    # Set the language of the current buffer
     set_language [[ns gui]::current_txt {}] $language {*}$args
+
+    # Set the focus back to the text editor
+    [ns gui]::set_txt_focus [[ns gui]::last_txt_focus {}]
 
   }
 
@@ -458,10 +463,10 @@ namespace eval syntax {
     $mnu delete 0 end
 
     # Populate the menu with the available languages
-    $mnu add radiobutton -label "<[msgcat::mc None]>" -variable [ns syntax]::curr_lang([[ns gui]::current_txt {}]) \
-      -value "<[msgcat::mc None]>" -command [list [ns syntax]::set_current_language <None>]
+    $mnu add radiobutton -label [format "<%s>" [msgcat::mc None]] -variable [ns syntax]::current_lang \
+      -value [msgcat::mc "None"] -command [list [ns syntax]::set_current_language <None>]
     foreach lang [lsort [array names langs]] {
-      $mnu add radiobutton -label $lang -variable [ns syntax]::curr_lang([[ns gui]::current_txt {}]) \
+      $mnu add radiobutton -label $lang -variable [ns syntax]::current_lang \
         -value $lang -command [list [ns syntax]::set_current_language $lang]
     }
 
@@ -471,26 +476,29 @@ namespace eval syntax {
 
   ######################################################################
   # Create a menubutton containing a list of all available languages.
-  proc create_menubutton {w} {
-
-    # Create the menubutton
-    ttk::menubutton $w -menu $w.menu -direction above
+  proc create_menu {w} {
 
     # Create the menubutton menu
-    menu $w.menu -tearoff 0 -postcommand "[ns syntax]::populate_syntax_menu $w.menu"
+    set mnu [menu ${w}Menu -tearoff 0]
 
-    return $w
+    # Populate the syntax menu
+    populate_syntax_menu $mnu
+
+    return $mnu
 
   }
 
   ######################################################################
   # Updates the menubutton with the current language.
-  proc update_menubutton {w} {
+  proc update_button {w} {
 
     variable curr_lang
 
+    # Save the current language
+    set current_lang $curr_lang([[ns gui]::current_txt {}])
+
     # Configures the current language for the specified text widget
-    $w configure -text $curr_lang([[ns gui]::current_txt {}])
+    $w configure -text $current_lang
 
   }
 
@@ -538,7 +546,7 @@ namespace eval syntax {
     variable curr_lang
 
     # Get the current language
-    if {[set language $curr_lang([[ns gui]::current_txt $tid])] eq "None"} {
+    if {[set language $curr_lang([[ns gui]::current_txt $tid])] eq [msgcat::mc "None"]} {
       return [list]
     } else {
       array set lang_array $langs($language)
@@ -555,7 +563,7 @@ namespace eval syntax {
     variable curr_lang
 
     # Get the current language
-    if {[set language $curr_lang($txt)] eq "None"} {
+    if {[set language $curr_lang($txt)] eq [msgcat::mc "None"]} {
       return 1
     } else {
       array set lang_array $langs($language)
@@ -572,7 +580,7 @@ namespace eval syntax {
     variable curr_lang
 
     # Get the current language
-    if {[set language $curr_lang($txt)] eq "None"} {
+    if {[set language $curr_lang($txt)] eq [msgcat::mc "None"]} {
       return [list [list] [list] [list]]
     } else {
       array set lang_array $langs($language)
