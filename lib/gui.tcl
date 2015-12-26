@@ -270,16 +270,25 @@ namespace eval gui {
     # Create the information bar
     set widgets(info)        [ttk::frame .if]
     set widgets(info_state)  [ttk::label .if.l1]
+    ttk::separator .if.s1 -orient vertical
     set widgets(info_msg)    [ttk::label .if.l2]
-    set widgets(info_indent) [[ns indent]::create_menubutton .if.ind]
-    set widgets(info_syntax) [[ns syntax]::create_menubutton .if.syn]
+    ttk::separator .if.s2 -orient vertical
+    set widgets(info_indent) [ttk::button .if.ind -style BButton -command [list [ns gui]::handle_info_menu_popup .if.ind [[ns indent]::create_menu .if.ind]]]
+    ttk::separator .if.s3 -orient vertical
+    set widgets(info_syntax) [ttk::button .if.syn -style BButton -command [list [ns gui]::handle_info_menu_popup .if.syn [[ns syntax]::create_menu .if.syn]]]
+    ttk::label     .if.sp -text " "
 
+    $widgets(info_indent) configure -state disabled
     $widgets(info_syntax) configure -state disabled
 
     pack .if.l1  -side left  -padx 2 -pady 2
+    pack .if.s1  -side left  -padx 2 -pady 10 -fill y
     pack .if.l2  -side left  -padx 2 -pady 2
+    pack .if.sp  -side right -padx 2 -pady 2
     pack .if.syn -side right -padx 2 -pady 2
+    pack .if.s3  -side right -padx 2 -pady 10 -fill y
     pack .if.ind -side right -padx 2 -pady 2
+    pack .if.s2  -side right -padx 2 -pady 10 -fill y
 
     # Create the configurable response widget
     set widgets(ursp)       [ttk::frame .rf]
@@ -375,6 +384,23 @@ namespace eval gui {
     # Create general UI bindings
     bind all <Control-plus>  "[ns gui]::handle_font_change 1"
     bind all <Control-minus> "[ns gui]::handle_font_change -1"
+
+  }
+
+  ######################################################################
+  # Handles any menu popups that are needed in the information bar
+  proc handle_info_menu_popup {w mnu} {
+
+    set menu_width  [winfo reqwidth $mnu]
+    set menu_height [winfo reqheight $mnu]
+    set w_width     [winfo width $w]
+    set w_x         [winfo rootx $w]
+    set w_y         [winfo rooty $w]
+
+    set x [expr ($w_x + $w_width) - $menu_width]
+    set y [expr $w_y - ($menu_height + 4)]
+
+    tk_popup $mnu $x $y
 
   }
 
@@ -3297,6 +3323,7 @@ namespace eval gui {
 
     # Make the tabbar visible and the syntax menubutton enabled
     grid $tb
+    $widgets(info_indent) configure -state normal
     $widgets(info_syntax) configure -state normal
 
     # Create the tab frame
@@ -4306,11 +4333,11 @@ namespace eval gui {
     # Set the line and row information
     update_position $txt
 
-    # Set the syntax menubutton to the current language
-    [ns syntax]::update_menubutton $widgets(info_syntax)
-
     # Update the indentation indicator
-    [ns indent]::update_menubutton $widgets(info_indent)
+    [ns indent]::update_button $widgets(info_indent)
+
+    # Set the syntax menubutton to the current language
+    [ns syntax]::update_button $widgets(info_syntax)
 
     # Set the application title bar
     set_title
