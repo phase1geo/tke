@@ -212,7 +212,7 @@ namespace eval snippets {
 
   ######################################################################
   # Inserts the given snippet contents at the current insertion point.
-  proc insert_snippet {txtt snippet} {
+  proc insert_snippet {txtt snippet {delete 1}} {
 
     variable tabpoints
 
@@ -225,8 +225,10 @@ namespace eval snippets {
     # Call the snippet parser
     if {[set result [parse_snippet $txtt $snippet]] ne ""} {
 
-      # Delete the last_word
-      $txtt delete "insert-1c wordstart" "insert-1c wordend"
+      # Delete the last_word, if specified
+      if {$delete} {
+        $txtt delete "insert-1c wordstart" "insert-1c wordend"
+      }
 
       # Insert the text
       $txtt insert insert {*}$result

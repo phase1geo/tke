@@ -1161,7 +1161,6 @@ namespace eval gui {
   # Adds a new file to the editor pane.
   #
   # Several options are available:
-  # -savecommand <command>  Optional command that is run when the file is saved.
   # -lock        <bool>     Initial lock setting.
   # -readonly    <bool>     Set if file should not be saveable.
   # -sidebar     <bool>     Specifies if file/directory should be added to the sidebar.

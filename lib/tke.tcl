@@ -111,6 +111,7 @@ source [file join $tke_dir lib diff.tcl]
 source [file join $tke_dir lib sessions.tcl]
 source [file join $tke_dir lib search.tcl]
 source [file join $tke_dir lib scroller.tcl]
+source [file join $tke_dir lib templates.tcl]
 
 if {[tk windowingsystem] eq "aqua"} {
   source [file join $tke_dir lib windowlist.tcl]
@@ -409,6 +410,9 @@ if {[catch {
 
   # Load the favorites information
   favorites::load
+
+  # Load the template information
+  templates::preload
 
   # Set the delay to 1 second
   tooltip::tooltip delay 1000
