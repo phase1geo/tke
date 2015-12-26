@@ -116,7 +116,7 @@ namespace eval menus {
 
         set mb ".menubar.plugins"
         $mb insert 3 separator
-        $mb insert 4 command -label [msgcat::mc "Create..."] -underline 0 -command "plugins::create_new_plugin"
+        $mb insert 4 command -label [format "%s..." [msgcat::mc "Create"]] -underline 0 -command "plugins::create_new_plugin"
 
         launcher::register [msgcat::mc "Plugins Menu: Create new plugin"] "plugins::create_new_plugin"
 
@@ -230,12 +230,15 @@ namespace eval menus {
     $mb add command -label [msgcat::mc "New File"] -underline 0 -command [list menus::new_file_command]
     launcher::register [msgcat::mc "File Menu: New file"] [list menus::new_file_command]
 
+    $mb add command -label [format "%s..." [msgcat::mc "New From Template"]] -underline 9 -command [list templates::show_templates load]
+    launcher::register [msgcat::mc "File Menu: New file from template"] [list templates::show_templates load]
+
     $mb add separator
 
-    $mb add command -label [msgcat::mc "Open File..."] -underline 0 -command [list menus::open_command]
+    $mb add command -label [format "%s..." [msgcat::mc "Open File"]] -underline 0 -command [list menus::open_command]
     launcher::register [msgcat::mc "File Menu: Open file"] [list menus::open_command]
 
-    $mb add command -label [msgcat::mc "Open Directory..."] -underline 5 -command [list menus::open_dir_command]
+    $mb add command -label [format "%s..." [msgcat::mc "Open Directory"]] -underline 5 -command [list menus::open_dir_command]
     launcher::register [msgcat::mc "File Menu: Open directory"] [list menus::open_dir_command]
 
     $mb add cascade -label [msgcat::mc "Open Recent"] -menu [menu $mb.recent -tearoff false -postcommand [list menus::file_recent_posting $mb.recent]]
@@ -262,10 +265,13 @@ namespace eval menus {
     $mb add command -label [msgcat::mc "Save"] -underline 0 -command [list menus::save_command]
     launcher::register [msgcat::mc "File Menu: Save file"] [list menus::save_command]
 
-    $mb add command -label [msgcat::mc "Save As..."] -underline 5 -command [list menus::save_as_command]
+    $mb add command -label [format "%s..." [msgcat::mc "Save As"]] -underline 5 -command [list menus::save_as_command]
     launcher::register [msgcat::mc "File Menu: Save file as"] menus::save_as_command
 
-    $mb add command -label [msgcat::mc "Save Selection As..."] -underline 7 -command [list menus::save_selection_as_command]
+    $mb add command -label [format "%s..." [msgcat::mc "Save As Template"]] -command [list templates::save_as]
+    launcher::register [msgcat::mc "File Menu: Save file as template"] [list templates::save_as]
+
+    $mb add command -label [format "%s..." [msgcat::mc "Save Selection As"]] -underline 7 -command [list menus::save_selection_as_command]
     launcher::register [msgcat::mc "File Menu: Save selected lines"] [list menus::save_selection_as_command]
 
     $mb add command -label [msgcat::mc "Save All"] -underline 6 -command [list gui::save_all]
@@ -346,36 +352,40 @@ namespace eval menus {
       }
 
       # Make sure that the file-specific items are enabled
-      $mb entryconfigure [msgcat::mc "Reopen File"]          -state $buffer_state
-      $mb entryconfigure [msgcat::mc "Show File Difference"] -state $buffer_state
-      $mb entryconfigure [msgcat::mc "Save"]                 -state normal
-      $mb entryconfigure [msgcat::mc "Save As..."]           -state normal
-      $mb entryconfigure [msgcat::mc "Save Selection As..."] -state [expr {[gui::selected {}] ? "normal" : "disabled"}]
-      $mb entryconfigure [msgcat::mc "Save All"]             -state normal
-      $mb entryconfigure [msgcat::mc "Rename"]               -state $buffer_state
-      $mb entryconfigure [msgcat::mc "Duplicate"]            -state $buffer_state
-      $mb entryconfigure [msgcat::mc "Delete"]               -state $buffer_state
-      $mb entryconfigure [msgcat::mc "Close"]                -state normal
-      $mb entryconfigure [msgcat::mc "Close All"]            -state normal
+      $mb entryconfigure [msgcat::mc "Reopen File"]                        -state $buffer_state
+      $mb entryconfigure [msgcat::mc "Show File Difference"]               -state $buffer_state
+      $mb entryconfigure [msgcat::mc "Save"]                               -state normal
+      $mb entryconfigure [format "%s..." [msgcat::mc "Save As"]]           -state normal
+      $mb entryconfigure [format "%s..." [msgcat::mc "Save As Template"]]  -state normal
+      $mb entryconfigure [format "%s..." [msgcat::mc "Save Selection As"]] -state [expr {[gui::selected {}] ? "normal" : "disabled"}]
+      $mb entryconfigure [msgcat::mc "Save All"]                           -state normal
+      $mb entryconfigure [msgcat::mc "Rename"]                             -state $buffer_state
+      $mb entryconfigure [msgcat::mc "Duplicate"]                          -state $buffer_state
+      $mb entryconfigure [msgcat::mc "Delete"]                             -state $buffer_state
+      $mb entryconfigure [msgcat::mc "Close"]                              -state normal
+      $mb entryconfigure [msgcat::mc "Close All"]                          -state normal
 
     } else {
 
       # Disable file menu items associated with current tab (since one doesn't currently exist)
-      $mb entryconfigure [msgcat::mc "Reopen File"]          -state disabled
-      $mb entryconfigure [msgcat::mc "Show File Difference"] -state disabled
-      $mb entryconfigure [msgcat::mc "Save"]                 -state disabled
-      $mb entryconfigure [msgcat::mc "Save As..."]           -state disabled
-      $mb entryconfigure [msgcat::mc "Save Selection As..."] -state disabled
-      $mb entryconfigure [msgcat::mc "Save All"]             -state disabled
-      $mb entryconfigure [msgcat::mc "Rename"]               -state disabled
-      $mb entryconfigure [msgcat::mc "Duplicate"]            -state disabled
-      $mb entryconfigure [msgcat::mc "Delete"]               -state disabled
-      $mb entryconfigure [msgcat::mc "Lock"]                 -state disabled
-      $mb entryconfigure [msgcat::mc "Favorite"]             -state disabled
-      $mb entryconfigure [msgcat::mc "Close"]                -state disabled
-      $mb entryconfigure [msgcat::mc "Close All"]            -state disabled
+      $mb entryconfigure [msgcat::mc "Reopen File"]                        -state disabled
+      $mb entryconfigure [msgcat::mc "Show File Difference"]               -state disabled
+      $mb entryconfigure [msgcat::mc "Save"]                               -state disabled
+      $mb entryconfigure [format "%s..." [msgcat::mc "Save As"]]           -state disabled
+      $mb entryconfigure [format "%s..." [msgcat::mc "Save As Template"]]  -state disabled
+      $mb entryconfigure [format "%s..." [msgcat::mc "Save Selection As"]] -state disabled
+      $mb entryconfigure [msgcat::mc "Save All"]                           -state disabled
+      $mb entryconfigure [msgcat::mc "Rename"]                             -state disabled
+      $mb entryconfigure [msgcat::mc "Duplicate"]                          -state disabled
+      $mb entryconfigure [msgcat::mc "Delete"]                             -state disabled
+      $mb entryconfigure [msgcat::mc "Lock"]                               -state disabled
+      $mb entryconfigure [msgcat::mc "Favorite"]                           -state disabled
+      $mb entryconfigure [msgcat::mc "Close"]                              -state disabled
+      $mb entryconfigure [msgcat::mc "Close All"]                          -state disabled
 
     }
+
+    $mb entryconfigure [format "%s..." [msgcat::mc "New From Template"]] -state [expr {[templates::valid] ? "normal" : "disabled"}]
 
     # Configure the Open Recent menu
     if {([preferences::get View/ShowRecentlyOpened] == 0) || (([llength [gui::get_last_opened]] == 0) && ([llength [sidebar::get_last_opened]] == 0))} {
@@ -468,6 +478,14 @@ namespace eval menus {
   proc new_file_command {} {
 
     gui::add_new_file end -sidebar 1
+
+  }
+
+  ######################################################################
+  # Displays the templates in the command launcher.
+  proc new_file_from_template {} {
+
+    templates::show_templates load
 
   }
 
@@ -836,6 +854,7 @@ namespace eval menus {
     $mb add cascade -label [msgcat::mc "Preferences"]   -menu [menu $mb.prefPopup -tearoff 0 -postcommand [list menus::edit_preferences_posting $mb.prefPopup]]
     $mb add cascade -label [msgcat::mc "Menu Bindings"] -menu [menu $mb.bindPopup -tearoff 0]
     $mb add cascade -label [msgcat::mc "Snippets"]      -menu [menu $mb.snipPopup -tearoff 0 -postcommand [list menus::edit_snippets_posting $mb.snipPopup]]
+    $mb add cascade -label [msgcat::mc "Templates"]     -menu [menu $mb.tempPopup -tearoff 0 -postcommand [list menus::edit_templates_posting $mb.tempPopup]]
 
     ###########################
     # Populate indentation menu
@@ -1082,6 +1101,21 @@ namespace eval menus {
     $mb.snipPopup add command -label [msgcat::mc "Reload"] -command "snippets::reload_snippets {}"
     launcher::register [msgcat::mc "Edit Menu: Reload snippets"] "snippets::reload_snippets {}"
 
+    #########################
+    # Populate templates menu
+    #########################
+
+    $mb.tempPopup add command -label [msgcat::mc "Edit"] -command [list templates::show_templates edit]
+    launcher::register [msgcat::mc "Edit Menu: Edit template"] [list templates::show_templates edit]
+
+    $mb.tempPopup add command -label [msgcat::mc "Delete"] -command [list templates::show_templates delete]
+    launcher::register [msgcat::mc "Edit Menu: Delete template"] [list templates::show_templates delete]
+
+    $mb.tempPopup add separator
+
+    $mb.tempPopup add command -label [msgcat::mc "Reload"] -command [list templates::preload]
+    launcher::register [msgcat::mc "Edit Menu: Reload template information"] [list templates::preload]
+
   }
 
   ######################################################################
@@ -1311,6 +1345,18 @@ namespace eval menus {
     } else {
       $mb entryconfigure [msgcat::mc "Edit Language"] -state normal
     }
+
+  }
+
+  ######################################################################
+  # Called just prior to posting the edit/templates bindings menu option.
+  # Sets the menu option states to match the current UI state.
+  proc edit_templates_posting {mb} {
+
+    set state [expr {[templates::valid] ? "normal" : "disabled"}]
+
+    $mb entryconfigure [msgcat::mc "Edit"]   -state $state
+    $mb entryconfigure [msgcat::mc "Delete"] -state $state
 
   }
 
@@ -2433,10 +2479,10 @@ namespace eval menus {
   proc add_plugins {mb} {
 
     # Add plugins menu commands
-    $mb add command -label [msgcat::mc "Install..."] -underline 0 -command "plugins::install"
+    $mb add command -label [format "%s..." [msgcat::mc "Install"]] -underline 0 -command "plugins::install"
     launcher::register [msgcat::mc "Plugins Menu: Install plugin"] "plugins::install"
 
-    $mb add command -label [msgcat::mc "Uninstall..."] -underline 0 -command "plugins::uninstall"
+    $mb add command -label [format "%s..." [msgcat::mc "Uninstall"]] -underline 0 -command "plugins::uninstall"
     launcher::register [msgcat::mc "Plugins Menu: Uninstall plugin"] "plugins::uninstall"
 
     $mb add command -label [msgcat::mc "Reload"] -underline 0 -command "plugins::reload"
