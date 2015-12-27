@@ -1407,6 +1407,24 @@ namespace eval sidebar {
   }
 
   ######################################################################
+  # Returns the list of files that are currently visible.
+  proc get_shown_files {} {
+
+    variable widgets
+
+    set files [list]
+
+    for {set i 0} {$i < [$widgets(tl) size]} {incr i} {
+      if {[file isfile [set name [$widgets(tl) cellcget $i,name -text]]]} {
+        lappend files [list [$widgets(tl) cellcget $i,name -text] $i]
+      }
+    }
+
+    return $files
+
+  }
+
+  ######################################################################
   # Returns a list of files specifically for use in the "find in files"
   # function.
   proc get_fif_files {} {
