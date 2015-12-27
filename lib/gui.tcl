@@ -1233,7 +1233,7 @@ namespace eval gui {
       lset files $file_index $files_index(buffer)   0
       lset files $file_index $files_index(save_cmd) ""
       return 1
-    } elseif {[set sfile [prompt_for_save]] ne ""} {
+    } elseif {[set save_as [prompt_for_save {}]] ne ""} {
       lset files $file_index $files_index(buffer)   0
       lset files $file_index $files_index(save_cmd) ""
       lset files $file_index $files_index(fname)    $save_as
@@ -1921,8 +1921,10 @@ namespace eval gui {
   # the user clicks on the close button of a tab.
   proc close_tab_by_tabbar {w tab} {
 
-    # Close the tab specified by tab
-    close_tab {} $tab -tabbar $w
+    # Close the tab specified by tab (we don't need to check because the check
+    # will have already been performed with the -checkcommand passed to the
+    # tabbar.
+    close_tab {} $tab -tabbar $w -check 0
 
     return 1
 
