@@ -27,6 +27,7 @@ namespace eval utils {
   source [file join $::tke_dir lib ns.tcl]
 
   variable bin_rx {[\x00-\x08\x0b\x0e-\x1f]}
+  variable eol_rx {\r\n|\n|\r}
 
   array set xignore    {}
   array set xignore_id {}
@@ -95,7 +96,7 @@ namespace eval utils {
           append stack " $arg='$value'"
         }
         append stack \n
-      } 
+      }
     }
 
     return $stack
@@ -580,7 +581,7 @@ namespace eval utils {
 
     # Open the file for reading
     if {[catch { open $fname r } rc]} {
-      return -code error "utils::is_binary: $err"
+      return -code error "utils::is_binary: $rc"
     }
 
     # Read the first 1024 bytes
@@ -590,6 +591,26 @@ namespace eval utils {
 
     # If the code segment contains any of the characters in bin_rx, indicate that it is a binary file
     return [regexp $bin_rx $test]
+
+  }
+
+  ######################################################################
+  # Returns crlf, lf or cr to specify which EOL character was used for the
+  # given file.
+  proc get_eol_char {fname} {
+
+    variable eol_rx
+
+    if {[catch { open $fname r } rc]} {
+      return -code error "utils::get_eol_char: $rc"
+    }
+
+    # Read the first 1024 bytes
+    fconfigure $rc -translation binary -buffersize 1024 -buffering full
+    set test [read $rc 1024]
+    close $rc
+
+    return [string map {\{ {} \} {} \r\n crlf \n lf \r cr} [regexp -inline $eol_rx $test]]
 
   }
 
