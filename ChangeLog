@@ -1,70 +1,112 @@
-changeset:   1621:56d80622edf9
-tag:         devel-2.0.6
+changeset:   1629:752f589f6e95
+tag:         devel-2.0.7
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Dec 22 09:10:44 2015 -0600
+date:        Wed Dec 23 01:29:35 2015 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.0.6 release
+ChangeLog for devel-2.0.7 release
 
 
-changeset:   1622:d9248a9ceaf0
+changeset:   1630:8275715e48a1
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Dec 22 09:10:51 2015 -0600
+date:        Wed Dec 23 01:29:39 2015 -0600
 files:       .hgtags
 description:
-Added tag devel-2.0.6 for changeset 56d80622edf9
+Added tag devel-2.0.7 for changeset 752f589f6e95
 
 
-changeset:   1623:0f6451604038
+changeset:   1631:f50fa4f2cd8e
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Tue Dec 22 11:43:51 2015 -0600
-files:       lib/gui.tcl lib/ptwidgets1.2/library/tabbar.tcl lib/version.tcl
+date:        Wed Dec 23 15:39:08 2015 -0600
+files:       data/syntax/C++.syntax data/syntax/Lex.syntax data/syntax/Yacc.syntax lib/version.tcl
 description:
-* Fixing tab and text focus issues.
+* Adding Lex and Yacc syntax highlighting support.
+* Re-colorizing C-specific functions in C++ syntax highlighter.
 
 
-changeset:   1624:28d72d9ef8d0
+changeset:   1632:f65d3b3ea1e0
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Tue Dec 22 17:15:54 2015 -0600
-files:       data/syntax/C++.syntax lib/menus.tcl lib/plugins.tcl lib/version.tcl
+date:        Wed Dec 23 16:09:48 2015 -0600
+files:       lib/gui.tcl lib/version.tcl
 description:
-* Adding try and catch keywords to C++ syntax.
-* Hardening plugins code.
-* Adding ability to rename, duplicate and delete the current file from the File menu.
+* Fixing bug in gui::jump_to procedure.
 
 
-changeset:   1625:2851e6e70acb
+changeset:   1633:85363e363cc5
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Dec 22 21:10:15 2015 -0600
+date:        Wed Dec 23 23:59:19 2015 -0600
+files:       lib/edit.tcl lib/menus.tcl lib/version.tcl lib/vim.tcl
+description:
+* Changing "Delete / Numbers Forward" and "Delete / Numbers Backward" to "Delete / Current Number" in Edit menu.
+* Reordering the "Select All Occurrences" and "Append Next Occurrence" Find menu items.
+* Removing "dN" Vim command and changing "dn" to delete the current number.
+
+
+changeset:   1634:b69caa0185e5
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Dec 26 00:21:05 2015 -0600
+files:       lib/gui.tcl lib/menus.tcl lib/snippets.tcl lib/templates.tcl lib/tke.tcl lib/version.tcl
+description:
+* Adding support for file templates.
+
+
+changeset:   1635:ba8a0b709168
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Dec 26 15:53:10 2015 -0600
+files:       lib/gui.tcl lib/indent.tcl lib/syntax.tcl lib/theme.tcl lib/version.tcl
+description:
+* Adding separators between information bar widgets.
+* Switching out menubuttons for normal buttons.
+* Improving performance of syntax menu items.
+
+
+changeset:   1636:1e45c7917510
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Dec 26 23:22:20 2015 -0600
+files:       lib/gui.tcl lib/version.tcl
+description:
+* Fixing two bugs related to closing a modified tab.
+
+
+changeset:   1637:1a766f68782a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Dec 27 00:18:45 2015 -0600
+files:       lib/launcher.tcl lib/sidebar.tcl lib/version.tcl
+description:
+* Adding ability to open shown files in the sidebar.
+
+
+changeset:   1638:a39d8416cbed
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Dec 27 00:48:43 2015 -0600
+files:       data/syntax/C#.syntax lib/version.tcl
+description:
+* Adding C# syntax highlighter file.
+
+
+changeset:   1639:f192abde94cd
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Dec 27 23:13:47 2015 -0600
+files:       data/preferences.tkedat lib/gui.tcl lib/menus.tcl lib/utils.tcl lib/version.tcl
+description:
+* Adding detection of EOL translation character.
+* Allow the user to change the EOL character from the File menu.
+
+
+changeset:   1640:e68a0860d8c0
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Dec 27 23:18:06 2015 -0600
 files:       lib/menus.tcl lib/version.tcl
 description:
-* Fixing sidebar updating with duplicate and deletion menu commands.
+* Modifications to line ending menu.
 
 
-changeset:   1626:da2261cc8ffe
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Dec 23 00:36:34 2015 -0600
-files:       lib/launcher.tcl lib/version.tcl lib/vim.tcl
-description:
-* Fixing command launcher issue with snippets.
-* Fixing usage of Control-Button-1, Shift-Button-1 and Double-Shift-Button-1 functions in editor.
-
-
-changeset:   1627:02011e13f726
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Dec 23 00:44:59 2015 -0600
-files:       lib/version.tcl lib/vim.tcl
-description:
-* Fixing usage of Triple-Button-1 and Triple-Shift-Button-1 usage in text widget.
-
-
-changeset:   1628:08c5a4347436
+changeset:   1641:488e0cc01b7d
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Dec 23 01:26:38 2015 -0600
-files:       lib/format_lexer.tcl lib/format_parser.tac lib/format_parser.tcl lib/snip_parser.tac lib/snip_parser.tcl lib/snippets.tcl lib/version.tcl
+date:        Sun Dec 27 23:54:36 2015 -0600
+files:       data/syntax/Fortran.syntax lib/version.tcl
 description:
-* Fixing SELECTED_TEXT snippet usage when there is no selected text.
-* Code updates.
+* Adding initial version of syntax parser for Fortran.
 
 
