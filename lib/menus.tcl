@@ -277,6 +277,8 @@ namespace eval menus {
     $mb add command -label [msgcat::mc "Save All"] -underline 6 -command [list gui::save_all]
     launcher::register [msgcat::mc "File Menu: Save all files"] [list gui::save_all]
 
+    $mb add separator
+
     $mb add cascade -label [msgcat::mc "Line Ending"] -menu [menu $mb.eolPopup -tearoff 0 -postcommand [list menus::file_eol_posting $mb.eolPopup]]
 
     $mb add separator
@@ -316,9 +318,9 @@ namespace eval menus {
     launcher::register [msgcat::mc "File Menu: Quit application"] [list menus::exit_command]
 
     # Populate the end-of-line menu
-    $mb.eolPopup add radiobutton -label [msgcat::mc "Windows"]       -variable menus::line_ending -value "crlf" -command [list gui::set_current_eol_translation crlf]
-    $mb.eolPopup add radiobutton -label [msgcat::mc "Mac OS X/Unix"] -variable menus::line_ending -value "lf"   -command [list gui::set_current_eol_translation lf]
-    $mb.eolPopup add radiobutton -label [msgcat::mc "Classic Mac"]   -variable menus::line_ending -value "cr"   -command [list gui::set_current_eol_translation cr]
+    $mb.eolPopup add radiobutton -label [msgcat::mc "Windows"]     -variable menus::line_ending -value "crlf" -command [list gui::set_current_eol_translation crlf]
+    $mb.eolPopup add radiobutton -label [msgcat::mc "Unix"]        -variable menus::line_ending -value "lf"   -command [list gui::set_current_eol_translation lf]
+    $mb.eolPopup add radiobutton -label [msgcat::mc "Classic Mac"] -variable menus::line_ending -value "cr"   -command [list gui::set_current_eol_translation cr]
 
   }
 
