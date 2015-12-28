@@ -5,6 +5,7 @@ var searchData=
   ['widget_5fcommand',['widget_command',['../namespaceinterpreter.html#a3af5906f1038a93e00bf56118325eb4f',1,'interpreter::widget_command()'],['../namespacescroller.html#acf3e053e319add70fe593323b1261bac',1,'scroller::widget_command()']]],
   ['widget_5fwin',['widget_win',['../namespaceinterpreter.html#a63d53241af4b5e27861e9011859ddecc',1,'interpreter']]],
   ['window_5fexists',['window_exists',['../namespacethemer.html#aeca929ea8cab764a5ffa7e2dc9a51f7d',1,'themer']]],
+  ['window_5fgeometry',['window_geometry',['../tke_8tcl.html#a800d6fdb213739e5a7f515146ce43f80',1,'tke.tcl']]],
   ['windowmenu',['windowMenu',['../namespacewindowlist.html#a3dcf58cabfd65f7a5d24f1064559aecb',1,'windowlist']]],
   ['winfo_5fcommand',['winfo_command',['../namespaceinterpreter.html#a9bea0692a0ce05dff7c73c7192ca20b7',1,'interpreter']]],
   ['wm_5fcommand',['wm_command',['../namespaceinterpreter.html#a3915536c9c16359161aef46682d22ee1',1,'interpreter']]],

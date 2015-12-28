@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="tke_logo_128.gif"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">TKE
-   &#160;<span id="projectnumber">2.0</span>
+   &#160;<span id="projectnumber">2.1</span>
    </div>
    <div id="projectbrief">Advanced editor written in Tcl/Tk</div>
   </td>
@@ -516,7 +516,7 @@ Functions</h2></td></tr>
       </div>
 <div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;
       </div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;      <span class="keyword">return</span> [<a class="code" href="namespacegui.html#a46701c4914967b76c136627eccd38c35" title="gui::current_file">gui::current_file</a>]<span class="comment">
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;      <span class="keyword">return</span> [<span class="keyword">expr</span> {[catch { gui::get_info {} current fileindex } index] ? -1 : $index}]<span class="comment">
 </span></div>
 <div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;<span class="comment"></span>
     </div>
@@ -581,7 +581,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceapi.html">api</a></li><li class="navelem"><a class="el" href="namespaceapi_1_1file.html">file</a></li>
-    <li class="footer">Generated on Sat Dec 5 2015 22:16:39 for TKE by
+    <li class="footer">Generated on Mon Dec 28 2015 01:27:24 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>

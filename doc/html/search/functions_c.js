@@ -22,6 +22,9 @@ var searchData=
   ['modified',['modified',['../namespacectext.html#abf3369939190f2d3f3850be18472e10e',1,'ctext']]],
   ['movable_5fto_5fother_5fpane',['movable_to_other_pane',['../namespacegui.html#adf2a48e7b4fdb1cf82d411586c84273d',1,'gui']]],
   ['move_5fbracket_5fright',['move_bracket_right',['../namespacevim.html#a9b9ab54b5eb71370d640847a78d8f829',1,'vim']]],
+  ['move_5fcursor',['move_cursor',['../namespaceedit.html#a8adb5bba429b6f97a0ae4743c6cfec8b',1,'edit']]],
+  ['move_5fcursor_5fby_5fpage',['move_cursor_by_page',['../namespaceedit.html#a4504e57ce3bedc8ecc6a1d77d88d6b6f',1,'edit']]],
+  ['move_5fcursors',['move_cursors',['../namespaceedit.html#afc3dac4960a4d164da8e083d8e9e4e7b',1,'edit']]],
   ['move_5fdown',['move_down',['../namespacelauncher.html#a5db3d61a5112c47e88aca7d76083e040',1,'launcher']]],
   ['move_5fto_5fpane',['move_to_pane',['../namespacegui.html#aee5980a46f643e459735893ef9ed7103',1,'gui']]],
   ['move_5fup',['move_up',['../namespacelauncher.html#a89f38d08786657af0a56806c5510e4f8',1,'launcher']]]

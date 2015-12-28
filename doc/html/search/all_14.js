@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['uncomment',['uncomment',['../namespacetexttools.html#aca15505272f66063dbbf8f36bac1a097',1,'texttools']]],
+  ['uncomment',['uncomment',['../namespaceedit.html#a6e5d0406c963e905c060bff361a1d9e5',1,'edit']]],
   ['undo',['undo',['../namespacegui.html#ae04da0e79987182442ce8bad3ba607c3',1,'gui::undo()'],['../namespacevim.html#a83bae15bfae3e6fbd741fef10bcd09e9',1,'vim::undo()'],['../namespacectext.html#a82f484c7fcd28988bdefd051f754b112',1,'ctext::undo()']]],
   ['undo_5fdelete',['undo_delete',['../namespacectext.html#a25a89e4fcb24449edb5e38f72d4bcc3e',1,'ctext']]],
   ['undo_5fget_5fcursor_5fhist',['undo_get_cursor_hist',['../namespacectext.html#a30aa07cefec586ed955b987b5a0047cb',1,'ctext']]],
@@ -11,7 +11,7 @@ var searchData=
   ['unfavorite',['unfavorite',['../namespacesidebar.html#a50844571c817c948ddb59b1eba1ccde6',1,'sidebar']]],
   ['unfavorite_5fcommand',['unfavorite_command',['../namespacemenus.html#a4cadb7eed4ee2ec8f45a13ac7c4acf53',1,'menus']]],
   ['unhide_5fscrollbar',['unhide_scrollbar',['../namespacesidebar.html#ad60d0050289f769dd9782ec07092ab18',1,'sidebar']]],
-  ['unindent',['unindent',['../namespacetexttools.html#aa7c5359c14625fbc9e0ff1a42251e334',1,'texttools']]],
+  ['unindent',['unindent',['../namespaceedit.html#ae907e720f4f636385bf3dbc37b85ada2',1,'edit']]],
   ['uninstall',['uninstall',['../namespaceplugins.html#a7e6638690549195ae30259452214057a',1,'plugins']]],
   ['uninstall_5fitem',['uninstall_item',['../namespaceplugins.html#a58e3340348990e2587f743ffdce5b6a7',1,'plugins']]],
   ['unlock_5fcommand',['unlock_command',['../namespacemenus.html#a3b23e5a7602b4e943b05715b08fc9432',1,'menus']]],
@@ -20,6 +20,7 @@ var searchData=
   ['unregister_5fwidget',['unregister_widget',['../namespacetheme.html#a2c6a5c77c9c917510ea8a9666c0fc419',1,'theme']]],
   ['untitled_5fcheck',['untitled_check',['../namespacegui.html#a10f86745102fe7e53794198531a72926',1,'gui']]],
   ['update',['update',['../namespacebgproc.html#adffbcb948ce52666a9610bbdff0ca68f',1,'bgproc']]],
+  ['update_5fbutton',['update_button',['../namespaceindent.html#afc3853bc8d8b9616b15dbad372cbd2a7',1,'indent::update_button()'],['../namespacesyntax.html#ac7d9311ea2ccddffa42f9ad7032d0f02',1,'syntax::update_button()']]],
   ['update_5fcurrent',['update_current',['../namespacegui.html#a24c24c25e52e79bfb9598f3fc16f3ba0',1,'gui']]],
   ['update_5fdiff_5fframe',['update_diff_frame',['../namespacediff.html#ad83dda2ecb6bdfe92a519886fc6c2f1c',1,'diff']]],
   ['update_5fdirectory',['update_directory',['../namespacesidebar.html#a3bfabf0623a5385deb86b9efc700d91a',1,'sidebar']]],
@@ -29,7 +30,6 @@ var searchData=
   ['update_5flangs',['update_langs',['../namespacelang.html#ae3625898886c85a1b6885bf57832a0ad',1,'lang']]],
   ['update_5fmarkers',['update_markers',['../namespacescroller.html#a0205bf6d22a84d8fcefd0c72493f8419',1,'scroller']]],
   ['update_5fmenu_5fhelper',['update_menu_helper',['../namespacetheme.html#aeaa8f6cf45b285b761409bf46cd1b7b4',1,'theme']]],
-  ['update_5fmenubutton',['update_menubutton',['../namespaceindent.html#ae46e652711850b0f3e3e27955193fd1a',1,'indent::update_menubutton()'],['../namespacesyntax.html#a8560e146cd7c367b42a6bb39e693f40e',1,'syntax::update_menubutton()']]],
   ['update_5fmenus',['update_menus',['../namespacebitmap.html#a5ade38645652ba43ea6ccaa3b6412c40',1,'bitmap::update_menus()'],['../namespacetheme.html#a4bb34964e943e50ae97be55cea362efd',1,'theme::update_menus()']]],
   ['update_5fposition',['update_position',['../namespaceembed__tke_1_1gui.html#a8eecc80c28f846e75af64ba4f9590299',1,'embed_tke::gui::update_position()'],['../namespacegui.html#aaa9aa762399174f5f0ec0a9cdc1b3a2f',1,'gui::update_position()']]],
   ['update_5fprefs',['update_prefs',['../namespacepreferences.html#a414f0de02e2481aff333d272d97fa319',1,'preferences']]],
