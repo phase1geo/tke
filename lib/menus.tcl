@@ -277,6 +277,8 @@ namespace eval menus {
     $mb add command -label [msgcat::mc "Save All"] -underline 6 -command [list gui::save_all]
     launcher::register [msgcat::mc "File Menu: Save all files"] [list gui::save_all]
 
+    $mb add cascade -label [msgcat::mc "Line Ending"] -menu [menu $mb.eolPopup -tearoff 0 -postcommand [list menus::file_eol_posting $mb.eolPopup]]
+
     $mb add separator
 
     $mb add command -label [msgcat::mc "Rename"] -underline 4 -command [list menus::rename_command]
@@ -312,6 +314,11 @@ namespace eval menus {
       $mb add command -label [msgcat::mc "Quit"] -underline 0 -command [list menus::exit_command]
     }
     launcher::register [msgcat::mc "File Menu: Quit application"] [list menus::exit_command]
+
+    # Populate the end-of-line menu
+    $mb.eolPopup add radiobutton -label [msgcat::mc "Windows"]       -variable menus::line_ending -value "crlf" -command [list gui::set_current_eol_translation crlf]
+    $mb.eolPopup add radiobutton -label [msgcat::mc "Mac OS X/Unix"] -variable menus::line_ending -value "lf"   -command [list gui::set_current_eol_translation lf]
+    $mb.eolPopup add radiobutton -label [msgcat::mc "Classic Mac"]   -variable menus::line_ending -value "cr"   -command [list gui::set_current_eol_translation cr]
 
   }
 
@@ -455,6 +462,17 @@ namespace eval menus {
         $mb add command -label $path -command "gui::add_file end $path"
       }
     }
+
+  }
+
+  ######################################################################
+  # Called just prior to the EOL menu being posted.
+  proc file_eol_posting {mb} {
+
+    variable line_ending
+
+    # Set the line_ending to the current line ending to use
+    set line_ending [gui::get_info {} current eol]
 
   }
 

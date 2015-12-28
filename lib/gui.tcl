@@ -69,6 +69,7 @@ namespace eval gui {
     diff     10
     tags     11
     loaded   12
+    eol      13
   }
 
   #######################
@@ -1156,6 +1157,7 @@ namespace eval gui {
       lset file_info $files_index(diff)     0
       lset file_info $files_index(tags)     $opts(-tags)
       lset file_info $files_index(loaded)   1
+      lset file_info $files_index(eol)      [get_eol_translation ""]
 
       # Add the file information to the files list
       lappend files $file_info
@@ -1343,6 +1345,7 @@ namespace eval gui {
       lset file_info $files_index(diff)     $opts(-diff)
       lset file_info $files_index(tags)     $opts(-tags)
       lset file_info $files_index(loaded)   0
+      lset file_info $files_index(eol)      [get_eol_translation $fname]
       lappend files $file_info
 
       # Make this tab the currently displayed tab
@@ -1651,6 +1654,38 @@ namespace eval gui {
   }
 
   ######################################################################
+  # Returns the EOL translation to use for the given file.
+  proc get_eol_translation {fname} {
+
+    variable files
+    variable files_index
+
+    set type [expr {($fname eq "") ? "auto" : [[ns preferences]::get Editor/EndOfLineTranslation]}]
+
+    switch $type {
+      orig    { return [utils::get_eol_char $fname] }
+      auto    { return [expr {($::tcl_platform(platform) eq "windows") ? "crlf" : "lf"}] }
+      default { return $type }
+    }
+
+  }
+
+  ######################################################################
+  # Sets the EOL translation setting for the current file to the given value.
+  proc set_current_eol_translation {value} {
+
+    variable files
+    variable files_index
+
+    # Get the file index of the current file
+    set index [get_info {} current fileindex]
+
+    # Set the EOL translation setting
+    lset files $index $files_index(eol) $value
+
+  }
+
+  ######################################################################
   # Saves the current tab contents.  Returns 1 if the save was successful;
   # otherwise, returns a value of 0.
   proc save_current {tid {force 0} {save_as ""}} {
@@ -1728,7 +1763,7 @@ namespace eval gui {
     }
 
     # Write the file contents
-    catch { fconfigure $rc -translation [[ns preferences]::get {Editor/EndOfLineTranslation}] }
+    catch { fconfigure $rc -translation [lindex $files $file_index $files_index(eol)] }
     puts $rc [scrub_text $txt]
     close $rc
 
@@ -1838,7 +1873,7 @@ namespace eval gui {
           }
 
           # Write the file contents
-          catch { fconfigure $rc -translation [[ns preferences]::get {Editor/EndOfLineTranslation}] }
+          catch { fconfigure $rc -translation [lindex $files $i $files_index(eol)] }
           puts $rc [scrub_text $txt]
           close $rc
 

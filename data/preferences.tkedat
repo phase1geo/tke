@@ -139,12 +139,13 @@
 
 # Specifies how the editor should translate newline characters when saving.  The following
 # values are valid:
+#   orig - Detect and use the original end of line character of the file (defaults to auto for new files)
 #   auto - Use the appropriate end of line character depending on the system
 #   cr   - Use a single carriage-return character (i.e., Classic Mac mode)
 #   crlf - Use a carriage-return-linefeed sequence (i.e., Windows mode)
 #   lf   - Use a linefeed character (i.e., Mac OS X/Linux mode)
 
-{Editor/EndOfLineTranslation}     {auto}
+{Editor/EndOfLineTranslation}     {orig}
 
 # Specifies the maximum number of undo operations stored.  Set this value to 0 to get unlimited
 # undo capability.
