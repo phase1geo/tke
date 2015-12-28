@@ -373,7 +373,7 @@ namespace eval menus {
       $mb entryconfigure [format "%s..." [msgcat::mc "Save As Template"]]  -state normal
       $mb entryconfigure [format "%s..." [msgcat::mc "Save Selection As"]] -state [expr {[gui::selected {}] ? "normal" : "disabled"}]
       $mb entryconfigure [msgcat::mc "Save All"]                           -state normal
-      $mb entryconfigure [msgcat::mc "Line Endings"]                       -state normal
+      $mb entryconfigure [msgcat::mc "Line Ending"]                        -state normal
       $mb entryconfigure [msgcat::mc "Rename"]                             -state $buffer_state
       $mb entryconfigure [msgcat::mc "Duplicate"]                          -state $buffer_state
       $mb entryconfigure [msgcat::mc "Delete"]                             -state $buffer_state
@@ -390,7 +390,7 @@ namespace eval menus {
       $mb entryconfigure [format "%s..." [msgcat::mc "Save As Template"]]  -state disabled
       $mb entryconfigure [format "%s..." [msgcat::mc "Save Selection As"]] -state disabled
       $mb entryconfigure [msgcat::mc "Save All"]                           -state disabled
-      $mb entryconfigure [msgcat::mc "Line Endings"]                       -state disabled
+      $mb entryconfigure [msgcat::mc "Line Ending"]                        -state disabled
       $mb entryconfigure [msgcat::mc "Rename"]                             -state disabled
       $mb entryconfigure [msgcat::mc "Duplicate"]                          -state disabled
       $mb entryconfigure [msgcat::mc "Delete"]                             -state disabled
