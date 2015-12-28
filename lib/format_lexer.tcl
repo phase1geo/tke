@@ -248,9 +248,9 @@ proc format_lex {} {
             set ::format_leng [string length $::format_text]
             set format__matched_rule 0
         }
-        # rule 1: \\[luLUEnt\$]
+        # rule 1: \\[luLUEnt\\$]
         if {$::format__state_table($format__current_state) && \
-                [regexp -start $::format__index -indices -line  -- {\A(\\[luLUEnt\$])} $::format__buffer format__match] > 0 && \
+                [regexp -start $::format__index -indices -line  -- {\A(\\[luLUEnt\\$])} $::format__buffer format__match] > 0 && \
                 [lindex $format__match 1] - $::format__index + 1 > $::format_leng} {
             set ::format_text [string range $::format__buffer $::format__index [lindex $format__match 1]]
             set ::format_leng [string length $::format_text]
@@ -355,7 +355,7 @@ set ::format_lval $format_text
     L       { return $::LOWER_BLOCK }
     U       { return $::UPPER_BLOCK }
     E       { return $::END_BLOCK }
-    n       { puts {Found NEWLINE}; return $::NEWLINE }
+    n       { return $::NEWLINE }
     t       { return $::TAB }
     default {
       set ::format_lval $format_text

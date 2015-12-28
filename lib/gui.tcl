@@ -1660,11 +1660,11 @@ namespace eval gui {
     variable files
     variable files_index
 
-    set type [expr {($fname eq "") ? "auto" : [[ns preferences]::get Editor/EndOfLineTranslation]}]
+    set type [expr {($fname eq "") ? "sys" : [[ns preferences]::get Editor/EndOfLineTranslation]}]
 
     switch $type {
-      orig    { return [utils::get_eol_char $fname] }
-      auto    { return [expr {($::tcl_platform(platform) eq "windows") ? "crlf" : "lf"}] }
+      auto    { return [utils::get_eol_char $fname] }
+      sys     { return [expr {($::tcl_platform(platform) eq "windows") ? "crlf" : "lf"}] }
       default { return $type }
     }
 
