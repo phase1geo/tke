@@ -392,15 +392,18 @@ namespace eval snippets {
         $txtt tag add sel {*}$range
         $txtt tag delete snippet_sel_$tabpoints($txtt)
         $txtt mark set insert [lindex $range 1]
+        $txtt see insert
         set tabstart($txtt) [lindex $range 0]
       } elseif {[llength [set range [$txtt tag ranges snippet_mark_$tabpoints($txtt)]]] == 2} {
         $txtt delete {*}$range
         $txtt mark set insert [lindex $range 0]
+        $txtt see insert
         $txtt tag delete snippet_mark_$tabpoints($txtt)
         set tabstart($txtt) [lindex $range 0]
       } elseif {[llength [set range [$txtt tag ranges snippet_mark_0]]] == 2} {
         $txtt delete {*}$range
         $txtt mark set insert [lindex $range 0]
+        $txtt see insert
         $txtt tag delete snippet_mark_0
         set tabstart($txtt) [lindex $range 0]
         set within($txtt)   0
