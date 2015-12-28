@@ -14,8 +14,10 @@ var searchData=
   ['fif_5finsert_5fresults',['fif_insert_results',['../namespacesearch.html#a96695123acff182d6b17d9d89e5347c1',1,'search']]],
   ['fif_5fstart',['fif_start',['../namespacesearch.html#aff77deecbfb95650f1923e3f3fc4d955',1,'search']]],
   ['file_5fcommand',['file_command',['../namespaceinterpreter.html#a9c03b38a5a2fbef566f78e3f6f8d375d',1,'interpreter']]],
+  ['file_5feol_5fposting',['file_eol_posting',['../namespacemenus.html#a1225b63f6ccb21b2c8b9db86884425ee',1,'menus']]],
   ['file_5fexists',['file_exists',['../namespacegui.html#af13ad44f8e14c4a88767bd0e8e60c922',1,'gui']]],
   ['file_5ffavorites_5fposting',['file_favorites_posting',['../namespacemenus.html#a1fd433483111561575bcd46ecdc780cb',1,'menus']]],
+  ['file_5fokay',['file_okay',['../namespacelauncher.html#a275861bf3696b81eb8a2d13d2404cce1',1,'launcher']]],
   ['file_5fposting',['file_posting',['../namespacemenus.html#a38ccf84be7a6735575b2af93f1edd891',1,'menus']]],
   ['file_5frecent_5fposting',['file_recent_posting',['../namespacemenus.html#a7f9cc6f7916c961eb74ac1530600aa60',1,'menus']]],
   ['filter_5fall',['filter_all',['../namespacethemer.html#aa321f434de973b26fa054a435aec8f91',1,'themer']]],
@@ -43,9 +45,10 @@ var searchData=
   ['findnextchar',['findNextChar',['../namespacectext.html#a8117f9361aa84edfac0b9140a16619f2',1,'ctext']]],
   ['findnextspace',['findNextSpace',['../namespacectext.html#ab9626479b18ba8be9ea488e24ad8e58f',1,'ctext']]],
   ['findpreviousspace',['findPreviousSpace',['../namespacectext.html#a48f11218d7058bfb9e2094d9bb0640d5',1,'ctext']]],
+  ['finish',['finish',['../namespacebist.html#a3feb99ec2d9254c90e7460f00b41bae6',1,'bist']]],
   ['flush_5fcommand',['flush_command',['../namespaceinterpreter.html#acfb65eca53b89c98fd412205c8756f0b',1,'interpreter']]],
   ['format_5fcategory_5fvalue',['format_category_value',['../namespacethemer.html#a4b79e6f477560f78a36fe605f2ff53a6',1,'themer']]],
   ['format_5fimage_5fcell',['format_image_cell',['../namespacethemer.html#a4e86f66c81dae9284430e5dba9efa85c',1,'themer']]],
   ['format_5fname',['format_name',['../namespacesidebar.html#aa7d127eab115f31eabf9a457a3725928',1,'sidebar']]],
-  ['format_5ftext',['format_text',['../namespacegui.html#a8b252e594ee5e92b64c73a2583f5a036',1,'gui::format_text()'],['../namespaceindent.html#ad501a046be35a81562b378ae14084ba1',1,'indent::format_text()']]]
+  ['format_5ftext',['format_text',['../namespacegui.html#ac2f93bc5c7efe7da2d83e2fdcb1db766',1,'gui::format_text()'],['../namespaceindent.html#ad501a046be35a81562b378ae14084ba1',1,'indent::format_text()']]]
 ];

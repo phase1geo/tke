@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="tke_logo_128.gif"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">TKE
-   &#160;<span id="projectnumber">2.0</span>
+   &#160;<span id="projectnumber">2.1</span>
    </div>
    <div id="projectbrief">Advanced editor written in Tcl/Tk</div>
   </td>
@@ -1233,778 +1233,817 @@ $(document).ready(function(){initNavTree('launcher_8tcl_source.html','');});
   </div>
 <div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160;  <span class="comment">######################################################################
 </span></div>
-<div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Called whenever the user enters a value
+<div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Validate command for sidebar file opening.
 </span></div>
-<div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> lookup {value mode show_detail} {
+<div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> file_okay {} {
 
     </div>
 <div class="line"><a name="l00535"></a><span class="lineno">  535</span>&#160;
     </div>
-<div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160;    <span class="keyword">variable</span> widgets<span class="comment">
+<div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160;    <span class="keyword">return</span> 1<span class="comment">
 </span></div>
-<div class="line"><a name="l00537"></a><span class="lineno">  537</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> commands<span class="comment">
+<div class="line"><a name="l00537"></a><span class="lineno">  537</span>&#160;<span class="comment"></span>
+  </div>
+<div class="line"><a name="l00538"></a><span class="lineno">  538</span>&#160;  }<span class="comment">
 </span></div>
-<div class="line"><a name="l00538"></a><span class="lineno">  538</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> matches<span class="comment">
+<div class="line"><a name="l00539"></a><span class="lineno">  539</span>&#160;<span class="comment"></span>
+  </div>
+<div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160;  <span class="comment">######################################################################
 </span></div>
-<div class="line"><a name="l00539"></a><span class="lineno">  539</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> options<span class="comment">
+<div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Called whenever the user enters a value
 </span></div>
-<div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> match_commands<span class="comment">
-</span></div>
-<div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> command_names<span class="comment">
-</span></div>
-<div class="line"><a name="l00542"></a><span class="lineno">  542</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> command_values<span class="comment">
-</span></div>
-<div class="line"><a name="l00543"></a><span class="lineno">  543</span>&#160;<span class="comment"></span>
-    </div>
-<div class="line"><a name="l00544"></a><span class="lineno">  544</span>&#160;    <span class="keyword">if</span> {($value ne &quot;&quot;) || ($mode ne &quot;&quot;)} {
+<div class="line"><a name="l00542"></a><span class="lineno">  542</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> lookup {value mode show_detail} {
 
-      </div>
-<div class="line"><a name="l00545"></a><span class="lineno">  545</span>&#160;
-      </div>
-<div class="line"><a name="l00546"></a><span class="lineno">  546</span>&#160;      <span class="comment"># Find all of the matches
+    </div>
+<div class="line"><a name="l00543"></a><span class="lineno">  543</span>&#160;
+    </div>
+<div class="line"><a name="l00544"></a><span class="lineno">  544</span>&#160;    <span class="keyword">variable</span> widgets<span class="comment">
 </span></div>
-<div class="line"><a name="l00547"></a><span class="lineno">  547</span>&#160;<span class="comment"></span><span class="comment">      </span><a class="code" href="namespacelauncher.html#ab689aecefaabfb3c578e59cfca014744" title="launcher::find_matches">find_matches</a> $value $mode<span class="comment">
+<div class="line"><a name="l00545"></a><span class="lineno">  545</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> commands<span class="comment">
 </span></div>
-<div class="line"><a name="l00548"></a><span class="lineno">  548</span>&#160;<span class="comment"></span>
-      </div>
-<div class="line"><a name="l00549"></a><span class="lineno">  549</span>&#160;      <span class="comment"># Get the number of matches
+<div class="line"><a name="l00546"></a><span class="lineno">  546</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> matches<span class="comment">
 </span></div>
-<div class="line"><a name="l00550"></a><span class="lineno">  550</span>&#160;<span class="comment"></span><span class="comment">      </span><span class="keyword">set</span> match_num [<span class="keyword">llength</span> $matches]<span class="comment">
+<div class="line"><a name="l00547"></a><span class="lineno">  547</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> options<span class="comment">
+</span></div>
+<div class="line"><a name="l00548"></a><span class="lineno">  548</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> match_commands<span class="comment">
+</span></div>
+<div class="line"><a name="l00549"></a><span class="lineno">  549</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> command_names<span class="comment">
+</span></div>
+<div class="line"><a name="l00550"></a><span class="lineno">  550</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> command_values<span class="comment">
 </span></div>
 <div class="line"><a name="l00551"></a><span class="lineno">  551</span>&#160;<span class="comment"></span>
+    </div>
+<div class="line"><a name="l00552"></a><span class="lineno">  552</span>&#160;    <span class="keyword">if</span> {($value ne &quot;&quot;) || ($mode ne &quot;&quot;)} {
+
       </div>
-<div class="line"><a name="l00552"></a><span class="lineno">  552</span>&#160;      <span class="comment"># Only display results if we have some to display
+<div class="line"><a name="l00553"></a><span class="lineno">  553</span>&#160;
+      </div>
+<div class="line"><a name="l00554"></a><span class="lineno">  554</span>&#160;      <span class="comment"># Find all of the matches
 </span></div>
-<div class="line"><a name="l00553"></a><span class="lineno">  553</span>&#160;<span class="comment"></span><span class="comment">      </span><span class="keyword">if</span> {$match_num &gt; 0 } {
+<div class="line"><a name="l00555"></a><span class="lineno">  555</span>&#160;<span class="comment"></span><span class="comment">      </span><a class="code" href="namespacelauncher.html#ab689aecefaabfb3c578e59cfca014744" title="launcher::find_matches">find_matches</a> $value $mode<span class="comment">
+</span></div>
+<div class="line"><a name="l00556"></a><span class="lineno">  556</span>&#160;<span class="comment"></span>
+      </div>
+<div class="line"><a name="l00557"></a><span class="lineno">  557</span>&#160;      <span class="comment"># Get the number of matches
+</span></div>
+<div class="line"><a name="l00558"></a><span class="lineno">  558</span>&#160;<span class="comment"></span><span class="comment">      </span><span class="keyword">set</span> match_num [<span class="keyword">llength</span> $matches]<span class="comment">
+</span></div>
+<div class="line"><a name="l00559"></a><span class="lineno">  559</span>&#160;<span class="comment"></span>
+      </div>
+<div class="line"><a name="l00560"></a><span class="lineno">  560</span>&#160;      <span class="comment"># Only display results if we have some to display
+</span></div>
+<div class="line"><a name="l00561"></a><span class="lineno">  561</span>&#160;<span class="comment"></span><span class="comment">      </span><span class="keyword">if</span> {$match_num &gt; 0 } {
 
         </div>
-<div class="line"><a name="l00554"></a><span class="lineno">  554</span>&#160;
+<div class="line"><a name="l00562"></a><span class="lineno">  562</span>&#160;
         </div>
-<div class="line"><a name="l00555"></a><span class="lineno">  555</span>&#160;        <span class="comment"># Limit the match list to the top
+<div class="line"><a name="l00563"></a><span class="lineno">  563</span>&#160;        <span class="comment"># Limit the match list to the top
 </span></div>
-<div class="line"><a name="l00556"></a><span class="lineno">  556</span>&#160;<span class="comment"></span><span class="comment">        </span><span class="keyword">if</span> {$match_num &gt; $options(-results)} {
+<div class="line"><a name="l00564"></a><span class="lineno">  564</span>&#160;<span class="comment"></span><span class="comment">        </span><span class="keyword">if</span> {$match_num &gt; $options(-results)} {
           </div>
-<div class="line"><a name="l00557"></a><span class="lineno">  557</span>&#160;          $widgets(lb) configure -height $options(-results)<span class="comment">
+<div class="line"><a name="l00565"></a><span class="lineno">  565</span>&#160;          $widgets(lb) configure -height $options(-results)<span class="comment">
 </span></div>
-<div class="line"><a name="l00558"></a><span class="lineno">  558</span>&#160;<span class="comment"></span>        } <span class="keyword">else</span> {
+<div class="line"><a name="l00566"></a><span class="lineno">  566</span>&#160;<span class="comment"></span>        } <span class="keyword">else</span> {
           </div>
-<div class="line"><a name="l00559"></a><span class="lineno">  559</span>&#160;          $widgets(lb) configure -height $match_num<span class="comment">
+<div class="line"><a name="l00567"></a><span class="lineno">  567</span>&#160;          $widgets(lb) configure -height $match_num<span class="comment">
 </span></div>
-<div class="line"><a name="l00560"></a><span class="lineno">  560</span>&#160;<span class="comment"></span>        }<span class="comment">
+<div class="line"><a name="l00568"></a><span class="lineno">  568</span>&#160;<span class="comment"></span>        }<span class="comment">
 </span></div>
-<div class="line"><a name="l00561"></a><span class="lineno">  561</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00569"></a><span class="lineno">  569</span>&#160;<span class="comment"></span>
         </div>
-<div class="line"><a name="l00562"></a><span class="lineno">  562</span>&#160;        <span class="comment"># If we need to show detail, display the text widget
+<div class="line"><a name="l00570"></a><span class="lineno">  570</span>&#160;        <span class="comment"># If we need to show detail, display the text widget
 </span></div>
-<div class="line"><a name="l00563"></a><span class="lineno">  563</span>&#160;<span class="comment"></span><span class="comment">        </span><span class="keyword">if</span> {$show_detail} {
+<div class="line"><a name="l00571"></a><span class="lineno">  571</span>&#160;<span class="comment"></span><span class="comment">        </span><span class="keyword">if</span> {$show_detail} {
           </div>
-<div class="line"><a name="l00564"></a><span class="lineno">  564</span>&#160;          <span class="keyword">grid</span> $widgets(txt)<span class="comment">
+<div class="line"><a name="l00572"></a><span class="lineno">  572</span>&#160;          <span class="keyword">grid</span> $widgets(txt)<span class="comment">
 </span></div>
-<div class="line"><a name="l00565"></a><span class="lineno">  565</span>&#160;<span class="comment"></span>        }<span class="comment">
+<div class="line"><a name="l00573"></a><span class="lineno">  573</span>&#160;<span class="comment"></span>        }<span class="comment">
 </span></div>
-<div class="line"><a name="l00566"></a><span class="lineno">  566</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00574"></a><span class="lineno">  574</span>&#160;<span class="comment"></span>
         </div>
-<div class="line"><a name="l00567"></a><span class="lineno">  567</span>&#160;        <span class="comment"># Update the table
+<div class="line"><a name="l00575"></a><span class="lineno">  575</span>&#160;        <span class="comment"># Update the table
 </span></div>
-<div class="line"><a name="l00568"></a><span class="lineno">  568</span>&#160;<span class="comment"></span><span class="comment">        </span><span class="keyword">set</span> match_commands [list]<span class="comment">
+<div class="line"><a name="l00576"></a><span class="lineno">  576</span>&#160;<span class="comment"></span><span class="comment">        </span><span class="keyword">set</span> match_commands [list]<span class="comment">
 </span></div>
-<div class="line"><a name="l00569"></a><span class="lineno">  569</span>&#160;<span class="comment"></span>        <span class="keyword">for</span> {<span class="keyword">set</span> i 0} {$i &lt; $match_num} {<span class="keyword">incr</span> i} {
+<div class="line"><a name="l00577"></a><span class="lineno">  577</span>&#160;<span class="comment"></span>        <span class="keyword">for</span> {<span class="keyword">set</span> i 0} {$i &lt; $match_num} {<span class="keyword">incr</span> i} {
           </div>
-<div class="line"><a name="l00570"></a><span class="lineno">  570</span>&#160;          <span class="keyword">lappend</span> match_commands [<span class="keyword">lindex</span> $commands([<span class="keyword">lindex</span> $matches $i]) $command_values(description)]<span class="comment">
+<div class="line"><a name="l00578"></a><span class="lineno">  578</span>&#160;          <span class="keyword">lappend</span> match_commands [<span class="keyword">lindex</span> $commands([<span class="keyword">lindex</span> $matches $i]) $command_values(description)]<span class="comment">
 </span></div>
-<div class="line"><a name="l00571"></a><span class="lineno">  571</span>&#160;<span class="comment"></span>        }<span class="comment">
-</span></div>
-<div class="line"><a name="l00572"></a><span class="lineno">  572</span>&#160;<span class="comment"></span>
-        </div>
-<div class="line"><a name="l00573"></a><span class="lineno">  573</span>&#160;        <span class="comment"># Bind up/down and return keys
-</span></div>
-<div class="line"><a name="l00574"></a><span class="lineno">  574</span>&#160;<span class="comment"></span><span class="comment">        </span><span class="keyword">bind</span> $widgets(entry) &lt;Up&gt;              &quot;launcher::move_up; break&quot;<span class="comment">
-</span></div>
-<div class="line"><a name="l00575"></a><span class="lineno">  575</span>&#160;<span class="comment"></span>        <span class="keyword">bind</span> $widgets(entry) &lt;Down&gt;            &quot;launcher::move_down; break&quot;<span class="comment">
-</span></div>
-<div class="line"><a name="l00576"></a><span class="lineno">  576</span>&#160;<span class="comment"></span>        <span class="keyword">bind</span> $widgets(entry) &lt;Return&gt;          &quot;launcher::execute&quot;<span class="comment">
-</span></div>
-<div class="line"><a name="l00577"></a><span class="lineno">  577</span>&#160;<span class="comment"></span>        <span class="keyword">bind</span> $widgets(entry) &lt;Escape&gt;          &quot;destroy $widgets(win)&quot;<span class="comment">
-</span></div>
-<div class="line"><a name="l00578"></a><span class="lineno">  578</span>&#160;<span class="comment"></span>        <span class="keyword">bind</span> $widgets(lb)    &lt;Motion&gt;          &quot;launcher::select_motion %W %x %y&quot;<span class="comment">
-</span></div>
-<div class="line"><a name="l00579"></a><span class="lineno">  579</span>&#160;<span class="comment"></span>        <span class="keyword">bind</span> $widgets(lb)    &lt;&lt;ListboxSelect&gt;&gt; &quot;launcher::execute&quot;<span class="comment">
+<div class="line"><a name="l00579"></a><span class="lineno">  579</span>&#160;<span class="comment"></span>        }<span class="comment">
 </span></div>
 <div class="line"><a name="l00580"></a><span class="lineno">  580</span>&#160;<span class="comment"></span>
         </div>
-<div class="line"><a name="l00581"></a><span class="lineno">  581</span>&#160;        <span class="comment"># Set tablelist selection to the first entry
+<div class="line"><a name="l00581"></a><span class="lineno">  581</span>&#160;        <span class="comment"># Bind up/down and return keys
 </span></div>
-<div class="line"><a name="l00582"></a><span class="lineno">  582</span>&#160;<span class="comment"></span><span class="comment">        </span><a class="code" href="namespacelauncher.html#a9378f65f314c30175a60d4f1f4a4d08f" title="launcher::select">select</a> 0<span class="comment">
+<div class="line"><a name="l00582"></a><span class="lineno">  582</span>&#160;<span class="comment"></span><span class="comment">        </span><span class="keyword">bind</span> $widgets(entry) &lt;Up&gt;              &quot;launcher::move_up; break&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00583"></a><span class="lineno">  583</span>&#160;<span class="comment"></span>
-        </div>
-<div class="line"><a name="l00584"></a><span class="lineno">  584</span>&#160;        <span class="comment"># Pack the listbox, if it isn&#39;t already
+<div class="line"><a name="l00583"></a><span class="lineno">  583</span>&#160;<span class="comment"></span>        <span class="keyword">bind</span> $widgets(entry) &lt;Down&gt;            &quot;launcher::move_down; break&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00585"></a><span class="lineno">  585</span>&#160;<span class="comment"></span><span class="comment">        </span><span class="keyword">if</span> {[<span class="keyword">catch</span> &quot;<span class="keyword">pack</span> info $widgets(mf)&quot;]} {
-          </div>
-<div class="line"><a name="l00586"></a><span class="lineno">  586</span>&#160;          <span class="keyword">pack</span> $widgets(mf) -fill both -expand yes<span class="comment">
+<div class="line"><a name="l00584"></a><span class="lineno">  584</span>&#160;<span class="comment"></span>        <span class="keyword">bind</span> $widgets(entry) &lt;Return&gt;          &quot;launcher::execute&quot;<span class="comment">
 </span></div>
-<div class="line"><a name="l00587"></a><span class="lineno">  587</span>&#160;<span class="comment"></span>        }<span class="comment">
+<div class="line"><a name="l00585"></a><span class="lineno">  585</span>&#160;<span class="comment"></span>        <span class="keyword">bind</span> $widgets(entry) &lt;Escape&gt;          &quot;destroy $widgets(win)&quot;<span class="comment">
+</span></div>
+<div class="line"><a name="l00586"></a><span class="lineno">  586</span>&#160;<span class="comment"></span>        <span class="keyword">bind</span> $widgets(lb)    &lt;Motion&gt;          &quot;launcher::select_motion %W %x %y&quot;<span class="comment">
+</span></div>
+<div class="line"><a name="l00587"></a><span class="lineno">  587</span>&#160;<span class="comment"></span>        <span class="keyword">bind</span> $widgets(lb)    &lt;&lt;ListboxSelect&gt;&gt; &quot;launcher::execute&quot;<span class="comment">
 </span></div>
 <div class="line"><a name="l00588"></a><span class="lineno">  588</span>&#160;<span class="comment"></span>
+        </div>
+<div class="line"><a name="l00589"></a><span class="lineno">  589</span>&#160;        <span class="comment"># Set tablelist selection to the first entry
+</span></div>
+<div class="line"><a name="l00590"></a><span class="lineno">  590</span>&#160;<span class="comment"></span><span class="comment">        </span><a class="code" href="namespacelauncher.html#a9378f65f314c30175a60d4f1f4a4d08f" title="launcher::select">select</a> 0<span class="comment">
+</span></div>
+<div class="line"><a name="l00591"></a><span class="lineno">  591</span>&#160;<span class="comment"></span>
+        </div>
+<div class="line"><a name="l00592"></a><span class="lineno">  592</span>&#160;        <span class="comment"># Pack the listbox, if it isn&#39;t already
+</span></div>
+<div class="line"><a name="l00593"></a><span class="lineno">  593</span>&#160;<span class="comment"></span><span class="comment">        </span><span class="keyword">if</span> {[<span class="keyword">catch</span> &quot;<span class="keyword">pack</span> info $widgets(mf)&quot;]} {
+          </div>
+<div class="line"><a name="l00594"></a><span class="lineno">  594</span>&#160;          <span class="keyword">pack</span> $widgets(mf) -fill both -expand yes<span class="comment">
+</span></div>
+<div class="line"><a name="l00595"></a><span class="lineno">  595</span>&#160;<span class="comment"></span>        }<span class="comment">
+</span></div>
+<div class="line"><a name="l00596"></a><span class="lineno">  596</span>&#160;<span class="comment"></span>
       </div>
-<div class="line"><a name="l00589"></a><span class="lineno">  589</span>&#160;      } <span class="keyword">else</span> {
+<div class="line"><a name="l00597"></a><span class="lineno">  597</span>&#160;      } <span class="keyword">else</span> {
 
         </div>
-<div class="line"><a name="l00590"></a><span class="lineno">  590</span>&#160;
+<div class="line"><a name="l00598"></a><span class="lineno">  598</span>&#160;
         </div>
-<div class="line"><a name="l00591"></a><span class="lineno">  591</span>&#160;        <span class="comment"># Remove the results frame
+<div class="line"><a name="l00599"></a><span class="lineno">  599</span>&#160;        <span class="comment"># Remove the results frame
 </span></div>
-<div class="line"><a name="l00592"></a><span class="lineno">  592</span>&#160;<span class="comment"></span><span class="comment">        </span><span class="keyword">pack</span> forget $widgets(mf)<span class="comment">
-</span></div>
-<div class="line"><a name="l00593"></a><span class="lineno">  593</span>&#160;<span class="comment"></span>
-        </div>
-<div class="line"><a name="l00594"></a><span class="lineno">  594</span>&#160;        <span class="comment"># Unbind up and down arrows
-</span></div>
-<div class="line"><a name="l00595"></a><span class="lineno">  595</span>&#160;<span class="comment"></span><span class="comment">        </span><span class="keyword">bind</span> $widgets(entry) &lt;Up&gt;     &quot;&quot;<span class="comment">
-</span></div>
-<div class="line"><a name="l00596"></a><span class="lineno">  596</span>&#160;<span class="comment"></span>        <span class="keyword">bind</span> $widgets(entry) &lt;Down&gt;   &quot;&quot;<span class="comment">
-</span></div>
-<div class="line"><a name="l00597"></a><span class="lineno">  597</span>&#160;<span class="comment"></span>        <span class="keyword">bind</span> $widgets(entry) &lt;Return&gt; &quot;destroy $widgets(win)&quot;<span class="comment">
-</span></div>
-<div class="line"><a name="l00598"></a><span class="lineno">  598</span>&#160;<span class="comment"></span>        <span class="keyword">bind</span> $widgets(entry) &lt;Escape&gt; &quot;destroy $widgets(win)&quot;<span class="comment">
-</span></div>
-<div class="line"><a name="l00599"></a><span class="lineno">  599</span>&#160;<span class="comment"></span>
-      </div>
-<div class="line"><a name="l00600"></a><span class="lineno">  600</span>&#160;      }<span class="comment">
+<div class="line"><a name="l00600"></a><span class="lineno">  600</span>&#160;<span class="comment"></span><span class="comment">        </span><span class="keyword">pack</span> forget $widgets(mf)<span class="comment">
 </span></div>
 <div class="line"><a name="l00601"></a><span class="lineno">  601</span>&#160;<span class="comment"></span>
+        </div>
+<div class="line"><a name="l00602"></a><span class="lineno">  602</span>&#160;        <span class="comment"># Unbind up and down arrows
+</span></div>
+<div class="line"><a name="l00603"></a><span class="lineno">  603</span>&#160;<span class="comment"></span><span class="comment">        </span><span class="keyword">bind</span> $widgets(entry) &lt;Up&gt;     &quot;&quot;<span class="comment">
+</span></div>
+<div class="line"><a name="l00604"></a><span class="lineno">  604</span>&#160;<span class="comment"></span>        <span class="keyword">bind</span> $widgets(entry) &lt;Down&gt;   &quot;&quot;<span class="comment">
+</span></div>
+<div class="line"><a name="l00605"></a><span class="lineno">  605</span>&#160;<span class="comment"></span>        <span class="keyword">bind</span> $widgets(entry) &lt;Return&gt; &quot;destroy $widgets(win)&quot;<span class="comment">
+</span></div>
+<div class="line"><a name="l00606"></a><span class="lineno">  606</span>&#160;<span class="comment"></span>        <span class="keyword">bind</span> $widgets(entry) &lt;Escape&gt; &quot;destroy $widgets(win)&quot;<span class="comment">
+</span></div>
+<div class="line"><a name="l00607"></a><span class="lineno">  607</span>&#160;<span class="comment"></span>
+      </div>
+<div class="line"><a name="l00608"></a><span class="lineno">  608</span>&#160;      }<span class="comment">
+</span></div>
+<div class="line"><a name="l00609"></a><span class="lineno">  609</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00602"></a><span class="lineno">  602</span>&#160;    } <span class="keyword">else</span> {
+<div class="line"><a name="l00610"></a><span class="lineno">  610</span>&#160;    } <span class="keyword">else</span> {
 
       </div>
-<div class="line"><a name="l00603"></a><span class="lineno">  603</span>&#160;
+<div class="line"><a name="l00611"></a><span class="lineno">  611</span>&#160;
       </div>
-<div class="line"><a name="l00604"></a><span class="lineno">  604</span>&#160;      <span class="comment"># Remove the results frame
+<div class="line"><a name="l00612"></a><span class="lineno">  612</span>&#160;      <span class="comment"># Remove the results frame
 </span></div>
-<div class="line"><a name="l00605"></a><span class="lineno">  605</span>&#160;<span class="comment"></span><span class="comment">      </span><span class="keyword">pack</span> forget $widgets(mf)<span class="comment">
-</span></div>
-<div class="line"><a name="l00606"></a><span class="lineno">  606</span>&#160;<span class="comment"></span>
-      </div>
-<div class="line"><a name="l00607"></a><span class="lineno">  607</span>&#160;      <span class="comment"># Unbind up and down arrows
-</span></div>
-<div class="line"><a name="l00608"></a><span class="lineno">  608</span>&#160;<span class="comment"></span><span class="comment">      </span><span class="keyword">bind</span> $widgets(entry) &lt;Up&gt;     &quot;&quot;<span class="comment">
-</span></div>
-<div class="line"><a name="l00609"></a><span class="lineno">  609</span>&#160;<span class="comment"></span>      <span class="keyword">bind</span> $widgets(entry) &lt;Down&gt;   &quot;&quot;<span class="comment">
-</span></div>
-<div class="line"><a name="l00610"></a><span class="lineno">  610</span>&#160;<span class="comment"></span>      <span class="keyword">bind</span> $widgets(entry) &lt;Return&gt; &quot;destroy $widgets(win)&quot;<span class="comment">
-</span></div>
-<div class="line"><a name="l00611"></a><span class="lineno">  611</span>&#160;<span class="comment"></span>      <span class="keyword">bind</span> $widgets(entry) &lt;Escape&gt; &quot;destroy $widgets(win)&quot;<span class="comment">
-</span></div>
-<div class="line"><a name="l00612"></a><span class="lineno">  612</span>&#160;<span class="comment"></span>
-    </div>
-<div class="line"><a name="l00613"></a><span class="lineno">  613</span>&#160;    }<span class="comment">
+<div class="line"><a name="l00613"></a><span class="lineno">  613</span>&#160;<span class="comment"></span><span class="comment">      </span><span class="keyword">pack</span> forget $widgets(mf)<span class="comment">
 </span></div>
 <div class="line"><a name="l00614"></a><span class="lineno">  614</span>&#160;<span class="comment"></span>
+      </div>
+<div class="line"><a name="l00615"></a><span class="lineno">  615</span>&#160;      <span class="comment"># Unbind up and down arrows
+</span></div>
+<div class="line"><a name="l00616"></a><span class="lineno">  616</span>&#160;<span class="comment"></span><span class="comment">      </span><span class="keyword">bind</span> $widgets(entry) &lt;Up&gt;     &quot;&quot;<span class="comment">
+</span></div>
+<div class="line"><a name="l00617"></a><span class="lineno">  617</span>&#160;<span class="comment"></span>      <span class="keyword">bind</span> $widgets(entry) &lt;Down&gt;   &quot;&quot;<span class="comment">
+</span></div>
+<div class="line"><a name="l00618"></a><span class="lineno">  618</span>&#160;<span class="comment"></span>      <span class="keyword">bind</span> $widgets(entry) &lt;Return&gt; &quot;destroy $widgets(win)&quot;<span class="comment">
+</span></div>
+<div class="line"><a name="l00619"></a><span class="lineno">  619</span>&#160;<span class="comment"></span>      <span class="keyword">bind</span> $widgets(entry) &lt;Escape&gt; &quot;destroy $widgets(win)&quot;<span class="comment">
+</span></div>
+<div class="line"><a name="l00620"></a><span class="lineno">  620</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00615"></a><span class="lineno">  615</span>&#160;    <span class="keyword">return</span> 1<span class="comment">
+<div class="line"><a name="l00621"></a><span class="lineno">  621</span>&#160;    }<span class="comment">
 </span></div>
-<div class="line"><a name="l00616"></a><span class="lineno">  616</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00622"></a><span class="lineno">  622</span>&#160;<span class="comment"></span>
+    </div>
+<div class="line"><a name="l00623"></a><span class="lineno">  623</span>&#160;    <span class="keyword">return</span> 1<span class="comment">
+</span></div>
+<div class="line"><a name="l00624"></a><span class="lineno">  624</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l00617"></a><span class="lineno">  617</span>&#160;  }<span class="comment">
+<div class="line"><a name="l00625"></a><span class="lineno">  625</span>&#160;  }<span class="comment">
 </span></div>
-<div class="line"><a name="l00618"></a><span class="lineno">  618</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00626"></a><span class="lineno">  626</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l00619"></a><span class="lineno">  619</span>&#160;  <span class="comment">############################################################################
+<div class="line"><a name="l00627"></a><span class="lineno">  627</span>&#160;  <span class="comment">############################################################################
 </span></div>
-<div class="line"><a name="l00620"></a><span class="lineno">  620</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Updates the contents of the matches array which contains all of the entries
+<div class="line"><a name="l00628"></a><span class="lineno">  628</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Updates the contents of the matches array which contains all of the entries
 </span></div>
-<div class="line"><a name="l00621"></a><span class="lineno">  621</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># that match the given user input.
+<div class="line"><a name="l00629"></a><span class="lineno">  629</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># that match the given user input.
 </span></div>
-<div class="line"><a name="l00622"></a><span class="lineno">  622</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> find_matches {str mode} {
+<div class="line"><a name="l00630"></a><span class="lineno">  630</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> find_matches {str mode} {
 
     </div>
-<div class="line"><a name="l00623"></a><span class="lineno">  623</span>&#160;
+<div class="line"><a name="l00631"></a><span class="lineno">  631</span>&#160;
     </div>
-<div class="line"><a name="l00624"></a><span class="lineno">  624</span>&#160;    <span class="keyword">variable</span> commands<span class="comment">
+<div class="line"><a name="l00632"></a><span class="lineno">  632</span>&#160;    <span class="keyword">variable</span> commands<span class="comment">
 </span></div>
-<div class="line"><a name="l00625"></a><span class="lineno">  625</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> command_names<span class="comment">
+<div class="line"><a name="l00633"></a><span class="lineno">  633</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> command_names<span class="comment">
 </span></div>
-<div class="line"><a name="l00626"></a><span class="lineno">  626</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> command_values<span class="comment">
+<div class="line"><a name="l00634"></a><span class="lineno">  634</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> command_values<span class="comment">
 </span></div>
-<div class="line"><a name="l00627"></a><span class="lineno">  627</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> matches<span class="comment">
+<div class="line"><a name="l00635"></a><span class="lineno">  635</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> matches<span class="comment">
 </span></div>
-<div class="line"><a name="l00628"></a><span class="lineno">  628</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> curr_states<span class="comment">
+<div class="line"><a name="l00636"></a><span class="lineno">  636</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> curr_states<span class="comment">
 </span></div>
-<div class="line"><a name="l00629"></a><span class="lineno">  629</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> last_url<span class="comment">
+<div class="line"><a name="l00637"></a><span class="lineno">  637</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> last_url<span class="comment">
 </span></div>
-<div class="line"><a name="l00630"></a><span class="lineno">  630</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00638"></a><span class="lineno">  638</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00631"></a><span class="lineno">  631</span>&#160;    <span class="keyword">set</span> matches [list]<span class="comment">
+<div class="line"><a name="l00639"></a><span class="lineno">  639</span>&#160;    <span class="keyword">set</span> matches [list]<span class="comment">
 </span></div>
-<div class="line"><a name="l00632"></a><span class="lineno">  632</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00640"></a><span class="lineno">  640</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00633"></a><span class="lineno">  633</span>&#160;    <span class="keyword">if</span> {$mode eq &quot;&quot;} {
+<div class="line"><a name="l00641"></a><span class="lineno">  641</span>&#160;    <span class="keyword">if</span> {$mode eq &quot;&quot;} {
 
       </div>
-<div class="line"><a name="l00634"></a><span class="lineno">  634</span>&#160;
+<div class="line"><a name="l00642"></a><span class="lineno">  642</span>&#160;
       </div>
-<div class="line"><a name="l00635"></a><span class="lineno">  635</span>&#160;      <span class="keyword">switch</span>  [<span class="keyword">string</span> index $str 0] {
+<div class="line"><a name="l00643"></a><span class="lineno">  643</span>&#160;      <span class="keyword">switch</span>  [<span class="keyword">string</span> index $str 0] {
         &quot;</div>
-<div class="line"><a name="l00636"></a><span class="lineno">  636</span>&#160;        &quot;@&quot; {
+<div class="line"><a name="l00644"></a><span class="lineno">  644</span>&#160;        &quot;@&quot; {
           </div>
-<div class="line"><a name="l00637"></a><span class="lineno">  637</span>&#160;          <span class="keyword">if</span> {[<span class="keyword">llength</span> [<span class="keyword">array</span> names commands [<a class="code" href="namespacelauncher.html#aa22236396e14d59255c44300d16fdcd8" title="launcher::get_command_name">get_command_name</a> * launcher::symbol_okay 1]]] == 0} {
+<div class="line"><a name="l00645"></a><span class="lineno">  645</span>&#160;          <span class="keyword">if</span> {[<span class="keyword">llength</span> [<span class="keyword">array</span> names commands [<a class="code" href="namespacelauncher.html#aa22236396e14d59255c44300d16fdcd8" title="launcher::get_command_name">get_command_name</a> * launcher::symbol_okay 1]]] == 0} {
             </div>
-<div class="line"><a name="l00638"></a><span class="lineno">  638</span>&#160;            <a class="code" href="namespacelauncher.html#adbf4499997ce07bc3051f87f0cf24eb6" title="launcher::unregister">unregister</a> * * 1<span class="comment">
+<div class="line"><a name="l00646"></a><span class="lineno">  646</span>&#160;            <a class="code" href="namespacelauncher.html#adbf4499997ce07bc3051f87f0cf24eb6" title="launcher::unregister">unregister</a> * * 1<span class="comment">
 </span></div>
-<div class="line"><a name="l00639"></a><span class="lineno">  639</span>&#160;<span class="comment"></span>            <span class="keyword">set</span> i 0<span class="comment">
+<div class="line"><a name="l00647"></a><span class="lineno">  647</span>&#160;<span class="comment"></span>            <span class="keyword">set</span> i 0<span class="comment">
 </span></div>
-<div class="line"><a name="l00640"></a><span class="lineno">  640</span>&#160;<span class="comment"></span>            <span class="keyword">foreach</span> {procedure pos} [<a class="code" href="namespacegui.html#aed0d9924d06ab8f3a2779c03cbb820de" title="gui::get_symbol_list">gui::get_symbol_list</a> {}] {
+<div class="line"><a name="l00648"></a><span class="lineno">  648</span>&#160;<span class="comment"></span>            <span class="keyword">foreach</span> {procedure pos} [<a class="code" href="namespacegui.html#aed0d9924d06ab8f3a2779c03cbb820de" title="gui::get_symbol_list">gui::get_symbol_list</a> {}] {
               </div>
-<div class="line"><a name="l00641"></a><span class="lineno">  641</span>&#160;              <span class="keyword">lappend</span> matches [<a class="code" href="namespacelauncher.html#a7d526a0670350706a4b468613c152235" title="launcher::register_temp">register_temp</a> &quot;@$procedure&quot; &quot;gui::jump_to {} $pos&quot; $procedure $i &quot;&quot; launcher::symbol_okay]<span class="comment">
+<div class="line"><a name="l00649"></a><span class="lineno">  649</span>&#160;              <span class="keyword">lappend</span> matches [<a class="code" href="namespacelauncher.html#a7d526a0670350706a4b468613c152235" title="launcher::register_temp">register_temp</a> &quot;@$procedure&quot; [list gui::jump_to {} $pos] $procedure $i &quot;&quot; launcher::symbol_okay]<span class="comment">
 </span></div>
-<div class="line"><a name="l00642"></a><span class="lineno">  642</span>&#160;<span class="comment"></span>              <span class="keyword">incr</span> i<span class="comment">
+<div class="line"><a name="l00650"></a><span class="lineno">  650</span>&#160;<span class="comment"></span>              <span class="keyword">incr</span> i<span class="comment">
 </span></div>
-<div class="line"><a name="l00643"></a><span class="lineno">  643</span>&#160;<span class="comment"></span>            }<span class="comment">
+<div class="line"><a name="l00651"></a><span class="lineno">  651</span>&#160;<span class="comment"></span>            }<span class="comment">
 </span></div>
-<div class="line"><a name="l00644"></a><span class="lineno">  644</span>&#160;<span class="comment"></span>          }<span class="comment">
+<div class="line"><a name="l00652"></a><span class="lineno">  652</span>&#160;<span class="comment"></span>          }<span class="comment">
 </span></div>
-<div class="line"><a name="l00645"></a><span class="lineno">  645</span>&#160;<span class="comment"></span>        }
+<div class="line"><a name="l00653"></a><span class="lineno">  653</span>&#160;<span class="comment"></span>        }
         </div>
-<div class="line"><a name="l00646"></a><span class="lineno">  646</span>&#160;        &quot;,&quot; {
+<div class="line"><a name="l00654"></a><span class="lineno">  654</span>&#160;        &quot;,&quot; {
           </div>
-<div class="line"><a name="l00647"></a><span class="lineno">  647</span>&#160;          <span class="keyword">if</span> {[<span class="keyword">llength</span> [<span class="keyword">array</span> names commands [<a class="code" href="namespacelauncher.html#aa22236396e14d59255c44300d16fdcd8" title="launcher::get_command_name">get_command_name</a> * launcher::marker_okay 1]]] == 0} {
+<div class="line"><a name="l00655"></a><span class="lineno">  655</span>&#160;          <span class="keyword">if</span> {[<span class="keyword">llength</span> [<span class="keyword">array</span> names commands [<a class="code" href="namespacelauncher.html#aa22236396e14d59255c44300d16fdcd8" title="launcher::get_command_name">get_command_name</a> * launcher::marker_okay 1]]] == 0} {
             </div>
-<div class="line"><a name="l00648"></a><span class="lineno">  648</span>&#160;            <a class="code" href="namespacelauncher.html#adbf4499997ce07bc3051f87f0cf24eb6" title="launcher::unregister">unregister</a> * * 1<span class="comment">
+<div class="line"><a name="l00656"></a><span class="lineno">  656</span>&#160;            <a class="code" href="namespacelauncher.html#adbf4499997ce07bc3051f87f0cf24eb6" title="launcher::unregister">unregister</a> * * 1<span class="comment">
 </span></div>
-<div class="line"><a name="l00649"></a><span class="lineno">  649</span>&#160;<span class="comment"></span>            <span class="keyword">set</span> i 0<span class="comment">
+<div class="line"><a name="l00657"></a><span class="lineno">  657</span>&#160;<span class="comment"></span>            <span class="keyword">set</span> i 0<span class="comment">
 </span></div>
-<div class="line"><a name="l00650"></a><span class="lineno">  650</span>&#160;<span class="comment"></span>            <span class="keyword">foreach</span> {marker pos} [<a class="code" href="namespacegui.html#a42422b85fcfcf2cb9b0d1a3a23ddfbe6" title="gui::get_marker_list">gui::get_marker_list</a> {}] {
+<div class="line"><a name="l00658"></a><span class="lineno">  658</span>&#160;<span class="comment"></span>            <span class="keyword">foreach</span> marker [<a class="code" href="namespacegui.html#a3a9cfebdae21fa2225e2bdf3e52aa77b" title="gui::get_marker_list">gui::get_marker_list</a>] {
               </div>
-<div class="line"><a name="l00651"></a><span class="lineno">  651</span>&#160;              <span class="keyword">lappend</span> matches [<a class="code" href="namespacelauncher.html#a7d526a0670350706a4b468613c152235" title="launcher::register_temp">register_temp</a> &quot;,$marker&quot; &quot;gui::jump_to {} $pos&quot; $marker $i &quot;&quot; launcher::marker_okay]<span class="comment">
+<div class="line"><a name="l00659"></a><span class="lineno">  659</span>&#160;              <a class="code" href="tke_8tcl.html#a87a72c8f51e5763f17fa844297d1195c" title="lassign">lassign</a> $marker name txt pos<span class="comment">
 </span></div>
-<div class="line"><a name="l00652"></a><span class="lineno">  652</span>&#160;<span class="comment"></span>              <span class="keyword">incr</span> i<span class="comment">
+<div class="line"><a name="l00660"></a><span class="lineno">  660</span>&#160;<span class="comment"></span>              <span class="keyword">lappend</span> matches [<a class="code" href="namespacelauncher.html#a7d526a0670350706a4b468613c152235" title="launcher::register_temp">register_temp</a> &quot;,$marker&quot; [list gui::jump_to_txt $txt $pos] $name $i &quot;&quot; launcher::marker_okay]<span class="comment">
 </span></div>
-<div class="line"><a name="l00653"></a><span class="lineno">  653</span>&#160;<span class="comment"></span>            }<span class="comment">
+<div class="line"><a name="l00661"></a><span class="lineno">  661</span>&#160;<span class="comment"></span>              <span class="keyword">incr</span> i<span class="comment">
 </span></div>
-<div class="line"><a name="l00654"></a><span class="lineno">  654</span>&#160;<span class="comment"></span>          }<span class="comment">
+<div class="line"><a name="l00662"></a><span class="lineno">  662</span>&#160;<span class="comment"></span>            }<span class="comment">
 </span></div>
-<div class="line"><a name="l00655"></a><span class="lineno">  655</span>&#160;<span class="comment"></span>        }
+<div class="line"><a name="l00663"></a><span class="lineno">  663</span>&#160;<span class="comment"></span>          }<span class="comment">
+</span></div>
+<div class="line"><a name="l00664"></a><span class="lineno">  664</span>&#160;<span class="comment"></span>        }
         </div>
-<div class="line"><a name="l00656"></a><span class="lineno">  656</span>&#160;        &quot;#&quot; {
+<div class="line"><a name="l00665"></a><span class="lineno">  665</span>&#160;        &quot;#&quot; {
           </div>
-<div class="line"><a name="l00657"></a><span class="lineno">  657</span>&#160;          <span class="keyword">if</span> {[<span class="keyword">llength</span> [<span class="keyword">array</span> names commands [<a class="code" href="namespacelauncher.html#aa22236396e14d59255c44300d16fdcd8" title="launcher::get_command_name">get_command_name</a> * launcher::clip_okay 1]]] == 0} {
+<div class="line"><a name="l00666"></a><span class="lineno">  666</span>&#160;          <span class="keyword">if</span> {[<span class="keyword">llength</span> [<span class="keyword">array</span> names commands [<a class="code" href="namespacelauncher.html#aa22236396e14d59255c44300d16fdcd8" title="launcher::get_command_name">get_command_name</a> * launcher::clip_okay 1]]] == 0} {
             </div>
-<div class="line"><a name="l00658"></a><span class="lineno">  658</span>&#160;            <a class="code" href="namespacelauncher.html#adbf4499997ce07bc3051f87f0cf24eb6" title="launcher::unregister">unregister</a> * * 1<span class="comment">
+<div class="line"><a name="l00667"></a><span class="lineno">  667</span>&#160;            <a class="code" href="namespacelauncher.html#adbf4499997ce07bc3051f87f0cf24eb6" title="launcher::unregister">unregister</a> * * 1<span class="comment">
 </span></div>
-<div class="line"><a name="l00659"></a><span class="lineno">  659</span>&#160;<span class="comment"></span>            <span class="keyword">set</span> i 0<span class="comment">
+<div class="line"><a name="l00668"></a><span class="lineno">  668</span>&#160;<span class="comment"></span>            <span class="keyword">set</span> i 0<span class="comment">
 </span></div>
-<div class="line"><a name="l00660"></a><span class="lineno">  660</span>&#160;<span class="comment"></span>            <span class="keyword">foreach</span> strs [<a class="code" href="namespacecliphist.html#a176d9148d825d3b634fc69584109b860" title="cliphist::get_history">cliphist::get_history</a>] {
+<div class="line"><a name="l00669"></a><span class="lineno">  669</span>&#160;<span class="comment"></span>            <span class="keyword">foreach</span> strs [<a class="code" href="namespacecliphist.html#a176d9148d825d3b634fc69584109b860" title="cliphist::get_history">cliphist::get_history</a>] {
               </div>
-<div class="line"><a name="l00661"></a><span class="lineno">  661</span>&#160;              <a class="code" href="tke_8tcl.html#a87a72c8f51e5763f17fa844297d1195c" title="lassign">lassign</a> $strs name str<span class="comment">
+<div class="line"><a name="l00670"></a><span class="lineno">  670</span>&#160;              <a class="code" href="tke_8tcl.html#a87a72c8f51e5763f17fa844297d1195c" title="lassign">lassign</a> $strs name str<span class="comment">
 </span></div>
-<div class="line"><a name="l00662"></a><span class="lineno">  662</span>&#160;<span class="comment"></span>              <span class="keyword">lappend</span> matches [<a class="code" href="namespacelauncher.html#a7d526a0670350706a4b468613c152235" title="launcher::register_temp">register_temp</a> &quot;#$name&quot; [list cliphist::add_to_clipboard $str] $name $i [list cliphist::add_detail $str] launcher::clip_okay]<span class="comment">
+<div class="line"><a name="l00671"></a><span class="lineno">  671</span>&#160;<span class="comment"></span>              <span class="keyword">lappend</span> matches [<a class="code" href="namespacelauncher.html#a7d526a0670350706a4b468613c152235" title="launcher::register_temp">register_temp</a> &quot;#$name&quot; [list cliphist::add_to_clipboard $str] $name $i [list cliphist::add_detail $str] launcher::clip_okay]<span class="comment">
 </span></div>
-<div class="line"><a name="l00663"></a><span class="lineno">  663</span>&#160;<span class="comment"></span>              <span class="keyword">incr</span> i<span class="comment">
+<div class="line"><a name="l00672"></a><span class="lineno">  672</span>&#160;<span class="comment"></span>              <span class="keyword">incr</span> i<span class="comment">
 </span></div>
-<div class="line"><a name="l00664"></a><span class="lineno">  664</span>&#160;<span class="comment"></span>            }<span class="comment">
+<div class="line"><a name="l00673"></a><span class="lineno">  673</span>&#160;<span class="comment"></span>            }<span class="comment">
 </span></div>
-<div class="line"><a name="l00665"></a><span class="lineno">  665</span>&#160;<span class="comment"></span>          }<span class="comment">
+<div class="line"><a name="l00674"></a><span class="lineno">  674</span>&#160;<span class="comment"></span>          }<span class="comment">
 </span></div>
-<div class="line"><a name="l00666"></a><span class="lineno">  666</span>&#160;<span class="comment"></span>        }
+<div class="line"><a name="l00675"></a><span class="lineno">  675</span>&#160;<span class="comment"></span>        }
         </div>
-<div class="line"><a name="l00667"></a><span class="lineno">  667</span>&#160;        &quot;;&quot; {
+<div class="line"><a name="l00676"></a><span class="lineno">  676</span>&#160;        &quot;;&quot; {
           </div>
-<div class="line"><a name="l00668"></a><span class="lineno">  668</span>&#160;          <span class="keyword">if</span> {[<span class="keyword">llength</span> [<span class="keyword">array</span> names commands [<a class="code" href="namespacelauncher.html#aa22236396e14d59255c44300d16fdcd8" title="launcher::get_command_name">get_command_name</a> * launcher::snip_okay 1]]] == 0} {
+<div class="line"><a name="l00677"></a><span class="lineno">  677</span>&#160;          <span class="keyword">if</span> {[<span class="keyword">llength</span> [<span class="keyword">array</span> names commands [<a class="code" href="namespacelauncher.html#aa22236396e14d59255c44300d16fdcd8" title="launcher::get_command_name">get_command_name</a> * launcher::snip_okay 1]]] == 0} {
             </div>
-<div class="line"><a name="l00669"></a><span class="lineno">  669</span>&#160;            <a class="code" href="namespacelauncher.html#adbf4499997ce07bc3051f87f0cf24eb6" title="launcher::unregister">unregister</a> * * 1<span class="comment">
+<div class="line"><a name="l00678"></a><span class="lineno">  678</span>&#160;            <a class="code" href="namespacelauncher.html#adbf4499997ce07bc3051f87f0cf24eb6" title="launcher::unregister">unregister</a> * * 1<span class="comment">
 </span></div>
-<div class="line"><a name="l00670"></a><span class="lineno">  670</span>&#160;<span class="comment"></span>            <span class="keyword">set</span> i 0<span class="comment">
+<div class="line"><a name="l00679"></a><span class="lineno">  679</span>&#160;<span class="comment"></span>            <span class="keyword">set</span> i 0<span class="comment">
 </span></div>
-<div class="line"><a name="l00671"></a><span class="lineno">  671</span>&#160;<span class="comment"></span>            <span class="keyword">foreach</span> snippet [<a class="code" href="namespacesnippets.html#a22e23ef1c8be9eebf46d786b30e0909f" title="snippets::get_current_snippets">snippets::get_current_snippets</a>] {
+<div class="line"><a name="l00680"></a><span class="lineno">  680</span>&#160;<span class="comment"></span>            <span class="keyword">foreach</span> snippet [<a class="code" href="namespacesnippets.html#a22e23ef1c8be9eebf46d786b30e0909f" title="snippets::get_current_snippets">snippets::get_current_snippets</a>] {
               </div>
-<div class="line"><a name="l00672"></a><span class="lineno">  672</span>&#160;              <a class="code" href="tke_8tcl.html#a87a72c8f51e5763f17fa844297d1195c" title="lassign">lassign</a> $snippet name value<span class="comment">
+<div class="line"><a name="l00681"></a><span class="lineno">  681</span>&#160;              <a class="code" href="tke_8tcl.html#a87a72c8f51e5763f17fa844297d1195c" title="lassign">lassign</a> $snippet name value<span class="comment">
 </span></div>
-<div class="line"><a name="l00673"></a><span class="lineno">  673</span>&#160;<span class="comment"></span>              <span class="keyword">lappend</span> matches [<a class="code" href="namespacelauncher.html#a7d526a0670350706a4b468613c152235" title="launcher::register_temp">register_temp</a> &quot;:$name&quot; [list snippets::insert_snippet_into_current {} $value] $name $i &quot;&quot; launcher::snip_okay]<span class="comment">
+<div class="line"><a name="l00682"></a><span class="lineno">  682</span>&#160;<span class="comment"></span>              <span class="keyword">lappend</span> matches [<a class="code" href="namespacelauncher.html#a7d526a0670350706a4b468613c152235" title="launcher::register_temp">register_temp</a> &quot;;$name&quot; [list snippets::insert_snippet_into_current {} $value] $name $i &quot;&quot; launcher::snip_okay]<span class="comment">
 </span></div>
-<div class="line"><a name="l00674"></a><span class="lineno">  674</span>&#160;<span class="comment"></span>              <span class="keyword">incr</span> i<span class="comment">
+<div class="line"><a name="l00683"></a><span class="lineno">  683</span>&#160;<span class="comment"></span>              <span class="keyword">incr</span> i<span class="comment">
 </span></div>
-<div class="line"><a name="l00675"></a><span class="lineno">  675</span>&#160;<span class="comment"></span>            }<span class="comment">
+<div class="line"><a name="l00684"></a><span class="lineno">  684</span>&#160;<span class="comment"></span>            }<span class="comment">
 </span></div>
-<div class="line"><a name="l00676"></a><span class="lineno">  676</span>&#160;<span class="comment"></span>          }<span class="comment">
+<div class="line"><a name="l00685"></a><span class="lineno">  685</span>&#160;<span class="comment"></span>          }<span class="comment">
 </span></div>
-<div class="line"><a name="l00677"></a><span class="lineno">  677</span>&#160;<span class="comment"></span>        }
+<div class="line"><a name="l00686"></a><span class="lineno">  686</span>&#160;<span class="comment"></span>        }
         </div>
-<div class="line"><a name="l00678"></a><span class="lineno">  678</span>&#160;        default {
+<div class="line"><a name="l00687"></a><span class="lineno">  687</span>&#160;        &quot;&gt;&quot; {
           </div>
-<div class="line"><a name="l00679"></a><span class="lineno">  679</span>&#160;          <a class="code" href="namespacelauncher.html#adbf4499997ce07bc3051f87f0cf24eb6" title="launcher::unregister">unregister</a> * * 1<span class="comment">
-</span></div>
-<div class="line"><a name="l00680"></a><span class="lineno">  680</span>&#160;<span class="comment"></span>          <span class="keyword">if</span> {([<span class="keyword">string</span> first {[} $str] == -1) &amp;&amp; [<a class="code" href="namespacelauncher.html#a9a2ee8a65127c82e8c0bc4f58b9fc2aa" title="launcher::handle_calculation">handle_calculation</a> $str]} {
+<div class="line"><a name="l00688"></a><span class="lineno">  688</span>&#160;          <span class="keyword">if</span> {[<span class="keyword">llength</span> [<span class="keyword">array</span> names commands [<a class="code" href="namespacelauncher.html#aa22236396e14d59255c44300d16fdcd8" title="launcher::get_command_name">get_command_name</a> * launcher::file_okay 1]]] == 0} {
             </div>
-<div class="line"><a name="l00681"></a><span class="lineno">  681</span>&#160;            <span class="comment"># Nothing more to do
+<div class="line"><a name="l00689"></a><span class="lineno">  689</span>&#160;            <a class="code" href="namespacelauncher.html#adbf4499997ce07bc3051f87f0cf24eb6" title="launcher::unregister">unregister</a> * * 1<span class="comment">
 </span></div>
-<div class="line"><a name="l00682"></a><span class="lineno">  682</span>&#160;<span class="comment"></span><span class="comment">          </span>} <span class="keyword">elseif</span> {[regexp {^((https?://)?[a-z0-9\-]+\.[a-z0-9\-\.]+(?:/|(?:/[a-zA-Z0-9!#\$%&amp;&#39;\*\+,\-\.:;=\?@\[\]_~]+)*))$} $str -&gt; url]} {
+<div class="line"><a name="l00690"></a><span class="lineno">  690</span>&#160;<span class="comment"></span>            <span class="keyword">set</span> i 0<span class="comment">
+</span></div>
+<div class="line"><a name="l00691"></a><span class="lineno">  691</span>&#160;<span class="comment"></span>            <span class="keyword">foreach</span> finfo [<a class="code" href="namespacesidebar.html#a2bd4252ff59dc810ab45cf9eba62da33" title="sidebar::get_shown_files">sidebar::get_shown_files</a>] {
+              </div>
+<div class="line"><a name="l00692"></a><span class="lineno">  692</span>&#160;              <a class="code" href="tke_8tcl.html#a87a72c8f51e5763f17fa844297d1195c" title="lassign">lassign</a> $finfo name row<span class="comment">
+</span></div>
+<div class="line"><a name="l00693"></a><span class="lineno">  693</span>&#160;<span class="comment"></span>              <span class="keyword">lappend</span> matches [<a class="code" href="namespacelauncher.html#a7d526a0670350706a4b468613c152235" title="launcher::register_temp">register_temp</a> &quot;&gt;$name&quot; [list sidebar::open_file $row] $name $i &quot;&quot; launcher::file_okay]<span class="comment">
+</span></div>
+<div class="line"><a name="l00694"></a><span class="lineno">  694</span>&#160;<span class="comment"></span>            }<span class="comment">
+</span></div>
+<div class="line"><a name="l00695"></a><span class="lineno">  695</span>&#160;<span class="comment"></span>          }<span class="comment">
+</span></div>
+<div class="line"><a name="l00696"></a><span class="lineno">  696</span>&#160;<span class="comment"></span>        }
+        </div>
+<div class="line"><a name="l00697"></a><span class="lineno">  697</span>&#160;        default {
+          </div>
+<div class="line"><a name="l00698"></a><span class="lineno">  698</span>&#160;          <a class="code" href="namespacelauncher.html#adbf4499997ce07bc3051f87f0cf24eb6" title="launcher::unregister">unregister</a> * * 1<span class="comment">
+</span></div>
+<div class="line"><a name="l00699"></a><span class="lineno">  699</span>&#160;<span class="comment"></span>          <span class="keyword">if</span> {([<span class="keyword">string</span> first {[} $str] == -1) &amp;&amp; [<a class="code" href="namespacelauncher.html#a9a2ee8a65127c82e8c0bc4f58b9fc2aa" title="launcher::handle_calculation">handle_calculation</a> $str]} {
             </div>
-<div class="line"><a name="l00683"></a><span class="lineno">  683</span>&#160;            <span class="keyword">lappend</span> matches [<a class="code" href="namespacelauncher.html#a7d526a0670350706a4b468613c152235" title="launcher::register_temp">register_temp</a> &quot;&quot; [list launcher::open_url_and_bookmark $url] &quot;Open URL $url&quot; 0 &quot;&quot; launcher::url_okay]<span class="comment">
+<div class="line"><a name="l00700"></a><span class="lineno">  700</span>&#160;            <span class="comment"># Nothing more to do
 </span></div>
-<div class="line"><a name="l00684"></a><span class="lineno">  684</span>&#160;<span class="comment"></span>          } <span class="keyword">elseif</span> {[regexp {^[a-zA-Z][a-zA-Z0-9+.-]*:} $str]} {
+<div class="line"><a name="l00701"></a><span class="lineno">  701</span>&#160;<span class="comment"></span><span class="comment">          </span>} <span class="keyword">elseif</span> {[regexp {^((https?://)?[a-z0-9\-]+\.[a-z0-9\-\.]+(?:/|(?:/[a-zA-Z0-9!#\$%&amp;&#39;\*\+,\-\.:;=\?@\[\]_~]+)*))$} $str -&gt; url]} {
             </div>
-<div class="line"><a name="l00685"></a><span class="lineno">  685</span>&#160;            <span class="keyword">lappend</span> matches [<a class="code" href="namespacelauncher.html#a7d526a0670350706a4b468613c152235" title="launcher::register_temp">register_temp</a> &quot;&quot; [list launcher::open_uri_and_bookmark $str] &quot;Open URI $str&quot; 0 &quot;&quot; launcher::url_okay]<span class="comment">
+<div class="line"><a name="l00702"></a><span class="lineno">  702</span>&#160;            <span class="keyword">lappend</span> matches [<a class="code" href="namespacelauncher.html#a7d526a0670350706a4b468613c152235" title="launcher::register_temp">register_temp</a> &quot;&quot; [list launcher::open_url_and_bookmark $url] &quot;Open URL $url&quot; 0 &quot;&quot; launcher::url_okay]<span class="comment">
 </span></div>
-<div class="line"><a name="l00686"></a><span class="lineno">  686</span>&#160;<span class="comment"></span>          }<span class="comment">
+<div class="line"><a name="l00703"></a><span class="lineno">  703</span>&#160;<span class="comment"></span>          } <span class="keyword">elseif</span> {[regexp {^[a-zA-Z][a-zA-Z0-9+.-]*:} $str]} {
+            </div>
+<div class="line"><a name="l00704"></a><span class="lineno">  704</span>&#160;            <span class="keyword">lappend</span> matches [<a class="code" href="namespacelauncher.html#a7d526a0670350706a4b468613c152235" title="launcher::register_temp">register_temp</a> &quot;&quot; [list launcher::open_uri_and_bookmark $str] &quot;Open URI $str&quot; 0 &quot;&quot; launcher::url_okay]<span class="comment">
 </span></div>
-<div class="line"><a name="l00687"></a><span class="lineno">  687</span>&#160;<span class="comment"></span>        }
+<div class="line"><a name="l00705"></a><span class="lineno">  705</span>&#160;<span class="comment"></span>          }<span class="comment">
+</span></div>
+<div class="line"><a name="l00706"></a><span class="lineno">  706</span>&#160;<span class="comment"></span>        }
       </div>
-<div class="line"><a name="l00688"></a><span class="lineno">  688</span>&#160;      }<span class="comment">
+<div class="line"><a name="l00707"></a><span class="lineno">  707</span>&#160;      }<span class="comment">
 </span></div>
-<div class="line"><a name="l00689"></a><span class="lineno">  689</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00708"></a><span class="lineno">  708</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00690"></a><span class="lineno">  690</span>&#160;    }<span class="comment">
-</span></div>
-<div class="line"><a name="l00691"></a><span class="lineno">  691</span>&#160;<span class="comment"></span>
-    </div>
-<div class="line"><a name="l00692"></a><span class="lineno">  692</span>&#160;    <span class="comment"># Get the precise match (if one exists)
-</span></div>
-<div class="line"><a name="l00693"></a><span class="lineno">  693</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> results [list]<span class="comment">
-</span></div>
-<div class="line"><a name="l00694"></a><span class="lineno">  694</span>&#160;<span class="comment"></span>    <span class="keyword">foreach</span> {name value} [<span class="keyword">array</span> get commands [<a class="code" href="namespacelauncher.html#aa22236396e14d59255c44300d16fdcd8" title="launcher::get_command_name">get_command_name</a> * * *]] {
-      </div>
-<div class="line"><a name="l00695"></a><span class="lineno">  695</span>&#160;      <span class="keyword">if</span> {[<span class="keyword">lindex</span> $value $command_values(search_str)] eq &quot;$mode$str&quot;} {
-        </div>
-<div class="line"><a name="l00696"></a><span class="lineno">  696</span>&#160;        <span class="keyword">if</span> {[<span class="keyword">eval</span> [<span class="keyword">lindex</span> $name $command_names(validate_cmd)]]} {
-          </div>
-<div class="line"><a name="l00697"></a><span class="lineno">  697</span>&#160;          <span class="keyword">lappend</span> results [list $name $value]<span class="comment">
-</span></div>
-<div class="line"><a name="l00698"></a><span class="lineno">  698</span>&#160;<span class="comment"></span>        }<span class="comment">
-</span></div>
-<div class="line"><a name="l00699"></a><span class="lineno">  699</span>&#160;<span class="comment"></span>      }<span class="comment">
-</span></div>
-<div class="line"><a name="l00700"></a><span class="lineno">  700</span>&#160;<span class="comment"></span>    }<span class="comment">
-</span></div>
-<div class="line"><a name="l00701"></a><span class="lineno">  701</span>&#160;<span class="comment"></span>
-    </div>
-<div class="line"><a name="l00702"></a><span class="lineno">  702</span>&#160;    <span class="comment"># Make the string regular expression friendly
-</span></div>
-<div class="line"><a name="l00703"></a><span class="lineno">  703</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> tmpstr [<span class="keyword">string</span> map {{.} {\.} {*} {\*} {+} {\+} {?} {\?} {[} {\[}} $str]<span class="comment">
-</span></div>
-<div class="line"><a name="l00704"></a><span class="lineno">  704</span>&#160;<span class="comment"></span>
-    </div>
-<div class="line"><a name="l00705"></a><span class="lineno">  705</span>&#160;    <span class="comment"># Sort the results by relevance
-</span></div>
-<div class="line"><a name="l00706"></a><span class="lineno">  706</span>&#160;<span class="comment"></span><span class="comment">    </span><a class="code" href="namespacelauncher.html#ade6abc28dfc8fe8bf08f98ae40ad7a90" title="launcher::sort_match_results">sort_match_results</a> $results 1<span class="comment">
-</span></div>
-<div class="line"><a name="l00707"></a><span class="lineno">  707</span>&#160;<span class="comment"></span>
-    </div>
-<div class="line"><a name="l00708"></a><span class="lineno">  708</span>&#160;    <span class="comment"># Get exact matches that match the beginning of the statement
-</span></div>
-<div class="line"><a name="l00709"></a><span class="lineno">  709</span>&#160;<span class="comment"></span><span class="comment">    </span><a class="code" href="namespacelauncher.html#ade6abc28dfc8fe8bf08f98ae40ad7a90" title="launcher::sort_match_results">sort_match_results</a> [<a class="code" href="namespacelauncher.html#ad96c14f69fa228bc2958bdcda7660b6c" title="launcher::get_match_results">get_match_results</a> \{?$mode$tmpstr.*] 0<span class="comment">
+<div class="line"><a name="l00709"></a><span class="lineno">  709</span>&#160;    }<span class="comment">
 </span></div>
 <div class="line"><a name="l00710"></a><span class="lineno">  710</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00711"></a><span class="lineno">  711</span>&#160;    <span class="comment"># Get all of the exact matches within the string
+<div class="line"><a name="l00711"></a><span class="lineno">  711</span>&#160;    <span class="comment"># Get the precise match (if one exists)
 </span></div>
-<div class="line"><a name="l00712"></a><span class="lineno">  712</span>&#160;<span class="comment"></span><span class="comment">    </span><a class="code" href="namespacelauncher.html#ade6abc28dfc8fe8bf08f98ae40ad7a90" title="launcher::sort_match_results">sort_match_results</a> [<a class="code" href="namespacelauncher.html#ad96c14f69fa228bc2958bdcda7660b6c" title="launcher::get_match_results">get_match_results</a> \{?$mode.*$tmpstr.*] 0<span class="comment">
+<div class="line"><a name="l00712"></a><span class="lineno">  712</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> results [list]<span class="comment">
 </span></div>
-<div class="line"><a name="l00713"></a><span class="lineno">  713</span>&#160;<span class="comment"></span>
-    </div>
-<div class="line"><a name="l00714"></a><span class="lineno">  714</span>&#160;    <span class="comment"># Get all of the fuzzy matches
-</span></div>
-<div class="line"><a name="l00715"></a><span class="lineno">  715</span>&#160;<span class="comment"></span><span class="comment">    </span><a class="code" href="namespacelauncher.html#ade6abc28dfc8fe8bf08f98ae40ad7a90" title="launcher::sort_match_results">sort_match_results</a> [<a class="code" href="namespacelauncher.html#ad96c14f69fa228bc2958bdcda7660b6c" title="launcher::get_match_results">get_match_results</a> \{?$mode.*[<span class="keyword">join</span> [<span class="keyword">string</span> map {{.} {\\\.} {*} {\\\*} {+} {\\\+} {?} {\\\?} {[} {\\\[}} [<span class="keyword">split</span> $str {}]] .*].*] 1<span class="comment">
-</span></div>
-<div class="line"><a name="l00716"></a><span class="lineno">  716</span>&#160;<span class="comment"></span>
-  </div>
-<div class="line"><a name="l00717"></a><span class="lineno">  717</span>&#160;  }<span class="comment">
-</span></div>
-<div class="line"><a name="l00718"></a><span class="lineno">  718</span>&#160;<span class="comment"></span>
-  </div>
-<div class="line"><a name="l00719"></a><span class="lineno">  719</span>&#160;  <span class="comment">############################################################################
-</span></div>
-<div class="line"><a name="l00720"></a><span class="lineno">  720</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Searches the list of commands that match the top widget and the given search
-</span></div>
-<div class="line"><a name="l00721"></a><span class="lineno">  721</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># pattern.
-</span></div>
-<div class="line"><a name="l00722"></a><span class="lineno">  722</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> get_match_results {regex_pattern} {
-
-    </div>
-<div class="line"><a name="l00723"></a><span class="lineno">  723</span>&#160;
-    </div>
-<div class="line"><a name="l00724"></a><span class="lineno">  724</span>&#160;    <span class="keyword">variable</span> commands<span class="comment">
-</span></div>
-<div class="line"><a name="l00725"></a><span class="lineno">  725</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> command_names<span class="comment">
-</span></div>
-<div class="line"><a name="l00726"></a><span class="lineno">  726</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> command_values<span class="comment">
-</span></div>
-<div class="line"><a name="l00727"></a><span class="lineno">  727</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> matches<span class="comment">
-</span></div>
-<div class="line"><a name="l00728"></a><span class="lineno">  728</span>&#160;<span class="comment"></span>
-    </div>
-<div class="line"><a name="l00729"></a><span class="lineno">  729</span>&#160;    <span class="keyword">set</span> results [list]<span class="comment">
-</span></div>
-<div class="line"><a name="l00730"></a><span class="lineno">  730</span>&#160;<span class="comment"></span>    <span class="keyword">set</span> pattern [subst [<span class="keyword">string</span> map {{(} {\(} {)} {\)}} [<a class="code" href="namespacelauncher.html#aa22236396e14d59255c44300d16fdcd8" title="launcher::get_command_name">get_command_name</a> $regex_pattern * *]]]<span class="comment">
-</span></div>
-<div class="line"><a name="l00731"></a><span class="lineno">  731</span>&#160;<span class="comment"></span>
-    </div>
-<div class="line"><a name="l00732"></a><span class="lineno">  732</span>&#160;    <span class="keyword">foreach</span> name [<span class="keyword">array</span> name commands -regexp $pattern] {
+<div class="line"><a name="l00713"></a><span class="lineno">  713</span>&#160;<span class="comment"></span>    <span class="keyword">foreach</span> {name value} [<span class="keyword">array</span> get commands [<a class="code" href="namespacelauncher.html#aa22236396e14d59255c44300d16fdcd8" title="launcher::get_command_name">get_command_name</a> * * *]] {
       </div>
-<div class="line"><a name="l00733"></a><span class="lineno">  733</span>&#160;      <span class="keyword">set</span> value $commands($name)<span class="comment">
-</span></div>
-<div class="line"><a name="l00734"></a><span class="lineno">  734</span>&#160;<span class="comment"></span>      <span class="keyword">if</span> {[lsearch -exact $matches $name] == -1} {
+<div class="line"><a name="l00714"></a><span class="lineno">  714</span>&#160;      <span class="keyword">if</span> {[<span class="keyword">lindex</span> $value $command_values(search_str)] eq &quot;$mode$str&quot;} {
         </div>
-<div class="line"><a name="l00735"></a><span class="lineno">  735</span>&#160;        <span class="keyword">set</span> validate_cmd [<span class="keyword">lindex</span> $name $command_names(validate_cmd)]<span class="comment">
-</span></div>
-<div class="line"><a name="l00736"></a><span class="lineno">  736</span>&#160;<span class="comment"></span>        <span class="keyword">if</span> {[<span class="keyword">eval</span> $validate_cmd]} {
+<div class="line"><a name="l00715"></a><span class="lineno">  715</span>&#160;        <span class="keyword">if</span> {[<span class="keyword">eval</span> [<span class="keyword">lindex</span> $name $command_names(validate_cmd)]]} {
           </div>
-<div class="line"><a name="l00737"></a><span class="lineno">  737</span>&#160;          <span class="keyword">if</span> {$validate_cmd ne &quot;launcher::okay&quot;} {
-            </div>
-<div class="line"><a name="l00738"></a><span class="lineno">  738</span>&#160;            <span class="keyword">lset</span> value $command_values(count) [<span class="keyword">expr</span> [<span class="keyword">lindex</span> $value $command_values(count)] + 1000000]<span class="comment">
+<div class="line"><a name="l00716"></a><span class="lineno">  716</span>&#160;          <span class="keyword">lappend</span> results [list $name $value]<span class="comment">
 </span></div>
-<div class="line"><a name="l00739"></a><span class="lineno">  739</span>&#160;<span class="comment"></span>          }<span class="comment">
+<div class="line"><a name="l00717"></a><span class="lineno">  717</span>&#160;<span class="comment"></span>        }<span class="comment">
 </span></div>
-<div class="line"><a name="l00740"></a><span class="lineno">  740</span>&#160;<span class="comment"></span>          <span class="keyword">lappend</span> results [list $name $value]<span class="comment">
+<div class="line"><a name="l00718"></a><span class="lineno">  718</span>&#160;<span class="comment"></span>      }<span class="comment">
 </span></div>
-<div class="line"><a name="l00741"></a><span class="lineno">  741</span>&#160;<span class="comment"></span>        }<span class="comment">
+<div class="line"><a name="l00719"></a><span class="lineno">  719</span>&#160;<span class="comment"></span>    }<span class="comment">
 </span></div>
-<div class="line"><a name="l00742"></a><span class="lineno">  742</span>&#160;<span class="comment"></span>      }<span class="comment">
-</span></div>
-<div class="line"><a name="l00743"></a><span class="lineno">  743</span>&#160;<span class="comment"></span>    }<span class="comment">
-</span></div>
-<div class="line"><a name="l00744"></a><span class="lineno">  744</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00720"></a><span class="lineno">  720</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00745"></a><span class="lineno">  745</span>&#160;    <span class="keyword">return</span> $results<span class="comment">
+<div class="line"><a name="l00721"></a><span class="lineno">  721</span>&#160;    <span class="comment"># Make the string regular expression friendly
 </span></div>
-<div class="line"><a name="l00746"></a><span class="lineno">  746</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00722"></a><span class="lineno">  722</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> tmpstr [<span class="keyword">string</span> map {{.} {\.} {*} {\*} {+} {\+} {?} {\?} {[} {\[}} $str]<span class="comment">
+</span></div>
+<div class="line"><a name="l00723"></a><span class="lineno">  723</span>&#160;<span class="comment"></span>
+    </div>
+<div class="line"><a name="l00724"></a><span class="lineno">  724</span>&#160;    <span class="comment"># Sort the results by relevance
+</span></div>
+<div class="line"><a name="l00725"></a><span class="lineno">  725</span>&#160;<span class="comment"></span><span class="comment">    </span><a class="code" href="namespacelauncher.html#ade6abc28dfc8fe8bf08f98ae40ad7a90" title="launcher::sort_match_results">sort_match_results</a> $results 1<span class="comment">
+</span></div>
+<div class="line"><a name="l00726"></a><span class="lineno">  726</span>&#160;<span class="comment"></span>
+    </div>
+<div class="line"><a name="l00727"></a><span class="lineno">  727</span>&#160;    <span class="comment"># Get exact matches that match the beginning of the statement
+</span></div>
+<div class="line"><a name="l00728"></a><span class="lineno">  728</span>&#160;<span class="comment"></span><span class="comment">    </span><a class="code" href="namespacelauncher.html#ade6abc28dfc8fe8bf08f98ae40ad7a90" title="launcher::sort_match_results">sort_match_results</a> [<a class="code" href="namespacelauncher.html#ad96c14f69fa228bc2958bdcda7660b6c" title="launcher::get_match_results">get_match_results</a> \{?$mode$tmpstr.*] 0<span class="comment">
+</span></div>
+<div class="line"><a name="l00729"></a><span class="lineno">  729</span>&#160;<span class="comment"></span>
+    </div>
+<div class="line"><a name="l00730"></a><span class="lineno">  730</span>&#160;    <span class="comment"># Get all of the exact matches within the string
+</span></div>
+<div class="line"><a name="l00731"></a><span class="lineno">  731</span>&#160;<span class="comment"></span><span class="comment">    </span><a class="code" href="namespacelauncher.html#ade6abc28dfc8fe8bf08f98ae40ad7a90" title="launcher::sort_match_results">sort_match_results</a> [<a class="code" href="namespacelauncher.html#ad96c14f69fa228bc2958bdcda7660b6c" title="launcher::get_match_results">get_match_results</a> \{?$mode.*$tmpstr.*] 0<span class="comment">
+</span></div>
+<div class="line"><a name="l00732"></a><span class="lineno">  732</span>&#160;<span class="comment"></span>
+    </div>
+<div class="line"><a name="l00733"></a><span class="lineno">  733</span>&#160;    <span class="comment"># Get all of the fuzzy matches
+</span></div>
+<div class="line"><a name="l00734"></a><span class="lineno">  734</span>&#160;<span class="comment"></span><span class="comment">    </span><a class="code" href="namespacelauncher.html#ade6abc28dfc8fe8bf08f98ae40ad7a90" title="launcher::sort_match_results">sort_match_results</a> [<a class="code" href="namespacelauncher.html#ad96c14f69fa228bc2958bdcda7660b6c" title="launcher::get_match_results">get_match_results</a> \{?$mode.*[<span class="keyword">join</span> [<span class="keyword">string</span> map {{.} {\\\.} {*} {\\\*} {+} {\\\+} {?} {\\\?} {[} {\\\[}} [<span class="keyword">split</span> $str {}]] .*].*] 1<span class="comment">
+</span></div>
+<div class="line"><a name="l00735"></a><span class="lineno">  735</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l00747"></a><span class="lineno">  747</span>&#160;  }<span class="comment">
+<div class="line"><a name="l00736"></a><span class="lineno">  736</span>&#160;  }<span class="comment">
 </span></div>
-<div class="line"><a name="l00748"></a><span class="lineno">  748</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00737"></a><span class="lineno">  737</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l00749"></a><span class="lineno">  749</span>&#160;  <span class="comment">############################################################################
+<div class="line"><a name="l00738"></a><span class="lineno">  738</span>&#160;  <span class="comment">############################################################################
 </span></div>
-<div class="line"><a name="l00750"></a><span class="lineno">  750</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Sorts the results by last accessed time and appends the sorted results
+<div class="line"><a name="l00739"></a><span class="lineno">  739</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Searches the list of commands that match the top widget and the given search
 </span></div>
-<div class="line"><a name="l00751"></a><span class="lineno">  751</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># to the matches list.
+<div class="line"><a name="l00740"></a><span class="lineno">  740</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># pattern.
 </span></div>
-<div class="line"><a name="l00752"></a><span class="lineno">  752</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> sort_match_results {results type} {
+<div class="line"><a name="l00741"></a><span class="lineno">  741</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> get_match_results {regex_pattern} {
 
     </div>
-<div class="line"><a name="l00753"></a><span class="lineno">  753</span>&#160;
+<div class="line"><a name="l00742"></a><span class="lineno">  742</span>&#160;
     </div>
-<div class="line"><a name="l00754"></a><span class="lineno">  754</span>&#160;    <span class="keyword">variable</span> command_values<span class="comment">
+<div class="line"><a name="l00743"></a><span class="lineno">  743</span>&#160;    <span class="keyword">variable</span> commands<span class="comment">
 </span></div>
-<div class="line"><a name="l00755"></a><span class="lineno">  755</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> matches<span class="comment">
+<div class="line"><a name="l00744"></a><span class="lineno">  744</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> command_names<span class="comment">
 </span></div>
-<div class="line"><a name="l00756"></a><span class="lineno">  756</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00745"></a><span class="lineno">  745</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> command_values<span class="comment">
+</span></div>
+<div class="line"><a name="l00746"></a><span class="lineno">  746</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> matches<span class="comment">
+</span></div>
+<div class="line"><a name="l00747"></a><span class="lineno">  747</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00757"></a><span class="lineno">  757</span>&#160;    <span class="comment"># Sort the results by relevance
+<div class="line"><a name="l00748"></a><span class="lineno">  748</span>&#160;    <span class="keyword">set</span> results [list]<span class="comment">
 </span></div>
-<div class="line"><a name="l00758"></a><span class="lineno">  758</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">foreach</span> result [lsort -integer -index [list 1 $command_values(count)] -decreasing $results] {
+<div class="line"><a name="l00749"></a><span class="lineno">  749</span>&#160;<span class="comment"></span>    <span class="keyword">set</span> pattern [subst [<span class="keyword">string</span> map {{(} {\(} {)} {\)}} [<a class="code" href="namespacelauncher.html#aa22236396e14d59255c44300d16fdcd8" title="launcher::get_command_name">get_command_name</a> $regex_pattern * *]]]<span class="comment">
+</span></div>
+<div class="line"><a name="l00750"></a><span class="lineno">  750</span>&#160;<span class="comment"></span>
+    </div>
+<div class="line"><a name="l00751"></a><span class="lineno">  751</span>&#160;    <span class="keyword">foreach</span> name [<span class="keyword">array</span> name commands -regexp $pattern] {
       </div>
-<div class="line"><a name="l00759"></a><span class="lineno">  759</span>&#160;      <span class="keyword">lappend</span> matches [<span class="keyword">lindex</span> $result 0]<span class="comment">
+<div class="line"><a name="l00752"></a><span class="lineno">  752</span>&#160;      <span class="keyword">set</span> value $commands($name)<span class="comment">
 </span></div>
-<div class="line"><a name="l00760"></a><span class="lineno">  760</span>&#160;<span class="comment"></span>    }<span class="comment">
+<div class="line"><a name="l00753"></a><span class="lineno">  753</span>&#160;<span class="comment"></span>      <span class="keyword">if</span> {[lsearch -exact $matches $name] == -1} {
+        </div>
+<div class="line"><a name="l00754"></a><span class="lineno">  754</span>&#160;        <span class="keyword">set</span> validate_cmd [<span class="keyword">lindex</span> $name $command_names(validate_cmd)]<span class="comment">
 </span></div>
-<div class="line"><a name="l00761"></a><span class="lineno">  761</span>&#160;<span class="comment"></span>
-  </div>
-<div class="line"><a name="l00762"></a><span class="lineno">  762</span>&#160;  }<span class="comment">
+<div class="line"><a name="l00755"></a><span class="lineno">  755</span>&#160;<span class="comment"></span>        <span class="keyword">if</span> {[<span class="keyword">eval</span> $validate_cmd]} {
+          </div>
+<div class="line"><a name="l00756"></a><span class="lineno">  756</span>&#160;          <span class="keyword">if</span> {$validate_cmd ne &quot;launcher::okay&quot;} {
+            </div>
+<div class="line"><a name="l00757"></a><span class="lineno">  757</span>&#160;            <span class="keyword">lset</span> value $command_values(count) [<span class="keyword">expr</span> [<span class="keyword">lindex</span> $value $command_values(count)] + 1000000]<span class="comment">
+</span></div>
+<div class="line"><a name="l00758"></a><span class="lineno">  758</span>&#160;<span class="comment"></span>          }<span class="comment">
+</span></div>
+<div class="line"><a name="l00759"></a><span class="lineno">  759</span>&#160;<span class="comment"></span>          <span class="keyword">lappend</span> results [list $name $value]<span class="comment">
+</span></div>
+<div class="line"><a name="l00760"></a><span class="lineno">  760</span>&#160;<span class="comment"></span>        }<span class="comment">
+</span></div>
+<div class="line"><a name="l00761"></a><span class="lineno">  761</span>&#160;<span class="comment"></span>      }<span class="comment">
+</span></div>
+<div class="line"><a name="l00762"></a><span class="lineno">  762</span>&#160;<span class="comment"></span>    }<span class="comment">
 </span></div>
 <div class="line"><a name="l00763"></a><span class="lineno">  763</span>&#160;<span class="comment"></span>
+    </div>
+<div class="line"><a name="l00764"></a><span class="lineno">  764</span>&#160;    <span class="keyword">return</span> $results<span class="comment">
+</span></div>
+<div class="line"><a name="l00765"></a><span class="lineno">  765</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l00764"></a><span class="lineno">  764</span>&#160;  <span class="comment">############################################################################
+<div class="line"><a name="l00766"></a><span class="lineno">  766</span>&#160;  }<span class="comment">
 </span></div>
-<div class="line"><a name="l00765"></a><span class="lineno">  765</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Executes the selected command, saving usage information.
+<div class="line"><a name="l00767"></a><span class="lineno">  767</span>&#160;<span class="comment"></span>
+  </div>
+<div class="line"><a name="l00768"></a><span class="lineno">  768</span>&#160;  <span class="comment">############################################################################
 </span></div>
-<div class="line"><a name="l00766"></a><span class="lineno">  766</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> execute {} {
+<div class="line"><a name="l00769"></a><span class="lineno">  769</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Sorts the results by last accessed time and appends the sorted results
+</span></div>
+<div class="line"><a name="l00770"></a><span class="lineno">  770</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># to the matches list.
+</span></div>
+<div class="line"><a name="l00771"></a><span class="lineno">  771</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> sort_match_results {results type} {
 
     </div>
-<div class="line"><a name="l00767"></a><span class="lineno">  767</span>&#160;
+<div class="line"><a name="l00772"></a><span class="lineno">  772</span>&#160;
     </div>
-<div class="line"><a name="l00768"></a><span class="lineno">  768</span>&#160;    <span class="keyword">variable</span> widgets<span class="comment">
+<div class="line"><a name="l00773"></a><span class="lineno">  773</span>&#160;    <span class="keyword">variable</span> command_values<span class="comment">
 </span></div>
-<div class="line"><a name="l00769"></a><span class="lineno">  769</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> matches<span class="comment">
+<div class="line"><a name="l00774"></a><span class="lineno">  774</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> matches<span class="comment">
 </span></div>
-<div class="line"><a name="l00770"></a><span class="lineno">  770</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> commands<span class="comment">
-</span></div>
-<div class="line"><a name="l00771"></a><span class="lineno">  771</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> command_values<span class="comment">
-</span></div>
-<div class="line"><a name="l00772"></a><span class="lineno">  772</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> widgets<span class="comment">
-</span></div>
-<div class="line"><a name="l00773"></a><span class="lineno">  773</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> last_command<span class="comment">
-</span></div>
-<div class="line"><a name="l00774"></a><span class="lineno">  774</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00775"></a><span class="lineno">  775</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00775"></a><span class="lineno">  775</span>&#160;    <span class="comment"># Get the current selection
+<div class="line"><a name="l00776"></a><span class="lineno">  776</span>&#160;    <span class="comment"># Sort the results by relevance
 </span></div>
-<div class="line"><a name="l00776"></a><span class="lineno">  776</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> row [$widgets(lb) curselection]<span class="comment">
+<div class="line"><a name="l00777"></a><span class="lineno">  777</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">foreach</span> result [lsort -integer -index [list 1 $command_values(count)] -decreasing $results] {
+      </div>
+<div class="line"><a name="l00778"></a><span class="lineno">  778</span>&#160;      <span class="keyword">lappend</span> matches [<span class="keyword">lindex</span> $result 0]<span class="comment">
 </span></div>
-<div class="line"><a name="l00777"></a><span class="lineno">  777</span>&#160;<span class="comment"></span>
-    </div>
-<div class="line"><a name="l00778"></a><span class="lineno">  778</span>&#160;    <span class="comment"># Retrieve the command name
-</span></div>
-<div class="line"><a name="l00779"></a><span class="lineno">  779</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> command_name [<span class="keyword">lindex</span> $matches $row]<span class="comment">
+<div class="line"><a name="l00779"></a><span class="lineno">  779</span>&#160;<span class="comment"></span>    }<span class="comment">
 </span></div>
 <div class="line"><a name="l00780"></a><span class="lineno">  780</span>&#160;<span class="comment"></span>
-    </div>
-<div class="line"><a name="l00781"></a><span class="lineno">  781</span>&#160;    <span class="comment"># Create the command value
-</span></div>
-<div class="line"><a name="l00782"></a><span class="lineno">  782</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> command_value $commands($command_name)<span class="comment">
-</span></div>
-<div class="line"><a name="l00783"></a><span class="lineno">  783</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> command_value $command_values(count) \
-      </div>
-<div class="line"><a name="l00784"></a><span class="lineno">  784</span>&#160;      [<span class="keyword">expr</span> [<span class="keyword">lindex</span> $command_value $command_values(count)] + 1]<span class="comment">
-</span></div>
-<div class="line"><a name="l00785"></a><span class="lineno">  785</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> command_value $command_values(search_str) \
-      </div>
-<div class="line"><a name="l00786"></a><span class="lineno">  786</span>&#160;      [$widgets(entry) get]<span class="comment">
-</span></div>
-<div class="line"><a name="l00787"></a><span class="lineno">  787</span>&#160;<span class="comment"></span>
-    </div>
-<div class="line"><a name="l00788"></a><span class="lineno">  788</span>&#160;    <span class="comment"># Store the relevance by using the new execution count and the entered search string
-</span></div>
-<div class="line"><a name="l00789"></a><span class="lineno">  789</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> commands($command_name) $command_value<span class="comment">
-</span></div>
-<div class="line"><a name="l00790"></a><span class="lineno">  790</span>&#160;<span class="comment"></span>    <span class="keyword">set</span> command [<span class="keyword">lindex</span> $commands($command_name) $command_values(command)]<span class="comment">
-</span></div>
-<div class="line"><a name="l00791"></a><span class="lineno">  791</span>&#160;<span class="comment"></span>
-    </div>
-<div class="line"><a name="l00792"></a><span class="lineno">  792</span>&#160;    <span class="comment"># Store the last command and type
-</span></div>
-<div class="line"><a name="l00793"></a><span class="lineno">  793</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> last_command $command_name<span class="comment">
-</span></div>
-<div class="line"><a name="l00794"></a><span class="lineno">  794</span>&#160;<span class="comment"></span>
-    </div>
-<div class="line"><a name="l00795"></a><span class="lineno">  795</span>&#160;    <span class="comment"># Destroy the widget
-</span></div>
-<div class="line"><a name="l00796"></a><span class="lineno">  796</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">destroy</span> $widgets(win)<span class="comment">
-</span></div>
-<div class="line"><a name="l00797"></a><span class="lineno">  797</span>&#160;<span class="comment"></span>
-    </div>
-<div class="line"><a name="l00798"></a><span class="lineno">  798</span>&#160;    <span class="comment"># Execute the associated command
-</span></div>
-<div class="line"><a name="l00799"></a><span class="lineno">  799</span>&#160;<span class="comment"></span><span class="comment">    </span>after 1 [list launcher::execute_helper $command]<span class="comment">
-</span></div>
-<div class="line"><a name="l00800"></a><span class="lineno">  800</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l00801"></a><span class="lineno">  801</span>&#160;  }<span class="comment">
+<div class="line"><a name="l00781"></a><span class="lineno">  781</span>&#160;  }<span class="comment">
 </span></div>
-<div class="line"><a name="l00802"></a><span class="lineno">  802</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00782"></a><span class="lineno">  782</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l00803"></a><span class="lineno">  803</span>&#160;  <span class="comment">############################################################################
+<div class="line"><a name="l00783"></a><span class="lineno">  783</span>&#160;  <span class="comment">############################################################################
 </span></div>
-<div class="line"><a name="l00804"></a><span class="lineno">  804</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Helper procedure for the execute procedure.
+<div class="line"><a name="l00784"></a><span class="lineno">  784</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Executes the selected command, saving usage information.
 </span></div>
-<div class="line"><a name="l00805"></a><span class="lineno">  805</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> execute_helper {command} {
+<div class="line"><a name="l00785"></a><span class="lineno">  785</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> execute {} {
 
     </div>
-<div class="line"><a name="l00806"></a><span class="lineno">  806</span>&#160;
+<div class="line"><a name="l00786"></a><span class="lineno">  786</span>&#160;
     </div>
-<div class="line"><a name="l00807"></a><span class="lineno">  807</span>&#160;    <span class="comment"># Execute the command
+<div class="line"><a name="l00787"></a><span class="lineno">  787</span>&#160;    <span class="keyword">variable</span> widgets<span class="comment">
 </span></div>
-<div class="line"><a name="l00808"></a><span class="lineno">  808</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">eval</span> &quot;$command&quot;<span class="comment">
+<div class="line"><a name="l00788"></a><span class="lineno">  788</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> matches<span class="comment">
 </span></div>
-<div class="line"><a name="l00809"></a><span class="lineno">  809</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00789"></a><span class="lineno">  789</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> commands<span class="comment">
+</span></div>
+<div class="line"><a name="l00790"></a><span class="lineno">  790</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> command_values<span class="comment">
+</span></div>
+<div class="line"><a name="l00791"></a><span class="lineno">  791</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> widgets<span class="comment">
+</span></div>
+<div class="line"><a name="l00792"></a><span class="lineno">  792</span>&#160;<span class="comment"></span>    <span class="keyword">variable</span> last_command<span class="comment">
+</span></div>
+<div class="line"><a name="l00793"></a><span class="lineno">  793</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00810"></a><span class="lineno">  810</span>&#160;    <span class="comment"># Write the launcher information
+<div class="line"><a name="l00794"></a><span class="lineno">  794</span>&#160;    <span class="comment"># Get the current selection
 </span></div>
-<div class="line"><a name="l00811"></a><span class="lineno">  811</span>&#160;<span class="comment"></span><span class="comment">    </span><a class="code" href="namespacebgproc.html#a17e1eed0ace2ad7a20613ba059f691bb" title="bgproc::command">bgproc::command</a> launcher_write launcher::write -cancelable 1<span class="comment">
+<div class="line"><a name="l00795"></a><span class="lineno">  795</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> row [$widgets(lb) curselection]<span class="comment">
 </span></div>
-<div class="line"><a name="l00812"></a><span class="lineno">  812</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00796"></a><span class="lineno">  796</span>&#160;<span class="comment"></span>
+    </div>
+<div class="line"><a name="l00797"></a><span class="lineno">  797</span>&#160;    <span class="comment"># Retrieve the command name
+</span></div>
+<div class="line"><a name="l00798"></a><span class="lineno">  798</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> command_name [<span class="keyword">lindex</span> $matches $row]<span class="comment">
+</span></div>
+<div class="line"><a name="l00799"></a><span class="lineno">  799</span>&#160;<span class="comment"></span>
+    </div>
+<div class="line"><a name="l00800"></a><span class="lineno">  800</span>&#160;    <span class="comment"># Create the command value
+</span></div>
+<div class="line"><a name="l00801"></a><span class="lineno">  801</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> command_value $commands($command_name)<span class="comment">
+</span></div>
+<div class="line"><a name="l00802"></a><span class="lineno">  802</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> command_value $command_values(count) \
+      </div>
+<div class="line"><a name="l00803"></a><span class="lineno">  803</span>&#160;      [<span class="keyword">expr</span> [<span class="keyword">lindex</span> $command_value $command_values(count)] + 1]<span class="comment">
+</span></div>
+<div class="line"><a name="l00804"></a><span class="lineno">  804</span>&#160;<span class="comment"></span>    <span class="keyword">lset</span> command_value $command_values(search_str) \
+      </div>
+<div class="line"><a name="l00805"></a><span class="lineno">  805</span>&#160;      [$widgets(entry) get]<span class="comment">
+</span></div>
+<div class="line"><a name="l00806"></a><span class="lineno">  806</span>&#160;<span class="comment"></span>
+    </div>
+<div class="line"><a name="l00807"></a><span class="lineno">  807</span>&#160;    <span class="comment"># Store the relevance by using the new execution count and the entered search string
+</span></div>
+<div class="line"><a name="l00808"></a><span class="lineno">  808</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> commands($command_name) $command_value<span class="comment">
+</span></div>
+<div class="line"><a name="l00809"></a><span class="lineno">  809</span>&#160;<span class="comment"></span>    <span class="keyword">set</span> command [<span class="keyword">lindex</span> $commands($command_name) $command_values(command)]<span class="comment">
+</span></div>
+<div class="line"><a name="l00810"></a><span class="lineno">  810</span>&#160;<span class="comment"></span>
+    </div>
+<div class="line"><a name="l00811"></a><span class="lineno">  811</span>&#160;    <span class="comment"># Store the last command and type
+</span></div>
+<div class="line"><a name="l00812"></a><span class="lineno">  812</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> last_command $command_name<span class="comment">
+</span></div>
+<div class="line"><a name="l00813"></a><span class="lineno">  813</span>&#160;<span class="comment"></span>
+    </div>
+<div class="line"><a name="l00814"></a><span class="lineno">  814</span>&#160;    <span class="comment"># Destroy the widget
+</span></div>
+<div class="line"><a name="l00815"></a><span class="lineno">  815</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">destroy</span> $widgets(win)<span class="comment">
+</span></div>
+<div class="line"><a name="l00816"></a><span class="lineno">  816</span>&#160;<span class="comment"></span>
+    </div>
+<div class="line"><a name="l00817"></a><span class="lineno">  817</span>&#160;    <span class="comment"># Execute the associated command
+</span></div>
+<div class="line"><a name="l00818"></a><span class="lineno">  818</span>&#160;<span class="comment"></span><span class="comment">    </span>after 1 [list launcher::execute_helper $command]<span class="comment">
+</span></div>
+<div class="line"><a name="l00819"></a><span class="lineno">  819</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l00813"></a><span class="lineno">  813</span>&#160;  }<span class="comment">
-</span></div>
-<div class="line"><a name="l00814"></a><span class="lineno">  814</span>&#160;<span class="comment"></span>
-  </div>
-<div class="line"><a name="l00815"></a><span class="lineno">  815</span>&#160;  <span class="comment">############################################################################
-</span></div>
-<div class="line"><a name="l00816"></a><span class="lineno">  816</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Handles a calculation that is presented on the command-line.  The calculation
-</span></div>
-<div class="line"><a name="l00817"></a><span class="lineno">  817</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># can be either a Tcl expression or a Verilog expression.
-</span></div>
-<div class="line"><a name="l00818"></a><span class="lineno">  818</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> handle_calculation {str} {
-
-    </div>
-<div class="line"><a name="l00819"></a><span class="lineno">  819</span>&#160;
-    </div>
-<div class="line"><a name="l00820"></a><span class="lineno">  820</span>&#160;    <span class="keyword">variable</span> matches<span class="comment">
+<div class="line"><a name="l00820"></a><span class="lineno">  820</span>&#160;  }<span class="comment">
 </span></div>
 <div class="line"><a name="l00821"></a><span class="lineno">  821</span>&#160;<span class="comment"></span>
-    </div>
-<div class="line"><a name="l00822"></a><span class="lineno">  822</span>&#160;    <span class="comment"># Check to see if the string is a valid Tcl expression
+  </div>
+<div class="line"><a name="l00822"></a><span class="lineno">  822</span>&#160;  <span class="comment">############################################################################
 </span></div>
-<div class="line"><a name="l00823"></a><span class="lineno">  823</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">if</span> {![<span class="keyword">catch</span> &quot;<span class="keyword">expr</span> $str&quot; rc]} {
+<div class="line"><a name="l00823"></a><span class="lineno">  823</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Helper procedure for the execute procedure.
+</span></div>
+<div class="line"><a name="l00824"></a><span class="lineno">  824</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> execute_helper {command} {
 
-      </div>
-<div class="line"><a name="l00824"></a><span class="lineno">  824</span>&#160;
-      </div>
-<div class="line"><a name="l00825"></a><span class="lineno">  825</span>&#160;      <span class="keyword">lappend</span> matches [<a class="code" href="namespacelauncher.html#a7d526a0670350706a4b468613c152235" title="launcher::register_temp">register_temp</a> &quot;&quot; [list launcher::copy_calculation $rc] &quot;Copy $rc to clipboard&quot; 0 &quot;&quot; launcher::calc_okay]<span class="comment">
+    </div>
+<div class="line"><a name="l00825"></a><span class="lineno">  825</span>&#160;
+    </div>
+<div class="line"><a name="l00826"></a><span class="lineno">  826</span>&#160;    <span class="comment"># Execute the command
 </span></div>
-<div class="line"><a name="l00826"></a><span class="lineno">  826</span>&#160;<span class="comment"></span>
-      </div>
-<div class="line"><a name="l00827"></a><span class="lineno">  827</span>&#160;      <span class="keyword">return</span> 1<span class="comment">
+<div class="line"><a name="l00827"></a><span class="lineno">  827</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">eval</span> &quot;$command&quot;<span class="comment">
 </span></div>
 <div class="line"><a name="l00828"></a><span class="lineno">  828</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00829"></a><span class="lineno">  829</span>&#160;    }<span class="comment">
+<div class="line"><a name="l00829"></a><span class="lineno">  829</span>&#160;    <span class="comment"># Write the launcher information
 </span></div>
-<div class="line"><a name="l00830"></a><span class="lineno">  830</span>&#160;<span class="comment"></span>
-    </div>
-<div class="line"><a name="l00831"></a><span class="lineno">  831</span>&#160;    <span class="keyword">return</span> 0<span class="comment">
+<div class="line"><a name="l00830"></a><span class="lineno">  830</span>&#160;<span class="comment"></span><span class="comment">    </span><a class="code" href="namespacebgproc.html#a17e1eed0ace2ad7a20613ba059f691bb" title="bgproc::command">bgproc::command</a> launcher_write launcher::write -cancelable 1<span class="comment">
 </span></div>
-<div class="line"><a name="l00832"></a><span class="lineno">  832</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00831"></a><span class="lineno">  831</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l00833"></a><span class="lineno">  833</span>&#160;  }<span class="comment">
+<div class="line"><a name="l00832"></a><span class="lineno">  832</span>&#160;  }<span class="comment">
 </span></div>
-<div class="line"><a name="l00834"></a><span class="lineno">  834</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00833"></a><span class="lineno">  833</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l00835"></a><span class="lineno">  835</span>&#160;  <span class="comment">############################################################################
+<div class="line"><a name="l00834"></a><span class="lineno">  834</span>&#160;  <span class="comment">############################################################################
 </span></div>
-<div class="line"><a name="l00836"></a><span class="lineno">  836</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Copies the current calculation to the clipboard.
+<div class="line"><a name="l00835"></a><span class="lineno">  835</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Handles a calculation that is presented on the command-line.  The calculation
 </span></div>
-<div class="line"><a name="l00837"></a><span class="lineno">  837</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> copy_calculation {value} {
+<div class="line"><a name="l00836"></a><span class="lineno">  836</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># can be either a Tcl expression or a Verilog expression.
+</span></div>
+<div class="line"><a name="l00837"></a><span class="lineno">  837</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> handle_calculation {str} {
 
     </div>
 <div class="line"><a name="l00838"></a><span class="lineno">  838</span>&#160;
     </div>
-<div class="line"><a name="l00839"></a><span class="lineno">  839</span>&#160;    <span class="keyword">variable</span> last_command<span class="comment">
+<div class="line"><a name="l00839"></a><span class="lineno">  839</span>&#160;    <span class="keyword">variable</span> matches<span class="comment">
 </span></div>
 <div class="line"><a name="l00840"></a><span class="lineno">  840</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00841"></a><span class="lineno">  841</span>&#160;    <span class="comment"># Clear the clipboard and add the calculation
+<div class="line"><a name="l00841"></a><span class="lineno">  841</span>&#160;    <span class="comment"># Check to see if the string is a valid Tcl expression
 </span></div>
-<div class="line"><a name="l00842"></a><span class="lineno">  842</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">clipboard</span> clear<span class="comment">
+<div class="line"><a name="l00842"></a><span class="lineno">  842</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">if</span> {![<span class="keyword">catch</span> &quot;<span class="keyword">expr</span> $str&quot; rc]} {
+
+      </div>
+<div class="line"><a name="l00843"></a><span class="lineno">  843</span>&#160;
+      </div>
+<div class="line"><a name="l00844"></a><span class="lineno">  844</span>&#160;      <span class="keyword">lappend</span> matches [<a class="code" href="namespacelauncher.html#a7d526a0670350706a4b468613c152235" title="launcher::register_temp">register_temp</a> &quot;&quot; [list launcher::copy_calculation $rc] &quot;Copy $rc to clipboard&quot; 0 &quot;&quot; launcher::calc_okay]<span class="comment">
 </span></div>
-<div class="line"><a name="l00843"></a><span class="lineno">  843</span>&#160;<span class="comment"></span>    <span class="keyword">clipboard</span> append $value<span class="comment">
-</span></div>
-<div class="line"><a name="l00844"></a><span class="lineno">  844</span>&#160;<span class="comment"></span>
-    </div>
-<div class="line"><a name="l00845"></a><span class="lineno">  845</span>&#160;    <span class="comment"># Add the clipboard content to the clipboard history manager
-</span></div>
-<div class="line"><a name="l00846"></a><span class="lineno">  846</span>&#160;<span class="comment"></span><span class="comment">    </span><a class="code" href="namespacecliphist.html#ac344c656fd7a37aeb948b4d6d69fec3e" title="cliphist::add_from_clipboard">cliphist::add_from_clipboard</a><span class="comment">
+<div class="line"><a name="l00845"></a><span class="lineno">  845</span>&#160;<span class="comment"></span>
+      </div>
+<div class="line"><a name="l00846"></a><span class="lineno">  846</span>&#160;      <span class="keyword">return</span> 1<span class="comment">
 </span></div>
 <div class="line"><a name="l00847"></a><span class="lineno">  847</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00848"></a><span class="lineno">  848</span>&#160;    <span class="comment"># Clear the last command so that we don&#39;t have the calculated value stuck in memory
+<div class="line"><a name="l00848"></a><span class="lineno">  848</span>&#160;    }<span class="comment">
 </span></div>
-<div class="line"><a name="l00849"></a><span class="lineno">  849</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> last_command &quot;&quot;<span class="comment">
+<div class="line"><a name="l00849"></a><span class="lineno">  849</span>&#160;<span class="comment"></span>
+    </div>
+<div class="line"><a name="l00850"></a><span class="lineno">  850</span>&#160;    <span class="keyword">return</span> 0<span class="comment">
 </span></div>
-<div class="line"><a name="l00850"></a><span class="lineno">  850</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00851"></a><span class="lineno">  851</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l00851"></a><span class="lineno">  851</span>&#160;  }<span class="comment">
+<div class="line"><a name="l00852"></a><span class="lineno">  852</span>&#160;  }<span class="comment">
 </span></div>
-<div class="line"><a name="l00852"></a><span class="lineno">  852</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00853"></a><span class="lineno">  853</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l00853"></a><span class="lineno">  853</span>&#160;  <span class="comment">######################################################################
+<div class="line"><a name="l00854"></a><span class="lineno">  854</span>&#160;  <span class="comment">############################################################################
 </span></div>
-<div class="line"><a name="l00854"></a><span class="lineno">  854</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Displays the given URL and bookmarks it.
+<div class="line"><a name="l00855"></a><span class="lineno">  855</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Copies the current calculation to the clipboard.
 </span></div>
-<div class="line"><a name="l00855"></a><span class="lineno">  855</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> open_url_and_bookmark {url} {
+<div class="line"><a name="l00856"></a><span class="lineno">  856</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> copy_calculation {value} {
 
     </div>
-<div class="line"><a name="l00856"></a><span class="lineno">  856</span>&#160;
+<div class="line"><a name="l00857"></a><span class="lineno">  857</span>&#160;
     </div>
-<div class="line"><a name="l00857"></a><span class="lineno">  857</span>&#160;    <span class="comment"># Open the URL in the local browser
+<div class="line"><a name="l00858"></a><span class="lineno">  858</span>&#160;    <span class="keyword">variable</span> last_command<span class="comment">
 </span></div>
-<div class="line"><a name="l00858"></a><span class="lineno">  858</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">if</span> {[<a class="code" href="namespacelauncher.html#ae62944c720f7c1d7531a1854f8a1870a" title="launcher::open_url">open_url</a> $url] == 0} {
-
-      </div>
-<div class="line"><a name="l00859"></a><span class="lineno">  859</span>&#160;
-      </div>
-<div class="line"><a name="l00860"></a><span class="lineno">  860</span>&#160;      <span class="comment"># Add the URL to the bookmark list
-</span></div>
-<div class="line"><a name="l00861"></a><span class="lineno">  861</span>&#160;<span class="comment"></span><span class="comment">      </span><a class="code" href="namespacelauncher.html#a2b295e7b3b73ad09d0c9548a7382365d" title="launcher::register">register</a> &quot;Open bookmarked URL $url&quot; [list launcher::open_url $url]<span class="comment">
-</span></div>
-<div class="line"><a name="l00862"></a><span class="lineno">  862</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00859"></a><span class="lineno">  859</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00863"></a><span class="lineno">  863</span>&#160;    }<span class="comment">
+<div class="line"><a name="l00860"></a><span class="lineno">  860</span>&#160;    <span class="comment"># Clear the clipboard and add the calculation
 </span></div>
-<div class="line"><a name="l00864"></a><span class="lineno">  864</span>&#160;<span class="comment"></span>
-  </div>
-<div class="line"><a name="l00865"></a><span class="lineno">  865</span>&#160;  }<span class="comment">
+<div class="line"><a name="l00861"></a><span class="lineno">  861</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">clipboard</span> clear<span class="comment">
+</span></div>
+<div class="line"><a name="l00862"></a><span class="lineno">  862</span>&#160;<span class="comment"></span>    <span class="keyword">clipboard</span> append $value<span class="comment">
+</span></div>
+<div class="line"><a name="l00863"></a><span class="lineno">  863</span>&#160;<span class="comment"></span>
+    </div>
+<div class="line"><a name="l00864"></a><span class="lineno">  864</span>&#160;    <span class="comment"># Add the clipboard content to the clipboard history manager
+</span></div>
+<div class="line"><a name="l00865"></a><span class="lineno">  865</span>&#160;<span class="comment"></span><span class="comment">    </span><a class="code" href="namespacecliphist.html#ac344c656fd7a37aeb948b4d6d69fec3e" title="cliphist::add_from_clipboard">cliphist::add_from_clipboard</a><span class="comment">
 </span></div>
 <div class="line"><a name="l00866"></a><span class="lineno">  866</span>&#160;<span class="comment"></span>
+    </div>
+<div class="line"><a name="l00867"></a><span class="lineno">  867</span>&#160;    <span class="comment"># Clear the last command so that we don&#39;t have the calculated value stuck in memory
+</span></div>
+<div class="line"><a name="l00868"></a><span class="lineno">  868</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">set</span> last_command &quot;&quot;<span class="comment">
+</span></div>
+<div class="line"><a name="l00869"></a><span class="lineno">  869</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l00867"></a><span class="lineno">  867</span>&#160;  <span class="comment">######################################################################
+<div class="line"><a name="l00870"></a><span class="lineno">  870</span>&#160;  }<span class="comment">
 </span></div>
-<div class="line"><a name="l00868"></a><span class="lineno">  868</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Shows the given URL and adds it to the URL history if it does not
+<div class="line"><a name="l00871"></a><span class="lineno">  871</span>&#160;<span class="comment"></span>
+  </div>
+<div class="line"><a name="l00872"></a><span class="lineno">  872</span>&#160;  <span class="comment">######################################################################
 </span></div>
-<div class="line"><a name="l00869"></a><span class="lineno">  869</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># exist.
+<div class="line"><a name="l00873"></a><span class="lineno">  873</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Displays the given URL and bookmarks it.
 </span></div>
-<div class="line"><a name="l00870"></a><span class="lineno">  870</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> open_url {url} {
+<div class="line"><a name="l00874"></a><span class="lineno">  874</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> open_url_and_bookmark {url} {
 
     </div>
-<div class="line"><a name="l00871"></a><span class="lineno">  871</span>&#160;
+<div class="line"><a name="l00875"></a><span class="lineno">  875</span>&#160;
     </div>
-<div class="line"><a name="l00872"></a><span class="lineno">  872</span>&#160;    <span class="comment"># If the URL did not contain the http portion, add it so that the external launcher knows
+<div class="line"><a name="l00876"></a><span class="lineno">  876</span>&#160;    <span class="comment"># Open the URL in the local browser
 </span></div>
-<div class="line"><a name="l00873"></a><span class="lineno">  873</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment"># this is a URL.
-</span></div>
-<div class="line"><a name="l00874"></a><span class="lineno">  874</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">if</span> {[<span class="keyword">string</span> range $url 0 3] ne &quot;http&quot;} {
-      </div>
-<div class="line"><a name="l00875"></a><span class="lineno">  875</span>&#160;      <span class="keyword">set</span> url &quot;http://$url&quot;<span class="comment">
-</span></div>
-<div class="line"><a name="l00876"></a><span class="lineno">  876</span>&#160;<span class="comment"></span>    }<span class="comment">
-</span></div>
-<div class="line"><a name="l00877"></a><span class="lineno">  877</span>&#160;<span class="comment"></span>
-    </div>
-<div class="line"><a name="l00878"></a><span class="lineno">  878</span>&#160;    <span class="comment"># Displays the URL in the local browser
-</span></div>
-<div class="line"><a name="l00879"></a><span class="lineno">  879</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">return</span> [<a class="code" href="namespaceutils.html#aa80202a063e637943b8d62cd33c72465" title="utils::open_file_externally">utils::open_file_externally</a> $url]<span class="comment">
-</span></div>
-<div class="line"><a name="l00880"></a><span class="lineno">  880</span>&#160;<span class="comment"></span>
-  </div>
-<div class="line"><a name="l00881"></a><span class="lineno">  881</span>&#160;  }<span class="comment">
-</span></div>
-<div class="line"><a name="l00882"></a><span class="lineno">  882</span>&#160;<span class="comment"></span>
-  </div>
-<div class="line"><a name="l00883"></a><span class="lineno">  883</span>&#160;  <span class="comment">######################################################################
-</span></div>
-<div class="line"><a name="l00884"></a><span class="lineno">  884</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Opens the given URI.
-</span></div>
-<div class="line"><a name="l00885"></a><span class="lineno">  885</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> open_uri_and_bookmark {uri} {
-
-    </div>
-<div class="line"><a name="l00886"></a><span class="lineno">  886</span>&#160;
-    </div>
-<div class="line"><a name="l00887"></a><span class="lineno">  887</span>&#160;    <span class="comment"># Display the URI
-</span></div>
-<div class="line"><a name="l00888"></a><span class="lineno">  888</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">if</span> {[<a class="code" href="namespacelauncher.html#a01be421c9123caa926698c9d65cb6d07" title="launcher::open_uri">open_uri</a> $uri] == 0} {
+<div class="line"><a name="l00877"></a><span class="lineno">  877</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">if</span> {[<a class="code" href="namespacelauncher.html#ae62944c720f7c1d7531a1854f8a1870a" title="launcher::open_url">open_url</a> $url] == 0} {
 
       </div>
-<div class="line"><a name="l00889"></a><span class="lineno">  889</span>&#160;
+<div class="line"><a name="l00878"></a><span class="lineno">  878</span>&#160;
       </div>
-<div class="line"><a name="l00890"></a><span class="lineno">  890</span>&#160;      <span class="comment"># Add the URI to the bookmark list
+<div class="line"><a name="l00879"></a><span class="lineno">  879</span>&#160;      <span class="comment"># Add the URL to the bookmark list
 </span></div>
-<div class="line"><a name="l00891"></a><span class="lineno">  891</span>&#160;<span class="comment"></span><span class="comment">      </span><a class="code" href="namespacelauncher.html#a2b295e7b3b73ad09d0c9548a7382365d" title="launcher::register">register</a> &quot;Open bookmarked URI $uri&quot; [list launcher::open_uri $uri]<span class="comment">
+<div class="line"><a name="l00880"></a><span class="lineno">  880</span>&#160;<span class="comment"></span><span class="comment">      </span><a class="code" href="namespacelauncher.html#a2b295e7b3b73ad09d0c9548a7382365d" title="launcher::register">register</a> &quot;Open bookmarked URL $url&quot; [list launcher::open_url $url]<span class="comment">
 </span></div>
-<div class="line"><a name="l00892"></a><span class="lineno">  892</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00881"></a><span class="lineno">  881</span>&#160;<span class="comment"></span>
     </div>
-<div class="line"><a name="l00893"></a><span class="lineno">  893</span>&#160;    }<span class="comment">
+<div class="line"><a name="l00882"></a><span class="lineno">  882</span>&#160;    }<span class="comment">
 </span></div>
-<div class="line"><a name="l00894"></a><span class="lineno">  894</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00883"></a><span class="lineno">  883</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l00895"></a><span class="lineno">  895</span>&#160;  }<span class="comment">
+<div class="line"><a name="l00884"></a><span class="lineno">  884</span>&#160;  }<span class="comment">
+</span></div>
+<div class="line"><a name="l00885"></a><span class="lineno">  885</span>&#160;<span class="comment"></span>
+  </div>
+<div class="line"><a name="l00886"></a><span class="lineno">  886</span>&#160;  <span class="comment">######################################################################
+</span></div>
+<div class="line"><a name="l00887"></a><span class="lineno">  887</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Shows the given URL and adds it to the URL history if it does not
+</span></div>
+<div class="line"><a name="l00888"></a><span class="lineno">  888</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># exist.
+</span></div>
+<div class="line"><a name="l00889"></a><span class="lineno">  889</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> open_url {url} {
+
+    </div>
+<div class="line"><a name="l00890"></a><span class="lineno">  890</span>&#160;
+    </div>
+<div class="line"><a name="l00891"></a><span class="lineno">  891</span>&#160;    <span class="comment"># If the URL did not contain the http portion, add it so that the external launcher knows
+</span></div>
+<div class="line"><a name="l00892"></a><span class="lineno">  892</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="comment"># this is a URL.
+</span></div>
+<div class="line"><a name="l00893"></a><span class="lineno">  893</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">if</span> {[<span class="keyword">string</span> range $url 0 3] ne &quot;http&quot;} {
+      </div>
+<div class="line"><a name="l00894"></a><span class="lineno">  894</span>&#160;      <span class="keyword">set</span> url &quot;http://$url&quot;<span class="comment">
+</span></div>
+<div class="line"><a name="l00895"></a><span class="lineno">  895</span>&#160;<span class="comment"></span>    }<span class="comment">
 </span></div>
 <div class="line"><a name="l00896"></a><span class="lineno">  896</span>&#160;<span class="comment"></span>
+    </div>
+<div class="line"><a name="l00897"></a><span class="lineno">  897</span>&#160;    <span class="comment"># Displays the URL in the local browser
+</span></div>
+<div class="line"><a name="l00898"></a><span class="lineno">  898</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">return</span> [<a class="code" href="namespaceutils.html#aa80202a063e637943b8d62cd33c72465" title="utils::open_file_externally">utils::open_file_externally</a> $url]<span class="comment">
+</span></div>
+<div class="line"><a name="l00899"></a><span class="lineno">  899</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l00897"></a><span class="lineno">  897</span>&#160;  <span class="comment">######################################################################
+<div class="line"><a name="l00900"></a><span class="lineno">  900</span>&#160;  }<span class="comment">
 </span></div>
-<div class="line"><a name="l00898"></a><span class="lineno">  898</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Performs the given URI.
+<div class="line"><a name="l00901"></a><span class="lineno">  901</span>&#160;<span class="comment"></span>
+  </div>
+<div class="line"><a name="l00902"></a><span class="lineno">  902</span>&#160;  <span class="comment">######################################################################
 </span></div>
-<div class="line"><a name="l00899"></a><span class="lineno">  899</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> open_uri {uri} {
+<div class="line"><a name="l00903"></a><span class="lineno">  903</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Opens the given URI.
+</span></div>
+<div class="line"><a name="l00904"></a><span class="lineno">  904</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> open_uri_and_bookmark {uri} {
 
     </div>
-<div class="line"><a name="l00900"></a><span class="lineno">  900</span>&#160;
+<div class="line"><a name="l00905"></a><span class="lineno">  905</span>&#160;
     </div>
-<div class="line"><a name="l00901"></a><span class="lineno">  901</span>&#160;    <span class="keyword">return</span> [<a class="code" href="namespaceutils.html#aa80202a063e637943b8d62cd33c72465" title="utils::open_file_externally">utils::open_file_externally</a> $uri]<span class="comment">
+<div class="line"><a name="l00906"></a><span class="lineno">  906</span>&#160;    <span class="comment"># Display the URI
 </span></div>
-<div class="line"><a name="l00902"></a><span class="lineno">  902</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00907"></a><span class="lineno">  907</span>&#160;<span class="comment"></span><span class="comment">    </span><span class="keyword">if</span> {[<a class="code" href="namespacelauncher.html#a01be421c9123caa926698c9d65cb6d07" title="launcher::open_uri">open_uri</a> $uri] == 0} {
+
+      </div>
+<div class="line"><a name="l00908"></a><span class="lineno">  908</span>&#160;
+      </div>
+<div class="line"><a name="l00909"></a><span class="lineno">  909</span>&#160;      <span class="comment"># Add the URI to the bookmark list
+</span></div>
+<div class="line"><a name="l00910"></a><span class="lineno">  910</span>&#160;<span class="comment"></span><span class="comment">      </span><a class="code" href="namespacelauncher.html#a2b295e7b3b73ad09d0c9548a7382365d" title="launcher::register">register</a> &quot;Open bookmarked URI $uri&quot; [list launcher::open_uri $uri]<span class="comment">
+</span></div>
+<div class="line"><a name="l00911"></a><span class="lineno">  911</span>&#160;<span class="comment"></span>
+    </div>
+<div class="line"><a name="l00912"></a><span class="lineno">  912</span>&#160;    }<span class="comment">
+</span></div>
+<div class="line"><a name="l00913"></a><span class="lineno">  913</span>&#160;<span class="comment"></span>
   </div>
-<div class="line"><a name="l00903"></a><span class="lineno">  903</span>&#160;  }<span class="comment">
+<div class="line"><a name="l00914"></a><span class="lineno">  914</span>&#160;  }<span class="comment">
 </span></div>
-<div class="line"><a name="l00904"></a><span class="lineno">  904</span>&#160;<span class="comment"></span>
+<div class="line"><a name="l00915"></a><span class="lineno">  915</span>&#160;<span class="comment"></span>
+  </div>
+<div class="line"><a name="l00916"></a><span class="lineno">  916</span>&#160;  <span class="comment">######################################################################
+</span></div>
+<div class="line"><a name="l00917"></a><span class="lineno">  917</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="comment"># Performs the given URI.
+</span></div>
+<div class="line"><a name="l00918"></a><span class="lineno">  918</span>&#160;<span class="comment"></span><span class="comment">  </span><span class="keyword">proc</span> open_uri {uri} {
+
+    </div>
+<div class="line"><a name="l00919"></a><span class="lineno">  919</span>&#160;
+    </div>
+<div class="line"><a name="l00920"></a><span class="lineno">  920</span>&#160;    <span class="keyword">return</span> [<a class="code" href="namespaceutils.html#aa80202a063e637943b8d62cd33c72465" title="utils::open_file_externally">utils::open_file_externally</a> $uri]<span class="comment">
+</span></div>
+<div class="line"><a name="l00921"></a><span class="lineno">  921</span>&#160;<span class="comment"></span>
+  </div>
+<div class="line"><a name="l00922"></a><span class="lineno">  922</span>&#160;  }<span class="comment">
+</span></div>
+<div class="line"><a name="l00923"></a><span class="lineno">  923</span>&#160;<span class="comment"></span>
 </div>
-<div class="line"><a name="l00905"></a><span class="lineno">  905</span>&#160;}</div>
+<div class="line"><a name="l00924"></a><span class="lineno">  924</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_97aefd0d527b934f1d99a682da8fe6a9.html">lib</a></li><li class="navelem"><a class="el" href="launcher_8tcl.html">launcher.tcl</a></li>
-    <li class="footer">Generated on Sat Dec 5 2015 22:16:38 for TKE by
+    <li class="footer">Generated on Mon Dec 28 2015 01:27:24 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>

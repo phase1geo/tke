@@ -9,6 +9,7 @@ var utils_8tcl =
     [ "get_complementary_mono_color", "utils_8tcl.html#a1127ebede61cc35585b784ab324822f8", null ],
     [ "get_default_background", "utils_8tcl.html#a175f71dd5ac8ba87e6f926e628b318c8", null ],
     [ "get_default_foreground", "utils_8tcl.html#ac8d1a83a1463da5378b6d7f4259c0e5c", null ],
+    [ "get_eol_char", "utils_8tcl.html#a15c242be08bb3e65549f658e311a6997", null ],
     [ "glob_install", "utils_8tcl.html#a9118d8ecdd2d6358e8bda6a0badf62ce", null ],
     [ "hsl_to_rgb", "utils_8tcl.html#abd4b1a5bb2dfc7df51db5eeeb3b20f7e", null ],
     [ "hsv_to_rgb", "utils_8tcl.html#a6ba72039b659afee4217fe215246d42c", null ],

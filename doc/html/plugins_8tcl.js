@@ -8,6 +8,7 @@ var plugins_8tcl =
     [ "delete_all_syntax", "plugins_8tcl.html#a0bb12ae1b66c5fdb081dcb3b3e67b599", null ],
     [ "delete_all_text_bindings", "plugins_8tcl.html#a94f11e6ba11af7fe9a51dfae377e51d2", null ],
     [ "find_registry_entries", "plugins_8tcl.html#a751b8ece956fd6dcb1ca891b7acc0844", null ],
+    [ "grant_window", "plugins_8tcl.html#a36c8f227248b91bf42e1345f54ddab03", null ],
     [ "handle_dir_popup", "plugins_8tcl.html#ac54d95deebc0496606f3f296d60cb34e", null ],
     [ "handle_event", "plugins_8tcl.html#a16de3b6f1be441ab57aa8a06d98837b5", null ],
     [ "handle_file_popup", "plugins_8tcl.html#a73edd81cb5ffb24aef7ea176e1ff9a62", null ],
