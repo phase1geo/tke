@@ -228,6 +228,9 @@ msgcat::mcmset el {
   "Check for Update"
   "Έλεγχος για ενημέρωση"
 
+  "Classic Mac"
+  "Κλασικό Mac"
+
   "Clear All"
   "Καθαρισμός όλων"
 
@@ -246,14 +249,17 @@ msgcat::mcmset el {
   "Copy"
   "Αντιγραφή"
 
+  "Create"
+  "Δημιουργία"
+
   "Create at Current Line"
   "???????????? ???? ???????? ??????"
 
-  "Create..."
-  "Δημιουργία"
-
   "Current Line"
   "Τρέχουσα γραμμή"
+
+  "Current Number"
+  "Τρέχων αριθμός"
 
   "Current Word"
   "Τρέχουσας λέξης"
@@ -306,22 +312,10 @@ msgcat::mcmset el {
   "Edit Menu: Cut text"
   "Μενού \"
 
-  "Edit Menu: Delete backward numbers"
-  "Μενού \"
-
-  "Edit Menu: Delete backward whitespace"
-  "Μενού \"
-
   "Edit Menu: Delete current line"
   "Μενού \"
 
   "Edit Menu: Delete current word"
-  "Μενού \"
-
-  "Edit Menu: Delete forward numbers"
-  "Μενού \"
-
-  "Edit Menu: Delete forward whitespace"
   "Μενού \"
 
   "Edit Menu: Delete from cursor to end of line"
@@ -330,7 +324,19 @@ msgcat::mcmset el {
   "Edit Menu: Delete from start of line to cursor"
   "Μενού \"
 
+  "Edit Menu: Delete template"
+  "Μενού \"
+
   "Edit Menu: Delete text between character"
+  "Μενού \"
+
+  "Edit Menu: Delete the current number"
+  "Μενού \"
+
+  "Edit Menu: Delete the whitespace to left of cursor"
+  "Μενού \"
+
+  "Edit Menu: Delete the whitespace to right of cursor"
   "Μενού \"
 
   "Edit Menu: Edit language snippets"
@@ -340,6 +346,9 @@ msgcat::mcmset el {
   "Μενού \"
 
   "Edit Menu: Edit session global preferences"
+  "Μενού \"
+
+  "Edit Menu: Edit template"
   "Μενού \"
 
   "Edit Menu: Edit user current language preferences"
@@ -435,6 +444,9 @@ msgcat::mcmset el {
   "Edit Menu: Reload snippets"
   "Μενού \"
 
+  "Edit Menu: Reload template information"
+  "Μενού \"
+
   "Edit Menu: Replace line with script"
   "Μενού \"
 
@@ -507,6 +519,12 @@ msgcat::mcmset el {
   "File Menu: Close current tab"
   "Μενού αρχείο: Κλείνω τρέχων ετικέτα"
 
+  "File Menu: Delete current file"
+  "Μενού αρχείο: Διαγραφή τρέχοντος αρχείου"
+
+  "File Menu: Duplicate current file"
+  "Μενού αρχείο: Αντίγραφο τρέχοντος αρχείου"
+
   "File Menu: Favorite file"
   "Μενού αρχείου: Αγαπημένο αρχείο"
 
@@ -515,6 +533,9 @@ msgcat::mcmset el {
 
   "File Menu: New file"
   "Μενού αρχείο: Νέο αρχείο"
+
+  "File Menu: New file from template"
+  "Μενού αρχείο: Νέο αρχείο από πρότυπο"
 
   "File Menu: New window"
   "Μενού αρχείο: Νέο παράθυρο"
@@ -534,6 +555,9 @@ msgcat::mcmset el {
   "File Menu: Quit application"
   "Μενού αρχείο: Κλείστε την εφαρμογή"
 
+  "File Menu: Rename current file"
+  "Μενού αρχείο: Μετονομάστε το τρέχον αρχείο"
+
   "File Menu: Reopen current file"
   "Μενού αρχείο: Ξανά το τρέχον αρχείο"
 
@@ -546,8 +570,20 @@ msgcat::mcmset el {
   "File Menu: Save file as"
   "Μενού αρχείο: Αποθηκεύστε το αρχείο ως"
 
+  "File Menu: Save file as template"
+  "Μενού αρχείο: Αποθήκευση αρχείου ως προτύπου"
+
   "File Menu: Save selected lines"
   "Μενού αρχείο: Αποθηκεύσετε τις επιλεγμένες γραμμές"
+
+  "File Menu: Set current file line ending to CR for Classic Mac"
+  "Μενού \"
+
+  "File Menu: Set current file line ending to CRLF for Windows"
+  "Μενού \"
+
+  "File Menu: Set current file line ending to LF for Unix"
+  "Μενού \"
 
   "File Menu: Show file difference"
   "Μενού αρχείο: Εμφάνιση αρχείο διαφορά"
@@ -687,8 +723,8 @@ msgcat::mcmset el {
   "Insert"
   "Εισαγωγή"
 
-  "Install..."
-  "εγκαθιστώ"
+  "Install"
+  "Εγκατάσταση"
 
   "Join Lines"
   "Ενώνουν γραμμές"
@@ -710,6 +746,9 @@ msgcat::mcmset el {
 
   "Line Below Current"
   "Γραμμή κάτω από το ρεύμα"
+
+  "Line Ending"
+  "Τέλος γραμμής"
 
   "Line Number"
   "Αριθμός γραμμής"
@@ -777,26 +816,23 @@ msgcat::mcmset el {
   "Move to Screen Top"
   "Προχωρήσουμε στην οθόνη κορυφή"
 
+  "New From Template"
+  "Νέα από το πρότυπο"
+
   "New Window"
   "Νέο παράθυρο"
 
   "Next Difference"
   "??????? ???????"
 
-  "Numbers Backward"
-  "Αριθμούς προς τα πίσω"
-
-  "Numbers Forward"
-  "Αριθμούς προς τα εμπρός"
-
-  "Open Directory..."
-  "Άνοιγμα καταλόγου"
+  "Open Directory"
+  "Open Directory"
 
   "Open Favorite"
   "Open Αγαπημένα"
 
-  "Open File..."
-  "Άνοιγμα αρχείου..."
+  "Open File"
+  "Άνοιγμα αρχείου"
 
   "Open Recent"
   "Άνοιγμα πρόσφατου"
@@ -864,17 +900,20 @@ msgcat::mcmset el {
   "Restart TKE"
   "???????????? ???"
 
+  "Run BIST"
+  "Εκτελέστε BIST"
+
   "Save All"
   "Αποθήκευση όλων"
 
-  "Save As..."
-  "Αποθήκευση ως"
+  "Save As Template"
+  "Αποθήκευση Προτύπου"
 
   "Save Current"
   "???????????? ?? ?????"
 
-  "Save Selection As..."
-  "Αποθήκευση επιλογής ως..."
+  "Save Selection As"
+  "Αποθήκευση επιλογής ως"
 
   "Select All"
   "Επιλογή όλων"
@@ -978,6 +1017,9 @@ msgcat::mcmset el {
   "Tabs"
   "Δισκία"
 
+  "Templates"
+  "Πρότυπα"
+
   "Text Between Character"
   "Κείμενο μεταξύ χαρακτήρα"
 
@@ -1005,6 +1047,9 @@ msgcat::mcmset el {
   "Tools Menu: Restart TKE"
   "Μενού Εργαλεία: Επανεκκίνηση ΤΚΕ"
 
+  "Tools Menu: Run BIST"
+  "Μενού Εργαλεία: Τρέχει BIST"
+
   "Tools Menu: Run theme editor"
   "Εργαλεία Μενού: Εκτέλεση editor θέμα"
 
@@ -1029,8 +1074,11 @@ msgcat::mcmset el {
   "Unindent"
   "Κατάργηση εσοχής"
 
-  "Uninstall..."
-  "κατάργηση εγκατάστασης"
+  "Uninstall"
+  "Απεγκατάσταση"
+
+  "Unix"
+  "Unix"
 
   "Unlock"
   "Ξεκλείδωμα"
@@ -1127,6 +1175,9 @@ msgcat::mcmset el {
 
   "Whitespace Forward"
   "Whitespace προς τα εμπρός"
+
+  "Windows"
+  "Παράθυρα"
 
 }
 
@@ -1238,20 +1289,11 @@ msgcat::mcmset el {
   "Delete directory?"
   "Διαγραφή κατάλογο;"
 
-  "Delete file?"
-  "Διαγραφή αρχείου"
-
   "Delete files?"
   "Διαγραφή αρχείων;"
 
   "Directory Name:"
   "Όνομα καταλόγου:"
-
-  "Duplicate"
-  "Αναπαραγωγή"
-
-  "File Name:"
-  "Όνομα αρχείου:"
 
   "Folder Name:"
   "????? ???????:"
@@ -1277,9 +1319,6 @@ msgcat::mcmset el {
   "Remove from Sidebar"
   "Αφαιρέστε από το Sidebar"
 
-  "Rename"
-  "Μετονομασία"
-
   "Show Difference"
   "Εμφάνιση διαφορά"
 
@@ -1301,6 +1340,23 @@ msgcat::mcmset el {
 
   "Syntax error in syntax file"
   "Συντακτικό σφάλμα στο αρχείο σύνταξη"
+
+}
+
+# templates.tcl
+msgcat::mcmset el {
+
+  "Template"
+  "Πρότυπο"
+
+  "Template Name"
+  "Όνομα πρότυπου"
+
+  "deleted"
+  "διαγράφηκε"
+
+  "saved"
+  "Αποθηκεύτηκε!"
 
 }
 
@@ -1600,9 +1656,6 @@ msgcat::mcmset el {
   "Modifications"
   "Τροποποιήσεις"
 
-  "None"
-  "Κανένα"
-
   "One-Color Bitmap"
   "Ένα-Color Bitmap"
 
@@ -1692,8 +1745,17 @@ msgcat::mcmset el {
   "Delete"
   "Διαγραφή"
 
+  "Delete file?"
+  "Διαγραφή αρχείου"
+
+  "Duplicate"
+  "Αναπαραγωγή"
+
   "Favorite"
   "Αγαπημένο"
+
+  "File Name:"
+  "Όνομα αρχείου:"
 
   "Find"
   "Find"
@@ -1704,8 +1766,14 @@ msgcat::mcmset el {
   "New File"
   "Νέο αρχείο"
 
+  "None"
+  "Κανένα"
+
   "Open"
   "Ανοιχτό"
+
+  "Rename"
+  "Μετονομασία"
 
   "Save"
   "Αποθήκευση"

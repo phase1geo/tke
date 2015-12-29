@@ -228,6 +228,9 @@ msgcat::mcmset cs {
   "Check for Update"
   "Zkontrolujte, zda aktualizaci"
 
+  "Classic Mac"
+  "Klasický Mac"
+
   "Clear All"
   "Vymazat vše"
 
@@ -246,14 +249,17 @@ msgcat::mcmset cs {
   "Copy"
   "Kopírovat"
 
+  "Create"
+  "Vytvořit"
+
   "Create at Current Line"
   "Vytvo?it v aktuálním ?ádku"
 
-  "Create..."
-  "Vytvořit"
-
   "Current Line"
   "Aktuální řádek"
+
+  "Current Number"
+  "Aktuální číslo"
 
   "Current Word"
   "Aktuální slovo"
@@ -306,23 +312,11 @@ msgcat::mcmset cs {
   "Edit Menu: Cut text"
   "Nabídka úpravy: Vyjmout text"
 
-  "Edit Menu: Delete backward numbers"
-  "Nabídka úpravy: Odstranění zpětně čísla"
-
-  "Edit Menu: Delete backward whitespace"
-  "Nabídka úpravy: Odstranění zpětně mezery"
-
   "Edit Menu: Delete current line"
   "Nabídka úpravy: Odstranit aktuální řádek"
 
   "Edit Menu: Delete current word"
   "Nabídka úpravy: Odstranit aktuální slovo"
-
-  "Edit Menu: Delete forward numbers"
-  "Nabídka úpravy: Odstranění vpřed čísla"
-
-  "Edit Menu: Delete forward whitespace"
-  "Nabídka úpravy: Odstranění vpřed mezery"
 
   "Edit Menu: Delete from cursor to end of line"
   "Nabídka úpravy: Odstranění od kurzoru do konce řádku"
@@ -330,8 +324,20 @@ msgcat::mcmset cs {
   "Edit Menu: Delete from start of line to cursor"
   "Nabídka úpravy: Odstraňte ze začátku řádku kurzoru"
 
+  "Edit Menu: Delete template"
+  "Nabídka úpravy: Odstranění šablony"
+
   "Edit Menu: Delete text between character"
   "Nabídka úpravy: Odstranit text mezi znaky"
+
+  "Edit Menu: Delete the current number"
+  "Nabídka úpravy: Odstranit aktuální číslo"
+
+  "Edit Menu: Delete the whitespace to left of cursor"
+  "Nabídka úpravy: Odstraňte mezery nalevo od kurzoru"
+
+  "Edit Menu: Delete the whitespace to right of cursor"
+  "Nabídka úpravy: Odstraňte mezery napravo od kurzoru"
 
   "Edit Menu: Edit language snippets"
   "Nabídka úpravy: Upravit jazyk fragmenty"
@@ -341,6 +347,9 @@ msgcat::mcmset cs {
 
   "Edit Menu: Edit session global preferences"
   "Nabídka úpravy: Upravit globální nastavení relace"
+
+  "Edit Menu: Edit template"
+  "Menu úpravy: Šablona upravit"
 
   "Edit Menu: Edit user current language preferences"
   "Nabídka úpravy: Upravit aktuální uživatelské předvolby jazyka"
@@ -435,6 +444,9 @@ msgcat::mcmset cs {
   "Edit Menu: Reload snippets"
   "Nabídka úpravy: Reload fragmenty"
 
+  "Edit Menu: Reload template information"
+  "Nabídka úpravy: Znovu načíst informace o šabloně"
+
   "Edit Menu: Replace line with script"
   "Nabídka úpravy: Nahradit řádek skriptu"
 
@@ -507,6 +519,12 @@ msgcat::mcmset cs {
   "File Menu: Close current tab"
   "Nabídka soubor: Zavřít současnou kartu"
 
+  "File Menu: Delete current file"
+  "Nabídka soubor: Odstranit aktuální soubor"
+
+  "File Menu: Duplicate current file"
+  "Nabídka soubor: Duplicitní aktuální soubor"
+
   "File Menu: Favorite file"
   "Nabídka soubor: Oblíbený soubor"
 
@@ -515,6 +533,9 @@ msgcat::mcmset cs {
 
   "File Menu: New file"
   "Nabídka soubor: Nový soubor"
+
+  "File Menu: New file from template"
+  "Nabídka soubor: Nový soubor šablony"
 
   "File Menu: New window"
   "Nabídce soubor: Nové okno"
@@ -534,6 +555,9 @@ msgcat::mcmset cs {
   "File Menu: Quit application"
   "Nabídka soubor: Ukončit aplikaci"
 
+  "File Menu: Rename current file"
+  "Nabídka soubor: Přejmenovat aktuální soubor"
+
   "File Menu: Reopen current file"
   "Soubor Menu: Současný soubor znovu otevřete"
 
@@ -546,8 +570,20 @@ msgcat::mcmset cs {
   "File Menu: Save file as"
   "Nabídka soubor: Uložit soubor jako"
 
+  "File Menu: Save file as template"
+  "Nabídka soubor: Uložit soubor jako šablonu"
+
   "File Menu: Save selected lines"
   "Nabídka soubor: Uložit vybrané řádky"
+
+  "File Menu: Set current file line ending to CR for Classic Mac"
+  "Nabídka soubor: Nastavte aktuální řádek souboru končí na CR pro klasický Mac"
+
+  "File Menu: Set current file line ending to CRLF for Windows"
+  "Nabídka soubor: Nastavte aktuální řádek souboru končí CRLF pro Windows"
+
+  "File Menu: Set current file line ending to LF for Unix"
+  "Nabídka soubor: Nastavte aktuální řádek souboru končí na LF pro Unix"
 
   "File Menu: Show file difference"
   "Nabídka soubor: Show souboru rozdílu"
@@ -687,8 +723,8 @@ msgcat::mcmset cs {
   "Insert"
   "Vložit"
 
-  "Install..."
-  "nainstalovat"
+  "Install"
+  "Instalovat"
 
   "Join Lines"
   "Čáry spojení"
@@ -710,6 +746,9 @@ msgcat::mcmset cs {
 
   "Line Below Current"
   "Linka pod aktuální"
+
+  "Line Ending"
+  "Poslední řádek"
 
   "Line Number"
   "Číslo řádku"
@@ -777,25 +816,22 @@ msgcat::mcmset cs {
   "Move to Screen Top"
   "Přesunout na obrazovku nahoru"
 
+  "New From Template"
+  "Nový ze šablony"
+
   "New Window"
   "New Window"
 
   "Next Difference"
   "Dalí rozdíl"
 
-  "Numbers Backward"
-  "Čísla dozadu"
-
-  "Numbers Forward"
-  "Čísla vpřed"
-
-  "Open Directory..."
-  "Open Directory ..."
+  "Open Directory"
+  "Otevřít adresář"
 
   "Open Favorite"
   "Otevřená Oblíbené"
 
-  "Open File..."
+  "Open File"
   "Volný sloupec"
 
   "Open Recent"
@@ -864,17 +900,20 @@ msgcat::mcmset cs {
   "Restart TKE"
   "Restartujte TKE"
 
+  "Run BIST"
+  "Spustit BIST"
+
   "Save All"
   "Uložit všechny"
 
-  "Save As..."
-  "Uložit jako..."
+  "Save As Template"
+  "Uložit jako šablonu"
 
   "Save Current"
   "Uloit aktuální"
 
-  "Save Selection As..."
-  "Uložit výběr jako..."
+  "Save Selection As"
+  "Uložit výběr jako"
 
   "Select All"
   "Vybrat vše"
@@ -978,6 +1017,9 @@ msgcat::mcmset cs {
   "Tabs"
   "Karty"
 
+  "Templates"
+  "Šablony"
+
   "Text Between Character"
   "Text mezi znaky"
 
@@ -1005,6 +1047,9 @@ msgcat::mcmset cs {
   "Tools Menu: Restart TKE"
   "Nabídka nástroje: Restart TKE"
 
+  "Tools Menu: Run BIST"
+  "Nabídka nástroje: Spuštění BIST"
+
   "Tools Menu: Run theme editor"
   "Nabídka Nástroje: Spusťte editor téma"
 
@@ -1029,8 +1074,11 @@ msgcat::mcmset cs {
   "Unindent"
   "Unindent"
 
-  "Uninstall..."
-  "odinstalovat"
+  "Uninstall"
+  "Odinstalovat"
+
+  "Unix"
+  "systém UNIX"
 
   "Unlock"
   "Odemknout"
@@ -1127,6 +1175,9 @@ msgcat::mcmset cs {
 
   "Whitespace Forward"
   "Prázdný znak vpřed"
+
+  "Windows"
+  "Windows"
 
 }
 
@@ -1238,20 +1289,11 @@ msgcat::mcmset cs {
   "Delete directory?"
   "Smazat adresář?"
 
-  "Delete file?"
-  "Smazat soubor?"
-
   "Delete files?"
   "Odstranit soubory?"
 
   "Directory Name:"
   "Název adresáře:"
-
-  "Duplicate"
-  "Duplicita"
-
-  "File Name:"
-  "&Jméno souboru:"
 
   "Folder Name:"
   "Název sloky:"
@@ -1277,9 +1319,6 @@ msgcat::mcmset cs {
   "Remove from Sidebar"
   "Odebrat z postranního panelu"
 
-  "Rename"
-  "Odebrat"
-
   "Show Difference"
   "Zobrazit rozdíl"
 
@@ -1301,6 +1340,23 @@ msgcat::mcmset cs {
 
   "Syntax error in syntax file"
   "Syntaktická chyba v syntaxi souboru"
+
+}
+
+# templates.tcl
+msgcat::mcmset cs {
+
+  "Template"
+  "Šablona"
+
+  "Template Name"
+  "Jméno šablony"
+
+  "deleted"
+  "smazané"
+
+  "saved"
+  "Černá ovce"
 
 }
 
@@ -1600,9 +1656,6 @@ msgcat::mcmset cs {
   "Modifications"
   "Pozměňovací návrhy"
 
-  "None"
-  "Žádné"
-
   "One-Color Bitmap"
   "One-Color Bitmap"
 
@@ -1692,8 +1745,17 @@ msgcat::mcmset cs {
   "Delete"
   "Odstranit"
 
+  "Delete file?"
+  "Smazat soubor?"
+
+  "Duplicate"
+  "Duplicita"
+
   "Favorite"
   "oblíbená položka"
+
+  "File Name:"
+  "&Jméno souboru:"
 
   "Find"
   "Find"
@@ -1704,8 +1766,14 @@ msgcat::mcmset cs {
   "New File"
   "Nový soubor"
 
+  "None"
+  "Žádné"
+
   "Open"
   "Open"
+
+  "Rename"
+  "Odebrat"
 
   "Save"
   "Uložit"

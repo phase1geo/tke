@@ -228,6 +228,9 @@ msgcat::mcmset zh {
   "Check for Update"
   "检查更新"
 
+  "Classic Mac"
+  "经典的 Mac"
+
   "Clear All"
   "全部清除"
 
@@ -246,14 +249,17 @@ msgcat::mcmset zh {
   "Copy"
   "复制"
 
+  "Create"
+  "创建"
+
   "Create at Current Line"
   "???????"
 
-  "Create..."
-  "建立..."
-
   "Current Line"
   "当前行"
+
+  "Current Number"
+  "当前数量"
 
   "Current Word"
   "当前的单词"
@@ -306,23 +312,11 @@ msgcat::mcmset zh {
   "Edit Menu: Cut text"
   "编辑菜单: 剪切文本"
 
-  "Edit Menu: Delete backward numbers"
-  "编辑菜单: 删除落后数字"
-
-  "Edit Menu: Delete backward whitespace"
-  "编辑菜单: 删除落后空白"
-
   "Edit Menu: Delete current line"
   "编辑菜单: 删除当前行"
 
   "Edit Menu: Delete current word"
   "编辑菜单: 删除当前的单词"
-
-  "Edit Menu: Delete forward numbers"
-  "编辑菜单: 删除转发数字"
-
-  "Edit Menu: Delete forward whitespace"
-  "编辑菜单: 删除转发空白"
 
   "Edit Menu: Delete from cursor to end of line"
   "编辑菜单: 删除从光标结束的行"
@@ -330,8 +324,20 @@ msgcat::mcmset zh {
   "Edit Menu: Delete from start of line to cursor"
   "编辑菜单: 删除行的起始处到光标处"
 
+  "Edit Menu: Delete template"
+  "编辑菜单: 删除模板"
+
   "Edit Menu: Delete text between character"
   "编辑菜单: 删除字符之间的文本"
+
+  "Edit Menu: Delete the current number"
+  "编辑菜单: 删除当前数量"
+
+  "Edit Menu: Delete the whitespace to left of cursor"
+  "编辑菜单: 删除光标左侧的空白处"
+
+  "Edit Menu: Delete the whitespace to right of cursor"
+  "编辑菜单: 删除光标右边的空白"
 
   "Edit Menu: Edit language snippets"
   "编辑菜单: 编辑语言片段"
@@ -341,6 +347,9 @@ msgcat::mcmset zh {
 
   "Edit Menu: Edit session global preferences"
   "编辑菜单: 编辑会话全球首选项"
+
+  "Edit Menu: Edit template"
+  "编辑菜单: 编辑模板"
 
   "Edit Menu: Edit user current language preferences"
   "编辑菜单: 编辑用户当前的语言首选项"
@@ -435,6 +444,9 @@ msgcat::mcmset zh {
   "Edit Menu: Reload snippets"
   "编辑菜单: 重新加载代码片段"
 
+  "Edit Menu: Reload template information"
+  "编辑菜单: 重新加载模板信息"
+
   "Edit Menu: Replace line with script"
   "编辑菜单: 用脚本替换行"
 
@@ -507,6 +519,12 @@ msgcat::mcmset zh {
   "File Menu: Close current tab"
   "文件菜单: 关闭当前选项卡"
 
+  "File Menu: Delete current file"
+  "文件菜单: 删除当前文件"
+
+  "File Menu: Duplicate current file"
+  "文件菜单: 复制当前文件"
+
   "File Menu: Favorite file"
   "文件菜单: 最喜欢文件"
 
@@ -515,6 +533,9 @@ msgcat::mcmset zh {
 
   "File Menu: New file"
   "文件菜单: 新建文件"
+
+  "File Menu: New file from template"
+  "从模板文件菜单: 新建文件"
 
   "File Menu: New window"
   "文件菜单: 新窗口"
@@ -534,6 +555,9 @@ msgcat::mcmset zh {
   "File Menu: Quit application"
   "文件菜单: 退出应用程序"
 
+  "File Menu: Rename current file"
+  "文件菜单: 重命名当前文件"
+
   "File Menu: Reopen current file"
   "重新打开当前文件的文件菜单:"
 
@@ -546,8 +570,20 @@ msgcat::mcmset zh {
   "File Menu: Save file as"
   "文件菜单: 文件另存为"
 
+  "File Menu: Save file as template"
+  "文件菜单: 将文件另存为模板"
+
   "File Menu: Save selected lines"
   "文件菜单: 保存选定的行"
+
+  "File Menu: Set current file line ending to CR for Classic Mac"
+  "文件菜单: 设置当前文件行 CR 为经典 Mac 的结局"
+
+  "File Menu: Set current file line ending to CRLF for Windows"
+  "文件菜单: 设置当前文件行到 CRLF Windows 结束"
+
+  "File Menu: Set current file line ending to LF for Unix"
+  "文件菜单: 设置当前文件行结束到 LF unix"
 
   "File Menu: Show file difference"
   "文件菜单: 显示文件差异"
@@ -687,7 +723,7 @@ msgcat::mcmset zh {
   "Insert"
   "插入"
 
-  "Install..."
+  "Install"
   "安装"
 
   "Join Lines"
@@ -710,6 +746,9 @@ msgcat::mcmset zh {
 
   "Line Below Current"
   "当前下面一行"
+
+  "Line Ending"
+  "行尾"
 
   "Line Number"
   "行號"
@@ -777,26 +816,23 @@ msgcat::mcmset zh {
   "Move to Screen Top"
   "移动屏幕顶部"
 
+  "New From Template"
+  "由模板新建"
+
   "New Window"
   "新窗口"
 
   "Next Difference"
   "?????"
 
-  "Numbers Backward"
-  "数字落后"
-
-  "Numbers Forward"
-  "数字向前"
-
-  "Open Directory..."
-  "开放目录..."
+  "Open Directory"
+  "打开目录"
 
   "Open Favorite"
   "打开收藏"
 
-  "Open File..."
-  "開啟檔案"
+  "Open File"
+  "打开文件"
 
   "Open Recent"
   "打开最近"
@@ -864,17 +900,20 @@ msgcat::mcmset zh {
   "Restart TKE"
   "?????????"
 
+  "Run BIST"
+  "运行 BIST"
+
   "Save All"
   "全部儲存"
 
-  "Save As..."
-  "保存为"
+  "Save As Template"
+  "另保存模板"
 
   "Save Current"
   "????"
 
-  "Save Selection As..."
-  "另存为选择..."
+  "Save Selection As"
+  "保存作为选择"
 
   "Select All"
   "全选"
@@ -978,6 +1017,9 @@ msgcat::mcmset zh {
   "Tabs"
   "標籤"
 
+  "Templates"
+  "模板"
+
   "Text Between Character"
   "字符之间的文本"
 
@@ -1005,6 +1047,9 @@ msgcat::mcmset zh {
   "Tools Menu: Restart TKE"
   "工具菜单: 重启将军澳支线"
 
+  "Tools Menu: Run BIST"
+  "工具菜单: 运行的 BIST"
+
   "Tools Menu: Run theme editor"
   "工具菜单：运行的主题编辑器"
 
@@ -1029,8 +1074,11 @@ msgcat::mcmset zh {
   "Unindent"
   "取消缩进"
 
-  "Uninstall..."
+  "Uninstall"
   "卸载"
+
+  "Unix"
+  "Unix"
 
   "Unlock"
   "解锁用户"
@@ -1127,6 +1175,9 @@ msgcat::mcmset zh {
 
   "Whitespace Forward"
   "空格前"
+
+  "Windows"
+  "Windows"
 
 }
 
@@ -1238,20 +1289,11 @@ msgcat::mcmset zh {
   "Delete directory?"
   "删除目录？"
 
-  "Delete file?"
-  "删除文件？"
-
   "Delete files?"
   "删除文件?"
 
   "Directory Name:"
   "目录名称:"
-
-  "Duplicate"
-  "复制"
-
-  "File Name:"
-  "文件名："
 
   "Folder Name:"
   "??????"
@@ -1277,9 +1319,6 @@ msgcat::mcmset zh {
   "Remove from Sidebar"
   "从边栏移除"
 
-  "Rename"
-  "重命名"
-
   "Show Difference"
   "显示不同"
 
@@ -1301,6 +1340,23 @@ msgcat::mcmset zh {
 
   "Syntax error in syntax file"
   "在语法文件中的语法错误"
+
+}
+
+# templates.tcl
+msgcat::mcmset zh {
+
+  "Template"
+  "模板"
+
+  "Template Name"
+  "模板名称"
+
+  "deleted"
+  "已删除"
+
+  "saved"
+  "已经保存"
 
 }
 
@@ -1600,9 +1656,6 @@ msgcat::mcmset zh {
   "Modifications"
   "其他"
 
-  "None"
-  "无"
-
   "One-Color Bitmap"
   "单色位图"
 
@@ -1692,8 +1745,17 @@ msgcat::mcmset zh {
   "Delete"
   "刪除"
 
+  "Delete file?"
+  "删除文件？"
+
+  "Duplicate"
+  "复制"
+
   "Favorite"
   "我的最愛"
+
+  "File Name:"
+  "文件名："
 
   "Find"
   "查找"
@@ -1704,8 +1766,14 @@ msgcat::mcmset zh {
   "New File"
   "新文件"
 
+  "None"
+  "无"
+
   "Open"
   "打开"
+
+  "Rename"
+  "重命名"
 
   "Save"
   "保存"

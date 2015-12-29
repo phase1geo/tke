@@ -228,6 +228,9 @@ msgcat::mcmset ru {
   "Check for Update"
   "Проверить обновления"
 
+  "Classic Mac"
+  "Классический Mac"
+
   "Clear All"
   "Удалить все"
 
@@ -246,14 +249,17 @@ msgcat::mcmset ru {
   "Copy"
   "Копия"
 
+  "Create"
+  "Создать"
+
   "Create at Current Line"
   "??????? ? ??????? ??????"
 
-  "Create..."
-  "Создать..."
-
   "Current Line"
   "Текущая строка"
+
+  "Current Number"
+  "Номер текущей строки"
 
   "Current Word"
   "Текущее слово"
@@ -306,23 +312,11 @@ msgcat::mcmset ru {
   "Edit Menu: Cut text"
   "Меню Правка: Вырезание текста"
 
-  "Edit Menu: Delete backward numbers"
-  "Меню Правка: Удаление обратных чисел"
-
-  "Edit Menu: Delete backward whitespace"
-  "Меню Правка: Удаление обратной пробел"
-
   "Edit Menu: Delete current line"
   "Меню Правка: Удаление текущей строки"
 
   "Edit Menu: Delete current word"
   "Меню Правка: Удаление текущего слова"
-
-  "Edit Menu: Delete forward numbers"
-  "Меню Правка: Удаление вперед чисел"
-
-  "Edit Menu: Delete forward whitespace"
-  "Меню Правка: Удаление пробелов вперед"
 
   "Edit Menu: Delete from cursor to end of line"
   "Меню Правка: Удаление от курсора до конца строки"
@@ -330,8 +324,20 @@ msgcat::mcmset ru {
   "Edit Menu: Delete from start of line to cursor"
   "Меню Правка: Удалить от начала строки до курсора"
 
+  "Edit Menu: Delete template"
+  "Меню Правка: Удалить шаблон"
+
   "Edit Menu: Delete text between character"
   "Меню Правка: Удаление текста между символов"
+
+  "Edit Menu: Delete the current number"
+  "Меню Правка: Удалить текущий номер"
+
+  "Edit Menu: Delete the whitespace to left of cursor"
+  "Меню Правка: Удалите пробелы слева от курсора"
+
+  "Edit Menu: Delete the whitespace to right of cursor"
+  "Меню Правка: Удалите пробелы справа от курсора"
 
   "Edit Menu: Edit language snippets"
   "Меню Правка: Редактирование фрагментов"
@@ -341,6 +347,9 @@ msgcat::mcmset ru {
 
   "Edit Menu: Edit session global preferences"
   "Меню Правка: Изменить глобальные настройки сессии"
+
+  "Edit Menu: Edit template"
+  "Меню Правка: Шаблон редактирования"
 
   "Edit Menu: Edit user current language preferences"
   "Меню Правка: Изменить текущие настройки языка пользователя"
@@ -435,6 +444,9 @@ msgcat::mcmset ru {
   "Edit Menu: Reload snippets"
   "Меню Правка: Перезагрузка фрагментов"
 
+  "Edit Menu: Reload template information"
+  "Меню Правка: Перезагрузить шаблон информации"
+
   "Edit Menu: Replace line with script"
   "Меню Правка: Замените строку скрипта"
 
@@ -507,6 +519,12 @@ msgcat::mcmset ru {
   "File Menu: Close current tab"
   "Меню файл: Закрыть текущую вкладку"
 
+  "File Menu: Delete current file"
+  "Меню файл: Удалить текущий файл"
+
+  "File Menu: Duplicate current file"
+  "Меню файл: Дубликат текущего файла"
+
   "File Menu: Favorite file"
   "Меню файл: Любимый файл"
 
@@ -515,6 +533,9 @@ msgcat::mcmset ru {
 
   "File Menu: New file"
   "Меню файл: Новый файл"
+
+  "File Menu: New file from template"
+  "Меню файл: Новый файл из шаблона"
 
   "File Menu: New window"
   "Меню файл: Новое окно"
@@ -534,6 +555,9 @@ msgcat::mcmset ru {
   "File Menu: Quit application"
   "Меню файл: Выйти из приложения"
 
+  "File Menu: Rename current file"
+  "Меню файл: Текущий файл переименовать"
+
   "File Menu: Reopen current file"
   "Меню файл: Открыть текущий файл"
 
@@ -546,8 +570,20 @@ msgcat::mcmset ru {
   "File Menu: Save file as"
   "Меню файл: Сохранить файл как"
 
+  "File Menu: Save file as template"
+  "Меню файл: Сохранить файл как шаблон"
+
   "File Menu: Save selected lines"
   "Меню файл: Сохранить выбранные линии"
+
+  "File Menu: Set current file line ending to CR for Classic Mac"
+  "Меню файл: Задать текущую строку файла, окончание CR для классический Mac"
+
+  "File Menu: Set current file line ending to CRLF for Windows"
+  "Меню файл: Задать текущую строку файла, заканчивается CRLF для Windows"
+
+  "File Menu: Set current file line ending to LF for Unix"
+  "Меню файл: Задать текущую строку файла, заканчивается в LF для Unix"
 
   "File Menu: Show file difference"
   "Меню файл: Показать файл разница"
@@ -687,8 +723,8 @@ msgcat::mcmset ru {
   "Insert"
   "Вставить"
 
-  "Install..."
-  "Устанавливать"
+  "Install"
+  "Установить"
 
   "Join Lines"
   "Присоединиться к линии"
@@ -710,6 +746,9 @@ msgcat::mcmset ru {
 
   "Line Below Current"
   "Линия ниже текущего"
+
+  "Line Ending"
+  "Время строка - окончание"
 
   "Line Number"
   "Номер строки"
@@ -777,26 +816,23 @@ msgcat::mcmset ru {
   "Move to Screen Top"
   "Перемещение экрана Top"
 
+  "New From Template"
+  "Создать из шаблона"
+
   "New Window"
   "В новом окне/вкладке"
 
   "Next Difference"
   "????????? ???????"
 
-  "Numbers Backward"
-  "Число обратных"
-
-  "Numbers Forward"
-  "Номера вперед"
-
-  "Open Directory..."
-  "Open Directory ..."
+  "Open Directory"
+  "Open Directory"
 
   "Open Favorite"
   "Открыть Любимое"
 
-  "Open File..."
-  "Открытая линия"
+  "Open File"
+  "Открыть файл"
 
   "Open Recent"
   "Недавний"
@@ -864,17 +900,20 @@ msgcat::mcmset ru {
   "Restart TKE"
   "????????????? TKE"
 
+  "Run BIST"
+  "Запустите тест BIST"
+
   "Save All"
   "Сохранить все"
 
-  "Save As..."
-  "Сохранить как"
+  "Save As Template"
+  "Сохранить как Шаблон"
 
   "Save Current"
   "????????? ???????"
 
-  "Save Selection As..."
-  "Сохранить как..."
+  "Save Selection As"
+  "Сохранить как"
 
   "Select All"
   "Выбрать все"
@@ -978,6 +1017,9 @@ msgcat::mcmset ru {
   "Tabs"
   "Флажки"
 
+  "Templates"
+  "Шаблоны"
+
   "Text Between Character"
   "Текст между персонажа"
 
@@ -1005,6 +1047,9 @@ msgcat::mcmset ru {
   "Tools Menu: Restart TKE"
   "Меню Сервис: Перезагрузка TKE"
 
+  "Tools Menu: Run BIST"
+  "Меню Сервис: Выполнения BIST"
+
   "Tools Menu: Run theme editor"
   "Меню Инструменты: Запустите редактор тема"
 
@@ -1029,8 +1074,11 @@ msgcat::mcmset ru {
   "Unindent"
   "Unindent"
 
-  "Uninstall..."
-  "menyahpasang"
+  "Uninstall"
+  "Удаление"
+
+  "Unix"
+  "UNIX"
 
   "Unlock"
   "Разблокировать"
@@ -1127,6 +1175,9 @@ msgcat::mcmset ru {
 
   "Whitespace Forward"
   "Пробела вперед"
+
+  "Windows"
+  "Windows"
 
 }
 
@@ -1238,20 +1289,11 @@ msgcat::mcmset ru {
   "Delete directory?"
   "Удалить каталог?"
 
-  "Delete file?"
-  "Удалить файл?"
-
   "Delete files?"
   "Удалить файлы"
 
   "Directory Name:"
   "Имя файла"
-
-  "Duplicate"
-  "Удвоить"
-
-  "File Name:"
-  "&Имя файла:"
 
   "Folder Name:"
   "???????? ?????"
@@ -1277,9 +1319,6 @@ msgcat::mcmset ru {
   "Remove from Sidebar"
   "Удалить из боковой панели"
 
-  "Rename"
-  "Переименовать"
-
   "Show Difference"
   "Показать разницу"
 
@@ -1301,6 +1340,23 @@ msgcat::mcmset ru {
 
   "Syntax error in syntax file"
   "Синтаксическая ошибка в синтаксис файла"
+
+}
+
+# templates.tcl
+msgcat::mcmset ru {
+
+  "Template"
+  "Шаблон"
+
+  "Template Name"
+  "Название Шаблона"
+
+  "deleted"
+  "удален"
+
+  "saved"
+  "сохранено"
 
 }
 
@@ -1600,9 +1656,6 @@ msgcat::mcmset ru {
   "Modifications"
   "Измененных"
 
-  "None"
-  "Нет"
-
   "One-Color Bitmap"
   "Один-битовых цветовых"
 
@@ -1692,8 +1745,17 @@ msgcat::mcmset ru {
   "Delete"
   "Удалить"
 
+  "Delete file?"
+  "Удалить файл?"
+
+  "Duplicate"
+  "Удвоить"
+
   "Favorite"
   "Любимый"
+
+  "File Name:"
+  "&Имя файла:"
 
   "Find"
   "Находить"
@@ -1704,8 +1766,14 @@ msgcat::mcmset ru {
   "New File"
   "Новый файл"
 
+  "None"
+  "Нет"
+
   "Open"
   "Открыть"
+
+  "Rename"
+  "Переименовать"
 
   "Save"
   "Сохранить"

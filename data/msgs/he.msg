@@ -228,6 +228,9 @@ msgcat::mcmset he {
   "Check for Update"
   "הסימון עבור עדכון"
 
+  "Classic Mac"
+  "Mac קלאסי"
+
   "Clear All"
   "לנקות את כל"
 
@@ -246,14 +249,17 @@ msgcat::mcmset he {
   "Copy"
   "להעתיק"
 
+  "Create"
+  "צור"
+
   "Create at Current Line"
   "????? ??? ??????"
 
-  "Create..."
-  "ליצור"
-
   "Current Line"
   "השורה הנוכחית"
+
+  "Current Number"
+  "מספר נוכחי"
 
   "Current Word"
   "המילה הנוכחית"
@@ -306,23 +312,11 @@ msgcat::mcmset he {
   "Edit Menu: Cut text"
   "תפריט עריכה: גזור טקסט"
 
-  "Edit Menu: Delete backward numbers"
-  "תפריט עריכה: מחיקת מספרי לאחור"
-
-  "Edit Menu: Delete backward whitespace"
-  "תפריט עריכה: מחיקת רווחים לבנים לאחור"
-
   "Edit Menu: Delete current line"
   "תפריט עריכה: מחיקת השורה הנוכחית"
 
   "Edit Menu: Delete current word"
   "תפריט עריכה: מחיקת המילה הנוכחית"
-
-  "Edit Menu: Delete forward numbers"
-  "תפריט עריכה: מחק המספרים קדימה"
-
-  "Edit Menu: Delete forward whitespace"
-  "תפריט עריכה: מחיקת רווחים לבנים קדימה"
 
   "Edit Menu: Delete from cursor to end of line"
   "תפריט עריכה: מחיקת הסמן כדי לסיים קו"
@@ -330,8 +324,20 @@ msgcat::mcmset he {
   "Edit Menu: Delete from start of line to cursor"
   "תפריט עריכה: למחוק מן ההתחלה של קו את סמן"
 
+  "Edit Menu: Delete template"
+  "בתפריט עריכה: תבנית מחיקה"
+
   "Edit Menu: Delete text between character"
   "תפריט עריכה: מחיקת טקסט בין תו"
+
+  "Edit Menu: Delete the current number"
+  "תפריט עריכה: מחק את המספר הנוכחי"
+
+  "Edit Menu: Delete the whitespace to left of cursor"
+  "תפריט עריכה: למחוק את רווח משמאל הסמן"
+
+  "Edit Menu: Delete the whitespace to right of cursor"
+  "תפריט עריכה: למחוק את רווח מימין הסמן"
 
   "Edit Menu: Edit language snippets"
   "תפריט עריכה: לערוך קטעי שפה"
@@ -341,6 +347,9 @@ msgcat::mcmset he {
 
   "Edit Menu: Edit session global preferences"
   "תפריט עריכה: עריכת העדפות הכללית הפעלה"
+
+  "Edit Menu: Edit template"
+  "תפריט עריכה: עריכת תבנית"
 
   "Edit Menu: Edit user current language preferences"
   "תפריט עריכה: עריכת העדפות השפה הנוכחית של משתמשים"
@@ -435,6 +444,9 @@ msgcat::mcmset he {
   "Edit Menu: Reload snippets"
   "בתפריט עריכה: גזירים רענן"
 
+  "Edit Menu: Reload template information"
+  "בתפריט עריכה: מידע אודות תבנית רענן"
+
   "Edit Menu: Replace line with script"
   "תפריט עריכה: להחליף שורת תסריט"
 
@@ -507,6 +519,12 @@ msgcat::mcmset he {
   "File Menu: Close current tab"
   "תפריט קובץ: סגור לשונית נוכחית"
 
+  "File Menu: Delete current file"
+  "תפריט קובץ: מחיקת הקובץ הנוכחי"
+
+  "File Menu: Duplicate current file"
+  "תפריט קובץ: שכפול קובץ הנוכחי"
+
   "File Menu: Favorite file"
   "בתפריט קובץ: קובץ המועדפים"
 
@@ -515,6 +533,9 @@ msgcat::mcmset he {
 
   "File Menu: New file"
   "בתפריט קובץ: קובץ חדש"
+
+  "File Menu: New file from template"
+  "תפריט קובץ: קובץ חדש מתבנית"
 
   "File Menu: New window"
   "בתפריט קובץ: חלון חדש"
@@ -534,6 +555,9 @@ msgcat::mcmset he {
   "File Menu: Quit application"
   "תפריט קובץ: לצאת מהיישום"
 
+  "File Menu: Rename current file"
+  "תפריט קובץ: שינוי שם הקובץ הנוכחי"
+
   "File Menu: Reopen current file"
   "תפריט קובץ: פתיחה מחדש של הקובץ הנוכחי"
 
@@ -546,8 +570,20 @@ msgcat::mcmset he {
   "File Menu: Save file as"
   "תפריט קובץ: שמירת הקובץ כקובץ"
 
+  "File Menu: Save file as template"
+  "תפריט קובץ: שמור את הקובץ כתבנית"
+
   "File Menu: Save selected lines"
   "תפריט קובץ: להציל את השורות שנבחרו"
+
+  "File Menu: Set current file line ending to CR for Classic Mac"
+  "תפריט קובץ: קבע בשורה הנוכחית המסתיימת ההתר עבור Mac קלאסי"
+
+  "File Menu: Set current file line ending to CRLF for Windows"
+  "תפריט קובץ: הגדרת השורה הנוכחית של קובץ. סיום CRLF עבור Windows"
+
+  "File Menu: Set current file line ending to LF for Unix"
+  "תפריט קובץ: הגדרת השורה הנוכחית של קובץ. סיום אם עבור Unix"
 
   "File Menu: Show file difference"
   "תפריט קובץ: להראות ההבדל קובץ"
@@ -687,8 +723,8 @@ msgcat::mcmset he {
   "Insert"
   "הוסף"
 
-  "Install..."
-  "להתקין..."
+  "Install"
+  "התקן"
 
   "Join Lines"
   "קווי צירוף"
@@ -710,6 +746,9 @@ msgcat::mcmset he {
 
   "Line Below Current"
   "קו מתחת זרם"
+
+  "Line Ending"
+  "קו סיום"
 
   "Line Number"
   "מספר השורה"
@@ -777,26 +816,23 @@ msgcat::mcmset he {
   "Move to Screen Top"
   "לעבור אל המסך העליון"
 
+  "New From Template"
+  "תבנית חדשה"
+
   "New Window"
   "חלון חדש"
 
   "Next Difference"
   "????? ???"
 
-  "Numbers Backward"
-  "מספרים לאחור"
-
-  "Numbers Forward"
-  "המספרים קדימה"
-
-  "Open Directory..."
-  "המדריך הפתוח..."
+  "Open Directory"
+  "המדריך הפתוח"
 
   "Open Favorite"
   "מועדפים פתוח"
 
-  "Open File..."
-  "פתיחת קובץ..."
+  "Open File"
+  "פתח קובץ"
 
   "Open Recent"
   "פתח לאחרונה"
@@ -864,17 +900,20 @@ msgcat::mcmset he {
   "Restart TKE"
   "???? ????"
 
+  "Run BIST"
+  "הפעל BIST"
+
   "Save All"
   "להציל את כולם"
 
-  "Save As..."
-  "שמירה בשם..."
+  "Save As Template"
+  "שמור תבנית"
 
   "Save Current"
   "????? ?? ??????"
 
-  "Save Selection As..."
-  "להציל את הבחירה..."
+  "Save Selection As"
+  "להציל את הבחירה"
 
   "Select All"
   "בחר את כל"
@@ -978,6 +1017,9 @@ msgcat::mcmset he {
   "Tabs"
   "טאב"
 
+  "Templates"
+  "תבניות"
+
   "Text Between Character"
   "טקסט בין תו"
 
@@ -1005,6 +1047,9 @@ msgcat::mcmset he {
   "Tools Menu: Restart TKE"
   "תפריט כלים: הפעלה מחדש בבית"
 
+  "Tools Menu: Run BIST"
+  "בתפריט כלים: BIST הפעלה"
+
   "Tools Menu: Run theme editor"
   "תפריט כלים: להפעיל את עורך דירוג"
 
@@ -1029,8 +1074,11 @@ msgcat::mcmset he {
   "Unindent"
   "הקטנת כניסת"
 
-  "Uninstall..."
-  "להסיר..."
+  "Uninstall"
+  "הסר התקנה"
+
+  "Unix"
+  "Unix"
 
   "Unlock"
   "לבטל את הנעילה"
@@ -1127,6 +1175,9 @@ msgcat::mcmset he {
 
   "Whitespace Forward"
   "רווח לבן קדימה"
+
+  "Windows"
+  "חלונות"
 
 }
 
@@ -1238,20 +1289,11 @@ msgcat::mcmset he {
   "Delete directory?"
   "האם למחוק את הספריה?"
 
-  "Delete file?"
-  "האם למחוק את הקובץ?"
-
   "Delete files?"
   "האם למחוק את הקבצים?"
 
   "Directory Name:"
   "שם הספריה:"
-
-  "Duplicate"
-  "שכפל"
-
-  "File Name:"
-  "שם קובץ"
 
   "Folder Name:"
   "?? ?????:"
@@ -1277,9 +1319,6 @@ msgcat::mcmset he {
   "Remove from Sidebar"
   "להסיר את הסרגל הצידי"
 
-  "Rename"
-  "שינוי שם"
-
   "Show Difference"
   "להראות ההבדל"
 
@@ -1301,6 +1340,23 @@ msgcat::mcmset he {
 
   "Syntax error in syntax file"
   "שגיאת תחביר בקובץ תחביר"
+
+}
+
+# templates.tcl
+msgcat::mcmset he {
+
+  "Template"
+  "תבנית"
+
+  "Template Name"
+  "שם תבנית"
+
+  "deleted"
+  "בוטל"
+
+  "saved"
+  "נשמר"
 
 }
 
@@ -1600,9 +1656,6 @@ msgcat::mcmset he {
   "Modifications"
   "שינויים"
 
-  "None"
-  "ללא"
-
   "One-Color Bitmap"
   "מפת סיביות צבע אחד"
 
@@ -1692,8 +1745,17 @@ msgcat::mcmset he {
   "Delete"
   "מחק"
 
+  "Delete file?"
+  "האם למחוק את הקובץ?"
+
+  "Duplicate"
+  "שכפל"
+
   "Favorite"
   "מועדף"
+
+  "File Name:"
+  "שם קובץ"
 
   "Find"
   "לימצו (limtzo)"
@@ -1704,8 +1766,14 @@ msgcat::mcmset he {
   "New File"
   "קובץ חדש"
 
+  "None"
+  "ללא"
+
   "Open"
   "Open"
+
+  "Rename"
+  "שינוי שם"
 
   "Save"
   "שמור"

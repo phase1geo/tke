@@ -228,6 +228,9 @@ msgcat::mcmset no {
   "Check for Update"
   "Søk etter oppdateringer"
 
+  "Classic Mac"
+  "Klassiske Mac"
+
   "Clear All"
   "Fjern alle"
 
@@ -246,14 +249,17 @@ msgcat::mcmset no {
   "Copy"
   "Kopier"
 
+  "Create"
+  "Opprett"
+
   "Create at Current Line"
   "Opprette på gjeldende linje"
 
-  "Create..."
-  "frambringe"
-
   "Current Line"
   "Gjeldende linje"
+
+  "Current Number"
+  "Gjeldende"
 
   "Current Word"
   "Gjeldende ord"
@@ -306,23 +312,11 @@ msgcat::mcmset no {
   "Edit Menu: Cut text"
   "Redigeringsmenyen: Klippe ut tekst"
 
-  "Edit Menu: Delete backward numbers"
-  "Redigeringsmenyen: Slette bakover tall"
-
-  "Edit Menu: Delete backward whitespace"
-  "Redigeringsmenyen: Slette bakover mellomrom"
-
   "Edit Menu: Delete current line"
   "Redigeringsmenyen: Slette gjeldende linje"
 
   "Edit Menu: Delete current word"
   "Redigeringsmenyen: Slette gjeldende ord"
-
-  "Edit Menu: Delete forward numbers"
-  "Redigeringsmenyen: Slette frem tall"
-
-  "Edit Menu: Delete forward whitespace"
-  "Redigeringsmenyen: Slette frem mellomrom"
 
   "Edit Menu: Delete from cursor to end of line"
   "Redigeringsmenyen: Slette fra markøren til slutten av linjen"
@@ -330,8 +324,20 @@ msgcat::mcmset no {
   "Edit Menu: Delete from start of line to cursor"
   "Redigeringsmenyen: Slette fra begynnelsen av linjen til markør"
 
+  "Edit Menu: Delete template"
+  "Redigeringsmenyen: Slett mal"
+
   "Edit Menu: Delete text between character"
   "Redigeringsmenyen: Slette tekst mellom tegn"
+
+  "Edit Menu: Delete the current number"
+  "Redigeringsmenyen: Slette gjeldende nummer"
+
+  "Edit Menu: Delete the whitespace to left of cursor"
+  "Redigeringsmenyen: Slette mellomrom til venstre for markøren"
+
+  "Edit Menu: Delete the whitespace to right of cursor"
+  "Redigeringsmenyen: Slette tomme til høyre for markøren"
 
   "Edit Menu: Edit language snippets"
   "Redigeringsmenyen: Rediger språk tekstutdrag"
@@ -341,6 +347,9 @@ msgcat::mcmset no {
 
   "Edit Menu: Edit session global preferences"
   "Redigeringsmenyen: Redigere økt globale innstillinger"
+
+  "Edit Menu: Edit template"
+  "Redigeringsmenyen: Redigeringsmal"
 
   "Edit Menu: Edit user current language preferences"
   "Redigeringsmenyen: Rediger bruker gjeldende språkinnstillinger"
@@ -435,6 +444,9 @@ msgcat::mcmset no {
   "Edit Menu: Reload snippets"
   "Redigeringsmenyen: Reload tekstutdrag"
 
+  "Edit Menu: Reload template information"
+  "Redigeringsmenyen: Reload informasjon"
+
   "Edit Menu: Replace line with script"
   "Redigeringsmenyen: Erstatte linje med skript"
 
@@ -507,6 +519,12 @@ msgcat::mcmset no {
   "File Menu: Close current tab"
   "Fil-menyen: Lukker gjeldende fane"
 
+  "File Menu: Delete current file"
+  "Fil-menyen: Slette gjeldende fil"
+
+  "File Menu: Duplicate current file"
+  "Fil-menyen: Kopiere gjeldende fil"
+
   "File Menu: Favorite file"
   "Fil-menyen: Favoritt fil"
 
@@ -515,6 +533,9 @@ msgcat::mcmset no {
 
   "File Menu: New file"
   "Fil-menyen: Ny fil"
+
+  "File Menu: New file from template"
+  "Fil-menyen: Ny fil fra mal"
 
   "File Menu: New window"
   "Fil-menyen: Nytt vindu"
@@ -534,6 +555,9 @@ msgcat::mcmset no {
   "File Menu: Quit application"
   "Fil-menyen: Avslutt program"
 
+  "File Menu: Rename current file"
+  "Fil-menyen: Gi nytt navn filen"
+
   "File Menu: Reopen current file"
   "Fil-menyen: Åpne gjeldende fil"
 
@@ -546,8 +570,20 @@ msgcat::mcmset no {
   "File Menu: Save file as"
   "Fil-menyen: Lagre fil som"
 
+  "File Menu: Save file as template"
+  "Fil-menyen: Lagre filen som mal"
+
   "File Menu: Save selected lines"
   "Fil-menyen: Lagre valgte linjer"
+
+  "File Menu: Set current file line ending to CR for Classic Mac"
+  "Fil-menyen: Angi gjeldende fil linjeslutt CR for klassiske Mac"
+
+  "File Menu: Set current file line ending to CRLF for Windows"
+  "Fil-menyen: Angi gjeldende fil linjeslutt CRLF for Windows"
+
+  "File Menu: Set current file line ending to LF for Unix"
+  "Fil-menyen: Angi gjeldende fillinje avslutning på LF for Unix"
 
   "File Menu: Show file difference"
   "Fil-menyen: Vise filen forskjellen"
@@ -687,8 +723,8 @@ msgcat::mcmset no {
   "Insert"
   "Sett inn"
 
-  "Install..."
-  "installere"
+  "Install"
+  "Installer"
 
   "Join Lines"
   "Sammenføyningslinjer"
@@ -710,6 +746,9 @@ msgcat::mcmset no {
 
   "Line Below Current"
   "Linje under gjeldende"
+
+  "Line Ending"
+  "Linjen slutt"
 
   "Line Number"
   "Linje"
@@ -777,25 +816,22 @@ msgcat::mcmset no {
   "Move to Screen Top"
   "Flytte til skjermen toppen"
 
+  "New From Template"
+  "Ny fra mal"
+
   "New Window"
   "Nytt vindu"
 
   "Next Difference"
   "Neste forskjellen"
 
-  "Numbers Backward"
-  "Tall bakover"
-
-  "Numbers Forward"
-  "Tallene frem"
-
-  "Open Directory..."
-  "Open Directory ..."
+  "Open Directory"
+  "Open Directory"
 
   "Open Favorite"
   "Åpne Favoritt"
 
-  "Open File..."
+  "Open File"
   "Åpne fil"
 
   "Open Recent"
@@ -864,17 +900,20 @@ msgcat::mcmset no {
   "Restart TKE"
   "Starte TKE"
 
+  "Run BIST"
+  "Kjøre BIST"
+
   "Save All"
   "Lagre alle"
 
-  "Save As..."
-  "Lagre som ..."
+  "Save As Template"
+  "Lagre mal"
 
   "Save Current"
   "Lagre gjeldende"
 
-  "Save Selection As..."
-  "Lagre merket område som..."
+  "Save Selection As"
+  "Lagre valget som"
 
   "Select All"
   "Merk alt"
@@ -978,6 +1017,9 @@ msgcat::mcmset no {
   "Tabs"
   "Tab"
 
+  "Templates"
+  "Maler"
+
   "Text Between Character"
   "Teksten mellom tegn"
 
@@ -1005,6 +1047,9 @@ msgcat::mcmset no {
   "Tools Menu: Restart TKE"
   "Verktøymenyen: Omstart TKE"
 
+  "Tools Menu: Run BIST"
+  "Verktøymenyen: Kjøre BIST"
+
   "Tools Menu: Run theme editor"
   "Verktøy Meny: Kjør tema editor"
 
@@ -1029,8 +1074,11 @@ msgcat::mcmset no {
   "Unindent"
   "Fjern innrykk"
 
-  "Uninstall..."
-  "avinstallere"
+  "Uninstall"
+  "Avinstaller"
+
+  "Unix"
+  "Unix"
 
   "Unlock"
   "Oppheve låsing"
@@ -1127,6 +1175,9 @@ msgcat::mcmset no {
 
   "Whitespace Forward"
   "Mellomrom fremover"
+
+  "Windows"
+  "Microsoft Windows"
 
 }
 
@@ -1238,20 +1289,11 @@ msgcat::mcmset no {
   "Delete directory?"
   "Slett katalogen?"
 
-  "Delete file?"
-  "Slett filen?"
-
   "Delete files?"
   "Slett filer"
 
   "Directory Name:"
   "Mappenavn:"
-
-  "Duplicate"
-  "Duplikat"
-
-  "File Name:"
-  "Fil navn:"
 
   "Folder Name:"
   "Mappenavn"
@@ -1277,9 +1319,6 @@ msgcat::mcmset no {
   "Remove from Sidebar"
   "Fjern fra Sidebar"
 
-  "Rename"
-  "Gi nytt navn"
-
   "Show Difference"
   "Vis forskjellen"
 
@@ -1301,6 +1340,23 @@ msgcat::mcmset no {
 
   "Syntax error in syntax file"
   "Syntaksfeil i syntaks fil"
+
+}
+
+# templates.tcl
+msgcat::mcmset no {
+
+  "Template"
+  "Mal"
+
+  "Template Name"
+  "Mal namn"
+
+  "deleted"
+  "slettet"
+
+  "saved"
+  "Lagret"
 
 }
 
@@ -1600,9 +1656,6 @@ msgcat::mcmset no {
   "Modifications"
   "Modifikasjoner"
 
-  "None"
-  "Ingen"
-
   "One-Color Bitmap"
   "One-Color Bitmap"
 
@@ -1692,8 +1745,17 @@ msgcat::mcmset no {
   "Delete"
   "Slett"
 
+  "Delete file?"
+  "Slett filen?"
+
+  "Duplicate"
+  "Duplikat"
+
   "Favorite"
   "Favoritt"
+
+  "File Name:"
+  "Fil navn:"
 
   "Find"
   "Søk"
@@ -1704,8 +1766,14 @@ msgcat::mcmset no {
   "New File"
   "Ny fil"
 
+  "None"
+  "Ingen"
+
   "Open"
   "Åpen"
+
+  "Rename"
+  "Gi nytt navn"
 
   "Save"
   "lagre"

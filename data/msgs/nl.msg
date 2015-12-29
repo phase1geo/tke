@@ -228,6 +228,9 @@ msgcat::mcmset nl {
   "Check for Update"
   "Zoek naar nieuwe versies"
 
+  "Classic Mac"
+  "Klassieke Mac"
+
   "Clear All"
   "Alles wissen"
 
@@ -246,14 +249,17 @@ msgcat::mcmset nl {
   "Copy"
   "Kopiëren"
 
+  "Create"
+  "Creëren"
+
   "Create at Current Line"
   "Maken op de huidige regel"
 
-  "Create..."
-  "Maken..."
-
   "Current Line"
   "Huidige regel:"
+
+  "Current Number"
+  "Huidige rijnummer"
 
   "Current Word"
   "Huidige woord"
@@ -306,23 +312,11 @@ msgcat::mcmset nl {
   "Edit Menu: Cut text"
   "Bewerkingsmenu: Tekst knippen"
 
-  "Edit Menu: Delete backward numbers"
-  "Bewerkingsmenu: Verwijder neerwaarts nummers"
-
-  "Edit Menu: Delete backward whitespace"
-  "Bewerkingsmenu: Verwijderen neerwaarts whitespace"
-
   "Edit Menu: Delete current line"
   "Bewerkingsmenu: Huidige regel verwijderen"
 
   "Edit Menu: Delete current word"
   "Bewerkingsmenu: Huidige woord verwijderen"
-
-  "Edit Menu: Delete forward numbers"
-  "Bewerkingsmenu: Verwijder voorwaartse nummers"
-
-  "Edit Menu: Delete forward whitespace"
-  "Bewerkingsmenu: Verwijderen voorwaartse whitespace"
 
   "Edit Menu: Delete from cursor to end of line"
   "Bewerkingsmenu: Verwijderen van cursor tot einde van regel"
@@ -330,8 +324,20 @@ msgcat::mcmset nl {
   "Edit Menu: Delete from start of line to cursor"
   "Bewerkingsmenu: Verwijderen uit begin van regel met de cursor"
 
+  "Edit Menu: Delete template"
+  ": Bewerken verwijderen menusjabloon"
+
   "Edit Menu: Delete text between character"
   "Bewerkingsmenu: Tekst tussen teken verwijderen"
+
+  "Edit Menu: Delete the current number"
+  "Bewerkingsmenu: Verwijdert u het huidige nummer"
+
+  "Edit Menu: Delete the whitespace to left of cursor"
+  "Bewerkingsmenu: De witruimte links van de cursor verwijderen"
+
+  "Edit Menu: Delete the whitespace to right of cursor"
+  "Bewerkingsmenu: De witruimte naar rechts van de cursor verwijderen"
 
   "Edit Menu: Edit language snippets"
   "Bewerkingsmenu: Edit taal fragmenten"
@@ -341,6 +347,9 @@ msgcat::mcmset nl {
 
   "Edit Menu: Edit session global preferences"
   "Bewerkingsmenu: Sessie globale voorkeuren bewerken"
+
+  "Edit Menu: Edit template"
+  "Bewerkingsmenu: Template bewerken"
 
   "Edit Menu: Edit user current language preferences"
   "Bewerkingsmenu: Gebruikersvoorkeuren voor de huidige taal bewerken"
@@ -435,6 +444,9 @@ msgcat::mcmset nl {
   "Edit Menu: Reload snippets"
   "Bewerkingsmenu: Reload fragmenten"
 
+  "Edit Menu: Reload template information"
+  "Bewerkingsmenu: Reload sjablooninformatie"
+
   "Edit Menu: Replace line with script"
   "Bewerkingsmenu: Regel vervangen door script"
 
@@ -507,6 +519,12 @@ msgcat::mcmset nl {
   "File Menu: Close current tab"
   "Bestandsmenu: Sluit huidige tabblad"
 
+  "File Menu: Delete current file"
+  "Bestandsmenu: Verwijder het huidige bestand"
+
+  "File Menu: Duplicate current file"
+  "Bestandsmenu: Huidige bestand dupliceren"
+
   "File Menu: Favorite file"
   "Bestandsmenu: Favoriet bestand"
 
@@ -515,6 +533,9 @@ msgcat::mcmset nl {
 
   "File Menu: New file"
   "Bestandsmenu: Nieuw bestand"
+
+  "File Menu: New file from template"
+  "Bestandsmenu: Nieuw bestand van sjabloon"
 
   "File Menu: New window"
   "Bestandsmenu: Nieuw venster"
@@ -534,6 +555,9 @@ msgcat::mcmset nl {
   "File Menu: Quit application"
   "Bestandsmenu: Toepassing afsluiten"
 
+  "File Menu: Rename current file"
+  "Bestandsmenu: Huidige bestand hernoemen"
+
   "File Menu: Reopen current file"
   "Bestandsmenu: Huidige bestand opnieuw te openen"
 
@@ -546,8 +570,20 @@ msgcat::mcmset nl {
   "File Menu: Save file as"
   "Bestandsmenu: Bestand opslaan als"
 
+  "File Menu: Save file as template"
+  "Bestandsmenu: Bestand opslaan als sjabloon"
+
   "File Menu: Save selected lines"
   "Bestandsmenu: Opslaan geselecteerde lijnen"
+
+  "File Menu: Set current file line ending to CR for Classic Mac"
+  "Bestandsmenu: Set huidige bestand regel die eindigt CR voor klassieke Mac"
+
+  "File Menu: Set current file line ending to CRLF for Windows"
+  "Bestandsmenu: Set huidige bestand regel die eindigt naar CRLF voor Windows"
+
+  "File Menu: Set current file line ending to LF for Unix"
+  "Bestandsmenu: Set huidige bestand regel die eindigt om LF voor Unix"
 
   "File Menu: Show file difference"
   "Bestandsmenu: Toon bestand verschil"
@@ -687,8 +723,8 @@ msgcat::mcmset nl {
   "Insert"
   "Invoegen"
 
-  "Install..."
-  "Installatie"
+  "Install"
+  "Installeer"
 
   "Join Lines"
   "Regels samenvoegen"
@@ -710,6 +746,9 @@ msgcat::mcmset nl {
 
   "Line Below Current"
   "Regel onder huidige"
+
+  "Line Ending"
+  "Einde van de lijn"
 
   "Line Number"
   "Regelnummer"
@@ -777,26 +816,23 @@ msgcat::mcmset nl {
   "Move to Screen Top"
   "Naar de bovenkant van het scherm verplaatsen"
 
+  "New From Template"
+  "Nieuw van sjabloon"
+
   "New Window"
   "Nieuw Venster"
 
   "Next Difference"
   "Volgend verschil"
 
-  "Numbers Backward"
-  "Nummers achteruit"
-
-  "Numbers Forward"
-  "Getallen naar voren"
-
-  "Open Directory..."
+  "Open Directory"
   "Map openen"
 
   "Open Favorite"
   "Open Favorite"
 
-  "Open File..."
-  "Bestand openen..."
+  "Open File"
+  "Bestand openen"
 
   "Open Recent"
   "Recent geopend"
@@ -864,17 +900,20 @@ msgcat::mcmset nl {
   "Restart TKE"
   "Opnieuw opstarten van TKE"
 
+  "Run BIST"
+  "BIST uitvoeren"
+
   "Save All"
   "Alles opslaan"
 
-  "Save As..."
-  "Opslaan als"
+  "Save As Template"
+  "opslaan als sjabloon"
 
   "Save Current"
   "Opslaan van de huidige"
 
-  "Save Selection As..."
-  "Selectie als opslaan..."
+  "Save Selection As"
+  "Opslaan Keuze"
 
   "Select All"
   "Alles selecteren"
@@ -978,6 +1017,9 @@ msgcat::mcmset nl {
   "Tabs"
   "Tab"
 
+  "Templates"
+  "Templates"
+
   "Text Between Character"
   "Tekst tussen karakter"
 
@@ -1005,6 +1047,9 @@ msgcat::mcmset nl {
   "Tools Menu: Restart TKE"
   "Menu Extra: Herstart TKE"
 
+  "Tools Menu: Run BIST"
+  "Menu Extra: Run BIST"
+
   "Tools Menu: Run theme editor"
   "Menu Extra: Run theme editor"
 
@@ -1029,8 +1074,11 @@ msgcat::mcmset nl {
   "Unindent"
   "Laten terugspringen"
 
-  "Uninstall..."
-  "verwijderen"
+  "Uninstall"
+  "Deïnstalleren"
+
+  "Unix"
+  "Unix"
 
   "Unlock"
   "Ontgrendelen"
@@ -1127,6 +1175,9 @@ msgcat::mcmset nl {
 
   "Whitespace Forward"
   "Whitespace Forward"
+
+  "Windows"
+  "Windows"
 
 }
 
@@ -1238,20 +1289,11 @@ msgcat::mcmset nl {
   "Delete directory?"
   "Delete directory?"
 
-  "Delete file?"
-  "Bestand verwijderen"
-
   "Delete files?"
   "Bestanden verwijderen"
 
   "Directory Name:"
   "directory-naam"
-
-  "Duplicate"
-  "Dupliceren"
-
-  "File Name:"
-  "Bestandsnaam:"
 
   "Folder Name:"
   "Mapnaam:"
@@ -1277,9 +1319,6 @@ msgcat::mcmset nl {
   "Remove from Sidebar"
   "Verwijderen uit Sidebar"
 
-  "Rename"
-  "Hernoem"
-
   "Show Difference"
   "Toon verschil"
 
@@ -1301,6 +1340,23 @@ msgcat::mcmset nl {
 
   "Syntax error in syntax file"
   "Syntaxisfout in syntaxis bestand"
+
+}
+
+# templates.tcl
+msgcat::mcmset nl {
+
+  "Template"
+  "Template"
+
+  "Template Name"
+  "Template Naam"
+
+  "deleted"
+  "Verwijderd"
+
+  "saved"
+  "Opgeslagen."
 
 }
 
@@ -1600,9 +1656,6 @@ msgcat::mcmset nl {
   "Modifications"
   "Wijzigingen"
 
-  "None"
-  "Geen"
-
   "One-Color Bitmap"
   "One-Color Bitmap"
 
@@ -1692,8 +1745,17 @@ msgcat::mcmset nl {
   "Delete"
   "Verwijderen"
 
+  "Delete file?"
+  "Bestand verwijderen"
+
+  "Duplicate"
+  "Dupliceren"
+
   "Favorite"
   "Favoriet"
+
+  "File Name:"
+  "Bestandsnaam:"
 
   "Find"
   "Query"
@@ -1704,8 +1766,14 @@ msgcat::mcmset nl {
   "New File"
   "Nieuw bestand"
 
+  "None"
+  "Geen"
+
   "Open"
   "Openen"
+
+  "Rename"
+  "Hernoem"
 
   "Save"
   "Opslaan"
