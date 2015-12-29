@@ -873,10 +873,6 @@ namespace eval gui {
       add_notebook
     }
 
-    # Allow the UI to be fully drawn
-    # update
-    #
-
     # Add the tabs (in order) to each of the panes and set the current tab in each pane
     for {set pane 0} {$pane < [llength $content(CurrentTabs)]} {incr pane} {
       set pw_current $pane
@@ -2605,16 +2601,16 @@ namespace eval gui {
 
     # Change the state of the text widget to match the lock value
     if {$diff} {
-      $tb  tab current -compound left -image tab_diff
+      $tb  tab $tab -compound left -image tab_diff
       $txt configure -state disabled
     } elseif {$readonly} {
-      $tb  tab current -compound left -image tab_readonly
+      $tb  tab $tab -compound left -image tab_readonly
       $txt configure -state disabled
     } elseif {$lock} {
-      $tb  tab current -compound left -image tab_lock
+      $tb  tab $tab -compound left -image tab_lock
       $txt configure -state disabled
     } else {
-      $tb  tab current -image ""
+      $tb  tab $tab -image ""
       $txt configure -state normal
     }
 
