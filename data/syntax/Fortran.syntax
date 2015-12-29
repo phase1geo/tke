@@ -1,5 +1,5 @@
 filepatterns
-{*.f}
+{*.f *.for *.f90}
 
 matchcharsallowed
 {paren double single}
@@ -11,31 +11,31 @@ casesensitive
 {0}
 
 indent
-{if elseif do}
+{if while else do}
 
 unindent
-{endif continue do enddo}
+{end continue do enddo}
 
 icomment {{^\*\s}}
 
 lcomments {{^(c|\*)\s}}
 
-strings {{"} {'}}
+strings {{'}}
 
 keywords
 {
-  block
+  backspace block
   call close common continue
   data dimension do
   format function
-  elseif else end enddo endif
-  goto
+  else end
+  go
   if
   open
   parameter print program
-  read return
+  read return rewind
   stop subroutine
-  then type
+  then to type
   until
   while write
 }
@@ -62,6 +62,10 @@ miscellaneous1 {
     logical
     precision
     real
-  }
+  } {}
+}
+
+miscellaneous2 {
+  HighlightKeywords {abs cos exp int log max min mod nint real sin sqrt} {}
 }
 
