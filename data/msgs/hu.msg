@@ -228,6 +228,9 @@ msgcat::mcmset hu {
   "Check for Update"
   "Ellenőrizze a Frissítés"
 
+  "Classic Mac"
+  "Klasszikus Mac"
+
   "Clear All"
   "Minden törlése"
 
@@ -246,14 +249,17 @@ msgcat::mcmset hu {
   "Copy"
   "Másolás"
 
+  "Create"
+  "Létrehozás"
+
   "Create at Current Line"
   "Az aktuális sor létrehozása"
 
-  "Create..."
-  "Létrehozás..."
-
   "Current Line"
   "Az aktuális sor:"
+
+  "Current Number"
+  "Az aktuális sor száma"
 
   "Current Word"
   "Aktuális szó"
@@ -306,23 +312,11 @@ msgcat::mcmset hu {
   "Edit Menu: Cut text"
   "Szerkesztés menü: Vágott szöveg"
 
-  "Edit Menu: Delete backward numbers"
-  "Szerkesztés menü: Delete visszafelé számok"
-
-  "Edit Menu: Delete backward whitespace"
-  "Szerkesztés menü: Visszafelé szóköz törlése"
-
   "Edit Menu: Delete current line"
   "Szerkesztés menü: Az aktuális sor törlése"
 
   "Edit Menu: Delete current word"
   "Szerkesztés menü: Az aktuális szó törlése"
-
-  "Edit Menu: Delete forward numbers"
-  "Szerkesztés menü: Törlés előre számok"
-
-  "Edit Menu: Delete forward whitespace"
-  "Szerkesztés menü: Törlés előre szóköz"
 
   "Edit Menu: Delete from cursor to end of line"
   "Szerkesztés menü: Törölje a kurzort a végéig sor"
@@ -330,8 +324,20 @@ msgcat::mcmset hu {
   "Edit Menu: Delete from start of line to cursor"
   "Szerkesztés menü: Törlés a sor elejére kurzor"
 
+  "Edit Menu: Delete template"
+  "Szerkesztés menü: Törlés sablont"
+
   "Edit Menu: Delete text between character"
   "Szerkesztés menü: Szöveg közötti karakter törlése"
+
+  "Edit Menu: Delete the current number"
+  "Szerkesztés menü: Törli az aktuális száma"
+
+  "Edit Menu: Delete the whitespace to left of cursor"
+  "Szerkesztés menü: A kurzor balra szóközt törölni"
+
+  "Edit Menu: Delete the whitespace to right of cursor"
+  "Szerkesztés menü: Törölje a whitespace a kurzor jobbra"
 
   "Edit Menu: Edit language snippets"
   "Szerkesztés menü: Szerkesztés nyelvi mozaik"
@@ -341,6 +347,9 @@ msgcat::mcmset hu {
 
   "Edit Menu: Edit session global preferences"
   "Szerkesztés menü: Munkamenet globális beállítások szerkesztése"
+
+  "Edit Menu: Edit template"
+  "Szerkesztés menü: Szerkesztés sablon"
 
   "Edit Menu: Edit user current language preferences"
   "Szerkesztés menü: Sajtó alá helyez a felhasználó aktuális nyelvi beállításai"
@@ -435,6 +444,9 @@ msgcat::mcmset hu {
   "Edit Menu: Reload snippets"
   "Szerkesztés menü: Reload töredék"
 
+  "Edit Menu: Reload template information"
+  "Szerkesztés menü: Reload információjához"
+
   "Edit Menu: Replace line with script"
   "Szerkesztés menü: Helyettesít a vonal kézírás"
 
@@ -507,6 +519,12 @@ msgcat::mcmset hu {
   "File Menu: Close current tab"
   "Fájl menü: Zár időszerű pánt"
 
+  "File Menu: Delete current file"
+  "Fájl menü: A jelenlegi fájl törlése"
+
+  "File Menu: Duplicate current file"
+  "Fájl menü: Két példányban az aktuális fájl"
+
   "File Menu: Favorite file"
   "Fájl menü: Kedvenc fájl"
 
@@ -515,6 +533,9 @@ msgcat::mcmset hu {
 
   "File Menu: New file"
   "Fájl menü: Új fájl"
+
+  "File Menu: New file from template"
+  "Fájl menü: Új fájl sablonból"
 
   "File Menu: New window"
   "Fájl menü: Új ablakban"
@@ -534,6 +555,9 @@ msgcat::mcmset hu {
   "File Menu: Quit application"
   "Fájl menü: Kilép alkalmazás"
 
+  "File Menu: Rename current file"
+  "Fájl menü: A jelenlegi fájl átnevezése"
+
   "File Menu: Reopen current file"
   "Fájl menü: Nyissa meg az aktuális fájl"
 
@@ -546,8 +570,20 @@ msgcat::mcmset hu {
   "File Menu: Save file as"
   "Fájl menü: Mentse a fájlt"
 
+  "File Menu: Save file as template"
+  "Fájl menü: Fájl mentése sablonként"
+
   "File Menu: Save selected lines"
   "Fájl menü: Kijelölt sorok mentése"
+
+  "File Menu: Set current file line ending to CR for Classic Mac"
+  "Fájl menü: Állítsa be az aktuális fájl vonal megszüntetése a CR klasszikus Mac"
+
+  "File Menu: Set current file line ending to CRLF for Windows"
+  "Fájl menü: Állítsa be az aktuális fájl sorvégi CRLF for Windows"
+
+  "File Menu: Set current file line ending to LF for Unix"
+  "Fájl menü: Állítsa be az aktuális fájl vonal megszüntetése az LF UNIX"
 
   "File Menu: Show file difference"
   "Fájl menü: Térkép fájl különbség"
@@ -687,8 +723,8 @@ msgcat::mcmset hu {
   "Insert"
   "Beillesztés"
 
-  "Install..."
-  "telepít"
+  "Install"
+  "Telepítés"
 
   "Join Lines"
   "Sorok összevonása"
@@ -710,6 +746,9 @@ msgcat::mcmset hu {
 
   "Line Below Current"
   "Vonal alatt folyó"
+
+  "Line Ending"
+  "Vonal vége"
 
   "Line Number"
   "Sor száma"
@@ -777,26 +816,23 @@ msgcat::mcmset hu {
   "Move to Screen Top"
   "Mozgatni a képernyőn tetején"
 
+  "New From Template"
+  "Új sablonból"
+
   "New Window"
   "Új ablak"
 
   "Next Difference"
   "A következ? eltérés"
 
-  "Numbers Backward"
-  "Számok visszafelé"
-
-  "Numbers Forward"
-  "Számok előre"
-
-  "Open Directory..."
+  "Open Directory"
   "Felső szintű könyvtár:"
 
   "Open Favorite"
   "Nyílt Favorite"
 
-  "Open File..."
-  "Fájl megnyitása..."
+  "Open File"
+  "Fájl megnyitása"
 
   "Open Recent"
   "Legutóbbi megnyitása"
@@ -864,17 +900,20 @@ msgcat::mcmset hu {
   "Restart TKE"
   "Indítsa újra a TKE"
 
+  "Run BIST"
+  "Fuss BIST"
+
   "Save All"
   "Az összes dokumentum mentése"
 
-  "Save As..."
-  "A kép mentése másként"
+  "Save As Template"
+  "A sablon mentése"
 
   "Save Current"
   "Aktuális mentése"
 
-  "Save Selection As..."
-  "Save kiválasztás..."
+  "Save Selection As"
+  "Save kiválasztás"
 
   "Select All"
   "Összes kijelölése"
@@ -978,6 +1017,9 @@ msgcat::mcmset hu {
   "Tabs"
   "Lapfülek"
 
+  "Templates"
+  "Sablonok"
+
   "Text Between Character"
   "Karakter közé szöveget helyezünk"
 
@@ -1005,6 +1047,9 @@ msgcat::mcmset hu {
   "Tools Menu: Restart TKE"
   "Eszközök menü: Újraindítás TKE"
 
+  "Tools Menu: Run BIST"
+  "Eszközök menü: Fuss BIST"
+
   "Tools Menu: Run theme editor"
   "Eszközök menü: Fuss témaszerkesztő"
 
@@ -1029,8 +1074,11 @@ msgcat::mcmset hu {
   "Unindent"
   "Behúzásának megszüntetése"
 
-  "Uninstall..."
+  "Uninstall"
   "Eltávolítás"
+
+  "Unix"
+  "Unix"
 
   "Unlock"
   "Kinyit"
@@ -1127,6 +1175,9 @@ msgcat::mcmset hu {
 
   "Whitespace Forward"
   "Szóköz-előre"
+
+  "Windows"
+  "Windows"
 
 }
 
@@ -1238,20 +1289,11 @@ msgcat::mcmset hu {
   "Delete directory?"
   "Könyvtár törlése?"
 
-  "Delete file?"
-  "A fájl törlése"
-
   "Delete files?"
   "A fájlok törlése"
 
   "Directory Name:"
   "Könyvtár neve:"
-
-  "Duplicate"
-  "Megkettőzés"
-
-  "File Name:"
-  "A fájlnév"
 
   "Folder Name:"
   "Mappa"
@@ -1277,9 +1319,6 @@ msgcat::mcmset hu {
   "Remove from Sidebar"
   "Eltávolítás a Sidebar"
 
-  "Rename"
-  "Átnevezés"
-
   "Show Difference"
   "Különbség Térkép"
 
@@ -1301,6 +1340,23 @@ msgcat::mcmset hu {
 
   "Syntax error in syntax file"
   "Szintaktikai hiba a fájl szintaxisa"
+
+}
+
+# templates.tcl
+msgcat::mcmset hu {
+
+  "Template"
+  "Sablon"
+
+  "Template Name"
+  "Sablon neve"
+
+  "deleted"
+  "törölve"
+
+  "saved"
+  "Mentve."
 
 }
 
@@ -1600,9 +1656,6 @@ msgcat::mcmset hu {
   "Modifications"
   "Módosítások"
 
-  "None"
-  "Egysem"
-
   "One-Color Bitmap"
   "Egy-Color Bitmap"
 
@@ -1692,8 +1745,17 @@ msgcat::mcmset hu {
   "Delete"
   "Törlés"
 
+  "Delete file?"
+  "A fájl törlése"
+
+  "Duplicate"
+  "Megkettőzés"
+
   "Favorite"
   "Kedvenc"
+
+  "File Name:"
+  "A fájlnév"
 
   "Find"
   "Keresés"
@@ -1704,8 +1766,14 @@ msgcat::mcmset hu {
   "New File"
   "Új fájl"
 
+  "None"
+  "Egysem"
+
   "Open"
   "Nyissa"
+
+  "Rename"
+  "Átnevezés"
 
   "Save"
   "Mentés"

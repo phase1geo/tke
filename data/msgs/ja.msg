@@ -228,6 +228,9 @@ msgcat::mcmset ja {
   "Check for Update"
   "アップデートの確認"
 
+  "Classic Mac"
+  "古典的な Mac"
+
   "Clear All"
   "すべてクリア"
 
@@ -246,14 +249,17 @@ msgcat::mcmset ja {
   "Copy"
   "コピー"
 
+  "Create"
+  "作成"
+
   "Create at Current Line"
   "???????????"
 
-  "Create..."
-  "する"
-
   "Current Line"
   "現在の行"
+
+  "Current Number"
+  "現在の番号"
 
   "Current Word"
   "現在の単語"
@@ -306,23 +312,11 @@ msgcat::mcmset ja {
   "Edit Menu: Cut text"
   "[編集] メニュー: テキストを切り取る"
 
-  "Edit Menu: Delete backward numbers"
-  "[編集] メニュー: 下位の番号を削除します。"
-
-  "Edit Menu: Delete backward whitespace"
-  "[編集] メニュー: 後方の空白を削除します。"
-
   "Edit Menu: Delete current line"
   "カレント行の削除 [編集] メニュー。"
 
   "Edit Menu: Delete current word"
   "[編集] メニュー: 現在の単語を削除します。"
-
-  "Edit Menu: Delete forward numbers"
-  "[編集] メニュー: 前方の番号を削除します。"
-
-  "Edit Menu: Delete forward whitespace"
-  "[編集] メニュー: 前方空白を削除します。"
 
   "Edit Menu: Delete from cursor to end of line"
   "編集メニュー: 削除終わりへのカーソルからの行の"
@@ -330,8 +324,20 @@ msgcat::mcmset ja {
   "Edit Menu: Delete from start of line to cursor"
   "カーソルを行の先頭から削除する編集メニュー。"
 
+  "Edit Menu: Delete template"
+  "[編集] メニュー: テンプレートの削除"
+
   "Edit Menu: Delete text between character"
   "[編集] メニュー: 文字の間のテキストを削除します。"
+
+  "Edit Menu: Delete the current number"
+  "[編集] メニュー: 現在の番号を削除します。"
+
+  "Edit Menu: Delete the whitespace to left of cursor"
+  "[編集] メニュー: カーソルの左側の空白を削除します。"
+
+  "Edit Menu: Delete the whitespace to right of cursor"
+  "[編集] メニュー: カーソルの右側の空白を削除します。"
 
   "Edit Menu: Edit language snippets"
   "[編集] メニュー: 編集言語のスニペット"
@@ -341,6 +347,9 @@ msgcat::mcmset ja {
 
   "Edit Menu: Edit session global preferences"
   "[編集] メニュー: 編集セッションのグローバル設定"
+
+  "Edit Menu: Edit template"
+  "[編集] メニュー: 編集テンプレート"
 
   "Edit Menu: Edit user current language preferences"
   "[編集] メニュー: 編集ユーザーの現在の言語設定"
@@ -435,6 +444,9 @@ msgcat::mcmset ja {
   "Edit Menu: Reload snippets"
   "[編集] メニュー: リロード スニペット"
 
+  "Edit Menu: Reload template information"
+  "[編集] メニュー: リロード テンプレート情報"
+
   "Edit Menu: Replace line with script"
   "[編集] メニュー: スクリプト行を置き換えます"
 
@@ -507,6 +519,12 @@ msgcat::mcmset ja {
   "File Menu: Close current tab"
   "[ファイル] メニュー: 現在のタブを閉じる"
 
+  "File Menu: Delete current file"
+  "[ファイル] メニュー: 現在のファイルを削除します。"
+
+  "File Menu: Duplicate current file"
+  "[ファイル] メニュー: 現在のファイルを複製します。"
+
   "File Menu: Favorite file"
   "[ファイル] メニュー: お気に入りファイル"
 
@@ -515,6 +533,9 @@ msgcat::mcmset ja {
 
   "File Menu: New file"
   "[ファイル] メニュー: 新しいファイル"
+
+  "File Menu: New file from template"
+  "テンプレートから新しいファイルを [ファイル] メニュー:"
 
   "File Menu: New window"
   "[ファイル] メニュー: 新しいウィンドウ"
@@ -534,6 +555,9 @@ msgcat::mcmset ja {
   "File Menu: Quit application"
   "[ファイル] メニュー: アプリケーションを終了します。"
 
+  "File Menu: Rename current file"
+  "[ファイル] メニュー: 現在のファイルの名前を変更します。"
+
   "File Menu: Reopen current file"
   "[ファイル] メニュー: 現在のファイルを再度開く"
 
@@ -546,8 +570,20 @@ msgcat::mcmset ja {
   "File Menu: Save file as"
   "ファイルを保存するファイル] メニュー。"
 
+  "File Menu: Save file as template"
+  "[ファイル] メニュー: ファイルをテンプレートとして保存します。"
+
   "File Menu: Save selected lines"
   "[ファイル] メニュー: 選択した行を保存します。"
+
+  "File Menu: Set current file line ending to CR for Classic Mac"
+  "[ファイル] メニュー: セット クラシックな Mac の CR に現在ファイル行末"
+
+  "File Menu: Set current file line ending to CRLF for Windows"
+  "[ファイル] メニュー: セット現在ファイル行 windows の CRLF 終端"
+
+  "File Menu: Set current file line ending to LF for Unix"
+  "[ファイル] メニュー: セット Unix 用 LF に現在ファイル行末"
 
   "File Menu: Show file difference"
   "[ファイル] メニュー: ファイルの相違点を表示します。"
@@ -687,7 +723,7 @@ msgcat::mcmset ja {
   "Insert"
   "挿入"
 
-  "Install..."
+  "Install"
   "インストール"
 
   "Join Lines"
@@ -710,6 +746,9 @@ msgcat::mcmset ja {
 
   "Line Below Current"
   "現在下の行"
+
+  "Line Ending"
+  "行の終わり"
 
   "Line Number"
   "行番号"
@@ -777,25 +816,22 @@ msgcat::mcmset ja {
   "Move to Screen Top"
   "画面の一番上に移動します。"
 
+  "New From Template"
+  "新しいテンプレートを作成"
+
   "New Window"
   "新しいウィンドウ"
 
   "Next Difference"
   "????"
 
-  "Numbers Backward"
-  "下位の数字"
-
-  "Numbers Forward"
-  "前方の数字"
-
-  "Open Directory..."
-  "ディレクトリを開きます。..."
+  "Open Directory"
+  "オープン ディレクトリ"
 
   "Open Favorite"
   "オープン好き"
 
-  "Open File..."
+  "Open File"
   "ファイルを開く"
 
   "Open Recent"
@@ -864,17 +900,20 @@ msgcat::mcmset ja {
   "Restart TKE"
   "TKE ????????"
 
+  "Run BIST"
+  "BIST を実行します。"
+
   "Save All"
   "すべて保存"
 
-  "Save As..."
-  "名前を付けて保存..."
+  "Save As Template"
+  "テンプレートの保存"
 
   "Save Current"
   "?????????"
 
-  "Save Selection As..."
-  "選択範囲を保存."
+  "Save Selection As"
+  "選択範囲を保存します。"
 
   "Select All"
   "すべて選択"
@@ -978,6 +1017,9 @@ msgcat::mcmset ja {
   "Tabs"
   "タブ"
 
+  "Templates"
+  "テンプレート"
+
   "Text Between Character"
   "文字の間のテキスト"
 
@@ -1005,6 +1047,9 @@ msgcat::mcmset ja {
   "Tools Menu: Restart TKE"
   "[ツール] メニュー: 再起動 TKE"
 
+  "Tools Menu: Run BIST"
+  "[ツール] メニュー: BIST を実行"
+
   "Tools Menu: Run theme editor"
   "[ツール]メニュー：実行テーマエディタ"
 
@@ -1029,8 +1074,11 @@ msgcat::mcmset ja {
   "Unindent"
   "インデント解除"
 
-  "Uninstall..."
+  "Uninstall"
   "アンインストール"
+
+  "Unix"
+  "UNIX"
 
   "Unlock"
   "アンロック"
@@ -1127,6 +1175,9 @@ msgcat::mcmset ja {
 
   "Whitespace Forward"
   "空白フォワード"
+
+  "Windows"
+  "窓"
 
 }
 
@@ -1238,20 +1289,11 @@ msgcat::mcmset ja {
   "Delete directory?"
   "ディレクトリを削除しますか？"
 
-  "Delete file?"
-  "ファイルを削除しますか？"
-
   "Delete files?"
   "ファイルを削除しますか。"
 
   "Directory Name:"
   "ディレクトリ名:"
-
-  "Duplicate"
-  "複製"
-
-  "File Name:"
-  "ファイル名"
 
   "Folder Name:"
   "?????"
@@ -1277,9 +1319,6 @@ msgcat::mcmset ja {
   "Remove from Sidebar"
   "サイドバーから削除"
 
-  "Rename"
-  "名前の変更"
-
   "Show Difference"
   "違いを示す"
 
@@ -1301,6 +1340,23 @@ msgcat::mcmset ja {
 
   "Syntax error in syntax file"
   "構文ファイルの構文エラー"
+
+}
+
+# templates.tcl
+msgcat::mcmset ja {
+
+  "Template"
+  "テンプレート"
+
+  "Template Name"
+  "テンプレート名:"
+
+  "deleted"
+  "削除済み"
+
+  "saved"
+  "保存中…"
 
 }
 
@@ -1600,9 +1656,6 @@ msgcat::mcmset ja {
   "Modifications"
   "修正"
 
-  "None"
-  "なし"
-
   "One-Color Bitmap"
   "ワンカラービットマップ"
 
@@ -1692,8 +1745,17 @@ msgcat::mcmset ja {
   "Delete"
   "削除"
 
+  "Delete file?"
+  "ファイルを削除しますか？"
+
+  "Duplicate"
+  "複製"
+
   "Favorite"
   "お気に入り"
+
+  "File Name:"
+  "ファイル名"
 
   "Find"
   "Find"
@@ -1704,8 +1766,14 @@ msgcat::mcmset ja {
   "New File"
   "新規ファイル"
 
+  "None"
+  "なし"
+
   "Open"
   "オープン"
+
+  "Rename"
+  "名前の変更"
 
   "Save"
   "保存"

@@ -228,6 +228,9 @@ msgcat::mcmset fr {
   "Check for Update"
   "Vérifier les mises à jour"
 
+  "Classic Mac"
+  "Classic Mac"
+
   "Clear All"
   "Effacer tout"
 
@@ -246,14 +249,17 @@ msgcat::mcmset fr {
   "Copy"
   "Copie"
 
+  "Create"
+  "Créer"
+
   "Create at Current Line"
   "Créer à la ligne courante"
 
-  "Create..."
-  "Créer..."
-
   "Current Line"
   "Ligne courante"
+
+  "Current Number"
+  "Numéro de page actuel"
 
   "Current Word"
   "Mot courant"
@@ -306,23 +312,11 @@ msgcat::mcmset fr {
   "Edit Menu: Cut text"
   "Menu Edition : Couper le texte"
 
-  "Edit Menu: Delete backward numbers"
-  "Menu Edition : Supprimer les numéros vers l'arrière"
-
-  "Edit Menu: Delete backward whitespace"
-  "Menu Edition : Supprimer les espaces blancs vers l'arrière"
-
   "Edit Menu: Delete current line"
   "Menu Edition : Supprimer la ligne courante"
 
   "Edit Menu: Delete current word"
   "Menu Edition : Supprimer mot courant"
-
-  "Edit Menu: Delete forward numbers"
-  "Menu Edition : Supprimer les numéros vers l'avant"
-
-  "Edit Menu: Delete forward whitespace"
-  "Menu Edition : Supprimer les espaces avant"
 
   "Edit Menu: Delete from cursor to end of line"
   "Menu Edition : Supprimez du curseur à la fin de ligne"
@@ -330,8 +324,20 @@ msgcat::mcmset fr {
   "Edit Menu: Delete from start of line to cursor"
   "Menu Edition : Suppression du début de la ligne jusqu'au curseur"
 
+  "Edit Menu: Delete template"
+  "Menu Edition : Modèle Delete"
+
   "Edit Menu: Delete text between character"
   "Menu Edition : Supprimer le texte entre les caractères"
+
+  "Edit Menu: Delete the current number"
+  "Menu Edition : Supprimer le numéro actuel"
+
+  "Edit Menu: Delete the whitespace to left of cursor"
+  "Menu Edition : Supprimer les espaces à gauche du curseur"
+
+  "Edit Menu: Delete the whitespace to right of cursor"
+  "Menu Edition : Supprimer les espaces à droite du curseur"
 
   "Edit Menu: Edit language snippets"
   "Menu Edition : Extraits de langue Edit"
@@ -341,6 +347,9 @@ msgcat::mcmset fr {
 
   "Edit Menu: Edit session global preferences"
   "Menu Edition : Modifier les préférences globales session"
+
+  "Edit Menu: Edit template"
+  "Menu Edition : Modèle modification"
 
   "Edit Menu: Edit user current language preferences"
   "Menu Edition : Modifier les préférences de langue actuel utilisateur"
@@ -435,6 +444,9 @@ msgcat::mcmset fr {
   "Edit Menu: Reload snippets"
   "Menu Edition : Extraits de Reload"
 
+  "Edit Menu: Reload template information"
+  "Menu Edition : Recharger les informations de modèle"
+
   "Edit Menu: Replace line with script"
   "Menu Edition : Remplacer la ligne par script"
 
@@ -507,6 +519,12 @@ msgcat::mcmset fr {
   "File Menu: Close current tab"
   "Menu fichier : Fermer l'onglet courant"
 
+  "File Menu: Delete current file"
+  "Menu fichier : Supprimer le fichier en cours"
+
+  "File Menu: Duplicate current file"
+  "Menu fichier : Dupliquer le fichier actuel"
+
   "File Menu: Favorite file"
   "Menu fichier : Fichier de favoris"
 
@@ -515,6 +533,9 @@ msgcat::mcmset fr {
 
   "File Menu: New file"
   "Menu fichier : Nouveau fichier"
+
+  "File Menu: New file from template"
+  "Menu fichier : Le nouveau fichier de modèle"
 
   "File Menu: New window"
   "Menu fichier : Nouvelle fenêtre"
@@ -534,6 +555,9 @@ msgcat::mcmset fr {
   "File Menu: Quit application"
   "Menu fichier : Quitter application"
 
+  "File Menu: Rename current file"
+  "Menu fichier : Renommer le fichier en cours"
+
   "File Menu: Reopen current file"
   "Menu fichier : Rouvrir le dossier actuel"
 
@@ -546,8 +570,20 @@ msgcat::mcmset fr {
   "File Menu: Save file as"
   "Menu fichier : Enregistrez le fichier sous"
 
+  "File Menu: Save file as template"
+  "Menu fichier : Enregistrer le fichier en tant que modèle"
+
   "File Menu: Save selected lines"
   "Menu fichier : Enregistrer les lignes sélectionnées"
+
+  "File Menu: Set current file line ending to CR for Classic Mac"
+  "Menu fichier : Valeur actuelle ligne de fichier se terminant à CR pour Mac Classic"
+
+  "File Menu: Set current file line ending to CRLF for Windows"
+  "Menu fichier : Set actuel fichier fin de ligne CRLF pour Windows"
+
+  "File Menu: Set current file line ending to LF for Unix"
+  "Menu fichier : Valeur actuelle ligne de fichier se terminant à LF pour Unix"
 
   "File Menu: Show file difference"
   "Menu fichier : Voir la différence de fichier"
@@ -687,8 +723,8 @@ msgcat::mcmset fr {
   "Insert"
   "Insérer"
 
-  "Install..."
-  "Installation..."
+  "Install"
+  "Installer"
 
   "Join Lines"
   "Fusionner les lignes"
@@ -710,6 +746,9 @@ msgcat::mcmset fr {
 
   "Line Below Current"
   "Ligne sous courant"
+
+  "Line Ending"
+  "Fin de ligne"
 
   "Line Number"
   "Numéro de ligne"
@@ -777,26 +816,23 @@ msgcat::mcmset fr {
   "Move to Screen Top"
   "Déplacer vers le haut de l'écran"
 
+  "New From Template"
+  "Nouveau à partir d'un modèle"
+
   "New Window"
   "Nouvelle fenêtre"
 
   "Next Difference"
   "Différence suivante"
 
-  "Numbers Backward"
-  "Numéros vers l'arrière"
-
-  "Numbers Forward"
-  "Numéros vers l'avant"
-
-  "Open Directory..."
-  "Dossier principal..."
+  "Open Directory"
+  "Dossier principal :"
 
   "Open Favorite"
   "Ouvrir favoris"
 
-  "Open File..."
-  "Ouvrir un fichier..."
+  "Open File"
+  "Ouvrir le fichier"
 
   "Open Recent"
   "Ouvrez récente"
@@ -864,16 +900,19 @@ msgcat::mcmset fr {
   "Restart TKE"
   "Redémarrez TKE"
 
+  "Run BIST"
+  "Exécutez BIST"
+
   "Save All"
   "Enregistrer tout"
 
-  "Save As..."
-  "Enregistrer sous..."
+  "Save As Template"
+  "Sauvegarder le modèle"
 
   "Save Current"
   "Enregistrer Actuel:"
 
-  "Save Selection As..."
+  "Save Selection As"
   "Enregistrer la sélection sous"
 
   "Select All"
@@ -978,6 +1017,9 @@ msgcat::mcmset fr {
   "Tabs"
   "Tab"
 
+  "Templates"
+  "Modèles HTML"
+
   "Text Between Character"
   "Texte entre les caractères"
 
@@ -1005,6 +1047,9 @@ msgcat::mcmset fr {
   "Tools Menu: Restart TKE"
   "Menu Outils : Redémarrage TKE"
 
+  "Tools Menu: Run BIST"
+  "Menu Outils : Exécution BIST"
+
   "Tools Menu: Run theme editor"
   "Menu Outils: Exécutez l&#39;éditeur de thème"
 
@@ -1029,8 +1074,11 @@ msgcat::mcmset fr {
   "Unindent"
   "Unindent"
 
-  "Uninstall..."
+  "Uninstall"
   "Désinstaller"
+
+  "Unix"
+  "UNIX"
 
   "Unlock"
   "Déverrouiller"
@@ -1127,6 +1175,9 @@ msgcat::mcmset fr {
 
   "Whitespace Forward"
   "Espace blanc avant"
+
+  "Windows"
+  "Fenêtres"
 
 }
 
@@ -1238,20 +1289,11 @@ msgcat::mcmset fr {
   "Delete directory?"
   "Supprimer répertoire?"
 
-  "Delete file?"
-  "Supprimer le fichier"
-
   "Delete files?"
   "Supprimez les fichiers ?"
 
   "Directory Name:"
   "Nom du dossier"
-
-  "Duplicate"
-  "Dupliquer"
-
-  "File Name:"
-  "Nom du fichier :"
 
   "Folder Name:"
   "Nom du dossier :"
@@ -1277,9 +1319,6 @@ msgcat::mcmset fr {
   "Remove from Sidebar"
   "Retirer du Sidebar"
 
-  "Rename"
-  "Renommer"
-
   "Show Difference"
   "Voir la différence"
 
@@ -1301,6 +1340,23 @@ msgcat::mcmset fr {
 
   "Syntax error in syntax file"
   "Erreur de syntaxe dans le fichier de syntaxe"
+
+}
+
+# templates.tcl
+msgcat::mcmset fr {
+
+  "Template"
+  "Modèle"
+
+  "Template Name"
+  "Nom du modèle"
+
+  "deleted"
+  "Supprimé"
+
+  "saved"
+  "Sauvé"
 
 }
 
@@ -1600,9 +1656,6 @@ msgcat::mcmset fr {
   "Modifications"
   "Modifications"
 
-  "None"
-  "Aucun"
-
   "One-Color Bitmap"
   "Bitmap une couleur"
 
@@ -1692,8 +1745,17 @@ msgcat::mcmset fr {
   "Delete"
   "Supprimer"
 
+  "Delete file?"
+  "Supprimer le fichier"
+
+  "Duplicate"
+  "Dupliquer"
+
   "Favorite"
   "Favori"
+
+  "File Name:"
+  "Nom du fichier :"
 
   "Find"
   "Trouvez"
@@ -1704,8 +1766,14 @@ msgcat::mcmset fr {
   "New File"
   "Nouveau fichier"
 
+  "None"
+  "Aucun"
+
   "Open"
   "Ouvrir"
+
+  "Rename"
+  "Renommer"
 
   "Save"
   "Enregistrer"

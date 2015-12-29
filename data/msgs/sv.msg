@@ -228,6 +228,9 @@ msgcat::mcmset sv {
   "Check for Update"
   "Leta efter uppdatering"
 
+  "Classic Mac"
+  "Klassiska Mac"
+
   "Clear All"
   "Avmarkera alla"
 
@@ -246,14 +249,17 @@ msgcat::mcmset sv {
   "Copy"
   "Kopiera"
 
+  "Create"
+  "Skapa"
+
   "Create at Current Line"
   "Skapa på aktuell rad"
 
-  "Create..."
-  "Skapa"
-
   "Current Line"
   "Aktuell rad:"
+
+  "Current Number"
+  "Aktuellt radnummer"
 
   "Current Word"
   "Aktuella ord"
@@ -306,23 +312,11 @@ msgcat::mcmset sv {
   "Edit Menu: Cut text"
   "Redigera-menyn: Klipp ut text"
 
-  "Edit Menu: Delete backward numbers"
-  "Redigera-menyn: Ta bort bakåt nummer"
-
-  "Edit Menu: Delete backward whitespace"
-  "Redigera-menyn: Ta bort bakåt mellanslag"
-
   "Edit Menu: Delete current line"
   "Redigera-menyn: Ta bort den aktuella raden"
 
   "Edit Menu: Delete current word"
   "Redigera-menyn: Ta bort aktuella ord"
-
-  "Edit Menu: Delete forward numbers"
-  "Redigera-menyn: Ta bort vidarebefordra nummer"
-
-  "Edit Menu: Delete forward whitespace"
-  "Redigera-menyn: Ta bort framåt blanktecken"
 
   "Edit Menu: Delete from cursor to end of line"
   "Redigera-menyn: Ta bort från markören till slutet av raden"
@@ -330,8 +324,20 @@ msgcat::mcmset sv {
   "Edit Menu: Delete from start of line to cursor"
   "Redigera-menyn: Ta bort från början av linje till markören"
 
+  "Edit Menu: Delete template"
+  "Redigera-menyn: Ta bort mallen"
+
   "Edit Menu: Delete text between character"
   "Redigera-menyn: Ta bort text mellan karaktär"
+
+  "Edit Menu: Delete the current number"
+  "Redigera-menyn: Ta bort aktuellt nummer"
+
+  "Edit Menu: Delete the whitespace to left of cursor"
+  "Redigera-menyn: Ta bort tomt utrymme till vänster om markören"
+
+  "Edit Menu: Delete the whitespace to right of cursor"
+  "Redigera-menyn: Ta bort whitespace till höger om markören"
 
   "Edit Menu: Edit language snippets"
   "Redigera-menyn: Redigera språk snuttar"
@@ -341,6 +347,9 @@ msgcat::mcmset sv {
 
   "Edit Menu: Edit session global preferences"
   "Redigera-menyn: Redigera globala inställningar för session"
+
+  "Edit Menu: Edit template"
+  "Redigera-menyn: Redigera mall"
 
   "Edit Menu: Edit user current language preferences"
   "Redigera-menyn: Redigera användarinställningar nuvarande språk"
@@ -435,6 +444,9 @@ msgcat::mcmset sv {
   "Edit Menu: Reload snippets"
   "Redigera-menyn: Reload snuttar"
 
+  "Edit Menu: Reload template information"
+  "Redigera-menyn: Ladda mallinformation"
+
   "Edit Menu: Replace line with script"
   "Redigera-menyn: Ersätta line med skriptet"
 
@@ -507,6 +519,12 @@ msgcat::mcmset sv {
   "File Menu: Close current tab"
   "Arkiv-menyn: Nära ström tab"
 
+  "File Menu: Delete current file"
+  "Arkiv-menyn: Ta bort den aktuella filen"
+
+  "File Menu: Duplicate current file"
+  "Arkiv-menyn: Duplicera nuvarande fil"
+
   "File Menu: Favorite file"
   "Arkiv-menyn: Favorit-fil"
 
@@ -515,6 +533,9 @@ msgcat::mcmset sv {
 
   "File Menu: New file"
   "Arkiv-menyn: Ny fil"
+
+  "File Menu: New file from template"
+  "Arkiv-menyn: Ny fil från mall"
 
   "File Menu: New window"
   "Arkiv-menyn: Nytt fönster"
@@ -534,6 +555,9 @@ msgcat::mcmset sv {
   "File Menu: Quit application"
   "Arkiv-menyn: Avsluta programmet"
 
+  "File Menu: Rename current file"
+  "Arkiv-menyn: Byta namn på nuvarande fil"
+
   "File Menu: Reopen current file"
   "Arkiv-menyn: Återuppta nuvarande fil"
 
@@ -546,8 +570,20 @@ msgcat::mcmset sv {
   "File Menu: Save file as"
   "Arkiv-menyn: Spara filen som"
 
+  "File Menu: Save file as template"
+  "Arkiv-menyn: Spara som mall"
+
   "File Menu: Save selected lines"
   "Arkiv-menyn: Spara markerade rader"
+
+  "File Menu: Set current file line ending to CR for Classic Mac"
+  "Arkiv-menyn: Ange nuvarande fil linje slutar till CR för klassiska Mac"
+
+  "File Menu: Set current file line ending to CRLF for Windows"
+  "Arkiv-menyn: Ange nuvarande fil rader som slutar med CRLF för Windows"
+
+  "File Menu: Set current file line ending to LF for Unix"
+  "Arkiv-menyn: Ange nuvarande fil linje slutar att LF för Unix"
 
   "File Menu: Show file difference"
   "Arkiv-menyn: Visar filen skillnad"
@@ -687,7 +723,7 @@ msgcat::mcmset sv {
   "Insert"
   "Infoga"
 
-  "Install..."
+  "Install"
   "Installera"
 
   "Join Lines"
@@ -710,6 +746,9 @@ msgcat::mcmset sv {
 
   "Line Below Current"
   "Rad under nuvarande"
+
+  "Line Ending"
+  "Linje som slutar"
 
   "Line Number"
   "radnummer"
@@ -777,26 +816,23 @@ msgcat::mcmset sv {
   "Move to Screen Top"
   "Jag flytta skärmen topp"
 
+  "New From Template"
+  "Ny från mall"
+
   "New Window"
   "Nytt fönster"
 
   "Next Difference"
   "Nästa skillnad"
 
-  "Numbers Backward"
-  "Nummer bakåt"
-
-  "Numbers Forward"
-  "Nummer framåt"
-
-  "Open Directory..."
+  "Open Directory"
   "Öppna katalog"
 
   "Open Favorite"
   "Öppen Favoritspel"
 
-  "Open File..."
-  "Öppna fil..."
+  "Open File"
+  "Öppna fil"
 
   "Open Recent"
   "Öppna senaste"
@@ -864,17 +900,20 @@ msgcat::mcmset sv {
   "Restart TKE"
   "Starta om TKE"
 
+  "Run BIST"
+  "Köra BIST"
+
   "Save All"
   "Spara allt"
 
-  "Save As..."
-  "Spara som"
+  "Save As Template"
+  "Spara som mall"
 
   "Save Current"
   "Spara ström"
 
-  "Save Selection As..."
-  "Spara markering som..."
+  "Save Selection As"
+  "Spara markering som"
 
   "Select All"
   "Markera alla"
@@ -978,6 +1017,9 @@ msgcat::mcmset sv {
   "Tabs"
   "Tabbar"
 
+  "Templates"
+  "Mallar"
+
   "Text Between Character"
   "Text mellan karaktär"
 
@@ -1005,6 +1047,9 @@ msgcat::mcmset sv {
   "Tools Menu: Restart TKE"
   "Verktyg-menyn: Omstart TKE"
 
+  "Tools Menu: Run BIST"
+  "Verktyg-menyn: Kör BIST"
+
   "Tools Menu: Run theme editor"
   "Verktyg-menyn: Kör tema redaktör"
 
@@ -1029,8 +1074,11 @@ msgcat::mcmset sv {
   "Unindent"
   "Unindent"
 
-  "Uninstall..."
-  "avinstallera"
+  "Uninstall"
+  "Avinstallera"
+
+  "Unix"
+  "Unix"
 
   "Unlock"
   "Lås upp"
@@ -1127,6 +1175,9 @@ msgcat::mcmset sv {
 
   "Whitespace Forward"
   "Whitespace framåt"
+
+  "Windows"
+  "Windows"
 
 }
 
@@ -1238,20 +1289,11 @@ msgcat::mcmset sv {
   "Delete directory?"
   "Radera katalog?"
 
-  "Delete file?"
-  "Ta bort"
-
   "Delete files?"
   "Ta bort filer"
 
   "Directory Name:"
   "namn i katalog"
-
-  "Duplicate"
-  "Duplicera"
-
-  "File Name:"
-  "Filnamn:"
 
   "Folder Name:"
   "Mappnamnet:"
@@ -1277,9 +1319,6 @@ msgcat::mcmset sv {
   "Remove from Sidebar"
   "Ta bort från sidofältet"
 
-  "Rename"
-  "Byt namn"
-
   "Show Difference"
   "Visa skillnaden"
 
@@ -1301,6 +1340,23 @@ msgcat::mcmset sv {
 
   "Syntax error in syntax file"
   "Syntaxfel i syntax filen"
+
+}
+
+# templates.tcl
+msgcat::mcmset sv {
+
+  "Template"
+  "Mall"
+
+  "Template Name"
+  "Mallnamn"
+
+  "deleted"
+  "borttagen"
+
+  "saved"
+  "sparad"
 
 }
 
@@ -1600,9 +1656,6 @@ msgcat::mcmset sv {
   "Modifications"
   "Ändringar"
 
-  "None"
-  "Ingen"
-
   "One-Color Bitmap"
   "Enfärgs Bitmap"
 
@@ -1692,8 +1745,17 @@ msgcat::mcmset sv {
   "Delete"
   "Radera"
 
+  "Delete file?"
+  "Ta bort"
+
+  "Duplicate"
+  "Duplicera"
+
   "Favorite"
   "Gunstling"
+
+  "File Name:"
+  "Filnamn:"
 
   "Find"
   "Sök i"
@@ -1704,8 +1766,14 @@ msgcat::mcmset sv {
   "New File"
   "Ny fil"
 
+  "None"
+  "Ingen"
+
   "Open"
   "Öppen"
+
+  "Rename"
+  "Byt namn"
 
   "Save"
   "Spara"
