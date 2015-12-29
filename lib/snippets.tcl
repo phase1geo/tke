@@ -222,13 +222,13 @@ namespace eval snippets {
     # Initialize tabpoints
     set tabpoints($txtt) 1
 
+    # Delete the last_word, if specified
+    if {$delete} {
+      $txtt delete "insert-1c wordstart" "insert-1c wordend"
+    }
+
     # Call the snippet parser
     if {[set result [parse_snippet $txtt $snippet]] ne ""} {
-
-      # Delete the last_word, if specified
-      if {$delete} {
-        $txtt delete "insert-1c wordstart" "insert-1c wordend"
-      }
 
       # Insert the text
       $txtt insert insert {*}$result
@@ -236,12 +236,9 @@ namespace eval snippets {
       # Traverse the inserted snippet
       traverse_snippet $txtt
 
-      # Make sure that the whitespace character is not inserted into the widget
-      return 1
-
     }
 
-    return 0
+    return 1
 
   }
 
@@ -271,11 +268,7 @@ namespace eval snippets {
 
     # Parse the string
     if {[catch { snip_parse } rc] || ($rc != 0)} {
-      puts "ERROR-snippet: $::snip_errmsg ($rc)"
-      puts -nonewline "line: "
-      puts [string map {\n {}} $str]
-      puts "      $::snip_errstr"
-      puts "$::errorInfo"
+      display_error $str $::snip_errstr $::snip_errmsg
       return ""
     }
 
@@ -480,6 +473,65 @@ namespace eval snippets {
   proc add_detail {str txt} {
 
     $txt insert end $str
+
+  }
+
+  ######################################################################
+  # Displays the error information when a snippet parsing error is detected.
+  proc display_error {snip_str ptr_str error_info} {
+
+    if {![winfo exists .snipwin]} {
+
+      toplevel     .snipwin
+      wm title     .snipwin "Snippet Error"
+      wm transient .snipwin .
+      wm resizable .snipwin 0 0
+
+      ttk::labelframe .snipwin.f -text "Error Information"
+      text            .snipwin.f.t -wrap none -width 60 -relief flat -borderwidth 0 \
+        -highlightthickness 0 \
+        -background [utils::get_default_background] -foreground [utils::get_default_foreground] \
+        -xscrollcommand { .snipwin.f.hb set } -yscrollcommand { .snipwin.f.vb set }
+      ttk::scrollbar .snipwin.f.vb -orient vertical   -command { .snipwin.f.t xview }
+      ttk::scrollbar .snipwin.f.hb -orient horizontal -command { .snipwin.f.t yview }
+
+      grid rowconfigure    .snipwin.f 0 -weight 1
+      grid columnconfigure .snipwin.f 0 -weight 1
+      grid .snipwin.f.t  -row 0 -column 0 -sticky news
+      grid .snipwin.f.vb -row 0 -column 1 -sticky ns
+      grid .snipwin.f.hb -row 1 -column 0 -sticky ew
+
+      ttk::frame  .snipwin.bf
+      ttk::button .snipwin.bf.okay -style BButton -text "Close" -width 5 -command { destroy .snipwin }
+
+      pack .snipwin.bf.okay -padx 2 -pady 2
+
+      pack .snipwin.f  -fill both -expand yes
+      pack .snipwin.bf -fill x
+
+      # Make sure that the window is centered in the window
+      ::tk::PlaceWindow .snipwin widget .
+
+    } else {
+
+      # Clear the text widget
+      .snipwin.f.t configure -state normal
+      .snipwin.f.t delete 1.0 end
+
+    }
+
+    # Insert the error information into the text widget
+    foreach line [split $snip_str \n] {
+      set ptr     [string range $ptr_str 0 [string length $line]]
+      set ptr_str [string range $ptr_str [expr [string length $line] + 1] end]
+      .snipwin.f.t insert end "$line\n"
+      if {[string trim $ptr] ne ""} {
+        .snipwin.f.t insert end "$ptr\n"
+      }
+    }
+    .snipwin.f.t insert end "\n$error_info"
+    .snipwin.f.t configure -state disabled
+    .snipwin.f.t configure -height [expr {([set lines [.snipwin.f.t count -lines 1.0 end]] < 20) ? $lines : 20}]
 
   }
 
