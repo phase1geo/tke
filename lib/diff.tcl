@@ -196,8 +196,8 @@ namespace eval diff {
     # Get the current working directory
     set cwd [pwd]
 
-    # Get the current filename
-    set fname [[ns gui]::get_info {} current fname]
+    # Get the filename
+    set fname [[ns gui]::get_info $txt txt fname]
 
     # Set the current working directory to the directory of the file
     cd [file dirname $fname]
@@ -213,7 +213,7 @@ namespace eval diff {
     # Get the CVS namespace name
     set cvs_ns [string tolower $data($txt,cvs)]
 
-    # If the V2 file changed, replace the current file with the new content
+    # If the V2 file changed, replace the file with the new content
     if {($data($txt,v2) ne $data($txt,last_v2)) || $force_update} {
 
       set v2_fname $fname
@@ -317,12 +317,12 @@ namespace eval diff {
     # otherwise, there is nothing left to do.
     if {$v1 ne ""} {
 
+      # Display the original changes
+      update_diff_frame $txt
+
       # Set v1 and v2
       set data($txt,v1) $v1
       set data($txt,v2) $v2
-
-      # Display the original changes
-      show $txt
 
     }
 
@@ -350,13 +350,13 @@ namespace eval diff {
 
   ######################################################################
   # Attempts to determine the default CVS that is used to manage the
-  # current file and updates the UI elements to match.
+  # file associated with the text widget and updates the UI elements to match.
   proc set_default_cvs {txt} {
 
     variable data
 
-    # Get the current filename
-    set fname [file tail [[ns gui]::get_info {} current fname]]
+    # Get the filename
+    set fname [file tail [[ns gui]::get_info $txt txt fname]]
 
     set data($txt,cvs) "diff"
     set data($txt,v2)  "Current"
@@ -463,7 +463,7 @@ namespace eval diff {
     variable data
 
     # Get the versions
-    set data($txt,versions) [list "Current" {*}[[string tolower $data($txt,cvs)]::versions [[ns gui]::get_info {} current fname]]]
+    set data($txt,versions) [list "Current" {*}[[string tolower $data($txt,cvs)]::versions [[ns gui]::get_info $txt txt fname]]]
 
     # Set the version 2 value to the current value
     set data($txt,v2) "Current"
@@ -532,8 +532,8 @@ namespace eval diff {
          ($mode eq "on") || \
          ($data($txt,logmode) && ($mode eq "update")))} {
 
-      # Get the current filename
-      set fname [[ns gui]::get_info {} current fname]
+      # Get the filename
+      set fname [[ns gui]::get_info $txt txt fname]
 
       # Get the current working directory
       set cwd [pwd]
@@ -666,7 +666,7 @@ namespace eval diff {
     }
 
     return $marks
-    
+
   }
 
   ######################################################################
