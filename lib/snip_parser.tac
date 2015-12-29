@@ -66,10 +66,7 @@ proc parse_format {str matches} {
 
   # Parse the string
   if {[catch { format_parse } rc] || ($rc != 0)} {
-    puts "ERROR-format: $::format_errmsg ($rc)"
-    puts -nonewline "line: "
-    puts [string map {\n {}} $str]
-    puts "      $::format_errstr"
+    snippets::display_error $str $::format_errstr $::format_errmsg
     return ""
   }
 
