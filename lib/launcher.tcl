@@ -552,7 +552,7 @@ namespace eval launcher {
     if {($value ne "") || ($mode ne "")} {
 
       # Find all of the matches
-      find_matches $value $mode
+      find_matches $value $mode show_detail
 
       # Get the number of matches
       set match_num [llength $matches]
@@ -570,6 +570,8 @@ namespace eval launcher {
         # If we need to show detail, display the text widget
         if {$show_detail} {
           grid $widgets(txt)
+        } else {
+          grid remove $widgets(txt)
         }
 
         # Update the table
@@ -627,7 +629,9 @@ namespace eval launcher {
   ############################################################################
   # Updates the contents of the matches array which contains all of the entries
   # that match the given user input.
-  proc find_matches {str mode} {
+  proc find_matches {str mode pshow_detail} {
+
+    upvar $pshow_detail show_detail
 
     variable commands
     variable command_names
@@ -671,6 +675,7 @@ namespace eval launcher {
               lappend matches [register_temp "#$name" [list cliphist::add_to_clipboard $str] $name $i [list cliphist::add_detail $str] launcher::clip_okay]
               incr i
             }
+            set show_detail 1
           }
         }
         ";" {
@@ -679,9 +684,10 @@ namespace eval launcher {
             set i 0
             foreach snippet [snippets::get_current_snippets] {
               lassign $snippet name value
-              lappend matches [register_temp ";$name" [list snippets::insert_snippet_into_current {} $value] $name $i "" launcher::snip_okay]
+              lappend matches [register_temp ";$name" [list snippets::insert_snippet_into_current {} $value] $name $i [list snippets::add_detail $value] launcher::snip_okay]
               incr i
             }
+            set show_detail 1
           }
         }
         ">" {
