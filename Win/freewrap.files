@@ -25,9 +25,12 @@ C:/cygwin64/home/Trevor/projects/tke-code/data/msgs/zh.msg
 C:/cygwin64/home/Trevor/projects/tke-code/data/preferences.tkedat
 C:/cygwin64/home/Trevor/projects/tke-code/data/syntax/AppleScript.syntax
 C:/cygwin64/home/Trevor/projects/tke-code/data/syntax/Bash.syntax
+C:/cygwin64/home/Trevor/projects/tke-code/data/syntax/C#.syntax
 C:/cygwin64/home/Trevor/projects/tke-code/data/syntax/C++.syntax
 C:/cygwin64/home/Trevor/projects/tke-code/data/syntax/CoffeeScript.syntax
 C:/cygwin64/home/Trevor/projects/tke-code/data/syntax/CSS.syntax
+C:/cygwin64/home/Trevor/projects/tke-code/data/syntax/Fickle.syntax
+C:/cygwin64/home/Trevor/projects/tke-code/data/syntax/Fortran.syntax
 C:/cygwin64/home/Trevor/projects/tke-code/data/syntax/Haml.syntax
 C:/cygwin64/home/Trevor/projects/tke-code/data/syntax/Haskell.syntax
 C:/cygwin64/home/Trevor/projects/tke-code/data/syntax/Haxe.syntax
@@ -36,6 +39,7 @@ C:/cygwin64/home/Trevor/projects/tke-code/data/syntax/HTML.syntax
 C:/cygwin64/home/Trevor/projects/tke-code/data/syntax/Java.syntax
 C:/cygwin64/home/Trevor/projects/tke-code/data/syntax/JavaScript.syntax
 C:/cygwin64/home/Trevor/projects/tke-code/data/syntax/JSON.syntax
+C:/cygwin64/home/Trevor/projects/tke-code/data/syntax/Lex.syntax
 C:/cygwin64/home/Trevor/projects/tke-code/data/syntax/Makefile.syntax
 C:/cygwin64/home/Trevor/projects/tke-code/data/syntax/Markdown.syntax
 C:/cygwin64/home/Trevor/projects/tke-code/data/syntax/Neko.syntax
@@ -49,10 +53,12 @@ C:/cygwin64/home/Trevor/projects/tke-code/data/syntax/snippets.syntax
 C:/cygwin64/home/Trevor/projects/tke-code/data/syntax/Swift.syntax
 C:/cygwin64/home/Trevor/projects/tke-code/data/syntax/syntax.syntax
 C:/cygwin64/home/Trevor/projects/tke-code/data/syntax/SystemVerilog.syntax
+C:/cygwin64/home/Trevor/projects/tke-code/data/syntax/Taccle.syntax
 C:/cygwin64/home/Trevor/projects/tke-code/data/syntax/Tcl.syntax
 C:/cygwin64/home/Trevor/projects/tke-code/data/syntax/tkeData.syntax
 C:/cygwin64/home/Trevor/projects/tke-code/data/syntax/tkeTheme.syntax
 C:/cygwin64/home/Trevor/projects/tke-code/data/syntax/XML.syntax
+C:/cygwin64/home/Trevor/projects/tke-code/data/syntax/Yacc.syntax
 C:/cygwin64/home/Trevor/projects/tke-code/data/themes/Aurora.tketheme
 C:/cygwin64/home/Trevor/projects/tke-code/data/themes/choco.tketheme
 C:/cygwin64/home/Trevor/projects/tke-code/data/themes/Cool Glow.tketheme
@@ -74,6 +80,7 @@ C:/cygwin64/home/Trevor/projects/tke-code/doc/UserGuide.pdf
 C:/cygwin64/home/Trevor/projects/tke-code/lib/api.tcl
 C:/cygwin64/home/Trevor/projects/tke-code/lib/bgproc.tcl
 C:/cygwin64/home/Trevor/projects/tke-code/lib/bindings.tcl
+C:/cygwin64/home/Trevor/projects/tke-code/lib/bist.tcl
 C:/cygwin64/home/Trevor/projects/tke-code/lib/bitmap.tcl
 C:/cygwin64/home/Trevor/projects/tke-code/lib/cliphist.tcl
 C:/cygwin64/home/Trevor/projects/tke-code/lib/commit.tcl
@@ -98,6 +105,7 @@ C:/cygwin64/home/Trevor/projects/tke-code/lib/ctext/REGRESSION
 C:/cygwin64/home/Trevor/projects/tke-code/lib/ctext/test.c
 C:/cygwin64/home/Trevor/projects/tke-code/lib/ctext/TODO
 C:/cygwin64/home/Trevor/projects/tke-code/lib/diff.tcl
+C:/cygwin64/home/Trevor/projects/tke-code/lib/edit.tcl
 C:/cygwin64/home/Trevor/projects/tke-code/lib/embed_tke.tcl
 C:/cygwin64/home/Trevor/projects/tke-code/lib/favorites.tcl
 C:/cygwin64/home/Trevor/projects/tke-code/lib/format_lexer.fcl
@@ -307,7 +315,7 @@ C:/cygwin64/home/Trevor/projects/tke-code/lib/tablelist5.14/scripts/tclIndex
 C:/cygwin64/home/Trevor/projects/tke-code/lib/tablelist5.14/tablelist.tcl
 C:/cygwin64/home/Trevor/projects/tke-code/lib/tablelist5.14/tablelistPublic.tcl
 C:/cygwin64/home/Trevor/projects/tke-code/lib/tablelist5.14/tablelist_tile.tcl
-C:/cygwin64/home/Trevor/projects/tke-code/lib/texttools.tcl
+C:/cygwin64/home/Trevor/projects/tke-code/lib/templates.tcl
 C:/cygwin64/home/Trevor/projects/tke-code/lib/theme.tcl
 C:/cygwin64/home/Trevor/projects/tke-code/lib/themer.tcl
 C:/cygwin64/home/Trevor/projects/tke-code/lib/themes.tcl
