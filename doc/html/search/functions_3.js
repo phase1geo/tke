@@ -32,6 +32,7 @@ var searchData=
   ['detail_5fspinbox_5fchange',['detail_spinbox_change',['../namespacethemer.html#aafe83e5c2fbf890c0df5c8f7c4c70b54',1,'themer']]],
   ['detail_5fupdate_5fcolor',['detail_update_color',['../namespacethemer.html#a1e9d7ae570299766ef5baf06a7af7bd5',1,'themer']]],
   ['disable',['disable',['../namespacemulticursor.html#acc0adc06a722ffd0809ec7eea2cdec78',1,'multicursor']]],
+  ['display_5ferror',['display_error',['../namespacesnippets.html#ac920c32f126ee6dfc30cccf1483f2b30',1,'snippets']]],
   ['display_5ffile_5fcounts',['display_file_counts',['../namespacegui.html#aa7dd0afed92b64969111ae23e0383f69',1,'gui']]],
   ['display_5ftext_5finfo',['display_text_info',['../namespacemenus.html#ae608cb3b5b9e8e2b7da48ee7a6263d2e',1,'menus']]],
   ['do_5fchar_5fdelete_5fcurrent',['do_char_delete_current',['../namespacevim.html#a229078087433b28051ed1fffb287d458',1,'vim']]],

@@ -5,6 +5,7 @@ var snippets_8tcl =
     [ "add_new_snippet", "snippets_8tcl.html#a54d9c580c77a16a7447357a9cbc3f31c", null ],
     [ "check_snippet", "snippets_8tcl.html#a262b918e8ad4932bc171449a7612f9b6", null ],
     [ "clear_tabstops", "snippets_8tcl.html#afc33fb435644a2954990dbb25615d9f9", null ],
+    [ "display_error", "snippets_8tcl.html#ac920c32f126ee6dfc30cccf1483f2b30", null ],
     [ "get_current_snippets", "snippets_8tcl.html#a22e23ef1c8be9eebf46d786b30e0909f", null ],
     [ "get_tabstop", "snippets_8tcl.html#a826adf3d4bfc83ec64c26a4f61ae3cb8", null ],
     [ "handle_tab", "snippets_8tcl.html#a9a6837768e150745baf1e5ca0bd8e3af", null ],

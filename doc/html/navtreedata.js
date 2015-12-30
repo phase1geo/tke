@@ -25,7 +25,7 @@ var NAVTREEINDEX =
 "lang_8tcl.html",
 "namespacegui.html",
 "sidebar_8tcl.html#adb0d706d2b94165569eaedf76a7429e0",
-"vim_8tcl.html#a0ce895b8372f6f443f234777fcf3a291"
+"vim_8tcl.html#a0b8e495f11fe404b5de7ae858c891604"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
