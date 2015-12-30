@@ -222,12 +222,13 @@ namespace eval snippets {
     # Initialize tabpoints
     set tabpoints($txtt) 1
 
-    # Create a separator
-    $txtt edit separator
-
     # Delete the last_word, if specified
     if {$delete} {
       $txtt delete "insert-1c wordstart" "insert-1c wordend"
+
+    # Otherwise, mark the change with a sparator
+    } else {
+      $txtt edit separator
     }
 
     # Call the snippet parser
@@ -236,17 +237,14 @@ namespace eval snippets {
       # Insert the text
       $txtt insert insert {*}$result
 
-      # Create a separator
-      $txtt edit separator
-
       # Traverse the inserted snippet
       traverse_snippet $txtt
 
-    } else {
+    }
 
-      # Create a separator
+    # Create a separator
+    if {!$delete} {
       $txtt edit separator
-
     }
 
     return 1
@@ -258,7 +256,7 @@ namespace eval snippets {
   # indentation rules.
   proc insert_snippet_into_current {tid snippet} {
 
-    insert_snippet [gui::current_txt $tid].t $snippet
+    insert_snippet [gui::current_txt $tid].t $snippet 0
 
   }
 
