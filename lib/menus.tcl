@@ -334,7 +334,7 @@ namespace eval menus {
   proc file_posting {mb} {
 
     # Get information for current file
-    lassign [gui::get_info {} current {fileindex fname readonly lock diff buffer}] file_index fname readonly file_lock diff_mode buffer
+    lassign [gui::get_info {} current {fileindex fname readonly lock diff buffer modified}] file_index fname readonly file_lock diff_mode buffer modified
 
     # Get the current file index (if one exists)
     if {$file_index != -1} {
@@ -368,7 +368,7 @@ namespace eval menus {
       # Make sure that the file-specific items are enabled
       $mb entryconfigure [msgcat::mc "Reopen File"]                        -state $buffer_state
       $mb entryconfigure [msgcat::mc "Show File Difference"]               -state $buffer_state
-      $mb entryconfigure [msgcat::mc "Save"]                               -state normal
+      $mb entryconfigure [msgcat::mc "Save"]                               -state [expr {$modified ? "normal" : "disabled"}]
       $mb entryconfigure [format "%s..." [msgcat::mc "Save As"]]           -state normal
       $mb entryconfigure [format "%s..." [msgcat::mc "Save As Template"]]  -state normal
       $mb entryconfigure [format "%s..." [msgcat::mc "Save Selection As"]] -state [expr {[gui::selected {}] ? "normal" : "disabled"}]
@@ -680,11 +680,11 @@ namespace eval menus {
   # editor.
   proc delete_command {} {
 
-    # Get confirmation from the user
-    if {[tk_messageBox -parent . -type yesno -default yes -message [msgcat::mc "Delete file?"]] eq "yes"} {
+    # Get the full pathname
+    set fname [join [gui::get_info {} current fname]]
 
-      # Get the full pathname
-      set fname [join [gui::get_info {} current fname]]
+    # Get confirmation from the user
+    if {[tk_messageBox -parent . -type yesno -default yes -message [format "%s %s?" [msgcat::mc "Delete"] $fname]] eq "yes"} {
 
       # Allow any plugins to handle the rename
       plugins::handle_on_delete $fname
