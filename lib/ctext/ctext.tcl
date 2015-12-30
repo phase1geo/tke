@@ -648,6 +648,9 @@ proc ctext::undo_separator {win} {
 
   variable data
 
+  # puts "START undo_separator"
+  # undo_display $win
+
   # If a separator is being added (and it was not already added), add it
   if {![lindex $data($win,config,undo_hist) end 4]} {
 
@@ -674,6 +677,9 @@ proc ctext::undo_separator {win} {
 
   # If the number of separators exceeds the maximum length, shorten the undo history list
   ctext::undo_manage $win
+
+  # puts "END undo_separator"
+  # undo_display $win
 
 }
 
@@ -814,6 +820,9 @@ proc ctext::undo {win} {
 
   variable data
 
+  # puts "START undo"
+  # undo_display $win
+
   if {[llength $data($win,config,undo_hist)] > 0} {
 
     set i           0
@@ -852,7 +861,9 @@ proc ctext::undo {win} {
     incr data($win,config,undo_hist_size) [expr 0 - $i]
 
     # Set the last sep of the undo_hist list to -1 to indicate the end of the list
-    lset data($win,config,undo_hist) end 4 -1
+    if {$data($win,config,undo_hist_size) > 0} {
+      lset data($win,config,undo_hist) end 4 -1
+    }
 
     # Update undo separator info
     set data($win,config,undo_sep_next) [expr ($data($win,config,undo_hist_size) == 0) ? -1 : $data($win,config,undo_sep_next)]
@@ -866,6 +877,9 @@ proc ctext::undo {win} {
     ctext::linemapUpdate $win
 
   }
+
+  # puts "END undo"
+  # undo_display $win
 
 }
 
@@ -914,7 +928,9 @@ proc ctext::redo {win} {
 
     # Set the sep field of the last separator field to match the number of elements added to
     # the undo_hist list.
-    lset data($win,config,undo_hist) $data($win,config,undo_sep_last) 4 $i
+    if {$data($win,config,undo_sep_last) >= 0} {
+      lset data($win,config,undo_hist) $data($win,config,undo_sep_last) 4 $i
+    }
 
     # Update undo separator structures
     incr data($win,config,undo_hist_size) $i
@@ -1314,9 +1330,12 @@ proc ctext::instanceCmd {self cmd args} {
         set lineStart [$self._t index "$insertPos linestart"]
       }
       set prevSpace [ctext::findPreviousSpace $self._t ${insertPos}-1c]
-      set dat       [lindex $args 1]
-      set datlen    [string length $dat]
-      set cursor    [$self._t index insert]
+      set dat ""
+      foreach {chars taglist} [lrange $args 1 end] {
+        append dat $chars
+      }
+      set datlen [string length $dat]
+      set cursor [$self._t index insert]
 
       eval \$self._t insert $args
 
@@ -1391,7 +1410,10 @@ proc ctext::instanceCmd {self cmd args} {
 
       set startPos    [$self._t index [lindex $args 0]]
       set endPos      [$self._t index [lindex $args 1]]
-      set dat         [lindex $args 2]
+      set dat         ""
+      foreach {chars taglist} [lrange $args 2 end] {
+        append dat $chars
+      }
       set datlen      [string length $dat]
       set cursor      [$self._t index insert]
       set deleteChars [$self._t count -chars $startPos $endPos]
