@@ -624,6 +624,26 @@ proc ctext::isEscaped {win index} {
 
 }
 
+# Debugging procedure only
+proc ctext::undo_display {win} {
+
+  variable data
+
+  puts "Undo History (size: $data($win,config,undo_hist_size), sep_size: $data($win,config,undo_sep_size)):"
+
+  for {set i 0} {$i < $data($win,config,undo_hist_size)} {incr i} {
+    puts -nonewline "  [lindex $data($win,config,undo_hist) $i] "
+    if {$data($win,config,undo_sep_next) == $i} {
+      puts -nonewline " sep_next"
+    }
+    if {$data($win,config,undo_sep_last) == $i} {
+      puts -nonewline " sep_last"
+    }
+    puts ""
+  }
+
+}
+
 proc ctext::undo_separator {win} {
 
   variable data
@@ -831,6 +851,9 @@ proc ctext::undo {win} {
     set data($win,config,undo_hist) [lreplace $data($win,config,undo_hist) end-[expr $i - 1] end]
     incr data($win,config,undo_hist_size) [expr 0 - $i]
 
+    # Set the last sep of the undo_hist list to -1 to indicate the end of the list
+    lset data($win,config,undo_hist) end 4 -1
+
     # Update undo separator info
     set data($win,config,undo_sep_next) [expr ($data($win,config,undo_hist_size) == 0) ? -1 : $data($win,config,undo_sep_next)]
     set data($win,config,undo_sep_last) [expr $data($win,config,undo_hist_size) - 1]
@@ -888,6 +911,10 @@ proc ctext::redo {win} {
     }
 
     set data($win,config,redo_hist) [lreplace $data($win,config,redo_hist) end-[expr $i - 1] end]
+
+    # Set the sep field of the last separator field to match the number of elements added to
+    # the undo_hist list.
+    lset data($win,config,undo_hist) $data($win,config,undo_sep_last) 4 $i
 
     # Update undo separator structures
     incr data($win,config,undo_hist_size) $i
