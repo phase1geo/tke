@@ -84,12 +84,14 @@ menus,-background {white}
 menus,-disabledforeground {grey}
 menus,-foreground {black}
 menus,-relief {flat}
+menus,-selectcolor {black}
 meta,syntax,comments {#996633,v,48}
 meta,ttk_style,active_color {#96907c,v,22}
 sidebar,-background {#000000}
 sidebar,-foreground {#beb69d}
 sidebar,-highlightbackground {#000000}
 sidebar,-highlightcolor {#000000}
+sidebar,-highlightthickness {1}
 sidebar,-relief {flat}
 sidebar,-selectbackground {#96907c}
 sidebar,-selectforeground {#000000}
@@ -119,10 +121,12 @@ syntax,select_foreground {white}
 syntax,strings {#008bff}
 syntax,warning_width {#96907c}
 tabs,-activebackground {#beb69d}
+tabs,-activeforeground {#000000}
 tabs,-background {#96907c}
 tabs,-foreground {#000000}
 tabs,-height {25}
 tabs,-inactivebackground {#96907c}
+tabs,-inactiveforeground {#000000}
 tabs,-relief {flat}
 text_scrollbar,-background {#beb69d}
 text_scrollbar,-foreground {#96907c}

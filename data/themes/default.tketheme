@@ -84,11 +84,13 @@ menus,-background {white}
 menus,-disabledforeground {grey}
 menus,-foreground {black}
 menus,-relief {flat}
+menus,-selectcolor {black}
 meta,ttk_style,active_color {#282828,v,30}
 sidebar,-background {white}
 sidebar,-foreground {black}
 sidebar,-highlightbackground {white}
 sidebar,-highlightcolor {white}
+sidebar,-highlightthickness {1}
 sidebar,-relief {flat}
 sidebar,-selectbackground {#282828}
 sidebar,-selectforeground {white}
@@ -118,10 +120,12 @@ syntax,select_foreground {white}
 syntax,strings {pink}
 syntax,warning_width {#282828}
 tabs,-activebackground {black}
+tabs,-activeforeground {white}
 tabs,-background {#282828}
 tabs,-foreground {white}
 tabs,-height {25}
 tabs,-inactivebackground {#282828}
+tabs,-inactiveforeground {white}
 tabs,-relief {flat}
 text_scrollbar,-background {black}
 text_scrollbar,-foreground {#282828}

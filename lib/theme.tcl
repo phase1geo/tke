@@ -68,6 +68,7 @@ namespace eval theme {
     menus,-activebackground       {color {light blue} {} {0} {msgcat::mc "Background color used for the current/active menu item."}}
     menus,-activeforeground       {color {white} {} {0} {msgcat::mc "Foreground text color used for the current/active menu item."}}
     menus,-disabledforeground     {color {grey}  {} {0} {msgcat::mc "Foreground text color used for menus item that are disabled."}}
+    menus,-selectcolor            {color {black} {} {0} {msgcat::mc "Foreground color used in menu items with checks or buttons."}}
     menus,-relief                 {{relief {raised sunken flat ridge solid groove}} {flat} {} {0} {msgcat::mc "Menu relief value."}}
     tabs,-background              {color {1} {} {0} {msgcat::mc "Background color used in the tabbar area."}}
     tabs,-foreground              {color {2} {} {0} {msgcat::mc "Foreground text/image color used in tabbar and tabs."}}
