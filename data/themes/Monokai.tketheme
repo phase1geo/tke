@@ -120,12 +120,12 @@ syntax,select_foreground {white}
 syntax,strings {#e6db74}
 syntax,warning_width {#4e5044}
 tabs,-activebackground {#272822}
-tabs,-activeforeground {#4e5044}
+tabs,-activeforeground {#f8f8f2}
 tabs,-background {#4e5044}
 tabs,-foreground {#f8f8f2}
 tabs,-height {25}
 tabs,-inactivebackground {#4e5044}
-tabs,-inactiveforeground {#4e5044}
+tabs,-inactiveforeground {#f8f8f2}
 tabs,-relief {flat}
 text_scrollbar,-background {#272822}
 text_scrollbar,-foreground {#4e5044}
