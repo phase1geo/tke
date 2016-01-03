@@ -1407,7 +1407,10 @@ namespace eval gui {
         lset files $file_index $files_index(mtime) $stat(mtime)
 
         # Add the file to the list of recently opened files
-        [ns gui]::add_to_recently_opened $fname
+        add_to_recently_opened $fname
+
+        # Parse modeline information, if needed
+        parse_modelines $txt
 
         # If a diff command was specified, run and parse it now
         if {$diff} {
@@ -4581,6 +4584,58 @@ namespace eval gui {
 
     # Update the title
     set_title
+
+  }
+
+  ######################################################################
+  # Parses the given text widgets file contents for modeline information
+  # based on the setting of the Editor/ParseModelines variable.
+  proc parse_modelines {txt} {
+
+    switch [[ns preferences]::get Editor/ParseModelines] {
+      vim   { parse_vim_modeline $txt }
+      emacs { parse_emacs_modeline $txt }
+      both  {
+        parse_emacs_modeline $txt
+        parse_vim_modeline $txt
+      }
+    }
+
+  }
+
+  ######################################################################
+  # Parses the first two lines (or last 3000 characters) of the given text
+  # widget for an emacs major mode.  The only emacs information we will
+  # use is the language identifier.
+  proc parse_emacs_modeline {txt} {
+
+    if {[regexp {-\*-(.*)-\*-} [string map {\n { }} [$txt get 1.0 3.0]] -> mode_info]} {
+      if {[regexp {mode:\s*(.+?);} $mode_info -> language]} {
+        puts "1 Found language: $language"
+        return 1
+      }
+    } elseif {[regexp {Local Variables:(.*)End:} [string map {\n { }} [$txt get end-3000c end]] -> mode_info]} {
+      if {[regexp {mode:\s*(\S+)} $mode_info -> language]} {
+        puts "2 Found language: $language"
+        return 1
+      }
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Parses the first N lines of the given text widget for a Vim modeline.
+  # Parses out the language (if specified) and/or indentation information.
+  proc parse_vim_modeline {txt} {
+
+    if {[regexp {\s(vi|vim|vim\d+|vim<\d+|vim>\d+|ex):\s*(.*):} [$txt get 1.0 "1.0+[[ns preferences]::get Editor/VimModelineLines]l"] -> opts]} {
+      foreach opt [split $opts ": "] {
+        puts "opt: $opt"
+        # TBD
+      }
+    }
 
   }
 
