@@ -1791,6 +1791,20 @@ proc ctext::instanceCmd {self cmd args} {
 
 }
 
+proc ctext::getAutoMatchChars {win} {
+
+  variable data
+
+  set chars [list]
+
+  foreach name [array names data $win,config,matchChar,*] {
+    lappend chars [lindex [split $name ,] 3]
+  }
+
+  return $chars
+
+}
+
 proc ctext::setAutoMatchChars {win matchChars} {
 
   variable data

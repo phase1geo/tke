@@ -262,7 +262,12 @@ namespace eval vim {
             if {[file isdirectory [[ns utils]::perform_substitutions $directory]]} {
               gui::change_working_directory $directory
             }
+
+          # Handle set commands
+          } elseif {[regexp {^set?\s+(\S+)(([+-])?=(\S+))?} $value -> opt dummy mod val]} {
+            do_set_command $tid $opt $val $mod
           }
+
         }
       }
     }
@@ -279,6 +284,290 @@ namespace eval vim {
       grid remove $w
 
     }
+
+  }
+
+  ######################################################################
+  # Handles set command calls and modeline settings.
+  proc do_set_command {tid opt val mod} {
+
+    switch $opt {
+      autochdir        -
+      acd              { do_set_autochdir 1 }
+      noautochdir      -
+      noacd            { do_set_autochdir 0 }
+      autoindent       -
+      ai               { do_set_indent_mode $tid IND 1 }
+      noautoindent     -
+      noai             { do_set_indent_mode $tid IND 0 }
+      expandtab        -
+      et               { do_set_expandtab $tid 1 }
+      noexpandtab      -
+      noet             { do_set_expandtab $tid 0 }
+      fileformat       -
+      ff               { do_set_fileformat $tid $val }
+      matchpairs       -
+      mps              { do_set_matchpairs $tid $val $mod }
+      modeline         -
+      ml               { do_set_modeline $tid 1 }
+      nomodeline       -
+      noml             { do_set_modeline $tid 0 }
+      modelines        -
+      mls              { do_set_modelines $val }
+      modifiable       -
+      ma               { do_set_modifiable $tid 1 }
+      nomodifiable     -
+      noma             { do_set_modifiable $tid 0 }
+      modified         -
+      mod              { do_set_modified $tid 1 }
+      nomodified       -
+      nomod            { do_set_modified $tid 0 }
+      number           -
+      nu               { do_set_number $tid 1 }
+      nonumber         -
+      nonu             { do_set_number $tid 0 }
+      numberwidth      -
+      nuw              { do_set_numberwidth $tid $val }
+      relativenumber   -
+      rnu              { do_set_relativenumber $tid 1 }
+      norelativenumber -
+      nornu            { do_set_relativenumber $tid 0 }
+      shiftround       -
+      sr               { do_set_shiftround 1 }
+      noshiftround     -
+      nosr             { do_set_shiftround 0 }
+      shiftwidth       -
+      sw               { do_set_shiftwidth $tid $val }
+      smartindent      -
+      si               { do_set_indent_mode $tid IND+ 1 }
+      nosmartindent    -
+      nosi             { do_set_indent_mode $tid IND+ 0 }
+      softtabstop      -
+      sts              { do_set_softtabstop $tid $val }
+      splitbelow       -
+      sb               { do_set_split $tid 1 }
+      nosplitbelow     -
+      nosb             { do_set_split $tid 0 }
+      syntax           -
+      syn              { do_set_syntax $val }
+      tabstop          -
+      ts               { do_set_tabstop $tid $val }
+    }
+
+  }
+
+  ######################################################################
+  # Causes the current working directory to automatically change to be
+  # the directory of the currently opened file.  This is a global setting.
+  proc do_set_autochdir {value} {
+
+    # TBD - We don't have built-in support for this functionality yet.
+
+  }
+
+  ######################################################################
+  # Sets the indentation mode based on the current value, the specified
+  # type (IND, IND+) and the value (0 or 1).
+  proc do_set_indent_mode {tid type value} {
+
+    array set newval {
+      {OFF,IND,0}   {OFF}
+      {OFF,IND,1}   {IND}
+      {OFF,IND+,0}  {OFF}
+      {OFF,IND+,1}  {IND+}
+      {IND,IND,0}   {OFF}
+      {IND,IND,1}   {IND}
+      {IND,IND+,0}  {IND}
+      {IND,IND+,1}  {IND+}
+      {IND+,IND,0}  {IND+}
+      {IND+,IND,1}  {IND+}
+      {IND+,IND+,0} {OFF}
+      {IND+,IND+,1} {IND+}
+    }
+
+    # Get the current mode
+    set curr [[ns indent]::get_indent_mode [[ns gui]::current_txt $tid]]
+
+    # If the indentation mode will change, set it to the new value
+    if {$curr ne $newval($curr,$type,$value)} {
+      [ns indent]::set_indent_mode $tid $newval($curr,$type,$value)
+    }
+
+  }
+
+  ######################################################################
+  # Sets the tab expansion mode for the current buffer to (use tabs or
+  # translate tabs to spaces.
+  proc do_set_expandtab {tid val} {
+
+    # TBD
+
+  }
+
+  ######################################################################
+  # Set the EOL setting for the current buffer.
+  proc do_set_fileformat {tid val} {
+
+    array set map {
+      dos  crlf
+      unix lf
+      mac  cr
+    }
+
+    # Set the current EOL translation
+    if {[info exists map($val)]} {
+      [ns gui]::set_current_eol_translation $map($val)
+    }
+
+  }
+
+  ######################################################################
+  # Set the matchpairs to the given value(s).  The value of val is like
+  # <:> and mod will be {}, + or -.
+  proc do_set_matchpairs {tid val mod} {
+
+    # Get the current text widget
+    set txt [[ns gui]::current_txt $tid]
+
+    # Get the current match characters
+    set match_chars [ctext::getAutoMatchChars $txt]
+    set new_chars   [list]
+
+    # Iterate through the match characters
+    foreach pair [split $val ,] {
+      switch $pair {
+        \{:\} { lappend new_chars curly }
+        \(:\) { lappend new_chars paren }
+        \[:\] { lappend new_chars square }
+        <:>   { lappend new_chars angled }
+      }
+    }
+
+    # Handle the modification value
+    switch $mod {
+      {} { set match_chars $new_chars }
+      \+ { set match_chars [::struct::set union $match_chars $new_chars] }
+      \- { set match_chars [::struct::set difference $match_chars $new_chars] }
+    }
+
+    # Set the AutoMatchChars to the given set
+    ctext::setAutoMatchChars $txt $match_chars
+
+  }
+
+  ######################################################################
+  # Sets whether or not modeline information should be used for the current
+  # buffer.
+  proc do_set_modeline {tid val} {
+
+    # TBD
+
+  }
+
+  ######################################################################
+  # Sets the number of lines to parse for modeline information.
+  proc do_set_modelines {val} {
+
+    # TBD
+
+  }
+
+  ######################################################################
+  # Set the locked status of the current buffer.
+  proc do_set_modifiable {tid val} {
+
+    [ns gui]::set_current_file_lock $tid [expr {$val ? 0 : 1}]
+
+  }
+
+  ######################################################################
+  # Changes the modified state of the current buffer.
+  proc do_set_modified {tid val} {
+
+    # Get the current text widget
+    set txt [[ns gui]::current_txt $tid]
+
+    # Set the modified state to the given value
+    $txt edit modified $val
+
+  }
+
+  ######################################################################
+  # Sets the visibility of the line numbers.
+  proc do_set_number {tid val} {
+
+    [ns gui]::set_line_number_view $tid $val
+
+  }
+
+  ######################################################################
+  # Sets the minimum width of the line number gutter.
+  proc do_set_numberwidth {tid val} {
+
+    # TBD
+    # set ctext::data($win,config,-linemap_minwidth)      1
+
+  }
+
+  ######################################################################
+  # Sets the relative numbering mode to the given value.
+  proc do_set_relativenumber {tid val} {
+
+    # TBD
+
+  }
+
+  ######################################################################
+  # Causes left/right indentation operation (<, >) to indent to the nearest
+  # shiftwidth.
+  proc do_set_shiftround {val} {
+
+    # TBD - I think that we need to just set a variable in this namespace
+
+  }
+
+  ######################################################################
+  # Specifies the number of spaces to use for each indentation.
+  proc do_set_shiftwidth {tid val} {
+
+    # TBD
+
+  }
+
+  ######################################################################
+  # Specifies the number of spaces that a TAB counts for while performing
+  # like inserting a TAB or using backspace.
+  proc do_set_softtabstop {tid val} {
+
+    # TBD
+
+  }
+
+  ######################################################################
+  # Shows or hides split view in the current buffer.
+  proc do_set_split {tid val} {
+
+    if {$val} {
+      [ns gui]::show_split_pane $tid
+    } else {
+      [ns gui]::hide_split_pane $tid
+    }
+
+  }
+
+  ######################################################################
+  # Run the set syntax command.
+  proc do_set_syntax {val} {
+
+    [ns syntax]::set_current_language [[ns syntax]::get_vim_language $val]
+
+  }
+
+  ######################################################################
+  # Specifies number of spaces that a TAB in the file counts for.
+  proc do_set_tabstop {tid val} {
+
+    # TBD
 
   }
 

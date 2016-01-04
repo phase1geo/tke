@@ -1,6 +1,9 @@
 filepatterns
 {Makefile makefile Makefile.* makefile.*}
 
+vimsyntax
+{make}
+
 matchcharsallowed
 {curly paren double single}
 

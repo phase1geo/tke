@@ -1,6 +1,9 @@
 filepatterns
 {*.js}
 
+vimsyntax
+{javascript}
+
 matchcharsallowed
 {curly square paren double single}
 

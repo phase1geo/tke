@@ -1,6 +1,9 @@
 filepatterns
 {*.l *.lex}
 
+vimsyntax
+{lex}
+
 matchcharsallowed
 {curly square paren double single}
 

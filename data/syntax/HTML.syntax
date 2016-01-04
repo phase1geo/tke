@@ -1,6 +1,9 @@
 filepatterns
 {*.htm *.html}
 
+vimsyntax
+{html}
+
 matchcharsallowed
 {paren angled double single}
 

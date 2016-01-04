@@ -1,6 +1,9 @@
 filepatterns
 {*.py}
 
+vimsyntax
+{python}
+
 matchcharsallowed
 {square paren double single}
 

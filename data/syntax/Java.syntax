@@ -1,6 +1,9 @@
 filepatterns
 {*.class *.java *.jar *.jsp *.jad}
 
+vimsyntax
+{java}
+
 matchcharsallowed
 {curly paren square double single}
 

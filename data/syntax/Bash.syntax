@@ -1,6 +1,9 @@
 filepatterns
 {*.sh}
 
+vimsyntax
+{sh}
+
 matchcharsallowed
 {paren double single}
 

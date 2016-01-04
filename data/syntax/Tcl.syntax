@@ -1,6 +1,9 @@
 filepatterns
 {*.tcl *.msg}
 
+vimsyntax
+{tcl}
+
 matchcharsallowed
 {curly square paren double single}
 
