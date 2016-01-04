@@ -1,6 +1,9 @@
 filepatterns
 {*.cs}
 
+vimsyntax
+{cs}
+
 matchcharsallowed
 {curly square paren double single}
 

@@ -1,6 +1,9 @@
 filepatterns
 {*.pas}
 
+vimsyntax
+{pascal}
+
 matchcharsallowed
 {curly square paren double single}
 

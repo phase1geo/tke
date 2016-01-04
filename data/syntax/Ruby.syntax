@@ -1,6 +1,9 @@
 filepatterns
 {*.rb}
 
+vimsyntax
+{ruby}
+
 matchcharsallowed
 {curly square paren double single}
 

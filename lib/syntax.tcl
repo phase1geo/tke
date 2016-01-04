@@ -31,6 +31,7 @@ namespace eval syntax {
 
   array set lang_template {
     filepatterns       {}
+    vimsyntax          {}
     matchcharsallowed  {}
     tabsallowed        0
     casesensitive      0
@@ -194,6 +195,24 @@ namespace eval syntax {
             return $lang
           }
         }
+      }
+    }
+
+    return "None"
+
+  }
+
+  ######################################################################
+  # Returns the name of the language which supports the given vim syntax
+  # identifier.  If no match is found, the value of "None" is returned.
+  proc get_vim_language {vimsyntax} {
+
+    variable langs
+
+    foreach lang [array names langs] {
+      array set lang_array $langs($lang)
+      if {[lsearch $lang_array(vimsyntax) $vimsyntax] != -1} {
+        return $lang
       }
     }
 

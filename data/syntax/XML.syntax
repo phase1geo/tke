@@ -1,6 +1,9 @@
 filepatterns
 {*.xml}
 
+vimsyntax
+{xml}
+
 matchcharsallowed
 {paren angled double single}
 

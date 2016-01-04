@@ -1,6 +1,9 @@
 filepatterns
 {*.syntax}
 
+vimsyntax
+{}
+
 matchcharsallowed
 {curly}
 
@@ -26,7 +29,7 @@ strings {}
 
 keywords
 {
-  filepatterns matchcharsallowed tabsallowed casesensitive indent unindent keywords symbols
+  filepatterns vimsyntax matchcharsallowed tabsallowed casesensitive indent unindent keywords symbols
   icomment lcomments bcomments strings numbers punctuation precompile miscellaneous1 miscellaneous2
   miscellaneous3 highlighter meta advanced
   HighlightClass

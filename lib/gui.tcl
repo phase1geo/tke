@@ -4609,8 +4609,8 @@ namespace eval gui {
   # use is the language identifier.
   proc parse_emacs_modeline {txt} {
 
-    if {[regexp {-\*-(.*)-\*-} [string map {\n { }} [$txt get 1.0 3.0]] -> mode_info]} {
-      if {[regexp {mode:\s*(.+?);} $mode_info -> language]} {
+    if {[regexp {\-\*\-(.*)\-\*\-} [string map {\n { }} [$txt get 1.0 3.0]] -> mode_info]} {
+      if {[regexp {mode:\s*(\S+);} $mode_info -> language]} {
         puts "1 Found language: $language"
         return 1
       }
@@ -4632,8 +4632,9 @@ namespace eval gui {
 
     if {[regexp {\s(vi|vim|vim\d+|vim<\d+|vim>\d+|ex):\s*(.*):} [$txt get 1.0 "1.0+[[ns preferences]::get Editor/VimModelineLines]l"] -> opts]} {
       foreach opt [split $opts ": "] {
-        puts "opt: $opt"
-        # TBD
+        if {[regexp {(\S+)(([+-])?=(\S+)))} $opt -> key dummy mod val]} {
+          [ns vim]::do_set_command {} $key $val $mod
+        }
       }
     }
 

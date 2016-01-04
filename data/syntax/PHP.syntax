@@ -1,6 +1,9 @@
 filepatterns
 {*.php}
 
+vimsyntax
+{php}
+
 matchcharsallowed
 {curly square paren double single}
 

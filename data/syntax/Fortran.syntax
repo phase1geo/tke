@@ -1,6 +1,9 @@
 filepatterns
 {*.f *.for *.f90}
 
+vimsyntax
+{fortran}
+
 matchcharsallowed
 {paren double single}
 

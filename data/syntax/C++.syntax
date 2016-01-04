@@ -1,6 +1,9 @@
 filepatterns
 {*.c *.cc *.cpp *.c++ *.h}
 
+vimsyntax
+{c cpp}
+
 matchcharsallowed
 {curly square paren double single}
 

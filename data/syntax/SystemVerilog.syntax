@@ -1,6 +1,9 @@
 filepatterns
 {*.v *.sv *.vg}
 
+vimsyntax
+{verilog}
+
 matchcharsallowed
 {curly square paren double}
 

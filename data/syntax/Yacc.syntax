@@ -1,6 +1,9 @@
 filepatterns
 {*.y *.yacc}
 
+vimsyntax
+{yacc}
+
 matchcharsallowed
 {curly square paren double single}
 
