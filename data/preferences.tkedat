@@ -332,6 +332,12 @@
 
 {Debug/DevelopmentMode}      {0}
 
+# This option, when set, will automatically open the diagnostic logfile
+# associated with the application instance at startup.  Only valid when the
+# Debug/DevelopmentMode option is set to a value of 1.
+
+{Debug/ShowDiagnosticLogfileAtStartup} {0}
+
 # Specifies the format of the User Guide documentation that will be shown when launching the
 # Help/User Guide menu option.
 #

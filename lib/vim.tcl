@@ -265,7 +265,7 @@ namespace eval vim {
 
           # Handle set commands
           } elseif {[regexp {^set?\s+(\S+)(([+-])?=(\S+))?} $value -> opt dummy mod val]} {
-            do_set_command $tid $opt $val $mod
+            set txt [do_set_command $tid $txt $opt $val $mod]
           }
 
         }
@@ -289,7 +289,7 @@ namespace eval vim {
 
   ######################################################################
   # Handles set command calls and modeline settings.
-  proc do_set_command {tid opt val mod} {
+  proc do_set_command {tid txt opt val mod} {
 
     switch $opt {
       autochdir        -
@@ -347,12 +347,14 @@ namespace eval vim {
       splitbelow       -
       sb               { do_set_split $tid 1 }
       nosplitbelow     -
-      nosb             { do_set_split $tid 0 }
+      nosb             { do_set_split $tid 0; set txt [[ns gui]::current_txt $tid] }
       syntax           -
       syn              { do_set_syntax $val }
       tabstop          -
       ts               { do_set_tabstop $tid $val }
     }
+
+    return $txt
 
   }
 
