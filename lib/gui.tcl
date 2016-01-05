@@ -46,6 +46,7 @@ namespace eval gui {
   variable saved            0
   variable replace_all      1
   variable highlightcolor   ""
+  variable auto_cwd         0
 
   array set widgets         {}
   array set language        {}
@@ -376,11 +377,12 @@ namespace eval gui {
     wm protocol . WM_DELETE_WINDOW [list [ns menus]::exit_command]
 
     # Trace changes to the Appearance/Theme preference variable
-    trace variable [ns preferences]::prefs(Editor/WarningWidth)       w [ns gui]::handle_warning_width_change
-    trace variable [ns preferences]::prefs(Editor/MaxUndo)            w [ns gui]::handle_max_undo
-    trace variable [ns preferences]::prefs(View/AllowTabScrolling)    w [ns gui]::handle_allow_tab_scrolling
-    trace variable [ns preferences]::prefs(Tools/VimMode)             w [ns gui]::handle_vim_mode
-    trace variable [ns preferences]::prefs(Appearance/EditorFontSize) w [ns gui]::handle_editor_font_size
+    trace variable [ns preferences]::prefs(Editor/WarningWidth)                w [ns gui]::handle_warning_width_change
+    trace variable [ns preferences]::prefs(Editor/MaxUndo)                     w [ns gui]::handle_max_undo
+    trace variable [ns preferences]::prefs(View/AllowTabScrolling)             w [ns gui]::handle_allow_tab_scrolling
+    trace variable [ns preferences]::prefs(Tools/VimMode)                      w [ns gui]::handle_vim_mode
+    trace variable [ns preferences]::prefs(Appearance/EditorFontSize)          w [ns gui]::handle_editor_font_size
+    trace variable [ns preferences]::prefs(General/AutoChangeWorkingDirectory) w [ns gui]::handle_auto_cwd
 
     # Create general UI bindings
     bind all <Control-plus>  "[ns gui]::handle_font_change 1"
@@ -484,6 +486,41 @@ namespace eval gui {
 
     # Update the size of the editor_font
     font configure editor_font -size [[ns preferences]::get Appearance/EditorFontSize]
+
+  }
+
+  ######################################################################
+  # Changes the value of the automatic change working directory variable
+  # and updates the current working directory with the current file
+  # information.
+  proc handle_auto_cwd {name1 name2 op} {
+
+    set_auto_cwd [[ns preferences]::get General/AutoChangeWorkingDirectory]
+
+  }
+
+  ######################################################################
+  # Sets the auto_cwd variable to the given boolean value.
+  proc set_auto_cwd {value} {
+
+    variable auto_cwd
+    variable files
+
+    # Update the auto_cwd variable and if a file exists, update the current
+    # working directory if auto_cwd is true.
+    if {[set auto_cwd $value] && [llength $files]} {
+
+      # Get the current file information
+      lassign [get_info {} current {fname buffer diff}] fname buffer diff
+
+      # If the current file is neither a buffer nor a difference view, update
+      # the current working directory and title bar.
+      if {!$buffer && !$diff} {
+        cd [file dirname $fname]
+        set_title
+      }
+
+    }
 
   }
 
@@ -1410,8 +1447,8 @@ namespace eval gui {
         # Add the file to the list of recently opened files
         add_to_recently_opened $fname
 
-        # Parse modeline information, if needed
-        parse_modelines $txt
+        # Parse Vim modeline information, if needed
+        [ns vim]::parse_modeline $txt
 
         # If a diff command was specified, run and parse it now
         if {$diff} {
@@ -4363,9 +4400,10 @@ namespace eval gui {
     variable widgets
     variable pw_current
     variable txt_current
+    variable auto_cwd
 
     # Get the text information
-    lassign [get_info [winfo parent $txtt] txt {paneindex tab txt fileindex}] pw_current tab txt file_index
+    lassign [get_info [winfo parent $txtt] txt {paneindex tab txt fileindex fname buffer diff}] pw_current tab txt file_index fname buffer diff
 
     # Set the line and row information
     update_position $txt
@@ -4375,6 +4413,11 @@ namespace eval gui {
 
     # Set the syntax menubutton to the current language
     [ns syntax]::update_button $widgets(info_syntax)
+
+    # If we are supposed to automatically change the working directory, do it now
+    if {$auto_cwd && !$buffer && !$diff} {
+      cd [file dirname $fname]
+    }
 
     # Set the application title bar
     set_title
@@ -4585,59 +4628,6 @@ namespace eval gui {
 
     # Update the title
     set_title
-
-  }
-
-  ######################################################################
-  # Parses the given text widgets file contents for modeline information
-  # based on the setting of the Editor/ParseModelines variable.
-  proc parse_modelines {txt} {
-
-    switch [[ns preferences]::get Editor/ParseModelines] {
-      vim   { parse_vim_modeline $txt }
-      emacs { parse_emacs_modeline $txt }
-      both  {
-        parse_emacs_modeline $txt
-        parse_vim_modeline $txt
-      }
-    }
-
-  }
-
-  ######################################################################
-  # Parses the first two lines (or last 3000 characters) of the given text
-  # widget for an emacs major mode.  The only emacs information we will
-  # use is the language identifier.
-  proc parse_emacs_modeline {txt} {
-
-    if {[regexp {\-\*\-(.*)\-\*\-} [string map {\n { }} [$txt get 1.0 3.0]] -> mode_info]} {
-      if {[regexp {mode:\s*(\S+);} $mode_info -> language]} {
-        puts "1 Found language: $language"
-        return 1
-      }
-    } elseif {[regexp {Local Variables:(.*)End:} [string map {\n { }} [$txt get end-3000c end]] -> mode_info]} {
-      if {[regexp {mode:\s*(\S+)} $mode_info -> language]} {
-        puts "2 Found language: $language"
-        return 1
-      }
-    }
-
-    return 0
-
-  }
-
-  ######################################################################
-  # Parses the first N lines of the given text widget for a Vim modeline.
-  # Parses out the language (if specified) and/or indentation information.
-  proc parse_vim_modeline {txt} {
-
-    if {[regexp {\s(vi|vim|vim\d+|vim<\d+|vim>\d+|ex):\s*(.*):} [$txt get 1.0 "1.0+[[ns preferences]::get Editor/VimModelineLines]l"] -> opts]} {
-      foreach opt [split $opts ": "] {
-        if {[regexp {(\S+)(([+-])?=(\S+)))} $opt -> key dummy mod val]} {
-          [ns vim]::do_set_command {} $txt $key $val $mod
-        }
-      }
-    }
 
   }
 

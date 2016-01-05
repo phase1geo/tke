@@ -51,6 +51,11 @@
 
 {General/LanguagePatternOverrides} {}
 
+# If set to 1, the current working directory will automatically change to be the
+# directory containing the current file.
+
+{General/AutoChangeWorkingDirectory} {0}
+
 # Specifies the current theme that is used in the code editor.  Each
 # theme contains setting for syntax highlight coloring schemes, background
 # color and selection background/foreground colors.  The following
@@ -157,20 +162,10 @@
 
 {Editor/SnippetCompleters}   {space tab return}
 
-# Specifies what type of modeline information should be parsed for in read files.  Any valid
-# modeline information will affect the local editing buffer containing the file (and overrides any
-# defaults).  The valid values are:
-#   vim   - Parses vim modeline information only
-#   emacs - Parses emacs modeline information only
-#   both  - Parses both emacs and vim information (in that order -- Vim information will override Emacs if they differ)
-#   none  - Modeline information is ignored.
+# Specifies the number of lines at the top of the file that will be parsed for Vim modelines.
+# If the value is set to 0, Vim modeline information will be ignored.
 
-{Editor/ParseModelines}      {none}
-
-# Specifies the number of lines at the top of the file that will be parsed for Vim modelines.  This
-# value is only used when Editor/ParseModelines is set to a value of 'vim' or 'none'.
-
-{Editor/VimModelineLines}    {5}
+{Editor/VimModelines}        {5}
 
 # Specifies the maximum number of find history items to store in memory.  This value must be a
 # value of 0 (do not record history) or greater.
