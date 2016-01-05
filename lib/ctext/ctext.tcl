@@ -42,6 +42,7 @@ proc ctext {win args} {
   set ctext::data($win,config,-linemap_cursor)        left_ptr
   set ctext::data($win,config,-linemap_relief)        $ctext::data($win,config,-relief)
   set ctext::data($win,config,-linemap_minwidth)      1
+  set ctext::data($win,config,-linemap_type)          relative
   set ctext::data($win,config,-highlight)             1
   set ctext::data($win,config,-warnwidth)             ""
   set ctext::data($win,config,-warnwidth_bg)          red
@@ -80,7 +81,7 @@ proc ctext {win args} {
   set ctext::data($win,config,ctextFlags) [list -xscrollcommand -yscrollcommand -linemap -linemapfg -linemapbg \
   -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable \
   -linemap_cursor -highlightcolor -lazy \
-  -linemap_select_fg -linemap_select_bg -linemap_relief -linemap_minwidth -casesensitive -peer \
+  -linemap_select_fg -linemap_select_bg -linemap_relief -linemap_minwidth -linemap_type -casesensitive -peer \
   -undo -maxundo -autoseparators -diff_mode -diffsubbg -diffaddbg]
 
   # Set args
@@ -151,6 +152,9 @@ proc ctext {win args} {
   bind $win.t <KeyRelease-Return> "ctext::linemapUpdate $win"
   bind $win.t <FocusIn>           "ctext::handleFocusIn $win"
   bind $win.t <FocusOut>          "ctext::handleFocusOut $win"
+  bind $win.t <ButtonPress-1>     [list after idle [list ctext::linemapUpdate $win]]
+  bind $win.t <B1-Motion>         [list ctext::linemapUpdate $win]
+  bind $win.t <KeyRelease>        [list ctext::linemapUpdate $win]
   rename $win __ctextJunk$win
   rename $win.t $win._t
 
@@ -422,6 +426,18 @@ proc ctext::buildArgParseTable win {
       $self.l configure -width $value
     }
     set data($self,config,-linemap_minwidth) $value
+    break
+  }
+
+  lappend argTable {any} -linemap_type {
+    if {[lsearch [list absolute relative] $value] == -1} {
+      return -code error "-linemap_type argument must be either 'absolute' or 'relative'"
+    }
+    set data($self,config,-linemap_type) $value
+    bind $self.t <ButtonPress-1> [list after idle [expr {($value eq "absolute") ? [list] : [list ctext::linemapUpdate $self]}]]
+    bind $self.t <B1-Motion>     [expr {($value eq "absolute") ? [list] : [list ctext::linemapUpdate $self]}]
+    bind $self.t <KeyRelease>    [expr {($value eq "absolute") ? [list] : [list ctext::linemapUpdate $self]}]
+    ctext::linemapUpdate $self
     break
   }
 
@@ -2852,11 +2868,14 @@ proc ctext::linemapLineUpdate {win first last linenum_width gutter_items} {
 
   variable data
 
+  set abs       [expr {$data($win,config,-linemap_type) eq "absolute"}]
+  set curr      [lindex [split [$win.t index insert] .] 0]
   set lsize_pos [expr 2 + [llength $gutter_items] + 1]
 
   for {set line $first} {$line <= $last} {incr line} {
-    set ltags [$win.t tag names $line.0]
-    set line_content [list [format "%-*s" $linenum_width $line] [list] {*}$gutter_items "0" [list] "\n"]
+    set ltags        [$win.t tag names $line.0]
+    set linenum      [expr $abs ? $line : abs( $line - $curr )]
+    set line_content [list [format "%-*s" $linenum_width $linenum] [list] {*}$gutter_items "0" [list] "\n"]
     if {[lsearch -glob $ltags lmark*] != -1} {
       lset line_content 1 lmark
     }
@@ -2915,7 +2934,7 @@ proc ctext::linemapGutterUpdate {win first last linenum_width gutter_items} {
 proc ctext::linemapMarkUpdate {win first last} {
 
   for {set line $first} {$line <= $last} {incr line} {
-    set ltags [$win.t tag names $line.0]
+    set ltags        [$win.t tag names $line.0]
     set line_content [list " " [list] "0" [list] "\n"]
     if {[lsearch -glob $ltags lmark*] != -1} {
       lset line_content 1 lmark
