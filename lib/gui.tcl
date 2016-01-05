@@ -4633,7 +4633,7 @@ namespace eval gui {
     if {[regexp {\s(vi|vim|vim\d+|vim<\d+|vim>\d+|ex):\s*(.*):} [$txt get 1.0 "1.0+[[ns preferences]::get Editor/VimModelineLines]l"] -> opts]} {
       foreach opt [split $opts ": "] {
         if {[regexp {(\S+)(([+-])?=(\S+)))} $opt -> key dummy mod val]} {
-          [ns vim]::do_set_command {} $key $val $mod
+          [ns vim]::do_set_command {} $txt $key $val $mod
         }
       }
     }
