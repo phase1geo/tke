@@ -876,7 +876,7 @@ namespace eval gui {
     # Add the tabs (in order) to each of the panes and set the current tab in each pane
     for {set pane 0} {$pane < [llength $content(CurrentTabs)]} {incr pane} {
       set pw_current $pane
-      set set_tab    0
+      set set_tab    ""
       foreach index [lindex $ordered $pane] {
         if {$index ne ""} {
           array set finfo [lindex $content(FileInfo) $index]
@@ -907,12 +907,13 @@ namespace eval gui {
                 }
               }
             }
-            set set_tab 1
           }
         }
       }
-      if {$set_tab} {
-        set_current_tab [get_info [lindex $content(CurrentTabs) $pane] tabindex tab]
+      if {$tab ne ""} {
+        if {[catch { set_current_tab [get_info [lindex $content(CurrentTabs) $pane] tabindex tab] }]} {
+          set_current_tab $tab
+        }
       }
     }
 
