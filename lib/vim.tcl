@@ -140,6 +140,25 @@ namespace eval vim {
   }
 
   ######################################################################
+  # Parses the first N lines of the given text widget for a Vim modeline.
+  # Parses out the language (if specified) and/or indentation information.
+  proc parse_modeline {txt} {
+
+    if {[set lines [[ns preferences]::get Editor/VimModelines]]} {
+
+      if {[regexp {\s(vi|vim|vim\d+|vim<\d+|vim>\d+|ex):\s*(.*):} [$txt get 1.0 "1.0+${lines}l"] -> opts]} {
+        foreach opt [split $opts ": "] {
+          if {[regexp {(\S+)(([+-])?=(\S+)))} $opt -> key dummy mod val]} {
+            do_set_command {} $txt $key $val $mod
+          }
+        }
+      }
+
+    }
+
+  }
+
+  ######################################################################
   # Binds the given entry
   proc bind_command_entry {txt entry tid} {
 
@@ -363,7 +382,7 @@ namespace eval vim {
   # the directory of the currently opened file.  This is a global setting.
   proc do_set_autochdir {value} {
 
-    # TBD - We don't have built-in support for this functionality yet.
+    [ns gui]::set_auto_cwd $value
 
   }
 
