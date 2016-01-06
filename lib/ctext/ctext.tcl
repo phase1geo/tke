@@ -12,6 +12,14 @@ namespace eval ctext {
   array set data {}
 }
 
+# Override the tk::TextSetCursor to add a <<CursorChanged>> event
+rename ::tk::TextSetCursor ::tk::TextSetCursorOrig
+proc ::tk::TextSetCursor {w pos} {
+  set ins [$w index insert]
+  ::tk::TextSetCursorOrig $w $pos
+  event generate $w <<CursorChanged>> -data $ins
+}
+
 proc ctext {win args} {
 
   if {[llength $args] & 1} {
@@ -42,7 +50,7 @@ proc ctext {win args} {
   set ctext::data($win,config,-linemap_cursor)        left_ptr
   set ctext::data($win,config,-linemap_relief)        $ctext::data($win,config,-relief)
   set ctext::data($win,config,-linemap_minwidth)      1
-  set ctext::data($win,config,-linemap_type)          relative
+  set ctext::data($win,config,-linemap_type)          absolute
   set ctext::data($win,config,-highlight)             1
   set ctext::data($win,config,-warnwidth)             ""
   set ctext::data($win,config,-warnwidth_bg)          red
@@ -144,17 +152,12 @@ proc ctext {win args} {
     grid remove $win.f
   }
 
-  bind $win.t <Configure>         "ctext::linemapUpdate $win"
-  bind $win.l <ButtonPress-1>     "ctext::linemapToggleMark $win %y"
-  bind $win.l <MouseWheel>        "event generate $win.t <MouseWheel> -delta %D"
-  bind $win.l <4>                 "event generate $win.t <4>"
-  bind $win.l <5>                 "event generate $win.t <5>"
-  bind $win.t <KeyRelease-Return> "ctext::linemapUpdate $win"
-  bind $win.t <FocusIn>           "ctext::handleFocusIn $win"
-  bind $win.t <FocusOut>          "ctext::handleFocusOut $win"
-  bind $win.t <ButtonPress-1>     [list after idle [list ctext::linemapUpdate $win]]
-  bind $win.t <B1-Motion>         [list ctext::linemapUpdate $win]
-  bind $win.t <KeyRelease>        [list ctext::linemapUpdate $win]
+  bind $win.t <Configure>       "ctext::linemapUpdate $win"
+  bind $win.l <ButtonPress-1>   "ctext::linemapToggleMark $win %y"
+  bind $win.l <MouseWheel>      "event generate $win.t <MouseWheel> -delta %D"
+  bind $win.l <4>               "event generate $win.t <4>"
+  bind $win.l <5>               "event generate $win.t <5>"
+  bind $win.t <<CursorChanged>> "ctext::linemapUpdate $win %D"
   rename $win __ctextJunk$win
   rename $win.t $win._t
 
@@ -434,9 +437,6 @@ proc ctext::buildArgParseTable win {
       return -code error "-linemap_type argument must be either 'absolute' or 'relative'"
     }
     set data($self,config,-linemap_type) $value
-    bind $self.t <ButtonPress-1> [list after idle [expr {($value eq "absolute") ? [list] : [list ctext::linemapUpdate $self]}]]
-    bind $self.t <B1-Motion>     [expr {($value eq "absolute") ? [list] : [list ctext::linemapUpdate $self]}]
-    bind $self.t <KeyRelease>    [expr {($value eq "absolute") ? [list] : [list ctext::linemapUpdate $self]}]
     ctext::linemapUpdate $self
     break
   }
@@ -886,11 +886,8 @@ proc ctext::undo {win} {
     set data($win,config,undo_sep_last) [expr $data($win,config,undo_hist_size) - 1]
     incr data($win,config,undo_sep_size) -1
 
-    $win._t mark set insert $last_cursor
-    $win._t see insert
-
+    ::tk::TextSetCursor $win._t $last_cursor
     ctext::modified $win 1
-    ctext::linemapUpdate $win
 
   }
 
@@ -954,11 +951,8 @@ proc ctext::redo {win} {
     set data($win,config,undo_sep_last) [expr $data($win,config,undo_hist_size) - 1]
     incr data($win,config,undo_sep_size)
 
-    $win._t mark set insert $cursor
-    $win._t see insert
-
+    ::tk::TextSetCursor $win._t $cursor
     ctext::modified $win 1
-    ctext::linemapUpdate $win
 
   }
 
@@ -1126,8 +1120,9 @@ proc ctext::instanceCmd {self cmd args} {
 
         ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$data($self,config,re_opts) -- $commentRE $checkStr]
         ctext::highlightAfterIdle $self $lineStart $lineEnd
-        ctext::linemapUpdate $self
+        # ctext::linemapUpdate $self
         ctext::modified $self 1 [list delete $deletePos 1 $lines $moddata]
+        event generate $self.t <<CursorChanged>>
       } elseif {$argsLength == 2} {
         set deleteStartPos [$self._t index [lindex $args 0]]
         set deleteEndPos   [$self._t index [lindex $args 1]]
@@ -1151,10 +1146,11 @@ proc ctext::instanceCmd {self cmd args} {
 
         ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$data($self,config,re_opts) -- $commentRE $dat]
         ctext::highlightAfterIdle $self $lineStart $lineEnd
-        if {[string first "\n" $dat] >= 0} {
-          ctext::linemapUpdate $self
-        }
+        #if {[string first "\n" $dat] >= 0} {
+        #  ctext::linemapUpdate $self
+        #}
         ctext::modified $self 1 [list delete $deleteStartPos [string length $dat] $lines $moddata]
+        event generate $self.t <<CursorChanged>>
       } else {
         return -code error "invalid argument(s) sent to $self delete: $args"
       }
@@ -1298,7 +1294,8 @@ proc ctext::instanceCmd {self cmd args} {
       }
       eval \$self._t delete $args
       ctext::modified $self 1 [list delete [$self._t index [lindex $args 0]] $chars $lines $moddata]
-      ctext::linemapUpdate $self
+      # ctext::linemapUpdate $self
+      event generate $self.t <<CursorChanged>>
     }
 
     fastinsert {
@@ -1312,7 +1309,8 @@ proc ctext::instanceCmd {self cmd args} {
       set lines    [$self._t count -lines $startPos "$startPos+${chars}c"]
       ctext::handleInsertAt0 $self._t $startPos $chars
       ctext::modified $self 1 [list insert $startPos $chars $lines $moddata]
-      ctext::linemapUpdate $self
+      event generate $self.t <<CursorChanged>>
+      # ctext::linemapUpdate $self
     }
 
     highlight {
@@ -1411,7 +1409,8 @@ proc ctext::instanceCmd {self cmd args} {
       }
 
       ctext::modified $self 1 [list insert $insertPos $datlen $lines $moddata]
-      ctext::linemapUpdate $self
+      # ctext::linemapUpdate $self
+      event generate $self.t <<CursorChanged>>
     }
 
     replace {
@@ -1486,7 +1485,8 @@ proc ctext::instanceCmd {self cmd args} {
 
       ctext::modified $self 1 [list delete $startPos $deleteChars $deleteLines $moddata]
       ctext::modified $self 1 [list insert $startPos $datlen $insertLines $moddata]
-      ctext::linemapUpdate $self
+      # ctext::linemapUpdate $self
+      event generate $self.t <<CursorChanged>>
     }
 
     paste {
@@ -1501,7 +1501,8 @@ proc ctext::instanceCmd {self cmd args} {
       tk_textPaste $self
       set lines     [$self._t count -lines $insertPos "$insertPos+${datalen}c"]
       ctext::modified $self 1 [list insert $insertPos $datalen $lines $moddata]
-      ctext::linemapUpdate $self
+      # ctext::linemapUpdate $self
+      event generate $self.t <<CursorChanged>>
     }
 
     peer {
@@ -2773,11 +2774,12 @@ proc ctext::linemapClearMark {win line} {
 }
 
 #args is here because -yscrollcommand may call it
-proc ctext::linemapUpdate {win} {
+proc ctext::linemapUpdate {win {old_pos ""}} {
 
   variable data
 
-  if {![winfo exists $win.l]} {
+  if {![winfo exists $win.l] || \
+      (($old_pos ne "") && ([lindex [split [$win._t index insert] .] 0] eq [lindex [split $old_pos .] 0]))} {
     return
   }
 

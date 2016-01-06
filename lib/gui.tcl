@@ -932,7 +932,7 @@ namespace eval gui {
               [ns diff]::set_session_data $txt $finfo(diffdata)
             }
             if {[info exists finfo(cursor)]} {
-              $txt mark set insert $finfo(cursor)
+              ::tk::TextSetCursor $txt $finfo(cursor)
             }
             if {[info exists finfo(yview)]} {
               $txt yview $finfo(yview)
@@ -1434,7 +1434,7 @@ namespace eval gui {
         lset files $file_index $files_index(modified) 0
 
         # Set the insertion mark to the first position
-        $txt mark set insert 1.0
+        ::tk::TextSetCursor $txt 1.0
 
         # Perform an insertion adjust, if necessary
         if {[[ns vim]::in_vim_mode $txt.t]} {
@@ -1564,13 +1564,10 @@ namespace eval gui {
       lset files $file_index $files_index(modified) 0
 
       # Set the insertion mark to the first position
-      $txt mark set insert $insert_index
+      ::tk::TextSetCursor $txt $insert_index
       if {[[ns vim]::in_vim_mode $txt.t]} {
         [ns vim]::adjust_insert $txt.t
       }
-
-      # Make the insertion mark visible
-      $txt see $insert_index
 
       # If a diff command was specified, run and parse it now
       if {$diff} {
@@ -3418,6 +3415,7 @@ namespace eval gui {
       -linemap [[ns preferences]::get View/ShowLineNumbers] \
       -linemap_mark_command [ns gui]::mark_command -linemap_select_bg orange \
       -linemap_relief flat -linemap_minwidth 4 \
+      -linemap_type [expr {[[ns preferences]::get Editor/RelativeLineNumbers] ? "relative" : "absolute"}] \
       -xscrollcommand "$tab.pw.tf.hb set" -yscrollcommand "$tab.pw.tf.vb set"
       # -yscrollcommand "[ns utils]::set_yscrollbar $tab.pw.tf.vb"
     scroller::scroller $tab.pw.tf.hb {*}$scrollbar_opts -orient horizontal -autohide 0 -command "$txt xview"
@@ -3439,14 +3437,12 @@ namespace eval gui {
 
     bind Ctext  <<Modified>>                 "[ns gui]::text_changed %W %d"
     bind $txt.t <FocusIn>                    "+[ns gui]::handle_txt_focus %W"
+    bind $txt.t <<CursorChanged>>            "+[ns gui]::update_position $txt"
     bind $txt.l <ButtonPress-$::right_click> [bind $txt.l <ButtonPress-1>]
     bind $txt.l <ButtonPress-1>              "[ns gui]::select_line %W %y"
     bind $txt.l <B1-Motion>                  "[ns gui]::select_lines %W %y"
     bind $txt.l <Shift-ButtonPress-1>        "[ns gui]::select_lines %W %y"
     bind $txt   <<Selection>>                "[ns gui]::selection_changed $txt"
-    bind $txt   <ButtonPress-1>              "after idle [list [ns gui]::update_position $txt]"
-    bind $txt   <B1-Motion>                  "[ns gui]::update_position $txt"
-    bind $txt   <KeyRelease>                 "[ns gui]::update_position $txt"
     bind $txt   <Motion>                     "[ns gui]::clear_tab_tooltip $tb"
     bind Text   <<Cut>>                      ""
     bind Text   <<Copy>>                     ""
@@ -3631,14 +3627,12 @@ namespace eval gui {
       -markcommand2 [expr {$diff ? [list [ns diff]::get_marks $txt] : ""}]
 
     bind $txt2.t <FocusIn>                    "+[ns gui]::handle_txt_focus %W"
+    bind $txt2.t <<CursorChanged>>            "+[ns gui]::update_position $txt2"
     bind $txt2.l <ButtonPress-$::right_click> [bind $txt2.l <ButtonPress-1>]
     bind $txt2.l <ButtonPress-1>              "[ns gui]::select_line %W %y"
     bind $txt2.l <B1-Motion>                  "[ns gui]::select_lines %W %y"
     bind $txt2.l <Shift-ButtonPress-1>        "[ns gui]::select_lines %W %y"
     bind $txt2   <<Selection>>                "[ns gui]::selection_changed $txt2"
-    bind $txt2   <ButtonPress-1>              "after idle [list [ns gui]::update_position $txt2]"
-    bind $txt2   <B1-Motion>                  "[ns gui]::update_position $txt2"
-    bind $txt2   <KeyRelease>                 "[ns gui]::update_position $txt2"
     bind $txt2   <Motion>                     "[ns gui]::clear_tab_tooltip $tb"
 
     # Move the all bindtag ahead of the Text bindtag
@@ -3737,7 +3731,7 @@ namespace eval gui {
     # Move the insertion point to the location of rootx/y
     set x [expr $rootx - [winfo rootx $txt.t]]
     set y [expr $rooty - [winfo rooty $txt.t]]
-    $txt mark set insert @$x,$y
+    ::tk::TextSetCursor $txt @$x,$y
     [ns vim]::adjust_insert $txt.t
 
     return "link"
@@ -4146,8 +4140,7 @@ namespace eval gui {
     set_current_tab [get_info $txt txt tab]
 
     # Make the line viewable
-    $txt mark set insert $pos
-    $txt see $pos
+    ::tk::TextSetCursor $txt $pos
 
     # Adjust the insert
     [ns vim]::adjust_insert $txt.t
@@ -4179,8 +4172,7 @@ namespace eval gui {
 
     # Change the insertion cursor to the matching character
     if {$index != -1} {
-      $txt mark set insert $index
-      $txt see insert
+      ::tk::TextSetCursor $txt $index
     }
 
   }
@@ -4518,8 +4510,7 @@ namespace eval gui {
       if {[expr abs( $index_line - $last_line ) >= $diff]} {
         if {$jump} {
           set cursor_hist($txt,index) $index
-          $txt mark set insert "$cursor linestart"
-          $txt see insert
+          ::tk::TextSetCursor $txt "$cursor linestart"
           if {[[ns vim]::in_vim_mode $txt.t]} {
             [ns vim]::adjust_insert $txt.t
           }

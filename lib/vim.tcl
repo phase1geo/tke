@@ -348,9 +348,9 @@ namespace eval vim {
       numberwidth      -
       nuw              { do_set_numberwidth $tid $val }
       relativenumber   -
-      rnu              { do_set_relativenumber $tid 1 }
+      rnu              { do_set_relativenumber $tid relative }
       norelativenumber -
-      nornu            { do_set_relativenumber $tid 0 }
+      nornu            { do_set_relativenumber $tid absolute }
       shiftround       -
       sr               { do_set_shiftround 1 }
       noshiftround     -
@@ -522,19 +522,10 @@ namespace eval vim {
   }
 
   ######################################################################
-  # Sets the minimum width of the line number gutter.
-  proc do_set_numberwidth {tid val} {
-
-    # TBD
-    # set ctext::data($win,config,-linemap_minwidth)      1
-
-  }
-
-  ######################################################################
   # Sets the relative numbering mode to the given value.
   proc do_set_relativenumber {tid val} {
 
-    # TBD
+    [[ns gui]::current_txt {}] configure -linemap_type $val
 
   }
 
@@ -782,7 +773,7 @@ namespace eval vim {
 
     set current [$W index @$x,$y]
     $W mark set [[ns utils]::text_anchor $W] $current
-    $W mark set insert $current
+    ::tk::TextSetCursor $W $current
 
     if {[set [ns vim]::mode($W)] ne "edit"} {
       adjust_insert $W
@@ -800,7 +791,7 @@ namespace eval vim {
 
     set current [$W index @$x,$y]
     $W tag add sel [$W index "$current wordstart"] [$W index "$current wordend"]
-    $W mark set insert [$W index "$current wordstart"]
+    ::tk::TextSetCursor $W [$W index "$current wordstart"]
 
     focus $W
 
@@ -813,12 +804,14 @@ namespace eval vim {
     $W tag remove sel 1.0 end
 
     set current [$W index @$x,$y]
-    $W tag add sel [[ns utils]::text_anchor $W] $current
-    $W mark set insert $current
+    ::tk::TextSetCursor $W $current
 
     if {[set [ns vim]::mode($W)] ne "edit"} {
       adjust_insert $W
     }
+
+    # Add the selection
+    $W tag add sel [[ns utils]::text_anchor $W] $current
 
     focus $W
 
@@ -887,7 +880,7 @@ namespace eval vim {
       if {[[ns multicursor]::enabled $txt]} {
         [ns multicursor]::adjust $txt -1c
       } else {
-        $txt mark set insert "insert-1c"
+        ::tk::TextSetCursor $txt "insert-1c"
       }
     }
 
@@ -1031,11 +1024,11 @@ namespace eval vim {
     if {[$txt index "insert linestart"] eq [$txt index "insert lineend"]} {
       set ignore_modified([winfo parent $txt]) 1
       $txt fastinsert insert " " dspace
-      $txt mark set insert "insert-1c"
+      ::tk::TextSetCursor $txt "insert-1c"
 
     # Make sure that lineend is never the insertion point
     } elseif {[$txt index insert] eq [$txt index "insert lineend"]} {
-      $txt mark set insert "insert-1c"
+      ::tk::TextSetCursor $txt "insert-1c"
     }
 
     # Adjust the selection (if we are in visual mode)
@@ -1213,7 +1206,7 @@ namespace eval vim {
         if {[[ns multicursor]::enabled $txt]} {
           [ns multicursor]::adjust $txt -1c
         } else {
-          $txt mark set insert "insert-1c"
+          ::tk::TextSetCursor $txt "insert-1c"
         }
         start_mode $txt
         record_stop
@@ -1308,8 +1301,7 @@ namespace eval vim {
 
     if {$mode($txt) eq "start"} {
       [ns edit]::move_cursor $txt lineend
-      $txt mark set insert "insert lineend-1c"
-      $txt see insert
+      ::tk::TextSetCursor $txt "insert lineend-1c"
       return 1
     } elseif {$mode($txt) eq "delete"} {
       [ns edit]::delete_to_end $txt
@@ -1333,8 +1325,7 @@ namespace eval vim {
     variable mode
 
     if {$mode($txt) eq "start"} {
-      $txt mark set insert "insert linestart"
-      $txt see insert
+      ::tk::TextSetCursor $txt "insert linestart"
       return 1
     } elseif {$mode($txt) eq "delete"} {
       [ns edit]::delete_from_start $txt
@@ -1451,7 +1442,7 @@ namespace eval vim {
     variable mode
 
     if {$mode($txt) eq "start"} {
-      $txt mark set insert "insert linestart"
+      ::tk::TextSetCursor $txt "insert linestart"
       edit_mode $txt
       record_start
       return 1
@@ -1480,9 +1471,8 @@ namespace eval vim {
       }
       set row [expr {$row + (($number($txt) ne "") ? $number($txt) : 1)}]
       if {[$txt compare "$row.$col" < end]} {
-        $txt mark set insert "$row.$col"
+        ::tk::TextSetCursor $txt "$row.$col"
         adjust_insert $txt
-        $txt see insert
       }
       return 1
     }
@@ -1532,9 +1522,8 @@ namespace eval vim {
       }
       set row [expr {$row - (($number($txt) ne "") ? $number($txt) : 1)}]
       if {$row >= 1} {
-        $txt mark set insert "$row.$col"
+        ::tk::TextSetCursor $txt "$row.$col"
         adjust_insert $txt
-        $txt see insert
       }
       return 1
     }
@@ -1574,16 +1563,14 @@ namespace eval vim {
       $txt tag remove sel 1.0 end
       if {$number($txt) ne ""} {
         if {[$txt compare "insert lineend" < "insert+$number($txt)c"]} {
-          $txt mark set insert "insert lineend"
+          ::tk::TextSetCursor $txt "insert lineend"
         } else {
-          $txt mark set insert "insert+$number($txt)c"
+          ::tk::TextSetCursor $txt "insert+$number($txt)c"
         }
         adjust_insert $txt
-        $txt see insert
       } elseif {[$txt compare "insert lineend" > "insert+1c"]} {
-        $txt mark set insert "insert+1c"
+        ::tk::TextSetCursor $txt "insert+1c"
         adjust_insert $txt
-        $txt see insert
       } else {
         bell
       }
@@ -1601,6 +1588,7 @@ namespace eval vim {
   proc handle_L {txt tid} {
 
     variable mode
+    variable number
 
     if {($mode($txt) eq "start") || ([string range $mode($txt) 0 5] eq "visual")} {
       if {[[ns multicursor]::enabled $txt]} {
@@ -1616,7 +1604,7 @@ namespace eval vim {
   }
 
   ######################################################################
-  # Returns the string containing the
+  # Returns the string containing the filename to open.
   proc get_filename {txt pos} {
 
     # Get the index of pos
@@ -1695,16 +1683,14 @@ namespace eval vim {
       $txt tag remove sel 1.0 end
       if {$number($txt) ne ""} {
         if {[$txt compare "insert linestart" > "insert-$number($txt)c"]} {
-          $txt mark set insert "insert linestart"
+          ::tk::TextSetCursor $txt "insert linestart"
         } else {
-          $txt mark set insert "insert-$number($txt)c"
+          ::tk::TextSetCursor $txt "insert-$number($txt)c"
         }
         adjust_insert $txt
-        $txt see insert
       } elseif {[$txt compare "insert linestart" <= "insert-1c"]} {
-        $txt mark set insert "insert-1c"
+        ::tk::TextSetCursor $txt "insert-1c"
         adjust_insert $txt
-        $txt see insert
       } else {
         bell
       }
@@ -1722,6 +1708,7 @@ namespace eval vim {
   proc handle_H {txt tid} {
 
     variable mode
+    variable number
 
     if {($mode($txt) eq "start") || ([string range $mode($txt) 0 5] eq "visual")} {
       if {[[ns multicursor]::enabled $txt]} {
@@ -1911,7 +1898,7 @@ namespace eval vim {
         [ns multicursor]::adjust $txt "+1c" 1 dspace
       }
       cleanup_dspace $txt
-      $txt mark set insert "insert+1c"
+      ::tk::TextSetCursor $txt "insert+1c"
       edit_mode $txt
       record_start
       return 1
@@ -1928,7 +1915,7 @@ namespace eval vim {
     variable mode
 
     if {$mode($txt) eq "start"} {
-      $txt mark set insert "insert lineend"
+      ::tk::TextSetCursor $txt "insert lineend"
       edit_mode $txt
       record_start
       return 1
@@ -2022,15 +2009,14 @@ namespace eval vim {
       }
       $txt insert "insert lineend" [string repeat "\n$clip" $num]
       multicursor::paste $txt "insert+${num}l linestart"
-      $txt mark set insert "insert+${num}l linestart"
+      ::tk::TextSetCursor $txt "insert+${num}l linestart"
     } else {
       set clip [string repeat $clip $num]
       $txt insert "insert+1c" $clip
       multicursor::paste $txt "insert+1c"
-      $txt mark set insert "insert+[string length $clip]c"
+      ::tk::TextSetCursor $txt "insert+[string length $clip]c"
     }
     adjust_insert $txt
-    $txt see insert
 
     # Create a separator
     $txt edit separator
@@ -2160,7 +2146,7 @@ namespace eval vim {
         if {[$txt index insert] eq [$txt index "insert linestart"]} {
           $txt insert insert " "
         }
-        $txt mark set insert "insert-1c"
+        ::tk::TextSetCursor $txt "insert-1c"
       } else {
         $txt delete insert "insert+${number}c"
       }
@@ -2172,7 +2158,7 @@ namespace eval vim {
         if {[$txt index insert] eq [$txt index "insert linestart"]} {
           $txt insert insert " "
         }
-        $txt mark set insert "insert-1c"
+        ::tk::TextSetCursor $txt "insert-1c"
       }
     }
 
@@ -2713,17 +2699,16 @@ namespace eval vim {
     variable mode
 
     if {($mode($txt) eq "start") || ([string range $mode($txt) 0 5] eq "visual")} {
-      $txt mark set insert "insert+1l linestart"
+      ::tk::TextSetCursor $txt "insert+1l linestart"
       if {[string is space [$txt get insert]]} {
         set next_word [get_word $txt next]
         if {[$txt compare $next_word < "insert lineend"]} {
-          $txt mark set insert $next_word
+          ::tk::TextSetCursor $txt $next_word
         } else {
-          $txt mark set insert "insert lineend"
+          ::tk::TextSetCursor $txt "insert lineend"
         }
       }
       adjust_insert $txt
-      $txt see insert
       return 1
     }
 
@@ -2739,17 +2724,16 @@ namespace eval vim {
     variable mode
 
     if {($mode($txt) eq "start") || ([string range $mode($txt) 0 5] eq "visual")} {
-      $txt mark set insert "insert-1l linestart"
+      ::tk::TextSetCursor $txt "insert-1l linestart"
       if {[string is space [$txt get insert]]} {
         set next_word [get_word $txt next]
         if {[$txt compare $next_word < "insert lineend"]} {
-          $txt mark set insert $next_word
+          ::tk::TextSetCursor $txt $next_word
         } else {
-          $txt mark set insert "insert lineend"
+          ::tk::TextSetCursor $txt "insert lineend"
         }
       }
       adjust_insert $txt
-      $txt see insert
       return 1
     }
 
@@ -2766,7 +2750,7 @@ namespace eval vim {
     variable number
 
     if {(($mode($txt) eq "start") || ([string range $mode($txt) 0 5] eq "visual")) && ($number($txt) ne "")} {
-      $txt mark set insert [lindex [split [$txt index insert] .] 0].$number($txt)
+      ::tk::TextSetCursor $txt [lindex [split [$txt index insert] .] 0].$number($txt)
       adjust_insert $txt
       $txt see insert
       return 1
@@ -2802,6 +2786,7 @@ namespace eval vim {
   proc handle_M {txt tid} {
 
     variable mode
+    variable number
 
     if {($mode($txt) eq "start") || ([string range $mode($txt) 0 5] eq "visual")} {
       [ns edit]::move_cursor $txt screenmid $number($txt)
