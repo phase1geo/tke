@@ -167,6 +167,21 @@
 
 {Editor/VimModelines}        {5}
 
+# Specifies whether relative line numbering is used in the line number gutter, by default.  If set
+# to 1, relative line numbering is used; otherwise, a value of 0 uses absolute line numbering.
+# This value is only used when the file is first added to the editing buffer.
+#
+# The following example code illustrates the difference between relative and absolute line numbering:
+#
+# Relative #        Absolute #
+#   2                 1
+#   1                 2
+#   0   cursor line   3
+#   1                 4
+#   2                 5
+
+{Editor/RelativeLineNumbers} {0}
+
 # Specifies the maximum number of find history items to store in memory.  This value must be a
 # value of 0 (do not record history) or greater.
 

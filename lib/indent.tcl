@@ -196,7 +196,7 @@ namespace eval indent {
 
     # If we need to restore the insertion cursor, do it now
     if {$restore_insert ne ""} {
-      $txt mark set insert $restore_insert
+      ::tk::TextSetCursor $txt $restore_insert
     }
 
   }

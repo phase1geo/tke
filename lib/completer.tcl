@@ -140,7 +140,7 @@ namespace eval completer {
     if {$complete($txt,square) && ![ctext::inComment $txt "insert-1c"]} {
       if {$side eq "right"} {
         if {([$txt get insert] eq "\]") && ![ctext::isEscaped $txt insert]} {
-          $txt mark set insert "insert+1c"
+          ::tk::TextSetCursor $txt "insert+1c"
           ctext::matchPair [winfo parent $txt] "\\\[" "\\\]"
           return 1
         }
@@ -149,7 +149,7 @@ namespace eval completer {
         if {[add_closing $txt]} {
           $txt insert insert "\]"
         }
-        $txt mark set insert $ins
+        ::tk::TextSetCursor $txt $ins
       }
     }
 
@@ -166,7 +166,7 @@ namespace eval completer {
     if {$complete($txt,curly) && ![ctext::inComment $txt "insert-1c"]} {
       if {$side eq "right"} {
         if {([$txt get insert] eq "\}") && ![ctext::isEscaped $txt insert]} {
-          $txt mark set insert "insert+1c"
+          ::tk::TextSetCursor $txt "insert+1c"
           ctext::matchPair [winfo parent $txt] "\\\{" "\\\}"
           return 1
         }
@@ -175,7 +175,7 @@ namespace eval completer {
         if {[add_closing $txt]} {
           $txt insert insert "\}"
         }
-        $txt mark set insert $ins
+        ::tk::TextSetCursor $txt $ins
       }
     }
 
@@ -192,7 +192,7 @@ namespace eval completer {
     if {$complete($txt,angled) && ![ctext::inComment $txt "insert-1c"]} {
       if {$side eq "right"} {
         if {([$txt get insert] eq ">") && ![ctext::isEscaped $txt insert]} {
-          $txt mark set insert "insert+1c"
+          ::tk::TextSetCursor $txt "insert+1c"
           ctext::matchPair [winfo parent $txt] "\\<" "\\>"
           return 1
         }
@@ -201,7 +201,7 @@ namespace eval completer {
         if {[add_closing $txt]} {
           $txt insert insert ">"
         }
-        $txt mark set insert $ins
+        ::tk::TextSetCursor $txt $ins
       }
     }
 
@@ -218,7 +218,7 @@ namespace eval completer {
     if {$complete($txt,paren) && ![ctext::inComment $txt "insert-1c"]} {
       if {$side eq "right"} {
         if {([$txt get insert] eq ")") && ![ctext::isEscaped $txt insert]} {
-          $txt mark set insert "insert+1c"
+          ::tk::TextSetCursor $txt "insert+1c"
           ctext::matchPair [winfo parent $txt] "\\(" "\\)"
           return 1
         }
@@ -227,7 +227,7 @@ namespace eval completer {
         if {[add_closing $txt]} {
           $txt insert insert ")"
         }
-        $txt mark set insert $ins
+        ::tk::TextSetCursor $txt $ins
       }
     }
 
@@ -244,7 +244,7 @@ namespace eval completer {
     if {$complete($txt,double)} {
       if {[ctext::inDoubleQuote $txt insert]} {
         if {([$txt get insert] eq "\"") && ![ctext::isEscaped $txt insert]} {
-          $txt mark set insert "insert+1c"
+          ::tk::TextSetCursor $txt "insert+1c"
           ctext::matchQuote [winfo parent $txt]
           return 1
         }
@@ -255,7 +255,7 @@ namespace eval completer {
         if {![ctext::inCommentString $txt "insert-1c"]} {
           $txt insert insert "\""
         }
-        $txt mark set insert $ins
+        ::tk::TextSetCursor $txt $ins
       }
     }
 
@@ -272,7 +272,7 @@ namespace eval completer {
     if {$complete($txt,single)} {
       if {[ctext::inSingleQuote $txt insert]} {
         if {([$txt get insert] eq "'") && ![ctext::isEscaped $txt insert]} {
-          $txt mark set insert "insert+1c"
+          ::tk::TextSetCursor $txt "insert+1c"
           return 1
         }
       } elseif {[ctext::inSingleQuote $txt end-1c]} {
@@ -282,7 +282,7 @@ namespace eval completer {
         if {![ctext::inCommentString $txt "insert-1c"]} {
           $txt insert insert "'"
         }
-        $txt mark set insert $ins
+        ::tk::TextSetCursor $txt $ins
       }
     }
 

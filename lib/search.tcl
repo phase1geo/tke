@@ -128,8 +128,7 @@ namespace eval search {
       if {![[ns vim]::in_vim_mode $txt.t]} {
         $txt tag add sel $startpos $endpos
       }
-      $txt mark set insert $startpos
-      $txt see insert
+      ::tk::TextSetCursor $txt $startpos
       if {$wrapped} {
         [ns gui]::set_info_message [msgcat::mc "Search wrapped to beginning of file"]
       }
@@ -167,8 +166,7 @@ namespace eval search {
       if {![[ns vim]::in_vim_mode $txt.t]} {
         $txt tag add sel $startpos $endpos
       }
-      $txt mark set insert $startpos
-      $txt see insert
+      ::tk::TextSetCursor $txt $startpos
       if {$wrapped} {
         [ns gui]::set_info_message [msgcat::mc "Search wrapped to end of file"]
       }
@@ -200,8 +198,7 @@ namespace eval search {
     # Make the first line viewable
     catch {
       set firstpos [lindex [$txt tag ranges _search] 0]
-      $txt mark set insert $firstpos
-      $txt see $firstpos
+      ::tk::TextSetCursor $txt $firstpos
     }
 
     # Close the search interface
@@ -279,8 +276,7 @@ namespace eval search {
     if {$num_indices > 0} {
 
       # Set the insertion cursor to the last match and make that line visible
-      $txt see [lindex $indices 0]
-      $txt mark set insert [lindex $indices 0]
+      ::tk::TextSetCursor $txt [lindex $indices 0]
 
       # Make sure that the insertion cursor is valid
       if {[[ns vim]::in_vim_mode $txt]} {
@@ -410,8 +406,7 @@ namespace eval search {
 
     # Make sure that the beginning of the inserted text is in view
     $txt see end
-    $txt mark set insert $last_line
-    $txt see $last_line
+    ::tk::TextSetCursor $txt $last_line
 
     # Change the state back to disabled
     $txt configure -state disabled
@@ -498,8 +493,7 @@ namespace eval search {
 
     # Jump to the line and set the cursor to the beginning of the line
     set txt [[ns gui]::current_txt {}]
-    $txt see $linenum.0
-    $txt mark set insert $linenum.0
+    ::tk::TextSetCursor $txt $linenum.0
 
   }
 

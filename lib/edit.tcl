@@ -49,8 +49,7 @@ namespace eval edit {
     }
 
     # Place the insertion cursor
-    $txt mark set insert "insert-1l"
-    $txt see insert
+    ::tk::TextSetCursor $txt "insert-1l"
 
     # Perform the proper indentation
     [ns indent]::newline $txt insert
@@ -79,7 +78,7 @@ namespace eval edit {
 
     # Perform the insertion
     if {$insert == [$txt index insert]} {
-      $txt mark set insert "insert+1l"
+      ::tk::TextSetCursor $txt "insert+1l"
     }
     $txt see insert
 
@@ -421,8 +420,7 @@ namespace eval edit {
     if {$deleted} {
 
       # Set the insertion cursor and make it viewable
-      $txt mark set insert $index
-      $txt see insert
+      ::tk::TextSetCursor $txt $index
 
       # Create a separator
       $txt edit separator
@@ -809,13 +807,10 @@ namespace eval edit {
   proc jump_to_line {txt linenum} {
 
     # Set the insertion cursor to the given line number
-    $txt mark set insert $linenum
+    ::tk::TextSetCursor $txt $linenum
 
     # Adjust the insertion cursor
     [ns vim]::adjust_insert $txt
-
-    # Make the cursor visible
-    $txt see insert
 
   }
 
@@ -897,8 +892,7 @@ namespace eval edit {
     }
 
     # Set the insertion position and make it visible
-    $txt mark set insert $index
-    $txt see $index
+    ::tk::TextSetCursor $txt $index
 
     # Adjust the insertion cursor in Vim mode
     [ns vim]::adjust_insert $txt
