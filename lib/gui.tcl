@@ -1720,6 +1720,31 @@ namespace eval gui {
   }
 
   ######################################################################
+  # Sets the current text status modification value to the specified value
+  # and updates the titlebar and tabbar
+  proc set_current_modified {value} {
+
+    variable files
+    variable files_index
+
+    # Get the current file information
+    lassign [get_info {} current {tabbar fileindex txt fname}] tb file_index txt fname
+
+    # Set the file modified status to the given value
+    lset files $file_index $files_index(modified) $value
+
+    # Set the text widget status
+    $txt edit modified $value
+
+    # Update the current tab text
+    $tb tab current -text [format "%s %s" [expr {$value ? " *" : ""}] [file tail $fname]]
+
+    # Update the title
+    set_title
+
+  }
+
+  ######################################################################
   # Saves the current tab contents.  Returns 1 if the save was successful;
   # otherwise, returns a value of 0.
   proc save_current {tid {force 0} {save_as ""}} {

@@ -28,27 +28,28 @@
 source [file join lib version.tcl]
 
 # Check to make sure that the Tcl version is okay
-puts -nonewline "Tcl version 8.5.x is required...          "
+puts -nonewline "Tcl version 8.5.x or higher is required...  "
 flush stdout
-if {[string range [set version [info patchlevel]] 0 2] ne "8.5"} {
+set version [string range [info patchlevel] 0 2]
+if {$version < 8.5} {
   puts "Not Found! ($version)"
   exit 1
 } else {
   puts "Found ($version)"
 }
 
-# Make sure that wish8.5 exists
-puts -nonewline "Installation requires wish8.5...          "
+# Make sure that wish exists
+puts -nonewline "Installation requires wish$version...            "
 flush stdout
-if {![file exists [set wish85 [file join [file dirname [info nameofexecutable]] wish8.5]]]} {
-  puts "Not Found! ($wish85)"
+if {![file exists [set wish [file join [file dirname [info nameofexecutable]] wish$version]]]} {
+  puts "Not Found! ($wish)"
   exit 1
 } else {
-  puts "Found ($wish85)"
+  puts "Found ($wish)"
 }
 
 # Make sure that the Tk package is available on the system
-puts -nonewline "Installation requires the Tk package...   "
+puts -nonewline "Installation requires the Tk package...     "
 flush stdout
 if {[catch "package require Tk" rc]} {
   puts "Not Found! ($rc)"
@@ -58,11 +59,40 @@ if {[catch "package require Tk" rc]} {
 }
 
 # Make sure that the Tclx package is available on the system
-puts -nonewline "Installation requires the Tclx package... "
+puts -nonewline "Installation requires the Tclx package...   "
 flush stdout
-if {[catch "package require Tclx"]} {
+if {[catch "package require Tclx" rc]} {
   puts "Not Found! ($rc)"
   exit 1
+} else {
+  puts "Found"
+}
+
+# Make sure that the Tcllib package is available on the system
+puts -nonewline "Installation requires the Tcllib package... "
+flush stdout
+if {[catch "package require struct::set" rc]} {
+  puts "Not Found! ($rc)"
+  exit 1
+} else {
+  puts "Found"
+}
+
+# Make sure that the Tklib package is available on the system
+puts -nonewline "Installation requires the Tklib package...  "
+flush stdout
+if {[catch "package require tooltip" rc]} {
+  puts "Not Found! ($rc)"
+  exit 1
+} else {
+  puts "Found"
+}
+
+# Check to see if tkdnd package is available on the system
+puts -nonewline "Checking for tkdnd package...               "
+flush stdout
+if {[catch "package require tkdnd" rc]} {
+  puts "Not Found"
 } else {
   puts "Found"
 }
@@ -70,22 +100,22 @@ if {[catch "package require Tclx"]} {
 proc get_yes_or_no {question} {
 
   set answer "x"
-  
+
   while {![regexp {^([yn]?)$} [string tolower $answer] -> answer]} {
     puts -nonewline "$question (Y/n)? "
     flush stdout
     set answer [gets stdin]
   }
-  
+
   return $answer
-  
+
 }
 
 proc copy_lib_files {lib_dir} {
 
   # Create the lib directory
   file mkdir $lib_dir
-  
+
   # Copy each of the top-level directories recursively to the new lib directory
   foreach directory [list data doc lib plugins specl_version.tcl specl_customize.xml LICENSE] {
     puts -nonewline "Copying $directory to [file join $lib_dir $directory]...  "
@@ -98,45 +128,45 @@ proc copy_lib_files {lib_dir} {
       puts "done."
     }
   }
-        
+
 }
 
 set install_dir ""
 
 while {$install_dir eq ""} {
-       
+
   # Get the installation directory from the user
   puts -nonewline "\nEnter root installation directory (or Control-C to quit): "
   flush stdout
   set install_dir [file normalize [gets stdin]]
   set lib_dir     [file join $install_dir lib tke]
   set bin_dir     [file join $install_dir bin]
-  
+
   # Make sure that the library directory can be written
   if {[file exists [file dirname $lib_dir]] && ![file writable [file dirname $lib_dir]]} {
     puts "[file dirname $lib_dir] is not writable"
     set install_dir ""
     continue
   }
-  
+
   # Make sure that the binary directory can be written
   if {[file exists $bin_dir] && ![file writable $bin_dir]} {
     puts "$bin_dir is not writable"
     set install_dir ""
     continue
   }
-  
+
   # Output path information to user
   puts ""
   puts "Library will be installed at: $lib_dir"
   puts "Binary will be installed at:  [file join $bin_dir tke]"
   puts ""
-  
+
   # If the specified root directory is okay, install everything there
   if {[get_yes_or_no "Is this okay"] ne "n"} {
-    
+
     puts ""
-    
+
     # Copy directories to lib directory
     if {[file exists $lib_dir]} {
       if {[get_yes_or_no "$lib_dir exists.  Replace"] ne "n"} {
@@ -150,19 +180,19 @@ while {$install_dir eq ""} {
     } else {
       copy_lib_files $lib_dir
     }
-    
+
     # Create the bin directory if it doesn't exist
     if {![file exists $bin_dir]} {
       file mkdir $bin_dir
     }
-  
+
     # Create the file
     puts -nonewline "Creating [file join $bin_dir tke]...  "
     flush stdout
     if {![catch "open [file join $bin_dir tke] w" rc]} {
       puts $rc "#!/bin/sh"
       puts $rc ""
-      puts $rc "$wish85 [file join $lib_dir lib tke.tcl] -name tke -- \$@"
+      puts $rc "$wish [file join $lib_dir lib tke.tcl] -name tke -- \$@"
       close $rc
       file attributes [file join $bin_dir tke] -permission rwxr-xr-x
       puts "done."
@@ -176,7 +206,7 @@ while {$install_dir eq ""} {
   } else {
     set install_dir ""
   }
-  
+
 }
 
 # If we are running on a system with a /usr/share/applications directory, create a tke.desktop file there
@@ -187,7 +217,7 @@ if {[file exists [set app_dir [file join / usr share applications]]]} {
   if {![catch "open $app_file w" rc]} {
     puts $rc "\[Desktop Entry\]"
     puts $rc "Name=TKE"
-    puts $rc "Exec=$wish85 [file join $lib_dir lib tke.tcl] -name tke -- -nosb"
+    puts $rc "Exec=$wish [file join $lib_dir lib tke.tcl] -name tke -- -nosb"
     puts $rc "Icon=[file join $lib_dir lib images tke_logo_128.gif]"
     puts $rc "Type=Application"
     puts $rc "Categories=Programming;Development;Utility;TextEditor"
