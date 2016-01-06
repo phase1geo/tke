@@ -283,7 +283,7 @@ namespace eval vim {
             }
 
           # Handle set commands
-          } elseif {[regexp {^set?\s+(\S+)(([+-])?=(\S+))?} $value -> opt dummy mod val]} {
+          } elseif {[regexp {^set?\s+(\S+?)(([+-])?=(\S+))?} $value -> opt dummy mod val]} {
             set txt [do_set_command $tid $txt $opt $val $mod]
           }
 
@@ -438,6 +438,8 @@ namespace eval vim {
     # Set the current EOL translation
     if {[info exists map($val)]} {
       [ns gui]::set_current_eol_translation $map($val)
+    } else {
+      [ns gui]::set_info_message [format "%s (%s)" [msgcat::mc "File format unrecognized"] $val]
     }
 
   }
@@ -505,11 +507,7 @@ namespace eval vim {
   # Changes the modified state of the current buffer.
   proc do_set_modified {tid val} {
 
-    # Get the current text widget
-    set txt [[ns gui]::current_txt $tid]
-
-    # Set the modified state to the given value
-    $txt edit modified $val
+    [ns gui]::set_current_modified $val
 
   }
 
@@ -525,7 +523,7 @@ namespace eval vim {
   # Sets the relative numbering mode to the given value.
   proc do_set_relativenumber {tid val} {
 
-    [[ns gui]::current_txt {}] configure -linemap_type $val
+    [[ns gui]::current_txt $tid] configure -linemap_type $val
 
   }
 
