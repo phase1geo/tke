@@ -788,8 +788,13 @@ namespace eval vim {
     $W tag remove sel 1.0 end
 
     set current [$W index @$x,$y]
-    $W tag add sel [$W index "$current wordstart"] [$W index "$current wordend"]
     ::tk::TextSetCursor $W [$W index "$current wordstart"]
+
+    if {[set [ns vim]::mode($W)] ne "edit"} {
+      adjust_insert $W
+    }
+
+    $W tag add sel [$W index "$current wordstart"] [$W index "$current wordend"]
 
     focus $W
 
