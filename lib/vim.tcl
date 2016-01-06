@@ -148,7 +148,7 @@ namespace eval vim {
 
       if {[regexp {\s(vi|vim|vim\d+|vim<\d+|vim>\d+|ex):\s*(.*):} [$txt get 1.0 "1.0+${lines}l"] -> opts]} {
         foreach opt [split $opts ": "] {
-          if {[regexp {(\S+)(([+-])?=(\S+)))} $opt -> key dummy mod val]} {
+          if {[regexp {(\S+?)(([+-])?=(\S+))?} $opt -> key dummy mod val]} {
             do_set_command {} $txt $key $val $mod
           }
         }
