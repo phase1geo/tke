@@ -268,10 +268,14 @@ namespace eval vim {
 
           # Save/quit the entire file with a new name
           } elseif {[regexp {^w(q)?(!)?\s+(.*)$} $value -> and_close and_force filename]} {
-            [ns gui]::save_current $tid [expr {$and_force ne ""}] [normalize_filename [[ns utils]::perform_substitutions $filename]]
-            if {$and_close ne ""} {
-              [ns gui]::close_current $tid [expr {($and_close eq "q") ? 0 : 1}]
-              set txt ""
+            if {![file exists [file dirname [set filename [normalize_filename [[ns utils]::perform_substitutions $filename]]]]]} {
+              [ns gui]::set_error_message [msgcat::mc "Unable to write"] [msgcat::mc "Filename directory does not exist"]
+            } else {
+              [ns gui]::save_current $tid [expr {$and_force ne ""}] [normalize_filename [[ns utils]::perform_substitutions $filename]]
+              if {$and_close ne ""} {
+                [ns gui]::close_current $tid [expr {($and_close eq "q") ? 0 : 1}]
+                set txt ""
+              }
             }
 
           # Create/delete a marker for the current line

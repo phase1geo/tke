@@ -1817,7 +1817,7 @@ namespace eval gui {
 
     # Save the file contents
     if {[catch { open [lindex $files $file_index $files_index(fname)] w } rc]} {
-      tk_messageBox -parent . -title [msgcat::mc "Error"] -type ok -default ok -message [msgcat::mc "Unable to write file"] -detail $rc
+      set_error_message [msgcat::mc "Unable to write file"] $rc
       return 0
     }
 
@@ -2799,6 +2799,15 @@ namespace eval gui {
       set info_clear [after 100 [list [ns gui]::clear_info_message $fr $fg $fb $br $bg $bb [incr fade_count]]]
 
     }
+
+  }
+
+  ######################################################################
+  # Generates an error message parented by the main window.  Used to
+  # unify the error message experience.
+  proc set_error_message {msg {detail ""}} {
+
+    tk_messageBox -parent . -icon error -title [msgcat::mc "Error"] -type ok -default ok -message $msg -detail $detail
 
   }
 
