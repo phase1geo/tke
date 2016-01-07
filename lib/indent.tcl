@@ -41,11 +41,19 @@ namespace eval indent {
   trace variable [ns preferences]::prefs(Editor/SpacesPerTab) w [list [ns indent]::handle_spaces_per_tab]
 
   ######################################################################
-  # Sets the tabstop value to match the value of Editor/SpacesPerTab.
+  # Sets the tabstop value to match the value of Editor/SpacesPerTab and
+  # updates all text widgets to match, cleaning up any non-existent windows
+  # along the way.
   proc handle_spaces_per_tab {name1 name2 op} {
 
-    if {[set txt [[ns gui]::current_txt {}]] ne ""} {
-      set_tabstop [[ns gui]::current_txt {}] [[ns preferences]::get Editor/SpacesPerTab]
+    variable tabstops
+
+    foreach txt [array names tabstops] {
+      if {[winfo exists $txt]} {
+        set_tabstop $txt [[ns preferences]::get Editor/SpacesPerTab]
+      } else {
+        unset tabstops($txt)
+      }
     }
 
   }
@@ -53,6 +61,9 @@ namespace eval indent {
   ######################################################################
   # Adds indentation bindings for the given text widget.
   proc add_bindings {txt} {
+
+    # Initialize the tabstop
+    set_tabstop $txt [[ns preferences]::get Editor/SpacesPerTab]
 
     bind indent$txt <Any-Key> "[ns indent]::check_indent %W insert"
     bind indent$txt <Return>  "[ns indent]::newline %W insert"

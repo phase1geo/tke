@@ -347,7 +347,7 @@ namespace eval syntax {
         [ns completer]::set_auto_match_chars $txt.t $lang_array(matchcharsallowed)
 
       } rc]} {
-        tk_messageBox -parent . -type ok -default ok -message [format "%s (%s)" [msgcat::mc "Syntax error in syntax file"] $language] -detail $rc
+        [ns gui]::set_error_message [format "%s (%s)" [msgcat::mc "Syntax error in syntax file"] $language] $rc
         puts $::errorInfo
       }
 
