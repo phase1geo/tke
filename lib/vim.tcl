@@ -28,6 +28,8 @@ namespace eval vim {
 
   source [file join $::tke_dir lib ns.tcl]
 
+  variable modelines
+
   array set command_entries {}
   array set mode            {}
   array set number          {}
@@ -35,6 +37,7 @@ namespace eval vim {
   array set ignore_modified {}
   array set column          {}
   array set select_anchors  {}
+  array set modeline        {}
 
   array set recording {
     curr_reg ""
@@ -43,6 +46,18 @@ namespace eval vim {
   foreach reg [list a b c d e f g h i j k l m n o p q r s t u v w x y z auto] {
     set recording($reg,mode)   "none"
     set recording($reg,events) [list]
+  }
+
+  trace variable [ns preferences]::prefs(Editor/VimModelines) w [list [ns vim]::handle_vim_modelines]
+
+  ######################################################################
+  # Handles any value changes to the Editor/VimModlines preference value.
+  proc handle_vim_modelines {name1 name2 op} {
+
+    variable modelines
+
+    set modelines [[ns preferences]::get Editor/VimModelines]
+
   }
 
   ######################################################################
@@ -144,9 +159,12 @@ namespace eval vim {
   # Parses out the language (if specified) and/or indentation information.
   proc parse_modeline {txt} {
 
-    if {[set lines [[ns preferences]::get Editor/VimModelines]]} {
+    variable modeline
+    variable modelines
 
-      if {[regexp {\s(vi|vim|vim\d+|vim<\d+|vim>\d+|ex):\s*(.*):} [$txt get 1.0 "1.0+${lines}l"] -> opts]} {
+    if {$modelines && $modeline($txt.t)} {
+
+      if {[regexp {\s(vi|vim|vim\d+|vim<\d+|vim>\d+|ex):\s*(.*):} [$txt get 1.0 "1.0+${modelines}l"] -> opts]} {
         foreach opt [split $opts ": "] {
           if {[regexp {(\S+?)(([+-])?=(\S+))?} $opt -> key dummy mod val]} {
             do_set_command {} $txt $key $val $mod
@@ -483,7 +501,9 @@ namespace eval vim {
   # buffer.
   proc do_set_modeline {tid val} {
 
-    # TBD
+    variable modeline
+
+    set modeline([[ns gui]::current_txt $tid].t) $val
 
   }
 
@@ -491,7 +511,13 @@ namespace eval vim {
   # Sets the number of lines to parse for modeline information.
   proc do_set_modelines {val} {
 
-    # TBD
+    variable modelines
+
+    if {[string is integer $val]} {
+      set modelines $val
+    } else {
+      [ns gui]::set_info_message [msgcat::mc "Illegal modelines value"]
+    }
 
   }
 
@@ -693,6 +719,7 @@ namespace eval vim {
     variable ignore_modified
     variable column
     variable select_anchors
+    variable modeline
     variable recording
 
     # Change the cursor to the block cursor
@@ -705,6 +732,7 @@ namespace eval vim {
     set ignore_modified($txt)    0
     set column($txt.t)           ""
     set select_anchors($txt.t)   [list]
+    set modeline($txt.t)         1
 
     # Add bindings
     bind $txt       <<Modified>>            "if {\[[ns vim]::handle_modified %W\]} { break }"
