@@ -386,34 +386,43 @@ namespace eval edit {
         for {set i 0} {$i < $lines} {incr i} {
           set line    [string trimleft [$txt get "$startpos+1l linestart" "$startpos+1l lineend"]]
           $txt delete "$startpos lineend" "$startpos+1l lineend"
+          if {![string is space [$txt get "$startpos lineend-1c"]]} {
+            set line " $line"
+          }
           if {$line ne ""} {
-            $txt insert "$startpos lineend" " $line"
+            $txt insert "$startpos lineend" $line
           }
         }
         set deleted [expr $deleted || ($lines > 0)]
         if {$lastpos ne ""} {
           set line    [string trimleft [$txt get "$lastpos linestart" "$lastpos lineend"]
           $txt delete "$lastpos-1l lineend" "$lastpos lineend"
-          $txt insert "$startpos lineend" " $line"
+          if {![string is space [$txt get "$startpos lineend-1c"]]} {
+            set line " $line"
+          }
+          $txt insert "$startpos lineend" $line
         }
         set lastpos $startpos
       }
 
-      set index [$txt index "$startpos lineend"]
+      set index [$txt index "$startpos lineend-[string length $line]c"]
 
-    } else {
+    } elseif {[$txt compare "insert+1l" < end]} {
 
       set lines [expr {($num ne "") ? $num : 1}]
       for {set i 0} {$i < $lines} {incr i} {
         set line    [string trimleft [$txt get "insert+1l linestart" "insert+1l lineend"]]
         $txt delete "insert lineend" "insert+1l lineend"
+        if {![string is space [$txt get "insert lineend-1c"]]} {
+          set line " $line"
+        }
         if {$line ne ""} {
-          $txt insert "insert lineend" " $line"
+          $txt insert "insert lineend" $line
         }
       }
 
       set deleted [expr $lines > 0]
-      set index   [$txt index "insert lineend"]
+      set index   [$txt index "insert lineend-[string length $line]c"]
 
     }
 

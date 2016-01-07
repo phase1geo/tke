@@ -14,10 +14,10 @@ namespace eval ctext {
 
 # Override the tk::TextSetCursor to add a <<CursorChanged>> event
 rename ::tk::TextSetCursor ::tk::TextSetCursorOrig
-proc ::tk::TextSetCursor {w pos} {
+proc ::tk::TextSetCursor {w pos args} {
   set ins [$w index insert]
   ::tk::TextSetCursorOrig $w $pos
-  event generate $w <<CursorChanged>> -data $ins
+  event generate $w <<CursorChanged>> -data [list $ins {*}$args]
 }
 
 proc ctext {win args} {
