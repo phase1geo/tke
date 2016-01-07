@@ -166,7 +166,7 @@ namespace eval vim {
 
       if {[regexp {\s(vi|vim|vim\d+|vim<\d+|vim>\d+|ex):\s*(.*):} [$txt get 1.0 "1.0+${modelines}l"] -> opts]} {
         foreach opt [split $opts ": "] {
-          if {[regexp {(\S+?)(([+-])?=(\S+))?} $opt -> key dummy mod val]} {
+          if {[regexp {(\S+?)(([+-])?=(\S+))?$} $opt -> key dummy mod val]} {
             do_set_command {} $txt $key $val $mod
           }
         }
@@ -301,8 +301,12 @@ namespace eval vim {
             }
 
           # Handle set commands
-          } elseif {[regexp {^set?\s+(\S+?)(([+-])?=(\S+))?} $value -> opt dummy mod val]} {
-            set txt [do_set_command $tid $txt $opt $val $mod]
+          } elseif {[regexp {^set?\s+(.*)$} $value -> opts]} {
+            foreach opt [split $opts ": "] {
+              if {[regexp {(\S+?)(([+-])?=(\S+))?$} $opt -> key dummy mod val]} {
+                set txt [do_set_command $tid $txt $key $val $mod]
+              }
+            }
           }
 
         }
@@ -439,7 +443,7 @@ namespace eval vim {
   # translate tabs to spaces.
   proc do_set_expandtab {tid val} {
 
-    # TBD
+    [ns snippets]::set_expandtabs [[ns gui]::current_txt $tid] $val
 
   }
 
@@ -603,7 +607,11 @@ namespace eval vim {
   # Specifies number of spaces that a TAB in the file counts for.
   proc do_set_tabstop {tid val} {
 
-    # TBD
+    if {[string is integer $val]} {
+      [ns indent]::set_tabstop [[ns gui]::current_txt $tid] $val
+    } else {
+      [ns gui]::set_info_message [msgcat::mc "Tabstop value is not an integer"]
+    }
 
   }
 
@@ -1694,6 +1702,11 @@ namespace eval vim {
 
     if {$mode($txt) eq "start"} {
       set mode($txt) "goto"
+      return 1
+    } elseif {$mode($txt) eq "goto"} {
+      ::tk::TextSetCursor $txt 1.0
+      adjust_insert $txt
+      start_mode $txt
       return 1
     }
 
@@ -2898,6 +2911,48 @@ namespace eval vim {
 
     if {$mode($txt) eq "start"} {
       set mode($txt) "playback_reg"
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # If we are in "start" mode, increments the insertion cursor by number
+  # characters.
+  proc handle_space {txt tid} {
+
+    variable mode
+    variable number
+
+    if {$mode($txt) eq "start"} {
+      set chars [expr {($number($txt) eq "") ? 1 : $number($txt)}]
+      ::tk::TextSetCursor $txt "insert+${chars}c"
+      if {[$txt index insert] eq [$txt index "insert lineend"]} {
+        ::tk::TextSetCursor $txt "insert+1c"
+      } else {
+        adjust_insert $txt
+      }
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # If we are in "start" mode, decrements the insertion cursor by number
+  # characters.
+  proc handle_BackSpace {txt tid} {
+
+    variable mode
+    variable number
+
+    if {$mode($txt) eq "start"} {
+      set chars [expr {($number($txt) eq "") ? 1 : $number($txt)}]
+      ::tk::TextSetCursor $txt "insert-${chars}c"
+      adjust_insert $txt
       return 1
     }
 

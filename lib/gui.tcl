@@ -3583,7 +3583,6 @@ namespace eval gui {
     # Add the text bindings
     [ns indent]::add_bindings          $txt
     [ns multicursor]::add_bindings     $txt
-    [ns snippets]::add_bindings        $txt
     [ns vim]::set_vim_mode             $txt {}
     [ns completer]::add_bindings       $txt
     [ns plugins]::handle_text_bindings $txt $opts(-tags)
@@ -3591,6 +3590,9 @@ namespace eval gui {
 
     # Apply the appropriate syntax highlighting for the given extension
     [ns syntax]::set_language $txt [expr {($opts(-lang) eq "") ? [[ns syntax]::get_default_language $title] : $opts(-lang)}]
+
+    # Snippet bindings must go after syntax language setting
+    [ns snippets]::add_bindings $txt
 
     # Add any gutters
     foreach gutter $opts(-gutters) {
@@ -3678,15 +3680,16 @@ namespace eval gui {
     # Add the text bindings
     [ns indent]::add_bindings          $txt2
     [ns multicursor]::add_bindings     $txt2
-    [ns snippets]::add_bindings        $txt2
     [ns vim]::set_vim_mode             $txt2 {}
     [ns completer]::add_bindings       $txt2
     [ns plugins]::handle_text_bindings $txt2 {}  ;# TBD - add tags
     make_drop_target                   $txt2
 
     # Apply the appropriate syntax highlighting for the given extension
-    set language [[ns syntax]::get_language $txt]
-    [ns syntax]::set_language $txt2 $language
+    [ns syntax]::set_language $txt2 [[ns syntax]::get_language $txt]
+
+    # Snippet bindings must go after syntax language is set
+    [ns snippets]::add_bindings $txt2
 
     # Give the text widget the focus
     set_txt_focus $txt2
