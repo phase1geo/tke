@@ -28,13 +28,26 @@ namespace eval indent {
 
   variable current_indent "IND+"
 
-  array set indent_exprs  {}
+  array set tabstops     {}
+  array set indent_exprs {}
   array set indent_mode_map {
     "OFF"  "OFF"
     "IND"  "IND"
     "IND+" "IND+"
     "0"    "OFF"
     "1"    "IND+"
+  }
+
+  trace variable [ns preferences]::prefs(Editor/SpacesPerTab) w [list [ns indent]::handle_spaces_per_tab]
+
+  ######################################################################
+  # Sets the tabstop value to match the value of Editor/SpacesPerTab.
+  proc handle_spaces_per_tab {name1 name2 op} {
+
+    if {[set txt [[ns gui]::current_txt {}]] ne ""} {
+      set_tabstop [[ns gui]::current_txt {}] [[ns preferences]::get Editor/SpacesPerTab]
+    }
+
   }
 
   ######################################################################
@@ -47,6 +60,39 @@ namespace eval indent {
     # Add the indentation tag into the bindtags list just after Text
     set text_index [lsearch [bindtags $txt.t] Text]
     bindtags $txt.t [linsert [bindtags $txt.t] [expr $text_index + 1] indent$txt]
+
+  }
+
+  ######################################################################
+  # Sets the tabstop value for the given text widget.
+  proc set_tabstop {txt value} {
+
+    variable tabstops
+
+    # Check to make sure that the value is an integer
+    if {![string is integer $value]} {
+      return -code error "Tabstop value is not an integer"
+    }
+
+    # Save the tabstop value
+    set tabstops($txt) $value
+
+    # Set the text widget tabstop value
+    $txt configure -tabs [list [expr $value * [font measure [$txt cget -font] 0]] left]
+
+  }
+
+  ######################################################################
+  # Returns the tabstop value for the given text widget.
+  proc get_tabstop {txt} {
+
+    variable tabstops
+
+    if {[info exists tabstops($txt)]} {
+      return $tabstops($txt)
+    }
+
+    return -code error "Tabstop information for $txt does not exist"
 
   }
 

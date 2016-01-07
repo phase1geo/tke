@@ -32,6 +32,7 @@ namespace eval snippets {
   array set snippets   {}
   array set timestamps {}
   array set within     {}
+  array set expandtabs {}
 
   ######################################################################
   # Loads the snippet information.
@@ -98,6 +99,16 @@ namespace eval snippets {
   }
 
   ######################################################################
+  # Sets the expandtabs memory for the given text widget to the given value.
+  proc set_expandtabs {txt val} {
+
+    variable expandtabs
+
+    set expandtabs($txt.t) $val
+
+  }
+
+  ######################################################################
   # Parses snippets for the given language.
   proc parse_snippets {language} {
 
@@ -148,9 +159,11 @@ namespace eval snippets {
   proc add_bindings {txt} {
 
     variable within
+    variable expandtabs
 
     # Initialize the within array
-    set within($txt.t) 0
+    set within($txt.t)     0
+    set expandtabs($txt.t) [expr [[ns syntax]::get_tabs_allowed $txt] ? 0 : 1]
 
     # Bind whitespace
     bind snippet$txt <Key-space> "if {\[[ns snippets]::check_snippet %W %K\]} { break }"
@@ -165,9 +178,11 @@ namespace eval snippets {
   # Handles a tab key event.
   proc handle_tab {txtt} {
 
+    variable expandtabs
+
     if {![tab_clicked $txtt]} {
-      if {![[ns vim]::in_vim_mode $txtt] && ![[ns syntax]::get_tabs_allowed [winfo parent $txtt]]} {
-        $txtt insert insert [string repeat " " [[ns preferences]::get Editor/SpacesPerTab]]
+      if {![[ns vim]::in_vim_mode $txtt] && $expandtabs($txtt)} {
+        $txtt insert insert [string repeat " " [[ns indent]::get_tabstop [winfo parent $txtt]]]
         return 1
       }
     } else {
