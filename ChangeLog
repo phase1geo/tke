@@ -1,140 +1,65 @@
-changeset:   1663:d6edd0ccd53f
-tag:         stable-2.1
+changeset:   1678:a681c3c87d56
+tag:         devel-2.1.1
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Jan 02 12:15:50 2016 -0600
+date:        Wed Jan 06 01:33:23 2016 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for stable-2.1 release
+ChangeLog for devel-2.1.1 release
 
 
-changeset:   1664:2d9ae5f8ee85
+changeset:   1679:6a073d90f8b8
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Jan 02 12:16:04 2016 -0600
+date:        Wed Jan 06 01:33:28 2016 -0600
 files:       .hgtags
 description:
-Added tag stable-2.1 for changeset d6edd0ccd53f
+Added tag devel-2.1.1 for changeset a681c3c87d56
 
 
-changeset:   1665:e8fbe27285b4
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Jan 02 16:15:06 2016 -0600
-files:       data/themes/Made of Code.tketheme data/themes/Monokai.tketheme lib/version.tcl
-description:
-* Fixing a few themes.
-
-
-changeset:   1666:b4120b34a807
-parent:      1664:2d9ae5f8ee85
+changeset:   1680:6cc280b01290
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Sat Jan 02 12:34:37 2016 -0600
-files:       Win/freewrap.files lib/version.tcl
+date:        Wed Jan 06 12:46:47 2016 -0600
+files:       lib/version.tcl lib/vim.tcl
 description:
-* Updating Windows freewrap files.
+* Fixing syntax error in regular expression for Vim modeline parser.
 
 
-changeset:   1667:63c3d0ce94ad
-parent:      1665:e8fbe27285b4
-parent:      1666:b4120b34a807
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Jan 02 16:15:56 2016 -0600
-files:       lib/version.tcl
-description:
-Merging.
-
-
-changeset:   1668:8195978ca7ad
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Jan 02 18:28:38 2016 -0600
-files:       data/preferences.tkedat lib/gui.tcl lib/version.tcl
-description:
-* Started adding support for Vim and Emacs modelines (not complete yet).
-
-
-changeset:   1669:38054c958cbb
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Jan 04 00:55:57 2016 -0600
-files:       data/syntax/Bash.syntax data/syntax/C#.syntax data/syntax/C++.syntax data/syntax/CSS.syntax data/syntax/Fortran.syntax data/syntax/HTML.syntax data/syntax/Haml.syntax data/syntax/Haskell.syntax data/syntax/Java.syntax data/syntax/JavaScript.syntax data/syntax/Lex.syntax data/syntax/Makefile.syntax data/syntax/Markdown.syntax data/syntax/PHP.syntax data/syntax/Pascal.syntax data/syntax/Perl.syntax data/syntax/Python.syntax data/syntax/Ruby.syntax data/syntax/ShellScript.syntax data/syntax/SystemVerilog.syntax data/syntax/Tcl.syntax data/syntax/XML.syntax data/syntax/Yacc.syntax data/syntax/syntax.syntax lib/ctext/ctext.tcl lib/gui.tcl lib/syntax.tcl lib/version.tcl lib/vim.tcl
-description:
-* Adding new 'vimsyntax' item to all syntax files.
-* Adding initial support for Vim-style :set type commands.
-* Adding ability to get the enabled auto match characters for a given ctext widget.
-
-
-changeset:   1670:238e81086a4a
-parent:      1668:8195978ca7ad
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Jan 03 17:47:23 2016 -0600
-files:       Win/freewrap.files lib/version.tcl
-description:
-* Updating freewrap files.
-
-
-changeset:   1671:69aab3208605
-parent:      1670:238e81086a4a
-parent:      1669:38054c958cbb
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Jan 04 01:41:10 2016 -0600
-description:
-Merge
-
-
-changeset:   1672:fc80d88025ce
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Jan 04 22:05:07 2016 -0600
-files:       data/preferences.tkedat lib/gui.tcl lib/logger.tcl lib/tke.tcl lib/version.tcl lib/vim.tcl
-description:
-* Fixing issues with :set sb/nosb.
-* Adding Debug/ShowDiagnosticLogfileAtStartup preference option.
-
-
-changeset:   1673:346f7d9969db
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Jan 04 22:45:38 2016 -0600
-files:       lib/gui.tcl lib/version.tcl
-description:
-* Fixing potential issue when loading a session.
-
-
-changeset:   1674:4d227056bfee
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Jan 05 00:44:43 2016 -0600
-files:       data/preferences.tkedat lib/gui.tcl lib/version.tcl lib/vim.tcl
-description:
-* Removing Editor/ParseModelines preference item (only Vim modeline parsing is supported).
-* Changing Editor/VimModelineLines to Editor/VimModelines and modified its use and documentation.
-* Adding General/AutoChangeWorkingDIrectory preference item.
-* Moved parse_vim_modeline to Vim namespace and renamed as parse_modeline.
-* Hooking up :set acd/noacd Vim command functionality.
-
-
-changeset:   1675:efa0d75f4002
+changeset:   1681:a9b199934988
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Tue Jan 05 17:49:21 2016 -0600
-files:       lib/ctext/ctext.tcl lib/version.tcl
+date:        Wed Jan 06 17:31:28 2016 -0600
+files:       lib/version.tcl lib/vim.tcl
 description:
-* Adding support to ctext widget for relative line numbering.
+* Fixing issue with double-click selection in Vim mode.
 
 
-changeset:   1676:823c752b975c
+changeset:   1682:feed63dd2d71
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jan 06 00:00:35 2016 -0600
-files:       data/preferences.tkedat lib/completer.tcl lib/ctext/ctext.tcl lib/edit.tcl lib/gui.tcl lib/indent.tcl lib/search.tcl lib/snippets.tcl lib/version.tcl lib/vim.tcl
+date:        Wed Jan 06 19:04:04 2016 -0600
+files:       lib/ctext/ctext.tcl lib/edit.tcl lib/version.tcl
 description:
-* Adding support for :set rnu Vim command.
-* Adding Editor/RelativeLineNumbers preference option.
-* Fixing issues with tracking the cursor with relative line numbering.
-* Fixing issues with setting the cursor.
+* Fixing issues with Join Lines functionality.
 
 
-changeset:   1677:f88ed9e666ba
+changeset:   1683:901c703d5bf2
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jan 06 19:26:36 2016 -0600
+files:       lib/version.tcl lib/vim.tcl
+description:
+* Hooking up modeline and modelines :set Vim commands.
+
+
+changeset:   1684:8c8af3db6438
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jan 06 01:27:06 2016 -0600
-files:       install.tcl lib/gui.tcl lib/version.tcl lib/vim.tcl
+date:        Thu Jan 07 00:50:16 2016 -0600
+files:       lib/gui.tcl lib/indent.tcl lib/snippets.tcl lib/version.tcl lib/vim.tcl
 description:
-* Adding support for Tcl/Tk version 8.6 in install.tcl
-* Adding checks for Tcllib, Tklib and tkdnd packages in install.tcl.
-* Adding support for :set mod Vim command.
-* Fixing H, M, L Vim command functionality.
+* Added support for tabstop and expandtab settings in Vim :set command.
+* Added support for handling preference changes to Editor/SpacesPerTab to auto-update.
+* Fixing snippets::handle_tab to handle the setting of expandtab properly.
+* Improved :set command parser to parse multiple variables in same line.
+* Fixed Vim modeline parser issue.
+* Added support for 'gg' command (jumps to first character in editing buffer).
+* Added support for space command (moves insertion cursor ahead by characters).
+* Added support for backspace command (moves insertion cursor back by characters).
 
 
