@@ -14,7 +14,7 @@ namespace eval fontchooser {
   array set data {}
 
   ######################################################################
-  # Creates and initializes a fontchooser widget and returns the pathname.
+  # Creates and configures a fontchooser widget and returns the pathname.
   proc create {w args} {
 
     variable data
@@ -23,17 +23,19 @@ namespace eval fontchooser {
       -default ""
       -mono    ""
       -effects 0
+      -sizes   ""
+      -styles  ""
     }
     array set opts $args
 
     # Initialize variables
     switch $opts(-mono) {
-      0       { set data(fonts) [find_font_class variable] }
-      1       { set data(fonts) [find_font_class mono] }
-      default { set data(fonts) [font families] }
+      0       { set data($w,fonts) [find_font_class variable] }
+      1       { set data($w,fonts) [find_font_class mono] }
+      default { set data($w,fonts) [font families] }
     }
-    set data(styles) {Regular Italic Bold "Bold Italic"}
-    set data(sizes)  {8 9 10 11 12 14 16 18 20 22 24 26 28 36 48 72}
+    set data($w,styles) [expr {($opts(-styles) eq "") ? {Regular Italic Bold "Bold Italic"} : $opts(-styles)}]
+    set data($w,sizes)  [expr {($opts(-sizes)  eq "") ? {6 7 8 9 10 11 12 14 16 18 20 22 24 26 28} : $opts(-sizes)}]
 
     set data($w,font)   ""
     set data($w,style)  ""
@@ -41,12 +43,9 @@ namespace eval fontchooser {
     set data($w,strike) 0
     set data($w,under)  0
 
-    set data(fonts,lcase) [list]
-    foreach font $data(fonts) {
-      lappend data(fonts,lcase) [string tolower $font]
-    }
-    set data(styles,lcase) {regular italic bold "bold italic"}
-    set data(sizes,lcase)  $data(sizes)
+    set data($w,fonts,lcase)  [string tolower $data($w,fonts)]
+    set data($w,styles,lcase) [string tolower $data($w,styles)]
+    set data($w,sizes,lcase)  $data($w,sizes)
 
     ttk::frame $w
     ttk::label $w.font   -text "Font:"
@@ -57,11 +56,11 @@ namespace eval fontchooser {
     ttk::entry $w.esize  -textvariable fontchooser::data($w,size) -width 0 \
         -validate key -validatecommand {string is double %P}
 
-    listbox $w.lfonts -listvariable fontchooser::data(fonts) -height 7 \
+    listbox $w.lfonts -listvariable fontchooser::data($w,fonts) -height 7 \
         -yscrollcommand [list $w.sbfonts set] -height 7 -exportselection 0
     ttk::scrollbar $w.sbfonts -command [list $w.lfonts yview]
-    listbox $w.lstyles -listvariable fontchooser::data(styles) -height 7 -exportselection 0
-    listbox $w.lsizes  -listvariable fontchooser::data(sizes) \
+    listbox $w.lstyles -listvariable fontchooser::data($w,styles) -height 7 -exportselection 0
+    listbox $w.lsizes  -listvariable fontchooser::data($w,sizes) \
         -yscroll [list $w.sbsizes set] -width 6 -height 7 -exportselection 0
     ttk::scrollbar $w.sbsizes -command [list $w.lsizes yview]
 
@@ -69,25 +68,27 @@ namespace eval fontchooser {
     bind $w.lstyles <<ListboxSelect>> [list fontchooser::click $w style]
     bind $w.lsizes  <<ListboxSelect>> [list fontchooser::click $w size]
 
-    if {$opts(-effects)} {
-
-      ttk::labelframe $w.effects -text "Effects"
-      ttk::checkbutton $w.effects.strike -variable fontchooser::data($w,strike) \
-          -text Strikeout -command [list fontchooser::click $w strike]
-      ttk::checkbutton $w.effects.under -variable fontchooser::data($w,under) \
-          -text Underline -command [list fontchooser::click $w under]
-
-      grid columnconfigure $w.effects 1 -weight 1
-      grid $w.effects.strike -sticky w -padx 10
-      grid $w.effects.under  -sticky w -padx 10
-
-    }
-
     grid columnconfigure $w {2 5 8} -minsize 10
     grid columnconfigure $w {0 3 6} -weight 1
     grid $w.font  - x $w.style  - x $w.size  - x -sticky w
     grid $w.efont - x $w.estyle - x $w.esize - x -sticky ew
     grid $w.lfonts $w.sbfonts x $w.lstyles - x $w.lsizes $w.sbsizes x -sticky news
+
+    if {$opts(-effects)} {
+
+      ttk::labelframe $w.effects -text "Effects"
+      ttk::checkbutton $w.effects.strike -variable fontchooser::data($w,strike) \
+          -text Strikeout -command [list fontchooser::show $w]
+      ttk::checkbutton $w.effects.under -variable fontchooser::data($w,under) \
+          -text Underline -command [list fontchooser::show $w]
+
+      grid columnconfigure $w.effects 1 -weight 1
+      grid $w.effects.strike -sticky w -padx 10
+      grid $w.effects.under  -sticky w -padx 10
+
+      grid $w.effects - x -sticky news -row 100 -column 0
+
+    }
 
     ttk::labelframe $w.sample -text "Sample"
     ttk::label      $w.sample.fsample -relief sunken
@@ -101,11 +102,11 @@ namespace eval fontchooser {
     grid $w.sample - - - - -sticky news -row 100 -column 3
     grid rowconfigure $w 101 -minsize 30
 
-    trace variable fontchooser::data($w,size)  w [list fontchooser::tracer $w]
-    trace variable fontchooser::data($w,style) w [list fontchooser::tracer $w]
-    trace variable fontchooser::data($w,font)  w [list fontchooser::tracer $w]
+    trace variable fontchooser::data($w,size)  w fontchooser::tracer
+    trace variable fontchooser::data($w,style) w fontchooser::tracer
+    trace variable fontchooser::data($w,font)  w fontchooser::tracer
 
-    initialize $w $opts(-default)
+    configure $w $opts(-default)
 
     bind $w <Destroy> [list fontchooser::destroy $w]
 
@@ -113,7 +114,9 @@ namespace eval fontchooser {
 
   }
 
-  proc initialize {w {defaultFont ""}} {
+  ######################################################################
+  # Configures the font chooser widget.
+  proc configure {w {defaultFont ""}} {
 
     variable data
 
@@ -138,63 +141,67 @@ namespace eval fontchooser {
       set data($w,style) "Italic"
     }
 
-    tracer $w a b c
+    # Update the UI
+    foreach var [list font style size] {
+      tracer data $w,$var w
+    }
+
+    # Display the result
     show $w
 
   }
 
+  ######################################################################
+  # Called when the widget is destroyed.
   proc destroy {w} {
 
     variable data
 
     array unset data $w,*
 
-    trace remove variable fontchooser::data($w,size)  write [list fontchooser::tracer $w]
-    trace remove variable fontchooser::data($w,style) write [list fontchooser::tracer $w]
-    trace remove variable fontchooser::data($w,font)  write [list fontchooser::tracer $w]
+    trace remove variable fontchooser::data($w,size)  write fontchooser::tracer
+    trace remove variable fontchooser::data($w,style) write fontchooser::tracer
+    trace remove variable fontchooser::data($w,font)  write fontchooser::tracer
 
   }
 
+  ######################################################################
+  # Called when one of the listboxes are clicked.
   proc click {w who} {
 
     variable data
 
-    if {$who eq "font"} {
-      set data($w,font)  [$w.lfonts  get [$w.lfonts  curselection]]
-    } elseif {$who eq "style"} {
-      set data($w,style) [$w.lstyles get [$w.lstyles curselection]]
-    } elseif {$who eq "size"} {
-      set data($w,size)  [$w.lsizes  get [$w.lsizes  curselection]]
-    }
-
-    show $w
+    # Update the setting
+    set data($w,$who) [$w.l${who}s get [$w.l${who}s curselection]]
 
   }
 
-  proc tracer {w var1 var2 op} {
+  ######################################################################
+  # Called when one of the font variables are written to.  Updates the UI.
+  proc tracer {var1 var2 op} {
 
     variable data
+
+    lassign [split $var2 ,] w var
 
     set bad 0
 
     # Make selection in each listbox
-    foreach var {font style size} {
-      set value [string tolower $data($w,$var)]
-      $w.l${var}s selection clear 0 end
-      set n [lsearch -exact $data(${var}s,lcase) $value]
-      $w.l${var}s selection set $n
-      if {$n != -1} {
-        set data($w,$var) [lindex $data(${var}s) $n]
-        $w.e$var icursor end
-        $w.e$var selection clear
-      } else {                                ;# No match, try prefix
-        # Size is weird: valid numbers are legal but don't display
-        # unless in the font size list
-        set n   [lsearch -glob $data(${var}s,lcase) "$value*"]
-        set bad 1
-      }
-      $w.l${var}s see $n
+    set value [string tolower $data($w,$var)]
+    $w.l${var}s selection clear 0 end
+    set n [lsearch -exact $data($w,${var}s,lcase) $value]
+    $w.l${var}s selection set $n
+    if {$n != -1} {
+      set data($w,$var) [lindex $data($w,${var}s) $n]
+      $w.e$var icursor end
+      $w.e$var selection clear
+    } else {                                ;# No match, try prefix
+      # Size is weird: valid numbers are legal but don't display
+      # unless in the font size list
+      set n   [lsearch -glob $data($w,${var}s,lcase) "$value*"]
+      set bad 1
     }
+    $w.l${var}s see $n
 
     if {!$bad} {
       show $w
@@ -202,17 +209,20 @@ namespace eval fontchooser {
 
   }
 
+  ######################################################################
+  # Displays a sample of the selection options and generates the
+  # <<FontChanged>> virtual event.
   proc show {w} {
 
     variable data
 
-    set result [list $data($w,font) $data($w,size)]
+    set result [list -family $data($w,font) -size $data($w,size) -overstrike $data($w,strike) -underline $data($w,under)]
 
-    if {$data($w,style) eq "Bold"}        { lappend result bold }
-    if {$data($w,style) eq "Italic"}      { lappend result italic }
-    if {$data($w,style) eq "Bold Italic"} { lappend result bold italic}
-    if {$data($w,strike)}                 { lappend result overstrike}
-    if {$data($w,under)}                  { lappend result underline}
+    switch $data($w,style) {
+      "Bold"        { lappend result -weight bold }
+      "Italic"      { lappend result -slant italic }
+      "Bold Italic" { lappend result -weight bold -slant italic }
+    }
 
     $data($w,sample) config -font $result
 
@@ -221,6 +231,8 @@ namespace eval fontchooser {
 
   }
 
+  ######################################################################
+  # Returns the font families that match the given type.
   proc find_font_class {{type mono}} {
 
     set fm [list]
