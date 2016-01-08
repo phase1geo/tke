@@ -4639,8 +4639,9 @@ namespace eval gui {
     switch [winfo class $win] {
       "Text" -
       "Listbox" {
-        set curr_size [font configure [$win cget -font] -size]
-        $win configure -font [font configure [$win cget -font] -size [expr $curr_size + $dir]]
+        array set f [font actual [$win cget -font]]
+        set f(-size) [expr ($f(-size) < 0) ? ($f(-size) - $dir) : ($f(-size) + $dir)]
+        $win configure -font [array get f]
       }
     }
 
