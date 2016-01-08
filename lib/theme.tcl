@@ -63,7 +63,6 @@ namespace eval theme {
     ttk_style,relief              {{relief {raised sunken flat ridge solid groove}} {flat} {} {0} {msgcat::mc "Specifies the default relief to use when drawing ttk widgets."}}
     ttk_style,grip_thickness      {{number {2 10}} {5} {} {0} {msgcat::mc "Determines the thickness of the grip area between resizable panes."}}
     ttk_style,grip_count          {{number {0 20}} {10} {} {0} {msgcat::mc "Determines the number of grips strips to display in the grip area between resizable panes."}}
-    ttk_style,font                {{font full} {TkDefaultFont} {0} {msgcat::mc "Font to use in all widgets."}}
     menus,-background             {color {white} {} {0} {msgcat::mc "Background color used in menus."}}
     menus,-foreground             {color {black} {} {0} {msgcat::mc "Foreground text color used in menus."}}
     menus,-activebackground       {color {light blue} {} {0} {msgcat::mc "Background color used for the current/active menu item."}}
@@ -71,7 +70,6 @@ namespace eval theme {
     menus,-disabledforeground     {color {grey}  {} {0} {msgcat::mc "Foreground text color used for menus item that are disabled."}}
     menus,-selectcolor            {color {black} {} {0} {msgcat::mc "Foreground color used in menu items with checks or buttons."}}
     menus,-relief                 {{relief {raised sunken flat ridge solid groove}} {flat} {} {0} {msgcat::mc "Menu relief value."}}
-    menus,-font                   {{font full} {TkMenuFont} {0} {msgcat::mc "Font to use in menus."}}
     tabs,-background              {color {1} {} {0} {msgcat::mc "Background color used in the tabbar area."}}
     tabs,-foreground              {color {2} {} {0} {msgcat::mc "Foreground text/image color used in tabbar and tabs."}}
     tabs,-activebackground        {color {0} {} {0} {msgcat::mc "Background color used for the current/active tab in the tabbar."}}
@@ -80,7 +78,6 @@ namespace eval theme {
     tabs,-inactiveforeground      {color {2} {} {0} {msgcat::mc "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."}}
     tabs,-height                  {{number {20 40}} {25} {} {0} {msgcat::mc "Pixel height of the tabbar widget."}}
     tabs,-relief                  {{relief {flat raised}} {flat} {} {0} {msgcat::mc "Relief used in drawing the tabs."}}
-    tabs,-font                    {{font full} {TkDefaultFont} {0} {msgcat::mc "Font to use in tabs"}}
     text_scrollbar,-background    {color {0} {} {0} {msgcat::mc "Background (trough) color used in the text scrollbars."}}
     text_scrollbar,-foreground    {color {1} {} {0} {msgcat::mc "Foreground (slider) color used in the text scrollbars."}}
     text_scrollbar,-thickness     {{number {5 20}} {15} {} {0} {msgcat::mc "Maximum thickness of the text scrollbars when they are active."}}
@@ -105,7 +102,6 @@ namespace eval theme {
     syntax,select_foreground      {color {white} {} {0} {msgcat::mc "Foreground text color to use for selected text."}}
     syntax,strings                {color {grey} {} {0} {msgcat::mc "Foreground text color for strings."}}
     syntax,warning_width          {color {grey} {} {0} {msgcat::mc "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."}}
-    syntax,font                   {{font mono} {TkTextFont} {0} {msgcat::mc "Font to use in text widgets"}}
     sidebar,-background           {color {2} {} {0} {msgcat::mc "Background color for all sidebar items that are not selected."}}
     sidebar,-foreground           {color {1} {} {0} {msgcat::mc "Text color for all sidebar items that are not selected."}}
     sidebar,-selectbackground     {color {1} {} {0} {msgcat::mc "Background color for all sidebar items that are selected."}}
@@ -115,7 +111,6 @@ namespace eval theme {
     sidebar,-highlightthickness   {{number {1 5}} {1} {} {0} {msgcat::mc "Specifies the pixel thickness of the highlight line."}}
     sidebar,-relief               {{relief {raised sunken flat ridge solid groove}} {flat} {} {0} {msgcat::mc "Relief value of the sidebar area."}}
     sidebar,-treestyle            {treestyle {aqua} {} {0} {msgcat::mc "Specifies the disclosure image style to use in the sidebar."}}
-    sidebar,-font                 {{font full} {TkDefaultFont} {0} {msgcat::mc "Font to use in sidebar"}}
     sidebar_scrollbar,-background {color {2} {} {0} {msgcat::mc "Background (trough) color used in the sidebar scrollbar."}}
     sidebar_scrollbar,-foreground {color {1} {} {0} {msgcat::mc "Foreground (slider) color used in the sidebar scrollbar."}}
     sidebar_scrollbar,-thickness  {{number {5 20}} {15} {} {0} {msgcat::mc "Maximum thickness of the text scrollbar when it is active."}}
@@ -1001,7 +996,7 @@ namespace eval theme {
         -selectbackground  $opts(select_background) \
         -selectforeground  $opts(select_foreground) \
         -selectborderwidth 0 \
-        -font              $opts(font)
+        -font              TkDefaultFont
       ttk::style map "." \
         -background       [list disabled $opts(disabled_background) \
                                 active   $opts(active_color)] \

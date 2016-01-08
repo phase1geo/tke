@@ -23,7 +23,6 @@
 ######################################################################
 
 source [file join $::tke_dir lib bitmap.tcl]
-source [file join $::tke_dir lib fontchooser.tcl]
 
 namespace eval themer {
 
@@ -328,7 +327,6 @@ namespace eval themer {
       create_detail_color
       create_detail_image
       create_detail_treestyle
-      create_detail_font
 
       # Create the filter menu
       create_filter_menu
@@ -600,9 +598,6 @@ namespace eval themer {
           } else {
             detail_show_color $value
           }
-        }
-        font {
-          detail_show_font $values $value
         }
       }
 
@@ -962,40 +957,6 @@ namespace eval themer {
 
     # Update the category table
     theme::set_themer_category_table_row $data(widgets,cat) $data(row) $treestyle
-
-    # Specify that the apply button should be enabled
-    set_theme_modified
-
-  }
-
-  ######################################################################
-  # Creates the font chooser interfaces.
-  proc create_detail_font {} {
-
-    variable data
-
-    # Create mono font chooser
-    set data(widgets,font_mono) [ttk::frame $data(widgets,df).mono]
-    pack [fontchooser::create $data(widgets,font_mono).fc -mono 1 -styles {Regular}] -padx 2 -pady 2
-
-    bind $data(widgets,font_mono).fc <<FontChanged>> [list themer::handle_font_changed %d]
-
-    # Create full font chooser
-    set data(widgets,font_full) [ttk::frame $data(widgets,df).full]
-    pack [fontchooser::create $data(widgets,font_full).fc] -padx 2 -pady 2
-
-    bind $data(widgets,font_full).fc <<FontChanged>> [list themer::handle_font_changed %d]
-
-  }
-
-  ######################################################################
-  # Handle a font change
-  proc handle_font_changed {font_data} {
-
-    variable data
-
-    # Set the tablelist data
-    theme::set_themer_category_table_row $data(widgets,cat) $data(row) $font_data
 
     # Specify that the apply button should be enabled
     set_theme_modified
@@ -1391,18 +1352,6 @@ namespace eval themer {
 
     # Set the menubutton
     $data(widgets,treestyle_mb) configure -text $value
-
-  }
-
-  ######################################################################
-  # Displays the font detail frame.
-  proc detail_show_font {type value} {
-
-    # Display the font frame
-    pack $data(widgets,font_$type) -fill both -expand yes
-
-    # Configure the font widget
-    $data(widgets,font_$type).fc configure $value
 
   }
 
