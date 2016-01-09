@@ -146,7 +146,7 @@ namespace eval plugins {
 
   ######################################################################
   # Perfoms a reload of the available plugins.
-  proc reload {file_index} {
+  proc reload {{file_index ""}} {
 
     variable registry
     variable registry_size
@@ -1045,6 +1045,7 @@ namespace eval plugins {
       set bt "plugin__$registry($index,name)__$name"
       if {($bind_type eq "all") || ([lsearch $tags $bt] != -1)} {
         set ptags($type) $bt
+        $registry($index,interp) alias $txt $txt
         $registry($index,interp) alias $txt.t $txt.t
         interpreter::add_ctext $registry($index,name) $txt
         if {![info exists bound_tags($bt)]} {

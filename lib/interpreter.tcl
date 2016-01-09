@@ -363,9 +363,9 @@ namespace eval interpreter {
       width -
       x -
       y {
-        if {[lsearch -index 0 $interps($pname,wins) [lindex $args 0]] == -1} {
-          return -code error
-        }
+        #if {[lsearch -index 0 $interps($pname,wins) [lindex $args 0]] == -1} {
+        #  return -code error "permission error"
+        #}
         return [winfo $subcmd {*}$args]
       }
       containing -
@@ -373,9 +373,9 @@ namespace eval interpreter {
       pathname -
       toplevel {
         set win [winfo $subcmd {*}$args]
-        if {[lsearch -index 0 $interps($pname,wins) $win] == -1} {
-          return -code error "permission error"
-        }
+        #if {[lsearch -index 0 $interps($pname,wins) $win] == -1} {
+        #  return -code error "permission error"
+        #}
         return $win
       }
       default {
@@ -744,13 +744,13 @@ namespace eval interpreter {
     foreach widget [list canvas listbox menu text toplevel ttk::button ttk::checkbutton ttk::combobox \
                          ttk::entry ttk::frame ttk::label ttk::labelframe ttk::menubutton ttk::notebook \
                          ttk::panedwindow ttk::progressbar ttk::radiobutton ttk::scale ttk::scrollbar \
-                         ttk::separator ttk::spinbox ttk::treeview ctext tokenentry] {
+                         ttk::separator ttk::spinbox ttk::treeview ctext tokenentry fontchooser::create] {
       $interp alias $widget interpreter::widget_command $pname $widget
     }
 
     # Create Tk commands
     foreach cmd [list clipboard event focus font grid pack place tk_messageBox \
-                      tk::TextSetCursor tk::TextUpDownLine] {
+                      tk_chooseColor tk::TextSetCursor tk::TextUpDownLine] {
       $interp alias $cmd $cmd
     }
 

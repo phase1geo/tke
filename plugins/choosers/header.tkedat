@@ -1,0 +1,9 @@
+name           {choosers}
+author         {Trevor Williams}
+email          {phase1geo@gmail.com}
+version        {1.0}
+include        {yes}
+trust_required {no}
+description    {Provides a color chooser, font chooser, directory chooser and file chooser.  When
+                a value is selected, it is pasted into the current editing buffer and the current
+                insertion cursor position.}
