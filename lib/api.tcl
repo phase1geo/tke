@@ -150,6 +150,18 @@ namespace eval api {
   }
 
   ######################################################################
+  ## Displays the given error message with detail information in a popup
+  #  dialog window.
+  #
+  # \param msg     Main error message
+  # \param detail  Error message detailed information
+  proc show_error {interp pname msg {detail ""}} {
+
+    gui::set_error_message $msg $detail
+
+  }
+
+  ######################################################################
   ## Displays a widget that allows the user to provide input.  This
   #  procedure will block until the user has either provided a response
   #  or has cancelled the input by hitting the escape key.
@@ -174,6 +186,14 @@ namespace eval api {
     }
 
     return 0
+
+  }
+
+  ######################################################################
+  ## Sets the text focus back to the last text widget to receive focus.
+  proc reset_text_focus {interp pname} {
+
+    after idle [list gui::set_txt_focus [gui::last_txt_focus {}]]
 
   }
 

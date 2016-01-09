@@ -20,11 +20,12 @@ namespace eval fontchooser {
     variable data
 
     array set opts {
-      -default ""
-      -mono    ""
-      -effects 0
-      -sizes   ""
-      -styles  ""
+      -default   ""
+      -mono      ""
+      -effects   0
+      -sizes     ""
+      -styles    ""
+      -highlight ""
     }
     array set opts $args
 
