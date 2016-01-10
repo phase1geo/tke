@@ -289,8 +289,8 @@ namespace eval interpreter {
     variable interps
 
     if {[set win_index [lsearch $interps($pname,wins) [list $win 1]]] != -1} {
-      set interps($pname,wins) [lreplace $intersp($pname,wins) $win_index $win_index]
-      catch { destroy $win }
+      set interps($pname,wins) [lreplace $interps($pname,wins) $win_index $win_index]
+      catch { ::destroy $win }
     }
 
   }
@@ -744,13 +744,14 @@ namespace eval interpreter {
     foreach widget [list canvas listbox menu text toplevel ttk::button ttk::checkbutton ttk::combobox \
                          ttk::entry ttk::frame ttk::label ttk::labelframe ttk::menubutton ttk::notebook \
                          ttk::panedwindow ttk::progressbar ttk::radiobutton ttk::scale ttk::scrollbar \
-                         ttk::separator ttk::spinbox ttk::treeview ctext tokenentry fontchooser::create] {
+                         ttk::separator ttk::spinbox ttk::treeview ctext tokenentry] {
       $interp alias $widget interpreter::widget_command $pname $widget
     }
 
     # Create Tk commands
     foreach cmd [list clipboard event focus font grid pack place tk_messageBox \
-                      tk_chooseColor tk::TextSetCursor tk::TextUpDownLine] {
+                      tk_chooseColor fontchooser tk_getOpenFile tk_getSaveFile \
+                      tk_chooseDirectory tk::TextSetCursor tk::TextUpDownLine] {
       $interp alias $cmd $cmd
     }
 
