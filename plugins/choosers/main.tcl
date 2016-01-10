@@ -51,11 +51,10 @@ namespace eval choosers {
     }
 
     if {[set color [tk_chooseColor -parent . -title "Choose Color" {*}$opts]] ne ""} {
-      $txt insert insert $color
+      clipboard clear
+      clipboard append $color
+      api::show_info "Color copied to the clipboard"
     }
-
-    # Set text focus on text widget
-    # api::reset_text_focus
 
   }
 
@@ -71,53 +70,24 @@ namespace eval choosers {
   # Run the font chooser.
   proc do_font_picker {} {
 
-    variable font_value
-
     # Get the current text widget
-    set txt        [api::file::get_info [api::file::current_file_index] txt]
-    set font_value ""
+    set txt [api::file::get_info [api::file::current_file_index] txt]
 
-    # Destroys the window if it exists
-    if {[winfo exists .fontwin]} {
-      destroy .fontwin
+    # Get the current word
+    set word [get_current_word $txt]
+
+    set opts [list]
+    if {![catch { [ttk::entry .___e] configure -font $word }]} {
+      lappend opts -initialfont $word
     }
+    destroy .___e
 
-    toplevel     .fontwin
-    wm title     .fontwin "Choose Font"
-    wm transient .fontwin .
-    wm resizable .fontwin 0 0
-
-    fontchooser::create .fontwin.fc -highlight mono
-
-    bind .fontwin.fc <<FontChanged>> {
-      puts "Setting font_value to %d"
-      set choosers::font_value [list %d]
-      .fontwin.bf.choose configure -state normal
+    # Insert the selected font, if valid
+    if {[set font_value [fontchooser -parent . -title "Choose Font" {*}$opts]] ne ""} {
+      clipboard clear
+      clipboard append $font_value
+      api::show_info "Font copied to the clipboard"
     }
-
-    ttk::frame  .fontwin.bf
-    ttk::button .fontwin.bf.choose -text "Choose" -style BButton -width 6 -command {
-      destroy .fontwin
-    } -state disabled
-    ttk::button .fontwin.bf.cancel -text "Cancel" -style BButton -width 6 -command {
-      set choosers::font_value ""
-      destroy .fontwin
-    }
-
-    pack .fontwin.bf.cancel -side right -padx 2 -pady 2
-    pack .fontwin.bf.choose -side right -padx 2 -pady 2
-
-    pack .fontwin.fc -fill both -expand yes
-    pack .fontwin.bf -fill x
-
-    tkwait window .fontwin
-
-    if {$font_value ne ""} {
-      $txt insert insert $font_value
-    }
-
-    # Set text focus on text widget
-    api::reset_text_focus
 
   }
 
@@ -144,11 +114,10 @@ namespace eval choosers {
 
     # Get the directory and insert it
     if {[set dir [tk_chooseDirectory -mustexist 0 -parent . -title "Choose Directory" {*}$opts]] ne ""} {
-      $txt insert insert $dir
+      clipboard clear
+      clipboard append $dir
+      api::show_info "Directory copied to the clipboard"
     }
-
-    # Set text focus on text widget
-    api::reset_text_focus
 
   }
 
@@ -181,11 +150,10 @@ namespace eval choosers {
     }
 
     if {[set files [tk_getOpenFile -multiple 1 -parent . -title "Choose File(s)" {*}$opts]] ne ""} {
-      $txt insert insert $files
+      clipboard clear
+      clipboard append [join $files \n]
+      api::show_info [format "File%s copied to the clipboard" [expr {([llength $files] > 1) ? "s" : ""}]]
     }
-
-    # Set text focus on text widget
-    api::reset_text_focus
 
   }
 
@@ -209,9 +177,9 @@ namespace eval choosers {
 
 # Register all plugin actions
 api::register choosers {
-  {menu command "Choosers/Insert Color..."     choosers::do_color_picker choosers::handle_state_color_picker}
-  {menu command "Choosers/Insert Font..."      choosers::do_font_picker  choosers::handle_state_font_picker}
-  {menu command "Choosers/Insert Directory..." choosers::do_dir_picker   choosers::handle_state_dir_picker}
-  {menu command "Choosers/Insert File..."      choosers::do_file_picker  choosers::handle_state_file_picker}
+  {menu command "Choosers/Color..."     choosers::do_color_picker choosers::handle_state_color_picker}
+  {menu command "Choosers/Font..."      choosers::do_font_picker  choosers::handle_state_font_picker}
+  {menu command "Choosers/Directory..." choosers::do_dir_picker   choosers::handle_state_dir_picker}
+  {menu command "Choosers/File..."      choosers::do_file_picker  choosers::handle_state_file_picker}
   {text_binding pretext none all choosers::do_bind}
 }
