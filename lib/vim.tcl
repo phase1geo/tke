@@ -145,6 +145,7 @@ namespace eval vim {
           "edit"        { return "INSERT MODE$record" }
           "visual:char" { return "VISUAL MODE$record" }
           "visual:line" { return "VISUAL LINE MODE$record"}
+          "format"      { return "FORMAT$record" }
         }
       }
       return "COMMAND MODE$record"
@@ -1232,8 +1233,11 @@ namespace eval vim {
       record_add "Key-$keysym"
       return 1
 
-    # If we are in start, visual or record modes, stop character processing
-    } elseif {($mode($txt) eq "start") || ([string range $mode($txt) 0 5] eq "visual") || ($mode($txt) eq "record")} {
+    # If we are in start, visual, record or format modes, stop character processing
+    } elseif {($mode($txt) eq "start") || \
+              ([string range $mode($txt) 0 5] eq "visual") || \
+              ($mode($txt) eq "record") || \
+              ($mode($txt) eq "format")} {
       return 1
 
     # Append the text to the insertion buffer
@@ -1886,6 +1890,10 @@ namespace eval vim {
 
     if {($mode($txt) eq "start") || ([string range $mode($txt) 0 5] eq "visual")} {
       [ns edit]::move_cursor $txt last $number($txt)
+      return 1
+    } elseif {$mode($txt) eq "format"} {
+      [ns indent]::format_text $txt "insert linestart" end
+      start_mode $txt
       return 1
     }
 
@@ -2736,6 +2744,34 @@ namespace eval vim {
   proc handle_less {txt tid} {
 
     return [place_bracket $txt $tid < >]
+
+  }
+
+  ######################################################################
+  # When in start mode, if any text is selected, the selected code is
+  # formatted; otherwise, if we are in start mode, we are transitioned to
+  # format mode.  If we are in format mode, we format the currently selected
+  # line only.
+  proc handle_equal {txt tid} {
+
+    variable mode
+
+    if {$mode($txt) eq "start"} {
+      if {[llength [set selected [$txt tag ranges sel]]] > 0} {
+        foreach {endpos startpos} [lreverse $selected] {
+          [ns indent]::format_text $txt $startpos $endpos
+        }
+      } else {
+        set mode($txt) "format"
+      }
+      return 1
+    } elseif {$mode($txt) eq "format"} {
+      [ns indent]::format_text $txt "insert linestart" "insert lineend"
+      start_mode $txt
+      return 1
+    }
+
+    return 0
 
   }
 
