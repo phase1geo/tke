@@ -28,6 +28,7 @@ namespace eval menus {
   variable show_split_pane 0
   variable indent_mode     "IND+"
   variable last_devel_mode ""
+  variable line_numbering  "absolute"
 
   array set profiling_info {}
 
@@ -1865,6 +1866,10 @@ namespace eval menus {
     launcher::register [msgcat::mc "View Menu: Show line numbers"] "menus::show_line_numbers $mb"
     launcher::register [msgcat::mc "View Menu: Hide line numbers"] "menus::hide_line_numbers $mb"
 
+    $mb add cascade -label [msgcat::mc "Line Numbering"] -menu [menu $mb.numPopup -tearoff 0]
+
+    $mb add separator
+
     if {[preferences::get View/ShowMarkerMap]} {
       $mb add command -label [msgcat::mc "Hide Marker Map"] -underline 8 -command "menus::hide_marker_map $mb"
     } else {
@@ -1902,6 +1907,13 @@ namespace eval menus {
     $mb add cascade -label [msgcat::mc "Set Syntax"] -underline 9 -menu [menu $mb.syntaxMenu -tearoff 0 -postcommand "syntax::populate_syntax_menu $mb.syntaxMenu"]
     $mb add cascade -label [msgcat::mc "Set Theme"]  -underline 7 -menu [menu $mb.themeMenu  -tearoff 0 -postcommand "themes::populate_theme_menu $mb.themeMenu"]
 
+    # Setup the line numbering popup menu
+    $mb.numPopup add radiobutton -label [msgcat::mc "Absolute"] -variable menus::line_numbering -value absolute -command [list menus::set_line_numbering absolute]
+    launcher::register [msgcat::mc "View Menu: Absolute line numbering"] [list menus::set_line_numbering absolute]
+
+    $mb.numPopup add radiobutton -label [msgcat::mc "Relative"] -variable menus::line_numbering -value relative -command [list menus::set_line_numbering relative]
+    launcher::register [msgcat::mc "View Menu: Relative line numbering"] [list menus::set_line_numbering relative]
+
     # Setup the tab popup menu
     $mb.tabPopup add command -label [msgcat::mc "Goto Next Tab"] -underline 5 -command "gui::next_tab"
     launcher::register [msgcat::mc "View Menu: Goto next tab"] "gui::next_tab"
@@ -1928,6 +1940,7 @@ namespace eval menus {
   proc view_posting {mb} {
 
     variable show_split_pane
+    variable line_numbering
 
     if {([gui::tabs_in_pane] < 2) && ([gui::panes] < 2)} {
       $mb entryconfigure [msgcat::mc "Tabs"] -state disabled
@@ -1944,6 +1957,7 @@ namespace eval menus {
     if {[gui::current_txt {}] eq ""} {
       catch { $mb entryconfigure [msgcat::mc "Show Line Numbers"]    -state disabled }
       catch { $mb entryconfigure [msgcat::mc "Hide Line Numbers"]    -state disabled }
+      catch { $mb entryconfigure [msgcat::mc "Line Numbering"]       -state disabled }
       catch { $mb entryconfigure [msgcat::mc "Show Marker Map"]      -state disabled }
       catch { $mb entryconfigure [msgcat::mc "Hide Marker Map"]      -state disabled }
       catch { $mb entryconfigure [msgcat::mc "Show Meta Characters"] -state disabled }
@@ -1955,6 +1969,7 @@ namespace eval menus {
     } else {
       catch { $mb entryconfigure [msgcat::mc "Show Line Numbers"]  -state normal }
       catch { $mb entryconfigure [msgcat::mc "Hide Line Numbers"]  -state normal }
+      catch { $mb entryconfigure [msgcat::mc "Line Numbering"]     -state normal }
       if {[markers::exist [gui::current_txt {}]]} {
         catch { $mb entryconfigure [msgcat::mc "Show Marker Map"] -state normal }
         catch { $mb entryconfigure [msgcat::mc "Hide Marker Map"] -state normal }
@@ -1979,6 +1994,9 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Set Syntax"] -state normal
       set show_split_pane [expr {[llength [[gui::current_txt {}] peer names]] > 0}]
     }
+
+    # Get the current line numbering
+    set line_numbering [[gui::current_txt {}] cget -linemap_type]
 
   }
 
@@ -2114,6 +2132,15 @@ namespace eval menus {
     if {![catch {$mb entryconfigure [msgcat::mc "Hide Line Numbers"] -label [msgcat::mc "Show Line Numbers"] -command "menus::show_line_numbers $mb"}]} {
       gui::set_line_number_view {} 0
     }
+
+  }
+
+  ######################################################################
+  # Sets the line numbering for the current editing buffer to either
+  # 'absolute' or 'relative'.
+  proc set_line_numbering {type} {
+
+    [gui::current_txt {}] configure -linemap_type $type
 
   }
 
