@@ -1,65 +1,83 @@
-changeset:   1678:a681c3c87d56
-tag:         devel-2.1.1
+changeset:   1685:dc0b557e2e7f
+tag:         devel-2.1.2
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jan 06 01:33:23 2016 -0600
+date:        Thu Jan 07 00:52:01 2016 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.1.1 release
+ChangeLog for devel-2.1.2 release
 
 
-changeset:   1679:6a073d90f8b8
+changeset:   1686:dcc1d8027fb2
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jan 06 01:33:28 2016 -0600
+date:        Thu Jan 07 00:52:05 2016 -0600
 files:       .hgtags
 description:
-Added tag devel-2.1.1 for changeset a681c3c87d56
+Added tag devel-2.1.2 for changeset dc0b557e2e7f
 
 
-changeset:   1680:6cc280b01290
+changeset:   1687:351fb77141f8
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Jan 06 12:46:47 2016 -0600
-files:       lib/version.tcl lib/vim.tcl
+date:        Thu Jan 07 16:27:15 2016 -0600
+files:       lib/gui.tcl lib/indent.tcl lib/syntax.tcl lib/version.tcl lib/vim.tcl
 description:
-* Fixing syntax error in regular expression for Vim modeline parser.
+* Fixing issue with providing a bad filepath when performing ':w <path>' Vim saves.
+* Setting tabstops to preference value on file open.
+* Updating all text widgets when the Editor/SpacesPerTab preference value is changed.
 
 
-changeset:   1681:a9b199934988
+changeset:   1688:26379df0b8d0
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Jan 06 17:31:28 2016 -0600
-files:       lib/version.tcl lib/vim.tcl
+date:        Thu Jan 07 17:54:52 2016 -0600
+files:       lib/fontchooser.tcl lib/test.tcl lib/version.tcl
 description:
-* Fixing issue with double-click selection in Vim mode.
+* Checkpointing work on new fontchooser namespace.
 
 
-changeset:   1682:feed63dd2d71
+changeset:   1689:edfd51dc062a
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jan 06 19:04:04 2016 -0600
-files:       lib/ctext/ctext.tcl lib/edit.tcl lib/version.tcl
+date:        Fri Jan 08 09:36:00 2016 -0600
+files:       lib/fontchooser.tcl lib/test.tcl lib/theme.tcl lib/themer.tcl lib/version.tcl
 description:
-* Fixing issues with Join Lines functionality.
+* Checkpointing work on font chooser in themes.
 
 
-changeset:   1683:901c703d5bf2
+changeset:   1690:c16ce192e0ad
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Jan 08 11:20:19 2016 -0600
+files:       lib/gui.tcl lib/theme.tcl lib/themer.tcl lib/version.tcl
+description:
+* Removing font theming support since fonts can't be shared (we will allow the user to change via preferences instead).
+* Fixing issue with resizing font in sidebar.
+
+
+changeset:   1691:2bab4bb6b3f4
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jan 06 19:26:36 2016 -0600
-files:       lib/version.tcl lib/vim.tcl
+date:        Sat Jan 09 12:26:55 2016 -0600
+files:       lib/api.tcl lib/fontchooser.tcl lib/interpreter.tcl lib/plugins.tcl lib/tke.tcl lib/version.tcl plugins/choosers/header.tkedat plugins/choosers/main.tcl
 description:
-* Hooking up modeline and modelines :set Vim commands.
+* Adding chooser plugin (work in progress).
+* Adding code to support chooser plugin in interpreter.
+* Adding fontchooser widget to main TKE codeline.
 
 
-changeset:   1684:8c8af3db6438
+changeset:   1692:b95918d93aab
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Jan 10 00:32:34 2016 -0600
+files:       lib/fontchooser.tcl lib/interpreter.tcl lib/version.tcl plugins/choosers/header.tkedat plugins/choosers/main.tcl
+description:
+* Completing initial work on choosers plugin.
+* Finishing work on fontchooser.
+* Fixing bug in plugin destroy command.
+* Adding fontchooser, tk_getOpenFile, tk_getSaveFile and tk_chooseDirectory to list
+  of available plugin commands.
+
+
+changeset:   1693:11fbebc86e5b
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Jan 07 00:50:16 2016 -0600
-files:       lib/gui.tcl lib/indent.tcl lib/snippets.tcl lib/version.tcl lib/vim.tcl
+date:        Sun Jan 10 21:37:29 2016 -0600
+files:       lib/menus.tcl lib/version.tcl
 description:
-* Added support for tabstop and expandtab settings in Vim :set command.
-* Added support for handling preference changes to Editor/SpacesPerTab to auto-update.
-* Fixing snippets::handle_tab to handle the setting of expandtab properly.
-* Improved :set command parser to parse multiple variables in same line.
-* Fixed Vim modeline parser issue.
-* Added support for 'gg' command (jumps to first character in editing buffer).
-* Added support for space command (moves insertion cursor ahead by characters).
-* Added support for backspace command (moves insertion cursor back by characters).
+* Adding line numbering menu options.
 
 
