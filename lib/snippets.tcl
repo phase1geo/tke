@@ -182,7 +182,7 @@ namespace eval snippets {
 
     if {![tab_clicked $txtt]} {
       if {![[ns vim]::in_vim_mode $txtt] && $expandtabs($txtt)} {
-        $txtt insert insert [string repeat " " [[ns indent]::get_tabstop [winfo parent $txtt]]]
+        $txtt insert insert [string repeat " " [[ns indent]::get_tabstop $txtt]]
         return 1
       }
     } else {
