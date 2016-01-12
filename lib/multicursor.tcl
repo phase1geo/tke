@@ -202,20 +202,20 @@ namespace eval multicursor {
 
   ######################################################################
   # Returns 1 if multiple selections exist; otherwise, returns 0.
-  proc enabled {txt} {
+  proc enabled {txtt} {
 
-    return [expr [llength [$txt tag ranges mcursor]] > 0]
+    return [expr [llength [$txtt tag ranges mcursor]] > 0]
 
   }
 
   ######################################################################
   # Disables the multicursor mode for the given text widget.
-  proc disable {txt} {
+  proc disable {txtt} {
 
     variable cursor_anchor
 
     # Clear the start positions value
-    $txt tag remove mcursor 1.0 end
+    $txtt tag remove mcursor 1.0 end
 
     # Clear the current anchor
     set cursor_anchor ""
@@ -224,18 +224,18 @@ namespace eval multicursor {
 
   ######################################################################
   # Set a multicursor at the given index.
-  proc add_cursor {txt index} {
+  proc add_cursor {txtt index} {
 
     variable cursor_anchor
 
-    if {[$txt index "$index lineend"] eq $index} {
-      $txt insert $index " "
+    if {[$txtt index "$index lineend"] eq $index} {
+      $txtt insert $index " "
     }
 
-    if {[llength [set mcursors [lsearch -inline [$txt tag names $index] mcursor*]]] == 0} {
-      $txt tag add mcursor $index
+    if {[llength [set mcursors [lsearch -inline [$txtt tag names $index] mcursor*]]] == 0} {
+      $txtt tag add mcursor $index
     } else {
-      $txt tag remove mcursor $index
+      $txtt tag remove mcursor $index
     }
 
     # Set the cursor anchor to the current index
@@ -245,7 +245,7 @@ namespace eval multicursor {
 
   ######################################################################
   # Set multicursors between the anchor and the current line.
-  proc add_cursors {txt index} {
+  proc add_cursors {txtt index} {
 
     variable cursor_anchor
 
@@ -260,11 +260,11 @@ namespace eval multicursor {
       # Set the cursor
       if {$row < $curr_row} {
         for {set i [expr $row + 1]} {$i <= $curr_row} {incr i} {
-          add_cursor $txt $i.$col
+          add_cursor $txtt $i.$col
         }
       } else {
         for {set i $curr_row} {$i < $row} {incr i} {
-          add_cursor $txt $i.$col
+          add_cursor $txtt $i.$col
         }
       }
 
@@ -492,23 +492,23 @@ namespace eval multicursor {
 
   ######################################################################
   # Handles the insertion of a printable character.
-  proc insert {txt value {indent_cmd ""}} {
+  proc insert {txtt value {indent_cmd ""}} {
 
     variable selected
 
     # Insert the value into the text widget for each of the starting positions
-    if {[enabled $txt]} {
+    if {[enabled $txtt]} {
       if {$selected} {
-        foreach {end start} [lreverse [$txt tag ranges mcursor]] {
-          $txt delete $start $end
-          $txt tag add mcursor $start
+        foreach {end start} [lreverse [$txtt tag ranges mcursor]] {
+          $txtt delete $start $end
+          $txtt tag add mcursor $start
         }
         set selected 0
       }
-      foreach {end start} [lreverse [$txt tag ranges mcursor]] {
-        $txt insert $start $value
+      foreach {end start} [lreverse [$txtt tag ranges mcursor]] {
+        $txtt insert $start $value
         if {$indent_cmd ne ""} {
-          $indent_cmd $txt [$txt index $start+1c]
+          $indent_cmd $txtt [$txtt index $start+1c]
         }
       }
       return 1

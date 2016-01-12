@@ -39,6 +39,7 @@ namespace eval indent {
   }
 
   trace variable [ns preferences]::prefs(Editor/SpacesPerTab) w [list [ns indent]::handle_spaces_per_tab]
+  trace variable [ns preferences]::prefs(Editor/IndentSpaces) w [list [ns indent]::handle_indent_spaces]
 
   ######################################################################
   # Sets the tabstop value to match the value of Editor/SpacesPerTab and
@@ -48,11 +49,29 @@ namespace eval indent {
 
     variable tabstops
 
-    foreach txt [array names tabstops] {
-      if {[winfo exists $txt]} {
-        set_tabstop $txt [[ns preferences]::get Editor/SpacesPerTab]
+    foreach txtt [array names tabstops] {
+      if {[winfo exists $txtt]} {
+        set_tabstop $txtt [[ns preferences]::get Editor/SpacesPerTab]
       } else {
-        unset tabstops($txt)
+        unset tabstops($txtt)
+      }
+    }
+
+  }
+
+  ######################################################################
+  # Sets the shiftwidth value to match the value of Editor/IndentSpaces.
+  # Updates all text widgets to match, cleaning up any non-existent
+  # windows along the way.
+  proc handle_indent_spaces {name1 name2 op} {
+
+    variable shiftwidths
+
+    foreach txtt [array names shiftwidths] {
+      if {[winfo exists $txtt]} {
+        set_shiftwidth $txtt [[ns preferences]::get Editor/IndentSpaces]
+      } else {
+        unset shiftwidths($txtt)
       }
     }
 
@@ -63,7 +82,8 @@ namespace eval indent {
   proc add_bindings {txt} {
 
     # Initialize the tabstop
-    set_tabstop $txt [[ns preferences]::get Editor/SpacesPerTab]
+    set_tabstop    $txt.t [[ns preferences]::get Editor/SpacesPerTab]
+    set_shiftwidth $txt.t [[ns preferences]::get Editor/IndentSpaces]
 
     bind indent$txt <Any-Key> "[ns indent]::check_indent %W insert"
     bind indent$txt <Return>  "[ns indent]::newline %W insert"
@@ -76,7 +96,7 @@ namespace eval indent {
 
   ######################################################################
   # Sets the tabstop value for the given text widget.
-  proc set_tabstop {txt value} {
+  proc set_tabstop {txtt value} {
 
     variable tabstops
 
@@ -86,24 +106,54 @@ namespace eval indent {
     }
 
     # Save the tabstop value
-    set tabstops($txt) $value
+    set tabstops($txtt) $value
 
     # Set the text widget tabstop value
-    $txt configure -tabs [list [expr $value * [font measure [$txt cget -font] 0]] left]
+    $txtt configure -tabs [list [expr $value * [font measure [$txtt cget -font] 0]] left]
 
   }
 
   ######################################################################
   # Returns the tabstop value for the given text widget.
-  proc get_tabstop {txt} {
+  proc get_tabstop {txtt} {
 
     variable tabstops
 
-    if {[info exists tabstops($txt)]} {
-      return $tabstops($txt)
+    if {[info exists tabstops($txtt)]} {
+      return $tabstops($txtt)
     }
 
-    return -code error "Tabstop information for $txt does not exist"
+    return -code error "Tabstop information for $txtt does not exist"
+
+  }
+
+  ######################################################################
+  # Sets the shiftwidth value for the given text widget.
+  proc set_shiftwidth {txtt value} {
+
+    variable shiftwidths
+
+    # Check to make sure that the value is an integer
+    if {![string is integer $value]} {
+      return -code error "Shiftwidth value is not an integer"
+    }
+
+    # Save the shiftwidth value
+    set shiftwidths($txtt) $value
+
+  }
+
+  ######################################################################
+  # Returns the shiftwidth value for the given text widget.
+  proc get_shiftwidth {txtt} {
+
+    variable shiftwidths
+
+    if {[info exists shiftwidths($txtt)]} {
+      return $shiftwidths($txtt)
+    }
+
+    return -code error "Shiftwidth information for $txtt does not exist"
 
   }
 
@@ -156,24 +206,24 @@ namespace eval indent {
   # Checks the given text prior to the insertion marker to see if it
   # matches the unindent expressions.  Increment/decrement
   # accordingly.
-  proc check_indent {txt index} {
+  proc check_indent {txtt index} {
 
     variable indent_exprs
 
     # If the auto-indent feature was disabled, we are in vim start mode, or
     # the current language doesn't have an indent expression, quit now
-    if {($indent_exprs($txt,mode) ne "IND+") || [[ns vim]::in_vim_mode $txt]} {
+    if {($indent_exprs($txtt,mode) ne "IND+") || [[ns vim]::in_vim_mode $txtt]} {
       return
     }
 
     # If the current line contains an unindent expression, is not within a comment or string,
     # and is preceded in the line by only whitespace, replace the whitespace with the proper
     # indentation whitespace.
-    if {([set uindex [$txt search -regexp -- "[join $indent_exprs($txt,unindent) |]\$" "$index linestart" $index]] ne "") && \
-         ![ctext::inCommentString $txt $uindex]} {
-      set line [$txt get "$index linestart" $uindex]
+    if {([set uindex [$txtt search -regexp -- "[join $indent_exprs($txtt,unindent) |]\$" "$index linestart" $index]] ne "") && \
+         ![ctext::inCommentString $txtt $uindex]} {
+      set line [$txtt get "$index linestart" $uindex]
       if {($line ne "") && ([string trim $line] eq "")} {
-        $txt replace "$index linestart" $uindex [get_indent_space $txt 1.0 $index]
+        $txtt replace "$index linestart" $uindex [get_indent_space $txtt 1.0 $index]
       }
     }
 
@@ -182,21 +232,21 @@ namespace eval indent {
   ######################################################################
   # Handles a newline character.  Returns the character position of the
   # first line of non-space text.
-  proc newline {txt index} {
+  proc newline {txtt index} {
 
     variable indent_exprs
 
     # If the auto-indent feature was disabled, we are in vim start mode,
     # or the current language doesn't have an indent expression, quit now
-    if {($indent_exprs($txt,mode) eq "OFF") || [[ns vim]::in_vim_mode $txt]} {
+    if {($indent_exprs($txtt,mode) eq "OFF") || [[ns vim]::in_vim_mode $txtt]} {
       return
     }
 
     # Get the previous space
-    set prev_space [get_previous_indent_space $txt $index]
+    set prev_space [get_previous_indent_space $txtt $index]
 
     # If we do not need smart indentation, use the previous space
-    if {$indent_exprs($txt,mode) eq "IND"} {
+    if {$indent_exprs($txtt,mode) eq "IND"} {
 
       set indent_space $prev_space
 
@@ -204,7 +254,7 @@ namespace eval indent {
     } else {
 
       # Get the current indentation level
-      set indent_space [get_indent_space $txt 1.0 $index]
+      set indent_space [get_indent_space $txtt 1.0 $index]
 
       # Check to see if the previous space is greater than the indent space (if so use it instead)
       if {[string length $prev_space] > [string length $indent_space]} {
@@ -214,7 +264,7 @@ namespace eval indent {
     }
 
     # Get the current line
-    set line [$txt get $index "$index lineend"]
+    set line [$txtt get $index "$index lineend"]
 
     # Create an index to restore the insertion cursor, if necessary
     set restore_insert ""
@@ -225,35 +275,35 @@ namespace eval indent {
 
       # If the first non-whitespace characters match an unindent pattern,
       # lessen the indentation by one
-      if {[regexp [subst {^[join $indent_exprs($txt,unindent) |]}] $rest]} {
-        $txt insert insert "$indent_space\n"
-        set restore_insert [$txt index insert-1c]
-        if {$indent_exprs($txt,mode) eq "IND+"} {
-          set indent_space [string range $indent_space [[ns preferences]::get Editor/IndentSpaces] end]
+      if {[regexp [subst {^[join $indent_exprs($txtt,unindent) |]}] $rest]} {
+        $txtt insert insert "$indent_space\n"
+        set restore_insert [$txtt index insert-1c]
+        if {$indent_exprs($txtt,mode) eq "IND+"} {
+          set indent_space [string range $indent_space [get_shiftwidth $txtt] end]
         }
       }
 
       # See if we are deleting a multicursor
-      set mcursor [lsearch [$txt tag names $index] "mcursor"]
+      set mcursor [lsearch [$txtt tag names $index] "mcursor"]
 
       # Delete the whitespace
-      $txt delete $index "$index+[string length $whitespace]c"
+      $txtt delete $index "$index+[string length $whitespace]c"
 
       # If the newline was from a multicursor, we need to re-add the tag since we have deleted it
       if {$mcursor != -1} {
-        $txt tag add mcursor $index
+        $txtt tag add mcursor $index
       }
 
     }
 
     # Insert leading whitespace to match current indentation level
     if {$indent_space ne ""} {
-      $txt insert $index $indent_space
+      $txtt insert $index $indent_space
     }
 
     # If we need to restore the insertion cursor, do it now
     if {$restore_insert ne ""} {
-      ::tk::TextSetCursor $txt $restore_insert
+      ::tk::TextSetCursor $txtt $restore_insert
     }
 
   }
@@ -261,19 +311,19 @@ namespace eval indent {
   ######################################################################
   # Returns the indentation (in number of spaces) of the previous line
   # of text.
-  proc get_previous_indent_space {txt index} {
+  proc get_previous_indent_space {txtt index} {
 
     variable indent_exprs
 
-    if {($indent_exprs($txt,mode) eq "OFF") || \
-        [[ns vim]::in_vim_mode $txt] || \
+    if {($indent_exprs($txtt,mode) eq "OFF") || \
+        [[ns vim]::in_vim_mode $txtt] || \
         ([lindex [split $index .] 0] == 1)} {
       return 0
     }
 
-    set line_pos [expr [lindex [split [$txt index $index] .] 0] - 1]
+    set line_pos [expr [lindex [split [$txtt index $index] .] 0] - 1]
 
-    while {($line_pos > 0) && ([string trim [set line [$txt get "$line_pos.0" "$line_pos.end"]]] eq "")} {
+    while {($line_pos > 0) && ([string trim [set line [$txtt get "$line_pos.0" "$line_pos.end"]]] eq "")} {
       incr line_pos -1
     }
 
@@ -287,7 +337,7 @@ namespace eval indent {
 
   ######################################################################
   # This procedure counts the number of tags in the given range.
-  proc get_tag_count {txt tag start end} {
+  proc get_tag_count {txtt tag start end} {
 
     variable indent_exprs
 
@@ -295,10 +345,10 @@ namespace eval indent {
     set count 0
 
     # Count all tags that are not within comments or are escaped
-    while {[set range [$txt tag nextrange _$tag $start $end]] ne ""} {
+    while {[set range [$txtt tag nextrange _$tag $start $end]] ne ""} {
       lassign $range index start
-      if {![ctext::inCommentString $txt $index]} {
-        incr count [expr [regexp -all $indent_exprs($txt,$tag) [$txt get $index $start]] - [ctext::isEscaped $txt $index]]
+      if {![ctext::inCommentString $txtt $index]} {
+        incr count [expr [regexp -all $indent_exprs($txtt,$tag) [$txtt get $index $start]] - [ctext::isEscaped $txtt $index]]
       }
     }
 
@@ -309,96 +359,96 @@ namespace eval indent {
   ######################################################################
   # This procedure is called to get the indentation level of the given
   # index.
-  proc get_indent_space {txt start end} {
+  proc get_indent_space {txtt start end} {
 
     # Get the current indentation level
-    set indent_level [expr [get_tag_count $txt indent $start $end] - [get_tag_count $txt unindent $start $end]]
+    set indent_level [expr [get_tag_count $txtt indent $start $end] - [get_tag_count $txtt unindent $start $end]]
 
-    return [string repeat " " [expr $indent_level * [[ns preferences]::get Editor/IndentSpaces]]]
+    return [string repeat " " [expr $indent_level * [get_shiftwidth $txtt]]]
 
   }
 
   ######################################################################
   # Formats the given str based on the indentation information of the text
   # widget at the current insertion cursor.
-  proc format_text {txt startpos endpos} {
+  proc format_text {txtt startpos endpos} {
 
     variable indent_exprs
 
     # If the current language doesn't have indentation enabled, quit now
-    if {$indent_exprs($txt,mode) eq "OFF"} {
+    if {$indent_exprs($txtt,mode) eq "OFF"} {
       return
     }
 
     # Get the current position and recalculate the endpos
-    set currpos [$txt index "$startpos linestart"]
-    set endpos  [$txt index $endpos]
+    set currpos [$txtt index "$startpos linestart"]
+    set endpos  [$txtt index $endpos]
 
     # Update the indentation level at the start of the first text line
-    if {[$txt compare $startpos == 1.0]} {
+    if {[$txtt compare $startpos == 1.0]} {
       set indent_space ""
     } else {
-      set indent_space [get_indent_space $txt 1.0 "$startpos-1l lineend"]
+      set indent_space [get_indent_space $txtt 1.0 "$startpos-1l lineend"]
     }
 
     # Create the regular expression containing the indent and unindent words
-    set uni_re [join $indent_exprs($txt,unindent) |]
+    set uni_re [join $indent_exprs($txtt,unindent) |]
 
     # Find the last open brace starting from the current insertion point
-    while {[$txt compare $currpos < $endpos]} {
+    while {[$txtt compare $currpos < $endpos]} {
 
       # Get the current line
-      set line [$txt get $currpos "$currpos lineend"]
+      set line [$txtt get $currpos "$currpos lineend"]
 
       # Remove the leading whitespace and modify it to match the current indentation level
       if {[regexp {^(\s*)(.*)} $line -> whitespace rest]} {
         if {[string length $whitespace] > 0} {
-          $txt delete $currpos "$currpos+[string length $whitespace]c"
+          $txtt delete $currpos "$currpos+[string length $whitespace]c"
         }
         if {[regexp "^(\\\\)*($uni_re)" $rest -> escapes unindent_match] && \
             ![expr [string length $escapes] % 2]} {
-          set unindent [[ns preferences]::get Editor/IndentSpaces]
+          set unindent [get_shiftwidth $txtt]
         } else {
           set unindent_match ""
           set unindent       0
         }
         if {$indent_space ne ""} {
-          $txt insert $currpos [set indent_space [string range $indent_space $unindent end]]
+          $txtt insert $currpos [set indent_space [string range $indent_space $unindent end]]
         }
-        append indent_space [get_indent_space $txt "$currpos+[expr [string length $unindent_match] + [string length $indent_space]]c" "$currpos lineend"]
+        append indent_space [get_indent_space $txtt "$currpos+[expr [string length $unindent_match] + [string length $indent_space]]c" "$currpos lineend"]
       } else {
-        append indent_space [get_indent_space $txt $currpos "$currpos lineend"]
+        append indent_space [get_indent_space $txtt $currpos "$currpos lineend"]
       }
 
       # Increment the starting position to the next line
-      set currpos [$txt index "$currpos+1l linestart"]
+      set currpos [$txtt index "$currpos+1l linestart"]
 
     }
 
     # Perform syntax highlighting
-    [winfo parent $txt] highlight $startpos $endpos
+    [winfo parent $txtt] highlight $startpos $endpos
 
   }
 
   ######################################################################
   # Sets the indentation expressions for the given text widget.
-  proc set_indent_expressions {txt indent unindent} {
+  proc set_indent_expressions {txtt indent unindent} {
 
     variable indent_exprs
 
     # Set the indentation expressions
-    set indent_exprs($txt,indent)   $indent
-    set indent_exprs($txt,unindent) $unindent
+    set indent_exprs($txtt,indent)   $indent
+    set indent_exprs($txtt,unindent) $unindent
 
     # Set the default indentation mode
     if {[[ns preferences]::get Editor/EnableAutoIndent]} {
       if {$indent ne ""} {
-        set indent_exprs($txt,mode) "IND+"
+        set indent_exprs($txtt,mode) "IND+"
       } else {
-        set indent_exprs($txt,mode) "IND"
+        set indent_exprs($txtt,mode) "IND"
       }
     } else {
-      set indent_exprs($txt,mode) "OFF"
+      set indent_exprs($txtt,mode) "OFF"
     }
 
   }

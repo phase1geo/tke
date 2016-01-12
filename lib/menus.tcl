@@ -888,11 +888,11 @@ namespace eval menus {
     # Populate indentation menu
     ###########################
 
-    $mb.indentPopup add command -label [msgcat::mc "Indent"] -underline 0 -command [list edit::indent {}]
-    launcher::register [msgcat::mc "Edit Menu: Indent selected text"] [list edit::indent {}]
+    $mb.indentPopup add command -label [msgcat::mc "Indent"] -underline 0 -command [list menus::indent_command]
+    launcher::register [msgcat::mc "Edit Menu: Indent selected text"] [list menus::indent_command]
 
-    $mb.indentPopup add command -label [msgcat::mc "Unindent"] -underline 1 -command [list edit::unindent {}]
-    launcher::register [msgcat::mc "Edit Menu: Unindent selected text"] [list edit::unindent {}]
+    $mb.indentPopup add command -label [msgcat::mc "Unindent"] -underline 1 -command [list menus::unindent_command]
+    launcher::register [msgcat::mc "Edit Menu: Unindent selected text"] [list menus::unindent_command]
 
     $mb.indentPopup add separator
 
@@ -1389,16 +1389,32 @@ namespace eval menus {
   }
 
   ######################################################################
+  # Indents the current line or current selection.
+  proc indent_command {} {
+
+    [ns indent]::indent [gui::current_txt {}].t
+
+  }
+
+  ######################################################################
+  # Unindents the current line or current selection.
+  proc unindent_command {} {
+
+    [ns indent]::unindent [gui::current_txt {}].t
+
+  }
+
+  ######################################################################
   # Moves the current cursor by the given modifier for the current
   # text widget.
   proc edit_cursor_move {modifier} {
 
     # Get the current text widget
-    set txt [gui::current_txt {}]
+    set txtt [gui::current_txt {}].t
 
     # Move the cursor if we are not in multicursor mode
-    if {![multicursor::enabled $txt]} {
-      edit::move_cursor $txt $modifier
+    if {![multicursor::enabled $txtt]} {
+      edit::move_cursor $txtt $modifier
     }
 
   }
@@ -1409,11 +1425,11 @@ namespace eval menus {
   proc edit_cursor_move_by_page {dir} {
 
     # Get the current text widget
-    set txt [gui::current_txt {}]
+    set txtt [gui::current_txt {}].t
 
     # Move the cursor if we are not in multicursor mode
-    if {![multicursor::enabled $txt]} {
-      edit::move_cursor_by_page $txt $dir
+    if {![multicursor::enabled $txtt]} {
+      edit::move_cursor_by_page $txtt $dir
     }
 
   }
@@ -1423,11 +1439,11 @@ namespace eval menus {
   proc edit_cursors_move {modifier} {
 
     # Get the current text widget
-    set txt [gui::current_txt {}]
+    set txtt [gui::current_txt {}].t
 
     # If we are in multicursor mode, move the cursors in the direction given by modifier
-    if {[multicursor::enabled $txt]} {
-      edit::move_cursors [gui::current_txt {}].t $modifier
+    if {[multicursor::enabled $txtt]} {
+      edit::move_cursors $txtt $modifier
     }
 
   }
