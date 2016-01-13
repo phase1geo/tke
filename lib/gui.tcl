@@ -932,7 +932,7 @@ namespace eval gui {
               [ns diff]::set_session_data $txt $finfo(diffdata)
             }
             if {[info exists finfo(cursor)]} {
-              ::tk::TextSetCursor $txt $finfo(cursor)
+              ::tk::TextSetCursor $txt.t $finfo(cursor)
             }
             if {[info exists finfo(yview)]} {
               $txt yview $finfo(yview)
@@ -1434,7 +1434,7 @@ namespace eval gui {
         lset files $file_index $files_index(modified) 0
 
         # Set the insertion mark to the first position
-        ::tk::TextSetCursor $txt 1.0
+        ::tk::TextSetCursor $txt.t 1.0
 
         # Perform an insertion adjust, if necessary
         if {[[ns vim]::in_vim_mode $txt.t]} {
@@ -1564,7 +1564,7 @@ namespace eval gui {
       lset files $file_index $files_index(modified) 0
 
       # Set the insertion mark to the first position
-      ::tk::TextSetCursor $txt $insert_index
+      ::tk::TextSetCursor $txt.t $insert_index
       if {[[ns vim]::in_vim_mode $txt.t]} {
         [ns vim]::adjust_insert $txt.t
       }
@@ -3768,7 +3768,7 @@ namespace eval gui {
     # Move the insertion point to the location of rootx/y
     set x [expr $rootx - [winfo rootx $txt.t]]
     set y [expr $rooty - [winfo rooty $txt.t]]
-    ::tk::TextSetCursor $txt @$x,$y
+    ::tk::TextSetCursor $txt.t @$x,$y
     [ns vim]::adjust_insert $txt.t
 
     return "link"
@@ -4177,7 +4177,7 @@ namespace eval gui {
     set_current_tab [get_info $txt txt tab]
 
     # Make the line viewable
-    ::tk::TextSetCursor $txt $pos
+    ::tk::TextSetCursor $txt.t $pos
 
     # Adjust the insert
     [ns vim]::adjust_insert $txt.t
@@ -4210,7 +4210,7 @@ namespace eval gui {
 
     # Change the insertion cursor to the matching character
     if {$index != -1} {
-      ::tk::TextSetCursor $txt $index
+      ::tk::TextSetCursor $txt.t $index
     }
 
   }
@@ -4495,7 +4495,7 @@ namespace eval gui {
       if {[expr abs( $index_line - $last_line ) >= $diff]} {
         if {$jump} {
           set cursor_hist($txt,index) $index
-          ::tk::TextSetCursor $txt "$cursor linestart"
+          ::tk::TextSetCursor $txt.t "$cursor linestart"
           if {[[ns vim]::in_vim_mode $txt.t]} {
             [ns vim]::adjust_insert $txt.t
           }

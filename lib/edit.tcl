@@ -36,23 +36,23 @@ namespace eval edit {
 
   ######################################################################
   # Inserts the line above the current line in the given editor.
-  proc insert_line_above_current {txt} {
+  proc insert_line_above_current {txtt} {
 
     # If we are operating in Vim mode,
-    [ns vim]::edit_mode $txt
+    [ns vim]::edit_mode $txtt
 
     # Create the new line
-    if {[[ns multicursor]::enabled $txt]} {
-      [ns multicursor]::adjust $txt "-1l" 1 dspace
+    if {[[ns multicursor]::enabled $txtt]} {
+      [ns multicursor]::adjust $txtt "-1l" 1 dspace
     } else {
-      $txt insert "insert linestart" "\n"
+      $txtt insert "insert linestart" "\n"
     }
 
     # Place the insertion cursor
-    ::tk::TextSetCursor $txt "insert-1l"
+    ::tk::TextSetCursor $txtt "insert-1l"
 
     # Perform the proper indentation
-    [ns indent]::newline $txt insert
+    [ns indent]::newline $txtt insert
 
     # Start recording
     [ns vim]::record_start
@@ -61,29 +61,29 @@ namespace eval edit {
 
   ######################################################################
   # Inserts a blank line below the current line in the given editor.
-  proc insert_line_below_current {txt} {
+  proc insert_line_below_current {txtt} {
 
     # If we are operating in Vim mode, switch to edit mode
-    [ns vim]::edit_mode $txt
+    [ns vim]::edit_mode $txtt
 
     # Get the current insertion point
-    set insert [$txt index insert]
+    set insert [$txtt index insert]
 
     # Add the line(s)
-    if {[[ns multicursor]::enabled $txt]} {
-      [ns multicursor]::adjust $txt "+1l" 1 dspace
+    if {[[ns multicursor]::enabled $txtt]} {
+      [ns multicursor]::adjust $txtt "+1l" 1 dspace
     } else {
-      $txt insert "insert lineend" "\n"
+      $txtt insert "insert lineend" "\n"
     }
 
     # Perform the insertion
-    if {$insert == [$txt index insert]} {
-      ::tk::TextSetCursor $txt "insert+1l"
+    if {$insert == [$txtt index insert]} {
+      ::tk::TextSetCursor $txtt "insert+1l"
     }
-    $txt see insert
+    $txtt see insert
 
     # Perform the proper indentation
-    [ns indent]::newline $txt insert
+    [ns indent]::newline $txtt insert
 
     # Start recording
     [ns vim]::record_start
@@ -113,66 +113,66 @@ namespace eval edit {
 
   ######################################################################
   # Deletes the current line.
-  proc delete_current_line {txt {num ""}} {
+  proc delete_current_line {txtt {num ""}} {
 
     # Clear the clipboard
     clipboard clear
 
     # Add the text to be deleted to the clipboard and delete the text
     if {$num ne ""} {
-      clipboard append [$txt get "insert linestart" "insert linestart+[expr $num - 1]l lineend"]\n
-      $txt delete "insert linestart" "insert linestart+${num}l"
+      clipboard append [$txtt get "insert linestart" "insert linestart+[expr $num - 1]l lineend"]\n
+      $txtt delete "insert linestart" "insert linestart+${num}l"
     } else {
-      clipboard append [$txt get "insert linestart" "insert lineend"]\n
-      $txt delete "insert linestart" "insert linestart+1l"
+      clipboard append [$txtt get "insert linestart" "insert lineend"]\n
+      $txtt delete "insert linestart" "insert linestart+1l"
     }
 
   }
 
   ######################################################################
   # Deletes the current word (i.e., dw Vim mode).
-  proc delete_current_word {txt {num ""}} {
+  proc delete_current_word {txtt {num ""}} {
 
     # Clear the clipboard
     clipboard clear
 
     if {$num ne ""} {
-      set word [get_word $txt next [expr $num - 1]]
-      clipboard append [$txt get "insert wordstart" "$word wordend"]
-      $txt delete "insert wordstart" "$word wordend"
+      set word [get_word $txtt next [expr $num - 1]]
+      clipboard append [$txtt get "insert wordstart" "$word wordend"]
+      $txtt delete "insert wordstart" "$word wordend"
     } else {
-      clipboard append [$txt get "insert wordstart" "insert wordend"]
-      $txt delete "insert wordstart" "insert wordend"
+      clipboard append [$txtt get "insert wordstart" "insert wordend"]
+      $txtt delete "insert wordstart" "insert wordend"
     }
 
   }
 
   ######################################################################
   # Delete from the current cursor to the end of the line
-  proc delete_to_end {txt} {
+  proc delete_to_end {txtt} {
 
     # Delete from the current cursor to the end of the line
-    if {[[ns multicursor]::enabled $txt]} {
-      [ns multicursor]::delete $txt "lineend"
+    if {[[ns multicursor]::enabled $txtt]} {
+      [ns multicursor]::delete $txtt "lineend"
     } else {
       clipboard clear
-      clipboard append [$txt get insert "insert lineend"]
-      $txt delete insert "insert lineend"
+      clipboard append [$txtt get insert "insert lineend"]
+      $txtt delete insert "insert lineend"
     }
 
   }
 
   ######################################################################
   # Delete from the start of the current line to just before the current cursor.
-  proc delete_from_start {txt} {
+  proc delete_from_start {txtt} {
 
     # Delete from the beginning of the line to just before the current cursor
-    if {[[ns multicursor]::enabled $txt]} {
-      [ns multicursor]::delete $txt "linestart"
+    if {[[ns multicursor]::enabled $txtt]} {
+      [ns multicursor]::delete $txtt "linestart"
     } else {
       clipboard clear
-      clipboard append [$txt get "insert linestart" insert]
-      $txt delete "insert linestart" insert
+      clipboard append [$txtt get "insert linestart" insert]
+      $txtt delete "insert linestart" insert
     }
 
   }
@@ -313,7 +313,7 @@ namespace eval edit {
 
   ######################################################################
   # Converts a character-by-character case inversion of the given text.
-  proc convert_case_toggle {txt index str} {
+  proc convert_case_toggle {txtt index str} {
 
     set strlen [string length $str]
 
@@ -322,97 +322,97 @@ namespace eval edit {
       append newstr [expr {[string is lower $char] ? [string toupper $char] : [string tolower $char]}]
     }
 
-    $txt replace $index "$index+${strlen}c" $newstr
+    $txtt replace $index "$index+${strlen}c" $newstr
 
   }
 
   ######################################################################
   # Converts the case to the given type for the entire string.
-  proc convert_case_all {txt index str type} {
+  proc convert_case_all {txtt index str type} {
 
     set strlen [string length $str]
 
     # Replace the text
-    $txt replace $index "$index+${strlen}c" [string to$type $str]
+    $txtt replace $index "$index+${strlen}c" [string to$type $str]
 
   }
 
   ######################################################################
   # Converts the case to the given type on a word basis.
-  proc convert_case_words {txt index str type} {
+  proc convert_case_words {txtt index str type} {
 
     while {[regexp {^(\w+)(\W*)(.*)$} $str -> word wspace str]} {
       set wordlen [string length $word]
       set strlen  [expr $wordlen + [string length $wspace]]
-      $txt replace $index "$index+${wordlen}c" [string to$type $word]
-      set index   [$txt index "$index+${strlen}c"]
+      $txtt replace $index "$index+${wordlen}c" [string to$type $word]
+      set index   [$txtt index "$index+${strlen}c"]
     }
 
   }
 
   ######################################################################
   # Perform a case toggle operation.
-  proc transform_toggle_case {txt {num ""}} {
+  proc transform_toggle_case {txtt {num ""}} {
 
-    if {[llength [set sel_ranges [$txt tag ranges sel]]] > 0} {
+    if {[llength [set sel_ranges [$txtt tag ranges sel]]] > 0} {
       foreach {endpos startpos} [lreverse $sel_ranges] {
-        convert_case_toggle $txt $startpos [$txt get $startpos $endpos]
+        convert_case_toggle $txtt $startpos [$txtt get $startpos $endpos]
       }
-      $txt tag remove sel 1.0 end
+      $txtt tag remove sel 1.0 end
     } else {
       set num_chars [expr {($num ne "") ? $num : 1}]
-      set str       [string range [$txt get insert "insert lineend"] 0 [expr $num_chars - 1]]
-      convert_case_toggle $txt insert $str
+      set str       [string range [$txtt get insert "insert lineend"] 0 [expr $num_chars - 1]]
+      convert_case_toggle $txtt insert $str
     }
 
   }
 
   ######################################################################
   # Perform a lowercase conversion.
-  proc transform_to_lower_case {txt {num ""}} {
+  proc transform_to_lower_case {txtt {num ""}} {
 
-    if {[llength [set sel_ranges [$txt tag ranges sel]]] > 0} {
+    if {[llength [set sel_ranges [$txtt tag ranges sel]]] > 0} {
       foreach {endpos startpos} [lreverse $sel_ranges] {
-        convert_case_all $txt $startpos [$txt get $startpos $endpos] lower
+        convert_case_all $txtt $startpos [$txtt get $startpos $endpos] lower
       }
-      $txt tag remove sel 1.0 end
+      $txtt tag remove sel 1.0 end
     } else {
       set num_chars [expr {($num ne "") ? $num : 1}]
-      set str       [string range [$txt get insert "insert lineend"] 0 [expr $num_chars - 1]]
-      convert_case_all $txt insert $str lower
+      set str       [string range [$txtt get insert "insert lineend"] 0 [expr $num_chars - 1]]
+      convert_case_all $txtt insert $str lower
     }
 
   }
 
   ######################################################################
   # Perform an uppercase conversion.
-  proc transform_to_upper_case {txt {num ""}} {
+  proc transform_to_upper_case {txtt {num ""}} {
 
-    if {[llength [set sel_ranges [$txt tag ranges sel]]] > 0} {
+    if {[llength [set sel_ranges [$txtt tag ranges sel]]] > 0} {
       foreach {endpos startpos} [lreverse $sel_ranges] {
-        convert_case_all $txt $startpos [$txt get $startpos $endpos] upper
+        convert_case_all $txtt $startpos [$txtt get $startpos $endpos] upper
       }
-      $txt tag remove sel 1.0 end
+      $txtt tag remove sel 1.0 end
     } else {
       set num_chars [expr {($num ne "") ? $num : 1}]
-      set str       [string range [$txt get insert "insert lineend"] 0 [expr $num_chars - 1]]
-      convert_case_all $txt insert $str upper
+      set str       [string range [$txtt get insert "insert lineend"] 0 [expr $num_chars - 1]]
+      convert_case_all $txtt insert $str upper
     }
 
   }
 
   ######################################################################
   # Perform a title case conversion.
-  proc transform_to_title_case {txt} {
+  proc transform_to_title_case {txtt} {
 
-    if {[llength [set sel_ranges [$txt tag ranges sel]]] > 0} {
+    if {[llength [set sel_ranges [$txtt tag ranges sel]]] > 0} {
       foreach {endpos startpos} [lreverse $sel_ranges] {
-        convert_case_words $txt [$txt index "$startpos wordstart"] [$txt get "$startpos wordstart" $endpos] title
+        convert_case_words $txtt [$txtt index "$startpos wordstart"] [$txtt get "$startpos wordstart" $endpos] title
       }
-      $txt tag remove sel 1.0 end
+      $txtt tag remove sel 1.0 end
     } else {
-      set str [$txt get "insert wordstart" "insert wordend"]
-      convert_case_words $txt [$txt index "insert wordstart"] $str title
+      set str [$txtt get "insert wordstart" "insert wordend"]
+      convert_case_words $txtt [$txtt index "insert wordstart"] $str title
     }
 
   }
@@ -421,72 +421,72 @@ namespace eval edit {
   # If a selection occurs, joins the selected lines; otherwise, joins the
   # number of specified lines.
   # TBD - Needs work
-  proc transform_join_lines {txt {num ""}} {
+  proc transform_join_lines {txtt {num ""}} {
 
     # Specifies if at least one line was deleted in the join
     set deleted 0
 
     # Create a separator
-    $txt edit separator
+    $txtt edit separator
 
-    if {[llength [set selected [$txt tag ranges sel]]] > 0} {
+    if {[llength [set selected [$txtt tag ranges sel]]] > 0} {
 
       # Clear the selection
-      $txt tag remove sel 1.0 end
+      $txtt tag remove sel 1.0 end
 
       set lastpos ""
       foreach {endpos startpos} [lreverse $selected] {
-        set lines [$txt count -lines $startpos $endpos]
+        set lines [$txtt count -lines $startpos $endpos]
         for {set i 0} {$i < $lines} {incr i} {
-          set line    [string trimleft [$txt get "$startpos+1l linestart" "$startpos+1l lineend"]]
-          $txt delete "$startpos lineend" "$startpos+1l lineend"
-          if {![string is space [$txt get "$startpos lineend-1c"]]} {
+          set line    [string trimleft [$txtt get "$startpos+1l linestart" "$startpos+1l lineend"]]
+          $txtt delete "$startpos lineend" "$startpos+1l lineend"
+          if {![string is space [$txtt get "$startpos lineend-1c"]]} {
             set line " $line"
           }
           if {$line ne ""} {
-            $txt insert "$startpos lineend" $line
+            $txtt insert "$startpos lineend" $line
           }
         }
         set deleted [expr $deleted || ($lines > 0)]
         if {$lastpos ne ""} {
-          set line    [string trimleft [$txt get "$lastpos linestart" "$lastpos lineend"]
-          $txt delete "$lastpos-1l lineend" "$lastpos lineend"
-          if {![string is space [$txt get "$startpos lineend-1c"]]} {
+          set line    [string trimleft [$txtt get "$lastpos linestart" "$lastpos lineend"]
+          $txtt delete "$lastpos-1l lineend" "$lastpos lineend"
+          if {![string is space [$txtt get "$startpos lineend-1c"]]} {
             set line " $line"
           }
-          $txt insert "$startpos lineend" $line
+          $txtt insert "$startpos lineend" $line
         }
         set lastpos $startpos
       }
 
-      set index [$txt index "$startpos lineend-[string length $line]c"]
+      set index [$txtt index "$startpos lineend-[string length $line]c"]
 
-    } elseif {[$txt compare "insert+1l" < end]} {
+    } elseif {[$txtt compare "insert+1l" < end]} {
 
       set lines [expr {($num ne "") ? $num : 1}]
       for {set i 0} {$i < $lines} {incr i} {
-        set line    [string trimleft [$txt get "insert+1l linestart" "insert+1l lineend"]]
-        $txt delete "insert lineend" "insert+1l lineend"
-        if {![string is space [$txt get "insert lineend-1c"]]} {
+        set line    [string trimleft [$txtt get "insert+1l linestart" "insert+1l lineend"]]
+        $txtt delete "insert lineend" "insert+1l lineend"
+        if {![string is space [$txtt get "insert lineend-1c"]]} {
           set line " $line"
         }
         if {$line ne ""} {
-          $txt insert "insert lineend" $line
+          $txtt insert "insert lineend" $line
         }
       }
 
       set deleted [expr $lines > 0]
-      set index   [$txt index "insert lineend-[string length $line]c"]
+      set index   [$txtt index "insert lineend-[string length $line]c"]
 
     }
 
     if {$deleted} {
 
       # Set the insertion cursor and make it viewable
-      ::tk::TextSetCursor $txt $index
+      ::tk::TextSetCursor $txtt $index
 
       # Create a separator
-      $txt edit separator
+      $txtt edit separator
 
     }
 
@@ -494,58 +494,58 @@ namespace eval edit {
 
   ######################################################################
   # Moves selected lines or the current line up by one line.
-  proc transform_bubble_up {txt} {
+  proc transform_bubble_up {txtt} {
 
     # Create undo separator
-    $txt edit separator
+    $txtt edit separator
 
     # If lines are selected, move all selected lines up one line
-    if {[llength [set selected [$txt tag ranges sel]]] > 0} {
+    if {[llength [set selected [$txtt tag ranges sel]]] > 0} {
       foreach {end_range start_range} [lreverse $selected] {
-        set str [$txt get "$start_range-1l linestart" "$start_range linestart"]
-        $txt delete "$start_range-1l linestart" "$start_range linestart"
-        $txt insert "$end_range+1l linestart" $str
+        set str [$txtt get "$start_range-1l linestart" "$start_range linestart"]
+        $txtt delete "$start_range-1l linestart" "$start_range linestart"
+        $txtt insert "$end_range+1l linestart" $str
       }
 
     # Otherwise, move the current line up by one line
     } else {
-      set str [$txt get "insert-1l linestart" "insert linestart"]
-      $txt delete "insert-1l linestart" "insert linestart"
-      if {[$txt compare "insert+1l linestart" == end]} {
+      set str [$txtt get "insert-1l linestart" "insert linestart"]
+      $txtt delete "insert-1l linestart" "insert linestart"
+      if {[$txtt compare "insert+1l linestart" == end]} {
         set str "\n[string trimright $str]"
       }
-      $txt insert "insert+1l linestart" $str
+      $txtt insert "insert+1l linestart" $str
     }
 
     # Create undo separator
-    $txt edit separator
+    $txtt edit separator
 
   }
 
   ######################################################################
   # Moves selected lines or the current line down by one line.
-  proc transform_bubble_down {txt} {
+  proc transform_bubble_down {txtt} {
 
     # Create undo separator
-    $txt edit separator
+    $txtt edit separator
 
     # If lines are selected, move all selected lines down one line
-    if {[llength [set selected [$txt tag ranges sel]]] > 0} {
+    if {[llength [set selected [$txtt tag ranges sel]]] > 0} {
       foreach {end_range start_range} [lreverse $selected] {
-        set str [$txt get "$end_range+1l linestart" "$end_range+l2 linestart"]
-        $txt delete "$end_range lineend" "$end_range+1l lineend"
-        $txt insert "$start_range linestart" $str
+        set str [$txtt get "$end_range+1l linestart" "$end_range+l2 linestart"]
+        $txtt delete "$end_range lineend" "$end_range+1l lineend"
+        $txtt insert "$start_range linestart" $str
       }
 
     # Otherwise, move the current line down by one line
     } else {
-      set str [$txt get "insert+1l linestart" "insert+2l linestart"]
-      $txt delete "insert lineend" "insert+1l lineend"
-      $txt insert "insert linestart" $str
+      set str [$txtt get "insert+1l linestart" "insert+2l linestart"]
+      $txtt delete "insert lineend" "insert+1l lineend"
+      $txtt insert "insert linestart" $str
     }
 
     # Create undo separator
-    $txt edit separator
+    $txtt edit separator
 
   }
 
