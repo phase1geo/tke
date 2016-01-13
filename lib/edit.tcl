@@ -312,6 +312,34 @@ namespace eval edit {
   }
 
   ######################################################################
+  # Left shifts all text between the pair of characters.  Returns 1 if a
+  # match occurred (and the text was formatted); otherwise, returns 0.
+  proc lshift_between_char {txtt char} {
+
+    if {[lassign [get_char_positions $txtt $char] start_index end_index]} {
+      unindent $txtt $start_index+1l $end_index-1l
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Right shifts all text between the pair of characters.  Returns 1 if a
+  # match occurred (and the text was formatted); otherwise, returns 0.
+  proc rshift_between_char {txtt char} {
+
+    if {[lassign [get_char_positions $txtt $char] start_index end_index]} {
+      indent $txtt $start_index+1l $end_index-1l
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
   # Converts a character-by-character case inversion of the given text.
   proc convert_case_toggle {txtt index str} {
 
