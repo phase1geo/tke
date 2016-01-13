@@ -1287,6 +1287,20 @@ namespace eval vim {
       start_mode $txtt
       return 1
 
+    # Left shift all text within the current character
+    } elseif {$mode($txtt) eq "lshiftin"} {
+      record_add "Key-$keysym"
+      [ns edit]::lshift_between_char $txtt $char
+      start_mode $txtt
+      return 1
+
+    # Right shift all text within the current character
+    } elseif {$mode($txtt) eq "rshiftin"} {
+      record_add "Key-$keysym"
+      [ns edit]::rshift_between_char $txtt $char
+      start_mode $txtt
+      return 1
+
     # If we are not in edit mode, switch to start mode (an illegal command was executed)
     } elseif {$mode($txtt) ne "edit"} {
       start_mode $txtt
@@ -1494,6 +1508,12 @@ namespace eval vim {
       return 1
     } elseif {$mode($txtt) eq "format"} {
       set mode($txtt) "formatin"
+      return 1
+    } elseif {$mode($txtt) eq "lshift"} {
+      set mode($txtt) "lshiftin"
+      return 1
+    } elseif {$mode($txtt) eq "rshift"} {
+      set mode($txtt) "rshiftin"
       return 1
     } elseif {[in_visual_mode $txtt]} {
       set mode($txtt) [join [list "visualin" [lindex [split $mode($txtt) :] 1]] :]
@@ -2795,8 +2815,8 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in start mode, begin a shiftleft mode.  If we are in
-  # shiftleft mode, shift the current line left by one indent.  If we
+  # If we are in start mode, begin a lshift mode.  If we are in
+  # lshift mode, shift the current line left by one indent.  If we
   # are in change mode:
   #
   # If any text is selected, angled brackets are placed around all
@@ -2810,9 +2830,9 @@ namespace eval vim {
     variable number
 
     if {$mode($txtt) eq "start"} {
-      set mode($txtt) "shiftleft"
+      set mode($txtt) "lshift"
       return 1
-    } elseif {$mode($txtt) eq "shiftleft"} {
+    } elseif {$mode($txtt) eq "lshift"} {
       set lines [expr {($number($txtt) eq "") ? 0 : ($number($txtt) - 1)}]
       [ns edit]::unindent $txtt insert "insert+${lines}l"
       start_mode $txtt
@@ -2827,17 +2847,17 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in start mode, begin a shiftright mode.  If we are in
-  # shiftright mode, shift the current line right by one indent.
+  # If we are in start mode, begin a rshift mode.  If we are in
+  # rshift mode, shift the current line right by one indent.
   proc handle_greater {txtt tid} {
 
     variable mode
     variable number
 
     if {$mode($txtt) eq "start"} {
-      set mode($txtt) "shiftright"
+      set mode($txtt) "rshift"
       return 1
-    } elseif {$mode($txtt) eq "shiftright"} {
+    } elseif {$mode($txtt) eq "rshift"} {
       set lines [expr {($number($txtt) eq "") ? 0 : ($number($txtt) - 1)}]
       [ns edit]::indent $txtt insert "insert+${lines}l"
       start_mode $txtt
