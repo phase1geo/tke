@@ -4195,16 +4195,17 @@ namespace eval gui {
     # If the current character is a matchable character, change the
     # insertion cursor to the matching character.
     switch -- [$txt get insert] {
-      "\{"    { set index [find_match_brace $txt "\\\}" "\\\{" -forwards] }
-      "\}"    { set index [find_match_brace $txt "\\\{" "\\\}" -backwards] }
-      "\["    { set index [find_match_brace $txt "\\\]" "\\\[" -forwards] }
-      "\]"    { set index [find_match_brace $txt "\\\[" "\\\]" -backwards] }
-      "\("    { set index [find_match_brace $txt "\\\)" "\\\(" -forwards] }
-      "\)"    { set index [find_match_brace $txt "\\\(" "\\\)" -backwards] }
-      "\<"    { set index [find_match_brace $txt "\\\>" "\\\<" -forwards] }
-      "\>"    { set index [find_match_brace $txt "\\\<" "\\\>" -backwards] }
-      "\""    { set index [find_match_quote $txt] }
-      default { set index [find_prev_indent $txt] }
+      "\{"    { set index [find_match_pair $txt "\\\}" "\\\{" -forwards] }
+      "\}"    { set index [find_match_pair $txt "\\\{" "\\\}" -backwards] }
+      "\["    { set index [find_match_pair $txt "\\\]" "\\\[" -forwards] }
+      "\]"    { set index [find_match_pair $txt "\\\[" "\\\]" -backwards] }
+      "\("    { set index [find_match_pair $txt "\\\)" "\\\(" -forwards] }
+      "\)"    { set index [find_match_pair $txt "\\\(" "\\\)" -backwards] }
+      "\<"    { set index [find_match_pair $txt "\\\>" "\\\<" -forwards] }
+      "\>"    { set index [find_match_pair $txt "\\\<" "\\\>" -backwards] }
+      "\""    { set index [find_match_char $txt "\"" [expr {([lsearch [$txt tag names insert-1c] _dString] == -1) ? "-forwards" : "-backwards"}]] }
+      "'"     { set index [find_match_char $txt "'"  [expr {([lsearch [$txt tag names insert-1c] _sString] == -1) ? "-forwards" : "-backwards"}]] }
+      default { set index [find_match_pair $txt {*}[[ns syntax]::get_indentation_expressions $txt] -backwards] }
     }
 
     # Change the insertion cursor to the matching character
@@ -4217,15 +4218,15 @@ namespace eval gui {
   ######################################################################
   # Finds the matching bracket type and returns it's index if found;
   # otherwise, returns -1.
-  proc find_match_brace {txt str1 str2 dir} {
+  proc find_match_pair {txt str1 str2 dir {startpos insert}} {
 
-    if {[ctext::isEscaped $txt insert]} {
+    if {[ctext::isEscaped $txt $startpos]} {
       return -1
     }
 
     set search_re "[set str1]|[set str2]"
     set count     1
-    set pos       [$txt index [expr {($dir eq "-forwards") ? "insert+1c" : "insert"}]]
+    set pos       [$txt index [expr {($dir eq "-forwards") ? "$startpos+1c" : $startpos}]]
 
     # Calculate the endpos
     if {[set incomstr [ctext::inCommentString $txt $pos srange]]} {
@@ -4273,88 +4274,35 @@ namespace eval gui {
   ######################################################################
   # Returns the index of the matching quotation mark; otherwise, if one
   # is not found, returns -1.
-  proc find_match_quote {txt} {
+  proc find_match_char {txt char dir {startpos insert}} {
 
-    set end_quote  [$txt index insert]
     set last_found ""
 
-    if {[ctext::isEscaped $txt $end_quote]} {
+    if {[ctext::isEscaped $txt $startpos]} {
       return -1
     }
 
-    if {[lsearch [$txt tag names $end_quote-1c] _dString] == -1} {
-    # Figure out if we need to search forwards or backwards
-      set dir   "-forwards"
-      set start [$txt index "insert+1c"]
+    if {$dir eq "-forwards"} {
+      set startpos [$txt index "$startpos+1c"]
+      set endpos   "end"
     } else {
-      set dir   "-backwards"
-      set start $end_quote
+      set endpos   "1.0"
     }
 
     while {1} {
 
-      set start_quote [$txt search $dir \" $start]
-
-      if {($start_quote eq "") || \
-          (($dir eq "-backwards") && [$txt compare $start_quote > $start]) || \
-          (($dir eq "-forwards")  && [$txt compare $start_quote < $start]) || \
-          (($last_found ne "") && [$txt compare $last_found == $start_quote])} {
+      if {[set found [$txt search $dir $char $startpos $endpos]] eq ""} {
         return -1
       }
 
-      set last_found $start_quote
-      if {$dir eq "-backwards"} {
-        set start $start_quote
-      } else {
-        set start [$txt index "$start_quote+1c"]
-      }
+      set last_found $found
+      set startpos   [expr {($dir eq "-backwards") ? $found : [$txt index "$found+1c"]}]
 
       if {[ctext::isEscaped $txt $last_found]} {
         continue
       }
 
       return $last_found
-
-    }
-
-  }
-
-  ######################################################################
-  # Gets the index of the previous indentation character based on the
-  # location of the insert mark.
-  proc find_prev_indent {txt} {
-
-    set pos        [$txt index insert]
-    set last_found ""
-
-    lassign [[ns syntax]::get_indentation_expressions $txt] indent unindent
-
-    if {($indent eq "") || [ctext::isEscaped $txt $pos]} {
-      return -1
-    }
-
-    # Calculate the endpos
-    if {[set incomstr [ctext::inCommentString $txt $pos srange]]} {
-      set endpos [lindex $srange 0]
-    } else {
-      set endpos "1.0"
-    }
-
-    set search_re "([join $indent |])"
-
-    while {1} {
-
-      if {[set found [$txt search -backwards -regexp -- $search_re $pos $endpos]] eq ""} {
-        return -1
-      }
-
-      set pos $found
-
-      if {[ctext::isEscaped $txt $found] || (!$incomstr && [ctext::inCommentString $txt $found])} {
-        continue
-      }
-
-      return $found
 
     }
 

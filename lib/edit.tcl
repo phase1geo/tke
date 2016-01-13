@@ -240,16 +240,70 @@ namespace eval edit {
   }
 
   ######################################################################
+  # Get the start and end positions for the pair defined by char.
+  proc get_char_positions {txtt endchar} {
+
+    array set pairs {\{ \} \} \{ \( \) \) \( \[ \] \] \[ < > > <}
+
+    # Initialize
+    set retval [set end_index 0]
+
+    # Get the matching character
+    if {[info exists pairs($endchar)]} {
+      if {[set start_index [[ns gui]::find_match_pair $txtt $pairs($endchar) $endchar -backwards]] != -1} {
+        set retval [expr {[set end_index [[ns gui]::find_match_pair $txtt $endchar $pairs($endchar) -forwards]] != -1}]
+      }
+    } else {
+      if {[set start_index [[ns gui]::find_match_char $txtt $endchar -backwards]] != -1} {
+        set retval [expr {[set end_index [[ns gui]::find_match_char $txtt $endchar -forwards]] != -1}]
+      }
+    }
+
+    return [list $start_index $end_index $retval]
+
+  }
+
+  ######################################################################
   # Deletes all text found between the given character such that the
   # current insertion cursor sits between the character set.  Returns 1
   # if a match occurred (and text was deleted); otherwise, returns 0.
-  proc delete_between_char {txt char} {
+  proc delete_between_char {txtt char} {
 
-    if {([set start_index [$txt search -backwards $char insert 1.0]] ne "") && \
-        ([set end_index   [$txt search -forwards  $char insert end]] ne "")} {
+    if {[lassign [get_char_positions $txtt $char] start_index end_index]} {
       clipboard clear
-      clipboard append [$txt get $start_index+1c $end_index]
-      $txt delete $start_index+1c $end_index
+      clipboard append [$txtt get $start_index+1c $end_index]
+      $txtt delete $start_index+1c $end_index
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Selects all of the text between the pair of characters.  Returns 1
+  # if a match occurred (and the text was selected); otherwise, return 0.
+  proc select_between_char {txtt char} {
+
+    if {[lassign [get_char_positions $txtt $char] start_index end_index]} {
+      $txtt tag remove sel 1.0 end
+      ::tk::TextSetCursor $txtt $end_index
+      $txtt tag add sel $start_index+1c $end_index
+      [ns vim]::set_select_anchor $txtt $start_index+1c
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Formats all text between the pair of characters.  Returns 1 if a match
+  # occurred (and the text was formatted); otherwise, returns 0.
+  proc format_between_char {txtt char} {
+
+    if {[lassign [get_char_positions $txtt $char] start_index end_index]} {
+      [ns indent]::format_text $txtt $start_index+1c $end_index
       return 1
     }
 
