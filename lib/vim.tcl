@@ -21,7 +21,7 @@
 # Date:    05/21/2013
 # Brief:   Namespace containing special bindings to provide Vim-like
 #          support.  The Vim commands supported are not meant to be
-  #          a complete representation of its functionality.
+#          a complete representation of its functionality.
 ######################################################################
 
 namespace eval vim {
@@ -601,6 +601,16 @@ namespace eval vim {
   }
 
   ######################################################################
+  # Set the select anchor for visual mode.
+  proc set_select_anchor {txtt index} {
+
+    variable select_anchors
+
+    set select_anchors($txtt) $index
+
+  }
+
+  ######################################################################
   # Normalizes the given filename string, performing any environment
   # variable substitutions.
   proc normalize_filename {file_str} {
@@ -626,7 +636,7 @@ namespace eval vim {
     variable select_anchors
 
     # Get the visual type from the mode
-    set type [string range $mode($txtt) 7 end]
+    set type [lindex [split $mode($txtt) :] 1]
 
     # Get the anchor for the given selection
     set anchor [lindex $select_anchors($txtt) $index]
@@ -893,7 +903,7 @@ namespace eval vim {
     variable mode
 
     # If we are coming from visual mode, clear the selection
-    if {[string range $mode($txtt) 0 5] eq "visual"} {
+    if {[in_visual_mode $txtt]} {
       $txtt tag remove sel 1.0 end
     }
 
@@ -942,6 +952,16 @@ namespace eval vim {
 
     # Perform the initial selection
     adjust_select $txtt 0
+
+  }
+
+  ######################################################################
+  # Returns true if we are in visual mode.
+  proc in_visual_mode {txtt} {
+
+    variable mode
+
+    return [expr {[lindex [split $mode($txtt) :] 0] eq "visual"}]
 
   }
 
@@ -1056,7 +1076,7 @@ namespace eval vim {
     }
 
     # Adjust the selection (if we are in visual mode)
-    if {[string range $mode($txtt) 0 5] eq "visual"} {
+    if {[in_visual_mode $txtt]} {
       adjust_select $txtt 0
     }
 
@@ -1215,7 +1235,7 @@ namespace eval vim {
 
     # If we are in start, visual, record or format modes, stop character processing
     } elseif {($mode($txtt) eq "start") || \
-              ([string range $mode($txtt) 0 5] eq "visual") || \
+              ([in_visual_mode $txtt]) || \
               ($mode($txtt) eq "record") || \
               ($mode($txtt) eq "format")} {
       return 1
@@ -1250,6 +1270,23 @@ namespace eval vim {
       }
       return 1
 
+    # Select all text within the current character
+    } elseif {[lindex [split $mode($txtt) :] 0] eq "visualin"} {
+      record_add "Key-$keysym"
+      if {[[ns edit]::select_between_char $txtt $char]} {
+        set mode($txtt) "visual:[lindex [split $mode($txtt) :] 1]"
+      } else {
+        start_mode $txtt
+      }
+      return 1
+
+    # Format all text within the current character
+    } elseif {$mode($txtt) eq "formatin"} {
+      record_add "Key-$keysym"
+      [ns edit]::format_between_char $txtt $char
+      start_mode $txtt
+      return 1
+
     # If we are not in edit mode, switch to start mode (an illegal command was executed)
     } elseif {$mode($txtt) ne "edit"} {
       start_mode $txtt
@@ -1272,7 +1309,7 @@ namespace eval vim {
     variable mode
     variable number
 
-    if {($mode($txtt) eq "start") || ([string range $mode($txtt) 0 5] eq "visual")} {
+    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       if {($mode($txtt) eq "start") && ($num eq "0") && ($number($txtt) eq "")} {
         [ns edit]::move_cursor $txtt linestart
       } else {
@@ -1455,6 +1492,12 @@ namespace eval vim {
     } elseif {$mode($txtt) eq "change"} {
       set mode($txtt) "changein"
       return 1
+    } elseif {$mode($txtt) eq "format"} {
+      set mode($txtt) "formatin"
+      return 1
+    } elseif {[in_visual_mode $txtt]} {
+      set mode($txtt) [join [list "visualin" [lindex [split $mode($txtt) :] 1]] :]
+      return 1
     }
 
     return 0
@@ -1488,7 +1531,7 @@ namespace eval vim {
     variable column
 
     # Move the insertion cursor down one line
-    if {($mode($txtt) eq "start") || ([string range $mode($txtt) 0 5] eq "visual")} {
+    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       $txtt tag remove sel 1.0 end
       lassign [split [$txtt index insert] .] row col
       if {$column($txtt) ne ""} {
@@ -1539,7 +1582,7 @@ namespace eval vim {
     variable column
 
     # Move the insertion cursor up one line
-    if {($mode($txtt) eq "start") || ([string range $mode($txtt) 0 5] eq "visual")} {
+    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       $txtt tag remove sel 1.0 end
       lassign [split [$txtt index insert] .] row col
       if {$column($txtt) ne ""} {
@@ -1586,7 +1629,7 @@ namespace eval vim {
     variable number
 
     # Move the insertion cursor right one character
-    if {($mode($txtt) eq "start") || ([string range $mode($txtt) 0 5] eq "visual")} {
+    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       $txtt tag remove sel 1.0 end
       if {$number($txtt) ne ""} {
         if {[$txtt compare "insert lineend" < "insert+$number($txtt)c"]} {
@@ -1617,7 +1660,7 @@ namespace eval vim {
     variable mode
     variable number
 
-    if {($mode($txtt) eq "start") || ([string range $mode($txtt) 0 5] eq "visual")} {
+    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       if {[[ns multicursor]::enabled $txtt]} {
         [ns edit]::move_cursors $txtt "+1c"
       } elseif {$mode($txtt) eq "start"} {
@@ -1711,7 +1754,7 @@ namespace eval vim {
     variable number
 
     # Move the insertion cursor left one character
-    if {($mode($txtt) eq "start") || ([string range $mode($txtt) 0 5] eq "visual")} {
+    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       $txtt tag remove sel 1.0 end
       if {$number($txtt) ne ""} {
         if {[$txtt compare "insert linestart" > "insert-$number($txtt)c"]} {
@@ -1742,7 +1785,7 @@ namespace eval vim {
     variable mode
     variable number
 
-    if {($mode($txtt) eq "start") || ([string range $mode($txtt) 0 5] eq "visual")} {
+    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       if {[[ns multicursor]::enabled $txtt]} {
         [ns edit]::move_cursors $txtt "-1c"
       } else {
@@ -1763,7 +1806,7 @@ namespace eval vim {
     variable mode
     variable number
 
-    if {($mode($txtt) eq "start") || ([string range $mode($txtt) 0 5] eq "visual")} {
+    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       [ns edit]::move_cursor $txtt prevword $number($txtt)
       return 1
     }
@@ -1784,7 +1827,7 @@ namespace eval vim {
       set mode($txtt) "change"
       record_start
       return 1
-    } elseif {[string range $mode($txtt) 0 5] eq "visual"} {
+    } elseif {[in_visual_mode $txtt]} {
       if {![[ns multicursor]::delete $txtt "selected"]} {
         $txtt delete sel.first sel.last
       }
@@ -1827,7 +1870,7 @@ namespace eval vim {
     variable mode
     variable number
 
-    if {($mode($txtt) eq "start") || ([string range $mode($txtt) 0 5] eq "visual")} {
+    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       [ns edit]::move_cursor $txtt nextword $number($txtt)
       return 1
     } elseif {$mode($txtt) eq "change"} {
@@ -1868,7 +1911,7 @@ namespace eval vim {
     variable mode
     variable number
 
-    if {($mode($txtt) eq "start") || ([string range $mode($txtt) 0 5] eq "visual")} {
+    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       [ns edit]::move_cursor $txtt last $number($txtt)
       return 1
     } elseif {$mode($txtt) eq "format"} {
@@ -1972,7 +2015,7 @@ namespace eval vim {
     if {$mode($txtt) eq "start"} {
       set mode($txtt) "yank"
       return 1
-    } elseif {[string range $mode($txtt) 0 5] eq "visual"} {
+    } elseif {[in_visual_mode $txtt]} {
       clipboard clear
       clipboard append [$txtt get sel.first sel.last]
       cliphist::add_from_clipboard
@@ -2472,7 +2515,7 @@ namespace eval vim {
 
     variable mode
 
-    if {($mode($txtt) eq "start") || ([string range $mode($txtt) 0 5] eq "visual")} {
+    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       [ns edit]::move_cursor_by_page $txtt next
       record "Control-f"
       return 1
@@ -2488,7 +2531,7 @@ namespace eval vim {
 
     variable mode
 
-    if {($mode($txtt) eq "start") || ([string range $mode($txtt) 0 5] eq "visual")} {
+    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       [ns edit]::move_cursor_by_page $txtt prior
       record "Control-b"
       return 1
@@ -2840,7 +2883,7 @@ namespace eval vim {
 
     variable mode
 
-    if {($mode($txtt) eq "start") || ([string range $mode($txtt) 0 5] eq "visual")} {
+    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       ::tk::TextSetCursor $txtt "insert+1l linestart"
       if {[string is space [$txtt get insert]]} {
         set next_word [[ns edit]::get_word $txtt next]
@@ -2865,7 +2908,7 @@ namespace eval vim {
 
     variable mode
 
-    if {($mode($txtt) eq "start") || ([string range $mode($txtt) 0 5] eq "visual")} {
+    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       ::tk::TextSetCursor $txtt "insert-1l linestart"
       if {[string is space [$txtt get insert]]} {
         set next_word [[ns edit]::get_word $txtt next]
@@ -2891,7 +2934,7 @@ namespace eval vim {
     variable mode
     variable number
 
-    if {(($mode($txtt) eq "start") || ([string range $mode($txtt) 0 5] eq "visual")) && ($number($txtt) ne "")} {
+    if {(($mode($txtt) eq "start") || [in_visual_mode $txtt]) && ($number($txtt) ne "")} {
       ::tk::TextSetCursor $txtt [lindex [split [$txtt index insert] .] 0].$number($txtt)
       adjust_insert $txtt
       $txtt see insert
@@ -2909,10 +2952,10 @@ namespace eval vim {
     variable mode
     variable number
 
-    if {($mode($txtt) eq "start") || ([string range $mode($txtt) 0 5] eq "visual")} {
+    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       [ns edit]::transform_toggle_case $txtt $number($txtt)
       adjust_insert $txtt
-      if {[string range $mode($txtt) 0 5] eq "visual"} {
+      if {[in_visual_mode $txtt]} {
         start_mode $txtt
       }
       return 1
@@ -2930,7 +2973,7 @@ namespace eval vim {
     variable mode
     variable number
 
-    if {($mode($txtt) eq "start") || ([string range $mode($txtt) 0 5] eq "visual")} {
+    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       [ns edit]::move_cursor $txtt screenmid $number($txtt)
       return 1
     }
