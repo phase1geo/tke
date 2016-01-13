@@ -1,40 +1,29 @@
-changeset:   1694:5c0d9059be54
-tag:         devel-2.1.3
+changeset:   1698:3ec16490984c
+tag:         devel-2.1.4
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Jan 10 22:25:09 2016 -0600
+date:        Tue Jan 12 01:14:36 2016 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.1.3 release
+ChangeLog for devel-2.1.4 release
 
 
-changeset:   1695:1508e1fad1c7
+changeset:   1699:cb81628fcaf4
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Jan 10 22:25:16 2016 -0600
+date:        Tue Jan 12 01:14:41 2016 -0600
 files:       .hgtags
 description:
-Added tag devel-2.1.3 for changeset 5c0d9059be54
+Added tag devel-2.1.4 for changeset 3ec16490984c
 
 
-changeset:   1696:4bb5bc5a9dd7
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Jan 11 09:19:36 2016 -0600
-files:       lib/version.tcl lib/vim.tcl
-description:
-* Adding support for = Vim operator.
-
-
-changeset:   1697:a8d5f5bca1aa
+changeset:   1700:e12a6d44089d
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Jan 12 01:13:46 2016 -0600
-files:       lib/edit.tcl lib/indent.tcl lib/menus.tcl lib/multicursor.tcl lib/snippets.tcl lib/version.tcl lib/vim.tcl
+date:        Wed Jan 13 01:16:28 2016 -0600
+files:       lib/edit.tcl lib/gui.tcl lib/version.tcl lib/vim.tcl
 description:
-* Adding support for <<, >>, #<<, #>> Vim commands.
-* Fixing cursor position for indent and unindent operations to be located at the beginning of the first word of the line.
-* Lots of internal changes to better document variable types.
-* Adding support for :set shiftwidth=# Vim command.
-* Fixing a few bugs in Vim word cursor movement operations.
-* Fixing indent/unindent space usage (uses Editor/IndentSpaces or shiftwidth value instead of only two spaces).
-* Removing partial shiftround and softtabstop Vim command support.
+* Adding support for vi<char> and =i<char> Vim commands.
+* Fixing indentation bracket matching when % Vim command is called when cursor is not on an indentation character.
+* Adding support for single quote matching using % Vim command.
+* Code cleanup.
 
 
