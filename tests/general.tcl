@@ -92,7 +92,7 @@ namespace eval general {
     set tf [winfo parent [winfo parent $tb]].tf
 
     # Add a new file to the tab bar
-    set tab [gui::add_file end [file join $bist::testdir test1.txt]]
+    set tab [gui::add_file end [file join $bist::testdir test1.txt] -lazy 1]
 
     # Make sure the tab was added to the current tabbar
     if {[gui::get_info $tab tab tabbar] ne $tb} {
