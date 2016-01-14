@@ -71,6 +71,7 @@ namespace eval gui {
     tags     11
     loaded   12
     eol      13
+    remember 14
   }
 
   #######################
@@ -786,11 +787,11 @@ namespace eval gui {
       foreach tab [$nb.tbf.tb tabs] {
 
         # Get the file tab information
-        lassign [get_info $tab tab {paneindex txt fname save_cmd lock readonly diff sidebar buffer}] \
-          finfo(pane) txt finfo(fname) finfo(savecommand) finfo(lock) finfo(readonly) finfo(diff) finfo(sidebar) finfo(buffer)
+        lassign [get_info $tab tab {paneindex txt fname save_cmd lock readonly diff sidebar buffer remember}] \
+          finfo(pane) txt finfo(fname) finfo(savecommand) finfo(lock) finfo(readonly) finfo(diff) finfo(sidebar) finfo(buffer) finfo(remember)
 
-        # If this is a buffer, don't save the buffer
-        if {$finfo(buffer)} {
+        # If we need to forget this file, don't save it to the session
+        if {!$finfo(remember)} {
           continue
         }
 
@@ -1192,6 +1193,7 @@ namespace eval gui {
       lset file_info $files_index(tags)     $opts(-tags)
       lset file_info $files_index(loaded)   1
       lset file_info $files_index(eol)      [get_eol_translation ""]
+      lset file_info $files_index(remember) 0
 
       # Add the file information to the files list
       lappend files $file_info
@@ -1268,11 +1270,13 @@ namespace eval gui {
     if {$save_as ne ""} {
       lset files $file_index $files_index(buffer)   0
       lset files $file_index $files_index(save_cmd) ""
+      lset files $file_index $files_index(remember) 1
       return 1
     } elseif {[set save_as [prompt_for_save {}]] ne ""} {
       lset files $file_index $files_index(buffer)   0
       lset files $file_index $files_index(save_cmd) ""
       lset files $file_index $files_index(fname)    $save_as
+      lset files $file_index $files_index(remember) 1
       return 1
     }
 
@@ -1315,6 +1319,7 @@ namespace eval gui {
       -other       0
       -tags        {}
       -lazy        0
+      -remember    1
     }
     array set opts $args
 
@@ -1380,6 +1385,7 @@ namespace eval gui {
       lset file_info $files_index(tags)     $opts(-tags)
       lset file_info $files_index(loaded)   0
       lset file_info $files_index(eol)      [get_eol_translation $fname]
+      lset file_info $files_index(remember) $opts(-remember)
       lappend files $file_info
 
       # Make this tab the currently displayed tab

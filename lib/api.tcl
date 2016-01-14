@@ -320,6 +320,11 @@ namespace eval api {
     #       (i.e., the file will be locked indefinitely); otherwise,
     #       the file will be able to be edited.
     #
+    #   -remember (0|1)
+    #     * If set to 0, the file will not be saved to the user's session file
+    #       when the application is quit.  By default, the file will be
+    #       remembered and reloaded when the application is reopened.
+    #
     #   -sidebar (0|1)
     #     * If set to 1 (default), the file's directory contents
     #       will be included in the sidebar; otherwise, the file's
