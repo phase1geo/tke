@@ -495,7 +495,6 @@ namespace eval menus {
       exec -ignorestderr [info nameofexecutable] -n &
     } else {
       array set frame [info frame 1]
-      puts "[info nameofexecutable] $::argv0 -- -n &"
       exec -ignorestderr [info nameofexecutable] $::argv0 -- -n &
     }
 
