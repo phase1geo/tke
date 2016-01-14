@@ -1,29 +1,58 @@
-changeset:   1698:3ec16490984c
-tag:         devel-2.1.4
+changeset:   1701:53e4a30db914
+tag:         devel-2.1.5
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Jan 12 01:14:36 2016 -0600
+date:        Wed Jan 13 01:19:08 2016 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.1.4 release
+ChangeLog for devel-2.1.5 release
 
 
-changeset:   1699:cb81628fcaf4
+changeset:   1702:81418e136d59
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Jan 12 01:14:41 2016 -0600
+date:        Wed Jan 13 01:19:15 2016 -0600
 files:       .hgtags
 description:
-Added tag devel-2.1.4 for changeset 3ec16490984c
+Added tag devel-2.1.5 for changeset 53e4a30db914
 
 
-changeset:   1700:e12a6d44089d
+changeset:   1703:bedc9f9d56d4
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jan 13 01:47:31 2016 -0600
+files:       lib/edit.tcl lib/gui.tcl lib/version.tcl
+description:
+* Fixing issues with cursor tracking.
+
+
+changeset:   1704:17500e1c22a4
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jan 13 02:02:42 2016 -0600
+files:       lib/edit.tcl lib/version.tcl lib/vim.tcl
+description:
+* Adding >i<char> and <i<char> Vim command support.
+
+
+changeset:   1705:8c9720829f39
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jan 13 18:36:26 2016 -0600
+files:       lib/api.tcl lib/gui.tcl lib/logger.tcl lib/version.tcl
+description:
+* Fixing issue where opened diagnostic logfiles (when the application is exited) attempted to reopen the file on the next application start.
+
+
+changeset:   1706:6fefd54c8571
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jan 13 19:29:48 2016 -0600
+files:       lib/bist.tcl lib/menus.tcl lib/version.tcl
+description:
+* Creating initial BIST UI.
+
+
+changeset:   1707:00149076a478
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jan 13 01:16:28 2016 -0600
-files:       lib/edit.tcl lib/gui.tcl lib/version.tcl lib/vim.tcl
+date:        Thu Jan 14 01:56:02 2016 -0600
+files:       lib/bist.tcl lib/images/checked.gif lib/images/unchecked.gif lib/version.tcl tests/general.tcl
 description:
-* Adding support for vi<char> and =i<char> Vim commands.
-* Fixing indentation bracket matching when % Vim command is called when cursor is not on an indentation character.
-* Adding support for single quote matching using % Vim command.
-* Code cleanup.
+* Checkpointing work on BIST UI.
 
 
