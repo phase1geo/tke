@@ -2404,7 +2404,7 @@ namespace eval menus {
     uplevel #0 [list source [file join $::tke_dir lib bist.tcl]]
 
     # Run bist
-    bist::run
+    bist::create
 
   }
 
