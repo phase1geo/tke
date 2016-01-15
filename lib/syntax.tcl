@@ -336,6 +336,25 @@ namespace eval syntax {
         ctext::addHighlightRegexp $txt [join $lang_array(indent) |] class indent
         ctext::addHighlightRegexp $txt [join $lang_array(unindent) |] class unindent
 
+        # Parse match chars
+        array set chars_list {
+          curly  {\\{ L \\} R}
+          square {\\[ L \\] R}
+          paren  {\\( L \\) R}
+          angled {< L > R}
+          double {\"}
+          single {\'}
+        }
+
+        foreach name $lang_array(matchcharsallowed) {
+          if {[info exists chars_list($name)]} {
+            foreach {char suffix} $chars_list($name) {
+              ctext::addHighlightClass $txt $name$suffix ""
+              ctext::addHighlightRegexp $txt $char class $name$suffix
+            }
+          }
+        }
+
         # Set the indent/unindent regular expressions
         [ns indent]::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent)
 
