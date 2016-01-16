@@ -281,7 +281,7 @@ namespace eval syntax {
       -diffaddbg $theme(difference_add) -diffsubbg $theme(difference_sub)
 
     # Set default indent/unindent strings
-    [ns indent]::set_indent_expressions $txt.t {\{} {\}}
+    [ns indent]::set_indent_expressions $txt.t {\{} {\}} {}
 
     # Set the snippet set to the current language
     [ns snippets]::set_language $language
@@ -333,8 +333,10 @@ namespace eval syntax {
         # the indent/unindent expressions for this language
         ctext::addHighlightClass $txt indent ""
         ctext::addHighlightClass $txt unindent ""
+        ctext::addHighlightClass $txt reindent ""
         ctext::addHighlightRegexp $txt [join $lang_array(indent) |] class indent
         ctext::addHighlightRegexp $txt [join $lang_array(unindent) |] class unindent
+        ctext::addHighlightRegexp $txt [join $lang_array(reindeint) |] class reindent
 
         # Parse match chars
         array set chars_list {
