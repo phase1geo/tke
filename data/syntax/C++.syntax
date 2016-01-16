@@ -19,6 +19,9 @@ indent
 unindent
 {\}}
 
+reindent
+{{case switch} {default switch} {public class} {protected class} {private class}}
+
 icomment {{//}}
 
 lcomments {{//}}
