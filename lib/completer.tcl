@@ -118,12 +118,41 @@ namespace eval completer {
 
   ######################################################################
   # Returns true if a closing character should be automatically added.
+  # This is called when an opening character is detected.
   proc add_closing {txt} {
 
     # Get the character at the insertion cursor
     set ch [$txt get insert]
 
     if {[string is space $ch] || ($ch eq "\}") || ($ch eq "\)") || ($ch eq ">") || ($ch eq "]")} {
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Returns true if a closing character should be omitted from insertion.
+  # This is called when a closing character is detected.
+  proc skip_closing {txt type} {
+
+    array set types [list square "\]" curly "\}" angled ">" paren ")"]
+
+    if {([$txt get insert] eq $types($type)) && ![ctext::isEscaped $txt insert]} {
+      set start insert+1c
+      set count 1
+      while {[set range [$txt tag prevrange _$type $start]] ne ""} {
+        set start [lindex $range 0]
+        if {![ctext::inCommentString $txt $start]} {
+          set str    [string range [$txt get {*}$range] [ctext::isEscaped $txt $start] end]
+          set opens  [string length [string map [list $types($type) {}] $str]]
+          set closes [expr [string length $str] - $opens]
+          if {[incr count [expr $closes - $opens]] <= 0} {
+            return 0
+          }
+        }
+      }
       return 1
     }
 
@@ -139,7 +168,7 @@ namespace eval completer {
 
     if {$complete($txt,square) && ![ctext::inComment $txt "insert-1c"]} {
       if {$side eq "right"} {
-        if {([$txt get insert] eq "\]") && ![ctext::isEscaped $txt insert]} {
+        if {[skip_closing $txt square]} {
           ::tk::TextSetCursor $txt "insert+1c"
           ctext::matchPair [winfo parent $txt] "\\\[" "\\\]"
           return 1
@@ -165,7 +194,7 @@ namespace eval completer {
 
     if {$complete($txt,curly) && ![ctext::inComment $txt "insert-1c"]} {
       if {$side eq "right"} {
-        if {([$txt get insert] eq "\}") && ![ctext::isEscaped $txt insert]} {
+        if {[skip_closing $txt curly]} {
           ::tk::TextSetCursor $txt "insert+1c"
           ctext::matchPair [winfo parent $txt] "\\\{" "\\\}"
           return 1
@@ -191,7 +220,7 @@ namespace eval completer {
 
     if {$complete($txt,angled) && ![ctext::inComment $txt "insert-1c"]} {
       if {$side eq "right"} {
-        if {([$txt get insert] eq ">") && ![ctext::isEscaped $txt insert]} {
+        if {[skip_closing $txt angled]} {
           ::tk::TextSetCursor $txt "insert+1c"
           ctext::matchPair [winfo parent $txt] "\\<" "\\>"
           return 1
@@ -217,7 +246,7 @@ namespace eval completer {
 
     if {$complete($txt,paren) && ![ctext::inComment $txt "insert-1c"]} {
       if {$side eq "right"} {
-        if {([$txt get insert] eq ")") && ![ctext::isEscaped $txt insert]} {
+        if {[skip_closing $txt paren]} {
           ::tk::TextSetCursor $txt "insert+1c"
           ctext::matchPair [winfo parent $txt] "\\(" "\\)"
           return 1

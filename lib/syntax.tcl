@@ -337,21 +337,17 @@ namespace eval syntax {
         ctext::addHighlightRegexp $txt [join $lang_array(unindent) |] class unindent
 
         # Parse match chars
-        array set chars_list {
-          curly  {\\{ L \\} R}
-          square {\\[ L \\] R}
-          paren  {\\( L \\) R}
-          angled {< L > R}
-          double {\"}
-          single {\'}
+        array set char_REs {
+          curly  {\{|\}}
+          square {\[|\]}
+          paren  {\(|\)}
+          angled {<|>}
         }
 
         foreach name $lang_array(matchcharsallowed) {
-          if {[info exists chars_list($name)]} {
-            foreach {char suffix} $chars_list($name) {
-              ctext::addHighlightClass $txt $name$suffix ""
-              ctext::addHighlightRegexp $txt $char class $name$suffix
-            }
+          if {[info exists char_REs($name)]} {
+            ctext::addHighlightClass $txt $name ""
+            ctext::addHighlightRegexp $txt $char_REs($name) class $name
           }
         }
 
