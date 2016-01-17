@@ -149,7 +149,6 @@ namespace eval completer {
           incr closes [expr [string length $str] - $open_cnt]
         }
       }
-      puts "opens: $opens, closes: $closes"
       return [expr $opens <= $closes]
     }
 
