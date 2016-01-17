@@ -62,7 +62,6 @@ proc ctext {win args} {
   set ctext::data($win,config,-diff_mode)             0
   set ctext::data($win,config,-diffsubbg)             "pink"
   set ctext::data($win,config,-diffaddbg)             "light green"
-  set ctext::data($win,config,-lazy)                  0
   set ctext::data($win,config,re_opts)                ""
   set ctext::data($win,config,win)                    $win
   set ctext::data($win,config,modified)               0
@@ -88,7 +87,7 @@ proc ctext {win args} {
 
   set ctext::data($win,config,ctextFlags) [list -xscrollcommand -yscrollcommand -linemap -linemapfg -linemapbg \
   -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable \
-  -linemap_cursor -highlightcolor -lazy \
+  -linemap_cursor -highlightcolor \
   -linemap_select_fg -linemap_select_bg -linemap_relief -linemap_minwidth -linemap_type -casesensitive -peer \
   -undo -maxundo -autoseparators -diff_mode -diffsubbg -diffaddbg]
 
@@ -396,16 +395,6 @@ proc ctext::buildArgParseTable win {
     }
     set data($self,config,-linemap_select_bg) $value
     $self.l tag configure lmark -background $value
-    break
-  }
-
-  lappend argTable {0 false no} -lazy {
-    set data($self,config,-lazy) 0
-    break
-  }
-
-  lappend argTable {1 true yes} -lazy {
-    set data($self,config,-lazy) 1
     break
   }
 
@@ -2617,9 +2606,10 @@ proc ctext::doHighlight {win start end} {
   # Handle word-based matching
   set i 0
   foreach res [$twin search -count lengths -regexp {*}$data($win,config,re_opts) -all -- $REs(words) $start $end] {
-    set wordEnd      [$twin index "$res + [lindex $lengths $i] chars"]
-    set word         [$twin get $res $wordEnd]
-    set firstOfWord  [string index $word 0]
+    set wordEnd     [$twin index "$res + [lindex $lengths $i] chars"]
+    set word        [$twin get $res $wordEnd]
+    puts "word: $word"
+    set firstOfWord [string index $word 0]
     if {[info exists data($win,highlight,keyword,class,$word)]} {
       $twin tag add $data($win,highlight,keyword,class,$word) $res $wordEnd
     } elseif {[info exists data($win,highlight,charstart,class,$firstOfWord)]} {
@@ -2638,7 +2628,6 @@ proc ctext::doHighlight {win start end} {
               ![catch { {*}$data($win,highlight,searchword,command,$word) $win $res $wordEnd } retval] && ([llength $retval] == 4)} {
       handle_tag $win {*}$retval
     }
-    if {$data($win,config,-lazy)} { update idletasks }
     incr i
   }
 
@@ -2673,7 +2662,6 @@ proc ctext::doHighlight {win start end} {
           }
         }
       }
-      if {$data($win,config,-lazy)} { update idletasks }
     }
   }
 
