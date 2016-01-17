@@ -620,13 +620,7 @@ proc ctext::set_border_color {win color} {
 
 # Returns 1 if the character at the given index is escaped; otherwise, returns 0.
 proc ctext::isEscaped {win index} {
-
-  if {[regexp {^(\\*)} [string reverse [$win get "$index linestart" $index]] -> escapes]} {
-    return [expr [string length $escapes] % 2]
-  }
-
-  return 0
-
+  return [expr {[string index [regexp -inline {\\*$} [$win get "$index linestart" $index]] 0] eq "\\"}]
 }
 
 # Debugging procedure only
