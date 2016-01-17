@@ -140,20 +140,17 @@ namespace eval completer {
     array set types [list square "\]" curly "\}" angled ">" paren ")"]
 
     if {([$txt get insert] eq $types($type)) && ![ctext::isEscaped $txt insert]} {
-      set start insert+1c
-      set count 1
-      while {[set range [$txt tag prevrange _$type $start]] ne ""} {
-        set start [lindex $range 0]
-        if {![ctext::inCommentString $txt $start]} {
-          set str    [string range [$txt get {*}$range] [ctext::isEscaped $txt $start] end]
-          set opens  [string length [string map [list $types($type) {}] $str]]
-          set closes [expr [string length $str] - $opens]
-          if {[incr count [expr $closes - $opens]] <= 0} {
-            return 0
-          }
+      set opens  0
+      set closes 0
+      foreach {startpos endpos} [$txt tag ranges _$type] {
+        if {![ctext::inCommentString $txt $startpos]} {
+          set str [string range [$txt get $startpos $endpos] [ctext::isEscaped $txt $startpos] end]
+          incr opens  [set open_cnt [string length [string map [list $types($type) {}] $str]]]
+          incr closes [expr [string length $str] - $open_cnt]
         }
       }
-      return 1
+      puts "opens: $opens, closes: $closes"
+      return [expr $opens <= $closes]
     }
 
     return 0
