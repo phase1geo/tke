@@ -29,6 +29,7 @@ namespace eval completer {
   array set pref_complete    {}
   array set complete         {}
   array set lang_match_chars {}
+  array set types            [list square "\]" curly "\}" angled ">" paren ")"]
 
   trace add variable [ns preferences]::prefs(Editor/AutoMatchChars) write [ns completer]::handle_auto_match_chars
 
@@ -137,18 +138,13 @@ namespace eval completer {
   # This is called when a closing character is detected.
   proc skip_closing {txt type} {
 
-    array set types [list square "\]" curly "\}" angled ">" paren ")"]
+    variable types
 
     if {([$txt get insert] eq $types($type)) && ![ctext::isEscaped $txt insert]} {
-      set opens  0
-      set closes 0
-      foreach {startpos endpos} [$txt tag ranges _$type] {
-        if {![ctext::inCommentString $txt $startpos]} {
-          set str [string range [$txt get $startpos $endpos] [ctext::isEscaped $txt $startpos] end]
-          incr opens  [set open_cnt [string length [string map [list $types($type) {}] $str]]]
-          incr closes [expr [string length $str] - $open_cnt]
-        }
-      }
+      puts "type: $type, L ranges: [$txt get {*}[$txt tag ranges _${type}L]], R ranges: [$txt get {*}[$txt tag ranges _${type}R]]"
+      set opens  [string length [string map {{ } {}} [$txt get {*}[$txt tag ranges _${type}L]]]]
+      set closes [string length [string map {{ } {}} [$txt get {*}[$txt tag ranges _${type}R]]]]
+      puts "opens: $opens, closes: $closes"
       return [expr $opens <= $closes]
     }
 
@@ -165,8 +161,8 @@ namespace eval completer {
     if {$complete($txt,square) && ![ctext::inComment $txt "insert-1c"]} {
       if {$side eq "right"} {
         if {[skip_closing $txt square]} {
+          ctext::matchPair [winfo parent $txt] squareL
           ::tk::TextSetCursor $txt "insert+1c"
-          ctext::matchPair [winfo parent $txt] "\\\[" "\\\]"
           return 1
         }
       } else {
@@ -191,8 +187,8 @@ namespace eval completer {
     if {$complete($txt,curly) && ![ctext::inComment $txt "insert-1c"]} {
       if {$side eq "right"} {
         if {[skip_closing $txt curly]} {
+          ctext::matchPair [winfo parent $txt] curlyL
           ::tk::TextSetCursor $txt "insert+1c"
-          ctext::matchPair [winfo parent $txt] "\\\{" "\\\}"
           return 1
         }
       } else {
@@ -217,8 +213,8 @@ namespace eval completer {
     if {$complete($txt,angled) && ![ctext::inComment $txt "insert-1c"]} {
       if {$side eq "right"} {
         if {[skip_closing $txt angled]} {
+          ctext::matchPair [winfo parent $txt] angledL
           ::tk::TextSetCursor $txt "insert+1c"
-          ctext::matchPair [winfo parent $txt] "\\<" "\\>"
           return 1
         }
       } else {
@@ -243,8 +239,8 @@ namespace eval completer {
     if {$complete($txt,paren) && ![ctext::inComment $txt "insert-1c"]} {
       if {$side eq "right"} {
         if {[skip_closing $txt paren]} {
+          ctext::matchPair [winfo parent $txt] parenL
           ::tk::TextSetCursor $txt "insert+1c"
-          ctext::matchPair [winfo parent $txt] "\\(" "\\)"
           return 1
         }
       } else {
