@@ -1,58 +1,104 @@
-changeset:   1701:53e4a30db914
-tag:         devel-2.1.5
+changeset:   1708:7099e31c4f9b
+tag:         devel-2.1.6
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jan 13 01:19:08 2016 -0600
+date:        Thu Jan 14 08:32:49 2016 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.1.5 release
+ChangeLog for devel-2.1.6 release
 
 
-changeset:   1702:81418e136d59
+changeset:   1709:50de0fd8a01b
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jan 13 01:19:15 2016 -0600
+date:        Thu Jan 14 08:32:54 2016 -0600
 files:       .hgtags
 description:
-Added tag devel-2.1.5 for changeset 53e4a30db914
+Added tag devel-2.1.6 for changeset 7099e31c4f9b
 
 
-changeset:   1703:bedc9f9d56d4
+changeset:   1710:e40cf921de15
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jan 13 01:47:31 2016 -0600
-files:       lib/edit.tcl lib/gui.tcl lib/version.tcl
+date:        Thu Jan 14 08:50:49 2016 -0600
+files:       lib/menus.tcl lib/version.tcl
 description:
-* Fixing issues with cursor tracking.
+* Removing debug output.
 
 
-changeset:   1704:17500e1c22a4
+changeset:   1711:e7a48ee959e8
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jan 13 02:02:42 2016 -0600
-files:       lib/edit.tcl lib/version.tcl lib/vim.tcl
+date:        Fri Jan 15 00:18:58 2016 -0600
+files:       lib/syntax.tcl lib/version.tcl
 description:
-* Adding >i<char> and <i<char> Vim command support.
+* Adding matchchar syntax parsing for improved future matchchar support.
 
 
-changeset:   1705:8c9720829f39
+changeset:   1712:92e922558443
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jan 13 18:36:26 2016 -0600
-files:       lib/api.tcl lib/gui.tcl lib/logger.tcl lib/version.tcl
+date:        Sat Jan 16 15:49:52 2016 -0600
+files:       lib/completer.tcl lib/syntax.tcl lib/version.tcl
 description:
-* Fixing issue where opened diagnostic logfiles (when the application is exited) attempted to reopen the file on the next application start.
+* Improved bracket completion feature.
 
 
-changeset:   1706:6fefd54c8571
+changeset:   1713:864ff51f7ed8
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jan 13 19:29:48 2016 -0600
-files:       lib/bist.tcl lib/menus.tcl lib/version.tcl
+date:        Sat Jan 16 23:49:13 2016 -0600
+files:       lib/completer.tcl lib/ctext/ctext.tcl lib/version.tcl tests/vim.tcl
 description:
-* Creating initial BIST UI.
+* Another attempt to improve completion support.
+* Adding empty vim test file.
+* Removing -lazy support in ctext.
 
 
-changeset:   1707:00149076a478
+changeset:   1714:0ebd2be30687
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Jan 16 23:59:13 2016 -0600
+files:       lib/ctext/ctext.tcl lib/version.tcl
+description:
+* Removing debug output.
+
+
+changeset:   1715:bc28781fa659
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Jan 17 00:48:01 2016 -0600
+files:       lib/ctext/ctext.tcl lib/test.tcl lib/version.tcl
+description:
+* Optimizing performance of ctext::isEscaped.
+* Deleting test file.
+
+
+changeset:   1716:3fe540627310
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Jan 17 00:52:48 2016 -0600
+files:       lib/completer.tcl lib/version.tcl
+description:
+* Removing debug output.
+
+
+changeset:   1717:53708055277e
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Jan 18 09:57:41 2016 -0600
+files:       data/syntax/Tcl.syntax lib/completer.tcl lib/ctext/ctext.tcl lib/gui.tcl lib/syntax.tcl lib/version.tcl
+description:
+* Adding destroy keyword to Tcl syntax parser.
+* Optimizing bracket matching.
+* Improving bracket completion support.
+* Using ctext bracket matching algorithm in gui.tcl (instead of duplicating this functionality).
+
+
+changeset:   1718:577813133e13
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jan 19 22:47:04 2016 -0600
+files:       lib/completer.tcl lib/ctext/ctext.tcl lib/version.tcl
+description:
+* Fixing bracket matching algorithm and making further optimizations.
+
+
+changeset:   1719:938c134a3072
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Jan 14 01:56:02 2016 -0600
-files:       lib/bist.tcl lib/images/checked.gif lib/images/unchecked.gif lib/version.tcl tests/general.tcl
+date:        Tue Jan 19 23:33:13 2016 -0600
+files:       lib/version.tcl tests/vim.tcl
 description:
-* Checkpointing work on BIST UI.
+* Adding test to vim.tcl.
 
 
