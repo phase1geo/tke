@@ -1859,32 +1859,71 @@ proc ctext::tag:blink {win count {afterTriggered 0}} {
 # type of bracket to find.  For example, if the current bracket is
 # a left square bracket, call this procedure as:
 #   ctext::get_match_bracket $txt squareR
-proc ctext::get_match_bracket {win mtype} {
-
-  if {[string index $mtype end] eq "R"} {
-    set range_cmd "nextrange"
-    set suffix    "+1c"
-    set otype     [string range $mtype 0 end-1]L
-  } else {
-    set range_cmd "prevrange"
-    set suffix    ""
-    set otype     [string range $mtype 0 end-1]R
-  }
+proc ctext::get_match_bracket {win stype {index insert}} {
 
   set count 1
-  lassign [$win tag $range_cmd _$mtype "insert$suffix"] mindex mlast
-  lassign [$win tag $range_cmd _$otype "insert$suffix"] oindex olast
 
-  while {($oindex ne "") && ($mindex ne "")} {
-    if {[$win compare $oindex > $mindex]} {
-      incr count [$win count -chars $oindex $olast]
-      lassign [$win tag $range_cmd _$otype "$oindex$suffix"] oindex olast
-    } else {
-      if {[incr count -[$win count -chars $mindex $mlast]] <= 0} {
-        return [$win index "$mindex+[expr 0 - $count]c"]
-      }
-      lassign [$win tag $range_cmd _$mtype "$mindex$suffix"] mindex mlast
+  if {[string index $stype end] eq "R"} {
+
+    set otype [string range $stype 0 end-1]L
+
+    lassign [$win tag nextrange _$stype "$index+1c"] sfirst slast
+    lassign [$win tag prevrange _$otype $index]      ofirst olast
+    set ofirst "$index+1c"
+
+    if {($olast eq "") || [$win compare $olast < insert]} {
+      lassign [$win tag nextrange _$otype "insert"] dummy olast
     }
+
+    while {($olast ne "") && ($slast ne "")} {
+      if {[$win compare $slast < $olast]} {
+        if {[incr count -[$win count -chars $sfirst $slast]] <= 0} {
+          return "$slast-[expr 1 - $count]c"
+        }
+        lassign [$win tag nextrange _$stype "$slast+1c"] sfirst slast
+      } else {
+        incr count [$win count -chars $ofirst $olast]
+        lassign [$win tag nextrange _$otype "$olast+1c"] ofirst olast
+      }
+    }
+
+    while {$slast ne ""} {
+      if {[incr count -[$win count -chars $sfirst $slast]] <= 0} {
+        return "$slast-[expr 1 - $count]c"
+      }
+      lassign [$win tag nextrange _$stype "$slast+1c"] sfirst slast
+    }
+
+  } else {
+
+    set otype [string range $stype 0 end-1]R
+
+    lassign [$win tag prevrange _$stype $index] sfirst slast
+    lassign [$win tag prevrange _$otype $index] ofirst olast
+
+    if {($olast ne "") && [$win compare $olast >= insert]} {
+      set olast $index
+    }
+
+    while {($ofirst ne "") && ($sfirst ne "")} {
+      if {[$win compare $sfirst > $ofirst]} {
+        if {[incr count -[$win count -chars $sfirst $slast]] <= 0} {
+          return "$sfirst+[expr 0 - $count]c"
+        }
+        lassign [$win tag prevrange _$stype $sfirst] sfirst slast
+      } else {
+        incr count [$win count -chars $ofirst $olast]
+        lassign [$win tag prevrange _$otype $ofirst] ofirst olast
+      }
+    }
+
+    while {$sfirst ne ""} {
+      if {[incr count -[$win count -chars $sfirst $slast]] <= 0} {
+        return "$sfirst+[expr 0 - $count]c"
+      }
+      lassign [$win tag prevrange _$stype $sfirst] sfirst slast
+    }
+
   }
 
   return ""
@@ -1893,7 +1932,7 @@ proc ctext::get_match_bracket {win mtype} {
 
 proc ctext::matchPair {win type} {
 
-  if {[set pos [get_match_bracket $win $type]] ne ""} {
+  if {[set pos [get_match_bracket $win $type [$win index "insert-1c"]]] ne ""} {
     $win tag add __ctext_blink $pos "$pos+1c"
     ctext::tag:blink $win 0
   }
