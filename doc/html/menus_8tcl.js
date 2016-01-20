@@ -77,6 +77,7 @@ var menus_8tcl =
     [ "hide_sidebar_view", "menus_8tcl.html#a984469f2eef9f057edb73e4bdbd4b7ab", null ],
     [ "hide_status_view", "menus_8tcl.html#ab60a8a13c5f3d96df0cc94b6cb0fd011", null ],
     [ "hide_tab_view", "menus_8tcl.html#a9b4234f80cdeda49ac35aa69cc512523", null ],
+    [ "indent_command", "menus_8tcl.html#aa13061537b3a52d45e29885a41e18f74", null ],
     [ "invoke", "menus_8tcl.html#a6dd6cfaabc5100a861949ba335f2952b", null ],
     [ "jump_to_line", "menus_8tcl.html#afb1d3006e0ffc1c7f3dabef1d7a4d4df", null ],
     [ "launcher", "menus_8tcl.html#a9e3299e2da5a66c37e06a13e62367dd6", null ],
@@ -99,6 +100,7 @@ var menus_8tcl =
     [ "sessions_save_as", "menus_8tcl.html#ad5ed8b2163fc0e847e61f2cc503d6dea", null ],
     [ "sessions_save_current", "menus_8tcl.html#a14fa392227d3723a8e5bdb011a99965f", null ],
     [ "sessions_switch_launcher", "menus_8tcl.html#a47ac8db04840588ce9bc070213ac231a", null ],
+    [ "set_line_numbering", "menus_8tcl.html#a30632fba621d459ea37b2e2857465b44", null ],
     [ "show_console_view", "menus_8tcl.html#a72b102c9f37becebf4a5aae3326e112c", null ],
     [ "show_file_diff", "menus_8tcl.html#ac5802ebe3a9a55037935c7bc9564c66e", null ],
     [ "show_last_profiling_report", "menus_8tcl.html#a5025caea6912dc6ef5b2d96a573de191", null ],
@@ -113,6 +115,7 @@ var menus_8tcl =
     [ "theme_edit_command", "menus_8tcl.html#a3a30caea447d3d5921348014d0b979a2", null ],
     [ "tools_posting", "menus_8tcl.html#abdd6507b3632901a4997833b16420baf", null ],
     [ "unfavorite_command", "menus_8tcl.html#a4cadb7eed4ee2ec8f45a13ac7c4acf53", null ],
+    [ "unindent_command", "menus_8tcl.html#a00185f2e94f96bc4e0e256bc4a7154c1", null ],
     [ "unlock_command", "menus_8tcl.html#a3b23e5a7602b4e943b05715b08fc9432", null ],
     [ "view_posting", "menus_8tcl.html#a529007f0283f2e81ff31d344010c7f6c", null ],
     [ "view_tabs_posting", "menus_8tcl.html#ab82ebc3369d96177ec1cec0df7d3ba19", null ]

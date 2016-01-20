@@ -6,7 +6,7 @@ var launcher_8tcl =
     [ "execute", "launcher_8tcl.html#affde9be087a56735f18ce769753aa277", null ],
     [ "execute_helper", "launcher_8tcl.html#a0c86a0de26b15596bd6866babafc0dc5", null ],
     [ "file_okay", "launcher_8tcl.html#a275861bf3696b81eb8a2d13d2404cce1", null ],
-    [ "find_matches", "launcher_8tcl.html#ab689aecefaabfb3c578e59cfca014744", null ],
+    [ "find_matches", "launcher_8tcl.html#a0db6eb2aee367f493adc500f19f358d9", null ],
     [ "get_command_name", "launcher_8tcl.html#aa22236396e14d59255c44300d16fdcd8", null ],
     [ "get_match_results", "launcher_8tcl.html#ad96c14f69fa228bc2958bdcda7660b6c", null ],
     [ "handle_calculation", "launcher_8tcl.html#a9a2ee8a65127c82e8c0bc4f58b9fc2aa", null ],
