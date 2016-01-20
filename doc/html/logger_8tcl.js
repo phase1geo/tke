@@ -8,5 +8,5 @@ var logger_8tcl =
     [ "initialize", "logger_8tcl.html#aa89b7146a1a92334d3a18364e4e6279d", null ],
     [ "log", "logger_8tcl.html#a3d1a177556c3ce0c5908ee9f9ac2a59d", null ],
     [ "on_exit", "logger_8tcl.html#a760fb91d0e27e0db38c58113d867f947", null ],
-    [ "view_log", "logger_8tcl.html#a0a01aa854ca65abc2509ebe576307d57", null ]
+    [ "view_log", "logger_8tcl.html#a6556254b5d35da6e94b7eeec9ef424ee", null ]
 ];

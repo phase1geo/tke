@@ -146,8 +146,12 @@ Functions</h2></td></tr>
 <tr class="separator:a7175b052a0145793dd4e16f3a09f875a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6cca9fa0f595f9a2f48a7a972420951c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceapi.html#a6cca9fa0f595f9a2f48a7a972420951c">show_info</a> interp pname msg?clear_delay?</td></tr>
 <tr class="separator:a6cca9fa0f595f9a2f48a7a972420951c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af86365b4bffc6aac3899a20bcf382a6c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceapi.html#af86365b4bffc6aac3899a20bcf382a6c">show_error</a> interp pname msg?detail?</td></tr>
+<tr class="separator:af86365b4bffc6aac3899a20bcf382a6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9939e105adae875c1a666e9ce2edec65"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceapi.html#a9939e105adae875c1a666e9ce2edec65">get_user_input</a> interp pname msg pvar?allow_vars?</td></tr>
 <tr class="separator:a9939e105adae875c1a666e9ce2edec65"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ad71c189816c2d0a934cdd3545a8ca5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceapi.html#a3ad71c189816c2d0a934cdd3545a8ca5">reset_text_focus</a> interp pname</td></tr>
+<tr class="separator:a3ad71c189816c2d0a934cdd3545a8ca5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="ad83be960420519d765d070c4d52058c6"></a>
@@ -247,8 +251,8 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns a list containing two elements. The first element is set to a 1 if the user provided input; otherwise, returns 0 to indicate that the user cancelled the input operation. The second item is the user provided value (if the first value is set to 1). </dd></dl>
 
-<p>Definition at line <a class="el" href="api_8tcl_source.html#l00167">167</a> of file <a class="el" href="api_8tcl_source.html">api.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;  <span class="keyword">proc</span> get_user_input {interp pname msg pvar {allow_vars 1}} {</div><div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;</div><div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    <span class="keyword">set</span> var &quot;&quot;<span class="comment"></span></div><div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;<span class="comment"></span></div><div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    <span class="keyword">if</span> {[<a class="code" href="namespacegui.html#a5c0544594b31e4523edd68f672b37b7a" title="gui::get_user_response">gui::get_user_response</a> $msg var $allow_vars]} {</div><div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;      $interp eval set $pvar [list $var]<span class="comment"></span></div><div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;<span class="comment"></span>      <span class="keyword">return</span> 1<span class="comment"></span></div><div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="comment"></span>    }<span class="comment"></span></div><div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;<span class="comment"></span></div><div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    <span class="keyword">return</span> 0<span class="comment"></span></div><div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;<span class="comment"></span></div><div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;  }</div></div><!-- fragment -->
+<p>Definition at line <a class="el" href="api_8tcl_source.html#l00179">179</a> of file <a class="el" href="api_8tcl_source.html">api.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;  <span class="keyword">proc</span> get_user_input {interp pname msg pvar {allow_vars 1}} {</div><div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;</div><div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    <span class="keyword">set</span> var &quot;&quot;<span class="comment"></span></div><div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;<span class="comment"></span></div><div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    <span class="keyword">if</span> {[<a class="code" href="namespacegui.html#a5c0544594b31e4523edd68f672b37b7a" title="gui::get_user_response">gui::get_user_response</a> $msg var $allow_vars]} {</div><div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;      $interp eval set $pvar [list $var]<span class="comment"></span></div><div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;<span class="comment"></span>      <span class="keyword">return</span> 1<span class="comment"></span></div><div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;<span class="comment"></span>    }<span class="comment"></span></div><div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="comment"></span></div><div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    <span class="keyword">return</span> 0<span class="comment"></span></div><div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<span class="comment"></span></div><div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;  }</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="abaf2e15fda1463ac72225e2d8af92455"></a>
@@ -362,6 +366,59 @@ Functions</h2></td></tr>
 <div class="fragment"><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;  <span class="keyword">proc</span> register_launcher {interp pname description command} {</div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <a class="code" href="namespacelauncher.html#a2b295e7b3b73ad09d0c9548a7382365d" title="launcher::register">launcher::register</a> [<span class="keyword">format</span> &quot;%s-%s: %s&quot; [msgcat::mc &quot;Plugin&quot;] $pname $description] &quot;$interp eval $command&quot;<span class="comment"></span></div><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="comment"></span></div><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;  }</div></div><!-- fragment -->
 </div>
 </div>
+<a class="anchor" id="a3ad71c189816c2d0a934cdd3545a8ca5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">api::reset_text_focus</td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">interp pname &#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Sets the text focus back to the last text widget to receive focus. </p>
+
+<p>Definition at line <a class="el" href="api_8tcl_source.html#l00194">194</a> of file <a class="el" href="api_8tcl_source.html">api.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;  <span class="keyword">proc</span> reset_text_focus {interp pname} {</div><div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;</div><div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    after idle [list gui::set_txt_focus [<a class="code" href="namespacegui.html#ab779db47b6ceada376e53037cec6e975" title="gui::last_txt_focus">gui::last_txt_focus</a> {}]]<span class="comment"></span></div><div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;<span class="comment"></span></div><div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;  }</div></div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="af86365b4bffc6aac3899a20bcf382a6c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">api::show_error</td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">interp pname msg ?detail? &#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Displays the given error message with detail information in a popup dialog window.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">msg</td><td>Main error message </td></tr>
+    <tr><td class="paramname">detail</td><td>Error message detailed information </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="api_8tcl_source.html#l00158">158</a> of file <a class="el" href="api_8tcl_source.html">api.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;  <span class="keyword">proc</span> show_error {interp pname msg {detail &quot;&quot;}} {</div><div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;</div><div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <a class="code" href="namespacegui.html#a221cbfdce8272760c460d4a8ebec467a" title="gui::set_error_message">gui::set_error_message</a> $msg $detail<span class="comment"></span></div><div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;<span class="comment"></span></div><div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;  }</div></div><!-- fragment -->
+</div>
+</div>
 <a class="anchor" id="a6cca9fa0f595f9a2f48a7a972420951c"></a>
 <div class="memitem">
 <div class="memproto">
@@ -444,7 +501,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceapi.html">api</a></li>
-    <li class="footer">Generated on Wed Dec 30 2015 09:30:17 for TKE by
+    <li class="footer">Generated on Tue Jan 19 2016 23:53:54 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

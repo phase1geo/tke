@@ -13,6 +13,7 @@ var dir_97aefd0d527b934f1d99a682da8fe6a9 =
     [ "edit.tcl", "edit_8tcl.html", "edit_8tcl" ],
     [ "embed_tke.tcl", "embed__tke_8tcl.html", "embed__tke_8tcl" ],
     [ "favorites.tcl", "favorites_8tcl.html", "favorites_8tcl" ],
+    [ "fontchooser.tcl", "fontchooser_8tcl.html", "fontchooser_8tcl" ],
     [ "gui.tcl", "gui_8tcl.html", "gui_8tcl" ],
     [ "indent.tcl", "indent_8tcl.html", "indent_8tcl" ],
     [ "interpreter.tcl", "interpreter_8tcl.html", "interpreter_8tcl" ],

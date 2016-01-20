@@ -1,8 +1,9 @@
 var searchData=
 [
   ['uncomment',['uncomment',['../namespaceedit.html#a6e5d0406c963e905c060bff361a1d9e5',1,'edit']]],
-  ['undo',['undo',['../namespacegui.html#ae04da0e79987182442ce8bad3ba607c3',1,'gui::undo()'],['../namespacevim.html#a83bae15bfae3e6fbd741fef10bcd09e9',1,'vim::undo()'],['../namespacectext.html#a82f484c7fcd28988bdefd051f754b112',1,'ctext::undo()']]],
+  ['undo',['undo',['../namespacegui.html#ae04da0e79987182442ce8bad3ba607c3',1,'gui::undo()'],['../namespacevim.html#aca910373ef71ebbbe026c84a58d8c19c',1,'vim::undo()'],['../namespacectext.html#a82f484c7fcd28988bdefd051f754b112',1,'ctext::undo()']]],
   ['undo_5fdelete',['undo_delete',['../namespacectext.html#a25a89e4fcb24449edb5e38f72d4bcc3e',1,'ctext']]],
+  ['undo_5fdisplay',['undo_display',['../namespacectext.html#a79455f16d4abfa6f9a86151e5b7fb412',1,'ctext']]],
   ['undo_5fget_5fcursor_5fhist',['undo_get_cursor_hist',['../namespacectext.html#a30aa07cefec586ed955b987b5a0047cb',1,'ctext']]],
   ['undo_5finsert',['undo_insert',['../namespacectext.html#ab2e08eac993f8c5cbc9f330e73c44b46',1,'ctext']]],
   ['undo_5fmanage',['undo_manage',['../namespacectext.html#a9fd070f9ee326464b5fde34a66e51994',1,'ctext']]],
@@ -11,7 +12,8 @@ var searchData=
   ['unfavorite',['unfavorite',['../namespacesidebar.html#a50844571c817c948ddb59b1eba1ccde6',1,'sidebar']]],
   ['unfavorite_5fcommand',['unfavorite_command',['../namespacemenus.html#a4cadb7eed4ee2ec8f45a13ac7c4acf53',1,'menus']]],
   ['unhide_5fscrollbar',['unhide_scrollbar',['../namespacesidebar.html#ad60d0050289f769dd9782ec07092ab18',1,'sidebar']]],
-  ['unindent',['unindent',['../namespaceedit.html#ae907e720f4f636385bf3dbc37b85ada2',1,'edit']]],
+  ['unindent',['unindent',['../namespaceedit.html#a66f52c65fe631b1ca8879b4f0eac9cac',1,'edit']]],
+  ['unindent_5fcommand',['unindent_command',['../namespacemenus.html#a00185f2e94f96bc4e0e256bc4a7154c1',1,'menus']]],
   ['uninstall',['uninstall',['../namespaceplugins.html#a7e6638690549195ae30259452214057a',1,'plugins']]],
   ['uninstall_5fitem',['uninstall_item',['../namespaceplugins.html#a58e3340348990e2587f743ffdce5b6a7',1,'plugins']]],
   ['unlock_5fcommand',['unlock_command',['../namespacemenus.html#a3b23e5a7602b4e943b05715b08fc9432',1,'menus']]],

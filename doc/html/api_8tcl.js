@@ -16,7 +16,9 @@ var api_8tcl =
     [ "normalize_filename", "api_8tcl.html#a721c189f06523428e19bf94ceb165a7b", null ],
     [ "open_file", "api_8tcl.html#a70b0c8e15296575c5e2dcdd7b7f68bd1", null ],
     [ "register_launcher", "api_8tcl.html#a7d613353a404aa8653113b181c28ecfb", null ],
+    [ "reset_text_focus", "api_8tcl.html#a3ad71c189816c2d0a934cdd3545a8ca5", null ],
     [ "save_variable", "api_8tcl.html#ae98577e8c2577e6bd5abc1effc4812ed", null ],
+    [ "show_error", "api_8tcl.html#af86365b4bffc6aac3899a20bcf382a6c", null ],
     [ "show_info", "api_8tcl.html#a6cca9fa0f595f9a2f48a7a972420951c", null ],
     [ "tke_development", "api_8tcl.html#ad92668593904387911fcccb8b9c211a0", null ],
     [ "unregister_launcher", "api_8tcl.html#aaaeb165f38a12a750f55389bc59979ae", null ]
