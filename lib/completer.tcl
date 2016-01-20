@@ -141,10 +141,8 @@ namespace eval completer {
     variable types
 
     if {([$txt get insert] eq $types($type)) && ![ctext::isEscaped $txt insert]} {
-      puts "type: $type, L ranges: [$txt get {*}[$txt tag ranges _${type}L]], R ranges: [$txt get {*}[$txt tag ranges _${type}R]]"
-      set opens  [string length [string map {{ } {}} [$txt get {*}[$txt tag ranges _${type}L]]]]
-      set closes [string length [string map {{ } {}} [$txt get {*}[$txt tag ranges _${type}R]]]]
-      puts "opens: $opens, closes: $closes"
+      foreach {startpos endpos} [$txt tag ranges _${type}L] { incr opens  [$txt count -chars $startpos $endpos] }
+      foreach {startpos endpos} [$txt tag ranges _${type}R] { incr closes [$txt count -chars $startpos $endpos] }
       return [expr $opens <= $closes]
     }
 
@@ -161,8 +159,8 @@ namespace eval completer {
     if {$complete($txt,square) && ![ctext::inComment $txt "insert-1c"]} {
       if {$side eq "right"} {
         if {[skip_closing $txt square]} {
-          ctext::matchPair [winfo parent $txt] squareL
           ::tk::TextSetCursor $txt "insert+1c"
+          ctext::matchPair [winfo parent $txt] squareL
           return 1
         }
       } else {
@@ -187,8 +185,8 @@ namespace eval completer {
     if {$complete($txt,curly) && ![ctext::inComment $txt "insert-1c"]} {
       if {$side eq "right"} {
         if {[skip_closing $txt curly]} {
-          ctext::matchPair [winfo parent $txt] curlyL
           ::tk::TextSetCursor $txt "insert+1c"
+          ctext::matchPair [winfo parent $txt] curlyL
           return 1
         }
       } else {
@@ -213,8 +211,8 @@ namespace eval completer {
     if {$complete($txt,angled) && ![ctext::inComment $txt "insert-1c"]} {
       if {$side eq "right"} {
         if {[skip_closing $txt angled]} {
-          ctext::matchPair [winfo parent $txt] angledL
           ::tk::TextSetCursor $txt "insert+1c"
+          ctext::matchPair [winfo parent $txt] angledL
           return 1
         }
       } else {
@@ -239,8 +237,8 @@ namespace eval completer {
     if {$complete($txt,paren) && ![ctext::inComment $txt "insert-1c"]} {
       if {$side eq "right"} {
         if {[skip_closing $txt paren]} {
-          ctext::matchPair [winfo parent $txt] parenL
           ::tk::TextSetCursor $txt "insert+1c"
+          ctext::matchPair [winfo parent $txt] parenL
           return 1
         }
       } else {
