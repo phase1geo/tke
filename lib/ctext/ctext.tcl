@@ -7,8 +7,10 @@ package provide ctext 5.0
 
 namespace eval ctext {
   array set REs {
-    words  {([^\s\(\{\[\}\]\)\.\t\n\r;:=\"'\|,<>]+)}
+    words    {[^\s\(\{\[\}\]\)\.\t\n\r;:=\"'\|,<>]+}
+    brackets {[][()\{\}<>]}
   }
+  array set bracket_map {\( parenL \) parenR \{ curlyL \} curlyR \[ squareL \] squareR < angledL > angledR}
   array set data {}
 }
 
@@ -62,7 +64,6 @@ proc ctext {win args} {
   set ctext::data($win,config,-diff_mode)             0
   set ctext::data($win,config,-diffsubbg)             "pink"
   set ctext::data($win,config,-diffaddbg)             "light green"
-  set ctext::data($win,config,-lazy)                  0
   set ctext::data($win,config,re_opts)                ""
   set ctext::data($win,config,win)                    $win
   set ctext::data($win,config,modified)               0
@@ -88,7 +89,7 @@ proc ctext {win args} {
 
   set ctext::data($win,config,ctextFlags) [list -xscrollcommand -yscrollcommand -linemap -linemapfg -linemapbg \
   -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable \
-  -linemap_cursor -highlightcolor -lazy \
+  -linemap_cursor -highlightcolor \
   -linemap_select_fg -linemap_select_bg -linemap_relief -linemap_minwidth -linemap_type -casesensitive -peer \
   -undo -maxundo -autoseparators -diff_mode -diffsubbg -diffaddbg]
 
@@ -399,16 +400,6 @@ proc ctext::buildArgParseTable win {
     break
   }
 
-  lappend argTable {0 false no} -lazy {
-    set data($self,config,-lazy) 0
-    break
-  }
-
-  lappend argTable {1 true yes} -lazy {
-    set data($self,config,-lazy) 1
-    break
-  }
-
   lappend argTable {0 false no} -casesensitive {
     set data($self,config,-casesensitive) 0
     set data($self,config,re_opts) "-nocase"
@@ -632,11 +623,7 @@ proc ctext::set_border_color {win color} {
 # Returns 1 if the character at the given index is escaped; otherwise, returns 0.
 proc ctext::isEscaped {win index} {
 
-  if {[regexp {^(\\*)} [string reverse [$win get "$index linestart" $index]] -> escapes]} {
-    return [expr [string length $escapes] % 2]
-  }
-
-  return 0
+  return [expr {[string index [regexp -inline {\\*$} [$win get "$index linestart" $index]] 0] eq "\\"}]
 
 }
 
@@ -1383,22 +1370,22 @@ proc ctext::instanceCmd {self cmd args} {
       switch -- $dat {
         "\}" {
           if {$data($self,config,matchChar,curly)} {
-            ctext::matchPair $self "\\\{" "\\\}"
+            ctext::matchPair $self curlyL
           }
         }
         "\]" {
           if {$data($self,config,matchChar,square)} {
-            ctext::matchPair $self "\\\[" "\\\]"
+            ctext::matchPair $self squareL
           }
         }
         "\)" {
           if {$data($self,config,matchChar,paren)} {
-            ctext::matchPair $self "\\(" "\\)"
+            ctext::matchPair $self parenL
           }
         }
         "\>" {
           if {$data($self,config,matchChar,angled)} {
-            ctext::matchPair $self "\\<" "\\>"
+            ctext::matchPair $self angledL
           }
         }
         "\"" {
@@ -1458,22 +1445,22 @@ proc ctext::instanceCmd {self cmd args} {
       switch -- $dat {
         "\}" {
           if {$data($self,config,matchChar,curly)} {
-            ctext::matchPair $self "\\\{" "\\\}"
+            ctext::matchPair $self curlyL
           }
         }
         "\]" {
           if {$data($self,config,matchChar,square)} {
-            ctext::matchPair $self "\\\[" "\\\]"
+            ctext::matchPair $self squareL
           }
         }
         "\)" {
           if {$data($self,config,matchChar,paren)} {
-            ctext::matchPair $self "\\(" "\\)"
+            ctext::matchPair $self parenL
           }
         }
         "\>" {
           if {$data($self,config,matchChar,angled)} {
-            ctext::matchPair $self "\\<" "\\>"
+            ctext::matchPair $self angledL
           }
         }
         "\"" {
@@ -1864,58 +1851,91 @@ proc ctext::tag:blink {win count {afterTriggered 0}} {
     set data($win,config,blinkAfterId) [after 50 \
     [list ctext::tag:blink $win $count [set afterTriggered 1]]]
   }
+
 }
 
-proc ctext::matchPair {win str1 str2} {
+######################################################################
+# Returns the index of the matching bracket type where 'type' is the
+# type of bracket to find.  For example, if the current bracket is
+# a left square bracket, call this procedure as:
+#   ctext::get_match_bracket $txt squareR
+proc ctext::get_match_bracket {win stype {index insert}} {
 
-  if {[isEscaped $win "insert-1c"]} {
-    return
-  }
-
-  set searchRE "[set str1]|[set str2]"
   set count 1
 
-  set pos [$win index "insert - 1 chars"]
-  set endPair $pos
-  set lastFound ""
-  while 1 {
-    set found [$win search -backwards -regexp $searchRE $pos]
+  if {[string index $stype end] eq "R"} {
 
-    if {$found == "" || [$win compare $found > $pos]} {
-      return
+    set otype [string range $stype 0 end-1]L
+
+    lassign [$win tag nextrange _$stype "$index+1c"] sfirst slast
+    lassign [$win tag prevrange _$otype $index]      ofirst olast
+    set ofirst "$index+1c"
+
+    if {($olast eq "") || [$win compare $olast < insert]} {
+      lassign [$win tag nextrange _$otype "insert"] dummy olast
     }
 
-    if {$lastFound != "" && [$win compare $found == $lastFound]} {
-      #The search wrapped and found the previous search
-      return
-    }
-
-    set lastFound $found
-    set char [$win get $found]
-    set prevChar [$win get "$found - 1 chars"]
-    set pos $found
-
-    if {[isEscaped $win $found] || [inCommentString $win $found]} {
-      continue
-    } elseif {[string equal $char [subst $str2]]} {
-      incr count
-    } elseif {[string equal $char [subst $str1]]} {
-      incr count -1
-      if {$count == 0} {
-        set startPair $found
-        break
+    while {($olast ne "") && ($slast ne "")} {
+      if {[$win compare $slast < $olast]} {
+        if {[incr count -[$win count -chars $sfirst $slast]] <= 0} {
+          return "$slast-[expr 1 - $count]c"
+        }
+        lassign [$win tag nextrange _$stype "$slast+1c"] sfirst slast
+      } else {
+        incr count [$win count -chars $ofirst $olast]
+        lassign [$win tag nextrange _$otype "$olast+1c"] ofirst olast
       }
-    } else {
-      # This shouldn't happen.  I may in the future make it
-      # return -code error
-      puts stderr "ctext seems to have encountered a bug in ctext::matchPair"
-      return
     }
+
+    while {$slast ne ""} {
+      if {[incr count -[$win count -chars $sfirst $slast]] <= 0} {
+        return "$slast-[expr 1 - $count]c"
+      }
+      lassign [$win tag nextrange _$stype "$slast+1c"] sfirst slast
+    }
+
+  } else {
+
+    set otype [string range $stype 0 end-1]R
+
+    lassign [$win tag prevrange _$stype $index] sfirst slast
+    lassign [$win tag prevrange _$otype $index] ofirst olast
+
+    if {($olast ne "") && [$win compare $olast >= insert]} {
+      set olast $index
+    }
+
+    while {($ofirst ne "") && ($sfirst ne "")} {
+      if {[$win compare $sfirst > $ofirst]} {
+        if {[incr count -[$win count -chars $sfirst $slast]] <= 0} {
+          return "$sfirst+[expr 0 - $count]c"
+        }
+        lassign [$win tag prevrange _$stype $sfirst] sfirst slast
+      } else {
+        incr count [$win count -chars $ofirst $olast]
+        lassign [$win tag prevrange _$otype $ofirst] ofirst olast
+      }
+    }
+
+    while {$sfirst ne ""} {
+      if {[incr count -[$win count -chars $sfirst $slast]] <= 0} {
+        return "$sfirst+[expr 0 - $count]c"
+      }
+      lassign [$win tag prevrange _$stype $sfirst] sfirst slast
+    }
+
   }
 
-  $win tag add __ctext_blink $startPair
-  $win tag add __ctext_blink $endPair
-  ctext::tag:blink $win 0
+  return ""
+
+}
+
+proc ctext::matchPair {win type} {
+
+  if {[set pos [get_match_bracket $win $type [$win index "insert-1c"]]] ne ""} {
+    $win tag add __ctext_blink $pos "$pos+1c"
+    ctext::tag:blink $win 0
+  }
 
 }
 
@@ -2602,6 +2622,7 @@ proc ctext::doHighlight {win start end} {
 
   variable data
   variable REs
+  variable bracket_map
   variable restart_from
 
   if {![winfo exists $win]} {
@@ -2617,9 +2638,9 @@ proc ctext::doHighlight {win start end} {
   # Handle word-based matching
   set i 0
   foreach res [$twin search -count lengths -regexp {*}$data($win,config,re_opts) -all -- $REs(words) $start $end] {
-    set wordEnd      [$twin index "$res + [lindex $lengths $i] chars"]
-    set word         [$twin get $res $wordEnd]
-    set firstOfWord  [string index $word 0]
+    set wordEnd     [$twin index "$res + [lindex $lengths $i] chars"]
+    set word        [$twin get $res $wordEnd]
+    set firstOfWord [string index $word 0]
     if {[info exists data($win,highlight,keyword,class,$word)]} {
       $twin tag add $data($win,highlight,keyword,class,$word) $res $wordEnd
     } elseif {[info exists data($win,highlight,charstart,class,$firstOfWord)]} {
@@ -2638,8 +2659,14 @@ proc ctext::doHighlight {win start end} {
               ![catch { {*}$data($win,highlight,searchword,command,$word) $win $res $wordEnd } retval] && ([llength $retval] == 4)} {
       handle_tag $win {*}$retval
     }
-    if {$data($win,config,-lazy)} { update idletasks }
     incr i
+  }
+
+  # Handle special character matching
+  foreach res [$twin search -regexp -all -- $REs(brackets) $start $end] {
+    if {![inCommentString $twin $res] && ![isEscaped $twin $res]} {
+      $twin tag add _$bracket_map([$twin get $res "$res+1c"]) $res "$res+1c"
+    }
   }
 
   # Handle regular expression matching
@@ -2673,7 +2700,6 @@ proc ctext::doHighlight {win start end} {
           }
         }
       }
-      if {$data($win,config,-lazy)} { update idletasks }
     }
   }
 
