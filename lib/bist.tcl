@@ -61,6 +61,7 @@ namespace eval bist {
     # Add the test items to the tablelist
     foreach category [lsort [array names test_array]] {
       set node [$data(widgets,tbl) insertchild root end [list 1 [string totitle $category] 0 0 0 ""]]
+      $data(widgets,tbl) rowconfigure $node -background grey
       $data(widgets,tbl) cellconfigure $node,selected -image $data(images,checked)
       foreach test [lsort $test_array($category)] {
         set child [$data(widgets,tbl) insertchild $node end [list 1 $test 0 0 0 [join [list bist $category $test] ::]]]
@@ -72,7 +73,7 @@ namespace eval bist {
 
   ######################################################################
   # Runs the built-in self test.
-  proc run {{loops 30}} {
+  proc run {} {
 
     variable tests
     variable data
@@ -91,7 +92,7 @@ namespace eval bist {
     set fail     0
 
     # Make sure that the results tab is displayed.
-    $data(widgets,nb) select 1
+    $data(widgets,nb) select 2
 
     # Allow the BIST to dump output to the output text widget
     $data(widgets,output) configure -state normal
@@ -99,7 +100,6 @@ namespace eval bist {
     $data(widgets,output) configure -state disabled
 
     # Initialize the pass and fail widgets
-    $data(widgets,total) configure -text $loops
     $data(widgets,pass)  configure -text 0
     $data(widgets,fail)  configure -text 0
 
@@ -112,28 +112,50 @@ namespace eval bist {
     output "---------------------------------------------\n"
     output "RUNNING BIST - [clock format [clock seconds]]\n\n"
 
-    for {set i 0} {$i < $loops} {incr i} {
-      lassign [lindex $run_tests [expr int( rand() * $testslen )]] test row
-      $data(widgets,tbl) cellconfigure $row,count -text [expr [$data(widgets,tbl) cellcget $row,count -text] + 1]
-      output "Running $test...  "
-      if {[catch { $test } rc]} {
-        incr fail
-        output "  FAILED ($rc)\n"
-        $data(widgets,fail) configure -text $fail
-        $data(widgets,tbl)  cellconfigure $row,fail -text [expr [$data(widgets,tbl) cellcget $row,fail -text] + 1]
-      } else {
-        incr pass
-        output "  PASSED\n"
-        $data(widgets,pass) configure -text $pass
-        $data(widgets,tbl)  cellconfigure $row,pass -text [expr [$data(widgets,tbl) cellcget $row,pass -text] + 1]
+    if {$data(run_mode) eq "iter"} {
+      $data(widgets,total) configure -text [$data(widgets,iters) get]
+      set index 0
+      for {set i 0} {$i < [$data(widgets,iters) get]} {incr i} {
+        output "Iteration [format {%4d} [expr $i + 1]]:  "
+        switch $data(iter_mode) {
+          random {
+            run_test [expr int( rand() * $testslen )] pass fail err
+          }
+          increment {
+            run_test $index pass fail err
+            set index [expr ($index + 1) % $testslen]
+          }
+          decrement {
+            set index [expr ($index == 0) ? ($testslen - 1) : ($index - 1)]
+            run_test $index pass fail err
+          }
+        }
       }
-
-      # Allow any user events to be handled
-      update
-
-      # If the regression run has been cancelled, stop now
-      if {!$data(run)} {
-        break
+    } elseif {$data(run_mode) eq "loop"} {
+      $data(widgets,total) configure -text [expr [$data(widgets,loops) get] * $testslen]
+      for {set i 0} {$i < [$data(widgets,loops) get]} {incr i} {
+        set tests [list]
+        for {set j 0} {$j < $testslen} {incr j} {
+          lappend tests $j
+        }
+        switch $data(loop_mode) {
+          random {
+            for {set j 0} {$j < $testslen} {incr j} {
+              set rn  [expr int( rand() * $testslen )]
+              set val [lindex $tests $rn]
+              lset tests $rn [lindex $tests $j]
+              lset tests $j  $val
+            }
+          }
+          decrement {
+            set tests [lreverse $tests]
+          }
+        }
+        output "\nLoop [expr $i + 1]\n\n"
+        for {set j 0} {$j < $testslen} {incr j} {
+          output "Test [format {%4d} [expr $j + 1]]:  "
+          run_test [lindex $tests $j] pass fail err
+        }
       }
     }
 
@@ -150,6 +172,54 @@ namespace eval bist {
   }
 
   ######################################################################
+  # Run the given test in the run_tests array.
+  proc run_test {index ppass pfail perr} {
+
+    upvar $ppass pass
+    upvar $pfail fail
+    upvar $perr  err
+
+    variable data
+    variable run_tests
+
+    # Get the row and text to run
+    lassign [lindex $run_tests $index] test row
+
+    # Get the row's parent
+    set par [$data(widgets,tbl) parentkey $row]
+
+    # Increment the count cell for both the child and parent
+    $data(widgets,tbl) cellconfigure $row,count -text [expr [$data(widgets,tbl) cellcget $row,count -text] + 1]
+    $data(widgets,tbl) cellconfigure $par,count -text [expr [$data(widgets,tbl) cellcget $par,count -text] + 1]
+
+    output "Running [format {%-40s} $test...]  "
+
+    # Run the diagnostic and track the pass/fail status in the table
+    if {[catch { $test } rc]} {
+      incr fail
+      output "  FAILED ($rc)\n"
+      $data(widgets,fail) configure -text $fail
+      $data(widgets,tbl)  cellconfigure $row,fail -text [expr [$data(widgets,tbl) cellcget $row,fail -text] + 1]
+      $data(widgets,tbl)  cellconfigure $par,fail -text [expr [$data(widgets,tbl) cellcget $par,fail -text] + 1]
+    } else {
+      incr pass
+      output "  PASSED\n"
+      $data(widgets,pass) configure -text $pass
+      $data(widgets,tbl)  cellconfigure $row,pass -text [expr [$data(widgets,tbl) cellcget $row,pass -text] + 1]
+      $data(widgets,tbl)  cellconfigure $par,pass -text [expr [$data(widgets,tbl) cellcget $par,pass -text] + 1]
+    }
+
+    # Allow any user events to be handled
+    update
+
+    # If the regression run has been cancelled, stop now
+    if {!$data(run)} {
+      break
+    }
+
+  }
+
+  ######################################################################
   # Displays the given output to the BIST output widget.
   proc output {msg} {
 
@@ -158,6 +228,8 @@ namespace eval bist {
     $data(widgets,output) configure -state normal
     $data(widgets,output) insert end $msg
     $data(widgets,output) configure -state disabled
+
+    $data(widgets,output) see insert
 
   }
 
@@ -264,8 +336,9 @@ namespace eval bist {
     ttk::frame $sf.tf
     set data(widgets,tbl) [tablelist::tablelist $sf.tf.tl -columns {0 {} 0 {Name} 0 {Run Count} 0 {Pass Count} 0 {Fail Count} 0 {}} \
       -treecolumn 1 -exportselection 0 -stretch all \
-      -xscrollcommand [list $sf.tf.hb set] \
-      -yscrollcommand [list $sf.tf.vb set]]
+      -borderwidth 0 -highlightthickness 0 \
+      -selectbackground blue -selectforeground white \
+      -xscrollcommand [list $sf.tf.hb set] -yscrollcommand [list $sf.tf.vb set]]
     scroller::scroller $sf.tf.hb -orient horizontal -background white -foreground black -command [list $sf.tf.tl xview]
     scroller::scroller $sf.tf.vb -orient vertical   -background white -foreground black -command [list $sf.tf.tl yview]
 
@@ -276,6 +349,8 @@ namespace eval bist {
     $sf.tf.tl columnconfigure 4 -name fail     -editable 0 -resizable 0
     $sf.tf.tl columnconfigure 5 -name test     -hide 1
 
+    bind [$data(widgets,tbl) bodytag] <Button-$::right_click> [list bist::handle_right_click %W %x %y %X %Y]
+
     grid rowconfigure    $sf.tf 0 -weight 1
     grid columnconfigure $sf.tf 0 -weight 1
     grid $sf.tf.tl -row 0 -column 0 -sticky news
@@ -284,11 +359,90 @@ namespace eval bist {
 
     pack $sf.tf -fill both -expand yes
 
+    # Add the options frame
+    .bistwin.nb add [set of [ttk::frame .bistwin.nb.of]] -text "Options"
+
+    ttk::radiobutton $of.lrb -text "Run loops" -variable bist::data(run_mode) -value "loop" -command {
+      bist::set_state .bistwin.nb.of.if disabled
+      bist::set_state .bistwin.nb.of.lf normal
+    }
+
+    ttk::frame      $of.lf
+    ttk::label      $of.lf.lcl  -text "Loop count: "
+    set data(widgets,loops) [ttk::spinbox $of.lf.lcsb -from 1 -to 1000 -increment 1.0]
+    ttk::label      $of.lf.ltl  -text "Loop type: "
+    ttk::menubutton $of.lf.ltmb -menu [menu .bistwin.ltPopup -tearoff 0]
+
+    grid rowconfigure    $of.lf 5 -weight 1
+    grid columnconfigure $of.lf 0 -minsize 20
+    grid columnconfigure $of.lf 1 -minsize 150
+    grid columnconfigure $of.lf 3 -weight 1
+    grid $of.lf.lcl  -row 0 -column 1 -sticky news -padx 2 -pady 2
+    grid $of.lf.lcsb -row 0 -column 2 -sticky news -padx 2 -pady 2
+    grid $of.lf.ltl  -row 1 -column 1 -sticky news -padx 2 -pady 2
+    grid $of.lf.ltmb -row 1 -column 2 -sticky news -padx 2 -pady 2
+
+    ttk::radiobutton $of.irb -text "Run iterations" -variable bist::data(run_mode) -value "iter" -command {
+      bist::set_state .bistwin.nb.of.lf disabled
+      bist::set_state .bistwin.nb.of.if normal
+    }
+
+    ttk::frame      $of.if
+    ttk::label      $of.if.icl  -text "Iteration count: "
+    set data(widgets,iters) [ttk::spinbox $of.if.icsb -from 1 -to 1000 -increment 1.0]
+    ttk::label      $of.if.itl  -text "Selection method: "
+    ttk::menubutton $of.if.itmb -menu [menu .bistwin.itPopup -tearoff 0]
+
+    grid rowconfigure    $of.if 5 -weight 1
+    grid columnconfigure $of.if 0 -minsize 20
+    grid columnconfigure $of.if 1 -minsize 150
+    grid columnconfigure $of.if 3 -weight 1
+    grid $of.if.icl  -row 0 -column 1 -sticky news -padx 2 -pady 2
+    grid $of.if.icsb -row 0 -column 2 -sticky news -padx 2 -pady 2
+    grid $of.if.itl  -row 1 -column 1 -sticky news -padx 2 -pady 2
+    grid $of.if.itmb -row 1 -column 2 -sticky news -padx 2 -pady 2
+
+    pack $of.lrb -fill x -padx 2 -pady 2
+    pack $of.lf  -fill x -padx 2 -pady 2
+    pack $of.irb -fill x -padx 2 -pady 2
+    pack $of.if  -fill x -padx 2 -pady 2
+
+    # Create loop mode menu
+    foreach {val lbl} {
+      "random"    "Random"
+      "increment" "Incrementing order"
+      "decrement" "Decrementing order"
+    } {
+      set cmd [list bist::set_mode .bistwin.nb.of.lf.ltmb $lbl $val loop_mode]
+      .bistwin.ltPopup add radiobutton -label $lbl -variable bist::data(loop_mode) -value $val -command $cmd
+    }
+
+    # Create iteration mode menu
+    foreach {val lbl} {
+      "random"    "Random"
+      "increment" "Incrementing order"
+      "decrement" "Decrementing order"
+    } {
+      set cmd [list bist::set_mode .bistwin.nb.of.if.itmb $lbl $val iter_mode]
+      .bistwin.itPopup add radiobutton -label $lbl -variable bist::data(iter_mode) -value $val -command $cmd
+    }
+
+    # Initialize UI state
+    set data(run_mode)  "iter"
+    set data(loop_mode) "random"
+    set data(iter_mode) "random"
+    $of.lf.lcsb set 1
+    $of.lf.ltmb configure -text "Random"
+    $of.if.icsb set 50
+    $of.if.itmb configure -text "Random"
+    set_state $of.lf disabled
+
     # Add the results frame
     .bistwin.nb add [set rf [ttk::frame .bistwin.nb.rf]] -text "Results"
 
     ttk::labelframe $rf.of -text "Output"
     set data(widgets,output) [text $rf.of.t -state disabled -wrap none \
+      -relief flat -borderwidth 0 -highlightthickness 0 \
       -xscrollcommand [list $rf.of.hb set] \
       -yscrollcommand [list $rf.of.vb set]]
     scroller::scroller $rf.of.hb -orient horizontal -background white -foreground black -command [list $rf.of.t xview]
@@ -337,6 +491,188 @@ namespace eval bist {
     # Populates the testlist
     populate_testlist
 
+    # Create testlist menus
+    menu .bistwin.filePopup -tearoff 0
+    .bistwin.filePopup add command -label "New Test File" -command [list bist::create_file]
+    .bistwin.filePopup add command -label "New Test"      -command [list bist::create_test]
+
+    menu .bistwin.testPopup -tearoff 0
+    .bistwin.testPopup add command -label "Edit Test"     -command [list bist::edit_test]
+
+  }
+
+  ######################################################################
+  # Displays the UI window to enter a test file.
+  proc create_file {} {
+
+    toplevel     .bistwin.namewin
+    wm title     .bistwin.namewin "New Test Name"
+    wm transient .bistwin.namewin .bistwin
+    wm resizable .bistwin.namewin 0 0
+
+    ttk::frame .bistwin.namewin.f
+    ttk::label .bistwin.namewin.f.l -text "Name: "
+    ttk::entry .bistwin.namewin.f.e -validate key -validatecommand [list bist::validate_file %P]
+
+    pack .bistwin.namewin.f.l -side left -padx 2 -pady 2
+    pack .bistwin.namewin.f.e -side left -padx 2 -pady 2 -fill x
+
+    ttk::frame .bistwin.namewin.bf
+    ttk::button .bistwin.namewin.bf.create -text "Create" -width 6 -command {
+      bist::generate_file [.bistwin.namewin.f.e get]
+      destroy .bistwin.namewin
+    } -state disabled
+    ttk::button .bistwin.namewin.bf.cancel -text "Cancel" -width 6 -command {
+      destroy .bistwin.namewin
+    }
+
+    pack .bistwin.namewin.bf.cancel -side right -padx 2 -pady 2
+    pack .bistwin.namewin.bf.create -side right -padx 2 -pady 2
+
+    pack .bistwin.namewin.f  -fill x
+    pack .bistwin.namewin.bf -fill x
+
+    # Get the grab
+    ::tk::SetFocusGrab .bistwin.namewin .bistwin.namewin.f.e
+
+    # Wait for the window to be destroyed
+    tkwait window .bistwin.namewin
+
+    # Release the grab
+    ::tk::RestoreFocusGrab .bistwin.namewin .bistwin.namewin.f.e
+
+  }
+
+  ######################################################################
+  # Validates the given filename and sets the UI state accordingly.
+  proc validate_file {value} {
+
+    if {($value eq "") || [file exists [file join $::tke_dir tests $value.tcl]]} {
+      .bistwin.namewin.bf.create configure -state disabled
+    } else {
+      .bistwin.namewin.bf.create configure -state normal
+    }
+
+    return 1
+  }
+
+  ######################################################################
+  # Generates a test file.
+  proc generate_file {name} {
+
+    # Open a file for writing
+    if {![catch { open [file join $::tke_dir tests $name.tcl] w } rc]} {
+
+      puts $rc "namespace eval $name {"
+      puts $rc ""
+      puts $rc "  proc run_test1 {} {"
+      puts $rc ""
+      puts $rc "  }"
+      puts $rc ""
+      puts $rc "}"
+
+      close $rc
+
+    }
+
+    # Add the file to the editor
+    gui::add_file end [file join $::tke_dir tests $name.tcl]
+
+  }
+
+  ######################################################################
+  # Create a new test
+  proc create_test {} {
+
+    variable data
+
+    # Get the selected row
+    set selected [$data(widgets,tbl) curselection]
+
+    # Get the test name
+    set test [$data(widgets,tbl) cellcget $selected,name -text]
+
+    # Get the test name
+    set row [lindex [$data(widgets,tbl) childkeys $selected] end]
+
+    # Get the new test name
+    if {[regexp {run_test(\d+)} [$data(widgets,tbl) cellcget $row,name -text] -> num]} {
+      set name "run_test[expr $num + 1]"
+    }
+
+    # Add the file to the editor
+    set tab [gui::add_file end [file join $::tke_dir tests $test.tcl]]
+
+    # Get the text widget from the tab
+    set txt [gui::get_info $tab tab txt]
+
+    # Get the position of the second to last right curly bracket
+    lassign [lrange [$txt tag ranges _curlyR] end-3 end-2] startpos endpos
+
+    # Insert the test
+    $txt insert $endpos "\n\n  proc $name {} {\n    \n  }\n"
+    ::tk::TextSetCursor $endpos+5c
+
+  }
+
+  ######################################################################
+  # Place the test file into the editing buffer and place the cursor and
+  # view at the start of the test.
+  proc edit_test {} {
+
+    variable data
+
+    # Get the selected row
+    set selected [$data(widgets,tbl) curselection]
+
+    # Get the test name
+    set tname [$data(widgets,tbl) cellcget $selected,name -text]
+
+    # Get the diagnsotic name
+    set parent [$data(widgets,tbl) parentkey $selected]
+    set fname  [$data(widgets,tbl) cellcget $parent,name -text]
+
+    # Add the file to the editor
+    set tab [gui::add_file end [file join $::tke_dir tests $fname.tcl]]
+
+    # Get the text widget from the tab
+    set txt [gui::get_info $tab tab txt]
+
+    # Find the test in the file
+    if {[set index [$txt search -regexp -- "proc\s+$tname\M" 1.0]] ne ""} {
+      ::tk::TextSetCursor $index
+    }
+
+  }
+
+  ######################################################################
+  # Sets the current mode and update the UI state.
+  proc set_mode {mb lbl val mode} {
+
+    variable data
+
+    # Update the menubutton
+    $mb configure -text $lbl
+
+    # Update the mode value
+    set data($mode) $val
+
+  }
+
+  ######################################################################
+  # Recursively sets the given widgets and all ancestors to the given state.
+  proc set_state {w state} {
+
+    # Set the current state
+    if {[catch { $w state [expr {($state eq "normal") ? "!disabled" : "disabled"}] } ]} {
+      catch { $w configure -state $state }
+    }
+
+    # Set the state of the child widgets
+    foreach child [winfo children $w] {
+      set_state $child $state
+    }
+
   }
 
   ######################################################################
@@ -365,6 +701,33 @@ namespace eval bist {
     }
 
   }
+
+  ######################################################################
+  # Handles a right-click on the table.
+  proc handle_right_click {W x y X Y} {
+
+    variable data
+
+    lassign [tablelist::convEventFields $W $x $y] ::tablelist::W ::tablelist::x ::tablelist::y
+    set row [$data(widgets,tbl) containing $::tablelist::y]
+
+    if {$row != -1} {
+
+      # Set the selection to the current row
+      $data(widgets,tbl) selection clear 0 end
+      $data(widgets,tbl) selection set $row
+
+      # Display the appropriate menu
+      if {[$data(widgets,tbl) parentkey $row] eq "root"} {
+        tk_popup .bistwin.filePopup $X $Y
+      } else {
+        tk_popup .bistwin.testPopup $X $Y
+      }
+
+    }
+
+  }
+
 
   ######################################################################
   # Called when the BIST window is destroyed.  Deletes images used by this
