@@ -33,22 +33,23 @@ namespace eval bist {
 
   array set data {}
 
-  # Load all of the BIST files
-  foreach bfile [glob -directory [file join $::tke_dir tests] *.tcl] {
-    source $bfile
-  }
-
-  # Gather the list of tests to run
-  foreach ns [namespace children] {
-    lappend tests {*}[info procs ${ns}::run_test*]
-  }
-
   ######################################################################
   # Populates the test list.
-  proc populate_testlist {} {
+  proc refresh {args} {
 
     variable data
     variable tests
+
+    # Load all of the BIST files
+    foreach bfile [glob -directory [file join $::tke_dir tests] *.tcl] {
+      source $bfile
+    }
+
+    # Gather the list of tests to run
+    set tests [list]
+    foreach ns [namespace children] {
+      lappend tests {*}[info procs ${ns}::run_test*]
+    }
 
     # Organize the test items
     set i 0
@@ -57,6 +58,9 @@ namespace eval bist {
       lappend test_array($category) $name
       incr i
     }
+
+    # Clear the tablelist
+    $data(widgets,tbl) delete 0 end
 
     # Add the test items to the tablelist
     foreach category [lsort [array names test_array]] {
@@ -119,15 +123,21 @@ namespace eval bist {
         output "Iteration [format {%4d} [expr $i + 1]]:  "
         switch $data(iter_mode) {
           random {
-            run_test [expr int( rand() * $testslen )] pass fail err
+            if {![run_test [expr int( rand() * $testslen )] pass fail err]} {
+              break
+            }
           }
           increment {
-            run_test $index pass fail err
+            if {![run_test $index pass fail err]} {
+              break
+            }
             set index [expr ($index + 1) % $testslen]
           }
           decrement {
             set index [expr ($index == 0) ? ($testslen - 1) : ($index - 1)]
-            run_test $index pass fail err
+            if {![run_test $index pass fail err]} {
+              break
+            }
           }
         }
       }
@@ -154,7 +164,9 @@ namespace eval bist {
         output "\nLoop [expr $i + 1]\n\n"
         for {set j 0} {$j < $testslen} {incr j} {
           output "Test [format {%4d} [expr $j + 1]]:  "
-          run_test [lindex $tests $j] pass fail err
+          if {![run_test [lindex $tests $j] pass fail err]} {
+            break
+          }
         }
       }
     }
@@ -212,10 +224,8 @@ namespace eval bist {
     # Allow any user events to be handled
     update
 
-    # If the regression run has been cancelled, stop now
-    if {!$data(run)} {
-      break
-    }
+    # Specify if we should continue to run
+    return $data(run)
 
   }
 
@@ -300,7 +310,11 @@ namespace eval bist {
 
     variable testdir
 
+    # Delete the temporary test directory
     file delete -force $testdir
+
+    # Save the run settings
+    save_options
 
   }
 
@@ -431,9 +445,9 @@ namespace eval bist {
     set data(run_mode)  "iter"
     set data(loop_mode) "random"
     set data(iter_mode) "random"
-    $of.lf.lcsb set 1
+    $data(widgets,loops) set 1
     $of.lf.ltmb configure -text "Random"
-    $of.if.icsb set 50
+    $data(widgets,iters) set 50
     $of.if.itmb configure -text "Random"
     set_state $of.lf disabled
 
@@ -485,11 +499,7 @@ namespace eval bist {
     pack .bistwin.bf -fill x
 
     # Handle a window destruction
-    bind .bistwin                     <Destroy>  [list bist::on_destroy %W]
     bind [$data(widgets,tbl) bodytag] <Button-1> [list bist::on_select %W %x %y]
-
-    # Populates the testlist
-    populate_testlist
 
     # Create testlist menus
     menu .bistwin.filePopup -tearoff 0
@@ -498,6 +508,15 @@ namespace eval bist {
 
     menu .bistwin.testPopup -tearoff 0
     .bistwin.testPopup add command -label "Edit Test"     -command [list bist::edit_test]
+
+    # Handle the window close event
+    wm protocol .bistwin WM_DELETE_WINDOW [list bist::on_destroy]
+
+    # Populate the testlist
+    refresh
+
+    # Load the saved options (if any)
+    load_options
 
   }
 
@@ -557,6 +576,14 @@ namespace eval bist {
   }
 
   ######################################################################
+  # Adds the given test file to the editor.
+  proc add_test_file {name} {
+
+    return [gui::add_file end [file join $::tke_dir tests $name.tcl] -sidebar 0 -savecommand [list bist::refresh]]
+
+  }
+
+  ######################################################################
   # Generates a test file.
   proc generate_file {name} {
 
@@ -576,7 +603,10 @@ namespace eval bist {
     }
 
     # Add the file to the editor
-    gui::add_file end [file join $::tke_dir tests $name.tcl]
+    add_test_file $name
+
+    # Save the file
+    gui::save_current {}
 
   }
 
@@ -601,7 +631,7 @@ namespace eval bist {
     }
 
     # Add the file to the editor
-    set tab [gui::add_file end [file join $::tke_dir tests $test.tcl]]
+    set tab [add_test_file $test]
 
     # Get the text widget from the tab
     set txt [gui::get_info $tab tab txt]
@@ -610,8 +640,11 @@ namespace eval bist {
     lassign [lrange [$txt tag ranges _curlyR] end-3 end-2] startpos endpos
 
     # Insert the test
-    $txt insert $endpos "\n\n  proc $name {} {\n    \n  }\n"
-    ::tk::TextSetCursor $endpos+5c
+    $txt insert $endpos "\n\n  proc $name {} {\n    \n  }"
+    ::tk::TextSetCursor $txt $endpos+4c
+
+    # Save the file
+    gui::save_current {}
 
   }
 
@@ -633,14 +666,14 @@ namespace eval bist {
     set fname  [$data(widgets,tbl) cellcget $parent,name -text]
 
     # Add the file to the editor
-    set tab [gui::add_file end [file join $::tke_dir tests $fname.tcl]]
+    set tab [add_test_file $fname]
 
     # Get the text widget from the tab
     set txt [gui::get_info $tab tab txt]
 
     # Find the test in the file
-    if {[set index [$txt search -regexp -- "proc\s+$tname\M" 1.0]] ne ""} {
-      ::tk::TextSetCursor $index
+    if {[set index [$txt search -regexp -- "proc\\s+$tname\\M" 1.0]] ne ""} {
+      ::tk::TextSetCursor $txt $index
     }
 
   }
@@ -728,20 +761,21 @@ namespace eval bist {
 
   }
 
-
   ######################################################################
   # Called when the BIST window is destroyed.  Deletes images used by this
   # window.
-  proc on_destroy {w} {
+  proc on_destroy {} {
 
     variable data
 
-    if {$w ne ".bistwin"} {
-      return
-    }
-
     # Delete the images
     image delete $data(images,checked) $data(images,unchecked)
+
+    # Saves the current options
+    save_options
+
+    # Delete the window
+    destroy .bistwin
 
   }
 
@@ -750,6 +784,59 @@ namespace eval bist {
   proc format_cell {value} {
 
     return ""
+
+  }
+
+  ######################################################################
+  # Saves the current set of options to a file.
+  proc save_options {} {
+
+    variable data
+
+    # Get the values to save into an array
+    set options(run_mode)  $data(run_mode)
+    set options(loop_mode) $data(loop_mode)
+    set options(iter_mode) $data(iter_mode)
+    set options(loops)     [$data(widgets,loops) get]
+    set options(iters)     [$data(widgets,iters) get]
+
+    # Write the options
+    if {[catch { tkedat::write [file join $::tke_home bist.tkedat] [array get options] 0 } rc]} {
+      puts "rc: $rc"
+    }
+
+  }
+
+  ######################################################################
+  # Load the options from the option file.
+  proc load_options {} {
+
+    variable data
+
+    if {![catch { tkedat::read [file join $::tke_home bist.tkedat] 0 } rc]} {
+
+      array set options $rc
+
+      # Update the UI
+      set data(run_mode)  $options(run_mode)
+      set data(loop_mode) $options(loop_mode)
+      set data(iter_mode) $options(iter_mode)
+
+      $data(widgets,loops) set $options(loops)
+      $data(widgets,iters) set $options(iters)
+
+      # Update UI state
+      if {$data(run_mode) eq "loop"} {
+        set_state .bistwin.nb.of.lf normal
+        set_state .bistwin.nb.of.if disabled
+      } else {
+        set_state .bistwin.nb.of.lf disabled
+        set_state .bistwin.nb.of.if normal
+      }
+
+
+
+    }
 
   }
 
