@@ -106,7 +106,8 @@ $(document).ready(function(){initNavTree('namespacetk.html','');});
 
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a>  </div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">tk Namespace Reference</div>  </div>
 </div><!--header-->
@@ -116,14 +117,42 @@ $(document).ready(function(){initNavTree('namespacetk.html','');});
 Namespaces</h2></td></tr>
 <tr class="memitem:namespacetk_1_1mac"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetk_1_1mac.html">mac</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a8a018a4867efa0698fbb8f10940d647a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetk.html#a8a018a4867efa0698fbb8f10940d647a">TextSetCursor</a> w pos args</td></tr>
+<tr class="separator:a8a018a4867efa0698fbb8f10940d647a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a8a018a4867efa0698fbb8f10940d647a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">tk::TextSetCursor</td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">w pos args &#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="ctext_8tcl_source.html#l00019">19</a> of file <a class="el" href="ctext_8tcl_source.html">ctext.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">proc</span> ::tk::TextSetCursor {w pos args} {</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  <span class="keyword">set</span> ins [$w index insert]<span class="comment"></span></div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"></span>  ::tk::TextSetCursorOrig $w $pos<span class="comment"></span></div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment"></span>  <span class="keyword">event</span> generate $w &lt;&lt;CursorChanged&gt;&gt; -data [list $ins {*}$args]<span class="comment"></span></div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment"></span>}</div></div><!-- fragment -->
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacetk.html">tk</a></li>
-    <li class="footer">Generated on Wed Dec 30 2015 09:30:19 for TKE by
+    <li class="footer">Generated on Tue Jan 19 2016 23:53:56 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

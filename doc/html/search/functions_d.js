@@ -4,7 +4,7 @@ var searchData=
   ['new_5ffile_5fcommand',['new_file_command',['../namespacemenus.html#a656274d1b9be3308124c869be53032ec',1,'menus']]],
   ['new_5ffile_5ffrom_5ftemplate',['new_file_from_template',['../namespacemenus.html#ae3b60dad0fdfc840226af5e80f3a7e78',1,'menus']]],
   ['new_5fwindow_5fcommand',['new_window_command',['../namespacemenus.html#aadbabe73c8664d86c8353d714274dd21',1,'menus']]],
-  ['newline',['newline',['../namespaceindent.html#aa24c7c644db6520df28ede12d63c08ce',1,'indent']]],
+  ['newline',['newline',['../namespaceindent.html#a53368f1e18c80edda48939617b4aca72',1,'indent']]],
   ['next_5fpane',['next_pane',['../namespacegui.html#ac3d030aff9d857a0658a51d7b48c6ac7',1,'gui']]],
   ['next_5ftab',['next_tab',['../namespacegui.html#a2951095a477f0a72fb227872a68a6aba',1,'gui']]],
   ['nil',['nil',['../namespacevim.html#a497ebd10458af921b8241f11678d4df4',1,'vim']]],

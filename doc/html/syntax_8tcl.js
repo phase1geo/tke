@@ -25,6 +25,7 @@ var syntax_8tcl =
     [ "get_prefixed_symbol", "syntax_8tcl.html#a55fad28b61befba7b6f20ad7ba5e1810", null ],
     [ "get_syntax_symbol", "syntax_8tcl.html#a569e32304fc17272c7e5a02229e99b2e", null ],
     [ "get_tabs_allowed", "syntax_8tcl.html#a365f239fce6aa155dba5b307b01d23f8", null ],
+    [ "get_vim_language", "syntax_8tcl.html#a8d5cf7f44c9a1906bbfae821f373661a", null ],
     [ "get_xml_attribute", "syntax_8tcl.html#a8392e435882c6f06726d8514a6d22ff0", null ],
     [ "get_xml_tag", "syntax_8tcl.html#a9d1ebeab24f9dd9a10a6874907eba459", null ],
     [ "handle_markdown_reflink_click", "syntax_8tcl.html#a4d42917f9aeef0f65dd3a0a2660d93fd", null ],

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['favorites_2etcl',['favorites.tcl',['../favorites_8tcl.html',1,'']]]
+  ['favorites_2etcl',['favorites.tcl',['../favorites_8tcl.html',1,'']]],
+  ['fontchooser_2etcl',['fontchooser.tcl',['../fontchooser_8tcl.html',1,'']]]
 ];

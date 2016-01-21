@@ -16,7 +16,7 @@ var searchData=
   ['linemapmarkupdate',['linemapMarkUpdate',['../namespacectext.html#a43f1cb94773db49fd9acea37c6a011ef',1,'ctext']]],
   ['linemapsetmark',['linemapSetMark',['../namespacectext.html#a134e74d6934f14c66f64387be8ebc60c',1,'ctext']]],
   ['linemaptogglemark',['linemapToggleMark',['../namespacectext.html#a6b481f414eadb3edd15db1a2188b8da6',1,'ctext']]],
-  ['linemapupdate',['linemapUpdate',['../namespacectext.html#afc54888f4bd8fd0b0dd24096fb6fc2a7',1,'ctext']]],
+  ['linemapupdate',['linemapUpdate',['../namespacectext.html#ad19b7b4f89d7c7fd1dde82648c63f0e3',1,'ctext']]],
   ['linemapupdateoffset',['linemapUpdateOffset',['../namespacectext.html#a994b6d65dca94ec520282c77596e4234',1,'ctext::linemapUpdateOffsetwin first_line last_line'],['../namespacectext.html#afe48732ab8de8b7a8dfe953a34664da3',1,'ctext::linemapUpdateOffsetargs']]],
   ['load',['load',['../namespacebindings.html#a33bf61456ea9a02d57a5a2e88ac33d41',1,'bindings::load()'],['../namespacecliphist.html#a84342a0b1896b6ea0e09ddc08c1aadab',1,'cliphist::load()'],['../namespacefavorites.html#ae89fef3fc5dbd8de1cacfc4536e05929',1,'favorites::load()'],['../namespacelauncher.html#ab45db1b527689aec9f9ae8ae495aab8d',1,'launcher::load()'],['../namespaceplugins.html#a6cbf50a8f6180f8ee3f167e8a8ba99b9',1,'plugins::load()'],['../namespacepreferences.html#accc53512284d3da2788f88005351d176',1,'preferences::load()'],['../namespacesessions.html#a91d0a67e14c80527d50e478ae51f91a4',1,'sessions::load()'],['../namespacesnippets.html#a853068728f790d9b70c520193eeb4474',1,'snippets::load()'],['../namespacesyntax.html#a83fb401cc11b9050b512abbb907c7720',1,'syntax::load()'],['../namespacetemplates.html#a443a0bdafca5216b377f8d0a3f95eb5c',1,'templates::load()'],['../namespacethemes.html#a60898a48e73cdec87482755a291f904e',1,'themes::load()']]],
   ['load_5fand_5fraise_5fwindow',['load_and_raise_window',['../namespacesessions.html#aeace7cb595bcf021fda063f398efdfd0',1,'sessions']]],
@@ -29,5 +29,6 @@ var searchData=
   ['log',['log',['../namespaceapi.html#a7175b052a0145793dd4e16f3a09f875a',1,'api::log()'],['../namespacelogger.html#a3d1a177556c3ce0c5908ee9f9ac2a59d',1,'logger::log()']]],
   ['logger',['logger',['../namespacelogger.html',1,'']]],
   ['logger_2etcl',['logger.tcl',['../logger_8tcl.html',1,'']]],
-  ['lookup',['lookup',['../namespacelauncher.html#a8ff9d9ba5b233298aee1f471682803e5',1,'launcher']]]
+  ['lookup',['lookup',['../namespacelauncher.html#a8ff9d9ba5b233298aee1f471682803e5',1,'launcher']]],
+  ['lshift_5fbetween_5fchar',['lshift_between_char',['../namespaceedit.html#abfb52302b1389f942af8897585056091',1,'edit']]]
 ];

@@ -42,7 +42,7 @@ var plugins_8tcl =
     [ "post_cascade_menu", "plugins_8tcl.html#affb73e12931983ba249c07a8e7802fe7", null ],
     [ "read_config", "plugins_8tcl.html#a9a0e8a039e7175113047ea2a433093e3", null ],
     [ "register", "plugins_8tcl.html#ad76d3447c45a8ee5cfa38554508d8fb4", null ],
-    [ "reload", "plugins_8tcl.html#a8c6d418e47dbd98159ca308aeb46dca9", null ],
+    [ "reload", "plugins_8tcl.html#a52c48daaecc5469aa78a051ea0d00258", null ],
     [ "restore_data", "plugins_8tcl.html#aad3ba626de56b10fe2151ddb1734b6de", null ],
     [ "run_on_start_after_install", "plugins_8tcl.html#a0eaa436eac3f77c3c957b740cd3ac51f", null ],
     [ "save_data", "plugins_8tcl.html#a1925055f56e1c2a74bbef4b01f748726", null ],
