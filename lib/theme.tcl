@@ -1093,6 +1093,9 @@ namespace eval theme {
       # Configure separator
       ttk::style configure TSeparator -relief raised
 
+      # Configure TNotebook widgets
+      ttk::style configure TNotebook.Tab -padding {10 3}
+
     }
 
   }
