@@ -108,8 +108,9 @@ namespace eval bist {
     $data(widgets,fail)  configure -text 0
 
     # Configure UI components
-    $data(widgets,run)    configure -state disabled
-    $data(widgets,cancel) configure -state normal
+    $data(widgets,refresh) configure -state disabled
+    $data(widgets,run)     configure -state disabled
+    $data(widgets,cancel)  configure -state normal
 
     update idletasks
 
@@ -168,6 +169,9 @@ namespace eval bist {
             break
           }
         }
+        if {!$data(run)} {
+          break
+        }
       }
     }
 
@@ -175,8 +179,9 @@ namespace eval bist {
     output "---------------------------------------------"
 
     # Configure UI components
-    $data(widgets,run)    configure -state normal
-    $data(widgets,cancel) configure -state disabled
+    $data(widgets,refresh) configure -state normal
+    $data(widgets,run)     configure -state normal
+    $data(widgets,cancel)  configure -state disabled
 
     # Wrap things up
     finish
@@ -250,20 +255,6 @@ namespace eval bist {
     variable data
 
     set data(run) 0
-
-  }
-
-  ######################################################################
-  # Resets the state of the UI.
-  proc reset {} {
-
-    variable data
-
-    for {set i 0} {$i < [$data(widgets,tbl) size]} {incr i} {
-      $data(widgets,tbl) cellconfigure $i,count -text 0
-      $data(widgets,tbl) cellconfigure $i,pass  -text 0
-      $data(widgets,tbl) cellconfigure $i,fail  -text 0
-    }
 
   }
 
@@ -472,9 +463,9 @@ namespace eval bist {
 
     # Add the main button frame
     ttk::frame  .bistwin.bf
-    set data(widgets,reset)  [ttk::button .bistwin.bf.reset -text "Reset"  -width 6 -command [list bist::reset]]
-    set data(widgets,run)    [ttk::button .bistwin.bf.run   -text "Run"    -width 6 -command [list bist::run]]
-    set data(widgets,cancel) [ttk::button .bistwin.bf.close -text "Cancel" -width 6 -command [list bist::cancel] -state disabled]
+    set data(widgets,refresh) [ttk::button .bistwin.bf.refresh -style BButton -text "Refresh" -width 7 -command [list bist::refresh]]
+    set data(widgets,run)     [ttk::button .bistwin.bf.run     -style BButton -text "Run"     -width 7 -command [list bist::run]]
+    set data(widgets,cancel)  [ttk::button .bistwin.bf.close   -style BButton -text "Cancel"  -width 7 -command [list bist::cancel] -state disabled]
 
     # Pack the button frame
     ttk::label      .bistwin.bf.l0 -text "Total: "
@@ -484,15 +475,15 @@ namespace eval bist {
     ttk::label      .bistwin.bf.l2 -text "Failed: "
     set data(widgets,fail) [ttk::label .bistwin.bf.fail -text "" -width 4]
 
-    pack .bistwin.bf.l0    -side left  -padx 2 -pady 2
-    pack .bistwin.bf.tot   -side left  -padx 2 -pady 2
-    pack .bistwin.bf.l1    -side left  -padx 2 -pady 2
-    pack .bistwin.bf.pass  -side left  -padx 2 -pady 2
-    pack .bistwin.bf.l2    -side left  -padx 2 -pady 2
-    pack .bistwin.bf.fail  -side left  -padx 2 -pady 2
-    pack .bistwin.bf.close -side right -padx 2 -pady 2
-    pack .bistwin.bf.run   -side right -padx 2 -pady 2
-    pack .bistwin.bf.reset -side right -padx 2 -pady 2
+    pack .bistwin.bf.l0      -side left  -padx 2 -pady 2
+    pack .bistwin.bf.tot     -side left  -padx 2 -pady 2
+    pack .bistwin.bf.l1      -side left  -padx 2 -pady 2
+    pack .bistwin.bf.pass    -side left  -padx 2 -pady 2
+    pack .bistwin.bf.l2      -side left  -padx 2 -pady 2
+    pack .bistwin.bf.fail    -side left  -padx 2 -pady 2
+    pack .bistwin.bf.close   -side right -padx 2 -pady 2
+    pack .bistwin.bf.run     -side right -padx 2 -pady 2
+    pack .bistwin.bf.refresh -side right -padx 2 -pady 2
 
     # Pack the main UI elements
     pack .bistwin.nb -fill both -expand yes
@@ -537,11 +528,11 @@ namespace eval bist {
     pack .bistwin.namewin.f.e -side left -padx 2 -pady 2 -fill x
 
     ttk::frame .bistwin.namewin.bf
-    ttk::button .bistwin.namewin.bf.create -text "Create" -width 6 -command {
+    ttk::button .bistwin.namewin.bf.create -style BButton -text "Create" -width 6 -command {
       bist::generate_file [.bistwin.namewin.f.e get]
       destroy .bistwin.namewin
     } -state disabled
-    ttk::button .bistwin.namewin.bf.cancel -text "Cancel" -width 6 -command {
+    ttk::button .bistwin.namewin.bf.cancel -style BButton -text "Cancel" -width 6 -command {
       destroy .bistwin.namewin
     }
 
@@ -801,9 +792,7 @@ namespace eval bist {
     set options(iters)     [$data(widgets,iters) get]
 
     # Write the options
-    if {[catch { tkedat::write [file join $::tke_home bist.tkedat] [array get options] 0 } rc]} {
-      puts "rc: $rc"
-    }
+    catch { tkedat::write [file join $::tke_home bist.tkedat] [array get options] 0 }
 
   }
 
@@ -834,7 +823,17 @@ namespace eval bist {
         set_state .bistwin.nb.of.if normal
       }
 
-
+      # Update menubuttons
+      for {set i 0} {$i <= [.bistwin.ltPopup index end]} {incr i} {
+        if {[.bistwin.ltPopup entrycget $i -value] eq $options(loop_mode)} {
+          .bistwin.nb.of.lf.ltmb configure -text [.bistwin.ltPopup entrycget $i -label]
+        }
+      }
+      for {set i 0} {$i <= [.bistwin.itPopup index end]} {incr i} {
+        if {[.bistwin.itPopup entrycget $i -value] eq $options(iter_mode)} {
+          .bistwin.nb.of.if.itmb configure -text [.bistwin.itPopup entrycget $i -label]
+        }
+      }
 
     }
 
