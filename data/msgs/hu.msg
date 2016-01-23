@@ -204,6 +204,9 @@ msgcat::mcmset hu {
   "About TKE"
   "Körülbelül TKE"
 
+  "Absolute"
+  "Abszolút"
+
   "Align Cursors"
   "Igazítás kurzorok"
 
@@ -753,6 +756,9 @@ msgcat::mcmset hu {
   "Line Number"
   "Sor száma"
 
+  "Line Numbering"
+  "Sorszámozás"
+
   "Lock"
   "Zárolás"
 
@@ -878,6 +884,9 @@ msgcat::mcmset hu {
 
   "Redo"
   "Ismét"
+
+  "Relative"
+  "Átlagos"
 
   "Reload"
   "Újratölt"
@@ -1098,6 +1107,9 @@ msgcat::mcmset hu {
   "View Global"
   "Globális nézet"
 
+  "View Menu: Absolute line numbering"
+  "Nézet menü: Abszolút sorszámozás"
+
   "View Menu: Display text information"
   "Nézet menü: A szöveges információk jelennek meg"
 
@@ -1139,6 +1151,9 @@ msgcat::mcmset hu {
 
   "View Menu: Move to other pane"
   "Nézet menü: Áthelyezése másik ablaktábla"
+
+  "View Menu: Relative line numbering"
+  "Nézet menü: A relatív sorszámozás"
 
   "View Menu: Show console"
   "Nézet menü: Térkép konzol"
@@ -1288,6 +1303,9 @@ msgcat::mcmset hu {
 
   "Delete directory?"
   "Könyvtár törlése?"
+
+  "Delete file?"
+  "A fájl törlése"
 
   "Delete files?"
   "A fájlok törlése"
@@ -1458,6 +1476,9 @@ msgcat::mcmset hu {
 
   "Foreground (slider) color used in the text scrollbars."
   "Előtér (slider) használt szín a szövegben gördítősávját."
+
+  "Foreground color used in menu items with checks or buttons."
+  "A festőszín használt menüpontok ellenőrzéseket és a gombok."
 
   "Foreground text color for strings."
   "Előtérben szövegszínt szálakat."
@@ -1733,6 +1754,26 @@ msgcat::mcmset hu {
 
 }
 
+# vim.tcl
+msgcat::mcmset hu {
+
+  "File format unrecognized"
+  "Ismeretlen fájlformátum"
+
+  "Filename directory does not exist"
+  "Fájlnév könyvtár nem létezik"
+
+  "Illegal modelines value"
+  "Illegális hardverednek érték"
+
+  "Shiftwidth value is not an integer"
+  "Shiftwidth értéke nem egész szám"
+
+  "Tabstop value is not an integer"
+  "TabStop értéke nem egész szám"
+
+}
+
 # General
 msgcat::mcmset hu {
 
@@ -1744,9 +1785,6 @@ msgcat::mcmset hu {
 
   "Delete"
   "Törlés"
-
-  "Delete file?"
-  "A fájl törlése"
 
   "Duplicate"
   "Megkettőzés"

@@ -204,6 +204,9 @@ msgcat::mcmset de {
   "About TKE"
   "Über TKE"
 
+  "Absolute"
+  "Absolut"
+
   "Align Cursors"
   "Ausrichten von Cursorn"
 
@@ -753,6 +756,9 @@ msgcat::mcmset de {
   "Line Number"
   "Zeilennummer"
 
+  "Line Numbering"
+  "Zeilennummerierung"
+
   "Lock"
   "Sperren"
 
@@ -878,6 +884,9 @@ msgcat::mcmset de {
 
   "Redo"
   "Redo"
+
+  "Relative"
+  "Relativ"
 
   "Reload"
   "Neu laden"
@@ -1098,6 +1107,9 @@ msgcat::mcmset de {
   "View Global"
   "Ansicht Global"
 
+  "View Menu: Absolute line numbering"
+  "Menü \"
+
   "View Menu: Display text information"
   "Menü \"
 
@@ -1139,6 +1151,9 @@ msgcat::mcmset de {
 
   "View Menu: Move to other pane"
   "Menü \"
+
+  "View Menu: Relative line numbering"
+  "Im Ansichtsmenü: Relative Zeilennummerierung"
 
   "View Menu: Show console"
   "Im Ansichtsmenü: Show-Konsole"
@@ -1288,6 +1303,9 @@ msgcat::mcmset de {
 
   "Delete directory?"
   "Verzeichnis löschen?"
+
+  "Delete file?"
+  "Datei löschen"
 
   "Delete files?"
   "Alle Dateien löschen"
@@ -1458,6 +1476,9 @@ msgcat::mcmset de {
 
   "Foreground (slider) color used in the text scrollbars."
   "Vordergrund (Schieberegler) Farbe in den Textbildlaufleisten verwendet."
+
+  "Foreground color used in menu items with checks or buttons."
+  "Vordergrundfarbe Menüpunkten mit Schecks oder Schaltflächen."
 
   "Foreground text color for strings."
   "Vordergrund Textfarbe für Streicher."
@@ -1733,6 +1754,26 @@ msgcat::mcmset de {
 
 }
 
+# vim.tcl
+msgcat::mcmset de {
+
+  "File format unrecognized"
+  "Unbekanntes Dateiformat"
+
+  "Filename directory does not exist"
+  "Dateiname-Verzeichnis existiert nicht"
+
+  "Illegal modelines value"
+  "Illegale Modelines Wert"
+
+  "Shiftwidth value is not an integer"
+  "Einrückungstiefe Wert ist keine Ganzzahl"
+
+  "Tabstop value is not an integer"
+  "TabStop-Wert ist keine Ganzzahl"
+
+}
+
 # General
 msgcat::mcmset de {
 
@@ -1744,9 +1785,6 @@ msgcat::mcmset de {
 
   "Delete"
   "Löschen"
-
-  "Delete file?"
-  "Datei löschen"
 
   "Duplicate"
   "Duplikation"

@@ -204,6 +204,9 @@ msgcat::mcmset no {
   "About TKE"
   "Om TKE"
 
+  "Absolute"
+  "Absolute"
+
   "Align Cursors"
   "Justere pekere"
 
@@ -753,6 +756,9 @@ msgcat::mcmset no {
   "Line Number"
   "Linje"
 
+  "Line Numbering"
+  "Linjenummerering"
+
   "Lock"
   "Lås"
 
@@ -878,6 +884,9 @@ msgcat::mcmset no {
 
   "Redo"
   "gjøre om"
+
+  "Relative"
+  "relativ"
 
   "Reload"
   "Restart tke"
@@ -1098,6 +1107,9 @@ msgcat::mcmset no {
   "View Global"
   "Vis globale"
 
+  "View Menu: Absolute line numbering"
+  "Vis-menyen: Absolutt linjenummerering"
+
   "View Menu: Display text information"
   "Vis-menyen: Vise tekstinformasjon"
 
@@ -1139,6 +1151,9 @@ msgcat::mcmset no {
 
   "View Menu: Move to other pane"
   "Vis-menyen: Flytte til andre ruten"
+
+  "View Menu: Relative line numbering"
+  "Vis-menyen: Relative linjenummerering"
 
   "View Menu: Show console"
   "Vis-menyen: Vis konsollen"
@@ -1288,6 +1303,9 @@ msgcat::mcmset no {
 
   "Delete directory?"
   "Slett katalogen?"
+
+  "Delete file?"
+  "Slett filen?"
 
   "Delete files?"
   "Slett filer"
@@ -1458,6 +1476,9 @@ msgcat::mcmset no {
 
   "Foreground (slider) color used in the text scrollbars."
   "(Skyveknappen) forgrunnsfargen brukes i tekst rullefeltene."
+
+  "Foreground color used in menu items with checks or buttons."
+  "Forgrunnsfargen som brukes i menypunktene med kontrollene eller knapper."
 
   "Foreground text color for strings."
   "Forgrunnen tekstfargen for strykere."
@@ -1733,6 +1754,26 @@ msgcat::mcmset no {
 
 }
 
+# vim.tcl
+msgcat::mcmset no {
+
+  "File format unrecognized"
+  "Filformatet er ukjent"
+
+  "Filename directory does not exist"
+  "Filnavn katalogen finnes ikke"
+
+  "Illegal modelines value"
+  "Ugyldig modelines-verdi"
+
+  "Shiftwidth value is not an integer"
+  "Shiftwidth-verdien er ikke et heltall"
+
+  "Tabstop value is not an integer"
+  "TabStop verdien er ikke et heltall"
+
+}
+
 # General
 msgcat::mcmset no {
 
@@ -1744,9 +1785,6 @@ msgcat::mcmset no {
 
   "Delete"
   "Slett"
-
-  "Delete file?"
-  "Slett filen?"
 
   "Duplicate"
   "Duplikat"

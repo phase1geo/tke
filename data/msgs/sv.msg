@@ -204,6 +204,9 @@ msgcat::mcmset sv {
   "About TKE"
   "Om TKE"
 
+  "Absolute"
+  "Grekland"
+
   "Align Cursors"
   "Justera markörer"
 
@@ -753,6 +756,9 @@ msgcat::mcmset sv {
   "Line Number"
   "radnummer"
 
+  "Line Numbering"
+  "Radnumrering"
+
   "Lock"
   "Lock"
 
@@ -878,6 +884,9 @@ msgcat::mcmset sv {
 
   "Redo"
   "Återställ"
+
+  "Relative"
+  "Relativ"
 
   "Reload"
   "Ladda om"
@@ -1098,6 +1107,9 @@ msgcat::mcmset sv {
   "View Global"
   "Visa globala"
 
+  "View Menu: Absolute line numbering"
+  "Visa-menyn: Absolut radnumrering"
+
   "View Menu: Display text information"
   "Visa-menyn: Visar textinformation"
 
@@ -1139,6 +1151,9 @@ msgcat::mcmset sv {
 
   "View Menu: Move to other pane"
   "Visa-menyn: Flytta till andra"
+
+  "View Menu: Relative line numbering"
+  "Visa-menyn: Relativa radnumrering"
 
   "View Menu: Show console"
   "Visa-menyn: Visa konsolen"
@@ -1288,6 +1303,9 @@ msgcat::mcmset sv {
 
   "Delete directory?"
   "Radera katalog?"
+
+  "Delete file?"
+  "Ta bort"
 
   "Delete files?"
   "Ta bort filer"
@@ -1458,6 +1476,9 @@ msgcat::mcmset sv {
 
   "Foreground (slider) color used in the text scrollbars."
   "Förgrundsfärgen (reglaget) används i text scrollbars."
+
+  "Foreground color used in menu items with checks or buttons."
+  "Förgrundsfärgen används i menypunkterna med kontroller eller knappar."
 
   "Foreground text color for strings."
   "Förgrundsfärgen text för strängar."
@@ -1733,6 +1754,26 @@ msgcat::mcmset sv {
 
 }
 
+# vim.tcl
+msgcat::mcmset sv {
+
+  "File format unrecognized"
+  "Okänt filformat"
+
+  "Filename directory does not exist"
+  "Filnamn katalogen finns inte"
+
+  "Illegal modelines value"
+  "Olagliga lägesrader värde"
+
+  "Shiftwidth value is not an integer"
+  "Shiftwidth värde är inte ett heltal"
+
+  "Tabstop value is not an integer"
+  "Tabbstopp värdet är inte ett heltal"
+
+}
+
 # General
 msgcat::mcmset sv {
 
@@ -1744,9 +1785,6 @@ msgcat::mcmset sv {
 
   "Delete"
   "Radera"
-
-  "Delete file?"
-  "Ta bort"
 
   "Duplicate"
   "Duplicera"

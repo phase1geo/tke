@@ -204,6 +204,9 @@ msgcat::mcmset nl {
   "About TKE"
   "Over TKE"
 
+  "Absolute"
+  "Absolue"
+
   "Align Cursors"
   "Uitlijnen van Cursors"
 
@@ -753,6 +756,9 @@ msgcat::mcmset nl {
   "Line Number"
   "Regelnummer"
 
+  "Line Numbering"
+  "Regelnummering"
+
   "Lock"
   "Vergrendelen"
 
@@ -878,6 +884,9 @@ msgcat::mcmset nl {
 
   "Redo"
   "Opnieuw"
+
+  "Relative"
+  "Relatief"
 
   "Reload"
   "Herladen"
@@ -1098,6 +1107,9 @@ msgcat::mcmset nl {
   "View Global"
   "Weergave Global"
 
+  "View Menu: Absolute line numbering"
+  "Menu Beeld: Absolute lijn nummering"
+
   "View Menu: Display text information"
   "Menu Beeld: Tekstinformatie weergeven"
 
@@ -1139,6 +1151,9 @@ msgcat::mcmset nl {
 
   "View Menu: Move to other pane"
   "Menu Beeld: Verplaatsen naar andere deelvenster"
+
+  "View Menu: Relative line numbering"
+  "Menu Beeld: Relatieve regelnummering"
 
   "View Menu: Show console"
   "Menu Beeld: Toon console"
@@ -1288,6 +1303,9 @@ msgcat::mcmset nl {
 
   "Delete directory?"
   "Delete directory?"
+
+  "Delete file?"
+  "Bestand verwijderen"
 
   "Delete files?"
   "Bestanden verwijderen"
@@ -1458,6 +1476,9 @@ msgcat::mcmset nl {
 
   "Foreground (slider) color used in the text scrollbars."
   "Voorgrond (schuif) kleur die wordt gebruikt in de tekst schuifbalken."
+
+  "Foreground color used in menu items with checks or buttons."
+  "Voorgrondkleur die wordt gebruikt in menu-items met cheques of knoppen."
 
   "Foreground text color for strings."
   "Voorgrond tekstkleur voor strijkers."
@@ -1733,6 +1754,26 @@ msgcat::mcmset nl {
 
 }
 
+# vim.tcl
+msgcat::mcmset nl {
+
+  "File format unrecognized"
+  "Bestandsindeling niet herkend"
+
+  "Filename directory does not exist"
+  "Bestandsnaam directory bestaat niet"
+
+  "Illegal modelines value"
+  "Illegale modelines waarde"
+
+  "Shiftwidth value is not an integer"
+  "Shiftwidth waarde is geen geheel getal."
+
+  "Tabstop value is not an integer"
+  "Tabstop waarde is geen geheel getal."
+
+}
+
 # General
 msgcat::mcmset nl {
 
@@ -1744,9 +1785,6 @@ msgcat::mcmset nl {
 
   "Delete"
   "Verwijderen"
-
-  "Delete file?"
-  "Bestand verwijderen"
 
   "Duplicate"
   "Dupliceren"

@@ -204,6 +204,9 @@ msgcat::mcmset da {
   "About TKE"
   "Om TKE"
 
+  "Absolute"
+  "Absolut"
+
   "Align Cursors"
   "Juster markører"
 
@@ -753,6 +756,9 @@ msgcat::mcmset da {
   "Line Number"
   "linjenummer"
 
+  "Line Numbering"
+  "Linjenummerering"
+
   "Lock"
   "Lås"
 
@@ -878,6 +884,9 @@ msgcat::mcmset da {
 
   "Redo"
   "Annuller Fortryd"
+
+  "Relative"
+  "Relativ"
 
   "Reload"
   "Opdater"
@@ -1098,6 +1107,9 @@ msgcat::mcmset da {
   "View Global"
   "Se globale"
 
+  "View Menu: Absolute line numbering"
+  "Se Menu: Absolut linjenummerering"
+
   "View Menu: Display text information"
   "Se Menu: Viser tekstoplysninger"
 
@@ -1139,6 +1151,9 @@ msgcat::mcmset da {
 
   "View Menu: Move to other pane"
   "Se Menu: Flyt til anden rude"
+
+  "View Menu: Relative line numbering"
+  "Se Menu: Relative linjenummerering"
 
   "View Menu: Show console"
   "Se Menu: Vis konsol"
@@ -1288,6 +1303,9 @@ msgcat::mcmset da {
 
   "Delete directory?"
   "Slet mappe?"
+
+  "Delete file?"
+  "Slet fil"
 
   "Delete files?"
   "Slet filer"
@@ -1458,6 +1476,9 @@ msgcat::mcmset da {
 
   "Foreground (slider) color used in the text scrollbars."
   "Forgrund (skyder) farve i teksten scrollbars."
+
+  "Foreground color used in menu items with checks or buttons."
+  "Forgrundsfarven bruges menupunkter med checks eller knapper."
 
   "Foreground text color for strings."
   "Forgrunden tekstfarve for strygere."
@@ -1733,6 +1754,26 @@ msgcat::mcmset da {
 
 }
 
+# vim.tcl
+msgcat::mcmset da {
+
+  "File format unrecognized"
+  "Filformatet blev ikke genkendt"
+
+  "Filename directory does not exist"
+  "Filnavn mappe findes ikke"
+
+  "Illegal modelines value"
+  "Ulovlig modelines værdi"
+
+  "Shiftwidth value is not an integer"
+  "Shiftwidth værdi er ikke et heltal"
+
+  "Tabstop value is not an integer"
+  "Tabulatorstop værdi er ikke et heltal"
+
+}
+
 # General
 msgcat::mcmset da {
 
@@ -1744,9 +1785,6 @@ msgcat::mcmset da {
 
   "Delete"
   "Slet"
-
-  "Delete file?"
-  "Slet fil"
 
   "Duplicate"
   "Dupliker"

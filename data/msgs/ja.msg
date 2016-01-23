@@ -204,6 +204,9 @@ msgcat::mcmset ja {
   "About TKE"
   "TKEについて"
 
+  "Absolute"
+  "絶対"
+
   "Align Cursors"
   "??????????"
 
@@ -753,6 +756,9 @@ msgcat::mcmset ja {
   "Line Number"
   "行番号"
 
+  "Line Numbering"
+  "行番号の表示"
+
   "Lock"
   "固定"
 
@@ -878,6 +884,9 @@ msgcat::mcmset ja {
 
   "Redo"
   "やり直す"
+
+  "Relative"
+  "パーセント表示"
 
   "Reload"
   "再読み込み"
@@ -1098,6 +1107,9 @@ msgcat::mcmset ja {
   "View Global"
   "グローバル ビュー"
 
+  "View Menu: Absolute line numbering"
+  "[表示] メニュー: 絶対行番号"
+
   "View Menu: Display text information"
   "[表示] メニュー: 表示テキスト情報"
 
@@ -1139,6 +1151,9 @@ msgcat::mcmset ja {
 
   "View Menu: Move to other pane"
   "他のウィンドウに移動する [表示] メニュー。"
+
+  "View Menu: Relative line numbering"
+  "[表示] メニュー: 相対行番号"
 
   "View Menu: Show console"
   "[表示] メニュー: 表示コンソール"
@@ -1288,6 +1303,9 @@ msgcat::mcmset ja {
 
   "Delete directory?"
   "ディレクトリを削除しますか？"
+
+  "Delete file?"
+  "ファイルを削除しますか？"
 
   "Delete files?"
   "ファイルを削除しますか。"
@@ -1458,6 +1476,9 @@ msgcat::mcmset ja {
 
   "Foreground (slider) color used in the text scrollbars."
   "テキストスクロールバーで使用される前景（スライダー）カラー。"
+
+  "Foreground color used in menu items with checks or buttons."
+  "チェックやボタンとメニュー項目で使用される前景色です。"
 
   "Foreground text color for strings."
   "文字列のテキストの前景色。"
@@ -1733,6 +1754,26 @@ msgcat::mcmset ja {
 
 }
 
+# vim.tcl
+msgcat::mcmset ja {
+
+  "File format unrecognized"
+  "ファイル形式を認識できません。"
+
+  "Filename directory does not exist"
+  "ファイル名のディレクトリが存在しません"
+
+  "Illegal modelines value"
+  "違法なモードライン値"
+
+  "Shiftwidth value is not an integer"
+  "シフト値が整数ではありません。"
+
+  "Tabstop value is not an integer"
+  "Tabstop の値が整数ではありません。"
+
+}
+
 # General
 msgcat::mcmset ja {
 
@@ -1744,9 +1785,6 @@ msgcat::mcmset ja {
 
   "Delete"
   "削除"
-
-  "Delete file?"
-  "ファイルを削除しますか？"
 
   "Duplicate"
   "複製"

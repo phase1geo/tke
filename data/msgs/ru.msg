@@ -204,6 +204,9 @@ msgcat::mcmset ru {
   "About TKE"
   "О ТКЕ"
 
+  "Absolute"
+  "Абсолютный"
+
   "Align Cursors"
   "????????? ???????"
 
@@ -753,6 +756,9 @@ msgcat::mcmset ru {
   "Line Number"
   "Номер строки"
 
+  "Line Numbering"
+  "Нумерация строк"
+
   "Lock"
   "шлюз"
 
@@ -878,6 +884,9 @@ msgcat::mcmset ru {
 
   "Redo"
   "Вернуть"
+
+  "Relative"
+  "Относительный"
 
   "Reload"
   "Перезагрузить"
@@ -1098,6 +1107,9 @@ msgcat::mcmset ru {
   "View Global"
   "Вид глобальной"
 
+  "View Menu: Absolute line numbering"
+  "В меню Вид: Абсолютная нумерация"
+
   "View Menu: Display text information"
   "В меню Вид: Отображение текстовой информации"
 
@@ -1139,6 +1151,9 @@ msgcat::mcmset ru {
 
   "View Menu: Move to other pane"
   "Меню Вид: Перейти к другой области"
+
+  "View Menu: Relative line numbering"
+  "В меню Вид: Относительная нумерация"
 
   "View Menu: Show console"
   "В меню Вид: Показать консоль"
@@ -1288,6 +1303,9 @@ msgcat::mcmset ru {
 
   "Delete directory?"
   "Удалить каталог?"
+
+  "Delete file?"
+  "Удалить файл?"
 
   "Delete files?"
   "Удалить файлы"
@@ -1458,6 +1476,9 @@ msgcat::mcmset ru {
 
   "Foreground (slider) color used in the text scrollbars."
   "Цвет переднего плана (ползунок), используемый в тексте полосы прокрутки."
+
+  "Foreground color used in menu items with checks or buttons."
+  "Цвет, используемый в меню кнопок или проверки."
 
   "Foreground text color for strings."
   "Цвет текста для строки."
@@ -1733,6 +1754,26 @@ msgcat::mcmset ru {
 
 }
 
+# vim.tcl
+msgcat::mcmset ru {
+
+  "File format unrecognized"
+  "Нераспознанный формат файла"
+
+  "Filename directory does not exist"
+  "Каталог, имя файла не существует"
+
+  "Illegal modelines value"
+  "Незаконные modelines значение"
+
+  "Shiftwidth value is not an integer"
+  "Shiftwidth значение не является целым числом"
+
+  "Tabstop value is not an integer"
+  "TabStop значение не является целым числом"
+
+}
+
 # General
 msgcat::mcmset ru {
 
@@ -1744,9 +1785,6 @@ msgcat::mcmset ru {
 
   "Delete"
   "Удалить"
-
-  "Delete file?"
-  "Удалить файл?"
 
   "Duplicate"
   "Удвоить"
