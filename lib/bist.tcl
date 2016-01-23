@@ -33,6 +33,9 @@ namespace eval bist {
 
   array set data {}
 
+  # In case the UI is closed without running a regression...
+  set data(done) 1
+
   ######################################################################
   # Populates the test list.
   proc refresh {args} {
@@ -84,7 +87,8 @@ namespace eval bist {
     variable run_tests
 
     # Specify that the regression should run
-    set data(run) 1
+    set data(run)  1
+    set data(done) 0
 
     # Initialize a few things first
     initialize
@@ -317,12 +321,16 @@ namespace eval bist {
   proc finish {} {
 
     variable testdir
+    variable data
 
     # Delete the temporary test directory
     file delete -force $testdir
 
     # Save the run settings
     save_options
+
+    # Specify that we are done
+    set data(done) 1
 
   }
 
@@ -775,6 +783,16 @@ namespace eval bist {
   proc on_destroy {} {
 
     variable data
+
+    # If the regression is running we cannot be quit
+    if {!$data(done)} {
+
+      # Cause the regression to stop
+      set data(run) 0
+
+      return
+
+    }
 
     # Delete the images
     image delete $data(images,checked) $data(images,unchecked)
