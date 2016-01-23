@@ -29,7 +29,6 @@ namespace eval completer {
   array set pref_complete    {}
   array set complete         {}
   array set lang_match_chars {}
-  array set types            [list square "\]" curly "\}" angled ">" paren ")"]
 
   trace add variable [ns preferences]::prefs(Editor/AutoMatchChars) write [ns completer]::handle_auto_match_chars
 
@@ -138,15 +137,7 @@ namespace eval completer {
   # This is called when a closing character is detected.
   proc skip_closing {txt type} {
 
-    variable types
-
-    if {([$txt get insert] eq $types($type)) && ![ctext::isEscaped $txt insert]} {
-      foreach {startpos endpos} [$txt tag ranges _${type}L] { incr opens  [$txt count -chars $startpos $endpos] }
-      foreach {startpos endpos} [$txt tag ranges _${type}R] { incr closes [$txt count -chars $startpos $endpos] }
-      return [expr $opens <= $closes]
-    }
-
-    return 0
+    return [expr [lsearch [$txt tag names insert] _${type}R] != -1]
 
   }
 
