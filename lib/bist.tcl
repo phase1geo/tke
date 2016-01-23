@@ -117,6 +117,8 @@ namespace eval bist {
     output "---------------------------------------------\n"
     output "RUNNING BIST - [clock format [clock seconds]]\n\n"
 
+    set start_time [clock milliseconds]
+
     if {$data(run_mode) eq "iter"} {
       $data(widgets,total) configure -text [$data(widgets,iters) get]
       set index 0
@@ -175,7 +177,10 @@ namespace eval bist {
       }
     }
 
+    set stop_time [clock milliseconds]
+
     output "\nPASSED: $pass, FAILED: $fail\n\n"
+    output "Runtime: [runtime_string [expr $stop_time - $start_time]]\n"
     output "---------------------------------------------"
 
     # Configure UI components
@@ -231,6 +236,18 @@ namespace eval bist {
 
     # Specify if we should continue to run
     return $data(run)
+
+  }
+
+  ######################################################################
+  # Returns the runtime string.
+  proc runtime_string {ms} {
+
+    set hours   [expr $ms / 3600000]
+    set minutes [expr ($ms - ($hours * 3600000)) / 60000]
+    set seconds [expr ($ms - ($hours * 3600000) - ($minutes * 60000)) / 1000.0]
+
+    return "$hours hours, $minutes minutes, $seconds seconds"
 
   }
 
@@ -469,11 +486,11 @@ namespace eval bist {
 
     # Pack the button frame
     ttk::label      .bistwin.bf.l0 -text "Total: "
-    set data(widgets,total) [ttk::label .bistwin.bf.tot -text "" -width 4]
+    set data(widgets,total) [ttk::label .bistwin.bf.tot -text "" -width 5]
     ttk::label      .bistwin.bf.l1 -text "Passed: "
-    set data(widgets,pass) [ttk::label .bistwin.bf.pass -text "" -width 4]
+    set data(widgets,pass) [ttk::label .bistwin.bf.pass -text "" -width 5]
     ttk::label      .bistwin.bf.l2 -text "Failed: "
-    set data(widgets,fail) [ttk::label .bistwin.bf.fail -text "" -width 4]
+    set data(widgets,fail) [ttk::label .bistwin.bf.fail -text "" -width 5]
 
     pack .bistwin.bf.l0      -side left  -padx 2 -pady 2
     pack .bistwin.bf.tot     -side left  -padx 2 -pady 2
