@@ -204,6 +204,9 @@ msgcat::mcmset pl {
   "About TKE"
   "O TKE"
 
+  "Absolute"
+  "Bezwzględne"
+
   "Align Cursors"
   "Wyrówna? kursory"
 
@@ -753,6 +756,9 @@ msgcat::mcmset pl {
   "Line Number"
   "Numer wiersza"
 
+  "Line Numbering"
+  "Numeracja wierszy"
+
   "Lock"
   "Zablokować"
 
@@ -878,6 +884,9 @@ msgcat::mcmset pl {
 
   "Redo"
   "Ponów"
+
+  "Relative"
+  "Względny"
 
   "Reload"
   "Reload"
@@ -1098,6 +1107,9 @@ msgcat::mcmset pl {
   "View Global"
   "Widok globalny"
 
+  "View Menu: Absolute line numbering"
+  "Menu Widok: Absolute numerację"
+
   "View Menu: Display text information"
   "Menu Widok: Wyświetla informacje tekstowe"
 
@@ -1139,6 +1151,9 @@ msgcat::mcmset pl {
 
   "View Menu: Move to other pane"
   "Menu Widok: Przenieść do innego okienka"
+
+  "View Menu: Relative line numbering"
+  "Menu Widok: Względne numerację"
 
   "View Menu: Show console"
   "Menu Widok: Konsoli Pokaż"
@@ -1288,6 +1303,9 @@ msgcat::mcmset pl {
 
   "Delete directory?"
   "Usuń katalog?"
+
+  "Delete file?"
+  "Usunąć plik?"
 
   "Delete files?"
   "Usuń pliki"
@@ -1458,6 +1476,9 @@ msgcat::mcmset pl {
 
   "Foreground (slider) color used in the text scrollbars."
   "Kolor pierwszoplanowy (suwak) używane w paski przewijania tekstu."
+
+  "Foreground color used in menu items with checks or buttons."
+  "Kolor pierwszoplanowy w elementy menu z przycisków lub kontroli."
 
   "Foreground text color for strings."
   "Kolorem tekstu dla ciągów."
@@ -1733,6 +1754,26 @@ msgcat::mcmset pl {
 
 }
 
+# vim.tcl
+msgcat::mcmset pl {
+
+  "File format unrecognized"
+  "Nierozpoznany format pliku"
+
+  "Filename directory does not exist"
+  "Nazwa_pliku katalog nie istnieje"
+
+  "Illegal modelines value"
+  "Nielegalne ModeLine wartość"
+
+  "Shiftwidth value is not an integer"
+  "Wartość Shiftwidth nie jest liczbą całkowitą"
+
+  "Tabstop value is not an integer"
+  "TabStop wartość nie jest liczbą całkowitą"
+
+}
+
 # General
 msgcat::mcmset pl {
 
@@ -1744,9 +1785,6 @@ msgcat::mcmset pl {
 
   "Delete"
   "Usuń"
-
-  "Delete file?"
-  "Usunąć plik?"
 
   "Duplicate"
   "Duplikuj"

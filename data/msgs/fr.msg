@@ -204,6 +204,9 @@ msgcat::mcmset fr {
   "About TKE"
   "À propos de TKE"
 
+  "Absolute"
+  "Absolu"
+
   "Align Cursors"
   "Aligner les curseurs"
 
@@ -753,6 +756,9 @@ msgcat::mcmset fr {
   "Line Number"
   "Numéro de ligne"
 
+  "Line Numbering"
+  "Numérotation des lignes"
+
   "Lock"
   "Verrouiller"
 
@@ -878,6 +884,9 @@ msgcat::mcmset fr {
 
   "Redo"
   "Rétablir"
+
+  "Relative"
+  "Relative"
 
   "Reload"
   "Recharger"
@@ -1098,6 +1107,9 @@ msgcat::mcmset fr {
   "View Global"
   "Vue globale"
 
+  "View Menu: Absolute line numbering"
+  "Menu d'affichage : Numérotation de ligne absolue"
+
   "View Menu: Display text information"
   "Menu d'affichage : Afficher des informations textuelles"
 
@@ -1139,6 +1151,9 @@ msgcat::mcmset fr {
 
   "View Menu: Move to other pane"
   "Menu d'affichage : Passer à l'autre volet"
+
+  "View Menu: Relative line numbering"
+  "Menu d'affichage : Numérotation de ligne Relative"
 
   "View Menu: Show console"
   "Menu affichage : Console spectacle"
@@ -1288,6 +1303,9 @@ msgcat::mcmset fr {
 
   "Delete directory?"
   "Supprimer répertoire?"
+
+  "Delete file?"
+  "Supprimer le fichier"
 
   "Delete files?"
   "Supprimez les fichiers ?"
@@ -1458,6 +1476,9 @@ msgcat::mcmset fr {
 
   "Foreground (slider) color used in the text scrollbars."
   "Premier plan (curseur) couleur utilisée dans les barres de défilement de texte."
+
+  "Foreground color used in menu items with checks or buttons."
+  "Couleur de premier plan utilisée dans les menus des contrôles ou des boutons."
 
   "Foreground text color for strings."
   "Premier plan couleur du texte pour les chaînes."
@@ -1733,6 +1754,26 @@ msgcat::mcmset fr {
 
 }
 
+# vim.tcl
+msgcat::mcmset fr {
+
+  "File format unrecognized"
+  "Format de fichier non reconnu"
+
+  "Filename directory does not exist"
+  "Nom du fichier répertoire n'existe pas"
+
+  "Illegal modelines value"
+  "Valeur des modelines illégale"
+
+  "Shiftwidth value is not an integer"
+  "Valeur n’est pas un nombre entier."
+
+  "Tabstop value is not an integer"
+  "Valeur n’est pas un nombre entier."
+
+}
+
 # General
 msgcat::mcmset fr {
 
@@ -1744,9 +1785,6 @@ msgcat::mcmset fr {
 
   "Delete"
   "Supprimer"
-
-  "Delete file?"
-  "Supprimer le fichier"
 
   "Duplicate"
   "Dupliquer"

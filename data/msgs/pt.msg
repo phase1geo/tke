@@ -204,6 +204,9 @@ msgcat::mcmset pt {
   "About TKE"
   "Sobre TKE"
 
+  "Absolute"
+  "Absoluta"
+
   "Align Cursors"
   "Alinhar os cursores"
 
@@ -753,6 +756,9 @@ msgcat::mcmset pt {
   "Line Number"
   "Número de Linha"
 
+  "Line Numbering"
+  "Numeração de Linhas"
+
   "Lock"
   "Fixar"
 
@@ -878,6 +884,9 @@ msgcat::mcmset pt {
 
   "Redo"
   "Refazer"
+
+  "Relative"
+  "Relativo"
 
   "Reload"
   "Recarregar"
@@ -1098,6 +1107,9 @@ msgcat::mcmset pt {
   "View Global"
   "Visão Global"
 
+  "View Menu: Absolute line numbering"
+  "Menu exibir: Numeração de linha absoluta"
+
   "View Menu: Display text information"
   "Menu exibir: Visualizar informações de texto"
 
@@ -1139,6 +1151,9 @@ msgcat::mcmset pt {
 
   "View Menu: Move to other pane"
   "Menu exibir: Mover para outro painel"
+
+  "View Menu: Relative line numbering"
+  "Menu exibir: Numeração de linha relativa"
 
   "View Menu: Show console"
   "Menu exibir: Console de mostrar"
@@ -1288,6 +1303,9 @@ msgcat::mcmset pt {
 
   "Delete directory?"
   "Excluir diretório?"
+
+  "Delete file?"
+  "Excluir arquivo"
 
   "Delete files?"
   "Excluir Arquivos"
@@ -1458,6 +1476,9 @@ msgcat::mcmset pt {
 
   "Foreground (slider) color used in the text scrollbars."
   "Cor de primeiro plano (slider) utilizado em barras de rolagem de texto."
+
+  "Foreground color used in menu items with checks or buttons."
+  "Usado em itens de menu com cheques ou botões de cor de primeiro plano."
 
   "Foreground text color for strings."
   "Cor do texto do primeiro plano para seqüências de caracteres."
@@ -1733,6 +1754,26 @@ msgcat::mcmset pt {
 
 }
 
+# vim.tcl
+msgcat::mcmset pt {
+
+  "File format unrecognized"
+  "Formato de arquivo não reconhecido"
+
+  "Filename directory does not exist"
+  "Diretório de nome de arquivo não existe"
+
+  "Illegal modelines value"
+  "Valor ilegal modelines"
+
+  "Shiftwidth value is not an integer"
+  "Shiftwidth valor não é um número inteiro"
+
+  "Tabstop value is not an integer"
+  "TabStop valor não é um número inteiro"
+
+}
+
 # General
 msgcat::mcmset pt {
 
@@ -1744,9 +1785,6 @@ msgcat::mcmset pt {
 
   "Delete"
   "Excluir"
-
-  "Delete file?"
-  "Excluir arquivo"
 
   "Duplicate"
   "Duplicação"

@@ -204,6 +204,9 @@ msgcat::mcmset el {
   "About TKE"
   "Σχετικά με ΤΚΕ"
 
+  "Absolute"
+  "Απόλυτος"
+
   "Align Cursors"
   "???????? ???????"
 
@@ -753,6 +756,9 @@ msgcat::mcmset el {
   "Line Number"
   "Αριθμός γραμμής"
 
+  "Line Numbering"
+  "Αρίθμηση γραμμών"
+
   "Lock"
   "Κλείδωμα"
 
@@ -878,6 +884,9 @@ msgcat::mcmset el {
 
   "Redo"
   "Επανάληψη"
+
+  "Relative"
+  "Σχετική"
 
   "Reload"
   "Επαναφόρτωση"
@@ -1098,6 +1107,9 @@ msgcat::mcmset el {
   "View Global"
   "Παγκόσμια προβολή"
 
+  "View Menu: Absolute line numbering"
+  "Μενού Προβολή: Αρίθμηση απόλυτη γραμμή"
+
   "View Menu: Display text information"
   "Μενού \"
 
@@ -1139,6 +1151,9 @@ msgcat::mcmset el {
 
   "View Menu: Move to other pane"
   "Μενού \"
+
+  "View Menu: Relative line numbering"
+  "Μενού Προβολή: Αρίθμηση σχετική γραμμή"
 
   "View Menu: Show console"
   "Μενού \"
@@ -1288,6 +1303,9 @@ msgcat::mcmset el {
 
   "Delete directory?"
   "Διαγραφή κατάλογο;"
+
+  "Delete file?"
+  "Διαγραφή αρχείου"
 
   "Delete files?"
   "Διαγραφή αρχείων;"
@@ -1458,6 +1476,9 @@ msgcat::mcmset el {
 
   "Foreground (slider) color used in the text scrollbars."
   "Προσκήνιο (slider) χρώμα που χρησιμοποιείται στο κείμενο κύλισης."
+
+  "Foreground color used in menu items with checks or buttons."
+  "Χρώμα προσκηνίου που χρησιμοποιείται σε αντικείμενα μενού με ελέγχους ή κουμπιά."
 
   "Foreground text color for strings."
   "Χρώμα κειμένου στο προσκήνιο για έγχορδα."
@@ -1733,6 +1754,26 @@ msgcat::mcmset el {
 
 }
 
+# vim.tcl
+msgcat::mcmset el {
+
+  "File format unrecognized"
+  "Μη αναγνωρίσιμη μορφή αρχείου"
+
+  "Filename directory does not exist"
+  "Δεν υπάρχει κατάλογος όνομα_αρχείου"
+
+  "Illegal modelines value"
+  "Παράνομη modelines αξία"
+
+  "Shiftwidth value is not an integer"
+  "Shiftwidth τιμή δεν είναι ακέραιος"
+
+  "Tabstop value is not an integer"
+  "TabStop τιμή δεν είναι ακέραιος"
+
+}
+
 # General
 msgcat::mcmset el {
 
@@ -1744,9 +1785,6 @@ msgcat::mcmset el {
 
   "Delete"
   "Διαγραφή"
-
-  "Delete file?"
-  "Διαγραφή αρχείου"
 
   "Duplicate"
   "Αναπαραγωγή"

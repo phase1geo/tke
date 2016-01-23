@@ -204,6 +204,9 @@ msgcat::mcmset he {
   "About TKE"
   "לגבי בבית"
 
+  "Absolute"
+  "מוחלטת"
+
   "Align Cursors"
   "????? ?????"
 
@@ -753,6 +756,9 @@ msgcat::mcmset he {
   "Line Number"
   "מספר השורה"
 
+  "Line Numbering"
+  "מספור שורות"
+
   "Lock"
   "מנעול"
 
@@ -878,6 +884,9 @@ msgcat::mcmset he {
 
   "Redo"
   "בצע שוב"
+
+  "Relative"
+  "יחסיות"
 
   "Reload"
   "טען מחדש"
@@ -1098,6 +1107,9 @@ msgcat::mcmset he {
   "View Global"
   "תצוגה גלובלית"
 
+  "View Menu: Absolute line numbering"
+  "בתפריט תצוגה: מספור שורות מוחלטת"
+
   "View Menu: Display text information"
   "תפריט תצוגה: להציג טקסט מידע"
 
@@ -1139,6 +1151,9 @@ msgcat::mcmset he {
 
   "View Menu: Move to other pane"
   "תפריט תצוגה: לעבור לחלונית אחרת"
+
+  "View Menu: Relative line numbering"
+  "בתפריט תצוגה: מספור שורות יחסית"
 
   "View Menu: Show console"
   "בתפריט תצוגה: מסוף הצג"
@@ -1288,6 +1303,9 @@ msgcat::mcmset he {
 
   "Delete directory?"
   "האם למחוק את הספריה?"
+
+  "Delete file?"
+  "האם למחוק את הקובץ?"
 
   "Delete files?"
   "האם למחוק את הקבצים?"
@@ -1458,6 +1476,9 @@ msgcat::mcmset he {
 
   "Foreground (slider) color used in the text scrollbars."
   "צבע הקידמה (המחוון) המשמשים את פסי גלילה טקסט."
+
+  "Foreground color used in menu items with checks or buttons."
+  "צבע הקידמה בשימוש פריטי תפריט עם צ'קים או לחצנים."
 
   "Foreground text color for strings."
   "צבע טקסט הקידמה למיתרים."
@@ -1733,6 +1754,26 @@ msgcat::mcmset he {
 
 }
 
+# vim.tcl
+msgcat::mcmset he {
+
+  "File format unrecognized"
+  "תבנית קובץ לא מזוהה"
+
+  "Filename directory does not exist"
+  "שם הקובץ הספריה אינה קיימת"
+
+  "Illegal modelines value"
+  "ערך לא חוקי modelines"
+
+  "Shiftwidth value is not an integer"
+  "Shiftwidth ערך אינו שלם"
+
+  "Tabstop value is not an integer"
+  "עצירת ערך אינו שלם"
+
+}
+
 # General
 msgcat::mcmset he {
 
@@ -1744,9 +1785,6 @@ msgcat::mcmset he {
 
   "Delete"
   "מחק"
-
-  "Delete file?"
-  "האם למחוק את הקובץ?"
 
   "Duplicate"
   "שכפל"

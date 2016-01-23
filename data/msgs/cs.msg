@@ -204,6 +204,9 @@ msgcat::mcmset cs {
   "About TKE"
   "O TKE"
 
+  "Absolute"
+  "Absolutní"
+
   "Align Cursors"
   "Zarovnání kurzor?"
 
@@ -753,6 +756,9 @@ msgcat::mcmset cs {
   "Line Number"
   "Číslo řádku"
 
+  "Line Numbering"
+  "Číslování řádků"
+
   "Lock"
   "Uzamknout"
 
@@ -878,6 +884,9 @@ msgcat::mcmset cs {
 
   "Redo"
   "Zrušit vrácení akce"
+
+  "Relative"
+  "Relativní"
 
   "Reload"
   "Načíst znovu"
@@ -1098,6 +1107,9 @@ msgcat::mcmset cs {
   "View Global"
   "Zobrazit globální"
 
+  "View Menu: Absolute line numbering"
+  "Nabídka Zobrazit: Absolutní číslování"
+
   "View Menu: Display text information"
   "Zobrazit Menu: Zobrazí textové informace"
 
@@ -1139,6 +1151,9 @@ msgcat::mcmset cs {
 
   "View Menu: Move to other pane"
   "Nabídka Zobrazit: Přechod na další podokno"
+
+  "View Menu: Relative line numbering"
+  "Nabídka Zobrazit: Relativní řádek číslování"
 
   "View Menu: Show console"
   "Nabídka Zobrazit: Show konzole"
@@ -1288,6 +1303,9 @@ msgcat::mcmset cs {
 
   "Delete directory?"
   "Smazat adresář?"
+
+  "Delete file?"
+  "Smazat soubor?"
 
   "Delete files?"
   "Odstranit soubory?"
@@ -1458,6 +1476,9 @@ msgcat::mcmset cs {
 
   "Foreground (slider) color used in the text scrollbars."
   "Popředí (slider), barvy použité v textu posuvníky."
+
+  "Foreground color used in menu items with checks or buttons."
+  "Barva popředí používaná v položkách nabídky s šeky nebo tlačítka."
 
   "Foreground text color for strings."
   "Popředí barvu textu pro řetězce."
@@ -1733,6 +1754,26 @@ msgcat::mcmset cs {
 
 }
 
+# vim.tcl
+msgcat::mcmset cs {
+
+  "File format unrecognized"
+  "Formát souboru nebyl rozpoznán"
+
+  "Filename directory does not exist"
+  "Název souboru adresář neexistuje."
+
+  "Illegal modelines value"
+  "Ilegální ModeLine hodnota"
+
+  "Shiftwidth value is not an integer"
+  "Shiftwidth hodnota není celé číslo"
+
+  "Tabstop value is not an integer"
+  "TabStop hodnota není celé číslo"
+
+}
+
 # General
 msgcat::mcmset cs {
 
@@ -1744,9 +1785,6 @@ msgcat::mcmset cs {
 
   "Delete"
   "Odstranit"
-
-  "Delete file?"
-  "Smazat soubor?"
 
   "Duplicate"
   "Duplicita"

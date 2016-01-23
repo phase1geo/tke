@@ -204,6 +204,9 @@ msgcat::mcmset zh {
   "About TKE"
   "关于将军澳支线"
 
+  "Absolute"
+  "绝对值"
+
   "Align Cursors"
   "????"
 
@@ -753,6 +756,9 @@ msgcat::mcmset zh {
   "Line Number"
   "行號"
 
+  "Line Numbering"
+  "行編號"
+
   "Lock"
   "鎖定"
 
@@ -878,6 +884,9 @@ msgcat::mcmset zh {
 
   "Redo"
   "重複"
+
+  "Relative"
+  "亲戚"
 
   "Reload"
   "重新加载"
@@ -1098,6 +1107,9 @@ msgcat::mcmset zh {
   "View Global"
   "查看全球"
 
+  "View Menu: Absolute line numbering"
+  "视图菜单: 绝对行编号"
+
   "View Menu: Display text information"
   "视图菜单: 显示文本信息"
 
@@ -1139,6 +1151,9 @@ msgcat::mcmset zh {
 
   "View Menu: Move to other pane"
   "视图菜单: 将移动到另一个窗格"
+
+  "View Menu: Relative line numbering"
+  "视图菜单: 相对行号"
 
   "View Menu: Show console"
   "视图菜单: 显示控制台"
@@ -1288,6 +1303,9 @@ msgcat::mcmset zh {
 
   "Delete directory?"
   "删除目录？"
+
+  "Delete file?"
+  "删除文件？"
 
   "Delete files?"
   "删除文件?"
@@ -1458,6 +1476,9 @@ msgcat::mcmset zh {
 
   "Foreground (slider) color used in the text scrollbars."
   "(滑块) 使用前景色在文本滚动条。"
+
+  "Foreground color used in menu items with checks or buttons."
+  "在用支票或按钮的菜单项所用的前景颜色。"
 
   "Foreground text color for strings."
   "字符串文本景色。"
@@ -1733,6 +1754,26 @@ msgcat::mcmset zh {
 
 }
 
+# vim.tcl
+msgcat::mcmset zh {
+
+  "File format unrecognized"
+  "无法识别的文件格式"
+
+  "Filename directory does not exist"
+  "文件名的目录不存在"
+
+  "Illegal modelines value"
+  "非法 modeline 值"
+
+  "Shiftwidth value is not an integer"
+  "数值非整数。"
+
+  "Tabstop value is not an integer"
+  "数值非整数。"
+
+}
+
 # General
 msgcat::mcmset zh {
 
@@ -1744,9 +1785,6 @@ msgcat::mcmset zh {
 
   "Delete"
   "刪除"
-
-  "Delete file?"
-  "删除文件？"
 
   "Duplicate"
   "复制"
