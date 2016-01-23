@@ -2367,7 +2367,7 @@ proc ctext::add_font_opt {win class modifiers popts} {
     lappend opts -font $fontname {*}[array get tag_opts]
 
     if {$click} {
-      set data($win,config,click,$class) $opts
+      set data($win,highlight,click,$class) $opts
     }
 
   }
