@@ -1362,7 +1362,7 @@ proc ctext::instanceCmd {self cmd args} {
       }
 
       set re_data    [$self._t get $prevSpace "$insertPos+${datlen}c"]
-      set re_pattern [expr {($datlen == 1) ? "((\\\\.)+|$commentRE)\$" : $commentRE}]
+      set re_pattern [expr {($datlen == 1) ? "((\\\\.)+|$commentRE).?\$" : $commentRE}]
 
       ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$data($self,config,re_opts) -- $re_pattern $re_data]
       ctext::highlightAfterIdle $self $lineStart $lineEnd
