@@ -54,37 +54,37 @@ namespace eval completer {
     }
 
     # Update all text widgets
-    foreach txt [array names lang_match_chars] {
-      set_auto_match_chars $txt $lang_match_chars($txt)
+    foreach txtt [array names lang_match_chars] {
+      set_auto_match_chars $txtt $lang_match_chars($txtt)
     }
 
   }
 
   ######################################################################
   # Sets the auto-match characters based on the current language.
-  proc set_auto_match_chars {txt matchchars} {
+  proc set_auto_match_chars {txtt matchchars} {
 
     variable lang_match_chars
     variable pref_complete
     variable complete
 
     # Save the language-specific match characters
-    set lang_match_chars($txt) $matchchars
+    set lang_match_chars($txtt) $matchchars
 
     # Initialize the complete array for the given text widget
     array set complete [list \
-      $txt,square 0 \
-      $txt,curly  0 \
-      $txt,angled 0 \
-      $txt,paren  0 \
-      $txt,double 0 \
-      $txt,single 0 \
+      $txtt,square 0 \
+      $txtt,curly  0 \
+      $txtt,angled 0 \
+      $txtt,paren  0 \
+      $txtt,double 0 \
+      $txtt,single 0 \
     ]
 
     # Combine the language-specific match chars with preference chars
-    foreach match_char $lang_match_chars($txt) {
+    foreach match_char $lang_match_chars($txtt) {
       if {$pref_complete($match_char)} {
-        set complete($txt,$match_char) 1
+        set complete($txtt,$match_char) 1
       }
     }
 
@@ -119,10 +119,10 @@ namespace eval completer {
   ######################################################################
   # Returns true if a closing character should be automatically added.
   # This is called when an opening character is detected.
-  proc add_closing {txt} {
+  proc add_closing {txtt} {
 
     # Get the character at the insertion cursor
-    set ch [$txt get insert]
+    set ch [$txtt get insert]
 
     if {[string is space $ch] || ($ch eq "\}") || ($ch eq "\)") || ($ch eq ">") || ($ch eq "]")} {
       return 1
@@ -135,31 +135,31 @@ namespace eval completer {
   ######################################################################
   # Returns true if a closing character should be omitted from insertion.
   # This is called when a closing character is detected.
-  proc skip_closing {txt type} {
+  proc skip_closing {txtt type} {
 
-    return [expr [lsearch [$txt tag names insert] _${type}R] != -1]
+    return [expr [lsearch [$txtt tag names insert] _${type}R] != -1]
 
   }
 
   ######################################################################
   # Handles a square bracket.
-  proc add_square {txt side} {
+  proc add_square {txtt side} {
 
     variable complete
 
-    if {$complete($txt,square) && ![ctext::inComment $txt "insert-1c"]} {
+    if {$complete($txtt,square) && ![ctext::inComment $txtt "insert-1c"]} {
       if {$side eq "right"} {
-        if {[skip_closing $txt square]} {
-          ::tk::TextSetCursor $txt "insert+1c"
-          ctext::matchPair [winfo parent $txt] squareL
+        if {[skip_closing $txtt square]} {
+          ::tk::TextSetCursor $txtt "insert+1c"
+          ctext::matchPair [winfo parent $txtt] squareL
           return 1
         }
       } else {
-        set ins [$txt index insert]
-        if {[add_closing $txt]} {
-          $txt insert insert "\]"
+        set ins [$txtt index insert]
+        if {[add_closing $txtt]} {
+          $txtt insert insert "\]"
         }
-        ::tk::TextSetCursor $txt $ins
+        ::tk::TextSetCursor $txtt $ins
       }
     }
 
@@ -169,23 +169,23 @@ namespace eval completer {
 
   ######################################################################
   # Handles a curly bracket.
-  proc add_curly {txt side} {
+  proc add_curly {txtt side} {
 
     variable complete
 
-    if {$complete($txt,curly) && ![ctext::inComment $txt "insert-1c"]} {
+    if {$complete($txtt,curly) && ![ctext::inComment $txtt "insert-1c"]} {
       if {$side eq "right"} {
-        if {[skip_closing $txt curly]} {
-          ::tk::TextSetCursor $txt "insert+1c"
-          ctext::matchPair [winfo parent $txt] curlyL
+        if {[skip_closing $txtt curly]} {
+          ::tk::TextSetCursor $txtt "insert+1c"
+          ctext::matchPair [winfo parent $txtt] curlyL
           return 1
         }
       } else {
-        set ins [$txt index insert]
-        if {[add_closing $txt]} {
-          $txt insert insert "\}"
+        set ins [$txtt index insert]
+        if {[add_closing $txtt]} {
+          $txtt insert insert "\}"
         }
-        ::tk::TextSetCursor $txt $ins
+        ::tk::TextSetCursor $txtt $ins
       }
     }
 
@@ -195,23 +195,23 @@ namespace eval completer {
 
   ######################################################################
   # Handles an angled bracket.
-  proc add_angled {txt side} {
+  proc add_angled {txtt side} {
 
     variable complete
 
-    if {$complete($txt,angled) && ![ctext::inComment $txt "insert-1c"]} {
+    if {$complete($txtt,angled) && ![ctext::inComment $txtt "insert-1c"]} {
       if {$side eq "right"} {
-        if {[skip_closing $txt angled]} {
-          ::tk::TextSetCursor $txt "insert+1c"
-          ctext::matchPair [winfo parent $txt] angledL
+        if {[skip_closing $txtt angled]} {
+          ::tk::TextSetCursor $txtt "insert+1c"
+          ctext::matchPair [winfo parent $txtt] angledL
           return 1
         }
       } else {
-        set ins [$txt index insert]
-        if {[add_closing $txt]} {
-          $txt insert insert ">"
+        set ins [$txtt index insert]
+        if {[add_closing $txtt]} {
+          $txtt insert insert ">"
         }
-        ::tk::TextSetCursor $txt $ins
+        ::tk::TextSetCursor $txtt $ins
       }
     }
 
@@ -221,23 +221,23 @@ namespace eval completer {
 
   ######################################################################
   # Handles a parenthesis.
-  proc add_paren {txt side} {
+  proc add_paren {txtt side} {
 
     variable complete
 
-    if {$complete($txt,paren) && ![ctext::inComment $txt "insert-1c"]} {
+    if {$complete($txtt,paren) && ![ctext::inComment $txtt "insert-1c"]} {
       if {$side eq "right"} {
-        if {[skip_closing $txt paren]} {
-          ::tk::TextSetCursor $txt "insert+1c"
-          ctext::matchPair [winfo parent $txt] parenL
+        if {[skip_closing $txtt paren]} {
+          ::tk::TextSetCursor $txtt "insert+1c"
+          ctext::matchPair [winfo parent $txtt] parenL
           return 1
         }
       } else {
-        set ins [$txt index insert]
-        if {[add_closing $txt]} {
-          $txt insert insert ")"
+        set ins [$txtt index insert]
+        if {[add_closing $txtt]} {
+          $txtt insert insert ")"
         }
-        ::tk::TextSetCursor $txt $ins
+        ::tk::TextSetCursor $txtt $ins
       }
     }
 
@@ -247,25 +247,25 @@ namespace eval completer {
 
   ######################################################################
   # Handles a double-quote character.
-  proc add_double {txt} {
+  proc add_double {txtt} {
 
     variable complete
 
-    if {$complete($txt,double)} {
-      if {[ctext::inDoubleQuote $txt insert]} {
-        if {([$txt get insert] eq "\"") && ![ctext::isEscaped $txt insert]} {
-          ::tk::TextSetCursor $txt "insert+1c"
-          ctext::matchQuote [winfo parent $txt]
+    if {$complete($txtt,double)} {
+      if {[ctext::inDoubleQuote $txtt insert]} {
+        if {([$txtt get insert] eq "\"") && ![ctext::isEscaped $txtt insert]} {
+          ::tk::TextSetCursor $txtt "insert+1c"
+          ctext::matchQuote [winfo parent $txtt]
           return 1
         }
-      } elseif {[ctext::inDoubleQuote $txt end-1c]} {
+      } elseif {[ctext::inDoubleQuote $txtt end-1c]} {
         return 0
       } else {
-        set ins [$txt index insert]
-        if {![ctext::inCommentString $txt "insert-1c"]} {
-          $txt insert insert "\""
+        set ins [$txtt index insert]
+        if {![ctext::inCommentString $txtt "insert-1c"]} {
+          $txtt insert insert "\""
         }
-        ::tk::TextSetCursor $txt $ins
+        ::tk::TextSetCursor $txtt $ins
       }
     }
 
@@ -275,24 +275,24 @@ namespace eval completer {
 
   ######################################################################
   # Handles a single-quote character.
-  proc add_single {txt} {
+  proc add_single {txtt} {
 
     variable complete
 
-    if {$complete($txt,single)} {
-      if {[ctext::inSingleQuote $txt insert]} {
-        if {([$txt get insert] eq "'") && ![ctext::isEscaped $txt insert]} {
-          ::tk::TextSetCursor $txt "insert+1c"
+    if {$complete($txtt,single)} {
+      if {[ctext::inSingleQuote $txtt insert]} {
+        if {([$txtt get insert] eq "'") && ![ctext::isEscaped $txtt insert]} {
+          ::tk::TextSetCursor $txtt "insert+1c"
           return 1
         }
-      } elseif {[ctext::inSingleQuote $txt end-1c]} {
+      } elseif {[ctext::inSingleQuote $txtt end-1c]} {
         return 0
       } else {
-        set ins [$txt index insert]
-        if {![ctext::inCommentString $txt "insert-1c"]} {
-          $txt insert insert "'"
+        set ins [$txtt index insert]
+        if {![ctext::inCommentString $txtt "insert-1c"]} {
+          $txtt insert insert "'"
         }
-        ::tk::TextSetCursor $txt $ins
+        ::tk::TextSetCursor $txtt $ins
       }
     }
 
@@ -302,40 +302,40 @@ namespace eval completer {
 
   ######################################################################
   # Handles a deletion.
-  proc handle_delete {txt} {
+  proc handle_delete {txtt} {
 
     variable complete
 
-    if {![ctext::inComment $txt insert-2c]} {
-      switch [$txt get insert-1c insert+1c] {
+    if {![ctext::inComment $txtt insert-2c]} {
+      switch [$txtt get insert-1c insert+1c] {
         "\[\]" {
-          if {$complete($txt,square)} {
-            $txt delete insert
+          if {$complete($txtt,square)} {
+            $txtt delete insert
           }
         }
         "\{\}" {
-          if {$complete($txt,curly)} {
-           $txt delete insert
+          if {$complete($txtt,curly)} {
+           $txtt delete insert
           }
         }
         "<>" {
-          if {$complete($txt,angled)} {
-            $txt delete insert
+          if {$complete($txtt,angled)} {
+            $txtt delete insert
           }
         }
         "()" {
-          if {$complete($txt,paren)} {
-            $txt delete insert
+          if {$complete($txtt,paren)} {
+            $txtt delete insert
           }
         }
         "\"\"" {
-          if {$complete($txt,double)} {
-            $txt delete insert
+          if {$complete($txtt,double)} {
+            $txtt delete insert
           }
         }
         "''" {
-          if {$complete($txt,single)} {
-            $txt delete insert
+          if {$complete($txtt,single)} {
+            $txtt delete insert
           }
         }
       }
