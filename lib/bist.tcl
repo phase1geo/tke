@@ -43,6 +43,9 @@ namespace eval bist {
     variable data
     variable tests
 
+    # Get the list of selected diagnostics in the table
+    set selected [get_selections]
+
     # Load all of the BIST files
     foreach bfile [glob -directory [file join $::tke_dir tests] *.tcl] {
       source $bfile
@@ -71,10 +74,14 @@ namespace eval bist {
       $data(widgets,tbl) rowconfigure $node -background grey
       $data(widgets,tbl) cellconfigure $node,selected -image $data(images,checked)
       foreach test [lsort $test_array($category)] {
-        set child [$data(widgets,tbl) insertchild $node end [list 1 $test 0 0 0 [join [list bist $category $test] ::]]]
+        set cmd   [join [list bist $category $test] ::]
+        set child [$data(widgets,tbl) insertchild $node end [list 1 $test 0 0 0 $cmd]]
         $data(widgets,tbl) cellconfigure $child,selected -image $data(images,checked)
       }
     }
+
+    # Sets the given selections
+    set_selections $selected
 
   }
 
@@ -825,6 +832,7 @@ namespace eval bist {
     set options(iter_mode) $data(iter_mode)
     set options(loops)     [$data(widgets,loops) get]
     set options(iters)     [$data(widgets,iters) get]
+    set options(selected)  [get_selections]
 
     # Write the options
     catch { tkedat::write [file join $::tke_home bist.tkedat] [array get options] 0 }
@@ -870,8 +878,48 @@ namespace eval bist {
         }
       }
 
+      # Set the selections
+      set_selections $options(selected)
+
     }
 
   }
+
+  ######################################################################
+  # Returns a list containing the test names that are currently selected
+  # in the selection table.
+  proc get_selections {} {
+
+    variable data
+
+    set selected [list]
+
+    # Get the selection information
+    for {set i 0} {$i < [$data(widgets,tbl) size]} {incr i} {
+      if {([$data(widgets,tbl) parentkey $i] ne "root") && [$data(widgets,tbl) cellcget $i,selected -text]} {
+        lappend selected [$data(widgets,tbl) cellcget $i,test -text]
+      }
+    }
+
+    return $selected
+
+  }
+
+  ######################################################################
+  # Sets the selections in the table based on the given list.
+  proc set_selections {selected} {
+
+    variable data
+
+    for {set i 0} {$i < [$data(widgets,tbl) size]} {incr i} {
+      if {[$data(widgets,tbl) parentkey $i] ne "root"} {
+        set test [$data(widgets,tbl) cellcget $i,test -text]
+        set sel  [expr {[lsearch $selected $test] != -1}]
+        $data(widgets,tbl) cellconfigure $i,selected -text $sel -image [expr {$sel ? $data(images,checked) : $data(images,unchecked)}]
+      }
+    }
+
+  }
+
 
 }
