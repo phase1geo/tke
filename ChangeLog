@@ -1,93 +1,34 @@
-changeset:   1729:942fbf7ebefe
-tag:         devel-2.1.8
+changeset:   1740:894b33aa8d64
+tag:         devel-2.1.9
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Jan 22 01:31:42 2016 -0600
+date:        Mon Jan 25 00:16:56 2016 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.1.8 release
+ChangeLog for devel-2.1.9 release
 
 
-changeset:   1730:55d774d273fa
+changeset:   1741:11fe8ee4a2c6
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Jan 22 01:31:47 2016 -0600
+date:        Mon Jan 25 00:17:03 2016 -0600
 files:       .hgtags
 description:
-Added tag devel-2.1.8 for changeset 942fbf7ebefe
+Added tag devel-2.1.9 for changeset 894b33aa8d64
 
 
-changeset:   1731:c966e4b1fdec
+changeset:   1742:2328d23aa787
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Jan 22 21:29:03 2016 -0600
-files:       lib/ctext/ctext.tcl lib/version.tcl
+date:        Mon Jan 25 21:47:59 2016 -0600
+files:       lib/gui.tcl lib/syntax.tcl lib/version.tcl
 description:
-* Fixing issue with making clickable syntax in the ctext widget.
+* Fixing snippet switching bug.
 
 
-changeset:   1732:af369bd88f41
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Jan 22 23:32:33 2016 -0600
-files:       lib/bist.tcl lib/version.tcl
-description:
-* Adding run time information to BIST report output.
-
-
-changeset:   1733:14297b7c300e
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Jan 23 00:17:42 2016 -0600
-files:       lib/bist.tcl lib/version.tcl
-description:
-* Fixing BIST issue when the user attempts to close the BIST window (cause it stop running and do nothing else).
-
-
-changeset:   1734:6570d64cdef8
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Jan 23 00:52:26 2016 -0600
-files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg doc/UserGuide.epub doc/UserGuide.pdf lib/version.tcl
-description:
-* Updating translations.
-* Updating User Guide documentation files.
-
-
-changeset:   1735:538314b4b8ae
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Jan 23 12:12:16 2016 -0600
-files:       lib/completer.tcl lib/version.tcl
-description:
-* Reverting out changes to completion improvements (since they actually made things worse).
-* Improved performance of closing bracket code from previous versions.
-
-
-changeset:   1736:b6cda358e899
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Jan 24 00:21:04 2016 -0600
-files:       lib/completer.tcl lib/ctext/ctext.tcl lib/version.tcl
-description:
-* Fixing comment parsing issue when inserting a character between an ending and starting double-quote.
-* Fixing variable names in completer namespace.
-
-
-changeset:   1737:ac3ca56ebf1f
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Jan 24 01:19:20 2016 -0600
-files:       lib/version.tcl tests/ctext.tcl
-description:
-* Adding ctext diagnostic.
-
-
-changeset:   1738:c8942566a054
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Jan 24 22:12:39 2016 -0600
-files:       lib/bist.tcl lib/version.tcl
-description:
-* Remembering BIST table selections between BIST runs and during a refresh.
-
-
-changeset:   1739:d7bf2fc0597e
+changeset:   1743:17cbcf037400
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Jan 24 22:39:25 2016 -0600
-files:       lib/version.tcl tests/ctext.tcl tests/vim.tcl
+date:        Mon Jan 25 22:37:52 2016 -0600
+files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Adding initialization and cleanup code to ctext and vim testing.
+* Moving bracket highlighter out of doHighlight and into its own procedure.
 
 
