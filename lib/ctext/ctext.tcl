@@ -67,7 +67,6 @@ proc ctext {win args} {
   set ctext::data($win,config,re_opts)                ""
   set ctext::data($win,config,win)                    $win
   set ctext::data($win,config,modified)               0
-  set ctext::data($win,config,commentsAfterId)        ""
   set ctext::data($win,config,blinkAfterId)           ""
   set ctext::data($win,config,lastUpdate)             0
   set ctext::data($win,config,block_comment_patterns) [list]
@@ -229,7 +228,6 @@ proc ctext::event:Destroy {win dWin} {
     return
   }
 
-  catch {after cancel $data($win,config,commentsAfterId)}
   catch {after cancel $data($win,config,blinkAfterId)}
 
   bgproc::killall ctext::*
@@ -2034,13 +2032,9 @@ proc ctext::setStringPatterns {win patterns {color "green"}} {
 
 }
 
-proc ctext::comments {win start end blocks {afterTriggered 0}} {
+proc ctext::comments {win start end blocks} {
 
   variable data
-
-  if {$afterTriggered} {
-    set data($win,config,commentsAfterId) ""
-  }
 
   set strings        [llength $data($win,config,string_patterns)]
   set block_comments [llength $data($win,config,block_comment_patterns)]
