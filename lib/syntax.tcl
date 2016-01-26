@@ -241,6 +241,9 @@ namespace eval syntax {
     # Set the language of the current buffer
     set_language [[ns gui]::current_txt {}] $language {*}$args
 
+    # Set the snippets for the current text widget
+    [ns snippets]::set_language $language
+
     # Set the focus back to the text editor
     [ns gui]::set_txt_focus [[ns gui]::last_txt_focus {}]
 
@@ -282,9 +285,6 @@ namespace eval syntax {
 
     # Set default indent/unindent strings
     [ns indent]::set_indent_expressions $txt.t {\{} {\}}
-
-    # Set the snippet set to the current language
-    [ns snippets]::set_language $language
 
     # Apply the new syntax highlighting syntax, if one exists for the given language
     if {[info exists langs($language)]} {

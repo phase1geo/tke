@@ -3989,6 +3989,9 @@ namespace eval gui {
       # Update the preferences
       [ns preferences]::update_prefs [[ns sessions]::current]
 
+      # Reload the snippets to correspond to the current file
+      [ns snippets]::reload_snippets {}
+
     }
 
     # Set the text focus
