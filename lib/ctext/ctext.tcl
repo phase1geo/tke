@@ -572,19 +572,7 @@ proc ctext::inCommentString {win index {prange ""}} {
 
 }
 
-proc ctext::commentsAfterIdle {win start end block} {
-
-  ctext::comments $win $start $end $block
-
-}
-
 proc ctext::highlight {win lineStart lineEnd} {
-
-  highlightAfterIdle $win [$win index $lineStart] [$win index $lineEnd]
-
-}
-
-proc ctext::highlightAfterIdle {win lineStart lineEnd} {
 
   variable data
 
@@ -1105,8 +1093,9 @@ proc ctext::instanceCmd {self cmd args} {
 
         set checkStr "$prevChar[set char]"
 
-        ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$data($self,config,re_opts) -- $commentRE $checkStr]
-        ctext::highlightAfterIdle $self $lineStart $lineEnd
+        ctext::comments  $self $lineStart $lineEnd [regexp {*}$data($self,config,re_opts) -- $commentRE $checkStr]
+        ctext::brackets  $self $lineStart $lineEnd
+        ctext::highlight $self $lineStart $lineEnd
         # ctext::linemapUpdate $self
         ctext::modified $self 1 [list delete $deletePos 1 $lines $moddata]
         event generate $self.t <<CursorChanged>>
@@ -1131,8 +1120,9 @@ proc ctext::instanceCmd {self cmd args} {
           }
         }
 
-        ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$data($self,config,re_opts) -- $commentRE $dat]
-        ctext::highlightAfterIdle $self $lineStart $lineEnd
+        ctext::comments  $self $lineStart $lineEnd [regexp {*}$data($self,config,re_opts) -- $commentRE $dat]
+        ctext::brackets  $self $lineStart $lineEnd
+        ctext::highlight $self $lineStart $lineEnd
         #if {[string first "\n" $dat] >= 0} {
         #  ctext::linemapUpdate $self
         #}
@@ -1309,7 +1299,8 @@ proc ctext::instanceCmd {self cmd args} {
         }
       }
       ctext::highlight $self $lineStart $lineEnd
-      ctext::comments $self $lineStart $lineEnd 1
+      ctext::comments  $self $lineStart $lineEnd 1
+      ctext::brackets  $self $lineStart $lineEnd
     }
 
     insert {
@@ -1364,8 +1355,9 @@ proc ctext::instanceCmd {self cmd args} {
       set re_data    [$self._t get $prevSpace "$insertPos+${datlen}c"]
       set re_pattern [expr {($datlen == 1) ? "((\\\\.)+|$commentRE).?\$" : $commentRE}]
 
-      ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$data($self,config,re_opts) -- $re_pattern $re_data]
-      ctext::highlightAfterIdle $self $lineStart $lineEnd
+      ctext::comments  $self $lineStart $lineEnd [regexp {*}$data($self,config,re_opts) -- $re_pattern $re_data]
+      ctext::brackets  $self $lineStart $lineEnd
+      ctext::highlight $self $lineStart $lineEnd
 
       switch -- $dat {
         "\}" {
@@ -1439,8 +1431,9 @@ proc ctext::instanceCmd {self cmd args} {
 
       set REData [$self._t get $lineStart $lineEnd]
 
-      ctext::commentsAfterIdle $self $lineStart $lineEnd [regexp {*}$data($self,config,re_opts) -- $commentRE $REData]
-      ctext::highlightAfterIdle $self $lineStart $lineEnd
+      ctext::comments  $self $lineStart $lineEnd [regexp {*}$data($self,config,re_opts) -- $commentRE $REData]
+      ctext::brackets  $self $lineStart $lineEnd
+      ctext::highlight $self $lineStart $lineEnd
 
       switch -- $dat {
         "\}" {
@@ -2307,6 +2300,21 @@ proc ctext::commentsParseCCommentEnd {win index pindices num_indices re_opts eco
 
 }
 
+proc ctext::brackets {twin start end} {
+
+  variable data
+  variable REs
+  variable bracket_map
+
+  # Handle special character matching
+  foreach res [$twin search -regexp -all -- $REs(brackets) $start $end] {
+    if {![inCommentString $twin $res] && ![isEscaped $twin $res]} {
+      $twin tag add _$bracket_map([$twin get $res "$res+1c"]) $res "$res+1c"
+    }
+  }
+
+}
+
 proc ctext::add_font_opt {win class modifiers popts} {
 
   variable data
@@ -2622,7 +2630,6 @@ proc ctext::doHighlight {win start end} {
 
   variable data
   variable REs
-  variable bracket_map
   variable restart_from
 
   if {![winfo exists $win]} {
@@ -2660,13 +2667,6 @@ proc ctext::doHighlight {win start end} {
       handle_tag $win {*}$retval
     }
     incr i
-  }
-
-  # Handle special character matching
-  foreach res [$twin search -regexp -all -- $REs(brackets) $start $end] {
-    if {![inCommentString $twin $res] && ![isEscaped $twin $res]} {
-      $twin tag add _$bracket_map([$twin get $res "$res+1c"]) $res "$res+1c"
-    }
   }
 
   # Handle regular expression matching
