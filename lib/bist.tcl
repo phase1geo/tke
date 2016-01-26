@@ -70,7 +70,7 @@ namespace eval bist {
 
     # Add the test items to the tablelist
     foreach category [lsort [array names test_array]] {
-      set node [$data(widgets,tbl) insertchild root end [list 1 [string totitle $category] 0 0 0 ""]]
+      set node [$data(widgets,tbl) insertchild root end [list 1 $category 0 0 0 ""]]
       $data(widgets,tbl) rowconfigure $node -background grey
       $data(widgets,tbl) cellconfigure $node,selected -image $data(images,checked)
       foreach test [lsort $test_array($category)] {
@@ -380,7 +380,7 @@ namespace eval bist {
     scroller::scroller $sf.tf.vb -orient vertical   -background white -foreground black -command [list $sf.tf.tl yview]
 
     $sf.tf.tl columnconfigure 0 -name selected -editable 0 -resizable 0 -editwindow checkbutton -formatcommand [list bist::format_cell]
-    $sf.tf.tl columnconfigure 1 -name name     -editable 0 -resizable 0
+    $sf.tf.tl columnconfigure 1 -name name     -editable 0 -resizable 0 -formatcommand [list bist::format_cell]
     $sf.tf.tl columnconfigure 2 -name count    -editable 0 -resizable 0
     $sf.tf.tl columnconfigure 3 -name pass     -editable 0 -resizable 0
     $sf.tf.tl columnconfigure 4 -name fail     -editable 0 -resizable 0
@@ -602,7 +602,7 @@ namespace eval bist {
   # Adds the given test file to the editor.
   proc add_test_file {name} {
 
-    return [gui::add_file end [file join $::tke_dir tests $name.tcl] -sidebar 0 -savecommand [list bist::refresh]]
+    return [gui::add_file end [file join $::tke_dir tests $name.tcl] -sidebar 0 -remember 0 -savecommand [list bist::refresh]]
 
   }
 
@@ -684,9 +684,11 @@ namespace eval bist {
     # Get the test name
     set tname [$data(widgets,tbl) cellcget $selected,name -text]
 
-    # Get the diagnsotic name
+    # Get the diagnostic name
     set parent [$data(widgets,tbl) parentkey $selected]
     set fname  [$data(widgets,tbl) cellcget $parent,name -text]
+
+    puts "fname: $fname"
 
     # Add the file to the editor
     set tab [add_test_file $fname]
@@ -815,6 +817,15 @@ namespace eval bist {
   ######################################################################
   # Handles displaying the given cell
   proc format_cell {value} {
+
+    variable data
+
+    lassign [$data(widgets,tbl) formatinfo] key row col
+
+    switch [$data(widgets,tbl) columncget $col -name] {
+      "selected" { return "" }
+      "name"     { return [string totitle $value] }
+    }
 
     return ""
 

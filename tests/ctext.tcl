@@ -66,4 +66,28 @@ namespace eval ctext {
 
   }
 
+  # Verify that strings are tagged even if syntax highlighting is disabled
+  proc run_test2 {} {
+
+    # Initialize the test
+    set txt [initialize]
+
+    # Set the language to None to disable syntax highlighting
+    syntax::set_language $txt "None"
+
+    # Insert a string
+    $txt insert end "\n\"This is a string\""
+
+    # Verify that the string is tagged
+    if {[$txt tag ranges _dString] ne [list 2.0 2.18]} {
+      cleanup "String was not properly tagged"
+    }
+
+    # Verify that a character within the string is considered to be in a string
+    if {![ctext::isCommentString $txt 1.5]} {
+      cleanup "character 5 is not considered to be within a string"
+    }
+
+  }
+
 }
