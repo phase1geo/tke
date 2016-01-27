@@ -46,9 +46,16 @@ namespace eval templates {
   ######################################################################
   # Loads the contents of the specified template into a new buffer and
   # perform the snippet insertion.
-  proc load {name} {
+  proc load {name fname} {
 
     variable data
+
+    # Touch the file
+    if {[catch { open $fname w } rc]} {
+      return -code error "Unable to write file"
+    } else {
+      close $rc
+    }
 
     # Open the template file for reading
     if {[catch { open [get_pathname $name] r } rc]} {
@@ -60,7 +67,7 @@ namespace eval templates {
     close $rc
 
     # Add the buffer
-    set txt [[ns gui]::get_info [[ns gui]::add_new_file end] tab txt]
+    set txt [[ns gui]::get_info [[ns gui]::add_file end $fname] tab txt]
 
     # Insert the content as a snippet
     [ns snippets]::insert_snippet $txt.t $contents
@@ -72,8 +79,40 @@ namespace eval templates {
   }
 
   ######################################################################
+  # Opens a TK save dialog box to specify the filename to save.
+  proc load_abs {name args} {
+
+    # Get the filename from the user
+    if {[set fname [tk_getSaveFile -parent . -confirmoverwrite 1 -title "New Filepath"]] ne ""} {
+      load $name $fname
+    }
+
+  }
+
+  ######################################################################
+  # Displays the user input field to get the basename of the file to
+  # create.
+  proc load_rel {name args} {
+
+    set fname ""
+
+    if {[[ns gui]::get_user_response "File Name:" fname]} {
+
+      # Normalize the pathname
+      if {[file pathtype $fname] eq "relative"} {
+        set fname [file normalize [file join [lindex $args 0] $fname]]
+      }
+
+      # Load the template
+      load $name $fname
+
+    }
+
+  }
+
+  ######################################################################
   # Allows the user to edit the template.
-  proc edit {name} {
+  proc edit {name args} {
 
     variable data
 
@@ -119,7 +158,7 @@ namespace eval templates {
 
   ######################################################################
   # Deletes the given template.
-  proc delete {name} {
+  proc delete {name args} {
 
     variable data
 
@@ -163,17 +202,18 @@ namespace eval templates {
   # performs the specified command based on type.
   #
   # Legal values for cmd_type are:
-  #   - load
+  #   - load_abs
+  #   - load_rel
   #   - edit
   #   - delete
-  proc show_templates {cmd_type} {
+  proc show_templates {cmd_type args} {
 
     variable data
 
     # Add temporary registries to launcher
     set i 0
     foreach name [lsort $data(templates)] {
-      launcher::register_temp "`TEMPLATE:$name" [list [ns templates]::$cmd_type $name] $name $i [list [ns templates]::add_detail $name]
+      launcher::register_temp "`TEMPLATE:$name" [list [ns templates]::$cmd_type $name {*}$args] $name $i [list [ns templates]::add_detail $name]
       incr i
     }
 

@@ -310,8 +310,9 @@ namespace eval sidebar {
     # Clear the menu
     $widgets(menu) delete 0 end
 
-    $widgets(menu) add command -label [msgcat::mc "New File"]      -command [list sidebar::add_file_to_folder $first_row]   -state $one_state
-    $widgets(menu) add command -label [msgcat::mc "New Directory"] -command [list sidebar::add_folder_to_folder $first_row] -state $one_state
+    $widgets(menu) add command -label [msgcat::mc "New File"]               -command [list sidebar::add_file_to_folder $first_row]     -state $one_state
+    $widgets(menu) add command -label [msgcat::mc "New File From Template"] -command [list sidebar::add_file_from_template $first_row] -state $one_state
+    $widgets(menu) add command -label [msgcat::mc "New Directory"]          -command [list sidebar::add_folder_to_folder $first_row]   -state $one_state
     $widgets(menu) add separator
 
     $widgets(menu) add command -label [msgcat::mc "Open Directory Files"]  -command [list sidebar::open_folder_files $rows]
@@ -354,8 +355,9 @@ namespace eval sidebar {
     # Clear the menu
     $widgets(menu) delete 0 end
 
-    $widgets(menu) add command -label [msgcat::mc "New File"]      -command [list sidebar::add_file_to_folder $first_row]   -state $one_state
-    $widgets(menu) add command -label [msgcat::mc "New Directory"] -command [list sidebar::add_folder_to_folder $first_row] -state $one_state
+    $widgets(menu) add command -label [msgcat::mc "New File"]               -command [list sidebar::add_file_to_folder $first_row]     -state $one_state
+    $widgets(menu) add command -label [msgcat::mc "New File From Template"] -command [list sidebar::add_file_from_template $first_row] -state $one_state
+    $widgets(menu) add command -label [msgcat::mc "New Directory"]          -command [list sidebar::add_folder_to_folder $first_row]   -state $one_state
     $widgets(menu) add separator
 
     $widgets(menu) add command -label [msgcat::mc "Open Directory Files"]  -command [list sidebar::open_folder_files $rows]
@@ -940,6 +942,25 @@ namespace eval sidebar {
 
       # Create an empty file
       gui::add_file end $fname
+
+    }
+
+  }
+
+  ######################################################################
+  # Prompts the user for a name which will be placed in the selected
+  # directory, then prompts the user to select a template, and finally
+  # inserts the file into the editing buffer and performs any snippet
+  # transformations.
+  proc add_file_from_template {row} {
+
+    variable widgets
+
+    # Add the file
+    if {![catch { templates::show_templates load_rel [$widgets(tl) cellcget $row,name -text] }]} {
+
+      # Expand the directory
+      $widgets(tl) expand $row -partly
 
     }
 
