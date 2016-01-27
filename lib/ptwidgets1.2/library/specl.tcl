@@ -593,6 +593,13 @@ namespace eval specl::updater {
           # Set the title
           set title "<h2>Version ($version) Release Notes</h2>"
 
+          # Add the publish date, if available
+          if {![catch { specl::helpers::get_element $release_node "pubDate" } pubdate_node] && \
+              ![catch { specl::helpers::get_text $pubdate_node } publish_date] && \
+              ($publish_date ne "")} {
+            append title "<h6>[string repeat {&nbsp;} 4]&nbsp;$publish_date</h6>"
+          }
+
           # Get any release notes
           if {![catch { specl::helpers::get_element $release_node "releaseNotesLink" } release_link_node] && \
               ![catch { specl::helpers::get_text $release_link_node } release_link] && \
