@@ -231,8 +231,8 @@ namespace eval menus {
     $mb add command -label [msgcat::mc "New File"] -underline 0 -command [list menus::new_file_command]
     launcher::register [msgcat::mc "File Menu: New file"] [list menus::new_file_command]
 
-    $mb add command -label [format "%s..." [msgcat::mc "New From Template"]] -underline 9 -command [list templates::show_templates load]
-    launcher::register [msgcat::mc "File Menu: New file from template"] [list templates::show_templates load]
+    $mb add command -label [format "%s..." [msgcat::mc "New From Template"]] -underline 9 -command [list templates::show_templates load_abs]
+    launcher::register [msgcat::mc "File Menu: New file from template"] [list templates::show_templates load_abs]
 
     $mb add separator
 
@@ -512,7 +512,7 @@ namespace eval menus {
   # Displays the templates in the command launcher.
   proc new_file_from_template {} {
 
-    templates::show_templates load
+    templates::show_templates load_abs
 
   }
 
