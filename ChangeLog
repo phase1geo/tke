@@ -1,34 +1,53 @@
-changeset:   1740:894b33aa8d64
-tag:         devel-2.1.9
+changeset:   1744:13189f5f1cc3
+tag:         devel-2.1.10
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Jan 25 00:16:56 2016 -0600
+date:        Tue Jan 26 00:03:38 2016 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.1.9 release
+ChangeLog for devel-2.1.10 release
 
 
-changeset:   1741:11fe8ee4a2c6
+changeset:   1745:d6a5de035ac2
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Jan 25 00:17:03 2016 -0600
+date:        Tue Jan 26 00:03:43 2016 -0600
 files:       .hgtags
 description:
-Added tag devel-2.1.9 for changeset 894b33aa8d64
+Added tag devel-2.1.10 for changeset 13189f5f1cc3
 
 
-changeset:   1742:2328d23aa787
+changeset:   1746:8d48b74fc7e3
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Jan 25 21:47:59 2016 -0600
-files:       lib/gui.tcl lib/syntax.tcl lib/version.tcl
+date:        Tue Jan 26 00:54:47 2016 -0600
+files:       lib/bist.tcl lib/ctext/ctext.tcl lib/version.tcl tests/ctext.tcl
 description:
-* Fixing snippet switching bug.
+* Cleaning up some ctext code.
+* Fixing various BIST issues.
+* Adding new ctext test (which currently fails).
 
 
-changeset:   1743:17cbcf037400
+changeset:   1747:b3801f3f456a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jan 26 09:03:00 2016 -0600
+files:       lib/version.tcl tests/ctext.tcl
+description:
+* Fixing run_test2 and adding run_test3.
+
+
+changeset:   1748:fd670af80958
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jan 26 20:07:33 2016 -0600
+files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+description:
+* Adding publish date to update description.
+
+
+changeset:   1749:6c42af516053
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Jan 25 22:37:52 2016 -0600
-files:       lib/ctext/ctext.tcl lib/version.tcl
+date:        Tue Jan 26 22:27:32 2016 -0600
+files:       lib/ctext/ctext.tcl lib/version.tcl tests/ctext.tcl
 description:
-* Moving bracket highlighter out of doHighlight and into its own procedure.
+* Fixing issues with inCommentStringHelper bugs.
+* Improving performance of inCommentStringHelper.
 
 
