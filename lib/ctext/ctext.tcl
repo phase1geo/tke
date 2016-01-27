@@ -507,18 +507,15 @@ proc ctext::setCommentRE {win} {
 
 proc ctext::inCommentStringHelper {win index pattern prange} {
 
-  set prev_in [expr {[set prev_tag [lsearch -inline -regexp [$win tag names $index-1c] $pattern]] ne ""}]
-  set curr_in [expr {[set curr_tag [lsearch -inline -regexp [$win tag names $index]    $pattern]] ne ""}]
-
-  if {$prange eq ""} {
-    return [expr $curr_in && $prev_in]
-  } elseif {$curr_in && $prev_in} {
-    upvar $prange range
-    set range [$win tag prevrange $curr_tag $index]
+  if {[set curr_tag [lsearch -inline -regexp [$win tag names $index] $pattern]] ne ""} {
+    if {$prange ne ""} {
+      upvar 2 $prange range
+      set range [$win tag prevrange $curr_tag $index+1c]
+    }
     return 1
-  } else {
-    return 0
   }
+
+  return 0
 
 }
 
