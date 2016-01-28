@@ -1,53 +1,60 @@
-changeset:   1744:13189f5f1cc3
-tag:         devel-2.1.10
+changeset:   1750:8c85df59ce0c
+tag:         devel-2.1.11
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Jan 26 00:03:38 2016 -0600
+date:        Tue Jan 26 23:22:35 2016 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.1.10 release
+ChangeLog for devel-2.1.11 release
 
 
-changeset:   1745:d6a5de035ac2
+changeset:   1751:f1b4b5853ce4
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Jan 26 00:03:43 2016 -0600
+date:        Tue Jan 26 23:22:43 2016 -0600
 files:       .hgtags
 description:
-Added tag devel-2.1.10 for changeset 13189f5f1cc3
+Added tag devel-2.1.11 for changeset 8c85df59ce0c
 
 
-changeset:   1746:8d48b74fc7e3
+changeset:   1752:f0b12ae4e84e
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Jan 26 00:54:47 2016 -0600
-files:       lib/bist.tcl lib/ctext/ctext.tcl lib/version.tcl tests/ctext.tcl
+date:        Wed Jan 27 01:11:12 2016 -0600
+files:       lib/menus.tcl lib/sidebar.tcl lib/templates.tcl lib/version.tcl
 description:
-* Cleaning up some ctext code.
-* Fixing various BIST issues.
-* Adding new ctext test (which currently fails).
+* Changing "New From Template" to display a file selection dialog for choosing a filename prior to snippet transformation.
+* Adding "New File From Template" to sidebar directory menus.
 
 
-changeset:   1747:b3801f3f456a
+changeset:   1753:d76e4e347b1d
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Jan 26 09:03:00 2016 -0600
-files:       lib/version.tcl tests/ctext.tcl
+date:        Wed Jan 27 18:44:15 2016 -0600
+files:       lib/gui.tcl lib/templates.tcl lib/version.tcl
 description:
-* Fixing run_test2 and adding run_test3.
+* Adding support for naming a new file without creating it.
+* Changing templates to use the new file naming (instead of touching an empty file).
 
 
-changeset:   1748:fd670af80958
+changeset:   1754:c42c527f65c2
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Jan 26 20:07:33 2016 -0600
-files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+date:        Wed Jan 27 19:41:58 2016 -0600
+files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Adding publish date to update description.
+* Checkpointing work on breaking apart the instanceCmd proc.
 
 
-changeset:   1749:6c42af516053
+changeset:   1755:bae8f151d505
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jan 27 21:03:53 2016 -0600
+files:       lib/ctext/ctext.tcl lib/version.tcl
+description:
+* Completing work on breaking the instanceCmd procedure apart into functions.
+
+
+changeset:   1756:c510512fedd8
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Jan 26 22:27:32 2016 -0600
-files:       lib/ctext/ctext.tcl lib/version.tcl tests/ctext.tcl
+date:        Thu Jan 28 00:13:55 2016 -0600
+files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Fixing issues with inCommentStringHelper bugs.
-* Improving performance of inCommentStringHelper.
+* Optimizing escape detection algorithm.
 
 
