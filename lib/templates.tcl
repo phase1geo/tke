@@ -50,13 +50,6 @@ namespace eval templates {
 
     variable data
 
-    # Touch the file
-    if {[catch { open $fname w } rc]} {
-      return -code error "Unable to write file"
-    } else {
-      close $rc
-    }
-
     # Open the template file for reading
     if {[catch { open [get_pathname $name] r } rc]} {
       return -code error "Unable to read template $name"
@@ -67,7 +60,7 @@ namespace eval templates {
     close $rc
 
     # Add the buffer
-    set txt [[ns gui]::get_info [[ns gui]::add_file end $fname] tab txt]
+    set txt [[ns gui]::get_info [[ns gui]::add_new_file end -name $fname] tab txt]
 
     # Insert the content as a snippet
     [ns snippets]::insert_snippet $txt.t $contents

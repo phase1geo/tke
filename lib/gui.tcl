@@ -1234,6 +1234,7 @@ namespace eval gui {
   #                         tags in a text widget.
   # -other       <bool>     If true, adds the file to the other pane.
   # -tags        <list>     List of plugin btags that will only get applied to this text widget.
+  # -name        <path>     Starting name of file (the file doesn't currently exist).
   proc add_new_file {index args} {
 
     variable files
@@ -1241,11 +1242,12 @@ namespace eval gui {
 
     array set opts {
       -sidebar 0
+      -name    "Untitled"
     }
     array set opts $args
 
     # Add the buffer
-    set tab [add_buffer $index "Untitled" {eval [ns gui]::save_new_file $save_as} {*}$args]
+    set tab [add_buffer $index $opts(-name) {eval [ns gui]::save_new_file $save_as} {*}$args]
 
     # If the sidebar option was set to 1, set it now
     if {$opts(-sidebar)} {
@@ -1267,7 +1269,7 @@ namespace eval gui {
     variable files_index
 
     # Set the buffer state to 0 and clear the save command
-    if {$save_as ne ""} {
+    if {($save_as ne "") || ([lindex $files $file_index $files_index(fname)] ne "Untitled")} {
       lset files $file_index $files_index(buffer)   0
       lset files $file_index $files_index(save_cmd) ""
       lset files $file_index $files_index(remember) 1
