@@ -360,6 +360,13 @@ namespace eval api {
     #   -tags \e list
     #     * A list of plugin bindtag suffixes that will be applied only to this
     #       this text widget.
+    #
+    #   -name \e filename
+    #     * If this option is specified when the filename is not specified, it will
+    #       add a new tab to the editor whose name matches the given name.  If the
+    #       user saves the file, the contents will be saved to disk with the given
+    #       file name.  The given filename does not need to exist prior to calling
+    #       this procedure.
     proc add_file {interp pname args} {
 
       set fname ""

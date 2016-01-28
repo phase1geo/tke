@@ -1325,6 +1325,9 @@ msgcat::mcmset he {
   "New Directory"
   "ספריה חדשה"
 
+  "New File From Template"
+  "קובץ חדש מתבנית"
+
   "Open Directory Files"
   "קבצי הספריה פתוחה"
 

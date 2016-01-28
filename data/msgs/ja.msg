@@ -1325,6 +1325,9 @@ msgcat::mcmset ja {
   "New Directory"
   "新しいディレクトリ"
 
+  "New File From Template"
+  "テンプレートから新しいファイル"
+
   "Open Directory Files"
   "オープンディレクトリのファイル"
 
