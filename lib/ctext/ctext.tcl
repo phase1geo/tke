@@ -606,7 +606,7 @@ proc ctext::set_border_color {win color} {
 # Returns 1 if the character at the given index is escaped; otherwise, returns 0.
 proc ctext::isEscaped {win index} {
 
-  return [expr {[string index [regexp -inline {\\*$} [$win get "$index linestart" $index]] 0] eq "\\"}]
+  return [expr {[lsearch [$win tag names $index-1c] _escape] != -1}]
 
 }
 
@@ -1129,6 +1129,7 @@ proc ctext::command_delete {win args} {
 
     set checkStr "$prevChar[set char]"
 
+    ctext::escapes   $win $lineStart $lineEnd
     ctext::comments  $win $lineStart $lineEnd [regexp {*}$data($win,config,re_opts) -- $commentRE $checkStr]
     ctext::brackets  $win $lineStart $lineEnd
     ctext::highlight $win $lineStart $lineEnd
@@ -1156,6 +1157,7 @@ proc ctext::command_delete {win args} {
       }
     }
 
+    ctext::escapes   $win $lineStart $lineEnd
     ctext::comments  $win $lineStart $lineEnd [regexp {*}$data($win,config,re_opts) -- $commentRE $dat]
     ctext::brackets  $win $lineStart $lineEnd
     ctext::highlight $win $lineStart $lineEnd
@@ -1352,9 +1354,10 @@ proc ctext::command_highlight {win args} {
     }
   }
 
-  ctext::highlight $win $lineStart $lineEnd
+  ctext::escapes   $win $lineStart $lineEnd
   ctext::comments  $win $lineStart $lineEnd 1
   ctext::brackets  $win $lineStart $lineEnd
+  ctext::highlight $win $lineStart $lineEnd
 
 }
 
@@ -1416,6 +1419,7 @@ proc ctext::command_insert {win args} {
   set re_data    [$win._t get $prevSpace "$insertPos+${datlen}c"]
   set re_pattern [expr {($datlen == 1) ? "((\\\\.)+|$commentRE).?\$" : $commentRE}]
 
+  ctext::escapes   $win $lineStart $lineEnd
   ctext::comments  $win $lineStart $lineEnd [regexp {*}$data($win,config,re_opts) -- $re_pattern $re_data]
   ctext::brackets  $win $lineStart $lineEnd
   ctext::highlight $win $lineStart $lineEnd
@@ -1499,6 +1503,7 @@ proc ctext::command_replace {win args} {
 
   set REData [$win._t get $lineStart $lineEnd]
 
+  ctext::escapes   $win $lineStart $lineEnd
   ctext::comments  $win $lineStart $lineEnd [regexp {*}$data($win,config,re_opts) -- $commentRE $REData]
   ctext::brackets  $win $lineStart $lineEnd
   ctext::highlight $win $lineStart $lineEnd
@@ -2383,9 +2388,18 @@ proc ctext::commentsParseCCommentEnd {win index pindices num_indices re_opts eco
 
 }
 
+proc ctext::escapes {twin start end} {
+
+  foreach res [$twin search -all -- "\\" $start $end] {
+    if {[lsearch [$twin tag names $res-1c] _escape] == -1} {
+      $twin tag add _escape $res
+    }
+  }
+
+}
+
 proc ctext::brackets {twin start end} {
 
-  variable data
   variable REs
   variable bracket_map
 
