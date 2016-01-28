@@ -1492,7 +1492,7 @@ proc ctext::command_replace {win args} {
   ctext::undo_insert $win $startPos $datlen $cursor
 
   set lineStart   [$win._t index "$startPos linestart"]
-  set lineEnd     [$wiwin._t index "$startPos+[expr $datlen + 1]c lineend"]
+  set lineEnd     [$win._t index "$startPos+[expr $datlen + 1]c lineend"]
   set insertLines [$win._t count -lines $lineStart $lineEnd]
 
   foreach tag [$win._t tag names] {
