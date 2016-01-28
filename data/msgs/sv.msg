@@ -1325,6 +1325,9 @@ msgcat::mcmset sv {
   "New Directory"
   "Ny katalog"
 
+  "New File From Template"
+  "Ny från mall"
+
   "Open Directory Files"
   "Open Directory filer"
 

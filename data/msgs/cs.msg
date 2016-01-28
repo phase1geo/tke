@@ -1325,6 +1325,9 @@ msgcat::mcmset cs {
   "New Directory"
   "Nový adresář"
 
+  "New File From Template"
+  "Nový soubor šablony"
+
   "Open Directory Files"
   "Open Directory soubory"
 
