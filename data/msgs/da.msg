@@ -1325,6 +1325,9 @@ msgcat::mcmset da {
   "New Directory"
   "Nyt bibliotek"
 
+  "New File From Template"
+  "Ny fra skabelon"
+
   "Open Directory Files"
   "Open Directory filer"
 

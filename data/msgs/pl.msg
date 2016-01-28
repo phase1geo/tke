@@ -1325,6 +1325,9 @@ msgcat::mcmset pl {
   "New Directory"
   "Nowy katalog"
 
+  "New File From Template"
+  "Nowy z szablonu"
+
   "Open Directory Files"
   "Pliki katalog otwarty"
 

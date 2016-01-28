@@ -1325,6 +1325,9 @@ msgcat::mcmset hu {
   "New Directory"
   "Új könyvtár"
 
+  "New File From Template"
+  "Új sablonból"
+
   "Open Directory Files"
   "Open Directory fájlok"
 

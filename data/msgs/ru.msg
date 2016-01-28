@@ -1325,6 +1325,9 @@ msgcat::mcmset ru {
   "New Directory"
   "Новый Справочник"
 
+  "New File From Template"
+  "Новый файл из шаблона"
+
   "Open Directory Files"
   "Открытие файлов Каталог"
 

@@ -1325,6 +1325,9 @@ msgcat::mcmset el {
   "New Directory"
   "Νέα Directory"
 
+  "New File From Template"
+  "Νέο αρχείο από πρότυπο"
+
   "Open Directory Files"
   "Αρχεία Open Directory"
 

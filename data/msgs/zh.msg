@@ -1325,6 +1325,9 @@ msgcat::mcmset zh {
   "New Directory"
   "新目录"
 
+  "New File From Template"
+  "模板新建的文件"
+
   "Open Directory Files"
   "打开目录文件"
 
