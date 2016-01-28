@@ -946,417 +946,28 @@ proc ctext::handleInsertAt0 {win startpos datalen} {
 
 }
 
-proc ctext::instanceCmd {self cmd args} {
+proc ctext::instanceCmd {win cmd args} {
 
   variable data
 
-  # Create comment RE
-  set commentRE $data($self,config,comment_re)
-
   switch -glob -- $cmd {
-    append     { return [ctext::command_append     $self {*}$args] }
-    cget       { return [ctext::command_cget       $self {*}$args] }
-    conf*      { return [ctext::command_configure  $self {*}$args] }
-    copy       { return [ctext::command_copy       $self {*}$args] }
-    cut        { return [ctext::command_cut        $self {*}$args] }
-    delete     { return [ctext::command_delete     $self {*}$args] }
-    diff       { return [ctext::command_diff       $self {*}$args] }
-    fastdelete { return [ctext::command_fastdelete $self {*}$args] }
-    fastinsert { return [ctext::command_fastinsert $self {*}$args] }
-    highlight  { return [ctext::command_highlight  $self {*}$args] }
-    insert     { return [ctext::command_insert     $self {*}$args] }
-    replace {
-      if {[llength $args] < 3} {
-        return -code error "please use at least 3 arguments to $self replace"
-      }
-
-      set moddata [list]
-      if {[lindex $args 0] eq "-moddata"} {
-        set args [lassign $args dummy moddata]
-      }
-
-      set startPos    [$self._t index [lindex $args 0]]
-      set endPos      [$self._t index [lindex $args 1]]
-      set dat         ""
-      foreach {chars taglist} [lrange $args 2 end] {
-        append dat $chars
-      }
-      set datlen      [string length $dat]
-      set cursor      [$self._t index insert]
-      set deleteChars [$self._t count -chars $startPos $endPos]
-      set deleteLines [$self._t count -lines $startPos $endPos]
-
-      ctext::undo_delete $self $startPos $endPos
-
-      eval \$self._t replace $args
-
-      ctext::undo_insert $self $startPos $datlen $cursor
-
-      set lineStart   [$self._t index "$startPos linestart"]
-      set lineEnd     [$self._t index "$startPos+[expr $datlen + 1]c lineend"]
-      set insertLines [$self._t count -lines $lineStart $lineEnd]
-
-      foreach tag [$self._t tag names] {
-        if {![regexp {^_([lc]Comment|[sdt]String)$} $tag] && ([string index $tag 0] eq "_")} {
-          $self._t tag remove $tag $lineStart $lineEnd
-        }
-      }
-
-      set REData [$self._t get $lineStart $lineEnd]
-
-      ctext::comments  $self $lineStart $lineEnd [regexp {*}$data($self,config,re_opts) -- $commentRE $REData]
-      ctext::brackets  $self $lineStart $lineEnd
-      ctext::highlight $self $lineStart $lineEnd
-
-      switch -- $dat {
-        "\}" {
-          if {$data($self,config,matchChar,curly)} {
-            ctext::matchPair $self curlyL
-          }
-        }
-        "\]" {
-          if {$data($self,config,matchChar,square)} {
-            ctext::matchPair $self squareL
-          }
-        }
-        "\)" {
-          if {$data($self,config,matchChar,paren)} {
-            ctext::matchPair $self parenL
-          }
-        }
-        "\>" {
-          if {$data($self,config,matchChar,angled)} {
-            ctext::matchPair $self angledL
-          }
-        }
-        "\"" {
-          if {$data($self,config,matchChar,double)} {
-            ctext::matchQuote $self
-          }
-        }
-      }
-
-      ctext::modified $self 1 [list delete $startPos $deleteChars $deleteLines $moddata]
-      ctext::modified $self 1 [list insert $startPos $datlen $insertLines $moddata]
-      # ctext::linemapUpdate $self
-      event generate $self.t <<CursorChanged>>
-    }
-
-    paste {
-      set moddata [list]
-      if {[lindex $args 0] eq "-moddata"} {
-        set args [lassign $args dummy moddata]
-      }
-
-      set insertPos [$self._t index insert]
-      set datalen   [string length [clipboard get]]
-      ctext::undo_insert $self $insertPos $datalen [$self._t index insert]
-      tk_textPaste $self
-      set lines     [$self._t count -lines $insertPos "$insertPos+${datalen}c"]
-      ctext::modified $self 1 [list insert $insertPos $datalen $lines $moddata]
-      # ctext::linemapUpdate $self
-      event generate $self.t <<CursorChanged>>
-    }
-
-    peer {
-      switch [lindex $args 0] {
-        names {
-          set names [list]
-          foreach name [$self._t peer names] {
-            lappend names [winfo parent $name]
-          }
-          return $names
-        }
-        default {
-          return -code error "unknown peer subcommand: [lindex $args 0]"
-        }
-      }
-    }
-
-    edit {
-      set subCmd [lindex $args 0]
-      set argsLength [llength $args]
-
-      if {"modified" == $subCmd} {
-        if {$argsLength == 1} {
-          return $data($self,config,modified)
-        } elseif {$argsLength == 2} {
-          set value [lindex $args 1]
-          set data($self,config,modified) $value
-        } else {
-          return -code error "invalid arg(s) to $self edit modified: $args"
-        }
-      } elseif {"undo" == $subCmd} {
-        ctext::undo $self
-      } elseif {"redo" == $subCmd} {
-        ctext::redo $self
-      } elseif {"undoable" == $subCmd} {
-        return [expr $data($self,config,undo_hist_size) > 0]
-      } elseif {"redoable" == $subCmd} {
-        return [expr [llength $data($self,config,redo_hist)] > 0]
-      } elseif {"separator" == $subCmd} {
-        if {[llength $data($self,config,undo_hist)] > 0} {
-          ctext::undo_separator $self
-        }
-      } elseif {"reset" == $subCmd} {
-        set data($self,config,undo_hist)      [list]
-        set data($self,config,undo_hist_size) 0
-        set data($self,config,undo_sep_next)  -1
-        set data($self,config,undo_sep_last)  -1
-        set data($self,config,undo_sep_size)  0
-        set data($self,config,redo_hist)      [list]
-        set data($self,config,modified)       false
-      } elseif {"cursorhist" == $subCmd} {
-        return [ctext::undo_get_cursor_hist $self]
-      } else {
-        #Tk 8.4 has other edit subcommands that I don't want to emulate.
-        return [uplevel 1 [linsert $args 0 $self._t $cmd]]
-      }
-    }
-
-    gutter {
-      set args [lassign $args subcmd]
-      switch -glob $subcmd {
-        create {
-          set value_list  [lassign $args gutter_name]
-          set gutter_tags [list]
-          foreach {name opts} $value_list {
-            array set sym_opts $opts
-            set sym        [expr {[info exists sym_opts(-symbol)] ? $sym_opts(-symbol) : ""}]
-            set gutter_tag "gutter:$gutter_name:$name:$sym"
-            if {[info exists sym_opts(-bg)]} {
-              $self.l tag configure $gutter_tag -background $sym_opts(-bg)
-            }
-            if {[info exists sym_opts(-fg)]} {
-              $self.l tag configure $gutter_tag -foreground $sym_opts(-fg)
-            }
-            if {[info exists sym_opts(-onenter)]} {
-              $self.l tag bind $gutter_tag <Enter> "$sym_opts(-onenter) $self"
-            }
-            if {[info exists sym_opts(-onleave)]} {
-              $self.l tag bind $gutter_tag <Leave> "$sym_opts(-onleave) $self"
-            }
-            if {[info exists sym_opts(-onclick)]} {
-              $self.l tag bind $gutter_tag <Button-1> "$sym_opts(-onclick) $self"
-            }
-            lappend gutter_tags $gutter_tag
-            array unset sym_opts
-          }
-          lappend data($win,config,gutters) [list $gutter_name $gutter_tags]
-          ctext::linemapUpdate $self
-        }
-        destroy {
-          set gutter_name    [lindex $args 0]
-          if {[set index [lsearch -index 0 $data($self,config,gutters) $gutter_name]] != -1} {
-            $self._t tag delete {*}[lindex $data($self,config,gutters) $index 1]
-            set data($self,config,gutters) [lreplace $data($self,config,gutters) $index $index]
-            ctext::linemapUpdate $self
-          }
-        }
-        del* {
-          lassign $args gutter_name sym_list
-          set update_needed 0
-          if {[set gutter_index [lsearch -index 0 $data($self,config,gutters) $gutter_name]] == -1} {
-            return -code error "Unable to find gutter name ($gutter_name)"
-          }
-          foreach symname $sym_list {
-            set gutters [lindex $data($self,config,gutters) $gutter_index 1]
-            if {[set index [lsearch -glob $gutters "gutter:$gutter_name:$symname:*"]] != -1} {
-              $self._t tag delete [lindex $gutters $index]
-              set gutters [lreplace $gutters $index $index]
-              lset data($self,config,gutters) $gutter_index 1 $gutters
-              set update_needed 1
-            }
-          }
-          if {$update_needed} {
-            ctext::linemapUpdate $self
-          }
-        }
-        set {
-          set args [lassign $args gutter_name]
-          set update_needed 0
-          if {[set gutter_index [lsearch -index 0 $data($self,config,gutters) $gutter_name]] != -1} {
-            foreach {name line_nums} $args {
-              if {[set gutter_tag [lsearch -inline -glob [lindex $data($self,config,gutters) $gutter_index 1] gutter:$gutter_name:$name:*]] ne ""} {
-                foreach line_num $line_nums {
-                  if {[set curr_tag [lsearch -inline -glob [$self._t tag names $line_num.0] gutter:$gutter_name:*]] ne ""} {
-                    if {$curr_tag ne $gutter_tag} {
-                      $self._t tag delete $curr_tag
-                      $self._t tag add $gutter_tag $line_num.0
-                      set update_needed 1
-                    }
-                  } else {
-                    $self._t tag add $gutter_tag $line_num.0
-                    set update_needed 1
-                  }
-                }
-              }
-            }
-          }
-          if {$update_needed} {
-            ctext::linemapUpdate $self
-          }
-        }
-        get {
-          if {[llength $args] == 1} {
-            set gutter_name [lindex $args 0]
-            set symbols     [list]
-            if {[set gutter_index [lsearch -index 0 $data($self,config,gutters) $gutter_name]] != -1} {
-              foreach gutter_tag [lindex $data($self,config,gutters) $gutter_index 1] {
-                set lines [list]
-                foreach {first last} [$self._t tag ranges $gutter_tag] {
-                  lappend lines [lindex [split $first .] 0]
-                }
-                lappend symbols [lindex [split $gutter_tag :] 2] $lines
-              }
-            }
-            return $symbols
-          } elseif {[llength $args] == 2} {
-            set gutter_name [lindex $args 0]
-            if {[string is integer [lindex $args 1]]} {
-              set line_num [lindex $args 1]
-              if {[set tag [lsearch -inline -glob [$self._t tag names $line_num.0] gutter:$gutter_name:*]] ne ""} {
-                return [lindex [split $tag :] 2]
-              } else {
-                return ""
-              }
-            } else {
-              set lines [list]
-              if {[set tag [lsearch -inline -glob [$self._t tag names] gutter:$gutter_name:[lindex $args 1]:*]] ne ""} {
-                foreach {first last} [$self._t tag ranges $tag] {
-                  lappend lines [lindex [split $first .] 0]
-                }
-              }
-              return $lines
-            }
-          }
-        }
-        clear {
-          set last [lassign $args gutter_name first]
-          if {[set gutter_index [lsearch -index 0 $data($self,config,gutters) $gutter_name]] != -1} {
-            if {$last eq ""} {
-              foreach gutter_tag [lindex $data($self,config,gutters) $gutter_index 1] {
-                $self._t tag remove $gutter_tag $first.0
-              }
-            } else {
-              foreach gutter_tag [lindex $data($self,config,gutters) $gutter_index 1] {
-                $self._t tag remove $gutter_tag $first.0 [$self._t index $last.0+1c]
-              }
-            }
-            ctext::linemapUpdate $self
-          }
-        }
-        cget {
-          lassign $args gutter_name sym_name opt
-          if {[set index [lsearch -exact -index 0 $data($self,config,gutters) $gutter_name]] == -1} {
-            return -code error "Unable to find gutter name ($gutter_name)"
-          }
-          if {[set gutter_tag [lsearch -inline -glob [lindex $data($self,config,gutters) $index 1] "gutter:$gutter_name:$sym_name:*"]] == -1} {
-            return -code error "Unknown symbol ($sym_name) specified"
-          }
-          switch $opt {
-            -symbol  { return [lindex [split $gutter_tag :] 3] }
-            -bg      { return [$self.l tag cget $gutter_tag -background] }
-            -fg      { return [$self.l tag cget $gutter_tag -foreground] }
-            -onenter { return [lrange [$self.l tag bind $gutter_tag <Enter>] 0 end-1] }
-            -onleave { return [lrange [$self.l tag bind $gutter_tag <Leave>] 0 end-1] }
-            -onclick { return [lrange [$self.l tag bind $gutter_tag <Button-1>] 0 end-1] }
-            default  {
-              return -code error "Unknown gutter option ($opt) specified"
-            }
-          }
-        }
-        conf* {
-          set args [lassign $args gutter_name]
-          if {[set index [lsearch -exact -index 0 $data($self,config,gutters) $gutter_name]] == -1} {
-            return -code error "Unable to find gutter name ($gutter_name)"
-          }
-          if {[llength $args] < 2} {
-            if {[llength $args] == 0} {
-              set match_tag "gutter:$gutter_name:*"
-            } else {
-              set match_tag "gutter:$gutter_name:[lindex $args 0]:*"
-            }
-            foreach gutter_tag [lsearch -inline -all -glob [lindex $data($self,config,gutters) $index 1] $match_tag] {
-              lassign [split $gutter_tag :] dummy1 dummy2 symname sym
-              set symopts [list]
-              if {$sym ne ""} {
-                lappend symopts -symbol $sym
-              }
-              if {[set bg [$self.l tag cget $gutter_tag -background]] ne ""} {
-                lappend symopts -bg $bg
-              }
-              if {[set fg [$self.l tag cget $gutter_tag -foreground]] ne ""} {
-                lappend symopts -fg $fg
-              }
-              if {[set cmd [lrange [$self.l tag bind $gutter_tag <Enter>] 0 end-1]] ne ""} {
-                lappend symopts -onenter $cmd
-              }
-              if {[set cmd [lrange [$self.l tag bind $gutter_tag <Leave>] 0 end-1]] ne ""} {
-                lappend symopts -onleave $cmd
-              }
-              if {[set cmd [lrange [$self.l tag bind $gutter_tag <Button-1>] 0 end-1]] ne ""} {
-                lappend symopts -onclick $cmd
-              }
-              lappend gutters $symname $symopts
-            }
-            return $gutters
-          } else {
-            set args          [lassign $args symname]
-            set update_needed 0
-            if {[set gutter_tag [lsearch -inline -glob [lindex $data($self,config,gutters) $index 1] "gutter:$gutter_name:$symname:*"]] == -1} {
-              return -code error "Unable to find gutter symbol name ($symname)"
-            }
-            foreach {opt value} $args {
-              switch -glob $opt {
-                -sym* {
-                  set ranges [$self._t tag ranges $gutter_tag]
-                  set opts   [$self._t tag configure $gutter_tag]
-                  $self._t tag delete $gutter_tag
-                  set gutter_tag "gutter:$gutter_name:$symname:$value"
-                  $self._t tag configure $gutter_tag {*}$opts
-                  $self._t tag add       $gutter_tag {*}$ranges
-                  set update_needed 1
-                }
-                -bg {
-                  $self.l tag configure $gutter_tag -background $value
-                }
-                -fg {
-                  $self.l tag configure $gutter_tag -foreground $value
-                }
-                -onenter {
-                  $self.l tag bind $gutter_tag <Enter> $value
-                }
-                -onleave {
-                  $self.l tag bind $gutter_tag <Leave> $value
-                }
-                -onclick {
-                  $self.l tag bind $gutter_tag <Button-1> $value
-                }
-                default {
-                  return -code error "Unknown gutter option ($opt) specified"
-                }
-              }
-            }
-            if {$update_needed} {
-              ctext::linemapUpdate $self
-            }
-          }
-        }
-        names {
-          set names [list]
-          foreach gutter $data($self,config,gutters) {
-            lappend names [lindex $gutter 0]
-          }
-          return $names
-        }
-      }
-    }
-
-    default {
-      return [uplevel 1 [linsert $args 0 $self._t $cmd]]
-    }
-
+    append     { return [ctext::command_append     $win {*}$args] }
+    cget       { return [ctext::command_cget       $win {*}$args] }
+    conf*      { return [ctext::command_configure  $win {*}$args] }
+    copy       { return [ctext::command_copy       $win {*}$args] }
+    cut        { return [ctext::command_cut        $win {*}$args] }
+    delete     { return [ctext::command_delete     $win {*}$args] }
+    diff       { return [ctext::command_diff       $win {*}$args] }
+    edit       { return [ctext::command_edit       $win {*}$args] }
+    fastdelete { return [ctext::command_fastdelete $win {*}$args] }
+    fastinsert { return [ctext::command_fastinsert $win {*}$args] }
+    gutter     { return [ctext::command_gutter     $win {*}$args] }
+    highlight  { return [ctext::command_highlight  $win {*}$args] }
+    insert     { return [ctext::command_insert     $win {*}$args] }
+    replace    { return [ctext::command_replace    $win {*}$args] }
+    paste      { return [ctext::command_paste      $win {*}$args] }
+    peer       { return [ctext::command_peer       $win {*}$args] }
+    default    { return [uplevel 1 [linsert $args 0 $win._t $cmd]] }
   }
 
 }
@@ -1479,6 +1090,9 @@ proc ctext::command_cut {win args} {
 proc ctext::command_delete {win args} {
 
   variable data
+
+  # Create comment RE
+  set commentRE $data($win,config,comment_re)
 
   set moddata [list]
   if {[lindex $args 0] eq "-moddata"} {
@@ -1699,7 +1313,7 @@ proc ctext::command_fastdelete {win args} {
     set lines [$win._t count -lines {*}[lrange $args 0 1]]
     ctext::linemapCheckOnDelete $win [$win._t index [lindex $args 0]] [$win._t index [lindex $args 1]]
   }
-  $win._t delete $args
+  $win._t delete {*}$args
   ctext::modified $win 1 [list delete [$win._t index [lindex $args 0]] $chars $lines $moddata]
   # ctext::linemapUpdate $win
   event generate $win.t <<CursorChanged>>
@@ -1714,7 +1328,7 @@ proc ctext::command_fastinsert {win args} {
   if {[lindex $args 0] eq "-moddata"} {
     set args [lassign $args dummy moddata]
   }
-  $win._t insert $args
+  $win._t insert {*}$args
   set startPos [$win._t index [lindex $args 0]]
   set chars    [string length [lindex $args 1]]
   set lines    [$win._t count -lines $startPos "$startPos+${chars}c"]
@@ -1748,6 +1362,9 @@ proc ctext::command_insert {win args} {
 
   variable data
 
+  # Create comment RE
+  set commentRE $data($win,config,comment_re)
+
   if {[llength $args] < 2} {
     return -code error "please use at least 2 arguments to $win insert"
   }
@@ -1773,7 +1390,7 @@ proc ctext::command_insert {win args} {
   set datlen [string length $dat]
   set cursor [$win._t index insert]
 
-  $win._t insert $args
+  $win._t insert {*}$args
 
   ctext::undo_insert $win $insertPos $datlen $cursor
   ctext::handleInsertAt0 $win._t $insertPos $datlen
@@ -1834,6 +1451,427 @@ proc ctext::command_insert {win args} {
   ctext::modified $win 1 [list insert $insertPos $datlen $lines $moddata]
   # ctext::linemapUpdate $win
   event generate $win.t <<CursorChanged>>
+
+}
+
+proc ctext::command_replace {win args} {
+
+  variable data
+
+  if {[llength $args] < 3} {
+    return -code error "please use at least 3 arguments to $win replace"
+  }
+
+  # Create comment RE
+  set commentRE $data($win,config,comment_re)
+
+  set moddata [list]
+  if {[lindex $args 0] eq "-moddata"} {
+    set args [lassign $args dummy moddata]
+  }
+
+  set startPos    [$win._t index [lindex $args 0]]
+  set endPos      [$win._t index [lindex $args 1]]
+  set dat         ""
+  foreach {chars taglist} [lrange $args 2 end] {
+    append dat $chars
+  }
+  set datlen      [string length $dat]
+  set cursor      [$win._t index insert]
+  set deleteChars [$win._t count -chars $startPos $endPos]
+  set deleteLines [$win._t count -lines $startPos $endPos]
+
+  ctext::undo_delete $win $startPos $endPos
+
+  $win._t replace {*}$args
+
+  ctext::undo_insert $win $startPos $datlen $cursor
+
+  set lineStart   [$win._t index "$startPos linestart"]
+  set lineEnd     [$wiwin._t index "$startPos+[expr $datlen + 1]c lineend"]
+  set insertLines [$win._t count -lines $lineStart $lineEnd]
+
+  foreach tag [$win._t tag names] {
+    if {![regexp {^_([lc]Comment|[sdt]String)$} $tag] && ([string index $tag 0] eq "_")} {
+      $win._t tag remove $tag $lineStart $lineEnd
+    }
+  }
+
+  set REData [$win._t get $lineStart $lineEnd]
+
+  ctext::comments  $win $lineStart $lineEnd [regexp {*}$data($win,config,re_opts) -- $commentRE $REData]
+  ctext::brackets  $win $lineStart $lineEnd
+  ctext::highlight $win $lineStart $lineEnd
+
+  switch -- $dat {
+    "\}" {
+      if {$data($win,config,matchChar,curly)} {
+        ctext::matchPair $win curlyL
+      }
+    }
+    "\]" {
+      if {$data($win,config,matchChar,square)} {
+        ctext::matchPair $win squareL
+      }
+    }
+    "\)" {
+      if {$data($win,config,matchChar,paren)} {
+        ctext::matchPair $win parenL
+      }
+    }
+    "\>" {
+      if {$data($win,config,matchChar,angled)} {
+        ctext::matchPair $win angledL
+      }
+    }
+    "\"" {
+      if {$data($win,config,matchChar,double)} {
+        ctext::matchQuote $win
+      }
+    }
+  }
+
+  ctext::modified $win 1 [list delete $startPos $deleteChars $deleteLines $moddata]
+  ctext::modified $win 1 [list insert $startPos $datlen $insertLines $moddata]
+  # ctext::linemapUpdate $win
+  event generate $win.t <<CursorChanged>>
+
+}
+
+proc ctext::command_paste {win args} {
+
+  variable data
+
+  set moddata [list]
+  if {[lindex $args 0] eq "-moddata"} {
+    set args [lassign $args dummy moddata]
+  }
+
+  set insertPos [$win._t index insert]
+  set datalen   [string length [clipboard get]]
+  ctext::undo_insert $win $insertPos $datalen [$win._t index insert]
+  tk_textPaste $win
+  set lines     [$win._t count -lines $insertPos "$insertPos+${datalen}c"]
+  ctext::modified $win 1 [list insert $insertPos $datalen $lines $moddata]
+  # ctext::linemapUpdate $win
+  event generate $win.t <<CursorChanged>>
+
+}
+
+proc ctext::command_peer {win args} {
+
+  variable data
+
+  switch [lindex $args 0] {
+    names {
+      set names [list]
+      foreach name [$win._t peer names] {
+        lappend names [winfo parent $name]
+      }
+      return $names
+    }
+    default {
+      return -code error "unknown peer subcommand: [lindex $args 0]"
+    }
+  }
+
+}
+
+proc ctext::command_edit {win args} {
+
+  variable data
+
+  switch [lindex $args 0] {
+    modified {
+      switch [llength $args] {
+        1 {
+          return $data($win,config,modified)
+        }
+        2 {
+          set value [lindex $args 1]
+          set data($win,config,modified) $value
+        }
+        default {
+          return -code error "invalid arg(s) to $win edit modified: $args"
+        }
+      }
+    }
+    undo {
+      ctext::undo $win
+    }
+    redo {
+      ctext::redo $win
+    }
+    undoable {
+      return [expr $data($win,config,undo_hist_size) > 0]
+    }
+    redoable {
+      return [expr [llength $data($win,config,redo_hist)] > 0]
+    }
+    separator {
+      if {[llength $data($win,config,undo_hist)] > 0} {
+        ctext::undo_separator $win
+      }
+    }
+    reset {
+      set data($win,config,undo_hist)      [list]
+      set data($win,config,undo_hist_size) 0
+      set data($win,config,undo_sep_next)  -1
+      set data($win,config,undo_sep_last)  -1
+      set data($win,config,undo_sep_size)  0
+      set data($win,config,redo_hist)      [list]
+      set data($win,config,modified)       false
+    }
+    cursorhist {
+      return [ctext::undo_get_cursor_hist $win]
+    }
+    default {
+      return [uplevel 1 [linsert $args 0 $win._t $cmd]]
+    }
+  }
+
+}
+
+proc ctext::command_gutter {win args} {
+
+  variable data
+
+  set args [lassign $args subcmd]
+  switch -glob $subcmd {
+    create {
+      set value_list  [lassign $args gutter_name]
+      set gutter_tags [list]
+      foreach {name opts} $value_list {
+        array set sym_opts $opts
+        set sym        [expr {[info exists sym_opts(-symbol)] ? $sym_opts(-symbol) : ""}]
+        set gutter_tag "gutter:$gutter_name:$name:$sym"
+        if {[info exists sym_opts(-bg)]} {
+          $win.l tag configure $gutter_tag -background $sym_opts(-bg)
+        }
+        if {[info exists sym_opts(-fg)]} {
+          $win.l tag configure $gutter_tag -foreground $sym_opts(-fg)
+        }
+        if {[info exists sym_opts(-onenter)]} {
+          $win.l tag bind $gutter_tag <Enter> "$sym_opts(-onenter) $win"
+        }
+        if {[info exists sym_opts(-onleave)]} {
+          $win.l tag bind $gutter_tag <Leave> "$sym_opts(-onleave) $win"
+        }
+        if {[info exists sym_opts(-onclick)]} {
+          $win.l tag bind $gutter_tag <Button-1> "$sym_opts(-onclick) $win"
+        }
+        lappend gutter_tags $gutter_tag
+        array unset sym_opts
+      }
+      lappend data($win,config,gutters) [list $gutter_name $gutter_tags]
+      ctext::linemapUpdate $win
+    }
+    destroy {
+      set gutter_name    [lindex $args 0]
+      if {[set index [lsearch -index 0 $data($win,config,gutters) $gutter_name]] != -1} {
+        $win._t tag delete {*}[lindex $data($win,config,gutters) $index 1]
+        set data($win,config,gutters) [lreplace $data($win,config,gutters) $index $index]
+        ctext::linemapUpdate $win
+      }
+    }
+    del* {
+      lassign $args gutter_name sym_list
+      set update_needed 0
+      if {[set gutter_index [lsearch -index 0 $data($win,config,gutters) $gutter_name]] == -1} {
+        return -code error "Unable to find gutter name ($gutter_name)"
+      }
+      foreach symname $sym_list {
+        set gutters [lindex $data($win,config,gutters) $gutter_index 1]
+        if {[set index [lsearch -glob $gutters "gutter:$gutter_name:$symname:*"]] != -1} {
+          $win._t tag delete [lindex $gutters $index]
+          set gutters [lreplace $gutters $index $index]
+          lset data($win,config,gutters) $gutter_index 1 $gutters
+          set update_needed 1
+        }
+      }
+      if {$update_needed} {
+        ctext::linemapUpdate $win
+      }
+    }
+    set {
+      set args [lassign $args gutter_name]
+      set update_needed 0
+      if {[set gutter_index [lsearch -index 0 $data($win,config,gutters) $gutter_name]] != -1} {
+        foreach {name line_nums} $args {
+          if {[set gutter_tag [lsearch -inline -glob [lindex $data($win,config,gutters) $gutter_index 1] gutter:$gutter_name:$name:*]] ne ""} {
+            foreach line_num $line_nums {
+              if {[set curr_tag [lsearch -inline -glob [$win._t tag names $line_num.0] gutter:$gutter_name:*]] ne ""} {
+                if {$curr_tag ne $gutter_tag} {
+                  $win._t tag delete $curr_tag
+                  $win._t tag add $gutter_tag $line_num.0
+                  set update_needed 1
+                }
+              } else {
+                $win._t tag add $gutter_tag $line_num.0
+                set update_needed 1
+              }
+            }
+          }
+        }
+      }
+      if {$update_needed} {
+        ctext::linemapUpdate $win
+      }
+    }
+    get {
+      if {[llength $args] == 1} {
+        set gutter_name [lindex $args 0]
+        set symbols     [list]
+        if {[set gutter_index [lsearch -index 0 $data($win,config,gutters) $gutter_name]] != -1} {
+          foreach gutter_tag [lindex $data($win,config,gutters) $gutter_index 1] {
+            set lines [list]
+            foreach {first last} [$win._t tag ranges $gutter_tag] {
+              lappend lines [lindex [split $first .] 0]
+            }
+            lappend symbols [lindex [split $gutter_tag :] 2] $lines
+          }
+        }
+        return $symbols
+      } elseif {[llength $args] == 2} {
+        set gutter_name [lindex $args 0]
+        if {[string is integer [lindex $args 1]]} {
+          set line_num [lindex $args 1]
+          if {[set tag [lsearch -inline -glob [$win._t tag names $line_num.0] gutter:$gutter_name:*]] ne ""} {
+            return [lindex [split $tag :] 2]
+          } else {
+            return ""
+          }
+        } else {
+          set lines [list]
+          if {[set tag [lsearch -inline -glob [$win._t tag names] gutter:$gutter_name:[lindex $args 1]:*]] ne ""} {
+            foreach {first last} [$win._t tag ranges $tag] {
+              lappend lines [lindex [split $first .] 0]
+            }
+          }
+          return $lines
+        }
+      }
+    }
+    clear {
+      set last [lassign $args gutter_name first]
+      if {[set gutter_index [lsearch -index 0 $data($win,config,gutters) $gutter_name]] != -1} {
+        if {$last eq ""} {
+          foreach gutter_tag [lindex $data($win,config,gutters) $gutter_index 1] {
+            $win._t tag remove $gutter_tag $first.0
+          }
+        } else {
+          foreach gutter_tag [lindex $data($win,config,gutters) $gutter_index 1] {
+            $win._t tag remove $gutter_tag $first.0 [$win._t index $last.0+1c]
+          }
+        }
+        ctext::linemapUpdate $win
+      }
+    }
+    cget {
+      lassign $args gutter_name sym_name opt
+      if {[set index [lsearch -exact -index 0 $data($win,config,gutters) $gutter_name]] == -1} {
+        return -code error "Unable to find gutter name ($gutter_name)"
+      }
+      if {[set gutter_tag [lsearch -inline -glob [lindex $data($win,config,gutters) $index 1] "gutter:$gutter_name:$sym_name:*"]] == -1} {
+        return -code error "Unknown symbol ($sym_name) specified"
+      }
+      switch $opt {
+        -symbol  { return [lindex [split $gutter_tag :] 3] }
+        -bg      { return [$win.l tag cget $gutter_tag -background] }
+        -fg      { return [$win.l tag cget $gutter_tag -foreground] }
+        -onenter { return [lrange [$win.l tag bind $gutter_tag <Enter>] 0 end-1] }
+        -onleave { return [lrange [$win.l tag bind $gutter_tag <Leave>] 0 end-1] }
+        -onclick { return [lrange [$win.l tag bind $gutter_tag <Button-1>] 0 end-1] }
+        default  {
+          return -code error "Unknown gutter option ($opt) specified"
+        }
+      }
+    }
+    conf* {
+      set args [lassign $args gutter_name]
+      if {[set index [lsearch -exact -index 0 $data($win,config,gutters) $gutter_name]] == -1} {
+        return -code error "Unable to find gutter name ($gutter_name)"
+      }
+      if {[llength $args] < 2} {
+        if {[llength $args] == 0} {
+          set match_tag "gutter:$gutter_name:*"
+        } else {
+          set match_tag "gutter:$gutter_name:[lindex $args 0]:*"
+        }
+        foreach gutter_tag [lsearch -inline -all -glob [lindex $data($win,config,gutters) $index 1] $match_tag] {
+          lassign [split $gutter_tag :] dummy1 dummy2 symname sym
+          set symopts [list]
+          if {$sym ne ""} {
+            lappend symopts -symbol $sym
+          }
+          if {[set bg [$win.l tag cget $gutter_tag -background]] ne ""} {
+            lappend symopts -bg $bg
+          }
+          if {[set fg [$win.l tag cget $gutter_tag -foreground]] ne ""} {
+            lappend symopts -fg $fg
+          }
+          if {[set cmd [lrange [$win.l tag bind $gutter_tag <Enter>] 0 end-1]] ne ""} {
+            lappend symopts -onenter $cmd
+          }
+          if {[set cmd [lrange [$win.l tag bind $gutter_tag <Leave>] 0 end-1]] ne ""} {
+            lappend symopts -onleave $cmd
+          }
+          if {[set cmd [lrange [$win.l tag bind $gutter_tag <Button-1>] 0 end-1]] ne ""} {
+            lappend symopts -onclick $cmd
+          }
+          lappend gutters $symname $symopts
+        }
+        return $gutters
+      } else {
+        set args          [lassign $args symname]
+        set update_needed 0
+        if {[set gutter_tag [lsearch -inline -glob [lindex $data($win,config,gutters) $index 1] "gutter:$gutter_name:$symname:*"]] == -1} {
+          return -code error "Unable to find gutter symbol name ($symname)"
+        }
+        foreach {opt value} $args {
+          switch -glob $opt {
+            -sym* {
+              set ranges [$win._t tag ranges $gutter_tag]
+              set opts   [$win._t tag configure $gutter_tag]
+              $win._t tag delete $gutter_tag
+              set gutter_tag "gutter:$gutter_name:$symname:$value"
+              $win._t tag configure $gutter_tag {*}$opts
+              $win._t tag add       $gutter_tag {*}$ranges
+              set update_needed 1
+            }
+            -bg {
+              $win.l tag configure $gutter_tag -background $value
+            }
+            -fg {
+              $win.l tag configure $gutter_tag -foreground $value
+            }
+            -onenter {
+              $win.l tag bind $gutter_tag <Enter> $value
+            }
+            -onleave {
+              $win.l tag bind $gutter_tag <Leave> $value
+            }
+            -onclick {
+              $win.l tag bind $gutter_tag <Button-1> $value
+            }
+            default {
+              return -code error "Unknown gutter option ($opt) specified"
+            }
+          }
+        }
+        if {$update_needed} {
+          ctext::linemapUpdate $win
+        }
+      }
+    }
+    names {
+      set names [list]
+      foreach gutter $data($win,config,gutters) {
+        lappend names [lindex $gutter 0]
+      }
+      return $names
+    }
+  }
 
 }
 
