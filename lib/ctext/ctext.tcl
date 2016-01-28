@@ -248,165 +248,165 @@ proc ctext::buildArgParseTable win {
   set argTable [list]
 
   lappend argTable any -linemap_mark_command {
-    set data($self,config,-linemap_mark_command) $value
+    set data($win,config,-linemap_mark_command) $value
     break
   }
 
   lappend argTable {1 true yes} -linemap {
-    set data($self,config,-linemap) 1
+    set data($win,config,-linemap) 1
     catch {
-      grid $self.l
-      grid $self.f
+      grid $win.l
+      grid $win.f
     }
-    ctext::linemapUpdate $self
+    ctext::linemapUpdate $win
     break
   }
 
   lappend argTable {0 false no} -linemap {
-    set data($self,config,-linemap) 0
-    if {([llength $data($self,config,gutters)] == 0) && !$data($self,config,-linemap_markable)} {
+    set data($win,config,-linemap) 0
+    if {([llength $data($win,config,gutters)] == 0) && !$data($win,config,-linemap_markable)} {
       catch {
-        grid remove $self.l
-        grid remove $self.f
+        grid remove $win.l
+        grid remove $win.f
       }
     } else {
-      ctext::linemapUpdate $self
+      ctext::linemapUpdate $win
     }
     break
   }
 
   lappend argTable any -xscrollcommand {
-    set cmd [list $self._t config -xscrollcommand \
-    [list ctext::event:xscroll $self $value]]
+    set cmd [list $win._t config -xscrollcommand \
+    [list ctext::event:xscroll $win $value]]
 
     if {[catch $cmd res]} {
       return $res
     }
-    set data($self,config,-xscrollcommand) $value
+    set data($win,config,-xscrollcommand) $value
     break
   }
 
   lappend argTable any -yscrollcommand {
-    set cmd [list $self._t config -yscrollcommand \
-    [list ctext::event:yscroll $self $value]]
+    set cmd [list $win._t config -yscrollcommand \
+    [list ctext::event:yscroll $win $value]]
 
     if {[catch $cmd res]} {
       return $res
     }
-    set data($self,config,-yscrollcommand) $value
+    set data($win,config,-yscrollcommand) $value
     break
   }
 
   lappend argTable any -linemapfg {
-    if {[catch {winfo rgb $self $value} res]} {
+    if {[catch {winfo rgb $win $value} res]} {
       return -code error $res
     }
-    $self.l config -fg $value
-    set data($self,config,-linemapfg) $value
+    $win.l config -fg $value
+    set data($win,config,-linemapfg) $value
     break
   }
 
   lappend argTable any -linemapbg {
-    if {[catch {winfo rgb $self $value} res]} {
+    if {[catch {winfo rgb $win $value} res]} {
       return -code error $res
     }
-    $self.l config -bg $value
-    set data($self,config,-linemapbg) $value
+    $win.l config -bg $value
+    set data($win,config,-linemapbg) $value
     break
   }
 
   lappend argTable any -linemap_relief {
-    if {[catch {$self.l config -relief $value} res]} {
+    if {[catch {$win.l config -relief $value} res]} {
       return -code error $res
     }
-    set data($self,config,-linemap_relief) $value
+    set data($win,config,-linemap_relief) $value
     break
   }
 
   lappend argTable any -font {
-    if {[catch {$self.l config -font $value} res]} {
+    if {[catch {$win.l config -font $value} res]} {
       return -code error $res
     }
-    $self._t config -font $value
-    set data($self,config,-font) $value
+    $win._t config -font $value
+    set data($win,config,-font) $value
     break
   }
 
   lappend argTable {0 false no} -highlight {
-    set data($self,config,-highlight) 0
+    set data($win,config,-highlight) 0
     break
   }
 
   lappend argTable {1 true yes} -highlight {
-    set data($self,config,-highlight) 1
+    set data($win,config,-highlight) 1
     break
   }
 
   lappend argTable any -warnwidth {
-    set data($self,config,-warnwidth) $value
+    set data($win,config,-warnwidth) $value
     if {$value eq ""} {
-      place forget $self.t.w
+      place forget $win.t.w
     } else {
-      place $self.t.w -x [font measure [$self.t cget -font] -displayof . [string repeat "m" $value]] -relheight 1.0
+      place $win.t.w -x [font measure [$win.t cget -font] -displayof . [string repeat "m" $value]] -relheight 1.0
     }
     break
   }
 
   lappend argTable any -warnwidth_bg {
-    if {[catch {winfo rgb $self $value} res]} {
+    if {[catch {winfo rgb $win $value} res]} {
       return -code error $res
     }
-    set data($self,config,-warnwidth_bg) $value
-    $self.t.w configure -bg $value
-    $self.f   configure -bg $value
+    set data($win,config,-warnwidth_bg) $value
+    $win.t.w configure -bg $value
+    $win.f   configure -bg $value
     break
   }
 
   lappend argTable any -highlightcolor {
-    if {[catch {winfo rgb $self $value} res]} {
+    if {[catch {winfo rgb $win $value} res]} {
       return -code error $res
     }
-    set data($self,config,-highlightcolor) $value
+    set data($win,config,-highlightcolor) $value
     break
   }
 
   lappend argTable {0 false no} -linemap_markable {
-    set data($self,config,-linemap_markable) 0
+    set data($win,config,-linemap_markable) 0
     break
   }
 
   lappend argTable {1 true yes} -linemap_markable {
-    set data($self,config,-linemap_markable) 1
+    set data($win,config,-linemap_markable) 1
     break
   }
 
   lappend argTable any -linemap_select_fg {
-    if {[catch {winfo rgb $self $value} res]} {
+    if {[catch {winfo rgb $win $value} res]} {
       return -code error $res
     }
-    set data($self,config,-linemap_select_fg) $value
-    $self.l tag configure lmark -foreground $value
+    set data($win,config,-linemap_select_fg) $value
+    $win.l tag configure lmark -foreground $value
     break
   }
 
   lappend argTable any -linemap_select_bg {
-    if {[catch {winfo rgb $self $value} res]} {
+    if {[catch {winfo rgb $win $value} res]} {
       return -code error $res
     }
-    set data($self,config,-linemap_select_bg) $value
-    $self.l tag configure lmark -background $value
+    set data($win,config,-linemap_select_bg) $value
+    $win.l tag configure lmark -background $value
     break
   }
 
   lappend argTable {0 false no} -casesensitive {
-    set data($self,config,-casesensitive) 0
-    set data($self,config,re_opts) "-nocase"
+    set data($win,config,-casesensitive) 0
+    set data($win,config,re_opts) "-nocase"
     break
   }
 
   lappend argTable {1 true yes} -casesensitive {
-    set data($self,config,-casesensitive) 1
-    set data($self,config,re_opts) ""
+    set data($win,config,-casesensitive) 1
+    set data($win,config,re_opts) ""
     break
   }
 
@@ -414,10 +414,10 @@ proc ctext::buildArgParseTable win {
     if {![string is integer $value]} {
       return -code error "-linemap_minwidth argument must be an integer value"
     }
-    if {[$self.l cget -width] < $value} {
-      $self.l configure -width $value
+    if {[$win.l cget -width] < $value} {
+      $win.l configure -width $value
     }
-    set data($self,config,-linemap_minwidth) $value
+    set data($win,config,-linemap_minwidth) $value
     break
   }
 
@@ -425,18 +425,18 @@ proc ctext::buildArgParseTable win {
     if {[lsearch [list absolute relative] $value] == -1} {
       return -code error "-linemap_type argument must be either 'absolute' or 'relative'"
     }
-    set data($self,config,-linemap_type) $value
-    ctext::linemapUpdate $self
+    set data($win,config,-linemap_type) $value
+    ctext::linemapUpdate $win
     break
   }
 
   lappend argTable {0 false no} -undo {
-    set data($self,config,-undo) 0
+    set data($win,config,-undo) 0
     break
   }
 
   lappend argTable {1 true yes} -undo {
-    set data($self,config,-undo) 1
+    set data($win,config,-undo) 1
     break
   }
 
@@ -444,32 +444,32 @@ proc ctext::buildArgParseTable win {
     if {![string is integer $value]} {
       return -code error "-maxundo argument must be an integer value"
     }
-    set data($self,config,-maxundo) $value
-    ctext::undo_manage $self
+    set data($win,config,-maxundo) $value
+    ctext::undo_manage $win
   }
 
   lappend argTable {0 false no} -autoseparators {
-    set data($self,config,-autoseparators) 0
+    set data($win,config,-autoseparators) 0
     break
   }
 
   lappend argTable {1 true yes} -autoseparators {
-    set data($self,config,-autoseparators) 1
+    set data($win,config,-autoseparators) 1
     break
   }
 
   lappend argTable {any} -diffsubbg {
-    set data($self,config,-diffsubbg) $value
-    foreach tag [lsearch -inline -all -glob [$self._t tag names] diff:B:D:*] {
-      $self._t tag configure $tag -background $value
+    set data($win,config,-diffsubbg) $value
+    foreach tag [lsearch -inline -all -glob [$win._t tag names] diff:B:D:*] {
+      $win._t tag configure $tag -background $value
     }
     break
   }
 
   lappend argTable {any} -diffaddbg {
-    set data($self,config,-diffaddbg) $value
-    foreach tag [lsearch -inline -all -glob [$self._t tag names] diff:A:D:*] {
-      $self._t tag configure $tag -background $value
+    set data($win,config,-diffaddbg) $value
+    foreach tag [lsearch -inline -all -glob [$win._t tag names] diff:A:D:*] {
+      $win._t tag configure $tag -background $value
     }
     break
   }
@@ -954,439 +954,17 @@ proc ctext::instanceCmd {self cmd args} {
   set commentRE $data($self,config,comment_re)
 
   switch -glob -- $cmd {
-    append {
-      if {[catch {$self._t get sel.first sel.last} data] == 0} {
-        clipboard append -displayof $self $data
-      }
-    }
-
-    cget {
-      set arg [lindex $args 0]
-
-      foreach flag $data($self,config,ctextFlags) {
-        if {[string match ${arg}* $flag]} {
-          return [set data($self,config,$flag)]
-        }
-      }
-      return [$self._t cget $arg]
-    }
-
-    conf* {
-      if {0 == [llength $args]} {
-        set res [$self._t configure]
-        foreach opt [list -xscrollcommand* -yscrollcommand*] {
-          set del [lsearch -glob $res $opt]
-          set res [lreplace $res $del $del]
-        }
-        foreach flag $data($self,config,ctextFlags) {
-          lappend res [list $flag [set data($self,config,$flag)]]
-        }
-        return $res
-      }
-
-      array set flags {}
-      foreach flag $data($self,config,ctextFlags) {
-        set loc [lsearch $args $flag]
-        if {$loc < 0} {
-          continue
-        }
-
-        if {[llength $args] <= ($loc + 1)} {
-          #.t config -flag
-          return [set data($self,config,$flag)]
-        }
-
-        set flagArg [lindex $args [expr {$loc + 1}]]
-        set args [lreplace $args $loc [expr {$loc + 1}]]
-        set flags($flag) $flagArg
-      }
-
-      foreach {valueList flag cmd} $data($self,config,argTable) {
-        if {[info exists flags($flag)]} {
-          foreach valueToCheckFor $valueList {
-            set value [set flags($flag)]
-            if {[string equal "any" $valueToCheckFor]} $cmd \
-            elseif {[string equal $valueToCheckFor [set flags($flag)]]} $cmd
-          }
-        }
-      }
-
-      if {[llength $args]} {
-        #we take care of configure without args at the top of this branch
-        uplevel 1 [linsert $args 0 $self._t configure]
-      }
-    }
-
-    copy {
-
-      # Get the start and end indices
-      if {![catch {$self.t index sel.first} start_index]} {
-        set end_index [$self.t index sel.last]
-      } else {
-        set start_index [$self.t index "insert linestart"]
-        set end_index   [$self.t index "insert+1l linestart"]
-      }
-
-      # Clear and copy the data to the clipboard
-      clipboard clear  -displayof $self.t
-      clipboard append -displayof $self.t [$self.t get $start_index $end_index]
-
-    }
-
-    cut {
-
-      # Get the start and end indices
-      if {![catch {$self.t index sel.first} start_index]} {
-        set end_index [$self.t index sel.last]
-      } else {
-        set start_index [$self.t index "insert linestart"]
-        set end_index   [$self.t index "insert+1l linestart"]
-      }
-
-      # Clear and copy the data to the clipboard
-      clipboard clear  -displayof $self.t
-      clipboard append -displayof $self.t [$self.t get $start_index $end_index]
-
-      # Delete the text
-      $self delete $start_index $end_index
-
-    }
-
-    delete {
-      set moddata [list]
-      if {[lindex $args 0] eq "-moddata"} {
-        set args [lassign $args dummy moddata]
-      }
-
-      set argsLength [llength $args]
-
-      #first deal with delete n.n
-      if {$argsLength == 1} {
-        set deletePos [$self._t index [lindex $args 0]]
-        set prevChar  [$self._t get $deletePos]
-
-        ctext::undo_delete $self $deletePos [$self._t index "$deletePos+1c"]
-        ctext::linemapCheckOnDelete $self $deletePos
-
-        $self._t delete $deletePos
-
-        set char [$self._t get $deletePos]
-
-        set prevSpace   [ctext::findPreviousSpace $self._t $deletePos]
-        set nextSpace   [ctext::findNextSpace $self._t $deletePos]
-        set lineStart   [$self._t index "$deletePos linestart"]
-        set lineEnd     [$self._t index "$deletePos + 1 chars lineend"]
-        set lines       [$self._t count -lines $lineStart $lineEnd]
-        set removeStart $lineStart
-        set removeEnd   $lineEnd
-
-        foreach tag [$self._t tag names] {
-          if {![regexp {^_([lc]Comment|[sdt]String)$} $tag] && ([string index $tag 0] eq "_")} {
-            $self._t tag remove $tag $removeStart $removeEnd
-          }
-        }
-
-        set checkStr "$prevChar[set char]"
-
-        ctext::comments  $self $lineStart $lineEnd [regexp {*}$data($self,config,re_opts) -- $commentRE $checkStr]
-        ctext::brackets  $self $lineStart $lineEnd
-        ctext::highlight $self $lineStart $lineEnd
-        # ctext::linemapUpdate $self
-        ctext::modified $self 1 [list delete $deletePos 1 $lines $moddata]
-        event generate $self.t <<CursorChanged>>
-      } elseif {$argsLength == 2} {
-        set deleteStartPos [$self._t index [lindex $args 0]]
-        set deleteEndPos   [$self._t index [lindex $args 1]]
-        set lines          [$self._t count -lines $deleteStartPos $deleteEndPos]
-
-        set dat [$self._t get $deleteStartPos $deleteEndPos]
-
-        set lineStart [$self._t index "$deleteStartPos linestart"]
-        set lineEnd [$self._t index "$deleteEndPos + 1 chars lineend"]
-
-        ctext::undo_delete $self $deleteStartPos $deleteEndPos
-        ctext::linemapCheckOnDelete $self $deleteStartPos $deleteEndPos
-
-        $self._t delete $deleteStartPos $deleteEndPos
-
-        foreach tag [$self._t tag names] {
-          if {![regexp {^_([lc]Comment|[sdt]String)$} $tag] && ([string index $tag 0] eq "_")} {
-            $self._t tag remove $tag $lineStart $lineEnd
-          }
-        }
-
-        ctext::comments  $self $lineStart $lineEnd [regexp {*}$data($self,config,re_opts) -- $commentRE $dat]
-        ctext::brackets  $self $lineStart $lineEnd
-        ctext::highlight $self $lineStart $lineEnd
-        #if {[string first "\n" $dat] >= 0} {
-        #  ctext::linemapUpdate $self
-        #}
-        ctext::modified $self 1 [list delete $deleteStartPos [string length $dat] $lines $moddata]
-        event generate $self.t <<CursorChanged>>
-      } else {
-        return -code error "invalid argument(s) sent to $self delete: $args"
-      }
-    }
-
-    diff {
-      set args [lassign $args subcmd]
-      if {!$data($self,config,-diff_mode)} {
-        return -code error "diff $subcmd called when -diff_mode is false"
-      }
-      switch -glob $subcmd {
-        add {
-          if {[llength $args] != 2} {
-            return -code error "diff add takes two arguments:  startline linecount"
-          }
-
-          lassign $args tline count
-
-          # Get the current diff:A tag
-          set tag [lsearch -inline -glob [$self._t tag names $tline.0] diff:A:*]
-
-          # Get the beginning and ending position
-          lassign [$self._t tag ranges $tag] start_pos end_pos
-
-          # Get the line number embedded in the tag
-          set fline [expr [lindex [split $tag :] 3] + [$self._t count -lines $start_pos $tline.0]]
-
-          # Replace the diff:B tag
-          $self._t tag remove $tag $tline.0 $end_pos
-
-          # Add new tags
-          set pos [$self._t index "$tline.0+${count}l linestart"]
-          $self._t tag add diff:A:D:$fline $tline.0 $pos
-          $self._t tag add diff:A:S:$fline $pos $end_pos
-
-          # Colorize the *D* tag
-          $self._t tag configure diff:A:D:$fline -background $data($self,config,-diffaddbg)
-          $self._t tag lower diff:A:D:$fline
-        }
-        line {
-          if {[llength $args] != 2} {
-            return -code error "diff line takes two arguments:  txtline type"
-          }
-          if {[set type_index [lsearch [list add sub] [lindex $args 1]]] == -1} {
-            return -code error "diff line second argument must be add or sub"
-          }
-          set tag [lsearch -inline -glob [$self._t tag names [lindex $args 0].0] diff:[lindex [list B A] $type_index]:*]
-          lassign [split $tag :] dummy index type line
-          if {$type eq "S"} {
-            incr line [$self._t count -lines [lindex [$self._t tag ranges $tag] 0] [lindex $args 0].0]
-          }
-          return $line
-        }
-        ranges {
-          if {[llength $args] != 1} {
-            return -code error "diff ranges takes one argument:  type"
-          }
-          if {[lsearch [list add sub both] [lindex $args 0]] == -1} {
-            return -code error "diff ranges argument must be add, sub or both"
-          }
-          set ranges [list]
-          if {[lsearch [list add both] [lindex $args 0]] != -1} {
-            foreach tag [lsearch -inline -all -glob [$self._t tag names] diff:A:D:*] {
-              lappend ranges {*}[$self._t tag ranges $tag]
-            }
-          }
-          if {[lsearch [list sub both] [lindex $args 0]] != -1} {
-            foreach tag [lsearch -inline -all -glob [$self._t tag names] diff:B:D:*] {
-              lappend ranges {*}[$self._t tag ranges $tag]
-            }
-          }
-          return [lsort -dictionary $ranges]
-        }
-        reset {
-          foreach name [lsearch -inline -all -glob [$self._t tag names] diff:*] {
-            lassign [split $name :] dummy which type
-            if {($which eq "B") && ($type eq "D") && ([llength [set ranges [$self._t tag ranges $name]]] > 0)} {
-              $self._t delete {*}$ranges
-            }
-            $self._t tag delete $name
-          }
-          $self._t tag add diff:A:S:1 1.0 end
-          $self._t tag add diff:B:S:1 1.0 end
-        }
-        sub {
-          if {[llength $args] != 3} {
-            return -code error "diff sub takes three arguments:  startline linecount str"
-          }
-
-          lassign $args tline count str
-
-          # Get the current diff: tags
-          set tagA [lsearch -inline -glob [$self._t tag names $tline.0] diff:A:*]
-          set tagB [lsearch -inline -glob [$self._t tag names $tline.0] diff:B:*]
-
-          # Get the beginning and ending positions
-          lassign [$self._t tag ranges $tagA] start_posA end_posA
-          lassign [$self._t tag ranges $tagB] start_posB end_posB
-
-          # Get the line number embedded in the tag
-          set fline [expr [lindex [split $tagB :] 3] + [$self._t count -lines $start_posB $tline.0]]
-
-          # Remove the diff: tags
-          $self._t tag remove $tagA $start_posA $end_posA
-          $self._t tag remove $tagB $start_posB $end_posB
-
-          # Calculate the end position of the change
-          set pos [$self._t index "$tline.0+${count}l linestart"]
-
-          # Insert the string and highlight it
-          $self._t insert $tline.0 $str
-          $self highlight $tline.0 $pos
-
-          # Add the tags
-          $self._t tag add $tagA $start_posA [$self._t index "$end_posA+${count}l linestart"]
-          $self._t tag add $tagB $start_posB $tline.0
-          $self._t tag add diff:B:D:$fline $tline.0 $pos
-          $self._t tag add diff:B:S:$fline $pos [$self._t index "$end_posB+${count}l linestart"]
-
-          # Colorize the *D* tag
-          $self._t tag configure diff:B:D:$fline -background $data($self,config,-diffsubbg)
-          $self._t tag lower diff:B:D:$fline
-        }
-      }
-      ctext::linemapUpdate $self
-    }
-
-    fastdelete {
-      set moddata [list]
-      if {[lindex $args 0] eq "-moddata"} {
-        set args [lassign $args dummy moddata]
-      }
-      if {[llength $args] == 1} {
-        set chars 1
-        set lines [$self._t count -lines "[lindex $args 0] linestart" "[lindex $args 0]+1c lineend"]
-        ctext::linemapCheckOnDelete $self [$self._t index [lindex $args 0]]
-      } else {
-        set chars [$self._t count -chars {*}[lrange $args 0 1]]
-        set lines [$self._t count -lines {*}[lrange $args 0 1]]
-        ctext::linemapCheckOnDelete $self [$self._t index [lindex $args 0]] [$self._t index [lindex $args 1]]
-      }
-      eval \$self._t delete $args
-      ctext::modified $self 1 [list delete [$self._t index [lindex $args 0]] $chars $lines $moddata]
-      # ctext::linemapUpdate $self
-      event generate $self.t <<CursorChanged>>
-    }
-
-    fastinsert {
-      set moddata [list]
-      if {[lindex $args 0] eq "-moddata"} {
-        set args [lassign $args dummy moddata]
-      }
-      eval \$self._t insert $args
-      set startPos [$self._t index [lindex $args 0]]
-      set chars    [string length [lindex $args 1]]
-      set lines    [$self._t count -lines $startPos "$startPos+${chars}c"]
-      ctext::handleInsertAt0 $self._t $startPos $chars
-      ctext::modified $self 1 [list insert $startPos $chars $lines $moddata]
-      event generate $self.t <<CursorChanged>>
-      # ctext::linemapUpdate $self
-    }
-
-    highlight {
-      set lineStart [lindex $args 0]
-      set lineEnd   [lindex $args 1]
-      foreach tag [$self._t tag names] {
-        if {![regexp {^_([lc]Comment|[sdt]String)$} $tag] && ([string index $tag 0] eq "_")} {
-          $self._t tag remove $tag $lineStart $lineEnd
-        }
-      }
-      ctext::highlight $self $lineStart $lineEnd
-      ctext::comments  $self $lineStart $lineEnd 1
-      ctext::brackets  $self $lineStart $lineEnd
-    }
-
-    insert {
-      if {[llength $args] < 2} {
-        return -code error "please use at least 2 arguments to $self insert"
-      }
-
-      set moddata [list]
-      if {[lindex $args 0] eq "-moddata"} {
-        set args [lassign $args dummy moddata]
-      }
-
-      set insertPos [$self._t index [lindex $args 0]]
-      set prevChar  [$self._t get "$insertPos - 1 chars"]
-      set nextChar  [$self._t get $insertPos]
-      if {[lindex $args 0] eq "end"} {
-        set lineStart [$self._t index "$insertPos-1c linestart"]
-      } else {
-        set lineStart [$self._t index "$insertPos linestart"]
-      }
-      set prevSpace [ctext::findPreviousSpace $self._t ${insertPos}-1c]
-      set dat ""
-      foreach {chars taglist} [lrange $args 1 end] {
-        append dat $chars
-      }
-      set datlen [string length $dat]
-      set cursor [$self._t index insert]
-
-      eval \$self._t insert $args
-
-      ctext::undo_insert $self $insertPos $datlen $cursor
-      ctext::handleInsertAt0 $self._t $insertPos $datlen
-
-      set nextSpace [ctext::findNextSpace $self._t "${insertPos}+${datlen}c"]
-      set lineEnd   [$self._t index "${insertPos}+${datlen}c lineend"]
-      set lines     [$self._t count -lines $lineStart $lineEnd]
-
-      if {[$self._t compare $prevSpace < $lineStart]} {
-        set prevSpace $lineStart
-      }
-
-      if {[$self._t compare $nextSpace > $lineEnd]} {
-        set nextSpace $lineEnd
-      }
-
-      foreach tag [$self._t tag names] {
-        if {![regexp {^_([lc]Comment|[sdt]String)$} $tag] && ([string index $tag 0] eq "_")} {
-          $self._t tag remove $tag $prevSpace $nextSpace
-        }
-      }
-
-      set re_data    [$self._t get $prevSpace "$insertPos+${datlen}c"]
-      set re_pattern [expr {($datlen == 1) ? "((\\\\.)+|$commentRE).?\$" : $commentRE}]
-
-      ctext::comments  $self $lineStart $lineEnd [regexp {*}$data($self,config,re_opts) -- $re_pattern $re_data]
-      ctext::brackets  $self $lineStart $lineEnd
-      ctext::highlight $self $lineStart $lineEnd
-
-      switch -- $dat {
-        "\}" {
-          if {$data($self,config,matchChar,curly)} {
-            ctext::matchPair $self curlyL
-          }
-        }
-        "\]" {
-          if {$data($self,config,matchChar,square)} {
-            ctext::matchPair $self squareL
-          }
-        }
-        "\)" {
-          if {$data($self,config,matchChar,paren)} {
-            ctext::matchPair $self parenL
-          }
-        }
-        "\>" {
-          if {$data($self,config,matchChar,angled)} {
-            ctext::matchPair $self angledL
-          }
-        }
-        "\"" {
-          if {$data($self,config,matchChar,double)} {
-            ctext::matchQuote $self
-          }
-        }
-      }
-
-      ctext::modified $self 1 [list insert $insertPos $datlen $lines $moddata]
-      # ctext::linemapUpdate $self
-      event generate $self.t <<CursorChanged>>
-    }
-
+    append     { return [ctext::command_append     $self {*}$args] }
+    cget       { return [ctext::command_cget       $self {*}$args] }
+    conf*      { return [ctext::command_configure  $self {*}$args] }
+    copy       { return [ctext::command_copy       $self {*}$args] }
+    cut        { return [ctext::command_cut        $self {*}$args] }
+    delete     { return [ctext::command_delete     $self {*}$args] }
+    diff       { return [ctext::command_diff       $self {*}$args] }
+    fastdelete { return [ctext::command_fastdelete $self {*}$args] }
+    fastinsert { return [ctext::command_fastinsert $self {*}$args] }
+    highlight  { return [ctext::command_highlight  $self {*}$args] }
+    insert     { return [ctext::command_insert     $self {*}$args] }
     replace {
       if {[llength $args] < 3} {
         return -code error "please use at least 3 arguments to $self replace"
@@ -1780,6 +1358,482 @@ proc ctext::instanceCmd {self cmd args} {
     }
 
   }
+
+}
+
+proc ctext::command_append {win args} {
+
+  variable data
+
+  if {![catch {$win._t get sel.first sel.last} content]} {
+    clipboard append -displayof $win $content
+  }
+
+}
+
+proc ctext::command_cget {win args} {
+
+  variable data
+
+  set arg [lindex $args 0]
+
+  foreach flag $data($win,config,ctextFlags) {
+    if {[string match ${arg}* $flag]} {
+      return [set data($win,config,$flag)]
+    }
+  }
+
+  return [$win._t cget $arg]
+
+}
+
+proc ctext::command_configure {win args} {
+
+  variable data
+
+  if {[llength $args] == 0} {
+    set res [$win._t configure]
+    foreach opt [list -xscrollcommand* -yscrollcommand*] {
+      set del [lsearch -glob $res $opt]
+      set res [lreplace $res $del $del]
+    }
+    foreach flag $data($win,config,ctextFlags) {
+      lappend res [list $flag [set data($win,config,$flag)]]
+    }
+    return $res
+  }
+
+  array set flags {}
+  foreach flag $data($win,config,ctextFlags) {
+    set loc [lsearch $args $flag]
+    if {$loc < 0} {
+      continue
+    }
+
+    if {[llength $args] <= ($loc + 1)} {
+      #.t config -flag
+      return [set data($win,config,$flag)]
+    }
+
+    set flagArg [lindex $args [expr {$loc + 1}]]
+    set args [lreplace $args $loc [expr {$loc + 1}]]
+    set flags($flag) $flagArg
+  }
+
+  foreach {valueList flag cmd} $data($win,config,argTable) {
+    if {[info exists flags($flag)]} {
+      foreach valueToCheckFor $valueList {
+        set value [set flags($flag)]
+        if {[string equal "any" $valueToCheckFor]} $cmd \
+        elseif {[string equal $valueToCheckFor [set flags($flag)]]} $cmd
+      }
+    }
+  }
+
+  if {[llength $args]} {
+    #we take care of configure without args at the top of this branch
+    uplevel 1 [linsert $args 0 $win._t configure]
+  }
+
+}
+
+proc ctext::command_copy {win args} {
+
+  variable data
+
+  # Get the start and end indices
+  if {![catch {$win.t index sel.first} start_index]} {
+    set end_index [$win.t index sel.last]
+  } else {
+    set start_index [$win.t index "insert linestart"]
+    set end_index   [$win.t index "insert+1l linestart"]
+  }
+
+  # Clear and copy the data to the clipboard
+  clipboard clear  -displayof $win.t
+  clipboard append -displayof $win.t [$win.t get $start_index $end_index]
+
+}
+
+proc ctext::command_cut {win args} {
+
+  variable data
+
+  # Get the start and end indices
+  if {![catch {$win.t index sel.first} start_index]} {
+    set end_index [$win.t index sel.last]
+  } else {
+    set start_index [$win.t index "insert linestart"]
+    set end_index   [$win.t index "insert+1l linestart"]
+  }
+
+  # Clear and copy the data to the clipboard
+  clipboard clear  -displayof $win.t
+  clipboard append -displayof $win.t [$win.t get $start_index $end_index]
+
+  # Delete the text
+  $win delete $start_index $end_index
+
+}
+
+proc ctext::command_delete {win args} {
+
+  variable data
+
+  set moddata [list]
+  if {[lindex $args 0] eq "-moddata"} {
+    set args [lassign $args dummy moddata]
+  }
+
+  set argsLength [llength $args]
+
+  #first deal with delete n.n
+  if {$argsLength == 1} {
+    set deletePos [$win._t index [lindex $args 0]]
+    set prevChar  [$win._t get $deletePos]
+
+    ctext::undo_delete $win $deletePos [$win._t index "$deletePos+1c"]
+    ctext::linemapCheckOnDelete $win $deletePos
+
+    $win._t delete $deletePos
+
+    set char [$win._t get $deletePos]
+
+    set prevSpace   [ctext::findPreviousSpace $win._t $deletePos]
+    set nextSpace   [ctext::findNextSpace $win._t $deletePos]
+    set lineStart   [$win._t index "$deletePos linestart"]
+    set lineEnd     [$win._t index "$deletePos + 1 chars lineend"]
+    set lines       [$win._t count -lines $lineStart $lineEnd]
+    set removeStart $lineStart
+    set removeEnd   $lineEnd
+
+    foreach tag [$win._t tag names] {
+      if {![regexp {^_([lc]Comment|[sdt]String)$} $tag] && ([string index $tag 0] eq "_")} {
+        $win._t tag remove $tag $removeStart $removeEnd
+      }
+    }
+
+    set checkStr "$prevChar[set char]"
+
+    ctext::comments  $win $lineStart $lineEnd [regexp {*}$data($win,config,re_opts) -- $commentRE $checkStr]
+    ctext::brackets  $win $lineStart $lineEnd
+    ctext::highlight $win $lineStart $lineEnd
+    # ctext::linemapUpdate $win
+    ctext::modified $win 1 [list delete $deletePos 1 $lines $moddata]
+    event generate $win.t <<CursorChanged>>
+  } elseif {$argsLength == 2} {
+    set deleteStartPos [$win._t index [lindex $args 0]]
+    set deleteEndPos   [$win._t index [lindex $args 1]]
+    set lines          [$win._t count -lines $deleteStartPos $deleteEndPos]
+
+    set dat [$win._t get $deleteStartPos $deleteEndPos]
+
+    set lineStart [$win._t index "$deleteStartPos linestart"]
+    set lineEnd [$win._t index "$deleteEndPos + 1 chars lineend"]
+
+    ctext::undo_delete $win $deleteStartPos $deleteEndPos
+    ctext::linemapCheckOnDelete $win $deleteStartPos $deleteEndPos
+
+    $win._t delete $deleteStartPos $deleteEndPos
+
+    foreach tag [$win._t tag names] {
+      if {![regexp {^_([lc]Comment|[sdt]String)$} $tag] && ([string index $tag 0] eq "_")} {
+        $win._t tag remove $tag $lineStart $lineEnd
+      }
+    }
+
+    ctext::comments  $win $lineStart $lineEnd [regexp {*}$data($win,config,re_opts) -- $commentRE $dat]
+    ctext::brackets  $win $lineStart $lineEnd
+    ctext::highlight $win $lineStart $lineEnd
+    #if {[string first "\n" $dat] >= 0} {
+    #  ctext::linemapUpdate $win
+    #}
+    ctext::modified $win 1 [list delete $deleteStartPos [string length $dat] $lines $moddata]
+    event generate $win.t <<CursorChanged>>
+  } else {
+    return -code error "invalid argument(s) sent to $win delete: $args"
+  }
+
+}
+
+proc ctext::command_diff {win args} {
+
+  variable data
+
+  set args [lassign $args subcmd]
+  if {!$data($win,config,-diff_mode)} {
+    return -code error "diff $subcmd called when -diff_mode is false"
+  }
+  switch -glob $subcmd {
+    add {
+      if {[llength $args] != 2} {
+        return -code error "diff add takes two arguments:  startline linecount"
+      }
+
+      lassign $args tline count
+
+      # Get the current diff:A tag
+      set tag [lsearch -inline -glob [$win._t tag names $tline.0] diff:A:*]
+
+      # Get the beginning and ending position
+      lassign [$win._t tag ranges $tag] start_pos end_pos
+
+      # Get the line number embedded in the tag
+      set fline [expr [lindex [split $tag :] 3] + [$win._t count -lines $start_pos $tline.0]]
+
+      # Replace the diff:B tag
+      $win._t tag remove $tag $tline.0 $end_pos
+
+      # Add new tags
+      set pos [$win._t index "$tline.0+${count}l linestart"]
+      $win._t tag add diff:A:D:$fline $tline.0 $pos
+      $win._t tag add diff:A:S:$fline $pos $end_pos
+
+      # Colorize the *D* tag
+      $win._t tag configure diff:A:D:$fline -background $data($win,config,-diffaddbg)
+      $win._t tag lower diff:A:D:$fline
+    }
+    line {
+      if {[llength $args] != 2} {
+        return -code error "diff line takes two arguments:  txtline type"
+      }
+      if {[set type_index [lsearch [list add sub] [lindex $args 1]]] == -1} {
+        return -code error "diff line second argument must be add or sub"
+      }
+      set tag [lsearch -inline -glob [$win._t tag names [lindex $args 0].0] diff:[lindex [list B A] $type_index]:*]
+      lassign [split $tag :] dummy index type line
+      if {$type eq "S"} {
+        incr line [$win._t count -lines [lindex [$win._t tag ranges $tag] 0] [lindex $args 0].0]
+      }
+      return $line
+    }
+    ranges {
+      if {[llength $args] != 1} {
+        return -code error "diff ranges takes one argument:  type"
+      }
+      if {[lsearch [list add sub both] [lindex $args 0]] == -1} {
+        return -code error "diff ranges argument must be add, sub or both"
+      }
+      set ranges [list]
+      if {[lsearch [list add both] [lindex $args 0]] != -1} {
+        foreach tag [lsearch -inline -all -glob [$win._t tag names] diff:A:D:*] {
+          lappend ranges {*}[$win._t tag ranges $tag]
+        }
+      }
+      if {[lsearch [list sub both] [lindex $args 0]] != -1} {
+        foreach tag [lsearch -inline -all -glob [$win._t tag names] diff:B:D:*] {
+          lappend ranges {*}[$win._t tag ranges $tag]
+        }
+      }
+      return [lsort -dictionary $ranges]
+    }
+    reset {
+      foreach name [lsearch -inline -all -glob [$win._t tag names] diff:*] {
+        lassign [split $name :] dummy which type
+        if {($which eq "B") && ($type eq "D") && ([llength [set ranges [$win._t tag ranges $name]]] > 0)} {
+          $win._t delete {*}$ranges
+        }
+        $win._t tag delete $name
+      }
+      $win._t tag add diff:A:S:1 1.0 end
+      $win._t tag add diff:B:S:1 1.0 end
+    }
+    sub {
+      if {[llength $args] != 3} {
+        return -code error "diff sub takes three arguments:  startline linecount str"
+      }
+
+      lassign $args tline count str
+
+      # Get the current diff: tags
+      set tagA [lsearch -inline -glob [$win._t tag names $tline.0] diff:A:*]
+      set tagB [lsearch -inline -glob [$win._t tag names $tline.0] diff:B:*]
+
+      # Get the beginning and ending positions
+      lassign [$win._t tag ranges $tagA] start_posA end_posA
+      lassign [$win._t tag ranges $tagB] start_posB end_posB
+
+      # Get the line number embedded in the tag
+      set fline [expr [lindex [split $tagB :] 3] + [$win._t count -lines $start_posB $tline.0]]
+
+      # Remove the diff: tags
+      $win._t tag remove $tagA $start_posA $end_posA
+      $win._t tag remove $tagB $start_posB $end_posB
+
+      # Calculate the end position of the change
+      set pos [$win._t index "$tline.0+${count}l linestart"]
+
+      # Insert the string and highlight it
+      $win._t insert $tline.0 $str
+      $win highlight $tline.0 $pos
+
+      # Add the tags
+      $win._t tag add $tagA $start_posA [$win._t index "$end_posA+${count}l linestart"]
+      $win._t tag add $tagB $start_posB $tline.0
+      $win._t tag add diff:B:D:$fline $tline.0 $pos
+      $win._t tag add diff:B:S:$fline $pos [$win._t index "$end_posB+${count}l linestart"]
+
+      # Colorize the *D* tag
+      $win._t tag configure diff:B:D:$fline -background $data($win,config,-diffsubbg)
+      $win._t tag lower diff:B:D:$fline
+    }
+  }
+  ctext::linemapUpdate $win
+
+}
+
+proc ctext::command_fastdelete {win args} {
+
+  variable data
+
+  set moddata [list]
+  if {[lindex $args 0] eq "-moddata"} {
+    set args [lassign $args dummy moddata]
+  }
+  if {[llength $args] == 1} {
+    set chars 1
+    set lines [$win._t count -lines "[lindex $args 0] linestart" "[lindex $args 0]+1c lineend"]
+    ctext::linemapCheckOnDelete $win [$win._t index [lindex $args 0]]
+  } else {
+    set chars [$win._t count -chars {*}[lrange $args 0 1]]
+    set lines [$win._t count -lines {*}[lrange $args 0 1]]
+    ctext::linemapCheckOnDelete $win [$win._t index [lindex $args 0]] [$win._t index [lindex $args 1]]
+  }
+  $win._t delete $args
+  ctext::modified $win 1 [list delete [$win._t index [lindex $args 0]] $chars $lines $moddata]
+  # ctext::linemapUpdate $win
+  event generate $win.t <<CursorChanged>>
+
+}
+
+proc ctext::command_fastinsert {win args} {
+
+  variable data
+
+  set moddata [list]
+  if {[lindex $args 0] eq "-moddata"} {
+    set args [lassign $args dummy moddata]
+  }
+  $win._t insert $args
+  set startPos [$win._t index [lindex $args 0]]
+  set chars    [string length [lindex $args 1]]
+  set lines    [$win._t count -lines $startPos "$startPos+${chars}c"]
+  ctext::handleInsertAt0 $win._t $startPos $chars
+  ctext::modified $win 1 [list insert $startPos $chars $lines $moddata]
+  event generate $win.t <<CursorChanged>>
+  # ctext::linemapUpdate $win
+
+}
+
+proc ctext::command_highlight {win args} {
+
+  variable data
+
+  set lineStart [lindex $args 0]
+  set lineEnd   [lindex $args 1]
+
+  foreach tag [$win._t tag names] {
+    if {![regexp {^_([lc]Comment|[sdt]String)$} $tag] && ([string index $tag 0] eq "_")} {
+      $win._t tag remove $tag $lineStart $lineEnd
+    }
+  }
+
+  ctext::highlight $win $lineStart $lineEnd
+  ctext::comments  $win $lineStart $lineEnd 1
+  ctext::brackets  $win $lineStart $lineEnd
+
+}
+
+proc ctext::command_insert {win args} {
+
+  variable data
+
+  if {[llength $args] < 2} {
+    return -code error "please use at least 2 arguments to $win insert"
+  }
+
+  set moddata [list]
+  if {[lindex $args 0] eq "-moddata"} {
+    set args [lassign $args dummy moddata]
+  }
+
+  set insertPos [$win._t index [lindex $args 0]]
+  set prevChar  [$win._t get "$insertPos - 1 chars"]
+  set nextChar  [$win._t get $insertPos]
+  if {[lindex $args 0] eq "end"} {
+    set lineStart [$win._t index "$insertPos-1c linestart"]
+  } else {
+    set lineStart [$win._t index "$insertPos linestart"]
+  }
+  set prevSpace [ctext::findPreviousSpace $win._t ${insertPos}-1c]
+  set dat ""
+  foreach {chars taglist} [lrange $args 1 end] {
+    append dat $chars
+  }
+  set datlen [string length $dat]
+  set cursor [$win._t index insert]
+
+  $win._t insert $args
+
+  ctext::undo_insert $win $insertPos $datlen $cursor
+  ctext::handleInsertAt0 $win._t $insertPos $datlen
+
+  set nextSpace [ctext::findNextSpace $win._t "${insertPos}+${datlen}c"]
+  set lineEnd   [$win._t index "${insertPos}+${datlen}c lineend"]
+  set lines     [$win._t count -lines $lineStart $lineEnd]
+
+  if {[$win._t compare $prevSpace < $lineStart]} {
+    set prevSpace $lineStart
+  }
+
+  if {[$win._t compare $nextSpace > $lineEnd]} {
+    set nextSpace $lineEnd
+  }
+
+  foreach tag [$win._t tag names] {
+    if {![regexp {^_([lc]Comment|[sdt]String)$} $tag] && ([string index $tag 0] eq "_")} {
+      $win._t tag remove $tag $prevSpace $nextSpace
+    }
+  }
+
+  set re_data    [$win._t get $prevSpace "$insertPos+${datlen}c"]
+  set re_pattern [expr {($datlen == 1) ? "((\\\\.)+|$commentRE).?\$" : $commentRE}]
+
+  ctext::comments  $win $lineStart $lineEnd [regexp {*}$data($win,config,re_opts) -- $re_pattern $re_data]
+  ctext::brackets  $win $lineStart $lineEnd
+  ctext::highlight $win $lineStart $lineEnd
+
+  switch -- $dat {
+    "\}" {
+      if {$data($win,config,matchChar,curly)} {
+        ctext::matchPair $win curlyL
+      }
+    }
+    "\]" {
+      if {$data($win,config,matchChar,square)} {
+        ctext::matchPair $win squareL
+      }
+    }
+    "\)" {
+      if {$data($win,config,matchChar,paren)} {
+        ctext::matchPair $win parenL
+      }
+    }
+    "\>" {
+      if {$data($win,config,matchChar,angled)} {
+        ctext::matchPair $win angledL
+      }
+    }
+    "\"" {
+      if {$data($win,config,matchChar,double)} {
+        ctext::matchQuote $win
+      }
+    }
+  }
+
+  ctext::modified $win 1 [list insert $insertPos $datlen $lines $moddata]
+  # ctext::linemapUpdate $win
+  event generate $win.t <<CursorChanged>>
 
 }
 
