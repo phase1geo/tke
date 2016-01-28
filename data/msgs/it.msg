@@ -1325,6 +1325,9 @@ msgcat::mcmset it {
   "New Directory"
   "Nuova directory"
 
+  "New File From Template"
+  "Nuovo File da modello"
+
   "Open Directory Files"
   "File indirizzario"
 

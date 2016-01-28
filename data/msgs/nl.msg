@@ -1325,6 +1325,9 @@ msgcat::mcmset nl {
   "New Directory"
   "Nieuwe directory"
 
+  "New File From Template"
+  "Nieuw van sjabloon"
+
   "Open Directory Files"
   "Open Directory Bestanden"
 
