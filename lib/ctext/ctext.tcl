@@ -1010,7 +1010,7 @@ proc ctext::command_configure {win args} {
 
   if {[llength $args] == 0} {
     set res [$win._t configure]
-    foreach opt [list -xscrollcommand* -yscrollcommand*] {
+    foreach opt [list -xscrollcommand* -yscrollcommand* -autoseparators*] {
       set del [lsearch -glob $res $opt]
       set res [lreplace $res $del $del]
     }
@@ -1028,8 +1028,7 @@ proc ctext::command_configure {win args} {
     }
 
     if {[llength $args] <= ($loc + 1)} {
-      #.t config -flag
-      return [set data($win,config,$flag)]
+      return [list $flag [set data($win,config,$flag)]]
     }
 
     set flagArg [lindex $args [expr {$loc + 1}]]
@@ -1048,7 +1047,6 @@ proc ctext::command_configure {win args} {
   }
 
   if {[llength $args]} {
-    #we take care of configure without args at the top of this branch
     uplevel 1 [linsert $args 0 $win._t configure]
   }
 
