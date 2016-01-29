@@ -976,8 +976,14 @@ proc ctext::command_append {win args} {
 
   variable data
 
-  if {![catch {$win._t get sel.first sel.last} content]} {
-    clipboard append -displayof $win $content
+  switch [llength $args] {
+    1 -
+    2 {
+      catch { clipboard append -displayof $win [$win._t get {*}$args] }
+    }
+    default {
+      catch { clipboard append -displayof $win [$win._t get sel.first sel.last] }
+    }
   }
 
 }

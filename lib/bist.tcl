@@ -43,6 +43,11 @@ namespace eval bist {
     variable data
     variable tests
 
+    # If the BIST window exists, we don't need to do anything
+    if {![winfo exists .bistwin]} {
+      return
+    }
+
     # Get the list of selected diagnostics in the table
     set selected [get_selections]
 
@@ -69,11 +74,11 @@ namespace eval bist {
     $data(widgets,tbl) delete 0 end
 
     # Add the test items to the tablelist
-    foreach category [lsort [array names test_array]] {
+    foreach category [lsort -dictionary [array names test_array]] {
       set node [$data(widgets,tbl) insertchild root end [list 1 $category 0 0 0 ""]]
       $data(widgets,tbl) rowconfigure $node -background grey
       $data(widgets,tbl) cellconfigure $node,selected -image $data(images,checked)
-      foreach test [lsort $test_array($category)] {
+      foreach test [lsort -dictionary $test_array($category)] {
         set cmd   [join [list bist $category $test] ::]
         set child [$data(widgets,tbl) insertchild $node end [list 1 $test 0 0 0 $cmd]]
         $data(widgets,tbl) cellconfigure $child,selected -image $data(images,checked)
