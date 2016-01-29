@@ -693,8 +693,6 @@ namespace eval bist {
     set parent [$data(widgets,tbl) parentkey $selected]
     set fname  [$data(widgets,tbl) cellcget $parent,name -text]
 
-    puts "fname: $fname"
-
     # Add the file to the editor
     set tab [add_test_file $fname]
 

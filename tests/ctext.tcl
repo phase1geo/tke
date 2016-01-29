@@ -352,4 +352,113 @@ namespace eval ctext {
 
   }
 
+  # Verify other flavors of configure
+  proc run_test12 {} {
+
+    set txt  [initialize]
+    set opts [$txt configure]
+    set len  [llength $opts]
+
+    if {$len != 66} {
+      cleanup "Missing options from configure return with no options"
+    }
+
+    # Verify option that belongs to ctext only
+    set index [lsearch -index 0 $opts -autoseparators]
+    if {$index == -1} {
+      cleanup "Missing -autoseparators option from configure return"
+    }
+    if {[lindex $opts $index] ne [list -autoseparators 0]} {
+      cleanup "Miscompare on -autoseparators return value"
+    }
+    if {[$txt configure -autoseparators] ne [list -autoseparators 0]} {
+      cleanup "Miscompare on configure -autoseparators return value"
+    }
+
+    # Verify option t hat belongs to text
+    set index [lsearch -index 0 $opts -relief]
+    if {$index == -1} {
+      cleanup "Missing -relief option from configure return"
+    }
+    if {[lindex $opts $index] ne [list -relief relief Relief sunken sunken]} {
+      cleanup "Miscompare on -relief return value"
+    }
+    if {[$txt configure -relief] ne [list -relief relief Relief sunken sunken]} {
+      cleanup "Miscompare on configure -relief return value"
+    }
+
+    cleanup
+
+  }
+
+  # Verify the copy command
+  proc run_test13 {} {
+
+    set txt [initialize]
+
+    clipboard append -displayof $txt "foobar"
+
+    # Perform copy operation without selection
+    $txt insert end "\nThis is a really good line"
+    $txt mark set insert 2.2
+    $txt copy
+    if {[clipboard get -displayof $txt] ne "This is a really good line\n"} {
+      cleanup "Copy operation failed when no selection occurs ([clipboard get -displayof $txt])"
+    }
+    if {[$txt get 2.0 2.end] ne "This is a really good line"} {
+      cleanup "Copy operation without selection changed the text ([$txt get 2.0 2.end])"
+    }
+
+    clipboard append -displayof $txt "foobar"
+
+    # Perform copy operation with selection
+    $txt tag add sel 2.0 2.4
+    $txt copy
+    if {[clipboard get -displayof $txt] ne "This"} {
+      cleanup "Copy operation failed with selection ([clipboard get -displayof $txt])"
+    }
+    if {[$txt get 2.0 2.end] ne "This is a really good line"} {
+      cleanup "Copy operation without selection changed the text ([$txt get 2.0 2.end])"
+    }
+
+    cleanup
+
+  }
+
+  # Verify the cut command
+  proc run_test14 {} {
+
+    set txt [initialize]
+
+    clipboard append -displayof $txt "foobar"
+
+    # Perform cut operation without selection
+    $txt insert end "\nThis is a really good line\nAnd this is good too"
+    $txt mark set insert 2.2
+    $txt cut
+    if {[clipboard get -displayof $txt] ne "This is a really good line\n"} {
+      cleanup "Cut operation failed when no selection occurs ([clipboard get -displayof $txt])"
+    }
+    if {[$txt get 2.0 2.end] ne "And this is good too"} {
+      cleanup "Cut operation without selection changed the text ([$txt get 2.0 2.end])"
+    }
+
+    clipboard append -displayof $txt "foobar"
+
+    # Perform cut operation with selection
+    $txt delete 1.0 end
+    $txt insert end "\nThis is a really good line\nAnd this is good too"
+    $txt tag add sel 2.0 2.4
+    $txt cut
+    if {[clipboard get -displayof $txt] ne "This"} {
+      cleanup "Cut operation failed with selection ([clipboard get -displayof $txt])"
+    }
+    if {[$txt get 2.0 2.end] ne " is a really good line"} {
+      cleanup "Cut operation without selection changed the text ([$txt get 2.0 2.end])"
+    }
+
+    cleanup
+
+  }
+
 }
