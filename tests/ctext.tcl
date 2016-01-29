@@ -286,4 +286,70 @@ namespace eval ctext {
 
   }
 
+  # Verify the clipboard append command
+  proc run_test10 {} {
+
+    set txt [initialize]
+
+    $txt insert end "\nthis should be pasted"
+
+    clipboard clear
+
+    $txt append 2.0 2.4
+    if {[clipboard get] ne "this"} {
+      cleanup "multi-character append failed"
+    }
+    $txt append 2.4
+    if {[clipboard get] ne "this "} {
+      cleanup "single character append failed"
+    }
+    $txt append
+    if {[clipboard get] ne "this "} {
+      cleanup "bad selection append failed"
+    }
+    $txt tag add sel 2.5 2.11
+    $txt append
+    if {[clipboard get] ne "this should"} {
+      cleanup "selection append failed"
+    }
+
+    cleanup
+
+  }
+
+  # Verify the cget and configure commands
+  proc run_test11 {} {
+
+    set txt [initialize]
+
+    # Verify cget for ctext-specific options
+    if {![$txt cget -highlight]} {
+      cleanup "cget -highlight did not return a value of 1"
+    }
+    $txt configure -highlight 0
+    if {[$txt cget -highlight]} {
+      cleanup "cget -highlight returned a value of 1 after being set to 0"
+    }
+    $txt configure -highlight 1
+    if {![$txt cget -highlight]} {
+      cleanup "cget -highlight returned a value of 0 after being set to 1"
+    }
+
+    # Verify cget for text options
+    if {[$txt cget -relief] ne "sunken"} {
+      cleanup "cget -relief did not return a value of flat ([$txt cget -relief])"
+    }
+    $txt configure -relief "raised"
+    if {[$txt cget -relief] ne "raised"} {
+      cleanup "cget -relief did not return a value of raised after being set to it"
+    }
+    $txt configure -relief "sunken"
+    if {[$txt cget -relief] ne "sunken"} {
+      cleanup "cget -relief did not return a value of flat after being set to it"
+    }
+
+    cleanup
+
+  }
+
 }
