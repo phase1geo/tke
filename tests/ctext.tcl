@@ -461,6 +461,7 @@ namespace eval ctext {
 
   }
 
+  # Verify the delete command
   proc run_test15 {} {
 
     set txt [initialize]
@@ -544,11 +545,88 @@ namespace eval ctext {
 
   }
 
+  # Verify the fastdelete command
   proc run_test16 {} {
 
     set txt [initialize]
 
-    # TBD - Test diff command
+    $txt insert end "\nThis is some text"
+
+    if {[$txt get 2.0 2.end] ne "This is some text"} {
+      cleanup "Default text does not match expected"
+    }
+
+    $txt fastdelete 2.0
+    if {[$txt get 2.0 2.end] ne "his is some text"} {
+      cleanup "Single character deletion did not work"
+    }
+
+    $txt fastdelete 2.0 2.2
+    if {[$txt get 2.0 2.end] ne "s is some text"} {
+      cleanup "Character range deletion did not work"
+    }
+
+    cleanup
+
+  }
+
+  # Verify the fastinsert command
+  proc run_test17 {} {
+
+    set txt [initialize]
+
+    $txt fastinsert end "\nset foobar \\\\{now}"
+
+    if {[$txt tag ranges _keywords] ne [list]} {
+      cleanup "keyword tags exist for fast insert"
+    }
+    if {[$txt tag ranges _escape] ne [list]} {
+      cleanup "escape tags exist for fast insert"
+    }
+    if {[$txt tag ranges _curlyL] ne [list]} {
+      cleanup "curly bracket tags exist for fast insert"
+    }
+    if {[$txt get 2.0 2.end] ne "set foobar \\\\{now}"} {
+      cleanup "fast insertion did not insert text correctly"
+    }
+
+    cleanup
+
+  }
+
+  # Verify the highlight command
+  proc run_test18 {} {
+
+    set txt [initialize]
+
+    foreach {startpos endpos} [list 2.2 2.5 1.0 2.0 1.0 end] {
+
+      $txt delete 1.0 end
+      $txt fastinsert end "\nset foobar \[list \"nice\" \"\\\\\"\]"
+
+      if {([$txt tag ranges _keywords] ne [list]) || \
+          ([$txt tag ranges _squareL]  ne [list]) || \
+          ([$txt tag ranges _dString]  ne [list]) || \
+          ([$txt tag ranges _escape]   ne [list])} {
+        cleanup "fastinsert text contained tags"
+      }
+
+      $txt highlight $startpos $endpos
+
+      if {[$txt tag ranges _keywords] ne [list 2.0 2.3 2.12 2.16]} {
+        cleanup "keyword not tagged after being highlighted"
+      }
+      if {[$txt tag ranges _squareL] ne [list 2.11 2.12]} {
+        cleanup "square bracket not tagged after being highlighted"
+      }
+      if {[$txt tag ranges _dString] ne [list 2.17 2.23 2.24 2.28]} {
+        cleanup "double quote not tagged after being highlighted"
+      }
+      if {[$txt tag ranges _escape] ne [list 2.25 2.26]} {
+        cleanup "escape not tagged after being highlighted"
+      }
+
+    }
 
     cleanup
 
