@@ -1349,8 +1349,8 @@ proc ctext::command_highlight {win args} {
 
   variable data
 
-  set lineStart [lindex $args 0]
-  set lineEnd   [lindex $args 1]
+  set lineStart [$win._t index "[lindex $args 0] linestart"]
+  set lineEnd   [$win._t index "[lindex $args 1] lineend"]
 
   foreach tag [$win._t tag names] {
     if {![regexp {^_([lc]Comment|[sdt]String)$} $tag] && ([string index $tag 0] eq "_")} {
