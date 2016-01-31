@@ -664,6 +664,8 @@ namespace eval gui {
 
     catch { grid $widgets(info) }
 
+    update idletasks
+
   }
 
   ######################################################################
@@ -673,6 +675,8 @@ namespace eval gui {
     variable widgets
 
     catch { grid remove $widgets(info) }
+
+    update idletasks
 
   }
 
@@ -2762,25 +2766,40 @@ namespace eval gui {
     variable info_clear
 
     if {[info exists widgets(info_msg)]} {
+
       if {$info_clear ne ""} {
         after cancel $info_clear
       }
+
       lassign [winfo rgb . [set foreground [[ns utils]::get_default_foreground]]] fr fg fb
       lassign [winfo rgb . [[ns utils]::get_default_background]] br bg bb
       $widgets(info_msg) configure -text $msg -foreground $foreground
+
+      # If the status bar is supposed to be hidden, show it now
+      if {![winfo ismapped $widgets(info)]} {
+        show_status_view
+        set hide_info 1
+      } else {
+        set hide_info 0
+      }
+
+      # Call ourselves
       set info_clear [after $clear_delay \
-                       [list [ns gui]::clear_info_message \
+                       [list [ns gui]::clear_info_message $hide_info \
                          [expr $fr >> 8] [expr $fg >> 8] [expr $fb >> 8] \
                          [expr $br >> 8] [expr $bg >> 8] [expr $bb >> 8]]]
+
     } else {
+
       puts $msg
+
     }
 
   }
 
   ######################################################################
   # Clears the info message.
-  proc clear_info_message {fr fg fb br bg bb {fade_count 0}} {
+  proc clear_info_message {hide_info fr fg fb br bg bb {fade_count 0}} {
 
     variable widgets
     variable info_clear
@@ -2793,6 +2812,11 @@ namespace eval gui {
       # Clear the info_clear variable
       set info_clear ""
 
+      # If the status bar is supposed to be hidden, hide it now
+      if {$hide_info} {
+        hide_status_view
+      }
+
     } else {
 
       # Calculate the color
@@ -2804,7 +2828,7 @@ namespace eval gui {
       # Set the foreground color to simulate the fade effect
       $widgets(info_msg) configure -foreground $color
 
-      set info_clear [after 100 [list [ns gui]::clear_info_message $fr $fg $fb $br $bg $bb [incr fade_count]]]
+      set info_clear [after 100 [list [ns gui]::clear_info_message $hide_info $fr $fg $fb $br $bg $bb [incr fade_count]]]
 
     }
 
