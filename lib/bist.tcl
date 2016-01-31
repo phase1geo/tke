@@ -796,21 +796,25 @@ namespace eval bist {
 
     variable data
 
-    # If the regression is running we cannot be quit
-    if {!$data(done)} {
+    catch {
 
-      # Cause the regression to stop
-      set data(run) 0
+      # If the regression is running we cannot be quit
+      if {!$data(done)} {
 
-      return
+        # Cause the regression to stop
+        set data(run) 0
+
+        return
+
+      }
+
+      # Delete the images
+      image delete $data(images,checked) $data(images,unchecked)
+
+      # Saves the current options
+      save_options
 
     }
-
-    # Delete the images
-    image delete $data(images,checked) $data(images,unchecked)
-
-    # Saves the current options
-    save_options
 
     # Delete the window
     destroy .bistwin

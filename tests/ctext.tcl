@@ -461,4 +461,97 @@ namespace eval ctext {
 
   }
 
+  proc run_test15 {} {
+
+    set txt [initialize]
+
+    $txt insert end "\nset foobar \"good\""
+
+    if {[$txt tag ranges _keywords] ne [list 2.0 2.3]} {
+      cleanup "set keyword was not tagged"
+    }
+    if {[$txt tag ranges _dString] ne [list 2.11 2.17]} {
+      cleanup "string was not tagged"
+    }
+    $txt delete 2.0
+    if {[$txt tag ranges _keywords] ne [list]} {
+      cleanup "set keyword was still tagged after character deleted"
+    }
+    if {[$txt get 2.0 2.end] ne "et foobar \"good\""} {
+      cleanup "text content not correct after s removal"
+    }
+    $txt delete 2.10
+    if {[$txt tag ranges _dString] ne [list 2.14 3.0]} {
+      cleanup "string was still tagged after quote deleted"
+    }
+    if {[$txt get 2.0 2.end] ne "et foobar good\""} {
+      cleanup "text content not correct after quote removal"
+    }
+    $txt delete 1.0 end
+    if {[$txt get 1.0 end-1c] ne ""} {
+      cleanup "text not removed"
+    }
+    if {[$txt tag ranges _dString] ne [list]} {
+      cleanup "string still exists after wiping the text"
+    }
+
+    $txt insert end "\nset foobar \"good\""
+
+    $txt delete 2.2 2.5
+    if {[$txt get 2.0 2.end] ne "seoobar \"good\""} {
+      cleanup "text content not correct after set removal"
+    }
+    if {[$txt tag ranges _keywords] ne [list]} {
+      cleanup "set keyword tag still exists after deleting a portion of it"
+    }
+
+    $txt delete 1.0 end
+    $txt insert end "\nset this \\\\{is good}"
+
+    puts [$txt tag ranges _curlyL]
+    if {[$txt tag ranges _curlyL] ne [list 2.11 2.12]} {
+      cleanup "left curly bracket tag is missing"
+    }
+    if {[$txt tag ranges _curlyR] ne [list 2.19 2.20]} {
+      cleanup "right curly bracket tag is missing"
+    }
+    if {[$txt tag ranges _escape] ne [list 2.9 2.10]} {
+      cleanup "escape character tag is missing"
+    }
+
+    $txt delete 2.9
+    if {[$txt tag ranges _escape] ne [list 2.9 2.10]} {
+      cleanup "escape character tag is missing after deletion"
+    }
+    if {[$txt tag ranges _curlyL] ne [list]} {
+      cleanup "left curly bracket tag still exists"
+    }
+
+    $txt delete 2.9
+    if {[$txt tag ranges _escape] ne [list]} {
+      cleanup "escape character exists when it was deleted"
+    }
+    if {[$txt tag ranges _curlyL] ne [list 2.9 2.10]} {
+      cleanup "left curly bracket is missing even though it is not escaped"
+    }
+
+    $txt delete 2.9
+    if {[$txt tag ranges _curlyL] ne [list]} {
+      cleanup "left curly bracket tag exists after it has been deleted"
+    }
+
+    cleanup
+
+  }
+
+  proc run_test16 {} {
+
+    set txt [initialize]
+
+    # TBD - Test diff command
+
+    cleanup
+
+  }
+
 }
