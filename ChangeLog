@@ -1,60 +1,148 @@
-changeset:   1750:8c85df59ce0c
-tag:         devel-2.1.11
+changeset:   1757:83246a2e75df
+tag:         devel-2.1.12
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Jan 26 23:22:35 2016 -0600
+date:        Thu Jan 28 01:12:54 2016 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.1.11 release
+ChangeLog for devel-2.1.12 release
 
 
-changeset:   1751:f1b4b5853ce4
+changeset:   1758:4556d07c4416
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Jan 26 23:22:43 2016 -0600
+date:        Thu Jan 28 01:13:02 2016 -0600
 files:       .hgtags
 description:
-Added tag devel-2.1.11 for changeset 8c85df59ce0c
+Added tag devel-2.1.12 for changeset 83246a2e75df
 
 
-changeset:   1752:f0b12ae4e84e
+changeset:   1759:4139afcc7d9b
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jan 27 01:11:12 2016 -0600
-files:       lib/menus.tcl lib/sidebar.tcl lib/templates.tcl lib/version.tcl
+date:        Thu Jan 28 01:31:15 2016 -0600
+files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg lib/api.tcl lib/version.tcl
 description:
-* Changing "New From Template" to display a file selection dialog for choosing a filename prior to snippet transformation.
-* Adding "New File From Template" to sidebar directory menus.
+* Updating translations.
+* Adding API documentation update for api::file::add_file.
 
 
-changeset:   1753:d76e4e347b1d
+changeset:   1760:21fe332de13e
+parent:      1756:c510512fedd8
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jan 27 18:44:15 2016 -0600
-files:       lib/gui.tcl lib/templates.tcl lib/version.tcl
+date:        Thu Jan 28 08:49:19 2016 -0600
+files:       data/syntax/Lua.syntax lib/version.tcl
 description:
-* Adding support for naming a new file without creating it.
-* Changing templates to use the new file naming (instead of touching an empty file).
+* Adding Lua syntax file.
 
 
-changeset:   1754:c42c527f65c2
+changeset:   1761:f9fa6cb22852
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jan 27 19:41:58 2016 -0600
+date:        Thu Jan 28 08:54:06 2016 -0600
+files:       data/syntax/Lua.syntax lib/version.tcl
+description:
+* Fixing multiline syntax for Lua.
+
+
+changeset:   1762:213e22847f17
+parent:      1761:f9fa6cb22852
+parent:      1759:4139afcc7d9b
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Jan 28 09:34:15 2016 -0600
+files:       lib/version.tcl
+description:
+Merge
+
+
+changeset:   1763:d499b086f1d4
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Jan 28 14:33:17 2016 -0600
 files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Checkpointing work on breaking apart the instanceCmd proc.
+* Fixing syntax error in ctext widget.
 
 
-changeset:   1755:bae8f151d505
+changeset:   1764:628b5fb6690f
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jan 27 21:03:53 2016 -0600
+date:        Thu Jan 28 20:28:07 2016 -0600
+files:       lib/bist.tcl lib/ctext/ctext.tcl lib/version.tcl tests/ctext.tcl
+description:
+* Enhancing the ctext append command to append indexed ranges instead of only selections.
+* Adding tests for append, cget and configure commands.
+* Fixing issue with saving a BIST test file when the BIST window was closed.
+
+
+changeset:   1765:1a4bd3ca8520
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jan 29 00:45:08 2016 -0600
+files:       lib/bist.tcl lib/ctext/ctext.tcl lib/version.tcl tests/ctext.tcl
+description:
+* Fixing ctext configure error with -autoseparators.
+* Fixing ctext configure error when only one option is specified and argument was a ctext-only arg.
+* Adding additional testing to ctext BIST diagnostic file.
+
+
+changeset:   1766:b91611e292fe
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Jan 30 20:55:01 2016 -0600
+files:       lib/bist.tcl lib/version.tcl tests/ctext.tcl
+description:
+* Adding test for ctext delete command.
+* Making the close button in the BIST window fault-tolerant.
+
+
+changeset:   1767:279ec914cc57
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Jan 30 22:51:51 2016 -0600
+files:       lib/ctext/ctext.tcl lib/version.tcl tests/ctext.tcl
+description:
+* Adding BIST tests for ctext fastdelete, fastinsert and highlight commands.
+* Changing highlight command to adjust start and end positions to be the starting and ending line positions, respectively.
+
+
+changeset:   1768:548e16f569b8
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Jan 31 01:36:23 2016 -0600
+files:       data/syntax/Scala.syntax lib/version.tcl
+description:
+* Adding Scala syntax file.
+
+
+changeset:   1769:2a0c16a01e57
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Jan 31 07:59:21 2016 -0600
+files:       lib/gui.tcl lib/version.tcl
+description:
+* Fixing issue where displaying an info message did not cause status bar to display when it is in the hidden state.
+
+
+changeset:   1770:9940a0b62553
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Jan 31 21:08:17 2016 -0600
+files:       lib/version.tcl tests/ctext.tcl
+description:
+* Adding ctext tests.
+
+
+changeset:   1771:87ae7448550b
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Feb 01 00:40:13 2016 -0600
+files:       lib/ctext/ctext.tcl lib/version.tcl tests/ctext.tcl
+description:
+* Checkpointing diagnostic work on paste.
+
+
+changeset:   1772:e5e9fd403398
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Feb 01 00:49:29 2016 -0600
 files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Completing work on breaking the instanceCmd procedure apart into functions.
+* Cleaning up debug output.
 
 
-changeset:   1756:c510512fedd8
+changeset:   1773:7aef1b6c2b0c
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Jan 28 00:13:55 2016 -0600
-files:       lib/ctext/ctext.tcl lib/version.tcl
+date:        Mon Feb 01 00:52:13 2016 -0600
+files:       lib/version.tcl tests/ctext.tcl
 description:
-* Optimizing escape detection algorithm.
+* Fixing ctext::run_test21
 
 
