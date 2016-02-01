@@ -712,4 +712,29 @@ namespace eval ctext {
 
   }
 
+  proc run_test21 {} {
+
+    set txt [initialize]
+
+    clipboard clear
+    clipboard append "\nset foobar \"good\""
+
+    $txt paste
+
+    puts "([$txt get 2.0 2.end])"
+
+    if {[$txt get 2.0 2.end] ne "set foobar \"good\""} {
+      cleanup "text not pasted properly"
+    }
+    if {[$txt tag ranges _keywords] ne [list 2.0 2.3]} {
+      cleanup "keywords not tagged after a paste operation"
+    }
+    if {[$txt tag ranges _dString] ne [list 2.11 2.17]} {
+      cleanup "string not tagged after a paste operation"
+    }
+
+    cleanup
+
+  }
+
 }

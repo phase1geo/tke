@@ -1556,10 +1556,12 @@ proc ctext::command_paste {win args} {
     set args [lassign $args dummy moddata]
   }
 
+  puts "clipboard: ([clipboard get])"
   set insertPos [$win._t index insert]
   set datalen   [string length [clipboard get]]
   ctext::undo_insert $win $insertPos $datalen [$win._t index insert]
   tk_textPaste $win
+  ctext::handleInsertAt0 $win._t $insertPos $datalen
   set lines     [$win._t count -lines $insertPos "$insertPos+${datalen}c"]
   ctext::modified $win 1 [list insert $insertPos $datalen $lines $moddata]
   # ctext::linemapUpdate $win
