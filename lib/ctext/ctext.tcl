@@ -1556,7 +1556,6 @@ proc ctext::command_paste {win args} {
     set args [lassign $args dummy moddata]
   }
 
-  puts "clipboard: ([clipboard get])"
   set insertPos [$win._t index insert]
   set datalen   [string length [clipboard get]]
   ctext::undo_insert $win $insertPos $datalen [$win._t index insert]
