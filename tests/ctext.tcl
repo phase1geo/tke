@@ -336,15 +336,15 @@ namespace eval ctext {
     }
 
     # Verify cget for text options
-    if {[$txt cget -relief] ne "sunken"} {
+    if {[$txt cget -relief] ne "flat"} {
       cleanup "cget -relief did not return a value of flat ([$txt cget -relief])"
     }
     $txt configure -relief "raised"
     if {[$txt cget -relief] ne "raised"} {
       cleanup "cget -relief did not return a value of raised after being set to it"
     }
-    $txt configure -relief "sunken"
-    if {[$txt cget -relief] ne "sunken"} {
+    $txt configure -relief "flat"
+    if {[$txt cget -relief] ne "flat"} {
       cleanup "cget -relief did not return a value of flat after being set to it"
     }
 
@@ -380,10 +380,10 @@ namespace eval ctext {
     if {$index == -1} {
       cleanup "Missing -relief option from configure return"
     }
-    if {[lindex $opts $index] ne [list -relief relief Relief sunken sunken]} {
+    if {[lindex $opts $index] ne [list -relief relief Relief flat flat]} {
       cleanup "Miscompare on -relief return value"
     }
-    if {[$txt configure -relief] ne [list -relief relief Relief sunken sunken]} {
+    if {[$txt configure -relief] ne [list -relief relief Relief flat flat]} {
       cleanup "Miscompare on configure -relief return value"
     }
 
@@ -509,7 +509,6 @@ namespace eval ctext {
     $txt delete 1.0 end
     $txt insert end "\nset this \\\\{is good}"
 
-    puts [$txt tag ranges _curlyL]
     if {[$txt tag ranges _curlyL] ne [list 2.11 2.12]} {
       cleanup "left curly bracket tag is missing"
     }
@@ -626,6 +625,87 @@ namespace eval ctext {
         cleanup "escape not tagged after being highlighted"
       }
 
+    }
+
+    cleanup
+
+  }
+
+  # Verify the insert command
+  proc run_test19 {} {
+
+    set txt [initialize]
+
+    $txt insert end "\nset foobar \\\\{now}"
+
+    if {[$txt tag ranges _keywords] ne [list 2.0 2.3]} {
+      cleanup "keyword tags exist for insert"
+    }
+    if {[$txt tag ranges _escape] ne [list 2.11 2.12]} {
+      cleanup "escape tags exist for insert"
+    }
+    if {[$txt tag ranges _curlyL] ne [list 2.13 2.14]} {
+      cleanup "curly bracket tags exist for insert"
+    }
+    if {[$txt get 2.0 2.end] ne "set foobar \\\\{now}"} {
+      cleanup "text not inserted correctly"
+    }
+
+    cleanup
+
+  }
+
+  # Verify the replace command
+  proc run_test20 {} {
+
+    set txt [initialize]
+
+    $txt insert end "\nset foobar \\\\{now}"
+
+    if {[$txt tag ranges _keywords] ne [list 2.0 2.3]} {
+      cleanup "keyword tags incorrect for insert"
+    }
+    if {[$txt tag ranges _escape] ne [list 2.11 2.12]} {
+      cleanup "escape tags incorrect for insert"
+    }
+    if {[$txt tag ranges _curlyL] ne [list 2.13 2.14]} {
+      cleanup "curly bracket tags incorrect for insert"
+    }
+    if {[$txt get 2.0 2.end] ne "set foobar \\\\{now}"} {
+      cleanup "text not inserted correctly"
+    }
+
+    $txt replace 2.4 2.10 "goo"
+
+    if {[$txt tag ranges _keywords] ne [list 2.0 2.3]} {
+      cleanup "keyword tags incorrect for replace"
+    }
+    if {[$txt tag ranges _escape] ne [list 2.8 2.9]} {
+      cleanup "escape tags incorrect for replace"
+    }
+    if {[$txt tag ranges _curlyL] ne [list 2.10 2.11]} {
+      cleanup "curly bracket tags incorrect for replace"
+    }
+    if {[$txt get 2.0 2.end] ne "set goo \\\\{now}"} {
+      cleanup "text not replaced correctly"
+    }
+
+    $txt replace 1.0 end "\nproc something {{parm \"buddy\"}} {}"
+
+    if {[$txt tag ranges _keywords] ne [list 2.0 2.4]} {
+      cleanup "keyword tags incorrect for replace"
+    }
+    if {[$txt tag ranges _escape] ne [list]} {
+      cleanup "escape tags exist for replace"
+    }
+    if {[$txt tag ranges _curlyL] ne [list 2.15 2.17 2.32 2.33]} {
+      cleanup "curly bracket tags incorrect for replace"
+    }
+    if {[$txt tag ranges _dString] ne [list 2.22 2.29]} {
+      cleanup "string tags incorrect for replace"
+    }
+    if {[$txt get 2.0 2.end] ne "proc something {{parm \"buddy\"}} {}"} {
+      cleanup "text not replaced correctly"
     }
 
     cleanup
