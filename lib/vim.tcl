@@ -165,10 +165,14 @@ namespace eval vim {
 
     if {$modelines && $modeline($txt.t)} {
 
-      if {[regexp {\s(vi|vim|vim\d+|vim<\d+|vim>\d+|ex):\s*(.*):} [$txt get 1.0 "1.0+${modelines}l"] -> opts]} {
-        foreach opt [split $opts ": "] {
-          if {[regexp {(\S+?)(([+-])?=(\S+))?$} $opt -> key dummy mod val]} {
-            do_set_command {} $txt $key $val $mod
+      foreach line [split [$txt get 1.0 "1.0+${modelines}l"] \n] {
+        if {[regexp {\s(vi|vim|vim\d+|vim<\d+|vim>\d+|vim=\d+|ex):\s*(set\s+(.*):|(.*)$)} $line -> dummy1 dummy2 opts1 opts2]} {
+          set opts [expr {([string range $dummy2 0 2] eq "set") ? $opts1 : $opts2}]
+          set opts [string map {"\\:" {:} ":" { }} $opts]
+          foreach opt $opts {
+            if {[regexp {(\S+?)(([+-])?=(\S+))?$} $opt -> key dummy mod val]} {
+              do_set_command {} $txt $key $val $mod 1
+            }
           }
         }
       }
@@ -335,13 +339,19 @@ namespace eval vim {
 
   ######################################################################
   # Handles set command calls and modeline settings.
-  proc do_set_command {tid txt opt val mod} {
+  proc do_set_command {tid txt opt val mod {ml 0}} {
 
     switch $opt {
       autochdir        -
-      acd              { do_set_autochdir 1 }
+      acd              {
+        if {$ml} { return $txt }
+        do_set_autochdir 1
+      }
       noautochdir      -
-      noacd            { do_set_autochdir 0 }
+      noacd            {
+        if {$ml} { return $txt }
+        do_set_autochdir 0
+      }
       autoindent       -
       ai               { do_set_indent_mode $tid IND 1 }
       noautoindent     -
@@ -359,7 +369,10 @@ namespace eval vim {
       nomodeline       -
       noml             { do_set_modeline $tid 0 }
       modelines        -
-      mls              { do_set_modelines $val }
+      mls              {
+        if {$ml} { return $txt }
+        do_set_modelines $val
+      }
       modifiable       -
       ma               { do_set_modifiable $tid 1 }
       nomodifiable     -
@@ -373,7 +386,10 @@ namespace eval vim {
       nonumber         -
       nonu             { do_set_number $tid 0 }
       numberwidth      -
-      nuw              { do_set_numberwidth $tid $val }
+      nuw              {
+        if {$ml} { return $txt }
+        do_set_numberwidth $tid $val
+      }
       relativenumber   -
       rnu              { do_set_relativenumber $tid relative }
       norelativenumber -
@@ -392,6 +408,9 @@ namespace eval vim {
       syn              { do_set_syntax $val }
       tabstop          -
       ts               { do_set_tabstop $tid $val }
+      default          {
+        [ns gui]::set_info_message [format "%s (%s)" [msgcat::mc "Unrecognized vim option"] $opt]
+      }
     }
 
     return $txt
@@ -545,6 +564,19 @@ namespace eval vim {
   proc do_set_number {tid val} {
 
     [ns gui]::set_line_number_view $tid $val
+
+  }
+
+  ######################################################################
+  # Sets the minimum width of the line number gutter area to the specified
+  # value.
+  proc do_set_numberwidth {tid val} {
+
+    if {[string is integer $val]} {
+      [ns gui]::set_line_number_width $tid $val
+    } else {
+      [ns gui]::set_info_message [format "%s (%s)" [msgcat::mc "Number width not a number"] $val]
+    }
 
   }
 
