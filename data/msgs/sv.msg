@@ -1769,11 +1769,17 @@ msgcat::mcmset sv {
   "Illegal modelines value"
   "Olagliga lägesrader värde"
 
+  "Number width not a number"
+  "Nummer bredd inte ett antal"
+
   "Shiftwidth value is not an integer"
   "Shiftwidth värde är inte ett heltal"
 
   "Tabstop value is not an integer"
   "Tabbstopp värdet är inte ett heltal"
+
+  "Unrecognized vim option"
+  "Okänd vim alternativet"
 
 }
 

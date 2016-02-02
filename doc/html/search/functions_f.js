@@ -22,7 +22,6 @@ var searchData=
   ['populate_5ffilter_5fcolor_5fmenu',['populate_filter_color_menu',['../namespacethemer.html#ae388164170006bbfa349d995b0f9dc00',1,'themer']]],
   ['populate_5findent_5fmenu',['populate_indent_menu',['../namespaceindent.html#a6354b33861551e27b6f2ac17c813ba06',1,'indent']]],
   ['populate_5fsyntax_5fmenu',['populate_syntax_menu',['../namespacesyntax.html#af408da5734cf315789f531e852a6b0dc',1,'syntax']]],
-  ['populate_5ftestlist',['populate_testlist',['../namespacebist.html#aa521bd1d56113766cf247bb68700deed',1,'bist']]],
   ['populate_5ftheme_5fmenu',['populate_theme_menu',['../namespacethemes.html#ac9a7eb51cdc1baded02403cc5e72113b',1,'themes']]],
   ['populate_5fthemer_5fcategory_5ftable',['populate_themer_category_table',['../namespacetheme.html#ab13a730c1a26261c1e27e80128f4f611',1,'theme']]],
   ['populate_5fui',['populate_ui',['../namespacelang.html#a91cbcf6dbb1a13ae8aadeb38b8afbbf3',1,'lang']]],

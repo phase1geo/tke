@@ -1,14 +1,28 @@
 var bist_8tcl =
 [
+    [ "add_test_file", "bist_8tcl.html#af792345100851afa5502b9881a90e431", null ],
     [ "cancel", "bist_8tcl.html#a654734126f6a5b2f5f2037de0a16cd39", null ],
     [ "create", "bist_8tcl.html#afd10dc0c5424ef2017154e6c35136724", null ],
+    [ "create_file", "bist_8tcl.html#a7be666c8cdc0d5cd3f840f9d96d40547", null ],
+    [ "create_test", "bist_8tcl.html#a5df73508a667e5181762d58f17dbd15d", null ],
+    [ "edit_test", "bist_8tcl.html#a37fcee23ac996261dd55970aa5596498", null ],
     [ "finish", "bist_8tcl.html#a3feb99ec2d9254c90e7460f00b41bae6", null ],
     [ "format_cell", "bist_8tcl.html#ab450ea9411f758f4f34f8771f3089cd9", null ],
+    [ "generate_file", "bist_8tcl.html#a159b3acf3db102dad5f66f28138533ce", null ],
+    [ "get_selections", "bist_8tcl.html#a1398007476db674fdde1b8f5062dfbf5", null ],
+    [ "handle_right_click", "bist_8tcl.html#a3d01f00f0d7e75295fcb352fe64440d1", null ],
     [ "initialize", "bist_8tcl.html#a2bdc7c6e5ac9dd9dccea3f60d31bbe3d", null ],
-    [ "on_destroy", "bist_8tcl.html#accfd7e9643baa158386c8d6efc0900fb", null ],
+    [ "load_options", "bist_8tcl.html#a763b0fa958a1f0b4cba89db6e446154b", null ],
+    [ "on_destroy", "bist_8tcl.html#a0fd48610b7833061506ab9744ea895e2", null ],
     [ "on_select", "bist_8tcl.html#a5ae4174b38f840361085ffd8db94d0c9", null ],
     [ "output", "bist_8tcl.html#aac6369b01574ca93a69db9cad06144c1", null ],
-    [ "populate_testlist", "bist_8tcl.html#aa521bd1d56113766cf247bb68700deed", null ],
-    [ "reset", "bist_8tcl.html#ace00f2dca16c3d99f92d1dff20b8f69c", null ],
-    [ "run", "bist_8tcl.html#aa83e92242e9c4be64f97f9a0dc674fe8", null ]
+    [ "refresh", "bist_8tcl.html#acc86b03b308c8da5837df119d441b743", null ],
+    [ "run", "bist_8tcl.html#a87af3710e8358c06bc375559768c7ee3", null ],
+    [ "run_test", "bist_8tcl.html#a133f5aad87721baa066cd63f5ab7e3d5", null ],
+    [ "runtime_string", "bist_8tcl.html#ab53565abe74214d464dfca6ab55b30c8", null ],
+    [ "save_options", "bist_8tcl.html#a8e1d314ec92aa3ab3fc38b5c2ef01f55", null ],
+    [ "set_mode", "bist_8tcl.html#ab5eeb421b9650ac0ac9660069da340b3", null ],
+    [ "set_selections", "bist_8tcl.html#aeb3bc7550d24c2eda21c8405ea6e1d05", null ],
+    [ "set_state", "bist_8tcl.html#a840eddc95c7c950f475397471c37e958", null ],
+    [ "validate_file", "bist_8tcl.html#adcadd00925188697ce98faf7bf10d664", null ]
 ];

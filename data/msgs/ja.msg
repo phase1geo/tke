@@ -1769,11 +1769,17 @@ msgcat::mcmset ja {
   "Illegal modelines value"
   "違法なモードライン値"
 
+  "Number width not a number"
+  "番号ではなく幅を数します。"
+
   "Shiftwidth value is not an integer"
   "シフト値が整数ではありません。"
 
   "Tabstop value is not an integer"
   "Tabstop の値が整数ではありません。"
+
+  "Unrecognized vim option"
+  "認識されない vim のオプション"
 
 }
 

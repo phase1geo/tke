@@ -1769,11 +1769,17 @@ msgcat::mcmset hu {
   "Illegal modelines value"
   "Illegális hardverednek érték"
 
+  "Number width not a number"
+  "Szám szélessége nem szám"
+
   "Shiftwidth value is not an integer"
   "Shiftwidth értéke nem egész szám"
 
   "Tabstop value is not an integer"
   "TabStop értéke nem egész szám"
+
+  "Unrecognized vim option"
+  "Ismeretlen vim lehetőség"
 
 }
 

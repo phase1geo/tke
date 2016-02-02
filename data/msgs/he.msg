@@ -1769,11 +1769,17 @@ msgcat::mcmset he {
   "Illegal modelines value"
   "ערך לא חוקי modelines"
 
+  "Number width not a number"
+  "מספר רוחב לא מספר"
+
   "Shiftwidth value is not an integer"
   "Shiftwidth ערך אינו שלם"
 
   "Tabstop value is not an integer"
   "עצירת ערך אינו שלם"
+
+  "Unrecognized vim option"
+  "אפשרות vim לא מזוהה"
 
 }
 

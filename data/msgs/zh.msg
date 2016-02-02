@@ -1769,11 +1769,17 @@ msgcat::mcmset zh {
   "Illegal modelines value"
   "非法 modeline 值"
 
+  "Number width not a number"
+  "数字宽度不是一个数字"
+
   "Shiftwidth value is not an integer"
   "数值非整数。"
 
   "Tabstop value is not an integer"
   "数值非整数。"
+
+  "Unrecognized vim option"
+  "无法识别的 vim 选项"
 
 }
 

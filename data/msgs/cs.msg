@@ -1769,11 +1769,17 @@ msgcat::mcmset cs {
   "Illegal modelines value"
   "Ilegální ModeLine hodnota"
 
+  "Number width not a number"
+  "Číslo šířka není číslo"
+
   "Shiftwidth value is not an integer"
   "Shiftwidth hodnota není celé číslo"
 
   "Tabstop value is not an integer"
   "TabStop hodnota není celé číslo"
+
+  "Unrecognized vim option"
+  "Možnost nerozpoznaný vim"
 
 }
 

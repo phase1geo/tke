@@ -1769,11 +1769,17 @@ msgcat::mcmset de {
   "Illegal modelines value"
   "Illegale Modelines Wert"
 
+  "Number width not a number"
+  "Nummer Breite Nichtzahlen"
+
   "Shiftwidth value is not an integer"
   "Einrückungstiefe Wert ist keine Ganzzahl"
 
   "Tabstop value is not an integer"
   "TabStop-Wert ist keine Ganzzahl"
+
+  "Unrecognized vim option"
+  "Nicht erkannte Vim-option"
 
 }
 
