@@ -47,6 +47,7 @@ namespace eval gui {
   variable replace_all      1
   variable highlightcolor   ""
   variable auto_cwd         0
+  variable numberwidth      4
 
   array set widgets         {}
   array set language        {}
@@ -686,6 +687,23 @@ namespace eval gui {
 
     # Show the line numbers in the current editor
     [current_txt $tid] configure -linemap $value
+
+  }
+
+  ######################################################################
+  # Sets the minimum line number width of the line gutter to the given
+  # value.
+  proc set_line_number_width {tid val} {
+
+    variable files
+    variable files_index
+    variable numberwidth
+
+    set numberwidth $val
+
+    for {set i 0} {$i < [llength $files]} {incr i} {
+      [get_info [lindex $files $i $files_index(tab)] tab txt] configure -linemap_minwidth $val
+    }
 
   }
 
@@ -3440,6 +3458,7 @@ namespace eval gui {
     variable curr_id
     variable language
     variable case_sensitive
+    variable numberwidth
 
     array set opts {
       -diff    0
@@ -3480,7 +3499,7 @@ namespace eval gui {
       -diff_mode $opts(-diff) \
       -linemap [[ns preferences]::get View/ShowLineNumbers] \
       -linemap_mark_command [ns gui]::mark_command -linemap_select_bg orange \
-      -linemap_relief flat -linemap_minwidth 4 \
+      -linemap_relief flat -linemap_minwidth $numberwidth \
       -linemap_type [expr {[[ns preferences]::get Editor/RelativeLineNumbers] ? "relative" : "absolute"}] \
       -xscrollcommand "$tab.pw.tf.hb set" -yscrollcommand "$tab.pw.tf.vb set"
       # -yscrollcommand "[ns utils]::set_yscrollbar $tab.pw.tf.vb"
