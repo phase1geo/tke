@@ -715,12 +715,8 @@ namespace eval gui {
     variable files
     variable files_index
 
-    # Get information from old_name
-    lassign [get_info $old_name fname {tabbar tab fileindex}] tb tab index
-
-    # If the given old_name exists in the file list, update it and
-    # also update the tab name.
-    if {$index != -1} {
+    # Get information from old_name and if it exists, update it and update the tab name.
+    if {![catch { lassign [get_info $old_name fname {tabbar tab fileindex}] tb tab index }] && ($index != -1)} {
 
       # Update the file information
       lset files $index $files_index(fname) $new_name
