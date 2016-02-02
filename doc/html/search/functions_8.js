@@ -31,7 +31,7 @@ var searchData=
   ['insinglequote',['inSingleQuote',['../namespacectext.html#a2265145ebc3c1f3c6f0017f29a966942',1,'ctext']]],
   ['install',['install',['../namespaceplugins.html#a98f7fbd2a998f61b939df9a7af51b585',1,'plugins']]],
   ['install_5fitem',['install_item',['../namespaceplugins.html#ab016e3a2a84de030df5a91579c3b9374',1,'plugins']]],
-  ['instancecmd',['instanceCmd',['../namespacectext.html#a7f2fdd4258e72c5c58e99831b008bc57',1,'ctext']]],
+  ['instancecmd',['instanceCmd',['../namespacectext.html#a8498962b8d389dcc517fec8000923971',1,'ctext']]],
   ['instring',['inString',['../namespacectext.html#ae6aefc9ed267a3b1fc2fa6e3e92bda71',1,'ctext']]],
   ['interrupt_5fpid',['interrupt_pid',['../namespacebgproc.html#a98428543f2f433fbbf181b73dc661d47',1,'bgproc']]],
   ['intriplequote',['inTripleQuote',['../namespacectext.html#a225667d1c280b5773c50150ad6674897',1,'ctext']]],

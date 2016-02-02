@@ -1769,11 +1769,17 @@ msgcat::mcmset no {
   "Illegal modelines value"
   "Ugyldig modelines-verdi"
 
+  "Number width not a number"
+  "Antall bredde ikke et tall"
+
   "Shiftwidth value is not an integer"
   "Shiftwidth-verdien er ikke et heltall"
 
   "Tabstop value is not an integer"
   "TabStop verdien er ikke et heltall"
+
+  "Unrecognized vim option"
+  "Ukjent vim alternativet"
 
 }
 

@@ -1769,11 +1769,17 @@ msgcat::mcmset el {
   "Illegal modelines value"
   "Παράνομη modelines αξία"
 
+  "Number width not a number"
+  "Αριθμός πλάτος δεν είναι αριθμός"
+
   "Shiftwidth value is not an integer"
   "Shiftwidth τιμή δεν είναι ακέραιος"
 
   "Tabstop value is not an integer"
   "TabStop τιμή δεν είναι ακέραιος"
+
+  "Unrecognized vim option"
+  "Επιλογή μη αναγνωρίσιμη vim"
 
 }
 

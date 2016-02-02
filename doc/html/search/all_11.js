@@ -13,6 +13,7 @@ var searchData=
   ['record_5fstop',['record_stop',['../namespacevim.html#ae2495b47feaca6a1c6a0597269f80968',1,'vim']]],
   ['redo',['redo',['../namespacegui.html#a193688f2c86999f7d9d2cdab63cb6b7d',1,'gui::redo()'],['../namespacevim.html#a099a4a7b7d0fd39b5e5304ca0f6be55a',1,'vim::redo()'],['../namespacectext.html#a6b82695217c4c5a0d15b679a5d020bdd',1,'ctext::redo()']]],
   ['redoable',['redoable',['../namespacegui.html#a61b729f12cd210d483264b2838248ba8',1,'gui']]],
+  ['refresh',['refresh',['../namespacebist.html#acc86b03b308c8da5837df119d441b743',1,'bist']]],
   ['refresh_5fdirectory_5ffiles',['refresh_directory_files',['../namespacesidebar.html#a0ae8988e5ae9494a0b2658ffcf6f2a7b',1,'sidebar']]],
   ['register',['register',['../namespaceembed__tke_1_1launcher.html#abc8d30e7451889e398ccd16a2aa74695',1,'embed_tke::launcher::register()'],['../namespacelauncher.html#a2b295e7b3b73ad09d0c9548a7382365d',1,'launcher::register()'],['../namespaceplugins.html#ad76d3447c45a8ee5cfa38554508d8fb4',1,'plugins::register()']]],
   ['register_5fimage',['register_image',['../namespacetheme.html#a62234ea098ac12d79d2f0e27c402569c',1,'theme']]],
@@ -40,7 +41,6 @@ var searchData=
   ['replace_5fdo_5fraw',['replace_do_raw',['../namespacesearch.html#a62669cd7151ce9bbbf96445410b947ec',1,'search']]],
   ['replace_5fline_5fwith_5fscript',['replace_line_with_script',['../namespaceedit.html#a86be1cd934d245edc7f2a9c9d57ad785',1,'edit']]],
   ['replace_5fstart',['replace_start',['../namespacesearch.html#a074da3ef9cc5e76d1a34cab3270c575b',1,'search']]],
-  ['reset',['reset',['../namespacebist.html#ace00f2dca16c3d99f92d1dff20b8f69c',1,'bist']]],
   ['reset_5ftext_5ffocus',['reset_text_focus',['../namespaceapi.html#a3ad71c189816c2d0a934cdd3545a8ca5',1,'api']]],
   ['restart_2etcl',['restart.tcl',['../restart_8tcl.html',1,'']]],
   ['restart_5fcommand',['restart_command',['../namespacemenus.html#adf352e2f362cdec4e5dcbedaa84674e8',1,'menus']]],
@@ -49,7 +49,9 @@ var searchData=
   ['rgb_5fto_5fhsv',['rgb_to_hsv',['../namespaceutils.html#aa14d7ce515ce67f2861d3a11fc9b0361',1,'utils']]],
   ['row_5ftype',['row_type',['../namespacesidebar.html#a4b5d9accaea4a797f87c068b3d5cb603',1,'sidebar']]],
   ['rshift_5fbetween_5fchar',['rshift_between_char',['../namespaceedit.html#a052691f9e4a13119da70b295fea4a692',1,'edit']]],
-  ['run',['run',['../namespacebist.html#aa83e92242e9c4be64f97f9a0dc674fe8',1,'bist']]],
+  ['run',['run',['../namespacebist.html#a87af3710e8358c06bc375559768c7ee3',1,'bist']]],
   ['run_5fbist',['run_bist',['../namespacemenus.html#a90acfb050b1073e9bda6a163acc0e096',1,'menus']]],
-  ['run_5fon_5fstart_5fafter_5finstall',['run_on_start_after_install',['../namespaceplugins.html#a0eaa436eac3f77c3c957b740cd3ac51f',1,'plugins']]]
+  ['run_5fon_5fstart_5fafter_5finstall',['run_on_start_after_install',['../namespaceplugins.html#a0eaa436eac3f77c3c957b740cd3ac51f',1,'plugins']]],
+  ['run_5ftest',['run_test',['../namespacebist.html#a133f5aad87721baa066cd63f5ab7e3d5',1,'bist']]],
+  ['runtime_5fstring',['runtime_string',['../namespacebist.html#ab53565abe74214d464dfca6ab55b30c8',1,'bist']]]
 ];

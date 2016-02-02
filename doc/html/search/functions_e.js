@@ -1,7 +1,7 @@
 var searchData=
 [
   ['okay',['okay',['../namespacelauncher.html#adcd835e1d5e54f09794b5cb88a7d0f46',1,'launcher']]],
-  ['on_5fdestroy',['on_destroy',['../namespacebist.html#accfd7e9643baa158386c8d6efc0900fb',1,'bist']]],
+  ['on_5fdestroy',['on_destroy',['../namespacebist.html#a0fd48610b7833061506ab9744ea895e2',1,'bist']]],
   ['on_5fexit',['on_exit',['../namespacelogger.html#a760fb91d0e27e0db38c58113d867f947',1,'logger']]],
   ['on_5fselect',['on_select',['../namespacebist.html#a5ae4174b38f840361085ffd8db94d0c9',1,'bist']]],
   ['open_5fcommand',['open_command',['../namespaceinterpreter.html#acb870a205c701ebec5c516e5eb8bd745',1,'interpreter::open_command()'],['../namespacemenus.html#aacb15eb761f66fa6bf63d5194071ffdd',1,'menus::open_command()']]],

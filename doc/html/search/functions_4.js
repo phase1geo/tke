@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['edit',['edit',['../namespacetemplates.html#aa8429cc1b987a0f317bed136f6d0f5d1',1,'templates']]],
+  ['edit',['edit',['../namespacetemplates.html#a867301997da63ad45a243943a94896e5',1,'templates']]],
   ['edit_5fcurrent_5ftheme',['edit_current_theme',['../namespacethemer.html#aaa4e6743834068f1543a11faacd27231',1,'themer']]],
   ['edit_5fcursor_5fmove',['edit_cursor_move',['../namespacemenus.html#a90d7923b65282e80f6635b07776e7c85',1,'menus']]],
   ['edit_5fcursor_5fmove_5fby_5fpage',['edit_cursor_move_by_page',['../namespacemenus.html#af28ba8ba7b02b3493f081b9654abb84c',1,'menus']]],
@@ -32,6 +32,7 @@ var searchData=
   ['edit_5fsnippets_5fposting',['edit_snippets_posting',['../namespacemenus.html#a9e0defbbed2fac38e09c93f03f733430',1,'menus']]],
   ['edit_5fswatch',['edit_swatch',['../namespacethemer.html#a808f04263d1fa58a4ef323f5ce474983',1,'themer']]],
   ['edit_5ftemplates_5fposting',['edit_templates_posting',['../namespacemenus.html#ab25a97a8dfb5ec1ecf1d3e4004549500',1,'menus']]],
+  ['edit_5ftest',['edit_test',['../namespacebist.html#a37fcee23ac996261dd55970aa5596498',1,'bist']]],
   ['edit_5ftransform_5fbubble_5fdown',['edit_transform_bubble_down',['../namespacemenus.html#a0f5eb95e9a3c3fbc868fd02ea579dd14',1,'menus']]],
   ['edit_5ftransform_5fbubble_5fup',['edit_transform_bubble_up',['../namespacemenus.html#a4fcd7e6db8c32dc34df23bc932f2233a',1,'menus']]],
   ['edit_5ftransform_5fjoin_5flines',['edit_transform_join_lines',['../namespacemenus.html#ac690ecc77d74c324859b37036dbea618',1,'menus']]],
@@ -51,6 +52,7 @@ var searchData=
   ['encode_5ffile',['encode_file',['../namespaceinterpreter.html#a81c0b523bb6dbaf69d84aec8780fd6f6',1,'interpreter']]],
   ['end_5fopen_5fframe',['end_open_frame',['../namespacethemer.html#a934aa061ae7469fae3cca70f8665ce34',1,'themer']]],
   ['end_5fsave_5fframe',['end_save_frame',['../namespacethemer.html#ab0b77bb975e3370d22f3eff53b9e8f88',1,'themer']]],
+  ['escapes',['escapes',['../namespacectext.html#aba590c75d82a2376f36921e64a4903af',1,'ctext']]],
   ['event_3adestroy',['event:Destroy',['../namespacectext.html#a225f3c10199f5445578f9e759afee72f',1,'ctext']]],
   ['event_3axscroll',['event:xscroll',['../namespacectext.html#a6563737eb53a4bcdd9dcc0525d3fd825',1,'ctext']]],
   ['event_3ayscroll',['event:yscroll',['../namespacectext.html#ac57dbcfd581b81b4a59540efd845a8e9',1,'ctext']]],

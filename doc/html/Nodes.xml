@@ -495,6 +495,11 @@
                   <Anchor>a93d0887442a938ec7af9d7968354010a</Anchor>
                  </Node>
                  <Node>
+                  <Name>brackets</Name>
+                  <Path>ctext_8tcl.html</Path>
+                  <Anchor>ab58b308ab50a5164cce0bdd146586c00</Anchor>
+                 </Node>
+                 <Node>
                   <Name>buildArgParseTable</Name>
                   <Path>ctext_8tcl.html</Path>
                   <Anchor>a12c3ee880b1e883903c3bb346242d1ba</Anchor>
@@ -505,14 +510,89 @@
                   <Anchor>a3472a859d674b7bbb04483ea8b11bb02</Anchor>
                  </Node>
                  <Node>
-                  <Name>comments</Name>
+                  <Name>command_append</Name>
                   <Path>ctext_8tcl.html</Path>
-                  <Anchor>aa2793b1485c0a893465fcf01607e4363</Anchor>
+                  <Anchor>a0fbb534022e6784361f26d3f3dda4370</Anchor>
                  </Node>
                  <Node>
-                  <Name>commentsAfterIdle</Name>
+                  <Name>command_cget</Name>
                   <Path>ctext_8tcl.html</Path>
-                  <Anchor>aa73c1d73125c9207bff7cddc07c35fa8</Anchor>
+                  <Anchor>a1e63c8ea6536cfa98850e48a39af6092</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>command_configure</Name>
+                  <Path>ctext_8tcl.html</Path>
+                  <Anchor>a620eee3143a383de9e2958ea5233ae86</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>command_copy</Name>
+                  <Path>ctext_8tcl.html</Path>
+                  <Anchor>ad9b738fd391c746a70624f0929405331</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>command_cut</Name>
+                  <Path>ctext_8tcl.html</Path>
+                  <Anchor>af9986326c13b009d40f153046bff4ca8</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>command_delete</Name>
+                  <Path>ctext_8tcl.html</Path>
+                  <Anchor>a0c8f8651ef485677d5122983ee7d2eba</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>command_diff</Name>
+                  <Path>ctext_8tcl.html</Path>
+                  <Anchor>ad6ea59c3d6c7d9b5edb40f42a2d4e954</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>command_edit</Name>
+                  <Path>ctext_8tcl.html</Path>
+                  <Anchor>a7849cdd858340e6369f57ea39269ce5f</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>command_fastdelete</Name>
+                  <Path>ctext_8tcl.html</Path>
+                  <Anchor>a574593e3184e86b87c9dac347bd7189a</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>command_fastinsert</Name>
+                  <Path>ctext_8tcl.html</Path>
+                  <Anchor>a205390edfce0bdb9266c7e2f630f2312</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>command_gutter</Name>
+                  <Path>ctext_8tcl.html</Path>
+                  <Anchor>af00865c8e9e4bf392d2fdd27c776459b</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>command_highlight</Name>
+                  <Path>ctext_8tcl.html</Path>
+                  <Anchor>a635b72e43b00ad5b7a6bea06f5655947</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>command_insert</Name>
+                  <Path>ctext_8tcl.html</Path>
+                  <Anchor>ad030ce8bf3f53addf1a2ae3e2cd28a6c</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>command_paste</Name>
+                  <Path>ctext_8tcl.html</Path>
+                  <Anchor>ac275c0671dd53326824cd7f6a1a92d76</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>command_peer</Name>
+                  <Path>ctext_8tcl.html</Path>
+                  <Anchor>a9175fe16ce7cc67c885ef0a4eb562f8f</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>command_replace</Name>
+                  <Path>ctext_8tcl.html</Path>
+                  <Anchor>ae9c2975a8a0c9479cc79d4fa0f6f90e4</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>comments</Name>
+                  <Path>ctext_8tcl.html</Path>
+                  <Anchor>ab1f10925e337c3276fb87d3da2efe301</Anchor>
                  </Node>
                  <Node>
                   <Name>commentsGetPrevious</Name>
@@ -563,6 +643,11 @@
                   <Name>doHighlight</Name>
                   <Path>ctext_8tcl.html</Path>
                   <Anchor>a00f9424f33763453c088b8e9f9c2a837</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>escapes</Name>
+                  <Path>ctext_8tcl.html</Path>
+                  <Anchor>aba590c75d82a2376f36921e64a4903af</Anchor>
                  </Node>
                  <Node>
                   <Name>event:Destroy</Name>
@@ -635,11 +720,6 @@
                   <Anchor>a62f054b618ad48d778b91fe640371bd6</Anchor>
                  </Node>
                  <Node>
-                  <Name>highlightAfterIdle</Name>
-                  <Path>ctext_8tcl.html</Path>
-                  <Anchor>a9813bdb20fadd57878bf8dfa5ae8df05</Anchor>
-                 </Node>
-                 <Node>
                   <Name>inBlockComment</Name>
                   <Path>ctext_8tcl.html</Path>
                   <Anchor>a0d9ab6867813fb9564b7559501f4fdd4</Anchor>
@@ -677,7 +757,7 @@
                  <Node>
                   <Name>instanceCmd</Name>
                   <Path>ctext_8tcl.html</Path>
-                  <Anchor>a7f2fdd4258e72c5c58e99831b008bc57</Anchor>
+                  <Anchor>a8498962b8d389dcc517fec8000923971</Anchor>
                  </Node>
                  <Node>
                   <Name>inString</Name>
@@ -1091,6 +1171,11 @@
               <Path>bist_8tcl.html</Path>
               <Subnodes>
                <Node>
+                <Name>add_test_file</Name>
+                <Path>bist_8tcl.html</Path>
+                <Anchor>af792345100851afa5502b9881a90e431</Anchor>
+               </Node>
+               <Node>
                 <Name>cancel</Name>
                 <Path>bist_8tcl.html</Path>
                 <Anchor>a654734126f6a5b2f5f2037de0a16cd39</Anchor>
@@ -1099,6 +1184,21 @@
                 <Name>create</Name>
                 <Path>bist_8tcl.html</Path>
                 <Anchor>afd10dc0c5424ef2017154e6c35136724</Anchor>
+               </Node>
+               <Node>
+                <Name>create_file</Name>
+                <Path>bist_8tcl.html</Path>
+                <Anchor>a7be666c8cdc0d5cd3f840f9d96d40547</Anchor>
+               </Node>
+               <Node>
+                <Name>create_test</Name>
+                <Path>bist_8tcl.html</Path>
+                <Anchor>a5df73508a667e5181762d58f17dbd15d</Anchor>
+               </Node>
+               <Node>
+                <Name>edit_test</Name>
+                <Path>bist_8tcl.html</Path>
+                <Anchor>a37fcee23ac996261dd55970aa5596498</Anchor>
                </Node>
                <Node>
                 <Name>finish</Name>
@@ -1111,14 +1211,34 @@
                 <Anchor>ab450ea9411f758f4f34f8771f3089cd9</Anchor>
                </Node>
                <Node>
+                <Name>generate_file</Name>
+                <Path>bist_8tcl.html</Path>
+                <Anchor>a159b3acf3db102dad5f66f28138533ce</Anchor>
+               </Node>
+               <Node>
+                <Name>get_selections</Name>
+                <Path>bist_8tcl.html</Path>
+                <Anchor>a1398007476db674fdde1b8f5062dfbf5</Anchor>
+               </Node>
+               <Node>
+                <Name>handle_right_click</Name>
+                <Path>bist_8tcl.html</Path>
+                <Anchor>a3d01f00f0d7e75295fcb352fe64440d1</Anchor>
+               </Node>
+               <Node>
                 <Name>initialize</Name>
                 <Path>bist_8tcl.html</Path>
                 <Anchor>a2bdc7c6e5ac9dd9dccea3f60d31bbe3d</Anchor>
                </Node>
                <Node>
+                <Name>load_options</Name>
+                <Path>bist_8tcl.html</Path>
+                <Anchor>a763b0fa958a1f0b4cba89db6e446154b</Anchor>
+               </Node>
+               <Node>
                 <Name>on_destroy</Name>
                 <Path>bist_8tcl.html</Path>
-                <Anchor>accfd7e9643baa158386c8d6efc0900fb</Anchor>
+                <Anchor>a0fd48610b7833061506ab9744ea895e2</Anchor>
                </Node>
                <Node>
                 <Name>on_select</Name>
@@ -1131,19 +1251,49 @@
                 <Anchor>aac6369b01574ca93a69db9cad06144c1</Anchor>
                </Node>
                <Node>
-                <Name>populate_testlist</Name>
+                <Name>refresh</Name>
                 <Path>bist_8tcl.html</Path>
-                <Anchor>aa521bd1d56113766cf247bb68700deed</Anchor>
-               </Node>
-               <Node>
-                <Name>reset</Name>
-                <Path>bist_8tcl.html</Path>
-                <Anchor>ace00f2dca16c3d99f92d1dff20b8f69c</Anchor>
+                <Anchor>acc86b03b308c8da5837df119d441b743</Anchor>
                </Node>
                <Node>
                 <Name>run</Name>
                 <Path>bist_8tcl.html</Path>
-                <Anchor>aa83e92242e9c4be64f97f9a0dc674fe8</Anchor>
+                <Anchor>a87af3710e8358c06bc375559768c7ee3</Anchor>
+               </Node>
+               <Node>
+                <Name>run_test</Name>
+                <Path>bist_8tcl.html</Path>
+                <Anchor>a133f5aad87721baa066cd63f5ab7e3d5</Anchor>
+               </Node>
+               <Node>
+                <Name>runtime_string</Name>
+                <Path>bist_8tcl.html</Path>
+                <Anchor>ab53565abe74214d464dfca6ab55b30c8</Anchor>
+               </Node>
+               <Node>
+                <Name>save_options</Name>
+                <Path>bist_8tcl.html</Path>
+                <Anchor>a8e1d314ec92aa3ab3fc38b5c2ef01f55</Anchor>
+               </Node>
+               <Node>
+                <Name>set_mode</Name>
+                <Path>bist_8tcl.html</Path>
+                <Anchor>ab5eeb421b9650ac0ac9660069da340b3</Anchor>
+               </Node>
+               <Node>
+                <Name>set_selections</Name>
+                <Path>bist_8tcl.html</Path>
+                <Anchor>aeb3bc7550d24c2eda21c8405ea6e1d05</Anchor>
+               </Node>
+               <Node>
+                <Name>set_state</Name>
+                <Path>bist_8tcl.html</Path>
+                <Anchor>a840eddc95c7c950f475397471c37e958</Anchor>
+               </Node>
+               <Node>
+                <Name>validate_file</Name>
+                <Path>bist_8tcl.html</Path>
+                <Anchor>adcadd00925188697ce98faf7bf10d664</Anchor>
                </Node>
               </Subnodes>
              </Node>
@@ -1290,7 +1440,7 @@
                <Node>
                 <Name>add_angled</Name>
                 <Path>completer_8tcl.html</Path>
-                <Anchor>acf909110243941d36aecb676006a1de8</Anchor>
+                <Anchor>a240aadb118b0040f9781d33df1a430bb</Anchor>
                </Node>
                <Node>
                 <Name>add_bindings</Name>
@@ -1300,32 +1450,32 @@
                <Node>
                 <Name>add_closing</Name>
                 <Path>completer_8tcl.html</Path>
-                <Anchor>a290e95084ce8d156632679bd6bc6d7d0</Anchor>
+                <Anchor>a43630beb21471cf4202fd9ee91d86479</Anchor>
                </Node>
                <Node>
                 <Name>add_curly</Name>
                 <Path>completer_8tcl.html</Path>
-                <Anchor>a7aa655dc3cbb9bd6f26e71fd6b06b1dd</Anchor>
+                <Anchor>a747b2726807f6767aa6d89e521b3c606</Anchor>
                </Node>
                <Node>
                 <Name>add_double</Name>
                 <Path>completer_8tcl.html</Path>
-                <Anchor>aec3e5c1b635008a9095d78512c48ccde</Anchor>
+                <Anchor>ad045c5fddf3868a52123524e228717a2</Anchor>
                </Node>
                <Node>
                 <Name>add_paren</Name>
                 <Path>completer_8tcl.html</Path>
-                <Anchor>aecc874a8dd9333398e72c11be4e49f61</Anchor>
+                <Anchor>a2ba88e2f4f13e6dec0a0c182896ec69b</Anchor>
                </Node>
                <Node>
                 <Name>add_single</Name>
                 <Path>completer_8tcl.html</Path>
-                <Anchor>a361048c923c649e7b324f2c7bd0fd52a</Anchor>
+                <Anchor>a6e20f803299f3a650bf12c22c406ca04</Anchor>
                </Node>
                <Node>
                 <Name>add_square</Name>
                 <Path>completer_8tcl.html</Path>
-                <Anchor>ad3a590363a5703f51c75b373cbcde9de</Anchor>
+                <Anchor>a2324b9eafd98eea0ea4642ec568b795b</Anchor>
                </Node>
                <Node>
                 <Name>handle_auto_match_chars</Name>
@@ -1335,17 +1485,17 @@
                <Node>
                 <Name>handle_delete</Name>
                 <Path>completer_8tcl.html</Path>
-                <Anchor>a5cdbafb360e8c1edeaf3d64d2d085b45</Anchor>
+                <Anchor>a8cb16fbb7a825da274cd37201455f106</Anchor>
                </Node>
                <Node>
                 <Name>set_auto_match_chars</Name>
                 <Path>completer_8tcl.html</Path>
-                <Anchor>a9a1bf5d46c4013066596fd0d5bb94ecb</Anchor>
+                <Anchor>a759b5c426786367bacea8968ad03a7a5</Anchor>
                </Node>
                <Node>
                 <Name>skip_closing</Name>
                 <Path>completer_8tcl.html</Path>
-                <Anchor>a0c79e0c1d95fbca4f873f6ea7e093a65</Anchor>
+                <Anchor>ad7ad41e7164b44fd8df3321643b8fc13</Anchor>
                </Node>
               </Subnodes>
              </Node>
@@ -2146,7 +2296,7 @@
                <Node>
                 <Name>clear_info_message</Name>
                 <Path>gui_8tcl.html</Path>
-                <Anchor>a7396c29fc3bc221b8a67430c85a21358</Anchor>
+                <Anchor>a23ef31dae8e9324ded42c0b2046c7092</Anchor>
                </Node>
                <Node>
                 <Name>clear_last_opened</Name>
@@ -2707,6 +2857,11 @@
                 <Name>set_line_number_view</Name>
                 <Path>gui_8tcl.html</Path>
                 <Anchor>ad72a6e3806ab6e0ddad98ebd48bddc8f</Anchor>
+               </Node>
+               <Node>
+                <Name>set_line_number_width</Name>
+                <Path>gui_8tcl.html</Path>
+                <Anchor>a0b96070bdc4a5c86d08345a1a890cf7d</Anchor>
                </Node>
                <Node>
                 <Name>set_search_data</Name>
@@ -4728,6 +4883,11 @@
                 <Anchor>a94eb8910ca736d6acc06b1e8e7532a6f</Anchor>
                </Node>
                <Node>
+                <Name>add_file_from_template</Name>
+                <Path>sidebar_8tcl.html</Path>
+                <Anchor>a054d796e3a5ae13a5af6dc7cab7d9bce</Anchor>
+               </Node>
+               <Node>
                 <Name>add_file_to_folder</Name>
                 <Path>sidebar_8tcl.html</Path>
                 <Anchor>ae8b9c3fe6b06ee41b17ad3c7cc6a176c</Anchor>
@@ -5348,12 +5508,12 @@
                <Node>
                 <Name>delete</Name>
                 <Path>templates_8tcl.html</Path>
-                <Anchor>a09bc49792c4b1ec60052cf1862da0aa5</Anchor>
+                <Anchor>a5166349282d45a822f66a571e79f9ca0</Anchor>
                </Node>
                <Node>
                 <Name>edit</Name>
                 <Path>templates_8tcl.html</Path>
-                <Anchor>aa8429cc1b987a0f317bed136f6d0f5d1</Anchor>
+                <Anchor>a867301997da63ad45a243943a94896e5</Anchor>
                </Node>
                <Node>
                 <Name>get_pathname</Name>
@@ -5363,7 +5523,17 @@
                <Node>
                 <Name>load</Name>
                 <Path>templates_8tcl.html</Path>
-                <Anchor>a443a0bdafca5216b377f8d0a3f95eb5c</Anchor>
+                <Anchor>a0edf770eaa9ba811670883be57724222</Anchor>
+               </Node>
+               <Node>
+                <Name>load_abs</Name>
+                <Path>templates_8tcl.html</Path>
+                <Anchor>a2f0dcf6c1869f16a630aaa5a3fcd768e</Anchor>
+               </Node>
+               <Node>
+                <Name>load_rel</Name>
+                <Path>templates_8tcl.html</Path>
+                <Anchor>a785a0d1b407fcb4b74e49deae8a2e7cc</Anchor>
                </Node>
                <Node>
                 <Name>preload</Name>
@@ -5378,7 +5548,7 @@
                <Node>
                 <Name>show_templates</Name>
                 <Path>templates_8tcl.html</Path>
-                <Anchor>a3724c16e94ac336c2ed3fa263a782939</Anchor>
+                <Anchor>a1fcf69546bb4005722a36548ac82e33d</Anchor>
                </Node>
                <Node>
                 <Name>valid</Name>
@@ -6249,7 +6419,7 @@
                <Node>
                 <Name>do_set_command</Name>
                 <Path>vim_8tcl.html</Path>
-                <Anchor>a51d7aaf014a0f4c6d7ba079dfbaf6c9c</Anchor>
+                <Anchor>af8c3195a9b2422487c7d223c3d327894</Anchor>
                </Node>
                <Node>
                 <Name>do_set_expandtab</Name>
@@ -6295,6 +6465,11 @@
                 <Name>do_set_number</Name>
                 <Path>vim_8tcl.html</Path>
                 <Anchor>a323fc887100d7a3692c01935e288ff86</Anchor>
+               </Node>
+               <Node>
+                <Name>do_set_numberwidth</Name>
+                <Path>vim_8tcl.html</Path>
+                <Anchor>aaabda46ba758db58dc466102d020c7b6</Anchor>
                </Node>
                <Node>
                 <Name>do_set_relativenumber</Name>

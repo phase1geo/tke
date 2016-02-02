@@ -1,6 +1,7 @@
 var sidebar_8tcl =
 [
     [ "add_directory", "sidebar_8tcl.html#a94eb8910ca736d6acc06b1e8e7532a6f", null ],
+    [ "add_file_from_template", "sidebar_8tcl.html#a054d796e3a5ae13a5af6dc7cab7d9bce", null ],
     [ "add_file_to_folder", "sidebar_8tcl.html#ae8b9c3fe6b06ee41b17ad3c7cc6a176c", null ],
     [ "add_folder_to_folder", "sidebar_8tcl.html#a18ba448d4daa8784b809a812467eecb2", null ],
     [ "add_parent_directory", "sidebar_8tcl.html#acd6bc569d1e0a02bb60b6b926718d9f1", null ],

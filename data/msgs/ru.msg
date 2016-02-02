@@ -1769,11 +1769,17 @@ msgcat::mcmset ru {
   "Illegal modelines value"
   "Незаконные modelines значение"
 
+  "Number width not a number"
+  "Номер ширины не номер"
+
   "Shiftwidth value is not an integer"
   "Shiftwidth значение не является целым числом"
 
   "Tabstop value is not an integer"
   "TabStop значение не является целым числом"
+
+  "Unrecognized vim option"
+  "Опция непризнанных vim"
 
 }
 

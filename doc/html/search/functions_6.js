@@ -1,6 +1,7 @@
 var searchData=
 [
   ['gather_5fmsgcat',['gather_msgcat',['../namespacelang.html#a3ddaabee9f3973b44a184175d1ad6602',1,'lang']]],
+  ['generate_5ffile',['generate_file',['../namespacebist.html#a159b3acf3db102dad5f66f28138533ce',1,'bist']]],
   ['generate_5fprofile_5freport',['generate_profile_report',['../namespacemenus.html#a7af1bcdffd5604f3e88b06fd0cd94382',1,'menus']]],
   ['get',['get',['../namespacepreferences.html#a70afa9433519856abd2d0b8a08b1213f',1,'preferences']]],
   ['get_5factual_5ffilenames',['get_actual_filenames',['../namespacegui.html#ac9864385502b037706ecd8b403d3fd7e',1,'gui']]],
@@ -77,6 +78,7 @@ var searchData=
   ['get_5fprevious_5findent_5fspace',['get_previous_indent_space',['../namespaceindent.html#a54e5f03831a97fa99d52227ea7bff4b9',1,'indent']]],
   ['get_5fsearch_5fdata',['get_search_data',['../namespacegui.html#a58505e6d5364bb7cdc7c71623a4e2550',1,'gui']]],
   ['get_5fselected_5findices',['get_selected_indices',['../namespaceapi_1_1sidebar.html#abdc3d3cd4b4e2047e1a8fb38d1817ee7',1,'api::sidebar::get_selected_indices()'],['../namespacesidebar.html#a406718b8f64a31953c1adedf8840f5c4',1,'sidebar::get_selected_indices()']]],
+  ['get_5fselections',['get_selections',['../namespacebist.html#a1398007476db674fdde1b8f5062dfbf5',1,'bist']]],
   ['get_5fsession_5fdata',['get_session_data',['../namespacediff.html#a6848f4a62bb72d0f602aa41aa25a2b72',1,'diff']]],
   ['get_5fshiftwidth',['get_shiftwidth',['../namespaceindent.html#ad8e9e688da1e64ff607297a443e977e1',1,'indent']]],
   ['get_5fshown_5ffiles',['get_shown_files',['../namespacesidebar.html#a2bd4252ff59dc810ab45cf9eba62da33',1,'sidebar']]],
