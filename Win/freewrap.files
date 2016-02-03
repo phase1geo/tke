@@ -23,6 +23,7 @@
 /home/trevorw/projects/tke-code/data/syntax/Ruby.syntax
 /home/trevorw/projects/tke-code/data/syntax/Bash.syntax
 /home/trevorw/projects/tke-code/data/syntax/C#.syntax
+/home/trevorw/projects/tke-code/data/syntax/Scala.syntax
 /home/trevorw/projects/tke-code/data/syntax/Yacc.syntax
 /home/trevorw/projects/tke-code/data/syntax/CoffeeScript.syntax
 /home/trevorw/projects/tke-code/data/syntax/JSON.syntax
@@ -35,6 +36,7 @@
 /home/trevorw/projects/tke-code/data/syntax/Haskell.syntax
 /home/trevorw/projects/tke-code/data/syntax/XML.syntax
 /home/trevorw/projects/tke-code/data/syntax/Fortran.syntax
+/home/trevorw/projects/tke-code/data/syntax/Lua.syntax
 /home/trevorw/projects/tke-code/data/todo.list
 /home/trevorw/projects/tke-code/data/preferences.tkedat
 /home/trevorw/projects/tke-code/data/msgs/sv.msg
@@ -278,13 +280,16 @@
 /home/trevorw/projects/tke-code/lib/bgproc.tcl
 /home/trevorw/projects/tke-code/lib/bist.tcl
 /home/trevorw/projects/tke-code/lib/format_parser.tcl
+/home/trevorw/projects/tke-code/lib/fontchooser.tcl
 /home/trevorw/projects/tke-code/lib/snip_lexer.tcl
 /home/trevorw/projects/tke-code/lib/images/blank.bmp
 /home/trevorw/projects/tke-code/lib/images/diff.bmp
 /home/trevorw/projects/tke-code/lib/images/split.bmp
 /home/trevorw/projects/tke-code/lib/images/case.bmp
+/home/trevorw/projects/tke-code/lib/images/unchecked.gif
 /home/trevorw/projects/tke-code/lib/images/square32.bmp
 /home/trevorw/projects/tke-code/lib/images/color.bmp
+/home/trevorw/projects/tke-code/lib/images/checked.gif
 /home/trevorw/projects/tke-code/lib/images/left.bmp
 /home/trevorw/projects/tke-code/lib/images/close.bmp
 /home/trevorw/projects/tke-code/lib/images/tke_logo_64.gif
@@ -333,6 +338,8 @@
 /home/trevorw/projects/tke-code/plugins/perforce/header.tkedat
 /home/trevorw/projects/tke-code/plugins/terminal/main.tcl
 /home/trevorw/projects/tke-code/plugins/terminal/header.tkedat
+/home/trevorw/projects/tke-code/plugins/choosers/main.tcl
+/home/trevorw/projects/tke-code/plugins/choosers/header.tkedat
 /home/trevorw/projects/tke-code/plugins/todo/main.tcl
 /home/trevorw/projects/tke-code/plugins/todo/header.tkedat
 /home/trevorw/projects/tke-code/plugins/current_line/main.tcl
