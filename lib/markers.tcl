@@ -107,8 +107,8 @@ namespace eval markers {
 
     # Get the list of all names
     foreach key [array names markers $txt,*] {
+      set name [join [lassign [split $key ,] txt] ,]
       if {[llength [set ranges [$txt tag ranges $markers($key)]]] > 0} {
-        set name [join [lassign [split $key ,] txt] ,]
         lappend data $name $txt [lindex $ranges 0]
       }
     }
