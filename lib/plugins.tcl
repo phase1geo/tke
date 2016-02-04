@@ -41,6 +41,7 @@
 #  on_delete    - Runs when a file/folder is being deleted
 #  on_uninstall - Runs when the plugin is uninstalled by the user.  Allows UI cleanup, etc.
 #  syntax       - Adds the given syntax file to the list of available syntaxes
+#  vcs          - Adds support for a version control system to the difference viewer
 ######################################################################
 
 namespace eval plugins {
@@ -161,6 +162,9 @@ namespace eval plugins {
     # Delete all plugin syntax registrations
     delete_all_syntax
 
+    # Delete all VCS commands
+    delete_all_vcs_commands
+
     catch { array unset prev_sourced }
     for {set i 0} {$i < $registry_size} {incr i} {
       if {$registry($i,selected) && ($registry($i,interp) ne "")} {
@@ -188,6 +192,9 @@ namespace eval plugins {
 
     # Add all of the syntaxes
     add_all_syntax
+
+    # Add all of the VCS commands
+    add_all_vcs_commands
 
     # Tell the user that the plugins have been successfully reloaded
     gui::set_info_message [msgcat::mc "Plugins successfully reloaded"]
@@ -242,8 +249,8 @@ namespace eval plugins {
             } else {
               set registry($i,interp) $interpreter
               handle_reloading $i
-              # add_all_text_bindings
             }
+              # add_all_text_bindings
           }
         }
 
@@ -261,6 +268,9 @@ namespace eval plugins {
       tk_messageBox -default ok -type ok -icon warning -parent . -title [msgcat::mc "Plugin Errors"] \
         -message [msgcat::mc "Syntax errors found in selected plugins"] -detail [join $names \n]
     }
+
+    # Add all of the available VCS commands
+    add_all_vcs_commands
 
   }
 
@@ -468,6 +478,9 @@ namespace eval plugins {
     # Delete all syntax
     delete_all_syntax
 
+    # Delete all VCS commands
+    delete_all_vcs_commands
+
     # Source the file if it hasn't been previously sourced
     if {$registry($index,interp) eq ""} {
       if {$registry($index,treqd) && !$registry($index,tgntd)} {
@@ -479,6 +492,7 @@ namespace eval plugins {
             add_all_menus
             add_all_text_bindings
             add_all_syntax
+            add_all_vcs_commands
             return
           }
         }
@@ -511,6 +525,9 @@ namespace eval plugins {
 
     # Add all syntaxes
     add_all_syntax
+
+    # Add all VCS commands
+    add_all_vcs_commands
 
   }
 
@@ -568,6 +585,9 @@ namespace eval plugins {
     # Delete all syntax
     delete_all_syntax
 
+    # Delete all VCS commands
+    delete_all_vcs_commands
+
     # Destroy the interpreter
     interpreter::destroy $registry($index,name)
 
@@ -583,6 +603,9 @@ namespace eval plugins {
 
     # Add all of the syntaxes
     add_all_syntax
+
+    # Add all of the VCS commands
+    add_all_vcs_commands
 
     # Display the uninstall message
     gui::set_info_message [format "%s (%s)" [msgcat::mc "Plugin uninstalled"] $registry($index,name)]
@@ -1194,6 +1217,51 @@ namespace eval plugins {
         handle_status_error "on_uninstall" $index $status
       }
     }
+
+  }
+
+  ######################################################################
+  # Adds the VCS commands to the difference namespace.
+  proc add_all_vcs_commands {} {
+
+    foreach entry [find_registry_entries "vcs"] {
+      lassign $entry index name handles versions file_cmd diff_cmd find_version version_log
+      set ns ::diff::[string map {{ } _} [string tolower $name]]
+      namespace eval $ns "proc name            {}              { return \"$name\" }"
+      namespace eval $ns "proc type            {}              { return cvs }"
+      namespace eval $ns "proc handles         {fname}         { return \[plugins::run_vcs $index $handles      \$fname\] }"
+      namespace eval $ns "proc versions        {fname}         { return \[plugins::run_vcs $index $versions     \$fname\] }"
+      namespace eval $ns "proc get_file_cmd    {version fname} { return \[plugins::run_vcs $index $file_cmd     \$fname \$version\] }"
+      namespace eval $ns "proc get_diff_cmd    {v1 v2 fname}   { return \[plugins::run_vcs $index $diff_cmd     \$fname \$v1 \$v2\] }"
+      namespace eval $ns "proc find_version    {fname v2 lnum} { return \[plugins::run_vcs $index $find_version \$fname \$v2 \$lnum\] }"
+      namespace eval $ns "proc get_version_log {fname version} { return \[plugins::run_vcs $index $version_log  \$fname \$version\] }"
+    }
+
+  }
+
+  ######################################################################
+  # Removes the VCS commands from the diff namespace.
+  proc delete_all_vcs_commands {} {
+
+    foreach entry [find_registry_entries "vcs"] {
+      lassign $entry index name
+      namespace delete ::diff::[string map {{ } _} [string tolower $name]]
+    }
+
+  }
+
+  ######################################################################
+  # Runs the given VCS command.
+  proc run_vcs {index cmd args} {
+
+    variable registry
+
+    if {[catch { $registry($index,interp) eval $cmd {*}$args } status]} {
+      handle_status_error "run_vcs" $index $status
+      return ""
+    }
+
+    return $status
 
   }
 

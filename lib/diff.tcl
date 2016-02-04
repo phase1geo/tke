@@ -238,9 +238,9 @@ namespace eval diff {
 
     # Displays the difference data
     switch [${cvs_ns}::type] {
-      cvs     { ${cvs_ns}::show_diff $txt $data($txt,v1) $data($txt,v2) $fname }
-      file    { ${cvs_ns}::show_diff $txt [$data($txt,win).ff.e get] $fname }
-      command { ${cvs_ns}::show_diff $txt [$data($txt,win).cf.e get] }
+      cvs     { parse_unified_diff $txt [${cvs_ns}::get_diff_cmd $data($txt,v1) $data($txt,v2) $fname] }
+      file    { parse_unified_diff $txt [${cvs_ns}::get_diff_cmd [$data($txt,win).ff.e get] $fname] }
+      command { parse_unified_diff $txt [$data($txt,win).cf.e get] }
     }
 
     # Save the value of V1 to last V1
@@ -705,12 +705,12 @@ namespace eval diff {
       return "|p4 print $fname#$version"
     }
 
-    proc show_diff {txt v1 v2 fname} {
+    proc get_diff_cmd {v1 v2 fname} {
       if {$v2 eq "Current"} {
         set ::env(P4DIFF) ""
-        diff::parse_unified_diff $txt "p4 diff -du ${fname}#$v1"
+        return "p4 diff -du ${fname}#$v1"
       } else {
-        diff::parse_unified_diff $txt "p4 diff2 -u ${fname}#$v1 ${fname}#$v2"
+        return "p4 diff2 -u ${fname}#$v1 ${fname}#$v2"
       }
     }
 
@@ -772,11 +772,11 @@ namespace eval diff {
       return "|hg cat -r $version $fname"
     }
 
-    proc show_diff {txt v1 v2 fname} {
+    proc get_diff_cmd {v1 v2 fname} {
       if {$v2 eq "Current"} {
-        diff::parse_unified_diff $txt "hg diff -r $v1 $fname"
+        return "hg diff -r $v1 $fname"
       } else {
-        diff::parse_unified_diff $txt "hg diff -r $v1 -r $v2 $fname"
+        return "hg diff -r $v1 -r $v2 $fname"
       }
     }
 
@@ -839,11 +839,11 @@ namespace eval diff {
       return "|git show $version:$fname"
     }
 
-    proc show_diff {txt v1 v2 fname} {
+    proc get_diff_cmd {v1 v2 fname} {
       if {$v2 eq "Current"} {
-        diff::parse_unified_diff $txt "git diff $v1 $fname"
+        return "git diff $v1 $fname"
       } else {
-        diff::parse_unified_diff $txt "git diff $v1 $v2 $fname"
+        return "git diff $v1 $v2 $fname"
       }
     }
 
@@ -905,11 +905,11 @@ namespace eval diff {
       return "|svn cat -r $version $fname"
     }
 
-    proc show_diff {txt v1 v2 fname} {
+    proc get_diff_cmd {v1 v2 fname} {
       if {$v2 eq "Current"} {
-        diff::parse_unified_diff $txt "svn diff -r $v1 $fname"
+        return "svn diff -r $v1 $fname"
       } else {
-        diff::parse_unified_diff $txt "svn diff -r $v1:$v2 $fname"
+        return "svn diff -r $v1:$v2 $fname"
       }
     }
 
@@ -971,11 +971,11 @@ namespace eval diff {
       return "|cvs update -p -r $version $fname"
     }
 
-    proc show_diff {txt v1 v2 fname} {
+    proc get_diff_cmd {v1 v2 fname} {
       if {$v2 eq "Current"} {
-        diff::parse_unified_diff $txt "cvs diff -u -r $v1 $fname"
+        return "cvs diff -u -r $v1 $fname"
       } else {
-        diff::parse_unified_diff $txt "cvs diff -u -r $v1 -r $v2 $fname"
+        return "cvs diff -u -r $v1 -r $v2 $fname"
       }
     }
 
@@ -1020,8 +1020,8 @@ namespace eval diff {
       return 0
     }
 
-    proc show_diff {txt fname1 fname2} {
-      diff::parse_unified_diff $txt "diff -u $fname1 $fname2"
+    proc get_diff_cmd {fname1 fname2} {
+      return "diff -u $fname1 $fname2"
     }
 
   }
@@ -1040,10 +1040,6 @@ namespace eval diff {
 
     proc handles {fname} {
       return 0
-    }
-
-    proc show_diff {txt command} {
-      diff::parse_unified_diff $txt $command
     }
 
   }
