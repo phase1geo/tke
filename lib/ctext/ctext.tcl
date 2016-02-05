@@ -64,6 +64,7 @@ proc ctext {win args} {
   set ctext::data($win,config,-diff_mode)             0
   set ctext::data($win,config,-diffsubbg)             "pink"
   set ctext::data($win,config,-diffaddbg)             "light green"
+  set ctext::data($win,config,-folding)               0
   set ctext::data($win,config,re_opts)                ""
   set ctext::data($win,config,win)                    $win
   set ctext::data($win,config,modified)               0
@@ -88,7 +89,7 @@ proc ctext {win args} {
 
   set ctext::data($win,config,ctextFlags) [list -xscrollcommand -yscrollcommand -linemap -linemapfg -linemapbg \
   -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable \
-  -linemap_cursor -highlightcolor \
+  -linemap_cursor -highlightcolor -folding \
   -linemap_select_fg -linemap_select_bg -linemap_relief -linemap_minwidth -linemap_type -casesensitive -peer \
   -undo -maxundo -autoseparators -diff_mode -diffsubbg -diffaddbg]
 
@@ -147,7 +148,7 @@ proc ctext {win args} {
   grid $win.t -row 0 -column 2 -sticky news
 
   # Hide the linemap and separator if we are specified to do so
-  if {!$ctext::data($win,config,-linemap) && !$ctext::data($win,config,-linemap_markable)} {
+  if {!$ctext::data($win,config,-linemap) && !$ctext::data($win,config,-linemap_markable) && !ctext::data($win,config,-folding)} {
     grid remove $win.l
     grid remove $win.f
   }
@@ -264,7 +265,30 @@ proc ctext::buildArgParseTable win {
 
   lappend argTable {0 false no} -linemap {
     set data($win,config,-linemap) 0
-    if {([llength $data($win,config,gutters)] == 0) && !$data($win,config,-linemap_markable)} {
+    if {([llength $data($win,config,gutters)] == 0) && !$data($win,config,-linemap_markable) && !$data($win,config,-folding)} {
+      catch {
+        grid remove $win.l
+        grid remove $win.f
+      }
+    } else {
+      ctext::linemapUpdate $win
+    }
+    break
+  }
+
+  lappend argTable {1 true yes} -folding {
+    set data($win,config,-folding) 1
+    catch {
+      grid $win.l
+      grid $win.f
+    }
+    ctext::linemapUpdate $win
+    break
+  }
+
+  lappend argTable {0 false no} -folding {
+    set data($win,config,-folding) 0
+    if {([llength $data($win,config,gutters)] == 0) && !$data($win,config,-linemap_markable) && !$data($win,config,-linemap)} {
       catch {
         grid remove $win.l
         grid remove $win.f
