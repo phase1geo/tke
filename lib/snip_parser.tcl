@@ -1,5 +1,5 @@
 # TKE - Advanced Programmer's Editor
-# Copyright (C) 2014  Trevor Williams (phase1geo@gmail.com)
+# Copyright (C) 2014-2016  Trevor Williams (phase1geo@gmail.com)
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -3630,50 +3630,50 @@ proc snip_parse {} {
                 set _ $1
                 set ::snip_lval [lindex $snip_value_stack end]
                 switch -- $snip_rule {
-                    1 { 
+                    1 {
         set ::snip_value $1
        }
-                    2 { 
+                    2 {
            set _ [concat $1 [list $2 {}]]
           }
-                    3 { 
+                    3 {
            set _ [concat $1 [list $2 {}]]
           }
-                    4 { 
+                    4 {
            set _ [concat $1 $2]
           }
-                    5 { 
+                    5 {
            set _ [concat $1 $2]
           }
-                    6 { 
+                    6 {
            set _ [concat $1 [list $2 {}]]
           }
-                    7 { 
+                    7 {
            set _ [list $1 {}]
           }
-                    8 { 
+                    8 {
            set _ [list $1 {}]
           }
-                    9 { 
+                    9 {
            set _ $1
           }
-                    10 { 
+                    10 {
            set _ $1
           }
-                    11 { 
+                    11 {
            set _ [list $1 {}]
           }
-                    12 { 
+                    12 {
            if {[set val [snippets::get_tabstop $::snip_txtt $2]] ne ""} {
              set _ [list $val {}]
            } else {
              set _ [list "\$$2" [snippets::set_tabstop $::snip_txtt $2]]
            }
           }
-                    13 { 
+                    13 {
            set _ [apply_tabstop $5 [snippets::set_tabstop $::snip_txtt $3 $5]]
           }
-                    14 { 
+                    14 {
              if {[set val [snippets::get_tabstop $::snip_txtt $3]] ne ""} {
                set regexp_opts [list]
                if {[string first g $9] != -1} {
@@ -3684,30 +3684,30 @@ proc snip_parse {} {
                set _ [list [get_retval $1 $2 $3 $4 $5 $6 $7 $8 $9 $10] [snippets::set_tabstop $::snip_txtt $3]]
              }
             }
-                    15 { 
+                    15 {
              if {[set val [snippets::get_tabstop $::snip_txtt $3]] ne ""} {
                set _ [list [parse_format $7 [regexp -inline -- $5 $val]] [list]]
              } else {
                set _ [list [get_retval $1 $2 $3 $4 $5 $6 $7 $8 $9] [snippets::set_tabstop $::snip_txtt $3]]
              }
             }
-                    16 { 
+                    16 {
             set _ $2
            }
-                    17 { 
+                    17 {
             set _ [expr {($3 eq "") ? $5 : $3}]
            }
-                    18 { 
+                    18 {
             set regexp_opts [list]
             if {[string first g $9] != -1} {
               lappend regexp_opts "-all"
             }
             set _ [parse_format $7 [regexp -inline {*}$regexp_opts -- $5 $3]]
            }
-                    19 { 
+                    19 {
             set _ [parse_format $7 [regexp -inline -- $5 $3]]
            }
-                    20 { 
+                    20 {
            set txtt $::snip_txtt
            switch $1 {
              SELECTED_TEXT { set _ [expr {![catch { $txtt get sel.first sel.last } rc] ? $rc : ""}] }
@@ -3722,241 +3722,241 @@ proc snip_parse {} {
              CURRENT_DATE  { set _ [clock format [clock seconds] -format "%m/%d/%Y"] }
            }
           }
-                    21 { 
+                    21 {
            set _ "$1$2"
           }
-                    22 { 
+                    22 {
            set _ "$1\n"
           }
-                    23 { 
+                    23 {
            set _ "$1\t"
           }
-                    24 { 
+                    24 {
            set _ "$1$2"
           }
-                    25 { 
+                    25 {
            set _ "$1\$"
           }
-                    26 { 
+                    26 {
            set _ "$1\("
           }
-                    27 { 
+                    27 {
            set _ "$1)"
           }
-                    28 { 
+                    28 {
            set _ "?"
           }
-                    29 { 
+                    29 {
            set _ $1
           }
-                    30 { 
+                    30 {
            set _ "\n"
           }
-                    31 { 
+                    31 {
            set _ "\t"
           }
-                    32 { 
+                    32 {
            set _ $1
           }
-                    33 { 
+                    33 {
            set _ "\$"
           }
-                    34 { 
+                    34 {
            set _ "("
           }
-                    35 { 
+                    35 {
            set _ ")"
           }
-                    36 { 
+                    36 {
            set _ "?"
           }
-                    37 { 
+                    37 {
         set _ "$1$2"
        }
-                    38 { 
+                    38 {
         set _ $1
        }
-                    39 { 
+                    39 {
          set _ [merge_values $1 [list $2 {}]]
         }
-                    40 { 
+                    40 {
          set _ [merge_values $1 [list "\n" {}]]
         }
-                    41 { 
+                    41 {
          set _ [merge_values $1 [list "\t" {}]]
         }
-                    42 { 
+                    42 {
          set _ [merge_values $1 [list $2 {}]]
         }
-                    43 { 
+                    43 {
          set _ [merge_values $1 [list "/" {}]]
         }
-                    44 { 
+                    44 {
          set _ [merge_values $1 [list $2 {}]]
         }
-                    45 { 
+                    45 {
          set _ [merge_values $1 [list $2 {}]]
         }
-                    46 { 
+                    46 {
          set _ [concat $1 $2]
         }
-                    47 { 
+                    47 {
          set _ [list $1 {}]
         }
-                    48 { 
+                    48 {
          set _ [list "\n" {}]
         }
-                    49 { 
+                    49 {
          set _ [list "\t" {}]
         }
-                    50 { 
+                    50 {
          set _ [list $1 {}]
         }
-                    51 { 
+                    51 {
          set _ [list "/" {}]
         }
-                    52 { 
+                    52 {
          set _ [list $1 {}]
         }
-                    53 { 
+                    53 {
          set _ [list $1 {}]
         }
-                    54 { 
+                    54 {
          set _ $1
         }
-                    55 { 
+                    55 {
         set _ "$1$2"
        }
-                    56 { 
+                    56 {
         set _ "$1\\n"
        }
-                    57 { 
+                    57 {
         set _ "$1\\t"
        }
-                    58 { 
+                    58 {
         set _ "$1$2"
        }
-                    59 { 
+                    59 {
         set _ "$1/"
        }
-                    60 { 
+                    60 {
         set _ "$1\("
        }
-                    61 { 
+                    61 {
         set _ "$1)"
        }
-                    62 { 
+                    62 {
         set _ "$1?"
        }
-                    63 { 
+                    63 {
         set _ "$1:"
        }
-                    64 { 
+                    64 {
         set _ "$1$2"
        }
-                    65 { 
+                    65 {
         set _ "$1$2"
        }
-                    66 { 
+                    66 {
         set _ $1
        }
-                    67 { 
+                    67 {
         set _ "\\n"
        }
-                    68 { 
+                    68 {
         set _ "\\t"
        }
-                    69 { 
+                    69 {
         set _ $1
        }
-                    70 { 
+                    70 {
         set _ "/"
        }
-                    71 { 
+                    71 {
         set _ "("
        }
-                    72 { 
+                    72 {
         set _ ")"
        }
-                    73 { 
+                    73 {
         set _ "?"
        }
-                    74 { 
+                    74 {
         set _ ":"
        }
-                    75 { 
+                    75 {
         set _ $1
        }
-                    76 { 
+                    76 {
         set _ $1
        }
-                    77 { 
+                    77 {
          set _ [expr {![catch "exec $2" rc] ? $rc : ""}]
         }
-                    78 { 
+                    78 {
           set _ "$1$2"
          }
-                    79 { 
+                    79 {
           set _ "$1\n"
          }
-                    80 { 
+                    80 {
           set _ "$1\t"
          }
-                    81 { 
+                    81 {
           set _ "$1$2"
          }
-                    82 { 
+                    82 {
           set _ "$1?"
          }
-                    83 { 
+                    83 {
           set _ "$1$2"
          }
-                    84 { 
+                    84 {
           set _ "$1$2"
          }
-                    85 { 
+                    85 {
           set _ "$1\$$3"
          }
-                    86 { 
+                    86 {
           set _ $1
          }
-                    87 { 
+                    87 {
           set _ "\n"
          }
-                    88 { 
+                    88 {
           set _ "\t"
          }
-                    89 { 
+                    89 {
           set _ $1
          }
-                    90 { 
+                    90 {
           set _ "?"
          }
-                    91 { 
+                    91 {
           set _ $1
          }
-                    92 { 
+                    92 {
           set _ $1
          }
-                    93 { 
+                    93 {
           set _ "\$$2"
          }
-                    94 { 
+                    94 {
               set _ "$1$2"
              }
-                    95 { 
+                    95 {
               set _ "$1$2"
              }
-                    96 { 
+                    96 {
               set _ "$1$2$3"
              }
-                    97 { 
+                    97 {
               set _ "$1$2$3"
              }
-                    98 { 
+                    98 {
                set _ [get_retval $1 $2 $3 $4 $5 $6]
               }
-                    99 { 
+                    99 {
                set _ [get_retval $1 $2 $3 $4 $5 $6 $7 $8]
               }
                 }
