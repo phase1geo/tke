@@ -148,7 +148,7 @@ proc ctext {win args} {
   grid $win.t -row 0 -column 2 -sticky news
 
   # Hide the linemap and separator if we are specified to do so
-  if {!$ctext::data($win,config,-linemap) && !$ctext::data($win,config,-linemap_markable) && !ctext::data($win,config,-folding)} {
+  if {!$ctext::data($win,config,-linemap) && !$ctext::data($win,config,-linemap_markable) && !$ctext::data($win,config,-folding)} {
     grid remove $win.l
     grid remove $win.f
   }
