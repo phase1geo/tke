@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-  
-<!-- Copyright 2014 Trevor Williams <phase1geo@gmail.com> -->
+
+<!-- Copyright 2014-2016 Trevor Williams <phase1geo@gmail.com> -->
 <application>
   <id type="desktop">tke.desktop</id>
   <metadata_license>CC0-1.0</metadata_license>
@@ -15,6 +15,8 @@
     <p>
       <ul>
         <li>Syntax highlighting</li>
+        <li>Session support</li>
+        <li>File templating</li>
         <li>Multi-cursor support</li>
         <li>File difference view mode</li>
         <li>Internationalization support</li>

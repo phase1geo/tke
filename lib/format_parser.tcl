@@ -1,5 +1,5 @@
 # TKE - Advanced Programmer's Editor
-# Copyright (C) 2014  Trevor Williams (phase1geo@gmail.com)
+# Copyright (C) 2014-2016  Trevor Williams (phase1geo@gmail.com)
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -1237,77 +1237,77 @@ proc format_parse {} {
                 set _ $1
                 set ::format_lval [lindex $format_value_stack end]
                 switch -- $format_rule {
-                    1 { 
+                    1 {
         set ::format_value $1
        }
-                    2 { 
+                    2 {
           set _ "$1$2"
          }
-                    3 { 
+                    3 {
           set _ "$1\\n"
          }
-                    4 { 
+                    4 {
           set _ "$1\\t"
          }
-                    5 { 
+                    5 {
           set _ "$1$2"
          }
-                    6 { 
+                    6 {
           set _ "$1?"
          }
-                    7 { 
+                    7 {
           set _ "$1$2"
          }
-                    8 { 
+                    8 {
           set _ "$1$2"
          }
-                    9 { 
+                    9 {
           set _ [lindex $::format_matches $3]
          }
-                    10 { 
+                    10 {
           set _ $1
          }
-                    11 { 
+                    11 {
           set _ "\\n"
          }
-                    12 { 
+                    12 {
           set _ "\\t"
          }
-                    13 { 
+                    13 {
           set _ $1
          }
-                    14 { 
+                    14 {
           set _ "?"
          }
-                    15 { 
+                    15 {
           set _ $1
          }
-                    16 { 
+                    16 {
           set _ $1
          }
-                    17 { 
+                    17 {
           set _ [lindex $::format_matches $2]
          }
-                    18 { 
+                    18 {
               set _ "[string tolower [string index $2 0]][string range $2 1 end]"
              }
-                    19 { 
+                    19 {
               set _ [string totitle $2]
              }
-                    20 { 
+                    20 {
               set _ [string tolower $2]
              }
-                    21 { 
+                    21 {
               set _ [string toupper $2]
              }
-                    22 { 
+                    22 {
                if {[llength [lindex $::format_matches end]] <= $3} {
                  set _ $5
                } else {
                  set _ ""
                }
               }
-                    23 { 
+                    23 {
                if {[llength [lindex $::format_matches end]] <= $3} {
                  set _ $5
                } else {

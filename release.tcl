@@ -1,7 +1,7 @@
 #!tclsh8.5
 
 # TKE - Advanced Programmer's Editor
-# Copyright (C) 2014  Trevor Williams (phase1geo@gmail.com)
+# Copyright (C) 2014-2016  Trevor Williams (phase1geo@gmail.com)
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ source [file join lib version.tcl]
 source specl_version.tcl
 
 proc usage {} {
-  
+
   puts ""
   puts "Usage:  tclsh8.5 release.tcl -- \[options\]"
   puts ""
@@ -57,13 +57,13 @@ proc usage {} {
   puts ""
   puts "       hg tag --remove <tag>"
   puts ""
-  
+
   exit
-  
+
 }
 
 proc get_latest_major_minor_point {} {
-  
+
   if {![catch "exec -ignorestderr hg tags" rc]} {
     set last_major 0
     set last_minor 0
@@ -95,15 +95,15 @@ proc get_latest_major_minor_point {} {
     }
     return [list $last_major $last_minor $last_point]
   }
-  
+
   return -code error "Unable to retrieve latest tag"
-  
+
 }
 
 proc generate_changelog {tag} {
-  
+
   puts -nonewline "Generating ChangeLog...  "; flush stdout
-  
+
   if {$tag eq ""} {
     if {[catch { exec -ignorestderr hg log -v -r "branch(default)" > ChangeLog } rc]} {
       puts "failed!"
@@ -117,39 +117,39 @@ proc generate_changelog {tag} {
       return -code error "Unable to generate ChangeLog"
     }
   }
-  
+
   puts "done."
-  
+
 }
 
 proc update_version_files {major minor point} {
-  
+
   puts -nonewline "Updating version file...  "; flush stdout
-  
+
   # Update the lib/version file
   if {![catch { open [file join lib version.tcl] w } rc]} {
-    
+
     puts $rc "set version_major \"$major\""
     puts $rc "set version_minor \"$minor\""
     puts $rc "set version_point \"$point\""
     puts $rc "set version_hgid  \"[expr $::version_hgid + 1]\""
-    
-    close $rc  
-    
+
+    close $rc
+
   } else {
-    
+
     puts "failed!"
     puts "  $rc"
     return -code error "Unable to update version file"
-    
+
   }
 
   puts "done."
-    
+
 }
 
 proc create_archive {tag type} {
-  
+
   puts -nonewline "Generating $type archive...  "; flush stdout
 
   if {[string index $tag 0] eq "s"} {
@@ -157,10 +157,10 @@ proc create_archive {tag type} {
   } else {
     set version [string range $tag 6 end]
   }
-  
+
   # Calculate release directory name
   set release_dir [file normalize [file join ~ projects releases tke-$version]]
-  
+
   # Create archive
   if {[catch { exec -ignorestderr hg archive -r $tag $release_dir } rc]} {
     puts "failed!"
@@ -175,20 +175,20 @@ proc create_archive {tag type} {
     file delete -force $release_dir
     return -code error "Unable to delete doc/html directory"
   }
-  
+
   puts "done."
-  
+
   return $release_dir
-  
+
 }
 
 proc generate_linux_tarball {tag} {
-  
+
   # Create archive directory
   set release_dir [create_archive $tag Linux]
-  
+
   puts -nonewline "Preparing Linux release directory...  "; flush stdout
-  
+
   # Delete the MacOSX directory
   if {[catch { file delete -force [file join $release_dir MacOSX] } rc]} {
     puts "failed!"
@@ -196,7 +196,7 @@ proc generate_linux_tarball {tag} {
     file delete -force $release_dir
     return -code error "Unable to delete MacOSX directory"
   }
-  
+
   # Delete the Win directory
   if {[catch { file delete -force [file join $release_dir Win] } rc]} {
     puts "failed!"
@@ -204,7 +204,7 @@ proc generate_linux_tarball {tag} {
     file delete -force $release_dir
     return -code error "Unable to delete Win directory"
   }
-  
+
   # Delete the release.tcl file
   if {[catch { file delete -force [file join $release_dir release.tcl] } rc]} {
     puts "failed!"
@@ -212,9 +212,9 @@ proc generate_linux_tarball {tag} {
     file delete -force $release_dir
     return -code error "Unable to delete release.tcl"
   }
-  
+
   puts "done."
-  
+
   puts -nonewline "Generating Linux tarball...  "; flush stdout
 
   # Generate the tarball
@@ -224,29 +224,29 @@ proc generate_linux_tarball {tag} {
     file delete -force $release_dir
     return -code error "Unable to create tar file"
   }
-  
+
   # Finally, delete the release directory
   if {[catch { file delete -force $release_dir } rc]} {
     puts "failed!"
     puts "  $rc"
     return -code error "Unable to delete directory"
   }
-  
+
   puts "done."
-  
+
 }
 
 proc generate_macosx_dmg {tag} {
-  
+
   # Create archive directory
   set release_dir [create_archive $tag MacOSX]
-  
+
   puts -nonewline "Preparing MacOSX release directory...  "; flush stdout
-  
+
   set scripts_dir [file join $release_dir MacOSX Tke.app Contents Resources Scripts tke]
-  
+
   foreach dir [list data doc lib plugins specl_version.tcl specl_customize.xml LICENSE] {
-    
+
     # Delete the symbolic link
     if {[file exists [file join $scripts_dir $dir]]} {
       if {[catch { file delete -force [file join $scripts_dir $dir] } rc]} {
@@ -256,7 +256,7 @@ proc generate_macosx_dmg {tag} {
         return -code error "Unable to delete $dir link"
       }
     }
-    
+
     # Copy the directory
     if {[catch { file copy -force [file join $release_dir $dir] $scripts_dir } rc]} {
       puts "failed!"
@@ -264,13 +264,13 @@ proc generate_macosx_dmg {tag} {
       file delete -force $release_dir
       return -code error "Unable to copy $dir directory"
     }
-    
+
   }
-  
+
   puts "done."
-  
+
   puts -nonewline "Generating MacOSX disk image...  "; flush stdout
-  
+
   # Create the disk image using the hdiutil command-line utility
   if {[catch { exec -ignorestderr ./dmg.sh $release_dir } rc]} {
     puts "failed!"
@@ -278,23 +278,23 @@ proc generate_macosx_dmg {tag} {
     file delete -force $release_dir
     return -code error "Unable to create disk image"
   }
-  
+
   # Finally, delete the release directory
   if {[catch { file delete -force $release_dir } rc]} {
     puts "failed!"
     puts "  $rc"
     return -code error "Unable to delete directory"
   }
-  
+
   puts "done."
-  
+
 }
 
 proc run_specl {type major minor point release_notes release_type} {
-  
+
   # Create a new release via specl
   set specl_cmd "[info nameofexecutable] [file join lib ptwidgets1.2 library specl.tcl] -- release $type"
-  
+
   # Create version name
   if {$release_type eq "stable"} {
     set version "$major.$minor"
@@ -304,19 +304,19 @@ proc run_specl {type major minor point release_notes release_type} {
 
   # Setup specl arguments
   append specl_cmd " -n $version -r $release_type -d [file normalize [file join ~ projects releases]]"
-  
+
   if {$type eq "edit"} {
 
     # Add Linux bundle
     if {[string match Linux* $::tcl_platform(os)] || ($::tcl_platform(os) eq "Darwin")} {
       append specl_cmd " -b linux,[file normalize [file join ~ projects releases tke-$version.tgz]]"
     }
-  
+
     # Add MacOSX bundle
     if {$::tcl_platform(os) eq "Darwin"} {
       append specl_cmd " -b mac,[file normalize [file join ~ projects releases tke-$version.dmg]]"
     }
-  
+
     # Add Windows bundle
     if {[string match *Win* $::tcl_platform(os)] && 0} {
       append specl_cmd " -b win,[file normalize [file join ~ projects releases tke-$version.exe]]"
@@ -332,7 +332,7 @@ proc run_specl {type major minor point release_notes release_type} {
   } else {
     append specl_cmd " -noui"
   }
-  
+
   puts $specl_cmd
 
   # Run the specl command
@@ -343,20 +343,20 @@ proc run_specl {type major minor point release_notes release_type} {
     }
     return -code error "Unable to generate specl release information"
   }
-  
+
 }
-   
+
 catch {
-  
+
   # Initialize variables that might be overridden on the command-line
   set increment_major 0
   set generate_only   0
   set release_type    "devel"
   set release_notes   ""
-   
+
   # Parse command-line options
   set i 1
-  while {$i < $argc} { 
+  while {$i < $argc} {
     switch [lindex $argv $i] {
       -v      { puts "$version_major.$version_minor"; exit }
       -m      { set increment_major 1 }
@@ -367,7 +367,7 @@ catch {
     }
     incr i
   }
-  
+
   # Get the latest major/minor tag
   lassign [get_latest_major_minor_point] major minor point
 
@@ -379,7 +379,7 @@ catch {
   } else {
     set last_tag "devel-$major.$minor.$point"
   }
-  
+
   # Update major/minor/point values and create next_tag value
   if {!$generate_only} {
     if {$release_type eq "stable"} {
@@ -416,19 +416,19 @@ catch {
     }
     set next_tag $last_tag
   }
-   
+
   if {!$generate_only} {
-    
+
     # If a tag hasn't been created yet, just use the default branch to update the
     # ChangeLog file.
     generate_changelog $last_tag
-    
+
     # Update the version and specl_version files
     update_version_files $major $minor $point
-    
+
     # Initialize the appcast.xml file
     run_specl new $major $minor $point $release_notes $release_type
-  
+
     # Commit the ChangeLog change
     puts -nonewline "Committing and pushing ChangeLog...  "; flush stdout
     if {[catch { exec -ignorestderr hg commit -m "ChangeLog for $next_tag release" } rc]} {
@@ -436,7 +436,7 @@ catch {
       puts "  $rc"
       return -code error "Unable to commit ChangeLog"
     }
-     
+
     # Push the ChangeLog change to master
     if {[catch { exec -ignorestderr hg push } rc]} {
       puts "failed!"
@@ -444,7 +444,7 @@ catch {
       return -code error "Unable to push changelist"
     }
     puts "done."
-     
+
     # Tag the new release
     puts -nonewline "Tagging repository with $next_tag...  "; flush stdout
     if {[catch { exec -ignorestderr hg tag $next_tag } rc]} {
@@ -453,12 +453,12 @@ catch {
       return -code error "Unable to tag repository to $next_tag"
     }
     puts "done."
-    
+
   }
-  
+
   # Generate the linux tarball
   generate_linux_tarball $next_tag
-   
+
   # Generate the Mac OSX disk image
   if {$tcl_platform(os) eq "Darwin"} {
     generate_macosx_dmg $next_tag
@@ -474,8 +474,8 @@ catch {
   puts "Releases are available in: [file normalize [file join ~ projects releases]]"
   puts "Upload appcast.xml file to $specl::rss_url"
   puts ""
-    
+
   exit
-  
+
 } rc
 puts "ERROR:  $rc"
