@@ -1,5 +1,5 @@
 # TKE - Advanced Programmer's Editor
-# Copyright (C) 2014  Trevor Williams (phase1geo@gmail.com)
+# Copyright (C) 2014-2016  Trevor Williams (phase1geo@gmail.com)
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -3105,7 +3105,7 @@ namespace eval gui {
     grid .aboutwin.f.if.l6 -row 6 -column 0 -sticky news -padx 2 -pady 2
     grid .aboutwin.f.if.v6 -row 6 -column 1 -sticky news -padx 2 -pady 2
 
-    ttk::label .aboutwin.f.copyright -text [format "%s %d-%d" [msgcat::mc "Copyright"] 2013 15]
+    ttk::label .aboutwin.f.copyright -text [format "%s %d-%d" [msgcat::mc "Copyright"] 2013 16]
 
     pack .aboutwin.f.logo      -padx 2 -pady 8 -anchor w
     pack .aboutwin.f.if        -padx 2 -pady 2
