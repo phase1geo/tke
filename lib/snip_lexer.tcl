@@ -1,5 +1,5 @@
 # TKE - Advanced Programmer's Editor
-# Copyright (C) 2014  Trevor Williams (phase1geo@gmail.com)
+# Copyright (C) 2014-2016  Trevor Williams (phase1geo@gmail.com)
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -236,7 +236,7 @@ proc snip_lex {} {
                 } elseif {[string length $::snip__buffer] - $::snip__index == 0} {
                     break
                 }
-            }            
+            }
         }
         set ::snip_leng 0
         set snip__matched_rule -1
