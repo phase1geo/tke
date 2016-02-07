@@ -1476,6 +1476,9 @@ namespace eval gui {
         # Parse Vim modeline information, if needed
         [ns vim]::parse_modeline $txt
 
+        # Apply code foldings
+        [ns folding]::initialize $txt
+
         # If a diff command was specified, run and parse it now
         if {$diff} {
           [ns diff]::show $txt
