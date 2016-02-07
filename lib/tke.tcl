@@ -112,6 +112,7 @@ source [file join $tke_dir lib sessions.tcl]
 source [file join $tke_dir lib search.tcl]
 source [file join $tke_dir lib scroller.tcl]
 source [file join $tke_dir lib templates.tcl]
+source [file join $tke_dir lib folding.tcl]
 source [file join $tke_dir lib fontchooser.tcl]
 
 if {[tk windowingsystem] eq "aqua"} {
