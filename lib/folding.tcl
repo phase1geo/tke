@@ -39,7 +39,8 @@ namespace eval folding {
     add_folds $txt 1.0 end
 
     # Create a tag that will cause stuff to hide
-    $txt tag configure _folded -elide 1
+    $txt.t tag configure _folded -elide 1
+    $txt.l tag configure _folded -elide 1
 
   }
 
@@ -80,8 +81,8 @@ namespace eval folding {
   proc get_fold_range {txt line} {
 
     # Get the starting and ending position of the indentation
-    set startpos [ctext::get_match_bracket $txt curlyL $line.end]
-    set endpos   [ctext::get_match_bracket $txt curlyR $startpos]
+    set startpos [$txt index "[ctext::get_match_bracket $txt curlyL $line.end]+1l linestart"]
+    set endpos   [$txt index "[ctext::get_match_bracket $txt curlyR $startpos] linestart"]
 
     return [list $startpos $endpos]
 
@@ -89,27 +90,35 @@ namespace eval folding {
 
   ######################################################################
   # Closes a fold, hiding the contents.
-  proc close_fold {txt} {
+  proc close_fold {txt line} {
 
     # Get the fold range
-    lassign [get_fold_range $txt [lindex [split [$txt index current] .] 0]] startpos endpos
-
-    puts "close_fold, startpos: $startpos, endpos: $endpos"
+    lassign [get_fold_range $txt $line] startpos endpos
 
     # Hide the text
-    $txt tag add _folded $startpos $endpos
+    $txt.t tag add _folded $startpos $endpos
+    $txt.l tag add _folded $startpos $endpos
+
+    # Replace the open symbol with the close symbol
+    $txt gutter clear folding $line
+    $txt gutter set folding close $line
 
   }
 
   ######################################################################
   # Opens a fold, showing the contents.
-  proc open_fold {txt} {
+  proc open_fold {txt line} {
 
     # Get the tag range
-    lassign [$txt tag nextrange _folded [$txt index current]] startpos endpos
+    lassign [$txt tag nextrange _folded $line.0] startpos endpos
 
     # Remove the folded tag
-    $txt tag remove _folded $startpos $endpos
+    $txt.t tag remove _folded $startpos $endpos
+    $txt.l tag remove _folded $startpos $endpos
+
+    # Replace the close symbol with the open symbol
+    $txt gutter clear folding $line
+    $txt gutter set folding open $line
 
   }
 

@@ -1686,13 +1686,13 @@ proc ctext::command_gutter {win args} {
           $win.l tag configure $gutter_tag -foreground $sym_opts(-fg)
         }
         if {[info exists sym_opts(-onenter)]} {
-          $win.l tag bind $gutter_tag <Enter> "$sym_opts(-onenter) $win"
+          $win.l tag bind $gutter_tag <Enter> [list ctext::execute_gutter_cmd $win %y $sym_opts(-onenter)]
         }
         if {[info exists sym_opts(-onleave)]} {
-          $win.l tag bind $gutter_tag <Leave> "$sym_opts(-onleave) $win"
+          $win.l tag bind $gutter_tag <Leave> [list ctext::execute_gutter_cmd $win %y $sym_opts(-onleave)]
         }
         if {[info exists sym_opts(-onclick)]} {
-          $win.l tag bind $gutter_tag <Button-1> "$sym_opts(-onclick) $win"
+          $win.l tag bind $gutter_tag <Button-1> [list ctext::execute_gutter_cmd $win %y $sym_opts(-onclick)]
         }
         lappend gutter_tags $gutter_tag
         array unset sym_opts
@@ -1880,13 +1880,13 @@ proc ctext::command_gutter {win args} {
               $win.l tag configure $gutter_tag -foreground $value
             }
             -onenter {
-              $win.l tag bind $gutter_tag <Enter> $value
+              $win.l tag bind $gutter_tag <Enter> [list ctext::execute_gutter_cmd $win %y $value]
             }
             -onleave {
-              $win.l tag bind $gutter_tag <Leave> $value
+              $win.l tag bind $gutter_tag <Leave> [list ctext::execute_gutter_cmd $win %y $value]
             }
             -onclick {
-              $win.l tag bind $gutter_tag <Button-1> $value
+              $win.l tag bind $gutter_tag <Button-1> [list ctext::execute_gutter_cmd $win %y $value]
             }
             default {
               return -code error "Unknown gutter option ($opt) specified"
@@ -1906,6 +1906,16 @@ proc ctext::command_gutter {win args} {
       return $names
     }
   }
+
+}
+
+proc ctext::execute_gutter_cmd {win y cmd} {
+
+  # Get the line of the text widget
+  set line [lindex [split [$win.t index @0,$y] .] 0]
+
+  # Execute the command
+  uplevel #0 [list {*}$cmd $win $line]
 
 }
 
