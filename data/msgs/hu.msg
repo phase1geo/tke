@@ -201,17 +201,26 @@ msgcat::mcmset hu {
 # menus.tcl
 msgcat::mcmset hu {
 
-  "About TKE"
-  "Körülbelül TKE"
+  "About"
+  "Névjegy"
 
   "Absolute"
   "Abszolút"
 
+  "Absolute line numbering"
+  "Abszolút sorszámozás"
+
   "Align Cursors"
+  "Igazítás kurzorok"
+
+  "Align cursors"
   "Igazítás kurzorok"
 
   "Append Next Occurrence"
   "Ráakaszt a következ? alkalom emlékeztet?je"
+
+  "Append next occurrence"
+  "Ráakaszt a következő alkalom emlékeztetője"
 
   "Auto-Indent"
   "Automatikus behúzás"
@@ -222,14 +231,26 @@ msgcat::mcmset hu {
   "Bubble Up"
   "Buborék fel"
 
+  "Bubble lines down one line"
+  "Buborék vonalak egy sorral lefelé"
+
+  "Bubble lines up one line"
+  "Buborék vonalak felfelé egy sornyit"
+
   "Change Working Directory"
   "Munkakönyvtár megváltoztatása"
+
+  "Change working directory"
+  "Változás működő címtár"
 
   "Character"
   "Karakter"
 
   "Check for Update"
   "Ellenőrizze a Frissítés"
+
+  "Check for update"
+  "Frissítések keresése most"
 
   "Classic Mac"
   "Klasszikus Mac"
@@ -243,20 +264,47 @@ msgcat::mcmset hu {
   "Close Current"
   "Az aktuális lap bezárása"
 
+  "Close all tabs"
+  "Összes fül bezárása"
+
+  "Close current session"
+  "Az aktív munkafolyamat nevének megváltoztatása"
+
+  "Close current tab"
+  "Az aktuális lap bezárása"
+
   "Command"
   "Parancs"
 
   "Command Result"
   "A parancs eredménye"
 
+  "Convert case to lower"
+  "Megtérít eset, hogy az alacsonyabb"
+
+  "Convert case to title"
+  "Megtérít eset, cím"
+
+  "Convert case to upper"
+  "Megtérít eset, felső"
+
   "Copy"
   "Másolás"
+
+  "Copy text"
+  "A szöveg másolása"
 
   "Create"
   "Létrehozás"
 
   "Create at Current Line"
   "Az aktuális sor létrehozása"
+
+  "Create marker at current line"
+  "Marker létrehozása az aktuális sorhoz"
+
+  "Create new plugin"
+  "Hozzon létre új plugin"
 
   "Current Line"
   "Az aktuális sor:"
@@ -279,8 +327,53 @@ msgcat::mcmset hu {
   "Cut"
   "Kivágás"
 
+  "Cut text"
+  "Vágott szöveg"
+
+  "Delete current file"
+  "Az aktuális törlése"
+
+  "Delete current line"
+  "Az aktuális törlése"
+
+  "Delete current word"
+  "Az aktuális törlése"
+
+  "Delete from cursor to end of line"
+  "Törli a kurzor, hogy vessen véget a sor"
+
+  "Delete from start of line to cursor"
+  "Törlés a sor elejére kurzor"
+
+  "Delete session"
+  "Munkamenetek törlése"
+
+  "Delete template"
+  "Sablon törlése"
+
+  "Delete text between character"
+  "Szöveg közötti karakter törlése"
+
+  "Delete the current number"
+  "Törli az aktuális száma"
+
+  "Delete the whitespace to left of cursor"
+  "A kurzor balra szóközt törölni"
+
+  "Delete the whitespace to right of cursor"
+  "A whitespace-a kurzor jobbra törlése"
+
+  "Disable Vim mode"
+  "Vim mód letiltása"
+
   "Display Text Info"
   "Szöveg adatainak megjelenítése"
+
+  "Display text information"
+  "Megjeleníti a szöveges információk"
+
+  "Duplicate current file"
+  "Ismétlődő aktuális fájl"
 
   "Edit"
   "Szerkesztés"
@@ -288,224 +381,44 @@ msgcat::mcmset hu {
   "Edit Language"
   "Nyelvre"
 
-  "Edit Menu Edit user snippets"
-  "Szerkesztés menü Szerkesztés felhasználói mozaik"
-
-  "Edit Menu: Align cursors"
-  "Szerkesztés menü: Igazítás kurzorok"
-
-  "Edit Menu: Bubble lines down one line"
-  "Szerkesztés menü: Buborék vonalak egy sorral lefelé"
-
-  "Edit Menu: Bubble lines up one line"
-  "Szerkesztés menü: Buborék vonalak felfelé egy sornyit"
-
-  "Edit Menu: Convert case to lower"
-  "Szerkesztés menü: Megtérít eset, hogy az alacsonyabb"
-
-  "Edit Menu: Convert case to title"
-  "Szerkesztés menü: Megtérít eset cím"
-
-  "Edit Menu: Convert case to upper"
-  "Szerkesztés menü: Megtérít eset felső"
-
-  "Edit Menu: Copy text"
-  "Szerkesztés menü: Szöveg másolása"
-
-  "Edit Menu: Cut text"
-  "Szerkesztés menü: Vágott szöveg"
-
-  "Edit Menu: Delete current line"
-  "Szerkesztés menü: Az aktuális sor törlése"
-
-  "Edit Menu: Delete current word"
-  "Szerkesztés menü: Az aktuális szó törlése"
-
-  "Edit Menu: Delete from cursor to end of line"
-  "Szerkesztés menü: Törölje a kurzort a végéig sor"
-
-  "Edit Menu: Delete from start of line to cursor"
-  "Szerkesztés menü: Törlés a sor elejére kurzor"
-
-  "Edit Menu: Delete template"
-  "Szerkesztés menü: Törlés sablont"
-
-  "Edit Menu: Delete text between character"
-  "Szerkesztés menü: Szöveg közötti karakter törlése"
-
-  "Edit Menu: Delete the current number"
-  "Szerkesztés menü: Törli az aktuális száma"
-
-  "Edit Menu: Delete the whitespace to left of cursor"
-  "Szerkesztés menü: A kurzor balra szóközt törölni"
-
-  "Edit Menu: Delete the whitespace to right of cursor"
-  "Szerkesztés menü: Törölje a whitespace a kurzor jobbra"
-
-  "Edit Menu: Edit language snippets"
-  "Szerkesztés menü: Szerkesztés nyelvi mozaik"
-
-  "Edit Menu: Edit session current language preferences"
-  "Szerkesztés menü: Szerkesztési munkamenet aktuális nyelvi beállításai"
-
-  "Edit Menu: Edit session global preferences"
-  "Szerkesztés menü: Munkamenet globális beállítások szerkesztése"
-
-  "Edit Menu: Edit template"
-  "Szerkesztés menü: Szerkesztés sablon"
-
-  "Edit Menu: Edit user current language preferences"
-  "Szerkesztés menü: Sajtó alá helyez a felhasználó aktuális nyelvi beállításai"
-
-  "Edit Menu: Edit user global preferences"
-  "Szerkesztés menü: Felhasználói globális beállítások szerkesztése"
-
-  "Edit Menu: Edit user menu bindings"
-  "Szerkesztés menü: Felhasználó menü kötések szerkesztése"
-
-  "Edit Menu: Format indentation for text"
-  "Szerkesztés menü: A behúzás a szöveg formázása"
-
-  "Edit Menu: Indent selected text"
-  "Szerkesztés menü: Kijelölt szöveg behúzása"
-
-  "Edit Menu: Insert command result after current line"
-  "Szerkesztés menü: Beszúrás parancs eredménye után az aktuális sorhoz"
-
-  "Edit Menu: Insert file contents after current line"
-  "Szerkesztés menü: Fájl tartalma beszúrása után az aktuális sor"
-
-  "Edit Menu: Insert from clipboard"
-  "Szerkesztés menü: Beillesztése a vágólapról"
-
-  "Edit Menu: Insert line above current line"
-  "Szerkesztés menü: Sor felett aktuális sor beszúrása"
-
-  "Edit Menu: Insert line below current line"
-  "Szerkesztés menü: Beszúrási sorral lejjebb a sort"
-
-  "Edit Menu: Insert snippet"
-  "Szerkesztés menü: Beszúrás részlet"
-
-  "Edit Menu: Join lines"
-  "Szerkesztés menü: Illesztővonalakat"
-
-  "Edit Menu: Move cursor to bottom of screen"
-  "Szerkesztés menü: A kurzort a képernyő alsó részén"
-
-  "Edit Menu: Move cursor to end of current line"
-  "Szerkesztés menü: A kurzort a végéig az aktuális sorhoz"
-
-  "Edit Menu: Move cursor to first line"
-  "Szerkesztés menü: Mozog kurzor-hoz első sorban"
-
-  "Edit Menu: Move cursor to last line"
-  "Szerkesztés menü: Mozog kurzor-hoz utolsó vonal"
-
-  "Edit Menu: Move cursor to middle of screen"
-  "Szerkesztés menü: A kurzort a képernyő közepén"
-
-  "Edit Menu: Move cursor to next page"
-  "Szerkesztés menü: Mozog kurzor-hoz következő oldal"
-
-  "Edit Menu: Move cursor to next word"
-  "Szerkesztés menü: A kurzort a következő szó"
-
-  "Edit Menu: Move cursor to previous page"
-  "Szerkesztés menü: Kurzor mozgatása az előző lapra"
-
-  "Edit Menu: Move cursor to previous word"
-  "Szerkesztés menü: Kurzor mozgatása az előző szó"
-
-  "Edit Menu: Move cursor to start of current line"
-  "Szerkesztés menü: Mozog kurzor aktuális sor elejére"
-
-  "Edit Menu: Move cursor to top of screen"
-  "Szerkesztés menü: A kurzort a képernyő felső részén"
-
-  "Edit Menu: Move multicursors down one line"
-  "Szerkesztés menü: Multicursors lefelé lépés egy sorral"
-
-  "Edit Menu: Move multicursors left one line"
-  "Szerkesztés menü: Multicursors balra egy sor mozgatása"
-
-  "Edit Menu: Move multicursors right one line"
-  "Szerkesztés menü: Mozog, multicursors jobb egy sorban"
-
-  "Edit Menu: Move multicursors up one line"
-  "Szerkesztés menü: Mozog a multicursors felfelé egy sornyit"
-
-  "Edit Menu: Paste and format text from clipboard"
-  "Szerkesztés menü: Beillesztése és formázása a vágólapon levő szöveget"
-
-  "Edit Menu: Paste text from clipboard"
-  "Szerkesztés menü: A tészta szöveget a vágólapról"
-
-  "Edit Menu: Redo"
-  "Szerkesztés menü: visszaállítása"
-
-  "Edit Menu: Reload snippets"
-  "Szerkesztés menü: Reload töredék"
-
-  "Edit Menu: Reload template information"
-  "Szerkesztés menü: Reload információjához"
-
-  "Edit Menu: Replace line with script"
-  "Szerkesztés menü: Helyettesít a vonal kézírás"
-
-  "Edit Menu: Select all text"
-  "Szerkesztés menü: Minden szöveg kijelölése"
-
-  "Edit Menu: Set indent mode to IND"
-  "Szerkesztés menü: IND rovátka mód beállítása"
-
-  "Edit Menu: Set indent mode to IND+"
-  "Szerkesztés menü: Rovátka mód beállítása IND +"
-
-  "Edit Menu: Set indent mode to OFF"
-  "Szerkesztés menü: Rovátka mód készlet-hoz távoli"
-
-  "Edit Menu: Set user bindings to global bindings"
-  "Szerkesztés menü: Kötések felhasználói beállítva globális kötések"
-
-  "Edit Menu: Set user preferences to global preferences"
-  "Szerkesztés menü: Felhasználói beállítások a globális beállítások megadása"
-
-  "Edit Menu: Toggle case of current character"
-  "Szerkesztés menü: Váltás az aktuális karakter"
-
-  "Edit Menu: Toggle comment"
-  "Szerkesztés menü: Toggle comment"
-
-  "Edit Menu: Undo"
-  "Szerkesztés menü: visszavonás"
-
-  "Edit Menu: Unindent selected text"
-  "Szerkesztés menü: Kiengedése kijelölt szöveg"
-
-  "Edit Menu: View base preferences file"
-  "Szerkesztés menü: Kilátás alap beállításokat tartalmazó fájlt"
-
-  "Edit Menu: View global menu bindings"
-  "Szerkesztés menü: Nézd globális menü kötések"
-
-  "Edit Session - Global"
-  "Munkamenet - globális módosítása"
-
-  "Edit Session - Language"
-  "Munkamenet - nyelvre"
+  "Edit Session"
+  "Élő munkamenet szerkesztése"
 
   "Edit User"
   "Felhasználó szerkesztése"
 
-  "Edit User - Global"
-  "Edit User - globális"
+  "Edit language snippets"
+  "Sajtó alá helyez a nyelvi mozaik"
 
-  "Edit User - Language"
-  "Felhasználó - nyelvre"
+  "Edit session current language preferences"
+  "Munkamenet aktuális nyelvi beállítások szerkesztése"
+
+  "Edit session global preferences"
+  "Munkamenet globális beállítások szerkesztése"
+
+  "Edit template"
+  "Sablon szerkesztése"
+
+  "Edit user current language preferences"
+  "Szerkesztheti a felhasználó aktuális nyelvi beállításai"
+
+  "Edit user global preferences"
+  "Felhasználói globális beállítások szerkesztése"
+
+  "Edit user menu bindings"
+  "Felhasználó menü kötések szerkesztése"
+
+  "Edit user snippets"
+  "Kódrészletek felhasználó szerkesztése"
+
+  "Enable Vim mode"
+  "Vim-üzemmód engedélyezése"
 
   "Enumeration"
   "számláló"
+
+  "Favorite file"
+  "Kedvenc"
 
   "File"
   "Fájl"
@@ -513,161 +426,44 @@ msgcat::mcmset hu {
   "File Contents"
   "Fájl tartalma"
 
-  "File Menu: Change working directory"
-  "Fájl menü: Munkakönyvtár megváltoztatására"
-
-  "File Menu: Close all tabs"
-  "Fájl menü: Minden lap bezárása"
-
-  "File Menu: Close current tab"
-  "Fájl menü: Zár időszerű pánt"
-
-  "File Menu: Delete current file"
-  "Fájl menü: A jelenlegi fájl törlése"
-
-  "File Menu: Duplicate current file"
-  "Fájl menü: Két példányban az aktuális fájl"
-
-  "File Menu: Favorite file"
-  "Fájl menü: Kedvenc fájl"
-
-  "File Menu: Lock file"
-  "Fájl menü: Zárolófájlt"
-
-  "File Menu: New file"
-  "Fájl menü: Új fájl"
-
-  "File Menu: New file from template"
-  "Fájl menü: Új fájl sablonból"
-
-  "File Menu: New window"
-  "Fájl menü: Új ablakban"
-
-  "File Menu: Open Favorite"
-  "Fájl menü: A Megnyitás kedvenc"
-
-  "File Menu: Open Recent"
-  "Fájl Legutóbbi megnyitása"
-
-  "File Menu: Open directory"
-  "Fájl menü: Open directory"
-
-  "File Menu: Open file"
-  "Fájl menü: Fájl megnyitása"
-
-  "File Menu: Quit application"
-  "Fájl menü: Kilép alkalmazás"
-
-  "File Menu: Rename current file"
-  "Fájl menü: A jelenlegi fájl átnevezése"
-
-  "File Menu: Reopen current file"
-  "Fájl menü: Nyissa meg az aktuális fájl"
-
-  "File Menu: Save all files"
-  "Fájl menü: Minden fájlokat menteni."
-
-  "File Menu: Save file"
-  "Fájl menü: A fájl mentése"
-
-  "File Menu: Save file as"
-  "Fájl menü: Mentse a fájlt"
-
-  "File Menu: Save file as template"
-  "Fájl menü: Fájl mentése sablonként"
-
-  "File Menu: Save selected lines"
-  "Fájl menü: Kijelölt sorok mentése"
-
-  "File Menu: Set current file line ending to CR for Classic Mac"
-  "Fájl menü: Állítsa be az aktuális fájl vonal megszüntetése a CR klasszikus Mac"
-
-  "File Menu: Set current file line ending to CRLF for Windows"
-  "Fájl menü: Állítsa be az aktuális fájl sorvégi CRLF for Windows"
-
-  "File Menu: Set current file line ending to LF for Unix"
-  "Fájl menü: Állítsa be az aktuális fájl vonal megszüntetése az LF UNIX"
-
-  "File Menu: Show file difference"
-  "Fájl menü: Térkép fájl különbség"
-
-  "File Menu: Unfavorite file"
-  "Fájl menü: A Unfavorite fájl"
-
-  "File Menu: Unlock file"
-  "Fájl menü: Kinyit a fájlt"
-
   "Find In Files"
   "Keresés fájlokban..."
 
   "Find Matching Pair"
   "Keressük meg a megfelel? pár"
 
-  "Find Menu: Append next occurrence"
-  "Keresés menü: Ráakaszt a következő alkalom emlékeztetője"
-
-  "Find Menu: Create marker at current line"
-  "Keresés menü: Marker létrehozása az aktuális sorhoz"
-
-  "Find Menu: Find"
-  "Még menü: még"
-
-  "Find Menu: Find and Replace"
-  "Keresés menü: Keresés és csere"
-
-  "Find Menu: Find in files"
-  "Keresés menü: Talál fájlok"
-
-  "Find Menu: Find matching character pair"
-  "Keresés menü: Találni jelleg párja"
-
-  "Find Menu: Find next occurrence"
-  "Keresés menü: Megtalálni a következő alkalom emlékeztetője"
-
-  "Find Menu: Find previous occurrence"
-  "Keresés menü: Talál előző"
-
-  "Find Menu: Goto next difference"
-  "Keresés menü: Goto következő különbség"
-
-  "Find Menu: Goto previous difference"
-  "Keresés menü: Goto előző különbség"
-
-  "Find Menu: Jump backward"
-  "Keresés menü: Ugrás hátra"
-
-  "Find Menu: Jump forward"
-  "Keresés menü: Ugrás előre"
-
-  "Find Menu: Jump to line"
-  "Keresés menü: Ugrás a sor"
-
-  "Find Menu: Remove all markers"
-  "Keresés menü: Távolítsa el az összes markerek"
-
-  "Find Menu: Remove marker from current line"
-  "Keresés menü: Jelölő eltávolítása az aktuális sor"
-
-  "Find Menu: Select all occurrences"
-  "Keresés menü: Válassza ki az összes előfordulás"
-
-  "Find Menu: Show selected line change"
-  "Keresés menü: Térkép a kiválasztott sor módosítása"
-
   "Find and Replace"
   "Keresés és csere"
+
+  "Find in files"
+  "Keresés fájlokban..."
+
+  "Find matching character pair"
+  "Találni párja karakter"
+
+  "Find next occurrence"
+  "Talál a következő alkalom emlékeztetője"
+
+  "Find previous occurrence"
+  "Még a korábbi előfordulása"
 
   "Fold All"
   "Fold minden"
 
   "Folding"
-  "�sszecsukhat�"
+  "Összecsukható"
 
   "Format Text"
   "Szöveg formázása"
 
+  "Format indentation for text"
+  "Formátum a behúzás a szöveg"
+
   "From Clipboard"
   "A vágólapról"
+
+  "Global"
+  "Összes"
 
   "Goto Last Tab"
   "Ugrás az utolsó lap"
@@ -681,23 +477,26 @@ msgcat::mcmset hu {
   "Goto Previous Tab"
   "Ugrás az előző lap"
 
+  "Goto last tab"
+  "Goto utolsó pánt"
+
+  "Goto next difference"
+  "Goto következő különbség"
+
+  "Goto next tab"
+  "Ugrás a következő lapra"
+
+  "Goto other pane"
+  "Ugrás másik ablaktábla"
+
+  "Goto previous difference"
+  "Az előző eltérés"
+
+  "Goto previous tab"
+  "﻿Előző lap"
+
   "Help"
   "Segítség"
-
-  "Help Menu: About TKE"
-  "Súgó menü: A TKE"
-
-  "Help Menu: Check for update"
-  "Súgó menü: Ellenőriz részére korszerűsíteni"
-
-  "Help Menu: Send bug report"
-  "Súgó menü: Küldj hibajelentést"
-
-  "Help Menu: Send feedback"
-  "Súgó menü: Vonatkozó visszajelzés küldése"
-
-  "Help Menu: View user guide"
-  "Súgó menüben: Nézet felhasználói útmutató"
 
   "Hide Console"
   "Elrejtése Console"
@@ -720,11 +519,35 @@ msgcat::mcmset hu {
   "Hide Tab Bar"
   "A fülek elrejtése"
 
+  "Hide console"
+  "Konzol elrejtése"
+
+  "Hide line numbers"
+  "Sorszámok elrejtése"
+
+  "Hide marker map"
+  "Elrejtése jelölőtérkép"
+
+  "Hide meta characters"
+  "Meta-karakterek elrejtése"
+
+  "Hide sidebar"
+  "Az oldalsáv elrejtése"
+
+  "Hide status bar"
+  "Az állapotsor elrejtése"
+
+  "Hide tab bar"
+  "A fülek elrejtése"
+
   "Indent"
   "Behúzás"
 
   "Indent Off"
   "Francia le"
+
+  "Indent selected text"
+  "Kijelölt szöveg behúzása"
 
   "Indentation"
   "benyomódás"
@@ -732,10 +555,37 @@ msgcat::mcmset hu {
   "Insert"
   "Beillesztés"
 
+  "Insert command result after current line"
+  "Aktuális sor után helyezze be a parancs eredménye"
+
+  "Insert enumeration"
+  "Helyezze be a számbavétel"
+
+  "Insert file contents after current line"
+  "Aktuális sor után helyezze be a fájl tartalma"
+
+  "Insert from clipboard"
+  "Beszúrás a vágólapról"
+
+  "Insert line above current line"
+  "Aktuális sor fölött sor beszúrása"
+
+  "Insert line below current line"
+  "Helyezze be a sorral lejjebb a sort"
+
+  "Insert snippet"
+  "Kódrészlet beszúrása"
+
   "Install"
   "Telepítés"
 
+  "Install plugin"
+  "A plugin telepítése"
+
   "Join Lines"
+  "Sorok összevonása"
+
+  "Join lines"
   "Sorok összevonása"
 
   "Jump Backward"
@@ -746,6 +596,18 @@ msgcat::mcmset hu {
 
   "Jump To Line"
   "Ugrás a sor"
+
+  "Jump backward"
+  "Ugrás hátra"
+
+  "Jump forward"
+  "Ugrás elõre"
+
+  "Jump to line"
+  "Ugrás a sor"
+
+  "Language"
+  "Nyelv"
 
   "Launcher"
   "Rakétaindító állvány"
@@ -768,19 +630,25 @@ msgcat::mcmset hu {
   "Lock"
   "Zárolás"
 
+  "Lock file"
+  "Zároló fájl"
+
   "Lower Case"
   "Alsó-ügy"
 
   "Markers"
   "Markerek"
 
+  "Menu"
+  "Menü"
+
   "Menu Bindings"
   "Menü Bindings"
 
-  "Menus: About TKE"
-  "Menük: A TKE"
-
   "Merge Panes"
+  "Összeolvad ablaktáblát"
+
+  "Merge panes"
   "Összeolvad ablaktáblát"
 
   "Move Cursors Down"
@@ -794,6 +662,51 @@ msgcat::mcmset hu {
 
   "Move Cursors Up"
   "Kurzorok feljebb"
+
+  "Move cursor to bottom of screen"
+  "Mozgassa a kurzort a képernyő alsó részén"
+
+  "Move cursor to end of current line"
+  "Mozgassa a kurzort a végéig az aktuális sorhoz"
+
+  "Move cursor to first line"
+  "Vigye a kurzort az első sorban"
+
+  "Move cursor to last line"
+  "Mozog kurzor-hoz utolsó vonal"
+
+  "Move cursor to middle of screen"
+  "Mozgassa a kurzort a képernyő közepén"
+
+  "Move cursor to next page"
+  "Mozog kurzor-hoz következő oldal"
+
+  "Move cursor to next word"
+  "Kurzor áthelyezése a következő szó"
+
+  "Move cursor to previous page"
+  "Kurzor mozgatása az előző oldalra"
+
+  "Move cursor to previous word"
+  "Kurzor áthelyezése az előző szó"
+
+  "Move cursor to start of current line"
+  "Mozgassa a kurzort a jelenlegi sor elejére"
+
+  "Move cursor to top of screen"
+  "Mozgassa a kurzort a képernyő felső részén"
+
+  "Move multicursors down one line"
+  "Multicursors lefelé lépés egy sorral"
+
+  "Move multicursors left one line"
+  "Multicursors balra egy sor mozgatása"
+
+  "Move multicursors right one line"
+  "Multicursors jobb egy sor mozgatása"
+
+  "Move multicursors up one line"
+  "Áthelyezés multicursors felfelé egy sornyit"
 
   "Move to First Line"
   "Első sorban áthelyezése"
@@ -828,11 +741,23 @@ msgcat::mcmset hu {
   "Move to Screen Top"
   "Mozgatni a képernyőn tetején"
 
+  "Move to other pane"
+  "Áthelyezése másik ablaktábla"
+
   "New From Template"
   "Új sablonból"
 
   "New Window"
   "Új ablak"
+
+  "New file"
+  "Új fájl..."
+
+  "New file from template"
+  "Új sablonból"
+
+  "New window"
+  "Új ablakban"
 
   "Next Difference"
   "A következ? eltérés"
@@ -849,26 +774,26 @@ msgcat::mcmset hu {
   "Open Recent"
   "Legutóbbi megnyitása"
 
+  "Open directory"
+  "Felső szintű könyvtár:"
+
+  "Open file"
+  "Fájl megnyitása"
+
   "Paste"
   "Beillesztés"
 
   "Paste and Format"
   "Paste és formátum"
 
+  "Paste and format text from clipboard"
+  "Beillesztés és a formátum a vágólapon levő szöveget"
+
+  "Paste text from clipboard"
+  "Szöveg beillesztése a vágólapról"
+
   "Plugins"
   "Pluginek"
-
-  "Plugins Menu: Create new plugin"
-  "Menü dugó: Hozzon létre új plugin"
-
-  "Plugins Menu: Install plugin"
-  "Plugin menüben: Telepítse a plugin"
-
-  "Plugins Menu: Reload all plugins"
-  "Dugó menü: Reload minden dugó"
-
-  "Plugins Menu: Uninstall plugin"
-  "Dugó menü: Távolítsa el a plugin"
 
   "Preferences"
   "Preferencia"
@@ -888,14 +813,29 @@ msgcat::mcmset hu {
   "Quit"
   "Kilépés"
 
+  "Quit application"
+  "Kilépés az alkalmazásból"
+
   "Redo"
   "Ismét"
 
   "Relative"
   "Átlagos"
 
+  "Relative line numbering"
+  "Relatív sorszámozás"
+
   "Reload"
   "Újratölt"
+
+  "Reload all plugins"
+  "Újratöltése minden dugó"
+
+  "Reload snippets"
+  "Reload-töredék"
+
+  "Reload template information"
+  "Reload információjához"
 
   "Remove All Markers"
   "Összes jelöl?jének eltávolítása"
@@ -903,20 +843,38 @@ msgcat::mcmset hu {
   "Remove From Current Line"
   "Távolítsa el az aktuális sorból"
 
+  "Remove all markers"
+  "Összes jelölőjének eltávolítása"
+
+  "Remove marker from current line"
+  "Jelölő eltávolítása az aktuális sorhoz"
+
+  "Rename current file"
+  "Aktuális fájl átnevezése"
+
   "Reopen File"
   "Nyissa meg a fájlt"
 
+  "Reopen current file"
+  "Nyissa meg az aktuális fájl"
+
   "Replace Line With Script"
+  "Helyettesít a vonal kézírás"
+
+  "Replace line with script"
   "Helyettesít a vonal kézírás"
 
   "Reset User to Base"
   "Reset a felhasználói bázis"
 
-  "Restart TKE"
-  "Indítsa újra a TKE"
+  "Restart"
+  "Újraindítás"
 
-  "Run BIST"
-  "Fuss BIST"
+  "Run"
+  "Futtatás"
+
+  "Run theme editor"
+  "Fuss téma szerkesztő"
 
   "Save All"
   "Az összes dokumentum mentése"
@@ -930,6 +888,27 @@ msgcat::mcmset hu {
   "Save Selection As"
   "Save kiválasztás"
 
+  "Save all files"
+  "Minden fájl mentése"
+
+  "Save current session"
+  "El szeretné menteni az aktuális munkamenetet?"
+
+  "Save file"
+  "A fájl mentése..."
+
+  "Save file as"
+  "Mentés másként..."
+
+  "Save file as template"
+  "A sablon mentése"
+
+  "Save selected lines"
+  "Kijelölt sorok mentése"
+
+  "Save sessions as"
+  "Megment a gyűlés mint"
+
   "Select All"
   "Összes kijelölése"
 
@@ -942,29 +921,26 @@ msgcat::mcmset hu {
   "Select Previous Occurrence"
   "Jelölje be az el?z?t"
 
+  "Select all occurrences"
+  "Válassza ki az összes előfordulás"
+
+  "Select all text"
+  "Az összes szöveg kijelölése"
+
   "Send Bug Report"
   "Hibajelentés küldése."
 
   "Send Feedback"
   "Visszajelzés küldése"
 
+  "Send bug report"
+  "Hibajelentés küldése."
+
+  "Send feedback"
+  "Visszajelzés küldése"
+
   "Sessions"
   "Ülések"
-
-  "Sessions Menu: Close current session"
-  "Sessions menüben: Aktuális munkamenet lezárása"
-
-  "Sessions Menu: Delete session"
-  "Sessions menüben: Delete munkamenet"
-
-  "Sessions Menu: Save current session"
-  "Sessions menüben: Aktuális munkamenet mentése"
-
-  "Sessions Menu: Save sessions as"
-  "Sessions menüben: Menteni a munkamenetek"
-
-  "Sessions Menu: Switch to session"
-  "Sessions menüben: Kapcsol-hoz gyűlés"
 
   "Set Syntax"
   "Beállítása Syntax"
@@ -974,6 +950,24 @@ msgcat::mcmset hu {
 
   "Set User to Global"
   "Állítsa be a felhasználó, a globális"
+
+  "Set current file line ending to CR for Classic Mac"
+  "Állítsa be az aktuális fájl vonal megszüntetése a CR klasszikus Mac"
+
+  "Set current file line ending to CRLF for Windows"
+  "Állítsa be az aktuális fájl sorvégi CRLF for Windows"
+
+  "Set current file line ending to LF for Unix"
+  "Állítsa be az aktuális fájl vonal megszüntetése az LF UNIX"
+
+  "Set indent mode to"
+  "Rovátka mód beállítása"
+
+  "Set user bindings to global bindings"
+  "Állítsa be a felhasználó kötések globális kötések"
+
+  "Set user preferences to global preferences"
+  "Állítsa be a felhasználói beállítások a globális beállítások"
 
   "Show Console"
   "Megjelenítése Console"
@@ -1008,6 +1002,39 @@ msgcat::mcmset hu {
   "Show Tab Bar"
   "A fülek megjelenítése"
 
+  "Show console"
+  "Térkép-konzol"
+
+  "Show diagnostic logfile"
+  "Diagnosztikai naplófájl megjelenítése"
+
+  "Show file difference"
+  "Térkép fájl különbség"
+
+  "Show last profiling report"
+  "Utolsó profil jelentés megjelenítése"
+
+  "Show line numbers"
+  "A sorszámok megjelenítése"
+
+  "Show marker map"
+  "Jelölős Térkép megjelenítése"
+
+  "Show meta characters"
+  "Meta-karakterek megjelenítése"
+
+  "Show selected line change"
+  "Megjelenítése a kijelölt sor módosítása"
+
+  "Show sidebar"
+  "Oldalsáv megjelenítése?"
+
+  "Show status bar"
+  "Az állapotsor megjelenítése"
+
+  "Show tab bar"
+  "A fülek megjelenítése"
+
   "Smart Indent"
   "Intelligens francia"
 
@@ -1020,14 +1047,26 @@ msgcat::mcmset hu {
   "Sort Tabs"
   "Sort Tabs"
 
+  "Sort tabs"
+  "Lapok rendezése"
+
   "Start Profiling"
   "Kezdje Profiling"
+
+  "Start profiling"
+  "Profilkészítés indítása"
 
   "Stop Profiling"
   "Állítsa Profiling"
 
+  "Stop profiling"
+  "Profilkészítés leállítása"
+
   "Switch To"
   "Kapcsol-hoz"
+
+  "Switch to session"
+  "Kapcsol-hoz gyűlés"
 
   "Tabs"
   "Lapfülek"
@@ -1038,9 +1077,6 @@ msgcat::mcmset hu {
   "Text Between Character"
   "Karakter közé szöveget helyezünk"
 
-  "Text Menu: Insert enumeration"
-  "Szöveget a menüben: Beszúrás felsorolása"
-
   "Title Case"
   "Szókezdő nagybetű"
 
@@ -1050,35 +1086,17 @@ msgcat::mcmset hu {
   "Toggle Comment"
   "Váltás Comment"
 
+  "Toggle case of current character"
+  "Váltás az aktuális karakter"
+
+  "Toggle comment"
+  "Megjegyzés ki-/ bekapcsolása"
+
+  "Toggle split view mode"
+  "Toggle osztott nézetben"
+
   "Tools"
   "Eszközök"
-
-  "Tools Menu: Disable Vim mode"
-  "Eszközök menü: Vim mód letiltása"
-
-  "Tools Menu: Enable Vim mode"
-  "Eszközök menü: Vim-üzemmód engedélyezése"
-
-  "Tools Menu: Restart TKE"
-  "Eszközök menü: Újraindítás TKE"
-
-  "Tools Menu: Run BIST"
-  "Eszközök menü: Fuss BIST"
-
-  "Tools Menu: Run theme editor"
-  "Eszközök menü: Fuss témaszerkesztő"
-
-  "Tools Menu: Show diagnostic logfile"
-  "Eszközök menü: Diagnosztikai naplófájl megjelenítése"
-
-  "Tools Menu: Show last profiling report"
-  "Eszközök menü: Utolsó profil jelentés megjelenítése"
-
-  "Tools Menu: Start profiling"
-  "Eszközök menü: Profilkészítés indítása"
-
-  "Tools Menu: Stop profiling"
-  "Eszközök menü: Stop profilírozás (profilkialakítás)"
 
   "Transform"
   "transzformáció"
@@ -1086,20 +1104,32 @@ msgcat::mcmset hu {
   "Undo"
   "Visszavonás"
 
+  "Unfavorite file"
+  "Unfavorite fájl"
+
   "Unfold All"
   "Bontakozik ki, minden"
 
   "Unindent"
   "Behúzásának megszüntetése"
 
+  "Unindent selected text"
+  "A kijelölt szöveg kiengedése"
+
   "Uninstall"
   "Eltávolítás"
+
+  "Uninstall plugin"
+  "Távolítsa el a plugin"
 
   "Unix"
   "Unix"
 
   "Unlock"
   "Kinyit"
+
+  "Unlock file"
+  "Fájl kinyit"
 
   "Upper Case"
   "Nagybetű"
@@ -1116,86 +1146,14 @@ msgcat::mcmset hu {
   "View Global"
   "Globális nézet"
 
-  "View Menu: Absolute line numbering"
-  "Nézet menü: Abszolút sorszámozás"
+  "View base preferences file"
+  "Nézetfájl alap beállítások"
 
-  "View Menu: Display text information"
-  "Nézet menü: A szöveges információk jelennek meg"
+  "View global menu bindings"
+  "Nézd globális menü kötések"
 
-  "View Menu: Fold All"
-  "N�zet men�: Hajtsa be minden"
-
-  "View Menu: Goto last tab"
-  "Nézet menü: Goto utolsó pánt"
-
-  "View Menu: Goto next tab"
-  "Nézet menü: Goto következő pánt"
-
-  "View Menu: Goto other pane"
-  "Nézet menü: Goto másik ablaktábla"
-
-  "View Menu: Goto previous tab"
-  "Nézet menü: Goto előző pánt"
-
-  "View Menu: Hide console"
-  "Nézet menü: A konzol elrejtése"
-
-  "View Menu: Hide line numbers"
-  "Nézet menü: Hide sorszámok"
-
-  "View Menu: Hide marker map"
-  "Nézet menü: Jelölős Térkép elrejtése"
-
-  "View Menu: Hide meta characters"
-  "Nézet menü: A meta-karakterek elrejtése"
-
-  "View Menu: Hide sidebar"
-  "Nézet menü: Hide tálaló"
-
-  "View Menu: Hide status bar"
-  "Nézet menü: Elrejtése állapotsor"
-
-  "View Menu: Hide tab bar"
-  "Nézet menü: Eldug pánt büfé"
-
-  "View Menu: Merge panes"
-  "Nézet menü: Összeolvad ablaktáblát"
-
-  "View Menu: Move to other pane"
-  "Nézet menü: Áthelyezése másik ablaktábla"
-
-  "View Menu: Relative line numbering"
-  "Nézet menü: A relatív sorszámozás"
-
-  "View Menu: Show console"
-  "Nézet menü: Térkép konzol"
-
-  "View Menu: Show line numbers"
-  "Nézet menü: Térkép-sorszámok"
-
-  "View Menu: Show marker map"
-  "Nézet menü: Jelölős Térkép megjelenítése"
-
-  "View Menu: Show meta characters"
-  "Nézet menü: A meta-karakterek megjelenítése"
-
-  "View Menu: Show sidebar"
-  "Nézet menü: Térkép tálaló"
-
-  "View Menu: Show status bar"
-  "Nézet menü: Megjelenítése az állapotsorban"
-
-  "View Menu: Show tab bar"
-  "Nézet menü: Térkép pánt büfé"
-
-  "View Menu: Sort tabs"
-  "Nézet menü: Sort tabs"
-
-  "View Menu: Toggle split view mode"
-  "Nézet menü: Toggle osztott nézetben"
-
-  "View Menu: Unfold All"
-  "N�zet men�: Bontakozik ki, minden"
+  "View user guide"
+  "Használati útmutató"
 
   "Vim Mode"
   "Vim Mode"

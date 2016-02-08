@@ -214,13 +214,13 @@ msgcat::mcmset sv {
   "Justera markÃ¶rer"
 
   "Align cursors"
-  "Justera markörer"
+  "Justera markÃ¶rer"
 
   "Append Next Occurrence"
   "LÃ¤gg nÃ¤sta fÃ¶rekomst"
 
   "Append next occurrence"
-  "Lägg nästa förekomst"
+  "LÃ¤gg nÃ¤sta fÃ¶rekomst"
 
   "Auto-Indent"
   "Automatisk indentering"
@@ -232,7 +232,7 @@ msgcat::mcmset sv {
   "Bubbla upp"
 
   "Bubble lines down one line"
-  "Bubbla linjer en rad nedåt"
+  "Bubbla linjer en rad nedÃ¥t"
 
   "Bubble lines up one line"
   "Bubbla linjer upp en rad"
@@ -241,7 +241,7 @@ msgcat::mcmset sv {
   "Ã„ndra arbetar katalog"
 
   "Change working directory"
-  "Ändra arbetskatalogen"
+  "Ã„ndra arbetskatalogen"
 
   "Character"
   "Teckenattribut"
@@ -250,7 +250,7 @@ msgcat::mcmset sv {
   "Leta efter uppdatering"
 
   "Check for update"
-  "Sök efter uppdateringar"
+  "SÃ¶k efter uppdateringar"
 
   "Classic Mac"
   "Klassiska Mac"
@@ -265,13 +265,13 @@ msgcat::mcmset sv {
   "StÃ¤ng aktuell flik"
 
   "Close all tabs"
-  "Stäng alla flikar"
+  "StÃ¤ng alla flikar"
 
   "Close current session"
-  "Stänger den nuvarande fliken och sessionen i den."
+  "StÃ¤nger den nuvarande fliken och sessionen i den."
 
   "Close current tab"
-  "Stäng aktuell flik"
+  "StÃ¤ng aktuell flik"
 
   "Command"
   "Kommando"
@@ -280,13 +280,13 @@ msgcat::mcmset sv {
   "Kommandot resultatet"
 
   "Convert case to lower"
-  "Konvertera fall till lägre"
+  "Konvertera fall till lÃ¤gre"
 
   "Convert case to title"
   "Konvertera fallet till titel"
 
   "Convert case to upper"
-  "Konvertera fallet till övre"
+  "Konvertera fallet till Ã¶vre"
 
   "Copy"
   "Kopiera"
@@ -301,7 +301,7 @@ msgcat::mcmset sv {
   "Skapa pÃ¥ aktuell rad"
 
   "Create marker at current line"
-  "Skapa markör på aktuell rad"
+  "Skapa markÃ¶r pÃ¥ aktuell rad"
 
   "Create new plugin"
   "Skapa nya plugin"
@@ -340,10 +340,10 @@ msgcat::mcmset sv {
   "Radera aktuell"
 
   "Delete from cursor to end of line"
-  "Ta bort från markören till slutet av raden"
+  "Ta bort frÃ¥n markÃ¶ren till slutet av raden"
 
   "Delete from start of line to cursor"
-  "Ta bort från början av linje till markören"
+  "Ta bort frÃ¥n bÃ¶rjan av linje till markÃ¶ren"
 
   "Delete session"
   "Ta bort session"
@@ -352,19 +352,19 @@ msgcat::mcmset sv {
   "Radera mall"
 
   "Delete text between character"
-  "Ta bort texten mellan karaktär"
+  "Ta bort texten mellan karaktÃ¤r"
 
   "Delete the current number"
   "Ta bort aktuellt nummer"
 
   "Delete the whitespace to left of cursor"
-  "Ta bort tomt utrymme till vänster om markören"
+  "Ta bort tomt utrymme till vÃ¤nster om markÃ¶ren"
 
   "Delete the whitespace to right of cursor"
-  "Ta bort blanksteg till höger om markören"
+  "Ta bort blanksteg till hÃ¶ger om markÃ¶ren"
 
   "Disable Vim mode"
-  "Inaktivera Vim läge"
+  "Inaktivera Vim lÃ¤ge"
 
   "Display Text Info"
   "Displayinformation"
@@ -388,31 +388,31 @@ msgcat::mcmset sv {
   "Redigera medlem"
 
   "Edit language snippets"
-  "Redigera språk snuttar"
+  "Redigera sprÃ¥k snuttar"
 
   "Edit session current language preferences"
-  "Redigera session aktuella språkinställningar"
+  "Redigera session aktuella sprÃ¥kinstÃ¤llningar"
 
   "Edit session global preferences"
-  "Redigera globala inställningar för session"
+  "Redigera globala instÃ¤llningar fÃ¶r session"
 
   "Edit template"
   "Redigera mall"
 
   "Edit user current language preferences"
-  "Redigera nuvarande språk användarinställningar"
+  "Redigera nuvarande sprÃ¥k anvÃ¤ndarinstÃ¤llningar"
 
   "Edit user global preferences"
-  "Redigera globala användarinställningar"
+  "Redigera globala anvÃ¤ndarinstÃ¤llningar"
 
   "Edit user menu bindings"
-  "Redigera användare menyn bindningar"
+  "Redigera anvÃ¤ndare menyn bindningar"
 
   "Edit user snippets"
-  "Redigera användare snuttar"
+  "Redigera anvÃ¤ndare snuttar"
 
   "Enable Vim mode"
-  "Aktivera Vim-läge"
+  "Aktivera Vim-lÃ¤ge"
 
   "Enumeration"
   "rÃ¤kning"
@@ -436,16 +436,16 @@ msgcat::mcmset sv {
   "SÃ¶k och ersÃ¤tt"
 
   "Find in files"
-  "Sök i filer..."
+  "SÃ¶k i filer..."
 
   "Find matching character pair"
   "Hitta matchande tecken par"
 
   "Find next occurrence"
-  "Hitta nästa förekomst"
+  "Hitta nÃ¤sta fÃ¶rekomst"
 
   "Find previous occurrence"
-  "Hitta föregående förekomst"
+  "Hitta fÃ¶regÃ¥ende fÃ¶rekomst"
 
   "Fold All"
   "Vik alla"
@@ -457,7 +457,7 @@ msgcat::mcmset sv {
   "Formatera text"
 
   "Format indentation for text"
-  "Formatet indrag för text"
+  "Formatet indrag fÃ¶r text"
 
   "From Clipboard"
   "FrÃ¥n Urklipp"
@@ -478,22 +478,22 @@ msgcat::mcmset sv {
   "GÃ¥ till fÃ¶regÃ¥ende flik"
 
   "Goto last tab"
-  "Gå till sista fliken"
+  "GÃ¥ till sista fliken"
 
   "Goto next difference"
-  "Gå till nästa skillnaden"
+  "GÃ¥ till nÃ¤sta skillnaden"
 
   "Goto next tab"
-  "Gå till nästa flik"
+  "GÃ¥ till nÃ¤sta flik"
 
   "Goto other pane"
-  "Gå till annan fönsterruta"
+  "GÃ¥ till annan fÃ¶nsterruta"
 
   "Goto previous difference"
-  "Föregående skillnad"
+  "FÃ¶regÃ¥ende skillnad"
 
   "Goto previous tab"
-  "Föregående flik"
+  "FÃ¶regÃ¥ende flik"
 
   "Help"
   "HjÃ¤lp"
@@ -520,25 +520,25 @@ msgcat::mcmset sv {
   "Hide Tab Bar"
 
   "Hide console"
-  "Dölja konsolen"
+  "DÃ¶lja konsolen"
 
   "Hide line numbers"
-  "Dölj radnummer"
+  "DÃ¶lj radnummer"
 
   "Hide marker map"
-  "Dölja markörkarta"
+  "DÃ¶lja markÃ¶rkarta"
 
   "Hide meta characters"
-  "Dölja meta tecken"
+  "DÃ¶lja meta tecken"
 
   "Hide sidebar"
-  "Göm Sidokolumn?"
+  "GÃ¶m Sidokolumn?"
 
   "Hide status bar"
-  "Dölja statusfältet"
+  "DÃ¶lja statusfÃ¤ltet"
 
   "Hide tab bar"
-  "Dölja flikraden"
+  "DÃ¶lja flikraden"
 
   "Indent"
   "Indrag"
@@ -559,16 +559,16 @@ msgcat::mcmset sv {
   "Infoga kommandot resultatet efter aktuell rad"
 
   "Insert enumeration"
-  "Infoga uppräkning"
+  "Infoga upprÃ¤kning"
 
   "Insert file contents after current line"
-  "Infoga filen innehållet efter aktuell rad"
+  "Infoga filen innehÃ¥llet efter aktuell rad"
 
   "Insert from clipboard"
   "Infoga via urklipp"
 
   "Insert line above current line"
-  "Infoga rad ovanför aktuell rad"
+  "Infoga rad ovanfÃ¶r aktuell rad"
 
   "Insert line below current line"
   "Infoga rad under aktuell rad"
@@ -598,16 +598,16 @@ msgcat::mcmset sv {
   "Hoppa till rad"
 
   "Jump backward"
-  "Hoppa bakåt"
+  "Hoppa bakÃ¥t"
 
   "Jump forward"
-  "Hoppa framåt"
+  "Hoppa framÃ¥t"
 
   "Jump to line"
   "Hoppa till rad"
 
   "Language"
-  "Språk"
+  "SprÃ¥k"
 
   "Launcher"
   "Launcher"
@@ -631,7 +631,7 @@ msgcat::mcmset sv {
   "Lock"
 
   "Lock file"
-  "Låsfil"
+  "LÃ¥sfil"
 
   "Lower Case"
   "SmÃ¥ bokstÃ¤ver"
@@ -649,7 +649,7 @@ msgcat::mcmset sv {
   "SlÃ¥ ihop fÃ¶nsterrutorna"
 
   "Merge panes"
-  "Slå ihop fönsterrutorna"
+  "SlÃ¥ ihop fÃ¶nsterrutorna"
 
   "Move Cursors Down"
   "Flytta markÃ¶ren nedÃ¥t"
@@ -664,49 +664,49 @@ msgcat::mcmset sv {
   "Flytta markÃ¶ren upp"
 
   "Move cursor to bottom of screen"
-  "Flytta pekaren till längst ner på skärmen"
+  "Flytta pekaren till lÃ¤ngst ner pÃ¥ skÃ¤rmen"
 
   "Move cursor to end of current line"
-  "Flytta markören till slutet av aktuell rad"
+  "Flytta markÃ¶ren till slutet av aktuell rad"
 
   "Move cursor to first line"
-  "Flytta markören till första raden"
+  "Flytta markÃ¶ren till fÃ¶rsta raden"
 
   "Move cursor to last line"
-  "Flytta markören till sista raden"
+  "Flytta markÃ¶ren till sista raden"
 
   "Move cursor to middle of screen"
-  "Flytta pekaren till mitten av skärmen"
+  "Flytta pekaren till mitten av skÃ¤rmen"
 
   "Move cursor to next page"
-  "Flytta markören till nästa sida"
+  "Flytta markÃ¶ren till nÃ¤sta sida"
 
   "Move cursor to next word"
-  "Flytta markören till nästa ord"
+  "Flytta markÃ¶ren till nÃ¤sta ord"
 
   "Move cursor to previous page"
-  "Flytta markören till föregående sida"
+  "Flytta markÃ¶ren till fÃ¶regÃ¥ende sida"
 
   "Move cursor to previous word"
-  "Flytta markören till föregående ord"
+  "Flytta markÃ¶ren till fÃ¶regÃ¥ende ord"
 
   "Move cursor to start of current line"
-  "Flytta markören till början av aktuell rad"
+  "Flytta markÃ¶ren till bÃ¶rjan av aktuell rad"
 
   "Move cursor to top of screen"
-  "Flytta markören till toppen av skärmen"
+  "Flytta markÃ¶ren till toppen av skÃ¤rmen"
 
   "Move multicursors down one line"
-  "Flytta multicursors en rad nedåt"
+  "Flytta multicursors en rad nedÃ¥t"
 
   "Move multicursors left one line"
-  "Flytta multicursors lämnade en rad"
+  "Flytta multicursors lÃ¤mnade en rad"
 
   "Move multicursors right one line"
   "Flytta multicursors just en rad"
 
   "Move multicursors up one line"
-  "Flytta multicursors en rad uppåt"
+  "Flytta multicursors en rad uppÃ¥t"
 
   "Move to First Line"
   "Flytta till fÃ¶rsta raden"
@@ -754,10 +754,10 @@ msgcat::mcmset sv {
   "Ny fil:"
 
   "New file from template"
-  "Ny från mall"
+  "Ny frÃ¥n mall"
 
   "New window"
-  "Nytt fönster"
+  "Nytt fÃ¶nster"
 
   "Next Difference"
   "NÃ¤sta skillnad"
@@ -775,10 +775,10 @@ msgcat::mcmset sv {
   "Ã–ppna senaste"
 
   "Open directory"
-  "Öppna katalog"
+  "Ã–ppna katalog"
 
   "Open file"
-  "Öppna fil"
+  "Ã–ppna fil"
 
   "Paste"
   "limma"
@@ -787,10 +787,10 @@ msgcat::mcmset sv {
   "Klistra in och format"
 
   "Paste and format text from clipboard"
-  "Klistra in och formatera text från Urklipp"
+  "Klistra in och formatera text frÃ¥n Urklipp"
 
   "Paste text from clipboard"
-  "Klistra in text från urklipp"
+  "Klistra in text frÃ¥n urklipp"
 
   "Plugins"
   "Insticksprogram"
@@ -844,25 +844,25 @@ msgcat::mcmset sv {
   "Ta bort frÃ¥n aktuell rad"
 
   "Remove all markers"
-  "Ta bort alla markörer"
+  "Ta bort alla markÃ¶rer"
 
   "Remove marker from current line"
-  "Ta bort markör från aktuell rad"
+  "Ta bort markÃ¶r frÃ¥n aktuell rad"
 
   "Rename current file"
-  "Byta namn på nuvarande fil"
+  "Byta namn pÃ¥ nuvarande fil"
 
   "Reopen File"
   "Ã–ppnar filen igen"
 
   "Reopen current file"
-  "Öppna aktuell fil"
+  "Ã–ppna aktuell fil"
 
   "Replace Line With Script"
   "ErsÃ¤tta Line med skriptet"
 
   "Replace line with script"
-  "Ersätta line med skriptet"
+  "ErsÃ¤tta line med skriptet"
 
   "Reset User to Base"
   "Ã…terstÃ¤lla anvÃ¤ndare till Base"
@@ -871,10 +871,10 @@ msgcat::mcmset sv {
   "Omstart"
 
   "Run"
-  "Körs"
+  "KÃ¶rs"
 
   "Run theme editor"
-  "Kör theme editor"
+  "KÃ¶r theme editor"
 
   "Save All"
   "Spara allt"
@@ -922,7 +922,7 @@ msgcat::mcmset sv {
   "Markera fÃ¶regÃ¥ende fÃ¶rekomst"
 
   "Select all occurrences"
-  "Markera alla förekomster"
+  "Markera alla fÃ¶rekomster"
 
   "Select all text"
   "Markera all text"
@@ -937,7 +937,7 @@ msgcat::mcmset sv {
   "Skicka felrapport."
 
   "Send feedback"
-  "Skicka omdöme"
+  "Skicka omdÃ¶me"
 
   "Sessions"
   "Sessioner"
@@ -952,22 +952,22 @@ msgcat::mcmset sv {
   "StÃ¤lla in anvÃ¤ndare till Global"
 
   "Set current file line ending to CR for Classic Mac"
-  "Ange nuvarande fil linje slutar till CR för klassiska Mac"
+  "Ange nuvarande fil linje slutar till CR fÃ¶r klassiska Mac"
 
   "Set current file line ending to CRLF for Windows"
-  "Ange nuvarande fil rader som slutar med CRLF för Windows"
+  "Ange nuvarande fil rader som slutar med CRLF fÃ¶r Windows"
 
   "Set current file line ending to LF for Unix"
-  "Ange nuvarande fil linje slutar att LF för Unix"
+  "Ange nuvarande fil linje slutar att LF fÃ¶r Unix"
 
   "Set indent mode to"
-  "Ställa in strecksatsen läge till"
+  "StÃ¤lla in strecksatsen lÃ¤ge till"
 
   "Set user bindings to global bindings"
-  "Ange användare bindningar till globala bindningar"
+  "Ange anvÃ¤ndare bindningar till globala bindningar"
 
   "Set user preferences to global preferences"
-  "Ange inställningar till globala inställningar"
+  "Ange instÃ¤llningar till globala instÃ¤llningar"
 
   "Show Console"
   "Visa konsol"
@@ -1018,13 +1018,13 @@ msgcat::mcmset sv {
   "Visa radnummer"
 
   "Show marker map"
-  "Visa markörkarta"
+  "Visa markÃ¶rkarta"
 
   "Show meta characters"
   "Meta tecken visas"
 
   "Show selected line change"
-  "Visa markerad rad förändringar"
+  "Visa markerad rad fÃ¶rÃ¤ndringar"
 
   "Show sidebar"
   "Visa sidorad"
@@ -1033,7 +1033,7 @@ msgcat::mcmset sv {
   "Visa statusrad"
 
   "Show tab bar"
-  "Visa flikfältet"
+  "Visa flikfÃ¤ltet"
 
   "Smart Indent"
   "Smart strecksatsen"
@@ -1066,7 +1066,7 @@ msgcat::mcmset sv {
   "VÃ¤xla till"
 
   "Switch to session"
-  "Växla till session"
+  "VÃ¤xla till session"
 
   "Tabs"
   "Tabbar"
@@ -1087,13 +1087,13 @@ msgcat::mcmset sv {
   "Toggle kommentar"
 
   "Toggle case of current character"
-  "Växla om nuvarande karaktär"
+  "VÃ¤xla om nuvarande karaktÃ¤r"
 
   "Toggle comment"
   "Toggle kommentar"
 
   "Toggle split view mode"
-  "Toggle split view-läge"
+  "Toggle split view-lÃ¤ge"
 
   "Tools"
   "Verktyg"
@@ -1114,7 +1114,7 @@ msgcat::mcmset sv {
   "Unindent"
 
   "Unindent selected text"
-  "Ångra indrag av markerad text"
+  "Ã…ngra indrag av markerad text"
 
   "Uninstall"
   "Avinstallera"
@@ -1129,7 +1129,7 @@ msgcat::mcmset sv {
   "LÃ¥s upp"
 
   "Unlock file"
-  "Låsa upp filen"
+  "LÃ¥sa upp filen"
 
   "Upper Case"
   "Stora bokstÃ¤ver"
@@ -1147,13 +1147,13 @@ msgcat::mcmset sv {
   "Visa globala"
 
   "View base preferences file"
-  "Visa bas inställningsfilen"
+  "Visa bas instÃ¤llningsfilen"
 
   "View global menu bindings"
   "Visa globala menyn bindningar"
 
   "View user guide"
-  "Användarhandbok"
+  "AnvÃ¤ndarhandbok"
 
   "Vim Mode"
   "Vim LÃ¤ge"

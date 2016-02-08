@@ -201,17 +201,26 @@ msgcat::mcmset he {
 # menus.tcl
 msgcat::mcmset he {
 
-  "About TKE"
-  "לגבי בבית"
+  "About"
+  "אודות"
 
   "Absolute"
   "מוחלטת"
 
+  "Absolute line numbering"
+  "מספור שורות מוחלטת"
+
   "Align Cursors"
   "????? ?????"
 
+  "Align cursors"
+  "ליישר סמנים"
+
   "Append Next Occurrence"
   "??? ????? ???"
+
+  "Append next occurrence"
+  "צרף המופע הבא"
 
   "Auto-Indent"
   "כניסה אוטומטית"
@@ -222,13 +231,25 @@ msgcat::mcmset he {
   "Bubble Up"
   "את הבועה"
 
+  "Bubble lines down one line"
+  "בועה קווי שורה אחת למטה"
+
+  "Bubble lines up one line"
+  "בועה קווי שורה אחת למעלה"
+
   "Change Working Directory"
+  "שינוי ספריית עבודה"
+
+  "Change working directory"
   "שינוי ספריית עבודה"
 
   "Character"
   "גרפמה"
 
   "Check for Update"
+  "הסימון עבור עדכון"
+
+  "Check for update"
   "הסימון עבור עדכון"
 
   "Classic Mac"
@@ -243,20 +264,47 @@ msgcat::mcmset he {
   "Close Current"
   "???? ?? ??????"
 
+  "Close all tabs"
+  "סגור הכל"
+
+  "Close current session"
+  "סגור הפעלה הנוכחי"
+
+  "Close current tab"
+  "הכרטיסיה הנוכחית קרוב"
+
   "Command"
   "הפקודה"
 
   "Command Result"
   "תוצאה הפקודה"
 
+  "Convert case to lower"
+  "להמיר את התיק כדי להוריד"
+
+  "Convert case to title"
+  "להמיר את התיק כותרת"
+
+  "Convert case to upper"
+  "להמיר את התיק העליון"
+
   "Copy"
   "להעתיק"
+
+  "Copy text"
+  "העתק טקסט"
 
   "Create"
   "צור"
 
   "Create at Current Line"
   "????? ??? ??????"
+
+  "Create marker at current line"
+  "ליצור סמן בקו הנוכחי"
+
+  "Create new plugin"
+  "ליצור תוסף חדש"
 
   "Current Line"
   "השורה הנוכחית"
@@ -279,8 +327,53 @@ msgcat::mcmset he {
   "Cut"
   "לחתוך"
 
+  "Cut text"
+  "גזור טקסט"
+
+  "Delete current file"
+  "מחיקת הקובץ הנוכחי"
+
+  "Delete current line"
+  "מחיקת השורה הנוכחית"
+
+  "Delete current word"
+  "מחיקת המילה הנוכחית"
+
+  "Delete from cursor to end of line"
+  "מחיקת הסמן כדי לסיים קו"
+
+  "Delete from start of line to cursor"
+  "מחק מתחילתו של קו כדי הסמן"
+
+  "Delete session"
+  "למחוק את הפגישה"
+
+  "Delete template"
+  "למחוק תבנית"
+
+  "Delete text between character"
+  "מחיקת טקסט בין תו"
+
+  "Delete the current number"
+  "מחק את המספר הנוכחי"
+
+  "Delete the whitespace to left of cursor"
+  "למחוק את רווח משמאל הסמן"
+
+  "Delete the whitespace to right of cursor"
+  "למחוק את רווח מימין הסמן"
+
+  "Disable Vim mode"
+  "בטל את מצב Vim"
+
   "Display Text Info"
   "להציג טקסט מידע"
+
+  "Display text information"
+  "הצג טקסט מידע"
+
+  "Duplicate current file"
+  "הקובץ הנוכחי כפולים"
 
   "Edit"
   "עריכה"
@@ -288,224 +381,44 @@ msgcat::mcmset he {
   "Edit Language"
   "עריכת שפה"
 
-  "Edit Menu Edit user snippets"
-  "ערוך תפריט עריכת קטעי משתמש"
-
-  "Edit Menu: Align cursors"
-  "תפריט עריכה: ליישר סמנים"
-
-  "Edit Menu: Bubble lines down one line"
-  "תפריט עריכה: קווים בועה שורה אחת למטה"
-
-  "Edit Menu: Bubble lines up one line"
-  "תפריט עריכה: קווים בועה שורה אחת למעלה"
-
-  "Edit Menu: Convert case to lower"
-  "תפריט עריכה: להמיר את התיק כדי להוריד"
-
-  "Edit Menu: Convert case to title"
-  "תפריט עריכה: להמיר את התיק כותרת"
-
-  "Edit Menu: Convert case to upper"
-  "תפריט עריכה: להמיר את התיק העליון"
-
-  "Edit Menu: Copy text"
-  "תפריט עריכה: העתק טקסט"
-
-  "Edit Menu: Cut text"
-  "תפריט עריכה: גזור טקסט"
-
-  "Edit Menu: Delete current line"
-  "תפריט עריכה: מחיקת השורה הנוכחית"
-
-  "Edit Menu: Delete current word"
-  "תפריט עריכה: מחיקת המילה הנוכחית"
-
-  "Edit Menu: Delete from cursor to end of line"
-  "תפריט עריכה: מחיקת הסמן כדי לסיים קו"
-
-  "Edit Menu: Delete from start of line to cursor"
-  "תפריט עריכה: למחוק מן ההתחלה של קו את סמן"
-
-  "Edit Menu: Delete template"
-  "בתפריט עריכה: תבנית מחיקה"
-
-  "Edit Menu: Delete text between character"
-  "תפריט עריכה: מחיקת טקסט בין תו"
-
-  "Edit Menu: Delete the current number"
-  "תפריט עריכה: מחק את המספר הנוכחי"
-
-  "Edit Menu: Delete the whitespace to left of cursor"
-  "תפריט עריכה: למחוק את רווח משמאל הסמן"
-
-  "Edit Menu: Delete the whitespace to right of cursor"
-  "תפריט עריכה: למחוק את רווח מימין הסמן"
-
-  "Edit Menu: Edit language snippets"
-  "תפריט עריכה: לערוך קטעי שפה"
-
-  "Edit Menu: Edit session current language preferences"
-  "תפריט עריכה: עריכה הפעלה העדפות השפה הנוכחית"
-
-  "Edit Menu: Edit session global preferences"
-  "תפריט עריכה: עריכת העדפות הכללית הפעלה"
-
-  "Edit Menu: Edit template"
-  "תפריט עריכה: עריכת תבנית"
-
-  "Edit Menu: Edit user current language preferences"
-  "תפריט עריכה: עריכת העדפות השפה הנוכחית של משתמשים"
-
-  "Edit Menu: Edit user global preferences"
-  "תפריט עריכה: עריכת העדפות משתמש גלובלי"
-
-  "Edit Menu: Edit user menu bindings"
-  "תפריט עריכה: עריכת האיגודים תפריט משתמש"
-
-  "Edit Menu: Format indentation for text"
-  "תפריט עריכה: כניסה תבנית עבור טקסט"
-
-  "Edit Menu: Indent selected text"
-  "תפריט עריכה: כניסה לטקסט שנבחר"
-
-  "Edit Menu: Insert command result after current line"
-  "תפריט עריכה: הוספה הפקודה התוצאה לאחר השורה הנוכחית"
-
-  "Edit Menu: Insert file contents after current line"
-  "תפריט עריכה: הוספת תוכן הקובץ לאחר השורה הנוכחית"
-
-  "Edit Menu: Insert from clipboard"
-  "תפריט עריכה: הוספת מהלוח"
-
-  "Edit Menu: Insert line above current line"
-  "תפריט עריכה: הוספת קו מעל השורה הנוכחית"
-
-  "Edit Menu: Insert line below current line"
-  "תפריט עריכה: הוספת קו מתחת השורה הנוכחית"
-
-  "Edit Menu: Insert snippet"
-  "תפריט עריכה: הוספת מקטע"
-
-  "Edit Menu: Join lines"
-  "תפריט עריכה: קווי צירוף"
-
-  "Edit Menu: Move cursor to bottom of screen"
-  "תפריט עריכה: להזיז את הסמן לחלק התחתון של המסך"
-
-  "Edit Menu: Move cursor to end of current line"
-  "תפריט עריכה: להזיז את הסמן כדי לסיים של השורה הנוכחית"
-
-  "Edit Menu: Move cursor to first line"
-  "תפריט עריכה: להזיז את הסמן בשורה הראשונה"
-
-  "Edit Menu: Move cursor to last line"
-  "תפריט עריכה: להזיז את הסמן בשורה האחרונה"
-
-  "Edit Menu: Move cursor to middle of screen"
-  "תפריט עריכה: להזיז את הסמן לאמצע המסך"
-
-  "Edit Menu: Move cursor to next page"
-  "תפריט עריכה: להזיז את הסמן אל הדף הבא"
-
-  "Edit Menu: Move cursor to next word"
-  "תפריט עריכה: להזיז את הסמן על המילה הבאה"
-
-  "Edit Menu: Move cursor to previous page"
-  "תפריט עריכה: להזיז את הסמן אל הדף הקודם"
-
-  "Edit Menu: Move cursor to previous word"
-  "תפריט עריכה: להזיז את הסמן על המילה הקודמת"
-
-  "Edit Menu: Move cursor to start of current line"
-  "תפריט עריכה: להזיז את הסמן אל תחילת השורה הנוכחית"
-
-  "Edit Menu: Move cursor to top of screen"
-  "תפריט עריכה: להזיז את הסמן לקצה העליון של המסך"
-
-  "Edit Menu: Move multicursors down one line"
-  "תפריט עריכה: להזיז multicursors שורה אחת למטה"
-
-  "Edit Menu: Move multicursors left one line"
-  "תפריט עריכה: להזיז קו אחד שמאלה multicursors"
-
-  "Edit Menu: Move multicursors right one line"
-  "תפריט עריכה: להזיז multicursors נכון שורה אחת"
-
-  "Edit Menu: Move multicursors up one line"
-  "תפריט עריכה: להזיז multicursors שורה אחת למעלה"
-
-  "Edit Menu: Paste and format text from clipboard"
-  "תפריט עריכה: הדבקה ועיצוב טקסט מהלוח"
-
-  "Edit Menu: Paste text from clipboard"
-  "תפריט עריכה: הדבקת טקסט מהלוח"
-
-  "Edit Menu: Redo"
-  "לתפריט עריכה: בצע שוב"
-
-  "Edit Menu: Reload snippets"
-  "בתפריט עריכה: גזירים רענן"
-
-  "Edit Menu: Reload template information"
-  "בתפריט עריכה: מידע אודות תבנית רענן"
-
-  "Edit Menu: Replace line with script"
-  "תפריט עריכה: להחליף שורת תסריט"
-
-  "Edit Menu: Select all text"
-  "תפריט עריכה: בחר את כל הטקסט"
-
-  "Edit Menu: Set indent mode to IND"
-  "תפריט עריכה: מוגדר מצב כניסה IND"
-
-  "Edit Menu: Set indent mode to IND+"
-  "תפריט עריכה: להגדיר מצב כניסה כ IND +"
-
-  "Edit Menu: Set indent mode to OFF"
-  "תפריט עריכה: הגדר כניסה למצב כבוי"
-
-  "Edit Menu: Set user bindings to global bindings"
-  "תפריט עריכה: מוגדר משתמש איגודי איגודי גלובלית"
-
-  "Edit Menu: Set user preferences to global preferences"
-  "תפריט עריכה: להגדיר העדפות המשתמש העדפות גלובלית"
-
-  "Edit Menu: Toggle case of current character"
-  "תפריט עריכה: החלפה במקרה של התו הנוכחי"
-
-  "Edit Menu: Toggle comment"
-  "תפריט עריכה: הערה דו-מצבי"
-
-  "Edit Menu: Undo"
-  "לתפריט עריכה: לבטל"
-
-  "Edit Menu: Unindent selected text"
-  "תפריט עריכה: הקטנת כניסת הטקסט הנבחר"
-
-  "Edit Menu: View base preferences file"
-  "תפריט עריכה: קובץ ההעדפות הבסיס של תצוגת"
-
-  "Edit Menu: View global menu bindings"
-  "תפריט עריכה: הצג את התפריטים הכללית איגודי"
-
-  "Edit Session - Global"
-  "????? - ????"
-
-  "Edit Session - Language"
-  "????? - ???"
+  "Edit Session"
+  "עריכה"
 
   "Edit User"
   "ערוך משתמש"
 
-  "Edit User - Global"
-  "???? ????? - ????"
+  "Edit language snippets"
+  "לערוך קטעי שפה"
 
-  "Edit User - Language"
-  "???? ????? - ???"
+  "Edit session current language preferences"
+  "עריכת העדפות השפה הנוכחית הפעלה"
+
+  "Edit session global preferences"
+  "עריכת העדפות הכללית הפעלה"
+
+  "Edit template"
+  "ערוך תבנית"
+
+  "Edit user current language preferences"
+  "עריכת העדפות השפה הנוכחית של משתמשים"
+
+  "Edit user global preferences"
+  "עריכת העדפות משתמש גלובלי"
+
+  "Edit user menu bindings"
+  "עריכת האיגודים תפריט משתמש"
+
+  "Edit user snippets"
+  "ערוך משתמש גזירים"
+
+  "Enable Vim mode"
+  "הפעלת מצב Vim"
 
   "Enumeration"
   "ספירה"
+
+  "Favorite file"
+  "קבצים האהוב עליך"
 
   "File"
   "קובץ"
@@ -513,149 +426,26 @@ msgcat::mcmset he {
   "File Contents"
   "תוכן הקובץ"
 
-  "File Menu: Change working directory"
-  "תפריט קובץ: שינוי ספריית עבודה"
-
-  "File Menu: Close all tabs"
-  "תפריט קובץ: לסגור את כל הכרטיסיות"
-
-  "File Menu: Close current tab"
-  "תפריט קובץ: סגור לשונית נוכחית"
-
-  "File Menu: Delete current file"
-  "תפריט קובץ: מחיקת הקובץ הנוכחי"
-
-  "File Menu: Duplicate current file"
-  "תפריט קובץ: שכפול קובץ הנוכחי"
-
-  "File Menu: Favorite file"
-  "בתפריט קובץ: קובץ המועדפים"
-
-  "File Menu: Lock file"
-  "בתפריט קובץ: הקובץ הנעול"
-
-  "File Menu: New file"
-  "בתפריט קובץ: קובץ חדש"
-
-  "File Menu: New file from template"
-  "תפריט קובץ: קובץ חדש מתבנית"
-
-  "File Menu: New window"
-  "בתפריט קובץ: חלון חדש"
-
-  "File Menu: Open Favorite"
-  "בתפריט קובץ: האהוב פתח"
-
-  "File Menu: Open Recent"
-  "תפריט קובץ: פתח לאחרונה"
-
-  "File Menu: Open directory"
-  "בתפריט קובץ: מדריך פתח"
-
-  "File Menu: Open file"
-  "תפריט קובץ: פתח קובץ"
-
-  "File Menu: Quit application"
-  "תפריט קובץ: לצאת מהיישום"
-
-  "File Menu: Rename current file"
-  "תפריט קובץ: שינוי שם הקובץ הנוכחי"
-
-  "File Menu: Reopen current file"
-  "תפריט קובץ: פתיחה מחדש של הקובץ הנוכחי"
-
-  "File Menu: Save all files"
-  "תפריט קובץ: לשמור את כל הקבצים"
-
-  "File Menu: Save file"
-  "תפריט קובץ: שמירת קובץ"
-
-  "File Menu: Save file as"
-  "תפריט קובץ: שמירת הקובץ כקובץ"
-
-  "File Menu: Save file as template"
-  "תפריט קובץ: שמור את הקובץ כתבנית"
-
-  "File Menu: Save selected lines"
-  "תפריט קובץ: להציל את השורות שנבחרו"
-
-  "File Menu: Set current file line ending to CR for Classic Mac"
-  "תפריט קובץ: קבע בשורה הנוכחית המסתיימת ההתר עבור Mac קלאסי"
-
-  "File Menu: Set current file line ending to CRLF for Windows"
-  "תפריט קובץ: הגדרת השורה הנוכחית של קובץ. סיום CRLF עבור Windows"
-
-  "File Menu: Set current file line ending to LF for Unix"
-  "תפריט קובץ: הגדרת השורה הנוכחית של קובץ. סיום אם עבור Unix"
-
-  "File Menu: Show file difference"
-  "תפריט קובץ: להראות ההבדל קובץ"
-
-  "File Menu: Unfavorite file"
-  "קובץ תפריט: קובץ Unfavorite"
-
-  "File Menu: Unlock file"
-  "תפריט קובץ: לפתוח את הקובץ"
-
   "Find In Files"
   "????? ?????"
 
   "Find Matching Pair"
   "????? ?? ????? ???"
 
-  "Find Menu: Append next occurrence"
-  "למצוא תפריט: הוספה המופע הבא"
-
-  "Find Menu: Create marker at current line"
-  "למצוא תפריט: ליצור סמן בקו הנוכחי"
-
-  "Find Menu: Find"
-  "למצוא בתפריט: למצוא"
-
-  "Find Menu: Find and Replace"
-  "תפריט חיפוש: חיפוש והחלפה"
-
-  "Find Menu: Find in files"
-  "למצוא תפריט: למצוא קבצים"
-
-  "Find Menu: Find matching character pair"
-  "למצוא תפריט: למצוא זוג תואם תו"
-
-  "Find Menu: Find next occurrence"
-  "למצוא תפריט: למצוא את המופע הבא"
-
-  "Find Menu: Find previous occurrence"
-  "למצוא תפריט: למצוא את המופע הקודם"
-
-  "Find Menu: Goto next difference"
-  "למצוא תפריט: ההבדל הבא Goto"
-
-  "Find Menu: Goto previous difference"
-  "למצוא תפריט: ההבדל הקודם של גוטו"
-
-  "Find Menu: Jump backward"
-  "למצוא תפריט: לקפוץ אחורה"
-
-  "Find Menu: Jump forward"
-  "למצוא תפריט: לקפוץ קדימה"
-
-  "Find Menu: Jump to line"
-  "למצוא תפריט: לקפוץ לקו"
-
-  "Find Menu: Remove all markers"
-  "למצוא תפריט: להסיר את כל הסמנים"
-
-  "Find Menu: Remove marker from current line"
-  "למצוא תפריט: הסר סמן השורה הנוכחית"
-
-  "Find Menu: Select all occurrences"
-  "למצוא תפריט: בחר כל המופעים"
-
-  "Find Menu: Show selected line change"
-  "למצוא תפריט: שינוי קו הצג שנבחרו"
-
   "Find and Replace"
   "והחלפה"
+
+  "Find in files"
+  "למצוא קבצים"
+
+  "Find matching character pair"
+  "למצוא זוג תואם תו"
+
+  "Find next occurrence"
+  "למצוא את המופע הבא"
+
+  "Find previous occurrence"
+  "למצוא את המופע הקודם"
 
   "Fold All"
   "?????? ??"
@@ -666,8 +456,14 @@ msgcat::mcmset he {
   "Format Text"
   "עיצוב טקסט"
 
+  "Format indentation for text"
+  "עיצוב כניסה עבור טקסט"
+
   "From Clipboard"
   "מהלוח"
+
+  "Global"
+  "גלובלי"
 
   "Goto Last Tab"
   "הכרטיסיה האחרונה גוטו"
@@ -681,23 +477,26 @@ msgcat::mcmset he {
   "Goto Previous Tab"
   "הכרטיסיה הקודמת גוטו"
 
+  "Goto last tab"
+  "הכרטיסיה האחרונה גוטו"
+
+  "Goto next difference"
+  "ההבדל הבא Goto"
+
+  "Goto next tab"
+  "הכרטיסייה הבא Goto"
+
+  "Goto other pane"
+  "Goto חלונית אחרת"
+
+  "Goto previous difference"
+  "ההבדל הקודם גוטו"
+
+  "Goto previous tab"
+  "הכרטיסיה הקודמת גוטו"
+
   "Help"
   "עזרה"
-
-  "Help Menu: About TKE"
-  ": תפריט עזרה אודות בבית"
-
-  "Help Menu: Check for update"
-  "בתפריט עזרה: בדוק אם יש עדכון"
-
-  "Help Menu: Send bug report"
-  "בתפריט עזרה: לשלוח דיווח הבאג"
-
-  "Help Menu: Send feedback"
-  "בתפריט עזרה: שלח משוב"
-
-  "Help Menu: View user guide"
-  "תפריט העזרה: מדריך למשתמש של תצוגת"
 
   "Hide Console"
   "להסתיר את המסוף"
@@ -720,11 +519,35 @@ msgcat::mcmset he {
   "Hide Tab Bar"
   "הסתר סרגל הלשוניות"
 
+  "Hide console"
+  "להסתיר את המסוף"
+
+  "Hide line numbers"
+  "הסתר מספרי שורות"
+
+  "Hide marker map"
+  "להסתיר את סמן מפה"
+
+  "Hide meta characters"
+  "להסתיר מטא-תווים"
+
+  "Hide sidebar"
+  "הסתרת סרגל צדדי"
+
+  "Hide status bar"
+  "להסתיר את שורת המצב"
+
+  "Hide tab bar"
+  "הסתר סרגל הלשוניות"
+
   "Indent"
   "כניסה"
 
   "Indent Off"
   "כניסה."
+
+  "Indent selected text"
+  "גודל כניסת הטקסט הנבחר"
 
   "Indentation"
   "הזחה"
@@ -732,10 +555,37 @@ msgcat::mcmset he {
   "Insert"
   "הוסף"
 
+  "Insert command result after current line"
+  "הוספת הפקודה התוצאה לאחר השורה הנוכחית"
+
+  "Insert enumeration"
+  "הוספת ספירה"
+
+  "Insert file contents after current line"
+  "להוסיף את תוכן הקובץ לאחר השורה הנוכחית"
+
+  "Insert from clipboard"
+  "הכנס מהלוח"
+
+  "Insert line above current line"
+  "הוספת קו מעל השורה הנוכחית"
+
+  "Insert line below current line"
+  "הוסף שורה מתחת השורה הנוכחית"
+
+  "Insert snippet"
+  "להוסיף מקטע"
+
   "Install"
   "התקן"
 
+  "Install plugin"
+  "להתקין תוסף"
+
   "Join Lines"
+  "קווי צירוף"
+
+  "Join lines"
   "קווי צירוף"
 
   "Jump Backward"
@@ -746,6 +596,18 @@ msgcat::mcmset he {
 
   "Jump To Line"
   "קפוץ לשורה"
+
+  "Jump backward"
+  "לקפוץ אחורה"
+
+  "Jump forward"
+  "לקפוץ קדימה"
+
+  "Jump to line"
+  "קפוץ לשורה"
+
+  "Language"
+  "שפה"
 
   "Launcher"
   "משגר"
@@ -768,20 +630,26 @@ msgcat::mcmset he {
   "Lock"
   "מנעול"
 
+  "Lock file"
+  "הקובץ הנעול"
+
   "Lower Case"
   "באותיות קטנות"
 
   "Markers"
   "סמנים"
 
+  "Menu"
+  "תפריט"
+
   "Menu Bindings"
   "תפריט איגודי"
 
-  "Menus: About TKE"
-  "תפריטים: על בבית"
-
   "Merge Panes"
   "????? ???????"
+
+  "Merge panes"
+  "מיזוג חלוניות"
 
   "Move Cursors Down"
   "להזיז סמנים"
@@ -794,6 +662,51 @@ msgcat::mcmset he {
 
   "Move Cursors Up"
   "להזיז סמנים"
+
+  "Move cursor to bottom of screen"
+  "להזיז את הסמן לחלק התחתון של המסך"
+
+  "Move cursor to end of current line"
+  "הזז את הסמן כדי לסיים של השורה הנוכחית"
+
+  "Move cursor to first line"
+  "להזיז את הסמן בשורה הראשונה"
+
+  "Move cursor to last line"
+  "להזיז את הסמן בשורה האחרונה"
+
+  "Move cursor to middle of screen"
+  "להזיז את הסמן לאמצע המסך"
+
+  "Move cursor to next page"
+  "להזיז את הסמן אל הדף הבא"
+
+  "Move cursor to next word"
+  "להזיז את הסמן על המילה הבאה"
+
+  "Move cursor to previous page"
+  "להזיז את הסמן אל הדף הקודם"
+
+  "Move cursor to previous word"
+  "להזיז את הסמן על המילה הקודמת"
+
+  "Move cursor to start of current line"
+  "להזיז את הסמן אל תחילת השורה הנוכחית"
+
+  "Move cursor to top of screen"
+  "להזיז את הסמן לקצה העליון של המסך"
+
+  "Move multicursors down one line"
+  "מהלך multicursors שורה אחת למטה"
+
+  "Move multicursors left one line"
+  "להזיז multicursors קו אחד שמאלה"
+
+  "Move multicursors right one line"
+  "להזיז קו ישר אחד multicursors"
+
+  "Move multicursors up one line"
+  "מהלך multicursors שורה אחת למעלה"
 
   "Move to First Line"
   "לעבור שורה ראשונה"
@@ -828,10 +741,22 @@ msgcat::mcmset he {
   "Move to Screen Top"
   "לעבור אל המסך העליון"
 
+  "Move to other pane"
+  "לעבור לחלונית אחרת"
+
   "New From Template"
   "תבנית חדשה"
 
   "New Window"
+  "חלון חדש"
+
+  "New file"
+  "קובץ חדש"
+
+  "New file from template"
+  "קובץ חדש מתבנית"
+
+  "New window"
   "חלון חדש"
 
   "Next Difference"
@@ -849,26 +774,26 @@ msgcat::mcmset he {
   "Open Recent"
   "פתח לאחרונה"
 
+  "Open directory"
+  "המדריך הפתוח"
+
+  "Open file"
+  "ת.פ."
+
   "Paste"
   "הדבק"
 
   "Paste and Format"
   "הדבקה ועיצוב"
 
+  "Paste and format text from clipboard"
+  "הדבקה ועיצוב טקסט מהלוח"
+
+  "Paste text from clipboard"
+  "הדבקת טקסט מהלוח"
+
   "Plugins"
   "פלאג אין"
-
-  "Plugins Menu: Create new plugin"
-  "תפריט תוספים: ליצור תוסף חדש"
-
-  "Plugins Menu: Install plugin"
-  "תפריט תוספים: להתקין תוסף"
-
-  "Plugins Menu: Reload all plugins"
-  "תפריט תוספים: רענן כל התוספים"
-
-  "Plugins Menu: Uninstall plugin"
-  "תפריט תוספים: להסיר את ההתקנה של תוסף"
 
   "Preferences"
   "אפשרויות קבועות"
@@ -888,14 +813,29 @@ msgcat::mcmset he {
   "Quit"
   ". תפסיק"
 
+  "Quit application"
+  "לצאת מהיישום"
+
   "Redo"
   "בצע שוב"
 
   "Relative"
   "יחסיות"
 
+  "Relative line numbering"
+  "מספור שורות היחסי"
+
   "Reload"
   "טען מחדש"
+
+  "Reload all plugins"
+  "רענן כל התוספים"
+
+  "Reload snippets"
+  "גזירים טען מחדש"
+
+  "Reload template information"
+  "מידע אודות תבנית טען מחדש"
 
   "Remove All Markers"
   "????? ?? ?? ??????"
@@ -903,20 +843,38 @@ msgcat::mcmset he {
   "Remove From Current Line"
   "????? ?? ????? ???????"
 
+  "Remove all markers"
+  "להסיר את כל הסמנים"
+
+  "Remove marker from current line"
+  "הסר סמן השורה הנוכחית"
+
+  "Rename current file"
+  "לשנות את שם הקובץ הנוכחי"
+
   "Reopen File"
   "הקובץ מחדש"
+
+  "Reopen current file"
+  "פתיחה מחדש של הקובץ הנוכחי"
 
   "Replace Line With Script"
   "?????? ???? ?????"
 
+  "Replace line with script"
+  "להחליף שורת תסריט"
+
   "Reset User to Base"
   "איפוס משתמש לבסיס"
 
-  "Restart TKE"
-  "???? ????"
+  "Restart"
+  "הפעלה מחדש"
 
-  "Run BIST"
-  "הפעל BIST"
+  "Run"
+  "לרוץ"
+
+  "Run theme editor"
+  "להפעיל את עורך דירוג"
 
   "Save All"
   "להציל את כולם"
@@ -930,6 +888,27 @@ msgcat::mcmset he {
   "Save Selection As"
   "להציל את הבחירה"
 
+  "Save all files"
+  "כל הקבצים"
+
+  "Save current session"
+  "להציל את ההפעלה הנוכחית"
+
+  "Save file"
+  "שמור קובץ"
+
+  "Save file as"
+  "שמור את הקובץ כקובץ"
+
+  "Save file as template"
+  "שמור את הקובץ כתבנית"
+
+  "Save selected lines"
+  "להציל את השורות שנבחרו"
+
+  "Save sessions as"
+  "לשמור הפעלות כמו"
+
   "Select All"
   "בחר את כל"
 
@@ -942,29 +921,26 @@ msgcat::mcmset he {
   "Select Previous Occurrence"
   "??? ?? ????? ?????"
 
+  "Select all occurrences"
+  "בחר כל המופעים"
+
+  "Select all text"
+  "לבחור את הכל"
+
   "Send Bug Report"
   "לשלוח דיווח הבאג"
 
   "Send Feedback"
   "שלח משוב"
 
+  "Send bug report"
+  "דוח  Bug"
+
+  "Send feedback"
+  "שלח משוב"
+
   "Sessions"
   "??????"
-
-  "Sessions Menu: Close current session"
-  "תפריט הפעלות: לסגור את ההפעלה הנוכחית"
-
-  "Sessions Menu: Delete session"
-  "תפריט הפעלות: ההפעלה Delete"
-
-  "Sessions Menu: Save current session"
-  "תפריט הפעלות: להציל את ההפעלה הנוכחית"
-
-  "Sessions Menu: Save sessions as"
-  "תפריט הפעלות: לשמור הפעלות כמו"
-
-  "Sessions Menu: Switch to session"
-  "תפריט הפעלות: מתג הפעלה"
 
   "Set Syntax"
   "תחביר קבע"
@@ -974,6 +950,24 @@ msgcat::mcmset he {
 
   "Set User to Global"
   "הגדרת משתמש גלובלי"
+
+  "Set current file line ending to CR for Classic Mac"
+  "הגדר הנוכחי בשורה המסתיימת ההתר עבור Mac קלאסי"
+
+  "Set current file line ending to CRLF for Windows"
+  "הגדר את השורה הנוכחית של קובץ. סיום CRLF עבור Windows"
+
+  "Set current file line ending to LF for Unix"
+  "הגדר את השורה הנוכחית של קובץ. סיום אם עבור Unix"
+
+  "Set indent mode to"
+  "הגדר מצב כניסה"
+
+  "Set user bindings to global bindings"
+  "מוגדר משתמש איגודי איגודי גלובלית"
+
+  "Set user preferences to global preferences"
+  "להגדיר העדפות המשתמש העדפות גלובלית"
 
   "Show Console"
   "הצג המסוף"
@@ -1008,6 +1002,39 @@ msgcat::mcmset he {
   "Show Tab Bar"
   "הצג סרגל הלשוניות"
 
+  "Show console"
+  "הצג המסוף"
+
+  "Show diagnostic logfile"
+  "הצג יומן האבחון"
+
+  "Show file difference"
+  "הצג קובץ ההבדל"
+
+  "Show last profiling report"
+  "הצג דו\"
+
+  "Show line numbers"
+  "הצג מספרי שורות"
+
+  "Show marker map"
+  "סמן הצג מפה"
+
+  "Show meta characters"
+  "הצג מטא-תווים"
+
+  "Show selected line change"
+  "להראות שינוי הקו הנבחר"
+
+  "Show sidebar"
+  "להציג סרגל צידי?"
+
+  "Show status bar"
+  "הצג את שורת המצב"
+
+  "Show tab bar"
+  "הצג סרגל הלשוניות"
+
   "Smart Indent"
   "כניסה חכמה"
 
@@ -1020,14 +1047,26 @@ msgcat::mcmset he {
   "Sort Tabs"
   "מיון כרטיסיות"
 
+  "Sort tabs"
+  "מיון כרטיסיות"
+
   "Start Profiling"
+  "התחל ליצור פרופיל"
+
+  "Start profiling"
   "התחל ליצור פרופיל"
 
   "Stop Profiling"
   "להפסיק. עם הפרופיל"
 
+  "Stop profiling"
+  "להפסיק. עם הפרופיל"
+
   "Switch To"
   "?????"
+
+  "Switch to session"
+  "מעבר להפעלה"
 
   "Tabs"
   "טאב"
@@ -1038,9 +1077,6 @@ msgcat::mcmset he {
   "Text Between Character"
   "טקסט בין תו"
 
-  "Text Menu: Insert enumeration"
-  "טקסט תפריט: הוספה ספירה"
-
   "Title Case"
   "כותרת התיק"
 
@@ -1050,35 +1086,17 @@ msgcat::mcmset he {
   "Toggle Comment"
   "????? ??-????"
 
+  "Toggle case of current character"
+  "היפוך רישיות של התו הנוכחי"
+
+  "Toggle comment"
+  "תגובה דו-מצבי"
+
+  "Toggle split view mode"
+  "מצב תצוגה מפוצל דו-מצבי"
+
   "Tools"
   "כלי"
-
-  "Tools Menu: Disable Vim mode"
-  "תפריט כלים: בטל את מצב Vim"
-
-  "Tools Menu: Enable Vim mode"
-  "תפריט כלים: הפעלת מצב Vim"
-
-  "Tools Menu: Restart TKE"
-  "תפריט כלים: הפעלה מחדש בבית"
-
-  "Tools Menu: Run BIST"
-  "בתפריט כלים: BIST הפעלה"
-
-  "Tools Menu: Run theme editor"
-  "תפריט כלים: להפעיל את עורך דירוג"
-
-  "Tools Menu: Show diagnostic logfile"
-  "תפריט כלים: הצג יומן האבחון"
-
-  "Tools Menu: Show last profiling report"
-  "תפריט כלים: הצג פרופיל הדיווח האחרון"
-
-  "Tools Menu: Start profiling"
-  "תפריט כלים: התחל ליצור פרופיל"
-
-  "Tools Menu: Stop profiling"
-  "תפריט כלים: להפסיק. עם הפרופיל"
 
   "Transform"
   "שינוי צורה"
@@ -1086,20 +1104,32 @@ msgcat::mcmset he {
   "Undo"
   "בטל"
 
+  "Unfavorite file"
+  "קובץ unfavorite"
+
   "Unfold All"
   "?????? ???"
 
   "Unindent"
   "הקטנת כניסת"
 
+  "Unindent selected text"
+  "הקטנת כניסת הטקסט הנבחר"
+
   "Uninstall"
   "הסר התקנה"
+
+  "Uninstall plugin"
+  "להסיר את ההתקנה של תוסף"
 
   "Unix"
   "Unix"
 
   "Unlock"
   "לבטל את הנעילה"
+
+  "Unlock file"
+  "לפתוח קובץ"
 
   "Upper Case"
   "אותיות רישיות"
@@ -1116,86 +1146,14 @@ msgcat::mcmset he {
   "View Global"
   "תצוגה גלובלית"
 
-  "View Menu: Absolute line numbering"
-  "בתפריט תצוגה: מספור שורות מוחלטת"
+  "View base preferences file"
+  "קובץ בסיס העדפות תצוגה"
 
-  "View Menu: Display text information"
-  "תפריט תצוגה: להציג טקסט מידע"
+  "View global menu bindings"
+  "תצוגת תפריטים כללית איגודי"
 
-  "View Menu: Fold All"
-  "????? ?????: ?????? ??"
-
-  "View Menu: Goto last tab"
-  "בתפריט תצוגה: הכרטיסיה האחרונה Goto"
-
-  "View Menu: Goto next tab"
-  "בתפריט תצוגה: הכרטיסייה הבא Goto"
-
-  "View Menu: Goto other pane"
-  "תפריט תצוגה: Goto חלונית אחרת"
-
-  "View Menu: Goto previous tab"
-  "בתפריט תצוגה: הכרטיסיה הקודמת של גוטו"
-
-  "View Menu: Hide console"
-  "בתפריט תצוגה: מסוף הסתר"
-
-  "View Menu: Hide line numbers"
-  "בתפריט תצוגה: מספרי שורות הסתר"
-
-  "View Menu: Hide marker map"
-  "תפריט תצוגה: להסתיר את סמן מפה"
-
-  "View Menu: Hide meta characters"
-  "תפריט תצוגה: להסתיר מטא-תווים"
-
-  "View Menu: Hide sidebar"
-  "בתפריט תצוגה: הסרגל הצידי של הסתרה"
-
-  "View Menu: Hide status bar"
-  "בתפריט תצוגה: שורת המצב של הסתרה"
-
-  "View Menu: Hide tab bar"
-  "בתפריט תצוגה: סרגל הלשוניות הסתר"
-
-  "View Menu: Merge panes"
-  "תפריט תצוגה: מיזוג חלוניות"
-
-  "View Menu: Move to other pane"
-  "תפריט תצוגה: לעבור לחלונית אחרת"
-
-  "View Menu: Relative line numbering"
-  "בתפריט תצוגה: מספור שורות יחסית"
-
-  "View Menu: Show console"
-  "בתפריט תצוגה: מסוף הצג"
-
-  "View Menu: Show line numbers"
-  "בתפריט תצוגה: מספרי שורות הצג"
-
-  "View Menu: Show marker map"
-  "תפריט תצוגה: סמן הצג מפה"
-
-  "View Menu: Show meta characters"
-  "תפריט תצוגה: הצג מטא-תווים"
-
-  "View Menu: Show sidebar"
-  "בתפריט תצוגה: הסרגל הצידי של הצג"
-
-  "View Menu: Show status bar"
-  "בתפריט תצוגה: שורת המצב של הצג"
-
-  "View Menu: Show tab bar"
-  "בתפריט תצוגה: סרגל הלשוניות הצג"
-
-  "View Menu: Sort tabs"
-  "תפריט תצוגה: מיון כרטיסיות"
-
-  "View Menu: Toggle split view mode"
-  "תפריט תצוגה: דו-מצבי תצוגת מצב מפוצל"
-
-  "View Menu: Unfold All"
-  "????? ?????: ?????? ???"
+  "View user guide"
+  "מדריך למשתמש תצוגה"
 
   "Vim Mode"
   "מצב vim"

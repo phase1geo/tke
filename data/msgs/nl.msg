@@ -201,16 +201,25 @@ msgcat::mcmset nl {
 # menus.tcl
 msgcat::mcmset nl {
 
-  "About TKE"
-  "Over TKE"
+  "About"
+  "Over"
 
   "Absolute"
   "Absolue"
 
+  "Absolute line numbering"
+  "Absolute regelnummering"
+
   "Align Cursors"
   "Uitlijnen van Cursors"
 
+  "Align cursors"
+  "Uitlijnen van cursors"
+
   "Append Next Occurrence"
+  "Volgende vindplaats toevoegen"
+
+  "Append next occurrence"
   "Volgende vindplaats toevoegen"
 
   "Auto-Indent"
@@ -222,14 +231,26 @@ msgcat::mcmset nl {
   "Bubble Up"
   "Bubble Up"
 
+  "Bubble lines down one line"
+  "Bubble lijnen één regel naar beneden"
+
+  "Bubble lines up one line"
+  "Bubble regels een regel omhoog"
+
   "Change Working Directory"
   "Wijzigen Working Directory"
+
+  "Change working directory"
+  "Verandering het werk folder"
 
   "Character"
   "Personages"
 
   "Check for Update"
   "Zoek naar nieuwe versies"
+
+  "Check for update"
+  "Controle voor update"
 
   "Classic Mac"
   "Klassieke Mac"
@@ -243,20 +264,47 @@ msgcat::mcmset nl {
   "Close Current"
   "Huidig tabblad sluiten"
 
+  "Close all tabs"
+  "Sluit alle lusjes"
+
+  "Close current session"
+  "De huidige sessie sluiten."
+
+  "Close current tab"
+  "Huidig tabblad sluiten"
+
   "Command"
   "besturingssignaal"
 
   "Command Result"
   "Resultaat van de opdracht"
 
+  "Convert case to lower"
+  "Converteren van geval tot lagere"
+
+  "Convert case to title"
+  "Geval converteren naar titel"
+
+  "Convert case to upper"
+  "Geval omzetten in hoofdletters"
+
   "Copy"
   "Kopiëren"
+
+  "Copy text"
+  "Kopieer Tekst"
 
   "Create"
   "Creëren"
 
   "Create at Current Line"
   "Maken op de huidige regel"
+
+  "Create marker at current line"
+  "Markering op de huidige regel maken"
+
+  "Create new plugin"
+  "Nieuwe plugin maken"
 
   "Current Line"
   "Huidige regel:"
@@ -279,8 +327,53 @@ msgcat::mcmset nl {
   "Cut"
   "Knip"
 
+  "Cut text"
+  "Tekst knippen"
+
+  "Delete current file"
+  "Huidige verwijderen"
+
+  "Delete current line"
+  "Huidige verwijderen"
+
+  "Delete current word"
+  "Huidige verwijderen"
+
+  "Delete from cursor to end of line"
+  "Verwijderen van cursor tot einde van regel"
+
+  "Delete from start of line to cursor"
+  "Begin van regel verwijderen met de cursor"
+
+  "Delete session"
+  "Verwijder sessie"
+
+  "Delete template"
+  "Sjabloon verwijderen"
+
+  "Delete text between character"
+  "Tekst tussen tekens verwijderen"
+
+  "Delete the current number"
+  "Verwijdert u het huidige nummer"
+
+  "Delete the whitespace to left of cursor"
+  "De witruimte links van de cursor verwijderen"
+
+  "Delete the whitespace to right of cursor"
+  "De witruimte naar rechts van de cursor verwijderen"
+
+  "Disable Vim mode"
+  "Vim-modus uitschakelen"
+
   "Display Text Info"
   "Schermtekst"
+
+  "Display text information"
+  "Tekst van de vertoningsinformatie"
+
+  "Duplicate current file"
+  "Dubbele huidig bestand"
 
   "Edit"
   "Bewerken"
@@ -288,224 +381,44 @@ msgcat::mcmset nl {
   "Edit Language"
   "Bewerk Taal"
 
-  "Edit Menu Edit user snippets"
-  "Menu bewerken gebruiker fragmenten bewerken"
-
-  "Edit Menu: Align cursors"
-  "Bewerkingsmenu: Uitlijnen cursors"
-
-  "Edit Menu: Bubble lines down one line"
-  "Bewerkingsmenu: Bubble lijnen één regel naar beneden"
-
-  "Edit Menu: Bubble lines up one line"
-  "Bewerkingsmenu: Bubble lijnen een regel omhoog"
-
-  "Edit Menu: Convert case to lower"
-  "Bewerkingsmenu: Convert geval te verlagen"
-
-  "Edit Menu: Convert case to title"
-  "Bewerkingsmenu: Geval omzetten in titel"
-
-  "Edit Menu: Convert case to upper"
-  "Bewerkingsmenu: Geval omzetten in hoofdletters"
-
-  "Edit Menu: Copy text"
-  "Bewerkingsmenu: Tekst van het exemplaar"
-
-  "Edit Menu: Cut text"
-  "Bewerkingsmenu: Tekst knippen"
-
-  "Edit Menu: Delete current line"
-  "Bewerkingsmenu: Huidige regel verwijderen"
-
-  "Edit Menu: Delete current word"
-  "Bewerkingsmenu: Huidige woord verwijderen"
-
-  "Edit Menu: Delete from cursor to end of line"
-  "Bewerkingsmenu: Verwijderen van cursor tot einde van regel"
-
-  "Edit Menu: Delete from start of line to cursor"
-  "Bewerkingsmenu: Verwijderen uit begin van regel met de cursor"
-
-  "Edit Menu: Delete template"
-  ": Bewerken verwijderen menusjabloon"
-
-  "Edit Menu: Delete text between character"
-  "Bewerkingsmenu: Tekst tussen teken verwijderen"
-
-  "Edit Menu: Delete the current number"
-  "Bewerkingsmenu: Verwijdert u het huidige nummer"
-
-  "Edit Menu: Delete the whitespace to left of cursor"
-  "Bewerkingsmenu: De witruimte links van de cursor verwijderen"
-
-  "Edit Menu: Delete the whitespace to right of cursor"
-  "Bewerkingsmenu: De witruimte naar rechts van de cursor verwijderen"
-
-  "Edit Menu: Edit language snippets"
-  "Bewerkingsmenu: Edit taal fragmenten"
-
-  "Edit Menu: Edit session current language preferences"
-  "Bewerkingsmenu: Sessie huidige taalvoorkeuren bewerken"
-
-  "Edit Menu: Edit session global preferences"
-  "Bewerkingsmenu: Sessie globale voorkeuren bewerken"
-
-  "Edit Menu: Edit template"
-  "Bewerkingsmenu: Template bewerken"
-
-  "Edit Menu: Edit user current language preferences"
-  "Bewerkingsmenu: Gebruikersvoorkeuren voor de huidige taal bewerken"
-
-  "Edit Menu: Edit user global preferences"
-  "Bewerkingsmenu: Global Gebruikersvoorkeuren bewerken"
-
-  "Edit Menu: Edit user menu bindings"
-  "Bewerkingsmenu: Gebruiker menu bindingen bewerken"
-
-  "Edit Menu: Format indentation for text"
-  "Bewerkingsmenu: Opmaak inspringing van tekst"
-
-  "Edit Menu: Indent selected text"
-  "Bewerkingsmenu: Geselecteerde tekst laten inspringen"
-
-  "Edit Menu: Insert command result after current line"
-  "Bewerkingsmenu: Opdracht resultaat invoegen na de huidige regel"
-
-  "Edit Menu: Insert file contents after current line"
-  "Bewerkingsmenu: Bestandsinhoud invoegen na de huidige regel"
-
-  "Edit Menu: Insert from clipboard"
-  "Bewerkingsmenu: Invoegen uit klembord"
-
-  "Edit Menu: Insert line above current line"
-  "Bewerkingsmenu: Regel boven de huidige regel invoegen"
-
-  "Edit Menu: Insert line below current line"
-  "Bewerkingsmenu: Regel onder de huidige regel invoegen"
-
-  "Edit Menu: Insert snippet"
-  "Bewerkingsmenu: Invoegen fragment"
-
-  "Edit Menu: Join lines"
-  "Bewerkingsmenu: Joinlijnen"
-
-  "Edit Menu: Move cursor to bottom of screen"
-  "Bewerkingsmenu: Cursor verplaatsen naar onderkant van scherm"
-
-  "Edit Menu: Move cursor to end of current line"
-  "Bewerkingsmenu: Beweeg cursor naar het einde van de huidige regel"
-
-  "Edit Menu: Move cursor to first line"
-  "Bewerkingsmenu: Cursor verplaatsen naar de eerste regel"
-
-  "Edit Menu: Move cursor to last line"
-  "Bewerkingsmenu: Cursor verplaatsen naar laatste regel"
-
-  "Edit Menu: Move cursor to middle of screen"
-  "Bewerkingsmenu: Cursor verplaatsen naar het midden van het scherm"
-
-  "Edit Menu: Move cursor to next page"
-  "Bewerkingsmenu: Cursor verplaatsen naar volgende pagina"
-
-  "Edit Menu: Move cursor to next word"
-  "Bewerkingsmenu: Cursor verplaatsen naar het volgende woord"
-
-  "Edit Menu: Move cursor to previous page"
-  "Bewerkingsmenu: Cursor verplaatsen naar vorige pagina"
-
-  "Edit Menu: Move cursor to previous word"
-  "Bewerkingsmenu: Cursor verplaatsen naar het vorige woord"
-
-  "Edit Menu: Move cursor to start of current line"
-  "Bewerkingsmenu: Cursor verplaatsen naar het begin van de huidige regel"
-
-  "Edit Menu: Move cursor to top of screen"
-  "Bewerkingsmenu: Cursor naar de bovenkant van het scherm"
-
-  "Edit Menu: Move multicursors down one line"
-  "Bewerkingsmenu: Multicursors een regel omlaag gaan"
-
-  "Edit Menu: Move multicursors left one line"
-  "Bewerkingsmenu: Multicursors links Eén regel gaan"
-
-  "Edit Menu: Move multicursors right one line"
-  "Bewerkingsmenu: Verplaatsen multicursors rechtermuisknop één regel"
-
-  "Edit Menu: Move multicursors up one line"
-  "Bewerkingsmenu: Multicursors één regel naar boven verplaatsen"
-
-  "Edit Menu: Paste and format text from clipboard"
-  "Bewerkingsmenu: Plakken en indeling tekst vanaf klembord"
-
-  "Edit Menu: Paste text from clipboard"
-  "Bewerkingsmenu: Tekst vanaf klembord plakken"
-
-  "Edit Menu: Redo"
-  "Menu bewerken: opnieuw uitvoeren"
-
-  "Edit Menu: Reload snippets"
-  "Bewerkingsmenu: Reload fragmenten"
-
-  "Edit Menu: Reload template information"
-  "Bewerkingsmenu: Reload sjablooninformatie"
-
-  "Edit Menu: Replace line with script"
-  "Bewerkingsmenu: Regel vervangen door script"
-
-  "Edit Menu: Select all text"
-  "Bewerkingsmenu: Selecteer alle tekst"
-
-  "Edit Menu: Set indent mode to IND"
-  "Bewerkingsmenu: Streepje modus instelt op IND"
-
-  "Edit Menu: Set indent mode to IND+"
-  "Bewerkingsmenu: Streepje modus instelt op IND +"
-
-  "Edit Menu: Set indent mode to OFF"
-  "Bewerkingsmenu: Streepje modus ingesteld op OFF"
-
-  "Edit Menu: Set user bindings to global bindings"
-  "Bewerkingsmenu: Gebruiker serverbindingen instellen naar globale bindings"
-
-  "Edit Menu: Set user preferences to global preferences"
-  "Bewerkingsmenu: Gebruikersvoorkeuren naar algemene voorkeuren instellen"
-
-  "Edit Menu: Toggle case of current character"
-  "Bewerkingsmenu: Toggle geval van huidige karakter"
-
-  "Edit Menu: Toggle comment"
-  "Bewerkingsmenu: Toggle commentaar"
-
-  "Edit Menu: Undo"
-  "Menu bewerken: ongedaan maken"
-
-  "Edit Menu: Unindent selected text"
-  "Bewerkingsmenu: Geselecteerde tekst inspringen"
-
-  "Edit Menu: View base preferences file"
-  "Bewerkingsmenu: Basis voorkeurenbestand bekijken"
-
-  "Edit Menu: View global menu bindings"
-  "Bewerkingsmenu: Bekijken globaal menu bindingen"
-
-  "Edit Session - Global"
-  "Session - Global bewerken"
-
-  "Edit Session - Language"
-  "Session - taal bewerken"
+  "Edit Session"
+  "Live sessie bewerken"
 
   "Edit User"
   "Order bewerken"
 
-  "Edit User - Global"
-  "Bewerken gebruiker - Global"
+  "Edit language snippets"
+  "Fragmenten van de taal bewerken"
 
-  "Edit User - Language"
-  "Bewerken gebruiker - taal"
+  "Edit session current language preferences"
+  "Sessie huidige taalvoorkeuren bewerken"
+
+  "Edit session global preferences"
+  "Globale sessie-voorkeuren bewerken"
+
+  "Edit template"
+  "Wijzig sjabloon"
+
+  "Edit user current language preferences"
+  "Gebruikersvoorkeuren voor de huidige taal bewerken"
+
+  "Edit user global preferences"
+  "Global Gebruikersvoorkeuren bewerken"
+
+  "Edit user menu bindings"
+  "Gebruiker menu bindingen bewerken"
+
+  "Edit user snippets"
+  "Bewerken gebruiker fragmenten"
+
+  "Enable Vim mode"
+  "Vim-modus inschakelen"
 
   "Enumeration"
   "telling"
+
+  "Favorite file"
+  "Favoriete bestand"
 
   "File"
   "Bestand"
@@ -513,149 +426,26 @@ msgcat::mcmset nl {
   "File Contents"
   "file-inhoud"
 
-  "File Menu: Change working directory"
-  "Bestandsmenu: Verandering het werk folder"
-
-  "File Menu: Close all tabs"
-  "Bestandsmenu: Sluit alle tabbladen"
-
-  "File Menu: Close current tab"
-  "Bestandsmenu: Sluit huidige tabblad"
-
-  "File Menu: Delete current file"
-  "Bestandsmenu: Verwijder het huidige bestand"
-
-  "File Menu: Duplicate current file"
-  "Bestandsmenu: Huidige bestand dupliceren"
-
-  "File Menu: Favorite file"
-  "Bestandsmenu: Favoriet bestand"
-
-  "File Menu: Lock file"
-  "Bestandsmenu: Vergrendelingsbestand"
-
-  "File Menu: New file"
-  "Bestandsmenu: Nieuw bestand"
-
-  "File Menu: New file from template"
-  "Bestandsmenu: Nieuw bestand van sjabloon"
-
-  "File Menu: New window"
-  "Bestandsmenu: Nieuw venster"
-
-  "File Menu: Open Favorite"
-  "Bestandsmenu: Open favoriet"
-
-  "File Menu: Open Recent"
-  "Beeld Inspecteur tonen"
-
-  "File Menu: Open directory"
-  "Bestandsmenu: Open Folder"
-
-  "File Menu: Open file"
-  "Bestandsmenu: Open bestand"
-
-  "File Menu: Quit application"
-  "Bestandsmenu: Toepassing afsluiten"
-
-  "File Menu: Rename current file"
-  "Bestandsmenu: Huidige bestand hernoemen"
-
-  "File Menu: Reopen current file"
-  "Bestandsmenu: Huidige bestand opnieuw te openen"
-
-  "File Menu: Save all files"
-  "Bestandsmenu: Alle bestanden opslaan"
-
-  "File Menu: Save file"
-  "Bestandsmenu: Bestand opslaan"
-
-  "File Menu: Save file as"
-  "Bestandsmenu: Bestand opslaan als"
-
-  "File Menu: Save file as template"
-  "Bestandsmenu: Bestand opslaan als sjabloon"
-
-  "File Menu: Save selected lines"
-  "Bestandsmenu: Opslaan geselecteerde lijnen"
-
-  "File Menu: Set current file line ending to CR for Classic Mac"
-  "Bestandsmenu: Set huidige bestand regel die eindigt CR voor klassieke Mac"
-
-  "File Menu: Set current file line ending to CRLF for Windows"
-  "Bestandsmenu: Set huidige bestand regel die eindigt naar CRLF voor Windows"
-
-  "File Menu: Set current file line ending to LF for Unix"
-  "Bestandsmenu: Set huidige bestand regel die eindigt om LF voor Unix"
-
-  "File Menu: Show file difference"
-  "Bestandsmenu: Toon bestand verschil"
-
-  "File Menu: Unfavorite file"
-  "Bestandsmenu: Unfavorite bestand"
-
-  "File Menu: Unlock file"
-  "Bestandsmenu: Ontgrendelen bestand"
-
   "Find In Files"
   "Zoeken in bestanden..."
 
   "Find Matching Pair"
   "Vinden Matching paar"
 
-  "Find Menu: Append next occurrence"
-  "Menu zoeken: Append volgende vindplaats"
-
-  "Find Menu: Create marker at current line"
-  "Menu zoeken: Marker op de huidige regel maken"
-
-  "Find Menu: Find"
-  "Menu zoeken: zoeken"
-
-  "Find Menu: Find and Replace"
-  "Menu zoeken: Zoeken en vervangen"
-
-  "Find Menu: Find in files"
-  "Menu zoeken: Zoeken in bestanden"
-
-  "Find Menu: Find matching character pair"
-  "Menu zoeken: Overeenkomende teken paar zoeken"
-
-  "Find Menu: Find next occurrence"
-  "Menu zoeken: Volgende exemplaar zoeken"
-
-  "Find Menu: Find previous occurrence"
-  "Menu zoeken: Vorige exemplaar zoeken"
-
-  "Find Menu: Goto next difference"
-  "Menu zoeken: Goto volgende verschil"
-
-  "Find Menu: Goto previous difference"
-  "Menu zoeken: Goto vorige verschil"
-
-  "Find Menu: Jump backward"
-  "Menu zoeken: Achteruit springen"
-
-  "Find Menu: Jump forward"
-  "Menu zoeken: Sprong voorwaarts"
-
-  "Find Menu: Jump to line"
-  "Menu zoeken: Ga naar regel"
-
-  "Find Menu: Remove all markers"
-  "Menu zoeken: Verwijder alle markeertekens"
-
-  "Find Menu: Remove marker from current line"
-  "Menu zoeken: Marker verwijderen uit de huidige regel"
-
-  "Find Menu: Select all occurrences"
-  "Menu zoeken: Selecteer alle exemplaren"
-
-  "Find Menu: Show selected line change"
-  "Menu zoeken: Toon geselecteerde lijn wijzigen"
-
   "Find and Replace"
   "Zoeken en vervangen"
+
+  "Find in files"
+  "Zoeken in bestanden..."
+
+  "Find matching character pair"
+  "Overeenkomende teken paar vinden"
+
+  "Find next occurrence"
+  "Volgende exemplaar zoeken"
+
+  "Find previous occurrence"
+  "Vorige exemplaar zoeken"
 
   "Fold All"
   "Alle fold"
@@ -666,8 +456,14 @@ msgcat::mcmset nl {
   "Format Text"
   "Tekst opmaken"
 
+  "Format indentation for text"
+  "Indeling inspringing van tekst"
+
   "From Clipboard"
   "Van klembord"
+
+  "Global"
+  "Globaal"
 
   "Goto Last Tab"
   "Goto Last Tab"
@@ -681,23 +477,26 @@ msgcat::mcmset nl {
   "Goto Previous Tab"
   "Ga naar vorig tabblad"
 
+  "Goto last tab"
+  "Goto laatste tabblad"
+
+  "Goto next difference"
+  "Goto volgende verschil"
+
+  "Goto next tab"
+  "Goto volgende tab"
+
+  "Goto other pane"
+  "Goto andere deelvenster"
+
+  "Goto previous difference"
+  "Vorig verschil"
+
+  "Goto previous tab"
+  "Vorige tab"
+
   "Help"
   "Help"
-
-  "Help Menu: About TKE"
-  "Menu Help: Over TKE"
-
-  "Help Menu: Check for update"
-  "Helpmenu: Controle voor update"
-
-  "Help Menu: Send bug report"
-  "Helpmenu: Bugrapport verzenden"
-
-  "Help Menu: Send feedback"
-  "Helpmenu: Feedback verzenden"
-
-  "Help Menu: View user guide"
-  "Helpmenu: Weergave gebruikershandleiding"
 
   "Hide Console"
   "Verbergen Console"
@@ -720,11 +519,35 @@ msgcat::mcmset nl {
   "Hide Tab Bar"
   "Hide Tab Bar"
 
+  "Hide console"
+  "Verbergen van de console"
+
+  "Hide line numbers"
+  "Verbergen van regelnummers"
+
+  "Hide marker map"
+  "Marker kaart verbergen"
+
+  "Hide meta characters"
+  "Verbergen metakarakters"
+
+  "Hide sidebar"
+  "Zijbalk verbergen"
+
+  "Hide status bar"
+  "Verberg status balk"
+
+  "Hide tab bar"
+  "Hide barkrediet"
+
   "Indent"
   "Inspringen"
 
   "Indent Off"
   "Streepje uit"
+
+  "Indent selected text"
+  "Inspringen geselecteerde tekst"
 
   "Indentation"
   "inkerving"
@@ -732,10 +555,37 @@ msgcat::mcmset nl {
   "Insert"
   "Invoegen"
 
+  "Insert command result after current line"
+  "Resultaat van de opdracht invoegen na de huidige regel"
+
+  "Insert enumeration"
+  "Invoegen (opsomming)"
+
+  "Insert file contents after current line"
+  "Plaats de inhoud bestand na huidige regel"
+
+  "Insert from clipboard"
+  "Invoegen vanaf klembord"
+
+  "Insert line above current line"
+  "lijn invoegen boven de huidige lijn"
+
+  "Insert line below current line"
+  "Regel onder de huidige regel invoegen"
+
+  "Insert snippet"
+  "snippet insert"
+
   "Install"
   "Installeer"
 
+  "Install plugin"
+  "Installeer plugin"
+
   "Join Lines"
+  "Regels samenvoegen"
+
+  "Join lines"
   "Regels samenvoegen"
 
   "Jump Backward"
@@ -746,6 +596,18 @@ msgcat::mcmset nl {
 
   "Jump To Line"
   "Ga naar regel"
+
+  "Jump backward"
+  "Spring achteruit"
+
+  "Jump forward"
+  "Spring vooruit"
+
+  "Jump to line"
+  "Ga naar regel"
+
+  "Language"
+  "Taal"
 
   "Launcher"
   "Launcher"
@@ -768,20 +630,26 @@ msgcat::mcmset nl {
   "Lock"
   "Vergrendelen"
 
+  "Lock file"
+  "Lock file"
+
   "Lower Case"
   "Kleineletters"
 
   "Markers"
   "markeerders"
 
+  "Menu"
+  "Menu"
+
   "Menu Bindings"
   "Menu Bindingen"
 
-  "Menus: About TKE"
-  "Menu's: Over TKE"
-
   "Merge Panes"
   "Samenvoegen van deelvensters"
+
+  "Merge panes"
+  "samenvoegen ruiten"
 
   "Move Cursors Down"
   "Cursors omlaag"
@@ -794,6 +662,51 @@ msgcat::mcmset nl {
 
   "Move Cursors Up"
   "Cursors omhoog"
+
+  "Move cursor to bottom of screen"
+  "De cursor verplaatsen naar onderkant van scherm"
+
+  "Move cursor to end of current line"
+  "Verplaats de cursor naar het einde van de huidige regel"
+
+  "Move cursor to first line"
+  "Beweeg de cursor naar de eerste lijn"
+
+  "Move cursor to last line"
+  "De cursor verplaatsen naar de laatste lijn"
+
+  "Move cursor to middle of screen"
+  "Cursor verplaatsen naar het midden van het scherm"
+
+  "Move cursor to next page"
+  "Beweeg de cursor naar de volgende pagina"
+
+  "Move cursor to next word"
+  "Cursor naar het volgende woord verplaatsen"
+
+  "Move cursor to previous page"
+  "De cursor verplaatsen naar vorige pagina"
+
+  "Move cursor to previous word"
+  "Cursor naar het vorige woord verplaatsen"
+
+  "Move cursor to start of current line"
+  "Beweeg de cursor naar het begin van de huidige regel"
+
+  "Move cursor to top of screen"
+  "Beweeg de cursor naar boven in het scherm"
+
+  "Move multicursors down one line"
+  "Multicursors een regel omlaag gaan"
+
+  "Move multicursors left one line"
+  "Multicursors linker één regel verplaatsen"
+
+  "Move multicursors right one line"
+  "Multicursors rechts één regel verplaatsen"
+
+  "Move multicursors up one line"
+  "Verplaats multicursors één lijn"
 
   "Move to First Line"
   "Ga naar eerste regel"
@@ -828,11 +741,20 @@ msgcat::mcmset nl {
   "Move to Screen Top"
   "Naar de bovenkant van het scherm verplaatsen"
 
+  "Move to other pane"
+  "Verplaatsen naar andere ruit"
+
   "New From Template"
   "Nieuw van sjabloon"
 
   "New Window"
   "Nieuw Venster"
+
+  "New file"
+  "Nieuw Bestand:"
+
+  "New file from template"
+  "Nieuw van sjabloon"
 
   "Next Difference"
   "Volgend verschil"
@@ -857,18 +779,6 @@ msgcat::mcmset nl {
 
   "Plugins"
   "Plug-in"
-
-  "Plugins Menu: Create new plugin"
-  "Plugins Menu: Maak nieuwe plugin"
-
-  "Plugins Menu: Install plugin"
-  "Plugins Menu: Installeren plugin"
-
-  "Plugins Menu: Reload all plugins"
-  "Plugins Menu: Herladen alle plugins"
-
-  "Plugins Menu: Uninstall plugin"
-  "Plugins Menu: Verwijderen plugin"
 
   "Preferences"
   "Voorkeuren"
@@ -912,12 +822,6 @@ msgcat::mcmset nl {
   "Reset User to Base"
   "Reset gebruiker naar Base"
 
-  "Restart TKE"
-  "Opnieuw opstarten van TKE"
-
-  "Run BIST"
-  "BIST uitvoeren"
-
   "Save All"
   "Alles opslaan"
 
@@ -950,21 +854,6 @@ msgcat::mcmset nl {
 
   "Sessions"
   "Sessies"
-
-  "Sessions Menu: Close current session"
-  "Sessies Menu: Huidige sessie sluiten"
-
-  "Sessions Menu: Delete session"
-  "Sessies Menu: Delete sessie"
-
-  "Sessions Menu: Save current session"
-  "Sessies Menu: Sla huidige sessie"
-
-  "Sessions Menu: Save sessions as"
-  "Sessies Menu: Opslaan als zittingen"
-
-  "Sessions Menu: Switch to session"
-  "Sessies Menu: Overschakelen naar sessie"
 
   "Set Syntax"
   "Stel Syntax"
@@ -1038,9 +927,6 @@ msgcat::mcmset nl {
   "Text Between Character"
   "Tekst tussen karakter"
 
-  "Text Menu: Insert enumeration"
-  "Tekstmenu: Invoegen (opsomming)"
-
   "Title Case"
   "Titel Hoofd/Kleineletters"
 
@@ -1052,33 +938,6 @@ msgcat::mcmset nl {
 
   "Tools"
   "hulpmiddelen;"
-
-  "Tools Menu: Disable Vim mode"
-  "Menu Extra: Vim modus uitschakelen"
-
-  "Tools Menu: Enable Vim mode"
-  "Menu Extra: Vim modus inschakelen"
-
-  "Tools Menu: Restart TKE"
-  "Menu Extra: Herstart TKE"
-
-  "Tools Menu: Run BIST"
-  "Menu Extra: Run BIST"
-
-  "Tools Menu: Run theme editor"
-  "Menu Extra: Run theme editor"
-
-  "Tools Menu: Show diagnostic logfile"
-  "Menu Extra: Toon diagnostische logfile"
-
-  "Tools Menu: Show last profiling report"
-  "Menu Extra: Toon laatste profilering verslag"
-
-  "Tools Menu: Start profiling"
-  "Menu Extra: Start profilering"
-
-  "Tools Menu: Stop profiling"
-  "Menu Extra: Stop profilering"
 
   "Transform"
   "Transformeren"
@@ -1115,87 +974,6 @@ msgcat::mcmset nl {
 
   "View Global"
   "Weergave Global"
-
-  "View Menu: Absolute line numbering"
-  "Menu Beeld: Absolute lijn nummering"
-
-  "View Menu: Display text information"
-  "Menu Beeld: Tekstinformatie weergeven"
-
-  "View Menu: Fold All"
-  "Menu Beeld: Vouw alle"
-
-  "View Menu: Goto last tab"
-  "Menu Beeld: Goto laatste tabblad"
-
-  "View Menu: Goto next tab"
-  "Menu Beeld: Goto volgende tabblad"
-
-  "View Menu: Goto other pane"
-  "Menu Beeld: Goto andere deelvenster"
-
-  "View Menu: Goto previous tab"
-  "Menu Beeld: Goto vorige tabblad"
-
-  "View Menu: Hide console"
-  "Menu Beeld: Verbergen console"
-
-  "View Menu: Hide line numbers"
-  "Menu Beeld: Verbergen regelnummers"
-
-  "View Menu: Hide marker map"
-  "Menu Beeld: Verbergen marker kaart"
-
-  "View Menu: Hide meta characters"
-  "Menu Beeld: Verbergen metakarakters"
-
-  "View Menu: Hide sidebar"
-  "Menu Beeld: Verbergen sidebar"
-
-  "View Menu: Hide status bar"
-  "Menu Beeld: Statusbalk te verbergen"
-
-  "View Menu: Hide tab bar"
-  "Menu Beeld: Hide tab bar"
-
-  "View Menu: Merge panes"
-  "Menu Beeld: Samenvoegen deelvensters"
-
-  "View Menu: Move to other pane"
-  "Menu Beeld: Verplaatsen naar andere deelvenster"
-
-  "View Menu: Relative line numbering"
-  "Menu Beeld: Relatieve regelnummering"
-
-  "View Menu: Show console"
-  "Menu Beeld: Toon console"
-
-  "View Menu: Show line numbers"
-  "Menu Beeld: Regelnummers weergeven"
-
-  "View Menu: Show marker map"
-  "Menu Beeld: Toon marker kaart"
-
-  "View Menu: Show meta characters"
-  "Menu Beeld: Toon metakarakters"
-
-  "View Menu: Show sidebar"
-  "Beeld Basisdia"
-
-  "View Menu: Show status bar"
-  "Menu Beeld: Toon statusbalk"
-
-  "View Menu: Show tab bar"
-  "Menu Beeld: Toon tabbalk"
-
-  "View Menu: Sort tabs"
-  "Menu Beeld: Sort tabs"
-
-  "View Menu: Toggle split view mode"
-  "Menu Beeld: Toggle splitsen weergavemodus"
-
-  "View Menu: Unfold All"
-  "Menu Beeld: Ontvouwen alle"
 
   "Vim Mode"
   "Vim Mode"
