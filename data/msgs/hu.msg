@@ -657,6 +657,12 @@ msgcat::mcmset hu {
   "Find and Replace"
   "Keresés és csere"
 
+  "Fold All"
+  "Fold minden"
+
+  "Folding"
+  "�sszecsukhat�"
+
   "Format Text"
   "Szöveg formázása"
 
@@ -1080,6 +1086,9 @@ msgcat::mcmset hu {
   "Undo"
   "Visszavonás"
 
+  "Unfold All"
+  "Bontakozik ki, minden"
+
   "Unindent"
   "Behúzásának megszüntetése"
 
@@ -1112,6 +1121,9 @@ msgcat::mcmset hu {
 
   "View Menu: Display text information"
   "Nézet menü: A szöveges információk jelennek meg"
+
+  "View Menu: Fold All"
+  "N�zet men�: Hajtsa be minden"
 
   "View Menu: Goto last tab"
   "Nézet menü: Goto utolsó pánt"
@@ -1181,6 +1193,9 @@ msgcat::mcmset hu {
 
   "View Menu: Toggle split view mode"
   "Nézet menü: Toggle osztott nézetben"
+
+  "View Menu: Unfold All"
+  "N�zet men�: Bontakozik ki, minden"
 
   "Vim Mode"
   "Vim Mode"

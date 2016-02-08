@@ -201,9 +201,6 @@ msgcat::mcmset zh {
 # menus.tcl
 msgcat::mcmset zh {
 
-  "About TKE"
-  "关于将军澳支线"
-
   "Absolute"
   "绝对值"
 
@@ -288,221 +285,8 @@ msgcat::mcmset zh {
   "Edit Language"
   "编辑语言"
 
-  "Edit Menu Edit user snippets"
-  "编辑菜单编辑用户代码段"
-
-  "Edit Menu: Align cursors"
-  "编辑菜单: 对齐光标"
-
-  "Edit Menu: Bubble lines down one line"
-  "编辑菜单: 泡沫行下移一行"
-
-  "Edit Menu: Bubble lines up one line"
-  "编辑菜单: 泡沫行上一行"
-
-  "Edit Menu: Convert case to lower"
-  "编辑菜单: 转换情况下，降低"
-
-  "Edit Menu: Convert case to title"
-  "编辑菜单: 转换案例为标题"
-
-  "Edit Menu: Convert case to upper"
-  "编辑菜单: 转换为上部的案例"
-
-  "Edit Menu: Copy text"
-  "编辑菜单: 复制文本"
-
-  "Edit Menu: Cut text"
-  "编辑菜单: 剪切文本"
-
-  "Edit Menu: Delete current line"
-  "编辑菜单: 删除当前行"
-
-  "Edit Menu: Delete current word"
-  "编辑菜单: 删除当前的单词"
-
-  "Edit Menu: Delete from cursor to end of line"
-  "编辑菜单: 删除从光标结束的行"
-
-  "Edit Menu: Delete from start of line to cursor"
-  "编辑菜单: 删除行的起始处到光标处"
-
-  "Edit Menu: Delete template"
-  "编辑菜单: 删除模板"
-
-  "Edit Menu: Delete text between character"
-  "编辑菜单: 删除字符之间的文本"
-
-  "Edit Menu: Delete the current number"
-  "编辑菜单: 删除当前数量"
-
-  "Edit Menu: Delete the whitespace to left of cursor"
-  "编辑菜单: 删除光标左侧的空白处"
-
-  "Edit Menu: Delete the whitespace to right of cursor"
-  "编辑菜单: 删除光标右边的空白"
-
-  "Edit Menu: Edit language snippets"
-  "编辑菜单: 编辑语言片段"
-
-  "Edit Menu: Edit session current language preferences"
-  "编辑菜单: 编辑会话当前语言首选项"
-
-  "Edit Menu: Edit session global preferences"
-  "编辑菜单: 编辑会话全球首选项"
-
-  "Edit Menu: Edit template"
-  "编辑菜单: 编辑模板"
-
-  "Edit Menu: Edit user current language preferences"
-  "编辑菜单: 编辑用户当前的语言首选项"
-
-  "Edit Menu: Edit user global preferences"
-  "编辑菜单: 编辑用户全球首选项"
-
-  "Edit Menu: Edit user menu bindings"
-  "编辑菜单: 编辑用户菜单绑定"
-
-  "Edit Menu: Format indentation for text"
-  "编辑菜单: 设置格式文本缩进的量"
-
-  "Edit Menu: Indent selected text"
-  "编辑菜单: 缩进选定的文本"
-
-  "Edit Menu: Insert command result after current line"
-  "编辑菜单: 在当前行后插入命令结果"
-
-  "Edit Menu: Insert file contents after current line"
-  "编辑菜单: 在当前行后插入文件的内容"
-
-  "Edit Menu: Insert from clipboard"
-  "从剪贴板上的编辑菜单: 插入"
-
-  "Edit Menu: Insert line above current line"
-  "编辑菜单: 插入当前行上面一行"
-
-  "Edit Menu: Insert line below current line"
-  "编辑菜单: 插入当前行下方"
-
-  "Edit Menu: Insert snippet"
-  "编辑菜单: 插入代码段"
-
-  "Edit Menu: Join lines"
-  "编辑菜单: 联接线"
-
-  "Edit Menu: Move cursor to bottom of screen"
-  "编辑菜单: 将光标移动到屏幕的底部"
-
-  "Edit Menu: Move cursor to end of current line"
-  "编辑菜单: 移动光标以结束当前行"
-
-  "Edit Menu: Move cursor to first line"
-  "编辑菜单: 将光标移到第一行"
-
-  "Edit Menu: Move cursor to last line"
-  "编辑菜单: 将光标移动到最后一行"
-
-  "Edit Menu: Move cursor to middle of screen"
-  "编辑菜单: 将光标移动到屏幕的中间"
-
-  "Edit Menu: Move cursor to next page"
-  "编辑菜单: 将光标移动到下一个页面"
-
-  "Edit Menu: Move cursor to next word"
-  "编辑菜单: 将光标移动到下一个单词"
-
-  "Edit Menu: Move cursor to previous page"
-  "编辑菜单: 将光标移动到前一页"
-
-  "Edit Menu: Move cursor to previous word"
-  "编辑菜单: 将光标移动到前一个单词"
-
-  "Edit Menu: Move cursor to start of current line"
-  "编辑菜单: 将光标移至当前行首"
-
-  "Edit Menu: Move cursor to top of screen"
-  "编辑菜单: 将光标移动到屏幕的顶部"
-
-  "Edit Menu: Move multicursors down one line"
-  "编辑菜单: 将 multicursors 下移一行"
-
-  "Edit Menu: Move multicursors left one line"
-  "编辑菜单: 移动 multicursors 左一行"
-
-  "Edit Menu: Move multicursors right one line"
-  "编辑菜单: 将 multicursors 右移一线"
-
-  "Edit Menu: Move multicursors up one line"
-  "编辑菜单: 移动 multicursors 上一行"
-
-  "Edit Menu: Paste and format text from clipboard"
-  "编辑菜单: 粘贴和格式将文本从剪贴板"
-
-  "Edit Menu: Paste text from clipboard"
-  "编辑菜单: 将文本从剪贴板粘贴"
-
-  "Edit Menu: Redo"
-  "编辑菜单: 重做"
-
-  "Edit Menu: Reload snippets"
-  "编辑菜单: 重新加载代码片段"
-
-  "Edit Menu: Reload template information"
-  "编辑菜单: 重新加载模板信息"
-
-  "Edit Menu: Replace line with script"
-  "编辑菜单: 用脚本替换行"
-
-  "Edit Menu: Select all text"
-  "编辑菜单: 选择所有文本"
-
-  "Edit Menu: Set indent mode to IND"
-  "编辑菜单: 设置缩进模式向移民局"
-
-  "Edit Menu: Set indent mode to IND+"
-  "编辑菜单: 设置缩进模式为 IND +"
-
-  "Edit Menu: Set indent mode to OFF"
-  "编辑菜单: 将缩进模式设置为 OFF"
-
-  "Edit Menu: Set user bindings to global bindings"
-  "编辑菜单: 设置用户绑定到全局绑定"
-
-  "Edit Menu: Set user preferences to global preferences"
-  "编辑菜单: 设置全球首选项中设置的用户首选项"
-
-  "Edit Menu: Toggle case of current character"
-  "编辑菜单: 切换大小写的当前字符"
-
-  "Edit Menu: Toggle comment"
-  "编辑菜单: 切换注释"
-
-  "Edit Menu: Undo"
-  "编辑菜单: 撤消"
-
-  "Edit Menu: Unindent selected text"
-  "编辑菜单: 取消缩进选定的文本"
-
-  "Edit Menu: View base preferences file"
-  "编辑菜单: 查看基地首选项文件"
-
-  "Edit Menu: View global menu bindings"
-  "编辑菜单: 查看全局菜单绑定"
-
-  "Edit Session - Global"
-  "????-??"
-
-  "Edit Session - Language"
-  "????-??"
-
   "Edit User"
   "編輯用戶"
-
-  "Edit User - Global"
-  "????-??"
-
-  "Edit User - Language"
-  "????-??"
 
   "Enumeration"
   "列举法"
@@ -513,149 +297,20 @@ msgcat::mcmset zh {
   "File Contents"
   "強製文件獲取內容"
 
-  "File Menu: Change working directory"
-  "文件菜单: 改变工作目录"
-
-  "File Menu: Close all tabs"
-  "文件菜单: 关闭所有选项卡"
-
-  "File Menu: Close current tab"
-  "文件菜单: 关闭当前选项卡"
-
-  "File Menu: Delete current file"
-  "文件菜单: 删除当前文件"
-
-  "File Menu: Duplicate current file"
-  "文件菜单: 复制当前文件"
-
-  "File Menu: Favorite file"
-  "文件菜单: 最喜欢文件"
-
-  "File Menu: Lock file"
-  "文件菜单: 锁定文件"
-
-  "File Menu: New file"
-  "文件菜单: 新建文件"
-
-  "File Menu: New file from template"
-  "从模板文件菜单: 新建文件"
-
-  "File Menu: New window"
-  "文件菜单: 新窗口"
-
-  "File Menu: Open Favorite"
-  "文件菜单: 打开收藏夹"
-
-  "File Menu: Open Recent"
-  "打开最近的文件菜单:"
-
-  "File Menu: Open directory"
-  "文件菜单: 打开目录"
-
-  "File Menu: Open file"
-  "文件菜单: 打开文件"
-
-  "File Menu: Quit application"
-  "文件菜单: 退出应用程序"
-
-  "File Menu: Rename current file"
-  "文件菜单: 重命名当前文件"
-
-  "File Menu: Reopen current file"
-  "重新打开当前文件的文件菜单:"
-
-  "File Menu: Save all files"
-  "文件菜单: 保存所有文件"
-
-  "File Menu: Save file"
-  "文件菜单: 保存文件"
-
-  "File Menu: Save file as"
-  "文件菜单: 文件另存为"
-
-  "File Menu: Save file as template"
-  "文件菜单: 将文件另存为模板"
-
-  "File Menu: Save selected lines"
-  "文件菜单: 保存选定的行"
-
-  "File Menu: Set current file line ending to CR for Classic Mac"
-  "文件菜单: 设置当前文件行 CR 为经典 Mac 的结局"
-
-  "File Menu: Set current file line ending to CRLF for Windows"
-  "文件菜单: 设置当前文件行到 CRLF Windows 结束"
-
-  "File Menu: Set current file line ending to LF for Unix"
-  "文件菜单: 设置当前文件行结束到 LF unix"
-
-  "File Menu: Show file difference"
-  "文件菜单: 显示文件差异"
-
-  "File Menu: Unfavorite file"
-  "文件菜单: 太罗嗦文件"
-
-  "File Menu: Unlock file"
-  "文件菜单: 解锁文件"
-
   "Find In Files"
   "??????..."
 
   "Find Matching Pair"
   "??????"
 
-  "Find Menu: Append next occurrence"
-  "查找菜单: 追加下一个匹配项"
-
-  "Find Menu: Create marker at current line"
-  "在当前行查找菜单: 创建标记"
-
-  "Find Menu: Find"
-  "查找菜单: 找到"
-
-  "Find Menu: Find and Replace"
-  "查找菜单: 查找和替换"
-
-  "Find Menu: Find in files"
-  "查找/在文件中查找"
-
-  "Find Menu: Find matching character pair"
-  "查找菜单: 寻找匹配的字符对"
-
-  "Find Menu: Find next occurrence"
-  "查找菜单: 查找下一个实例"
-
-  "Find Menu: Find previous occurrence"
-  "查找菜单: 查找上一个"
-
-  "Find Menu: Goto next difference"
-  "查找菜单: 转到下一个差异"
-
-  "Find Menu: Goto previous difference"
-  "查找菜单: 转到上一个差异"
-
-  "Find Menu: Jump backward"
-  "查找菜单: 向后跳"
-
-  "Find Menu: Jump forward"
-  "查找菜单: 向前跳"
-
-  "Find Menu: Jump to line"
-  "查找菜单: 跳转到行"
-
-  "Find Menu: Remove all markers"
-  "查找菜单: 删除所有标记"
-
-  "Find Menu: Remove marker from current line"
-  "从当前行查找菜单: 删除标记"
-
-  "Find Menu: Select all occurrences"
-  "查找菜单: 选择的所有匹配项"
-
-  "Find Menu: Show selected line change"
-  "查找菜单: 显示选定线变化"
-
   "Find and Replace"
   "查找和替换"
+
+  "Fold All"
+  "????"
+
+  "Folding"
+  "??"
 
   "Format Text"
   "设置文本格式"
@@ -677,21 +332,6 @@ msgcat::mcmset zh {
 
   "Help"
   "帮助"
-
-  "Help Menu: About TKE"
-  "帮助菜单: 关于将军澳支线"
-
-  "Help Menu: Check for update"
-  "帮助菜单: 检查更新"
-
-  "Help Menu: Send bug report"
-  "帮助菜单: 发送错误报告"
-
-  "Help Menu: Send feedback"
-  "帮助菜单: 发送反馈"
-
-  "Help Menu: View user guide"
-  "帮助菜单: 查看用户指南"
 
   "Hide Console"
   "隐藏控制台"
@@ -771,9 +411,6 @@ msgcat::mcmset zh {
   "Menu Bindings"
   "菜单绑定"
 
-  "Menus: About TKE"
-  "菜单: 关于将军澳支线"
-
   "Merge Panes"
   "????"
 
@@ -852,18 +489,6 @@ msgcat::mcmset zh {
   "Plugins"
   "插件"
 
-  "Plugins Menu: Create new plugin"
-  "插件菜单: 创建新的插件"
-
-  "Plugins Menu: Install plugin"
-  "插件菜单: 安装插件"
-
-  "Plugins Menu: Reload all plugins"
-  "重新加载所有插件插件菜单:"
-
-  "Plugins Menu: Uninstall plugin"
-  "插件菜单: 卸载插件"
-
   "Preferences"
   "首选项"
 
@@ -906,12 +531,6 @@ msgcat::mcmset zh {
   "Reset User to Base"
   "将用户重置为基地"
 
-  "Restart TKE"
-  "?????????"
-
-  "Run BIST"
-  "运行 BIST"
-
   "Save All"
   "全部儲存"
 
@@ -944,21 +563,6 @@ msgcat::mcmset zh {
 
   "Sessions"
   "??"
-
-  "Sessions Menu: Close current session"
-  "会话菜单: 关闭当前会话"
-
-  "Sessions Menu: Delete session"
-  "会话菜单: 删除会话"
-
-  "Sessions Menu: Save current session"
-  "会话菜单: 保存当前会话"
-
-  "Sessions Menu: Save sessions as"
-  "会话菜单: 保存会话作为"
-
-  "Sessions Menu: Switch to session"
-  "切换到会话的会话菜单:"
 
   "Set Syntax"
   "设置语法"
@@ -1032,9 +636,6 @@ msgcat::mcmset zh {
   "Text Between Character"
   "字符之间的文本"
 
-  "Text Menu: Insert enumeration"
-  "文本菜单: 插入枚举"
-
   "Title Case"
   "词首字母大写"
 
@@ -1047,38 +648,14 @@ msgcat::mcmset zh {
   "Tools"
   "工具"
 
-  "Tools Menu: Disable Vim mode"
-  "工具菜单: 禁用 Vim 模式"
-
-  "Tools Menu: Enable Vim mode"
-  "工具菜单: 启用 Vim 模式"
-
-  "Tools Menu: Restart TKE"
-  "工具菜单: 重启将军澳支线"
-
-  "Tools Menu: Run BIST"
-  "工具菜单: 运行的 BIST"
-
-  "Tools Menu: Run theme editor"
-  "工具菜单：运行的主题编辑器"
-
-  "Tools Menu: Show diagnostic logfile"
-  "工具菜单: 显示诊断日志文件"
-
-  "Tools Menu: Show last profiling report"
-  "工具菜单: 显示最后的分析报告"
-
-  "Tools Menu: Start profiling"
-  "工具菜单: 启动性能分析"
-
-  "Tools Menu: Stop profiling"
-  "工具菜单: 停止性能分析"
-
   "Transform"
   "变换"
 
   "Undo"
   "復原"
+
+  "Unfold All"
+  "????"
 
   "Unindent"
   "取消缩进"
@@ -1106,81 +683,6 @@ msgcat::mcmset zh {
 
   "View Global"
   "查看全球"
-
-  "View Menu: Absolute line numbering"
-  "视图菜单: 绝对行编号"
-
-  "View Menu: Display text information"
-  "视图菜单: 显示文本信息"
-
-  "View Menu: Goto last tab"
-  "视图菜单: 转到最后一个选项卡"
-
-  "View Menu: Goto next tab"
-  "视图菜单: 转到下一个选项卡"
-
-  "View Menu: Goto other pane"
-  "视图菜单: 转到另一窗格"
-
-  "View Menu: Goto previous tab"
-  "视图菜单: 转到上一个选项卡"
-
-  "View Menu: Hide console"
-  "视图菜单: 隐藏控制台"
-
-  "View Menu: Hide line numbers"
-  "视图菜单: 隐藏行号"
-
-  "View Menu: Hide marker map"
-  "视图菜单: 隐藏标记地图"
-
-  "View Menu: Hide meta characters"
-  "视图菜单: 隐藏 meta 字符"
-
-  "View Menu: Hide sidebar"
-  "视图菜单: 隐藏侧边栏"
-
-  "View Menu: Hide status bar"
-  "视图菜单: 隐藏状态栏"
-
-  "View Menu: Hide tab bar"
-  "视图菜单: 隐藏选项卡栏"
-
-  "View Menu: Merge panes"
-  "视图菜单: 合并窗格"
-
-  "View Menu: Move to other pane"
-  "视图菜单: 将移动到另一个窗格"
-
-  "View Menu: Relative line numbering"
-  "视图菜单: 相对行号"
-
-  "View Menu: Show console"
-  "视图菜单: 显示控制台"
-
-  "View Menu: Show line numbers"
-  "视图菜单: 显示行号"
-
-  "View Menu: Show marker map"
-  "视图菜单: 显示标记地图"
-
-  "View Menu: Show meta characters"
-  "视图菜单: 显示 meta 字符"
-
-  "View Menu: Show sidebar"
-  "视图菜单: 显示侧边栏"
-
-  "View Menu: Show status bar"
-  "视图菜单: 显示状态栏"
-
-  "View Menu: Show tab bar"
-  "视图菜单: 显示选项卡栏"
-
-  "View Menu: Sort tabs"
-  "视图菜单: 排序选项卡"
-
-  "View Menu: Toggle split view mode"
-  "视图菜单: 切换拆分视图模式"
 
   "Vim Mode"
   "Vim的模式"

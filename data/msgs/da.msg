@@ -657,6 +657,12 @@ msgcat::mcmset da {
   "Find and Replace"
   "Find og erstat"
 
+  "Fold All"
+  "Fold alle"
+
+  "Folding"
+  "Fold"
+
   "Format Text"
   "Formatér tekst"
 
@@ -1080,6 +1086,9 @@ msgcat::mcmset da {
   "Undo"
   "Fortryd"
 
+  "Unfold All"
+  "Udfolde alle"
+
   "Unindent"
   "Afindryk"
 
@@ -1112,6 +1121,9 @@ msgcat::mcmset da {
 
   "View Menu: Display text information"
   "Se Menu: Viser tekstoplysninger"
+
+  "View Menu: Fold All"
+  "Se Menu: Fold alle"
 
   "View Menu: Goto last tab"
   "Se Menu: Goto sidste fane"
@@ -1181,6 +1193,9 @@ msgcat::mcmset da {
 
   "View Menu: Toggle split view mode"
   "Se Menu: Skift split visningstilstand"
+
+  "View Menu: Unfold All"
+  "Se Menu: Udfolde alle"
 
   "Vim Mode"
   "Vim-tilstand"

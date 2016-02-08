@@ -657,6 +657,12 @@ msgcat::mcmset pl {
   "Find and Replace"
   "Znajdź i zamień"
 
+  "Fold All"
+  "Zwi? wszystko"
+
+  "Folding"
+  "Sk?adanie"
+
   "Format Text"
   "Formatowanie tekstu"
 
@@ -1080,6 +1086,9 @@ msgcat::mcmset pl {
   "Undo"
   "Cofnij"
 
+  "Unfold All"
+  "Rozwi? wszystko"
+
   "Unindent"
   "Unindent"
 
@@ -1112,6 +1121,9 @@ msgcat::mcmset pl {
 
   "View Menu: Display text information"
   "Menu Widok: Wyświetla informacje tekstowe"
+
+  "View Menu: Fold All"
+  "Menu Widok: Zwi? wszystko"
 
   "View Menu: Goto last tab"
   "Menu Widok: Ostatnia zakładka Goto"
@@ -1181,6 +1193,9 @@ msgcat::mcmset pl {
 
   "View Menu: Toggle split view mode"
   "Menu Widok: Przełącz widok tryb rozdzielny"
+
+  "View Menu: Unfold All"
+  "Menu Widok: Rozwi? wszystko"
 
   "Vim Mode"
   "Tryb vim"

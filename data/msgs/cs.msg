@@ -657,6 +657,12 @@ msgcat::mcmset cs {
   "Find and Replace"
   "Najít a nahradit"
 
+  "Fold All"
+  "P?elo?te v?e"
+
+  "Folding"
+  "p?ehnut�"
+
   "Format Text"
   "Formát textu"
 
@@ -1080,6 +1086,9 @@ msgcat::mcmset cs {
   "Undo"
   "Vrátit zpět akci"
 
+  "Unfold All"
+  "Rozbalit v?e"
+
   "Unindent"
   "Unindent"
 
@@ -1112,6 +1121,9 @@ msgcat::mcmset cs {
 
   "View Menu: Display text information"
   "Zobrazit Menu: Zobrazí textové informace"
+
+  "View Menu: Fold All"
+  "Nab�dka Zobrazit: V?e slo?it"
 
   "View Menu: Goto last tab"
   "Nabídka Zobrazit: Goto poslední karta"
@@ -1181,6 +1193,9 @@ msgcat::mcmset cs {
 
   "View Menu: Toggle split view mode"
   "Nabídka Zobrazit: Přepnout rozdělené zobrazení"
+
+  "View Menu: Unfold All"
+  "Nab�dka Zobrazit: Rozvinout v?e"
 
   "Vim Mode"
   "Režim Vim"

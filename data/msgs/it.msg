@@ -657,6 +657,12 @@ msgcat::mcmset it {
   "Find and Replace"
   "Trova e sostituisci"
 
+  "Fold All"
+  "Piegare tutto"
+
+  "Folding"
+  "Piegatura"
+
   "Format Text"
   "Formato testo"
 
@@ -1080,6 +1086,9 @@ msgcat::mcmset it {
   "Undo"
   "Undo"
 
+  "Unfold All"
+  "Spiegare tutto"
+
   "Unindent"
   "Annulla Rientro"
 
@@ -1112,6 +1121,9 @@ msgcat::mcmset it {
 
   "View Menu: Display text information"
   "Dal Menu Visualizza: Visualizzare le informazioni di testo"
+
+  "View Menu: Fold All"
+  "Dal Menu Visualizza: Piegare tutti"
 
   "View Menu: Goto last tab"
   "Menu Visualizza: Ultima scheda Goto"
@@ -1181,6 +1193,9 @@ msgcat::mcmset it {
 
   "View Menu: Toggle split view mode"
   "Menu Visualizza: Attiva/disattiva la modalità vista split"
+
+  "View Menu: Unfold All"
+  "Dal Menu Visualizza: Spiegare tutto"
 
   "Vim Mode"
   "Modalità di Vim"
