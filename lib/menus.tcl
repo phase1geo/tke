@@ -1915,7 +1915,8 @@ namespace eval menus {
 
     $mb add separator
 
-    $mb add cascade -label [msgcat::mc "Tabs"] -underline 0 -menu [menu $mb.tabPopup -tearoff 0 -postcommand "menus::view_tabs_posting $mb.tabPopup"]
+    $mb add cascade -label [msgcat::mc "Tabs"]    -underline 0 -menu [menu $mb.tabPopup  -tearoff 0 -postcommand "menus::view_tabs_posting $mb.tabPopup"]
+    $mb add cascade -label [msgcat::mc "Folding"] -underline 0 -menu [menu $mb.foldPopup -tearoff 0 -postcommand "menus::view_fold_posting $mb.foldPopup"]
 
     $mb add separator
 
@@ -1946,6 +1947,13 @@ namespace eval menus {
 
     $mb.tabPopup add command -label [msgcat::mc "Sort Tabs"] -underline 0 -command "gui::sort_tabs"
     launcher::register [msgcat::mc "View Menu: Sort tabs"] "gui::sort_tabs"
+
+    # Setup the folding popup menu
+    $mb.foldPopup add command -label [msgcat::mc "Fold All"] -underline 0 -command [list menus::fold_all]
+    launcher::register [msgcat::mc "View Menu: Fold All"] [list menus::fold_all]
+
+    $mb.foldPopup add command -label [msgcat::mc "Unfold All"] -underline 0 -command [list menus::unfold_all]
+    launcher::register [msgcat::mc "View Menu: Unfold All"] [list menus::unfold_all]
 
   }
 
@@ -2036,6 +2044,21 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Goto Other Pane"] -state disabled
     } else {
       $mb entryconfigure [msgcat::mc "Goto Other Pane"] -state normal
+    }
+
+  }
+
+  ######################################################################
+  # Called just prior to posting the view/folding menu.  Sets the state
+  # fo the menu options to match the current UI state.
+  proc view_fold_posting {mb} {
+
+    if {[gui::current_txt {}] eq ""} {
+      $mb entryconfigure [msgcat::mc "Fold All"]   -state disabled
+      $mb entryconfigure [msgcat::mc "Unfold All"] -state disabled
+    } else {
+      $mb entryconfigure [msgcat::mc "Fold All"]   -state normal
+      $mb entryconfigure [msgcat::mc "Unfold All"] -state normal
     }
 
   }

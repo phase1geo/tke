@@ -106,6 +106,16 @@ namespace eval folding {
   }
 
   ######################################################################
+  # Closes all open folds.
+  proc close_all_folds {txt} {
+
+    foreach line [$txt gutter get folding open] {
+      close_fold $txt $line
+    }
+
+  }
+
+  ######################################################################
   # Opens a fold, showing the contents.
   proc open_fold {txt line} {
 
@@ -119,6 +129,16 @@ namespace eval folding {
     # Replace the close symbol with the open symbol
     $txt gutter clear folding $line
     $txt gutter set folding open $line
+
+  }
+
+  ######################################################################
+  # Opens all closed folds.
+  proc open_all_folds {txt} {
+
+    foreach line [$txt gutter get folding close] {
+      open_fold $txt $line
+    }
 
   }
 
