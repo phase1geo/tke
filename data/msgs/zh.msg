@@ -201,14 +201,26 @@ msgcat::mcmset zh {
 # menus.tcl
 msgcat::mcmset zh {
 
+  "About"
+  "关于"
+
   "Absolute"
   "绝对值"
+
+  "Absolute line numbering"
+  "绝对行编号"
 
   "Align Cursors"
   "????"
 
+  "Align cursors"
+  "调整光标"
+
   "Append Next Occurrence"
   "????????"
+
+  "Append next occurrence"
+  "追加下一个匹配项"
 
   "Auto-Indent"
   "自动缩进"
@@ -219,7 +231,16 @@ msgcat::mcmset zh {
   "Bubble Up"
   "向上冒泡"
 
+  "Bubble lines down one line"
+  "泡沫行下移一行"
+
+  "Bubble lines up one line"
+  "泡沫排成一条线"
+
   "Change Working Directory"
+  "改变工作目录"
+
+  "Change working directory"
   "改变工作目录"
 
   "Character"
@@ -227,6 +248,9 @@ msgcat::mcmset zh {
 
   "Check for Update"
   "检查更新"
+
+  "Check for update"
+  "檢查更新"
 
   "Classic Mac"
   "经典的 Mac"
@@ -240,20 +264,47 @@ msgcat::mcmset zh {
   "Close Current"
   "????"
 
+  "Close all tabs"
+  "关闭全部标签页"
+
+  "Close current session"
+  "关闭当前会话"
+
+  "Close current tab"
+  "关闭当前选项卡"
+
   "Command"
   "命令"
 
   "Command Result"
   "命令结果"
 
+  "Convert case to lower"
+  "转换大小写来降低"
+
+  "Convert case to title"
+  "转换标题为例"
+
+  "Convert case to upper"
+  "转换为上部的案例"
+
   "Copy"
   "复制"
+
+  "Copy text"
+  "复制文本"
 
   "Create"
   "创建"
 
   "Create at Current Line"
   "???????"
+
+  "Create marker at current line"
+  "在当前行上创建标记"
+
+  "Create new plugin"
+  "创建新的插件"
 
   "Current Line"
   "当前行"
@@ -276,8 +327,53 @@ msgcat::mcmset zh {
   "Cut"
   "剪切"
 
+  "Cut text"
+  "剪切文本"
+
+  "Delete current file"
+  "删除当前文件"
+
+  "Delete current line"
+  "删除当前行"
+
+  "Delete current word"
+  "删除当前的单词"
+
+  "Delete from cursor to end of line"
+  "删除从光标结束的行"
+
+  "Delete from start of line to cursor"
+  "删除行的起始处到光标处"
+
+  "Delete session"
+  "删除会话？"
+
+  "Delete template"
+  "删除模板"
+
+  "Delete text between character"
+  "删除字符之间的文本"
+
+  "Delete the current number"
+  "删除当前号码"
+
+  "Delete the whitespace to left of cursor"
+  "删除光标左侧的空白处"
+
+  "Delete the whitespace to right of cursor"
+  "删除光标右边的空白"
+
+  "Disable Vim mode"
+  "禁用 Vim 模式"
+
   "Display Text Info"
   "显示文字"
+
+  "Display text information"
+  "显示文本信息"
+
+  "Duplicate current file"
+  "重复当前文件"
 
   "Edit"
   "编辑"
@@ -285,11 +381,44 @@ msgcat::mcmset zh {
   "Edit Language"
   "编辑语言"
 
+  "Edit Session"
+  "编辑日程"
+
   "Edit User"
   "編輯用戶"
 
+  "Edit language snippets"
+  "编辑语言片段"
+
+  "Edit session current language preferences"
+  "编辑会话当前语言首选项"
+
+  "Edit session global preferences"
+  "编辑会话全球首选项"
+
+  "Edit template"
+  "删除模板"
+
+  "Edit user current language preferences"
+  "编辑用户当前的语言首选项"
+
+  "Edit user global preferences"
+  "编辑用户全球首选项"
+
+  "Edit user menu bindings"
+  "编辑用户菜单绑定"
+
+  "Edit user snippets"
+  "编辑片段"
+
+  "Enable Vim mode"
+  "启用 Vim 模式"
+
   "Enumeration"
   "列举法"
+
+  "Favorite file"
+  "最喜欢的文件"
 
   "File"
   "文件"
@@ -306,6 +435,18 @@ msgcat::mcmset zh {
   "Find and Replace"
   "查找和替换"
 
+  "Find in files"
+  "在文件中查找"
+
+  "Find matching character pair"
+  "找到匹配的字符对"
+
+  "Find next occurrence"
+  "查找下一个实例"
+
+  "Find previous occurrence"
+  "查找上一个"
+
   "Fold All"
   "????"
 
@@ -315,8 +456,14 @@ msgcat::mcmset zh {
   "Format Text"
   "设置文本格式"
 
+  "Format indentation for text"
+  "文本的缩进格式"
+
   "From Clipboard"
   "从剪贴板"
+
+  "Global"
+  "全局"
 
   "Goto Last Tab"
   "转到最后一个标签页"
@@ -329,6 +476,24 @@ msgcat::mcmset zh {
 
   "Goto Previous Tab"
   "转到前一个标签"
+
+  "Goto last tab"
+  "转到最后一个选项卡"
+
+  "Goto next difference"
+  "下一个差异"
+
+  "Goto next tab"
+  "转到下一个选项卡"
+
+  "Goto other pane"
+  "转到另一窗格"
+
+  "Goto previous difference"
+  "上一个差异"
+
+  "Goto previous tab"
+  "上一选项卡"
 
   "Help"
   "帮助"
@@ -354,11 +519,35 @@ msgcat::mcmset zh {
   "Hide Tab Bar"
   "隐藏标签栏"
 
+  "Hide console"
+  "隐藏控制台"
+
+  "Hide line numbers"
+  "行号"
+
+  "Hide marker map"
+  "隐藏标记地图"
+
+  "Hide meta characters"
+  "隐藏 meta 字符"
+
+  "Hide sidebar"
+  "隱藏側邊攔"
+
+  "Hide status bar"
+  "显示/隐藏状态栏"
+
+  "Hide tab bar"
+  "隐藏选项卡栏"
+
   "Indent"
   "縮排"
 
   "Indent Off"
   "关闭缩进"
+
+  "Indent selected text"
+  "缩进选定的文本"
 
   "Indentation"
   "缩进"
@@ -366,10 +555,37 @@ msgcat::mcmset zh {
   "Insert"
   "插入"
 
+  "Insert command result after current line"
+  "在当前行之后插入命令结果"
+
+  "Insert enumeration"
+  "插入枚举"
+
+  "Insert file contents after current line"
+  "在当前行之后插入文件的内容"
+
+  "Insert from clipboard"
+  "通过剪贴板插入内容"
+
+  "Insert line above current line"
+  "当前行前面插入一行"
+
+  "Insert line below current line"
+  "插入当前行下方"
+
+  "Insert snippet"
+  "插入代码段"
+
   "Install"
   "安装"
 
+  "Install plugin"
+  "安装新插件"
+
   "Join Lines"
+  "联接线"
+
+  "Join lines"
   "联接线"
 
   "Jump Backward"
@@ -380,6 +596,18 @@ msgcat::mcmset zh {
 
   "Jump To Line"
   "跳转到行"
+
+  "Jump backward"
+  "往後跳"
+
+  "Jump forward"
+  "往前跳"
+
+  "Jump to line"
+  "跳转到行"
+
+  "Language"
+  "语言"
 
   "Launcher"
   "发射台"
@@ -402,17 +630,26 @@ msgcat::mcmset zh {
   "Lock"
   "鎖定"
 
+  "Lock file"
+  "锁定文件"
+
   "Lower Case"
   "小写字母"
 
   "Markers"
   "标记"
 
+  "Menu"
+  "菜单"
+
   "Menu Bindings"
   "菜单绑定"
 
   "Merge Panes"
   "????"
+
+  "Merge panes"
+  "合并窗格"
 
   "Move Cursors Down"
   "将光标向下移动"
@@ -425,6 +662,51 @@ msgcat::mcmset zh {
 
   "Move Cursors Up"
   "向上移动光标"
+
+  "Move cursor to bottom of screen"
+  "将光标移动到屏幕的底部"
+
+  "Move cursor to end of current line"
+  "移动光标以结束当前行"
+
+  "Move cursor to first line"
+  "将光标移动到第一行"
+
+  "Move cursor to last line"
+  "将光标移动到最后一行"
+
+  "Move cursor to middle of screen"
+  "将光标移动到屏幕的中间"
+
+  "Move cursor to next page"
+  "将光标移动到下一个页面"
+
+  "Move cursor to next word"
+  "将光标移动到下一个单词"
+
+  "Move cursor to previous page"
+  "将光标移动到前一页"
+
+  "Move cursor to previous word"
+  "将光标移动到前一个单词"
+
+  "Move cursor to start of current line"
+  "将光标移至当前行首"
+
+  "Move cursor to top of screen"
+  "将光标移动到屏幕的顶部"
+
+  "Move multicursors down one line"
+  "Multicursors 下移一行"
+
+  "Move multicursors left one line"
+  "移动 multicursors 左的一行"
+
+  "Move multicursors right one line"
+  "移动 multicursors 右一线"
+
+  "Move multicursors up one line"
+  "移动 multicursors 上一行"
 
   "Move to First Line"
   "移动到第一行"
@@ -459,11 +741,23 @@ msgcat::mcmset zh {
   "Move to Screen Top"
   "移动屏幕顶部"
 
+  "Move to other pane"
+  "移动到另一个窗格"
+
   "New From Template"
   "由模板新建"
 
   "New Window"
   "新窗口"
+
+  "New file"
+  "新建文件"
+
+  "New file from template"
+  "模板新建的文件"
+
+  "New window"
+  "新建窗口"
 
   "Next Difference"
   "?????"
@@ -480,11 +774,23 @@ msgcat::mcmset zh {
   "Open Recent"
   "打开最近"
 
+  "Open directory"
+  "開啟目錄"
+
+  "Open file"
+  "打开文件"
+
   "Paste"
   "粘贴"
 
   "Paste and Format"
   "粘贴和格式"
+
+  "Paste and format text from clipboard"
+  "从剪贴板粘贴和格式文本"
+
+  "Paste text from clipboard"
+  "从剪贴板粘贴文本"
 
   "Plugins"
   "插件"
@@ -507,14 +813,29 @@ msgcat::mcmset zh {
   "Quit"
   "退出"
 
+  "Quit application"
+  "退出应用程序"
+
   "Redo"
   "重複"
 
   "Relative"
   "亲戚"
 
+  "Relative line numbering"
+  "相对行号"
+
   "Reload"
   "重新加载"
+
+  "Reload all plugins"
+  "重新加载所有的插件"
+
+  "Reload snippets"
+  "重新加载的代码段"
+
+  "Reload template information"
+  "重新加载模板信息"
 
   "Remove All Markers"
   "??????"
@@ -522,14 +843,38 @@ msgcat::mcmset zh {
   "Remove From Current Line"
   "??????"
 
+  "Remove all markers"
+  "删除所有标记"
+
+  "Remove marker from current line"
+  "删除从当前行的标记"
+
+  "Rename current file"
+  "重命名当前文件"
+
   "Reopen File"
   "重新打开文件"
+
+  "Reopen current file"
+  "重新打开当前文件"
 
   "Replace Line With Script"
   "??????"
 
+  "Replace line with script"
+  "用脚本替换行"
+
   "Reset User to Base"
   "将用户重置为基地"
+
+  "Restart"
+  "重新启动"
+
+  "Run"
+  "运行"
+
+  "Run theme editor"
+  "运行主题编辑器"
 
   "Save All"
   "全部儲存"
@@ -543,6 +888,27 @@ msgcat::mcmset zh {
   "Save Selection As"
   "保存作为选择"
 
+  "Save all files"
+  "保存所有文件"
+
+  "Save current session"
+  "当前会话"
+
+  "Save file"
+  "另存文件"
+
+  "Save file as"
+  "保存文件为..."
+
+  "Save file as template"
+  "保存模板"
+
+  "Save selected lines"
+  "保存所选的行"
+
+  "Save sessions as"
+  "保存会话作为"
+
   "Select All"
   "全选"
 
@@ -555,11 +921,23 @@ msgcat::mcmset zh {
   "Select Previous Occurrence"
   "????????"
 
+  "Select all occurrences"
+  "选择所有匹配项"
+
+  "Select all text"
+  "选择文本"
+
   "Send Bug Report"
   "发送报告"
 
   "Send Feedback"
   "发送 feedback"
+
+  "Send bug report"
+  "缺陷跟踪管理系统"
+
+  "Send feedback"
+  "发送反馈"
 
   "Sessions"
   "??"
@@ -572,6 +950,24 @@ msgcat::mcmset zh {
 
   "Set User to Global"
   "设置的用户到全球"
+
+  "Set current file line ending to CR for Classic Mac"
+  "设置当前文件行 CR 为经典 Mac 的结局"
+
+  "Set current file line ending to CRLF for Windows"
+  "设置当前文件行到 CRLF Windows 结束"
+
+  "Set current file line ending to LF for Unix"
+  "设置当前文件行结束到 LF unix"
+
+  "Set indent mode to"
+  "将缩进模式设置为"
+
+  "Set user bindings to global bindings"
+  "设置用户绑定到全局绑定"
+
+  "Set user preferences to global preferences"
+  "设置的用户首选项设置为全局首选项"
 
   "Show Console"
   "显示控制台"
@@ -605,6 +1001,9 @@ msgcat::mcmset zh {
 
   "Show Tab Bar"
   "显示标签栏"
+
+  "Show console"
+  "显示航行控制台"
 
   "Smart Indent"
   "智能缩进"
