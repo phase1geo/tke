@@ -657,6 +657,12 @@ msgcat::mcmset ja {
   "Find and Replace"
   "検索と置換"
 
+  "Fold All"
+  "?????"
+
+  "Folding"
+  "????"
+
   "Format Text"
   "テキストをフォーマットする"
 
@@ -1080,6 +1086,9 @@ msgcat::mcmset ja {
   "Undo"
   "アンドゥ"
 
+  "Unfold All"
+  "??????????"
+
   "Unindent"
   "インデント解除"
 
@@ -1112,6 +1121,9 @@ msgcat::mcmset ja {
 
   "View Menu: Display text information"
   "[表示] メニュー: 表示テキスト情報"
+
+  "View Menu: Fold All"
+  "[??] ????: ??????"
 
   "View Menu: Goto last tab"
   "[表示] メニュー: 後藤最後のタブ"
@@ -1181,6 +1193,9 @@ msgcat::mcmset ja {
 
   "View Menu: Toggle split view mode"
   "[表示] メニュー: トグル分割表示モード"
+
+  "View Menu: Unfold All"
+  "[??] ????: ??????????"
 
   "Vim Mode"
   "Vimのモード"

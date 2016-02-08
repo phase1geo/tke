@@ -27,7 +27,7 @@ namespace eval syntax {
   source [file join $::tke_dir lib ns.tcl]
 
   variable filetypes    {}
-  variable current_lang "None"
+  variable current_lang [msgcat::mc "None"]
 
   array set lang_template {
     filepatterns       {}
@@ -198,7 +198,7 @@ namespace eval syntax {
       }
     }
 
-    return "None"
+    return [msgcat::mc "None"]
 
   }
 
@@ -216,7 +216,7 @@ namespace eval syntax {
       }
     }
 
-    return "None"
+    return [msgcat::mc "None"]
 
   }
 
@@ -230,7 +230,7 @@ namespace eval syntax {
       return $curr_lang($txt)
     }
 
-    return "None"
+    return [msgcat::mc "None"]
 
   }
 
@@ -482,7 +482,7 @@ namespace eval syntax {
     $mnu delete 0 end
 
     # Populate the menu with the available languages
-    $mnu add radiobutton -label [format "<%s>" [msgcat::mc None]] -variable [ns syntax]::current_lang \
+    $mnu add radiobutton -label [format "<%s>" [msgcat::mc "None"]] -variable [ns syntax]::current_lang \
       -value [msgcat::mc "None"] -command [list [ns syntax]::set_current_language <None>]
     foreach lang [lsort [array names langs]] {
       $mnu add radiobutton -label $lang -variable [ns syntax]::current_lang \

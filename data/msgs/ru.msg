@@ -657,6 +657,12 @@ msgcat::mcmset ru {
   "Find and Replace"
   "Найти и заменить"
 
+  "Fold All"
+  "???????? ???"
+
+  "Folding"
+  "&??????? ??????"
+
   "Format Text"
   "Формат"
 
@@ -1080,6 +1086,9 @@ msgcat::mcmset ru {
   "Undo"
   "Отменить"
 
+  "Unfold All"
+  "???????? ???"
+
   "Unindent"
   "Unindent"
 
@@ -1112,6 +1121,9 @@ msgcat::mcmset ru {
 
   "View Menu: Display text information"
   "В меню Вид: Отображение текстовой информации"
+
+  "View Menu: Fold All"
+  "? ???? ???: ?????????? ???"
 
   "View Menu: Goto last tab"
   "Меню Вид: Последняя вкладка Гото"
@@ -1181,6 +1193,9 @@ msgcat::mcmset ru {
 
   "View Menu: Toggle split view mode"
   "В меню Вид: Toggle Сплит режим просмотра"
+
+  "View Menu: Unfold All"
+  "? ???? ???: ???????? ???"
 
   "Vim Mode"
   "Режим Вим"

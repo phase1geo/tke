@@ -657,6 +657,12 @@ msgcat::mcmset nl {
   "Find and Replace"
   "Zoeken en vervangen"
 
+  "Fold All"
+  "Alle fold"
+
+  "Folding"
+  "Invouwen"
+
   "Format Text"
   "Tekst opmaken"
 
@@ -1080,6 +1086,9 @@ msgcat::mcmset nl {
   "Undo"
   "Ongedaan maken"
 
+  "Unfold All"
+  "Ontvouwen Alle"
+
   "Unindent"
   "Laten terugspringen"
 
@@ -1112,6 +1121,9 @@ msgcat::mcmset nl {
 
   "View Menu: Display text information"
   "Menu Beeld: Tekstinformatie weergeven"
+
+  "View Menu: Fold All"
+  "Menu Beeld: Vouw alle"
 
   "View Menu: Goto last tab"
   "Menu Beeld: Goto laatste tabblad"
@@ -1181,6 +1193,9 @@ msgcat::mcmset nl {
 
   "View Menu: Toggle split view mode"
   "Menu Beeld: Toggle splitsen weergavemodus"
+
+  "View Menu: Unfold All"
+  "Menu Beeld: Ontvouwen alle"
 
   "Vim Mode"
   "Vim Mode"

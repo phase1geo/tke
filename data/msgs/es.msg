@@ -657,6 +657,12 @@ msgcat::mcmset es {
   "Find and Replace"
   "Buscar y reemplazar"
 
+  "Fold All"
+  "Doblar todos los"
+
+  "Folding"
+  "reunido"
+
   "Format Text"
   "Formato de texto"
 
@@ -1080,6 +1086,9 @@ msgcat::mcmset es {
   "Undo"
   "Deshacer"
 
+  "Unfold All"
+  "Desplegar todos los"
+
   "Unindent"
   "Unindent"
 
@@ -1112,6 +1121,9 @@ msgcat::mcmset es {
 
   "View Menu: Display text information"
   "Menú Ver: Muestra información de texto"
+
+  "View Menu: Fold All"
+  "Men� Ver: Plegar todo"
 
   "View Menu: Goto last tab"
   ": Vista Goto último menú"
@@ -1181,6 +1193,9 @@ msgcat::mcmset es {
 
   "View Menu: Toggle split view mode"
   "Menú Ver: Palanca divide el modo de vista"
+
+  "View Menu: Unfold All"
+  "Men� Ver: Revela todos los"
 
   "Vim Mode"
   "Modo de Vim"

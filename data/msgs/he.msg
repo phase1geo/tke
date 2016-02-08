@@ -657,6 +657,12 @@ msgcat::mcmset he {
   "Find and Replace"
   "והחלפה"
 
+  "Fold All"
+  "?????? ??"
+
+  "Folding"
+  "?????"
+
   "Format Text"
   "עיצוב טקסט"
 
@@ -1080,6 +1086,9 @@ msgcat::mcmset he {
   "Undo"
   "בטל"
 
+  "Unfold All"
+  "?????? ???"
+
   "Unindent"
   "הקטנת כניסת"
 
@@ -1112,6 +1121,9 @@ msgcat::mcmset he {
 
   "View Menu: Display text information"
   "תפריט תצוגה: להציג טקסט מידע"
+
+  "View Menu: Fold All"
+  "????? ?????: ?????? ??"
 
   "View Menu: Goto last tab"
   "בתפריט תצוגה: הכרטיסיה האחרונה Goto"
@@ -1181,6 +1193,9 @@ msgcat::mcmset he {
 
   "View Menu: Toggle split view mode"
   "תפריט תצוגה: דו-מצבי תצוגת מצב מפוצל"
+
+  "View Menu: Unfold All"
+  "????? ?????: ?????? ???"
 
   "Vim Mode"
   "מצב vim"

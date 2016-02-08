@@ -66,19 +66,19 @@ msgcat::mcmset de {
   "Alle"
 
   "Case sensitivity"
-  "GroÃŸ-und Kleinschreibung"
+  "Groß-und Kleinschreibung"
 
   "Close All Tabs"
   "Close All Tabs"
 
   "Close Other Tabs"
-  "Andere Tabs schlieÃŸen"
+  "Andere Tabs schließen"
 
   "Close Other*"
-  "Andere Unterfenster schlieÃŸen"
+  "Schließen Sie andere *"
 
   "Close Tab"
-  "Tab schlieÃŸen"
+  "Tab schließen"
 
   "Column"
   "Spalte"
@@ -102,16 +102,16 @@ msgcat::mcmset de {
   "Favorit"
 
   "File already exists.  Use '!' to force an overwrite"
-  "Datei existiert bereits.  Verwendung '!' eine Ãœberschreibung zu erzwingen"
+  "Datei existiert bereits.  Verwendung '!' eine Überschreibung zu erzwingen"
 
   "File attribute does not exist"
   "Dateiattribut ist nicht vorhanden."
 
   "File index is out of range"
-  "Datei-Index auÃŸerhalb des zulÃ¤ssigen Bereichs"
+  "Datei-Index liegt außerhalb des Bereichs"
 
   "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
-  "Bild gefunden in Fill-in-Formulare, die die Form UI schlieÃŸt. In Formen wie Suche verwendet, Suchen / Ersetzen, und finden in Dateien."
+  "Bild gefunden in Fill-in-Formulare, die die Form UI schließt. In Formen wie Suche verwendet, Suchen / Ersetzen, und finden in Dateien."
 
   "Image used in tab menus to indicate that the file is associated with a difference view."
   "Bild in Registerkarte MenÃ¼s verwendet, um anzuzeigen, dass die Datei mit einem Unterschied Ansicht zugeordnet."
@@ -129,10 +129,10 @@ msgcat::mcmset de {
   "Bild im Register verwendet, um anzuzeigen, dass die Akten der Registerkarte ist schreibgeschÃ¼tzt."
 
   "Image used in tab to indicate that the tabâ€™s file is locked."
-  "Bild im Register verwendet, um anzuzeigen, dass die Akten der Registerkarte gesperrt ist."
+  "Bild in Registerkarte verwendet, um anzugeben, dass die Registerkarte Datei gesperrt ist."
 
   "Image used in tab which, when clicked, closes the tab."
-  "Bild in Register, die, wenn geklickt wird, schlieÃŸt das Register verwendet."
+  "Bild in Register, die, wenn geklickt wird, schließt das Register verwendet."
 
   "License"
   "Lizenze"
@@ -238,10 +238,10 @@ msgcat::mcmset de {
   "Alles lÃ¶schen"
 
   "Close All"
-  "Alle schlieÃŸen"
+  "Alle schließen"
 
   "Close Current"
-  "Strom zu schlieÃŸen"
+  "Strom zu schließen"
 
   "Command"
   "Befehl"
@@ -487,7 +487,7 @@ msgcat::mcmset de {
   "Im BearbeitungsmenÃ¼: Basis-Einstellungen-Datei anzeigen"
 
   "Edit Menu: View global menu bindings"
-  "BearbeitungsmenÃ¼: Ansicht-MenÃ¼ \"
+  "Bearbeitungsmenü: Ansicht-Menü \"
 
   "Edit Session - Global"
   "Session - Global bearbeiten"
@@ -547,7 +547,7 @@ msgcat::mcmset de {
   "Im DateimenÃ¼: Offene Favorit"
 
   "File Menu: Open Recent"
-  "Im DateimenÃ¼: Ã–ffnen Sie den letzten"
+  "Im Dateimenü: Öffnen Sie den letzten"
 
   "File Menu: Open directory"
   "Im DateimenÃ¼: Open directory"
@@ -562,7 +562,7 @@ msgcat::mcmset de {
   "Im DateimenÃ¼: Aktuelle Datei umbenennen"
 
   "File Menu: Reopen current file"
-  "Im DateimenÃ¼: Ã–ffnen Sie aktuelle Datei erneut."
+  "Im Dateimenü: Öffnen Sie aktuelle Datei erneut."
 
   "File Menu: Save all files"
   "Im DateimenÃ¼: Speichern Sie alle Dateien"
@@ -657,6 +657,12 @@ msgcat::mcmset de {
   "Find and Replace"
   "Suchen und Ersetzen"
 
+  "Fold All"
+  "Falten Sie alle"
+
+  "Folding"
+  "Folding"
+
   "Format Text"
   "Formatieren von Text"
 
@@ -679,16 +685,16 @@ msgcat::mcmset de {
   "Hilfe"
 
   "Help Menu: About TKE"
-  "Hilfe-MenÃ¼: Ãœber TKE"
+  "Hilfe-Menü: Über TKE"
 
   "Help Menu: Check for update"
-  "MenÃ¼ \"
+  "Menü \"
 
   "Help Menu: Send bug report"
-  "MenÃ¼ \"
+  "Menü \"
 
   "Help Menu: Send feedback"
-  "MenÃ¼ \"
+  "Menü \"
 
   "Help Menu: View user guide"
   "Hilfe-MenÃ¼: Ansicht-Benutzerhandbuch"
@@ -772,7 +778,7 @@ msgcat::mcmset de {
   "MenÃ¼ Bindungen"
 
   "Menus: About TKE"
-  "MenÃ¼s: Ãœber TKE"
+  "Menüs: Über TKE"
 
   "Merge Panes"
   "ZusammenfÃ¼hren von Scheiben"
@@ -835,13 +841,13 @@ msgcat::mcmset de {
   "Open Directory"
 
   "Open Favorite"
-  "Ã–ffnen Lieblings"
+  "Offenen Favorit"
 
   "Open File"
   "Datei Ã¶ffnen"
 
   "Open Recent"
-  "Ã–ffnen Sie den letzten"
+  "Zuletzt geöffnet"
 
   "Paste"
   "EinfÃ¼gen"
@@ -1080,6 +1086,9 @@ msgcat::mcmset de {
   "Undo"
   "RÃ¼ckgÃ¤ngig"
 
+  "Unfold All"
+  "Alle zu entfalten"
+
   "Unindent"
   "Unindent"
 
@@ -1108,10 +1117,13 @@ msgcat::mcmset de {
   "Ansicht Global"
 
   "View Menu: Absolute line numbering"
-  "MenÃ¼ \"
+  "Menü \"
 
   "View Menu: Display text information"
-  "MenÃ¼ \"
+  "Menü \"
+
+  "View Menu: Fold All"
+  "Im Ansichtsmenü: Falten Sie alle"
 
   "View Menu: Goto last tab"
   "Im AnsichtsmenÃ¼: Goto letzten tab"
@@ -1120,7 +1132,7 @@ msgcat::mcmset de {
   "Im AnsichtsmenÃ¼: Goto nÃ¤chste Registerkarte"
 
   "View Menu: Goto other pane"
-  "MenÃ¼ \"
+  "Menü \"
 
   "View Menu: Goto previous tab"
   "Im AnsichtsmenÃ¼: Goto vorherigen Registerkarte"
@@ -1147,10 +1159,10 @@ msgcat::mcmset de {
   "Im AnsichtsmenÃ¼: Hide Tab-Leiste"
 
   "View Menu: Merge panes"
-  ": Ansicht Merge MenÃ¼leisten"
+  ": Ansicht Merge Menüleisten"
 
   "View Menu: Move to other pane"
-  "MenÃ¼ \"
+  "Menü \"
 
   "View Menu: Relative line numbering"
   "Im AnsichtsmenÃ¼: Relative Zeilennummerierung"
@@ -1159,7 +1171,7 @@ msgcat::mcmset de {
   "Im AnsichtsmenÃ¼: Show-Konsole"
 
   "View Menu: Show line numbers"
-  "MenÃ¼ \"
+  "Menü \"
 
   "View Menu: Show marker map"
   "Im AnsichtsmenÃ¼: Karte Markierung anzeigen"
@@ -1181,6 +1193,9 @@ msgcat::mcmset de {
 
   "View Menu: Toggle split view mode"
   "Im AnsichtsmenÃ¼: Toggle geteilter Ansichtsmodus"
+
+  "View Menu: Unfold All"
+  "Im Ansichtsmenü: Entfalten Sie alle"
 
   "Vim Mode"
   "Vim-Modus"
@@ -1290,10 +1305,10 @@ msgcat::mcmset de {
 msgcat::mcmset de {
 
   "Add Parent Directory"
-  "Ãœbergeordnetes Verzeichnis"
+  "Übergeordnetes Verzeichnis hinzufügen"
 
   "Close Directory Files"
-  "SchlieÃŸen Verzeichnis Files"
+  "Enge Verzeichnisdateien"
 
   "Copy Pathname"
   "Pfadnamen kopieren"
@@ -1648,7 +1663,7 @@ msgcat::mcmset de {
   "Beschreibung"
 
   "Details"
-  "<span style=\"
+  "Details"
 
   "Done"
   "Fertig"
@@ -1678,7 +1693,7 @@ msgcat::mcmset de {
   "Installationsverzeichnis"
 
   "Modifications"
-  "Ã„nderungen"
+  "Änderungen"
 
   "One-Color Bitmap"
   "One-Color Bitmap"
@@ -1708,7 +1723,7 @@ msgcat::mcmset de {
   "Tabelle Filter"
 
   "The current theme has unsaved changes"
-  "Das aktuelle Thema hat nicht gespeicherte Ã„nderungen"
+  "Das aktuelle Thema hat nicht gespeicherte Änderungen"
 
   "Tree Style: "
   "Baum-Stil:"
@@ -1790,7 +1805,7 @@ msgcat::mcmset de {
   "Abbrechen"
 
   "Close"
-  "schlieÃŸen"
+  "Schließen"
 
   "Delete"
   "LÃ¶schen"
@@ -1802,7 +1817,7 @@ msgcat::mcmset de {
   "Bevorzugte"
 
   "File Name:"
-  "ãƒ•ã‚¡ã‚¤ãƒ«å"
+  "Dateiname:"
 
   "Find"
   "Finden"

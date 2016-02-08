@@ -657,6 +657,12 @@ msgcat::mcmset fr {
   "Find and Replace"
   "Rechercher et remplacer"
 
+  "Fold All"
+  "Plier tous"
+
+  "Folding"
+  "Pliage"
+
   "Format Text"
   "Format texte"
 
@@ -1080,6 +1086,9 @@ msgcat::mcmset fr {
   "Undo"
   "Annuler"
 
+  "Unfold All"
+  "DÈplier tous"
+
   "Unindent"
   "Unindent"
 
@@ -1112,6 +1121,9 @@ msgcat::mcmset fr {
 
   "View Menu: Display text information"
   "Menu d'affichage : Afficher des informations textuelles"
+
+  "View Menu: Fold All"
+  "Menu d'affichage : Plier tous"
 
   "View Menu: Goto last tab"
   ": Vue Goto dernier onglet du Menu"
@@ -1181,6 +1193,9 @@ msgcat::mcmset fr {
 
   "View Menu: Toggle split view mode"
   "Menu d'affichage : Activer/d√©sactiver split mode d'affichage"
+
+  "View Menu: Unfold All"
+  "Menu d'affichage : DÈplier tous"
 
   "Vim Mode"
   "Vim mode"
