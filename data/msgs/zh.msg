@@ -1005,6 +1005,36 @@ msgcat::mcmset zh {
   "Show console"
   "显示航行控制台"
 
+  "Show diagnostic logfile"
+  "显示诊断日志文件"
+
+  "Show file difference"
+  "显示不同"
+
+  "Show last profiling report"
+  "显示上次分析报告"
+
+  "Show line numbers"
+  "显示行号"
+
+  "Show marker map"
+  "显示标记"
+
+  "Show meta characters"
+  "显示 meta 字符"
+
+  "Show selected line change"
+  "显示所选的行的变化"
+
+  "Show sidebar"
+  "显示侧边栏"
+
+  "Show status bar"
+  "显示状态栏"
+
+  "Show tab bar"
+  "显示选项栏"
+
   "Smart Indent"
   "智能缩进"
 
@@ -1017,14 +1047,26 @@ msgcat::mcmset zh {
   "Sort Tabs"
   "分类标签"
 
+  "Sort tabs"
+  "排序选项卡"
+
   "Start Profiling"
   "开始分析"
+
+  "Start profiling"
+  "启动性能分析"
 
   "Stop Profiling"
   "停止分析"
 
+  "Stop profiling"
+  "停止性能分析"
+
   "Switch To"
   "???..."
+
+  "Switch to session"
+  "切换到会话"
 
   "Tabs"
   "標籤"
@@ -1044,6 +1086,15 @@ msgcat::mcmset zh {
   "Toggle Comment"
   "??/????"
 
+  "Toggle case of current character"
+  "切换大小写的当前字符"
+
+  "Toggle comment"
+  "开启/关闭注释"
+
+  "Toggle split view mode"
+  "拆分视图模式切换:"
+
   "Tools"
   "工具"
 
@@ -1053,20 +1104,32 @@ msgcat::mcmset zh {
   "Undo"
   "復原"
 
+  "Unfavorite file"
+  "太罗嗦的文件"
+
   "Unfold All"
   "????"
 
   "Unindent"
   "取消缩进"
 
+  "Unindent selected text"
+  "取消所選文本的縮排"
+
   "Uninstall"
   "卸载"
+
+  "Uninstall plugin"
+  "卸载插件"
 
   "Unix"
   "Unix"
 
   "Unlock"
   "解锁用户"
+
+  "Unlock file"
+  "解锁文件"
 
   "Upper Case"
   "大寫字母"
@@ -1082,6 +1145,15 @@ msgcat::mcmset zh {
 
   "View Global"
   "查看全球"
+
+  "View base preferences file"
+  "查看基地首选项文件"
+
+  "View global menu bindings"
+  "查看全局菜单绑定"
+
+  "View user guide"
+  "用户指南"
 
   "Vim Mode"
   "Vim的模式"

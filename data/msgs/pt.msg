@@ -201,16 +201,25 @@ msgcat::mcmset pt {
 # menus.tcl
 msgcat::mcmset pt {
 
-  "About TKE"
-  "Sobre TKE"
+  "About"
+  "Sobre"
 
   "Absolute"
   "Absoluta"
 
+  "Absolute line numbering"
+  "Numeração de linha absoluta"
+
   "Align Cursors"
   "Alinhar os cursores"
 
+  "Align cursors"
+  "Alinhar os cursores"
+
   "Append Next Occurrence"
+  "Acrescentar a próxima ocorrência"
+
+  "Append next occurrence"
   "Acrescentar a próxima ocorrência"
 
   "Auto-Indent"
@@ -222,14 +231,26 @@ msgcat::mcmset pt {
   "Bubble Up"
   "Forem surgindo"
 
+  "Bubble lines down one line"
+  "Linhas de bolha para baixo uma linha"
+
+  "Bubble lines up one line"
+  "Linhas de bolha, uma linha"
+
   "Change Working Directory"
   "Alterar o diretório de trabalho"
+
+  "Change working directory"
+  "Altere o diretório de trabalho"
 
   "Character"
   "Personagem"
 
   "Check for Update"
   "Procurar atualização agora"
+
+  "Check for update"
+  "Buscar por atualizações"
 
   "Classic Mac"
   "Com seu clássico Mac"
@@ -243,20 +264,47 @@ msgcat::mcmset pt {
   "Close Current"
   "Fechar a Vista Actual"
 
+  "Close all tabs"
+  "Fechar todas as guias"
+
+  "Close current session"
+  "Fecha a página actual e a sessão residente nesta."
+
+  "Close current tab"
+  "Fechar o separador actual"
+
   "Command"
   "Comando"
 
   "Command Result"
   "Resultado do comando"
 
+  "Convert case to lower"
+  "Converter o caso para baixar"
+
+  "Convert case to title"
+  "Converter o caso para o título"
+
+  "Convert case to upper"
+  "Converter o caso ao superior"
+
   "Copy"
   "Copiar"
+
+  "Copy text"
+  "Copiar o Texto"
 
   "Create"
   "Criar"
 
   "Create at Current Line"
   "Criar na linha atual"
+
+  "Create marker at current line"
+  "Criar marcador na linha atual"
+
+  "Create new plugin"
+  "Criar novo plugin"
 
   "Current Line"
   "Linha actual:"
@@ -279,8 +327,53 @@ msgcat::mcmset pt {
   "Cut"
   "Cortar"
 
+  "Cut text"
+  "Recorta o texto"
+
+  "Delete current file"
+  "Apagar a Actual"
+
+  "Delete current line"
+  "Apagar a Actual"
+
+  "Delete current word"
+  "Apagar a Actual"
+
+  "Delete from cursor to end of line"
+  "Apagar do cursor ao fim da linha"
+
+  "Delete from start of line to cursor"
+  "Excluir do início da linha de cursor"
+
+  "Delete session"
+  "Remover sessão"
+
+  "Delete template"
+  "Excluir"
+
+  "Delete text between character"
+  "Excluir o texto entre o caráter"
+
+  "Delete the current number"
+  "Apagar o número atual"
+
+  "Delete the whitespace to left of cursor"
+  "Excluir o espaço em branco à esquerda do cursor"
+
+  "Delete the whitespace to right of cursor"
+  "Excluir o espaço em branco à direita do cursor"
+
+  "Disable Vim mode"
+  "Desativar o modo de Vim"
+
   "Display Text Info"
   "Informações do visor"
+
+  "Display text information"
+  "Informações do Display"
+
+  "Duplicate current file"
+  "Arquivo atual duplicado"
 
   "Edit"
   "Editar"
@@ -288,224 +381,44 @@ msgcat::mcmset pt {
   "Edit Language"
   "Editar idioma"
 
-  "Edit Menu Edit user snippets"
-  "Editar Menu Editar trechos de usuário"
-
-  "Edit Menu: Align cursors"
-  "Menu Editar: Alinhar cursores"
-
-  "Edit Menu: Bubble lines down one line"
-  "Menu Editar: Linhas de bolha para baixo uma linha"
-
-  "Edit Menu: Bubble lines up one line"
-  "Editar Menu: Linhas de bolha uma linha"
-
-  "Edit Menu: Convert case to lower"
-  "Menu Editar: Converter caso para baixar"
-
-  "Edit Menu: Convert case to title"
-  "Menu Editar: Converter caso a título"
-
-  "Edit Menu: Convert case to upper"
-  "Menu Editar: Converter o caso ao superior"
-
-  "Edit Menu: Copy text"
-  "Menu Editar: Texto de copiar"
-
-  "Edit Menu: Cut text"
-  "Menu Editar: Recortar o texto"
-
-  "Edit Menu: Delete current line"
-  "Menu Editar: Excluir a linha atual"
-
-  "Edit Menu: Delete current word"
-  "Menu Editar: Excluir palavra atual"
-
-  "Edit Menu: Delete from cursor to end of line"
-  "Menu Editar: Excluir do cursor ao fim da linha"
-
-  "Edit Menu: Delete from start of line to cursor"
-  "Menu Editar: Excluir do início da linha de cursor"
-
-  "Edit Menu: Delete template"
-  "Menu Editar: Modelo de excluir"
-
-  "Edit Menu: Delete text between character"
-  "Menu Editar: Excluir texto entre caracteres"
-
-  "Edit Menu: Delete the current number"
-  "Menu Editar: Apagar o número atual"
-
-  "Edit Menu: Delete the whitespace to left of cursor"
-  "Menu Editar: Excluir o espaço em branco à esquerda do cursor"
-
-  "Edit Menu: Delete the whitespace to right of cursor"
-  "Menu Editar: Excluir o espaço em branco à direita do cursor"
-
-  "Edit Menu: Edit language snippets"
-  "Menu Editar: Editar trechos de linguagem"
-
-  "Edit Menu: Edit session current language preferences"
-  "Menu Editar: Editar preferências de idioma atual sessão"
-
-  "Edit Menu: Edit session global preferences"
-  "Menu Editar: Editar preferências globais de sessão"
-
-  "Edit Menu: Edit template"
-  "Menu Editar: Modelo de editar"
-
-  "Edit Menu: Edit user current language preferences"
-  "Menu Editar: Editar preferências de idioma atual do usuário"
-
-  "Edit Menu: Edit user global preferences"
-  "Menu Editar: Editar as preferências do usuário global"
-
-  "Edit Menu: Edit user menu bindings"
-  "Menu Editar: Editar ligações de menu de usuário"
-
-  "Edit Menu: Format indentation for text"
-  "Editar Menu: Formatar o recuo para o texto"
-
-  "Edit Menu: Indent selected text"
-  "Menu Editar: Travessão texto selecionado"
-
-  "Edit Menu: Insert command result after current line"
-  "Editar Menu: Inserir o resultado do comando depois da linha atual"
-
-  "Edit Menu: Insert file contents after current line"
-  "Editar Menu: Inserir o conteúdo do arquivo depois da linha atual"
-
-  "Edit Menu: Insert from clipboard"
-  "Menu Editar: Inserção da área de transferência"
-
-  "Edit Menu: Insert line above current line"
-  "Editar Menu: Inserir linha acima da linha atual"
-
-  "Edit Menu: Insert line below current line"
-  "Editar Menu: Inserir linha abaixo da linha atual"
-
-  "Edit Menu: Insert snippet"
-  "Menu Editar: Trecho de inserção"
-
-  "Edit Menu: Join lines"
-  "Menu Editar: Linhas de junção"
-
-  "Edit Menu: Move cursor to bottom of screen"
-  "Menu Editar: Mover o cursor para o fundo da tela"
-
-  "Edit Menu: Move cursor to end of current line"
-  "Menu Editar: Mover o cursor ao fim da linha atual"
-
-  "Edit Menu: Move cursor to first line"
-  "Menu Editar: Mover o cursor para a primeira linha"
-
-  "Edit Menu: Move cursor to last line"
-  "Menu Editar: Mover o cursor para a última linha"
-
-  "Edit Menu: Move cursor to middle of screen"
-  "Menu Editar: Mover o cursor para o meio da tela"
-
-  "Edit Menu: Move cursor to next page"
-  "Menu Editar: Mover o cursor para a próxima página"
-
-  "Edit Menu: Move cursor to next word"
-  "Menu Editar: Mover o cursor para a próxima palavra"
-
-  "Edit Menu: Move cursor to previous page"
-  "Menu Editar: Mover o cursor para a página anterior"
-
-  "Edit Menu: Move cursor to previous word"
-  "Menu Editar: Mover o cursor para a palavra anterior"
-
-  "Edit Menu: Move cursor to start of current line"
-  "Menu Editar: Mover o cursor para o início da linha atual"
-
-  "Edit Menu: Move cursor to top of screen"
-  "Menu Editar: Mover o cursor para a parte superior da tela"
-
-  "Edit Menu: Move multicursors down one line"
-  "Menu Editar: Mover a multicursors para baixo uma linha"
-
-  "Edit Menu: Move multicursors left one line"
-  "Menu Editar: Mover à esquerda de uma linha de multicursors"
-
-  "Edit Menu: Move multicursors right one line"
-  "Menu Editar: Mover a multicursors direito a uma linha"
-
-  "Edit Menu: Move multicursors up one line"
-  "Menu Editar: Mover a multicursors uma linha"
-
-  "Edit Menu: Paste and format text from clipboard"
-  "Menu Editar: Colar e formatar texto da prancheta"
-
-  "Edit Menu: Paste text from clipboard"
-  "Menu Editar: Colar texto da área de transferência"
-
-  "Edit Menu: Redo"
-  "Editar Menu: refazer"
-
-  "Edit Menu: Reload snippets"
-  "Menu Editar: Trechos de Reload"
-
-  "Edit Menu: Reload template information"
-  "Menu Editar: Recarregar informação de modelo"
-
-  "Edit Menu: Replace line with script"
-  "Menu Editar: Substitua a linha com script"
-
-  "Edit Menu: Select all text"
-  "Editar Menu: Selecione todo o texto"
-
-  "Edit Menu: Set indent mode to IND"
-  "Menu Editar: Definir modo de travessão IND"
-
-  "Edit Menu: Set indent mode to IND+"
-  "Menu Editar: Definir modo de travessão IND +"
-
-  "Edit Menu: Set indent mode to OFF"
-  "Menu Editar: Definir modo de travessão para OFF"
-
-  "Edit Menu: Set user bindings to global bindings"
-  "Menu Editar: Defina ligações de usuário para globais ligações"
-
-  "Edit Menu: Set user preferences to global preferences"
-  "Menu Editar: Definir preferências de usuário para preferências globais"
-
-  "Edit Menu: Toggle case of current character"
-  "Menu Editar: Alternar caso de caractere atual"
-
-  "Edit Menu: Toggle comment"
-  "Menu Editar: Comentário de ativar/desativar"
-
-  "Edit Menu: Undo"
-  "Editar Menu: desfazer"
-
-  "Edit Menu: Unindent selected text"
-  "Menu Editar: Unindent texto selecionado"
-
-  "Edit Menu: View base preferences file"
-  "Menu Editar: Arquivo de base de preferências de exibição"
-
-  "Edit Menu: View global menu bindings"
-  "Editar Menu: Exibir menu global ligações"
-
-  "Edit Session - Global"
-  "Editar a sessão - Global"
-
-  "Edit Session - Language"
-  "Editar a sessão - língua"
+  "Edit Session"
+  "Editar a sessão"
 
   "Edit User"
   "Editar Usuário"
 
-  "Edit User - Global"
-  "Editar usuário - Global"
+  "Edit language snippets"
+  "Editar trechos de linguagem"
 
-  "Edit User - Language"
-  "Editar usuário - idioma"
+  "Edit session current language preferences"
+  "Editar preferências de idioma atual sessão"
+
+  "Edit session global preferences"
+  "Editar preferências de sessão global"
+
+  "Edit template"
+  "Editar"
+
+  "Edit user current language preferences"
+  "Editar preferências de idioma atual do usuário"
+
+  "Edit user global preferences"
+  "Editar preferências de usuário global"
+
+  "Edit user menu bindings"
+  "Editar ligações de menu de usuário"
+
+  "Edit user snippets"
+  "Editar trechos de usuário"
+
+  "Enable Vim mode"
+  "Ativar o modo de Vim"
 
   "Enumeration"
   "Enumeração"
+
+  "Favorite file"
+  "Arquivo favorito"
 
   "File"
   "Arquivo"
@@ -513,149 +426,26 @@ msgcat::mcmset pt {
   "File Contents"
   "conteúdo de ficheiro"
 
-  "File Menu: Change working directory"
-  "Menu arquivo: Altere o diretório de trabalho"
-
-  "File Menu: Close all tabs"
-  "Menu arquivo: Fechar todas as guias"
-
-  "File Menu: Close current tab"
-  "Menu arquivo: Fechar a guia atual"
-
-  "File Menu: Delete current file"
-  "Menu de arquivo: Excluir o arquivo atual"
-
-  "File Menu: Duplicate current file"
-  "Menu arquivo: Duplicar o arquivo atual"
-
-  "File Menu: Favorite file"
-  "Menu arquivo: Arquivo de favoritos"
-
-  "File Menu: Lock file"
-  "Menu arquivo: Arquivo de bloqueio"
-
-  "File Menu: New file"
-  "Menu arquivo: Novo arquivo"
-
-  "File Menu: New file from template"
-  "Menu arquivo: Novo arquivo de modelo"
-
-  "File Menu: New window"
-  "Menu arquivo: Nova janela"
-
-  "File Menu: Open Favorite"
-  "Menu arquivo: Aberto favorito"
-
-  "File Menu: Open Recent"
-  "Ferramentas Selector da Direcção"
-
-  "File Menu: Open directory"
-  "Menu arquivo: Diretório aberto"
-
-  "File Menu: Open file"
-  "Menu arquivo: Abrir arquivo"
-
-  "File Menu: Quit application"
-  "Menu arquivo: Pare de aplicação"
-
-  "File Menu: Rename current file"
-  "Menu arquivo: Renomeie o arquivo atual"
-
-  "File Menu: Reopen current file"
-  "Menu arquivo: Reabrir o arquivo corrente"
-
-  "File Menu: Save all files"
-  "Menu arquivo: Salvar todos os arquivos"
-
-  "File Menu: Save file"
-  "Menu arquivo: Salve o arquivo."
-
-  "File Menu: Save file as"
-  "Menu arquivo: Salve o arquivo como"
-
-  "File Menu: Save file as template"
-  "Menu arquivo: Salve o arquivo como modelo"
-
-  "File Menu: Save selected lines"
-  "Menu arquivo: Salvar as linhas selecionadas"
-
-  "File Menu: Set current file line ending to CR for Classic Mac"
-  "Menu arquivo: Definir a linha atual do arquivo final para CR para Mac Classic"
-
-  "File Menu: Set current file line ending to CRLF for Windows"
-  "Menu arquivo: Set atual arquivo linha final de CRLF para Windows"
-
-  "File Menu: Set current file line ending to LF for Unix"
-  "Menu arquivo: Definir a linha atual do arquivo final para se para Unix"
-
-  "File Menu: Show file difference"
-  "Menu arquivo: Mostrar a diferença de arquivo"
-
-  "File Menu: Unfavorite file"
-  "Menu arquivo: Arquivo favoritas"
-
-  "File Menu: Unlock file"
-  "Menu arquivo: Desbloquear arquivo"
-
   "Find In Files"
   "Procurar nos Ficheiros..."
 
   "Find Matching Pair"
   "Encontrar o par de correspondência"
 
-  "Find Menu: Append next occurrence"
-  "Menu localizar: Acrescentar a próxima ocorrência"
-
-  "Find Menu: Create marker at current line"
-  "Menu localizar: Criar marcador na linha atual"
-
-  "Find Menu: Find"
-  "Encontrar o Menu: encontrar"
-
-  "Find Menu: Find and Replace"
-  "Menu localizar: Localizar e substituir"
-
-  "Find Menu: Find in files"
-  "Menu localizar: Localizar em arquivos"
-
-  "Find Menu: Find matching character pair"
-  "Menu localizar: Encontrar o par de caracteres correspondente"
-
-  "Find Menu: Find next occurrence"
-  "Menu localizar: Localizar a próxima ocorrência"
-
-  "Find Menu: Find previous occurrence"
-  "Menu localizar: Localizar a ocorrência anterior"
-
-  "Find Menu: Goto next difference"
-  "Encontrar Menu: Diferença próxima Goto"
-
-  "Find Menu: Goto previous difference"
-  "Menu localizar: Diferença anterior Goto"
-
-  "Find Menu: Jump backward"
-  "Menu localizar: Saltar para trás"
-
-  "Find Menu: Jump forward"
-  "Menu localizar: Salto para a frente"
-
-  "Find Menu: Jump to line"
-  "Menu localizar: Salto de linha"
-
-  "Find Menu: Remove all markers"
-  "Menu localizar: Remova todos os marcadores"
-
-  "Find Menu: Remove marker from current line"
-  "Menu localizar: Remover o marcador de linha atual"
-
-  "Find Menu: Select all occurrences"
-  "Menu localizar: Selecionar todas as ocorrências"
-
-  "Find Menu: Show selected line change"
-  "Menu localizar: Mudança de linha de Show selecionado"
-
   "Find and Replace"
   "Localizar e substituir"
+
+  "Find in files"
+  "Procurar nos Ficheiros..."
+
+  "Find matching character pair"
+  "Encontrar o par de caracteres correspondente"
+
+  "Find next occurrence"
+  "Localizar a próxima ocorrência"
+
+  "Find previous occurrence"
+  "Localizar a ocorrência anterior"
 
   "Fold All"
   "Dobre tudo"
@@ -666,8 +456,14 @@ msgcat::mcmset pt {
   "Format Text"
   "Text Format"
 
+  "Format indentation for text"
+  "Recuo de formato para texto"
+
   "From Clipboard"
   "Correcção da Área de Transferência"
+
+  "Global"
+  "Global"
 
   "Goto Last Tab"
   "Ir à última guia"
@@ -681,23 +477,26 @@ msgcat::mcmset pt {
   "Goto Previous Tab"
   "Ir à aba anterior"
 
+  "Goto last tab"
+  "Última guia goto"
+
+  "Goto next difference"
+  "Ir para a próxima diferença"
+
+  "Goto next tab"
+  "Ir para a próxima guia"
+
+  "Goto other pane"
+  "Ir para outro painel"
+
+  "Goto previous difference"
+  "Diferença Anterior"
+
+  "Goto previous tab"
+  "Aba anterior"
+
   "Help"
   "Ajuda"
-
-  "Help Menu: About TKE"
-  "Menu Ajuda: Sobre TKE"
-
-  "Help Menu: Check for update"
-  "Menu Ajuda: Verificar atualização"
-
-  "Help Menu: Send bug report"
-  "Menu Ajuda: Enviar relatório de erros"
-
-  "Help Menu: Send feedback"
-  "-Menu Ajuda: Gabarito de Send"
-
-  "Help Menu: View user guide"
-  "Menu Ajuda: Guia do usuário exibir"
 
   "Hide Console"
   "Ocultar Console"
@@ -720,11 +519,35 @@ msgcat::mcmset pt {
   "Hide Tab Bar"
   "Esconder Tab Bar"
 
+  "Hide console"
+  "Esconde o console"
+
+  "Hide line numbers"
+  "Números de linha"
+
+  "Hide marker map"
+  "Esconder mapa marcador"
+
+  "Hide meta characters"
+  "Esconder os meta caracteres"
+
+  "Hide sidebar"
+  "Ocultar barra lateral"
+
+  "Hide status bar"
+  "Ocultar barra de Status"
+
+  "Hide tab bar"
+  "Ocultar barra de guia"
+
   "Indent"
   "Avançar"
 
   "Indent Off"
   "Travessão fora"
+
+  "Indent selected text"
+  "Recuar o texto selecionado"
 
   "Indentation"
   "Indentação"
@@ -732,10 +555,37 @@ msgcat::mcmset pt {
   "Insert"
   "Inserir"
 
+  "Insert command result after current line"
+  "Inserir o resultado do comando depois da linha atual"
+
+  "Insert enumeration"
+  "Inserir a enumeração"
+
+  "Insert file contents after current line"
+  "Inserir o conteúdo do arquivo depois da linha atual"
+
+  "Insert from clipboard"
+  "Inserir a partir da área de transferência"
+
+  "Insert line above current line"
+  "Inserir linha acima da linha atual"
+
+  "Insert line below current line"
+  "Inserir linha abaixo da linha atual"
+
+  "Insert snippet"
+  "Inserir trecho"
+
   "Install"
   "Instalar"
 
+  "Install plugin"
+  "Instalar Plugin"
+
   "Join Lines"
+  "Unir Linhas"
+
+  "Join lines"
   "Unir Linhas"
 
   "Jump Backward"
@@ -746,6 +596,18 @@ msgcat::mcmset pt {
 
   "Jump To Line"
   "Saltar para a linha"
+
+  "Jump backward"
+  "Saltar para trás"
+
+  "Jump forward"
+  "Saltar para a frente"
+
+  "Jump to line"
+  "Saltar para a linha"
+
+  "Language"
+  "Idioma"
 
   "Launcher"
   "Lançador"
@@ -768,19 +630,25 @@ msgcat::mcmset pt {
   "Lock"
   "Fixar"
 
+  "Lock file"
+  "Bloqueio de arquivo"
+
   "Lower Case"
   "caixa baixa"
 
   "Markers"
   "Marcadores"
 
+  "Menu"
+  "Menu"
+
   "Menu Bindings"
   "Ligações de Menu"
 
-  "Menus: About TKE"
-  "Menus: Sobre TKE"
-
   "Merge Panes"
+  "Mesclar painéis"
+
+  "Merge panes"
   "Mesclar painéis"
 
   "Move Cursors Down"
@@ -794,6 +662,51 @@ msgcat::mcmset pt {
 
   "Move Cursors Up"
   "Mova os cursores para cima"
+
+  "Move cursor to bottom of screen"
+  "Mova o cursor para o fundo da tela"
+
+  "Move cursor to end of current line"
+  "Mover o cursor para o fim da linha atual"
+
+  "Move cursor to first line"
+  "Mova o cursor para a primeira linha"
+
+  "Move cursor to last line"
+  "Mova o cursor para a última linha"
+
+  "Move cursor to middle of screen"
+  "Mova o cursor para o meio da tela"
+
+  "Move cursor to next page"
+  "Mova o cursor para a próxima página"
+
+  "Move cursor to next word"
+  "Mova o cursor para a próxima palavra"
+
+  "Move cursor to previous page"
+  "Mova o cursor para a página anterior"
+
+  "Move cursor to previous word"
+  "Mova o cursor para a palavra anterior"
+
+  "Move cursor to start of current line"
+  "Mover o cursor para o início da linha atual"
+
+  "Move cursor to top of screen"
+  "Mova o cursor para a parte superior da tela"
+
+  "Move multicursors down one line"
+  "Multicursors mover para baixo uma linha"
+
+  "Move multicursors left one line"
+  "Mover o multicursors esquerdo de uma linha"
+
+  "Move multicursors right one line"
+  "Mover multicursors bem uma linha"
+
+  "Move multicursors up one line"
+  "Multicursors mover uma linha"
 
   "Move to First Line"
   "Mover para a primeira linha"
@@ -828,11 +741,23 @@ msgcat::mcmset pt {
   "Move to Screen Top"
   "Mover para o topo da tela"
 
+  "Move to other pane"
+  "Mover para outro painel"
+
   "New From Template"
   "Novo a Partir de Modelo"
 
   "New Window"
   "Nova Janela"
+
+  "New file"
+  "Novo arquivo"
+
+  "New file from template"
+  "Novo a partir do modelo"
+
+  "New window"
+  "Nova janela"
 
   "Next Difference"
   "Próxima Diferença"
@@ -849,26 +774,26 @@ msgcat::mcmset pt {
   "Open Recent"
   "Abrir um Recente"
 
+  "Open directory"
+  "Abrir diretório..."
+
+  "Open file"
+  "Abrir um ficheiro"
+
   "Paste"
   "Colar"
 
   "Paste and Format"
   "Colar formato"
 
+  "Paste and format text from clipboard"
+  "Formato e colar texto da área de transferência"
+
+  "Paste text from clipboard"
+  "Colar da área de transferência"
+
   "Plugins"
   "Plugins"
-
-  "Plugins Menu: Create new plugin"
-  "Menu de plugins: Criar novo plugin"
-
-  "Plugins Menu: Install plugin"
-  "Menu de plugins: Instalar plugin"
-
-  "Plugins Menu: Reload all plugins"
-  "Menu de plugins: Recarregar todos os plugins"
-
-  "Plugins Menu: Uninstall plugin"
-  "Menu de plugins: Desinstalar o plugin"
 
   "Preferences"
   "Preferências"
@@ -888,14 +813,29 @@ msgcat::mcmset pt {
   "Quit"
   "Desistir"
 
+  "Quit application"
+  "Sair da aplicação"
+
   "Redo"
   "Refazer"
 
   "Relative"
   "Relativo"
 
+  "Relative line numbering"
+  "Numeração de linha relativa"
+
   "Reload"
   "Recarregar"
+
+  "Reload all plugins"
+  "Recarregar os 'Plugins'"
+
+  "Reload snippets"
+  "Trechos de recarga"
+
+  "Reload template information"
+  "Informações do modelo de recarga"
 
   "Remove All Markers"
   "Remova todos os marcadores"
@@ -903,20 +843,38 @@ msgcat::mcmset pt {
   "Remove From Current Line"
   "Remover da linha atual"
 
+  "Remove all markers"
+  "Remova todos os marcadores"
+
+  "Remove marker from current line"
+  "Remover o marcador de linha atual"
+
+  "Rename current file"
+  "Renomeie o arquivo atual"
+
   "Reopen File"
   "Reabrir o arquivo."
+
+  "Reopen current file"
+  "Reabrir o arquivo corrente"
 
   "Replace Line With Script"
   "Substituir a linha com Script"
 
+  "Replace line with script"
+  "Substituir a linha com script"
+
   "Reset User to Base"
   "Redefinir o usuário à Base"
 
-  "Restart TKE"
-  "Reiniciar TKE"
+  "Restart"
+  "Reiniciar"
 
-  "Run BIST"
-  "Executar BIST"
+  "Run"
+  "Executar"
+
+  "Run theme editor"
+  "Execute o editor de temas"
 
   "Save All"
   "Gravar Tudo"
@@ -930,6 +888,27 @@ msgcat::mcmset pt {
   "Save Selection As"
   "Salvar seleção como"
 
+  "Save all files"
+  "Guardar todos os ficheiros"
+
+  "Save current session"
+  "Deseja gravar a sessão actual?"
+
+  "Save file"
+  "Salvar arquivo"
+
+  "Save file as"
+  "Gravar o Ficheiro Como..."
+
+  "Save file as template"
+  "Salve o arquivo como modelo"
+
+  "Save selected lines"
+  "Salvar as linhas selecionadas"
+
+  "Save sessions as"
+  "Guardar as sessões como"
+
   "Select All"
   "Selecionar tudo"
 
@@ -942,29 +921,26 @@ msgcat::mcmset pt {
   "Select Previous Occurrence"
   "Selecione a ocorrência anterior"
 
+  "Select all occurrences"
+  "Selecionar todas as ocorrências"
+
+  "Select all text"
+  "Seleccionar Todo o Texto"
+
   "Send Bug Report"
   "Comunicar um erro."
 
   "Send Feedback"
   "Enviar Comentário"
 
+  "Send bug report"
+  "Comunicar um erro."
+
+  "Send feedback"
+  "Enviar opinião"
+
   "Sessions"
   "Sessões"
-
-  "Sessions Menu: Close current session"
-  "Menu de sessões: Fechar a sessão atual"
-
-  "Sessions Menu: Delete session"
-  "Sessões de Menu: Sessão de excluir"
-
-  "Sessions Menu: Save current session"
-  "Sessões Menu: Salvar a sessão atual"
-
-  "Sessions Menu: Save sessions as"
-  "Sessões Menu: Salvar sessões como"
-
-  "Sessions Menu: Switch to session"
-  "Menu de sessões: Interruptor de sessão"
 
   "Set Syntax"
   "Definir Sintaxe"
@@ -974,6 +950,24 @@ msgcat::mcmset pt {
 
   "Set User to Global"
   "Definir usuário Global"
+
+  "Set current file line ending to CR for Classic Mac"
+  "Definir a linha atual do arquivo final para CR para Mac Classic"
+
+  "Set current file line ending to CRLF for Windows"
+  "Definir o atual arquivo linha final de CRLF para Windows"
+
+  "Set current file line ending to LF for Unix"
+  "Definir a linha atual do arquivo final para se para Unix"
+
+  "Set indent mode to"
+  "Definir modo de travessão"
+
+  "Set user bindings to global bindings"
+  "Defina as ligações de usuário para globais ligações"
+
+  "Set user preferences to global preferences"
+  "Definir preferências de usuário para preferências globais"
 
   "Show Console"
   "Mostrar Console"
@@ -1008,6 +1002,39 @@ msgcat::mcmset pt {
   "Show Tab Bar"
   "Barra de Páginas"
 
+  "Show console"
+  "Mostrar o console"
+
+  "Show diagnostic logfile"
+  "Mostrar arquivo de log de diagnóstico"
+
+  "Show file difference"
+  "Mostrar a diferença de arquivo"
+
+  "Show last profiling report"
+  "Mostrar o último relatório de perfil"
+
+  "Show line numbers"
+  "Mostrar números de linha"
+
+  "Show marker map"
+  "Exibir Marcador"
+
+  "Show meta characters"
+  "Mostrar os meta caracteres"
+
+  "Show selected line change"
+  "Mostrar a mudança de linha selecionada"
+
+  "Show sidebar"
+  "Mostrar a barra lateral"
+
+  "Show status bar"
+  "Mostrar barra de Status"
+
+  "Show tab bar"
+  "Barra de Páginas"
+
   "Smart Indent"
   "Travessão inteligente"
 
@@ -1020,14 +1047,26 @@ msgcat::mcmset pt {
   "Sort Tabs"
   "Sort Tabs"
 
+  "Sort tabs"
+  "Guias de classificação"
+
   "Start Profiling"
   "Comece Profiling"
+
+  "Start profiling"
+  "Iniciar criação de perfil"
 
   "Stop Profiling"
   "Pare Profiling"
 
+  "Stop profiling"
+  "Impedir a criação de perfil"
+
   "Switch To"
   "Trocar para"
+
+  "Switch to session"
+  "Alterne para a sessão"
 
   "Tabs"
   "Guias"
@@ -1038,9 +1077,6 @@ msgcat::mcmset pt {
   "Text Between Character"
   "Texto entre caracteres"
 
-  "Text Menu: Insert enumeration"
-  "Texto Menu: Enumeração de inserção"
-
   "Title Case"
   "Capitalização do título"
 
@@ -1050,35 +1086,17 @@ msgcat::mcmset pt {
   "Toggle Comment"
   "Comentário de alternância"
 
+  "Toggle case of current character"
+  "Caso de alternância de caractere atual"
+
+  "Toggle comment"
+  "Comentário de alternância"
+
+  "Toggle split view mode"
+  "Alternar modo de exibição dividido"
+
   "Tools"
   "Ferramentas"
-
-  "Tools Menu: Disable Vim mode"
-  "Menu ' ferramentas ': Desativar o modo de Vim"
-
-  "Tools Menu: Enable Vim mode"
-  "Menu de ferramentas: Habilitar o modo de Vim"
-
-  "Tools Menu: Restart TKE"
-  "Menu de ferramentas: Restart TKE"
-
-  "Tools Menu: Run BIST"
-  "Menu de ferramentas: Executar BIST"
-
-  "Tools Menu: Run theme editor"
-  "Menu Ferramentas: Executar editor tema"
-
-  "Tools Menu: Show diagnostic logfile"
-  "Menu de ferramentas: Mostrar o arquivo de log de diagnóstico"
-
-  "Tools Menu: Show last profiling report"
-  "Menu de ferramentas: Mostrar o último relatório de perfil"
-
-  "Tools Menu: Start profiling"
-  "Menu de ferramentas: Iniciar criação de perfil"
-
-  "Tools Menu: Stop profiling"
-  "Menu Ferramentas: Parar a criação de perfil"
 
   "Transform"
   "Transform"
@@ -1086,20 +1104,32 @@ msgcat::mcmset pt {
   "Undo"
   "Anular"
 
+  "Unfavorite file"
+  "Arquivo favoritas"
+
   "Unfold All"
   "Todos se desdobram"
 
   "Unindent"
   "Unindent"
 
+  "Unindent selected text"
+  "Remover o recuo texto selecionado"
+
   "Uninstall"
   "Desinstalar"
 
+  "Uninstall plugin"
+  "Desinstalar plugin"
+
   "Unix"
   "Unix"
 
   "Unlock"
   "Unlock"
+
+  "Unlock file"
+  "Desbloquear arquivo"
 
   "Upper Case"
   "CAIXA SUPERIOR"
@@ -1116,86 +1146,14 @@ msgcat::mcmset pt {
   "View Global"
   "Visão Global"
 
-  "View Menu: Absolute line numbering"
-  "Menu exibir: Numeração de linha absoluta"
+  "View base preferences file"
+  "Arquivo de base de preferências de exibição"
 
-  "View Menu: Display text information"
-  "Menu exibir: Visualizar informações de texto"
+  "View global menu bindings"
+  "Ligações de modo de exibição de menu global"
 
-  "View Menu: Fold All"
-  "Menu exibir: Dobre tudo"
-
-  "View Menu: Goto last tab"
-  "Menu exibir: Última guia Goto"
-
-  "View Menu: Goto next tab"
-  "Menu exibir: Próxima guia Goto"
-
-  "View Menu: Goto other pane"
-  "Menu exibir: Goto outro painel"
-
-  "View Menu: Goto previous tab"
-  "Menu exibir: Guia anterior do Goto"
-
-  "View Menu: Hide console"
-  "Menu exibir: Console de ocultar"
-
-  "View Menu: Hide line numbers"
-  "Menu exibir: Esconder os números de linha"
-
-  "View Menu: Hide marker map"
-  "Menu exibir: Esconder marcador mapa"
-
-  "View Menu: Hide meta characters"
-  "Ver Menu: Ocultar os meta caracteres"
-
-  "View Menu: Hide sidebar"
-  "Menu exibir: Barra lateral de ocultar"
-
-  "View Menu: Hide status bar"
-  "Menu exibir: Ocultar a barra de status"
-
-  "View Menu: Hide tab bar"
-  "Menu exibir: Ocultar a barra de guia"
-
-  "View Menu: Merge panes"
-  "Menu exibir: Painéis de mesclagem"
-
-  "View Menu: Move to other pane"
-  "Menu exibir: Mover para outro painel"
-
-  "View Menu: Relative line numbering"
-  "Menu exibir: Numeração de linha relativa"
-
-  "View Menu: Show console"
-  "Menu exibir: Console de mostrar"
-
-  "View Menu: Show line numbers"
-  "Menu exibir: Mostrar números de linha"
-
-  "View Menu: Show marker map"
-  "Menu exibir: Mostrar marcador mapa"
-
-  "View Menu: Show meta characters"
-  "Menu exibir: Mostrar meta caracteres"
-
-  "View Menu: Show sidebar"
-  "Ver Mostrar a Barra Lateral"
-
-  "View Menu: Show status bar"
-  "Menu exibir: Mostrar barra de status"
-
-  "View Menu: Show tab bar"
-  "Menu exibir: Mostrar barra de guia"
-
-  "View Menu: Sort tabs"
-  "Menu exibir: Guias de tipo"
-
-  "View Menu: Toggle split view mode"
-  "Menu exibir: Alternar o modo de exibição de dividir"
-
-  "View Menu: Unfold All"
-  "Menu exibir: Desdobrar tudo"
+  "View user guide"
+  "Guia de Usuário"
 
   "Vim Mode"
   "Modo Vim"

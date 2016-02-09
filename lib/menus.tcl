@@ -299,7 +299,7 @@ namespace eval menus {
     launcher::register [make_menu "File" [msgcat::mc "Duplicate current file"]] [list menus::duplicate_command]
 
     $mb add command -label [msgcat::mc "Delete"] -underline 0 -command [list menus::delete_command]
-    launcher::register [make_Menu "File" [msgcat::mc "Delete current file"]] [list menus::delete_command]
+    launcher::register [make_menu "File" [msgcat::mc "Delete current file"]] [list menus::delete_command]
 
     $mb add separator
 
@@ -1102,7 +1102,7 @@ namespace eval menus {
     $mb.prefPopup add separator
 
     $mb.prefPopup add command -label [msgcat::mc "Reset User to Base"] -command [list preferences::copy_default]
-    launcher::register [make_menu "Edit" [msgcat::mc "Set user preferences to global preferences"] [list preferences::copy_default]
+    launcher::register [make_menu "Edit" [msgcat::mc "Set user preferences to global preferences"]] [list preferences::copy_default]
 
     #############################
     # Populate menu bindings menu
@@ -1114,7 +1114,7 @@ namespace eval menus {
     $mb.bindPopup add separator
 
     $mb.bindPopup add command -label [msgcat::mc "View Global"] -command [list bindings::view_global]
-    launcher::register [make_menu "Edit" [msgcat::mc "View global menu bindings"] [list bindings::view_global]
+    launcher::register [make_menu "Edit" [msgcat::mc "View global menu bindings"]] [list bindings::view_global]
 
     $mb.bindPopup add separator
 

@@ -201,17 +201,26 @@ msgcat::mcmset el {
 # menus.tcl
 msgcat::mcmset el {
 
-  "About TKE"
-  "Σχετικά με ΤΚΕ"
+  "About"
+  "Η εταιρεία"
 
   "Absolute"
   "Απόλυτος"
 
+  "Absolute line numbering"
+  "Απόλυτη γραμμή αρίθμηση"
+
   "Align Cursors"
   "???????? ???????"
 
+  "Align cursors"
+  "Στοίχιση δρομείς"
+
   "Append Next Occurrence"
   "?????????? ?µ??????"
+
+  "Append next occurrence"
+  "Προσαρτήσετε την επόμενη εμφάνιση"
 
   "Auto-Indent"
   "Αυτο-εντομή"
@@ -222,14 +231,26 @@ msgcat::mcmset el {
   "Bubble Up"
   "Φούσκα"
 
+  "Bubble lines down one line"
+  "Φούσκα γραμμές κάτω από μία γραμμή"
+
+  "Bubble lines up one line"
+  "Φούσκα γραμμές επάνω κατά μία γραμμή"
+
   "Change Working Directory"
   "Αλλαγή Κατάλογος εργασίας"
+
+  "Change working directory"
+  "Κατάλογο εργασίας αλλαγής"
 
   "Character"
   "Χαρακτήρας"
 
   "Check for Update"
   "Έλεγχος για ενημέρωση"
+
+  "Check for update"
+  "Ελέγχου για την ενημερωμένη έκδοση"
 
   "Classic Mac"
   "Κλασικό Mac"
@@ -243,20 +264,47 @@ msgcat::mcmset el {
   "Close Current"
   "??????? ?? ?????"
 
+  "Close all tabs"
+  "Κλείσιμο όλων των καρτελών"
+
+  "Close current session"
+  "Κλείσιμο τρέχουσας περιόδου λειτουργίας"
+
+  "Close current tab"
+  "Κλείσιμο τρέχουσας καρτέλας"
+
   "Command"
   "Εντολή"
 
   "Command Result"
   "Εντολή αποτέλεσμα"
 
+  "Convert case to lower"
+  "Μετατρέψουν την περίπτωση να χαμηλώσει"
+
+  "Convert case to title"
+  "Μετατρέψετε υπόθεση τίτλος"
+
+  "Convert case to upper"
+  "Μετατρέψουν την περίπτωση ανώτερο"
+
   "Copy"
   "Αντιγραφή"
+
+  "Copy text"
+  "Αντιγραφή κειμένου"
 
   "Create"
   "Δημιουργία"
 
   "Create at Current Line"
   "???????????? ???? ???????? ??????"
+
+  "Create marker at current line"
+  "Δημιουργία δείκτη στην τρέχουσα γραμμή"
+
+  "Create new plugin"
+  "Δημιουργήστε νέο plugin"
 
   "Current Line"
   "Τρέχουσα γραμμή"
@@ -279,8 +327,53 @@ msgcat::mcmset el {
   "Cut"
   "Αποκοπή"
 
+  "Cut text"
+  "Αποκόψετε κείμενο"
+
+  "Delete current file"
+  "Διαγραφή του τρέχοντος αρχείου"
+
+  "Delete current line"
+  "Διαγραφή τρέχουσας γραμμής"
+
+  "Delete current word"
+  "Διαγραφή τρέχουσας λέξης"
+
+  "Delete from cursor to end of line"
+  "Διαγραφή του από το δρομέα στο τέλος της γραμμής"
+
+  "Delete from start of line to cursor"
+  "Διαγραφή του δρομέα από την αρχή της γραμμής"
+
+  "Delete session"
+  "Διαγραφή της περιόδου λειτουργίας"
+
+  "Delete template"
+  "Διαγράψτε το αρχείο περιγράμματος"
+
+  "Delete text between character"
+  "Διαγραφή κειμένου μεταξύ χαρακτήρα"
+
+  "Delete the current number"
+  "Διαγράψετε τον τρέχοντα αριθμό"
+
+  "Delete the whitespace to left of cursor"
+  "Διαγράψτε το κενό διάστημα αριστερά του δρομέα"
+
+  "Delete the whitespace to right of cursor"
+  "Διαγράψτε το κενό διάστημα δεξιά του δρομέα"
+
+  "Disable Vim mode"
+  "Απενεργοποίηση της λειτουργίας Vim"
+
   "Display Text Info"
   "Εμφανίζει τις πληροφορίες κείμενο"
+
+  "Display text information"
+  "Εμφάνιση πληροφοριών κειμένου"
+
+  "Duplicate current file"
+  "Αντίγραφο τρέχοντος αρχείου"
 
   "Edit"
   "Επεξεργασία"
@@ -288,224 +381,44 @@ msgcat::mcmset el {
   "Edit Language"
   "Επεξεργασία Γλώσσας"
 
-  "Edit Menu Edit user snippets"
-  "Επεξεργαστείτε το μενού Επεξεργασία χρήστη αποσπάσματα"
-
-  "Edit Menu: Align cursors"
-  "Μενού \"
-
-  "Edit Menu: Bubble lines down one line"
-  "Μενού \"
-
-  "Edit Menu: Bubble lines up one line"
-  "Μενού \"
-
-  "Edit Menu: Convert case to lower"
-  "Μενού \"
-
-  "Edit Menu: Convert case to title"
-  "Μενού \"
-
-  "Edit Menu: Convert case to upper"
-  "Μενού \"
-
-  "Edit Menu: Copy text"
-  "Μενού \"
-
-  "Edit Menu: Cut text"
-  "Μενού \"
-
-  "Edit Menu: Delete current line"
-  "Μενού \"
-
-  "Edit Menu: Delete current word"
-  "Μενού \"
-
-  "Edit Menu: Delete from cursor to end of line"
-  "Μενού \"
-
-  "Edit Menu: Delete from start of line to cursor"
-  "Μενού \"
-
-  "Edit Menu: Delete template"
-  "Μενού \"
-
-  "Edit Menu: Delete text between character"
-  "Μενού \"
-
-  "Edit Menu: Delete the current number"
-  "Μενού \"
-
-  "Edit Menu: Delete the whitespace to left of cursor"
-  "Μενού \"
-
-  "Edit Menu: Delete the whitespace to right of cursor"
-  "Μενού \"
-
-  "Edit Menu: Edit language snippets"
-  "Μενού \"
-
-  "Edit Menu: Edit session current language preferences"
-  "Μενού \"
-
-  "Edit Menu: Edit session global preferences"
-  "Μενού \"
-
-  "Edit Menu: Edit template"
-  "Μενού \"
-
-  "Edit Menu: Edit user current language preferences"
-  "Μενού \"
-
-  "Edit Menu: Edit user global preferences"
-  "Μενού \"
-
-  "Edit Menu: Edit user menu bindings"
-  "Μενού \"
-
-  "Edit Menu: Format indentation for text"
-  "Μενού \"
-
-  "Edit Menu: Indent selected text"
-  "Μενού \"
-
-  "Edit Menu: Insert command result after current line"
-  "Μενού \"
-
-  "Edit Menu: Insert file contents after current line"
-  "Μενού \"
-
-  "Edit Menu: Insert from clipboard"
-  "Μενού \"
-
-  "Edit Menu: Insert line above current line"
-  "Μενού \"
-
-  "Edit Menu: Insert line below current line"
-  "Μενού \"
-
-  "Edit Menu: Insert snippet"
-  "Μενού \"
-
-  "Edit Menu: Join lines"
-  "Μενού \"
-
-  "Edit Menu: Move cursor to bottom of screen"
-  "Μενού \"
-
-  "Edit Menu: Move cursor to end of current line"
-  "Μενού \"
-
-  "Edit Menu: Move cursor to first line"
-  "Μενού \"
-
-  "Edit Menu: Move cursor to last line"
-  "Μενού \"
-
-  "Edit Menu: Move cursor to middle of screen"
-  "Μενού \"
-
-  "Edit Menu: Move cursor to next page"
-  "Μενού \"
-
-  "Edit Menu: Move cursor to next word"
-  "Μενού \"
-
-  "Edit Menu: Move cursor to previous page"
-  "Μενού \"
-
-  "Edit Menu: Move cursor to previous word"
-  "Μενού \"
-
-  "Edit Menu: Move cursor to start of current line"
-  "Μενού \"
-
-  "Edit Menu: Move cursor to top of screen"
-  "Μενού \"
-
-  "Edit Menu: Move multicursors down one line"
-  "Μενού \"
-
-  "Edit Menu: Move multicursors left one line"
-  "Μενού \"
-
-  "Edit Menu: Move multicursors right one line"
-  "Μενού \"
-
-  "Edit Menu: Move multicursors up one line"
-  "Μενού \"
-
-  "Edit Menu: Paste and format text from clipboard"
-  "Μενού \"
-
-  "Edit Menu: Paste text from clipboard"
-  "Μενού \"
-
-  "Edit Menu: Redo"
-  "Επεξεργαστείτε τα μενού: Ακύρωση αναίρεσης"
-
-  "Edit Menu: Reload snippets"
-  "Μενού \"
-
-  "Edit Menu: Reload template information"
-  "Μενού \"
-
-  "Edit Menu: Replace line with script"
-  "Μενού \"
-
-  "Edit Menu: Select all text"
-  "Μενού \"
-
-  "Edit Menu: Set indent mode to IND"
-  "Μενού \"
-
-  "Edit Menu: Set indent mode to IND+"
-  "Μενού \"
-
-  "Edit Menu: Set indent mode to OFF"
-  "Μενού \"
-
-  "Edit Menu: Set user bindings to global bindings"
-  "Μενού \"
-
-  "Edit Menu: Set user preferences to global preferences"
-  "Μενού \"
-
-  "Edit Menu: Toggle case of current character"
-  "Μενού Επεξεργασία: ΕΝΑΛΛΑΓΗ πεζών-ΚΕΦΑΛΑΙΩΝ τρέχουσα χαρακτήρα"
-
-  "Edit Menu: Toggle comment"
-  "Μενού \"
-
-  "Edit Menu: Undo"
-  "Επεξεργαστείτε τα μενού: αναίρεση"
-
-  "Edit Menu: Unindent selected text"
-  "Μενού \"
-
-  "Edit Menu: View base preferences file"
-  "Μενού \"
-
-  "Edit Menu: View global menu bindings"
-  "Μενού \"
-
-  "Edit Session - Global"
-  "?????????????? ???????? - ?????????"
-
-  "Edit Session - Language"
-  "???????? - ???????????? ?? ??????"
+  "Edit Session"
+  "Περιόδου επεξεργασίας"
 
   "Edit User"
   "Επεξεργασία χρήστη"
 
-  "Edit User - Global"
-  "?????????????? ?? ?????? - ?????????"
+  "Edit language snippets"
+  "Επεξεργαστείτε αποσπάσματα γλώσσα"
 
-  "Edit User - Language"
-  "?????? - ???????????? ?? ??????"
+  "Edit session current language preferences"
+  "Επεξεργαστείτε τις τρέχουσες προτιμήσεις γλώσσας περιόδου λειτουργίας"
+
+  "Edit session global preferences"
+  "Επεξεργασία προτιμήσεων παγκόσμια σύνοδο"
+
+  "Edit template"
+  "Επεξεργασία Προτύπου"
+
+  "Edit user current language preferences"
+  "Επεξεργαστείτε τις τρέχουσες προτιμήσεις γλώσσας του χρήστη"
+
+  "Edit user global preferences"
+  "Επεξεργαστείτε σφαιρικές προτιμήσεις χρήστη"
+
+  "Edit user menu bindings"
+  "Επεξεργαστείτε τις συνδέσεις μενού χρήστη"
+
+  "Edit user snippets"
+  "Επεξεργαστείτε τα τμήματα του χρήστη"
+
+  "Enable Vim mode"
+  "Ενεργοποίηση της λειτουργίας Vim"
 
   "Enumeration"
   "Καταμέτρηση"
+
+  "Favorite file"
+  "Αγαπημένο αρχείο"
 
   "File"
   "Αρχείο"
@@ -513,149 +426,26 @@ msgcat::mcmset el {
   "File Contents"
   "Περιεχόμενα του αρχείου"
 
-  "File Menu: Change working directory"
-  "Μενού αρχείο: Αλλάξετε κατάλογο εργασίας"
-
-  "File Menu: Close all tabs"
-  "Μενού αρχείο: Κλείσιμο όλων των καρτελών"
-
-  "File Menu: Close current tab"
-  "Μενού αρχείο: Κλείνω τρέχων ετικέτα"
-
-  "File Menu: Delete current file"
-  "Μενού αρχείο: Διαγραφή τρέχοντος αρχείου"
-
-  "File Menu: Duplicate current file"
-  "Μενού αρχείο: Αντίγραφο τρέχοντος αρχείου"
-
-  "File Menu: Favorite file"
-  "Μενού αρχείου: Αγαπημένο αρχείο"
-
-  "File Menu: Lock file"
-  "Μενού αρχείο: Αρχείο κλείδωμα"
-
-  "File Menu: New file"
-  "Μενού αρχείο: Νέο αρχείο"
-
-  "File Menu: New file from template"
-  "Μενού αρχείο: Νέο αρχείο από πρότυπο"
-
-  "File Menu: New window"
-  "Μενού αρχείο: Νέο παράθυρο"
-
-  "File Menu: Open Favorite"
-  "Μενού αρχείο: Ανοικτή αγαπημένο"
-
-  "File Menu: Open Recent"
-  "Μενού αρχείο: Άνοιγμα πρόσφατες"
-
-  "File Menu: Open directory"
-  "Μενού αρχείο: Open directory"
-
-  "File Menu: Open file"
-  "Μενού αρχείο: Ανοίξτε το αρχείο"
-
-  "File Menu: Quit application"
-  "Μενού αρχείο: Κλείστε την εφαρμογή"
-
-  "File Menu: Rename current file"
-  "Μενού αρχείο: Μετονομάστε το τρέχον αρχείο"
-
-  "File Menu: Reopen current file"
-  "Μενού αρχείο: Ξανά το τρέχον αρχείο"
-
-  "File Menu: Save all files"
-  "Μενού αρχείο: Αποθηκεύσετε όλα τα αρχεία"
-
-  "File Menu: Save file"
-  "Μενού αρχείο: Αποθήκευση αρχείου"
-
-  "File Menu: Save file as"
-  "Μενού αρχείο: Αποθηκεύστε το αρχείο ως"
-
-  "File Menu: Save file as template"
-  "Μενού αρχείο: Αποθήκευση αρχείου ως προτύπου"
-
-  "File Menu: Save selected lines"
-  "Μενού αρχείο: Αποθηκεύσετε τις επιλεγμένες γραμμές"
-
-  "File Menu: Set current file line ending to CR for Classic Mac"
-  "Μενού \"
-
-  "File Menu: Set current file line ending to CRLF for Windows"
-  "Μενού \"
-
-  "File Menu: Set current file line ending to LF for Unix"
-  "Μενού \"
-
-  "File Menu: Show file difference"
-  "Μενού αρχείο: Εμφάνιση αρχείο διαφορά"
-
-  "File Menu: Unfavorite file"
-  "Μενού αρχείο: Αρχείο Unfavorite"
-
-  "File Menu: Unlock file"
-  "Μενού αρχείο: Ξεκλειδώσετε αρχείο"
-
   "Find In Files"
   "?????? ??? ??????"
 
   "Find Matching Pair"
   "?????? ?????????? ??????"
 
-  "Find Menu: Append next occurrence"
-  "Find μενού: Προσάρτηση εµφάνιση"
-
-  "Find Menu: Create marker at current line"
-  "Find μενού: Δημιουργία δείκτη στην τρέχουσα γραμμή"
-
-  "Find Menu: Find"
-  "Βρείτε το μενού: βρείτε"
-
-  "Find Menu: Find and Replace"
-  "Find μενού: Εύρεση και αντικατάσταση"
-
-  "Find Menu: Find in files"
-  "Find μενού: Βρείτε στα αρχεία"
-
-  "Find Menu: Find matching character pair"
-  "Find μενού: Βρείτε ταιριάζουν ζεύγος χαρακτήρα"
-
-  "Find Menu: Find next occurrence"
-  "Find μενού: Βρείτε την επόμενη εμφάνιση"
-
-  "Find Menu: Find previous occurrence"
-  "Find μενού: Βρείτε την προηγούμενη εμφάνιση"
-
-  "Find Menu: Goto next difference"
-  "Find μενού: Goto επόμενο διαφορά"
-
-  "Find Menu: Goto previous difference"
-  "Μενού Εύρεση: Προηγούμενη διαφορά Goto"
-
-  "Find Menu: Jump backward"
-  "Find μενού: Άλμα προς τα πίσω"
-
-  "Find Menu: Jump forward"
-  "Find μενού: Άλμα προς τα εμπρός"
-
-  "Find Menu: Jump to line"
-  "Find μενού: Μεταβείτε σε γραμμής"
-
-  "Find Menu: Remove all markers"
-  "Find μενού: Αφαιρέσετε όλα δείκτες"
-
-  "Find Menu: Remove marker from current line"
-  "Find μενού: Δείκτη κατάργηση από την τρέχουσα γραμμή"
-
-  "Find Menu: Select all occurrences"
-  "Find μενού: Επιλέξτε όλες τις εμφανίσεις"
-
-  "Find Menu: Show selected line change"
-  "Find μενού: Αλλαγή γραμμής εμφάνιση επιλεγεί"
-
   "Find and Replace"
   "Εύρεση και αντικατάσταση"
+
+  "Find in files"
+  "Βρείτε στα αρχεία"
+
+  "Find matching character pair"
+  "Βρείτε το ταιριαστού ζεύγους χαρακτήρα"
+
+  "Find next occurrence"
+  "Βρείτε την επόμενη εμφάνιση"
+
+  "Find previous occurrence"
+  "Βρείτε την προηγούμενη εμφάνιση"
 
   "Fold All"
   "???????? ???"
@@ -666,8 +456,14 @@ msgcat::mcmset el {
   "Format Text"
   "Μορφή κειμένου"
 
+  "Format indentation for text"
+  "Μορφή εσοχή για κείμενο"
+
   "From Clipboard"
   "Από το πρόχειρο"
+
+  "Global"
+  "Γενικά"
 
   "Goto Last Tab"
   "Μετάβαση Last Tab"
@@ -681,23 +477,26 @@ msgcat::mcmset el {
   "Goto Previous Tab"
   "Μετάβαση Προηγούμενη Tab"
 
+  "Goto last tab"
+  "Goto τελευταία καρτέλα"
+
+  "Goto next difference"
+  "Goto επόμενο διαφορά"
+
+  "Goto next tab"
+  "Μετάβαση στην επόμενη καρτέλα"
+
+  "Goto other pane"
+  "Goto άλλο παράθυρο"
+
+  "Goto previous difference"
+  "Goto προηγούμενη διαφορά"
+
+  "Goto previous tab"
+  "Goto προηγούμενη καρτέλα"
+
   "Help"
   "Βοήθεια"
-
-  "Help Menu: About TKE"
-  "Μενού βοήθειας: Για την ΤΚΕ"
-
-  "Help Menu: Check for update"
-  "Μενού \"
-
-  "Help Menu: Send bug report"
-  "Μενού \"
-
-  "Help Menu: Send feedback"
-  "Μενού \"
-
-  "Help Menu: View user guide"
-  "Μενού \"
 
   "Hide Console"
   "Απόκρυψη Console"
@@ -720,11 +519,35 @@ msgcat::mcmset el {
   "Hide Tab Bar"
   "Απόκρυψη Tab Bar"
 
+  "Hide console"
+  "Απόκρυψη κονσόλα"
+
+  "Hide line numbers"
+  "Αριθμοί Γραμμής"
+
+  "Hide marker map"
+  "Απόκρυψη χάρτη δείκτη"
+
+  "Hide meta characters"
+  "Απόκρυψη μετα χαρακτήρες"
+
+  "Hide sidebar"
+  "Απόκρυψη Πλευρικής Εργαλειοθήκης ;"
+
+  "Hide status bar"
+  "Απόκρυψη γραμμής κατάστασης"
+
+  "Hide tab bar"
+  "Απόκρυψη της γραμμής καρτέλα"
+
   "Indent"
   "Εσοχή"
 
   "Indent Off"
   "Εσοχή από"
+
+  "Indent selected text"
+  "Εσοχή κειμένου επιλεγμένο"
 
   "Indentation"
   "κόλπωση"
@@ -732,10 +555,37 @@ msgcat::mcmset el {
   "Insert"
   "Εισαγωγή"
 
+  "Insert command result after current line"
+  "Εισάγετε την εντολή αποτέλεσμα μετά από την τρέχουσα γραμμή"
+
+  "Insert enumeration"
+  "Εισαγάγετε απαρίθμηση"
+
+  "Insert file contents after current line"
+  "Εισαγάγετε τα περιεχόμενα του αρχείου μετά από την τρέχουσα γραμμή"
+
+  "Insert from clipboard"
+  "Εισαγωγή από το Πρόχειρο"
+
+  "Insert line above current line"
+  "Εισαγωγή γραμμής επάνω από τρέχουσα γραμμή"
+
+  "Insert line below current line"
+  "Εισαγωγή γραμμής κάτω από την τρέχουσα γραμμή"
+
+  "Insert snippet"
+  "Εισάγετε απόσπασμα"
+
   "Install"
   "Εγκατάσταση"
 
+  "Install plugin"
+  "Εγκαταστήσετε το plugin"
+
   "Join Lines"
+  "Ενώνουν γραμμές"
+
+  "Join lines"
   "Ενώνουν γραμμές"
 
   "Jump Backward"
@@ -746,6 +596,18 @@ msgcat::mcmset el {
 
   "Jump To Line"
   "Μεταβείτε σε γραμμής"
+
+  "Jump backward"
+  "Άλμα προς τα πίσω"
+
+  "Jump forward"
+  "Άλμα προς τα εμπρός"
+
+  "Jump to line"
+  "Μεταβείτε σε γραμμής"
+
+  "Language"
+  "Μητρική Γλώσσα"
 
   "Launcher"
   "Προωθητής"
@@ -768,20 +630,26 @@ msgcat::mcmset el {
   "Lock"
   "Κλείδωμα"
 
+  "Lock file"
+  "Κλείδωμα αρχείων"
+
   "Lower Case"
   "Πεζά"
 
   "Markers"
   "Σημεία"
 
+  "Menu"
+  "ΜΕΝΟΥ"
+
   "Menu Bindings"
   "Δέστρες Μενού"
 
-  "Menus: About TKE"
-  "Μενού: Σχετικά με την ΤΚΕ"
-
   "Merge Panes"
   "?????????? ???????? ?????????"
+
+  "Merge panes"
+  "Συγχώνευση τμημάτων παραθύρου"
 
   "Move Cursors Down"
   "Δρομείς κίνηση προς τα κάτω"
@@ -794,6 +662,51 @@ msgcat::mcmset el {
 
   "Move Cursors Up"
   "Ανεβάσουμε δρομείς"
+
+  "Move cursor to bottom of screen"
+  "Μετακίνηση δρομέα στο κάτω μέρος της οθόνης"
+
+  "Move cursor to end of current line"
+  "Μετακίνηση του δρομέα στο τέλος της τρέχουσας γραμμής"
+
+  "Move cursor to first line"
+  "Μετακίνηση του δρομέα στην πρώτη γραμμή"
+
+  "Move cursor to last line"
+  "Μετακίνηση του δρομέα στην τελευταία γραμμή"
+
+  "Move cursor to middle of screen"
+  "Μετακίνηση του δρομέα στην μέση της οθόνης"
+
+  "Move cursor to next page"
+  "Μετακίνηση του δρομέα στην επόμενη σελίδα"
+
+  "Move cursor to next word"
+  "Μετακίνηση του δρομέα στην επόμενη λέξη"
+
+  "Move cursor to previous page"
+  "Μετακίνηση του δρομέα στην προηγούμενη σελίδα"
+
+  "Move cursor to previous word"
+  "Μετακίνηση του δρομέα στην προηγούμενη λέξη"
+
+  "Move cursor to start of current line"
+  "Μετακίνηση του δρομέα στην αρχή της τρέχουσας γραμμής"
+
+  "Move cursor to top of screen"
+  "Μετακίνηση δρομέα στο πάνω μέρος της οθόνης"
+
+  "Move multicursors down one line"
+  "Multicursors κίνηση κάτω από μία γραμμή"
+
+  "Move multicursors left one line"
+  "Μετακινήσετε multicursors, αριστερό μία γραμμή"
+
+  "Move multicursors right one line"
+  "Μετακινήστε multicursors δεξιά μία γραμμή"
+
+  "Move multicursors up one line"
+  "Multicursors Μετακίνηση επάνω κατά μία γραμμή"
 
   "Move to First Line"
   "Μετακίνηση στην πρώτη γραμμή"
@@ -828,11 +741,23 @@ msgcat::mcmset el {
   "Move to Screen Top"
   "Προχωρήσουμε στην οθόνη κορυφή"
 
+  "Move to other pane"
+  "Μετακίνηση σε άλλο παράθυρο"
+
   "New From Template"
   "Νέα από το πρότυπο"
 
   "New Window"
   "Νέο παράθυρο"
+
+  "New file"
+  "+ Nέο Αρχείο"
+
+  "New file from template"
+  "Νέο αρχείο από πρότυπο"
+
+  "New window"
+  "New window"
 
   "Next Difference"
   "??????? ???????"
@@ -849,26 +774,26 @@ msgcat::mcmset el {
   "Open Recent"
   "Άνοιγμα πρόσφατου"
 
+  "Open directory"
+  "Άνοιγμα καταλόγου"
+
+  "Open file"
+  "Άνοιγμα αρχείου"
+
   "Paste"
   "Επικόλληση"
 
   "Paste and Format"
   "Επικόλληση και Format"
 
+  "Paste and format text from clipboard"
+  "Επικόλληση και τη μορφή κειμένου από το Πρόχειρο"
+
+  "Paste text from clipboard"
+  "Επικόλληση κειμένου από το Πρόχειρο"
+
   "Plugins"
   "Plug-in"
-
-  "Plugins Menu: Create new plugin"
-  "Plugins μενού: Δημιουργήστε νέο plugin"
-
-  "Plugins Menu: Install plugin"
-  "Μενού plugins: Εγκατάσταση plugin"
-
-  "Plugins Menu: Reload all plugins"
-  "Plugins μενού: Φορτώσετε εκ νέου όλα τα plugins"
-
-  "Plugins Menu: Uninstall plugin"
-  "Plugins μενού: Απεγκατάσταση plugin"
 
   "Preferences"
   "Προτιμήσεις"
@@ -888,14 +813,29 @@ msgcat::mcmset el {
   "Quit"
   "έξοδος"
 
+  "Quit application"
+  "Κλείστε την εφαρμογή"
+
   "Redo"
   "Επανάληψη"
 
   "Relative"
   "Σχετική"
 
+  "Relative line numbering"
+  "Σχετική γραμμή αρίθμηση"
+
   "Reload"
   "Επαναφόρτωση"
+
+  "Reload all plugins"
+  "Φορτώσετε εκ νέου όλα τα plugins"
+
+  "Reload snippets"
+  "Νέα φόρτωση αποσπάσματα"
+
+  "Reload template information"
+  "Επαναφόρτωση πληροφορίες πρότυπο"
 
   "Remove All Markers"
   "????????? ??? ???????"
@@ -903,20 +843,38 @@ msgcat::mcmset el {
   "Remove From Current Line"
   "????????? ??? ??? ???????? ??????"
 
+  "Remove all markers"
+  "Αφαιρέστε όλους τους δείκτες"
+
+  "Remove marker from current line"
+  "Κατάργηση δείκτη από τρέχουσα γραμμή"
+
+  "Rename current file"
+  "Μετονομάστε το τρέχον αρχείο"
+
   "Reopen File"
   "Ξανά αρχείο"
+
+  "Reopen current file"
+  "Ανοίξτε ξανά το τρέχον αρχείο"
 
   "Replace Line With Script"
   "?????????????? ??? ?????? ?? ???????"
 
+  "Replace line with script"
+  "Αντικαταστήστε την γραμμή με δέσμη ενεργειών"
+
   "Reset User to Base"
   "Ξαναρυθμίζω χρήστη στη βάση"
 
-  "Restart TKE"
-  "???????????? ???"
+  "Restart"
+  "Επανεκκίνηση"
 
-  "Run BIST"
-  "Εκτελέστε BIST"
+  "Run"
+  "ΤΡΕΞΙΜΟ"
+
+  "Run theme editor"
+  "Εκτελέστε τον επεξεργαστή θέμα"
 
   "Save All"
   "Αποθήκευση όλων"
@@ -930,6 +888,27 @@ msgcat::mcmset el {
   "Save Selection As"
   "Αποθήκευση επιλογής ως"
 
+  "Save all files"
+  "Αποθηκεύστε όλα τα αρχεία"
+
+  "Save current session"
+  "Αποθηκεύσετε την τρέχουσα περίοδο λειτουργίας"
+
+  "Save file"
+  "Αποθήκευση αρχείου"
+
+  "Save file as"
+  "Αποθηκεύστε το αρχείο ως"
+
+  "Save file as template"
+  "Αποθηκεύστε το αρχείο ως πρότυπο"
+
+  "Save selected lines"
+  "Αποθηκεύσετε τις επιλεγμένες γραμμές"
+
+  "Save sessions as"
+  "Σώσει συνεδρίες ως"
+
   "Select All"
   "Επιλογή όλων"
 
@@ -942,29 +921,26 @@ msgcat::mcmset el {
   "Select Previous Occurrence"
   "???????? ??? ??????????? ????????"
 
+  "Select all occurrences"
+  "Επιλέξτε όλες οι εμφανίσεις"
+
+  "Select all text"
+  "Επιλογή όλων"
+
   "Send Bug Report"
   "Στείλτε την αναφορά σφαλμάτων"
 
   "Send Feedback"
   "Αποστολή Σχολίων"
 
+  "Send bug report"
+  "Στείλετε αναφορά σφάλματος"
+
+  "Send feedback"
+  "Αποστολή Σχολίων"
+
   "Sessions"
   "?????????"
-
-  "Sessions Menu: Close current session"
-  "Συνεδρίες μενού: Κλείσετε την τρέχουσα περίοδο λειτουργίας"
-
-  "Sessions Menu: Delete session"
-  "Συνεδρίες μενού: Συνεδρία διαγραφή"
-
-  "Sessions Menu: Save current session"
-  "Συνεδρίες μενού: Αποθηκεύσετε την τρέχουσα περίοδο λειτουργίας"
-
-  "Sessions Menu: Save sessions as"
-  "Συνεδρίες μενού: Σώσει συνεδρίες ως"
-
-  "Sessions Menu: Switch to session"
-  "Συνεδρίες μενού: Μετάβαση σε συνεδρία"
 
   "Set Syntax"
   "Ορισμός Σύνταξη"
@@ -974,6 +950,24 @@ msgcat::mcmset el {
 
   "Set User to Global"
   "Χρήστη που ορίζεται στην παγκόσμια"
+
+  "Set current file line ending to CR for Classic Mac"
+  "Ορίστε την τρέχουσα γραμμή αρχείου που λήγει σε CR για Classic Mac"
+
+  "Set current file line ending to CRLF for Windows"
+  "Ορίστε την τρέχουσα γραμμή του αρχείου τελειώνει σε CRLF για Windows"
+
+  "Set current file line ending to LF for Unix"
+  "Ορίστε την τρέχουσα γραμμή αρχείου που λήγει σε LF για Unix"
+
+  "Set indent mode to"
+  "Στηντιμή εντομή μοντέλο"
+
+  "Set user bindings to global bindings"
+  "Ορισμός χρήστη παγιοποιήσεις σε παγκόσμιες συνδέσεις"
+
+  "Set user preferences to global preferences"
+  "Ορίστε τις προτιμήσεις του χρήστη σε σφαιρικές προτιμήσεις"
 
   "Show Console"
   "Εμφάνιση Console"
@@ -1008,6 +1002,39 @@ msgcat::mcmset el {
   "Show Tab Bar"
   "Γραμμή καρτελών"
 
+  "Show console"
+  "Δείχνουν κονσόλα"
+
+  "Show diagnostic logfile"
+  "Εμφάνιση διαγνωστικών logfile"
+
+  "Show file difference"
+  "Εμφάνιση αρχείου διαφορά"
+
+  "Show last profiling report"
+  "Εμφάνιση της τελευταίας έκθεσης αποτυπωμάτων"
+
+  "Show line numbers"
+  "Αριθμοί Γραμμής"
+
+  "Show marker map"
+  "Δείκτης Εμφάνιση χάρτη"
+
+  "Show meta characters"
+  "Εμφάνιση χαρακτήρων"
+
+  "Show selected line change"
+  "Παρουσιάζουν επιλεγμένη γραμμή αλλαγή"
+
+  "Show sidebar"
+  "Δείχνω φαβορίτα"
+
+  "Show status bar"
+  "Εμφάνιση γραμμής κατάστασης"
+
+  "Show tab bar"
+  "Εμφάνιση γραμμής καρτελών"
+
   "Smart Indent"
   "Έξυπνες περίπτωση"
 
@@ -1020,14 +1047,26 @@ msgcat::mcmset el {
   "Sort Tabs"
   "Sort Tabs"
 
+  "Sort tabs"
+  "Είδος καρτέλες"
+
   "Start Profiling"
   "Ξεκινήστε Profiling"
+
+  "Start profiling"
+  "Ξεκινήστε τη δημιουργία προφίλ"
 
   "Stop Profiling"
   "Σταματήστε Profiling"
 
+  "Stop profiling"
+  "Σταματήσει σκιαγράφηση"
+
   "Switch To"
   "????????? ??"
+
+  "Switch to session"
+  "Μεταβείτε σε περίοδο λειτουργίας"
 
   "Tabs"
   "Δισκία"
@@ -1038,9 +1077,6 @@ msgcat::mcmset el {
   "Text Between Character"
   "Κείμενο μεταξύ χαρακτήρα"
 
-  "Text Menu: Insert enumeration"
-  "Κείμενο μενού: Εισαγωγή καταμέτρηση"
-
   "Title Case"
   "Υπόθεση τίτλος"
 
@@ -1050,35 +1086,17 @@ msgcat::mcmset el {
   "Toggle Comment"
   "???????? ??????"
 
+  "Toggle case of current character"
+  "ΕΝΑΛΛΑΓΗ πεζών-ΚΕΦΑΛΑΙΩΝ του τρέχοντος χαρακτήρα"
+
+  "Toggle comment"
+  "Εναλλαγή σχόλιο"
+
+  "Toggle split view mode"
+  "Εναλλαγή διαίρεση λειτουργία προβολής"
+
   "Tools"
   "Μέσα δράσης"
-
-  "Tools Menu: Disable Vim mode"
-  "Μενού Εργαλεία: Απενεργοποίηση λειτουργίας Vim"
-
-  "Tools Menu: Enable Vim mode"
-  "Εργαλεία μενού: Ενεργοποίηση της λειτουργίας Vim"
-
-  "Tools Menu: Restart TKE"
-  "Μενού Εργαλεία: Επανεκκίνηση ΤΚΕ"
-
-  "Tools Menu: Run BIST"
-  "Μενού Εργαλεία: Τρέχει BIST"
-
-  "Tools Menu: Run theme editor"
-  "Εργαλεία Μενού: Εκτέλεση editor θέμα"
-
-  "Tools Menu: Show diagnostic logfile"
-  "Μενού Εργαλεία: Διαγνωστικά logfile Εμφάνιση"
-
-  "Tools Menu: Show last profiling report"
-  "Μενού Εργαλεία: Εμφάνιση τελευταία έκθεση προφίλ"
-
-  "Tools Menu: Start profiling"
-  "Μενού Εργαλεία: Έναρξη δημιουργίας προφίλ"
-
-  "Tools Menu: Stop profiling"
-  "Μενού Εργαλεία: Σταματήσει προφίλ"
 
   "Transform"
   "Μετασχηματισμός"
@@ -1086,20 +1104,32 @@ msgcat::mcmset el {
   "Undo"
   "Αναίρεση"
 
+  "Unfavorite file"
+  "Unfavorite αρχείο"
+
   "Unfold All"
   "??? ?????????????"
 
   "Unindent"
   "Κατάργηση εσοχής"
 
+  "Unindent selected text"
+  "Κατάργηση εσοχής του επιλεγμένου κειμένου"
+
   "Uninstall"
   "Απεγκατάσταση"
+
+  "Uninstall plugin"
+  "Καταργήσετε την εγκατάσταση του plugin"
 
   "Unix"
   "Unix"
 
   "Unlock"
   "Ξεκλείδωμα"
+
+  "Unlock file"
+  "Ξεκλειδώσετε αρχείο"
 
   "Upper Case"
   "Γραφή με κεφαλαία γράμματα"
@@ -1116,86 +1146,14 @@ msgcat::mcmset el {
   "View Global"
   "Παγκόσμια προβολή"
 
-  "View Menu: Absolute line numbering"
-  "Μενού Προβολή: Αρίθμηση απόλυτη γραμμή"
+  "View base preferences file"
+  "Αρχείο βάσης Προτιμήσεις προβολής"
 
-  "View Menu: Display text information"
-  "Μενού \"
+  "View global menu bindings"
+  "Προβολή καθολικό μενού συνδέσεις"
 
-  "View Menu: Fold All"
-  "????? ???????: ???????? ???"
-
-  "View Menu: Goto last tab"
-  "Μενού Προβολή: Goto τελευταία καρτέλα"
-
-  "View Menu: Goto next tab"
-  "Μενού Προβολή: Επόμενη καρτέλα Goto"
-
-  "View Menu: Goto other pane"
-  "Μενού Προβολή: Goto άλλο παράθυρο"
-
-  "View Menu: Goto previous tab"
-  "Μενού Προβολή: Προηγούμενη καρτέλα Goto"
-
-  "View Menu: Hide console"
-  "Μενού \"
-
-  "View Menu: Hide line numbers"
-  "Μενού \"
-
-  "View Menu: Hide marker map"
-  "Μενού \"
-
-  "View Menu: Hide meta characters"
-  "Μενού \"
-
-  "View Menu: Hide sidebar"
-  "Μενού \"
-
-  "View Menu: Hide status bar"
-  "Μενού \"
-
-  "View Menu: Hide tab bar"
-  "Μενού \"
-
-  "View Menu: Merge panes"
-  "Μενού \"
-
-  "View Menu: Move to other pane"
-  "Μενού \"
-
-  "View Menu: Relative line numbering"
-  "Μενού Προβολή: Αρίθμηση σχετική γραμμή"
-
-  "View Menu: Show console"
-  "Μενού \"
-
-  "View Menu: Show line numbers"
-  "Μενού \"
-
-  "View Menu: Show marker map"
-  "Μενού \"
-
-  "View Menu: Show meta characters"
-  "Μενού \"
-
-  "View Menu: Show sidebar"
-  "Μενού \"
-
-  "View Menu: Show status bar"
-  "Μενού \"
-
-  "View Menu: Show tab bar"
-  "Μενού \"
-
-  "View Menu: Sort tabs"
-  "Μενού \"
-
-  "View Menu: Toggle split view mode"
-  "Μενού \"
-
-  "View Menu: Unfold All"
-  "????? ???????: ????????????? ???"
+  "View user guide"
+  "Οδηγός χρήσης"
 
   "Vim Mode"
   "Λειτουργία Vim"
