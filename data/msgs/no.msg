@@ -201,16 +201,25 @@ msgcat::mcmset no {
 # menus.tcl
 msgcat::mcmset no {
 
-  "About TKE"
-  "Om TKE"
+  "About"
+  "Om"
 
   "Absolute"
   "Absolute"
+
+  "Absolute line numbering"
+  "Absolutt linjenummerering"
 
   "Align Cursors"
   "Justere pekere"
 
+  "Align cursors"
+  "Justere pekere"
+
   "Append Next Occurrence"
+  "Legg til neste forekomst"
+
+  "Append next occurrence"
   "Legg til neste forekomst"
 
   "Auto-Indent"
@@ -222,14 +231,26 @@ msgcat::mcmset no {
   "Bubble Up"
   "Dukker opp"
 
+  "Bubble lines down one line"
+  "Boble linjer ned en linje"
+
+  "Bubble lines up one line"
+  "Boble linjer én linje opp"
+
   "Change Working Directory"
   "Endre arbeidsmappe"
+
+  "Change working directory"
+  "Endre arbeider adresseliste"
 
   "Character"
   "Tegn"
 
   "Check for Update"
   "Søk etter oppdateringer"
+
+  "Check for update"
+  "Finne nye oppdateringer"
 
   "Classic Mac"
   "Klassiske Mac"
@@ -243,20 +264,47 @@ msgcat::mcmset no {
   "Close Current"
   "Lukker gjeldende"
 
+  "Close all tabs"
+  "Lukk alle"
+
+  "Close current session"
+  "Lukk gjeldende økt"
+
+  "Close current tab"
+  "Lukk gjeldende fane"
+
   "Command"
   "Kommando"
 
   "Command Result"
   "Kommandoresultat"
 
+  "Convert case to lower"
+  "Konvertere sak å senke"
+
+  "Convert case to title"
+  "Konvertere tilfelle tittel"
+
+  "Convert case to upper"
+  "Konvertere saken til øvre"
+
   "Copy"
   "Kopier"
+
+  "Copy text"
+  "Kopier tekst"
 
   "Create"
   "Opprett"
 
   "Create at Current Line"
   "Opprette på gjeldende linje"
+
+  "Create marker at current line"
+  "Opprett indikator på gjeldende linje"
+
+  "Create new plugin"
+  "Opprette ny plugin"
 
   "Current Line"
   "Gjeldende linje"
@@ -279,8 +327,53 @@ msgcat::mcmset no {
   "Cut"
   "Kutt"
 
+  "Cut text"
+  "Klippe ut tekst"
+
+  "Delete current file"
+  "Slette gjeldende fil"
+
+  "Delete current line"
+  "Slette gjeldende linje"
+
+  "Delete current word"
+  "Slett gjeldende ord"
+
+  "Delete from cursor to end of line"
+  "Slette fra markøren til slutten av linjen"
+
+  "Delete from start of line to cursor"
+  "Slette fra begynnelsen av linjen til markør"
+
+  "Delete session"
+  "Slette økt"
+
+  "Delete template"
+  "Slette malen"
+
+  "Delete text between character"
+  "Slette tekst mellom tegn"
+
+  "Delete the current number"
+  "Slette gjeldende nummer"
+
+  "Delete the whitespace to left of cursor"
+  "Slett mellomrom til venstre for markøren"
+
+  "Delete the whitespace to right of cursor"
+  "Slett tomme til høyre for markøren"
+
+  "Disable Vim mode"
+  "Deaktivere Vim-modus"
+
   "Display Text Info"
   "Vise tekst Info"
+
+  "Display text information"
+  "Vise tekstinformasjon"
+
+  "Duplicate current file"
+  "Gjeldende duplikatfiler"
 
   "Edit"
   "Edit"
@@ -288,224 +381,44 @@ msgcat::mcmset no {
   "Edit Language"
   "Rediger språk"
 
-  "Edit Menu Edit user snippets"
-  "Rediger menyen Rediger bruker tekstutdrag"
-
-  "Edit Menu: Align cursors"
-  "Redigeringsmenyen: Justere pekere"
-
-  "Edit Menu: Bubble lines down one line"
-  "Redigeringsmenyen: Boble linjer ned én linje"
-
-  "Edit Menu: Bubble lines up one line"
-  "Redigeringsmenyen: Boble linjer én linje opp"
-
-  "Edit Menu: Convert case to lower"
-  "Redigeringsmenyen: Konvertere sak å senke"
-
-  "Edit Menu: Convert case to title"
-  "Redigeringsmenyen: Konvertere tilfelle tittel"
-
-  "Edit Menu: Convert case to upper"
-  "Redigeringsmenyen: Konvertere saken til øvre"
-
-  "Edit Menu: Copy text"
-  "Redigeringsmenyen: Kopiere tekst"
-
-  "Edit Menu: Cut text"
-  "Redigeringsmenyen: Klippe ut tekst"
-
-  "Edit Menu: Delete current line"
-  "Redigeringsmenyen: Slette gjeldende linje"
-
-  "Edit Menu: Delete current word"
-  "Redigeringsmenyen: Slette gjeldende ord"
-
-  "Edit Menu: Delete from cursor to end of line"
-  "Redigeringsmenyen: Slette fra markøren til slutten av linjen"
-
-  "Edit Menu: Delete from start of line to cursor"
-  "Redigeringsmenyen: Slette fra begynnelsen av linjen til markør"
-
-  "Edit Menu: Delete template"
-  "Redigeringsmenyen: Slett mal"
-
-  "Edit Menu: Delete text between character"
-  "Redigeringsmenyen: Slette tekst mellom tegn"
-
-  "Edit Menu: Delete the current number"
-  "Redigeringsmenyen: Slette gjeldende nummer"
-
-  "Edit Menu: Delete the whitespace to left of cursor"
-  "Redigeringsmenyen: Slette mellomrom til venstre for markøren"
-
-  "Edit Menu: Delete the whitespace to right of cursor"
-  "Redigeringsmenyen: Slette tomme til høyre for markøren"
-
-  "Edit Menu: Edit language snippets"
-  "Redigeringsmenyen: Rediger språk tekstutdrag"
-
-  "Edit Menu: Edit session current language preferences"
-  "Redigeringsmenyen: Redigere økt gjeldende språkinnstillinger"
-
-  "Edit Menu: Edit session global preferences"
-  "Redigeringsmenyen: Redigere økt globale innstillinger"
-
-  "Edit Menu: Edit template"
-  "Redigeringsmenyen: Redigeringsmal"
-
-  "Edit Menu: Edit user current language preferences"
-  "Redigeringsmenyen: Rediger bruker gjeldende språkinnstillinger"
-
-  "Edit Menu: Edit user global preferences"
-  "Redigeringsmenyen: Redigere globale brukerinnstillinger"
-
-  "Edit Menu: Edit user menu bindings"
-  "Redigeringsmenyen: Rediger bruker menyen bindinger"
-
-  "Edit Menu: Format indentation for text"
-  "Redigeringsmenyen: Format innrykk for tekst"
-
-  "Edit Menu: Indent selected text"
-  "Redigeringsmenyen: Rykke inn merket tekst"
-
-  "Edit Menu: Insert command result after current line"
-  "Redigeringsmenyen: Sette inn kommandoen resultatet etter gjeldende linje"
-
-  "Edit Menu: Insert file contents after current line"
-  "Redigeringsmenyen: Sette inn filinnholdet etter gjeldende linje"
-
-  "Edit Menu: Insert from clipboard"
-  "Redigeringsmenyen: Sette inn fra utklippstavlen"
-
-  "Edit Menu: Insert line above current line"
-  "Redigeringsmenyen: Sett innsettingslinje over gjeldende linje"
-
-  "Edit Menu: Insert line below current line"
-  "Redigeringsmenyen: Sett innsettingslinje under gjeldende linje"
-
-  "Edit Menu: Insert snippet"
-  "Redigeringsmenyen: Sett inn kodebiten"
-
-  "Edit Menu: Join lines"
-  "Redigeringsmenyen: Sammenføyningslinjer"
-
-  "Edit Menu: Move cursor to bottom of screen"
-  "Redigeringsmenyen: Flytt markøren til bunnen av skjermen"
-
-  "Edit Menu: Move cursor to end of current line"
-  "Redigeringsmenyen: Flytt markøren til slutten av gjeldende linje"
-
-  "Edit Menu: Move cursor to first line"
-  "Redigeringsmenyen: Flytter markøren til første linje"
-
-  "Edit Menu: Move cursor to last line"
-  "Redigeringsmenyen: Flytt markøren til siste linje"
-
-  "Edit Menu: Move cursor to middle of screen"
-  "Redigeringsmenyen: Flytt pekeren til midten av skjermen"
-
-  "Edit Menu: Move cursor to next page"
-  "Redigeringsmenyen: Flytter markøren til neste side"
-
-  "Edit Menu: Move cursor to next word"
-  "Redigeringsmenyen: Flytter markøren til neste ord"
-
-  "Edit Menu: Move cursor to previous page"
-  "Redigeringsmenyen: Flytt markøren til forrige side"
-
-  "Edit Menu: Move cursor to previous word"
-  "Redigeringsmenyen: Flytt markøren til forrige ord"
-
-  "Edit Menu: Move cursor to start of current line"
-  "Redigeringsmenyen: Flytte markøren til begynnelsen av gjeldende linje"
-
-  "Edit Menu: Move cursor to top of screen"
-  "Redigeringsmenyen: Flytte markøren til toppen av skjermen"
-
-  "Edit Menu: Move multicursors down one line"
-  "Redigeringsmenyen: Flytter multicursors én linje ned"
-
-  "Edit Menu: Move multicursors left one line"
-  "Redigeringsmenyen: Flytte multicursors venstre én linje"
-
-  "Edit Menu: Move multicursors right one line"
-  "Redigeringsmenyen: Flytte multicursors rett én linje"
-
-  "Edit Menu: Move multicursors up one line"
-  "Redigeringsmenyen: Flytter multicursors én linje opp"
-
-  "Edit Menu: Paste and format text from clipboard"
-  "Redigeringsmenyen: Lim inn og formater tekst fra utklippstavlen"
-
-  "Edit Menu: Paste text from clipboard"
-  "Redigeringsmenyen: Lime inn tekst fra utklippstavlen"
-
-  "Edit Menu: Redo"
-  "Rediger-meny: gjør om"
-
-  "Edit Menu: Reload snippets"
-  "Redigeringsmenyen: Reload tekstutdrag"
-
-  "Edit Menu: Reload template information"
-  "Redigeringsmenyen: Reload informasjon"
-
-  "Edit Menu: Replace line with script"
-  "Redigeringsmenyen: Erstatte linje med skript"
-
-  "Edit Menu: Select all text"
-  "Redigeringsmenyen: Merk all tekst"
-
-  "Edit Menu: Set indent mode to IND"
-  "Redigeringsmenyen: Angi innrykk-modusen til IND"
-
-  "Edit Menu: Set indent mode to IND+"
-  "Redigeringsmenyen: Angi innrykk-modusen til IND +"
-
-  "Edit Menu: Set indent mode to OFF"
-  "Redigeringsmenyen: Angi innrykk-modusen til av"
-
-  "Edit Menu: Set user bindings to global bindings"
-  "Redigeringsmenyen: Angi brukeren bindinger til globale bindinger"
-
-  "Edit Menu: Set user preferences to global preferences"
-  "Redigeringsmenyen: Angi brukerinnstillinger globale innstillinger"
-
-  "Edit Menu: Toggle case of current character"
-  "Redigeringsmenyen: Omvendt av gjeldende karakter"
-
-  "Edit Menu: Toggle comment"
-  "Redigeringsmenyen: Veksle kommentar"
-
-  "Edit Menu: Undo"
-  "Rediger-meny: angre"
-
-  "Edit Menu: Unindent selected text"
-  "Redigeringsmenyen: Ikke rykk inn merket tekst"
-
-  "Edit Menu: View base preferences file"
-  "Redigeringsmenyen: Vis base innstillingsfilen"
-
-  "Edit Menu: View global menu bindings"
-  "Redigeringsmenyen: Vise global meny bindinger"
-
-  "Edit Session - Global"
-  "Sesjon - Global"
-
-  "Edit Session - Language"
-  "Redigere Session - språk"
+  "Edit Session"
+  "Sesjon"
 
   "Edit User"
   "Rediger bruker"
 
-  "Edit User - Global"
-  "Rediger bruker - Global"
+  "Edit language snippets"
+  "Rediger språk tekstutdrag"
 
-  "Edit User - Language"
-  "Rediger bruker - språk"
+  "Edit session current language preferences"
+  "Redigere økt gjeldende språkinnstillinger"
+
+  "Edit session global preferences"
+  "Endre økt global"
+
+  "Edit template"
+  "Endre Grid mal"
+
+  "Edit user current language preferences"
+  "Rediger bruker gjeldende språkinnstillinger"
+
+  "Edit user global preferences"
+  "Redigere globale brukerinnstillinger"
+
+  "Edit user menu bindings"
+  "Rediger bruker menyen bindinger"
+
+  "Edit user snippets"
+  "Redigere brukeren tekstutdrag"
+
+  "Enable Vim mode"
+  "Aktivere Vim-modus"
 
   "Enumeration"
   "Opplisting"
+
+  "Favorite file"
+  "Favoritt-filen"
 
   "File"
   "Fil"
@@ -513,149 +426,26 @@ msgcat::mcmset no {
   "File Contents"
   "Filinnholdet"
 
-  "File Menu: Change working directory"
-  "Fil-menyen: Endre arbeider adresseliste"
-
-  "File Menu: Close all tabs"
-  "Fil-menyen: Lukk alle faner"
-
-  "File Menu: Close current tab"
-  "Fil-menyen: Lukker gjeldende fane"
-
-  "File Menu: Delete current file"
-  "Fil-menyen: Slette gjeldende fil"
-
-  "File Menu: Duplicate current file"
-  "Fil-menyen: Kopiere gjeldende fil"
-
-  "File Menu: Favorite file"
-  "Fil-menyen: Favoritt fil"
-
-  "File Menu: Lock file"
-  "Fil-menyen: Låsefilen"
-
-  "File Menu: New file"
-  "Fil-menyen: Ny fil"
-
-  "File Menu: New file from template"
-  "Fil-menyen: Ny fil fra mal"
-
-  "File Menu: New window"
-  "Fil-menyen: Nytt vindu"
-
-  "File Menu: Open Favorite"
-  "Fil-menyen: Åpne favoritt"
-
-  "File Menu: Open Recent"
-  "Fil-menyen: Åpne nylig"
-
-  "File Menu: Open directory"
-  "Fil-menyen: Open directory"
-
-  "File Menu: Open file"
-  "Fil-menyen: Åpne fil"
-
-  "File Menu: Quit application"
-  "Fil-menyen: Avslutt program"
-
-  "File Menu: Rename current file"
-  "Fil-menyen: Gi nytt navn filen"
-
-  "File Menu: Reopen current file"
-  "Fil-menyen: Åpne gjeldende fil"
-
-  "File Menu: Save all files"
-  "Fil-menyen: Lagre alle filer"
-
-  "File Menu: Save file"
-  "Fil-menyen: Lagre"
-
-  "File Menu: Save file as"
-  "Fil-menyen: Lagre fil som"
-
-  "File Menu: Save file as template"
-  "Fil-menyen: Lagre filen som mal"
-
-  "File Menu: Save selected lines"
-  "Fil-menyen: Lagre valgte linjer"
-
-  "File Menu: Set current file line ending to CR for Classic Mac"
-  "Fil-menyen: Angi gjeldende fil linjeslutt CR for klassiske Mac"
-
-  "File Menu: Set current file line ending to CRLF for Windows"
-  "Fil-menyen: Angi gjeldende fil linjeslutt CRLF for Windows"
-
-  "File Menu: Set current file line ending to LF for Unix"
-  "Fil-menyen: Angi gjeldende fillinje avslutning på LF for Unix"
-
-  "File Menu: Show file difference"
-  "Fil-menyen: Vise filen forskjellen"
-
-  "File Menu: Unfavorite file"
-  "Fil-menyen: Unfavorite fil"
-
-  "File Menu: Unlock file"
-  "Fil-menyen: Låse opp fil"
-
   "Find In Files"
   "Finn filer"
 
   "Find Matching Pair"
   "Finn matchende par"
 
-  "Find Menu: Append next occurrence"
-  "Finn-menyen: Legge neste forekomst"
-
-  "Find Menu: Create marker at current line"
-  "Finn-menyen: Opprette markør på gjeldende linje"
-
-  "Find Menu: Find"
-  "Finn menyen: finne"
-
-  "Find Menu: Find and Replace"
-  "Finn-menyen: Søk og erstatt"
-
-  "Find Menu: Find in files"
-  "Finn-menyen: Finn filer"
-
-  "Find Menu: Find matching character pair"
-  "Finn-menyen: Finn samsvarende tegnet pair"
-
-  "Find Menu: Find next occurrence"
-  "Finn-menyen: Finne neste forekomst"
-
-  "Find Menu: Find previous occurrence"
-  "Finn-menyen: Finne forrige forekomst"
-
-  "Find Menu: Goto next difference"
-  "Finn-menyen: Goto neste forskjellen"
-
-  "Find Menu: Goto previous difference"
-  "Finn-menyen: Goto tidligere forskjellen"
-
-  "Find Menu: Jump backward"
-  "Finn-menyen: Hoppe bakover"
-
-  "Find Menu: Jump forward"
-  "Finn-menyen: Hoppe fremover"
-
-  "Find Menu: Jump to line"
-  "Finn-menyen: Hoppe til linje"
-
-  "Find Menu: Remove all markers"
-  "Finn-menyen: Fjern alle merkene"
-
-  "Find Menu: Remove marker from current line"
-  "Finn-menyen: Fjern merket fra gjeldende linje"
-
-  "Find Menu: Select all occurrences"
-  "Finn-menyen: Velg alle forekomster"
-
-  "Find Menu: Show selected line change"
-  "Finn meny: Vis valgt linje endring"
-
   "Find and Replace"
   "Finn og erstatt"
+
+  "Find in files"
+  "Finn filer"
+
+  "Find matching character pair"
+  "Finne samsvarende tegnet pair"
+
+  "Find next occurrence"
+  "Finne neste forekomst"
+
+  "Find previous occurrence"
+  "Finne forrige forekomst"
 
   "Fold All"
   "Brett alle"
@@ -666,8 +456,14 @@ msgcat::mcmset no {
   "Format Text"
   "Formater tekst"
 
+  "Format indentation for text"
+  "Formatet innrykk for tekst"
+
   "From Clipboard"
   "Fra utklippstavlen"
+
+  "Global"
+  "GLOBAL"
 
   "Goto Last Tab"
   "Gå Siste Tab"
@@ -681,23 +477,26 @@ msgcat::mcmset no {
   "Goto Previous Tab"
   "Gå til forrige fane"
 
+  "Goto last tab"
+  "GOTO siste kategorien"
+
+  "Goto next difference"
+  "GOTO neste forskjellen"
+
+  "Goto next tab"
+  "GOTO neste fane"
+
+  "Goto other pane"
+  "GOTO andre ruten"
+
+  "Goto previous difference"
+  "GOTO tidligere forskjellen"
+
+  "Goto previous tab"
+  "Forrige fane"
+
   "Help"
   "Help!"
-
-  "Help Menu: About TKE"
-  "Hjelp-menyen: Om TKE"
-
-  "Help Menu: Check for update"
-  "Hjelp-menyen: Søk etter oppdateringer"
-
-  "Help Menu: Send bug report"
-  "Hjelp-menyen: Send feilrapport"
-
-  "Help Menu: Send feedback"
-  "Hjelp-menyen: Send tilbakemelding"
-
-  "Help Menu: View user guide"
-  "Hjelp-menyen: Vis brukerhåndboken"
 
   "Hide Console"
   "Skjul Console"
@@ -720,11 +519,35 @@ msgcat::mcmset no {
   "Hide Tab Bar"
   "Skjul Tab Bar"
 
+  "Hide console"
+  "Skjule konsollen"
+
+  "Hide line numbers"
+  "Skjul linjenumre"
+
+  "Hide marker map"
+  "Skjule markør kart"
+
+  "Hide meta characters"
+  "Skjule meta tegn"
+
+  "Hide sidebar"
+  "Skjul sidebar"
+
+  "Hide status bar"
+  "Skjule statuslinjen"
+
+  "Hide tab bar"
+  "Skjule fanelinjen"
+
   "Indent"
   "innrykk"
 
   "Indent Off"
   "Innrykk av"
+
+  "Indent selected text"
+  "Rykke inn merket tekst"
 
   "Indentation"
   "Innrykk"
@@ -732,10 +555,37 @@ msgcat::mcmset no {
   "Insert"
   "Sett inn"
 
+  "Insert command result after current line"
+  "Sette inn kommandoen resultatet etter gjeldende linje"
+
+  "Insert enumeration"
+  "Sett inn opplisting"
+
+  "Insert file contents after current line"
+  "Sette inn filinnholdet etter gjeldende linje"
+
+  "Insert from clipboard"
+  "Sett inn fra utklippstavlen"
+
+  "Insert line above current line"
+  "Sett inn linje over gjeldende linje"
+
+  "Insert line below current line"
+  "Sett inn linje under gjeldende linje"
+
+  "Insert snippet"
+  "Setter inn kodebiten"
+
   "Install"
   "Installer"
 
+  "Install plugin"
+  "Installere plugin"
+
   "Join Lines"
+  "Sammenføyningslinjer"
+
+  "Join lines"
   "Sammenføyningslinjer"
 
   "Jump Backward"
@@ -746,6 +596,18 @@ msgcat::mcmset no {
 
   "Jump To Line"
   "Linjen hopper til"
+
+  "Jump backward"
+  "Hoppe bakover"
+
+  "Jump forward"
+  "Hoppe fremover"
+
+  "Jump to line"
+  "Linjen hopper til"
+
+  "Language"
+  "Språk"
 
   "Launcher"
   "Launcher"
@@ -768,19 +630,25 @@ msgcat::mcmset no {
   "Lock"
   "Lås"
 
+  "Lock file"
+  "Låsefilen"
+
   "Lower Case"
   "Små bokstaver"
 
   "Markers"
   "Markører"
 
+  "Menu"
+  "Meny"
+
   "Menu Bindings"
   "Meny Bindinger"
 
-  "Menus: About TKE"
-  "Menyer: Om TKE"
-
   "Merge Panes"
+  "Flette ruter"
+
+  "Merge panes"
   "Flette ruter"
 
   "Move Cursors Down"
@@ -794,6 +662,51 @@ msgcat::mcmset no {
 
   "Move Cursors Up"
   "Flytte pekere"
+
+  "Move cursor to bottom of screen"
+  "Flytte markøren til bunnen av skjermen"
+
+  "Move cursor to end of current line"
+  "Flytt pekeren til slutten av gjeldende linje"
+
+  "Move cursor to first line"
+  "Flytte markøren til første linje"
+
+  "Move cursor to last line"
+  "Flytte markøren til siste linje"
+
+  "Move cursor to middle of screen"
+  "Flytt pekeren til midten av skjermen"
+
+  "Move cursor to next page"
+  "Flytte markøren til neste side"
+
+  "Move cursor to next word"
+  "Flytte markøren til neste ord"
+
+  "Move cursor to previous page"
+  "Flytte markøren til forrige side"
+
+  "Move cursor to previous word"
+  "Flytte markøren til forrige ord"
+
+  "Move cursor to start of current line"
+  "Flytt pekeren til starten av gjeldende linje"
+
+  "Move cursor to top of screen"
+  "Flytte markøren til toppen av skjermen"
+
+  "Move multicursors down one line"
+  "Flytt multicursors én linje ned"
+
+  "Move multicursors left one line"
+  "Flytte multicursors venstre én linje"
+
+  "Move multicursors right one line"
+  "Flytt multicursors rette linjen"
+
+  "Move multicursors up one line"
+  "Flytt multicursors én linje opp"
 
   "Move to First Line"
   "Flytte til første linje"
@@ -828,11 +741,23 @@ msgcat::mcmset no {
   "Move to Screen Top"
   "Flytte til skjermen toppen"
 
+  "Move to other pane"
+  "Gå til andre rute"
+
   "New From Template"
   "Ny fra mal"
 
   "New Window"
   "Nytt vindu"
+
+  "New file"
+  "Ny fil"
+
+  "New file from template"
+  "Ny fil fra mal"
+
+  "New window"
+  "Nytt vindauge"
 
   "Next Difference"
   "Neste forskjellen"
@@ -849,26 +774,26 @@ msgcat::mcmset no {
   "Open Recent"
   "Åpne sist"
 
+  "Open directory"
+  "Åpne katalogen"
+
+  "Open file"
+  "Åpne fil"
+
   "Paste"
   "Wij willen u informeren dat uw rekening is toegankelijk vanaf een onbevoegde computer"
 
   "Paste and Format"
   "Lim og Format"
 
+  "Paste and format text from clipboard"
+  "Lim inn og formater tekst fra utklippstavlen"
+
+  "Paste text from clipboard"
+  "Lime inn tekst fra utklippstavlen"
+
   "Plugins"
   "Preferences..."
-
-  "Plugins Menu: Create new plugin"
-  "Plugins-menyen: Lage nye plugin"
-
-  "Plugins Menu: Install plugin"
-  "Plugins-menyen: Installere plugin"
-
-  "Plugins Menu: Reload all plugins"
-  "Plugins-menyen: Laste alle plugins"
-
-  "Plugins Menu: Uninstall plugin"
-  "Plugins-menyen: Avinstallere plugin"
 
   "Preferences"
   "Innstillinger"
@@ -888,14 +813,29 @@ msgcat::mcmset no {
   "Quit"
   "Avslutt"
 
+  "Quit application"
+  "Avslutt program"
+
   "Redo"
   "gjøre om"
 
   "Relative"
   "relativ"
 
+  "Relative line numbering"
+  "Relativ linjenummerering"
+
   "Reload"
   "Restart tke"
+
+  "Reload all plugins"
+  "Laste alle plugins"
+
+  "Reload snippets"
+  "Last tekstutdrag"
+
+  "Reload template information"
+  "Oppdater informasjon"
 
   "Remove All Markers"
   "Fjerne alle merkene"
@@ -903,20 +843,38 @@ msgcat::mcmset no {
   "Remove From Current Line"
   "Fjern fra gjeldende linje"
 
+  "Remove all markers"
+  "Fjerne alle merkene"
+
+  "Remove marker from current line"
+  "Fjerne merket fra gjeldende linje"
+
+  "Rename current file"
+  "Endre gjeldende fil"
+
   "Reopen File"
   "Åpner filen på nytt"
 
+  "Reopen current file"
+  "Åpne gjeldende fil"
+
   "Replace Line With Script"
+  "Erstatte linje med skript"
+
+  "Replace line with script"
   "Erstatte linje med skript"
 
   "Reset User to Base"
   "Tilbakestille bruker til Base"
 
-  "Restart TKE"
-  "Starte TKE"
+  "Restart"
+  "Start på nytt\"
 
-  "Run BIST"
-  "Kjøre BIST"
+  "Run"
+  "Kjør"
+
+  "Run theme editor"
+  "Løpe theme editor"
 
   "Save All"
   "Lagre alle"
@@ -930,6 +888,27 @@ msgcat::mcmset no {
   "Save Selection As"
   "Lagre valget som"
 
+  "Save all files"
+  "Lagre alle filer"
+
+  "Save current session"
+  "Lagre gjeldende økt"
+
+  "Save file"
+  "Lagre filen"
+
+  "Save file as"
+  "Lagre fil som"
+
+  "Save file as template"
+  "Lagre filen som mal"
+
+  "Save selected lines"
+  "Lagre valgte linjer"
+
+  "Save sessions as"
+  "Lagre sesjoner som"
+
   "Select All"
   "Merk alt"
 
@@ -942,29 +921,26 @@ msgcat::mcmset no {
   "Select Previous Occurrence"
   "Velg forrige forekomst"
 
+  "Select all occurrences"
+  "Velg alle forekomster"
+
+  "Select all text"
+  "Velg tekst"
+
   "Send Bug Report"
   "Sende feilrapport"
 
   "Send Feedback"
   "Send tilbakemelding"
 
+  "Send bug report"
+  "Sende feilrapport"
+
+  "Send feedback"
+  "Send tilbakemelding"
+
   "Sessions"
   "Sessions"
-
-  "Sessions Menu: Close current session"
-  "Økter meny: Lukke gjeldende økt"
-
-  "Sessions Menu: Delete session"
-  "Økter meny: Slett økt"
-
-  "Sessions Menu: Save current session"
-  "Økter meny: Lagre gjeldende økt"
-
-  "Sessions Menu: Save sessions as"
-  "Økter meny: Lagre sesjoner som"
-
-  "Sessions Menu: Switch to session"
-  "Økter meny: Bytte til økt"
 
   "Set Syntax"
   "Sett Syntax"
@@ -974,6 +950,24 @@ msgcat::mcmset no {
 
   "Set User to Global"
   "Angi brukeren globale"
+
+  "Set current file line ending to CR for Classic Mac"
+  "Angi gjeldende fil linjeslutt CR for klassiske Mac"
+
+  "Set current file line ending to CRLF for Windows"
+  "Angi gjeldende fil linjeslutt CRLF for Windows"
+
+  "Set current file line ending to LF for Unix"
+  "Angi gjeldende fillinje avslutning på LF for Unix"
+
+  "Set indent mode to"
+  "Angi innrykk-modusen"
+
+  "Set user bindings to global bindings"
+  "Angi bindinger til globale bindinger"
+
+  "Set user preferences to global preferences"
+  "Angi innstillinger globale innstillinger"
 
   "Show Console"
   "Vis Console"
@@ -1008,6 +1002,39 @@ msgcat::mcmset no {
   "Show Tab Bar"
   "Vis Tab Bar"
 
+  "Show console"
+  "Vise konsoll"
+
+  "Show diagnostic logfile"
+  "Vis Diskdiagnose loggfil"
+
+  "Show file difference"
+  "Vise filen forskjellen"
+
+  "Show last profiling report"
+  "Vis siste profilering rapport"
+
+  "Show line numbers"
+  "Vis linjenumre"
+
+  "Show marker map"
+  "Vis markør kart"
+
+  "Show meta characters"
+  "Viser meta tegn"
+
+  "Show selected line change"
+  "Vis valgte linjen endring"
+
+  "Show sidebar"
+  "Vis Sidepanel"
+
+  "Show status bar"
+  "Vis statuslinje"
+
+  "Show tab bar"
+  "Vis fanelinjen"
+
   "Smart Indent"
   "Smart innrykk"
 
@@ -1020,14 +1047,26 @@ msgcat::mcmset no {
   "Sort Tabs"
   "Sorter Tabs"
 
+  "Sort tabs"
+  "Sorter kategorier"
+
   "Start Profiling"
   "Begynn Profilering"
+
+  "Start profiling"
+  "Starte profilering"
 
   "Stop Profiling"
   "Stopp Profilering"
 
+  "Stop profiling"
+  "Stoppe profilering"
+
   "Switch To"
   "Bytt til:"
+
+  "Switch to session"
+  "Bytte til økt"
 
   "Tabs"
   "Tab"
@@ -1038,9 +1077,6 @@ msgcat::mcmset no {
   "Text Between Character"
   "Teksten mellom tegn"
 
-  "Text Menu: Insert enumeration"
-  "Menyen for tekst: Sett inn opplisting"
-
   "Title Case"
   "Store bokstaver"
 
@@ -1050,35 +1086,17 @@ msgcat::mcmset no {
   "Toggle Comment"
   "Vis/Skjul merknad"
 
+  "Toggle case of current character"
+  "Omvendt av gjeldende karakter"
+
+  "Toggle comment"
+  "Vis/Skjul merknad"
+
+  "Toggle split view mode"
+  "Veksle delt visningsmodus"
+
   "Tools"
   "Redskap"
-
-  "Tools Menu: Disable Vim mode"
-  "Verktøy-menyen: Deaktiver Vim-modus"
-
-  "Tools Menu: Enable Vim mode"
-  "Verktøymenyen: Aktivere Vim-modus"
-
-  "Tools Menu: Restart TKE"
-  "Verktøymenyen: Omstart TKE"
-
-  "Tools Menu: Run BIST"
-  "Verktøymenyen: Kjøre BIST"
-
-  "Tools Menu: Run theme editor"
-  "Verktøy Meny: Kjør tema editor"
-
-  "Tools Menu: Show diagnostic logfile"
-  "Verktøymenyen: Vis Diskdiagnose loggfil"
-
-  "Tools Menu: Show last profiling report"
-  "Verktøymenyen: Vis siste profilering rapport"
-
-  "Tools Menu: Start profiling"
-  "Verktøymenyen: Starte profilering"
-
-  "Tools Menu: Stop profiling"
-  "Verktøymenyen: Stoppe profilering"
 
   "Transform"
   "transformere"
@@ -1086,20 +1104,32 @@ msgcat::mcmset no {
   "Undo"
   "angre"
 
+  "Unfavorite file"
+  "Unfavorite fil"
+
   "Unfold All"
   "Utfolde alle"
 
   "Unindent"
   "Fjern innrykk"
 
+  "Unindent selected text"
+  "Ikke rykk inn merket tekst"
+
   "Uninstall"
   "Avinstaller"
+
+  "Uninstall plugin"
+  "Avinstallere plugin"
 
   "Unix"
   "Unix"
 
   "Unlock"
   "Oppheve låsing"
+
+  "Unlock file"
+  "Låse opp fil"
 
   "Upper Case"
   "Store bokstaver"
@@ -1116,86 +1146,14 @@ msgcat::mcmset no {
   "View Global"
   "Vis globale"
 
-  "View Menu: Absolute line numbering"
-  "Vis-menyen: Absolutt linjenummerering"
+  "View base preferences file"
+  "Vis base innstillingsfilen"
 
-  "View Menu: Display text information"
-  "Vis-menyen: Vise tekstinformasjon"
+  "View global menu bindings"
+  "Vis global meny bindinger"
 
-  "View Menu: Fold All"
-  "Vis-menyen: Kaste alle"
-
-  "View Menu: Goto last tab"
-  "Vis-menyen: Goto siste kategorien"
-
-  "View Menu: Goto next tab"
-  "Vis-menyen: Goto neste fane"
-
-  "View Menu: Goto other pane"
-  "Vis-menyen: Goto andre ruten"
-
-  "View Menu: Goto previous tab"
-  "Vis-menyen: Goto forrige fane"
-
-  "View Menu: Hide console"
-  "Vis-menyen: Skjul konsollen"
-
-  "View Menu: Hide line numbers"
-  "Vis-menyen: Skjul linjenumre"
-
-  "View Menu: Hide marker map"
-  "Vis-menyen: Skjule markør kart"
-
-  "View Menu: Hide meta characters"
-  "Vis-menyen: Skjule meta tegn"
-
-  "View Menu: Hide sidebar"
-  "Vis-menyen: Skjul sidebar"
-
-  "View Menu: Hide status bar"
-  "Vis-menyen: Skjule statuslinjen"
-
-  "View Menu: Hide tab bar"
-  "Vis-menyen: Skjule fanelinjen"
-
-  "View Menu: Merge panes"
-  "Vis-menyen: Flettingen ruter"
-
-  "View Menu: Move to other pane"
-  "Vis-menyen: Flytte til andre ruten"
-
-  "View Menu: Relative line numbering"
-  "Vis-menyen: Relative linjenummerering"
-
-  "View Menu: Show console"
-  "Vis-menyen: Vis konsollen"
-
-  "View Menu: Show line numbers"
-  "Vis-menyen: Vis linjenumre"
-
-  "View Menu: Show marker map"
-  "Vis-menyen: Vis markør kart"
-
-  "View Menu: Show meta characters"
-  "Vis-menyen: Vis meta tegn"
-
-  "View Menu: Show sidebar"
-  "Vis-menyen: Vis Sidepanel"
-
-  "View Menu: Show status bar"
-  "Vis-menyen: Vis statuslinje"
-
-  "View Menu: Show tab bar"
-  "Vis-menyen: Vise fanelinjen"
-
-  "View Menu: Sort tabs"
-  "Vis-menyen: Sorter kategorier"
-
-  "View Menu: Toggle split view mode"
-  "Vis-menyen: Veksle delt visningsmodus"
-
-  "View Menu: Unfold All"
-  "Vis-menyen: Utfolde alle"
+  "View user guide"
+  "Brukerhåndbok"
 
   "Vim Mode"
   "Vim Mode"

@@ -211,13 +211,13 @@ msgcat::mcmset he {
   "מספור שורות מוחלטת"
 
   "Align Cursors"
-  "????? ?????"
+  "יישר Cursors"
 
   "Align cursors"
   "ליישר סמנים"
 
   "Append Next Occurrence"
-  "??? ????? ???"
+  "צרף המופע הבא"
 
   "Append next occurrence"
   "צרף המופע הבא"
@@ -262,7 +262,7 @@ msgcat::mcmset he {
   "לסגור את כל"
 
   "Close Current"
-  "???? ?? ??????"
+  "נוכחי Close"
 
   "Close all tabs"
   "סגור הכל"
@@ -298,7 +298,7 @@ msgcat::mcmset he {
   "צור"
 
   "Create at Current Line"
-  "????? ??? ??????"
+  "צור ב הנוכחי Line"
 
   "Create marker at current line"
   "ליצור סמן בקו הנוכחי"
@@ -427,10 +427,10 @@ msgcat::mcmset he {
   "תוכן הקובץ"
 
   "Find In Files"
-  "????? ?????"
+  "למצוא קבצים"
 
   "Find Matching Pair"
-  "????? ?? ????? ???"
+  "מצא זוג תואם"
 
   "Find and Replace"
   "והחלפה"
@@ -448,10 +448,10 @@ msgcat::mcmset he {
   "למצוא את המופע הקודם"
 
   "Fold All"
-  "?????? ??"
+  "מקפלים כל"
 
   "Folding"
-  "?????"
+  "מִתקַפֵּל"
 
   "Format Text"
   "עיצוב טקסט"
@@ -508,7 +508,7 @@ msgcat::mcmset he {
   "להסתיר את סמן מפה"
 
   "Hide Meta Characters"
-  "?????? ???-?????"
+  "סתר דמוי Meta"
 
   "Hide Sidebar"
   "להסתיר את הסרגל הצידי"
@@ -589,10 +589,10 @@ msgcat::mcmset he {
   "קווי צירוף"
 
   "Jump Backward"
-  "????? ?????"
+  "קפיצה לאחור"
 
   "Jump Forward"
-  "????? ?????"
+  "קפיצה קדימה"
 
   "Jump To Line"
   "קפוץ לשורה"
@@ -646,7 +646,7 @@ msgcat::mcmset he {
   "תפריט איגודי"
 
   "Merge Panes"
-  "????? ???????"
+  "מיזוג חלוניות"
 
   "Merge panes"
   "מיזוג חלוניות"
@@ -760,7 +760,7 @@ msgcat::mcmset he {
   "חלון חדש"
 
   "Next Difference"
-  "????? ???"
+  "ההבדל הבא"
 
   "Open Directory"
   "המדריך הפתוח"
@@ -799,7 +799,7 @@ msgcat::mcmset he {
   "אפשרויות קבועות"
 
   "Previous Difference"
-  "????? ?????"
+  "הבדל קודם"
 
   "Profiling Report Sorted By"
   "פרופיל ח ממוין לפי"
@@ -838,10 +838,10 @@ msgcat::mcmset he {
   "מידע אודות תבנית טען מחדש"
 
   "Remove All Markers"
-  "????? ?? ?? ??????"
+  "הסר כל המרקרים"
 
   "Remove From Current Line"
-  "????? ?? ????? ???????"
+  "הסר תווי שורה"
 
   "Remove all markers"
   "להסיר את כל הסמנים"
@@ -859,7 +859,7 @@ msgcat::mcmset he {
   "פתיחה מחדש של הקובץ הנוכחי"
 
   "Replace Line With Script"
-  "?????? ???? ?????"
+  "חלף בקנה אחד עם סקריפט"
 
   "Replace line with script"
   "להחליף שורת תסריט"
@@ -883,7 +883,7 @@ msgcat::mcmset he {
   "שמור תבנית"
 
   "Save Current"
-  "????? ?? ??????"
+  "שמור נוכחי"
 
   "Save Selection As"
   "להציל את הבחירה"
@@ -913,13 +913,13 @@ msgcat::mcmset he {
   "בחר את כל"
 
   "Select All Occurrences"
-  "??? ?? ???????"
+  "בחר את כל המופעים"
 
   "Select Next Occurrence"
-  "??? ?? ????? ???"
+  "בחר מופע הבא"
 
   "Select Previous Occurrence"
-  "??? ?? ????? ?????"
+  "בחר הופעה קודמת"
 
   "Select all occurrences"
   "בחר כל המופעים"
@@ -940,7 +940,7 @@ msgcat::mcmset he {
   "שלח משוב"
 
   "Sessions"
-  "??????"
+  "הפעלות"
 
   "Set Syntax"
   "תחביר קבע"
@@ -979,7 +979,7 @@ msgcat::mcmset he {
   "הצג קובץ ההבדל"
 
   "Show Last Profiling Report"
-  "הצג דו\"
+  "הצג דו"ח הפרופיל האחרוןו"
 
   "Show Line Numbers"
   "הצג מספרי שורות"
@@ -988,10 +988,10 @@ msgcat::mcmset he {
   "סמן הצג מפה"
 
   "Show Meta Characters"
-  "??? ???-?????"
+  "צג תווי Meta"
 
   "Show Selected Line Change"
-  "?????? ????? ??? ?????"
+  "שינוי תכנית קו שנבחר"
 
   "Show Sidebar"
   "הצג תיבה צידית"
@@ -1012,7 +1012,7 @@ msgcat::mcmset he {
   "הצג קובץ ההבדל"
 
   "Show last profiling report"
-  "הצג דו\"
+  "הצג צג דווח Profiling האחרונהו"
 
   "Show line numbers"
   "הצג מספרי שורות"
@@ -1063,7 +1063,7 @@ msgcat::mcmset he {
   "להפסיק. עם הפרופיל"
 
   "Switch To"
-  "?????"
+  "לעבור ל"
 
   "Switch to session"
   "מעבר להפעלה"
@@ -1084,7 +1084,7 @@ msgcat::mcmset he {
   "היפוך רישיות"
 
   "Toggle Comment"
-  "????? ??-????"
+  "חלף תגובה"
 
   "Toggle case of current character"
   "היפוך רישיות של התו הנוכחי"
@@ -1108,7 +1108,7 @@ msgcat::mcmset he {
   "קובץ unfavorite"
 
   "Unfold All"
-  "?????? ???"
+  "הנפרש"
 
   "Unindent"
   "הקטנת כניסת"
@@ -1269,7 +1269,7 @@ msgcat::mcmset he {
   "קבצי הספריה קרוב"
 
   "Copy Pathname"
-  "????? ????"
+  "נתיב העתק"
 
   "Delete directories?"
   "מחיקת ספריות?"
@@ -1287,7 +1287,7 @@ msgcat::mcmset he {
   "שם הספריה:"
 
   "Folder Name:"
-  "?? ?????:"
+  "שם תיקייה:"
 
   "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
   "התמונה המוצגת בסרגל הצידי כדי לציין כי קובץ כעת נפתח מאגר העריכה."
@@ -1790,7 +1790,7 @@ msgcat::mcmset he {
   "ללא"
 
   "Open"
-  "Open"
+  "לִפְתוֹחַ"
 
   "Rename"
   "שינוי שם"
@@ -1802,7 +1802,7 @@ msgcat::mcmset he {
   "שמירה בשם"
 
   "Split View"
-  "????? ?????"
+  "צפו פיצול"
 
   "Theme Editor"
   "דירוג העורך"
@@ -1811,7 +1811,7 @@ msgcat::mcmset he {
   "אין אפשרות לכתוב"
 
   "Unfavorite"
-  "Unfavorite"
+  "בטל סימון כמועדף"
 
 }
 

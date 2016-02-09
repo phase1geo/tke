@@ -756,6 +756,9 @@ msgcat::mcmset nl {
   "New file from template"
   "Nieuw van sjabloon"
 
+  "New window"
+  "Nieuw venster"
+
   "Next Difference"
   "Volgend verschil"
 
@@ -771,11 +774,23 @@ msgcat::mcmset nl {
   "Open Recent"
   "Recent geopend"
 
+  "Open directory"
+  "Map openen"
+
+  "Open file"
+  "Open lijn"
+
   "Paste"
   "Pasta"
 
   "Paste and Format"
   "Plak en Format"
+
+  "Paste and format text from clipboard"
+  "Plakken en indeling tekst vanaf klembord"
+
+  "Paste text from clipboard"
+  "Tekst plakken vanaf het klembord"
 
   "Plugins"
   "Plug-in"
@@ -798,14 +813,29 @@ msgcat::mcmset nl {
   "Quit"
   "Ophouden"
 
+  "Quit application"
+  "Toepassing afsluiten"
+
   "Redo"
   "Opnieuw"
 
   "Relative"
   "Relatief"
 
+  "Relative line numbering"
+  "Relatieve regelnummering"
+
   "Reload"
   "Herladen"
+
+  "Reload all plugins"
+  "Plugins herladen"
+
+  "Reload snippets"
+  "Reload fragmenten"
+
+  "Reload template information"
+  "Informatie in de groepsbeleidssjabloon herladen"
 
   "Remove All Markers"
   "Alle markeringen verwijderen"
@@ -813,14 +843,38 @@ msgcat::mcmset nl {
   "Remove From Current Line"
   "Verwijderen uit de huidige regel"
 
+  "Remove all markers"
+  "Alle markeringen verwijderen"
+
+  "Remove marker from current line"
+  "Markering verwijderen uit de huidige regel"
+
+  "Rename current file"
+  "Huidige bestand hernoemen"
+
   "Reopen File"
   "Bestand opnieuw te openen"
+
+  "Reopen current file"
+  "Heropenen van huidig bestand"
 
   "Replace Line With Script"
   "Regel vervangen door Script"
 
+  "Replace line with script"
+  "Regel vervangen door script"
+
   "Reset User to Base"
   "Reset gebruiker naar Base"
+
+  "Restart"
+  "Herstart"
+
+  "Run"
+  "Uitvoeren"
+
+  "Run theme editor"
+  "Thema-editor uitvoeren"
 
   "Save All"
   "Alles opslaan"
@@ -834,6 +888,27 @@ msgcat::mcmset nl {
   "Save Selection As"
   "Opslaan Keuze"
 
+  "Save all files"
+  "Alle bestanden opslaan"
+
+  "Save current session"
+  "Huidige sessie opslaan?"
+
+  "Save file"
+  "Bestand opslaan..."
+
+  "Save file as"
+  "Bestand opslaan als..."
+
+  "Save file as template"
+  "Opslaan als template"
+
+  "Save selected lines"
+  "Opslaan van geselecteerde regels"
+
+  "Save sessions as"
+  "Opslaan als zittingen"
+
   "Select All"
   "Alles selecteren"
 
@@ -846,10 +921,22 @@ msgcat::mcmset nl {
   "Select Previous Occurrence"
   "Selecteer vorige exemplaar"
 
+  "Select all occurrences"
+  "Selecteer alle exemplaren"
+
+  "Select all text"
+  "Alle tekst selecteren"
+
   "Send Bug Report"
   "Bugrapport verzenden."
 
   "Send Feedback"
+  "Feedback verzenden"
+
+  "Send bug report"
+  "Bugrapport verzenden."
+
+  "Send feedback"
   "Feedback verzenden"
 
   "Sessions"
@@ -863,6 +950,24 @@ msgcat::mcmset nl {
 
   "Set User to Global"
   "Gebruiker instellen naar globaal"
+
+  "Set current file line ending to CR for Classic Mac"
+  "Huidige bestand regel die eindigt CR voor klassieke Mac instellen"
+
+  "Set current file line ending to CRLF for Windows"
+  "Huidige bestand regel die eindigt naar CRLF voor Windows instellen"
+
+  "Set current file line ending to LF for Unix"
+  "Instellen van huidige bestand regel die eindigt op LF voor Unix"
+
+  "Set indent mode to"
+  "Streepje modus ingesteld op"
+
+  "Set user bindings to global bindings"
+  "Gebruiker instellen bindingen aan globale bindings"
+
+  "Set user preferences to global preferences"
+  "Gebruikersvoorkeuren naar algemene voorkeuren instellen"
 
   "Show Console"
   "Show Console"
@@ -897,6 +1002,39 @@ msgcat::mcmset nl {
   "Show Tab Bar"
   "Show Tab Bar"
 
+  "Show console"
+  "Toon console"
+
+  "Show diagnostic logfile"
+  "Toon diagnostische logfile"
+
+  "Show file difference"
+  "Toon bestand verschil"
+
+  "Show last profiling report"
+  "Toon laatste profilering verslag"
+
+  "Show line numbers"
+  "Regelnummering tonen"
+
+  "Show marker map"
+  "Toon markering kaart"
+
+  "Show meta characters"
+  "Toon metakarakters"
+
+  "Show selected line change"
+  "Toon geselecteerde regel wijzigen"
+
+  "Show sidebar"
+  "Toon zijbalk"
+
+  "Show status bar"
+  "Statusbalk tonen"
+
+  "Show tab bar"
+  "Toon tabbalk"
+
   "Smart Indent"
   "Slimme streepje"
 
@@ -909,14 +1047,26 @@ msgcat::mcmset nl {
   "Sort Tabs"
   "Sorteren Tabs"
 
+  "Sort tabs"
+  "Tabs soort"
+
   "Start Profiling"
   "Start Profiling"
 
+  "Start profiling"
+  "Start profilering"
+
   "Stop Profiling"
   "Stop Profiling"
+
+  "Stop profiling"
+  "Stoppen met profielen"
 
   "Switch To"
   "Overschakelen naar"
+
+  "Switch to session"
+  "Overschakelen naar sessie"
 
   "Tabs"
   "Tab"
@@ -936,6 +1086,15 @@ msgcat::mcmset nl {
   "Toggle Comment"
   "Knevel commentaar"
 
+  "Toggle case of current character"
+  "Toggle zaak van huidige karakter"
+
+  "Toggle comment"
+  "Toggle commentaar"
+
+  "Toggle split view mode"
+  "Toggle splitsen weergavemodus"
+
   "Tools"
   "hulpmiddelen;"
 
@@ -945,20 +1104,32 @@ msgcat::mcmset nl {
   "Undo"
   "Ongedaan maken"
 
+  "Unfavorite file"
+  "Unfavorite bestand"
+
   "Unfold All"
   "Ontvouwen Alle"
 
   "Unindent"
   "Laten terugspringen"
 
+  "Unindent selected text"
+  "Geselecteerde tekst inspringen"
+
   "Uninstall"
   "Deïnstalleren"
+
+  "Uninstall plugin"
+  "Verwijderen plugin"
 
   "Unix"
   "Unix"
 
   "Unlock"
   "Ontgrendelen"
+
+  "Unlock file"
+  "Ontgrendelen bestand"
 
   "Upper Case"
   "bovenkast"
@@ -974,6 +1145,15 @@ msgcat::mcmset nl {
 
   "View Global"
   "Weergave Global"
+
+  "View base preferences file"
+  "Weergave basis voorkeurenbestand"
+
+  "View global menu bindings"
+  "Bekijk globaal menu bindingen"
+
+  "View user guide"
+  "Bekijk Gids"
 
   "Vim Mode"
   "Vim Mode"
