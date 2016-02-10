@@ -1591,7 +1591,8 @@ namespace eval vim {
       } else {
         set column($txtt) $col
       }
-      set row [expr {$row + (($number($txtt) ne "") ? $number($txtt) : 1)}]
+      set rows [expr {($number($txtt) ne "") ? $number($txtt) : 1}]
+      set row  [lindex [split [$txtt index "$row.0+$rows display lines"] .] 0]
       if {[$txtt compare "$row.$col" < end]} {
         ::tk::TextSetCursor $txtt "$row.$col"
         adjust_insert $txtt
@@ -1642,7 +1643,8 @@ namespace eval vim {
       } else {
         set column($txtt) $col
       }
-      set row [expr {$row - (($number($txtt) ne "") ? $number($txtt) : 1)}]
+      set rows [expr {($number($txtt) ne "") ? $number($txtt) : 1}]
+      set row  [lindex [split [$txtt index "$row.0-$rows display lines"] .] 0]
       if {$row >= 1} {
         ::tk::TextSetCursor $txtt "$row.$col"
         adjust_insert $txtt
