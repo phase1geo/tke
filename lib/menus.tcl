@@ -2243,6 +2243,22 @@ namespace eval menus {
   }
 
   ######################################################################
+  # Fold everything in the current text widget.
+  proc fold_all {} {
+
+    folding::close_all_folds [gui::current_txt {}]
+
+  }
+
+  ######################################################################
+  # Unfold everything in the current text widget.
+  proc unfold_all {} {
+
+    folding::open_all_folds [gui::current_txt {}]
+
+  }
+
+  ######################################################################
   # Adds the tools menu commands.
   proc add_tools {mb} {
 

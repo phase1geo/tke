@@ -33,7 +33,8 @@ namespace eval folding {
     # Add the folding gutter
     $txt gutter create folding \
       open  [list -symbol \u25be -onclick [ns folding]::close_fold] \
-      close [list -symbol \u25b8 -onclick [ns folding]::open_fold]
+      close [list -symbol \u25b8 -onclick [ns folding]::open_fold] \
+      end   [list -symbol \u221f]
 
     # Add the fold markers to the gutter
     add_folds $txt 1.0 end
@@ -48,6 +49,11 @@ namespace eval folding {
   # Adds any found folds to the gutter
   proc add_folds {txt startpos endpos} {
 
+    array set ids {
+      1 open
+      2 end
+    }
+
     # Get the starting and ending line
     set startline [lindex [split [$txt index $startpos] .] 0]
     set endline   [lindex [split [$txt index $endpos]   .] 0]
@@ -57,8 +63,8 @@ namespace eval folding {
 
     # Add the folding indicators
     for {set i $startline} {$i <= $endline} {incr i} {
-      if {[check_fold $txt $i]} {
-        $txt gutter set folding open $i
+      if {[info exists ids([set fold [check_fold $txt $i]])]} {
+        $txt gutter set folding $ids($fold) $i
       }
     }
 
@@ -68,11 +74,10 @@ namespace eval folding {
   # Returns true if a fold point has been detected at the given index.
   proc check_fold {txt line} {
 
-    if {[set match [ctext::get_match_bracket $txt curlyL $line.end]] eq ""} {
-      return 0
-    }
+    set indent_cnt   [[ns indent]::get_tag_count $txt.t indent   $line.0 $line.end]
+    set unindent_cnt [[ns indent]::get_tag_count $txt.t unindent $line.0 $line.end]
 
-    return [expr [lindex [split $match .] 0] == $line]
+    return [expr ($indent_cnt > $unindent_cnt) ? 1 : ($indent_cnt < $unindent_cnt) ? 2 : 0]
 
   }
 
@@ -81,10 +86,10 @@ namespace eval folding {
   proc get_fold_range {txt line} {
 
     # Get the starting and ending position of the indentation
-    set startpos [$txt index "[ctext::get_match_bracket $txt curlyL $line.end]+1l linestart"]
-    set endpos   [$txt index "[ctext::get_match_bracket $txt curlyR $startpos] linestart"]
+    set startpos [ctext::get_match_bracket $txt curlyL $line.end]
+    set endpos   [ctext::get_match_bracket $txt curlyR $startpos]
 
-    return [list $startpos $endpos]
+    return [list [$txt index "$startpos+1l linestart"] [$txt index "$endpos linestart"]]
 
   }
 
