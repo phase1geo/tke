@@ -1995,8 +1995,8 @@ proc ctext::get_match_bracket {win stype {index insert}} {
     lassign [$win tag prevrange _$otype $index]      ofirst olast
     set ofirst "$index+1c"
 
-    if {($olast eq "") || [$win compare $olast < insert]} {
-      lassign [$win tag nextrange _$otype "insert"] dummy olast
+    if {($olast eq "") || [$win compare $olast < $index]} {
+      lassign [$win tag nextrange _$otype $index] dummy olast
     }
 
     while {($olast ne "") && ($slast ne "")} {
@@ -2025,7 +2025,7 @@ proc ctext::get_match_bracket {win stype {index insert}} {
     lassign [$win tag prevrange _$stype $index] sfirst slast
     lassign [$win tag prevrange _$otype $index] ofirst olast
 
-    if {($olast ne "") && [$win compare $olast >= insert]} {
+    if {($olast ne "") && [$win compare $olast >= $index]} {
       set olast $index
     }
 

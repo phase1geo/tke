@@ -4245,6 +4245,8 @@ namespace eval gui {
     # Get the current widget
     set txt [current_txt $tid]
 
+    puts "In show_match_pair, insert: [$txt index insert]"
+
     # If the current character is a matchable character, change the
     # insertion cursor to the matching character.
     switch -- [$txt get insert] {
