@@ -1196,8 +1196,8 @@ msgcat::mcmset ru {
   "Grant"
   "Грант"
 
-  "Grant permssion?"
-  "Грант permssion?"
+  "Grant permission?"
+  "Грант permission?"
 
   "OK"
   "OK"

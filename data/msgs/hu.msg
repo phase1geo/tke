@@ -1196,7 +1196,7 @@ msgcat::mcmset hu {
   "Grant"
   "Az oltalom megadása"
 
-  "Grant permssion?"
+  "Grant permission?"
   "Engedélyt adhat?"
 
   "OK"

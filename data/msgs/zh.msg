@@ -1196,7 +1196,7 @@ msgcat::mcmset zh {
   "Grant"
   "授予"
 
-  "Grant permssion?"
+  "Grant permission?"
   "格兰特PERMSSION？"
 
   "OK"

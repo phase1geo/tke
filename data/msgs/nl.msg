@@ -1196,8 +1196,8 @@ msgcat::mcmset nl {
   "Grant"
   "Grant"
 
-  "Grant permssion?"
-  "Grant permssion?"
+  "Grant permission?"
+  "Grant permission?"
 
   "OK"
   "OK"

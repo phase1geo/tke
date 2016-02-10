@@ -1196,7 +1196,7 @@ msgcat::mcmset he {
   "Grant"
   "גרנט"
 
-  "Grant permssion?"
+  "Grant permission?"
   "Permssion גרנט?"
 
   "OK"
