@@ -2641,7 +2641,7 @@ namespace eval menus {
     if {[tk windowingsystem] ne "aqua"} {
       $mb add separator
       $mb add command -label [format "%s %s" [msgcat::mc "About"] "TKE"] -underline 0 -command [list gui::show_about]
-      launcher::register [make_menu "Help" [format "% %s" [msgcat::mc "About"] "TKE"]] [list gui::show_about]
+      launcher::register [make_menu "Help" [format "%s %s" [msgcat::mc "About"] "TKE"]] [list gui::show_about]
     }
 
   }
