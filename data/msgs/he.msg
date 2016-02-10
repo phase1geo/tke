@@ -979,7 +979,7 @@ msgcat::mcmset he {
   "הצג קובץ ההבדל"
 
   "Show Last Profiling Report"
-  "הצג דו"ח הפרופיל האחרוןו"
+  "צג דווח Profiling האחרונהו"
 
   "Show Line Numbers"
   "הצג מספרי שורות"

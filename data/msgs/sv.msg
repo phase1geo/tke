@@ -156,7 +156,7 @@ msgcat::mcmset sv {
   "Release typ"
 
   "Reload file?"
-  "Ladda om filen"
+  "Ladda om filen?"
 
   "Replace"
   "Ersätt"
@@ -331,13 +331,13 @@ msgcat::mcmset sv {
   "Klipp ut text"
 
   "Delete current file"
-  "Radera aktuell"
+  "Ta bort aktuell fil"
 
   "Delete current line"
-  "Radera aktuell"
+  "Radera aktuell rad"
 
   "Delete current word"
-  "Radera aktuell"
+  "Radera aktuellt ord"
 
   "Delete from cursor to end of line"
   "Ta bort från markören till slutet av raden"
@@ -427,7 +427,7 @@ msgcat::mcmset sv {
   "filinnehåll"
 
   "Find In Files"
-  "Sök i filer..."
+  "Sök i filer"
 
   "Find Matching Pair"
   "Hitta matchande par"
@@ -436,7 +436,7 @@ msgcat::mcmset sv {
   "Sök och ersätt"
 
   "Find in files"
-  "Sök i filer..."
+  "Sök i filer"
 
   "Find matching character pair"
   "Hitta matchande tecken par"
@@ -751,7 +751,7 @@ msgcat::mcmset sv {
   "Nytt fönster"
 
   "New file"
-  "Ny fil:"
+  "Ny fil"
 
   "New file from template"
   "Ny från mall"
@@ -811,10 +811,10 @@ msgcat::mcmset sv {
   "Profilering stoppad"
 
   "Quit"
-  "% quit"
+  "Sluta"
 
   "Quit application"
-  "Avsluta program"
+  "Avsluta programmet"
 
   "Redo"
   "Återställ"
@@ -895,13 +895,13 @@ msgcat::mcmset sv {
   "Spara nuvarande session?"
 
   "Save file"
-  "Spara fil..."
+  "Spara fil"
 
   "Save file as"
-  "Spara fil som..."
+  "Spara fil som"
 
   "Save file as template"
-  "Spara som mall"
+  "Spara filen som mall"
 
   "Save selected lines"
   "Spara markerade rader"
@@ -928,13 +928,13 @@ msgcat::mcmset sv {
   "Markera all text"
 
   "Send Bug Report"
-  "Skicka felrapport."
+  "Skicka felrapport"
 
   "Send Feedback"
   "Sänd feedback"
 
   "Send bug report"
-  "Skicka felrapport."
+  "Skicka felrapport"
 
   "Send feedback"
   "Skicka omdöme"
@@ -1194,10 +1194,10 @@ msgcat::mcmset sv {
   "Ange plugin namn"
 
   "Grant"
-  "Grant"
+  "Bevilja"
 
   "Grant permssion?"
-  "Grant permssion?"
+  "Grant tillstånd?"
 
   "OK"
   "OK"
@@ -1284,7 +1284,7 @@ msgcat::mcmset sv {
   "Ta bort filer"
 
   "Directory Name:"
-  "namn i katalog"
+  "Namn i katalog:"
 
   "Folder Name:"
   "Mappnamnet:"
@@ -1415,7 +1415,7 @@ msgcat::mcmset sv {
   "Färgen används för att rita linjen varning bredd i redigering bufferten (liksom linjen som skiljer rännstenen från redigering bufferten)."
 
   "Default 'darkcolor' for all ttk widgets."
-  "Standard \"
+  "Default 'darkcolor' för alla TTK widgets."
 
   "Default background color to use for all ttk widgets that are in a disabled state."
   "Standardbakgrundsfärgen för alla ttk widgets som är i ett inaktiverat tillstånd."
@@ -1621,7 +1621,7 @@ msgcat::mcmset sv {
   "Beskrivning"
 
   "Details"
-  "Visa ”Detaljer” knappen"
+  "Detaljer"
 
   "Done"
   "Klar"
@@ -1660,10 +1660,10 @@ msgcat::mcmset sv {
   "Förhandsgranska"
 
   "Relief: "
-  "understöd"
+  "understöd:"
 
   "Save As:"
-  "Spara som"
+  "Spara som:"
 
   "Save theme changes?"
   "Spara tema ändringar?"
@@ -1684,7 +1684,7 @@ msgcat::mcmset sv {
   "Det aktuella temat har osparade ändringar"
 
   "Tree Style: "
-  "Träd Stil:"
+  "Träd Stil: "
 
   "Two-Color Bitmap"
   "Två-Color Bitmap"
@@ -1696,7 +1696,7 @@ msgcat::mcmset sv {
   "Värde"
 
   "Value: "
-  "Värde"
+  "Värde: "
 
 }
 
@@ -1707,7 +1707,7 @@ msgcat::mcmset sv {
   "Tema"
 
   "Theme:*"
-  "Tema"
+  "Tema:*"
 
 }
 
@@ -1726,7 +1726,7 @@ msgcat::mcmset sv {
 msgcat::mcmset sv {
 
   "Unable to read"
-  "Kan inte läsa fil."
+  "Kan inte läsa fil"
 
 }
 
@@ -1799,7 +1799,7 @@ msgcat::mcmset sv {
   "Spara"
 
   "Save As"
-  "Spara som..."
+  "Spara som"
 
   "Split View"
   "Dela vy"
@@ -1811,7 +1811,7 @@ msgcat::mcmset sv {
   "Kan inte skriva"
 
   "Unfavorite"
-  "Unfavorite"
+  "Bort från favoriter"
 
 }
 

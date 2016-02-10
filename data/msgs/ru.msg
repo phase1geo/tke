@@ -63,7 +63,7 @@ msgcat::mcmset ru {
 msgcat::mcmset ru {
 
   "All"
-  "All"
+  "Все"
 
   "Case sensitivity"
   "Чувствительность к регистру символов"
@@ -141,7 +141,7 @@ msgcat::mcmset ru {
   "Строка"
 
   "Locked"
-  "ТРУБА ЗАКРЫТАЯ"
+  "запертый"
 
   "Move"
   "Переместить"
@@ -168,7 +168,7 @@ msgcat::mcmset ru {
   "Показать на боковой панели"
 
   "Starting number:"
-  "Стартовый номер"
+  "Стартовый номер:"
 
   "Tcl/Tk Version"
   "Версия Tcl/Tk"
@@ -211,13 +211,13 @@ msgcat::mcmset ru {
   "Абсолютная нумерация"
 
   "Align Cursors"
-  "????????? ???????"
+  "Выравнивание курсоры"
 
   "Align cursors"
-  "Выровнять курсоры"
+  "Выравнивание курсоры"
 
   "Append Next Occurrence"
-  "???????? ????????? ?????????"
+  "Добавление следующее вхождение"
 
   "Append next occurrence"
   "Добавить следующее вхождение"
@@ -262,7 +262,7 @@ msgcat::mcmset ru {
   "Закрыть все"
 
   "Close Current"
-  "??????? ???????"
+  "Закрыть Текущий"
 
   "Close all tabs"
   "Закрыть все вкладки"
@@ -298,7 +298,7 @@ msgcat::mcmset ru {
   "Создать"
 
   "Create at Current Line"
-  "??????? ? ??????? ??????"
+  "Создать в текущей строке"
 
   "Create marker at current line"
   "Создание маркера в текущей строке"
@@ -367,7 +367,7 @@ msgcat::mcmset ru {
   "Отключить режим Vim"
 
   "Display Text Info"
-  "Текст"
+  "Текст на дисплее информация"
 
   "Display text information"
   "Отображение текстовой информации"
@@ -415,7 +415,7 @@ msgcat::mcmset ru {
   "Включить режим Vim"
 
   "Enumeration"
-  "Enumeration (Нумерация)"
+  "перечисление"
 
   "Favorite file"
   "Любимый файл"
@@ -427,16 +427,16 @@ msgcat::mcmset ru {
   "Содержимое файла"
 
   "Find In Files"
-  "? ??????"
+  "Найти в файлах"
 
   "Find Matching Pair"
-  "????? ??????????? ????"
+  "Найти подходящую пару"
 
   "Find and Replace"
   "Найти и заменить"
 
   "Find in files"
-  "&Найти в файлах..."
+  "&Найти в файлах"
 
   "Find matching character pair"
   "Найти совпадающие пары символов"
@@ -448,10 +448,10 @@ msgcat::mcmset ru {
   "Найти предыдущего вхождения"
 
   "Fold All"
-  "???????? ???"
+  "Сложите все"
 
   "Folding"
-  "&??????? ??????"
+  "складной"
 
   "Format Text"
   "Формат"
@@ -508,13 +508,13 @@ msgcat::mcmset ru {
   "Скрыть карта с маркерами"
 
   "Hide Meta Characters"
-  "?????? ???? ???????"
+  "Скрыть метасимволами"
 
   "Hide Sidebar"
   "Скрыть боковую панель"
 
   "Hide Status Bar"
-  "Панель состояния (Status bar)"
+  "Скрыть Status Bar"
 
   "Hide Tab Bar"
   "Скрыть панель вкладок,"
@@ -589,10 +589,10 @@ msgcat::mcmset ru {
   "Присоединиться к линии"
 
   "Jump Backward"
-  "??????? ?????"
+  "Перейти назад"
 
   "Jump Forward"
-  "??????? ??????"
+  "Перейти вперед"
 
   "Jump To Line"
   "Перейти к строке"
@@ -619,7 +619,7 @@ msgcat::mcmset ru {
   "Линия ниже текущего"
 
   "Line Ending"
-  "Время строка - окончание"
+  "окончание строки"
 
   "Line Number"
   "Номер строки"
@@ -646,7 +646,7 @@ msgcat::mcmset ru {
   "Меню Наручники"
 
   "Merge Panes"
-  "??????????? ????????"
+  "Слияние Panes"
 
   "Merge panes"
   "Объединение областей"
@@ -760,7 +760,7 @@ msgcat::mcmset ru {
   "Новое окно"
 
   "Next Difference"
-  "????????? ???????"
+  "Следующее отличие"
 
   "Open Directory"
   "Open Directory"
@@ -799,7 +799,7 @@ msgcat::mcmset ru {
   "Предпочтения"
 
   "Previous Difference"
-  "?????????? ???????"
+  "Предыдущая Разница"
 
   "Profiling Report Sorted By"
   "Сортировка по отчета профилирования"
@@ -814,7 +814,7 @@ msgcat::mcmset ru {
   "Выход"
 
   "Quit application"
-  "\"
+  "Выход приложения"
 
   "Redo"
   "Вернуть"
@@ -838,10 +838,10 @@ msgcat::mcmset ru {
   "Перезагрузить шаблон информации"
 
   "Remove All Markers"
-  "??????? ??? ???????"
+  "Удалить все маркеры"
 
   "Remove From Current Line"
-  "??????? ?? ??????? ??????"
+  "Удалить из текущей строки"
 
   "Remove all markers"
   "Удалить маркеры"
@@ -859,7 +859,7 @@ msgcat::mcmset ru {
   "Открыть текущий файл"
 
   "Replace Line With Script"
-  "???????? ?????? ???????"
+  "Заменить соответствие с Script"
 
   "Replace line with script"
   "Замените строку скрипта"
@@ -883,7 +883,7 @@ msgcat::mcmset ru {
   "Сохранить как Шаблон"
 
   "Save Current"
-  "????????? ???????"
+  "Сохранить текущий"
 
   "Save Selection As"
   "Сохранить как"
@@ -913,13 +913,13 @@ msgcat::mcmset ru {
   "Выбрать все"
 
   "Select All Occurrences"
-  "???????? ??? ?????????"
+  "Выберите все вхождения"
 
   "Select Next Occurrence"
-  "??????? ????????? ?????????"
+  "Выберите следующее вхождение"
 
   "Select Previous Occurrence"
-  "??????? ?????????? ?????????"
+  "Выберите предыдущее вхождение"
 
   "Select all occurrences"
   "Выберите все вхождения"
@@ -940,7 +940,7 @@ msgcat::mcmset ru {
   "Отправить отзыв"
 
   "Sessions"
-  "??????"
+  "сессий"
 
   "Set Syntax"
   "Установите Синтаксис"
@@ -988,10 +988,10 @@ msgcat::mcmset ru {
   "Показать маркер"
 
   "Show Meta Characters"
-  "???????? ??????? ????"
+  "Показать метасимволами"
 
   "Show Selected Line Change"
-  "???????? ????????? ????? ?????????"
+  "Показать выбранную линию Изменить"
 
   "Show Sidebar"
   "Показать боковую панель"
@@ -1063,7 +1063,7 @@ msgcat::mcmset ru {
   "Остановить профилирование"
 
   "Switch To"
-  "????????????? ??"
+  "Переключить на"
 
   "Switch to session"
   "Переключиться на сессии"
@@ -1084,7 +1084,7 @@ msgcat::mcmset ru {
   "Корпус переключателя"
 
   "Toggle Comment"
-  "??????????? ???????????"
+  "Переключить комментарий"
 
   "Toggle case of current character"
   "Случай переключения текущего символа"
@@ -1108,7 +1108,7 @@ msgcat::mcmset ru {
   "Unfavorite файла"
 
   "Unfold All"
-  "???????? ???"
+  "Раскрыть все"
 
   "Unindent"
   "Unindent"
@@ -1269,7 +1269,7 @@ msgcat::mcmset ru {
   "Закрыть Каталог файлов"
 
   "Copy Pathname"
-  "?????????? ????"
+  "Копировать Pathname"
 
   "Delete directories?"
   "Удалите каталоги?"
@@ -1287,7 +1287,7 @@ msgcat::mcmset ru {
   "Имя файла"
 
   "Folder Name:"
-  "???????? ?????"
+  "Имя папки:"
 
   "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
   "Изображение, отображаемое в боковой панели, чтобы указать, что файл открыт в настоящее время в буфер редактирования."
@@ -1415,7 +1415,7 @@ msgcat::mcmset ru {
   "Цвет, используемый для рисования линии ширина предупреждение в буфере редактирования (а также линия, разделяющая желоба от редактирования буфера)."
 
   "Default 'darkcolor' for all ttk widgets."
-  "По умолчанию «darkcolor» для всех виджетов ТТК."
+  "По умолчанию 'darkcolor' для всех виджетов ТТК."
 
   "Default background color to use for all ttk widgets that are in a disabled state."
   "По умолчанию цвет фона для всех виджетов ТТК, которые находятся в отключенном состоянии."
@@ -1707,7 +1707,7 @@ msgcat::mcmset ru {
   "Тема"
 
   "Theme:*"
-  "Тема"
+  "Тема:*"
 
 }
 
@@ -1802,7 +1802,7 @@ msgcat::mcmset ru {
   "Сохранить как"
 
   "Split View"
-  "????????? ????? ? ?? ??????????"
+  "Разделить"
 
   "Theme Editor"
   "Визуальный редактор темы"
@@ -1811,7 +1811,7 @@ msgcat::mcmset ru {
   "Не удается записать"
 
   "Unfavorite"
-  "Unfavorite"
+  "Удалить из избранного"
 
 }
 
