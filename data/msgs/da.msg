@@ -1196,8 +1196,8 @@ msgcat::mcmset da {
   "Grant"
   "Meddelelse af EF-sortsbeskyttelse"
 
-  "Grant permssion?"
-  "Grant permssion?"
+  "Grant permission?"
+  "Grant permission?"
 
   "OK"
   "OK"

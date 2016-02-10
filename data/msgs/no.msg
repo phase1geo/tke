@@ -1196,7 +1196,7 @@ msgcat::mcmset no {
   "Grant"
   "Tildel"
 
-  "Grant permssion?"
+  "Grant permission?"
   "Grant tillatelse?"
 
   "OK"

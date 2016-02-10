@@ -1196,7 +1196,7 @@ msgcat::mcmset sv {
   "Grant"
   "Bevilja"
 
-  "Grant permssion?"
+  "Grant permission?"
   "Grant tillstånd?"
 
   "OK"

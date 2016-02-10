@@ -407,7 +407,7 @@ namespace eval plugins {
     ttk::label .installwin.f.l1 -text $plugin_name
     ttk::label .installwin.f.e1 -text ""
     ttk::label .installwin.f.l2 -text [msgcat::mc "Plugin requires permission to view or modify your system."]
-    ttk::label .installwin.f.l3 -text [msgcat::mc "Grant permssion?"]
+    ttk::label .installwin.f.l3 -text [msgcat::mc "Grant permission?"]
     ttk::label .installwin.f.e2 -text ""
 
     pack .installwin.f.l1 -padx 2 -pady 2

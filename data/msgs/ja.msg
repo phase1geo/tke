@@ -1196,7 +1196,7 @@ msgcat::mcmset ja {
   "Grant"
   "グラント"
 
-  "Grant permssion?"
+  "Grant permission?"
   "permssionを付与？"
 
   "OK"

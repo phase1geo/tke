@@ -1196,7 +1196,7 @@ msgcat::mcmset el {
   "Grant"
   "Χορήγηση"
 
-  "Grant permssion?"
+  "Grant permission?"
   "Επιχορήγηση permssion;"
 
   "OK"

@@ -1196,8 +1196,8 @@ msgcat::mcmset de {
   "Grant"
   "Grant"
 
-  "Grant permssion?"
-  "Gewähre permssion?"
+  "Grant permission?"
+  "Gewähre prmission?"
 
   "OK"
   "OK"

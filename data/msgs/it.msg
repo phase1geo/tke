@@ -1196,8 +1196,8 @@ msgcat::mcmset it {
   "Grant"
   "Concessione"
 
-  "Grant permssion?"
-  "Concedere permssion?"
+  "Grant permission?"
+  "Concedere permission?"
 
   "OK"
   "OK"
