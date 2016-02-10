@@ -87,7 +87,7 @@ msgcat::mcmset hu {
   "Szerzői jogok"
 
   "Delete tab?"
-  "Delete tab?"
+  "Törlés lap?"
 
   "Developer"
   "Fejlesztő"
@@ -102,10 +102,10 @@ msgcat::mcmset hu {
   "Kedvencek"
 
   "File already exists.  Use '!' to force an overwrite"
-  "Fájl már létezik.  Használata \"
+  "A fájl már létezik. Használja a '!' kényszeríteni felülíró"
 
   "File attribute does not exist"
-  "Attribútum nem létezik."
+  "Attribútum nem létezik"
 
   "File index is out of range"
   "Fájl index tartományon kívül"
@@ -150,7 +150,7 @@ msgcat::mcmset hu {
   "Számok be multicursor üzemmódban kell lennie"
 
   "No write permissions.  Use '!' to force write."
-  "Nincs írási engedélye.  Használata \"
+  "Nincs írási jogosultsága. Használja a '!' kényszeríteni írni."
 
   "Release Type"
   "Kiadás típusa"
@@ -427,7 +427,7 @@ msgcat::mcmset hu {
   "Fájl tartalma"
 
   "Find In Files"
-  "Keresés fájlokban..."
+  "Keresés fájlokban"
 
   "Find Matching Pair"
   "Keressük meg a megfelel? pár"
@@ -436,7 +436,7 @@ msgcat::mcmset hu {
   "Keresés és csere"
 
   "Find in files"
-  "Keresés fájlokban..."
+  "Keresés fájlokban"
 
   "Find matching character pair"
   "Találni párja karakter"
@@ -751,7 +751,7 @@ msgcat::mcmset hu {
   "Új ablak"
 
   "New file"
-  "Új fájl..."
+  "Új fájl"
 
   "New file from template"
   "Új sablonból"
@@ -763,7 +763,7 @@ msgcat::mcmset hu {
   "A következ? eltérés"
 
   "Open Directory"
-  "Felső szintű könyvtár:"
+  "Felső szintű könyvtár"
 
   "Open Favorite"
   "Nyílt Favorite"
@@ -775,7 +775,7 @@ msgcat::mcmset hu {
   "Legutóbbi megnyitása"
 
   "Open directory"
-  "Felső szintű könyvtár:"
+  "Felső szintű könyvtár"
 
   "Open file"
   "Fájl megnyitása"
@@ -799,7 +799,7 @@ msgcat::mcmset hu {
   "Preferencia"
 
   "Previous Difference"
-  "Az el?z? eltérés"
+  "Előző különbség"
 
   "Profiling Report Sorted By"
   "Profilkészítés jelentés szerint rendezve"
@@ -895,13 +895,13 @@ msgcat::mcmset hu {
   "El szeretné menteni az aktuális munkamenetet?"
 
   "Save file"
-  "A fájl mentése..."
+  "Fájl mentése"
 
   "Save file as"
-  "Mentés másként..."
+  "Mentés másként"
 
   "Save file as template"
-  "A sablon mentése"
+  "A fájl mentése sablonként"
 
   "Save selected lines"
   "Kijelölt sorok mentése"
@@ -946,7 +946,7 @@ msgcat::mcmset hu {
   "Beállítása Syntax"
 
   "Set Theme"
-  "Set Theme"
+  "Állítsa téma"
 
   "Set User to Global"
   "Állítsa be a felhasználó, a globális"
@@ -1084,13 +1084,13 @@ msgcat::mcmset hu {
   "Kisbetű-nagybetű váltás"
 
   "Toggle Comment"
-  "Váltás Comment"
+  "Toggle megjegyzés"
 
   "Toggle case of current character"
   "Váltás az aktuális karakter"
 
   "Toggle comment"
-  "Megjegyzés ki-/ bekapcsolása"
+  "Toggle megjegyzés"
 
   "Toggle split view mode"
   "Toggle osztott nézetben"
@@ -1179,10 +1179,10 @@ msgcat::mcmset hu {
   "HIB"
 
   "ERROR:  Plugin name already exists"
-  "ERROR: Plugin már létezik"
+  "HIBA: Plugin már létezik"
 
   "ERROR:  Plugin name is not valid (only alphanumeric and underscores are allowed)"
-  "ERROR: Plugin neve nem érvényes (csak alfanumerikus és aláhúzás megengedett)"
+  "HIBA: Plugin neve nem érvényes (csak alfanumerikus és aláhúzás megengedett)"
 
   "ERROR:  Unable to create plugin directory"
   "HIBA: Nem sikerült létrehozni a plugin könyvtárban"
@@ -1197,7 +1197,7 @@ msgcat::mcmset hu {
   "Az oltalom megadása"
 
   "Grant permssion?"
-  "Grant permssion?"
+  "Engedélyt adhat?"
 
   "OK"
   "OK"
@@ -1445,7 +1445,7 @@ msgcat::mcmset hu {
   "Meghatározza a vastagsága a markolat között átméretezhető táblát."
 
   "ERROR:  Unable to read"
-  "Hiba: Nem lehet olvasni"
+  "HIBA: Nem lehet olvasni"
 
   "Foreground (slider) color used in the sidebar scrollbar."
   "Előtér (slider) használt szín a tálaló görgetősáv."
@@ -1707,7 +1707,7 @@ msgcat::mcmset hu {
   "Sablon"
 
   "Theme:*"
-  "Sablon"
+  "Sablon*"
 
 }
 
@@ -1811,7 +1811,7 @@ msgcat::mcmset hu {
   "Nem lehet írni"
 
   "Unfavorite"
-  "Unfavorite"
+  "Nem kedvenc"
 
 }
 

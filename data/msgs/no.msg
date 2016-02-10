@@ -138,7 +138,7 @@ msgcat::mcmset no {
   "Lisens"
 
   "Line"
-  "Line"
+  "Linje"
 
   "Locked"
   "låst"
@@ -162,7 +162,7 @@ msgcat::mcmset no {
   "Skift ut"
 
   "Save request"
-  "Be"
+  "Lagre forespørsel"
 
   "Show in Sidebar"
   "Vis i Sidebar"
@@ -171,7 +171,7 @@ msgcat::mcmset no {
   "Startnummeret:"
 
   "Tcl/Tk Version"
-  "TCL/Tk-versjonen"
+  "Tcl/Tk versjonen"
 
   "Total Characters"
   "Total tegn"
@@ -376,7 +376,7 @@ msgcat::mcmset no {
   "Gjeldende duplikatfiler"
 
   "Edit"
-  "Edit"
+  "Redigere"
 
   "Edit Language"
   "Rediger språk"
@@ -463,7 +463,7 @@ msgcat::mcmset no {
   "Fra utklippstavlen"
 
   "Global"
-  "GLOBAL"
+  "Global"
 
   "Goto Last Tab"
   "Gå Siste Tab"
@@ -781,7 +781,7 @@ msgcat::mcmset no {
   "Åpne fil"
 
   "Paste"
-  "Wij willen u informeren dat uw rekening is toegankelijk vanaf een onbevoegde computer"
+  "Lim"
 
   "Paste and Format"
   "Lim og Format"
@@ -793,7 +793,7 @@ msgcat::mcmset no {
   "Lime inn tekst fra utklippstavlen"
 
   "Plugins"
-  "Preferences..."
+  "Plugins"
 
   "Preferences"
   "Innstillinger"
@@ -826,7 +826,7 @@ msgcat::mcmset no {
   "Relativ linjenummerering"
 
   "Reload"
-  "Restart tke"
+  "Last"
 
   "Reload all plugins"
   "Laste alle plugins"
@@ -868,7 +868,7 @@ msgcat::mcmset no {
   "Tilbakestille bruker til Base"
 
   "Restart"
-  "Start på nytt\"
+  "Omstart"
 
   "Run"
   "Kjør"
@@ -1197,7 +1197,7 @@ msgcat::mcmset no {
   "Tildel"
 
   "Grant permssion?"
-  "Grant permssion?"
+  "Grant tillatelse?"
 
   "OK"
   "OK"
@@ -1707,7 +1707,7 @@ msgcat::mcmset no {
   "Tema"
 
   "Theme:*"
-  "Tema"
+  "Tema:*"
 
 }
 

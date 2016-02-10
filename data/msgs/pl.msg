@@ -52,10 +52,10 @@ msgcat::mcmset pl {
 msgcat::mcmset pl {
 
   "Find:"
-  "\"
+  "Odnaleźć:"
 
   "Replace:"
-  "\"
+  "Zastąpić:"
 
 }
 
@@ -75,7 +75,7 @@ msgcat::mcmset pl {
   "Zamknij pozostałe karty"
 
   "Close Other*"
-  "\"
+  "Zamknij pozostałe*"
 
   "Close Tab"
   "Zamknij kartę"
@@ -156,7 +156,7 @@ msgcat::mcmset pl {
   "Typ wydania"
 
   "Reload file?"
-  "Wczytaj plik na nowo"
+  "Wczytaj plik na nowo?"
 
   "Replace"
   "Zastąp"
@@ -217,7 +217,7 @@ msgcat::mcmset pl {
   "Wyrównać kursory"
 
   "Append Next Occurrence"
-  "Dok?ada? kolejne wyst?pienie"
+  "Dołącz następnego wystąpienia"
 
   "Append next occurrence"
   "Dokładać kolejne wystąpienie"
@@ -262,13 +262,13 @@ msgcat::mcmset pl {
   "Zamknij wszystkie"
 
   "Close Current"
-  "Zamknij bie??c? kart?"
+  "Zamknij bieżącą"
 
   "Close all tabs"
   "Zamknij wszystkie karty"
 
   "Close current session"
-  "Zamyka bieżącą kartę wraz z sesją."
+  "Zamyka bieżącą kartę wraz z sesją"
 
   "Close current tab"
   "Zamknij bieżącą kartę"
@@ -292,7 +292,7 @@ msgcat::mcmset pl {
   "Kopiuj"
 
   "Copy text"
-  "\"
+  "Kopiowanie tekstu"
 
   "Create"
   "Utwórz"
@@ -307,7 +307,7 @@ msgcat::mcmset pl {
   "Utwórz nowy plugin"
 
   "Current Line"
-  "Bieżąca linia:"
+  "Bieżąca linia"
 
   "Current Number"
   "Numer bieżącego wiersza"
@@ -325,19 +325,19 @@ msgcat::mcmset pl {
   "Kursora do końca linii"
 
   "Cut"
-  "\"
+  "Cięcie"
 
   "Cut text"
   "Wycięcie tekstu"
 
   "Delete current file"
-  "Usuń bieżące"
+  "Usuń bieżący plik"
 
   "Delete current line"
-  "Usuń bieżące"
+  "Usuń bieżącą linię"
 
   "Delete current word"
-  "Usuń bieżące"
+  "Usuń bieżące słowo"
 
   "Delete from cursor to end of line"
   "Usuwanie od kursora do końca linii"
@@ -376,7 +376,7 @@ msgcat::mcmset pl {
   "Duplikat pliku bieżącego"
 
   "Edit"
-  "\"
+  "Edytować"
 
   "Edit Language"
   "Zmień język"
@@ -427,16 +427,16 @@ msgcat::mcmset pl {
   "Zawartość pliku"
 
   "Find In Files"
-  "Znajd? w plikach..."
+  "Znajdź w plikach"
 
   "Find Matching Pair"
-  "Znajd? pasuj?ce pary"
+  "Znajdź pasujące pary"
 
   "Find and Replace"
   "Znajdź i zamień"
 
   "Find in files"
-  "Znajdź w plikach..."
+  "Znajdź w plikach"
 
   "Find matching character pair"
   "Znaleźć pasujące pary znaków"
@@ -448,10 +448,10 @@ msgcat::mcmset pl {
   "Znaleźć poprzednie wystąpienie"
 
   "Fold All"
-  "Zwi? wszystko"
+  "Fold Wszystko"
 
   "Folding"
-  "Sk?adanie"
+  "Składanie"
 
   "Format Text"
   "Formatowanie tekstu"
@@ -514,7 +514,7 @@ msgcat::mcmset pl {
   "Ukryj pasek"
 
   "Hide Status Bar"
-  "Ukryj na pasku stanu:"
+  "Ukryj na pasku stanu"
 
   "Hide Tab Bar"
   "Ukryj pasek zakładek"
@@ -535,7 +535,7 @@ msgcat::mcmset pl {
   "Ukryj pasek"
 
   "Hide status bar"
-  "Ukryj na pasku stanu:"
+  "Ukryj na pasku stanu"
 
   "Hide tab bar"
   "Ukryj pasek kart"
@@ -589,7 +589,7 @@ msgcat::mcmset pl {
   "Połącz wiersze"
 
   "Jump Backward"
-  "Przeskoczy? do ty?u"
+  "Skocz do tyłu"
 
   "Jump Forward"
   "Skok do przodu"
@@ -751,16 +751,16 @@ msgcat::mcmset pl {
   "Nowe Okno"
 
   "New file"
-  "New file [Nowy plik]:"
+  "Nowy plik"
 
   "New file from template"
-  "Nowy z szablonu"
+  "Nowy plik z szablonu"
 
   "New window"
   "Nowe okno"
 
   "Next Difference"
-  "Nast?pna ró?nica"
+  "Następna różnica"
 
   "Open Directory"
   "Otwórz katalog"
@@ -781,10 +781,10 @@ msgcat::mcmset pl {
   "Otwórz plik"
 
   "Paste"
-  "\"
+  "Pasta"
 
   "Paste and Format"
-  "Pasty i format"
+  "Wklej i format"
 
   "Paste and format text from clipboard"
   "Wklej i format tekstu ze schowka"
@@ -799,7 +799,7 @@ msgcat::mcmset pl {
   "Preferencje"
 
   "Previous Difference"
-  "Poprzednia ró?nica"
+  "Poprzedni Różnica"
 
   "Profiling Report Sorted By"
   "Profilowanie według raportu"
@@ -826,7 +826,7 @@ msgcat::mcmset pl {
   "Względne numerację"
 
   "Reload"
-  "Reload"
+  "Przeładować"
 
   "Reload all plugins"
   "Przeładować wszystkie pluginy"
@@ -838,10 +838,10 @@ msgcat::mcmset pl {
   "Załaduj ponownie szablon informacji"
 
   "Remove All Markers"
-  "Usu? wszystkie markery"
+  "Usuń wszystkie znaczniki"
 
   "Remove From Current Line"
-  "Usun?? z bie??cego wiersza"
+  "Usuń z bieżącej linii"
 
   "Remove all markers"
   "Usuń wszystkie markery"
@@ -859,10 +859,10 @@ msgcat::mcmset pl {
   "Ponownie otworzyć bieżącego pliku"
 
   "Replace Line With Script"
-  "Zamie? wiersz skryptu"
+  "Wymień Line z Script"
 
   "Replace line with script"
-  "Zamień wiersz skryptu"
+  "Wymień Line z Script"
 
   "Reset User to Base"
   "Badanie użytkownika do bazy"
@@ -880,7 +880,7 @@ msgcat::mcmset pl {
   "Zapisz wszystkie"
 
   "Save As Template"
-  "Zapisz jako szablon..."
+  "Zapisz jako szablon"
 
   "Save Current"
   "Zapisz bie??cy"
@@ -892,16 +892,16 @@ msgcat::mcmset pl {
   "Zapisz wszystkie pliki"
 
   "Save current session"
-  "Zapisać bieżącą sesję?"
+  "Zapisz bieżącą sesję"
 
   "Save file"
   "Zapisz plik"
 
   "Save file as"
-  "Zapisz plik jako..."
+  "Zapisz plik jako"
 
   "Save file as template"
-  "Zapisz jako szablon..."
+  "Zapisz jako szablon"
 
   "Save selected lines"
   "Zapisz wybrane wiersze"
@@ -913,28 +913,28 @@ msgcat::mcmset pl {
   "Wybierz wszystko"
 
   "Select All Occurrences"
-  "Zaznacz wszystkie wyst?pienia"
+  "Wybierz wszystkie wystąpienia"
 
   "Select Next Occurrence"
-  "Zaznacz nast?pne wyst?pienie"
+  "Wybierz następnego wystąpienia"
 
   "Select Previous Occurrence"
-  "Zaznacz poprzednie wyst?pienie"
+  "Wybierz poprzednie wystąpienie"
 
   "Select all occurrences"
-  "Zaznacz wszystkie wystąpienia"
+  "Wybierz wszystkie wystąpienia"
 
   "Select all text"
   "Zaznacz cały tekst"
 
   "Send Bug Report"
-  "Wyślij raport o błędzie."
+  "Wyślij raport o błędzie"
 
   "Send Feedback"
-  "\"
+  "Wyślij opinię"
 
   "Send bug report"
-  "Wyślij raport o błędzie."
+  "Wyślij raport o błędzie"
 
   "Send feedback"
   "Prześlij opinię"
@@ -988,10 +988,10 @@ msgcat::mcmset pl {
   "Pokaż Mapa znaczników"
 
   "Show Meta Characters"
-  "Poka? znaki Meta"
+  "Pokaż Meta Postacie"
 
   "Show Selected Line Change"
-  "Poka? zmiany wybranej linii"
+  "Pokaż wybraną linię Zmień"
 
   "Show Sidebar"
   "Pokaż pasek"
@@ -1003,7 +1003,7 @@ msgcat::mcmset pl {
   "Pasek kart"
 
   "Show console"
-  "Pokaż konsolę Java"
+  "Pokaż konsolę"
 
   "Show diagnostic logfile"
   "Pokaż diagnostyczne logfile"
@@ -1057,13 +1057,13 @@ msgcat::mcmset pl {
   "Uruchomić profilowania"
 
   "Stop Profiling"
-  "Przestań Profilowanie"
+  "Zatrzymaj profilowanie"
 
   "Stop profiling"
-  "Stop, profilowanie"
+  "Zatrzymaj profilowanie"
 
   "Switch To"
-  "Przejd? na kart?"
+  "Przełącz na"
 
   "Switch to session"
   "Przełącz się na tą sesję"
@@ -1108,7 +1108,7 @@ msgcat::mcmset pl {
   "Unfavorite pliku"
 
   "Unfold All"
-  "Rozwi? wszystko"
+  "Rozwiń wszystkieCopy "
 
   "Unindent"
   "Unindent"
@@ -1126,7 +1126,7 @@ msgcat::mcmset pl {
   "Unix"
 
   "Unlock"
-  "\"
+  "Odblokować"
 
   "Unlock file"
   "Otworzyć plik"
@@ -1153,7 +1153,7 @@ msgcat::mcmset pl {
   "Zobacz menu globalnego powiązania"
 
   "View user guide"
-  "PODRĘCZNIK UŻYTKOWNIKA"
+  "Zobacz instrukcja"
 
   "Vim Mode"
   "Tryb vim"
@@ -1197,7 +1197,7 @@ msgcat::mcmset pl {
   "Grant"
 
   "Grant permssion?"
-  "Grant permssion?"
+  "pozwolenie Grant?"
 
   "OK"
   "OK"
@@ -1269,7 +1269,7 @@ msgcat::mcmset pl {
   "Zamknij katalog plików"
 
   "Copy Pathname"
-  "Skopiuj ?cie?k?"
+  "Kopiowanie ścieżka"
 
   "Delete directories?"
   "Usuwanie katalogów?"
@@ -1415,7 +1415,7 @@ msgcat::mcmset pl {
   "Kolor używany do rysowania linii szerokości ostrzeżenie w buforze edycji (jak również linię oddzielającą rynny z edycji buforu)."
 
   "Default 'darkcolor' for all ttk widgets."
-  "Domyślnie \"
+  "Domyślnie 'darkcolor' dla wszystkich TTK widgetów."
 
   "Default background color to use for all ttk widgets that are in a disabled state."
   "Domyślny kolor tła dla wszystkich ttk wzory, które są w stanie wyłączonym."
@@ -1660,10 +1660,10 @@ msgcat::mcmset pl {
   "Podgląd"
 
   "Relief: "
-  "Ulga"
+  "Ulga: "
 
   "Save As:"
-  "Save As [Zapisz jako]:"
+  "Zapisz jako:"
 
   "Save theme changes?"
   "Zapisz zmiany motywu?"
@@ -1684,7 +1684,7 @@ msgcat::mcmset pl {
   "Obecny temat ma niezapisane zmiany"
 
   "Tree Style: "
-  "Drzewo Styl:"
+  "Drzewo Styl: "
 
   "Two-Color Bitmap"
   "Bitmap dwóch kolorów"
@@ -1707,7 +1707,7 @@ msgcat::mcmset pl {
   "Temat"
 
   "Theme:*"
-  "Temat"
+  "Temat:*"
 
 }
 
@@ -1726,7 +1726,7 @@ msgcat::mcmset pl {
 msgcat::mcmset pl {
 
   "Unable to read"
-  "Nie można czytać pliku."
+  "Nie można czytać pliku"
 
 }
 
@@ -1775,10 +1775,10 @@ msgcat::mcmset pl {
   "Ulubione"
 
   "File Name:"
-  "Nazwie pliku"
+  "Nazwie pliku:"
 
   "Find"
-  "\"
+  "Odnaleźć"
 
   "Move to Other Pane"
   "Przejść do innych okienku"
@@ -1811,7 +1811,7 @@ msgcat::mcmset pl {
   "Nie można zapisać"
 
   "Unfavorite"
-  "Unfavorite"
+  "Usuń z ulub"
 
 }
 
