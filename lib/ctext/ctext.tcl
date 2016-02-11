@@ -153,12 +153,12 @@ proc ctext {win args} {
     grid remove $win.f
   }
 
-  bind $win.t <Configure>       "ctext::linemapUpdate $win"
-  bind $win.l <ButtonPress-1>   "ctext::linemapToggleMark $win %y"
-  bind $win.l <MouseWheel>      "event generate $win.t <MouseWheel> -delta %D"
-  bind $win.l <4>               "event generate $win.t <4>"
-  bind $win.l <5>               "event generate $win.t <5>"
-  bind $win.t <<CursorChanged>> "ctext::linemapUpdate $win %D"
+  bind $win.t <Configure>       [list ctext::linemapUpdate $win]
+  bind $win.l <ButtonPress-1>   [list ctext::linemapToggleMark $win %y]
+  bind $win.l <MouseWheel>      [list event generate $win.t <MouseWheel> -delta %D]
+  bind $win.l <4>               [list event generate $win.t <4>]
+  bind $win.l <5>               [list event generate $win.t <5>]
+  bind $win.t <<CursorChanged>> [list ctext::linemapUpdate $win %D]
   rename $win __ctextJunk$win
   rename $win.t $win._t
 
@@ -3000,6 +3000,7 @@ proc ctext::linemapDiffUpdate {win first last linenum_width gutter_items} {
 
   for {set line $first} {$line <= $last} {incr line} {
     set ltags [$win.t tag names $line.0]
+    if {[lsearch $ltags _folded] != -1} { continue }
     set lineA ""
     if {[lsearch -glob $ltags diff:A:S:*] != -1} {
       set lineA [incr currline(A)]
@@ -3038,6 +3039,7 @@ proc ctext::linemapLineUpdate {win first last linenum_width gutter_items} {
 
   for {set line $first} {$line <= $last} {incr line} {
     set ltags        [$win.t tag names $line.0]
+    if {[lsearch $ltags _folded] != -1} { continue }
     set linenum      [expr $abs ? $line : abs( $line - $curr )]
     set line_content [list [format "%-*s" $linenum_width $linenum] [list] {*}$gutter_items "0" [list] "\n"]
     if {[lsearch -glob $ltags lmark*] != -1} {
@@ -3075,6 +3077,7 @@ proc ctext::linemapGutterUpdate {win first last linenum_width gutter_items} {
 
   for {set line $first} {$line <= $last} {incr line} {
     set ltags [$win.t tag names $line.0]
+    if {[lsearch $ltags _folded] != -1} { continue }
     set line_content [list " " [list] {*}$gutter_items "0" [list] "\n"]
     if {[lsearch -glob $ltags lmark*] != -1} {
       lset line_content 1 lmark
@@ -3099,6 +3102,7 @@ proc ctext::linemapMarkUpdate {win first last} {
 
   for {set line $first} {$line <= $last} {incr line} {
     set ltags        [$win.t tag names $line.0]
+    if {[lsearch $ltags _folded] != -1} { continue }
     set line_content [list " " [list] "0" [list] "\n"]
     if {[lsearch -glob $ltags lmark*] != -1} {
       lset line_content 1 lmark

@@ -934,28 +934,18 @@ namespace eval edit {
     # If the direction is 'next', search forward
     if {$dir eq "next"} {
 
-      puts "HERE A"
-
       # Get the end of the current word (this will be the beginning of the next word)
       set curr_index [$txt index "$start display wordend"]
 
-      puts "HERE B, curr_index: $curr_index"
-
       # Use a brute-force method of finding the next word
       while {[$txt compare $curr_index < end]} {
-        puts "HERE B.1"
         if {![string is space [$txt get $curr_index]]} {
-          puts "HERE B:2, curr_index: $curr_index, num: $num"
           if {[incr num -1] == 0} {
-            puts "HERE B.4, index: [$txt index "$curr_index display wordstart"]"
             return [$txt index "$curr_index display wordstart"]
           }
         }
-        puts "HERE B.3"
         set curr_index [$txt index "$curr_index display wordend"]
       }
-
-      puts "HERE C"
 
       return [$txt index "$curr_index display wordstart"]
 
@@ -971,7 +961,7 @@ namespace eval edit {
             return $curr_index
           }
         }
-        set curr_index [$txt index "$curr_index-1c display wordstart"]
+        set curr_index [$txt index "$curr_index-1 display chars wordstart"]
       }
 
       return $curr_index
@@ -1019,15 +1009,11 @@ namespace eval edit {
       default   { set index insert }
     }
 
-    puts "index: $index"
-
     # Set the insertion position and make it visible
     ::tk::TextSetCursor $txtt $index
 
     # Adjust the insertion cursor in Vim mode
     [ns vim]::adjust_insert $txtt
-
-    puts "HERE!"
 
   }
 
