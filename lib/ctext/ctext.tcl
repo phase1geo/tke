@@ -2999,8 +2999,8 @@ proc ctext::linemapDiffUpdate {win first last linenum_width gutter_items} {
   }
 
   for {set line $first} {$line <= $last} {incr line} {
+    if {[$win._t count -displaychars $line.0 [expr $line + 1].0] == 0} { continue }
     set ltags [$win.t tag names $line.0]
-    if {[lsearch $ltags _folded] != -1} { continue }
     set lineA ""
     if {[lsearch -glob $ltags diff:A:S:*] != -1} {
       set lineA [incr currline(A)]
@@ -3038,8 +3038,8 @@ proc ctext::linemapLineUpdate {win first last linenum_width gutter_items} {
   set lsize_pos [expr 2 + [llength $gutter_items] + 1]
 
   for {set line $first} {$line <= $last} {incr line} {
+    if {[$win._t count -displaychars $line.0 [expr $line + 1].0] == 0} { continue }
     set ltags        [$win.t tag names $line.0]
-    if {[lsearch $ltags _folded] != -1} { continue }
     set linenum      [expr $abs ? $line : abs( $line - $curr )]
     set line_content [list [format "%-*s" $linenum_width $linenum] [list] {*}$gutter_items "0" [list] "\n"]
     if {[lsearch -glob $ltags lmark*] != -1} {
@@ -3076,8 +3076,8 @@ proc ctext::linemapGutterUpdate {win first last linenum_width gutter_items} {
   set lsize_pos [expr [llength $gutter_items] + $line_items + 1]
 
   for {set line $first} {$line <= $last} {incr line} {
+    if {[$win._t count -displaychars $line.0 [expr $line + 1].0] == 0} { continue }
     set ltags [$win.t tag names $line.0]
-    if {[lsearch $ltags _folded] != -1} { continue }
     set line_content [list " " [list] {*}$gutter_items "0" [list] "\n"]
     if {[lsearch -glob $ltags lmark*] != -1} {
       lset line_content 1 lmark
@@ -3101,8 +3101,8 @@ proc ctext::linemapGutterUpdate {win first last linenum_width gutter_items} {
 proc ctext::linemapMarkUpdate {win first last} {
 
   for {set line $first} {$line <= $last} {incr line} {
+    if {[$win._t count -displaychars $line.0 [expr $line + 1].0] == 0} { continue }
     set ltags        [$win.t tag names $line.0]
-    if {[lsearch $ltags _folded] != -1} { continue }
     set line_content [list " " [list] "0" [list] "\n"]
     if {[lsearch -glob $ltags lmark*] != -1} {
       lset line_content 1 lmark
