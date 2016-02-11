@@ -41,7 +41,6 @@ namespace eval folding {
 
     # Create a tag that will cause stuff to hide
     $txt.t tag configure _folded -elide 1
-    $txt.l tag configure _folded -elide 1
 
   }
 
@@ -85,11 +84,24 @@ namespace eval folding {
   # Returns the starting and ending positions of the range to fold.
   proc get_fold_range {txt line} {
 
-    # Get the starting and ending position of the indentation
-    set startpos [ctext::get_match_bracket $txt curlyL $line.end]
-    set endpos   [ctext::get_match_bracket $txt curlyR $startpos]
+    array set inc [list end -1 open 1 close 1]
 
-    return [list [$txt index "$startpos+1l linestart"] [$txt index "$endpos linestart"]]
+    foreach tag [list open close end] {
+      foreach tline [$txt gutter get folding $tag] {
+        lappend data [list $tline $tag]
+      }
+    }
+
+    set index [expr [lsearch -index 0 [set data [lsort -integer -index 0 $data]] $line] + 1]
+    set count 1
+
+    foreach {tline tag} [concat {*}[lrange $data $index end]] {
+      if {[incr count $inc($tag)] == 0} {
+        return [list [expr $line + 1].0 $tline.0]
+      }
+    }
+
+    return [list [expr $line + 1].0 [lindex [split [$txt index end] .] 0].0]
 
   }
 
@@ -102,11 +114,13 @@ namespace eval folding {
 
     # Hide the text
     $txt.t tag add _folded $startpos $endpos
-    $txt.l tag add _folded $startpos $endpos
 
     # Replace the open symbol with the close symbol
     $txt gutter clear folding $line
     $txt gutter set folding close $line
+
+    # Clear the selection
+    $txt tag remove sel 1.0 end
 
   }
 
@@ -124,16 +138,27 @@ namespace eval folding {
   # Opens a fold, showing the contents.
   proc open_fold {txt line} {
 
+    set index [expr [lsearch [set closed [$txt gutter get folding close]] $line] + 1]
+
     # Get the tag range
     lassign [$txt tag nextrange _folded $line.0] startpos endpos
 
     # Remove the folded tag
-    $txt.t tag remove _folded $startpos $endpos
-    $txt.l tag remove _folded $startpos $endpos
+    $txt tag remove _folded $startpos $endpos
+
+    # Close all of the previous folds
+    foreach tline [lrange $closed $index end] {
+      if {[$txt compare $tline.0 < $endpos]} {
+        close_fold $txt $tline
+      }
+    }
 
     # Replace the close symbol with the open symbol
     $txt gutter clear folding $line
     $txt gutter set folding open $line
+
+    # Clear the selection
+    $txt tag remove sel 1.0 end
 
   }
 
@@ -141,8 +166,12 @@ namespace eval folding {
   # Opens all closed folds.
   proc open_all_folds {txt} {
 
+    # Remove all folded text
+    $txt tag remove _folded 1.0 end
+
     foreach line [$txt gutter get folding close] {
-      open_fold $txt $line
+      $txt gutter clear folding $line
+      $txt gutter set folding open $line
     }
 
   }

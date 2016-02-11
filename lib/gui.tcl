@@ -3523,9 +3523,9 @@ namespace eval gui {
     bind $txt.t <FocusIn>                    "+[ns gui]::handle_txt_focus %W"
     bind $txt.t <<CursorChanged>>            "+[ns gui]::update_position $txt"
     bind $txt.l <ButtonPress-$::right_click> [bind $txt.l <ButtonPress-1>]
-    bind $txt.l <ButtonPress-1>              "[ns gui]::select_line %W %y"
-    bind $txt.l <B1-Motion>                  "[ns gui]::select_lines %W %y"
-    bind $txt.l <Shift-ButtonPress-1>        "[ns gui]::select_lines %W %y"
+    bind $txt.l <ButtonPress-1>              "[ns gui]::select_line %W %x %y"
+    bind $txt.l <B1-Motion>                  "[ns gui]::select_lines %W %x %y"
+    bind $txt.l <Shift-ButtonPress-1>        "[ns gui]::select_lines %W %x %y"
     bind $txt   <<Selection>>                "[ns gui]::selection_changed $txt"
     bind $txt   <Motion>                     "[ns gui]::clear_tab_tooltip $tb"
     bind Text   <<Cut>>                      ""
@@ -3715,9 +3715,9 @@ namespace eval gui {
     bind $txt2.t <FocusIn>                    "+[ns gui]::handle_txt_focus %W"
     bind $txt2.t <<CursorChanged>>            "+[ns gui]::update_position $txt2"
     bind $txt2.l <ButtonPress-$::right_click> [bind $txt2.l <ButtonPress-1>]
-    bind $txt2.l <ButtonPress-1>              "[ns gui]::select_line %W %y"
-    bind $txt2.l <B1-Motion>                  "[ns gui]::select_lines %W %y"
-    bind $txt2.l <Shift-ButtonPress-1>        "[ns gui]::select_lines %W %y"
+    bind $txt2.l <ButtonPress-1>              "[ns gui]::select_line %W %x %y"
+    bind $txt2.l <B1-Motion>                  "[ns gui]::select_lines %W %x %y"
+    bind $txt2.l <Shift-ButtonPress-1>        "[ns gui]::select_lines %W %x %y"
     bind $txt2   <<Selection>>                "[ns gui]::selection_changed $txt2"
     bind $txt2   <Motion>                     "[ns gui]::clear_tab_tooltip $tb"
 
@@ -3917,7 +3917,7 @@ namespace eval gui {
 
   ######################################################################
   # Selects the given line in the text widget.
-  proc select_line {w y} {
+  proc select_line {w x y} {
 
     variable line_sel_anchor
 
@@ -3925,7 +3925,12 @@ namespace eval gui {
     set txt [winfo parent $w]
 
     # Get the current line from the line sidebar
-    set index [$txt index @0,$y]
+    set index [$txt index @$x,$y]
+
+    # We will only select the line if we clicked in the line number area
+    if {[expr [lindex [split $index .] 1] >= ([$w cget -width] - [llength [$txt gutter names]])]} {
+      return
+    }
 
     # Select the corresponding line in the text widget
     $txt tag remove sel 1.0 end
@@ -3939,7 +3944,7 @@ namespace eval gui {
   ######################################################################
   # Selects all lines between the anchored line and the current line,
   # inclusive.
-  proc select_lines {w y} {
+  proc select_lines {w x y} {
 
     variable line_sel_anchor
 
@@ -3947,7 +3952,12 @@ namespace eval gui {
     set txt [winfo parent $w]
 
     # Get the current line from the line sidebar
-    set index [$txt index @0,$y]
+    set index [$txt index @$x,$y]
+
+    # We will only select the line if we clicked in the line number area
+    if {[expr [lindex [split $index .] 1] >= ([$w cget -width] - [llength [$txt gutter names]])]} {
+      return
+    }
 
     # Remove the current selection
     $txt tag remove sel 1.0 end
@@ -4244,8 +4254,6 @@ namespace eval gui {
 
     # Get the current widget
     set txt [current_txt $tid]
-
-    puts "In show_match_pair, insert: [$txt index insert]"
 
     # If the current character is a matchable character, change the
     # insertion cursor to the matching character.
