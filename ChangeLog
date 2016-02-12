@@ -1,59 +1,194 @@
-changeset:   1784:379808e850b7
-tag:         stable-2.2
+changeset:   1791:c216b7590a04
+tag:         devel-2.2.1
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Feb 02 23:52:55 2016 -0600
+date:        Thu Feb 04 10:01:55 2016 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for stable-2.2 release
+ChangeLog for devel-2.2.1 release
 
 
-changeset:   1785:52d97ebfc1a4
+changeset:   1792:badc83571c68
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Feb 02 23:53:14 2016 -0600
+date:        Thu Feb 04 10:02:01 2016 -0600
 files:       .hgtags
 description:
-Added tag stable-2.2 for changeset 379808e850b7
+Added tag devel-2.2.1 for changeset c216b7590a04
 
 
-changeset:   1786:3b618d12173b
+changeset:   1793:7bb7d098cb15
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Feb 03 00:32:12 2016 -0600
-files:       Win/tkdnd2.8/libtkdnd2.8.dll Win/tkdnd2.8/pkgIndex.tcl Win/tkdnd2.8/tkdnd28.dll
+date:        Sat Feb 06 00:29:21 2016 -0600
+files:       install.tcl lib/api.tcl lib/bgproc.tcl lib/bindings.tcl lib/bist.tcl lib/bitmap.tcl lib/cliphist.tcl lib/commit.tcl lib/completer.tcl lib/diff.tcl lib/edit.tcl lib/embed_tke.tcl lib/favorites.tcl lib/format_lexer.fcl lib/format_lexer.tcl lib/format_parser.tac lib/format_parser.tcl lib/gui.tcl lib/indent.tcl lib/interpreter.tcl lib/lang.tcl lib/launcher.tcl lib/logger.tcl lib/markers.tcl lib/menus.tcl lib/multicursor.tcl lib/ns.tcl lib/plugins.tcl lib/preferences.tcl lib/restart.tcl lib/scroller.tcl lib/search.tcl lib/sessions.tcl lib/sidebar.tcl lib/snip_lexer.fcl lib/snip_lexer.tcl lib/snip_parser.tac lib/snip_parser.tcl lib/snippets.tcl lib/syntax.tcl lib/templates.tcl lib/theme.tcl lib/themer.tcl lib/themes.tcl lib/tke.tcl lib/tkedat.tcl lib/utils.tcl lib/version.tcl lib/vim.tcl release.tcl tke.appdata.xml
 description:
-* Updating tkdnd2.8 to be 32-bit compatible.
+* Updating Copyright date information.
 
 
-changeset:   1787:70eed7b95251
+changeset:   1794:b208a3b1c29c
+parent:      1792:badc83571c68
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Feb 03 01:15:14 2016 -0600
-files:       Win/freewrap.files lib/version.tcl
+date:        Fri Feb 05 01:47:43 2016 -0600
+files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Checkpointing freewrap files.
+* Checkpointing work on providing code folding support.
 
 
-changeset:   1788:cc2c1fe887e6
+changeset:   1795:8421a3fc69ed
+parent:      1793:7bb7d098cb15
+parent:      1794:b208a3b1c29c
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Feb 03 18:44:08 2016 -0600
-files:       lib/markers.tcl lib/version.tcl
+date:        Sat Feb 06 00:30:17 2016 -0600
+files:       lib/version.tcl
 description:
-* Fixing bug in marker menu display.
+* Merging.
 
 
-changeset:   1789:49a89423a5a3
+changeset:   1796:76cafa301f01
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Feb 03 20:55:57 2016 -0600
-files:       lib/version.tcl plugins/lorem/header.tkedat plugins/lorem/main.tcl
+date:        Sat Feb 06 00:49:28 2016 -0600
+files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Adding initial working version of lorem plugin.
+* Fixing syntax error in ctext introduced in last checkin.
+* Adding YAML language support.
 
 
-changeset:   1790:a2bf6937a353
+changeset:   1797:591825cf5f21
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Feb 06 22:38:19 2016 -0600
+files:       lib/folding.tcl lib/gui.tcl lib/tke.tcl lib/version.tcl
+description:
+* Adding initial code folding support (work in progress).
+
+
+changeset:   1798:978defb3764c
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Feb 06 23:59:57 2016 -0600
+files:       data/syntax/YAML.syntax lib/ctext/ctext.tcl lib/folding.tcl lib/version.tcl
+description:
+* Checkpointing work on code folding support.
+* Adding YAML syntax highlighting.
+
+
+changeset:   1799:f501942c7916
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Feb 07 21:44:54 2016 -0600
+files:       lib/folding.tcl lib/menus.tcl lib/version.tcl
+description:
+* Checkpointing code folding.
+
+
+changeset:   1800:9087c117a7fe
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Feb 07 23:57:53 2016 -0600
+files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg lib/menus.tcl lib/syntax.tcl lib/version.tcl
+description:
+* Fixing various issues with translations (work in progress).
+
+
+changeset:   1801:e5145fef4e2c
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Feb 08 02:03:11 2016 -0600
+files:       data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/pl.msg data/msgs/sv.msg data/msgs/zh.msg lib/version.tcl
+description:
+* Updating translations.
+
+
+changeset:   1802:3dde06390c9f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Feb 08 23:23:34 2016 -0600
+files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/it.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/zh.msg lib/menus.tcl lib/version.tcl
+description:
+* Updating translations.
+* Fixing more translation errors.
+
+
+changeset:   1803:6d84067dd50a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Feb 09 21:39:43 2016 -0600
+files:       data/msgs/check.tcl data/msgs/he.msg data/msgs/hu.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/ru.msg data/msgs/sv.msg lib/version.tcl
+description:
+* Correcting translations.
+
+
+changeset:   1804:4a7d54711a47
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Feb 09 21:44:26 2016 -0600
+files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg lib/plugins.tcl lib/version.tcl
+description:
+* Updating translation string issue.
+
+
+changeset:   1805:2500d77b97bb
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Feb 10 00:11:47 2016 -0600
+files:       lib/ctext/ctext.tcl lib/folding.tcl lib/gui.tcl lib/menus.tcl lib/version.tcl
+description:
+* Fixing ctext::get_match_bracket when index is not "insert".
+* Fixing various issues with code folding (still a work in progress).
+* Connecting Fold All and Unfold All menu items.
+
+
+changeset:   1806:888618400e0a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Feb 10 09:30:41 2016 -0600
+files:       lib/edit.tcl lib/version.tcl lib/vim.tcl
+description:
+* Attempting to fix some issues with cursor placement and elided text.
+
+
+changeset:   1807:3208a16ca42d
+parent:      1801:e5145fef4e2c
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Feb 08 18:09:49 2016 -0600
+files:       lib/menus.tcl lib/version.tcl
+description:
+* Fixing menus syntax errors.
+
+
+changeset:   1808:3c7309d8f9bb
+parent:      1807:3208a16ca42d
+parent:      1806:888618400e0a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Feb 10 17:50:28 2016 -0600
+files:       lib/menus.tcl
+description:
+* Merging files.
+
+
+changeset:   1809:5167d8b73cce
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Feb 10 19:34:20 2016 -0600
+files:       lib/ctext/ctext.tcl lib/edit.tcl lib/version.tcl
+description:
+* Fixing cursor movement issues.
+* Fixing line/gutter map drawing issues with code folding.
+
+
+changeset:   1810:db0d2aec200c
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Feb 11 00:07:37 2016 -0600
+files:       lib/ctext/ctext.tcl lib/folding.tcl lib/gui.tcl lib/version.tcl
+description:
+* Changing line number selection to not select text if gutter is clicked on.
+* Fixing line number and gutter to render correctly when lines are elided.
+* Fixing code folding to use indentation and making optimizations to fold, fold all, unfold and unfold all procedures.
+
+
+changeset:   1811:7a7f50d2fe9a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Feb 11 09:10:20 2016 -0600
+files:       lib/gui.tcl lib/version.tcl
+description:
+* Adding code so that code folds are updated when text is entered, deleted, etc.
+
+
+changeset:   1812:fa7f3bf08d42
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Feb 04 00:26:02 2016 -0600
-files:       lib/diff.tcl lib/plugins.tcl lib/version.tcl plugins/vcs_example/header.tkedat plugins/vcs_example/main.tcl
+date:        Fri Feb 12 00:48:01 2016 -0600
+files:       data/preferences.tkedat lib/ctext/ctext.tcl lib/folding.tcl lib/menus.tcl lib/version.tcl
 description:
-* Adding VCS plugin support.
-* Adding example VCS plugin (disabled).
+* Adding View/EnableCodeFolding preference option.
+* Adding code folding enable/disable to View/Folding menu.
+* Optimizing code folding.
 
 
