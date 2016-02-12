@@ -27,8 +27,38 @@ namespace eval folding {
   source [file join $::tke_dir lib ns.tcl]
 
   ######################################################################
+  # Returns true if the given text widget has code folding enabled.
+  proc enabled {txt} {
+
+    return [expr [lsearch [$txt gutter names] folding] != -1]
+
+  }
+
+  ######################################################################
   # Adds the bindings necessary for code folding to work.
   proc initialize {txt} {
+
+    if {[[ns preferences]::get View/EnableCodeFolding]} {
+      enable_folding $txt
+    }
+
+  }
+
+  ######################################################################
+  # Disables code folding in the given text widget.
+  proc disable_folding {txt} {
+
+    # Remove all folded text
+    $txt tag remove _folded 1.0 end
+
+    # Remove the gutter
+    $txt gutter destroy folding
+
+  }
+
+  ######################################################################
+  # Enables code folding in the current text widget.
+  proc enable_folding {txt} {
 
     # Add the folding gutter
     $txt gutter create folding \
@@ -48,24 +78,21 @@ namespace eval folding {
   # Adds any found folds to the gutter
   proc add_folds {txt startpos endpos} {
 
-    array set ids {
-      1 open
-      2 end
-    }
-
     # Get the starting and ending line
-    set startline [lindex [split [$txt index $startpos] .] 0]
-    set endline   [lindex [split [$txt index $endpos]   .] 0]
+    set startline   [lindex [split [$txt index $startpos] .] 0]
+    set endline     [lindex [split [$txt index $endpos]   .] 0]
+    set lines(open) [list]
+    set lines(end)  [list]
 
     # Clear the folding gutter in
     $txt gutter clear folding $startline $endline
 
     # Add the folding indicators
     for {set i $startline} {$i <= $endline} {incr i} {
-      if {[info exists ids([set fold [check_fold $txt $i]])]} {
-        $txt gutter set folding $ids($fold) $i
-      }
+      lappend lines([check_fold $txt $i]) $i
     }
+
+    $txt gutter set folding open $lines(open) end $lines(end)
 
   }
 
@@ -76,7 +103,23 @@ namespace eval folding {
     set indent_cnt   [[ns indent]::get_tag_count $txt.t indent   $line.0 $line.end]
     set unindent_cnt [[ns indent]::get_tag_count $txt.t unindent $line.0 $line.end]
 
-    return [expr ($indent_cnt > $unindent_cnt) ? 1 : ($indent_cnt < $unindent_cnt) ? 2 : 0]
+    return [expr {($indent_cnt > $unindent_cnt) ? "open" : ($indent_cnt < $unindent_cnt) ? "end" : ""}]
+
+  }
+
+  ######################################################################
+  # Returns the gutter information in sorted order.
+  proc get_gutter_info {txt} {
+
+    set data [list]
+
+    foreach tag [list open close end] {
+      foreach tline [$txt gutter get folding $tag] {
+        lappend data [list $tline $tag]
+      }
+    }
+
+    return [lsort -integer -index 0 $data]
 
   }
 
@@ -86,18 +129,14 @@ namespace eval folding {
 
     array set inc [list end -1 open 1 close 1]
 
-    foreach tag [list open close end] {
-      foreach tline [$txt gutter get folding $tag] {
-        lappend data [list $tline $tag]
-      }
-    }
-
-    set index [expr [lsearch -index 0 [set data [lsort -integer -index 0 $data]] $line] + 1]
-    set count 1
+    set index [lsearch -index 0 [set data [get_gutter_info $txt]] $line]
+    set count 0
 
     foreach {tline tag} [concat {*}[lrange $data $index end]] {
       if {[incr count $inc($tag)] == 0} {
         return [list [expr $line + 1].0 $tline.0]
+      } elseif {$count < 0} {
+        set count 0
       }
     }
 
@@ -113,14 +152,11 @@ namespace eval folding {
     lassign [get_fold_range $txt $line] startpos endpos
 
     # Hide the text
-    $txt.t tag add _folded $startpos $endpos
+    $txt tag add _folded $startpos $endpos
 
     # Replace the open symbol with the close symbol
     $txt gutter clear folding $line
     $txt gutter set folding close $line
-
-    # Clear the selection
-    $txt tag remove sel 1.0 end
 
   }
 
@@ -128,9 +164,28 @@ namespace eval folding {
   # Closes all open folds.
   proc close_all_folds {txt} {
 
-    foreach line [$txt gutter get folding open] {
-      close_fold $txt $line
+    array set inc [list end -1 open 1 close 1]
+
+    # Get ordered gutter list
+    set ranges [list]
+    set count  0
+    foreach {tline tag} [concat {*}[get_gutter_info $txt]] {
+      if {($count == 0) && ($tag eq "open")} {
+        set oline [expr $tline + 1]
+      }
+      if {[incr count $inc($tag)] == 0} {
+        lappend ranges $oline.0 $tline.0
+        incr oindex
+      } elseif {$count < 0} {
+        set count 0
+      }
     }
+
+    # Adds folds
+    $txt tag add _folded {*}$ranges
+
+    # Close the folds
+    $txt gutter set folding close [$txt gutter get folding open]
 
   }
 
@@ -157,9 +212,6 @@ namespace eval folding {
     $txt gutter clear folding $line
     $txt gutter set folding open $line
 
-    # Clear the selection
-    $txt tag remove sel 1.0 end
-
   }
 
   ######################################################################
@@ -169,10 +221,8 @@ namespace eval folding {
     # Remove all folded text
     $txt tag remove _folded 1.0 end
 
-    foreach line [$txt gutter get folding close] {
-      $txt gutter clear folding $line
-      $txt gutter set folding open $line
-    }
+    # Change all of the closed folds to open folds
+    $txt gutter set folding open [$txt gutter get folding close]
 
   }
 

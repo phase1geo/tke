@@ -270,6 +270,12 @@
 
 {View/OpenTabsAlphabetically} {0}
 
+# When this option is set to 1, automatic code folding based on indentation will be applied
+# to all open files.  No code will be folded, but the disclosure arrows will be drawn to allow
+# interactive code folding.
+
+{View/EnableCodeFolding} {0}
+
 # If a filename matches any of the patterns in the list, they will not be
 # displayed in the sidebar.
 
