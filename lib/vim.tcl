@@ -1772,6 +1772,14 @@ namespace eval vim {
       }
       start_mode $txtt
       return 1
+    } elseif {$mode($txtt) eq "folding"} {
+      set txt  [winfo parent $txtt]
+      set line [lindex [split [$txt index insert] .] 0]
+      if {[[ns folding]::is_fold $txt $line]} {
+        [ns folding]::close_fold $txt $line
+      }
+      start_mode $txtt
+      return 1
     }
 
     return 0
@@ -2034,6 +2042,14 @@ namespace eval vim {
       ::tk::TextSetCursor $txtt "insert+1c"
       edit_mode $txtt
       record_start
+      return 1
+    } elseif {$mode($txtt) eq "folding"} {
+      set txt  [winfo parent $txtt]
+      set line [lindex [split [$txt index insert] .] 0]
+      if {[[ns folding]::is_fold $txt $line]} {
+        [ns folding]::open_fold $txt $line
+      }
+      start_mode $txtt
       return 1
     }
 
@@ -2526,6 +2542,10 @@ namespace eval vim {
     if {$mode($txtt) eq "start"} {
       set mode($txtt) "replace_all"
       record_start
+      return 1
+    } elseif {$mode($txtt) eq "folding"} {
+      [ns folding]::open_all_folds [winfo parent $txtt]
+      start_mode $txtt
       return 1
     }
 
@@ -3148,6 +3168,21 @@ namespace eval vim {
       set chars [expr {($number($txtt) eq "") ? 1 : $number($txtt)}]
       ::tk::TextSetCursor $txtt "insert-${chars}c"
       adjust_insert $txtt
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # If we are in start mode, transition to the folding mode.
+  proc handle_z {txtt tid} {
+
+    variable mode
+
+    if {$mode($txtt) eq "start"} {
+      set mode($txtt) "folding"
       return 1
     }
 

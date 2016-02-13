@@ -35,6 +35,14 @@ namespace eval folding {
   }
 
   ######################################################################
+  # Returns true if the given position contains a fold point.
+  proc is_fold {txt line} {
+
+    return [expr {[$txt gutter get folding $line] ne ""}]
+
+  }
+
+  ######################################################################
   # Adds the bindings necessary for code folding to work.
   proc initialize {txt} {
 

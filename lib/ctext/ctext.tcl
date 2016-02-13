@@ -1735,7 +1735,6 @@ proc ctext::command_gutter {win args} {
           if {[set gutter_tag [lsearch -inline -glob [lindex $data($win,config,gutters) $gutter_index 1] gutter:$gutter_name:$name:*]] ne ""} {
             foreach line_num $line_nums {
               if {[set curr_tag [lsearch -inline -glob [$win._t tag names $line_num.0] gutter:$gutter_name:*]] ne ""} {
-                puts "curr_tag: $curr_tag, gutter_tag: $gutter_tag, line_num: $line_num"
                 if {$curr_tag ne $gutter_tag} {
                   $win._t tag delete $curr_tag
                   $win._t tag add $gutter_tag $line_num.0
