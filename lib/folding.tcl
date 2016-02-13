@@ -164,6 +164,31 @@ namespace eval folding {
   }
 
   ######################################################################
+  # Close the selected text.
+  proc close_selected {txt} {
+
+    set retval 0
+
+    foreach {startpos endpos} [$txt tag ranges sel] {
+      $txt tag add _folded "$startpos+1l linestart" "$endpos+1l linestart"
+      $txt gutter set folding close [lindex [split [$txt index $startpos] .] 0]
+      set retval 1
+    }
+
+    # Clear the selection
+    $txt tag remove sel 1.0 end
+
+    return $retval
+
+  }
+
+  ######################################################################
+  proc unfold {txt line} {
+
+
+  }
+
+  ######################################################################
   # Closes a fold, hiding the contents.
   proc close_fold {txt line} {
 
@@ -242,6 +267,17 @@ namespace eval folding {
 
     # Change all of the closed folds to open folds
     $txt gutter set folding open [$txt gutter get folding close]
+
+  }
+
+  ######################################################################
+  # Jumps to the next or previous folding.
+  proc jump_to {txt dir} {
+
+    if {[lassign [$txt tag ${dir}range _folded [expr {($dir eq "next") ? "insert+1 display l" : "insert"}]] index] ne ""} {
+      ::tk::TextSetCursor $txt "$index-1l linestart"
+      [ns vim]::adjust_insert $txt.t
+    }
 
   }
 

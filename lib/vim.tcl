@@ -1598,6 +1598,10 @@ namespace eval vim {
         adjust_insert $txtt
       }
       return 1
+    } elseif {$mode($txtt) eq "folding"} {
+      [ns folding]::jump_to [winfo parent $txtt] next
+      start_mode $txtt
+      return 1
     }
 
     return 0
@@ -1649,6 +1653,10 @@ namespace eval vim {
         ::tk::TextSetCursor $txtt "$row.$col"
         adjust_insert $txtt
       }
+      return 1
+    } elseif {$mode($txtt) eq "folding"} {
+      [ns folding]::jump_to [winfo parent $txtt] prev
+      start_mode $txtt
       return 1
     }
 
@@ -1769,14 +1777,6 @@ namespace eval vim {
         if {[file exists [set fname [get_filename $txtt insert]]]} {
           [ns gui]::add_file end $fname
         }
-      }
-      start_mode $txtt
-      return 1
-    } elseif {$mode($txtt) eq "folding"} {
-      set txt  [winfo parent $txtt]
-      set line [lindex [split [$txt index insert] .] 0]
-      if {[[ns folding]::is_fold $txt $line]} {
-        [ns folding]::close_fold $txt $line
       }
       start_mode $txtt
       return 1
