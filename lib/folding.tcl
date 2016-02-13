@@ -153,6 +153,17 @@ namespace eval folding {
   }
 
   ######################################################################
+  # Toggles the fold for the given line.
+  proc toggle_fold {txt line} {
+
+    switch [$txt gutter get folding $line] {
+      open  { close_fold $txt $line }
+      close { open_fold $txt $line }
+    }
+
+  }
+
+  ######################################################################
   # Closes a fold, hiding the contents.
   proc close_fold {txt line} {
 

@@ -2044,11 +2044,7 @@ namespace eval vim {
       record_start
       return 1
     } elseif {$mode($txtt) eq "folding"} {
-      set txt  [winfo parent $txtt]
-      set line [lindex [split [$txt index insert] .] 0]
-      if {[[ns folding]::is_fold $txt $line]} {
-        [ns folding]::open_fold $txt $line
-      }
+      [ns folding]::toggle_fold [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
       start_mode $txtt
       return 1
     }
@@ -3049,6 +3045,10 @@ namespace eval vim {
 
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       [ns edit]::move_cursor $txtt screenmid $number($txtt)
+      return 1
+    } elseif {$mode($txtt) eq "folding"} {
+      [ns folding]::close_all_folds [winfo parent $txtt]
+      start_mode $txtt
       return 1
     }
 
