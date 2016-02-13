@@ -478,15 +478,27 @@ namespace eval syntax {
 
     variable langs
 
+    # Calculate the number of needed columns
+    set len  [expr [array size langs] + 1]
+    set cols 1
+    while {[expr ($len / $cols) > 20]} {
+      incr cols
+    }
+
+    # If we are running in Aqua, don't perform the column break
+    set dobreak [expr {[tk windowingsystem] ne "aqua"}]
+
     # Clear the menu
     $mnu delete 0 end
 
     # Populate the menu with the available languages
     $mnu add radiobutton -label [format "<%s>" [msgcat::mc "None"]] -variable [ns syntax]::current_lang \
       -value [msgcat::mc "None"] -command [list [ns syntax]::set_current_language <None>]
+    set i 0
     foreach lang [lsort [array names langs]] {
       $mnu add radiobutton -label $lang -variable [ns syntax]::current_lang \
-        -value $lang -command [list [ns syntax]::set_current_language $lang]
+        -value $lang -command [list [ns syntax]::set_current_language $lang] -columnbreak [expr (($len / $cols) == $i) && $dobreak]
+      set i [expr (($len / $cols) == $i) ? 0 : ($i + 1)]
     }
 
     return $mnu
