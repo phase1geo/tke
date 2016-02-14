@@ -19,6 +19,8 @@ indent
 unindent
 {\}}
 
+reindent {}
+
 icomment {{#}}
 
 lcomments {{^[ \t]*#}}
@@ -29,7 +31,7 @@ strings {}
 
 keywords
 {
-  filepatterns vimsyntax matchcharsallowed tabsallowed casesensitive indent unindent keywords symbols
+  filepatterns vimsyntax matchcharsallowed tabsallowed casesensitive indent unindent reindent keywords symbols
   icomment lcomments bcomments strings numbers punctuation precompile miscellaneous1 miscellaneous2
   miscellaneous3 highlighter meta advanced
   HighlightClass
@@ -41,7 +43,7 @@ keywords
 symbols
 {
   HighlightKeywords {
-    filepatterns matchcharsallowed tabsallowed casesensitive indent unindent icomment lcomments bcomments
+    filepatterns matchcharsallowed tabsallowed casesensitive indent unindent reindent icomment lcomments bcomments
     strings symbols numbers punctuation precompile miscellaneous1 miscellaneous2 miscellaneous3 meta
     advanced
   } syntax::get_syntax_symbol

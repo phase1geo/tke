@@ -203,6 +203,14 @@ namespace eval indent {
   }
 
   ######################################################################
+  # Returns true if
+  proc check_reindent_for_unindent {txtt index} {
+
+    return 1
+
+  }
+
+  ######################################################################
   # Checks the given text prior to the insertion marker to see if it
   # matches the unindent expressions.  Increment/decrement
   # accordingly.
@@ -219,11 +227,19 @@ namespace eval indent {
     # If the current line contains an unindent expression, is not within a comment or string,
     # and is preceded in the line by only whitespace, replace the whitespace with the proper
     # indentation whitespace.
-    if {([set uindex [$txtt search -regexp -- "[join $indent_exprs($txtt,unindent) |]\$" "$index linestart" $index]] ne "") && \
-         ![ctext::inCommentString $txtt $uindex]} {
-      set line [$txtt get "$index linestart" $uindex]
-      if {($line ne "") && ([string trim $line] eq "")} {
-        $txtt replace "$index linestart" $uindex [get_indent_space $txtt 1.0 $index]
+    if {[set uindex [$txtt search -regexp -- "[join $indent_exprs($txtt,unindent) |]\$" "$index linestart" $index]] ne ""} {
+      if {![ctext::inCommentString $txtt $uindex]} {
+        set line [$txtt get "$index linestart" $uindex]
+        if {($line ne "") && ([string trim $line] eq "")} {
+          $txtt replace "$index linestart" $uindex [get_indent_space $txtt 1.0 $index]
+        }
+      }
+    } elseif {[set uindex [$txtt search -regexp -- "[join $indent_exprs($txtt,reindent) |]$" "$index linestart" $index]] ne ""} {
+      if {![ctext::inCommentString $txtt $uindex] && [check_reindent_for_unindent $txtt $uindex]} {
+        set line [$txtt get "$index linestart" $uindex]
+        if {($line ne "") && ([string trim $line] eq "")} {
+          $txtt replace "$index linestart" $uindex [get_indent_space $txtt 1.0 $index]
+        }
       }
     }
 
@@ -432,13 +448,14 @@ namespace eval indent {
 
   ######################################################################
   # Sets the indentation expressions for the given text widget.
-  proc set_indent_expressions {txtt indent unindent} {
+  proc set_indent_expressions {txtt indent unindent reindent} {
 
     variable indent_exprs
 
     # Set the indentation expressions
     set indent_exprs($txtt,indent)   $indent
     set indent_exprs($txtt,unindent) $unindent
+    set indent_exprs($txtt,reindent) $reindent
 
     # Set the default indentation mode
     if {[[ns preferences]::get Editor/EnableAutoIndent]} {

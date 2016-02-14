@@ -37,6 +37,7 @@ namespace eval syntax {
     casesensitive      0
     indent             {}
     unindent           {}
+    reindent           {}
     icomment           {}
     lcomments          {}
     bcomments          {}
@@ -284,7 +285,7 @@ namespace eval syntax {
       -diffaddbg $theme(difference_add) -diffsubbg $theme(difference_sub)
 
     # Set default indent/unindent strings
-    [ns indent]::set_indent_expressions $txt.t {\{} {\}}
+    [ns indent]::set_indent_expressions $txt.t {\{} {\}} {}
 
     # Apply the new syntax highlighting syntax, if one exists for the given language
     if {[info exists langs($language)]} {
@@ -333,14 +334,13 @@ namespace eval syntax {
         # the indent/unindent expressions for this language
         ctext::addHighlightClass $txt indent ""
         ctext::addHighlightClass $txt unindent ""
+        ctext::addHighlightClass $txt reindent ""
         ctext::addHighlightRegexp $txt [join $lang_array(indent) |] class indent
         ctext::addHighlightRegexp $txt [join $lang_array(unindent) |] class unindent
+        ctext::addHighlightRegexp $txt [join $lang_array(reindent) |] class reindent
 
         # Set the indent/unindent regular expressions
-        [ns indent]::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent)
-
-        # Update the UI based on the indentation settings
-        # TBD - [ns gui]::update_auto_indent $txt
+        [ns indent]::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent) $lang_array(reindent)
 
         # Set the completer options for the given language
         ctext::setAutoMatchChars $txt $lang_array(matchcharsallowed)
@@ -534,11 +534,13 @@ namespace eval syntax {
   }
 
   ######################################################################
-  # Returns a list containing two items.  The first item is a regular
+  # Returns a list containing three items.  The first item is a regular
   # expression that matches the string(s) to indicate that an indentation
   # should occur on the following line.  The second item is a regular
   # expression that matches the string(s) to indicate that an unindentation
-  # should occur on the following line.  Both of these expressions come
+  # should occur on the following line.  The third item is a regular
+  # expression that matches the string(s) to indicate that a reindentation
+  # should occur on the following line.  All of these expressions come
   # from the syntax file for the current language.
   proc get_indentation_expressions {txt} {
 
@@ -546,13 +548,13 @@ namespace eval syntax {
     variable curr_lang
 
     if {![info exists curr_lang($txt)]} {
-      return [list {} {}]
+      return [list {} {} {}]
     }
 
     # Get the language array for the current language.
     array set lang_array $langs($curr_lang($txt))
 
-    return [list $lang_array(indent) $lang_array(unindent)]
+    return [list $lang_array(indent) $lang_array(unindent) $lang_array(reindent)]
 
   }
 
