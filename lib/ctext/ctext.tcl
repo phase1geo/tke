@@ -2848,7 +2848,7 @@ proc ctext::doReindent {twin start end} {
 
   # Perform reindent match
   set i 0
-  foreach res [$twin search -count lengths -regexp -nolinestop -all -- {switch.+?\{.*?case.*?:} 1.0 $end] {
+  foreach res [$twin search -count lengths -regexp -nolinestop -all -- {switch.+?\{.*?case} 1.0 $end] {
     puts "HERE"
     $twin tag add _reindent $res [$twin index "$res + [lindex $lengths $i] chars"]
     incr i
