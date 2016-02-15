@@ -334,10 +334,10 @@ namespace eval syntax {
         # the indent/unindent expressions for this language
         ctext::addHighlightClass $txt indent ""
         ctext::addHighlightClass $txt unindent ""
-        ctext::addHighlightClass $txt reindent ""
+        # ctext::addHighlightClass $txt reindent ""
         ctext::addHighlightRegexp $txt [join $lang_array(indent) |] class indent
         ctext::addHighlightRegexp $txt [join $lang_array(unindent) |] class unindent
-        ctext::addHighlightRegexp $txt [join $lang_array(reindent) |] class reindent
+        # ctext::addHighlightRegexp $txt [join $lang_array(reindent) |] class reindent
 
         # Set the indent/unindent regular expressions
         [ns indent]::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent) $lang_array(reindent)
