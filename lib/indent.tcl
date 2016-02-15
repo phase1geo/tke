@@ -357,15 +357,18 @@ namespace eval indent {
 
     variable indent_exprs
 
+    puts "In get_tag_count, tag: $tag"
+
     # Initialize the indent_level
     set count 0
 
     # Count all tags that are not within comments or are escaped
     while {[set range [$txtt tag nextrange _$tag $start $end]] ne ""} {
+      puts "HERE, range: $range"
       lassign $range index start
       if {![ctext::inCommentString $txtt $index]} {
-        incr count [expr [regexp -all $indent_exprs($txtt,$tag) [$txtt get $index $start]] - [ctext::isEscaped $txtt $index]]
-      }
+        puts [$txtt get $index $start]
+        incr count [expr [regexp -all $indent_exprs($txtt,$tag) [$txtt get $index $start]] - [ctext::isEscaped $txtt $index]] }
     }
 
     return $count
@@ -378,7 +381,11 @@ namespace eval indent {
   proc get_indent_space {txtt start end} {
 
     # Get the current indentation level
-    set indent_level [expr [get_tag_count $txtt indent $start $end] - [get_tag_count $txtt unindent $start $end]]
+    set indent_count   [get_tag_count $txtt indent   $start $end]
+    set reindent_count [get_tag_count $txtt reindent $start $end]
+    set unindent_count [get_tag_count $txtt unindent $start $end]
+    puts "indent_count: $indent_count, reindent_count: $reindent_count, unindent_count: $unindent_count"
+    set indent_level   [expr ($indent_count + $reindent_count) - $unindent_count]
 
     return [string repeat " " [expr $indent_level * [get_shiftwidth $txtt]]]
 
