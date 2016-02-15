@@ -206,7 +206,9 @@ namespace eval indent {
   # Returns true if
   proc check_reindent_for_unindent {txtt index} {
 
-    return 1
+    puts "In check_reindent_for_unindent, txtt: $txtt, index: $index"
+
+    return [expr {[$txtt tag names $index] ne "_reindent"}]
 
   }
 
@@ -224,21 +226,23 @@ namespace eval indent {
       return
     }
 
+    puts "In check_indent, txtt: $txtt, index: [$txtt index $index]"
+
     # If the current line contains an unindent expression, is not within a comment or string,
     # and is preceded in the line by only whitespace, replace the whitespace with the proper
     # indentation whitespace.
-    if {[set uindex [$txtt search -regexp -- "[join $indent_exprs($txtt,unindent) |]\$" "$index linestart" $index]] ne ""} {
+    if {[set uindex [$txtt search -regexp -- "$indent_exprs($txtt,unindent)\$" "$index linestart" $index]] ne ""} {
       if {![ctext::inCommentString $txtt $uindex]} {
         set line [$txtt get "$index linestart" $uindex]
         if {($line ne "") && ([string trim $line] eq "")} {
           $txtt replace "$index linestart" $uindex [get_indent_space $txtt 1.0 $index]
         }
       }
-    } elseif {[set uindex [$txtt search -regexp -- "[join $indent_exprs($txtt,reindent) |]$" "$index linestart" $index]] ne ""} {
+    } elseif {[set uindex [$txtt search -regexp -- {case$} "$index linestart" $index]] ne ""} {
       if {![ctext::inCommentString $txtt $uindex] && [check_reindent_for_unindent $txtt $uindex]} {
         set line [$txtt get "$index linestart" $uindex]
         if {($line ne "") && ([string trim $line] eq "")} {
-          $txtt replace "$index linestart" $uindex [get_indent_space $txtt 1.0 $index]
+          $txtt replace "$index linestart" $uindex [get_indent_space $txtt 1.0 $index -1]
         }
       }
     }
@@ -291,7 +295,7 @@ namespace eval indent {
 
       # If the first non-whitespace characters match an unindent pattern,
       # lessen the indentation by one
-      if {[regexp [subst {^[join $indent_exprs($txtt,unindent) |]}] $rest]} {
+      if {[regexp "^$indent_exprs($txtt,unindent)" $rest]} {
         $txtt insert insert "$indent_space\n"
         set restore_insert [$txtt index insert-1c]
         if {$indent_exprs($txtt,mode) eq "IND+"} {
@@ -364,8 +368,8 @@ namespace eval indent {
 
     # Count all tags that are not within comments or are escaped
     while {[set range [$txtt tag nextrange _$tag $start $end]] ne ""} {
-      puts "HERE, range: $range"
       lassign $range index start
+      puts "HERE, range: $range, expr: $indent_exprs($txtt,$tag), isEscaped: [ctext::isEscaped $txtt $index]"
       if {![ctext::inCommentString $txtt $index]} {
         puts [$txtt get $index $start]
         incr count [expr [regexp -all $indent_exprs($txtt,$tag) [$txtt get $index $start]] - [ctext::isEscaped $txtt $index]] }
@@ -378,16 +382,14 @@ namespace eval indent {
   ######################################################################
   # This procedure is called to get the indentation level of the given
   # index.
-  proc get_indent_space {txtt start end} {
+  proc get_indent_space {txtt start end {adjust 0}} {
 
     # Get the current indentation level
     set indent_count   [get_tag_count $txtt indent   $start $end]
     set reindent_count [get_tag_count $txtt reindent $start $end]
     set unindent_count [get_tag_count $txtt unindent $start $end]
-    puts "indent_count: $indent_count, reindent_count: $reindent_count, unindent_count: $unindent_count"
-    set indent_level   [expr ($indent_count + $reindent_count) - $unindent_count]
 
-    return [string repeat " " [expr $indent_level * [get_shiftwidth $txtt]]]
+    return [string repeat " " [expr ((($indent_count + $reindent_count) - $unindent_count) + $adjust) * [get_shiftwidth $txtt]]]
 
   }
 
@@ -415,7 +417,7 @@ namespace eval indent {
     }
 
     # Create the regular expression containing the indent and unindent words
-    set uni_re [join $indent_exprs($txtt,unindent) |]
+    set uni_re $indent_exprs($txtt,unindent)
 
     # Find the last open brace starting from the current insertion point
     while {[$txtt compare $currpos < $endpos]} {
@@ -460,9 +462,9 @@ namespace eval indent {
     variable indent_exprs
 
     # Set the indentation expressions
-    set indent_exprs($txtt,indent)   $indent
-    set indent_exprs($txtt,unindent) $unindent
-    set indent_exprs($txtt,reindent) $reindent
+    set indent_exprs($txtt,indent)   [join $indent |]
+    set indent_exprs($txtt,unindent) [join $unindent |]
+    set indent_exprs($txtt,reindent) [join $reindent |]
 
     # Set the default indentation mode
     if {[[ns preferences]::get Editor/EnableAutoIndent]} {

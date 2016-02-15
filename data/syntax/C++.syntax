@@ -20,7 +20,7 @@ unindent
 {\}}
 
 reindent
-{{switch.+?\{.*?case.*?:} public protected private}
+{{switch.+?\{.*?case} public protected private}
 
 icomment {{//}}
 

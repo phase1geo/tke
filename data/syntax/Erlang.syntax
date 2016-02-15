@@ -1,0 +1,59 @@
+filepatterns
+{*.erl}
+
+vimsyntax
+{erlang}
+
+matchcharsallowed
+{curly paren square}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+indent
+{}
+
+unindent
+{}
+
+reindent {}
+
+icomment {{%}}
+
+lcomments {{%}}
+
+bcomments {}
+
+strings {{"}}
+
+keywords
+{
+  after and andalso band begin bnot bor bal bar bxor case catch cond div end fun if let not of or orelse
+  receive rem try when xor
+}
+
+numbers {
+  HighlightRegexp {\m([0-9]+|0x[0-9a-fA-F]+|[0-9]*\.[0-9]*|[0-9]+#[0-9]+)} {}
+}
+
+punctuation
+{
+  HighlightRegexp {[][\{\}\(\),.=><:;!#|+*/-]} {}
+}
+
+precompile {}
+
+miscellaneous1 {}
+
+miscellaneous2 {}
+
+miscellaneous3 {}
+
+highlighter {}
+
+meta {}
+
+advanced {}
