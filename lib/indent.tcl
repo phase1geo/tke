@@ -206,8 +206,6 @@ namespace eval indent {
   # Returns true if
   proc check_reindent_for_unindent {txtt index} {
 
-    puts "In check_reindent_for_unindent, txtt: $txtt, index: $index"
-
     return [expr {[$txtt tag names $index] ne "_reindent"}]
 
   }
@@ -225,8 +223,6 @@ namespace eval indent {
     if {($indent_exprs($txtt,mode) ne "IND+") || [[ns vim]::in_vim_mode $txtt]} {
       return
     }
-
-    puts "In check_indent, txtt: $txtt, index: [$txtt index $index]"
 
     # If the current line contains an unindent expression, is not within a comment or string,
     # and is preceded in the line by only whitespace, replace the whitespace with the proper
@@ -250,6 +246,51 @@ namespace eval indent {
   }
 
   ######################################################################
+  # Returns 1 if the given line contains an indentation.
+  proc line_contains_indentation {txtt index} {
+
+    if {([lassign [$txtt tag prevrange _indent $index] ipos] ne "") && [$txtt compare $ipos > "$index linestart"]} {
+      return [expr {([lassign [$txtt tag prevrange _unindent $index] upos] eq "") || [$txtt compare $ipos > $upos]}]
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Returns the whitespace found at the beginning of the specified logical
+  # line.
+  proc get_start_of_line {txtt index} {
+
+    # Find an ending bracket on the current line
+    set win_type       "none"
+    set startpos(none) "$index linestart"
+    foreach type [list curlyR parenR squareR angledR] {
+      if {([lassign [$txtt tag prevrange _$type $index] startpos($type)] ne "") && \
+          [$txtt compare $startpos($type) > "$index linestart"] && \
+          [$txtt compare $startpos($type) > $startpos($win_type)]} {
+        set win_type $type
+      }
+    }
+
+    # If we could not find a right bracket, we have found the line that we are looking for
+    if {$win_type eq "none"} {
+      if {[regexp {^( *)(.*)} [$txtt get "$index linestart" "$index lineend"] -> whitespace rest]} {
+        return $whitespace
+      } else {
+        return ""
+      }
+
+    # Otherwise, jump the insertion cursor to the line containing the matching bracket and
+    # do the search again.
+    } else {
+      array set other_type [list curlyR curlyL parenR parenL squareR squareL angledR angledL]
+      return [get_start_of_line $txtt [ctext::get_match_bracket [winfo parent $txtt] $other_type($win_type) $startpos($win_type)]]
+    }
+
+  }
+
+  ######################################################################
   # Handles a newline character.  Returns the character position of the
   # first line of non-space text.
   proc newline {txtt index} {
@@ -268,17 +309,17 @@ namespace eval indent {
     # If we do not need smart indentation, use the previous space
     if {$indent_exprs($txtt,mode) eq "IND"} {
 
-      set indent_space $prev_space
+      set indent_space [get_previous_indent_space $txtt $index]
 
     # Otherwise, do smart indentation
     } else {
 
       # Get the current indentation level
-      set indent_space [get_indent_space $txtt 1.0 $index]
+      set indent_space [get_start_of_line $txtt [$txtt index "$index-1l lineend"]]
 
-      # Check to see if the previous space is greater than the indent space (if so use it instead)
-      if {[string length $prev_space] > [string length $indent_space]} {
-        set indent_space $prev_space
+      # If the previous line indicates an indentation is required, 
+      if {[line_contains_indentation $txtt "$index-1l lineend"]} {
+        append indent_space [string repeat " " [get_shiftwidth $txtt]]
       }
 
     }
@@ -343,6 +384,7 @@ namespace eval indent {
 
     set line_pos [expr [lindex [split [$txtt index $index] .] 0] - 1]
 
+    # Get the last line that was not a blank line
     while {($line_pos > 0) && ([string trim [set line [$txtt get "$line_pos.0" "$line_pos.end"]]] eq "")} {
       incr line_pos -1
     }
@@ -361,18 +403,15 @@ namespace eval indent {
 
     variable indent_exprs
 
-    puts "In get_tag_count, tag: $tag"
-
     # Initialize the indent_level
     set count 0
 
     # Count all tags that are not within comments or are escaped
     while {[set range [$txtt tag nextrange _$tag $start $end]] ne ""} {
       lassign $range index start
-      puts "HERE, range: $range, expr: $indent_exprs($txtt,$tag), isEscaped: [ctext::isEscaped $txtt $index]"
       if {![ctext::inCommentString $txtt $index]} {
-        puts [$txtt get $index $start]
-        incr count [expr [regexp -all $indent_exprs($txtt,$tag) [$txtt get $index $start]] - [ctext::isEscaped $txtt $index]] }
+        incr count [expr [regexp -all $indent_exprs($txtt,$tag) [$txtt get $index $start]] - [ctext::isEscaped $txtt $index]]
+      }
     }
 
     return $count
@@ -382,7 +421,9 @@ namespace eval indent {
   ######################################################################
   # This procedure is called to get the indentation level of the given
   # index.
-  proc get_indent_space {txtt start end {adjust 0}} {
+  proc get_indent_space {txtt index} {
+
+    # Check to see if the previous line requires an indentation
 
     # Get the current indentation level
     set indent_count   [get_tag_count $txtt indent   $start $end]
