@@ -249,7 +249,7 @@ namespace eval indent {
   # Returns 1 if the given line contains an indentation.
   proc line_contains_indentation {txtt index} {
 
-    if {([lassign [$txtt tag prevrange _indent $index] ipos] ne "") && [$txtt compare $ipos > "$index linestart"]} {
+    if {([lassign [$txtt tag prevrange _indent $index] ipos] ne "") && [$txtt compare $ipos >= "$index linestart"]} {
       return [expr {([lassign [$txtt tag prevrange _unindent $index] upos] eq "") || [$txtt compare $ipos > $upos]}]
     }
 
@@ -370,8 +370,7 @@ namespace eval indent {
   }
 
   ######################################################################
-  # Returns the indentation (in number of spaces) of the previous line
-  # of text.
+  # Returns the whitespace of the previous (non-empty) line of text.
   proc get_previous_indent_space {txtt index} {
 
     variable indent_exprs
