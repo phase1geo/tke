@@ -86,6 +86,7 @@ proc ctext {win args} {
   set ctext::data($win,config,undo_sep_next)          -1
   set ctext::data($win,config,undo_sep_size)          0
   set ctext::data($win,config,redo_hist)              [list]
+  set ctext::data($win,config,indentationRE)          ""
 
   set ctext::data($win,config,ctextFlags) [list -xscrollcommand -yscrollcommand -linemap -linemapfg -linemapbg \
   -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable \
@@ -602,9 +603,6 @@ proc ctext::highlight {win lineStart lineEnd} {
 
   # Perform the highlight in the background
   ctext::doHighlight $win $lineStart $lineEnd
-
-  # Handle the reindentation
-  ctext::doReindent $win $lineStart $lineEnd
 
 }
 
@@ -1160,10 +1158,11 @@ proc ctext::command_delete {win args} {
 
     set checkStr "$prevChar[set char]"
 
-    ctext::escapes   $win $lineStart $lineEnd
-    ctext::comments  $win $lineStart $lineEnd [regexp {*}$data($win,config,re_opts) -- $commentRE $checkStr]
-    ctext::brackets  $win $lineStart $lineEnd
-    ctext::highlight $win $lineStart $lineEnd
+    ctext::escapes     $win $lineStart $lineEnd
+    ctext::comments    $win $lineStart $lineEnd [regexp {*}$data($win,config,re_opts) -- $commentRE $checkStr]
+    ctext::brackets    $win $lineStart $lineEnd
+    ctext::indentation $win $lineStart $lineEnd
+    ctext::highlight   $win $lineStart $lineEnd
     # ctext::linemapUpdate $win
     ctext::modified $win 1 [list delete $deletePos 1 $lines $moddata]
     event generate $win.t <<CursorChanged>>
@@ -1188,10 +1187,11 @@ proc ctext::command_delete {win args} {
       }
     }
 
-    ctext::escapes   $win $lineStart $lineEnd
-    ctext::comments  $win $lineStart $lineEnd [regexp {*}$data($win,config,re_opts) -- $commentRE $dat]
-    ctext::brackets  $win $lineStart $lineEnd
-    ctext::highlight $win $lineStart $lineEnd
+    ctext::escapes     $win $lineStart $lineEnd
+    ctext::comments    $win $lineStart $lineEnd [regexp {*}$data($win,config,re_opts) -- $commentRE $dat]
+    ctext::brackets    $win $lineStart $lineEnd
+    ctext::indentation $win $lineStart $lineEnd
+    ctext::highlight   $win $lineStart $lineEnd
     #if {[string first "\n" $dat] >= 0} {
     #  ctext::linemapUpdate $win
     #}
@@ -1385,10 +1385,11 @@ proc ctext::command_highlight {win args} {
     }
   }
 
-  ctext::escapes   $win $lineStart $lineEnd
-  ctext::comments  $win $lineStart $lineEnd 1
-  ctext::brackets  $win $lineStart $lineEnd
-  ctext::highlight $win $lineStart $lineEnd
+  ctext::escapes     $win $lineStart $lineEnd
+  ctext::comments    $win $lineStart $lineEnd 1
+  ctext::brackets    $win $lineStart $lineEnd
+  ctext::indentation $win $lineStart $lineEnd
+  ctext::highlight   $win $lineStart $lineEnd
 
 }
 
@@ -1450,10 +1451,11 @@ proc ctext::command_insert {win args} {
   set re_data    [$win._t get $prevSpace "$insertPos+${datlen}c"]
   set re_pattern [expr {($datlen == 1) ? "((\\\\.)+|$commentRE).?\$" : $commentRE}]
 
-  ctext::escapes   $win $lineStart $lineEnd
-  ctext::comments  $win $lineStart $lineEnd [regexp {*}$data($win,config,re_opts) -- $re_pattern $re_data]
-  ctext::brackets  $win $lineStart $lineEnd
-  ctext::highlight $win $lineStart $lineEnd
+  ctext::escapes     $win $lineStart $lineEnd
+  ctext::comments    $win $lineStart $lineEnd [regexp {*}$data($win,config,re_opts) -- $re_pattern $re_data]
+  ctext::brackets    $win $lineStart $lineEnd
+  ctext::indentation $win $lineStart $lineEnd
+  ctext::highlight   $win $lineStart $lineEnd
 
   switch -- $dat {
     "\}" {
@@ -1534,10 +1536,11 @@ proc ctext::command_replace {win args} {
 
   set REData [$win._t get $lineStart $lineEnd]
 
-  ctext::escapes   $win $lineStart $lineEnd
-  ctext::comments  $win $lineStart $lineEnd [regexp {*}$data($win,config,re_opts) -- $commentRE $REData]
-  ctext::brackets  $win $lineStart $lineEnd
-  ctext::highlight $win $lineStart $lineEnd
+  ctext::escapes     $win $lineStart $lineEnd
+  ctext::comments    $win $lineStart $lineEnd [regexp {*}$data($win,config,re_opts) -- $commentRE $REData]
+  ctext::brackets    $win $lineStart $lineEnd
+  ctext::indentation $win $lineStart $lineEnd
+  ctext::highlight   $win $lineStart $lineEnd
 
   switch -- $dat {
     "\}" {
@@ -2430,6 +2433,19 @@ proc ctext::commentsParseCCommentEnd {win index pindices num_indices re_opts eco
 
 }
 
+proc ctext::setIndentation {twin indentations type} {
+
+  variable data
+
+  foreach indentation $indentations {
+    lappend data($twin,config,indentations) $indentation $type
+  }
+
+  array set indentation_array $data($twin,config,indentations)
+  set data($twin,config,indentationRE) [join [array names indentation_array] |]
+
+}
+
 proc ctext::escapes {twin start end} {
 
   foreach res [$twin search -all -- "\\" $start $end] {
@@ -2450,6 +2466,26 @@ proc ctext::brackets {twin start end} {
     if {![inCommentString $twin $res] && ![isEscaped $twin $res]} {
       $twin tag add _$bracket_map([$twin get $res "$res+1c"]) $res "$res+1c"
     }
+  }
+
+}
+
+proc ctext::indentation {twin start end} {
+
+  variable data
+
+  if {$data($twin,config,indentationRE) eq ""} {
+    return
+  }
+
+  array set indentation_array $data($twin,config,indentations)
+
+  set i 0
+  foreach res [$twin search -regexp -all -count lengths -- $data($twin,config,indentationRE) $start $end] {
+    if {![inCommentString $twin $res] && ![isEscaped $twin $res]} {
+      $twin tag add _$indentation_array([$twin get $res "$res+[lindex $lengths $i]c"]) $res "$res+[lindex $lengths $i]c"
+    }
+    incr i
   }
 
 }
@@ -2840,18 +2876,6 @@ proc ctext::doHighlight {win start end} {
         }
       }
     }
-  }
-
-}
-
-proc ctext::doReindent {twin start end} {
-
-  # Perform reindent match
-  set i 0
-  foreach res [$twin search -count lengths -regexp -nolinestop -all -- {switch.+?\{.*?case} 1.0 $end] {
-    puts "HERE"
-    $twin tag add _reindent $res [$twin index "$res + [lindex $lengths $i] chars"]
-    incr i
   }
 
 }

@@ -321,23 +321,21 @@ namespace eval syntax {
         set_language_section $txt meta           $lang_array(meta)
         set_language_section $txt advanced       $lang_array(advanced) $cmd_prefix
 
-        # Add the comments and strings
+        # Add the comments, strings and indentations
         ctext::setBlockCommentPatterns $txt $lang_array(bcomments) $theme(comments)
         ctext::setLineCommentPatterns  $txt $lang_array(lcomments) $theme(comments)
         ctext::setStringPatterns       $txt $lang_array(strings)   $theme(strings)
+        ctext::setIndentation          $txt $lang_array(indent)   indent
+        ctext::setIndentation          $txt $lang_array(unindent) unindent
+
+        foreach reindent $lang_array(reindent) {
+          ctext::setIndentation $txt [lindex $reindent 0]     reindentStart
+          ctext::setIndentation $txt [lindex $reindent 1 end] reindent
+        }
 
         # Add the FIXME
         ctext::addHighlightClass $txt fixme $theme(miscellaneous1)
         ctext::addHighlightKeywords $txt FIXME class fixme
-
-        # Set the indentation namespace for the given text widget to be
-        # the indent/unindent expressions for this language
-        ctext::addHighlightClass $txt indent ""
-        ctext::addHighlightClass $txt unindent ""
-        # ctext::addHighlightClass $txt reindent ""
-        ctext::addHighlightRegexp $txt [join $lang_array(indent) |] class indent
-        ctext::addHighlightRegexp $txt [join $lang_array(unindent) |] class unindent
-        # ctext::addHighlightRegexp $txt [join $lang_array(reindent) |] class reindent
 
         # Set the indent/unindent regular expressions
         [ns indent]::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent) $lang_array(reindent)
