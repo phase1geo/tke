@@ -1,0 +1,51 @@
+filepatterns
+{*.prolog}
+
+vimsyntax
+{prolog}
+
+matchcharsallowed
+{curly square paren angled}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+indent
+{class implement interface if foreach try}
+
+unindent
+{end}
+
+reindent {}
+
+icomment {{%}}
+
+lcomments {{^[ \t]*%}}
+
+bcomments {{{/\*} {\*/}}}
+
+strings {{"} {'}}
+
+keywords
+{
+  class clauses constants constructors delegate domains end facts goal implement
+  inherits interface monitor namespace open predicates properties resolve
+  supports
+  align and anyflow bitsize catch determ digits div do else elseif erroneous externally
+  failure finally foreach from guard if in mod multi nondeterm or orelse procedure
+  quot rem single them to try
+}
+
+numbers
+{
+  HighlightRegexp {\m([0-9]+|0x[0-9a-fA-F]+|[0-9]*\.[0-9]*)} {}
+}
+
+punctuation
+{
+  HighlightRegexp {[][\{\}\(\),.?<>@|:;\\=*/+-]} {}
+}
+
