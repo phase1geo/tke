@@ -209,7 +209,14 @@ namespace eval indent {
     if {([lassign [$txtt tag prevrange _reindent      $index] rpos] ne "") && \
         ([lassign [$txtt tag prevrange _reindentStart $index] spos] ne "") && \
         [$txtt compare $rpos > $spos]} {
-      return 1
+
+      # Find the indent symbol that is just before the reindentStart symbol
+      while {([lassign [$txtt tag prevrange _indent $index] ipos] ne "") && [$txtt compare $ipos > $spos]} {
+        set index $ipos
+      }
+
+      return [$txtt compare $index < $rpos]
+
     }
 
     return 0
