@@ -330,7 +330,7 @@ namespace eval syntax {
 
         foreach reindent $lang_array(reindent) {
           ctext::setIndentation $txt [lindex $reindent 0]     reindentStart
-          ctext::setIndentation $txt [lindex $reindent 1 end] reindent
+          ctext::setIndentation $txt [lrange $reindent 1 end] reindent
         }
 
         # Add the FIXME
