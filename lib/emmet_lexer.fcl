@@ -23,7 +23,7 @@
 # Brief:   Lexer for emmet syntax.
 ######################################################################
 
-source [file join $::tke_dir lib snip_parser.tab.tcl]
+source [file join $::tke_dir lib emmet_parser.tab.tcl]
 %}
 
 %option stack
@@ -49,7 +49,7 @@ source [file join $::tke_dir lib snip_parser.tab.tcl]
   return $::NUMBER
 }
 
-> {
+\> {
   set ::emmet_lval $emmet_text
   set ::emmet_begpos $::emmet_endpos
   incr ::emmet_endpos
@@ -155,6 +155,9 @@ source [file join $::tke_dir lib snip_parser.tab.tcl]
 }
 
 . {
+  set ::emmet_lval $emmet_text
+  set ::emmet_begpos $::emmet_endpos
+  incr ::emment_endpos [string length $emmet_text]
   return $emmet_text
 }
 

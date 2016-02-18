@@ -30,9 +30,19 @@ set emmet_errmsg ""
 set emmet_errstr ""
 set emmet_pos    0
 
-proc apply_multiplier {items multipler} {
+proc apply_multiplier {items multiplier} {
 
-  # TBD
+  # Get the last item of the list (the multiplier will be applied to it)
+  set last_item [lindex $items end]
+
+  # Make all of the items siblings of each other
+  set last_item [join [lrepeat $multiplier [list $last_item]] " sibling "]
+
+  # Add the new items to the end of the list
+  set items [lreplace $items end end]
+  lappend items {*}$last_item
+
+  return $items
 
 }
 
@@ -46,48 +56,34 @@ proc apply_multiplier {items multipler} {
 main: expression {
         set ::emmet_value $1
       }
+    ;
 
 expression: item {
-              set _ $1
+              set _ [list $1]
             }
           | ID IDENTIFIER {
               set _ [list id $2]
             }
           | CLASS IDENTIFIER {
               set _ [list class $2]
-          }
-          | expression item {
-              set _ [list $1 $2]
             }
           | expression ID IDENTIFIER {
-              set _ [list $1 [list id $3]]
+              set _ [concat $1 [list id $3]]
             }
           | expression CLASS IDENTIFIER {
-              set _ [list $1 [list class $]]
+              set _ [concat $1 [list class $]]
             }
           | expression CHILD item {
-              set _ [list $1 [list child $1]]
+              set _ [concat $1 [list child $3]]
             }
           | expression SIBLING item {
-              set _ [list $1 [list sibling $1]]
+              set _ [concat $1 [list sibling $3]]
             }
           | expression CLIMB item {
-              set _ [list $1 [list climb $1]]
+              set _ [concat $1 [list climb $3]]
             }
           | expression MULTIPLY NUMBER {
               set _ [apply_multiplier $1 $3]
-            }
-          | OPEN_GROUP expression CHILD item CLOSE_GROUP {
-              set _ [list [list $1 [list child $4]]]
-            }
-          | OPEN_GROUP expression SIBLING item CLOSE_GROUP {
-              set _ [list [list $1 [list sibling $4]]]
-            }
-          | OPEN_GROUP expression CLIMB item CLOSE_GROUP {
-              set _ [list [list $1 [list climb $4]]]
-            }
-          | OPEN_GROUP expression MULTIPLY NUMBER CLOSE_GROUP {
-              set _ [list [apply_multipler $2 $4]]
             }
           ;
 
@@ -102,6 +98,18 @@ item: IDENTIFIER {
       }
     | OPEN_ATTR attrs CLOSE_ATTR {
         set _ [list attrs $2]
+      }
+    | OPEN_GROUP expression CHILD item CLOSE_GROUP {
+        set _ [concat $2 [list child $4]]
+      }
+    | OPEN_GROUP expression SIBLING item CLOSE_GROUP {
+        set _ [concat $2 [list sibling $4]]
+      }
+    | OPEN_GROUP expression CLIMB item CLOSE_GROUP {
+        set _ [concat $2 [list climb $4]]
+      }
+    | OPEN_GROUP expression MULTIPLY NUMBER CLOSE_GROUP {
+        set _ [list [apply_multiplier $2 $4]]
       }
     ;
 
@@ -146,5 +154,31 @@ proc emmet_error {s} {
 
   set ::emmet_errstr "[string repeat { } $::emmet_begpos]^"
   set ::emmet_errmsg $s
+
+}
+
+proc parse_emmet {str} {
+
+  # Flush the parsing buffer
+  EMMET__FLUSH_BUFFER
+
+  # Insert the string to scan
+  emmet__scan_string $str
+
+  # Initialize some values
+  set ::emmet_begpos 0
+  set ::emmet_endpos 0
+
+  # Parse the string
+  if {[catch { emmet_parse } rc] || ($rc != 0)} {
+    puts "ERROR: "
+    puts $str
+    puts $::emmet_errstr
+    puts $::emmet_errmsg
+    puts "rc: $rc"
+    return ""
+  }
+
+  return $::emmet_value
 
 }
