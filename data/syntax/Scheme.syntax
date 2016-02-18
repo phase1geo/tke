@@ -5,7 +5,7 @@ vimsyntax
 {scheme}
 
 matchcharsallowed
-{paren square}
+{paren square double}
 
 tabsallowed
 {0}

@@ -5,7 +5,7 @@ vimsyntax
 {lisp}
 
 matchcharsallowed
-{curly}
+{paren double}
 
 tabsallowed
 {0}
@@ -17,7 +17,7 @@ indent
 {\\(}
 
 unindent
-{\\(}
+{\\)}
 
 icomment {{;}}
 
