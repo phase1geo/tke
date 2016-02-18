@@ -1,0 +1,67 @@
+filepatterns
+{*.ada *.adb}
+
+vimsyntax
+{ada}
+
+matchcharsallowed
+{curly}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+indent
+{begin {loop\s} {case\s} then}
+
+unindent
+{end.*;}
+
+reindent {}
+
+icomment {{--}}
+
+lcomments {{^[ \t]*--}}
+
+bcomments {}
+
+strings {{"}}
+
+keywords
+{
+  access aliased all array
+  begin body
+  case constant
+  delay do
+  else end entry exit
+  for function
+  if in is
+  loop
+  null
+  of others
+  package private procedure protected
+  range record return
+  select subtype
+  task terminate then type
+  use
+  when while with
+}
+
+symbols
+{
+  HighlightKeywords {
+    procedure function
+  } syntax::get_syntax_symbol
+}
+
+numbers {
+  HighlightRegexp {\m([0-9]+|0x[0-9a-fA-F]+|[0-9]*\.[0-9]*)} {}
+}
+
+punctuation
+{
+  HighlightRegexp {[\(\);:.=><&|*/+-]} {}
+}
+

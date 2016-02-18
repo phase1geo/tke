@@ -301,7 +301,13 @@ namespace eval indent {
     # do the search again.
     } else {
       array set other_type [list curlyR curlyL parenR parenL squareR squareL angledR angledL]
-      return [get_start_of_line $txtt [ctext::get_match_bracket [winfo parent $txtt] $other_type($win_type) $startpos($win_type)]]
+      if {[set match_index [ctext::get_match_bracket [winfo parent $txtt] $other_type($win_type) $startpos($win_type)]] ne ""} {
+        return [get_start_of_line $txtt $match_index]
+      } elseif {[regexp {^( *)(.*)} [$txtt get "$index linestart" "$index lineend"] -> whitespace rest]} {
+        return $whitespace
+      } else {
+        return ""
+      }
     }
 
   }
