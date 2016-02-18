@@ -86,7 +86,11 @@ proc ctext {win args} {
   set ctext::data($win,config,undo_sep_next)          -1
   set ctext::data($win,config,undo_sep_size)          0
   set ctext::data($win,config,redo_hist)              [list]
-  set ctext::data($win,config,indentationRE)          ""
+
+  set ctext::data($win,config,indentation,indent)        [list]
+  set ctext::data($win,config,indentation,unindent)      [list]
+  set ctext::data($win,config,indentation,reindent)      [list]
+  set ctext::data($win,config,indentation,reindentStart) [list]
 
   set ctext::data($win,config,ctextFlags) [list -xscrollcommand -yscrollcommand -linemap -linemapfg -linemapbg \
   -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable \
@@ -2437,7 +2441,7 @@ proc ctext::setIndentation {twin indentations type} {
 
   variable data
 
-  set data($twin,config,indentations,$type) $indentations
+  set data($twin,config,indentation,$type) $indentations
 
 }
 
@@ -2470,9 +2474,9 @@ proc ctext::indentation {twin start end} {
   variable data
 
   foreach type [list indent unindent reindentStart reindent] {
-    if {[info exists data($twin,config,indentations,$type)]} {
+    if {[llength $data($twin,config,indentation,$type)] > 0} {
       set i 0
-      foreach res [$twin search -regexp -all -count lengths -- [join $data($twin,config,indentations,$type) |] $start $end] {
+      foreach res [$twin search -regexp -all -count lengths -- [join $data($twin,config,indentation,$type) |] $start $end] {
         if {![inCommentString $twin $res] && ![isEscaped $twin $res]} {
           $twin tag add _$type $res "$res+[lindex $lengths $i]c"
         }
