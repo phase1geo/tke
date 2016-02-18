@@ -19,23 +19,19 @@ indent
 unindent
 {\\)}
 
-reindent {}
-
 icomment {{;}}
 
 lcomments {{^[ \t]*;}}
 
-bcomments {{{#|} {|#}}}
+bcomments {{{#\\|} {\\|#}}}
 
 strings {{"}}
 
 keywords
 {
-  access and begin bkpt case cond cons-stream declare default-object define define-integrable
-  define-macro define-structure define-syntax delay do fluid-let if in-package lambda
-  let let-syntax letrec local-declare macro make-environment named-lambda or
-  quasiquote quote scode-quote sequence set the-environment unassigned
-  using-syntax
+  access and begin bkpt case cond cons stream declare default object define integrable
+  structure syntax delay do fluid if in package lambda let letrec local macro make
+  environment named or quasiquote quote scode sequence set the unassigned using
 }
 
 symbols
