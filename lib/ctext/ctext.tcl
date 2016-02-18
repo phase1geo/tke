@@ -2437,12 +2437,7 @@ proc ctext::setIndentation {twin indentations type} {
 
   variable data
 
-  foreach indentation $indentations {
-    lappend data($twin,config,indentations) $indentation $type
-  }
-
-  array set indentation_array $data($twin,config,indentations)
-  set data($twin,config,indentationRE) [join [array names indentation_array] |]
+  set data($twin,config,indentations,$type) $indentations
 
 }
 
@@ -2474,18 +2469,16 @@ proc ctext::indentation {twin start end} {
 
   variable data
 
-  if {$data($twin,config,indentationRE) eq ""} {
-    return
-  }
-
-  array set indentation_array $data($twin,config,indentations)
-
-  set i 0
-  foreach res [$twin search -regexp -all -count lengths -- $data($twin,config,indentationRE) $start $end] {
-    if {![inCommentString $twin $res] && ![isEscaped $twin $res]} {
-      $twin tag add _$indentation_array([$twin get $res "$res+[lindex $lengths $i]c"]) $res "$res+[lindex $lengths $i]c"
+  foreach type [list indent unindent reindentStart reindent] {
+    if {[info exists data($twin,config,indentations,$type)]} {
+      set i 0
+      foreach res [$twin search -regexp -all -count lengths -- [join $data($twin,config,indentations,$type) |] $start $end] {
+        if {![inCommentString $twin $res] && ![isEscaped $twin $res]} {
+          $twin tag add _$type $res "$res+[lindex $lengths $i]c"
+        }
+        incr i
+      }
     }
-    incr i
   }
 
 }
