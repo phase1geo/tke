@@ -1,124 +1,69 @@
-changeset:   1813:ec5c59a212df
-tag:         devel-2.2.2
+changeset:   1828:181a71441604
+tag:         devel-2.2.3
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Feb 12 00:53:30 2016 -0600
+date:        Wed Feb 17 09:37:26 2016 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.2.2 release
+ChangeLog for devel-2.2.3 release
 
 
-changeset:   1814:b51f4a44a56f
+changeset:   1829:56299588e75d
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Feb 12 00:53:34 2016 -0600
+date:        Wed Feb 17 09:37:33 2016 -0600
 files:       .hgtags
 description:
-Added tag devel-2.2.2 for changeset ec5c59a212df
+Added tag devel-2.2.3 for changeset 181a71441604
 
 
-changeset:   1815:a5b983b59e8f
+changeset:   1830:43ea44436d76
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Feb 12 23:09:38 2016 -0600
-files:       lib/ctext/ctext.tcl lib/folding.tcl lib/version.tcl lib/vim.tcl
+date:        Wed Feb 17 18:56:19 2016 -0600
+files:       data/syntax/Scheme.syntax lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Adding Vim folding 'za', 'zf' and 'zR' commands.
+* Attempting to fix issue with indentation matching in ctext.
+* Attempting to correct Scheme syntax description.
 
 
-changeset:   1816:be98baf68d88
+changeset:   1831:6752f0074f5f
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Feb 13 00:28:16 2016 -0600
-files:       lib/folding.tcl lib/version.tcl lib/vim.tcl
+date:        Wed Feb 17 19:28:18 2016 -0600
+files:       data/syntax/Scheme.syntax lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Adding support for zM Vim command.
+* Fixing Scheme syntax.
+* Fixing ctext indentation handling issues.
 
 
-changeset:   1817:bb12bee07808
+changeset:   1832:6ab756a11326
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Feb 13 17:00:46 2016 -0600
-files:       lib/folding.tcl lib/syntax.tcl lib/version.tcl lib/vim.tcl
+date:        Wed Feb 17 21:35:16 2016 -0600
+files:       data/syntax/Ada.syntax lib/indent.tcl lib/version.tcl
 description:
-* Adding column split support to syntax menu.
+* Adding Ada syntax.
+* Fixing indentation issues found with Ada syntax.
 
 
-changeset:   1818:4490ebe26c97
+changeset:   1833:6a1d594f9b22
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Feb 13 20:29:47 2016 -0600
-files:       data/syntax/C++.syntax data/syntax/syntax.syntax lib/indent.tcl lib/syntax.tcl lib/version.tcl
+date:        Wed Feb 17 22:24:27 2016 -0600
+files:       data/syntax/Lisp.syntax lib/version.tcl
 description:
-* Adding reindent support to C++ syntax.
-* Starting work on handling reindent in indent namespace.
+* Adding Lisp syntax.
 
 
-changeset:   1819:b3ed89861ff8
+changeset:   1834:8d1ab9135803
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Feb 13 23:04:06 2016 -0600
-files:       lib/format_parser.tcl lib/snip_lexer.fcl lib/snip_lexer.tcl lib/snip_parser.tac lib/snip_parser.tcl lib/version.tcl
+date:        Wed Feb 17 22:33:31 2016 -0600
+files:       data/syntax/Lisp.syntax data/syntax/Scheme.syntax lib/version.tcl
 description:
-* Adding CURRENT_TIME snippet variable.
+* Fixing Lisp and Scheme syntaxes.
 
 
-changeset:   1820:3740d240e60a
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Feb 14 20:07:13 2016 -0600
-files:       data/syntax/C++.syntax lib/ctext/ctext.tcl lib/indent.tcl lib/syntax.tcl lib/version.tcl
-description:
-* Checkpointing work on indentation.
-
-
-changeset:   1821:0194b1acc93e
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Feb 15 12:29:28 2016 -0600
-files:       data/syntax/C++.syntax data/syntax/Erlang.syntax lib/ctext/ctext.tcl lib/indent.tcl lib/version.tcl
-description:
-* Checkpointing work on improved switch statement indentation (work in progress).
-* Adding Erlang syntax.
-
-
-changeset:   1822:993096ac0b2d
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Feb 16 01:05:40 2016 -0600
-files:       lib/indent.tcl lib/version.tcl
-description:
-* Checkpointing work on new indentation code.
-
-
-changeset:   1823:05fc0a2178fb
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Feb 16 08:20:28 2016 -0600
-files:       lib/indent.tcl lib/version.tcl
-description:
-* Fixing issue with indentation being in the first column.
-
-
-changeset:   1824:df76d5134050
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Feb 16 09:21:52 2016 -0600
-files:       data/syntax/C++.syntax lib/ctext/ctext.tcl lib/syntax.tcl lib/version.tcl
-description:
-* Adding formal support for indentation in ctext.
-
-
-changeset:   1825:2c73f8f07dee
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Feb 16 21:20:02 2016 -0600
-files:       lib/indent.tcl lib/syntax.tcl lib/version.tcl
-description:
-* Checkpointing indentation work.
-
-
-changeset:   1826:af6b892d1e44
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Feb 16 22:38:20 2016 -0600
-files:       lib/indent.tcl lib/version.tcl
-description:
-* Fixing reindent issue.
-
-
-changeset:   1827:1725dc1cb53c
+changeset:   1835:2853ad5bca5b
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Feb 17 00:25:46 2016 -0600
-files:       data/syntax/Prolog.syntax data/syntax/Scheme.syntax lib/version.tcl
+date:        Wed Feb 17 23:06:07 2016 -0600
+files:       MacOSX/Tke.app/Contents/Info.plist Win/setup.iss lib/version.tcl
 description:
-* Initial version of Prolog and Scheme syntax.
+* Updating version information.
 
 
