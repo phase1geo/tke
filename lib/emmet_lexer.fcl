@@ -35,7 +35,8 @@ source [file join $::tke_dir lib emmet_parser.tab.tcl]
   incr ::emmet_endpos [string length $emmet_text]
 }
 
-[a-zA-Z]+ {
+[a-zA-Z0-9:!-]+ {
+  puts "HERE - $emmet_text"
   set ::emmet_lval $emmet_text
   set ::emmet_begpos $::emmet_endpos
   incr ::emmet_endpos [string length $emmet_text]
@@ -63,10 +64,10 @@ source [file join $::tke_dir lib emmet_parser.tab.tcl]
   return $::SIBLING
 }
 
-\^ {
+\^+ {
   set ::emmet_lval $emmet_text
   set ::emmet_begpos $::emmet_endpos
-  incr ::emmet_endpos
+  incr ::emmet_endpos [string length $emmet_text]
   return $::CLIMB
 }
 
@@ -126,7 +127,7 @@ source [file join $::tke_dir lib emmet_parser.tab.tcl]
   return $::VALUE
 }
 
-".+?" {
+\".+?\" {
   set ::emmet_lval [string range $emmet_text 1 end-1]
   set ::emmet_begpos $::emmet_endpos
   incr ::emmet_endpos [string length $emmet_text]

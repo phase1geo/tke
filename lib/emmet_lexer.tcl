@@ -248,9 +248,9 @@ proc emmet_lex {} {
             set ::emmet_leng [string length $::emmet_text]
             set emmet__matched_rule 0
         }
-        # rule 1: [a-zA-Z]+
+        # rule 1: [a-zA-Z0-9:!-]+
         if {$::emmet__state_table($emmet__current_state) && \
-                [regexp -start $::emmet__index -indices -line  -- {\A([a-zA-Z]+)} $::emmet__buffer emmet__match] > 0 && \
+                [regexp -start $::emmet__index -indices -line  -- {\A([a-zA-Z0-9:!-]+)} $::emmet__buffer emmet__match] > 0 && \
                 [lindex $emmet__match 1] - $::emmet__index + 1 > $::emmet_leng} {
             set ::emmet_text [string range $::emmet__buffer $::emmet__index [lindex $emmet__match 1]]
             set ::emmet_leng [string length $::emmet_text]
@@ -280,9 +280,9 @@ proc emmet_lex {} {
             set ::emmet_leng [string length $::emmet_text]
             set emmet__matched_rule 4
         }
-        # rule 5: \^
+        # rule 5: \^+
         if {$::emmet__state_table($emmet__current_state) && \
-                [regexp -start $::emmet__index -indices -line  -- {\A(\^)} $::emmet__buffer emmet__match] > 0 && \
+                [regexp -start $::emmet__index -indices -line  -- {\A(\^+)} $::emmet__buffer emmet__match] > 0 && \
                 [lindex $emmet__match 1] - $::emmet__index + 1 > $::emmet_leng} {
             set ::emmet_text [string range $::emmet__buffer $::emmet__index [lindex $emmet__match 1]]
             set ::emmet_leng [string length $::emmet_text]
@@ -352,9 +352,9 @@ proc emmet_lex {} {
             set ::emmet_leng [string length $::emmet_text]
             set emmet__matched_rule 13
         }
-        # rule 14: \.\+\?
+        # rule 14: \".+?\"
         if {$::emmet__state_table($emmet__current_state) && \
-                [regexp -start $::emmet__index -indices -line  -- {\A(\.\+\?)} $::emmet__buffer emmet__match] > 0 && \
+                [regexp -start $::emmet__index -indices -line  -- {\A(\".+?\")} $::emmet__buffer emmet__match] > 0 && \
                 [lindex $emmet__match 1] - $::emmet__index + 1 > $::emmet_leng} {
             set ::emmet_text [string range $::emmet__buffer $::emmet__index [lindex $emmet__match 1]]
             set ::emmet_leng [string length $::emmet_text]
@@ -408,7 +408,8 @@ set ::emmet_begpos $::emmet_endpos
   incr ::emmet_endpos [string length $emmet_text]
             }
             1 {
-set ::emmet_lval $emmet_text
+puts "HERE - $emmet_text"
+  set ::emmet_lval $emmet_text
   set ::emmet_begpos $::emmet_endpos
   incr ::emmet_endpos [string length $emmet_text]
   return $::IDENTIFIER
@@ -434,7 +435,7 @@ set ::emmet_lval $emmet_text
             5 {
 set ::emmet_lval $emmet_text
   set ::emmet_begpos $::emmet_endpos
-  incr ::emmet_endpos
+  incr ::emmet_endpos [string length $emmet_text]
   return $::CLIMB
             }
             6 {
