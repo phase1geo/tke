@@ -35,8 +35,7 @@ source [file join $::tke_dir lib emmet_parser.tab.tcl]
   incr ::emmet_endpos [string length $emmet_text]
 }
 
-[a-zA-Z0-9:!-]+ {
-  puts "HERE - $emmet_text"
+[a-zA-Z][a-zA-Z0-9:!-]* {
   set ::emmet_lval $emmet_text
   set ::emmet_begpos $::emmet_endpos
   incr ::emmet_endpos [string length $emmet_text]

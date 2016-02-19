@@ -199,8 +199,6 @@ proc emmet_insert_attr {plines pstack attr {value ""}} {
   upvar $plines lines
   upvar $pstack stack
 
-  puts "attr: $attr, value: $value"
-
   # Get the last index in the stack
   set index [lindex $stack end]
 
@@ -226,13 +224,12 @@ proc emmet_insert_attr {plines pstack attr {value ""}} {
 
 proc emmet_atomize_html {items} {
 
-  puts "items: $items"
-
   set lines       [list]
   set index       0
   set indent      0
   set item_count  0
   set ident_stack [list]
+  set last_rel    ""
 
   foreach item $items {
     set data [lassign $item type]
@@ -252,9 +249,12 @@ proc emmet_atomize_html {items} {
         }
       }
       attrs {
-        foreach attr $data {
-          puts "attr: $attr"
-          emmet_insert_attr lines ident_stack {*}$attr
+        if {[llength $ident_stack] == 0} {
+          # TBD
+        } else {
+          foreach {attr val} {*}$data {
+            emmet_insert_attr lines ident_stack $attr $val
+          }
         }
       }
       ident {
@@ -277,9 +277,14 @@ proc emmet_atomize_html {items} {
         incr ::emmet_item_id
       }
       text {
-        set ident_stack [list]
-        set lines [linsert $lines [expr $index - 1] [list [expr $::emmet_item_id - 1] $indent 2 {*}$data]]
+        set prev_item [lindex $items [expr $item_count - 1] 0]
+        set tmp_index [expr $index - 1]
+        if {($prev_item eq "child") || ($prev_item eq "sibling")} {
+          set tmp_index $index
+        }
+        set lines [linsert $lines $tmp_index [list [expr $::emmet_item_id - 1] $indent 2 {*}$data]]
         incr index 1
+        set ident_stack [list]
       }
       child {
         incr index -1
@@ -438,10 +443,10 @@ attr: IDENTIFIER ASSIGN VALUE {
     ;
 
 attrs: attr {
-         set _ [list $1]
+         set _ [concat $1]
        }
      | attrs attr {
-         set _ [list $1 $2]
+         set _ [concat $1 $2]
        }
      ;
 
