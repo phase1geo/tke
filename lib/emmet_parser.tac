@@ -25,11 +25,18 @@
 
 source [file join $::tke_dir lib emmet_lexer.tcl]
 
+package require struct::tree
+package require struct::list
+
 set emmet_value       ""
 set emmet_errmsg      ""
 set emmet_errstr      ""
 set emmet_shift_width 2
 set emmet_item_id     0
+set emmet_node        root
+
+# Create the DOM
+::struct::tree emmet_dom
 
 array set emmet_lookup {
   a                    {a          1 {href=""}}
@@ -363,7 +370,7 @@ proc emmet_generate_html {items} {
 
 %}
 
-%token IDENTIFIER NUMBER CHILD SIBLING CLIMB OPEN_GROUP CLOSE_GROUP MULTIPLY NUMBERING
+%token IDENTIFIER NUMBER CHILD SIBLING CLIMB OPEN_GROUP CLOSE_GROUP MULTIPLY
 %token OPEN_ATTR CLOSE_ATTR ASSIGN ID CLASS VALUE TEXT
 
 %%
@@ -374,93 +381,122 @@ main: expression {
     ;
 
 expression: item {
-              set _ [list $1]
-            }
-          | ID IDENTIFIER {
-              set _ [list [list id $2]]
-            }
-          | CLASS IDENTIFIER {
-              set _ [list [list class $2]]
-            }
-          | expression item {
-              set _ [concat $1 [list $2]]
-            }
-          | expression ID IDENTIFIER {
-              set _ [concat $1 [list [list id $3]]]
-            }
-          | expression CLASS IDENTIFIER {
-              set _ [concat $1 [list [list class $3]]]
+              set _ $1
             }
           | expression CHILD item {
-              set _ [concat $1 [list child $3]]
+              $::emmet_dom move $1 end $3
+              if {[$::emmet_dom get $3 name] eq ""} {
+                switch [$::emmet_dom get $1 name] {
+                  em      { $::emmet_dom set $1 "name" "span" }
+                  table   { $::emmet_dom set $1 "name" "tr" }
+                  tr      { $::emmet_dom set $1 "name" "td" }
+                  ul -
+                  ol      { $::emmet_dom set $1 "name" "li" }
+                  default { $::emmet_dom set $1 "name" "div" }
+                }
+              }
+              set _ $3
             }
           | expression SIBLING item {
-              set _ [concat $1 [list sibling $3]]
+              set _ [$::emmet_dom move [$::emmet_dom parent $1] end $3]
             }
           | expression CLIMB item {
-              set _ [concat $1 [list [list climb [string length $2]] $3]]
-            }
-          | expression MULTIPLY NUMBER {
-              set _ [apply_multiplier $1 $3]
+              set parent [$::emmet_dom parent $1]
+              for {set i 0} {$i < [string length $2]} {incr i} {
+                if {$parent eq "root"} {
+                  break
+                } else {
+                  set parent [$::emmet_dom parent $parent]
+                }
+              }
+              set _ [$::emmet_dom move $parent end $3]
             }
           ;
 
-item: IDENTIFIER {
-        set _ [list ident $1]
+item: IDENTIFIER attrs_opt multiply_opt {
+        set ::emmet_node [$::emmet_dom insert root end]
+        $::emmet_dom set $::emmet_node "type" "ident"
+        $::emmet_dom set $::emmet_node "name" $1
+        foreach {attr_name attr_val} $2 {
+          $::emmet_dom set $::emmet_node "attr,$attr_name" $attr_val
+        }
+        $::emmet_dom set $::emmet_node "multiplier" $3
+        set _ $::emmet_node
       }
-    | IDENTIFIER numbering {
-        set _ [list ident $1 $2]
+    | attrs multiply_opt {
+        set ::emmet_node [$::emmet_dom insert root end]
+        $::emmet_dom set $::emmet_node "type" "ident"
+        $::emmet_dom set $::emmet_node "name" ""
+        foreach {attr_name attr_val} $1 {
+          $::emmet_dom set $::emmet_node "attr,$attr_name" $attr_val
+        }
+        $::emmet_dom set $::emmet_node "multiplier" $2
+        set _ $::emmet_node
       }
-    | TEXT {
-        set _ [list text $1]
+    | TEXT multiply_opt {
+        set ::emmet_node [$::emmet_dom insert root end]
+        $::emmet_dom set $::emmet_node "type" "text"
+        $::emmet_dom set $::emmet_node "value" [lindex $1 1]
+        $::emmet_dom set $::emmet_node "multiplier" [lindex $1 2]
+        set _ $::emmet_node
       }
-    | OPEN_ATTR attrs CLOSE_ATTR {
-        set _ [list attrs $2]
-      }
-    | OPEN_GROUP expression CHILD item CLOSE_GROUP {
-        set _ [concat $2 [list child $4]]
-      }
-    | OPEN_GROUP expression SIBLING item CLOSE_GROUP {
-        set _ [concat $2 [list sibling $4]]
-      }
-    | OPEN_GROUP expression CLIMB item CLOSE_GROUP {
-        set _ [concat $2 [list [list climb [string length $3]] $4]]
-      }
-    | OPEN_GROUP expression MULTIPLY NUMBER CLOSE_GROUP {
-        set _ [list [apply_multiplier $2 $4]]
+    | OPEN_GROUP expression CLOSE_GROUP multiply_opt {
+        # TBD
+        set _ $2
       }
     ;
 
-attr: IDENTIFIER ASSIGN VALUE {
-        set _ [list $1 $3]
+multiply_opt: MULTIPLY NUMBER {
+                set _ $2
+              }
+            | {
+                set _ 1
+              }
+            ;
+
+attr_item: IDENTIFIER ASSIGN VALUE {
+             set _ [list $1 $3]
+           }
+         | IDENTIFIER ASSIGN NUMBER {
+             set _ [list $1 $3]
+           }
+         | IDENTIFIER {
+             set _ [list $1]
+           }
+         ;
+
+attr_items: attr {
+              set _ $1
+            }
+          | attrs attr {
+              set _ [concat $1 $2]
+            }
+          ;
+
+attr: OPEN_ATTR attr_items CLOSE_ATTR {
+        set _ $2
       }
-    | IDENTIFIER ASSIGN NUMBER {
-        set _ [list $1 $3]
+    | ID IDENTIFIER {
+        set _ [list id $2]
       }
-    | IDENTIFIER {
-        set _ [list $1]
+    | CLASS IDENTIFIER {
+        set _ [list class $2]
       }
     ;
 
 attrs: attr {
-         set _ [concat $1]
+         set _ $1
        }
      | attrs attr {
-         set _ [concat $1 $2]
+         set _ [concat $2 $1]
        }
      ;
 
-numbering: NUMBERING {
-             set _ [list $1 1 1]
+attrs_opt: attrs {
+             set _ $1
            }
-         | NUMBERING '@' NUMBER {
-             set _ [list $1 $3 1]
-           }
-         | NUMBERING '@' '-' {
-             set _ [list $1 1 -1]
-           }
-         | NUMBERING '@' NUMBER '-' {
-             set _ [list $1 $3 -1]
+         | {
+             set _ [list]
            }
          ;
 
