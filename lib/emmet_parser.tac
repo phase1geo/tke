@@ -25,129 +25,124 @@
 
 source [file join $::tke_dir lib emmet_lexer.tcl]
 
-package require struct::tree
-package require struct::list
+package require struct
 
 set emmet_value       ""
 set emmet_errmsg      ""
 set emmet_errstr      ""
 set emmet_shift_width 2
 set emmet_item_id     0
-set emmet_node        root
-
-# Create the DOM
-::struct::tree emmet_dom
 
 array set emmet_lookup {
-  a                    {a          1 {href=""}}
-  a:link               {a          1 {href="http://"}}
-  a:mail               {a          1 {href="mailto:"}}
-  abbr                 {abbr       1 {title=""}}
-  acronym              {acronym    1 {title=""}}
-  base                 {base       1 {href=""}}
+  a                    {a          1 {href ""}}
+  a:link               {a          1 {href "http://"}}
+  a:mail               {a          1 {href "mailto:"}}
+  abbr                 {abbr       1 {title ""}}
+  acronym              {acronym    1 {title ""}}
+  base                 {base       1 {href ""}}
   basefont             {basefont   0 {}}
   br                   {br         0 {}}
   frame                {frame      0 {}}
   hr                   {hr         0 {}}
-  bdo                  {bdo        1 {dir=""}}
-  bdo:r                {bdo        1 {dir="rtl"}}
-  bdo:l                {bdo        1 {dir="ltr"}}
+  bdo                  {bdo        1 {dir ""}}
+  bdo:r                {bdo        1 {dir "rtl"}}
+  bdo:l                {bdo        1 {dir "ltr"}}
   col                  {col        0 {}}
-  link                 {link       0 {rel="stylesheet" href=""}}
-  link:css             {link       0 {rel="stylesheet" href="style.css"}}
-  link:print           {link       0 {rel="stylesheet" href="print.css" media="print"}}
-  link:favicon         {link       0 {rel="shortcut icon" type="image/x-icon" href="favicon.ico"}}
-  link:touch           {link       0 {rel="apple-touch-icon" href="favicon.png"}}
-  link:rss             {link       0 {rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"}}
-  link:atom            {link       0 {rel="alternate" type="application/atom+xml" title="Atom" href="atom.xml"}}
+  link                 {link       0 {rel "stylesheet" href ""}}
+  link:css             {link       0 {rel "stylesheet" href "style.css"}}
+  link:print           {link       0 {rel "stylesheet" href "print.css" media "print"}}
+  link:favicon         {link       0 {rel "shortcut icon" type "image/x-icon" href "favicon.ico"}}
+  link:touch           {link       0 {rel "apple-touch-icon" href "favicon.png"}}
+  link:rss             {link       0 {rel "alternate" type "application/rss+xml" title "RSS" href "rss.xml"}}
+  link:atom            {link       0 {rel "alternate" type "application/atom+xml" title "Atom" href "atom.xml"}}
   meta                 {meta       0 {}}
-  meta:utf             {meta       0 {http-equiv="Content-Type" content="text/html;charset=UTF-8"}}
-  meta:win             {meta       0 {http_equiv="Content-Type" content="text/html;charset=windows-1251"}}
-  meta:vp              {meta       0 {name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"}}
-  meta:compat          {meta       0 {http-equiv="X-UA-Compatible" content="IE=7"}}
+  meta:utf             {meta       0 {http-equiv "Content-Type" content "text/html;charset=UTF-8"}}
+  meta:win             {meta       0 {http_equiv "Content-Type" content "text/html;charset=windows-1251"}}
+  meta:vp              {meta       0 {name "viewport" content "width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"}}
+  meta:compat          {meta       0 {http-equiv "X-UA-Compatible" content "IE=7"}}
   style                {style      1 {}}
   script               {script     1 {}}
-  script:src           {script     1 {src=""}}
-  img                  {img        0 {src="" alt=""}}
-  iframe               {iframe     1 {src="" frameborder="0"}}
-  embed                {embed      1 {src="" type=""}}
-  object               {object     1 {data="" type=""}}
-  param                {param      0 {name="" value=""}}
-  map                  {map        1 {name=""}}
-  area                 {area       0 {shape="" coords="" href="" alt=""}}
-  area:d               {area       0 {shape="default" href="" alt=""}}
-  area:c               {area       0 {shape="circle" coords="" href="" alt=""}}
-  area:r               {area       0 {shape="rect" coords="" href="" alt=""}}
-  area:p               {area       0 {shape="poly" coords="" href="" alt=""}}
-  form                 {form       1 {action=""}}
-  form:get             {form       1 {action="" method="get"}}
-  form:post            {form       1 {action="" method="post"}}
-  label                {form       1 {for=""}}
-  input                {input      0 {type="text"}}
-  inp                  {input      0 {type="text" name="" id=""}}
-  input:hidden         {input      0 {type="hidden" name=""}}
-  input:h              {input      0 {type="hidden" name=""}}
-  input:text           {input      0 {type="text" name="" id=""}}
-  input:t              {input      0 {type="text" name="" id=""}}
-  input:search         {input      0 {type="search" name="" id=""}}
-  input:email          {input      0 {type="email" name="" id=""}}
-  input:url            {input      0 {type="url" name="" id=""}}
-  input:password       {input      0 {type="password" name="" id=""}}
-  input:p              {input      0 {type="password" name="" id=""}}
-  input:datetime       {input      0 {type="datetime" name="" id=""}}
-  input:date           {input      0 {type="date" name="" id=""}}
-  input:datetime-local {input      0 {type="datetime-local" name="" id=""}}
-  input:month          {input      0 {type="month" name="" id=""}}
-  input:week           {input      0 {type="week" name="" id=""}}
-  input:time           {input      0 {type="time" name="" id=""}}
-  input:number         {input      0 {type="number" name="" id=""}}
-  input:color          {input      0 {type="color" name="" id=""}}
-  input:checkbox       {input      0 {type="checkbox" name="" id=""}}
-  input:c              {input      0 {type="checkbox" name="" id=""}}
-  input:radio          {input      0 {type="radio" name="" id=""}}
-  input:r              {input      0 {type="radio" name="" id=""}}
-  input:range          {input      0 {type="range" name="" id=""}}
-  input:file           {input      0 {type="file" name="" id=""}}
-  input:f              {input      0 {type="file" name="" id=""}}
-  input:submit         {input      0 {type="submit" value=""}}
-  input:s              {input      0 {type="submit" value=""}}
-  input:image          {input      0 {type="image" src="" alt=""}}
-  input:i              {input      0 {type="image" src="" alt=""}}
-  input:button         {input      0 {type="button" value=""}}
-  input:b              {input      0 {type="button" value=""}}
+  script:src           {script     1 {src ""}}
+  img                  {img        0 {src "" alt ""}}
+  iframe               {iframe     1 {src "" frameborder "0"}}
+  embed                {embed      1 {src "" type ""}}
+  object               {object     1 {data "" type ""}}
+  param                {param      0 {name "" value ""}}
+  map                  {map        1 {name ""}}
+  area                 {area       0 {shape "" coords "" href "" alt ""}}
+  area:d               {area       0 {shape "default" href "" alt ""}}
+  area:c               {area       0 {shape "circle" coords "" href "" alt ""}}
+  area:r               {area       0 {shape "rect" coords "" href "" alt ""}}
+  area:p               {area       0 {shape "poly" coords "" href "" alt ""}}
+  form                 {form       1 {action ""}}
+  form:get             {form       1 {action "" method "get"}}
+  form:post            {form       1 {action "" method "post"}}
+  label                {form       1 {for ""}}
+  input                {input      0 {type "text"}}
+  inp                  {input      0 {type "text" name "" id ""}}
+  input:hidden         {input      0 {type "hidden" name ""}}
+  input:h              {input      0 {type "hidden" name ""}}
+  input:text           {input      0 {type "text" name "" id ""}}
+  input:t              {input      0 {type "text" name "" id ""}}
+  input:search         {input      0 {type "search" name "" id ""}}
+  input:email          {input      0 {type "email" name "" id ""}}
+  input:url            {input      0 {type "url" name "" id ""}}
+  input:password       {input      0 {type "password" name "" id ""}}
+  input:p              {input      0 {type "password" name "" id ""}}
+  input:datetime       {input      0 {type "datetime" name "" id ""}}
+  input:date           {input      0 {type "date" name "" id ""}}
+  input:datetime-local {input      0 {type "datetime-local" name "" id ""}}
+  input:month          {input      0 {type "month" name "" id ""}}
+  input:week           {input      0 {type "week" name "" id ""}}
+  input:time           {input      0 {type "time" name "" id ""}}
+  input:number         {input      0 {type "number" name "" id ""}}
+  input:color          {input      0 {type "color" name "" id ""}}
+  input:checkbox       {input      0 {type "checkbox" name "" id ""}}
+  input:c              {input      0 {type "checkbox" name "" id ""}}
+  input:radio          {input      0 {type "radio" name "" id ""}}
+  input:r              {input      0 {type "radio" name "" id ""}}
+  input:range          {input      0 {type "range" name "" id ""}}
+  input:file           {input      0 {type "file" name "" id ""}}
+  input:f              {input      0 {type "file" name "" id ""}}
+  input:submit         {input      0 {type "submit" value ""}}
+  input:s              {input      0 {type "submit" value ""}}
+  input:image          {input      0 {type "image" src "" alt ""}}
+  input:i              {input      0 {type "image" src "" alt ""}}
+  input:button         {input      0 {type "button" value ""}}
+  input:b              {input      0 {type "button" value ""}}
   isindex              {isindex    0 {}}
-  input:reset          {input      0 {type="reset" value=""}}
-  select               {select     1 {name="" id=""}}
-  option               {option     1 {value=""}}
-  textarea             {textarea   1 {name="" id="" cols="30" rows="10"}}
-  menu:context         {menu       1 {type="context"}}
-  menu:c               {menu       1 {type="context"}}
-  menu:toolbar         {menu       1 {type="toolbar"}}
-  menu:t               {menu       1 {type="toolbar"}}
-  video                {video      1 {src=""}}
-  audio                {audio      1 {src=""}}
-  html:xml             {html       1 {xmlns="http://www.w3.org/1999/xhtml"}}
+  input:reset          {input      0 {type "reset" value ""}}
+  select               {select     1 {name "" id ""}}
+  option               {option     1 {value ""}}
+  textarea             {textarea   1 {name "" id "" cols "30" rows "10"}}
+  menu:context         {menu       1 {type "context"}}
+  menu:c               {menu       1 {type "context"}}
+  menu:toolbar         {menu       1 {type "toolbar"}}
+  menu:t               {menu       1 {type "toolbar"}}
+  video                {video      1 {src ""}}
+  audio                {audio      1 {src ""}}
+  html:xml             {html       1 {xmlns "http://www.w3.org/1999/xhtml"}}
   keygen               {keygen     0 {}}
   command              {command    0 {}}
   bq                   {blockquote 1 {}}
-  acr                  {acronym    1 {title=""}}
+  acr                  {acronym    1 {title ""}}
   fig                  {figure     1 {}}
   figc                 {figcaption 1 {}}
-  ifr                  {iframe     1 {src="" frameborder="0"}}
-  emb                  {embed      0 {src="" type=""}}
-  obj                  {object     1 {data="" type=""}}
+  ifr                  {iframe     1 {src "" frameborder "0"}}
+  emb                  {embed      0 {src "" type ""}}
+  obj                  {object     1 {data "" type ""}}
   src                  {source     1 {}}
   cap                  {caption    1 {}}
   colg                 {colgroup   1 {}}
   fst                  {fieldset   1 {}}
   fset                 {fieldset   1 {}}
   btn                  {button     1 {}}
-  btn:b                {button     1 {type="button"}}
-  btn:r                {button     1 {type="reset"}}
-  btn:s                {button     1 {type="submit"}}
+  btn:b                {button     1 {type "button"}}
+  btn:r                {button     1 {type "reset"}}
+  btn:s                {button     1 {type "submit"}}
   optg                 {optgroup   1 {}}
-  opt                  {option     1 {value=""}}
-  tarea                {textarea   1 {name="" id="" cols="30" rows="10"}}
+  opt                  {option     1 {value ""}}
+  tarea                {textarea   1 {name "" id "" cols "30" rows "10"}}
   leg                  {legend     1 {}}
   sect                 {section    1 {}}
   art                  {article    1 {}}
@@ -336,35 +331,117 @@ proc emmet_atomize_html {items} {
 
 }
 
-proc emmet_generate_html {items} {
+proc emmet_elaborate {tree node action} {
 
-  set lines [lindex [emmet_atomize_html $items] 1]
-
-  set last_id -1
-  set str     ""
-  foreach line $lines {
-    lassign $line id indent type data attrs
-    if {$attrs ne ""} {
-      append tmp " " [join $attrs " "]
-      set attrs $tmp
-    }
-    switch $type {
-      0 { set data "<$data$attrs>" }
-      1 { set data "</$data>" }
-      3 { set data "<$data />" }
-    }
-    if {$last_id == -1} {
-      set str $data
-    } elseif {$id == $last_id} {
-      append str $data
-    } else {
-      set space [expr {($indent == 0) ? "" : [string repeat " " [expr $indent * $::emmet_shift_width]]}]
-      append str "\n" $space $data
-    }
-    set last_id $id
+  if {$node eq "root"} {
+    $tree set $node elab root
+    return
   }
 
-  return $str
+  if {$action eq "enter"} {
+
+    # Get the parent node in the elaborated tree
+    set elab_parent [$tree get [$tree parent $node] elab]
+
+    # Create a new node in the elaborated tree
+    $tree set $node elab [$::emmet_elab insert $elab_parent end]
+
+  } else {
+
+    set enode [$tree get $node elab]
+
+    if {[set type [$tree get $node type]] eq "ident"} {
+
+      set name   [$tree get $node name]
+      set tagnum 2
+
+      # If we have an implictly specified type that hasn't been handled yet, it will be a div
+      if {$name eq ""} {
+        set name "div"
+      }
+
+      # Now that the name is elaborated, look it up and update the node, if necessary
+      if {[info exists ::emmet_lookup($name)]} {
+        lassign $::emmet_lookup($name) name tagnum attrs
+        foreach {key value} $attrs {
+          $::emmet_elab set $enode attr,$key $value
+        }
+      }
+
+      $::emmet_elab set $enode name   $name
+      $::emmet_elab set $enode tagnum $tagnum
+
+      foreach attr [$tree keys $node attr,*] {
+        $::emmet_elab set $enode $attr [lindex [$tree get $node $attr] 0]
+      }
+
+    }
+
+    $::emmet_elab set $enode type $type
+
+    if {[$tree keyexists $node value]} {
+      $::emmet_elab set $enode value [lindex [$tree get $node value] 0]
+    }
+
+  }
+
+}
+
+proc emmet_generate {tree node action} {
+
+  # Gather the children string values
+  set child_strs [list]
+  foreach child [$tree children $node] {
+    lappend child_strs [$tree get $child str]
+  }
+
+  # If we are the root node, we won't have any information so just concatenate
+  # the children strings.
+  if {$node eq "root"} {
+    $tree set $node "str" [join $child_strs \n]
+    return
+  }
+
+  # Get the node depth
+  set spaces [string repeat { } [expr ([$tree depth $node] - 1) * $::emmet_shift_width]]
+
+  # Otherwise, insert our information along with the children in the proper order
+  switch [$tree get $node type] {
+    ident {
+      set name     [$tree get $node name]
+      set tagnum   [$tree get $node tagnum]
+      set attr_str ""
+      set value    ""
+      if {[$tree keyexists $node value]} {
+        set value [$tree get $node value]
+      }
+      foreach attr [$tree keys $node attr,*] {
+        append attr_str " [lindex [split $attr ,] 1]=\"[$tree get $node $attr]\""
+      }
+      if {$tagnum == 0} {
+        $tree set $node str "$spaces<$name$attr_str />$value"
+      } elseif {[llength $child_strs] == 0} {
+        $tree set $node str "$spaces<$name$attr_str>$value</$name>"
+      } else {
+        $tree set $node str "$spaces<$name$attr_str>$value\n[join $child_strs \n]\n$spaces</$name>"
+      }
+    }
+    text {
+      $tree set $node str [$tree get $node value]
+    }
+  }
+
+}
+
+proc emmet_generate_html {} {
+
+  # Perform the elaboration
+  $::emmet_dom walkproc root -order both -type dfs emmet_elaborate
+
+  # Generate the code
+  $::emmet_elab walkproc root -order post -type dfs emmet_generate
+
+  return [$::emmet_elab get root "str"]
 
 }
 
@@ -376,7 +453,7 @@ proc emmet_generate_html {items} {
 %%
 
 main: expression {
-        set ::emmet_value [emmet_generate_html $1]
+        set ::emmet_value [emmet_generate_html]
       }
     ;
 
@@ -385,64 +462,77 @@ expression: item {
             }
           | expression CHILD item {
               $::emmet_dom move $1 end $3
-              if {[$::emmet_dom get $3 name] eq ""} {
+              if {[$::emmet_dom keyexists $3 name] && ([$::emmet_dom get $3 name] eq "")} {
                 switch [$::emmet_dom get $1 name] {
-                  em      { $::emmet_dom set $1 "name" "span" }
-                  table   { $::emmet_dom set $1 "name" "tr" }
-                  tr      { $::emmet_dom set $1 "name" "td" }
+                  em       { $::emmet_dom set $3 name "span" }
+                  table -
+                  tbody -
+                  thead -
+                  tfoot    { $::emmet_dom set $3 name "tr" }
+                  tr       { $::emmet_dom set $3 name "td" }
                   ul -
-                  ol      { $::emmet_dom set $1 "name" "li" }
-                  default { $::emmet_dom set $1 "name" "div" }
+                  ol       { $::emmet_dom set $3 name "li" }
+                  select -
+                  optgroup { $::emmet_dom set $3 name "option" }
+                  default  { $::emmet_dom set $3 name "div" }
                 }
               }
               set _ $3
             }
           | expression SIBLING item {
-              set _ [$::emmet_dom move [$::emmet_dom parent $1] end $3]
+              $::emmet_dom move [$::emmet_dom parent $1] end $3
+              set _ $3
             }
           | expression CLIMB item {
-              set parent [$::emmet_dom parent $1]
-              for {set i 0} {$i < [string length $2]} {incr i} {
-                if {$parent eq "root"} {
-                  break
-                } else {
-                  set parent [$::emmet_dom parent $parent]
-                }
-              }
-              set _ [$::emmet_dom move $parent end $3]
+              set ancestors [$::emmet_dom ancestors $1]
+              set parent    [lindex $ancestors [string length $2]]
+              $::emmet_dom move $parent end $3
+              set _ $3
             }
           ;
 
 item: IDENTIFIER attrs_opt multiply_opt {
-        set ::emmet_node [$::emmet_dom insert root end]
-        $::emmet_dom set $::emmet_node "type" "ident"
-        $::emmet_dom set $::emmet_node "name" $1
+        set node [$::emmet_dom insert root end]
+        $::emmet_dom set $node type "ident"
+        $::emmet_dom set $node name $1
         foreach {attr_name attr_val} $2 {
-          $::emmet_dom set $::emmet_node "attr,$attr_name" $attr_val
+          $::emmet_dom lappend $node attr,$attr_name $attr_val
         }
-        $::emmet_dom set $::emmet_node "multiplier" $3
-        set _ $::emmet_node
+        $::emmet_dom set $node multiplier $3
+        set _ $node
+      }
+    | IDENTIFIER attrs_opt TEXT multiply_opt {
+        set node [$::emmet_dom insert root end]
+        $::emmet_dom set $node type  "ident"
+        $::emmet_dom set $node name  $1
+        $::emmet_dom set $node value $3
+        foreach {attr_name attr_val} $2 {
+          $::emmet_dom lappend $node attr,$attr_name $attr_val
+        }
+        $::emmet_dom set $node multiplier $4
+        set _ $node
       }
     | attrs multiply_opt {
-        set ::emmet_node [$::emmet_dom insert root end]
-        $::emmet_dom set $::emmet_node "type" "ident"
-        $::emmet_dom set $::emmet_node "name" ""
+        set node [$::emmet_dom insert root end]
+        $::emmet_dom set $node type "ident"
+        $::emmet_dom set $node name ""
         foreach {attr_name attr_val} $1 {
-          $::emmet_dom set $::emmet_node "attr,$attr_name" $attr_val
+          $::emmet_dom lappend $node "attr,$attr_name" $attr_val
         }
-        $::emmet_dom set $::emmet_node "multiplier" $2
-        set _ $::emmet_node
+        $::emmet_dom set $node multiplier $2
+        set _ $node
       }
     | TEXT multiply_opt {
-        set ::emmet_node [$::emmet_dom insert root end]
-        $::emmet_dom set $::emmet_node "type" "text"
-        $::emmet_dom set $::emmet_node "value" [lindex $1 1]
-        $::emmet_dom set $::emmet_node "multiplier" [lindex $1 2]
-        set _ $::emmet_node
+        set node [$::emmet_dom insert root end]
+        $::emmet_dom set $node type       "text"
+        $::emmet_dom set $node value      $1
+        $::emmet_dom set $node multiplier $2
+        set _ $node
       }
     | OPEN_GROUP expression CLOSE_GROUP multiply_opt {
-        # TBD
-        set _ $2
+        set node [lindex [$::emmet_dom ancestors $2] end-1]
+        $::emmet_dom set $node multiplier $4
+        set _ $node
       }
     ;
 
@@ -460,15 +550,18 @@ attr_item: IDENTIFIER ASSIGN VALUE {
          | IDENTIFIER ASSIGN NUMBER {
              set _ [list $1 $3]
            }
+         | IDENTIFIER ASSIGN IDENTIFIER {
+             set _ [list $1 $3]
+           }
          | IDENTIFIER {
              set _ [list $1]
            }
          ;
 
-attr_items: attr {
+attr_items: attr_item {
               set _ $1
             }
-          | attrs attr {
+          | attr_items attr_item {
               set _ [concat $1 $2]
             }
           ;
@@ -523,15 +616,31 @@ proc parse_emmet {str} {
   set ::emmet_begpos 0
   set ::emmet_endpos 0
 
+  # Create the trees
+  set ::emmet_dom  [::struct::tree]
+  set ::emmet_elab [::struct::tree]
+
   # Parse the string
   if {[catch { emmet_parse } rc] || ($rc != 0)} {
+
     puts "ERROR: "
     puts $str
     puts $::emmet_errstr
     puts $::emmet_errmsg
     puts "rc: $rc"
-    return ""
+    puts "$::errorInfo"
+
+    # Destroy the trees
+    $::emmet_dom  destroy
+    $::emmet_elab destroy
+
+    return -code error $rc
+
   }
+
+  # Destroy the trees
+  $::emmet_dom  destroy
+  $::emmet_elab destroy
 
   return $::emmet_value
 
