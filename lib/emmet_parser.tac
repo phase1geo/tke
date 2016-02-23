@@ -230,11 +230,26 @@ proc emmet_gen_str {format_str values} {
 
 }
 
+proc emmet_get_depth {tree node} {
+
+  set depth 0
+
+  foreach node [$tree ancestors $node] {
+    if {[$tree get $node type] ne "group"} {
+      incr depth
+    }
+  }
+
+  return $depth
+
+}
+
 proc emmet_elaborate {tree node action} {
 
   # If we are the root node, exit early
   if {$node eq "root"} {
     $::emmet_elab set root curr 0
+    $::emmet_elab set root type "group"
     return
   }
 
@@ -277,7 +292,7 @@ proc emmet_elaborate {tree node action} {
 
         # Calculate the node name
         set ename  [emmet_gen_str {*}$name]
-        set tagnum 2
+        set tagnum 1
 
         # Now that the name is elaborated, look it up and update the node, if necessary
         if {[info exists ::emmet_lookup($ename)]} {
@@ -332,7 +347,7 @@ proc emmet_generate {tree node action} {
   }
 
   # Get the node depth
-  set spaces [string repeat { } [expr ([$tree depth $node] - 1) * $::emmet_shift_width]]
+  set spaces [string repeat { } [expr [emmet_get_depth $tree $node] * $::emmet_shift_width]]
 
   # Otherwise, insert our information along with the children in the proper order
   switch [$tree get $node type] {
@@ -360,6 +375,9 @@ proc emmet_generate {tree node action} {
     }
     text {
       $tree set $node str "$spaces[$tree get $node value]"
+    }
+    group {
+      $tree set $node str "[join $child_strs \n]"
     }
   }
 
@@ -390,42 +408,36 @@ main: expression {
     ;
 
 expression: item {
-              set _ [lindex $1 0]
+              set _ $1
             }
           | expression CHILD item {
-              foreach node $3 {
-                $::emmet_dom move $1 end $node
-                if {[$::emmet_dom keyexists $node name] && ([$::emmet_dom get $node name] eq "")} {
-                  switch [lindex [$::emmet_dom get $1 name] 0] {
-                    em       { $::emmet_dom set $node name [list "span" {}] }
-                    table -
-                    tbody -
-                    thead -
-                    tfoot    { $::emmet_dom set $node name [list "tr" {}] }
-                    tr       { $::emmet_dom set $node name [list "td" {}] }
-                    ul -
-                    ol       { $::emmet_dom set $node name [list "li" {}] }
-                    select -
-                    optgroup { $::emmet_dom set $node name [list "option" {}] }
-                    default  { $::emmet_dom set $node name [list "div" {}] }
-                  }
+              $::emmet_dom move $1 end $3
+              if {[$::emmet_dom keyexists $3 name] && ([$::emmet_dom get $3 name] eq "")} {
+                switch [lindex [$::emmet_dom get $1 name] 0] {
+                  em       { $::emmet_dom set $3 name [list "span" {}] }
+                  table -
+                  tbody -
+                  thead -
+                  tfoot    { $::emmet_dom set $3 name [list "tr" {}] }
+                  tr       { $::emmet_dom set $3 name [list "td" {}] }
+                  ul -
+                  ol       { $::emmet_dom set $3 name [list "li" {}] }
+                  select -
+                  optgroup { $::emmet_dom set $3 name [list "option" {}] }
+                  default  { $::emmet_dom set $3 name [list "div" {}] }
                 }
               }
-              set _ [lindex $3 0]
+              set _ $3
             }
           | expression SIBLING item {
-              foreach node $3 {
-                $::emmet_dom move [$::emmet_dom parent $1] end $node
-              }
-              set _ [lindex $3 0]
+              $::emmet_dom move [$::emmet_dom parent $1] end $3
+              set _ $3
             }
           | expression CLIMB item {
-              foreach node $3 {
-                set ancestors [$::emmet_dom ancestors $1]
-                set parent    [lindex $ancestors [string length $2]]
-                $::emmet_dom move $parent end $node
-              }
-              set _ [lindex $3 0]
+              set ancestors [$::emmet_dom ancestors $1]
+              set parent    [lindex $ancestors [string length $2]]
+              $::emmet_dom move $parent end $3
+              set _ $3
             }
           ;
 
@@ -468,13 +480,11 @@ item: IDENTIFIER attrs_opt multiply_opt {
         set _ $node
       }
     | OPEN_GROUP expression CLOSE_GROUP multiply_opt {
-        set nodes    [list]
-        set children [$::emmet_dom children root]
-        for {set i $1} {$i < [llength $children]} {incr i} {
-          lappend nodes [set node [lindex $children $i]]
-          $::emmet_dom set $node multiplier $4
-        }
-        set _ $nodes
+        set node [$::emmet_dom insert root end]
+        $::emmet_dom set $node type       "group"
+        $::emmet_dom set $node multiplier $4
+        $::emmet_dom move $node end {*}[lrange [$::emmet_dom children root] $1 end-1]
+        set _ $node
       }
     ;
 

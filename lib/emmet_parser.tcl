@@ -229,11 +229,26 @@ proc emmet_gen_str {format_str values} {
 
 }
 
+proc emmet_get_depth {tree node} {
+
+  set depth 0
+
+  foreach node [$tree ancestors $node] {
+    if {[$tree get $node type] ne "group"} {
+      incr depth
+    }
+  }
+
+  return $depth
+
+}
+
 proc emmet_elaborate {tree node action} {
 
   # If we are the root node, exit early
   if {$node eq "root"} {
     $::emmet_elab set root curr 0
+    $::emmet_elab set root type "group"
     return
   }
 
@@ -276,7 +291,7 @@ proc emmet_elaborate {tree node action} {
 
         # Calculate the node name
         set ename  [emmet_gen_str {*}$name]
-        set tagnum 2
+        set tagnum 1
 
         # Now that the name is elaborated, look it up and update the node, if necessary
         if {[info exists ::emmet_lookup($ename)]} {
@@ -331,7 +346,7 @@ proc emmet_generate {tree node action} {
   }
 
   # Get the node depth
-  set spaces [string repeat { } [expr ([$tree depth $node] - 1) * $::emmet_shift_width]]
+  set spaces [string repeat { } [expr [emmet_get_depth $tree $node] * $::emmet_shift_width]]
 
   # Otherwise, insert our information along with the children in the proper order
   switch [$tree get $node type] {
@@ -359,6 +374,9 @@ proc emmet_generate {tree node action} {
     }
     text {
       $tree set $node str "$spaces[$tree get $node value]"
+    }
+    group {
+      $tree set $node str "[join $child_strs \n]"
     }
   }
 
@@ -972,31 +990,31 @@ array set ::emmet_rules {
 }
 
 array set ::emmet_rules {
-  13,line 492
-  25,line 536
-  7,line 453
-  10,line 479
-  22,line 525
-  4,line 422
-  18,line 509
-  1,line 390
-  15,line 498
-  9,line 470
-  12,line 487
-  24,line 533
-  6,line 442
-  21,line 520
-  3,line 416
-  17,line 506
-  14,line 495
-  8,line 463
-  11,line 484
-  23,line 528
-  5,line 430
-  20,line 517
-  19,line 514
-  2,line 395
-  16,line 501
+  13,line 502
+  25,line 546
+  7,line 465
+  10,line 489
+  22,line 535
+  4,line 436
+  18,line 519
+  1,line 408
+  15,line 508
+  9,line 482
+  12,line 497
+  24,line 543
+  6,line 454
+  21,line 530
+  3,line 432
+  17,line 516
+  14,line 505
+  8,line 475
+  11,line 494
+  23,line 538
+  5,line 442
+  20,line 527
+  19,line 524
+  2,line 413
+  16,line 511
 }
 
 proc emmet_parse {} {
@@ -1061,42 +1079,36 @@ proc emmet_parse {} {
         set ::emmet_value [emmet_generate_html]
        }
                     2 { 
-              set _ [lindex $1 0]
+              set _ $1
              }
                     3 { 
-              foreach node $3 {
-                $::emmet_dom move $1 end $node
-                if {[$::emmet_dom keyexists $node name] && ([$::emmet_dom get $node name] eq "")} {
-                  switch [lindex [$::emmet_dom get $1 name] 0] {
-                    em       { $::emmet_dom set $node name [list "span" {}] }
-                    table -
-                    tbody -
-                    thead -
-                    tfoot    { $::emmet_dom set $node name [list "tr" {}] }
-                    tr       { $::emmet_dom set $node name [list "td" {}] }
-                    ul -
-                    ol       { $::emmet_dom set $node name [list "li" {}] }
-                    select -
-                    optgroup { $::emmet_dom set $node name [list "option" {}] }
-                    default  { $::emmet_dom set $node name [list "div" {}] }
-                  }
+              $::emmet_dom move $1 end $3
+              if {[$::emmet_dom keyexists $3 name] && ([$::emmet_dom get $3 name] eq "")} {
+                switch [lindex [$::emmet_dom get $1 name] 0] {
+                  em       { $::emmet_dom set $3 name [list "span" {}] }
+                  table -
+                  tbody -
+                  thead -
+                  tfoot    { $::emmet_dom set $3 name [list "tr" {}] }
+                  tr       { $::emmet_dom set $3 name [list "td" {}] }
+                  ul -
+                  ol       { $::emmet_dom set $3 name [list "li" {}] }
+                  select -
+                  optgroup { $::emmet_dom set $3 name [list "option" {}] }
+                  default  { $::emmet_dom set $3 name [list "div" {}] }
                 }
               }
-              set _ [lindex $3 0]
+              set _ $3
              }
                     4 { 
-              foreach node $3 {
-                $::emmet_dom move [$::emmet_dom parent $1] end $node
-              }
-              set _ [lindex $3 0]
+              $::emmet_dom move [$::emmet_dom parent $1] end $3
+              set _ $3
              }
                     5 { 
-              foreach node $3 {
-                set ancestors [$::emmet_dom ancestors $1]
-                set parent    [lindex $ancestors [string length $2]]
-                $::emmet_dom move $parent end $node
-              }
-              set _ [lindex $3 0]
+              set ancestors [$::emmet_dom ancestors $1]
+              set parent    [lindex $ancestors [string length $2]]
+              $::emmet_dom move $parent end $3
+              set _ $3
              }
                     6 { 
         set node [$::emmet_dom insert root end]
@@ -1137,13 +1149,11 @@ proc emmet_parse {} {
         set _ $node
        }
                     10 { 
-        set nodes    [list]
-        set children [$::emmet_dom children root]
-        for {set i $1} {$i < [llength $children]} {incr i} {
-          lappend nodes [set node [lindex $children $i]]
-          $::emmet_dom set $node multiplier $4
-        }
-        set _ $nodes
+        set node [$::emmet_dom insert root end]
+        $::emmet_dom set $node type       "group"
+        $::emmet_dom set $node multiplier $4
+        $::emmet_dom move $node end {*}[lrange [$::emmet_dom children root] $1 end-1]
+        set _ $node
        }
                     11 { 
                 set _ $2
