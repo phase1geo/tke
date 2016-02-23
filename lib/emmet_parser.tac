@@ -168,6 +168,46 @@ array set emmet_lookup {
   !!!xs                {!DOCTYPE   2 {html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"}}
   !!!xxs               {!DOCTYPE   2 {html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"}}
   c                    {!--        2 {${child} --}}
+
+  # XSLT
+  tm                   {xsl:template        1 {match "" mode ""}}
+  tmatch               {xsl:template        1 {match "" mode ""}}
+  tn                   {xsl:template        1 {name ""}}
+  tname                {xsl:template        1 {name ""}}
+  call                 {xsl:call-template   0 {name ""}}
+  ap                   {xsl:apply-templates 0 {select "" mode ""}}
+  api                  {xsl:apply-imports   0 {}}
+  imp                  {xsl:import          0 {href ""}}
+  inc                  {xsl:include         0 {href ""}}
+  ch                   {xsl:choose          1 {}}
+  xsl:when             {xsl:when            1 {test ""}}
+  wh                   {xsl:when            1 {test ""}}
+  ot                   {xsl:otherwise       1 {}}
+  if                   {xsl:if              1 {test ""}}
+  par                  {xsl:param           1 {name ""}}
+  pare                 {xsl:param           0 {name "" select ""}}
+  var                  {xsl:variable        1 {name ""}}
+  vare                 {xsl:variable        0 {name "" select ""}}
+  wp                   {xsl:with-param      0 {name "" select ""}}
+  key                  {xsl:key             0 {name "" match "" use ""}}
+  elem                 {xsl:element         1 {name ""}}
+  attr                 {xsl:attribute       1 {name ""}}
+  attrs                {xsl:attribute-set   1 {name ""}}
+  cp                   {xsl:copy            0 {select ""}}
+  co                   {xsl:copy-of         0 {select ""}}
+  val                  {xsl:value-of        0 {select ""}}
+  each                 {xsl:for-each        1 {select ""}}
+  for                  {xsl:for-each        1 {select ""}}
+  tex                  {xsl:text            1 {}}
+  com                  {xsl:comment         1 {}}
+  msg                  {xsl:message         1 {terminate "no"}}
+  fall                 {xsl:fallback        1 {}}
+  num                  {xsl:number          0 {value ""}}
+  nam                  {namespace-alias     0 {stylesheet-prefix "" result-prefix ""}}
+  pres                 {xsl:preserve-space  0 {elements ""}}
+  strip                {xsl:strip-space     0 {elements ""}}
+  proc                 {xsl:processing-instruction 1 {name ""}}
+  sort                 {xsl:sort                   0 {select ""}}
 }
 
 proc emmet_is_curr {tree node} {
@@ -308,6 +348,8 @@ proc emmet_generate {tree node action} {
       }
       if {$tagnum == 0} {
         $tree set $node str "$spaces<$name$attr_str />$value"
+      } elseif {$tagnum == 2} {
+        $tree set $node str "$spaces<$name$attr_str>$value"
       } elseif {[llength $child_strs] == 0} {
         $tree set $node str "$spaces<$name$attr_str>$value</$name>"
       } else {

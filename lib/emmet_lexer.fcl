@@ -71,7 +71,7 @@ proc emmet_get_item_name {str} {
   incr ::emmet_endpos [string length $emmet_text]
 }
 
-[a-zA-Z$][a-zA-Z0-9:!@$-]* {
+[a-zA-Z$!][a-zA-Z0-9:!@$-]* {
   set ::emmet_lval [emmet_get_item_name $emmet_text]
   set ::emmet_begpos $::emmet_endpos
   incr ::emmet_endpos [string length $emmet_text]
