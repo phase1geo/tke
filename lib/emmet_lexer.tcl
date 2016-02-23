@@ -31,28 +31,31 @@ proc emmet_get_item_name {str} {
 
   while {[set index [string first \$ $str]] != -1} {
     append formatted_str [string range $str 0 [expr $index - 1]]
-    regexp {^($+)(@(-)?(\d*))?(.*)$} [string range $str $index end] -> numbering dummy reverse start rest
+    regexp {^(\$+)(@(-)?(\d*))?(.*)$} [string range $str $index end] match numbering dummy reverse start rest
     append formatted_str "%0[string length $numbering]d"
     if {$dummy ne ""} {
       if {$reverse ne ""} {
         if {$start ne ""} {
-          lappend values [list expr (\$max - \$curr) + $start]
+          lappend values [list expr (\$::emmet_max - \$::emmet_curr) + ($start - 1)]
         } else {
-          lappend values [list expr (\$max - \$curr) + 1]
+          lappend values [list expr \$::emmet_max - \$::emmet_curr]
         }
       } else {
         if {$start ne ""} {
-          lappend values [list expr \$curr + $start]
+          lappend values [list expr \$::emmet_curr + $start]
         } else {
-          lappend values [list expr \$curr + 1]
+          lappend values [list expr \$::emmet_curr + 1]
         }
       }
+    } else {
+      lappend values [list expr \$::emmet_curr + 1]
     }
+    set str [string range $str [expr $index + [string length $match]] end]
   }
 
   append formatted_str $str
 
-  return [list $formatted_str {*}$values]
+  return [list $formatted_str $values]
 
 }
 
@@ -463,7 +466,7 @@ set ::emmet_lval $emmet_text
   return $::CLIMB
             }
             6 {
-set ::emmet_lval $emmet_text
+set ::emmet_lval [llength [$::emmet_dom children root]]
   set ::emmet_begpos $::emmet_endpos
   incr ::emmet_endpos
   return $::OPEN_GROUP
