@@ -32,7 +32,9 @@ foreach str [list "nav>ul>li" \
                   "ul>li.item$$$*6" \
                   "h$\[title=item$\]{Header $}*3" \
                   "!!!4t" \
-                  "proc" \
+                  "html>(head>meta\[charset=UTF-8\]+title{Document})+body" \
+                  "doc" \
+                  "xsl" \
                   ] {
   puts "str: $str\n"
   puts [parse_emmet $str]

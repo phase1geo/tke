@@ -37,6 +37,8 @@ set emmet_curr        0
 set emmet_start       1
 
 array set emmet_lookup {
+
+  # HTML
   a                    {a          1 {href ""}}
   a:link               {a          1 {href "http://"}}
   a:mail               {a          1 {href "mailto:"}}
