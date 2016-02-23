@@ -46,6 +46,8 @@ array set emmet_block_aliases {
   select+   {select>option}
   optgroup+ {optgroup>option}
   optg+     {optgroup>option}
+  
+  # CSS
 
   # XSLT
   choose+   {xml:choose>xsl:when+xsl:otherwise}

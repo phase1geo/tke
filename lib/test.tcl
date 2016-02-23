@@ -258,6 +258,80 @@ foreach {str expect} {
 </xml:choose>
 <foobar></foobar>}
 
+  {#page>div.logo+ul#navigation>li*5>a{Item $}}
+  
+{<div id="page">
+  <div class="logo"></div>
+  <ul id="navigation">
+    <li>
+      <a href="">Item 1</a>
+    </li>
+    <li>
+      <a href="">Item 2</a>
+    </li>
+    <li>
+      <a href="">Item 3</a>
+    </li>
+    <li>
+      <a href="">Item 4</a>
+    </li>
+    <li>
+      <a href="">Item 5</a>
+    </li>
+  </ul>
+</div>}
+
+  {nav#menuSystem.navMenu.isOpen>div#hotelLogo>div.navMenuIcon.logoIcon+div#arrowPointer+ul#navMenuMain>li.navMenuItem.navMenuItem$$$*10>div.navMenuIcon{Item $}+a{Item $}}
+  
+{<nav id="menuSystem" class="isOpen navMenu">
+  <div id="hotelLogo">
+    <div class="logoIcon navMenuIcon"></div>
+    <div id="arrowPointer"></div>
+    <ul id="navMenuMain">
+      <li class="navMenuItem001 navMenuItem">
+        <div class="navMenuIcon">Item 1</div>
+        <a href="">Item 1</a>
+      </li>
+      <li class="navMenuItem002 navMenuItem">
+        <div class="navMenuIcon">Item 2</div>
+        <a href="">Item 2</a>
+      </li>
+      <li class="navMenuItem003 navMenuItem">
+        <div class="navMenuIcon">Item 3</div>
+        <a href="">Item 3</a>
+      </li>
+      <li class="navMenuItem004 navMenuItem">
+        <div class="navMenuIcon">Item 4</div>
+        <a href="">Item 4</a>
+      </li>
+      <li class="navMenuItem005 navMenuItem">
+        <div class="navMenuIcon">Item 5</div>
+        <a href="">Item 5</a>
+      </li>
+      <li class="navMenuItem006 navMenuItem">
+        <div class="navMenuIcon">Item 6</div>
+        <a href="">Item 6</a>
+      </li>
+      <li class="navMenuItem007 navMenuItem">
+        <div class="navMenuIcon">Item 7</div>
+        <a href="">Item 7</a>
+      </li>
+      <li class="navMenuItem008 navMenuItem">
+        <div class="navMenuIcon">Item 8</div>
+        <a href="">Item 8</a>
+      </li>
+      <li class="navMenuItem009 navMenuItem">
+        <div class="navMenuIcon">Item 9</div>
+        <a href="">Item 9</a>
+      </li>
+      <li class="navMenuItem010 navMenuItem">
+        <div class="navMenuIcon">Item 10</div>
+        <a href="">Item 10</a>
+      </li>
+    </ul>
+  </div>
+</nav>}
+
 } {
   
   set actual [parse_emmet $str]
@@ -268,8 +342,8 @@ foreach {str expect} {
   if {$expect ne $actual} {
     puts "-------------------"
     puts "ERROR:  $str\n"
-    puts "Actual ([string length $actual]):\n([string map {{ } {_}} $actual])\n"
-    puts "Expect ([string length $expect]):\n([string map {{ } {_}} $expect])"
+    puts "Actual ([string length $actual]):\n($actual)\n"
+    puts "Expect ([string length $expect]):\n($expect)"
     incr fail_cnt
   }
   
