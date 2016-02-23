@@ -36,6 +36,8 @@ set emmet_curr        0
 set emmet_start       1
 
 array set emmet_lookup {
+
+  # HTML
   a                    {a          1 {href ""}}
   a:link               {a          1 {href "http://"}}
   a:mail               {a          1 {href "mailto:"}}
@@ -970,31 +972,31 @@ array set ::emmet_rules {
 }
 
 array set ::emmet_rules {
-  13,line 490
-  25,line 534
-  7,line 451
-  10,line 477
-  22,line 523
-  4,line 420
-  18,line 507
-  1,line 388
-  15,line 496
-  9,line 468
-  12,line 485
-  24,line 531
-  6,line 440
-  21,line 518
-  3,line 414
-  17,line 504
-  14,line 493
-  8,line 461
-  11,line 482
-  23,line 526
-  5,line 428
-  20,line 515
-  19,line 512
-  2,line 393
-  16,line 499
+  13,line 492
+  25,line 536
+  7,line 453
+  10,line 479
+  22,line 525
+  4,line 422
+  18,line 509
+  1,line 390
+  15,line 498
+  9,line 470
+  12,line 487
+  24,line 533
+  6,line 442
+  21,line 520
+  3,line 416
+  17,line 506
+  14,line 495
+  8,line 463
+  11,line 484
+  23,line 528
+  5,line 430
+  20,line 517
+  19,line 514
+  2,line 395
+  16,line 501
 }
 
 proc emmet_parse {} {
