@@ -31,6 +31,8 @@ foreach str [list "nav>ul>li" \
                   "(div>dl>(dt+dd)*3)+foobar>p" \
                   "ul>li.item$$$*6" \
                   "h$\[title=item$\]{Header $}*3" \
+                  "!!!4t" \
+                  "proc" \
                   ] {
   puts "str: $str\n"
   puts [parse_emmet $str]
