@@ -170,44 +170,47 @@ array set emmet_lookup {
   !!!xs                {!DOCTYPE   2 {html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"}}
   !!!xxs               {!DOCTYPE   2 {html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"}}
   c                    {!--        2 {${child} --}}
+  
+  # CSS
+  
 
   # XSLT
-  tm                   {xsl:template        1 {match "" mode ""}}
-  tmatch               {xsl:template        1 {match "" mode ""}}
-  tn                   {xsl:template        1 {name ""}}
-  tname                {xsl:template        1 {name ""}}
-  call                 {xsl:call-template   0 {name ""}}
-  ap                   {xsl:apply-templates 0 {select "" mode ""}}
-  api                  {xsl:apply-imports   0 {}}
-  imp                  {xsl:import          0 {href ""}}
-  inc                  {xsl:include         0 {href ""}}
-  ch                   {xsl:choose          1 {}}
-  xsl:when             {xsl:when            1 {test ""}}
-  wh                   {xsl:when            1 {test ""}}
-  ot                   {xsl:otherwise       1 {}}
-  if                   {xsl:if              1 {test ""}}
-  par                  {xsl:param           1 {name ""}}
-  pare                 {xsl:param           0 {name "" select ""}}
-  var                  {xsl:variable        1 {name ""}}
-  vare                 {xsl:variable        0 {name "" select ""}}
-  wp                   {xsl:with-param      0 {name "" select ""}}
-  key                  {xsl:key             0 {name "" match "" use ""}}
-  elem                 {xsl:element         1 {name ""}}
-  attr                 {xsl:attribute       1 {name ""}}
-  attrs                {xsl:attribute-set   1 {name ""}}
-  cp                   {xsl:copy            0 {select ""}}
-  co                   {xsl:copy-of         0 {select ""}}
-  val                  {xsl:value-of        0 {select ""}}
-  each                 {xsl:for-each        1 {select ""}}
-  for                  {xsl:for-each        1 {select ""}}
-  tex                  {xsl:text            1 {}}
-  com                  {xsl:comment         1 {}}
-  msg                  {xsl:message         1 {terminate "no"}}
-  fall                 {xsl:fallback        1 {}}
-  num                  {xsl:number          0 {value ""}}
-  nam                  {namespace-alias     0 {stylesheet-prefix "" result-prefix ""}}
-  pres                 {xsl:preserve-space  0 {elements ""}}
-  strip                {xsl:strip-space     0 {elements ""}}
+  tm                   {xsl:template               1 {match "" mode ""}}
+  tmatch               {xsl:template               1 {match "" mode ""}}
+  tn                   {xsl:template               1 {name ""}}
+  tname                {xsl:template               1 {name ""}}
+  call                 {xsl:call-template          0 {name ""}}
+  ap                   {xsl:apply-templates        0 {select "" mode ""}}
+  api                  {xsl:apply-imports          0 {}}
+  imp                  {xsl:import                 0 {href ""}}
+  inc                  {xsl:include                0 {href ""}}
+  ch                   {xsl:choose                 1 {}}
+  xsl:when             {xsl:when                   1 {test ""}}
+  wh                   {xsl:when                   1 {test ""}}
+  ot                   {xsl:otherwise              1 {}}
+  if                   {xsl:if                     1 {test ""}}
+  par                  {xsl:param                  1 {name ""}}
+  pare                 {xsl:param                  0 {name "" select ""}}
+  var                  {xsl:variable               1 {name ""}}
+  vare                 {xsl:variable               0 {name "" select ""}}
+  wp                   {xsl:with-param             0 {name "" select ""}}
+  key                  {xsl:key                    0 {name "" match "" use ""}}
+  elem                 {xsl:element                1 {name ""}}
+  attr                 {xsl:attribute              1 {name ""}}
+  attrs                {xsl:attribute-set          1 {name ""}}
+  cp                   {xsl:copy                   0 {select ""}}
+  co                   {xsl:copy-of                0 {select ""}}
+  val                  {xsl:value-of               0 {select ""}}
+  each                 {xsl:for-each               1 {select ""}}
+  for                  {xsl:for-each               1 {select ""}}
+  tex                  {xsl:text                   1 {}}
+  com                  {xsl:comment                1 {}}
+  msg                  {xsl:message                1 {terminate "no"}}
+  fall                 {xsl:fallback               1 {}}
+  num                  {xsl:number                 0 {value ""}}
+  nam                  {namespace-alias            0 {stylesheet-prefix "" result-prefix ""}}
+  pres                 {xsl:preserve-space         0 {elements ""}}
+  strip                {xsl:strip-space            0 {elements ""}}
   proc                 {xsl:processing-instruction 1 {name ""}}
   sort                 {xsl:sort                   0 {select ""}}
 }
@@ -231,17 +234,17 @@ proc emmet_gen_str {format_str values} {
 }
 
 proc emmet_get_depth {tree node} {
-
+  
   set depth 0
-
+  
   foreach node [$tree ancestors $node] {
     if {[$tree get $node type] ne "group"} {
       incr depth
     }
   }
-
+  
   return $depth
-
+  
 }
 
 proc emmet_elaborate {tree node action} {
@@ -260,7 +263,7 @@ proc emmet_elaborate {tree node action} {
     if {![$::emmet_elab keyexists $parent curr] || ([$tree depth $node] != [expr [$::emmet_elab depth $parent] + 1])} {
       continue
     }
-
+    
     # Get the parent's current value
     set curr [$::emmet_elab get $parent curr]
 
@@ -284,7 +287,7 @@ proc emmet_elaborate {tree node action} {
       }
 
       if {[set type [$tree get $node type]] eq "ident"} {
-
+        
         # If we have an implictly specified type that hasn't been handled yet, it will be a div
         if {[set name [$tree get $node name]] eq ""} {
           set name [list "div" {}]
@@ -332,7 +335,7 @@ proc emmet_elaborate {tree node action} {
 }
 
 proc emmet_generate {tree node action} {
-
+  
   # Gather the children string values
   set child_strs [list]
   foreach child [$tree children $node] {
@@ -380,7 +383,7 @@ proc emmet_generate {tree node action} {
       $tree set $node str "[join $child_strs \n]"
     }
   }
-
+  
 }
 
 proc emmet_generate_html {} {
@@ -390,7 +393,7 @@ proc emmet_generate_html {} {
 
   # Generate the code
   $::emmet_elab walkproc root -order post -type dfs emmet_generate
-
+  
   return [$::emmet_elab get root "str"]
 
 }
