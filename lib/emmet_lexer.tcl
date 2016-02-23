@@ -31,9 +31,9 @@ array set emmet_block_aliases {
   doc4      {html>(head>meta[http-equiv="Content-Type" content="text/html;charset=${charset}"]+title{Document})+body}
   html:4t   {!!!4t+doc4[lang=en]}
   html:4s   {!!!4s+doc4[lang=en]}
-  html:xt   {!!!xt+doc4[xmlns=http://www.w3.org/1999/xhtml xml:lang=en]}
-  html:xs   {!!!xs+doc4[xmlns=http://www.w3.org/1999/xhtml xml:lang=en]}
-  html:xxs  {!!!xxs+doc4[xmlns=http://www.w3.org/1999/xhtml xml:lang=en]}
+  html:xt   {!!!xt+doc4[xmlns="http://www.w3.org/1999/xhtml" xml:lang=en]}
+  html:xs   {!!!xs+doc4[xmlns="http://www.w3.org/1999/xhtml" xml:lang=en]}
+  html:xxs  {!!!xxs+doc4[xmlns="http://www.w3.org/1999/xhtml" xml:lang=en]}
   html:5    {!!!+doc[lang=en]}
   ol+       {ol>li}
   dl+       {dl>dt+dd}
@@ -48,7 +48,7 @@ array set emmet_block_aliases {
 
   # XSLT
   choose+   {xml:choose>xsl:when+xsl:otherwise}
-  xsl       {!!!+xsl:stylesheet[version=1.0 xmlns:xsl=http://www.w3.org/1999/XSL/Transform]}
+  xsl       {xsl:stylesheet[version=1.0 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"]}
 }
 
 proc emmet_get_item_name {str} {
@@ -311,17 +311,17 @@ proc emmet_lex {} {
             set ::emmet_leng [string length $::emmet_text]
             set emmet__matched_rule 0
         }
-        # rule 1: [a-zA-Z$!][a-zA-Z0-9:!@$-]*
+        # rule 1: [a-zA-Z$!][a-zA-Z0-9:!@$-]*\+?
         if {$::emmet__state_table($emmet__current_state) && \
-                [regexp -start $::emmet__index -indices -line  -- {\A([a-zA-Z$!][a-zA-Z0-9:!@$-]*)} $::emmet__buffer emmet__match] > 0 && \
+                [regexp -start $::emmet__index -indices -line  -- {\A([a-zA-Z$!][a-zA-Z0-9:!@$-]*\+?)} $::emmet__buffer emmet__match] > 0 && \
                 [lindex $emmet__match 1] - $::emmet__index + 1 > $::emmet_leng} {
             set ::emmet_text [string range $::emmet__buffer $::emmet__index [lindex $emmet__match 1]]
             set ::emmet_leng [string length $::emmet_text]
             set emmet__matched_rule 1
         }
-        # rule 2: [1-9][0-9]*
+        # rule 2: [1-9][0-9.]*
         if {$::emmet__state_table($emmet__current_state) && \
-                [regexp -start $::emmet__index -indices -line  -- {\A([1-9][0-9]*)} $::emmet__buffer emmet__match] > 0 && \
+                [regexp -start $::emmet__index -indices -line  -- {\A([1-9][0-9.]*)} $::emmet__buffer emmet__match] > 0 && \
                 [lindex $emmet__match 1] - $::emmet__index + 1 > $::emmet_leng} {
             set ::emmet_text [string range $::emmet__buffer $::emmet__index [lindex $emmet__match 1]]
             set ::emmet_leng [string length $::emmet_text]
@@ -466,6 +466,10 @@ set ::emmet_begpos $::emmet_endpos
 if {[info exists ::emmet_block_aliases($emmet_text)]} {
     unput $::emmet_block_aliases($emmet_text)
   } else {
+    if {[string index $emmet_text end] eq "+"} {
+      unput "+"
+      set emmet_text [string range $emmet_text 0 end-1]
+    }
     set ::emmet_lval [emmet_get_item_name $emmet_text]
     set ::emmet_begpos $::emmet_endpos
     incr ::emmet_endpos [string length $emmet_text]
