@@ -31,6 +31,9 @@ set emmet_errmsg      ""
 set emmet_errstr      ""
 set emmet_shift_width 2
 set emmet_item_id     0
+set emmet_max         1
+set emmet_curr        0
+set emmet_start       1
 
 array set emmet_lookup {
   a                    {a          1 {href ""}}
@@ -166,220 +169,104 @@ array set emmet_lookup {
   c                    {!--        2 {${child} --}}
 }
 
-proc emmet_do_lookup {name} {
+proc emmet_is_curr {tree node} {
 
-  if {[info exists ::emmet_lookup($name)]} {
-    return $::emmet_lookup($name)
-  } else {
-    return [list $name 1 {}]
-  }
+  return [$tree keyexists $node curr]
 
 }
 
-proc apply_multiplier {items multiplier} {
+proc emmet_gen_str {format_str values} {
 
-  # Get the last item of the list (the multiplier will be applied to it)
-  set last_item [lindex $items end]
+  set vals [list]
 
-  # Make all of the items siblings of each other
-  set last_item [join [lrepeat $multiplier [list $last_item]] " sibling "]
-
-  # Atomize the last item
-  set last_item [emmet_atomize_html $last_item]
-
-  # Add the new items to the end of the list
-  set items [lreplace $items end end]
-  lappend items $last_item
-
-  return $items
-
-}
-
-proc emmet_insert_attr {plines pstack attr {value ""}} {
-
-  upvar $plines lines
-  upvar $pstack stack
-
-  # Get the last index in the stack
-  set index [lindex $stack end]
-
-  # Get the list of existing attributes for the item at the given index
-  set attrs [lindex $lines $index 4]
-
-  if {[llength $attrs] == 0 } {
-    set attrs "$attr=\"$value\""
-  } elseif {[set i [lsearch $attrs $attr=*]] == -1} {
-    lappend attrs "$attr=\"$value\""
-  } elseif {[regexp {^.*="(.*)"$} [lindex $attrs $i] -> values]} {
-    if {$values eq ""} {
-      lset attrs $i "$attr=\"$value\""
-    } else {
-      lset attrs $i "$attr=\"$values $value\""
-    }
+  foreach value $values {
+    lappend vals [eval {*}$value]
   }
 
-  # Put the attributes back
-  lset lines $index 4 $attrs
-
-}
-
-proc emmet_atomize_html {items} {
-
-  set lines       [list]
-  set index       0
-  set indent      0
-  set item_count  0
-  set ident_stack [list]
-  set last_rel    ""
-
-  foreach item $items {
-    set data [lassign $item type]
-    switch $type {
-      id {
-        if {[llength $ident_stack] == 0} {
-          # TBD
-        } else {
-          emmet_insert_attr lines ident_stack "id" $data
-        }
-      }
-      class {
-        if {[llength $ident_stack] == 0} {
-          # TBD
-        } else {
-          emmet_insert_attr lines ident_stack "class" $data
-        }
-      }
-      attrs {
-        if {[llength $ident_stack] == 0} {
-          # TBD
-        } else {
-          foreach {attr val} {*}$data {
-            emmet_insert_attr lines ident_stack $attr $val
-          }
-        }
-      }
-      ident {
-        lassign [emmet_do_lookup [lindex $data 0]] tag tag_type attrs
-        lappend ident_stack $index
-        switch $tag_type {
-          0 {
-            set lines [linsert $lines $index [list $::emmet_item_id $indent 3 $tag $attrs]]
-            incr index
-          }
-          1 {
-            set lines [linsert $lines $index [list $::emmet_item_id $indent 0 $tag $attrs] [list $::emmet_item_id $indent 1 $tag {}]]
-            incr index 2
-          }
-          2 {
-            set lines [linsert $lines $index [list $::emmet_item_id $indent 0 $tag $attrs]]
-            incr index
-          }
-        }
-        incr ::emmet_item_id
-      }
-      text {
-        set prev_item [lindex $items [expr $item_count - 1] 0]
-        set tmp_index [expr $index - 1]
-        if {($prev_item eq "child") || ($prev_item eq "sibling")} {
-          set tmp_index $index
-        }
-        set lines [linsert $lines $tmp_index [list [expr $::emmet_item_id - 1] $indent 2 {*}$data]]
-        incr index 1
-        set ident_stack [list]
-      }
-      child {
-        incr index -1
-        incr indent
-      }
-      sibling {
-        set ident_stack [list]
-      }
-      climb {
-        set indent [expr (($indent - $data) < 0) ? 0 : ($indent - $data)]
-        set index  [expr [lsearch -index 1 -start $index $lines $indent] + 1]
-        set ident_stack [list]
-      }
-      multiply {
-        # TBD
-        set ident_stack [list]
-      }
-      atom {
-        set datalen [llength $data]
-        for {set i 0} {$i < $datalen} {incr i} {
-          lset data $i 1 [expr [lindex $data $i 1] + $indent]
-        }
-        set lines [linsert $lines $index {*}$data]
-        incr index $datalen
-        set ident_stack [list]
-      }
-      default {
-        set data    [lindex [emmet_atomize_html $item] 1]
-        set datalen [llength $data]
-        for {set i 0} {$i < $datalen} {incr i} {
-          lset data $i 1 [expr [lindex $data $i 1] + $indent]
-        }
-        set lines [linsert $lines $index {*}$data]
-        incr index $datalen
-        set ident_stack [list]
-      }
-    }
-    incr item_count
-  }
-
-  return [list atom $lines]
+  return [format $format_str {*}$vals]
 
 }
 
 proc emmet_elaborate {tree node action} {
 
+  # If we are the root node, exit early
   if {$node eq "root"} {
-    $tree set $node elab root
+    $::emmet_elab set root curr 0
     return
   }
 
-  if {$action eq "enter"} {
+  set ::emmet_max [$tree get $node multiplier]
 
-    # Get the parent node in the elaborated tree
-    set elab_parent [$tree get [$tree parent $node] elab]
+  foreach parent [$::emmet_elab nodes] {
 
-    # Create a new node in the elaborated tree
-    $tree set $node elab [$::emmet_elab insert $elab_parent end]
-
-  } else {
-
-    set enode [$tree get $node elab]
-
-    if {[set type [$tree get $node type]] eq "ident"} {
-
-      set name   [$tree get $node name]
-      set tagnum 2
-
-      # If we have an implictly specified type that hasn't been handled yet, it will be a div
-      if {$name eq ""} {
-        set name "div"
-      }
-
-      # Now that the name is elaborated, look it up and update the node, if necessary
-      if {[info exists ::emmet_lookup($name)]} {
-        lassign $::emmet_lookup($name) name tagnum attrs
-        foreach {key value} $attrs {
-          $::emmet_elab set $enode attr,$key $value
-        }
-      }
-
-      $::emmet_elab set $enode name   $name
-      $::emmet_elab set $enode tagnum $tagnum
-
-      foreach attr [$tree keys $node attr,*] {
-        $::emmet_elab set $enode $attr [lindex [$tree get $node $attr] 0]
-      }
-
+    if {![$::emmet_elab keyexists $parent curr] || ([$tree depth $node] != [expr [$::emmet_elab depth $parent] + 1])} {
+      continue
     }
 
-    $::emmet_elab set $enode type $type
+    # Get the parent's current value
+    set curr [$::emmet_elab get $parent curr]
 
-    if {[$tree keyexists $node value]} {
-      $::emmet_elab set $enode value [lindex [$tree get $node value] 0]
+    # Clear the parent's current attribute
+    if {[expr [$tree index $node] + 1] == [llength [$tree children [$tree parent $node]]]} {
+      $::emmet_elab unset $parent curr
+    }
+
+    # Create a new node in the elaborated tree
+    for {set i 0} {$i < $::emmet_max} {incr i} {
+
+      # Create the new node in the elaboration tree
+      set enode [$::emmet_elab insert $parent end]
+
+      # Set the current loop value
+      set ::emmet_curr [expr ($::emmet_max == 1) ? $curr : $i]
+
+      # Set the current attribute curr
+      if {![$tree isleaf $node]} {
+        $::emmet_elab set $enode curr $::emmet_curr
+      }
+
+      if {[set type [$tree get $node type]] eq "ident"} {
+
+        # If we have an implictly specified type that hasn't been handled yet, it will be a div
+        if {[set name [$tree get $node name]] eq ""} {
+          set name [list "div" {}]
+        }
+
+        # Calculate the node name
+        set ename  [emmet_gen_str {*}$name]
+        set tagnum 2
+
+        # Now that the name is elaborated, look it up and update the node, if necessary
+        if {[info exists ::emmet_lookup($ename)]} {
+          lassign $::emmet_lookup($ename) ename tagnum attrs
+          foreach {key value} $attrs {
+            $::emmet_elab set $enode attr,$key $value
+          }
+        }
+
+        # Set the node name and tag number
+        $::emmet_elab set $enode name   $ename
+        $::emmet_elab set $enode tagnum $tagnum
+
+        # Generate the attributes
+        foreach attr [$tree keys $node attr,*] {
+          set attr_key [emmet_gen_str {*}[lindex [split $attr ,] 1]]
+          $::emmet_elab set $enode attr,$attr_key [list]
+          foreach attr_val [$tree get $node $attr] {
+            $::emmet_elab lappend $enode attr,$attr_key [emmet_gen_str {*}$attr_val]
+          }
+        }
+
+      }
+
+      # Set the node type
+      $::emmet_elab set $enode type $type
+
+      # Add the node text value, if specified
+      if {[$tree keyexists $node value]} {
+        $::emmet_elab set $enode value [emmet_gen_str {*}[$tree get $node value]]
+      }
+
     }
 
   }
@@ -415,7 +302,8 @@ proc emmet_generate {tree node action} {
         set value [$tree get $node value]
       }
       foreach attr [$tree keys $node attr,*] {
-        append attr_str " [lindex [split $attr ,] 1]=\"[$tree get $node $attr]\""
+        set attr_val [concat {*}[$tree get $node $attr]]
+        append attr_str " [lindex [split $attr ,] 1]=\"$attr_val\""
       }
       if {$tagnum == 0} {
         $tree set $node str "$spaces<$name$attr_str />$value"
@@ -426,7 +314,7 @@ proc emmet_generate {tree node action} {
       }
     }
     text {
-      $tree set $node str [$tree get $node value]
+      $tree set $node str "$spaces[$tree get $node value]"
     }
   }
 
@@ -435,7 +323,7 @@ proc emmet_generate {tree node action} {
 proc emmet_generate_html {} {
 
   # Perform the elaboration
-  $::emmet_dom walkproc root -order both -type dfs emmet_elaborate
+  $::emmet_dom walkproc root -order pre -type dfs emmet_elaborate
 
   # Generate the code
   $::emmet_elab walkproc root -order post -type dfs emmet_generate
@@ -1040,31 +928,31 @@ array set ::emmet_rules {
 }
 
 array set ::emmet_rules {
-  13,line 550
-  25,line 594
-  7,line 515
-  10,line 537
-  22,line 583
-  4,line 486
-  18,line 567
-  1,line 458
-  15,line 556
-  9,line 532
-  12,line 545
-  24,line 591
-  6,line 504
-  21,line 578
-  3,line 482
-  17,line 564
-  14,line 553
-  8,line 525
-  11,line 542
-  23,line 586
-  5,line 492
-  20,line 575
-  19,line 572
-  2,line 463
-  16,line 559
+  13,line 448
+  25,line 492
+  7,line 409
+  10,line 435
+  22,line 481
+  4,line 378
+  18,line 465
+  1,line 346
+  15,line 454
+  9,line 426
+  12,line 443
+  24,line 489
+  6,line 398
+  21,line 476
+  3,line 372
+  17,line 462
+  14,line 451
+  8,line 419
+  11,line 440
+  23,line 484
+  5,line 386
+  20,line 473
+  19,line 470
+  2,line 351
+  16,line 457
 }
 
 proc emmet_parse {} {
@@ -1129,36 +1017,42 @@ proc emmet_parse {} {
         set ::emmet_value [emmet_generate_html]
        }
                     2 { 
-              set _ $1
+              set _ [lindex $1 0]
              }
                     3 { 
-              $::emmet_dom move $1 end $3
-              if {[$::emmet_dom keyexists $3 name] && ([$::emmet_dom get $3 name] eq "")} {
-                switch [$::emmet_dom get $1 name] {
-                  em       { $::emmet_dom set $3 name "span" }
-                  table -
-                  tbody -
-                  thead -
-                  tfoot    { $::emmet_dom set $3 name "tr" }
-                  tr       { $::emmet_dom set $3 name "td" }
-                  ul -
-                  ol       { $::emmet_dom set $3 name "li" }
-                  select -
-                  optgroup { $::emmet_dom set $3 name "option" }
-                  default  { $::emmet_dom set $3 name "div" }
+              foreach node $3 {
+                $::emmet_dom move $1 end $node
+                if {[$::emmet_dom keyexists $node name] && ([$::emmet_dom get $node name] eq "")} {
+                  switch [lindex [$::emmet_dom get $1 name] 0] {
+                    em       { $::emmet_dom set $node name [list "span" {}] }
+                    table -
+                    tbody -
+                    thead -
+                    tfoot    { $::emmet_dom set $node name [list "tr" {}] }
+                    tr       { $::emmet_dom set $node name [list "td" {}] }
+                    ul -
+                    ol       { $::emmet_dom set $node name [list "li" {}] }
+                    select -
+                    optgroup { $::emmet_dom set $node name [list "option" {}] }
+                    default  { $::emmet_dom set $node name [list "div" {}] }
+                  }
                 }
               }
-              set _ $3
+              set _ [lindex $3 0]
              }
                     4 { 
-              $::emmet_dom move [$::emmet_dom parent $1] end $3
-              set _ $3
+              foreach node $3 {
+                $::emmet_dom move [$::emmet_dom parent $1] end $node
+              }
+              set _ [lindex $3 0]
              }
                     5 { 
-              set ancestors [$::emmet_dom ancestors $1]
-              set parent    [lindex $ancestors [string length $2]]
-              $::emmet_dom move $parent end $3
-              set _ $3
+              foreach node $3 {
+                set ancestors [$::emmet_dom ancestors $1]
+                set parent    [lindex $ancestors [string length $2]]
+                $::emmet_dom move $parent end $node
+              }
+              set _ [lindex $3 0]
              }
                     6 { 
         set node [$::emmet_dom insert root end]
@@ -1199,9 +1093,13 @@ proc emmet_parse {} {
         set _ $node
        }
                     10 { 
-        set node [lindex [$::emmet_dom ancestors $2] end-1]
-        $::emmet_dom set $node multiplier $4
-        set _ $node
+        set nodes    [list]
+        set children [$::emmet_dom children root]
+        for {set i $1} {$i < [llength $children]} {incr i} {
+          lappend nodes [set node [lindex $children $i]]
+          $::emmet_dom set $node multiplier $4
+        }
+        set _ $nodes
        }
                     11 { 
                 set _ $2
@@ -1213,13 +1111,13 @@ proc emmet_parse {} {
              set _ [list $1 $3]
             }
                     14 { 
-             set _ [list $1 $3]
+             set _ [list $1 [list $3 {}]]
             }
                     15 { 
              set _ [list $1 $3]
             }
                     16 { 
-             set _ [list $1]
+             set _ [list $1 [list {} {}]]
             }
                     17 { 
               set _ $1
@@ -1231,10 +1129,10 @@ proc emmet_parse {} {
         set _ $2
        }
                     20 { 
-        set _ [list id $2]
+        set _ [list [list id {}] $2]
        }
                     21 { 
-        set _ [list class $2]
+        set _ [list [list class {}] $2]
        }
                     22 { 
          set _ $1
