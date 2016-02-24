@@ -154,6 +154,15 @@ namespace eval templates {
   proc delete {name args} {
 
     variable data
+    
+    # Confirm the deletion
+    set answer [tk_messageBox -parent . -icon question -message [msgcat::mc "Delete template?"] \
+      -detail [format "%s %s" $name [msgcat::mc "will be permanently deleted"]] -type yesno -default yes]
+    
+    # If we are told not to delete, exit this procedure now
+    if {$answer eq "no"} {
+      return
+    }
 
     # Delete the file
     if {[catch { file delete -force [get_pathname $name] } rc]} {
