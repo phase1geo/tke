@@ -334,12 +334,12 @@ foreach {str expect} {
 
 } {
   
-  if {[catch { emmet_parse $str } actual]} {
+  if {[catch { parse_emmet $str } actual]} {
     puts "ERROR: "
     puts $str
     puts $::emmet_errstr
     puts $::emmet_errmsg
-    puts "rc: $rc"
+    puts "rc: $actual"
     puts "$::errorInfo"
     exit 1
   }
