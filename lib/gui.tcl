@@ -559,7 +559,7 @@ namespace eval gui {
     variable file_favorited
 
     # Get the current information
-    lassign [get_info {} current {fileindex fname readonly lock diff tabbar}] file_index fname readonly file_locked diff_mode tb
+    lassign [get_info {} current {fileindex txt fname readonly lock diff tabbar}] file_index txt fname readonly file_locked diff_mode tb
 
     # Set the file_favorited variable
     set file_favorited [[ns favorites]::is_favorite $fname]
@@ -587,6 +587,9 @@ namespace eval gui {
       $widgets(menu) entryconfigure [msgcat::mc "Show in Sidebar"] -state normal
       $widgets(menu) entryconfigure [msgcat::mc "Favorited"]       -state [expr {$diff_mode ? "disabled" : "normal"}]
     }
+    
+    # Make the split pane indicator look correct
+    set [ns menus]::show_split_pane [expr {[llength [$txt peer names]] > 0}]
 
     # Handle plugin states
     [ns plugins]::menu_state $widgets(menu) tab_popup
