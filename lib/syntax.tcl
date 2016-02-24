@@ -258,6 +258,7 @@ namespace eval syntax {
 
     variable langs
     variable curr_lang
+    variable current_lang
 
     array set opts {
       -highlight 1
@@ -352,7 +353,7 @@ namespace eval syntax {
     }
 
     # Save the language
-    set curr_lang($txt) $language
+    set curr_lang($txt) [set current_lang $language]
 
     # Re-highlight
     if {$opts(-highlight)} {
@@ -522,10 +523,11 @@ namespace eval syntax {
   proc update_button {w} {
 
     variable curr_lang
-
-    # Save the current language
+    variable current_lang
+    
+    # Get the current language
     set current_lang $curr_lang([[ns gui]::current_txt {}])
-
+    
     # Configures the current language for the specified text widget
     $w configure -text $current_lang
 
