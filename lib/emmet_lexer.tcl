@@ -45,6 +45,8 @@ array set emmet_block_aliases {
   select+   {select>option}
   optgroup+ {optgroup>option}
   optg+     {optgroup>option}
+  
+  # CSS
 
   # XSLT
   choose+   {xml:choose>xsl:when+xsl:otherwise}
@@ -84,6 +86,32 @@ proc emmet_get_item_name {str} {
 
   return [list $formatted_str $values]
 
+}
+
+proc emmet_get_matching {str start end} {
+  
+  set strlen [string length $str]
+  set count  1
+  set skip   0
+  
+  for {set i 1} {$i < $strlen} {incr i} {
+    if {$skip} {
+      set skip 0
+    } else {
+      set char [string index $str $i]
+      if {$char eq "\\"} {
+        set skip 1
+      } elseif {$char eq $end} {
+        if {[incr count -1] == 0} {
+          unput [string range $str [expr $i + 1] end]
+          return [string range $str 1 [expr $i - 1]]
+        }
+      } elseif {$char eq $start} {
+        incr count
+      }
+    }
+  }
+  
 }
 
 
@@ -391,25 +419,25 @@ proc emmet_lex {} {
             set ::emmet_leng [string length $::emmet_text]
             set emmet__matched_rule 10
         }
-        # rule 11: \{.+?\}
+        # rule 11: \{.+\}
         if {$::emmet__state_table($emmet__current_state) && \
-                [regexp -start $::emmet__index -indices -line  -- {\A(\{.+?\})} $::emmet__buffer emmet__match] > 0 && \
+                [regexp -start $::emmet__index -indices -line  -- {\A(\{.+\})} $::emmet__buffer emmet__match] > 0 && \
                 [lindex $emmet__match 1] - $::emmet__index + 1 > $::emmet_leng} {
             set ::emmet_text [string range $::emmet__buffer $::emmet__index [lindex $emmet__match 1]]
             set ::emmet_leng [string length $::emmet_text]
             set emmet__matched_rule 11
         }
-        # rule 12: '.+?'
+        # rule 12: '.*'
         if {$::emmet__state_table($emmet__current_state) && \
-                [regexp -start $::emmet__index -indices -line  -- {\A('.+?')} $::emmet__buffer emmet__match] > 0 && \
+                [regexp -start $::emmet__index -indices -line  -- {\A('.*')} $::emmet__buffer emmet__match] > 0 && \
                 [lindex $emmet__match 1] - $::emmet__index + 1 > $::emmet_leng} {
             set ::emmet_text [string range $::emmet__buffer $::emmet__index [lindex $emmet__match 1]]
             set ::emmet_leng [string length $::emmet_text]
             set emmet__matched_rule 12
         }
-        # rule 13: \".+?\"
+        # rule 13: \".*\"
         if {$::emmet__state_table($emmet__current_state) && \
-                [regexp -start $::emmet__index -indices -line  -- {\A(\".+?\")} $::emmet__buffer emmet__match] > 0 && \
+                [regexp -start $::emmet__index -indices -line  -- {\A(\".*\")} $::emmet__buffer emmet__match] > 0 && \
                 [lindex $emmet__match 1] - $::emmet__index + 1 > $::emmet_leng} {
             set ::emmet_text [string range $::emmet__buffer $::emmet__index [lindex $emmet__match 1]]
             set ::emmet_leng [string length $::emmet_text]
@@ -531,19 +559,19 @@ set ::emmet_lval $emmet_text
   return $::CLOSE_ATTR
             }
             11 {
-set ::emmet_lval [emmet_get_item_name [string range $emmet_text 1 end-1]]
+set ::emmet_lval [emmet_get_item_name [emmet_get_matching $emmet_text \{ \}]]
   set ::emmet_begpos $::emmet_endpos
   incr ::emmet_endpos [string length $emmet_text]
   return $::TEXT
             }
             12 {
-set ::emmet_lval [emmet_get_item_name [string range $emmet_text 1 end-1]]
+set ::emmet_lval [emmet_get_item_name [emmet_get_matching $emmet_text \' \']]
   set ::emmet_begpos $::emmet_endpos
   incr ::emmet_endpos [string length $emmet_text]
   return $::VALUE
             }
             13 {
-set ::emmet_lval [emmet_get_item_name [string range $emmet_text 1 end-1]]
+set ::emmet_lval [emmet_get_item_name [emmet_get_matching $emmet_text \" \"]]
   set ::emmet_begpos $::emmet_endpos
   incr ::emmet_endpos [string length $emmet_text]
   return $::VALUE

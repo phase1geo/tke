@@ -89,6 +89,32 @@ proc emmet_get_item_name {str} {
 
 }
 
+proc emmet_get_matching {str start end} {
+  
+  set strlen [string length $str]
+  set count  1
+  set skip   0
+  
+  for {set i 1} {$i < $strlen} {incr i} {
+    if {$skip} {
+      set skip 0
+    } else {
+      set char [string index $str $i]
+      if {$char eq "\\"} {
+        set skip 1
+      } elseif {$char eq $end} {
+        if {[incr count -1] == 0} {
+          unput [string range $str [expr $i + 1] end]
+          return [string range $str 1 [expr $i - 1]]
+        }
+      } elseif {$char eq $start} {
+        incr count
+      }
+    }
+  }
+  
+}
+
 %}
 
 %option stack
@@ -178,22 +204,22 @@ proc emmet_get_item_name {str} {
   return $::CLOSE_ATTR
 }
 
-\{.+?\} {
-  set ::emmet_lval [emmet_get_item_name [string range $emmet_text 1 end-1]]
+\{.+\} {
+  set ::emmet_lval [emmet_get_item_name [emmet_get_matching $emmet_text \{ \}]]
   set ::emmet_begpos $::emmet_endpos
   incr ::emmet_endpos [string length $emmet_text]
   return $::TEXT
 }
 
-'.+?' {
-  set ::emmet_lval [emmet_get_item_name [string range $emmet_text 1 end-1]]
+'.*' {
+  set ::emmet_lval [emmet_get_item_name [emmet_get_matching $emmet_text \' \']]
   set ::emmet_begpos $::emmet_endpos
   incr ::emmet_endpos [string length $emmet_text]
   return $::VALUE
 }
 
-\".+?\" {
-  set ::emmet_lval [emmet_get_item_name [string range $emmet_text 1 end-1]]
+\".*\" {
+  set ::emmet_lval [emmet_get_item_name [emmet_get_matching $emmet_text \" \"]]
   set ::emmet_begpos $::emmet_endpos
   incr ::emmet_endpos [string length $emmet_text]
   return $::VALUE
