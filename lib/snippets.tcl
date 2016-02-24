@@ -192,7 +192,12 @@ namespace eval snippets {
     return 0
 
   }
-
+  
+  ######################################################################
+  proc get_snippet_text {txtt} {
+    
+    
+  }
   ######################################################################
   # Checks the text widget to see if a snippet name was just typed in
   # the text widget.  If it was, delete the string and replace it with
@@ -218,7 +223,11 @@ namespace eval snippets {
 
     # If the snippet exists, perform the replacement.
     if {[info exists snippets(current,$last_word)]} {
-      return [insert_snippet $txtt $snippets(current,$last_word)]
+      return [insert_snippet $txtt $snippets(current,$last_word) "insert-1c wordstart" "insert-1c wordend"]
+    } elseif {![catch { parse_emmet $last_word } str]} {
+      return [insert_snippet $txtt $str]
+    } else {
+      puts "str: $str"
     }
 
     return 0
@@ -227,7 +236,7 @@ namespace eval snippets {
 
   ######################################################################
   # Inserts the given snippet contents at the current insertion point.
-  proc insert_snippet {txtt snippet {delete 1}} {
+  proc insert_snippet {txtt snippet {delstart ""} {delend ""}} {
 
     variable tabpoints
 
@@ -238,7 +247,7 @@ namespace eval snippets {
     set tabpoints($txtt) 1
 
     # Delete the last_word, if specified
-    if {$delete} {
+    if {$delstart ne ""} {
       $txtt delete "insert-1c wordstart" "insert-1c wordend"
 
     # Otherwise, mark the change with a sparator
