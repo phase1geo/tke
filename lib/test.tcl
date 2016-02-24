@@ -332,6 +332,10 @@ foreach {str expect} {
   </div>
 </nav>}
 
+  {a{{|foobar}}}
+  
+{<a href="">{|foobar}</a>}
+
 } {
   
   if {[catch { parse_emmet $str } actual]} {
