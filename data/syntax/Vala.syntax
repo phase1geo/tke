@@ -1,0 +1,69 @@
+filepatterns
+{*.vala}
+
+vimsyntax
+{vala}
+
+matchcharsallowed
+{curly square paren double single}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+indent
+{\{}
+
+unindent
+{\}}
+
+reindent
+{{switch case default}}
+
+icomment {{//}}
+
+lcomments {{//}}
+
+bcomments {{{/\*} {\*/}}}
+
+strings {{"} {'}}
+
+keywords
+{
+  abstract
+  break
+  case catch class const construct continue
+  default delegate do
+  else ensures enum
+  finally for foreach
+  get
+  if int interface
+  lock
+  namespace new
+  override out
+  private protected public 
+  ref requires return
+  set signal static string struct switch
+  throw this throws try
+  using
+  virtual void
+  while
+}
+
+numbers
+{
+  HighlightRegexp {\m([0-9]+|0x[0-9a-fA-F]+|[0-9]*\.[0-9]*)} {}
+}
+
+punctuation
+{
+  HighlightRegexp {[][\{\};:,()#=.@&!?<>%|^~+*/-]} {}
+}
+
+precompile
+{
+  HighlightWithOnlyCharStart {#} {}
+}
+
