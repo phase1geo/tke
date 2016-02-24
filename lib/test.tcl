@@ -334,10 +334,15 @@ foreach {str expect} {
 
 } {
   
-  set actual [parse_emmet $str]
-  
-  # puts "str: $str\n"
-  # puts $generated
+  if {[catch { emmet_parse $str } actual]} {
+    puts "ERROR: "
+    puts $str
+    puts $::emmet_errstr
+    puts $::emmet_errmsg
+    puts "rc: $rc"
+    puts "$::errorInfo"
+    exit 1
+  }
   
   if {$expect ne $actual} {
     puts "-------------------"
