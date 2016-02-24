@@ -1,69 +1,146 @@
-changeset:   1828:181a71441604
-tag:         devel-2.2.3
+changeset:   1836:0f1a4af55c09
+tag:         devel-2.2.4
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Feb 17 09:37:26 2016 -0600
+date:        Wed Feb 17 23:18:11 2016 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.2.3 release
+ChangeLog for devel-2.2.4 release
 
 
-changeset:   1829:56299588e75d
+changeset:   1837:22fd667ff18e
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Feb 17 09:37:33 2016 -0600
+date:        Wed Feb 17 23:18:16 2016 -0600
 files:       .hgtags
 description:
-Added tag devel-2.2.3 for changeset 181a71441604
+Added tag devel-2.2.4 for changeset 0f1a4af55c09
 
 
-changeset:   1830:43ea44436d76
+changeset:   1838:2ea6fe8df245
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Feb 17 18:56:19 2016 -0600
-files:       data/syntax/Scheme.syntax lib/ctext/ctext.tcl lib/version.tcl
+date:        Thu Feb 18 01:50:38 2016 -0600
+files:       lib/Makefile lib/emmet_lexer.fcl lib/emmet_lexer.tcl lib/emmet_parser.tab.tcl lib/emmet_parser.tac lib/emmet_parser.tcl lib/version.tcl
 description:
-* Attempting to fix issue with indentation matching in ctext.
-* Attempting to correct Scheme syntax description.
+* Initial work on Emmet parser/lexer.
 
 
-changeset:   1831:6752f0074f5f
+changeset:   1839:91c811944ac4
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Feb 17 19:28:18 2016 -0600
-files:       data/syntax/Scheme.syntax lib/ctext/ctext.tcl lib/version.tcl
+date:        Thu Feb 18 09:39:09 2016 -0600
+files:       lib/Makefile lib/emmet_lexer.fcl lib/emmet_lexer.tcl lib/emmet_parser.tab.tcl lib/emmet_parser.tac lib/emmet_parser.tcl lib/version.tcl
 description:
-* Fixing Scheme syntax.
-* Fixing ctext indentation handling issues.
+* Checkpointing emmet work.
 
 
-changeset:   1832:6ab756a11326
+changeset:   1840:25e3bd3f98dc
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Feb 17 21:35:16 2016 -0600
-files:       data/syntax/Ada.syntax lib/indent.tcl lib/version.tcl
+date:        Fri Feb 19 01:34:40 2016 -0600
+files:       lib/emmet_lexer.fcl lib/emmet_lexer.tcl lib/emmet_parser.tac lib/emmet_parser.tcl lib/version.tcl
 description:
-* Adding Ada syntax.
-* Fixing indentation issues found with Ada syntax.
+* Checkpointing Emmet work.
 
 
-changeset:   1833:6a1d594f9b22
+changeset:   1841:643501e7a9a5
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Feb 17 22:24:27 2016 -0600
-files:       data/syntax/Lisp.syntax lib/version.tcl
+date:        Fri Feb 19 02:02:31 2016 -0600
+files:       lib/emmet_lexer.fcl lib/emmet_lexer.tcl lib/emmet_parser.tac lib/emmet_parser.tcl lib/test.tcl lib/version.tcl
 description:
-* Adding Lisp syntax.
+* Checkpointing Emmet work.
 
 
-changeset:   1834:8d1ab9135803
+changeset:   1842:06318069e857
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Feb 17 22:33:31 2016 -0600
-files:       data/syntax/Lisp.syntax data/syntax/Scheme.syntax lib/version.tcl
+date:        Mon Feb 22 09:28:45 2016 -0600
+files:       lib/emmet_lexer.fcl lib/emmet_lexer.tcl lib/emmet_parser.tab.tcl lib/emmet_parser.tac lib/emmet_parser.tcl lib/version.tcl
 description:
-* Fixing Lisp and Scheme syntaxes.
+* Checkpointing work on new emmet parser.
 
 
-changeset:   1835:2853ad5bca5b
+changeset:   1843:7406f3cadf05
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Feb 22 17:38:30 2016 -0600
+files:       lib/emmet_parser.tac lib/emmet_parser.tcl lib/test.tcl lib/version.tcl
+description:
+* Emmet updates.
+
+
+changeset:   1844:caeacf50c710
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Feb 23 00:35:52 2016 -0600
+files:       lib/emmet_lexer.fcl lib/emmet_lexer.tcl lib/emmet_parser.tac lib/emmet_parser.tcl lib/test.tcl lib/version.tcl
+description:
+* Checkpointing work emmet parser/generator.
+
+
+changeset:   1845:2568d04129ce
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Feb 23 00:56:56 2016 -0600
+files:       lib/emmet_lexer.fcl lib/emmet_lexer.tcl lib/emmet_parser.tac lib/emmet_parser.tcl lib/test.tcl lib/version.tcl
+description:
+* Addin XSLT shortcuts to Emmet.
+
+
+changeset:   1846:56cd227b4e8e
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Feb 23 09:13:54 2016 -0600
+files:       lib/emmet_lexer.fcl lib/emmet_lexer.tcl lib/emmet_parser.tac lib/emmet_parser.tcl lib/test.tcl lib/version.tcl
+description:
+* Initial support for block aliases.
+
+
+changeset:   1847:69d77253a39c
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Feb 23 17:10:08 2016 -0600
+files:       lib/emmet_lexer.fcl lib/emmet_lexer.tcl lib/emmet_parser.tac lib/emmet_parser.tcl lib/test.tcl lib/version.tcl
+description:
+* Emmet fixes.
+
+
+changeset:   1848:91f1adb8af40
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Feb 23 17:41:17 2016 -0600
+files:       lib/emmet_lexer.fcl lib/emmet_parser.tac lib/test.tcl lib/version.tcl
+description:
+* Minor updates.
+
+
+changeset:   1849:7cbe2a56b461
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Feb 23 23:03:08 2016 -0600
+files:       lib/emmet_parser.tac lib/emmet_parser.tcl lib/snippets.tcl lib/test.tcl lib/tke.tcl lib/version.tcl
+description:
+* Initial work on integrating Emmet snippets into TKE.
+
+
+changeset:   1850:1fb645a46a7d
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Feb 23 23:49:39 2016 -0600
+files:       lib/gui.tcl lib/version.tcl
+description:
+* Fixing bug with Split View indicator not displaying correctly.
+
+
+changeset:   1851:528ce84b5d17
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Feb 24 00:02:44 2016 -0600
+files:       lib/syntax.tcl lib/version.tcl
+description:
+* Fixing issue where syntax menu checkmark was not being updated when language was changed from the command launcher.
+
+
+changeset:   1852:c680001baeca
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Feb 24 00:13:03 2016 -0600
+files:       lib/templates.tcl lib/version.tcl
+description:
+* Added confirmation before deleting a template.
+
+
+changeset:   1853:f009387b4f61
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Feb 17 23:06:07 2016 -0600
-files:       MacOSX/Tke.app/Contents/Info.plist Win/setup.iss lib/version.tcl
+date:        Wed Feb 24 00:40:47 2016 -0600
+files:       data/syntax/Vala.syntax lib/version.tcl
 description:
-* Updating version information.
+* Adding Vala syntax highlighting.
 
 
