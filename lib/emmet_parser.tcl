@@ -784,7 +784,7 @@ proc emmet_generate_html {} {
   set index 1
   while {[regexp {(.*?)\{\|(.*?)\}(.*)$} $str -> before value after]} {
     if {$value eq ""} {
-      set str "$before\${$index}$after"
+      set str "$before\$$index$after"
     } else {
       set str "$before\${$index:$value}$after"
     }
