@@ -743,7 +743,9 @@ proc emmet_generate {tree node action} {
         set value [$tree get $node value]
       }
       foreach attr [$tree keys $node attr,*] {
-        set attr_val [concat {*}[$tree get $node $attr]]
+        if {[set attr_val [concat {*}[$tree get $node $attr]]] eq ""} {
+          set attr_val "{|}"
+        }
         append attr_str " [lindex [split $attr ,] 1]=\"$attr_val\""
       }
       if {$tagnum == 0} {
@@ -751,6 +753,9 @@ proc emmet_generate {tree node action} {
       } elseif {$tagnum == 2} {
         $tree set $node str "$spaces<$name$attr_str>$value"
       } elseif {[llength $child_strs] == 0} {
+        if {$value eq ""} {
+          set value "{|}"
+        }
         $tree set $node str "$spaces<$name$attr_str>$value</$name>"
       } else {
         $tree set $node str "$spaces<$name$attr_str>$value\n[join $child_strs \n]\n$spaces</$name>"
@@ -774,7 +779,19 @@ proc emmet_generate_html {} {
   # Generate the code
   $::emmet_elab walkproc root -order post -type dfs emmet_generate
 
-  return [$::emmet_elab get root "str"]
+  # Substitute carent syntax with tabstops
+  set str   [$::emmet_elab get root "str"]
+  set index 1
+  while {[regexp {(.*?)\{\|(.*?)\}(.*)$} $str -> before value after]} {
+    if {$value eq ""} {
+      set str "$before\${$index}$after"
+    } else {
+      set str "$before\${$index:$value}$after"
+    }
+    incr index
+  }
+
+  return $str
 
 }
 
@@ -1374,31 +1391,31 @@ array set ::emmet_rules {
 }
 
 array set ::emmet_rules {
-  13,line 886
-  25,line 930
-  7,line 849
-  10,line 873
-  22,line 919
-  4,line 820
-  18,line 903
-  1,line 792
-  15,line 892
-  9,line 866
-  12,line 881
-  24,line 927
-  6,line 838
-  21,line 914
-  3,line 816
-  17,line 900
-  14,line 889
-  8,line 859
-  11,line 878
-  23,line 922
-  5,line 826
-  20,line 911
-  19,line 908
-  2,line 797
-  16,line 895
+  13,line 903
+  25,line 947
+  7,line 866
+  10,line 890
+  22,line 936
+  4,line 837
+  18,line 920
+  1,line 809
+  15,line 909
+  9,line 883
+  12,line 898
+  24,line 944
+  6,line 855
+  21,line 931
+  3,line 833
+  17,line 917
+  14,line 906
+  8,line 876
+  11,line 895
+  23,line 939
+  5,line 843
+  20,line 928
+  19,line 925
+  2,line 814
+  16,line 912
 }
 
 proc emmet_parse {} {

@@ -41,7 +41,7 @@ namespace eval gui {
   variable last_opened      [list]
   variable fif_files        [list]
   variable info_clear       ""
-  variable trailing_ws_re   {[\ \t]+$}
+  variable trailing_ws_re   {[\ ]+$}
   variable case_sensitive   1
   variable saved            0
   variable replace_all      1
@@ -587,7 +587,7 @@ namespace eval gui {
       $widgets(menu) entryconfigure [msgcat::mc "Show in Sidebar"] -state normal
       $widgets(menu) entryconfigure [msgcat::mc "Favorited"]       -state [expr {$diff_mode ? "disabled" : "normal"}]
     }
-    
+
     # Make the split pane indicator look correct
     set [ns menus]::show_split_pane [expr {[llength [$txt peer names]] > 0}]
 

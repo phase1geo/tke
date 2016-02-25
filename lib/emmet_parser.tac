@@ -744,7 +744,9 @@ proc emmet_generate {tree node action} {
         set value [$tree get $node value]
       }
       foreach attr [$tree keys $node attr,*] {
-        set attr_val [concat {*}[$tree get $node $attr]]
+        if {[set attr_val [concat {*}[$tree get $node $attr]]] eq ""} {
+          set attr_val "{|}"
+        }
         append attr_str " [lindex [split $attr ,] 1]=\"$attr_val\""
       }
       if {$tagnum == 0} {
@@ -752,6 +754,9 @@ proc emmet_generate {tree node action} {
       } elseif {$tagnum == 2} {
         $tree set $node str "$spaces<$name$attr_str>$value"
       } elseif {[llength $child_strs] == 0} {
+        if {$value eq ""} {
+          set value "{|}"
+        }
         $tree set $node str "$spaces<$name$attr_str>$value</$name>"
       } else {
         $tree set $node str "$spaces<$name$attr_str>$value\n[join $child_strs \n]\n$spaces</$name>"
@@ -775,7 +780,19 @@ proc emmet_generate_html {} {
   # Generate the code
   $::emmet_elab walkproc root -order post -type dfs emmet_generate
 
-  return [$::emmet_elab get root "str"]
+  # Substitute carent syntax with tabstops
+  set str   [$::emmet_elab get root "str"]
+  set index 1
+  while {[regexp {(.*?)\{\|(.*?)\}(.*)$} $str -> before value after]} {
+    if {$value eq ""} {
+      set str "$before\${$index}$after"
+    } else {
+      set str "$before\${$index:$value}$after"
+    }
+    incr index
+  }
+
+  return $str
 
 }
 
