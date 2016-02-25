@@ -54,17 +54,17 @@ array set emmet_ml_lookup {
   bdo:l                {bdo        1 {dir "ltr"}}
   col                  {col        0 {}}
   link                 {link       0 {rel "stylesheet" href ""}}
-  link:css             {link       0 {rel "stylesheet" href "style.css"}}
-  link:print           {link       0 {rel "stylesheet" href "print.css" media "print"}}
-  link:favicon         {link       0 {rel "shortcut icon" type "image/x-icon" href "favicon.ico"}}
-  link:touch           {link       0 {rel "apple-touch-icon" href "favicon.png"}}
-  link:rss             {link       0 {rel "alternate" type "application/rss+xml" title "RSS" href "rss.xml"}}
-  link:atom            {link       0 {rel "alternate" type "application/atom+xml" title "Atom" href "atom.xml"}}
+  link:css             {link       0 {rel "stylesheet" href "{|style}.css"}}
+  link:print           {link       0 {rel "stylesheet" href "{|print}.css" media "print"}}
+  link:favicon         {link       0 {rel "shortcut icon" type "image/x-icon" href "{|favicon.ico}"}}
+  link:touch           {link       0 {rel "apple-touch-icon" href "{|favicon.png}"}}
+  link:rss             {link       0 {rel "alternate" type "application/rss+xml" title "RSS" href "{|rss.xml}"}}
+  link:atom            {link       0 {rel "alternate" type "application/atom+xml" title "Atom" href "{|atom.xml}"}}
   meta                 {meta       0 {}}
   meta:utf             {meta       0 {http-equiv "Content-Type" content "text/html;charset=UTF-8"}}
   meta:win             {meta       0 {http_equiv "Content-Type" content "text/html;charset=windows-1251"}}
-  meta:vp              {meta       0 {name "viewport" content "width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"}}
-  meta:compat          {meta       0 {http-equiv "X-UA-Compatible" content "IE=7"}}
+  meta:vp              {meta       0 {name "viewport" content "width={|device-width}, user-scalable={|no}, initial-scale={|1.0}, maximum-scale={|1.0}, minimum-scale={|1.0}"}}
+  meta:compat          {meta       0 {http-equiv "X-UA-Compatible" content "{|IE=7}"}}
   style                {style      1 {}}
   script               {script     1 {}}
   script:src           {script     1 {src ""}}
@@ -83,12 +83,12 @@ array set emmet_ml_lookup {
   form:get             {form       1 {action "" method "get"}}
   form:post            {form       1 {action "" method "post"}}
   label                {form       1 {for ""}}
-  input                {input      0 {type "text"}}
-  inp                  {input      0 {type "text" name "" id ""}}
+  input                {input      0 {type "{|text}"}}
+  inp                  {input      0 {type "{|text}" name "" id ""}}
   input:hidden         {input      0 {type "hidden" name ""}}
   input:h              {input      0 {type "hidden" name ""}}
-  input:text           {input      0 {type "text" name "" id ""}}
-  input:t              {input      0 {type "text" name "" id ""}}
+  input:text           {input      0 {type "{|text}" name "" id ""}}
+  input:t              {input      0 {type "{|text}" name "" id ""}}
   input:search         {input      0 {type "search" name "" id ""}}
   input:email          {input      0 {type "email" name "" id ""}}
   input:url            {input      0 {type "url" name "" id ""}}
@@ -119,7 +119,7 @@ array set emmet_ml_lookup {
   input:reset          {input      0 {type "reset" value ""}}
   select               {select     1 {name "" id ""}}
   option               {option     1 {value ""}}
-  textarea             {textarea   1 {name "" id "" cols "30" rows "10"}}
+  textarea             {textarea   1 {name "" id "" cols "{|30}" rows "{|10}"}}
   menu:context         {menu       1 {type "context"}}
   menu:c               {menu       1 {type "context"}}
   menu:toolbar         {menu       1 {type "toolbar"}}
@@ -147,7 +147,7 @@ array set emmet_ml_lookup {
   btn:s                {button     1 {type "submit"}}
   optg                 {optgroup   1 {}}
   opt                  {option     1 {value ""}}
-  tarea                {textarea   1 {name "" id "" cols "30" rows "10"}}
+  tarea                {textarea   1 {name "" id "" cols "{|30}" rows "{|10}"}}
   leg                  {legend     1 {}}
   sect                 {section    1 {}}
   art                  {article    1 {}}
@@ -213,6 +213,180 @@ array set emmet_ml_lookup {
 }
 
 array set emmet_css_lookup {
+  pos      {position: {|relative};}
+  pos:s    {position: static;}
+  pos:a    {position: absolute;}
+  pos:r    {position: relative;}
+  pos:f    {position: fixed;}
+  t        {top: {|};}
+  t:a      {top: auto;}
+  r        {right: {|};}
+  r:a      {right: auto;}
+  b        {bottom: {|};}
+  b:a      {bottom: auto;}
+  l        {left: {|};}
+  l:a      {left: auto;}
+  z        {z-index: {|};}
+  z:a      {z-index: auto;}
+  fl       {float: {|left};}
+  fl:n     {float: none;}
+  fl:l     {float: left;}
+  fl:r     {float: right;}
+  cl       {clear: {|both};}
+  cl:n     {clear: none;}
+  cl:l     {clear: left;}
+  cl:r     {clear: right;}
+  cl:b     {clear: both;}
+  d        {display: {|block};}
+  d:n      {display: none;}
+  d:b      {display: block;}
+  d:i      {display: inline;}
+  d:ib     {display: inline-block;}
+  d:li     {display: list-item;}
+  d:cp     {display: compact;}
+  d:tb     {display: table;}
+  d:itb    {display: inline-table;}
+  d:tbcp   {display: table-caption;}
+  d:tbcl   {display: table-column;}
+  d:tbclg  {display: table-column-group;}
+  d:tbhg   {display: table-header-group;}
+  d:tbfg   {display: table-footer-group;}
+  d:tbr    {display: table-row;}
+  d:tbrg   {display: table-row-group;}
+  d:tbc    {display: table-cell;}
+  d:rb     {display: ruby;}
+  d:rbb    {display: ruby-base;}
+  d:rbbg   {display: ruby-base-group;}
+  d:rbt    {display: ruby-text;}
+  d:rbtg   {display: ruby-text-group;}
+  v        {visibility: {|hidden};}
+  v:v      {visibility: visible;}
+  v:h      {visibility: hidden;}
+  v:c      {visibility: collapse;}
+  ov       {overflow: {|hidden};}
+  ov:v     {overflow: visible;}
+  ov:h     {overflow: hidden;}
+  ov:s     {overflow: scroll;}
+  ov:a     {overflow: auto;}
+  ovx      {overflow-x: {|hidden};}
+  ovx:v    {overflow-x: visible;}
+  ovx:h    {overflow-x: hidden;}
+  ovx:s    {overflow-x: scroll;}
+  ovx:a    {overflow-x: auto;}
+  ovy      {overflow-y: {|hidden};}
+  ovy:v    {overflow-y: visible;}
+  ovy:h    {overflow-y: hidden;}
+  ovy:s    {overflow-y: scroll;}
+  ovy:a    {overflow-y: auto;}
+  ovs      {overflow-style: {|scrollbar};}
+  ovs:a    {overflow-style: auto;}
+  ovs:s    {overflow-style: scrollbar;}
+  ovs:p    {overflow-style: panner;}
+  ovs:m    {overflow-style: move;}
+  ovs:mq   {overflow-style: marquee;}
+  zoo      {zoom: 1;}
+  zm       {zoom: 1;}
+  cp       {clip: {|};}
+  cp:a     {clip: auto;}
+  cp:r     {clip: rect({|top}, {|right}, {|bottom}, {|left});}
+  rsz      {resize: {|};}
+  rsz:n    {resize: none;}
+  rsz:b    {resize: both;}
+  rsz:h    {resize: horizontal;}
+  rsz:v    {resize: vertical;}
+  cur      {cursor: ${pointer};}
+  cur:a    {cursor: auto;}
+  cur:d    {cursor: default;}
+  cur:c    {cursor: crosshair;}
+  cur:ha   {cursor: hand;}
+  cur:he   {cursor: help;}
+  cur:m    {cursor: move;}
+  cur:p    {cursor: pointer;}
+  cur:t    {cursor: text;}
+  m        {margin: {|};}
+  m:a      {margin: auto;}
+  mt       {margin-top: {|};}
+  mt:a     {margin-top: auto;}
+  mr       {margin-right: {|};}
+  mr:a     {margin-right: auto;}
+  mb       {margin-bottom: {|};}
+  mb:a     {margin-bottom: auto;}
+  ml       {margin-left: {|};}
+  ml:a     {margin-left: auto;}
+  p        {padding: {|};}
+  pt       {padding-top: {|};}
+  pr       {padding-right: {|};}
+  pb       {padding-bottom: {|};}
+  pl       {padding-left: {|};}
+  bxz      {box-sizing: {|border-box};}
+  bxz:cb   {box-sizing: content-box;}
+  bxz:bb   {box-sizing: border-box;}
+  bxsh     {box-shadow: {|inset} {|hoff} {|voff} {|blur} {|color};}
+  bxsh:r   {box-shadow: {|inset} {|hoff} {|voff} {|blur} {|spread} rgb({|0}, {|0}, {|0});}
+  bxsh:ra  {box-shadow: {|inset} {|h} {|v} {|blur} {|spread} rgba({|0}, {|0}, {|0}, {|.5});}
+  bxsh:n   {box-shadow: none;}
+  w        {width: {|};}
+  w:a      {width: auto;}
+  h        {height: {|};}
+  h:a      {height: auto;}
+  maw      {max-width: {|};}
+  maw:n    {max-width: none;}
+  mah      {max-height: {|};}
+  mah:n    {max-height: none;}
+  miw      {min-width: {|};}
+  mih      {min-height: {|};}
+  f        {font: {|};}
+  f+       {font: {|1em} {|Arial,sans-serif};}
+  fw       {font-weight: {|};}
+  fw:n     {font-weight: none;}
+  fw:b     {font-weight: bold;}
+  fw:br    {font-weight: bolder;}
+  fw:lr    {font-weight: lighter;}
+  fs       {font-style: {|italic};}
+  fs:n     {font-style: normal;}
+  fs:i     {font-style: italic;}
+  fs:o     {font-style: oblique;}
+  fv       {font-variant: {|};}
+  fv:sc    {font-variant: small-caps;}
+  fz       {font-size: {|};}
+  fza      {font-size-adjust: {|};}
+  fza:n    {font-size-adjust: none;}
+  ff       {font-family: {|};}
+  ff:s     {font-family: serif;}
+  ff:ss    {font-family: sans-serif;}
+  ff:c     {font-family: cursive;}
+  ff:f     {font-family: fantasy;}
+  ff:m     {font-family: monospace;}
+  ff:a     {font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;}
+  fef      {font-effect: {|};}
+  fef:n    {font-effect: none;}
+  fef:eg   {font-effect: engrave;}
+  fef:eb   {font-effect: emboss;}
+  fef:o    {font-effect: outline;}
+  fem      {font-emphasize: {|};}
+  femp     {font-emphasize-position: {|};}
+  femp:b   {font-emphasize-position: before;}
+  femp:a   {font-emphasize-position: after;}
+  fems     {font-emphasize-style: {|};}
+  fems:n   {font-emphasize-style: none;}
+  fems:ac  {font-emphasize-style: accent;}
+  fems:dt  {font-emphasize-style: dot;}
+  fems:c   {font-emphasize-style: circle;}
+  fems:ds  {font-emphasize-style: disc;}
+  fsm      {font-smooth: {|};}
+  fsm:a    {font-smooth: auto;}
+  fsm:n    {font-smooth: never;}
+  fsm:aw   {font-smooth: always;}
+  fst      {font-stretch: {|};}
+  fst:n    {font-stretch: normal;}
+  fst:uc   {font-stretch: ultra-condensed;}
+  fst:ec   {font-stretch: extra-condensed;}
+  fst:c    {font-stretch: condensed;}
+  fst:sc   {font-stretch: semi-condensed;}
+  fst:se   {font-stretch: semi-expanded;}
+  fst:e    {font-stretch: expanded;}
+  fst:ee   {font-stretch: extra-expanded;}
+  fst:ue   {font-stretch: ultra-expanded;}
   va       {vertical-align: top;}
   va:sup   {vertical-align: super;}
   va:t     {vertical-align: top;}
@@ -958,7 +1132,7 @@ proc emmet_error {s} {
 }
 
 proc parse_emmet {str} {
-
+  
   # Flush the parsing buffer
   EMMET__FLUSH_BUFFER
 

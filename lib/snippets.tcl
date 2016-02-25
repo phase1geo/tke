@@ -179,7 +179,7 @@ namespace eval snippets {
   proc handle_tab {txtt} {
 
     variable expandtabs
-
+    
     if {![tab_clicked $txtt]} {
       if {![[ns vim]::in_vim_mode $txtt] && $expandtabs($txtt)} {
         $txtt insert insert [string repeat " " [[ns indent]::get_tabstop $txtt]]
@@ -200,21 +200,15 @@ namespace eval snippets {
   proc check_snippet {txtt keysym} {
 
     variable snippets
-    variable within
     variable tabpoints
-
+    
     # If the given key symbol is not one of the snippet completers, stop now
     if {[lsearch [[ns preferences]::get Editor/SnippetCompleters] [string tolower $keysym]] == -1} {
       return 0
     }
-
+    
     # Get the last word
     set last_word [string trim [$txtt get "insert-1c wordstart" "insert-1c wordend"]]
-
-    # If the last word is not a valid word, stop now
-    if {![regexp {^[a-zA-Z0-9_]+$} $last_word]} {
-      return 0
-    }
 
     # If the snippet exists, perform the replacement.
     if {[info exists snippets(current,$last_word)]} {
@@ -367,7 +361,7 @@ namespace eval snippets {
   proc tab_clicked {txtt} {
 
     variable within
-
+    
     if {$within($txtt)} {
       traverse_snippet $txtt
       return 1
@@ -405,9 +399,9 @@ namespace eval snippets {
 
       # Find the current tab point tag
       if {[llength [set range [$txtt tag ranges snippet_sel_$tabpoints($txtt)]]] == 2} {
-        $txtt tag add sel {*}$range
         $txtt tag delete snippet_sel_$tabpoints($txtt)
         ::tk::TextSetCursor $txtt [lindex $range 1]
+        $txtt tag add sel {*}$range
         set tabstart($txtt) [lindex $range 0]
       } elseif {[llength [set range [$txtt tag ranges snippet_mark_$tabpoints($txtt)]]] == 2} {
         $txtt delete {*}$range
@@ -419,11 +413,17 @@ namespace eval snippets {
         ::tk::TextSetCursor $txtt [lindex $range 0]
         $txtt tag delete snippet_mark_0
         set tabstart($txtt) [lindex $range 0]
-        set within($txtt)   0
       }
 
       # Increment the tabpoint
       incr tabpoints($txtt)
+      
+      # Clear the within indicator if we are out of tab stops
+      if {([$txtt tag ranges snippet_sel_$tabpoints($txtt)]  eq "") && \
+          ([$txtt tag ranges snippet_mark_$tabpoints($txtt)] eq "") && \
+          ([$txtt tag ranges snippet_mark_0] eq "")} {
+        set within($txtt) 0
+      }
 
     }
 

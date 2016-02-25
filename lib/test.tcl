@@ -237,9 +237,9 @@ foreach {str expect} {
 {<html>
   <head>
     <meta charset="UTF-8" />
-    <title>Document</title>
+    <title>${1:Document}</title>
   </head>
-  <body>$1</body>
+  <body>$2</body>
 </html>}
 
   {xsl:stylesheet[version=1.0 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"]}

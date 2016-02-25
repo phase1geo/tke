@@ -27,12 +27,18 @@ source [file join $::tke_dir lib emmet_parser.tcl]
 namespace eval emmet {
 
   source [file join $::tke_dir lib ns.tcl]
+  
+  array set data {
+    tag {(.*?)(<\/?[\w:-]+(?:\s+[\w:-]+(?:\s*=\s*(?:(?:".*?")|(?:'.*?')|[^>\s]+))?)*\s*(\/?)>)}
+  }
 
   ######################################################################
   # Returns a three element list containing the snippet text, starting and ending
   # position of that text.
   proc get_snippet_text_pos {} {
-
+    
+    variable data
+    
     # Get the current text widget
     set txt [[ns gui]::current_txt {}]
 
@@ -47,28 +53,20 @@ namespace eval emmet {
     set str [$txt get "insert linestart" "insert lineend"]
 
     # Move backward through the string, searching for a non-snippet character
-    set col [expr $curr_col - 1]
-    while {$col > 0} {
-      if {[string index $str $col] eq " "} {
-        set startcol [expr $col + 1]
+    set col 0
+    while {[regexp -start $col -- $data(tag) $str match pre tag]} {
+      if {[expr $col + [string length $match]] < $curr_col} {
+        incr col [string length $match]
+      } elseif {[expr $col + [string length $pre]] >= $curr_col} {
+        set startcol $col
+        set endcol   [expr $col + [string length $pre]]
         break
+      } else {
+        return [list "" $row.$startcol $row.$endcol]
       }
-      incr col -1
     }
-
-    # Move forward through the string, searching for a non-snippet character
-    set col $curr_col
-    while {$col < $endcol} {
-      if {[string index $str $col] eq " "} {
-        set endcol $col
-        break
-      }
-      incr col
-    }
-
-    puts "startcol: $startcol, endcol: $endcol"
-
-    return [list [$txt get $row.$startcol $row.$endcol] $row.$startcol $row.$endcol]
+    
+    return [list [$txt get $row.$startcol $row.$endcol] $row.$startcol $row.$endcol 1]
 
   }
 

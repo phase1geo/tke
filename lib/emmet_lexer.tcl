@@ -27,8 +27,9 @@ source [file join $::tke_dir lib emmet_parser.tab.tcl]
 array set emmet_block_aliases {
 
   # HTML
-  doc       {html>(head>meta[charset=UTF-8]+title{Document})+body}
-  doc4      {html>(head>meta[http-equiv="Content-Type" content="text/html;charset=${charset}"]+title{Document})+body}
+  !         {!!!+doc[lang=en]}
+  doc       {html>(head>meta[charset=UTF-8]+title{{|Document}})+body}
+  doc4      {html>(head>meta[http-equiv="Content-Type" content="text/html;charset=${charset}"]+title{{|Document}})+body}
   html:4t   {!!!4t+doc4[lang=en]}
   html:4s   {!!!4s+doc4[lang=en]}
   html:xt   {!!!xt+doc4[xmlns="http://www.w3.org/1999/xhtml" xml:lang=en]}
