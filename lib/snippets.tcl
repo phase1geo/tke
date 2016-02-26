@@ -213,8 +213,6 @@ namespace eval snippets {
     # If the snippet exists, perform the replacement.
     if {[info exists snippets(current,$last_word)]} {
       return [insert_snippet $txtt $snippets(current,$last_word) "insert-1c wordstart" "insert-1c wordend"]
-    } elseif {![catch { emmet::parse } emmet_info]} {
-      return [insert_snippet $txtt {*}$emmet_info]
     }
 
     return 0
@@ -262,9 +260,9 @@ namespace eval snippets {
   ######################################################################
   # Inserts the given snippet into the current text widget, adhering to
   # indentation rules.
-  proc insert_snippet_into_current {tid snippet} {
+  proc insert_snippet_into_current {tid snippet {delstart ""} {delend ""}} {
 
-    insert_snippet [gui::current_txt $tid].t $snippet 0
+    insert_snippet [gui::current_txt $tid].t $snippet $delstart $delend
 
   }
 
