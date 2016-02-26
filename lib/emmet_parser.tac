@@ -787,12 +787,11 @@ array set emmet_inlined {
   s       1
   samp    1
   small   1
+  span    1
   strike  1
   strong  1
   sub     1
   sup     1
-  td      1
-  th      1
   tt      1
   u       1
   var     1
@@ -813,30 +812,6 @@ proc emmet_gen_str {format_str values} {
   }
 
   return [format $format_str {*}$vals]
-
-}
-
-proc emmet_get_depth {tree node} {
-
-  set depth 0
-
-  foreach node [$tree ancestors $node] {
-    switch [$tree get $node type] {
-      ident {
-        if {![info exists ::emmet_inlined([$tree get $node name])]} {
-          incr depth
-        }
-      }
-      text {
-        #set parent [$tree parent $node]
-        #if {([$tree get $parent type] eq "ident") && ![info exists ::emmet_inlined([$tree get $parent name])]} {
-        #  incr depth
-        #}
-      }
-    }
-  }
-
-  return $depth
 
 }
 
@@ -929,21 +904,29 @@ proc emmet_elaborate {tree node action} {
 
 proc emmet_generate {tree node action} {
 
-  # Gather the children string values
-  set child_strs [list]
+  # Gather the children lines and indentation information
+  set child_lines  [list]
+  set child_indent 0
   foreach child [$tree children $node] {
-    lappend child_strs [$tree get $child str]
+    lappend child_lines {*}[$tree get $child lines]
+    if {[$tree get $child indent]} {
+      set child_indent 1
+    }
   }
-
-  # If we are the root node, we won't have any information so just concatenate
-  # the children strings.
-  if {$node eq "root"} {
-    $tree set $node "str" [join $child_strs \n]
-    return
+  
+  # Setup the child lines to be structured properly
+  if {[$tree get $node type] ne "group"} {
+    if {$child_indent} {
+      set spaces [string repeat { } $::emmet_shift_width]
+      set i      0
+      foreach line $child_lines {
+        lset child_lines $i "$spaces$line"
+        incr i
+      }
+    } else {
+      set child_lines [join $child_lines {}]
+    }
   }
-
-  # Get the node depth
-  set spaces [string repeat { } [expr [emmet_get_depth $tree $node] * $::emmet_shift_width]]
 
   # Otherwise, insert our information along with the children in the proper order
   switch [$tree get $node type] {
@@ -962,37 +945,30 @@ proc emmet_generate {tree node action} {
         append attr_str " [lindex [split $attr ,] 1]=\"$attr_val\""
       }
       if {$tagnum == 0} {
-        $tree set $node str "$spaces<$name$attr_str />$value"
+        $tree set $node lines [list "<$name$attr_str />$value"]
       } elseif {$tagnum == 2} {
-        $tree set $node str "$spaces<$name$attr_str>$value"
-      } elseif {[llength $child_strs] == 0} {
+        $tree set $node lines [list "<$name$attr_str>$value"]
+      } elseif {[llength $child_lines] == 0} {
         if {$value eq ""} {
           set value "{|}"
         }
-        if {[info exists ::emmet_inlined($name)]} {
-          $tree set $node str "<$name$attr_str>$value</$name>"
-        } else {
-          $tree set $node str "$spaces<$name$attr_str>$value</$name>"
-        }
+        $tree set $node lines [list "<$name$attr_str>$value</$name>"]
       } else {
-        if {[info exists ::emmet_inlined($name)]} {
-          $tree set $node str "<$name$attr_str>$value[join $child_strs {}]</$name>"
+        if {$child_indent} {
+          $tree set $node lines [list "<$name$attr_str>$value" {*}$child_lines "</$name>"]
         } else {
-          $tree set $node str "$spaces<$name$attr_str>$value\n[join $child_strs \n]\n$spaces</$name>"
+          $tree set $node lines [list "<$name$attr_str>$value$child_lines</$name>"]
         }
       }
+      $tree set $node indent [expr [info exists ::emmet_inlined($name)] ? 0 : 1]
     }
     text {
-      #set parent [$tree parent $node]
-      #if {([$tree get $parent type] eq "ident") && ![info exists ::emmet_inlined([$tree get $parent name])]} {
-      #  $tree set $node str "$spaces[$tree get $node value]"
-      #} else {
-      #  $tree set $node str [$tree get $node value]
-      #}
-      $tree set $node str [$tree get $node value]
+      $tree set $node lines  [list [$tree get $node value]]
+      $tree set $node indent 0
     }
     group {
-      $tree set $node str "[join $child_strs \n]"
+      $tree set $node lines  $child_lines
+      $tree set $node indent $child_indent
     }
   }
 
@@ -1007,7 +983,11 @@ proc emmet_generate_html {} {
   $::emmet_elab walkproc root -order post -type dfs emmet_generate
 
   # Substitute carent syntax with tabstops
-  set str   [$::emmet_elab get root "str"]
+  if {[$::emmet_elab get root indent]} {
+    set str [join [$::emmet_elab get root lines] \n]
+  } else {
+    set str [join [$::emmet_elab get root lines] {}]
+  }
   set index 1
   while {[regexp {(.*?)\{\|(.*?)\}(.*)$} $str -> before value after]} {
     if {$value eq ""} {
