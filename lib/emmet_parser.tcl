@@ -814,6 +814,21 @@ proc emmet_gen_str {format_str values} {
 
 }
 
+proc emmet_get_lorem {words} {
+  
+  set token  [::http::geturl "http://lipsum.com/feed/xml?what=words&amount=$words&start=0"]
+  set lipsum ""
+  
+  if {([::http::status $token] eq "ok") && ([::http::ncode $token] eq "200")} {
+    regexp {<lipsum>(.*)</lipsum>} [::http::data $token] -> lipsum
+  }
+  
+  ::http::cleanup $token
+  
+  return $lipsum
+  
+}
+
 proc emmet_elaborate {tree node action} {
 
   # If we are the root node, exit early
@@ -1044,584 +1059,695 @@ proc emmet_unsetupvalues {numsyms} {
 }
 
 array set ::emmet_table {
-  18:271,target 20
-  17:257 shift
-  11:263,target 12
-  27:0 reduce
-  17:266,target 31
-  6:259,target 12
-  6:260,target 12
-  33:261,target 11
+  27:262,target 2
+  17:257 reduce
+  7:264,target 28
+  34:265,target 20
+  11:263,target 23
+  26:257,target 1
+  17:266,target 18
+  6:259,target 13
+  6:260,target 13
   24:269,target 5
-  23:265,target 3
-  38:260,target 10
-  38:259,target 10
-  17:266 shift
-  1:279,target 12
+  37:276,target 46
+  23:265,target 27
+  38:260,target 3
+  38:259,target 3
+  29:268,target 24
+  26:257 shift
+  17:266 reduce
+  1:279,target 11
   1:280,target 13
   6:259 reduce
   6:260 reduce
-  15:257,target 16
   6:261 reduce
-  26:260 reduce
-  26:259 reduce
-  26:261 reduce
-  6:0,target 12
+  22:261,target 9
+  13:269,target 5
+  0:275,target 10
+  6:0,target 13
   6:263 reduce
+  26:262 shift
   6:264 shift
-  26:263 reduce
   12:265,target 3
-  27:260,target 12
-  27:259,target 12
-  26:264 reduce
-  18:268,target 20
-  34:263,target 3
-  26:265 reduce
-  41:266,target 13
-  11:261,target 12
-  17:276 goto
-  35:260 reduce
-  35:259 reduce
-  26:268 reduce
-  35:261 reduce
-  33:0,target 11
-  31:271,target 19
-  26:269 reduce
-  22:279,target 11
-  26:271 reduce
-  25:0,target 8
-  35:263 reduce
-  6:275 goto
-  10:0,target 22
+  34:263,target 20
+  26:265 shift
+  25:272,target 7
+  35:257 reduce
+  24:0 reduce
+  11:261,target 23
+  41:0,target 7
+  33:258,target 44
+  26:268 shift
+  26:269 shift
+  26:271 shift
+  26:272 shift
+  23:263,target 27
+  10:0,target 2
+  6:276 goto
+  44:257 reduce
+  35:266 reduce
+  26:275 goto
+  20:271,target 22
   19:271,target 21
   0:273,target 8
-  12:263,target 24
-  34:261,target 3
-  21:0 reduce
-  14:260 shift
-  14:259 shift
+  6:276,target 22
+  12:263,target 13
+  27:257,target 1
+  26:279 goto
+  26:280 goto
+  18:266,target 34
+  7:259,target 28
+  7:260,target 28
+  34:261,target 20
+  25:269,target 5
+  14:260 reduce
+  14:259 reduce
+  44:266 reduce
+  42:0 reduce
   24:265,target 3
-  14:261 shift
-  31:268,target 19
+  14:261 reduce
+  40:260,target 5
+  40:259,target 5
+  39:260,target 4
+  39:259,target 4
+  2:280,target 12
   2:279,target 11
+  46:263,target 10
   16:257,target 17
-  14:263 shift
+  14:263 reduce
+  23:261,target 27
+  14:264 shift
   3:257 shift
-  29:264,target 20
-  23:257 shift
-  28:260,target 6
-  28:259,target 6
+  30:264,target 21
+  29:264,target 24
+  13:265,target 3
+  28:260,target 8
+  28:259,target 8
+  23:260 reduce
+  23:259 reduce
+  20:268,target 22
   19:268,target 21
   0:271,target 6
-  35:263,target 4
-  23:262 shift
-  12:261,target 24
-  18:264,target 20
-  23:265 shift
-  23:279,target 11
+  26:272,target 7
+  23:261 reduce
+  14:271 shift
+  12:261,target 13
+  23:263 reduce
+  23:264 reduce
+  23:265 reduce
   38:0 reduce
-  32:257 reduce
-  40:257,target 14
-  39:257,target 15
-  23:268 shift
-  23:269 shift
-  23:271 shift
-  23:274 goto
-  13:263,target 12
-  3:276 goto
-  41:257 reduce
-  32:266 reduce
+  24:263,target 26
+  14:276 goto
+  32:260 reduce
+  32:259 reduce
+  23:268 reduce
+  46:261,target 10
+  32:261 reduce
+  23:269 reduce
+  23:271 reduce
+  32:263 reduce
+  12:279,target 29
+  32:264 shift
+  13:263,target 25
   0:268,target 4
   3:277 goto
-  8:259,target 22
-  8:260,target 23
-  11:275,target 25
-  35:261,target 4
-  26:269,target 23
-  37:0,target 7
-  29:0,target 12
-  23:278 goto
-  10:271,target 22
-  23:279 goto
-  35:0 reduce
-  17:257,target 15
+  26:269,target 5
+  3:278 goto
+  41:260 reduce
+  41:259 reduce
+  37:0,target 13
+  14:0 reduce
+  41:261 reduce
+  30:0,target 13
+  29:0,target 24
+  25:265,target 3
+  22:0,target 9
+  41:263 reduce
+  41:260,target 7
+  41:259,target 7
+  14:0,target 13
+  17:257,target 18
+  24:261,target 26
   11:259 reduce
   11:260 reduce
-  41:266 reduce
-  31:264,target 19
+  2:275,target 10
   11:261 reduce
+  32:276 goto
   11:263 reduce
-  29:260,target 12
-  29:259,target 12
-  1:271,target 25
+  30:260,target 13
+  30:259,target 13
+  29:260,target 24
+  29:259,target 24
+  1:271,target 26
   0:257 shift
-  11:264 shift
-  36:263,target 5
-  11:265 shift
-  13:261,target 12
-  20:258 shift
+  11:264 reduce
+  36:263,target 12
+  27:272,target 7
+  11:265 reduce
+  43:266,target 16
+  13:261,target 25
+  20:264,target 22
   19:264,target 21
   9:0 reduce
+  20:260 reduce
+  20:259 reduce
   19:260 reduce
   19:259 reduce
-  17:276,target 32
   0:262 shift
   11:0 reduce
-  11:268 shift
+  11:268 reduce
   24:279,target 11
+  24:280,target 13
+  20:261 reduce
   19:261 reduce
-  11:269 shift
-  18:260,target 20
-  18:259,target 20
-  10:268,target 22
-  25:263,target 8
+  11:269 reduce
+  11:271 reduce
+  32:0 reduce
+  20:263 reduce
   19:263 reduce
   0:265 shift
-  41:257,target 13
-  32:266,target 18
+  20:264 reduce
   19:264 reduce
   3:277,target 17
+  20:265 reduce
   19:265 reduce
-  15:267,target 30
   0:268 shift
-  8:259 shift
-  8:260 shift
-  11:275 goto
-  22:271,target 6
+  13:279,target 29
   0:269 shift
-  2:273,target 14
-  8:261 shift
   28:260 reduce
   28:259 reduce
+  20:268 reduce
   19:268 reduce
   0:271 shift
   28:261 reduce
+  20:269 reduce
   19:269 reduce
-  14:263,target 29
-  0:272 goto
-  11:278 goto
-  30:257,target 39
+  14:263,target 13
+  0:272 shift
+  20:271 reduce
   19:271 reduce
-  1:268,target 4
   0:273 goto
-  9:259,target 2
-  9:260,target 2
-  36:261,target 5
+  1:268,target 4
+  9:259,target 25
+  9:260,target 26
+  36:261,target 12
   28:263 reduce
+  27:269,target 5
   0:274 goto
+  0:275 goto
   6:0 reduce
-  26:265,target 23
-  0:278 goto
+  11:271,target 23
+  26:265,target 3
+  42:260,target 11
+  42:259,target 11
   37:260 reduce
   37:259 reduce
   28:0 reduce
+  18:257,target 16
   0:279 goto
-  7:0,target 0
+  0:280 goto
+  7:0,target 28
   37:261 reduce
-  25:261,target 8
+  32:264,target 21
   37:263 reduce
-  31:260,target 19
-  31:259,target 19
-  22:268,target 4
+  30:276,target 41
+  37:264 shift
+  31:260,target 6
+  31:259,target 6
   2:271,target 6
-  37:263,target 7
-  14:261,target 24
-  34:0,target 3
-  26:0,target 23
-  18:0,target 20
+  37:263,target 13
+  44:266,target 15
+  42:0,target 11
+  14:261,target 13
+  46:260 reduce
+  46:259 reduce
+  34:0,target 20
+  46:261 reduce
+  7:269,target 28
+  34:271,target 20
+  25:279,target 11
+  25:280,target 12
+  46:263 reduce
+  20:260,target 22
+  20:259,target 22
   19:260,target 21
   19:259,target 21
   16:257 reduce
   0:262,target 2
-  11:0,target 12
-  11:268,target 4
-  26:263,target 23
-  25:0 reduce
-  10:264,target 22
-  23:271,target 6
+  11:0,target 23
+  11:268,target 23
+  37:276 goto
+  16:267,target 33
+  46:0 reduce
+  23:271,target 27
   5:257 shift
+  15:263,target 32
+  25:257 shift
   16:266 reduce
   2:268,target 4
-  13:275,target 28
-  37:261,target 7
-  25:260 reduce
-  25:259 reduce
-  25:261 reduce
-  1:264,target 25
-  12:271,target 24
-  25:263 reduce
-  26:261,target 23
-  6:263,target 12
+  37:261,target 13
+  16:267 shift
+  1:264,target 26
+  27:265,target 3
+  25:262 shift
+  34:268,target 20
+  25:265 shift
+  22:0 reduce
+  6:263,target 13
   34:260 reduce
   34:259 reduce
+  25:268 shift
   34:261 reduce
-  23:268,target 4
-  38:263,target 10
+  32:260,target 13
+  32:259,target 13
+  25:269 shift
+  23:268,target 27
+  38:263,target 3
+  25:271 shift
+  45:266,target 14
   34:263 reduce
-  0:278,target 10
-  21:260,target 9
-  21:259,target 9
+  25:272 shift
+  15:261,target 27
+  34:264 reduce
+  34:265 reduce
+  43:257 reduce
+  26:279,target 11
+  26:280,target 12
+  25:275 goto
   12:268,target 4
-  27:263,target 12
-  18:0 reduce
+  34:268 reduce
+  7:265,target 28
+  43:257,target 16
+  34:269 reduce
+  25:275,target 38
+  34:271 reduce
+  25:279 goto
+  25:280 goto
   0:257,target 1
-  11:264,target 20
-  6:261,target 12
-  24:271,target 6
-  10:259,target 22
-  10:260,target 22
+  11:264,target 23
+  6:261,target 13
+  40:0 reduce
+  39:0 reduce
+  10:259,target 2
+  10:260,target 2
   13:259 reduce
   13:260 reduce
+  46:0,target 10
+  43:266 reduce
   13:261 reduce
-  38:0,target 10
-  32:257,target 18
-  38:261,target 10
-  31:0,target 19
-  30:270,target 41
+  38:0,target 3
+  38:261,target 3
+  31:0,target 6
+  29:269,target 24
+  1:281,target 14
   13:263 reduce
+  23:0,target 27
+  13:264 reduce
   2:257 shift
-  13:264 shift
-  22:262,target 2
-  13:271,target 27
-  22:257 shift
-  1:260,target 25
-  1:259,target 25
+  13:265 shift
+  13:271,target 25
+  22:260 reduce
+  22:259 reduce
+  13:268 shift
+  1:260,target 26
+  1:259,target 26
   2:262 shift
-  27:261,target 12
-  18:269,target 20
-  22:262 shift
-  13:271 shift
+  22:261 reduce
+  13:269 shift
+  7:263,target 28
+  34:264,target 20
+  13:271 reduce
+  32:276,target 42
+  22:263 reduce
   2:265 shift
   36:0 reduce
-  33:260,target 11
-  33:259,target 11
   24:268,target 4
-  22:265 shift
+  40:263,target 5
+  39:263,target 4
   2:268 shift
-  13:275 goto
   2:269 shift
   31:260 reduce
   31:259 reduce
-  22:268 shift
+  23:264,target 27
   2:271 shift
   31:261 reduce
-  22:269 shift
-  1:278,target 10
-  22:271 shift
-  2:273 goto
+  2:272 shift
+  27:279,target 11
+  27:280,target 12
+  13:279 goto
+  7:282,target 24
   31:263 reduce
+  22:260,target 9
+  22:259,target 9
+  13:268,target 4
   2:274 goto
   2:262,target 2
-  31:264 reduce
-  28:263,target 6
+  28:263,target 8
   0:274,target 9
-  31:265 reduce
-  22:274 goto
-  40:257 reduce
-  39:257 reduce
-  12:264,target 24
-  2:278 goto
+  2:275 goto
+  44:257,target 15
+  35:266,target 19
+  26:275,target 39
+  12:264,target 21
+  7:261,target 28
   12:0 reduce
-  31:268 reduce
+  40:260 reduce
+  40:259 reduce
+  39:260 reduce
+  39:259 reduce
+  25:271,target 6
+  2:280 goto
   2:279 goto
-  31:269 reduce
-  22:278 goto
-  11:259,target 12
-  11:260,target 12
-  33:0 reduce
-  31:271 reduce
-  22:279 goto
-  31:269,target 19
-  22:278,target 10
+  40:261 reduce
+  39:261 reduce
+  11:259,target 23
+  11:260,target 23
+  40:263 reduce
+  39:263 reduce
+  33:257,target 43
+  40:261,target 5
+  39:261,target 4
   10:259 reduce
   10:260 reduce
-  40:266 reduce
-  39:266 reduce
-  23:262,target 2
+  14:271,target 30
   10:261 reduce
-  8:0,target 1
-  1:0,target 25
+  29:265,target 24
+  8:0,target 0
+  1:0,target 26
   10:263 reduce
-  22:257,target 1
-  10:264 reduce
-  28:261,target 6
+  28:261,target 8
+  20:269,target 22
   19:269,target 21
   0:272,target 7
-  10:265 reduce
-  11:278,target 26
-  6:275,target 21
-  7:0 accept
-  18:265,target 20
-  18:260 reduce
-  18:259 reduce
-  10:268 reduce
-  34:260,target 3
-  34:259,target 3
-  18:261 reduce
-  10:269 reduce
-  35:0,target 4
+  18:257 shift
+  7:0 reduce
+  7:258,target 23
+  34:260,target 20
+  34:259,target 20
+  25:268,target 4
+  41:263,target 7
+  30:0 reduce
   29:0 reduce
-  10:271 reduce
-  27:0,target 12
-  18:263 reduce
+  24:264,target 26
+  20:0,target 22
   19:0,target 21
-  18:264 reduce
-  18:265 reduce
-  2:278,target 10
-  12:0,target 24
-  29:263,target 12
-  27:260 reduce
-  27:259 reduce
-  18:268 reduce
-  27:261 reduce
-  27:275,target 37
-  18:269 reduce
-  18:271 reduce
+  7:258 shift
+  12:0,target 13
+  27:257 shift
+  18:266 shift
+  7:259 reduce
+  7:260 reduce
+  23:260,target 27
+  23:259,target 27
+  7:261 reduce
+  30:263,target 13
+  29:263,target 24
+  45:257,target 14
+  27:275,target 40
+  7:263 reduce
+  27:262 shift
+  13:264,target 25
   2:257,target 1
-  13:264,target 20
-  27:263 reduce
+  7:264 reduce
   0:269,target 5
-  8:261,target 24
-  27:264 shift
-  26:271,target 23
-  12:259,target 24
-  12:260,target 24
-  18:263,target 20
-  26:0 reduce
+  7:265 reduce
+  26:271,target 6
+  27:265 shift
+  12:259,target 13
+  12:260,target 13
+  7:268 reduce
+  7:269 reduce
+  41:261,target 7
   36:260 reduce
   36:259 reduce
-  23:278,target 10
+  27:268 shift
+  18:277 goto
+  7:271 reduce
   36:261 reduce
-  24:262,target 2
+  27:269 shift
+  27:271 shift
   36:263 reduce
-  31:265,target 19
-  22:274,target 34
-  23:257,target 1
-  29:261,target 12
+  27:272 shift
+  46:260,target 10
+  46:259,target 10
+  45:257 reduce
+  30:261,target 13
+  29:261,target 24
   27:275 goto
-  9:263,target 2
-  12:278,target 26
   1:0 reduce
+  20:265,target 22
   19:265,target 21
-  35:260,target 4
-  35:259,target 4
-  26:268,target 23
-  15:257 reduce
-  18:261,target 20
-  10:269,target 22
-  31:263,target 19
-  2:274,target 9
+  27:279 goto
+  27:280 goto
+  26:268,target 4
+  7:282 goto
+  42:263,target 11
+  24:281,target 37
+  23:0 reduce
+  15:260 shift
+  15:259 shift
+  45:266 reduce
+  15:261 shift
+  3:278,target 18
+  24:260,target 26
+  24:259,target 26
+  15:263 shift
+  31:263,target 6
+  2:274,target 15
   4:257 shift
-  24:257 shift
-  15:266 reduce
-  3:257,target 15
-  30:258,target 40
-  15:267 shift
+  14:264,target 21
+  3:257,target 16
   1:269,target 5
-  9:261,target 2
-  13:259,target 12
-  13:260,target 12
-  24:262 shift
+  9:261,target 27
+  12:276,target 28
+  27:271,target 6
+  24:260 reduce
+  24:259 reduce
+  40:0,target 5
+  39:0,target 4
+  24:261 reduce
+  13:259,target 25
+  13:260,target 25
+  32:0,target 13
+  20:263,target 22
   19:263,target 21
   0:265,target 3
-  24:278,target 10
+  35:257,target 19
+  24:263 reduce
+  24:0,target 26
+  42:261,target 11
+  33:270,target 45
+  24:264 reduce
+  20:0 reduce
   19:0 reduce
   24:265 shift
-  23:274,target 35
-  3:276,target 16
-  33:260 reduce
-  33:259 reduce
+  33:257 shift
+  25:262,target 2
+  41:0 reduce
+  33:258 shift
   24:268 shift
-  33:261 reduce
   24:269 shift
-  24:257,target 1
-  15:266,target 16
-  31:261,target 19
-  24:271 shift
-  22:269,target 5
-  33:263 reduce
-  24:274 goto
-  36:260,target 5
-  36:259,target 5
+  31:261,target 6
+  2:272,target 7
+  37:264,target 21
+  36:260,target 12
+  36:259,target 12
+  27:268,target 4
+  18:277,target 35
+  7:271,target 28
+  42:260 reduce
+  42:259 reduce
+  20:261,target 22
   19:261,target 21
-  11:269,target 5
-  26:264,target 23
-  24:278 goto
+  11:269,target 23
+  42:261 reduce
+  33:270 shift
   24:279 goto
-  10:265,target 22
+  24:280 goto
+  42:263 reduce
+  24:281 goto
   37:0 reduce
-  25:260,target 8
-  25:259,target 8
+  32:263,target 13
   12:259 reduce
   12:260 reduce
-  29:275,target 38
   12:261 reduce
-  4:257,target 18
+  4:257,target 19
   2:269,target 5
   12:263 reduce
-  12:264 reduce
-  14:260,target 23
-  14:259,target 22
+  12:264 shift
+  14:260,target 13
+  14:259,target 13
   12:265 shift
-  21:263,target 9
   1:265,target 3
   1:260 reduce
   1:259 reduce
+  21:258 shift
   1:261 reduce
-  21:260 reduce
-  21:259 reduce
+  7:268,target 28
+  34:269,target 20
   12:268 shift
-  21:261 reduce
-  20:258,target 33
   1:263 reduce
-  9:0,target 2
+  9:0,target 1
   12:269 shift
   13:0 reduce
+  26:262,target 2
   1:264 reduce
-  6:264,target 20
-  12:271 reduce
-  24:274,target 36
-  21:263 reduce
+  6:264,target 21
   1:265 shift
   34:0 reduce
-  10:263,target 22
+  10:263,target 2
+  25:257,target 1
   16:266,target 17
-  30:257 shift
-  23:269,target 5
+  32:261,target 13
+  23:269,target 27
   1:268 shift
-  9:259 reduce
-  9:260 reduce
-  30:258 shift
+  9:259 shift
+  9:260 shift
   1:269 shift
-  9:261 reduce
+  9:261 shift
+  12:276 goto
+  30:260 reduce
+  30:259 reduce
   29:260 reduce
   29:259 reduce
   1:271 reduce
-  36:0,target 5
+  36:0,target 12
+  30:261 reduce
   29:261 reduce
-  22:265,target 3
-  9:263 reduce
-  12:278 goto
-  37:260,target 7
-  37:259,target 7
-  28:0,target 6
+  37:260,target 13
+  37:259,target 13
+  28:0,target 8
   0:279,target 11
+  0:280,target 12
+  12:279 goto
+  30:263 reduce
   29:263 reduce
-  21:0,target 9
-  29:264 shift
-  21:261,target 9
-  1:263,target 25
+  30:264 shift
+  29:264 reduce
+  1:263,target 26
   12:269,target 5
-  13:0,target 12
-  27:264,target 20
-  8:0 reduce
+  13:0,target 25
+  29:265 reduce
+  8:0 accept
   10:0 reduce
-  1:278 goto
-  11:265,target 3
+  11:265,target 23
   38:260 reduce
   38:259 reduce
-  26:260,target 23
-  26:259,target 23
+  29:268 reduce
   1:279 goto
   1:280 goto
   38:261 reduce
-  33:263,target 11
   31:0 reduce
-  30:270 shift
-  40:266,target 14
-  39:266,target 15
-  10:261,target 22
+  29:269 reduce
+  1:281 goto
+  29:271 reduce
+  10:261,target 2
   38:263 reduce
-  5:257,target 19
-  29:275 goto
+  5:257,target 20
+  14:276,target 31
+  29:271,target 24
+  15:260,target 26
+  15:259,target 25
+  30:276 goto
+  22:263,target 9
   2:265,target 3
-  1:261,target 25
+  21:258,target 36
+  1:261,target 26
 }
 
 array set ::emmet_rules {
-  9,l 274
+  27,l 282
+  9,l 275
   11,l 275
-  15,l 276
-  20,l 278
+  15,l 277
+  20,l 279
   19,l 278
-  2,l 273
+  2,l 274
   24,l 280
-  6,l 274
-  12,l 275
-  16,l 276
-  21,l 278
-  3,l 273
-  25,l 280
-  7,l 274
+  6,l 275
+  28,l 282
+  12,l 276
+  16,l 277
+  21,l 279
+  3,l 274
+  25,l 281
+  7,l 275
   13,l 276
-  0,l 281
+  0,l 283
   17,l 277
   22,l 279
-  4,l 273
-  8,l 274
-  10,l 274
-  14,l 276
-  18,l 277
-  1,l 272
-  23,l 279
-  5,l 273
+  4,l 274
+  26,l 281
+  8,l 275
+  10,l 275
+  14,l 277
+  18,l 278
+  1,l 273
+  23,l 280
+  5,l 274
 }
 
 array set ::emmet_rules {
-  23,dc 2
+  23,dc 1
   5,dc 3
   0,dc 1
   17,dc 1
-  12,dc 0
+  12,dc 2
+  26,dc 0
   8,dc 2
   21,dc 2
   3,dc 3
   15,dc 3
   10,dc 4
-  24,dc 1
+  24,dc 2
   6,dc 3
-  18,dc 2
+  18,dc 1
   1,dc 1
-  13,dc 3
+  13,dc 0
+  27,dc 1
   9,dc 2
-  22,dc 1
+  22,dc 2
   4,dc 3
-  16,dc 1
-  11,dc 2
-  25,dc 0
+  16,dc 3
+  11,dc 4
+  25,dc 1
   7,dc 4
-  20,dc 2
-  19,dc 3
+  20,dc 3
+  19,dc 2
   2,dc 1
   14,dc 3
+  28,dc 0
 }
 
 array set ::emmet_rules {
-  13,line 1109
-  25,line 1153
-  7,line 1072
-  10,line 1096
-  22,line 1142
-  4,line 1043
-  18,line 1126
-  1,line 1015
-  15,line 1115
-  9,line 1089
-  12,line 1104
-  24,line 1150
-  6,line 1061
-  21,line 1137
-  3,line 1039
-  17,line 1123
-  14,line 1112
-  8,line 1082
-  11,line 1101
-  23,line 1145
-  5,line 1049
-  20,line 1134
-  19,line 1131
-  2,line 1020
-  16,line 1118
+  13,line 1131
+  25,line 1177
+  7,line 1087
+  10,line 1116
+  22,line 1164
+  4,line 1058
+  18,line 1150
+  1,line 1030
+  15,line 1139
+  27,line 1185
+  9,line 1104
+  12,line 1128
+  24,line 1172
+  6,line 1076
+  21,line 1161
+  3,line 1054
+  17,line 1145
+  14,line 1136
+  26,line 1180
+  8,line 1097
+  11,line 1123
+  23,line 1169
+  5,line 1064
+  20,line 1158
+  19,line 1153
+  2,line 1035
+  16,line 1142
+  28,line 1188
 }
 
 proc emmet_parse {} {
@@ -1756,57 +1882,75 @@ proc emmet_parse {} {
         set _ $node
        }
                     10 { 
+        puts "Found LOREM"
+        set node [$::emmet_dom insert root end]
+        $::emmet_dom set $node type       "ident"
+        $::emmet_dom set $node name       ""
+        $::emmet_dom set $node value      [emmet_get_lorem $2]
+        foreach {attr_name attr_val} $1 {
+          $::emmet_dom lappend $node "attr,$attr_name" $attr_val
+        }
+        $::emmet_dom set $node multiplier $4
+        set _ $node
+       }
+                    11 { 
         set node [$::emmet_dom insert root end]
         $::emmet_dom set $node type       "group"
         $::emmet_dom set $node multiplier $4
         $::emmet_dom move $node end {*}[lrange [$::emmet_dom children root] $1 end-1]
         set _ $node
        }
-                    11 { 
+                    12 { 
                 set _ $2
                }
-                    12 { 
+                    13 { 
                 set _ 1
                }
-                    13 { 
-             set _ [list $1 $3]
-            }
                     14 { 
-             set _ [list $1 [list $3 {}]]
+             set _ [list $1 $3]
             }
                     15 { 
-             set _ [list $1 $3]
+             set _ [list $1 [list $3 {}]]
             }
                     16 { 
-             set _ [list $1 [list {} {}]]
+             set _ [list $1 $3]
             }
                     17 { 
+             set _ [list $1 [list {} {}]]
+            }
+                    18 { 
               set _ $1
              }
-                    18 { 
+                    19 { 
               set _ [concat $1 $2]
              }
-                    19 { 
+                    20 { 
         set _ $2
        }
-                    20 { 
+                    21 { 
         set _ [list [list id {}] $2]
        }
-                    21 { 
+                    22 { 
         set _ [list [list class {}] $2]
        }
-                    22 { 
+                    23 { 
          set _ $1
         }
-                    23 { 
+                    24 { 
          set _ [concat $2 $1]
         }
-                    24 { 
+                    25 { 
              set _ $1
             }
-                    25 { 
+                    26 { 
              set _ [list]
             }
+                    27 { 
+              set _ $1
+             }
+                    28 { 
+              set _ 30
+             }
                 }
                 emmet_unsetupvalues $emmet_dc
                 # pop off tokens from the stack if normal rule

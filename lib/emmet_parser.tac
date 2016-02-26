@@ -815,6 +815,21 @@ proc emmet_gen_str {format_str values} {
 
 }
 
+proc emmet_get_lorem {words} {
+  
+  set token  [::http::geturl "http://lipsum.com/feed/xml?what=words&amount=$words&start=0"]
+  set lipsum ""
+  
+  if {([::http::status $token] eq "ok") && ([::http::ncode $token] eq "200")} {
+    regexp {<lipsum>(.*)</lipsum>} [::http::data $token] -> lipsum
+  }
+  
+  ::http::cleanup $token
+  
+  return $lipsum
+  
+}
+
 proc emmet_elaborate {tree node action} {
 
   # If we are the root node, exit early
@@ -1005,7 +1020,7 @@ proc emmet_generate_html {} {
 %}
 
 %token IDENTIFIER NUMBER CHILD SIBLING CLIMB OPEN_GROUP CLOSE_GROUP MULTIPLY
-%token OPEN_ATTR CLOSE_ATTR ASSIGN ID CLASS VALUE TEXT
+%token OPEN_ATTR CLOSE_ATTR ASSIGN ID CLASS VALUE TEXT LOREM
 
 %%
 
@@ -1086,6 +1101,18 @@ item: IDENTIFIER attrs_opt multiply_opt {
         $::emmet_dom set $node multiplier $2
         set _ $node
       }
+    | LOREM number_opt attrs_opt multiply_opt {
+        puts "Found LOREM"
+        set node [$::emmet_dom insert root end]
+        $::emmet_dom set $node type       "ident"
+        $::emmet_dom set $node name       ""
+        $::emmet_dom set $node value      [emmet_get_lorem $2]
+        foreach {attr_name attr_val} $1 {
+          $::emmet_dom lappend $node "attr,$attr_name" $attr_val
+        }
+        $::emmet_dom set $node multiplier $4
+        set _ $node
+      }
     | OPEN_GROUP expression CLOSE_GROUP multiply_opt {
         set node [$::emmet_dom insert root end]
         $::emmet_dom set $node type       "group"
@@ -1152,6 +1179,14 @@ attrs_opt: attrs {
            }
          ;
 
+number_opt: NUMBER {
+              set _ $1
+            }
+          | {
+              set _ 30
+            }
+          ;
+          
 %%
 
 rename emmet_error emmet_error_orig

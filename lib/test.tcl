@@ -1,7 +1,11 @@
 set tke_dir  [file normalize [file join [pwd] ..]]
 set fail_cnt 0
 
+package require http
+
 source emmet_parser.tcl
+
+puts [::emmet_get_lorem 20]
 
 foreach {str expect} {
   
@@ -305,6 +309,10 @@ foreach {str expect} {
   {a{{|foobar}}}
   
 {<a href="$1">${2:foobar}</a>}
+
+  {lorem10}
+  
+{}
 
 } {
   
