@@ -72,6 +72,7 @@ package require tokenentry
 package require wmarkentry
 package require tabbar
 package require specl
+package require http
 # package require fileutil
 package require struct::set
 package require comm

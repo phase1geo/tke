@@ -13,4 +13,5 @@ set ::ID 268
 set ::CLASS 269
 set ::VALUE 270
 set ::TEXT 271
+set ::LOREM 272
 set ::emmet_lval {}
