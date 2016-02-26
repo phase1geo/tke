@@ -23,10 +23,7 @@ foreach {str expect} {
   
 {<div>$1</div>
 <div>
-  <p>
-    <span>$2</span>
-    <em>$3</em>
-  </p>
+  <p><span>$2</span><em>$3</em></p>
   <blockquote>$4</blockquote>
 </div>}
 
@@ -34,10 +31,7 @@ foreach {str expect} {
   
 {<div>$1</div>
 <div>
-  <p>
-    <span>$2</span>
-    <em>$3</em>
-  </p>
+  <p><span>$2</span><em>$3</em></p>
 </div>
 <blockquote>$4</blockquote>}
 
@@ -46,12 +40,8 @@ foreach {str expect} {
 {<div>
   <header>
     <ul>
-      <li>
-        <a href="$1">$2</a>
-      </li>
-      <li>
-        <a href="$3">$4</a>
-      </li>
+      <li><a href="$1">$2</a></li>
+      <li><a href="$3">$4</a></li>
     </ul>
   </header>
   <footer>
@@ -89,11 +79,7 @@ foreach {str expect} {
 
   {p>{Click }+a{here}+{ to continue}}
   
-{<p>
-  Click 
-  <a href="$1">here</a>
-   to continue
-</p>}
+{<p>Click <a href="$1">here</a> to continue</p>}
 
   {link}
   
@@ -173,8 +159,7 @@ foreach {str expect} {
 
   {a{click}+b{here}}
   
-{<a href="$1">click</a>
-<b>here</b>}
+{<a href="$1">click</a><b>here</b>}
   
   {a>{click}+b{here}}
   
@@ -258,21 +243,11 @@ foreach {str expect} {
 {<div id="page">
   <div class="logo">$1</div>
   <ul id="navigation">
-    <li>
-      <a href="$2">Item 1</a>
-    </li>
-    <li>
-      <a href="$3">Item 2</a>
-    </li>
-    <li>
-      <a href="$4">Item 3</a>
-    </li>
-    <li>
-      <a href="$5">Item 4</a>
-    </li>
-    <li>
-      <a href="$6">Item 5</a>
-    </li>
+    <li><a href="$2">Item 1</a></li>
+    <li><a href="$3">Item 2</a></li>
+    <li><a href="$4">Item 3</a></li>
+    <li><a href="$5">Item 4</a></li>
+    <li><a href="$6">Item 5</a></li>
   </ul>
 </div>}
 
