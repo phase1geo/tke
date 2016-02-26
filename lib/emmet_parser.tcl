@@ -769,6 +769,34 @@ array set emmet_css_lookup {
   wfsm:sa    {-webkit-font-smoothing: subpixel-antialiased;}
 }
 
+array set emmet_inlined {
+  a       1
+  abbr    1
+  acronym 1
+  address 1
+  b       1
+  big     1
+  center  1
+  cite    1
+  code    1
+  em      1
+  i       1
+  kbd     1
+  q       1
+  s       1
+  samp    1
+  small   1
+  strike  1
+  strong  1
+  sub     1
+  sup     1
+  td      1
+  th      1
+  tt      1
+  u       1
+  var     1
+}
+
 proc emmet_is_curr {tree node} {
 
   return [$tree keyexists $node curr]
@@ -792,8 +820,18 @@ proc emmet_get_depth {tree node} {
   set depth 0
 
   foreach node [$tree ancestors $node] {
-    if {[$tree get $node type] ne "group"} {
-      incr depth
+    switch [$tree get $node type] {
+      ident {
+        if {![info exists ::emmet_inlined([$tree get $node name])]} {
+          incr depth
+        }
+      }
+      text {
+        #set parent [$tree parent $node]
+        #if {([$tree get $parent type] eq "ident") && ![info exists ::emmet_inlined([$tree get $parent name])]} {
+        #  incr depth
+        #}
+      }
     }
   }
 
@@ -930,13 +968,27 @@ proc emmet_generate {tree node action} {
         if {$value eq ""} {
           set value "{|}"
         }
-        $tree set $node str "$spaces<$name$attr_str>$value</$name>"
+        if {[info exists ::emmet_inlined($name)]} {
+          $tree set $node str "<$name$attr_str>$value</$name>"
+        } else {
+          $tree set $node str "$spaces<$name$attr_str>$value</$name>"
+        }
       } else {
-        $tree set $node str "$spaces<$name$attr_str>$value\n[join $child_strs \n]\n$spaces</$name>"
+        if {[info exists ::emmet_inlined($name)]} {
+          $tree set $node str "<$name$attr_str>$value[join $child_strs {}]</$name>"
+        } else {
+          $tree set $node str "$spaces<$name$attr_str>$value\n[join $child_strs \n]\n$spaces</$name>"
+        }
       }
     }
     text {
-      $tree set $node str "$spaces[$tree get $node value]"
+      #set parent [$tree parent $node]
+      #if {([$tree get $parent type] eq "ident") && ![info exists ::emmet_inlined([$tree get $parent name])]} {
+      #  $tree set $node str "$spaces[$tree get $node value]"
+      #} else {
+      #  $tree set $node str [$tree get $node value]
+      #}
+      $tree set $node str [$tree get $node value]
     }
     group {
       $tree set $node str "[join $child_strs \n]"
@@ -1565,31 +1617,31 @@ array set ::emmet_rules {
 }
 
 array set ::emmet_rules {
-  13,line 1077
-  25,line 1121
-  7,line 1040
-  10,line 1064
-  22,line 1110
-  4,line 1011
-  18,line 1094
-  1,line 983
-  15,line 1083
-  9,line 1057
-  12,line 1072
-  24,line 1118
-  6,line 1029
-  21,line 1105
-  3,line 1007
-  17,line 1091
-  14,line 1080
-  8,line 1050
-  11,line 1069
-  23,line 1113
-  5,line 1017
-  20,line 1102
-  19,line 1099
-  2,line 988
-  16,line 1086
+  13,line 1129
+  25,line 1173
+  7,line 1092
+  10,line 1116
+  22,line 1162
+  4,line 1063
+  18,line 1146
+  1,line 1035
+  15,line 1135
+  9,line 1109
+  12,line 1124
+  24,line 1170
+  6,line 1081
+  21,line 1157
+  3,line 1059
+  17,line 1143
+  14,line 1132
+  8,line 1102
+  11,line 1121
+  23,line 1165
+  5,line 1069
+  20,line 1154
+  19,line 1151
+  2,line 1040
+  16,line 1138
 }
 
 proc emmet_parse {} {

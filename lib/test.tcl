@@ -111,9 +111,7 @@ foreach {str expect} {
 
   {em>.info}
   
-{<em>
-  <span class="info">$1</span>
-</em>}
+{<em><span class="info">$1</span></em>}
 
   {ul>.item}
   
@@ -180,10 +178,7 @@ foreach {str expect} {
   
   {a>{click}+b{here}}
   
-{<a href="$1">
-  click
-  <b>here</b>
-</a>}
+{<a href="$1">click<b>here</b></a>}
 
   {(div>dl>(dt+dd)*3)+foobar>p}
   

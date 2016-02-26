@@ -21,6 +21,7 @@
 {Edit/Indentation/Indent}         Ctrl-[
 {Edit/Indentation/Unindent}       Ctrl-]
 {Edit/Cursor/Align Cursors}       Ctrl-A
+{Edit/Emmet/Expand Abbreviation}  Ctrl-E
 
 # Find menu bindings
 {Find/Find}                       Ctrl-F

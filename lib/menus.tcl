@@ -890,6 +890,7 @@ namespace eval menus {
     $mb add cascade -label [msgcat::mc "Menu Bindings"] -menu [menu $mb.bindPopup -tearoff 0]
     $mb add cascade -label [msgcat::mc "Snippets"]      -menu [menu $mb.snipPopup -tearoff 0 -postcommand [list menus::edit_snippets_posting $mb.snipPopup]]
     $mb add cascade -label [msgcat::mc "Templates"]     -menu [menu $mb.tempPopup -tearoff 0 -postcommand [list menus::edit_templates_posting $mb.tempPopup]]
+    $mb add cascade -label "Emmet" -menu [menu $mb.emmetPopup -tearoff 0 -postcommand [list menus::edit_emmet_posting $mb.emmetPopup]]
 
     ###########################
     # Populate indentation menu
@@ -1150,6 +1151,12 @@ namespace eval menus {
 
     $mb.tempPopup add command -label [msgcat::mc "Reload"] -command [list templates::preload]
     launcher::register [make_menu "Edit" [msgcat::mc "Reload template information"]] [list templates::preload]
+    
+    #####################
+    # Populate Emmet menu
+    #####################
+    
+    $mb.emmetPopup add command -label [msgcat::mc "Expand Abbreviation"] -command [list emmet::expand_abbreviation {}]
 
   }
 
@@ -1393,6 +1400,19 @@ namespace eval menus {
     $mb entryconfigure [msgcat::mc "Edit"]   -state $state
     $mb entryconfigure [msgcat::mc "Delete"] -state $state
 
+  }
+  
+  ######################################################################
+  # Called just prior to posting the edit/emmet bindings menu option.
+  # Sets the menu option states to match the current UI state.
+  proc edit_emmet_posting {mb} {
+    
+    if {[gui::current_txt {}] eq ""} {
+      $mb entryconfigure [msgcat::mc "Expand Abbreviation"] -state disabled
+    } else {
+      $mb entryconfigure [msgcat::mc "Expand Abbreviation"] -state normal
+    }
+    
   }
 
   ######################################################################
