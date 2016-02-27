@@ -5,7 +5,7 @@ package require http
 
 source emmet_parser.tcl
 
-puts [::emmet_get_lorem 20]
+puts [::emmet_gen_lorem 20]
 
 foreach {str expect} {
   
@@ -309,10 +309,6 @@ foreach {str expect} {
   {a{{|foobar}}}
   
 {<a href="$1">${2:foobar}</a>}
-
-  {lorem10}
-  
-{}
 
 } {
   

@@ -127,17 +127,19 @@ proc emmet_get_matching {str start end} {
   incr ::emmet_endpos [string length $emmet_text]
 }
 
-lorem {
-  puts "Found LOREM!!!"
-  set ::emmet_lval $emmet_text
-  set ::emmet_begpos $::emmet_endpos
-  incr ::emmet_endpos [string length $emmet_text]
-  return $::LOREM
-}
-
 [a-zA-Z$!][a-zA-Z0-9:!@$-]*\+? {
   if {[info exists ::emmet_block_aliases($emmet_text)]} {
     unput $::emmet_block_aliases($emmet_text)
+  } elseif {[string range $emmet_text 0 4] eq "lorem"} {
+    unput [string range $emmet_text 5 end]
+    set ::emmet_begpos $::emmet_endpos
+    incr ::emmet_endpos 5
+    return $::LOREM
+  } elseif {[string range $emmet_text 0 5] eq "lipsum"} {
+    unput [string range $emmet_text 6 end]
+    set ::emmet_begpos $::emmet_endpos
+    incr ::emmet_endpos 6
+    return $::LOREM
   } else {
     if {[string index $emmet_text end] eq "+"} {
       unput "+"
@@ -150,7 +152,7 @@ lorem {
   }
 }
 
-[1-9][0-9.]* {
+[1-9][0-9]*(\.[0-9]+)? {
   set ::emmet_lval $emmet_text
   set ::emmet_begpos $::emmet_endpos
   incr ::emmet_endpos [string length $emmet_text]

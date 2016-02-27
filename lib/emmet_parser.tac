@@ -815,7 +815,7 @@ proc emmet_gen_str {format_str values} {
 
 }
 
-proc emmet_get_lorem {words} {
+proc emmet_gen_lorem {words} {
   
   set token  [::http::geturl "http://lipsum.com/feed/xml?what=words&amount=$words&start=0"]
   set lipsum ""
@@ -909,6 +909,11 @@ proc emmet_elaborate {tree node action} {
       # Add the node text value, if specified
       if {[$tree keyexists $node value]} {
         $::emmet_elab set $enode value [emmet_gen_str {*}[$tree get $node value]]
+      }
+      
+      # Add the Ipsum Lorem value, if specified
+      if {[$tree keyexists $node lorem]} {
+        $::emmet_elab set $enode value [emmet_gen_lorem [$tree get $node lorem]]
       }
 
     }
@@ -1102,12 +1107,11 @@ item: IDENTIFIER attrs_opt multiply_opt {
         set _ $node
       }
     | LOREM number_opt attrs_opt multiply_opt {
-        puts "Found LOREM"
         set node [$::emmet_dom insert root end]
         $::emmet_dom set $node type       "ident"
         $::emmet_dom set $node name       ""
-        $::emmet_dom set $node value      [emmet_get_lorem $2]
-        foreach {attr_name attr_val} $1 {
+        $::emmet_dom set $node lorem      $2
+        foreach {attr_name attr_val} $3 {
           $::emmet_dom lappend $node "attr,$attr_name" $attr_val
         }
         $::emmet_dom set $node multiplier $4
