@@ -275,6 +275,8 @@ namespace eval syntax {
       ctext::setLineCommentPatterns  $txt {}
       ctext::setStringPatterns       $txt {}
     }
+    
+    [winfo parent $txt] configure -background $theme(background)
 
     # Set the text background color to the current theme
     $txt configure -background $theme(background) -foreground $theme(foreground) \
