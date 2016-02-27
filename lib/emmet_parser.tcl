@@ -814,7 +814,7 @@ proc emmet_gen_str {format_str values} {
 
 }
 
-proc emmet_get_lorem {words} {
+proc emmet_gen_lorem {words} {
   
   set token  [::http::geturl "http://lipsum.com/feed/xml?what=words&amount=$words&start=0"]
   set lipsum ""
@@ -908,6 +908,11 @@ proc emmet_elaborate {tree node action} {
       # Add the node text value, if specified
       if {[$tree keyexists $node value]} {
         $::emmet_elab set $enode value [emmet_gen_str {*}[$tree get $node value]]
+      }
+      
+      # Add the Ipsum Lorem value, if specified
+      if {[$tree keyexists $node lorem]} {
+        $::emmet_elab set $enode value [emmet_gen_lorem [$tree get $node lorem]]
       }
 
     }
@@ -1720,34 +1725,34 @@ array set ::emmet_rules {
 }
 
 array set ::emmet_rules {
-  13,line 1131
-  25,line 1177
-  7,line 1087
-  10,line 1116
-  22,line 1164
-  4,line 1058
-  18,line 1150
-  1,line 1030
-  15,line 1139
-  27,line 1185
-  9,line 1104
-  12,line 1128
-  24,line 1172
-  6,line 1076
-  21,line 1161
-  3,line 1054
-  17,line 1145
-  14,line 1136
-  26,line 1180
-  8,line 1097
-  11,line 1123
-  23,line 1169
-  5,line 1064
-  20,line 1158
-  19,line 1153
-  2,line 1035
-  16,line 1142
-  28,line 1188
+  13,line 1135
+  25,line 1181
+  7,line 1092
+  10,line 1120
+  22,line 1168
+  4,line 1063
+  18,line 1154
+  1,line 1035
+  15,line 1143
+  27,line 1189
+  9,line 1109
+  12,line 1132
+  24,line 1176
+  6,line 1081
+  21,line 1165
+  3,line 1059
+  17,line 1149
+  14,line 1140
+  26,line 1184
+  8,line 1102
+  11,line 1127
+  23,line 1173
+  5,line 1069
+  20,line 1162
+  19,line 1157
+  2,line 1040
+  16,line 1146
+  28,line 1192
 }
 
 proc emmet_parse {} {
@@ -1882,12 +1887,11 @@ proc emmet_parse {} {
         set _ $node
        }
                     10 { 
-        puts "Found LOREM"
         set node [$::emmet_dom insert root end]
         $::emmet_dom set $node type       "ident"
         $::emmet_dom set $node name       ""
-        $::emmet_dom set $node value      [emmet_get_lorem $2]
-        foreach {attr_name attr_val} $1 {
+        $::emmet_dom set $node lorem      $2
+        foreach {attr_name attr_val} $3 {
           $::emmet_dom lappend $node "attr,$attr_name" $attr_val
         }
         $::emmet_dom set $node multiplier $4
