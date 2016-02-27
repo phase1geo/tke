@@ -329,10 +329,14 @@ namespace eval syntax {
         ctext::setIndentation          $txt $lang_array(indent)   indent
         ctext::setIndentation          $txt $lang_array(unindent) unindent
 
+        set reindentStarts [list]
+        set reindents      [list]
         foreach reindent $lang_array(reindent) {
-          ctext::setIndentation $txt [lindex $reindent 0]     reindentStart
-          ctext::setIndentation $txt [lrange $reindent 1 end] reindent
+          lappend reindentStarts [lindex $reindent 0]
+          lappend reindents      {*}[lrange $reindent 1 end]
         }
+        ctext::setIndentation $txt $reindentStarts reindentStart
+        ctext::setIndentation $txt $reindents      reindent
 
         # Add the FIXME
         ctext::addHighlightClass $txt fixme $theme(miscellaneous1)

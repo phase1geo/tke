@@ -325,9 +325,6 @@ namespace eval indent {
       return
     }
 
-    # Get the previous space
-    set prev_space [get_previous_indent_space $txtt $index]
-
     # If we do not need smart indentation, use the previous space
     if {$indent_exprs($txtt,mode) eq "IND"} {
 
@@ -462,55 +459,56 @@ namespace eval indent {
 
     variable indent_exprs
 
-    # If the current language doesn't have indentation enabled, quit now
-    if {$indent_exprs($txtt,mode) eq "OFF"} {
-      return
-    }
+    # Create a separator
+    $txtt edit separator
 
-    # Get the current position and recalculate the endpos
-    set currpos [$txtt index "$startpos linestart"]
-    set endpos  [$txtt index $endpos]
-
-    # Update the indentation level at the start of the first text line
-    if {[$txtt compare $startpos == 1.0]} {
-      set indent_space ""
+    # Check to see if there is only whitespace between the beginning of the line and the start position
+    if {[string trim [$txtt get "$startpos linestart" $startpos]] eq ""} {
+      set curpos [$txtt index "$startpos linestart"]
     } else {
-      set indent_space [get_indent_space $txtt 1.0 "$startpos-1l lineend"]
+      set curpos [$txtt index "$startpos+1l linestart"]
     }
 
-    # Create the regular expression containing the indent and unindent words
-    set uni_re $indent_exprs($txtt,unindent)
+    set endpos       [$txtt index $endpos]
+    set indent_space ""
 
-    # Find the last open brace starting from the current insertion point
-    while {[$txtt compare $currpos < $endpos]} {
+    while {[$txtt compare $curpos < $endpos]} {
 
-      # Get the current line
-      set line [$txtt get $currpos "$currpos lineend"]
+      if {$curpos ne "1.0"} {
 
-      # Remove the leading whitespace and modify it to match the current indentation level
-      if {[regexp {^(\s*)(.*)} $line -> whitespace rest]} {
-        if {[string length $whitespace] > 0} {
-          $txtt delete $currpos "$currpos+[string length $whitespace]c"
+        # Get the current indentation level
+        set indent_space [get_start_of_line $txtt [$txtt index "$curpos-1l lineend"]]
+      
+        # If the previous line indicates an indentation is required,
+        if {[line_contains_indentation $txtt "$curpos-1l lineend"]} {
+          append indent_space [string repeat " " [get_shiftwidth $txtt]]
         }
-        if {[regexp "^(\\\\)*($uni_re)" $rest -> escapes unindent_match] && \
-            ![expr [string length $escapes] % 2]} {
-          set unindent [get_shiftwidth $txtt]
-        } else {
-          set unindent_match ""
-          set unindent       0
-        }
-        if {$indent_space ne ""} {
-          $txtt insert $currpos [set indent_space [string range $indent_space $unindent end]]
-        }
-        append indent_space [get_indent_space $txtt "$currpos+[expr [string length $unindent_match] + [string length $indent_space]]c" "$currpos lineend"]
-      } else {
-        append indent_space [get_indent_space $txtt $currpos "$currpos lineend"]
+
       }
 
-      # Increment the starting position to the next line
-      set currpos [$txtt index "$currpos+1l linestart"]
-
+      # Remove any leading whitespace and update indentation level
+      # (if the first non-whitespace char is a closing bracket)
+      if {[regexp {^( *)(.*)} [$txtt get $curpos "$curpos lineend"] -> whitespace rest] && ($rest ne "")} {
+  
+        # If the first non-whitespace characters match an unindent pattern,
+        # lessen the indentation by one
+        if {[regexp "^$indent_exprs($txtt,unindent)" $rest]} {
+          set indent_space [string range $indent_space [get_shiftwidth $txtt] end]
+        }
+  
+      }
+  
+      # Delete the whitespace
+      $txtt replace $curpos "$curpos+[string length $whitespace]c" $indent_space
+  
+      # Adjust the startpos
+      set curpos [$txtt index "$curpos+1l linestart"]
+      set ignore 0
+      
     }
+
+    # Create a separator
+    $txtt edit separator
 
     # Perform syntax highlighting
     [winfo parent $txtt] highlight $startpos $endpos
