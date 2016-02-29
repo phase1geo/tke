@@ -1,87 +1,91 @@
-changeset:   1854:f7ffc07d3edc
-tag:         devel-2.2.5
+changeset:   1864:61a963b4b500
+tag:         devel-2.2.6
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Feb 24 00:50:11 2016 -0600
+date:        Fri Feb 26 01:59:21 2016 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.2.5 release
+ChangeLog for devel-2.2.6 release
 
 
-changeset:   1855:91bfe6a0196f
+changeset:   1865:0f355f930bdf
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Feb 24 00:50:16 2016 -0600
+date:        Fri Feb 26 01:59:25 2016 -0600
 files:       .hgtags
 description:
-Added tag devel-2.2.5 for changeset f7ffc07d3edc
+Added tag devel-2.2.6 for changeset 61a963b4b500
 
 
-changeset:   1856:42e91320064d
+changeset:   1866:3e177da412d4
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Feb 24 09:01:28 2016 -0600
-files:       lib/emmet_lexer.fcl lib/emmet_lexer.tcl lib/test.tcl lib/version.tcl
+date:        Fri Feb 26 09:37:27 2016 -0600
+files:       lib/emmet_lexer.fcl lib/emmet_lexer.tcl lib/emmet_parser.tab.tcl lib/emmet_parser.tac lib/emmet_parser.tcl lib/test.tcl lib/tke.tcl lib/version.tcl
 description:
-* Improving lexer handling of bracketed items.
+* Adding lorem ipsum support in Emmet generator (work in progress).
 
 
-changeset:   1857:710325d59485
+changeset:   1867:7d34acb327c7
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Feb 24 09:06:47 2016 -0600
-files:       lib/test.tcl lib/version.tcl
+date:        Fri Feb 26 22:06:13 2016 -0600
+files:       lib/emmet_lexer.fcl lib/emmet_lexer.tcl lib/emmet_parser.tac lib/emmet_parser.tcl lib/test.tcl lib/version.tcl
 description:
-* Adding test for last functional change.
+* Fixing ipsum lorem support.
 
 
-changeset:   1858:97f7c622e9e2
+changeset:   1868:2044a63f5215
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Feb 24 19:35:53 2016 -0600
-files:       lib/emmet.tcl lib/emmet_parser.tac lib/emmet_parser.tcl lib/gui.tcl lib/snippets.tcl lib/tke.tcl lib/version.tcl
+date:        Sat Feb 27 01:48:06 2016 -0600
+files:       lib/indent.tcl lib/syntax.tcl lib/version.tcl
 description:
-* Adding emmet namespace file.
-* Adding tabstop support for Emmet generator.
-* Fixing issue with tabs, snippets and "Remove trailing spaces" preference being set to 1.
+* Checkpointing work on new text format procedure (works but not with reindents yet).
+* Fixing issue with storing reindent information in ctext.
 
 
-changeset:   1859:e48cbc46c298
+changeset:   1869:e58adb861833
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Feb 24 21:39:21 2016 -0600
-files:       lib/emmet_parser.tac lib/emmet_parser.tcl lib/version.tcl
+date:        Sat Feb 27 01:51:41 2016 -0600
+files:       data/syntax/HelpSystem.syntax lib/version.tcl
 description:
-* Fixing tabstop insertion issue.
+* Fixing HelpSystem comment parsing.
 
 
-changeset:   1860:0becc649ac4a
+changeset:   1870:950150fb156d
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Feb 24 22:02:38 2016 -0600
-files:       lib/test.tcl lib/version.tcl
+date:        Sat Feb 27 02:13:19 2016 -0600
+files:       lib/syntax.tcl lib/version.tcl
 description:
-* Fixing Emmet test.
+* Fixing theme change issue with lower corner of main window.
 
 
-changeset:   1861:ed551675ce4f
+changeset:   1871:2ba105da228e
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Feb 25 02:00:41 2016 -0600
-files:       lib/emmet.tcl lib/emmet_lexer.fcl lib/emmet_lexer.tcl lib/emmet_parser.tac lib/emmet_parser.tcl lib/snippets.tcl lib/test.tcl lib/version.tcl
+date:        Sun Feb 28 21:24:25 2016 -0600
+files:       lib/indent.tcl lib/version.tcl
 description:
-* More work on Emmet integration.
-* Fixing issues with snippet traversal.
+* Checkpointing work on indentation format rework and improvements.
 
 
-changeset:   1862:8ad5e8537985
+changeset:   1872:ab91a525a43b
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Feb 26 00:23:33 2016 -0600
-files:       data/bindings/menu_bindings.aqua.tkedat data/bindings/menu_bindings.classic.tkedat data/bindings/menu_bindings.win32.tkedat data/bindings/menu_bindings.x11.tkedat lib/emmet.tcl lib/emmet_parser.tac lib/emmet_parser.tcl lib/menus.tcl lib/snippets.tcl lib/test.tcl lib/version.tcl
+date:        Mon Feb 29 00:55:37 2016 -0600
+files:       lib/indent.tcl lib/version.tcl
 description:
-* Adding Emmet/Expand Abbreviation menu option.
-* Fixing identification of Emmet abbreviation location.
-* Attempting to improve output of inlined tags (work in progress).
+* Fixing issues with format_text and indentation handling.
 
 
-changeset:   1863:d3f9639ae038
+changeset:   1873:5500d0dafb7e
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Feb 29 01:22:49 2016 -0600
+files:       lib/syntax.tcl lib/version.tcl
+description:
+* Improving syntax menu column breaking.
+
+
+changeset:   1874:5b0be7fca5de
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Feb 26 01:53:52 2016 -0600
-files:       lib/emmet_parser.tac lib/emmet_parser.tcl lib/test.tcl lib/version.tcl
+date:        Mon Feb 29 09:23:30 2016 -0600
+files:       lib/edit.tcl lib/indent.tcl lib/version.tcl
 description:
-* Fixing inline indentation issues.
+* Fixing hang issue with indentation code.
 
 
