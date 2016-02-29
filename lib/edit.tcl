@@ -40,23 +40,23 @@ namespace eval edit {
 
     # If we are operating in Vim mode,
     [ns vim]::edit_mode $txtt
-
+    
     # Create the new line
     if {[[ns multicursor]::enabled $txtt]} {
       [ns multicursor]::adjust $txtt "-1l" 1 dspace
     } else {
       $txtt insert "insert linestart" "\n"
     }
-
+    
     # Place the insertion cursor
     ::tk::TextSetCursor $txtt "insert-1l"
-
+    
     # Perform the proper indentation
     [ns indent]::newline $txtt insert
-
+    
     # Start recording
     [ns vim]::record_start
-
+    
   }
 
   ######################################################################
