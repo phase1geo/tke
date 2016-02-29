@@ -278,7 +278,9 @@ namespace eval indent {
 
     # Ignore whitespace
     while {[string trim [$txtt get "$index linestart" "$index lineend"]] eq ""} {
-      set index [$txtt index "$index-1l lineend"]
+      if {[set index [$txtt index "$index-1l lineend"]] eq "1.0"} {
+        break
+      }
     }
 
     # Check to see if the current line contains an indentation symbol towards the end of the line
@@ -298,7 +300,9 @@ namespace eval indent {
 
     # Ignore whitespace
     while {[string trim [$txtt get "$index linestart" "$index lineend"]] eq ""} {
-      set index [$txtt index "$index-1l lineend"]
+      if {[set index [$txtt index "$index-1l lineend"]] eq "1.0"} {
+        break
+      }
     }
 
     # Find an ending bracket on the current line
@@ -311,7 +315,7 @@ namespace eval indent {
         set win_type $type
       }
     }
-
+    
     # If we could not find a right bracket, we have found the line that we are looking for
     if {$win_type eq "none"} {
       if {[regexp {^( *)(.*)} [$txtt get "$index linestart" "$index lineend"] -> whitespace rest]} {
@@ -341,7 +345,7 @@ namespace eval indent {
   proc newline {txtt index} {
 
     variable indent_exprs
-
+    
     # If the auto-indent feature was disabled, we are in vim start mode,
     # or the current language doesn't have an indent expression, quit now
     if {($indent_exprs($txtt,mode) eq "OFF") || [[ns vim]::in_vim_mode $txtt]} {
@@ -358,12 +362,12 @@ namespace eval indent {
 
       # Get the current indentation level
       set indent_space [get_start_of_line $txtt [$txtt index "$index-1l lineend"]]
-
+      
       # If the previous line indicates an indentation is required,
       if {[line_contains_indentation $txtt "$index-1l lineend"]} {
         append indent_space [string repeat " " [get_shiftwidth $txtt]]
       }
-
+      
     }
 
     # Get the current line
