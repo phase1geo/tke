@@ -240,11 +240,34 @@ namespace eval indent {
     # If the current line contains an unindent expression, is not within a comment or string,
     # and is preceded in the line by only whitespace, replace the whitespace with the proper
     # indentation whitespace.
-    if {(([set endpos [lassign [$txtt tag prevrange _unindent $index] startpos]] ne "") && [$txtt compare $endpos == $index]) || \
-        (([set endpos [lassign [$txtt tag prevrange _reindent $index] startpos]] ne "") && [$txtt compare $endpos == $index]) && [check_reindent_for_unindent $txtt $startpos]} {
+    if {([set endpos [lassign [$txtt tag prevrange _unindent $index] startpos]] ne "") && [$txtt compare $endpos == $index]} {
+
       if {[string trim [set space [$txtt get "$index linestart" $startpos]]] eq ""} {
-        $txtt replace "$index linestart" $startpos [string range $space [get_shiftwidth $txtt] end]
+
+        # Get the current indentation level
+        set indent_space [get_start_of_line $txtt $index]
+
+        # Replace the whitespace with the appropriate amount of indentation space
+        if {$indent_space ne $space} {
+          $txtt replace "$index linestart" $startpos $indent_space
+        }
+
       }
+
+    } elseif {(([set endpos [lassign [$txtt tag prevrange _reindent $index] startpos]] ne "") && [$txtt compare $endpos == $index]) && [check_reindent_for_unindent $txtt $startpos]} {
+
+      if {[string trim [set space [$txtt get "$index linestart" $startpos]]] eq ""} {
+
+        # Get the current indentation level
+        set indent_space [string range [get_start_of_line $txtt [$txtt index "$index-1l lineend"]] [get_shiftwidth $txtt] end]
+
+        # Replace the whitespace with the appropriate amount of indentation space
+        if {$indent_space ne $space} {
+          $txtt replace "$index linestart" $startpos $indent_space
+        }
+
+      }
+
     }
 
   }
@@ -283,8 +306,8 @@ namespace eval indent {
     set startpos(none) "$index linestart"
     foreach type [list curlyR parenR squareR angledR] {
       if {([lassign [$txtt tag prevrange _$type $index] startpos($type)] ne "") && \
-          [$txtt compare $startpos($type) > "$index linestart"] && \
-          [$txtt compare $startpos($type) > $startpos($win_type)]} {
+          [$txtt compare $startpos($type) >= "$index linestart"] && \
+          [$txtt compare $startpos($type) >= $startpos($win_type)]} {
         set win_type $type
       }
     }
@@ -477,38 +500,39 @@ namespace eval indent {
 
       if {$curpos ne "1.0"} {
 
-        # Get the current indentation level
-        set indent_space [get_start_of_line $txtt [$txtt index "$curpos-1l lineend"]]
-      
-        # If the previous line indicates an indentation is required,
-        if {[line_contains_indentation $txtt "$curpos-1l lineend"]} {
-          append indent_space [string repeat " " $shiftwidth]
-        }
-
         # If the current line contains an unindent expression, is not within a comment or string,
         # and is preceded in the line by only whitespace, replace the whitespace with the proper
         # indentation whitespace.
-        if {(([set epos [lassign [$txtt tag nextrange _unindent $curpos] spos]] ne "") && [$txtt compare "$epos linestart" == $curpos]) || \
-            (([set epos [lassign [$txtt tag nextrange _reindent $curpos] spos]] ne "") && [$txtt compare "$epos linestart" == $curpos]) && [check_reindent_for_unindent $txtt $spos]} {
+        if {([set epos [lassign [$txtt tag nextrange _unindent $curpos] spos]] ne "") && [$txtt compare "$epos linestart" == $curpos]} {
+          set indent_space [get_start_of_line $txtt $epos]
+
+        } elseif {([set epos [lassign [$txtt tag nextrange _reindent $curpos] spos]] ne "") && [$txtt compare "$epos linestart" == $curpos] && [check_reindent_for_unindent $txtt $spos]} {
+          set indent_space [get_start_of_line $txtt [$txtt index "$curpos-1l lineend"]]
           if {[string trim [$txtt get "$curpos linestart" $spos]] eq ""} {
             set indent_space [string range $indent_space $shiftwidth end]
           }
+
+        } else {
+          set indent_space [get_start_of_line $txtt [$txtt index "$curpos-1l lineend"]]
+          if {[line_contains_indentation $txtt "$curpos-1l lineend"]} {
+            append indent_space [string repeat " " $shiftwidth]
+          }
         }
-    
+
       }
 
       # Remove any leading whitespace and update indentation level
       # (if the first non-whitespace char is a closing bracket)
       regexp {^( *)} [$txtt get $curpos "$curpos lineend"] -> whitespace
-    
+
       # Replace the leading whitespace with the calculated amount of indentation space
-      if {[string length $whitespace] != [string length $indent_space]} {
+      if {$whitespace ne $indent_space} {
         $txtt replace $curpos "$curpos+[string length $whitespace]c" $indent_space
       }
-  
+
       # Adjust the startpos
       set curpos [$txtt index "$curpos+1l linestart"]
-      
+
     }
 
     # Create a separator
