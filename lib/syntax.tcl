@@ -275,7 +275,7 @@ namespace eval syntax {
       ctext::setLineCommentPatterns  $txt {}
       ctext::setStringPatterns       $txt {}
     }
-    
+
     [winfo parent $txt] configure -background $theme(background)
 
     # Set the text background color to the current theme
@@ -483,10 +483,18 @@ namespace eval syntax {
 
     variable langs
 
+    # Figure out the height of a menu entry
+    menu .__tmpMenu
+    .__tmpMenu add command -label "foobar"
+    .__tmpMenu add command -label "foobar"
+    update
+    set max_entries [expr ([winfo screenheight .] / [set rheight [winfo reqheight .__tmpMenu]]) * 2]
+    destroy .__tmpMenu
+
     # Calculate the number of needed columns
     set len  [expr [array size langs] + 1]
     set cols 1
-    while {[expr ($len / $cols) > 20]} {
+    while {[expr ($len / $cols) > $max_entries]} {
       incr cols
     }
 
@@ -530,10 +538,10 @@ namespace eval syntax {
 
     variable curr_lang
     variable current_lang
-    
+
     # Get the current language
     set current_lang $curr_lang([[ns gui]::current_txt {}])
-    
+
     # Configures the current language for the specified text widget
     $w configure -text $current_lang
 
