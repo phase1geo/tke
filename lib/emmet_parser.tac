@@ -35,6 +35,7 @@ set emmet_item_id     0
 set emmet_max         1
 set emmet_curr        0
 set emmet_start       1
+set emmet_prespace    ""
 
 array set emmet_ml_lookup {
 
@@ -1004,7 +1005,7 @@ proc emmet_generate_html {} {
 
   # Substitute carent syntax with tabstops
   if {[$::emmet_elab get root indent]} {
-    set str [join [$::emmet_elab get root lines] \n]
+    set str [join [$::emmet_elab get root lines] "\n$::emmet_prespace"]
   } else {
     set str [join [$::emmet_elab get root lines] {}]
   }
@@ -1202,7 +1203,7 @@ proc emmet_error {s} {
 
 }
 
-proc parse_emmet {str} {
+proc parse_emmet {str {prespace ""}} {
   
   # Flush the parsing buffer
   EMMET__FLUSH_BUFFER
@@ -1211,8 +1212,9 @@ proc parse_emmet {str} {
   emmet__scan_string $str
 
   # Initialize some values
-  set ::emmet_begpos 0
-  set ::emmet_endpos 0
+  set ::emmet_begpos   0
+  set ::emmet_endpos   0
+  set ::emmet_prespace $prespace
 
   # Create the trees
   set ::emmet_dom  [::struct::tree]

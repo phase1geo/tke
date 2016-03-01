@@ -49,7 +49,10 @@ namespace eval emmet {
 
     # Get the current line
     set str [$txt get "insert linestart" insert]
-
+    
+    # Get the prespace of the current line
+    regexp {^([ \t]*)} $str -> prespace
+    
     # If we have a tag, ignore all text prior to it
     set startcol [expr {[regexp $data(tag) $str match] ? [string length $match] : 0}]
     
@@ -66,11 +69,11 @@ namespace eval emmet {
     # See if there is a space which does not exist within a square or curly brace
     foreach {endpos startpos} [lreverse $pos(space)] {
       if {[expr [lsearch [lsort -integer [concat $pos(brackets) $endpos]] $endpos] % 2] == 0} {
-        return [list [string range $str $endpos end] $line.$endpos $line.$endcol]
+        return [list [string range $str $endpos end] $line.$endpos $line.$endcol $prespace]
       }
     }
     
-    return [list [string range $str $startcol end] $line.$startcol $line.$endcol]
+    return [list [string range $str $startcol end] $line.$startcol $line.$endcol $prespace]
 
   }
 
@@ -81,10 +84,10 @@ namespace eval emmet {
   proc expand_abbreviation {tid} {
 
     # Find the snippet text
-    lassign [get_snippet_text_pos $tid] str startpos endpos
+    lassign [get_snippet_text_pos $tid] str startpos endpos prespace
     
     # Parse the snippet and if no error, insert the resulting string
-    if {![catch { ::parse_emmet $str } str]} {
+    if {![catch { ::parse_emmet $str $prespace } str]} {
       [ns snippets]::insert_snippet_into_current $tid $str $startpos $endpos
     }
 
