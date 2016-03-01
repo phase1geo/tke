@@ -34,6 +34,7 @@ set emmet_item_id     0
 set emmet_max         1
 set emmet_curr        0
 set emmet_start       1
+set emmet_prespace    ""
 
 array set emmet_ml_lookup {
 
@@ -1003,7 +1004,7 @@ proc emmet_generate_html {} {
 
   # Substitute carent syntax with tabstops
   if {[$::emmet_elab get root indent]} {
-    set str [join [$::emmet_elab get root lines] \n]
+    set str [join [$::emmet_elab get root lines] "\n$::emmet_prespace"]
   } else {
     set str [join [$::emmet_elab get root lines] {}]
   }
@@ -1725,34 +1726,34 @@ array set ::emmet_rules {
 }
 
 array set ::emmet_rules {
-  13,line 1135
-  25,line 1181
-  7,line 1092
-  10,line 1120
-  22,line 1168
-  4,line 1063
-  18,line 1154
-  1,line 1035
-  15,line 1143
-  27,line 1189
-  9,line 1109
-  12,line 1132
-  24,line 1176
-  6,line 1081
-  21,line 1165
-  3,line 1059
-  17,line 1149
-  14,line 1140
-  26,line 1184
-  8,line 1102
-  11,line 1127
-  23,line 1173
-  5,line 1069
-  20,line 1162
-  19,line 1157
-  2,line 1040
-  16,line 1146
-  28,line 1192
+  13,line 1136
+  25,line 1182
+  7,line 1093
+  10,line 1121
+  22,line 1169
+  4,line 1064
+  18,line 1155
+  1,line 1036
+  15,line 1144
+  27,line 1190
+  9,line 1110
+  12,line 1133
+  24,line 1177
+  6,line 1082
+  21,line 1166
+  3,line 1060
+  17,line 1150
+  14,line 1141
+  26,line 1185
+  8,line 1103
+  11,line 1128
+  23,line 1174
+  5,line 1070
+  20,line 1163
+  19,line 1158
+  2,line 1041
+  16,line 1147
+  28,line 1193
 }
 
 proc emmet_parse {} {
@@ -1993,7 +1994,7 @@ proc emmet_error {s} {
 
 }
 
-proc parse_emmet {str} {
+proc parse_emmet {str {prespace ""}} {
   
   # Flush the parsing buffer
   EMMET__FLUSH_BUFFER
@@ -2002,8 +2003,9 @@ proc parse_emmet {str} {
   emmet__scan_string $str
 
   # Initialize some values
-  set ::emmet_begpos 0
-  set ::emmet_endpos 0
+  set ::emmet_begpos   0
+  set ::emmet_endpos   0
+  set ::emmet_prespace $prespace
 
   # Create the trees
   set ::emmet_dom  [::struct::tree]
