@@ -183,12 +183,6 @@ namespace eval folding {
   }
 
   ######################################################################
-  proc unfold {txt line} {
-
-
-  }
-
-  ######################################################################
   # Closes a fold, hiding the contents.
   proc close_fold {txt line} {
 
