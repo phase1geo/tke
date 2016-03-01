@@ -993,4 +993,171 @@ namespace eval emmet {
 
   }
 
+  # Verify that an expansion occurs and replaces the proper code.
+  proc run_test37 {} {
+
+    set txt [initialize]
+    set str {<div>ul>li</div>}
+
+    $txt insert end "\n$str"
+    $txt mark set insert 2.10
+
+    emmet::expand_abbreviation {}
+
+    set actual [$txt get 2.0 end-1c]
+    set expect \
+{<div><ul>
+  <li></li>
+</ul></div>}
+
+    if {$actual ne $expect} {
+      cleanup "$str did not expand properly ($actual)"
+    }
+
+    cleanup
+
+  }
+
+  # Verify that abbrevation stops at whitespace.
+  proc run_test38 {} {
+
+    set txt [initialize]
+    set str {This is b{good}!}
+
+    $txt insert end "\n$str"
+    $txt mark set insert 2.15
+
+    emmet::expand_abbreviation {}
+
+    set actual [$txt get 2.0 end-1c]
+    set expect {This is <b>good</b>!}
+
+    if {$actual ne $expect} {
+      cleanup "$str did not expand properly ($actual)"
+    }
+
+    cleanup
+
+  }
+
+  # Verify that abbreviation stops at whitespace that is not a part of the abbreviation.
+  proc run_test39 {} {
+
+    set txt [initialize]
+    set str {This is b{very good}!}
+
+    $txt insert end "\n$str"
+    $txt mark set insert 2.20
+
+    emmet::expand_abbreviation {}
+
+    set actual [$txt get 2.0 end-1c]
+    set expect {This is <b>very good</b>!}
+
+    if {$actual ne $expect} {
+      cleanup "$str did not expand properly ($actual)"
+    }
+
+    cleanup
+
+  }
+
+  # Verify that abbreviation stops at whitespace that is not a part of the
+  # abbreviation.
+  proc run_test40 {} {
+
+    set txt [initialize]
+    set str {This is a[href='great game']{good}!}
+
+    $txt insert end "\n$str"
+    $txt mark set insert 2.34
+
+    emmet::expand_abbreviation {}
+
+    set actual [$txt get 2.0 end-1c]
+    set expect {This is <a href="great game">good</a>!}
+
+    if {$actual ne $expect} {
+      cleanup "$str did not expand properly ($actual)"
+    }
+
+    cleanup
+
+  }
+
+  # Verify that abbreviation stops at whitespace that is not a part of the
+  # abbreviation.
+  proc run_test41 {} {
+
+    set txt [initialize]
+    set str {This is a[href="great game"]{good}!}
+
+    $txt insert end "\n$str"
+    $txt mark set insert 2.34
+
+    emmet::expand_abbreviation {}
+
+    set actual [$txt get 2.0 end-1c]
+    set expect {This is <a href="great game">good</a>!}
+
+    if {$actual ne $expect} {
+      cleanup "$str did not expand properly ($actual)"
+    }
+
+    cleanup
+
+  }
+
+  # Verify that the proper whitespace is used
+  proc run_test42 {} {
+
+    set txt [initialize]
+    set str {  nav>ul>li}
+
+    $txt insert end "\n$str"
+    $txt mark set insert end-1c
+
+    emmet::expand_abbreviation {}
+
+    set actual [$txt get 2.0 end-1c]
+    set expect \
+{  <nav>
+    <ul>
+      <li></li>
+    </ul>
+  </nav>}
+
+    if {$actual ne $expect} {
+      cleanup "$str did not expand properly ($actual)"
+    }
+
+    cleanup
+
+  }
+
+  # Verify that the initial whitespace is used for indentation
+  proc run_test43 {} {
+
+    set txt [initialize]
+    set str {  <nav>ul>li</nav>}
+
+    $txt insert end "\n$str"
+    $txt mark set insert 2.12
+
+    emmet::expand_abbreviation {}
+
+    set actual [$txt get 2.0 end-1c]
+    set expect \
+{  <nav><ul>
+    <li></li>
+  </ul></nav>}
+
+    if {$actual ne $expect} {
+      cleanup "$str did not expand properly ($actual)"
+    }
+
+    cleanup
+
+  }
+
 }
