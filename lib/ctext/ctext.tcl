@@ -578,21 +578,15 @@ proc ctext::inDoubleQuote {win index {prange ""}} {
 
 }
 
-proc ctext::inTripleQuote {win index {prange ""}} {
-
-  return [inCommentStringHelper $win $index {_tString} $prange]
-
-}
-
 proc ctext::inString {win index {prange ""}} {
 
-  return [inCommentStringHelper $win $index {_[sdt]String} $prange]
+  return [inCommentStringHelper $win $index {_[sd]String} $prange]
 
 }
 
 proc ctext::inCommentString {win index {prange ""}} {
 
-  return [inCommentStringHelper $win $index {_([cl]Comment|[sdt]String)} $prange]
+  return [inCommentStringHelper $win $index {_([cl]Comment|[sd]String)} $prange]
 
 }
 
@@ -1155,7 +1149,7 @@ proc ctext::command_delete {win args} {
     set removeEnd   $lineEnd
 
     foreach tag [$win._t tag names] {
-      if {![regexp {^_([lc]Comment|[sdt]String)$} $tag] && ([string index $tag 0] eq "_")} {
+      if {![regexp {^_([lc]Comment|[sd]String)$} $tag] && ([string index $tag 0] eq "_")} {
         $win._t tag remove $tag $removeStart $removeEnd
       }
     }
@@ -1186,7 +1180,7 @@ proc ctext::command_delete {win args} {
     $win._t delete $deleteStartPos $deleteEndPos
 
     foreach tag [$win._t tag names] {
-      if {![regexp {^_([lc]Comment|[sdt]String)$} $tag] && ([string index $tag 0] eq "_")} {
+      if {![regexp {^_([lc]Comment|[sd]String)$} $tag] && ([string index $tag 0] eq "_")} {
         $win._t tag remove $tag $lineStart $lineEnd
       }
     }
@@ -1384,7 +1378,7 @@ proc ctext::command_highlight {win args} {
   set lineEnd   [$win._t index "[lindex $args 1] lineend"]
 
   foreach tag [$win._t tag names] {
-    if {![regexp {^_([lc]Comment|[sdt]String)$} $tag] && ([string index $tag 0] eq "_")} {
+    if {![regexp {^_([lc]Comment|[sd]String)$} $tag] && ([string index $tag 0] eq "_")} {
       $win._t tag remove $tag $lineStart $lineEnd
     }
   }
@@ -1447,7 +1441,7 @@ proc ctext::command_insert {win args} {
   }
 
   foreach tag [$win._t tag names] {
-    if {![regexp {^_([lc]Comment|[sdt]String)$} $tag] && ([string index $tag 0] eq "_")} {
+    if {![regexp {^_([lc]Comment|[sd]String)$} $tag] && ([string index $tag 0] eq "_")} {
       $win._t tag remove $tag $prevSpace $nextSpace
     }
   }
@@ -1533,7 +1527,7 @@ proc ctext::command_replace {win args} {
   set insertLines [$win._t count -lines $lineStart $lineEnd]
 
   foreach tag [$win._t tag names] {
-    if {![regexp {^_([lc]Comment|[sdt]String)$} $tag] && ([string index $tag 0] eq "_")} {
+    if {![regexp {^_([lc]Comment|[sd]String)$} $tag] && ([string index $tag 0] eq "_")} {
       $win._t tag remove $tag $lineStart $lineEnd
     }
   }
@@ -2164,11 +2158,9 @@ proc ctext::setStringPatterns {win patterns {color "green"}} {
   if {[llength $patterns] > 0} {
     $win tag configure _sString -foreground $color
     $win tag configure _dString -foreground $color
-    $win tag configure _tString -foreground $color
   } else {
     catch { $win tag delete _sString }
     catch { $win tag delete _dString }
-    catch { $win tag delete _tString }
   }
 
   setCommentRE $win
@@ -2244,7 +2236,6 @@ proc ctext::commentsGetPrevious {win index pcCom plCom psStr pdStr ptStr} {
         "_lComment" { lassign [$win tag prevrange $tag $index] lCom }
         "_sString"  { lassign [$win tag prevrange $tag $index] sStr }
         "_dString"  { lassign [$win tag prevrange $tag $index] dStr }
-        "_tString"  { lassign [$win tag prevrange $tag $index] tStr }
       }
     }
   }
@@ -2285,10 +2276,6 @@ proc ctext::commentsParse {win start end pcCom plCom psStr pdStr ptStr} {
       } elseif {$str == "'"} {
         commentsParseSStringEnd $win $index indices $num_indices lengths i sstring
 
-      # Found a triple-double-quote character string
-      } elseif {$str == "\"\"\""} {
-        commentsParseTStringEnd $win $index indices $num_indices lengths i tstring
-
       # Found a single line comment
       } elseif {($data($win,config,lcomment_re) ne "") && [regexp {*}$data($win,config,re_opts) -- $data($win,config,lcomment_re) $str]} {
         commentsParseLCommentEnd $win $index indices $num_indices i lcomment
@@ -2322,11 +2309,6 @@ proc ctext::commentsParse {win start end pcCom plCom psStr pdStr ptStr} {
   if {[llength $dstring] > 0} {
     $win tag add _dString {*}$dstring
     $win tag raise _dString
-  }
-  $win tag remove _tString  $start $end
-  if {[llength $tstring] > 0} {
-    $win tag add _tString {*}$tstring
-    $win tag raise _tString
   }
 
 }
@@ -2368,28 +2350,6 @@ proc ctext::commentsParseDStringEnd {win index pindices num_indices plengths pi 
       set str [$win get $index "$index+[lindex $lengths $i]c"]
       if {$str == "\""} {
         lset dstring end "$index+1c"
-        break
-      }
-    }
-  }
-
-}
-
-proc ctext::commentsParseTStringEnd {win index pindices num_indices plengths pi ptstring} {
-
-  upvar $pindices indices
-  upvar $plengths lengths
-  upvar $pi       i
-  upvar $ptstring tstring
-
-  lappend tstring $index end
-
-  for {incr i} {$i < $num_indices} {incr i} {
-    set index [lindex $indices $i]
-    if {![isEscaped $win $index]} {
-      set str [$win get $index "$index+[lindex $lengths $i]c"]
-      if {$str == "\"\"\""} {
-        lset tstring end "$index+3c"
         break
       }
     }
