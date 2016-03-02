@@ -325,6 +325,7 @@ namespace eval syntax {
         set_language_section $txt advanced       $lang_array(advanced) $cmd_prefix
 
         # Add the comments, strings and indentations
+        ctext::clearCommentStringPatterns $txt
         ctext::setBlockCommentPatterns $txt $lang_array(bcomments) $theme(comments)
         ctext::setLineCommentPatterns  $txt $lang_array(lcomments) $theme(comments)
         ctext::setStringPatterns       $txt $lang_array(strings)   $theme(strings)

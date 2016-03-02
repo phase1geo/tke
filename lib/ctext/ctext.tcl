@@ -33,59 +33,56 @@ proc ctext {win args} {
 
   set tmp [text .__ctextTemp]
 
-  set ctext::data($win,config,-fg)                    [$tmp cget -foreground]
-  set ctext::data($win,config,-bg)                    [$tmp cget -background]
-  set ctext::data($win,config,-font)                  [$tmp cget -font]
-  set ctext::data($win,config,-relief)                [$tmp cget -relief]
-  set ctext::data($win,config,-unhighlightcolor)      [$win cget -bg]
+  set ctext::data($win,config,-fg)                     [$tmp cget -foreground]
+  set ctext::data($win,config,-bg)                     [$tmp cget -background]
+  set ctext::data($win,config,-font)                   [$tmp cget -font]
+  set ctext::data($win,config,-relief)                 [$tmp cget -relief]
+  set ctext::data($win,config,-unhighlightcolor)       [$win cget -bg]
   destroy $tmp
-  set ctext::data($win,config,-xscrollcommand)        ""
-  set ctext::data($win,config,-yscrollcommand)        ""
-  set ctext::data($win,config,-highlightcolor)        "yellow"
-  set ctext::data($win,config,-linemap)               1
-  set ctext::data($win,config,-linemapfg)             $ctext::data($win,config,-fg)
-  set ctext::data($win,config,-linemapbg)             $ctext::data($win,config,-bg)
-  set ctext::data($win,config,-linemap_mark_command)  {}
-  set ctext::data($win,config,-linemap_markable)      1
-  set ctext::data($win,config,-linemap_select_fg)     black
-  set ctext::data($win,config,-linemap_select_bg)     yellow
-  set ctext::data($win,config,-linemap_cursor)        left_ptr
-  set ctext::data($win,config,-linemap_relief)        $ctext::data($win,config,-relief)
-  set ctext::data($win,config,-linemap_minwidth)      1
-  set ctext::data($win,config,-linemap_type)          absolute
-  set ctext::data($win,config,-highlight)             1
-  set ctext::data($win,config,-warnwidth)             ""
-  set ctext::data($win,config,-warnwidth_bg)          red
-  set ctext::data($win,config,-casesensitive)         1
-  set ctext::data($win,config,-peer)                  ""
-  set ctext::data($win,config,-undo)                  0
-  set ctext::data($win,config,-maxundo)               0
-  set ctext::data($win,config,-autoseparators)        0
-  set ctext::data($win,config,-diff_mode)             0
-  set ctext::data($win,config,-diffsubbg)             "pink"
-  set ctext::data($win,config,-diffaddbg)             "light green"
-  set ctext::data($win,config,-folding)               0
-  set ctext::data($win,config,re_opts)                ""
-  set ctext::data($win,config,win)                    $win
-  set ctext::data($win,config,modified)               0
-  set ctext::data($win,config,blinkAfterId)           ""
-  set ctext::data($win,config,lastUpdate)             0
-  set ctext::data($win,config,block_comment_patterns) [list]
-  set ctext::data($win,config,string_patterns)        [list]
-  set ctext::data($win,config,line_comment_patterns)  [list]
-  set ctext::data($win,config,comment_re)             ""
-  set ctext::data($win,config,gutters)                [list]
-  set ctext::data($win,config,matchChar,curly)        1
-  set ctext::data($win,config,matchChar,square)       1
-  set ctext::data($win,config,matchChar,paren)        1
-  set ctext::data($win,config,matchChar,angled)       1
-  set ctext::data($win,config,matchChar,double)       1
-  set ctext::data($win,config,undo_hist)              [list]
-  set ctext::data($win,config,undo_hist_size)         0
-  set ctext::data($win,config,undo_sep_last)          -1
-  set ctext::data($win,config,undo_sep_next)          -1
-  set ctext::data($win,config,undo_sep_size)          0
-  set ctext::data($win,config,redo_hist)              [list]
+  set ctext::data($win,config,-xscrollcommand)         ""
+  set ctext::data($win,config,-yscrollcommand)         ""
+  set ctext::data($win,config,-highlightcolor)         "yellow"
+  set ctext::data($win,config,-linemap)                1
+  set ctext::data($win,config,-linemapfg)              $ctext::data($win,config,-fg)
+  set ctext::data($win,config,-linemapbg)              $ctext::data($win,config,-bg)
+  set ctext::data($win,config,-linemap_mark_command)   {}
+  set ctext::data($win,config,-linemap_markable)       1
+  set ctext::data($win,config,-linemap_select_fg)      black
+  set ctext::data($win,config,-linemap_select_bg)      yellow
+  set ctext::data($win,config,-linemap_cursor)         left_ptr
+  set ctext::data($win,config,-linemap_relief)         $ctext::data($win,config,-relief)
+  set ctext::data($win,config,-linemap_minwidth)       1
+  set ctext::data($win,config,-linemap_type)           absolute
+  set ctext::data($win,config,-highlight)              1
+  set ctext::data($win,config,-warnwidth)              ""
+  set ctext::data($win,config,-warnwidth_bg)           red
+  set ctext::data($win,config,-casesensitive)          1
+  set ctext::data($win,config,-peer)                   ""
+  set ctext::data($win,config,-undo)                   0
+  set ctext::data($win,config,-maxundo)                0
+  set ctext::data($win,config,-autoseparators)         0
+  set ctext::data($win,config,-diff_mode)              0
+  set ctext::data($win,config,-diffsubbg)              "pink"
+  set ctext::data($win,config,-diffaddbg)              "light green"
+  set ctext::data($win,config,-folding)                0
+  set ctext::data($win,config,re_opts)                 ""
+  set ctext::data($win,config,win)                     $win
+  set ctext::data($win,config,modified)                0
+  set ctext::data($win,config,blinkAfterId)            ""
+  set ctext::data($win,config,lastUpdate)              0
+  set ctext::data($win,config,comment_string_patterns) [list]
+  set ctext::data($win,config,gutters)                 [list]
+  set ctext::data($win,config,matchChar,curly)         1
+  set ctext::data($win,config,matchChar,square)        1
+  set ctext::data($win,config,matchChar,paren)         1
+  set ctext::data($win,config,matchChar,angled)        1
+  set ctext::data($win,config,matchChar,double)        1
+  set ctext::data($win,config,undo_hist)               [list]
+  set ctext::data($win,config,undo_hist_size)          0
+  set ctext::data($win,config,undo_sep_last)           -1
+  set ctext::data($win,config,undo_sep_next)           -1
+  set ctext::data($win,config,undo_sep_size)           0
+  set ctext::data($win,config,redo_hist)               [list]
 
   set ctext::data($win,config,indentation,indent)        [list]
   set ctext::data($win,config,indentation,unindent)      [list]
@@ -1118,9 +1115,6 @@ proc ctext::command_delete {win args} {
 
   variable data
 
-  # Create comment RE
-  set commentRE $data($win,config,comment_re)
-
   set moddata [list]
   if {[lindex $args 0] eq "-moddata"} {
     set args [lassign $args dummy moddata]
@@ -1157,7 +1151,7 @@ proc ctext::command_delete {win args} {
     set checkStr "$prevChar[set char]"
 
     ctext::escapes     $win $lineStart $lineEnd
-    ctext::comments    $win $lineStart $lineEnd [regexp {*}$data($win,config,re_opts) -- $commentRE $checkStr]
+    ctext::comments    $win $lineStart $lineEnd
     ctext::brackets    $win $lineStart $lineEnd
     ctext::indentation $win $lineStart $lineEnd
     ctext::highlight   $win $lineStart $lineEnd
@@ -1186,7 +1180,7 @@ proc ctext::command_delete {win args} {
     }
 
     ctext::escapes     $win $lineStart $lineEnd
-    ctext::comments    $win $lineStart $lineEnd [regexp {*}$data($win,config,re_opts) -- $commentRE $dat]
+    ctext::comments    $win $lineStart $lineEnd
     ctext::brackets    $win $lineStart $lineEnd
     ctext::indentation $win $lineStart $lineEnd
     ctext::highlight   $win $lineStart $lineEnd
@@ -1384,7 +1378,7 @@ proc ctext::command_highlight {win args} {
   }
 
   ctext::escapes     $win $lineStart $lineEnd
-  ctext::comments    $win $lineStart $lineEnd 1
+  ctext::comments    $win $lineStart $lineEnd
   ctext::brackets    $win $lineStart $lineEnd
   ctext::indentation $win $lineStart $lineEnd
   ctext::highlight   $win $lineStart $lineEnd
@@ -1394,9 +1388,6 @@ proc ctext::command_highlight {win args} {
 proc ctext::command_insert {win args} {
 
   variable data
-
-  # Create comment RE
-  set commentRE $data($win,config,comment_re)
 
   if {[llength $args] < 2} {
     return -code error "please use at least 2 arguments to $win insert"
@@ -1446,11 +1437,8 @@ proc ctext::command_insert {win args} {
     }
   }
 
-  set re_data    [$win._t get $prevSpace "$insertPos+${datlen}c"]
-  set re_pattern [expr {($datlen == 1) ? "((\\\\.)+|$commentRE).?\$" : $commentRE}]
-
   ctext::escapes     $win $lineStart $lineEnd
-  ctext::comments    $win $lineStart $lineEnd [regexp {*}$data($win,config,re_opts) -- $re_pattern $re_data]
+  puts [time { ctext::comments    $win $lineStart $lineEnd }]
   ctext::brackets    $win $lineStart $lineEnd
   ctext::indentation $win $lineStart $lineEnd
   ctext::highlight   $win $lineStart $lineEnd
@@ -1497,9 +1485,6 @@ proc ctext::command_replace {win args} {
     return -code error "please use at least 3 arguments to $win replace"
   }
 
-  # Create comment RE
-  set commentRE $data($win,config,comment_re)
-
   set moddata [list]
   if {[lindex $args 0] eq "-moddata"} {
     set args [lassign $args dummy moddata]
@@ -1535,7 +1520,7 @@ proc ctext::command_replace {win args} {
   set REData [$win._t get $lineStart $lineEnd]
 
   ctext::escapes     $win $lineStart $lineEnd
-  ctext::comments    $win $lineStart $lineEnd [regexp {*}$data($win,config,re_opts) -- $commentRE $REData]
+  ctext::comments    $win $lineStart $lineEnd
   ctext::brackets    $win $lineStart $lineEnd
   ctext::indentation $win $lineStart $lineEnd
   ctext::highlight   $win $lineStart $lineEnd
@@ -2121,17 +2106,27 @@ proc ctext::matchQuote {win} {
 
 }
 
+proc ctext::clearCommentStringPatterns {win} {
+
+  variable data
+
+  set data($win,config,comment_string_patterns) [list]
+
+}
+
 proc ctext::setBlockCommentPatterns {win patterns {color "khaki"}} {
 
   variable data
 
-  set data($win,config,block_comment_patterns) $patterns
+  foreach pattern $patterns {
+    lappend data($win,config,comment_string_patterns) _cCommentStart [lindex $pattern 0] _cCommentEnd [lindex $pattern 1]
+  }
+
   if {[llength $patterns] > 0} {
     $win tag configure _cComment -foreground $color
   } else {
-    catch { $win tag delete _cComment }
+    catch { $win tag delete _cComment _cCommentStart _cCommentEnd }
   }
-  setCommentRE $win
 
 }
 
@@ -2139,13 +2134,13 @@ proc ctext::setLineCommentPatterns {win patterns {color "khaki"}} {
 
   variable data
 
-  set data($win,config,line_comment_patterns) $patterns
+  lappend data($win,config,comment_string_patterns) _lCommentStart [join $patterns |]
+
   if {[llength $patterns] > 0} {
     $win tag configure _lComment -foreground $color
   } else {
-    catch { $win tag delete _lComment }
+    catch { $win tag delete _lComment _lCommentStart }
   }
-  setCommentRE $win
 
 }
 
@@ -2153,155 +2148,192 @@ proc ctext::setStringPatterns {win patterns {color "green"}} {
 
   variable data
 
-  set data($win,config,string_patterns) $patterns
+  foreach pattern $patterns {
+    lappend data($win,config,comment_string_patterns) [expr {($pattern eq "'") ? "_sQuote" : "_dQuote"}] $pattern
+  }
 
   if {[llength $patterns] > 0} {
     $win tag configure _sString -foreground $color
     $win tag configure _dString -foreground $color
   } else {
-    catch { $win tag delete _sString }
-    catch { $win tag delete _dString }
+    catch { $win tag delete _sString _sQuote _dString _dQuote }
   }
-
-  setCommentRE $win
 
 }
 
 proc ctext::comments {win start end} {
   
   variable data
-  
+
+  puts "HERE A, start: $start, end: $end"
+
   # First, tag all string/comment patterns found between start and end
   foreach {tag pattern} $data($win,config,comment_string_patterns) {
-    set i 0
-    foreach index [$win search -count lengths -regexp -- $pattern $start $end] {
+    set i       0
+    set indices [list]
+    foreach index [$win search -all -count lengths -regexp {*}$data($win,config,re_opts) -- $pattern $start $end] {
       if {![isEscaped $win $index]} {
         lappend indices $index "$index+[lindex $lengths $i]c"
       }
       incr i
     }
-    $win tag add _$tag {*}$indices
+    if {[llength $indices] > 0} {
+      $win tag add $tag {*}$indices
+    }
   }
-  
+
   # Initialize tags
-  set ccom_tags [list]
-  set lcom_tags [list]
-  set dstr_tags [list]
-  set sstr_tags [list]
+  set tags(_cComment) [list]
+  set tags(_lComment) [list]
+  set tags(_dString)  [list]
+  set tags(_sString)  [list]
   
   # Figure out what type of comment/string block we are currently in, if any
-  set tag_start ""
+  set range_start $start
+  set range_end   $end
   foreach tag [lreverse [$win tag names "$start-1c"]] {
-    switch $tag {
-      _cComment {
-        lassign [$win tag prevrange $tag $start] tag_start tag_end
-        if {[comments_cComment $win $tag_start $end ccom_tags] == 0} {
-          return
-        }
-        break
+    if {[lsearch [array names tags] $tag] != -1} {
+      lassign [$win tag prevrange $tag $start] range_start range_end
+      if {[comments$tag $win $range_start $range_end $end tags($tag)] eq ""} {
+        return
       }
-      _lComment {
-        if {[comments_lComment $win $tag_start $end lcom_tags] == 0} {
-          return
-        }
-        break
-      }
-      _sString {
-        lassign [$win tag prevrange $tag $index]    tag_start  tag_end
-        lassign [$win tag nextrange _sQuote $start] next_start next_end
-        if {$tag_end eq $next_end} {
-          if {[$win compare $tag_end >= $end]} {
-            return
-          }
-        } else {
-          lappend sstring_tags $tag_start $next_end
-        }
-        break
-      }
-      _dString {
-        lassign [$win tag prevrange $tag $index]    tag_start  tag_end
-        lassign [$win tag nextrange _dQuote $start] next_start next_end
-        if {$tag_end eq $next_end} {
-          if {[$win compare $tag_end >= $end]} {
-            return
-          }
-        } else {
-          lappend dstring_tags $tag_start $next_end
-        }
-        break
-      }
+      break
     }
   }
-  
+
   # Get the tags
   while {1} {
-    set players [list [list comments_lComment [lindex [$win tag nextrange _lCommentStart $start] 0]x] \
-                      [list comments_cComment [lindex [$win tag nextrange _cCommentStart $start] 0]x] \
-                      [list comments_dString  [lindex [$win tag nextrange _dStringStart  $start] 0]x] \
-                      [list comments_sString  [lindex [$win tag nextrange _sStringStart  $start] 0]x]]
-    if {([set tag_start [lassign [lsort -dictionary -index 1 $players] tag_command]] eq "x") ||
-        ([eval $tag_command $win $tag_start $end ccom_tags] == 0)} {
-      return
+    set players [list]
+    foreach {tag char_tag} [list _lComment _lCommentStart _cComment _cCommentStart _dString _dQuote _sString _sQuote] {
+      lassign [$win tag nextrange $char_tag $start] char_start char_end
+      lappend players [list $tag $char_end ${char_start}x]
+    }
+    set winner [lindex [lsort -dictionary -index 2 $players] 0]
+    puts "winner: $winner"
+    if {([set char_start [lassign $winner tag char_end]] eq "x") ||
+        ([set last [comments$tag $win [string range $char_start 0 end-1] $char_end $end tags($tag)]] eq "")} {
+      break
+    }
+    set start [set range_end $last]
+  }
+
+  # puts "DONE"
+
+  # Delete old, add new and re-raise tags
+  foreach tag [array names tags] {
+    $win tag remove $tag $range_start $range_end
+    if {[llength $tags($tag)] > 0} {
+      $win tag add   $tag {*}$tags($tag)
+      $win tag raise $tag
     }
   }
-  
-  # Delete old, add new and re-raise tags (NOTE - start and end should be the starting and ending of which range we modified
-  $win tag remove _lComment $start $end
-  $win tag remove _cComment $start $end
-  $win tag remove _sString  $start $end
-  $win tag remove _dString  $start $end
-  if {[llength $lcom_tags] > 0} {
-    $win tag add _lComment {*}$lcom_tags
-    $win tag raise _lComment
-  }
-  if {[llength $ccom_tags] > 0} {
-    $win tag add _cComment {*}$ccom_tags
-    $win tag raise _cComment
-  }
-  if {[llength $sstr_tags] > 0} {
-    $win tag add _sString {*}$sstr_tags
-    $win tag raise _sString
-  }
-  if {[llength $dstr_tags] > 0} {
-    $win tag add _dString {*}$dstr_tags
-    $win tag raise _dString
-  }
-  
+
 }
 
-proc ctext::comments_cComment {win tag_start tag_end end ptags} {
+proc ctext::comments_cComment {win char_start char_end end ptags} {
   
   upvar $ptags tags
+
+  # Get the next cComment range starting at char_start
+  lassign [$win tag nextrange _cComment $char_start] tag_start tag_end
   
   # Find the end comment tag
-  lassign [$win tag nextrange _cCommentEnd $tag_start] next_start next_end
+  lassign [$win tag nextrange _cCommentEnd $char_start] next_start next_end
   
-  # If the 
-  if {$tag_end eq $next_end} {
-    if {[$win compare $tag_end >= $end]} {
-      return 0
-    }
+  # If the tag's end matches the next_end, we are done
+  if {($tag_end eq $next_end) && [$win compare $tag_end >= $end]} {
+    return ""
   } else {
-    lappend tags $tag_start $next_end
+    lappend tags $char_start $next_end
   }
   
-  return 1
+  return $next_end
   
 }
 
-proc ctext::comments_lComment {win start end_index ptags} {
+proc ctext::comments_lComment {win char_start char_end end ptags} {
   
   upvar $ptags tags
-  
-  if {[$win compare "$start+l1 linestart" >= $end_index]} {
-    return 0
+
+  puts "In ctext::comment_lComment, char_start: $char_start, char_end: $char_end, end: $end"
+
+  # Get the next lComment range starting at char_start
+  catch {
+  lassign [$win tag nextrange _lComment $char_start] tag_start tag_end
+  } rc
+  puts "rc: $rc"
+
+  puts "  tag_start: $tag_start, char_start: $char_start, char_end: $char_end"
+
+  # Get the line comment expected end
+  set next_end [$win index "$char_start lineend"]
+
+  if {($tag_end eq $next_end) && [$win compare $tag_end >= $end]} {
+    return ""
+  } else {
+    lappend tags $char_start $next_end
+    puts "  tags: $tags"
   }
   
-  return 1
+  return $next_end
   
 }
 
-proc ctext::comments {win start end blocks} {
+proc ctext::comments_sString {win char_start char_end end ptags} {
+
+  upvar $ptags tags
+
+  # Get the next sString range starting at char_start
+  lassign [$win tag nextrange _sString $char_start] tag_start tag_end
+
+  # Get the next single quote position
+  if {[$win compare "$char_start+1c" < $char_end]} {
+    set next_start "$char_start+1c"
+    set next_end   $char_end
+  } else {
+    if {[set next end [lassign [$win tag nextrange _sQuote "$char_start+1c"] next_start]] eq ""} {
+      set next_end end
+    }
+  }
+
+  if {($tag_end eq $next_end) && [$win compare $tag_end >= $end]} {
+    return ""
+  } else {
+    lappend tags $char_start $next_end
+  }
+
+  return $next_end
+
+}
+
+proc ctext::comments_dString {win tag_start tag_end end ptags} {
+
+  upvar $ptags tags
+
+  # Get the next sString range starting at char_start
+  lassign [$win tag nextrange _dString $char_start] tag_start tag_end
+
+  # Find the next single quote
+  if {[$win compare "$tag_start+1c" < $tag_end]} {
+    set next_start "$tag_start+1c"
+    set next_end   $tag_end
+  } else {
+    if {[set next_end [lassign [$win tag nextrange _dQuote "$tag_start+1c"] next_start]] eq ""} {
+      set next_end end
+    }
+  }
+
+  if {($tag_end eq $next_end) && [$win compare $tag_end >= $end]} {
+    return ""
+  } else {
+    lappend tags $char_start $next_end
+  }
+
+  return $next_end
+
+}
+
+proc ctext::comments2 {win start end blocks} {
 
   variable data
 
