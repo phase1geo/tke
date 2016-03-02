@@ -2167,6 +2167,140 @@ proc ctext::setStringPatterns {win patterns {color "green"}} {
 
 }
 
+proc ctext::comments {win start end} {
+  
+  variable data
+  
+  # First, tag all string/comment patterns found between start and end
+  foreach {tag pattern} $data($win,config,comment_string_patterns) {
+    set i 0
+    foreach index [$win search -count lengths -regexp -- $pattern $start $end] {
+      if {![isEscaped $win $index]} {
+        lappend indices $index "$index+[lindex $lengths $i]c"
+      }
+      incr i
+    }
+    $win tag add _$tag {*}$indices
+  }
+  
+  # Initialize tags
+  set ccom_tags [list]
+  set lcom_tags [list]
+  set dstr_tags [list]
+  set sstr_tags [list]
+  
+  # Figure out what type of comment/string block we are currently in, if any
+  set tag_start ""
+  foreach tag [lreverse [$win tag names "$start-1c"]] {
+    switch $tag {
+      _cComment {
+        lassign [$win tag prevrange $tag $start] tag_start tag_end
+        if {[comments_cComment $win $tag_start $end ccom_tags] == 0} {
+          return
+        }
+        break
+      }
+      _lComment {
+        if {[comments_lComment $win $tag_start $end lcom_tags] == 0} {
+          return
+        }
+        break
+      }
+      _sString {
+        lassign [$win tag prevrange $tag $index]    tag_start  tag_end
+        lassign [$win tag nextrange _sQuote $start] next_start next_end
+        if {$tag_end eq $next_end} {
+          if {[$win compare $tag_end >= $end]} {
+            return
+          }
+        } else {
+          lappend sstring_tags $tag_start $next_end
+        }
+        break
+      }
+      _dString {
+        lassign [$win tag prevrange $tag $index]    tag_start  tag_end
+        lassign [$win tag nextrange _dQuote $start] next_start next_end
+        if {$tag_end eq $next_end} {
+          if {[$win compare $tag_end >= $end]} {
+            return
+          }
+        } else {
+          lappend dstring_tags $tag_start $next_end
+        }
+        break
+      }
+    }
+  }
+  
+  # Get the tags
+  while {1} {
+    set players [list [list comments_lComment [lindex [$win tag nextrange _lCommentStart $start] 0]x] \
+                      [list comments_cComment [lindex [$win tag nextrange _cCommentStart $start] 0]x] \
+                      [list comments_dString  [lindex [$win tag nextrange _dStringStart  $start] 0]x] \
+                      [list comments_sString  [lindex [$win tag nextrange _sStringStart  $start] 0]x]]
+    if {([set tag_start [lassign [lsort -dictionary -index 1 $players] tag_command]] eq "x") ||
+        ([eval $tag_command $win $tag_start $end ccom_tags] == 0)} {
+      return
+    }
+  }
+  
+  # Delete old, add new and re-raise tags (NOTE - start and end should be the starting and ending of which range we modified
+  $win tag remove _lComment $start $end
+  $win tag remove _cComment $start $end
+  $win tag remove _sString  $start $end
+  $win tag remove _dString  $start $end
+  if {[llength $lcom_tags] > 0} {
+    $win tag add _lComment {*}$lcom_tags
+    $win tag raise _lComment
+  }
+  if {[llength $ccom_tags] > 0} {
+    $win tag add _cComment {*}$ccom_tags
+    $win tag raise _cComment
+  }
+  if {[llength $sstr_tags] > 0} {
+    $win tag add _sString {*}$sstr_tags
+    $win tag raise _sString
+  }
+  if {[llength $dstr_tags] > 0} {
+    $win tag add _dString {*}$dstr_tags
+    $win tag raise _dString
+  }
+  
+}
+
+proc ctext::comments_cComment {win tag_start tag_end end ptags} {
+  
+  upvar $ptags tags
+  
+  # Find the end comment tag
+  lassign [$win tag nextrange _cCommentEnd $tag_start] next_start next_end
+  
+  # If the 
+  if {$tag_end eq $next_end} {
+    if {[$win compare $tag_end >= $end]} {
+      return 0
+    }
+  } else {
+    lappend tags $tag_start $next_end
+  }
+  
+  return 1
+  
+}
+
+proc ctext::comments_lComment {win start end_index ptags} {
+  
+  upvar $ptags tags
+  
+  if {[$win compare "$start+l1 linestart" >= $end_index]} {
+    return 0
+  }
+  
+  return 1
+  
+}
+
 proc ctext::comments {win start end blocks} {
 
   variable data
