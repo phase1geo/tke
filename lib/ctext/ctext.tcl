@@ -2165,9 +2165,8 @@ proc ctext::comments {win start end} {
   
   variable data
 
-  puts "HERE A, start: $start, end: $end"
-
   # First, tag all string/comment patterns found between start and end
+  set found 0
   foreach {tag pattern} $data($win,config,comment_string_patterns) {
     set i       0
     set indices [list]
@@ -2179,7 +2178,13 @@ proc ctext::comments {win start end} {
     }
     if {[llength $indices] > 0} {
       $win tag add $tag {*}$indices
+      set found 1
     }
+  }
+
+  # If we didn't find any comment/string characters, no need to continue.
+  if {!$found} {
+    return
   }
 
   # Initialize tags
@@ -2209,15 +2214,12 @@ proc ctext::comments {win start end} {
       lappend players [list $tag $char_end ${char_start}x]
     }
     set winner [lindex [lsort -dictionary -index 2 $players] 0]
-    puts "winner: $winner"
     if {([set char_start [lassign $winner tag char_end]] eq "x") ||
         ([set last [comments$tag $win [string range $char_start 0 end-1] $char_end $end tags($tag)]] eq "")} {
       break
     }
     set start [set range_end $last]
   }
-
-  # puts "DONE"
 
   # Delete old, add new and re-raise tags
   foreach tag [array names tags] {
@@ -2241,7 +2243,7 @@ proc ctext::comments_cComment {win char_start char_end end ptags} {
   lassign [$win tag nextrange _cCommentEnd $char_start] next_start next_end
   
   # If the tag's end matches the next_end, we are done
-  if {($tag_end eq $next_end) && [$win compare $tag_end >= $end]} {
+  if {($tag_end ne "") && [$win compare $tag_end == $next_end] && [$win compare $tag_end > $end]} {
     return ""
   } else {
     lappend tags $char_start $next_end
@@ -2255,24 +2257,16 @@ proc ctext::comments_lComment {win char_start char_end end ptags} {
   
   upvar $ptags tags
 
-  puts "In ctext::comment_lComment, char_start: $char_start, char_end: $char_end, end: $end"
-
   # Get the next lComment range starting at char_start
-  catch {
   lassign [$win tag nextrange _lComment $char_start] tag_start tag_end
-  } rc
-  puts "rc: $rc"
-
-  puts "  tag_start: $tag_start, char_start: $char_start, char_end: $char_end"
 
   # Get the line comment expected end
-  set next_end [$win index "$char_start lineend"]
+  set next_end [$win index "$char_start+1l linestart"]
 
-  if {($tag_end eq $next_end) && [$win compare $tag_end >= $end]} {
+  if {($tag_end ne "") && [$win compare $tag_end == $next_end] && [$win compare $tag_end > $end]} {
     return ""
   } else {
     lappend tags $char_start $next_end
-    puts "  tags: $tags"
   }
   
   return $next_end
@@ -2296,7 +2290,7 @@ proc ctext::comments_sString {win char_start char_end end ptags} {
     }
   }
 
-  if {($tag_end eq $next_end) && [$win compare $tag_end >= $end]} {
+  if {($tag_end ne "") && [$win compare $tag_end == $next_end] && [$win compare $tag_end > $end]} {
     return ""
   } else {
     lappend tags $char_start $next_end
@@ -2306,7 +2300,7 @@ proc ctext::comments_sString {win char_start char_end end ptags} {
 
 }
 
-proc ctext::comments_dString {win tag_start tag_end end ptags} {
+proc ctext::comments_dString {win char_start char_end end ptags} {
 
   upvar $ptags tags
 
@@ -2314,16 +2308,16 @@ proc ctext::comments_dString {win tag_start tag_end end ptags} {
   lassign [$win tag nextrange _dString $char_start] tag_start tag_end
 
   # Find the next single quote
-  if {[$win compare "$tag_start+1c" < $tag_end]} {
-    set next_start "$tag_start+1c"
-    set next_end   $tag_end
+  if {[$win compare "$char_start+1c" < $char_end]} {
+    set next_start "$char_start+1c"
+    set next_end   $char_end
   } else {
-    if {[set next_end [lassign [$win tag nextrange _dQuote "$tag_start+1c"] next_start]] eq ""} {
+    if {[set next_end [lassign [$win tag nextrange _dQuote "$char_start+1c"] next_start]] eq ""} {
       set next_end end
     }
   }
 
-  if {($tag_end eq $next_end) && [$win compare $tag_end >= $end]} {
+  if {($tag_end ne "") && [$win compare $tag_end == $next_end] && [$win compare $tag_end > $end]} {
     return ""
   } else {
     lappend tags $char_start $next_end
