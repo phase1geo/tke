@@ -2193,6 +2193,7 @@ proc ctext::comments {win start end} {
   set tags(_dString)  [list]
   set tags(_sString)  [list]
   
+  if {0} {
   # Figure out what type of comment/string block we are currently in, if any
   set range_start $start
   set range_end   $end
@@ -2205,6 +2206,10 @@ proc ctext::comments {win start end} {
       break
     }
   }
+  }
+  set range_start 1.0
+  set start       1.0
+  set end         end
 
   # Get the tags
   while {1} {
@@ -2238,7 +2243,7 @@ proc ctext::comments_StartEnd {win tag char_tag char_start end ptags} {
   upvar $ptags tags
 
   # Get the next sString range starting at char_start
-  lassign [$win tag nextrange $tag $char_start] tag_start tag_end
+  # lassign [$win tag nextrange $tag $char_start] tag_start tag_end
 
   # Find the end comment tag
   lassign [$win tag nextrange ${char_tag}0 "$char_start+1c"] next0_start next0_end
@@ -2260,11 +2265,11 @@ proc ctext::comments_StartEnd {win tag char_tag char_start end ptags} {
     }
   }
 
-  if {($tag_end ne "") && [$win compare $tag_end == $next_end] && [$win compare $tag_end > $end]} {
-    return ""
-  } else {
+  #if {($tag_end ne "") && [$win compare $tag_end == $next_end] && [$win compare $tag_end > $end]} {
+  #  return ""
+  #} else {
     lappend tags $char_start $next_end
-  }
+  #}
 
   return $next_end
 
@@ -2283,16 +2288,16 @@ proc ctext::comments_lComment {win char_start end ptags} {
   upvar $ptags tags
 
   # Get the next lComment range starting at char_start
-  lassign [$win tag nextrange _lComment $char_start] tag_start tag_end
+  # lassign [$win tag nextrange _lComment $char_start] tag_start tag_end
 
   # Get the line comment expected end
   set next_end [$win index "$char_start+1l linestart"]
 
-  if {($tag_end ne "") && [$win compare $tag_end == $next_end] && [$win compare $tag_end > $end]} {
-    return ""
-  } else {
+  # if {($tag_end ne "") && [$win compare $tag_end == $next_end] && [$win compare $tag_end > $end]} {
+  #   return ""
+  # } else {
     lappend tags $char_start $next_end
-  }
+  # }
   
   return $next_end
   
