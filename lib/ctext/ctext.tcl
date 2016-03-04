@@ -2209,17 +2209,14 @@ proc ctext::comments {win start end} {
   # Get the tags
   while {1} {
     set players [list]
-    set i       0
     foreach {tag char_tag} [list _lComment _lCommentStart _cComment _cCommentStart _dString _dQuote _sString _sQuote] {
-      for {set j 0} {$j < 2} {incr j} {
-        lassign [$win tag nextrange $char_tag$j $start] char_start char_end
-        lappend players [list $i $tag$j $char_end ${char_start}x]
-        incr i
-      }
+      lassign [$win tag nextrange ${char_tag}0 $start] char0_start char0_end
+      lassign [$win tag nextrange ${char_tag}1 $start] char1_start char1_end
+      lappend players [list $tag $char0_start ${char0_start}x] [list $tag $char1_start ${char1_start}x]
     }
-    set winner [lindex [lsort -dictionary -index 3 $players] 0]
-    if {([set char_start [lassign $winner tag char_end]] eq "x") ||
-        ([set last [comments$tag $win [string range $char_start 0 end-1] $char_end $end tags($tag)]] eq "")} {
+    set winner    [lindex [lsort -dictionary -index 2 $players] 0]
+    set win_start [lassign $winner tag char_start]
+    if {($win_start eq "x") || ([set last [comments$tag $win $char_start $end tags($tag)]] eq "")} {
       break
     }
     set start [set range_end $last]
@@ -2236,28 +2233,52 @@ proc ctext::comments {win start end} {
 
 }
 
-proc ctext::comments_cComment {win char_start char_end end ptags} {
-  
+proc ctext::comments_StartEnd {win tag char_tag char_start end ptags} {
+
   upvar $ptags tags
 
-  # Get the next cComment range starting at char_start
-  lassign [$win tag nextrange _cComment $char_start] tag_start tag_end
-  
+  # Get the next sString range starting at char_start
+  lassign [$win tag nextrange $tag $char_start] tag_start tag_end
+
   # Find the end comment tag
-  lassign [$win tag nextrange _cCommentEnd $char_start] next_start next_end
-  
-  # If the tag's end matches the next_end, we are done
+  lassign [$win tag nextrange ${char_tag}0 "$char_start+1c"] next0_start next0_end
+  lassign [$win tag nextrange ${char_tag}1 "$char_start+1c"] next1_start next1_end
+
+  if {$next0_end eq ""} {
+    if {$next1_end eq ""} {
+      set next_end end
+    } else {
+      set next_end $next1_end
+    }
+  } else {
+    if {$next1_end eq ""} {
+      set next_end $next0_end
+    } elseif {[$win compare $next0_end < $next1_end]} {
+      set next_end $next0_end
+    } else {
+      set next_end $next1_end
+    }
+  }
+
   if {($tag_end ne "") && [$win compare $tag_end == $next_end] && [$win compare $tag_end > $end]} {
     return ""
   } else {
     lappend tags $char_start $next_end
   }
-  
+
   return $next_end
-  
+
 }
 
-proc ctext::comments_lComment {win char_start char_end end ptags} {
+proc ctext::comments_cComment {win char_start end ptags} {
+  
+  upvar $ptags tags
+
+  return [comments_StartEnd $win _cComment _cCommentEnd $char_start $end tags]
+
+}
+
+proc ctext::comments_lComment {win char_start end ptags} {
   
   upvar $ptags tags
 
@@ -2277,57 +2298,19 @@ proc ctext::comments_lComment {win char_start char_end end ptags} {
   
 }
 
-proc ctext::comments_sString {win char_start char_end end ptags} {
+proc ctext::comments_sString {win char_start end ptags} {
 
   upvar $ptags tags
 
-  # Get the next sString range starting at char_start
-  lassign [$win tag nextrange _sString $char_start] tag_start tag_end
-
-  # Get the next single quote position
-  if {[$win compare "$char_start+1c" < $char_end]} {
-    set next_start "$char_start+1c"
-    set next_end   $char_end
-  } else {
-    if {[set next end [lassign [$win tag nextrange _sQuote "$char_start+1c"] next_start]] eq ""} {
-      set next_end end
-    }
-  }
-
-  if {($tag_end ne "") && [$win compare $tag_end == $next_end] && [$win compare $tag_end > $end]} {
-    return ""
-  } else {
-    lappend tags $char_start $next_end
-  }
-
-  return $next_end
+  return [comments_StartEnd $win _sString _sQuote $char_start $end tags]
 
 }
 
-proc ctext::comments_dString {win char_start char_end end ptags} {
+proc ctext::comments_dString {win char_start end ptags} {
 
   upvar $ptags tags
 
-  # Get the next sString range starting at char_start
-  lassign [$win tag nextrange _dString $char_start] tag_start tag_end
-
-  # Find the next single quote
-  if {[$win compare "$char_start+1c" < $char_end]} {
-    set next_start "$char_start+1c"
-    set next_end   $char_end
-  } else {
-    if {[set next_end [lassign [$win tag nextrange _dQuote "$char_start+1c"] next_start]] eq ""} {
-      set next_end end
-    }
-  }
-
-  if {($tag_end ne "") && [$win compare $tag_end == $next_end] && [$win compare $tag_end > $end]} {
-    return ""
-  } else {
-    lappend tags $char_start $next_end
-  }
-
-  return $next_end
+  return [comments_StartEnd $win _dString _dQuote $char_start $end tags]
 
 }
 
