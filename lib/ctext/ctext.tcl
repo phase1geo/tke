@@ -508,26 +508,13 @@ proc ctext::setCommentRE {win} {
 
   variable data
 
-  set commentRE {\\}
-  array set chars {}
+  set patterns [list]
 
-  set patterns [concat [eval concat $data($win,config,block_comment_patterns)] $data($win,config,line_comment_patterns) $data($win,config,string_patterns)]
-
-  if {[llength $patterns] > 0} {
-    append commentRE "|" [join $patterns |]
+  foreach {tag pattern} $data($win,config,comment_string_patterns) {
+    lappend patterns $pattern
   }
 
-  set bcomments [list]
-  set ecomments [list]
-  foreach block $data($win,config,block_comment_patterns) {
-    lappend bcomments [lindex $block 0]
-    lappend ecomments [lindex $block 1]
-  }
-
-  set data($win,config,comment_re)  $commentRE
-  set data($win,config,bcomment_re) [join $bcomments |]
-  set data($win,config,ecomment_re) [join $ecomments |]
-  set data($win,config,lcomment_re) [join $data($win,config,line_comment_patterns) |]
+  set data($win,config,comstr_re) [join $patterns |]
 
 }
 
@@ -1143,7 +1130,7 @@ proc ctext::command_delete {win args} {
   ctext::linemapCheckOnDelete $win $deleteStartPos $deleteEndPos
 
   # Figure out if a comment/string character is being deleted
-  set char_deleted [comments_char_deleted $win $deleteStartPos $deleteEndPos]
+  set char_found [comments_char_in_range $win $deleteStartPos $deleteEndPos]
 
   # Delete the text
   $win._t delete $deleteStartPos $deleteEndPos
@@ -1157,7 +1144,7 @@ proc ctext::command_delete {win args} {
 
   # Perform tagging and syntax highlighting
   ctext::escapes     $win $lineStart $lineEnd
-  ctext::comments    $win $lineStart $lineEnd $char_deleted
+  ctext::comments    $win $lineStart $lineEnd $char_found
   ctext::brackets    $win $lineStart $lineEnd
   ctext::indentation $win $lineStart $lineEnd
   ctext::highlight   $win $lineStart $lineEnd
@@ -1350,7 +1337,7 @@ proc ctext::command_highlight {win args} {
   }
 
   ctext::escapes     $win $lineStart $lineEnd
-  ctext::comments    $win $lineStart $lineEnd
+  ctext::comments    $win $lineStart $lineEnd 1
   ctext::brackets    $win $lineStart $lineEnd
   ctext::indentation $win $lineStart $lineEnd
   ctext::highlight   $win $lineStart $lineEnd
@@ -1409,7 +1396,7 @@ proc ctext::command_insert {win args} {
   }
 
   ctext::escapes     $win $lineStart $lineEnd
-  puts [time { ctext::comments    $win $lineStart $lineEnd }]
+  puts [time { ctext::comments    $win $lineStart $lineEnd [regexp {*}$data($win,config,re_opts) -- $data($win,config,comstr_re) $dat] }]
   ctext::brackets    $win $lineStart $lineEnd
   ctext::indentation $win $lineStart $lineEnd
   ctext::highlight   $win $lineStart $lineEnd
@@ -1494,7 +1481,7 @@ proc ctext::command_replace {win args} {
 
   # Perform tagging and syntax highlighting
   ctext::escapes     $win $lineStart $lineEnd
-  ctext::comments    $win $lineStart $lineEnd $char_deleted
+  ctext::comments    $win $lineStart $lineEnd [expr $char_deleted || [regexp {*}$data($win,config,re_opts) -- $data($win,config,comstr_re) $dat]]
   ctext::brackets    $win $lineStart $lineEnd
   ctext::indentation $win $lineStart $lineEnd
   ctext::highlight   $win $lineStart $lineEnd
@@ -2102,6 +2089,8 @@ proc ctext::setBlockCommentPatterns {win patterns {color "khaki"}} {
     catch { $win tag delete _cComment _cCommentStart _cCommentEnd }
   }
 
+  setCommentRE $win
+
 }
 
 proc ctext::setLineCommentPatterns {win patterns {color "khaki"}} {
@@ -2115,6 +2104,8 @@ proc ctext::setLineCommentPatterns {win patterns {color "khaki"}} {
   } else {
     catch { $win tag delete _lComment _lCommentStart }
   }
+
+  setCommentRE $win
 
 }
 
@@ -2133,9 +2124,11 @@ proc ctext::setStringPatterns {win patterns {color "green"}} {
     catch { $win tag delete _sString _sQuote _dString _dQuote }
   }
 
+  setCommentRE $win
+
 }
 
-proc ctext::comments_char_deleted {win start end} {
+proc ctext::comments_char_in_range {win start end} {
 
   foreach char_tag [list _lCommentStart0 _lCommentStart1 _cCommentStart0 _cCommentStart1 _cCommentEnd0 _cCommentEnd1 _dQuote0 _dQuote1 _sQuote0 _sQuote1] {
     set char_start [lindex [$win tag nextrange $char_tag $start] 0]
@@ -2148,12 +2141,11 @@ proc ctext::comments_char_deleted {win start end} {
 
 }
 
-proc ctext::comments {win start end {char_deleted 0}} {
+proc ctext::comments {win start end do_tag} {
   
   variable data
 
   # First, tag all string/comment patterns found between start and end
-  set found 0
   foreach {tag pattern} $data($win,config,comment_string_patterns) {
     set i 0
     array set indices {0 {} 1 {}}
@@ -2166,23 +2158,25 @@ proc ctext::comments {win start end {char_deleted 0}} {
     for {set j 0} {$j < 2} {incr j} {
       if {[llength $indices($j)] > 0} {
         $win tag add $tag$j {*}$indices($j)
-        set found 1
       }
     }
   }
 
   # If we didn't find any comment/string characters, no need to continue.
-  if {!$found && !$char_deleted} { return }
+  if {!$do_tag} { return }
 
   # Initialize tags
   set tags(_cComment) [list]
   set tags(_lComment) [list]
   set tags(_dString)  [list]
   set tags(_sString)  [list]
+  set char_tags       [list]
   
+  # Gather the list of comment ranges in the char_tags list
   for {set i 0} {$i < 2} {incr i} {
     foreach {char_start char_end} [$win tag ranges _lCommentStart$i] {
-      lappend char_tags [list $char_start $char_end _lCommentStart] [list [$win index "$char_start lineend"] [$win index "$char_start+1l linestart"] _lCommentEnd]
+      set lineend [$win index "$char_start lineend"]
+      lappend char_tags [list $char_start $char_end _lCommentStart] [list $lineend $lineend _lCommentEnd]
     }
     foreach char_tag [list _cCommentStart _cCommentEnd _dQuote _sQuote] {
       foreach {char_start char_end} [$win tag ranges $char_tag$i] {
@@ -2190,53 +2184,12 @@ proc ctext::comments {win start end {char_deleted 0}} {
       }
     }
   }
+
+  # Sort the char tags
   set char_tags [lsort -dictionary -index 0 $char_tags]
-  set index     0
-  while {$index != -1} {
-    puts "index: $index, [lrange $char_tags $index [expr $index + 3]]"
-    switch [lindex $char_tags $index 2] {
-      _lCommentStart {
-        if {[set found [lsearch -sorted -index 2 -start $index $char_tags _lCommentEnd]] != -1} {
-          lappend tags(_lComment) [lindex $char_tags $index 0] [lindex $char_tags $found 1]
-          set index [expr $found + 1]
-          puts "HERE A, index: $index"
-        } else {
-          lappend tags(_lComment) [lindex $char_tags $index 0] end
-          set index -1
-          puts "HERE B"
-        }
-      }
-      _cCommentStart {
-        if {[set found [lsearch -sorted -index 2 -start $index $char_tags _cCommentEnd]] != -1} {
-          lappend tags(_cComment) [lindex $char_tags $index 0] [lindex $char_tags $found 1]
-          set index [expr $found + 1]
-        } else {
-          lappend tags(_cComment) [lindex $char_tags $index 0] end
-          set index -1
-        }
-      }
-      _dQuote {
-        if {[set found [lsearch -sorted -index 2 -start $index $char_tags _dQuote]] != -1} {
-          lappend tags(_dString) [lindex $char_tags $index 0] [lindex $char_tags $found 1]
-          set index [expr $found + 1]
-        } else {
-          lappend tags(_dString) [lindex $char_tags $index 0] end
-          set index -1
-        }
-      }
-      _sQuote {
-        if {[set found [lsearch -sorted -index 2 -start $index $char_tags _sQuote]] != -1} {
-          lappend tags(_sString) [lindex $char_tags $index 0] [lindex $char_tags $found 1]
-          set index [expr $found + 1]
-        } else {
-          lappend tags(_sString) [lindex $char_tags $index 0] end
-          set index -1
-        }
-      }
-    }
-  }
-  if {0} {
-  set curr_char_tag  ""
+
+  # Create the tag lists
+  set curr_char_tag ""
   foreach char_info $char_tags {
     lassign $char_info char_start char_end char_tag
     switch $curr_char_tag {
@@ -2270,9 +2223,8 @@ proc ctext::comments {win start end {char_deleted 0}} {
       }
     }
   }
-  if {[set match [lsearch -index 0 -inline {{_cCommentStart _cComment} {_dQuote _dString} {_sQuote _sString}} $curr_char_tag]] != -1} {
+  if {[set match [lsearch -index 0 -inline {{_cCommentStart _cComment} {_dQuote _dString} {_sQuote _sString}} $curr_char_tag]] ne ""} {
     lappend tags([lindex $match 1]) $curr_char_start end
-  }
   }
 
   # Delete old, add new and re-raise tags
@@ -2281,317 +2233,6 @@ proc ctext::comments {win start end {char_deleted 0}} {
     if {[llength $tags($tag)] > 0} {
       $win tag add   $tag {*}$tags($tag)
       $win tag raise $tag
-    }
-  }
-
-}
-
-proc ctext::comments_StartEnd {win tag char_tag char_start end ptags} {
-
-  upvar $ptags tags
-
-  # Get the next sString range starting at char_start
-  # lassign [$win tag nextrange $tag $char_start] tag_start tag_end
-
-  # Find the end comment tag
-  lassign [$win tag nextrange ${char_tag}0 "$char_start+1c"] next0_start next0_end
-  lassign [$win tag nextrange ${char_tag}1 "$char_start+1c"] next1_start next1_end
-
-  if {$next0_end eq ""} {
-    if {$next1_end eq ""} {
-      set next_end end
-    } else {
-      set next_end $next1_end
-    }
-  } else {
-    if {$next1_end eq ""} {
-      set next_end $next0_end
-    } elseif {[$win compare $next0_end < $next1_end]} {
-      set next_end $next0_end
-    } else {
-      set next_end $next1_end
-    }
-  }
-
-  #if {($tag_end ne "") && [$win compare $tag_end == $next_end] && [$win compare $tag_end > $end]} {
-  #  return ""
-  #} else {
-    lappend tags $char_start $next_end
-  #}
-
-  return $next_end
-
-}
-
-proc ctext::comments_cComment {win char_start end ptags} {
-  
-  upvar $ptags tags
-
-  return [comments_StartEnd $win _cComment _cCommentEnd $char_start $end tags]
-
-}
-
-proc ctext::comments_lComment {win char_start end ptags} {
-  
-  upvar $ptags tags
-
-  # Get the next lComment range starting at char_start
-  # lassign [$win tag nextrange _lComment $char_start] tag_start tag_end
-
-  # Get the line comment expected end
-  set next_end [$win index "$char_start+1l linestart"]
-
-  # if {($tag_end ne "") && [$win compare $tag_end == $next_end] && [$win compare $tag_end > $end]} {
-  #   return ""
-  # } else {
-    lappend tags $char_start $next_end
-  # }
-  
-  return $next_end
-  
-}
-
-proc ctext::comments_sString {win char_start end ptags} {
-
-  upvar $ptags tags
-
-  return [comments_StartEnd $win _sString _sQuote $char_start $end tags]
-
-}
-
-proc ctext::comments_dString {win char_start end ptags} {
-
-  upvar $ptags tags
-
-  return [comments_StartEnd $win _dString _dQuote $char_start $end tags]
-
-}
-
-proc ctext::comments2 {win start end blocks} {
-
-  variable data
-
-  set strings        [llength $data($win,config,string_patterns)]
-  set block_comments [llength $data($win,config,block_comment_patterns)]
-  set line_comments  [llength $data($win,config,line_comment_patterns)]
-
-  if {$blocks && [expr ($strings + $block_comments + $line_comments) > 0]} {
-
-    set dStr ""
-    set sStr ""
-    set tStr ""
-    set lCom ""
-    set cCom ""
-
-    # Update the indices based on previous text
-    # commentsGetPrevious $win $start cCom lCom sStr dStr tStr
-
-    # Parse the new text between start and end
-    # commentsParse $win $start end cCom lCom sStr dStr tStr
-    commentsParse $win 1.0 end cCom lCom sStr dStr tStr
-
-  # Otherwise, look for just the single line comments
-  } elseif {$line_comments > 0} {
-
-    set commentRE "([join $data($win,config,line_comment_patterns) |])"
-    append commentRE {[^\n\r]*}
-
-    set lcomment [list]
-
-    # Handle single line comments in the given range
-    set i 0
-    foreach index [$win search -all -count lengths -regexp {*}$data($win,config,re_opts) -- $commentRE $start $end] {
-      if {![isEscaped $win $index]} {
-        lappend lcomment $index "$index+[lindex $lengths $i]c"
-      }
-      incr i
-    }
-
-    # Remove the line comment tag from the current line
-    $win tag remove _lComment $start $end
-
-    # If we need to raise the lComment, do it now
-    if {[llength $lcomment] > 0 } {
-      $win tag add _lComment {*}$lcomment
-      $win tag raise _lComment
-    }
-
-  }
-
-}
-
-proc ctext::commentsGetPrevious {win index pcCom plCom psStr pdStr ptStr} {
-
-  upvar $pcCom cCom
-  upvar $plCom lCom
-  upvar $psStr sStr
-  upvar $pdStr dStr
-  upvar $ptStr tStr
-
-  # Figure out if we are in a comment or string currently
-  if {[set prev_index [$win index "$index-1c"]] ne [$win index $index]} {
-    foreach tag [$win tag names $prev_index] {
-      switch $tag {
-        "_cComment" { lassign [$win tag prevrange $tag $index] cCom }
-        "_lComment" { lassign [$win tag prevrange $tag $index] lCom }
-        "_sString"  { lassign [$win tag prevrange $tag $index] sStr }
-        "_dString"  { lassign [$win tag prevrange $tag $index] dStr }
-      }
-    }
-  }
-
-}
-
-proc ctext::commentsParse {win start end pcCom plCom psStr pdStr ptStr} {
-
-  variable data
-
-  upvar $pcCom cCom
-  upvar $plCom lCom
-  upvar $psStr sStr
-  upvar $pdStr dStr
-  upvar $ptStr tStr
-
-  set lcomment ""
-  set ccomment ""
-  set sstring  ""
-  set dstring  ""
-  set tstring  ""
-
-  set indices     [$win search -all -overlap -count lengths -regexp {*}$data($win,config,re_opts) -- $data($win,config,comment_re) $start $end]
-  set num_indices [llength $indices]
-  for {set i 0} {$i < $num_indices} {incr i} {
-
-    set index [lindex $indices $i]
-    set str   [$win get $index "$index+[lindex $lengths $i]c"]
-
-    # Only handle the comment if it is not escaped
-    if {![isEscaped $win $index]} {
-
-      # Found a double-quote character
-      if {$str == "\""} {
-        commentsParseDStringEnd $win $index indices $num_indices lengths i dstring
-
-      # Found a single-quote character
-      } elseif {$str == "'"} {
-        commentsParseSStringEnd $win $index indices $num_indices lengths i sstring
-
-      # Found a single line comment
-      } elseif {($data($win,config,lcomment_re) ne "") && [regexp {*}$data($win,config,re_opts) -- $data($win,config,lcomment_re) $str]} {
-        commentsParseLCommentEnd $win $index indices $num_indices i lcomment
-
-      # Found a starting block comment string
-      } elseif {($data($win,config,bcomment_re) ne "") && [regexp {*}$data($win,config,re_opts) -- $data($win,config,bcomment_re) $str]} {
-        commentsParseCCommentEnd $win $index indices $num_indices $data($win,config,re_opts) $data($win,config,ecomment_re) lengths i ccomment
-      }
-
-    }
-
-  }
-
-  # Delete old, add new and re-raise tags
-  $win tag remove _lComment $start $end
-  if {[llength $lcomment] > 0} {
-    $win tag add _lComment {*}$lcomment
-    $win tag raise _lComment
-  }
-  $win tag remove _cComment $start $end
-  if {[llength $ccomment] > 0} {
-    $win tag add _cComment {*}$ccomment
-    $win tag raise _cComment
-  }
-  $win tag remove _sString  $start $end
-  if {[llength $sstring] > 0} {
-    $win tag add _sString {*}$sstring
-    $win tag raise _sString
-  }
-  $win tag remove _dString  $start $end
-  if {[llength $dstring] > 0} {
-    $win tag add _dString {*}$dstring
-    $win tag raise _dString
-  }
-
-}
-
-proc ctext::commentsParseSStringEnd {win index pindices num_indices plengths pi psstring} {
-
-  upvar $pindices indices
-  upvar $plengths lengths
-  upvar $pi       i
-  upvar $psstring sstring
-
-  lappend sstring $index end
-
-  for {incr i} {$i < $num_indices} {incr i} {
-    set index [lindex $indices $i]
-    if {![isEscaped $win $index]} {
-      set str [$win get $index "$index+[lindex $lengths $i]c"]
-      if {$str == "'"} {
-        lset sstring end "$index+1c"
-        break
-      }
-    }
-  }
-
-}
-
-proc ctext::commentsParseDStringEnd {win index pindices num_indices plengths pi pdstring} {
-
-  upvar $pindices indices
-  upvar $plengths lengths
-  upvar $pi       i
-  upvar $pdstring dstring
-
-  lappend dstring $index end
-
-  for {incr i} {$i < $num_indices} {incr i} {
-    set index [lindex $indices $i]
-    if {![isEscaped $win $index]} {
-      set str [$win get $index "$index+[lindex $lengths $i]c"]
-      if {$str == "\""} {
-        lset dstring end "$index+1c"
-        break
-      }
-    }
-  }
-
-}
-
-proc ctext::commentsParseLCommentEnd {win index pindices num_indices pi plcomment} {
-
-  upvar $pindices  indices
-  upvar $pi        i
-  upvar $plcomment lcomment
-
-  lappend lcomment $index "$index lineend"
-
-  for {incr i} {$i < $num_indices} {incr i} {
-    set nxt_index [lindex $indices $i]
-    if {[$win compare $nxt_index > "$index lineend"]} {
-      incr i -1
-      break
-    }
-  }
-
-}
-
-proc ctext::commentsParseCCommentEnd {win index pindices num_indices re_opts ecomment_re plengths pi pccomment} {
-
-  upvar $pindices  indices
-  upvar $plengths  lengths
-  upvar $pi        i
-  upvar $pccomment ccomment
-
-  lappend ccomment $index end
-
-  for {incr i} {$i < $num_indices} {incr i} {
-    set index [lindex $indices $i]
-    if {![isEscaped $win $index]} {
-      set str [$win get $index "$index+[lindex $lengths $i]c"]
-      if {[regexp {*}$re_opts -- $ecomment_re $str]} {
-        lset ccomment end "$index+[string length $str]c"
-        break
-      }
     }
   }
 
