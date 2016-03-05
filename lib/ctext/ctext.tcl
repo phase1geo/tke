@@ -1120,78 +1120,50 @@ proc ctext::command_delete {win args} {
     set args [lassign $args dummy moddata]
   }
 
-  set argsLength [llength $args]
-
-  #first deal with delete n.n
-  if {$argsLength == 1} {
-    set deletePos [$win._t index [lindex $args 0]]
-    set prevChar  [$win._t get $deletePos]
-
-    ctext::undo_delete $win $deletePos [$win._t index "$deletePos+1c"]
-    ctext::linemapCheckOnDelete $win $deletePos
-
-    $win._t delete $deletePos
-
-    set char [$win._t get $deletePos]
-
-    set prevSpace   [ctext::findPreviousSpace $win._t $deletePos]
-    set nextSpace   [ctext::findNextSpace $win._t $deletePos]
-    set lineStart   [$win._t index "$deletePos linestart"]
-    set lineEnd     [$win._t index "$deletePos + 1 chars lineend"]
-    set lines       [$win._t count -lines $lineStart $lineEnd]
-    set removeStart $lineStart
-    set removeEnd   $lineEnd
-
-    foreach tag [$win._t tag names] {
-      if {![regexp {^_([lc]Comment|[sd]String)$} $tag] && ([string index $tag 0] eq "_")} {
-        $win._t tag remove $tag $removeStart $removeEnd
-      }
+  switch [llength $args] {
+    1 {
+      set deleteStartPos [$win._t index [lindex $args 0]]
+      set deleteEndPos   [$win._t index "$deleteStartPos+1c"]
     }
-
-    set checkStr "$prevChar[set char]"
-
-    ctext::escapes     $win $lineStart $lineEnd
-    ctext::comments    $win $lineStart $lineEnd
-    ctext::brackets    $win $lineStart $lineEnd
-    ctext::indentation $win $lineStart $lineEnd
-    ctext::highlight   $win $lineStart $lineEnd
-    # ctext::linemapUpdate $win
-    ctext::modified $win 1 [list delete $deletePos 1 $lines $moddata]
-    event generate $win.t <<CursorChanged>>
-  } elseif {$argsLength == 2} {
-    set deleteStartPos [$win._t index [lindex $args 0]]
-    set deleteEndPos   [$win._t index [lindex $args 1]]
-    set lines          [$win._t count -lines $deleteStartPos $deleteEndPos]
-
-    set dat [$win._t get $deleteStartPos $deleteEndPos]
-
-    set lineStart [$win._t index "$deleteStartPos linestart"]
-    set lineEnd [$win._t index "$deleteEndPos + 1 chars lineend"]
-
-    ctext::undo_delete $win $deleteStartPos $deleteEndPos
-    ctext::linemapCheckOnDelete $win $deleteStartPos $deleteEndPos
-
-    $win._t delete $deleteStartPos $deleteEndPos
-
-    foreach tag [$win._t tag names] {
-      if {![regexp {^_([lc]Comment|[sd]String)$} $tag] && ([string index $tag 0] eq "_")} {
-        $win._t tag remove $tag $lineStart $lineEnd
-      }
+    2 {
+      set deleteStartPos [$win._t index [lindex $args 0]]
+      set deleteEndPos   [$win._t index [lindex $args 1]]
     }
-
-    ctext::escapes     $win $lineStart $lineEnd
-    ctext::comments    $win $lineStart $lineEnd
-    ctext::brackets    $win $lineStart $lineEnd
-    ctext::indentation $win $lineStart $lineEnd
-    ctext::highlight   $win $lineStart $lineEnd
-    #if {[string first "\n" $dat] >= 0} {
-    #  ctext::linemapUpdate $win
-    #}
-    ctext::modified $win 1 [list delete $deleteStartPos [string length $dat] $lines $moddata]
-    event generate $win.t <<CursorChanged>>
-  } else {
-    return -code error "invalid argument(s) sent to $win delete: $args"
+    default {
+      return -code error "invalid argument(s) sent to $win delete: $args"
+    }
   }
+
+  set lines     [$win._t count -lines $deleteStartPos $deleteEndPos]
+  set datalen   [$win._t count -chars $deleteStartPos $deleteEndPos]
+  set lineStart [$win._t index "$deleteStartPos linestart"]
+  set lineEnd   [$win._t index "$deleteEndPos + 1 chars lineend"]
+
+  ctext::undo_delete          $win $deleteStartPos $deleteEndPos
+  ctext::linemapCheckOnDelete $win $deleteStartPos $deleteEndPos
+
+  # Figure out if a comment/string character is being deleted
+  set char_deleted [comments_char_deleted $win $deleteStartPos $deleteEndPos]
+
+  # Delete the text
+  $win._t delete $deleteStartPos $deleteEndPos
+
+  # Delete all tags in the deleted line(s)
+  foreach tag [$win._t tag names] {
+    if {![regexp {^_([lc]Comment|[sd]String)$} $tag] && ([string index $tag 0] eq "_")} {
+      $win._t tag remove $tag $lineStart $lineEnd
+    }
+  }
+
+  # Perform tagging and syntax highlighting
+  ctext::escapes     $win $lineStart $lineEnd
+  ctext::comments    $win $lineStart $lineEnd $char_deleted
+  ctext::brackets    $win $lineStart $lineEnd
+  ctext::indentation $win $lineStart $lineEnd
+  ctext::highlight   $win $lineStart $lineEnd
+  ctext::modified    $win 1 [list delete $deleteStartPos [string length $dat] $lines $moddata]
+
+  event generate $win.t <<CursorChanged>>
 
 }
 
@@ -1399,7 +1371,6 @@ proc ctext::command_insert {win args} {
   }
 
   set insertPos [$win._t index [lindex $args 0]]
-  set prevChar  [$win._t get "$insertPos - 1 chars"]
   set nextChar  [$win._t get $insertPos]
   if {[lindex $args 0] eq "end"} {
     set lineStart [$win._t index "$insertPos-1c linestart"]
@@ -1472,7 +1443,7 @@ proc ctext::command_insert {win args} {
   }
 
   ctext::modified $win 1 [list insert $insertPos $datlen $lines $moddata]
-  # ctext::linemapUpdate $win
+
   event generate $win.t <<CursorChanged>>
 
 }
@@ -1503,6 +1474,10 @@ proc ctext::command_replace {win args} {
 
   ctext::undo_delete $win $startPos $endPos
 
+  # Figure out if a comment character will be deleted
+  set char_deleted [comments_char_deleted $win $startPos $endPos]
+
+  # Perform the text replacement
   $win._t replace {*}$args
 
   ctext::undo_insert $win $startPos $datlen $cursor
@@ -1517,10 +1492,9 @@ proc ctext::command_replace {win args} {
     }
   }
 
-  set REData [$win._t get $lineStart $lineEnd]
-
+  # Perform tagging and syntax highlighting
   ctext::escapes     $win $lineStart $lineEnd
-  ctext::comments    $win $lineStart $lineEnd
+  ctext::comments    $win $lineStart $lineEnd $char_deleted
   ctext::brackets    $win $lineStart $lineEnd
   ctext::indentation $win $lineStart $lineEnd
   ctext::highlight   $win $lineStart $lineEnd
@@ -2161,10 +2135,25 @@ proc ctext::setStringPatterns {win patterns {color "green"}} {
 
 }
 
-proc ctext::comments {win start end} {
+proc ctext::comments_char_deleted {win start end} {
+
+  foreach char_tag [list _lCommentStart0 _lCommentStart1 _cCommentStart0 _cCommentStart1 _cCommentEnd0 _cCommentEnd1 _dQuote0 _dQuote1 _sQuote0 _sQuote1] {
+    set char_start [lindex [$win tag nextrange $char_tag $start] 0]
+    if {($char_start ne "") && [$win compare $char_start < $end]} {
+      return 1
+    }
+  }
+
+  return 0
+
+}
+
+proc ctext::comments {win start end {char_deleted 0}} {
   
   variable data
 
+  puts -nonewline "match time: "
+  puts [time {
   # First, tag all string/comment patterns found between start and end
   set found 0
   foreach {tag pattern} $data($win,config,comment_string_patterns) {
@@ -2183,9 +2172,10 @@ proc ctext::comments {win start end} {
       }
     }
   }
+  }]
 
   # If we didn't find any comment/string characters, no need to continue.
-  if {!$found} { return }
+  if {!$found && !$char_deleted} { return }
 
   # Initialize tags
   set tags(_cComment) [list]
@@ -2206,11 +2196,16 @@ proc ctext::comments {win start end} {
       break
     }
   }
+  } else {
+    set range_start 1.0
+    set range_end   end
+    set start       1.0
+    set end         end
   }
-  set range_start 1.0
-  set start       1.0
-  set end         end
 
+  if {0} {
+  puts -nonewline "tagging time: "
+  puts [time {
   # Get the tags
   while {1} {
     set players [list]
@@ -2226,7 +2221,77 @@ proc ctext::comments {win start end} {
     }
     set start [set range_end $last]
   }
+  }]
+  }
 
+  puts -nonewline "tagging2 time: "
+  puts [time {
+  foreach char_tag [list _lCommentStart _cCommentStart _cCommentEnd _dQuote _sQuote] {
+    foreach {char_start char_end} [$win tag ranges ${char_tag}0] {
+      lappend char_tags [list $char_start $char_end $char_tag]
+    }
+    foreach {char_start char_end} [$win tag ranges ${char_tag}1] {
+      lappend char_tags [list $char_start $char_end $char_tag]
+    }
+  }
+  set char_tags [lsort -dictionary -index 0 $char_tags]
+  set curr_char_tag  ""
+  foreach char_info $char_tags {
+    lassign $char_info char_start char_end char_tag
+    switch $curr_char_tag {
+      "" {
+        if {[set curr_char_tag $char_tag] eq "_lCommentStart"} {
+          lappend tags(_lComment) $char_start "$char_start lineend"
+          set curr_char_start "$char_start+1l linestart"
+        } else {
+          set curr_char_start $char_start
+        }
+      }
+      _lCommentStart {
+        if {[$win compare $char_start >= $curr_char_start]} {
+          if {[set curr_char_tag $char_tag] eq "_lCommentStart"} {
+            lappend tags(_lComment) $char_start "$char_start lineend"
+            set curr_char_start "$char_start+1l linestart"
+          } else {
+            set curr_char_start $char_start
+          } 
+        }
+      }
+      _cCommentStart {
+        if {$char_tag eq "_cCommentEnd"} {
+          lappend tags(_cComment) $curr_char_start $char_end
+          set curr_char_tag ""
+        }
+      }
+      _dQuote {
+        if {$char_tag eq "_dQuote"} {
+          lappend tags(_dString) $curr_char_start $char_end
+          set curr_char_tag ""
+        }
+      }
+      _sQuote {
+        if {$char_tag eq "_sQuote"} {
+          lappend tags(_sString) $curr_char_start $char_end
+          set curr_char_tag ""
+        }
+      }
+    }
+  }
+  switch $curr_char_tag {
+    _cCommentStart {
+      lappend tags(_cComment) $curr_char_start end
+    }
+    _dQuote {
+      lappend tags(_dString) $curr_char_start end
+    }
+    _sQuote {
+      lappend tags(_sString) $curr_char_start end
+    }
+  }
+  }]
+
+  puts -nonewline "adding time: "
+  puts [time {
   # Delete old, add new and re-raise tags
   foreach tag [array names tags] {
     $win tag remove $tag $range_start $range_end
@@ -2235,6 +2300,7 @@ proc ctext::comments {win start end} {
       $win tag raise $tag
     }
   }
+  }]
 
 }
 
