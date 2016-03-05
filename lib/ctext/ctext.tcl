@@ -1161,7 +1161,7 @@ proc ctext::command_delete {win args} {
   ctext::brackets    $win $lineStart $lineEnd
   ctext::indentation $win $lineStart $lineEnd
   ctext::highlight   $win $lineStart $lineEnd
-  ctext::modified    $win 1 [list delete $deleteStartPos [string length $dat] $lines $moddata]
+  ctext::modified    $win 1 [list delete $deleteStartPos $datalen $lines $moddata]
 
   event generate $win.t <<CursorChanged>>
 
@@ -2152,8 +2152,6 @@ proc ctext::comments {win start end {char_deleted 0}} {
   
   variable data
 
-  puts -nonewline "match time: "
-  puts [time {
   # First, tag all string/comment patterns found between start and end
   set found 0
   foreach {tag pattern} $data($win,config,comment_string_patterns) {
@@ -2172,7 +2170,6 @@ proc ctext::comments {win start end {char_deleted 0}} {
       }
     }
   }
-  }]
 
   # If we didn't find any comment/string characters, no need to continue.
   if {!$found && !$char_deleted} { return }
@@ -2183,78 +2180,74 @@ proc ctext::comments {win start end {char_deleted 0}} {
   set tags(_dString)  [list]
   set tags(_sString)  [list]
   
-  if {0} {
-  # Figure out what type of comment/string block we are currently in, if any
-  set range_start $start
-  set range_end   $end
-  foreach tag [lreverse [$win tag names "$start-1c"]] {
-    if {[lsearch [array names tags] $tag] != -1} {
-      lassign [$win tag prevrange $tag $start] range_start range_end
-      if {[comments$tag $win $range_start $range_end $end tags($tag)] eq ""} {
-        return
+  for {set i 0} {$i < 2} {incr i} {
+    foreach {char_start char_end} [$win tag ranges _lCommentStart$i] {
+      lappend char_tags [list $char_start $char_end _lCommentStart] [list [$win index "$char_start lineend"] [$win index "$char_start+1l linestart"] _lCommentEnd]
+    }
+    foreach char_tag [list _cCommentStart _cCommentEnd _dQuote _sQuote] {
+      foreach {char_start char_end} [$win tag ranges $char_tag$i] {
+        lappend char_tags [list $char_start $char_end $char_tag]
       }
-      break
-    }
-  }
-  } else {
-    set range_start 1.0
-    set range_end   end
-    set start       1.0
-    set end         end
-  }
-
-  if {0} {
-  puts -nonewline "tagging time: "
-  puts [time {
-  # Get the tags
-  while {1} {
-    set players [list]
-    foreach {tag char_tag} [list _lComment _lCommentStart _cComment _cCommentStart _dString _dQuote _sString _sQuote] {
-      lassign [$win tag nextrange ${char_tag}0 $start] char0_start char0_end
-      lassign [$win tag nextrange ${char_tag}1 $start] char1_start char1_end
-      lappend players [list $tag $char0_start ${char0_start}x] [list $tag $char1_start ${char1_start}x]
-    }
-    set winner    [lindex [lsort -dictionary -index 2 $players] 0]
-    set win_start [lassign $winner tag char_start]
-    if {($win_start eq "x") || ([set last [comments$tag $win $char_start $end tags($tag)]] eq "")} {
-      break
-    }
-    set start [set range_end $last]
-  }
-  }]
-  }
-
-  puts -nonewline "tagging2 time: "
-  puts [time {
-  foreach char_tag [list _lCommentStart _cCommentStart _cCommentEnd _dQuote _sQuote] {
-    foreach {char_start char_end} [$win tag ranges ${char_tag}0] {
-      lappend char_tags [list $char_start $char_end $char_tag]
-    }
-    foreach {char_start char_end} [$win tag ranges ${char_tag}1] {
-      lappend char_tags [list $char_start $char_end $char_tag]
     }
   }
   set char_tags [lsort -dictionary -index 0 $char_tags]
+  set index     0
+  while {$index != -1} {
+    puts "index: $index, [lrange $char_tags $index [expr $index + 3]]"
+    switch [lindex $char_tags $index 2] {
+      _lCommentStart {
+        if {[set found [lsearch -sorted -index 2 -start $index $char_tags _lCommentEnd]] != -1} {
+          lappend tags(_lComment) [lindex $char_tags $index 0] [lindex $char_tags $found 1]
+          set index [expr $found + 1]
+          puts "HERE A, index: $index"
+        } else {
+          lappend tags(_lComment) [lindex $char_tags $index 0] end
+          set index -1
+          puts "HERE B"
+        }
+      }
+      _cCommentStart {
+        if {[set found [lsearch -sorted -index 2 -start $index $char_tags _cCommentEnd]] != -1} {
+          lappend tags(_cComment) [lindex $char_tags $index 0] [lindex $char_tags $found 1]
+          set index [expr $found + 1]
+        } else {
+          lappend tags(_cComment) [lindex $char_tags $index 0] end
+          set index -1
+        }
+      }
+      _dQuote {
+        if {[set found [lsearch -sorted -index 2 -start $index $char_tags _dQuote]] != -1} {
+          lappend tags(_dString) [lindex $char_tags $index 0] [lindex $char_tags $found 1]
+          set index [expr $found + 1]
+        } else {
+          lappend tags(_dString) [lindex $char_tags $index 0] end
+          set index -1
+        }
+      }
+      _sQuote {
+        if {[set found [lsearch -sorted -index 2 -start $index $char_tags _sQuote]] != -1} {
+          lappend tags(_sString) [lindex $char_tags $index 0] [lindex $char_tags $found 1]
+          set index [expr $found + 1]
+        } else {
+          lappend tags(_sString) [lindex $char_tags $index 0] end
+          set index -1
+        }
+      }
+    }
+  }
+  if {0} {
   set curr_char_tag  ""
   foreach char_info $char_tags {
     lassign $char_info char_start char_end char_tag
     switch $curr_char_tag {
       "" {
-        if {[set curr_char_tag $char_tag] eq "_lCommentStart"} {
-          lappend tags(_lComment) $char_start "$char_start lineend"
-          set curr_char_start "$char_start+1l linestart"
-        } else {
-          set curr_char_start $char_start
-        }
+        set curr_char_tag   $char_tag
+        set curr_char_start $char_start
       }
       _lCommentStart {
-        if {[$win compare $char_start >= $curr_char_start]} {
-          if {[set curr_char_tag $char_tag] eq "_lCommentStart"} {
-            lappend tags(_lComment) $char_start "$char_start lineend"
-            set curr_char_start "$char_start+1l linestart"
-          } else {
-            set curr_char_start $char_start
-          } 
+        if {$char_tag eq "_lCommentEnd"} {
+          lappend tags(_lComment) $curr_char_start $char_end
+          set curr_char_tag ""
         }
       }
       _cCommentStart {
@@ -2277,30 +2270,19 @@ proc ctext::comments {win start end {char_deleted 0}} {
       }
     }
   }
-  switch $curr_char_tag {
-    _cCommentStart {
-      lappend tags(_cComment) $curr_char_start end
-    }
-    _dQuote {
-      lappend tags(_dString) $curr_char_start end
-    }
-    _sQuote {
-      lappend tags(_sString) $curr_char_start end
-    }
+  if {[set match [lsearch -index 0 -inline {{_cCommentStart _cComment} {_dQuote _dString} {_sQuote _sString}} $curr_char_tag]] != -1} {
+    lappend tags([lindex $match 1]) $curr_char_start end
   }
-  }]
+  }
 
-  puts -nonewline "adding time: "
-  puts [time {
   # Delete old, add new and re-raise tags
   foreach tag [array names tags] {
-    $win tag remove $tag $range_start $range_end
+    $win tag remove $tag 1.0 end
     if {[llength $tags($tag)] > 0} {
       $win tag add   $tag {*}$tags($tag)
       $win tag raise $tag
     }
   }
-  }]
 
 }
 
