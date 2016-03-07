@@ -1,68 +1,114 @@
-changeset:   1875:99531d752284
-tag:         devel-2.2.7
+changeset:   1883:6b69820299c8
+tag:         devel-2.2.8
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Feb 29 09:27:01 2016 -0600
+date:        Tue Mar 01 08:53:49 2016 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.2.7 release
+ChangeLog for devel-2.2.8 release
 
 
-changeset:   1876:5debc780985d
+changeset:   1884:4ca1df96ec8a
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Feb 29 09:27:07 2016 -0600
+date:        Tue Mar 01 08:53:54 2016 -0600
 files:       .hgtags
 description:
-Added tag devel-2.2.7 for changeset 99531d752284
+Added tag devel-2.2.8 for changeset 6b69820299c8
 
 
-changeset:   1877:9cd7fe5abd8b
+changeset:   1885:f84ac79e20a0
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Feb 29 19:09:16 2016 -0600
-files:       lib/emmet.tcl lib/emmet_parser.tac lib/emmet_parser.tcl lib/version.tcl
+date:        Tue Mar 01 09:19:39 2016 -0600
+files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Prepending contextual whitespace to Emmet inserted text.
+* Removing tString parsing (this should be handled correctly with just dString).
 
 
-changeset:   1878:088d97b839a0
+changeset:   1886:d0cae83e64f1
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Feb 29 20:23:26 2016 -0600
-files:       doc/UserGuide.epub doc/UserGuide.pdf lib/folding.tcl lib/version.tcl
+date:        Wed Mar 02 09:55:02 2016 -0600
+files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Updating User Guide.
-* Removing blank procedure in folding.tcl.
+* Checkpointing work on improved comment/string highlighter.
 
 
-changeset:   1879:00b99c27f271
+changeset:   1887:e5f37217e045
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Mar 02 17:45:55 2016 -0600
+files:       lib/ctext/ctext.tcl lib/syntax.tcl lib/version.tcl
+description:
+* Checkpointing work on new comment/string parser.
+
+
+changeset:   1888:d7537cca0524
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Feb 29 20:25:04 2016 -0600
-files:       doc/Doxyfile lib/version.tcl
+date:        Wed Mar 02 19:18:22 2016 -0600
+files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Updating TKE version in Doxyfile for upcoming stable release.
+* Checkpointing work on comment/string improvements (work in progress).
 
 
-changeset:   1880:4440521ec638
+changeset:   1889:e611889e15a9
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Feb 29 20:44:48 2016 -0600
-files:       lib/version.tcl tests/ctext.tcl tests/emmet.tcl
+date:        Thu Mar 03 18:58:43 2016 -0600
+files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Adding emmet test.
+* Checkpointing work.
 
 
-changeset:   1881:190ef0dc8ade
+changeset:   1890:489de099bd8e
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Feb 29 23:17:24 2016 -0600
-files:       lib/test.tcl lib/version.tcl tests/emmet.tcl
+date:        Fri Mar 04 01:32:40 2016 -0600
+files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Completing Emmet test file.
-* Remove the test.tcl file.
+* Checkpointing work on comment/string parser.
 
 
-changeset:   1882:a751e07f6383
+changeset:   1891:fa2f341dbaa0
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Mar 04 09:04:13 2016 -0600
+files:       lib/ctext/ctext.tcl lib/version.tcl
+description:
+* Short-circuiting comment/string highlighter to always re-highlight the entire file.
+
+
+changeset:   1892:0ceedcdc5052
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Mar 05 01:34:57 2016 -0600
+files:       lib/ctext/ctext.tcl lib/version.tcl
+description:
+* Checkpointing work on better performing comment/string algorithm.
+
+
+changeset:   1893:9adf60c8bd87
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Mar 05 15:16:57 2016 -0600
+files:       lib/ctext/ctext.tcl lib/version.tcl
+description:
+* Checkpointing work.
+
+
+changeset:   1894:a5bc77b30f8d
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Mar 05 17:54:17 2016 -0600
+files:       lib/ctext/ctext.tcl lib/version.tcl
+description:
+* Settling on implementation for comment/string parsing.  Still need to handle line comments properly.
+
+
+changeset:   1895:071bdedb7133
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Mar 06 23:54:35 2016 -0600
+files:       lib/ctext/ctext.tcl lib/version.tcl
+description:
+* Checkpointing.
+
+
+changeset:   1896:1ae7258db931
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 01 00:30:45 2016 -0600
-files:       lib/version.tcl tests/emmet.tcl
+date:        Mon Mar 07 09:06:06 2016 -0600
+files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Finishing testpoints in Emmet diagnostic.
+* Completing work on comment/string syntax highlighter.
 
 
