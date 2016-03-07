@@ -2141,6 +2141,13 @@ proc ctext::comments_char_in_range {win start end} {
 
 }
 
+proc ctext::comments_do_tag {win insert_pos dat} {
+
+  return [expr {[regexp {*}$data($win,config,re_opts) -- $data($win,config,comstr_re) $dat] || \
+                (([lsearch [$win tag names "$insert_pos-1c"] _lComment] != -1) && ([string first $dat \n] == -1))}]
+
+}
+
 proc ctext::comments {win start end do_tag} {
   
   variable data
