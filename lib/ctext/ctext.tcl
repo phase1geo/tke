@@ -1462,7 +1462,7 @@ proc ctext::command_replace {win args} {
   ctext::undo_delete $win $startPos $endPos
 
   # Figure out if a comment character will be deleted
-  set char_deleted [comments_char_deleted $win $startPos $endPos]
+  set char_deleted [comments_char_in_range $win $startPos $endPos]
 
   # Perform the text replacement
   $win._t replace {*}$args
