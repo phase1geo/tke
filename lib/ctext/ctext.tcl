@@ -1396,7 +1396,7 @@ proc ctext::command_insert {win args} {
   }
 
   ctext::escapes     $win $lineStart $lineEnd
-  puts [time { ctext::comments    $win $lineStart $lineEnd [regexp {*}$data($win,config,re_opts) -- $data($win,config,comstr_re) $dat] }]
+  ctext::comments    $win $lineStart $lineEnd [comments_do_tag $win $insertPos $dat]
   ctext::brackets    $win $lineStart $lineEnd
   ctext::indentation $win $lineStart $lineEnd
   ctext::highlight   $win $lineStart $lineEnd
@@ -1481,7 +1481,7 @@ proc ctext::command_replace {win args} {
 
   # Perform tagging and syntax highlighting
   ctext::escapes     $win $lineStart $lineEnd
-  ctext::comments    $win $lineStart $lineEnd [expr $char_deleted || [regexp {*}$data($win,config,re_opts) -- $data($win,config,comstr_re) $dat]]
+  ctext::comments    $win $lineStart $lineEnd [expr $char_deleted || [comments_do_tag $win $startPos $dat]]
   ctext::brackets    $win $lineStart $lineEnd
   ctext::indentation $win $lineStart $lineEnd
   ctext::highlight   $win $lineStart $lineEnd
@@ -2143,8 +2143,10 @@ proc ctext::comments_char_in_range {win start end} {
 
 proc ctext::comments_do_tag {win insert_pos dat} {
 
+  variable data
+
   return [expr {[regexp {*}$data($win,config,re_opts) -- $data($win,config,comstr_re) $dat] || \
-                (([lsearch [$win tag names "$insert_pos-1c"] _lComment] != -1) && ([string first $dat \n] == -1))}]
+                ([inLineComment $win $insert_pos] && ([string first \n $dat] != -1))}]
 
 }
 
@@ -2183,7 +2185,7 @@ proc ctext::comments {win start end do_tag} {
   for {set i 0} {$i < 2} {incr i} {
     foreach {char_start char_end} [$win tag ranges _lCommentStart$i] {
       set lineend [$win index "$char_start lineend"]
-      lappend char_tags [list $char_start $char_end _lCommentStart] [list $lineend $lineend _lCommentEnd]
+      lappend char_tags [list $char_start $char_end _lCommentStart] [list $lineend "$lineend+1c" _lCommentEnd]
     }
     foreach char_tag [list _cCommentStart _cCommentEnd _dQuote _sQuote] {
       foreach {char_start char_end} [$win tag ranges $char_tag$i] {
