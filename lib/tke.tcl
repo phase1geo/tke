@@ -248,12 +248,11 @@ if {$tcl_platform(platform) eq "windows"} {
 
   # If we are using aqua, define a few tk::mac procedures that the application can use
   if {[tk windowingsystem] eq "aqua"} {
-
+    
     ######################################################################
-    # Called whenever the user opens a document via drag-and-drop or within
-    # the finder.
-    proc ::tk::mac::OpenDocument {args} {
-
+    # Opens the specified documents
+    proc open_document_helper {args} {
+      
       # Add the files
       foreach name $args {
         if {[file isdirectory $name]} {
@@ -287,9 +286,18 @@ if {$tcl_platform(platform) eq "windows"} {
 
       # Make sure that the window is raised
       ::tk::mac::ReopenApplication
-
+      
     }
 
+    ######################################################################
+    # Called whenever the user opens a document via drag-and-drop or within
+    # the finder.
+    proc ::tk::mac::OpenDocument {args} {
+
+      after 1000 [list open_document_helper {*}$args]
+      
+    }
+        
     ######################################################################
     # Called when the application exits.
     proc ::tk::mac::Quit {} {
