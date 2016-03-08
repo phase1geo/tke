@@ -1,114 +1,99 @@
-changeset:   1883:6b69820299c8
-tag:         devel-2.2.8
+changeset:   1897:e8943912f99f
+tag:         devel-2.2.9
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 01 08:53:49 2016 -0600
+date:        Mon Mar 07 09:07:03 2016 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.2.8 release
+ChangeLog for devel-2.2.9 release
 
 
-changeset:   1884:4ca1df96ec8a
+changeset:   1898:c413ee0ab182
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 01 08:53:54 2016 -0600
+date:        Mon Mar 07 09:07:08 2016 -0600
 files:       .hgtags
 description:
-Added tag devel-2.2.8 for changeset 6b69820299c8
+Added tag devel-2.2.9 for changeset e8943912f99f
 
 
-changeset:   1885:f84ac79e20a0
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 01 09:19:39 2016 -0600
-files:       lib/ctext/ctext.tcl lib/version.tcl
-description:
-* Removing tString parsing (this should be handled correctly with just dString).
-
-
-changeset:   1886:d0cae83e64f1
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Mar 02 09:55:02 2016 -0600
-files:       lib/ctext/ctext.tcl lib/version.tcl
-description:
-* Checkpointing work on improved comment/string highlighter.
-
-
-changeset:   1887:e5f37217e045
+changeset:   1899:017e07ee7ab3
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Mar 02 17:45:55 2016 -0600
-files:       lib/ctext/ctext.tcl lib/syntax.tcl lib/version.tcl
-description:
-* Checkpointing work on new comment/string parser.
-
-
-changeset:   1888:d7537cca0524
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Mar 02 19:18:22 2016 -0600
+date:        Mon Mar 07 13:15:24 2016 -0600
 files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Checkpointing work on comment/string improvements (work in progress).
+* Fixing syntax bug in ctext replace command.
 
 
-changeset:   1889:e611889e15a9
+changeset:   1900:4e406335fc79
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Mar 03 18:58:43 2016 -0600
-files:       lib/ctext/ctext.tcl lib/version.tcl
+date:        Mon Mar 07 18:25:15 2016 -0600
+files:       data/syntax/HelpSystem.syntax lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Checkpointing work.
+* Fixing HelpSystem line comment.
+* Small change to ctext comment highlighter.
 
 
-changeset:   1890:489de099bd8e
+changeset:   1901:006b0097315e
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Mar 04 01:32:40 2016 -0600
-files:       lib/ctext/ctext.tcl lib/version.tcl
+date:        Mon Mar 07 18:46:10 2016 -0600
+files:       lib/tke.tcl lib/version.tcl
 description:
-* Checkpointing work on comment/string parser.
+* Fixing issue with opening Mac documents.
 
 
-changeset:   1891:fa2f341dbaa0
+changeset:   1902:3b5009b6e677
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Mar 04 09:04:13 2016 -0600
-files:       lib/ctext/ctext.tcl lib/version.tcl
+date:        Mon Mar 07 21:02:23 2016 -0600
+files:       data/themes/Quiverly.tketheme lib/version.tcl
 description:
-* Short-circuiting comment/string highlighter to always re-highlight the entire file.
+* Adding Quiverly theme.
 
 
-changeset:   1892:0ceedcdc5052
+changeset:   1903:159fc393762a
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Mar 05 01:34:57 2016 -0600
-files:       lib/ctext/ctext.tcl lib/version.tcl
+date:        Mon Mar 07 21:05:43 2016 -0600
+files:       lib/themer.tcl lib/version.tcl
 description:
-* Checkpointing work on better performing comment/string algorithm.
+* Fixing syntax error in themer when editing a swatch color.
 
 
-changeset:   1893:9adf60c8bd87
+changeset:   1904:7cd47d9a999d
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Mar 05 15:16:57 2016 -0600
-files:       lib/ctext/ctext.tcl lib/version.tcl
+date:        Mon Mar 07 21:24:07 2016 -0600
+files:       data/themes/Quiverly.tketheme lib/version.tcl
 description:
-* Checkpointing work.
+* More tweaks to Quiverly theme.
 
 
-changeset:   1894:a5bc77b30f8d
+changeset:   1905:fb4b9db3c7f1
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Mar 05 17:54:17 2016 -0600
-files:       lib/ctext/ctext.tcl lib/version.tcl
+date:        Mon Mar 07 21:26:17 2016 -0600
+files:       data/themes/Quiverly.tketheme lib/version.tcl
 description:
-* Settling on implementation for comment/string parsing.  Still need to handle line comments properly.
+* One more Quiverly tweak.
 
 
-changeset:   1895:071bdedb7133
+changeset:   1906:782c37a4651a
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Mar 06 23:54:35 2016 -0600
-files:       lib/ctext/ctext.tcl lib/version.tcl
+date:        Mon Mar 07 21:58:36 2016 -0600
+files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg lib/version.tcl
 description:
-* Checkpointing.
+* Updating translations.
 
 
-changeset:   1896:1ae7258db931
+changeset:   1907:8a1abc841445
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Mar 07 23:00:51 2016 -0600
+files:       data/msgs/el.msg data/msgs/ja.msg data/msgs/zh.msg lib/version.tcl
+description:
+* Fixing Greek, Japanese and Chinese translations.
+
+
+changeset:   1908:63aac89018c7
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Mar 07 09:06:06 2016 -0600
-files:       lib/ctext/ctext.tcl lib/version.tcl
+date:        Tue Mar 08 00:01:15 2016 -0600
+files:       lib/ctext/ctext.tcl lib/version.tcl tests/ctext.tcl
 description:
-* Completing work on comment/string syntax highlighter.
+* Fixing ctext BIST issues.
 
 
