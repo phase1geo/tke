@@ -2153,14 +2153,14 @@ proc ctext::comments_do_tag {win insert_pos dat} {
 proc ctext::comments {win start end do_tag} {
   
   variable data
-
+  
   # First, tag all string/comment patterns found between start and end
   foreach {tag pattern} $data($win,config,comment_string_patterns) {
     set i 0
     array set indices {0 {} 1 {}}
     foreach index [$win search -all -count lengths -regexp {*}$data($win,config,re_opts) -- $pattern $start $end] {
       if {![isEscaped $win $index]} {
-        lappend indices([expr $i % 2]) $index "$index+[lindex $lengths $i]c"
+        lappend indices([expr $i & 1]) $index "$index+[lindex $lengths $i]c"
       }
       incr i
     }
