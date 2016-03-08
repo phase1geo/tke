@@ -1469,7 +1469,7 @@ namespace eval themer {
         set opt [$data(widgets,cat) cellcget $i,opt -text]
         if {([theme::get_type $category $opt] eq "color") && [theme::meta_do exists $category $opt]} {
           set value [split [theme::meta_do get $category $opt] ,]
-          if {[lindex $value 0] eq $orig_color)} {
+          if {[lindex $value 0] eq $orig_color} {
             lset value 0 $color
             theme::meta_do set $category $opt [join $value ,]
             theme::set_themer_category_table_row $data(widgets,cat) $i [get_color [join $value ,]]
