@@ -363,8 +363,14 @@ msgcat::mcmset zh {
   "Delete the whitespace to right of cursor"
   "删除光标右边的空白"
 
+  "Disable"
+  "关闭"
+
   "Disable Vim mode"
   "禁用 Vim 模式"
+
+  "Disable folding"
+  "禁用折叠"
 
   "Display Text Info"
   "显示文字"
@@ -411,11 +417,20 @@ msgcat::mcmset zh {
   "Edit user snippets"
   "编辑片段"
 
+  "Enable"
+  "开启"
+
   "Enable Vim mode"
   "启用 Vim 模式"
 
+  "Enable folding"
+  "启用折叠"
+
   "Enumeration"
   "列举法"
+
+  "Expand Abbreviation"
+  "展开缩写"
 
   "Favorite file"
   "最喜欢的文件"
@@ -449,6 +464,9 @@ msgcat::mcmset zh {
 
   "Fold All"
   "????"
+
+  "Fold all"
+  "折叠所有"
 
   "Folding"
   "??"
@@ -1110,6 +1128,9 @@ msgcat::mcmset zh {
   "Unfold All"
   "????"
 
+  "Unfold all"
+  "展开所有"
+
   "Unindent"
   "取消缩进"
 
@@ -1340,6 +1361,9 @@ msgcat::mcmset zh {
 # templates.tcl
 msgcat::mcmset zh {
 
+  "Delete template?"
+  "删除模板"
+
   "Template"
   "模板"
 
@@ -1351,6 +1375,9 @@ msgcat::mcmset zh {
 
   "saved"
   "已经保存"
+
+  "will be permanently deleted"
+  "%s 将会被永久删除。"
 
 }
 

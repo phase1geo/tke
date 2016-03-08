@@ -363,8 +363,14 @@ msgcat::mcmset el {
   "Delete the whitespace to right of cursor"
   "Διαγράψτε το κενό διάστημα δεξιά του δρομέα"
 
+  "Disable"
+  "Απενεργοποίηση"
+
   "Disable Vim mode"
   "Απενεργοποίηση της λειτουργίας Vim"
+
+  "Disable folding"
+  "Απενεργοποίηση πτυσσόμενα"
 
   "Display Text Info"
   "Εμφανίζει τις πληροφορίες κείμενο"
@@ -411,11 +417,20 @@ msgcat::mcmset el {
   "Edit user snippets"
   "Επεξεργαστείτε τα τμήματα του χρήστη"
 
+  "Enable"
+  "Ενεργοποίηση"
+
   "Enable Vim mode"
   "Ενεργοποίηση της λειτουργίας Vim"
 
+  "Enable folding"
+  "Ενεργοποίηση αναδίπλωσης"
+
   "Enumeration"
   "Καταμέτρηση"
+
+  "Expand Abbreviation"
+  "Αναπτύξτε συντομογραφία"
 
   "Favorite file"
   "Αγαπημένο αρχείο"
@@ -449,6 +464,9 @@ msgcat::mcmset el {
 
   "Fold All"
   "???????? ???"
+
+  "Fold all"
+  "Διπλώστε όλα"
 
   "Folding"
   "??????????"
@@ -1110,6 +1128,9 @@ msgcat::mcmset el {
   "Unfold All"
   "??? ?????????????"
 
+  "Unfold all"
+  "Όλα ξεδιπλώνονται"
+
   "Unindent"
   "Κατάργηση εσοχής"
 
@@ -1339,6 +1360,9 @@ msgcat::mcmset el {
 
 # templates.tcl
 msgcat::mcmset el {
+
+  "Delete template?"
+  "Διαγράψτε το αρχείο περιγράμματος"
 
   "Template"
   "Πρότυπο"

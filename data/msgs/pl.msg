@@ -363,8 +363,14 @@ msgcat::mcmset pl {
   "Delete the whitespace to right of cursor"
   "Usuń spacje na prawo od kursora"
 
+  "Disable"
+  "Wyłączony"
+
   "Disable Vim mode"
   "Wyłączenie trybu Vim"
+
+  "Disable folding"
+  "Wyłączyć składane"
 
   "Display Text Info"
   "Tekst do wyświetlenia"
@@ -411,11 +417,20 @@ msgcat::mcmset pl {
   "Edit user snippets"
   "Edytuj użytkownika urywki"
 
+  "Enable"
+  "Włączony"
+
   "Enable Vim mode"
   "Włączanie trybu Vim"
 
+  "Enable folding"
+  "Umożliwić składanie"
+
   "Enumeration"
   "wyliczenie"
+
+  "Expand Abbreviation"
+  "Rozwiń skrót"
 
   "Favorite file"
   "Ulubionych plików"
@@ -449,6 +464,9 @@ msgcat::mcmset pl {
 
   "Fold All"
   "Fold Wszystko"
+
+  "Fold all"
+  "Zwiń wszystko"
 
   "Folding"
   "Składanie"
@@ -1110,6 +1128,9 @@ msgcat::mcmset pl {
   "Unfold All"
   "Rozwiń wszystkieCopy "
 
+  "Unfold all"
+  "Rozwiń wszystko"
+
   "Unindent"
   "Unindent"
 
@@ -1340,6 +1361,9 @@ msgcat::mcmset pl {
 # templates.tcl
 msgcat::mcmset pl {
 
+  "Delete template?"
+  "Usuń szablon"
+
   "Template"
   "Szablon"
 
@@ -1351,6 +1375,9 @@ msgcat::mcmset pl {
 
   "saved"
   "zapisano"
+
+  "will be permanently deleted"
+  "zostaną trwale usunięte"
 
 }
 
