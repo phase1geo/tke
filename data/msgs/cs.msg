@@ -363,8 +363,14 @@ msgcat::mcmset cs {
   "Delete the whitespace to right of cursor"
   "Odstranit mezery napravo od kurzoru"
 
+  "Disable"
+  "Zakázat"
+
   "Disable Vim mode"
   "Zakázat režim, Vim"
+
+  "Disable folding"
+  "Zakázat, skládání"
 
   "Display Text Info"
   "Zobrazit informace o textu"
@@ -411,11 +417,20 @@ msgcat::mcmset cs {
   "Edit user snippets"
   "Upravit uživatelské fragmenty"
 
+  "Enable"
+  "Povolit"
+
   "Enable Vim mode"
   "Povolit režim Vim"
 
+  "Enable folding"
+  "Povolit skládání"
+
   "Enumeration"
   "Výčet"
+
+  "Expand Abbreviation"
+  "Rozšířit zkratka"
 
   "Favorite file"
   "Oblíbený soubor"
@@ -449,6 +464,9 @@ msgcat::mcmset cs {
 
   "Fold All"
   "P?elo?te v?e"
+
+  "Fold all"
+  "Přeložte vše"
 
   "Folding"
   "p?ehnutí"
@@ -1110,6 +1128,9 @@ msgcat::mcmset cs {
   "Unfold All"
   "Rozbalit v?e"
 
+  "Unfold all"
+  "Rozbalit vše"
+
   "Unindent"
   "Unindent"
 
@@ -1340,6 +1361,9 @@ msgcat::mcmset cs {
 # templates.tcl
 msgcat::mcmset cs {
 
+  "Delete template?"
+  "Smazat šablonu"
+
   "Template"
   "Šablona"
 
@@ -1351,6 +1375,9 @@ msgcat::mcmset cs {
 
   "saved"
   "Černá ovce"
+
+  "will be permanently deleted"
+  "bude trvale odstraněn"
 
 }
 

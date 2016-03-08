@@ -363,8 +363,14 @@ msgcat::mcmset ja {
   "Delete the whitespace to right of cursor"
   "カーソルの右側の空白を削除します。"
 
+  "Disable"
+  "無効化"
+
   "Disable Vim mode"
   "Vim モードを無効にします。"
+
+  "Disable folding"
+  "折りたたみを無効にします。"
 
   "Display Text Info"
   "表示テキスト"
@@ -411,11 +417,20 @@ msgcat::mcmset ja {
   "Edit user snippets"
   "ユーザーのスニペットを編集します。"
 
+  "Enable"
+  "有効"
+
   "Enable Vim mode"
   "Vim モードを有効にします。"
 
+  "Enable folding"
+  "折りたたみを有効にします。"
+
   "Enumeration"
   "数え上げ"
+
+  "Expand Abbreviation"
+  "省略名を展開します。"
 
   "Favorite file"
   "お気に入りファイル"
@@ -449,6 +464,9 @@ msgcat::mcmset ja {
 
   "Fold All"
   "?????"
+
+  "Fold all"
+  "全て閉じる"
 
   "Folding"
   "????"
@@ -1110,6 +1128,9 @@ msgcat::mcmset ja {
   "Unfold All"
   "??????????"
 
+  "Unfold all"
+  "すべてを展開します。"
+
   "Unindent"
   "インデント解除"
 
@@ -1340,6 +1361,9 @@ msgcat::mcmset ja {
 # templates.tcl
 msgcat::mcmset ja {
 
+  "Delete template?"
+  "テンプレートの削除"
+
   "Template"
   "テンプレート"
 
@@ -1351,6 +1375,9 @@ msgcat::mcmset ja {
 
   "saved"
   "保存中…"
+
+  "will be permanently deleted"
+  "恒久的に削除されます。"
 
 }
 

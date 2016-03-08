@@ -363,8 +363,14 @@ msgcat::mcmset nl {
   "Delete the whitespace to right of cursor"
   "De witruimte naar rechts van de cursor verwijderen"
 
+  "Disable"
+  "Schakel uit"
+
   "Disable Vim mode"
   "Vim-modus uitschakelen"
+
+  "Disable folding"
+  "Uitschakelen vouwen"
 
   "Display Text Info"
   "Schermtekst"
@@ -411,11 +417,20 @@ msgcat::mcmset nl {
   "Edit user snippets"
   "Bewerken gebruiker fragmenten"
 
+  "Enable"
+  "Inschakelen"
+
   "Enable Vim mode"
   "Vim-modus inschakelen"
 
+  "Enable folding"
+  "Inschakelen vouwen"
+
   "Enumeration"
   "telling"
+
+  "Expand Abbreviation"
+  "Vouw afkorting"
 
   "Favorite file"
   "Favoriete bestand"
@@ -449,6 +464,9 @@ msgcat::mcmset nl {
 
   "Fold All"
   "Alle fold"
+
+  "Fold all"
+  "Vouw alle"
 
   "Folding"
   "Invouwen"
@@ -1110,6 +1128,9 @@ msgcat::mcmset nl {
   "Unfold All"
   "Ontvouwen Alle"
 
+  "Unfold all"
+  "Ontvouwen van alle"
+
   "Unindent"
   "Laten terugspringen"
 
@@ -1340,6 +1361,9 @@ msgcat::mcmset nl {
 # templates.tcl
 msgcat::mcmset nl {
 
+  "Delete template?"
+  "Template verwijderen?"
+
   "Template"
   "Template"
 
@@ -1351,6 +1375,9 @@ msgcat::mcmset nl {
 
   "saved"
   "Opgeslagen."
+
+  "will be permanently deleted"
+  "permanent verwijderd"
 
 }
 

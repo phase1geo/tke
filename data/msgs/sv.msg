@@ -363,8 +363,14 @@ msgcat::mcmset sv {
   "Delete the whitespace to right of cursor"
   "Ta bort blanksteg till höger om markören"
 
+  "Disable"
+  "Inaktivera"
+
   "Disable Vim mode"
   "Inaktivera Vim läge"
+
+  "Disable folding"
+  "Inaktivera hopfällbara"
 
   "Display Text Info"
   "Displayinformation"
@@ -411,11 +417,20 @@ msgcat::mcmset sv {
   "Edit user snippets"
   "Redigera användare snuttar"
 
+  "Enable"
+  "Aktivera"
+
   "Enable Vim mode"
   "Aktivera Vim-läge"
 
+  "Enable folding"
+  "Aktivera vikning"
+
   "Enumeration"
   "räkning"
+
+  "Expand Abbreviation"
+  "Expandera förkortning"
 
   "Favorite file"
   "Favorit-fil"
@@ -448,6 +463,9 @@ msgcat::mcmset sv {
   "Hitta föregående förekomst"
 
   "Fold All"
+  "Vik alla"
+
+  "Fold all"
   "Vik alla"
 
   "Folding"
@@ -1110,6 +1128,9 @@ msgcat::mcmset sv {
   "Unfold All"
   "Veckla ut alla"
 
+  "Unfold all"
+  "Veckla ut alla"
+
   "Unindent"
   "Unindent"
 
@@ -1340,6 +1361,9 @@ msgcat::mcmset sv {
 # templates.tcl
 msgcat::mcmset sv {
 
+  "Delete template?"
+  "Ta bort mallen?"
+
   "Template"
   "Mall"
 
@@ -1351,6 +1375,9 @@ msgcat::mcmset sv {
 
   "saved"
   "sparad"
+
+  "will be permanently deleted"
+  "tas bort permanent"
 
 }
 

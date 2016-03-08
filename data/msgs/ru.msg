@@ -363,8 +363,14 @@ msgcat::mcmset ru {
   "Delete the whitespace to right of cursor"
   "Удалить пробелы справа от курсора"
 
+  "Disable"
+  "Отключить"
+
   "Disable Vim mode"
   "Отключить режим Vim"
+
+  "Disable folding"
+  "Отключить сворачивание"
 
   "Display Text Info"
   "Текст на дисплее информация"
@@ -411,11 +417,20 @@ msgcat::mcmset ru {
   "Edit user snippets"
   "Редактирование фрагментов пользователя"
 
+  "Enable"
+  "Включить"
+
   "Enable Vim mode"
   "Включить режим Vim"
 
+  "Enable folding"
+  "Включить сворачивание"
+
   "Enumeration"
   "перечисление"
+
+  "Expand Abbreviation"
+  "Разверните аббревиатура"
 
   "Favorite file"
   "Любимый файл"
@@ -449,6 +464,9 @@ msgcat::mcmset ru {
 
   "Fold All"
   "Сложите все"
+
+  "Fold all"
+  "Сбросить все"
 
   "Folding"
   "складной"
@@ -1110,6 +1128,9 @@ msgcat::mcmset ru {
   "Unfold All"
   "Раскрыть все"
 
+  "Unfold all"
+  "Раскрыть все"
+
   "Unindent"
   "Unindent"
 
@@ -1340,6 +1361,9 @@ msgcat::mcmset ru {
 # templates.tcl
 msgcat::mcmset ru {
 
+  "Delete template?"
+  "Удалить шаблон"
+
   "Template"
   "Шаблон"
 
@@ -1351,6 +1375,9 @@ msgcat::mcmset ru {
 
   "saved"
   "сохранено"
+
+  "will be permanently deleted"
+  "будут удалены"
 
 }
 

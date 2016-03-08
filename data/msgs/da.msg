@@ -363,8 +363,14 @@ msgcat::mcmset da {
   "Delete the whitespace to right of cursor"
   "Slet mellemrum til højre for markøren"
 
+  "Disable"
+  "Deaktivér"
+
   "Disable Vim mode"
   "Deaktivere Vim tilstand"
+
+  "Disable folding"
+  "Deaktivere foldning"
 
   "Display Text Info"
   "Vise teksten Info"
@@ -411,11 +417,20 @@ msgcat::mcmset da {
   "Edit user snippets"
   "Rediger bruger snippets"
 
+  "Enable"
+  "Aktiver"
+
   "Enable Vim mode"
   "Aktiver Vim tilstand"
 
+  "Enable folding"
+  "Aktivere foldning"
+
   "Enumeration"
   "tælling af bakterier"
+
+  "Expand Abbreviation"
+  "Udvid forkortelser"
 
   "Favorite file"
   "Favorit fil"
@@ -448,6 +463,9 @@ msgcat::mcmset da {
   "Find forrige forekomst"
 
   "Fold All"
+  "Fold alle"
+
+  "Fold all"
   "Fold alle"
 
   "Folding"
@@ -1110,6 +1128,9 @@ msgcat::mcmset da {
   "Unfold All"
   "Udfolde alle"
 
+  "Unfold all"
+  "Udfolde alle"
+
   "Unindent"
   "Afindryk"
 
@@ -1340,6 +1361,9 @@ msgcat::mcmset da {
 # templates.tcl
 msgcat::mcmset da {
 
+  "Delete template?"
+  "Slette skabelonen?"
+
   "Template"
   "Skabelon"
 
@@ -1351,6 +1375,9 @@ msgcat::mcmset da {
 
   "saved"
   "gemt."
+
+  "will be permanently deleted"
+  "slettes permanent"
 
 }
 

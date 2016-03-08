@@ -363,8 +363,14 @@ msgcat::mcmset hu {
   "Delete the whitespace to right of cursor"
   "A whitespace-a kurzor jobbra törlése"
 
+  "Disable"
+  "Letilt"
+
   "Disable Vim mode"
   "Vim mód letiltása"
+
+  "Disable folding"
+  "Letiltása, összecsukható"
 
   "Display Text Info"
   "Szöveg adatainak megjelenítése"
@@ -411,11 +417,20 @@ msgcat::mcmset hu {
   "Edit user snippets"
   "Kódrészletek felhasználó szerkesztése"
 
+  "Enable"
+  "Engedélyez"
+
   "Enable Vim mode"
   "Vim-üzemmód engedélyezése"
 
+  "Enable folding"
+  "Engedélyezi a hajtogatás"
+
   "Enumeration"
   "számláló"
+
+  "Expand Abbreviation"
+  "A rövidítések kibontása"
 
   "Favorite file"
   "Kedvenc"
@@ -448,6 +463,9 @@ msgcat::mcmset hu {
   "Még a korábbi előfordulása"
 
   "Fold All"
+  "Fold minden"
+
+  "Fold all"
   "Fold minden"
 
   "Folding"
@@ -1110,6 +1128,9 @@ msgcat::mcmset hu {
   "Unfold All"
   "Bontakozik ki, minden"
 
+  "Unfold all"
+  "Bontakozik ki, minden"
+
   "Unindent"
   "Behúzásának megszüntetése"
 
@@ -1340,6 +1361,9 @@ msgcat::mcmset hu {
 # templates.tcl
 msgcat::mcmset hu {
 
+  "Delete template?"
+  "Sablon törlése?"
+
   "Template"
   "Sablon"
 
@@ -1351,6 +1375,9 @@ msgcat::mcmset hu {
 
   "saved"
   "Mentve."
+
+  "will be permanently deleted"
+  "véglegesen törlődnek"
 
 }
 

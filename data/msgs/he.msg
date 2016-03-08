@@ -363,8 +363,14 @@ msgcat::mcmset he {
   "Delete the whitespace to right of cursor"
   "למחוק את רווח מימין הסמן"
 
+  "Disable"
+  "כיבוי"
+
   "Disable Vim mode"
   "בטל את מצב Vim"
+
+  "Disable folding"
+  "בטל מתקפלים"
 
   "Display Text Info"
   "להציג טקסט מידע"
@@ -411,11 +417,20 @@ msgcat::mcmset he {
   "Edit user snippets"
   "ערוך משתמש גזירים"
 
+  "Enable"
+  "לְאַפשֵׁר"
+
   "Enable Vim mode"
   "הפעלת מצב Vim"
 
+  "Enable folding"
+  "לזמינה. מתקפלים"
+
   "Enumeration"
   "ספירה"
+
+  "Expand Abbreviation"
+  "הרחב את קיצור"
 
   "Favorite file"
   "קבצים האהוב עליך"
@@ -448,6 +463,9 @@ msgcat::mcmset he {
   "למצוא את המופע הקודם"
 
   "Fold All"
+  "מקפלים כל"
+
+  "Fold all"
   "מקפלים כל"
 
   "Folding"
@@ -1110,6 +1128,9 @@ msgcat::mcmset he {
   "Unfold All"
   "הנפרש"
 
+  "Unfold all"
+  "נפרשים הכל"
+
   "Unindent"
   "הקטנת כניסת"
 
@@ -1340,6 +1361,9 @@ msgcat::mcmset he {
 # templates.tcl
 msgcat::mcmset he {
 
+  "Delete template?"
+  "האם למחוק את התבנית?"
+
   "Template"
   "תבנית"
 
@@ -1351,6 +1375,9 @@ msgcat::mcmset he {
 
   "saved"
   "נשמר"
+
+  "will be permanently deleted"
+  "יימחקו לצמיתות"
 
 }
 
