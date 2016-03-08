@@ -52,7 +52,7 @@ msgcat::mcmset ja {
 msgcat::mcmset ja {
 
   "Find:"
-  "Find"
+  "見つけます:"
 
   "Replace:"
   "置換："
@@ -211,13 +211,13 @@ msgcat::mcmset ja {
   "絶対行番号"
 
   "Align Cursors"
-  "??????????"
+  "カーソルを合わせます"
 
   "Align cursors"
   "カーソルの位置合わせ"
 
   "Append Next Occurrence"
-  "?????????????"
+  "次のオカレンスを追加"
 
   "Append next occurrence"
   "次の出現箇所を追加します。"
@@ -262,7 +262,7 @@ msgcat::mcmset ja {
   "すべて閉じる"
 
   "Close Current"
-  "??????"
+  "閉じる現在"
 
   "Close all tabs"
   "すべてのタブを閉じる"
@@ -298,7 +298,7 @@ msgcat::mcmset ja {
   "作成"
 
   "Create at Current Line"
-  "???????????"
+  "現在の行で作成します。"
 
   "Create marker at current line"
   "現在の行でのマーカーを作成します。"
@@ -442,10 +442,10 @@ msgcat::mcmset ja {
   "ファイルの内容"
 
   "Find In Files"
-  "????????????"
+  "ファイルから検索"
 
   "Find Matching Pair"
-  "?????????????"
+  "ペアマッチング探します"
 
   "Find and Replace"
   "検索と置換"
@@ -463,13 +463,13 @@ msgcat::mcmset ja {
   "前の出現箇所を見つける"
 
   "Fold All"
-  "?????"
+  "すべて折りたたみ"
 
   "Fold all"
   "全て閉じる"
 
   "Folding"
-  "????"
+  "折り畳み式の"
 
   "Format Text"
   "テキストをフォーマットする"
@@ -526,7 +526,7 @@ msgcat::mcmset ja {
   "マーカー マップを非表示します。"
 
   "Hide Meta Characters"
-  "????????????"
+  "メタ文字を隠します"
 
   "Hide Sidebar"
   "隠すサイドバー"
@@ -607,10 +607,10 @@ msgcat::mcmset ja {
   "行に参加します。"
 
   "Jump Backward"
-  "??????????"
+  "後方ジャンプ"
 
   "Jump Forward"
-  "??????????"
+  "前方ジャンプ"
 
   "Jump To Line"
   "行にジャンプします。"
@@ -664,7 +664,7 @@ msgcat::mcmset ja {
   "メニューバインディング"
 
   "Merge Panes"
-  "????????????"
+  "ペインのマージ"
 
   "Merge panes"
   "ウィンドウを結合します。"
@@ -778,7 +778,7 @@ msgcat::mcmset ja {
   "新しいウィンドウ"
 
   "Next Difference"
-  "????"
+  "次の違い"
 
   "Open Directory"
   "オープン ディレクトリ"
@@ -817,7 +817,7 @@ msgcat::mcmset ja {
   "選好"
 
   "Previous Difference"
-  "?????"
+  "前の違い"
 
   "Profiling Report Sorted By"
   "プロファイリング レポート順"
@@ -856,10 +856,10 @@ msgcat::mcmset ja {
   "テンプレート情報を再読み込み"
 
   "Remove All Markers"
-  "???????????????"
+  "すべてのマーカーを削除します"
 
   "Remove From Current Line"
-  "????????????"
+  "現在の行から削除"
 
   "Remove all markers"
   "すべてのマーカーを削除します。"
@@ -877,7 +877,7 @@ msgcat::mcmset ja {
   "現在のファイルを再度開く"
 
   "Replace Line With Script"
-  "?????????????"
+  "ラインでスクリプトを交換してください"
 
   "Replace line with script"
   "スクリプト行を置き換えます"
@@ -901,7 +901,7 @@ msgcat::mcmset ja {
   "テンプレートの保存"
 
   "Save Current"
-  "?????????"
+  "保存現在"
 
   "Save Selection As"
   "選択範囲を保存します。"
@@ -931,13 +931,13 @@ msgcat::mcmset ja {
   "すべて選択"
 
   "Select All Occurrences"
-  "????????????"
+  "すべてのオカレンスを選択"
 
   "Select Next Occurrence"
-  "?????????????"
+  "次の発生を選択"
 
   "Select Previous Occurrence"
-  "?????????????"
+  "前のオカレンスを選択"
 
   "Select all occurrences"
   "単語をすべて選択します。"
@@ -958,7 +958,7 @@ msgcat::mcmset ja {
   "フィードバックを送信"
 
   "Sessions"
-  "?????"
+  "セッション"
 
   "Set Syntax"
   "構文を設定"
@@ -1006,10 +1006,10 @@ msgcat::mcmset ja {
   "地図のマーカー"
 
   "Show Meta Characters"
-  "???????"
+  "メタ文字を表示"
 
   "Show Selected Line Change"
-  "???????????????"
+  "表示選択したラインの変更"
 
   "Show Sidebar"
   "表示するサイドバー"
@@ -1081,7 +1081,7 @@ msgcat::mcmset ja {
   "プロファイリングを停止します。"
 
   "Switch To"
-  "?????? :"
+  "切り替える"
 
   "Switch to session"
   "セッションに切り替える"
@@ -1102,7 +1102,7 @@ msgcat::mcmset ja {
   "トグル ケース"
 
   "Toggle Comment"
-  "????????"
+  "トグルコメント"
 
   "Toggle case of current character"
   "現在の文字の切り替えの場合"
@@ -1126,7 +1126,7 @@ msgcat::mcmset ja {
   "Unfavorite ファイル"
 
   "Unfold All"
-  "??????????"
+  "すべてを展開"
 
   "Unfold all"
   "すべてを展開します。"
@@ -1218,7 +1218,7 @@ msgcat::mcmset ja {
   "グラント"
 
   "Grant permission?"
-  "permssionを付与？"
+  "許可を与えますか？"
 
   "OK"
   "OK"
@@ -1290,7 +1290,7 @@ msgcat::mcmset ja {
   "閉じるディレクトリファイル"
 
   "Copy Pathname"
-  "???????????"
+  "コピーのパス名"
 
   "Delete directories?"
   "ディレクトリを削除しますか。"
@@ -1308,7 +1308,7 @@ msgcat::mcmset ja {
   "ディレクトリ名:"
 
   "Folder Name:"
-  "?????"
+  "フォルダ名:"
 
   "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
   "サイドバーに表示される画像はファイルが現在編集バッファで開かれることを示します。"
@@ -1547,7 +1547,7 @@ msgcat::mcmset ja {
   "彼らはアクティブなテキストスクロールバーの最大厚さ。"
 
   "Menu Options"
-  "Menu Options（メニューの設定）"
+  "メニューオプション"
 
   "Menu relief value."
   "メニューリリーフ値。"
@@ -1805,7 +1805,7 @@ msgcat::mcmset ja {
   "ファイル名"
 
   "Find"
-  "Find"
+  "見つけます"
 
   "Move to Other Pane"
   "他のペインに移動します"
@@ -1829,7 +1829,7 @@ msgcat::mcmset ja {
   "名前を付けて保存"
 
   "Split View"
-  "2 ??????"
+  "分割表示"
 
   "Theme Editor"
   "テーマエディタ"

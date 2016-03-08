@@ -211,13 +211,13 @@ msgcat::mcmset zh {
   "绝对行编号"
 
   "Align Cursors"
-  "????"
+  "對齊光標"
 
   "Align cursors"
   "调整光标"
 
   "Append Next Occurrence"
-  "????????"
+  "追加下一個事件"
 
   "Append next occurrence"
   "追加下一个匹配项"
@@ -262,7 +262,7 @@ msgcat::mcmset zh {
   "全部关闭"
 
   "Close Current"
-  "????"
+  "關閉電流"
 
   "Close all tabs"
   "关闭全部标签页"
@@ -298,7 +298,7 @@ msgcat::mcmset zh {
   "创建"
 
   "Create at Current Line"
-  "???????"
+  "創建於當前行"
 
   "Create marker at current line"
   "在当前行上创建标记"
@@ -442,10 +442,10 @@ msgcat::mcmset zh {
   "強製文件獲取內容"
 
   "Find In Files"
-  "??????..."
+  "在文件中查找"
 
   "Find Matching Pair"
-  "??????"
+  "找對匹配"
 
   "Find and Replace"
   "查找和替换"
@@ -463,13 +463,13 @@ msgcat::mcmset zh {
   "查找上一个"
 
   "Fold All"
-  "????"
+  "全部折疊"
 
   "Fold all"
   "折叠所有"
 
   "Folding"
-  "??"
+  "摺頁"
 
   "Format Text"
   "设置文本格式"
@@ -526,7 +526,7 @@ msgcat::mcmset zh {
   "隐藏标记地图"
 
   "Hide Meta Characters"
-  "?? Meta ??"
+  "隱藏元字符"
 
   "Hide Sidebar"
   "隐藏边栏"
@@ -607,10 +607,10 @@ msgcat::mcmset zh {
   "联接线"
 
   "Jump Backward"
-  "???"
+  "向後跳"
 
   "Jump Forward"
-  "???"
+  "跳躍前進"
 
   "Jump To Line"
   "跳转到行"
@@ -664,7 +664,7 @@ msgcat::mcmset zh {
   "菜单绑定"
 
   "Merge Panes"
-  "????"
+  "合併窗格"
 
   "Merge panes"
   "合并窗格"
@@ -778,7 +778,7 @@ msgcat::mcmset zh {
   "新建窗口"
 
   "Next Difference"
-  "?????"
+  "接下來差異"
 
   "Open Directory"
   "打开目录"
@@ -817,7 +817,7 @@ msgcat::mcmset zh {
   "首选项"
 
   "Previous Difference"
-  "?????"
+  "上一頁差異"
 
   "Profiling Report Sorted By"
   "按排序的分析报告"
@@ -856,10 +856,10 @@ msgcat::mcmset zh {
   "重新加载模板信息"
 
   "Remove All Markers"
-  "??????"
+  "刪除所有標記"
 
   "Remove From Current Line"
-  "??????"
+  "從當前行中刪除"
 
   "Remove all markers"
   "删除所有标记"
@@ -877,7 +877,7 @@ msgcat::mcmset zh {
   "重新打开当前文件"
 
   "Replace Line With Script"
-  "??????"
+  "替換線隨著腳本"
 
   "Replace line with script"
   "用脚本替换行"
@@ -901,7 +901,7 @@ msgcat::mcmset zh {
   "另保存模板"
 
   "Save Current"
-  "????"
+  "保存當前"
 
   "Save Selection As"
   "保存作为选择"
@@ -931,13 +931,13 @@ msgcat::mcmset zh {
   "全选"
 
   "Select All Occurrences"
-  "???????"
+  "選擇所有事例"
 
   "Select Next Occurrence"
-  "????????"
+  "選擇下一個發生"
 
   "Select Previous Occurrence"
-  "????????"
+  "選擇上發生"
 
   "Select all occurrences"
   "选择所有匹配项"
@@ -958,7 +958,7 @@ msgcat::mcmset zh {
   "发送反馈"
 
   "Sessions"
-  "??"
+  "會議"
 
   "Set Syntax"
   "设置语法"
@@ -1006,10 +1006,10 @@ msgcat::mcmset zh {
   "显示标记"
 
   "Show Meta Characters"
-  "?? Meta ??"
+  "顯示元字符"
 
   "Show Selected Line Change"
-  "???????"
+  "顯示選定的線路變化"
 
   "Show Sidebar"
   "显示侧边栏"
@@ -1081,7 +1081,7 @@ msgcat::mcmset zh {
   "停止性能分析"
 
   "Switch To"
-  "???..."
+  "切換到"
 
   "Switch to session"
   "切换到会话"
@@ -1102,7 +1102,7 @@ msgcat::mcmset zh {
   "切换大小写"
 
   "Toggle Comment"
-  "??/????"
+  "切換註釋"
 
   "Toggle case of current character"
   "切换大小写的当前字符"
@@ -1126,7 +1126,7 @@ msgcat::mcmset zh {
   "太罗嗦的文件"
 
   "Unfold All"
-  "????"
+  "全部展開"
 
   "Unfold all"
   "展开所有"
@@ -1290,7 +1290,7 @@ msgcat::mcmset zh {
   "关闭目录文件"
 
   "Copy Pathname"
-  "?????"
+  "複製路徑名"
 
   "Delete directories?"
   "删除目录吗?"
@@ -1308,7 +1308,7 @@ msgcat::mcmset zh {
   "目录名称:"
 
   "Folder Name:"
-  "??????"
+  "文件夾名稱:"
 
   "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
   "在侧边栏来指示在编辑缓冲区中当前打开文件中显示的图像。"
@@ -1377,7 +1377,7 @@ msgcat::mcmset zh {
   "已经保存"
 
   "will be permanently deleted"
-  "%s 将会被永久删除。"
+  "將被永久刪除"
 
 }
 
@@ -1829,7 +1829,7 @@ msgcat::mcmset zh {
   "保存为"
 
   "Split View"
-  "????"
+  "拆分視圖"
 
   "Theme Editor"
   "主题编辑器"
