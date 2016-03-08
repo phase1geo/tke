@@ -534,19 +534,19 @@ proc ctext::inCommentStringHelper {win index pattern prange} {
 
 proc ctext::inLineComment {win index {prange ""}} {
 
-  return [inCommentStringHelper $win $index {_lComment} $prange]
+  return [inCommentStringHelper $win $index {_lComment$} $prange]
 
 }
 
 proc ctext::inBlockComment {win index {prange ""}} {
 
-  return [inCommentStringHelper $win $index {_cComment} $prange]
+  return [inCommentStringHelper $win $index {_cComment$} $prange]
 
 }
 
 proc ctext::inComment {win index {prange ""}} {
 
-  return [inCommentStringHelper $win $index {_[cl]Comment} $prange]
+  return [inCommentStringHelper $win $index {_[cl]Comment$} $prange]
 
 }
 
@@ -570,7 +570,7 @@ proc ctext::inString {win index {prange ""}} {
 
 proc ctext::inCommentString {win index {prange ""}} {
 
-  return [inCommentStringHelper $win $index {_([cl]Comment|[sd]String)} $prange]
+  return [inCommentStringHelper $win $index {_([cl]Comment$|[sd]String)} $prange]
 
 }
 
@@ -1396,7 +1396,7 @@ proc ctext::command_insert {win args} {
   }
 
   ctext::escapes     $win $lineStart $lineEnd
-  ctext::comments    $win $lineStart $lineEnd [comments_do_tag $win $insertPos $dat]
+  ctext::comments    $win $lineStart $lineEnd [comments_do_tag $win $insertPos "[$win get $prevSpace $insertPos]$dat"]
   ctext::brackets    $win $lineStart $lineEnd
   ctext::indentation $win $lineStart $lineEnd
   ctext::highlight   $win $lineStart $lineEnd
