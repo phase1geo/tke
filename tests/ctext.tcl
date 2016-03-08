@@ -207,18 +207,18 @@ namespace eval ctext {
 
     $txt insert end "\nthis // is a line\ncomment"
 
-    if {[$txt tag ranges _lComment] ne [list 2.5 2.17]} {
-      cleanup "tag does not match expected value"
+    if {[$txt tag ranges _lComment] ne [list 2.5 3.0]} {
+      cleanup "tag does not match expected value ([$txt tag ranges _lComment])"
     }
 
     foreach procedure [list inLineComment inComment inCommentString] {
-      foreach {index expect} [list 2.0 0 2.4 0 2.5 1 2.6 1 2.7 1 2.16 1 2.end 0 3.0 0] {
+      foreach {index expect} [list 2.0 0 2.4 0 2.5 1 2.6 1 2.7 1 2.16 1 2.end 1 3.0 0] {
         set range ""
         if {[ctext::$procedure $txt $index range] != $expect} {
           cleanup "$procedure: index $index did not match expected value ($expect)"
         } elseif {!$expect && ($range ne "")} {
           cleanup "$procedure: index $index returned a range when it should not have"
-        } elseif {$expect && ($range ne [list 2.5 2.17])} {
+        } elseif {$expect && ($range ne [list 2.5 3.0])} {
           cleanup "$procedure: index $index returned a bad range ($range)"
         }
       }
@@ -248,35 +248,6 @@ namespace eval ctext {
         } elseif {!$expect && ($range ne "")} {
           cleanup "$procedure: index $index returned a range when it should not have"
         } elseif {$expect && ($range ne [list 2.5 2.21])} {
-          cleanup "$procedure: index $index returned a bad range ($range)"
-        }
-      }
-    }
-
-    cleanup
-
-  }
-
-  # Verify inTripleQuote, inString and inCommentString functionality for triple quote
-  proc run_test9 {} {
-
-    set txt [initialize]
-    syntax::set_language $txt "Python"
-
-    $txt insert end "\nthis \"\"\"is a triple\"\"\" quote"
-
-    if {[$txt tag ranges _tString] ne [list 2.5 2.22]} {
-      cleanup "tag does not match expected value ($range)"
-    }
-
-    foreach procedure [list inTripleQuote inString inCommentString] {
-      foreach {index expect} [list 2.0 0 2.4 0 2.5 1 2.6 1 2.7 1 2.8 1 2.18 1 2.19 1 2.20 1 2.21 1 2.22 0] {
-        set range ""
-        if {[ctext::$procedure $txt $index range] != $expect} {
-          cleanup "$procedure: index $index did not match expected value ($expect)"
-        } elseif {!$expect && ($range ne "")} {
-          cleanup "$procedure: index $index returned a range when it should not have"
-        } elseif {$expect && ($range ne [list 2.5 2.22])} {
           cleanup "$procedure: index $index returned a bad range ($range)"
         }
       }
