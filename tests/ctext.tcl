@@ -330,7 +330,7 @@ namespace eval ctext {
     set opts [$txt configure]
     set len  [llength $opts]
 
-    if {$len != 67} {
+    if {$len != 68} {
       cleanup "Missing options from configure return with no options ($len)"
     }
 
@@ -351,11 +351,15 @@ namespace eval ctext {
     if {$index == -1} {
       cleanup "Missing -relief option from configure return"
     }
-    if {[lindex $opts $index] ne [list -relief relief Relief flat flat]} {
-      cleanup "Miscompare on -relief return value"
+    foreach {i value} [list 0 -relief 1 relief 2 Relief 4 flat] {
+      if {[lindex $opts $index $i] ne $value} {
+        cleanup "Miscompare on -relief $i return value ([lindex $opts $index $i])"
+      }
     }
-    if {[$txt configure -relief] ne [list -relief relief Relief flat flat]} {
-      cleanup "Miscompare on configure -relief return value"
+    foreach {i value} [list 0 -relief 1 relief 2 Relief 4 flat] {
+      if {[lindex [$txt configure -relief] $i] ne $value} {
+        cleanup "Miscompare on configure -relief $i return value ([$txt configure -relief])"
+      }
     }
 
     cleanup
