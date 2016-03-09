@@ -1,4 +1,4 @@
-swatch {{#2b303b} #333946 #878671 #b6c1c1 #fbffd7}
+swatch {{#2b303b} #333946 #878671 #b6c1c1 #fbffd7 #395472 #0000ff}
 creator {Trevor Williams}
 images,form_close {dat {#define img_width 8
 #define img_height 8
@@ -72,10 +72,11 @@ menus,-relief {flat}
 menus,-selectcolor {black}
 meta,syntax,difference_sub {#350c0d,v,10}
 meta,syntax,foreground {#b6c1c1,v,0}
+meta,ttk_style,pressed_color {#1d1f26,v,0}
 sidebar,-background {#333946}
 sidebar,-foreground {#878671}
-sidebar,-highlightbackground {#302d26}
-sidebar,-highlightcolor {#302d26}
+sidebar,-highlightbackground {#333946}
+sidebar,-highlightcolor {#333946}
 sidebar,-highlightthickness {1}
 sidebar,-relief {flat}
 sidebar,-selectbackground {#2b303b}
@@ -91,7 +92,7 @@ syntax,cursor {#ff9900}
 syntax,difference_add {#1b2b16}
 syntax,difference_sub {#3f0e0f}
 syntax,foreground {#b6c1c1}
-syntax,highlighter {yellow}
+syntax,highlighter {#ffff00}
 syntax,keywords {#6f89ba}
 syntax,line_number {#585346}
 syntax,meta {#585346}
@@ -101,7 +102,7 @@ syntax,miscellaneous3 {#948a31}
 syntax,numbers {#999179}
 syntax,precompile {#afc4db}
 syntax,punctuation {#99a190}
-syntax,select_background {blue}
+syntax,select_background {#395472}
 syntax,select_foreground {white}
 syntax,strings {#73817d}
 syntax,warning_width {#585346}
@@ -126,7 +127,7 @@ ttk_style,entry_border {#4a6984}
 ttk_style,foreground {#b6c1c1}
 ttk_style,grip_count {10}
 ttk_style,grip_thickness {5}
-ttk_style,pressed_color {#2b303b}
+ttk_style,pressed_color {#1d1f26}
 ttk_style,relief {flat}
 ttk_style,select_background {#4a6984}
 ttk_style,select_foreground {#ffffff}
