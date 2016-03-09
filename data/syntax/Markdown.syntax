@@ -18,12 +18,12 @@ advanced {
   HighlightClass italics none           {italics}
   HighlightClass super   none           {superscript}
   HighlightClass sub     none           {subscript}
-  HighlightClass h1      none           {h1}
-  HighlightClass h2      none           {h2}
-  HighlightClass h3      none           {h3}
-  HighlightClass h4      none           {h4}
-  HighlightClass h5      none           {h5}
-  HighlightClass h6      none           {h6}
+  HighlightClass h1      miscellaneous2 {h1}
+  HighlightClass h2      miscellaneous2 {h2}
+  HighlightClass h3      miscellaneous2 {h3}
+  HighlightClass h4      miscellaneous2 {h4}
+  HighlightClass h5      miscellaneous2 {h5}
+  HighlightClass h6      miscellaneous2 {h6}
   HighlightClass link    miscellaneous1 {underline click}
   HighlightClass code    precompile     {code}
   HighlightClass ccode   precompile     {code}

@@ -64,10 +64,13 @@ namespace eval current_line {
       set last_line_end   [lindex [split [lindex $range 1] .] 0]
     }
     
+    # If the line has changed, delete the current line
     if {$last_line_start != $line} {
       $txt tag remove current_line $last_line_start.0 [expr $last_line_end + 1].0
-      $txt tag add    current_line $line.0            [expr $line + 1].0
     }
+    
+    # Highlight the current line
+    $txt tag add current_line $line.0 [expr $line + 1].0
     
   }
   
