@@ -346,8 +346,10 @@ namespace eval snippets {
 
     variable tabvals
 
-    if {[llength [set tabstops [lsearch -inline -all -glob [$txtt tag names] snippet_*]]] > 0} {
-      $txtt tag delete {*}$tabstops
+    # Delete all text that is tagged with a snippet tag
+    foreach tabstop [lsearch -inline -all -glob [$txtt tag names] snippet_*] {
+      $txtt delete {*}[$txtt tag ranges $tabstop]
+      $txtt tag delete $tabstop
     }
 
     array unset tabvals $txtt,*
