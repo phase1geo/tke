@@ -694,13 +694,13 @@ namespace eval ctext {
     clipboard clear
     clipboard append "\nset foobar \"good\""
 
-    $txt paste
+    vim::remove_dspace $txt
 
-    puts "([$txt get 2.0 2.end])"
+    $txt paste
 
     # TBD - The extra space after the sentence is our dspace character (I believe) and should
     #       not be there.
-    if {[$txt get 2.0 2.end] ne "set foobar \"good\" "} {
+    if {[$txt get 2.0 2.end] ne "set foobar \"good\""} {
       cleanup "text not pasted properly"
     }
     if {[$txt tag ranges _keywords] ne [list 2.0 2.3]} {
