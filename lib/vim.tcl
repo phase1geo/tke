@@ -836,9 +836,7 @@ namespace eval vim {
     $W mark set [[ns utils]::text_anchor $W] $current
     ::tk::TextSetCursor $W $current
 
-    if {[set [ns vim]::mode($W)] ne "edit"} {
-      adjust_insert $W
-    }
+    adjust_insert $W
 
     focus $W
 
@@ -853,9 +851,7 @@ namespace eval vim {
     set current [$W index @$x,$y]
     ::tk::TextSetCursor $W [$W index "$current wordstart"]
 
-    if {[set [ns vim]::mode($W)] ne "edit"} {
-      adjust_insert $W
-    }
+    adjust_insert $W
 
     $W tag add sel [$W index "$current wordstart"] [$W index "$current wordend"]
 
@@ -872,9 +868,7 @@ namespace eval vim {
     set current [$W index @$x,$y]
     ::tk::TextSetCursor $W $current
 
-    if {[set [ns vim]::mode($W)] ne "edit"} {
-      adjust_insert $W
-    }
+    adjust_insert $W
 
     # Add the selection
     set anchor [[ns utils]::text_anchor $W]
@@ -2245,10 +2239,8 @@ namespace eval vim {
     # Perform the undo operation
     $txtt edit undo
 
-    # Adjusts the insertion cursor if we are in Vim mode
-    if {[in_vim_mode $txtt]} {
-      adjust_insert $txtt
-    }
+    # Adjusts the insertion cursor
+    adjust_insert $txtt
 
   }
 
@@ -2259,10 +2251,8 @@ namespace eval vim {
     # Performs the redo operation
     $txtt edit redo
 
-    # Adjusts the insertion cursor if we are in Vim mode
-    if {[in_vim_mode $txtt]} {
-      adjust_insert $txtt
-    }
+    # Adjusts the insertion cursor
+    adjust_insert $txtt
 
   }
 
@@ -3148,9 +3138,9 @@ namespace eval vim {
 
     if {$mode($txtt) eq "start"} {
       set chars [expr {($number($txtt) eq "") ? 1 : $number($txtt)}]
-      ::tk::TextSetCursor $txtt "insert+${chars}c"
+      ::tk::TextSetCursor $txtt "insert+$chars display char"
       if {[$txtt index insert] eq [$txtt index "insert lineend"]} {
-        ::tk::TextSetCursor $txtt "insert+1c"
+        ::tk::TextSetCursor $txtt "insert+1 display char"
       } else {
         adjust_insert $txtt
       }
@@ -3171,7 +3161,7 @@ namespace eval vim {
 
     if {$mode($txtt) eq "start"} {
       set chars [expr {($number($txtt) eq "") ? 1 : $number($txtt)}]
-      ::tk::TextSetCursor $txtt "insert-${chars}c"
+      ::tk::TextSetCursor $txtt "insert-$chars display char"
       adjust_insert $txtt
       return 1
     }

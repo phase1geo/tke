@@ -41,6 +41,12 @@ namespace eval current_line {
       return
     }
     
+    # If a selection exists, remove the current line indicator
+    if {[$txt tag ranges sel] ne ""} {
+      remove_line $txt
+      return
+    }
+    
     # Configure the current line, if has not been configured yet
     if {![info exists configured($txt)]} {
       update_color $txt
