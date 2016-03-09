@@ -877,7 +877,12 @@ namespace eval vim {
     }
 
     # Add the selection
-    $W tag add sel [[ns utils]::text_anchor $W] $current
+    set anchor [[ns utils]::text_anchor $W]
+    if {[$W compare $anchor < $current]} {
+      $W tag add sel $anchor $current
+    } else {
+      $W tag add sel $current $anchor
+    }
 
     focus $W
 
