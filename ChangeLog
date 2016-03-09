@@ -1,99 +1,86 @@
-changeset:   1897:e8943912f99f
-tag:         devel-2.2.9
+changeset:   1909:ee892fa46f68
+tag:         devel-2.2.10
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Mar 07 09:07:03 2016 -0600
+date:        Tue Mar 08 00:04:31 2016 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.2.9 release
+ChangeLog for devel-2.2.10 release
 
 
-changeset:   1898:c413ee0ab182
+changeset:   1910:4cc63c568998
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Mar 07 09:07:08 2016 -0600
+date:        Tue Mar 08 00:04:52 2016 -0600
 files:       .hgtags
 description:
-Added tag devel-2.2.9 for changeset e8943912f99f
+Added tag devel-2.2.10 for changeset ee892fa46f68
 
 
-changeset:   1899:017e07ee7ab3
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Mon Mar 07 13:15:24 2016 -0600
+changeset:   1911:7713e0a61853
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Mar 08 18:39:31 2016 -0600
+files:       lib/snippets.tcl lib/version.tcl
+description:
+* Fixing issue with tabstop text being displayed when a new snippet is expanded while another isn't fully completed.
+
+
+changeset:   1912:959270f7c5b9
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Mar 08 18:40:36 2016 -0600
+files:       data/syntax/HelpSystem.syntax lib/version.tcl
+description:
+* Removing single quotes in HelpSystem files from being auto-completed.
+
+
+changeset:   1913:c9ac9a4c709e
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Mar 08 18:59:44 2016 -0600
 files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Fixing syntax bug in ctext replace command.
+* Fixing issue with detecting if multi-line inserted text contains comment/string characters.
 
 
-changeset:   1900:4e406335fc79
+changeset:   1914:9db9fa4da16e
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Mar 07 18:25:15 2016 -0600
-files:       data/syntax/HelpSystem.syntax lib/ctext/ctext.tcl lib/version.tcl
+date:        Tue Mar 08 19:58:08 2016 -0600
+files:       lib/version.tcl lib/vim.tcl
 description:
-* Fixing HelpSystem line comment.
-* Small change to ctext comment highlighter.
+* Fixing selections so that we can select in reverse.
 
 
-changeset:   1901:006b0097315e
+changeset:   1915:903f97e23c65
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Mar 07 18:46:10 2016 -0600
-files:       lib/tke.tcl lib/version.tcl
-description:
-* Fixing issue with opening Mac documents.
-
-
-changeset:   1902:3b5009b6e677
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Mar 07 21:02:23 2016 -0600
+date:        Tue Mar 08 20:10:46 2016 -0600
 files:       data/themes/Quiverly.tketheme lib/version.tcl
 description:
-* Adding Quiverly theme.
+* More adjustments to Quiverly theme.
 
 
-changeset:   1903:159fc393762a
+changeset:   1916:85b34cfd7a5f
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Mar 07 21:05:43 2016 -0600
-files:       lib/themer.tcl lib/version.tcl
+date:        Tue Mar 08 20:43:50 2016 -0600
+files:       lib/ctext/ctext.tcl lib/version.tcl lib/vim.tcl plugins/current_line/main.tcl
 description:
-* Fixing syntax error in themer when editing a swatch color.
+* Adding debug output in ctext to help triage comment/string highlighting bug.
+* Fixing Space and BackSpace Vim commands to work properly with folded code.
+* Changing current_line plugin to not display current line when text is selected to avoid "ghosting" effect.
 
 
-changeset:   1904:7cd47d9a999d
+changeset:   1917:51d244e82431
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Mar 07 21:24:07 2016 -0600
-files:       data/themes/Quiverly.tketheme lib/version.tcl
+date:        Tue Mar 08 21:59:22 2016 -0600
+files:       data/syntax/Markdown.syntax lib/gui.tcl lib/version.tcl lib/vim.tcl plugins/current_line/main.tcl
 description:
-* More tweaks to Quiverly theme.
+* Giving Markdown header text a foreground color for improved readability.
+* Fixing issue with first line being parsed incorrectly when a file is first being inserted.
+* Fixing current_line highlighting when text is inserted on the same line.
 
 
-changeset:   1905:fb4b9db3c7f1
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Mar 07 21:26:17 2016 -0600
-files:       data/themes/Quiverly.tketheme lib/version.tcl
-description:
-* One more Quiverly tweak.
-
-
-changeset:   1906:782c37a4651a
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Mar 07 21:58:36 2016 -0600
-files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg lib/version.tcl
-description:
-* Updating translations.
-
-
-changeset:   1907:8a1abc841445
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Mar 07 23:00:51 2016 -0600
-files:       data/msgs/el.msg data/msgs/ja.msg data/msgs/zh.msg lib/version.tcl
-description:
-* Fixing Greek, Japanese and Chinese translations.
-
-
-changeset:   1908:63aac89018c7
+changeset:   1918:d1e2ee0ff8bd
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 08 00:01:15 2016 -0600
-files:       lib/ctext/ctext.tcl lib/version.tcl tests/ctext.tcl
+date:        Tue Mar 08 22:02:23 2016 -0600
+files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Fixing ctext BIST issues.
+* Updating debug code in ctext comment/string highlighter to only emit error information.
 
 
