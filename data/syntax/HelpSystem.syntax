@@ -2,7 +2,7 @@ filepatterns
 {*.help}
 
 matchcharsallowed
-{angled double single}
+{angled double}
 
 tabsallowed
 {0}
