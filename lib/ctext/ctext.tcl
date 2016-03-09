@@ -2144,8 +2144,8 @@ proc ctext::comments_char_in_range {win start end} {
 proc ctext::comments_do_tag {win insert_pos dat} {
 
   variable data
-
-  return [expr {[regexp {*}$data($win,config,re_opts) -- $data($win,config,comstr_re) $dat] || \
+  
+  return [expr {[regexp -line {*}$data($win,config,re_opts) -- $data($win,config,comstr_re) $dat] || \
                 ([inLineComment $win $insert_pos] && ([string first \n $dat] != -1))}]
 
 }
