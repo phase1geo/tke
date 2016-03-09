@@ -2154,6 +2154,7 @@ proc ctext::comments {win start end do_tag} {
   
   variable data
   
+  catch {
   # First, tag all string/comment patterns found between start and end
   foreach {tag pattern} $data($win,config,comment_string_patterns) {
     set i 0
@@ -2244,6 +2245,8 @@ proc ctext::comments {win start end do_tag} {
       $win tag raise $tag
     }
   }
+  } rc
+  puts "rc: $rc"
 
 }
 
