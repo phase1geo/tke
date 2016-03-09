@@ -1452,6 +1452,9 @@ namespace eval gui {
 
       if {![catch { open $fname r } rc]} {
 
+        # Delete any dspace characters
+        [ns vim]::remove_dspace $txt
+        
         # Read the file contents and insert them
         $txt insert end [string range [read $rc] 0 end-1]
 

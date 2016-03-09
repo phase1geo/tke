@@ -1085,7 +1085,7 @@ namespace eval vim {
 
     variable mode
     variable ignore_modified
-
+    
     # If we are not running in Vim mode, don't continue
     if {![in_vim_mode $txtt]} {
       return
