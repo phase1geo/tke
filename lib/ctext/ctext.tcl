@@ -2246,7 +2246,9 @@ proc ctext::comments {win start end do_tag} {
     }
   }
   } rc
-  puts "rc: $rc"
+  if {$rc ne ""} {
+    logger::log "comments error: $rc"
+  }
 
 }
 
