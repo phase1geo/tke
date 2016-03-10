@@ -1396,7 +1396,7 @@ proc ctext::command_insert {win args} {
   }
 
   ctext::escapes     $win $lineStart $lineEnd
-  ctext::comments    $win $lineStart $lineEnd [comments_do_tag $win $insertPos "[$win get $prevSpace $insertPos]$dat"]
+  ctext::comments    $win $lineStart $lineEnd [comments_do_tag $win $insertPos [$win get $prevSpace $nextSpace]]
   ctext::brackets    $win $lineStart $lineEnd
   ctext::indentation $win $lineStart $lineEnd
   ctext::highlight   $win $lineStart $lineEnd
@@ -2130,11 +2130,24 @@ proc ctext::setStringPatterns {win patterns {color "green"}} {
 
 proc ctext::comments_char_in_range {win start end} {
 
+  # Search for line comment starts, block comment start/end, double quote and single quote characters
   foreach char_tag [list _lCommentStart0 _lCommentStart1 _cCommentStart0 _cCommentStart1 _cCommentEnd0 _cCommentEnd1 _dQuote0 _dQuote1 _sQuote0 _sQuote1] {
-    set char_start [lindex [$win tag nextrange $char_tag $start] 0]
-    if {($char_start ne "") && [$win compare $char_start < $end]} {
+    set next_char_start [lindex [$win tag nextrange $char_tag $start] 0]
+    set prev_char_end   [lindex [$win tag prevrange $char_tag $start] 1]
+    if {(($next_char_start ne "") && [$win compare $next_char_start < $end]) || \
+        (($prev_char_end   ne "") && [$win compare $prev_char_end   > $start])} {
       return 1
     }
+  }
+
+  # Search for endlines within line comments
+  set startIndex 0
+  set str        [$win get $start $end]
+  while {[set index [string first \n $str $startIndex]] != -1} {
+    if {[inLineComment $win "$start+${index}c"]} {
+      return 1
+    }
+    set startIndex [expr $index + 1]
   }
 
   return 0
@@ -2208,7 +2221,9 @@ proc ctext::comments {win start end do_tag} {
   foreach char_info $char_tags {
     lassign $char_info char_start char_end char_tag
     switch $curr_char_tag {
-      "" {
+      "" -
+      _lCommentEnd -
+      _cCommentEnd {
         set curr_char_tag   $char_tag
         set curr_char_start $char_start
       }
