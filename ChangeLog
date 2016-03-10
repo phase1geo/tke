@@ -1,43 +1,26 @@
-changeset:   1919:b18bdc5de1e7
-tag:         devel-2.2.11
+changeset:   1924:d749dc4ab4bc
+tag:         devel-2.2.12
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 08 22:14:05 2016 -0600
+date:        Wed Mar 09 20:41:56 2016 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.2.11 release
+ChangeLog for devel-2.2.12 release
 
 
-changeset:   1920:cae513301a30
+changeset:   1925:57eedb17c897
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 08 22:14:10 2016 -0600
+date:        Wed Mar 09 20:42:00 2016 -0600
 files:       .hgtags
 description:
-Added tag devel-2.2.11 for changeset b18bdc5de1e7
+Added tag devel-2.2.12 for changeset d749dc4ab4bc
 
 
-changeset:   1921:490c7202325a
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Mar 09 17:41:28 2016 -0600
-files:       lib/syntax.tcl lib/version.tcl tests/ctext.tcl
-description:
-* Setting ctext relief to flat.
-* Fixing BIST issues on Linux.
-
-
-changeset:   1922:488ce05faea2
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Mar 09 17:58:09 2016 -0600
-files:       lib/version.tcl tests/ctext.tcl
-description:
-* Fixing ctext test.
-
-
-changeset:   1923:53b1e44b2373
+changeset:   1926:d1e9a1efdbe5
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Mar 09 20:10:09 2016 -0600
+date:        Thu Mar 10 01:33:17 2016 -0600
 files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Fixing issue with comment/string syntax handling when the pattern contains the caret character.
+* Fixing comment/string highlighting issues.
 
 
