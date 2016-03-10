@@ -1,86 +1,43 @@
-changeset:   1909:ee892fa46f68
-tag:         devel-2.2.10
+changeset:   1919:b18bdc5de1e7
+tag:         devel-2.2.11
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 08 00:04:31 2016 -0600
+date:        Tue Mar 08 22:14:05 2016 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.2.10 release
+ChangeLog for devel-2.2.11 release
 
 
-changeset:   1910:4cc63c568998
+changeset:   1920:cae513301a30
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 08 00:04:52 2016 -0600
+date:        Tue Mar 08 22:14:10 2016 -0600
 files:       .hgtags
 description:
-Added tag devel-2.2.10 for changeset ee892fa46f68
+Added tag devel-2.2.11 for changeset b18bdc5de1e7
 
 
-changeset:   1911:7713e0a61853
+changeset:   1921:490c7202325a
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 08 18:39:31 2016 -0600
-files:       lib/snippets.tcl lib/version.tcl
+date:        Wed Mar 09 17:41:28 2016 -0600
+files:       lib/syntax.tcl lib/version.tcl tests/ctext.tcl
 description:
-* Fixing issue with tabstop text being displayed when a new snippet is expanded while another isn't fully completed.
+* Setting ctext relief to flat.
+* Fixing BIST issues on Linux.
 
 
-changeset:   1912:959270f7c5b9
+changeset:   1922:488ce05faea2
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 08 18:40:36 2016 -0600
-files:       data/syntax/HelpSystem.syntax lib/version.tcl
+date:        Wed Mar 09 17:58:09 2016 -0600
+files:       lib/version.tcl tests/ctext.tcl
 description:
-* Removing single quotes in HelpSystem files from being auto-completed.
+* Fixing ctext test.
 
 
-changeset:   1913:c9ac9a4c709e
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 08 18:59:44 2016 -0600
-files:       lib/ctext/ctext.tcl lib/version.tcl
-description:
-* Fixing issue with detecting if multi-line inserted text contains comment/string characters.
-
-
-changeset:   1914:9db9fa4da16e
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 08 19:58:08 2016 -0600
-files:       lib/version.tcl lib/vim.tcl
-description:
-* Fixing selections so that we can select in reverse.
-
-
-changeset:   1915:903f97e23c65
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 08 20:10:46 2016 -0600
-files:       data/themes/Quiverly.tketheme lib/version.tcl
-description:
-* More adjustments to Quiverly theme.
-
-
-changeset:   1916:85b34cfd7a5f
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 08 20:43:50 2016 -0600
-files:       lib/ctext/ctext.tcl lib/version.tcl lib/vim.tcl plugins/current_line/main.tcl
-description:
-* Adding debug output in ctext to help triage comment/string highlighting bug.
-* Fixing Space and BackSpace Vim commands to work properly with folded code.
-* Changing current_line plugin to not display current line when text is selected to avoid "ghosting" effect.
-
-
-changeset:   1917:51d244e82431
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 08 21:59:22 2016 -0600
-files:       data/syntax/Markdown.syntax lib/gui.tcl lib/version.tcl lib/vim.tcl plugins/current_line/main.tcl
-description:
-* Giving Markdown header text a foreground color for improved readability.
-* Fixing issue with first line being parsed incorrectly when a file is first being inserted.
-* Fixing current_line highlighting when text is inserted on the same line.
-
-
-changeset:   1918:d1e2ee0ff8bd
+changeset:   1923:53b1e44b2373
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 08 22:02:23 2016 -0600
+date:        Wed Mar 09 20:10:09 2016 -0600
 files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Updating debug code in ctext comment/string highlighter to only emit error information.
+* Fixing issue with comment/string syntax handling when the pattern contains the caret character.
 
 
