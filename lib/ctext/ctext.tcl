@@ -2144,24 +2144,29 @@ proc ctext::comments_char_in_range {win start end} {
 proc ctext::comments_do_tag {win insert_pos dat} {
 
   variable data
-  
+
   return [expr {[regexp -line {*}$data($win,config,re_opts) -- $data($win,config,comstr_re) $dat] || \
                 ([inLineComment $win $insert_pos] && ([string first \n $dat] != -1))}]
 
 }
 
 proc ctext::comments {win start end do_tag} {
-  
+
   variable data
-  
-  catch {
+
   # First, tag all string/comment patterns found between start and end
   foreach {tag pattern} $data($win,config,comment_string_patterns) {
     set i 0
     array set indices {0 {} 1 {}}
     foreach index [$win search -all -count lengths -regexp {*}$data($win,config,re_opts) -- $pattern $start $end] {
       if {![isEscaped $win $index]} {
-        lappend indices([expr $i & 1]) $index "$index+[lindex $lengths $i]c"
+        if {[string index $pattern 0] eq "^"} {
+          set match [$win get $index "$index+[lindex $lengths $i]c"]
+          set diff  [expr [string length $match] - [string length [string trimleft $match]]]
+          lappend indices([expr $i & 1]) "$index+${diff}c" "$index+[lindex $lengths $i]c"
+        } else {
+          lappend indices([expr $i & 1]) $index "$index+[lindex $lengths $i]c"
+        }
       }
       incr i
     }
@@ -2181,7 +2186,7 @@ proc ctext::comments {win start end do_tag} {
   set tags(_dString)  [list]
   set tags(_sString)  [list]
   set char_tags       [list]
-  
+
   # Gather the list of comment ranges in the char_tags list
   for {set i 0} {$i < 2} {incr i} {
     foreach {char_start char_end} [$win tag ranges _lCommentStart$i] {
@@ -2244,10 +2249,6 @@ proc ctext::comments {win start end do_tag} {
       $win tag add   $tag {*}$tags($tag)
       $win tag raise $tag
     }
-  }
-  } rc
-  if {$rc ne ""} {
-    logger::log "comments error: $rc"
   }
 
 }
