@@ -1,26 +1,36 @@
-changeset:   1924:d749dc4ab4bc
-tag:         devel-2.2.12
+changeset:   1927:dda822c90f11
+tag:         devel-2.2.13
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Mar 09 20:41:56 2016 -0600
+date:        Thu Mar 10 09:21:42 2016 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.2.12 release
+ChangeLog for devel-2.2.13 release
 
 
-changeset:   1925:57eedb17c897
+changeset:   1928:fd4f0185cf3a
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Mar 09 20:42:00 2016 -0600
+date:        Thu Mar 10 09:21:48 2016 -0600
 files:       .hgtags
 description:
-Added tag devel-2.2.12 for changeset d749dc4ab4bc
+Added tag devel-2.2.13 for changeset dda822c90f11
 
 
-changeset:   1926:d1e9a1efdbe5
-tag:         tip
+changeset:   1929:f44bd371e744
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Mar 10 01:33:17 2016 -0600
+date:        Thu Mar 10 18:04:26 2016 -0600
 files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Fixing comment/string highlighting issues.
+* Fixing final known issue with comment/string highlighter.
+
+
+changeset:   1930:d23c0d0d418b
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Mar 11 00:30:48 2016 -0600
+files:       lib/bist.tcl lib/folding.tcl lib/version.tcl tests/folding.tcl
+description:
+* Fixing issue with BIST when a test has a syntax error.
+* Adding folding test cases.
+* Changing is_fold to fold_state to provide more robust reporting about a line state.
 
 
