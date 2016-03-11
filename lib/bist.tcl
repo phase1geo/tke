@@ -53,7 +53,7 @@ namespace eval bist {
 
     # Load all of the BIST files
     foreach bfile [glob -directory [file join $::tke_dir tests] *.tcl] {
-      source $bfile
+      catch { source $bfile }
     }
 
     # Gather the list of tests to run
