@@ -11,6 +11,7 @@ var searchData=
   ['undoable',['undoable',['../namespacegui.html#aa814045bd71532eeccbccb7fc552f495',1,'gui']]],
   ['unfavorite',['unfavorite',['../namespacesidebar.html#a50844571c817c948ddb59b1eba1ccde6',1,'sidebar']]],
   ['unfavorite_5fcommand',['unfavorite_command',['../namespacemenus.html#a4cadb7eed4ee2ec8f45a13ac7c4acf53',1,'menus']]],
+  ['unfold_5fall',['unfold_all',['../namespacemenus.html#ae34f4aff49b053f8046883fd48f762ad',1,'menus']]],
   ['unhide_5fscrollbar',['unhide_scrollbar',['../namespacesidebar.html#ad60d0050289f769dd9782ec07092ab18',1,'sidebar']]],
   ['unindent',['unindent',['../namespaceedit.html#a66f52c65fe631b1ca8879b4f0eac9cac',1,'edit']]],
   ['unindent_5fcommand',['unindent_command',['../namespacemenus.html#a00185f2e94f96bc4e0e256bc4a7154c1',1,'menus']]],

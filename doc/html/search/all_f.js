@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['_24ns',['$ns',['../namespaceplugins_1_1_0Bns.html',1,'plugins']]],
   ['page_5fslider',['page_slider',['../namespacescroller.html#a46aecd513d388fc7fbd0498ac14ad120',1,'scroller']]],
   ['panes',['panes',['../namespacegui.html#a589a4a2beb2d4d13a296d423227939f8',1,'gui']]],
   ['parse',['parse',['../namespacetkedat.html#a2c497c50d536bf03673ee049bb7b86d0',1,'tkedat']]],
