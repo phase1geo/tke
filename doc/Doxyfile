@@ -809,7 +809,10 @@ EXCLUDE                = ../lib/format_lexer.tcl \
                          ../lib/format_parser.tcl \
                          ../lib/snip_lexer.tcl \
                          ../lib/snip_parser.tab.tcl \
-                         ../lib/snip_parser.tcl
+                         ../lib/snip_parser.tcl \
+                         ../lib/emmet_lexer.tcl \
+                         ../lib/emmet_parser.tab.tcl \
+                         ../lib/emmet_parser.tcl
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded

@@ -5,6 +5,7 @@ var searchData=
   ['last_5ftxt_5ffocus',['last_txt_focus',['../namespacegui.html#ab779db47b6ceada376e53037cec6e975',1,'gui']]],
   ['launch',['launch',['../namespacelauncher.html#ab87a2f5ffadc360dbc5afebe7ef37cd3',1,'launcher']]],
   ['launcher',['launcher',['../namespacefavorites.html#a68c14b417883e3a0200af36556b0bdf6',1,'favorites::launcher()'],['../namespacemenus.html#a9e3299e2da5a66c37e06a13e62367dd6',1,'menus::launcher()']]],
+  ['line_5fcontains_5findentation',['line_contains_indentation',['../namespaceindent.html#a12816d73a6108e6140f150d2e755fdbb',1,'indent']]],
   ['linemapcheckondelete',['linemapCheckOnDelete',['../namespacectext.html#abb929e35836f013cad39e2def3c2d8e9',1,'ctext']]],
   ['linemapclearmark',['linemapClearMark',['../namespacectext.html#ad821187541e42f65b60a0cdd161b4fc8',1,'ctext']]],
   ['linemapdiffupdate',['linemapDiffUpdate',['../namespacectext.html#a9d87899da5b73de9433c7b40986cd1e9',1,'ctext']]],

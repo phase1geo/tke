@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="tke_logo_128.gif"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">TKE
-   &#160;<span id="projectnumber">2.2</span>
+   &#160;<span id="projectnumber">2.3</span>
    </div>
    <div id="projectbrief">Advanced editor written in Tcl/Tk</div>
   </td>
@@ -124,8 +124,8 @@ Functions</h2></td></tr>
 <tr class="separator:a8da9cc380d4d7caca595fe68913c7873"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b8c99d3d9cdfc652b5ca5fa6a1f7d44"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacediff_1_1mercurial.html#a2b8c99d3d9cdfc652b5ca5fa6a1f7d44">get_file_cmd</a> <a class="el" href="tke_8tcl.html#a4c7a521b8f1a0769c09bfa4a1fca7dab">version</a> fname</td></tr>
 <tr class="separator:a2b8c99d3d9cdfc652b5ca5fa6a1f7d44"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8975c062deab6e6589e20c5b85642d8b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacediff_1_1mercurial.html#a8975c062deab6e6589e20c5b85642d8b">show_diff</a> txt v1 v2 fname</td></tr>
-<tr class="separator:a8975c062deab6e6589e20c5b85642d8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d34996d3af6088df3e1279e2da28ded"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacediff_1_1mercurial.html#a8d34996d3af6088df3e1279e2da28ded">get_diff_cmd</a> v1 v2 fname</td></tr>
+<tr class="separator:a8d34996d3af6088df3e1279e2da28ded"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7ae583e97ef08083ee486e1938670ff2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacediff_1_1mercurial.html#a7ae583e97ef08083ee486e1938670ff2">find_version</a> fname v2 lnum</td></tr>
 <tr class="separator:a7ae583e97ef08083ee486e1938670ff2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d17dc252025b48ad2759c53c7a51e49"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacediff_1_1mercurial.html#a5d17dc252025b48ad2759c53c7a51e49">get_version_log</a> fname <a class="el" href="tke_8tcl.html#a4c7a521b8f1a0769c09bfa4a1fca7dab">version</a></td></tr>
@@ -152,6 +152,28 @@ Functions</h2></td></tr>
 
 <p>Definition at line <a class="el" href="diff_8tcl_source.html#l00783">783</a> of file <a class="el" href="diff_8tcl_source.html">diff.tcl</a>.</p>
 <div class="fragment"><div class="line"><a name="l00783"></a><span class="lineno">  783</span>&#160;    <span class="keyword">proc</span> find_version {fname v2 lnum} {</div><div class="line"><a name="l00784"></a><span class="lineno">  784</span>&#160;      <span class="keyword">if</span> {$v2 eq &quot;Current&quot;} {</div><div class="line"><a name="l00785"></a><span class="lineno">  785</span>&#160;        <span class="keyword">if</span> {![<span class="keyword">catch</span> { <span class="keyword">exec</span> hg annotate $fname} rc]} {</div><div class="line"><a name="l00786"></a><span class="lineno">  786</span>&#160;          <span class="keyword">if</span> {[regexp &quot;^\\s*(\\d+):&quot; [<span class="keyword">lindex</span> [<span class="keyword">split</span> $rc \n] [<span class="keyword">expr</span> $lnum - 1]] -&gt; version]} {</div><div class="line"><a name="l00787"></a><span class="lineno">  787</span>&#160;            <span class="keyword">return</span> $version<span class="comment"></span></div><div class="line"><a name="l00788"></a><span class="lineno">  788</span>&#160;<span class="comment"></span>          }<span class="comment"></span></div><div class="line"><a name="l00789"></a><span class="lineno">  789</span>&#160;<span class="comment"></span>        }<span class="comment"></span></div><div class="line"><a name="l00790"></a><span class="lineno">  790</span>&#160;<span class="comment"></span>      } <span class="keyword">else</span> {</div><div class="line"><a name="l00791"></a><span class="lineno">  791</span>&#160;        <span class="keyword">if</span> {![<span class="keyword">catch</span> { <span class="keyword">exec</span> hg annotate -r $v2 $fname} rc]} {</div><div class="line"><a name="l00792"></a><span class="lineno">  792</span>&#160;          <span class="keyword">if</span> {[regexp &quot;^\\s*(\\d+):&quot; [<span class="keyword">lindex</span> [<span class="keyword">split</span> $rc \n] [<span class="keyword">expr</span> $lnum - 1]] -&gt; version]} {</div><div class="line"><a name="l00793"></a><span class="lineno">  793</span>&#160;            <span class="keyword">return</span> $version<span class="comment"></span></div><div class="line"><a name="l00794"></a><span class="lineno">  794</span>&#160;<span class="comment"></span>          }<span class="comment"></span></div><div class="line"><a name="l00795"></a><span class="lineno">  795</span>&#160;<span class="comment"></span>        }<span class="comment"></span></div><div class="line"><a name="l00796"></a><span class="lineno">  796</span>&#160;<span class="comment"></span>      }<span class="comment"></span></div><div class="line"><a name="l00797"></a><span class="lineno">  797</span>&#160;<span class="comment"></span>      <span class="keyword">return</span> &quot;&quot;<span class="comment"></span></div><div class="line"><a name="l00798"></a><span class="lineno">  798</span>&#160;<span class="comment"></span>    }</div></div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="a8d34996d3af6088df3e1279e2da28ded"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">diff::mercurial::get_diff_cmd</td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">v1 v2 fname &#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="diff_8tcl_source.html#l00775">775</a> of file <a class="el" href="diff_8tcl_source.html">diff.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l00775"></a><span class="lineno">  775</span>&#160;    <span class="keyword">proc</span> get_diff_cmd {v1 v2 fname} {</div><div class="line"><a name="l00776"></a><span class="lineno">  776</span>&#160;      <span class="keyword">if</span> {$v2 eq &quot;Current&quot;} {</div><div class="line"><a name="l00777"></a><span class="lineno">  777</span>&#160;        <span class="keyword">return</span> &quot;hg diff -r $v1 $fname&quot;<span class="comment"></span></div><div class="line"><a name="l00778"></a><span class="lineno">  778</span>&#160;<span class="comment"></span>      } <span class="keyword">else</span> {</div><div class="line"><a name="l00779"></a><span class="lineno">  779</span>&#160;        <span class="keyword">return</span> &quot;hg diff -r $v1 -r $v2 $fname&quot;<span class="comment"></span></div><div class="line"><a name="l00780"></a><span class="lineno">  780</span>&#160;<span class="comment"></span>      }<span class="comment"></span></div><div class="line"><a name="l00781"></a><span class="lineno">  781</span>&#160;<span class="comment"></span>    }</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a2b8c99d3d9cdfc652b5ca5fa6a1f7d44"></a>
@@ -234,28 +256,6 @@ Functions</h2></td></tr>
 <div class="fragment"><div class="line"><a name="l00747"></a><span class="lineno">  747</span>&#160;    <span class="keyword">proc</span> name {} {</div><div class="line"><a name="l00748"></a><span class="lineno">  748</span>&#160;      <span class="keyword">return</span> &quot;Mercurial&quot;<span class="comment"></span></div><div class="line"><a name="l00749"></a><span class="lineno">  749</span>&#160;<span class="comment"></span>    }</div></div><!-- fragment -->
 </div>
 </div>
-<a class="anchor" id="a8975c062deab6e6589e20c5b85642d8b"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">diff::mercurial::show_diff</td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">txt v1 v2 fname &#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="diff_8tcl_source.html#l00775">775</a> of file <a class="el" href="diff_8tcl_source.html">diff.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l00775"></a><span class="lineno">  775</span>&#160;    <span class="keyword">proc</span> show_diff {txt v1 v2 fname} {</div><div class="line"><a name="l00776"></a><span class="lineno">  776</span>&#160;      <span class="keyword">if</span> {$v2 eq &quot;Current&quot;} {</div><div class="line"><a name="l00777"></a><span class="lineno">  777</span>&#160;        <a class="code" href="namespacediff.html#afccefef06e282602276286881657b334" title="diff::parse_unified_diff">diff::parse_unified_diff</a> $txt &quot;hg diff -r $v1 $fname&quot;<span class="comment"></span></div><div class="line"><a name="l00778"></a><span class="lineno">  778</span>&#160;<span class="comment"></span>      } <span class="keyword">else</span> {</div><div class="line"><a name="l00779"></a><span class="lineno">  779</span>&#160;        <a class="code" href="namespacediff.html#afccefef06e282602276286881657b334" title="diff::parse_unified_diff">diff::parse_unified_diff</a> $txt &quot;hg diff -r $v1 -r $v2 $fname&quot;<span class="comment"></span></div><div class="line"><a name="l00780"></a><span class="lineno">  780</span>&#160;<span class="comment"></span>      }<span class="comment"></span></div><div class="line"><a name="l00781"></a><span class="lineno">  781</span>&#160;<span class="comment"></span>    }</div></div><!-- fragment -->
-</div>
-</div>
 <a class="anchor" id="af9f90020bfa9bf6347ae55021b12d653"></a>
 <div class="memitem">
 <div class="memproto">
@@ -298,7 +298,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacediff.html">diff</a></li><li class="navelem"><a class="el" href="namespacediff_1_1mercurial.html">mercurial</a></li>
-    <li class="footer">Generated on Tue Feb 2 2016 01:19:40 for TKE by
+    <li class="footer">Generated on Fri Mar 11 2016 01:14:44 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

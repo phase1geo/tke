@@ -115,6 +115,7 @@ var vim_8tcl =
     [ "handle_X", "vim_8tcl.html#ad123334bcbb1a3a3fe487e916bcd4041", null ],
     [ "handle_y", "vim_8tcl.html#ae9f09929385f21141cd8f758bbdef895", null ],
     [ "handle_Z", "vim_8tcl.html#a50346fdff9523327f7e583cca42c0318", null ],
+    [ "handle_z", "vim_8tcl.html#a65aad301ab2f16c6ef04d09c637bf0da", null ],
     [ "in_vim_mode", "vim_8tcl.html#a8b8353e1be34ccceba9f0c838687bbe1", null ],
     [ "in_visual_mode", "vim_8tcl.html#a04b7c344ae65d382ec41288a6421f9e5", null ],
     [ "move_bracket_right", "vim_8tcl.html#ad93875dc6954a7622ff43046e1e4da51", null ],

@@ -52,5 +52,6 @@ var searchData=
   ['run_5fbist',['run_bist',['../namespacemenus.html#a90acfb050b1073e9bda6a163acc0e096',1,'menus']]],
   ['run_5fon_5fstart_5fafter_5finstall',['run_on_start_after_install',['../namespaceplugins.html#a0eaa436eac3f77c3c957b740cd3ac51f',1,'plugins']]],
   ['run_5ftest',['run_test',['../namespacebist.html#a133f5aad87721baa066cd63f5ab7e3d5',1,'bist']]],
+  ['run_5fvcs',['run_vcs',['../namespaceplugins.html#a15f7f0942f837e4b4f20ccead041ef2d',1,'plugins']]],
   ['runtime_5fstring',['runtime_string',['../namespacebist.html#ab53565abe74214d464dfca6ab55b30c8',1,'bist']]]
 ];
