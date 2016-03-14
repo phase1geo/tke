@@ -65,6 +65,7 @@ proc ctext {win args} {
   set ctext::data($win,config,-diffsubbg)              "pink"
   set ctext::data($win,config,-diffaddbg)              "light green"
   set ctext::data($win,config,-folding)                0
+  set ctext::data($win,config,-delimiters)             $ctext::REs(words)
   set ctext::data($win,config,re_opts)                 ""
   set ctext::data($win,config,win)                     $win
   set ctext::data($win,config,modified)                0
@@ -91,7 +92,7 @@ proc ctext {win args} {
 
   set ctext::data($win,config,ctextFlags) [list -xscrollcommand -yscrollcommand -linemap -linemapfg -linemapbg \
   -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable \
-  -linemap_cursor -highlightcolor -folding \
+  -linemap_cursor -highlightcolor -folding -delimiters \
   -linemap_select_fg -linemap_select_bg -linemap_relief -linemap_minwidth -linemap_type -casesensitive -peer \
   -undo -maxundo -autoseparators -diff_mode -diffsubbg -diffaddbg]
 
@@ -497,6 +498,11 @@ proc ctext::buildArgParseTable win {
     foreach tag [lsearch -inline -all -glob [$win._t tag names] diff:A:D:*] {
       $win._t tag configure $tag -background $value
     }
+    break
+  }
+
+  lappend argTable {any} -delimiters {
+    set data($win,config,-delimiters) $value
     break
   }
 
@@ -2647,7 +2653,7 @@ proc ctext::doHighlight {win start end} {
 
   # Handle word-based matching
   set i 0
-  foreach res [$twin search -count lengths -regexp {*}$data($win,config,re_opts) -all -- $REs(words) $start $end] {
+  foreach res [$twin search -count lengths -regexp {*}$data($win,config,re_opts) -all -- $data($win,config,-delimiters) $start $end] {
     set wordEnd     [$twin index "$res + [lindex $lengths $i] chars"]
     set word        [$twin get $res $wordEnd]
     set firstOfWord [string index $word 0]
