@@ -2656,6 +2656,9 @@ proc ctext::doHighlight {win start end} {
   foreach res [$twin search -count lengths -regexp {*}$data($win,config,re_opts) -all -- $data($win,config,-delimiters) $start $end] {
     set wordEnd     [$twin index "$res + [lindex $lengths $i] chars"]
     set word        [$twin get $res $wordEnd]
+    if {!$ctext::data($win,config,-casesensitive)} {
+      set word [string tolower $word]
+    }
     set firstOfWord [string index $word 0]
     if {[info exists data($win,highlight,keyword,class,$word)]} {
       $twin tag add $data($win,highlight,keyword,class,$word) $res $wordEnd

@@ -1,0 +1,78 @@
+filepatterns
+{*.mysql}
+
+vimsyntax
+{mysql}
+
+matchcharsallowed
+{paren single}
+
+tabsallowed
+{0}
+
+casesensitive
+{0}
+
+icomment {{--}}
+
+lcomments {{--}}
+
+bcomments {{{/\*} {\*/}}}
+
+strings {{'}}
+
+keywords
+{
+  alter create drop rename truncate call delete do handler insert load replace select update start
+  commit rollback prepare execute deallocate declare case if iterate leave loop set repeat return
+  while open fetch signal resignal show cache flush kill reset describe explain help use
+}
+
+numbers {
+  HighlightRegexp {[0-9]+} {}
+}
+
+punctuation
+{
+  HighlightRegexp {[()=,;:@+*]} {}
+}
+
+miscellaneous1 {
+  HighlightKeywords {
+    action add after algorithm all analyze and as asc authors auto_increment autoextend_size avg_row_length
+    before begin bigint binary binlog bit blob btree by
+    cascade cascaded chain character check checksum close coalesce code collate collation column columns column_format comment
+    compact completion compressed concurrent connection consistent constraint contains contributors convert current_user cursor
+    data database datafile date datetime day day_hour day_minute day_second decimal default definer
+    delayed delay_key_write desc deterministic directory disable discard disk distinct distinctrow double
+    dumpfile duplicate dynamic
+    each else elseif enable enclosed end engine engines enum errors escaped event events every exists
+    extended extent_size
+    fields first fixed float for force foreign from full fulltext function
+    global grants group
+    hash having high_priority host hosts hour hour_minute hour_second
+    identified ignore import in index infile initial_size inout insert_method int integer into invoker
+    key keys key_block_size
+    language last leaves less like limit linear lines local lock logs logfile longblob longtext low_priority
+    master match max_rows mediumint mediumblob mediumtext memory merge min_rows minute minute_second
+    mode modifies modify month mutex
+    name next no nodegroup not no_write_to_binlog null numeric
+    offline offset on online open optimize option optionally options order out outfile owner
+    pack_keys parser partial partition partitioning partitions password plugins port prepare preserve
+    prev primary privileges procedure processlist profile profiles
+    quarter query quick
+    range read reads real rebuild redo_buffer_size redundant references release remove reorganize repair restrict returns
+    rollup row rows row_format
+    schedule schema second security server session share simple slave smallint snapshot socket spatial sql sql_small_result
+    sql_big_result sql_buffer_result sql_cache sql_no_cache sql_calc_found_rows starting status storage
+    straight_join subpartitions
+    table tables tablespace temporary temptable terminated text than then time timestamp tinyblob tinyint tinytext to
+    transaction trigger triggers
+    undo_buffer_size undofile undefined union unique unsigned until upgrade user using
+    value values varbinary varchar variables view
+    wait warnings week when where with work wrapper
+    xml
+    year year_month
+    zerofill
+  } {}
+}
