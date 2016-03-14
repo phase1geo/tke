@@ -114,7 +114,7 @@ source [file join $::tke_dir lib snip_parser.tab.tcl]
 }
 
   # Variable names
-(SELECTED_TEXT|CLIPBOARD|CURRENT_LINE|CURRENT_WORD|DIRECTORY|FILEPATH|FILENAME|LINE_INDEX|LINE_NUMBER|CURRENT_DATE|CURRENT_TIME) {
+(SELECTED_TEXT|CLIPBOARD|CURRENT_(LINE|WORD|DATE|TIME|MON|MONTH|MON1|MON2|DAYN|DAYNAME|DAY1|DAY2|YEAR2|YEAR)|DIRECTORY|FILEPATH|FILENAME|LINE_INDEX|LINE_NUMBER) {
   set ::snip_lval $snip_text
   set ::snip_begpos $::snip_endpos
   incr ::snip_endpos [string length $snip_text]
