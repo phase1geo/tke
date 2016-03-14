@@ -171,17 +171,27 @@ variable: DOLLAR_SIGN varname {
 varname: VARNAME {
            set txtt $::snip_txtt
            switch $1 {
-             SELECTED_TEXT { set _ [expr {![catch { $txtt get sel.first sel.last } rc] ? $rc : ""}] }
-             CLIPBOARD     { set _ [expr {![catch "clipboard get" rc] ? $rc : ""}] }
-             CURRENT_LINE  { set _ [$txtt get "insert linestart" "insert lineend"] }
-             CURRENT_WORD  { set _ [$txtt get "insert wordstart" "insert wordend"] }
-             DIRECTORY     { set _ [file dirname [gui::get_info {} current fname]] }
-             FILEPATH      { set _ [gui::get_info {} current fname] }
-             FILENAME      { set _ [file tail [gui::get_info {} current fname]] }
-             LINE_INDEX    { set _ [lindex [split [$txtt index insert] .] 1] }
-             LINE_NUMBER   { set _ [lindex [split [$txtt index insert] .] 0] }
-             CURRENT_DATE  { set _ [clock format [clock seconds] -format "%m/%d/%Y"] }
-             CURRENT_TIME  { set _ [clock format [clock seconds] -format "%I:%M %p"] }
+             SELECTED_TEXT   { set _ [expr {![catch { $txtt get sel.first sel.last } rc] ? $rc : ""}] }
+             CLIPBOARD       { set _ [expr {![catch "clipboard get" rc] ? $rc : ""}] }
+             CURRENT_LINE    { set _ [$txtt get "insert linestart" "insert lineend"] }
+             CURRENT_WORD    { set _ [$txtt get "insert wordstart" "insert wordend"] }
+             DIRECTORY       { set _ [file dirname [gui::get_info {} current fname]] }
+             FILEPATH        { set _ [gui::get_info {} current fname] }
+             FILENAME        { set _ [file tail [gui::get_info {} current fname]] }
+             LINE_INDEX      { set _ [lindex [split [$txtt index insert] .] 1] }
+             LINE_NUMBER     { set _ [lindex [split [$txtt index insert] .] 0] }
+             CURRENT_DATE    { set _ [clock format [clock seconds] -format "%m/%d/%Y"] }
+             CURRENT_TIME    { set _ [clock format [clock seconds] -format "%I:%M %p"] }
+             CURRENT_MON     { set _ [clock format [clock seconds] -format "%b"] }
+             CURRENT_MONTH   { set _ [clock format [clock seconds] -format "%B"] }
+             CURRENT_MON1    { set _ [clock format [clock seconds] -format "%N"] }
+             CURRENT_MON2    { set _ [clock format [clock seconds] -format "%m"] }
+             CURRENT_DAYN    { set _ [clock format [clock seconds] -format "%a"] }
+             CURRENT_DAYNAME { set _ [clock format [clock seconds] -format "%A"] }
+             CURRENT_DAY1    { set _ [clock format [clock seconds] -format "%e"] }
+             CURRENT_DAY2    { set _ [clock format [clock seconds] -format "%d"] }
+             CURRENT_YEAR2   { set _ [clock format [clock seconds] -format "%y"] }
+             CURRENT_YEAR    { set _ [clock format [clock seconds] -format "%Y"] }
            }
          }
          ;
