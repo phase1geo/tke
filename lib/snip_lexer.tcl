@@ -312,9 +312,9 @@ proc snip_lex {} {
             set ::snip_leng [string length $::snip_text]
             set snip__matched_rule 8
         }
-        # rule 9: (SELECTED_TEXT|CLIPBOARD|CURRENT_LINE|CURRENT_WORD|DIRECTORY|FILEPATH|FILENAME|LINE_INDEX|LINE_NUMBER|CURRENT_DATE|CURRENT_TIME)
+        # rule 9: (SELECTED_TEXT|CLIPBOARD|CURRENT_(LINE|WORD|DATE|TIME|MON|MONTH|MON1|MON2|DAYN|DAYNAME|DAY1|DAY2|YEAR2|YEAR)|DIRECTORY|FILEPATH|FILENAME|LINE_INDEX|LINE_NUMBER)
         if {$::snip__state_table($snip__current_state) && \
-                [regexp -start $::snip__index -indices -line  -- {\A((SELECTED_TEXT|CLIPBOARD|CURRENT_LINE|CURRENT_WORD|DIRECTORY|FILEPATH|FILENAME|LINE_INDEX|LINE_NUMBER|CURRENT_DATE|CURRENT_TIME))} $::snip__buffer snip__match] > 0 && \
+                [regexp -start $::snip__index -indices -line  -- {\A((SELECTED_TEXT|CLIPBOARD|CURRENT_(LINE|WORD|DATE|TIME|MON|MONTH|MON1|MON2|DAYN|DAYNAME|DAY1|DAY2|YEAR2|YEAR)|DIRECTORY|FILEPATH|FILENAME|LINE_INDEX|LINE_NUMBER))} $::snip__buffer snip__match] > 0 && \
                 [lindex $snip__match 1] - $::snip__index + 1 > $::snip_leng} {
             set ::snip_text [string range $::snip__buffer $::snip__index [lindex $snip__match 1]]
             set ::snip_leng [string length $::snip_text]
