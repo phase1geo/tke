@@ -3471,105 +3471,105 @@ array set ::snip_rules {
 }
 
 array set ::snip_rules {
-  41,line 256
-  96,line 429
+  41,line 266
+  96,line 439
   7,line 107
-  37,line 242
-  93,line 418
+  37,line 252
+  93,line 428
   4,line 98
-  34,line 231
-  90,line 409
-  89,line 406
+  34,line 241
+  90,line 419
+  89,line 416
   1,line 87
-  31,line 222
-  86,line 397
-  27,line 210
-  83,line 388
-  24,line 201
-  80,line 379
-  79,line 376
-  21,line 192
-  76,line 363
+  31,line 232
+  86,line 407
+  27,line 220
+  83,line 398
+  24,line 211
+  80,line 389
+  79,line 386
+  21,line 202
+  76,line 373
   17,line 159
-  73,line 354
+  73,line 364
   14,line 144
-  70,line 345
-  69,line 342
+  70,line 355
+  69,line 352
   11,line 119
-  66,line 333
-  63,line 324
-  60,line 315
-  59,line 312
-  56,line 303
-  53,line 292
-  50,line 283
-  49,line 280
-  46,line 271
-  43,line 262
-  98,line 437
+  66,line 343
+  63,line 334
+  60,line 325
+  59,line 322
+  56,line 313
+  53,line 302
+  50,line 293
+  49,line 290
+  46,line 281
+  43,line 272
+  98,line 447
   9,line 113
-  40,line 253
-  39,line 250
-  95,line 426
+  40,line 263
+  39,line 260
+  95,line 436
   6,line 104
-  36,line 237
-  92,line 415
+  36,line 247
+  92,line 425
   3,line 95
-  33,line 228
-  88,line 403
-  29,line 216
-  30,line 219
-  85,line 394
-  26,line 207
-  82,line 385
-  23,line 198
-  78,line 373
+  33,line 238
+  88,line 413
+  29,line 226
+  30,line 229
+  85,line 404
+  26,line 217
+  82,line 395
+  23,line 208
+  78,line 383
   19,line 169
-  20,line 187
-  75,line 360
+  20,line 197
+  75,line 370
   16,line 156
-  72,line 351
+  72,line 361
   13,line 131
-  68,line 339
+  68,line 349
   10,line 116
-  65,line 330
-  62,line 321
-  58,line 309
-  55,line 300
-  52,line 289
-  48,line 277
-  45,line 268
-  42,line 259
-  97,line 432
+  65,line 340
+  62,line 331
+  58,line 319
+  55,line 310
+  52,line 299
+  48,line 287
+  45,line 278
+  42,line 269
+  97,line 442
   8,line 110
-  38,line 245
-  94,line 423
+  38,line 255
+  94,line 433
   5,line 101
-  35,line 234
-  91,line 412
+  35,line 244
+  91,line 422
   2,line 92
-  32,line 225
-  87,line 400
-  28,line 213
-  84,line 391
-  25,line 204
-  81,line 382
-  22,line 195
-  77,line 368
+  32,line 235
+  87,line 410
+  28,line 223
+  84,line 401
+  25,line 214
+  81,line 392
+  22,line 205
+  77,line 378
   18,line 166
-  74,line 357
+  74,line 367
   15,line 151
-  71,line 348
+  71,line 358
   12,line 128
-  67,line 336
-  64,line 327
-  61,line 318
-  57,line 306
-  54,line 295
-  51,line 286
-  47,line 274
-  44,line 265
-  99,line 440
+  67,line 346
+  64,line 337
+  61,line 328
+  57,line 316
+  54,line 305
+  51,line 296
+  47,line 284
+  44,line 275
+  99,line 450
 }
 
 proc snip_parse {} {
@@ -3710,17 +3710,27 @@ proc snip_parse {} {
                     20 { 
            set txtt $::snip_txtt
            switch $1 {
-             SELECTED_TEXT { set _ [expr {![catch { $txtt get sel.first sel.last } rc] ? $rc : ""}] }
-             CLIPBOARD     { set _ [expr {![catch "clipboard get" rc] ? $rc : ""}] }
-             CURRENT_LINE  { set _ [$txtt get "insert linestart" "insert lineend"] }
-             CURRENT_WORD  { set _ [$txtt get "insert wordstart" "insert wordend"] }
-             DIRECTORY     { set _ [file dirname [gui::get_info {} current fname]] }
-             FILEPATH      { set _ [gui::get_info {} current fname] }
-             FILENAME      { set _ [file tail [gui::get_info {} current fname]] }
-             LINE_INDEX    { set _ [lindex [split [$txtt index insert] .] 1] }
-             LINE_NUMBER   { set _ [lindex [split [$txtt index insert] .] 0] }
-             CURRENT_DATE  { set _ [clock format [clock seconds] -format "%m/%d/%Y"] }
-             CURRENT_TIME  { set _ [clock format [clock seconds] -format "%I:%M %p"] }
+             SELECTED_TEXT   { set _ [expr {![catch { $txtt get sel.first sel.last } rc] ? $rc : ""}] }
+             CLIPBOARD       { set _ [expr {![catch "clipboard get" rc] ? $rc : ""}] }
+             CURRENT_LINE    { set _ [$txtt get "insert linestart" "insert lineend"] }
+             CURRENT_WORD    { set _ [$txtt get "insert wordstart" "insert wordend"] }
+             DIRECTORY       { set _ [file dirname [gui::get_info {} current fname]] }
+             FILEPATH        { set _ [gui::get_info {} current fname] }
+             FILENAME        { set _ [file tail [gui::get_info {} current fname]] }
+             LINE_INDEX      { set _ [lindex [split [$txtt index insert] .] 1] }
+             LINE_NUMBER     { set _ [lindex [split [$txtt index insert] .] 0] }
+             CURRENT_DATE    { set _ [clock format [clock seconds] -format "%m/%d/%Y"] }
+             CURRENT_TIME    { set _ [clock format [clock seconds] -format "%I:%M %p"] }
+             CURRENT_MON     { set _ [clock format [clock seconds] -format "%b"] }
+             CURRENT_MONTH   { set _ [clock format [clock seconds] -format "%B"] }
+             CURRENT_MON1    { set _ [clock format [clock seconds] -format "%N"] }
+             CURRENT_MON2    { set _ [clock format [clock seconds] -format "%m"] }
+             CURRENT_DAYN    { set _ [clock format [clock seconds] -format "%a"] }
+             CURRENT_DAYNAME { set _ [clock format [clock seconds] -format "%A"] }
+             CURRENT_DAY1    { set _ [clock format [clock seconds] -format "%e"] }
+             CURRENT_DAY2    { set _ [clock format [clock seconds] -format "%d"] }
+             CURRENT_YEAR2   { set _ [clock format [clock seconds] -format "%y"] }
+             CURRENT_YEAR    { set _ [clock format [clock seconds] -format "%Y"] }
            }
           }
                     21 { 
