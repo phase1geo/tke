@@ -31,9 +31,9 @@ strings {}
 
 keywords
 {
-  filepatterns vimsyntax matchcharsallowed tabsallowed casesensitive indent unindent reindent keywords symbols
-  icomment lcomments bcomments strings numbers punctuation precompile miscellaneous1 miscellaneous2
-  miscellaneous3 highlighter meta advanced
+  filepatterns vimsyntax matchcharsallowed tabsallowed casesensitive delimiters indent unindent
+  reindent keywords symbols icomment lcomments bcomments strings numbers punctuation precompile
+  miscellaneous1 miscellaneous2 miscellaneous3 highlighter meta advanced
   HighlightClass
   HighlightKeywords
   HighlightRegexp
@@ -43,9 +43,9 @@ keywords
 symbols
 {
   HighlightKeywords {
-    filepatterns matchcharsallowed tabsallowed casesensitive indent unindent reindent icomment lcomments bcomments
-    strings symbols numbers punctuation precompile miscellaneous1 miscellaneous2 miscellaneous3 meta
-    advanced
+    filepatterns vimsyntax matchcharsallowed tabsallowed casesensitive delimiters indent unindent
+    reindent icomment lcomments bcomments strings symbols numbers punctuation precompile
+    miscellaneous1 miscellaneous2 miscellaneous3 meta advanced
   } syntax::get_syntax_symbol
 }
 

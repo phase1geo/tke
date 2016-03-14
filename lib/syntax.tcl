@@ -35,6 +35,7 @@ namespace eval syntax {
     matchcharsallowed  {}
     tabsallowed        0
     casesensitive      0
+    delimiters         {}
     indent             {}
     unindent           {}
     reindent           {}
@@ -305,8 +306,11 @@ namespace eval syntax {
           set cmd_prefix ""
         }
 
-        # Set the case sensitivity
+        # Set the case sensitivity and delimiter characters
         $txt configure -casesensitive $lang_array(casesensitive)
+        if {$lang_array(delimiters) ne ""} {
+          $txt configure -delimiters $lang_array(delimiters)
+        }
 
         # Add the language keywords
         ctext::addHighlightClass $txt keywords $theme(keywords)

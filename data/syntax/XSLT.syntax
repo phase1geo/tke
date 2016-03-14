@@ -1,0 +1,91 @@
+filepatterns
+{*.xsl *.xslt}
+
+vimsyntax
+{xslt}
+
+matchcharsallowed
+{paren angled double single}
+
+tabsallowed
+{0}
+
+casesensitive
+{0}
+
+delimiters
+{[^\s\(\{\[\}\]\)\.\t\n\r;=\"'\|,<>]+}
+
+indent
+{<[^/>](.*?[^/])?>}
+
+unindent
+{</.+?>}
+
+icomment {{<!--} {-->}}
+
+bcomments {{{<!--} {-->}} {{<!\[CDATA\[} {\]\]>}}}
+
+strings {{"}}
+
+keywords
+{
+  xsl:apply-imports /xsl:apply-imports xsl:apply-templates /xsl:apply-templates xsl:attribute /xsl:attribute
+  xsl:attribute-set /xsl:attribute-set xsl:call-template /xsl:call-template xsl:choose /xsl:choose
+  xsl:comment /xsl:comment xsl:copy /xsl:copy xsl:copy-of /xsl:copy-of xsl:decimal-format /xsl:decimal-format
+  xsl:element /xsl:element xsl:fallback /xsl:fallback xsl:for-each /xsl:for-each xsl:if /xsl:if
+  xsl:import /xsl:import xsl:include /xsl:include xsl:key /xsl:key xsl:message /xsl:message
+  xsl:namespace-alias /xsl:namespace-alias xsl:number /xsl:number xsl:otherwise /xsl:otherwise
+  xsl:output /xsl:output xsl:param /xsl:param xsl:preserve-space /xsl:preserve-space
+  xsl:processing-instruction /xsl:processing-instruction xsl:sort /xsl:sort xsl:strip-space /xsl:strip-space
+  xsl:stylesheet /xsl:stylesheet xsl:template /xsl:template xsl:text /xsl:text xsl:transform /xsl:transform
+  xsl:value-of /xsl:value-of xsl:variable /xsl:variable xsl:when /xsl:when xsl:with-param /xsl:with-param
+}
+
+punctuation
+{
+  HighlightRegexp {[<>&;=/]} {}
+}
+
+miscellaneous1 {
+  HighlightKeywords {
+    case-order cdata-section-elements count
+    data-type decimal-separator digit disable-output-escaping doctype-public doctype-system
+    elements encoding extension-element-prefixes exclude-result-prefixes
+    from format
+    grouping-separator grouping-size
+    href
+    id indent infinity
+    lang letter-value level
+    match media-type method minus-sign mode
+    NaN name namespace
+    omit-xml-declaration order
+    pattern-separator percent per-mille priority
+    result-prefix
+    select stylesheet-prefix standalone
+    terminate test
+    use use-attribute-sets
+    value version
+    xmlns:xsl
+    zero-digit
+  } {}
+}
+
+miscellaneous3 {
+  HighlightKeywords {
+    boolean ceiling choose concat contains count current document element-available exsl:node-set
+    exsl:object-type false floor format-number function-available generate-id id key lang last
+    local-name math:highest math:lowest math:max math:min name namespace-uri normalize-space not
+    number position regexp:match regexp:replace regexp:test round set:difference set:distinct
+    set:has-same-node set:intersection set:leading set:trailing starts-with str:concat str:split
+    str:tokenize string string-length substring substring-after substring-before sum system-property
+    translate true unparsed-entity-url
+  }
+}
+
+advanced
+{
+  HighlightClass attribute miscellaneous2 {}
+
+  HighlightRegexp {\S+=} syntax::get_xml_attribute
+}
