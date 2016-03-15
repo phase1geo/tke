@@ -1,36 +1,83 @@
-changeset:   1935:544a4c8a574e
-tag:         stable-2.3
+changeset:   1939:116610f8b576
+tag:         devel-2.3.1
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Mar 11 17:58:04 2016 -0600
+date:        Mon Mar 14 01:17:35 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for stable-2.3 release
+ChangeLog for devel-2.3.1 release
 
 
-changeset:   1936:119570b60058
+changeset:   1940:c4024ef6ecf2
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Mar 11 17:58:15 2016 -0600
+date:        Mon Mar 14 01:17:47 2016 -0500
 files:       .hgtags
 description:
-Added tag stable-2.3 for changeset 544a4c8a574e
+Added tag devel-2.3.1 for changeset 116610f8b576
 
 
-changeset:   1937:73b97e98620d
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Mar 13 23:06:54 2016 -0500
-files:       data/syntax/XSLT.syntax data/syntax/syntax.syntax lib/ctext/ctext.tcl lib/syntax.tcl lib/version.tcl
+changeset:   1941:48150934e21f
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Mar 14 12:32:19 2016 -0500
+files:       lib/snip_parser.tac lib/snip_parser.tcl lib/version.tcl
 description:
-* Adding XSLT syntax.
-* Adding support for customized delimiters in syntax files.
+* Adding more date macros in snippets.
 
 
-changeset:   1938:52242a2ba745
+changeset:   1942:36f4ec9a5587
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Mar 14 18:25:40 2016 -0500
+files:       lib/snip_lexer.fcl lib/snip_lexer.tcl lib/version.tcl
+description:
+* Fixing issues with new date variables in snippets.
+
+
+changeset:   1943:e3c05638c1c2
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Mar 14 20:10:49 2016 -0500
+files:       lib/ctext/ctext.tcl lib/folding.tcl lib/version.tcl
+description:
+* Adding -onshiftclick and -oncontrolclick options to gutter.
+* Starting to add support for shift-clicking on open/close symbols to do deep open/close.
+
+
+changeset:   1944:576070337f06
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Mar 14 23:07:03 2016 -0500
+files:       Win/freewrap.files lib/folding.tcl lib/version.tcl
+description:
+* Completing on work on deep fold/unfold.
+
+
+changeset:   1945:8d4bf4ea9c88
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Mar 14 23:19:21 2016 -0500
+files:       lib/multicursor.tcl lib/version.tcl
+description:
+* Fixing multicursor support to move around folded code properly.
+
+
+changeset:   1946:20d83a6d96d2
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Mar 14 23:44:37 2016 -0500
+files:       lib/launcher.tcl lib/version.tcl
+description:
+* Improving file opening command launcher function to perform better matching.
+
+
+changeset:   1947:9f0a2abe5d86
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Mar 15 00:31:53 2016 -0500
+files:       data/syntax/OCaml.syntax lib/version.tcl
+description:
+* Adding OCaml syntax file.
+
+
+changeset:   1948:90282a27431c
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Mar 14 01:15:44 2016 -0500
-files:       data/syntax/MySQL.syntax data/syntax/SQL.syntax lib/ctext/ctext.tcl lib/version.tcl
+date:        Tue Mar 15 01:48:52 2016 -0500
+files:       data/syntax/OCaml.syntax lib/version.tcl
 description:
-* Adding MySQL and SQL syntax support.
-* Correcting case insensitive keyword matching.
+* Fixing OCaml syntax file issues.
 
 
