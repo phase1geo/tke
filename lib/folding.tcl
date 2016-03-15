@@ -74,8 +74,8 @@ namespace eval folding {
 
     # Add the folding gutter
     $txt gutter create folding \
-      open  [list -symbol \u25be -onclick [ns folding]::close_fold] \
-      close [list -symbol \u25b8 -onclick [ns folding]::open_fold] \
+      open  [list -symbol \u25be -onclick [list [ns folding]::close_fold 1] -onshiftclick [list [ns folding]::close_fold 0]] \
+      close [list -symbol \u25b8 -onclick [list [ns folding]::open_fold  1] -onshiftclick [list [ns folding]::close_fold 0]] \
       end   [list -symbol \u221f]
 
     # Add the fold markers to the gutter
@@ -137,32 +137,37 @@ namespace eval folding {
 
   ######################################################################
   # Returns the starting and ending positions of the range to fold.
-  proc get_fold_range {txt line} {
+  proc get_fold_range {txt line depth op} {
 
     array set inc [list end -1 open 1 close 1]
 
-    set index [lsearch -index 0 [set data [get_gutter_info $txt]] $line]
-    set count 0
+    set index    [lsearch -index 0 [set data [get_gutter_info $txt]] $line]
+    set count    0
+    set oc_lines [list]
 
     foreach {tline tag} [concat {*}[lrange $data $index end]] {
-      if {[incr count $inc($tag)] == 0} {
-        return [list [expr $line + 1].0 $tline.0]
+      incr count $inc($tag)
+      if {($tag ne "end") && ($count $op $depth)} {
+        lappend oc_lines $tline
+      }
+      if {$count == 0} {
+        return [list [expr $line + 1].0 $tline.0 {*}$oc_lines]
       } elseif {$count < 0} {
         set count 0
       }
     }
 
-    return [list [expr $line + 1].0 [lindex [split [$txt index end] .] 0].0]
+    return [list [expr $line + 1].0 [lindex [split [$txt index end] .] 0].0 {*}$oc_lines]
 
   }
 
   ######################################################################
   # Toggles the fold for the given line.
-  proc toggle_fold {txt line} {
+  proc toggle_fold {txt line {depth 1}} {
 
     switch [$txt gutter get folding $line] {
-      open  { close_fold $txt $line }
-      close { open_fold $txt $line }
+      open  { close_fold $depth $txt $line }
+      close { open_fold  $depth $txt $line }
     }
 
   }
@@ -188,17 +193,19 @@ namespace eval folding {
 
   ######################################################################
   # Closes a fold, hiding the contents.
-  proc close_fold {txt line} {
+  proc close_fold {depth txt line} {
 
     # Get the fold range
-    lassign [get_fold_range $txt $line] startpos endpos
+    set lines [lassign [get_fold_range $txt $line [expr ($depth == 0) ? 100000 : $depth] <=] startpos endpos]
 
     # Hide the text
     $txt tag add _folded $startpos $endpos
 
     # Replace the open symbol with the close symbol
-    $txt gutter clear folding $line
-    $txt gutter set folding close $line
+    foreach line $lines {
+      $txt gutter clear folding $line
+      $txt gutter set folding close $line
+    }
 
   }
 
@@ -217,7 +224,6 @@ namespace eval folding {
       }
       if {[incr count $inc($tag)] == 0} {
         lappend ranges $oline.0 $tline.0
-        incr oindex
       } elseif {$count < 0} {
         set count 0
       }
@@ -233,21 +239,17 @@ namespace eval folding {
 
   ######################################################################
   # Opens a fold, showing the contents.
-  proc open_fold {txt line} {
+  proc open_fold {depth txt line} {
 
-    set index [expr [lsearch [set closed [$txt gutter get folding close]] $line] + 1]
-
-    # Get the tag range
-    lassign [$txt tag nextrange _folded $line.0] startpos endpos
+    # Get the fold range
+    set lines [lassign [get_fold_range $txt $line [expr ($depth == 0) ? 100000 : $depth] >] startpos endpos]
 
     # Remove the folded tag
     $txt tag remove _folded $startpos $endpos
 
     # Close all of the previous folds
-    foreach tline [lrange $closed $index end] {
-      if {[$txt compare $tline.0 < $endpos]} {
-        close_fold $txt $tline
-      }
+    foreach tline $lines {
+      close_fold 1 $txt $tline
     }
 
     # Replace the close symbol with the open symbol

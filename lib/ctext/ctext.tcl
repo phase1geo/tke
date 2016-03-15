@@ -1650,6 +1650,12 @@ proc ctext::command_gutter {win args} {
         if {[info exists sym_opts(-onclick)]} {
           $win.l tag bind $gutter_tag <Button-1> [list ctext::execute_gutter_cmd $win %y $sym_opts(-onclick)]
         }
+        if {[info exists sym_opts(-onshiftclick)]} {
+          $win.l tag bind $gutter_tag <Shift-Button-1> [list ctext::execute_gutter_cmd $win %y $sym_opts(-onshiftclick)]
+        }
+        if {[info exists sym_opts(-oncontrolclick)]} {
+          $win.l tag bind $gutter_tag <Control-Button-1> [list ctext::execute_gutter_cmd $win %y $sym_opts(-oncontrolclick)]
+        }
         lappend gutter_tags $gutter_tag
         array unset sym_opts
       }
@@ -1766,13 +1772,15 @@ proc ctext::command_gutter {win args} {
         return -code error "Unknown symbol ($sym_name) specified"
       }
       switch $opt {
-        -symbol  { return [lindex [split $gutter_tag :] 3] }
-        -bg      { return [$win.l tag cget $gutter_tag -background] }
-        -fg      { return [$win.l tag cget $gutter_tag -foreground] }
-        -onenter { return [lrange [$win.l tag bind $gutter_tag <Enter>] 0 end-1] }
-        -onleave { return [lrange [$win.l tag bind $gutter_tag <Leave>] 0 end-1] }
-        -onclick { return [lrange [$win.l tag bind $gutter_tag <Button-1>] 0 end-1] }
-        default  {
+        -symbol         { return [lindex [split $gutter_tag :] 3] }
+        -bg             { return [$win.l tag cget $gutter_tag -background] }
+        -fg             { return [$win.l tag cget $gutter_tag -foreground] }
+        -onenter        { return [lrange [$win.l tag bind $gutter_tag <Enter>] 0 end-1] }
+        -onleave        { return [lrange [$win.l tag bind $gutter_tag <Leave>] 0 end-1] }
+        -onclick        { return [lrange [$win.l tag bind $gutter_tag <Button-1>] 0 end-1] }
+        -onshiftclick   { return [lrange [$win.l tag bind $gutter_tag <Shift-Button-1>] 0 end-1] }
+        -oncontrolclick { return [lrange [$win.l tag bind $gutter_tag <Control-Button-1>] 0 end-1] }
+        default         {
           return -code error "Unknown gutter option ($opt) specified"
         }
       }
@@ -1809,6 +1817,12 @@ proc ctext::command_gutter {win args} {
           if {[set cmd [lrange [$win.l tag bind $gutter_tag <Button-1>] 0 end-1]] ne ""} {
             lappend symopts -onclick $cmd
           }
+          if {[set cmd [lrange [$win.l tag bind $gutter_tag <Shift-Button-1>] 0 end-1]] ne ""} {
+            lappend symopts -onshiftclick $cmd
+          }
+          if {[set cmd [lrange [$win.l tag bind $gutter_tag <Control-Button-1>] 0 end-1]] ne ""} {
+            lappend symopts -oncontrolclick $cmd
+          }
           lappend gutters $symname $symopts
         }
         return $gutters
@@ -1843,6 +1857,12 @@ proc ctext::command_gutter {win args} {
             }
             -onclick {
               $win.l tag bind $gutter_tag <Button-1> [list ctext::execute_gutter_cmd $win %y $value]
+            }
+            -onshiftclick {
+              $win.l tag bind $gutter_tag <Shift-Button-1> [list ctext::execute_gutter_cmd $win %y $value]
+            }
+            -oncontrolclick {
+              $win.l tag bind $gutter_tag <Control-Button-1> [list ctext::execute_gutter_cmd $win %y $value]
             }
             default {
               return -code error "Unknown gutter option ($opt) specified"
