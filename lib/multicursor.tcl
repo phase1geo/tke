@@ -321,9 +321,9 @@ namespace eval multicursor {
               if {$insert} {
                 $txt insert "$start+1c" " "
                 if {$insert_tag ne ""} {
-                  $txt tag add $insert_tag "$start+1c"
+                  $txt tag add $insert_tag "$start+1 display char"
                 }
-                $txt tag add mcursor "$start+1c"
+                $txt tag add mcursor "$start+1 display char"
               } else {
                 $txt tag add mcursor $start
                 break
@@ -336,11 +336,11 @@ namespace eval multicursor {
             if {$insert} {
               $txt insert "$start lineend" "\n "
               if {$insert_tag ne ""} {
-                $txt tag add $insert_tag "$start+1l linestart"
+                $txt tag add $insert_tag "$start+1 display line linestart"
               }
-              $txt tag add mcursor "$start+1l linestart"
+              $txt tag add mcursor "$start+1 display line linestart"
             } elseif {[$txt compare $start < "end-1l"]} {
-              $txt tag add mcursor "$start+1l"
+              $txt tag add mcursor "$start+1 display l"
             } else {
               $txt tag add mcursor $start
               break
@@ -388,7 +388,7 @@ namespace eval multicursor {
               }
               $txt tag add mcursor "$start linestart"
             } elseif {[$txt compare $start >= 2.0]} {
-              $txt tag add mcursor "$start-1l"
+              $txt tag add mcursor "$start-1 display line"
             } else {
               $txt tag add mcursor $start
               break
