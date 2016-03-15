@@ -5,7 +5,7 @@ vimsyntax
 {ocaml}
 
 matchcharsallowed
-{curly square paren angled double}
+{curly square paren double}
 
 tabsallowed
 {0}
@@ -19,7 +19,7 @@ indent
 unindent
 {end}
 
-bcomments {{{(\*} {\*)}}}
+bcomments {{{\(\*} {\*\)}}}
 
 strings {{"}}
 
@@ -33,14 +33,14 @@ keywords
 }
 
 numbers {
-  HighlightRegexp {\m\-?([0-9_]+|0[xX][0-9a-fA-F_]+|0[oO][0-7_]+|0[bB][0-1_]+|[0-9][0-9_]*\.[0-9_]*([eE][+-]?[0-9][0-9_]*))}
+  HighlightRegexp {\m\-?([0-9_]+|0[xX][0-9a-fA-F_]+|0[oO][0-7_]+|0[bB][0-1_]+|[0-9][0-9_]*\.[0-9_]*([eE][+-]?[0-9][0-9_]*))} {}
 }
 
 punctuation
 {
-  HighlightRegexp {[][\{\}~?=:<>!@^|&+*/$%-]} {}
+  HighlightRegexp {[][\{\}~?=:;<>!@^|&+*/$%-]} {}
 }
 
 precompile {
-  HighlightRegexp {^\s*#[0-9]+(".*")?}
+  HighlightRegexp {^\s*#[0-9]+(".*")?} {}
 }
