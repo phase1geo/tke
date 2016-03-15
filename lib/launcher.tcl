@@ -727,6 +727,10 @@ namespace eval launcher {
     # Make the string regular expression friendly
     set tmpstr [string map {{.} {\.} {*} {\*} {+} {\+} {?} {\?} {[} {\[}} $str]
 
+    if {[string index $tmpstr 0] eq ">"} {
+      set tmpstr ">.*[string range $tmpstr 1 end]"
+    }
+
     # Sort the results by relevance
     sort_match_results $results 1
 
