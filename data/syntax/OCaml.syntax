@@ -1,0 +1,46 @@
+filepatterns
+{*.ocaml}
+
+vimsyntax
+{ocaml}
+
+matchcharsallowed
+{curly square paren angled double}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+indent
+{begin}
+
+unindent
+{end}
+
+bcomments {{{(\*} {\*)}}}
+
+strings {{"}}
+
+keywords
+{
+  and as assert asr begin class constraint do done downto else end exception
+  external false for fun function functor if in include inherit initializer land
+  lazy let lor lsl lsr lxor match method mod module mutable new object of open
+  or private rec sig struct then to true try type val virtual when while with
+  parser value
+}
+
+numbers {
+  HighlightRegexp {\m\-?([0-9_]+|0[xX][0-9a-fA-F_]+|0[oO][0-7_]+|0[bB][0-1_]+|[0-9][0-9_]*\.[0-9_]*([eE][+-]?[0-9][0-9_]*))}
+}
+
+punctuation
+{
+  HighlightRegexp {[][\{\}~?=:<>!@^|&+*/$%-]} {}
+}
+
+precompile {
+  HighlightRegexp {^\s*#[0-9]+(".*")?}
+}
