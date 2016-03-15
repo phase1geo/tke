@@ -6,10 +6,13 @@
 /home/trevorw/projects/tke-code/data/syntax/Tcl.syntax
 /home/trevorw/projects/tke-code/data/syntax/Swift.syntax
 /home/trevorw/projects/tke-code/data/syntax/Makefile.syntax
+/home/trevorw/projects/tke-code/data/syntax/Prolog.syntax
 /home/trevorw/projects/tke-code/data/syntax/Pascal.syntax
 /home/trevorw/projects/tke-code/data/syntax/AppleScript.syntax
 /home/trevorw/projects/tke-code/data/syntax/Fickle.syntax
 /home/trevorw/projects/tke-code/data/syntax/CSS.syntax
+/home/trevorw/projects/tke-code/data/syntax/Ada.syntax
+/home/trevorw/projects/tke-code/data/syntax/Lisp.syntax
 /home/trevorw/projects/tke-code/data/syntax/Haml.syntax
 /home/trevorw/projects/tke-code/data/syntax/HTML.syntax
 /home/trevorw/projects/tke-code/data/syntax/Haxe.syntax
@@ -18,15 +21,19 @@
 /home/trevorw/projects/tke-code/data/syntax/Perl.syntax
 /home/trevorw/projects/tke-code/data/syntax/tkeTheme.syntax
 /home/trevorw/projects/tke-code/data/syntax/JavaScript.syntax
+/home/trevorw/projects/tke-code/data/syntax/YAML.syntax
 /home/trevorw/projects/tke-code/data/syntax/Markdown.syntax
 /home/trevorw/projects/tke-code/data/syntax/Python.syntax
 /home/trevorw/projects/tke-code/data/syntax/Ruby.syntax
 /home/trevorw/projects/tke-code/data/syntax/Bash.syntax
 /home/trevorw/projects/tke-code/data/syntax/C#.syntax
+/home/trevorw/projects/tke-code/data/syntax/Vala.syntax
+/home/trevorw/projects/tke-code/data/syntax/Scheme.syntax
 /home/trevorw/projects/tke-code/data/syntax/Scala.syntax
 /home/trevorw/projects/tke-code/data/syntax/Yacc.syntax
 /home/trevorw/projects/tke-code/data/syntax/CoffeeScript.syntax
 /home/trevorw/projects/tke-code/data/syntax/JSON.syntax
+/home/trevorw/projects/tke-code/data/syntax/Erlang.syntax
 /home/trevorw/projects/tke-code/data/syntax/C++.syntax
 /home/trevorw/projects/tke-code/data/syntax/SystemVerilog.syntax
 /home/trevorw/projects/tke-code/data/syntax/snippets.syntax
@@ -54,6 +61,7 @@
 /home/trevorw/projects/tke-code/data/msgs/es.msg
 /home/trevorw/projects/tke-code/data/msgs/cs.msg
 /home/trevorw/projects/tke-code/data/msgs/no.msg
+/home/trevorw/projects/tke-code/data/msgs/check.tcl
 /home/trevorw/projects/tke-code/data/msgs/de.msg
 /home/trevorw/projects/tke-code/data/msgs/el.msg
 /home/trevorw/projects/tke-code/data/msgs/it.msg
@@ -71,6 +79,7 @@
 /home/trevorw/projects/tke-code/data/themes/Monokai.tketheme
 /home/trevorw/projects/tke-code/data/themes/Cool Glow.tketheme
 /home/trevorw/projects/tke-code/data/themes/default.tketheme
+/home/trevorw/projects/tke-code/data/themes/Quiverly.tketheme
 /home/trevorw/projects/tke-code/data/themes/Ruby Blue.tketheme
 /home/trevorw/projects/tke-code/data/themes/Notebook.tketheme
 /home/trevorw/projects/tke-code/data/themes/Fluidvision.tketheme
@@ -134,6 +143,7 @@
 /home/trevorw/projects/tke-code/lib/syntax.tcl
 /home/trevorw/projects/tke-code/lib/Makefile
 /home/trevorw/projects/tke-code/lib/preferences.tcl
+/home/trevorw/projects/tke-code/lib/emmet.tcl
 /home/trevorw/projects/tke-code/lib/format_lexer.tcl
 /home/trevorw/projects/tke-code/lib/sidebar.tcl
 /home/trevorw/projects/tke-code/lib/templates.tcl
@@ -142,12 +152,14 @@
 /home/trevorw/projects/tke-code/lib/snip_lexer.fcl
 /home/trevorw/projects/tke-code/lib/indent.tcl
 /home/trevorw/projects/tke-code/lib/commit.tcl
+/home/trevorw/projects/tke-code/lib/emmet_lexer.tcl
 /home/trevorw/projects/tke-code/lib/interpreter.tcl
 /home/trevorw/projects/tke-code/lib/bindings.tcl
 /home/trevorw/projects/tke-code/lib/sessions.tcl
 /home/trevorw/projects/tke-code/lib/lang.tcl
 /home/trevorw/projects/tke-code/lib/themes.tcl
 /home/trevorw/projects/tke-code/lib/utils.tcl
+/home/trevorw/projects/tke-code/lib/emmet_parser.tac
 /home/trevorw/projects/tke-code/lib/markers.tcl
 /home/trevorw/projects/tke-code/lib/tkedat.tcl
 /home/trevorw/projects/tke-code/lib/version.tcl
@@ -270,7 +282,9 @@
 /home/trevorw/projects/tke-code/lib/tablelist5.14/CHANGES.txt
 /home/trevorw/projects/tke-code/lib/vim.tcl
 /home/trevorw/projects/tke-code/lib/scroller.tcl
+/home/trevorw/projects/tke-code/lib/folding.tcl
 /home/trevorw/projects/tke-code/lib/plugins.tcl
+/home/trevorw/projects/tke-code/lib/emmet_parser.tcl
 /home/trevorw/projects/tke-code/lib/gui.tcl
 /home/trevorw/projects/tke-code/lib/ns.tcl
 /home/trevorw/projects/tke-code/lib/multicursor.tcl
@@ -304,6 +318,7 @@
 /home/trevorw/projects/tke-code/lib/images/down.bmp
 /home/trevorw/projects/tke-code/lib/restart.tcl
 /home/trevorw/projects/tke-code/lib/diff.tcl
+/home/trevorw/projects/tke-code/lib/emmet_lexer.fcl
 /home/trevorw/projects/tke-code/lib/embed_tke.tcl
 /home/trevorw/projects/tke-code/lib/completer.tcl
 /home/trevorw/projects/tke-code/lib/format_parser.tab.tcl
@@ -326,6 +341,7 @@
 /home/trevorw/projects/tke-code/lib/ctext/ctext_test_ws.tcl
 /home/trevorw/projects/tke-code/lib/ctext/ctext_tcl.tcl
 /home/trevorw/projects/tke-code/lib/ctext/function_finder.tcl
+/home/trevorw/projects/tke-code/lib/emmet_parser.tab.tcl
 /home/trevorw/projects/tke-code/lib/snip_parser.tcl
 /home/trevorw/projects/tke-code/lib/theme.tcl
 /home/trevorw/projects/tke-code/lib/edit.tcl
@@ -358,8 +374,12 @@
 /home/trevorw/projects/tke-code/plugins/images/checked.gif
 /home/trevorw/projects/tke-code/plugins/sidebar_test/main.tcl
 /home/trevorw/projects/tke-code/plugins/sidebar_test/header.tkedat
+/home/trevorw/projects/tke-code/plugins/lorem/main.tcl
+/home/trevorw/projects/tke-code/plugins/lorem/header.tkedat
 /home/trevorw/projects/tke-code/plugins/mercurial/main.tcl
 /home/trevorw/projects/tke-code/plugins/mercurial/header.tkedat
+/home/trevorw/projects/tke-code/plugins/vcs_example/main.tcl
+/home/trevorw/projects/tke-code/plugins/vcs_example/header.tkedat
 /home/trevorw/projects/tke-code/plugins/test/main.tcl
 /home/trevorw/projects/tke-code/plugins/test/header.tkedat
 /home/trevorw/projects/tke-code/plugins/markdown_color/Markdown_color.syntax
