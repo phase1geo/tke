@@ -270,11 +270,13 @@
 
 {View/OpenTabsAlphabetically} {0}
 
-# When this option is set to 1, automatic code folding based on indentation will be applied
-# to all open files.  No code will be folded, but the disclosure arrows will be drawn to allow
-# interactive code folding.
+# Specifies the default code folding method to use when a new tab is opened.
+# The legal values are the following:
+#   - none      No code folding will be supported
+#   - manual    Allows code to be folded manually
+#   - syntax    Automatically folds code based on syntax indentation symbols
 
-{View/EnableCodeFolding} {0}
+{View/CodeFoldingMethod} {none}
 
 # If a filename matches any of the patterns in the list, they will not be
 # displayed in the sidebar.
