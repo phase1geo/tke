@@ -608,7 +608,7 @@ namespace eval sidebar {
         return [concat [lmap item $items {expr {[file isdirectory $item] ? $item : [continue]}}] \
                        [lmap item $items {expr {[file isfile      $item] ? $item : [continue]}}]]
       } else {
-        return [concat [lsort [glob -nocomplain -directory $dir -types d *]] [lsort [glob -nocomplain -directory $dir -types {f l} *]]]
+        return [concat [lsort [glob -nocomplain -directory $dir -types d *]] [lsort [glob -nocomplain -directory $dir -types f *]]]
       }
     } else {
       return [lsort -unique [glob -nocomplain -directory $dir *]]
