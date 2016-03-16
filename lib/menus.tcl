@@ -29,6 +29,7 @@ namespace eval menus {
   variable indent_mode     "IND+"
   variable last_devel_mode ""
   variable line_numbering  "absolute"
+  variable fold_method     "none"
 
   array set profiling_info {}
 
@@ -1151,11 +1152,11 @@ namespace eval menus {
 
     $mb.tempPopup add command -label [msgcat::mc "Reload"] -command [list templates::preload]
     launcher::register [make_menu "Edit" [msgcat::mc "Reload template information"]] [list templates::preload]
-    
+
     #####################
     # Populate Emmet menu
     #####################
-    
+
     $mb.emmetPopup add command -label [msgcat::mc "Expand Abbreviation"] -command [list emmet::expand_abbreviation {}]
 
   }
@@ -1401,18 +1402,18 @@ namespace eval menus {
     $mb entryconfigure [msgcat::mc "Delete"] -state $state
 
   }
-  
+
   ######################################################################
   # Called just prior to posting the edit/emmet bindings menu option.
   # Sets the menu option states to match the current UI state.
   proc edit_emmet_posting {mb} {
-    
+
     if {[gui::current_txt {}] eq ""} {
       $mb entryconfigure [msgcat::mc "Expand Abbreviation"] -state disabled
     } else {
       $mb entryconfigure [msgcat::mc "Expand Abbreviation"] -state normal
     }
-    
+
   }
 
   ######################################################################
@@ -1977,13 +1978,13 @@ namespace eval menus {
     launcher::register [make_menu "View" [msgcat::mc "Sort tabs"]] [list gui::sort_tabs]
 
     # Setup the folding popup menu
-    if {[preferences::get View/EnableCodeFolding]} {
-      $mb.foldPopup add command -label [msgcat::mc "Disable"] -underline 0 -command [list menus::disable_folding $mb.foldPopup]
-    } else {
-      $mb.foldPopup add command -label [msgcat::mc "Enable"] -underline 0 -command [list menus::enable_folding $mb.foldPopup]
-    }
-    launcher::register [make_menu "View" [msgcat::mc "Enable folding"]]  [list menus::enable_folding  $mb.foldPopup]
-    launcher::register [make_menu "View" [msgcat::mc "Disable folding"]] [list menus::disable_folding $mb.foldPopup]
+    $mb.foldPopup add radiobutton -label [msgcat::mc "None"]   -variable menus::fold_method -value "none"   -command [list menus::set_fold_method $mb.foldPopup none]
+    $mb.foldPopup add radiobutton -label [msgcat::mc "Manual"] -variable menus::fold_method -value "manual" -command [list menus::set_fold_method $mb.foldPopup manual]
+    $mb.foldPopup add radiobutton -label [msgcat::mc "Syntax"] -variable menus::fold_method -value "syntax" -command [list menus::set_fold_method $mb.foldPopup syntax]
+
+    launcher::register [make_menu "View" [msgcat::mc "Set folding method to none"]]   [list menus::fold_method $mb.foldPopup none]
+    launcher::register [make_menu "View" [msgcat::mc "Set folding method to manual"]] [list menus::fold_method $mb.foldPopup manual]
+    launcher::register [make_menu "View" [msgcat::mc "Set folding method to syntax"]] [list menus::fold_method $mb.foldPopup syntax]
 
     $mb.foldPopup add separator
 
@@ -2091,16 +2092,18 @@ namespace eval menus {
   # fo the menu options to match the current UI state.
   proc view_fold_posting {mb} {
 
+    variable fold_method
+
     set txt [gui::current_txt {}]
 
-    if {($txt ne "") && [folding::enabled $txt]} {
-      catch { $mb entryconfigure [msgcat::mc "Enable"] -label [msgcat::mc "Disable"] -command [list menus::disable_folding $mb] }
-      $mb entryconfigure [msgcat::mc "Fold All"]   -state normal
-      $mb entryconfigure [msgcat::mc "Unfold All"] -state normal
-    } else {
-      catch { $mb entryconfigure [msgcat::mc "Disable"] -label [msgcat::mc "Enable"] -command [list menus::enable_folding $mb] }
+    set fold_method [folding::get_method $txt]
+
+    if {($txt eq "") || ([folding::get_method $txt] eq "none")} {
       $mb entryconfigure [msgcat::mc "Fold All"]   -state disabled
       $mb entryconfigure [msgcat::mc "Unfold All"] -state disabled
+    } else {
+      $mb entryconfigure [msgcat::mc "Fold All"]   -state normal
+      $mb entryconfigure [msgcat::mc "Unfold All"] -state normal
     }
 
   }
@@ -2278,21 +2281,13 @@ namespace eval menus {
 
   ######################################################################
   # Disables code folding from being drawn.
-  proc disable_folding {mb} {
+  proc set_fold_method {mb method} {
 
-    if {![catch {$mb entryconfigure [msgcat::mc "Disable"] -label [msgcat::mc "Enable"] -command [list menus::enable_folding $mb]}]} {
-      folding::disable_folding [gui::current_txt {}]
-    }
+    variable fold_method
 
-  }
+    set fold_method $method
 
-  ######################################################################
-  # Enables code folding in the current text widget.
-  proc enable_folding {mb} {
-
-    if {![catch {$mb entryconfigure [msgcat::mc "Enable"] -label [msgcat::mc "Disable"] -command [list menus::disable_folding $mb]}]} {
-      folding::enable_folding [gui::current_txt {}]
-    }
+    folding::set_fold_method [gui::current_txt {}] $method
 
   }
 

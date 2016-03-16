@@ -362,6 +362,8 @@ namespace eval vim {
       noet             { do_set_expandtab $tid 0 }
       fileformat       -
       ff               { do_set_fileformat $tid $val }
+      foldmethod       -
+      fm               { do_set_foldmethod $tid $val }
       matchpairs       -
       mps              { do_set_matchpairs $tid $val $mod }
       modeline         -
@@ -480,6 +482,24 @@ namespace eval vim {
       [ns gui]::set_current_eol_translation $map($val)
     } else {
       [ns gui]::set_info_message [format "%s (%s)" [msgcat::mc "File format unrecognized"] $val]
+    }
+
+  }
+
+  ######################################################################
+  # Set the current code folding method.
+  proc do_set_foldmethod {tid val} {
+
+    array set map {
+      manual 1
+      syntax 1
+    }
+
+    # Set the current folding method
+    if {[info exists map($val)]} {
+      [ns folding]::set_fold_method [[ns gui]::current_txt $tid] $val
+    } else {
+      [ns gui]::set_info_message [format "%s (%s)" [msgcat::mc "Folding method unrecognized"] $val]
     }
 
   }
@@ -1085,7 +1105,7 @@ namespace eval vim {
 
     variable mode
     variable ignore_modified
-    
+
     # If we are not running in Vim mode, don't continue
     if {![in_vim_mode $txtt]} {
       return

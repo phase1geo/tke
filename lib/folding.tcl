@@ -26,11 +26,15 @@ namespace eval folding {
 
   source [file join $::tke_dir lib ns.tcl]
 
+  array set method {}
+
   ######################################################################
   # Returns true if the given text widget has code folding enabled.
-  proc enabled {txt} {
+  proc get_method {txt} {
 
-    return [expr [lsearch [$txt gutter names] folding] != -1]
+    variable method
+
+    return $method($txt)
 
   }
 
@@ -50,9 +54,47 @@ namespace eval folding {
   # Adds the bindings necessary for code folding to work.
   proc initialize {txt} {
 
-    if {[[ns preferences]::get View/EnableCodeFolding]} {
-      enable_folding $txt
+    variable method
+
+    # Set the default method to none so we don't have to handle an unset method
+    set method($txt) "none"
+
+    # Set the fold method
+    set_fold_method $txt [[ns preferences]::get View/CodeFoldingMethod]
+
+  }
+
+  ######################################################################
+  # Set the fold method to the given type.
+  proc set_fold_method {txt new_method} {
+
+    variable method
+
+    switch $method($txt),$new_method {
+      none,manual {
+        enable_folding $txt
+      }
+      none,syntax {
+        enable_folding $txt
+        add_folds $txt 1.0 end
+      }
+      manual,none {
+        disable_folding $txt
+      }
+      manual,syntax {
+        $txt tag remove _folded 1.0 end
+        add_folds $txt 1.0 end
+      }
+      indent,none {
+        disable_folding $txt
+      }
+      indent,manual {
+        $txt tag remove _folded 1.0 end
+      }
     }
+
+    # Set the folding method for the specified text widget.
+    set method($txt) $new_method
 
   }
 
@@ -77,9 +119,6 @@ namespace eval folding {
       open  [list -symbol \u25be -onclick [list [ns folding]::close_fold 1] -onshiftclick [list [ns folding]::close_fold 0]] \
       close [list -symbol \u25b8 -onclick [list [ns folding]::open_fold  1] -onshiftclick [list [ns folding]::open_fold  0]] \
       end   [list -symbol \u221f]
-
-    # Add the fold markers to the gutter
-    add_folds $txt 1.0 end
 
     # Create a tag that will cause stuff to hide
     $txt.t tag configure _folded -elide 1
@@ -184,16 +223,22 @@ namespace eval folding {
   # Close the selected text.
   proc close_selected {txt} {
 
+    variable method
+
     set retval 0
 
-    foreach {startpos endpos} [$txt tag ranges sel] {
-      $txt tag add _folded "$startpos+1l linestart" "$endpos+1l linestart"
-      $txt gutter set folding close [lindex [split [$txt index $startpos] .] 0]
-      set retval 1
-    }
+    if {$method($txt) eq "manual"} {
 
-    # Clear the selection
-    $txt tag remove sel 1.0 end
+      foreach {startpos endpos} [$txt tag ranges sel] {
+        $txt tag add _folded "$startpos+1l linestart" "$endpos+1l linestart"
+        $txt gutter set folding close [lindex [split [$txt index $startpos] .] 0]
+        set retval 1
+      }
+
+      # Clear the selection
+      $txt tag remove sel 1.0 end
+
+    }
 
     return $retval
 
@@ -249,16 +294,26 @@ namespace eval folding {
   # Opens a fold, showing the contents.
   proc open_fold {depth txt line} {
 
+    variable method
+
     # Get the fold range
     lassign [get_fold_range $txt $line [expr ($depth == 0) ? 100000 : $depth]] startpos endpos belows aboves closed
 
     # Remove the folded tag
     $txt tag remove _folded $startpos $endpos
 
-    # Replace the close symbol with the open symbol
-    foreach tline [concat $belows $aboves] {
-      $txt gutter clear folding $tline
-      $txt gutter set folding open $tline
+    switch $method($txt) {
+      manual {
+        foreach tline [concat $belows $aboves] {
+          $txt gutter clear folding $tline
+        }
+      }
+      syntax {
+        foreach tline [concat $belows $aboves] {
+          $txt gutter clear folding $tline
+          $txt gutter set folding open $tline
+        }
+      }
     }
 
     # Close all of the previous folds
@@ -276,11 +331,18 @@ namespace eval folding {
   # Opens all closed folds.
   proc open_all_folds {txt} {
 
-    # Remove all folded text
-    $txt tag remove _folded 1.0 end
+    variable method
 
-    # Change all of the closed folds to open folds
-    $txt gutter set folding open [$txt gutter get folding close]
+    switch $method($txt) {
+      manual {
+        $txt tag remove _folded 1.0 end
+        $txt gutter clear folding 1.0 end
+      }
+      syntax {
+        $txt tag remove _folded 1.0 end
+        $txt gutter set folding open [$txt gutter get folding close]
+      }
+    }
 
   }
 
