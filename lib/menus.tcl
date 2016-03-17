@@ -1978,21 +1978,32 @@ namespace eval menus {
     launcher::register [make_menu "View" [msgcat::mc "Sort tabs"]] [list gui::sort_tabs]
 
     # Setup the folding popup menu
-    $mb.foldPopup add radiobutton -label [msgcat::mc "None"]   -variable menus::fold_method -value "none"   -command [list menus::set_fold_method $mb.foldPopup none]
-    $mb.foldPopup add radiobutton -label [msgcat::mc "Manual"] -variable menus::fold_method -value "manual" -command [list menus::set_fold_method $mb.foldPopup manual]
-    $mb.foldPopup add radiobutton -label [msgcat::mc "Syntax"] -variable menus::fold_method -value "syntax" -command [list menus::set_fold_method $mb.foldPopup syntax]
-
-    launcher::register [make_menu "View" [msgcat::mc "Set folding method to none"]]   [list menus::fold_method $mb.foldPopup none]
-    launcher::register [make_menu "View" [msgcat::mc "Set folding method to manual"]] [list menus::fold_method $mb.foldPopup manual]
-    launcher::register [make_menu "View" [msgcat::mc "Set folding method to syntax"]] [list menus::fold_method $mb.foldPopup syntax]
+    $mb.foldPopup add cascade -label [msgcat::mc "Fold Method"] -menu [menu $mb.fmPopup -tearoff 0]
 
     $mb.foldPopup add separator
+
+    $mb.foldPopup add command -label [msgcat::mc "Fold Selected"] -underline 5 -command [list menus::fold_selected]
+    launcher::register [make_menu "View" [msgcat::mc "Fold selected code"]] [list menus::fold_selected]
 
     $mb.foldPopup add command -label [msgcat::mc "Fold All"] -underline 0 -command [list menus::fold_all]
     launcher::register [make_menu "View" [msgcat::mc "Fold all"]] [list menus::fold_all]
 
     $mb.foldPopup add command -label [msgcat::mc "Unfold All"] -underline 0 -command [list menus::unfold_all]
     launcher::register [make_menu "View" [msgcat::mc "Unfold all"]] [list menus::unfold_all]
+
+    $mb.foldPopup add separator
+
+    $mb.foldPopup add command -label [msgcat::mc "Remove Fold"] -underline 0 -command [list menus::delete_fold]
+    launcher::register [make_menu "View" [msgcat::mc "Remove fold on current line"]] [list menus::delete_fold]
+
+    # Setup the folding method popup menu
+    $mb.fmPopup add radiobutton -label [msgcat::mc "None"]   -variable menus::fold_method -value "none"   -command [list menus::set_fold_method $mb.foldPopup none]
+    $mb.fmPopup add radiobutton -label [msgcat::mc "Manual"] -variable menus::fold_method -value "manual" -command [list menus::set_fold_method $mb.foldPopup manual]
+    $mb.fmPopup add radiobutton -label [msgcat::mc "Syntax"] -variable menus::fold_method -value "syntax" -command [list menus::set_fold_method $mb.foldPopup syntax]
+
+    launcher::register [make_menu "View" [msgcat::mc "Set folding method to none"]]   [list menus::fold_method $mb.foldPopup none]
+    launcher::register [make_menu "View" [msgcat::mc "Set folding method to manual"]] [list menus::fold_method $mb.foldPopup manual]
+    launcher::register [make_menu "View" [msgcat::mc "Set folding method to syntax"]] [list menus::fold_method $mb.foldPopup syntax]
 
   }
 
@@ -2094,16 +2105,41 @@ namespace eval menus {
 
     variable fold_method
 
-    set txt [gui::current_txt {}]
+    # Get the current text widget
+    set txt   [gui::current_txt {}]
+    set state [folding::fold_state $txt [lindex [split [$txt index insert] .] 0]]
 
+    # Set the current fold method
     set fold_method [folding::get_method $txt]
 
-    if {($txt eq "") || ([folding::get_method $txt] eq "none")} {
-      $mb entryconfigure [msgcat::mc "Fold All"]   -state disabled
-      $mb entryconfigure [msgcat::mc "Unfold All"] -state disabled
+    if {$txt ne ""} {
+      $mb entryconfigure [msgcat::mc "Fold Method"] -state normal
     } else {
+      $mb entryconfigure [msgcat::mc "Fold Method"] -state disabled
+    }
+
+    if {($txt ne "") && ($fold_method eq "manual") && ([$txt tag ranges sel] ne "")} {
+      $mb entryconfigure [msgcat::mc "Fold Selected"] -state normal
+    } else {
+      $mb entryconfigure [msgcat::mc "Fold Selected"] -state disabled
+    }
+
+    if {($txt ne "") && ($fold_method ne "none") && [folding::fold_state_exists $txt open]} {
       $mb entryconfigure [msgcat::mc "Fold All"]   -state normal
+    } else {
+      $mb entryconfigure [msgcat::mc "Fold All"]   -state disabled
+    }
+
+    if {($txt ne "") && ($fold_method ne "none") && [folding::fold_state_exists $txt close]} {
       $mb entryconfigure [msgcat::mc "Unfold All"] -state normal
+    } else {
+      $mb entryconfigure [msgcat::mc "Unfold All"] -state disabled
+    }
+
+    if {($txt ne "") && ($fold_method eq "manual") && (($state eq "open") || ($state eq "close"))} {
+      $mb entryconfigure [msgcat::mc "Remove Fold"] -state normal
+    } else {
+      $mb entryconfigure [msgcat::mc "Remove Fold"] -state disabled
     }
 
   }
@@ -2292,6 +2328,14 @@ namespace eval menus {
   }
 
   ######################################################################
+  # Folds the currently selected text.
+  proc fold_selected {} {
+
+    folding::close_selected [gui::current_txt {}]
+
+  }
+
+  ######################################################################
   # Fold everything in the current text widget.
   proc fold_all {} {
 
@@ -2304,6 +2348,14 @@ namespace eval menus {
   proc unfold_all {} {
 
     folding::open_all_folds [gui::current_txt {}]
+
+  }
+
+  ######################################################################
+  # Deletes the fold at the current line.
+  proc delete_fold {} {
+
+    folding::delete_fold [gui::current_txt {}]
 
   }
 

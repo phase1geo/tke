@@ -491,6 +491,7 @@ namespace eval vim {
   proc do_set_foldmethod {tid val} {
 
     array set map {
+      none   1
       manual 1
       syntax 1
     }
@@ -1382,6 +1383,9 @@ namespace eval vim {
         record_start
       }
       return 1
+    } elseif {($mode($txtt) eq "folding:range")} {
+      append number($txtt) $num
+      return 1
     }
 
     return 0
@@ -1621,6 +1625,10 @@ namespace eval vim {
       [ns folding]::jump_to [winfo parent $txtt] next
       start_mode $txtt
       return 1
+    } elseif {$mode($txtt) eq "folding:range"} {
+      [ns folding]::close_range [winfo parent $txtt] insert "insert+$number($txtt) display lines"
+      start_mode $txtt
+      return 1
     }
 
     return 0
@@ -1675,6 +1683,12 @@ namespace eval vim {
       return 1
     } elseif {$mode($txtt) eq "folding"} {
       [ns folding]::jump_to [winfo parent $txtt] prev
+      start_mode $txtt
+      return 1
+    } elseif {$mode($txtt) eq "folding:range"} {
+      [ns folding]::close_range [winfo parent $txtt] "insert-$number($txtt) display lines" insert
+      ::tk::TextSetCursor $txtt "insert-1 display lines"
+      adjust_insert $txtt
       start_mode $txtt
       return 1
     }
