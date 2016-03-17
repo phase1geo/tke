@@ -51,6 +51,15 @@ namespace eval folding {
   }
 
   ######################################################################
+  # Returns a value of true if at least one of the specified folding marker
+  # exists; otherwise, returns true.
+  proc fold_state_exists {txt state} {
+
+    return [expr [llength [$txt gutter get folding $state]] > 0]
+
+  }
+
+  ######################################################################
   # Adds the bindings necessary for code folding to work.
   proc initialize {txt} {
 
@@ -85,11 +94,12 @@ namespace eval folding {
         $txt tag remove _folded 1.0 end
         add_folds $txt 1.0 end
       }
-      indent,none {
+      syntax,none {
         disable_folding $txt
       }
-      indent,manual {
-        $txt tag remove _folded 1.0 end
+      syntax,manual {
+        disable_folding $txt
+        enable_folding $txt
       }
     }
 
@@ -220,6 +230,20 @@ namespace eval folding {
   }
 
   ######################################################################
+  # Close the selected range.
+  proc close_range {txt startpos endpos} {
+
+    variable method
+
+    if {$method($txt) eq "manual"} {
+      $txt gutter set folding close [lindex [split [$txt index $startpos] .] 0]
+      $txt gutter set folding end   [expr [lindex [split [$txt index $endpos] .] 0] + 1]
+      $txt tag add _folded "$startpos+1l linestart" "$endpos+1l linestart"
+    }
+
+  }
+
+  ######################################################################
   # Close the selected text.
   proc close_selected {txt} {
 
@@ -229,10 +253,8 @@ namespace eval folding {
 
     if {$method($txt) eq "manual"} {
 
-      foreach {startpos endpos} [$txt tag ranges sel] {
-        $txt tag add _folded "$startpos+1l linestart" "$endpos+1l linestart"
-        $txt gutter set folding close [lindex [split [$txt index $startpos] .] 0]
-        $txt gutter set folding end   [expr [lindex [split [$txt index $endpos] .] 0] + 1]
+      foreach {endpos startpos} [lreverse [$txt tag ranges sel]] {
+        close_range $txt $startpos $endpos
         set retval 1
       }
 
