@@ -232,6 +232,7 @@ namespace eval folding {
       foreach {startpos endpos} [$txt tag ranges sel] {
         $txt tag add _folded "$startpos+1l linestart" "$endpos+1l linestart"
         $txt gutter set folding close [lindex [split [$txt index $startpos] .] 0]
+        $txt gutter set folding end   [expr [lindex [split [$txt index $endpos] .] 0] + 1]
         set retval 1
       }
 
@@ -241,6 +242,35 @@ namespace eval folding {
     }
 
     return $retval
+
+  }
+
+  ######################################################################
+  # Attempts to delete the closed fold marker (if it exists).  This operation
+  # is only valid in manual mode.
+  proc delete_fold {txt} {
+
+    variable method
+
+    if {$method($txt) eq "manual"} {
+
+      # Get the current line and state
+      set line  [lindex [split [$txt index insert] .] 0]
+      set state [fold_state $txt $line]
+
+      # Open the fold if it is closed
+      if {$state eq "close"} {
+        open_fold 1 $txt $line
+      }
+
+      # Remove the start/end markers for the current fold
+      if {($state eq "close") ||($state eq "open")} {
+        lassign [get_fold_range $txt $line 1] startpos endpos
+        $txt gutter clear folding $line
+        $txt gutter clear folding [lindex [split $endpos .] 0]
+      }
+
+    }
 
   }
 
@@ -302,18 +332,9 @@ namespace eval folding {
     # Remove the folded tag
     $txt tag remove _folded $startpos $endpos
 
-    switch $method($txt) {
-      manual {
-        foreach tline [concat $belows $aboves] {
-          $txt gutter clear folding $tline
-        }
-      }
-      syntax {
-        foreach tline [concat $belows $aboves] {
-          $txt gutter clear folding $tline
-          $txt gutter set folding open $tline
-        }
-      }
+    foreach tline [concat $belows $aboves] {
+      $txt gutter clear folding $tline
+      $txt gutter set folding open $tline
     }
 
     # Close all of the previous folds
@@ -333,16 +354,8 @@ namespace eval folding {
 
     variable method
 
-    switch $method($txt) {
-      manual {
-        $txt tag remove _folded 1.0 end
-        $txt gutter clear folding 1.0 end
-      }
-      syntax {
-        $txt tag remove _folded 1.0 end
-        $txt gutter set folding open [$txt gutter get folding close]
-      }
-    }
+    $txt tag remove _folded 1.0 end
+    $txt gutter set folding open [$txt gutter get folding close]
 
   }
 
@@ -350,8 +363,24 @@ namespace eval folding {
   # Jumps to the next or previous folding.
   proc jump_to {txt dir} {
 
-    if {[lassign [$txt tag ${dir}range _folded [expr {($dir eq "next") ? "insert+1 display l" : "insert"}]] index] ne ""} {
-      ::tk::TextSetCursor $txt "$index-1l linestart"
+    # Get a sorted list of open/close tags and locate our current position
+    set data [set line [lindex [split [$txt index insert] .] 0]]
+    foreach tag [list open close] {
+      lappend data {*}[$txt gutter get folding $tag]
+    }
+
+    # Find the index of the open/close symbols and set the cursor on the line
+    if {[set index [lsearch [set data [lsort -unique -integer -index 0 $data]] $line]] != -1} {
+      if {$dir eq "next"} {
+        if {[incr index] == [llength $data]} {
+          set index 0
+        }
+      } else {
+        if {[incr index -1] < 0} {
+          set index [expr [llength $data] - 1]
+        }
+      }
+      ::tk::TextSetCursor $txt [lindex $data $index].0
       [ns vim]::adjust_insert $txt.t
     }
 

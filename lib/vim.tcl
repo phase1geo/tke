@@ -363,7 +363,7 @@ namespace eval vim {
       fileformat       -
       ff               { do_set_fileformat $tid $val }
       foldmethod       -
-      fm               { do_set_foldmethod $tid $val }
+      fdm              { do_set_foldmethod $tid $val }
       matchpairs       -
       mps              { do_set_matchpairs $tid $val $mod }
       modeline         -
@@ -1799,6 +1799,13 @@ namespace eval vim {
       }
       start_mode $txtt
       return 1
+    } elseif {$mode($txtt) eq "folding"} {
+      if {[[ns folding]::close_selected [winfo parent $txtt]]} {
+        start_mode $txtt
+      } else {
+        set mode($txtt) "folding:range"
+      }
+      return 1
     }
 
     return 0
@@ -2023,6 +2030,10 @@ namespace eval vim {
       start_mode $txtt
       record_add "Key-d"
       record_stop
+      return 1
+    } elseif {$mode($txtt) eq "folding"} {
+      [ns folding]::delete_fold [winfo parent $txtt]
+      start_mode $txtt
       return 1
     }
 
