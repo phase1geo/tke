@@ -1,0 +1,86 @@
+filepatterns
+{*.vhd *.vhdl}
+
+vimsyntax
+{vhdl}
+
+matchcharsallowed
+{curly square paren double}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+indent
+{begin}
+
+unindent
+{end}
+
+icomment {{--}}
+
+lcomments {{--}}
+
+strings {{"}}
+
+keywords
+{
+  access alias all architecture array attribute
+  begin body
+  component configuration constant
+  downto
+  end entity
+  file function
+  generic
+  in inout is
+  label library
+  map
+  of open others out
+  package port procedure
+  range record reverse_range
+  signal subtype
+  to type
+  use
+  variable
+}
+
+numbers
+{
+  HighlightRegexp {\m[0-9]+(\.[0-9]+)?(E[+-]?[0-9]+)?} {}
+}
+
+punctuation
+{
+  HighlightRegexp {[][\{\};:,()#=.@&!?<>%|^~+*/-]} {}
+}
+
+miscellaneous1
+{
+  HighlightKeywords {
+    after assert
+    block
+    case
+    else elsif error exit
+    failure for
+    generate
+    if in inertial
+    loop
+    next note null
+    on
+    postponed process
+    reject report return
+    select severity
+    then transport
+    unaffected until
+    wait warning when while
+  } {}
+}
+
+miscellaneous2
+{
+  HighlightKeywords {
+    and or xor abs not new sll srl sla sra rol ror mod rem
+  } {}
+}
