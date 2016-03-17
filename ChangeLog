@@ -1,83 +1,63 @@
-changeset:   1939:116610f8b576
-tag:         devel-2.3.1
+changeset:   1949:5f854e8cb91f
+tag:         devel-2.3.2
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Mar 14 01:17:35 2016 -0500
+date:        Tue Mar 15 01:54:13 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.3.1 release
+ChangeLog for devel-2.3.2 release
 
 
-changeset:   1940:c4024ef6ecf2
+changeset:   1950:b89d9554ee74
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Mar 14 01:17:47 2016 -0500
+date:        Tue Mar 15 01:54:17 2016 -0500
 files:       .hgtags
 description:
-Added tag devel-2.3.1 for changeset 116610f8b576
+Added tag devel-2.3.2 for changeset 5f854e8cb91f
 
 
-changeset:   1941:48150934e21f
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Mon Mar 14 12:32:19 2016 -0500
-files:       lib/snip_parser.tac lib/snip_parser.tcl lib/version.tcl
-description:
-* Adding more date macros in snippets.
-
-
-changeset:   1942:36f4ec9a5587
+changeset:   1951:f3cc587b21d8
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Mar 14 18:25:40 2016 -0500
-files:       lib/snip_lexer.fcl lib/snip_lexer.tcl lib/version.tcl
+date:        Wed Mar 16 00:06:38 2016 -0500
+files:       data/preferences.tkedat lib/folding.tcl lib/menus.tcl lib/version.tcl lib/vim.tcl
 description:
-* Fixing issues with new date variables in snippets.
+* Changing code folding support to add manual mode (work in progress).
 
 
-changeset:   1943:e3c05638c1c2
+changeset:   1952:4dc20c533b4d
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Mar 14 20:10:49 2016 -0500
-files:       lib/ctext/ctext.tcl lib/folding.tcl lib/version.tcl
+date:        Wed Mar 16 18:03:35 2016 -0500
+files:       lib/sidebar.tcl lib/version.tcl
 description:
-* Adding -onshiftclick and -oncontrolclick options to gutter.
-* Starting to add support for shift-clicking on open/close symbols to do deep open/close.
+* Fixing issues with the display of symbolic links in the sidebar.
 
 
-changeset:   1944:576070337f06
+changeset:   1953:cafc7706280c
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Mar 14 23:07:03 2016 -0500
-files:       Win/freewrap.files lib/folding.tcl lib/version.tcl
+date:        Wed Mar 16 20:08:22 2016 -0500
+files:       lib/folding.tcl lib/version.tcl lib/vim.tcl
 description:
-* Completing on work on deep fold/unfold.
+* Adding support for 'zf' Vim command when text is selected and in manual mode.
+* Adding support for 'zd' Vim command in manual mode.
+* Changing open behavior in manual mode to leave folding markers in place.
+* Changing manual folding behavior to create an ending marker.
 
 
-changeset:   1945:8d4bf4ea9c88
+changeset:   1954:aed52a5906a6
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Mar 14 23:19:21 2016 -0500
-files:       lib/multicursor.tcl lib/version.tcl
+date:        Thu Mar 17 00:26:03 2016 -0500
+files:       lib/folding.tcl lib/menus.tcl lib/version.tcl lib/vim.tcl
 description:
-* Fixing multicursor support to move around folded code properly.
+* Adding support for zf{motion} Vim commands.
+* Enhancing Folding menu.
+* Fixing issues with changing folding methods.
 
 
-changeset:   1946:20d83a6d96d2
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Mar 14 23:44:37 2016 -0500
-files:       lib/launcher.tcl lib/version.tcl
-description:
-* Improving file opening command launcher function to perform better matching.
-
-
-changeset:   1947:9f0a2abe5d86
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 15 00:31:53 2016 -0500
-files:       data/syntax/OCaml.syntax lib/version.tcl
-description:
-* Adding OCaml syntax file.
-
-
-changeset:   1948:90282a27431c
+changeset:   1955:957b35f4f2d1
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 15 01:48:52 2016 -0500
-files:       data/syntax/OCaml.syntax lib/version.tcl
+date:        Thu Mar 17 01:07:55 2016 -0500
+files:       data/syntax/VHDL.syntax lib/version.tcl
 description:
-* Fixing OCaml syntax file issues.
+* Adding VHDL syntax.
 
 
