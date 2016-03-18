@@ -116,6 +116,7 @@ source [file join $tke_dir lib templates.tcl]
 source [file join $tke_dir lib folding.tcl]
 source [file join $tke_dir lib fontchooser.tcl]
 source [file join $tke_dir lib emmet.tcl]
+source [file join $tke_dir lib emmet_css.tcl]
 
 if {[tk windowingsystem] eq "aqua"} {
   source [file join $tke_dir lib windowlist.tcl]

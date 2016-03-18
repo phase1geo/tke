@@ -864,9 +864,6 @@ namespace eval emmet_css {
     variable lookup
     variable unitless
     variable prefixes
-    variable vendor_props
-
-    # puts "In generate_line, line_list: $line_list"
 
     set line          [list]
     set important     0
@@ -885,8 +882,6 @@ namespace eval emmet_css {
           if {($command eq "") || ![info exists unitless([lindex $command 0])]} {
             set suffix        [expr {($type eq "number") ? "px" : "em"}]
             set suffix_needed 1
-          } elseif {$command eq ""} {
-            lappend line $val
           } else {
             set command [insert_value $command $val]
           }
@@ -917,18 +912,11 @@ namespace eval emmet_css {
               lappend line $value$suffix
             }
           } elseif {[info exists lookup($value)]} {
-            set command $lookup($value)
-            set value   [string range [lindex $command 0] 0 end-1]
-            if {[info exists vendor_props($value)]} {
-              set default_prefix $vendor_props($value)
-            } elseif {$hyphen} {
-              set default_prefix "wmso"
-            } else {
-              set default_prefix ""
-            }
-            foreach prefix [split $default_prefix {}] {
-              lappend prefix_list $prefixes($prefix)
-            }
+            set command     $lookup($value)
+            set prefix_list [get_prefix_list [string range [lindex $command 0] 0 end-1] $hyphen]
+          } elseif {[set tmp [lsearch -glob -inline [lsort [array names lookup]] [join [split $value {}] *]]] ne ""} {
+            set command     $lookup($tmp)
+            set prefix_list [get_prefix_list [string range [lindex $command 0] 0 end-1] $hyphen]
           } elseif {$command ne ""} {
             set command [insert_value $command $value]
           } else {
@@ -937,10 +925,18 @@ namespace eval emmet_css {
         }
         color {
           if {$suffix_needed} {
-            set command       [insert_value $command $val$suffix]
+            if {$command ne ""} {
+              set command [insert_value $command $val$suffix]
+            } else {
+              lappend line $val$suffix
+            }
             set suffix_needed 0
           }
-          set command [insert_value $command $value]
+          if {$command ne ""} {
+            set command [insert_value $command $value]
+          } else {
+            lappend line $value
+          }
         }
         important {
           set important 1
@@ -951,9 +947,9 @@ namespace eval emmet_css {
     if {$suffix_needed} {
       if {$command ne ""} {
         set command [insert_value $command $val$suffix]
+      } else {
+        lappend line $val$suffix
       }
-    } else {
-      lappend line $val$suffix
     }
 
     if {$important} {
@@ -981,7 +977,7 @@ namespace eval emmet_css {
       }
       return [join $lines \n]
     } else {
-      return "$line;"
+      return [join $line " "]
     }
 
   }
@@ -995,6 +991,32 @@ namespace eval emmet_css {
     }
 
     return "$command $value"
+
+  }
+  
+  ######################################################################
+  # Returns the prefix_list for the given command.
+  proc get_prefix_list {command hyphen} {
+    
+    variable vendor_props
+    variable prefixes
+    
+    set value [string range [lindex $command 0] 0 end-1]
+    
+    if {[info exists vendor_props($command)]} {
+      set default_prefix $vendor_props($command)
+    } elseif {$hyphen} {
+      set default_prefix "wmso"
+    } else {
+      set default_prefix ""
+    }
+    
+    set prefix_list [list]
+    foreach prefix [split $default_prefix {}] {
+      lappend prefix_list $prefixes($prefix)
+    }
+    
+    return $prefix_list
 
   }
 

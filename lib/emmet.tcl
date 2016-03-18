@@ -82,13 +82,29 @@ namespace eval emmet {
   # Returns a three element list containing the generated code, the
   # starting index of the snippet and the ending index of the snippet.
   proc expand_abbreviation {tid} {
-
-    # Find the snippet text
-    lassign [get_snippet_text_pos $tid] str startpos endpos prespace
     
-    # Parse the snippet and if no error, insert the resulting string
-    if {![catch { ::parse_emmet $str $prespace } str]} {
-      [ns snippets]::insert_snippet_into_current $tid $str $startpos $endpos
+    set txt [[ns gui]::current_txt $tid]
+    
+    # If the current language is CSS, translate the abbreviation as such
+    if {[[ns syntax]::get_language $txt] eq "CSS"} {
+      
+      # Get the abbreviation text, translate it and insert it back into the text
+      if {[regexp {(\S+)$} [$txt get "insert linestart" insert] -> abbr]} {
+        if {![catch { [ns emmet_css]::parse $abbr } str]} {
+          [ns snippets]::insert_snippet_into_current $tid $str "insert-[string length $abbr]c" insert
+        }
+      }
+      
+    } else {
+
+      # Find the snippet text
+      lassign [get_snippet_text_pos $tid] str startpos endpos prespace
+    
+      # Parse the snippet and if no error, insert the resulting string
+      if {![catch { ::parse_emmet $str $prespace } str]} {
+        [ns snippets]::insert_snippet_into_current $tid $str $startpos $endpos
+      }
+      
     }
 
   }

@@ -25,6 +25,10 @@ transform: $1;}
 transform: $1;}
   {tal:a}      {-ms-text-align-last: auto;
 text-align-last: auto;}
+  {oh}         {overflow: hidden;}
+  {ovh}        {overflow: hidden;}
+  {10}         {10px}
+  {#3}         {#333333}
 }
 
 foreach {str expect} $values {
