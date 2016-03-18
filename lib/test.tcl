@@ -13,24 +13,35 @@ set values {
   {bd5#0}      {border: 5px #000000;}
   {lh2}        {line-height: 2;}
   {fw400}      {font-weight: 400;}
-  {p!+m10e!}
-{padding: !important;
+  {p!+m10e!}   {padding: !important;
 margin: 10em !important;}
+  {-trf}       {-webkit-transform: $1;
+-moz-transform: $1;
+-ms-transform: $1;
+-o-transform: $1;
+transform: $1;}
+  {-wm-trf}    {-webkit-transform: $1;
+-moz-transform: $1;
+transform: $1;}
+  {tal:a}      {-ms-text-align-last: auto;
+text-align-last: auto;}
 }
 
 foreach {str expect} $values {
-  
+
   puts "---------"
   puts "Expanding $str\n"
-  
+
   set actual [emmet_css::parse $str]
-  
+
   puts "$actual\n"
-  
+
   if {$actual ne $expect} {
     puts "ERROR:  Unexpected expansion"
-    puts "Actual:  $actual"
-    puts "Expect:  $expect"
+    puts "Actual:\n"
+    puts "($actual)"
+    puts "\nExpect:\n"
+    puts "($expect)"
     exit 1
   }
 }

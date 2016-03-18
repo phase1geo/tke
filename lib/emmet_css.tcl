@@ -23,7 +23,7 @@
 ######################################################################
 
 namespace eval emmet_css {
-  
+
   array set lookup {
     pos      {position: {|relative}}
     pos:s    {position: static}
@@ -581,26 +581,251 @@ namespace eval emmet_css {
     wfsm:s     {-webkit-font-smoothing: subpixel-antialiased}
     wfsm:sa    {-webkit-font-smoothing: subpixel-antialiased}
   }
-  
+
+  array set vendor_props {
+    accelerator                {s}
+    accesskey                  {o}
+    animation                  {wo}
+    animation-delay            {wmo}
+    animation-direction        {wmo}
+    animation-duration         {wmo}
+    animation-fill-mode        {wmo}
+    animation-iteration-count  {wmo}
+    animation-name             {wmo}
+    animation-play-state       {wmo}
+    animation-timing-function  {wmo}
+    appearance                 {wm}
+    backface-visibility        {wms}
+    background-clip            {wm}
+    background-composite       {w}
+    background-inline-policy   {m}
+    background-origin          {w}
+    background-position-y      {s}
+    background-size            {w}
+    behavior                   {s}
+    binding                    {m}
+    block-progression          {s}
+    border-bottom-colors       {m}
+    border-fit                 {w}
+    border-horizontal-spacing  {w}
+    border-image               {wmo}
+    border-left-colors         {m}
+    border-radius              {wm}
+    border-right-colors        {m}
+    border-top-colors          {m}
+    border-vertical-spacing    {w}
+    box-align                  {wms}
+    box-direction              {wms}
+    box-flex                   {wms}
+    box-flex-group             {w}
+    box-line-progression       {s}
+    box-lines                  {ws}
+    box-ordinal-group          {wms}
+    box-orient                 {wms}
+    box-pack                   {wms}
+    box-reflect                {w}
+    box-shadow                 {wm}
+    box-sizing                 {wm}
+    color-correction           {w}
+    column-break-after         {w}
+    column-break-before        {w}
+    column-break-inside        {w}
+    column-count               {wm}
+    column-gap                 {wm}
+    column-rule-color          {wm}
+    column-rule-style          {wm}
+    column-rule-width          {wm}
+    column-span                {w}
+    column-width               {wm}
+    content-zoom-boundary      {s}
+    content-zoom-boundary-max  {s}
+    content-zoom-boundary-min  {s}
+    content-zoom-chaining      {s}
+    content-zoom-snap          {s}
+    content-zoom-snap-points   {s}
+    content-zoom-snap-type     {s}
+    content-zooming            {s}
+    dashboard-region           {wo}
+    filter                     {s}
+    float-edge                 {m}
+    flow-from                  {s}
+    flow-into                  {s}
+    font-feature-settings      {ms}
+    font-language-override     {m}
+    font-smooting              {w}
+    force-broken-image-icon    {m}
+    grid-column                {s}
+    grid-column-align          {s}
+    grid-column-span           {s}
+    grid-columns               {s}
+    grid-layer                 {s}
+    grid-row                   {s}
+    grid-row-align             {s}
+    grid-row-span              {s}
+    grid-rows                  {s}
+    high-contrast-adjust       {s}
+    highlight                  {w}
+    hyphenate-character        {w}
+    hyphenate-limit-after      {w}
+    hyphenate-limit-before     {w}
+    hyphenate-limit-chars      {s}
+    hyphenate-limit-lines      {s}
+    hyphenate-limit-zone       {s}
+    hyphens                    {wms}
+    image-region               {m}
+    ime-mode                   {s}
+    input-format               {o}
+    input-required             {o}
+    interpolation-mode         {s}
+    layout-flow                {s}
+    layout-grid                {s}
+    layout-grid-char           {s}
+    layout-grid-line           {s}
+    layout-grid-mode           {s}
+    layout-grid-type           {s}
+    line-box-contain           {w}
+    line-break                 {ws}
+    line-clamp                 {w}
+    link                       {o}
+    link-source                {o}
+    locale                     {w}
+    margin-after-collapse      {w}
+    margin-before-collapse     {w}
+    marquee-dir                {o}
+    marquee-direction          {w}
+    marquee-increment          {w}
+    marquee-loop               {o}
+    marquee-repetition         {w}
+    marquee-speed              {o}
+    marquee-style              {wo}
+    mask-attachment            {w}
+    mask-box-image             {w}
+    mask-box-image-outset      {w}
+    mask-box-image-repeat      {w}
+    mask-box-image-slice       {w}
+    mask-box-image-source      {w}
+    mask-box-image-width       {w}
+    mask-clip                  {w}
+    mask-composite             {w}
+    mask-image                 {w}
+    mask-origin                {w}
+    mask-position              {w}
+    mask-repeat                {w}
+    mask-size                  {w}
+    nbsp-mode                  {w}
+    object-fit                 {o}
+    object-position            {o}
+    orient                     {m}
+    outline-radius-bottomleft  {m}
+    outline-radius-bottomright {m}
+    outline-radius-topleft     {m}
+    outline-radius-topright    {m}
+    overflow-style             {s}
+    perspective                {wms}
+    perspective-origin         {wms}
+    perspective-origin-x       {s}
+    perspective-origin-y       {s}
+    rtl-ordering               {w}
+    scroll-boundary            {s}
+    scroll-boundary-bottom     {s}
+    scroll-boundary-left       {s}
+    scroll-boundary-right      {s}
+    scroll-boundary-top        {s}
+    scroll-chaining            {s}
+    scroll-rails               {s}
+    scroll-snap-points-x       {s}
+    scroll-snap-points-y       {s}
+    scroll-snap-type           {s}
+    scroll-snap-x              {s}
+    scroll-snap-y              {s}
+    scrollbar-arrow-color      {s}
+    scrollbar-base-color       {s}
+    scrollbar-darkshadow-color {s}
+    scrollbar-face-color       {s}
+    scrollbar-highlight-color  {s}
+    scrollbar-shadow-color     {s}
+    scrollbar-track-color      {s}
+    stack-sizing               {m}
+    svg-shadow                 {w}
+    tab-size                   {mo}
+    table-baseline             {o}
+    text-align-last            {s}
+    text-autospace             {s}
+    text-blink                 {m}
+    text-combine               {w}
+    text-decoration-color      {m}
+    text-decoration-line       {m}
+    text-decoration-style      {m}
+    text-decorations-in-effect {w}
+    text-emphasis-color        {w}
+    text-emphasis-position     {w}
+    text-emphasis-style        {w}
+    text-fill-color            {w}
+    text-justify               {s}
+    text-kashida-space         {s}
+    text-orientation           {w}
+    text-security              {w}
+    text-size-adjust           {ms}
+    text-stroke-color          {w}
+    text-stroke-width          {w}
+    text-overflow              {s}
+    text-underline-position    {s}
+    touch-action               {s}
+    transform                  {wmso}
+    transform-origin           {wmso}
+    transform-origin-x         {s}
+    transform-origin-y         {s}
+    transform-origin-z         {s}
+    transform-style            {wms}
+    transition                 {wmso}
+    transition-delay           {wmso}
+    transition-duration        {wmso}
+    transition-property        {wmso}
+    transition-timing-function {wmso}
+    user-drag                  {w}
+    user-focus                 {m}
+    user-input                 {m}
+    user-modify                {wm}
+    user-select                {wms}
+    window-shadow              {m}
+    word-break                 {s}
+    wrap-flow                  {s}
+    wrap-margin                {s}
+    wrap-through               {s}
+    writing-mode               {ws}
+
+  }
+
   array set unitless {
     z-index:     1
     line-height: 1
     opacity:     1
     font-weight: 1
   }
-  
+
+  array set prefixes {
+    w -webkit-
+    m -moz-
+    s -ms-
+    o -o-
+  }
+
   ######################################################################
   # Parses the given Emmet string and returns the generated code version.
   proc parse {str} {
-    
+
     set lines [list]
     set line  [list]
-    
+
     # Set the string to lowercase
     set str [string tolower $str]
-    
+
     while {[string length $str] > 0} {
-      if {[regexp {^([a-z:]+\+?|[a-z]+:-)(.*)$} $str -> word str]} {
+      if {[regexp {^-([wmso]+)-([a-z:]+\+?|[a-z]+:-)(.*)$} $str -> prefix word str]} {
+        lappend line word $word prefix $prefix
+      } elseif {[regexp {^-([a-z:]+\+?|[a-z]+:-)(.*)$} $str -> word str]} {
+        lappend line hyphen 1 word $word
+      } elseif {[regexp {^([a-z:]+\+?|[a-z]+:-)(.*)$} $str -> word str]} {
         lappend line word $word
       } elseif {[regexp {^(-?[0-9]+\.[0-9]+)(.*)$} $str -> num str]} {
         lappend line float $num
@@ -623,31 +848,35 @@ namespace eval emmet_css {
         set str  [string range $str 1 end]
       }
     }
-    
+
     if {$line ne ""} {
       lappend lines [generate_line $line]
     }
-    
+
     return [join $lines \n]
-    
+
   }
-  
+
   ######################################################################
   # Returns the CSS that is generates from the given line list.
   proc generate_line {line_list} {
-    
+
     variable lookup
     variable unitless
-    
+    variable prefixes
+    variable vendor_props
+
     # puts "In generate_line, line_list: $line_list"
-    
+
     set line          [list]
     set important     0
     set command       ""
     set val           ""
     set suffix        ""
     set suffix_needed 0
-    
+    set prefix_list   [list]
+    set hyphen        0
+
     foreach {type value} $line_list {
       switch $type {
         number -
@@ -662,7 +891,18 @@ namespace eval emmet_css {
             set command [insert_value $command $val]
           }
         }
-        word    {
+        hyphen {
+          set hyphen 1
+        }
+        prefix {
+          set prefix_list [list]
+          foreach prefix [split $value {}] {
+            if {[info exists prefixes($prefix)]} {
+              lappend prefix_list $prefixes($prefix)
+            }
+          }
+        }
+        word {
           if {$suffix_needed} {
             switch $value {
               p       { set suffix "%" }
@@ -678,6 +918,17 @@ namespace eval emmet_css {
             }
           } elseif {[info exists lookup($value)]} {
             set command $lookup($value)
+            set value   [string range [lindex $command 0] 0 end-1]
+            if {[info exists vendor_props($value)]} {
+              set default_prefix $vendor_props($value)
+            } elseif {$hyphen} {
+              set default_prefix "wmso"
+            } else {
+              set default_prefix ""
+            }
+            foreach prefix [split $default_prefix {}] {
+              lappend prefix_list $prefixes($prefix)
+            }
           } elseif {$command ne ""} {
             set command [insert_value $command $value]
           } else {
@@ -696,7 +947,7 @@ namespace eval emmet_css {
         }
       }
     }
-    
+
     if {$suffix_needed} {
       if {$command ne ""} {
         set command [insert_value $command $val$suffix]
@@ -704,7 +955,7 @@ namespace eval emmet_css {
     } else {
       lappend line $val$suffix
     }
-    
+
     if {$important} {
       if {$command ne ""} {
         set command [insert_value $command "!important"]
@@ -712,7 +963,7 @@ namespace eval emmet_css {
         lappend line "!important"
       }
     }
-    
+
     if {$command ne ""} {
       set index 1
       while {[regexp {(.*?)\{\|(.*?)\}(.*)$} $command -> before value after]} {
@@ -723,23 +974,28 @@ namespace eval emmet_css {
         }
         incr index
       }
-      return "$command;"
+      set lines [list]
+      lappend prefix_list ""
+      foreach prefix $prefix_list {
+        lappend lines "$prefix$command;"
+      }
+      return [join $lines \n]
     } else {
       return "$line;"
     }
-    
+
   }
-  
+
   ######################################################################
   # Inserts the given value into the given command list.
   proc insert_value {command value} {
-    
+
     if {[regexp {^(.*)\{\|.*?\}(.*)$} $command -> before after]} {
       return $before$value$after
     }
-    
+
     return "$command $value"
-    
+
   }
-  
+
 }
