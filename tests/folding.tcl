@@ -39,7 +39,7 @@ namespace eval folding {
 
   }
 
-  # Verify the ability to enable and disable code folding as well as be
+  # Verify the ability to change the code folding mode as well as be
   # able to detect which mode that we are currently in.
   proc run_test1 {} {
 
@@ -47,48 +47,21 @@ namespace eval folding {
     set txt [initialize]
 
     # Get the preference setting
-    set pref [preferences::get View/EnableCodeFolding]
+    set pref [preferences::get View/CodeFoldingMethod]
 
     # Verify that the code folding mode matches the preference setting
-    if {[folding::enabled $txt] != $pref} {
+    if {[folding::get_method $txt] ne $pref} {
       cleanup "Preference setting does not match text folding status"
     }
-
-    # Change the code folding setting
-    if {$pref} {
-
-      # Disable code folding
-      folding::disable_folding $txt
-
-      # Verify that we are disabled
-      if {[folding::enabled $txt]} {
-        cleanup "Disabling code folding failed"
-      }
-
-      # Re-enable code folding
-      folding::enable_folding $txt
-
-      # Verify that we are enabled
-      if {![folding::enabled $txt]} {
-        cleanup "Enabling code folding failed"
-      }
-
-    } else {
-
-      # Enable code folding
-      folding::enable_folding $txt
-
-      # Verify that we are enabled
-      if {![folding::enabled $txt]} {
-        cleanup "Enabling code folding failed"
-      }
+    
+    foreach method [list none manual syntax manual none syntax none] {
 
       # Disable code folding
-      folding::disable_folding $txt
+      folding::set_fold_method $txt $method
 
       # Verify that we are disabled
-      if {[folding::enabled $txt]} {
-        cleanup "Disabling code folding failed"
+      if {[folding::get_method $txt] ne $method} {
+        cleanup "Setting code folding method to $method failed"
       }
 
     }
@@ -115,7 +88,7 @@ namespace eval folding {
     $txt insert end "}"
 
     # Enable code folding
-    folding::enable_folding $txt
+    folding::set_fold_method $txt syntax
 
     # Check to see that a fold only detected on the correct lines
     set opened_lines [list none open none end none open none end]
@@ -127,13 +100,13 @@ namespace eval folding {
     }
 
     # Close one of the opened folds
-    folding::close_fold $txt 6
+    folding::close_fold 1 $txt 6
     if {[folding::fold_state $txt 6] ne "close"} {
       cleanup "Fold state is not closed ([folding::fold_state $txt 6])"
     }
 
     # Open the closed fold
-    folding::open_fold $txt 6
+    folding::open_fold 1 $txt 6
     if {[folding::fold_state $txt 6] ne "open"} {
       cleanup "Fold state is not opened ([folding::fold_state $txt 6])"
     }
@@ -177,8 +150,8 @@ namespace eval folding {
     $txt insert end "  }\n"
     $txt insert end "}\n"
 
-    # Make sure that folding is enabled
-    folding::enable_folding $txt
+    # Make sure that syntax folding is enabled
+    folding::set_fold_method $txt syntax
 
     # Verify that the code folding states are correct
     set states [list none open open none end end]
@@ -187,24 +160,24 @@ namespace eval folding {
 
       if {[expr $order & 1]} {
         if {[folding::fold_state $txt 2] eq "open"} {
-          folding::close_fold $txt 2
+          folding::close_fold 1 $txt 2
           lset states 1 close
         }
       } else {
         if {[folding::fold_state $txt 2] eq "close"} {
-          folding::open_fold $txt 2
+          folding::open_fold 1 $txt 2
           lset states 1 open
         }
       }
 
       if {[expr $order & 2]} {
         if {[folding::fold_state $txt 3] eq "open"} {
-          folding::close_fold $txt 3
+          folding::close_fold 1 $txt 3
           lset states 2 close
         }
       } else {
         if {[folding::fold_state $txt 3] eq "close"} {
-          folding::open_fold $txt 3
+          folding::open_fold 1 $txt 3
           lset states 2 open
         }
       }
@@ -235,7 +208,7 @@ namespace eval folding {
     $txt insert end "}\n"
 
     # Enable code folding
-    folding::enable_folding $txt
+    folding::set_fold_method $txt syntax
 
     if {[folding::fold_state $txt 2] ne "open"} {
       cleanup "Folding state of line 2 is not open ([folding::fold_state $txt 2])"

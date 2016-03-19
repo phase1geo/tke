@@ -1482,9 +1482,6 @@ namespace eval gui {
         # Parse Vim modeline information, if needed
         [ns vim]::parse_modeline $txt
 
-        # Apply code foldings
-        [ns folding]::initialize $txt
-
         # If a diff command was specified, run and parse it now
         if {$diff} {
           [ns diff]::show $txt
@@ -3659,6 +3656,9 @@ namespace eval gui {
     # Snippet bindings must go after syntax language setting
     [ns snippets]::add_bindings $txt
 
+    # Apply code foldings
+    [ns folding]::initialize $txt
+
     # Add any gutters
     foreach gutter $opts(-gutters) {
       $txt gutter create {*}$gutter
@@ -3755,6 +3755,9 @@ namespace eval gui {
 
     # Snippet bindings must go after syntax language is set
     [ns snippets]::add_bindings $txt2
+
+    # Apply code foldings
+    [ns folding]::initialize $txt2
 
     # Give the text widget the focus
     set_txt_focus $txt2
