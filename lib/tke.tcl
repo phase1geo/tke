@@ -116,7 +116,6 @@ source [file join $tke_dir lib templates.tcl]
 source [file join $tke_dir lib folding.tcl]
 source [file join $tke_dir lib fontchooser.tcl]
 source [file join $tke_dir lib emmet.tcl]
-source [file join $tke_dir lib emmet_css.tcl]
 
 if {[tk windowingsystem] eq "aqua"} {
   source [file join $tke_dir lib windowlist.tcl]
@@ -249,11 +248,11 @@ if {$tcl_platform(platform) eq "windows"} {
 
   # If we are using aqua, define a few tk::mac procedures that the application can use
   if {[tk windowingsystem] eq "aqua"} {
-    
+
     ######################################################################
     # Opens the specified documents
     proc open_document_helper {args} {
-      
+
       # Add the files
       foreach name $args {
         if {[file isdirectory $name]} {
@@ -287,7 +286,7 @@ if {$tcl_platform(platform) eq "windows"} {
 
       # Make sure that the window is raised
       ::tk::mac::ReopenApplication
-      
+
     }
 
     ######################################################################
@@ -296,9 +295,9 @@ if {$tcl_platform(platform) eq "windows"} {
     proc ::tk::mac::OpenDocument {args} {
 
       after 1000 [list open_document_helper {*}$args]
-      
+
     }
-        
+
     ######################################################################
     # Called when the application exits.
     proc ::tk::mac::Quit {} {

@@ -1,4 +1,18 @@
+set tke_dir  [file join [pwd] ..]
+set tke_home [file join ~ .tke]
+
+source tkedat.tcl
+source preferences.tcl
 source emmet_css.tcl
+source utils.tcl
+
+namespace eval gui {
+  proc current_txt {tid} {
+    return ""
+  }
+}
+
+preferences::load
 
 set values {
   {m10}        {margin: 10px;}
