@@ -1402,7 +1402,7 @@ proc ctext::command_insert {win args} {
   }
 
   ctext::escapes     $win $lineStart $lineEnd
-  ctext::comments    $win $lineStart $lineEnd [comments_do_tag $win $insertPos [$win get $insertPos $dat]]
+  ctext::comments    $win $lineStart $lineEnd [comments_do_tag $win $insertPos [$txt get $prevSpace $nextSpace]]
   ctext::brackets    $win $lineStart $lineEnd
   ctext::indentation $win $lineStart $lineEnd
   ctext::highlight   $win $lineStart $lineEnd
@@ -2183,7 +2183,7 @@ proc ctext::comments_char_in_range {win start end} {
 proc ctext::comments_do_tag {win insert_pos dat} {
 
   variable data
-  
+
   return [expr {[regexp -line {*}$data($win,config,re_opts) -- $data($win,config,comstr_re) $dat] || \
                 ([inLineComment $win $insert_pos] && ([string first \n $dat] != -1))}]
 
@@ -2192,7 +2192,7 @@ proc ctext::comments_do_tag {win insert_pos dat} {
 proc ctext::comments {win start end do_tag} {
 
   variable data
-  
+
   # First, tag all string/comment patterns found between start and end
   foreach {tag pattern} $data($win,config,comment_string_patterns) {
     set i 0
