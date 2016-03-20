@@ -810,6 +810,15 @@ namespace eval emmet_css {
     o -o-
   }
 
+  array set keyword_aliases {
+    a  auto
+    i  inherit
+    s  solid
+    da dashed
+    do dotted
+    t  transparent
+  }
+
   ######################################################################
   # Parses the given Emmet string and returns the generated code version.
   proc parse {str} {
@@ -864,6 +873,7 @@ namespace eval emmet_css {
     variable lookup
     variable unitless
     variable prefixes
+    variable keyword_aliases
 
     set line          [list]
     set important     0
@@ -905,9 +915,11 @@ namespace eval emmet_css {
         word {
           if {$suffix_needed} {
             switch $value {
+              -       { set suffix "px" }
               p       { set suffix "%" }
               e       { set suffix "em" }
               x       { set suffix "ex" }
+              r       { set suffix "rem" }
               default { set suffix $value }
             }
             set suffix_needed 0
@@ -923,6 +935,8 @@ namespace eval emmet_css {
                     [set tmp [lsearch -glob -inline [lsort [array names lookup]] [join [split $value {}] *]]] ne ""} {
             lassign $lookup($tmp) property values
             set prefix_list [get_prefix_list $property $hyphen]
+          } elseif {[info exists keyword_aliases($value)]} {
+            set values [insert_value $values $keyword_aliases($value)]
           } elseif {$property ne ""} {
             set values [insert_value $values $value]
           } else {
