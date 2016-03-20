@@ -1402,7 +1402,7 @@ proc ctext::command_insert {win args} {
   }
 
   ctext::escapes     $win $lineStart $lineEnd
-  ctext::comments    $win $lineStart $lineEnd [comments_do_tag $win $insertPos [$win get $prevSpace $nextSpace]]
+  ctext::comments    $win $lineStart $lineEnd [comments_do_tag $win $insertPos [$win get $insertPos $dat]]
   ctext::brackets    $win $lineStart $lineEnd
   ctext::indentation $win $lineStart $lineEnd
   ctext::highlight   $win $lineStart $lineEnd
