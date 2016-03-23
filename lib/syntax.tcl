@@ -28,6 +28,7 @@ namespace eval syntax {
 
   variable filetypes    {}
   variable current_lang [msgcat::mc "None"]
+  variable assoc_file
 
   array set lang_template {
     filepatterns       {}
@@ -55,9 +56,10 @@ namespace eval syntax {
     meta               {}
     advanced           {}
   }
-  array set langs      {}
-  array set curr_lang  {}
-  array set meta_tags  {}
+  array set langs        {}
+  array set curr_lang    {}
+  array set meta_tags    {}
+  array set associations {}
 
   ######################################################################
   # Loads the syntax information.
@@ -65,6 +67,7 @@ namespace eval syntax {
 
     variable langs
     variable filetypes
+    variable assoc_file
 
     # Load the tke_dir syntax files
     set sfiles [[ns utils]::glob_install [file join $::tke_dir data syntax] *.syntax]
@@ -76,6 +79,9 @@ namespace eval syntax {
     foreach sfile $sfiles {
       add_syntax $sfile
     }
+
+    # Create the association filename
+    set assoc_file [file join $::tke_home lang_assoc.tkedat]
 
     # Add all of the syntax plugins
     plugins::add_all_syntax
@@ -168,6 +174,17 @@ namespace eval syntax {
   proc get_default_language {filename} {
 
     variable langs
+    variable assoc_file
+
+    # Check to see if the user has specified a language override for files like
+    # the filename.
+    if {![catch { tkedat::read $assoc_file 0 } rc]} {
+      array set associations $rc
+      set key [file dirname $filename],[file extension $filename]
+      if {[info exists associations($key)]} {
+        return $associations($key)
+      }
+    }
 
     # Get the list of extension overrides
     array set overrides [[ns preferences]::get {General/LanguagePatternOverrides}]
@@ -240,8 +257,16 @@ namespace eval syntax {
   # Sets the syntax language for the current text widget.
   proc set_current_language {language args} {
 
+    # Get information about the current tab
+    lassign [[ns gui]::get_info {} current {txt fname}] txt fname
+
+    # Save the directory, extension and selected language
+    if {$fname ne "Untitled"} {
+      save_language_association [file dirname $fname] [file extension $fname] $language
+    }
+
     # Set the language of the current buffer
-    set_language [[ns gui]::current_txt {}] $language {*}$args
+    set_language $txt $language {*}$args
 
     # Set the snippets for the current text widget
     [ns snippets]::set_language $language
@@ -896,6 +921,27 @@ namespace eval syntax {
   proc get_xml_attribute {txt startpos endpos} {
 
     return [list [list [list attribute $startpos [$txt index "$endpos-1c"] [list]]] ""]
+
+  }
+
+  ######################################################################
+  # Save the language associations to the association file.
+  proc save_language_association {dname ext language} {
+
+    variable assoc_file
+    variable associations
+
+    array set associations [list]
+
+    if {![catch { tkedat::read $assoc_file 0 } rc]} {
+      array set associations $rc
+    }
+
+    # Set the association
+    set associations($dname,$ext) $language
+
+    # Write the association file
+    catch { tkedat::write $assoc_file [array get associations] }
 
   }
 
