@@ -363,14 +363,8 @@ msgcat::mcmset hu {
   "Delete the whitespace to right of cursor"
   "A whitespace-a kurzor jobbra törlése"
 
-  "Disable"
-  "Letilt"
-
   "Disable Vim mode"
   "Vim mód letiltása"
-
-  "Disable folding"
-  "Letiltása, összecsukható"
 
   "Display Text Info"
   "Szöveg adatainak megjelenítése"
@@ -384,6 +378,9 @@ msgcat::mcmset hu {
   "Edit"
   "Szerkesztés"
 
+  "Edit Custom Abbreviations"
+  "Egyéni rövidítések szerkesztése"
+
   "Edit Language"
   "Nyelvre"
 
@@ -392,6 +389,9 @@ msgcat::mcmset hu {
 
   "Edit User"
   "Felhasználó szerkesztése"
+
+  "Edit custom Emmet abbreviations"
+  "Egyéni Emmet rövidítések szerkesztése"
 
   "Edit language snippets"
   "Sajtó alá helyez a nyelvi mozaik"
@@ -417,20 +417,17 @@ msgcat::mcmset hu {
   "Edit user snippets"
   "Kódrészletek felhasználó szerkesztése"
 
-  "Enable"
-  "Engedélyez"
-
   "Enable Vim mode"
   "Vim-üzemmód engedélyezése"
-
-  "Enable folding"
-  "Engedélyezi a hajtogatás"
 
   "Enumeration"
   "számláló"
 
   "Expand Abbreviation"
   "A rövidítések kibontása"
+
+  "Expand Emmet abbreviation"
+  "Bontsa ki a Emmet rövidítése"
 
   "Favorite file"
   "Kedvenc"
@@ -465,8 +462,17 @@ msgcat::mcmset hu {
   "Fold All"
   "Fold minden"
 
+  "Fold Method"
+  "Hajtsa be a módszer"
+
+  "Fold Selected"
+  "Hajtsa be a kiválasztott"
+
   "Fold all"
   "Fold minden"
+
+  "Fold selected code"
+  "Hajtsa be a kiválasztott kód"
 
   "Folding"
   "Összecsukható"
@@ -653,6 +659,9 @@ msgcat::mcmset hu {
 
   "Lower Case"
   "Alsó-ügy"
+
+  "Manual"
+  "Használati útmutató"
 
   "Markers"
   "Markerek"
@@ -858,11 +867,17 @@ msgcat::mcmset hu {
   "Remove All Markers"
   "Összes jelöl?jének eltávolítása"
 
+  "Remove Fold"
+  "Távolítsa el a Fold"
+
   "Remove From Current Line"
   "Távolítsa el az aktuális sorból"
 
   "Remove all markers"
   "Összes jelölőjének eltávolítása"
+
+  "Remove fold on current line"
+  "Távolítsa el a fold az aktuális sorban"
 
   "Remove marker from current line"
   "Jelölő eltávolítása az aktuális sorhoz"
@@ -977,6 +992,15 @@ msgcat::mcmset hu {
 
   "Set current file line ending to LF for Unix"
   "Állítsa be az aktuális fájl vonal megszüntetése az LF UNIX"
+
+  "Set folding method to manual"
+  "Kézi módszer összecsukható készlet"
+
+  "Set folding method to none"
+  "Hajtogatás nincs mód beállítása"
+
+  "Set folding method to syntax"
+  "Módszer a mondattan összecsukható készlet"
 
   "Set indent mode to"
   "Rovátka mód beállítása"
@@ -1349,9 +1373,6 @@ msgcat::mcmset hu {
 
 # syntax.tcl
 msgcat::mcmset hu {
-
-  "Syntax"
-  "Szintaxis"
 
   "Syntax error in syntax file"
   "Szintaktikai hiba a fájl szintaxisa"
@@ -1766,6 +1787,9 @@ msgcat::mcmset hu {
   "Filename directory does not exist"
   "Fájlnév könyvtár nem létezik"
 
+  "Folding method unrecognized"
+  "Ismeretlen módszer összecsukható"
+
   "Illegal modelines value"
   "Illegális hardverednek érték"
 
@@ -1830,6 +1854,9 @@ msgcat::mcmset hu {
 
   "Split View"
   "Osztott nézet"
+
+  "Syntax"
+  "Szintaxis"
 
   "Theme Editor"
   "Témaszerkesztő"

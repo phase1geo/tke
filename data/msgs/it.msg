@@ -363,14 +363,8 @@ msgcat::mcmset it {
   "Delete the whitespace to right of cursor"
   "Eliminare lo spazio vuoto a destra del cursore"
 
-  "Disable"
-  "Disabilita"
-
   "Disable Vim mode"
   "Disattivare la modalità di Vim"
-
-  "Disable folding"
-  "Disattivare pieghevole"
 
   "Display Text Info"
   "Visualizza testo"
@@ -384,6 +378,9 @@ msgcat::mcmset it {
   "Edit"
   "Modifica"
 
+  "Edit Custom Abbreviations"
+  "Modificare abbreviazioni personalizzate"
+
   "Edit Language"
   "Modificare la lingua"
 
@@ -392,6 +389,9 @@ msgcat::mcmset it {
 
   "Edit User"
   "Modifica Utente"
+
+  "Edit custom Emmet abbreviations"
+  "Modificare le abbreviazioni personalizzate di Emmet"
 
   "Edit language snippets"
   "Modificare i frammenti di lingua"
@@ -417,20 +417,17 @@ msgcat::mcmset it {
   "Edit user snippets"
   "Modificare i frammenti di utente"
 
-  "Enable"
-  "Abilita"
-
   "Enable Vim mode"
   "Attivare la modalità di Vim"
-
-  "Enable folding"
-  "Abilitare pieghevole"
 
   "Enumeration"
   "Enumerazione"
 
   "Expand Abbreviation"
   "Abbreviazione di espandere"
+
+  "Expand Emmet abbreviation"
+  "Espandere un'abbreviazione di Emmet"
 
   "Favorite file"
   "File Preferiti"
@@ -465,8 +462,17 @@ msgcat::mcmset it {
   "Fold All"
   "Piegare tutto"
 
+  "Fold Method"
+  "Metodo di piega"
+
+  "Fold Selected"
+  "Piegare selezionato"
+
   "Fold all"
   "Piegare tutto"
+
+  "Fold selected code"
+  "Piegare il codice selezionato"
 
   "Folding"
   "Piegatura"
@@ -653,6 +659,9 @@ msgcat::mcmset it {
 
   "Lower Case"
   "minuscolo"
+
+  "Manual"
+  "Manuale"
 
   "Markers"
   "marcatori"
@@ -858,11 +867,17 @@ msgcat::mcmset it {
   "Remove All Markers"
   "Rimuovere tutti i marcatori"
 
+  "Remove Fold"
+  "Rimuovere la piega"
+
   "Remove From Current Line"
   "Rimuovere dalla riga corrente"
 
   "Remove all markers"
   "Rimuovere tutti i marcatori"
+
+  "Remove fold on current line"
+  "Rimuovere la piega sulla riga corrente"
 
   "Remove marker from current line"
   "Rimuovere il marcatore da riga corrente"
@@ -977,6 +992,15 @@ msgcat::mcmset it {
 
   "Set current file line ending to LF for Unix"
   "Impostare la riga corrente del file terminando al LF per Unix"
+
+  "Set folding method to manual"
+  "Set pieghevole metodo manuale"
+
+  "Set folding method to none"
+  "Set pieghevole metodo su none"
+
+  "Set folding method to syntax"
+  "Set pieghevole metodo alla sintassi"
 
   "Set indent mode to"
   "Impostare modalità di rientro"
@@ -1349,9 +1373,6 @@ msgcat::mcmset it {
 
 # syntax.tcl
 msgcat::mcmset it {
-
-  "Syntax"
-  "Sintassi"
 
   "Syntax error in syntax file"
   "Errore di sintassi nel file di sintassi"
@@ -1766,6 +1787,9 @@ msgcat::mcmset it {
   "Filename directory does not exist"
   "Nome del file directory non esiste"
 
+  "Folding method unrecognized"
+  "Pieghevole metodo non riconosciuto"
+
   "Illegal modelines value"
   "Valore di modelines illegale"
 
@@ -1830,6 +1854,9 @@ msgcat::mcmset it {
 
   "Split View"
   "Dividi la vista"
+
+  "Syntax"
+  "Sintassi"
 
   "Theme Editor"
   "Editor tema"

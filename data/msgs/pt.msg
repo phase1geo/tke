@@ -363,14 +363,8 @@ msgcat::mcmset pt {
   "Delete the whitespace to right of cursor"
   "Excluir o espaço em branco à direita do cursor"
 
-  "Disable"
-  "Desativar"
-
   "Disable Vim mode"
   "Desativar o modo de Vim"
-
-  "Disable folding"
-  "Desabilitar a dobra"
 
   "Display Text Info"
   "Informações do visor"
@@ -384,6 +378,9 @@ msgcat::mcmset pt {
   "Edit"
   "Editar"
 
+  "Edit Custom Abbreviations"
+  "Editar abreviaturas personalizadas"
+
   "Edit Language"
   "Editar idioma"
 
@@ -392,6 +389,9 @@ msgcat::mcmset pt {
 
   "Edit User"
   "Editar Usuário"
+
+  "Edit custom Emmet abbreviations"
+  "Editar abreviaturas personalizadas de Emmet"
 
   "Edit language snippets"
   "Editar trechos de linguagem"
@@ -417,20 +417,17 @@ msgcat::mcmset pt {
   "Edit user snippets"
   "Editar trechos de usuário"
 
-  "Enable"
-  "Activar"
-
   "Enable Vim mode"
   "Ativar o modo de Vim"
-
-  "Enable folding"
-  "Habilitar dobra"
 
   "Enumeration"
   "Enumeração"
 
   "Expand Abbreviation"
   "Expandir a abreviatura"
+
+  "Expand Emmet abbreviation"
+  "Expandir a abreviatura de Emmet"
 
   "Favorite file"
   "Arquivo favorito"
@@ -465,8 +462,17 @@ msgcat::mcmset pt {
   "Fold All"
   "Dobre tudo"
 
+  "Fold Method"
+  "Método de dobra"
+
+  "Fold Selected"
+  "Dobre selecionado"
+
   "Fold all"
   "Dobre tudo"
+
+  "Fold selected code"
+  "Dobre o código selecionado"
 
   "Folding"
   "Dobragem"
@@ -653,6 +659,9 @@ msgcat::mcmset pt {
 
   "Lower Case"
   "caixa baixa"
+
+  "Manual"
+  "Manual"
 
   "Markers"
   "Marcadores"
@@ -858,11 +867,17 @@ msgcat::mcmset pt {
   "Remove All Markers"
   "Remova todos os marcadores"
 
+  "Remove Fold"
+  "Remova a tampa"
+
   "Remove From Current Line"
   "Remover da linha atual"
 
   "Remove all markers"
   "Remova todos os marcadores"
+
+  "Remove fold on current line"
+  "Remover a dobra na linha atual"
 
   "Remove marker from current line"
   "Remover o marcador de linha atual"
@@ -977,6 +992,15 @@ msgcat::mcmset pt {
 
   "Set current file line ending to LF for Unix"
   "Definir a linha atual do arquivo final para se para Unix"
+
+  "Set folding method to manual"
+  "Definir o método manual de dobramento"
+
+  "Set folding method to none"
+  "Definir o método None de dobramento"
+
+  "Set folding method to syntax"
+  "Definir o método de sintaxe de dobramento"
 
   "Set indent mode to"
   "Definir modo de travessão"
@@ -1349,9 +1373,6 @@ msgcat::mcmset pt {
 
 # syntax.tcl
 msgcat::mcmset pt {
-
-  "Syntax"
-  "Sintaxe"
 
   "Syntax error in syntax file"
   "Erro de sintaxe no arquivo de sintaxe"
@@ -1766,6 +1787,9 @@ msgcat::mcmset pt {
   "Filename directory does not exist"
   "Diretório de nome de arquivo não existe"
 
+  "Folding method unrecognized"
+  "Método não reconhecido de dobramento"
+
   "Illegal modelines value"
   "Valor ilegal modelines"
 
@@ -1830,6 +1854,9 @@ msgcat::mcmset pt {
 
   "Split View"
   "Dividir a Vista"
+
+  "Syntax"
+  "Sintaxe"
 
   "Theme Editor"
   "Editor de temas"

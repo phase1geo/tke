@@ -363,14 +363,8 @@ msgcat::mcmset he {
   "Delete the whitespace to right of cursor"
   "למחוק את רווח מימין הסמן"
 
-  "Disable"
-  "כיבוי"
-
   "Disable Vim mode"
   "בטל את מצב Vim"
-
-  "Disable folding"
-  "בטל מתקפלים"
 
   "Display Text Info"
   "להציג טקסט מידע"
@@ -384,6 +378,9 @@ msgcat::mcmset he {
   "Edit"
   "עריכה"
 
+  "Edit Custom Abbreviations"
+  "עריכת קיצורים מותאם אישית"
+
   "Edit Language"
   "עריכת שפה"
 
@@ -392,6 +389,9 @@ msgcat::mcmset he {
 
   "Edit User"
   "ערוך משתמש"
+
+  "Edit custom Emmet abbreviations"
+  "עריכת קיצורים מותאם אישית אמט"
 
   "Edit language snippets"
   "לערוך קטעי שפה"
@@ -417,20 +417,17 @@ msgcat::mcmset he {
   "Edit user snippets"
   "ערוך משתמש גזירים"
 
-  "Enable"
-  "לְאַפשֵׁר"
-
   "Enable Vim mode"
   "הפעלת מצב Vim"
-
-  "Enable folding"
-  "לזמינה. מתקפלים"
 
   "Enumeration"
   "ספירה"
 
   "Expand Abbreviation"
   "הרחב את קיצור"
+
+  "Expand Emmet abbreviation"
+  "הרחב את קיצור אמט"
 
   "Favorite file"
   "קבצים האהוב עליך"
@@ -465,8 +462,17 @@ msgcat::mcmset he {
   "Fold All"
   "מקפלים כל"
 
+  "Fold Method"
+  "שיטת הקיפול"
+
+  "Fold Selected"
+  "מקפלים שנבחרו"
+
   "Fold all"
   "מקפלים כל"
+
+  "Fold selected code"
+  "מקפלים את הקוד שנבחר"
 
   "Folding"
   "מִתקַפֵּל"
@@ -653,6 +659,9 @@ msgcat::mcmset he {
 
   "Lower Case"
   "באותיות קטנות"
+
+  "Manual"
+  "ידני"
 
   "Markers"
   "סמנים"
@@ -858,11 +867,17 @@ msgcat::mcmset he {
   "Remove All Markers"
   "הסר כל המרקרים"
 
+  "Remove Fold"
+  "להסיר את הקיפול"
+
   "Remove From Current Line"
   "הסר תווי שורה"
 
   "Remove all markers"
   "להסיר את כל הסמנים"
+
+  "Remove fold on current line"
+  "להסיר את הקיפול הוא בצד השורה הנוכחית"
 
   "Remove marker from current line"
   "הסר סמן השורה הנוכחית"
@@ -977,6 +992,15 @@ msgcat::mcmset he {
 
   "Set current file line ending to LF for Unix"
   "הגדר את השורה הנוכחית של קובץ. סיום אם עבור Unix"
+
+  "Set folding method to manual"
+  "להגדיר קיפול שיטת לידני"
+
+  "Set folding method to none"
+  "להגדיר קיפול שיטה ל- none"
+
+  "Set folding method to syntax"
+  "להגדיר קיפול שיטת לתחביר"
 
   "Set indent mode to"
   "הגדר מצב כניסה"
@@ -1349,9 +1373,6 @@ msgcat::mcmset he {
 
 # syntax.tcl
 msgcat::mcmset he {
-
-  "Syntax"
-  "תחביר"
 
   "Syntax error in syntax file"
   "שגיאת תחביר בקובץ תחביר"
@@ -1766,6 +1787,9 @@ msgcat::mcmset he {
   "Filename directory does not exist"
   "שם הקובץ הספריה אינה קיימת"
 
+  "Folding method unrecognized"
+  "קיפול שיטה לא מזוהה"
+
   "Illegal modelines value"
   "ערך לא חוקי modelines"
 
@@ -1830,6 +1854,9 @@ msgcat::mcmset he {
 
   "Split View"
   "צפו פיצול"
+
+  "Syntax"
+  "תחביר"
 
   "Theme Editor"
   "דירוג העורך"

@@ -363,14 +363,8 @@ msgcat::mcmset el {
   "Delete the whitespace to right of cursor"
   "Διαγράψτε το κενό διάστημα δεξιά του δρομέα"
 
-  "Disable"
-  "Απενεργοποίηση"
-
   "Disable Vim mode"
   "Απενεργοποίηση της λειτουργίας Vim"
-
-  "Disable folding"
-  "Απενεργοποίηση πτυσσόμενα"
 
   "Display Text Info"
   "Εμφανίζει τις πληροφορίες κείμενο"
@@ -384,6 +378,9 @@ msgcat::mcmset el {
   "Edit"
   "Επεξεργασία"
 
+  "Edit Custom Abbreviations"
+  "Επεξεργαστείτε την προσαρμοσμένη συντομογραφίες"
+
   "Edit Language"
   "Επεξεργασία Γλώσσας"
 
@@ -392,6 +389,9 @@ msgcat::mcmset el {
 
   "Edit User"
   "Επεξεργασία χρήστη"
+
+  "Edit custom Emmet abbreviations"
+  "Επεξεργαστείτε την προσαρμοσμένη Emmet συντομογραφίες"
 
   "Edit language snippets"
   "Επεξεργαστείτε αποσπάσματα γλώσσα"
@@ -417,20 +417,17 @@ msgcat::mcmset el {
   "Edit user snippets"
   "Επεξεργαστείτε τα τμήματα του χρήστη"
 
-  "Enable"
-  "Ενεργοποίηση"
-
   "Enable Vim mode"
   "Ενεργοποίηση της λειτουργίας Vim"
-
-  "Enable folding"
-  "Ενεργοποίηση αναδίπλωσης"
 
   "Enumeration"
   "Καταμέτρηση"
 
   "Expand Abbreviation"
   "Αναπτύξτε συντομογραφία"
+
+  "Expand Emmet abbreviation"
+  "Αναπτύξτε Emmet συντομογραφία"
 
   "Favorite file"
   "Αγαπημένο αρχείο"
@@ -465,8 +462,17 @@ msgcat::mcmset el {
   "Fold All"
   "Διπλώστε Όλα"
 
+  "Fold Method"
+  "Διπλώστε τη μέθοδο"
+
+  "Fold Selected"
+  "Διπλώστε επιλεγμένο"
+
   "Fold all"
   "Διπλώστε όλα"
+
+  "Fold selected code"
+  "Διπλώστε το επιλεγμένο κώδικα"
 
   "Folding"
   "Πτυσσόμενος"
@@ -653,6 +659,9 @@ msgcat::mcmset el {
 
   "Lower Case"
   "Πεζά"
+
+  "Manual"
+  "«Χειροκίνητα»"
 
   "Markers"
   "Σημεία"
@@ -858,11 +867,17 @@ msgcat::mcmset el {
   "Remove All Markers"
   "Αφαιρέστε όλους τους δείκτες"
 
+  "Remove Fold"
+  "Αφαιρέστε φορές"
+
   "Remove From Current Line"
   "Αφαιρέστε από την τρέχουσα γραμμή"
 
   "Remove all markers"
   "Αφαιρέστε όλους τους δείκτες"
+
+  "Remove fold on current line"
+  "Αφαιρέστε πτυχή στην τρέχουσα γραμμή"
 
   "Remove marker from current line"
   "Κατάργηση δείκτη από τρέχουσα γραμμή"
@@ -977,6 +992,15 @@ msgcat::mcmset el {
 
   "Set current file line ending to LF for Unix"
   "Ορίστε την τρέχουσα γραμμή αρχείου που λήγει σε LF για Unix"
+
+  "Set folding method to manual"
+  "Σύνολο πτυσσόμενα μέθοδο εγχειρίδιο"
+
+  "Set folding method to none"
+  "Σύνολο πτυσσόμενα μέθοδος σε κανένα"
+
+  "Set folding method to syntax"
+  "Σύνολο πτυσσόμενα μέθοδος για τη σύνταξη"
 
   "Set indent mode to"
   "Στηντιμή εντομή μοντέλο"
@@ -1350,9 +1374,6 @@ msgcat::mcmset el {
 # syntax.tcl
 msgcat::mcmset el {
 
-  "Syntax"
-  "Σύνταξη"
-
   "Syntax error in syntax file"
   "Συντακτικό σφάλμα στο αρχείο σύνταξη"
 
@@ -1375,6 +1396,9 @@ msgcat::mcmset el {
 
   "saved"
   "Αποθηκεύτηκε!"
+
+  "will be permanently deleted"
+  "θα διαγραφούν οριστικά"
 
 }
 
@@ -1763,6 +1787,9 @@ msgcat::mcmset el {
   "Filename directory does not exist"
   "Δεν υπάρχει κατάλογος όνομα_αρχείου"
 
+  "Folding method unrecognized"
+  "Πτυσσόμενα μέθοδος δεν αναγνωρίζεται"
+
   "Illegal modelines value"
   "Παράνομη modelines αξία"
 
@@ -1827,6 +1854,9 @@ msgcat::mcmset el {
 
   "Split View"
   "Split View"
+
+  "Syntax"
+  "Σύνταξη"
 
   "Theme Editor"
   "Θέμα Εκδότης"

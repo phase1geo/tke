@@ -363,14 +363,8 @@ msgcat::mcmset nl {
   "Delete the whitespace to right of cursor"
   "De witruimte naar rechts van de cursor verwijderen"
 
-  "Disable"
-  "Schakel uit"
-
   "Disable Vim mode"
   "Vim-modus uitschakelen"
-
-  "Disable folding"
-  "Uitschakelen vouwen"
 
   "Display Text Info"
   "Schermtekst"
@@ -384,6 +378,9 @@ msgcat::mcmset nl {
   "Edit"
   "Bewerken"
 
+  "Edit Custom Abbreviations"
+  "Bewerken van aangepaste afkortingen"
+
   "Edit Language"
   "Bewerk Taal"
 
@@ -392,6 +389,9 @@ msgcat::mcmset nl {
 
   "Edit User"
   "Order bewerken"
+
+  "Edit custom Emmet abbreviations"
+  "Bewerken van aangepaste Emmet afkortingen"
 
   "Edit language snippets"
   "Fragmenten van de taal bewerken"
@@ -417,20 +417,17 @@ msgcat::mcmset nl {
   "Edit user snippets"
   "Bewerken gebruiker fragmenten"
 
-  "Enable"
-  "Inschakelen"
-
   "Enable Vim mode"
   "Vim-modus inschakelen"
-
-  "Enable folding"
-  "Inschakelen vouwen"
 
   "Enumeration"
   "telling"
 
   "Expand Abbreviation"
   "Vouw afkorting"
+
+  "Expand Emmet abbreviation"
+  "Emmet afkorting uit te breiden"
 
   "Favorite file"
   "Favoriete bestand"
@@ -465,8 +462,17 @@ msgcat::mcmset nl {
   "Fold All"
   "Alle fold"
 
+  "Fold Method"
+  "Vouwen methode"
+
+  "Fold Selected"
+  "Vouw de geselecteerde"
+
   "Fold all"
   "Vouw alle"
+
+  "Fold selected code"
+  "Vouw de geselecteerde code"
 
   "Folding"
   "Invouwen"
@@ -653,6 +659,9 @@ msgcat::mcmset nl {
 
   "Lower Case"
   "Kleineletters"
+
+  "Manual"
+  "Handbediend"
 
   "Markers"
   "markeerders"
@@ -858,11 +867,17 @@ msgcat::mcmset nl {
   "Remove All Markers"
   "Alle markeringen verwijderen"
 
+  "Remove Fold"
+  "Vouw verwijderen"
+
   "Remove From Current Line"
   "Verwijderen uit de huidige regel"
 
   "Remove all markers"
   "Alle markeringen verwijderen"
+
+  "Remove fold on current line"
+  "Vouw op de huidige regel verwijderen"
 
   "Remove marker from current line"
   "Markering verwijderen uit de huidige regel"
@@ -977,6 +992,15 @@ msgcat::mcmset nl {
 
   "Set current file line ending to LF for Unix"
   "Instellen van huidige bestand regel die eindigt op LF voor Unix"
+
+  "Set folding method to manual"
+  "Set vouwen methode handleiding"
+
+  "Set folding method to none"
+  "Set vouwen methode op geen"
+
+  "Set folding method to syntax"
+  "Set vouwen methode om syntaxis"
 
   "Set indent mode to"
   "Streepje modus ingesteld op"
@@ -1349,9 +1373,6 @@ msgcat::mcmset nl {
 
 # syntax.tcl
 msgcat::mcmset nl {
-
-  "Syntax"
-  "Syntaxis"
 
   "Syntax error in syntax file"
   "Syntaxisfout in syntaxis bestand"
@@ -1766,6 +1787,9 @@ msgcat::mcmset nl {
   "Filename directory does not exist"
   "Bestandsnaam directory bestaat niet"
 
+  "Folding method unrecognized"
+  "Vouwen methode niet herkend"
+
   "Illegal modelines value"
   "Illegale modelines waarde"
 
@@ -1830,6 +1854,9 @@ msgcat::mcmset nl {
 
   "Split View"
   "Venster opsplitsen"
+
+  "Syntax"
+  "Syntaxis"
 
   "Theme Editor"
   "Thema-editor"

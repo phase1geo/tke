@@ -363,14 +363,8 @@ msgcat::mcmset zh {
   "Delete the whitespace to right of cursor"
   "删除光标右边的空白"
 
-  "Disable"
-  "关闭"
-
   "Disable Vim mode"
   "禁用 Vim 模式"
-
-  "Disable folding"
-  "禁用折叠"
 
   "Display Text Info"
   "显示文字"
@@ -384,6 +378,9 @@ msgcat::mcmset zh {
   "Edit"
   "编辑"
 
+  "Edit Custom Abbreviations"
+  "编辑自定义缩写"
+
   "Edit Language"
   "编辑语言"
 
@@ -392,6 +389,9 @@ msgcat::mcmset zh {
 
   "Edit User"
   "編輯用戶"
+
+  "Edit custom Emmet abbreviations"
+  "编辑自定义埃米特缩写"
 
   "Edit language snippets"
   "编辑语言片段"
@@ -417,20 +417,17 @@ msgcat::mcmset zh {
   "Edit user snippets"
   "编辑片段"
 
-  "Enable"
-  "开启"
-
   "Enable Vim mode"
   "启用 Vim 模式"
-
-  "Enable folding"
-  "启用折叠"
 
   "Enumeration"
   "列举法"
 
   "Expand Abbreviation"
   "展开缩写"
+
+  "Expand Emmet abbreviation"
+  "展开埃米特缩写"
 
   "Favorite file"
   "最喜欢的文件"
@@ -465,8 +462,17 @@ msgcat::mcmset zh {
   "Fold All"
   "全部折疊"
 
+  "Fold Method"
+  "折叠方法"
+
+  "Fold Selected"
+  "折叠所选"
+
   "Fold all"
   "折叠所有"
+
+  "Fold selected code"
+  "折叠选定的代码"
 
   "Folding"
   "摺頁"
@@ -653,6 +659,9 @@ msgcat::mcmset zh {
 
   "Lower Case"
   "小写字母"
+
+  "Manual"
+  "手动"
 
   "Markers"
   "标记"
@@ -858,11 +867,17 @@ msgcat::mcmset zh {
   "Remove All Markers"
   "刪除所有標記"
 
+  "Remove Fold"
+  "删除折叠"
+
   "Remove From Current Line"
   "從當前行中刪除"
 
   "Remove all markers"
   "删除所有标记"
+
+  "Remove fold on current line"
+  "删除当前行上的折叠"
 
   "Remove marker from current line"
   "删除从当前行的标记"
@@ -977,6 +992,15 @@ msgcat::mcmset zh {
 
   "Set current file line ending to LF for Unix"
   "设置当前文件行结束到 LF unix"
+
+  "Set folding method to manual"
+  "设定的折叠方法手册"
+
+  "Set folding method to none"
+  "设定的折叠方法为无"
+
+  "Set folding method to syntax"
+  "设定的折叠方法语法"
 
   "Set indent mode to"
   "将缩进模式设置为"
@@ -1349,9 +1373,6 @@ msgcat::mcmset zh {
 
 # syntax.tcl
 msgcat::mcmset zh {
-
-  "Syntax"
-  "语法"
 
   "Syntax error in syntax file"
   "在语法文件中的语法错误"
@@ -1766,6 +1787,9 @@ msgcat::mcmset zh {
   "Filename directory does not exist"
   "文件名的目录不存在"
 
+  "Folding method unrecognized"
+  "折叠方法无法识别"
+
   "Illegal modelines value"
   "非法 modeline 值"
 
@@ -1830,6 +1854,9 @@ msgcat::mcmset zh {
 
   "Split View"
   "拆分視圖"
+
+  "Syntax"
+  "语法"
 
   "Theme Editor"
   "主题编辑器"

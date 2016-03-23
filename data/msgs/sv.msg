@@ -363,14 +363,8 @@ msgcat::mcmset sv {
   "Delete the whitespace to right of cursor"
   "Ta bort blanksteg till höger om markören"
 
-  "Disable"
-  "Inaktivera"
-
   "Disable Vim mode"
   "Inaktivera Vim läge"
-
-  "Disable folding"
-  "Inaktivera hopfällbara"
 
   "Display Text Info"
   "Displayinformation"
@@ -384,6 +378,9 @@ msgcat::mcmset sv {
   "Edit"
   "Ändra"
 
+  "Edit Custom Abbreviations"
+  "Redigera anpassade förkortningar"
+
   "Edit Language"
   "Redigera språk"
 
@@ -392,6 +389,9 @@ msgcat::mcmset sv {
 
   "Edit User"
   "Redigera medlem"
+
+  "Edit custom Emmet abbreviations"
+  "Redigera anpassade Emmet förkortningar"
 
   "Edit language snippets"
   "Redigera språk snuttar"
@@ -417,20 +417,17 @@ msgcat::mcmset sv {
   "Edit user snippets"
   "Redigera användare snuttar"
 
-  "Enable"
-  "Aktivera"
-
   "Enable Vim mode"
   "Aktivera Vim-läge"
-
-  "Enable folding"
-  "Aktivera vikning"
 
   "Enumeration"
   "räkning"
 
   "Expand Abbreviation"
   "Expandera förkortning"
+
+  "Expand Emmet abbreviation"
+  "Expandera Emmet förkortning"
 
   "Favorite file"
   "Favorit-fil"
@@ -465,8 +462,17 @@ msgcat::mcmset sv {
   "Fold All"
   "Vik alla"
 
+  "Fold Method"
+  "Vik metod"
+
+  "Fold Selected"
+  "Vika valda"
+
   "Fold all"
   "Vik alla"
+
+  "Fold selected code"
+  "Vika markerad kod"
 
   "Folding"
   "tvinning"
@@ -653,6 +659,9 @@ msgcat::mcmset sv {
 
   "Lower Case"
   "Små bokstäver"
+
+  "Manual"
+  "Manuellt"
 
   "Markers"
   "Marker"
@@ -858,11 +867,17 @@ msgcat::mcmset sv {
   "Remove All Markers"
   "Ta bort alla markörer"
 
+  "Remove Fold"
+  "Ta bort luckan"
+
   "Remove From Current Line"
   "Ta bort från aktuell rad"
 
   "Remove all markers"
   "Ta bort alla markörer"
+
+  "Remove fold on current line"
+  "Ta bort luckan på aktuell rad"
 
   "Remove marker from current line"
   "Ta bort markör från aktuell rad"
@@ -977,6 +992,15 @@ msgcat::mcmset sv {
 
   "Set current file line ending to LF for Unix"
   "Ange nuvarande fil linje slutar att LF för Unix"
+
+  "Set folding method to manual"
+  "Ställa in vikning metod till manuell"
+
+  "Set folding method to none"
+  "Ställa in vikning metod till ingen"
+
+  "Set folding method to syntax"
+  "Ställa in vikning metod till syntax"
 
   "Set indent mode to"
   "Ställa in strecksatsen läge till"
@@ -1349,9 +1373,6 @@ msgcat::mcmset sv {
 
 # syntax.tcl
 msgcat::mcmset sv {
-
-  "Syntax"
-  "Syntax"
 
   "Syntax error in syntax file"
   "Syntaxfel i syntax filen"
@@ -1766,6 +1787,9 @@ msgcat::mcmset sv {
   "Filename directory does not exist"
   "Filnamn katalogen finns inte"
 
+  "Folding method unrecognized"
+  "Vikning metod okänd"
+
   "Illegal modelines value"
   "Olagliga lägesrader värde"
 
@@ -1830,6 +1854,9 @@ msgcat::mcmset sv {
 
   "Split View"
   "Dela vy"
+
+  "Syntax"
+  "Syntax"
 
   "Theme Editor"
   "Temaredigeraren"

@@ -363,14 +363,8 @@ msgcat::mcmset pl {
   "Delete the whitespace to right of cursor"
   "Usuń spacje na prawo od kursora"
 
-  "Disable"
-  "Wyłączony"
-
   "Disable Vim mode"
   "Wyłączenie trybu Vim"
-
-  "Disable folding"
-  "Wyłączyć składane"
 
   "Display Text Info"
   "Tekst do wyświetlenia"
@@ -384,6 +378,9 @@ msgcat::mcmset pl {
   "Edit"
   "Edytować"
 
+  "Edit Custom Abbreviations"
+  "Edycja własnych skrótów"
+
   "Edit Language"
   "Zmień język"
 
@@ -392,6 +389,9 @@ msgcat::mcmset pl {
 
   "Edit User"
   "Edycja użytkownika"
+
+  "Edit custom Emmet abbreviations"
+  "Edycja własnych skrótów Emmet"
 
   "Edit language snippets"
   "Edytować urywki języka"
@@ -417,20 +417,17 @@ msgcat::mcmset pl {
   "Edit user snippets"
   "Edytuj użytkownika urywki"
 
-  "Enable"
-  "Włączony"
-
   "Enable Vim mode"
   "Włączanie trybu Vim"
-
-  "Enable folding"
-  "Umożliwić składanie"
 
   "Enumeration"
   "wyliczenie"
 
   "Expand Abbreviation"
   "Rozwiń skrót"
+
+  "Expand Emmet abbreviation"
+  "Rozwiń skrót Emmet"
 
   "Favorite file"
   "Ulubionych plików"
@@ -465,8 +462,17 @@ msgcat::mcmset pl {
   "Fold All"
   "Fold Wszystko"
 
+  "Fold Method"
+  "Klapki metody"
+
+  "Fold Selected"
+  "Złóż wybranych"
+
   "Fold all"
   "Zwiń wszystko"
+
+  "Fold selected code"
+  "Złóż wybranego kodu"
 
   "Folding"
   "Składanie"
@@ -653,6 +659,9 @@ msgcat::mcmset pl {
 
   "Lower Case"
   "Małe litery"
+
+  "Manual"
+  "Manual"
 
   "Markers"
   "Marker"
@@ -858,11 +867,17 @@ msgcat::mcmset pl {
   "Remove All Markers"
   "Usuń wszystkie znaczniki"
 
+  "Remove Fold"
+  "Usunąć fałd"
+
   "Remove From Current Line"
   "Usuń z bieżącej linii"
 
   "Remove all markers"
   "Usuń wszystkie markery"
+
+  "Remove fold on current line"
+  "Usunąć fałd na bieżącej linii"
 
   "Remove marker from current line"
   "Usuń znacznik z bieżącego wiersza"
@@ -977,6 +992,15 @@ msgcat::mcmset pl {
 
   "Set current file line ending to LF for Unix"
   "Ustaw bieżący plik lini do LF dla Unix"
+
+  "Set folding method to manual"
+  "Zestaw składany Metoda do podręcznika"
+
+  "Set folding method to none"
+  "Zestaw składany Metoda none"
+
+  "Set folding method to syntax"
+  "Zestaw składany Metoda do składni"
 
   "Set indent mode to"
   "Ustawiono tryb tiret"
@@ -1349,9 +1373,6 @@ msgcat::mcmset pl {
 
 # syntax.tcl
 msgcat::mcmset pl {
-
-  "Syntax"
-  "Składnia"
 
   "Syntax error in syntax file"
   "Błąd składni w składni pliku"
@@ -1766,6 +1787,9 @@ msgcat::mcmset pl {
   "Filename directory does not exist"
   "Nazwa_pliku katalog nie istnieje"
 
+  "Folding method unrecognized"
+  "Składane Metoda nierozpoznana"
+
   "Illegal modelines value"
   "Nielegalne ModeLine wartość"
 
@@ -1830,6 +1854,9 @@ msgcat::mcmset pl {
 
   "Split View"
   "Podziel widok"
+
+  "Syntax"
+  "Składnia"
 
   "Theme Editor"
   "Motyw Editor"

@@ -363,14 +363,8 @@ msgcat::mcmset ru {
   "Delete the whitespace to right of cursor"
   "Удалить пробелы справа от курсора"
 
-  "Disable"
-  "Отключить"
-
   "Disable Vim mode"
   "Отключить режим Vim"
-
-  "Disable folding"
-  "Отключить сворачивание"
 
   "Display Text Info"
   "Текст на дисплее информация"
@@ -384,6 +378,9 @@ msgcat::mcmset ru {
   "Edit"
   "Редактировать"
 
+  "Edit Custom Abbreviations"
+  "Редактирование пользовательских сокращений"
+
   "Edit Language"
   "Редактировать Язык"
 
@@ -392,6 +389,9 @@ msgcat::mcmset ru {
 
   "Edit User"
   "Редактировать страницу пользователя"
+
+  "Edit custom Emmet abbreviations"
+  "Редактирование пользовательских Emmet аббревиатуры"
 
   "Edit language snippets"
   "Редактирование фрагментов"
@@ -417,20 +417,17 @@ msgcat::mcmset ru {
   "Edit user snippets"
   "Редактирование фрагментов пользователя"
 
-  "Enable"
-  "Включить"
-
   "Enable Vim mode"
   "Включить режим Vim"
-
-  "Enable folding"
-  "Включить сворачивание"
 
   "Enumeration"
   "перечисление"
 
   "Expand Abbreviation"
   "Разверните аббревиатура"
+
+  "Expand Emmet abbreviation"
+  "Разверните узел Emmet аббревиатура"
 
   "Favorite file"
   "Любимый файл"
@@ -465,8 +462,17 @@ msgcat::mcmset ru {
   "Fold All"
   "Сложите все"
 
+  "Fold Method"
+  "Сложите метод"
+
+  "Fold Selected"
+  "Сбросить выбранные"
+
   "Fold all"
   "Сбросить все"
+
+  "Fold selected code"
+  "Сложите выбранный код"
 
   "Folding"
   "складной"
@@ -653,6 +659,9 @@ msgcat::mcmset ru {
 
   "Lower Case"
   "Минускул"
+
+  "Manual"
+  "Ручное"
 
   "Markers"
   "Указатели"
@@ -858,11 +867,17 @@ msgcat::mcmset ru {
   "Remove All Markers"
   "Удалить все маркеры"
 
+  "Remove Fold"
+  "Удалять складки"
+
   "Remove From Current Line"
   "Удалить из текущей строки"
 
   "Remove all markers"
   "Удалить маркеры"
+
+  "Remove fold on current line"
+  "Удалять складки на текущей строки"
 
   "Remove marker from current line"
   "Удалить маркер из текущей строки"
@@ -977,6 +992,15 @@ msgcat::mcmset ru {
 
   "Set current file line ending to LF for Unix"
   "Установить текущую строку файла, заканчивается в LF для Unix"
+
+  "Set folding method to manual"
+  "Набор складной способ руководства"
+
+  "Set folding method to none"
+  "Набор складной метод none"
+
+  "Set folding method to syntax"
+  "Набор складной метод для синтаксиса"
 
   "Set indent mode to"
   "Установите режим отступ"
@@ -1349,9 +1373,6 @@ msgcat::mcmset ru {
 
 # syntax.tcl
 msgcat::mcmset ru {
-
-  "Syntax"
-  "Синтаксис"
 
   "Syntax error in syntax file"
   "Синтаксическая ошибка в синтаксис файла"
@@ -1766,6 +1787,9 @@ msgcat::mcmset ru {
   "Filename directory does not exist"
   "Каталог, имя файла не существует"
 
+  "Folding method unrecognized"
+  "Складные метод нераспознанные"
+
   "Illegal modelines value"
   "Незаконные modelines значение"
 
@@ -1830,6 +1854,9 @@ msgcat::mcmset ru {
 
   "Split View"
   "Разделить"
+
+  "Syntax"
+  "Синтаксис"
 
   "Theme Editor"
   "Визуальный редактор темы"

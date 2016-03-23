@@ -363,14 +363,8 @@ msgcat::mcmset cs {
   "Delete the whitespace to right of cursor"
   "Odstranit mezery napravo od kurzoru"
 
-  "Disable"
-  "Zakázat"
-
   "Disable Vim mode"
   "Zakázat režim, Vim"
-
-  "Disable folding"
-  "Zakázat, skládání"
 
   "Display Text Info"
   "Zobrazit informace o textu"
@@ -384,6 +378,9 @@ msgcat::mcmset cs {
   "Edit"
   "Upravit"
 
+  "Edit Custom Abbreviations"
+  "Upravit vlastní zkratky"
+
   "Edit Language"
   "Upravit jazyk"
 
@@ -392,6 +389,9 @@ msgcat::mcmset cs {
 
   "Edit User"
   "Přidat Uživatele"
+
+  "Edit custom Emmet abbreviations"
+  "Upravit vlastní zkratky Emmet"
 
   "Edit language snippets"
   "Upravit jazyk fragmenty"
@@ -417,20 +417,17 @@ msgcat::mcmset cs {
   "Edit user snippets"
   "Upravit uživatelské fragmenty"
 
-  "Enable"
-  "Povolit"
-
   "Enable Vim mode"
   "Povolit režim Vim"
-
-  "Enable folding"
-  "Povolit skládání"
 
   "Enumeration"
   "Výčet"
 
   "Expand Abbreviation"
   "Rozšířit zkratka"
+
+  "Expand Emmet abbreviation"
+  "Rozšířit Emmet zkratka"
 
   "Favorite file"
   "Oblíbený soubor"
@@ -465,8 +462,17 @@ msgcat::mcmset cs {
   "Fold All"
   "P?elo?te v?e"
 
+  "Fold Method"
+  "Přeložte metoda"
+
+  "Fold Selected"
+  "Přeložte vybrané"
+
   "Fold all"
   "Přeložte vše"
+
+  "Fold selected code"
+  "Přeložte vybraný kód"
 
   "Folding"
   "p?ehnutí"
@@ -653,6 +659,9 @@ msgcat::mcmset cs {
 
   "Lower Case"
   "Malá písmena"
+
+  "Manual"
+  "Manuální"
 
   "Markers"
   "Značky"
@@ -858,11 +867,17 @@ msgcat::mcmset cs {
   "Remove All Markers"
   "Odebrat vechny zna?ky"
 
+  "Remove Fold"
+  "Odebrat krát"
+
   "Remove From Current Line"
   "Odebrat z aktuálního ?ádku"
 
   "Remove all markers"
   "Odebrat všechny značky"
+
+  "Remove fold on current line"
+  "Odstranit řasy na aktuálním řádku"
 
   "Remove marker from current line"
   "Odstranit značku z aktuálního řádku"
@@ -977,6 +992,15 @@ msgcat::mcmset cs {
 
   "Set current file line ending to LF for Unix"
   "Nastavit aktuální řádek souboru končí na LF pro Unix"
+
+  "Set folding method to manual"
+  "Nastavte metodu na ruční skládání"
+
+  "Set folding method to none"
+  "Nastavení skládání metodu None"
+
+  "Set folding method to syntax"
+  "Nastavení skládání metoda syntaxe"
 
   "Set indent mode to"
   "Nastavit režim odsazení"
@@ -1349,9 +1373,6 @@ msgcat::mcmset cs {
 
 # syntax.tcl
 msgcat::mcmset cs {
-
-  "Syntax"
-  "Syntax"
 
   "Syntax error in syntax file"
   "Syntaktická chyba v syntaxi souboru"
@@ -1766,6 +1787,9 @@ msgcat::mcmset cs {
   "Filename directory does not exist"
   "Název souboru adresář neexistuje."
 
+  "Folding method unrecognized"
+  "Skládání metoda nebyl rozpoznán"
+
   "Illegal modelines value"
   "Ilegální ModeLine hodnota"
 
@@ -1830,6 +1854,9 @@ msgcat::mcmset cs {
 
   "Split View"
   "Rozd?lený panel"
+
+  "Syntax"
+  "Syntax"
 
   "Theme Editor"
   "Editor téma"

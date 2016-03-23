@@ -363,14 +363,8 @@ msgcat::mcmset da {
   "Delete the whitespace to right of cursor"
   "Slet mellemrum til højre for markøren"
 
-  "Disable"
-  "Deaktivér"
-
   "Disable Vim mode"
   "Deaktivere Vim tilstand"
-
-  "Disable folding"
-  "Deaktivere foldning"
 
   "Display Text Info"
   "Vise teksten Info"
@@ -384,6 +378,9 @@ msgcat::mcmset da {
   "Edit"
   "Rediger"
 
+  "Edit Custom Abbreviations"
+  "Rediger brugerdefinerede forkortelser"
+
   "Edit Language"
   "Rediger sprog"
 
@@ -392,6 +389,9 @@ msgcat::mcmset da {
 
   "Edit User"
   "Rediger bruger."
+
+  "Edit custom Emmet abbreviations"
+  "Rediger brugerdefinerede Emmet forkortelser"
 
   "Edit language snippets"
   "Redigere sprog uddrag"
@@ -417,20 +417,17 @@ msgcat::mcmset da {
   "Edit user snippets"
   "Rediger bruger snippets"
 
-  "Enable"
-  "Aktiver"
-
   "Enable Vim mode"
   "Aktiver Vim tilstand"
-
-  "Enable folding"
-  "Aktivere foldning"
 
   "Enumeration"
   "tælling af bakterier"
 
   "Expand Abbreviation"
   "Udvid forkortelser"
+
+  "Expand Emmet abbreviation"
+  "Udvid Emmet forkortelse"
 
   "Favorite file"
   "Favorit fil"
@@ -465,8 +462,17 @@ msgcat::mcmset da {
   "Fold All"
   "Fold alle"
 
+  "Fold Method"
+  "Fold metode"
+
+  "Fold Selected"
+  "Fold valgte"
+
   "Fold all"
   "Fold alle"
+
+  "Fold selected code"
+  "Fold valgte kode"
 
   "Folding"
   "Fold"
@@ -653,6 +659,9 @@ msgcat::mcmset da {
 
   "Lower Case"
   "Små bogstaver"
+
+  "Manual"
+  "Manuelt"
 
   "Markers"
   "Markører"
@@ -858,11 +867,17 @@ msgcat::mcmset da {
   "Remove All Markers"
   "Fjerne alle markører"
 
+  "Remove Fold"
+  "Fjerne Fold"
+
   "Remove From Current Line"
   "Fjern fra aktuel linje"
 
   "Remove all markers"
   "Fjerne alle markører"
+
+  "Remove fold on current line"
+  "Fjerne fold på nuværende linje"
 
   "Remove marker from current line"
   "Fjern markering fra aktuel linje"
@@ -977,6 +992,15 @@ msgcat::mcmset da {
 
   "Set current file line ending to LF for Unix"
   "Angive aktuelle fil linje slutter til LF for Unix"
+
+  "Set folding method to manual"
+  "Sæt folde metode til manuel"
+
+  "Set folding method to none"
+  "Sæt folde metode til ingen"
+
+  "Set folding method to syntax"
+  "Sæt folde metode til syntaks"
 
   "Set indent mode to"
   "Sæt led mode til"
@@ -1349,9 +1373,6 @@ msgcat::mcmset da {
 
 # syntax.tcl
 msgcat::mcmset da {
-
-  "Syntax"
-  "Syntaks"
 
   "Syntax error in syntax file"
   "Syntaksfejl i syntaks fil"
@@ -1766,6 +1787,9 @@ msgcat::mcmset da {
   "Filename directory does not exist"
   "Filnavn mappe findes ikke"
 
+  "Folding method unrecognized"
+  "Folde metode blev ikke genkendt"
+
   "Illegal modelines value"
   "Ulovlig modelines værdi"
 
@@ -1830,6 +1854,9 @@ msgcat::mcmset da {
 
   "Split View"
   "Opdel visning"
+
+  "Syntax"
+  "Syntaks"
 
   "Theme Editor"
   "Tema Editor"
