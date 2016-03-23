@@ -259,18 +259,18 @@ proc emmet_gen_str {format_str values} {
 }
 
 proc emmet_gen_lorem {words} {
-  
+
   set token  [::http::geturl "http://lipsum.com/feed/xml?what=words&amount=$words&start=0"]
   set lipsum ""
-  
+
   if {([::http::status $token] eq "ok") && ([::http::ncode $token] eq "200")} {
     regexp {<lipsum>(.*)</lipsum>} [::http::data $token] -> lipsum
   }
-  
+
   ::http::cleanup $token
-  
+
   return $lipsum
-  
+
 }
 
 proc emmet_elaborate {tree node action} {
@@ -324,7 +324,12 @@ proc emmet_elaborate {tree node action} {
         set tagnum 1
 
         # Now that the name is elaborated, look it up and update the node, if necessary
-        if {[info exists ::emmet_ml_lookup($ename)]} {
+        if {[set alias [emmet::lookup_node_alias $ename]] ne ""} {
+          lassign $alias ename tagnum attrs
+          foreach {key value} $attrs {
+            $::emmet_elab set $enode attr,$key $value
+          }
+        } elseif {[info exists ::emmet_ml_lookup($ename)]} {
           lassign $::emmet_ml_lookup($ename) ename tagnum attrs
           foreach {key value} $attrs {
             $::emmet_elab set $enode attr,$key $value
@@ -353,7 +358,7 @@ proc emmet_elaborate {tree node action} {
       if {[$tree keyexists $node value]} {
         $::emmet_elab set $enode value [emmet_gen_str {*}[$tree get $node value]]
       }
-      
+
       # Add the Ipsum Lorem value, if specified
       if {[$tree keyexists $node lorem]} {
         $::emmet_elab set $enode value [emmet_gen_lorem [$tree get $node lorem]]
@@ -376,7 +381,7 @@ proc emmet_generate {tree node action} {
       set child_indent 1
     }
   }
-  
+
   # Setup the child lines to be structured properly
   if {[$tree get $node type] ne "group"} {
     if {$child_indent} {
@@ -633,7 +638,7 @@ number_opt: NUMBER {
               set _ 30
             }
           ;
-          
+
 %%
 
 rename emmet_error emmet_error_orig
@@ -646,7 +651,7 @@ proc emmet_error {s} {
 }
 
 proc parse_emmet {str {prespace ""}} {
-  
+
   # Flush the parsing buffer
   EMMET__FLUSH_BUFFER
 

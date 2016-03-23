@@ -426,6 +426,9 @@ if {[catch {
   # Load the template information
   templates::preload
 
+  # Load Emmet customizations
+  emmet::load
+
   # Set the delay to 1 second
   tooltip::tooltip delay 1000
 

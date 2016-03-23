@@ -1,0 +1,38 @@
+# This is a Tcl list of node aliases where each element of the list is a
+# description of a single HTML/XML node, including attributes.  Each element
+# of the list is described as follows:
+#
+# alias {node-name tag-closing {attribute attr-value ...}}
+#
+# Where:
+#  - alias       : Unique text value that the user inputs that expands to a node
+#  - node-name   : Name of the node to create (i.e., img, table, td, ul, etc.)
+#  - tag-closing : Specifies type of tag closing to use.  Possible values are:
+#                    0 = node is inserted as <img ... />
+#                    1 = node is inserted as <strong>...</strong>
+#                    2 = node is inserted without a closing tag
+#  - attribute   : Name of node attribute (i.e., href, id, class, etc.)
+#  - attr-value  : Value of attribute (surrounded by double-quotes)
+#
+# To specify where a cursor tabstop should be placed (along with a possible default
+# value, use the {|} (for just a cursor placement) or {|default-value} for a cursor
+# placement with a default value.
+
+{node_aliases} {
+
+}
+
+# This is a Tcl list of abbreviation aliases where each element of the list is
+# a description of an Emmet abbreviation.  Each element of the list is described
+# as follows:
+#
+# alias abbreviation-string
+#
+# Where:
+#  - alias        : Unique text value that the user inputs that expands to a hierarchy
+#                   of nodes.
+#  - abbreviation : Any valid Emmet abbreviation (ex., ul>li*5)
+
+{abbreviation_aliases} {
+
+}

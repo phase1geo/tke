@@ -29,10 +29,29 @@ namespace eval emmet {
 
   source [file join $::tke_dir lib ns.tcl]
 
+  variable custom_file
+  variable customizations
+
   array set data {
     tag      {(.*)(<\/?[\w:-]+(?:\s+[\w:-]+(?:\s*=\s*(?:(?:".*?")|(?:'.*?')|[^>\s]+))?)*\s*(\/?)>)}
     brackets {(.*?)(\[.*?\]|\{.*?\})}
     space    {(.*?)(\s+)}
+  }
+
+  # Create the custom filename
+  set custom_file [file join $::tke_home emmet.tkedat]
+
+  ######################################################################
+  # Initializes Emmet aliases.
+  proc load {} {
+
+    variable custom_file
+
+    # If the user has a custom alias file, read it in now.
+    if {[file exists $custom_file]} {
+      load_custom_aliases
+    }
+
   }
 
   ######################################################################
@@ -107,6 +126,80 @@ namespace eval emmet {
       }
 
     }
+
+  }
+
+  ######################################################################
+  # Display the custom abbreviation file in an editing buffer.
+  proc edit_abbreviations {} {
+
+    variable custom_file
+
+    # Copy the Emmet customization file from the TKE installation directory to the
+    # user's home directory.
+    if {![file exists $custom_file]} {
+      file copy [file join $::tke_dir data emmet.tkedat] $custom_file
+    }
+
+    # Add the file to the editor
+    [ns gui]::add_file end $custom_file \
+      -savecommand [list [ns emmet]::load_custom_aliases] \
+      -sidebar 0
+
+  }
+
+  ######################################################################
+  # Handles any save operations to the Emmet customization file.
+  proc load_custom_aliases {args} {
+
+    variable custom_file
+    variable customizations
+
+    # Read in the emmet customizations
+    if {![catch { [ns tkedat]::read $custom_file 0 } rc]} {
+
+      array unset customizations
+
+      # Save the customization information
+      array set customizations $rc
+
+    }
+
+  }
+
+  ######################################################################
+  # Returns the alias value associated with the given alias name.  If
+  # no alias was found, returns the empty string.
+  proc lookup_alias_helper {type alias} {
+
+    variable customizations
+
+    if {[info exists customizations($type)]} {
+      array set aliases $customizations($type)
+      if {[info exists aliases($alias)]} {
+        return $aliases($alias)
+      }
+    }
+
+    return ""
+
+  }
+
+  ######################################################################
+  # Perform a lookup of a customized node alias and returns its value,
+  # if found.  If not found, returns the empty string.
+  proc lookup_node_alias {alias} {
+
+    return [lookup_alias_helper node_aliases $alias]
+
+  }
+
+  ######################################################################
+  # Perform a lookup of a customized abbreviation alias and returns its value,
+  # if found.  If not found, returns the empty string.
+  proc lookup_abbr_alias {alias} {
+
+    return [lookup_alias_helper abbreviation_aliases $alias]
 
   }
 
