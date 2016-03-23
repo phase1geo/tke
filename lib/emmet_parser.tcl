@@ -258,18 +258,18 @@ proc emmet_gen_str {format_str values} {
 }
 
 proc emmet_gen_lorem {words} {
-  
+
   set token  [::http::geturl "http://lipsum.com/feed/xml?what=words&amount=$words&start=0"]
   set lipsum ""
-  
+
   if {([::http::status $token] eq "ok") && ([::http::ncode $token] eq "200")} {
     regexp {<lipsum>(.*)</lipsum>} [::http::data $token] -> lipsum
   }
-  
+
   ::http::cleanup $token
-  
+
   return $lipsum
-  
+
 }
 
 proc emmet_elaborate {tree node action} {
@@ -323,7 +323,12 @@ proc emmet_elaborate {tree node action} {
         set tagnum 1
 
         # Now that the name is elaborated, look it up and update the node, if necessary
-        if {[info exists ::emmet_ml_lookup($ename)]} {
+        if {[set alias [emmet::lookup_node_alias $ename]] ne ""} {
+          lassign $alias ename tagnum attrs
+          foreach {key value} $attrs {
+            $::emmet_elab set $enode attr,$key $value
+          }
+        } elseif {[info exists ::emmet_ml_lookup($ename)]} {
           lassign $::emmet_ml_lookup($ename) ename tagnum attrs
           foreach {key value} $attrs {
             $::emmet_elab set $enode attr,$key $value
@@ -352,7 +357,7 @@ proc emmet_elaborate {tree node action} {
       if {[$tree keyexists $node value]} {
         $::emmet_elab set $enode value [emmet_gen_str {*}[$tree get $node value]]
       }
-      
+
       # Add the Ipsum Lorem value, if specified
       if {[$tree keyexists $node lorem]} {
         $::emmet_elab set $enode value [emmet_gen_lorem [$tree get $node lorem]]
@@ -375,7 +380,7 @@ proc emmet_generate {tree node action} {
       set child_indent 1
     }
   }
-  
+
   # Setup the child lines to be structured properly
   if {[$tree get $node type] ne "group"} {
     if {$child_indent} {
@@ -1168,34 +1173,34 @@ array set ::emmet_rules {
 }
 
 array set ::emmet_rules {
-  13,line 578
-  25,line 624
-  7,line 535
-  10,line 563
-  22,line 611
-  4,line 506
-  18,line 597
-  1,line 478
-  15,line 586
-  27,line 632
-  9,line 552
-  12,line 575
-  24,line 619
-  6,line 524
-  21,line 608
-  3,line 502
-  17,line 592
-  14,line 583
-  26,line 627
-  8,line 545
-  11,line 570
-  23,line 616
-  5,line 512
-  20,line 605
-  19,line 600
-  2,line 483
-  16,line 589
-  28,line 635
+  13,line 583
+  25,line 629
+  7,line 540
+  10,line 568
+  22,line 616
+  4,line 511
+  18,line 602
+  1,line 483
+  15,line 591
+  27,line 637
+  9,line 557
+  12,line 580
+  24,line 624
+  6,line 529
+  21,line 613
+  3,line 507
+  17,line 597
+  14,line 588
+  26,line 632
+  8,line 550
+  11,line 575
+  23,line 621
+  5,line 517
+  20,line 610
+  19,line 605
+  2,line 488
+  16,line 594
+  28,line 640
 }
 
 proc emmet_parse {} {
@@ -1437,7 +1442,7 @@ proc emmet_error {s} {
 }
 
 proc parse_emmet {str {prespace ""}} {
-  
+
   # Flush the parsing buffer
   EMMET__FLUSH_BUFFER
 

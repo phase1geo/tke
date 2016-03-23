@@ -46,7 +46,7 @@ array set emmet_block_aliases {
   select+   {select>option}
   optgroup+ {optgroup>option}
   optg+     {optgroup>option}
-  
+
   # CSS
 
   # XSLT
@@ -90,11 +90,11 @@ proc emmet_get_item_name {str} {
 }
 
 proc emmet_get_matching {str start end} {
-  
+
   set strlen [string length $str]
   set count  1
   set skip   0
-  
+
   for {set i 1} {$i < $strlen} {incr i} {
     if {$skip} {
       set skip 0
@@ -112,7 +112,7 @@ proc emmet_get_matching {str start end} {
       }
     }
   }
-  
+
 }
 
 
@@ -492,7 +492,9 @@ set ::emmet_begpos $::emmet_endpos
   incr ::emmet_endpos [string length $emmet_text]
             }
             1 {
-if {[info exists ::emmet_block_aliases($emmet_text)]} {
+if {[set alias [emmet::lookup_abbr_alias $emmet_text]] ne ""} {
+    unput $alias
+  } elseif {[info exists ::emmet_block_aliases($emmet_text)]} {
     unput $::emmet_block_aliases($emmet_text)
   } elseif {[string range $emmet_text 0 4] eq "lorem"} {
     unput [string range $emmet_text 5 end]
