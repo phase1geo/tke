@@ -1390,7 +1390,7 @@ namespace eval gui {
       set index [adjust_insert_tab_index $index [file tail $fname]]
 
       # Add the tab to the editor frame
-      set w [insert_tab $index [file tail $fname] -diff $opts(-diff) -gutters $opts(-gutters) -tags $opts(-tags)]
+      set w [insert_tab $index $fname -diff $opts(-diff) -gutters $opts(-gutters) -tags $opts(-tags)]
 
       # Create the file information
       set file_info [lrepeat [array size files_index] ""]
@@ -3454,7 +3454,7 @@ namespace eval gui {
   #   -gutters list         Specifies a list of gutters to add to the ctext gutter area
   #   -tags    list         Specifies a list of text binding tags
   #   -lang    language     Specifies initial language parsing of buffer.  Default is to determine based on title.
-  proc insert_tab {index title args} {
+  proc insert_tab {index fname args} {
 
     variable widgets
     variable curr_id
@@ -3475,6 +3475,9 @@ namespace eval gui {
 
     # Get the unique tab ID
     set id [incr curr_id]
+
+    # Calculate the title name
+    set title [file tail $fname]
 
     # Get the current notebook
     lassign [get_info {} current {tabbar pane}] tb nb
@@ -3651,7 +3654,7 @@ namespace eval gui {
     make_drop_target                   $txt
 
     # Apply the appropriate syntax highlighting for the given extension
-    [ns syntax]::set_language $txt [expr {($opts(-lang) eq "") ? [[ns syntax]::get_default_language $title] : $opts(-lang)}]
+    [ns syntax]::set_language $txt [expr {($opts(-lang) eq "") ? [[ns syntax]::get_default_language $fname] : $opts(-lang)}]
 
     # Snippet bindings must go after syntax language setting
     [ns snippets]::add_bindings $txt
