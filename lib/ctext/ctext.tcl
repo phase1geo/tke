@@ -2206,7 +2206,7 @@ proc ctext::comments_do_tag {win insert_pos insert_len} {
     }
     return [expr {[inLineComment $win $insert_pos] && ([$win get $insert_pos] eq "\n")}]
   } else {
-    set dat [$win get "$insert_pos linestart" "$insert_pos lineend"]
+    set dat [$win get "$insert_pos linestart" "$insert_pos+${insert_len}c lineend"]
     return [expr {[regexp -line {*}$data($win,config,re_opts) -- $data($win,config,comstr_re) $dat] || \
                   ([inLineComment $win $insert_pos] && ([string first \n $dat] != -1))}]
   }
