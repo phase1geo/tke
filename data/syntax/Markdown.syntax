@@ -4,6 +4,9 @@ filepatterns
 vimsyntax
 {markdown}
 
+embedded
+{{HTML}}
+
 matchcharsallowed
 {}
 
