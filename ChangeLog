@@ -1,112 +1,51 @@
-changeset:   1956:516c2f1137ca
-tag:         devel-2.3.3
+changeset:   1969:ef52bfcd3a09
+tag:         devel-2.3.4
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Mar 17 01:39:53 2016 -0500
+date:        Mon Mar 21 08:55:06 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.3.3 release
+ChangeLog for devel-2.3.4 release
 
 
-changeset:   1957:7b702ed368ff
+changeset:   1970:eab1adcfb2f6
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Mar 17 01:39:57 2016 -0500
+date:        Mon Mar 21 08:55:11 2016 -0500
 files:       .hgtags
 description:
-Added tag devel-2.3.3 for changeset 516c2f1137ca
+Added tag devel-2.3.4 for changeset ef52bfcd3a09
 
 
-changeset:   1958:c74153515568
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu Mar 17 17:39:08 2016 -0500
-files:       lib/emmet_css.tcl lib/emmet_parser.tac lib/test.tcl lib/version.tcl
-description:
-* Removing CSS aliases from emmet_parser.tac and moving them to the new emmet_css.tcl file.
-* Adding initial support for Emmet CSS expansions.
-* Adding test to verify Emmet CSS support.
-
-
-changeset:   1959:b5934c80c64e
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu Mar 17 17:39:38 2016 -0500
-files:       lib/emmet_parser.tcl lib/version.tcl
-description:
-* Updating Emmet parse file.
-
-
-changeset:   1960:573fe57f0ef8
+changeset:   1971:2bf1fc4624c5
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Mar 18 00:12:45 2016 -0500
-files:       lib/emmet_css.tcl lib/test.tcl lib/version.tcl
-description:
-* Adding support for vendor-specific property generation.
-
-
-changeset:   1961:28a10077955b
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Fri Mar 18 14:50:32 2016 -0500
-files:       lib/emmet.tcl lib/emmet_css.tcl lib/test.tcl lib/tke.tcl lib/version.tcl
-description:
-* Adding support for fuzzy search in Emmet CSS.
-* Initial integration of Emmet CSS parser.
-
-
-changeset:   1962:3e330f743871
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Mar 19 00:02:02 2016 -0500
-files:       data/preferences.tkedat lib/emmet.tcl lib/emmet_css.tcl lib/test.tcl lib/tke.tcl lib/version.tcl
-description:
-* Adding support for several Emmet CSS preferences.
-
-
-changeset:   1963:991409d17c93
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Mar 19 14:15:33 2016 -0500
-files:       lib/gui.tcl lib/version.tcl tests/emmet_css.tcl tests/folding.tcl
-description:
-* Adding Emmet CSS test.
-* Fixing Folding test.
-* Changing the initialization of code folding to occur when the tab is created (rather than when the text is initially inserted).
-
-
-changeset:   1964:7a15f083a408
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Mar 19 14:44:46 2016 -0500
-files:       lib/test.tcl lib/version.tcl
-description:
-* Deleting test.tcl
-
-
-changeset:   1965:d63eb0178ae0
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Mar 19 21:24:09 2016 -0500
-files:       lib/emmet_css.tcl lib/version.tcl tests/emmet_css.tcl
-description:
-* Adding support for keyword aliases in Emmet CSS parser.
-* Adding support for '-' and 'r' value suffixes.
-
-
-changeset:   1966:f16fb539c9b8
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Mar 19 22:48:06 2016 -0500
+date:        Tue Mar 22 20:17:45 2016 -0500
 files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Attempting to improve performance for command/string highlighting.
+* Attempting to improve string/comment parsing performance.
 
 
-changeset:   1967:3977036accf8
+changeset:   1972:491a9204e1f6
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Mar 20 08:34:33 2016 -0500
-files:       lib/ctext/ctext.tcl lib/version.tcl
+date:        Tue Mar 22 22:57:52 2016 -0500
+files:       data/emmet.tkedat lib/ctext/ctext.tcl lib/emmet.tcl lib/emmet_lexer.fcl lib/emmet_lexer.tcl lib/emmet_parser.tac lib/emmet_parser.tcl lib/menus.tcl lib/tke.tcl lib/version.tcl
 description:
-* Reverting call to command_insert do_tag for correctness (we'll have to come up with a different solution to improve performance).
+* Fixing string/comment parsing issue.
+* Adding support for custom Emmet node/abbreviation specifications.
 
 
-changeset:   1968:b815c008410d
+changeset:   1973:3f1627f4066e
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Mar 23 00:14:29 2016 -0500
+files:       lib/gui.tcl lib/syntax.tcl lib/version.tcl
+description:
+* Adding support for automatic language selection based on history.
+
+
+changeset:   1974:80a077076b7b
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Mar 21 08:51:17 2016 -0500
-files:       lib/ctext/ctext.tcl lib/version.tcl
+date:        Wed Mar 23 08:17:19 2016 -0500
+files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg lib/version.tcl
 description:
-* Fixing syntax error.
+* Updating translations.
 
 
