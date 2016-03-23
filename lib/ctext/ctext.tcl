@@ -1402,7 +1402,7 @@ proc ctext::command_insert {win args} {
   }
 
   ctext::escapes     $win $lineStart $lineEnd
-  ctext::comments    $win $lineStart $lineEnd [comments_do_tag $win $insertPos [$win get $prevSpace $nextSpace]]
+  ctext::comments    $win $lineStart $lineEnd [comments_do_tag $win $insertPos $datlen $prevSpace $nextSpace]
   ctext::brackets    $win $lineStart $lineEnd
   ctext::indentation $win $lineStart $lineEnd
   ctext::highlight   $win $lineStart $lineEnd
@@ -1487,7 +1487,7 @@ proc ctext::command_replace {win args} {
 
   # Perform tagging and syntax highlighting
   ctext::escapes     $win $lineStart $lineEnd
-  ctext::comments    $win $lineStart $lineEnd [expr $char_deleted || [comments_do_tag $win $startPos $dat]]
+  ctext::comments    $win $lineStart $lineEnd [expr $char_deleted || [comments_do_tag $win $startPos $datlen $startPos "$startPos+${datlen}c"]]
   ctext::brackets    $win $lineStart $lineEnd
   ctext::indentation $win $lineStart $lineEnd
   ctext::highlight   $win $lineStart $lineEnd
@@ -2180,12 +2180,24 @@ proc ctext::comments_char_in_range {win start end} {
 
 }
 
-proc ctext::comments_do_tag {win insert_pos dat} {
+proc ctext::comments_do_tag {win insert_pos insert_len start_pos end_pos} {
 
   variable data
 
-  return [expr {[regexp -line {*}$data($win,config,re_opts) -- $data($win,config,comstr_re) $dat] || \
-                ([inLineComment $win $insert_pos] && ([string first \n $dat] != -1))}]
+  if {$insert_len == 1} {
+    set i 0
+    foreach index [$win search -all -count lengths -regexp {*}$data($win,config,re_opts) -- $data($win,config,comstr_re) $start_pos $end_pos] {
+      if {![isEscaped $win $index] && [$win compare $index <= $insert_pos] && [$win compare $insert_pos < "$index+[lindex $lengths $i]c"]} {
+        return 1
+      }
+      incr i
+    }
+    return [expr {[inLineComment $win $insert_pos] && ([$win get $insert_pos] eq "\n")}]
+  } else {
+    set dat [$win get $start_pos $end_pos]
+    return [expr {[regexp -line {*}$data($win,config,re_opts) -- $data($win,config,comstr_re) $dat] || \
+                  ([inLineComment $win $insert_pos] && ([string first \n $dat] != -1))}]
+  }
 
 }
 
