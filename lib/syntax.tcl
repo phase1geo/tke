@@ -33,6 +33,7 @@ namespace eval syntax {
   array set lang_template {
     filepatterns       {}
     vimsyntax          {}
+    embedded           {}
     matchcharsallowed  {}
     tabsallowed        0
     casesensitive      0
@@ -369,6 +370,17 @@ namespace eval syntax {
         }
         ctext::setIndentation $txt $reindentStarts reindentStart
         ctext::setIndentation $txt $reindents      reindent
+        
+        foreach embedded $lang_array(embedded) {
+          lassign $embedded sublang embed_start embed_end
+          if {$embed_start ne ""} {
+            if {$embed_end ne ""} {
+              ctext::setEmbedLangPattern $txt $sublang $embed_start $embed_end
+            } else {
+              ctext::setEmbedLangPattern $txt $sublang $embed_start $embed_start
+            }
+          }
+        }
 
         # Add the FIXME
         ctext::addHighlightClass $txt fixme $theme(miscellaneous1)

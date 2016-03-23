@@ -2154,10 +2154,22 @@ proc ctext::setStringPatterns {win patterns {color "green"}} {
 
 }
 
+proc ctext::setEmbedLangPattern {win lang start_pattern end_pattern} {
+  
+  variable data
+  
+  lappend data($win,config,comment_string_patterns) _LangStart $start_pattern _LangEnd $end_pattern
+  
+  setCommentRE $win
+  
+}
+
 proc ctext::comments_char_in_range {win start end} {
 
   # Search for line comment starts, block comment start/end, double quote and single quote characters
-  foreach char_tag [list _lCommentStart0 _lCommentStart1 _cCommentStart0 _cCommentStart1 _cCommentEnd0 _cCommentEnd1 _dQuote0 _dQuote1 _sQuote0 _sQuote1] {
+  foreach char_tag [list _lCommentStart0 _lCommentStart1 _cCommentStart0 _cCommentStart1 _cCommentEnd0 \
+                         _cCommentEnd1 _dQuote0 _dQuote1 _sQuote0 _sQuote1 _LangStart0 _LangStart1 \
+                         _LangEnd0 _LangEnd1] {
     set next_char_start [lindex [$win tag nextrange $char_tag $start] 0]
     set prev_char_end   [lindex [$win tag prevrange $char_tag $start] 1]
     if {(($next_char_start ne "") && [$win compare $next_char_start < $end]) || \
@@ -2236,6 +2248,7 @@ proc ctext::comments {win start end do_tag} {
   set tags(_lComment) [list]
   set tags(_dString)  [list]
   set tags(_sString)  [list]
+  set tags(_Lang)     [list]
   set char_tags       [list]
 
   # Gather the list of comment ranges in the char_tags list
@@ -2244,7 +2257,7 @@ proc ctext::comments {win start end do_tag} {
       set lineend [$win index "$char_start lineend"]
       lappend char_tags [list $char_start $char_end _lCommentStart] [list $lineend "$lineend+1c" _lCommentEnd]
     }
-    foreach char_tag [list _cCommentStart _cCommentEnd _dQuote _sQuote] {
+    foreach char_tag [list _cCommentStart _cCommentEnd _dQuote _sQuote _LangStart _LangEnd] {
       foreach {char_start char_end} [$win tag ranges $char_tag$i] {
         lappend char_tags [list $char_start $char_end $char_tag]
       }
@@ -2261,7 +2274,8 @@ proc ctext::comments {win start end do_tag} {
     switch $curr_char_tag {
       "" -
       _lCommentEnd -
-      _cCommentEnd {
+      _cCommentEnd -
+      _LangEnd     {
         set curr_char_tag   $char_tag
         set curr_char_start $char_start
       }
@@ -2289,9 +2303,15 @@ proc ctext::comments {win start end do_tag} {
           set curr_char_tag ""
         }
       }
+      _LangStart {
+        if {$char_tag eq "_LangEnd"} {
+          lappend tags(_Lang) $curr_char_start $char_end
+          set curr_char_tag ""
+        }
+      }
     }
   }
-  if {[set match [lsearch -index 0 -inline {{_cCommentStart _cComment} {_dQuote _dString} {_sQuote _sString}} $curr_char_tag]] ne ""} {
+  if {[set match [lsearch -index 0 -inline {{_cCommentStart _cComment} {_dQuote _dString} {_sQuote _sString} {_LangStart _Lang}} $curr_char_tag]] ne ""} {
     lappend tags([lindex $match 1]) $curr_char_start end
   }
 
