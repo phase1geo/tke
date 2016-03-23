@@ -363,14 +363,8 @@ msgcat::mcmset de {
   "Delete the whitespace to right of cursor"
   "Das Leerzeichen rechts vom Cursor löschen"
 
-  "Disable"
-  "Verbieten"
-
   "Disable Vim mode"
   "Vim-Modus deaktivieren"
-
-  "Disable folding"
-  "Deaktivieren, faltbar"
 
   "Display Text Info"
   "Anzeige-Text-Info"
@@ -384,6 +378,9 @@ msgcat::mcmset de {
   "Edit"
   "Bearbeiten"
 
+  "Edit Custom Abbreviations"
+  "Bearbeiten von benutzerdefinierten Abkürzungen"
+
   "Edit Language"
   "Sprachen bearbeiten"
 
@@ -392,6 +389,9 @@ msgcat::mcmset de {
 
   "Edit User"
   "Benutzer bearbeiten"
+
+  "Edit custom Emmet abbreviations"
+  "Bearbeiten von benutzerdefinierten Emmet-Abkürzungen"
 
   "Edit language snippets"
   "Sprache-Schnipsel zu bearbeiten"
@@ -417,20 +417,17 @@ msgcat::mcmset de {
   "Edit user snippets"
   "Bearbeiten von Benutzer-Ausschnitte"
 
-  "Enable"
-  "Aktivieren"
-
   "Enable Vim mode"
   "Vim-Modus aktivieren"
-
-  "Enable folding"
-  "Aktivieren, faltbar"
 
   "Enumeration"
   "Liste"
 
   "Expand Abbreviation"
   "Erweitern Sie die Abkürzung"
+
+  "Expand Emmet abbreviation"
+  "Erweitern Sie Emmet Abkürzung"
 
   "Favorite file"
   "Lieblings-file"
@@ -465,8 +462,17 @@ msgcat::mcmset de {
   "Fold All"
   "Falten Sie alle"
 
+  "Fold Method"
+  "Falten-Methode"
+
+  "Fold Selected"
+  "Falten Sie ausgewählte"
+
   "Fold all"
   "Alle Falten"
+
+  "Fold selected code"
+  "Ausgewählten Code Falten"
 
   "Folding"
   "Folding"
@@ -653,6 +659,9 @@ msgcat::mcmset de {
 
   "Lower Case"
   "Kleinb."
+
+  "Manual"
+  "Manuell"
 
   "Markers"
   "Marker"
@@ -858,11 +867,17 @@ msgcat::mcmset de {
   "Remove All Markers"
   "Entfernen Sie alle Markierungen"
 
+  "Remove Fold"
+  "Falten entfernen"
+
   "Remove From Current Line"
   "Entfernen Sie aus der aktuellen Zeile"
 
   "Remove all markers"
   "Alle Intervalle entfernen"
+
+  "Remove fold on current line"
+  "Entfernen von Falten auf der aktuellen Zeile"
 
   "Remove marker from current line"
   "Markierung von aktuellen Zeile entfernen"
@@ -977,6 +992,15 @@ msgcat::mcmset de {
 
   "Set current file line ending to LF for Unix"
   "Festlegen der aktuellen Datei Zeilenende zu LF für Unix"
+
+  "Set folding method to manual"
+  "Faltbare Methode auf manuell festgelegt"
+
+  "Set folding method to none"
+  "Faltbare Methode auf none festlegen"
+
+  "Set folding method to syntax"
+  "Legen Sie, Falten Methode zur syntax"
 
   "Set indent mode to"
   "Gedankenstrich Modus"
@@ -1349,9 +1373,6 @@ msgcat::mcmset de {
 
 # syntax.tcl
 msgcat::mcmset de {
-
-  "Syntax"
-  "syntax"
 
   "Syntax error in syntax file"
   "Syntax-Fehler in Syntaxdatei"
@@ -1766,6 +1787,9 @@ msgcat::mcmset de {
   "Filename directory does not exist"
   "Dateiname-Verzeichnis existiert nicht"
 
+  "Folding method unrecognized"
+  "Faltbare unbekannte Methode"
+
   "Illegal modelines value"
   "Illegale Modelines Wert"
 
@@ -1830,6 +1854,9 @@ msgcat::mcmset de {
 
   "Split View"
   "Split anzeigen"
+
+  "Syntax"
+  "syntax"
 
   "Theme Editor"
   "Motiv-Bearbeitung"

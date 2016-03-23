@@ -363,14 +363,8 @@ msgcat::mcmset es {
   "Delete the whitespace to right of cursor"
   "Eliminar el espacio en blanco a la derecha del cursor"
 
-  "Disable"
-  "Deshabilitar"
-
   "Disable Vim mode"
   "Desactivar el modo de Vim"
-
-  "Disable folding"
-  "Desactivar plegable"
 
   "Display Text Info"
   "Visualizar texto"
@@ -384,6 +378,9 @@ msgcat::mcmset es {
   "Edit"
   "Edición"
 
+  "Edit Custom Abbreviations"
+  "Editar abreviaturas personalizadas"
+
   "Edit Language"
   "Editar Idioma"
 
@@ -392,6 +389,9 @@ msgcat::mcmset es {
 
   "Edit User"
   "Editar usuario"
+
+  "Edit custom Emmet abbreviations"
+  "Edición personalizadas abreviaturas de Emmet"
 
   "Edit language snippets"
   "Editar fragmentos de lenguaje"
@@ -417,20 +417,17 @@ msgcat::mcmset es {
   "Edit user snippets"
   "Editar fragmentos de código de usuario"
 
-  "Enable"
-  "Activar"
-
   "Enable Vim mode"
   "Activar el modo de Vim"
-
-  "Enable folding"
-  "Permiten doblar"
 
   "Enumeration"
   "Enumeración"
 
   "Expand Abbreviation"
   "Ampliar la abreviatura"
+
+  "Expand Emmet abbreviation"
+  "Ampliar la abreviatura de Emmet"
 
   "Favorite file"
   "Archivo de favoritos"
@@ -465,8 +462,17 @@ msgcat::mcmset es {
   "Fold All"
   "Doblar todos los"
 
+  "Fold Method"
+  "Método de doblez"
+
+  "Fold Selected"
+  "Doblar las"
+
   "Fold all"
   "Doblar todos los"
+
+  "Fold selected code"
+  "Pliegue de código seleccionado"
 
   "Folding"
   "reunido"
@@ -653,6 +659,9 @@ msgcat::mcmset es {
 
   "Lower Case"
   "Minúsculas"
+
+  "Manual"
+  "Manual"
 
   "Markers"
   "Marcadores"
@@ -858,11 +867,17 @@ msgcat::mcmset es {
   "Remove All Markers"
   "Eliminar todos los marcadores"
 
+  "Remove Fold"
+  "Eliminar la doble"
+
   "Remove From Current Line"
   "Retire de la línea actual"
 
   "Remove all markers"
   "Eliminar todos los marcadores"
+
+  "Remove fold on current line"
+  "Quitar el doblez en la línea actual"
 
   "Remove marker from current line"
   "Eliminar marcador de línea actual"
@@ -977,6 +992,15 @@ msgcat::mcmset es {
 
   "Set current file line ending to LF for Unix"
   "Actual línea de archivo final LF para Unix"
+
+  "Set folding method to manual"
+  "Establecer método manual plegable"
+
+  "Set folding method to none"
+  "Conjunto plegable método a ninguno"
+
+  "Set folding method to syntax"
+  "Establecer método para sintaxis plegable"
 
   "Set indent mode to"
   "Ajuste modo de guión a"
@@ -1349,9 +1373,6 @@ msgcat::mcmset es {
 
 # syntax.tcl
 msgcat::mcmset es {
-
-  "Syntax"
-  "Sintaxis"
 
   "Syntax error in syntax file"
   "Error de sintaxis en el archivo de sintaxis"
@@ -1766,6 +1787,9 @@ msgcat::mcmset es {
   "Filename directory does not exist"
   "Nombre de archivo directorio no existe"
 
+  "Folding method unrecognized"
+  "Método desconocido plegable"
+
   "Illegal modelines value"
   "Valor de modos ilegales"
 
@@ -1830,6 +1854,9 @@ msgcat::mcmset es {
 
   "Split View"
   "Dividir la vista"
+
+  "Syntax"
+  "Sintaxis"
 
   "Theme Editor"
   "Editor de temas"

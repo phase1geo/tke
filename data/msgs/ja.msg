@@ -363,14 +363,8 @@ msgcat::mcmset ja {
   "Delete the whitespace to right of cursor"
   "カーソルの右側の空白を削除します。"
 
-  "Disable"
-  "無効化"
-
   "Disable Vim mode"
   "Vim モードを無効にします。"
-
-  "Disable folding"
-  "折りたたみを無効にします。"
 
   "Display Text Info"
   "表示テキスト"
@@ -384,6 +378,9 @@ msgcat::mcmset ja {
   "Edit"
   "編集"
 
+  "Edit Custom Abbreviations"
+  "カスタムの略語を編集します。"
+
   "Edit Language"
   "言語を編集します。"
 
@@ -392,6 +389,9 @@ msgcat::mcmset ja {
 
   "Edit User"
   "ユーザーを編集"
+
+  "Edit custom Emmet abbreviations"
+  "カスタムのエメット略語を編集します。"
 
   "Edit language snippets"
   "言語のスニペットを編集します。"
@@ -417,20 +417,17 @@ msgcat::mcmset ja {
   "Edit user snippets"
   "ユーザーのスニペットを編集します。"
 
-  "Enable"
-  "有効"
-
   "Enable Vim mode"
   "Vim モードを有効にします。"
-
-  "Enable folding"
-  "折りたたみを有効にします。"
 
   "Enumeration"
   "数え上げ"
 
   "Expand Abbreviation"
   "省略名を展開します。"
+
+  "Expand Emmet abbreviation"
+  "エメットの略語を展開します。"
 
   "Favorite file"
   "お気に入りファイル"
@@ -465,8 +462,17 @@ msgcat::mcmset ja {
   "Fold All"
   "すべて折りたたみ"
 
+  "Fold Method"
+  "折り方法"
+
+  "Fold Selected"
+  "選択したフォールドします。"
+
   "Fold all"
   "全て閉じる"
+
+  "Fold selected code"
+  "選択されているコードを折る"
 
   "Folding"
   "折り畳み式の"
@@ -653,6 +659,9 @@ msgcat::mcmset ja {
 
   "Lower Case"
   "小文字"
+
+  "Manual"
+  "管理人による処理"
 
   "Markers"
   "マーカー"
@@ -858,11 +867,17 @@ msgcat::mcmset ja {
   "Remove All Markers"
   "すべてのマーカーを削除します"
 
+  "Remove Fold"
+  "フォールドを削除します。"
+
   "Remove From Current Line"
   "現在の行から削除"
 
   "Remove all markers"
   "すべてのマーカーを削除します。"
+
+  "Remove fold on current line"
+  "現在の行に折りを削除します。"
 
   "Remove marker from current line"
   "現在の行からマーカーを削除します。"
@@ -977,6 +992,15 @@ msgcat::mcmset ja {
 
   "Set current file line ending to LF for Unix"
   "Unix 用 LF に現在ファイル行末を設定します。"
+
+  "Set folding method to manual"
+  "折り畳み方法マニュアルをセット"
+
+  "Set folding method to none"
+  "折り畳み方法を none に設定します。"
+
+  "Set folding method to syntax"
+  "折り畳み式の構文とメソッドを設定します。"
 
   "Set indent mode to"
   "インデント モードに設定します。"
@@ -1349,9 +1373,6 @@ msgcat::mcmset ja {
 
 # syntax.tcl
 msgcat::mcmset ja {
-
-  "Syntax"
-  "統語論"
 
   "Syntax error in syntax file"
   "構文ファイルの構文エラー"
@@ -1766,6 +1787,9 @@ msgcat::mcmset ja {
   "Filename directory does not exist"
   "ファイル名のディレクトリが存在しません"
 
+  "Folding method unrecognized"
+  "折り畳み方法が認識されていません。"
+
   "Illegal modelines value"
   "違法なモードライン値"
 
@@ -1830,6 +1854,9 @@ msgcat::mcmset ja {
 
   "Split View"
   "分割表示"
+
+  "Syntax"
+  "統語論"
 
   "Theme Editor"
   "テーマエディタ"

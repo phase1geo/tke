@@ -363,14 +363,8 @@ msgcat::mcmset no {
   "Delete the whitespace to right of cursor"
   "Slett tomme til høyre for markøren"
 
-  "Disable"
-  "Deaktiver"
-
   "Disable Vim mode"
   "Deaktivere Vim-modus"
-
-  "Disable folding"
-  "Deaktivere folding"
 
   "Display Text Info"
   "Vise tekst Info"
@@ -384,6 +378,9 @@ msgcat::mcmset no {
   "Edit"
   "Redigere"
 
+  "Edit Custom Abbreviations"
+  "Redigere egendefinerte forkortelser"
+
   "Edit Language"
   "Rediger språk"
 
@@ -392,6 +389,9 @@ msgcat::mcmset no {
 
   "Edit User"
   "Rediger bruker"
+
+  "Edit custom Emmet abbreviations"
+  "Redigere egendefinerte Emmet forkortelser"
 
   "Edit language snippets"
   "Rediger språk tekstutdrag"
@@ -417,20 +417,17 @@ msgcat::mcmset no {
   "Edit user snippets"
   "Redigere brukeren tekstutdrag"
 
-  "Enable"
-  "Bruk"
-
   "Enable Vim mode"
   "Aktivere Vim-modus"
-
-  "Enable folding"
-  "Aktiver folding"
 
   "Enumeration"
   "Opplisting"
 
   "Expand Abbreviation"
   "Utvide forkortelse"
+
+  "Expand Emmet abbreviation"
+  "Utvide Emmet forkortelse"
 
   "Favorite file"
   "Favoritt-filen"
@@ -465,8 +462,17 @@ msgcat::mcmset no {
   "Fold All"
   "Brett alle"
 
+  "Fold Method"
+  "Fold metoden"
+
+  "Fold Selected"
+  "Brett valgte"
+
   "Fold all"
   "Brett alle"
+
+  "Fold selected code"
+  "Brett valgte koden"
 
   "Folding"
   "Folding"
@@ -653,6 +659,9 @@ msgcat::mcmset no {
 
   "Lower Case"
   "Små bokstaver"
+
+  "Manual"
+  "Manuell"
 
   "Markers"
   "Markører"
@@ -858,11 +867,17 @@ msgcat::mcmset no {
   "Remove All Markers"
   "Fjerne alle merkene"
 
+  "Remove Fold"
+  "Fjerne brett"
+
   "Remove From Current Line"
   "Fjern fra gjeldende linje"
 
   "Remove all markers"
   "Fjerne alle merkene"
+
+  "Remove fold on current line"
+  "Fjerne brett på gjeldende linje"
 
   "Remove marker from current line"
   "Fjerne merket fra gjeldende linje"
@@ -977,6 +992,15 @@ msgcat::mcmset no {
 
   "Set current file line ending to LF for Unix"
   "Angi gjeldende fillinje avslutning på LF for Unix"
+
+  "Set folding method to manual"
+  "Angi folding metoden til manuell"
+
+  "Set folding method to none"
+  "Angi folding metoden ingen"
+
+  "Set folding method to syntax"
+  "Angi folding metoden til syntaks"
 
   "Set indent mode to"
   "Angi innrykk-modusen"
@@ -1349,9 +1373,6 @@ msgcat::mcmset no {
 
 # syntax.tcl
 msgcat::mcmset no {
-
-  "Syntax"
-  "Syntaks"
 
   "Syntax error in syntax file"
   "Syntaksfeil i syntaks fil"
@@ -1766,6 +1787,9 @@ msgcat::mcmset no {
   "Filename directory does not exist"
   "Filnavn katalogen finnes ikke"
 
+  "Folding method unrecognized"
+  "Folding metoden ukjent"
+
   "Illegal modelines value"
   "Ugyldig modelines-verdi"
 
@@ -1830,6 +1854,9 @@ msgcat::mcmset no {
 
   "Split View"
   "Delt visning"
+
+  "Syntax"
+  "Syntaks"
 
   "Theme Editor"
   "Theme Editor"
