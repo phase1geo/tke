@@ -4,6 +4,10 @@ filepatterns
 vimsyntax
 {html}
 
+embedded {
+  {PHP {<\?php} {\?>}}
+}
+
 matchcharsallowed
 {paren angled double single}
 

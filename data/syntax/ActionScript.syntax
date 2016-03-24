@@ -1,0 +1,53 @@
+filepatterns
+{*.as}
+
+matchcharsallowed
+{curly square paren double single}
+
+tabsallowed
+{1}
+
+casesensitive
+{1}
+
+indent
+{\{}
+
+unindent
+{\}}
+
+reindent
+{{switch case default}}
+
+icomment {{//}}
+
+lcomments {{//}}
+
+bcomments {{{/\*} {\*/}}}
+
+strings {{"}}
+
+keywords
+{
+  as break case catch class const continue default delete do else extends false
+  finally for function if implements import in instanceof interface internal is
+  native new null package private protected public return super switch this throw
+  to true try typeof use var void while with
+}
+
+punctuation {
+  HighlightRegexp {[][\{\}().,:;=]} {}
+}
+
+numbers {
+  HighlightRegexp {\m[+-]?([0-9]+|[0-9]\.[0-9]+)} {}
+}
+
+miscellaneous1
+{
+  HighlightKeywords {
+    each get set namespace include dynamic final override static
+    abstract boolean byte cast char debugger double enum export float goto intrinsic
+    long prototype short synchronized throws transient type virtual volatile
+  } {}
+}
