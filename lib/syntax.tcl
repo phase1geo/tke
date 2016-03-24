@@ -343,16 +343,16 @@ namespace eval syntax {
         ctext::addHighlightKeywords $txt $lang_array(keywords) class keywords
 
         # Add the rest of the sections
-        set_language_section $txt symbols        $lang_array(symbols) $cmd_prefix
-        set_language_section $txt punctuation    $lang_array(punctuation)
-        set_language_section $txt numbers        $lang_array(numbers)
-        set_language_section $txt precompile     $lang_array(precompile)
-        set_language_section $txt miscellaneous1 $lang_array(miscellaneous1)
-        set_language_section $txt miscellaneous2 $lang_array(miscellaneous2)
-        set_language_section $txt miscellaneous3 $lang_array(miscellaneous3)
-        set_language_section $txt highlighter    $lang_array(highlighter)
-        set_language_section $txt meta           $lang_array(meta)
-        set_language_section $txt advanced       $lang_array(advanced) $cmd_prefix
+        set_language_section $txt symbols        $lang_array(symbols) "" $cmd_prefix
+        set_language_section $txt punctuation    $lang_array(punctuation) ""
+        set_language_section $txt numbers        $lang_array(numbers) ""
+        set_language_section $txt precompile     $lang_array(precompile) ""
+        set_language_section $txt miscellaneous1 $lang_array(miscellaneous1) ""
+        set_language_section $txt miscellaneous2 $lang_array(miscellaneous2) ""
+        set_language_section $txt miscellaneous3 $lang_array(miscellaneous3) ""
+        set_language_section $txt highlighter    $lang_array(highlighter) ""
+        set_language_section $txt meta           $lang_array(meta) ""
+        set_language_section $txt advanced       $lang_array(advanced) "" $cmd_prefix
 
         # Add the comments, strings and indentations
         ctext::clearCommentStringPatterns $txt
@@ -386,8 +386,9 @@ namespace eval syntax {
           lassign $embedded sublang embed_start embed_end
           if {($embed_start ne "") && ($embed_end ne "")} {
             ctext::setEmbedLangPattern $txt $sublang $embed_start $embed_end
+            add_sublanguage $txt $sublang $cmd_prefix 1
           } else {
-            add_sublanguage $txt $sublang $cmd_prefix
+            add_sublanguage $txt $sublang $cmd_prefix 0
           }
         }
 
@@ -418,30 +419,64 @@ namespace eval syntax {
 
   ######################################################################
   # Add sublanguage features to current text widget.
-  proc add_sublanguage {txt language cmd_prefix} {
+  proc add_sublanguage {txt language cmd_prefix full} {
 
     variable langs
 
     array set lang_array $langs($language)
 
     # Add the keywords
-    ctext::addHighlightKeywords $txt $lang_array(keywords) class keywords
+    ctext::addHighlightKeywords $txt $lang_array(keywords) class keywords $language
 
     # Add the rest of the sections
-    set_language_section $txt symbols        $lang_array(symbols) $cmd_prefix
-    set_language_section $txt punctuation    $lang_array(punctuation)
-    set_language_section $txt miscellaneous1 $lang_array(miscellaneous1)
-    set_language_section $txt miscellaneous2 $lang_array(miscellaneous2)
-    set_language_section $txt miscellaneous3 $lang_array(miscellaneous3)
-    set_language_section $txt highlighter    $lang_array(highlighter)
-    set_language_section $txt meta           $lang_array(meta)
-    set_language_section $txt advanced       $lang_array(advanced) $cmd_prefix
+    set_language_section $txt symbols        $lang_array(symbols) $language $cmd_prefix
+    set_language_section $txt punctuation    $lang_array(punctuation) $language
+    set_language_section $txt miscellaneous1 $lang_array(miscellaneous1) $language
+    set_language_section $txt miscellaneous2 $lang_array(miscellaneous2) $language
+    set_language_section $txt miscellaneous3 $lang_array(miscellaneous3) $language
+    set_language_section $txt highlighter    $lang_array(highlighter) $language
+    set_language_section $txt meta           $lang_array(meta) $language
+    set_language_section $txt advanced       $lang_array(advanced) $language $cmd_prefix
 
+    if {$full} {
+      
+      # Add the rest of the sections
+      set_language_section $txt numbers    $lang_array(numbers) $language
+      set_language_section $txt precompile $lang_array(precompile) $language
+
+      # Add the comments, strings and indentations
+      # ctext::setBlockCommentPatterns $txt $lang_array(bcomments) $theme(comments)
+      # ctext::setLineCommentPatterns  $txt $lang_array(lcomments) $theme(comments)
+      # ctext::setStringPatterns       $txt $lang_array(strings)   $theme(strings)
+      # ctext::setIndentation          $txt $lang_array(indent)   indent
+      # ctext::setIndentation          $txt $lang_array(unindent) unindent
+
+      # set reindentStarts [list]
+      # set reindents      [list]
+      # foreach reindent $lang_array(reindent) {
+      #   lappend reindentStarts [lindex $reindent 0]
+      #   lappend reindents      {*}[lrange $reindent 1 end]
+      # }
+      # ctext::setIndentation $txt $reindentStarts reindentStart
+      # ctext::setIndentation $txt $reindents      reindent
+
+      # Add the FIXME
+      ctext::addHighlightKeywords $txt FIXME class fixme $language
+
+      # Set the indent/unindent regular expressions
+      # [ns indent]::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent) $lang_array(reindent)
+
+      # Set the completer options for the given language
+      # ctext::setAutoMatchChars $txt $lang_array(matchcharsallowed)
+      # [ns completer]::set_auto_match_chars $txt.t $lang_array(matchcharsallowed)
+      
+    }
+    
   }
 
   ######################################################################
   # Adds syntax highlighting for a given type
-  proc set_language_section {txt section section_list {cmd_prefix ""}} {
+  proc set_language_section {txt section section_list lang {cmd_prefix ""}} {
 
     variable theme
     variable meta_tags
@@ -471,9 +506,9 @@ namespace eval syntax {
           } else {
             set section_list [lassign $section_list syntax command]
             if {$command ne ""} {
-              ctext::add$type $txt $syntax command [string trim "$cmd_prefix $command"]
+              ctext::add$type $txt $syntax command [string trim "$cmd_prefix $command"] $lang
             } else {
-              ctext::add$type $txt $syntax class [expr {($section eq "symbols") ? "symbols" : "none"}]
+              ctext::add$type $txt $syntax class [expr {($section eq "symbols") ? "symbols" : "none"}] $lang
             }
           }
         }
@@ -483,7 +518,7 @@ namespace eval syntax {
         foreach {type syntax modifiers} $section_list {
           if {$syntax ne ""} {
             ctext::addHighlightClass $txt $section$i $theme(background) $theme($section) $modifiers
-            ctext::add$type $txt $syntax class $section$i
+            ctext::add$type $txt $syntax class $section$i $lang
           }
           incr i
         }
@@ -493,7 +528,7 @@ namespace eval syntax {
         foreach {type syntax modifiers} $section_list {
           if {$syntax ne ""} {
             ctext::addHighlightClass $txt $section$i $theme($section) "" $modifiers
-            ctext::add$type $txt $syntax class $section$i
+            ctext::add$type $txt $syntax class $section$i $lang
           }
           incr i
         }
