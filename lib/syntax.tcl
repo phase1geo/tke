@@ -370,7 +370,7 @@ namespace eval syntax {
         }
         ctext::setIndentation $txt $reindentStarts reindentStart
         ctext::setIndentation $txt $reindents      reindent
-        
+
         foreach embedded $lang_array(embedded) {
           lassign $embedded sublang embed_start embed_end
           if {$embed_start ne ""} {
@@ -953,7 +953,7 @@ namespace eval syntax {
     set associations($dname,$ext) $language
 
     # Write the association file
-    catch { tkedat::write $assoc_file [array get associations] }
+    catch { tkedat::write $assoc_file [array get associations] 0 }
 
   }
 
