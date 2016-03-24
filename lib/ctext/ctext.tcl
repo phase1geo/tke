@@ -1370,7 +1370,6 @@ proc ctext::command_insert {win args} {
   } else {
     set lineStart [$win._t index "$insertPos linestart"]
   }
-  set prevSpace [ctext::findPreviousSpace $win._t ${insertPos}-1c]
   set dat ""
   foreach {chars taglist} [lrange $args 1 end] {
     append dat $chars
@@ -1383,17 +1382,8 @@ proc ctext::command_insert {win args} {
   ctext::undo_insert $win $insertPos $datlen $cursor
   ctext::handleInsertAt0 $win._t $insertPos $datlen
 
-  set nextSpace [ctext::findNextSpace $win._t "${insertPos}+${datlen}c"]
   set lineEnd   [$win._t index "${insertPos}+${datlen}c lineend"]
   set lines     [$win._t count -lines $lineStart $lineEnd]
-
-  if {[$win._t compare $prevSpace < $lineStart]} {
-    set prevSpace $lineStart
-  }
-
-  if {[$win._t compare $nextSpace > $lineEnd]} {
-    set nextSpace $lineEnd
-  }
 
   foreach tag [$win._t tag names] {
     if {![regexp {^_([lc]Comment|[sd]String|Lang,.*)$} $tag] && ([string index $tag 0] eq "_")} {
@@ -2584,66 +2574,6 @@ proc ctext::getHighlightClasses win {
 
   return $classes
 
-}
-
-proc ctext::findNextChar {win index char} {
-  set i [$win index "$index + 1 chars"]
-  set lineend [$win index "$i lineend"]
-  while 1 {
-    set ch [$win get $i]
-    if {[$win compare $i >= $lineend]} {
-      return ""
-    }
-    if {$ch == $char} {
-      return $i
-    }
-    set i [$win index "$i + 1 chars"]
-  }
-}
-
-proc ctext::findNextSpace {win index} {
-  set i [$win index $index]
-  set lineStart [$win index "$i linestart"]
-  set lineEnd [$win index "$i lineend"]
-  #Sometimes the lineend fails (I don't know why), so add 1 and try again.
-  if {[$win compare $lineEnd == $lineStart]} {
-    set lineEnd [$win index "$i + 1 chars lineend"]
-  }
-
-  while {1} {
-    set ch [$win get $i]
-
-    if {[$win compare $i >= $lineEnd]} {
-      set i $lineEnd
-      break
-    }
-
-    if {[string is space $ch]} {
-      break
-    }
-    set i [$win index "$i + 1 chars"]
-  }
-  return $i
-}
-
-proc ctext::findPreviousSpace {win index} {
-  set i [$win index $index]
-  set lineStart [$win index "$i linestart"]
-  while {1} {
-    set ch [$win get $i]
-
-    if {[$win compare $i <= $lineStart]} {
-      set i $lineStart
-      break
-    }
-
-    if {[string is space $ch]} {
-      break
-    }
-
-    set i [$win index "$i - 1 chars"]
-  }
-  return $i
 }
 
 proc ctext::clearHighlightClasses {win} {
