@@ -1143,7 +1143,7 @@ proc ctext::command_delete {win args} {
 
   # Delete all tags in the deleted line(s)
   foreach tag [$win._t tag names] {
-    if {![regexp {^_([lc]Comment|[sd]String)$} $tag] && ([string index $tag 0] eq "_")} {
+    if {![regexp {^_([lc]Comment|[sd]String|Lang,.*)$} $tag] && ([string index $tag 0] eq "_")} {
       $win._t tag remove $tag $lineStart $lineEnd
     }
   }
@@ -1337,7 +1337,7 @@ proc ctext::command_highlight {win args} {
   set lineEnd   [$win._t index "[lindex $args 1] lineend"]
 
   foreach tag [$win._t tag names] {
-    if {![regexp {^_([lc]Comment|[sd]String)$} $tag] && ([string index $tag 0] eq "_")} {
+    if {![regexp {^_([lc]Comment|[sd]String|Lang,.*)$} $tag] && ([string index $tag 0] eq "_")} {
       $win._t tag remove $tag $lineStart $lineEnd
     }
   }
@@ -1396,7 +1396,7 @@ proc ctext::command_insert {win args} {
   }
 
   foreach tag [$win._t tag names] {
-    if {![regexp {^_([lc]Comment|[sd]String)$} $tag] && ([string index $tag 0] eq "_")} {
+    if {![regexp {^_([lc]Comment|[sd]String|Lang,.*)$} $tag] && ([string index $tag 0] eq "_")} {
       $win._t tag remove $tag $lineStart $lineEnd
     }
   }
@@ -1480,7 +1480,7 @@ proc ctext::command_replace {win args} {
   set insertLines [$win._t count -lines $lineStart $lineEnd]
 
   foreach tag [$win._t tag names] {
-    if {![regexp {^_([lc]Comment|[sd]String)$} $tag] && ([string index $tag 0] eq "_")} {
+    if {![regexp {^_([lc]Comment|[sd]String|Lang,.*)$} $tag] && ([string index $tag 0] eq "_")} {
       $win._t tag remove $tag $lineStart $lineEnd
     }
   }
@@ -2155,13 +2155,16 @@ proc ctext::setStringPatterns {win patterns {color "green"}} {
 }
 
 proc ctext::setEmbedLangPattern {win lang start_pattern end_pattern} {
-  
+
   variable data
-  
+
   lappend data($win,config,comment_string_patterns) _LangStart $start_pattern _LangEnd $end_pattern
-  
+
+  # TEMPORARY
+  $win tag configure _Lang,$lang -background green
+
   setCommentRE $win
-  
+
 }
 
 proc ctext::comments_char_in_range {win start end} {
@@ -2706,8 +2709,10 @@ proc ctext::doHighlight {win start end} {
   # Handle word-based matching
   set i 0
   foreach res [$twin search -count lengths -regexp {*}$data($win,config,re_opts) -all -- $data($win,config,-delimiters) $start $end] {
-    set wordEnd     [$twin index "$res + [lindex $lengths $i] chars"]
-    set word        [$twin get $res $wordEnd]
+    set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
+    set word    [$twin get $res $wordEnd]
+    set lang    [lsearch -inline -glob [$twin tag names $res] _Lang*]
+    # puts "lang: $lang"
     if {!$ctext::data($win,config,-casesensitive)} {
       set word [string tolower $word]
     }
