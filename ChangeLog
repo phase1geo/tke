@@ -1,51 +1,62 @@
-changeset:   1969:ef52bfcd3a09
-tag:         devel-2.3.4
+changeset:   1975:b7eb2462301e
+tag:         devel-2.3.5
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Mar 21 08:55:06 2016 -0500
+date:        Wed Mar 23 08:19:30 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.3.4 release
+ChangeLog for devel-2.3.5 release
 
 
-changeset:   1970:eab1adcfb2f6
+changeset:   1976:a0188ed1e427
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Mar 21 08:55:11 2016 -0500
+date:        Wed Mar 23 08:19:35 2016 -0500
 files:       .hgtags
 description:
-Added tag devel-2.3.4 for changeset ef52bfcd3a09
+Added tag devel-2.3.5 for changeset b7eb2462301e
 
 
-changeset:   1971:2bf1fc4624c5
+changeset:   1977:2e3ecbccc94a
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 22 20:17:45 2016 -0500
+date:        Wed Mar 23 09:01:32 2016 -0500
+files:       data/syntax/Markdown.syntax data/syntax/syntax.syntax lib/ctext/ctext.tcl lib/syntax.tcl lib/version.tcl
+description:
+* Starting to add support for embedded languages.
+
+
+changeset:   1978:8af13ff4d4b0
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Mar 23 13:35:51 2016 -0500
 files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Attempting to improve string/comment parsing performance.
+* Fixing comment/string parsing issue with inserting blocks of text.
 
 
-changeset:   1972:491a9204e1f6
+changeset:   1979:a82c137c8e8f
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 22 22:57:52 2016 -0500
-files:       data/emmet.tkedat lib/ctext/ctext.tcl lib/emmet.tcl lib/emmet_lexer.fcl lib/emmet_lexer.tcl lib/emmet_parser.tac lib/emmet_parser.tcl lib/menus.tcl lib/tke.tcl lib/version.tcl
+date:        Wed Mar 23 22:26:08 2016 -0500
+files:       lib/syntax.tcl lib/version.tcl
 description:
-* Fixing string/comment parsing issue.
-* Adding support for custom Emmet node/abbreviation specifications.
+* Removing whitespace from extension association filename.
 
 
-changeset:   1973:3f1627f4066e
+changeset:   1980:b2f70004cd31
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Mar 23 00:14:29 2016 -0500
-files:       lib/gui.tcl lib/syntax.tcl lib/version.tcl
+date:        Wed Mar 23 22:50:58 2016 -0500
+files:       data/syntax/C++.syntax data/syntax/C.syntax lib/syntax.tcl lib/version.tcl
 description:
-* Adding support for automatic language selection based on history.
+* Adding C syntax.
+* Splitting C++ syntax to remove C information and instead embed the C language.
+* Adding support for integrated embedded language.
 
 
-changeset:   1974:80a077076b7b
+changeset:   1981:91db673eeef6
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Mar 23 08:17:19 2016 -0500
-files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg lib/version.tcl
+date:        Thu Mar 24 01:25:30 2016 -0500
+files:       data/syntax/ActionScript.syntax data/syntax/HTML.syntax lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Updating translations.
+* Adding ActionScript syntax.
+* Adding PHP embedded syntax into HTML.
+* Checkpointing work on handling embedded syntax (work in progress).
 
 
